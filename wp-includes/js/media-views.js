@@ -444,29 +444,37 @@
 
 	// wp.media.controller.Upload
 	// ---------------------------
-	media.controller.Upload = media.controller.Library.extend({
+	media.controller.Upload = media.controller.State.extend({
 		defaults: _.defaults({
-			id:         'upload',
-			upload:     { text: l10n.uploadMoreFiles },
-			searchable: false,
-			sortable:   true
-		}, media.controller.Library.prototype.defaults ),
+			id:      'upload',
+			content: 'upload',
+			sidebar: 'empty',
+			toolbar: 'empty',
+
+			// The state to navigate to when files are uploading.
+			libraryState: 'library'
+		}, media.controller.State.prototype.defaults ),
 
 		initialize: function() {
-			var library = this.get('library');
+			media.controller.State.prototype.initialize.apply( this, arguments );
+		},
 
-			// If a `library` attribute isn't provided, create a new
-			// `Attachments` collection that observes (and thereby receives
-			// all uploading) attachments.
-			if ( ! library ) {
-				library = new Attachments();
-				library.observe( wp.Uploader.queue );
-				this.set( 'library', library );
-			}
+		activate: function() {
+			wp.Uploader.queue.on( 'add', this.uploading, this );
+			media.controller.State.prototype.activate.apply( this, arguments );
+		},
 
-			media.controller.Library.prototype.initialize.apply( this, arguments );
+		deactivate: function() {
+			wp.Uploader.queue.off( null, null, this );
+			media.controller.State.prototype.deactivate.apply( this, arguments );
+		},
+
+		uploading: function( attachment ) {
+			var library = this.get('libraryState');
+
+			this.frame.get( library ).get('selection').add( attachment );
+			this.frame.state( library );
 		}
-
 	});
 
 	// wp.media.controller.Gallery
@@ -1175,24 +1183,22 @@
 		},
 
 		createStates: function() {
-			var options = this.options,
-				attributes;
-
-			attributes = {
-				multiple: this.options.multiple,
-				menu:     'main',
-				toolbar:  'select'
-			};
+			var options = this.options;
 
 			// Add the default states.
 			this.states.add([
 				// Main states.
 				new media.controller.Library( _.defaults({
 					selection: options.selection,
-					library:   media.query( options.library )
+					library:   media.query( options.library ),
+					multiple:  this.options.multiple,
+					menu:      'main',
+					toolbar:   'select'
 				}, attributes ) ),
 
-				new media.controller.Upload( attributes )
+				new media.controller.Upload({
+					menu: 'main'
+				})
 			]);
 		},
 
@@ -1245,7 +1251,8 @@
 		},
 
 		uploadContent: function() {
-			// In the meantime, render an inline uploader.
+			this.$el.addClass('hide-sidebar hide-toolbar');
+
 			this.content.view( new media.view.UploaderInline({
 				controller: this
 			}) );
@@ -1342,37 +1349,28 @@
 		},
 
 		createStates: function() {
-			var options = this.options,
-				main, gallery;
-
-			main = {
-				multiple: this.options.multiple,
-				menu:      'main',
-				sidebar:   'attachment-settings',
-
-				// Update user settings when users adjust the
-				// attachment display settings.
-				displayUserSettings: true
-			};
-
-			gallery = {
-				multiple:     true,
-				menu:         'gallery',
-				toolbar:      'gallery-add',
-				excludeState: 'gallery-edit'
-			};
+			var options = this.options;
 
 			// Add the default states.
 			this.states.add([
 				// Main states.
-				new media.controller.Library( _.defaults({
+				new media.controller.Library({
 					selection:  options.selection,
 					library:    media.query( options.library ),
 					editable:   true,
-					filterable: 'all'
-				}, main ) ),
+					filterable: 'all',
+					multiple:   this.options.multiple,
+					menu:       'main',
+					sidebar:    'attachment-settings',
 
-				new media.controller.Upload( main ),
+					// Update user settings when users adjust the
+					// attachment display settings.
+					displayUserSettings: true
+				}),
+
+				new media.controller.Upload({
+					menu: 'main'
+				}),
 
 				// Embed states.
 				new media.controller.Embed(),
@@ -1384,15 +1382,21 @@
 					menu:    'gallery'
 				}),
 
-				new media.controller.Library( _.defaults({
-					id:         'gallery-library',
-					library:    media.query({ type: 'image' }),
-					filterable: 'uploaded'
-				}, gallery ) ),
+				new media.controller.Library({
+					id:           'gallery-library',
+					library:      media.query({ type: 'image' }),
+					filterable:   'uploaded',
+					multiple:     true,
+					menu:         'gallery',
+					toolbar:      'gallery-add',
+					excludeState: 'gallery-edit'
+				}),
 
-				new media.controller.Upload( _.defaults({
-					id: 'gallery-upload'
-				}, gallery ) )
+				new media.controller.Upload({
+					id:           'gallery-upload',
+					menu:         'gallery',
+					libraryState: 'gallery-edit'
+				})
 			]);
 		},
 
