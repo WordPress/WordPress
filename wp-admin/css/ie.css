@@ -510,6 +510,11 @@ table.ie-fixed {
 	margin: 0;
 }
 
+.available-theme .action-links li {
+	padding-right: 7px;
+	margin-right: 7px;
+}
+
 .about-wrap .three-col-images img {
 	margin: 0 0.6% 10px;
 }

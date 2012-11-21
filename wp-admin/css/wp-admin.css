@@ -4654,6 +4654,11 @@ h3.available-themes {
 	margin-right: 8px;
 }
 
+.ie8 .available-theme .action-links li {
+	padding-right: 7px;
+	margin-right: 7px;
+}
+
 #current-theme .theme-info li:last-child,
 .theme-options li:last-child,
 .available-theme .action-links li:last-child {

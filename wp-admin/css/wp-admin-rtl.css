@@ -1253,6 +1253,11 @@ h3.available-themes {
 	margin-left: 8px;
 }
 
+.ie8 .available-theme .action-links li {
+	padding-left: 7px;
+	margin-left: 7px;
+}
+
 #current-theme .theme-info li:last-child,
 .theme-options li:last-child,
 .available-theme .action-links li:last-child {

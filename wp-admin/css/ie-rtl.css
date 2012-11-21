@@ -113,6 +113,11 @@ p.submit { /* quick edit and reply in edit-comments.php */
 	height:22px;
 }
 
+.available-theme .action-links li {
+	padding-left: 7px;
+	margin-left: 7px;
+}
+
 form#widgets-filter { /* fix widget page */
 	position: static;
 }
