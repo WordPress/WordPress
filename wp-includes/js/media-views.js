@@ -505,7 +505,6 @@
 
 			// Limit the library to images only.
 			library.props.set( 'type', 'image' );
-			console.log('set', library.props.toJSON(), library.filters );
 
 			// Watch for uploaded attachments.
 			this.get('library').observe( wp.Uploader.queue );
