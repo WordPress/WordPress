@@ -1,50 +1,3 @@
-// send html to the post editor
-
-var wpActiveEditor;
-
-function send_to_editor(h) {
-	var ed, mce = typeof(tinymce) != 'undefined', qt = typeof(QTags) != 'undefined';
-
-	if ( !wpActiveEditor ) {
-		if ( mce && tinymce.activeEditor ) {
-			ed = tinymce.activeEditor;
-			wpActiveEditor = ed.id;
-		} else if ( !qt ) {
-			return false;
-		}
-	} else if ( mce ) {
-		if ( tinymce.activeEditor && (tinymce.activeEditor.id == 'mce_fullscreen' || tinymce.activeEditor.id == 'wp_mce_fullscreen') )
-			ed = tinymce.activeEditor;
-		else
-			ed = tinymce.get(wpActiveEditor);
-	}
-
-	if ( ed && !ed.isHidden() ) {
-		// restore caret position on IE
-		if ( tinymce.isIE && ed.windowManager.insertimagebookmark )
-			ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark);
-
-		if ( h.indexOf('[caption') === 0 ) {
-			if ( ed.wpSetImgCaption )
-				h = ed.wpSetImgCaption(h);
-		} else if ( h.indexOf('[gallery') === 0 ) {
-			if ( ed.plugins.wpgallery )
-				h = ed.plugins.wpgallery._do_gallery(h);
-		} else if ( h.indexOf('[embed') === 0 ) {
-			if ( ed.plugins.wordpress )
-				h = ed.plugins.wordpress._setEmbed(h);
-		}
-
-		ed.execCommand('mceInsertContent', false, h);
-	} else if ( qt ) {
-		QTags.insertContent(h);
-	} else {
-		document.getElementById(wpActiveEditor).value += h;
-	}
-
-	try{tb_remove();}catch(e){};
-}
-
 // WordPress, TinyMCE, and Media
 // -----------------------------
 (function($){
@@ -332,7 +285,60 @@ function send_to_editor(h) {
 	}());
 
 	wp.media.editor = {
-		insert: send_to_editor,
+		insert: function( h ) {
+			var mce = typeof(tinymce) != 'undefined',
+				qt = typeof(QTags) != 'undefined',
+				wpActiveEditor = window.wpActiveEditor,
+				ed;
+
+			// Delegate to the global `send_to_editor` if it exists.
+			// This attempts to play nice with any themes/plugins that have
+			// overridden the insert functionality.
+			if ( window.send_to_editor )
+				return window.send_to_editor.apply( this, arguments );
+
+			if ( ! wpActiveEditor ) {
+				if ( mce && tinymce.activeEditor ) {
+					ed = tinymce.activeEditor;
+					wpActiveEditor = window.wpActiveEditor = ed.id;
+				} else if ( !qt ) {
+					return false;
+				}
+			} else if ( mce ) {
+				if ( tinymce.activeEditor && (tinymce.activeEditor.id == 'mce_fullscreen' || tinymce.activeEditor.id == 'wp_mce_fullscreen') )
+					ed = tinymce.activeEditor;
+				else
+					ed = tinymce.get(wpActiveEditor);
+			}
+
+			if ( ed && !ed.isHidden() ) {
+				// restore caret position on IE
+				if ( tinymce.isIE && ed.windowManager.insertimagebookmark )
+					ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark);
+
+				if ( h.indexOf('[caption') === 0 ) {
+					if ( ed.wpSetImgCaption )
+						h = ed.wpSetImgCaption(h);
+				} else if ( h.indexOf('[gallery') === 0 ) {
+					if ( ed.plugins.wpgallery )
+						h = ed.plugins.wpgallery._do_gallery(h);
+				} else if ( h.indexOf('[embed') === 0 ) {
+					if ( ed.plugins.wordpress )
+						h = ed.plugins.wordpress._setEmbed(h);
+				}
+
+				ed.execCommand('mceInsertContent', false, h);
+			} else if ( qt ) {
+				QTags.insertContent(h);
+			} else {
+				document.getElementById(wpActiveEditor).value += h;
+			}
+
+			// If the old thickbox remove function exists, call it in case
+			// a theme/plugin overloaded it.
+			if ( window.tb_remove )
+				try { window.tb_remove(); } catch( e ) {}
+		},
 
 		add: function( id, options ) {
 			var workflow = this.get( id );
