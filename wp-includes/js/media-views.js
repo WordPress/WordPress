@@ -1100,6 +1100,11 @@
 				});
 			}
 
+			// Force the uploader off if the upload limit has been exceeded or
+			// if the browser isn't supported.
+			if ( wp.Uploader.limitExceeded || ! wp.Uploader.browser.supported )
+				this.options.uploader = false;
+
 			// Initialize window-wide uploader.
 			if ( this.options.uploader ) {
 				this.uploader = new media.view.UploaderWindow({
@@ -1785,51 +1790,22 @@
 		initialize: function() {
 			this.controller = this.options.controller;
 
-			if ( ! this.options.$browser )
+			if ( ! this.options.$browser && this.controller.uploader )
 				this.options.$browser = this.controller.uploader.$browser;
-
-			// Track uploading attachments.
-			wp.Uploader.queue.on( 'add remove reset change:percent', this.renderUploadProgress, this );
 		},
 
-		dispose: function() {
-			wp.Uploader.queue.off( null, null, this );
-			media.View.prototype.dispose.apply( this, arguments );
-			return this;
-		},
-
-		render: function() {
+		ready: function() {
 			var $browser = this.options.$browser,
 				$placeholder;
 
-			this.renderUploadProgress();
-			this.$el.html( this.template( this.options ) );
+			if ( this.controller.uploader ) {
+				$placeholder = this.$('.browser');
+				$browser.detach().text( $placeholder.text() );
+				$browser[0].className = $placeholder[0].className;
+				$placeholder.replaceWith( $browser.show() );
+			}
 
-			$placeholder = this.$('.browser');
-			$browser.detach().text( $placeholder.text() );
-			$browser[0].className = $placeholder[0].className;
-			$placeholder.replaceWith( $browser.show() );
-
-			this.$bar = this.$('.media-progress-bar div');
-
-			this.views.render();
 			return this;
-		},
-
-		renderUploadProgress: function() {
-			var queue = wp.Uploader.queue;
-
-			this.$el.toggleClass( 'uploading', !! queue.length );
-
-			if ( ! this.$bar || ! queue.length )
-				return;
-
-			this.$bar.width( ( queue.reduce( function( memo, attachment ) {
-				if ( attachment.get('uploading') )
-					return memo + ( attachment.get('percent') || 0 );
-				else
-					return memo + 100;
-			}, 0 ) / queue.length ) + '%' );
 		}
 	});
 

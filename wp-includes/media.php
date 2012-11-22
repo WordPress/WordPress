@@ -1271,6 +1271,7 @@ function wp_plupload_default_settings() {
 			'mobile'    => wp_is_mobile(),
 			'supported' => _device_can_upload(),
 		),
+		'limitExceeded' => is_multisite() && ! is_upload_space_available()
 	);
 
 	$script = 'var _wpPluploadSettings = ' . json_encode( $settings ) . ';';
@@ -1484,8 +1485,15 @@ function wp_print_media_templates( $attachment ) {
 
 	<script type="text/html" id="tmpl-uploader-inline">
 		<div class="uploader-inline-content">
+		<?php if ( ! _device_can_upload() ) : ?>
+			<h3><?php _e('The web browser on your device cannot be used to upload files. You may be able to use the <a href="http://wordpress.org/extend/mobile/">native app for your device</a> instead.'); ?></h3>
+		<?php elseif ( is_multisite() && ! is_upload_space_available() ) : ?>
+			<h3><?php _e( 'Upload Limit Exceeded' ); ?></h3>
+			<?php do_action( 'upload_ui_over_quota' ); ?>
+
+		<?php else : ?>
 			<div class="upload-ui">
-				<h3><?php _e( 'Drop files anywhere to upload' ); ?></h3>
+				<h3 class="drop-instructions"><?php _e( 'Drop files anywhere to upload' ); ?></h3>
 				<a href="#" class="browser button button-hero"><?php _e( 'Select Files' ); ?></a>
 			</div>
 
@@ -1493,8 +1501,35 @@ function wp_print_media_templates( $attachment ) {
 				<?php do_action( 'pre-upload-ui' ); ?>
 				<?php do_action( 'pre-plupload-upload-ui' ); ?>
 				<?php do_action( 'post-plupload-upload-ui' ); ?>
+
+				<?php
+				$upload_size_unit = $max_upload_size = wp_max_upload_size();
+				$byte_sizes = array( 'KB', 'MB', 'GB' );
+
+				for ( $u = -1; $upload_size_unit > 1024 && $u < count( $byte_sizes ) - 1; $u++ ) {
+					$upload_size_unit /= 1024;
+				}
+
+				if ( $u < 0 ) {
+					$upload_size_unit = 0;
+					$u = 0;
+				} else {
+					$upload_size_unit = (int) $upload_size_unit;
+				}
+
+				?>
+
+				<p class="max-upload-size"><?php
+					printf( __( 'Maximum upload file size: %d%s.' ), esc_html($upload_size_unit), esc_html($byte_sizes[$u]) );
+				?></p>
+
+				<?php if ( ( $GLOBALS['is_IE'] || $GLOBALS['is_opera']) && $max_upload_size > 100 * 1024 * 1024 ) : ?>
+					<p class="big-file-warning"><?php _e('Your browser has some limitations uploading large files with the multi-file uploader. Please use the browser uploader for files over 100MB.'); ?></p>
+				<?php endif; ?>
+
 				<?php do_action( 'post-upload-ui' ); ?>
 			</div>
+		<?php endif; ?>
 		</div>
 	</script>
 

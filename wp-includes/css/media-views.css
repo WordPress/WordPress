@@ -883,10 +883,6 @@ a.media-modal-close {
 	display: block;
 }
 
-.upload-flash-bypass {
-	font-size: 12px;
-}
-
 .region-content.uploader-inline {
 	margin: 20px;
 	padding: 20px;
@@ -905,14 +901,22 @@ a.media-modal-close {
 }
 
 .uploader-inline h3 {
-	display: none;
 	font-size: 20px;
+	line-height: 28px;
 	font-weight: 200;
 	margin-bottom: 1.6em;
 }
 
-.supports-drag-drop .uploader-inline h3 {
+.uploader-inline .drop-instructions {
+	display: none;
+}
+
+.supports-drag-drop .uploader-inline .drop-instructions {
 	display: block;
+}
+
+.uploader-inline p {
+	font-size: 12px;
 }
 
 .uploader-inline .media-progress-bar {
