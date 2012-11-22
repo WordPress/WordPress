@@ -1503,6 +1503,8 @@ function wp_print_media_templates( $attachment ) {
 
 	<script type="text/html" id="tmpl-uploader-status">
 		<h3><?php _e( 'Uploading' ); ?></h3>
+		<a class="upload-dismiss-errors" href="#"><?php _e('Dismiss Errors'); ?></a>
+
 		<div class="media-progress-bar"><div></div></div>
 		<div class="upload-details">
 			<span class="upload-count">
@@ -1513,6 +1515,12 @@ function wp_print_media_templates( $attachment ) {
 		</div>
 		<div class="upload-errors">
 		</div>
+	</script>
+
+	<script type="text/html" id="tmpl-uploader-status-error">
+		<span class="upload-error-label"><?php _e('Error'); ?></span>
+		<span class="upload-error-filename">{{{ data.filename }}}</span>
+		<span class="upload-error-message">{{ data.message }}</span>
 	</script>
 
 	<script type="text/html" id="tmpl-attachment">

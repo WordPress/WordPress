@@ -738,7 +738,12 @@ a.media-modal-close {
 }
 
 .media-uploader-status .media-progress-bar {
+	display: none;
 	width: 100%;
+}
+
+.uploading.media-uploader-status .media-progress-bar {
+	display: block;
 }
 
 .attachment-preview .media-progress-bar {
@@ -750,15 +755,21 @@ a.media-modal-close {
 }
 
 .media-uploader-status {
+	position: relative;
 	padding-bottom: 10px;
 	border-bottom: 1px solid #dfdfdf;
 	box-shadow: 0 1px 0 #fff;
 }
 
 .media-uploader-status .upload-details {
+	display: none;
 	font-size: 12px;
 	color: #666;
 	text-shadow: 0 1px 0 #fff;
+}
+
+.uploading.media-uploader-status .upload-details {
+	display: block;
 }
 
 .media-uploader-status .upload-detail-separator {
@@ -767,6 +778,47 @@ a.media-modal-close {
 
 .media-uploader-status .upload-count {
 	color: #464646;
+}
+
+.media-uploader-status .upload-dismiss-errors,
+.media-uploader-status .upload-errors {
+	display: none;
+}
+
+.errors.media-uploader-status .upload-dismiss-errors,
+.errors.media-uploader-status .upload-errors {
+	display: block;
+}
+
+.media-uploader-status .upload-dismiss-errors {
+	position: absolute;
+	top: 0;
+	right: 0;
+	text-decoration: none;
+}
+
+.media-uploader-status .upload-error {
+	margin: 8px 0 0 0;
+	padding: 8px;
+	border: 1px #c00 solid;
+	background: #ffebe8;
+	border-radius: 3px;
+}
+
+.media-uploader-status .upload-error-label {
+	padding: 2px 4px;
+	margin-right: 8px;
+	font-weight: bold;
+	color: #fff;
+	background: #f00;
+	background: -webkit-linear-gradient( top, #e00, #a00 );
+	border-radius: 3px;
+}
+
+.media-uploader-status .upload-error-message {
+	display: block;
+	padding-top: 8px;
+	color: #b44;
 }
 
 .uploader-window {

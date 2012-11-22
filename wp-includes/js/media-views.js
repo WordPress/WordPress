@@ -32,8 +32,10 @@
 	}());
 
 	// Makes it easier to bind events using transitions.
-	media.transition = function( selector ) {
+	media.transition = function( selector, sensitivity ) {
 		var deferred = $.Deferred();
+
+		sensitivity = sensitivity || 2000;
 
 		if ( $.support.transition ) {
 			if ( ! (selector instanceof $) )
@@ -41,6 +43,9 @@
 
 			// Resolve the deferred when the first element finishes animating.
 			selector.first().one( $.support.transition.end, deferred.resolve );
+
+			// Just in case the event doesn't trigger, fire a callback.
+			_.delay( deferred.resolve, sensitivity );
 
 		// Otherwise, execute on the spot.
 		} else {
@@ -1835,6 +1840,10 @@
 		className: 'media-uploader-status',
 		template:  media.template('uploader-status'),
 
+		events: {
+			'click .upload-dismiss-errors': 'dismiss'
+		},
+
 		initialize: function() {
 			this.controller = this.options.controller;
 
@@ -1844,6 +1853,8 @@
 			this.queue.on( 'add remove reset change:uploading', this.info, this );
 
 			this.errors = wp.Uploader.errors;
+			this.errors.on( 'add remove reset', this.visibility, this );
+			this.errors.on( 'add', this.error, this );
 		},
 
 		dispose: function() {
@@ -1854,6 +1865,7 @@
 
 		visibility: function() {
 			this.$el.toggleClass( 'uploading', !! this.queue.length );
+			this.$el.toggleClass( 'errors', !! this.errors.length );
 			this.$el.toggle( !! this.queue.length || !! this.errors.length );
 		},
 
@@ -1903,8 +1915,34 @@
 
 			this.$index.text( index + 1 );
 			this.$total.text( queue.length );
-			this.$filename.html( active ? media.truncate( _.escape( active.get('filename') ), 24 ) : '' );
+			this.$filename.html( active ? this.filename( active.get('filename') ) : '' );
+		},
+
+		filename: function( filename ) {
+			return media.truncate( _.escape( filename ), 24 );
+		},
+
+		error: function( error ) {
+			this.views.add( '.upload-errors', new media.view.UploaderStatusError({
+				filename: this.filename( error.get('file').name ),
+				message:  error.get('message')
+			}), { at: 0 });
+		},
+
+		dismiss: function( event ) {
+			var errors = this.views.get('.upload-errors');
+
+			event.preventDefault();
+
+			if ( errors )
+				_.invoke( errors, 'remove' );
+			wp.Uploader.errors.reset();
 		}
+	});
+
+	media.view.UploaderStatusError = media.View.extend({
+		className: 'upload-error',
+		template:  media.template('uploader-status-error')
 	});
 
 	/**

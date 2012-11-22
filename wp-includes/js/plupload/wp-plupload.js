@@ -88,7 +88,7 @@ window.wp = window.wp || {};
 				file.attachment.destroy();
 
 			Uploader.errors.unshift({
-				message: message,
+				message: message || pluploadL10n.default_error,
 				data:    data,
 				file:    file
 			});
@@ -199,7 +199,7 @@ window.wp = window.wp || {};
 			if ( ! _.isObject( response ) || _.isUndefined( response.success ) )
 				return error( pluploadL10n.default_error, null, file );
 			else if ( ! response.success )
-				return error( response.data.message, response.data, file );
+				return error( response.data && response.data.message, response.data, file );
 
 			_.each(['file','loaded','size','percent'], function( key ) {
 				file.attachment.unset( key );
