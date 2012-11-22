@@ -1443,6 +1443,20 @@ function wp_print_media_templates( $attachment ) {
 		</div>
 	</script>
 
+	<script type="text/html" id="tmpl-uploader-status">
+		<h3><?php _e( 'Uploading' ); ?></h3>
+		<div class="media-progress-bar"><div></div></div>
+		<div class="upload-details">
+			<span class="upload-count">
+				<span class="upload-index"></span> / <span class="upload-total"></span>
+			</span>
+			<span class="upload-detail-separator">&ndash;</span>
+			<span class="upload-filename"></span>
+		</div>
+		<div class="upload-errors">
+		</div>
+	</script>
+
 	<script type="text/html" id="tmpl-attachment">
 		<div class="attachment-preview type-{{ data.type }} subtype-{{ data.subtype }} {{ data.orientation }}">
 			<# if ( data.uploading ) { #>

@@ -191,6 +191,18 @@ window.wp = window.wp || {};
 					height: height
 				};
 			}
+		},
+
+		// Truncates a string by injecting an ellipsis into the middle.
+		// Useful for filenames.
+		truncate: function( string, length, replacement ) {
+			length = length || 30;
+			replacement = replacement || '&hellip;';
+
+			if ( string.length <= length )
+				return string;
+
+			return string.substr( 0, length / 2 ) + replacement + string.substr( -1 * length / 2 );
 		}
 	});
 

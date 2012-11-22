@@ -86,6 +86,13 @@ window.wp = window.wp || {};
 		error = function( message, data, file ) {
 			if ( file.attachment )
 				file.attachment.destroy();
+
+			Uploader.errors.unshift({
+				message: message,
+				data:    data,
+				file:    file
+			});
+
 			self.error( message, data, file );
 		};
 
@@ -284,6 +291,7 @@ window.wp = window.wp || {};
 	});
 
 	Uploader.queue = new wp.media.model.Attachments( [], { query: false });
+	Uploader.errors = new Backbone.Collection();
 
 	exports.Uploader = Uploader;
 })( wp, jQuery );

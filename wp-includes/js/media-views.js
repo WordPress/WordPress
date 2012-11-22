@@ -255,7 +255,8 @@
 			toolbar:    'main-attachments',
 			sidebar:    'settings',
 			searchable: true,
-			filterable: false
+			filterable: false,
+			uploads:    true
 		},
 
 		initialize: function() {
@@ -476,6 +477,7 @@
 			id:      'upload',
 			content: 'upload',
 			toolbar: 'empty',
+			uploads: true,
 
 			// The state to navigate to when files are uploading.
 			libraryState: 'library'
@@ -1290,7 +1292,7 @@
 				model:      state,
 				sortable:   state.get('sortable'),
 				search:     state.get('searchable'),
-				upload:     state.get('upload'),
+				uploads:    state.get('uploads'),
 				filters:    state.get('filterable'),
 				display:    state.get('displaySettings'),
 
@@ -1823,6 +1825,85 @@
 				else
 					return memo + 100;
 			}, 0 ) / queue.length ) + '%' );
+		}
+	});
+
+	/**
+	 * wp.media.view.UploaderStatus
+	 */
+	media.view.UploaderStatus = media.View.extend({
+		className: 'media-uploader-status',
+		template:  media.template('uploader-status'),
+
+		initialize: function() {
+			this.controller = this.options.controller;
+
+			this.queue = wp.Uploader.queue;
+			this.queue.on( 'add remove reset', this.visibility, this );
+			this.queue.on( 'add remove reset change:percent', this.progress, this );
+			this.queue.on( 'add remove reset change:uploading', this.info, this );
+
+			this.errors = wp.Uploader.errors;
+		},
+
+		dispose: function() {
+			wp.Uploader.queue.off( null, null, this );
+			media.View.prototype.dispose.apply( this, arguments );
+			return this;
+		},
+
+		visibility: function() {
+			this.$el.toggleClass( 'uploading', !! this.queue.length );
+			this.$el.toggle( !! this.queue.length || !! this.errors.length );
+		},
+
+		ready: function() {
+			_.each({
+				'$bar':      '.media-progress-bar div',
+				'$index':    '.upload-index',
+				'$total':    '.upload-total',
+				'$filename': '.upload-filename'
+			}, function( selector, key ) {
+				this[ key ] = this.$( selector );
+			}, this );
+
+			this.visibility();
+			this.progress();
+			this.info();
+		},
+
+		progress: function() {
+			var queue = this.queue,
+				$bar = this.$bar,
+				memo = 0;
+
+			if ( ! $bar || ! queue.length )
+				return;
+
+			$bar.width( ( queue.reduce( function( memo, attachment ) {
+				if ( ! attachment.get('uploading') )
+					return memo + 100;
+
+				var percent = attachment.get('percent');
+				return memo + ( _.isNumber( percent ) ? percent : 100 );
+			}, 0 ) / queue.length ) + '%' );
+		},
+
+		info: function() {
+			var queue = this.queue,
+				index = 0, active;
+
+			if ( ! queue.length )
+				return;
+
+			active = this.queue.find( function( attachment, i ) {
+				index = i;
+				return attachment.get('uploading');
+			});
+
+			this.$index.text( index + 1 );
+			this.$total.text( queue.length );
+			this.$filename.html( active ? media.truncate( _.escape( active.get('filename') ), 24 ) : '' );
 		}
 	});
 
@@ -2860,7 +2941,7 @@
 			_.defaults( this.options, {
 				filters: false,
 				search:  true,
-				upload:  false,
+				uploads: false,
 				display: false,
 
 				AttachmentView: media.view.Attachment.Library
@@ -2914,15 +2995,6 @@
 					priority: -40
 				}) );
 			}
-
-			if ( this.options.upload && this.controller.uploader ) {
-				this.toolbar.set( 'upload', new media.view.Button( _.extend({
-					el:       this.controller.uploader.$browser.detach()[0],
-					priority: -60,
-					size:     'large',
-					text:     l10n.selectFiles
-				}, this.options.upload ) ).render() );
-			}
 		},
 
 		createAttachments: function() {
@@ -2941,14 +3013,26 @@
 		},
 
 		createSidebar: function() {
-			this.sidebar = new media.view.Sidebar({
-				controller: this.controller
-			});
+			var options = this.options,
+				selection = options.selection,
+				sidebar = this.sidebar = new media.view.Sidebar({
+					controller: this.controller
+				});
 
-			this.views.add( this.sidebar );
+			this.views.add( sidebar );
 
-			this.options.selection.on( 'selection:single', this.createSingle, this );
-			this.options.selection.on( 'selection:unsingle', this.disposeSingle, this );
+			if ( options.uploads && this.controller.uploader ) {
+				sidebar.set( 'uploads', new media.view.UploaderStatus({
+					controller: this.controller,
+					priority:   40
+				}) );
+			}
+
+			selection.on( 'selection:single', this.createSingle, this );
+			selection.on( 'selection:unsingle', this.disposeSingle, this );
+
+			if ( selection.single() )
+				this.createSingle();
 		},
 
 		createSingle: function() {

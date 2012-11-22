@@ -715,20 +715,20 @@ a.media-modal-close {
  */
 .media-progress-bar {
 	position: relative;
-	height: 8px;
+	height: 10px;
 	width: 70%;
 	margin: 10px auto;
-	padding: 2px;
-	border: 2px solid #ccc;
-	border-radius: 8px;
-	background: #fff;
+	border-radius: 10px;
+	background: #dfdfdf;
+	background: rgba( 0, 0, 0, 0.1 );
 }
 
 .media-progress-bar div {
-	height: 8px;
-	min-width: 8px;
+	height: 10px;
+	min-width: 20px;
 	width: 0;
-	background: #ccc;
+	background: #aaa;
+	background: rgba( 0, 0, 0, 0.2 );
 	border-radius: 10px;
 	-webkit-transition: width 300ms;
 	-moz-transition:    width 300ms;
@@ -737,12 +737,36 @@ a.media-modal-close {
 	transition:         width 300ms;
 }
 
+.media-uploader-status .media-progress-bar {
+	width: 100%;
+}
+
 .attachment-preview .media-progress-bar {
 	position: absolute;
 	top: 50%;
 	left: 15%;
 	width: 70%;
-	margin: -8px 0 0 -4px;
+	margin: -5px 0 0 0;
+}
+
+.media-uploader-status {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #dfdfdf;
+	box-shadow: 0 1px 0 #fff;
+}
+
+.media-uploader-status .upload-details {
+	font-size: 12px;
+	color: #666;
+	text-shadow: 0 1px 0 #fff;
+}
+
+.media-uploader-status .upload-detail-separator {
+	padding: 0 4px;
+}
+
+.media-uploader-status .upload-count {
+	color: #464646;
 }
 
 .uploader-window {
@@ -1059,7 +1083,7 @@ a.media-modal-close {
 }
 
 .uploading .attachment-info .media-progress-bar {
-	margin-top: 32px;
+	margin-top: 35px;
 }
 
 .attachment-info .thumbnail:after {
