@@ -766,10 +766,10 @@ window.wp = window.wp || {};
 
 			// If single has changed, fire an event.
 			if ( this._single !== previous ) {
-				if ( this._single )
-					this._single.trigger( 'selection:single', this._single, this );
 				if ( previous )
 					previous.trigger( 'selection:unsingle', previous, this );
+				if ( this._single )
+					this._single.trigger( 'selection:single', this._single, this );
 			}
 
 			// Return the single model, or the last model as a fallback.

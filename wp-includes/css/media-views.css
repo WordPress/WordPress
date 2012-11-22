@@ -191,17 +191,13 @@ a.media-modal-close {
 	position: absolute;
 	top: 0;
 	right: 0;
-	bottom: 61px;
+	bottom: 0;
 	width: 267px;
 	padding: 0 16px 24px;
 	z-index: 75;
 	background: #f5f5f5;
 	border-left: 1px solid #dfdfdf;
 	overflow: auto;
-}
-
-.hide-sidebar .media-sidebar {
-	right: -300px;
 }
 
 .hide-toolbar .media-sidebar {
@@ -403,16 +399,12 @@ a.media-modal-close {
 	position: absolute;
 	top: 0;
 	left: 200px;
-	right: 300px;
+	right: 0;
 	bottom: 61px;
 	height: auto;
 	width: auto;
 	margin: 0;
 	overflow: auto;
-}
-
-.media-frame.hide-sidebar .region-content {
-	right: 0;
 }
 
 .media-frame.hide-toolbar .region-content {
@@ -690,6 +682,7 @@ a.media-modal-close {
 }
 
 .attachments-browser .media-toolbar {
+	right: 300px;
 	height: 50px;
 }
 
@@ -704,7 +697,7 @@ a.media-modal-close {
 	position: absolute;
 	top: 50px;
 	left: 0;
-	right: 0;
+	right: 300px;
 	bottom: 0;
 	overflow: auto;
 }

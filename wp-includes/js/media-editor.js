@@ -353,26 +353,16 @@
 			} ) );
 
 			workflow.on( 'insert', function( selection ) {
-				var state = workflow.state(),
-					details = state.get('details');
+				var state = workflow.state();
 
 				selection = selection || state.get('selection');
 
-				if ( ! selection || ! details )
+				if ( ! selection )
 					return;
 
 				selection.each( function( attachment ) {
-					var detail = details[ attachment.cid ];
-
-					if ( detail )
-						detail = detail.toJSON();
-
-					// Reset the attachment details.
-					delete details[ attachment.cid ];
-
-					attachment = attachment.toJSON();
-
-					this.send.attachment( detail, attachment );
+					var display = state.display( attachment ).toJSON();
+					this.send.attachment( display, attachment.toJSON() );
 				}, this );
 			}, this );
 

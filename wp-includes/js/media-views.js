@@ -210,7 +210,6 @@
 
 			this.menu();
 			this.toolbar();
-			this.sidebar();
 			this.content();
 		},
 
@@ -238,7 +237,7 @@
 		}
 	});
 
-	_.each(['toolbar','sidebar','content'], function( region ) {
+	_.each(['toolbar','content'], function( region ) {
 		media.controller.State.prototype[ region ] = function() {
 			var mode = this.get( region );
 			if ( mode )
@@ -275,14 +274,14 @@
 			if ( ! this.get('gutter') )
 				this.set( 'gutter', 8 );
 
-			if ( ! this.get('details') )
-				this.set( 'details', [] );
+			this.resetDisplays();
 
 			media.controller.State.prototype.initialize.apply( this, arguments );
 		},
 
 		activate: function() {
-			var selection = this.get('selection');
+			var library = this.get('library'),
+				selection = this.get('selection');
 
 			this._excludeStateLibrary();
 			this.buildComposite();
@@ -294,13 +293,15 @@
 			if ( this.get('multiple') )
 				wp.Uploader.queue.on( 'add', this.selectUpload, this );
 
-			selection.on( 'selection:single selection:unsingle', this.sidebar, this );
 			selection.on( 'add remove reset', this.refreshSelection, this );
 
 			this._updateEmpty();
-			this.get('library').on( 'add remove reset', this._updateEmpty, this );
+			library.on( 'add remove reset', this._updateEmpty, this );
 			this.on( 'change:empty', this.refresh, this );
 			this.refresh();
+
+
+			this.on( 'insert', this._insertDisplaySettings, this );
 		},
 
 		deactivate: function() {
@@ -321,15 +322,7 @@
 
 		reset: function() {
 			this.get('selection').clear();
-		},
-
-		sidebar: function() {
-			var sidebar = this.frame.sidebar;
-
-			if ( this.get('selection').single() )
-				sidebar.mode( this.get('sidebar') );
-			else
-				sidebar.mode('clear');
+			this.resetDisplays();
 		},
 
 		content: function() {
@@ -348,9 +341,43 @@
 		},
 
 		refresh: function() {
-			this.frame.$el.toggleClass( 'hide-sidebar hide-toolbar', this.get('empty') );
+			this.frame.$el.toggleClass( 'hide-toolbar', this.get('empty') );
 			this.content();
 			this.refreshSelection();
+		},
+
+		resetDisplays: function() {
+			this._displays = [];
+			this._defaultDisplaySettings = {
+				align: getUserSetting( 'align', 'none' ),
+				size:  getUserSetting( 'imgsize', 'medium' ),
+				link:  getUserSetting( 'urlbutton', 'post' )
+			};
+		},
+
+		display: function( attachment ) {
+			var displays = this._displays;
+
+			if ( ! displays[ attachment.cid ] )
+				displays[ attachment.cid ] = new Backbone.Model( this._defaultDisplaySettings );
+
+			return displays[ attachment.cid ];
+		},
+
+		_insertDisplaySettings: function() {
+			var selection = this.get('selection'),
+				display;
+
+			// If inserting one image, set those display properties as the
+			// default user setting.
+			if ( selection.length !== 1 )
+				return;
+
+			display = this.display( selection.first() ).toJSON();
+
+			setUserSetting( 'align', display.align );
+			setUserSetting( 'imgsize', display.size );
+			setUserSetting( 'urlbutton', display.link );
 		},
 
 		_updateEmpty: function() {
@@ -448,7 +475,6 @@
 		defaults: _.defaults({
 			id:      'upload',
 			content: 'upload',
-			sidebar: 'empty',
 			toolbar: 'empty',
 
 			// The state to navigate to when files are uploading.
@@ -488,8 +514,7 @@
 			editing:    false,
 			sortable:   true,
 			searchable: false,
-			toolbar:    'gallery-edit',
-			sidebar:    'settings'
+			toolbar:    'gallery-edit'
 		},
 
 		initialize: function() {
@@ -512,19 +537,34 @@
 			// Watch for uploaded attachments.
 			this.get('library').observe( wp.Uploader.queue );
 
+			this.frame.content.on( 'activate:browse', this.gallerySettings, this );
+
 			media.controller.Library.prototype.activate.apply( this, arguments );
 		},
 
 		deactivate: function() {
 			// Stop watching for uploaded attachments.
 			this.get('library').unobserve( wp.Uploader.queue );
+
+			this.frame.content.off( null, null, this );
 			media.controller.Library.prototype.deactivate.apply( this, arguments );
 		},
 
-		sidebar: function() {
-			media.controller.Library.prototype.sidebar.apply( this, arguments );
-			this.frame.sidebar.trigger('gallery-settings');
-			return this;
+		gallerySettings: function() {
+			var library = this.get('library');
+
+			if ( ! library )
+				return;
+
+			library.gallery = library.gallery || new Backbone.Model();
+
+			this.frame.content.view().sidebar.set({
+				gallery: new media.view.Settings.Gallery({
+					controller: this,
+					model:      library.gallery,
+					priority:   40
+				})
+			});
 		}
 	});
 
@@ -1033,7 +1073,7 @@
 	media.view.MediaFrame = media.view.Frame.extend({
 		className: 'media-frame',
 		template:  media.template('media-frame'),
-		regions:   ['menu','content','sidebar','toolbar'],
+		regions:   ['menu','content','toolbar'],
 
 		initialize: function() {
 			media.view.Frame.prototype.initialize.apply( this, arguments );
@@ -1108,7 +1148,7 @@
 		},
 
 		iframeContent: function() {
-			this.$el.addClass('hide-toolbar hide-sidebar');
+			this.$el.addClass('hide-toolbar');
 			this.content.view( new media.view.Iframe({
 				controller: this
 			}).render() );
@@ -1215,8 +1255,6 @@
 			this.menu.on( 'activate:main', this.mainMenu, this );
 			this.content.on( 'activate:browse', this.browseContent, this );
 			this.content.on( 'activate:upload', this.uploadContent, this );
-			this.sidebar.on( 'activate:clear', this.clearSidebar, this );
-			this.sidebar.on( 'activate:settings', this.settingsSidebar, this );
 			this.toolbar.on( 'activate:select', this.selectToolbar, this );
 
 			this.on( 'refresh:selection', this.refreshSelectToolbar, this );
@@ -1254,49 +1292,17 @@
 				search:     state.get('searchable'),
 				upload:     state.get('upload'),
 				filters:    state.get('filterable'),
+				display:    state.get('displaySettings'),
 
 				AttachmentView: state.get('AttachmentView')
 			}) );
 		},
 
 		uploadContent: function() {
-			this.$el.addClass('hide-sidebar hide-toolbar');
+			this.$el.addClass('hide-toolbar');
 
 			this.content.view( new media.view.UploaderInline({
 				controller: this
-			}) );
-		},
-
-		// Sidebars
-		clearSidebar: function() {
-			this.sidebar.view( new media.view.Sidebar({
-				controller: this
-			}) );
-		},
-
-		settingsSidebar: function( options ) {
-			var single = this.state().get('selection').single(),
-				views = {};
-
-			views.details = new media.view.Attachment.Details({
-				controller: this,
-				model:      single,
-				priority:   80
-			}).render();
-
-
-			if ( single.get('compat') ) {
-				views.compat = new media.view.AttachmentCompat({
-					controller: this,
-					model:      single,
-					priority:   120
-				}).render();
-			}
-
-			this.sidebar.view( new media.view.Sidebar({
-				controller: this,
-				silent:     options && options.silent,
-				views:      views
 			}) );
 		},
 
@@ -1370,8 +1376,9 @@
 					filterable: 'all',
 					multiple:   this.options.multiple,
 					menu:       'main',
-					sidebar:    'attachment-settings',
 
+					// Show the attachment display settings.
+					displaySettings: true,
 					// Update user settings when users adjust the
 					// attachment display settings.
 					displayUserSettings: true
@@ -1422,10 +1429,6 @@
 						'edit-selection': 'editSelectionContent'
 					},
 
-					sidebar: {
-						'attachment-settings': 'attachmentSettingsSidebar'
-					},
-
 					toolbar: {
 						'main-attachments': 'mainAttachmentsToolbar',
 						'main-embed':       'mainEmbedToolbar',
@@ -1439,8 +1442,6 @@
 					this[ region ].on( 'activate:' + handler, this[ callback ], this );
 				}, this );
 			}, this );
-
-			this.sidebar.on( 'gallery-settings', this.onSidebarGallerySettings, this );
 		},
 
 		// Menus
@@ -1503,7 +1504,6 @@
 				model:      this.state()
 			}).render();
 
-			this.$el.addClass('hide-sidebar');
 			this.content.view( view );
 			view.url.focus();
 		},
@@ -1551,30 +1551,6 @@
 					controller: this,
 					model:      library.gallery,
 					priority:   40
-				}).render()
-			}, options );
-		},
-
-		attachmentSettingsSidebar: function( options ) {
-			var state = this.state(),
-				display = state.get('details'),
-				single = state.get('selection').single();
-
-			this.settingsSidebar({ silent: true });
-
-			display[ single.cid ] = display[ single.cid ] || new Backbone.Model({
-				align: getUserSetting( 'align', 'none' ),
-				size:  getUserSetting( 'imgsize', 'medium' ),
-				link:  getUserSetting( 'urlbutton', 'post' )
-			});
-
-			this.sidebar.view().set({
-				display: new media.view.Settings.AttachmentDisplay({
-					controller:   this,
-					model:        display[ single.cid ],
-					attachment:   single,
-					priority:     160,
-					userSettings: state.get('displayUserSettings')
 				}).render()
 			}, options );
 		},
@@ -2242,8 +2218,9 @@
 
 		unset: function( id ) {
 			var view = this.get( id );
+
 			if ( view )
-				view.dispose();
+				view.remove();
 
 			delete this._views[ id ];
 			return this;
@@ -2878,17 +2855,30 @@
 		className: 'attachments-browser',
 
 		initialize: function() {
-			var filters, FiltersConstructor;
-
 			this.controller = this.options.controller;
 
 			_.defaults( this.options, {
 				filters: false,
 				search:  true,
 				upload:  false,
+				display: false,
 
 				AttachmentView: media.view.Attachment.Library
 			});
+
+			this.createToolbar();
+			this.createAttachments();
+			this.createSidebar();
+		},
+
+		dispose: function() {
+			this.options.selection.off( null, null, this );
+			media.View.prototype.dispose.apply( this, arguments );
+			return this;
+		},
+
+		createToolbar: function() {
+			var filters, FiltersConstructor;
 
 			this.toolbar = new media.view.Toolbar({
 				controller: this.controller
@@ -2933,7 +2923,9 @@
 					text:     l10n.selectFiles
 				}, this.options.upload ) ).render() );
 			}
+		},
 
+		createAttachments: function() {
 			this.attachments = new media.view.Attachments({
 				controller: this.controller,
 				collection: this.collection,
@@ -2946,6 +2938,54 @@
 			});
 
 			this.views.add( this.attachments );
+		},
+
+		createSidebar: function() {
+			this.sidebar = new media.view.Sidebar({
+				controller: this.controller
+			});
+
+			this.views.add( this.sidebar );
+
+			this.options.selection.on( 'selection:single', this.createSingle, this );
+			this.options.selection.on( 'selection:unsingle', this.disposeSingle, this );
+		},
+
+		createSingle: function() {
+			var sidebar = this.sidebar,
+				single = this.options.selection.single(),
+				views = {};
+
+			sidebar.set( 'details', new media.view.Attachment.Details({
+				controller: this.controller,
+				model:      single,
+				priority:   80
+			}) );
+
+			if ( single.get('compat') ) {
+				sidebar.set( 'compat', new media.view.AttachmentCompat({
+					controller: this.controller,
+					model:      single,
+					priority:   120
+				}) );
+			}
+
+			if ( this.options.display ) {
+				sidebar.set( 'display', new media.view.Settings.AttachmentDisplay({
+					controller:   this.controller,
+					model:        this.model.display( single ),
+					attachment:   single,
+					priority:     160,
+					userSettings: this.model.get('displayUserSettings')
+				}) );
+			}
+		},
+
+		disposeSingle: function() {
+			var sidebar = this.sidebar;
+			sidebar.unset('details');
+			sidebar.unset('compat');
+			sidebar.unset('display');
 		}
 	});
 
