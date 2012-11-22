@@ -245,6 +245,7 @@ imageEdit = {
 			'postid': postid,
 			'history': history,
 			'target': target,
+			'context': $('#image-edit-context').length ? $('#image-edit-context').val() : null,
 			'do': 'save'
 		};
 

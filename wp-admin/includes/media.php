@@ -2244,11 +2244,6 @@ function edit_form_image_editor() {
 	$title = esc_attr( $post->post_title );
 	$alt_text = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
 
-	$post_mime_types = get_post_mime_types();
-	$keys = array_keys( wp_match_mime_types( array_keys( $post_mime_types ), $post->post_mime_type ) );
-	$type = array_shift( $keys );
-	$type_html = "<input type='hidden' id='type-of-$attachment_id' value='" . esc_attr( $type ) . "' />";
-
 	$media_dims = '';
 	$meta = wp_get_attachment_metadata( $post->ID );
 	if ( is_array( $meta ) && array_key_exists( 'width', $meta ) && array_key_exists( 'height', $meta ) )
@@ -2294,6 +2289,7 @@ function edit_form_image_editor() {
 	foreach ( $extras['hidden'] as $hidden_field => $value ) {
 		echo '<input type="hidden" name="' . esc_attr( $hidden_field ) . '" value="' . esc_attr( $value ) . '" />' . "\n";
 	}
+	echo '<input type="hidden" id="image-edit-context" value="edit-attachment" />' . "\n";
 }
 
 /**
