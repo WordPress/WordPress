@@ -2572,12 +2572,10 @@
 			this.css();
 		},
 
-		destroy: function() {
+		dispose: function() {
 			this.collection.props.off( null, null, this );
-			this.collection.off( 'add remove reset', null, this );
-			this.model.off( 'change:edge change:gutter', this.css, this );
 			$(window).off( 'resize.attachments', this._resizeCss );
-			this.remove();
+			media.View.prototype.dispose.apply( this, arguments );
 		},
 
 		css: function() {
@@ -2680,11 +2678,13 @@
 				}).render().$el;
 			}, this ) );
 
-			// Then, trigger the scroll event to check if we're within the
+			return this;
+		},
+
+		ready: function() {
+			// Trigger the scroll event to check if we're within the
 			// threshold to query for additional attachments.
 			this.scroll();
-
-			return this;
 		},
 
 		add: function( attachment, index ) {
