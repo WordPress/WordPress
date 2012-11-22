@@ -680,10 +680,12 @@
 
 			if ( existing ) {
 				if ( options.add ) {
-					if ( _.isUndefined( options.at ) )
+					if ( _.isUndefined( options.at ) ) {
 						next = existing.concat( views );
-					else
-						next = existing.splice.apply( existing, [ options.at, 0 ].concat( views ) );
+					} else {
+						next = existing;
+						next.splice.apply( next, [ options.at, 0 ].concat( views ) );
+					}
 				} else {
 					_.each( next, function( view ) {
 						view.__detach = true;
@@ -736,6 +738,12 @@
 		//
 		// For more information on the `options` object, see `Views.set()`.
 		add: function( selector, views, options ) {
+			if ( ! _.isString( selector ) ) {
+				options  = views;
+				views    = selector;
+				selector = '';
+			}
+
 			return this.set( selector, views, _.extend({ add: true }, options ) );
 		},
 
@@ -2184,42 +2192,22 @@
 			this.set( _.extend( {}, this._views, this.options.views ), { silent: true });
 			delete this.options.views;
 
-			if ( ! this.options.silent )
+			// if ( ! this.options.silent )
 				this.render();
 		},
 
-		destroy: function() {
-			this.remove();
-			_.each( this._views, function( view ) {
-				if ( view.destroy )
-					view.destroy();
-			});
-		},
-
-		render: function() {
-			var els = _( this._views ).chain().sortBy( function( view ) {
-					return view.options.priority || 10;
-				}).pluck('el').value();
-
-			// Make sure to detach the elements we want to reuse.
-			// Otherwise, `jQuery.html()` will unbind their events.
-			$( els ).detach();
-
-			this.$el.html( els );
-			return this;
-		},
+		destroy: this.dispose,
 
 		set: function( id, view, options ) {
+			var priority, views, index;
+
 			options = options || {};
 
 			// Accept an object with an `id` : `view` mapping.
 			if ( _.isObject( id ) ) {
 				_.each( id, function( view, id ) {
-					this.set( id, view, { silent: true });
+					this.set( id, view );
 				}, this );
-
-				if ( ! options.silent )
-					this.render();
 				return this;
 			}
 
@@ -2228,9 +2216,23 @@
 
 			view.controller = view.controller || this.controller;
 
+			this.unset( id );
+
+			priority = view.options.priority || 10;
+			views = this.views.get() || [];
+
+			_.find( views, function( existing, i ) {
+				if ( existing.options.priority > priority ) {
+					index = i;
+					return true;
+				}
+			});
+
 			this._views[ id ] = view;
-			if ( ! options.silent )
-				this.render();
+			this.views.add( view, {
+				at: _.isNumber( index ) ? index : views.length || 0
+			});
+
 			return this;
 		},
 
@@ -2238,10 +2240,12 @@
 			return this._views[ id ];
 		},
 
-		unset: function( id, options ) {
+		unset: function( id ) {
+			var view = this.get( id );
+			if ( view )
+				view.dispose();
+
 			delete this._views[ id ];
-			if ( ! options || ! options.silent )
-				this.render();
 			return this;
 		},
 
