@@ -757,8 +757,15 @@ a.media-modal-close {
 .media-uploader-status {
 	position: relative;
 	padding-bottom: 10px;
+}
+
+.media-sidebar .media-uploader-status {
 	border-bottom: 1px solid #dfdfdf;
 	box-shadow: 0 1px 0 #fff;
+}
+
+.uploader-inline .media-uploader-status h3 {
+	display: none;
 }
 
 .media-uploader-status .upload-details {
@@ -791,10 +798,13 @@ a.media-modal-close {
 }
 
 .media-uploader-status .upload-dismiss-errors {
+	text-decoration: none;
+}
+
+.media-sidebar .media-uploader-status .upload-dismiss-errors {
 	position: absolute;
 	top: 0;
 	right: 0;
-	text-decoration: none;
 }
 
 .upload-errors .upload-error {
@@ -811,8 +821,12 @@ a.media-modal-close {
 	margin-right: 8px;
 	font-weight: bold;
 	color: #fff;
-	background: #f00;
-	background: -webkit-linear-gradient( top, #e00, #a00 );
+	background: #e00;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#e00), to(#a00));
+	background-image: -webkit-linear-gradient(top, #e00, #a00);
+	background-image:    -moz-linear-gradient(top, #e00, #a00);
+	background-image:      -o-linear-gradient(top, #e00, #a00);
+	background-image:   linear-gradient(to bottom, #e00, #a00);
 	border-radius: 3px;
 }
 

@@ -1793,19 +1793,8 @@
 			if ( ! this.options.$browser && this.controller.uploader )
 				this.options.$browser = this.controller.uploader.$browser;
 
-			wp.Uploader.errors.on( 'add', this.error, this );
-		},
-
-		dispose: function() {
-			wp.Uploader.errors.off( null, null, this );
-			media.View.prototype.dispose.apply( this, arguments );
-			return this;
-		},
-
-		error: function( error ) {
-			this.views.set( '.upload-errors', new media.view.UploaderStatusError({
-				filename: error.get('file').name,
-				message:  error.get('message')
+			this.views.set( '.upload-inline-status', new media.view.UploaderStatus({
+				controller: this.controller
 			}) );
 		},
 
@@ -1844,9 +1833,9 @@
 			this.queue.on( 'add remove reset change:uploading', this.info, this );
 
 			this.errors = wp.Uploader.errors;
+			this.errors.reset();
 			this.errors.on( 'add remove reset', this.visibility, this );
 			this.errors.on( 'add', this.error, this );
-			_.each( this.errors.models, this.error, this );
 		},
 
 		dispose: function() {

@@ -1497,7 +1497,7 @@ function wp_print_media_templates( $attachment ) {
 				<a href="#" class="browser button button-hero"><?php _e( 'Select Files' ); ?></a>
 			</div>
 
-			<div class="upload-errors"></div>
+			<div class="upload-inline-status"></div>
 
 			<div class="post-upload-ui">
 				<?php do_action( 'pre-upload-ui' ); ?>
