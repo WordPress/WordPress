@@ -19,7 +19,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <h1><?php printf( __( 'Welcome to WordPress %s' ), $display_version ); ?></h1>
 
-<div class="about-text"><?php printf( __( 'Thank you for updating to the latest version! WordPress %s is already making your website better, faster, and more attractive, just like you!' ), $display_version ); ?></div>
+<div class="about-text"><?php printf( ( 'Thank you for updating to the latest version! WordPress %s helps make your web publishing experience easier, faster, and more enjoyable than ever. Welcome aboard.' ), $display_version ); ?></div>
 
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
@@ -34,87 +34,127 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="changelog">
-	<h3><?php _e( 'Live Theme Previews' ); ?></h3>
+	<h3><?php echo ( 'Media Management' ); ?></h3>
 
-	<div class="feature-section images-stagger-right">
-		<img src="<?php echo esc_url( admin_url( 'images/screenshots/theme-customizer.png' ) ); ?>" class="image-50" />
-		<h4><?php _e( 'Try on New Themes' ); ?></h4>
-		<p><?php _e( 'Gone are the days of rushing to update your header, background, and the like as soon as you activate a new theme. You can now customize these options <strong>before</strong> activating a new theme. Note: this feature is available for installed themes only.' ); ?></p>
+	<div class="feature-section three-col">
+		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-media.png' ) ); ?>" class="image-100" />
 
-		<h4><?php _e( 'Customize Current Theme' ); ?></h4>
-		<p><?php _e( 'Satisfy your curiosity and try on a fresh coat of paint &mdash; you can also use the live preview mode to customize your current theme. Look for the Customize link on the Themes screen.' ); ?></p>
+		<div>
+			<h4><?php echo ( 'Easier interface' ); ?></h4>
+			<p><?php echo ( 'Adding media to your posts is more streamlined than ever. It\'s a breeze to insert, align, caption, and link to media within your posts.' ); ?></p>
+		</div>
+		<div>
+			<h4><?php echo ( 'Picturesque galleries' ); ?></h4>
+			<p><?php echo ( 'Adding image galleries is easier with drag and drop reordering, inline caption editing, and simplified controls for the gallery layout.' ); ?></p>
+		</div>
+		<div class="last-feature">
+			<h4><?php echo ( 'Attachment page editor' ); ?></h4>
+			<p><?php echo ( 'You can crop, rotate and resize images right in the Media Library? There are now formatting controls for content on your attachment pages.' ); ?></p>
+		</div>
 	</div>
 </div>
 
 <div class="changelog">
-	<h3><?php _e( 'Custom Headers' ); ?></h3>
+	<h3><?php echo ( 'Smoother experience' ); ?></h3>
 
 	<div class="feature-section">
-		<h4><?php _e( 'Flexible Sizes' ); ?></h4>
-		<p><?php _e( 'You can decide for yourself how tall or wide your custom header image should be. From now on, themes will provide a recommended image size for custom headers rather than a fixed requirement. Note: this feature requires <a href="http://codex.wordpress.org/Custom_Headers">theme support</a>.' ); ?></p>
+		<h4><?php echo ( 'Simplified settings, better buttons, easier controls' ); ?></h4>
+		<p><?php echo ( 'WordPress always aims to stay out of the way, and let you get on with publishing your content. You\'ll find simplified settings screens, more aesthetically pleasing buttons, and easier controls such as the improved color picker. They\'re the little details we hope you\'ll never notice.' ); ?></p>
 		<div class="three-col-images">
-			<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-1.png' ) ); ?>" class="image-30 first-feature" />
-			<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-2.png' ) ); ?>" class="image-30" />
-			<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-3.png' ) ); ?>" class="image-30 last-feature" />
+			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-tinymce.png' ) ); ?>" class="image-30 first-feature" />
+			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-buttons.png' ) ); ?>" class="image-30" />
+			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-color-picker.png' ) ); ?>" class="image-30 last-feature" />
+		</div>
+	</div>
+</div>
+
+<div class="changelog">
+	<h3><?php echo ( 'Twenty Twelve theme' ); ?></h3>
+
+	<div class="feature-section images-stagger-right">
+		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-twenty-twelve.png' ) ); ?>" class="image-66" />
+		<h4><?php echo ( 'Beauty in its simplicity' ); ?></h4>
+		<p><?php echo ( 'Twenty Twelve is an elegant, readable, and fully responsive theme that makes your site content look its best on any device.' ); ?></p>
+		<p><?php echo ( 'Make the design of your site fully yours with a custom menu, custom header image, and custom background color or image.' ); ?></p>
+	</div>
+</div>
+
+<div class="changelog">
+	<h3><?php echo ( 'HiDPI Admin' ); ?></h3>
+
+	<div class="feature-section images-stagger-right">
+		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-hidef.png' ) ); ?>" class="image-66" />
+		<h4><?php echo ( 'Retina all the things' ); ?></h4>
+		<p><?php echo ( 'WordPress now looks as beautiful on HiDPI devices as native applications do. Icons, buttons, avatars and theme screenshots (where supported) are crystal clear and full of detail.' ); ?></p>
+	</div>
+</div>
+
+<div class="changelog">
+	<h3><?php echo ( 'Better Accessibility' ); ?></h3>
+
+	<div class="feature-section images-stagger-right">
+		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-accessibility2.png' ) ); ?>" class="image-30" />
+		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-accessibility1.png' ) ); ?>" class="image-30" />
+		<h4><?php echo ( 'For everyone' ); ?></h4>
+		<p><?php echo ( 'WordPress has wider support for more devices than ever before. Users of screenreaders, touch devices, and mouse-less devices will all see improvements to ease of use and accessibility.' ); ?></p>
+		<?php //TODO: Link to new Codex page listing the accessibility features of WordPress. ?>
+	</div>
+</div>
+
+<div class="changelog">
+	<h3><?php echo ( 'More Embed Support' ); ?></h3>
+
+	<div class="feature-section">
+		<h4><?php echo ( 'Instagram, SlideShare, and SoundCloud' ); ?></h4>
+		<p><?php echo ( 'You can now embed content from Instagram, SlideShare, and SoundCloud without having to mess around copying and pasting embed codes. Just paste a URL from any of these sites onto its own line in your post and the content will automatically be embedded for you.' ); ?></p>
+		<p><?php printf( ( 'This works for several other popular sites, too, such as YouTube, Flickr, and Vimeo. For more, see the Codex article on <a href="%s">Embeds</a>.' ), ( 'http://codex.wordpress.org/Embeds' ) ); ?></p>
+		<div class="three-col-images">
+			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-instagram.png' ) ); ?>" class="image-30 first-feature" />
+			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-slideshare.png' ) ); ?>" class="image-30" />
+			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-soundcloud.png' ) ); ?>" class="image-30 last-feature" />
+		</div>
+	</div>
+</div>
+
+<?php if ( current_user_can( 'install_plugins' ) ) { ?>
+
+	<div class="changelog">
+		<h3><?php echo ( 'Plugin Favorites' ); ?></h3>
+
+		<div class="feature-section images-stagger-right">
+			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-favorite-plugins.png' ) ); ?>" class="image-66" />
+			<h4><?php echo ( 'Which plugins do you love?' ); ?></h4>
+			<p><?php echo ( 'Wouldn\'t it be great to see a list of all your favorite plugins right in the Plugins menu in WordPress? Well, now you can.' ); ?></p>
+			<p><?php printf( ( 'If you have marked plugins as favorites on WordPress.org, you can browse them from the Favorites tab on the <a href="%s">Install Plugins</a> screen.' ), admin_url( 'plugin-install.php?tab=favorites' ) ); ?></p>
 		</div>
 	</div>
 
-	<div class="feature-section images-stagger-right">
-		<img src="<?php echo esc_url( admin_url( 'images/screenshots/flex-header-media-library.png' ) ); ?>" class="image-50" />
-		<h4><?php _e( 'Choose from Media Library' ); ?></h4>
-		<p><?php _e( 'Tired of re-uploading the same custom header image every time you check out a new theme? Now you can choose header images from your media library for easier customization.' ); ?></p>
-	</div>
-</div>
+<?php } ?>
 
 <div class="changelog">
-	<h3><?php _e( 'Twitter Embeds' ); ?></h3>
-
-	<div class="feature-section images-stagger-right">
-		<img src="<?php echo esc_url( admin_url( 'images/screenshots/twitter-embed-1.png' ) ); ?>" class="image-30" />
-		<img src="<?php echo esc_url( admin_url( 'images/screenshots/twitter-embed-2.png' ) ); ?>" class="image-30" />
-		<h4><?php _e( 'Share Tweets with Style' ); ?></h4>
-		<p><?php _e( 'You can now embed individual tweets in posts. It includes action links that allow readers to reply to, retweet, and favorite the tweet without leaving your site. Just paste a tweet URL on its own line.' ); ?></p>
-		<p><?php printf( __( 'This works with URLs from some other sites, too. For more, see the Codex article on <a href="%s">Embeds</a>.' ), __( 'http://codex.wordpress.org/Embeds' ) ); ?></p>
-	</div>
-
-</div>
-
-
-<div class="changelog">
-	<h3><?php _e( 'Better Captions' ); ?></h3>
-
-	<div class="feature-section images-stagger-right">
-		<img src="<?php echo esc_url( admin_url( 'images/screenshots/captions-1.png' ) ); ?>" class="image-30" />
-		<img src="<?php echo esc_url( admin_url( 'images/screenshots/captions-2.png' ) ); ?>" class="image-30" />
-		<h4><?php _e( 'HTML Support' ); ?></h4>
-		<p><?php _e( 'Basic HTML support has been added to the caption field in the image uploader. This allows you to add links &mdash; great for photo credits or licensing details &mdash; and basic formatting such as bold and italicized text.' ); ?></p>
-	</div>
-</div>
-
-<div class="changelog">
-	<h3><?php _e( 'Under the Hood' ); ?></h3>
+	<h3><?php echo ( 'Under the Hood' ); ?></h3>
 
 	<div class="feature-section three-col">
 		<div>
-			<h4><?php _e( 'Faster WP_Query' ); ?></h4>
-			<p><?php _e( 'Post queries have been optimized to improve performance, especially for sites with large databases.' ); ?></p>
+			<h4><?php echo ( 'Meta Query Additions' ); ?></h4>
+			<p><?php echo ( 'The <code>WP_Comment_Query</code> and <code>WP_User_Query</code> classes now support meta queries just like <code>WP_Query</code>.' ); ?></p>
 
-			<h4><?php _e( 'Faster Translations' ); ?></h4>
-			<p><?php _e( 'The number of strings loaded on the front end was greatly reduced, resulting in faster front page load times for localized installations.' ); ?> <?php _e( 'Also, better support for East Asian languages, right-to-left languages, theme translations, and more.' ); ?></p>
+			<h4><?php echo ( 'Multisite Improvements' ); ?></h4>
+			<p><?php echo ( '<code>switch_to_blog()</code> no longer obliterates the object cache, greatly improving performance. For new sites, Multisite now works when WordPress is installed in a subdirectory.' ); ?></p>
 		</div>
 		<div>
-			<h4><?php _e( 'Themes API' ); ?></h4>
-			<p><?php _e( 'WP_Theme, wp_get_themes(), wp_get_theme(). Faster, uses less memory, makes use of persistent caching.' ); ?></p>
+			<h4><?php echo ( 'WP_Post' ); ?></h4>
+			<p><?php echo ( 'Post objects are now instances of the new <code>WP_Post</code> class which improves performance by loading selected properties on demand.' ); ?></p>
 
-			<h4><?php _e( 'Custom Header and Background API' ); ?></h4>
-			<p><?php  _e( 'Custom header and background API relocated into the theme support API.' ); ?></p>
+			<h4><?php echo ( 'XML-RPC API' ); ?></h4>
+			<p><?php printf( ( 'The <a href="%s">WordPress API</a> is now enabled by default and enjoys the same security as the rest of core. It supports fetching users, profiles, post revisions, and searching posts.' ), ( 'http://codex.wordpress.org/XML-RPC_WordPress_API' ) ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php _e( 'XML-RPC API' ); ?></h4>
-			<p><?php printf( __( 'A new <a href="%s">WordPress API</a> that supports custom content types and taxonomies, as well as dozens of other bug fixes and improvements.' ), __( 'http://codex.wordpress.org/XML-RPC_WordPress_API' ) ); ?></p>
+			<h4><?php echo ( 'Image Editing API Abstractions' ); ?></h4>
+			<p><?php echo ( 'The <code>WP_Image_Editor</code> class abstracts image editing functionality such as cropping and scaling, and uses ImageMagick when available.' ); ?></p>
 
-			<h4><?php _e( 'External Libraries' ); ?></h4>
-			<p><?php _e( 'jQuery, jQuery UI, TinyMCE, Plupload, PHPMailer, SimplePie, and other libraries were updated. jQuery UI Touch Punch was introduced.' ); ?></p>
+			<h4><?php echo ( 'External Libraries' ); ?></h4>
+			<p><?php printf( ('WordPress now includes the <a href="%1$s">Underscore</a> and <a href="%2$s">Backbone</a> JavaScript libraries. TinyMCE, jQuery, jQuery UI, jCrop, and SimplePie have all been updated to the latest versions.' ), 'http://underscorejs.org/', 'http://backbonejs.org/' ); ?></p>
 		</div>
 	</div>
 </div>
