@@ -143,10 +143,6 @@ require( ABSPATH . WPINC . '/nav-menu.php' );
 require( ABSPATH . WPINC . '/nav-menu-template.php' );
 require( ABSPATH . WPINC . '/admin-bar.php' );
 
-require( ABSPATH . WPINC . '/class-wp-image-editor.php' );
-require( ABSPATH . WPINC . '/class-wp-image-editor-gd.php' );
-require( ABSPATH . WPINC . '/class-wp-image-editor-imagick.php' );
-
 // Load multisite-specific files.
 if ( is_multisite() ) {
 	require( ABSPATH . WPINC . '/ms-functions.php' );

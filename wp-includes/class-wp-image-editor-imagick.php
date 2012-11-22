@@ -15,6 +15,7 @@
  * @uses WP_Image_Editor Extends class
  */
 class WP_Image_Editor_Imagick extends WP_Image_Editor {
+
 	protected $image = null; // Imagick Object
 
 	function __destruct() {
@@ -36,11 +37,34 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *
 	 * @return boolean
 	 */
-	public static function test( $args = null ) {
+	public static function test( $args = array() ) {
 		if ( ! extension_loaded( 'imagick' ) || ! is_callable( 'Imagick', 'queryFormats' ) )
 			return false;
 
 		return true;
+	}
+
+	/**
+	 * Checks to see if editor supports the mime-type specified.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 *
+	 * @param string $mime_type
+	 * @return boolean
+	 */
+	public static function supports_mime_type( $mime_type ) {
+		$imagick_extension = strtoupper( self::get_extension( $mime_type ) );
+
+		if ( ! $imagick_extension )
+			return false;
+
+		try {
+			return ( (bool) Imagick::queryFormats( $imagick_extension ) );
+		}
+		catch ( Exception $e ) {
+			return false;
+		}
 	}
 
 	/**
@@ -51,7 +75,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *
 	 * @return boolean|WP_Error True if loaded; WP_Error on failure.
 	 */
-	protected function load() {
+	public function load() {
 		if ( $this->image )
 			return true;
 
@@ -135,29 +159,6 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			$height = $size['height'];
 
 		return parent::update_size( $width, $height );
-	}
-
-	/**
-	 * Checks to see if editor supports the mime-type specified.
-	 *
-	 * @since 3.5.0
-	 * @access public
-	 *
-	 * @param string $mime_type
-	 * @return boolean
-	 */
-	public static function supports_mime_type( $mime_type ) {
-		if ( ! $mime_type )
-			return false;
-
-		$imagick_extension = strtoupper( self::get_extension( $mime_type ) );
-
-		try {
-			return ( (bool) Imagick::queryFormats( $imagick_extension ) );
-		}
-		catch ( Exception $e ) {
-			return false;
-		}
 	}
 
 	/**
@@ -312,7 +313,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @param boolean $horz Horizonal Flip
+	 * @param boolean $horz Horizontal Flip
 	 * @param boolean $vert Vertical Flip
 	 * @returns boolean|WP_Error
 	 */

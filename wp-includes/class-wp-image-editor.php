@@ -7,75 +7,51 @@
  */
 
 /**
- * Base WordPress Image Editor class for which Editor implementations extend
+ * Base image editor class from which implementations extend
  *
  * @since 3.5.0
  */
 abstract class WP_Image_Editor {
 	protected $file = null;
 	protected $size = null;
-	protected $mime_type  = null;
+	protected $mime_type = null;
 	protected $default_mime_type = 'image/jpeg';
 	protected $quality = 90;
 
-	protected function __construct( $filename ) {
-		$this->file = $filename;
+	/**
+	 * Each instance handles a single file.
+	 */
+	public function __construct( $file ) {
+		$this->file = $file;
 	}
 
 	/**
-	 * Returns a WP_Image_Editor instance and loads file into it.
+	 * Checks to see if current environment supports the editor chosen.
+	 * Must be overridden in a sub-class.
 	 *
 	 * @since 3.5.0
 	 * @access public
+	 * @abstract
 	 *
-	 * @param string $path Path to File to Load
-	 * @param array $required_methods Methods to require in implementation
-	 * @return WP_Image_Editor|WP_Error
+	 * @param array $args
+	 * @return boolean
 	 */
-	public final static function get_instance( $path = null, $required_methods = null ) {
-		$implementation = apply_filters( 'wp_image_editor_class', self::choose_implementation( $required_methods ), $path );
-
-		if ( $implementation ) {
-			$editor = new $implementation( $path );
-			$loaded = $editor->load();
-
-			if ( is_wp_error( $loaded ) )
-				return $loaded;
-
-			return $editor;
-		}
-
-		return new WP_Error( 'no_editor', __('No editor could be selected') );
+	public static function test( $args = array() ) {
+		return false;
 	}
 
 	/**
-	 * Tests which editors are capable of supporting the request.
+	 * Checks to see if editor supports the mime-type specified.
+	 * Must be overridden in a sub-class.
 	 *
 	 * @since 3.5.0
-	 * @access private
+	 * @access public
+	 * @abstract
 	 *
-	 * @param array $required_methods String array of all methods required for implementation returned.
-	 * @return string|bool Class name for the first editor that claims to support the request. False if no editor claims to support the request.
+	 * @param string $mime_type
+	 * @return boolean
 	 */
-	private final static function choose_implementation( $required_methods = null ) {
-		$request_order = apply_filters( 'wp_image_editors',
-			array( 'WP_Image_Editor_Imagick', 'WP_Image_Editor_GD' ) );
-
-		if ( ! $required_methods )
-			$required_methods = array();
-
-		// Loop over each editor on each request looking for one which will serve this request's needs
-		foreach ( $request_order as $editor ) {
-			// Check to see if this editor is a possibility, calls the editor statically
-			if ( ! call_user_func( array( $editor, 'test' ) ) )
-				continue;
-
-			// Make sure that all methods are supported by editor.
-			if ( array_diff( $required_methods, get_class_methods( $editor ) ) )
-				continue;
-
-			return $editor;
-		}
+	public static function supports_mime_type( $mime_type ) {
 		return false;
 	}
 
@@ -88,7 +64,7 @@ abstract class WP_Image_Editor {
 	 *
 	 * @return boolean|WP_Error True if loaded; WP_Error on failure.
 	 */
-	abstract protected function load();
+	abstract public function load();
 
 	/**
 	 * Saves current image to file.
@@ -168,7 +144,7 @@ abstract class WP_Image_Editor {
 	 * @access public
 	 * @abstract
 	 *
-	 * @param boolean $horz Horizonal Flip
+	 * @param boolean $horz Horizontal Flip
 	 * @param boolean $vert Vertical Flip
 	 * @return boolean|WP_Error
 	 */
@@ -185,36 +161,6 @@ abstract class WP_Image_Editor {
 	 * @return boolean|WP_Error
 	 */
 	abstract public function stream( $mime_type = null );
-
-	/**
-	 * Checks to see if current environment supports the editor chosen.
-	 * Must be overridden in a sub-class.
-	 *
-	 * @since 3.5.0
-	 * @access public
-	 * @abstract
-	 *
-	 * @param array $args
-	 * @return boolean
-	 */
-	public static function test( $args = null ) {
-		return false;
-	}
-
-	/**
-	 * Checks to see if editor supports the mime-type specified.
-	 * Must be overridden in a sub-class.
-	 *
-	 * @since 3.5.0
-	 * @access public
-	 * @abstract
-	 *
-	 * @param string $mime_type
-	 * @return boolean
-	 */
-	public static function supports_mime_type( $mime_type ) {
-		return false;
-	}
 
 	/**
 	 * Gets dimensions of image.
@@ -451,3 +397,4 @@ abstract class WP_Image_Editor {
 		return $extensions[0];
 	}
 }
+

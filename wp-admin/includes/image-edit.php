@@ -457,7 +457,7 @@ function stream_preview_image( $post_id ) {
 	$post = get_post( $post_id );
 	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 
-	$img = WP_Image_Editor::get_instance( _load_image_to_edit_path( $post_id ) );
+	$img = wp_get_image_editor( _load_image_to_edit_path( $post_id ) );
 
     if ( is_wp_error( $img ) )
         return false;
@@ -566,7 +566,7 @@ function wp_save_image( $post_id ) {
 	$success = $delete = $scaled = $nocrop = false;
 	$post = get_post( $post_id );
 
-	$img = WP_Image_Editor::get_instance( _load_image_to_edit_path( $post_id, 'full' ) );
+	$img = wp_get_image_editor( _load_image_to_edit_path( $post_id, 'full' ) );
 	if ( is_wp_error( $img ) ) {
 		$return->error = esc_js( __('Unable to create new image.') );
 		return $return;
