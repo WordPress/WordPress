@@ -1831,6 +1831,7 @@
 			this.errors = wp.Uploader.errors;
 			this.errors.on( 'add remove reset', this.visibility, this );
 			this.errors.on( 'add', this.error, this );
+			_.each( this.errors.models, this.error, this );
 		},
 
 		dispose: function() {
