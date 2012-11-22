@@ -2192,7 +2192,7 @@
 			this.set( _.extend( {}, this._views, this.options.views ), { silent: true });
 			delete this.options.views;
 
-			// if ( ! this.options.silent )
+			if ( ! this.options.silent )
 				this.render();
 		},
 
@@ -2894,6 +2894,8 @@
 				controller: this.controller
 			});
 
+			this.views.add( this.toolbar );
+
 			filters = this.options.filters;
 			if ( 'uploaded' === filters )
 				FiltersConstructor = media.view.AttachmentFilters.Uploaded;
@@ -2942,19 +2944,8 @@
 				// The single `Attachment` view to be used in the `Attachments` view.
 				AttachmentView: this.options.AttachmentView
 			});
-		},
 
-		dispose: function() {
-			this.toolbar.destroy();
-			this.attachments.destroy();
-			media.View.prototype.dispose.apply( this, arguments );
-		},
-
-		render: function() {
-			this.toolbar.$el.detach();
-			this.attachments.$el.detach();
-			this.$el.html([ this.toolbar.render().el, this.attachments.render().el ]);
-			return this;
+			this.views.add( this.attachments );
 		}
 	});
 
