@@ -797,15 +797,16 @@ a.media-modal-close {
 	text-decoration: none;
 }
 
-.media-uploader-status .upload-error {
-	margin: 8px 0 0 0;
+.upload-errors .upload-error {
+	max-width: 400px;
+	margin: 8px auto 0 auto;
 	padding: 8px;
 	border: 1px #c00 solid;
 	background: #ffebe8;
 	border-radius: 3px;
 }
 
-.media-uploader-status .upload-error-label {
+.upload-errors .upload-error-label {
 	padding: 2px 4px;
 	margin-right: 8px;
 	font-weight: bold;
@@ -815,7 +816,7 @@ a.media-modal-close {
 	border-radius: 3px;
 }
 
-.media-uploader-status .upload-error-message {
+.upload-errors .upload-error-message {
 	display: block;
 	padding-top: 8px;
 	color: #b44;

@@ -1497,6 +1497,8 @@ function wp_print_media_templates( $attachment ) {
 				<a href="#" class="browser button button-hero"><?php _e( 'Select Files' ); ?></a>
 			</div>
 
+			<div class="upload-errors"></div>
+
 			<div class="post-upload-ui">
 				<?php do_action( 'pre-upload-ui' ); ?>
 				<?php do_action( 'pre-plupload-upload-ui' ); ?>
@@ -1545,8 +1547,7 @@ function wp_print_media_templates( $attachment ) {
 			<span class="upload-detail-separator">&ndash;</span>
 			<span class="upload-filename"></span>
 		</div>
-		<div class="upload-errors">
-		</div>
+		<div class="upload-errors"></div>
 	</script>
 
 	<script type="text/html" id="tmpl-uploader-status-error">

@@ -1792,6 +1792,21 @@
 
 			if ( ! this.options.$browser && this.controller.uploader )
 				this.options.$browser = this.controller.uploader.$browser;
+
+			wp.Uploader.errors.on( 'add', this.error, this );
+		},
+
+		dispose: function() {
+			wp.Uploader.errors.off( null, null, this );
+			media.View.prototype.dispose.apply( this, arguments );
+			return this;
+		},
+
+		error: function( error ) {
+			this.views.set( '.upload-errors', new media.view.UploaderStatusError({
+				filename: error.get('file').name,
+				message:  error.get('message')
+			}) );
 		},
 
 		ready: function() {
