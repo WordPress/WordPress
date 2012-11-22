@@ -226,6 +226,8 @@ window.wp = window.wp || {};
 			for ( key in Uploader.errorMap ) {
 				if ( pluploadError.code === plupload[ key ] ) {
 					message = Uploader.errorMap[ key ];
+					if ( _.isFunction( message ) )
+						message = message( pluploadError.file, pluploadError );
 					break;
 				}
 			}
@@ -245,14 +247,17 @@ window.wp = window.wp || {};
 	Uploader.errorMap = {
 		'FAILED':                 pluploadL10n.upload_failed,
 		'FILE_EXTENSION_ERROR':   pluploadL10n.invalid_filetype,
-		// 'FILE_SIZE_ERROR': '',
 		'IMAGE_FORMAT_ERROR':     pluploadL10n.not_an_image,
 		'IMAGE_MEMORY_ERROR':     pluploadL10n.image_memory_exceeded,
 		'IMAGE_DIMENSIONS_ERROR': pluploadL10n.image_dimensions_exceeded,
 		'GENERIC_ERROR':          pluploadL10n.upload_failed,
 		'IO_ERROR':               pluploadL10n.io_error,
 		'HTTP_ERROR':             pluploadL10n.http_error,
-		'SECURITY_ERROR':         pluploadL10n.security_error
+		'SECURITY_ERROR':         pluploadL10n.security_error,
+
+		'FILE_SIZE_ERROR': function( file ) {
+			return pluploadL10n.file_exceeds_size_limit.replace('%s', file.name);
+		}
 	};
 
 	$.extend( Uploader.prototype, {
