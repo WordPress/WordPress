@@ -173,7 +173,7 @@ do_action('do_meta_boxes', $post_type, 'side', $post);
 add_screen_option('layout_columns', array('max' => 2, 'default' => 2) );
 
 if ( 'post' == $post_type ) {
-	$customize_display = '<p>' . __('The title field and the big Post Editing Area are fixed in place, but you can reposition all the other boxes using drag and drop, and can minimize or expand them by clicking the title bar of each box. Use the Screen Options tab to unhide more boxes (Excerpt, Send Trackbacks, Custom Fields, Discussion, Slug, Author) or to choose a 1- or 2-column layout for this screen.') . '</p>';
+	$customize_display = '<p>' . __('The title field and the big Post Editing Area are fixed in place, but you can reposition all the other boxes using drag and drop. You can also minimize or expand them by clicking the title bar of each box. Use the Screen Options tab to unhide more boxes (Excerpt, Send Trackbacks, Custom Fields, Discussion, Slug, Author) or to choose a 1- or 2-column layout for this screen.') . '</p>';
 
 	get_current_screen()->add_help_tab( array(
 		'id'      => 'customize-display',
@@ -190,31 +190,6 @@ if ( 'post' == $post_type ) {
 		'content' => $title_and_editor,
 	) );
 
-	$publish_box = '<p>' . __('<strong>Publish</strong> - You can set the terms of publishing your post in the Publish box. For Status, Visibility, and Publish (immediately), click on the Edit link to reveal more options. Visibility includes options for password-protecting a post or making it stay at the top of your blog indefinitely (sticky). Publish (immediately) allows you to set a future or past date and time, so you can schedule a post to be published in the future or backdate a post.') . '</p>';
-
-	if ( current_theme_supports( 'post-formats' ) && post_type_supports( 'post', 'post-formats' ) ) {
-		$publish_box .= '<p>' . __( '<strong>Post Format</strong> - This designates how your theme will display a specific post. For example, you could have a <em>standard</em> blog post with a title and paragraphs, or a short <em>aside</em> that omits the title and contains a short text blurb. Please refer to the Codex for <a href="http://codex.wordpress.org/Post_Formats#Supported_Formats">descriptions of each post format</a>. Your theme could enable all or some of 10 possible formats.' ) . '</p>';
-	}
-
-	if ( current_theme_supports( 'post-thumbnails' ) && post_type_supports( 'post', 'thumbnail' ) ) {
-		$publish_box .= '<p>' . __('<strong>Featured Image</strong> - This allows you to associate an image with your post without inserting it. This is usually useful only if your theme makes use of the featured image as a post thumbnail on the home page, a custom header, etc.') . '</p>';
-	}
-
-	get_current_screen()->add_help_tab( array(
-		'id'      => 'publish-box',
-		'title'   => __('Publish Box'),
-		'content' => $publish_box,
-	) );
-
-	$discussion_settings  = '<p>' . __('<strong>Send Trackbacks</strong> - Trackbacks are a way to notify legacy blog systems that you&#8217;ve linked to them. Enter the URL(s) you want to send trackbacks. If you link to other WordPress sites they&#8217;ll be notified automatically using pingbacks, and this field is unnecessary.') . '</p>';
-	$discussion_settings .= '<p>' . __('<strong>Discussion</strong> - You can turn comments and pings on or off, and if there are comments on the post, you can see them here and moderate them.') . '</p>';
-
-	get_current_screen()->add_help_tab( array(
-		'id'      => 'discussion-settings',
-		'title'   => __('Discussion Settings'),
-		'content' => $discussion_settings,
-	) );
-
 	get_current_screen()->set_help_sidebar(
 			'<p>' . sprintf(__('You can also create posts with the <a href="%s">Press This bookmarklet</a>.'), 'options-writing.php') . '</p>' .
 			'<p><strong>' . __('For more information:') . '</strong></p>' .
@@ -229,16 +204,6 @@ if ( 'post' == $post_type ) {
 		'id'      => 'about-pages',
 		'title'   => __('About Pages'),
 		'content' => $about_pages,
-	) );
-
-	$page_attributes = '<p>' . __('<strong>Parent</strong> - You can arrange your pages in hierarchies. For example, you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how many levels you can nest pages.') . '</p>' .
-		'<p>' . __('<strong>Template</strong> - Some themes have custom templates you can use for certain pages that might have additional features or custom layouts. If so, you&#8217;ll see them in this dropdown menu.') . '</p>' .
-		'<p>' . __('<strong>Order</strong> - Pages are usually ordered alphabetically, but you can choose your own order by entering a number (1 for first, etc.) in this field.') . '</p>';
-
-	get_current_screen()->add_help_tab( array(
-		'id' => 'page-attributes',
-		'title' => __('Page Attributes'),
-		'content' => $page_attributes,
 	) );
 
 	get_current_screen()->set_help_sidebar(
@@ -263,6 +228,57 @@ if ( 'post' == $post_type ) {
 	'<p>' . __('<a href="http://codex.wordpress.org/Media_Add_New_Screen#Edit_Media" target="_blank">Documentation on Edit Media</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 	);
+}
+
+if ( 'post' == $post_type || 'page' == $post_type ) {
+	$inserting_media = '<p>' . ('<strong>Add Media</strong> - You can upload and insert media (images, audio, document files, etc.) by clicking the Add Media button. You can select from the images and files already uploaded to the Media Library, or upload new media to add to your page or post. To create an image gallery, simply select multiple images to add.') . '</p>';
+	$inserting_media .= '<p>' . ('<strong>Embed Media</strong> - With oEmbed, you can easily embed media from popular websites such as Twitter, YouTube, Instagram, SoundCloud, and others. All you need to do is copy the URL of that media, and paste it directly into the text of your page/post on its own line. Remember to make sure that the URL is on its own line and not hyperlinked. Please refer to the Codex to <a href="http://codex.wordpress.org/Embeds">learn more about oEmbed</a>.');
+
+	get_current_screen()->add_help_tab( array(
+		'id'		=> 'inserting-media',
+		'title'		=> __( 'Inserting Media' ),
+		'content' 	=> $inserting_media,
+	) );
+}
+
+if ( 'post' == $post_type ) {
+	$publish_box = '<p>' . __('Several boxes on this screen contain settings for how your content will be published, including:') . '</p>';
+	$publish_box .= '<ul><li>' . __('<strong>Publish</strong> - You can set the terms of publishing your post in the Publish box. For Status, Visibility, and Publish (immediately), click on the Edit link to reveal more options. Visibility includes options for password-protecting a post or making it stay at the top of your blog indefinitely (sticky). Publish (immediately) allows you to set a future or past date and time, so you can schedule a post to be published in the future or backdate a post.') . '</li>';
+
+	if ( current_theme_supports( 'post-formats' ) && post_type_supports( 'post', 'post-formats' ) ) {
+		$publish_box .= '<li>' . __( '<strong>Format</strong> - Post Formats designate how your theme will display a specific post. For example, you could have a <em>standard</em> blog post with a title and paragraphs, or a short <em>aside</em> that omits the title and contains a short text blurb. Please refer to the Codex for <a href="http://codex.wordpress.org/Post_Formats#Supported_Formats">descriptions of each post format</a>. Your theme could enable all or some of 10 possible formats.' ) . '</li>';
+	}
+
+	if ( current_theme_supports( 'post-thumbnails' ) && post_type_supports( 'post', 'thumbnail' ) ) {
+		$publish_box .= '<li>' . __('<strong>Featured Image</strong> - This allows you to associate an image with your post without inserting it. This is usually useful only if your theme makes use of the featured image as a post thumbnail on the home page, a custom header, etc.') . '</li>';
+	}
+
+	$publish_box .= '</ul>';
+
+	get_current_screen()->add_help_tab( array(
+		'id'      => 'publish-box',
+		'title'   => __('Publish Settings'),
+		'content' => $publish_box,
+	) );
+
+	$discussion_settings  = '<p>' . __('<strong>Send Trackbacks</strong> - Trackbacks are a way to notify legacy blog systems that you&#8217;ve linked to them. Enter the URL(s) you want to send trackbacks. If you link to other WordPress sites they&#8217;ll be notified automatically using pingbacks, and this field is unnecessary.') . '</p>';
+	$discussion_settings .= '<p>' . __('<strong>Discussion</strong> - You can turn comments and pings on or off, and if there are comments on the post, you can see them here and moderate them.') . '</p>';
+
+	get_current_screen()->add_help_tab( array(
+		'id'      => 'discussion-settings',
+		'title'   => __('Discussion Settings'),
+		'content' => $discussion_settings,
+	) );
+} elseif ( 'page' == $post_type ) {
+	$page_attributes = '<p>' . __('<strong>Parent</strong> - You can arrange your pages in hierarchies. For example, you could have an &#8220;About&#8221; page that has &#8220;Life Story&#8221; and &#8220;My Dog&#8221; pages under it. There are no limits to how many levels you can nest pages.') . '</p>' .
+		'<p>' . __('<strong>Template</strong> - Some themes have custom templates you can use for certain pages that might have additional features or custom layouts. If so, you&#8217;ll see them in this dropdown menu.') . '</p>' .
+		'<p>' . __('<strong>Order</strong> - Pages are usually ordered alphabetically, but you can choose your own order by entering a number (1 for first, etc.) in this field.') . '</p>';
+
+	get_current_screen()->add_help_tab( array(
+		'id' => 'page-attributes',
+		'title' => __('Page Attributes'),
+		'content' => $page_attributes,
+	) );
 }
 
 require_once('./admin-header.php');
