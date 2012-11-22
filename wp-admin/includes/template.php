@@ -1669,11 +1669,12 @@ final class WP_Internal_Pointers {
 
 		$registered_pointers = array(
 			'index.php'    => 'wp330_toolbar',
-			'post-new.php' => 'wp330_media_uploader',
-			'post.php'     => 'wp330_media_uploader',
+			'post-new.php' => 'wp350_media',
+			'post.php'     => 'wp350_media',
 			'themes.php'   => array( 'wp330_saving_widgets', 'wp340_customize_current_theme_link' ),
 			'appearance_page_custom-header' => 'wp340_choose_image_from_library',
 			'appearance_page_custom-background' => 'wp340_choose_image_from_library',
+			'plugin-install.php' => 'wp350_favorites',
 		);
 
 		// Check if screen related pointer is registered
@@ -1683,10 +1684,10 @@ final class WP_Internal_Pointers {
 		$pointers = (array) $registered_pointers[ $hook_suffix ];
 
 		$caps_required = array(
-			'wp330_media_uploader' => array( 'upload_files' ),
 			'wp330_saving_widgets' => array( 'edit_theme_options', 'switch_themes' ),
 			'wp340_customize_current_theme_link' => array( 'edit_theme_options' ),
 			'wp340_choose_image_from_library' => array( 'edit_theme_options' ),
+			'wp350_media' => array( 'upload_files' ),
 		);
 
 		// Get dismissed pointers
@@ -1778,15 +1779,7 @@ final class WP_Internal_Pointers {
 	 *
 	 * @since 3.3.0
 	 */
-	public static function pointer_wp330_media_uploader() {
-		$content  = '<h3>' . __( 'Updated Media Uploader' ) . '</h3>';
-		$content .= '<p>' . __( 'The single media icon now launches the uploader for all file types, and the new drag and drop interface makes uploading a breeze.' ) . '</p>';
-
-		WP_Internal_Pointers::print_js( 'wp330_media_uploader', '#content-add_media', array(
-			'content'  => $content,
-			'position' => array( 'edge' => is_rtl() ? 'right' : 'left', 'align' => 'center' ),
-		) );
-	}
+	public static function pointer_wp330_media_uploader() {}
 
 	/**
 	 * Print 'New Feature: Saving Widgets' for 3.3.0.
@@ -1834,13 +1827,33 @@ final class WP_Internal_Pointers {
 		) );
 	}
 
+	public static function pointer_wp350_media() {
+		$content  = '<h3>' . ( 'New Media Uploader' ) . '</h3>';
+		$content .= '<p>' . ( 'Uploading and inserting images and other files has never been easier.' ) . '</p>';
+
+		self::print_js( 'wp350_media', '.insert-media', array(
+			'content'  => $content,
+			'position' => array( 'edge' => is_rtl() ? 'right' : 'left', 'align' => 'center' ),
+		) );
+	}
+
+	public static function pointer_wp350_favorites() {
+		$content  = '<h3>' . __( 'New Feature: Plugin Favorites' ) . '</h3>';
+		$content .= '<p>' . __( 'If you have favorited plugins on WordPress.org, you can now install them directly from this tab.' ) . '</p>';
+
+		self::print_js( 'wp350_favorites', '.plugin-install-favorites', array(
+			'content'  => $content,
+			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left', 'offset' => is_rtl() ? '40 0' : '-40 0' ),
+		) );
+	}
+
 	/**
 	 * Prevents new users from seeing existing 'new feature' pointers.
 	 *
 	 * @since 3.3.0
 	 */
 	public static function dismiss_pointers_for_new_users( $user_id ) {
-		add_user_meta( $user_id, 'dismissed_wp_pointers', 'wp330_toolbar,wp330_media_uploader,wp330_saving_widgets,wp340_choose_image_from_library,wp340_customize_current_theme_link' );
+		add_user_meta( $user_id, 'dismissed_wp_pointers', 'wp330_toolbar,wp330_saving_widgets,wp340_choose_image_from_library,wp340_customize_current_theme_link,wp350_media,wp350_favorites' );
 	}
 }
 
