@@ -1294,13 +1294,16 @@ add_action( 'customize_controls_enqueue_scripts', 'wp_plupload_default_settings'
  */
 function wp_prepare_attachment_for_js( $attachment ) {
 	if ( ! $attachment = get_post( $attachment ) )
-	   return;
+		return;
 
 	if ( 'attachment' != $attachment->post_type )
-	   return;
+		return;
 
 	$meta = wp_get_attachment_metadata( $attachment->ID );
-	list( $type, $subtype ) = explode( '/', $attachment->post_mime_type );
+	if ( false !== strpos( $attachment->post_mime_type, '/' ) )
+		list( $type, $subtype ) = explode( '/', $attachment->post_mime_type );
+	else
+		list( $type, $subtype ) = array( $attachment->post_mime_type, '' );
 
 	$attachment_url = wp_get_attachment_url( $attachment->ID );
 
