@@ -1887,4 +1887,6 @@ function wp_print_media_templates( $attachment ) {
 		</style>
 	</script>
 	<?php
+
+	do_action( 'print_media_templates' );
 }
