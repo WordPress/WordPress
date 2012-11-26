@@ -426,15 +426,17 @@
 					id: attachment.id
 				};
 
+				if ( props.linkUrl )
+					options.url = props.linkUrl;
+
 				if ( 'image' === attachment.type ) {
 					html = wp.media.string.image( props );
 					options['caption'] = caption;
 
 					_.each({
-						align:   'image-align',
-						size:    'image-size',
-						alt:     'image-alt',
-						linkUrl: 'url'
+						align: 'image-align',
+						size:  'image-size',
+						alt:   'image-alt'
 					}, function( option, prop ) {
 						if ( props[ prop ] )
 							options[ option ] = props[ prop ];
