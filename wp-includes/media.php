@@ -1393,6 +1393,7 @@ function wp_enqueue_media( $args = array() ) {
 		'nonce'     => array(
 			'sendToEditor' => wp_create_nonce( 'media-send-to-editor' ),
 		),
+		'postId'    => 0,
 	);
 
 	$post = null;

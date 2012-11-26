@@ -383,8 +383,12 @@ document.body.className = document.body.className.replace('no-js', 'js');
  * @param string $editor_id
  */
 function media_buttons($editor_id = 'content') {
+	$post = get_post();
+	if ( ! $post && ! empty( $GLOBALS['post_ID'] ) )
+		$post = $GLOBALS['post_ID'];
+
 	wp_enqueue_media( array(
-		'post' => get_post()
+		'post' => $post
 	) );
 
 	// $context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
