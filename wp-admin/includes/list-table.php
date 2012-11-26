@@ -43,8 +43,10 @@ function _get_list_table( $class, $args = array() ) {
 
 		if ( isset( $args['screen'] ) )
 			$args['screen'] = convert_to_screen( $args['screen'] );
-		else
+		elseif ( isset( $GLOBALS['hook_suffix'] ) )
 			$args['screen'] = get_current_screen();
+		else
+			$args['screen'] = null;
 
 		return new $class( $args );
 	}
