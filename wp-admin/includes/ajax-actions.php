@@ -1585,12 +1585,12 @@ function wp_ajax_upload_attachment() {
 	check_ajax_referer( 'media-form' );
 
 	if ( ! current_user_can( 'upload_files' ) )
-		wp_send_json_error();
+		wp_die();
 
 	if ( isset( $_REQUEST['post_id'] ) ) {
 		$post_id = $_REQUEST['post_id'];
 		if ( ! current_user_can( 'edit_post', $post_id ) )
-			wp_send_json_error();
+			wp_die();
 	} else {
 		$post_id = null;
 	}
@@ -1601,20 +1601,26 @@ function wp_ajax_upload_attachment() {
 	if ( isset( $post_data['context'] ) && in_array( $post_data['context'], array( 'custom-header', 'custom-background' ) ) ) {
 		$wp_filetype = wp_check_filetype_and_ext( $_FILES['async-upload']['tmp_name'], $_FILES['async-upload']['name'], false );
 		if ( ! wp_match_mime_types( 'image', $wp_filetype['type'] ) ) {
-			wp_send_json_error( array(
+			echo json_encode( array(
+				'success'  => false,
 				'message' => __( 'The uploaded file is not a valid image. Please try again.' ),
 				'filename' => $_FILES['async-upload']['name'],
 			) );
+
+			wp_die();
 		}
 	}
 
 	$attachment_id = media_handle_upload( 'async-upload', $post_id, $post_data );
 
 	if ( is_wp_error( $attachment_id ) ) {
-		wp_send_json_error( array(
+		echo json_encode( array(
+			'success'  => false,
 			'message'  => $attachment_id->get_error_message(),
 			'filename' => $_FILES['async-upload']['name'],
 		) );
+
+		wp_die();
 	}
 
 	if ( isset( $post_data['context'] ) && isset( $post_data['theme'] ) ) {
@@ -1626,9 +1632,14 @@ function wp_ajax_upload_attachment() {
 	}
 
 	if ( ! $attachment = wp_prepare_attachment_for_js( $attachment_id ) )
-		wp_send_json_error();
+		wp_die();
 
-	wp_send_json_success( $attachment );
+	echo json_encode( array(
+		'success' => true,
+		'data'    => $attachment,
+	) );
+
+	wp_die();
 }
 
 function wp_ajax_image_editor() {
