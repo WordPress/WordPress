@@ -3832,8 +3832,7 @@ abbr.required {
 }
 
 .media-item .describe-toggle-off,
-.media-item.open .describe-toggle-on,
-.media-item.open img.pinkynail {
+.media-item.open .describe-toggle-on {
 	display: none;
 }
 
