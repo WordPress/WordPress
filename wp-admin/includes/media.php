@@ -2176,9 +2176,16 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
  * @since 2.6.0
  */
 function media_upload_flash_bypass() {
+	$browser_uploader = admin_url( 'media-new.php?browser-uploader' );
+
+	if ( $post = get_post() )
+		$browser_uploader .= '&amp;post_id=' . intval( $post->ID );
+	elseif ( ! empty( $GLOBALS['post_ID'] ) )
+		$browser_uploader .= '&amp;post_id=' . intval( $GLOBALS['post_ID'] );
+
 	?>
 	<p class="upload-flash-bypass">
-	<?php printf( __( 'You are using the multi-file uploader. Problems? Try the <a href="%1$s" target="%2$s">browser uploader</a> instead.' ), admin_url( 'media-new.php?browser-uploader' ), '_blank' ); ?>
+	<?php printf( __( 'You are using the multi-file uploader. Problems? Try the <a href="%1$s" target="%2$s">browser uploader</a> instead.' ), $browser_uploader, '_blank' ); ?>
 	</p>
 	<?php
 }
