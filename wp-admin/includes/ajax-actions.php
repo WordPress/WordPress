@@ -1850,7 +1850,7 @@ function wp_ajax_save_attachment() {
 		$post['post_excerpt'] = $changes['caption'];
 
 	if ( isset( $changes['alt'] ) ) {
-		$alt = get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+		$alt = get_post_meta( $id, '_wp_attachment_image_alt', true );
 		$new_alt = stripslashes( $changes['alt'] );
 		if ( $alt != $new_alt ) {
 			$new_alt = wp_strip_all_tags( $new_alt, true );
