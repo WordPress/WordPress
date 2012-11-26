@@ -1931,6 +1931,11 @@ function wp_ajax_send_attachment_to_editor() {
 	if ( 'attachment' != $post->post_type )
 		wp_send_json_error();
 
+	// If this attachment is unattached, attach it. Primarily a back compat thing.
+	if ( 0 == $post->post_parent && $insert_into_post_id = intval( $_POST['post_id'] ) ) {
+		wp_update_post( array( 'ID' => $id, 'post_parent' => $insert_into_post_id ) );
+	}
+
 	$html = isset( $attachment['title'] ) ? $attachment['title'] : '';
 	if ( ! empty( $attachment['url'] ) ) {
 		$rel = '';

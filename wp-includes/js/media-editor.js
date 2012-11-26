@@ -450,7 +450,8 @@
 				return media.post( 'send-attachment-to-editor', {
 					nonce:      wp.media.view.settings.nonce.sendToEditor,
 					attachment: options,
-					html:       html
+					html:       html,
+					post_id:    wp.media.view.settings.postId
 				}).done( function( resp ) {
 					wp.media.editor.insert( resp );
 				});
