@@ -391,13 +391,19 @@ function media_buttons($editor_id = 'content') {
 		'post' => $post
 	) );
 
-	// $context = apply_filters('media_buttons_context', __('Upload/Insert %s'));
-
 	$img = '<span class="wp-media-buttons-icon"></span> ';
 
 	echo '<a href="#" class="button insert-media add_media" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Add Media' ) . '">' . $img . __( 'Add Media' ) . '</a>';
 
-	// echo '<a href="' . esc_url( get_upload_iframe_src() ) . '" class="thickbox add_media" id="' . esc_attr( $editor_id ) . '-add_media" title="' . esc_attr__( 'Add Media' ) . '" onclick="return false;">' . sprintf( $context, $img ) . '</a>';
+	// Don't use this filter. Want to add a button? Use the media_buttons action.
+	$legacy_filter = apply_filters('media_buttons_context', ''); // deprecated
+
+	if ( $legacy_filter ) {
+		// #WP22559. Close <a> if a plugin started by closing <a> to open their own <a> tag.
+		if ( 0 === stripos( trim( $legacy_filter ), '</a>' ) )
+			$legacy_filter .= '</a>';
+		echo $legacy_filter;
+	}
 }
 add_action( 'media_buttons', 'media_buttons' );
 
