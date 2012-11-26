@@ -1331,15 +1331,39 @@ function wp_prepare_attachment_for_js( $attachment ) {
 
 	if ( $meta && 'image' === $type ) {
 		$sizes = array();
-		$base_url = str_replace( wp_basename( $attachment_url ), '', $attachment_url );
+		$possible_sizes = apply_filters( 'image_size_names_choose', array(
+			'thumbnail' => __('Thumbnail'),
+			'medium'    => __('Medium'),
+			'large'     => __('Large'),
+			'full'      => __('Full Size'),
+		) );
+		unset( $possible_sizes['full'] );
 
-		if ( isset( $meta['sizes'] ) ) {
-			foreach ( $meta['sizes'] as $slug => $size ) {
-				$sizes[ $slug ] = array(
-					'height'      => $size['height'],
-					'width'       => $size['width'],
-					'url'         => $base_url . $size['file'],
-					'orientation' => $size['height'] > $size['width'] ? 'portrait' : 'landscape',
+		// Loop through all potential sizes that may be chosen. Try to do this with some efficiency.
+		// First: run the image_downsize filter. If it returns something, we can use its data.
+		// If the filter does not return something, then image_downsize() is just an expensive
+		// way to check the image metadata, which we do second.
+		foreach ( $possible_sizes as $size => $label ) {
+			if ( $downsize = apply_filters( 'image_downsize', false, $attachment->ID, $size ) ) {
+				if ( ! $downsize[3] )
+					continue;
+				$sizes[ $size ] = array(
+					'height'      => $downsize[2],
+					'width'       => $downsize[1],
+					'url'         => $downsize[0],
+					'orientation' => $downsize[2] > $downsize[1] ? 'portrait' : 'landscape',
+				);
+			} elseif ( isset( $meta['sizes'][ $size ] ) ) {
+				if ( ! isset( $base_url ) )
+					$base_url = str_replace( wp_basename( $attachment_url ), '', $attachment_url );
+
+				// Nothing from the filter, so consult image metadata if we have it.
+				$size_meta = $meta['sizes'][ $size ];
+				$sizes[ $size ] = array(
+					'height'      => $size_meta['height'],
+					'width'       => $size_meta['width'],
+					'url'         => $base_url . $size_meta['file'],
+					'orientation' => $size_meta['height'] > $size_meta['width'] ? 'portrait' : 'landscape',
 				);
 			}
 		}
