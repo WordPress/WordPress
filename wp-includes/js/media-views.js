@@ -2339,14 +2339,14 @@
 		tagName:   'ul',
 		className: 'media-menu',
 
-		toView: function( options, id ) {
+		toView: function( options, state ) {
 			options = options || {};
-			options.id = options.id || id;
+			options.state = options.state || state;
 			return new media.view.MenuItem( options ).render();
 		},
 
-		select: function( id ) {
-			var view = this.get( id );
+		select: function( state ) {
+			var view = this.get( state );
 
 			if ( ! view )
 				return;
@@ -2373,8 +2373,8 @@
 
 			if ( options.click )
 				options.click.call( this );
-			else if ( options.id )
-				this.controller.state( options.id );
+			else if ( options.state )
+				this.controller.state( options.state );
 		},
 
 		render: function() {
