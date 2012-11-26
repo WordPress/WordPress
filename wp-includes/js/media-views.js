@@ -2819,6 +2819,7 @@
 		},
 
 		events: {
+			'input':  'search',
 			'keyup':  'search',
 			'change': 'search',
 			'search': 'search'
@@ -3534,7 +3535,9 @@
 		className: 'embed-url',
 
 		events: {
-			'keyup': 'url'
+			'input':  'url',
+			'keyup':  'url',
+			'change': 'url'
 		},
 
 		initialize: function() {
