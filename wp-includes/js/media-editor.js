@@ -431,12 +431,12 @@
 
 				if ( 'image' === attachment.type ) {
 					html = wp.media.string.image( props );
-					options['caption'] = caption;
+					options.post_excerpt = caption;
 
 					_.each({
-						align: 'image-align',
+						align: 'align',
 						size:  'image-size',
-						alt:   'image-alt'
+						alt:   'image_alt'
 					}, function( option, prop ) {
 						if ( props[ prop ] )
 							options[ option ] = props[ prop ];
@@ -444,7 +444,7 @@
 
 				} else {
 					html = wp.media.string.link( props );
-					options.title = props.title;
+					options.post_title = props.title;
 				}
 
 				return media.post( 'send-attachment-to-editor', {

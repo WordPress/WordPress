@@ -1947,22 +1947,22 @@ function wp_ajax_send_attachment_to_editor() {
 		wp_update_post( array( 'ID' => $id, 'post_parent' => $insert_into_post_id ) );
 	}
 
-	$html = isset( $attachment['title'] ) ? $attachment['title'] : '';
+	$rel = $url = '';
+	$html = $title = isset( $attachment['post_title'] ) ? $attachment['post_title'] : '';
 	if ( ! empty( $attachment['url'] ) ) {
-		$rel = '';
-		if ( strpos($attachment['url'], 'attachment_id') || get_attachment_link( $id ) == $attachment['url'] )
+		$url = $attachment['url'];
+		if ( strpos( $url, 'attachment_id') || get_attachment_link( $id ) == $url )
 			$rel = ' rel="attachment wp-att-' . $id . '"';
-		$html = '<a href="' . esc_url( $attachment['url'] ) . '"' . $rel . '>' . $html . '</a>';
+		$html = '<a href="' . esc_url( $url ) . '"' . $rel . '>' . $html . '</a>';
 	}
 
 	remove_filter( 'media_send_to_editor', 'image_media_send_to_editor', 10, 3 );
 
 	if ( 'image' === substr( $post->post_mime_type, 0, 5 ) ) {
-		$url = $attachment['url'];
-		$align = isset( $attachment['image-align'] ) ? $attachment['image-align'] : 'none';
+		$align = isset( $attachment['align'] ) ? $attachment['align'] : 'none';
 		$size = isset( $attachment['image-size'] ) ? $attachment['image-size'] : 'medium';
-		$alt = isset( $attachment['image-alt'] ) ? $attachment['image-alt'] : '';
-		$caption = isset( $attachment['caption'] ) ? $attachment['caption'] : '';
+		$alt = isset( $attachment['image_alt'] ) ? $attachment['image_alt'] : '';
+		$caption = isset( $attachment['post_excerpt'] ) ? $attachment['post_excerpt'] : '';
 		$title = ''; // We no longer insert title tags into <img> tags, as they are redundant.
 		$html = get_image_send_to_editor( $id, $caption, $title, $align, $url, (bool) $rel, $size, $alt );
 	}
