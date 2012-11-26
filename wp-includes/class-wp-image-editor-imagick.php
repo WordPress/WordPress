@@ -38,8 +38,48 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @return boolean
 	 */
 	public static function test( $args = array() ) {
-		if ( ! extension_loaded( 'imagick' ) || ! is_callable( 'Imagick', 'queryFormats' ) )
+
+		$required_methods = array(
+			'clear',
+			'destroy',
+			'valid',
+			'getimage',
+			'writeimage',
+			'getimageblob',
+			'getimagegeometry',
+			'getimageformat',
+			'setimageformat',
+			'setimagecompression',
+			'setimagecompressionquality',
+			'setimagepage',
+			'scaleimage',
+			'cropimage',
+			'rotateimage',
+			'flipimage',
+			'flopimage',
+		);
+
+		// Check for requirements
+		if ( ! extension_loaded( 'imagick' ) ||
+			 ! class_exists( 'Imagick' ) ||
+			 ! is_callable( 'Imagick', 'queryFormats' ) ||
+			 ! class_exists( 'ImagickPixel' ) ||
+			 ! defined( 'imagick::COMPRESSION_JPEG' ) ||
+			 array_diff( $required_methods, get_class_methods( 'Imagick' ) ) ) {
+
 			return false;
+		}
+
+		/**
+		 * setIteratorIndex is optional unless mime is an animated format.
+		 * Here, we just say no if a user is attempting to
+		 * edit a GIF and setIteratorIndex isn't available.
+		 */
+		if ( ( ! isset( $args['mime_type'] ) || $args['mime_type'] == 'image/gif' ) &&
+			 ! method_exists( 'Imagick', 'setIteratorIndex' ) ) {
+
+			return false;
+		}
 
 		return true;
 	}
@@ -88,8 +128,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			if( ! $this->image->valid() )
 				return new WP_Error( 'invalid_image', __('File is not an image.'), $this->file);
 
-			// Select the first frame to handle animated GIFs properly
-			$this->image->setIteratorIndex(0);
+			// Select the first frame to handle animated images properly
+			if ( is_callable( array( $this->image, 'setIteratorIndex' ) ) )
+				$this->image->setIteratorIndex(0);
+
 			$this->mime_type = $this->get_mime_type( $this->image->getImageFormat() );
 		}
 		catch ( Exception $e ) {
