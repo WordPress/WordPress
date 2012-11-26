@@ -269,7 +269,7 @@ window.wp = window.wp || {};
 
 			return media.post( 'save-attachment-compat', _.defaults({
 				id:     this.id,
-				nonce:  l10n.saveAttachmentNonce
+				nonce:  media.model.settings.saveAttachmentNonce
 			}, data ) ).done( function( resp, status, xhr ) {
 				model.set( model.parse( resp, xhr ), options );
 			});
