@@ -3066,13 +3066,11 @@
 				priority:   80
 			}) );
 
-			if ( single.get('compat') ) {
-				sidebar.set( 'compat', new media.view.AttachmentCompat({
-					controller: this.controller,
-					model:      single,
-					priority:   120
-				}) );
-			}
+			sidebar.set( 'compat', new media.view.AttachmentCompat({
+				controller: this.controller,
+				model:      single,
+				priority:   120
+			}) );
 
 			if ( this.options.display ) {
 				sidebar.set( 'display', new media.view.Settings.AttachmentDisplay({
