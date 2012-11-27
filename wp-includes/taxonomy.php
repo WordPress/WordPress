@@ -2238,6 +2238,8 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 				return new WP_Error( 'db_insert_error', __( 'Could not insert term relationship into the database' ), $wpdb->last_error );
 	}
 
+	wp_cache_delete( $object_id, $taxonomy . '_relationships' );
+
 	do_action('set_object_terms', $object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids);
 	return $tt_ids;
 }

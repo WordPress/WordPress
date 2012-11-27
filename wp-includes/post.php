@@ -3196,13 +3196,7 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
 		$tags = array_unique( array_map( 'intval', $tags ) );
 	}
 
-	$r = wp_set_object_terms( $post_id, $tags, $taxonomy, $append );
-	if ( is_wp_error( $r ) )
-		return $r;
-
-	wp_cache_delete( $post_id, $taxonomy . '_relationships' );
-
-	return $r;
+	return wp_set_object_terms( $post_id, $tags, $taxonomy, $append );
 }
 
 /**
