@@ -476,6 +476,7 @@ a.media-modal-close {
 	margin: 0 10px 20px;
 	color: #464646;
 	list-style: none;
+	text-align: center;
 
 	-webkit-user-select: none;
 	-moz-user-select:    none;
@@ -507,7 +508,12 @@ a.media-modal-close {
 	cursor: pointer;
 }
 
-.attachment .icon,
+.attachment .icon {
+	margin: 0 auto;
+	overflow: hidden;
+	padding-top: 20%;
+}
+
 .attachment .thumbnail {
 	display: block;
 	position: absolute;
@@ -517,12 +523,6 @@ a.media-modal-close {
 	overflow: hidden;
 	max-width: 100%;
 	max-height: 100%;
-}
-
-/* Vertically center the icons. */
-.attachment .icon {
-	top: 50%;
-	left: 50%;
 }
 
 .attachment-preview .thumbnail:after {
@@ -555,7 +555,6 @@ a.media-modal-close {
 	transform:         translate( 50%, 50% );
 }
 
-.attachment .icon,
 .attachment .thumbnail .centered img {
 	-webkit-transform: translate( -50%, -50% );
 	-moz-transform:    translate( -50%, -50% );
@@ -1024,10 +1023,14 @@ a.media-modal-close {
 
 .media-selection .attachments {
 	display: inline-block;
-	height: 60px;
+	height: 48px;
 	margin-top: 5px;
 	overflow: hidden;
 	vertical-align: top;
+}
+
+.media-selection .attachment img {
+	width: 50%;
 }
 
 .attachment.selection.selected {
