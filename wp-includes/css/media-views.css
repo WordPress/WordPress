@@ -68,7 +68,7 @@ input[type="search"] {
 	left: 40px;
 	right: 40px;
 	bottom: 40px;
-	z-index: 125000;
+	z-index: 160000;
 }
 
 .media-modal-backdrop {
@@ -79,7 +79,7 @@ input[type="search"] {
 	bottom: 0;
 	background: #000;
 	opacity: 0.8;
-	z-index: 120000;
+	z-index: 159900;
 }
 
 .media-modal-backdrop div {

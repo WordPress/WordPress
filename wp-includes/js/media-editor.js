@@ -471,10 +471,9 @@
 		},
 
 		init: function() {
-			$(document.body).on('click', '.insert-media', function( event ) {
+			$(document.body).on( 'click', '.insert-media', function( event ) {
 				var $this = $(this),
-					editor = $this.data('editor'),
-					workflow;
+					editor = $this.data('editor');
 
 				event.preventDefault();
 
@@ -485,20 +484,33 @@
 				// See: http://core.trac.wordpress.org/ticket/22445
 				$this.blur();
 
-				if ( ! _.isString( editor ) )
-					return;
-
-				workflow = wp.media.editor.get( editor );
-
-				// If the workflow exists, just open it.
-				if ( workflow ) {
-					workflow.open();
-					return;
-				}
-
-				// Initialize the editor's workflow if we haven't yet.
-				wp.media.editor.add( editor );
+				wp.media.editor.open( editor );
 			});
+		},
+
+		open: function( id ) {
+			var workflow;
+
+			// If an empty `id` is provided, default to `wpActiveEditor`.
+			id = id || wpActiveEditor;
+
+			// If that doesn't work, fall back to `tinymce.activeEditor`.
+			if ( ! id && typeof tinymce !== 'undefined' && tinymce.activeEditor )
+				id = id || tinymce.activeEditor.id;
+
+			// Last but not least, fall back to the empty string.
+			id = id || '';
+
+			workflow = wp.media.editor.get( id );
+
+			// If the workflow exists, open it.
+			// Initialize the editor's workflow if we haven't yet.
+			if ( workflow )
+				workflow.open();
+			else
+				workflow = wp.media.editor.add( id );
+
+			return workflow;
 		}
 	};
 

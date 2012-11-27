@@ -63,15 +63,8 @@
 			});
 
 			ed.addCommand('WP_Medialib', function() {
-				var id = ed.getParam('wp_fullscreen_editor_id') || ed.getParam('fullscreen_editor_id') || ed.id,
-					link = tinymce.DOM.select('#wp-' + id + '-media-buttons a.thickbox');
-
-				if ( link && link[0] )
-					link = link[0];
-				else
-					return;
-
-				tb_show('', link.href);
+				if ( typeof wp !== 'undefined' && wp.media && wp.media.editor )
+					wp.media.editor.open( ed.id );
 			});
 
 			// Register buttons

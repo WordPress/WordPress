@@ -482,14 +482,8 @@ PubSub.prototype.publish = function( topic, args ) {
 	}
 
 	api.medialib = function() {
-		if ( s.has_tinymce && 'tinymce' === s.mode ) {
-			tinyMCE.execCommand('WP_Medialib');
-		} else {
-			var href = $('#wp-' + s.editor_id + '-media-buttons a.thickbox').attr('href') || '';
-
-			if ( href )
-				tb_show('', href);
-		}
+		if ( typeof wp !== 'undefined' && wp.media && wp.media.editor )
+			wp.media.editor.open(s.editor_id);
 	}
 
 	api.refresh_buttons = function( fade ) {
