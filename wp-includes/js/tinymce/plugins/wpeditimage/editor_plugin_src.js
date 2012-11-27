@@ -205,12 +205,13 @@
 		},
 
 		_createButtons : function() {
-			var t = this, ed = t.editor, DOM = tinymce.DOM, editButton, dellButton, isRetina;
+			var t = this, ed = tinymce.activeEditor, DOM = tinymce.DOM, editButton, dellButton, isRetina;
+
+			if ( DOM.get('wp_editbtns') )
+				return;
 
 			isRetina = ( window.devicePixelRatio && window.devicePixelRatio > 1 ) || // WebKit, Opera
 				( window.matchMedia && window.matchMedia('(min-resolution:130dpi)').matches ); // Firefox, IE10, Opera
-
-			DOM.remove('wp_editbtns');
 
 			DOM.add(document.body, 'div', {
 				id : 'wp_editbtns',
@@ -239,15 +240,20 @@
 			});
 
 			tinymce.dom.Event.add(dellButton, 'mousedown', function(e) {
-				var el = ed.selection.getNode(), p;
+				var ed = tinymce.activeEditor, el = ed.selection.getNode(), parent;
 
 				if ( el.nodeName == 'IMG' && ed.dom.getAttrib(el, 'class').indexOf('mceItem') == -1 ) {
-					if ( (p = ed.dom.getParent(el, 'div')) && ed.dom.hasClass(p, 'mceTemp') )
-						ed.dom.remove(p);
-					else if ( (p = ed.dom.getParent(el, 'A')) && p.childNodes.length == 1 )
-						ed.dom.remove(p);
-					else
+					if ( (parent = ed.dom.getParent(el, 'div')) && ed.dom.hasClass(parent, 'mceTemp') ) {
+						ed.dom.remove(parent);
+					} else {
+						if ( el.parentNode.nodeName == 'A' && el.parentNode.childNodes.length == 1 )
+							el = el.parentNode;
+
+						if ( el.parentNode.nodeName == 'P' && el.parentNode.childNodes.length == 1 )
+							el = el.parentNode;
+
 						ed.dom.remove(el);
+					}
 
 					ed.execCommand('mceRepaint');
 					return false;
@@ -257,7 +263,7 @@
 		},
 		
 		_editImage : function() {
-			var ed = this.editor, url = this.url, el = ed.selection.getNode(), vp, H, W, cls = el.className;
+			var ed = tinymce.activeEditor, url = this.url, el = ed.selection.getNode(), vp, H, W, cls = el.className;
 
 			if ( cls.indexOf('mceItem') != -1 || cls.indexOf('wpGallery') != -1 || el.nodeName != 'IMG' )
 				return;

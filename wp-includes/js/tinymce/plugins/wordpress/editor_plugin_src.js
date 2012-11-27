@@ -6,8 +6,6 @@
 	var DOM = tinymce.DOM;
 
 	tinymce.create('tinymce.plugins.WordPress', {
-		showButtons : 0,
-
 		init : function(ed, url) {
 			var t = this, tbId = ed.getParam('wordpress_adv_toolbar', 'toolbar2'), last = 0, moreHTML, nextpageHTML, closeOnClick, mod_key;
 			moreHTML = '<img src="' + url + '/img/trans.gif" class="mceWPmore mceItemNoResize" title="'+ed.getLang('wordpress.wp_more_alt')+'" />';
@@ -374,21 +372,10 @@
 				'left' : X+5+'px',
 				'display' : 'block'
 			});
-
-			this.showButtons = true;
 		},
 
 		_hideButtons : function() {
-			if ( ! this.showButtons )
-				return;
-
-			if ( document.getElementById('wp_editbtns') )
-				tinymce.DOM.hide('wp_editbtns');
-
-			if ( document.getElementById('wp_gallerybtns') )
-				tinymce.DOM.hide('wp_gallerybtns');
-
-			this.showButtons = false;
+			tinymce.DOM.hide(['wp_editbtns', 'wp_gallerybtns']);
 		},
 
 		// Resizes the iframe by a relative height value

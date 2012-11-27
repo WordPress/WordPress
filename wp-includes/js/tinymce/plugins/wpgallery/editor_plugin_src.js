@@ -11,6 +11,9 @@
 
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('...');
 			ed.addCommand('WP_Gallery', function() {
+				if ( tinymce.isIE )
+					ed.selection.moveToBookmark( ed.wpGalleryBookmark );
+
 				var el = ed.selection.getNode(),
 					gallery = wp.media.gallery,
 					frame;
@@ -49,6 +52,7 @@
 			
 			ed.onMouseDown.add(function(ed, e) {
 				if ( e.target.nodeName == 'IMG' && ed.dom.hasClass(e.target, 'wpGallery') ) {
+					ed.plugins.wordpress._hideButtons();
 					ed.plugins.wordpress._showButtons(e.target, 'wp_gallerybtns');
 				}
 			});
@@ -87,12 +91,13 @@
 		},
 
 		_createButtons : function() {
-			var t = this, ed = t.editor, DOM = tinymce.DOM, editButton, dellButton, isRetina;
+			var t = this, ed = tinymce.activeEditor, DOM = tinymce.DOM, editButton, dellButton, isRetina;
+
+			if ( DOM.get('wp_gallerybtns') )
+				return;
 
 			isRetina = ( window.devicePixelRatio && window.devicePixelRatio > 1 ) || // WebKit, Opera
 				( window.matchMedia && window.matchMedia('(min-resolution:130dpi)').matches ); // Firefox, IE10, Opera
-
-			DOM.remove('wp_gallerybtns');
 
 			DOM.add(document.body, 'div', {
 				id : 'wp_gallerybtns',
@@ -108,7 +113,8 @@
 			});
 
 			tinymce.dom.Event.add(editButton, 'mousedown', function(e) {
-				ed.windowManager.bookmark = ed.selection.getBookmark('simple');
+				var ed = tinymce.activeEditor;
+				ed.wpGalleryBookmark = ed.selection.getBookmark('simple');
 				ed.execCommand("WP_Gallery");
 				ed.plugins.wordpress._hideButtons();
 			});
@@ -122,7 +128,7 @@
 			});
 
 			tinymce.dom.Event.add(dellButton, 'mousedown', function(e) {
-				var el = ed.selection.getNode();
+				var ed = tinymce.activeEditor, el = ed.selection.getNode();
 
 				if ( el.nodeName == 'IMG' && ed.dom.hasClass(el, 'wpGallery') ) {
 					ed.dom.remove(el);
