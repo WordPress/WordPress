@@ -157,7 +157,8 @@
 				icontag:    'dt',
 				captiontag: 'dd',
 				columns:    3,
-				size:       'thumbnail'
+				size:       'thumbnail',
+				orderby:    'menu_order ID'
 			},
 
 			attachments: function( shortcode ) {
@@ -170,11 +171,16 @@
 				if ( result )
 					return result;
 
-				attrs = shortcode.attrs.named;
+				// Fill the default shortcode attributes.
+				attrs = _.defaults( shortcode.attrs.named, wp.media.gallery.defaults );
 				args  = _.pick( attrs, 'orderby', 'order' );
 
 				args.type    = 'image';
 				args.perPage = -1;
+
+				// Map the `orderby` attribute to the corresponding model property.
+				if ( ! attrs.orderby || /^menu_order(?: ID)?$/i.test( attrs.orderby ) )
+					args.orderby = 'menuOrder';
 
 				// Map the `ids` param to the correct query args.
 				if ( attrs.ids ) {
@@ -204,13 +210,20 @@
 
 			shortcode: function( attachments ) {
 				var props = attachments.props.toJSON(),
-					attrs = _.pick( props, 'include', 'exclude', 'orderby', 'order' ),
+					attrs = _.pick( props, 'orderby', 'order' ),
 					shortcode, clone;
 
 				if ( attachments.gallery )
 					_.extend( attrs, attachments.gallery.toJSON() );
 
+				// Convert all gallery shortcodes to use the `ids` property.
+				// Ignore `post__in` and `post__not_in`; the attachments in
+				// the collection will already reflect those properties.
 				attrs.ids = attachments.pluck('id');
+
+				// Copy the `parent` post ID.
+				if ( props.parent )
+					attrs.id = props.parent;
 
 				// If the `ids` attribute is set and `orderby` attribute
 				// is the default value, clear it for cleaner output.
@@ -272,7 +285,12 @@
 					selection.props.unset('orderby');
 				});
 
-				return wp.media({
+				// Destroy the previous gallery frame.
+				if ( this.frame )
+					this.frame.dispose();
+
+				// Store the current gallery frame.
+				this.frame = wp.media({
 					frame:     'post',
 					state:     'gallery-edit',
 					title:     wp.media.view.l10n.editGalleryTitle,
@@ -280,6 +298,8 @@
 					multiple:  true,
 					selection: selection
 				});
+
+				return this.frame;
 			}
 		};
 	}());

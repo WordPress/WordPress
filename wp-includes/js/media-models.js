@@ -659,18 +659,20 @@ window.wp = window.wp || {};
 		},
 
 		orderby: {
-			allowed:  [ 'name', 'author', 'date', 'title', 'modified', 'uploadedTo', 'id', 'post__in' ],
+			allowed:  [ 'name', 'author', 'date', 'title', 'modified', 'uploadedTo', 'id', 'post__in', 'menuOrder' ],
 			valuemap: {
 				'id':         'ID',
-				'uploadedTo': 'parent'
+				'uploadedTo': 'parent',
+				'menuOrder':  'menu_order ID'
 			}
 		},
 
 		propmap: {
-			'search':  's',
-			'type':    'post_mime_type',
-			'parent':  'post_parent',
-			'perPage': 'posts_per_page'
+			'search':    's',
+			'type':      'post_mime_type',
+			'parent':    'post_parent',
+			'perPage':   'posts_per_page',
+			'menuOrder': 'menu_order'
 		},
 
 		// Caches query objects so queries can be easily reused.

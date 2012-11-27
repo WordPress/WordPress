@@ -2898,7 +2898,9 @@
 			all: {
 				text:  l10n.allMediaItems,
 				props: {
-					parent: null
+					parent:  null,
+					orderby: 'date',
+					order:   'DESC'
 				},
 				priority: 10
 			},
@@ -2906,7 +2908,9 @@
 			uploaded: {
 				text:  l10n.uploadedToThisPost,
 				props: {
-					parent: media.view.settings.postId
+					parent:  media.view.settings.postId,
+					orderby: 'menuOrder',
+					order:   'ASC'
 				},
 				priority: 20
 			}
@@ -2921,8 +2925,10 @@
 				filters[ key ] = {
 					text: text,
 					props: {
-						type:   key,
-						parent: null
+						type:    key,
+						parent:  null,
+						orderby: 'date',
+						order:   'DESC'
 					}
 				};
 			});
@@ -2930,8 +2936,10 @@
 			filters.all = {
 				text:  l10n.allMediaItems,
 				props: {
-					type:   null,
-					parent: null
+					type:    null,
+					parent:  null,
+					orderby: 'date',
+					order:   'DESC'
 				},
 				priority: 10
 			};
@@ -2939,8 +2947,10 @@
 			filters.uploaded = {
 				text:  l10n.uploadedToThisPost,
 				props: {
-					type:   null,
-					parent: media.view.settings.postId
+					type:    null,
+					parent:  media.view.settings.postId,
+					orderby: 'menuOrder',
+					order:   'ASC'
 				},
 				priority: 20
 			};

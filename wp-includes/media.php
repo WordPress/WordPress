@@ -1254,7 +1254,7 @@ function wp_plupload_default_settings() {
 		'multipart'           => true,
 		'urlstream_upload'    => true,
 	);
-	
+
 	// Multi-file uploading doesn't currently work in iOS Safari,
 	// single-file allows the built-in camera to be used as source for images
 	if ( wp_is_mobile() )
@@ -1327,6 +1327,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		'uploadedTo'  => $attachment->post_parent,
 		'date'        => strtotime( $attachment->post_date_gmt ) * 1000,
 		'modified'    => strtotime( $attachment->post_modified_gmt ) * 1000,
+		'menuOrder'   => $attachment->menu_order,
 		'mime'        => $attachment->post_mime_type,
 		'type'        => $type,
 		'subtype'     => $subtype,
