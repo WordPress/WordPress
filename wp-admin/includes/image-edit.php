@@ -40,14 +40,14 @@ function wp_image_editor($post_id, $msg = false) {
 		<div onclick="imageEdit.crop(<?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-crop disabled" title="<?php esc_attr_e( 'Crop' ); ?>"></div><?php
 
 	// On some setups GD library does not provide imagerotate() - Ticket #11536
-	if ( function_exists('imagerotate') ) { ?>
+	if ( wp_image_editor_supports( array( 'mime_type' => get_post_mime_type( $post_id ), 'methods' => array( 'rotate' ) ) ) ) { ?>
 		<div class="imgedit-rleft"  onclick="imageEdit.rotate( 90, <?php echo "$post_id, '$nonce'"; ?>, this)" title="<?php esc_attr_e( 'Rotate counter-clockwise' ); ?>"></div>
 		<div class="imgedit-rright" onclick="imageEdit.rotate(-90, <?php echo "$post_id, '$nonce'"; ?>, this)" title="<?php esc_attr_e( 'Rotate clockwise' ); ?>"></div>
 <?php } else {
-		$note_gdlib = esc_attr__('Image rotation is not supported by your web host (function imagerotate() is missing)');
+		$note_no_rotate = esc_attr__('Image rotation is not supported by your web host.');
 ?>
-	    <div class="imgedit-rleft disabled"  title="<?php echo $note_gdlib; ?>"></div>
-	    <div class="imgedit-rright disabled" title="<?php echo $note_gdlib; ?>"></div>
+	    <div class="imgedit-rleft disabled"  title="<?php echo $note_no_rotate; ?>"></div>
+	    <div class="imgedit-rright disabled" title="<?php echo $note_no_rotate; ?>"></div>
 <?php } ?>
 
 		<div onclick="imageEdit.flip(1, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-flipv" title="<?php esc_attr_e( 'Flip vertically' ); ?>"></div>
