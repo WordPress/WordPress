@@ -1327,6 +1327,10 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		'subtype'     => $subtype,
 		'icon'        => wp_mime_type_icon( $attachment->ID ),
 		'dateFormatted' => mysql2date( get_option('date_format'), $attachment->post_date ),
+		'nonces'      => array(
+			'update' => wp_create_nonce( 'update-post_' . $attachment->ID ),
+			'delete' => wp_create_nonce( 'delete-post_' . $attachment->ID ),
+		),
 	);
 
 	if ( $meta && 'image' === $type ) {
@@ -1452,6 +1456,7 @@ function wp_enqueue_media( $args = array() ) {
 		'allMediaItems'      => __( 'All media items' ),
 		'insertIntoPost'     => $hier ? __( 'Insert into page' ) : __( 'Insert into post' ),
 		'uploadedToThisPost' => $hier ? __( 'Uploaded to this page' ) : __( 'Uploaded to this post' ),
+		'warnDelete' =>      __( "You are about to permanently delete this item.\n  'Cancel' to stop, 'OK' to delete." ),
 
 		// From URL
 		'fromUrlTitle'       => __( 'From URL' ),
@@ -1640,6 +1645,11 @@ function wp_print_media_templates( $attachment ) {
 				<div class="uploaded">{{ data.dateFormatted }}</div>
 				<# if ( 'image' === data.type && ! data.uploading ) { #>
 					<div class="dimensions">{{ data.width }} &times; {{ data.height }}</div>
+				<# } #>
+				<# if ( ! data.uploading ) { #>
+					<div class="delete-attachment">
+						<a href="#"><?php _e( 'Delete Permanently' ); ?></a>
+					</div>
 				<# } #>
 			</div>
 			<div class="compat-meta">

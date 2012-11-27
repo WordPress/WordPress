@@ -1843,7 +1843,7 @@ function wp_ajax_save_attachment() {
 	if ( ! $id = absint( $_REQUEST['id'] ) )
 		wp_send_json_error();
 
-	check_ajax_referer( 'save-attachment', 'nonce' );
+	check_ajax_referer( 'update-post_' . $id, 'nonce' );
 
 	if ( ! current_user_can( 'edit_post', $id ) )
 		wp_send_json_error();
@@ -1889,7 +1889,7 @@ function wp_ajax_save_attachment_compat() {
 		wp_send_json_error();
 	$attachment_data = $_REQUEST['attachments'][ $id ];
 
-	check_ajax_referer( 'save-attachment', 'nonce' );
+	check_ajax_referer( 'update-post_' . $id, 'nonce' );
 
 	if ( ! current_user_can( 'edit_post', $id ) )
 		wp_send_json_error();

@@ -1191,6 +1191,18 @@ a.media-modal-close {
 	float: left;
 }
 
+.attachment-info .delete-attachment a {
+	color: red;
+	padding: 2px 4px;
+	margin: -2px -4px;
+	text-decoration: none;
+}
+
+.attachment-info .delete-attachment a:hover {
+	color: #fff;
+	background: red;
+}
+
 /**
  * Attachment Display Settings
  */

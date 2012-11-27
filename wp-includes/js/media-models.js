@@ -218,6 +218,11 @@ window.wp = window.wp || {};
 	 */
 	Attachment = media.model.Attachment = Backbone.Model.extend({
 		sync: function( method, model, options ) {
+			// If the attachment does not yet have an `id`, return an instantly
+			// rejected promise. Otherwise, all of our requests will fail.
+			if ( _.isUndefined( this.id ) )
+				return $.Deferred().reject().promise();
+
 			// Overload the `read` request so Attachment.fetch() functions correctly.
 			if ( 'read' === method ) {
 				options = options || {};
@@ -237,7 +242,7 @@ window.wp = window.wp || {};
 				options.data = _.extend( options.data || {}, {
 					action:  'save-attachment',
 					id:      this.id,
-					nonce:   media.model.settings.saveAttachmentNonce,
+					nonce:   this.get('nonces').update,
 					post_id: media.model.settings.postId
 				});
 
@@ -251,6 +256,18 @@ window.wp = window.wp || {};
 					delete options.changes;
 				}
 
+				return media.ajax( options );
+
+			// Overload the `delete` request so attachments can be removed.
+			// This will permanently delete an attachment.
+			} else if ( 'delete' === method ) {
+				options = options || {};
+				options.context = this;
+				options.data = _.extend( options.data || {}, {
+					action:   'delete-post',
+					id:       this.id,
+					_wpnonce: this.get('nonces')['delete']
+				});
 				return media.ajax( options );
 			}
 		},
@@ -270,7 +287,7 @@ window.wp = window.wp || {};
 
 			return media.post( 'save-attachment-compat', _.defaults({
 				id:      this.id,
-				nonce:   media.model.settings.saveAttachmentNonce,
+				nonce:   this.get('nonces').update,
 				post_id: media.model.settings.postId
 			}, data ) ).done( function( resp, status, xhr ) {
 				model.set( model.parse( resp, xhr ), options );

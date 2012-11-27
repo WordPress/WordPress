@@ -3406,7 +3406,15 @@
 			'change [data-setting]':          'updateSetting',
 			'change [data-setting] input':    'updateSetting',
 			'change [data-setting] select':   'updateSetting',
-			'change [data-setting] textarea': 'updateSetting'
+			'change [data-setting] textarea': 'updateSetting',
+			'click .delete-attachment':       'deleteAttachment'
+		},
+
+		deleteAttachment: function(event) {
+			event.preventDefault();
+
+			if ( confirm( l10n.warnDelete ) )
+				this.model.destroy();
 		}
 	});
 

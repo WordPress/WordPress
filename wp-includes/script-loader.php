@@ -322,7 +322,6 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'media-models', "/wp-includes/js/media-models$suffix.js", array( 'backbone', 'jquery' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'media-models', '_wpMediaModelsL10n', array(
 		'settings' => array(
-			'saveAttachmentNonce' => wp_create_nonce( 'save-attachment' ),
 			'ajaxurl' => admin_url( 'admin-ajax.php', 'relative' ),
 			'postId'  => 0,
 		),
