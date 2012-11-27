@@ -1453,9 +1453,8 @@ function wp_enqueue_media( $args = array() ) {
 		'insertIntoPost'     => $hier ? __( 'Insert into page' ) : __( 'Insert into post' ),
 		'uploadedToThisPost' => $hier ? __( 'Uploaded to this page' ) : __( 'Uploaded to this post' ),
 
-		// Embed
-		'embedFromUrlTitle' => __( 'Embed From URL' ),
-		'insertEmbed'       => __( 'Insert embed' ),
+		// From URL
+		'fromUrlTitle'       => __( 'From URL' ),
 
 		// Gallery
 		'createGalleryTitle' => __( 'Create Gallery' ),

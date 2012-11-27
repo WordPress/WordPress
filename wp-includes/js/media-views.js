@@ -1469,7 +1469,7 @@
 					priority: 60
 				}),
 				embed: {
-					text: l10n.embedFromUrlTitle,
+					text: l10n.fromUrlTitle,
 					priority: 80
 				}
 			});
@@ -2079,7 +2079,7 @@
 			var controller = this.options.controller;
 
 			_.defaults( this.options, {
-				text: l10n.insertEmbed
+				text: l10n.insertIntoPost
 			});
 
 			media.view.Toolbar.Select.prototype.initialize.apply( this, arguments );
