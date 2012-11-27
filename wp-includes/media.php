@@ -1161,7 +1161,7 @@ function wp_get_image_editor( $path, $args = array() ) {
 			$args['mime_type'] = $file_info['type'];
 	}
 
-	$implementation = apply_filters( 'wp_image_editor_class', _wp_image_editor_choose( $args ) );
+	$implementation = _wp_image_editor_choose( $args );
 
 	if ( $implementation ) {
 		$editor = new $implementation( $path );
