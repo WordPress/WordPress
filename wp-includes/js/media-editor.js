@@ -501,6 +501,10 @@
 			// Last but not least, fall back to the empty string.
 			id = id || '';
 
+			// Save a bookmark of the caret position, needed for IE
+			if ( typeof tinymce !== 'undefined' && tinymce.activeEditor && tinymce.isIE && ! tinymce.activeEditor.isHidden() )
+				tinymce.activeEditor.windowManager.insertimagebookmark = tinymce.activeEditor.selection.getBookmark();
+
 			workflow = wp.media.editor.get( id );
 
 			// If the workflow exists, open it.
