@@ -49,7 +49,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 		<div class="last-feature">
 			<h4><?php echo ( 'Attachment page editor' ); ?></h4>
-			<p><?php echo ( 'You can crop, rotate and resize images right in the Media Library? There are now formatting controls for content on your attachment pages.' ); ?></p>
+			<p><?php echo ( 'You can crop, rotate and resize images right in the Media Library! There are now formatting controls for content on your attachment pages.' ); ?></p>
 		</div>
 	</div>
 </div>
