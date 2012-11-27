@@ -12,6 +12,9 @@
 	media.view.settings = l10n.settings || {};
 	delete l10n.settings;
 
+	// Copy the `postId` setting over to the model settings.
+	media.model.settings.postId = media.view.settings.postId;
+
 	// Check if the browser supports CSS 3.0 transitions
 	$.support.transition = (function(){
 		var style = document.documentElement.style,

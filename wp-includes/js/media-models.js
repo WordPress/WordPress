@@ -235,9 +235,10 @@ window.wp = window.wp || {};
 
 				// Set the action and ID.
 				options.data = _.extend( options.data || {}, {
-					action: 'save-attachment',
-					id:     this.id,
-					nonce:  media.model.settings.saveAttachmentNonce
+					action:  'save-attachment',
+					id:      this.id,
+					nonce:   media.model.settings.saveAttachmentNonce,
+					post_id: media.model.settings.postId
 				});
 
 				// Record the values of the changed attributes.
@@ -268,8 +269,9 @@ window.wp = window.wp || {};
 			var model = this;
 
 			return media.post( 'save-attachment-compat', _.defaults({
-				id:     this.id,
-				nonce:  media.model.settings.saveAttachmentNonce
+				id:      this.id,
+				nonce:   media.model.settings.saveAttachmentNonce,
+				post_id: media.model.settings.postId
 			}, data ) ).done( function( resp, status, xhr ) {
 				model.set( model.parse( resp, xhr ), options );
 			});
@@ -609,7 +611,8 @@ window.wp = window.wp || {};
 				options = options || {};
 				options.context = this;
 				options.data = _.extend( options.data || {}, {
-					action: 'query-attachments'
+					action:  'query-attachments',
+					post_id: media.model.settings.postId
 				});
 
 				// Clone the args so manipulation is non-destructive.

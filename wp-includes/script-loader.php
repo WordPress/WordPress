@@ -324,6 +324,7 @@ function wp_default_scripts( &$scripts ) {
 		'settings' => array(
 			'saveAttachmentNonce' => wp_create_nonce( 'save-attachment' ),
 			'ajaxurl' => admin_url( 'admin-ajax.php', 'relative' ),
+			'postId'  => 0,
 		),
 	) );
 

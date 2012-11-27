@@ -459,10 +459,11 @@
 
 			link: function( embed ) {
 				return media.post( 'send-link-to-editor', {
-					nonce: wp.media.view.settings.nonce.sendToEditor,
-					src:   embed.linkUrl,
-					title: embed.title,
-					html:  wp.media.string.link( embed )
+					nonce:   wp.media.view.settings.nonce.sendToEditor,
+					src:     embed.linkUrl,
+					title:   embed.title,
+					html:    wp.media.string.link( embed ),
+					post_id: wp.media.view.settings.postId
 				}).done( function( resp ) {
 					wp.media.editor.insert( resp );
 				});
