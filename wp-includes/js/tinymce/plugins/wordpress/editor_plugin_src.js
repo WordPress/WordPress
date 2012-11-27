@@ -368,7 +368,8 @@
 		},
 
 		_hideButtons : function() {
-			tinymce.DOM.hide(['wp_editbtns', 'wp_gallerybtns']);
+			var DOM = tinymce.DOM;
+			DOM.hide( DOM.select('#wp_editbtns, #wp_gallerybtns') );
 		},
 
 		// Resizes the iframe by a relative height value
