@@ -1496,7 +1496,7 @@ function wp_enqueue_media( $args = array() ) {
  *
  * @since 3.5.0
  */
-function wp_print_media_templates( $attachment ) {
+function wp_print_media_templates() {
 	?>
 	<script type="text/html" id="tmpl-media-frame">
 		<div class="media-frame-menu"></div>
