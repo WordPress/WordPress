@@ -809,4 +809,9 @@ window.wp = window.wp || {};
 		}
 	});
 
+	// Clean up. Prevents mobile browsers caching
+	$(window).on('unload', function(){
+		window.wp = null;
+	});
+
 }(jQuery));

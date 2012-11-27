@@ -36,6 +36,7 @@ require_once( ABSPATH . 'wp-admin/includes/ajax-actions.php' );
 @header( 'X-Robots-Tag: noindex' );
 
 send_nosniff_header();
+nocache_headers();
 
 do_action( 'admin_init' );
 

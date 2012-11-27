@@ -1508,6 +1508,11 @@ $plupload_init = array(
 	'multipart_params' => $post_params
 );
 
+// Multi-file uploading doesn't currently work in iOS Safari,
+// single-file allows the built-in camera to be used as source for images
+if ( wp_is_mobile() )
+	$plupload_init['multi_selection'] = false;
+
 $plupload_init = apply_filters( 'plupload_init', $plupload_init );
 
 ?>
