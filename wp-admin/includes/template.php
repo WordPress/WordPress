@@ -1674,7 +1674,6 @@ final class WP_Internal_Pointers {
 			'themes.php'   => array( 'wp330_saving_widgets', 'wp340_customize_current_theme_link' ),
 			'appearance_page_custom-header' => 'wp340_choose_image_from_library',
 			'appearance_page_custom-background' => 'wp340_choose_image_from_library',
-			'plugin-install.php' => 'wp350_favorites',
 		);
 
 		// Check if screen related pointer is registered
@@ -1828,22 +1827,12 @@ final class WP_Internal_Pointers {
 	}
 
 	public static function pointer_wp350_media() {
-		$content  = '<h3>' . ( 'New Media Uploader' ) . '</h3>';
-		$content .= '<p>' . ( 'Uploading and inserting images and other files has never been easier.' ) . '</p>';
+		$content  = '<h3>' . __( 'New Media Manager' ) . '</h3>';
+		$content .= '<p>' . __( 'Uploading files and creating image galleries has a whole new look. Check it out!' ) . '</p>';
 
 		self::print_js( 'wp350_media', '.insert-media', array(
 			'content'  => $content,
 			'position' => array( 'edge' => is_rtl() ? 'right' : 'left', 'align' => 'center' ),
-		) );
-	}
-
-	public static function pointer_wp350_favorites() {
-		$content  = '<h3>' . __( 'New Feature: Plugin Favorites' ) . '</h3>';
-		$content .= '<p>' . __( 'If you have favorited plugins on WordPress.org, you can now install them directly from this tab.' ) . '</p>';
-
-		self::print_js( 'wp350_favorites', '.plugin-install-favorites', array(
-			'content'  => $content,
-			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left', 'offset' => is_rtl() ? '40 0' : '-40 0' ),
 		) );
 	}
 
@@ -1853,7 +1842,7 @@ final class WP_Internal_Pointers {
 	 * @since 3.3.0
 	 */
 	public static function dismiss_pointers_for_new_users( $user_id ) {
-		add_user_meta( $user_id, 'dismissed_wp_pointers', 'wp330_toolbar,wp330_saving_widgets,wp340_choose_image_from_library,wp340_customize_current_theme_link,wp350_media,wp350_favorites' );
+		add_user_meta( $user_id, 'dismissed_wp_pointers', 'wp330_toolbar,wp330_saving_widgets,wp340_choose_image_from_library,wp340_customize_current_theme_link,wp350_media' );
 	}
 }
 
