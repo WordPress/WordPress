@@ -8303,6 +8303,12 @@ a.widget-control-edit {
 	cursor: default;
 }
 
+/* Enable draggable on IE10 touch events until it's rolled into jQuery UI core */
+.ui-sortable,
+.ui-draggable {
+	-ms-touch-action: none;
+}
+
 /* =Media Queries
 -------------------------------------------------------------- */
 
