@@ -30,6 +30,11 @@ if ( $action ) {
 			if ( ! current_user_can('activate_plugins') )
 				wp_die(__('You do not have sufficient permissions to activate plugins for this site.'));
 
+			if ( is_multisite() && ! is_network_admin() && is_network_only_plugin( $plugin ) ) {
+				wp_redirect( self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
+				exit;
+			}
+
 			check_admin_referer('activate-plugin_' . $plugin);
 
 			$result = activate_plugin($plugin, self_admin_url('plugins.php?error=true&plugin=' . $plugin), is_network_admin() );
@@ -44,11 +49,6 @@ if ( $action ) {
 			}
 
 			if ( ! is_network_admin() ) {
-				if ( is_network_only_plugin( $plugin ) ) {
-					wp_redirect( self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
-					exit;
-				}
-
 				$recent = (array) get_option( 'recently_activated' );
 				unset( $recent[ $plugin ] );
 				update_option( 'recently_activated', $recent );
