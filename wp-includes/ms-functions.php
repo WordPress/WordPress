@@ -1997,10 +1997,7 @@ function is_upload_space_available() {
 	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return true;
 
-	if ( !( $space_allowed = get_upload_space_available() ) )
-		return false;
-
-	return true;
+	return (bool) get_upload_space_available();
 }
 
 /**
