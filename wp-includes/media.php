@@ -1600,7 +1600,9 @@ function wp_print_media_templates( $attachment ) {
 				</div>
 			<# } else { #>
 				<img src="{{ data.icon }}" class="icon" draggable="false" />
-				<div class="filename">{{ data.filename }}</div>
+				<div class="filename">
+					<div>{{ data.filename }}</div>
+				</div>
 			<# } #>
 
 			<# if ( data.buttons.close ) { #>

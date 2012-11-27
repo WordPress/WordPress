@@ -569,11 +569,18 @@ a.media-modal-close {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	padding: 5px 10px;
+	overflow: hidden;
+	max-height: 100%;
+
+	word-wrap: break-word;
 	text-align: center;
 	font-weight: bold;
 	background: rgba( 255, 255, 255, 0.8 );
-	box-shadow: 0 0 2px rgba( 0, 0, 0, 0.2 );
+	box-shadow: inset 0 0 0 1px rgba( 0, 0, 0, 0.15 );
+}
+
+.attachment .filename div {
+	padding: 5px 10px;
 }
 
 .attachment-preview .thumbnail {
