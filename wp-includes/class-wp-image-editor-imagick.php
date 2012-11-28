@@ -29,7 +29,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	/**
 	 * Checks to see if current environment supports Imagick.
 	 *
-	 * We require Imagick 2.1.1 or greater, based on whether the queryFormats()
+	 * We require Imagick 2.2.0 or greater, based on whether the queryFormats()
 	 * method can be called statically.
 	 *
 	 * @since 3.5.0
@@ -41,6 +41,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 		// First, test Imagick's extension and classes.
 		if ( ! extension_loaded( 'imagick' ) || ! class_exists( 'Imagick' ) || ! class_exists( 'ImagickPixel' ) )
+			return false;
+
+		if ( version_compare( phpversion( 'imagick' ), '2.2.0', '<' ) )
 			return false;
 
 		$required_methods = array(
@@ -64,12 +67,11 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		);
 
 		// Now, test for deep requirements within Imagick.
-		if ( ! is_callable( 'Imagick', 'queryFormats' ) ||
-			 ! defined( 'imagick::COMPRESSION_JPEG' ) ||
-			 array_diff( $required_methods, get_class_methods( 'Imagick' ) ) ) {
-
+		if ( ! defined( 'imagick::COMPRESSION_JPEG' ) )
 			return false;
-		}
+
+		if ( array_diff( $required_methods, get_class_methods( 'Imagick' ) ) )
+			return false;
 
 		return true;
 	}
