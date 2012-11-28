@@ -2602,7 +2602,7 @@
 					return [ setting, value ];
 			}).compact().object().value();
 
-			if ( changed )
+			if ( ! _.isEmpty( changed ) )
 				model.save( changed );
 		},
 
