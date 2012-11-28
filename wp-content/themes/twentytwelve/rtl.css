@@ -122,11 +122,6 @@ article.format-link .entry-content {
 	margin-right: 0.357142857rem;
 	margin-left: auto;
 }
-.commentlist .children {
-	margin-right: 48px;
-	margin-right: 3.428571429rem;
-	margin-left: auto;
-}
 
 /* Comment form */
 #respond h3#reply-title #cancel-comment-reply-link {
@@ -233,5 +228,10 @@ label ~ span.required {
 	.main-navigation ul li:hover > ul {
 		border-right: 0;
 		border-left: none;
+	}
+	.commentlist .children {
+		margin-right: 48px;
+		margin-right: 3.428571429rem;
+		margin-left: auto;
 	}
 }
