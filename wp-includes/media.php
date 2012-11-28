@@ -1440,7 +1440,7 @@ function wp_enqueue_media( $args = array() ) {
 	$strings = array(
 		// Generic
 		'url'         => __( 'URL' ),
-		'insertMedia' => __( 'Insert Media' ),
+		'addMedia'    => __( 'Add Media' ),
 		'search'      => __( 'Search' ),
 		'select'      => __( 'Select' ),
 		'cancel'      => __( 'Cancel' ),

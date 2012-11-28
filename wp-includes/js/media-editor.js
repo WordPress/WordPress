@@ -368,7 +368,7 @@
 
 			workflow = workflows[ id ] = wp.media( _.defaults( options || {}, {
 				frame:    'post',
-				title:    wp.media.view.l10n.insertMedia,
+				title:    wp.media.view.l10n.addMedia,
 				multiple: true
 			} ) );
 
