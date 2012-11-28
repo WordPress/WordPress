@@ -438,6 +438,9 @@ small {
 /* Forms */
 input[type=text],
 input[type=password],
+input[type=email],
+input[type=url],
+input[type=number],
 textarea {
 	background: #fafafa;
 	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
@@ -447,6 +450,10 @@ textarea {
 	color: #888;
 }
 input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus,
+input[type=url]:focus,
+input[type=number]:focus,
 textarea:focus {
 	color: #373737;
 }
@@ -454,7 +461,11 @@ textarea {
 	padding-left: 3px;
 	width: 98%;
 }
-input[type=text] {
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url],
+input[type=number] {
 	padding: 3px;
 }
 input#s {
