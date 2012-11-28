@@ -15,7 +15,6 @@
 
 .media-frame select,
 .wp-admin .media-frame select {
-	height: 28px;
 	line-height: 28px;
 	margin-top: 3px;
 }
@@ -464,6 +463,7 @@ a.media-modal-close {
 	font-size: 13px;
 	color: #464646;
 	font-family: sans-serif;
+	-webkit-appearance: none;
 }
 
 .media-toolbar-secondary .search {
@@ -1334,4 +1334,103 @@ a.media-modal-close {
 	width: 100%;
 	max-width: 400px;
 	margin: 1px 0;
+}
+
+/**
+ * Responsive layout
+ */
+@media only screen and (max-width: 900px) {
+	.media-modal {
+		bottom: 30px;
+		left: 30px;
+		right: 30px;
+		top: 50px;
+	}
+
+	.media-menu {
+		width: 119px;
+	}
+
+	.media-menu li {
+		padding: 4px 10px;
+	}
+
+	.media-frame .region-content,
+	.media-frame-toolbar > .media-toolbar {
+		left: 120px;
+	}
+
+	.media-sidebar {
+		width: 147px;
+	}
+
+	.attachments-browser .attachments,
+	.attachments-browser .media-toolbar {
+		right: 180px;
+	}
+
+	.media-sidebar .setting {
+		width: 125px;
+	}
+
+	.media-sidebar .setting input,
+	.media-sidebar .setting textarea,
+	.media-sidebar .setting span,
+	.compat-item label span {
+		float: none;
+	}
+
+	.media-sidebar .setting span,
+	.compat-item label span {
+		text-align: inherit;
+		display: inline-block;
+		min-height: 16px;
+		padding: 8px 2px 0;
+		width: 95%;
+	}
+
+	.media-sidebar .setting input,
+	.media-sidebar .setting textarea,
+	.media-sidebar .setting select {
+		width: 100%;
+		max-width: none;
+	}
+
+	.media-sidebar .setting select.columns {
+		width: auto;
+	}
+
+	.media-frame-content .media-toolbar-primary,
+	.media-frame-content .media-toolbar-secondary {
+		display: inline;
+		float: none;
+	}
+
+	.media-frame-content .media-toolbar-primary .search,
+	.media-frame-content .media-toolbar-secondary select {
+		max-width: 45%;
+	}
+
+	.media-frame input,
+	.media-frame textarea,
+	.media-frame .search {
+		padding: 3px 6px;
+	}
+
+	.media-frame-content .attachment .icon {
+		top: 40%;
+	}
+}
+
+/* Use the same min-width as in the admin */
+@media only screen and (max-width: 600px) {
+	.media-modal {
+		width: 540px;
+		position: absolute;
+	}
+
+	.media-modal-backdrop {
+		width: 600px;
+		position: absolute;
+	}
 }
