@@ -20,22 +20,35 @@
 	margin-top: 3px;
 }
 
-a {
+.media-frame a {
 	color: #21759b;
 }
 
-a:hover {
+.media-frame a:hover {
 	color: #d54e21;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="number"],
-input[type="search"],
-input[type="email"],
-input[type="url"],
-textarea,
-select {
+.media-frame a.button {
+	color: #333;
+}
+
+.media-frame a.button:hover {
+	color: #222;
+}
+
+.media-frame a.button-primary,
+.media-frame a.button-primary:hover {
+	color: #fff;
+}
+
+.media-frame input[type="text"],
+.media-frame input[type="password"],
+.media-frame input[type="number"],
+.media-frame input[type="search"],
+.media-frame input[type="email"],
+.media-frame input[type="url"],
+.media-frame textarea,
+.media-frame select {
 	font-family: sans-serif;
 	font-size: 12px;
 	-moz-box-sizing: border-box;
@@ -49,7 +62,7 @@ select {
 	border-color: #dfdfdf;
 }
 
-input[type="search"] {
+.media-frame input[type="search"] {
 	-webkit-appearance: textfield;
 }
 
@@ -1251,7 +1264,7 @@ a.media-modal-close {
 	padding: 4px 0 6px 2px;
 }
 
-.embed-url input {
+.media-frame .embed-url input {
 	font-size: 18px;
 	padding: 12px 14px;
 	width: 100%;
