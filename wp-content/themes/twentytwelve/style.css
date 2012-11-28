@@ -202,9 +202,43 @@ article.format-status footer.entry-meta {
 	line-height: 2.181818182;
 }
 
+/* Form fields, general styles first */
+button,
+input,
+textarea {
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	font-family: inherit;
+	padding: 6px;
+	padding: 0.428571429rem;
+}
+button,
+input {
+    line-height: normal;
+}
+textarea {
+	font-size: 100%;
+	overflow: auto;
+	vertical-align: top;
+}
+
+/* Reset non-text input types */
+input[type="checkbox"],
+input[type="radio"],
+input[type="file"],
+input[type="hidden"],
+input[type="image"],
+input[type="color"] {
+	border: 0;
+	border-radius: 0;
+	padding: 0;
+}
+
 /* Buttons */
 .menu-toggle,
 input[type="submit"],
+input[type="button"],
+input[type="reset"],
 article.post-password-required input[type=submit],
 li.bypostauthor cite span {
 	padding: 6px 10px;
@@ -226,12 +260,21 @@ li.bypostauthor cite span {
 	box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
 }
 .menu-toggle,
+button,
 input[type="submit"],
-article.post-password-required input[type=submit] {
+input[type="button"],
+input[type="reset"] {
 	cursor: pointer;
 }
+button[disabled],
+input[disabled] {
+    cursor: default;
+}
 .menu-toggle:hover,
+button:hover,
 input[type="submit"]:hover,
+input[type="button"]:hover,
+input[type="reset"]:hover,
 article.post-password-required input[type=submit]:hover {
 	color: #5e5e5e;
 	background-color: #ebebeb;
@@ -244,9 +287,10 @@ article.post-password-required input[type=submit]:hover {
 }
 .menu-toggle:active,
 .menu-toggle.toggled-on,
+button:active,
 input[type="submit"]:active,
-article.post-password-required input[type=submit]:active,
-input[type="submit"].toggled-on {
+input[type="button"]:active,
+input[type="reset"]:active {
 	color: #757575;
 	background-color: #e1e1e1;
 	background-repeat: repeat-x;
@@ -266,19 +310,6 @@ li.bypostauthor cite span {
 	border-radius: 2px;
 	box-shadow: none;
 	padding: 0;
-}
-
-/* Form fields */
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="url"],
-textarea {
-	padding: 6px;
-	padding: 0.428571429rem;
-	font-family: inherit;
-	border: 1px solid #ccc;
-	border-radius: 3px;
 }
 
 /* Responsive images */
