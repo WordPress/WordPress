@@ -1016,7 +1016,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			if ( $post_data['post_type'] != get_post_type( $post_data['ID'] ) )
 				return new IXR_Error( 401, __( 'The post type may not be changed.' ) );
 		} else {
-			if ( ! current_user_can( $post_type->cap->edit_posts ) )
+			if ( ! current_user_can( $post_type->cap->create_posts ) || ! current_user_can( $post_type->cap->edit_posts ) )
 				return new IXR_Error( 401, __( 'Sorry, you are not allowed to post on this site.' ) );
 		}
 
@@ -3928,7 +3928,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('xmlrpc_call', 'blogger.newPost');
 
 		$cap = ($publish) ? 'publish_posts' : 'edit_posts';
-		if ( !current_user_can($cap) )
+		if ( ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) || !current_user_can($cap) )
 			return new IXR_Error(401, __('Sorry, you are not allowed to post on this site.'));
 
 		$post_status = ($publish) ? 'publish' : 'draft';
@@ -4143,6 +4143,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_type = 'post';
 		}
 
+		if ( ! current_user_can( get_post_type_object( $post_type )->cap->create_posts ) )
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish posts on this site.' ) );
 		if ( !current_user_can( $cap ) )
 			return new IXR_Error( 401, $error_message );
 

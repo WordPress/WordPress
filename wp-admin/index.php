@@ -76,7 +76,7 @@ if ( current_user_can( 'moderate_comments' ) )
 	$help .= '<p>' . __('<strong>Recent Comments</strong> - Shows the most recent comments on your posts (configurable, up to 30) and allows you to moderate them.') . '</p>';
 if ( current_user_can( 'publish_posts' ) )
 	$help .= '<p>' . __('<strong>Incoming Links</strong> - Shows links to your site found by Google Blog Search.') . '</p>';
-if ( current_user_can( 'create_posts' ) ) {
+if ( current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
 	$help .= '<p>' . __('<strong>QuickPress</strong> - Allows you to create a new post and either publish it or save it as a draft.') . '</p>';
 	$help .= '<p>' . __('<strong>Recent Drafts</strong> - Displays links to the 5 most recent draft posts you&#8217;ve started.') . '</p>';
 }

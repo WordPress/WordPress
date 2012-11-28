@@ -363,13 +363,16 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 			'href'   => admin_url(),
 		) );
 
-		if ( current_user_can( 'edit_posts' ) ) {
+		if ( current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
 			$wp_admin_bar->add_menu( array(
 				'parent' => $menu_id,
 				'id'     => $menu_id . '-n',
 				'title'  => __( 'New Post' ),
 				'href'   => admin_url( 'post-new.php' ),
 			) );
+		}
+
+		if ( current_user_can( 'edit_posts' ) ) {
 			$wp_admin_bar->add_menu( array(
 				'parent' => $menu_id,
 				'id'     => $menu_id . '-c',
