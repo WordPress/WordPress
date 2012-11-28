@@ -814,13 +814,15 @@
 				selector = '';
 			}
 
+			views = views || [];
+
 			if ( existing = this.get( selector ) ) {
 				views = _.isArray( views ) ? views : [ views ];
 				this._views[ selector ] = views.length ? _.difference( existing, views ) : [];
 			}
 
 			if ( ! options || ! options.silent )
-				_.invoke( views, 'dispose', { silent: true });
+				_.invoke( views, 'dispose' );
 
 			return this;
 		},
@@ -1014,10 +1016,13 @@
 		render: function() {
 			var options;
 
+			if ( this.prepare )
+				options = this.prepare();
+
 			this.views.detach();
 
 			if ( this.template ) {
-				options = this.prepare ? this.prepare() : {};
+				options = options || {};
 				this.trigger( 'prepare', options );
 				this.$el.html( this.template( options ) );
 			}
@@ -2433,9 +2438,10 @@
 			this.details( this.model, this.controller.state().get('selection') );
 		},
 
-		destroy: function() {
-			this.model.off( null, null, this );
-			this.remove();
+		dispose: function() {
+			this.updateAll();
+			media.View.prototype.dispose.apply( this, arguments );
+			return this;
 		},
 
 		render: function() {
@@ -2462,6 +2468,7 @@
 			if ( 'image' === options.type )
 				options.size = this.imageSize();
 
+			this.views.detach();
 			this.$el.html( this.template( options ) );
 
 			this.$el.toggleClass( 'uploading', options.uploading );
@@ -2474,6 +2481,7 @@
 			if ( this.selected() )
 				this.select();
 
+			this.views.render();
 			return this;
 		},
 
@@ -2571,6 +2579,30 @@
 			this.model.save( $setting.data('setting'), event.target.value );
 		},
 
+		updateAll: function() {
+			var $settings = this.$('[data-setting]'),
+				model = this.model,
+				changed;
+
+			changed = _.chain( $settings ).map( function( el ) {
+				var $input = $('input, textarea, select, [value]', el ),
+					setting, value;
+
+				if ( ! $input.length )
+					return;
+
+				setting = $(el).data('setting');
+				value = $input.val();
+
+				// Record the value if it changed.
+				if ( model.get( setting ) !== value )
+					return [ setting, value ];
+			}).compact().object().value();
+
+			if ( changed )
+				model.save( changed );
+		},
+
 		removeFromLibrary: function( event ) {
 			// Stop propagation so the model isn't selected.
 			event.stopPropagation();
@@ -2614,7 +2646,8 @@
 	media.view.Attachments = media.View.extend({
 		tagName:   'ul',
 		className: 'attachments',
-		template:  media.template('attachments-css'),
+
+		cssTemplate: media.template('attachments-css'),
 
 		events: {
 			'scroll': 'scroll'
@@ -2631,10 +2664,20 @@
 				sortable:           false
 			});
 
-			_.each(['add','remove'], function( method ) {
-				this.collection.on( method, function( attachment, attachments, options ) {
-					this[ method ]( attachment, options.index );
-				}, this );
+			this._viewsByCid = {};
+
+			this.collection.on( 'add', function( attachment, attachments, options ) {
+				this.views.add( this.createAttachmentView( attachment ), {
+					at: options.index
+				});
+			}, this );
+
+			this.collection.on( 'remove', function( attachment, attachments, options ) {
+				var view = this._viewsByCid[ attachment.cid ];
+				delete this._viewsByCid[ attachment.cid ];
+
+				if ( view )
+					view.remove();
 			}, this );
 
 			this.collection.on( 'reset', this.render, this );
@@ -2664,7 +2707,7 @@
 			if ( $css.length )
 				$css.remove();
 
-			media.view.Attachments.$head().append( this.template({
+			media.view.Attachments.$head().append( this.cssTemplate({
 				id:     this.el.id,
 				edge:   this.edge(),
 				gutter: this.model.get('gutter')
@@ -2739,56 +2782,34 @@
 			this.$el.sortable( 'option', 'disabled', !! this.collection.comparator );
 		},
 
-		render: function() {
-			// If there are no elements, load some.
-			if ( ! this.collection.length ) {
-				this.collection.more().done( this.scroll );
-				this.$el.empty();
-				return this;
-			}
+		createAttachmentView: function( attachment ) {
+			var view = new this.options.AttachmentView({
+				controller: this.controller,
+				model:      attachment,
+				collection: this.collection,
+				selection:  this.options.selection
+			});
 
-			// Otherwise, create all of the Attachment views, and replace
+			return this._viewsByCid[ attachment.cid ] = view;
+		},
+
+		prepare: function() {
+			// Create all of the Attachment views, and replace
 			// the list in a single DOM operation.
-			this.$el.html( this.collection.map( function( attachment ) {
-				return new this.options.AttachmentView({
-					controller: this.controller,
-					model:      attachment,
-					collection: this.collection,
-					selection:  this.options.selection
-				}).render().$el;
-			}, this ) );
+			if ( this.collection.length ) {
+				this.views.set( this.collection.map( this.createAttachmentView, this ) );
 
-			return this;
+			// If there are no elements, clear the views and load some.
+			} else {
+				this.views.unset();
+				this.collection.more().done( this.scroll );
+			}
 		},
 
 		ready: function() {
 			// Trigger the scroll event to check if we're within the
 			// threshold to query for additional attachments.
 			this.scroll();
-		},
-
-		add: function( attachment, index ) {
-			var view, children;
-
-			view = new this.options.AttachmentView({
-				controller: this.controller,
-				model:      attachment,
-				collection: this.collection,
-				selection:  this.options.selection
-			}).render();
-
-			children = this.$el.children();
-
-			if ( children.length > index )
-				children.eq( index ).before( view.$el );
-			else
-				this.$el.append( view.$el );
-		},
-
-		remove: function( attachment, index ) {
-			var children = this.$el.children();
-			if ( children.length )
-				children.eq( index ).detach();
 		},
 
 		scroll: function( event ) {
