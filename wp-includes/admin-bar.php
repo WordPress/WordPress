@@ -486,7 +486,7 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 
 	$cpts = (array) get_post_types( array( 'show_in_admin_bar' => true ), 'objects' );
 
-	if ( isset( $cpts['post'] ) && current_user_can( $cpts['post']->cap->edit_posts ) )
+	if ( isset( $cpts['post'] ) && current_user_can( $cpts['post']->cap->create_posts ) )
 		$actions[ 'post-new.php' ] = array( $cpts['post']->labels->name_admin_bar, 'new-post' );
 
 	if ( isset( $cpts['attachment'] ) && current_user_can( 'upload_files' ) )
@@ -495,14 +495,14 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 	if ( current_user_can( 'manage_links' ) )
 		$actions[ 'link-add.php' ] = array( _x( 'Link', 'add new from admin bar' ), 'new-link' );
 
-	if ( isset( $cpts['page'] ) && current_user_can( $cpts['page']->cap->edit_posts ) )
+	if ( isset( $cpts['page'] ) && current_user_can( $cpts['page']->cap->create_posts ) )
 		$actions[ 'post-new.php?post_type=page' ] = array( $cpts['page']->labels->name_admin_bar, 'new-page' );
 
 	unset( $cpts['post'], $cpts['page'], $cpts['attachment'] );
 
 	// Add any additional custom post types.
 	foreach ( $cpts as $cpt ) {
-		if ( ! current_user_can( $cpt->cap->edit_posts ) )
+		if ( ! current_user_can( $cpt->cap->create_posts ) )
 			continue;
 
 		$key = 'post-new.php?post_type=' . $cpt->name;
