@@ -669,6 +669,12 @@ function gallery_shortcode($attr) {
 	static $instance = 0;
 	$instance++;
 
+	if ( ! empty( $attr['ids'] ) ) {
+		// 'ids' is explicitly ordered
+		$attr['orderby'] = 'post__in';
+		$attr['include'] = $attr['ids'];
+	}
+
 	// Allow plugins/themes to override the default gallery template.
 	$output = apply_filters('post_gallery', '', $attr);
 	if ( $output != '' )
@@ -690,7 +696,6 @@ function gallery_shortcode($attr) {
 		'captiontag' => 'dd',
 		'columns'    => 3,
 		'size'       => 'thumbnail',
-		'ids'        => '',
 		'include'    => '',
 		'exclude'    => ''
 	), $attr));
@@ -698,12 +703,6 @@ function gallery_shortcode($attr) {
 	$id = intval($id);
 	if ( 'RAND' == $order )
 		$orderby = 'none';
-
-	if ( !empty( $ids ) ) {
-		// 'ids' is explicitly ordered
-		$orderby = 'post__in';
-		$include = $ids;
-	}
 
 	if ( !empty($include) ) {
 		$_attachments = get_posts( array('include' => $include, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
