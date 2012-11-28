@@ -2574,12 +2574,17 @@
 		},
 
 		updateSetting: function( event ) {
-			var $setting = $( event.target ).closest('[data-setting]');
+			var $setting = $( event.target ).closest('[data-setting]'),
+				setting, value;
 
 			if ( ! $setting.length )
 				return;
 
-			this.model.save( $setting.data('setting'), event.target.value );
+			setting = $setting.data('setting');
+			value   = event.target.value;
+
+			if ( this.model.get( setting ) !== value )
+				this.model.save( setting, value );
 		},
 
 		updateAll: function() {
