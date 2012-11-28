@@ -270,7 +270,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		echo '<div class="alignleft actions">';
 
 		if ( ! $this->screen->is_network && 'recently_activated' == $status )
-			submit_button( __( 'Clear List' ), 'small', 'clear-recent-list', false );
+			submit_button( __( 'Clear List' ), 'button', 'clear-recent-list', false );
 		elseif ( 'top' == $which && 'mustuse' == $status )
 			echo '<p>' . sprintf( __( 'Files in the <code>%s</code> directory are executed automatically.' ), str_replace( ABSPATH, '/', WPMU_PLUGIN_DIR ) ) . '</p>';
 		elseif ( 'top' == $which && 'dropins' == $status )

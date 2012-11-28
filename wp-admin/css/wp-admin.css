@@ -884,6 +884,12 @@ input[type="number"].small-text {
 	margin: 1px 8px 0 0;
 }
 
+.tablenav #changeit,
+.tablenav #delete_all,
+.tablenav #clear-recent-list {
+	margin-top: 1px;
+}
+
 .tablenav .actions select {
 	float: left;
 	margin-right: 6px;
