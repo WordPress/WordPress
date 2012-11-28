@@ -5206,15 +5206,6 @@ h2 .nav-tab {
 	padding-top: 20px;
 }
 
-.about-wrap .changelog {
-	overflow: hidden;
-}
-
-.about-wrap .changelog li {
-	list-style-type: disc;
-	margin-left: 3em;
-}
-
 .about-wrap .feature-section {
 	padding-bottom: 20px;
 }
@@ -5303,19 +5294,12 @@ h2 .nav-tab {
 
 .about-wrap .feature-section.images-stagger-right img {
 	float: right;
-	margin: 0 5px 12px 12px;
+	margin: 0 5px 12px 2em;
 }
 
 .about-wrap .feature-section.images-stagger-left img {
 	float: left;
-	margin: 0 12px 12px 5px;
-}
-
-@media only screen and (max-width: 900px) {
-	.about-wrap .feature-section.images-stagger-left img,
-	.about-wrap .feature-section.images-stagger-right img {
-		clear: both;
-	}
+	margin: 0 2em 12px 5px;
 }
 
 .about-wrap .feature-section img.image-100 {
@@ -5324,7 +5308,6 @@ h2 .nav-tab {
 }
 
 .about-wrap .feature-section img.image-66 {
-	margin: 0 0 0 1em;
 	width: 65%;
 }
 
@@ -5377,6 +5360,39 @@ h2 .nav-tab {
 
 .about-wrap .three-col-images .first-feature {
 	float: left;
+}
+
+.about-wrap .changelog .feature-section {
+	overflow: hidden;
+	padding-bottom: 0;
+}
+
+.about-wrap .changelog li {
+	list-style-type: disc;
+	margin-left: 3em;
+}
+
+@media only screen and (max-width: 900px) {
+	.about-wrap .feature-section.images-stagger-left img,
+	.about-wrap .feature-section.images-stagger-right img {
+		clear: both;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.about-wrap .feature-section img.image-66 {
+		float: none;
+		width: 98%;
+		max-width: 98%;
+	}
+
+	.about-wrap .feature-section.images-stagger-right img.image-66 {
+		margin-left: 3px;
+	}
+
+	.about-wrap .feature-section.images-stagger-left img.image-66 {
+		margin-right: 3px;
+	}
 }
 
 /* Return to Dashboard Home link */

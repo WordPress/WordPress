@@ -19,7 +19,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <h1><?php printf( __( 'Welcome to WordPress %s' ), $display_version ); ?></h1>
 
-<div class="about-text"><?php printf( ( 'Thank you for updating to the latest version! WordPress %s helps make your web publishing experience easier, faster, and more enjoyable than ever. Welcome aboard.' ), $display_version ); ?></div>
+<div class="about-text"><?php printf( __( 'Thank you for updating to the latest version! WordPress %s is more polished and enjoyable than ever before. We hope you like it.' ), $display_version ); ?></div>
 
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
@@ -34,127 +34,91 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="changelog">
-	<h3><?php echo ( 'Media Management' ); ?></h3>
+	<h3><?php _e( 'New Media Manager' ); ?></h3>
 
 	<div class="feature-section three-col">
 		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-media.png' ) ); ?>" class="image-100" />
 
 		<div>
-			<h4><?php echo ( 'Easier interface' ); ?></h4>
-			<p><?php echo ( 'Adding media to your posts is more streamlined than ever. It\'s a breeze to insert, align, caption, and link to media within your posts.' ); ?></p>
+			<h4><?php _e( 'Beautiful Interface' ); ?></h4>
+			<p><?php _e( 'Adding media has been streamlined with an all-new experience, making it a breeze to upload files and place them into your posts.' ); ?></p>
 		</div>
 		<div>
-			<h4><?php echo ( 'Picturesque galleries' ); ?></h4>
-			<p><?php echo ( 'Adding image galleries is easier with drag and drop reordering, inline caption editing, and simplified controls for the gallery layout.' ); ?></p>
+			<h4><?php _e( 'Picturesque Galleries' ); ?></h4>
+			<p><?php _e( 'Creating image galleries is faster with drag and drop reordering, inline caption editing, and simplified controls for layout.' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php echo ( 'Attachment page editor' ); ?></h4>
-			<p><?php echo ( 'You can crop, rotate and resize images right in the Media Library! There are now formatting controls for content on your attachment pages.' ); ?></p>
+			<h4><?php _e( 'Insert Multiple Images' ); ?></h4>
+			<p><?php _e( 'Have a need for speed? You can now insert multiple images at once and then compose your words around them.' ); ?></p>
 		</div>
 	</div>
 </div>
 
 <div class="changelog">
-	<h3><?php echo ( 'Smoother experience' ); ?></h3>
-
-	<div class="feature-section">
-		<h4><?php echo ( 'Simplified settings, better buttons, easier controls' ); ?></h4>
-		<p><?php echo ( 'WordPress always aims to stay out of the way, and let you get on with publishing your content. You\'ll find simplified settings screens, more aesthetically pleasing buttons, and easier controls such as the improved color picker. They\'re the little details we hope you\'ll never notice.' ); ?></p>
-		<div class="three-col-images">
-			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-tinymce.png' ) ); ?>" class="image-30 first-feature" />
-			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-buttons.png' ) ); ?>" class="image-30" />
-			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-color-picker.png' ) ); ?>" class="image-30 last-feature" />
-		</div>
-	</div>
-</div>
-
-<div class="changelog">
-	<h3><?php echo ( 'Twenty Twelve theme' ); ?></h3>
+	<h3><?php _e( 'New Default Theme' ); ?></h3>
 
 	<div class="feature-section images-stagger-right">
 		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-twenty-twelve.png' ) ); ?>" class="image-66" />
-		<h4><?php echo ( 'Beauty in its simplicity' ); ?></h4>
-		<p><?php echo ( 'Twenty Twelve is an elegant, readable, and fully responsive theme that makes your site content look its best on any device.' ); ?></p>
-		<p><?php echo ( 'Make the design of your site fully yours with a custom menu, custom header image, and custom background color or image.' ); ?></p>
+		<h4><?php _e( 'Introducing Twenty Twelve' ); ?></h4>
+		<p><?php _e( 'The newest default theme for WordPress is simple, flexible, and elegant.' ); ?></p>
+		<p><?php _e( 'What makes it really shine are the design details, like the gorgeous Open Sans typeface and a fully responsive design that looks great on any device.' ); ?></p>
+		<p><?php _e( 'Naturally, Twenty Twelve supports all the theme features you’ve come to know and love, but it is also designed to be as great for a website as it is for a blog.' ); ?></p>
 	</div>
 </div>
 
 <div class="changelog">
-	<h3><?php echo ( 'HiDPI Admin' ); ?></h3>
+	<h3><?php _e( 'Retina Ready' ); ?></h3>
 
 	<div class="feature-section images-stagger-right">
-		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-hidef.png' ) ); ?>" class="image-66" />
-		<h4><?php echo ( 'Retina all the things' ); ?></h4>
-		<p><?php echo ( 'WordPress now looks as beautiful on HiDPI devices as native applications do. Icons, buttons, avatars and theme screenshots (where supported) are crystal clear and full of detail.' ); ?></p>
+		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-retina.png' ) ); ?>" class="image-66" />
+		<h4><?php _e( 'So Sharp You Can&#8217;t See the Pixels' ); ?></h4>
+		<p><?php _e( 'The WordPress dashboard now looks beautiful on high-resolution screens like those found on the iPad, Kindle Fire HD, Nexus 10, and MacBook Pro with Retina Display. Icons and other visual elements are crystal clear and full of detail.' ); ?></p>
 	</div>
 </div>
 
 <div class="changelog">
-	<h3><?php echo ( 'Better Accessibility' ); ?></h3>
+	<h3><?php _e( 'Smoother Experience' ); ?></h3>
 
 	<div class="feature-section images-stagger-right">
-		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-accessibility2.png' ) ); ?>" class="image-30" />
-		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-accessibility1.png' ) ); ?>" class="image-30" />
-		<h4><?php echo ( 'For everyone' ); ?></h4>
-		<p><?php echo ( 'WordPress has wider support for more devices than ever before. Users of screenreaders, touch devices, and mouse-less devices will all see improvements to ease of use and accessibility.' ); ?></p>
-		<?php //TODO: Link to new Codex page listing the accessibility features of WordPress. ?>
+		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-color-picker.png' ) ); ?>" class="image-30" />
+		<h4><?php _e( 'Better Accessibility' ); ?></h4>
+		<p><?php _e( 'WordPress supports more usage modes than ever before. Screenreaders, touch devices, and mouseless workflows all have improved ease of use and accessibility.' ); ?></p>
+
+		<h4><?php _e( 'More Polish' ); ?></h4>
+		<p><?php _e( 'A number of screens and controls have been refined. For example, a new color picker makes it easier for you to choose that perfect shade of blue.' ); ?></p>
 	</div>
 </div>
 
 <div class="changelog">
-	<h3><?php echo ( 'More Embed Support' ); ?></h3>
-
-	<div class="feature-section">
-		<h4><?php echo ( 'Instagram, SlideShare, and SoundCloud' ); ?></h4>
-		<p><?php echo ( 'You can now embed content from Instagram, SlideShare, and SoundCloud without having to mess around copying and pasting embed codes. Just paste a URL from any of these sites onto its own line in your post and the content will automatically be embedded for you.' ); ?></p>
-		<p><?php printf( ( 'This works for several other popular sites, too, such as YouTube, Flickr, and Vimeo. For more, see the Codex article on <a href="%s">Embeds</a>.' ), ( 'http://codex.wordpress.org/Embeds' ) ); ?></p>
-		<div class="three-col-images">
-			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-instagram.png' ) ); ?>" class="image-30 first-feature" />
-			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-slideshare.png' ) ); ?>" class="image-30" />
-			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-soundcloud.png' ) ); ?>" class="image-30 last-feature" />
-		</div>
-	</div>
-</div>
-
-<?php if ( current_user_can( 'install_plugins' ) ) { ?>
-
-	<div class="changelog">
-		<h3><?php echo ( 'Plugin Favorites' ); ?></h3>
-
-		<div class="feature-section images-stagger-right">
-			<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-favorite-plugins.png' ) ); ?>" class="image-66" />
-			<h4><?php echo ( 'Which plugins do you love?' ); ?></h4>
-			<p><?php echo ( 'Wouldn\'t it be great to see a list of all your favorite plugins right in the Plugins menu in WordPress? Well, now you can.' ); ?></p>
-			<p><?php printf( ( 'If you have marked plugins as favorites on WordPress.org, you can browse them from the Favorites tab on the <a href="%s">Install Plugins</a> screen.' ), admin_url( 'plugin-install.php?tab=favorites' ) ); ?></p>
-		</div>
-	</div>
-
-<?php } ?>
-
-<div class="changelog">
-	<h3><?php echo ( 'Under the Hood' ); ?></h3>
+	<h3><?php _e( 'Under the Hood' ); ?></h3>
 
 	<div class="feature-section three-col">
 		<div>
-			<h4><?php echo ( 'Meta Query Additions' ); ?></h4>
-			<p><?php echo ( 'The <code>WP_Comment_Query</code> and <code>WP_User_Query</code> classes now support meta queries just like <code>WP_Query</code>.' ); ?></p>
-
-			<h4><?php echo ( 'Multisite Improvements' ); ?></h4>
-			<p><?php echo ( '<code>switch_to_blog()</code> no longer obliterates the object cache, greatly improving performance. For new sites, Multisite now works when WordPress is installed in a subdirectory.' ); ?></p>
+			<h4><?php _e( 'Meta Query Additions' ); ?></h4>
+			<p><?php _e( 'The <code>WP_Comment_Query</code> and <code>WP_User_Query</code> classes now support meta queries just like <code>WP_Query.</code> Meta queries now support querying for objects without a particular meta key.' ); ?></p>
 		</div>
 		<div>
-			<h4><?php echo ( 'WP_Post' ); ?></h4>
-			<p><?php echo ( 'Post objects are now instances of the new <code>WP_Post</code> class which improves performance by loading selected properties on demand.' ); ?></p>
-
-			<h4><?php echo ( 'XML-RPC API' ); ?></h4>
-			<p><?php printf( ( 'The <a href="%s">WordPress API</a> is now enabled by default and enjoys the same security as the rest of core. It supports fetching users, profiles, post revisions, and searching posts.' ), ( 'http://codex.wordpress.org/XML-RPC_WordPress_API' ) ); ?></p>
+			<h4><?php _e( 'Post Objects' ); ?></h4>
+			<p><?php _e( 'Post objects are now instances of a <code>WP_Post</code> class, which improves performance by loading selected properties on demand.' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php echo ( 'Image Editing API Abstractions' ); ?></h4>
-			<p><?php echo ( 'The <code>WP_Image_Editor</code> class abstracts image editing functionality such as cropping and scaling, and uses ImageMagick when available.' ); ?></p>
+			<h4><?php _e( 'Image Editing API' ); ?></h4>
+			<p><?php _e( 'The <code>WP_Image_Editor</code> class abstracts image editing functionality such as cropping and scaling, and uses ImageMagick when available.' ); ?></p>
+		</div>
+	</div>
 
-			<h4><?php echo ( 'External Libraries' ); ?></h4>
-			<p><?php printf( ('WordPress now includes the <a href="%1$s">Underscore</a> and <a href="%2$s">Backbone</a> JavaScript libraries. TinyMCE, jQuery, jQuery UI, jCrop, and SimplePie have all been updated to the latest versions.' ), 'http://underscorejs.org/', 'http://backbonejs.org/' ); ?></p>
+	<div class="feature-section three-col">
+		<div>
+			<h4><?php _e( 'Multisite Improvements' ); ?></h4>
+			<p><?php _e( '<code>switch_to_blog()</code> is now significantly faster and more reliable.' ); ?></p>
+		</div>
+		<div>
+			<h4><?php _e( 'XML-RPC API' ); ?></h4>
+			<p><?php printf( __( 'The <a href="%s">WordPress API</a> is now always enabled, and supports fetching users, editing profiles, managing post revisions, and searching posts.' ), __( 'http://codex.wordpress.org/XML-RPC_WordPress_API' ) ); ?></p>
+		</div>
+		<div class="last-feature">
+			<h4><?php _e( 'External Libraries' ); ?></h4>
+			<p><?php printf( __( 'WordPress now includes the <a href="%1$s">Underscore</a> and <a href="%2$s">Backbone</a> JavaScript libraries. TinyMCE, jQuery, jQuery UI, and SimplePie have all been updated to the latest versions.' ), 'http://underscorejs.org/', 'http://backbonejs.org/' ); ?></p>
 		</div>
 	</div>
 </div>

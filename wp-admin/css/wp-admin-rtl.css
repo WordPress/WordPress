@@ -1515,12 +1515,12 @@ h2 .nav-tab {
 
 .about-wrap .feature-section.images-stagger-right img {
 	float: left;
-	margin: 0 12px 12px 5px;
+	margin: 0 2em 12px 5px;
 }
 
 .about-wrap .feature-section.images-stagger-left img {
 	float: right;
-	margin: 0 5px 12px 12px;
+	margin: 0 5px 12px 2em;
 }
 
 .about-wrap li.wp-person,
@@ -1528,6 +1528,20 @@ h2 .nav-tab {
 	float: right;
 	margin-right: 0;
 	margin-left: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+	.about-wrap .feature-section img.image-66 {
+		float: none;
+	}
+
+	.about-wrap .feature-section.images-stagger-right img.image-66 {
+		margin-right: 3px;
+	}
+
+	.about-wrap .feature-section.images-stagger-left img.image-66 {
+		margin-left: 3px;
+	}
 }
 
 /*------------------------------------------------------------------------------
