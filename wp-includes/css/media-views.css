@@ -270,6 +270,7 @@ a.media-modal-close {
 
 .media-sidebar .setting select {
 	max-width: 65%;
+	*max-width: 55%; /* IE7 */
 }
 
 .media-sidebar .setting span,
@@ -287,6 +288,7 @@ a.media-modal-close {
 .media-sidebar .setting input,
 .media-sidebar .setting textarea {
 	width: 65%;
+	*width: 55%; /* IE7 */
 	float: right;
 }
 
@@ -693,6 +695,7 @@ a.media-modal-close {
 	position: relative;
 	display: block;
 	width: 100%;
+	*width: 183px; /* IE7 only */
 	margin: -1px 0 0;
 	padding: 8px;
 	font-size: 12px;
