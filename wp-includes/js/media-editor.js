@@ -509,21 +509,27 @@
 		},
 
 		open: function( id ) {
-			var workflow;
+			var workflow, editor;
 
 			// If an empty `id` is provided, default to `wpActiveEditor`.
 			id = id || wpActiveEditor;
 
-			// If that doesn't work, fall back to `tinymce.activeEditor`.
-			if ( ! id && typeof tinymce !== 'undefined' && tinymce.activeEditor )
-				id = id || tinymce.activeEditor.id;
+			if ( typeof tinymce !== 'undefined' && tinymce.activeEditor ) {
+				// If that doesn't work, fall back to `tinymce.activeEditor`.
+				if ( ! id ) {
+					editor = tinymce.activeEditor;
+					id = id || editor.id;
+				} else {
+					editor = tinymce.get( id );
+				}
+
+				// Save a bookmark of the caret position, needed for IE
+				if ( tinymce.isIE && editor && ! editor.isHidden() )
+					editor.windowManager.insertimagebookmark = editor.selection.getBookmark();
+			}
 
 			// Last but not least, fall back to the empty string.
 			id = id || '';
-
-			// Save a bookmark of the caret position, needed for IE
-			if ( typeof tinymce !== 'undefined' && tinymce.activeEditor && tinymce.isIE && ! tinymce.activeEditor.isHidden() )
-				tinymce.activeEditor.windowManager.insertimagebookmark = tinymce.activeEditor.selection.getBookmark();
 
 			workflow = wp.media.editor.get( id );
 
