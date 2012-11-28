@@ -146,7 +146,7 @@ h3#reply-title,
 .wp-caption-text {
 	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
 }
-input[type=submit] {
+input[type="submit"] {
 	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
 }
 pre {
@@ -312,6 +312,10 @@ small {
 	font-size: smaller;
 }
 input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="number"],
 textarea {
 	background: #f9f9f9;
 	border: 1px solid #ccc;
@@ -1048,7 +1052,7 @@ a.comment-edit-link:hover {
 }
 
 /* Comments form */
-input[type=submit] {
+input[type="submit"] {
 	color: #333;
 }
 #respond {
