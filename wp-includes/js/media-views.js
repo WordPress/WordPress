@@ -1801,6 +1801,9 @@
 			if ( ! this.options.$browser && this.controller.uploader )
 				this.options.$browser = this.controller.uploader.$browser;
 
+			if ( _.isUndefined( this.options.postId ) )
+				this.options.postId = media.view.settings.postId;
+
 			this.views.set( '.upload-inline-status', new media.view.UploaderStatus({
 				controller: this.controller
 			}) );

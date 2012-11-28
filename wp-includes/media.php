@@ -1538,11 +1538,17 @@ function wp_print_media_templates() {
 			<div class="upload-inline-status"></div>
 
 			<div class="post-upload-ui">
-				<?php do_action( 'pre-upload-ui' ); ?>
-				<?php do_action( 'pre-plupload-upload-ui' ); ?>
-				<?php do_action( 'post-plupload-upload-ui' ); ?>
-
 				<?php
+				do_action( 'pre-upload-ui' );
+				do_action( 'pre-plupload-upload-ui' );
+
+				if ( 10 === remove_action( 'post-plupload-upload-ui', 'media_upload_flash_bypass' ) ) {
+					do_action( 'post-plupload-upload-ui' );
+					add_action( 'post-plupload-upload-ui', 'media_upload_flash_bypass' );
+				} else {
+					do_action( 'post-plupload-upload-ui' );
+				}
+
 				$upload_size_unit = $max_upload_size = wp_max_upload_size();
 				$byte_sizes = array( 'KB', 'MB', 'GB' );
 
@@ -1563,8 +1569,11 @@ function wp_print_media_templates() {
 					printf( __( 'Maximum upload file size: %d%s.' ), esc_html($upload_size_unit), esc_html($byte_sizes[$u]) );
 				?></p>
 
-				<?php if ( ( $GLOBALS['is_IE'] || $GLOBALS['is_opera']) && $max_upload_size > 100 * 1024 * 1024 ) : ?>
-					<p class="big-file-warning"><?php _e('Your browser has some limitations uploading large files with the multi-file uploader. Please use the browser uploader for files over 100MB.'); ?></p>
+				<?php if ( ( $GLOBALS['is_IE'] || $GLOBALS['is_opera']) && $max_upload_size > 100 * 1024 * 1024 ) :
+					$browser_uploader = admin_url( 'media-new.php?browser-uploader&post_id=' ) . '{{ data.postId }}';
+					?>
+					<p class="big-file-warning"><?php printf( __( 'Your browser has some limitations uploading large files with the multi-file uploader. Please use the <a href="%1$s" target="%2$s">browser uploader</a> for files over 100MB.' ),
+						$browser_uploader, '_blank' ); ?></p>
 				<?php endif; ?>
 
 				<?php do_action( 'post-upload-ui' ); ?>
