@@ -4,13 +4,11 @@
 .media-modal-title {
 	left: auto;
 	right: 0;
-	float: right;
 }
 
 .media-modal-close {
 	right: auto;
 	left: 0;
-	float: left;
 }
 
 /**

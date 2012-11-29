@@ -1507,7 +1507,7 @@ function wp_print_media_templates() {
 	<script type="text/html" id="tmpl-media-modal">
 		<div class="media-modal">
 			<h3 class="media-modal-title">{{ data.title }}</h3>
-			<a class="media-modal-close" href="" title="<?php esc_attr_e('Close'); ?>">&times;</a>
+			<a class="media-modal-close media-modal-icon" href="#" title="<?php esc_attr_e('Close'); ?>"></a>
 		</div>
 		<div class="media-modal-backdrop">
 			<div></div>
@@ -1620,11 +1620,11 @@ function wp_print_media_templates() {
 			<# } #>
 
 			<# if ( data.buttons.close ) { #>
-				<a class="close button" href="#">&times;</a>
+				<a class="close media-modal-icon" href="#" title="<?php _e('Remove'); ?>"></a>
 			<# } #>
 
 			<# if ( data.buttons.check ) { #>
-				<a class="check" href="#"><span>&#10003;</span><span class="dash">&ndash;</span></a>
+				<a class="check" href="#" title="<?php _e('Deselect'); ?>"><div class="media-modal-icon"></div></a>
 			<# } #>
 		</div>
 		<# if ( data.describe ) { #>
