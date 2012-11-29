@@ -1189,7 +1189,7 @@ function upgrade_340() {
 function upgrade_350() {
 	global $wp_current_db_version, $wpdb;
 
-	if ( $wp_current_db_version < 21501 && $wpdb->get_var( "SELECT link_id FROM $wpdb->links LIMIT 1" ) )
+	if ( $wp_current_db_version < 22006 && $wpdb->get_var( "SELECT link_id FROM $wpdb->links LIMIT 1" ) )
 		update_option( 'link_manager_enabled', 1 ); // Previously set to 0 by populate_options()
 
 	if ( $wp_current_db_version < 21811 && is_main_site() && ! defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
@@ -1948,7 +1948,7 @@ function maybe_disable_automattic_widgets() {
 function maybe_disable_link_manager() {
 	global $wp_current_db_version, $wpdb;
 
-	if ( $wp_current_db_version >= 21501 && get_option( 'link_manager_enabled' ) && ! $wpdb->get_var( "SELECT link_id FROM $wpdb->links LIMIT 1" ) )
+	if ( $wp_current_db_version >= 22006 && get_option( 'link_manager_enabled' ) && ! $wpdb->get_var( "SELECT link_id FROM $wpdb->links LIMIT 1" ) )
 		update_option( 'link_manager_enabled', 0 );
 }
 
