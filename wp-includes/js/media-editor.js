@@ -197,11 +197,7 @@
 					args.parent = attrs.id;
 
 				// Collect the attributes that were not included in `args`.
-				others = {};
-				_.filter( attrs, function( value, key ) {
-					if ( _.isUndefined( args[ key ] ) )
-						others[ key ] = value;
-				});
+				others = _.omit( attrs, 'id', 'ids', 'include', 'exclude', 'orderby', 'order' );
 
 				query = media.query( args );
 				query.gallery = new Backbone.Model( others );
