@@ -1287,6 +1287,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 	$default_args = array(
 		'errors' => null,
 		'taxonomies' => false,
+		'description' => false,
 	);
 
 	$args = wp_parse_args( $args, $default_args );
@@ -1325,8 +1326,11 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 	$form_fields = apply_filters( 'attachment_fields_to_edit', $form_fields, $post );
 
 	unset( $form_fields['image-size'], $form_fields['align'], $form_fields['image_alt'],
-		$form_fields['post_title'], $form_fields['post_excerpt'], $form_fields['post_content'],
+		$form_fields['post_title'], $form_fields['post_excerpt'],
 		$form_fields['url'], $form_fields['menu_order'], $form_fields['image_url'] );
+
+	if ( ! $args['description'] )
+		unset( $form_fields['post_content'] );
 
 	$media_meta = apply_filters( 'media_meta', '', $post );
 

@@ -1899,6 +1899,10 @@ function wp_ajax_save_attachment_compat() {
 	if ( 'attachment' != $post['post_type'] )
 		wp_send_json_error();
 
+	// Handle the description field automatically, if a plugin adds it back.
+	if ( isset( $attachment_data['post_content'] ) )
+		$post['post_content'] = $attachment_data['post_content'];
+
 	$post = apply_filters( 'attachment_fields_to_save', $post, $attachment_data );
 
 	if ( isset( $post['errors'] ) ) {
