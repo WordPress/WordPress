@@ -262,7 +262,6 @@
 			describe:   false,
 			toolbar:    'main-attachments',
 			sidebar:    'settings',
-			content:    'browse',
 			searchable: true,
 			filterable: false,
 			uploads:    true
@@ -305,11 +304,19 @@
 
 			selection.on( 'add remove reset', this.refreshSelection, this );
 
+			this._updateEmpty();
+			library.on( 'add remove reset', this._updateEmpty, this );
+			this.on( 'change:empty', this.refresh, this );
 			this.refresh();
+
+
 			this.on( 'insert', this._insertDisplaySettings, this );
 		},
 
 		deactivate: function() {
+			this.off( 'change:empty', this.refresh, this );
+			this.get('library').off( 'add remove reset', this._updateEmpty, this );
+
 			// Unbind all event handlers that use this state as the context
 			// from the selection.
 			this.get('selection').off( null, null, this );
@@ -327,7 +334,23 @@
 			this.resetDisplays();
 		},
 
+		content: function() {
+			var frame = this.frame;
+
+			if ( this.get('empty') ) {
+				// Attempt to fetch any Attachments we don't already have.
+				this.get('library').more();
+
+				// In the meantime, render an inline uploader.
+				frame.content.mode('upload');
+			} else {
+				// Browse our library of attachments.
+				frame.content.mode('browse');
+			}
+		},
+
 		refresh: function() {
+			this.frame.$el.toggleClass( 'hide-toolbar', this.get('empty') );
 			this.content();
 			this.refreshSelection();
 		},
@@ -364,6 +387,17 @@
 			setUserSetting( 'align', display.align );
 			setUserSetting( 'imgsize', display.size );
 			setUserSetting( 'urlbutton', display.link );
+		},
+
+		_updateEmpty: function() {
+			var library = this.get('library'),
+				props = library.props;
+
+			// If we're filtering the library, bail.
+			if ( this.get('filterable') && ( props.get('type') || props.get('parent') ) )
+				return;
+
+			this.set( 'empty', ! library.length && ! library.props.get('search') );
 		},
 
 		refreshSelection: function() {
@@ -1267,8 +1301,6 @@
 		// Content
 		browseContent: function() {
 			var state = this.state();
-
-			this.$el.removeClass('hide-toolbar');
 
 			// Browse our library of attachments.
 			this.content.view( new media.view.AttachmentsBrowser({
@@ -2978,10 +3010,8 @@
 			});
 
 			this.createToolbar();
-			this.updateContent();
+			this.createAttachments();
 			this.createSidebar();
-
-			this.collection.on( 'add remove reset', this.updateContent, this );
 		},
 
 		dispose: function() {
@@ -3029,39 +3059,7 @@
 			}
 		},
 
-		updateContent: function() {
-			var view = this;
-
-			if( ! this.attachments )
-				this.createAttachments();
-
-			if ( ! this.collection.length ) {
-				this.collection.more().done( function() {
-					if ( ! view.collection.length )
-						view.createUploader();
-				});
-			}
-		},
-
-		createUploader: function() {
-			if ( this.attachments ) {
-				this.attachments.remove();
-				delete this.attachments;
-			}
-
-			this.uploader = new media.view.UploaderInline({
-				controller: this.controller
-			});
-
-			this.views.add( this.uploader );
-		},
-
 		createAttachments: function() {
-			if ( this.uploader ) {
-				this.uploader.remove();
-				delete this.uploader;
-			}
-
 			this.attachments = new media.view.Attachments({
 				controller: this.controller,
 				collection: this.collection,
