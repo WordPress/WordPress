@@ -63,6 +63,9 @@ function create_initial_post_types() {
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
 		'_edit_link' => 'post.php?post=%d', /* internal use only. don't use this when registering your own post type. */
 		'capability_type' => 'post',
+		'capabilities' => array(
+			'create_posts' => 'upload_files',
+		),
 		'map_meta_cap' => true,
 		'hierarchical' => false,
 		'rewrite' => false,
