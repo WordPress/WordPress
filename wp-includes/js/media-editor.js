@@ -45,7 +45,7 @@
 				sizes = attachment.sizes;
 				size = sizes && sizes[ props.size ] ? sizes[ props.size ] : attachment;
 
-				_.extend( props, _.pick( attachment, 'align', 'caption' ), {
+				_.extend( props, _.pick( attachment, 'align', 'caption', 'alt' ), {
 					width:     size.width,
 					height:    size.height,
 					src:       size.url,
