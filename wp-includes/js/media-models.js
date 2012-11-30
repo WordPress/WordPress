@@ -490,9 +490,27 @@ window.wp = window.wp || {};
 		},
 
 		more: function( options ) {
-			if ( this.mirroring && this.mirroring.more )
-				return this.mirroring.more( options );
-			return $.Deferred().resolve().promise();
+			var deferred = $.Deferred(),
+				mirroring = this.mirroring,
+				attachments = this;
+
+			if ( ! mirroring || ! mirroring.more )
+				return deferred.resolveWith( this ).promise();
+
+			// If we're mirroring another collection, forward `more` to
+			// the mirrored collection. Account for a race condition by
+			// checking if we're still mirroring that collection when
+			// the request resolves.
+			mirroring.more( options ).done( function() {
+				if ( this === attachments.mirroring )
+					deferred.resolveWith( this );
+			});
+
+			return deferred.promise();
+		},
+
+		hasMore: function() {
+			return this.mirroring ? this.mirroring.hasMore() : false;
 		},
 
 		parse: function( resp, xhr ) {
@@ -583,9 +601,9 @@ window.wp = window.wp || {};
 			options = options || {};
 			Attachments.prototype.initialize.apply( this, arguments );
 
-			this.args    = options.args;
-			this.hasMore = true;
-			this.created = new Date();
+			this.args     = options.args;
+			this._hasMore = true;
+			this.created  = new Date();
 
 			this.filters.order = function( attachment ) {
 				var orderby = this.props.get('orderby'),
@@ -627,21 +645,25 @@ window.wp = window.wp || {};
 				this.observe( wp.Uploader.queue );
 		},
 
+		hasMore: function() {
+			return this._hasMore;
+		},
+
 		more: function( options ) {
 			var query = this;
 
 			if ( this._more && 'pending' === this._more.state() )
 				return this._more;
 
-			if ( ! this.hasMore )
-				return $.Deferred().resolve().promise();
+			if ( ! this.hasMore() )
+				return $.Deferred().resolveWith( this ).promise();
 
 			options = options || {};
 			options.add = true;
 
 			return this._more = this.fetch( options ).done( function( resp ) {
 				if ( _.isEmpty( resp ) || -1 === this.args.posts_per_page || resp.length < this.args.posts_per_page )
-					query.hasMore = false;
+					query._hasMore = false;
 			});
 		},
 

@@ -2821,7 +2821,7 @@
 			if ( ! this.$el.is(':visible') )
 				return;
 
-			if ( this.el.scrollHeight < this.el.scrollTop + ( this.el.clientHeight * this.options.refreshThreshold ) ) {
+			if ( this.collection.hasMore() && this.el.scrollHeight < this.el.scrollTop + ( this.el.clientHeight * this.options.refreshThreshold ) ) {
 				this.collection.more().done( this.scroll );
 			}
 		}
