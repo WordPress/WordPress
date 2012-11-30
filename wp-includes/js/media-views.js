@@ -3071,11 +3071,17 @@
 			}
 		},
 
+		removeContent: function() {
+			_.each(['attachments','uploader'], function( key ) {
+				if ( this[ key ] ) {
+					this[ key ].remove();
+					delete this[ key ];
+				}
+			}, this );
+		},
+
 		createUploader: function() {
-			if ( this.attachments ) {
-				this.attachments.remove();
-				delete this.attachments;
-			}
+			this.removeContent();
 
 			this.uploader = new media.view.UploaderInline({
 				controller: this.controller
@@ -3085,10 +3091,7 @@
 		},
 
 		createAttachments: function() {
-			if ( this.uploader ) {
-				this.uploader.remove();
-				delete this.uploader;
-			}
+			this.removeContent();
 
 			this.attachments = new media.view.Attachments({
 				controller: this.controller,
