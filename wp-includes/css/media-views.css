@@ -726,7 +726,8 @@
 	margin-top: 10px;
 }
 
-.attachments-browser .attachments {
+.attachments-browser .attachments,
+.attachments-browser .uploader-inline {
 	position: absolute;
 	top: 50px;
 	left: 0;
@@ -931,7 +932,7 @@
 	display: block;
 }
 
-.region-content.uploader-inline {
+.media-frame .uploader-inline {
 	margin: 20px;
 	padding: 20px;
 	text-align: center;
@@ -1373,6 +1374,7 @@
 	}
 
 	.attachments-browser .attachments,
+	.attachments-browser .uploader-inline,
 	.attachments-browser .media-toolbar {
 		right: 180px;
 	}
