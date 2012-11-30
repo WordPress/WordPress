@@ -28,7 +28,7 @@
 
 				frame = gallery.edit( '[' + ed.dom.getAttrib( el, 'title' ) + ']' );
 
-				frame.get('gallery-edit').on( 'update', function( selection ) {
+				frame.state('gallery-edit').on( 'update', function( selection ) {
 					var shortcode = gallery.shortcode( selection ).string().slice( 1, -1 );
 					ed.dom.setAttrib( el, 'title', shortcode );
 				});
@@ -49,7 +49,7 @@
 					});
 				}
 			});
-			
+
 			ed.onMouseDown.add(function(ed, e) {
 				if ( e.target.nodeName == 'IMG' && ed.dom.hasClass(e.target, 'wpGallery') ) {
 					ed.plugins.wordpress._hideButtons();

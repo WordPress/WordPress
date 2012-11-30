@@ -31,7 +31,7 @@ window.wp = window.wp || {};
 
 		delete attributes.frame;
 		// Set the default state.
-		frame.state( frame.options.state );
+		frame.setState( frame.options.state );
 		// Render, attach, and open the frame.
 		return frame.render().attach().open();
 	};

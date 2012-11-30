@@ -393,11 +393,11 @@
 				}, this );
 			}, this );
 
-			workflow.get('gallery-edit').on( 'update', function( selection ) {
+			workflow.state('gallery-edit').on( 'update', function( selection ) {
 				this.insert( wp.media.gallery.shortcode( selection ).string() );
 			}, this );
 
-			workflow.get('embed').on( 'select', function() {
+			workflow.state('embed').on( 'select', function() {
 				var embed = workflow.state().toJSON();
 
 				embed.url = embed.url || '';

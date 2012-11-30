@@ -143,30 +143,27 @@
 	// Add events to the `StateMachine`.
 	_.extend( media.controller.StateMachine.prototype, Backbone.Events, {
 
-		// Fetch a state model.
+		// Fetch a state.
+		//
+		// If no `id` is provided, returns the active state.
 		//
 		// Implicitly creates states.
-		get: function( id ) {
+		state: function( id ) {
 			// Ensure that the `states` collection exists so the `StateMachine`
 			// can be used as a mixin.
 			this.states = this.states || new Backbone.Collection();
 
-			if ( ! this.states.get( id ) )
+			// Default to the active state.
+			id = id || this._state;
+
+			if ( id && ! this.states.get( id ) )
 				this.states.add({ id: id });
 			return this.states.get( id );
 		},
 
-		// Selects or returns the active state.
-		//
-		// If a `id` is provided, sets that as the current state.
-		// If no parameters are provided, returns the current state object.
-		state: function( id ) {
-			var previous;
-
-			if ( ! id )
-				return this._state ? this.get( this._state ) : null;
-
-			previous = this.state();
+		// Sets the active state.
+		setState: function( id ) {
+			var previous = this.state();
 
 			// Bail if we're trying to select the current state, if we haven't
 			// created the `states` collection, or are trying to select a state
@@ -176,15 +173,20 @@
 
 			if ( previous ) {
 				previous.trigger('deactivate');
-				this._previous = previous.id;
+				this._lastState = previous.id;
 			}
 
 			this._state = id;
 			this.state().trigger('activate');
 		},
 
-		previous: function() {
-			return this._previous;
+		// Returns the previous active state.
+		//
+		// Call the `state()` method with no parameters to retrieve the current
+		// active state.
+		lastState: function() {
+			if ( this._lastState )
+				return this.state( this._lastState );
 		}
 	});
 
@@ -427,10 +429,10 @@
 				previous = this.previous('excludeState');
 
 			if ( previous )
-				this.frame.get( previous ).off( 'change:library', this._excludeStateLibrary, this );
+				this.frame.state( previous ).off( 'change:library', this._excludeStateLibrary, this );
 
 			if ( current )
-				this.frame.get( current ).on( 'change:library', this._excludeStateLibrary, this );
+				this.frame.state( current ).on( 'change:library', this._excludeStateLibrary, this );
 		},
 
 		_excludeStateLibrary: function() {
@@ -439,7 +441,7 @@
 			if ( ! current )
 				return;
 
-			this.set( 'exclude', this.frame.get( current ).get('library') );
+			this.set( 'exclude', this.frame.state( current ).get('library') );
 		}
 	});
 
@@ -474,8 +476,8 @@
 		uploading: function( attachment ) {
 			var library = this.get('libraryState');
 
-			this.frame.get( library ).get('selection').add( attachment );
-			this.frame.state( library );
+			this.frame.state( library ).get('selection').add( attachment );
+			this.frame.setState( library );
 		}
 	});
 
@@ -1122,7 +1124,7 @@
 
 			// Generate the tab states.
 			_.each( tabs, function( title, id ) {
-				var frame = this.get( 'iframe:' + id ).set( _.defaults({
+				var frame = this.state( 'iframe:' + id ).set( _.defaults({
 					tab:     id,
 					src:     tabUrl + '&tab=' + id,
 					title:   title,
@@ -1149,7 +1151,7 @@
 
 			_.each( media.view.settings.tabs, function( title, id ) {
 				views[ 'iframe:' + id ] = {
-					text: this.get( 'iframe:' + id ).get('title'),
+					text: this.state( 'iframe:' + id ).get('title'),
 					priority: 200
 				};
 			}, this );
@@ -1167,7 +1169,7 @@
 			window.tb_remove = function() {
 				frame.close();
 				frame.reset();
-				frame.state( frame.options.state );
+				frame.setState( frame.options.state );
 				frame._tb_remove.call( window );
 			};
 		},
@@ -1322,7 +1324,7 @@
 							controller.state().trigger( options.event );
 							controller.reset();
 							if ( options.state )
-								controller.state( options.state );
+								controller.setState( options.state );
 						}
 					}
 				}
@@ -1452,7 +1454,8 @@
 		},
 
 		galleryMenu: function() {
-			var previous = this.previous(),
+			var lastState = this.lastState(),
+				previous = lastState && lastState.id,
 				frame = this;
 
 			this.menu.view( new media.view.Menu({
@@ -1463,7 +1466,7 @@
 						priority: 20,
 						click:    function() {
 							if ( previous )
-								frame.state( previous );
+								frame.setState( previous );
 							else
 								frame.close();
 						}
@@ -1581,7 +1584,7 @@
 
 							controller.reset();
 							// @todo: Make the state activated dynamic (instead of hardcoded).
-							controller.state('upload');
+							controller.setState('upload');
 						}
 					}
 				}
@@ -1600,7 +1603,7 @@
 						click: function() {
 							var controller = this.controller,
 								state = controller.state(),
-								edit = controller.get('gallery-edit');
+								edit = controller.state('gallery-edit');
 
 							edit.get('library').add( state.get('selection').models );
 							state.trigger('reset');
@@ -2069,7 +2072,7 @@
 				controller.reset();
 
 			if ( options.state )
-				controller.state( options.state );
+				controller.setState( options.state );
 		}
 	});
 
@@ -2105,7 +2108,7 @@
 				return function() {
 					var controller = this.controller,
 						selection = controller.state().get('selection'),
-						edit = controller.get( state ),
+						edit = controller.state( state ),
 						models = filter ? filter( selection ) : selection.models;
 
 					edit.set( 'library', new media.model.Selection( models, {
@@ -2113,7 +2116,7 @@
 						multiple: true
 					}) );
 
-					this.controller.state( state );
+					this.controller.setState( state );
 				};
 			};
 
@@ -2378,7 +2381,7 @@
 			if ( options.click )
 				options.click.call( this );
 			else if ( options.state )
-				this.controller.state( options.state );
+				this.controller.setState( options.state );
 		},
 
 		render: function() {

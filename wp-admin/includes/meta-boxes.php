@@ -1020,7 +1020,7 @@ function post_thumbnail_meta_box( $post ) {
 			$thumbnailId.val( thumbnailId );
 
 			if ( frame ) {
-				selection = frame.get('library').get('selection');
+				selection = frame.state('library').get('selection');
 
 				if ( -1 === thumbnailId )
 					selection.clear();
@@ -1055,7 +1055,7 @@ function post_thumbnail_meta_box( $post ) {
 
 			frame = wp.media( options );
 
-			frame.get('library').set( 'filterable', 'uploaded' );
+			frame.state('library').set( 'filterable', 'uploaded' );
 
 			frame.toolbar.on( 'activate:select', function() {
 				frame.toolbar.view().set({
