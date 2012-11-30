@@ -9,7 +9,18 @@
 		// outputting the proper object format based on the
 		// attachment's type.
 		props: function( props, attachment ) {
-			var link, linkUrl, size, sizes;
+			var link, linkUrl, size, sizes, fallbacks;
+
+			// Final fallbacks run after all processing has been completed.
+			fallbacks = function( props ) {
+				// Generate alt fallbacks and strip tags.
+				if ( 'image' === props.type && ! props.alt ) {
+					props.alt = props.caption || props.title || '';
+					props.alt = props.alt.replace( /<\/?[^>]+>/g, '' );
+				}
+
+				return props;
+			};
 
 			props = props ? _.clone( props ) : {};
 
@@ -27,7 +38,9 @@
 
 			// All attachment-specific settings follow.
 			if ( ! attachment )
-				return props;
+				return fallbacks( props );
+
+			props.title = props.title || attachment.title;
 
 			link = props.link || getUserSetting( 'urlbutton', 'post' );
 			if ( 'file' === link )
@@ -54,13 +67,11 @@
 
 			// Format properties for non-images.
 			} else {
-				_.extend( props, {
-					title:   attachment.title || attachment.filename,
-					rel:     'attachment wp-att-' + attachment.id
-				});
+				props.title = props.title || attachment.filename;
+				props.rel = props.rel || 'attachment wp-att-' + attachment.id;
 			}
 
-			return props;
+			return fallbacks( props );
 		},
 
 		link: function( props, attachment ) {
