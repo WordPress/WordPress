@@ -49,7 +49,14 @@ if ( isset($_REQUEST['attachment_id']) && ($id = intval($_REQUEST['attachment_id
 
 check_admin_referer('media-form');
 
-$id = media_handle_upload('async-upload', $_REQUEST['post_id']);
+$post_id = 0;
+if ( isset( $_REQUEST['post_id'] ) ) {
+	$post_id = absint( $_REQUEST['post_id'] );
+	if ( ! get_post( $post_id ) || ! current_user_can( 'edit_post', $post_id ) )
+		$post_id = 0;
+}
+
+$id = media_handle_upload( 'async-upload', $post_id );
 if ( is_wp_error($id) ) {
 	echo '<div class="error-div">
 	<a class="dismiss" href="#" onclick="jQuery(this).parents(\'div.media-item\').slideUp(200, function(){jQuery(this).remove();});">' . __('Dismiss') . '</a>
