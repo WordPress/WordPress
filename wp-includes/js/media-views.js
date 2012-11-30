@@ -1216,7 +1216,6 @@
 		media.view.MediaFrame.prototype[ method ] = function( view ) {
 			if ( this.modal )
 				this.modal[ method ].apply( this.modal, arguments );
-			this.trigger( method );
 			return this;
 		};
 	});
@@ -1657,7 +1656,8 @@
 
 			_.defaults( this.options, {
 				container: document.body,
-				title:     ''
+				title:     '',
+				propagate: true
 			});
 		},
 
@@ -1680,26 +1680,22 @@
 
 		attach: function() {
 			this.$el.appendTo( this.options.container );
-			this.trigger('attach');
-			return this;
+			return this.propagate('attach');
 		},
 
 		detach: function() {
 			this.$el.detach();
-			this.trigger('detach');
-			return this;
+			return this.propagate('detach');
 		},
 
 		open: function() {
 			this.$el.show();
-			this.trigger('open');
-			return this;
+			return this.propagate('open');
 		},
 
 		close: function() {
 			this.$el.hide();
-			this.trigger('close');
-			return this;
+			return this.propagate('close');
 		},
 
 		closeHandler: function( event ) {
@@ -1715,6 +1711,17 @@
 			// Set and render the content.
 			this.options.$content = ( $content instanceof Backbone.View ) ? $content.$el : $content;
 			return this.render();
+		},
+
+		// Triggers a modal event and if the `propagate` option is set,
+		// forwards events to the modal's controller.
+		propagate: function( id ) {
+			this.trigger( id );
+
+			if ( this.options.propagate )
+				this.controller.trigger( id );
+
+			return this;
 		}
 	});
 
