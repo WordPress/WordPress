@@ -152,7 +152,7 @@ wp_admin_css( 'wp-admin', true );
 </style>
 <?php endif; ?>
 </head>
-<body class="windows">
+<body class="windows wp-core-ui">
 <script type="text/javascript">
 if ( tinymce.isMac )
 	document.body.className = document.body.className.replace(/windows/, 'macos');

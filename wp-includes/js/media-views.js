@@ -1066,6 +1066,9 @@
 				uploader: true
 			});
 
+			// Ensure core UI is enabled.
+			this.$el.addClass('wp-core-ui');
+
 			// Initialize modal container view.
 			if ( this.options.modal ) {
 				this.modal = new media.view.Modal({

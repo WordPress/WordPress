@@ -86,7 +86,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	if ( $interim_login )
 		$login_header_url = '#';
 
-	$classes = array( 'login-action-' . $action );
+	$classes = array( 'login-action-' . $action, 'wp-core-ui' );
 	if ( wp_is_mobile() )
 		$classes[] = 'mobile';
 	if ( is_rtl() )

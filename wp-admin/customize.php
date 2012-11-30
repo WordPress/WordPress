@@ -44,7 +44,7 @@ do_action( 'customize_controls_enqueue_scripts' );
 wp_user_settings();
 _wp_admin_html_begin();
 
-$body_class = '';
+$body_class = 'wp-core-ui';
 
 if ( wp_is_mobile() ) :
 	$body_class .= ' mobile';

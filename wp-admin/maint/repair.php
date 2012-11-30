@@ -16,11 +16,11 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php _e( 'WordPress &rsaquo; Database Repair' ); ?></title>
-	<?php 
+	<?php
 	wp_admin_css( 'install', true );
 	?>
 </head>
-<body>
+<body class="wp-core-ui">
 <h1 id="logo"><a href="<?php esc_attr_e( 'http://wordpress.org/' ); ?>"><?php _e( 'WordPress' ); ?></a></h1>
 
 <?php

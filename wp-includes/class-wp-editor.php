@@ -113,7 +113,7 @@ final class _WP_Editors {
 			$buttons .= '<a id="' . $editor_id . '-tmce" class="wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);">' . __('Visual') . "</a>\n";
 		}
 
-		echo '<div id="wp-' . $editor_id . '-wrap" class="wp-editor-wrap ' . $switch_class . '">';
+		echo '<div id="wp-' . $editor_id . '-wrap" class="wp-core-ui wp-editor-wrap ' . $switch_class . '">';
 
 		if ( self::$editor_buttons_css ) {
 			wp_print_styles('editor-buttons');

@@ -226,7 +226,11 @@ TABLE OF CONTENTS:
 .hidden,
 .js .closed .inside,
 .js .hide-if-js,
-.no-js .hide-if-no-js {
+.no-js .hide-if-no-js,
+.js.wp-core-ui .hide-if-js,
+.js .wp-core-ui .hide-if-js,
+.no-js.wp-core-ui .hide-if-no-js,
+.no-js .wp-core-ui .hide-if-no-js {
 	display: none;
 }
 
@@ -2293,12 +2297,8 @@ html.wp-toolbar {
 	background-position: 100% 17%;
 }
 
-.welcome-panel .welcome-button {
-	font: normal 15px sans-serif;
-	height: 46px;
-	line-height: 44px;
+.wp-core-ui .welcome-panel .button.button-hero {
     margin: 15px 0 3px;
-    padding: 0 36px;
 }
 
 .welcome-panel-content {
@@ -2377,11 +2377,6 @@ html.wp-toolbar {
 }
 
 @media screen and (max-width: 870px) {
-	.welcome-button {
-		font-size: 14px;
-		padding: 1em 2.3em;
-	}
-
 	.welcome-panel .welcome-panel-column,
 	.welcome-panel .welcome-panel-column:first-child {
 		display: block;
@@ -5683,7 +5678,11 @@ body.full-overlay-active {
 ------------------------------------------------------------------------------*/
 
 .no-customize-support .hide-if-no-customize,
-.customize-support .hide-if-customize {
+.customize-support .hide-if-customize,
+.no-customize-support.wp-core-ui .hide-if-no-customize,
+.no-customize-support .wp-core-ui .hide-if-no-customize,
+.customize-support.wp-core-ui .hide-if-customize,
+.customize-support .wp-core-ui .hide-if-customize {
 	display: none;
 }
 

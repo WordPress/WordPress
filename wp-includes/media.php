@@ -1505,7 +1505,7 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-media-modal">
-		<div class="media-modal">
+		<div class="media-modal wp-core-ui">
 			<h3 class="media-modal-title">{{ data.title }}</h3>
 			<a class="media-modal-close media-modal-icon" href="#" title="<?php esc_attr_e('Close'); ?>"></a>
 		</div>

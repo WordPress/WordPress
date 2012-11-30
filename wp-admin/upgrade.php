@@ -57,7 +57,7 @@ else
 	wp_admin_css( 'ie', true );
 	?>
 </head>
-<body>
+<body class="wp-core-ui">
 <h1 id="logo"><a href="<?php esc_attr_e( 'http://wordpress.org/' ); ?>"><?php _e( 'WordPress' ); ?></a></h1>
 
 <?php if ( get_option( 'db_version' ) == $wp_db_version || !is_blog_installed() ) : ?>

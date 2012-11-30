@@ -99,7 +99,7 @@ function setup_config_display_header() {
 <link rel="stylesheet" href="../wp-includes/css/buttons.css?ver=<?php echo preg_replace( '/[^0-9a-z\.-]/i', '', $wp_version ); ?>" type="text/css" />
 
 </head>
-<body<?php if ( is_rtl() ) echo ' class="rtl"'; ?>>
+<body class="wp-core-ui<?php if ( is_rtl() ) echo ' rtl'; ?>">
 <h1 id="logo"><a href="<?php esc_attr_e( 'http://wordpress.org/' ); ?>"><?php _e( 'WordPress' ); ?></a></h1>
 <?php
 } // end function setup_config_display_header();

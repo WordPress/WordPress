@@ -97,7 +97,7 @@ $admin_body_class .= ' no-customize-support';
 
 ?>
 </head>
-<body class="wp-admin no-js <?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
+<body class="wp-admin wp-core-ui no-js <?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
 <script type="text/javascript">
 	document.body.className = document.body.className.replace('no-js','js');
 </script>
