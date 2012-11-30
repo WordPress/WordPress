@@ -1616,8 +1616,13 @@
 		tagName:  'div',
 		template: media.template('media-modal'),
 
+		attributes: {
+			tabindex: 0
+		},
+
 		events: {
-			'click .media-modal-backdrop, .media-modal-close' : 'closeHandler'
+			'click .media-modal-backdrop, .media-modal-close': 'closeHandler',
+			'keydown': 'keydown'
 		},
 
 		initialize: function() {
@@ -1658,7 +1663,7 @@
 		},
 
 		open: function() {
-			this.$el.show();
+			this.$el.show().focus();
 			return this.propagate('open');
 		},
 
@@ -1691,6 +1696,15 @@
 				this.controller.trigger( id );
 
 			return this;
+		},
+
+		keydown: function( event ) {
+			// Close the modal when escape is pressed.
+			if ( 27 === event.which ) {
+				event.preventDefault();
+				this.close();
+				return;
+			}
 		}
 	});
 
