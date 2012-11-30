@@ -73,14 +73,14 @@ if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 			</td>
 		</tr>
 
-		<tr>
+		<tr id="cap_field">
 			<th valign="top" scope="row" class="label">
-				<label for="img_title">
-				<span class="alignleft">{#wpeditimage.img_title}</span>
+				<label for="img_cap">
+				<span class="alignleft">{#wpeditimage.caption}</span>
 				</label>
 			</th>
 			<td class="field">
-				<input type="text" id="img_title" name="img_title" value="" aria-required="true" size="60" />
+				<textarea id="img_cap_text"></textarea>
 			</td>
 		</tr>
 
@@ -92,17 +92,6 @@ if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 			</th>
 			<td class="field">
 				<input type="text" id="img_alt" name="img_alt" value="" size="60" />
-			</td>
-		</tr>
-
-		<tr id="cap_field">
-			<th valign="top" scope="row" class="label">
-				<label for="img_cap">
-				<span class="alignleft">{#wpeditimage.caption}</span>
-				</label>
-			</th>
-			<td class="field">
-				<textarea id="img_cap_text"></textarea>
 			</td>
 		</tr>
 
@@ -153,6 +142,17 @@ if ( 'rtl' == tinyMCEPopup.editor.getParam('directionality','') )
 				<input type="text" maxlength="5" id="height" name="height" value="" />
 
 				<input type="button" class="button" id="orig_size" name="orig_size" value="{#wpeditimage.orig_size}" onclick="wpImage.origSize();" />
+			</td>
+		</tr>
+
+		<tr>
+			<th valign="top" scope="row" class="label">
+				<label for="img_title">
+				<span class="alignleft">{#wpeditimage.img_title}</span>
+				</label>
+			</th>
+			<td class="field">
+				<input type="text" id="img_title" name="img_title" value="" aria-required="true" size="60" />
 			</td>
 		</tr>
 
