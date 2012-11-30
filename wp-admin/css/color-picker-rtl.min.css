@@ -1,0 +1,27 @@
+.wp-color-result {
+	margin: 0 0 6px 6px;
+	padding-left: 0;
+	padding-right: 30px;
+}
+
+.wp-color-result:after {
+	border-radius: 0 0 1px 1px;
+	border-left: 0;
+	border-right: 1px solid #bbb;
+	left: auto;
+	right: 0;
+}
+
+.wp-color-result:hover {
+	border-color: #aaa;
+}
+
+.wp-color-result:hover:after {
+	border-left: 0;
+	border-right: 1px solid #999;
+}
+
+.wp-picker-container .button {
+	margin-left: 0;
+	margin-right: 6px;
+}
