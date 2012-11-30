@@ -30,6 +30,20 @@
 	background: none;
 }
 
+#wpadminbar a:focus,
+#wpadminbar a:active,
+#wpadminbar input[type="text"],
+#wpadminbar input[type="password"],
+#wpadminbar input[type="number"],
+#wpadminbar input[type="search"],
+#wpadminbar input[type="email"],
+#wpadminbar input[type="url"],
+#wpadminbar select,
+#wpadminbar textarea,
+#wpadminbar div {
+	outline: none;
+}
+
 #wpadminbar {
 	direction: ltr;
 	color: #ccc;
