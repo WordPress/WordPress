@@ -97,7 +97,7 @@ inlineEditPost = {
 			if ( $(this).prop('checked') ) {
 				c = false;
 				var id = $(this).val(), theTitle;
-				theTitle = $('#inline_'+id+' .post_title').text() || inlineEditL10n.notitle;
+				theTitle = $('#inline_'+id+' .post_title').html() || inlineEditL10n.notitle;
 				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton" title="'+inlineEditL10n.ntdeltitle+'">X</a>'+theTitle+'</div>';
 			}
 		});
