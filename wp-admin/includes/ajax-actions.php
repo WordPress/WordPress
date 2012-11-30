@@ -1602,9 +1602,11 @@ function wp_ajax_upload_attachment() {
 		$wp_filetype = wp_check_filetype_and_ext( $_FILES['async-upload']['tmp_name'], $_FILES['async-upload']['name'], false );
 		if ( ! wp_match_mime_types( 'image', $wp_filetype['type'] ) ) {
 			echo json_encode( array(
-				'success'  => false,
-				'message' => __( 'The uploaded file is not a valid image. Please try again.' ),
-				'filename' => $_FILES['async-upload']['name'],
+				'success' => false,
+				'data'    => array(
+					'message'  => __( 'The uploaded file is not a valid image. Please try again.' ),
+					'filename' => $_FILES['async-upload']['name'],
+				)
 			) );
 
 			wp_die();
@@ -1615,9 +1617,11 @@ function wp_ajax_upload_attachment() {
 
 	if ( is_wp_error( $attachment_id ) ) {
 		echo json_encode( array(
-			'success'  => false,
-			'message'  => $attachment_id->get_error_message(),
-			'filename' => $_FILES['async-upload']['name'],
+			'success' => false,
+			'data'    => array(
+				'message'  => $attachment_id->get_error_message(),
+				'filename' => $_FILES['async-upload']['name'],
+			)
 		) );
 
 		wp_die();
