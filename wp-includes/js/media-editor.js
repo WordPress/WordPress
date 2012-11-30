@@ -531,8 +531,10 @@
 				}
 
 				// Save a bookmark of the caret position, needed for IE
-				if ( tinymce.isIE && editor && ! editor.isHidden() )
+				if ( tinymce.isIE && editor && ! editor.isHidden() ) {
+					editor.focus();
 					editor.windowManager.insertimagebookmark = editor.selection.getBookmark();
+				}
 			}
 
 			// Last but not least, fall back to the empty string.
