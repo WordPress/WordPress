@@ -56,7 +56,7 @@ function options_permalink_add_js() {
 <script type="text/javascript">
 //<![CDATA[
 jQuery(document).ready(function() {
-	jQuery('input:radio.tog').change(function() {
+	jQuery('.permalink-structure input:radio').change(function() {
 		if ( 'custom' == this.value )
 			return;
 		jQuery('#permalink_structure').val( this.value );
@@ -189,7 +189,7 @@ $structures = array(
 );
 ?>
 <h3><?php _e('Common Settings'); ?></h3>
-<table class="form-table">
+<table class="form-table permalink-structure">
 	<tr>
 		<th><label><input name="selection" type="radio" value="" <?php checked('', $permalink_structure); ?> /> <?php _e('Default'); ?></label></th>
 		<td><code><?php echo get_option('home'); ?>/?p=123</code></td>
