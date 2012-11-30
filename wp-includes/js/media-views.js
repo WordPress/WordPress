@@ -2920,7 +2920,7 @@
 			all: {
 				text:  l10n.allMediaItems,
 				props: {
-					parent:  null,
+					uploadedTo: null,
 					orderby: 'date',
 					order:   'DESC'
 				},
@@ -2930,7 +2930,7 @@
 			uploaded: {
 				text:  l10n.uploadedToThisPost,
 				props: {
-					parent:  media.view.settings.postId,
+					uploadedTo: media.view.settings.postId,
 					orderby: 'menuOrder',
 					order:   'ASC'
 				},
@@ -2948,7 +2948,7 @@
 					text: text,
 					props: {
 						type:    key,
-						parent:  null,
+						uploadedTo: null,
 						orderby: 'date',
 						order:   'DESC'
 					}
@@ -2959,7 +2959,7 @@
 				text:  l10n.allMediaItems,
 				props: {
 					type:    null,
-					parent:  null,
+					uploadedTo: null,
 					orderby: 'date',
 					order:   'DESC'
 				},
@@ -2970,7 +2970,7 @@
 				text:  l10n.uploadedToThisPost,
 				props: {
 					type:    null,
-					parent:  media.view.settings.postId,
+					uploadedTo: media.view.settings.postId,
 					orderby: 'menuOrder',
 					order:   'ASC'
 				},

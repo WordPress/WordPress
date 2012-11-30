@@ -205,7 +205,7 @@
 					args.post__not_in = attrs.exclude.split(',');
 
 				if ( ! args.post__in )
-					args.parent = attrs.id;
+					args.uploadedTo = attrs.id;
 
 				// Collect the attributes that were not included in `args`.
 				others = _.omit( attrs, 'id', 'ids', 'include', 'exclude', 'orderby', 'order' );
@@ -228,9 +228,9 @@
 				// the collection will already reflect those properties.
 				attrs.ids = attachments.pluck('id');
 
-				// Copy the `parent` post ID.
-				if ( props.parent )
-					attrs.id = props.parent;
+				// Copy the `uploadedTo` post ID.
+				if ( props.uploadedTo )
+					attrs.id = props.uploadedTo;
 
 				// If the `ids` attribute is set and `orderby` attribute
 				// is the default value, clear it for cleaner output.
