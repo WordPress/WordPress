@@ -74,7 +74,7 @@ if ( isset($_GET['message']) ) {
 
 $notice = false;
 $form_extra = '';
-if ( 'auto-draft' == get_post_status( $post ) ) {
+if ( 'auto-draft' == $post->post_status ) {
 	if ( 'edit' == $action )
 		$post->post_title = '';
 	$autosave = false;
@@ -340,7 +340,7 @@ if ( !empty($shortlink) )
 if ( $post_type_object->public && ! ( 'pending' == get_post_status( $post ) && !current_user_can( $post_type_object->cap->publish_posts ) ) ) { ?>
 	<div id="edit-slug-box" class="hide-if-no-js">
 	<?php
-		if ( $sample_permalink_html && 'auto-draft' != get_post_status( $post ) )
+		if ( $sample_permalink_html && 'auto-draft' != $post->post_status )
 			echo $sample_permalink_html;
 	?>
 	</div>
@@ -368,7 +368,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 	<td class="autosave-info">
 	<span class="autosave-message">&nbsp;</span>
 <?php
-	if ( 'auto-draft' != get_post_status( $post ) ) {
+	if ( 'auto-draft' != $post->post_status ) {
 		echo '<span id="last-edit">';
 		if ( $last_id = get_post_meta($post_ID, '_edit_last', true) ) {
 			$last_user = get_userdata($last_id);
