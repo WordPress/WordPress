@@ -94,7 +94,8 @@
 	z-index: 159900;
 }
 
-.media-modal-backdrop div {
+.media-modal-backdrop div,
+.uploader-window-content {
 	position: absolute;
 	top: 10px;
 	left: 10px;
@@ -103,15 +104,11 @@
 	border: 1px dashed rgba( 255, 255, 255, 0.5 );
 }
 
-.media-modal-title,
-.media-modal-close {
-	position: absolute;
-	height: 40px;
-}
-
 .media-modal-title {
+	position: absolute;
 	top: -40px;
 	left: 0;
+	height: 40px;
 	padding: 0;
 	margin: 0;
 
@@ -123,8 +120,10 @@
 }
 
 .media-modal-close {
+	position: absolute;
 	top: -27px;
 	right: 0;
+	height: 15px;
 	width: 15px;
 	background-position: -80px 0;
 }
@@ -397,10 +396,6 @@
 	padding: 0;
 	border-top: 1px solid #dfdfdf;
 	border-bottom: 1px solid #fff;
-}
-
-.media-menu > a.button {
-	margin: 0 20px;
 }
 
 /**
@@ -895,12 +890,7 @@
 }
 
 .uploader-window-content {
-	position: absolute;
-	top: 10px;
-	left: 10px;
-	right: 10px;
-	bottom: 10px;
-	border: 1px dashed #fff;
+	border-color: #fff;
 }
 
 .uploader-window h3 {
@@ -1354,14 +1344,32 @@
  */
 @media only screen and (max-width: 900px) {
 	.media-modal {
-		bottom: 30px;
-		left: 30px;
-		right: 30px;
-		top: 50px;
+		bottom: 20px;
+		left: 20px;
+		right: 20px;
+		top: 40px;
+	}
+
+	.media-modal-title {
+		height: 30px;
+		line-height: 30px;
+		top: -30px;
+	}
+
+	.media-modal-close {
+		top: -23px;
+	}
+
+	.media-modal-backdrop div,
+	.uploader-window-content {
+		top: 5px;
+		left: 5px;
+		right: 5px;
+		bottom: 5px;
 	}
 
 	.media-menu {
-		width: 119px;
+		width: 139px;
 	}
 
 	.media-menu li {
@@ -1370,21 +1378,18 @@
 
 	.media-frame .region-content,
 	.media-frame-toolbar > .media-toolbar {
-		left: 120px;
+		left: 140px;
 	}
 
 	.media-sidebar {
-		width: 147px;
+		width: 159px;
+		padding: 0 10px 24px;
 	}
 
 	.attachments-browser .attachments,
 	.attachments-browser .uploader-inline,
 	.attachments-browser .media-toolbar {
 		right: 180px;
-	}
-
-	.media-sidebar .setting {
-		width: 125px;
 	}
 
 	.media-sidebar .setting input,
@@ -1397,16 +1402,16 @@
 	.media-sidebar .setting span,
 	.compat-item label span {
 		text-align: inherit;
-		display: inline-block;
+		display: block;
 		min-height: 16px;
+		margin: 0;
 		padding: 8px 2px 0;
-		width: 95%;
 	}
 
 	.media-sidebar .setting input,
 	.media-sidebar .setting textarea,
 	.media-sidebar .setting select {
-		width: 100%;
+		width: 98%;
 		max-width: none;
 	}
 
@@ -1433,6 +1438,22 @@
 
 	.media-frame-content .attachment .icon {
 		top: 40%;
+	}
+
+	.media-selection {
+		min-width: 120px;
+	}
+
+	.media-selection:after {
+		background: none;
+	}
+
+	.media-selection .attachments {
+		display: none;
+	}
+
+	.media-menu .separator {
+		margin: 12px 10px;
 	}
 }
 
