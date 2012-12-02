@@ -210,7 +210,7 @@
 				// Collect the attributes that were not included in `args`.
 				others = _.omit( attrs, 'id', 'ids', 'include', 'exclude', 'orderby', 'order' );
 
-				query = media.query( args );
+				query = wp.media.query( args );
 				query.gallery = new Backbone.Model( others );
 				return query;
 			},
@@ -474,7 +474,7 @@
 					options.post_title = props.title;
 				}
 
-				return media.post( 'send-attachment-to-editor', {
+				return wp.media.post( 'send-attachment-to-editor', {
 					nonce:      wp.media.view.settings.nonce.sendToEditor,
 					attachment: options,
 					html:       html,
@@ -485,7 +485,7 @@
 			},
 
 			link: function( embed ) {
-				return media.post( 'send-link-to-editor', {
+				return wp.media.post( 'send-link-to-editor', {
 					nonce:   wp.media.view.settings.nonce.sendToEditor,
 					src:     embed.linkUrl,
 					title:   embed.title,
