@@ -14,6 +14,7 @@
 
 	// Copy the `postId` setting over to the model settings.
 	media.model.settings.postId = media.view.settings.postId;
+	media.model.settings.updatePostNonce = media.view.settings.nonce.updatePost;
 
 	// Check if the browser supports CSS 3.0 transitions
 	$.support.transition = (function(){
@@ -267,7 +268,8 @@
 			content:    'browse',
 			searchable: true,
 			filterable: false,
-			uploads:    true
+			uploads:    true,
+			sortable:   true
 		},
 
 		initialize: function() {
@@ -2690,7 +2692,6 @@
 			this.scroll = _.chain( this.scroll ).bind( this ).throttle( this.options.refreshSensitivity ).value();
 
 			this.initSortable();
-			this.collection.props.on( 'change:orderby', this.refreshSortable, this );
 
 			_.bindAll( this, 'css' );
 			this.model.on( 'change:edge change:gutter', this.css, this );
@@ -2734,7 +2735,8 @@
 		},
 
 		initSortable: function() {
-			var collection = this.collection,
+			var view = this,
+				collection = this.collection,
 				from;
 
 			if ( ! this.options.sortable || ! $.fn.sortable )
@@ -2760,14 +2762,30 @@
 				// Update the model's index in the collection.
 				// Do so silently, as the view is already accurate.
 				update: function( event, ui ) {
-					var model = collection.at( from );
+					var model = collection.at( from ),
+						comparator = collection.comparator;
 
+					// Temporarily disable the comparator to prevent `add`
+					// from re-sorting.
+					delete collection.comparator;
+
+					// Silently shift the model to its new index.
 					collection.remove( model, {
 						silent: true
 					}).add( model, {
 						at:     ui.item.index(),
 						silent: true
 					});
+
+					// Restore the comparator.
+					collection.comparator = comparator;
+
+					// If the collection is sorted by menu order,
+					// update the menu order.
+					view.saveMenuOrder();
+
+					// Make sure any menu-order-related callbacks are bound.
+					view.refreshSortable();
 				}
 			});
 
@@ -2776,6 +2794,9 @@
 			collection.props.on( 'change:orderby', function() {
 				this.$el.sortable( 'option', 'disabled', !! collection.comparator );
 			}, this );
+
+			this.collection.props.on( 'change:orderby', this.refreshSortable, this );
+			this.refreshSortable();
 		},
 
 		refreshSortable: function() {
@@ -2783,7 +2804,29 @@
 				return;
 
 			// If the `collection` has a `comparator`, disable sorting.
-			this.$el.sortable( 'option', 'disabled', !! this.collection.comparator );
+			var collection = this.collection,
+				orderby = collection.props.get('orderby'),
+				enabled = 'menuOrder' === orderby || ! collection.comparator,
+				hasMenuOrder;
+
+			this.$el.sortable( 'option', 'disabled', ! enabled );
+
+			// Check if any attachments have a specified menu order.
+			hasMenuOrder = this.collection.any( function( attachment ) {
+				return attachment.get('menuOrder');
+			});
+
+			// Always unbind the `saveMenuOrder` callback to prevent multiple
+			// callbacks stacking up.
+			this.collection.off( 'change:uploading', this.saveMenuOrder, this );
+
+			if ( hasMenuOrder )
+				this.collection.on( 'change:uploading', this.saveMenuOrder, this );
+
+		},
+
+		saveMenuOrder: function() {
+			this.collection.saveMenuOrder();
 		},
 
 		createAttachmentView: function( attachment ) {
@@ -3049,7 +3092,7 @@
 				}).render() );
 			}
 
-			if ( this.options.sortable ) {
+			if ( this.options.sortable && ! this.options.filters ) {
 				this.toolbar.set( 'dragInfo', new media.View({
 					el: $( '<div class="instructions">' + l10n.dragInfo + '</div>' )[0],
 					priority: -40

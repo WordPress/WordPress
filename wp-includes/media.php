@@ -1433,6 +1433,7 @@ function wp_enqueue_media( $args = array() ) {
 	if ( isset( $args['post'] ) ) {
 		$post = get_post( $args['post'] );
 		$settings['postId'] = $post->ID;
+		$settings['nonce']['updatePost'] = wp_create_nonce( 'update-post_' . $post->ID );
 	}
 
 	$hier = $post && is_post_type_hierarchical( $post->post_type );

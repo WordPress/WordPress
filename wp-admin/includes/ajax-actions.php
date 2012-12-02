@@ -1927,6 +1927,39 @@ function wp_ajax_save_attachment_compat() {
 	wp_send_json_success( $attachment );
 }
 
+function wp_ajax_save_attachment_order() {
+	if ( ! isset( $_REQUEST['post_id'] ) )
+		wp_send_json_error();
+
+	if ( ! $post_id = absint( $_REQUEST['post_id'] ) )
+		wp_send_json_error();
+
+	if ( empty( $_REQUEST['attachments'] ) )
+		wp_send_json_error();
+
+	check_ajax_referer( 'update-post_' . $post_id, 'nonce' );
+
+	$attachments = $_REQUEST['attachments'];
+
+	if ( ! current_user_can( 'edit_post', $post_id ) )
+		wp_send_json_error();
+
+	$post = get_post( $post_id, ARRAY_A );
+
+	foreach ( $attachments as $attachment_id => $menu_order ) {
+		if ( ! current_user_can( 'edit_post', $attachment_id ) )
+			continue;
+		if ( ! $attachment = get_post( $attachment_id ) )
+			continue;
+		if ( 'attachment' != $attachment->post_type )
+			continue;
+
+		wp_update_post( array( 'ID' => $attachment_id, 'menu_order' => $menu_order ) );
+	}
+
+	wp_send_json_success();
+}
+
 /**
  * Generates the HTML to send an attachment to the editor.
  * Backwards compatible with the media_send_to_editor filter and the chain

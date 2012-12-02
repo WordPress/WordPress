@@ -523,6 +523,34 @@ window.wp = window.wp || {};
 		_requery: function() {
 			if ( this.props.get('query') )
 				this.mirror( Query.get( this.props.toJSON() ) );
+		},
+
+		// If this collection is sorted by `menuOrder`, recalculates and saves
+		// the menu order to the database.
+		saveMenuOrder: function() {
+			if ( 'menuOrder' !== this.props.get('orderby') )
+				return;
+
+			// Removes any uploading attachments, updates each attachment's
+			// menu order, and returns an object with an { id: menuOrder }
+			// mapping to pass to the request.
+			var attachments = this.chain().filter( function( attachment ) {
+				return ! _.isUndefined( attachment.id );
+			}).map( function( attachment, index ) {
+				// Indices start at 1.
+				index = index + 1;
+				attachment.set( 'menuOrder', index );
+				return [ attachment.id, index ];
+			}).object().value();
+
+			if ( _.isEmpty( attachments ) )
+				return;
+
+			return media.post( 'save-attachment-order', {
+				nonce:       media.model.settings.updatePostNonce,
+				post_id:     media.model.settings.postId,
+				attachments: attachments
+			});
 		}
 	}, {
 		comparator: function( a, b, options ) {
