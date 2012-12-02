@@ -1,7 +1,7 @@
 window.wp = window.wp || {};
 
 (function($){
-	var Attachment, Attachments, Query, compare, l10n;
+	var Attachment, Attachments, Query, compare, l10n, media;
 
 	/**
 	 * wp.media( attributes )
