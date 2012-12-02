@@ -1662,7 +1662,7 @@ function wp_print_media_templates() {
 			<div class="details">
 				<div class="filename">{{ data.filename }}</div>
 				<div class="uploaded">{{ data.dateFormatted }}</div>
-				<# if ( 'image' === data.type && ! data.uploading ) { #>
+				<# if ( 'image' === data.type && ! data.uploading && data.width && data.height ) { #>
 					<div class="dimensions">{{ data.width }} &times; {{ data.height }}</div>
 				<# } #>
 				<# if ( ! data.uploading ) { #>
