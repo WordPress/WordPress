@@ -1489,6 +1489,8 @@ function wp_enqueue_media( $args = array() ) {
 	wp_plupload_default_settings();
 	add_action( 'admin_footer', 'wp_print_media_templates' );
 	add_action( 'wp_footer', 'wp_print_media_templates' );
+
+	do_action( 'wp_enqueue_media' );
 }
 
 /**
