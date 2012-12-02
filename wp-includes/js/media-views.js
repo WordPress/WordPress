@@ -3411,7 +3411,7 @@
 			});
 
 			media.view.Settings.prototype.initialize.apply( this, arguments );
-			this.model.on( 'change:link', this.updateCustomLink, this );
+			this.model.on( 'change:link', this.updateLinkTo, this );
 
 			if ( attachment )
 				attachment.on( 'change:uploading', this.render, this );
@@ -3435,22 +3435,31 @@
 			}
 
 			media.view.Settings.prototype.render.call( this );
-			this.updateCustomLink();
+			this.updateLinkTo();
 			return this;
 		},
 
-		updateCustomLink: function() {
-			var isCustom = 'custom' === this.model.get('link'),
-				$input = this.$('.link-to-custom');
+		updateLinkTo: function() {
+			var linkTo = this.model.get('link'),
+				$input = this.$('.link-to-custom'),
+				attachment = this.options.attachment;
 
-			if ( ! isCustom ) {
+			if ( 'none' === linkTo ) {
 				$input.hide();
 				return;
 			}
 
 			$input.show();
-			if ( ! this.model.get('linkUrl') )
+
+			if ( 'post' == linkTo ) {
+				$input.val( attachment.get('link') );
+			} else if ( 'file' == linkTo ) {
+				$input.val( attachment.get('url') );
+			} else if ( ! this.model.get('linkUrl') ) {
 				$input.val('http://');
+			}
+
+			$input.prop('readonly', 'custom' !== linkTo);
 
 			// If the input is visible, focus and select its contents.
 			if ( $input.is(':visible') )
