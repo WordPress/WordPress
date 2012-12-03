@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-11-16 22:19:00+00:00\n"
+"POT-Creation-Date: 2012-12-03 21:18:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -110,7 +110,7 @@ msgstr ""
 
 #: content-aside.php:26 content-image.php:26 content-link.php:24
 #: content-page.php:21 content-quote.php:23 content-status.php:30
-#: content.php:46 functions.php:307 image.php:37
+#: content.php:46 functions.php:309 image.php:37
 msgid "Edit"
 msgstr ""
 
@@ -203,64 +203,64 @@ msgstr ""
 msgid "Second Front Page Widget Area"
 msgstr ""
 
-#: functions.php:248 single.php:20
+#: functions.php:250 single.php:20
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:249
+#: functions.php:251
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:250
+#: functions.php:252
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:275
+#: functions.php:277
 msgid "Pingback:"
 msgstr ""
 
-#: functions.php:275
+#: functions.php:277
 msgid "(Edit)"
 msgstr ""
 
-#: functions.php:290
+#: functions.php:292
 msgid "Post author"
 msgstr ""
 
 #. translators: 1: date, 2: time
-#: functions.php:296
+#: functions.php:298
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:302
+#: functions.php:304
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:311
+#: functions.php:313
 msgid "Reply"
 msgstr ""
 
-#: functions.php:330 functions.php:333
+#: functions.php:332 functions.php:335
 msgid ", "
 msgstr ""
 
-#: functions.php:344
+#: functions.php:346
 msgid "View all posts by %s"
 msgstr ""
 
-#: functions.php:350
+#: functions.php:352
 msgid ""
 "This entry was posted in %1$s and tagged %2$s on %3$s<span class=\"by-author"
 "\"> by %4$s</span>."
 msgstr ""
 
-#: functions.php:352
+#: functions.php:354
 msgid ""
 "This entry was posted in %1$s on %3$s<span class=\"by-author\"> by %4$s</"
 "span>."
 msgstr ""
 
-#: functions.php:354
+#: functions.php:356
 msgid "This entry was posted on %3$s<span class=\"by-author\"> by %4$s</span>."
 msgstr ""
 
