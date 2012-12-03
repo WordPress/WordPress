@@ -575,11 +575,34 @@
 		}, media.controller.Library.prototype.defaults ),
 
 		initialize: function() {
+			var library, comparator;
+
 			// If we haven't been provided a `library`, create a `Selection`.
 			if ( ! this.get('library') )
 				this.set( 'library', media.query({ type: 'image' }) );
 
 			media.controller.Library.prototype.initialize.apply( this, arguments );
+
+			library    = this.get('library');
+			comparator = library.comparator;
+
+			// Overload the library's comparator to push items that are not in
+			// the mirrored query to the front of the aggregate collection.
+			library.comparator = function( a, b ) {
+				var aInQuery = !! this.mirroring.getByCid( a.cid ),
+					bInQuery = !! this.mirroring.getByCid( b.cid );
+
+				if ( ! aInQuery && bInQuery )
+					return -1;
+				else if ( aInQuery && ! bInQuery )
+					return 1;
+				else
+					return comparator.apply( this, arguments );
+			};
+
+			// Add all items in the selection to the library, so any featured
+			// images that are not initially loaded still appear.
+			library.observe( this.get('selection') );
 		},
 
 		activate: function() {
