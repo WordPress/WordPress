@@ -65,6 +65,10 @@
 	-webkit-appearance: textfield;
 }
 
+.media-frame :-moz-placeholder {
+   color: #a9a9a9;
+}
+
 /* Enable draggable on IE10 touch events until it's rolled into jQuery UI core */
 .ui-sortable,
 .ui-draggable {
