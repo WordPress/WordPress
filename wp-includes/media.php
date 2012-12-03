@@ -1929,13 +1929,13 @@ function wp_print_media_templates() {
 			}
 
 			#{{ data.id }} .portrait .thumbnail img {
-				width: {{ data.edge }}px;
+				max-width: {{ data.edge }}px;
 				height: auto;
 			}
 
 			#{{ data.id }} .landscape .thumbnail img {
 				width: auto;
-				height: {{ data.edge }}px;
+				max-height: {{ data.edge }}px;
 			}
 		</style>
 	</script>
