@@ -375,6 +375,7 @@
 
 			workflow = workflows[ id ] = wp.media( _.defaults( options || {}, {
 				frame:    'post',
+				state:    'upload',
 				title:    wp.media.view.l10n.addMedia,
 				multiple: true
 			} ) );
@@ -427,14 +428,52 @@
 				}
 			}, this );
 
+			workflow.state('featured-image').on( 'select', function() {
+				var settings = wp.media.view.settings,
+					featuredImage = settings.featuredImage,
+					selection = this.get('selection').single();
+
+				if ( ! featuredImage )
+					return;
+
+				featuredImage.id = selection ? selection.id : -1;
+				wp.media.post( 'set-post-thumbnail', {
+					json:         true,
+					post_id:      settings.postId,
+					thumbnail_id: featuredImage.id,
+					_wpnonce:     featuredImage.nonce
+				}).done( function( html ) {
+					$( '.inside', '#postimagediv' ).html( html );
+				});
+			});
+
+			workflow.setState( workflow.options.state );
 			return workflow;
 		},
 
+		id: function( id ) {
+			if ( id )
+				return id;
+
+			// If an empty `id` is provided, default to `wpActiveEditor`.
+			id = wpActiveEditor;
+
+			// If that doesn't work, fall back to `tinymce.activeEditor.id`.
+			if ( ! id && typeof tinymce !== 'undefined' && tinymce.activeEditor )
+				id = tinymce.activeEditor.id;
+
+			// Last but not least, fall back to the empty string.
+			id = id || '';
+			return id;
+		},
+
 		get: function( id ) {
+			id = this.id( id );
 			return workflows[ id ];
 		},
 
 		remove: function( id ) {
+			id = this.id( id );
 			delete workflows[ id ];
 		},
 
@@ -497,6 +536,30 @@
 			}
 		},
 
+		open: function( id ) {
+			var workflow, editor;
+
+			id = this.id( id );
+
+			// Save a bookmark of the caret position in IE.
+			if ( typeof tinymce !== 'undefined' ) {
+				editor = tinymce.get( id );
+
+				if ( tinymce.isIE && editor && ! editor.isHidden() ) {
+					editor.focus();
+					editor.windowManager.insertimagebookmark = editor.selection.getBookmark();
+				}
+			}
+
+			workflow = this.get( id );
+
+			// Initialize the editor's workflow if we haven't yet.
+			if ( ! workflow )
+				workflow = this.add( id );
+
+			return workflow.open();
+		},
+
 		init: function() {
 			$(document.body).on( 'click', '.insert-media', function( event ) {
 				var $this = $(this),
@@ -513,45 +576,40 @@
 
 				wp.media.editor.open( editor );
 			});
-		},
 
-		open: function( id ) {
-			var workflow, editor;
+			// Open the content media manager to the 'featured image' tab when
+			// the post thumbnail is clicked.
+			$('#postimagediv').on( 'click', '#set-post-thumbnail', function( event ) {
+				event.preventDefault();
+				// Stop propagation to prevent thickbox from activating.
+				event.stopPropagation();
 
-			// If an empty `id` is provided, default to `wpActiveEditor`.
-			id = id || wpActiveEditor;
+				// Always get the 'content' frame, since this is tailored to post.php.
+				var frame = wp.media.editor.add('content'),
+					initialState = frame.state().id,
+					escape;
 
-			if ( typeof tinymce !== 'undefined' && tinymce.activeEditor ) {
-				// If that doesn't work, fall back to `tinymce.activeEditor`.
-				if ( ! id ) {
-					editor = tinymce.activeEditor;
-					id = id || editor.id;
-				} else {
-					editor = tinymce.get( id );
-				}
+				escape = function() {
+					// Only run this event once.
+					this.off( 'escape', escape );
 
-				// Save a bookmark of the caret position, needed for IE
-				if ( tinymce.isIE && editor && ! editor.isHidden() ) {
-					editor.focus();
-					editor.windowManager.insertimagebookmark = editor.selection.getBookmark();
-				}
-			}
+					// If we're still on the 'featured-image' state, restore
+					// the initial state.
+					if ( 'featured-image' === this.state().id )
+						this.setState( initialState );
+				};
 
-			// Last but not least, fall back to the empty string.
-			id = id || '';
+				frame.on( 'escape', escape, frame );
 
-			workflow = wp.media.editor.get( id );
+				frame.setState('featured-image').open();
 
-			// If the workflow exists, open it.
-			// Initialize the editor's workflow if we haven't yet.
-			if ( workflow )
-				workflow.open();
-			else
-				workflow = wp.media.editor.add( id );
-
-			return workflow;
+			// Update the featured image id when the 'remove' link is clicked.
+			}).on( 'click', '#remove-post-thumbnail', function() {
+				wp.media.view.settings.featuredImage.id = -1;
+			});
 		}
 	};
 
+	_.bindAll( wp.media.editor, 'open' );
 	$( wp.media.editor.init );
 }(jQuery));

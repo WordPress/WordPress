@@ -40,7 +40,7 @@
 				});
 			});
 
-			frame.setState('library');
+			frame.setState('library').open();
 		});
 	});
 }(jQuery));

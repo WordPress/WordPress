@@ -30,10 +30,8 @@ window.wp = window.wp || {};
 			frame = new MediaFrame.Post( attributes );
 
 		delete attributes.frame;
-		// Set the default state.
-		frame.setState( frame.options.state );
-		// Render, attach, and open the frame.
-		return frame.render().attach().open();
+
+		return frame;
 	};
 
 	_.extend( media, { model: {}, view: {}, controller: {} });
@@ -235,6 +233,9 @@ window.wp = window.wp || {};
 
 			// Overload the `update` request so properties can be saved.
 			} else if ( 'update' === method ) {
+				if ( ! this.get('nonces') )
+					return $.Deferred().resolveWith( this ).promise();
+
 				options = options || {};
 				options.context = this;
 

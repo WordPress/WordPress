@@ -1674,23 +1674,31 @@ function wp_ajax_image_editor() {
 }
 
 function wp_ajax_set_post_thumbnail() {
+	$json = ! empty( $_REQUEST['json'] );
+
 	$post_ID = intval( $_POST['post_id'] );
-	if ( !current_user_can( 'edit_post', $post_ID ) )
-		wp_die( -1 );
+	if ( !current_user_can( 'edit_post', $post_ID ) ) {
+		$json ? wp_send_json_error() : wp_die( -1 );
+	}
 	$thumbnail_id = intval( $_POST['thumbnail_id'] );
 
 	check_ajax_referer( "set_post_thumbnail-$post_ID" );
 
 	if ( $thumbnail_id == '-1' ) {
-		if ( delete_post_thumbnail( $post_ID ) )
-			wp_die( _wp_post_thumbnail_html( null, $post_ID ) );
-		else
-			wp_die( 0 );
+		if ( delete_post_thumbnail( $post_ID ) ) {
+			$return = _wp_post_thumbnail_html( null, $post_ID );
+			$json ? wp_send_json_success( $return ) : wp_die( $return );
+		} else {
+			$json ? wp_send_json_error() : wp_die( 0 );
+		}
 	}
 
-	if ( set_post_thumbnail( $post_ID, $thumbnail_id ) )
-		wp_die( _wp_post_thumbnail_html( $thumbnail_id, $post_ID ) );
-	wp_die( 0 );
+	if ( set_post_thumbnail( $post_ID, $thumbnail_id ) ) {
+		$return = _wp_post_thumbnail_html( $thumbnail_id, $post_ID );
+		$json ? wp_send_json_success( $return ) : wp_die( $return );
+	}
+
+	$json ? wp_send_json_error() : wp_die( 0 );
 }
 
 function wp_ajax_date_format() {

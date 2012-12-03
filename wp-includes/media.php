@@ -1434,6 +1434,16 @@ function wp_enqueue_media( $args = array() ) {
 		$post = get_post( $args['post'] );
 		$settings['postId'] = $post->ID;
 		$settings['nonce']['updatePost'] = wp_create_nonce( 'update-post_' . $post->ID );
+
+		if ( current_theme_supports( 'post-thumbnails', $post->post_type ) && post_type_supports( $post->post_type, 'thumbnail' ) ) {
+
+			$featuredImageId = get_post_meta( $post->ID, '_thumbnail_id', true );
+
+			$settings['featuredImage'] = array(
+				'id'    => $featuredImageId ? $featuredImageId : -1,
+				'nonce' => wp_create_nonce( 'set_post_thumbnail-' . $post->ID ),
+			);
+		}
 	}
 
 	$hier = $post && is_post_type_hierarchical( $post->post_type );
@@ -1466,6 +1476,10 @@ function wp_enqueue_media( $args = array() ) {
 
 		// From URL
 		'fromUrlTitle'       => __( 'From URL' ),
+
+		// Featured Images
+		'featuredImageTitle'  => __( 'Featured Image' ),
+		'setFeaturedImage'    => __( 'Set featured image' ),
 
 		// Gallery
 		'createGalleryTitle' => __( 'Create Gallery' ),
@@ -1511,6 +1525,7 @@ function wp_print_media_templates() {
 		<div class="media-modal wp-core-ui">
 			<h3 class="media-modal-title">{{ data.title }}</h3>
 			<a class="media-modal-close media-modal-icon" href="#" title="<?php esc_attr_e('Close'); ?>"></a>
+			<div class="media-modal-content"></div>
 		</div>
 		<div class="media-modal-backdrop">
 			<div></div>

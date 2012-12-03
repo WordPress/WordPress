@@ -170,7 +170,7 @@
 			// created the `states` collection, or are trying to select a state
 			// that does not exist.
 			if ( ( previous && id === previous.id ) || ! this.states || ! this.states.get( id ) )
-				return;
+				return this;
 
 			if ( previous ) {
 				previous.trigger('deactivate');
@@ -179,6 +179,8 @@
 
 			this._state = id;
 			this.state().trigger('activate');
+
+			return this;
 		},
 
 		// Returns the previous active state.
@@ -549,6 +551,40 @@
 		}
 	});
 
+	// wp.media.controller.FeaturedImage
+	// ---------------------------------
+	media.controller.FeaturedImage = media.controller.Library.extend({
+		defaults: _.defaults({
+			id:         'featured-image',
+			filterable: 'uploaded',
+			multiple:   false,
+			menu:       'main',
+			toolbar:    'featured-image'
+		}, media.controller.Library.prototype.defaults ),
+
+		initialize: function() {
+			// If we haven't been provided a `library`, create a `Selection`.
+			if ( ! this.get('library') )
+				this.set( 'library', media.query({ type: 'image' }) );
+
+			media.controller.Library.prototype.initialize.apply( this, arguments );
+		},
+
+		activate: function() {
+			var selection = this.get('selection'),
+				id = media.view.settings.featuredImage.id,
+				attachment;
+
+			if ( '' !== id && -1 !== id ) {
+				attachment = Attachment.get( id );
+				attachment.fetch();
+			}
+
+			selection.reset( attachment ? [ attachment ] : [] );
+			media.controller.Library.prototype.activate.apply( this, arguments );
+		}
+	});
+
 
 	// wp.media.controller.Embed
 	// -------------------------
@@ -605,7 +641,9 @@
 			}, this );
 
 			this.set( 'url', '' );
-			this.frame.toolbar.view().refresh();
+
+			if ( this.id === this.frame.state().id )
+				this.frame.toolbar.view().refresh();
 		}
 	});
 
@@ -1077,9 +1115,10 @@
 			if ( this.options.modal ) {
 				this.modal = new media.view.Modal({
 					controller: this,
-					$content:   this.$el,
 					title:      this.options.title
 				});
+
+				this.modal.content( this );
 			}
 
 			// Force the uploader off if the upload limit has been exceeded or
@@ -1100,14 +1139,6 @@
 			}
 
 			this.on( 'attach', _.bind( this.views.ready, this.views ), this );
-		},
-
-		render: function() {
-			if ( this.modal )
-				this.modal.render();
-
-			media.view.Frame.prototype.render.apply( this, arguments );
-			return this;
 		},
 
 		createIframeStates: function( options ) {
@@ -1186,7 +1217,7 @@
 	});
 
 	// Map some of the modal's methods to the frame.
-	_.each(['open','close','attach','detach'], function( method ) {
+	_.each(['open','close','attach','detach','escape'], function( method ) {
 		media.view.MediaFrame.prototype[ method ] = function( view ) {
 			if ( this.modal )
 				this.modal[ method ].apply( this.modal, arguments );
@@ -1202,7 +1233,6 @@
 			media.view.MediaFrame.prototype.initialize.apply( this, arguments );
 
 			_.defaults( this.options, {
-				state:     'upload',
 				selection: [],
 				library:   {},
 				multiple:  false
@@ -1349,7 +1379,6 @@
 	media.view.MediaFrame.Post = media.view.MediaFrame.Select.extend({
 		initialize: function() {
 			_.defaults( this.options, {
-				state:     'upload',
 				multiple:  true,
 				editing:   false
 			});
@@ -1409,6 +1438,14 @@
 					libraryState: 'gallery-edit'
 				})
 			]);
+
+
+			if ( media.view.settings.featuredImage ) {
+				this.states.add( new media.controller.FeaturedImage({
+					controller: this,
+					menu:       'main'
+				}) );
+			}
 		},
 
 		bindHandlers: function() {
@@ -1427,6 +1464,7 @@
 					toolbar: {
 						'main-attachments': 'mainAttachmentsToolbar',
 						'main-embed':       'mainEmbedToolbar',
+						'featured-image':   'featuredImageToolbar',
 						'gallery-edit':     'galleryEditToolbar',
 						'gallery-add':      'galleryAddToolbar'
 					}
@@ -1444,15 +1482,22 @@
 			media.view.MediaFrame.Select.prototype.mainMenu.call( this, { silent: true });
 
 			this.menu.view().set({
-				separateLibrary: new media.View({
+				'library-separator': new media.View({
 					className: 'separator',
 					priority: 60
 				}),
-				embed: {
+				'embed': {
 					text: l10n.fromUrlTitle,
 					priority: 80
 				}
 			});
+
+			if ( media.view.settings.featuredImage ) {
+				this.menu.view().set( 'featured-image', {
+					text: l10n.featuredImageTitle,
+					priority: 100
+				});
+			}
 		},
 
 		galleryMenu: function() {
@@ -1559,6 +1604,14 @@
 			}) );
 		},
 
+		featuredImageToolbar: function() {
+			this.toolbar.view( new media.view.Toolbar.Select({
+				controller: this,
+				text:       l10n.setFeaturedImage,
+				state:      this.options.state || 'upload'
+			}) );
+		},
+
 		mainEmbedToolbar: function() {
 			this.toolbar.view( new media.view.Toolbar.Embed({
 				controller: this
@@ -1629,7 +1682,7 @@
 		},
 
 		events: {
-			'click .media-modal-backdrop, .media-modal-close': 'closeHandler',
+			'click .media-modal-backdrop, .media-modal-close': 'escapeHandler',
 			'keydown': 'keydown'
 		},
 
@@ -1643,56 +1696,73 @@
 			});
 		},
 
-		render: function() {
-			// Ensure content div exists.
-			this.options.$content = this.options.$content || $('<div />');
-
-			// Detach the content element from the DOM to prevent
-			// `this.$el.html()` from garbage collecting its events.
-			this.options.$content.detach();
-
-			this.$el.html( this.template({
+		prepare: function() {
+			return {
 				title: this.options.title
-			}) );
-
-			this.options.$content.addClass('media-modal-content');
-			this.$('.media-modal').append( this.options.$content );
-			return this;
+			};
 		},
 
 		attach: function() {
+			if ( this.views.attached )
+				return this;
+
+			if ( ! this.views.rendered )
+				this.render();
+
 			this.$el.appendTo( this.options.container );
+
+			// Manually mark the view as attached and trigger ready.
+			this.views.attached = true;
+			this.views.ready();
+
 			return this.propagate('attach');
 		},
 
 		detach: function() {
+			if ( this.$el.is(':visible') )
+				this.close();
+
 			this.$el.detach();
+			this.views.attached = false;
 			return this.propagate('detach');
 		},
 
 		open: function() {
+			if ( this.$el.is(':visible') )
+				return this;
+
+			if ( ! this.views.attached )
+				this.attach();
+
 			this.$el.show().focus();
 			return this.propagate('open');
 		},
 
-		close: function() {
+		close: function( options ) {
+			if ( ! this.views.attached || ! this.$el.is(':visible') )
+				return this;
+
 			this.$el.hide();
-			return this.propagate('close');
+			this.propagate('close');
+
+			if ( options && options.escape )
+				this.propagate('escape');
+
+			return this;
 		},
 
-		closeHandler: function( event ) {
+		escape: function() {
+			return this.close({ escape: true });
+		},
+
+		escapeHandler: function( event ) {
 			event.preventDefault();
-			this.close();
+			this.escape();
 		},
 
-		content: function( $content ) {
-			// Detach any existing content to prevent events from being lost.
-			if ( this.options.$content )
-				this.options.$content.detach();
-
-			// Set and render the content.
-			this.options.$content = ( $content instanceof Backbone.View ) ? $content.$el : $content;
-			return this.render();
+		content: function( content ) {
+			this.views.set( '.media-modal-content', content );
+			return this;
 		},
 
 		// Triggers a modal event and if the `propagate` option is set,
@@ -1710,7 +1780,7 @@
 			// Close the modal when escape is pressed.
 			if ( 27 === event.which ) {
 				event.preventDefault();
-				this.close();
+				this.escape();
 				return;
 			}
 		}
