@@ -1665,7 +1665,14 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-details">
-		<h3><?php _e('Attachment Details'); ?></h3>
+		<h3>
+			<?php _e('Attachment Details'); ?>
+
+			<span class="settings-save-status">
+				<span class="spinner"></span>
+				<span class="saved"><?php esc_html_e('Saved.'); ?></span>
+			</span>
+		</h3>
 		<div class="attachment-info">
 			<div class="thumbnail">
 				<# if ( data.uploading ) { #>

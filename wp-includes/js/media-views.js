@@ -2589,6 +2589,9 @@
 			// Check if the model is selected.
 			this.updateSelect();
 
+			// Update the save status.
+			this.updateSave();
+
 			this.views.render();
 			return this;
 		},
@@ -2693,7 +2696,49 @@
 			value   = event.target.value;
 
 			if ( this.model.get( setting ) !== value )
-				this.model.save( setting, value );
+				this.save( setting, value );
+		},
+
+		// Pass all the arguments to the model's save method.
+		//
+		// Records the aggregate status of all save requests and updates the
+		// view's classes accordingly.
+		save: function() {
+			var view = this,
+				save = this._save = this._save || { status: 'ready' },
+				request = this.model.save.apply( this.model, arguments ),
+				requests = save.requests ? $.when( request, save.requests ) : request;
+
+			// If we're waiting to remove 'Saved.', stop.
+			if ( save.savedTimer )
+				clearTimeout( save.savedTimer );
+
+			this.updateSave('waiting');
+			save.requests = requests;
+			requests.done( function() {
+				// If we've performed another request since this one, bail.
+				if ( save.requests !== requests )
+					return;
+
+				view.updateSave('complete');
+				save.savedTimer = setTimeout( function() {
+					view.updateSave('ready');
+					delete save.savedTimer;
+				}, 2000 );
+			});
+
+		},
+
+		updateSave: function( status ) {
+			var save = this._save = this._save || { status: 'ready' };
+
+			if ( status && status !== save.status ) {
+				this.$el.removeClass( 'save-' + save.status );
+				save.status = status;
+			}
+
+			this.$el.addClass( 'save-' + save.status );
+			return this;
 		},
 
 		updateAll: function() {

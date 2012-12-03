@@ -693,7 +693,7 @@
 	background-position: -60px 0;
 }
 
-.media-frame .describe {
+.media-frame .attachment .describe {
 	position: relative;
 	display: block;
 	width: 100%;
@@ -1161,9 +1161,42 @@
 }
 
 /**
+ * Spinner
+ */
+.media-sidebar .settings-save-status {
+	background: #f5f5f5;
+	float: right;
+	text-transform: none;
+	z-index: 10;
+}
+
+.media-sidebar .settings-save-status .spinner {
+	background: url(../../wp-admin/images/wpspin_light.gif) no-repeat;
+	background-size: 16px 16px;
+	display: none;
+	float: right;
+	opacity: 0.7;
+	filter: alpha(opacity=70);
+	width: 16px;
+	height: 16px;
+	margin: 0 5px 0;
+}
+
+.media-sidebar .settings-save-status .saved {
+	float: right;
+	display: none;
+}
+
+.media-sidebar .save-waiting .settings-save-status .spinner,
+.media-sidebar .save-complete .settings-save-status .saved {
+	display: block;
+}
+
+/**
  * Attachment Details
  */
 .attachment-details {
+	position: relative;
 	overflow: auto;
 }
 
