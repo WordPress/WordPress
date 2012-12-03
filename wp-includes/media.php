@@ -1685,11 +1685,11 @@ function wp_print_media_templates() {
 						<a href="#"><?php _e( 'Delete Permanently' ); ?></a>
 					</div>
 				<# } #>
-			</div>
-			<div class="compat-meta">
-				<# if ( data.compat && data.compat.meta ) { #>
-					{{{ data.compat.meta }}}
-				<# } #>
+				<div class="compat-meta">
+					<# if ( data.compat && data.compat.meta ) { #>
+						{{{ data.compat.meta }}}
+					<# } #>
+				</div>
 			</div>
 		</div>
 

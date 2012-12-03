@@ -1173,6 +1173,7 @@
 .attachment-info .filename {
 	font-weight: bold;
 	color: #464646;
+	word-wrap: break-word;
 }
 
 .attachment-info .thumbnail {
@@ -1216,10 +1217,7 @@
 .attachment-info .details {
 	float: left;
 	font-size: 12px;
-}
-
-.attachment-info .compat-meta {
-	float: left;
+	max-width: 100%;
 }
 
 .attachment-info .delete-attachment a {
