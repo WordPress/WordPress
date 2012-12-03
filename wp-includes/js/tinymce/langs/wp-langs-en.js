@@ -500,5 +500,5 @@ s120:"120%",
 s130:"130%",
 img_title:"Title",
 caption:"Caption",
-alt:"Alternate Text"
+alt:"Alternative Text"
 });
