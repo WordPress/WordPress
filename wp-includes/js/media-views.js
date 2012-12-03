@@ -2813,8 +2813,7 @@
 		},
 
 		initSortable: function() {
-			var view = this,
-				collection = this.collection,
+			var collection = this.collection,
 				from;
 
 			if ( ! this.options.sortable || ! $.fn.sortable )
@@ -2860,10 +2859,7 @@
 
 					// If the collection is sorted by menu order,
 					// update the menu order.
-					view.saveMenuOrder();
-
-					// Make sure any menu-order-related callbacks are bound.
-					view.refreshSortable();
+					collection.saveMenuOrder();
 				}
 			});
 
@@ -2884,27 +2880,9 @@
 			// If the `collection` has a `comparator`, disable sorting.
 			var collection = this.collection,
 				orderby = collection.props.get('orderby'),
-				enabled = 'menuOrder' === orderby || ! collection.comparator,
-				hasMenuOrder;
+				enabled = 'menuOrder' === orderby || ! collection.comparator;
 
 			this.$el.sortable( 'option', 'disabled', ! enabled );
-
-			// Check if any attachments have a specified menu order.
-			hasMenuOrder = this.collection.any( function( attachment ) {
-				return attachment.get('menuOrder');
-			});
-
-			// Always unbind the `saveMenuOrder` callback to prevent multiple
-			// callbacks stacking up.
-			this.collection.off( 'change:uploading', this.saveMenuOrder, this );
-
-			if ( hasMenuOrder )
-				this.collection.on( 'change:uploading', this.saveMenuOrder, this );
-
-		},
-
-		saveMenuOrder: function() {
-			this.collection.saveMenuOrder();
 		},
 
 		createAttachmentView: function( attachment ) {
