@@ -271,6 +271,10 @@
 	*max-width: 55%; /* IE7 */
 }
 
+.media-sidebar .setting input[type="checkbox"] {
+	margin-top: 10px;
+}
+
 .media-sidebar .setting span,
 .compat-item label span {
 	float: left;

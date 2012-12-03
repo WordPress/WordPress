@@ -832,33 +832,10 @@ window.wp = window.wp || {};
 		// If the workflow does not support multiple
 		// selected attachments, reset the selection.
 		add: function( models, options ) {
-			if ( ! this.multiple ) {
-				models = _.isArray( models ) && models.length ? _.first( models ) : models;
-				this.clear( options );
-			}
+			if ( ! this.multiple )
+				this.remove( this.models );
 
 			return Attachments.prototype.add.call( this, models, options );
-		},
-
-		// Removes all models from the selection.
-		clear: function( options ) {
-			this.remove( this.models, options ).single();
-			return this;
-		},
-
-		// Override the selection's reset method.
-		// Always direct items through add and remove,
-		// as we need them to fire.
-		reset: function( models, options ) {
-			this.clear( options ).add( models, options ).single();
-			return this;
-		},
-
-		// Create selection.has, which determines if a model
-		// exists in the collection based on cid and id,
-		// instead of direct comparison.
-		has: function( attachment ) {
-			return !! ( this.getByCid( attachment.cid ) || this.get( attachment.id ) );
 		},
 
 		single: function( model ) {
@@ -869,7 +846,7 @@ window.wp = window.wp || {};
 				this._single = model;
 
 			// If the single model isn't in the selection, remove it.
-			if ( this._single && ! this.has( this._single ) )
+			if ( this._single && ! this.getByCid( this._single.cid ) )
 				delete this._single;
 
 			this._single = this._single || this.last();

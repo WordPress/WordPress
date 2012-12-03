@@ -189,6 +189,10 @@
 				args.type    = 'image';
 				args.perPage = -1;
 
+				// Mark the `orderby` override attribute.
+				if ( 'rand' === attrs.orderby )
+					attrs._orderbyRandom = true;
+
 				// Map the `orderby` attribute to the corresponding model property.
 				if ( ! attrs.orderby || /^menu_order(?: ID)?$/i.test( attrs.orderby ) )
 					args.orderby = 'menuOrder';
@@ -231,6 +235,11 @@
 				// Copy the `uploadedTo` post ID.
 				if ( props.uploadedTo )
 					attrs.id = props.uploadedTo;
+
+				// Check if the gallery is randomly ordered.
+				if ( attrs._orderbyRandom )
+					attrs.orderby = 'rand';
+				delete attrs._orderbyRandom;
 
 				// If the `ids` attribute is set and `orderby` attribute
 				// is the default value, clear it for cleaner output.

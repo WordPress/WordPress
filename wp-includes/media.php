@@ -670,8 +670,9 @@ function gallery_shortcode($attr) {
 	$instance++;
 
 	if ( ! empty( $attr['ids'] ) ) {
-		// 'ids' is explicitly ordered
-		$attr['orderby'] = 'post__in';
+		// 'ids' is explicitly ordered, unless you specify otherwise.
+		if ( empty( $attr['orderby'] ) )
+			$attr['orderby'] = 'post__in';
 		$attr['include'] = $attr['ids'];
 	}
 
@@ -1489,6 +1490,7 @@ function wp_enqueue_media( $args = array() ) {
 		'updateGallery'      => __( 'Update gallery' ),
 		'continueEditing'    => __( 'Continue editing' ),
 		'addToGallery'       => __( 'Add to gallery' ),
+		'reverseOrder'       => __( 'Reverse order' ),
 	);
 
 	$settings = apply_filters( 'media_view_settings', $settings, $post );
@@ -1864,6 +1866,11 @@ function wp_print_media_templates() {
 					</option>
 				<?php endfor; ?>
 			</select>
+		</label>
+
+		<label class="setting">
+			<span><?php _e('Random'); ?></span>
+			<input type="checkbox" data-setting="_orderbyRandom" />
 		</label>
 	</script>
 

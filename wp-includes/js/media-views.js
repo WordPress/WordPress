@@ -329,7 +329,7 @@
 		},
 
 		reset: function() {
-			this.get('selection').clear();
+			this.get('selection').reset();
 			this.resetDisplays();
 		},
 
@@ -534,19 +534,31 @@
 		},
 
 		gallerySettings: function() {
-			var library = this.get('library');
+			var library = this.get('library'),
+				browser;
 
 			if ( ! library )
 				return;
 
 			library.gallery = library.gallery || new Backbone.Model();
 
-			this.frame.content.view().sidebar.set({
+			browser = this.frame.content.view();
+
+			browser.sidebar.set({
 				gallery: new media.view.Settings.Gallery({
 					controller: this,
 					model:      library.gallery,
 					priority:   40
 				})
+			});
+
+			browser.toolbar.set( 'reverse', {
+				text:     l10n.reverseOrder,
+				priority: 80,
+
+				click: function() {
+					library.reset( library.toArray().reverse() );
+				}
 			});
 		}
 	});
@@ -2505,12 +2517,18 @@
 		buttons: {},
 
 		initialize: function() {
+			var selection = this.options.selection;
+
 			this.controller = this.options.controller;
 
 			this.model.on( 'change:sizes change:uploading change:caption change:title', this.render, this );
 			this.model.on( 'change:percent', this.progress, this );
+
+			// Update the selection.
 			this.model.on( 'add', this.select, this );
 			this.model.on( 'remove', this.deselect, this );
+			if ( selection )
+				selection.on( 'reset', this.updateSelect, this );
 
 			// Update the model's details view.
 			this.model.on( 'selection:single selection:unsingle', this.details, this );
@@ -2518,7 +2536,14 @@
 		},
 
 		dispose: function() {
+			var selection = this.options.selection;
+
+			// Make sure all settings are saved before removing the view.
 			this.updateAll();
+
+			if ( selection )
+				selection.off( null, null, this );
+
 			media.View.prototype.dispose.apply( this, arguments );
 			return this;
 		},
@@ -2557,8 +2582,7 @@
 				delete this.$bar;
 
 			// Check if the model is selected.
-			if ( this.selected() )
-				this.select();
+			this.updateSelect();
 
 			this.views.render();
 			return this;
@@ -2576,7 +2600,7 @@
 			if ( ! selection )
 				return;
 
-			if ( selection.has( model ) ) {
+			if ( this.selected() ) {
 				// If the model is the single model, remove it.
 				// If it is not the same as the single model,
 				// it now becomes the single model.
@@ -2586,10 +2610,14 @@
 			}
 		},
 
+		updateSelect: function() {
+			this[ this.selected() ? 'select' : 'deselect' ]();
+		},
+
 		selected: function() {
 			var selection = this.options.selection;
 			if ( selection )
-				return selection.has( this.model );
+				return !! selection.getByCid( this.model.cid );
 		},
 
 		select: function( model, collection ) {
@@ -3312,7 +3340,7 @@
 
 		clear: function( event ) {
 			event.preventDefault();
-			this.collection.clear();
+			this.collection.reset();
 		}
 	});
 
@@ -3388,7 +3416,7 @@
 
 		clear: function( event ) {
 			event.preventDefault();
-			this.collection.clear();
+			this.collection.reset();
 		}
 	});
 
@@ -3468,6 +3496,10 @@
 			} else if ( $setting.is('input[type="text"], textarea') ) {
 				if ( ! $setting.is(':focus') )
 					$setting.val( value );
+
+			// Handle checkboxes.
+			} else if ( $setting.is('input[type="checkbox"]') ) {
+				$setting.attr( 'checked', !! value );
 			}
 		},
 
@@ -3481,6 +3513,11 @@
 			if ( ! $setting.length )
 				return;
 
+			// Use the correct value for checkboxes.
+			if ( $setting.is('input[type="checkbox"]') )
+				value = $setting[0].checked;
+
+			// Update the corresponding setting.
 			this.model.set( $setting.data('setting'), value );
 
 			// If the setting has a corresponding user setting,
@@ -3550,15 +3587,15 @@
 
 			$input.show();
 
-			if ( 'post' == linkTo ) {
+			if ( 'post' === linkTo ) {
 				$input.val( attachment.get('link') );
-			} else if ( 'file' == linkTo ) {
+			} else if ( 'file' === linkTo ) {
 				$input.val( attachment.get('url') );
 			} else if ( ! this.model.get('linkUrl') ) {
 				$input.val('http://');
 			}
 
-			$input.prop('readonly', 'custom' !== linkTo);
+			$input.prop( 'readonly', 'custom' !== linkTo );
 
 			// If the input is visible, focus and select its contents.
 			if ( $input.is(':visible') )
