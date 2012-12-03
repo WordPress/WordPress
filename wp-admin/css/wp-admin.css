@@ -5605,7 +5605,7 @@ body.full-overlay-active {
 }
 
 /* Collapse Button */
-.wp-full-overlay .collapse-sidebar {
+.wp-full-overlay a.collapse-sidebar {
 	position: absolute;
 	bottom: 12px;
 	left: 0;
