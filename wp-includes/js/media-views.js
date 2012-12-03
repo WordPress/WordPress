@@ -1141,6 +1141,14 @@
 			this.on( 'attach', _.bind( this.views.ready, this.views ), this );
 		},
 
+		render: function() {
+			// Activate the default state if no active state exists.
+			if ( ! this.state() && this.options.state )
+				this.setState( this.options.state );
+
+			return media.view.Frame.prototype.render.apply( this, arguments );
+		},
+
 		createIframeStates: function( options ) {
 			var settings = media.view.settings,
 				tabs = settings.tabs,

@@ -304,7 +304,7 @@
 					editing:   true,
 					multiple:  true,
 					selection: selection
-				});
+				}).open();
 
 				return this.frame;
 			}
