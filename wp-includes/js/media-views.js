@@ -1903,6 +1903,11 @@
 
 			if ( this.controller.uploader ) {
 				$placeholder = this.$('.browser');
+
+				// Check if we've already replaced the placeholder.
+				if ( $placeholder[0] === $browser[0] )
+					return;
+
 				$browser.detach().text( $placeholder.text() );
 				$browser[0].className = $placeholder[0].className;
 				$placeholder.replaceWith( $browser.show() );
