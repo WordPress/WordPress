@@ -4921,6 +4921,9 @@ function wp_save_post_revision( $post_id ) {
 	if ( !$post = get_post( $post_id, ARRAY_A ) )
 		return;
 
+	if ( 'auto-draft' == $post['post_status'] )
+		return;
+
 	if ( !post_type_supports($post['post_type'], 'revisions') )
 		return;
 
