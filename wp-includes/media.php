@@ -1427,23 +1427,22 @@ function wp_enqueue_media( $args = array() ) {
 		'nonce'     => array(
 			'sendToEditor' => wp_create_nonce( 'media-send-to-editor' ),
 		),
-		'postId'    => 0,
+		'post'    => array(
+			'id' => 0,
+		),
 	);
 
 	$post = null;
 	if ( isset( $args['post'] ) ) {
 		$post = get_post( $args['post'] );
-		$settings['postId'] = $post->ID;
-		$settings['nonce']['updatePost'] = wp_create_nonce( 'update-post_' . $post->ID );
+		$settings['post'] = array(
+			'id' => $post->ID,
+			'nonce' => wp_create_nonce( 'update-post_' . $post->ID ),
+		);
 
 		if ( current_theme_supports( 'post-thumbnails', $post->post_type ) && post_type_supports( $post->post_type, 'thumbnail' ) ) {
-
-			$featuredImageId = get_post_meta( $post->ID, '_thumbnail_id', true );
-
-			$settings['featuredImage'] = array(
-				'id'    => $featuredImageId ? $featuredImageId : -1,
-				'nonce' => wp_create_nonce( 'set_post_thumbnail-' . $post->ID ),
-			);
+			$featured_image_id = get_post_meta( $post->ID, '_thumbnail_id', true );
+			$settings['post']['featuredImageId'] = $featured_image_id ? $featured_image_id : -1;
 		}
 	}
 

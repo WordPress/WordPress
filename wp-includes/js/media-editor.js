@@ -163,7 +163,7 @@
 		return {
 			defaults: {
 				order:      'ASC',
-				id:         wp.media.view.settings.postId,
+				id:         wp.media.view.settings.post.id,
 				itemtag:    'dl',
 				icontag:    'dt',
 				captiontag: 'dd',
@@ -439,18 +439,17 @@
 
 			workflow.state('featured-image').on( 'select', function() {
 				var settings = wp.media.view.settings,
-					featuredImage = settings.featuredImage,
 					selection = this.get('selection').single();
 
-				if ( ! featuredImage )
+				if ( ! settings.post.featuredImageId )
 					return;
 
-				featuredImage.id = selection ? selection.id : -1;
+				settings.post.featuredImageId = selection ? selection.id : -1;
 				wp.media.post( 'set-post-thumbnail', {
 					json:         true,
-					post_id:      settings.postId,
-					thumbnail_id: featuredImage.id,
-					_wpnonce:     featuredImage.nonce
+					post_id:      settings.post.id,
+					thumbnail_id: settings.post.featuredImageId,
+					_wpnonce:     settings.post.nonce
 				}).done( function( html ) {
 					$( '.inside', '#postimagediv' ).html( html );
 				});
@@ -526,7 +525,7 @@
 					nonce:      wp.media.view.settings.nonce.sendToEditor,
 					attachment: options,
 					html:       html,
-					post_id:    wp.media.view.settings.postId
+					post_id:    wp.media.view.settings.post.id
 				}).done( function( resp ) {
 					wp.media.editor.insert( resp );
 				});
@@ -538,7 +537,7 @@
 					src:     embed.linkUrl,
 					title:   embed.title,
 					html:    wp.media.string.link( embed ),
-					post_id: wp.media.view.settings.postId
+					post_id: wp.media.view.settings.post.id
 				}).done( function( resp ) {
 					wp.media.editor.insert( resp );
 				});
@@ -614,7 +613,7 @@
 
 			// Update the featured image id when the 'remove' link is clicked.
 			}).on( 'click', '#remove-post-thumbnail', function() {
-				wp.media.view.settings.featuredImage.id = -1;
+				wp.media.view.settings.post.featuredImageId = -1;
 			});
 		}
 	};

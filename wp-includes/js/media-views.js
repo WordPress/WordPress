@@ -12,9 +12,8 @@
 	media.view.settings = l10n.settings || {};
 	delete l10n.settings;
 
-	// Copy the `postId` setting over to the model settings.
-	media.model.settings.postId = media.view.settings.postId;
-	media.model.settings.updatePostNonce = media.view.settings.nonce.updatePost;
+	// Copy the `post` setting over to the model settings.
+	media.model.settings.post = media.view.settings.post;
 
 	// Check if the browser supports CSS 3.0 transitions
 	$.support.transition = (function(){
@@ -607,7 +606,7 @@
 
 		activate: function() {
 			var selection = this.get('selection'),
-				id = media.view.settings.featuredImage.id,
+				id = media.view.settings.post.featuredImageId,
 				attachment;
 
 			if ( '' !== id && -1 !== id ) {
@@ -1483,7 +1482,7 @@
 			]);
 
 
-			if ( media.view.settings.featuredImage ) {
+			if ( media.view.settings.post.featuredImageId ) {
 				this.states.add( new media.controller.FeaturedImage({
 					controller: this,
 					menu:       'main'
@@ -1535,7 +1534,7 @@
 				}
 			});
 
-			if ( media.view.settings.featuredImage ) {
+			if ( media.view.settings.post.featuredImageId ) {
 				this.menu.view().set( 'featured-image', {
 					text: l10n.featuredImageTitle,
 					priority: 100
@@ -1862,7 +1861,7 @@
 		},
 
 		ready: function() {
-			var postId = media.view.settings.postId,
+			var postId = media.view.settings.post.id,
 				dropzone;
 
 			// If the uploader already exists, bail.
@@ -1913,7 +1912,7 @@
 				this.options.$browser = this.controller.uploader.$browser;
 
 			if ( _.isUndefined( this.options.postId ) )
-				this.options.postId = media.view.settings.postId;
+				this.options.postId = media.view.settings.post.id;
 
 			this.views.set( '.upload-inline-status', new media.view.UploaderStatus({
 				controller: this.controller
@@ -3077,10 +3076,11 @@
 			change: 'change'
 		},
 
-		filters: {},
 		keys: [],
 
 		initialize: function() {
+			this.createFilters();
+
 			// Build `<option>` elements.
 			this.$el.html( _.chain( this.filters ).map( function( filter, value ) {
 				return {
@@ -3091,6 +3091,10 @@
 
 			this.model.on( 'change', this.select, this );
 			this.select();
+		},
+
+		createFilters: function() {
+			this.filters = {};
 		},
 
 		change: function( event ) {
@@ -3119,31 +3123,33 @@
 	});
 
 	media.view.AttachmentFilters.Uploaded = media.view.AttachmentFilters.extend({
-		filters: {
-			all: {
-				text:  l10n.allMediaItems,
-				props: {
-					uploadedTo: null,
-					orderby: 'date',
-					order:   'DESC'
+		createFilters: function() {
+			this.filters = {
+				all: {
+					text:  l10n.allMediaItems,
+					props: {
+						uploadedTo: null,
+						orderby: 'date',
+						order:   'DESC'
+					},
+					priority: 10
 				},
-				priority: 10
-			},
 
-			uploaded: {
-				text:  l10n.uploadedToThisPost,
-				props: {
-					uploadedTo: media.view.settings.postId,
-					orderby: 'menuOrder',
-					order:   'ASC'
-				},
-				priority: 20
-			}
+				uploaded: {
+					text:  l10n.uploadedToThisPost,
+					props: {
+						uploadedTo: media.view.settings.post.id,
+						orderby: 'menuOrder',
+						order:   'ASC'
+					},
+					priority: 20
+				}
+			};
 		}
 	});
 
 	media.view.AttachmentFilters.All = media.view.AttachmentFilters.extend({
-		filters: (function() {
+		createFilters: function() {
 			var filters = {};
 
 			_.each( media.view.settings.mimeTypes || {}, function( text, key ) {
@@ -3173,15 +3179,15 @@
 				text:  l10n.uploadedToThisPost,
 				props: {
 					type:    null,
-					uploadedTo: media.view.settings.postId,
+					uploadedTo: media.view.settings.post.id,
 					orderby: 'menuOrder',
 					order:   'ASC'
 				},
 				priority: 20
 			};
 
-			return filters;
-		}())
+			this.filters = filters;
+		}
 	});
 
 

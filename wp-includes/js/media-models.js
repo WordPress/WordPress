@@ -244,7 +244,7 @@ window.wp = window.wp || {};
 					action:  'save-attachment',
 					id:      this.id,
 					nonce:   this.get('nonces').update,
-					post_id: media.model.settings.postId
+					post_id: media.model.settings.post.id
 				});
 
 				// Record the values of the changed attributes.
@@ -289,7 +289,7 @@ window.wp = window.wp || {};
 			return media.post( 'save-attachment-compat', _.defaults({
 				id:      this.id,
 				nonce:   this.get('nonces').update,
-				post_id: media.model.settings.postId
+				post_id: media.model.settings.post.id
 			}, data ) ).done( function( resp, status, xhr ) {
 				model.set( model.parse( resp, xhr ), options );
 			});
@@ -548,8 +548,8 @@ window.wp = window.wp || {};
 				return;
 
 			return media.post( 'save-attachment-order', {
-				nonce:       media.model.settings.updatePostNonce,
-				post_id:     media.model.settings.postId,
+				nonce:       media.model.settings.post.nonce,
+				post_id:     media.model.settings.post.id,
 				attachments: attachments
 			});
 		}
@@ -705,7 +705,7 @@ window.wp = window.wp || {};
 				options.context = this;
 				options.data = _.extend( options.data || {}, {
 					action:  'query-attachments',
-					post_id: media.model.settings.postId
+					post_id: media.model.settings.post.id
 				});
 
 				// Clone the args so manipulation is non-destructive.

@@ -1674,7 +1674,7 @@ function wp_ajax_image_editor() {
 }
 
 function wp_ajax_set_post_thumbnail() {
-	$json = ! empty( $_REQUEST['json'] );
+	$json = ! empty( $_REQUEST['json'] ); // New-style request
 
 	$post_ID = intval( $_POST['post_id'] );
 	if ( !current_user_can( 'edit_post', $post_ID ) ) {
@@ -1682,7 +1682,10 @@ function wp_ajax_set_post_thumbnail() {
 	}
 	$thumbnail_id = intval( $_POST['thumbnail_id'] );
 
-	check_ajax_referer( "set_post_thumbnail-$post_ID" );
+	if ( $json )
+		check_ajax_referer( "update-post_$post_ID" );
+	else
+		check_ajax_referer( "set_post_thumbnail-$post_ID" );
 
 	if ( $thumbnail_id == '-1' ) {
 		if ( delete_post_thumbnail( $post_ID ) ) {

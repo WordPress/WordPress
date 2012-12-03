@@ -323,7 +323,7 @@ function wp_default_scripts( &$scripts ) {
 	did_action( 'init' ) && $scripts->localize( 'media-models', '_wpMediaModelsL10n', array(
 		'settings' => array(
 			'ajaxurl' => admin_url( 'admin-ajax.php', 'relative' ),
-			'postId'  => 0,
+			'post' => array( 'id' => 0 ),
 		),
 	) );
 

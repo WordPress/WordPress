@@ -505,6 +505,16 @@ function wp_dashboard_quick_press() {
 	}
 
 	$post_ID = (int) $post->ID;
+
+	$media_settings = array(
+		'id' => $post->ID,
+		'nonce' => wp_create_nonce( 'update-post_' . $post->ID ),
+	);
+
+	if ( current_theme_supports( 'post-thumbnails', $post->post_type ) && post_type_supports( $post->post_type, 'thumbnail' ) ) {
+		$featured_image_id = get_post_meta( $post->ID, '_thumbnail_id', true );
+		$media_settings['featuredImageId'] = $featured_image_id ? $featured_image_id : -1;
+	}
 ?>
 
 	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press">
@@ -524,7 +534,15 @@ function wp_dashboard_quick_press() {
 			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15"><?php echo esc_textarea( $post->post_content ); ?></textarea>
 		</div>
 
-		<script type="text/javascript">edCanvas = document.getElementById('content');edInsertContent = null;</script>
+		<script type="text/javascript">
+		edCanvas = document.getElementById('content');
+		edInsertContent = null;
+		<?php if ( $_POST ) : ?>
+		wp.media.editor.remove('content');
+		wp.media.view.settings.post = <?php echo json_encode( $media_settings ); // big juicy hack. ?>;
+		wp.media.editor.add('content');
+		<?php endif; ?>
+		</script>
 
 		<div class="input-text-wrap" id="tags-input-wrap">
 			<label class="screen-reader-text prompt" for="tags-input" id="tags-input-prompt-text"><?php _e( 'Tags (separate with commas)' ); ?></label>

@@ -157,7 +157,7 @@ window.wp = window.wp || {};
 					date:      new Date(),
 					filename:  file.name,
 					menuOrder: 0,
-					uploadedTo: wp.media.model.settings.postId
+					uploadedTo: wp.media.model.settings.post.id
 				}, _.pick( file, 'loaded', 'size', 'percent' ) );
 
 				// Handle early mime type scanning for images.
