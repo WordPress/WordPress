@@ -1866,7 +1866,8 @@
 			_.defaults( this.options, {
 				container: document.body,
 				title:     '',
-				propagate: true
+				propagate: true,
+				freeze:    document.body
 			});
 		},
 
@@ -1902,22 +1903,46 @@
 		},
 
 		open: function() {
-			if ( this.$el.is(':visible') )
+			var $el = this.$el,
+				options = this.options,
+				$freeze;
+
+			if ( $el.is(':visible') )
 				return this;
 
 			if ( ! this.views.attached )
 				this.attach();
 
-			this.$el.show().focus();
+			// If the `freeze` option is set, record the window's scroll
+			// position and the body's overflow, and then set overflow to hidden.
+			if ( options.freeze ) {
+				$freeze = $( options.freeze );
+				this._freeze = {
+					overflow:  $freeze.css('overflow'),
+					scrollTop: $( window ).scrollTop()
+				};
+				$freeze.css( 'overflow', 'hidden' );
+			}
+
+			$el.show().focus();
 			return this.propagate('open');
 		},
 
 		close: function( options ) {
+			var freeze = this._freeze;
+
 			if ( ! this.views.attached || ! this.$el.is(':visible') )
 				return this;
 
 			this.$el.hide();
 			this.propagate('close');
+
+			// If the `freeze` option is set, restore the container's scroll
+			// position and overflow property.
+			if ( freeze ) {
+				$( this.options.freeze ).css( 'overflow', freeze.overflow );
+				$( window ).scrollTop( freeze.scrollTop );
+			}
 
 			if ( options && options.escape )
 				this.propagate('escape');
