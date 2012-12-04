@@ -176,7 +176,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @param array $sizes { {width, height}, ... }
+	 * @param array $sizes { {'width'=>int, 'height'=>int, 'crop'=>bool}, ... }
 	 * @return array
 	 */
 	public function multi_resize( $sizes ) {

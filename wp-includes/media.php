@@ -294,7 +294,7 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width=0,
 }
 
 /**
- * Retrieve calculated resized dimensions for use in imagecopyresampled().
+ * Retrieve calculated resized dimensions for use in WP_Image_Editor.
  *
  * Calculate dimensions and coordinates for a resized image that fits within a
  * specified width and height. If $crop is true, the largest matching central
