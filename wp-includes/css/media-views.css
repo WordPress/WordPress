@@ -817,6 +817,10 @@
   		background-image: url(../images/uploader-icons-2x.png);
   		background-size: 134px 15px;
   	}
+
+  	.media-sidebar .settings-save-status .spinner {
+  		background-image: url(../images/wpspin-2x.gif);
+  	}
 }
 
 /**
@@ -1228,7 +1232,7 @@
 }
 
 .media-sidebar .settings-save-status .spinner {
-	background: url(../../wp-admin/images/wpspin_light.gif) no-repeat;
+	background: url(../images/wpspin.gif) no-repeat;
 	background-size: 16px 16px;
 	display: none;
 	float: right;
