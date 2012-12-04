@@ -401,7 +401,7 @@
 					var display = state.display( attachment ).toJSON();
 					return this.send.attachment( display, attachment.toJSON() );
 				}, this ) ).done( function() {
-					wp.media.editor.insert( _.toArray( arguments ).join('') );
+					wp.media.editor.insert( _.toArray( arguments ).join("\n\n") );
 				});
 			}, this );
 
