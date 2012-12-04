@@ -761,6 +761,7 @@
 				url = this.props.get('url'),
 				image = new Image();
 
+			// Try to load the image and find its width/height.
 			image.onload = function() {
 				if ( state !== frame.state() || url !== state.props.get('url') )
 					return;
@@ -773,6 +774,11 @@
 			};
 
 			image.src = url;
+
+			// Check if the URL looks like an image; skew toward success.
+			url = url.replace( /([?|#].*)$/, '' );
+			if ( /\.(png|jpe?g|gif)$/i.test( url ) )
+				attributes.type = 'image';
 		},
 
 		refresh: function() {
