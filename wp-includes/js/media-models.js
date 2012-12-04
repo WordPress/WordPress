@@ -858,8 +858,14 @@ window.wp = window.wp || {};
 
 			// If single has changed, fire an event.
 			if ( this._single !== previous ) {
-				if ( previous )
+				if ( previous ) {
 					previous.trigger( 'selection:unsingle', previous, this );
+
+					// If the model was already removed, trigger the collection
+					// event manually.
+					if ( ! this.getByCid( previous.cid ) )
+						this.trigger( 'selection:unsingle', previous, this );
+				}
 				if ( this._single )
 					this._single.trigger( 'selection:single', this._single, this );
 			}
