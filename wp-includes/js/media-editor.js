@@ -384,7 +384,7 @@
 
 			workflow = workflows[ id ] = wp.media( _.defaults( options || {}, {
 				frame:    'post',
-				state:    'upload',
+				state:    'insert',
 				title:    wp.media.view.l10n.addMedia,
 				multiple: true
 			} ) );
@@ -408,11 +408,13 @@
 			}, this );
 
 			workflow.state('embed').on( 'select', function() {
-				var embed = workflow.state().toJSON();
+				var state = workflow.state(),
+					type = state.get('type'),
+					embed = state.props.toJSON();
 
 				embed.url = embed.url || '';
 
-				if ( 'link' === embed.type ) {
+				if ( 'link' === type ) {
 					_.defaults( embed, {
 						title:   embed.url,
 						linkUrl: embed.url
@@ -420,7 +422,7 @@
 
 					this.send.link( embed );
 
-				} else if ( 'image' === embed.type ) {
+				} else if ( 'image' === type ) {
 					_.defaults( embed, {
 						title:   embed.url,
 						linkUrl: '',

@@ -37,8 +37,8 @@
 				}
 			});
 
-			frame.toolbar.on( 'activate:select', function() {
-				frame.toolbar.view().set({
+			frame.on( 'toolbar:render:select', function( view ) {
+				view.set({
 					select: {
 						style: 'primary',
 						text:  $el.data('update'),

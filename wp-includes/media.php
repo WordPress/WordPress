@@ -1467,9 +1467,11 @@ function wp_enqueue_media( $args = array() ) {
 
 		// Library
 		'mediaLibraryTitle'  => __( 'Media Library' ),
+		'insertMediaTitle'   => __( 'Insert Media' ),
 		'createNewGallery'   => __( 'Create a new gallery' ),
 		'returnToLibrary'    => __( '&#8592; Return to library' ),
 		'allMediaItems'      => __( 'All media items' ),
+		'noItemsFound'       => __( 'No items found.' ),
 		'insertIntoPost'     => $hier ? __( 'Insert into page' ) : __( 'Insert into post' ),
 		'uploadedToThisPost' => $hier ? __( 'Uploaded to this page' ) : __( 'Uploaded to this post' ),
 		'warnDelete' =>      __( "You are about to permanently delete this item.\n  'Cancel' to stop, 'OK' to delete." ),
@@ -1489,6 +1491,7 @@ function wp_enqueue_media( $args = array() ) {
 		'updateGallery'      => __( 'Update gallery' ),
 		'continueEditing'    => __( 'Continue editing' ),
 		'addToGallery'       => __( 'Add to gallery' ),
+		'addToGalleryTitle'  => __( 'Add to Gallery' ),
 		'reverseOrder'       => __( 'Reverse order' ),
 	);
 
@@ -1517,6 +1520,8 @@ function wp_print_media_templates() {
 	?>
 	<script type="text/html" id="tmpl-media-frame">
 		<div class="media-frame-menu"></div>
+		<div class="media-frame-title"></div>
+		<div class="media-frame-router"></div>
 		<div class="media-frame-content"></div>
 		<div class="media-frame-toolbar"></div>
 		<div class="media-frame-uploader"></div>
@@ -1524,13 +1529,10 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-media-modal">
 		<div class="media-modal wp-core-ui">
-			<h3 class="media-modal-title">{{ data.title }}</h3>
-			<a class="media-modal-close media-modal-icon" href="#" title="<?php esc_attr_e('Close'); ?>"></a>
+			<a class="media-modal-close" href="#" title="<?php esc_attr_e('Close'); ?>"><span class="media-modal-icon"></span></a>
 			<div class="media-modal-content"></div>
 		</div>
-		<div class="media-modal-backdrop">
-			<div></div>
-		</div>
+		<div class="media-modal-backdrop"></div>
 	</script>
 
 	<script type="text/html" id="tmpl-uploader-window">
@@ -1540,16 +1542,20 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-uploader-inline">
-		<div class="uploader-inline-content">
+		<# var messageClass = data.message ? 'has-upload-message' : 'no-upload-message'; #>
+		<div class="uploader-inline-content {{ messageClass }}">
+		<# if ( data.message ) { #>
+			<h3 class="upload-message">{{ data.message }}</h3>
+		<# } #>
 		<?php if ( ! _device_can_upload() ) : ?>
-			<h3><?php _e('The web browser on your device cannot be used to upload files. You may be able to use the <a href="http://wordpress.org/extend/mobile/">native app for your device</a> instead.'); ?></h3>
+			<h3 class="upload-instructions"><?php _e('The web browser on your device cannot be used to upload files. You may be able to use the <a href="http://wordpress.org/extend/mobile/">native app for your device</a> instead.'); ?></h3>
 		<?php elseif ( is_multisite() && ! is_upload_space_available() ) : ?>
-			<h3><?php _e( 'Upload Limit Exceeded' ); ?></h3>
+			<h3 class="upload-instructions"><?php _e( 'Upload Limit Exceeded' ); ?></h3>
 			<?php do_action( 'upload_ui_over_quota' ); ?>
 
 		<?php else : ?>
 			<div class="upload-ui">
-				<h3 class="drop-instructions"><?php _e( 'Drop files anywhere to upload' ); ?></h3>
+				<h3 class="upload-instructions drop-instructions"><?php _e( 'Drop files anywhere to upload' ); ?></h3>
 				<a href="#" class="browser button button-hero"><?php _e( 'Select Files' ); ?></a>
 			</div>
 
@@ -1742,19 +1748,6 @@ function wp_print_media_templates() {
 			<# } #>
 		</div>
 		<div class="selection-view"></div>
-	</script>
-
-	<script type="text/html" id="tmpl-media-selection-preview">
-		<div class="selected-img selected-count-{{ data.count }}">
-			<# if ( data.thumbnail ) { #>
-				<img src="{{ data.thumbnail }}" draggable="false" />
-			<# } #>
-
-			<span class="count">{{ data.count }}</span>
-		</div>
-		<# if ( data.clearable ) { #>
-			<a class="clear-selection" href="#"><?php _e('Clear selection'); ?></a>
-		<# } #>
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-display-settings">
