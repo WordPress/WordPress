@@ -232,6 +232,8 @@
 .media-selection .selection-info a:last-child {
 	border-right: 1px;
 	border-left: 0;
+	margin-left: 0;
+	margin-right: -8px;
 }
 
 .media-selection:after {

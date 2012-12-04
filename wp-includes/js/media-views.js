@@ -1567,7 +1567,7 @@
 					toolbar:    'main-gallery',
 					filterable: 'uploaded',
 					multiple:   'add',
-					editable:   true,
+					editable:   false,
 
 					library:  media.query( _.defaults({
 						type: 'image'
@@ -3638,6 +3638,7 @@
 
 			this.views.set( '.selection-view', this.attachments );
 			this.collection.on( 'add remove reset', this.refresh, this );
+			this.controller.on( 'content:activate', this.refresh, this );
 		},
 
 		ready: function() {
@@ -3649,9 +3650,15 @@
 			if ( ! this.$el.children().length )
 				return;
 
+			var collection = this.collection,
+				editing = 'edit-selection' === this.controller.content.mode();
+
 			// If nothing is selected, display nothing.
-			this.$el.toggleClass( 'empty', ! this.collection.length );
-			this.$('.count').text( this.collection.length + ' ' + l10n.selected );
+			this.$el.toggleClass( 'empty', ! collection.length );
+			this.$el.toggleClass( 'one', 1 === collection.length );
+			this.$el.toggleClass( 'editing', editing );
+
+			this.$('.count').text( collection.length + ' ' + l10n.selected );
 		},
 
 		edit: function( event ) {
