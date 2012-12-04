@@ -3317,6 +3317,7 @@
 
 		initialize: function() {
 			this.createFilters();
+			_.extend( this.filters, this.options.filters );
 
 			// Build `<option>` elements.
 			this.$el.html( _.chain( this.filters ).map( function( filter, value ) {
@@ -3361,9 +3362,16 @@
 
 	media.view.AttachmentFilters.Uploaded = media.view.AttachmentFilters.extend({
 		createFilters: function() {
+			var type = this.model.get('type'),
+				types = media.view.settings.mimeTypes,
+				text;
+
+			if ( types && type )
+				text = types[ type ];
+
 			this.filters = {
 				all: {
-					text:  l10n.allMediaItems,
+					text:  text || l10n.allMediaItems,
 					props: {
 						uploadedTo: null,
 						orderby: 'date',
