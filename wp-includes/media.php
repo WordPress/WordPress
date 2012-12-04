@@ -1864,7 +1864,7 @@ function wp_print_media_templates() {
 		</label>
 
 		<label class="setting">
-			<span><?php _e('Random'); ?></span>
+			<span><?php _ex( 'Random', 'Gallery order' ); ?></span>
 			<input type="checkbox" data-setting="_orderbyRandom" />
 		</label>
 	</script>
