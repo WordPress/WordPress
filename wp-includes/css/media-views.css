@@ -807,23 +807,6 @@
 }
 
 /**
- * HiDPI Displays
- */
-@media print,
-  (-o-min-device-pixel-ratio: 5/4),
-  (-webkit-min-device-pixel-ratio: 1.25),
-  (min-resolution: 120dpi) {
-  	.media-modal-icon {
-  		background-image: url(../images/uploader-icons-2x.png);
-  		background-size: 134px 15px;
-  	}
-
-  	.media-sidebar .settings-save-status .spinner {
-  		background-image: url(../images/wpspin-2x.gif);
-  	}
-}
-
-/**
  * Attachments Browser
  */
 .media-frame .attachments-browser {
@@ -1551,4 +1534,21 @@
 		width: 600px;
 		position: absolute;
 	}
+}
+
+/**
+ * HiDPI Displays
+ */
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
+  	.media-modal-icon {
+  		background-image: url(../images/uploader-icons-2x.png);
+  		background-size: 134px 15px;
+  	}
+
+  	.media-sidebar .settings-save-status .spinner {
+  		background-image: url(../images/wpspin-2x.gif);
+  	}
 }
