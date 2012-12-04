@@ -397,10 +397,12 @@
 				if ( ! selection )
 					return;
 
-				selection.each( function( attachment ) {
+				$.when.apply( $, selection.map( function( attachment ) {
 					var display = state.display( attachment ).toJSON();
-					this.send.attachment( display, attachment.toJSON() );
-				}, this );
+					return this.send.attachment( display, attachment.toJSON() );
+				}, this ) ).done( function() {
+					wp.media.editor.insert( _.toArray( arguments ).join('') );
+				});
 			}, this );
 
 			workflow.state('gallery-edit').on( 'update', function( selection ) {
@@ -420,7 +422,9 @@
 						linkUrl: embed.url
 					});
 
-					this.send.link( embed );
+					this.send.link( embed ).done( function( resp ) {
+						wp.media.editor.insert( resp );
+					});
 
 				} else if ( 'image' === type ) {
 					_.defaults( embed, {
@@ -528,8 +532,6 @@
 					attachment: options,
 					html:       html,
 					post_id:    wp.media.view.settings.post.id
-				}).done( function( resp ) {
-					wp.media.editor.insert( resp );
 				});
 			},
 
@@ -540,8 +542,6 @@
 					title:   embed.title,
 					html:    wp.media.string.link( embed ),
 					post_id: wp.media.view.settings.post.id
-				}).done( function( resp ) {
-					wp.media.editor.insert( resp );
 				});
 			}
 		},
