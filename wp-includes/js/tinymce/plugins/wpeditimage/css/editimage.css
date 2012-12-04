@@ -382,8 +382,9 @@ body#media-upload.rtl ul#sidemenu {
 }
 
 .rtl .show-align,
+.rtl #img_size,
 .rtl .alignright,
-.rtl #img_size {
+.rtl #img_demo.alignleft {
 	float: left;
 }
 
@@ -394,7 +395,8 @@ body#media-upload.rtl ul#sidemenu {
 .rtl #img_prop label,
 .rtl #img_prop input,
 .rtl #img_size_div,
-.rtl .alignleft {
+.rtl .alignleft,
+.rtl #img_demo.alignright {
 	float: right;
 }
 
