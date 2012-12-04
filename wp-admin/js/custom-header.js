@@ -8,7 +8,8 @@
 
 		$headers.imagesLoaded( function() {
 			$headers.masonry({
-				itemSelector: '.default-header'
+				itemSelector: '.default-header',
+				isRTL: !! ( 'undefined' != typeof isRtl && isRtl )
 			});
 		});
 
