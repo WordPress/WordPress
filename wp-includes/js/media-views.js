@@ -3742,7 +3742,7 @@
 				$value = $setting.find('[value="' + value + '"]');
 
 				if ( $value.length ) {
-					$value.select();
+					$value.prop( 'selected', true );
 				} else {
 					// If we can't find the desired value, record what *is* selected.
 					this.model.set( $setting.data('setting'), $setting.find(':selected').val() );
