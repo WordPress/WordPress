@@ -1812,7 +1812,13 @@ function wp_ajax_get_attachment() {
 	if ( ! $id = absint( $_REQUEST['id'] ) )
 		wp_send_json_error();
 
-	if ( ! current_user_can( 'read_post', $id ) )
+	if ( ! $post = get_post( $id ) )
+		wp_send_json_error();
+
+	if ( 'attachment' != $post->post_type )
+		wp_send_json_error();
+
+	if ( ! current_user_can( 'upload_files' ) )
 		wp_send_json_error();
 
 	if ( ! $attachment = wp_prepare_attachment_for_js( $id ) )
@@ -1827,6 +1833,9 @@ function wp_ajax_get_attachment() {
  * @since 3.5.0
  */
 function wp_ajax_query_attachments() {
+	if ( ! current_user_can( 'upload_files' ) )
+		wp_send_json_error();
+
 	$query = isset( $_REQUEST['query'] ) ? (array) $_REQUEST['query'] : array();
 	$query = array_intersect_key( $query, array_flip( array(
 		's', 'order', 'orderby', 'posts_per_page', 'paged', 'post_mime_type',
@@ -1988,15 +1997,14 @@ function wp_ajax_send_attachment_to_editor() {
 	if ( ! $post = get_post( $id ) )
 		wp_send_json_error();
 
-	if ( ! current_user_can( 'edit_post', $id ) )
-		wp_send_json_error();
-
 	if ( 'attachment' != $post->post_type )
 		wp_send_json_error();
 
-	// If this attachment is unattached, attach it. Primarily a back compat thing.
-	if ( 0 == $post->post_parent && $insert_into_post_id = intval( $_POST['post_id'] ) ) {
-		wp_update_post( array( 'ID' => $id, 'post_parent' => $insert_into_post_id ) );
+	if ( current_user_can( 'edit_post', $id ) ) {
+		// If this attachment is unattached, attach it. Primarily a back compat thing.
+		if ( 0 == $post->post_parent && $insert_into_post_id = intval( $_POST['post_id'] ) ) {
+			wp_update_post( array( 'ID' => $id, 'post_parent' => $insert_into_post_id ) );
+		}
 	}
 
 	$rel = $url = '';

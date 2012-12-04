@@ -2756,8 +2756,7 @@
 		},
 
 		render: function() {
-			var attachment = this.model.toJSON(),
-				options = _.defaults( this.model.toJSON(), {
+			var options = _.defaults( this.model.toJSON(), {
 					orientation:   'landscape',
 					uploading:     false,
 					type:          '',
@@ -2778,6 +2777,12 @@
 
 			if ( 'image' === options.type )
 				options.size = this.imageSize();
+
+			options.can = {};
+			if ( options.nonces ) {
+				options.can.remove = !! options.nonces['delete'];
+				options.can.save = !! options.nonces.update;
+			}
 
 			this.views.detach();
 			this.$el.html( this.template( options ) );
@@ -2967,12 +2972,12 @@
 
 			this.updateSave('waiting');
 			save.requests = requests;
-			requests.done( function() {
+			requests.always( function() {
 				// If we've performed another request since this one, bail.
 				if ( save.requests !== requests )
 					return;
 
-				view.updateSave('complete');
+				view.updateSave( requests.state() === 'resolved' ? 'complete' : 'error' );
 				save.savedTimer = setTimeout( function() {
 					view.updateSave('ready');
 					delete save.savedTimer;

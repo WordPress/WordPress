@@ -219,7 +219,7 @@ window.wp = window.wp || {};
 			// If the attachment does not yet have an `id`, return an instantly
 			// rejected promise. Otherwise, all of our requests will fail.
 			if ( _.isUndefined( this.id ) )
-				return $.Deferred().reject().promise();
+				return $.Deferred().rejectWith( this ).promise();
 
 			// Overload the `read` request so Attachment.fetch() functions correctly.
 			if ( 'read' === method ) {
@@ -233,8 +233,9 @@ window.wp = window.wp || {};
 
 			// Overload the `update` request so properties can be saved.
 			} else if ( 'update' === method ) {
-				if ( ! this.get('nonces') )
-					return $.Deferred().resolveWith( this ).promise();
+				// If we do not have the necessary nonce, fail immeditately.
+				if ( ! this.get('nonces') || ! this.get('nonces').update )
+					return $.Deferred().rejectWith( this ).promise();
 
 				options = options || {};
 				options.context = this;
@@ -285,6 +286,10 @@ window.wp = window.wp || {};
 
 		saveCompat: function( data, options ) {
 			var model = this;
+
+			// If we do not have the necessary nonce, fail immeditately.
+			if ( ! this.get('nonces') || ! this.get('nonces').update )
+				return $.Deferred().rejectWith( this ).promise();
 
 			return media.post( 'save-attachment-compat', _.defaults({
 				id:      this.id,

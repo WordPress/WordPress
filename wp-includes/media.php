@@ -1334,10 +1334,16 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		'icon'        => wp_mime_type_icon( $attachment->ID ),
 		'dateFormatted' => mysql2date( get_option('date_format'), $attachment->post_date ),
 		'nonces'      => array(
-			'update' => wp_create_nonce( 'update-post_' . $attachment->ID ),
-			'delete' => wp_create_nonce( 'delete-post_' . $attachment->ID ),
+			'update' => false,
+			'delete' => false,
 		),
 	);
+
+	if ( current_user_can( 'edit_post', $attachment->ID ) )
+		$response['nonces']['update'] = wp_create_nonce( 'update-post_' . $attachment->ID );
+
+	if ( current_user_can( 'delete_post', $attachment->ID ) )
+		$response['nonces']['delete'] = wp_create_nonce( 'delete-post_' . $attachment->ID );
 
 	if ( $meta && 'image' === $type ) {
 		$sizes = array();
@@ -1690,7 +1696,7 @@ function wp_print_media_templates() {
 				<# if ( 'image' === data.type && ! data.uploading && data.width && data.height ) { #>
 					<div class="dimensions">{{ data.width }} &times; {{ data.height }}</div>
 				<# } #>
-				<# if ( ! data.uploading ) { #>
+				<# if ( ! data.uploading && data.can.remove ) { #>
 					<div class="delete-attachment">
 						<a href="#"><?php _e( 'Delete Permanently' ); ?></a>
 					</div>

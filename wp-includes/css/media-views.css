@@ -61,6 +61,13 @@
 	border-color: #dfdfdf;
 }
 
+.media-frame input:disabled,
+.media-frame textarea:disabled,
+.media-frame input[readonly],
+.media-frame textarea[readonly] {
+	background-color: #eee;
+}
+
 .media-frame input[type="search"] {
 	-webkit-appearance: textfield;
 }
