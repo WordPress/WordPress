@@ -307,6 +307,11 @@
 					ed.plugins.wordpress._hideButtons();
 			});
 
+			ed.onKeyDown.add(function(ed, e){
+				if ( e.which == tinymce.VK.DELETE || e.which == tinymce.VK.BACKSPACE )
+					ed.plugins.wordpress._hideButtons();
+			});
+
 			closeOnClick = function(e){
 				var id;
 
