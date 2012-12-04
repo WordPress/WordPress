@@ -1174,6 +1174,10 @@
 	background: red;
 }
 
+.media-selection .selection-view {
+	display: inline-block;
+}
+
 .media-selection .attachments {
 	display: inline-block;
 	height: 48px;

@@ -25,39 +25,50 @@
 
 			event.preventDefault();
 
+			// If the media frame already exists, reopen it.
 			if ( frame ) {
 				frame.open();
 				return;
 			}
 
+			// Create the media frame.
 			frame = wp.media({
-				title:     $el.data('choose'),
-				library:   {
+				// Set the title of the modal.
+				title: $el.data('choose'),
+
+				// Tell the modal to show only images.
+				library: {
 					type: 'image'
+				},
+
+				// Customize the submit button.
+				button: {
+					// Set the text of the button.
+					text: $el.data('update'),
+					// Tell the button not to close the modal, since we're
+					// going to refresh the page when the image is selected.
+					close: false
 				}
 			});
 
-			frame.on( 'toolbar:render:select', function( view ) {
-				view.set({
-					select: {
-						style: 'primary',
-						text:  $el.data('update'),
+			// When an image is selected, run a callback.
+			frame.on( 'select', function() {
+				// Grab the selected attachment.
+				var attachment = frame.state().get('selection').first();
 
-						click: function() {
-							var attachment = frame.state().get('selection').first();
-							$.post( ajaxurl, {
-								action: 'set-background-image',
-								attachment_id: attachment.id,
-								size: 'full'
-							}, function() {
-								window.location.reload();
-							});
-						}
-					}
+				// Run an AJAX request to set the background image.
+				$.post( ajaxurl, {
+					action: 'set-background-image',
+					attachment_id: attachment.id,
+					size: 'full'
+				}).done( function() {
+					// When the request completes, reload the window.
+					window.location.reload();
 				});
 			});
 
-			frame.setState('library').open();
+			// Finally, open the modal.
+			frame.open();
 		});
 	});
 })(jQuery);
