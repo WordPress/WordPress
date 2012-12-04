@@ -114,6 +114,14 @@ p.search-box {
 	float: left;
 }
 
+.search-box input[name="s"],
+#search-plugins input[name="s"],
+.tagsdiv .newtag {
+	float: right;
+	margin-right: 0;
+	margin-left: 4px;
+}
+
 input[type=password] {
 	direction: ltr;
 }
