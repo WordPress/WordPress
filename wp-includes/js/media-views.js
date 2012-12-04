@@ -744,6 +744,7 @@
 			this.debouncedScan = _.debounce( _.bind( this.scan, this ), this.sensitivity );
 			this.props = new Backbone.Model({ url: '' });
 			this.props.on( 'change:url', this.debouncedScan, this );
+			this.props.on( 'change:url', this.refresh, this );
 			this.on( 'scan', this.scanImage, this );
 		},
 
@@ -774,11 +775,15 @@
 			image.src = url;
 		},
 
+		refresh: function() {
+			this.frame.toolbar.get().refresh();
+		},
+
 		reset: function() {
 			this.props = new Backbone.Model({ url: '' });
 
-			if ( this.id === this.frame.state().id )
-				this.frame.toolbar.get().refresh();
+			if ( this.active )
+				this.refresh();
 		}
 	});
 
@@ -2208,13 +2213,17 @@
 			if ( ! this.options.silent )
 				this.render();
 
-			selection.on( 'add remove reset', this.refresh, this );
-			library.on( 'add remove reset', this.refresh, this );
+			if ( selection )
+				selection.on( 'add remove reset', this.refresh, this );
+			if ( library )
+				library.on( 'add remove reset', this.refresh, this );
 		},
 
 		dispose: function() {
-			this.selection.off( null, null, this );
-			this.library.off( null, null, this );
+			if ( this.selection )
+				this.selection.off( null, null, this );
+			if ( this.library )
+				this.library.off( null, null, this );
 			return media.View.prototype.dispose.apply( this, arguments );
 		},
 
@@ -2278,9 +2287,9 @@
 				var requires = button.options.requires,
 					disabled = false;
 
-				if ( requires.selection && ! selection.length )
+				if ( requires.selection && selection && ! selection.length )
 					disabled = true;
-				else if ( requires.library && ! library.length )
+				else if ( requires.library && library && ! library.length )
 					disabled = true;
 
 				button.model.set( 'disabled', disabled );
@@ -2347,16 +2356,11 @@
 	media.view.Toolbar.Embed = media.view.Toolbar.Select.extend({
 		initialize: function() {
 			_.defaults( this.options, {
-				text: l10n.insertIntoPost
+				text: l10n.insertIntoPost,
+				requires: false
 			});
 
 			media.view.Toolbar.Select.prototype.initialize.apply( this, arguments );
-			this.controller.state().props.on( 'change:url', this.refresh, this );
-		},
-
-		dispose: function() {
-			this.controller.state().props.off( 'change:url', this.refresh, this );
-			media.view.Toolbar.Select.prototype.dispose.apply( this, arguments );
 		},
 
 		refresh: function() {
