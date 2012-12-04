@@ -1825,10 +1825,10 @@ function wp_print_media_templates() {
 						<#
 						var size = data.sizes['<?php echo esc_js( $value ); ?>'];
 						if ( size ) { #>
-							<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 'medium' ); ?>>
+							<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 'full' ); ?>>
 								<?php echo esc_html( $name ); ?> &ndash; {{ size.width }} &times; {{ size.height }}
 							</option>
-						<# } #>>
+						<# } #>
 					<?php endforeach; ?>
 				</select>
 			</label>

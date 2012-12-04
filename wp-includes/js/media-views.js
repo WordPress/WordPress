@@ -3745,7 +3745,7 @@
 		update: function( key ) {
 			var value = this.model.get( key ),
 				$setting = this.$('[data-setting="' + key + '"]'),
-				$buttons;
+				$buttons, $value;
 
 			// Bail if we didn't find a matching setting.
 			if ( ! $setting.length )
@@ -3756,7 +3756,15 @@
 
 			// Handle dropdowns.
 			if ( $setting.is('select') ) {
-				$setting.find('[value="' + value + '"]').attr( 'selected', true );
+				$value = $setting.find('[value="' + value + '"]');
+
+				if ( $value.length ) {
+					$value.attr( 'selected', true );
+				} else {
+					// If we can't find the desired value, record what *is* selected.
+					this.model.set( $setting.data('setting'), $setting.find('[selected]').val() );
+				}
+
 
 			// Handle button groups.
 			} else if ( $setting.hasClass('button-group') ) {
