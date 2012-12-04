@@ -699,10 +699,10 @@ jQuery(document).ready( function($) {
 			textarea.focus();
 			$(document).unbind('mousemove', dragging).unbind('mouseup', endDrag);
 
-			if ( height > 83 ) {
-				height -= 33; // compensate for toolbars, padding...
+			height -= 33; // compensate for toolbars, padding...
+			// sanity check
+			if ( height > 50 && height < 5000 && height != getUserSetting( 'ed_size' ) )
 				setUserSetting( 'ed_size', height );
-			}
 		}
 
 		textarea.css('resize', 'none');
@@ -729,10 +729,11 @@ jQuery(document).ready( function($) {
 
 				if ( height && !isNaN(height) && tb_height ) {
 					ifr_height = (height - tb_height) + 12; // compensate for padding in the textarea
-
-					$('#content_tbl').css('height', '' );
-					$('#content_ifr').css('height', ifr_height + 'px' );
-					setUserSetting( 'ed_size', height );
+					// sanity check
+					if ( ifr_height > 50 && ifr_height < 5000 ) {
+						$('#content_tbl').css('height', '' );
+						$('#content_ifr').css('height', ifr_height + 'px' );
+					}
 				}
 			});
 
@@ -740,11 +741,10 @@ jQuery(document).ready( function($) {
 			ed.onSaveContent.add( function(ed, o) {
 				var height = $('#content_tbl').height();
 
-				if ( height && height > 83 ) {
+				if ( height && height > 83 && height < 5000 ) {
 					height -= 33;
 
 					$('#content').css( 'height', height + 'px' );
-					setUserSetting( 'ed_size', height );
 				}
 			});
 
@@ -755,7 +755,8 @@ jQuery(document).ready( function($) {
 						var height = $('#wp-content-editor-container').height();
 
 						height -= 33;
-						if ( height > 50 && height != getUserSetting( 'ed_size' ) )
+						// sanity check
+						if ( height > 50 && height < 5000 && height != getUserSetting( 'ed_size' ) )
 							setUserSetting( 'ed_size', height );
 
 						$(document).off('mouseup.wp-mce-resize');

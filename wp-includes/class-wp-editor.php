@@ -71,6 +71,8 @@ final class _WP_Editors {
 
 		if ( $set['editor_height'] < 50 )
 			$set['editor_height'] = 50;
+		elseif ( $set['editor_height'] > 3000 )
+			$set['editor_height'] = 5000;
 
 		return $set;
 	}
