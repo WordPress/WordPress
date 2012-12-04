@@ -1455,15 +1455,12 @@ function wp_enqueue_media( $args = array() ) {
 		'search'      => __( 'Search' ),
 		'select'      => __( 'Select' ),
 		'cancel'      => __( 'Cancel' ),
-		'addImages'   => __( 'Add images' ),
 		'selected'    => __( 'selected' ),
 		'dragInfo'    => __( 'Drag and drop to reorder images.' ),
 
 		// Upload
 		'uploadFilesTitle'  => __( 'Upload Files' ),
-		'selectFiles'       => __( 'Select files' ),
 		'uploadImagesTitle' => __( 'Upload Images' ),
-		'uploadMoreFiles'   => __( 'Upload more files' ),
 
 		// Library
 		'mediaLibraryTitle'  => __( 'Media Library' ),
@@ -1489,7 +1486,6 @@ function wp_enqueue_media( $args = array() ) {
 		'cancelGalleryTitle' => __( '&#8592; Cancel Gallery' ),
 		'insertGallery'      => __( 'Insert gallery' ),
 		'updateGallery'      => __( 'Update gallery' ),
-		'continueEditing'    => __( 'Continue editing' ),
 		'addToGallery'       => __( 'Add to gallery' ),
 		'addToGalleryTitle'  => __( 'Add to Gallery' ),
 		'reverseOrder'       => __( 'Reverse order' ),
