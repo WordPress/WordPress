@@ -343,7 +343,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 	default:
 		if ( 'categories' == $column_name )
 			$taxonomy = 'category';
-		if ( 'tags' == $column_name )
+		elseif ( 'tags' == $column_name )
 			$taxonomy = 'post_tag';
 		elseif ( 0 === strpos( $column_name, 'taxonomy-' ) )
 			$taxonomy = substr( $column_name, 9 );
