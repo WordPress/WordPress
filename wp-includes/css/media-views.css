@@ -242,7 +242,6 @@
 
 .media-sidebar .setting select {
 	max-width: 65%;
-	*max-width: 55%; /* IE7 */
 }
 
 .media-sidebar .setting input[type="checkbox"] {
@@ -267,7 +266,6 @@
 .media-sidebar .setting input,
 .media-sidebar .setting textarea {
 	width: 65%;
-	*width: 55%; /* IE7 */
 	float: right;
 }
 
@@ -812,7 +810,6 @@
 	position: relative;
 	display: block;
 	width: 100%;
-	*width: 183px; /* IE7 only */
 	margin: -1px 0 0;
 	padding: 8px;
 	font-size: 12px;
@@ -1445,6 +1442,49 @@
 	width: 100%;
 	max-width: 400px;
 	margin: 1px 0;
+}
+
+/**
+ * IE7 Fixes
+ */
+.ie7 .media-frame .attachments-browser {
+	position: static;
+}
+
+.ie7 .media-frame .embed-url input {
+	margin-top: 4px;
+	width: 90%;
+}
+
+.ie7 .compat-item {
+	width: 99%;
+}
+
+.ie7 .attachment-display-settings {
+	width: auto;
+}
+
+.ie7 .attachment-preview,
+.ie7 .attachment-preview .thumbnail {
+	width: 120px;
+	height: 120px;
+}
+
+.ie7 .media-frame .attachment .describe {
+	width: 102px;
+}
+
+.ie7 .media-sidebar .setting select {
+	max-width: 55%;
+}
+
+.ie7 .media-sidebar .setting input,
+.ie7 .media-sidebar .setting textarea {
+	width: 55%;
+}
+
+.ie7 .media-sidebar .setting .link-to-custom {
+	float: left;
 }
 
 /**

@@ -1519,6 +1519,10 @@ function wp_enqueue_media( $args = array() ) {
  * @since 3.5.0
  */
 function wp_print_media_templates() {
+	global $is_IE;
+	$class = 'media-modal wp-core-ui';
+	if ( $is_IE && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 7') !== false )
+		$class .= ' ie7';
 	?>
 	<script type="text/html" id="tmpl-media-frame">
 		<div class="media-frame-menu"></div>
@@ -1530,7 +1534,7 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-media-modal">
-		<div class="media-modal wp-core-ui">
+		<div class="<?php echo $class; ?>">
 			<a class="media-modal-close" href="#" title="<?php esc_attr_e('Close'); ?>"><span class="media-modal-icon"></span></a>
 			<div class="media-modal-content"></div>
 		</div>
