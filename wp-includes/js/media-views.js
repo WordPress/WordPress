@@ -389,14 +389,8 @@
 		},
 
 		activate: function() {
-			if ( this.get('syncLastSelection') ) {
+			if ( this.get('syncLastSelection') )
 				this.getLastSelection();
-			}
-
-			this._excludeStateLibrary();
-			this.buildComposite();
-			this.on( 'change:library change:exclude', this.buildComposite, this );
-			this.on( 'change:excludeState', this._excludeState, this );
 
 			wp.Uploader.queue.on( 'add', this.uploading, this );
 
@@ -418,11 +412,6 @@
 			this.get('selection').off( null, null, this );
 
 			wp.Uploader.queue.off( null, null, this );
-
-			this.off( 'change:excludeState', this._excludeState, this );
-			this.off( 'change:library change:exclude', this.buildComposite, this );
-
-			this.destroyComposite();
 		},
 
 		reset: function() {
@@ -519,67 +508,6 @@
 
 			if ( view && view.get( mode ) )
 				setUserSetting( 'libraryContent', mode );
-		},
-
-		buildComposite: function() {
-			var original = this.get('_library'),
-				exclude = this.get('exclude'),
-				composite;
-
-			this.destroyComposite();
-			if ( ! this.get('exclude') )
-				return;
-
-			// Remember the state's original library.
-			if ( ! original )
-				this.set( '_library', original = this.get('library') );
-
-			// Create a composite library in its place.
-			composite = new media.model.Attachments( null, {
-				props: _.pick( original.props.toJSON(), 'order', 'orderby' )
-			});
-
-			// Accepts attachments that exist in the original library and
-			// that do not exist in the excluded library.
-			composite.validator = function( attachment ) {
-				return !! original.getByCid( attachment.cid ) && ! exclude.getByCid( attachment.cid );
-			};
-
-			composite.mirror( original ).observe( exclude );
-
-			this.set( 'library', composite );
-		},
-
-		destroyComposite: function() {
-			var composite = this.get('library'),
-				original = this.get('_library');
-
-			if ( ! original )
-				return;
-
-			composite.unobserve();
-			this.set( 'library', original );
-			this.unset('_library');
-		},
-
-		_excludeState: function() {
-			var current = this.get('excludeState'),
-				previous = this.previous('excludeState');
-
-			if ( previous )
-				this.frame.state( previous ).off( 'change:library', this._excludeStateLibrary, this );
-
-			if ( current )
-				this.frame.state( current ).on( 'change:library', this._excludeStateLibrary, this );
-		},
-
-		_excludeStateLibrary: function() {
-			var current = this.get('excludeState');
-
-			if ( ! current )
-				return;
-
-			this.set( 'exclude', this.frame.state( current ).get('library') );
 		}
 	});
 
@@ -659,6 +587,47 @@
 					library.reset( library.toArray().reverse() );
 				}
 			});
+		}
+	});
+
+	// wp.media.controller.GalleryAdd
+	// ---------------------------------
+	media.controller.GalleryAdd = media.controller.Library.extend({
+		defaults: _.defaults({
+			id:           'gallery-library',
+			filterable:   'uploaded',
+			multiple:     'add',
+			menu:         'gallery',
+			toolbar:      'gallery-add',
+			title:        l10n.addToGalleryTitle,
+			priority:     100
+		}, media.controller.Library.prototype.defaults ),
+
+		initialize: function() {
+			// If we haven't been provided a `library`, create a `Selection`.
+			if ( ! this.get('library') )
+				this.set( 'library', media.query({ type: 'image' }) );
+
+			media.controller.Library.prototype.initialize.apply( this, arguments );
+		},
+
+		activate: function() {
+			var library = this.get('library'),
+				edit    = this.frame.state('gallery-edit').get('library');
+
+			if ( this.editLibrary && this.editLibrary !== edit )
+				library.unobserve( this.editLibrary );
+
+			// Accepts attachments that exist in the original library and
+			// that do not exist in gallery's library.
+			library.validator = function( attachment ) {
+				return !! this.mirroring.getByCid( attachment.cid ) && ! edit.getByCid( attachment.cid ) && media.model.Selection.prototype.validator.apply( this, arguments );
+			};
+
+			library.observe( edit );
+			this.editLibrary = edit;
+
+			media.controller.Library.prototype.activate.apply( this, arguments );
 		}
 	});
 
@@ -1594,17 +1563,7 @@
 					menu:    'gallery'
 				}),
 
-				new media.controller.Library({
-					id:           'gallery-library',
-					library:      media.query({ type: 'image' }),
-					filterable:   'uploaded',
-					multiple:     'add',
-					menu:         'gallery',
-					toolbar:      'gallery-add',
-					excludeState: 'gallery-edit',
-					title:        l10n.addToGalleryTitle,
-					priority:     100
-				})
+				new media.controller.GalleryAdd()
 			]);
 
 
@@ -1836,6 +1795,7 @@
 						style:    'primary',
 						text:     l10n.addToGallery,
 						priority: 80,
+						requires: { selection: true },
 
 						click: function() {
 							var controller = this.controller,
