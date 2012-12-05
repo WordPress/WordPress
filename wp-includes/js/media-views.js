@@ -3180,8 +3180,7 @@
 		},
 
 		initSortable: function() {
-			var collection = this.collection,
-				from;
+			var collection = this.collection;
 
 			if ( ! this.options.sortable || ! $.fn.sortable )
 				return;
@@ -3200,13 +3199,13 @@
 
 				// Record the initial `index` of the dragged model.
 				start: function( event, ui ) {
-					from = ui.item.index();
+					ui.item.data('sortableIndexStart', ui.item.index());
 				},
 
 				// Update the model's index in the collection.
 				// Do so silently, as the view is already accurate.
 				update: function( event, ui ) {
-					var model = collection.at( from ),
+					var model = collection.at( ui.item.data('sortableIndexStart') ),
 						comparator = collection.comparator;
 
 					// Temporarily disable the comparator to prevent `add`
