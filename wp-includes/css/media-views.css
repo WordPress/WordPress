@@ -20,6 +20,7 @@
 }
 
 .media-frame a {
+	border-bottom: none;
 	color: #21759b;
 }
 
@@ -59,6 +60,11 @@
 	border-width: 1px;
 	border-style: solid;
 	border-color: #dfdfdf;
+}
+
+.media-frame select {
+	height: 24px;
+	padding: 2px;
 }
 
 .media-frame input:disabled,
@@ -239,6 +245,10 @@
 
 .media-sidebar .setting label {
 	display: block;
+}
+
+.media-sidebar .setting .link-to-custom {
+	margin: 3px 0;
 }
 
 .media-sidebar .setting span {
@@ -1070,6 +1080,10 @@
 	margin: 4em 0;
 }
 
+.uploader-inline-content .post-upload-ui {
+	margin-bottom: 2em;
+}
+
 .uploader-inline .has-upload-message .upload-ui {
 	margin: 0 0 4em;
 }
@@ -1182,6 +1196,7 @@
 
 .media-selection .selection-view {
 	display: inline-block;
+	vertical-align: top;
 }
 
 .media-selection .attachments {
