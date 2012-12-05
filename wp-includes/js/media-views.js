@@ -3186,7 +3186,7 @@
 			if ( ! this.options.sortable || ! $.fn.sortable )
 				return;
 
-			this.$el.sortable({
+			this.$el.sortable( _.extend({
 				// If the `collection` has a `comparator`, disable sorting.
 				disabled: !! collection.comparator,
 
@@ -3231,7 +3231,7 @@
 					// update the menu order.
 					collection.saveMenuOrder();
 				}
-			});
+			}, this.options.sortable ) );
 
 			// If the `orderby` property is changed on the `collection`,
 			// check to see if we have a `comparator`. If so, disable sorting.
