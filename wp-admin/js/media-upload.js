@@ -24,10 +24,10 @@ function send_to_editor(h) {
 		if ( tinymce.isIE && ed.windowManager.insertimagebookmark )
 			ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark);
 
-		if ( h.indexOf('[caption') === 0 ) {
+		if ( h.indexOf('[caption') !== -1 ) {
 			if ( ed.wpSetImgCaption )
 				h = ed.wpSetImgCaption(h);
-		} else if ( h.indexOf('[gallery') === 0 ) {
+		} else if ( h.indexOf('[gallery') !== -1 ) {
 			if ( ed.plugins.wpgallery )
 				h = ed.plugins.wpgallery._do_gallery(h);
 		} else if ( h.indexOf('[embed') === 0 ) {
