@@ -1963,6 +1963,58 @@
 		}
 	});
 
+	// wp.media.view.FocusManager
+	// ----------------------------
+	media.view.FocusManager = media.View.extend({
+		events: {
+			keydown: 'recordTab',
+			focusin: 'updateIndex'
+		},
+
+		focus: function() {
+			if ( _.isUndefined( this.index ) )
+				return;
+
+			// Update our collection of `$tabbables`.
+			this.$tabbables = this.$(':tabbable');
+
+			// If tab is saved, focus it.
+			this.$tabbables.eq( this.index ).focus();
+		},
+
+		recordTab: function( event ) {
+			// Look for the tab key.
+			if ( 9 !== event.keyCode )
+				return;
+
+			// First try to update the index.
+			if ( _.isUndefined( this.index ) )
+				this.updateIndex( event );
+
+			// If we still don't have an index, bail.
+			if ( _.isUndefined( this.index ) )
+				return;
+
+			var index = this.index + ( event.shiftKey ? -1 : 1 );
+
+			if ( index >= 0 && index < this.$tabbables.length )
+				this.index = index;
+			else
+				delete this.index;
+		},
+
+		updateIndex: function( event ) {
+			this.$tabbables = this.$(':tabbable');
+
+			var index = this.$tabbables.index( event.target );
+
+			if ( -1 === index )
+				delete this.index;
+			else
+				this.index = index;
+		}
+	});
+
 	// wp.media.view.UploaderWindow
 	// ----------------------------
 	media.view.UploaderWindow = media.View.extend({
@@ -2804,6 +2856,7 @@
 			this.updateSave();
 
 			this.views.render();
+
 			return this;
 		},
 
@@ -3922,6 +3975,20 @@
 			'click .delete-attachment':       'deleteAttachment'
 		},
 
+		initialize: function() {
+			this.focusManager = new media.view.FocusManager({
+				el: this.el
+			});
+
+			media.view.Attachment.prototype.initialize.apply( this, arguments );
+		},
+
+		render: function() {
+			media.view.Attachment.prototype.render.apply( this, arguments );
+			this.focusManager.focus();
+			return this;
+		},
+
 		deleteAttachment: function(event) {
 			event.preventDefault();
 
@@ -3945,6 +4012,10 @@
 		},
 
 		initialize: function() {
+			this.focusManager = new media.view.FocusManager({
+				el: this.el
+			});
+
 			this.model.on( 'change:compat', this.render, this );
 		},
 
@@ -3953,7 +4024,11 @@
 			if ( ! compat || ! compat.item )
 				return;
 
+			this.views.detach();
 			this.$el.html( compat.item );
+			this.views.render();
+
+			this.focusManager.focus();
 			return this;
 		},
 
