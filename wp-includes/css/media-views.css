@@ -100,6 +100,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
+	min-height: 360px;
 	background: #000;
 	opacity: 0.7;
 	z-index: 159900;
@@ -132,6 +133,7 @@
 	right: 0;
 	bottom: 0;
 	overflow: auto;
+	min-height: 300px;
 	background: #fff;
 }
 
