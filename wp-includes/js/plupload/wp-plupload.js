@@ -293,41 +293,45 @@ window.wp = window.wp || {};
 		progress: function() {},
 		complete: function() {},
 		refresh:  function() {
-			var node, enabled, container;
+			var node, attached, container, id;
 
 			if ( this.browser ) {
 				node = this.browser[0];
 
+				// Check if the browser node is in the DOM.
 				while ( node ) {
 					if ( node === document.body ) {
-						enabled = true;
+						attached = true;
 						break;
 					}
 					node = node.parentNode;
 				}
 
-				this.uploader.disableBrowse( ! enabled );
-				// Toggle all auto-created file containers.
-				this._container().toggle( enabled );
+				// If the browser node is not attached to the DOM, use a
+				// temporary container to house it, as the browser button
+				// shims require the button to exist in the DOM at all times.
+				if ( ! attached ) {
+					id = 'wp-uploader-browser-' + this.uploader.id;
+
+					container = $( '#' + id );
+					if ( ! container.length ) {
+						container = $('<div class="wp-uploader-browser" />', {
+							id: 'wp-uploader-browser-' + this.uploader.id,
+							css: {
+								position: 'fixed',
+								top: '-1000px',
+								left: '-1000px',
+								height: 0,
+								width: 0
+							}
+						}).appendTo('body');
+					}
+
+					container.append( this.browser );
+				}
 			}
 
 			this.uploader.refresh();
-		},
-
-		_container: function() {
-			var runtime = this.uploader.runtime;
-
-			if ( this._$container && this._$container.length )
-				return this._$container;
-
-			if ( 'html4' === runtime )
-				return $('[target="' + this.uploader.id + '_iframe"]');
-
-			if ( 'html5' !== runtime && 'flash' !== runtime && 'silverlight' !== runtime )
-				return $();
-
-			this._$container = $( '#' + this.uploader.id + '_' + runtime + '_container' );
-			return this._$container;
 		}
 	});
 
