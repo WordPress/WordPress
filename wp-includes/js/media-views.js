@@ -3111,7 +3111,8 @@
 				refreshSensitivity: 200,
 				refreshThreshold:   3,
 				AttachmentView:     media.view.Attachment,
-				sortable:           false
+				sortable:           false,
+				resize:             true
 			});
 
 			this._viewsByCid = {};
@@ -3140,7 +3141,8 @@
 			_.bindAll( this, 'css' );
 			this.model.on( 'change:edge change:gutter', this.css, this );
 			this._resizeCss = _.debounce( _.bind( this.css, this ), this.refreshSensitivity );
-			$(window).on( 'resize.attachments', this._resizeCss );
+			if ( this.options.resize )
+				$(window).on( 'resize.attachments', this._resizeCss );
 			this.css();
 		},
 
@@ -3169,7 +3171,6 @@
 
 			if ( ! this.$el.is(':visible') )
 				return edge;
-
 
 			gutter  = this.model.get('gutter') * 2;
 			width   = this.$el.width() - gutter;
@@ -3667,18 +3668,14 @@
 				clearable: true
 			});
 
-			this.attachments = new media.view.Attachments({
+			this.attachments = new media.view.Attachments.Selection({
 				controller: this.controller,
 				collection: this.collection,
 				selection:  this.collection,
-				sortable:   true,
 				model:      new Backbone.Model({
 					edge:   40,
 					gutter: 5
-				}),
-
-				// The single `Attachment` view to be used in the `Attachments` view.
-				AttachmentView: media.view.Attachment.Selection
+				})
 			});
 
 			this.views.set( '.selection-view', this.attachments );
@@ -3732,6 +3729,26 @@
 		}
 	});
 
+	/**
+	 * wp.media.view.Attachments.Selection
+	 */
+	media.view.Attachments.Selection = media.view.Attachments.extend({
+		events: {},
+		initialize: function() {
+			_.defaults( this.options, {
+				sortable:   true,
+				resize:     false,
+
+				// The single `Attachment` view to be used in the `Attachments` view.
+				AttachmentView: media.view.Attachment.Selection
+			});
+			return media.view.Attachments.prototype.initialize.apply( this, arguments );
+		}
+	});
+
+	/**
+	 * wp.media.view.Attachments.EditSelection
+	 */
 	media.view.Attachment.EditSelection = media.view.Attachment.Selection.extend({
 		buttons: {
 			close: true
