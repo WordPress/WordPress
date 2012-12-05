@@ -3731,7 +3731,7 @@
 			this.$el.toggleClass( 'one', 1 === collection.length );
 			this.$el.toggleClass( 'editing', editing );
 
-			this.$('.count').text( collection.length + ' ' + l10n.selected );
+			this.$('.count').text( l10n.selected.replace('%d', collection.length) );
 		},
 
 		edit: function( event ) {

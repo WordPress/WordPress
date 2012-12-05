@@ -1461,7 +1461,11 @@ function wp_enqueue_media( $args = array() ) {
 		'search'      => __( 'Search' ),
 		'select'      => __( 'Select' ),
 		'cancel'      => __( 'Cancel' ),
-		'selected'    => __( 'selected' ),
+		/* translators: This is a would-be plural string used in the media manager.
+		   If there is not a word you can use in your language to avoid issues with the
+		   lack of plural support here, turn it into "selected: %d" then translate it.
+		 */
+		'selected'    => __( '%d selected' ),
 		'dragInfo'    => __( 'Drag and drop to reorder images.' ),
 
 		// Upload
