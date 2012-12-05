@@ -320,6 +320,74 @@
 		};
 	}());
 
+	wp.media.featuredImage = {
+		get: function() {
+			return wp.media.view.settings.post.featuredImageId;
+		},
+
+		set: function( id ) {
+			var settings = wp.media.view.settings;
+
+			settings.post.featuredImageId = id;
+
+			wp.media.post( 'set-post-thumbnail', {
+				json:         true,
+				post_id:      settings.post.id,
+				thumbnail_id: settings.post.featuredImageId,
+				_wpnonce:     settings.post.nonce
+			}).done( function( html ) {
+				$( '.inside', '#postimagediv' ).html( html );
+			});
+		},
+
+		frame: function() {
+			if ( this._frame )
+				return this._frame;
+
+			this._frame = wp.media({
+				state: 'featured-image',
+				states: [ new wp.media.controller.FeaturedImage() ]
+			});
+
+			this._frame.on( 'toolbar:create:featured-image', function( toolbar ) {
+				this.createSelectToolbar( toolbar, {
+					text: wp.media.view.l10n.setFeaturedImage
+				});
+			}, this._frame );
+
+			this._frame.state('featured-image').on( 'select', this.select );
+			return this._frame;
+		},
+
+		select: function() {
+			var settings = wp.media.view.settings,
+				selection = this.get('selection').single();
+
+			if ( ! settings.post.featuredImageId )
+				return;
+
+			wp.media.featuredImage.set( selection ? selection.id : -1 );
+		},
+
+		init: function() {
+			// Open the content media manager to the 'featured image' tab when
+			// the post thumbnail is clicked.
+			$('#postimagediv').on( 'click', '#set-post-thumbnail', function( event ) {
+				event.preventDefault();
+				// Stop propagation to prevent thickbox from activating.
+				event.stopPropagation();
+
+				wp.media.featuredImage.frame().open();
+
+			// Update the featured image id when the 'remove' link is clicked.
+			}).on( 'click', '#remove-post-thumbnail', function() {
+				wp.media.view.settings.post.featuredImageId = -1;
+			});
+		}
+	};
+
+	$( wp.media.featuredImage.init );
+
 	wp.media.editor = {
 		insert: function( h ) {
 			var mce = typeof(tinymce) != 'undefined',
@@ -443,24 +511,7 @@
 				}
 			}, this );
 
-			workflow.state('featured-image').on( 'select', function() {
-				var settings = wp.media.view.settings,
-					selection = this.get('selection').single();
-
-				if ( ! settings.post.featuredImageId )
-					return;
-
-				settings.post.featuredImageId = selection ? selection.id : -1;
-				wp.media.post( 'set-post-thumbnail', {
-					json:         true,
-					post_id:      settings.post.id,
-					thumbnail_id: settings.post.featuredImageId,
-					_wpnonce:     settings.post.nonce
-				}).done( function( html ) {
-					$( '.inside', '#postimagediv' ).html( html );
-				});
-			});
-
+			workflow.state('featured-image').on( 'select', wp.media.featuredImage.select );
 			workflow.setState( workflow.options.state );
 			return workflow;
 		},
@@ -585,37 +636,6 @@
 				$this.blur();
 
 				wp.media.editor.open( editor );
-			});
-
-			// Open the content media manager to the 'featured image' tab when
-			// the post thumbnail is clicked.
-			$('#postimagediv').on( 'click', '#set-post-thumbnail', function( event ) {
-				event.preventDefault();
-				// Stop propagation to prevent thickbox from activating.
-				event.stopPropagation();
-
-				// Always get the 'content' frame, since this is tailored to post.php.
-				var frame = wp.media.editor.add('content'),
-					initialState = frame.state().id,
-					escape;
-
-				escape = function() {
-					// Only run this event once.
-					this.off( 'escape', escape );
-
-					// If we're still on the 'featured-image' state, restore
-					// the initial state.
-					if ( 'featured-image' === this.state().id )
-						this.setState( initialState );
-				};
-
-				frame.on( 'escape', escape, frame );
-
-				frame.setState('featured-image').open();
-
-			// Update the featured image id when the 'remove' link is clicked.
-			}).on( 'click', '#remove-post-thumbnail', function() {
-				wp.media.view.settings.post.featuredImageId = -1;
 			});
 		}
 	};

@@ -289,7 +289,7 @@
 			this.frame.router.render( mode );
 
 			view = router.get();
-			if ( view.select )
+			if ( view && view.select )
 				view.select( this.frame.content.mode() );
 		},
 
@@ -304,7 +304,7 @@
 			menu.mode( mode );
 
 			view = menu.get();
-			if ( view.select )
+			if ( view && view.select )
 				view.select( this.id );
 		},
 
@@ -357,6 +357,7 @@
 			sidebar:    'settings',
 			content:    'upload',
 			router:     'browse',
+			menu:       'default',
 			searchable: true,
 			filterable: false,
 			sortable:   true,
@@ -638,7 +639,6 @@
 			id:         'featured-image',
 			filterable: 'uploaded',
 			multiple:   false,
-			menu:       'main',
 			toolbar:    'featured-image',
 			title:      l10n.featuredImageTitle,
 			priority:   60
@@ -676,6 +676,17 @@
 		},
 
 		activate: function() {
+			this.updateSelection();
+			this.frame.on( 'open', this.updateSelection, this );
+			media.controller.Library.prototype.activate.apply( this, arguments );
+		},
+
+		deactivate: function() {
+			this.frame.off( 'open', this.updateSelection, this );
+			media.controller.Library.prototype.deactivate.apply( this, arguments );
+		},
+
+		updateSelection: function() {
 			var selection = this.get('selection'),
 				id = media.view.settings.post.featuredImageId,
 				attachment;
@@ -686,7 +697,6 @@
 			}
 
 			selection.reset( attachment ? [ attachment ] : [] );
-			media.controller.Library.prototype.activate.apply( this, arguments );
 		}
 	});
 
@@ -697,7 +707,7 @@
 		defaults: {
 			id:      'embed',
 			url:     '',
-			menu:    'main',
+			menu:    'default',
 			content: 'embed',
 			toolbar: 'main-embed',
 			type:    'link',
@@ -1200,6 +1210,9 @@
 				model.frame = this;
 				model.trigger('ready');
 			}, this );
+
+			if ( this.options.states )
+				this.states.add( this.options.states );
 		},
 
 		reset: function() {
@@ -1263,6 +1276,9 @@
 			// Bind default title creation.
 			this.on( 'title:create:default', this.createTitle, this );
 			this.title.mode('default');
+
+			// Bind default menu.
+			this.on( 'menu:create:default', this.createMenu, this );
 		},
 
 		render: function() {
@@ -1319,12 +1335,12 @@
 					src:     tabUrl + '&tab=' + id,
 					title:   title,
 					content: 'iframe',
-					menu:    'main'
+					menu:    'default'
 				}, options ) );
 			}, this );
 
 			this.on( 'content:create:iframe', this.iframeContent, this );
-			this.on( 'menu:render:main', this.iframeMenu, this );
+			this.on( 'menu:render:default', this.iframeMenu, this );
 			this.on( 'open', this.hijackThickbox, this );
 			this.on( 'close', this.restoreThickbox, this );
 		},
@@ -1418,6 +1434,9 @@
 		createStates: function() {
 			var options = this.options;
 
+			if ( this.options.states )
+				return;
+
 			// Add the default states.
 			this.states.add([
 				// Main states.
@@ -1425,7 +1444,6 @@
 					selection: options.selection,
 					library:   media.query( options.library ),
 					multiple:  options.multiple,
-					menu:      'main',
 					title:     options.title,
 					priority:  20
 				})
@@ -1433,7 +1451,6 @@
 		},
 
 		bindHandlers: function() {
-			this.on( 'menu:create:main', this.createMenu, this );
 			this.on( 'router:create:browse', this.createRouter, this );
 			this.on( 'router:render:browse', this.browseRouter, this );
 			this.on( 'content:create:browse', this.browseContent, this );
@@ -1519,7 +1536,6 @@
 					id:         'insert',
 					title:      l10n.insertMediaTitle,
 					priority:   20,
-					menu:       'main',
 					toolbar:    'main-insert',
 					filterable: 'all',
 					library:    media.query( options.library ),
@@ -1538,7 +1554,6 @@
 					id:         'gallery',
 					title:      l10n.createGalleryTitle,
 					priority:   40,
-					menu:       'main',
 					toolbar:    'main-gallery',
 					filterable: 'uploaded',
 					multiple:   'add',
@@ -1568,10 +1583,7 @@
 
 
 			if ( media.view.settings.post.featuredImageId ) {
-				this.states.add( new media.controller.FeaturedImage({
-					controller: this,
-					menu:       'main'
-				}) );
+				this.states.add( new media.controller.FeaturedImage() );
 			}
 		},
 
@@ -1585,7 +1597,7 @@
 
 			var handlers = {
 					menu: {
-						'main':    'mainMenu',
+						'default': 'mainMenu',
 						'gallery': 'galleryMenu'
 					},
 
