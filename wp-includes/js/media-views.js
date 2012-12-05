@@ -2085,6 +2085,31 @@
 			}
 		},
 
+		dispose: function() {
+			if ( this.disposing )
+				return media.View.prototype.dispose.apply( this, arguments );
+
+			// Run remove on `dispose`, so we can be sure to refresh the
+			// uploader with a view-less DOM. Track whether we're disposing
+			// so we don't trigger an infinite loop.
+			this.disposing = true;
+			return this.remove();
+		},
+
+		remove: function() {
+			var result = media.View.prototype.remove.apply( this, arguments );
+
+			_.defer( _.bind( this.refresh, this ) );
+			return result;
+		},
+
+		refresh: function() {
+			var uploader = this.controller.uploader;
+
+			if ( uploader )
+				uploader.refresh();
+		},
+
 		ready: function() {
 			var $browser = this.options.$browser,
 				$placeholder;
@@ -2101,6 +2126,7 @@
 				$placeholder.replaceWith( $browser.show() );
 			}
 
+			this.refresh();
 			return this;
 		}
 	});

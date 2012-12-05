@@ -293,7 +293,41 @@ window.wp = window.wp || {};
 		progress: function() {},
 		complete: function() {},
 		refresh:  function() {
+			var node, enabled, container;
+
+			if ( this.browser ) {
+				node = this.browser[0];
+
+				while ( node ) {
+					if ( node === document.body ) {
+						enabled = true;
+						break;
+					}
+					node = node.parentNode;
+				}
+
+				this.uploader.disableBrowse( ! enabled );
+				// Toggle all auto-created file containers.
+				this._container().toggle( enabled );
+			}
+
 			this.uploader.refresh();
+		},
+
+		_container: function() {
+			var runtime = this.uploader.runtime;
+
+			if ( this._$container && this._$container.length )
+				return this._$container;
+
+			if ( 'html4' === runtime )
+				return $('[target="' + this.uploader.id + '_iframe"]');
+
+			if ( 'html5' !== runtime && 'flash' !== runtime && 'silverlight' !== runtime )
+				return $();
+
+			this._$container = $( '#' + this.uploader.id + '_' + runtime + '_container' );
+			return this._$container;
 		}
 	});
 
