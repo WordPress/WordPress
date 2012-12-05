@@ -142,6 +142,11 @@ window.wp = window.wp || {};
 
 				// Use with PHP's wp_send_json_success() and wp_send_json_error()
 				$.ajax( options ).done( function( response ) {
+					// Treat a response of `1` as successful for backwards
+					// compatibility with existing handlers.
+					if ( response === '1' || response === 1 )
+						response = { success: true };
+
 					if ( _.isObject( response ) && ! _.isUndefined( response.success ) )
 						deferred[ response.success ? 'resolveWith' : 'rejectWith' ]( this, [response.data] );
 					else
@@ -264,13 +269,22 @@ window.wp = window.wp || {};
 			// This will permanently delete an attachment.
 			} else if ( 'delete' === method ) {
 				options = options || {};
+
+				if ( ! options.wait )
+					this.destroyed = true;
+
 				options.context = this;
 				options.data = _.extend( options.data || {}, {
 					action:   'delete-post',
 					id:       this.id,
 					_wpnonce: this.get('nonces')['delete']
 				});
-				return media.ajax( options );
+
+				return media.ajax( options ).done( function() {
+					this.destroyed = true;
+				}).fail( function() {
+					this.destroyed = false;
+				});
 			}
 		},
 
@@ -401,7 +415,11 @@ window.wp = window.wp || {};
 			this.reset( this._source.filter( this.validator, this ) );
 		},
 
+		validateDestroyed: false,
+
 		validator: function( attachment ) {
+			if ( ! this.validateDestroyed && attachment.destroyed )
+				return false;
 			return _.all( this.filters, function( filter, key ) {
 				return !! filter.call( this, attachment );
 			}, this );
