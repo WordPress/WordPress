@@ -786,7 +786,7 @@
 		},
 
 		reset: function() {
-			this.props = new Backbone.Model({ url: '' });
+			this.props.clear().set({ url: '' });
 
 			if ( this.active )
 				this.refresh();
@@ -2422,7 +2422,7 @@
 
 		refresh: function() {
 			var url = this.controller.state().props.get('url');
-			this.get('select').model.set( 'disabled', ! url || /^https?:\/\/$/.test(url) );
+			this.get('select').model.set( 'disabled', ! url || url === 'http://' );
 
 			media.view.Toolbar.Select.prototype.refresh.apply( this, arguments );
 		}
@@ -3772,11 +3772,14 @@
 			this.model.on( 'change', this.updateChanges, this );
 		},
 
-		render: function() {
-			this.$el.html( this.template( _.defaults({
+		prepare: function() {
+			return _.defaults({
 				model: this.model.toJSON()
-			}, this.options ) ) );
+			}, this.options );
+		},
 
+		render: function() {
+			media.View.prototype.render.apply( this, arguments );
 			// Select the correct values.
 			_( this.model.attributes ).chain().keys().each( this.update, this );
 			return this;
@@ -4026,23 +4029,16 @@
 				model:      this.model.props
 			}).render();
 
-			this._settings = new media.View();
+			this.views.set([ this.url ]);
 			this.refresh();
 			this.model.on( 'change:type', this.refresh, this );
 		},
 
-		render: function() {
-			this.$el.html([ this.url.el, this._settings.el ]);
-			this.url.focus();
-			this.views.render();
-			return this;
-		},
-
 		settings: function( view ) {
-			view.render();
-			this._settings.$el.replaceWith( view.$el );
-			this._settings.remove();
+			if ( this._settings )
+				this._settings.remove();
 			this._settings = view;
+			this.views.add( view );
 		},
 
 		refresh: function() {
@@ -4096,7 +4092,12 @@
 				return;
 
 			this.input.value = this.model.get('url') || 'http://';
+			media.View.prototype.render.apply( this, arguments );
 			return this;
+		},
+
+		ready: function() {
+			this.focus();
 		},
 
 		url: function( event ) {
