@@ -1290,6 +1290,8 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 		'description' => false,
 	);
 
+	$user_can_edit = current_user_can( 'edit_post', $attachment_id );
+
 	$args = wp_parse_args( $args, $default_args );
 	$args = apply_filters( 'get_media_item_args', $args );
 
@@ -1314,6 +1316,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 			foreach ( $terms as $term )
 				$values[] = $term->slug;
 			$t['value'] = join(', ', $values);
+			$t['taxonomy'] = true;
 
 			$form_fields[$taxonomy] = $t;
 		}
@@ -1363,6 +1366,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 			continue;
 		}
 
+		$readonly      = ! $user_can_edit && ! empty( $field['taxonomy'] ) ? " readonly='readonly' " : '';
 		$required      = $field['required'] ? '<span class="alignright"><abbr title="required" class="required">*</abbr></span>' : '';
 		$aria_required = $field['required'] ? " aria-required='true' " : '';
 		$class  = 'compat-field-' . $id;
@@ -1381,7 +1385,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 			}
 			$item .= "<textarea id='$id_attr' name='$name' $aria_required>" . $field['value'] . '</textarea>';
 		} else {
-			$item .= "<input type='text' class='text' id='$id_attr' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
+			$item .= "<input type='text' class='text' id='$id_attr' name='$name' value='" . esc_attr( $field['value'] ) . "' $readonly $aria_required />";
 		}
 		if ( !empty( $field['helps'] ) )
 			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique( (array) $field['helps'] ) ) . '</p>';

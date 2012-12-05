@@ -1543,6 +1543,10 @@
 					multiple:   options.multiple ? 'reset' : false,
 					editable:   true,
 
+					// If the user isn't allowed to edit fields,
+					// can they still edit it locally?
+					allowLocalEdits: true,
+
 					// Show the attachment display settings.
 					displaySettings: true,
 					// Update user settings when users adjust the
@@ -2839,6 +2843,9 @@
 				options.can.remove = !! options.nonces['delete'];
 				options.can.save = !! options.nonces.update;
 			}
+
+			if ( this.controller.state().get('allowLocalEdits') )
+				options.allowLocalEdits = true;
 
 			this.views.detach();
 			this.$el.html( this.template( options ) );

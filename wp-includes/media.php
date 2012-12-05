@@ -1658,10 +1658,12 @@ function wp_print_media_templates() {
 				<a class="check" href="#" title="<?php _e('Deselect'); ?>"><div class="media-modal-icon"></div></a>
 			<# } #>
 		</div>
-		<# if ( data.describe ) { #>
+		<#
+		var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly';
+		if ( data.describe ) { #>
 			<# if ( 'image' === data.type ) { #>
 				<input type="text" value="{{ data.caption }}" class="describe" data-setting="caption"
-					placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>" />
+					placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>" {{ maybeReadOnly }} />
 			<# } else { #>
 				<input type="text" value="{{ data.title }}" class="describe" data-setting="title"
 					<# if ( 'video' === data.type ) { #>
@@ -1670,7 +1672,7 @@ function wp_print_media_templates() {
 						placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
 					<# } else { #>
 						placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
-					<# } #> />
+					<# } #> {{ maybeReadOnly }} />
 			<# } #>
 		<# } #>
 	</script>
@@ -1713,25 +1715,27 @@ function wp_print_media_templates() {
 			</div>
 		</div>
 
-		<# if ( 'image' === data.type ) { #>
+		<#
+		var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly';
+		if ( 'image' === data.type ) { #>
 			<label class="setting" data-setting="title">
 				<span><?php _e('Title'); ?></span>
-				<input type="text" value="{{ data.title }}" />
+				<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
 			</label>
 			<label class="setting" data-setting="caption">
 				<span><?php _e('Caption'); ?></span>
-				<textarea
+				<textarea {{ maybeReadOnly }}
 					placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>"
 					>{{ data.caption }}</textarea>
 			</label>
 			<label class="setting" data-setting="alt">
 				<span><?php _e('Alt Text'); ?></span>
-				<input type="text" value="{{ data.alt }}" />
+				<input type="text" value="{{ data.alt }}" {{ maybeReadOnly }} />
 			</label>
 		<# } else { #>
 			<label class="setting" data-setting="title">
 				<span><?php _e('Title'); ?></span>
-				<input type="text" value="{{ data.title }}"
+				<input type="text" value="{{ data.title }}" {{ maybeReadOnly }}
 				<# if ( 'video' === data.type ) { #>
 					placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
 				<# } else if ( 'audio' === data.type ) { #>
