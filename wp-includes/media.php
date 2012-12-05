@@ -1484,10 +1484,10 @@ function wp_enqueue_media( $args = array() ) {
 		'warnDelete' =>      __( "You are about to permanently delete this item.\n  'Cancel' to stop, 'OK' to delete." ),
 
 		// From URL
-		'fromUrlTitle'       => __( 'From URL' ),
+		'insertFromUrlTitle' => __( 'Insert from URL' ),
 
 		// Featured Images
-		'featuredImageTitle'  => __( 'Featured Image' ),
+		'setFeaturedImageTitle' => __( 'Set Featured Image' ),
 		'setFeaturedImage'    => __( 'Set featured image' ),
 
 		// Gallery

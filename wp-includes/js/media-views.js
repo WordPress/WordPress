@@ -640,7 +640,7 @@
 			filterable: 'uploaded',
 			multiple:   false,
 			toolbar:    'featured-image',
-			title:      l10n.featuredImageTitle,
+			title:      l10n.setFeaturedImageTitle,
 			priority:   60
 		}, media.controller.Library.prototype.defaults ),
 
@@ -712,7 +712,7 @@
 			toolbar: 'main-embed',
 			type:    'link',
 
-			title:    l10n.fromUrlTitle,
+			title:    l10n.insertFromUrlTitle,
 			priority: 120
 		},
 
