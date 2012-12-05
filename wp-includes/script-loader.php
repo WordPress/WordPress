@@ -689,7 +689,7 @@ function _print_scripts() {
 	if ( $zip && defined('ENFORCE_GZIP') && ENFORCE_GZIP )
 		$zip = 'gzip';
 
-	if ( !empty($wp_scripts->concat) ) {
+	if ( $concat = trim( $wp_scripts->concat, ', ' ) ) {
 
 		if ( !empty($wp_scripts->print_code) ) {
 			echo "\n<script type='text/javascript'>\n";
@@ -699,7 +699,10 @@ function _print_scripts() {
 			echo "</script>\n";
 		}
 
-		$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}&load=" . trim($wp_scripts->concat, ', ') . '&ver=' . $wp_scripts->default_version;
+		$concat = str_split( $concat, 128 );
+		$concat = 'load[]=' . implode( '&load[]=', $concat );
+
+		$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}&" . $concat . '&ver=' . $wp_scripts->default_version;
 		echo "<script type='text/javascript' src='" . esc_attr($src) . "'></script>\n";
 	}
 

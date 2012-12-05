@@ -114,7 +114,11 @@ function get_file($path) {
 	return @file_get_contents($path);
 }
 
-$load = preg_replace( '/[^a-z0-9,_-]+/i', '', $_GET['load'] );
+$load = $_GET['load'];
+if ( is_array( $load ) )
+	$load = implode( '', $load );
+
+$load = preg_replace( '/[^a-z0-9,_-]+/i', '', $load );
 $load = explode(',', $load);
 
 if ( empty($load) )
