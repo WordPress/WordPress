@@ -489,7 +489,7 @@
 		refreshContent: function() {
 			var selection = this.get('selection'),
 				frame = this.frame,
-				router = frame.router,
+				router = frame.router.get(),
 				mode = frame.content.mode();
 
 			if ( this.active && ! selection.length && ! router.get( mode ) )
