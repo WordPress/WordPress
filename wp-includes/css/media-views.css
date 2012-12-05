@@ -234,6 +234,10 @@
 	margin: 1px 0;
 }
 
+.media-sidebar .setting label {
+	display: block;
+}
+
 .media-sidebar .setting span {
 	min-width: 30%;
 	margin-right: 4%;
