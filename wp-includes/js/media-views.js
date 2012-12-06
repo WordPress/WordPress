@@ -778,9 +778,30 @@
 		},
 
 		scan: function() {
-			var attributes = { type: 'link' };
+			var scanners,
+				embed = this,
+				attributes = {
+					type: 'link',
+					scanners: []
+				};
 
-			this.trigger( 'scan', attributes );
+			// Scan is triggered with the list of `attributes` to set on the
+			// state, useful for the 'type' attribute and 'scanners' attribute,
+			// an array of promise objects for asynchronous scan operations.
+			if ( this.props.get('url') )
+				this.trigger( 'scan', attributes );
+
+			if ( attributes.scanners.length ) {
+				scanners = attributes.scanners = $.when.apply( $, attributes.scanners );
+				scanners.always( function() {
+					if ( embed.get('scanners') === scanners )
+						embed.set( 'loading', false );
+				});
+			} else {
+				attributes.scanners = null;
+			}
+
+			attributes.loading = !! attributes.scanners;
 			this.set( attributes );
 		},
 
@@ -788,26 +809,30 @@
 			var frame = this.frame,
 				state = this,
 				url = this.props.get('url'),
-				image = new Image();
+				image = new Image(),
+				deferred = $.Deferred();
+
+			attributes.scanners.push( deferred.promise() );
 
 			// Try to load the image and find its width/height.
 			image.onload = function() {
+				deferred.resolve();
+
 				if ( state !== frame.state() || url !== state.props.get('url') )
 					return;
 
 				state.set({
-					type:   'image',
+					type: 'image'
+				});
+
+				state.props.set({
 					width:  image.width,
 					height: image.height
 				});
 			};
 
+			image.onerror = deferred.reject;
 			image.src = url;
-
-			// Check if the URL looks like an image; skew toward success.
-			url = url.replace( /([?|#].*)$/, '' );
-			if ( /\.(png|jpe?g|gif)$/i.test( url ) )
-				attributes.type = 'image';
 		},
 
 		refresh: function() {
@@ -4147,6 +4172,7 @@
 			this.views.set([ this.url ]);
 			this.refresh();
 			this.model.on( 'change:type', this.refresh, this );
+			this.model.on( 'change:loading', this.loading, this );
 		},
 
 		settings: function( view ) {
@@ -4172,6 +4198,10 @@
 				model:      this.model.props,
 				priority:   40
 			}) );
+		},
+
+		loading: function() {
+			this.$el.toggleClass( 'embed-loading', this.model.get('loading') );
 		}
 	});
 
@@ -4194,8 +4224,12 @@
 				value: this.model.get('url') || ''
 			});
 
+			this.spinner = this.make( 'span', {
+				'class': 'spinner'
+			});
+
 			this.$input = $( this.input );
-			this.$el.append( this.input );
+			this.$el.append([ this.input, this.spinner ]);
 
 			this.model.on( 'change:url', this.render, this );
 		},
