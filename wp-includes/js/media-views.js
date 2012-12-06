@@ -4021,7 +4021,9 @@
 			'change [data-setting] input':    'updateSetting',
 			'change [data-setting] select':   'updateSetting',
 			'change [data-setting] textarea': 'updateSetting',
-			'click .delete-attachment':       'deleteAttachment'
+			'click .delete-attachment':       'deleteAttachment',
+			'click .edit-attachment':         'editAttachment',
+			'click .refresh-attachment':      'refreshAttachment'
 		},
 
 		initialize: function() {
@@ -4038,11 +4040,21 @@
 			return this;
 		},
 
-		deleteAttachment: function(event) {
+		deleteAttachment: function( event ) {
 			event.preventDefault();
 
 			if ( confirm( l10n.warnDelete ) )
 				this.model.destroy();
+		},
+
+		editAttachment: function( event ) {
+			this.$el.addClass('needs-refresh');
+		},
+
+		refreshAttachment: function( event ) {
+			this.$el.removeClass('needs-refresh');
+			event.preventDefault();
+			this.model.fetch();
 		}
 	});
 

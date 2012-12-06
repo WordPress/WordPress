@@ -2270,19 +2270,17 @@ function multisite_over_quota_message() {
 function edit_form_image_editor() {
 	$post = get_post();
 
+	$open = isset( $_GET['image-editor'] );
+	if ( $open )
+		require_once ABSPATH . 'wp-admin/includes/image-edit.php';
+
 	$thumb_url = false;
 	if ( $attachment_id = intval( $post->ID ) )
-		$thumb_url = wp_get_attachment_image_src( $attachment_id, array( 900, 600 ), true );
+		$thumb_url = wp_get_attachment_image_src( $attachment_id, array( 900, 450 ), true );
 
 	$filename = esc_html( basename( $post->guid ) );
 	$title = esc_attr( $post->post_title );
 	$alt_text = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
-
-	$media_dims = '';
-	$meta = wp_get_attachment_metadata( $post->ID );
-	if ( is_array( $meta ) && array_key_exists( 'width', $meta ) && array_key_exists( 'height', $meta ) )
-		$media_dims .= "<span id='media-dims-$post->ID'>{$meta['width']}&nbsp;&times;&nbsp;{$meta['height']}</span> ";
-	$media_dims = apply_filters( 'media_meta', $media_dims, $post );
 
 	$att_url = wp_get_attachment_url( $post->ID );
 
@@ -2296,11 +2294,13 @@ function edit_form_image_editor() {
 	<div class="wp_attachment_holder">
 		<div class="imgedit-response" id="imgedit-response-<?php echo $attachment_id; ?>"></div>
 
-		<div class="wp_attachment_image" id="media-head-<?php echo $attachment_id; ?>">
+		<div<?php if ( $open ) echo ' style="display:none"'; ?> class="wp_attachment_image" id="media-head-<?php echo $attachment_id; ?>">
 			<p id="thumbnail-head-<?php echo $attachment_id; ?>"><img class="thumbnail" src="<?php echo set_url_scheme( $thumb_url[0] ); ?>" style="max-width:100%" alt="" /></p>
 			<p><?php echo $image_edit_button; ?></p>
 		</div>
-		<div style="display:none" class="image-editor" id="image-editor-<?php echo $attachment_id; ?>"></div>
+		<div<?php if ( ! $open ) echo ' style="display:none"'; ?> class="image-editor" id="image-editor-<?php echo $attachment_id; ?>">
+			<?php if ( $open ) wp_image_editor( $attachment_id ); ?>
+		</div>
 	</div>
 	<?php endif; ?>
 

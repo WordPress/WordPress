@@ -1308,6 +1308,7 @@
 	float: left;
 	max-width: 120px;
 	max-height: 120px;
+	margin-top: 5px;
 	margin-right: 10px;
 	margin-bottom: 5px;
 }
@@ -1347,17 +1348,30 @@
 	max-width: 100%;
 }
 
-.attachment-info .delete-attachment a {
-	color: red;
-	padding: 2px 4px;
-	margin: -2px -4px;
+.attachment-info .edit-attachment,
+.attachment-info .refresh-attachment,
+.attachment-info .delete-attachment {
+	display: block;
 	text-decoration: none;
 	white-space: nowrap;
 }
 
-.attachment-info .delete-attachment a:hover {
-	color: #fff;
-	background: red;
+.attachment-info .refresh-attachment,
+.attachment-details.needs-refresh .attachment-info .edit-attachment {
+	display: none;
+}
+
+.attachment-details.needs-refresh .attachment-info .refresh-attachment,
+.attachment-info .edit-attachment {
+	display: block;
+}
+
+.attachment-info .delete-attachment {
+	color: #bc0b0b;
+}
+
+.attachment-info .delete-attachment:hover {
+	color: red;
 }
 
 /**

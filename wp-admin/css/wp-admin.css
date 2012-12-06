@@ -4150,23 +4150,26 @@ borger color while dragging a file over the uploader drop area */
 	margin: 8px 0;
 }
 
+.post-php .imgedit-wrap table {
+	width: 100%;
+}
+
 .describe .imgedit-wrap table td,
 .wp_attachment_holder .imgedit-wrap table td {
 	vertical-align: top;
 	padding-top: 0;
 }
 
-.imgedit-wrap p,
-.describe .imgedit-wrap table td {
-	font-size: 11px;
-	line-height: 18px;
-}
-
 .describe .imgedit-wrap table td.imgedit-settings {
 	padding: 0 5px;
 }
 
+.wp_attachment_holder .imgedit-wrap table td.imgedit-settings {
+	width: 250px;
+}
+
 td.imgedit-settings input {
+	margin-top: 0;
 	vertical-align: middle;
 }
 
@@ -4349,17 +4352,8 @@ td.imgedit-settings input {
 	margin-bottom: 8px;
 }
 
-.imgedit-help ul li {
-	font-size: 11px;
-}
-
 a.imgedit-help-toggle {
 	text-decoration: none;
-}
-
-#wpbody-content .imgedit-response div {
-	width: 600px;
-	margin: 8px;
 }
 
 .form-table td.imgedit-response {
@@ -4389,8 +4383,8 @@ span.imgedit-scale-warn {
 .imgedit-group {
 	border-width: 1px;
 	border-style: solid;
-	-webkit-border-radius: 8px;
-	border-radius: 8px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 	margin-bottom: 8px;
 	padding: 2px 10px;
 }

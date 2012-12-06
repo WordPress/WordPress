@@ -1337,10 +1337,13 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			'update' => false,
 			'delete' => false,
 		),
+		'editLink'   => false,
 	);
 
-	if ( current_user_can( 'edit_post', $attachment->ID ) )
+	if ( current_user_can( 'edit_post', $attachment->ID ) ) {
 		$response['nonces']['update'] = wp_create_nonce( 'update-post_' . $attachment->ID );
+		$response['editLink'] = get_edit_post_link( $attachment->ID, 'raw' );
+	}
 
 	if ( current_user_can( 'delete_post', $attachment->ID ) )
 		$response['nonces']['delete'] = wp_create_nonce( 'delete-post_' . $attachment->ID );
@@ -1703,14 +1706,22 @@ function wp_print_media_templates() {
 			<div class="details">
 				<div class="filename">{{ data.filename }}</div>
 				<div class="uploaded">{{ data.dateFormatted }}</div>
-				<# if ( 'image' === data.type && ! data.uploading && data.width && data.height ) { #>
-					<div class="dimensions">{{ data.width }} &times; {{ data.height }}</div>
+
+				<# if ( 'image' === data.type && ! data.uploading ) { #>
+					<# if ( data.width && data.height ) { #>
+						<div class="dimensions">{{ data.width }} &times; {{ data.height }}</div>
+					<# } #>
+
+					<# if ( data.can.save ) { #>
+						<a class="edit-attachment" href="{{ data.editLink }}&amp;image-editor" target="_blank"><?php _e( 'Edit Image' ); ?></a>
+						<a class="refresh-attachment" href="#"><?php _e( 'Refresh' ); ?></a>
+					<# } #>
 				<# } #>
+
 				<# if ( ! data.uploading && data.can.remove ) { #>
-					<div class="delete-attachment">
-						<a href="#"><?php _e( 'Delete Permanently' ); ?></a>
-					</div>
+					<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
 				<# } #>
+
 				<div class="compat-meta">
 					<# if ( data.compat && data.compat.meta ) { #>
 						{{{ data.compat.meta }}}
