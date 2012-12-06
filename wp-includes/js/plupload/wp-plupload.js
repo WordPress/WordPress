@@ -315,16 +315,13 @@ window.wp = window.wp || {};
 
 					container = $( '#' + id );
 					if ( ! container.length ) {
-						container = $('<div class="wp-uploader-browser" />', {
-							id: 'wp-uploader-browser-' + this.uploader.id,
-							css: {
-								position: 'fixed',
-								top: '-1000px',
-								left: '-1000px',
-								height: 0,
-								width: 0
-							}
-						}).appendTo('body');
+						container = $('<div class="wp-uploader-browser" />').css({
+							position: 'fixed',
+							top: '-1000px',
+							left: '-1000px',
+							height: 0,
+							width: 0
+						}).attr( 'id', 'wp-uploader-browser-' + this.uploader.id ).appendTo('body');
 					}
 
 					container.append( this.browser );
