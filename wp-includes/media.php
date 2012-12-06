@@ -1751,6 +1751,10 @@ function wp_print_media_templates() {
 				<# } #>
 				/>
 			</label>
+			<label class="setting" data-setting="caption">
+				<span><?php _e('Caption'); ?></span>
+				<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>
+			</label>
 		<# } #>
 			<label class="setting" data-setting="description">
 				<span><?php _e('Description'); ?></span>

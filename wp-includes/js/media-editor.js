@@ -555,7 +555,8 @@
 
 				options = {
 					id:           attachment.id,
-					post_content: attachment.description
+					post_content: attachment.description,
+					post_excerpt: caption,
 				};
 
 				if ( props.linkUrl )
@@ -563,7 +564,6 @@
 
 				if ( 'image' === attachment.type ) {
 					html = wp.media.string.image( props );
-					options.post_excerpt = caption;
 
 					_.each({
 						align: 'align',
