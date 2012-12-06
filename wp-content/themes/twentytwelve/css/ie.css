@@ -26,7 +26,10 @@ body.custom-background-white .site {
 img.size-full,
 img.size-large,
 img.header-image,
-img.wp-post-image {
+img.wp-post-image,
+img[class*="align"],
+img[class*="wp-image-"],
+img[class*="attachment-"] {
 	width: auto; /* Prevent stretching of full-size and large-size images with height and width attributes in IE8 */
 }
 .author-avatar {
