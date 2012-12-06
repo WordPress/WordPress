@@ -540,7 +540,9 @@ function wpmu_validate_user_signup($user_name, $user_email) {
  * @return array Contains the new site data and error messages.
  */
 function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
-	global $wpdb, $domain, $base, $current_site;
+	global $wpdb, $domain, $current_site;
+
+	$base = $current_site->path;
 
 	$blog_title = strip_tags( $blog_title );
 	$blog_title = substr( $blog_title, 0, 50 );
