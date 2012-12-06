@@ -118,14 +118,6 @@ function wp_image_editor($post_id, $msg = false) {
 		<a class="imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;" href="#"><?php _e('(help)'); ?></a>
 		<div class="imgedit-help">
 		<p><?php _e('The image can be cropped by clicking on it and dragging to select the desired part. While dragging the dimensions of the selection are displayed below.'); ?></p>
-		<strong><?php _e('Keyboard Shortcuts'); ?></strong>
-		<ul>
-		<li><?php _e('Arrow: move by 10px'); ?></li>
-		<li><?php _e('Shift + arrow: move by 1px'); ?></li>
-		<li><?php _e('Ctrl + arrow: resize by 10px'); ?></li>
-		<li><?php _e('Ctrl + Shift + arrow: resize by 1px'); ?></li>
-		<li><?php _e('Shift + drag: lock aspect ratio'); ?></li>
-		</ul>
 
 		<p><strong><?php _e('Crop Aspect Ratio'); ?></strong><br />
 		<?php _e('You can specify the crop selection aspect ratio then hold down the Shift key while dragging to lock it. The values can be 1:1 (square), 4:3, 16:9, etc. If there is a selection, specifying aspect ratio will set it immediately.'); ?></p>
