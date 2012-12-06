@@ -14,7 +14,7 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php _e('Rich Editor Help'); ?></title>
-<script type="text/javascript" src="tiny_mce_popup.js?ver=357-20121111"></script>
+<script type="text/javascript" src="tiny_mce_popup.js?ver=358-20121205"></script>
 <?php
 wp_admin_css( 'wp-admin', true );
 ?>

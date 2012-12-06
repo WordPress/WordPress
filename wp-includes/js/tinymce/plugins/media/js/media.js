@@ -295,30 +295,40 @@
 			} else {
 				src = getVal("src");
 
-				// YouTube *NEW*
-				if (src.match(/youtu.be\/[a-z1-9.-_]+/)) {
+				// YouTube Embed
+				if (src.match(/youtube\.com\/embed\/\w+/)) {
 					data.width = 425;
 					data.height = 350;
 					data.params.frameborder = '0';
 					data.type = 'iframe';
-					src = 'http://www.youtube.com/embed/' + src.match(/youtu.be\/([a-z1-9.-_]+)/)[1];
 					setVal('src', src);
 					setVal('media_type', data.type);
-				}
+				} else {
+					// YouTube *NEW*
+					if (src.match(/youtu\.be\/[a-z1-9.-_]+/)) {
+						data.width = 425;
+						data.height = 350;
+						data.params.frameborder = '0';
+						data.type = 'iframe';
+						src = 'http://www.youtube.com/embed/' + src.match(/youtu.be\/([a-z1-9.-_]+)/)[1];
+						setVal('src', src);
+						setVal('media_type', data.type);
+					}
 
-				// YouTube
-				if (src.match(/youtube.com(.+)v=([^&]+)/)) {
-					data.width = 425;
-					data.height = 350;
-					data.params.frameborder = '0';
-					data.type = 'iframe';
-					src = 'http://www.youtube.com/embed/' + src.match(/v=([^&]+)/)[1];
-					setVal('src', src);
-					setVal('media_type', data.type);
+					// YouTube
+					if (src.match(/youtube\.com(.+)v=([^&]+)/)) {
+						data.width = 425;
+						data.height = 350;
+						data.params.frameborder = '0';
+						data.type = 'iframe';
+						src = 'http://www.youtube.com/embed/' + src.match(/v=([^&]+)/)[1];
+						setVal('src', src);
+						setVal('media_type', data.type);
+					}
 				}
 
 				// Google video
-				if (src.match(/video.google.com(.+)docid=([^&]+)/)) {
+				if (src.match(/video\.google\.com(.+)docid=([^&]+)/)) {
 					data.width = 425;
 					data.height = 326;
 					data.type = 'flash';
@@ -328,7 +338,7 @@
 				}
 				
 				// Vimeo
-				if (src.match(/vimeo.com\/([0-9]+)/)) {
+				if (src.match(/vimeo\.com\/([0-9]+)/)) {
 					data.width = 425;
 					data.height = 350;
 					data.params.frameborder = '0';
@@ -339,7 +349,7 @@
 				}
             
 				// stream.cz
-				if (src.match(/stream.cz\/((?!object).)*\/([0-9]+)/)) {
+				if (src.match(/stream\.cz\/((?!object).)*\/([0-9]+)/)) {
 					data.width = 425;
 					data.height = 350;
 					data.params.frameborder = '0';
@@ -350,7 +360,7 @@
 				}
 				
 				// Google maps
-				if (src.match(/maps.google.([a-z]{2,3})\/maps\/(.+)msid=(.+)/)) {
+				if (src.match(/maps\.google\.([a-z]{2,3})\/maps\/(.+)msid=(.+)/)) {
 					data.width = 425;
 					data.height = 350;
 					data.params.frameborder = '0';
