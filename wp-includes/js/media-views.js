@@ -367,18 +367,35 @@
 			contentUserSetting: true,
 
 			// Sync the selection from the last state when 'multiple' matches.
-			syncLastSelection: true
+			syncSelection: true
 		},
 
 		initialize: function() {
-			if ( ! this.get('selection') ) {
-				this.set( 'selection', new media.model.Selection( null, {
-					multiple: this.get('multiple')
-				}) );
-			}
+			var selection = this.get('selection'),
+				props;
 
+			// If a library isn't provided, query all media items.
 			if ( ! this.get('library') )
 				this.set( 'library', media.query() );
+
+			// If a selection instance isn't provided, create one.
+			if ( ! (selection instanceof media.model.Selection) ) {
+				props = selection;
+
+				if ( ! props ) {
+					props = this.get('library').props.toJSON();
+					props = _.omit( props, 'orderby', 'query' );
+				}
+
+				// If the `selection` attribute is set to an object,
+				// it will use those values as the selection instance's
+				// `props` model. Otherwise, it will copy the library's
+				// `props` model.
+				this.set( 'selection', new media.model.Selection( null, {
+					multiple: this.get('multiple'),
+					props: props
+				}) );
+			}
 
 			if ( ! this.get('edge') )
 				this.set( 'edge', 120 );
@@ -390,8 +407,7 @@
 		},
 
 		activate: function() {
-			if ( this.get('syncLastSelection') )
-				this.getLastSelection();
+			this.syncSelection();
 
 			wp.Uploader.queue.on( 'add', this.uploading, this );
 
@@ -406,6 +422,8 @@
 		},
 
 		deactivate: function() {
+			this.recordSelection();
+
 			this.frame.off( 'content:activate', this.saveContentMode, this );
 
 			// Unbind all event handlers that use this state as the context
@@ -455,25 +473,47 @@
 			setUserSetting( 'urlbutton', display.link );
 		},
 
-		getLastSelection: function() {
+		syncSelection: function() {
 			var selection = this.get('selection'),
-				lastState = this.frame.lastState(),
-				lastSelection = lastState && lastState.get('selection'),
-				lastMultiple, thisMultiple;
+				manager = this.frame._selection;
 
-			if ( ! lastSelection )
+			if ( ! this.get('syncSelection') || ! manager || ! selection )
 				return;
 
-			// We don't care about the method of multiple selection the
-			// selections use, just that they both support (or don't support)
-			// multiple selection.
-			lastMultiple = !! lastSelection.multiple;
-			thisMultiple = !! selection.multiple;
+			// If the selection supports multiple items, validate the stored
+			// attachments based on the new selection's conditions. Record
+			// the attachments that are not included; we'll maintain a
+			// reference to those. Other attachments are considered in flux.
+			if ( selection.multiple ) {
+				selection.reset( [], { silent: true });
+				selection.validateAll( manager.attachments );
+				manager.difference = _.difference( manager.attachments.models, selection.models );
+			}
 
-			if ( lastMultiple !== thisMultiple )
+			// Sync the selection's single item with the master.
+			selection.single( manager.single );
+		},
+
+		recordSelection: function() {
+			var selection = this.get('selection'),
+				manager = this.frame._selection,
+				filtered;
+
+			if ( ! this.get('syncSelection') || ! manager || ! selection )
 				return;
 
-			selection.reset( lastSelection.toArray() ).single( lastSelection.single() );
+			// Record the currently active attachments, which is a combination
+			// of the selection's attachments and the set of selected
+			// attachments that this specific selection considered invalid.
+			// Reset the difference and record the single attachment.
+			if ( selection.multiple ) {
+				manager.attachments.reset( selection.toArray().concat( manager.difference ) );
+				manager.difference = [];
+			} else {
+				manager.attachments.add( selection.toArray() );
+			}
+
+			manager.single = selection._single;
 		},
 
 		refreshContent: function() {
@@ -527,7 +567,11 @@
 			content:    'browse',
 			title:      l10n.editGalleryTitle,
 			priority:   60,
-			dragInfo:   true
+			dragInfo:   true,
+
+			// Don't sync the selection, as the Edit Gallery library
+			// *is* the selection.
+			syncSelection: false
 		},
 
 		initialize: function() {
@@ -601,7 +645,11 @@
 			menu:         'gallery',
 			toolbar:      'gallery-add',
 			title:        l10n.addToGalleryTitle,
-			priority:     100
+			priority:     100,
+
+			// Don't sync the selection, as the Edit Gallery library
+			// *is* the selection.
+			syncSelection: false
 		}, media.controller.Library.prototype.defaults ),
 
 		initialize: function() {
@@ -641,7 +689,9 @@
 			multiple:   false,
 			toolbar:    'featured-image',
 			title:      l10n.setFeaturedImageTitle,
-			priority:   60
+			priority:   60,
+
+			syncSelection: false
 		}, media.controller.Library.prototype.defaults ),
 
 		initialize: function() {
@@ -1429,6 +1479,11 @@
 					multiple: this.options.multiple
 				});
 			}
+
+			this._selection = {
+				attachments: new Attachments(),
+				difference: []
+			};
 		},
 
 		createStates: function() {
@@ -1441,7 +1496,6 @@
 			this.states.add([
 				// Main states.
 				new media.controller.Library({
-					selection: options.selection,
 					library:   media.query( options.library ),
 					multiple:  options.multiple,
 					title:     options.title,
@@ -1526,8 +1580,7 @@
 		},
 
 		createStates: function() {
-			var options = this.options,
-				selection = options.selection;
+			var options = this.options;
 
 			// Add the default states.
 			this.states.add([
@@ -1539,7 +1592,6 @@
 					toolbar:    'main-insert',
 					filterable: 'all',
 					library:    media.query( options.library ),
-					selection:  selection,
 					multiple:   options.multiple ? 'reset' : false,
 					editable:   true,
 
@@ -1565,11 +1617,7 @@
 
 					library:  media.query( _.defaults({
 						type: 'image'
-					}, options.library ) ),
-
-					selection: new media.model.Selection( selection.models, {
-						multiple: 'add'
-					})
+					}, options.library ) )
 				}),
 
 				// Embed states.
