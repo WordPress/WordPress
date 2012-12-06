@@ -32,7 +32,7 @@
 			}
 
 			// Create the media frame.
-			frame = wp.media({
+			frame = wp.media.frames.customBackground = wp.media({
 				// Set the title of the modal.
 				title: $el.data('choose'),
 

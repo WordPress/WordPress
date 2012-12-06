@@ -34,7 +34,7 @@ window.wp = window.wp || {};
 		return frame;
 	};
 
-	_.extend( media, { model: {}, view: {}, controller: {} });
+	_.extend( media, { model: {}, view: {}, controller: {}, frames: {} });
 
 	// Link any localized strings.
 	l10n = media.model.l10n = typeof _wpMediaModelsL10n === 'undefined' ? {} : _wpMediaModelsL10n;
@@ -215,6 +215,13 @@ window.wp = window.wp || {};
 	 * MODELS
 	 * ========================================================================
 	 */
+
+	 /**
+	  * wp.media.attachment
+	  */
+	 media.attachment = function( id ) {
+		return Attachment.get( id );
+	 };
 
 	/**
 	 * wp.media.model.Attachment

@@ -18,8 +18,14 @@
 			var $el = $(this);
 			event.preventDefault();
 
+			// If the media frame already exists, reopen it.
+			if ( frame ) {
+				frame.open();
+				return;
+			}
+
 			// Create the media frame.
-			frame = wp.media({
+			frame = wp.media.frames.customHeader = wp.media({
 				// Set the title of the modal.
 				title: $el.data('choose'),
 
