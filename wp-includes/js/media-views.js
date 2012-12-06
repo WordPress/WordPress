@@ -4080,6 +4080,13 @@
 			this.model.on( 'change:compat', this.render, this );
 		},
 
+		dispose: function() {
+			if ( this.$(':focus').length )
+				this.save();
+
+			return media.View.prototype.dispose.apply( this, arguments );
+		},
+
 		render: function() {
 			var compat = this.model.get('compat');
 			if ( ! compat || ! compat.item )
@@ -4100,7 +4107,8 @@
 		save: function( event ) {
 			var data = {};
 
-			event.preventDefault();
+			if ( event )
+				event.preventDefault();
 
 			_.each( this.$el.serializeArray(), function( pair ) {
 				data[ pair.name ] = pair.value;
