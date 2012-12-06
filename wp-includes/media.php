@@ -1744,41 +1744,19 @@ function wp_print_media_templates() {
 			</div>
 		</div>
 
-		<#
-		var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly';
-		if ( 'image' === data.type ) { #>
+		<# var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly'; #>
 			<label class="setting" data-setting="title">
 				<span><?php _e('Title'); ?></span>
 				<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
 			</label>
 			<label class="setting" data-setting="caption">
 				<span><?php _e('Caption'); ?></span>
-				<textarea {{ maybeReadOnly }}
-					placeholder="<?php esc_attr_e('Describe this image&hellip;'); ?>"
-					>{{ data.caption }}</textarea>
+				<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>
 			</label>
+		<# if ( 'image' === data.type ) { #>
 			<label class="setting" data-setting="alt">
 				<span><?php _e('Alt Text'); ?></span>
 				<input type="text" value="{{ data.alt }}" {{ maybeReadOnly }} />
-			</label>
-		<# } else { #>
-			<label class="setting" data-setting="title">
-				<span><?php _e('Title'); ?></span>
-				<input type="text" value="{{ data.title }}" {{ maybeReadOnly }}
-				<# if ( ! maybeReadOnly ) { #>
-					<# if ( 'video' === data.type ) { #>
-						placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
-					<# } else if ( 'audio' === data.type ) { #>
-						placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
-					<# } else { #>
-						placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
-					<# } #>
-				<# } #>
-				/>
-			</label>
-			<label class="setting" data-setting="caption">
-				<span><?php _e('Caption'); ?></span>
-				<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>
 			</label>
 		<# } #>
 			<label class="setting" data-setting="description">
