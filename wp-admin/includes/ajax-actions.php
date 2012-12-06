@@ -1884,6 +1884,9 @@ function wp_ajax_save_attachment() {
 	if ( isset( $changes['caption'] ) )
 		$post['post_excerpt'] = $changes['caption'];
 
+	if ( isset( $changes['description'] ) )
+		$post['post_content'] = $changes['description'];
+
 	if ( isset( $changes['alt'] ) ) {
 		$alt = get_post_meta( $id, '_wp_attachment_image_alt', true );
 		$new_alt = stripslashes( $changes['alt'] );
@@ -1922,10 +1925,6 @@ function wp_ajax_save_attachment_compat() {
 
 	if ( 'attachment' != $post['post_type'] )
 		wp_send_json_error();
-
-	// Handle the description field automatically, if a plugin adds it back.
-	if ( isset( $attachment_data['post_content'] ) )
-		$post['post_content'] = $attachment_data['post_content'];
 
 	$post = apply_filters( 'attachment_fields_to_save', $post, $attachment_data );
 

@@ -3407,6 +3407,10 @@ td.plugin-title p {
 	display: none;
 }
 
+#post-body-content .compat-attachment-fields {
+	margin-bottom: 20px;
+}
+
 .compat-attachment-fields th {
 	padding-top: 5px;
 	padding-right: 10px;
@@ -4389,6 +4393,10 @@ span.imgedit-scale-warn {
 	border-radius: 8px;
 	margin-bottom: 8px;
 	padding: 2px 10px;
+}
+
+.wp_attachment_details {
+	margin-bottom: 20px;
 }
 
 /*------------------------------------------------------------------------------

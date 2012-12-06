@@ -554,7 +554,8 @@
 				props = wp.media.string.props( props, attachment );
 
 				options = {
-					id: attachment.id
+					id:           attachment.id,
+					post_content: attachment.description
 				};
 
 				if ( props.linkUrl )

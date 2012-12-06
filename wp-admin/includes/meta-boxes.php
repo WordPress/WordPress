@@ -296,30 +296,6 @@ function attachment_submit_meta_box( $post ) {
 }
 
 /**
- * Display attachment/media-specific information
- *
- * @since 3.5.0
- *
- * @param object $post
- */
-function attachment_content_meta_box( $post ) {
-	$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close' );
-	$editor_args = array(
-		'textarea_name' => 'content',
-		'textarea_rows' => 5,
-		'media_buttons' => false,
-		'tinymce' => false,
-		'quicktags' => $quicktags_settings,
-	);
-?>
-<p>
-	<label class="screen-reader-text" for="content"><strong><?php _e( 'Attachment Page Content' ); ?></strong></label>
-	<?php wp_editor( $post->post_content, 'attachment_content', $editor_args ); ?>
-</p>
-<?php
-}
-
-/**
  * Display post format form elements.
  *
  * @since 3.1.0

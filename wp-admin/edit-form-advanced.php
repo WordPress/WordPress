@@ -107,7 +107,6 @@ if ( 'attachment' == $post_type ) {
 	wp_enqueue_script( 'image-edit' );
 	wp_enqueue_style( 'imgareaselect' );
 	add_meta_box( 'submitdiv', __('Save'), 'attachment_submit_meta_box', null, 'side', 'core' );
-	add_meta_box( 'attachmentdata', __('Attachment Page Content'), 'attachment_content_meta_box', null, 'normal', 'core' );
 	add_action( 'edit_form_after_title', 'edit_form_image_editor' );
 } else {
 	add_meta_box( 'submitdiv', __( 'Publish' ), 'post_submit_meta_box', null, 'side', 'core' );

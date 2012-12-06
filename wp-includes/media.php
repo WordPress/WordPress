@@ -1395,7 +1395,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	}
 
 	if ( function_exists('get_compat_media_markup') )
-		$response['compat'] = get_compat_media_markup( $attachment->ID, array( 'taxonomies' => true, 'description' => true ) );
+		$response['compat'] = get_compat_media_markup( $attachment->ID, array( 'in_modal' => true ) );
 
 	return apply_filters( 'wp_prepare_attachment_for_js', $response, $attachment, $meta );
 }
@@ -1740,15 +1740,22 @@ function wp_print_media_templates() {
 			<label class="setting" data-setting="title">
 				<span><?php _e('Title'); ?></span>
 				<input type="text" value="{{ data.title }}" {{ maybeReadOnly }}
-				<# if ( 'video' === data.type ) { #>
-					placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
-				<# } else if ( 'audio' === data.type ) { #>
-					placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
-				<# } else { #>
-					placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
-				<# } #>/>
+				<# if ( ! maybeReadOnly ) { #>
+					<# if ( 'video' === data.type ) { #>
+						placeholder="<?php esc_attr_e('Describe this video&hellip;'); ?>"
+					<# } else if ( 'audio' === data.type ) { #>
+						placeholder="<?php esc_attr_e('Describe this audio file&hellip;'); ?>"
+					<# } else { #>
+						placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
+					<# } #>
+				<# } #>
+				/>
 			</label>
 		<# } #>
+			<label class="setting" data-setting="description">
+				<span><?php _e('Description'); ?></span>
+				<textarea {{ maybeReadOnly }}>{{ data.description }}</textarea>
+			</label>
 	</script>
 
 	<script type="text/html" id="tmpl-media-selection">

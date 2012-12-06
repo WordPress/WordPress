@@ -2829,7 +2829,8 @@
 					width:         '',
 					height:        '',
 					compat:        false,
-					alt:           ''
+					alt:           '',
+					description:   '',
 				});
 
 			options.buttons  = this.buttons;
