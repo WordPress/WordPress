@@ -1413,9 +1413,12 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 	if ( $item )
 		$item = '<table class="compat-attachment-fields">' . $item . '</table>';
 
+	foreach ( $hidden_fields as $hidden_field => $value ) {
+		$item .= '<input type="hidden" name="' . esc_attr( $hidden_field ) . '" value="' . esc_attr( $value ) . '" />' . "\n";
+	}
+
 	return array(
 		'item'   => $item,
-		'hidden' => $hidden_fields,
 		'meta'   => $media_meta,
 	);
 }
@@ -2332,9 +2335,6 @@ function edit_form_image_editor() {
 	<?php
 	$extras = get_compat_media_markup( $post->ID );
 	echo $extras['item'];
-	foreach ( $extras['hidden'] as $hidden_field => $value ) {
-		echo '<input type="hidden" name="' . esc_attr( $hidden_field ) . '" value="' . esc_attr( $value ) . '" />' . "\n";
-	}
 	echo '<input type="hidden" id="image-edit-context" value="edit-attachment" />' . "\n";
 }
 
