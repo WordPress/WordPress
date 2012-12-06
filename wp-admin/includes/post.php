@@ -225,12 +225,14 @@ function edit_post( $post_data = null ) {
 	}
 
 	// Attachment stuff
-	if ( 'attachment' == $post_data['post_type'] && isset( $post_data['_wp_attachment_image_alt'] ) ) {
-		$image_alt = get_post_meta( $post_ID, '_wp_attachment_image_alt', true );
-		if ( $image_alt != stripslashes( $post_data['_wp_attachment_image_alt'] ) ) {
-			$image_alt = wp_strip_all_tags( stripslashes( $post_data['_wp_attachment_image_alt'] ), true );
-			// update_meta expects slashed
-			update_post_meta( $post_ID, '_wp_attachment_image_alt', addslashes( $image_alt ) );
+	if ( 'attachment' == $post_data['post_type'] ) {
+		if ( isset( $post_data[ '_wp_attachment_image_alt' ] ) ) {
+			$image_alt = get_post_meta( $post_ID, '_wp_attachment_image_alt', true );
+			if ( $image_alt != stripslashes( $post_data['_wp_attachment_image_alt'] ) ) {
+				$image_alt = wp_strip_all_tags( stripslashes( $post_data['_wp_attachment_image_alt'] ), true );
+				// update_meta expects slashed
+				update_post_meta( $post_ID, '_wp_attachment_image_alt', addslashes( $image_alt ) );
+			}
 		}
 
 		if ( isset( $post_data['attachments'][ $post_ID ] ) )
