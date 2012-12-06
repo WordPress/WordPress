@@ -29,10 +29,14 @@
  * @param int $width Width of the image
  * @param int $height Height of the image
  * @param string|array $size Size of what the result image should be.
+ * @param context Could be 'display' (like in a theme) or 'edit' (like inserting into a neditor)
  * @return array Width and height of what the result image should resize to.
  */
-function image_constrain_size_for_editor($width, $height, $size = 'medium') {
+function image_constrain_size_for_editor($width, $height, $size = 'medium', $context = null ) {
 	global $content_width, $_wp_additional_image_sizes;
+
+	if ( ! $context )
+		$context = is_admin() ? 'edit' : 'display';
 
 	if ( is_array($size) ) {
 		$max_width = $size[0];
@@ -64,7 +68,7 @@ function image_constrain_size_for_editor($width, $height, $size = 'medium') {
 	} elseif ( isset( $_wp_additional_image_sizes ) && count( $_wp_additional_image_sizes ) && in_array( $size, array_keys( $_wp_additional_image_sizes ) ) ) {
 		$max_width = intval( $_wp_additional_image_sizes[$size]['width'] );
 		$max_height = intval( $_wp_additional_image_sizes[$size]['height'] );
-		if ( intval($content_width) > 0 && is_admin() ) // Only in admin. Assume that theme authors know what they're doing.
+		if ( intval($content_width) > 0 && 'edit' == $context ) // Only in admin. Assume that theme authors know what they're doing.
 			$max_width = min( intval($content_width), $max_width );
 	}
 	// $size == 'full' has no constraint
@@ -73,7 +77,7 @@ function image_constrain_size_for_editor($width, $height, $size = 'medium') {
 		$max_height = $height;
 	}
 
-	list( $max_width, $max_height ) = apply_filters( 'editor_max_image_size', array( $max_width, $max_height ), $size );
+	list( $max_width, $max_height ) = apply_filters( 'editor_max_image_size', array( $max_width, $max_height ), $size, $context );
 
 	return wp_constrain_dimensions( $width, $height, $max_width, $max_height );
 }
@@ -1378,11 +1382,21 @@ function wp_prepare_attachment_for_js( $attachment ) {
 
 				// Nothing from the filter, so consult image metadata if we have it.
 				$size_meta = $meta['sizes'][ $size ];
+
+				// We have the actual image size, but might need to further constrain it if content_width is narrower.
+				// This is not necessary for thumbnails and medium size.
+				if ( 'thumbnail' == $size || 'medium' == $size ) {
+					$width = $size_meta['width'];
+					$height = $size_meta['height'];
+				} else {
+					list( $width, $height ) = image_constrain_size_for_editor( $size_meta['width'], $size_meta['height'], $size, 'edit' );
+				}
+
 				$sizes[ $size ] = array(
-					'height'      => $size_meta['height'],
-					'width'       => $size_meta['width'],
+					'height'      => $height,
+					'width'       => $width,
 					'url'         => $base_url . $size_meta['file'],
-					'orientation' => $size_meta['height'] > $size_meta['width'] ? 'portrait' : 'landscape',
+					'orientation' => $height > $width ? 'portrait' : 'landscape',
 				);
 			}
 		}
