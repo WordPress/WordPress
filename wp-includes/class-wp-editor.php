@@ -569,10 +569,12 @@ final class _WP_Editors {
 		$baseurl = self::$baseurl;
 
 		if ( $tmce_on ) {
-			if ( $compressed )
+			if ( $compressed ) {
 				echo "<script type='text/javascript' src='{$baseurl}/wp-tinymce.php?c=1&amp;$version'></script>\n";
-			else
+			} else {
 				echo "<script type='text/javascript' src='{$baseurl}/tiny_mce.js?$version'></script>\n";
+				echo "<script type='text/javascript' src='{$baseurl}/wp-tinymce-schema.js?$version'></script>\n";
+			}
 
 			if ( 'en' != self::$mce_locale && isset($lang) )
 				echo "<script type='text/javascript'>\n$lang\n</script>\n";

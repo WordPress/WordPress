@@ -1,5 +1,7 @@
 /**
- * Schema.js
+ * TinyMCE Schema.js
+ *
+ * Duck-punched by WordPress core to support a sane schema superset.
  *
  * Copyright, Moxiecode Systems AB
  * Released under LGPL License.
@@ -320,6 +322,59 @@
 	};
 
 	/**
+	 * WordPress Core
+	 *
+	 * Returns a schema that is the result of a deep merge between the HTML5
+	 * and HTML4 schemas.
+	 */
+	function getSaneSchema() {
+		var cachedMapCache = mapCache,
+			html5, html4;
+
+		if ( mapCache.sane )
+			return mapCache.sane;
+
+		// Bust the mapCache so we're not dealing with the other schema objects.
+		mapCache = {};
+		html5 = getHTML5();
+		html4 = getHTML4();
+		mapCache = cachedMapCache;
+
+		each( html4, function( html4settings, tag ) {
+			var html5settings = html5[ tag ],
+				difference = [];
+
+			// Merge tags missing in HTML5 mode.
+			if ( ! html5settings ) {
+				html5[ tag ] = html4settings;
+				return;
+			}
+
+			// Merge attributes missing from this HTML5 tag.
+			each( html4settings.attributes, function( attribute, key ) {
+				if ( ! html5settings.attributes[ key ] )
+					html5settings.attributes[ key ] = attribute;
+			});
+
+			// Merge any missing attributes into the attributes order.
+			each( html4settings.attributesOrder, function( key ) {
+				if ( -1 === tinymce.inArray( html5settings.attributesOrder, key ) )
+					difference.push( key );
+			});
+
+			html5settings.attributesOrder = html5settings.attributesOrder.concat( difference );
+
+			// Merge children missing from this HTML5 tag.
+			each( html4settings.children, function( child, key ) {
+				if ( ! html5settings.children[ key ] )
+					html5settings.children[ key ] = child;
+			});
+		});
+
+		return mapCache.sane = html5;
+	}
+
+	/**
 	 * Schema validator class.
 	 *
 	 * @class tinymce.html.Schema
@@ -368,7 +423,11 @@
 		};
 
 		settings = settings || {};
-		schemaItems = settings.schema == "html5" ? getHTML5() : getHTML4();
+
+		/**
+		 * WordPress core uses a sane schema in place of the default "HTML5" schema.
+		 */
+		schemaItems = settings.schema == "html5" ? getSaneSchema() : getHTML4();
 
 		// Allow all elements and attributes if verify_html is set to false
 		if (settings.verify_html === false)

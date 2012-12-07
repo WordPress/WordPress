@@ -33,5 +33,6 @@ if ( isset($_GET['c']) && 1 == $_GET['c'] && isset($_SERVER['HTTP_ACCEPT_ENCODIN
 	echo $file;
 } else {
 	echo get_file($basepath . '/tiny_mce.js');
+	echo get_file($basepath . '/wp-tinymce-schema.js');
 }
 exit;
