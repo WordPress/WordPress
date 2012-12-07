@@ -1616,6 +1616,7 @@ img#wpstats {
 @media print {
 	body {
 		background: none !important;
+		color: #000;
 		font-size: 10pt;
 	}
 	footer a[rel=bookmark]:link:after,
@@ -1650,8 +1651,13 @@ img#wpstats {
 		text-align: left;
 	}
 	.site-header h2 {
+		color: #000;
 		font-size: 10pt;
 		text-align: left;
+	}
+	.site-header h1 a,
+	.site-header h2 a {
+		color: #000;
 	}
 	.author-avatar,
 	#colophon,
