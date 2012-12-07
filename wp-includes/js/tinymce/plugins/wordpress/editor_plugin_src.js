@@ -149,6 +149,9 @@
 				ed.schema.addValidElements('td['+tdAttr+'],th['+tdAttr+']');
 				// Adds "name" for <a>
 				ed.schema.addValidElements('a['+commonAttr+'|href|target|ping|rel|media|type|name]');
+				// Extend <object> and <embed>
+				ed.schema.addValidElements('object[*],param[id|name|value|valuetype|type],embed[*]');
+				ed.schema.addValidChildren('object[*]');
 			});
 
 			ed.onInit.add(function(ed) {
