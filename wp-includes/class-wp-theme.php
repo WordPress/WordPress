@@ -1104,7 +1104,7 @@ final class WP_Theme implements ArrayAccess {
 	public static function get_allowed_on_site( $blog_id = null ) {
 		static $allowed_themes = array();
 
-		if ( ! $blog_id )
+		if ( ! $blog_id || ! is_multisite() )
 			$blog_id = get_current_blog_id();
 
 		if ( isset( $allowed_themes[ $blog_id ] ) )

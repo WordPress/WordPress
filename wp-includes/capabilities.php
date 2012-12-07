@@ -1299,7 +1299,8 @@ function current_user_can( $capability ) {
  * @return bool
  */
 function current_user_can_for_blog( $blog_id, $capability ) {
-	switch_to_blog( $blog_id );
+	if ( is_multisite() )
+		switch_to_blog( $blog_id );
 
 	$current_user = wp_get_current_user();
 
@@ -1311,7 +1312,8 @@ function current_user_can_for_blog( $blog_id, $capability ) {
 
 	$can = call_user_func_array( array( $current_user, 'has_cap' ), $args );
 
-	restore_current_blog();
+	if ( is_multisite() )
+		restore_current_blog();
 
 	return $can;
 }
