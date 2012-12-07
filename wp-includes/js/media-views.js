@@ -2896,7 +2896,7 @@
 					height:        '',
 					compat:        false,
 					alt:           '',
-					description:   '',
+					description:   ''
 				});
 
 			options.buttons  = this.buttons;
