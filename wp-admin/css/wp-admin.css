@@ -5337,22 +5337,28 @@ h2 .nav-tab {
 	margin-left: 1em;
 }
 
-.about-wrap .feature-section.three-col {
+.about-wrap .feature-section.col {
 	margin-bottom: 0;
+}
+
+.about-wrap .feature-section.col h4 {
+	margin:  0 0 0.6em 0;
+}
+
+.about-wrap .feature-section.col .last-feature {
+	margin-right: 0;
+}
+
+.about-wrap .feature-section.two-col div {
+	width: 47%;
+	margin-right: 4.999999999%;
+	float: left;
 }
 
 .about-wrap .feature-section.three-col div {
 	width: 30%;
 	margin-right: 4.999999999%;
 	float: left;
-}
-
-.about-wrap .feature-section.three-col h4 {
-	margin:  0 0 0.6em 0;
-}
-
-.about-wrap .feature-section.three-col .last-feature {
-	margin-right: 0;
 }
 
 .about-wrap .three-col-images {

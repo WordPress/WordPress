@@ -36,20 +36,16 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="changelog">
 	<h3><?php _e( 'New Media Manager' ); ?></h3>
 
-	<div class="feature-section three-col">
+	<div class="feature-section col two-col">
 		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-media.png' ) ); ?>" class="image-100" />
 
 		<div>
 			<h4><?php _e( 'Beautiful Interface' ); ?></h4>
 			<p><?php _e( 'Adding media has been streamlined with an all-new experience, making it a breeze to upload files and place them into your posts.' ); ?></p>
 		</div>
-		<div>
+		<div class="last-feature">
 			<h4><?php _e( 'Picturesque Galleries' ); ?></h4>
 			<p><?php _e( 'Creating image galleries is faster with drag and drop reordering, inline caption editing, and simplified controls for layout.' ); ?></p>
-		</div>
-		<div class="last-feature">
-			<h4><?php _e( 'Insert Multiple Images' ); ?></h4>
-			<p><?php _e( 'Have a need for speed? You can now insert multiple images at once and then compose your words around them.' ); ?></p>
 		</div>
 	</div>
 </div>
@@ -92,7 +88,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="changelog">
 	<h3><?php _e( 'Under the Hood' ); ?></h3>
 
-	<div class="feature-section three-col">
+	<div class="feature-section col three-col">
 		<div>
 			<h4><?php _e( 'Meta Query Additions' ); ?></h4>
 			<p><?php _e( 'The <code>WP_Comment_Query</code> and <code>WP_User_Query</code> classes now support meta queries just like <code>WP_Query.</code> Meta queries now support querying for objects without a particular meta key.' ); ?></p>
@@ -107,7 +103,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 	</div>
 
-	<div class="feature-section three-col">
+	<div class="feature-section col three-col">
 		<div>
 			<h4><?php _e( 'Multisite Improvements' ); ?></h4>
 			<p><?php _e( '<code>switch_to_blog()</code> is now significantly faster and more reliable.' ); ?></p>
