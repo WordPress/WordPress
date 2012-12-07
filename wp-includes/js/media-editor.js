@@ -556,7 +556,7 @@
 				options = {
 					id:           attachment.id,
 					post_content: attachment.description,
-					post_excerpt: caption,
+					post_excerpt: caption
 				};
 
 				if ( props.linkUrl )
