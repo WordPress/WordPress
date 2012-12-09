@@ -836,8 +836,14 @@ function adjacent_image_link($prev = true, $size = 'thumbnail', $text = false) {
 
 	$k = $prev ? $k - 1 : $k + 1;
 
-	if ( isset($attachments[$k]) )
-		echo wp_get_attachment_link($attachments[$k]->ID, $size, true, false, $text);
+	$output = $attachment_id = null;
+	if ( isset( $attachments[ $k ] ) ) {
+		$attachment_id = $attachments[ $k ]->ID;
+		$output = wp_get_attachment_link( $attachment_id, $size, true, false, $text );
+	}
+
+	$adjacent = $prev ? 'previous' : 'next';
+	echo apply_filters( "{$adjacent}_image_link", $output, $attachment_id, $size, $text );
 }
 
 /**
