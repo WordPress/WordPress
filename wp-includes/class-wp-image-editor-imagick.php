@@ -268,10 +268,11 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 				$this->image->clear();
 				$this->image->destroy();
 				$this->image = null;
-				unset( $resized['path'] );
 
-				if ( ! is_wp_error( $resized ) && $resized )
+				if ( ! is_wp_error( $resized ) && $resized ) {
+					unset( $resized['path'] );
 					$metadata[$size] = $resized;
+				}
 			}
 
 			$this->size = $orig_size;

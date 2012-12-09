@@ -190,10 +190,11 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 				$resized = $this->_save( $image );
 
 				imagedestroy( $image );
-				unset( $resized['path'] );
 
-				if ( ! is_wp_error( $resized ) && $resized )
+				if ( ! is_wp_error( $resized ) && $resized ) {
+					unset( $resized['path'] );
 					$metadata[$size] = $resized;
+				}
 			}
 
 			$this->size = $orig_size;
