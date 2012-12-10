@@ -216,20 +216,36 @@ class WP_oEmbed {
 	 * @access private
 	 */
 	function _parse_xml( $response_body ) {
-		if ( function_exists('simplexml_load_string') ) {
-			$errors = libxml_use_internal_errors( 'true' );
-			$data = simplexml_load_string( $response_body );
-			libxml_use_internal_errors( $errors );
-			if ( ! is_object( $data ) )
-				return false;
-
-			$return = new stdClass;
-			foreach ( $data as $key => $value )
-				$return->$key = (string) $value;
-
-			return $return;
+		if ( !function_exists('simplexml_load_string') ) {
+			return false;
 		}
-		return false;
+
+		$errors = libxml_use_internal_errors( true );
+		$old_value = null;
+		if ( function_exists( 'libxml_disable_entity_loader' ) ) {
+			$old_value = libxml_disable_entity_loader( true );
+		}
+
+		$dom = new DOMDocument;
+		$success = $dom->loadXML( $response_body );
+
+		if ( ! is_null( $old_value ) ) {
+			libxml_disable_entity_loader( $old_value );
+		}
+		libxml_use_internal_errors( $errors );
+
+		if ( ! $success || isset( $dom->doctype ) ) {
+			return false;
+		}
+
+		$data = simplexml_import_dom( $dom );
+		if ( ! is_object( $data ) )
+			return false;
+
+		$return = new stdClass;
+		foreach ( $data as $key => $value )
+			$return->$key = (string) $value;
+		return $return;
 	}
 
 	/**
