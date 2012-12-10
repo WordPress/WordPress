@@ -150,6 +150,10 @@ window.wp = window.wp || {};
 			_.each( files, function( file ) {
 				var attributes, image;
 
+				// Ignore failed uploads.
+				if ( plupload.FAILED === file.status )
+					return;
+
 				// Generate attributes for a new `Attachment` model.
 				attributes = _.extend({
 					file:      file,
