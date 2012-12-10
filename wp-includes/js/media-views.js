@@ -3900,10 +3900,11 @@
 				$value = $setting.find('[value="' + value + '"]');
 
 				if ( $value.length ) {
+					$setting.find('option').prop( 'selected', false );
 					$value.prop( 'selected', true );
 				} else {
 					// If we can't find the desired value, record what *is* selected.
-					this.model.set( $setting.data('setting'), $setting.find(':selected').val() );
+					this.model.set( key, $setting.find(':selected').val() );
 				}
 
 
