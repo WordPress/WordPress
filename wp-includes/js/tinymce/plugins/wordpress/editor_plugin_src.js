@@ -135,12 +135,6 @@
 				}
 			});
 
-			// Extend <object> and <embed> (#WP22790)
-			ed.onPreInit.add(function(ed) {
-				ed.schema.addValidElements('object[*],param[id|name|value|valuetype|type],embed[*]');
-				ed.schema.addValidChildren('+object[embed]');
-			});
-
 			ed.onInit.add(function(ed) {
 				var bodyClass = ed.getParam('body_class', ''), body = ed.getBody();
 

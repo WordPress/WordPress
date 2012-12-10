@@ -1,5 +1,7 @@
 /**
- * Schema.js
+ * TinyMCE Schema.js
+ *
+ * Duck-punched by WordPress core to support a sane schema superset.
  *
  * Copyright, Moxiecode Systems AB
  * Released under LGPL License.
@@ -56,22 +58,19 @@
 
 		if (!html5) {
 			html5 = mapCache.html5 = unpack({
-					A : 'id|accesskey|class|dir|draggable|item|hidden|itemprop|role|spellcheck|style|subject|title|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup',
-					B : '#|a|abbr|area|audio|b|bdo|br|button|canvas|cite|code|command|datalist|del|dfn|em|embed|i|iframe|img|input|ins|kbd|keygen|label|link|map|mark|meta|' +
-						'meter|noscript|object|output|progress|q|ruby|samp|script|select|small|span|strong|sub|sup|svg|textarea|time|var|video|wbr',
-					C : '#|a|abbr|area|address|article|aside|audio|b|bdo|blockquote|br|button|canvas|cite|code|command|datalist|del|details|dfn|dialog|div|dl|em|embed|fieldset|' +
-						'figure|footer|form|h1|h2|h3|h4|h5|h6|header|hgroup|hr|i|iframe|img|input|ins|kbd|keygen|label|link|map|mark|menu|meta|meter|nav|noscript|ol|object|output|' +
-						'p|pre|progress|q|ruby|samp|script|section|select|small|span|strong|style|sub|sup|svg|table|textarea|time|ul|var|video'
+					A : 'accesskey|class|contextmenu|dir|draggable|dropzone|hidden|id|inert|itemid|itemprop|itemref|itemscope|itemtype|lang|spellcheck|style|tabindex|title|translate|item|role|subject|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup',
+					B : '#|a|abbr|area|audio|b|bdi|bdo|br|button|canvas|cite|code|command|data|datalist|del|dfn|em|embed|i|iframe|img|input|ins|kbd|keygen|label|link|map|mark|math|meta|meter|noscript|object|output|progress|q|ruby|s|samp|script|select|small|span|strong|sub|sup|svg|textarea|time|u|var|video|wbr',
+					C : '#|a|abbr|area|address|article|aside|audio|b|bdi|bdo|blockquote|br|button|canvas|cite|code|command|data|datalist|del|details|dfn|dialog|div|dl|em|embed|fieldset|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hgroup|hr|i|iframe|img|input|ins|kbd|keygen|label|link|map|mark|math|menu|meta|meter|nav|noscript|ol|object|output|p|pre|progress|q|ruby|s|samp|script|section|select|small|span|strong|style|sub|sup|svg|table|textarea|time|u|ul|var|video|wbr'
 				}, 'html[A|manifest][body|head]' +
 					'head[A][base|command|link|meta|noscript|script|style|title]' +
 					'title[A][#]' +
 					'base[A|href|target][]' +
-					'link[A|href|rel|media|type|sizes][]' +
+					'link[A|href|rel|media|type|sizes|crossorigin|hreflang][]' +
 					'meta[A|http-equiv|name|content|charset][]' +
 					'style[A|type|media|scoped][#]' +
-					'script[A|charset|type|src|defer|async][#]' +
+					'script[A|charset|type|src|defer|async|crossorigin][#]' +
 					'noscript[A][C]' +
-					'body[A][C]' +
+					'body[A|onafterprint|onbeforeprint|onbeforeunload|onblur|onerror|onfocus|onfullscreenchange|onfullscreenerror|onhashchange|onload|onmessage|onoffline|ononline|onpagehide|onpageshow|onpopstate|onresize|onscroll|onstorage|onunload][C]' +
 					'section[A][C]' +
 					'nav[A][C]' +
 					'article[A][C]' +
@@ -89,18 +88,19 @@
 					'p[A][B]' +
 					'br[A][]' +
 					'pre[A][B]' +
-					'dialog[A][dd|dt]' +
+					'dialog[A|open][C|dd|dt]' +
 					'blockquote[A|cite][C]' +
 					'ol[A|start|reversed][li]' +
 					'ul[A][li]' +
 					'li[A|value][C]' +
 					'dl[A][dd|dt]' +
-					'dt[A][B]' +
+					'dt[A][C|B]' +
 					'dd[A][C]' +
-					'a[A|href|target|ping|rel|media|type][B]' +
+					'a[A|href|target|download|ping|rel|media|type][C|B]' +
 					'em[A][B]' +
 					'strong[A][B]' +
 					'small[A][B]' +
+					's[A][B]' +
 					'cite[A][B]' +
 					'q[A|cite][B]' +
 					'dfn[A][B]' +
@@ -113,6 +113,7 @@
 					'sup[A][B]' +
 					'i[A][B]' +
 					'b[A][B]' +
+					'u[A][B]' +
 					'mark[A][B]' +
 					'progress[A|value|max][B]' +
 					'meter[A|value|min|max|low|high|optimum][B]' +
@@ -120,45 +121,48 @@
 					'ruby[A][B|rt|rp]' +
 					'rt[A][B]' +
 					'rp[A][B]' +
+					'bdi[A][B]' +
 					'bdo[A][B]' +
 					'span[A][B]' +
-					'ins[A|cite|datetime][B]' +
-					'del[A|cite|datetime][B]' +
+					'ins[A|cite|datetime][C|B]' +
+					'del[A|cite|datetime][C|B]' +
 					'figure[A][C|legend|figcaption]' +
 					'figcaption[A][C]' +
-					'img[A|alt|src|height|width|usemap|ismap][]' +
-					'iframe[A|name|src|height|width|sandbox|seamless][]' +
+					'img[A|alt|src|srcset|crossorigin|usemap|ismap|width|height][]' +
+					'iframe[A|name|src|srcdoc|height|width|sandbox|seamless|allowfullscreen][C|B]' +
 					'embed[A|src|height|width|type][]' +
-					'object[A|data|type|height|width|usemap|name|form|classid][param]' +
+					'object[A|data|type|typemustmatch|name|usemap|form|width|height][C|B|param]' +
 					'param[A|name|value][]' +
-					'details[A|open][C|legend]' +
-					'command[A|type|label|icon|disabled|checked|radiogroup][]' +
+					'summary[A][B]' +
+					'details[A|open][C|legend|summary]' +
+					'command[A|type|label|icon|disabled|checked|radiogroup|command][]' +
 					'menu[A|type|label][C|li]' +
 					'legend[A][C|B]' +
 					'div[A][C]' +
 					'source[A|src|type|media][]' +
-					'audio[A|src|autobuffer|autoplay|loop|controls][source]' +
-					'video[A|src|autobuffer|autoplay|loop|controls|width|height|poster][source]' +
+					'track[A|kind|src|srclang|label|default][]' +
+					'audio[A|src|autobuffer|autoplay|loop|controls|crossorigin|preload|mediagroup|muted][C|source|track]' +
+					'video[A|src|autobuffer|autoplay|loop|controls|width|height|poster|crossorigin|preload|mediagroup|muted][C|source|track]' +
 					'hr[A][]' +
 					'form[A|accept-charset|action|autocomplete|enctype|method|name|novalidate|target][C]' +
 					'fieldset[A|disabled|form|name][C|legend]' +
 					'label[A|form|for][B]' +
-					'input[A|type|accept|alt|autocomplete|autofocus|checked|disabled|form|formaction|formenctype|formmethod|formnovalidate|formtarget|height|list|max|maxlength|min|' +
-						'multiple|pattern|placeholder|readonly|required|size|src|step|width|files|value|name][]' +
-					'button[A|autofocus|disabled|form|formaction|formenctype|formmethod|formnovalidate|formtarget|name|value|type][B]' +
-					'select[A|autofocus|disabled|form|multiple|name|size][option|optgroup]' +
+					'input[A|type|accept|alt|autocomplete|autofocus|checked|dirname|disabled|form|formaction|formenctype|formmethod|formnovalidate|formtarget|height|inputmode|list|max|maxlength|min|multiple|name|pattern|placeholder|readonly|required|size|src|step|value|width|files][]' +
+					'button[A|autofocus|disabled|form|formaction|formenctype|formmethod|formnovalidate|formtarget|name|type|value][B]' +
+					'select[A|autofocus|disabled|form|multiple|name|required|size][option|optgroup]' +
+					'data[A|value][B]' +
 					'datalist[A][B|option]' +
 					'optgroup[A|disabled|label][option]' +
-					'option[A|disabled|selected|label|value][]' +
-					'textarea[A|autofocus|disabled|form|maxlength|name|placeholder|readonly|required|rows|cols|wrap][]' +
+					'option[A|disabled|selected|label|value][#]' +
+					'textarea[A|autocomplete|autofocus|cols|dirname|disabled|form|inputmode|maxlength|name|placeholder|readonly|required|rows|wrap][#]' +
 					'keygen[A|autofocus|challenge|disabled|form|keytype|name][]' +
 					'output[A|for|form|name][B]' +
-					'canvas[A|width|height][]' +
-					'map[A|name][B|C]' +
-					'area[A|shape|coords|href|alt|target|media|rel|ping|type][]' +
-					'mathml[A][]' +
+					'canvas[A|width|height][a|button|input]' +
+					'map[A|name][C|B]' +
+					'area[A|alt|coords|shape|href|target|download|ping|rel|media|hreflang|type][]' +
+					'math[A][]' +
 					'svg[A][]' +
-					'table[A|border][caption|colgroup|thead|tfoot|tbody|tr]' +
+					'table[A][caption|colgroup|thead|tfoot|tbody|tr]' +
 					'caption[A][C]' +
 					'colgroup[A|span][col]' +
 					'col[A|span][]' +
@@ -166,7 +170,7 @@
 					'tfoot[A][tr]' +
 					'tbody[A][tr]' +
 					'tr[A][th|td]' +
-					'th[A|headers|rowspan|colspan|scope][B]' +
+					'th[A|headers|rowspan|colspan|scope][C]' +
 					'td[A|headers|rowspan|colspan][C]' +
 					'wbr[A][]'
 			);
@@ -307,6 +311,59 @@
 	};
 
 	/**
+	 * WordPress Core
+	 *
+	 * Returns a schema that is the result of a deep merge between the HTML5
+	 * and HTML4 schemas.
+	 */
+	function getSaneSchema() {
+		var cachedMapCache = mapCache,
+			html5, html4;
+
+		if ( mapCache.sane )
+			return mapCache.sane;
+
+		// Bust the mapCache so we're not dealing with the other schema objects.
+		mapCache = {};
+		html5 = getHTML5();
+		html4 = getHTML4();
+		mapCache = cachedMapCache;
+
+		each( html4, function( html4settings, tag ) {
+			var html5settings = html5[ tag ],
+				difference = [];
+
+			// Merge tags missing in HTML5 mode.
+			if ( ! html5settings ) {
+				html5[ tag ] = html4settings;
+				return;
+			}
+
+			// Merge attributes missing from this HTML5 tag.
+			each( html4settings.attributes, function( attribute, key ) {
+				if ( ! html5settings.attributes[ key ] )
+					html5settings.attributes[ key ] = attribute;
+			});
+
+			// Merge any missing attributes into the attributes order.
+			each( html4settings.attributesOrder, function( key ) {
+				if ( -1 === tinymce.inArray( html5settings.attributesOrder, key ) )
+					difference.push( key );
+			});
+
+			html5settings.attributesOrder = html5settings.attributesOrder.concat( difference );
+
+			// Merge children missing from this HTML5 tag.
+			each( html4settings.children, function( child, key ) {
+				if ( ! html5settings.children[ key ] )
+					html5settings.children[ key ] = child;
+			});
+		});
+
+		return mapCache.sane = html5;
+	}
+
+	/**
 	 * Schema validator class.
 	 *
 	 * @class tinymce.html.Schema
@@ -355,7 +412,11 @@
 		};
 
 		settings = settings || {};
-		schemaItems = settings.schema == "html5" ? getHTML5() : getHTML4();
+
+		/**
+		 * WordPress core uses a sane schema in place of the default "HTML5" schema.
+		 */
+		schemaItems = settings.schema == "html5" ? getSaneSchema() : getHTML4();
 
 		// Allow all elements and attributes if verify_html is set to false
 		if (settings.verify_html === false)
