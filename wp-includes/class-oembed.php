@@ -220,6 +220,9 @@ class WP_oEmbed {
 			return false;
 		}
 
+		if ( ! class_exists( 'DOMDocument' ) )
+			return false;
+
 		$errors = libxml_use_internal_errors( true );
 		$old_value = null;
 		if ( function_exists( 'libxml_disable_entity_loader' ) ) {
