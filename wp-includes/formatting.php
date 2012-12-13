@@ -999,8 +999,10 @@ function sanitize_title_with_dashes($title, $raw_title = '', $context = 'display
 			'%e2%80%9a', '%e2%80%9b', '%e2%80%9e', '%e2%80%9f',
 			// copy, reg, deg, hellip and trade
 			'%c2%a9', '%c2%ae', '%c2%b0', '%e2%80%a6', '%e2%84%a2',
-			// grave accent, acute accent, macron, caron
-			'%cc%80', '%cc%81', '%cc%84', '%cc%8c',
+			// acute accents
+			'%c2%b4', '%cb%8a', '%cc%81', '%cd%81',
+			// grave accent, macron, caron
+			'%cc%80', '%cc%84', '%cc%8c',
 		), '', $title );
 
 		// Convert times to x
