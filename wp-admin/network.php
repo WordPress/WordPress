@@ -411,8 +411,7 @@ define('BLOG_ID_CURRENT_SITE', 1);
 		$iis_rewrite_base = ltrim( $base, '/' ) . $rewrite_base;
 		$iis_subdir_replacement = $subdomain_install ? '' : '{R:1}';
 
-		$web_config_file = <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
+		$web_config_file = '<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <system.webServer>
         <rewrite>
@@ -424,14 +423,14 @@ define('BLOG_ID_CURRENT_SITE', 1);
 				if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
 					$web_config_file .= '
                 <rule name="WordPress Rule for Files" stopProcessing="true">
-                    <match url="^{$iis_subdir_match}files/(.+)" ignoreCase="false" />
-                    <action type="Rewrite" url="{$iis_rewrite_base}wp-includes/ms-files.php?file={R:1}" appendQueryString="false" />
+                    <match url="^' . $iis_subdir_match . 'files/(.+)" ignoreCase="false" />
+                    <action type="Rewrite" url="' . $iis_rewrite_base . 'wp-includes/ms-files.php?file={R:1}" appendQueryString="false" />
                 </rule>';
                 }
                 $web_config_file .= '
                 <rule name="WordPress Rule 2" stopProcessing="true">
-                    <match url="^{$iis_subdir_match}wp-admin$" ignoreCase="false" />
-                    <action type="Redirect" url="{$iis_subdir_replacement}wp-admin/" redirectType="Permanent" />
+                    <match url="^' . $iis_subdir_match . 'wp-admin$" ignoreCase="false" />
+                    <action type="Redirect" url="' . $iis_subdir_replacement . 'wp-admin/" redirectType="Permanent" />
                 </rule>
                 <rule name="WordPress Rule 3" stopProcessing="true">
                     <match url="^" ignoreCase="false" />
@@ -442,12 +441,12 @@ define('BLOG_ID_CURRENT_SITE', 1);
                     <action type="None" />
                 </rule>
                 <rule name="WordPress Rule 4" stopProcessing="true">
-                    <match url="^{$iis_subdir_match}(wp-(content|admin|includes).*)" ignoreCase="false" />
-                    <action type="Rewrite" url="{$iis_rewrite_base}{R:1}" />
+                    <match url="^' . $iis_subdir_match . '(wp-(content|admin|includes).*)" ignoreCase="false" />
+                    <action type="Rewrite" url="' . $iis_rewrite_base . '{R:1}" />
                 </rule>
                 <rule name="WordPress Rule 5" stopProcessing="true">
-                    <match url="^{$iis_subdir_match}([_0-9a-zA-Z-]+/)?(.*\.php)$" ignoreCase="false" />
-                    <action type="Rewrite" url="{$iis_rewrite_base}{R:2}" />
+                    <match url="^' . $iis_subdir_match . '([_0-9a-zA-Z-]+/)?(.*\.php)$" ignoreCase="false" />
+                    <action type="Rewrite" url="' . $iis_rewrite_base . '{R:2}" />
                 </rule>
                 <rule name="WordPress Rule 6" stopProcessing="true">
                     <match url="." ignoreCase="false" />
@@ -456,8 +455,7 @@ define('BLOG_ID_CURRENT_SITE', 1);
             </rules>
         </rewrite>
     </system.webServer>
-</configuration>
-EOF;
+</configuration>';
 
 	?>
 		<li><p><?php printf( __( 'Add the following to your <code>web.config</code> file in <code>%s</code>, replacing other WordPress rules:' ), $home_path ); ?></p>
