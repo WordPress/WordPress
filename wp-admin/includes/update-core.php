@@ -701,6 +701,10 @@ function update_core($from, $to) {
 				$directory = ('/' == $file[ strlen($file)-1 ]);
 				list($type, $filename) = explode('/', $file, 2);
 
+				// Check to see if the bundled items exist before attempting to copy them
+				if ( ! $wp_filesystem->exists( $from . $distro . 'wp-content/' . $file ) )
+					continue;
+
 				if ( 'plugins' == $type )
 					$dest = $wp_filesystem->wp_plugins_dir();
 				elseif ( 'themes' == $type )
