@@ -1,5 +1,5 @@
 /*!
- * jQuery Migrate - v1.0.0b1 - 2012-12-16
+ * jQuery Migrate - v1.0.0pre - 2012-12-17
  * https://github.com/jquery/jquery-migrate
  * Copyright 2012 jQuery Foundation and other contributors; Licensed MIT
  */
@@ -9,7 +9,7 @@
 
 // Use Uglify to do conditional compilation of warning messages;
 // the minified version will set this to false and remove dead code.
-if ( typeof JQMIGRATE_WARN === "undefined" ) {
+if ( typeof window.JQMIGRATE_WARN === "undefined" ) {
 	window.JQMIGRATE_WARN = true;
 }
 
@@ -26,7 +26,7 @@ jQuery.migrateReset = function() {
 };
 
 function migrateWarn( msg) {
-	if ( JQMIGRATE_WARN ) {
+	if ( window.JQMIGRATE_WARN ) {
 		if ( !warnedAbout[ msg ] ) {
 			warnedAbout[ msg ] = true;
 			jQuery.migrateWarnings.push( msg );
@@ -38,7 +38,7 @@ function migrateWarn( msg) {
 }
 
 function migrateWarnProp( obj, prop, value, msg ) {
-	if ( JQMIGRATE_WARN && Object.defineProperty ) {
+	if ( window.JQMIGRATE_WARN && Object.defineProperty ) {
 		// On ES5 browsers (non-oldIE), warn if the code tries to get prop;
 		// allow property to be overwritten in case some other plugin wants it
 		try {
@@ -65,7 +65,7 @@ function migrateWarnProp( obj, prop, value, msg ) {
 	obj[ prop ] = value;
 }
 
-if ( JQMIGRATE_WARN && document.compatMode === "BackCompat" ) {
+if ( window.JQMIGRATE_WARN && document.compatMode === "BackCompat" ) {
 	// jQuery has never supported or tested Quirks Mode
 	migrateWarn( "jQuery is not compatible with Quirks Mode" );
 }
@@ -81,22 +81,18 @@ var attrFn = {},
 	rnoAttrNodeType = /^[238]$/;
 
 // jQuery.attrFn
-if ( JQMIGRATE_WARN ) {
-	migrateWarnProp( jQuery, "attrFn", attrFn, "jQuery.attrFn is deprecated" );
-}
+migrateWarnProp( jQuery, "attrFn", attrFn, "jQuery.attrFn is deprecated" );
 
 jQuery.attr = function( elem, name, value, pass ) {
 	if ( pass ) {
-		if ( JQMIGRATE_WARN ) {
-			migrateWarn("jQuery.fn.attr( props, pass ) is deprecated");
-		}
+		migrateWarn("jQuery.fn.attr( props, pass ) is deprecated");
 		if ( elem && !rnoAttrNodeType.test( elem.nodeType ) && jQuery.isFunction( jQuery.fn[ name ] ) ) {
 			return jQuery( elem )[ name ]( value );
 		}
 	}
 
 	// Warn if user tries to set `type` since it breaks on IE 6/7/8
-	if ( JQMIGRATE_WARN && name === "type" && value !== undefined && rnoType.test( elem.nodeName ) ) {
+	if ( name === "type" && value !== undefined && rnoType.test( elem.nodeName ) ) {
 		migrateWarn("Can't change the 'type' of an input or button in IE 6/7/8");
 	}
 
@@ -109,9 +105,7 @@ jQuery.attrHooks.value = {
 		if ( jQuery.nodeName( elem, "button" ) ) {
 			return valueAttrGet.apply( this, arguments );
 		}
-		if ( JQMIGRATE_WARN ) {
-			migrateWarn("property-based jQuery.fn.attr('value') is deprecated");
-		}
+		migrateWarn("property-based jQuery.fn.attr('value') is deprecated");
 		return name in elem ?
 			elem.value :
 			null;
@@ -120,9 +114,7 @@ jQuery.attrHooks.value = {
 		if ( jQuery.nodeName( elem, "button" ) ) {
 			return valueAttrSet.apply( this, arguments );
 		}
-		if ( JQMIGRATE_WARN ) {
-			migrateWarn("property-based jQuery.fn.attr('value', val) is deprecated");
-		}
+		migrateWarn("property-based jQuery.fn.attr('value', val) is deprecated");
 		// Does not return so that setAttribute is also used
 		elem.value = value;
 	}
@@ -213,10 +205,8 @@ if ( browser.chrome ) {
 
 jQuery.browser = browser;
 
-if ( JQMIGRATE_WARN ) {
-	// Warn if the code tries to get jQuery.browser
-	migrateWarnProp( jQuery, "browser", browser, "jQuery.browser is deprecated" );
-}
+// Warn if the code tries to get jQuery.browser
+migrateWarnProp( jQuery, "browser", browser, "jQuery.browser is deprecated" );
 
 jQuery.sub = function() {
 	function jQuerySub( selector, context ) {
@@ -236,9 +226,7 @@ jQuery.sub = function() {
 	};
 	jQuerySub.fn.init.prototype = jQuerySub.fn;
 	var rootjQuerySub = jQuerySub(document);
-	if ( JQMIGRATE_WARN ) {
-		migrateWarn( "jQuery.sub() is deprecated" );
-	}
+	migrateWarn( "jQuery.sub() is deprecated" );
 	return jQuerySub;
 };
 
@@ -254,9 +242,7 @@ jQuery.fn.data = function( name ) {
 		ret = jQuery.data( elem, name );
 		evt = jQuery._data( elem, name );
 		if ( ( ret === undefined || ret === evt ) && evt !== undefined ) {
-			if ( JQMIGRATE_WARN ) {
-				migrateWarn("Use of jQuery.fn.data('events') is deprecated");
-			}
+			migrateWarn("Use of jQuery.fn.data('events') is deprecated");
 			return evt;
 		}
 	}
@@ -296,7 +282,7 @@ jQuery.buildFragment = function( args, context, scripts ) {
 var eventAdd = jQuery.event.add,
 	eventRemove = jQuery.event.remove,
 	eventTrigger = jQuery.event.trigger,
-	oldToggle = jQuery.event.toggle,
+	oldToggle = jQuery.fn.toggle,
 	oldLive = jQuery.fn.live,
 	oldDie = jQuery.fn.die,
 	ajaxEvents = "ajaxStart|ajaxStop|ajaxSend|ajaxComplete|ajaxError|ajaxSuccess",
@@ -306,7 +292,7 @@ var eventAdd = jQuery.event.add,
 		if ( typeof( events ) != "string" || jQuery.event.special.hover ) {
 			return events;
 		}
-		if ( JQMIGRATE_WARN && rhoverHack.test( events ) ) {
+		if ( rhoverHack.test( events ) ) {
 			migrateWarn("'hover' pseudo-event is deprecated, use 'mouseenter mouseleave'");
 		}
 		return events && events.replace( rhoverHack, "mouseenter$1 mouseleave$1" );
@@ -319,7 +305,7 @@ if ( jQuery.event.props && jQuery.event.props[ 0 ] !== "attrChange" ) {
 
 // Support for 'hover' pseudo-event and ajax event warnings
 jQuery.event.add = function( elem, types, handler, data, selector ){
-	if ( JQMIGRATE_WARN && elem !== document && rajaxEvent.test( types ) ) {
+	if ( elem !== document && rajaxEvent.test( types ) ) {
 		migrateWarn( "AJAX events should be attached to document: " + types );
 	}
 	eventAdd.call( this, elem, hoverHack( types || "" ), handler, data, selector );
@@ -330,9 +316,7 @@ jQuery.event.remove = function( elem, types, handler, selector, mappedTypes ){
 
 jQuery.fn.error = function( data, fn ) {
 	var args = Array.prototype.slice.call( arguments, 0);
-	if ( JQMIGRATE_WARN ) {
-		migrateWarn("jQuery.fn.error() is deprecated");
-	}
+	migrateWarn("jQuery.fn.error() is deprecated");
 	args.splice( 0, 0, "error" );
 	if ( arguments.length ) {
 		return this.bind.apply( this, args );
@@ -348,9 +332,7 @@ jQuery.fn.toggle = function( fn, fn2 ) {
 	if ( !jQuery.isFunction( fn ) || !jQuery.isFunction( fn2 ) ) {
 		return oldToggle.apply( this, arguments );
 	}
-	if ( JQMIGRATE_WARN ) {
-		migrateWarn("jQuery.fn.toggle(handler, handler...) is deprecated");
-	}
+	migrateWarn("jQuery.fn.toggle(handler, handler...) is deprecated");
 
 	// Save reference to arguments for access in closure
 	var args = arguments,
@@ -378,9 +360,7 @@ jQuery.fn.toggle = function( fn, fn2 ) {
 };
 
 jQuery.fn.live = function( types, data, fn ) {
-	if ( JQMIGRATE_WARN ) {
-		migrateWarn("jQuery.fn.live() is deprecated");
-	}
+	migrateWarn("jQuery.fn.live() is deprecated");
 	if ( oldLive ) {
 		return oldLive.apply( this, arguments );
 	}
@@ -389,9 +369,7 @@ jQuery.fn.live = function( types, data, fn ) {
 };
 
 jQuery.fn.die = function( types, fn ) {
-	if ( JQMIGRATE_WARN ) {
-		migrateWarn("jQuery.fn.die() is deprecated");
-	}
+	migrateWarn("jQuery.fn.die() is deprecated");
 	if ( oldDie ) {
 		return oldDie.apply( this, arguments );
 	}
@@ -401,7 +379,7 @@ jQuery.fn.die = function( types, fn ) {
 
 // Turn global events into document-triggered events
 jQuery.event.trigger = function( event, data, elem, onlyHandlers  ){
-	if ( JQMIGRATE_WARN && !elem & !rajaxEvent.test( event ) ) {
+	if ( !elem & !rajaxEvent.test( event ) ) {
 		migrateWarn( "Global events are undocumented and deprecated" );
 	}
 	return eventTrigger.call( this,  event, data, elem || document, onlyHandlers  );
