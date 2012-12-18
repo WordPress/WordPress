@@ -125,8 +125,9 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop') );
 
 	// jQuery
-	$scripts->add( 'jquery-migrate', '/wp-includes/js/jquery/jquery.js', array(), '1.9.0b1' );
-	$scripts->add( 'jquery', '/wp-includes/js/jquery/jquery-migrate.js', array( 'jquery-migrate' ), '1.0.0b1' );
+	$scripts->add( 'jquery', false, array( 'jquery-core', 'jquery-migrate' ) );
+	$scripts->add( 'jquery-core', '/wp-includes/js/jquery/jquery.js', array(), '1.9.0b1' );
+	$scripts->add( 'jquery-migrate', '/wp-includes/js/jquery/jquery-migrate.js', array(), '1.0.0b1' );
 
 	// full jQuery UI
 	$scripts->add( 'jquery-ui-core', '/wp-includes/js/jquery/ui/jquery.ui.core.min.js', array('jquery'), '1.9.2', 1 );
