@@ -3533,14 +3533,6 @@ div.tabs-panel-inactive {
 	display:none;
 }
 
-.customlinkdiv ul,
-.posttypediv ul,
-.taxonomydiv ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
-
 #front-page-warning,
 #front-static-pages ul,
 ul.export-filters,
