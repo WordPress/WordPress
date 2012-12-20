@@ -2079,7 +2079,7 @@ class WP_Query {
 		if ( $q['day'] )
 			$where .= " AND DAYOFMONTH($wpdb->posts.post_date)='" . $q['day'] . "'";
 
-		// If we've got a post_type AND its not "any" post_type.
+		// If we've got a post_type AND it's not "any" post_type.
 		if ( !empty($q['post_type']) && 'any' != $q['post_type'] ) {
 			foreach ( (array)$q['post_type'] as $_post_type ) {
 				$ptype_obj = get_post_type_object($_post_type);

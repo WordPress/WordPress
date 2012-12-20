@@ -1673,7 +1673,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	if ( preg_match('#(image|audio|video|model)/#is', wp_remote_retrieve_header( $response, 'content-type' )) )
 		return false;
 
-	// Now do a GET since we're going to look in the html headers (and we're sure its not a binary file)
+	// Now do a GET since we're going to look in the html headers (and we're sure it's not a binary file)
 	$response = wp_remote_get( $url, array( 'timeout' => 2, 'httpversion' => '1.0' ) );
 
 	if ( is_wp_error( $response ) )

@@ -51,7 +51,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$tabs = apply_filters( 'install_themes_tabs', $tabs );
 		$nonmenu_tabs = apply_filters( 'install_themes_nonmenu_tabs', $nonmenu_tabs );
 
-		// If a non-valid menu tab has been selected, And its not a non-menu action.
+		// If a non-valid menu tab has been selected, And it's not a non-menu action.
 		if ( empty( $tab ) || ( ! isset( $tabs[ $tab ] ) && ! in_array( $tab, (array) $nonmenu_tabs ) ) )
 			$tab = key( $tabs );
 

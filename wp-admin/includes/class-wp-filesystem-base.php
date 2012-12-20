@@ -203,7 +203,7 @@ class WP_Filesystem_Base {
 				continue; //We want this to be caught by the next code block.
 
 			//Working from /home/ to /user/ to /wordpress/ see if that file exists within the current folder,
-			// If its found, change into it and follow through looking for it.
+			// If it's found, change into it and follow through looking for it.
 			// If it cant find WordPress down that route, it'll continue onto the next folder level, and see if that matches, and so on.
 			// If it reaches the end, and still cant find it, it'll return false for the entire function.
 			if ( isset($files[ $key ]) ){

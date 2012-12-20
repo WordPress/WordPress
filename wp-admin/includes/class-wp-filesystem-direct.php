@@ -229,7 +229,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		if ( ! $recursive && $this->is_dir($file) )
 			return @rmdir($file);
 
-		//At this point its a folder, and we're in recursive mode
+		//At this point it's a folder, and we're in recursive mode
 		$file = trailingslashit($file);
 		$filelist = $this->dirlist($file, true);
 

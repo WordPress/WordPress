@@ -926,7 +926,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 		$credentials['connection_type'] = 'ftps';
 	else if ( !empty($_POST['connection_type']) )
 		$credentials['connection_type'] = stripslashes($_POST['connection_type']);
-	else if ( !isset($credentials['connection_type']) ) //All else fails (And its not defaulted to something else saved), Default to FTP
+	else if ( !isset($credentials['connection_type']) ) //All else fails (And it's not defaulted to something else saved), Default to FTP
 		$credentials['connection_type'] = 'ftp';
 
 	if ( ! $error &&

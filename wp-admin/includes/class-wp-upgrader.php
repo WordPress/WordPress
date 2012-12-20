@@ -194,7 +194,7 @@ class WP_Upgrader {
 			$source = trailingslashit($source) . trailingslashit($source_files[0]);
 		elseif ( count($source_files) == 0 )
 			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __( 'The plugin contains no files.' ) ); //There are no files?
-		else //Its only a single file, The upgrader will use the foldername of this file as the destination folder. foldername is based on zip filename.
+		else //It's only a single file, the upgrader will use the foldername of this file as the destination folder. foldername is based on zip filename.
 			$source = trailingslashit($source);
 
 		//Hook ability to change the source file location..
@@ -615,11 +615,11 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$plugins_dir = $wp_filesystem->wp_plugins_dir();
 		$this_plugin_dir = trailingslashit( dirname($plugins_dir . $plugin) );
 
-		if ( ! $wp_filesystem->exists($this_plugin_dir) ) //If its already vanished.
+		if ( ! $wp_filesystem->exists($this_plugin_dir) ) //If it's already vanished.
 			return $removed;
 
 		// If plugin is in its own directory, recursively delete the directory.
-		if ( strpos($plugin, '/') && $this_plugin_dir != $plugins_dir ) //base check on if plugin includes directory separator AND that its not the root plugin folder
+		if ( strpos($plugin, '/') && $this_plugin_dir != $plugins_dir ) //base check on if plugin includes directory separator AND that it's not the root plugin folder
 			$deleted = $wp_filesystem->delete($this_plugin_dir, true);
 		else
 			$deleted = $wp_filesystem->delete($plugins_dir . $plugin);
@@ -1597,7 +1597,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 }
 
 /**
- * Upgrade Skin helper for File uploads. This class handles the upload process and passes it as if its a local file to the Upgrade/Installer functions.
+ * Upgrade Skin helper for File uploads. This class handles the upload process and passes it as if it's a local file to the Upgrade/Installer functions.
  *
  * @TODO More Detailed docs, for methods as well.
  *
@@ -1615,7 +1615,7 @@ class File_Upload_Upgrader {
 		if ( empty($_FILES[$form]['name']) && empty($_GET[$urlholder]) )
 			wp_die(__('Please select a file'));
 
-		//Handle a newly uploaded file, Else assume its already been uploaded
+		//Handle a newly uploaded file, Else assume it's already been uploaded
 		if ( ! empty($_FILES) ) {
 			$overrides = array( 'test_form' => false, 'test_type' => false );
 			$file = wp_handle_upload( $_FILES[$form], $overrides );

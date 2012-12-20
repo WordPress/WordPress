@@ -155,7 +155,7 @@ var tinyMCEPopup = {
 
 	/**
 	 * Stores the current editor selection for later restoration. This can be useful since some browsers
-	 * looses it's selection if a control element is selected/focused inside the dialogs.
+	 * loses its selection if a control element is selected/focused inside the dialogs.
 	 *
 	 * @method storeSelection
 	 */
@@ -165,7 +165,7 @@ var tinyMCEPopup = {
 
 	/**
 	 * Restores any stored selection. This can be useful since some browsers
-	 * looses it's selection if a control element is selected/focused inside the dialogs.
+	 * loses its selection if a control element is selected/focused inside the dialogs.
 	 *
 	 * @method restoreSelection
 	 */

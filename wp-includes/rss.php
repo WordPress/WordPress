@@ -422,7 +422,7 @@ function fetch_rss ($url) {
 	else {
 		// Flow
 		// 1. check cache
-		// 2. if there is a hit, make sure its fresh
+		// 2. if there is a hit, make sure it's fresh
 		// 3. if cached obj fails freshness check, fetch remote
 		// 4. if remote fails, return stale object, or error
 

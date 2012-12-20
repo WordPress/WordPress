@@ -30,7 +30,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 *
 	 * @param array An array of standard parameters for widgets in this theme
 	 * @param array An array of settings for this widget instance
-	 * @return void Echoes it's output
+	 * @return void Echoes its output
 	 **/
 	function widget( $args, $instance ) {
 		$cache = wp_cache_get( 'widget_twentyeleven_ephemera', 'widget' );

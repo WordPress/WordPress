@@ -84,7 +84,7 @@ function get_blogaddress_by_domain( $domain, $path ) {
 }
 
 /**
- * Given a blog's (subdomain or directory) slug, retrieve it's id.
+ * Given a blog's (subdomain or directory) slug, retrieve its id.
  *
  * @since MU
  *
