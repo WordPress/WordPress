@@ -1036,7 +1036,7 @@ function sanitize_sql_orderby( $orderby ){
 }
 
 /**
- * Santizes a html classname to ensure it only contains valid characters
+ * Sanitizes a html classname to ensure it only contains valid characters
  *
  * Strips the string down to A-Z,a-z,0-9,_,-. If this results in an empty
  * string then it will return the alternative value supplied.
