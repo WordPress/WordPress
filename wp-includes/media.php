@@ -1042,7 +1042,7 @@ function wp_oembed_add_provider( $format, $provider, $regex = false ) {
 /**
  * Removes an oEmbed provider.
  *
- * @since 3.5
+ * @since 3.5.0
  * @see WP_oEmbed
  *
  * @uses _wp_oembed_get_object()
