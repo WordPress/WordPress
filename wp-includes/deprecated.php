@@ -3335,7 +3335,7 @@ function _save_post_hook() {}
  *
  * @since 2.9.0
  * @deprecated 3.5.0
- * see wp_image_editor_supports()
+ * @see wp_image_editor_supports()
  *
  * @param string $mime_type
  * @return bool
