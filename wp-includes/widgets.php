@@ -521,11 +521,11 @@ function register_sidebars($number = 1, $args = array()) {
  * If theme support for 'widgets' has not yet been added when this function is
  * called, it will be automatically enabled through the use of add_theme_support()
  *
- * Arguments passed as a string should be separated by '&'
+ * Arguments passed as a string should be separated by '&':
  *
  *     e.g. 'name=Sidebar&id=my_prefix_sidebar'
  *
- * The same argument passed as an array:
+ * The same arguments passed as an array:
  *
  *     array(
  *         'name' => 'Sidebar',
