@@ -2786,6 +2786,7 @@ tr.inline-edit-row td,
 
 .inline-edit-row fieldset label.inline-edit-tags span.title {
 	margin: .2em 0;
+	width: auto;
 }
 
 .inline-edit-row fieldset label span.title {
