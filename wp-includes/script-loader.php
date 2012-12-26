@@ -700,7 +700,7 @@ function _print_scripts() {
 		}
 
 		$concat = str_split( $concat, 128 );
-		$concat = 'load[]=' . implode( '&load[]=', $concat );
+		$concat = 'load%5B%5D=' . implode( '&load%5B%5D=', $concat );
 
 		$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}&" . $concat . '&ver=' . $wp_scripts->default_version;
 		echo "<script type='text/javascript' src='" . esc_attr($src) . "'></script>\n";
