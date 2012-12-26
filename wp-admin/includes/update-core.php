@@ -535,6 +535,7 @@ $_old_files = array(
 'wp-includes/js/jquery/ui/jquery.effects.pulsate.min.js',
 'wp-includes/js/jquery/ui/jquery.effects.transfer.min.js',
 'wp-includes/js/jquery/ui/jquery.effects.fold.min.js',
+'wp-admin/options-privacy.php',
 );
 
 /**
