@@ -182,11 +182,11 @@ endif;
 if ( ! class_exists( 'wp_atom_server' ) ) {
 	class wp_atom_server {
 		public function __call( $name, $arguments ) {
-			_deprecated_function( __CLASS__ . '::' . $name, '3.5', 'the Atom Publishing Platform plugin' );
+			_deprecated_function( __CLASS__ . '::' . $name, '3.5', 'the Atom Publishing Protocol plugin' );
 		}
 
 		public static function __callStatic( $name, $arguments ) {
-			_deprecated_function( __CLASS__ . '::' . $name, '3.5', 'the Atom Publishing Platform plugin' );
+			_deprecated_function( __CLASS__ . '::' . $name, '3.5', 'the Atom Publishing Protocol plugin' );
 		}
 	}
 }
