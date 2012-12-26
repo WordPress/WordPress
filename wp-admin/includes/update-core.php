@@ -535,6 +535,20 @@ $_old_files = array(
 'wp-includes/js/jquery/ui/jquery.effects.pulsate.min.js',
 'wp-includes/js/jquery/ui/jquery.effects.transfer.min.js',
 'wp-includes/js/jquery/ui/jquery.effects.fold.min.js',
+'wp-admin/images/screenshots/captions-1.png',
+'wp-admin/images/screenshots/captions-2.png',
+'wp-admin/images/screenshots/flex-header-1.png',
+'wp-admin/images/screenshots/flex-header-2.png',
+'wp-admin/images/screenshots/flex-header-3.png',
+'wp-admin/images/screenshots/flex-header-media-library.png',
+'wp-admin/images/screenshots/theme-customizer.png',
+'wp-admin/images/screenshots/twitter-embed-1.png',
+'wp-admin/images/screenshots/twitter-embed-2.png',
+'wp-admin/js/utils.js',
+'wp-admin/options-privacy.php',
+'wp-app.php',
+'wp-includes/class-wp-atom-server.php',
+'wp-includes/js/tinymce/themes/advanced/skins/wp_theme/ui.css',
 );
 
 /**
