@@ -3594,8 +3594,8 @@ function _page_traverse_name( $page_id, &$children, &$result ){
  * @return string Page URI.
  */
 function get_page_uri($page) {
-	if ( ! is_object($page) )
-		$page = get_post( $page );
+	$page = get_post( $page );
+
 	$uri = $page->post_name;
 
 	foreach ( $page->ancestors as $parent ) {
