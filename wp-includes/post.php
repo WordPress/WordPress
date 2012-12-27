@@ -682,7 +682,7 @@ final class WP_Post {
  */
 function get_post_ancestors( $post ) {
 	if ( ! $post )
-		return false;
+		return array();
 
 	$post = get_post( $post );
 
