@@ -992,7 +992,7 @@ class wpdb {
 			return;
 
 		if ( func_num_args() < 2 )
-			_doing_it_wrong( 'wpdb::prepare', sprintf( 'wpdb::prepare() requires at least two arguments.' ), '3.5' );
+			_doing_it_wrong( 'wpdb::prepare', 'wpdb::prepare() requires at least two arguments.', '3.5' );
 
 		$args = func_get_args();
 		array_shift( $args );
