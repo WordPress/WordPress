@@ -1246,7 +1246,7 @@ html[dir="rtl"] .wp-switch-editor {
 
 #wp-link .link-search-field {
 	float: left;
-	margin-right: 5px;
+	width: 220px;
 }
 
 #wp-link .link-search-wrapper {
@@ -1260,13 +1260,7 @@ html[dir="rtl"] .wp-switch-editor {
 	margin-top: 4px;
 }
 
-#wp-link .link-search-wrapper input[type="text"] {
-	float: left;
-	width: 220px;
-}
-
 #wp-link .link-search-wrapper .spinner {
-	margin: 4px 2px 0 0;
 	display: none;
 	vertical-align: text-bottom;
 }
@@ -1341,7 +1335,7 @@ html[dir="rtl"] .wp-switch-editor {
 	display: none;
 }
 
-#wp-link  #search-panel {
+#wp-link #search-panel {
 	float: left;
 	width: 100%;
 }
@@ -1500,6 +1494,11 @@ html[dir="rtl"] .wp-switch-editor {
 	padding: 0;
 }
 
+.rtl .wp-dialog .ui-dialog-titlebar-close {
+	right: auto;
+	left: 6px;
+}
+
 .wp-dialog .ui-dialog-titlebar-close:hover,
 .wp-dialog .ui-dialog-titlebar-close:focus {
 	background-position: -87px -32px;
@@ -1519,22 +1518,25 @@ RTL
 	padding-left: 0;
 }
 
-.rtl #wp-link label span {
+.rtl #wp-link #link-options label span,
+.rtl #wp-link #search-panel label span.search-label {
 	text-align: left;
-	padding-left: 5px;
 	padding-right: 0;
+	padding-left: 5px;
 }
 
+.rtl #wp-link #link-options label #url-field {
+	direction: ltr;
+}
+
+.rtl #wp-link .link-search-field,
 .rtl #wp-link .link-search-wrapper span {
 	float: right;
 }
 
-.rtl #wp-link .link-search-wrapper input[type="text"] {
-	float: right;
-}
-
 .rtl #wp-link .link-target {
-	margin: 0 87px 0 0;
+	margin-right: 87px;
+	margin-left: 0;
 }
 
 .rtl #wp-link .item-info {
