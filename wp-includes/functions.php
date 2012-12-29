@@ -1884,6 +1884,7 @@ function wp_get_mime_types() {
 	'mpeg|mpg|mpe' => 'video/mpeg',
 	'mp4|m4v' => 'video/mp4',
 	'ogv' => 'video/ogg',
+	'webm' => 'video/webm',
 	'mkv' => 'video/x-matroska',
 	// Text formats
 	'txt|asc|c|cc|h' => 'text/plain',
