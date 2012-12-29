@@ -816,7 +816,8 @@ function check_admin_referer($action = -1, $query_arg = '_wpnonce') {
 	}
 	do_action('check_admin_referer', $action, $result);
 	return $result;
-}endif;
+}
+endif;
 
 if ( !function_exists('check_ajax_referer') ) :
 /**
