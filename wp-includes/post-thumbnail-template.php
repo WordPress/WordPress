@@ -39,7 +39,7 @@ function get_post_thumbnail_id( $post_id = null ) {
  *
  * @since 2.9.0
  *
- * @param int $size Optional. Image size. Defaults to 'post-thumbnail', which theme sets using set_post_thumbnail_size( $width, $height, $crop_flag );.
+ * @param string|array $size Optional. Image size. Defaults to 'post-thumbnail', which theme sets using set_post_thumbnail_size( $width, $height, $crop_flag );.
  * @param string|array $attr Optional. Query string or array of attributes.
  */
 function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
