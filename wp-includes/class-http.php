@@ -141,7 +141,7 @@ class WP_Http {
 		// Force some settings if we are streaming to a file and check for existence and perms of destination directory
 		if ( $r['stream'] ) {
 			$r['blocking'] = true;
-			if ( ! is_writable( dirname( $r['filename'] ) ) )
+			if ( ! call_user_func( 'WIN' === strtoupper( substr( PHP_OS, 0, 3 ) ) ? 'win_is_writable' : 'is_writable', dirname( $r['filename'] ) ) )
 				return new WP_Error( 'http_request_failed', __( 'Destination directory for file streaming does not exist or is not writable.' ) );
 		}
 
