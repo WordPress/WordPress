@@ -1401,25 +1401,42 @@ function get_temp_dir() {
 	if ( $temp )
 		return trailingslashit( rtrim( $temp, '\\' ) );
 
-	$is_win = ( 'WIN' === strtoupper( substr( PHP_OS, 0, 3 ) ) );
-
 	if ( function_exists('sys_get_temp_dir') ) {
 		$temp = sys_get_temp_dir();
-		if ( @is_dir( $temp ) && ( $is_win ? win_is_writable( $temp ) : @is_writable( $temp ) ) ) {
+		if ( @is_dir( $temp ) && wp_is_writable( $temp ) )
 			return trailingslashit( rtrim( $temp, '\\' ) );
-		}
 	}
 
 	$temp = ini_get('upload_tmp_dir');
-	if ( is_dir( $temp ) && ( $is_win ? win_is_writable( $temp ) : @is_writable( $temp ) ) )
+	if ( is_dir( $temp ) && wp_is_writable( $temp ) )
 		return trailingslashit( rtrim( $temp, '\\' ) );
 
 	$temp = WP_CONTENT_DIR . '/';
-	if ( is_dir( $temp ) && ( $is_win ? win_is_writable( $temp ) : @is_writable( $temp ) ) )
+	if ( is_dir( $temp ) && wp_is_writable( $temp ) )
 		return $temp;
 
 	$temp = '/tmp/';
 	return $temp;
+}
+
+/**
+ * Determine if a directory is writable.
+ *
+ * This function is used to work around certain ACL issues 
+ * in PHP primarily affecting Windows Servers.
+ *
+ * @see win_is_writable()
+ *
+ * @since 3.6.0
+ *
+ * @param string $path
+ * @return bool
+ */
+function wp_is_writable( $path ) {
+	if ( 'WIN' === strtoupper( substr( PHP_OS, 0, 3 ) ) )
+		return win_is_writable( $path );
+	else
+		return @is_writable( $path );
 }
 
 /**
