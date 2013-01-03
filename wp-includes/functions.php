@@ -1447,8 +1447,8 @@ function wp_is_writable( $path ) {
  * checking the ability to open files rather than relying
  * upon PHP to interprate the OS ACL.
  *
- * @see http://bugs.php.net/bug.php?id=27609
- * @see http://bugs.php.net/bug.php?id=30931
+ * @link http://bugs.php.net/bug.php?id=27609
+ * @link http://bugs.php.net/bug.php?id=30931
  *
  * @since 2.8.0
  *
