@@ -1425,22 +1425,26 @@ function get_temp_dir() {
 /**
  * Workaround for Windows bug in is_writable() function
  *
+ * PHP has issues with Windows ACL's for determine if a 
+ * directory is writable or not, this works around them by
+ * checking the ability to open files rather than relying
+ * upon PHP to interprate the OS ACL.
+ *
+ * @see http://bugs.php.net/bug.php?id=27609
+ * @see http://bugs.php.net/bug.php?id=30931
+ *
  * @since 2.8.0
  *
  * @param string $path
  * @return bool
  */
 function win_is_writable( $path ) {
-	/* will work in despite of Windows ACLs bug
-	 * NOTE: use a trailing slash for folders!!!
-	 * see http://bugs.php.net/bug.php?id=27609
-	 * see http://bugs.php.net/bug.php?id=30931
-	 */
 
-	if ( $path[strlen( $path ) - 1] == '/' ) // recursively return a temporary file path
+	if ( $path[strlen( $path ) - 1] == '/' ) // if it looks like a directory, check a random file within the directory
 		return win_is_writable( $path . uniqid( mt_rand() ) . '.tmp');
-	else if ( is_dir( $path ) )
+	else if ( is_dir( $path ) ) // If it's a directory (and not a file) check a random file within the directory
 		return win_is_writable( $path . '/' . uniqid( mt_rand() ) . '.tmp' );
+
 	// check tmp file for read/write capabilities
 	$should_delete_tmp_file = !file_exists( $path );
 	$f = @fopen( $path, 'a' );
