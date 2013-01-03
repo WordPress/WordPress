@@ -692,7 +692,7 @@ function wp_save_image( $post_id ) {
 			$_sizes[ $size ] = array( 'width' => get_option("{$size}_size_w"), 'height' => get_option("{$size}_size_h"), 'crop' => $crop );
 		}
 
-		$meta['sizes'] = $img->multi_resize( $_sizes );
+		$meta['sizes'] = array_merge( $meta['sizes'], $img->multi_resize( $_sizes ) );
 	}
 
 	unset( $img );
