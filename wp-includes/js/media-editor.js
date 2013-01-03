@@ -167,7 +167,7 @@
 				itemtag:    'dl',
 				icontag:    'dt',
 				captiontag: 'dd',
-				columns:    3,
+				columns:    '3',
 				size:       'thumbnail',
 				orderby:    'menu_order ID'
 			},
