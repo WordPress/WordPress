@@ -692,6 +692,15 @@ function update_core($from, $to) {
 		}
 	}
 
+	// 3.5 -> 3.5+ - an empty twentytwelve directory was created upon upgrade to 3.5 for some users, preventing installation of Twenty Twelve.
+	if ( '3.5' == $old_wp_version ) {
+		if ( is_dir( WP_CONTENT_DIR . '/themes/twentytwelve' ) && ! file_exists( WP_CONTENT_DIR . '/themes/twentytwelve/style.css' )  ) {
+			// Bumping the introduced version to 3.5.1 for the affected users causes Twenty Twelve to be installed for the first time
+			if ( $wp_filesystem->delete( $wp_filesystem->wp_themes_dir() . 'twentytwelve/' ) )
+				$_new_bundled_files[ 'themes/twentytwelve/' ] = '3.5.1';
+		}
+	}
+
 	// Copy New bundled plugins & themes
 	// This gives us the ability to install new plugins & themes bundled with future versions of WordPress whilst avoiding the re-install upon upgrade issue.
 	// $development_build controls us overwriting bundled themes and plugins when a non-stable release is being updated
