@@ -165,9 +165,11 @@ tagBox = {
 
 		// tag cloud
 		$('a.tagcloud-link').click(function(){
-			if ( ! $('.the-tagcloud').length )
-				tagBox.get( $(this).attr('id') );
-			$(this).siblings('.the-tagcloud').toggle();
+			tagBox.get( $(this).attr('id') );
+			$(this).unbind().click(function(){
+				$(this).siblings('.the-tagcloud').toggle();
+				return false;
+			});
 			return false;
 		});
 	}
