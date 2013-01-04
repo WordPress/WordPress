@@ -378,11 +378,28 @@ class WP {
 
 		if ( ! empty( $status ) )
 			status_header( $status );
+
+		// If Last-Modified is set to false, it should not be sent (no-cache situation).
+		if ( isset( $headers['Last-Modified'] ) && false === $headers['Last-Modified'] ) {
+			unset( $headers['Last-Modified'] );
+
+			// In PHP 5.3+, make sure we are not sending a Last-Modified header.
+			if ( function_exists( 'header_remove' ) ) {
+				@header_remove( 'Last-Modified' );
+			} else {
+				// In PHP 5.2, send an empty Last-Modified header, but only as a
+				// last resort to override a header already sent. #WP23021
+				foreach ( headers_list() as $header ) {
+					if ( 0 === stripos( $header, 'Last-Modified' ) ) {
+						$headers['Last-Modified'] = '';
+						break;
+					}
+				}
+			}
+		}
+
 		foreach( (array) $headers as $name => $field_value )
 			@header("{$name}: {$field_value}");
-
-		if ( isset( $headers['Last-Modified'] ) && empty( $headers['Last-Modified'] ) && function_exists( 'header_remove' ) )
-			@header_remove( 'Last-Modified' );
 
 		if ( $exit_required )
 			exit();
