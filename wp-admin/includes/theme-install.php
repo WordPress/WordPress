@@ -28,14 +28,14 @@ $theme_field_defaults = array( 'description' => true, 'sections' => false, 'test
  *
  * @return array
  */
-function install_themes_feature_list( ) {
+function install_themes_feature_list() {
 	if ( !$cache = get_transient( 'wporg_theme_feature_list' ) )
 		set_transient( 'wporg_theme_feature_list', array(), 3 * HOUR_IN_SECONDS );
 
 	if ( $cache )
 		return $cache;
 
-	$feature_list = themes_api( 'feature_list', array( ) );
+	$feature_list = themes_api( 'feature_list', array() );
 	if ( is_wp_error( $feature_list ) )
 		return $features;
 
@@ -100,7 +100,7 @@ function install_themes_dashboard() {
 <form method="get" action="">
 	<input type="hidden" name="tab" value="search" />
 	<?php
-	$feature_list = get_theme_feature_list( );
+	$feature_list = get_theme_feature_list();
 	echo '<div class="feature-filter">';
 
 	foreach ( (array) $feature_list as $feature_name => $features ) {

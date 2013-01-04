@@ -51,13 +51,13 @@ function wp_version_check() {
 	else
 		$mysql_version = 'N/A';
 
-	if ( is_multisite( ) ) {
-		$user_count = get_user_count( );
-		$num_blogs = get_blog_count( );
-		$wp_install = network_site_url( );
+	if ( is_multisite() ) {
+		$user_count = get_user_count();
+		$num_blogs = get_blog_count();
+		$wp_install = network_site_url();
 		$multisite_enabled = 1;
 	} else {
-		$user_count = count_users( );
+		$user_count = count_users();
 		$user_count = $user_count['total_users'];
 		$multisite_enabled = 0;
 		$num_blogs = 1;
@@ -274,7 +274,7 @@ function wp_update_themes() {
 			$timeout = 12 * HOUR_IN_SECONDS;
 	}
 
-	$time_not_changed = isset( $last_update->last_checked ) && $timeout > ( time( ) - $last_update->last_checked );
+	$time_not_changed = isset( $last_update->last_checked ) && $timeout > ( time() - $last_update->last_checked );
 
 	if ( $time_not_changed ) {
 		$theme_changed = false;
@@ -313,7 +313,7 @@ function wp_update_themes() {
 		return false;
 
 	$new_update = new stdClass;
-	$new_update->last_checked = time( );
+	$new_update->last_checked = time();
 	$new_update->checked = $checked;
 
 	$response = maybe_unserialize( wp_remote_retrieve_body( $raw_response ) );
@@ -404,9 +404,9 @@ function _maybe_update_plugins() {
  * @since 2.7.0
  * @access private
  */
-function _maybe_update_themes( ) {
+function _maybe_update_themes() {
 	$current = get_site_transient( 'update_themes' );
-	if ( isset( $current->last_checked ) && 12 * HOUR_IN_SECONDS > ( time( ) - $current->last_checked ) )
+	if ( isset( $current->last_checked ) && 12 * HOUR_IN_SECONDS > ( time() - $current->last_checked ) )
 		return;
 
 	wp_update_themes();

@@ -415,7 +415,7 @@ class WP_Comment_Query {
  *
  * @return array List of comment statuses.
  */
-function get_comment_statuses( ) {
+function get_comment_statuses() {
 	$status = array(
 		'hold'		=> __('Unapproved'),
 		/* translators: comment status  */

@@ -861,7 +861,7 @@ function get_post_status($ID = '') {
  *
  * @return array List of post statuses.
  */
-function get_post_statuses( ) {
+function get_post_statuses() {
 	$status = array(
 		'draft'			=> __('Draft'),
 		'pending'		=> __('Pending Review'),
@@ -882,7 +882,7 @@ function get_post_statuses( ) {
  *
  * @return array List of page statuses.
  */
-function get_page_statuses( ) {
+function get_page_statuses() {
 	$status = array(
 		'draft'			=> __('Draft'),
 		'private'		=> __('Private'),
@@ -2173,7 +2173,7 @@ function wp_count_attachments( $mime_type = '' ) {
 	$and = wp_post_mime_type_where( $mime_type );
 	$count = $wpdb->get_results( "SELECT post_mime_type, COUNT( * ) AS num_posts FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' $and GROUP BY post_mime_type", ARRAY_A );
 
-	$stats = array( );
+	$stats = array();
 	foreach( (array) $count as $row ) {
 		$stats[$row['post_mime_type']] = $row['num_posts'];
 	}

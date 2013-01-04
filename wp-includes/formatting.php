@@ -2977,7 +2977,7 @@ function wp_pre_kses_less_than_callback( $matches ) {
  * @return string The formatted string.
  */
 function wp_sprintf( $pattern ) {
-	$args = func_get_args( );
+	$args = func_get_args();
 	$len = strlen($pattern);
 	$start = 0;
 	$result = '';

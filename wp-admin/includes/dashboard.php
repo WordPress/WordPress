@@ -232,7 +232,7 @@ function wp_dashboard_right_now() {
 
 	$num_tags = wp_count_terms('post_tag');
 
-	$num_comm = wp_count_comments( );
+	$num_comm = wp_count_comments();
 
 	echo "\n\t".'<div class="table table_content">';
 	echo "\n\t".'<p class="sub">' . __('Content') . '</p>'."\n\t".'<table>';

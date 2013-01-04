@@ -23,7 +23,7 @@ require( ABSPATH . WPINC . '/default-constants.php' );
 require( ABSPATH . WPINC . '/version.php' );
 
 // Set initial default constants including WP_MEMORY_LIMIT, WP_MAX_MEMORY_LIMIT, WP_DEBUG, WP_CONTENT_DIR and WP_CACHE.
-wp_initial_constants( );
+wp_initial_constants();
 
 // Check for the required PHP version and for the MySQL extension or a database drop-in.
 wp_check_php_mysql_versions();
@@ -152,7 +152,7 @@ if ( is_multisite() ) {
 
 // Define constants that rely on the API to obtain the default value.
 // Define must-use plugin directory constants, which may be overridden in the sunrise.php drop-in.
-wp_plugin_directory_constants( );
+wp_plugin_directory_constants();
 
 // Load must-use plugins.
 foreach ( wp_get_mu_plugins() as $mu_plugin ) {
@@ -174,10 +174,10 @@ if ( is_multisite() )
 	ms_cookie_constants(  );
 
 // Define constants after multisite is loaded. Cookie-related constants may be overridden in ms_network_cookies().
-wp_cookie_constants( );
+wp_cookie_constants();
 
 // Define and enforce our SSL constants
-wp_ssl_constants( );
+wp_ssl_constants();
 
 // Create common globals.
 require( ABSPATH . WPINC . '/vars.php' );
@@ -209,7 +209,7 @@ if ( WP_CACHE && function_exists( 'wp_cache_postload' ) )
 do_action( 'plugins_loaded' );
 
 // Define constants which affect functionality if not already defined.
-wp_functionality_constants( );
+wp_functionality_constants();
 
 // Add magic quotes and set up $_REQUEST ( $_GET + $_POST )
 wp_magic_quotes();
