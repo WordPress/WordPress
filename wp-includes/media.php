@@ -1431,6 +1431,11 @@ function wp_prepare_attachment_for_js( $attachment ) {
  * @since 3.5.0
  */
 function wp_enqueue_media( $args = array() ) {
+
+	// Enqueue me just once per page, please.
+	if ( did_action( 'wp_enqueue_media' ) )
+		return;
+
 	$defaults = array(
 		'post' => null,
 	);
