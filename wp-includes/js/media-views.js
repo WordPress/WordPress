@@ -533,10 +533,12 @@
 			if ( 'upload' === content.mode() )
 				this.frame.content.mode('browse');
 
-			// If we're in a workflow that supports multiple attachments,
-			// automatically select any uploading attachments.
-			if ( this.get('multiple') )
-				this.get('selection').add( attachment );
+			// Automatically select any uploading attachments.
+			//
+			// Selections that don't support multiple attachments automatically
+			// limit themselves to one attachment (in this case, the last
+			// attachment in the upload queue).
+			this.get('selection').add( attachment );
 		},
 
 		saveContentMode: function() {
