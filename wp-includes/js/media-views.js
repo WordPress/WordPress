@@ -413,8 +413,6 @@
 
 			this.get('selection').on( 'add remove reset', this.refreshContent, this );
 
-			this.on( 'insert', this._insertDisplaySettings, this );
-
 			if ( this.get('contentUserSetting') ) {
 				this.frame.on( 'content:activate', this.saveContentMode, this );
 				this.set( 'content', getUserSetting( 'libraryContent', this.get('content') ) );
@@ -455,22 +453,6 @@
 				displays[ attachment.cid ] = new Backbone.Model( this._defaultDisplaySettings );
 
 			return displays[ attachment.cid ];
-		},
-
-		_insertDisplaySettings: function() {
-			var selection = this.get('selection'),
-				display;
-
-			// If inserting one image, set those display properties as the
-			// default user setting.
-			if ( selection.length !== 1 )
-				return;
-
-			display = this.display( selection.first() ).toJSON();
-
-			setUserSetting( 'align', display.align );
-			setUserSetting( 'imgsize', display.size );
-			setUserSetting( 'urlbutton', display.link );
 		},
 
 		syncSelection: function() {
