@@ -522,7 +522,10 @@
 				router = frame.router.get(),
 				mode = frame.content.mode();
 
-			if ( this.active && ! selection.length && ! router.get( mode ) )
+			// If the state is active, no items are selected, and the current
+			// content mode is not an option in the state's router (provided
+			// the state has a router), reset the content mode to the default.
+			if ( this.active && ! selection.length && router && ! router.get( mode ) )
 				this.frame.content.render( this.get('content') );
 		},
 
