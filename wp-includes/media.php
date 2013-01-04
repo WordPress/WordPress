@@ -1391,13 +1391,8 @@ function wp_prepare_attachment_for_js( $attachment ) {
 				$size_meta = $meta['sizes'][ $size ];
 
 				// We have the actual image size, but might need to further constrain it if content_width is narrower.
-				// This is not necessary for thumbnails and medium size.
-				if ( 'thumbnail' == $size || 'medium' == $size ) {
-					$width = $size_meta['width'];
-					$height = $size_meta['height'];
-				} else {
-					list( $width, $height ) = image_constrain_size_for_editor( $size_meta['width'], $size_meta['height'], $size, 'edit' );
-				}
+				// Thumbnail, medium, and full sizes are also checked against the site's height/width options.
+				list( $width, $height ) = image_constrain_size_for_editor( $size_meta['width'], $size_meta['height'], $size, 'edit' );
 
 				$sizes[ $size ] = array(
 					'height'      => $height,
