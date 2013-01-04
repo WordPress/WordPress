@@ -1576,7 +1576,7 @@ RTL
 }
 
 .rtl .mceListBoxMenu.mceNoIcons {
-	margin-left: -14px;
+	direction: rtl;
 }
 
 .clearlooks2 .mceFocus .mceTop .mceLeft {
