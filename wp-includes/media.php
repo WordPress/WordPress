@@ -1454,6 +1454,12 @@ function wp_enqueue_media( $args = array() ) {
 	$tabs = apply_filters( 'media_upload_tabs', $tabs );
 	unset( $tabs['type'], $tabs['type_url'], $tabs['gallery'], $tabs['library'] );
 
+	$props = array(
+		'link'  => get_option( 'image_default_link_type' ), // db default is 'file'
+		'align' => get_option( 'image_default_align' ), // empty default
+		'size'  => get_option( 'image_default_size' ),  // empty default
+	);
+
 	$settings = array(
 		'tabs'      => $tabs,
 		'tabUrl'    => add_query_arg( array( 'chromeless' => true ), admin_url('media-upload.php') ),
@@ -1465,6 +1471,7 @@ function wp_enqueue_media( $args = array() ) {
 		'post'    => array(
 			'id' => 0,
 		),
+		'defaultProps' => $props,
 	);
 
 	$post = null;

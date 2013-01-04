@@ -438,11 +438,12 @@
 		},
 
 		resetDisplays: function() {
+			var defaultProps = media.view.settings.defaultProps;
 			this._displays = [];
 			this._defaultDisplaySettings = {
-				align: getUserSetting( 'align', 'none' ),
-				size:  getUserSetting( 'imgsize', 'medium' ),
-				link:  getUserSetting( 'urlbutton', 'post' )
+				align: defaultProps.align || getUserSetting( 'align', 'none' ),
+				size:  defaultProps.size  || getUserSetting( 'imgsize', 'medium' ),
+				link:  defaultProps.link  || getUserSetting( 'urlbutton', 'file' )
 			};
 		},
 
