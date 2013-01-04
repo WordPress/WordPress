@@ -9,7 +9,8 @@
 		// outputting the proper object format based on the
 		// attachment's type.
 		props: function( props, attachment ) {
-			var link, linkUrl, size, sizes, fallbacks;
+			var link, linkUrl, size, sizes, fallbacks,
+				defaultProps = wp.media.view.settings.defaultProps;
 
 			// Final fallbacks run after all processing has been completed.
 			fallbacks = function( props ) {
@@ -29,8 +30,8 @@
 
 			if ( 'image' === props.type ) {
 				props = _.defaults( props || {}, {
-					align:   getUserSetting( 'align', 'none' ),
-					size:    getUserSetting( 'imgsize', 'medium' ),
+					align:   defaultProps.align || getUserSetting( 'align', 'none' ),
+					size:    defaultProps.size  || getUserSetting( 'imgsize', 'medium' ),
 					url:     '',
 					classes: []
 				});
@@ -42,7 +43,7 @@
 
 			props.title = props.title || attachment.title;
 
-			link = props.link || getUserSetting( 'urlbutton', 'post' );
+			link = props.link || defaultProps.link || getUserSetting( 'urlbutton', 'file' );
 			if ( 'file' === link )
 				linkUrl = attachment.url;
 			else if ( 'post' === link )
