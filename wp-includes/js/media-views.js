@@ -2842,7 +2842,9 @@
 		initialize: function() {
 			var selection = this.options.selection;
 
-			this.model.on( 'change:sizes change:uploading change:caption change:title', this.render, this );
+			this.model.on( 'change:sizes change:uploading', this.render, this );
+			this.model.on( 'change:title', this._syncTitle, this );
+			this.model.on( 'change:caption', this._syncCaption, this );
 			this.model.on( 'change:percent', this.progress, this );
 
 			// Update the selection.
@@ -3158,6 +3160,28 @@
 
 			selection.remove( this.model );
 		}
+	});
+
+	// Ensure settings remain in sync between attachment views.
+	_.each({
+		caption: '_syncCaption',
+		title:   '_syncTitle'
+	}, function( method, setting ) {
+		media.view.Attachment.prototype[ method ] = function( model, value ) {
+			var $setting = this.$('[data-setting="' + setting + '"]');
+
+			if ( ! $setting.length )
+				return this;
+
+			// If the updated value is in sync with the value in the DOM, there
+			// is no need to re-render. If we're currently editing the value,
+			// it will automatically be in sync, suppressing the re-render for
+			// the view we're editing, while updating any others.
+			if ( value === $setting.find('input, textarea, select, [value]').val() )
+				return this;
+
+			return this.render();
+		};
 	});
 
 	/**
