@@ -1417,6 +1417,9 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 		$item .= '<input type="hidden" name="' . esc_attr( $hidden_field ) . '" value="' . esc_attr( $value ) . '" />' . "\n";
 	}
 
+	if ( $item )
+		$item = '<input type="hidden" name="attachments[' . $attachment_id . '][menu_order]" value="' . esc_attr( $post->menu_order ) . '" />' . $item;
+
 	return array(
 		'item'   => $item,
 		'meta'   => $media_meta,
