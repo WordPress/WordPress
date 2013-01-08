@@ -991,6 +991,10 @@ function wp_notify_postauthor( $comment_id, $comment_type = '' ) {
 	$post    = get_post( $comment->comment_post_ID );
 	$author  = get_userdata( $post->post_author );
 
+	// The post author is no longer a member of the blog
+	if ( ! is_user_member_of_blog( $post->post_author ) )
+		return false;
+
 	// The comment was left by the author
 	if ( $comment->user_id == $post->post_author )
 		return false;
