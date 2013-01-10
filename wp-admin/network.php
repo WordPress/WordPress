@@ -312,11 +312,12 @@ function network_step2( $errors = false ) {
 	$hostname          = get_clean_basedomain();
 	$slashed_home      = trailingslashit( get_option( 'home' ) );
 	$base              = parse_url( $slashed_home, PHP_URL_PATH );
-	$wp_dir_from_root  = preg_replace( '#^' . preg_quote( $_SERVER['DOCUMENT_ROOT'], '#' ) . '#', '', ABSPATH );
-	$wp_siteurl_subdir = trailingslashit( '/' . preg_replace( '#^' . preg_quote( $base, '#' ) . '#', '', $wp_dir_from_root ) );
+	$document_root_fix = str_replace( '\\', '/', realpath( $_SERVER['DOCUMENT_ROOT'] ) );
+	$abspath_fix       = str_replace( '\\', '/', ABSPATH );
+	$home_path         = 0 === strpos( $abspath_fix, $document_root_fix ) ? $document_root_fix . $base : str_replace( '\\', '/', get_home_path() );
+	$wp_siteurl_subdir = preg_replace( '#^' . preg_quote( $home_path, '#' ) . '#', '', $abspath_fix );
 	$rewrite_base      = ! empty( $wp_siteurl_subdir ) ? ltrim( trailingslashit( $wp_siteurl_subdir ), '/' ) : '';
 
-	$home_path         = get_home_path();
 
 	$location_of_wp_config = ABSPATH;
 	if ( ! file_exists( ABSPATH . 'wp-config.php' ) && file_exists( dirname( ABSPATH ) . '/wp-config.php' ) )
