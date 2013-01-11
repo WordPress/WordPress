@@ -644,7 +644,8 @@ function update_core($from, $to) {
 	}
 
 	// Import $wp_version, $required_php_version, and $required_mysql_version from the new version
-	$versions_file = $wp_filesystem->wp_content_dir() . 'upgrade/version-current.php';
+	// $wp_filesystem->wp_content_dir() returned unslashed pre-2.8
+	$versions_file = trailingslashit( $wp_filesystem->wp_content_dir() ) . 'upgrade/version-current.php';
 	if ( ! $wp_filesystem->copy( $from . $distro . 'wp-includes/version.php', $versions_file ) ) {
 		 $wp_filesystem->delete( $from, true );
 		 return new WP_Error( 'copy_failed', __('Could not copy file.') );
