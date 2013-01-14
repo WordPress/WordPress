@@ -18,6 +18,7 @@
 				if ( 'image' === props.type && ! props.alt ) {
 					props.alt = props.caption || props.title || '';
 					props.alt = props.alt.replace( /<\/?[^>]+>/g, '' );
+					props.alt = props.alt.replace( /[\r\n]+/g, ' ' );
 				}
 
 				return props;
