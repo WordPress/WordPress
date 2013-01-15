@@ -3649,15 +3649,18 @@ function get_pages($args = '') {
 	if ( array_diff( $post_status, get_post_stati() ) )
 		return $pages;
 
-	$cache = array();
+	// $args can be whatever, only use the args defined in defaults to compute the key
 	$key = md5( serialize( compact(array_keys($defaults)) ) );
-	if ( $cache = wp_cache_get( 'get_pages', 'posts' ) ) {
-		if ( is_array($cache) && isset( $cache[ $key ] ) && is_array( $cache[ $key ] ) ) {
-			// Convert to WP_Post instances
-			$pages = array_map( 'get_post', $cache[ $key ] );
-			$pages = apply_filters( 'get_pages', $pages, $r );
-			return $pages;
-		}
+	$last_changed = wp_cache_get( 'last_changed', 'posts' );
+	if ( ! $last_changed )
+		$last_changed = wp_cache_set( 'last_changed', 1, 'posts' );
+
+	$cache_key = "get_pages:$key:$last_changed";
+	if ( $cache = wp_cache_get( $cache_key, 'posts' ) ) {
+		// Convert to WP_Post instances
+		$pages = array_map( 'get_post', $cache );
+		$pages = apply_filters('get_pages', $pages, $r);
+		return $pages;
 	}
 
 	if ( !is_array($cache) )
@@ -3827,8 +3830,11 @@ function get_pages($args = '') {
 		}
 	}
 
-	$cache[ $key ] = $pages;
-	wp_cache_set( 'get_pages', $cache, 'posts' );
+	$page_structure = array();
+	foreach ( $pages as $page )
+		$page_structure[] = $page->ID;
+
+	wp_cache_set( $cache_key, $page_structure, 'posts' );
 
 	// Convert to WP_Post instances
 	$pages = array_map( 'get_post', $pages );
@@ -4662,6 +4668,13 @@ function clean_post_cache( $post ) {
 	if ( 'page' == $post->post_type ) {
 		wp_cache_delete( 'all_page_ids', 'posts' );
 		do_action( 'clean_page_cache', $post->ID );
+	}
+
+	if ( function_exists( 'wp_cache_incr' ) ) {
+		wp_cache_incr( 'last_changed', 1, 'posts' );
+	} else {
+		$last_changed = wp_cache_get( 'last_changed', 'posts' );
+		wp_cache_set( 'last_changed', $last_changed + 1, 'posts' );
 	}
 }
 
