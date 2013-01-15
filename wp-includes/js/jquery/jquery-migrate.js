@@ -1,23 +1,19 @@
 /*!
- * jQuery Migrate - v1.0.0pre - 2012-12-17
+ * jQuery Migrate - v1.0.0 - 2013-01-14
  * https://github.com/jquery/jquery-migrate
- * Copyright 2012 jQuery Foundation and other contributors; Licensed MIT
+ * Copyright 2005, 2013 jQuery Foundation, Inc. and other contributors; Licensed MIT
  */
-
 (function( jQuery, window, undefined ) {
 "use strict";
-
-// Use Uglify to do conditional compilation of warning messages;
-// the minified version will set this to false and remove dead code.
-if ( typeof window.JQMIGRATE_WARN === "undefined" ) {
-	window.JQMIGRATE_WARN = true;
-}
 
 
 var warnedAbout = {};
 
 // List of warnings already given; public read only
 jQuery.migrateWarnings = [];
+
+// Set to true to prevent console output; migrateWarnings still maintained
+// jQuery.migrateMute = false;
 
 // Forget any warnings we've already given; public
 jQuery.migrateReset = function() {
@@ -26,19 +22,17 @@ jQuery.migrateReset = function() {
 };
 
 function migrateWarn( msg) {
-	if ( window.JQMIGRATE_WARN ) {
-		if ( !warnedAbout[ msg ] ) {
-			warnedAbout[ msg ] = true;
-			jQuery.migrateWarnings.push( msg );
-			if ( window.console && console.warn ) {
-				console.warn( "JQMIGRATE: " + msg );
-			}
+	if ( !warnedAbout[ msg ] ) {
+		warnedAbout[ msg ] = true;
+		jQuery.migrateWarnings.push( msg );
+		if ( window.console && console.warn && !jQuery.migrateMute ) {
+			console.warn( "JQMIGRATE: " + msg );
 		}
 	}
 }
 
 function migrateWarnProp( obj, prop, value, msg ) {
-	if ( window.JQMIGRATE_WARN && Object.defineProperty ) {
+	if ( Object.defineProperty ) {
 		// On ES5 browsers (non-oldIE), warn if the code tries to get prop;
 		// allow property to be overwritten in case some other plugin wants it
 		try {
@@ -65,7 +59,7 @@ function migrateWarnProp( obj, prop, value, msg ) {
 	obj[ prop ] = value;
 }
 
-if ( window.JQMIGRATE_WARN && document.compatMode === "BackCompat" ) {
+if ( document.compatMode === "BackCompat" ) {
 	// jQuery has never supported or tested Quirks Mode
 	migrateWarn( "jQuery is not compatible with Quirks Mode" );
 }
@@ -78,15 +72,20 @@ var attrFn = {},
 	valueAttrSet = jQuery.attrHooks.value && jQuery.attrHooks.value.set ||
 		function() { return undefined; },
 	rnoType = /^(?:input|button)$/i,
-	rnoAttrNodeType = /^[238]$/;
+	rnoAttrNodeType = /^[238]$/,
+	rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i,
+	ruseDefault = /^(?:checked|selected)$/i;
 
 // jQuery.attrFn
 migrateWarnProp( jQuery, "attrFn", attrFn, "jQuery.attrFn is deprecated" );
 
 jQuery.attr = function( elem, name, value, pass ) {
+	var lowerName = name.toLowerCase(),
+		nType = elem && elem.nodeType;
+
 	if ( pass ) {
 		migrateWarn("jQuery.fn.attr( props, pass ) is deprecated");
-		if ( elem && !rnoAttrNodeType.test( elem.nodeType ) && jQuery.isFunction( jQuery.fn[ name ] ) ) {
+		if ( elem && !rnoAttrNodeType.test( nType ) && jQuery.isFunction( jQuery.fn[ name ] ) ) {
 			return jQuery( elem )[ name ]( value );
 		}
 	}
@@ -96,25 +95,71 @@ jQuery.attr = function( elem, name, value, pass ) {
 		migrateWarn("Can't change the 'type' of an input or button in IE 6/7/8");
 	}
 
+	// Restore boolHook for boolean property/attribute synchronization
+	if ( !jQuery.attrHooks[ lowerName ] && rboolean.test( lowerName ) ) {
+		jQuery.attrHooks[ lowerName ] = {
+			get: function( elem, name ) {
+				// Align boolean attributes with corresponding properties
+				// Fall back to attribute presence where some booleans are not supported
+				var attrNode,
+					property = jQuery.prop( elem, name );
+				return property === true || typeof property !== "boolean" &&
+					( attrNode = elem.getAttributeNode(name) ) && attrNode.nodeValue !== false ?
+
+					name.toLowerCase() :
+					undefined;
+			},
+			set: function( elem, value, name ) {
+				var propName;
+				if ( value === false ) {
+					// Remove boolean attributes when set to false
+					jQuery.removeAttr( elem, name );
+				} else {
+					// value is true since we know at this point it's type boolean and not false
+					// Set boolean attributes to the same name and set the DOM property
+					propName = jQuery.propFix[ name ] || name;
+					if ( propName in elem ) {
+						// Only set the IDL specifically if it already exists on the element
+						elem[ propName ] = true;
+					}
+
+					elem.setAttribute( name, name.toLowerCase() );
+				}
+				return name;
+			}
+		};
+
+		// Warn only for attributes that can remain distinct from their properties post-1.9
+		if ( ruseDefault.test( lowerName ) ) {
+			migrateWarn( "jQuery.fn.attr(" + lowerName + ") may use property instead of attribute" );
+		}
+	}
+
 	return attr.call( jQuery, elem, name, value );
 };
 
 // attrHooks: value
 jQuery.attrHooks.value = {
 	get: function( elem, name ) {
-		if ( jQuery.nodeName( elem, "button" ) ) {
+		var nodeName = ( elem.nodeName || "" ).toLowerCase();
+		if ( nodeName === "button" ) {
 			return valueAttrGet.apply( this, arguments );
 		}
-		migrateWarn("property-based jQuery.fn.attr('value') is deprecated");
+		if ( nodeName !== "input" && nodeName !== "option" ) {
+			migrateWarn("property-based jQuery.fn.attr('value') is deprecated");
+		}
 		return name in elem ?
 			elem.value :
 			null;
 	},
-	set: function( elem, value, name ) {
-		if ( jQuery.nodeName( elem, "button" ) ) {
+	set: function( elem, value ) {
+		var nodeName = ( elem.nodeName || "" ).toLowerCase();
+		if ( nodeName === "button" ) {
 			return valueAttrSet.apply( this, arguments );
 		}
-		migrateWarn("property-based jQuery.fn.attr('value', val) is deprecated");
+		if ( nodeName !== "input" && nodeName !== "option" ) {
+			migrateWarn("property-based jQuery.fn.attr('value', val) is deprecated");
+		}
 		// Does not return so that setAttribute is also used
 		elem.value = value;
 	}
@@ -122,10 +167,9 @@ jQuery.attrHooks.value = {
 
 
 var matched, browser,
-	oldAccess = jQuery.access,
 	oldInit = jQuery.fn.init,
 	// Note this does NOT include the # XSS fix from 1.7!
-	rquickExpr = /^(?:.*(<[\w\W]+>)[^>]*|#([\w-]*))$/;
+	rquickExpr = /^(?:.*(<[\w\W]+>)[^>]*|#([\w\-]*))$/;
 
 // $(html) "looks like html" rule change
 jQuery.fn.init = function( selector, context, rootjQuery ) {
@@ -150,27 +194,6 @@ jQuery.fn.init = function( selector, context, rootjQuery ) {
 	return oldInit.apply( this, arguments );
 };
 jQuery.fn.init.prototype = jQuery.fn;
-
-if ( jQuery.fn.jquery >= "1.9" ) {
-	// jQuery.access( ..., pass )
-	jQuery.access = function( elems, fn, key, value, chainable, emptyGet, pass ) {
-		var i = 0,
-			length = elems.length;
-
-		if ( key && typeof key === "object" && value ) {
-			for ( i in key ) {
-				jQuery.access( elems, fn, i, key[i], true, emptyGet, value );
-			}
-			return elems;
-		} else if ( pass && key != null && value !== undefined ) {
-			for ( ; i < length; i++ ) {
-				fn( elems[i], key, value, true );
-			}
-			return elems;
-		}
-		return oldAccess.call( jQuery, elems, fn, key, value, chainable, emptyGet );
-	};
-}
 
 jQuery.uaMatch = function( ua ) {
 	ua = ua.toLowerCase();
@@ -250,7 +273,8 @@ jQuery.fn.data = function( name ) {
 };
 
 
-var oldSelf = jQuery.fn.andSelf || jQuery.fn.addBack,
+var rscriptType = /\/(java|ecma)script/i,
+	oldSelf = jQuery.fn.andSelf || jQuery.fn.addBack,
 	oldFragment = jQuery.buildFragment;
 
 jQuery.fn.andSelf = function() {
@@ -258,25 +282,83 @@ jQuery.fn.andSelf = function() {
 	return oldSelf.apply( this, arguments );
 };
 
-jQuery.buildFragment = function( args, context, scripts ) {
-	var fragment;
-
-	if ( !oldFragment ) {
-		// Set context from what may come in as undefined or a jQuery collection or a node
-		// Updated to fix #12266 where accessing context[0] could throw an exception in IE9/10 &
-		// also doubles as fix for #8950 where plain objects caused createDocumentFragment exception
+// Since jQuery.clean is used internally on older versions, we only shim if it's missing
+if ( !jQuery.clean ) {
+	jQuery.clean = function( elems, context, fragment, scripts ) {
+		// Set context per 1.8 logic
 		context = context || document;
 		context = !context.nodeType && context[0] || context;
 		context = context.ownerDocument || context;
 
-		fragment = context.createDocumentFragment();
-		jQuery.clean( args, context, fragment, scripts );
+		migrateWarn("jQuery.clean() is deprecated");
 
-		migrateWarn("jQuery.buildFragment() is deprecated");
-		return { fragment: fragment, cacheable: false };
+		var i, elem, handleScript, jsTags,
+			ret = [];
+
+		jQuery.merge( ret, jQuery.buildFragment( elems, context ).childNodes );
+
+		// Complex logic lifted directly from jQuery 1.8
+		if ( fragment ) {
+			// Special handling of each script element
+			handleScript = function( elem ) {
+				// Check if we consider it executable
+				if ( !elem.type || rscriptType.test( elem.type ) ) {
+					// Detach the script and store it in the scripts array (if provided) or the fragment
+					// Return truthy to indicate that it has been handled
+					return scripts ?
+						scripts.push( elem.parentNode ? elem.parentNode.removeChild( elem ) : elem ) :
+						fragment.appendChild( elem );
+				}
+			};
+
+			for ( i = 0; (elem = ret[i]) != null; i++ ) {
+				// Check if we're done after handling an executable script
+				if ( !( jQuery.nodeName( elem, "script" ) && handleScript( elem ) ) ) {
+					// Append to fragment and handle embedded scripts
+					fragment.appendChild( elem );
+					if ( typeof elem.getElementsByTagName !== "undefined" ) {
+						// handleScript alters the DOM, so use jQuery.merge to ensure snapshot iteration
+						jsTags = jQuery.grep( jQuery.merge( [], elem.getElementsByTagName("script") ), handleScript );
+
+						// Splice the scripts into ret after their former ancestor and advance our index beyond them
+						ret.splice.apply( ret, [i + 1, 0].concat( jsTags ) );
+						i += jsTags.length;
+					}
+				}
+			}
+		}
+
+		return ret;
+	};
+}
+
+jQuery.buildFragment = function( elems, context, scripts, selection ) {
+	var ret,
+		warning = "jQuery.buildFragment() is deprecated";
+
+	// Set context per 1.8 logic
+	context = context || document;
+	context = !context.nodeType && context[0] || context;
+	context = context.ownerDocument || context;
+
+	try {
+		ret = oldFragment.call( jQuery, elems, context, scripts, selection );
+
+	// jQuery < 1.8 required arrayish context; jQuery 1.9 fails on it
+	} catch( x ) {
+		ret = oldFragment.call( jQuery, elems, context.nodeType ? [ context ] : context[ 0 ], scripts, selection );
+
+		// Success from tweaking context means buildFragment was called by the user
+		migrateWarn( warning );
 	}
-	// Don't warn if we are in a version where buildFragment is used internally
-	return oldFragment.apply( this, arguments );
+
+	// jQuery < 1.9 returned an object instead of the fragment itself
+	if ( !ret.fragment ) {
+		migrateWarnProp( ret, "fragment", ret, warning );
+		migrateWarnProp( ret, "cacheable", false, warning );
+	}
+
+	return ret;
 };
 
 var eventAdd = jQuery.event.add,
@@ -303,6 +385,9 @@ if ( jQuery.event.props && jQuery.event.props[ 0 ] !== "attrChange" ) {
 	jQuery.event.props.unshift( "attrChange", "attrName", "relatedNode", "srcElement" );
 }
 
+// Undocumented jQuery.event.handle was "deprecated" in jQuery 1.7
+migrateWarnProp( jQuery.event, "handle", jQuery.event.dispatch, "jQuery.event.handle is undocumented and deprecated" );
+
 // Support for 'hover' pseudo-event and ajax event warnings
 jQuery.event.add = function( elem, types, handler, data, selector ){
 	if ( elem !== document && rajaxEvent.test( types ) ) {
@@ -314,7 +399,7 @@ jQuery.event.remove = function( elem, types, handler, selector, mappedTypes ){
 	eventRemove.call( this, elem, hoverHack( types ) || "", handler, selector, mappedTypes );
 };
 
-jQuery.fn.error = function( data, fn ) {
+jQuery.fn.error = function() {
 	var args = Array.prototype.slice.call( arguments, 0);
 	migrateWarn("jQuery.fn.error() is deprecated");
 	args.splice( 0, 0, "error" );
@@ -387,25 +472,25 @@ jQuery.event.trigger = function( event, data, elem, onlyHandlers  ){
 jQuery.each( ajaxEvents.split("|"),
 	function( _, name ) {
 		jQuery.event.special[ name ] = {
-			setup: function( data ) {
+			setup: function() {
 				var elem = this;
 
 				// The document needs no shimming; must be !== for oldIE
 				if ( elem !== document ) {
-					jQuery.event.add( document, name + "." + jQuery.guid, function( event ) {
+					jQuery.event.add( document, name + "." + jQuery.guid, function() {
 						jQuery.event.trigger( name, null, elem, true );
 					});
 					jQuery._data( this, name, jQuery.guid++ );
 				}
 				return false;
 			},
-			teardown: function( data, handleObj ) {
+			teardown: function() {
 				if ( this !== document ) {
 					jQuery.event.remove( document, name + "." + jQuery._data( this, name ) );
 				}
 				return false;
 			}
-		}
+		};
 	}
 );
 
