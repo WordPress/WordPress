@@ -687,7 +687,7 @@ jQuery(document).ready( function($) {
 	(function() {
 		var textarea = $('textarea#content'), offset = null, el;
 		// No point for touch devices
-		if ( 'ontouchstart' in window )
+		if ( !textarea.length || 'ontouchstart' in window )
 			return;
 
 		function dragging(e) {
@@ -696,14 +696,15 @@ jQuery(document).ready( function($) {
 		}
 
 		function endDrag(e) {
-			var height = $('#wp-content-editor-container').height();
+			var height;
 
 			textarea.focus();
 			$(document).unbind('mousemove', dragging).unbind('mouseup', endDrag);
 
-			height -= 33; // compensate for toolbars, padding...
+			height = parseInt( textarea.css('height'), 10 );
+
 			// sanity check
-			if ( height > 50 && height < 5000 && height != getUserSetting( 'ed_size' ) )
+			if ( height && height > 50 && height < 5000 )
 				setUserSetting( 'ed_size', height );
 		}
 
@@ -724,44 +725,67 @@ jQuery(document).ready( function($) {
 			if ( ed.id != 'content' || tinymce.isIOS5 )
 				return;
 
-			// resize TinyMCE to match the textarea height when switching Text -> Visual
-			ed.onLoadContent.add( function(ed, o) {
-				var ifr_height, height = parseInt( $('#content').css('height'), 10 ),
+			function getHeight() {
+				var height, node = document.getElementById('content_ifr'),
+					ifr_height = node ? parseInt( node.style.height, 10 ) : 0,
 					tb_height = $('#content_tbl tr.mceFirst').height();
 
-				if ( height && !isNaN(height) && tb_height ) {
-					ifr_height = (height - tb_height) + 12; // compensate for padding in the textarea
-					// sanity check
-					if ( ifr_height > 50 && ifr_height < 5000 ) {
-						$('#content_tbl').css('height', '' );
-						$('#content_ifr').css('height', ifr_height + 'px' );
-					}
+				if ( !ifr_height || !tb_height )
+					return false;
+
+				// total height including toolbar and statusbar
+				height = ifr_height + tb_height + 21;
+				// textarea height = total height - 33px toolbar
+				height -= 33;
+
+				return height;
+			}
+
+			// resize TinyMCE to match the textarea height when switching Text -> Visual
+			ed.onLoadContent.add( function(ed, o) {
+				var ifr_height, node = document.getElementById('content'),
+					height = node ? parseInt( node.style.height, 10 ) : 0,
+					tb_height = $('#content_tbl tr.mceFirst').height() || 33;
+
+				// height cannot be under 50 or over 5000
+				if ( !height || height < 50 || height > 5000 )
+					height = 360; // default height for the main editor
+
+				if ( getUserSetting( 'ed_size' ) > 5000  )
+					setUserSetting( 'ed_size', 360 );
+
+				// compensate for padding and toolbars
+				ifr_height = ( height - tb_height ) + 12;
+
+				// sanity check
+				if ( ifr_height > 50 && ifr_height < 5000 ) {
+					$('#content_tbl').css('height', '' );
+					$('#content_ifr').css('height', ifr_height + 'px' );
 				}
 			});
 
 			// resize the textarea to match TinyMCE's height when switching Visual -> Text
 			ed.onSaveContent.add( function(ed, o) {
-				var height = $('#content_tbl').height();
+				var height = getHeight();
 
-				if ( height && height > 83 && height < 5000 ) {
-					height -= 33;
+				if ( !height || height < 50 || height > 5000 )
+					return;
 
-					$('#content').css( 'height', height + 'px' );
-				}
+				$('textarea#content').css( 'height', height + 'px' );
 			});
 
 			// save on resizing TinyMCE
 			ed.onPostRender.add(function() {
 				$('#content_resize').on('mousedown.wp-mce-resize', function(e){
 					$(document).on('mouseup.wp-mce-resize', function(e){
-						var height = $('#wp-content-editor-container').height();
-
-						height -= 33;
-						// sanity check
-						if ( height > 50 && height < 5000 && height != getUserSetting( 'ed_size' ) )
-							setUserSetting( 'ed_size', height );
+						var height;
 
 						$(document).off('mouseup.wp-mce-resize');
+
+						height = getHeight();
+						// sanity check
+						if ( height && height > 50 && height < 5000 )
+							setUserSetting( 'ed_size', height );
 					});
 				});
 			});
