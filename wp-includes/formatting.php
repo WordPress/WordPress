@@ -2603,10 +2603,11 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 
 	if ( ! is_array( $protocols ) )
 		$protocols = wp_allowed_protocols();
-	if ( wp_kses_bad_protocol( $url, $protocols ) != $url )
+	$good_protocol_url = wp_kses_bad_protocol( $url, $protocols );
+	if ( strtolower( $good_protocol_url ) != strtolower( $url ) )
 		return '';
 
-	return apply_filters('clean_url', $url, $original_url, $_context);
+	return apply_filters('clean_url', $good_protocol_url, $original_url, $_context);
 }
 
 /**
