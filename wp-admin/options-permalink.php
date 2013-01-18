@@ -227,7 +227,7 @@ $structures = array(
 <?php
 $suffix = '';
 if ( ! $is_apache && ! $iis7_permalinks )
-	$suffix = 'index.php/';
+	$suffix = $wp_rewrite->index . '/';
 ?>
 <p><?php
 /* translators: %s is a placeholder that must come at the start of the URL path. */

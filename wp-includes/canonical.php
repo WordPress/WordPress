@@ -272,9 +272,9 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				$redirect['query'] = remove_query_arg( 'cpage', $redirect['query'] );
 			}
 
-			$redirect['path'] = user_trailingslashit( preg_replace('|/index.php/?$|', '/', $redirect['path']) ); // strip off trailing /index.php/
-			if ( !empty( $addl_path ) && $wp_rewrite->using_index_permalinks() && strpos($redirect['path'], '/index.php/') === false )
-				$redirect['path'] = trailingslashit($redirect['path']) . 'index.php/';
+			$redirect['path'] = user_trailingslashit( preg_replace('|/' . preg_quote( $wp_rewrite->index, '|' ) . '/?$|', '/', $redirect['path']) ); // strip off trailing /index.php/
+			if ( !empty( $addl_path ) && $wp_rewrite->using_index_permalinks() && strpos($redirect['path'], '/' . $wp_rewrite->index . '/') === false )
+				$redirect['path'] = trailingslashit($redirect['path']) . $wp_rewrite->index . '/';
 			if ( !empty( $addl_path ) )
 				$redirect['path'] = trailingslashit($redirect['path']) . $addl_path;
 			$redirect_url = $redirect['scheme'] . '://' . $redirect['host'] . $redirect['path'];
@@ -324,7 +324,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		unset($redirect['port']);
 
 	// trailing /index.php
-	$redirect['path'] = preg_replace('|/index.php/*?$|', '/', $redirect['path']);
+	$redirect['path'] = preg_replace('|/' . preg_quote( $wp_rewrite->index, '|' ) . '/*?$|', '/', $redirect['path']);
 
 	// Remove trailing spaces from the path
 	$redirect['path'] = preg_replace( '#(%20| )+$#', '', $redirect['path'] );
@@ -345,7 +345,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 	// strip /index.php/ when we're not using PATHINFO permalinks
 	if ( !$wp_rewrite->using_index_permalinks() )
-		$redirect['path'] = str_replace('/index.php/', '/', $redirect['path']);
+		$redirect['path'] = str_replace( '/' . $wp_rewrite->index . '/', '/', $redirect['path'] );
 
 	// trailing slashes
 	if ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() && !is_404() && (!is_front_page() || ( is_front_page() && (get_query_var('paged') > 1) ) ) ) {

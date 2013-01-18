@@ -315,7 +315,7 @@ function url_to_postid($url) {
 
 	// Strip 'index.php/' if we're not using path info permalinks
 	if ( !$wp_rewrite->using_index_permalinks() )
-		$url = str_replace('index.php/', '', $url);
+		$url = str_replace( $wp_rewrite->index . '/', '', $url );
 
 	if ( false !== strpos($url, home_url()) ) {
 		// Chop off http://domain.com

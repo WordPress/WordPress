@@ -1449,13 +1449,13 @@ function get_pagenum_link($pagenum = 1, $escape = true ) {
 		}
 
 		$request = preg_replace( "|$wp_rewrite->pagination_base/\d+/?$|", '', $request);
-		$request = preg_replace( '|^index\.php|i', '', $request);
+		$request = preg_replace( '|^' . preg_quote( $wp_rewrite->index, '|' ) . '|i', '', $request);
 		$request = ltrim($request, '/');
 
 		$base = trailingslashit( get_bloginfo( 'url' ) );
 
 		if ( $wp_rewrite->using_index_permalinks() && ( $pagenum > 1 || '' != $request ) )
-			$base .= 'index.php/';
+			$base .= $wp_rewrite->index . '/';
 
 		if ( $pagenum > 1 ) {
 			$request = ( ( !empty( $request ) ) ? trailingslashit( $request ) : $request ) . user_trailingslashit( $wp_rewrite->pagination_base . "/" . $pagenum, 'paged' );
