@@ -909,15 +909,17 @@ function wpmu_activate_signup($key) {
  * @param string $email The new user's email address.
  * @return mixed Returns false on failure, or int $user_id on success
  */
-function wpmu_create_user( $user_name, $password, $email) {
+function wpmu_create_user( $user_name, $password, $email ) {
 	$user_name = preg_replace( '/\s+/', '', sanitize_user( $user_name, true ) );
 
 	$user_id = wp_create_user( $user_name, $password, $email );
-	if ( is_wp_error($user_id) )
+	if ( is_wp_error( $user_id ) )
 		return false;
 
+	$user = new WP_User( $user_id );
+	
 	// Newly created users have no roles or caps until they are added to a blog.
-	delete_user_option( $user_id, 'capabilities' );
+	delete_user_option( $user_id, $user->cap_key );
 	delete_user_option( $user_id, 'user_level' );
 
 	do_action( 'wpmu_new_user', $user_id );
