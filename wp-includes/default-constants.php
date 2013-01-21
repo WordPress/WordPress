@@ -39,12 +39,6 @@ function wp_initial_constants() {
 		$blog_id = 1;
 
 	// set memory limits.
-	if ( function_exists( 'memory_get_usage' ) ) {
-		$current_limit = @ini_get( 'memory_limit' );
-		if ( -1 != $current_limit && ( -1 == WP_MEMORY_LIMIT || ( intval( $current_limit ) < abs( intval( WP_MEMORY_LIMIT ) ) ) ) )
-			@ini_set( 'memory_limit', WP_MEMORY_LIMIT );
-	}
-    
     if ( function_exists( 'memory_get_usage' ) ) {
         $current_limit = @ini_get( 'memory_limit' );
         $current_limit_int = intval( $current_limit );
