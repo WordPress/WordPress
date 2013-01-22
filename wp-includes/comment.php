@@ -292,13 +292,13 @@ class WP_Comment_Query {
 				'user_id',
 			);
 			if ( ! empty( $this->query_vars['meta_key'] ) ) {
-				$allowed_keys[] = $q['meta_key'];
+				$allowed_keys[] = $this->query_vars['meta_key'];
 				$allowed_keys[] = 'meta_value';
 				$allowed_keys[] = 'meta_value_num';
 			}
 			$ordersby = array_intersect( $ordersby, $allowed_keys );
 			foreach ( $ordersby as $key => $value ) {
-				if ( $value == $q['meta_key'] || $value == 'meta_value' ) {
+				if ( $value == $this->query_vars['meta_key'] || $value == 'meta_value' ) {
 					$ordersby[ $key ] = "$wpdb->commentmeta.meta_value";
 				} elseif ( $value == 'meta_value_num' ) {
 					$ordersby[ $key ] = "$wpdb->commentmeta.meta_value+0";
