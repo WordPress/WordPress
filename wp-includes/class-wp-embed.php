@@ -270,7 +270,7 @@ class WP_Embed {
 	 * @return string Linked URL or the original URL.
 	 */
 	function maybe_make_link( $url ) {
-		$output = ( $this->linkifunknown ) ? '<a href="' . esc_attr($url) . '">' . esc_html($url) . '</a>' : $url;
+		$output = ( $this->linkifunknown ) ? '<a href="' . esc_url($url) . '">' . esc_html($url) . '</a>' : $url;
 		return apply_filters( 'embed_maybe_make_link', $output, $url );
 	}
 }
