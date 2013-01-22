@@ -250,8 +250,10 @@ class WP_Comment_Query {
 		// $args can be whatever, only use the args defined in defaults to compute the key
 		$key = md5( serialize( compact(array_keys($defaults)) )  );
 		$last_changed = wp_cache_get( 'last_changed', 'comment' );
-		if ( ! $last_changed )
-			$last_changed = wp_cache_set( 'last_changed', 1, 'comment' );
+		if ( ! $last_changed ) {
+			wp_cache_set( 'last_changed', 1, 'comment' );
+			$last_changed = 1;
+		}
 		$cache_key = "get_comments:$key:$last_changed";
 
 		if ( $cache = wp_cache_get( $cache_key, 'comment' ) )
