@@ -5309,10 +5309,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		$pagelinkedto = str_replace('&amp;', '&', $pagelinkedto);
 		$pagelinkedto = str_replace('&', '&amp;', $pagelinkedto);
 
+		$pagelinkedfrom = apply_filters( 'pingback_ping_source_uri', $pagelinkedfrom, $pagelinkedto );
+		if ( ! $pagelinkedfrom )
+			return $this->pingback_error( 0, __( 'A valid URL was not provided.' ) );
+
 		// Check if the page linked to is in our site
 		$pos1 = strpos($pagelinkedto, str_replace(array('http://www.','http://','https://www.','https://'), '', get_option('home')));
 		if ( !$pos1 )
-			return new IXR_Error(0, __('Is there no link to us?'));
+			return $this->pingback_error( 0, __( 'Is there no link to us?' ) );
 
 		// let's find which post is linked to
 		// FIXME: does url_to_postid() cover all these cases already?
@@ -5346,39 +5350,39 @@ class wp_xmlrpc_server extends IXR_Server {
 				$sql = $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title RLIKE %s", like_escape( $title ) );
 				if (! ($post_ID = $wpdb->get_var($sql)) ) {
 					// returning unknown error '0' is better than die()ing
-			  		return new IXR_Error(0, '');
+			  		return $this->pingback_error( 0, '' );
 				}
 				$way = 'from the fragment (title)';
 			}
 		} else {
 			// TODO: Attempt to extract a post ID from the given URL
-	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.'));
+	  		return $this->pingback_error( 33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.' ) );
 		}
 		$post_ID = (int) $post_ID;
 
 		$post = get_post($post_ID);
 
 		if ( !$post ) // Post_ID not found
-	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.'));
+	  		return $this->pingback_error( 33, __( 'The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.' ) );
 
 		if ( $post_ID == url_to_postid($pagelinkedfrom) )
-			return new IXR_Error(0, __('The source URL and the target URL cannot both point to the same resource.'));
+			return $this->pingback_error( 0, __( 'The source URL and the target URL cannot both point to the same resource.' ) );
 
 		// Check if pings are on
 		if ( !pings_open($post) )
-	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.'));
+	  		return $this->pingback_error( 33, __( 'The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.' ) );
 
 		// Let's check that the remote site didn't already pingback this entry
 		if ( $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_author_url = %s", $post_ID, $pagelinkedfrom) ) )
-			return new IXR_Error( 48, __( 'The pingback has already been registered.' ) );
+			return $this->pingback_error( 48, __( 'The pingback has already been registered.' ) );
 
 		// very stupid, but gives time to the 'from' server to publish !
 		sleep(1);
 
 		// Let's check the remote site
-		$linea = wp_remote_fopen( $pagelinkedfrom );
+		$linea = wp_remote_retrieve_body( wp_remote_get( $pagelinkedfrom, array( 'timeout' => 10, 'redirection' => 0 ) ) );
 		if ( !$linea )
-	  		return new IXR_Error(16, __('The source URL does not exist.'));
+	  		return $this->pingback_error( 16, __( 'The source URL does not exist.' ) );
 
 		$linea = apply_filters('pre_remote_source', $linea, $pagelinkedto);
 
@@ -5390,7 +5394,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		preg_match('|<title>([^<]*?)</title>|is', $linea, $matchtitle);
 		$title = $matchtitle[1];
 		if ( empty( $title ) )
-			return new IXR_Error(32, __('We cannot find a title on that page.'));
+			return $this->pingback_error( 32, __('We cannot find a title on that page.' ) );
 
 		$linea = strip_tags( $linea, '<a>' ); // just keep the tag we need
 
@@ -5426,7 +5430,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( empty($context) ) // Link to target not found
-			return new IXR_Error(17, __('The source URL does not contain a link to the target URL, and so cannot be used as a source.'));
+			return $this->pingback_error( 17, __( 'The source URL does not contain a link to the target URL, and so cannot be used as a source.' ) );
 
 		$pagelinkedfrom = str_replace('&', '&amp;', $pagelinkedfrom);
 
@@ -5473,14 +5477,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_ID = url_to_postid($url);
 		if ( !$post_ID ) {
 			// We aren't sure that the resource is available and/or pingback enabled
-	  		return new IXR_Error(33, __('The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.'));
+	  		return $this->pingback_error( 33, __( 'The specified target URL cannot be used as a target. It either doesn&#8217;t exist, or it is not a pingback-enabled resource.' ) );
 		}
 
 		$actual_post = get_post($post_ID, ARRAY_A);
 
 		if ( !$actual_post ) {
 			// No such post = resource not found
-	  		return new IXR_Error(32, __('The specified target URL does not exist.'));
+	  		return $this->pingback_error( 32, __('The specified target URL does not exist.' ) );
 		}
 
 		$comments = $wpdb->get_results( $wpdb->prepare("SELECT comment_author_url, comment_content, comment_author_IP, comment_type FROM $wpdb->comments WHERE comment_post_ID = %d", $post_ID) );
@@ -5495,5 +5499,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		return $pingbacks;
+	}
+
+	protected function pingback_error( $code, $message ) {
+		return apply_filters( 'xmlrpc_pingback_error', new IXR_Error( $code, $message ) );
 	}
 }
