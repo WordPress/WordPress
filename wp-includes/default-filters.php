@@ -192,6 +192,8 @@ add_filter( 'pings_open',               '_close_comments_for_old_post', 10, 2 );
 add_filter( 'editable_slug',            'urldecode'                           );
 add_filter( 'editable_slug',            'esc_textarea'                        );
 add_filter( 'nav_menu_meta_box_object', '_wp_nav_menu_meta_box_object'        );
+add_filter( 'pingback_ping_source_uri', 'pingback_ping_source_uri'            );
+add_filter( 'xmlrpc_pingback_error',    'xmlrpc_pingback_error'               );
 
 // Actions
 add_action( 'wp_head',             'wp_enqueue_scripts',              1     );

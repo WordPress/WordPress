@@ -1912,6 +1912,86 @@ function weblog_ping($server = '', $path = '') {
 		$client->query('weblogUpdates.ping', get_option('blogname'), $home);
 }
 
+/**
+ * Default filter attached to pingback_ping_source_uri to validate the pingback's Source URI
+ *
+ * @since 3.5.1
+ *
+ * @param string $source_uri
+ * @return string
+ */
+function pingback_ping_source_uri( $source_uri ) {
+	$uri = esc_url_raw( $source_uri, array( 'http', 'https' ) );
+	if ( ! $uri )
+		return '';
+
+	$parsed_url = @parse_url( $uri );
+	if ( ! $parsed_url )
+		return '';
+
+	if ( isset( $parsed_url['user'] ) || isset( $parsed_url['pass'] ) )
+		return '';
+
+	if ( false !== strpos( $parsed_url['host'], ':' ) )
+		return '';
+
+	$parsed_home = @parse_url( get_option( 'home' ) );
+
+	$same_host = strtolower( $parsed_home['host'] ) === strtolower( $parsed_url['host'] );
+
+	if ( ! $same_host ) {
+		$host = trim( $parsed_url['host'], '.' );
+		if ( preg_match( '#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $host ) ) {
+			$ip = $host;
+		} else {
+			$ip = gethostbyname( $host );
+			if ( $ip === $host ) // Error condition for gethostbyname()
+				$ip = false;
+		}
+		if ( $ip ) {
+			if ( '127.0.0.1' === $ip )
+				return '';
+			$parts = array_map( 'intval', explode( '.', $ip ) );
+			if ( 10 === $parts[0] )
+				return '';
+			if ( 172 === $parts[0] && 16 <= $parts[1] && 31 >= $parts[1] )
+				return '';
+			if ( 192 === $parts[0] && 168 === $parts[1] )
+				return '';
+		}
+	}
+
+	if ( empty( $parsed_url['port'] ) )
+		return $uri;
+
+	$port = $parsed_url['port'];
+	if ( 80 === $port || 443 === $port || 8080 === $port )
+		return $uri;
+
+	if ( $parsed_home && $same_host && $parsed_home['port'] === $port )
+		return $uri;
+
+	return '';
+}
+
+/**
+ * Default filter attached to xmlrpc_pingback_error.
+ *
+ * Returns a generic pingback error code unless the error code is 48,
+ * which reports that the pingback is already registered.
+ *
+ * @since 3.5.1
+ * @link http://www.hixie.ch/specs/pingback/pingback#TOC3
+ *
+ * @param IXR_Error $ixr_error
+ * @return IXR_Error
+ */
+function xmlrpc_pingback_error( $ixr_error ) {
+	if ( $ixr_error->code === 48 )
+		return $ixr_error;
+	return new IXR_Error( 0, '' );
+}
+
 //
 // Cache
 //
