@@ -1143,6 +1143,11 @@ form.upgrade .hint {
 	margin: -0.5em 0 2em 0;
 }
 
+.update-php .spinner {
+	float: none;
+	margin: -4px 0;
+}
+
 #ajax-loading,
 .ajax-loading,
 .ajax-feedback,
@@ -8574,9 +8579,4 @@ a.widget-control-edit {
 }
 .locale-lt-lt .inline-edit-row fieldset label span.input-text-wrap {
 	margin-left: 8em;
-}
-
-.update-php .spinner {
-	float: none;
-	margin: -4px 0;
 }

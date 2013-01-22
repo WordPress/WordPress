@@ -83,12 +83,9 @@ div.dashboard-widget,
 	background-color: #f1f1f1;
 }
 
-.widefat {
+table.widefat {
 	border-color: #dfdfdf;
 	background-color: #f9f9f9;
-}
-textarea.widefat {
-	background-color: #fff;
 }
 
 div.dashboard-widget-error {

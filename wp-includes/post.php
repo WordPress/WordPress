@@ -2665,7 +2665,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *
  * If the $postarr parameter has 'ID' set to a value, then post will be updated.
  *
- * You can set the post date manually, but setting the values for 'post_date'
+ * You can set the post date manually, by setting the values for 'post_date'
  * and 'post_date_gmt' keys. You can close the comments or open the comments by
  * setting the value for 'comment_status' key.
  *
