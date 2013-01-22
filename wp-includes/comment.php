@@ -251,8 +251,8 @@ class WP_Comment_Query {
 		$key = md5( serialize( compact(array_keys($defaults)) )  );
 		$last_changed = wp_cache_get( 'last_changed', 'comment' );
 		if ( ! $last_changed ) {
-			wp_cache_set( 'last_changed', 1, 'comment' );
 			$last_changed = 1;
+			wp_cache_set( 'last_changed', $last_changed, 'posts' );
 		}
 		$cache_key = "get_comments:$key:$last_changed";
 

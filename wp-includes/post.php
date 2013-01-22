@@ -3653,8 +3653,8 @@ function get_pages($args = '') {
 	$key = md5( serialize( compact(array_keys($defaults)) ) );
 	$last_changed = wp_cache_get( 'last_changed', 'posts' );
 	if ( ! $last_changed ) {
-		wp_cache_set( 'last_changed', 1, 'posts' );
 		$last_changed = 1;
+		wp_cache_set( 'last_changed', $last_changed, 'posts' );
 	}
 
 	$cache_key = "get_pages:$key:$last_changed";
