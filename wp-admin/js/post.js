@@ -478,7 +478,7 @@ jQuery(document).ready( function($) {
 		$('.cancel-post-visibility', '#post-visibility-select').click(function () {
 			$('#post-visibility-select').slideUp('fast');
 			$('#visibility-radio-' + $('#hidden-post-visibility').val()).prop('checked', true);
-			$('#post_password').val($('#hidden_post_password').val());
+			$('#post_password').val($('#hidden-post-password').val());
 			$('#sticky').prop('checked', $('#hidden-post-sticky').prop('checked'));
 			$('#post-visibility-display').html(visibility);
 			$('.edit-visibility', '#visibility').show();
