@@ -1,3 +1,12 @@
+Version 1.5.5 (2013-01-23)
+	UI Widget: Fix sortable feature, broken in jQuery UI 1.9.
+	Queue: Replace live() with delegate(), as live() was removed from jQuery 1.9.
+	HTML5: window.getComputedStyle in Firefox doesn't support dashed rulenames - use zIndex instead of z-index.
+	HTML5/Flash/Silverlight/Gears: Process JPEGs, if quality parameter is present, whatever the scale factor.
+	Flash: Survive invalid EXIF tag offsets.
+	Flash: Allow only letters, digits and underscore in runtime id to avoid script injection.
+	SilverLight: Prepend ampersand to the query string, for non multipart cases (as in Flash and HTML5).
+	Add mime types for m2v,3gp,3g2 extensions.
 Version 1.5.4 (2012-04-12)
 	Flash: Disable scripting if swf was loaded from another domain.
 Version 1.5.3 (2012-04-05)
