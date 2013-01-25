@@ -690,7 +690,8 @@ div.error p {
 	font-family: sans-serif;
 	margin-left: 4px;
 	padding: 3px 8px;
-	position: relative;
+	position: 
+	;
 	top: -3px;
 	text-decoration: none;
 	font-size: 12px;
@@ -5135,7 +5136,7 @@ h2 .nav-tab {
 ------------------------------------------------------------------------------*/
 
 #wpfooter {
-	position: absolute;
+	position:relative;
 	bottom: 0;
 	left: 0;
 	right: 0;
