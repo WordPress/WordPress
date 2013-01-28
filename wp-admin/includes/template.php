@@ -680,7 +680,7 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 	if ( $items ) {
 		foreach ( $items as $item ) {
 			// A page cannot be its own parent.
-			if ( $post->ID && $item->ID == $post->ID )
+			if ( $post && $post->ID && $item->ID == $post->ID )
 				continue;
 
 			$pad = str_repeat( '&nbsp;', $level * 3 );
