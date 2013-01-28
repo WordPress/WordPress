@@ -2879,11 +2879,6 @@ tr.inline-edit-row td,
 	width: 8em;
 }
 
-.inline-edit-row .catshow,
-.inline-edit-row .cathide {
-	cursor: pointer;
-}
-
 ul.cat-checklist {
 	height: 12em;
 	border-style: solid;
@@ -2909,19 +2904,10 @@ ul.cat-checklist {
 }
 
 .inline-edit-row fieldset ul.cat-checklist label,
-.inline-edit-row .catshow,
-.inline-edit-row .cathide,
 .inline-edit-row #bulk-titles div {
 	font-family: sans-serif;
 	font-style: normal;
 	font-size: 11px;
-}
-
-table .inline-edit-row fieldset ul.cat-hover {
-	height: auto;
-	max-height: 30em;
-	overflow-y: auto;
-	position: absolute;
 }
 
 .inline-edit-row fieldset label input.inline-edit-menu-order-input {

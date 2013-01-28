@@ -820,10 +820,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	<?php foreach ( $hierarchical_taxonomies as $taxonomy ) : ?>
 
-			<span class="title inline-edit-categories-label"><?php echo esc_html( $taxonomy->labels->name ) ?>
-				<span class="catshow"><?php _e( '[more]' ); ?></span>
-				<span class="cathide" style="display:none;"><?php _e( '[less]' ); ?></span>
-			</span>
+			<span class="title inline-edit-categories-label"><?php echo esc_html( $taxonomy->labels->name ) ?></span>
 			<input type="hidden" name="<?php echo ( $taxonomy->name == 'category' ) ? 'post_category[]' : 'tax_input[' . esc_attr( $taxonomy->name ) . '][]'; ?>" value="0" />
 			<ul class="cat-checklist <?php echo esc_attr( $taxonomy->name )?>-checklist">
 				<?php wp_terms_checklist( null, array( 'taxonomy' => $taxonomy->name ) ) ?>

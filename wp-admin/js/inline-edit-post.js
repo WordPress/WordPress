@@ -53,15 +53,6 @@ inlineEditPost = {
 			$('#inline-edit label.inline-edit-tags').clone()
 		);
 
-		// hiearchical taxonomies expandable?
-		$('span.catshow').click(function(){
-			$(this).hide().next().show().parent().next().addClass("cat-hover");
-		});
-
-		$('span.cathide').click(function(){
-			$(this).hide().prev().show().parent().next().removeClass("cat-hover");
-		});
-
 		$('select[name="_status"] option[value="future"]', bulkRow).remove();
 
 		$('#doaction, #doaction2').click(function(e){

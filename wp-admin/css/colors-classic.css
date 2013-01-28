@@ -1535,11 +1535,6 @@ table.diff .diff-addedline ins {
 	border-color: #ddd;
 }
 
-.inline-editor .categories .catshow,
-.inline-editor .categories .cathide {
-	color: #21759b;
-}
-
 .inline-editor .quick-edit-save {
 	background-color: #f1f1f1;
 }

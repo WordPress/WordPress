@@ -816,8 +816,6 @@ th.sorted a span {
 }
 
 .inline-edit-row fieldset ul.cat-checklist label,
-.inline-edit-row .catshow,
-.inline-edit-row .cathide,
 .inline-edit-row #bulk-titles div {
 	font-family: Tahoma, Arial, sans-serif;
 }
@@ -2590,8 +2588,6 @@ body.locale-he-il,
 .locale-he-il .inline-edit-row fieldset span.title,
 .locale-he-il .inline-edit-row fieldset span.checkbox-title,
 .locale-he-il .inline-edit-row fieldset ul.cat-checklist label,
-.locale-he-il .inline-edit-row .catshow,
-.locale-he-il .inline-edit-row .cathide,
 .locale-he-il .inline-edit-row #bulk-titles div,
 .locale-he-il p.help,
 .locale-he-il p.description,
