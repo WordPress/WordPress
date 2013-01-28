@@ -241,7 +241,7 @@ class WP_Filesystem_Base {
 	 * @access public
 	 *
 	 * @param string $file string filename
-	 * @return int octal representation of permissions
+	 * @return string *nix style representation of permissions
 	 */
 	function gethchmod($file){
 		$perms = $this->getchmod($file);
