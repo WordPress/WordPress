@@ -290,4 +290,7 @@ add_filter( 'default_option_link_manager_enabled', '__return_true' );
 // This option no longer exists; tell plugins we always support auto-embedding.
 add_filter( 'default_option_embed_autourls', '__return_true' );
 
+// Default settings for heartbeat
+add_filter( 'heartbeat_settings', 'wp_heartbeat_settings' );
+
 unset($filter, $action);

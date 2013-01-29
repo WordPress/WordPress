@@ -2071,3 +2071,32 @@ function wp_ajax_send_link_to_editor() {
 
 	wp_send_json_success( $html );
 }
+
+function wp_ajax_heartbeat() {
+	check_ajax_referer( 'heartbeat-nonce', '_nonce' );
+	$response = array( 'pagenow' => '' );
+
+	if ( ! empty($_POST['pagenow']) )
+		$response['pagenow'] = sanitize_key($_POST['pagenow']);
+	
+	if ( ! empty($_POST['data']) ) {
+		$data = (array) $_POST['data'];
+		// todo: how much to sanitize and preset and what to leave to be accessed from $data or $_POST..?
+		$user = wp_get_current_user();
+		$data['user_id'] = $user->exists() ? $user->ID : 0;
+
+		// todo: separate filters: 'heartbeat_[action]' so we call different callbacks only when there is data for them,
+		// or all callbacks listen to one filter and run when there is something for them in $data?
+		$response = apply_filters( 'heartbeat_received', $response, $data );
+	}
+
+	$response = apply_filters( 'heartbeat_send', $response );
+
+	// Allow the transport to be replaced with long-polling easily
+	do_action( 'heartbeat_tick', $response );
+
+	// always send the current time acording to the server
+	$response['time'] = time();
+
+	wp_send_json($response);
+}

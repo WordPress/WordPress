@@ -2284,3 +2284,18 @@ function __checked_selected_helper( $helper, $current, $echo, $type ) {
 
 	return $result;
 }
+
+/**
+ * Default settings for heartbeat
+ *
+ * Outputs the nonce used in the heartbeat XHR
+ *
+ * @since 3.6.0
+ *
+ * @param array $settings
+ * @return array $settings
+ */
+function wp_heartbeat_settings( $settings ) {
+	$setting['nonce'] = wp_create_nonce( 'heartbeat-nonce' );
+	return $setting;
+}
