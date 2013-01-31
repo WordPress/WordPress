@@ -174,8 +174,8 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 	$user_info  = get_avatar( $user_id, 64 );
 	$user_info .= "<span class='display-name'>{$current_user->display_name}</span>";
 
-	if ( $current_user->display_name !== $current_user->user_nicename )
-		$user_info .= "<span class='username'>{$current_user->user_nicename}</span>";
+	if ( $current_user->display_name !== $current_user->user_login )
+		$user_info .= "<span class='username'>{$current_user->user_login}</span>";
 
 	$wp_admin_bar->add_menu( array(
 		'parent' => 'user-actions',
