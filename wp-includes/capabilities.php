@@ -803,6 +803,7 @@ class WP_User {
 		foreach ( (array) $this->roles as $oldrole )
 			unset( $this->caps[$oldrole] );
 
+		$old_roles = $this->roles;
 		if ( !empty( $role ) ) {
 			$this->caps[$role] = true;
 			$this->roles = array( $role => true );
@@ -812,7 +813,7 @@ class WP_User {
 		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 		$this->get_role_caps();
 		$this->update_user_level_from_caps();
-		do_action( 'set_user_role', $this->ID, $role );
+		do_action( 'set_user_role', $this->ID, $role, $old_roles );
 	}
 
 	/**
