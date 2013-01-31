@@ -785,6 +785,19 @@ function remove_accents($string) {
 		chr(199).chr(155) => 'U', chr(199).chr(156) => 'u',
 		);
 
+		// Used for locale-specific rules
+		$locale = get_locale();
+
+		if ( 'de_DE' == $locale ) {
+			$chars[ chr(195).chr(132) ] = 'Ae';
+			$chars[ chr(195).chr(164) ] = 'ae';
+			$chars[ chr(195).chr(150) ] = 'Oe';
+			$chars[ chr(195).chr(182) ] = 'oe';
+			$chars[ chr(195).chr(156) ] = 'Ue';
+			$chars[ chr(195).chr(188) ] = 'ue';
+			$chars[ chr(195).chr(159) ] = 'ss';
+		}
+
 		$string = strtr($string, $chars);
 	} else {
 		// Assume ISO-8859-1 if not UTF-8
