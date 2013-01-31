@@ -628,7 +628,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'post_status'       => $post['post_status'],
 			'post_type'         => $post['post_type'],
 			'post_name'         => $post['post_name'],
-			'post_author'       => $post['post_author'],
+			'post_author'       => (string) $post['post_author'],
 			'post_password'     => $post['post_password'],
 			'post_excerpt'      => $post['post_excerpt'],
 			'post_content'      => $post['post_content'],
@@ -810,7 +810,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$_page = array(
 			'dateCreated'            => $page_date,
-			'userid'                 => $page->post_author,
+			'userid'                 => (string) $page->post_author,
 			'page_id'                => $page->ID,
 			'page_status'            => $page->post_status,
 			'description'            => $full_page['main'],
@@ -3751,10 +3751,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		$content .= stripslashes($post_data['post_content']);
 
 		$struct = array(
-			'userid'    => $post_data['post_author'],
+			'userid'      => (string) $post_data['post_author'],
 			'dateCreated' => $this->_convert_date( $post_data['post_date'] ),
 			'content'     => $content,
-			'postid'  => (string) $post_data['ID']
+			'postid'      => (string) $post_data['ID']
 		);
 
 		return $struct;
@@ -3805,10 +3805,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			$content .= stripslashes($entry['post_content']);
 
 			$struct[] = array(
-				'userid' => $entry['post_author'],
+				'userid'      => (string) $entry['post_author'],
 				'dateCreated' => $post_date,
-				'content' => $content,
-				'postid' => (string) $entry['ID'],
+				'content'     => $content,
+				'postid'      => (string) $entry['ID'],
 			);
 
 		}
@@ -4696,7 +4696,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			$resp = array(
 				'dateCreated' => $post_date,
-				'userid' => $postdata['post_author'],
+				'userid' => (string) $postdata['post_author'],
 				'postid' => $postdata['ID'],
 				'description' => $post['main'],
 				'title' => $postdata['post_title'],
@@ -4810,7 +4810,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			$struct[] = array(
 				'dateCreated' => $post_date,
-				'userid' => $entry['post_author'],
+				'userid' => (string) $entry['post_author'],
 				'postid' => (string) $entry['ID'],
 				'description' => $post['main'],
 				'title' => $entry['post_title'],
@@ -5031,7 +5031,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			$struct[] = array(
 				'dateCreated' => $post_date,
-				'userid' => $entry['post_author'],
+				'userid' => (string) $entry['post_author'],
 				'postid' => (string) $entry['ID'],
 				'title' => $entry['post_title'],
 				'post_status' => $entry['post_status'],
