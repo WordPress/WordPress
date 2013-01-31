@@ -57,7 +57,7 @@ class Translations {
 		$this->headers[$header] = $value;
 	}
 
-	function set_headers(&$headers) {
+	function set_headers($headers) {
 		foreach($headers as $header => $value) {
 			$this->set_header($header, $value);
 		}
@@ -242,7 +242,7 @@ class NOOP_Translations {
 	function set_header($header, $value) {
 	}
 
-	function set_headers(&$headers) {
+	function set_headers($headers) {
 	}
 
 	function get_header($header) {
