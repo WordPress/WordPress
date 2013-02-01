@@ -318,12 +318,12 @@ class wp_xmlrpc_server extends IXR_Server {
 				'value'         => $wp_version
 			),
 			'blog_url'          => array(
-				'desc'          => __( 'Site URL' ),
+				'desc'          => __( 'WordPress Address (URL)' ),
 				'readonly'      => true,
 				'option'        => 'siteurl'
 			),
 			'home_url'          => array(
-				'desc'          => __( 'Home URL' ),
+				'desc'          => __( 'Site Address (URL)' ),
 				'readonly'      => true,
 				'option'        => 'home'
 			),
