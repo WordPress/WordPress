@@ -5,7 +5,7 @@
  * Handles many functions for formatting output.
  *
  * @package WordPress
- **/
+ */
 
 /**
  * Replaces common plain text characters into formatted entities
@@ -134,8 +134,8 @@ function wptexturize($text) {
  * Search for disabled element tags. Push element to stack on tag open and pop
  * on tag close. Assumes first character of $text is tag opening.
  *
- * @access private
  * @since 2.9.0
+ * @access private
  *
  * @param string $text Text to check. First character is assumed to be $opening
  * @param array $stack Array used as stack of opened tag elements
@@ -262,6 +262,7 @@ function wpautop($pee, $br = true) {
  *
  * @since 3.1.0
  * @access private
+ *
  * @param array $matches preg_replace_callback matches array
  * @return string
  */
@@ -363,6 +364,7 @@ function seems_utf8($str) {
  * &quot;, or ENT_QUOTES to do both. Default is ENT_NOQUOTES where no quotes are encoded.
  *
  * @since 1.2.2
+ * @access private
  *
  * @param string $string The text which is to be encoded.
  * @param mixed $quote_style Optional. Converts double quotes if set to ENT_COMPAT, both single and double if set to ENT_QUOTES or none if set to ENT_NOQUOTES. Also compatible with old values; converting single quotes if set to 'single', double if set to 'double' or both if otherwise set. Default is ENT_NOQUOTES.
@@ -442,7 +444,7 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
  * $quote_style can be set to ENT_COMPAT to decode " entities,
  * or ENT_QUOTES to do both " and '. Default is ENT_NOQUOTES where no quotes are decoded.
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @param string $string The text which is to be decoded.
  * @param mixed $quote_style Optional. Converts double quotes if set to ENT_COMPAT, both single and double if set to ENT_QUOTES or none if set to ENT_NOQUOTES. Also compatible with old _wp_specialchars() values; converting single quotes if set to 'single', double if set to 'double' or both if otherwise set. Default is ENT_NOQUOTES.
@@ -499,7 +501,7 @@ function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES ) {
 /**
  * Checks for invalid UTF8 in a string.
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @param string $string The text which is to be checked.
  * @param boolean $strip Optional. Whether to attempt to strip out invalid UTF8. Default is false.
@@ -824,12 +826,12 @@ function remove_accents($string) {
 }
 
 /**
- * Sanitizes a filename replacing whitespace with dashes
+ * Sanitizes a filename, replacing whitespace with dashes.
  *
  * Removes special characters that are illegal in filenames on certain
  * operating systems and special characters requiring special escaping
  * to manipulate at the command line. Replaces spaces and consecutive
- * dashes with a single dash. Trim period, dash and underscore from beginning
+ * dashes with a single dash. Trims period, dash and underscore from beginning
  * and end of filename.
  *
  * @since 2.1.0
@@ -881,7 +883,7 @@ function sanitize_file_name( $filename ) {
 }
 
 /**
- * Sanitize username stripping out unsafe characters.
+ * Sanitizes a username, stripping out unsafe characters.
  *
  * Removes tags, octets, entities, and if strict is enabled, will only keep
  * alphanumeric, _, space, ., -, @. After sanitizing, it passes the username,
@@ -916,7 +918,7 @@ function sanitize_user( $username, $strict = false ) {
 }
 
 /**
- * Sanitize a string key.
+ * Sanitizes a string key.
  *
  * Keys are used as internal identifiers. Lowercase alphanumeric characters, dashes and underscores are allowed.
  *
@@ -933,7 +935,7 @@ function sanitize_key( $key ) {
 }
 
 /**
- * Sanitizes title or use fallback title.
+ * Sanitizes a title, or returns a fallback title.
  *
  * Specifically, HTML and PHP tags are stripped. Further actions can be added
  * via the plugin API. If $title is empty and $fallback_title is set, the latter
@@ -946,7 +948,7 @@ function sanitize_key( $key ) {
  * @param string $context Optional. The operation for which the string is sanitized
  * @return string The sanitized string.
  */
-function sanitize_title($title, $fallback_title = '', $context = 'save') {
+function sanitize_title( $title, $fallback_title = '', $context = 'save' ) {
 	$raw_title = $title;
 
 	if ( 'save' == $context )
@@ -960,12 +962,23 @@ function sanitize_title($title, $fallback_title = '', $context = 'save') {
 	return $title;
 }
 
-function sanitize_title_for_query($title) {
-	return sanitize_title($title, '', 'query');
+/**
+ * Sanitizes a title with the 'query' context.
+ *
+ * Used for querying the database for a value from URL.
+ *
+ * @since 3.1.0
+ * @uses sanitize_title()
+ *
+ * @param string $title The string to be sanitized.
+ * @return string The sanitized string.
+ */
+function sanitize_title_for_query( $title ) {
+	return sanitize_title( $title, '', 'query' );
 }
 
 /**
- * Sanitizes title, replacing whitespace and a few other characters with dashes.
+ * Sanitizes a title, replacing whitespace and a few other characters with dashes.
  *
  * Limits the output to alphanumeric characters, underscore (_) and dash (-).
  * Whitespace becomes a dash.
@@ -977,7 +990,7 @@ function sanitize_title_for_query($title) {
  * @param string $context Optional. The operation for which the string is sanitized.
  * @return string The sanitized title.
  */
-function sanitize_title_with_dashes($title, $raw_title = '', $context = 'display') {
+function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'display' ) {
 	$title = strip_tags($title);
 	// Preserve escaped octets.
 	$title = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '---$1---', $title);
@@ -1049,7 +1062,7 @@ function sanitize_sql_orderby( $orderby ){
 }
 
 /**
- * Sanitizes a html classname to ensure it only contains valid characters
+ * Sanitizes an HTML classname to ensure it only contains valid characters.
  *
  * Strips the string down to A-Z,a-z,0-9,_,-. If this results in an empty
  * string then it will return the alternative value supplied.
@@ -1883,6 +1896,7 @@ function wp_iso_descrambler($string) {
  *
  * @since 3.1.0
  * @access private
+ *
  * @param array $match The preg_replace_callback matches array
  * @return array Converted chars
  */
@@ -2705,7 +2719,7 @@ function esc_attr( $text ) {
 /**
  * Escaping for textarea values.
  *
- * @since 3.1
+ * @since 3.1.0
  *
  * @param string $text
  * @return string
@@ -2716,7 +2730,7 @@ function esc_textarea( $text ) {
 }
 
 /**
- * Escape a HTML tag name.
+ * Escape an HTML tag name.
  *
  * @since 2.5.0
  *
@@ -3189,10 +3203,17 @@ function _links_add_target( $m ) {
 	return '<' . $tag . $link . ' target="' . esc_attr( $_links_add_target ) . '">';
 }
 
-// normalize EOL characters and strip duplicate whitespace
+/**
+ * Normalize EOL characters and strip duplicate whitespace.
+ *
+ * @since 2.7.0
+ *
+ * @param string $str The string to normalize.
+ * @return string The normalized string.
+ */
 function normalize_whitespace( $str ) {
-	$str  = trim($str);
-	$str  = str_replace("\r", "\n", $str);
+	$str  = trim( $str );
+	$str  = str_replace( "\r", "\n", $str );
 	$str  = preg_replace( array( '/\n+/', '/[ \t]+/' ), array( "\n", ' ' ), $str );
 	return $str;
 }
