@@ -1160,9 +1160,7 @@ function convert_chars($content, $deprecated = '') {
 }
 
 /**
- * Will only balance the tags if forced to and the option is set to balance tags.
- *
- * The option 'use_balanceTags' is used to determine whether the tags will be balanced.
+ * Balances tags if forced to, or if the 'use_balanceTags' option is set to true.
  *
  * @since 0.71
  *
@@ -1171,9 +1169,10 @@ function convert_chars($content, $deprecated = '') {
  * @return string Balanced text
  */
 function balanceTags( $text, $force = false ) {
-	if ( !$force && get_option('use_balanceTags') == 0 )
+	if ( $force || get_option('use_balanceTags') == 1 )
+		return force_balance_tags( $text );
+	else
 		return $text;
-	return force_balance_tags( $text );
 }
 
 /**
