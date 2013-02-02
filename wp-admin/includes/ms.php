@@ -135,6 +135,9 @@ function wpmu_delete_user( $id ) {
 	$id = (int) $id;
 	$user = new WP_User( $id );
 
+	if ( !$user->exists() )
+		return false;
+
 	do_action( 'wpmu_delete_user', $id );
 
 	$blogs = get_blogs_of_user( $id );
