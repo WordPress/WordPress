@@ -514,7 +514,8 @@ function wp_get_active_and_valid_plugins() {
  */
 function wp_set_internal_encoding() {
 	if ( function_exists( 'mb_internal_encoding' ) ) {
-		if ( !@mb_internal_encoding( get_option( 'blog_charset' ) ) )
+		$charset = get_option( 'blog_charset' );
+		if ( ! $charset || ! @mb_internal_encoding( $charset ) )
 			mb_internal_encoding( 'UTF-8' );
 	}
 }
