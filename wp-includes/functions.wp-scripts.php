@@ -111,6 +111,25 @@ function wp_deregister_script( $handle ) {
 		$wp_scripts = new WP_Scripts();
 	}
 
+	// Do not allow accidental or negligent deregistering of critical scripts in the admin. Show minimal remorse if the correct hook is used.
+	if ( is_admin() && 'admin_enqueue_scripts' !== current_filter() ) {
+		$no = array(
+			'jquery', 'jquery-core', 'jquery-migrate', 'jquery-ui-core', 'jquery-ui-accordion',
+			'jquery-ui-autocomplete', 'jquery-ui-button', 'jquery-ui-datepicker', 'jquery-ui-dialog',
+			'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-menu', 'jquery-ui-mouse',
+			'jquery-ui-position', 'jquery-ui-progressbar', 'jquery-ui-resizable', 'jquery-ui-selectable',
+			'jquery-ui-slider', 'jquery-ui-sortable', 'jquery-ui-spinner', 'jquery-ui-tabs',
+			'jquery-ui-tooltip', 'jquery-ui-widget',
+		);
+
+		if ( in_array( $handle, $no ) ) {
+			$message = sprintf( 'Do not deregister the %1$s script in the administration area. To target the frontend theme, use the %2$s hook.',
+				"<code>$handle</code>", '<code>wp_enqueue_scripts</code>' );
+			_doing_it_wrong( __FUNCTION__, $message, '3.6' );
+			return;
+		}
+	}
+
 	$wp_scripts->remove( $handle );
 }
 
