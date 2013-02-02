@@ -472,9 +472,19 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$title = _draft_or_post_title();
 		$post_type_object = get_post_type_object( $post->post_type );
 		$can_edit_post = current_user_can( $post_type_object->cap->edit_post, $post->ID );
+		$lock_holder_id = wp_check_post_lock( $post->ID );
+		$lock_holder = '';
 
 		$alternate = 'alternate' == $alternate ? '' : 'alternate';
 		$classes = $alternate . ' iedit author-' . ( get_current_user_id() == $post->post_author ? 'self' : 'other' );
+	
+		if ( $lock_holder_id ) {
+			$classes .= ' wp-locked';
+			$lock_holder_data = get_user_by( 'id', $lock_holder_id );
+
+			if ( $lock_holder_data )
+				$lock_holder = esc_html( sprintf( __('Currently edited by %s'), $lock_holder_data->data->display_name ) );
+		}
 	?>
 		<tr id="post-<?php echo $post->ID; ?>" class="<?php echo implode( ' ', get_post_class( $classes, $post->ID ) ); ?>" valign="top">
 	<?php
@@ -495,10 +505,16 @@ class WP_Posts_List_Table extends WP_List_Table {
 			case 'cb':
 			?>
 			<th scope="row" class="check-column">
-				<?php if ( $can_edit_post ) { ?>
+				<?php
+				if ( $can_edit_post ) {
+
+				?>
 				<label class="screen-reader-text" for="cb-select-<?php the_ID(); ?>"><?php printf( __( 'Select %s' ), $title ); ?></label>
 				<input id="cb-select-<?php the_ID(); ?>" type="checkbox" name="post[]" value="<?php the_ID(); ?>" />
-				<?php } ?>
+				<div class="locked-indicator"></div>
+				<?php
+				}
+				?>
 			</th>
 			<?php
 			break;
@@ -525,17 +541,31 @@ class WP_Posts_List_Table extends WP_List_Table {
 					}
 
 					$pad = str_repeat( '&#8212; ', $level );
-?>
-			<td <?php echo $attributes ?>><strong><?php if ( $can_edit_post && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states( $post ); echo isset( $parent_name ) ? ' | ' . $post_type_object->labels->parent_item_colon . ' ' . esc_html( $parent_name ) : ''; ?></strong>
-<?php
-				}
-				else {
+
+					?>
+					<td <?php echo $attributes ?>><strong><?php if ( $can_edit_post && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states( $post ); echo isset( $parent_name ) ? ' | ' . $post_type_object->labels->parent_item_colon . ' ' . esc_html( $parent_name ) : ''; ?></strong>
+					<?php
+
+					if ( $can_edit_post && $post->post_status != 'trash' ) {
+						?>
+						<span class="lock-holder"><?php echo $lock_holder; ?></span>
+						<?php
+					}
+				} else {
 					$attributes = 'class="post-title page-title column-title"' . $style;
 
 					$pad = str_repeat( '&#8212; ', $level );
-?>
-			<td <?php echo $attributes ?>><strong><?php if ( $can_edit_post && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states( $post ); ?></strong>
-<?php
+
+					?>
+					<td <?php echo $attributes ?>><strong><?php if ( $can_edit_post && $post->post_status != 'trash' ) { ?><a class="row-title" href="<?php echo $edit_link; ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ); ?>"><?php echo $pad; echo $title ?></a><?php } else { echo $pad; echo $title; }; _post_states( $post ); ?></strong>
+					<?php
+
+					if ( $can_edit_post && $post->post_status != 'trash' ) {
+						?>
+						<span class="lock-holder"><?php echo $lock_holder; ?></span>
+						<?php
+					}
+
 					if ( 'excerpt' == $mode && current_user_can( 'read_post', $post->ID ) )
 						the_excerpt();
 				}

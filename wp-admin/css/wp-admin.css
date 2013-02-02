@@ -2527,6 +2527,25 @@ table.fixed {
 	background-repeat: no-repeat;
 }
 
+tr.wp-locked .locked-indicator {
+	background: url('../images/lock16.png') no-repeat;
+	margin: -2px 0 0 8px;
+	height: 16px;
+	width: 16px;
+}
+
+tr.wp-locked .check-column label,
+tr.wp-locked .check-column input[type="checkbox"],
+tr.wp-locked .row-actions .inline,
+tr.wp-locked .row-actions .trash,
+.lock-holder {
+	display: none;
+}
+
+tr.wp-locked .lock-holder {
+	display: inline;
+}
+
 .fixed .column-comments .sorting-indicator {
 	margin-top: 3px;
 }
