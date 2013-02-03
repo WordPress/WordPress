@@ -1,0 +1,7 @@
+.svn
+.diff
+wp-config.php
+wp-content/plugins
+wp-content/mu-plugins
+.htaccess
+.DS_Store
