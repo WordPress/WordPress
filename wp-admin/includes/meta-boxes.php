@@ -14,6 +14,12 @@ function post_submit_meta_box($post) {
 
 	$post_type = $post->post_type;
 	$post_type_object = get_post_type_object($post_type);
+
+	if ( 'auto-draft' == $post->post_status )
+		$post_status = array_shift( get_post_stati( array( 'moderation' => true, 'post_type' => $post->post_type ), 'objects' ) );
+	else 
+		$post_status = get_post_status_object( $post->post_status, $post->post_type );
+
 	$can_publish = current_user_can($post_type_object->cap->publish_posts);
 ?>
 <div class="submitbox" id="submitpost">
@@ -27,17 +33,15 @@ function post_submit_meta_box($post) {
 
 <div id="minor-publishing-actions">
 <div id="save-action">
-<?php if ( 'publish' != $post->post_status && 'future' != $post->post_status && 'pending' != $post->post_status ) { ?>
-<input <?php if ( 'private' == $post->post_status ) { ?>style="display:none"<?php } ?> type="submit" name="save" id="save-post" value="<?php esc_attr_e('Save Draft'); ?>" class="button" />
-<?php } elseif ( 'pending' == $post->post_status && $can_publish ) { ?>
-<input type="submit" name="save" id="save-post" value="<?php esc_attr_e('Save as Pending'); ?>" class="button" />
-<?php } ?>
+<?php if ( $post_status->moderation ) : ?>
+<input type="submit" name="save" id="save-post" value="<?php echo esc_attr( $post_status->labels['save'] ); ?>" class="button" />
+<?php endif; ?>
 <span class="spinner"></span>
 </div>
 <?php if ( $post_type_object->public ) : ?>
 <div id="preview-action">
 <?php
-if ( 'publish' == $post->post_status ) {
+if ( $post_status->public ) {
 	$preview_link = esc_url( get_permalink( $post->ID ) );
 	$preview_button = __( 'Preview Changes' );
 } else {
@@ -55,60 +59,41 @@ if ( 'publish' == $post->post_status ) {
 
 <div id="misc-publishing-actions">
 
-<div class="misc-pub-section"><label for="post_status"><?php _e('Status:') ?></label>
-<span id="post-status-display">
-<?php
-switch ( $post->post_status ) {
-	case 'private':
-		_e('Privately Published');
-		break;
-	case 'publish':
-		_e('Published');
-		break;
-	case 'future':
-		_e('Scheduled');
-		break;
-	case 'pending':
-		_e('Pending Review');
-		break;
-	case 'draft':
-	case 'auto-draft':
-		_e('Draft');
-		break;
-}
-?>
-</span>
-<?php if ( 'publish' == $post->post_status || 'private' == $post->post_status || $can_publish ) { ?>
-<a href="#post_status" <?php if ( 'private' == $post->post_status ) { ?>style="display:none;" <?php } ?>class="edit-post-status hide-if-no-js"><?php _e('Edit') ?></a>
+	<div class="misc-pub-section"><label for="post_status"><?php _e('Status:') ?></label>
+	<span id="post-status-display"><?php echo esc_html( $post_status->labels['label'] ); ?></span>
 
-<div id="post-status-select" class="hide-if-js">
-<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo esc_attr( ('auto-draft' == $post->post_status ) ? 'draft' : $post->post_status); ?>" />
-<select name='post_status' id='post_status'>
-<?php if ( 'publish' == $post->post_status ) : ?>
-<option<?php selected( $post->post_status, 'publish' ); ?> value='publish'><?php _e('Published') ?></option>
-<?php elseif ( 'private' == $post->post_status ) : ?>
-<option<?php selected( $post->post_status, 'private' ); ?> value='publish'><?php _e('Privately Published') ?></option>
-<?php elseif ( 'future' == $post->post_status ) : ?>
-<option<?php selected( $post->post_status, 'future' ); ?> value='future'><?php _e('Scheduled') ?></option>
-<?php endif; ?>
-<option<?php selected( $post->post_status, 'pending' ); ?> value='pending'><?php _e('Pending Review') ?></option>
-<?php if ( 'auto-draft' == $post->post_status ) : ?>
-<option<?php selected( $post->post_status, 'auto-draft' ); ?> value='draft'><?php _e('Draft') ?></option>
-<?php else : ?>
-<option<?php selected( $post->post_status, 'draft' ); ?> value='draft'><?php _e('Draft') ?></option>
-<?php endif; ?>
-</select>
+	<?php
+	$dropdown_statuses = array();
+	// All statuses like 'future', 'publish', and 'private' should appear in dropdown only when post
+	// is in that status
+	if ( ! $post_status->moderation && $can_publish )
+		$dropdown_statuses[] = $post_status;
+
+	// A post in moderation can be changed to other moderation stati, regardless of publish caps
+	if ( $post_status->moderation )
+		$dropdown_statuses = array_merge( $dropdown_statuses, get_post_stati( array( 'moderation' => true, 'post_type' => $post->post_type ), 'objects' ) );
+
+	if ( ! empty( $dropdown_statuses ) && ! $post_status->private ) : ?>
+	<a href="#post_status" class="edit-post-status hide-if-no-js"><?php _e('Edit') ?></a>
+
+	<div id="post-status-select" class="hide-if-js">
+	<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo $post_status->name; ?>" />
+	<select name='post_status' id='post_status'>
+	<?php foreach( $dropdown_statuses as $dropdown_status ) : ?>
+		<option <?php selected( $dropdown_status->name, $post_status->name ); ?> value="<?php echo $dropdown_status->name; ?>"><?php echo esc_attr( $dropdown_status->labels['label'] ); ?></option>
+	<?php endforeach; ?>
+	</select>
  <a href="#post_status" class="save-post-status hide-if-no-js button"><?php _e('OK'); ?></a>
  <a href="#post_status" class="cancel-post-status hide-if-no-js"><?php _e('Cancel'); ?></a>
 </div>
 
-<?php } ?>
+<?php endif;  ?>
 </div><!-- .misc-pub-section -->
 
 <div class="misc-pub-section" id="visibility">
 <?php _e('Visibility:'); ?> <span id="post-visibility-display"><?php
 
-if ( 'private' == $post->post_status ) {
+if ( 'private' == $post_status->name ) {
 	$post->post_password = '';
 	$visibility = 'private';
 	$visibility_trans = __('Private');

@@ -1424,15 +1424,13 @@ function _post_states($post) {
 	else
 		$post_status = '';
 
-	if ( !empty($post->post_password) )
+	if ( !empty( $post->post_password ) )
 		$post_states['protected'] = __('Password protected');
-	if ( 'private' == $post->post_status && 'private' != $post_status )
-		$post_states['private'] = __('Private');
-	if ( 'draft' == $post->post_status && 'draft' != $post_status )
-		$post_states['draft'] = __('Draft');
-	if ( 'pending' == $post->post_status && 'pending' != $post_status )
-		/* translators: post state */
-		$post_states['pending'] = _x('Pending', 'post state');
+
+	$protected_statuses = get_post_stati( array( 'protected' => true, 'post_type' => $post->post_type ) );
+	if ( in_array( $post->post_status, $protected_statuses ) && ! in_array( $post_status, $protected_statuses ) )
+		$post_states[$post->post_status] = get_post_status_object( $post->post_status, $post->post_type )->labels['label'];
+
 	if ( is_sticky($post->ID) )
 		$post_states['sticky'] = __('Sticky');
 
