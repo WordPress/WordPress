@@ -2074,10 +2074,13 @@ function wp_ajax_send_link_to_editor() {
 
 function wp_ajax_heartbeat() {
 	check_ajax_referer( 'heartbeat-nonce', '_nonce' );
-	$response = array( 'pagenow' => '' );
+	$response = array();
 
-	if ( ! empty($_POST['pagenow']) )
-		$response['pagenow'] = sanitize_key($_POST['pagenow']);
+	// screenid is the same as $current_screen->id and the JS global 'pagenow'
+	if ( ! empty($_POST['screenid']) )
+		$screen_id = sanitize_key($_POST['screenid']);
+	else
+		$screen_id = 'site';
 	
 	if ( ! empty($_POST['data']) ) {
 		$data = (array) $_POST['data'];
@@ -2087,16 +2090,20 @@ function wp_ajax_heartbeat() {
 
 		// todo: separate filters: 'heartbeat_[action]' so we call different callbacks only when there is data for them,
 		// or all callbacks listen to one filter and run when there is something for them in $data?
-		$response = apply_filters( 'heartbeat_received', $response, $data );
+		$response = apply_filters( 'heartbeat_received', $response, $data, $screen_id );
 	}
 
-	$response = apply_filters( 'heartbeat_send', $response );
+	$response = apply_filters( 'heartbeat_send', $response, $screen_id );
 
 	// Allow the transport to be replaced with long-polling easily
-	do_action( 'heartbeat_tick', $response );
+	do_action( 'heartbeat_tick', $response, $screen_id );
 
-	// always send the current time acording to the server
-	$response['time'] = time();
+	// send the current time acording to the server
+	$response['servertime'] = time();
+
+	// Change the interval, format: array( speed, ticks )
+	if ( isset($response['heartbeat_interval']) )
+		$response['heartbeat_interval'] = (array) $response['heartbeat_interval'];
 
 	wp_send_json($response);
 }
