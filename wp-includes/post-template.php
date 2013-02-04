@@ -109,7 +109,7 @@ function get_the_title( $post = 0 ) {
 		if ( ! empty( $post->post_password ) ) {
 			$protected_title_format = apply_filters( 'protected_title_format', __( 'Protected: %s' ) );
 			$title = sprintf( $protected_title_format, $title );
-		} else if ( isset( $post->post_status ) && 'private' == $post->post_status ) {
+		} else if ( isset( $post->post_status ) && get_post_status_object( $post->post_status, $post->post_type )->private ) {
 			$private_title_format = apply_filters( 'private_title_format', __( 'Private: %s' ) );
 			$title = sprintf( $private_title_format, $title );
 		}
