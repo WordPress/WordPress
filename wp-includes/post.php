@@ -121,17 +121,26 @@ function create_initial_post_types() {
 	) );
 
 	register_post_status( 'draft', array(
-		'label'       => _x( 'Draft', 'post' ),
+		'labels'      => array(
+				'label'         => _x( 'Draft', 'post' ),
+			),
 		'protected'   => true,
+		'moderation'  => true,
 		'_builtin'    => true, /* internal use only. */
 		'label_count' => _n_noop( 'Draft <span class="count">(%s)</span>', 'Drafts <span class="count">(%s)</span>' ),
+		'show_in_admin_status_dropdown' => true,
 	) );
 
 	register_post_status( 'pending', array(
-		'label'       => _x( 'Pending', 'post' ),
+		'labels'      => array(
+				'label'         => _x( 'Pending', 'post' ),
+				'save'          => _x( 'Save as Pending', 'post' ),
+			),
 		'protected'   => true,
+		'moderation'  => true,
 		'_builtin'    => true, /* internal use only. */
 		'label_count' => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>' ),
+		'show_in_admin_status_dropdown' => true,
 	) );
 
 	register_post_status( 'private', array(
@@ -673,6 +682,165 @@ final class WP_Post {
 }
 
 /**
+ * WordPress Post Status class.
+ *
+ * @since 3.6.0
+ *
+ */
+final class WP_Post_Status {
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $name = '';
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $label = false;
+
+	/**
+	 *
+	 * @var array
+	 */
+	public $label_count = false;
+
+	/**
+	 *
+	 * @var labels
+	 */
+	public $labels = array();
+
+	/**
+	 *
+	 * @var bool
+	 */
+	public $exclude_from_search = null;
+
+	/**
+	 *
+	 * @var bool
+	 */
+	public $_builtin = false;
+
+	/**
+	 *
+	 * @var bool
+	 */
+	public $public = null;
+
+	/**
+	 *
+	 * @var bool
+	 */
+	public $internal = null;
+
+	/**
+	 *
+	 * @var bool
+	 */
+	public $protected = null;
+
+	/**
+	 *
+	 * @var bool
+	 */
+	public $moderation = null;
+
+	/**
+	 *
+	 * @var bool
+	 */
+	public $private = null;
+
+	/**
+	 *
+	 * @var array
+	 */
+	public $post_type = null;
+
+	/**
+	 *
+	 * @var bool
+	 */
+	public $publicly_queryable = null;
+
+	/**
+	 *
+	 * @var bool
+	 */
+	public $show_in_admin_status_list = null;
+
+	/**
+	 *
+	 * @var bool
+	 */
+	public $show_in_admin_all_list = null;
+
+	/**
+	 *
+	 * @var bool
+	 */
+	public $show_in_admin_status_dropdown = false;
+
+	public function __construct( $post_status, $args = array() ) {
+
+		$args = (object) $args;
+		foreach ( get_object_vars( $args ) as $key => $value )
+			$this->$key = $value;
+
+		$this->name = sanitize_key( $post_status );
+
+		if ( null === $this->public && null === $this->internal && null === $this->protected && null === $this->private && null === $this->moderation )
+			$this->internal = true;
+
+		if ( null === $this->public )
+			$this->public = false;
+
+		if ( null === $this->private )
+			$this->private = false;
+
+		if ( null === $this->protected )
+			$this->protected = false;
+
+		if ( null === $this->moderation )
+			$this->moderation = false;
+
+		if ( null === $this->internal )
+			$this->internal = false;
+
+		if ( null === $this->publicly_queryable )
+			$this->publicly_queryable = $this->public;
+
+		if ( null === $this->exclude_from_search )
+			$this->exclude_from_search = $this->internal;
+
+		if ( null === $this->show_in_admin_all_list )
+			$this->show_in_admin_all_list = !$this->internal;
+
+		if ( null === $this->show_in_admin_status_list )
+			$this->show_in_admin_status_list = !$this->internal;
+
+		if ( null === $this->show_in_admin_status_dropdown )
+			$this->show_in_admin_status_dropdown = $this->moderation;
+
+		if ( empty( $this->labels['label'] ) )
+			$this->labels['label'] = ( null !== $this->label ) ? $this->label : $post_status;
+
+		if ( empty( $this->labels['label_count'] ) )
+			$this->labels['label_count'] = ( null !== $this->label_count ) ? $this->label_count : array( $this->label, $this->label );
+
+		if ( empty( $this->labels['save'] ) )
+			$this->labels['save'] = sprintf( _x( 'Save %s', 'post'), $this->labels['label'] );
+
+		if ( is_string( $this->post_type ) )
+			$this->post_type = array( $this->post_type );
+	}
+}
+
+/**
  * Retrieve ancestors of a post.
  *
  * @since 2.5.0
@@ -920,65 +1088,23 @@ function get_page_statuses() {
  * @param array|string $args See above description.
  */
 function register_post_status($post_status, $args = array()) {
-	global $wp_post_statuses;
+	global $wp_post_statuses, $wp_post_types;
 
 	if (!is_array($wp_post_statuses))
 		$wp_post_statuses = array();
 
-	// Args prefixed with an underscore are reserved for internal use.
-	$defaults = array(
-		'label' => false,
-		'label_count' => false,
-		'exclude_from_search' => null,
-		'_builtin' => false,
-		'public' => null,
-		'internal' => null,
-		'protected' => null,
-		'private' => null,
-		'publicly_queryable' => null,
-		'show_in_admin_status_list' => null,
-		'show_in_admin_all_list' => null,
-	);
-	$args = wp_parse_args($args, $defaults);
-	$args = (object) $args;
+	$args = new WP_Post_Status( $post_status, $args );
+	$wp_post_statuses[ $post_status ] = $args;
 
-	$post_status = sanitize_key($post_status);
-	$args->name = $post_status;
+	// Add status to already registered post types
+	if ( ! empty( $wp_post_types ) )
+		foreach ( $wp_post_types as $key => $post_type ) {
+			if ( ! empty( $args->post_type ) && ! in_array( $key, $args->post_type ) )
+				continue;
 
-	if ( null === $args->public && null === $args->internal && null === $args->protected && null === $args->private )
-		$args->internal = true;
-
-	if ( null === $args->public  )
-		$args->public = false;
-
-	if ( null === $args->private  )
-		$args->private = false;
-
-	if ( null === $args->protected  )
-		$args->protected = false;
-
-	if ( null === $args->internal  )
-		$args->internal = false;
-
-	if ( null === $args->publicly_queryable )
-		$args->publicly_queryable = $args->public;
-
-	if ( null === $args->exclude_from_search )
-		$args->exclude_from_search = $args->internal;
-
-	if ( null === $args->show_in_admin_all_list )
-		$args->show_in_admin_all_list = !$args->internal;
-
-	if ( null === $args->show_in_admin_status_list )
-		$args->show_in_admin_status_list = !$args->internal;
-
-	if ( false === $args->label )
-		$args->label = $post_status;
-
-	if ( false === $args->label_count )
-		$args->label_count = array( $args->label, $args->label );
-
-	$wp_post_statuses[$post_status] = $args;
+			if ( ! array_key_exists( $post_status, $post_type->statuses ) )
+				$wp_post_types[ $key ]->statuses[ $post_status ] = $args;
+		}
 
 	return $args;
 }
@@ -996,13 +1122,29 @@ function register_post_status($post_status, $args = array()) {
  * @param string $post_status The name of a registered post status
  * @return object A post status object
  */
-function get_post_status_object( $post_status ) {
+function get_post_status_object( $post_status, $object_type = null ) {
 	global $wp_post_statuses;
 
-	if ( empty($wp_post_statuses[$post_status]) )
-		return null;
+	$status_object = null;
 
-	return $wp_post_statuses[$post_status];
+	if ( $object_type ) {
+		$post_type = get_post_type_object( $object_type );
+		if ( $post_type && ! empty( $post_type->statuses[ $post_status ] ) )
+			$status_object = $post_type->statuses[ $post_status ];
+	}
+
+	if ( ! empty( $wp_post_statuses[ $post_status ] ) )
+		$status = $wp_post_statuses[ $post_status ];
+
+	// Search across all post types
+	foreach ( get_post_types( array(), 'objects' ) as $post_type ) {
+		if ( ! empty( $post_type->statuses[ $post_status ] ) ) {
+			$status_object = $post_type->statuses[ $post_status ];
+			break;
+		}
+	}
+
+	return $status_object;
 }
 
 /**
@@ -1026,7 +1168,17 @@ function get_post_stati( $args = array(), $output = 'names', $operator = 'and' )
 
 	$field = ('names' == $output) ? 'name' : false;
 
-	return wp_filter_object_list($wp_post_statuses, $args, $operator, $field);
+	$statuses = $wp_post_statuses;
+
+	if ( ! empty( $args['post_type'] ) ) {
+		$post_type = get_post_type_object( $args['post_type'] );
+		if ( $post_type && ! empty( $post_type->statuses ) )
+			$statuses = $post_type->statuses;
+
+		unset( $args['post_type'] );
+	}
+
+	return wp_filter_object_list( $statuses, $args, $operator, $field );
 }
 
 /**
@@ -1211,7 +1363,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * @return object|WP_Error the registered post type object, or an error object
  */
 function register_post_type( $post_type, $args = array() ) {
-	global $wp_post_types, $wp_rewrite, $wp;
+	global $wp_post_types, $wp_rewrite, $wp, $wp_post_statuses;
 
 	if ( !is_array($wp_post_types) )
 		$wp_post_types = array();
@@ -1227,6 +1379,7 @@ function register_post_type( $post_type, $args = array() ) {
 		'can_export' => true,
 		'show_in_nav_menus' => null, 'show_in_menu' => null, 'show_in_admin_bar' => null,
 		'delete_with_user' => null,
+		'statuses' => null,
 	);
 	$args = wp_parse_args($args, $defaults);
 	$args = (object) $args;
@@ -1335,6 +1488,18 @@ function register_post_type( $post_type, $args = array() ) {
 
 	if ( $args->register_meta_box_cb )
 		add_action('add_meta_boxes_' . $post_type, $args->register_meta_box_cb, 10, 1);
+
+	if ( null === $args->statuses )
+		$args->statuses = array();
+
+	foreach ( $args->statuses as $post_status => $post_status_args )
+		$args->statuses[ $post_status ] = new WP_Post_Status( $post_status, $post_status_args );
+
+	// Legacy post statuses
+	if ( ! empty( $wp_post_statuses ) )
+		foreach ( $wp_post_statuses as $key => $post_status )
+			if ( empty( $args->statuses[ $key ] ) )
+				$args->statuses[ $key ] = $post_status;
 
 	$args->labels = get_post_type_labels( $args );
 	$args->label = $args->labels->name;
@@ -2142,7 +2307,7 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 	$count = $wpdb->get_results( $wpdb->prepare( $query, $type ), ARRAY_A );
 
 	$stats = array();
-	foreach ( get_post_stati() as $state )
+	foreach ( get_post_stati( array( 'post_type' => $type ) ) as $state )
 		$stats[$state] = 0;
 
 	foreach ( (array) $count as $row )
@@ -2736,8 +2901,9 @@ function wp_insert_post($postarr, $wp_error = false) {
 	if ( empty($post_type) )
 		$post_type = 'post';
 
-	if ( empty($post_status) )
-		$post_status = 'draft';
+	if ( empty($post_status) ) {
+		$post_status = array_shift( get_post_stati( array( 'moderation' => true, 'post_type' => $post_type ) ) );
+	}
 
 	if ( !empty($post_category) )
 		$post_category = array_filter($post_category); // Filter out empty terms
@@ -2767,10 +2933,10 @@ function wp_insert_post($postarr, $wp_error = false) {
 	if ( 'pending' == $post_status && !current_user_can( 'publish_posts' ) )
 		$post_name = '';
 
-	// Create a valid post name. Drafts and pending posts are allowed to have an empty
-	// post name.
+	// Create a valid post name. Posts in moderation are allowed to have an empty post_name
 	if ( empty($post_name) ) {
-		if ( !in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) )
+		if ( 'auto-draft' != $post_status 
+			&& ! in_array( $post_status, get_post_stati( array( 'moderation' => true, 'post_type' => $post_type ) ) ) )
 			$post_name = sanitize_title($post_title);
 		else
 			$post_name = '';
@@ -2800,7 +2966,8 @@ function wp_insert_post($postarr, $wp_error = false) {
 		}
 
 	if ( empty($post_date_gmt) || '0000-00-00 00:00:00' == $post_date_gmt ) {
-		if ( !in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) )
+		if ( 'auto-draft' != $post_status 
+			&& ! in_array( $post_status, get_post_stati( array( 'moderation' => true, 'post_type' => $post_type ) ) ) )
 			$post_date_gmt = get_gmt_from_date($post_date);
 		else
 			$post_date_gmt = '0000-00-00 00:00:00';
@@ -2895,7 +3062,9 @@ function wp_insert_post($postarr, $wp_error = false) {
 		$where = array( 'ID' => $post_ID );
 	}
 
-	if ( empty($data['post_name']) && !in_array( $data['post_status'], array( 'draft', 'pending', 'auto-draft' ) ) ) {
+	if ( empty($data['post_name']) 
+		&& 'auto-draft' != $data['post_status']
+		&& ! in_array( $data['post_status'], get_post_stati( array( 'moderation' => true, 'post_type' => $post_type ) ) ) ) {
 		$data['post_name'] = sanitize_title($data['post_title'], $post_ID);
 		$wpdb->update( $wpdb->posts, array( 'post_name' => $data['post_name'] ), $where );
 	}
@@ -2985,9 +3154,11 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
 	else
 		$post_cats = $post['post_category'];
 
-	// Drafts shouldn't be assigned a date unless explicitly done so by the user
-	if ( isset( $post['post_status'] ) && in_array($post['post_status'], array('draft', 'pending', 'auto-draft')) && empty($postarr['edit_date']) &&
-			 ('0000-00-00 00:00:00' == $post['post_date_gmt']) )
+	// Moderation posts shouldn't be assigned a date unless explicitly done so by the user
+	if ( isset( $post['post_status'] ) 
+		&& ( 'auto-draft' == $post['post_status'] || in_array( $post['post_status'], get_post_stati( array( 'moderation' => true, 'post_type' => $post['post_type'] ) ) ) ) 
+		&& empty($postarr['edit_date']) 
+		&& ('0000-00-00 00:00:00' == $post['post_date_gmt']) )
 		$clear_date = true;
 	else
 		$clear_date = false;
@@ -3084,7 +3255,7 @@ function check_and_publish_future_post($post_id) {
  * @return string unique slug for the post, based on $post_name (with a -1, -2, etc. suffix)
  */
 function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent ) {
-	if ( in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) )
+	if ( 'auto-draft' == $post_status || in_array( $post_status, get_post_stati( array( 'moderation' => true, 'post_type' => $post_type ) ) ) )
 		return $slug;
 
 	global $wpdb, $wp_rewrite;
@@ -3646,7 +3817,7 @@ function get_pages($args = '') {
 	// Make sure we have a valid post status
 	if ( !is_array( $post_status ) )
 		$post_status = explode( ',', $post_status );
-	if ( array_diff( $post_status, get_post_stati() ) )
+	if ( array_diff( $post_status, get_post_stati( array( 'post_type' => $post_type ) ) ) )
 		return $pages;
 
 	// $args can be whatever, only use the args defined in defaults to compute the key

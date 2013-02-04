@@ -142,13 +142,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$total_posts = array_sum( (array) $num_posts );
 
 		// Subtract post types that are not included in the admin all list.
-		foreach ( get_post_stati( array('show_in_admin_all_list' => false) ) as $state )
+		foreach ( get_post_stati( array('show_in_admin_all_list' => false, 'post_type' => $post_type ) ) as $state )
 			$total_posts -= $num_posts->$state;
 
 		$class = empty( $class ) && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['show_sticky'] ) ? ' class="current"' : '';
 		$status_links['all'] = "<a href='edit.php?post_type=$post_type{$allposts}'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts' ), number_format_i18n( $total_posts ) ) . '</a>';
 
-		foreach ( get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status ) {
+		foreach ( get_post_stati(array('show_in_admin_status_list' => true, 'post_type' => $post_type ), 'objects') as $status ) {
 			$class = '';
 
 			$status_name = $status->name;
@@ -279,7 +279,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 
 		$post_status = !empty( $_REQUEST['post_status'] ) ? $_REQUEST['post_status'] : 'all';
-		if ( post_type_supports( $post_type, 'comments' ) && !in_array( $post_status, array( 'pending', 'draft', 'future' ) ) )
+		if ( post_type_supports( $post_type, 'comments' ) && ! in_array( $post_status, get_post_stati( array( 'protected' => true ) ) ) )
 			$posts_columns['comments'] = '<span class="vers"><div title="' . esc_attr__( 'Comments' ) . '" class="comment-grey-bubble"></div></span>';
 
 		$posts_columns['date'] = __( 'Date' );
@@ -572,7 +572,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 						$actions['delete'] = "<a class='submitdelete' title='" . esc_attr( __( 'Delete this item permanently' ) ) . "' href='" . get_delete_post_link( $post->ID, '', true ) . "'>" . __( 'Delete Permanently' ) . "</a>";
 				}
 				if ( $post_type_object->public ) {
-					if ( in_array( $post->post_status, array( 'pending', 'draft', 'future' ) ) ) {
+					if ( in_array( $post->post_status, get_post_stati( array( 'protected' => true ) ) ) ) {
 						if ( $can_edit_post )
 							$actions['view'] = '<a href="' . esc_url( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
 					} elseif ( 'trash' != $post->post_status ) {
@@ -610,7 +610,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				else
 					echo '<abbr title="' . $t_time . '">' . apply_filters( 'post_date_column_time', $h_time, $post, $column_name, $mode ) . '</abbr>';
 				echo '<br />';
-				if ( 'publish' == $post->post_status ) {
+				if ( in_array( $post->post_status, get_post_stati( array( 'public' => true ), $post->post_type ) ) ) {
 					_e( 'Published' );
 				} elseif ( 'future' == $post->post_status ) {
 					if ( $time_diff > 0 )
@@ -972,18 +972,29 @@ class WP_Posts_List_Table extends WP_List_Table {
 				<label class="inline-edit-status alignleft">
 					<span class="title"><?php _e( 'Status' ); ?></span>
 					<select name="_status">
-	<?php if ( $bulk ) : ?>
-						<option value="-1"><?php _e( '&mdash; No Change &mdash;' ); ?></option>
-	<?php endif; // $bulk ?>
-					<?php if ( $can_publish ) : // Contributors only get "Unpublished" and "Pending Review" ?>
-						<option value="publish"><?php _e( 'Published' ); ?></option>
-						<option value="future"><?php _e( 'Scheduled' ); ?></option>
-	<?php if ( $bulk ) : ?>
-						<option value="private"><?php _e( 'Private' ) ?></option>
-	<?php endif; // $bulk ?>
-					<?php endif; ?>
-						<option value="pending"><?php _e( 'Pending Review' ); ?></option>
-						<option value="draft"><?php _e( 'Draft' ); ?></option>
+					<?php
+						$statuses = array();
+						if ( $bulk )
+							$statuses['-1'] = _e( '&mdash; No Change &mdash;' );
+						if ( $can_publish ) {
+							$public_stati = get_post_stati( array( 'public' => true, 'post_type' => $screen->post_type ), 'objects' );
+							foreach( $public_stati as $status ) {
+								$statuses[$status->name] = $status->labels['label'];
+							}
+							if ( $bulk ) {
+								$private_stati = get_post_stati( array( 'private' => true, 'post_type' => $screen->post_type ), 'objects' );
+								foreach( $private_stati as $status ) {
+									$statuses[$status->name] = $status->labels['label'];
+								}
+							}
+						}
+						$moderation_stati = get_post_stati( array( 'moderation' => true, 'post_type' => $screen->post_type ), 'objects' );
+						foreach( $moderation_stati as $status ) {
+							$statuses[$status->name] = $status->labels['label'];
+						}
+						foreach( $statuses as $status_key => $status_label ) : ?>
+						<option value="<?php echo esc_attr( $status_key ); ?>"><?php echo esc_html( $status_label ); ?></option>
+						<?php endforeach; ?>
 					</select>
 				</label>
 

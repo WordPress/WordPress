@@ -390,6 +390,8 @@ function wp_default_scripts( &$scripts ) {
 			'update' => __('Update'),
 			'savePending' => __('Save as Pending'),
 			'saveDraft' => __('Save Draft'),
+			// @todo these needed to be loaded later than init[0]. custom stati aren't loaded otherwise
+			'postStati' => get_post_stati( array( 'post_type' => get_post_type() ), 'objects' ),
 			'private' => __('Private'),
 			'public' => __('Public'),
 			'publicSticky' => __('Public, Sticky'),

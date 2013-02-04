@@ -453,15 +453,11 @@ jQuery(document).ready( function($) {
 					$('.edit-post-status', '#misc-publishing-actions').show();
 			}
 			$('#post-status-display').html($('option:selected', postStatus).text());
-			if ( $('option:selected', postStatus).val() == 'private' || $('option:selected', postStatus).val() == 'publish' ) {
+			var $selectedStatus = postL10n.postStati[$('option:selected', postStatus).val()];
+			if ( $selectedStatus.private || $selectedStatus.public ) {
 				$('#save-post').hide();
 			} else {
-				$('#save-post').show();
-				if ( $('option:selected', postStatus).val() == 'pending' ) {
-					$('#save-post').show().val( postL10n.savePending );
-				} else {
-					$('#save-post').show().val( postL10n.saveDraft );
-				}
+				$('#save-post').show().val( $selectedStatus.labels['save'] );
 			}
 			return true;
 		}

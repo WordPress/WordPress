@@ -109,7 +109,7 @@ function get_the_title( $post = 0 ) {
 		if ( ! empty( $post->post_password ) ) {
 			$protected_title_format = apply_filters( 'protected_title_format', __( 'Protected: %s' ) );
 			$title = sprintf( $protected_title_format, $title );
-		} else if ( isset( $post->post_status ) && 'private' == $post->post_status ) {
+		} else if ( isset( $post->post_status ) && get_post_status_object( $post->post_status, $post->post_type )->private ) {
 			$private_title_format = apply_filters( 'private_title_format', __( 'Private: %s' ) );
 			$title = sprintf( $private_title_format, $title );
 		}
@@ -698,7 +698,7 @@ function _wp_link_page( $i ) {
 	if ( 1 == $i ) {
 		$url = get_permalink();
 	} else {
-		if ( '' == get_option('permalink_structure') || in_array($post->post_status, array('draft', 'pending')) )
+		if ( '' == get_option('permalink_structure') || in_array( $post->post_status, get_post_stati( array( 'moderation' => true, 'post_type' => $post->post_type ) ) ) )
 			$url = add_query_arg( 'page', $i, get_permalink() );
 		elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') == $post->ID )
 			$url = trailingslashit(get_permalink()) . user_trailingslashit("$wp_rewrite->pagination_base/" . $i, 'single_paged');

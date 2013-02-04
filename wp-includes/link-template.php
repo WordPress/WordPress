@@ -114,7 +114,7 @@ function get_permalink( $id = 0, $leavename = false ) {
 
 	$permalink = apply_filters('pre_post_link', $permalink, $post, $leavename);
 
-	if ( '' != $permalink && !in_array($post->post_status, array('draft', 'pending', 'auto-draft')) ) {
+	if ( '' != $permalink && !in_array($post->post_status, array_merge( array('auto-draft'), get_post_stati( array( 'moderation' => true, 'post_type' => $post->post_type )) ) ) ) {
 		$unixtime = strtotime($post->post_date);
 
 		$category = '';
