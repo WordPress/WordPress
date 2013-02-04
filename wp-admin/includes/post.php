@@ -993,7 +993,7 @@ function get_sample_permalink($id, $title = null, $name = null) {
 
 	// Hack: get_permalink would return ugly permalink for
 	// drafts, so we will fake, that our post is published
-	if ( in_array($post->post_status, array('draft', 'pending')) ) {
+	if ( in_array($post->post_status, get_post_stati( array( 'moderation' => true, 'post_type' => $post->post_type ) )) ) {
 		$post->post_status = 'publish';
 		$post->post_name = sanitize_title($post->post_name ? $post->post_name : $post->post_title, $post->ID);
 	}
