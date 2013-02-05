@@ -1922,6 +1922,7 @@ function wp_get_mime_types() {
 	'ogv' => 'video/ogg',
 	'webm' => 'video/webm',
 	'mkv' => 'video/x-matroska',
+	'3gp|3gpp2|3g2' => 'video/3gpp',
 	// Text formats
 	'txt|asc|c|cc|h' => 'text/plain',
 	'csv' => 'text/csv',
