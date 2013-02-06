@@ -31,7 +31,7 @@ window.wp = window.wp || {};
 
 		if ( typeof( window.heartbeatSettings != 'undefined' ) ) {
 			settings = $.extend( {}, window.heartbeatSettings );
-			delete window.heartbeatSettings;
+			window.heartbeatSettings = null;
 
 			// Add private vars
 			nonce = settings.nonce || '';
@@ -61,6 +61,15 @@ window.wp = window.wp || {};
 				return parseInt( (new Date()).getTime() / 1000 );
 
 			return (new Date()).getTime();
+		}
+
+		function isLocalFrame(frame) {
+			try {
+				if ( frame.contentWindow.document )
+					return true;
+			} catch(e) {}
+
+			return false;
 		}
 
 		// Set error state and fire an event if errors persist for over 2 min when the window has focus
@@ -187,6 +196,9 @@ window.wp = window.wp || {};
 
 		function setFrameEvents() {
 			$('iframe').each( function(i, frame){
+				if ( !isLocalFrame(frame) )
+					return;
+
 				if ( $.data(frame, 'wp-heartbeat-focus') )
 					return;
 
@@ -206,6 +218,9 @@ window.wp = window.wp || {};
 			winBlurTimeout = window.setTimeout( function(){ blurred(); }, 500 );
 		}).on('focus.wp-heartbeat-focus', function(){
 			$('iframe').each( function(i, frame){
+				if ( !isLocalFrame(frame) )
+					return;
+
 				$.removeData(frame, 'wp-heartbeat-focus');
 				$(frame.contentWindow).off('.wp-heartbeat-focus');
 			});
@@ -217,6 +232,9 @@ window.wp = window.wp || {};
 			userActiveEvents = false;
 			$(document).off('.wp-heartbeat-active');
 			$('iframe').each( function(i, frame){
+				if ( !isLocalFrame(frame) )
+					return;
+
 				$(frame.contentWindow).off('.wp-heartbeat-active');
 			});
 
@@ -243,6 +261,9 @@ window.wp = window.wp || {};
 			if ( !userActiveEvents ) {
 				$(document).on('mouseover.wp-heartbeat-active keyup.wp-heartbeat-active', function(){ userIsActive(); });
 				$('iframe').each( function(i, frame){
+					if ( !isLocalFrame(frame) )
+						return;
+
 					$(frame.contentWindow).on('mouseover.wp-heartbeat-active keyup.wp-heartbeat-active', function(){ userIsActive(); });
 				});
 				userActiveEvents = true;
