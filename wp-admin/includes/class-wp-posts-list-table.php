@@ -653,9 +653,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 			?>
 			<td <?php echo $attributes ?>><?php
 				if ( get_post_format( $post->ID ) )
-					echo get_post_format_string( get_post_format( $post->ID ) );
+					printf( '<a href="%s">%s</a>', add_query_arg( array( 'post_format' => get_post_format( $post->ID ), 'post_type' => $post->post_type ), 'edit.php' ), get_post_format_string( get_post_format( $post->ID ) ) );
 				else
-					echo get_post_format_string( 'standard' );
+					echo '&#8212;';
 			?></td>
 			<?php
 			break;
