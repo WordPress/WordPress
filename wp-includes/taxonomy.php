@@ -1712,26 +1712,21 @@ function wp_count_terms( $taxonomy, $args = array() ) {
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3.0
- * @uses $wpdb
+ * @uses wp_remove_object_terms()
  *
  * @param int $object_id The term Object Id that refers to the term
  * @param string|array $taxonomies List of Taxonomy Names or single Taxonomy name.
  */
 function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
-	global $wpdb;
-
 	$object_id = (int) $object_id;
 
 	if ( !is_array($taxonomies) )
 		$taxonomies = array($taxonomies);
 
 	foreach ( (array) $taxonomies as $taxonomy ) {
-		$tt_ids = wp_get_object_terms($object_id, $taxonomy, array('fields' => 'tt_ids'));
-		$in_tt_ids = "'" . implode("', '", $tt_ids) . "'";
-		do_action( 'delete_term_relationships', $object_id, $tt_ids );
-		$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_tt_ids)", $object_id) );
-		do_action( 'deleted_term_relationships', $object_id, $tt_ids );
-		wp_update_term_count($tt_ids, $taxonomy);
+		$term_ids = wp_get_object_terms( $object_id, $taxonomy, array( 'fields' => 'ids' ) );
+		$term_ids = array_map( 'intval', $term_ids );
+		wp_remove_object_terms( $object_id, $term_ids, $taxonomy );
 	}
 }
 
@@ -2158,7 +2153,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3.0
- * @uses $wpdb
+ * @uses wp_remove_object_terms()
  *
  * @param int $object_id The object to relate to.
  * @param array|int|string $terms The slug or id of the term, will replace all existing
@@ -2215,13 +2210,17 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 		wp_update_term_count( $new_tt_ids, $taxonomy );
 
 	if ( ! $append ) {
-		$delete_terms = array_diff($old_tt_ids, $tt_ids);
-		if ( $delete_terms ) {
-			$in_delete_terms = "'" . implode("', '", $delete_terms) . "'";
-			do_action( 'delete_term_relationships', $object_id, $delete_terms );
-			$wpdb->query( $wpdb->prepare("DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_delete_terms)", $object_id) );
-			do_action( 'deleted_term_relationships', $object_id, $delete_terms );
-			wp_update_term_count($delete_terms, $taxonomy);
+		$delete_tt_ids = array_diff( $old_tt_ids, $tt_ids );
+		
+		if ( $delete_tt_ids ) {
+			$in_delete_tt_ids = "'" . implode( "', '", $delete_tt_ids ) . "'";
+			$delete_term_ids = $wpdb->get_col( $wpdb->prepare( "SELECT tt.term_id FROM $wpdb->term_taxonomy AS tt WHERE tt.taxonomy = %s AND tt.term_taxonomy_id IN ($in_delete_tt_ids)", $taxonomy ) );
+			$delete_term_ids = array_map( 'intval', $delete_term_ids );
+			
+			$remove = wp_remove_object_terms( $object_id, $delete_term_ids, $taxonomy );
+			if ( is_wp_error( $remove ) ) {
+				return $remove;
+			}
 		}
 	}
 
@@ -2242,6 +2241,86 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 
 	do_action('set_object_terms', $object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids);
 	return $tt_ids;
+}
+
+/**
+ * Add term(s) associated with a given object.
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @since 3.6
+ * @uses wp_set_object_terms()
+ *
+ * @param int $object_id The ID of the object to which the terms will be added.
+ * @param array|int|string $terms The slug(s) or ID(s) of the term(s) to add.
+ * @param array|string $taxonomy Taxonomy name.
+ * @return array|WP_Error Affected Term IDs
+ */
+function wp_add_object_terms( $object_id, $terms, $taxonomy ) {
+	return wp_set_object_terms( $object_id, $terms, $taxonomy, true );
+}
+
+/**
+ * Remove term(s) associated with a given object.
+ *
+ * @package WordPress
+ * @subpackage Taxonomy
+ * @since 3.6
+ * @uses $wpdb
+ *
+ * @uses apply_filters() Calls 'delete_term_relationships' hook with object_id and tt_ids as parameters.
+ * @uses apply_filters() Calls 'deleted_term_relationships' hook with object_id and tt_ids as parameters.
+ *
+ * @param int $object_id The ID of the object from which the terms will be removed.
+ * @param array|int|string $terms The slug(s) or ID(s) of the term(s) to remove.
+ * @param array|string $taxonomy Taxonomy name.
+ * @return bool|WP_Error True on success, false or WP_Error on failure.
+ */
+function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
+	global $wpdb;
+
+	$object_id = (int) $object_id;
+
+	if ( ! taxonomy_exists( $taxonomy ) ) {
+		return new WP_Error( 'invalid_taxonomy', __( 'Invalid Taxonomy' ) );
+	}
+
+	if ( ! is_array( $terms ) ) {
+		$terms = array( $terms );
+	}
+
+	$tt_ids = array();
+	
+	foreach ( (array) $terms as $term ) {
+		if ( ! strlen( trim( $term ) ) ) {
+			continue;
+		}
+	
+		if ( ! $term_info = term_exists( $term, $taxonomy ) ) {
+			// Skip if a non-existent term ID is passed.
+			if ( is_int( $term ) ) {
+				continue;
+			}
+		}
+	
+		if ( is_wp_error( $term_info ) ) {
+			return $term_info;
+		}
+	
+		$tt_ids[] = $term_info['term_taxonomy_id'];
+	}
+	
+	if ( $tt_ids ) {
+		$in_tt_ids = "'" . implode( "', '", $tt_ids ) . "'";
+		do_action( 'delete_term_relationships', $object_id, $tt_ids );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_tt_ids)", $object_id ) );
+		do_action( 'deleted_term_relationships', $object_id, $tt_ids );
+		wp_update_term_count( $tt_ids, $taxonomy );
+		
+		return true;
+	}
+
+	return false;
 }
 
 /**
