@@ -1449,8 +1449,6 @@ function _post_states($post) {
 		}
 	}
 
-	if ( get_post_format( $post->ID ) )
-		echo ' - <span class="post-state-format">' . get_post_format_string( get_post_format( $post->ID ) ) . '</span>';
 }
 
 function _media_states( $post ) {

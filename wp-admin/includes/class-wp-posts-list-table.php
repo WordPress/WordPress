@@ -259,6 +259,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( post_type_supports( $post_type, 'author' ) )
 			$posts_columns['author'] = __( 'Author' );
 
+		if ( post_type_supports( $post_type, 'post-formats' ) )
+			$posts_columns['format'] = _x( 'Format', 'post format' );
+
 		$taxonomies = array();
 
 		$taxonomies = get_object_taxonomies( $post_type, 'objects' );
@@ -642,6 +645,17 @@ class WP_Posts_List_Table extends WP_List_Table {
 					esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'author' => get_the_author_meta( 'ID' ) ), 'edit.php' )),
 					get_the_author()
 				);
+			?></td>
+			<?php
+			break;
+
+			case 'format':
+			?>
+			<td <?php echo $attributes ?>><?php
+				if ( get_post_format( $post->ID ) )
+					echo get_post_format_string( get_post_format( $post->ID ) );
+				else
+					echo get_post_format_string( 'standard' );
 			?></td>
 			<?php
 			break;
