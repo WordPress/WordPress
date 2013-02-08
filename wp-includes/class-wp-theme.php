@@ -651,7 +651,7 @@ final class WP_Theme implements ArrayAccess {
 					static $attr = null;
 					if ( ! isset( $attr ) )
 						$attr = esc_attr__( 'Visit author homepage' );
-					$value = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $this->display( 'AuthorURI', true, $translate ), $attr, $value );
+					$value = sprintf( '<a href="%1$s" title="%2$s" target="_blank">%3$s</a>', $this->display( 'AuthorURI', true, $translate ), $attr, $value );
 				} elseif ( ! $value ) {
 					$value = __( 'Anonymous' );
 				}

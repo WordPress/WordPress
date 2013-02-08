@@ -331,7 +331,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					$theme_meta[] = sprintf( __( 'By %s' ), $theme->display('Author') );
 
 					if ( $theme->get('ThemeURI') )
-						$theme_meta[] = '<a href="' . $theme->display('ThemeURI') . '" title="' . esc_attr__( 'Visit theme homepage' ) . '">' . __( 'Visit Theme Site' ) . '</a>';
+						$theme_meta[] = '<a href="' . $theme->display('ThemeURI') . '" title="' . esc_attr__( 'Visit theme homepage' ) . '" target="_blank">' . __( 'Visit Theme Site' ) . '</a>';
 
 					$theme_meta = apply_filters( 'theme_row_meta', $theme_meta, $stylesheet, $theme, $status );
 					echo implode( ' | ', $theme_meta );
