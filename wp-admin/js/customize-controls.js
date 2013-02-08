@@ -886,6 +886,11 @@
 			event.preventDefault();
 		});
 
+		$('.upload-dropzone a.upload').keydown( function( event ) {
+			if ( 13 === event.which ) // enter
+				this.click();
+		});
+
 		$('.collapse-sidebar').on( 'click keydown', function( event ) {
 			if ( event.type === 'keydown' &&  13 !== event.which ) // enter
 				return;
