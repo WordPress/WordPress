@@ -120,6 +120,7 @@ function wp_deregister_script( $handle ) {
 			'jquery-ui-position', 'jquery-ui-progressbar', 'jquery-ui-resizable', 'jquery-ui-selectable',
 			'jquery-ui-slider', 'jquery-ui-sortable', 'jquery-ui-spinner', 'jquery-ui-tabs',
 			'jquery-ui-tooltip', 'jquery-ui-widget',
+			'underscore', 'backbone',
 		);
 
 		if ( in_array( $handle, $no ) ) {
