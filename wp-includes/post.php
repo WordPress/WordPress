@@ -3653,7 +3653,7 @@ function get_pages($args = '') {
 	$key = md5( serialize( compact(array_keys($defaults)) ) );
 	$last_changed = wp_cache_get( 'last_changed', 'posts' );
 	if ( ! $last_changed ) {
-		$last_changed = 1;
+		$last_changed = microtime();
 		wp_cache_set( 'last_changed', $last_changed, 'posts' );
 	}
 
@@ -4672,12 +4672,7 @@ function clean_post_cache( $post ) {
 		do_action( 'clean_page_cache', $post->ID );
 	}
 
-	if ( function_exists( 'wp_cache_incr' ) ) {
-		wp_cache_incr( 'last_changed', 1, 'posts' );
-	} else {
-		$last_changed = wp_cache_get( 'last_changed', 'posts' );
-		wp_cache_set( 'last_changed', $last_changed + 1, 'posts' );
-	}
+	wp_cache_set( 'last_changed', microtime(), 'posts' );
 }
 
 /**

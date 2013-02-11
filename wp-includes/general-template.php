@@ -919,7 +919,7 @@ function wp_get_archives($args = '') {
 
 	$last_changed = wp_cache_get( 'last_changed', 'posts' );
 	if ( ! $last_changed ) {
-		$last_changed = 1;
+		$last_changed = microtime();
 		wp_cache_set( 'last_changed', $last_changed, 'posts' );
 	}
 
