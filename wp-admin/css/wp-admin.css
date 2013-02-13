@@ -218,8 +218,6 @@ TABLE OF CONTENTS:
 	border-radius: 3px;
 	z-index: 100000;
 	line-height: normal;
-	-webkit-box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
-	box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
 	text-decoration: none;
 }
 
@@ -575,7 +573,7 @@ select,
 
 .widefat td,
 .widefat th {
-	border-width: 1px 0;
+	border-width: 0 0 1px 0;
 	border-style: solid;
 }
 .widefat tfoot th {
@@ -672,7 +670,6 @@ div.error p {
 .subtitle {
 	font-weight: normal;
 	margin: 0;
-	text-shadow: #fff 0 1px 0;
 }
 
 .wrap h2 {
@@ -1048,8 +1045,6 @@ ul#add-to-blog-users {
 #minor-publishing {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	-webkit-box-shadow: 0 1px 0 #fff;
-	box-shadow: 0 1px 0 #fff;
 }
 
 #save-post {
@@ -1195,8 +1190,6 @@ form.upgrade .hint {
 }
 
 #screen-meta-links a:focus {
-	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.4);
-	box-shadow: 1px 1px 1px rgba(0,0,0,0.4);
 	outline: none;
 }
 
@@ -1240,7 +1233,6 @@ form.upgrade .hint {
 	line-height: 22px;
 	font-size: 12px;
 	display: block;
-	text-shadow: rgba(255,255,255,0.7) 0 1px 0;
 }
 
 #screen-meta-links a.show-settings:hover {
@@ -1461,7 +1453,6 @@ form.upgrade .hint {
 	right: auto;
 	bottom: auto;
 	border: 0 none;
-
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
@@ -2192,8 +2183,6 @@ html.wp-toolbar {
 
 .postbox.closed h3 {
 	border: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
 }
 
 .postbox table.form-table {
@@ -3913,15 +3902,8 @@ abbr.required {
 	margin-bottom: 2px;
 	border: 1px solid #d1d1d1;
 	background: #f7f7f7;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#f7f7f7));
-	background-image: -webkit-linear-gradient(bottom, #fff, #f7f7f7);
-	background-image:    -moz-linear-gradient(bottom, #fff, #f7f7f7);
-	background-image:      -o-linear-gradient(bottom, #fff, #f7f7f7);
-	background-image: linear-gradient(to top, #fff, #f7f7f7);
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	-webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.1);
-	box-shadow: inset 0 0 3px rgba(0,0,0,0.1);
 }
 
 .media-item .bar {
@@ -3930,15 +3912,8 @@ abbr.required {
 	height: 100%;
 	margin-top: -24px;
 	background-color: #8cc1e9;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#72a7cf), to(#8cc1e9));
-	background-image: -webkit-linear-gradient(bottom, #72a7cf, #8cc1e9);
-	background-image:    -moz-linear-gradient(bottom, #72a7cf, #8cc1e9);
-	background-image:      -o-linear-gradient(bottom, #72a7cf, #8cc1e9);
-	background-image: linear-gradient(to top, #72a7cf, #8cc1e9);
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	-webkit-box-shadow: 0 0 3px rgba(0,0,0,0.3);
-	box-shadow: 0 0 3px rgba(0,0,0,0.3);
 }
 
 .media-item .progress .percent {
@@ -3946,7 +3921,6 @@ abbr.required {
 	position: relative;
 	width: 200px;
 	padding: 0 8px;
-	text-shadow: 0 1px 0 rgba(255,255,255,0.4);
 	color: rgba(0,0,0,0.6);
 }
 
@@ -4418,7 +4392,6 @@ span.imgedit-scale-warn {
 .form-table th,
 .form-wrap label {
 	font-weight: normal;
-	text-shadow: #fff 0 1px 0;
 }
 
 .form-table th {
@@ -4539,8 +4512,6 @@ span.imgedit-scale-warn {
 
 #replycontent {
 	height: 120px;
-	-webkit-box-shadow: none;
-	box-shadow: none;
 }
 
 .comment-php .wp-editor-area {
@@ -4885,7 +4856,6 @@ div#custom-background-image img {
 	border-style: solid;
 	border-width: 1px 1px 0;
 	color: #aaa;
-	text-shadow: #fff 0 1px 0;
 	font-size: 12px;
 	line-height: 16px;
 	display: inline-block;
@@ -5063,11 +5033,6 @@ h2 .nav-tab {
 	cursor: move;
 	color: #333;
 	background: #e6e6e6;
-	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(7%, #e6e6e6), color-stop(77%, #d8d8d8));
-	background-image: -webkit-linear-gradient(bottom, #e6e6e6 7%, #d8d8d8 77%);
-	background-image:    -moz-linear-gradient(bottom, #e6e6e6 7%, #d8d8d8 77%);
-	background-image:      -o-linear-gradient(bottom, #e6e6e6 7%, #d8d8d8 77%);
-	background-image: linear-gradient(to top, #e6e6e6 7%, #d8d8d8 77%);
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	border: 1px solid #b4b4b4;
@@ -5075,7 +5040,6 @@ h2 .nav-tab {
 	line-height: 16px;
 	font-size: 14px;
 	text-decoration: none;
-	text-shadow: 0 1px 0px #fff;
 }
 
 .pressthis a:active {
@@ -5086,8 +5050,6 @@ h2 .nav-tab {
 	-webkit-transform: skew(20deg) rotate(9deg);
 	-moz-transform: skew(20deg) rotate(9deg);
 	transform: skew(20deg) rotate(9deg);
-	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
-	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.7);
 }
 
 .pressthis a span {
@@ -5111,8 +5073,6 @@ h2 .nav-tab {
 	-webkit-transform: skew(20deg) rotate(6deg);
 	-moz-transform: skew(20deg) rotate(6deg);
 	transform: skew(20deg) rotate(6deg);
-	-webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
-	box-shadow: 0 10px 8px rgba(0, 0, 0, 0.6);
 }
 
 /*------------------------------------------------------------------------------
@@ -6555,8 +6515,6 @@ a.rsswidget {
 	background-image: none;
 	border-color: #edc048;
 	color: #fff;
-	-webkit-box-shadow: none;
-	box-shadow: none;
 }
 
 #dashboard_browser_nag.postbox.browser-insecure h3 {
@@ -6566,25 +6524,12 @@ a.rsswidget {
 
 #dashboard_browser_nag.postbox h3 {
 	border-bottom-color: #f6e2ac;
-	text-shadow: none;
 	background: transparent none;
 	color: #fff;
-	-webkit-box-shadow: none;
-	box-shadow: none;
 }
 
 #dashboard_browser_nag a {
 	color: #fff;
-}
-
-#dashboard_browser_nag.browser-insecure a.browse-happy-link,
-#dashboard_browser_nag.browser-insecure a.update-browser-link {
-	text-shadow: #871b15 0 1px 0;
-}
-
-#dashboard_browser_nag a.browse-happy-link,
-#dashboard_browser_nag a.update-browser-link {
-	text-shadow: #d29a04 0 1px 0;
 }
 
 
@@ -6601,8 +6546,6 @@ a.rsswidget {
 	font-weight: normal;
 	background: #fff;
 	border: 1px solid #e5e5e5;
-	-webkit-box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
-	box-shadow: rgba(200, 200, 200, 0.7) 0px 4px 10px -1px;
 }
 
 .login form .forgetmenot {
@@ -6661,7 +6604,6 @@ a.rsswidget {
 
 .login #nav,
 .login #backtoblog {
-	text-shadow: #fff 0 1px 0;
 	margin: 0 0 0 16px;
 	padding: 16px 16px 0;
 }
@@ -6684,8 +6626,6 @@ a.rsswidget {
 	border: 1px solid #e5e5e5;
 	background: #fbfbfb;
 	outline: none;
-	-webkit-box-shadow: inset 1px 1px 2px rgba(200, 200, 200, 0.2);
-	box-shadow: inset 1px 1px 2px rgba(200, 200, 200, 0.2);
 }
 
 .login #pass-strength-result {
@@ -6859,7 +6799,6 @@ a.rsswidget {
 	top: 0;
 	line-height: 22px;
 	font-size: 18px;
-	text-shadow: 0 1px 0 #fff;
 }
 
 #menu-management .nav-tabs-arrow-left {
@@ -7116,18 +7055,12 @@ a.rsswidget {
 	height: auto;
 	width: 400px;
 	line-height: 35px;
-	text-shadow: 0 1px 0 #FFFFFF;
 	overflow: hidden;
 	word-wrap: break-word;
 }
 
 #menu-to-edit .menu-item-invalid .menu-item-handle {
 	background: #f6c9cc;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#f6c9cc), to(#fdf8ff));
-	background-image: -webkit-linear-gradient(bottom, #f6c9cc, #fdf8ff);
-	background-image:    -moz-linear-gradient(bottom, #f6c9cc, #fdf8ff);
-	background-image:      -o-linear-gradient(bottom, #f6c9cc, #fdf8ff);
-	background-image: linear-gradient(to top, #f6c9cc, #fdf8ff);
 }
 
 .menu-item-edit-active .menu-item-handle {
@@ -7147,7 +7080,6 @@ a.rsswidget {
 
 .menu li.deleting .menu-item-handle {
 	background-image: none;
-	text-shadow: 0 0 0;
 }
 
 .menu-item-handle .item-title {
@@ -7680,7 +7612,6 @@ div.zerosize {
 }
 
 h3.tb {
-	text-shadow: 0 1px 0 #fff;
 	font-weight: bold;
 	font-size: 12px;
 	margin-left: 5px;
@@ -8083,11 +8014,6 @@ div.sidebar-name {
 
 #available-widgets .widget-holder {
 	padding: 7px 5px 0;
-}
-
-#available-widgets .widget {
-	-webkit-box-shadow: none;
-	box-shadow: none;
 }
 
 .inactive-sidebar {
