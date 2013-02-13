@@ -1809,6 +1809,7 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 
 .wp-badge {
 	color: #fff;
+	text-shadow: 0 -1px 0 rgba(22, 57, 81, 0.3);
 }
 
 .about-wrap h2 .nav-tab {
@@ -1851,6 +1852,10 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 
 .about-wrap .point-releases h3:first-child {
 	border: 0;
+}
+
+.about-wrap li.wp-person img.gravatar {
+	border-color: #d1e5ee;
 }
 
 .about-wrap li.wp-person .title {

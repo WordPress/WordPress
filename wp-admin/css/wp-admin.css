@@ -1190,6 +1190,8 @@ form.upgrade .hint {
 }
 
 #screen-meta-links a:focus {
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+	box-shadow: 1px 1px 1px rgba(0,0,0,0.4);
 	outline: none;
 }
 
@@ -5414,6 +5416,8 @@ h2 .nav-tab {
 	padding: 2px;
 	width: 60px;
 	height: 60px;
+	border-width: 1px;
+	border-style: solid;
 }
 
 .about-wrap ul.compact li.wp-person img.gravatar {
