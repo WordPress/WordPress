@@ -169,14 +169,14 @@ require_once( './admin-header.php' );
 $identical = true;
 foreach ( _wp_post_revision_fields() as $field => $field_title ) :
 	if ( 'diff' == $action ) {
-		$left_content = apply_filters( "_wp_post_revision_field_$field", $left_revision->$field, $field );
-		$right_content = apply_filters( "_wp_post_revision_field_$field", $right_revision->$field, $field );
+		$left_content = apply_filters( "_wp_post_revision_field_$field", $left_revision->$field, $field, $left_revision, 'left' );
+		$right_content = apply_filters( "_wp_post_revision_field_$field", $right_revision->$field, $field, $right_revision, 'right' );
 		if ( !$content = wp_text_diff( $left_content, $right_content ) )
 			continue; // There is no difference between left and right
 		$identical = false;
 	} else {
 		add_filter( "_wp_post_revision_field_$field", 'htmlspecialchars' );
-		$content = apply_filters( "_wp_post_revision_field_$field", $revision->$field, $field );
+		$content = apply_filters( "_wp_post_revision_field_$field", $revision->$field, $field, $revision, '' );
 	}
 	?>
 
