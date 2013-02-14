@@ -36,6 +36,8 @@ do_action( 'customize_controls_init' );
 wp_enqueue_script( 'customize-controls' );
 wp_enqueue_style( 'customize-controls' );
 
+wp_enqueue_script( 'accordion' );
+
 do_action( 'customize_controls_enqueue_scripts' );
 
 // Let's roll.
@@ -89,15 +91,15 @@ do_action( 'customize_controls_print_scripts' );
 		?>
 
 		<div class="wp-full-overlay-sidebar-content" tabindex="-1">
-			<div id="customize-info" class="customize-section<?php if ( $cannot_expand ) echo ' cannot-expand'; ?>">
-				<div class="customize-section-title" aria-label="<?php esc_attr_e( 'Theme Customizer Options' ); ?>" tabindex="0">
+			<div id="customize-info" class="accordion-section<?php if ( $cannot_expand ) echo ' cannot-expand'; ?>">
+				<div class="accordion-section-title" aria-label="<?php esc_attr_e( 'Theme Customizer Options' ); ?>" tabindex="0">
 					<span class="preview-notice"><?php
 						/* translators: %s is the theme name in the Customize/Live Preview pane */
 						echo sprintf( __( 'You are previewing %s' ), '<strong class="theme-name">' . $wp_customize->theme()->display('Name') . '</strong>' );
 					?></span>
 				</div>
 				<?php if ( ! $cannot_expand ) : ?>
-				<div class="customize-section-content">
+				<div class="accordion-section-content">
 					<?php if ( $screenshot ) : ?>
 						<img class="theme-screenshot" src="<?php echo esc_url( $screenshot ); ?>" />
 					<?php endif; ?>
@@ -109,7 +111,7 @@ do_action( 'customize_controls_print_scripts' );
 				<?php endif; ?>
 			</div>
 
-			<div id="customize-theme-controls"><ul>
+			<div id="customize-theme-controls" class="accordion-container"><ul>
 				<?php
 				foreach ( $wp_customize->sections() as $section )
 					$section->maybe_render();

@@ -2534,6 +2534,15 @@ div.sidebar-name h3 {
 	direction: ltr;
 }
 
+.control-section .accordion-section-title {
+	font-family: Tahoma, Arial, sans-serif;
+}
+
+.accordion-section-title:after {
+	right: auto;
+	left: 20px;
+}
+
 /**
  * HiDPI Displays
  */

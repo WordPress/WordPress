@@ -8277,6 +8277,121 @@ a.widget-control-edit {
 	-ms-touch-action: none;
 }
 
+/* Accordion */
+
+.accordion-section {
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #dfdfdf;
+	margin: 0;
+}
+
+.accordion-section:last-child {
+	box-shadow: 0 1px 0 0px #fff;
+}
+
+.accordion-section.open .accordion-section-content {
+	display: block;
+	background: #fdfdfd;
+}
+
+.accordion-section.open:hover {
+	border-bottom-color: #dfdfdf;
+}
+
+.accordion-section-content {
+	display: none;
+	padding: 10px 20px 15px;
+	overflow: hidden;
+}
+
+.accordion-section-title {
+	margin: 0;
+	padding: 15px 20px;
+	position: relative;
+
+	cursor: pointer;
+
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+.accordion-section-title:after {
+	content: '';
+	width: 0;
+	height: 0;
+	border-color: #ccc transparent;
+	border-style: solid;
+	border-width: 6px 6px 0;
+	position: absolute;
+	top: 25px;
+	right: 20px;
+	z-index: 1;
+}
+
+.accordion-section-title:focus {
+	outline: none;
+}
+
+.accordion-section-title:hover:after,
+.accordion-section-title:focus:after {
+	border-color: #aaa transparent;
+}
+
+.cannot-expand .accordion-section-title {
+	cursor: auto;
+}
+
+.cannot-expand .accordion-section-title:after {
+	display: none;
+}
+
+.control-section .accordion-section-title {
+	padding: 10px 20px;
+	font-size: 15px;
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-weight: normal;
+	text-shadow: 0 1px 0 #fff;
+	background: #f5f5f5;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#eee), to(#f5f5f5));
+	background-image: -webkit-linear-gradient(bottom, #eee, #f5f5f5);
+	background-image:    -moz-linear-gradient(bottom, #eee, #f5f5f5);
+	background-image:      -o-linear-gradient(bottom, #eee, #f5f5f5);
+	background-image: linear-gradient(to top, #eee, #f5f5f5);
+}
+
+.control-section .accordion-section-title:after {
+	top: 15px;
+}
+
+.control-section .accordion-section-title:hover:after,
+.control-section .accordion-section-title:focus:after {
+	border-color: #eee transparent;
+}
+
+.control-section:hover .accordion-section-title,
+.control-section .accordion-section-title:hover,
+.control-section.open .accordion-section-title,
+.control-section .accordion-section-title:focus {
+	color: #fff;
+	text-shadow: 0 -1px 0 #333;
+	background: #808080;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#6d6d6d), to(#808080));
+	background-image: -webkit-linear-gradient(bottom, #6d6d6d, #808080);
+	background-image:    -moz-linear-gradient(bottom, #6d6d6d, #808080);
+	background-image:      -o-linear-gradient(bottom, #6d6d6d, #808080);
+	background-image: linear-gradient(to top, #6d6d6d, #808080);
+}
+
+.control-section.accordion-section:hover,
+.control-section.accordion-section.open {
+	border-top-color: #808080;
+}
+
+.control-section.open .accordion-section-title {
+	border-bottom: 1px solid #6d6d6d;
+}
+
 /* =Media Queries
 -------------------------------------------------------------- */
 
