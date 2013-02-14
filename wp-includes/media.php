@@ -138,15 +138,15 @@ function image_downsize($id, $size = 'medium') {
 	if ( !wp_attachment_is_image($id) )
 		return false;
 
+	// plugins can use this to provide resize services
+	if ( $out = apply_filters( 'image_downsize', false, $id, $size ) )
+		return $out;
+
 	$img_url = wp_get_attachment_url($id);
 	$meta = wp_get_attachment_metadata($id);
 	$width = $height = 0;
 	$is_intermediate = false;
 	$img_url_basename = wp_basename($img_url);
-
-	// plugins can use this to provide resize services
-	if ( $out = apply_filters('image_downsize', false, $id, $size) )
-		return $out;
 
 	// try for a new style intermediate size
 	if ( $intermediate = image_get_intermediate_size($id, $size) ) {
