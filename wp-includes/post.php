@@ -4947,11 +4947,11 @@ function wp_save_post_revision( $post_id, $new_data = null ) {
 	if ( !post_type_supports($post['post_type'], 'revisions') )
 		return;
 
-	// if new data is supplied, check that it is different from last saved revision
-	if( is_array( $new_data ) ) {
+	// if new data is supplied, check that it is different from last saved revision, unless a plugin tells us to always save regardless
+	if ( apply_filters( 'wp_save_post_revision_check_for_changes', true, $post, $new_data ) && is_array( $new_data ) ) {
 		$post_has_changed = false;
-		foreach( array_keys( _wp_post_revision_fields() ) as $field ) {
-			if( normalize_whitespace( $new_data[ $field ] ) != normalize_whitespace( $post[ $field ] ) ) {
+		foreach ( array_keys( _wp_post_revision_fields() ) as $field ) {
+			if ( normalize_whitespace( $new_data[ $field ] ) != normalize_whitespace( $post[ $field ] ) ) {
 				$post_has_changed = true;
 				break;
 			}
