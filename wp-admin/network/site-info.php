@@ -62,7 +62,7 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] ) {
 	delete_option( 'rewrite_rules' );
 
 	// update blogs table
-	$blog_data = stripslashes_deep( $_POST['blog'] );
+	$blog_data = wp_unslash( $_POST['blog'] );
 	$existing_details = get_blog_details( $id, false );
 	$blog_data_checkboxes = array( 'public', 'archived', 'spam', 'mature', 'deleted' );
 	foreach ( $blog_data_checkboxes as $c ) {

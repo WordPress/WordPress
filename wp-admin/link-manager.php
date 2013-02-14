@@ -31,7 +31,7 @@ if ( $doaction && isset( $_REQUEST['linkcheck'] ) ) {
 		exit;
 	}
 } elseif ( ! empty( $_GET['_wp_http_referer'] ) ) {
-	 wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), stripslashes( $_SERVER['REQUEST_URI'] ) ) );
+	 wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
 	 exit;
 }
 
@@ -72,7 +72,7 @@ if ( ! current_user_can('manage_links') )
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?> <a href="link-add.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'link'); ?></a> <?php
 if ( !empty($_REQUEST['s']) )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( stripslashes($_REQUEST['s']) ) ); ?>
+	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( wp_unslash($_REQUEST['s']) ) ); ?>
 </h2>
 
 <?php

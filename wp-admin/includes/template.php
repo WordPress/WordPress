@@ -1331,7 +1331,7 @@ function _draft_or_post_title( $post = 0 ) {
  *
  */
 function _admin_search_query() {
-	echo isset($_REQUEST['s']) ? esc_attr( stripslashes( $_REQUEST['s'] ) ) : '';
+	echo isset($_REQUEST['s']) ? esc_attr( wp_unslash( $_REQUEST['s'] ) ) : '';
 }
 
 /**

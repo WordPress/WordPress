@@ -468,7 +468,7 @@ function do_enclose( $content, $post_ID ) {
 				}
 
 				if ( in_array( substr( $type, 0, strpos( $type, "/" ) ), $allowed_types ) ) {
-					add_post_meta( $post_ID, 'enclosure', "$url\n$len\n$mime\n" );
+					wp_add_post_meta( $post_ID, 'enclosure', "$url\n$len\n$mime\n" );
 				}
 			}
 		}
@@ -1256,9 +1256,9 @@ function wp_referer_field( $echo = true ) {
  * @return string Original referer field.
  */
 function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
-	$jump_back_to = ( 'previous' == $jump_back_to ) ? wp_get_referer() : $_SERVER['REQUEST_URI'];
+	$jump_back_to = ( 'previous' == $jump_back_to ) ? wp_get_referer() : wp_unslash( $_SERVER['REQUEST_URI'] );
 	$ref = ( wp_get_original_referer() ) ? wp_get_original_referer() : $jump_back_to;
-	$orig_referer_field = '<input type="hidden" name="_wp_original_http_referer" value="' . esc_attr( stripslashes( $ref ) ) . '" />';
+	$orig_referer_field = '<input type="hidden" name="_wp_original_http_referer" value="' . esc_attr( $ref ) . '" />';
 	if ( $echo )
 		echo $orig_referer_field;
 	return $orig_referer_field;
@@ -1277,11 +1277,11 @@ function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
 function wp_get_referer() {
 	$ref = false;
 	if ( ! empty( $_REQUEST['_wp_http_referer'] ) )
-		$ref = $_REQUEST['_wp_http_referer'];
+		$ref = wp_unslash( $_REQUEST['_wp_http_referer'] );
 	else if ( ! empty( $_SERVER['HTTP_REFERER'] ) )
-		$ref = $_SERVER['HTTP_REFERER'];
+		$ref = wp_unslash( $_SERVER['HTTP_REFERER'] );
 
-	if ( $ref && $ref !== $_SERVER['REQUEST_URI'] )
+	if ( $ref && $ref !== wp_unslash( $_SERVER['REQUEST_URI'] ) )
 		return $ref;
 	return false;
 }
@@ -1297,7 +1297,7 @@ function wp_get_referer() {
  */
 function wp_get_original_referer() {
 	if ( !empty( $_REQUEST['_wp_original_http_referer'] ) )
-		return $_REQUEST['_wp_original_http_referer'];
+		return wp_unslash( $_REQUEST['_wp_original_http_referer'] );
 	return false;
 }
 

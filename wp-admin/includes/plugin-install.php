@@ -116,8 +116,8 @@ add_action('install_plugins_dashboard', 'install_dashboard');
  * @since 2.7.0
  */
 function install_search_form( $type_selector = true ) {
-	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : 'term';
-	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
+	$type = isset($_REQUEST['type']) ? wp_unslash( $_REQUEST['type'] ) : 'term';
+	$term = isset($_REQUEST['s']) ? wp_unslash( $_REQUEST['s'] ) : '';
 
 	?><form id="search-plugins" method="get" action="">
 		<input type="hidden" name="tab" value="search" />
@@ -160,7 +160,7 @@ add_action('install_plugins_upload', 'install_plugins_upload', 10, 1);
  *
  */
 function install_plugins_favorites_form() {
-	$user = ! empty( $_GET['user'] ) ? stripslashes( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
+	$user = ! empty( $_GET['user'] ) ? wp_unslash( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
 	?>
 	<p class="install-help"><?php _e( 'If you have marked plugins as favorites on WordPress.org, you can browse them here.' ); ?></p>
 	<form method="get" action="">
@@ -251,7 +251,7 @@ function install_plugin_install_status($api, $loop = false) {
 		}
 	}
 	if ( isset($_GET['from']) )
-		$url .= '&amp;from=' . urlencode(stripslashes($_GET['from']));
+		$url .= '&amp;from=' . urlencode( wp_unslash( $_GET['from'] ) );
 
 	return compact('status', 'url', 'version');
 }
@@ -264,7 +264,7 @@ function install_plugin_install_status($api, $loop = false) {
 function install_plugin_information() {
 	global $tab;
 
-	$api = plugins_api('plugin_information', array('slug' => stripslashes( $_REQUEST['plugin'] ) ));
+	$api = plugins_api('plugin_information', array('slug' => wp_unslash( $_REQUEST['plugin'] ) ));
 
 	if ( is_wp_error($api) )
 		wp_die($api);
@@ -295,7 +295,7 @@ function install_plugin_information() {
 			$api->$key = wp_kses( $api->$key, $plugins_allowedtags );
 	}
 
-	$section = isset($_REQUEST['section']) ? stripslashes( $_REQUEST['section'] ) : 'description'; //Default to the Description tab, Do not translate, API returns English.
+	$section = isset($_REQUEST['section']) ? wp_unslash( $_REQUEST['section'] ) : 'description'; //Default to the Description tab, Do not translate, API returns English.
 	if ( empty($section) || ! isset($api->sections[ $section ]) )
 		$section = array_shift( $section_titles = array_keys((array)$api->sections) );
 

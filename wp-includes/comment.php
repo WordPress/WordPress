@@ -633,22 +633,22 @@ function wp_set_comment_cookies($comment, $user) {
  */
 function sanitize_comment_cookies() {
 	if ( isset($_COOKIE['comment_author_'.COOKIEHASH]) ) {
-		$comment_author = apply_filters('pre_comment_author_name', $_COOKIE['comment_author_'.COOKIEHASH]);
-		$comment_author = stripslashes($comment_author);
+		$comment_author = wp_unslash( $_COOKIE['comment_author_'.COOKIEHASH] );
+		$comment_author = apply_filters('pre_comment_author_name', $comment_author);
 		$comment_author = esc_attr($comment_author);
 		$_COOKIE['comment_author_'.COOKIEHASH] = $comment_author;
 	}
 
 	if ( isset($_COOKIE['comment_author_email_'.COOKIEHASH]) ) {
-		$comment_author_email = apply_filters('pre_comment_author_email', $_COOKIE['comment_author_email_'.COOKIEHASH]);
-		$comment_author_email = stripslashes($comment_author_email);
+		$comment_author_email = wp_unslash( $_COOKIE['comment_author_email_'.COOKIEHASH] );
+		$comment_author_email = apply_filters('pre_comment_author_email', $comment_author_email);
 		$comment_author_email = esc_attr($comment_author_email);
 		$_COOKIE['comment_author_email_'.COOKIEHASH] = $comment_author_email;
 	}
 
 	if ( isset($_COOKIE['comment_author_url_'.COOKIEHASH]) ) {
-		$comment_author_url = apply_filters('pre_comment_author_url', $_COOKIE['comment_author_url_'.COOKIEHASH]);
-		$comment_author_url = stripslashes($comment_author_url);
+		$comment_author_url = wp_unslash( $_COOKIE['comment_author_url_'.COOKIEHASH] );
+		$comment_author_url = apply_filters('pre_comment_author_url', $comment_author_url);
 		$_COOKIE['comment_author_url_'.COOKIEHASH] = $comment_author_url;
 	}
 }
@@ -670,11 +670,10 @@ function wp_allow_comment($commentdata) {
 	extract($commentdata, EXTR_SKIP);
 
 	// Simple duplicate check
-	// expected_slashed ($comment_post_ID, $comment_author, $comment_author_email, $comment_content)
-	$dupe = "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = '$comment_post_ID' AND comment_parent = '$comment_parent' AND comment_approved != 'trash' AND ( comment_author = '$comment_author' ";
+	$dupe = $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_parent = %s AND comment_approved != 'trash' AND ( comment_author = %s ", $comment_post_ID, $comment_parent, $comment_author );
 	if ( $comment_author_email )
-		$dupe .= "OR comment_author_email = '$comment_author_email' ";
-	$dupe .= ") AND comment_content = '$comment_content' LIMIT 1";
+		$dupe .= $wpdb->prepare( "OR comment_author_email = %s ", $comment_author_email );
+	$dupe .= $wpdb->prepare( ") AND comment_content = %s LIMIT 1", $comment_content );
 	if ( $wpdb->get_var($dupe) ) {
 		do_action( 'comment_duplicate_trigger', $commentdata );
 		if ( defined('DOING_AJAX') )
@@ -1262,7 +1261,7 @@ function wp_get_current_commenter() {
  */
 function wp_insert_comment($commentdata) {
 	global $wpdb;
-	extract(stripslashes_deep($commentdata), EXTR_SKIP);
+	extract($commentdata, EXTR_SKIP);
 
 	if ( ! isset($comment_author_IP) )
 		$comment_author_IP = '';
@@ -1491,9 +1490,6 @@ function wp_update_comment($commentarr) {
 	// First, get all of the original fields
 	$comment = get_comment($commentarr['comment_ID'], ARRAY_A);
 
-	// Escape data pulled from DB.
-	$comment = esc_sql($comment);
-
 	$old_status = $comment['comment_approved'];
 
 	// Merge old and new fields with new fields overwriting old ones.
@@ -1502,7 +1498,7 @@ function wp_update_comment($commentarr) {
 	$commentarr = wp_filter_comment( $commentarr );
 
 	// Now extract the merged array.
-	extract(stripslashes_deep($commentarr), EXTR_SKIP);
+	extract($commentarr, EXTR_SKIP);
 
 	$comment_content = apply_filters('comment_save_pre', $comment_content);
 

@@ -220,7 +220,7 @@ add_action( 'update_option_page_on_front', 'update_home_siteurl', 10, 2 );
  * @return string
  */
 function url_shorten( $url ) {
-	$short_url = str_replace( 'http://', '', stripslashes( $url ));
+	$short_url = str_replace( 'http://', '', $url );
 	$short_url = str_replace( 'www.', '', $short_url );
 	$short_url = untrailingslashit( $short_url );
 	if ( strlen( $short_url ) > 35 )
@@ -248,9 +248,9 @@ function wp_reset_vars( $vars ) {
 			if ( empty( $_GET[$var] ) )
 				$$var = '';
 			else
-				$$var = $_GET[$var];
+				$$var = wp_unslash( $_GET[$var] );
 		} else {
-			$$var = $_POST[$var];
+			$$var = wp_unslash( $_POST[$var] );
 		}
 	}
 }
@@ -323,8 +323,8 @@ function set_screen_options() {
 
 		if ( !$user = wp_get_current_user() )
 			return;
-		$option = $_POST['wp_screen_options']['option'];
-		$value = $_POST['wp_screen_options']['value'];
+		$option = wp_unslash( $_POST['wp_screen_options']['option'] );
+		$value = wp_unslash( $_POST['wp_screen_options']['value'] );
 
 		if ( $option != sanitize_key( $option ) )
 			return;

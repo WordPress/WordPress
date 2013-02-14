@@ -378,7 +378,7 @@ if ( current_theme_supports( 'custom-background', 'default-color' ) )
 
 		// Add the meta-data
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
-		update_post_meta( $id, '_wp_attachment_is_custom_background', get_option('stylesheet' ) );
+		wp_update_post_meta( $id, '_wp_attachment_is_custom_background', get_option('stylesheet' ) );
 
 		set_theme_mod('background_image', esc_url_raw($url));
 
@@ -415,7 +415,7 @@ if ( current_theme_supports( 'custom-background', 'default-color' ) )
 		if ( in_array( $_POST['size'], $sizes ) )
 			$size = esc_attr( $_POST['size'] );
 
-		update_post_meta( $attachment_id, '_wp_attachment_is_custom_background', get_option('stylesheet' ) );
+		wp_update_post_meta( $attachment_id, '_wp_attachment_is_custom_background', get_option('stylesheet' ) );
 		$url = wp_get_attachment_image_src( $attachment_id, $size );
 		$thumbnail = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
 		set_theme_mod( 'background_image', esc_url_raw( $url[0] ) );

@@ -1716,10 +1716,7 @@ function _split_str_by_whitespace( $string, $goal ) {
  * @return string Converted content.
  */
 function wp_rel_nofollow( $text ) {
-	// This is a pre save filter, so text is already escaped.
-	$text = stripslashes($text);
 	$text = preg_replace_callback('|<a (.+?)>|i', 'wp_rel_nofollow_callback', $text);
-	$text = esc_sql($text);
 	return $text;
 }
 
@@ -3341,4 +3338,54 @@ function sanitize_trackback_urls( $to_ping ) {
 	$urls_to_ping = array_map( 'esc_url_raw', $urls_to_ping );
 	$urls_to_ping = implode( "\n", $urls_to_ping );
 	return apply_filters( 'sanitize_trackback_urls', $urls_to_ping, $to_ping );
+}
+
+/**
+ * Conditionally add slashes to a string or array of strings. When GPCS
+ * slashing is turned on, slashes are added. When GPCS slashing is turned off,
+ * slashes are not added.
+ *
+ * This should be used when preparing data for core API that deal directly with GPCS data.
+ * Outside of unit tests, this should be rare. At a future date GPCS will no longer
+ * be slashed and this function will noop. Do not use it in situations where adding slashes
+ * is always required regardless of whether GPCS is slashed.
+ *
+ * @since 3.6.0
+ *
+ * @param string|array $value String or array of strings to slash.
+ * @return string|array Slashed $value
+ */
+function wp_slash( $value ) {
+	if ( is_array( $value ) ) { 
+		foreach ( $value as $k => $v ) {
+			if ( is_array( $v ) ) {
+				$value[$k] = wp_slash( $v );
+			} else {
+				$value[$k] = addslashes( $v );
+			}
+		}
+	} else {
+		$value = addslashes( $value ); 
+	} 
+
+	return $value; 
+}
+
+/**
+ * Conditionally removes slashes from a string or array of strings. When GPCS
+ * slashing is turned on, slashes are stripped. When GPCS slashing is turned off,
+ * slashes are not stripped.
+ *
+ * This should be used for GPCS data before passing it along to core API. At a future
+ * date GPCS will no longer be slashed and this function will noop. Do not use it
+ * in situations where slash stripping is always required regardless of whether GPCS
+ * is slashed.
+ *
+ * @since 3.6.0
+ *
+ * @param string|array $value String or array of strings to unslash.
+ * @return string|array Unslashed $value
+ */
+function wp_unslash( $value ) {
+	return stripslashes_deep( $value ); 
 }

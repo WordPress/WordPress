@@ -42,9 +42,6 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 
 	$column = esc_sql($meta_type . '_id');
 
-	// expected_slashed ($meta_key)
-	$meta_key = stripslashes($meta_key);
-	$meta_value = stripslashes_deep($meta_value);
 	$meta_value = sanitize_meta( $meta_key, $meta_value, $meta_type );
 
 	$check = apply_filters( "add_{$meta_type}_metadata", null, $object_id, $meta_key, $meta_value, $unique );
@@ -113,10 +110,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	$column = esc_sql($meta_type . '_id');
 	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
 
-	// expected_slashed ($meta_key)
-	$meta_key = stripslashes($meta_key);
 	$passed_value = $meta_value;
-	$meta_value = stripslashes_deep($meta_value);
 	$meta_value = sanitize_meta( $meta_key, $meta_value, $meta_type );
 
 	$check = apply_filters( "update_{$meta_type}_metadata", null, $object_id, $meta_key, $meta_value, $prev_value );
@@ -195,9 +189,6 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 
 	$type_column = esc_sql($meta_type . '_id');
 	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
-	// expected_slashed ($meta_key)
-	$meta_key = stripslashes($meta_key);
-	$meta_value = stripslashes_deep($meta_value);
 
 	$check = apply_filters( "delete_{$meta_type}_metadata", null, $object_id, $meta_key, $meta_value, $delete_all );
 	if ( null !== $check )

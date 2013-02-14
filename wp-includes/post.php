@@ -1742,17 +1742,41 @@ function get_posts($args = null) {
  * @link http://codex.wordpress.org/Function_Reference/add_post_meta
  *
  * @param int $post_id Post ID.
- * @param string $meta_key Metadata name.
- * @param mixed $meta_value Metadata value.
+ * @param string $meta_key Metadata name (expected slashed).
+ * @param mixed $meta_value Metadata value (expected slashed).
  * @param bool $unique Optional, default is false. Whether the same key should not be added.
  * @return bool False for failure. True for success.
  */
-function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
+function add_post_meta( $post_id, $meta_key, $meta_value, $unique = false ) {
+	//_deprecated_function( __FUNCTION__, '3.6', 'wp_add_post_meta() (expects unslashed data)' );
+
+	// expected slashed
+	$meta_key = stripslashes( $meta_key );
+	$meta_value = stripslashes_deep( $meta_value );
+
+	return wp_add_post_meta( $post_id, $meta_key, $meta_value, $unique );
+}
+
+/**
+ * Add meta data field to a post.
+ *
+ * Post meta data is called "Custom Fields" on the Administration Screen.
+ *
+ * @since 3.6.0
+ * @link http://codex.wordpress.org/Function_Reference/wp_add_post_meta
+ *
+ * @param int $post_id Post ID.
+ * @param string $meta_key Metadata name (clean, slashes already stripped).
+ * @param mixed $meta_value Metadata value (clean, slashes already stripped).
+ * @param bool $unique Optional, default is false. Whether the same key should not be added.
+ * @return bool False for failure. True for success.
+ */
+function wp_add_post_meta( $post_id, $meta_key, $meta_value, $unique = false ) {
 	// make sure meta is added to the post, not a revision
-	if ( $the_post = wp_is_post_revision($post_id) )
+	if ( $the_post = wp_is_post_revision( $post_id ) )
 		$post_id = $the_post;
 
-	return add_metadata('post', $post_id, $meta_key, $meta_value, $unique);
+	return add_metadata( 'post', $post_id, $meta_key, $meta_value, $unique );
 }
 
 /**
@@ -1809,17 +1833,45 @@ function get_post_meta($post_id, $key = '', $single = false) {
  * @link http://codex.wordpress.org/Function_Reference/update_post_meta
  *
  * @param int $post_id Post ID.
- * @param string $meta_key Metadata key.
- * @param mixed $meta_value Metadata value.
+ * @param string $meta_key Metadata key (expected slashed).
+ * @param mixed $meta_value Metadata value (expected slashed).
  * @param mixed $prev_value Optional. Previous value to check before removing.
  * @return bool False on failure, true if success.
  */
-function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
+function update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' ) {
+	//_deprecated_function( __FUNCTION__, '3.6', 'wp_update_post_meta() (expects unslashed data)' );
+
+	// expected slashed
+	$meta_key = stripslashes( $meta_key );
+	$meta_value = stripslashes_deep( $meta_value );
+
+	return wp_update_post_meta( $post_id, $meta_key, $meta_value, $prev_value );
+}
+
+/**
+ * Update post meta field based on post ID.
+ *
+ * Use the $prev_value parameter to differentiate between meta fields with the
+ * same key and post ID.
+ *
+ * If the meta field for the post does not exist, it will be added.
+ *
+ * @since 3.6.0
+ * @uses $wpdb
+ * @link http://codex.wordpress.org/Function_Reference/wp_update_post_meta
+ *
+ * @param int $post_id Post ID.
+ * @param string $meta_key Metadata key (clean, slashes already stripped).
+ * @param mixed $meta_value Metadata value (clean, slashes already stripped).
+ * @param mixed $prev_value Optional. Previous value to check before removing.
+ * @return bool False on failure, true if success.
+ */
+function wp_update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' ) {
 	// make sure meta is added to the post, not a revision
-	if ( $the_post = wp_is_post_revision($post_id) )
+	if ( $the_post = wp_is_post_revision( $post_id ) )
 		$post_id = $the_post;
 
-	return update_metadata('post', $post_id, $meta_key, $meta_value, $prev_value);
+	return update_metadata( 'post', $post_id, $meta_key, $meta_value, $prev_value );
 }
 
 /**
@@ -2406,8 +2458,8 @@ function wp_trash_post($post_id = 0) {
 
 	do_action('wp_trash_post', $post_id);
 
-	add_post_meta($post_id,'_wp_trash_meta_status', $post['post_status']);
-	add_post_meta($post_id,'_wp_trash_meta_time', time());
+	wp_add_post_meta($post_id,'_wp_trash_meta_status', $post['post_status']);
+	wp_add_post_meta($post_id,'_wp_trash_meta_time', time());
 
 	$post['post_status'] = 'trash';
 	wp_insert_post($post);
@@ -2483,7 +2535,7 @@ function wp_trash_post_comments($post = null) {
 	$statuses = array();
 	foreach ( $comments as $comment )
 		$statuses[$comment->comment_ID] = $comment->comment_approved;
-	add_post_meta($post_id, '_wp_trash_meta_comments_status', $statuses);
+	wp_add_post_meta($post_id, '_wp_trash_meta_comments_status', $statuses);
 
 	// Set status for all comments to post-trashed
 	$result = $wpdb->update($wpdb->comments, array('comment_approved' => 'post-trashed'), array('comment_post_ID' => $post_id));
@@ -2859,10 +2911,8 @@ function wp_insert_post($postarr, $wp_error = false) {
 
 	$post_name = wp_unique_post_slug($post_name, $post_ID, $post_status, $post_type, $post_parent);
 
-	// expected_slashed (everything!)
 	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'guid' ) );
 	$data = apply_filters('wp_insert_post_data', $data, $postarr);
-	$data = stripslashes_deep( $data );
 	$where = array( 'ID' => $post_ID );
 
 	if ( $update ) {
@@ -2875,7 +2925,7 @@ function wp_insert_post($postarr, $wp_error = false) {
 		}
 	} else {
 		if ( isset($post_mime_type) )
-			$data['post_mime_type'] = stripslashes( $post_mime_type ); // This isn't in the update
+			$data['post_mime_type'] = $post_mime_type; // This isn't in the update
 		// If there is a suggested ID, use it if not already present
 		if ( !empty($import_id) ) {
 			$import_id = (int) $import_id;
@@ -2936,7 +2986,7 @@ function wp_insert_post($postarr, $wp_error = false) {
 			else
 				return 0;
 		}
-		update_post_meta($post_ID, '_wp_page_template',  $page_template);
+		wp_update_post_meta($post_ID, '_wp_page_template',  $page_template);
 	}
 
 	wp_transition_post_status($data['post_status'], $previous_status, $post);
@@ -2969,14 +3019,10 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
 	if ( is_object($postarr) ) {
 		// non-escaped post was passed
 		$postarr = get_object_vars($postarr);
-		$postarr = add_magic_quotes($postarr);
 	}
 
 	// First, get all of the original fields
 	$post = get_post($postarr['ID'], ARRAY_A);
-
-	// Escape data pulled from DB.
-	$post = add_magic_quotes($post);
 
 	// Passed post category list overwrites existing category list if not empty.
 	if ( isset($postarr['post_category']) && is_array($postarr['post_category'])
@@ -3392,7 +3438,7 @@ function trackback_url_list($tb_list, $post_id) {
 		$trackback_urls = explode(',', $tb_list);
 		foreach( (array) $trackback_urls as $tb_url) {
 			$tb_url = trim($tb_url);
-			trackback($tb_url, stripslashes($post_title), $excerpt, $post_id);
+			trackback($tb_url, $post_title, $excerpt, $post_id);
 		}
 	}
 }
@@ -3735,9 +3781,6 @@ function get_pages($args = '') {
 	if ( ! empty( $meta_key ) || ! empty( $meta_value ) ) {
 		$join = " LEFT JOIN $wpdb->postmeta ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id )";
 
-		// meta_key and meta_value might be slashed
-		$meta_key = stripslashes($meta_key);
-		$meta_value = stripslashes($meta_value);
 		if ( ! empty( $meta_key ) )
 			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_key = %s", $meta_key);
 		if ( ! empty( $meta_value ) )
@@ -3962,7 +4005,6 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	else
 		$post_name = sanitize_title($post_name);
 
-	// expected_slashed ($post_name)
 	$post_name = wp_unique_post_slug($post_name, $post_ID, $post_status, $post_type, $post_parent);
 
 	if ( empty($post_date) )
@@ -4005,9 +4047,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	if ( ! isset($pinged) )
 		$pinged = '';
 
-	// expected_slashed (everything!)
 	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'guid' ) );
-	$data = stripslashes_deep( $data );
 
 	if ( $update ) {
 		$wpdb->update( $wpdb->posts, $data, array( 'ID' => $post_ID ) );
@@ -4052,7 +4092,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	clean_post_cache( $post_ID );
 
 	if ( ! empty( $context ) )
-		add_post_meta( $post_ID, '_wp_attachment_context', $context, true );
+		wp_add_post_meta( $post_ID, '_wp_attachment_context', $context, true );
 
 	if ( $update) {
 		do_action('edit_attachment', $post_ID);
@@ -4439,7 +4479,7 @@ function wp_check_for_changed_slugs($post_id, $post, $post_before) {
 
 	// if we haven't added this old slug before, add it now
 	if ( !empty( $post_before->post_name ) && !in_array($post_before->post_name, $old_slugs) )
-		add_post_meta($post_id, '_wp_old_slug', $post_before->post_name);
+		wp_add_post_meta($post_id, '_wp_old_slug', $post_before->post_name);
 
 	// if the new slug was used previously, delete it from the list
 	if ( in_array($post->post_name, $old_slugs) )
@@ -4856,8 +4896,8 @@ function _publish_post_hook($post_id) {
 		return;
 
 	if ( get_option('default_pingback_flag') )
-		add_post_meta( $post_id, '_pingme', '1' );
-	add_post_meta( $post_id, '_encloseme', '1' );
+		wp_add_post_meta( $post_id, '_pingme', '1' );
+	wp_add_post_meta( $post_id, '_encloseme', '1' );
 
 	wp_schedule_single_event(time(), 'do_pings');
 }
@@ -5097,7 +5137,6 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 		return new WP_Error( 'post_type', __( 'Cannot create a revision of a revision' ) );
 
 	$post = _wp_post_revision_fields( $post, $autosave );
-	$post = add_magic_quotes($post); //since data is from db
 
 	$revision_id = wp_insert_post( $post );
 	if ( is_wp_error($revision_id) )
@@ -5175,8 +5214,6 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
 		return false;
 
 	$update['ID'] = $revision['post_parent'];
-
-	$update = add_magic_quotes( $update ); //since data is from db
 
 	$post_id = wp_update_post( $update );
 	if ( is_wp_error( $post_id ) )
@@ -5399,7 +5436,7 @@ function set_post_thumbnail( $post, $thumbnail_id ) {
 	$thumbnail_id = absint( $thumbnail_id );
 	if ( $post && $thumbnail_id && get_post( $thumbnail_id ) ) {
 		if ( $thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' ) )
-			return update_post_meta( $post->ID, '_thumbnail_id', $thumbnail_id );
+			return wp_update_post_meta( $post->ID, '_thumbnail_id', $thumbnail_id );
 		else
 			return delete_post_meta( $post->ID, '_thumbnail_id' );
 	}

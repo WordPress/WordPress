@@ -39,9 +39,9 @@ function edit_link( $link_id = 0 ) {
 
 	if ( !empty( $link_id ) ) {
 		$_POST['link_id'] = $link_id;
-		return wp_update_link( $_POST );
+		return wp_update_link( wp_unslash( $_POST ) );
 	} else {
-		return wp_insert_link( $_POST );
+		return wp_insert_link( wp_unslash( $_POST ) );
 	}
 }
 
@@ -137,7 +137,7 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 	$linkdata = wp_parse_args( $linkdata, $defaults );
 	$linkdata = sanitize_bookmark( $linkdata, 'db' );
 
-	extract( stripslashes_deep( $linkdata ), EXTR_SKIP );
+	extract( $linkdata, EXTR_SKIP );
 
 	$update = false;
 
@@ -249,9 +249,6 @@ function wp_update_link( $linkdata ) {
 	$link_id = (int) $linkdata['link_id'];
 
 	$link = get_bookmark( $link_id, ARRAY_A );
-
-	// Escape data pulled from DB.
-	$link = add_magic_quotes( $link );
 
 	// Passed link category list overwrites existing category list if not empty.
 	if ( isset( $linkdata['link_category'] ) && is_array( $linkdata['link_category'] )

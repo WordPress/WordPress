@@ -50,8 +50,8 @@ function install_themes_feature_list() {
  * @since 2.8.0
  */
 function install_theme_search_form( $type_selector = true ) {
-	$type = isset( $_REQUEST['type'] ) ? stripslashes( $_REQUEST['type'] ) : 'term';
-	$term = isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '';
+	$type = isset( $_REQUEST['type'] ) ? wp_unslash( $_REQUEST['type'] ) : 'term';
+	$term = isset( $_REQUEST['s'] ) ? wp_unslash( $_REQUEST['s'] ) : '';
 	if ( ! $type_selector )
 		echo '<p class="install-help">' . __( 'Search for themes by keyword.' ) . '</p>';
 	?>
@@ -179,7 +179,7 @@ add_action('install_themes_updated', 'display_themes');
 function install_theme_information() {
 	global $tab, $themes_allowedtags, $wp_list_table;
 
-	$theme = themes_api( 'theme_information', array( 'slug' => stripslashes( $_REQUEST['theme'] ) ) );
+	$theme = themes_api( 'theme_information', array( 'slug' => wp_unslash( $_REQUEST['theme'] ) ) );
 
 	if ( is_wp_error( $theme ) )
 		wp_die( $theme );

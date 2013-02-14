@@ -53,12 +53,14 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] && is_ar
 	$count = count( $_POST['option'] );
 	$skip_options = array( 'allowedthemes' ); // Don't update these options since they are handled elsewhere in the form.
 	foreach ( (array) $_POST['option'] as $key => $val ) {
+		$key = wp_unslash( $key );
+		$val = wp_unslash( $val );
 		if ( $key === 0 || is_array( $val ) || in_array($key, $skip_options) )
 			continue; // Avoids "0 is a protected WP option and may not be modified" error when edit blog options
 		if ( $c == $count )
-			update_option( $key, stripslashes( $val ) );
+			update_option( $key, $val );
 		else
-			update_option( $key, stripslashes( $val ), false ); // no need to refresh blog details yet
+			update_option( $key, $val, false ); // no need to refresh blog details yet
 		$c++;
 	}
 

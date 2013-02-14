@@ -32,7 +32,7 @@ case 'editattachment' :
 		}
 		if ( false !== strpos($location, 'upload.php') ) {
 			$location = remove_query_arg('message', $location);
-			$location = add_query_arg('posted',	$attachment_id, $location);
+			$location = add_query_arg('posted', $attachment_id, $location);
 		} elseif ( false !== strpos($location, 'media.php') ) {
 			$location = add_query_arg('message', 'updated', $location);
 		}

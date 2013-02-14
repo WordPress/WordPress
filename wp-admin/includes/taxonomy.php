@@ -157,9 +157,6 @@ function wp_update_category($catarr) {
 	// First, get all of the original fields
 	$category = get_category($cat_ID, ARRAY_A);
 
-	// Escape data pulled from DB.
-	$category = add_magic_quotes($category);
-
 	// Merge old and new fields with new fields overwriting old ones.
 	$catarr = array_merge($category, $catarr);
 

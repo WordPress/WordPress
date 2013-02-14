@@ -746,7 +746,7 @@ function get_search_link( $query = '' ) {
 	if ( empty($query) )
 		$search = get_search_query( false );
 	else
-		$search = stripslashes($query);
+		$search = $query;
 
 	$permastruct = $wp_rewrite->get_search_permastruct();
 

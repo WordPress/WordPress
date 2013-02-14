@@ -948,7 +948,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 				'width'         => $choice['width'],
 			);
 
-			update_post_meta( $choice['attachment_id'], '_wp_attachment_is_custom_header', get_stylesheet() );
+			wp_update_post_meta( $choice['attachment_id'], '_wp_attachment_is_custom_header', get_stylesheet() );
 			set_theme_mod( 'header_image', $choice['url'] );
 			set_theme_mod( 'header_image_data', $header_image_data );
 			return;

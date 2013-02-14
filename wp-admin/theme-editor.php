@@ -68,7 +68,7 @@ if ( empty( $file ) ) {
 	$relative_file = 'style.css';
 	$file = $allowed_files['style.css'];
 } else {
-	$relative_file = stripslashes( $file );
+	$relative_file = wp_unslash( $file );
 	$file = $theme->get_stylesheet_directory() . '/' . $relative_file;
 }
 
@@ -78,7 +78,7 @@ $scrollto = isset( $_REQUEST['scrollto'] ) ? (int) $_REQUEST['scrollto'] : 0;
 switch( $action ) {
 case 'update':
 	check_admin_referer( 'edit-theme_' . $file . $stylesheet );
-	$newcontent = stripslashes( $_POST['newcontent'] );
+	$newcontent = wp_unslash( $_POST['newcontent'] );
 	$location = 'theme-editor.php?file=' . urlencode( $relative_file ) . '&theme=' . urlencode( $stylesheet ) . '&scrollto=' . $scrollto;
 	if ( is_writeable( $file ) ) {
 		//is_writable() not always reliable, check return value. see comments @ http://uk.php.net/is_writable

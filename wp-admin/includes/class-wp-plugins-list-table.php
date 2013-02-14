@@ -22,7 +22,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$status = $_REQUEST['plugin_status'];
 
 		if ( isset($_REQUEST['s']) )
-			$_SERVER['REQUEST_URI'] = add_query_arg('s', stripslashes($_REQUEST['s']) );
+			$_SERVER['REQUEST_URI'] = add_query_arg('s', wp_unslash($_REQUEST['s']) );
 
 		$page = $this->get_pagenum();
 	}
@@ -140,7 +140,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	function _search_callback( $plugin ) {
 		static $term;
 		if ( is_null( $term ) )
-			$term = stripslashes( $_REQUEST['s'] );
+			$term = wp_unslash( $_REQUEST['s'] );
 
 		foreach ( $plugin as $value )
 			if ( stripos( $value, $term ) !== false )

@@ -454,7 +454,7 @@ function stream_preview_image( $post_id ) {
     if ( is_wp_error( $img ) )
         return false;
 
-	$changes = !empty($_REQUEST['history']) ? json_decode( stripslashes($_REQUEST['history']) ) : null;
+	$changes = !empty($_REQUEST['history']) ? json_decode( wp_unslash( $_REQUEST['history'] ) ) : null;
 	if ( $changes )
 		$img = image_edit_apply_changes( $img, $changes );
 
@@ -533,7 +533,7 @@ function wp_restore_image($post_id) {
 		}
 	}
 
-	if ( !wp_update_attachment_metadata($post_id, $meta) || !update_post_meta( $post_id, '_wp_attachment_backup_sizes', $backup_sizes) ) {
+	if ( !wp_update_attachment_metadata($post_id, $meta) || !wp_update_post_meta( $post_id, '_wp_attachment_backup_sizes', $backup_sizes) ) {
 		$msg->error = __('Cannot save image metadata.');
 		return $msg;
 	}
@@ -587,7 +587,7 @@ function wp_save_image( $post_id ) {
 			return $return;
 		}
 	} elseif ( !empty($_REQUEST['history']) ) {
-		$changes = json_decode( stripslashes($_REQUEST['history']) );
+		$changes = json_decode( wp_unslash( $_REQUEST['history'] ) );
 		if ( $changes )
 			$img = image_edit_apply_changes($img, $changes);
 	} else {
@@ -699,7 +699,7 @@ function wp_save_image( $post_id ) {
 
 	if ( $success ) {
 		wp_update_attachment_metadata( $post_id, $meta );
-		update_post_meta( $post_id, '_wp_attachment_backup_sizes', $backup_sizes);
+		wp_update_post_meta( $post_id, '_wp_attachment_backup_sizes', $backup_sizes);
 
 		if ( $target == 'thumbnail' || $target == 'all' || $target == 'full' ) {
 			// Check if it's an image edit from attachment edit screen

@@ -48,8 +48,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		switch ( $tab ) {
 			case 'search':
-				$type = isset( $_REQUEST['type'] ) ? stripslashes( $_REQUEST['type'] ) : 'term';
-				$term = isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '';
+				$type = isset( $_REQUEST['type'] ) ? wp_unslash( $_REQUEST['type'] ) : 'term';
+				$term = isset( $_REQUEST['s'] ) ? wp_unslash( $_REQUEST['s'] ) : '';
 
 				switch ( $type ) {
 					case 'tag':
@@ -73,7 +73,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				break;
 
 			case 'favorites':
-				$user = isset( $_GET['user'] ) ? stripslashes( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
+				$user = isset( $_GET['user'] ) ? wp_unslash( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
 				update_user_meta( get_current_user_id(), 'wporg_favorites', $user );
 				if ( $user )
 					$args['user'] = $user;

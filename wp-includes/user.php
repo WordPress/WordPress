@@ -1390,7 +1390,6 @@ function wp_insert_user( $userdata ) {
 	}
 
 	$data = compact( 'user_pass', 'user_email', 'user_url', 'user_nicename', 'display_name', 'user_registered' );
-	$data = stripslashes_deep( $data );
 
 	if ( $update ) {
 		$wpdb->update( $wpdb->users, $data, compact( 'ID' ) );
@@ -1462,9 +1461,6 @@ function wp_update_user($userdata) {
 		$user[ $key ] = get_user_meta( $ID, $key, true );
 	}
 
-	// Escape data pulled from DB.
-	$user = add_magic_quotes( $user );
-
 	// If password is changing, hash it now.
 	if ( ! empty($userdata['user_pass']) ) {
 		$plaintext_pass = $userdata['user_pass'];
@@ -1504,8 +1500,8 @@ function wp_update_user($userdata) {
  * @return int The new user's ID.
  */
 function wp_create_user($username, $password, $email = '') {
-	$user_login = esc_sql( $username );
-	$user_email = esc_sql( $email    );
+	$user_login = $username;
+	$user_email = $email;
 	$user_pass = $password;
 
 	$userdata = compact('user_login', 'user_email', 'user_pass');

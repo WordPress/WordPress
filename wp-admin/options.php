@@ -120,16 +120,16 @@ if ( 'update' == $action ) {
 	if ( 'options' == $option_page ) {
 		if ( is_multisite() && ! is_super_admin() )
 			wp_die( __( 'You do not have sufficient permissions to modify unregistered settings for this site.' ) );
-		$options = explode( ',', stripslashes( $_POST[ 'page_options' ] ) );
+		$options = explode( ',', wp_unslash( $_POST[ 'page_options' ] ) );
 	} else {
 		$options = $whitelist_options[ $option_page ];
 	}
 
 	// Handle custom date/time formats
 	if ( 'general' == $option_page ) {
-		if ( !empty($_POST['date_format']) && isset($_POST['date_format_custom']) && '\c\u\s\t\o\m' == stripslashes( $_POST['date_format'] ) )
+		if ( !empty($_POST['date_format']) && isset($_POST['date_format_custom']) && '\c\u\s\t\o\m' == wp_unslash( $_POST['date_format'] ) )
 			$_POST['date_format'] = $_POST['date_format_custom'];
-		if ( !empty($_POST['time_format']) && isset($_POST['time_format_custom']) && '\c\u\s\t\o\m' == stripslashes( $_POST['time_format'] ) )
+		if ( !empty($_POST['time_format']) && isset($_POST['time_format_custom']) && '\c\u\s\t\o\m' == wp_unslash( $_POST['time_format'] ) )
 			$_POST['time_format'] = $_POST['time_format_custom'];
 		// Map UTC+- timezones to gmt_offsets and set timezone_string to empty.
 		if ( !empty($_POST['timezone_string']) && preg_match('/^UTC[+-]/', $_POST['timezone_string']) ) {
@@ -150,7 +150,7 @@ if ( 'update' == $action ) {
 				$value = $_POST[ $option ];
 				if ( ! is_array( $value ) )
 					$value = trim( $value );
-				$value = stripslashes_deep( $value );
+				$value = wp_unslash( $value );
 			}
 			update_option( $option, $value );
 		}

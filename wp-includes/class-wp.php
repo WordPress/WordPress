@@ -142,15 +142,15 @@ class WP {
 			$this->did_permalink = true;
 
 			if ( isset($_SERVER['PATH_INFO']) )
-				$pathinfo = $_SERVER['PATH_INFO'];
+				$pathinfo = wp_unslash( $_SERVER['PATH_INFO'] );
 			else
 				$pathinfo = '';
 			$pathinfo_array = explode('?', $pathinfo);
 			$pathinfo = str_replace("%", "%25", $pathinfo_array[0]);
-			$req_uri = $_SERVER['REQUEST_URI'];
+			$req_uri = wp_unslash( $_SERVER['REQUEST_URI'] );
 			$req_uri_array = explode('?', $req_uri);
 			$req_uri = $req_uri_array[0];
-			$self = $_SERVER['PHP_SELF'];
+			$self = wp_unslash( $_SERVER['PHP_SELF'] );
 			$home_path = parse_url(home_url());
 			if ( isset($home_path['path']) )
 				$home_path = $home_path['path'];
@@ -255,9 +255,9 @@ class WP {
 			if ( isset( $this->extra_query_vars[$wpvar] ) )
 				$this->query_vars[$wpvar] = $this->extra_query_vars[$wpvar];
 			elseif ( isset( $_POST[$wpvar] ) )
-				$this->query_vars[$wpvar] = $_POST[$wpvar];
+				$this->query_vars[$wpvar] = wp_unslash( $_POST[$wpvar] );
 			elseif ( isset( $_GET[$wpvar] ) )
-				$this->query_vars[$wpvar] = $_GET[$wpvar];
+				$this->query_vars[$wpvar] = wp_unslash( $_GET[$wpvar] );
 			elseif ( isset( $perma_query_vars[$wpvar] ) )
 				$this->query_vars[$wpvar] = $perma_query_vars[$wpvar];
 
@@ -356,7 +356,7 @@ class WP {
 
 			// Support for Conditional GET
 			if (isset($_SERVER['HTTP_IF_NONE_MATCH']))
-				$client_etag = stripslashes(stripslashes($_SERVER['HTTP_IF_NONE_MATCH']));
+				$client_etag = stripslashes( wp_unslash( $_SERVER['HTTP_IF_NONE_MATCH'] ) ); // Retain extra strip. See #2597
 			else $client_etag = false;
 
 			$client_last_modified = empty($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? '' : trim($_SERVER['HTTP_IF_MODIFIED_SINCE']);

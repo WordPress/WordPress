@@ -444,6 +444,8 @@ function media_upload_form_handler() {
 	}
 
 	if ( !empty($_POST['attachments']) ) foreach ( $_POST['attachments'] as $attachment_id => $attachment ) {
+		$attachment = wp_unslash( $attachment );
+	
 		$post = $_post = get_post($attachment_id, ARRAY_A);
 		$post_type_object = get_post_type_object( $post[ 'post_type' ] );
 
@@ -468,10 +470,9 @@ function media_upload_form_handler() {
 
 		if ( isset($attachment['image_alt']) ) {
 			$image_alt = get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
-			if ( $image_alt != stripslashes($attachment['image_alt']) ) {
-				$image_alt = wp_strip_all_tags( stripslashes($attachment['image_alt']), true );
-				// update_meta expects slashed
-				update_post_meta( $attachment_id, '_wp_attachment_image_alt', addslashes($image_alt) );
+			if ( $image_alt != $attachment['image_alt'] ) {
+				$image_alt = wp_strip_all_tags( $attachment['image_alt'], true );
+				wp_update_post_meta( $attachment_id, '_wp_attachment_image_alt', $image_alt );
 			}
 		}
 
@@ -501,7 +502,7 @@ function media_upload_form_handler() {
 	}
 
 	if ( isset($send_id) ) {
-		$attachment = stripslashes_deep( $_POST['attachments'][$send_id] );
+		$attachment = wp_unslash( $_POST['attachments'][$send_id] );
 
 		$html = isset( $attachment['post_title'] ) ? $attachment['post_title'] : '';
 		if ( !empty($attachment['url']) ) {
@@ -546,7 +547,7 @@ function wp_media_upload_handler() {
 			$src = "http://$src";
 
 		if ( isset( $_POST['media_type'] ) && 'image' != $_POST['media_type'] ) {
-			$title = esc_html( stripslashes( $_POST['title'] ) );
+			$title = esc_html( wp_unslash( $_POST['title'] ) );
 			if ( empty( $title ) )
 				$title = esc_html( basename( $src ) );
 
@@ -561,9 +562,9 @@ function wp_media_upload_handler() {
 			$html = apply_filters( $type . '_send_to_editor_url', $html, esc_url_raw( $src ), $title );
 		} else {
 			$align = '';
-			$alt = esc_attr( stripslashes( $_POST['alt'] ) );
+			$alt = esc_attr( wp_unslash( $_POST['alt'] ) );
 			if ( isset($_POST['align']) ) {
-				$align = esc_attr( stripslashes( $_POST['align'] ) );
+				$align = esc_attr( wp_unslash( $_POST['align'] ) );
 				$class = " class='align$align'";
 			}
 			if ( !empty($src) )

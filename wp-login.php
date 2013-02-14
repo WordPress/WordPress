@@ -396,7 +396,7 @@ case 'postpass' :
 	}
 
 	// 10 days
-	setcookie( 'wp-postpass_' . COOKIEHASH, $wp_hasher->HashPassword( stripslashes( $_POST['post_password'] ) ), time() + 10 * DAY_IN_SECONDS, COOKIEPATH );
+	setcookie( 'wp-postpass_' . COOKIEHASH, $wp_hasher->HashPassword( wp_unslash( $_POST['post_password'] ) ), time() + 10 * DAY_IN_SECONDS, COOKIEPATH );
 
 	wp_safe_redirect( wp_get_referer() );
 	exit();
@@ -431,7 +431,7 @@ case 'retrievepassword' :
 	do_action('lost_password');
 	login_header(__('Lost Password'), '<p class="message">' . __('Please enter your username or email address. You will receive a link to create a new password via email.') . '</p>', $errors);
 
-	$user_login = isset($_POST['user_login']) ? stripslashes($_POST['user_login']) : '';
+	$user_login = isset($_POST['user_login']) ? wp_unslash($_POST['user_login']) : '';
 
 ?>
 
@@ -530,8 +530,8 @@ case 'register' :
 	$user_login = '';
 	$user_email = '';
 	if ( $http_post ) {
-		$user_login = $_POST['user_login'];
-		$user_email = $_POST['user_email'];
+		$user_login = wp_unslash( $_POST['user_login'] );
+		$user_email = wp_unslash( $_POST['user_email'] );
 		$errors = register_new_user($user_login, $user_email);
 		if ( !is_wp_error($errors) ) {
 			$redirect_to = !empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : 'wp-login.php?checkemail=registered';
@@ -547,11 +547,11 @@ case 'register' :
 <form name="registerform" id="registerform" action="<?php echo esc_url( site_url('wp-login.php?action=register', 'login_post') ); ?>" method="post">
 	<p>
 		<label for="user_login"><?php _e('Username') ?><br />
-		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr(stripslashes($user_login)); ?>" size="20" /></label>
+		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" /></label>
 	</p>
 	<p>
 		<label for="user_email"><?php _e('E-mail') ?><br />
-		<input type="text" name="user_email" id="user_email" class="input" value="<?php echo esc_attr(stripslashes($user_email)); ?>" size="25" /></label>
+		<input type="text" name="user_email" id="user_email" class="input" value="<?php echo esc_attr( $user_email ); ?>" size="25" /></label>
 	</p>
 <?php do_action('register_form'); ?>
 	<p id="reg_passmail"><?php _e('A password will be e-mailed to you.') ?></p>
@@ -673,7 +673,7 @@ default:
 	login_header(__('Log In'), '', $errors);
 
 	if ( isset($_POST['log']) )
-		$user_login = ( 'incorrect_password' == $errors->get_error_code() || 'empty_password' == $errors->get_error_code() ) ? esc_attr(stripslashes($_POST['log'])) : '';
+		$user_login = ( 'incorrect_password' == $errors->get_error_code() || 'empty_password' == $errors->get_error_code() ) ? esc_attr( wp_unslash( $_POST['log'] ) ) : '';
 	$rememberme = ! empty( $_POST['rememberme'] );
 ?>
 

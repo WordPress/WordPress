@@ -149,8 +149,8 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
  */
 function edit_post( $post_data = null ) {
 
-	if ( empty($post_data) )
-		$post_data = &$_POST;
+	if ( empty( $post_data ) )
+		$post_data = wp_unslash( $_POST );
 
 	// Clear out any data in internal vars.
 	unset( $post_data['filter'] );
@@ -228,10 +228,9 @@ function edit_post( $post_data = null ) {
 	if ( 'attachment' == $post_data['post_type'] ) {
 		if ( isset( $post_data[ '_wp_attachment_image_alt' ] ) ) {
 			$image_alt = get_post_meta( $post_ID, '_wp_attachment_image_alt', true );
-			if ( $image_alt != stripslashes( $post_data['_wp_attachment_image_alt'] ) ) {
-				$image_alt = wp_strip_all_tags( stripslashes( $post_data['_wp_attachment_image_alt'] ), true );
-				// update_meta expects slashed
-				update_post_meta( $post_ID, '_wp_attachment_image_alt', addslashes( $image_alt ) );
+			if ( $image_alt != $post_data['_wp_attachment_image_alt'] ) {
+				$image_alt = wp_strip_all_tags( $post_data['_wp_attachment_image_alt'], true );
+				wp_update_post_meta( $post_ID, '_wp_attachment_image_alt', $image_alt );
 			}
 		}
 
@@ -241,7 +240,7 @@ function edit_post( $post_data = null ) {
 
 	add_meta( $post_ID );
 
-	update_post_meta( $post_ID, '_edit_last', $GLOBALS['current_user']->ID );
+	wp_update_post_meta( $post_ID, '_edit_last', $GLOBALS['current_user']->ID );
 
 	wp_update_post( $post_data );
 
@@ -422,15 +421,15 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 
 	$post_title = '';
 	if ( !empty( $_REQUEST['post_title'] ) )
-		$post_title = esc_html( stripslashes( $_REQUEST['post_title'] ));
+		$post_title = esc_html( wp_unslash( $_REQUEST['post_title'] ));
 
 	$post_content = '';
 	if ( !empty( $_REQUEST['content'] ) )
-		$post_content = esc_html( stripslashes( $_REQUEST['content'] ));
+		$post_content = esc_html( wp_unslash( $_REQUEST['content'] ));
 
 	$post_excerpt = '';
 	if ( !empty( $_REQUEST['excerpt'] ) )
-		$post_excerpt = esc_html( stripslashes( $_REQUEST['excerpt'] ));
+		$post_excerpt = esc_html( wp_unslash( $_REQUEST['excerpt'] ));
 
 	if ( $create_in_db ) {
 		$post_id = wp_insert_post( array( 'post_title' => __( 'Auto Draft' ), 'post_type' => $post_type, 'post_status' => 'auto-draft' ) );
@@ -479,9 +478,9 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 function post_exists($title, $content = '', $date = '') {
 	global $wpdb;
 
-	$post_title = stripslashes( sanitize_post_field( 'post_title', $title, 0, 'db' ) );
-	$post_content = stripslashes( sanitize_post_field( 'post_content', $content, 0, 'db' ) );
-	$post_date = stripslashes( sanitize_post_field( 'post_date', $date, 0, 'db' ) );
+	$post_title = sanitize_post_field( 'post_title', $title, 0, 'db' );
+	$post_content = sanitize_post_field( 'post_content', $content, 0, 'db' );
+	$post_date = sanitize_post_field( 'post_date', $date, 0, 'db' );
 
 	$query = "SELECT ID FROM $wpdb->posts WHERE 1=1";
 	$args = array();
@@ -559,7 +558,7 @@ function wp_write_post() {
 	}
 
 	// Create the post.
-	$post_ID = wp_insert_post( $_POST );
+	$post_ID = wp_insert_post( wp_unslash( $_POST ) );
 	if ( is_wp_error( $post_ID ) )
 		return $post_ID;
 
@@ -568,7 +567,7 @@ function wp_write_post() {
 
 	add_meta( $post_ID );
 
-	add_post_meta( $post_ID, '_edit_last', $GLOBALS['current_user']->ID );
+	wp_add_post_meta( $post_ID, '_edit_last', $GLOBALS['current_user']->ID );
 
 	// Now that we have an ID we can fix any attachment anchor hrefs
 	_fix_attachment_links( $post_ID );
@@ -612,9 +611,9 @@ function add_meta( $post_ID ) {
 	global $wpdb;
 	$post_ID = (int) $post_ID;
 
-	$metakeyselect = isset($_POST['metakeyselect']) ? stripslashes( trim( $_POST['metakeyselect'] ) ) : '';
-	$metakeyinput = isset($_POST['metakeyinput']) ? stripslashes( trim( $_POST['metakeyinput'] ) ) : '';
-	$metavalue = isset($_POST['metavalue']) ? $_POST['metavalue'] : '';
+	$metakeyselect = isset($_POST['metakeyselect']) ? wp_unslash( trim( $_POST['metakeyselect'] ) ) : '';
+	$metakeyinput = isset($_POST['metakeyinput']) ? wp_unslash( trim( $_POST['metakeyinput'] ) ) : '';
+	$metavalue = isset($_POST['metavalue']) ? wp_unslash( trim( $_POST['metavalue'] ) ) : '';
 	if ( is_string( $metavalue ) )
 		$metavalue = trim( $metavalue );
 
@@ -631,9 +630,7 @@ function add_meta( $post_ID ) {
 		if ( is_protected_meta( $metakey, 'post' ) || ! current_user_can( 'add_post_meta', $post_ID, $metakey ) )
 			return false;
 
-		$metakey = esc_sql( $metakey );
-
-		return add_post_meta( $post_ID, $metakey, $metavalue );
+		return wp_add_post_meta( $post_ID, $metakey, $metavalue );
 	}
 
 	return false;
@@ -706,14 +703,11 @@ function has_meta( $postid ) {
  * @since 1.2.0
  *
  * @param unknown_type $meta_id
- * @param unknown_type $meta_key Expect Slashed
- * @param unknown_type $meta_value Expect Slashed
+ * @param unknown_type $meta_key
+ * @param unknown_type $meta_value
  * @return unknown
  */
 function update_meta( $meta_id, $meta_key, $meta_value ) {
-	$meta_key = stripslashes( $meta_key );
-	$meta_value = stripslashes_deep( $meta_value );
-
 	return update_metadata_by_mid( 'post', $meta_id, $meta_value, $meta_key );
 }
 
@@ -767,8 +761,6 @@ function _fix_attachment_links( $post_ID ) {
 
 	if ( $replace ) {
 		$post['post_content'] = $content;
-		// Escape data pulled from DB.
-		$post = add_magic_quotes($post);
 
 		return wp_update_post($post);
 	}
@@ -1179,7 +1171,7 @@ function wp_set_post_lock( $post_id ) {
 	$now = time();
 	$lock = "$now:$user_id";
 
-	update_post_meta( $post->ID, '_edit_lock', $lock );
+	wp_update_post_meta( $post->ID, '_edit_lock', $lock );
 	return array( $now, $user_id );
 }
 
@@ -1230,14 +1222,14 @@ function wp_create_post_autosave( $post_id ) {
 
 	// Only store one autosave. If there is already an autosave, overwrite it.
 	if ( $old_autosave = wp_get_post_autosave( $post_id ) ) {
-		$new_autosave = _wp_post_revision_fields( $_POST, true );
+		$new_autosave = _wp_post_revision_fields( wp_unslash( $_POST ), true );
 		$new_autosave['ID'] = $old_autosave->ID;
 		$new_autosave['post_author'] = get_current_user_id();
 		return wp_update_post( $new_autosave );
 	}
 
 	// _wp_put_post_revision() expects unescaped.
-	$_POST = stripslashes_deep($_POST);
+	$_POST = wp_unslash( $_POST );
 
 	// Otherwise create the new autosave as a special post revision
 	return _wp_put_post_revision( $_POST, true );
