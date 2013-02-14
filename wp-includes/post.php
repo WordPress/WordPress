@@ -2866,7 +2866,7 @@ function wp_insert_post($postarr, $wp_error = false) {
 	$where = array( 'ID' => $post_ID );
 
 	if ( $update ) {
-		do_action( 'pre_post_update', $post_ID );
+		do_action( 'pre_post_update', $post_ID, $data );
 		if ( false === $wpdb->update( $wpdb->posts, $data, $where ) ) {
 			if ( $wp_error )
 				return new WP_Error('db_update_error', __('Could not update post in the database'), $wpdb->last_error);
@@ -4929,7 +4929,7 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
  * @param int $post_id The ID of the post to save as a revision.
  * @return mixed Null or 0 if error, new revision ID, if success.
  */
-function wp_save_post_revision( $post_id ) {
+function wp_save_post_revision( $post_id, $new_data = null ) {
 	// We do autosaves manually with wp_create_post_autosave()
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 		return;
@@ -4946,6 +4946,20 @@ function wp_save_post_revision( $post_id ) {
 
 	if ( !post_type_supports($post['post_type'], 'revisions') )
 		return;
+
+	// if new data is supplied, check that it is different from last saved revision
+	if( is_array( $new_data ) ) {
+		$post_has_changed = false;
+		foreach( array_keys( _wp_post_revision_fields() ) as $field ) {
+			if( normalize_whitespace( $new_data[ $field ] ) != normalize_whitespace( $post[ $field ] ) ) {
+				$post_has_changed = true;
+				break;
+			}
+		}
+		//don't save revision if post unchanged
+		if( ! $post_has_changed )
+			return;
+	}
 
 	$return = _wp_put_post_revision( $post );
 
