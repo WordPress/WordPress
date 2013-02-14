@@ -113,7 +113,6 @@ Please click the following link to confirm the invite:
 	} else {
 		// Adding a new user to this blog
 		$user_details = wpmu_validate_user_signup( $_REQUEST[ 'user_login' ], $_REQUEST[ 'email' ] );
-		unset( $user_details[ 'errors' ]->errors[ 'user_email_used' ] );
 		if ( is_wp_error( $user_details[ 'errors' ] ) && !empty( $user_details[ 'errors' ]->errors ) ) {
 			$add_user_errors = $user_details[ 'errors' ];
 		} else {

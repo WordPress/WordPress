@@ -497,9 +497,6 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 			$wpdb->delete( $wpdb->signups, array( 'user_login' => $user_name ) );
 		else
 			$errors->add('user_name', __('That username is currently reserved but may be available in a couple of days.'));
-
-		if ( $signup->active == 0 && $signup->user_email == $user_email )
-			$errors->add('user_email_used', __('username and email used'));
 	}
 
 	$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->signups WHERE user_email = %s", $user_email) );
