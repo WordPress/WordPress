@@ -1733,21 +1733,19 @@ function fix_phpmailer_messageid( $phpmailer ) {
  * Check to see whether a user is marked as a spammer, based on username
  *
  * @since MU
- * @uses get_current_user_id()
- * @uses get_user_id_from_string()
+ * @uses get_user_by()
  *
  * @param string $username
  * @return bool
  */
 function is_user_spammy( $username = 0 ) {
 	if ( $username == 0 ) {
-		$user_id = get_current_user_id();
+		$user = get_user_by( 'id', get_current_user_id() );
 	} else {
-		$user_id = get_user_id_from_string( $username );
+		$user = get_user_by( 'login', $username );
 	}
-	$u = get_userdata( $user_id );
 
-	return ( isset( $u->spam ) && $u->spam == 1 );
+	return ( isset( $user->spam ) && $user->spam == 1 );
 }
 
 /**
