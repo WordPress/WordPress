@@ -1740,7 +1740,7 @@ function fix_phpmailer_messageid( $phpmailer ) {
  */
 function is_user_spammy( $username = 0 ) {
 	if ( $username == 0 ) {
-		$user = get_user_by( 'id', get_current_user_id() );
+		$user = wp_get_current_user();
 	} else {
 		$user = get_user_by( 'login', $username );
 	}
