@@ -20,7 +20,7 @@ if ( !current_user_can('edit_plugins') )
 $title = __("Edit Plugins");
 $parent_file = 'plugins.php';
 
-wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'plugin'));
+wp_reset_vars( array( 'action', 'error', 'file', 'plugin' ) );
 
 $plugins = get_plugins();
 
@@ -39,8 +39,6 @@ $plugin_files = get_plugin_files($plugin);
 
 if ( empty($file) )
 	$file = $plugin_files[0];
-else
-	$file = wp_unslash($file);
 
 $file = validate_file_to_edit($file, $plugin_files);
 $real_file = WP_PLUGIN_DIR . '/' . $file;
