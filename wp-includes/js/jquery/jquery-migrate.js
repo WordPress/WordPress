@@ -1,5 +1,5 @@
 /*!
- * jQuery Migrate - v1.0.0 - 2013-01-14
+ * jQuery Migrate - v1.1.0 - 2013-01-31
  * https://github.com/jquery/jquery-migrate
  * Copyright 2005, 2013 jQuery Foundation, Inc. and other contributors; Licensed MIT
  */
@@ -15,6 +15,16 @@ jQuery.migrateWarnings = [];
 // Set to true to prevent console output; migrateWarnings still maintained
 // jQuery.migrateMute = false;
 
+// Show a message on the console so devs know we're active
+if ( !jQuery.migrateMute && window.console && console.log ) {
+	console.log("JQMIGRATE: Logging is active");
+}
+
+// Set to false to disable traces that appear with warnings
+if ( jQuery.migrateTrace === undefined ) {
+	jQuery.migrateTrace = true;
+}
+
 // Forget any warnings we've already given; public
 jQuery.migrateReset = function() {
 	warnedAbout = {};
@@ -27,6 +37,9 @@ function migrateWarn( msg) {
 		jQuery.migrateWarnings.push( msg );
 		if ( window.console && console.warn && !jQuery.migrateMute ) {
 			console.warn( "JQMIGRATE: " + msg );
+			if ( jQuery.migrateTrace && console.trace ) {
+				console.trace();
+			}
 		}
 	}
 }
@@ -66,7 +79,7 @@ if ( document.compatMode === "BackCompat" ) {
 
 
 var attrFn = {},
-	attr = jQuery.attr,
+	oldAttr = jQuery.attr,
 	valueAttrGet = jQuery.attrHooks.value && jQuery.attrHooks.value.get ||
 		function() { return null; },
 	valueAttrSet = jQuery.attrHooks.value && jQuery.attrHooks.value.set ||
@@ -83,15 +96,18 @@ jQuery.attr = function( elem, name, value, pass ) {
 	var lowerName = name.toLowerCase(),
 		nType = elem && elem.nodeType;
 
-	if ( pass ) {
+	// Since pass is used internally, we only warn and shim for new jQuery
+	// versions where there isn't a pass arg in the formal params
+	if ( pass && oldAttr.length < 4 ) {
 		migrateWarn("jQuery.fn.attr( props, pass ) is deprecated");
 		if ( elem && !rnoAttrNodeType.test( nType ) && jQuery.isFunction( jQuery.fn[ name ] ) ) {
 			return jQuery( elem )[ name ]( value );
 		}
 	}
 
-	// Warn if user tries to set `type` since it breaks on IE 6/7/8
-	if ( name === "type" && value !== undefined && rnoType.test( elem.nodeName ) ) {
+	// Warn if user tries to set `type`, since it breaks on IE 6/7/8; by checking
+	// for disconnected elements we don't warn on $( "<button>", { type: "button" } ).
+	if ( name === "type" && value !== undefined && rnoType.test( elem.nodeName ) && elem.parentNode ) {
 		migrateWarn("Can't change the 'type' of an input or button in IE 6/7/8");
 	}
 
@@ -131,11 +147,11 @@ jQuery.attr = function( elem, name, value, pass ) {
 
 		// Warn only for attributes that can remain distinct from their properties post-1.9
 		if ( ruseDefault.test( lowerName ) ) {
-			migrateWarn( "jQuery.fn.attr(" + lowerName + ") may use property instead of attribute" );
+			migrateWarn( "jQuery.fn.attr('" + lowerName + "') may use property instead of attribute" );
 		}
 	}
 
-	return attr.call( jQuery, elem, name, value );
+	return oldAttr.call( jQuery, elem, name, value );
 };
 
 // attrHooks: value
@@ -146,7 +162,7 @@ jQuery.attrHooks.value = {
 			return valueAttrGet.apply( this, arguments );
 		}
 		if ( nodeName !== "input" && nodeName !== "option" ) {
-			migrateWarn("property-based jQuery.fn.attr('value') is deprecated");
+			migrateWarn("jQuery.fn.attr('value') no longer gets properties");
 		}
 		return name in elem ?
 			elem.value :
@@ -158,7 +174,7 @@ jQuery.attrHooks.value = {
 			return valueAttrSet.apply( this, arguments );
 		}
 		if ( nodeName !== "input" && nodeName !== "option" ) {
-			migrateWarn("property-based jQuery.fn.attr('value', val) is deprecated");
+			migrateWarn("jQuery.fn.attr('value', val) no longer sets properties");
 		}
 		// Does not return so that setAttribute is also used
 		elem.value = value;
@@ -168,8 +184,9 @@ jQuery.attrHooks.value = {
 
 var matched, browser,
 	oldInit = jQuery.fn.init,
-	// Note this does NOT include the # XSS fix from 1.7!
-	rquickExpr = /^(?:.*(<[\w\W]+>)[^>]*|#([\w\-]*))$/;
+	oldParseJSON = jQuery.parseJSON,
+	// Note this does NOT include the #9521 XSS fix from 1.7!
+	rquickExpr = /^(?:[^<]*(<[\w\W]+>)[^>]*|#([\w\-]*))$/;
 
 // $(html) "looks like html" rule change
 jQuery.fn.init = function( selector, context, rootjQuery ) {
@@ -194,6 +211,15 @@ jQuery.fn.init = function( selector, context, rootjQuery ) {
 	return oldInit.apply( this, arguments );
 };
 jQuery.fn.init.prototype = jQuery.fn;
+
+// Let $.parseJSON(falsy_value) return null
+jQuery.parseJSON = function( json ) {
+	if ( !json && json !== null ) {
+		migrateWarn("jQuery.parseJSON requires a valid JSON string");
+		return null;
+	}
+	return oldParseJSON.apply( this, arguments );
+};
 
 jQuery.uaMatch = function( ua ) {
 	ua = ua.toLowerCase();
@@ -274,8 +300,7 @@ jQuery.fn.data = function( name ) {
 
 
 var rscriptType = /\/(java|ecma)script/i,
-	oldSelf = jQuery.fn.andSelf || jQuery.fn.addBack,
-	oldFragment = jQuery.buildFragment;
+	oldSelf = jQuery.fn.andSelf || jQuery.fn.addBack;
 
 jQuery.fn.andSelf = function() {
 	migrateWarn("jQuery.fn.andSelf() replaced by jQuery.fn.addBack()");
@@ -332,35 +357,6 @@ if ( !jQuery.clean ) {
 	};
 }
 
-jQuery.buildFragment = function( elems, context, scripts, selection ) {
-	var ret,
-		warning = "jQuery.buildFragment() is deprecated";
-
-	// Set context per 1.8 logic
-	context = context || document;
-	context = !context.nodeType && context[0] || context;
-	context = context.ownerDocument || context;
-
-	try {
-		ret = oldFragment.call( jQuery, elems, context, scripts, selection );
-
-	// jQuery < 1.8 required arrayish context; jQuery 1.9 fails on it
-	} catch( x ) {
-		ret = oldFragment.call( jQuery, elems, context.nodeType ? [ context ] : context[ 0 ], scripts, selection );
-
-		// Success from tweaking context means buildFragment was called by the user
-		migrateWarn( warning );
-	}
-
-	// jQuery < 1.9 returned an object instead of the fragment itself
-	if ( !ret.fragment ) {
-		migrateWarnProp( ret, "fragment", ret, warning );
-		migrateWarnProp( ret, "cacheable", false, warning );
-	}
-
-	return ret;
-};
-
 var eventAdd = jQuery.event.add,
 	eventRemove = jQuery.event.remove,
 	eventTrigger = jQuery.event.trigger,
@@ -386,7 +382,9 @@ if ( jQuery.event.props && jQuery.event.props[ 0 ] !== "attrChange" ) {
 }
 
 // Undocumented jQuery.event.handle was "deprecated" in jQuery 1.7
-migrateWarnProp( jQuery.event, "handle", jQuery.event.dispatch, "jQuery.event.handle is undocumented and deprecated" );
+if ( jQuery.event.dispatch ) {
+	migrateWarnProp( jQuery.event, "handle", jQuery.event.dispatch, "jQuery.event.handle is undocumented and deprecated" );
+}
 
 // Support for 'hover' pseudo-event and ajax event warnings
 jQuery.event.add = function( elem, types, handler, data, selector ){
