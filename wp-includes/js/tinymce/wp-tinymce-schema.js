@@ -4,7 +4,7 @@
  * Duck-punched by WordPress core to support a sane schema superset.
  *
  * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
+ * Released under LGPL
  *
  * License: http://www.tinymce.com/license
  * Contributing: http://www.tinymce.com/contributing

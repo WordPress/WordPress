@@ -1,7 +1,7 @@
 /**
  * WP Fullscreen TinyMCE plugin
  *
- * Contains code from Moxiecode Systems AB released under LGPL License http://tinymce.moxiecode.com/license
+ * Contains code from Moxiecode Systems AB released under LGPL http://tinymce.moxiecode.com/license
  */
 
 (function() {

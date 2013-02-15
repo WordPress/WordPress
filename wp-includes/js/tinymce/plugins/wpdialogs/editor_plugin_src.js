@@ -2,7 +2,7 @@
  * editor_plugin_src.js
  *
  * Copyright 2009, Moxiecode Systems AB
- * Released under LGPL License.
+ * Released under LGPL
  *
  * License: http://tinymce.moxiecode.com/license
  * Contributing: http://tinymce.moxiecode.com/contributing
