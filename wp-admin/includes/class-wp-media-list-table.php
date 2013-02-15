@@ -266,7 +266,12 @@ foreach ( $columns as $column_name => $column_display_name ) {
 
 	case 'author':
 ?>
-		<td <?php echo $attributes ?>><?php the_author() ?></td>
+		<td <?php echo $attributes ?>><?php
+			printf( '<a href="%s">%s</a>',
+				esc_url( add_query_arg( array( 'author' => get_the_author_meta('ID') ), 'upload.php' ) ),
+				get_the_author()
+			);
+		?></td>
 <?php
 		break;
 
