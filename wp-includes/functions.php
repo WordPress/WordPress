@@ -1437,7 +1437,7 @@ function get_temp_dir() {
 /**
  * Determine if a directory is writable.
  *
- * This function is used to work around certain ACL issues 
+ * This function is used to work around certain ACL issues
  * in PHP primarily affecting Windows Servers.
  *
  * @see win_is_writable()
@@ -1457,7 +1457,7 @@ function wp_is_writable( $path ) {
 /**
  * Workaround for Windows bug in is_writable() function
  *
- * PHP has issues with Windows ACL's for determine if a 
+ * PHP has issues with Windows ACL's for determine if a
  * directory is writable or not, this works around them by
  * checking the ability to open files rather than relying
  * upon PHP to interprate the OS ACL.
@@ -1912,7 +1912,10 @@ function wp_get_mime_types() {
 	'tif|tiff' => 'image/tiff',
 	'ico' => 'image/x-icon',
 	// Video formats
-	'asf|asx|wax|wmv|wmx' => 'video/asf',
+	'asf|asx' => 'video/x-ms-asf',
+	'wmv' => 'video/x-ms-wmv',
+	'wmx' => 'video/x-ms-wmx',
+	'wm' => 'video/x-ms-wm',
 	'avi' => 'video/avi',
 	'divx' => 'video/divx',
 	'flv' => 'video/x-flv',
@@ -1936,7 +1939,8 @@ function wp_get_mime_types() {
 	'wav' => 'audio/wav',
 	'ogg|oga' => 'audio/ogg',
 	'mid|midi' => 'audio/midi',
-	'wma' => 'audio/wma',
+	'wma' => 'audio/x-ms-wma',
+	'wax' => 'audio/x-ms-wax',
 	'mka' => 'audio/x-matroska',
 	// Misc application formats
 	'rtf' => 'application/rtf',
