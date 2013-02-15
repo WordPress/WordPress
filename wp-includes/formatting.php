@@ -1721,7 +1721,7 @@ function wp_rel_nofollow( $text ) {
 }
 
 /**
- * Callback to used to add rel=nofollow string to HTML A element.
+ * Callback to add rel=nofollow string to HTML A element.
  *
  * Will remove already existing rel="nofollow" and rel='nofollow' from the
  * string to prevent from invalidating (X)HTML.

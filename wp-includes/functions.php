@@ -727,7 +727,7 @@ function remove_query_arg( $key, $query=false ) {
  *
  * @since 0.71
  *
- * @param array $array Array to used to walk while sanitizing contents.
+ * @param array $array Array to walk while sanitizing contents.
  * @return array Sanitized $array.
  */
 function add_magic_quotes( $array ) {
