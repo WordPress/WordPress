@@ -893,6 +893,7 @@ img.alignright {
 	margin: 0.857142857rem 0 0.857142857rem 1.714285714rem;
 }
 img.aligncenter {
+	clear: both;
 	margin-top: 12px;
 	margin-top: 0.857142857rem;
 	margin-bottom: 12px;
