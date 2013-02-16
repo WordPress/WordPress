@@ -356,15 +356,11 @@ function wp_default_scripts( &$scripts ) {
 			'how' => __('Separate multiple categories with commas.')
 		) );
 
-		$scripts->add( 'admin-categories', "/wp-admin/js/categories$suffix.js", array('wp-lists'), false, 1 );
-
 		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array('jquery', 'wp-ajax-response'), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'admin-tags', 'tagsl10n', array(
 			'noPerm' => __('You do not have permission to do that.'),
 			'broken' => __('An unidentified error has occurred.')
 		));
-
-		$scripts->add( 'admin-custom-fields', "/wp-admin/js/custom-fields$suffix.js", array('wp-lists'), false, 1 );
 
 		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array('wp-lists', 'quicktags', 'jquery-query'), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'admin-comments', 'adminCommentsL10n', array(
