@@ -44,6 +44,8 @@ TABLE OF CONTENTS:
 25.0 - TinyMCE tweaks
 26.0 - Full Overlay w/ Sidebar
 27.0 - Customize Loader
+28.0 - Nav Menus
+29.0 - HiDPI
 
 
 ------------------------------------------------------------------------------*/
@@ -2303,10 +2305,6 @@ body.login {
 	margin-right:0;
 }
 
-.auto-add-pages {
-	float: right;
-}
-
 /* Star ratings */
 div.star-holder {
 	background: url('../images/stars-rtl.png?ver=20121108') repeat-x bottom right;
@@ -2543,9 +2541,38 @@ div.sidebar-name h3 {
 	left: 20px;
 }
 
-/**
- * HiDPI Displays
- */
+/*------------------------------------------------------------------------------
+  28.0 - Nav Menus
+------------------------------------------------------------------------------*/
+.nav-menus-php .major-publishing-actions .publishing-action {
+	float: left;
+}
+
+.menu-settings dd {
+	float: right;
+	padding-right: 170px;
+}
+
+.manage-menus span {
+	float: right;
+}
+
+.menu-settings dt {
+	left: auto;
+	right: 0;
+}
+
+.menu-settings dd input,
+.menu-settings dd span,
+.menu-settings dd label,
+.manage-menus select {
+	float: right;
+	margin-right: 6px;
+}
+
+/*------------------------------------------------------------------------------
+  29.0 - HiDPI
+------------------------------------------------------------------------------*/
 @media print,
   (-o-min-device-pixel-ratio: 5/4),
   (-webkit-min-device-pixel-ratio: 1.25),

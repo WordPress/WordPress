@@ -400,7 +400,8 @@ div.dashboard-widget-submit input:hover,
 
 .submitbox .submitdelete:hover,
 #media-items a.delete:hover,
-#media-items a.delete-permanently:hover {
+#media-items a.delete-permanently:hover,
+#nav-menu-footer .menu-delete:hover {
 	color: #fff;
 	background-color: #f00;
 	border-bottom-color: #f00;
@@ -1681,6 +1682,27 @@ div.widgets-sortables,
 .submitbox .submitcancel:hover {
 	background: #21759b;
 	color: #fff;
+}
+
+.manage-menus {
+	border: 1px solid #eeeeee;
+	background: #fbfbfb;
+}
+
+.menu-settings {
+	border-top: 1px solid #eeeeee;
+}
+
+.theme-location-set {
+	color: #999999;
+}
+
+.nav-menus-php .delete-action a {
+	color: #bc0b0b;
+}
+
+.is-submenu {
+	color: #999999;
 }
 /* end added from nav-menu.css */
 

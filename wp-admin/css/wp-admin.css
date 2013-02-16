@@ -6704,8 +6704,17 @@ a.rsswidget {
 
 /* nav-menu */
 
+.nav-menus-php #message {
+	display: none;
+}
+
+.no-js #message {
+	display: block;
+}
+
 #nav-menus-frame {
 	margin-left: 300px;
+	margin-top: 28px;
 }
 
 #wpbody-content #menu-settings-column {
@@ -6714,11 +6723,7 @@ a.rsswidget {
 	margin-left: -300px;
 	clear: both;
 	float: left;
-	padding-top: 24px;
-}
-
-.no-js #wpbody-content #menu-settings-column {
-	padding-top: 31px;
+	padding-top: 0;
 }
 
 #menu-settings-column .inside {
@@ -6739,10 +6744,89 @@ a.rsswidget {
 	position: relative;
 }
 
+.blank-slate .menu-name {
+	height: 2em;
+}
+
+.blank-slate .menu-settings {
+	border: none;
+	margin-top: 0;
+	padding-top: 0;
+	overflow: hidden;
+}
+
+.is-submenu {
+	font-style: italic;
+	font-weight: normal;
+	margin-left: 4px;
+}
+
+.manage-menus {
+	margin-top: 13px;
+	padding: 10px;
+	overflow: hidden;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.manage-menus select {
+	float: left;
+	margin-right: 6px;
+}
+
+.manage-menus .selected-menu {
+	float: left;
+	margin: 5px 6px 0 0;
+}
+
+.manage-menus .submit-btn {
+	float: left;
+	margin-top: 1px;
+}
+
+.menu-edit p {
+	margin: .3em 0 .6em;
+}
+
+.menu-settings {
+	margin-top: 2em;
+	padding-top: 16px;
+	overflow: hidden;
+}
+
+.menu-settings dl {
+	margin: 0 0 10px;
+	overflow: hidden;
+	position: relative;
+}
+
+.menu-settings dd {
+	float: left;
+	margin: 0;
+	width: 60%;
+	padding-left: 170px;
+}
+
+.menu-settings dt {
+	clear: both;
+	left: 0;
+	padding: 3px 0 0;
+	position: absolute;
+}
+
+.menu-edit .checkbox-input {
+	margin-top: 4px;
+}
+
+.theme-location-set {
+	font-size: 11px;
+}
+
 /* Menu Container */
 #menu-management-liquid {
 	float: left;
 	min-width: 100%;
+	margin-top: 3px;
 }
 
 #menu-management {
@@ -6757,7 +6841,7 @@ a.rsswidget {
 }
 
 .nav-menus-php #post-body {
-	padding: 10px;
+	padding: 0 10px;
 	border-width: 1px 0;
 	border-style: solid;
 }
@@ -6769,6 +6853,11 @@ a.rsswidget {
 
 #nav-menu-header {
 	border-bottom: 1px solid;
+	margin-bottom: 13px;
+}
+
+#nav-menu-header .menu-name-label {
+	margin-top: 2px;
 }
 
 #nav-menu-footer {
@@ -6787,54 +6876,6 @@ a.rsswidget {
 
 #menu-management .menu-add-new abbr {
 	font-weight:bold;
-}
-
-/* Menu Tabs */
-
-#menu-management .nav-tabs-nav {
-	margin: 0 20px;
-}
-
-#menu-management .nav-tabs-arrow {
-	width: 10px;
-	padding: 0 5px 4px;
-	cursor: pointer;
-	position: absolute;
-	top: 0;
-	line-height: 22px;
-	font-size: 18px;
-}
-
-#menu-management .nav-tabs-arrow-left {
-	left: 0;
-}
-
-#menu-management .nav-tabs-arrow-right {
-	right: 0;
-	text-align: right;
-}
-
-#menu-management .nav-tabs-wrapper {
-	width: 100%;
-	height: 28px;
-	margin-bottom: -1px;
-	overflow: hidden;
-}
-
-#menu-management .nav-tabs {
-	padding-left: 20px;
-	padding-right: 10px;
-}
-
-.js #menu-management .nav-tabs {
-	float: left;
-	margin-left: 0px;
-	margin-right: -400px;
-}
-
-#menu-management .nav-tab {
-	margin-bottom: 0;
-	font-size: 14px;
 }
 
 #select-nav-menu-container {
@@ -7033,7 +7074,8 @@ a.rsswidget {
 }
 
 #menu-to-edit {
-	padding: 1em 0;
+	margin: 0;
+	padding: 0.1em 0;
 }
 
 .menu ul {
@@ -7049,7 +7091,7 @@ a.rsswidget {
 	clear:both;
 	line-height:1.5em;
 	position:relative;
-	margin: 13px 0 0 0;
+	margin: 9px 0 0;
 }
 
 .menu-item-handle {
@@ -7269,34 +7311,16 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	text-align: right;
 	float: right;
 	line-height: 23px;
-	margin: 5px 0 1px;
+	margin: 2px 0 1px;
 }
 
-.nav-menus-php .major-publishing-actions .delete-action {
-	vertical-align: middle;
-	text-align: left;
+.nav-menus-php .blank-slate .menu-settings {
+	display: none;
+}
+
+.nav-menus-php .delete-action {
 	float: left;
-	padding-right: 15px;
-	margin-top: 5px;
-}
-
-.menu-name-label span,
-.auto-add-pages label {
-	font-size: 12px;
-	font-style: normal;
-}
-
-.menu-name-label {
-	margin-right: 15px;
-}
-
-.auto-add-pages input {
-	margin-top: 0;
-}
-
-.auto-add-pages {
-	margin-top: 4px;
-	float: left;
+	margin-top: 2px;
 }
 
 .nav-menus-php .submitbox .submitcancel {
