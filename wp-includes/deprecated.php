@@ -3377,5 +3377,9 @@ function gd_edit_image_support($mime_type) {
  */
 function wp_convert_bytes_to_hr( $bytes ) {
 	_deprecated_function( __FUNCTION__, '3.6', 'size_format()' );
-	return size_format( $bytes );
+	$units = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
+	$log   = log( $bytes, 1024 );
+	$power = (int) $log;
+	$size  = pow( 1024, $log - $power );
+	return $size . $units[$power];
 }
