@@ -908,7 +908,7 @@ function wpmu_create_user( $user_name, $password, $email ) {
 		return false;
 
 	$user = new WP_User( $user_id );
-	
+
 	// Newly created users have no roles or caps until they are added to a blog.
 	delete_user_option( $user_id, $user->cap_key );
 	delete_user_option( $user_id, 'user_level' );
@@ -1317,32 +1317,6 @@ function get_current_site() {
 }
 
 /**
- * Get a numeric user ID from either an email address or a login.
- *
- * @since MU
- * @uses is_email()
- *
- * @param string $string
- * @return int
- */
-function get_user_id_from_string( $string ) {
-	$user_id = 0;
-	if ( is_email( $string ) ) {
-		$user = get_user_by('email', $string);
-		if ( $user )
-			$user_id = $user->ID;
-	} elseif ( is_numeric( $string ) ) {
-		$user_id = $string;
-	} else {
-		$user = get_user_by('login', $string);
-		if ( $user )
-			$user_id = $user->ID;
-	}
-
-	return $user_id;
-}
-
-/**
  * Get a user's most recent post.
  *
  * Walks through each of a user's blogs to find the post with
@@ -1730,22 +1704,21 @@ function fix_phpmailer_messageid( $phpmailer ) {
 }
 
 /**
- * Check to see whether a user is marked as a spammer, based on username
+ * Check to see whether a user is marked as a spammer, based on user login.
  *
  * @since MU
  * @uses get_user_by()
  *
- * @param string $username
+ * @param string $user_login Optional. Defaults to current user.
  * @return bool
  */
-function is_user_spammy( $username = 0 ) {
-	if ( $username == 0 ) {
+function is_user_spammy( $user_login = null ) {
+	if ( $user_login )
+		$user = get_user_by( 'login', $user_login );
+	else
 		$user = wp_get_current_user();
-	} else {
-		$user = get_user_by( 'login', $username );
-	}
 
-	return ( isset( $user->spam ) && $user->spam == 1 );
+	return $user && isset( $user->spam ) && 1 == $user->spam;
 }
 
 /**
