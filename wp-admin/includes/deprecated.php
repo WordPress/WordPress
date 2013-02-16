@@ -1012,7 +1012,7 @@ function get_default_page_to_edit() {
  * @since 1.2.0
  * @deprecated 3.5.0
  * @deprecated Use image_resize()
- * @see  image_resize()
+ * @see image_resize()
  *
  * @param mixed $file Filename of the original image, Or attachment id.
  * @param int $max_side Maximum length of a single side for the thumbnail.
@@ -1020,6 +1020,6 @@ function get_default_page_to_edit() {
  * @return string Thumbnail path on success, Error string on failure.
  */
 function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
-	_deprecated_function( __FUNCTION__, '3.5', 'image_resize' );
+	_deprecated_function( __FUNCTION__, '3.5', 'image_resize()' );
 	return apply_filters( 'wp_create_thumbnail', image_resize( $file, $max_side, $max_side ) );
 }

@@ -1110,12 +1110,12 @@ function wp_embed_handler_googlevideo( $matches, $attr, $url, $rawattr ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Converts a shorthand byte value to an integer byte value.
  *
  * @since 2.3.0
  *
- * @param unknown_type $size
- * @return unknown
+ * @param string $size A shorthand byte value.
+ * @return int An integer byte value.
  */
 function wp_convert_hr_to_bytes( $size ) {
 	$size  = strtolower( $size );
@@ -1130,12 +1130,12 @@ function wp_convert_hr_to_bytes( $size ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Converts an integer byte value to a shorthand byte value.
  *
  * @since 2.3.0
  *
- * @param unknown_type $bytes
- * @return unknown
+ * @param int $bytes An integer byte value.
+ * @return string A shorthand byte value.
  */
 function wp_convert_bytes_to_hr( $bytes ) {
 	$units = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
@@ -1146,11 +1146,11 @@ function wp_convert_bytes_to_hr( $bytes ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Determine the maximum upload size allowed in php.ini.
  *
  * @since 2.5.0
  *
- * @return unknown
+ * @return int Allowed upload size.
  */
 function wp_max_upload_size() {
 	$u_bytes = wp_convert_hr_to_bytes( ini_get( 'upload_max_filesize' ) );
