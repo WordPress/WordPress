@@ -42,7 +42,7 @@ inlineEditPost = {
 		});
 
 		// add events
-		$('a.editinline').live('click', function(){
+		$('#the-list').on('click', 'a.editinline', function(){
 			inlineEditPost.edit(this);
 			return false;
 		});

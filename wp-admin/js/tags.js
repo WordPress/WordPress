@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 
-	$('.delete-tag').live('click', function(e){
+	$('#the-list').on('click', '.delete-tag', function(e){
 		var t = $(this), tr = t.parents('tr'), r = true, data;
 		if ( 'undefined' != showNotice )
 			r = showNotice.warn();
