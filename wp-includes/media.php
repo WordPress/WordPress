@@ -1130,22 +1130,6 @@ function wp_convert_hr_to_bytes( $size ) {
 }
 
 /**
- * Converts an integer byte value to a shorthand byte value.
- *
- * @since 2.3.0
- *
- * @param int $bytes An integer byte value.
- * @return string A shorthand byte value.
- */
-function wp_convert_bytes_to_hr( $bytes ) {
-	$units = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
-	$log   = log( $bytes, 1024 );
-	$power = (int) $log;
-	$size  = pow( 1024, $log - $power );
-	return $size . $units[$power];
-}
-
-/**
  * Determine the maximum upload size allowed in php.ini.
  *
  * @since 2.5.0

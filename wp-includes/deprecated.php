@@ -3364,3 +3364,18 @@ function gd_edit_image_support($mime_type) {
 	}
 	return false;
 }
+
+/**
+ * Converts an integer byte value to a shorthand byte value.
+ *
+ * @since 2.3.0
+ * @deprecated 3.6.0
+ * @deprecated Use size_format()
+ *
+ * @param int $bytes An integer byte value.
+ * @return string A shorthand byte value.
+ */
+function wp_convert_bytes_to_hr( $bytes ) {
+	_deprecated_function( __FUNCTION__, '3.6', 'size_format()' );
+	return size_format( $bytes );
+}
