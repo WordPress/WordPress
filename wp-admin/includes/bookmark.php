@@ -55,12 +55,12 @@ function edit_link( $link_id = 0 ) {
 function get_default_link_to_edit() {
 	$link = new stdClass;
 	if ( isset( $_GET['linkurl'] ) )
-		$link->link_url = esc_url( $_GET['linkurl'] );
+		$link->link_url = esc_url( wp_unslash( $_GET['linkurl'] ) );
 	else
 		$link->link_url = '';
 
 	if ( isset( $_GET['name'] ) )
-		$link->link_name = esc_attr( $_GET['name'] );
+		$link->link_name = esc_attr( wp_unslash( $_GET['name'] ) );
 	else
 		$link->link_name = '';
 

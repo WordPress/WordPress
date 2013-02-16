@@ -77,8 +77,6 @@ set_screen_options();
 $date_format = get_option('date_format');
 $time_format = get_option('time_format');
 
-wp_reset_vars(array('profile', 'redirect', 'redirect_url', 'a', 'text', 'trackback', 'pingback'));
-
 wp_enqueue_script( 'common' );
 
 $editing = false;

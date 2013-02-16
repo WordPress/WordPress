@@ -14,7 +14,7 @@ require_once('./admin.php');
 $parent_file = 'edit.php';
 $submenu_file = 'edit.php';
 
-wp_reset_vars(array('action', 'safe_mode', 'withcomments', 'posts', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder'));
+wp_reset_vars( array( 'action' ) );
 
 if ( isset( $_GET['post'] ) )
  	$post_id = $post_ID = (int) $_GET['post'];

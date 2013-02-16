@@ -126,7 +126,6 @@ do_meta_boxes(null, 'advanced', $link);
 if ( $link_id ) : ?>
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="link_id" value="<?php echo (int) $link_id; ?>" />
-<input type="hidden" name="order_by" value="<?php echo esc_attr($order_by); ?>" />
 <input type="hidden" name="cat_id" value="<?php echo (int) $cat_id ?>" />
 <?php else: ?>
 <input type="hidden" name="action" value="add" />
