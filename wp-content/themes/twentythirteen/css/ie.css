@@ -1,0 +1,219 @@
+/*
+Styles for older IE versions (previous to IE9).
+*/
+.site {
+	min-width: 1040px;
+}
+.genericon:before:hover,
+.menu-toggle:after:hover,
+.date a:before:hover,
+.entry-meta .author a:before:hover,
+.format-audio .entry-content:before:hover,
+.comments-link a:before:hover,
+.tags-links a:first-child:before:hover,
+.categories-links a:first-child:before:hover,
+.edit-link > a:before:hover,
+.attachment-meta:before:hover,
+.attachment-meta a:before:hover,
+.comment-awaiting-moderation:before:hover,
+.comment-reply-link:before:hover,
+#reply-title small a:before:hover,
+.bypostauthor .fn:before:hover {
+	text-decoration: none;
+}
+
+.nav-menu .sub-menu,
+.nav-menu .children {
+	left: 0;
+}
+
+.nav-menu .sub-menu ul,
+.nav-menu .children ul {
+	left: 100%;
+}
+
+.site-header .searchform .field {
+	padding-top: 6px;
+}
+
+img.alignright {
+	margin-right: 0;
+}
+
+img.alignleft {
+	margin-left: 0;
+}
+
+.site-main .sidebar-inner {
+	width: 1040px;
+}
+
+.site-main .widget-area {
+	margin-right: 60px;
+}
+
+.format-image .entry-content .size-full {
+	max-width: 604px;
+	margin: 0;
+}
+.comment {
+	clear: both;
+}
+
+.comment-meta,
+.comment-content,
+.reply {
+	width: 480px;
+}
+
+.depth-2 .comment-meta,
+.depth-2 .comment-content,
+.depth-2 .reply {
+	width: 460px;
+}
+
+.depth-3 .comment-meta,
+.depth-3 .comment-content,
+.depth-3 .reply {
+	width: 440px;
+}
+
+.depth-4 .comment-meta,
+.depth-4 .comment-content,
+.depth-4 .reply {
+	width: 420px;
+}
+
+.depth-5 .comment-meta,
+.depth-5 .comment-content,
+.depth-5 .reply {
+	width: 400px;
+}
+
+.comment-meta {
+	margin-bottom: 0;
+}
+
+.widget {
+	background: #f7f5e7;
+}
+
+.site-footer .widget {
+	background: none;
+}
+
+/* Internet Explorer 8 */
+ie8 .site {
+	border: 0;
+}
+
+.ie8 img.size-full,
+.ie8 img.size-large {
+	height: auto;
+	width: auto;
+}
+
+.ie8 .sidebar .entry-header,
+.ie8 .sidebar .entry-content,
+.ie8 .sidebar .entry-summary,
+.ie8 .sidebar .entry-meta {
+	max-width: 724px;
+}
+
+.ie8 .author-info {
+	margin-left: 0;
+}
+
+.ie8 .paging-navigation .nav-previous .meta-nav {
+	padding: 5px 0 8px;
+	width: 40px;
+}
+
+.ie8 .paging-navigation .nav-next {
+	line-height: 1;
+}
+
+.ie8 .format-status .entry-content:before,
+.ie8 .format-status .entry-meta:before {
+	content: none;
+}
+
+
+/* Internet Explorer 7 */
+.ie7 .assistive-text,
+.ie7 .site .screen-reader-text {
+	clip: rect(1px 1px 1px 1px); /* IE7 */
+}
+
+.ie7 .site-header {
+	position: relative;
+	z-index: 1;
+}
+
+.ie7 .main-navigation {
+	max-width: 890px;
+	padding-right: 150px;
+}
+
+.ie7 .nav-menu li a,
+.ie7 .nav-menu li {
+	display: block;
+	float: left;
+}
+
+.ie7 .nav-menu ul {
+	top: 40px;
+}
+
+.ie7 .nav-menu li ul ul {
+	top: 0;
+	left: 100%;
+}
+
+.ie7 .site-header .searchform .field {
+	background-color: #fff;
+	border: 2px solid #c3c0ab;
+	cursor: text;
+	outline: 0;
+	width: 150px;
+}
+
+.ie7 .entry-header,
+.ie7 .entry-content,
+.ie7 .entry-summary,
+.ie7 .entry-meta {
+	width: 604px;
+}
+
+.ie7 .format-status .entry-content,
+.ie7 .format-status .entry-meta {
+	padding-left: 60px;
+}
+
+.ie7 .sidebar .format-status .entry-content,
+.ie7 .sidebar .format-status .entry-meta {
+	padding-left: 60px;
+}
+
+.ie7 .sidebar .post-navigation .nav-links,
+.ie7 .sidebar .paging-navigation .nav-links {
+	width: 604px;
+}
+
+.ie7 .paging-navigation .meta-nav {
+	padding: 0 0 10px;
+	vertical-align: middle;
+	width: 40px;
+}
+
+.ie7 .comments-title,
+.ie7 .comment-list,
+.ie7 #reply-title,
+.ie7 #respond #commentform {
+	width: 604px;
+}
+
+.ie7 .site-footer .widget-area {
+	max-width: none;
+	left: auto;
+}
