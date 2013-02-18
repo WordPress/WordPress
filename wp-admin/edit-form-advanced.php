@@ -112,9 +112,6 @@ if ( 'attachment' == $post_type ) {
 	add_meta_box( 'submitdiv', __( 'Publish' ), 'post_submit_meta_box', null, 'side', 'core' );
 }
 
-if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post_type, 'post-formats' ) )
-	add_meta_box( 'formatdiv', _x( 'Format', 'post format' ), 'post_format_meta_box', null, 'side', 'core' );
-
 // all taxonomies
 foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 	$taxonomy = get_taxonomy($tax_name);
@@ -127,6 +124,17 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 		add_meta_box('tagsdiv-' . $tax_name, $label, 'post_tags_meta_box', null, 'side', 'core', array( 'taxonomy' => $tax_name ));
 	else
 		add_meta_box($tax_name . 'div', $label, 'post_categories_meta_box', null, 'side', 'core', array( 'taxonomy' => $tax_name ));
+}
+
+// post format
+if ( post_type_supports( $post_type, 'post-formats' ) ) {
+	wp_enqueue_script( 'post-formats' );
+	$post_format = get_post_format();
+	$format_class = '';
+	if ( ! $post_format )
+		$post_format = 'standard';
+
+	$format_class = " class='wp-format-{$post_format}'";
 }
 
 if ( post_type_supports($post_type, 'page-attributes') )
@@ -321,8 +329,28 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 
 <div id="poststuff">
 
+<?php
+if ( post_type_supports( $post_type, 'post-formats' ) ) {
+	$all_post_formats = get_post_format_strings();
+
+	echo '<h2 class="nav-tab-wrapper post-format-select">';
+
+	foreach ( $all_post_formats as $slug => $label ) {
+		if ( $post_format == $slug )
+			$class = 'nav-tab nav-tab-active';
+		else
+			$class = 'nav-tab';
+
+		echo '<a class="' . $class . '" href="?format=' . $slug . '" data-wp-format="' . $slug . '">' . $label . '</a>';
+	}
+
+	echo '</h2>';
+}
+?>
+
 <div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
-<div id="post-body-content">
+<div id="post-body-content"<?php echo $format_class; ?>>
+
 <?php if ( post_type_supports($post_type, 'title') ) { ?>
 <div id="titlediv">
 <div id="titlewrap">
@@ -355,6 +383,65 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 }
 
 do_action( 'edit_form_after_title' );
+
+// post format fields
+if ( post_type_supports( $post_type, 'post-formats' ) ) {
+	$format_meta = get_post_format_meta( $post_ID );
+
+if ( isset( $format_meta['image'] ) )
+	$image = is_numeric( $format_meta['image'] ) ? wp_get_attachment_url( $format_meta['image'] ) : $format_meta['image'];
+else
+	$image = false;
+?>
+<div class="post-formats-fields">
+
+<input type="hidden" name="post_format" id="post_format" value="<?php echo esc_attr( $post_format ); ?>" />
+
+<div class="field wp-format-quote">
+	<label for="_wp_format_quote" class="screen-reader-text"><?php _e( 'Quote' ); ?>:</label>
+	<textarea name="_wp_format_quote" placeholder="<?php esc_attr_e( 'Quote' ); ?>" class="widefat"><?php echo esc_textarea( $format_meta['quote'] ); ?></textarea>
+</div>
+
+<div class="field wp-format-quote">
+	<label for="_wp_format_quote_source" class="screen-reader-text"><?php _e( 'Quote source' ); ?>:</label>
+	<input type="text" name="_wp_format_quote_source" value="<?php echo esc_attr( $format_meta['quote_source'] ); ?>" placeholder="<?php esc_attr_e( 'Quote source' ); ?>" class="widefat" />
+</div>
+
+<div class="field wp-format-image">
+	<div id="wp-format-image-holder" class="hide-if-no-js<?php if ( ! $image ) echo ' empty'; ?>">
+		<a href="#" id="wp-format-image-select"
+			data-choose="<?php esc_attr_e( 'Choose an Image' ); ?>"
+			data-update="<?php esc_attr_e( 'Select Image' ); ?>">
+			<?php
+				if ( $image )
+					echo '<img src="' . esc_url( $image ) . '" />';
+				else
+					_e( 'Select Image' );
+			?>
+		</a>
+	</div>
+	<label for="_wp_format_image" class="screen-reader-text"><?php _e( 'Image ID or URL' ); ?>:</label>
+	<input type="text" name="_wp_format_image" id="wp_format_image" value="<?php echo esc_attr( $format_meta['image'] ); ?>" placeholder="<?php esc_attr_e( 'Image ID or URL' ); ?>" class="widefat hide-if-js" />
+</div>
+
+<div class="field wp-format-link wp-format-quote wp-format-image">
+	<label for="_wp_format_url" class="screen-reader-text"><?php _e( 'Link URL' ); ?>:</label>
+	<input type="text" name="_wp_format_url" value="<?php echo esc_url( $format_meta['url'] ); ?>" placeholder="<?php esc_attr_e( 'Link URL' ); ?>" class="widefat" />
+</div>
+
+<div class="field wp-format-gallery">
+	<label for="_wp_format_gallery" class="screen-reader-text"><?php _e( 'Gallery shortcode' ); ?>:</label>
+	<input type="text" name="_wp_format_gallery" id="wp_format_gallery" value="<?php echo esc_attr( $format_meta['gallery'] ); ?>" placeholder="<?php esc_attr_e( 'Gallery shortcode' ); ?>" class="widefat" />
+</div>
+
+<div class="field wp-format-audio wp-format-video">
+	<label for="_wp_format_media" class="screen-reader-text"><?php _e( 'Embed code or URL' ); ?>:</label>
+	<textarea name="_wp_format_media" placeholder="<?php esc_attr_e( 'Embed code or URL' ); ?>" class="widefat"><?php echo esc_textarea( $format_meta['media'] ); ?></textarea>
+</div>
+
+</div>
+<?php
+}
 
 if ( post_type_supports($post_type, 'editor') ) {
 ?>

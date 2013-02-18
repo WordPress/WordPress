@@ -747,7 +747,8 @@ input[readonly] {
 	background-color: #eee;
 }
 
-:-moz-placeholder {
+:-moz-placeholder,
+.wp-core-ui :-moz-placeholder {
    color: #a9a9a9;
 }
 
@@ -3080,9 +3081,76 @@ input#link_url {
 	margin: 2px 0 2px -2px;
 }
 
-#post-status-select, #post-format {
+#post-status-select {
 	line-height: 2.5em;
 	margin-top: 3px;
+}
+
+/* Post formats form */
+#poststuff .post-format-select {
+	margin-top: 0;
+	padding-bottom: 0;
+}
+
+.post-formats-fields {
+	margin-bottom: 20px;
+}
+
+.wp-format-standard .post-formats-fields,
+.wp-format-aside .post-formats-fields,
+.wp-format-chat .post-formats-fields,
+.wp-format-status .post-formats-fields {
+	display: none;
+}
+
+.post-formats-fields .field {
+	display: none;
+	margin-bottom: 10px;
+}
+
+.post-formats-fields input,
+.post-formats-fields textarea {
+	padding: 5px;
+	font-size: 1.2em;
+}
+
+.wp-format-chat .field.wp-format-chat,
+.wp-format-gallery .field.wp-format-gallery,
+.wp-format-link .field.wp-format-link,
+.wp-format-image .field.wp-format-image,
+.wp-format-quote .field.wp-format-quote,
+.wp-format-video .field.wp-format-video,
+.wp-format-audio .field.wp-format-audio {
+	display: block;
+}
+
+#wp-format-image-holder {
+	overflow: hidden;
+	width: 300px;
+	height: 200px;
+	border: 1px solid #dfdfdf;
+	background: #f5f5f5;
+}
+
+#wp-format-image-holder:hover {
+	background-color: #eee;
+}
+
+#wp-format-image-select {
+	display: block;
+	height: 200px;
+	text-align: center;
+}
+
+#wp-format-image-select img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.empty #wp-format-image-select {
+	padding-top: 120px;
+	height: 80px;
+	background: url(../images/media-button-2x.png) no-repeat center;
 }
 
 /* Post Screen */

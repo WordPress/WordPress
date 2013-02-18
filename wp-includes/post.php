@@ -1951,6 +1951,30 @@ function get_post_custom_values( $key = '', $post_id = 0 ) {
 }
 
 /**
+ * Retrieve post format metadata for a post
+ *
+ * @since 3.6.0
+ *
+ * @param int $post_id
+ * @return null
+ */
+function get_post_format_meta( $post_id = 0 ) {
+	$values = array(
+		'quote'        => '',
+		'quote_source' => '',
+		'image'        => '',
+		'url'          => '',
+		'gallery'      => '',
+		'media'        => '',
+	);
+
+	foreach ( $values as $key => $value )
+		$values[$key] = get_post_meta( $post_id, '_wp_format_' . $key, true );
+
+	return $values;
+}
+
+/**
  * Check if post is sticky.
  *
  * Sticky posts should remain at the top of The Loop. If the post ID is not

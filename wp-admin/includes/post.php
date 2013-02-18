@@ -193,10 +193,18 @@ function edit_post( $post_data = null ) {
 
 	// Post Formats
 	if ( isset( $post_data['post_format'] ) ) {
-		if ( current_theme_supports( 'post-formats', $post_data['post_format'] ) )
-			set_post_format( $post_ID, $post_data['post_format'] );
-		elseif ( '0' == $post_data['post_format'] )
-			set_post_format( $post_ID, false );
+		set_post_format( $post_ID, $post_data['post_format'] );
+	}
+
+	if ( isset( $post_data[ '_wp_format_url' ] ) ) {
+		update_post_meta( $post_ID, '_wp_format_url', addslashes( esc_url_raw( stripslashes( $post_data['_wp_format_url'] ) ) ) );
+	}
+
+	$format_keys = array( 'quote', 'quote_source', 'image', 'gallery', 'media' );
+
+	foreach ( $format_keys as $key ) {
+		if ( isset( $post_data[ '_wp_format_' . $key ] ) )
+		 	update_post_meta( $post_ID, '_wp_format_' . $key, wp_filter_post_kses( $post_data[ '_wp_format_' . $key ] ) );
 	}
 
 	// Meta Stuff
