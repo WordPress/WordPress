@@ -264,6 +264,8 @@ switch ( $action ) {
 		// Get existing menu locations assignments
 		$locations = get_registered_nav_menus();
 		$menu_locations = get_nav_menu_locations();
+		if ( empty( $menu_locations ) || ! is_array( $menu_locations ) )
+			$menu_locations = array();
 
 		// Remove menu locations that have been unchecked
 		foreach ( $locations as $location => $description ) {
@@ -371,8 +373,12 @@ if ( ! $add_new_screen && 0 < $menu_count && isset( $_GET['action'] ) && 'delete
 	$nav_menu_selected_id = $nav_menus[0]->term_id;
 
 // Set $nav_menu_selected_id to 0 if no menus
-if ( $one_theme_location_no_menus )
+if ( $one_theme_location_no_menus ) {
 	$nav_menu_selected_id = 0;
+} elseif ( empty( $nav_menu_selected_id ) && ! empty( $nav_menus ) && ! $add_new_screen ) {
+	// if we have no selection yet, and we have menus, set to the first one in the list
+	$nav_menu_selected_id = $nav_menus[0]->term_id;
+}
 
 // Update the user's setting
 if ( $nav_menu_selected_id != $recently_edited && is_nav_menu( $nav_menu_selected_id ) )
