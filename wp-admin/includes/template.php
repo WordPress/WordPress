@@ -807,7 +807,7 @@ function wp_import_upload_form( $action ) {
  * @param string|object $screen Optional. The screen on which to show the box (post, page, link). Defaults to current screen.
  * @param string $context Optional. The context within the page where the boxes should show ('normal', 'advanced').
  * @param string $priority Optional. The priority within the context where the boxes should show ('high', 'low').
- * @param array $callback_args Optional. Data that should set as the "args" property of the box array (which is the second parameter passed to your callback).
+ * @param array $callback_args Optional. Data that should be set as the "args" property of the box array (which is the second parameter passed to your callback).
  */
 function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advanced', $priority = 'default', $callback_args = null ) {
 	global $wp_meta_boxes;
