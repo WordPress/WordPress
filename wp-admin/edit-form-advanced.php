@@ -127,10 +127,11 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 }
 
 // post format
+$format_class = '';
 if ( post_type_supports( $post_type, 'post-formats' ) ) {
 	wp_enqueue_script( 'post-formats' );
 	$post_format = get_post_format();
-	$format_class = '';
+
 	if ( ! $post_format )
 		$post_format = 'standard';
 
