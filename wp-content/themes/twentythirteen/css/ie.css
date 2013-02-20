@@ -103,7 +103,7 @@ img.alignleft {
 }
 
 /* Internet Explorer 8 */
-ie8 .site {
+.ie8 .site {
 	border: 0;
 }
 
