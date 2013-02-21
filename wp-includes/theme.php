@@ -1257,8 +1257,16 @@ function add_theme_support( $feature ) {
 		$args = array_slice( func_get_args(), 1 );
 
 	switch ( $feature ) {
-		case 'post-formats' :
+		case 'structured-post-formats' :
 			if ( is_array( $args[0] ) )
+				$args[0] = array_intersect( $args[0], array_keys( get_post_format_slugs() ) );
+			// structured-post-formats support automatically adds support for post-formats.
+			$_wp_theme_features['post-formats'] = $args;
+		case 'post-formats' :
+			// An existing structured-post-formats support declaration overrides post-formats.
+			if ( current_theme_supports( 'structured-post-formats' ) )
+				$args = get_theme_support( 'structured-post-formats' );
+			elseif ( is_array( $args[0] ) )
 				$args[0] = array_intersect( $args[0], array_keys( get_post_format_slugs() ) );
 			break;
 
@@ -1545,6 +1553,7 @@ function current_theme_supports( $feature ) {
 			return in_array( $content_type, $_wp_theme_features[$feature][0] );
 			break;
 
+		case 'structured-post-formats':
 		case 'post-formats':
 			// specific post formats can be registered by passing an array of types to
 			// add_theme_support()
