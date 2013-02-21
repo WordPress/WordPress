@@ -935,7 +935,7 @@ ul.nav-menu li:hover > ul,
 	-ms-box-sizing:     border-box;
 	box-sizing:         border-box;
 	-webkit-transition: width 400ms ease, background 400ms ease;
-	-moz-transition-:   width 400ms ease, background 400ms ease;
+	-moz-transition:    width 400ms ease, background 400ms ease;
 	-o-transition:      width 400ms ease, background 400ms ease;
 	transition:         width 400ms ease, background 400ms ease;
 	margin: 3px 0;
