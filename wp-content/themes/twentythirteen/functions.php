@@ -542,7 +542,7 @@ function twentythirteen_aside_date( $content ) {
 	}
 	return $content;
 }
-add_filter( 'the_content', 'twentythirteen_aside_date', 8 ); //  After embeds, before everything else.
+add_filter( 'the_content', 'twentythirteen_aside_date', 8 ); // After embeds, before everything else.
 
 /**
  * Add postMessage support for site title and description for the Customizer.

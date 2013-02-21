@@ -2306,7 +2306,7 @@ footer.entry-meta {
 }
 
 .sidebar .comment-list #reply-title,
-.sidebar .comment-list #commentform {
+.sidebar .comment-list #respond #commentform {
 	padding: 0;
 }
 
