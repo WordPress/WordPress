@@ -455,6 +455,14 @@ ins {
 	text-decoration: none;
 }
 
+hr {
+	background: url("images/dotted-line.png") repeat center top;
+	background-size: 4px 4px;
+	border: 0;
+	height: 1px;
+	margin: 0 0 24px;
+}
+
 
 /**
  * 2.0 Repeatable patterns
