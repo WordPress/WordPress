@@ -291,7 +291,7 @@ function post_formats_compat( $content, $id = 0 ) {
 	if ( empty( $format ) || in_array( $format, array( 'status', 'aside', 'chat' ) ) )
 		return $content;
 
-	if ( current_theme_supports( 'post-formats', $format ) )
+	if ( current_theme_supports( 'structured-post-formats', $format ) )
 		return $content;
 
 	$defaults = array(
@@ -412,18 +412,18 @@ function post_formats_compat( $content, $id = 0 ) {
 	$output = '';
 
 	if ( ! empty( $content ) && $show_content && 'before' !== $compat['position'] )
-		$output .= $content . PHP_EOL . PHP_EOL;
+		$output .= $content . "\n\n";
 
 	if ( ! empty( $compat['tag'] ) )
 		$output .= sprintf( '<%s class="%s">', tag_escape( $compat['tag'] ), esc_attr( $compat['class'] ) );
 
-	$output .= $format_output;
+	$output .= "\n\n" . $format_output;
 
 	if ( ! empty( $compat['tag'] ) )
 		$output .= sprintf( '</%s>', tag_escape( $compat['tag'] ) );
 
 	if ( ! empty( $content ) && $show_content && 'before' === $compat['position'] )
-		$output .= PHP_EOL . PHP_EOL . $content;
+		$output .= "\n\n" . $content;
 
 	return $output;
 }
