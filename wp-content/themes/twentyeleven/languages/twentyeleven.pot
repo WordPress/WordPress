@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyeleven\n"
-"POT-Creation-Date: 2013-01-01 00:19:31+00:00\n"
+"POT-Creation-Date: 2013-02-22 17:20:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -169,7 +169,7 @@ msgstr ""
 #: content-aside.php:44 content-featured.php:45 content-gallery.php:90
 #: content-image.php:68 content-intro.php:19 content-link.php:44
 #: content-page.php:21 content-quote.php:72 content-single.php:52
-#: content-status.php:45 content.php:82 functions.php:525 functions.php:553
+#: content-status.php:45 content.php:82 functions.php:527 functions.php:555
 #: image.php:41
 msgid "Edit"
 msgstr ""
@@ -226,7 +226,7 @@ msgid ""
 "\" rel=\"author\">%6$s</a></span></span>"
 msgstr ""
 
-#: content-image.php:39 functions.php:590
+#: content-image.php:39 functions.php:592
 msgid "View all posts by %s"
 msgstr ""
 
@@ -367,29 +367,29 @@ msgstr ""
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:525
+#: functions.php:527
 msgid "Pingback:"
 msgstr ""
 
 #. translators: 1: comment author, 2: date and time
-#: functions.php:542
+#: functions.php:544
 msgid "%1$s on %2$s <span class=\"says\">said:</span>"
 msgstr ""
 
 #. translators: 1: date, 2: time
-#: functions.php:548
+#: functions.php:550
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:557
+#: functions.php:559
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:566
+#: functions.php:568
 msgid "Reply <span>&darr;</span>"
 msgstr ""
 
-#: functions.php:584
+#: functions.php:586
 msgid ""
 "<span class=\"sep\">Posted on </span><a href=\"%1$s\" title=\"%2$s\" rel="
 "\"bookmark\"><time class=\"entry-date\" datetime=\"%3$s\">%4$s</time></"
