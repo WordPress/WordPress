@@ -458,6 +458,7 @@ function twentyeleven_content_nav( $html_id ) {
 }
 endif; // twentyeleven_content_nav
 
+if ( ! function_exists( 'twentyeleven_url_grabber' ) ) :
 /**
  * Return the URL for the first link found in the post content.
  *
@@ -470,6 +471,7 @@ function twentyeleven_url_grabber() {
 
 	return esc_url_raw( $matches[1] );
 }
+endif;
 
 /**
  * Count the number of footer sidebars to enable dynamic classes for the footer
