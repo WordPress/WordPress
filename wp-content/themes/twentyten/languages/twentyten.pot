@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyten\n"
-"POT-Creation-Date: 2013-01-01 00:19:16+00:00\n"
+"POT-Creation-Date: 2013-02-22 18:19:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -171,7 +171,7 @@ msgid "Primary Widget Area"
 msgstr ""
 
 #: functions.php:386
-msgid "The primary widget area"
+msgid "Add widgets here to appear in your sidebar."
 msgstr ""
 
 #: functions.php:395
@@ -179,39 +179,29 @@ msgid "Secondary Widget Area"
 msgstr ""
 
 #: functions.php:397
-msgid "The secondary widget area"
+msgid ""
+"An optional secondary widget area, displays below the primary widget area in "
+"your sidebar."
 msgstr ""
 
 #: functions.php:406
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: functions.php:408
-msgid "The first footer widget area"
+#: functions.php:408 functions.php:419 functions.php:430 functions.php:441
+msgid "An optional widget area for your site footer."
 msgstr ""
 
 #: functions.php:417
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: functions.php:419
-msgid "The second footer widget area"
-msgstr ""
-
 #: functions.php:428
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: functions.php:430
-msgid "The third footer widget area"
-msgstr ""
-
 #: functions.php:439
 msgid "Fourth Footer Widget Area"
-msgstr ""
-
-#: functions.php:441
-msgid "The fourth footer widget area"
 msgstr ""
 
 #: functions.php:475
