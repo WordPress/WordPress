@@ -884,15 +884,18 @@ article.sticky .featured-post {
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
 }
-img.alignleft {
+img.alignleft,
+.wp-caption.alignleft {
 	margin: 12px 24px 12px 0;
 	margin: 0.857142857rem 1.714285714rem 0.857142857rem 0;
 }
-img.alignright {
+img.alignright,
+.wp-caption.alignright {
 	margin: 12px 0 12px 24px;
 	margin: 0.857142857rem 0 0.857142857rem 1.714285714rem;
 }
-img.aligncenter {
+img.aligncenter,
+.wp-caption.aligncenter {
 	clear: both;
 	margin-top: 12px;
 	margin-top: 0.857142857rem;
