@@ -832,6 +832,7 @@ img.aligncenter {
 }
 .wp-caption img {
 	margin: 5px 5px 0;
+	max-width: 622px; /* caption width - 10px */
 }
 .wp-caption p.wp-caption-text {
 	color: #777;
