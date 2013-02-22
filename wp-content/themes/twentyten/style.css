@@ -525,7 +525,7 @@ div.menu li {
 }
 #content tr th,
 #content thead th {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 	font-weight: bold;
 	line-height: 18px;
@@ -565,7 +565,7 @@ div.menu li {
 }
 .page-title a:link,
 .page-title a:visited {
-	color: #888;
+	color: #777;
 	text-decoration: none;
 }
 .page-title a:active,
@@ -589,7 +589,7 @@ div.menu li {
 	color: #ff4b33;
 }
 .entry-meta {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 }
 .entry-meta abbr,
@@ -627,7 +627,7 @@ div.menu li {
 	margin-right: 24px;
 }
 .entry-content label {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 }
 .entry-content select {
@@ -707,13 +707,13 @@ body.page .edit-link {
 }
 .entry-utility {
 	clear: both;
-	color: #888;
+	color: #777;
 	font-size: 12px;
 	line-height: 18px;
 }
 .entry-meta a,
 .entry-utility a {
-	color: #888;
+	color: #777;
 }
 .entry-meta a:hover,
 .entry-utility a:hover {
@@ -834,7 +834,7 @@ img.aligncenter {
 	margin: 5px 5px 0;
 }
 .wp-caption p.wp-caption-text {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 	margin: 5px;
 }
@@ -868,7 +868,7 @@ img.aligncenter {
 	height: auto;
 }
 .gallery .gallery-caption {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 	margin: 0 0 12px;
 }
@@ -891,14 +891,14 @@ img.aligncenter {
 -------------------------------------------------------------- */
 
 .navigation {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 	line-height: 18px;
 	overflow: hidden;
 }
 .navigation a:link,
 .navigation a:visited {
-	color: #888;
+	color: #777;
 	text-decoration: none;
 }
 .navigation a:active,
@@ -996,7 +996,7 @@ h3#comments-title {
 }
 .comment-meta a:link,
 .comment-meta a:visited {
-	color: #888;
+	color: #777;
 	text-decoration: none;
 }
 .comment-meta a:active,
@@ -1013,7 +1013,7 @@ h3#comments-title {
 }
 .reply a,
 a.comment-edit-link {
-	color: #888;
+	color: #777;
 }
 .reply a:hover,
 a.comment-edit-link:hover {
@@ -1040,7 +1040,7 @@ a.comment-edit-link:hover {
 	margin-top: -6px;
 }
 #comments .pingback p {
-	color: #888;
+	color: #777;
 	display: block;
 	font-size: 12px;
 	line-height: 18px;
@@ -1092,7 +1092,7 @@ h3#reply-title {
 	font-weight: bold;
 }
 #respond label {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 }
 #respond input {
@@ -1103,7 +1103,7 @@ h3#reply-title {
 	width: 98%;
 }
 #respond .form-allowed-tags {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 	line-height: 18px;
 }
