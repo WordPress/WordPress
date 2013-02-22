@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve 1.1.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2013-02-13 22:19:38+00:00\n"
+"POT-Creation-Date: 2013-02-22 16:19:57+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -109,7 +109,7 @@ msgid "% Replies"
 msgstr ""
 
 #: content-aside.php:26 content-image.php:26 content-link.php:24
-#: content-page.php:21 content-quote.php:23 content-status.php:30
+#: content-page.php:22 content-quote.php:23 content-status.php:30
 #: content.php:46 functions.php:309 image.php:37
 msgid "Edit"
 msgstr ""
@@ -128,7 +128,7 @@ msgid ""
 "related post."
 msgstr ""
 
-#: content-page.php:18 content.php:40 image.php:92
+#: content-page.php:19 content.php:40 image.php:92
 msgid "Pages:"
 msgstr ""
 
