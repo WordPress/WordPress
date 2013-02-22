@@ -389,7 +389,6 @@ if ( ! function_exists( 'twentythirteen_entry_meta' ) ) :
  * @return void
  */
 function twentythirteen_entry_meta() {
-
 	if ( is_sticky() && is_home() && ! is_paged() )
 		echo '<span class="featured-post">' . __( 'Sticky', 'twentythirteen' ) . '</span>';
 

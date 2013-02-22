@@ -1085,7 +1085,7 @@ ul.nav-menu li:hover > ul,
 	line-height: 1.5;
 }
 
-.entry-meta span.tag-links {
+.entry-meta span.tags-links {
 	color: #f94a0a;
 }
 
@@ -1447,13 +1447,17 @@ footer.entry-meta {
 
 .format-chat .entry-meta a,
 .format-chat .entry-content a,
-.format-chat span.tag-links {
+.format-chat span.tags-links {
 	color: #722d19;
 }
 
 .format-chat .entry-meta .date a:before {
 	content: '\f108';
 	margin-right: 2px;
+}
+
+.format-chat .entry-meta .author {
+	display: none;
 }
 
 /* Gallery */
@@ -1473,7 +1477,7 @@ footer.entry-meta {
 
 .format-gallery .entry-meta a,
 .format-gallery .entry-content a,
-.format-gallery span.tag-links {
+.format-gallery span.tags-links {
 	color: #a22400;
 }
 
@@ -1577,6 +1581,10 @@ footer.entry-meta {
 	margin: 0;
 }
 
+.format-image .categories-links,
+.format-image .tags-links {
+	display: none;
+}
 
 /* Link */
 .format-link {
@@ -1641,6 +1649,10 @@ footer.entry-meta {
 	margin-top: 0;
 }
 
+.format-quote .entry-meta .author {
+	display: none;
+}
+
 /* Status */
 .format-status {
 	background-color: #722d19;
@@ -1686,6 +1698,11 @@ footer.entry-meta {
 .sidebar .format-status .entry-content:before,
 .sidebar .format-status .entry-meta:before {
 	left: 70px;
+}
+
+.format-status .categories-links,
+.format-status .tags-links {
+	display: none;
 }
 
 /* Ensures the dots in the dot background are in lockstep. */
@@ -1748,7 +1765,6 @@ footer.entry-meta {
 .format-video .entry-meta a:hover {
 	color: #ea9629;
 }
-
 
 .format-video .entry-title {
 	font-size: 50px;
