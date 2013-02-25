@@ -561,3 +561,29 @@ function _ipad_meta() {
 	}
 }
 add_action('admin_head', '_ipad_meta');
+
+/**
+ * Check lock status for posts displayed on the Posts screen
+ *
+ * @since 3.6
+ */
+function wp_check_locked_posts( $response, $data ) {
+	$checked = array();
+
+	if ( array_key_exists( 'wp-check-locked', $data ) && is_array( $data['wp-check-locked'] ) ) {
+		foreach ( $data['wp-check-locked'] as $key ) {
+			$post_id = (int) substr( $key, 5 );
+
+			if ( current_user_can( 'edit_post', $post_id ) && ( $user_id = wp_check_post_lock( $post_id ) ) ) {
+				if ( $user = get_userdata( $user_id ) )
+					$checked[$key] = sprintf( __( '%s is currently editing' ), $user->display_name );
+			}
+		}
+	}
+
+	if ( ! empty( $checked ) )
+		$response['wp-check-locked'] = $checked;
+
+	return $response;
+}
+add_filter( 'heartbeat_received', 'wp_check_locked_posts', 10, 2 );

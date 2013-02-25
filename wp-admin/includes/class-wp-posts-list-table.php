@@ -555,7 +555,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 				if ( $lock_holder && $can_edit_post && $post->post_status != 'trash' ) {
 					printf( '<span class="lock-holder">%s</span>',
-						esc_html( sprintf( __( '%s is currently editing' ), $lock_holder->display_name )  ) );
+						esc_html( sprintf( __( '%s is currently editing' ), $lock_holder->display_name ) ) );
 				}
 
 				if ( ! $this->hierarchical_display && 'excerpt' == $mode && current_user_can( 'read_post', $post->ID ) )
