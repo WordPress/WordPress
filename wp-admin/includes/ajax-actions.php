@@ -2081,12 +2081,12 @@ function wp_ajax_heartbeat() {
 	check_ajax_referer( 'heartbeat-nonce', '_nonce' );
 	$response = array();
 
-	// screenid is the same as $current_screen->id and the JS global 'pagenow'
+	// screen_id is the same as $current_screen->id and the JS global 'pagenow'
 	if ( ! empty($_POST['screenid']) )
 		$screen_id = sanitize_key($_POST['screenid']);
 	else
 		$screen_id = 'site';
-	
+
 	if ( ! empty($_POST['data']) ) {
 		$data = wp_unslash( (array) $_POST['data'] );
 		// todo: how much to sanitize and preset and what to leave to be accessed from $data or $_POST..?
@@ -2106,9 +2106,31 @@ function wp_ajax_heartbeat() {
 	// send the current time acording to the server
 	$response['servertime'] = time();
 
-	// Change the interval, format: array( speed, ticks )
-	if ( isset($response['heartbeat_interval']) )
-		$response['heartbeat_interval'] = (array) $response['heartbeat_interval'];
+	wp_send_json($response);
+}
+
+function wp_ajax_nopriv_heartbeat() {
+	$response = array();
+
+	// screen_id is the same as $current_screen->id and the JS global 'pagenow'
+	if ( ! empty($_POST['screenid']) )
+		$screen_id = sanitize_key($_POST['screenid']);
+	else
+		$screen_id = 'site';
+
+	if ( ! empty($_POST['data']) ) {
+		$data = wp_unslash( (array) $_POST['data'] );
+		$response = apply_filters( 'heartbeat_nopriv_received', $response, $data, $screen_id );
+	}
+
+	$response = apply_filters( 'heartbeat_nopriv_send', $response, $screen_id );
+
+	// Allow the transport to be replaced with long-polling easily
+	do_action( 'heartbeat_nopriv_tick', $response, $screen_id );
+
+	// send the current time acording to the server
+	$response['servertime'] = time();
 
 	wp_send_json($response);
 }
+

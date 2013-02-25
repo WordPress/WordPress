@@ -95,6 +95,7 @@ window.wp = window.wp || {};
 			tick = time();
 
 			data.data = $.extend( {}, queue );
+			$(document).trigger( 'heartbeat-send', [data.data] );
 
 			data.interval = interval / 1000;
 			data._nonce = nonce;
