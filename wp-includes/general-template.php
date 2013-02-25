@@ -2288,7 +2288,7 @@ function __checked_selected_helper( $helper, $current, $echo, $type ) {
  */
 function wp_heartbeat_settings( $settings ) {
 	if ( is_user_logged_in() )
-		$setting['nonce'] = wp_create_nonce( 'heartbeat-nonce' );
+		$settings['nonce'] = wp_create_nonce( 'heartbeat-nonce' );
 
-	return $setting;
+	return $settings;
 }
