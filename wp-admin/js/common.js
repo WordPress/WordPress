@@ -307,7 +307,7 @@ $(document).ready( function() {
 		$(this).closest( 'table' ).children( 'tbody' ).filter(':visible')
 		.children().children('.check-column').find(':checkbox')
 		.prop('checked', function() {
-			if ( $(this).closest('tr').is(':hidden') )
+			if ( $(this).is(':hidden') )
 				return false;
 			if ( toggle )
 				return $(this).prop( 'checked' );
