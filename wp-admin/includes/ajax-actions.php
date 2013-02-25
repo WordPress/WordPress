@@ -655,7 +655,7 @@ function wp_ajax_get_tagcloud() {
 	$tags = get_terms( $taxonomy, array( 'number' => 45, 'orderby' => 'count', 'order' => 'DESC' ) );
 
 	if ( empty( $tags ) )
-		wp_die( isset( $tax->no_tagcloud ) ? $tax->no_tagcloud : __('No tags found!') );
+		wp_die( $tax->labels->no_tagcloud );
 
 	if ( is_wp_error( $tags ) )
 		wp_die( $tags->get_error_message() );
