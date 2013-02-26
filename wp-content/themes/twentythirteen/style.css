@@ -2613,12 +2613,13 @@ footer.entry-meta {
 	margin-right: 0;
 }
 
-.site-footer .widget-title {
-	color: #fff;
-}
-
 .site-footer .widget a {
 	color: #e63320;
+}
+
+.site-footer .widget-title,
+.site-footer .widget-title a {
+	color: #fff;
 }
 
 .site-info {
