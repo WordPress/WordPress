@@ -552,8 +552,9 @@ add_filter( 'the_content', 'twentythirteen_aside_date', 8 ); // After embeds, be
  * @return void
  */
 function twentythirteen_customize_register( $wp_customize ) {
-	$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
-	$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
+	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
+	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
+	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 }
 add_action( 'customize_register', 'twentythirteen_customize_register' );
 
@@ -564,7 +565,7 @@ add_action( 'customize_register', 'twentythirteen_customize_register' );
  * @since Twenty Thirteen 1.0
  */
 function twentythirteen_customize_preview_js() {
-	wp_enqueue_script( 'twentythirteen-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20130213', true );
+	wp_enqueue_script( 'twentythirteen-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20130226', true );
 }
 add_action( 'customize_preview_init', 'twentythirteen_customize_preview_js' );
 
