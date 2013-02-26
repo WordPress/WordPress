@@ -828,6 +828,11 @@ img.wp-smiley,
 
 .site-header a {
 	color: #141412;
+	text-decoration: none;
+}
+
+.site-header .site-title:hover {
+	text-decoration: underline;
 }
 
 .site-title {
@@ -1005,8 +1010,8 @@ ul.nav-menu li:hover > ul,
 	z-index: 3;
 }
 
-.navbar-fixed #masthead .site-title a {
-	color: #141412 !important; /* Must override custom header text color. */
+.navbar-fixed #masthead .site-title {
+	color: #141412;
 }
 
 .navbar-fixed .navbar {

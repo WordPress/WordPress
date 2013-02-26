@@ -112,9 +112,9 @@ function twentythirteen_header_style() {
 		// If the user has set a custom color for the text, use that.
 		elseif ( $text_color != get_theme_support( 'custom-header', 'default-text-color' ) ) :
 	?>
-		.site-title a,
+		.site-title,
 		.site-description {
-			color: #<?php echo esc_attr( $text_color ); ?> !important;
+			color: #<?php echo esc_attr( $text_color ); ?>;
 		}
 	<?php endif; ?>
 	</style>
