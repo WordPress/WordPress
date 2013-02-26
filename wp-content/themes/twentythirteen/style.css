@@ -2458,7 +2458,7 @@ footer.entry-meta {
 	padding: 20px;
 }
 
-.widget > h3 {
+.widget .widget-title {
 	font: 300 italic 20px "Source Sans Pro", Helvetica, sans-serif;
 	margin: 0 0 10px;
 }
@@ -2613,7 +2613,7 @@ footer.entry-meta {
 	margin-right: 0;
 }
 
-.site-footer .widget h3 {
+.site-footer .widget-title {
 	color: #fff;
 }
 
