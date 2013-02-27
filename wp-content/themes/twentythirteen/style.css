@@ -2244,6 +2244,18 @@ footer.entry-meta {
 	font-style: normal;
 }
 
+.no-avatars .comment-author {
+	float: none;
+	margin: 0 0 5px;
+	max-width: 100%;
+}
+
+.no-avatars .comment-meta,
+.no-avatars .comment-content,
+.no-avatars .reply {
+	width: 100%;
+}
+
 .bypostauthor .fn:before {
 	content: '\f408';
 }

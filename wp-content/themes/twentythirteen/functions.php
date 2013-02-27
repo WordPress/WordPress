@@ -513,6 +513,23 @@ function twentythirteen_body_class( $classes ) {
 add_filter( 'body_class', 'twentythirteen_body_class' );
 
 /**
+ * Extends the default WordPress comment class to add 'no-avatars' class
+ * if avatars are disabled in discussion settings.
+ *
+ * @since Twenty Thirteen 1.0
+ *
+ * @param array $classes Existing class values.
+ * @return array Filtered class values.
+ */
+function twentythirteen_comment_class( $classes ) {
+	if ( ! get_option ( 'show_avatars' ) )
+		$classes[] = 'no-avatars';
+
+	return $classes;
+}
+add_filter( 'comment_class', 'twentythirteen_comment_class' );
+
+/**
  * Adjusts content_width value for image post formats, video post formats, and
  * image attachment templates.
  *
