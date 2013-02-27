@@ -108,6 +108,7 @@ body {
 	-ms-hyphens:     auto;
 	hyphens:         auto;
 	color: #141412;
+	line-height: 1.5;
 	margin: 0;
 }
 
@@ -143,6 +144,7 @@ h6 {
 	clear: both;
 	color: #141412;
 	font-family: 'Bitter', Georgia, serif;
+	line-height: 1.3;
 }
 
 h1 {
@@ -177,7 +179,6 @@ h6 {
 
 address {
 	font-style: italic;
-	line-height: 1.5;
 	margin: 0 0 24px;
 }
 
@@ -200,7 +201,6 @@ mark {
 }
 
 p {
-	line-height: 1.5;
 	margin: 0 0 24px;
 }
 
@@ -1094,7 +1094,6 @@ ul.nav-menu li:hover > ul,
 .entry-meta {
 	clear: both;
 	font-size: 14px;
-	line-height: 1.5;
 }
 
 .entry-meta span.tags-links {
@@ -2450,7 +2449,6 @@ footer.entry-meta {
 }
 
 .widget li {
-	line-height: 1.5;
 	padding: 5px 0;
 }
 
@@ -3100,10 +3098,6 @@ footer.entry-meta {
 		display: inline;
 		margin: 0 5px 0 0;
 		max-width: 20px;
-	}
-
-	.comment-author .fn {
-		line-height: 1.6;
 	}
 
 	.comment-meta,
