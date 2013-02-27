@@ -1762,12 +1762,9 @@ footer.entry-meta {
 }
 
 .format-video .entry-content a,
-.single-format-video .entry-content a {
-	color: #fbfaf3;
-}
-
+.single-format-video .entry-content a,
 .format-video .entry-meta a {
-	color: #220e10;
+	color: #fbfaf3;
 }
 
 .format-video .entry-content a:hover,
