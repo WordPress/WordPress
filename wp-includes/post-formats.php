@@ -300,9 +300,6 @@ function post_formats_compat( $content, $id = 0 ) {
 		'class' => get_post_format_content_class( $format ),
 		'link_class' => '',
 		'image_class' => '',
-		'gallery' => '[gallery]',
-		'audio' => '',
-		'video' => ''
 	);
 
 	$args = apply_filters( 'post_format_compat', array() );
@@ -376,9 +373,7 @@ function post_formats_compat( $content, $id = 0 ) {
 				}
 			}
 
-			if ( empty( $meta['gallery'] ) && ! empty( $compat['gallery'] ) ) {
-				$format_output .= $compat['gallery'];
-			} elseif ( ! empty( $meta['gallery'] ) ) {
+			if ( ! empty( $meta['gallery'] ) ) {
 				$format_output .= $meta['gallery'];
 			}
 			break;
@@ -388,9 +383,7 @@ function post_formats_compat( $content, $id = 0 ) {
 			$shortcode_regex = '/' . get_shortcode_regex() . '/s';
 			$matches = preg_match( $shortcode_regex, $content );
 			if ( ! $matches || $format !== $matches[2] ) {
-				if ( empty( $meta['media'] ) && ! empty( $compat[$format] ) ) {
-					$format_output .= $compat[$format];
-				} elseif ( ! empty( $meta['media'] ) ) {
+				if ( ! empty( $meta['media'] ) ) {
 					// the metadata is a shortcode or an embed code
 					if ( preg_match( $shortcode_regex, $meta['media'] ) || preg_match( '#<[^>]+>#', $meta['media'] ) ) {
 						$format_output .= $meta['media'];
