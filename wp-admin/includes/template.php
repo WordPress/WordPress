@@ -535,6 +535,8 @@ function meta_form() {
 <?php
 
 	foreach ( $keys as $key ) {
+		if ( is_protected_meta( $key, 'post' ) )
+			continue;
 		echo "\n<option value='" . esc_attr($key) . "'>" . esc_html($key) . "</option>";
 	}
 ?>
