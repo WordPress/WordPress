@@ -92,7 +92,7 @@
 	if ( $.isFunction( $.fn.masonry ) ) {
 		var columnWidth = $( 'body' ).is( '.sidebar' ) ? 228 : 245;
 
-		$( '#tertiary .widget-area' ).masonry( {
+		$( '#secondary .widget-area' ).masonry( {
 			itemSelector: '.widget',
 			columnWidth:  columnWidth,
 			gutterWidth:  20
