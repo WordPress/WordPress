@@ -2833,16 +2833,6 @@ footer.entry-meta {
 		font-size: 30px;
 	}
 
-	.navbar-fixed .site-title,
-	.site-description {
-		font-size: 18px;
-	}
-
-	.navbar-fixed .site-title {
-		line-height: 2.5;
-		max-width: 220px;
-	}
-
 	#content .entry-header,
 	#content .entry-content,
 	#content .entry-summary,
@@ -2897,11 +2887,6 @@ footer.entry-meta {
 		margin-left: 0px;
 		padding: 0;
 		width: 100%;
-	}
-
-	.navbar-fixed .toggled-on .nav-menu,
-	.navbar-fixed .toggled-on .nav-menu > ul {
-		display: none;
 	}
 
 	.toggled-on li,

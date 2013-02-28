@@ -29,7 +29,7 @@
 		if ( navbarOffset < 0 )
 			navbarOffset = navbar.offset().top - toolbarOffset;
 
-		if ( window.scrollY >= navbarOffset )
+		if ( window.scrollY >= navbarOffset && 644 < window.innerWidth )
 			html.addClass( 'navbar-fixed' );
 		else
 			html.removeClass( 'navbar-fixed' );
