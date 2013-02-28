@@ -1104,8 +1104,9 @@ function insert_blog($domain, $path, $site_id) {
 	if ( ! $result )
 		return false;
 
-	refresh_blog_details($wpdb->insert_id);
-	return $wpdb->insert_id;
+	$blog_id = $wpdb->insert_id;
+	refresh_blog_details( $blog_id );
+	return $blog_id;
 }
 
 /**
