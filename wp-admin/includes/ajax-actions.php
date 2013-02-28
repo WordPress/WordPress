@@ -2140,7 +2140,7 @@ function wp_ajax_revisions_data() {
 	$compareto = isset( $_GET['compareto'] ) ? absint( $_GET['compareto'] ) : 0;
 	$showautosaves = isset( $_GET['showautosaves'] ) ? $_GET['showautosaves'] : '';
 	$show_split_view = isset( $_GET['show_split_view'] ) ? $_GET['show_split_view'] : '';
-	$postid = isset( $_GET['postid'] ) ? absint( $_GET['postid'] ) : '';
+	$postid = isset( $_GET['post_id'] ) ? absint( $_GET['post_id'] ) : '';
 
 	$comparetwomode = ( '' == $postid ) ? false : true;
 	//
@@ -2149,7 +2149,6 @@ function wp_ajax_revisions_data() {
 	//so only the possible diffs need be generated
 	//
 	$alltherevisions = array();
-
 	if ( '' == $postid )
 		$postid = $compareto;
 
@@ -2158,6 +2157,7 @@ function wp_ajax_revisions_data() {
 
 	if ( ! $revisions = wp_get_post_revisions( $postid ) )
 		return;
+
 
 	//if we are comparing two revisions, the first 'revision' represented by the leftmost
 	//slider position is the current revision, prepend a comparison to this revision

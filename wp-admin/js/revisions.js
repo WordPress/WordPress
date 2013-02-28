@@ -112,7 +112,7 @@ window.wp = window.wp || {};
 					self._right_handle_revisions.url =
 						ajaxurl +
 						'?action=revisions-data&compareto=' + wpRevisionsSettings.post_id +
-						'&wpRevisionsSettings.post_id=' + wpRevisionsSettings.post_id +
+						'&post_id=' + wpRevisionsSettings.post_id +
 						'&showautosaves=' + self._autosaves +
 						'&showsplitview=' +  self._showsplitview +
 						'&nonce=' + wpRevisionsSettings.nonce;
@@ -120,7 +120,7 @@ window.wp = window.wp || {};
 					self._right_handle_revisions.url =
 						ajaxurl +
 						'?action=revisions-data&compareto=' + self._revisions.at( self._left_diff - 1 ).get( 'ID' ) +
-						'&wpRevisionsSettings.post_id=' + wpRevisionsSettings.post_id +
+						'&post_id=' + wpRevisionsSettings.post_id +
 						'&showautosaves=' + self._autosaves +
 						'&showsplitview=' +  self._showsplitview +
 						'&nonce=' + wpRevisionsSettings.nonce;
@@ -129,7 +129,7 @@ window.wp = window.wp || {};
 				self._left_handle_revisions.url =
 					ajaxurl +
 					'?action=revisions-data&compareto=' + self._revisions.at( self._right_diff - 1 ).get( 'ID' ) +
-					'&wpRevisionsSettings.post_id=' + wpRevisionsSettings.post_id +
+					'&post_id=' + wpRevisionsSettings.post_id +
 					'&showautosaves=' + self._autosaves +
 					'&showsplitview=' +  self._showsplitview +
 					'&nonce=' + wpRevisionsSettings.nonce;
