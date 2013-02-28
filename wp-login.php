@@ -51,7 +51,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	$shake_error_codes = array( 'empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password' );
 	$shake_error_codes = apply_filters( 'shake_error_codes', $shake_error_codes );
 
-	if ( $shake_error_codes && $wp_error->get_error_code() && in_array( $wp_error->get_error_code(), $shake_error_codes ) )
+	if ( ! $interim_login && $shake_error_codes && $wp_error->get_error_code() && in_array( $wp_error->get_error_code(), $shake_error_codes ) )
 		add_action( 'login_head', 'wp_shake_js', 12 );
 
 	?><!DOCTYPE html>
@@ -82,16 +82,19 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	$login_header_url   = apply_filters( 'login_headerurl',   $login_header_url   );
 	$login_header_title = apply_filters( 'login_headertitle', $login_header_title );
 
-	// Don't allow interim logins to navigate away from the page.
-	if ( $interim_login )
-		$login_header_url = '#';
-
 	$classes = array( 'login-action-' . $action, 'wp-core-ui' );
 	if ( wp_is_mobile() )
 		$classes[] = 'mobile';
 	if ( is_rtl() )
 		$classes[] = 'rtl';
+	if ( $interim_login ) {
+		// Don't allow interim logins to navigate away from the page.
+		$login_header_url = '#';
+		$classes[] = 'interim-login';
+	}
+
 	$classes = apply_filters( 'login_body_class', $classes, $action );
+
 	?>
 	</head>
 	<body class="login <?php echo esc_attr( implode( ' ', $classes ) ); ?>">
@@ -613,12 +616,6 @@ default:
 		if ( $interim_login ) {
 			$message = '<p class="message">' . __('You have logged in successfully.') . '</p>';
 			login_header( '', $message ); ?>
-
-			<?php if ( ! $customize_login ) : ?>
-			<script type="text/javascript">setTimeout( function(){window.close()}, 8000);</script>
-			<p class="alignright">
-			<input type="button" class="button-primary" value="<?php esc_attr_e('Close'); ?>" onclick="window.close()" /></p>
-			<?php endif; ?>
 			</div>
 			<?php do_action( 'login_footer' ); ?>
 			<?php if ( $customize_login ) : ?>
@@ -662,7 +659,7 @@ default:
 	elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )
 		$errors->add('registered', __('Registration complete. Please check your e-mail.'), 'message');
 	elseif	( $interim_login )
-		$errors->add('expired', __('Your session has expired. Please log-in again.'), 'message');
+		$errors->add('expired', __('Please log-in again. You will not move away from this page.'), 'message');
 	elseif ( strpos( $redirect_to, 'about.php?updated' ) )
 		$errors->add('updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to experience the awesomeness.' ), 'message' );
 

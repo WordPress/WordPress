@@ -6785,6 +6785,23 @@ a.rsswidget {
 	width: auto;
 }
 
+.interim-login #login {
+	padding: 0;
+	width: 300px;
+}
+
+.interim-login.login h1 a {
+	width: auto;
+}
+
+.interim-login #login_error,
+.interim-login.login .message {
+	margin: 0 0 16px;
+}
+
+.interim-login.login form {
+	margin: 0;
+}
 
 /* ms */
 /* Dashboard: MS Specific Data */

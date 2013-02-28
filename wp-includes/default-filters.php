@@ -294,4 +294,7 @@ add_filter( 'default_option_embed_autourls', '__return_true' );
 // Default settings for heartbeat
 add_filter( 'heartbeat_settings', 'wp_heartbeat_settings' );
 
+// Check if the user is logged out
+add_action( 'admin_init', 'wp_auth_check_load' );
+
 unset($filter, $action);

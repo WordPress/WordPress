@@ -3884,3 +3884,17 @@ function wp_is_stream( $path ) {
 function wp_checkdate( $month, $day, $year, $source_date ) {
 	return apply_filters( 'wp_checkdate', checkdate( $month, $day, $year ), $source_date );
 }
+
+/**
+ * Load the auth check, for monitoring whether the user is still logged in
+ *
+ * @since 3.6.0
+ *
+ * @return void
+ */
+function wp_auth_check_load() {
+	if ( ! class_exists('WP_Auth_Check') ) {
+		require( ABSPATH . WPINC . '/class-wp-auth-check.php' );
+		WP_Auth_Check::get_instance();
+	}
+}
