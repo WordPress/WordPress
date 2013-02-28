@@ -3504,7 +3504,19 @@ table.diff {
 }
 
 table.diff col.content {
-	width: 50%;
+	width: auto;
+}
+
+table.diff col.content.diffsplit {
+	width: 48%;
+}
+
+table.diff col.diffsplit.middle {
+	width: 4%;
+}
+
+table.diff col.ltype {
+	width: 30px;
 }
 
 table.diff tr {
@@ -8807,4 +8819,18 @@ a.widget-control-edit {
 }
 .locale-lt-lt .inline-edit-row fieldset label span.input-text-wrap {
 	margin-left: 8em;
+}
+
+#revisions-meta-mostrecent, 
+#revisions-meta-stored,
+#revisions-meta-oldest,
+#revisions-meta-link {
+	line-height: 30px;
+	height: 30px;
+	vertical-align: middle;
+	padding-right: 10px;
+}
+#revisions-meta-mostrecent img, 
+#revisions-meta-oldest img {
+vertical-align: middle;
 }

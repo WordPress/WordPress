@@ -1379,7 +1379,7 @@ function wp_ajax_inline_save_tax() {
 	global $wp_list_table;
 
 	check_ajax_referer( 'taxinlineeditnonce', '_inline_edit' );
-	
+
 	$post_data = wp_unslash( $_POST );
 
 	$taxonomy = sanitize_key( $post_data['taxonomy'] );
@@ -2134,3 +2134,138 @@ function wp_ajax_nopriv_heartbeat() {
 	wp_send_json($response);
 }
 
+function wp_ajax_revisions_data() {
+	check_ajax_referer( 'revisions-ajax-nonce', 'nonce' );
+
+	$compareto = isset( $_GET['compareto'] ) ? absint( $_GET['compareto'] ) : 0;
+	$showautosaves = isset( $_GET['showautosaves'] ) ? $_GET['showautosaves'] : '';
+	$show_split_view = isset( $_GET['show_split_view'] ) ? $_GET['show_split_view'] : '';
+	$postid = isset( $_GET['postid'] ) ? absint( $_GET['postid'] ) : '';
+
+	$comparetwomode = ( '' == $postid ) ? false : true;
+	//
+	//TODO: currently code returns all possible comparisons for the indicated 'compareto' revision
+	//however, the front end prevents users from pulling the right handle past the left or the left pass the right,
+	//so only the possible diffs need be generated
+	//
+	$alltherevisions = array();
+
+	if ( '' == $postid )
+		$postid = $compareto;
+
+	if ( ! current_user_can( 'read_post', $postid ) )
+		continue;
+
+	if ( ! $revisions = wp_get_post_revisions( $postid ) )
+		return;
+
+	//if we are comparing two revisions, the first 'revision' represented by the leftmost
+	//slider position is the current revision, prepend a comparison to this revision
+	if ( $comparetwomode )
+		array_unshift( $revisions, get_post( $postid ) );
+
+	$count = 1;
+	foreach ( $revisions as $revision ) :
+	if ( 'true' != $showautosaves && wp_is_post_autosave( $revision ) )
+			continue;
+
+	$revision_from_date_author = '';
+
+
+	$left_revision = get_post( $compareto );
+	$right_revision = get_post( $revision );
+
+	$author = get_the_author_meta( 'display_name', $revision->post_author );
+	/* translators: revision date format, see http://php.net/date */
+	$datef = _x( 'j F, Y @ G:i:s', 'revision date format');
+
+	$gravatar = get_avatar( $revision->post_author, 18 );
+
+	$date = date_i18n( $datef, strtotime( $revision->post_modified ) );
+	$revision_date_author = sprintf(
+		'%s %s, %s %s (%s)',
+		$gravatar,
+		$author,
+		human_time_diff( strtotime( $revision->post_modified ), current_time( 'timestamp' ) ),
+		__( ' ago ' ),
+		$date
+	);
+
+	if ( $comparetwomode ) {
+		$compareto_gravatar = get_avatar( $left_revision->post_author, 18 );
+		$compareto_author = get_the_author_meta( 'display_name', $left_revision->post_author );
+		$compareto_date = date_i18n( $datef, strtotime( $left_revision->post_modified ) );
+
+		$revision_from_date_author = sprintf(
+			'%s %s, %s %s (%s)',
+			$compareto_gravatar,
+			$compareto_author,
+			human_time_diff( strtotime( $left_revision->post_modified ), current_time( 'timestamp' ) ),
+			__( ' ago ' ),
+			$compareto_date
+		);
+	}
+
+	$restoreaction = wp_nonce_url(
+		add_query_arg(
+			array( 'revision' => $revision->ID, 
+				'action' => 'restore' ),
+				'/wp-admin/revision.php'
+		),
+		"restore-post_{$compareto}|{$revision->ID}"
+	);
+
+	//
+	//make sure the left revision is the most recent
+	//
+	if ( strtotime( $right_revision->post_modified_gmt ) < strtotime( $left_revision->post_modified_gmt ) ) {
+		$temp = $left_revision;
+		$left_revision = $right_revision;
+		$right_revision = $temp;
+	}
+
+	//
+	//compare from left to right, passed from application
+	//
+	$content='';
+	foreach ( array_keys( _wp_post_revision_fields() ) as $field ) {
+		$left_content = apply_filters( "_wp_post_revision_field_$field", $left_revision->$field, $field, $left_revision, 'left' );
+		$right_content = apply_filters( "_wp_post_revision_field_$field", $right_revision->$field, $field, $right_revision, 'right' );
+
+		add_filter( "_wp_post_revision_field_$field", 'wp_kses_post' );
+
+		$args = array();
+
+		if ( 'true' == $show_split_view )
+			 $args = array( 'show_split_view' => 'true' );
+
+		$content .= wp_text_diff( $left_content, $right_content, $args );
+	}
+
+	//if we are comparing two revisions
+	//and we are on the matching revision
+	//add an error revision indicating unable to compare to self
+	if ( $comparetwomode && $compareto == $revision->ID )
+		$alltherevisions[] = array (
+			'ID' => $revision->ID,
+			'revision_date_author' => $revision_date_author,
+			'revisiondiff' => sprintf('<div id="selfcomparisonerror">%s</div>', __( 'Cannot compare revision to itself' ) ),
+			'restoreaction' => urldecode( $restoreaction ),
+			'revision_from_date_author' => ''
+		);
+
+	//add to the return data only if there is a difference
+	if ( '' != $content )
+		$alltherevisions[] = array (
+			'ID' => $revision->ID,
+			'revision_date_author' => $revision_date_author,
+			'revisiondiff' => $content,
+			'restoreaction' => urldecode( $restoreaction ),
+			'revision_from_date_author' => $revision_from_date_author
+		);
+
+	endforeach;
+
+	echo json_encode( $alltherevisions );
+	exit();
+}

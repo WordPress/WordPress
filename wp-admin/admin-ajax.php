@@ -42,7 +42,7 @@ do_action( 'admin_init' );
 
 $core_actions_get = array(
 	'fetch-list', 'ajax-tag-search', 'wp-compression-test', 'imgedit-preview', 'oembed-cache',
-	'autocomplete-user', 'dashboard-widgets', 'logged-in',
+	'autocomplete-user', 'dashboard-widgets', 'logged-in', 'revisions-data'
 );
 
 $core_actions_post = array(
@@ -56,7 +56,7 @@ $core_actions_post = array(
 	'save-widget', 'set-post-thumbnail', 'date_format', 'time_format', 'wp-fullscreen-save-post',
 	'wp-remove-post-lock', 'dismiss-wp-pointer', 'upload-attachment', 'get-attachment',
 	'query-attachments', 'save-attachment', 'save-attachment-compat', 'send-link-to-editor',
-	'send-attachment-to-editor', 'save-attachment-order', 'heartbeat',
+	'send-attachment-to-editor', 'save-attachment-order', 'heartbeat'
 );
 
 // Register core Ajax calls.

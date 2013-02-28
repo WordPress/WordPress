@@ -168,7 +168,8 @@ if ( post_type_supports($post_type, 'author') ) {
 		add_meta_box('authordiv', __('Author'), 'post_author_meta_box', null, 'normal', 'core');
 }
 
-if ( post_type_supports($post_type, 'revisions') && 0 < $post_ID && wp_get_post_revisions( $post_ID ) )
+// TODO review this count() - why do we need to add it?
+if ( post_type_supports($post_type, 'revisions') && 0 < $post_ID && count ( wp_get_post_revisions( $post_ID ) ) > 1  )
 	add_meta_box('revisionsdiv', __('Revisions'), 'post_revisions_meta_box', null, 'normal', 'core');
 
 do_action('add_meta_boxes', $post_type, $post);

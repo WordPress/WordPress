@@ -270,7 +270,10 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'json2', "/wp-includes/js/json2$suffix.js", array(), '2011-02-23');
 
 	$scripts->add( 'underscore', '/wp-includes/js/underscore.min.js', array(), '1.4.4', 1 );
-	$scripts->add( 'backbone', '/wp-includes/js/backbone.min.js', array('underscore','jquery'), '0.9.2', 1 );
+	$scripts->add( 'template', "/wp-includes/js/template$suffix.js", array('underscore'), '1.4.4', 1 );
+	$scripts->add( 'backbone', '/wp-includes/js/backbone.min.js', array('underscore','jquery', 'template'), '0.9.2', 1 );
+
+	$scripts->add( 'revisions', "/wp-admin/js/revisions$suffix.js", array( 'backbone', 'jquery-ui-slider' ), false, 1 );
 
 	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.8', 1 );
 
@@ -539,6 +542,8 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'customize-controls', "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie' ) );
 	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css", array( 'buttons' ) );
 	$styles->add( 'buttons', "/wp-includes/css/buttons$suffix.css" );
+	$styles->add( 'wp-jquery-ui-slider', "/wp-includes/css/jquery-ui-slider$suffix.css" );
+	$styles->add( 'revisions', "/wp-admin/css/revisions$suffix.css", array( 'wp-jquery-ui-slider' ) );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );

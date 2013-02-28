@@ -1300,23 +1300,34 @@ function wp_post_revision_title( $revision, $link = true ) {
 	if ( !in_array( $revision->post_type, array( 'post', 'page', 'revision' ) ) )
 		return false;
 
+	$author = get_the_author_meta( 'display_name', $revision->post_author );
 	/* translators: revision date format, see http://php.net/date */
-	$datef = _x( 'j F, Y @ G:i', 'revision date format');
-	/* translators: 1: date */
-	$autosavef = __( '%1$s [Autosave]' );
-	/* translators: 1: date */
-	$currentf  = __( '%1$s [Current Revision]' );
+	$datef = _x( 'j F, Y @ G:i:s', 'revision date format');
+
+	$gravatar = get_avatar( $revision->post_author, 18 );
 
 	$date = date_i18n( $datef, strtotime( $revision->post_modified ) );
 	if ( $link && current_user_can( 'edit_post', $revision->ID ) && $link = get_edit_post_link( $revision->ID ) )
 		$date = "<a href='$link'>$date</a>";
+	
+	$revision_date_author = sprintf(
+		'%s %s, %s %s (%s)',
+		$gravatar,
+		$author,
+		human_time_diff( strtotime( $revision->post_modified ), current_time( 'timestamp' ) ),
+		__( 'ago' ),
+		$date
+	);
+
+	$autosavef = __( '%1$s [Autosave]' );
+	$currentf  = __( '%1$s [Current Revision]' );
 
 	if ( !wp_is_post_revision( $revision ) )
-		$date = sprintf( $currentf, $date );
+		$revision_date_author = sprintf( $currentf, $revision_date_author );
 	elseif ( wp_is_post_autosave( $revision ) )
-		$date = sprintf( $autosavef, $date );
+		$revision_date_author = sprintf( $autosavef, $revision_date_author );
 
-	return $date;
+	return $revision_date_author;
 }
 
 /**
