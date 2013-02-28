@@ -1919,7 +1919,7 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 
 	$url = set_url_scheme( $url, $scheme );
 
-	if ( ! empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
+	if ( $path && is_string( $path ) )
 		$url .= '/' . ltrim( $path, '/' );
 
 	return apply_filters( 'home_url', $url, $path, $orig_scheme, $blog_id );
@@ -1971,7 +1971,7 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 
 	$url = set_url_scheme( $url, $scheme );
 
-	if ( ! empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
+	if ( $path && is_string( $path ) )
 		$url .= '/' . ltrim( $path, '/' );
 
 	return apply_filters( 'site_url', $url, $path, $scheme, $blog_id );
@@ -2005,7 +2005,7 @@ function admin_url( $path = '', $scheme = 'admin' ) {
 function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin' ) {
 	$url = get_site_url($blog_id, 'wp-admin/', $scheme);
 
-	if ( !empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
+	if ( $path && is_string( $path ) )
 		$url .= ltrim( $path, '/' );
 
 	return apply_filters( 'admin_url', $url, $path, $blog_id );
@@ -2023,7 +2023,7 @@ function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin' ) {
 function includes_url($path = '') {
 	$url = site_url() . '/' . WPINC . '/';
 
-	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+	if ( $path && is_string( $path ) )
 		$url .= ltrim($path, '/');
 
 	return apply_filters('includes_url', $url, $path);
@@ -2041,7 +2041,7 @@ function includes_url($path = '') {
 function content_url($path = '') {
 	$url = set_url_scheme( WP_CONTENT_URL );
 
-	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+	if ( $path && is_string( $path ) )
 		$url .= '/' . ltrim($path, '/');
 
 	return apply_filters('content_url', $url, $path);
@@ -2080,7 +2080,7 @@ function plugins_url($path = '', $plugin = '') {
 			$url .= '/' . ltrim($folder, '/');
 	}
 
-	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+	if ( $path && is_string( $path ) )
 		$url .= '/' . ltrim($path, '/');
 
 	return apply_filters('plugins_url', $url, $path, $plugin);
@@ -2111,7 +2111,7 @@ function network_site_url( $path = '', $scheme = null ) {
 	else
 		$url = set_url_scheme( 'http://' . $current_site->domain . $current_site->path, $scheme );
 
-	if ( ! empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
+	if ( $path && is_string( $path ) )
 		$url .= ltrim( $path, '/' );
 
 	return apply_filters( 'network_site_url', $url, $path, $scheme );
@@ -2147,7 +2147,7 @@ function network_home_url( $path = '', $scheme = null ) {
 	else
 		$url = set_url_scheme( 'http://' . $current_site->domain . $current_site->path, $scheme );
 
-	if ( ! empty( $path ) && is_string( $path ) && strpos( $path, '..' ) === false )
+	if ( $path && is_string( $path ) )
 		$url .= ltrim( $path, '/' );
 
 	return apply_filters( 'network_home_url', $url, $path, $orig_scheme);
@@ -2169,7 +2169,7 @@ function network_admin_url( $path = '', $scheme = 'admin' ) {
 
 	$url = network_site_url('wp-admin/network/', $scheme);
 
-	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+	if ( $path && is_string( $path ) )
 		$url .= ltrim($path, '/');
 
 	return apply_filters('network_admin_url', $url, $path);
@@ -2188,7 +2188,7 @@ function network_admin_url( $path = '', $scheme = 'admin' ) {
 function user_admin_url( $path = '', $scheme = 'admin' ) {
 	$url = network_site_url('wp-admin/user/', $scheme);
 
-	if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+	if ( $path && is_string( $path ) )
 		$url .= ltrim($path, '/');
 
 	return apply_filters('user_admin_url', $url, $path);
