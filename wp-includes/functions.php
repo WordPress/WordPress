@@ -1168,13 +1168,14 @@ function is_blog_installed() {
  * @subpackage Security
  * @since 2.0.4
  *
- * @param string $actionurl URL to add nonce action
- * @param string $action Optional. Nonce action name
+ * @param string $actionurl URL to add nonce action.
+ * @param string $action Optional. Nonce action name.
+ * @param string $name Optional. Nonce name.
  * @return string URL with nonce action added.
  */
-function wp_nonce_url( $actionurl, $action = -1 ) {
+function wp_nonce_url( $actionurl, $action = -1, $name = '_wpnonce' ) {
 	$actionurl = str_replace( '&amp;', '&', $actionurl );
-	return esc_url( add_query_arg( '_wpnonce', wp_create_nonce( $action ), $actionurl ) );
+	return esc_url( add_query_arg( $name, wp_create_nonce( $action ), $actionurl ) );
 }
 
 /**
