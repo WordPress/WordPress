@@ -114,7 +114,7 @@ body {
 }
 
 a {
-	color: #f94a0a;
+	color: #ca3c08;
 	text-decoration: none;
 }
 
@@ -143,7 +143,6 @@ h4,
 h5,
 h6 {
 	clear: both;
-	color: #141412;
 	font-family: 'Bitter', Georgia, serif;
 	line-height: 1.3;
 }
@@ -924,7 +923,7 @@ ul.nav-menu li:hover > ul,
 .nav-menu .current_page_ancestor > a,
 .nav-menu .current-menu-item > a,
 .nav-menu .current-menu-ancestor > a {
-	color: #f94a0a;
+	color: #ca3c08;
 	font-style: italic;
 }
 
@@ -1102,11 +1101,11 @@ ul.nav-menu li:hover > ul,
 }
 
 .entry-meta a {
-	color: #f94a0a;
+	color: #ca3c08;
 }
 
 .entry-meta a:hover {
-	color: #ea9629;
+	color: #ca3c08;
 }
 
 .entry-meta > span {
@@ -1357,7 +1356,7 @@ footer.entry-meta {
 }
 
 .format-aside .entry-content .date {
-	color: #f94a0a;
+	color: #ca3c08;
 	font-size: 14px;
 	margin-left: 20px;
 }
@@ -1612,7 +1611,7 @@ footer.entry-meta {
 }
 
 .format-link .entry-title {
-	color: #f94a0a;
+	color: #ca3c08;
 	display: inline;
 	font: 300 italic 20px "Source Sans Pro", Helvetica, sans-serif;
 	margin-right: 20px;
@@ -1836,7 +1835,7 @@ footer.entry-meta {
 .attachment .entry-meta a,
 .attachment .entry-meta .edit-link:before,
 .attachment .full-size-link:before {
-	color: #f94a0a;
+	color: #ca3c08;
 }
 
 .attachment .entry-content {
@@ -1914,7 +1913,7 @@ footer.entry-meta {
 }
 
 .navigation a {
-	color: #f94a0a;
+	color: #ca3c08;
 }
 
 .navigation a:hover {
@@ -1977,7 +1976,7 @@ footer.entry-meta {
 
 .post-navigation {
 	background-color: #fff;
-	color: #f94a0a;
+	color: #ca3c08;
 	font: 300 italic 20px "Source Sans Pro", Helvetica, sans-serif;
 	padding: 20px 0;
 }
@@ -2048,7 +2047,7 @@ footer.entry-meta {
 }
 
 .author-link {
-	color: #f94a0a;
+	color: #ca3c08;
 	margin-left: 2px;
 }
 
@@ -2504,7 +2503,7 @@ footer.entry-meta {
 }
 
 .widget a {
-	color: #f94a0a;
+	color: #ca3c08;
 }
 
 .widget a:hover {
