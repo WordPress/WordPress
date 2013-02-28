@@ -54,11 +54,6 @@ class WP_Auth_Check {
 		if ( array_key_exists('wp-auth-check', $data) && ( ! isset( $_COOKIE[LOGGED_IN_COOKIE] ) || ! wp_validate_auth_cookie() || ! empty( $GLOBALS['login_grace_period'] ) ) )
 			$response['wp-auth-check-html'] = $this->notice();
 
-		
-		$response['LOGGED_IN_COOKIE'] = isset( $_COOKIE[LOGGED_IN_COOKIE] );
-		
-		$response['wp_validate_auth_cookie'] = wp_validate_auth_cookie();
-		
 		return $response;
 	}
 
@@ -70,10 +65,6 @@ class WP_Auth_Check {
 		if ( array_key_exists('wp-auth-check', $data) )
 			$response['wp-auth-check-html'] = $this->notice();
 
-		
-		$response['nopriv_login'] = 1;
-		
-		
 		return $response;
 	}
 	
