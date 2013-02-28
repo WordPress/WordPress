@@ -602,8 +602,7 @@ input[type="button"],
 input[type="reset"] {
 	background: #e05d22; /* Old browsers */
 	background: -webkit-linear-gradient(top, #e05d22 0%, #d94412 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(     top, #e05d22 0%, #d94412 100%); /* Opera 11.10+ */
-	background: linear-gradient(  to bottom, #e05d22 0%, #d94412 100%); /* W3C */
+	background: linear-gradient( to bottom, #e05d22 0%, #d94412 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e05d22', endColorstr='#d94412', GradientType=0); /* IE6-9 */
 	display: inline-block;
 	padding: 11px 24px 10px 24px;
@@ -624,8 +623,7 @@ input[type="button"]:focus,
 input[type="reset"]:focus {
 	background: #ed6a31; /* Old browsers */
 	background: -webkit-linear-gradient(top, #ed6a31 0%, #e55627 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(     top, #ed6a31 0%, #e55627 100%); /* Opera 11.10+ */
-	background: linear-gradient(  to bottom, #ed6a31 0%, #e55627 100%); /* W3C */
+	background: linear-gradient( to bottom, #ed6a31 0%, #e55627 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ed6a31', endColorstr='#e55627', GradientType=0); /* IE6-9 */
 	outline: none;
 }
@@ -636,8 +634,7 @@ input[type="button"]:active,
 input[type="reset"]:active {
 	background: #d94412; /* Old browsers */
 	background: -webkit-linear-gradient(top, #d94412 0%, #e05d22 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(     top, #d94412 0%, #e05d22 100%); /* Opera 11.10+ */
-	background: linear-gradient(  to bottom, #d94412 0%, #e05d22 100%); /* W3C */
+	background: linear-gradient( to bottom, #d94412 0%, #e05d22 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d94412', endColorstr='#e05d22', GradientType=0); /* IE6-9 */
 	border: none;
 	border-top: 3px solid #b93207;
@@ -954,7 +951,6 @@ ul.nav-menu li:hover > ul,
 	cursor: pointer;
 	height: 37px;
 	-webkit-transition: width 400ms ease, background 400ms ease;
-	-o-transition:      width 400ms ease, background 400ms ease;
 	transition:         width 400ms ease, background 400ms ease;
 	margin: 3px 0;
 	padding: 0 0 0 34px;
@@ -1534,7 +1530,6 @@ footer.entry-meta {
 	height: 100%;
 	-webkit-transform: translate(50%, 50%);
 	-ms-transform:     translate(50%, 50%);
-	-o-transform:      translate(50%, 50%);
 	transform:         translate(50%, 50%);
 	width: 100%;
 }
@@ -1544,7 +1539,6 @@ footer.entry-meta {
 .search .format-gallery .gallery-item .gallery-icon img {
 	-webkit-transform: translate(-50%, -50%);
 	-ms-transform:     translate(-50%, -50%);
-	-o-transform:      translate(-50%, -50%);
 	transform:         translate(-50%, -50%);
 }
 
