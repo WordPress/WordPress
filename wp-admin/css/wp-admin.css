@@ -3523,15 +3523,232 @@ table.diff tr {
 	background-color: transparent;
 }
 
-table.diff td, table.diff th {
+table.diff td,
+table.diff th {
 	padding: .5em;
 	font-family: Consolas, Monaco, monospace;
 	border: none;
 }
 
-table.diff .diff-deletedline del, table.diff .diff-addedline ins {
+table.diff .diff-deletedline del,
+table.diff .diff-addedline ins {
 	text-decoration: none;
 }
+
+#revisions-meta-mostrecent,
+#revisions-meta-stored,
+#revisions-meta-oldest,
+#revisions-meta-link {
+	line-height: 30px;
+	height: 30px;
+	vertical-align: middle;
+	padding-right: 10px;
+}
+
+#revisions-meta-mostrecent img,
+#revisions-meta-oldest img {
+	vertical-align: middle;
+}
+
+.revisiondiffcontainer {
+	width: 96%;
+}
+
+.revisiondiffcontainer input.button {
+	margin: 2px;
+}
+
+#diffrestore,
+#diffnext,
+#diffcancel {
+	float: right;
+	margin-right: 5px;
+}
+
+#diffprevious,
+#difftitle,
+#difftitlefrom,
+#diff_from_current_revision {
+	float: left;
+	margin-left: 5px;
+	height: 35px;
+}
+
+#diffprevious,
+#diffnext {
+	margin-top: 7px;
+	height: 30px;
+}
+
+#diffheader, #diffsubheader {
+	clear: both;
+	width: 100%;
+}
+
+#diffheader {
+	border-bottom: 2px solid #999;
+	width: 100%;
+	height: 45px;
+	line-height: 45px;
+	padding-top: 10px;
+}
+
+#diffsubheader {
+	background-color: #eee;
+	border-bottom: 2px solid #999;
+	width: 100%;
+	height:35px;
+	line-height: 35px;
+}
+
+#diffslider {
+	width: 70%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	height: 3.5em;
+}
+
+#revisioncount {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0;
+	line-height: 1em;
+	height: 1em;
+	text-align: center;
+	clear: none;
+	padding: 5px;
+}
+
+.revisiondiffcontainer {
+	margin-top: 10px;
+}
+
+#diffsliderwrap {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#diffsliderwrap #sliderinner {
+	position: relative;
+	top: 47px;
+}
+
+#removedandadded {
+	width: 100%;
+	padding-bottom: 30px;
+	padding-top: 3px;
+	font-size: 16px;
+}
+
+#removed,
+#added {
+	width: auto;
+	text-align: left;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	float: left;
+}
+
+.diffsplit #added {
+	float: right;
+	width: 47%;
+	text-align: left;
+}
+
+.diffsplit #removedandadded {
+	width: 100%;
+}
+
+#added {
+ 	padding-left: 10px;
+ 	color: #00a100;
+}
+
+#removed {
+ 	padding-left: 0px;
+	color: #d2281f;
+}
+
+#comparetworevisions {
+	float: right;
+	line-height: 35px;
+	padding-right: 5px;
+}
+
+#comparetworevisions input {
+	margin-right: 2px;
+}
+
+#difftitle img,
+#difftitlefrom img {
+	vertical-align: middle;
+	margin-left: 5px;
+}
+
+#showsplitviewoption,
+#toggleshowautosavesoption {
+	float: right;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#revisionoptions {
+	margin-top: 0px;
+	line-height: 40px;
+	clear: both;
+	width: 100%;
+}
+
+.comparetwo #diffslider {
+	width: 95%;
+}
+
+.comparetwo #diffprevious,
+.comparetwo #diffnext,
+span#diff_left_current_revision,
+span#diff_from_current_revision,
+.currentversion span#diff_left_count,
+.currentversion span#diff_left_count_inner,
+.currentversion #difftitlefrom,
+.comparetwo.currentversion #difftitlefrom {
+	display: none;
+}
+
+.currentversion span#diff_left_current_revision,
+span#diff_left_count,
+span#diff_left_count_inner,
+.comparetwo #difftitlefrom,
+.comparetwo.currentversion span#diff_from_current_revision,
+.leftmodelloading #modelsloading,
+.rightmodelloading #modelsloading,
+.leftmodelloading #modelsloading .spinner,
+.rightmodelloading #modelsloading .spinner {
+	display: inline;
+}
+
+#difftitlefrom {
+	float: left;
+	display: none;
+}
+
+#modelsloading {
+	float: right;
+	line-height: 30px;
+	display: none;
+	clear: none;
+	margin: 0;
+	margin-top: -40px;
+}
+
+#modelsloading .spinner {
+ 	float: left;
+ }
+
 
 /*------------------------------------------------------------------------------
   11.3 - Featured Images
@@ -8819,18 +9036,4 @@ a.widget-control-edit {
 }
 .locale-lt-lt .inline-edit-row fieldset label span.input-text-wrap {
 	margin-left: 8em;
-}
-
-#revisions-meta-mostrecent, 
-#revisions-meta-stored,
-#revisions-meta-oldest,
-#revisions-meta-link {
-	line-height: 30px;
-	height: 30px;
-	vertical-align: middle;
-	padding-right: 10px;
-}
-#revisions-meta-mostrecent img, 
-#revisions-meta-oldest img {
-vertical-align: middle;
 }

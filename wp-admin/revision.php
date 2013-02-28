@@ -73,7 +73,7 @@ if ( !empty($post->post_type) && 'post' != $post->post_type )
 else
 	$parent_file = $submenu_file = 'edit.php';
 
-wp_enqueue_style( 'revisions' );
+wp_enqueue_style( 'wp-jquery-ui-slider' );
 wp_enqueue_script( 'revisions' );
 
 require_once( './admin-header.php' );

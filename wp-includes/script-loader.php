@@ -543,7 +543,6 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css", array( 'buttons' ) );
 	$styles->add( 'buttons', "/wp-includes/css/buttons$suffix.css" );
 	$styles->add( 'wp-jquery-ui-slider', "/wp-includes/css/jquery-ui-slider$suffix.css" );
-	$styles->add( 'revisions', "/wp-admin/css/revisions$suffix.css", array( 'wp-jquery-ui-slider' ) );
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', true );
