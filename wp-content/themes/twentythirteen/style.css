@@ -57,6 +57,12 @@ Use it to make something cool, have fun, and share what you've learned with othe
  * ----------------------------------------------------------------------------
  */
 
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
+}
+
 article,
 aside,
 details,
@@ -382,9 +388,6 @@ input[disabled] {
 
 input[type="checkbox"],
 input[type="radio"] {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	padding: 0;
 	*height: 13px;
 	*width: 13px;
@@ -766,6 +769,7 @@ img.wp-smiley,
  * 3.0 Basic Structure
  * ----------------------------------------------------------------------------
  */
+
 .site {
 	background-color: #fff;
 	border-left: 1px solid #f2f2f2;
@@ -798,7 +802,6 @@ img.wp-smiley,
  * ----------------------------------------------------------------------------
  */
 
-
 /**
  * 4.1 Site Header
  * ----------------------------------------------------------------------------
@@ -809,9 +812,6 @@ img.wp-smiley,
 }
 
 .site-header hgroup {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	margin: 0 auto;
 	max-width: 1040px;
 	min-height: 230px;
@@ -953,9 +953,6 @@ ul.nav-menu li:hover > ul,
 	border: none;
 	cursor: pointer;
 	height: 37px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	-webkit-transition: width 400ms ease, background 400ms ease;
 	-o-transition:      width 400ms ease, background 400ms ease;
 	transition:         width 400ms ease, background 400ms ease;
@@ -1046,9 +1043,6 @@ ul.nav-menu li:hover > ul,
 .sidebar .entry-content,
 .sidebar .entry-summary,
 .sidebar .entry-meta {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	max-width: 1040px;
 	padding: 0 376px 0 60px;
 }
@@ -1670,9 +1664,6 @@ footer.entry-meta {
 
 .format-status .entry-content,
 .format-status .entry-meta {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	padding-left: 35px;
 	position: relative;
 }
@@ -1933,9 +1924,6 @@ footer.entry-meta {
 }
 
 .sidebar .paging-navigation .nav-links {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	max-width: 1040px;
 	padding: 0 376px 0 60px;
 }
@@ -1987,9 +1975,6 @@ footer.entry-meta {
 }
 
 .sidebar .post-navigation .nav-links {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	padding: 0 376px 0 60px;
 }
 
@@ -2012,9 +1997,6 @@ footer.entry-meta {
 }
 
 .author.sidebar .author-info {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	max-width: 1040px;
 	padding: 30px 376px 10px 60px;
 }
@@ -2083,9 +2065,6 @@ footer.entry-meta {
 }
 
 .sidebar .archive-meta {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	padding-right: 316px;
 }
 
@@ -2115,9 +2094,6 @@ footer.entry-meta {
 }
 
 .sidebar .page-content {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	margin: 0 auto;
 	max-width: 1040px;
 	padding: 40px 376px 40px 60px;
@@ -2185,9 +2161,6 @@ footer.entry-meta {
 .sidebar #reply-title,
 .sidebar .comment-navigation,
 .sidebar #respond #commentform {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	max-width: 1040px;
 	padding-left: 60px;
 	padding-right: 376px;
@@ -2374,9 +2347,6 @@ footer.entry-meta {
 
 #commentform textarea {
 	width: 100%;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 }
 
 .form-allowed-tags,
@@ -2414,9 +2384,6 @@ footer.entry-meta {
 }
 
 .sidebar .no-comments {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	padding-left: 60px;
 	padding-right: 376px;
 }
@@ -2457,9 +2424,6 @@ footer.entry-meta {
  */
 
 .site-main .widget-area {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	float: right;
 	width: 300px;
 }
@@ -2516,9 +2480,6 @@ footer.entry-meta {
 }
 
 .widget .searchform .field {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	width: 100%;
 }
 
@@ -2594,9 +2555,6 @@ footer.entry-meta {
 }
 
 .site-footer .widget-area {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	margin: 0 auto;
 	padding: 20px 0;
 	max-width: 1040px;
@@ -2610,9 +2568,6 @@ footer.entry-meta {
 
 .site-footer .widget {
 	background: transparent;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
 	color: #fff;
 	float: left;
 	margin-right: 20px;
@@ -2719,9 +2674,6 @@ footer.entry-meta {
 	.post-navigation .nav-links,
 	.sidebar .site-info,
 	.site-footer .widget-area {
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing:    border-box;
-		box-sizing:         border-box;
 		padding-left: 20px;
 		padding-right: 20px;
 	}
@@ -2909,9 +2861,6 @@ footer.entry-meta {
 	#respond,
 	.sidebar .site-info,
 	.sidebar .paging-navigation .nav-links {
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing:    border-box;
-		box-sizing:         border-box;
 		padding-right: 20px;
 		padding-left: 20px;
 	}
