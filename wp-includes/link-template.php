@@ -13,7 +13,7 @@
  * @uses apply_filters() Calls 'the_permalink' filter on the permalink string.
  */
 function the_permalink() {
-	echo apply_filters('the_permalink', get_permalink());
+	echo esc_url( apply_filters( 'the_permalink', get_permalink() ) );
 }
 
 /**
