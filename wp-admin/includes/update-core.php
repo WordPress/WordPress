@@ -571,10 +571,11 @@ $_old_files = array(
 global $_new_bundled_files;
 
 $_new_bundled_files = array(
-'plugins/akismet/' => '2.0',
-'themes/twentyten/' => '3.0',
-'themes/twentyeleven/' => '3.2',
-'themes/twentytwelve/' => '3.5',
+	'plugins/akismet/'       => '2.0',
+	'themes/twentyten/'      => '3.0',
+	'themes/twentyeleven/'   => '3.2',
+	'themes/twentytwelve/'   => '3.5',
+	'themes/twentythirteen/' => '3.6',
 );
 
 /**

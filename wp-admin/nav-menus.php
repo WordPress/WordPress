@@ -435,7 +435,7 @@ get_current_screen()->add_help_tab( array(
 'content'	=>
 	'<p>' . __('This feature allows you to use a custom menu in place of your theme&#8217;s default menus.') . '</p>' .
 	'<p>' . __('Custom menus may contain links to pages, categories, custom links or other content types (use the Screen Options tab to decide which ones to show on the screen). You can specify a different navigation label for a menu item as well as other attributes. You can create multiple menus. If your theme includes more than one menu location, you can choose which custom menu to associate with each. You can also use custom menus in conjunction with the Custom Menus widget.') . '</p>' .
-	'<p>' . sprintf( __('If your theme does not support the custom menus feature (the default themes, %1$s and %2$s, do), you can learn about adding this support by following the Documentation link to the side.'), 'Twenty Twelve', 'Twenty Eleven' ) . '</p>'
+	'<p>' . sprintf( __('If your theme does not support the custom menus feature (the default themes, %1$s and %2$s, do), you can learn about adding this support by following the Documentation link to the side.'), 'Twenty Thirteen', 'Twenty Twelve' ) . '</p>'
 ) );
 get_current_screen()->add_help_tab( array(
 'id'		=> 'create-menus',
