@@ -349,7 +349,7 @@ jQuery(document).ready( function($) {
 			return false;
 		});
 
-		$('#' + taxonomy + 'checklist, #' + taxonomy + 'checklist-pop').on( 'click', 'li.popular-category input[type="checkbox"], input[type="checkbox"]', function() {
+		$('#' + taxonomy + 'checklist li.popular-category, #' + taxonomy + 'checklist-pop').on( 'click', 'input[type="checkbox"]', function() {
 			var t = $(this), c = t.is(':checked'), id = t.val();
 			if ( id && t.parents('#taxonomy-'+taxonomy).length )
 				$('#in-' + taxonomy + '-' + id + ', #in-popular-' + taxonomy + '-' + id).prop( 'checked', c );
