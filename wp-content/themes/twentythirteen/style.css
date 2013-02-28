@@ -2513,7 +2513,11 @@ footer.entry-meta {
 }
 
 .widget_calendar a {
-	padding: 4px 0;
+	display: block;
+}
+
+.widget_calendar a:hover{
+	background-color: rgba(0, 0, 0, 0.15);
 }
 
 .widget_calendar tbody td {
