@@ -898,13 +898,16 @@ final class WP_Screen {
 
 		$show_screen = ! empty( $wp_meta_boxes[ $this->id ] ) || $columns || $this->get_option( 'per_page' );
 
-		$this->_screen_settings = apply_filters( 'screen_settings', '', $this );
-
 		switch ( $this->id ) {
 			case 'widgets':
 				$this->_screen_settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode') . "</a></p>\n";
 				break;
+			default:
+				$this->_screen_settings = '';
+				break;
 		}
+
+		$this->_screen_settings = apply_filters( 'screen_settings', $this->_screen_settings, $this );
 
 		if ( $this->_screen_settings || $this->_options )
 			$show_screen = true;
