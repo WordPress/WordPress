@@ -1805,6 +1805,13 @@ footer.entry-meta {
 	text-align: right;
 }
 
+.attachment footer.entry-meta {
+	float: none;
+	max-width: 1040px;
+	padding: 24px 0;
+	text-align: right;
+}
+
 .attachment-meta:before {
 	content: '\f307';
 }
@@ -1859,7 +1866,8 @@ footer.entry-meta {
 	vertical-align:         calc(-4px);
 }
 
-.attachment .entry-attachment {
+.attachment .entry-attachment,
+.attachment p.attachment {
 	margin: 0 auto;
 	max-width: 724px;
 	text-align: center;
