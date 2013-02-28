@@ -93,10 +93,17 @@ $is_apache = (strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false || strpos(
 $is_IIS = !$is_apache && (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false || strpos($_SERVER['SERVER_SOFTWARE'], 'ExpressionDevServer') !== false);
 
 /**
- * Whether the server software is IIS 7.X
+ * Whether the server software is IIS >= 7.0
  * @global bool $is_iis7
  */
-$is_iis7 = $is_IIS && (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS/7.') !== false);
+try
+{
+    $exploded = explode('/', $_SERVER['SERVER_SOFTWARE']);
+    $is_iis7 = $is_IIS && (floatval($exploded[1]) >= 7.0);
+} catch (Exception $e) {
+     error_log('$is_iis7 check have failed with message: ' . $e->getMessage());
+     $is_iis7 = FALSE;
+}
 
 /**
  * Test if the current browser runs on a mobile device (smart phone, tablet, etc.)
