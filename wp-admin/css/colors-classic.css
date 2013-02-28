@@ -178,17 +178,26 @@ h3.dashboard-widget-title small,
 .menu-item-handle,
 #fullscreen-topbar {
 	background: #f5fafd;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#f7fcfe));
+	background-image: -webkit-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image:    -moz-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image:      -o-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image: linear-gradient(to top, #eff8ff, #f7fcfe);
 }
 
 .widget .widget-top,
 .postbox h3,
 .stuffbox h3 {
 	border-bottom-color: #d1e5ee;
+	text-shadow: #fff 0 1px 0;
+	-webkit-box-shadow: 0 1px 0 #fff;
+	box-shadow: 0 1px 0 #fff;
 }
 
 .form-table th,
 .form-wrap label {
 	color: #222;
+	text-shadow: #fff 0 1px 0;
 }
 
 .description,
@@ -453,6 +462,10 @@ a.page-numbers {
 	border-bottom-color: #d0dfe9;
 }
 
+.widefat th {
+	text-shadow: rgba(255,255,255,0.8) 0 1px 0;
+}
+
 .widefat td {
 	color: #555;
 }
@@ -478,6 +491,11 @@ th.sortable a:focus {
 
 th.sortable a:focus {
 	background: #e1e1e1;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#dcdcdc), to(#e9e9e9));
+	background-image: -webkit-linear-gradient(bottom, #dcdcdc, #e9e9e9);
+	background-image:    -moz-linear-gradient(bottom, #dcdcdc, #e9e9e9);
+	background-image:      -o-linear-gradient(bottom, #dcdcdc, #e9e9e9);
+	background-image: linear-gradient(to top, #dcdcdc, #e9e9e9);
 }
 
 h3.dashboard-widget-title small a {
@@ -505,6 +523,8 @@ a,
 #rightnow .reallynow {
 	background-color: #464646;
 	color: #fff;
+	-webkit-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
+	box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 }
 #plugin-information .action-button {
 	background-color: #d54e21;
@@ -515,6 +535,8 @@ a,
 #adminmenu	li a.wp-has-current-submenu .update-plugins{
 	background-color: #464646;
 	color: #fff;
+	-webkit-box-shadow: rgba(255,255,255,0.5) 0 1px 0;
+	box-shadow: rgba(255,255,255,0.5) 0 1px 0;
 }
 
 div#media-upload-header,
@@ -624,6 +646,11 @@ table.widefat span.spam a,
 
 .welcome-panel {
 	background: #f5fafd;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#f7fcfe));
+	background-image: -webkit-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image:    -moz-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image:      -o-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image: linear-gradient(to top, #eff8ff, #f7fcfe);
 	border-color: #d1e5ee;
 }
 .welcome-panel p {
@@ -631,6 +658,9 @@ table.widefat span.spam a,
 }
 .welcome-panel-column p {
 	color: #464646;
+}
+.welcome-panel h3 {
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .widget,
@@ -640,6 +670,8 @@ table.widefat span.spam a,
 #poststuff .postarea,
 .stuffbox {
 	border-color: #d1e5ee;
+	-webkit-box-shadow: inset 0 1px 0 #fff;
+	box-shadow: inset 0 1px 0 #fff;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
@@ -649,6 +681,11 @@ table.widefat span.spam a,
 .postbox,
 .menu-item-settings {
 	background: #f5fafd;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#f7fcfe));
+	background-image: -webkit-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image:    -moz-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image:      -o-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image: linear-gradient(to top, #eff8ff, #f7fcfe);
 }
 
 .postbox h3 {
@@ -699,6 +736,8 @@ table.widefat span.spam a,
 #screen-meta {
 	background-color: #eff8ff;
 	border-color: #d1e5ee;
+	-webkit-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
+	box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.05 );
 }
 
 #contextual-help-back {
@@ -729,6 +768,11 @@ table.widefat span.spam a,
 	border-left: 1px solid #d1e5ee;
 	border-bottom: 1px solid #d1e5ee;
 	background: #eff8ff;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#def1ff), to(#eff8ff));
+	background-image: -webkit-linear-gradient(bottom, #def1ff, #eff8ff);
+	background-image:    -moz-linear-gradient(bottom, #def1ff, #eff8ff);
+	background-image:      -o-linear-gradient(bottom, #def1ff, #eff8ff);
+	background-image: linear-gradient(to top, #def1ff, #eff8ff);
 }
 
 #screen-meta-links a {
@@ -858,6 +902,11 @@ table.widefat .spam a:hover,
 .wp-admin .wp-editor-wrap .wp_themeSkin tr.mceFirst td.mceToolbar {
 	border-color: #d0dfe9;
 	background-color: #f5fafd;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#f7fcfe));
+	background-image: -webkit-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image:    -moz-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image:      -o-linear-gradient(bottom, #eff8ff, #f7fcfe);
+	background-image: linear-gradient(to top, #eff8ff, #f7fcfe);
 }
 
 .wp-admin .wp_themeSkin table.mceListBox {
@@ -876,6 +925,11 @@ table.widefat .spam a:hover,
 .wp-admin .wp_themeSkin table.mceSplitButton:hover {
 	border-color: #c3d2dc;
 	background: #f4f9fc;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#f4f9fc), to(#fff));
+	background-image: -webkit-linear-gradient(bottom, #f4f9fc, #fff);
+	background-image:    -moz-linear-gradient(bottom, #f4f9fc, #fff);
+	background-image:      -o-linear-gradient(bottom, #f4f9fc, #fff);
+	background-image: linear-gradient(to top, #f4f9fc, #fff);
 }
 
 .wp-admin .wp_themeSkin a.mceButton:active,
@@ -888,6 +942,11 @@ table.widefat .spam a:hover,
 .wp-admin .wp_themeSkin .mceSplitButtonSelected table:hover {
 	border-color: #8f9da9 #c3d2dc #c3d2dc #8f9da9;
 	background: #f4f9fc;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#f4f9fc));
+	background-image: -webkit-linear-gradient(bottom, #fff, #f4f9fc);
+	background-image:    -moz-linear-gradient(bottom, #fff, #f4f9fc);
+	background-image:      -o-linear-gradient(bottom, #fff, #f4f9fc);
+	background-image: linear-gradient(to top, #fff, #f4f9fc);
 }
 
 .wp-admin .wp_themeSkin .mceSplitButtonSelected table a.mceOpen,
@@ -955,6 +1014,13 @@ table.widefat .spam a:hover,
 #adminmenu li > a.menu-top:focus {
 	background-color: #e0f1ff;
 	color: #d54e21;
+	text-shadow: 0 1px 0 rgba( 255, 255, 255, 0.4 );
+}
+
+/* So it doesn't get applied to the number spans (comments, updates, etc) */
+#adminmenu li.menu-top:hover > a span,
+#adminmenu li.menu-top > a:focus span {
+	text-shadow: none;
 }
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
@@ -964,10 +1030,20 @@ table.widefat .spam a:hover,
 #adminmenu .wp-menu-arrow,
 #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
 	background: #5589aa;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#5589aa), to(#619bbb));
+	background-image: -webkit-linear-gradient(bottom, #5589aa, #619bbb);
+	background-image:    -moz-linear-gradient(bottom, #5589aa, #619bbb);
+	background-image:      -o-linear-gradient(bottom, #5589aa, #619bbb);
+	background-image: linear-gradient(to top, #5589aa, #619bbb);
 }
 
 #adminmenu .wp-menu-arrow div {
 	background: #5589aa;
+	background-image: -webkit-gradient(linear, right bottom, left top, from(#5589aa), to(#619bbb));
+	background-image: -webkit-linear-gradient(bottom right, #5589aa, #619bbb);
+	background-image:    -moz-linear-gradient(bottom right, #5589aa, #619bbb);
+	background-image:      -o-linear-gradient(bottom right, #5589aa, #619bbb);
+	background-image: linear-gradient(to top left, #5589aa, #619bbb);
 }
 
 #adminmenu li.wp-not-current-submenu .wp-menu-arrow {
@@ -988,6 +1064,7 @@ table.widefat .spam a:hover,
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
 #adminmenu li.current a.menu-top,
 #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head {
+	text-shadow: 0 -1px 0 #333;
 	color: #fff;
 	border-top-color: #5a8fad;
 	border-bottom-color: #5589aa;
@@ -1038,6 +1115,11 @@ table.widefat .spam a:hover,
 #collapse-button {
 	border-color: #d0dfe9;
 	background: #eff8ff;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#fff));
+	background-image: -webkit-linear-gradient(bottom, #eff8ff, #fff);
+	background-image:    -moz-linear-gradient(bottom, #eff8ff, #fff);
+	background-image:      -o-linear-gradient(bottom, #eff8ff, #fff);
+	background-image: linear-gradient(to top, #eff8ff, #fff);
 }
 
 #collapse-menu:hover #collapse-button {
@@ -1057,6 +1139,11 @@ table.widefat .spam a:hover,
 	.auto-fold #adminmenu li.wp-has-current-submenu,
 	.auto-fold #adminmenu li.current.menu-top {
 		background-color: #5589aa;
+		background-image: -webkit-gradient(linear, left bottom, left top, from(#5589aa), to(#619bbb));
+		background-image: -webkit-linear-gradient(bottom, #5589aa, #619bbb);
+		background-image: -moz-linear-gradient(bottom, #5589aa, #619bbb);
+		background-image: -o-linear-gradient(bottom, #5589aa, #619bbb);
+		background-image: linear-gradient(bottom, #5589aa, #619bbb);
 	}
 
 	.auto-fold #adminmenu li.wp-has-current-submenu,
@@ -1069,6 +1156,8 @@ table.widefat .spam a:hover,
 	.auto-fold #adminmenu .wp-has-current-submenu .wp-submenu {
 		background-color: #fff;
 		border-color: #d0dfe9;
+		-webkit-box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.4);
+		box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.4);
 	}
 
 	.auto-fold #collapse-button div {
@@ -1469,6 +1558,9 @@ fieldset.inline-edit-col-right .inline-edit-col {
 .tablenav .tablenav-pages a {
 	border-color: #d1e5ee;
 	background: #eee;
+	-moz-box-shadow:    inset 0 1px 0 #fff;
+	-webkit-box-shadow: inset 0 1px 0 #fff;
+	box-shadow:         inset 0 1px 0 #fff;
 }
 
 .tablenav .tablenav-pages a:hover,
@@ -1584,7 +1676,10 @@ div.widgets-sortables,
 
 .sidebar-name {
 	color: #464646;
+	text-shadow: #fff 0 1px 0;
 	border-color: #d0dfe9;
+	-webkit-box-shadow: inset 0 1px 0 #fff;
+	box-shadow: inset 0 1px 0 #fff;
 }
 
 .js .sidebar-name:hover,
@@ -1705,6 +1800,7 @@ div.widgets-sortables,
 
 .menu li.deleting .menu-item-handle {
 	background-color: #f66;
+	text-shadow: #ccc;
 }
 
 .item-type { /* Menu item controls */
@@ -1772,6 +1868,13 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	border-bottom-color: #acd;
 }
 
+#menu-management .nav-tab-active,
+.menu-item-handle,
+.menu-item-settings {
+	-webkit-box-shadow: inset 0 1px 0 #fff;
+	box-shadow: inset 0 1px 0 #fff;
+}
+
 #menu-management .nav-tab-active {
 	background: #f7fcfe;
 	border-bottom-color: #f7fcfe;
@@ -1801,6 +1904,7 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 
 .about-wrap h1 {
 	color: #333;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .about-text {
@@ -1826,11 +1930,13 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 }
 
 .about-wrap h2 .nav-tab-active {
+	text-shadow: 1px 1px 1px #fff;
 	color: #464646;
 }
 
 .about-wrap h3 {
 	color: #333;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .about-wrap .feature-section h4 {
@@ -1840,6 +1946,12 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 .about-wrap .feature-section img {
 	background: #fff;
 	border: 1px #ccc solid;
+	-webkit-box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.3 );
+	box-shadow:         0 1px 3px rgba( 0, 0, 0, 0.3 );
+}
+
+.about-wrap h4.wp-people-group {
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .about-wrap .point-releases {
@@ -1855,11 +1967,13 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 }
 
 .about-wrap li.wp-person img.gravatar {
-	border-color: #d1e5ee;
+	-webkit-box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
+	box-shadow: 0 0 4px rgba( 0, 0, 0, 0.4 );
 }
 
 .about-wrap li.wp-person .title {
 	color: #464646;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 .freedoms-php .about-wrap ol li {
@@ -1902,6 +2016,17 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	border-left-color: #d1e5ee;
 }
 
+.rtl #adminmenu .wp-submenu,
+.rtl.folded #adminmenu .wp-has-current-submenu .wp-submenu {
+	-webkit-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+	box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+}
+
+.rtl #adminmenu .wp-has-current-submenu .wp-submenu {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
 /* Collapse Menu Button */
 .rtl #collapse-button div {
 	background-position: 0 -108px;
@@ -1913,6 +2038,12 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 
 /* Auto-folding of the admin menu for RTL */
 @media only screen and (max-width: 900px) {
+	.rtl.auto-fold #adminmenu a.wp-has-current-submenu:focus + .wp-submenu,
+	.rtl.auto-fold #adminmenu .wp-has-current-submenu .wp-submenu {
+		-webkit-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+		box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+	}
+
 	.rtl.auto-fold #collapse-button div {
 		background-position: 0 -72px;
 	}
