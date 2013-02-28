@@ -975,7 +975,7 @@
 }
 
 .wp-editor-container {
-    border-width: 1px;
+	border-width: 1px;
 	border-style: solid;
 	-webkit-border-top-right-radius: 3px;
 	-webkit-border-top-left-radius: 3px;
@@ -1004,7 +1004,7 @@
 
 .wp-switch-editor {
 	height: 18px;
-    font: 13px/18px Arial,Helvetica,sans-serif normal;
+	font: 13px/18px Arial,Helvetica,sans-serif normal;
 	margin: 5px 5px 0 0;
 	padding: 4px 5px 2px;
 	float: right;
@@ -1848,12 +1848,14 @@ RTL
 }
 
 #wp-fullscreen-title {
-    font-size: 1.7em;
-    line-height: 100%;
-    outline: medium none;
-    padding: 6px 7px;
-    width: 100%;
-    margin-bottom: 30px;
+	font-size: 1.7em;
+	line-height: 100%;
+	outline: medium none;
+	padding: 6px 7px;
+	width: 100%;
+	margin-bottom: 30px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 #wp-fullscreen-container {
@@ -1887,6 +1889,8 @@ RTL
 	overflow-y: hidden;
 	outline: none;
 	resize: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 #wp-fullscreen-tagline {
