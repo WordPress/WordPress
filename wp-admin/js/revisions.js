@@ -174,7 +174,7 @@ window.wp = window.wp || {};
 			},
 
 			/*
-			 * initialize the revision appl;ication
+			 * initialize the revision application
 			 */
 			initialize : function( options ) {
 				var self = this; //store the application instance

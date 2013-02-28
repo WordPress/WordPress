@@ -2139,7 +2139,7 @@ function wp_ajax_revisions_data() {
 
 	$compareto = isset( $_GET['compareto'] ) ? absint( $_GET['compareto'] ) : 0;
 	$showautosaves = isset( $_GET['showautosaves'] ) ? $_GET['showautosaves'] : '';
-	$show_split_view = isset( $_GET['show_split_view'] ) ? $_GET['show_split_view'] : '';
+	$showsplitview = isset( $_GET['showsplitview'] ) ? $_GET['showsplitview'] : '';
 	$postid = isset( $_GET['post_id'] ) ? absint( $_GET['post_id'] ) : '';
 
 	$comparetwomode = ( '' == $postid ) ? false : true;
@@ -2236,8 +2236,8 @@ function wp_ajax_revisions_data() {
 
 		$args = array();
 
-		if ( 'true' == $show_split_view )
-			 $args = array( 'show_split_view' => 'true' );
+		if ( 'true' == $showsplitview )
+			 $args = array( 'showsplitview' => 'true' );
 
 		$content .= wp_text_diff( $left_content, $right_content, $args );
 	}
