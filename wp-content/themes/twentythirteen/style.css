@@ -37,6 +37,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
  *   5.10 - Search Results/No posts
  *   5.11 - 404
  *   5.12 - Comments
+ *   5.13 - Multisite
  * 6.0 - Sidebar
  *   6.1 - Widgets
  * 7.0 - Footer
@@ -2419,6 +2420,35 @@ footer.entry-meta {
 	box-sizing:         border-box;
 	padding-left: 60px;
 	padding-right: 376px;
+}
+
+
+/**
+ * 5.13 Multisite
+ * ----------------------------------------------------------------------------
+ */
+
+.site-main .mu_register {
+	margin: 0 auto;
+	max-width: 604px;
+	width: 100%;
+}
+
+.mu_alert {
+	margin-top: 25px;
+}
+
+.site-main .mu_register input[type="submit"],
+.site-main .mu_register #blog_title,
+.site-main .mu_register #user_email,
+.site-main .mu_register #blogname,
+.site-main .mu_register #user_name {
+	font-size: inherit;
+	width: 270px;
+}
+
+.site-main .mu_register input[type="submit"] {
+	width: auto;
 }
 
 
