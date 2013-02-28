@@ -2556,11 +2556,11 @@ footer.entry-meta {
 
 .site-footer .sidebar-container {
 	background-color: #220e10;
+	padding: 20px 0;
 }
 
 .site-footer .widget-area {
 	margin: 0 auto;
-	padding: 20px 0;
 	max-width: 1040px;
 	width: 100%;
 }
