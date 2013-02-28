@@ -1278,12 +1278,12 @@ div.wp-menu-image {
 .icon32.icon-post,
 #icon-edit,
 #icon-post {
-	background-position: -550px -3px;
+	background-position: -552px -5px;
 }
 
 .icon32.icon-dashboard,
 #icon-index {
-	background-position: -137px -3px;
+	background-position: -137px -5px;
 }
 
 .icon32.icon-media,
@@ -1295,18 +1295,18 @@ div.wp-menu-image {
 #icon-link-manager,
 #icon-link,
 #icon-link-category {
-	background-position: -190px -3px;
+	background-position: -190px -5px;
 }
 
 .icon32.icon-page,
 #icon-edit-pages,
 #icon-page {
-	background-position: -312px -4px;
+	background-position: -312px -5px;
 }
 
 .icon32.icon-comments,
 #icon-edit-comments {
-	background-position: -71px -3px;
+	background-position: -72px -5px;
 }
 
 .icon32.icon-appearance,
@@ -1316,35 +1316,35 @@ div.wp-menu-image {
 
 .icon32.icon-plugins,
 #icon-plugins {
-	background-position: -370px -3px;
+	background-position: -370px -5px;
 }
 
 .icon32.icon-users,
 #icon-users,
 #icon-profile,
 #icon-user-edit {
-	background-position: -600px -4px;
+	background-position: -600px -5px;
 }
 
 .icon32.icon-tools,
 #icon-tools,
 #icon-admin {
-	background-position: -432px -4px;
+	background-position: -432px -5px;
 }
 
 .icon32.icon-settings,
 #icon-options-general {
-	background-position: -492px -4px;
+	background-position: -492px -5px;
 }
 
 .icon32.icon-site,
 #icon-ms-admin {
-	background-position: -659px -4px;
+	background-position: -659px -5px;
 }
 
 .icon32.icon-generic,
 #icon-generic {
-	background-position: -708px -4px;
+	background-position: -708px -5px;
 }
 
 /* end screen icons */
