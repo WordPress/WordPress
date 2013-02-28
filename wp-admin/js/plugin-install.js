@@ -27,7 +27,7 @@ jQuery(document).ready(function($) {
 
 	$(window).resize(function(){ tb_position(); });
 
-	 $('#dashboard_plugins a.thickbox, .plugins a.thickbox').click( function() {
+	$('#dashboard_plugins, .plugins').on( 'click', 'a.thickbox', function() {
 		tb_click.call(this);
 
 		$('#TB_title').css({'background-color':'#222','color':'#cfcfcf'});

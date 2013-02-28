@@ -87,7 +87,8 @@ jQuery(document).ready( function($) {
 		 * Workaround for WebKit bug preventing a form submitting twice to the same action.
 		 * https://bugs.webkit.org/show_bug.cgi?id=28633
 		 */
-		if ( $.browser.safari ) {
+		var ua = navigator.userAgent.toLowerCase();
+		if ( ua.indexOf('safari') != -1 && ua.indexOf('chrome') == -1 ) {
 			$('form#post').attr('action', function(index, value) {
 				return value + '?t=' + new Date().getTime();
 			});
