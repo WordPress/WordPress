@@ -1976,7 +1976,7 @@ function sanitize_post($post, $context = 'display') {
  * @return mixed Sanitized value.
  */
 function sanitize_post_field($field, $value, $post_id, $context) {
-	$int_fields = array('ID', 'post_parent', 'menu_order', 'post_author', 'comment_count');
+	$int_fields = array('ID', 'post_parent', 'menu_order');
 	if ( in_array($field, $int_fields) )
 		$value = (int) $value;
 
