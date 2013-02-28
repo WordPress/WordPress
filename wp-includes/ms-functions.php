@@ -811,7 +811,6 @@ function wpmu_signup_user_notification($user, $user_email, $key, $meta = '') {
  * @uses wp_generate_password()
  * @uses wpmu_welcome_user_notification()
  * @uses add_user_to_blog()
- * @uses add_new_user_to_blog()
  * @uses wpmu_create_user()
  * @uses wpmu_create_blog()
  * @uses wpmu_welcome_notification()
@@ -857,11 +856,9 @@ function wpmu_activate_signup($key) {
 		if ( isset( $user_already_exists ) )
 			return new WP_Error( 'user_already_exists', __( 'That username is already activated.' ), $signup);
 
-		wpmu_welcome_user_notification($user_id, $password, $meta);
-
-		add_new_user_to_blog( $user_id, $user_email, $meta );
-		do_action('wpmu_activate_user', $user_id, $password, $meta);
-		return array('user_id' => $user_id, 'password' => $password, 'meta' => $meta);
+		wpmu_welcome_user_notification( $user_id, $password, $meta );
+		do_action( 'wpmu_activate_user', $user_id, $password, $meta );
+		return array( 'user_id' => $user_id, 'password' => $password, 'meta' => $meta );
 	}
 
 	$blog_id = wpmu_create_blog( $signup->domain, $signup->path, $signup->title, $user_id, $meta, $wpdb->siteid );
@@ -1677,13 +1674,17 @@ function add_existing_user_to_blog( $details = false ) {
 /**
  * Add a newly created user to the appropriate blog
  *
+ * To add a user in general, use add_user_to_blog(). This function
+ * is specifically hooked into the wpmu_activate_user action.
+ *
  * @since MU
+ * @see add_user_to_blog()
  *
  * @param int $user_id
- * @param string $email
+ * @param mixed $password Ignored.
  * @param array $meta
  */
-function add_new_user_to_blog( $user_id, $email, $meta ) {
+function add_new_user_to_blog( $user_id, $password, $meta ) {
 	global $current_site;
 	if ( !empty( $meta[ 'add_to_blog' ] ) ) {
 		$blog_id = $meta[ 'add_to_blog' ];
