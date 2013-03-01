@@ -68,7 +68,7 @@ if ( empty( $file ) ) {
 	$relative_file = 'style.css';
 	$file = $allowed_files['style.css'];
 } else {
-	$relative_file = wp_unslash( $file );
+	$relative_file = $file;
 	$file = $theme->get_stylesheet_directory() . '/' . $relative_file;
 }
 

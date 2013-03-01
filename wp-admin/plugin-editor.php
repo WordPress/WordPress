@@ -27,10 +27,9 @@ $plugins = get_plugins();
 if ( empty($plugins) )
 	wp_die( __('There are no plugins installed on this site.') );
 
-if ( isset($_REQUEST['file']) )
-	$plugin = wp_unslash($_REQUEST['file']);
-
-if ( empty($plugin) ) {
+if ( $file ) {
+	$plugin = $file;
+} elseif ( empty( $plugin ) ) {
 	$plugin = array_keys($plugins);
 	$plugin = $plugin[0];
 }
