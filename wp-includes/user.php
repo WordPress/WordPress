@@ -87,18 +87,18 @@ function wp_authenticate_username_password($user, $username, $password) {
 	$user = get_user_by('login', $username);
 
 	if ( !$user )
-		return new WP_Error('invalid_username', sprintf(__('<strong>ERROR</strong>: Invalid username. <a href="%s" title="Password Lost and Found">Lost your password</a>?'), wp_lostpassword_url()));
+		return new WP_Error( 'invalid_username', sprintf( __( '<strong>ERROR</strong>: Invalid username. <a href="%s" title="Password Lost and Found">Lost your password</a>?' ), wp_lostpassword_url() ) );
 
 	if ( is_multisite() ) {
 		// Is user marked as spam?
-		if ( 1 == $user->spam)
-			return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Your account has been marked as a spammer.'));
+		if ( 1 == $user->spam )
+			return new WP_Error( 'spammer_account', __( '<strong>ERROR</strong>: Your account has been marked as a spammer.' ) );
 
 		// Is a user's blog marked as spam?
-		if ( !is_super_admin( $user->ID ) && isset($user->primary_blog) ) {
+		if ( !is_super_admin( $user->ID ) && isset( $user->primary_blog ) ) {
 			$details = get_blog_details( $user->primary_blog );
 			if ( is_object( $details ) && $details->spam == 1 )
-				return new WP_Error('blog_suspended', __('Site Suspended.'));
+				return new WP_Error( 'blog_suspended', __( 'Site Suspended.' ) );
 		}
 	}
 
