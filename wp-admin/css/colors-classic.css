@@ -1478,6 +1478,37 @@ table.diff .diff-addedline ins {
 	background-color: #e4f2fd;
 }
 
+/* jQuery UI Slider */
+.wp-slider.ui-slider {
+	border-color: #d1e5ee;
+	background: #eff8ff;
+}
+
+.wp-slider .ui-slider-handle {
+	border-color: #acd;
+	background: #f4f9fc;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#f4f9fc), to(#fff));
+	background-image: -webkit-linear-gradient(bottom, #f4f9fc, #fff);
+	background-image:    -moz-linear-gradient(bottom, #f4f9fc, #fff);
+	background-image:      -o-linear-gradient(bottom, #f4f9fc, #fff);
+	background-image: linear-gradient(to top, #f4f9fc, #fff);
+}
+
+.wp-slider .ui-slider-handle.ui-state-hover,
+.wp-slider .ui-slider-handle.ui-state-focus {
+	border-color: #79afca;
+}
+
+.wp-slider .ui-slider-handle.ui-state-active {
+	border-color: #79afca;
+	background: #eff8ff;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#fff), to(#f4f9fc));
+	background-image: -webkit-linear-gradient(bottom, #fff, #f4f9fc);
+	background-image:    -moz-linear-gradient(bottom, #fff, #f4f9fc);
+	background-image:      -o-linear-gradient(bottom, #fff, #f4f9fc);
+	background-image: linear-gradient(to top, #fff, #f4f9fc);
+}
+
 /* edit image */
 #sidemenu a {
 	background-color: #f9f9f9;

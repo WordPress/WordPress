@@ -73,7 +73,6 @@ if ( !empty($post->post_type) && 'post' != $post->post_type )
 else
 	$parent_file = $submenu_file = 'edit.php';
 
-wp_enqueue_style( 'wp-jquery-ui-slider' );
 wp_enqueue_script( 'revisions' );
 
 require_once( './admin-header.php' );
@@ -134,7 +133,7 @@ var wpRevisionsSettings = <?php echo json_encode( array( 'post_id' => $post->ID,
 					<span id="diff_max" ></span>
 				</div>
 
-			<div id="slider"></div>
+			<div id="slider" class="wp-slider"></div>
 		</div>
 	</div>
 </script>
