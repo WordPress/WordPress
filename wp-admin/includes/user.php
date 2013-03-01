@@ -34,7 +34,7 @@ function edit_user( $user_id = 0 ) {
 		$update = true;
 		$user->ID = (int) $user_id;
 		$userdata = get_userdata( $user_id );
-		$user->user_login = $wpdb->escape( $userdata->user_login );
+		$user->user_login = wp_slash( $userdata->user_login );
 	} else {
 		$update = false;
 	}
