@@ -1313,5 +1313,5 @@ function post_preview() {
 		$url = add_query_arg( array( 'preview' => 'true', 'preview_id' => $id, 'preview_nonce' => $nonce ), get_permalink($id) );
 	}
 
-	return $url;
+	return apply_filters( 'preview_post_link', $url );
 }
