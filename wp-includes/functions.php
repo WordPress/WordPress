@@ -1233,8 +1233,7 @@ function wp_nonce_field( $action = -1, $name = "_wpnonce", $referer = true , $ec
  * @return string Referer field.
  */
 function wp_referer_field( $echo = true ) {
-	$ref = esc_attr( $_SERVER['REQUEST_URI'] );
-	$referer_field = '<input type="hidden" name="_wp_http_referer" value="'. $ref . '" />';
+	$referer_field = '<input type="hidden" name="_wp_http_referer" value="'. esc_attr( wp_unslash( $_SERVER['REQUEST_URI'] ) ) . '" />';
 
 	if ( $echo )
 		echo $referer_field;
@@ -1257,9 +1256,10 @@ function wp_referer_field( $echo = true ) {
  * @return string Original referer field.
  */
 function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
-	$jump_back_to = ( 'previous' == $jump_back_to ) ? wp_get_referer() : $_SERVER['REQUEST_URI'];
-	$ref = ( wp_get_original_referer() ) ? wp_get_original_referer() : $jump_back_to;
-	$orig_referer_field = '<input type="hidden" name="_wp_original_http_referer" value="' . esc_attr( stripslashes( $ref ) ) . '" />';
+	if ( ! $ref = wp_get_original_referer() ) {
+		$ref = 'previous' == $jump_back_to ? wp_get_referer() : wp_unslash( $_SERVER['REQUEST_URI'] );
+	}
+	$orig_referer_field = '<input type="hidden" name="_wp_original_http_referer" value="' . esc_attr( $ref ) . '" />';
 	if ( $echo )
 		echo $orig_referer_field;
 	return $orig_referer_field;
@@ -1278,11 +1278,11 @@ function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
 function wp_get_referer() {
 	$ref = false;
 	if ( ! empty( $_REQUEST['_wp_http_referer'] ) )
-		$ref = $_REQUEST['_wp_http_referer'];
+		$ref = wp_unslash( $_REQUEST['_wp_http_referer'] );
 	else if ( ! empty( $_SERVER['HTTP_REFERER'] ) )
-		$ref = $_SERVER['HTTP_REFERER'];
+		$ref = wp_unslash( $_SERVER['HTTP_REFERER'] );
 
-	if ( $ref && $ref !== $_SERVER['REQUEST_URI'] )
+	if ( $ref && $ref !== wp_unslash( $_SERVER['REQUEST_URI'] ) )
 		return wp_unslash( $ref );
 	return false;
 }
@@ -1298,7 +1298,7 @@ function wp_get_referer() {
  */
 function wp_get_original_referer() {
 	if ( !empty( $_REQUEST['_wp_original_http_referer'] ) )
-		return $_REQUEST['_wp_original_http_referer'];
+		return wp_unslash( $_REQUEST['_wp_original_http_referer'] );
 	return false;
 }
 
@@ -3906,7 +3906,7 @@ function wp_auth_check_load() {
 
 /**
  * Output the JS that shows the wp-login iframe when the user is no longer logged in
- */ 
+ */
 function wp_auth_check_js() {
 	?>
 	<script type="text/javascript">

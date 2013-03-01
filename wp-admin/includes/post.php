@@ -197,7 +197,7 @@ function edit_post( $post_data = null ) {
 	}
 
 	if ( isset( $post_data[ '_wp_format_url' ] ) ) {
-		update_post_meta( $post_ID, '_wp_format_url', addslashes( esc_url_raw( wp_unslash( $post_data['_wp_format_url'] ) ) ) );
+		update_post_meta( $post_ID, '_wp_format_url', wp_slash( esc_url_raw( wp_unslash( $post_data['_wp_format_url'] ) ) ) );
 	}
 
 	$format_keys = array( 'quote', 'quote_source', 'image', 'gallery', 'media' );
@@ -235,11 +235,11 @@ function edit_post( $post_data = null ) {
 	// Attachment stuff
 	if ( 'attachment' == $post_data['post_type'] ) {
 		if ( isset( $post_data[ '_wp_attachment_image_alt' ] ) ) {
-			$image_alt = get_post_meta( $post_ID, '_wp_attachment_image_alt', true );
-			if ( $image_alt != wp_unslash( $post_data['_wp_attachment_image_alt'] ) ) {
-				$image_alt = wp_strip_all_tags( wp_unslash( $post_data['_wp_attachment_image_alt'] ), true );
+			$image_alt = wp_unslash( $post_data['_wp_attachment_image_alt'] );
+			if ( $image_alt != get_post_meta( $post_ID, '_wp_attachment_image_alt', true ) ) {
+				$image_alt = wp_strip_all_tags( $image_alt, true );
 				// update_meta expects slashed
-				update_post_meta( $post_ID, '_wp_attachment_image_alt', addslashes( $image_alt ) );
+				update_post_meta( $post_ID, '_wp_attachment_image_alt', wp_slash( $image_alt ) );
 			}
 		}
 

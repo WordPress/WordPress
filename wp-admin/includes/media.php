@@ -467,11 +467,11 @@ function media_upload_form_handler() {
 		$post = apply_filters('attachment_fields_to_save', $post, $attachment);
 
 		if ( isset($attachment['image_alt']) ) {
-			$image_alt = get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
-			if ( $image_alt != wp_unslash($attachment['image_alt']) ) {
-				$image_alt = wp_strip_all_tags( wp_unslash($attachment['image_alt']), true );
+			$image_alt = wp_unslash( $attachment['image_alt'] );
+			if ( $image_alt != get_post_meta($attachment_id, '_wp_attachment_image_alt', true) ) {
+				$image_alt = wp_strip_all_tags( $image_alt, true );
 				// update_meta expects slashed
-				update_post_meta( $attachment_id, '_wp_attachment_image_alt', addslashes($image_alt) );
+				update_post_meta( $attachment_id, '_wp_attachment_image_alt', wp_slash( $image_alt ) );
 			}
 		}
 
