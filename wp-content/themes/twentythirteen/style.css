@@ -320,7 +320,7 @@ nav ol {
 	list-style-image: none;
 }
 
-li >ul,
+li > ul,
 li > ol {
 	margin: 0;
 }
