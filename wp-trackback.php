@@ -45,9 +45,9 @@ $tb_url  = isset($_POST['url'])     ? $_POST['url']     : '';
 $charset = isset($_POST['charset']) ? $_POST['charset'] : '';
 
 // These three are stripslashed here so that they can be properly escaped after mb_convert_encoding()
-$title     = isset($_POST['title'])     ? wp_unslash( $_POST['title'] )      : '';
-$excerpt   = isset($_POST['excerpt'])   ? wp_unslash( $_POST['excerpt'] )    : '';
-$blog_name = isset($_POST['blog_name']) ? wp_unslash( $_POST['blog_name'] )  : '';
+$title     = isset($_POST['title'])     ? stripslashes($_POST['title'])      : '';
+$excerpt   = isset($_POST['excerpt'])   ? stripslashes($_POST['excerpt'])    : '';
+$blog_name = isset($_POST['blog_name']) ? stripslashes($_POST['blog_name'])  : '';
 
 if ($charset)
 	$charset = str_replace( array(',', ' '), '', strtoupper( trim($charset) ) );
@@ -63,6 +63,11 @@ if ( function_exists('mb_convert_encoding') ) { // For international trackbacks
 	$excerpt   = mb_convert_encoding($excerpt, get_option('blog_charset'), $charset);
 	$blog_name = mb_convert_encoding($blog_name, get_option('blog_charset'), $charset);
 }
+
+// Now that mb_convert_encoding() has been given a swing, we need to escape these three
+$title     = $wpdb->escape($title);
+$excerpt   = $wpdb->escape($excerpt);
+$blog_name = $wpdb->escape($blog_name);
 
 if ( is_single() || is_page() )
 	$tb_id = $posts[0]->ID;

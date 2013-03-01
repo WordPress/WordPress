@@ -224,7 +224,7 @@ class WP_Widget {
 			}
 
 			foreach ( $settings as $number => $new_instance ) {
-				$new_instance = wp_unslash($new_instance);
+				$new_instance = stripslashes_deep($new_instance);
 				$this->_set($number);
 
 				$old_instance = isset($all_instances[$number]) ? $all_instances[$number] : array();

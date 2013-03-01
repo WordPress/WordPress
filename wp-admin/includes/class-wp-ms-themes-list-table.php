@@ -126,7 +126,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	function _search_callback( $theme ) {
 		static $term;
 		if ( is_null( $term ) )
-			$term = wp_unslash( $_REQUEST['s'] );
+			$term = stripslashes( $_REQUEST['s'] );
 
 		foreach ( array( 'Name', 'Description', 'Author', 'Author', 'AuthorURI' ) as $field ) {
 			// Don't mark up; Do translate.

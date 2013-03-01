@@ -17,9 +17,7 @@ require( dirname(__FILE__) . '/wp-load.php' );
 
 nocache_headers();
 
-$post_data = wp_unslash( $_POST );
-
-$comment_post_ID = isset($post_data['comment_post_ID']) ? (int) $post_data['comment_post_ID'] : 0;
+$comment_post_ID = isset($_POST['comment_post_ID']) ? (int) $_POST['comment_post_ID'] : 0;
 
 $post = get_post($comment_post_ID);
 
@@ -49,21 +47,21 @@ if ( !comments_open($comment_post_ID) ) {
 	do_action('pre_comment_on_post', $comment_post_ID);
 }
 
-$comment_author       = ( isset( $post_data['author'] ) )  ? trim( strip_tags( $post_data['author'] ) ) : null;
-$comment_author_email = ( isset( $post_data['email'] ) )   ? trim( $post_data['email'] ) : null;
-$comment_author_url   = ( isset( $post_data['url'] ) )     ? trim( $post_data['url'] ) : null;
-$comment_content      = ( isset( $post_data['comment'] ) ) ? trim( $post_data['comment'] ) : null;
+$comment_author       = ( isset($_POST['author']) )  ? trim(strip_tags($_POST['author'])) : null;
+$comment_author_email = ( isset($_POST['email']) )   ? trim($_POST['email']) : null;
+$comment_author_url   = ( isset($_POST['url']) )     ? trim($_POST['url']) : null;
+$comment_content      = ( isset($_POST['comment']) ) ? trim($_POST['comment']) : null;
 
 // If the user is logged in
 $user = wp_get_current_user();
 if ( $user->exists() ) {
 	if ( empty( $user->display_name ) )
-		$user->display_name = $user->user_login;
-	$comment_author       = $user->display_name;
-	$comment_author_email = $user->user_email;
-	$comment_author_url   = $user->user_url;
+		$user->display_name=$user->user_login;
+	$comment_author       = $wpdb->escape($user->display_name);
+	$comment_author_email = $wpdb->escape($user->user_email);
+	$comment_author_url   = $wpdb->escape($user->user_url);
 	if ( current_user_can('unfiltered_html') ) {
-		if ( wp_create_nonce('unfiltered-html-comment_' . $comment_post_ID) != $post_data['_wp_unfiltered_html_comment'] ) {
+		if ( wp_create_nonce('unfiltered-html-comment_' . $comment_post_ID) != $_POST['_wp_unfiltered_html_comment'] ) {
 			kses_remove_filters(); // start with a clean slate
 			kses_init_filters(); // set up the filters
 		}
@@ -85,7 +83,7 @@ if ( get_option('require_name_email') && !$user->exists() ) {
 if ( '' == $comment_content )
 	wp_die( __('<strong>ERROR</strong>: please type a comment.') );
 
-$comment_parent = isset($post_data['comment_parent']) ? absint($post_data['comment_parent']) : 0;
+$comment_parent = isset($_POST['comment_parent']) ? absint($_POST['comment_parent']) : 0;
 
 $commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID');
 
@@ -94,7 +92,7 @@ $comment_id = wp_new_comment( $commentdata );
 $comment = get_comment($comment_id);
 do_action('set_comment_cookies', $comment, $user);
 
-$location = empty($post_data['redirect_to']) ? get_comment_link($comment_id) : $post_data['redirect_to'] . '#comment-' . $comment_id;
+$location = empty($_POST['redirect_to']) ? get_comment_link($comment_id) : $_POST['redirect_to'] . '#comment-' . $comment_id;
 $location = apply_filters('comment_post_redirect', $location, $comment);
 
 wp_safe_redirect( $location );

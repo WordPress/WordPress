@@ -112,15 +112,15 @@ Please click the following link to confirm the invite:
 		}
 	} else {
 		// Adding a new user to this blog
-		$user_details = wpmu_validate_user_signup( wp_unslash( $_REQUEST[ 'user_login' ] ), wp_unslash( $_REQUEST[ 'email' ] ) );
+		$user_details = wpmu_validate_user_signup( $_REQUEST[ 'user_login' ], $_REQUEST[ 'email' ] );
 		if ( is_wp_error( $user_details[ 'errors' ] ) && !empty( $user_details[ 'errors' ]->errors ) ) {
 			$add_user_errors = $user_details[ 'errors' ];
 		} else {
-			$new_user_login = apply_filters('pre_user_login', sanitize_user( wp_unslash( $_REQUEST['user_login'] ), true ) );
+			$new_user_login = apply_filters('pre_user_login', sanitize_user(stripslashes($_REQUEST['user_login']), true));
 			if ( isset( $_POST[ 'noconfirmation' ] ) && is_super_admin() ) {
 				add_filter( 'wpmu_signup_user_notification', '__return_false' ); // Disable confirmation email
 			}
-			wpmu_signup_user( $new_user_login, wp_unslash( $_REQUEST[ 'email' ] ), array( 'add_to_blog' => $wpdb->blogid, 'new_role' => $_REQUEST[ 'role' ] ) );
+			wpmu_signup_user( $new_user_login, $_REQUEST[ 'email' ], array( 'add_to_blog' => $wpdb->blogid, 'new_role' => $_REQUEST[ 'role' ] ) );
 			if ( isset( $_POST[ 'noconfirmation' ] ) && is_super_admin() ) {
 				$key = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $new_user_login, $_REQUEST[ 'email' ] ) );
 				wpmu_activate_signup( $key );
@@ -309,7 +309,7 @@ foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_nam
 	$var = "new_user_$var";
 	if( isset( $_POST['createuser'] ) ) {
 		if ( ! isset($$var) )
-			$$var = isset( $_POST[$post_field] ) ? wp_unslash( $_POST[$post_field] ) : '';
+			$$var = isset( $_POST[$post_field] ) ? stripslashes( $_POST[$post_field] ) : '';
 	} else {
 		$$var = false;
 	}

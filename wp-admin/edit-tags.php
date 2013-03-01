@@ -47,9 +47,7 @@ case 'add-tag':
 	if ( !current_user_can( $tax->cap->edit_terms ) )
 		wp_die( __( 'Cheatin&#8217; uh?' ) );
 
-	$post_data = wp_unslash( $_POST );
-
-	$ret = wp_insert_term( $post_data['tag-name'], $taxonomy, $post_data );
+	$ret = wp_insert_term( $_POST['tag-name'], $taxonomy, $_POST );
 	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
 	if ( 'post' != $post_type )
 		$location .= '&post_type=' . $post_type;
@@ -134,10 +132,7 @@ case 'edit':
 break;
 
 case 'editedtag':
-
-	$post_data = wp_unslash( $_POST );
-
-	$tag_ID = (int) $post_data['tag_ID'];
+	$tag_ID = (int) $_POST['tag_ID'];
 	check_admin_referer( 'update-tag_' . $tag_ID );
 
 	if ( !current_user_can( $tax->cap->edit_terms ) )
@@ -147,7 +142,7 @@ case 'editedtag':
 	if ( ! $tag )
 		wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
 
-	$ret = wp_update_term( $tag_ID, $taxonomy, $post_data );
+	$ret = wp_update_term( $tag_ID, $taxonomy, $_POST );
 
 	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
 	if ( 'post' != $post_type )
@@ -169,7 +164,7 @@ break;
 
 default:
 if ( ! empty($_REQUEST['_wp_http_referer']) ) {
-	$location = remove_query_arg( array('_wp_http_referer', '_wpnonce'), wp_unslash( $_SERVER['REQUEST_URI'] ) );
+	$location = remove_query_arg( array('_wp_http_referer', '_wpnonce'), stripslashes($_SERVER['REQUEST_URI']) );
 
 	if ( ! empty( $_REQUEST['paged'] ) )
 		$location = add_query_arg( 'paged', (int) $_REQUEST['paged'] );
@@ -269,8 +264,8 @@ $messages[6] = __('Items deleted.');
 <div class="wrap nosubsub">
 <?php screen_icon(); ?>
 <h2><?php echo esc_html( $title );
-if ( ! empty($_REQUEST['s']) )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( wp_unslash( $_REQUEST['s'] ) ) ); ?>
+if ( !empty($_REQUEST['s']) )
+	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( stripslashes($_REQUEST['s']) ) ); ?>
 </h2>
 
 <?php if ( isset($_REQUEST['message']) && ( $msg = (int) $_REQUEST['message'] ) ) : ?>

@@ -1733,6 +1733,7 @@ class WP_Query {
 		// Category stuff
 		if ( !empty($q['cat']) && '0' != $q['cat'] && !$this->is_singular && $this->query_vars_changed ) {
 			$q['cat'] = ''.urldecode($q['cat']).'';
+			$q['cat'] = addslashes_gpc($q['cat']);
 			$cat_array = preg_split('/[,\s]+/', $q['cat']);
 			$q['cat'] = '';
 			$req_cats = array();
@@ -2186,6 +2187,8 @@ class WP_Query {
 
 		// If a search pattern is specified, load the posts that match
 		if ( !empty($q['s']) ) {
+			// added slashes screw with quote grouping when done early, so done later
+			$q['s'] = stripslashes($q['s']);
 			if ( empty( $_GET['s'] ) && $this->is_main_query() )
 				$q['s'] = urldecode($q['s']);
 			if ( !empty($q['sentence']) ) {
@@ -2294,6 +2297,7 @@ class WP_Query {
 			$whichauthor = '';
 		} else {
 			$q['author'] = (string)urldecode($q['author']);
+			$q['author'] = addslashes_gpc($q['author']);
 			if ( strpos($q['author'], '-') !== false ) {
 				$eq = '!=';
 				$andor = 'AND';
@@ -2357,6 +2361,7 @@ class WP_Query {
 				$allowed_keys[] = 'meta_value_num';
 			}
 			$q['orderby'] = urldecode($q['orderby']);
+			$q['orderby'] = addslashes_gpc($q['orderby']);
 
 			$orderby_array = array();
 			foreach ( explode( ' ', $q['orderby'] ) as $i => $orderby ) {

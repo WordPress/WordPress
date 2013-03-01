@@ -93,7 +93,7 @@ switch ( $action ) {
 						if ( ! is_wp_error( $parent_object ) ) {
 							$parent_data = (array) $parent_object;
 							$menu_item_data['menu_item_parent'] = $parent_data['menu_item_parent'];
-							wp_update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
+							update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
 
 						}
 
@@ -103,7 +103,7 @@ switch ( $action ) {
 						$menu_item_data['menu_order'] = $menu_item_data['menu_order'] + 1;
 
 						$menu_item_data['menu_item_parent'] = $next_item_data['ID'];
-						wp_update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
+						update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
 
 						wp_update_post($menu_item_data);
 						wp_update_post($next_item_data);
@@ -115,7 +115,7 @@ switch ( $action ) {
 					in_array( $menu_item_data['menu_item_parent'], $orders_to_dbids )
 				) {
 					$menu_item_data['menu_item_parent'] = (int) get_post_meta( $menu_item_data['menu_item_parent'], '_menu_item_menu_item_parent', true);
-					wp_update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
+					update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
 				}
 			}
 		}
@@ -190,7 +190,7 @@ switch ( $action ) {
 							$menu_item_data['menu_order'] = $menu_item_data['menu_order'] - 1;
 
 							// save changes
-							wp_update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
+							update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
 							wp_update_post($menu_item_data);
 							wp_update_post($parent_data);
 						}
@@ -205,7 +205,7 @@ switch ( $action ) {
 					) {
 						// just make it a child of the previous; keep the order
 						$menu_item_data['menu_item_parent'] = (int) $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1];
-						wp_update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
+						update_post_meta( $menu_item_data['ID'], '_menu_item_menu_item_parent', (int) $menu_item_data['menu_item_parent'] );
 						wp_update_post($menu_item_data);
 					}
 				}

@@ -26,7 +26,7 @@ if ( isset($_GET['action']) ) {
 		check_admin_referer( 'bulk-update-plugins' );
 
 		if ( isset( $_GET['plugins'] ) )
-			$plugins = explode( ',', wp_unslash($_GET['plugins']) );
+			$plugins = explode( ',', stripslashes($_GET['plugins']) );
 		elseif ( isset( $_POST['checked'] ) )
 			$plugins = (array) $_POST['checked'];
 		else
@@ -109,7 +109,7 @@ if ( isset($_GET['action']) ) {
 		$nonce = 'install-plugin_' . $plugin;
 		$url = 'update.php?action=install-plugin&plugin=' . $plugin;
 		if ( isset($_GET['from']) )
-			$url .= '&from=' . urlencode( wp_unslash( $_GET['from'] ) );
+			$url .= '&from=' . urlencode(stripslashes($_GET['from']));
 
 		$type = 'web'; //Install plugin type, From Web or an Upload.
 
@@ -173,7 +173,7 @@ if ( isset($_GET['action']) ) {
 		check_admin_referer( 'bulk-update-themes' );
 
 		if ( isset( $_GET['themes'] ) )
-			$themes = explode( ',', wp_unslash( $_GET['themes'] ) );
+			$themes = explode( ',', stripslashes($_GET['themes']) );
 		elseif ( isset( $_POST['checked'] ) )
 			$themes = (array) $_POST['checked'];
 		else

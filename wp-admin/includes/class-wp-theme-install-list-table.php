@@ -24,7 +24,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$search_terms = array();
 		$search_string = '';
 		if ( ! empty( $_REQUEST['s'] ) ){
-			$search_string = strtolower( wp_unslash( $_REQUEST['s'] ) );
+			$search_string = strtolower( stripslashes( $_REQUEST['s'] ) );
 			$search_terms = array_unique( array_filter( array_map( 'trim', explode( ',', $search_string ) ) ) );
 		}
 
@@ -59,7 +59,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
 		switch ( $tab ) {
 			case 'search':
-				$type = isset( $_REQUEST['type'] ) ? wp_unslash( $_REQUEST['type'] ) : 'term';
+				$type = isset( $_REQUEST['type'] ) ? stripslashes( $_REQUEST['type'] ) : 'term';
 				switch ( $type ) {
 					case 'tag':
 						$args['tag'] = array_map( 'sanitize_key', $search_terms );

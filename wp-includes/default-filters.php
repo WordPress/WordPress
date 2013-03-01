@@ -14,8 +14,8 @@
 
 // Strip, trim, kses, special chars for string saves
 foreach ( array( 'pre_term_name', 'pre_comment_author_name', 'pre_link_name', 'pre_link_target', 'pre_link_rel', 'pre_user_display_name', 'pre_user_first_name', 'pre_user_last_name', 'pre_user_nickname' ) as $filter ) {
-	add_filter( $filter, 'sanitize_text_field' );
-	add_filter( $filter, 'wp_kses_data' );
+	add_filter( $filter, 'sanitize_text_field'  );
+	add_filter( $filter, 'wp_filter_kses'       );
 	add_filter( $filter, '_wp_specialchars', 30 );
 }
 
@@ -31,7 +31,7 @@ foreach ( array( 'term_name', 'comment_author_name', 'link_name', 'link_target',
 
 // Kses only for textarea saves
 foreach ( array( 'pre_term_description', 'pre_link_description', 'pre_link_notes', 'pre_user_description' ) as $filter ) {
-	add_filter( $filter, 'wp_kses_data' );
+	add_filter( $filter, 'wp_filter_kses' );
 }
 
 // Kses only for textarea admin displays
@@ -46,7 +46,7 @@ if ( is_admin() ) {
 foreach ( array( 'pre_comment_author_email', 'pre_user_email' ) as $filter ) {
 	add_filter( $filter, 'trim'           );
 	add_filter( $filter, 'sanitize_email' );
-	add_filter( $filter, 'wp_kses_data' );
+	add_filter( $filter, 'wp_filter_kses' );
 }
 
 // Email admin display

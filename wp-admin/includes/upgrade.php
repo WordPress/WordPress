@@ -132,7 +132,7 @@ function wp_install_defaults($user_id) {
 		$first_post = get_site_option( 'first_post' );
 
 		if ( empty($first_post) )
-			$first_post = __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' );
+			$first_post = stripslashes( __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' ) );
 
 		$first_post = str_replace( "SITE_URL", esc_url( network_home_url() ), $first_post );
 		$first_post = str_replace( "SITE_NAME", $current_site->site_name, $first_post );
@@ -636,23 +636,23 @@ function upgrade_160() {
 	$users = $wpdb->get_results("SELECT * FROM $wpdb->users");
 	foreach ( $users as $user ) :
 		if ( !empty( $user->user_firstname ) )
-			update_user_meta( $user->ID, 'first_name', $user->user_firstname );
+			update_user_meta( $user->ID, 'first_name', $wpdb->escape($user->user_firstname) );
 		if ( !empty( $user->user_lastname ) )
-			update_user_meta( $user->ID, 'last_name', $user->user_lastname );
+			update_user_meta( $user->ID, 'last_name', $wpdb->escape($user->user_lastname) );
 		if ( !empty( $user->user_nickname ) )
-			update_user_meta( $user->ID, 'nickname', $user->user_nickname );
+			update_user_meta( $user->ID, 'nickname', $wpdb->escape($user->user_nickname) );
 		if ( !empty( $user->user_level ) )
 			update_user_meta( $user->ID, $wpdb->prefix . 'user_level', $user->user_level );
 		if ( !empty( $user->user_icq ) )
-			update_user_meta( $user->ID, 'icq', $user->user_icq );
+			update_user_meta( $user->ID, 'icq', $wpdb->escape($user->user_icq) );
 		if ( !empty( $user->user_aim ) )
-			update_user_meta( $user->ID, 'aim', $user->user_aim );
+			update_user_meta( $user->ID, 'aim', $wpdb->escape($user->user_aim) );
 		if ( !empty( $user->user_msn ) )
-			update_user_meta( $user->ID, 'msn', $user->user_msn );
+			update_user_meta( $user->ID, 'msn', $wpdb->escape($user->user_msn) );
 		if ( !empty( $user->user_yim ) )
-			update_user_meta( $user->ID, 'yim', $user->user_icq );
+			update_user_meta( $user->ID, 'yim', $wpdb->escape($user->user_icq) );
 		if ( !empty( $user->user_description ) )
-			update_user_meta( $user->ID, 'description', $user->user_description );
+			update_user_meta( $user->ID, 'description', $wpdb->escape($user->user_description) );
 
 		if ( isset( $user->user_idmode ) ):
 			$idmode = $user->user_idmode;
@@ -854,7 +854,7 @@ function upgrade_230() {
 		foreach ( $link_cats as $category) {
 			$cat_id = (int) $category->cat_id;
 			$term_id = 0;
-			$name = $category->cat_name;
+			$name = $wpdb->escape($category->cat_name);
 			$slug = sanitize_title($name);
 			$term_group = 0;
 

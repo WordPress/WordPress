@@ -2383,7 +2383,7 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 
 	/** @todo Might need fix because usermeta data is assumed to be already escaped */
 	if ( is_string($meta_value) )
-		$meta_value = $meta_value;
+		$meta_value = stripslashes($meta_value);
 	$meta_value = maybe_serialize($meta_value);
 
 	if (empty($meta_value)) {

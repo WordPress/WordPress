@@ -34,25 +34,22 @@ function edit_user( $user_id = 0 ) {
 		$update = true;
 		$user->ID = (int) $user_id;
 		$userdata = get_userdata( $user_id );
-		$user->user_login = $userdata->user_login;
+		$user->user_login = $wpdb->escape( $userdata->user_login );
 	} else {
 		$update = false;
 	}
 
-	// get clean data before we get started.
-	$post_data = wp_unslash( $_POST );
-
-	if ( !$update && isset( $post_data['user_login'] ) )
-		$user->user_login = sanitize_user($post_data['user_login'], true);
+	if ( !$update && isset( $_POST['user_login'] ) )
+		$user->user_login = sanitize_user($_POST['user_login'], true);
 
 	$pass1 = $pass2 = '';
-	if ( isset( $post_data['pass1'] ))
-		$pass1 = $post_data['pass1'];
-	if ( isset( $post_data['pass2'] ))
-		$pass2 = $post_data['pass2'];
+	if ( isset( $_POST['pass1'] ))
+		$pass1 = $_POST['pass1'];
+	if ( isset( $_POST['pass2'] ))
+		$pass2 = $_POST['pass2'];
 
-	if ( isset( $post_data['role'] ) && current_user_can( 'edit_users' ) ) {
-		$new_role = sanitize_text_field( $post_data['role'] );
+	if ( isset( $_POST['role'] ) && current_user_can( 'edit_users' ) ) {
+		$new_role = sanitize_text_field( $_POST['role'] );
 		$potential_role = isset($wp_roles->role_objects[$new_role]) ? $wp_roles->role_objects[$new_role] : false;
 		// Don't let anyone with 'edit_users' (admins) edit their own role to something without it.
 		// Multisite super admins can freely edit their blog roles -- they possess all caps.
@@ -65,44 +62,44 @@ function edit_user( $user_id = 0 ) {
 			wp_die(__('You can&#8217;t give users that role.'));
 	}
 
-	if ( isset( $post_data['email'] ))
-		$user->user_email = sanitize_text_field( $post_data['email'] );
-	if ( isset( $post_data['url'] ) ) {
-		if ( empty ( $post_data['url'] ) || $post_data['url'] == 'http://' ) {
+	if ( isset( $_POST['email'] ))
+		$user->user_email = sanitize_text_field( $_POST['email'] );
+	if ( isset( $_POST['url'] ) ) {
+		if ( empty ( $_POST['url'] ) || $_POST['url'] == 'http://' ) {
 			$user->user_url = '';
 		} else {
-			$user->user_url = esc_url_raw( $post_data['url'] );
+			$user->user_url = esc_url_raw( $_POST['url'] );
 			$protocols = implode( '|', array_map( 'preg_quote', wp_allowed_protocols() ) );
 			$user->user_url = preg_match('/^(' . $protocols . '):/is', $user->user_url) ? $user->user_url : 'http://'.$user->user_url;
 		}
 	}
-	if ( isset( $post_data['first_name'] ) )
-		$user->first_name = sanitize_text_field( $post_data['first_name'] );
-	if ( isset( $post_data['last_name'] ) )
-		$user->last_name = sanitize_text_field( $post_data['last_name'] );
-	if ( isset( $post_data['nickname'] ) )
-		$user->nickname = sanitize_text_field( $post_data['nickname'] );
-	if ( isset( $post_data['display_name'] ) )
-		$user->display_name = sanitize_text_field( $post_data['display_name'] );
+	if ( isset( $_POST['first_name'] ) )
+		$user->first_name = sanitize_text_field( $_POST['first_name'] );
+	if ( isset( $_POST['last_name'] ) )
+		$user->last_name = sanitize_text_field( $_POST['last_name'] );
+	if ( isset( $_POST['nickname'] ) )
+		$user->nickname = sanitize_text_field( $_POST['nickname'] );
+	if ( isset( $_POST['display_name'] ) )
+		$user->display_name = sanitize_text_field( $_POST['display_name'] );
 
-	if ( isset( $post_data['description'] ) )
-		$user->description = trim( $post_data['description'] );
+	if ( isset( $_POST['description'] ) )
+		$user->description = trim( $_POST['description'] );
 
 	foreach ( _wp_get_user_contactmethods( $user ) as $method => $name ) {
-		if ( isset( $post_data[$method] ))
-			$user->$method = sanitize_text_field( $post_data[$method] );
+		if ( isset( $_POST[$method] ))
+			$user->$method = sanitize_text_field( $_POST[$method] );
 	}
 
 	if ( $update ) {
-		$user->rich_editing = isset( $post_data['rich_editing'] ) && 'false' == $post_data['rich_editing'] ? 'false' : 'true';
-		$user->admin_color = isset( $post_data['admin_color'] ) ? sanitize_text_field( $post_data['admin_color'] ) : 'fresh';
-		$user->show_admin_bar_front = isset( $post_data['admin_bar_front'] ) ? 'true' : 'false';
+		$user->rich_editing = isset( $_POST['rich_editing'] ) && 'false' == $_POST['rich_editing'] ? 'false' : 'true';
+		$user->admin_color = isset( $_POST['admin_color'] ) ? sanitize_text_field( $_POST['admin_color'] ) : 'fresh';
+		$user->show_admin_bar_front = isset( $_POST['admin_bar_front'] ) ? 'true' : 'false';
 	}
 
-	$user->comment_shortcuts = isset( $post_data['comment_shortcuts'] ) && 'true' == $post_data['comment_shortcuts'] ? 'true' : '';
+	$user->comment_shortcuts = isset( $_POST['comment_shortcuts'] ) && 'true' == $_POST['comment_shortcuts'] ? 'true' : '';
 
 	$user->use_ssl = 0;
-	if ( !empty($post_data['use_ssl']) )
+	if ( !empty($_POST['use_ssl']) )
 		$user->use_ssl = 1;
 
 	$errors = new WP_Error();
@@ -127,7 +124,7 @@ function edit_user( $user_id = 0 ) {
 	}
 
 	/* Check for "\" in password */
-	if ( false !== strpos( $pass1, "\\" ) )
+	if ( false !== strpos( stripslashes($pass1), "\\" ) )
 		$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords may not contain the character "\\".' ), array( 'form-field' => 'pass1' ) );
 
 	/* checking the password has been typed twice the same */
@@ -137,7 +134,7 @@ function edit_user( $user_id = 0 ) {
 	if ( !empty( $pass1 ) )
 		$user->user_pass = $pass1;
 
-	if ( !$update && isset( $post_data['user_login'] ) && !validate_username( $post_data['user_login'] ) )
+	if ( !$update && isset( $_POST['user_login'] ) && !validate_username( $_POST['user_login'] ) )
 		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is invalid because it uses illegal characters. Please enter a valid username.' ));
 
 	if ( !$update && username_exists( $user->user_login ) )
@@ -162,7 +159,7 @@ function edit_user( $user_id = 0 ) {
 		$user_id = wp_update_user( $user );
 	} else {
 		$user_id = wp_insert_user( $user );
-		wp_new_user_notification( $user_id, isset($post_data['send_password']) ? $pass1 : '' );
+		wp_new_user_notification( $user_id, isset($_POST['send_password']) ? $pass1 : '' );
 	}
 	return $user_id;
 }

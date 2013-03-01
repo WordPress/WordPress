@@ -413,7 +413,7 @@ class WP_Widget_Text extends WP_Widget {
 		if ( current_user_can('unfiltered_html') )
 			$instance['text'] =  $new_instance['text'];
 		else
-			$instance['text'] = wp_kses_post( $new_instance['text'] );
+			$instance['text'] = stripslashes( wp_filter_post_kses( addslashes($new_instance['text']) ) ); // wp_filter_post_kses() expects slashed
 		$instance['filter'] = isset($new_instance['filter']);
 		return $instance;
 	}
@@ -1057,8 +1057,8 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	}
 
 	function update( $new_instance, $old_instance ) {
-		$instance['title'] = strip_tags( $new_instance['title'] );
-		$instance['taxonomy'] =  $new_instance['taxonomy'];
+		$instance['title'] = strip_tags(stripslashes($new_instance['title']));
+		$instance['taxonomy'] = stripslashes($new_instance['taxonomy']);
 		return $instance;
 	}
 
@@ -1119,7 +1119,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	}
 
 	function update( $new_instance, $old_instance ) {
-		$instance['title'] = strip_tags( $new_instance['title'] );
+		$instance['title'] = strip_tags( stripslashes($new_instance['title']) );
 		$instance['nav_menu'] = (int) $new_instance['nav_menu'];
 		return $instance;
 	}

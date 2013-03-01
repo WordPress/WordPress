@@ -310,7 +310,7 @@ final class WP_Customize_Manager {
 	public function post_value( $setting ) {
 		if ( ! isset( $this->_post_values ) ) {
 			if ( isset( $_POST['customized'] ) )
-				$this->_post_values = json_decode( wp_unslash( $_POST['customized'] ), true );
+				$this->_post_values = json_decode( stripslashes( $_POST['customized'] ), true );
 			else
 				$this->_post_values = false;
 		}

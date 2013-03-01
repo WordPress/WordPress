@@ -279,6 +279,9 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
  * @return int The ID of the newly created blog
  */
 function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
+	$domain			= addslashes( $domain );
+	$weblog_title	= addslashes( $weblog_title );
+
 	if ( empty($path) )
 		$path = '/';
 
@@ -579,7 +582,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 
 	$blogname = apply_filters( 'newblogname', $blogname );
 
-	$blog_title = $blog_title;
+	$blog_title = stripslashes(  $blog_title );
 
 	if ( empty( $blog_title ) )
 		$errors->add('blog_title', __( 'Please enter a site title.' ) );
@@ -632,7 +635,10 @@ function wpmu_signup_blog($domain, $path, $title, $user, $user_email, $meta = ''
 	global $wpdb;
 
 	$key = substr( md5( time() . rand() . $domain ), 0, 16 );
-	$meta = serialize( $meta );
+	$meta = serialize($meta);
+	$domain = $wpdb->escape($domain);
+	$path = $wpdb->escape($path);
+	$title = $wpdb->escape($title);
 
 	$wpdb->insert( $wpdb->signups, array(
 		'domain' => $domain,
@@ -645,7 +651,7 @@ function wpmu_signup_blog($domain, $path, $title, $user, $user_email, $meta = ''
 		'meta' => $meta
 	) );
 
-	wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_email, $key, $meta );
+	wpmu_signup_blog_notification($domain, $path, $title, $user, $user_email, $key, $meta);
 }
 
 /**
@@ -834,8 +840,8 @@ function wpmu_activate_signup($key) {
 	}
 
 	$meta = maybe_unserialize($signup->meta);
-	$user_login = $signup->user_login;
-	$user_email = $signup->user_email;
+	$user_login = $wpdb->escape($signup->user_login);
+	$user_email = $wpdb->escape($signup->user_email);
 	$password = wp_generate_password( 12, false );
 
 	$user_id = username_exists($user_login);
@@ -1151,7 +1157,7 @@ function install_blog($blog_id, $blog_title = '') {
 	else
 		update_option( 'upload_path', get_blog_option( $current_site->blog_id, 'upload_path' ) );
 
-	update_option( 'blogname', $blog_title );
+	update_option( 'blogname', stripslashes( $blog_title ) );
 	update_option( 'admin_email', '' );
 
 	// remove all perms
@@ -1208,9 +1214,9 @@ function wpmu_welcome_notification($blog_id, $user_id, $password, $title, $meta 
 	if ( !apply_filters('wpmu_welcome_notification', $blog_id, $user_id, $password, $title, $meta) )
 		return false;
 
-	$welcome_email = get_site_option( 'welcome_email' );
+	$welcome_email = stripslashes( get_site_option( 'welcome_email' ) );
 	if ( $welcome_email == false )
-		$welcome_email = __( 'Dear User,
+		$welcome_email = stripslashes( __( 'Dear User,
 
 Your new SITE_NAME site has been successfully set up at:
 BLOG_URL
@@ -1222,7 +1228,7 @@ Log in here: BLOG_URLwp-login.php
 
 We hope you enjoy your new site. Thanks!
 
---The Team @ SITE_NAME' );
+--The Team @ SITE_NAME' ) );
 
 	$url = get_blogaddress_by_id($blog_id);
 	$user = get_userdata( $user_id );
@@ -1246,7 +1252,7 @@ We hope you enjoy your new site. Thanks!
 	if ( empty( $current_site->site_name ) )
 		$current_site->site_name = 'WordPress';
 
-	$subject = apply_filters( 'update_welcome_subject', sprintf(__('New %1$s Site: %2$s'), $current_site->site_name, $title ) );
+	$subject = apply_filters( 'update_welcome_subject', sprintf(__('New %1$s Site: %2$s'), $current_site->site_name, stripslashes( $title ) ) );
 	wp_mail($user->user_email, $subject, $message, $message_headers);
 	return true;
 }
@@ -1475,7 +1481,7 @@ function update_posts_count( $deprecated = '' ) {
 function wpmu_log_new_registrations( $blog_id, $user_id ) {
 	global $wpdb;
 	$user = get_userdata( (int) $user_id );
-	$wpdb->insert( $wpdb->registration_log, array('email' => $user->user_email, 'IP' => preg_replace( '/[^0-9., ]/', '', wp_unslash( $_SERVER['REMOTE_ADDR'] ) ), 'blog_id' => $blog_id, 'date_registered' => current_time('mysql')) );
+	$wpdb->insert( $wpdb->registration_log, array('email' => $user->user_email, 'IP' => preg_replace( '/[^0-9., ]/', '',$_SERVER['REMOTE_ADDR'] ), 'blog_id' => $blog_id, 'date_registered' => current_time('mysql')) );
 }
 
 /**

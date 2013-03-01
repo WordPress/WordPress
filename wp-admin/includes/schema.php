@@ -505,11 +505,13 @@ function populate_options() {
 		else
 			$autoload = 'yes';
 
+		$option = $wpdb->escape($option);
 		if ( is_array($value) )
 			$value = serialize($value);
+		$value = $wpdb->escape($value);
 		if ( !empty($insert) )
 			$insert .= ', ';
-		$insert .= $wpdb->prepare( "(%s, %s, %s)", $option, $value, $autoload );
+		$insert .= "('$option', '$value', '$autoload')";
 	}
 
 	if ( !empty($insert) )
@@ -919,11 +921,13 @@ We hope you enjoy your new site. Thanks!
 
 	$insert = '';
 	foreach ( $sitemeta as $meta_key => $meta_value ) {
+		$meta_key = $wpdb->escape( $meta_key );
 		if ( is_array( $meta_value ) )
 			$meta_value = serialize( $meta_value );
+		$meta_value = $wpdb->escape( $meta_value );
 		if ( !empty( $insert ) )
 			$insert .= ', ';
-		$insert .= $wpdb->prepare( "( %d, %s, %s)", $network_id, $meta_key, $meta_value );
+		$insert .= "( $network_id, '$meta_key', '$meta_value')";
 	}
 	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert );
 

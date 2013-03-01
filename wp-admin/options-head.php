@@ -2,7 +2,8 @@
 /**
  * WordPress Options Header.
  *
- * Displays updated message, if updated variable is part of the URL query.
+ * Resets variables: 'action', 'standalone', and 'option_group_id'. Displays
+ * updated message, if updated variable is part of the URL query.
  *
  * @package WordPress
  * @subpackage Administration

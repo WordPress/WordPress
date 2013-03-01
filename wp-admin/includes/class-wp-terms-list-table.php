@@ -52,7 +52,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 			$tags_per_page = apply_filters( 'edit_categories_per_page', $tags_per_page ); // Old filter
 		}
 
-		$search = !empty( $_REQUEST['s'] ) ? trim( wp_unslash( $_REQUEST['s'] ) ) : '';
+		$search = !empty( $_REQUEST['s'] ) ? trim( stripslashes( $_REQUEST['s'] ) ) : '';
 
 		$args = array(
 			'search' => $search,
@@ -61,10 +61,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 		);
 
 		if ( !empty( $_REQUEST['orderby'] ) )
-			$args['orderby'] = trim( wp_unslash( $_REQUEST['orderby'] ) );
+			$args['orderby'] = trim( stripslashes( $_REQUEST['orderby'] ) );
 
 		if ( !empty( $_REQUEST['order'] ) )
-			$args['order'] = trim( wp_unslash( $_REQUEST['order'] ) );
+			$args['order'] = trim( stripslashes( $_REQUEST['order'] ) );
 
 		$this->callback_args = $args;
 

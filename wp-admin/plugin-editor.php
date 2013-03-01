@@ -28,7 +28,7 @@ if ( empty($plugins) )
 	wp_die( __('There are no plugins installed on this site.') );
 
 if ( isset($_REQUEST['file']) )
-	$plugin = wp_unslash($_REQUEST['file']);
+	$plugin = stripslashes($_REQUEST['file']);
 
 if ( empty($plugin) ) {
 	$plugin = array_keys($plugins);
@@ -39,6 +39,8 @@ $plugin_files = get_plugin_files($plugin);
 
 if ( empty($file) )
 	$file = $plugin_files[0];
+else
+	$file = stripslashes($file);
 
 $file = validate_file_to_edit($file, $plugin_files);
 $real_file = WP_PLUGIN_DIR . '/' . $file;
@@ -50,7 +52,7 @@ case 'update':
 
 	check_admin_referer('edit-plugin_' . $file);
 
-	$newcontent = wp_unslash( $_POST['newcontent'] );
+	$newcontent = stripslashes($_POST['newcontent']);
 	if ( is_writeable($real_file) ) {
 		$f = fopen($real_file, 'w+');
 		fwrite($f, $newcontent);
