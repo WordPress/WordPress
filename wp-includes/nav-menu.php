@@ -127,7 +127,8 @@ function get_registered_nav_menus() {
  */
 
 function get_nav_menu_locations() {
-	return get_theme_mod( 'nav_menu_locations' );
+	$locations = get_theme_mod( 'nav_menu_locations' );
+	return ( is_array( $locations ) ) ? $locations : array();
 }
 
 /**

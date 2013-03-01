@@ -264,8 +264,6 @@ switch ( $action ) {
 		// Get existing menu locations assignments
 		$locations = get_registered_nav_menus();
 		$menu_locations = get_nav_menu_locations();
-		if ( empty( $menu_locations ) || ! is_array( $menu_locations ) )
-			$menu_locations = array();
 
 		// Remove menu locations that have been unchecked
 		foreach ( $locations as $location => $description ) {
