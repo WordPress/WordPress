@@ -2312,11 +2312,11 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
 	if ( $tt_ids ) {
 		$in_tt_ids = "'" . implode( "', '", $tt_ids ) . "'";
 		do_action( 'delete_term_relationships', $object_id, $tt_ids );
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_tt_ids)", $object_id ) );
+		$deleted = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_tt_ids)", $object_id ) );
 		do_action( 'deleted_term_relationships', $object_id, $tt_ids );
 		wp_update_term_count( $tt_ids, $taxonomy );
 		
-		return true;
+		return (bool) $deleted;
 	}
 
 	return false;
