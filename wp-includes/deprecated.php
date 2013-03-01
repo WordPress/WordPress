@@ -3378,12 +3378,12 @@ function gd_edit_image_support($mime_type) {
 function wp_convert_bytes_to_hr( $bytes ) {
 	_deprecated_function( __FUNCTION__, '3.6', 'size_format()' );
 
-	$units = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
+	$units = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB', 4 => 'TB' );
 	$log   = log( $bytes, 1024 );
 	$power = (int) $log;
+	$size  = pow( 1024, $log - $power );
 
-	if ( array_key_exists( $power, $units ) ) {
-		$size  = pow( 1024, $log - $power );
+	if ( ! is_nan( $size ) && array_key_exists( $power, $units ) ) {
 		$unit = $units[ $power ];
 	} else {
 		$size = $bytes;
