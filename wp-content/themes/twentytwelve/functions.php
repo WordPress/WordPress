@@ -383,6 +383,7 @@ endif;
  */
 function twentytwelve_body_class( $classes ) {
 	$background_color = get_background_color();
+	$background_image = get_background_image();
 
 	if ( ! is_active_sidebar( 'sidebar-1' ) || is_page_template( 'page-templates/full-width.php' ) )
 		$classes[] = 'full-width';
@@ -395,10 +396,12 @@ function twentytwelve_body_class( $classes ) {
 			$classes[] = 'two-sidebars';
 	}
 
-	if ( empty( $background_color ) )
-		$classes[] = 'custom-background-empty';
-	elseif ( in_array( $background_color, array( 'fff', 'ffffff' ) ) )
-		$classes[] = 'custom-background-white';
+	if ( empty( $background_image ) ) {
+		if ( empty( $background_color ) )
+			$classes[] = 'custom-background-empty';
+		elseif ( in_array( $background_color, array( 'fff', 'ffffff' ) ) )
+			$classes[] = 'custom-background-white';
+	}
 
 	// Enable custom font class only if the font CSS is queued to load.
 	if ( wp_style_is( 'twentytwelve-fonts', 'queue' ) )
@@ -445,6 +448,6 @@ add_action( 'customize_register', 'twentytwelve_customize_register' );
  * @since Twenty Twelve 1.0
  */
 function twentytwelve_customize_preview_js() {
-	wp_enqueue_script( 'twentytwelve-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20120827', true );
+	wp_enqueue_script( 'twentytwelve-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20130301', true );
 }
 add_action( 'customize_preview_init', 'twentytwelve_customize_preview_js' );

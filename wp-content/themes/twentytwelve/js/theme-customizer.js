@@ -18,15 +18,29 @@
 		} );
 	} );
 
-	// Hook into background color change and adjust body class value as needed.
+	// Hook into background color/image change and adjust body class value as needed.
 	wp.customize( 'background_color', function( value ) {
 		value.bind( function( to ) {
-			if ( '#ffffff' == to || '#fff' == to )
-				$( 'body' ).addClass( 'custom-background-white' );
-			else if ( '' == to )
-				$( 'body' ).addClass( 'custom-background-empty' );
+			var body = $( 'body' );
+
+			if ( ( '#ffffff' == to || '#fff' == to ) && 'none' == body.css( 'background-image' ) )
+				body.addClass( 'custom-background-white' );
+			else if ( '' == to && 'none' == body.css( 'background-image' ) )
+				body.addClass( 'custom-background-empty' );
 			else
-				$( 'body' ).removeClass( 'custom-background-empty custom-background-white' );
+				body.removeClass( 'custom-background-empty custom-background-white' );
+		} );
+	} );
+	wp.customize( 'background_image', function( value ) {
+		value.bind( function( to ) {
+			var body = $( 'body' );
+
+			if ( '' != to )
+				body.removeClass( 'custom-background-empty custom-background-white' );
+			else if ( 'rgb(255, 255, 255)' == body.css( 'background-color' ) )
+				body.addClass( 'custom-background-white' );
+			else if ( 'rgb(230, 230, 230)' == body.css( 'background-color' ) && '' == _wpCustomizeSettings.values.background_color )
+				body.addClass( 'custom-background-empty' );
 		} );
 	} );
 } )( jQuery );
