@@ -1283,7 +1283,7 @@ function wp_get_referer() {
 		$ref = $_SERVER['HTTP_REFERER'];
 
 	if ( $ref && $ref !== $_SERVER['REQUEST_URI'] )
-		return $ref;
+		return wp_unslash( $ref );
 	return false;
 }
 

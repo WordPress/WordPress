@@ -77,7 +77,7 @@ else
 <?php else :
 switch ( $step ) :
 	case 0:
-		$goback = wp_unslash( wp_get_referer() );
+		$goback = wp_get_referer();
 		$goback = esc_url_raw( $goback );
 		$goback = urlencode( $goback );
 ?>
