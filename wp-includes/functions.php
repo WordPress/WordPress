@@ -3894,8 +3894,129 @@ function wp_checkdate( $month, $day, $year, $source_date ) {
  * @return void
  */
 function wp_auth_check_load() {
-	if ( ! class_exists('WP_Auth_Check') ) {
-		require( ABSPATH . WPINC . '/class-wp-auth-check.php' );
-		WP_Auth_Check::get_instance();
+	wp_enqueue_script( 'heartbeat' );
+	add_filter( 'heartbeat_received', 'wp_auth_check', 10, 2 );
+	add_filter( 'heartbeat_nopriv_received', 'wp_auth_check', 10, 2 );
+
+	if ( is_admin() )
+		add_action( 'admin_print_footer_scripts', 'wp_auth_check_js' );
+	elseif ( is_user_logged_in() )
+		add_action( 'wp_print_footer_scripts', 'wp_auth_check_js' );
+}
+
+/**
+ * Output the JS that shows the wp-login iframe when the user is no longer logged in
+ */ 
+function wp_auth_check_js() {
+	?>
+	<script type="text/javascript">
+	(function($){
+	$( document ).on( 'heartbeat-tick.wp-auth-check', function( e, data ) {
+		var wrap = $('#wp-auth-check-notice-wrap');
+
+		if ( data['wp-auth-check-html'] && ! wrap.length ) {
+			$('body').append( data['wp-auth-check-html'] );
+		} else if ( !data['wp-auth-check-html'] && wrap.length && ! wrap.data('logged-in') ) {
+			wrap.remove();
+		}
+	}).on( 'heartbeat-send.wp-auth-check', function( e, data ) {
+		data['wp-auth-check'] = 1;
+	});
+	}(jQuery));
+	</script>
+	<?php
+}
+
+/**
+ * Check whether a user is still logged in, and act accordingly if not.
+ *
+ * @since 3.6.0
+ */
+function wp_auth_check( $response, $data ) {
+	if ( ! isset( $data['wp-auth-check'] ) )
+		return $response;
+
+	// If the user is logged in and we are outside the login grace period, bail.
+	if ( is_user_logged_in() && empty( $GLOBALS['login_grace_period'] ) )
+		return $response;
+
+	return array_merge( $response, array(
+		'wp-auth-check-html' => '<div id="wp-auth-check-notice-wrap">
+<style type="text/css" scoped>
+#wp-auth-check {
+	position: fixed;
+	height: 90%;
+	left: 50%;
+	max-height: 415px;
+	overflow: auto;
+	top: 35px;
+	width: 300px;
+	margin: 0 0 0 -160px;
+	padding: 12px 20px;
+	border: 1px solid #ddd;
+	background-color: #fbfbfb;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	z-index: 1000000000;
+}
+#wp-auth-check-form {
+	background: url("' . admin_url('/images/wpspin_light-2x.gif') . '") no-repeat center center;
+	background-size: 16px 16px;
+}
+#wp-auth-check-form iframe {
+	height: 100%;
+	overflow: hidden;
+}
+#wp-auth-check a.wp-auth-check-close {
+	position: absolute;
+	right: 8px;
+	top: 8px;
+	width: 24px;
+	height: 24px;
+	background: url("' . includes_url('images/uploader-icons.png') . '") no-repeat scroll -95px center transparent;
+}
+#wp-auth-check h3 {
+	margin: 0 0 12px;
+	padding: 0;
+	font-size: 1.25em;
+}
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
+	#wp-auth-check a.wp-auth-check-close {
+		background-image: url("' . includes_url('images/uploader-icons-2x.png') . '");
+		background-size: 134px 15px;
 	}
+}
+</style>
+<div id="wp-auth-check" tabindex="0">
+<h3>' .  __('Session expired') . '</h3>
+<a href="#" class="wp-auth-check-close"><span class="screen-reader-text">' . __('close') . '</span></a>
+<div id="wp-auth-check-form">
+	<iframe src="' . esc_url( add_query_arg( array( 'interim-login' => 1 ), wp_login_url() ) ) . '" frameborder="0"></iframe>
+</div>
+</div>
+<script type="text/javascript">
+(function($){
+var el, wrap = $("#wp-auth-check-notice-wrap");
+el = $("#wp-auth-check").focus().find("a.wp-auth-check-close").on("click", function(e){
+	el.fadeOut(200, function(){ wrap.remove(); });
+	e.preventDefault();
+});
+$("#wp-auth-check-form iframe").load(function(){
+	var height;
+	try { height = $(this.contentWindow.document).find("#login").height(); } catch(er){}
+	if ( height ) {
+		$("#wp-auth-check").css("max-height", height + 40 + "px");
+		$(this).css("height", height + 5 + "px");
+		if ( height < 200 ) {
+			wrap.data("logged-in", true);
+			setTimeout( function(){ wrap.fadeOut(200, function(){ wrap.remove(); }); }, 5000 );
+		}
+	}
+});
+}(jQuery));
+</script>
+</div>' ) );
 }
