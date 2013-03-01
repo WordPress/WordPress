@@ -1845,6 +1845,7 @@ function pingback($content, $post_ID) {
 		endif;
 	endforeach;
 
+	$post_links = array_unique( $post_links );
 	do_action_ref_array( 'pre_ping', array( &$post_links, &$pung, $post_ID ) );
 
 	foreach ( (array) $post_links as $pagelinkedto ) {
