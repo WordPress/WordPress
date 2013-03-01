@@ -17,6 +17,12 @@
 			$( '.site-description' ).text( to );
 		} );
 	} );
+	// Header text color
+	wp.customize( 'header_textcolor', function( value ) {
+		value.bind( function( to ) {
+			$( '.site-title a, .site-description' ).css( 'color', to );
+		} );
+	} );
 
 	// Hook into background color/image change and adjust body class value as needed.
 	wp.customize( 'background_color', function( value ) {

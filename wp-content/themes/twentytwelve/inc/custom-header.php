@@ -77,9 +77,9 @@ function twentytwelve_header_style() {
 		// If the user has set a custom color for the text, use that.
 		else :
 	?>
-		.site-title a,
-		.site-description {
-			color: #<?php echo $text_color; ?> !important;
+		.site-header h1 a,
+		.site-header h2 {
+			color: #<?php echo $text_color; ?>;
 		}
 	<?php endif; ?>
 	</style>
