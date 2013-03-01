@@ -3342,3 +3342,45 @@ function sanitize_trackback_urls( $to_ping ) {
 	$urls_to_ping = implode( "\n", $urls_to_ping );
 	return apply_filters( 'sanitize_trackback_urls', $urls_to_ping, $to_ping );
 }
+
+/**
+ * Add slashes to a string or array of strings.
+ *
+ * This should be used when preparing data for core API that expects slashed data.
+ * This should not be used to escape data going directly into an SQL query.
+ *
+ * @since 3.6.0
+ *
+ * @param string|array $value String or array of strings to slash.
+ * @return string|array Slashed $value
+ */
+function wp_slash( $value ) {
+	if ( is_array( $value ) ) {
+		foreach ( $value as $k => $v ) {
+			if ( is_array( $v ) ) {
+				$value[$k] = wp_slash( $v );
+			} else {
+				$value[$k] = addslashes( $v );
+			}
+		}
+	} else {
+		$value = addslashes( $value );
+	}
+
+	return $value;
+}
+
+/**
+ * Remove slashes from a string or array of strings.
+ *
+ * This should be used to remove slashes from data passed to core API that
+ * expects data to be unslashed.
+ *
+ * @since 3.6.0
+ *
+ * @param string|array $value String or array of strings to unslash.
+ * @return string|array Unslashed $value
+ */
+function wp_unslash( $value ) {
+	return stripslashes_deep( $value );
+}
