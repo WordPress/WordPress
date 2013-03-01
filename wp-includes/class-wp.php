@@ -356,7 +356,7 @@ class WP {
 
 			// Support for Conditional GET
 			if (isset($_SERVER['HTTP_IF_NONE_MATCH']))
-				$client_etag = stripslashes(stripslashes($_SERVER['HTTP_IF_NONE_MATCH']));
+				$client_etag = wp_unslash( $_SERVER['HTTP_IF_NONE_MATCH'] );
 			else $client_etag = false;
 
 			$client_last_modified = empty($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? '' : trim($_SERVER['HTTP_IF_MODIFIED_SINCE']);
