@@ -1336,7 +1336,14 @@ footer.entry-meta {
 }
 
 .gallery-caption {
-	display: none;
+	color: #777;
+	font-size: 14px;
+	font-style: italic;
+	padding-top: 4px;
+}
+
+.gallery-caption {
+	width: 90%;
 }
 
 
