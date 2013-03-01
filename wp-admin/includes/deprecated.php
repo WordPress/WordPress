@@ -479,7 +479,6 @@ class WP_User_Search {
 
 		$this->prepare_query();
 		$this->query();
-		$this->prepare_vars_for_template_usage();
 		$this->do_paging();
 	}
 
@@ -550,9 +549,7 @@ class WP_User_Search {
 	 * @since 2.1.0
 	 * @access public
 	 */
-	function prepare_vars_for_template_usage() {
-		$this->search_term = wp_unslash($this->search_term); // done with DB, from now on we want slashes gone
-	}
+	function prepare_vars_for_template_usage() {}
 
 	/**
 	 * {@internal Missing Short Description}}
