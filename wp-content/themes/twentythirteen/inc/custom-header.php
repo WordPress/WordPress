@@ -85,7 +85,7 @@ function twentythirteen_header_style() {
 		if ( ! empty( $header_image ) ) :
 	?>
 		.site-header {
-			background: url("<?php header_image(); ?>") no-repeat scroll top;
+			background: url(<?php esc_url( header_image() ); ?>) no-repeat scroll top;
 			background-size: 1600px auto;
 		}
 	<?php
@@ -137,7 +137,7 @@ function twentythirteen_admin_header_style() {
 		box-sizing:         border-box;
 		<?php
 		if ( ! empty( $header_image ) ) {
-			echo 'background: url("' . esc_url( $header_image ) . '") no-repeat scroll top; background-size: 1600px auto;';
+			echo 'background: url(' . esc_url( $header_image ) . ') no-repeat scroll top; background-size: 1600px auto;';
 		} ?>
 		padding: 0 20px;
 	}
@@ -162,7 +162,7 @@ function twentythirteen_admin_header_style() {
 	}
 	<?php endif; ?>
 	#headimg h1 {
-		font: bold 60px/1 'Bitter', Georgia, serif;
+		font: bold 60px/1 Bitter, Georgia, serif;
 		margin: 0;
 		padding: 58px 0 10px;
 	}
@@ -173,7 +173,7 @@ function twentythirteen_admin_header_style() {
 		text-decoration: underline;
 	}
 	#headimg h2 {
-		font: 200 italic 24px 'Source Sans Pro', Helvetica, sans-serif;
+		font: 200 italic 24px "Source Sans Pro", Helvetica, sans-serif;
 		margin: 0;
 		text-shadow: none;
 	}
@@ -193,7 +193,7 @@ function twentythirteen_admin_header_style() {
  */
 function twentythirteen_admin_header_image() {
 	?>
-	<div id="headimg" style="background: url('<?php esc_url( header_image() ); ?>') no-repeat scroll top; background-size: 1600px auto;">
+	<div id="headimg" style="background: url(<?php esc_url( header_image() ); ?>) no-repeat scroll top; background-size: 1600px auto;">
 		<?php $style = ' style="color:#' . get_header_textcolor() . ';"'; ?>
 		<div class="hgroup">
 			<h1><a id="name"<?php echo $style; ?> onclick="return false;" href="#"><?php bloginfo( 'name' ); ?></a></h1>

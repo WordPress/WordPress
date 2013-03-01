@@ -149,7 +149,7 @@ h4,
 h5,
 h6 {
 	clear: both;
-	font-family: 'Bitter', Georgia, serif;
+	font-family: Bitter, Georgia, serif;
 	line-height: 1.3;
 }
 
@@ -215,7 +215,7 @@ kbd,
 pre,
 samp {
 	font-family: monospace, serif;
-	_font-family: 'courier new', monospace;
+	_font-family: "Courier New", monospace;
 	font-size: 14px;
 	-webkit-hyphens: none;
 	-moz-hyphens:    none;
@@ -249,7 +249,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-	content: '';
+	content: "";
 	content: none;
 }
 
@@ -458,7 +458,7 @@ ins {
 }
 
 hr {
-	background: url("images/dotted-line.png") repeat center top;
+	background: url(images/dotted-line.png) repeat center top;
 	background-size: 4px 4px;
 	border: 0;
 	height: 1px;
@@ -479,12 +479,12 @@ hr {
  * More info: genericons.com
  */
 @font-face {
-	font-family: 'Genericons';
-	src: url('fonts/genericons-regular-webfont.eot');
-	src: url('fonts/genericons-regular-webfont.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/genericons-regular-webfont.woff') format('woff'),
-		 url('fonts/genericons-regular-webfont.ttf') format('truetype'),
-		 url('fonts/genericons-regular-webfont.svg#genericonsregular') format('svg');
+	font-family: Genericons;
+	src: url(fonts/genericons-regular-webfont.eot);
+	src: url(fonts/genericons-regular-webfont.eot?#iefix) format("embedded-opentype"),
+		 url(fonts/genericons-regular-webfont.woff) format("woff"),
+		 url(fonts/genericons-regular-webfont.ttf) format("truetype"),
+		 url(fonts/genericons-regular-webfont.svg#genericonsregular) format("svg");
 	font-weight: normal;
 	font-style: normal;
 }
@@ -508,7 +508,7 @@ hr {
 .bypostauthor .fn:before,
 .error404 .page-title:before {
 	-webkit-font-smoothing: antialiased;
-	font: normal 16px/1 'Genericons';
+	font: normal 16px/1 Genericons;
 	vertical-align: text-bottom;
 }
 
@@ -944,7 +944,7 @@ ul.nav-menu li:hover > ul,
 
 .site-header .searchform .field {
 	background-color: transparent;
-	background-image: url("images/search-icon.png");
+	background-image: url(images/search-icon.png);
 	background-position: 5px center;
 	background-repeat: no-repeat;
 	background-size: 24px 24px;
@@ -1108,39 +1108,39 @@ ul.nav-menu li:hover > ul,
 }
 
 .featured-post:before {
-	content: '\f308';
+	content: "\f308";
 	margin-right: 2px;
 }
 
 .entry-meta .date a:before {
-	content: '\f303';
+	content: "\f303";
 }
 
 .comments-link a:before {
-	content: '\f300';
+	content: "\f300";
 	margin-right: 2px;
 	top: -1px;
 	position: relative;
 }
 
 .entry-meta .author a:before {
-	content: '\f304';
+	content: "\f304";
 	top: -1px;
 	position: relative;
 }
 
 .categories-links a:first-child:before {
-	content: '\f301';
+	content: "\f301";
 }
 
 .tags-links a:first-child:before {
-	content: '\f302';
+	content: "\f302";
 	top: -1px;
 	position: relative;
 }
 
 .edit-link a:before {
-	content: '\f411';
+	content: "\f411";
 	top: -1px;
 	position: relative;
 }
@@ -1366,7 +1366,7 @@ footer.entry-meta {
 }
 
 .format-aside .entry-content .date a:before {
-	content: '\f303';
+	content: "\f303";
 }
 
 .format-aside footer.entry-meta {
@@ -1384,7 +1384,7 @@ footer.entry-meta {
 }
 
 .format-aside cite:before {
-	content: '\2014';
+	content: "\2014";
 	margin-right: 5px;
 }
 
@@ -1408,7 +1408,7 @@ footer.entry-meta {
 
 .format-audio .entry-content:before {
 	float: left;
-	content: '\f109';
+	content: "\f109";
 	font-size: 64px;
 }
 
@@ -1432,7 +1432,7 @@ footer.entry-meta {
 }
 
 .format-audio .audio-content {
-	background: url("images/dotted-line.png") repeat-y left top;
+	background: url(images/dotted-line.png) repeat-y left top;
 	background-size: 4px 4px;
 	float: right;
 	margin: 0 0 24px;
@@ -1463,7 +1463,7 @@ footer.entry-meta {
 }
 
 .format-chat .entry-meta .date a:before {
-	content: '\f108';
+	content: "\f108";
 	margin-right: 2px;
 }
 
@@ -1687,9 +1687,9 @@ footer.entry-meta {
 
 .format-status .entry-content:before,
 .format-status .entry-meta:before {
-	background: url("images/dotted-line.png") repeat-y left bottom;
+	background: url(images/dotted-line.png) repeat-y left bottom;
 	background-size: 4px 4px;
-	content: '';
+	content: "";
 	display: block;
 	height: 100%;
 	position: absolute;
@@ -1725,7 +1725,7 @@ footer.entry-meta {
 
 .format-status .entry-content p:first-child:before {
 	background-color: rgba(0, 0, 0, 0.65);
-	content: '';
+	content: "";
 	height: 3px;
 	margin-top: 13px;
 	position: absolute;
@@ -1747,7 +1747,7 @@ footer.entry-meta {
 }
 
 .format-status .entry-meta .date a:before {
-	content: '\f105';
+	content: "\f105";
 }
 
 /* Video */
@@ -1801,7 +1801,7 @@ footer.entry-meta {
 }
 
 .attachment .entry-title:before {
-	content: '\f416';
+	content: "\f416";
 	font-size: 32px;
 	margin-right: 10px;
 }
@@ -1825,11 +1825,11 @@ footer.entry-meta {
 }
 
 .attachment-meta:before {
-	content: '\f307';
+	content: "\f307";
 }
 
 .full-size-link a:before {
-	content: '\f402';
+	content: "\f402";
 }
 
 .full-size-link:before {
@@ -2138,7 +2138,7 @@ footer.entry-meta {
 }
 
 .error404 .page-title:before {
-	content: '\f423';
+	content: "\f423";
 	color: #e8e5ce;
 	font-size: 964px;
 	line-height: 0.6;
@@ -2204,9 +2204,9 @@ footer.entry-meta {
 
 .comment-list > li:after,
 .comment-list .children > li:before {
-	background: url("images/dotted-line.png") repeat left top;
+	background: url(images/dotted-line.png) repeat left top;
 	background-size: 4px 4px;
-	content: '';
+	content: "";
 	display: block;
 	height: 1px;
 	width: 100%;
@@ -2251,7 +2251,7 @@ footer.entry-meta {
 }
 
 .bypostauthor .fn:before {
-	content: '\f408';
+	content: "\f408";
 }
 
 .comment-list .edit-link {
@@ -2289,14 +2289,14 @@ footer.entry-meta {
 }
 
 .comment-awaiting-moderation:before {
-	content: '\f414';
+	content: "\f414";
 	margin-right: 5px;
 	position: relative;
 	top: -2px;
 }
 
 .comment-reply-link:before {
-	content: '\f412';
+	content: "\f412";
 	margin-right: 3px;
 }
 
@@ -2330,7 +2330,7 @@ footer.entry-meta {
 }
 
 #reply-title small a:before {
-	content: '\f406';
+	content: "\f406";
 	vertical-align: top;
 }
 
@@ -2644,7 +2644,7 @@ footer.entry-meta {
 	(min-resolution: 120dpi) {
 
 	.site-header .searchform .field {
-		background-image: url("images/search-icon-2x.png");
+		background-image: url(images/search-icon-2x.png);
 	}
 
 	.format-audio .audio-content,
@@ -2652,7 +2652,7 @@ footer.entry-meta {
 	.format-status .entry-meta:before,
 	.comment-list > li:after,
 	.comment-list .children > li:before {
-		background-image: url("images/dotted-line-2x.png");
+		background-image: url(images/dotted-line-2x.png);
 	}
 }
 
@@ -2896,7 +2896,7 @@ footer.entry-meta {
 	}
 
 	.menu-toggle:after {
-		content: '\f502';
+		content: "\f502";
 		font-size: 12px;
 		padding-left: 8px;
 		vertical-align: -webkit-calc(-4px);
@@ -2904,7 +2904,7 @@ footer.entry-meta {
 	}
 
 	.toggled-on .menu-toggle:after {
-		content: '\f500';
+		content: "\f500";
 		vertical-align: -webkit-calc(2px);
 		vertical-align:         calc(2px);
 	}
@@ -2987,7 +2987,7 @@ footer.entry-meta {
 	}
 
 	.error404 .page-title:before {
-		content: '';
+		content: "";
 	}
 
 	.comment-author {
