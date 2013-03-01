@@ -283,7 +283,7 @@ el.select();
 		chmod(ABSPATH . 'wp-config.php', 0666);
 		setup_config_display_header();
 ?>
-<p><?php _e( "All right sparky! You&#8217;ve made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to&hellip;" ); ?></p>
+<p><?php _e( "All right, sparky! You&#8217;ve made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to&hellip;" ); ?></p>
 
 <p class="step"><a href="install.php" class="button button-large"><?php _e( 'Run the install' ); ?></a></p>
 <?php
