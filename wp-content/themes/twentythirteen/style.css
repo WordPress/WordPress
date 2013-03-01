@@ -1805,11 +1805,13 @@ footer.entry-meta {
 	text-align: right;
 }
 
-.attachment footer.entry-meta {
-	float: none;
-	max-width: 1040px;
-	padding: 24px 0;
-	text-align: right;
+.hentry.attachment:not(.image-attachment) .entry-meta {
+	max-width: 104px;
+}
+
+.attachment footer.entry-meta,
+.single-attachment .site-main .sidebar-container {
+	display: none;
 }
 
 .attachment-meta:before {
