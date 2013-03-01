@@ -559,7 +559,7 @@ function wp_ajax_add_link_category( $action ) {
 	check_ajax_referer( $action );
 	if ( !current_user_can( 'manage_categories' ) )
 		wp_die( -1 );
-	$names = explode(',', $_POST['newcat']);
+	$names = explode(',', wp_unslash( $_POST['newcat'] ) );
 	$x = new WP_Ajax_Response();
 	foreach ( $names as $cat_name ) {
 		$cat_name = trim($cat_name);
@@ -572,7 +572,7 @@ function wp_ajax_add_link_category( $action ) {
 			continue;
 		else if ( is_array( $cat_id ) )
 			$cat_id = $cat_id['term_id'];
-		$cat_name = esc_html(wp_unslash($cat_name));
+		$cat_name = esc_html( $cat_name );
 		$x->add( array(
 			'what' => 'link-category',
 			'id' => $cat_id,
@@ -1889,11 +1889,10 @@ function wp_ajax_save_attachment() {
 		$post['post_content'] = $changes['description'];
 
 	if ( isset( $changes['alt'] ) ) {
-		$alt = get_post_meta( $id, '_wp_attachment_image_alt', true );
-		$new_alt = wp_unslash( $changes['alt'] );
-		if ( $alt != $new_alt ) {
-			$new_alt = wp_strip_all_tags( $new_alt, true );
-			update_post_meta( $id, '_wp_attachment_image_alt', addslashes( $new_alt ) );
+		$alt = wp_unslash( $changes['alt'] );
+		if ( $alt != get_post_meta( $id, '_wp_attachment_image_alt', true ) ) {
+			$alt = wp_strip_all_tags( $alt, true );
+			update_post_meta( $id, '_wp_attachment_image_alt', wp_slash( $alt ) );
 		}
 	}
 
@@ -2203,7 +2202,7 @@ function wp_ajax_revisions_data() {
 
 	$restoreaction = wp_nonce_url(
 		add_query_arg(
-			array( 'revision' => $revision->ID, 
+			array( 'revision' => $revision->ID,
 				'action' => 'restore' ),
 				'/wp-admin/revision.php'
 		),
