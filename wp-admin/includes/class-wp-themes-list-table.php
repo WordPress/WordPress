@@ -28,7 +28,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		$themes = wp_get_themes( array( 'allowed' => true ) );
 
 		if ( ! empty( $_REQUEST['s'] ) )
-			$this->search_terms = array_unique( array_filter( array_map( 'trim', explode( ',', strtolower( stripslashes( $_REQUEST['s'] ) ) ) ) ) );
+			$this->search_terms = array_unique( array_filter( array_map( 'trim', explode( ',', strtolower( wp_unslash( $_REQUEST['s'] ) ) ) ) ) );
 
 		if ( ! empty( $_REQUEST['features'] ) )
 			$this->features = $_REQUEST['features'];
@@ -235,7 +235,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 	 * @uses _pagination_args['total_pages']
 	 */
 	 function _js_vars( $extra_args = array() ) {
-		$search_string = isset( $_REQUEST['s'] ) ? esc_attr( stripslashes( $_REQUEST['s'] ) ) : '';
+		$search_string = isset( $_REQUEST['s'] ) ? esc_attr( wp_unslash( $_REQUEST['s'] ) ) : '';
 
 		$args = array(
 			'search' => $search_string,

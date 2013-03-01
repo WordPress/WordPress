@@ -43,7 +43,7 @@ if ( get_option('db_upgraded') ) {
 	do_action('after_db_upgrade');
 } elseif ( get_option('db_version') != $wp_db_version && empty($_POST) ) {
 	if ( !is_multisite() ) {
-		wp_redirect(admin_url('upgrade.php?_wp_http_referer=' . urlencode(stripslashes($_SERVER['REQUEST_URI']))));
+		wp_redirect( admin_url( 'upgrade.php?_wp_http_referer=' . urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) );
 		exit;
 	} elseif ( apply_filters( 'do_mu_upgrade', true ) ) {
 		/**
@@ -82,7 +82,7 @@ wp_enqueue_script( 'common' );
 $editing = false;
 
 if ( isset($_GET['page']) ) {
-	$plugin_page = stripslashes($_GET['page']);
+	$plugin_page = wp_unslash( $_GET['page'] );
 	$plugin_page = plugin_basename($plugin_page);
 }
 

@@ -454,7 +454,7 @@ function stream_preview_image( $post_id ) {
     if ( is_wp_error( $img ) )
         return false;
 
-	$changes = !empty($_REQUEST['history']) ? json_decode( stripslashes($_REQUEST['history']) ) : null;
+	$changes = !empty($_REQUEST['history']) ? json_decode( wp_unslash($_REQUEST['history']) ) : null;
 	if ( $changes )
 		$img = image_edit_apply_changes( $img, $changes );
 
@@ -587,7 +587,7 @@ function wp_save_image( $post_id ) {
 			return $return;
 		}
 	} elseif ( !empty($_REQUEST['history']) ) {
-		$changes = json_decode( stripslashes($_REQUEST['history']) );
+		$changes = json_decode( wp_unslash($_REQUEST['history']) );
 		if ( $changes )
 			$img = image_edit_apply_changes($img, $changes);
 	} else {

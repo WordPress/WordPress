@@ -59,7 +59,7 @@ function wp_ajax_ajax_tag_search() {
 		wp_die( 0 );
 	}
 
-	$s = stripslashes( $_GET['q'] );
+	$s = wp_unslash( $_GET['q'] );
 
 	$comma = _x( ',', 'tag delimiter' );
 	if ( ',' !== $comma )
@@ -572,7 +572,7 @@ function wp_ajax_add_link_category( $action ) {
 			continue;
 		else if ( is_array( $cat_id ) )
 			$cat_id = $cat_id['term_id'];
-		$cat_name = esc_html(stripslashes($cat_name));
+		$cat_name = esc_html(wp_unslash($cat_name));
 		$x->add( array(
 			'what' => 'link-category',
 			'id' => $cat_id,
@@ -957,8 +957,8 @@ function wp_ajax_add_meta() {
 		) );
 	} else { // Update?
 		$mid = (int) key( $_POST['meta'] );
-		$key = stripslashes( $_POST['meta'][$mid]['key'] );
-		$value = stripslashes( $_POST['meta'][$mid]['value'] );
+		$key = wp_unslash( $_POST['meta'][$mid]['key'] );
+		$value = wp_unslash( $_POST['meta'][$mid]['value'] );
 		if ( '' == trim($key) )
 			wp_die( __( 'Please provide a custom field name.' ) );
 		if ( '' == trim($value) )
@@ -1227,7 +1227,7 @@ function wp_ajax_wp_link_ajax() {
 	$args = array();
 
 	if ( isset( $_POST['search'] ) )
-		$args['s'] = stripslashes( $_POST['search'] );
+		$args['s'] = wp_unslash( $_POST['search'] );
 	$args['pagenum'] = ! empty( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
 
 	require(ABSPATH . WPINC . '/class-wp-editor.php');
@@ -1328,7 +1328,7 @@ function wp_ajax_inline_save() {
 	$data = &$_POST;
 
 	$post = get_post( $post_ID, ARRAY_A );
-	$post = add_magic_quotes($post); //since it is from db
+	$post = wp_slash($post); //since it is from db
 
 	$data['content'] = $post['post_content'];
 	$data['excerpt'] = $post['post_excerpt'];
@@ -1425,7 +1425,7 @@ function wp_ajax_find_posts() {
 	$post_types = get_post_types( array( 'public' => true ), 'objects' );
 	unset( $post_types['attachment'] );
 
-	$s = stripslashes( $_POST['ps'] );
+	$s = wp_unslash( $_POST['ps'] );
 	$searchand = $search = '';
 	$args = array(
 		'post_type' => array_keys( $post_types ),
@@ -1890,7 +1890,7 @@ function wp_ajax_save_attachment() {
 
 	if ( isset( $changes['alt'] ) ) {
 		$alt = get_post_meta( $id, '_wp_attachment_image_alt', true );
-		$new_alt = stripslashes( $changes['alt'] );
+		$new_alt = wp_unslash( $changes['alt'] );
 		if ( $alt != $new_alt ) {
 			$new_alt = wp_strip_all_tags( $new_alt, true );
 			update_post_meta( $id, '_wp_attachment_image_alt', addslashes( $new_alt ) );
@@ -1990,7 +1990,7 @@ function wp_ajax_save_attachment_order() {
 function wp_ajax_send_attachment_to_editor() {
 	check_ajax_referer( 'media-send-to-editor', 'nonce' );
 
-	$attachment = stripslashes_deep( $_POST['attachment'] );
+	$attachment = wp_unslash( $_POST['attachment'] );
 
 	$id = intval( $attachment['id'] );
 
@@ -2045,7 +2045,7 @@ function wp_ajax_send_attachment_to_editor() {
 function wp_ajax_send_link_to_editor() {
 	check_ajax_referer( 'media-send-to-editor', 'nonce' );
 
-	if ( ! $src = stripslashes( $_POST['src'] ) )
+	if ( ! $src = wp_unslash( $_POST['src'] ) )
 		wp_send_json_error();
 
 	if ( ! strpos( $src, '://' ) )
@@ -2054,7 +2054,7 @@ function wp_ajax_send_link_to_editor() {
 	if ( ! $src = esc_url_raw( $src ) )
 		wp_send_json_error();
 
-	if ( ! $title = trim( stripslashes( $_POST['title'] ) ) )
+	if ( ! $title = trim( wp_unslash( $_POST['title'] ) ) )
 		$title = wp_basename( $src );
 
 	$html = '';
@@ -2114,7 +2114,7 @@ function wp_ajax_nopriv_heartbeat() {
 		$screen_id = 'site';
 
 	if ( ! empty($_POST['data']) ) {
-		$data = stripslashes_deep( (array) $_POST['data'] );
+		$data = wp_unslash( (array) $_POST['data'] );
 		$response = apply_filters( 'heartbeat_nopriv_received', $response, $data, $screen_id );
 	}
 

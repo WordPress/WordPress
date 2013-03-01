@@ -55,12 +55,12 @@ function edit_link( $link_id = 0 ) {
 function get_default_link_to_edit() {
 	$link = new stdClass;
 	if ( isset( $_GET['linkurl'] ) )
-		$link->link_url = esc_url( $_GET['linkurl'] );
+		$link->link_url = esc_url( wp_unslash( $_GET['linkurl'] ) );
 	else
 		$link->link_url = '';
 
 	if ( isset( $_GET['name'] ) )
-		$link->link_name = esc_attr( $_GET['name'] );
+		$link->link_name = esc_attr( wp_unslash( $_GET['name'] ) );
 	else
 		$link->link_name = '';
 
@@ -137,7 +137,7 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 	$linkdata = wp_parse_args( $linkdata, $defaults );
 	$linkdata = sanitize_bookmark( $linkdata, 'db' );
 
-	extract( stripslashes_deep( $linkdata ), EXTR_SKIP );
+	extract( wp_unslash( $linkdata ), EXTR_SKIP );
 
 	$update = false;
 
@@ -251,7 +251,7 @@ function wp_update_link( $linkdata ) {
 	$link = get_bookmark( $link_id, ARRAY_A );
 
 	// Escape data pulled from DB.
-	$link = add_magic_quotes( $link );
+	$link = wp_slash( $link );
 
 	// Passed link category list overwrites existing category list if not empty.
 	if ( isset( $linkdata['link_category'] ) && is_array( $linkdata['link_category'] )

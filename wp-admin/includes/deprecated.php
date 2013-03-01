@@ -472,7 +472,7 @@ class WP_User_Search {
 	function WP_User_Search ($search_term = '', $page = '', $role = '') {
 		_deprecated_function( __FUNCTION__, '3.1', 'WP_User_Query' );
 
-		$this->search_term = stripslashes( $search_term );
+		$this->search_term = wp_unslash( $search_term );
 		$this->raw_page = ( '' == $page ) ? false : (int) $page;
 		$this->page = (int) ( '' == $page ) ? 1 : $page;
 		$this->role = $role;
@@ -551,7 +551,7 @@ class WP_User_Search {
 	 * @access public
 	 */
 	function prepare_vars_for_template_usage() {
-		$this->search_term = stripslashes($this->search_term); // done with DB, from now on we want slashes gone
+		$this->search_term = wp_unslash($this->search_term); // done with DB, from now on we want slashes gone
 	}
 
 	/**

@@ -197,7 +197,7 @@ function edit_post( $post_data = null ) {
 	}
 
 	if ( isset( $post_data[ '_wp_format_url' ] ) ) {
-		update_post_meta( $post_ID, '_wp_format_url', addslashes( esc_url_raw( stripslashes( $post_data['_wp_format_url'] ) ) ) );
+		update_post_meta( $post_ID, '_wp_format_url', addslashes( esc_url_raw( wp_unslash( $post_data['_wp_format_url'] ) ) ) );
 	}
 
 	$format_keys = array( 'quote', 'quote_source', 'image', 'gallery', 'media' );
@@ -236,8 +236,8 @@ function edit_post( $post_data = null ) {
 	if ( 'attachment' == $post_data['post_type'] ) {
 		if ( isset( $post_data[ '_wp_attachment_image_alt' ] ) ) {
 			$image_alt = get_post_meta( $post_ID, '_wp_attachment_image_alt', true );
-			if ( $image_alt != stripslashes( $post_data['_wp_attachment_image_alt'] ) ) {
-				$image_alt = wp_strip_all_tags( stripslashes( $post_data['_wp_attachment_image_alt'] ), true );
+			if ( $image_alt != wp_unslash( $post_data['_wp_attachment_image_alt'] ) ) {
+				$image_alt = wp_strip_all_tags( wp_unslash( $post_data['_wp_attachment_image_alt'] ), true );
 				// update_meta expects slashed
 				update_post_meta( $post_ID, '_wp_attachment_image_alt', addslashes( $image_alt ) );
 			}
@@ -430,15 +430,15 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 
 	$post_title = '';
 	if ( !empty( $_REQUEST['post_title'] ) )
-		$post_title = esc_html( stripslashes( $_REQUEST['post_title'] ));
+		$post_title = esc_html( wp_unslash( $_REQUEST['post_title'] ));
 
 	$post_content = '';
 	if ( !empty( $_REQUEST['content'] ) )
-		$post_content = esc_html( stripslashes( $_REQUEST['content'] ));
+		$post_content = esc_html( wp_unslash( $_REQUEST['content'] ));
 
 	$post_excerpt = '';
 	if ( !empty( $_REQUEST['excerpt'] ) )
-		$post_excerpt = esc_html( stripslashes( $_REQUEST['excerpt'] ));
+		$post_excerpt = esc_html( wp_unslash( $_REQUEST['excerpt'] ));
 
 	if ( $create_in_db ) {
 		$post_id = wp_insert_post( array( 'post_title' => __( 'Auto Draft' ), 'post_type' => $post_type, 'post_status' => 'auto-draft' ) );
@@ -487,9 +487,9 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 function post_exists($title, $content = '', $date = '') {
 	global $wpdb;
 
-	$post_title = stripslashes( sanitize_post_field( 'post_title', $title, 0, 'db' ) );
-	$post_content = stripslashes( sanitize_post_field( 'post_content', $content, 0, 'db' ) );
-	$post_date = stripslashes( sanitize_post_field( 'post_date', $date, 0, 'db' ) );
+	$post_title = wp_unslash( sanitize_post_field( 'post_title', $title, 0, 'db' ) );
+	$post_content = wp_unslash( sanitize_post_field( 'post_content', $content, 0, 'db' ) );
+	$post_date = wp_unslash( sanitize_post_field( 'post_date', $date, 0, 'db' ) );
 
 	$query = "SELECT ID FROM $wpdb->posts WHERE 1=1";
 	$args = array();
@@ -620,8 +620,8 @@ function add_meta( $post_ID ) {
 	global $wpdb;
 	$post_ID = (int) $post_ID;
 
-	$metakeyselect = isset($_POST['metakeyselect']) ? stripslashes( trim( $_POST['metakeyselect'] ) ) : '';
-	$metakeyinput = isset($_POST['metakeyinput']) ? stripslashes( trim( $_POST['metakeyinput'] ) ) : '';
+	$metakeyselect = isset($_POST['metakeyselect']) ? wp_unslash( trim( $_POST['metakeyselect'] ) ) : '';
+	$metakeyinput = isset($_POST['metakeyinput']) ? wp_unslash( trim( $_POST['metakeyinput'] ) ) : '';
 	$metavalue = isset($_POST['metavalue']) ? $_POST['metavalue'] : '';
 	if ( is_string( $metavalue ) )
 		$metavalue = trim( $metavalue );
@@ -719,8 +719,8 @@ function has_meta( $postid ) {
  * @return unknown
  */
 function update_meta( $meta_id, $meta_key, $meta_value ) {
-	$meta_key = stripslashes( $meta_key );
-	$meta_value = stripslashes_deep( $meta_value );
+	$meta_key = wp_unslash( $meta_key );
+	$meta_value = wp_unslash( $meta_value );
 
 	return update_metadata_by_mid( 'post', $meta_id, $meta_value, $meta_key );
 }
@@ -1245,7 +1245,7 @@ function wp_create_post_autosave( $post_id ) {
 	}
 
 	// _wp_put_post_revision() expects unescaped.
-	$_POST = stripslashes_deep($_POST);
+	$_POST = wp_unslash($_POST);
 
 	// Otherwise create the new autosave as a special post revision
 	return _wp_put_post_revision( $_POST, true );
