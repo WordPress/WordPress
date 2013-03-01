@@ -61,7 +61,7 @@ if ( $_POST ) {
 	foreach ( $options as $option_name ) {
 		if ( ! isset($_POST[$option_name]) )
 			continue;
-		$value = stripslashes_deep( $_POST[$option_name] );
+		$value = wp_unslash( $_POST[$option_name] );
 		update_site_option( $option_name, $value );
 	}
 
@@ -181,7 +181,7 @@ if ( isset( $_GET['updated'] ) ) {
 				<th scope="row"><label for="welcome_email"><?php _e( 'Welcome Email' ) ?></label></th>
 				<td>
 					<textarea name="welcome_email" id="welcome_email" rows="5" cols="45" class="large-text">
-<?php echo esc_textarea( stripslashes( get_site_option( 'welcome_email' ) ) ) ?></textarea>
+<?php echo esc_textarea( get_site_option( 'welcome_email' ) ) ?></textarea>
 					<br />
 					<?php _e( 'The welcome email sent to new site owners.' ) ?>
 				</td>
@@ -190,7 +190,7 @@ if ( isset( $_GET['updated'] ) ) {
 				<th scope="row"><label for="welcome_user_email"><?php _e( 'Welcome User Email' ) ?></label></th>
 				<td>
 					<textarea name="welcome_user_email" id="welcome_user_email" rows="5" cols="45" class="large-text">
-<?php echo esc_textarea( stripslashes( get_site_option( 'welcome_user_email' ) ) ) ?></textarea>
+<?php echo esc_textarea( get_site_option( 'welcome_user_email' ) ) ?></textarea>
 					<br />
 					<?php _e( 'The welcome email sent to new users.' ) ?>
 				</td>
@@ -199,7 +199,7 @@ if ( isset( $_GET['updated'] ) ) {
 				<th scope="row"><label for="first_post"><?php _e( 'First Post' ) ?></label></th>
 				<td>
 					<textarea name="first_post" id="first_post" rows="5" cols="45" class="large-text">
-<?php echo esc_textarea( stripslashes( get_site_option( 'first_post' ) ) ) ?></textarea>
+<?php echo esc_textarea( get_site_option( 'first_post' ) ) ?></textarea>
 					<br />
 					<?php _e( 'The first post on a new site.' ) ?>
 				</td>
@@ -208,7 +208,7 @@ if ( isset( $_GET['updated'] ) ) {
 				<th scope="row"><label for="first_page"><?php _e( 'First Page' ) ?></label></th>
 				<td>
 					<textarea name="first_page" id="first_page" rows="5" cols="45" class="large-text">
-<?php echo esc_textarea( stripslashes( get_site_option('first_page') ) ) ?></textarea>
+<?php echo esc_textarea( get_site_option( 'first_page' ) ) ?></textarea>
 					<br />
 					<?php _e( 'The first page on a new site.' ) ?>
 				</td>
@@ -217,7 +217,7 @@ if ( isset( $_GET['updated'] ) ) {
 				<th scope="row"><label for="first_comment"><?php _e( 'First Comment' ) ?></label></th>
 				<td>
 					<textarea name="first_comment" id="first_comment" rows="5" cols="45" class="large-text">
-<?php echo esc_textarea( stripslashes( get_site_option('first_comment') ) ) ?></textarea>
+<?php echo esc_textarea( get_site_option( 'first_comment' ) ) ?></textarea>
 					<br />
 					<?php _e( 'The first comment on a new site.' ) ?>
 				</td>
