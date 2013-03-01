@@ -601,8 +601,8 @@ input[type="submit"],
 input[type="button"],
 input[type="reset"] {
 	background: #e05d22; /* Old browsers */
-	background: -webkit-linear-gradient(top, #e05d22 0%, #d94412 100%); /* Chrome10+,Safari5.1+ */
-	background: linear-gradient( to bottom, #e05d22 0%, #d94412 100%); /* W3C */
+	background: -webkit-linear-gradient(top, #e05d22 0%, #d94412 100%); /* Chrome 10+, Safari 5.1+ */
+	background: linear-gradient(to bottom, #e05d22 0%, #d94412 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e05d22', endColorstr='#d94412', GradientType=0); /* IE6-9 */
 	display: inline-block;
 	padding: 11px 24px 10px 24px;
@@ -622,8 +622,8 @@ input[type="submit"]:focus,
 input[type="button"]:focus,
 input[type="reset"]:focus {
 	background: #ed6a31; /* Old browsers */
-	background: -webkit-linear-gradient(top, #ed6a31 0%, #e55627 100%); /* Chrome10+,Safari5.1+ */
-	background: linear-gradient( to bottom, #ed6a31 0%, #e55627 100%); /* W3C */
+	background: -webkit-linear-gradient(top, #ed6a31 0%, #e55627 100%); /* Chrome 10+, Safari 5.1+ */
+	background: linear-gradient(to bottom, #ed6a31 0%, #e55627 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ed6a31', endColorstr='#e55627', GradientType=0); /* IE6-9 */
 	outline: none;
 }
@@ -633,8 +633,8 @@ input[type="submit"]:active,
 input[type="button"]:active,
 input[type="reset"]:active {
 	background: #d94412; /* Old browsers */
-	background: -webkit-linear-gradient(top, #d94412 0%, #e05d22 100%); /* Chrome10+,Safari5.1+ */
-	background: linear-gradient( to bottom, #d94412 0%, #e05d22 100%); /* W3C */
+	background: -webkit-linear-gradient(top, #d94412 0%, #e05d22 100%); /* Chrome 10+, Safari 5.1+ */
+	background: linear-gradient(to bottom, #d94412 0%, #e05d22 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d94412', endColorstr='#e05d22', GradientType=0); /* IE6-9 */
 	border: none;
 	border-top: 3px solid #b93207;
@@ -2539,7 +2539,7 @@ footer.entry-meta {
 	display: block;
 }
 
-.widget_calendar a:hover{
+.widget_calendar a:hover {
 	background-color: rgba(0, 0, 0, 0.15);
 }
 
