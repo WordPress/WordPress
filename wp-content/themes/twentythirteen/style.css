@@ -2289,6 +2289,10 @@ footer.entry-meta {
 	margin-right: 3px;
 }
 
+.comment-content blockquote {
+	font-size: 18px;
+}
+
 /* Comment form */
 #respond {
 	background-color: #f7f5e7;
