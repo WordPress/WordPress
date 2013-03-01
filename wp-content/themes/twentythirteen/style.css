@@ -254,7 +254,7 @@ q:after {
 }
 
 blockquote {
-	font-size: 24px;
+	font-size: 18px;
 	font-style: italic;
 	font-weight: 300;
 	margin: 24px 40px;
@@ -266,7 +266,7 @@ blockquote blockquote {
 
 blockquote cite,
 blockquote small {
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: normal;
 	text-transform: uppercase;
 }
@@ -1168,6 +1168,15 @@ ul.nav-menu li:hover > ul,
 .entry-content a:hover,
 .comment-content a:hover {
 	color: #ea9629;
+}
+
+.entry-content blockquote {
+	font-size: 24px;
+}
+
+.entry-content blockquote cite,
+.entry-content blockquote small {
+	font-size: 16px;
 }
 
 footer.entry-meta {
@@ -2160,7 +2169,9 @@ footer.entry-meta {
 .comments-title,
 .comment-list,
 #reply-title,
-#respond #commentform {
+#respond #commentform,
+#respond iframe {
+	display: block;
 	margin: 0 auto;
 	max-width: 604px;
 	width: 100%;
@@ -2287,10 +2298,6 @@ footer.entry-meta {
 .comment-reply-link:before {
 	content: '\f412';
 	margin-right: 3px;
-}
-
-.comment-content blockquote {
-	font-size: 18px;
 }
 
 /* Comment form */
