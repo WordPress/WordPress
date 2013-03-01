@@ -648,6 +648,9 @@ section[role="banner"] {
 .widget-area .widget a:hover {
 	color: #21759b;
 }
+.widget-area .widget a:visited {
+	color: #9f9f9f;
+}
 .widget-area #s {
 	width: 53.66666666666%; /* define a width to avoid dropping a wider submit button */
 }
@@ -796,6 +799,10 @@ article.sticky .featured-post {
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
 	line-height: 1.714285714;
+}
+.entry-content a:visited,
+.comment-content a:visited {
+	color: #9f9f9f;
 }
 .entry-content ol,
 .comment-content ol,
