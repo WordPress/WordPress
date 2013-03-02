@@ -29,7 +29,7 @@ jQuery(document).ready( function($) {
 			return;
 		noSyncChecks = true;
 		var th = $(this), c = th.is(':checked'), id = th.val().toString();
-		$('#in-link-category-' + id + ', #in-popular-category-' + id).prop( 'checked', c );
+		$('#in-link-category-' + id + ', #in-popular-link_category-' + id).prop( 'checked', c );
 		noSyncChecks = false;
 	};
 
