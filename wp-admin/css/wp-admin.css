@@ -1365,7 +1365,7 @@ form.upgrade .hint {
 	display: block;
 }
 
-.help-tab-content li {
+.help-tab-content ul li {
 	list-style-type: disc;
 	margin-left: 18px;
 }
