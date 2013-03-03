@@ -488,7 +488,7 @@ function prep_atom_text_construct($data) {
  */
 function self_link() {
 	$host = @parse_url(home_url());
-	echo esc_url( apply_filters( 'self_link', set_url_scheme( 'http://' . $host['host'] . stripslashes( $_SERVER['REQUEST_URI'] ) ) ) );
+	echo esc_url( apply_filters( 'self_link', set_url_scheme( 'http://' . $host['host'] . wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) );
 }
 
 /**

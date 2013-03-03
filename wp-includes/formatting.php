@@ -1423,7 +1423,7 @@ function addslashes_gpc($gpc) {
 	if ( get_magic_quotes_gpc() )
 		$gpc = stripslashes($gpc);
 
-	return esc_sql($gpc);
+	return wp_slash($gpc);
 }
 
 /**
@@ -1719,7 +1719,7 @@ function wp_rel_nofollow( $text ) {
 	// This is a pre save filter, so text is already escaped.
 	$text = stripslashes($text);
 	$text = preg_replace_callback('|<a (.+?)>|i', 'wp_rel_nofollow_callback', $text);
-	$text = esc_sql($text);
+	$text = wp_slash($text);
 	return $text;
 }
 

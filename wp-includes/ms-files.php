@@ -58,7 +58,7 @@ header( 'ETag: ' . $etag );
 header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + 100000000 ) . ' GMT' );
 
 // Support for Conditional GET
-$client_etag = isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) ? stripslashes( $_SERVER['HTTP_IF_NONE_MATCH'] ) : false;
+$client_etag = isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) ? wp_unslash( $_SERVER['HTTP_IF_NONE_MATCH'] ) : false;
 
 if( ! isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
 	$_SERVER['HTTP_IF_MODIFIED_SINCE'] = false;

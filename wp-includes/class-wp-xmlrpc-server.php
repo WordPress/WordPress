@@ -280,16 +280,16 @@ class wp_xmlrpc_server extends IXR_Server {
 				$meta['id'] = (int) $meta['id'];
 				$pmeta = get_metadata_by_mid( 'post', $meta['id'] );
 				if ( isset($meta['key']) ) {
-					$meta['key'] = stripslashes( $meta['key'] );
+					$meta['key'] = wp_unslash( $meta['key'] );
 					if ( $meta['key'] != $pmeta->meta_key )
 						continue;
-					$meta['value'] = stripslashes_deep( $meta['value'] );
+					$meta['value'] = wp_unslash( $meta['value'] );
 					if ( current_user_can( 'edit_post_meta', $post_id, $meta['key'] ) )
 						update_metadata_by_mid( 'post', $meta['id'], $meta['value'] );
 				} elseif ( current_user_can( 'delete_post_meta', $post_id, $pmeta->meta_key ) ) {
 					delete_metadata_by_mid( 'post', $meta['id'] );
 				}
-			} elseif ( current_user_can( 'add_post_meta', $post_id, stripslashes( $meta['key'] ) ) ) {
+			} elseif ( current_user_can( 'add_post_meta', $post_id, wp_unslash( $meta['key'] ) ) ) {
 				add_post_meta( $post_id, $meta['key'], $meta['value'] );
 			}
 		}
@@ -3746,9 +3746,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$categories = implode(',', wp_get_post_categories($post_ID));
 
-		$content  = '<title>'.stripslashes($post_data['post_title']).'</title>';
+		$content  = '<title>'.wp_unslash($post_data['post_title']).'</title>';
 		$content .= '<category>'.$categories.'</category>';
-		$content .= stripslashes($post_data['post_content']);
+		$content .= wp_unslash($post_data['post_content']);
 
 		$struct = array(
 			'userid'    => $post_data['post_author'],
@@ -3800,9 +3800,9 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_date  = $this->_convert_date( $entry['post_date'] );
 			$categories = implode(',', wp_get_post_categories($entry['ID']));
 
-			$content  = '<title>'.stripslashes($entry['post_title']).'</title>';
+			$content  = '<title>'.wp_unslash($entry['post_title']).'</title>';
 			$content .= '<category>'.$categories.'</category>';
-			$content .= stripslashes($entry['post_content']);
+			$content .= wp_unslash($entry['post_content']);
 
 			$struct[] = array(
 				'userid' => $entry['post_author'],

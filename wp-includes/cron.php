@@ -230,7 +230,7 @@ function spawn_cron( $gmt_time = 0 ) {
 		set_transient( 'doing_cron', $doing_wp_cron );
 
 		ob_start();
-		wp_redirect( add_query_arg('doing_wp_cron', $doing_wp_cron, stripslashes($_SERVER['REQUEST_URI'])) );
+		wp_redirect( add_query_arg( 'doing_wp_cron', $doing_wp_cron, wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
 		echo ' ';
 
 		// flush any buffers and send the headers
