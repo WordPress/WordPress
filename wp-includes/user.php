@@ -1527,7 +1527,9 @@ function _get_additional_user_keys( $user ) {
 }
 
 /**
- * Set up the default contact methods.
+ * Set up the contact methods.
+ *
+ * Default contact methods were removed in 3.6. A filter dictates contact methods.
  *
  * @since 2.9.0
  * @access private
@@ -1536,10 +1538,13 @@ function _get_additional_user_keys( $user ) {
  * @return array $user_contactmethods Array of contact methods and their labels.
  */
 function _wp_get_user_contactmethods( $user = null ) {
-	$user_contactmethods = array(
-		'aim' => __('AIM'),
-		'yim' => __('Yahoo IM'),
-		'jabber' => __('Jabber / Google Talk')
-	);
+	$user_contactmethods = array();
+	if ( get_site_option( 'initial_db_version' ) < 23588 ) {
+		$user_contactmethods = array(
+			'aim'    => __( 'AIM' ),
+			'yim'    => __( 'Yahoo IM' ),
+			'jabber' => __( 'Jabber / Google Talk' )
+		);
+	}
 	return apply_filters( 'user_contactmethods', $user_contactmethods, $user );
 }
