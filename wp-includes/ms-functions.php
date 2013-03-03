@@ -836,7 +836,7 @@ function wpmu_activate_signup($key) {
 	$meta = maybe_unserialize($signup->meta);
 	$password = wp_generate_password( 12, false );
 
-	$user_id = username_exists($user_login);
+	$user_id = username_exists($signup->user_login);
 
 	if ( ! $user_id )
 		$user_id = wpmu_create_user($signup->user_login, $password, $signup->user_email);
