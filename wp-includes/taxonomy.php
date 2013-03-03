@@ -959,7 +959,7 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
 			return false;
 	} else if ( 'name' == $field ) {
 		// Assume already escaped
-		$value = stripslashes($value);
+		$value = wp_unslash($value);
 		$field = 't.name';
 	} else {
 		$term = get_term( (int) $value, $taxonomy, $output, $filter);
@@ -1499,7 +1499,7 @@ function term_exists($term, $taxonomy = '', $parent = 0) {
 			return $wpdb->get_var( $wpdb->prepare( $select . $where, $term ) );
 	}
 
-	$term = trim( stripslashes( $term ) );
+	$term = trim( wp_unslash( $term ) );
 
 	if ( '' === $slug = sanitize_title($term) )
 		return 0;
@@ -2062,8 +2062,8 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	extract($args, EXTR_SKIP);
 
 	// expected_slashed ($name)
-	$name = stripslashes($name);
-	$description = stripslashes($description);
+	$name = wp_unslash($name);
+	$description = wp_unslash($description);
 
 	if ( empty($slug) )
 		$slug = sanitize_title($name);
@@ -2445,7 +2445,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 		return $term;
 
 	// Escape data pulled from DB.
-	$term = add_magic_quotes($term);
+	$term = wp_slash($term);
 
 	// Merge old and new args with new args overwriting old ones.
 	$args = array_merge($term, $args);
@@ -2456,8 +2456,8 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	extract($args, EXTR_SKIP);
 
 	// expected_slashed ($name)
-	$name = stripslashes($name);
-	$description = stripslashes($description);
+	$name = wp_unslash($name);
+	$description = wp_unslash($description);
 
 	if ( '' == trim($name) )
 		return new WP_Error('empty_term_name', __('A name is required for this term'));

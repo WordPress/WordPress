@@ -360,7 +360,7 @@ function get_extended($post) {
 		$more_text = '';
 	}
 
-	// Strip leading and trailing whitespace
+	// ` leading and trailing whitespace
 	$main = preg_replace('/^[\s]*(.*)[\s]*$/', '\\1', $main);
 	$extended = preg_replace('/^[\s]*(.*)[\s]*$/', '\\1', $extended);
 	$more_text = preg_replace('/^[\s]*(.*)[\s]*$/', '\\1', $more_text);
@@ -2797,7 +2797,7 @@ function wp_insert_post($postarr, $wp_error = false) {
 	// expected_slashed (everything!)
 	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'guid' ) );
 	$data = apply_filters('wp_insert_post_data', $data, $postarr);
-	$data = stripslashes_deep( $data );
+	$data = wp_unslash( $data );
 	$where = array( 'ID' => $post_ID );
 
 	if ( $update ) {
@@ -2810,7 +2810,7 @@ function wp_insert_post($postarr, $wp_error = false) {
 		}
 	} else {
 		if ( isset($post_mime_type) )
-			$data['post_mime_type'] = stripslashes( $post_mime_type ); // This isn't in the update
+			$data['post_mime_type'] = wp_unslash( $post_mime_type ); // This isn't in the update
 		// If there is a suggested ID, use it if not already present
 		if ( !empty($import_id) ) {
 			$import_id = (int) $import_id;
@@ -2904,14 +2904,14 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
 	if ( is_object($postarr) ) {
 		// non-escaped post was passed
 		$postarr = get_object_vars($postarr);
-		$postarr = add_magic_quotes($postarr);
+		$postarr = wp_slash($postarr);
 	}
 
 	// First, get all of the original fields
 	$post = get_post($postarr['ID'], ARRAY_A);
 
 	// Escape data pulled from DB.
-	$post = add_magic_quotes($post);
+	$post = wp_slash($post);
 
 	// Passed post category list overwrites existing category list if not empty.
 	if ( isset($postarr['post_category']) && is_array($postarr['post_category'])
@@ -3257,7 +3257,7 @@ function add_ping($post_id, $uri) {
 	$new = implode("\n", $pung);
 	$new = apply_filters('add_ping', $new);
 	// expected_slashed ($new)
-	$new = stripslashes($new);
+	$new = wp_unslash($new);
 	return $wpdb->update( $wpdb->posts, array( 'pinged' => $new ), array( 'ID' => $post_id ) );
 }
 
@@ -3350,7 +3350,7 @@ function trackback_url_list($tb_list, $post_id) {
 		$trackback_urls = explode(',', $tb_list);
 		foreach( (array) $trackback_urls as $tb_url) {
 			$tb_url = trim($tb_url);
-			trackback($tb_url, stripslashes($post_title), $excerpt, $post_id);
+			trackback($tb_url, wp_unslash($post_title), $excerpt, $post_id);
 		}
 	}
 }
@@ -3694,8 +3694,8 @@ function get_pages($args = '') {
 		$join = " LEFT JOIN $wpdb->postmeta ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id )";
 
 		// meta_key and meta_value might be slashed
-		$meta_key = stripslashes($meta_key);
-		$meta_value = stripslashes($meta_value);
+		$meta_key = wp_unslash($meta_key);
+		$meta_value = wp_unslash($meta_value);
 		if ( ! empty( $meta_key ) )
 			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_key = %s", $meta_key);
 		if ( ! empty( $meta_value ) )
@@ -3965,7 +3965,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 
 	// expected_slashed (everything!)
 	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'guid' ) );
-	$data = stripslashes_deep( $data );
+	$data = wp_unslash( $data );
 
 	if ( $update ) {
 		$wpdb->update( $wpdb->posts, $data, array( 'ID' => $post_ID ) );

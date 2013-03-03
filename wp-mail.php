@@ -202,7 +202,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	$post_category = array(get_option('default_email_category'));
 
 	$post_data = compact('post_content','post_title','post_date','post_date_gmt','post_author','post_category', 'post_status');
-	$post_data = add_magic_quotes($post_data);
+	$post_data = wp_slash($post_data);
 
 	$post_ID = wp_insert_post($post_data);
 	if ( is_wp_error( $post_ID ) )
