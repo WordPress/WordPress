@@ -223,10 +223,8 @@
 			this.on( 'reset', this.reset, this );
 			this.on( 'ready', this._ready, this );
 			this.on( 'ready', this.ready, this );
-
-			this.on( 'change:menu', this._updateMenu, this );
-
 			Backbone.Model.apply( this, arguments );
+			this.on( 'change:menu', this._updateMenu, this );
 		},
 
 		ready: function() {},
@@ -658,7 +656,7 @@
 			// Accepts attachments that exist in the original library and
 			// that do not exist in gallery's library.
 			library.validator = function( attachment ) {
-				return !! this.mirroring.getByCid( attachment.cid ) && ! edit.getByCid( attachment.cid ) && media.model.Selection.prototype.validator.apply( this, arguments );
+				return !! this.mirroring.get( attachment.cid ) && ! edit.get( attachment.cid ) && media.model.Selection.prototype.validator.apply( this, arguments );
 			};
 
 			// Reset the library to ensure that all attachments are re-added
@@ -701,8 +699,8 @@
 			// Overload the library's comparator to push items that are not in
 			// the mirrored query to the front of the aggregate collection.
 			library.comparator = function( a, b ) {
-				var aInQuery = !! this.mirroring.getByCid( a.cid ),
-					bInQuery = !! this.mirroring.getByCid( b.cid );
+				var aInQuery = !! this.mirroring.get( a.cid ),
+					bInQuery = !! this.mirroring.get( b.cid );
 
 				if ( ! aInQuery && bInQuery )
 					return -1;
@@ -3007,7 +3005,7 @@
 		selected: function() {
 			var selection = this.options.selection;
 			if ( selection )
-				return !! selection.getByCid( this.model.cid );
+				return !! selection.get( this.model.cid );
 		},
 
 		select: function( model, collection ) {
@@ -3234,7 +3232,7 @@
 
 			this.collection.on( 'add', function( attachment, attachments, options ) {
 				this.views.add( this.createAttachmentView( attachment ), {
-					at: options.index
+					at: this.collection.indexOf( attachment )
 				});
 			}, this );
 
@@ -3469,7 +3467,7 @@
 			// Build `<option>` elements.
 			this.$el.html( _.chain( this.filters ).map( function( filter, value ) {
 				return {
-					el: this.make( 'option', { value: value }, filter.text ),
+					el: $('<option></option>').val(value).text(filter.text)[0],
 					priority: filter.priority || 50
 				};
 			}, this ).sortBy('priority').pluck('el').value() );
@@ -3964,8 +3962,8 @@
 		},
 
 		updateChanges: function( model, options ) {
-			if ( options.changes )
-				_( options.changes ).chain().keys().each( this.update, this );
+			if ( model.hasChanged() )
+				_( model.changed ).chain().keys().each( this.update, this );
 		}
 	});
 
@@ -4236,16 +4234,10 @@
 		},
 
 		initialize: function() {
-			this.input = this.make( 'input', {
-				type:  'text',
-				value: this.model.get('url') || ''
-			});
+			this.$input = $('<input/>').attr( 'type', 'text' ).val( this.model.get('url') );
+			this.input = this.$input[0];
 
-			this.spinner = this.make( 'span', {
-				'class': 'spinner'
-			});
-
-			this.$input = $( this.input );
+			this.spinner = $('<span class="spinner" />')[0];
 			this.$el.append([ this.input, this.spinner ]);
 
 			this.model.on( 'change:url', this.render, this );

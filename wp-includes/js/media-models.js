@@ -1,7 +1,7 @@
 window.wp = window.wp || {};
 
 (function($){
-	var Attachment, Attachments, Query, compare, l10n, media;
+	var Attachment, Attachments, Query, compare, l10n, media, bindSyncEvents;
 
 	/**
 	 * wp.media( attributes )
@@ -65,6 +65,27 @@ window.wp = window.wp || {};
 			return ac === bc ? 0 : (ac > bc ? -1 : 1);
 		else
 			return a > b ? -1 : 1;
+	};
+
+	// Ensures the 'sync' and 'error' events are always
+	// correctly triggered when overloading `Backbone.sync`.
+	bindSyncEvents = function( model, options ) {
+		var success = options.success,
+			error = options.error;
+
+		options.success = function( resp ) {
+			if ( success )
+				success( model, resp, options );
+			model.trigger( 'sync', model, resp, options );
+		};
+
+		options.error = function( xhr ) {
+			if ( error )
+				error( model, xhr, options );
+			model.trigger( 'error', model, xhr, options );
+		};
+
+		return options;
 	};
 
 	_.extend( media, {
@@ -241,6 +262,7 @@ window.wp = window.wp || {};
 					action: 'get-attachment',
 					id: this.id
 				});
+				bindSyncEvents( model, options );
 				return media.ajax( options );
 
 			// Overload the `update` request so properties can be saved.
@@ -261,15 +283,15 @@ window.wp = window.wp || {};
 				});
 
 				// Record the values of the changed attributes.
-				if ( options.changes ) {
-					_.each( options.changes, function( value, key ) {
-						options.changes[ key ] = this.get( key );
-					}, this );
+				if ( model.hasChanged() ) {
+					options.data.changes = {};
 
-					options.data.changes = options.changes;
-					delete options.changes;
+					_.each( model.changed, function( value, key ) {
+						options.data.changes[ key ] = this.get( key );
+					}, this );
 				}
 
+				bindSyncEvents( model, options );
 				return media.ajax( options );
 
 			// Overload the `delete` request so attachments can be removed.
@@ -287,11 +309,16 @@ window.wp = window.wp || {};
 					_wpnonce: this.get('nonces')['delete']
 				});
 
+				bindSyncEvents( model, options );
 				return media.ajax( options ).done( function() {
 					this.destroyed = true;
 				}).fail( function() {
 					this.destroyed = false;
 				});
+
+			// Otherwise, fall back to `Backbone.sync()`.
+			} else {
+				return Backbone.Model.prototype.sync.apply( this, arguments );
 			}
 		},
 
@@ -392,7 +419,7 @@ window.wp = window.wp || {};
 			if ( this.props.get('query') )
 				return;
 
-			var changed = _.chain( options.changes ).map( function( t, prop ) {
+			var changed = _.chain( model.changed ).map( function( t, prop ) {
 				var filter = Attachments.filters[ prop ],
 					term = model.get( prop );
 
@@ -434,7 +461,7 @@ window.wp = window.wp || {};
 
 		validate: function( attachment, options ) {
 			var valid = this.validator( attachment ),
-				hasAttachment = !! this.getByCid( attachment.cid );
+				hasAttachment = !! this.get( attachment.cid );
 
 			if ( ! valid && hasAttachment )
 				this.remove( attachment, options );
@@ -746,6 +773,7 @@ window.wp = window.wp || {};
 					args.paged = Math.floor( this.length / args.posts_per_page ) + 1;
 
 				options.data.query = args;
+				bindSyncEvents( model, options );
 				return media.ajax( options );
 
 			// Otherwise, fall back to Backbone.sync()
@@ -876,7 +904,7 @@ window.wp = window.wp || {};
 				this._single = model;
 
 			// If the single model isn't in the selection, remove it.
-			if ( this._single && ! this.getByCid( this._single.cid ) )
+			if ( this._single && ! this.get( this._single.cid ) )
 				delete this._single;
 
 			this._single = this._single || this.last();
@@ -888,7 +916,7 @@ window.wp = window.wp || {};
 
 					// If the model was already removed, trigger the collection
 					// event manually.
-					if ( ! this.getByCid( previous.cid ) )
+					if ( ! this.get( previous.cid ) )
 						this.trigger( 'selection:unsingle', previous, this );
 				}
 				if ( this._single )
