@@ -272,7 +272,7 @@ jQuery(document).ready( function($) {
 
 	// categories
 	$('.categorydiv').each( function(){
-		var this_id = $(this).attr('id'), noSyncChecks = false, syncChecks, catAddAfter, taxonomyParts, taxonomy, settingName;
+		var this_id = $(this).attr('id'), catAddBefore, catAddAfter, taxonomyParts, taxonomy, settingName;
 
 		taxonomyParts = this_id.split('-');
 		taxonomyParts.shift();
@@ -307,15 +307,6 @@ jQuery(document).ready( function($) {
 			}
 		});
 		$('#' + taxonomy + '-add-submit').click( function(){ $('#new' + taxonomy).focus(); });
-
-		syncChecks = function() {
-			if ( noSyncChecks )
-				return;
-			noSyncChecks = true;
-			var th = jQuery(this), c = th.is(':checked'), id = th.val().toString();
-			$('#in-' + taxonomy + '-' + id + ', #in-' + taxonomy + '-category-' + id).prop( 'checked', c );
-			noSyncChecks = false;
-		};
 
 		catAddBefore = function( s ) {
 			if ( !$('#new'+taxonomy).val() )
