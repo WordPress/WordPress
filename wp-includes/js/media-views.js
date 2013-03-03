@@ -1829,7 +1829,7 @@
 		featuredImageToolbar: function( toolbar ) {
 			this.createSelectToolbar( toolbar, {
 				text:  l10n.setFeaturedImage,
-				state: this.options.state || 'upload'
+				state: this.options.state
 			});
 		},
 
@@ -1857,9 +1857,9 @@
 							controller.close();
 							state.trigger( 'update', state.get('library') );
 
+							// Restore and reset the default state.
+							controller.setState( controller.options.state );
 							controller.reset();
-							// @todo: Make the state activated dynamic (instead of hardcoded).
-							controller.setState('upload');
 						}
 					}
 				}
@@ -2484,11 +2484,11 @@
 			if ( options.event )
 				controller.state().trigger( options.event );
 
-			if ( options.reset )
-				controller.reset();
-
 			if ( options.state )
 				controller.setState( options.state );
+
+			if ( options.reset )
+				controller.reset();
 		}
 	});
 
