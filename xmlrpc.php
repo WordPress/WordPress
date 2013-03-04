@@ -6,7 +6,7 @@
  */
 
 /**
- * Whether this is a XMLRPC Request
+ * Whether this is an XML-RPC Request
  *
  * @var bool
  */
@@ -55,7 +55,7 @@ include_once(ABSPATH . WPINC . '/class-IXR.php');
 include_once(ABSPATH . WPINC . '/class-wp-xmlrpc-server.php');
 
 /**
- * Posts submitted via the xmlrpc interface get that title
+ * Posts submitted via the XML-RPC interface get that title
  * @name post_default_title
  * @var string
  */

@@ -11,7 +11,7 @@ if (empty($wp)) {
 }
 
 /**
- * trackback_response() - Respond with error or success XML message
+ * trackback_response() - Respond with an error or success XML message
  *
  * @param int|bool $error Whether there was an error
  * @param string $error_message Error message if an error occurred
