@@ -869,7 +869,7 @@ function wp_dashboard_primary_control() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Display primary dashboard RSS widget feed.
  *
  * @since 2.5.0
  *
