@@ -166,8 +166,10 @@ class WP_Http {
 		// Construct Cookie: header if any cookies are set
 		WP_Http::buildCookieHeader( $r );
 
-		if ( ! isset( $r['headers']['Accept-Encoding'] ) && WP_Http_Encoding::is_available() )
-			$r['headers']['Accept-Encoding'] = WP_Http_Encoding::accept_encoding();
+		if ( ! isset( $r['headers']['Accept-Encoding'] ) ) {
+			if ( $encoding = WP_Http_Encoding::accept_encoding( $url, $r ) )
+				$r['headers']['Accept-Encoding'] = $encoding;
+		}
 
 		if ( ( ! is_null( $r['body'] ) && '' != $r['body'] ) || 'POST' == $r['method'] || 'PUT' == $r['method'] ) {
 			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
@@ -1730,16 +1732,27 @@ class WP_Http_Encoding {
 	 *
 	 * @return string Types of encoding to accept.
 	 */
-	public static function accept_encoding() {
+	public static function accept_encoding( $url, $args ) {
 		$type = array();
-		if ( function_exists( 'gzinflate' ) )
-			$type[] = 'deflate;q=1.0';
+		$compression_enabled = WP_Http_Encoding::is_available();
 
-		if ( function_exists( 'gzuncompress' ) )
-			$type[] = 'compress;q=0.5';
+		if ( ! $args['decompress'] ) // decompression specifically disabled
+			$compression_enabled = false;
+		elseif ( $args['stream'] ) // disable when streaming to file
+			$compression_enabled = false;
 
-		if ( function_exists( 'gzdecode' ) )
-			$type[] = 'gzip;q=0.5';
+		if ( $compression_enabled ) {
+			if ( function_exists( 'gzinflate' ) )
+				$type[] = 'deflate;q=1.0';
+
+			if ( function_exists( 'gzuncompress' ) )
+				$type[] = 'compress;q=0.5';
+	
+			if ( function_exists( 'gzdecode' ) )
+				$type[] = 'gzip;q=0.5';
+		}
+
+		$type = apply_filters( 'wp_http_accept_encoding', $type, $url, $args );
 
 		return implode(', ', $type);
 	}
