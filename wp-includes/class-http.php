@@ -1206,6 +1206,16 @@ class WP_Http_Curl {
 		// We don't need to return the body, so don't. Just execute request and return.
 		if ( ! $r['blocking'] ) {
 			curl_exec( $handle );
+
+			if ( $curl_error = curl_error( $handle ) ) {
+				curl_close( $handle );
+				return new WP_Error( 'http_request_failed', $curl_error );
+			}
+			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array( 301, 302 ) ) ) {
+				curl_close( $handle );
+				return new WP_Error( 'http_request_failed', __( 'Too many redirects.' ) );
+			}
+
 			curl_close( $handle );
 			return array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
 		}
@@ -1219,10 +1229,14 @@ class WP_Http_Curl {
 
 		// If no response
 		if ( 0 == strlen( $theBody ) && empty( $theHeaders['headers'] ) ) {
-			if ( $curl_error = curl_error( $handle ) )
+			if ( $curl_error = curl_error( $handle ) ) {
+				curl_close( $handle );
 				return new WP_Error( 'http_request_failed', $curl_error );
-			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array( 301, 302 ) ) )
+			}
+			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array( 301, 302 ) ) ) {
+				curl_close( $handle );
 				return new WP_Error( 'http_request_failed', __( 'Too many redirects.' ) );
+			}
 		}
 
 		$response = array();
