@@ -1202,8 +1202,8 @@ footer.entry-meta {
 .format-gallery .entry-content .page-links a,
 .format-chat .entry-content .page-links a,
 .page-links a {
-	background: #e63320;
-	border: 1px solid #e63320;
+	background: #ca3c08;
+	border: 1px solid #ca3c08;
 	color: #fff;
 }
 
@@ -1215,7 +1215,7 @@ footer.entry-meta {
 .format-quote .entry-content .page-links a:hover,
 .page-links a:hover {
 	background: #fff;
-	color: #e63320;
+	color: #ca3c08;
 }
 
 .format-status .entry-content .page-links > span,
