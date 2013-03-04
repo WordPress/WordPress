@@ -109,8 +109,9 @@ class WP_Http {
 		$r = wp_parse_args( $args, $defaults );
 		$r = apply_filters( 'http_request_args', $r, $url );
 
-		// Certain classes decrement this, store a copy of the original value for loop purposes.
-		$r['_redirection'] = $r['redirection'];
+		// The transports decrement this, store a copy of the original value for loop purposes.
+		if ( ! isset( $r['_redirection'] ) )
+			$r['_redirection'] = $r['redirection'];
 
 		// Allow plugins to short-circuit the request
 		$pre = apply_filters( 'pre_http_request', false, $r, $url );
