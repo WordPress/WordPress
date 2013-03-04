@@ -1175,6 +1175,8 @@ class WP_Http_Curl {
 
 		if ( isset( $r['limit-response-size'] ) )
 			$this->max_body_length = intval( $r['limit-response-size'] );
+		else
+			$this->max_body_length = false;
 
 		// If streaming to a file open a file handle, and setup our curl streaming handler
 		if ( $r['stream'] ) {
@@ -1184,6 +1186,8 @@ class WP_Http_Curl {
 				$this->stream_handle = fopen( $r['filename'], 'w+' );
 			if ( ! $this->stream_handle )
 				return new WP_Error( 'http_request_failed', sprintf( __( 'Could not open handle for fopen() to %s' ), $r['filename'] ) );
+		} else {
+			$this->stream_handle = false;
 		}
 
 		if ( !empty( $r['headers'] ) ) {
