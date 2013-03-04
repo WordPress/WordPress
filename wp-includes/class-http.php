@@ -779,7 +779,7 @@ class WP_Http_Fsockopen {
 		// If location is found, then assume redirect and redirect to location.
 		if ( isset($arrHeaders['headers']['location']) && 0 !== $r['_redirection'] ) {
 			if ( $r['redirection']-- > 0 ) {
-				return $this->request( WP_HTTP::make_absolute_url( $arrHeaders['headers']['location'], $url ), $r);
+				return wp_remote_request( WP_HTTP::make_absolute_url( $arrHeaders['headers']['location'], $url ), $r);
 			} else {
 				return new WP_Error('http_request_failed', __('Too many redirects.'));
 			}
@@ -889,7 +889,8 @@ class WP_Http_Streams {
 			array(
 				'method' => strtoupper($r['method']),
 				'user_agent' => $r['user-agent'],
-				'max_redirects' => $r['redirection'] + 1, // See #11557
+				'max_redirects' => 0, // Follow no redirects
+				'follow_redirects' => false,
 				'protocol_version' => (float) $r['httpversion'],
 				'header' => $strHeaders,
 				'ignore_errors' => true, // Return non-200 requests.
@@ -962,10 +963,13 @@ class WP_Http_Streams {
 		else
 			$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']);
 
-		// Streams does not provide an error code which we can use to see why the request stream stopped.
-		// We can however test to see if a location header is present and return based on that.
-		if ( isset($processedHeaders['headers']['location']) && 0 !== $args['_redirection'] )
-			return new WP_Error('http_request_failed', __('Too many redirects.'));
+		if ( ! empty( $processedHeaders['headers']['location'] ) && 0 !== $r['_redirection'] ) { // _redirection: The requested number of redirections
+			if ( $r['redirection']-- > 0 ) {
+				return wp_remote_request( WP_HTTP::make_absolute_url( $processedHeaders['headers']['location'], $url ), $r );
+			} else {
+				return new WP_Error( 'http_request_failed', __( 'Too many redirects.' ) );
+			}
+		}
 
 		if ( ! empty( $strResponse ) && isset( $processedHeaders['headers']['transfer-encoding'] ) && 'chunked' == $processedHeaders['headers']['transfer-encoding'] )
 			$strResponse = WP_Http::chunkTransferDecode($strResponse);
@@ -1180,7 +1184,7 @@ class WP_Http_Curl {
 		// See #11305 - When running under safe mode, redirection is disabled above. Handle it manually.
 		if ( ! empty( $theHeaders['headers']['location'] ) && 0 !== $r['_redirection'] ) { // _redirection: The requested number of redirections
 			if ( $r['redirection']-- > 0 ) {
-				return $this->request( WP_HTTP::make_absolute_url( $theHeaders['headers']['location'], $url ), $r );
+				return wp_remote_request( WP_HTTP::make_absolute_url( $theHeaders['headers']['location'], $url ), $r );
 			} else {
 				return new WP_Error( 'http_request_failed', __( 'Too many redirects.' ) );
 			}
