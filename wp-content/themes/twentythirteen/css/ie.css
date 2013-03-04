@@ -143,6 +143,37 @@ img.alignleft {
 }
 
 /* Internet Explorer 7 */
+.ie7 audio,
+.ie7 canvas,
+.ie7 video {
+	display: inline;
+	zoom: 1;
+}
+
+.ie7 legend {
+	margin-left: -7px;
+}
+
+.ie7 button,
+.ie7 input,
+.ie7 select,
+.ie7 textarea {
+	vertical-align: middle;
+}
+
+.ie7 button,
+.ie7 input[type="button"],
+.ie7 input[type="reset"],
+.ie7 input[type="submit"] {
+	overflow: visible;
+}
+
+.ie7 input[type="checkbox"],
+.ie7 input[type="radio"] {
+	height: 13px;
+	width: 13px;
+}
+
 .ie7 .assistive-text,
 .ie7 .site .screen-reader-text {
 	clip: rect(1px 1px 1px 1px); /* IE7 */

@@ -81,8 +81,6 @@ audio,
 canvas,
 video {
 	display: inline-block;
-	*display: inline;
-	*zoom: 1;
 }
 
 audio:not([controls]) {
@@ -215,7 +213,6 @@ kbd,
 pre,
 samp {
 	font-family: monospace, serif;
-	_font-family: "Courier New", monospace;
 	font-size: 14px;
 	-webkit-hyphens: none;
 	-moz-hyphens:    none;
@@ -353,7 +350,6 @@ legend {
 	border: 0;
 	padding: 0;
 	white-space: normal;
-	*margin-left: -7px;
 }
 
 button,
@@ -364,7 +360,6 @@ textarea {
 	margin: 0;
 	max-width: 100%;
 	vertical-align: baseline;
-	*vertical-align: middle;
 }
 
 button,
@@ -378,7 +373,6 @@ input[type="reset"],
 input[type="submit"] {
 	-webkit-appearance: button;
 	cursor: pointer;
-	*overflow: visible;
 }
 
 button[disabled],
@@ -389,8 +383,6 @@ input[disabled] {
 input[type="checkbox"],
 input[type="radio"] {
 	padding: 0;
-	*height: 13px;
-	*width: 13px;
 }
 
 input[type="search"] {
