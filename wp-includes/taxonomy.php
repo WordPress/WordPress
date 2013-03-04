@@ -317,18 +317,19 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	if ( ! is_array($wp_taxonomies) )
 		$wp_taxonomies = array();
 
-	$defaults = array(	'hierarchical' => false,
-						'update_count_callback' => '',
-						'rewrite' => true,
-						'query_var' => $taxonomy,
-						'public' => true,
-						'show_ui' => null,
-						'show_tagcloud' => null,
-						'_builtin' => false,
-						'labels' => array(),
-						'capabilities' => array(),
-						'show_in_nav_menus' => null,
-					);
+	$defaults = array(
+		'hierarchical' => false,
+		'update_count_callback' => '',
+		'rewrite' => true,
+		'query_var' => $taxonomy,
+		'public' => true,
+		'show_ui' => null,
+		'show_tagcloud' => null,
+		'_builtin' => false,
+		'labels' => array(),
+		'capabilities' => array(),
+		'show_in_nav_menus' => null,
+	);
 	$args = wp_parse_args($args, $defaults);
 
 	if ( strlen( $taxonomy ) > 32 )
