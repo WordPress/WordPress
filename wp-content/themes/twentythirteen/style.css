@@ -2614,7 +2614,8 @@ footer.entry-meta {
 }
 
 .site-footer .widget-title,
-.site-footer .widget-title a {
+.site-footer .widget-title a,
+.site-footer .wp-caption-text {
 	color: #fff;
 }
 
