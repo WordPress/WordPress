@@ -2307,7 +2307,7 @@ function edit_form_image_editor() {
 	</div>
 	<?php endif; ?>
 
-	<div class="wp_attachment_details">
+	<div class="wp_attachment_details edit-form-section">
 		<p>
 			<label for="attachment_caption"><strong><?php _e( 'Caption' ); ?></strong></label><br />
 			<textarea class="widefat" name="excerpt" id="attachment_caption"><?php echo $post->post_excerpt; ?></textarea>

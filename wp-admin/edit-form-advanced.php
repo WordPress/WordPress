@@ -384,7 +384,11 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 <?php
 }
 
-do_action( 'edit_form_after_title' );
+if ( has_action( 'edit_form_after_title' ) ) {
+	echo '<div class="edit-form-section">';
+	do_action( 'edit_form_after_title' );
+	echo '</div>';
+}
 
 // post format fields
 if ( post_type_supports( $post_type, 'post-formats' ) ) {
@@ -395,7 +399,7 @@ if ( isset( $format_meta['image'] ) )
 else
 	$image = false;
 ?>
-<div class="post-formats-fields">
+<div class="post-formats-fields edit-form-section">
 
 <input type="hidden" name="post_format" id="post_format" value="<?php echo esc_attr( $post_format ); ?>" />
 
@@ -447,7 +451,7 @@ else
 
 if ( post_type_supports($post_type, 'editor') ) {
 ?>
-<div id="postdivrich" class="postarea">
+<div id="postdivrich" class="postarea edit-form-section">
 
 <?php wp_editor($post->post_content, 'content', array('dfw' => true, 'tabfocus_elements' => 'insert-media-button,save-post', 'editor_height' => 360) ); ?>
 
@@ -470,9 +474,14 @@ if ( post_type_supports($post_type, 'editor') ) {
 </tr></tbody></table>
 
 </div>
-<?php } ?>
+<?php }
 
-<?php do_action( 'edit_form_after_editor' ); ?>
+if ( has_action( 'edit_form_after_editor' ) ) {
+	echo '<div class="edit-form-section">';
+	do_action( 'edit_form_after_editor' );
+	echo '</div>';
+}
+?>
 </div><!-- /post-body-content -->
 
 <div id="postbox-container-1" class="postbox-container">

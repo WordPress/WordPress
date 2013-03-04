@@ -3101,10 +3101,6 @@ input#link_url {
 	padding-bottom: 0;
 }
 
-.post-formats-fields {
-	margin-bottom: 20px;
-}
-
 .wp-format-standard .post-formats-fields,
 .wp-format-aside .post-formats-fields,
 .wp-format-chat .post-formats-fields,
@@ -4771,10 +4767,6 @@ span.imgedit-scale-warn {
 	padding: 2px 10px;
 }
 
-.wp_attachment_details {
-	margin-bottom: 20px;
-}
-
 /*------------------------------------------------------------------------------
   15.0 - Comments Screen
 ------------------------------------------------------------------------------*/
@@ -6325,7 +6317,7 @@ table.form-table td .updated {
 	padding: 0;
 }
 
-#post-body-content {
+.edit-form-section {
 	margin-bottom: 20px;
 }
 
