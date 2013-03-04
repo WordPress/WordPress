@@ -138,6 +138,9 @@ img.alignleft {
 	content: none;
 }
 
+.ie8 .site-main .widget-area {
+	margin-right: 0;
+}
 
 /* Internet Explorer 7 */
 .ie7 .assistive-text,
