@@ -166,7 +166,7 @@ class WP_Http {
 		// Construct Cookie: header if any cookies are set
 		WP_Http::buildCookieHeader( $r );
 
-		if ( WP_Http_Encoding::is_available() )
+		if ( ! isset( $r['headers']['Accept-Encoding'] ) && WP_Http_Encoding::is_available() )
 			$r['headers']['Accept-Encoding'] = WP_Http_Encoding::accept_encoding();
 
 		if ( ( ! is_null( $r['body'] ) && '' != $r['body'] ) || 'POST' == $r['method'] || 'PUT' == $r['method'] ) {
