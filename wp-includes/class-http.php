@@ -95,7 +95,8 @@ class WP_Http {
 			'decompress' => true,
 			'sslverify' => true,
 			'stream' => false,
-			'filename' => null
+			'filename' => null,
+			'limit-response-size' => null,
 		);
 
 		// Pre-parse for the HEAD checks.
@@ -733,6 +734,10 @@ class WP_Http_Fsockopen {
 
 		$strResponse = '';
 		$bodyStarted = false;
+		$keep_reading = true;
+		$block_size = 4096;
+		if ( isset( $r['limit-response-size'] ) )
+			$block_size = min( $block_size, $r['limit-response-size'] );
 
 		// If streaming to a file setup the file handle
 		if ( $r['stream'] ) {
@@ -743,30 +748,45 @@ class WP_Http_Fsockopen {
 			if ( ! $stream_handle )
 				return new WP_Error( 'http_request_failed', sprintf( __( 'Could not open handle for fopen() to %s' ), $r['filename'] ) );
 
-			while ( ! feof($handle) ) {
-				$block = fread( $handle, 4096 );
-				if ( $bodyStarted ) {
-					fwrite( $stream_handle, $block );
-				} else {
+			$bytes_written = 0;
+			while ( ! feof($handle) && $keep_reading ) {
+				$block = fread( $handle, $block_size );
+				if ( ! $bodyStarted ) {
 					$strResponse .= $block;
 					if ( strpos( $strResponse, "\r\n\r\n" ) ) {
 						$process = WP_Http::processResponse( $strResponse );
 						$bodyStarted = true;
-						fwrite( $stream_handle, $process['body'] );
+						$block = $process['body'];
 						unset( $strResponse );
 						$process['body'] = '';
 					}
 				}
+				
+				if ( isset( $r['limit-response-size'] ) && ( $bytes_written + strlen( $block ) ) > $r['limit-response-size'] )
+					$block = substr( $block, 0, ( $r['limit-response-size'] - $bytes_written ) );
+
+				$bytes_written += fwrite( $stream_handle, $block );				
+				
+				$keep_reading = !isset( $r['limit-response-size'] ) || $bytes_written < $r['limit-response-size'];
 			}
 
 			fclose( $stream_handle );
 
 		} else {
-			while ( ! feof($handle) )
-				$strResponse .= fread( $handle, 4096 );
+			$header_length = 0;
+			while ( ! feof( $handle ) && $keep_reading ) {
+				$block = fread( $handle, $block_size );
+				$strResponse .= $block;
+				if ( ! $bodyStarted && strpos( $strResponse, "\r\n\r\n" ) ) {
+					$header_length = strpos( $strResponse, "\r\n\r\n" ) + 4;
+					$bodyStarted = true;
+				}
+				$keep_reading = ( ! $bodyStarted || !isset( $r['limit-response-size'] ) || strlen( $strResponse ) < ( $header_length + $r['limit-response-size'] ) );
+			}
 
 			$process = WP_Http::processResponse( $strResponse );
 			unset( $strResponse );
+
 		}
 
 		fclose( $handle );
@@ -791,6 +811,9 @@ class WP_Http_Fsockopen {
 
 		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($arrHeaders['headers']) )
 			$process['body'] = WP_Http_Encoding::decompress( $process['body'] );
+
+		if ( isset( $r['limit-response-size'] ) && strlen( $process['body'] ) > $r['limit-response-size'] )
+			$process['body'] = substr( $process['body'], 0, $r['limit-response-size'] );
 
 		return array( 'headers' => $arrHeaders['headers'], 'body' => $process['body'], 'response' => $arrHeaders['response'], 'cookies' => $arrHeaders['cookies'], 'filename' => $r['filename'] );
 	}
@@ -936,6 +959,7 @@ class WP_Http_Streams {
 			return array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
 		}
 
+		$max_bytes = isset( $r['limit-response-size'] ) ? intval( $r['limit-response-size'] ) : -1;
 		if ( $r['stream'] ) {
 			if ( ! WP_DEBUG )
 				$stream_handle = @fopen( $r['filename'], 'w+' );
@@ -945,12 +969,12 @@ class WP_Http_Streams {
 			if ( ! $stream_handle )
 				return new WP_Error( 'http_request_failed', sprintf( __( 'Could not open handle for fopen() to %s' ), $r['filename'] ) );
 
-			stream_copy_to_stream( $handle, $stream_handle );
+			stream_copy_to_stream( $handle, $stream_handle, $max_bytes );
 
 			fclose( $stream_handle );
 			$strResponse = '';
 		} else {
-			$strResponse = stream_get_contents( $handle );
+			$strResponse = stream_get_contents( $handle, $max_bytes );
 		}
 
 		$meta = stream_get_meta_data( $handle );
@@ -1017,13 +1041,40 @@ class WP_Http_Streams {
 class WP_Http_Curl {
 
 	/**
-	 * Temporary header storage for use with streaming to a file.
+	 * Temporary header storage for during requests.
 	 *
 	 * @since 3.2.0
 	 * @access private
 	 * @var string
 	 */
 	private $headers = '';
+
+	/**
+	 * Temporary body storage for during requests.
+	 *
+	 * @since 3.6.0
+	 * @access private
+	 * @var string
+	 */
+	private $body = '';
+
+	/**
+	 * The maximum amount of data to recieve from the remote server
+	 *
+	 * @since 3.6.0
+	 * @access private
+	 * @var int
+	 */
+	private $max_body_length = false;
+
+	/**
+	 * The file resource used for streaming to file.
+	 *
+	 * @since 3.6.0
+	 * @access private
+	 * @var resource
+	 */
+	private $stream_handle = false;
 
 	/**
 	 * Send a HTTP request to a URI using cURL extension.
@@ -1114,20 +1165,24 @@ class WP_Http_Curl {
 				break;
 		}
 
-		if ( true === $r['blocking'] )
+		if ( true === $r['blocking'] ) {
 			curl_setopt( $handle, CURLOPT_HEADERFUNCTION, array( $this, 'stream_headers' ) );
+			curl_setopt( $handle, CURLOPT_WRITEFUNCTION, array( $this, 'stream_body' ) );
+		}
 
 		curl_setopt( $handle, CURLOPT_HEADER, false );
+
+		if ( isset( $r['limit-response-size'] ) )
+			$this->max_body_length = intval( $r['limit-response-size'] );
 
 		// If streaming to a file open a file handle, and setup our curl streaming handler
 		if ( $r['stream'] ) {
 			if ( ! WP_DEBUG )
-				$stream_handle = @fopen( $r['filename'], 'w+' );
+				$this->stream_handle = @fopen( $r['filename'], 'w+' );
 			else
-				$stream_handle = fopen( $r['filename'], 'w+' );
-			if ( ! $stream_handle )
+				$this->stream_handle = fopen( $r['filename'], 'w+' );
+			if ( ! $this->stream_handle )
 				return new WP_Error( 'http_request_failed', sprintf( __( 'Could not open handle for fopen() to %s' ), $r['filename'] ) );
-			curl_setopt( $handle, CURLOPT_FILE, $stream_handle );
 		}
 
 		if ( !empty( $r['headers'] ) ) {
@@ -1156,21 +1211,19 @@ class WP_Http_Curl {
 		}
 
 		$theResponse = curl_exec( $handle );
-		$theBody = '';
 		$theHeaders = WP_Http::processHeaders( $this->headers );
+		$theBody = $this->body;
 
-		if ( strlen($theResponse) > 0 && ! is_bool( $theResponse ) ) // is_bool: when using $args['stream'], curl_exec will return (bool)true
-			$theBody = $theResponse;
+		$this->headers = '';
+		$this->body = '';
 
 		// If no response
-		if ( 0 == strlen( $theResponse ) && empty( $theHeaders['headers'] ) ) {
+		if ( 0 == strlen( $theBody ) && empty( $theHeaders['headers'] ) ) {
 			if ( $curl_error = curl_error( $handle ) )
 				return new WP_Error( 'http_request_failed', $curl_error );
 			if ( in_array( curl_getinfo( $handle, CURLINFO_HTTP_CODE ), array( 301, 302 ) ) )
 				return new WP_Error( 'http_request_failed', __( 'Too many redirects.' ) );
 		}
-
-		$this->headers = '';
 
 		$response = array();
 		$response['code'] = curl_getinfo( $handle, CURLINFO_HTTP_CODE );
@@ -1179,7 +1232,7 @@ class WP_Http_Curl {
 		curl_close( $handle );
 
 		if ( $r['stream'] )
-			fclose( $stream_handle );
+			fclose( $this->stream_handle );
 
 		// See #11305 - When running under safe mode, redirection is disabled above. Handle it manually.
 		if ( ! empty( $theHeaders['headers']['location'] ) && 0 !== $r['_redirection'] ) { // _redirection: The requested number of redirections
@@ -1208,6 +1261,28 @@ class WP_Http_Curl {
 	private function stream_headers( $handle, $headers ) {
 		$this->headers .= $headers;
 		return strlen( $headers );
+	}
+
+	/**
+	 * Grab the body of the cURL request
+	 *
+	 * The contents of the document are passed in chunks, so we append to the $body property for temporary storage.
+	 * Returning a length shorter than the length of $data passed in will cause cURL to abort the request as "completed"
+	 *
+	 * @since 3.6.0
+	 * @access private
+	 * @return int
+	 */
+	private function stream_body( $handle, $data ) {
+		if ( $this->max_body_length && ( strlen( $this->body ) + strlen( $data ) ) > $this->max_body_length )
+			$data = substr( $data, 0, ( $this->max_body_length - strlen( $this->body ) ) );
+
+		if ( $this->stream_handle )
+			fwrite( $this->stream_handle, $data );
+		else
+			$this->body .= $data;
+
+		return strlen( $data );
 	}
 
 	/**
@@ -1743,6 +1818,8 @@ class WP_Http_Encoding {
 		if ( ! $args['decompress'] ) // decompression specifically disabled
 			$compression_enabled = false;
 		elseif ( $args['stream'] ) // disable when streaming to file
+			$compression_enabled = false;
+		elseif ( isset( $args['limit-response-size'] ) ) // If only partial content is being requested, we won't be able to decompress it
 			$compression_enabled = false;
 
 		if ( $compression_enabled ) {
