@@ -1352,7 +1352,7 @@ function get_terms($taxonomies, $args = '') {
 		$where .= ' AND tt.count > 0';
 
 	// don't limit the query results when we have to descend the family tree
-	if ( ! empty($number) && ! $hierarchical && empty( $child_of ) && '' === $parent ) {
+	if ( $number && ! $hierarchical && ! $child_of && '' === $parent ) {
 		if ( $offset )
 			$limits = 'LIMIT ' . $offset . ',' . $number;
 		else
@@ -1457,9 +1457,8 @@ function get_terms($taxonomies, $args = '') {
 		$terms = $_terms;
 	}
 
-	if ( 0 < $number && intval(@count($terms)) > $number ) {
-		$terms = array_slice($terms, $offset, $number);
-	}
+	if ( $number && is_array( $terms ) && count( $terms ) > $number )
+		$terms = array_slice( $terms, $offset, $number );
 
 	wp_cache_add( $cache_key, $terms, 'terms', DAY_IN_SECONDS );
 
