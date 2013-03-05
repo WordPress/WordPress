@@ -387,9 +387,6 @@ input[type="radio"] {
 
 input[type="search"] {
 	-webkit-appearance: textfield;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing:    content-box;
-	box-sizing:         content-box;
 	padding-right: 2px; /* Don't cut off the webkit search cancel button */
 }
 
