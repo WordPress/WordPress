@@ -15,21 +15,21 @@ if ( ! is_multisite() )
 
 require_once( ABSPATH . WPINC . '/http.php' );
 
-$title = __( 'Update Network' );
+$title = __( 'Upgrade Network' );
 $parent_file = 'upgrade.php';
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',
 	'title'   => __('Overview'),
 	'content' =>
-		'<p>' . __('Only use this screen once you have updated to a new version of WordPress through Updates/Available Updates (via the Network Administration navigation menu or the Toolbar). Clicking the Update Network button will step through each site in the network, five at a time, and make sure any database updates are applied.') . '</p>' .
+		'<p>' . __('Only use this screen once you have updated to a new version of WordPress through Updates/Available Updates (via the Network Administration navigation menu or the Toolbar). Clicking the Upgrade Network button will step through each site in the network, five at a time, and make sure any database updates are applied.') . '</p>' .
 		'<p>' . __('If a version update to core has not happened, clicking this button won&#8217;t affect anything.') . '</p>' .
 		'<p>' . __('If this process fails for any reason, users logging in to their sites will force the same update.') . '</p>'
 ) );
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="http://codex.wordpress.org/Network_Admin_Updates_Screen" target="_blank">Documentation on Update Network</a>') . '</p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Network_Admin_Updates_Screen" target="_blank">Documentation on Upgrade Network</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
@@ -40,7 +40,7 @@ if ( ! current_user_can( 'manage_network' ) )
 
 echo '<div class="wrap">';
 screen_icon('tools');
-echo '<h2>' . __( 'Update Network' ) . '</h2>';
+echo '<h2>' . __( 'Upgrade Network' ) . '</h2>';
 
 $action = isset($_GET['action']) ? $_GET['action'] : 'show';
 
@@ -84,8 +84,12 @@ switch ( $action ) {
 	break;
 	case 'show':
 	default:
-		?><p><?php _e( 'You can update all the sites on your network through this page. It works by calling the update script of each site automatically. Hit the link below to update.' ); ?></p>
-		<p><a class="button" href="upgrade.php?action=upgrade"><?php _e("Update Network"); ?></a></p><?php
+		?>
+		<h3><?php _e( 'Database Upgrade Required' ); ?></h3>
+		<p><?php _e( 'WordPress has been updated! Before we send you on your way, we need to individually upgrade the sites in your network.' ); ?></p>
+		<p><?php _e( 'The upgrade process may take a little while, so please be patient.' ); ?></p>
+		<p><a class="button" href="upgrade.php?action=upgrade"><?php _e( 'Upgrade Network' ); ?></a></p>
+		<?php
 		do_action( 'wpmu_upgrade_page' );
 	break;
 }
