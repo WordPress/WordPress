@@ -17,7 +17,7 @@
 	<footer class="entry-meta">
 		<?php twentythirteen_entry_meta(); ?>
 
-		<?php if ( comments_open() ) : ?>
+		<?php if ( comments_open() && ! is_single() ) : ?>
 		<span class="comments-link">
 			<?php comments_popup_link( '<span class="leave-reply">' . __( 'Leave a comment', 'twentythirteen' ) . '</span>', __( 'One comment so far', 'twentythirteen' ), __( 'View all % comments', 'twentythirteen' ) ); ?>
 		</span><!-- .comments-link -->
