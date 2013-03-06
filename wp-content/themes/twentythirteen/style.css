@@ -2258,6 +2258,7 @@ footer.entry-meta {
 
 .bypostauthor .fn:before {
 	content: "\f408";
+	vertical-align: text-top;
 }
 
 .comment-list .edit-link {
