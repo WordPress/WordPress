@@ -356,7 +356,7 @@ function twentythirteen_comment( $comment, $args, $depth ) {
 						get_comment_time( 'c' ),
 						sprintf( _x( '%1$s at %2$s', '1: date, 2: time', 'twentythirteen' ), get_comment_date(), get_comment_time() )
 					);
-					edit_comment_link( __( 'Edit', 'twentythirteen' ), '<span class="edit-link">', '<span>' );
+					edit_comment_link( __( 'Edit', 'twentythirteen' ), '<span class="edit-link">', '</span>' );
 				?>
 			</header><!-- .comment-meta -->
 

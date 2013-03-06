@@ -715,19 +715,19 @@ video {
 }
 
 img.alignleft {
-	margin: 5px 20px 5px -60px;
+	margin: 5px 20px 5px 0;
 }
 
 .wp-caption.alignleft {
-	margin: 5px 10px 5px -60px;
+	margin: 5px 10px 5px 0;
 }
 
 img.alignright {
-	margin: 5px -60px 5px 20px;
+	margin: 5px 0 5px 20px;
 }
 
 .wp-caption.alignright {
-	margin: 5px -60px 5px 10px;
+	margin: 5px 0 5px 10px;
 }
 
 img.aligncenter {
@@ -877,7 +877,7 @@ div.nav-menu > ul {
 	float: left;
 	padding: 0;
 	position: absolute;
-	top: 44px;
+	top: 45px;
 	left: -2px;
 	z-index: 99999;
 }
@@ -1166,6 +1166,16 @@ ul.nav-menu li:hover > ul,
 .entry-content blockquote cite,
 .entry-content blockquote small {
 	font-size: 16px;
+}
+
+.entry-content img.alignleft,
+.entry-content .wp-caption.alignleft {
+	margin-left: -60px;
+}
+
+.entry-content img.alignright,
+.entry-content .wp-caption.alignright {
+	margin-right: -60px;
 }
 
 footer.entry-meta {
@@ -2323,6 +2333,7 @@ footer.entry-meta {
 
 #reply-title small a:hover {
 	color: #ed331c;
+	text-decoration: none;
 }
 
 #reply-title small a:before {
