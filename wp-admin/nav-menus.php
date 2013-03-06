@@ -453,17 +453,21 @@ require_once( './admin-header.php' );
 ?>
 <div class="wrap">
 	<?php screen_icon(); ?>
-	<h2><?php _e( 'Menus' ); ?> <a href="<?php echo esc_url( add_query_arg( array( 'action' => 'edit', 'menu' => 0, ), admin_url( 'nav-menus.php' ) ) ); ?>" class="add-new-h2"><?php _e( 'Add New' ); ?></a></h2>
+	<h2><?php _e( 'Menus' ); ?></h2>
 	<?php
 	foreach( $messages as $message ) :
 		echo $message . "\n";
 	endforeach;
 	?>
-	<?php if ( 1 < $menu_count ) : ?>
-	<form method="post" action="<?php echo admin_url( 'nav-menus.php' ); ?>">
-		<input type="hidden" name="action" value="edit" />
-		<div class="manage-menus">
-			<label for="menu" class="selected-menu"><?php _e('Select menu to edit'); ?></label>
+	<div class="manage-menus">
+	<?php if ( $menu_count < 2 ) : ?>
+		<span class="add-edit-menu-action">
+			<?php printf( __( 'Edit your menu below, or <a href="%s">create a new menu</a>.' ), esc_url( add_query_arg( array( 'action' => 'edit', 'menu' => 0 ), admin_url( 'nav-menus.php' ) ) ) ); ?>
+		</span><!-- /add-edit-menu-action -->
+	<?php else : ?>
+		<form method="post" action="<?php echo admin_url( 'nav-menus.php' ); ?>">
+			<input type="hidden" name="action" value="edit" />
+			<label for="menu" class="selected-menu"><?php _e( 'Select a menu to edit:' ); ?></label>
 			<select name="menu" id="menu">
 				<?php if ( $add_new_screen ) : ?>
 					<option value="0" selected="selected"><?php _e( '-- Select --' ); ?></option>
@@ -491,9 +495,12 @@ require_once( './admin-header.php' );
 				<?php endforeach; ?>
 			</select>
 			<span class="submit-btn"><input type="submit" class="button-secondary" value="<?php _e( 'Select' ); ?>"></span>
-		</div>
-	</form>
+			<span class="add-new-menu-action">
+				<?php printf( __( 'or <a href="%s">create a new menu</a>.' ), esc_url( add_query_arg( array( 'action' => 'edit', 'menu' => 0 ), admin_url( 'nav-menus.php' ) ) ) ); ?>
+			</span><!-- /add-new-menu-action -->
+		</form>
 	<?php endif; ?>
+	</div><!-- /manage-menus -->
 	<div id="nav-menus-frame">
 	<div id="menu-settings-column" class="metabox-holder<?php if ( isset( $_GET['menu'] ) && '0' == $_GET['menu'] ) { echo ' metabox-holder-disabled'; } ?>">
 

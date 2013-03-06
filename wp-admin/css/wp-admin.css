@@ -7382,6 +7382,12 @@ a.rsswidget {
 	padding: 0px;
 }
 
+.nav-menus-php .add-new-menu-action {
+	float: left;
+	margin: 6px 0 0 6px;
+	line-height: 15px;
+}
+
 .nav-menus-php .meta-sep,
 .nav-menus-php .submitdelete,
 .nav-menus-php .submitcancel {
