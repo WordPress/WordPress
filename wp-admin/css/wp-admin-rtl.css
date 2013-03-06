@@ -2570,6 +2570,20 @@ div.sidebar-name h3 {
 	margin-right: 6px;
 }
 
+.manage-menus .submit-btn {
+  float: right;
+}
+
+.manage-menus .selected-menu {
+  float: right;
+  margin: 5px 0 0 6px;
+}
+
+.nav-menus-php .add-new-menu-action {
+  float: right;
+  margin: 4px 6px 0 0;
+}
+
 /*------------------------------------------------------------------------------
   29.0 - HiDPI
 ------------------------------------------------------------------------------*/
