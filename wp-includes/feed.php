@@ -198,7 +198,7 @@ function the_permalink_rss() {
  * @return none
  */
 function comments_link_feed() {
-	echo esc_url( get_comments_link() );
+	echo esc_url( apply_filters( 'comments_link_feed', get_comments_link() ) );
 }
 
 /**
@@ -239,7 +239,7 @@ function get_comment_guid($comment_id = null) {
  * @since 1.5.0
  */
 function comment_link() {
-	echo esc_url( get_comment_link() );
+	echo esc_url( apply_filters( 'comment_link', get_comment_link() ) );
 }
 
 /**

@@ -516,7 +516,7 @@ function get_comment_link( $comment = null, $args = array() ) {
  * @return string The link to the comments
  */
 function get_comments_link($post_id = 0) {
-	return get_permalink($post_id) . '#comments';
+	return apply_filters( 'get_comments_link', get_permalink( $post_id ) . '#comments', $post_id );
 }
 
 /**
@@ -532,7 +532,7 @@ function comments_link( $deprecated = '', $deprecated_2 = '' ) {
 		_deprecated_argument( __FUNCTION__, '0.72' );
 	if ( !empty( $deprecated_2 ) )
 		_deprecated_argument( __FUNCTION__, '1.3' );
-	echo get_comments_link();
+	echo esc_url( get_comments_link() );
 }
 
 /**
