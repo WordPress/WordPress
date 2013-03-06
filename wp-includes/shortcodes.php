@@ -289,9 +289,10 @@ function shortcode_parse_atts($text) {
  *
  * @param array $pairs Entire list of supported attributes and their defaults.
  * @param array $atts User defined attributes in shortcode tag.
+ * @param string $shortcode Optional. The name of the shortcode, provided for context to enable filtering
  * @return array Combined and filtered attribute list.
  */
-function shortcode_atts($pairs, $atts) {
+function shortcode_atts( $pairs, $atts, $shortcode = '' ) {
 	$atts = (array)$atts;
 	$out = array();
 	foreach($pairs as $name => $default) {
@@ -300,6 +301,10 @@ function shortcode_atts($pairs, $atts) {
 		else
 			$out[$name] = $default;
 	}
+
+	if ( $shortcode )
+		$out = apply_filters( "shortcode_atts_{$shortcode}", $out, $pairs, $atts );
+
 	return $out;
 }
 

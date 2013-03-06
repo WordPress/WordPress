@@ -644,7 +644,7 @@ function img_caption_shortcode($attr, $content = null) {
 		'align'	=> 'alignnone',
 		'width'	=> '',
 		'caption' => ''
-	), $attr));
+	), $attr, 'caption'));
 
 	if ( 1 > (int) $width || empty($caption) )
 		return $content;
@@ -704,7 +704,7 @@ function gallery_shortcode($attr) {
 		'size'       => 'thumbnail',
 		'include'    => '',
 		'exclude'    => ''
-	), $attr));
+	), $attr, 'gallery'));
 
 	$id = intval($id);
 	if ( 'RAND' == $order )
