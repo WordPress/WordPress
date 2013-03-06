@@ -659,7 +659,7 @@ default:
 	elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )
 		$errors->add('registered', __('Registration complete. Please check your e-mail.'), 'message');
 	elseif	( $interim_login )
-		$errors->add('expired', __('Please log-in again. You will not move away from this page.'), 'message');
+		$errors->add('expired', __('Please log in again. You will not move away from this page.'), 'message');
 	elseif ( strpos( $redirect_to, 'about.php?updated' ) )
 		$errors->add('updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to experience the awesomeness.' ), 'message' );
 
