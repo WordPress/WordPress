@@ -2359,7 +2359,8 @@ footer.entry-meta {
 }
 
 #commentform input[type="text"] {
-	width: 270px;
+	max-width: 270px;
+	width: 60%;
 }
 
 #commentform textarea {
@@ -3005,6 +3006,11 @@ footer.entry-meta {
 		width: 70%;
 		width: -webkit-calc(100% - 104px);
 		width:         calc(100% - 104px);
+	}
+
+	#commentform input[type="text"] {
+		width: -webkit-calc(100% - 100px);
+		width:         calc(100% - 100px);
 	}
 
 	#commentform textarea {
