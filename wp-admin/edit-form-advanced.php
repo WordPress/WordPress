@@ -168,8 +168,8 @@ if ( post_type_supports($post_type, 'author') ) {
 		add_meta_box('authordiv', __('Author'), 'post_author_meta_box', null, 'normal', 'core');
 }
 
-// TODO review this count() - why do we need to add it?
-if ( post_type_supports($post_type, 'revisions') && 0 < $post_ID && count ( wp_get_post_revisions( $post_ID ) ) > 1  )
+// We should aim to show the revisions metabox only when there are revisions.
+if ( post_type_supports($post_type, 'revisions') && 'auto-draft' != $post->post_status && count( wp_get_post_revisions( $post_ID ) ) > 1 )
 	add_meta_box('revisionsdiv', __('Revisions'), 'post_revisions_meta_box', null, 'normal', 'core');
 
 do_action('add_meta_boxes', $post_type, $post);
