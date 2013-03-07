@@ -21,9 +21,10 @@
 	 * Displays the fixed navbar based on screen position.
 	 */
 	var html          = $( 'html' ),
+		body          = $( 'body' ),
 		navbar        = $( '#navbar' ),
 		navbarOffset  = -1,
-		toolbarOffset = $( 'body' ).is( '.admin-bar' ) ? 28 : 0;
+		toolbarOffset = body.is( '.admin-bar' ) ? 28 : 0;
 
 	$( window ).scroll( function() {
 		if ( navbarOffset < 0 )
@@ -90,12 +91,13 @@
 	 * Arranges footer widgets vertically.
 	 */
 	if ( $.isFunction( $.fn.masonry ) ) {
-		var columnWidth = $( 'body' ).is( '.sidebar' ) ? 228 : 245;
+		var columnWidth = body.is( '.sidebar' ) ? 228 : 245;
 
 		$( '#secondary .widget-area' ).masonry( {
 			itemSelector: '.widget',
-			columnWidth:  columnWidth,
-			gutterWidth:  20
+			columnWidth: columnWidth,
+			gutterWidth: 20,
+			isRTL: body.is( 'rtl' ) ? true : false
 		} );
 	}
 } )( jQuery );

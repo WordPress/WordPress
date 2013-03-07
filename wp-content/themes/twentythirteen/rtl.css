@@ -7,4 +7,262 @@ of your CSS stylesheet in a separate stylesheet file named rtl.css.
 See http://codex.wordpress.org/Right_to_Left_Language_Support
 */
 
-/* TODO */
+/**
+* Table of Contents:
+*
+* 4.0 - Header
+* 4.2 - Navigation
+* 5.0 - Content
+* 5.2 - Entry Meta
+* 5.4 - Galleries
+* 5.7 - Post/Paging Navigation
+* 5.8 - Author Bio
+* 5.12 - Comments
+* 6.0 - Sidebar
+* 6.1 - Widgets
+* 7.0 - Footer
+* 8.0 - Media Queries
+* ----------------------------------------------------------------------------
+*/
+
+/**
+* 4.0 Header
+* ----------------------------------------------------------------------------
+*/
+
+/**
+* 4.1 Site Header
+* ----------------------------------------------------------------------------
+*/
+
+.site-description {
+	font-style: normal;
+}
+
+
+/**
+* 4.2 Navigation
+* ----------------------------------------------------------------------------
+*/
+
+/* Navbar */
+div.nav-menu > ul {
+	margin: 0;
+	padding: 0;
+}
+
+.main-navigation .searchform {
+	left: 0;
+	right: auto;
+}
+
+.nav-menu .current_page_item > a,
+.nav-menu .current_page_ancestor > a,
+.nav-menu .current-menu-item > a,
+.nav-menu .current-menu-ancestor > a {
+	font-style: normal;
+}
+
+
+/**
+* 5.0 Content
+* ----------------------------------------------------------------------------
+*/
+
+.sidebar .entry-header,
+.sidebar .entry-content,
+.sidebar .entry-summary,
+.sidebar .entry-meta {
+	max-width: 1040px;
+	padding-right: 60px;
+	padding-left: 376px;
+}
+
+/**
+* 5.2 Entry Meta
+* ----------------------------------------------------------------------------
+*/
+
+.entry-meta > span {
+	display: inline-block;
+	margin-right: 0;
+	margin-left: 20px;
+}
+
+.entry-meta > span:last-child {
+	margin-right: auto;
+	margin-left: 0;
+}
+
+.comments-link a:before {
+	float: right;
+	margin-right: auto;
+	margin-left: 2px;
+}
+
+.categories-links a:first-child:before,
+.edit-link a:before {
+	float: right;
+}
+
+/**
+* 5.4 Galleries
+* ----------------------------------------------------------------------------
+*/
+
+.gallery-item {
+	float: left;
+	margin: 0 0 4px 4px;
+}
+
+/**
+* 5.6 Post Formats
+* ----------------------------------------------------------------------------
+*/
+
+/* Status */
+.format-status .entry-content:before,
+.format-status .entry-meta:before {
+	left: auto;
+	right: 10px;
+}
+
+.format-status .entry-content p:first-child:before {
+	left: auto;
+	right: 4px;
+}
+
+
+/**
+* 5.7 Post/Paging Navigation
+* ----------------------------------------------------------------------------
+*/
+
+.navigation .nav-previous {
+	float: right;
+}
+
+.navigation .nav-next {
+	float: left;
+}
+
+
+/**
+* 5.8 Author Bio
+* ----------------------------------------------------------------------------
+*/
+
+.author-info {
+	text-align: right; /* gallery & video post formats */
+}
+
+.author-avatar {
+	float: right;
+	margin: 0 0 30px 30px;
+}
+
+/**
+* 5.12 Comments
+* ----------------------------------------------------------------------------
+*/
+
+.sidebar .comments-title,
+.sidebar .comment-list,
+.sidebar #reply-title,
+.sidebar .comment-navigation,
+.sidebar #respond #commentform {
+	padding-left: 376px;
+	padding-right: 60px;
+}
+
+#commentform label[for="author"],
+#commentform label[for="email"],
+#commentform label[for="url"],
+#commentform label[for="comment"] {
+	float: right;
+}
+
+#reply-title {
+	font-style: normal;
+}
+
+/**
+* 6.0 Sidebar
+* ----------------------------------------------------------------------------
+*/
+
+.site-main .widget-area {
+	float: left;
+}
+
+/**
+* 6.1 Widgets
+* ----------------------------------------------------------------------------
+*/
+
+.widget .widget-title {
+	font-style: normal;
+}
+
+/**
+* 7.0 Footer
+* ----------------------------------------------------------------------------
+*/
+
+.site-footer .widget {
+	float: right;
+	margin-right: 0;
+	margin-left: 20px;
+	text-align: right;
+}
+
+.sidebar .site-footer .widget-area {
+	left: auto;
+	right: -158px;
+}
+
+.site-info {
+	text-align: right;
+}
+
+/**
+* 8.0 Media Queries
+* ----------------------------------------------------------------------------
+*/
+
+@media (max-width: 999px) {
+	.sidebar .entry-header,
+	.sidebar .entry-content,
+	.sidebar .entry-summary,
+	.sidebar .entry-meta,
+	.sidebar .comment-list,
+	.sidebar #reply-title,
+	.sidebar .comment-navigation,
+	.sidebar #respond #commentform,
+	.sidebar .featured-gallery,
+	.sidebar .post-navigation .nav-links,
+	.author.sidebar .author-info,
+	.sidebar .format-image .entry-content {
+		max-width: 604px;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.site-main .widget-area {
+		margin: 0;
+		float: none !important;
+		width: 100%;
+	}
+
+	.sidebar .site-footer .widget-area {
+		left: auto;
+		right: 0;
+	}
+}
+
+@media (max-width: 1069px) {
+	.main-navigation .searchform {
+		right: auto;
+		left: 20px;
+	}
+}
