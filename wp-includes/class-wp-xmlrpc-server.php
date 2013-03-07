@@ -3784,6 +3784,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
 
+		if ( ! current_user_can( 'edit_posts' ) )
+			return new IXR_Error( 401, __( 'Sorry, you cannot edit posts on this site.' ) );
+
 		do_action('xmlrpc_call', 'blogger.getRecentPosts');
 
 		$posts_list = wp_get_recent_posts( $query );
@@ -4756,6 +4759,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( !$user = $this->login($username, $password) )
 			return $this->error;
+
+		if ( ! current_user_can( 'edit_posts' ) )
+			return new IXR_Error( 401, __( 'Sorry, you cannot edit posts on this site.' ) );
 
 		do_action('xmlrpc_call', 'metaWeblog.getRecentPosts');
 
