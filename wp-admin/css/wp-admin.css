@@ -3582,7 +3582,7 @@ table.diff .diff-addedline ins {
 }
 
 #diffheader {
-	border-bottom: 2px solid #999;
+	border-bottom: 1px solid #dfdfdf;
 	width: 100%;
 	height: 45px;
 	line-height: 45px;
@@ -3590,8 +3590,7 @@ table.diff .diff-addedline ins {
 }
 
 #diffsubheader {
-	background-color: #eee;
-	border-bottom: 2px solid #999;
+	border-bottom: 1px solid #dfdfdf;
 	width: 100%;
 	height:35px;
 	line-height: 35px;

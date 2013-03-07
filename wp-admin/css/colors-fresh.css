@@ -1353,29 +1353,33 @@ div.wp-menu-image {
 /* Diff */
 table.diff .diff-deletedline {
 	background-color: #ffe5e6;
-	color: #f2001f;
+	color: #8b0012;
 	text-decoration: line-through;
 }
 
 table.diff .diff-deletedline del {
-	background-color: #f99;
+	background-color: #ffe5e6;
 }
 
 table.diff .diff-deletedline-symbol {
-	color: #f2001f;
+	color: #8b0012;
 }
 
 table.diff .diff-addedline {
 	background-color: #e9f6ea;
-	color: #00a500;
+	color: #035a03;
 }
 
 table.diff .diff-addedline-symbol {
-	color: #00a500;
+	color: #035a03;
 }
 
 table.diff .diff-addedline ins {
-	background-color: #9f9;
+	background-color: #e9f6ea;
+}
+
+#diffsubheader{
+	background-color: #f7f7f7;
 }
 
 #att-info {
