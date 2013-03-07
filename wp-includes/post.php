@@ -681,12 +681,9 @@ final class WP_Post {
  * @return array Ancestor IDs or empty array if none are found.
  */
 function get_post_ancestors( $post ) {
-	if ( ! $post )
-		return array();
-
 	$post = get_post( $post );
 
-	if ( empty( $post->post_parent ) || $post->post_parent == $post->ID )
+	if ( ! $post || empty( $post->post_parent ) || $post->post_parent == $post->ID )
 		return array();
 
 	$ancestors = array();
