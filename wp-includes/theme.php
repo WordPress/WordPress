@@ -981,12 +981,12 @@ function is_random_header_image( $type = 'any' ) {
 }
 
 /**
- * Display header image path.
+ * Display header image URL.
  *
  * @since 2.1.0
  */
 function header_image() {
-	echo get_header_image();
+	echo esc_url( get_header_image() );
 }
 
 /**
