@@ -48,8 +48,6 @@ var wpNavMenu;
 			if( oneThemeLocationNoMenus )
 				$( '#posttype-page' ).addSelectedToMenu( api.addMenuItemToBottom );
 
-			this.messageFadeIn();
-
 			this.initAccessibility();
 
 			this.initToggles();
@@ -377,13 +375,6 @@ var wpNavMenu;
 			}).blur(function () {
 				$(this).off( 'keydown' );
 			});
-		},
-
-		messageFadeIn : function() {
-			var messages = $( '#message' );
-
-			// Visual change when users save menus multiple times in a row
-			messages.slideDown( 'slow' );
 		},
 
 		initToggles : function() {

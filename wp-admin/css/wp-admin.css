@@ -7162,10 +7162,6 @@ a.rsswidget {
 
 /* nav-menu */
 
-.nav-menus-php #message {
-	display: none;
-}
-
 .no-js #message {
 	display: block;
 }
