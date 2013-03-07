@@ -97,7 +97,7 @@
 			itemSelector: '.widget',
 			columnWidth: columnWidth,
 			gutterWidth: 20,
-			isRTL: body.is( '.rtl' ) ? true : false
+			isRTL: body.is( '.rtl' )
 		} );
 	}
 } )( jQuery );
