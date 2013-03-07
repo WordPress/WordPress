@@ -1719,7 +1719,7 @@ function wp_text_diff( $left_string, $right_string, $args = null ) {
 
 	$r  = "<table class='diff'>\n";
 
-	if ( isset( $args[ 'showsplitview' ] ) && 'true' == $args[ 'showsplitview' ] ) {
+	if ( ! empty( $args[ 'show_split_view' ] ) ) {
 		$r .= "<col class='content diffsplit left' /><col class='content diffsplit middle' /><col class='content diffsplit right' />";
 	} else {
 		$r .= "<col class='content' />";

@@ -1468,7 +1468,32 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	else :
 		echo "<ul class='post-revisions'>\n";
 		echo $rows;
+
+		//
+		// if the post was previously restored from a revision
+		// show the restore event details
+		//
+		if ( $restored_from_meta = get_post_meta( $post->ID, '_post_restored_from', true ) ) { 
+			$author = get_the_author_meta( 'display_name', $restored_from_meta[ 'restored_by_user' ] ); 
+			/* translators: revision date format, see http://php.net/date */ 
+			$datef = _x( 'j F, Y @ G:i:s', 'revision date format'); 
+			$date = date_i18n( $datef, strtotime( $restored_from_meta[ 'restored_time' ] ) ); 
+			$timesince = human_time_diff( $restored_from_meta[ 'restored_time' ], current_time( 'timestamp' ) ) . __( ' ago ' ); 
+			?> 
+			<hr />
+			<div id="revisions-meta-restored"> 
+				<?php 
+				printf( 'Previously restored from Revision ID %d, %s by %s (%s)', 
+				$restored_from_meta[ 'restored_revision_id'], 
+				$timesince, 
+				$author, 
+				$date ); 
+				?> 
+			</div> 
+			<?php 
 		echo "</ul>";
+		} 
+
 	endif;
 
 }

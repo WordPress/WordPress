@@ -3722,8 +3722,23 @@ span#diff_left_count_inner,
 .leftmodelloading #modelsloading,
 .rightmodelloading #modelsloading,
 .leftmodelloading #modelsloading .spinner,
-.rightmodelloading #modelsloading .spinner {
+.rightmodelloading #modelsloading .spinner,
+{
 	display: inline;
+}
+
+.diff-loading {
+	margin-top: 50px;
+	width: 100%;
+	height: 200px;
+}
+.diff-loading .spinner
+{
+	clear: both;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	float: none;
 }
 
 #difftitlefrom {
