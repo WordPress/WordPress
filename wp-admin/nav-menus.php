@@ -453,7 +453,7 @@ require_once( './admin-header.php' );
 ?>
 <div class="wrap">
 	<?php screen_icon(); ?>
-	<h2><?php _e( 'Menus' ); ?></h2>
+	<h2><?php _e( 'Menus' ); ?> <a href="<?php echo esc_url( add_query_arg( array( 'action' => 'edit', 'menu' => 0, ), admin_url( 'nav-menus.php' ) ) ); ?>" class="add-new-h2"><?php _ex( 'Add New', 'menu' ); ?></a></h2>
 	<?php
 	foreach( $messages as $message ) :
 		echo $message . "\n";
