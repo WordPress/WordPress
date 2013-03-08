@@ -1523,8 +1523,17 @@ footer.entry-meta {
 .search .format-gallery .gallery-item img {
 	height: 100%;
 	max-height: 148px;
-	max-width: 1000%;
+	max-width: none;
 	width: auto;
+}
+
+.blog .format-gallery .gallery-item .portrait img, 
+.archive .format-gallery .gallery-item .portrait img, 
+.search .format-gallery .gallery-item .portrait img { 
+	height: auto; 
+	max-height: none; 
+	max-width: 148px; 
+	width: 100%; 
 }
 
 .blog .format-gallery .gallery-item:first-child,
@@ -1538,6 +1547,13 @@ footer.entry-meta {
 .archive .format-gallery .gallery-item:first-child img,
 .search .format-gallery .gallery-item:first-child img {
 	max-height: 300px;
+}
+
+.blog .format-gallery .gallery-item:first-child .portrait img,
+.archive .format-gallery .gallery-item:first-child .portrait img,
+.search .format-gallery .gallery-item:first-child .portrait img {
+	max-height: none;
+	max-width: 300px;
 }
 
 .blog .format-gallery .gallery-item .gallery-icon,
