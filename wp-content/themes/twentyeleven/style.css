@@ -867,7 +867,7 @@ dl.gallery-item {
 .entry-content img,
 .comment-content img,
 .widget img {
-	max-width: 97.5%; /* Fluid images for posts, comments, and widgets */
+	max-width: 100%; /* Fluid images for posts, comments, and widgets */
 }
 img[class*="align"],
 img[class*="wp-image-"],
@@ -903,7 +903,7 @@ p img,
 }
 .wp-caption img {
 	display: block;
-	margin: 0 auto;
+	margin: -2px 0 0 -2px;
 	max-width: 98%;
 }
 .wp-caption .wp-caption-text,
@@ -953,6 +953,7 @@ img[class*="wp-image-"],
 #content .gallery .gallery-icon img {/* Add fancy borders to all WordPress-added images but not things like badges and icons and the like */
 	border: 1px solid #ddd;
 	padding: 6px;
+	max-width: 97.5%;
 }
 .wp-caption img {
 	border-color: #eee;
