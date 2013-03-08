@@ -602,15 +602,6 @@ function post_password_required( $post = null ) {
  * Quicktag one or more times). This tag must be within The Loop.
  *
  * The defaults for overwriting are:
- * 'next_or_number' - Default is 'number' (string). Indicates whether page
- *      numbers should be used. Valid values are number and next.
- * 'nextpagelink' - Default is 'Next Page' (string). Text for link to next page.
- *      of the bookmark.
- * 'previouspagelink' - Default is 'Previous Page' (string). Text for link to
- *      previous page, if available.
- * 'pagelink' - Default is '%' (String).Format string for page numbers. The % in
- *      the parameter string will be replaced with the page number, so Page %
- *      generates "Page 1", "Page 2", etc. Defaults to %, just the page number.
  * 'before' - Default is '<p> Pages:' (string). The html or text to prepend to
  *      each bookmarks.
  * 'after' - Default is '</p>' (string). The html or text to append to each
@@ -621,20 +612,36 @@ function post_password_required( $post = null ) {
  * 'link_after' - Default is '' (string). The html or text to append to each
  *      Pages link inside the <a> tag. Also appended to the current item, which
  *      is not linked.
+ * 'next_or_number' - Default is 'number' (string). Indicates whether page
+ *      numbers should be used. Valid values are number and next.
+ * 'separator' - Default is ' ' (string). Text used between pagination links.
+ * 'nextpagelink' - Default is 'Next Page' (string). Text for link to next page.
+ *      of the bookmark.
+ * 'previouspagelink' - Default is 'Previous Page' (string). Text for link to
+ *      previous page, if available.
+ * 'pagelink' - Default is '%' (String).Format string for page numbers. The % in
+ *      the parameter string will be replaced with the page number, so Page %
+ *      generates "Page 1", "Page 2", etc. Defaults to %, just the page number.
+ * 'echo' - Default is 1 (integer). When not 0, this triggers the HTML to be
+ *      echoed and then returned.
  *
  * @since 1.2.0
- * @access private
  *
  * @param string|array $args Optional. Overwrite the defaults.
  * @return string Formatted output in HTML.
  */
-function wp_link_pages($args = '') {
+function wp_link_pages( $args = '' ) {
 	$defaults = array(
-		'before' => '<p>' . __('Pages:'), 'after' => '</p>',
-		'link_before' => '', 'link_after' => '',
-		'next_or_number' => 'number', 'nextpagelink' => __('Next page'),
-		'previouspagelink' => __('Previous page'), 'pagelink' => '%',
-		'echo' => 1
+		'before'           => '<p>' . __( 'Pages:' ),
+		'after'            => '</p>',
+		'link_before'      => '',
+		'link_after'       => '',
+		'next_or_number'   => 'number',
+		'separator'        => ' ',
+		'nextpagelink'     => __( 'Next page' ),
+		'previouspagelink' => __( 'Previous page' ),
+		'pagelink'         => '%',
+		'echo'             => 1
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -647,34 +654,33 @@ function wp_link_pages($args = '') {
 	if ( $multipage ) {
 		if ( 'number' == $next_or_number ) {
 			$output .= $before;
-			for ( $i = 1; $i < ($numpages+1); $i = $i + 1 ) {
-				$j = str_replace('%',$i,$pagelink);
-				$output .= ' ';
-				if ( ($i != $page) || ((!$more) && ($page==1)) ) {
-					$output .= _wp_link_page($i);
-				}
-				$output .= $link_before . $j . $link_after;
-				if ( ($i != $page) || ((!$more) && ($page==1)) )
-					$output .= '</a>';
+			for ( $i = 1; $i <= $numpages; $i++ ) {
+				$link = $link_before . str_replace( '%', $i, $pagelink ) . $link_after;
+				if ( $i != $page || ! $more && 1 == $page )
+					$link = _wp_link_page( $i ) . $link . '</a>';
+				$link = apply_filters( 'wp_link_pages_link', $link, $i );
+				$output .= $separator . $link;
 			}
 			$output .= $after;
-		} else {
-			if ( $more ) {
-				$output .= $before;
-				$i = $page - 1;
-				if ( $i && $more ) {
-					$output .= _wp_link_page($i);
-					$output .= $link_before. $previouspagelink . $link_after . '</a>';
-				}
-				$i = $page + 1;
-				if ( $i <= $numpages && $more ) {
-					$output .= _wp_link_page($i);
-					$output .= $link_before. $nextpagelink . $link_after . '</a>';
-				}
-				$output .= $after;
+		} elseif ( $more ) {
+			$output .= $before;
+			$i = $page - 1;
+			if ( $i ) {
+				$link = _wp_link_page( $i ) . $link_before . $previouspagelink . $link_after . '</a>';
+				$link = apply_filters( 'wp_link_pages_link', $link, $i );
+				$output .= $separator . $link;
 			}
+			$i = $page + 1;
+			if ( $i <= $numpages ) {
+				$link = _wp_link_page( $i ) . $link_before . $nextpagelink . $link_after . '</a>';
+				$link = apply_filters( 'wp_link_pages_link', $link, $i );
+				$output .= $separator . $link;
+			}
+			$output .= $after;
 		}
 	}
+
+	$output = apply_filters( 'wp_link_pages', $output, $args );
 
 	if ( $echo )
 		echo $output;
