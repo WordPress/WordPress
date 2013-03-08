@@ -2702,10 +2702,13 @@ p.comment-form-comment {
 	padding-right: -7.6%;
 	max-width: 1000px;
 }
-#ie7 section.featured-post {
-	margin-left: -7.6%;
-	margin-right: -7.6%;
-	max-width: 850px;
+#ie7 .featured-posts {
+	margin: 0 -7.6%;
+}
+#ie7 .featured-post {
+	margin-left: 0;
+	margin-right: 0;
+	max-width: 100%;
 }
 #ie7 section.recent-posts {
 	margin-right: 7.6%;
@@ -2715,5 +2718,8 @@ p.comment-form-comment {
 ----------------------------------------------- */
 
 #ie8 section.feature-image.large img {
-	width: 100%;
+	width: auto;
+}
+#ie8 section.featured-post .attachment-small-feature {
+	max-width: none;
 }
