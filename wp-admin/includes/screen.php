@@ -319,20 +319,20 @@ final class WP_Screen {
 
 	/**
 	 * The help tab data associated with the screen, if any.
- 	 *
- 	 * @since 3.3.0
- 	 * @var array
- 	 * @access private
- 	 */
+	 *
+	 * @since 3.3.0
+	 * @var array
+	 * @access private
+	 */
 	private $_help_tabs = array();
 
- 	/**
+	/**
 	 * The help sidebar data associated with screen, if any.
 	 *
 	 * @since 3.3.0
 	 * @var string
 	 * @access private
- 	 */
+	 */
 	private $_help_sidebar = '';
 
 	/**
@@ -376,16 +376,16 @@ final class WP_Screen {
 	 */
 	private $_screen_settings;
 
- 	/**
+	/**
 	 * Fetches a screen object.
- 	 *
- 	 * @since 3.3.0
+	 *
+	 * @since 3.3.0
 	 * @access public
- 	 *
+	 *
 	 * @param string $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
 	 * 	Defaults to the current $hook_suffix global.
 	 * @return WP_Screen Screen object.
- 	 */
+	 */
 	public static function get( $hook_name = '' ) {
 
 		if ( is_a( $hook_name, 'WP_Screen' ) )
@@ -427,13 +427,13 @@ final class WP_Screen {
 			if ( 'edit-comments' != $id && 'edit-tags' != $id && 'edit-' == substr( $id, 0, 5 ) ) {
 				$maybe = substr( $id, 5 );
 				if ( taxonomy_exists( $maybe ) ) {
- 					$id = 'edit-tags';
+					$id = 'edit-tags';
 					$taxonomy = $maybe;
 				} elseif ( post_type_exists( $maybe ) ) {
 					$id = 'edit';
 					$post_type = $maybe;
 				}
- 			}
+			}
 
 			if ( ! $in_admin )
 				$in_admin = 'site';
@@ -480,7 +480,7 @@ final class WP_Screen {
 						$post_type = 'post';
 					break;
 			}
- 		}
+		}
 
 		switch ( $base ) {
 			case 'post' :
@@ -513,7 +513,7 @@ final class WP_Screen {
 		} elseif ( 'user' == $in_admin ) {
 			$id   .= '-user';
 			$base .= '-user';
- 		}
+		}
 
 		if ( isset( self::$_registry[ $id ] ) ) {
 			$screen = self::$_registry[ $id ];
@@ -535,7 +535,7 @@ final class WP_Screen {
 		self::$_registry[ $id ] = $screen;
 
 		return $screen;
- 	}
+	}
 
 	/**
 	 * Makes the screen object the current screen.
