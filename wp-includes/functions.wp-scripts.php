@@ -66,7 +66,7 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
 /**
  * Wrapper for $wp_scripts->localize().
  *
- * Used to localizes a script.
+ * Used to localize a script.
  * Works only if the script has already been added.
  * Accepts an associative array $l10n and creates JS object:
  * "$object_name" = {
