@@ -1162,7 +1162,7 @@ function wp_check_post_lock( $post_id ) {
 	$time = $lock[0];
 	$user = isset( $lock[1] ) ? $lock[1] : get_post_meta( $post->ID, '_edit_last', true );
 
-	$time_window = apply_filters( 'wp_check_post_lock_window', AUTOSAVE_INTERVAL * 2 );
+	$time_window = apply_filters( 'wp_check_post_lock_window', 120 );
 
 	if ( $time && $time > time() - $time_window && $user != get_current_user_id() )
 		return $user;
@@ -1192,31 +1192,61 @@ function wp_set_post_lock( $post_id ) {
 }
 
 /**
- * Outputs the notice message to say that someone else is editing this post at the moment.
+ * Outputs the HTML for the notice to say that someone else is editing or has taken over editing of this post.
  *
  * @since 2.8.5
  * @return none
  */
 function _admin_notice_post_locked() {
-	$post = get_post();
-	$lock = explode( ':', get_post_meta( $post->ID, '_edit_lock', true ) );
-	$user = isset( $lock[1] ) ? $lock[1] : get_post_meta( $post->ID, '_edit_last', true );
-	$last_user = get_userdata( $user );
-	$last_user_name = $last_user ? $last_user->display_name : __('Somebody');
+	global $post_ID;
 
-	switch ($post->post_type) {
-		case 'post':
-			$message = __( 'Warning: %s is currently editing this post' );
-			break;
-		case 'page':
-			$message = __( 'Warning: %s is currently editing this page' );
-			break;
-		default:
-			$message = __( 'Warning: %s is currently editing this.' );
+	if ( !empty( $post_ID ) && ( $user = wp_check_post_lock( $post_ID ) ) ) {
+		$user = get_userdata( $user );
+		$locked = apply_filters( 'show_post_locked_dialog', true, $post_ID, $user );
+	} else {
+		$locked = false;
 	}
 
-	$message = sprintf( $message, esc_html( $last_user_name ) );
-	echo "<div class='error'><p>$message</p></div>";
+	?>
+	<div id="notification-dialog-wrap"<?php if ( ! $locked ) echo ' style="display:none"'; ?>>
+	<div id="notification-dialog-background"></div>
+	<div id="notification-dialog">
+	<?php
+
+	if ( $locked ) {
+		?>
+		<div class="post-locked-message">
+		<div class="post-locked-avatar"><?php echo get_avatar( $user->ID, 64 ); ?></div>
+		<p><?php esc_html_e( sprintf( __( 'This content is currently locked. If you take over, %s will be blocked from continuing to edit.' ), $user->display_name ) ); ?></p>
+		<p>
+		<a class="button" href="<?php echo esc_url( wp_get_referer() ); ?>"><?php _e('Go back'); ?></a>
+		<?php
+
+		// Allow plugins to prevent some users taking over
+		if ( apply_filters( 'post_lock_take_over', true, $post_ID, $user ) ) {
+			?>
+			<a class="button button-primary" href="<?php echo esc_url( add_query_arg( 'get-post-lock', '1', get_edit_post_link( $post_ID, 'url' ) ) ); ?>"><?php _e('Take over'); ?></a>
+			<?php
+		}
+
+		?>
+		</p>
+		</div>
+		<?php
+	} else {
+		?>
+		<div class="post-taken-over">
+			<div class="post-locked-avatar"></div>
+			<p class="currently-editing"></p>
+			<p><a class="button button-primary" href="<?php echo esc_url( admin_url('edit.php') ); ?>"><?php _e('Go to All Posts'); ?></a></p>
+		</div>
+		<?php
+	}
+
+	?>
+	</div>
+	</div>
+	<?php
 }
 
 /**

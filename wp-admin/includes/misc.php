@@ -586,3 +586,44 @@ function wp_check_locked_posts( $response, $data ) {
 	return $response;
 }
 add_filter( 'heartbeat_received', 'wp_check_locked_posts', 10, 2 );
+
+/**
+ * Check lock status on the New/Edit Post screen and refresh the lock
+ *
+ * @since 3.6
+ */
+function wp_refresh_post_lock( $response, $data, $screen_id ) {
+	if ( 'post' == $screen_id && array_key_exists( 'wp-refresh-post-lock', $data ) ) {
+		$received = $data['wp-refresh-post-lock'];
+		$send = array();
+
+		if ( !$post_id = absint( $received['post_id'] ) )
+			return $response;
+
+		if ( !current_user_can('edit_post', $post_id) )
+			return $response;
+
+		if ( $user_id = wp_check_post_lock( $post_id ) ) {
+			$user = get_userdata( $user_id );
+
+			$error = array(
+				'text' => sprintf( __( '%s has taken over and is currently editing.' ), $user->display_name )
+			);
+			
+			if ( $avatar = get_avatar( $user->ID, 64 ) ) {
+				if ( preg_match( "|src='([^']+)'|", $avatar, $matches ) )
+					$error['avatar_src'] = $matches[1];
+			}
+
+			$send['lock_error'] = $error;
+		} else {
+			if ( $new_lock = wp_set_post_lock( $post_id ) )
+				$send['new_lock'] = implode( ':', $new_lock );
+		}
+
+		$response['wp-refresh-post-lock'] = $send;
+	}
+
+	return $response;
+}
+add_filter( 'heartbeat_received', 'wp_refresh_post_lock', 10, 3 );

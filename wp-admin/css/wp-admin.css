@@ -3407,6 +3407,46 @@ td.plugin-title p {
 	border-style: solid;
 }
 
+#notification-dialog {
+	position: fixed;
+	top: 30%;
+	left: 50%;
+	width: 450px;
+	margin-left: -225px;
+	background: #fff;
+	z-index: 1000005;
+}
+
+#notification-dialog-background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #000;
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+	z-index: 1000000;
+}
+
+#notification-dialog .post-locked-message,
+#notification-dialog .post-taken-over {
+	margin: 25px;
+}
+
+#notification-dialog .post-locked-message a.button-primary {
+	margin: 0 10px;
+}
+
+#notification-dialog .post-locked-avatar {
+	float: left;
+	margin-right: 20px;
+}
+
+#notification-dialog .currently-editing {
+	margin-bottom: 20px;
+}
+
 
 /*------------------------------------------------------------------------------
   11.1 - Custom Fields

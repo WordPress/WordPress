@@ -1057,6 +1057,7 @@ function wp_ajax_autosave() {
 		$_POST['post_status'] = 'draft';
 
 	if ( $last = wp_check_post_lock( $post->ID ) ) {
+		// This will change after we have per-user autosaves
 		$do_autosave = $do_lock = false;
 
 		$last_user = get_userdata( $last );
@@ -1064,7 +1065,6 @@ function wp_ajax_autosave() {
 		$data = __( 'Autosave disabled.' );
 
 		$supplemental['disable_autosave'] = 'disable';
-		$alert .= sprintf( __( '%s is currently editing this article. If you update it, you will overwrite the changes.' ), esc_html( $last_user_name ) );
 	}
 
 	if ( 'page' == $post->post_type ) {
@@ -1092,11 +1092,6 @@ function wp_ajax_autosave() {
 			$id = 0; // This tells us it didn't actually save
 		else
 			$id = $post->ID;
-	}
-
-	if ( $do_lock && empty( $_POST['auto_draft'] ) && $id && is_numeric( $id ) ) {
-		$lock_result = wp_set_post_lock( $id );
-		$supplemental['active-post-lock'] = implode( ':', $lock_result );
 	}
 
 	if ( $nonce_age == 2 ) {
@@ -1777,7 +1772,7 @@ function wp_ajax_wp_remove_post_lock() {
 	if ( $active_lock[1] != get_current_user_id() )
 		wp_die( 0 );
 
-	$new_lock = ( time() - apply_filters( 'wp_check_post_lock_window', AUTOSAVE_INTERVAL * 2 ) + 5 ) . ':' . $active_lock[1];
+	$new_lock = ( time() - apply_filters( 'wp_check_post_lock_window', 120 ) + 5 ) . ':' . $active_lock[1];
 	update_post_meta( $post_id, '_edit_lock', $new_lock, implode( ':', $active_lock ) );
 	wp_die( 1 );
 }

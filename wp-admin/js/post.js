@@ -251,7 +251,49 @@ WPRemoveThumbnail = function(nonce){
 	);
 };
 
-})(jQuery);
+$(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
+	var lock = $('#active_post_lock').val(), post_id = $('#post_ID').val(), send = {};
+
+	if ( !post_id )
+		return;
+
+	send['post_id'] = post_id;
+
+	if ( lock )
+		send['lock'] = lock;
+
+	data['wp-refresh-post-lock'] = send;
+});
+
+$(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
+	var received, wrap, avatar;
+
+	if ( data['wp-refresh-post-lock'] ) {
+		received = data['wp-refresh-post-lock'];
+
+		if ( received.lock_error ) {
+			// show "editing taken over" message
+			wrap = $('#notification-dialog-wrap');
+
+			if ( ! wrap.is(':visible') ) {
+				autosave();
+				wrap.find('p.currently-editing').text( received.lock_error.text );
+				
+				if ( received.lock_error.avatar_src && /^https?:\/\/[a-z0-9]+?\.gravatar\.com\/avatar/.test( received.lock_error.avatar_src ) ) {
+					avatar = $('<img class="avatar avatar-64 photo" width="64" height="64" />').attr( 'src', received.lock_error.avatar_src.replace(/&amp;/g, '&') );
+					wrap.find('div.post-locked-avatar').empty().append( avatar );
+				}
+
+				wrap.show();
+			}
+		}
+
+		if ( received['new_lock'] )
+			$('#active_post_lock').val( received['new_lock'].replace(/[^0-9:]+/, '') );
+	}
+});
+
+}(jQuery));
 
 jQuery(document).ready( function($) {
 	var stamp, visibility, sticky = '', last = 0, co = $('#content');
