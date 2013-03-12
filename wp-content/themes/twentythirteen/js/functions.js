@@ -7,7 +7,7 @@
 ( function( $ ) {
 	var twentyThirteen = {
 		/**
-		 * Adds a top margin to the footer if the sidebar widget area is 
+		 * Adds a top margin to the footer if the sidebar widget area is
 		 * higher than the rest of the page, to help the footer always
 		 * visually clear the sidebar.
 		 */
