@@ -29,8 +29,8 @@ Use it to make something cool, have fun, and share what you've learned with othe
  *   5.2 - Entry Meta
  *   5.3 - Entry Content
  *   5.4 - Galleries
- *   5.5 - Attachments
- *   5.6 - Post Formats
+ *   5.5 - Post Formats
+ *   5.6 - Attachments
  *   5.7 - Post/Paging Navigation
  *   5.8 - Author Bio
  *   5.9 - Archives
@@ -547,7 +547,7 @@ hr {
 .screen-reader-text:focus {
 	background-color: #f1f1f1;
 	border-radius: 3px;
-	box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
 	clip: auto !important;
 	color: #21759b;
 	display: block;
@@ -591,10 +591,10 @@ input[type="button"],
 input[type="reset"] {
 	background: #e05d22; /* Old browsers */
 	background: -webkit-linear-gradient(top, #e05d22 0%, #d94412 100%); /* Chrome 10+, Safari 5.1+ */
-	background: linear-gradient(to bottom, #e05d22 0%, #d94412 100%); /* W3C */
+	background:   linear-gradient(to bottom, #e05d22 0%, #d94412 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e05d22', endColorstr='#d94412', GradientType=0); /* IE6-9 */
 	display: inline-block;
-	padding: 11px 24px 10px 24px;
+	padding: 11px 24px 10px;
 	color: #fff;
 	text-decoration: none;
 	border: none;
@@ -612,7 +612,7 @@ input[type="button"]:focus,
 input[type="reset"]:focus {
 	background: #ed6a31; /* Old browsers */
 	background: -webkit-linear-gradient(top, #ed6a31 0%, #e55627 100%); /* Chrome 10+, Safari 5.1+ */
-	background: linear-gradient(to bottom, #ed6a31 0%, #e55627 100%); /* W3C */
+	background:   linear-gradient(to bottom, #ed6a31 0%, #e55627 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ed6a31', endColorstr='#e55627', GradientType=0); /* IE6-9 */
 	outline: none;
 }
@@ -623,11 +623,11 @@ input[type="button"]:active,
 input[type="reset"]:active {
 	background: #d94412; /* Old browsers */
 	background: -webkit-linear-gradient(top, #d94412 0%, #e05d22 100%); /* Chrome 10+, Safari 5.1+ */
-	background: linear-gradient(to bottom, #d94412 0%, #e05d22 100%); /* W3C */
+	background:   linear-gradient(to bottom, #d94412 0%, #e05d22 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d94412', endColorstr='#e05d22', GradientType=0); /* IE6-9 */
 	border: none;
 	border-top: 3px solid #b93207;
-	padding: 10px 24px 11px 24px;
+	padding: 10px 24px 11px;
 }
 
 .post-password-required input[type="submit"] {
@@ -1372,7 +1372,7 @@ footer.entry-meta {
 }
 
 /**
- * 5.6 Post Formats
+ * 5.5 Post Formats
  * ----------------------------------------------------------------------------
  */
 
@@ -1737,7 +1737,7 @@ footer.entry-meta {
 .format-status .entry-meta:before {
 	background: url(images/dotted-line.png) repeat-y left bottom;
 	background-size: 4px 4px;
-	content: "";
+	content: normal;
 	display: block;
 	height: 100%;
 	position: absolute;
@@ -1773,7 +1773,7 @@ footer.entry-meta {
 
 .format-status .entry-content p:first-child:before {
 	background-color: rgba(0, 0, 0, 0.65);
-	content: "";
+	content: normal;
 	height: 3px;
 	margin-top: 13px;
 	position: absolute;
@@ -1825,7 +1825,7 @@ footer.entry-meta {
 
 
 /**
- * 5.5 Attachments
+ * 5.6 Attachments
  * ----------------------------------------------------------------------------
  */
 
@@ -2193,7 +2193,7 @@ footer.entry-meta {
 	overflow: hidden;
 	position: absolute;
 	left: 7px;
-	top: 28px
+	top: 28px;
 }
 
 .error404 .page-wrapper {
@@ -2254,7 +2254,7 @@ footer.entry-meta {
 .comment-list .children > li:before {
 	background: url(images/dotted-line.png) repeat left top;
 	background-size: 4px 4px;
-	content: "";
+	content: normal;
 	display: block;
 	height: 1px;
 	width: 100%;
@@ -2680,7 +2680,7 @@ footer.entry-meta {
 
 #wpstats {
 	display: block;
-	margin: -10px auto 0 auto;
+	margin: -10px auto 0;
 }
 
 
@@ -2842,7 +2842,7 @@ footer.entry-meta {
 	}
 
 	.sidebar .paging-navigation .nav-links {
-		padding: 0 60px 0 60px;
+		padding: 0 60px;
 	}
 
 	.site-main .sidebar-container {
@@ -3023,7 +3023,7 @@ footer.entry-meta {
 	}
 
 	.error404 .page-title:before {
-		content: "";
+		content: normal;
 	}
 
 	.comment-author {
