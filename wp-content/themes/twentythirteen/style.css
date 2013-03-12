@@ -735,7 +735,8 @@ img.aligncenter {
 }
 
 .wp-caption .wp-caption-text,
-.entry-caption {
+.entry-caption,
+.gallery-caption {
 	color: #220e10;
 	font-size: 18px;
 	font-style: italic;
@@ -1251,6 +1252,8 @@ footer.entry-meta {
 .gallery-item {
 	float: left;
 	margin: 0 4px 4px 0;
+	overflow: hidden; 
+	position: relative;
 }
 
 .single .gallery-columns-1.gallery-size-medium,
@@ -1335,16 +1338,38 @@ footer.entry-meta {
 }
 
 .gallery-caption {
-	color: #777;
+	background-color: rgba(0, 0, 0, 0.7);
+	box-sizing: border-box;
+	color: #fff;
 	font-size: 14px;
-	font-style: italic;
-	padding-top: 4px;
+	height: 74px;
+	line-height: 1.3;
+	margin: 0;
+	max-height: 100%;
+	opacity: 0;
+	padding: 2px 8px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	text-align: left;
+	-webkit-transition: opacity 400ms ease; 
+	transition:         opacity 400ms ease;
+	width: 100%;
 }
 
-.gallery-caption {
-	width: 90%;
+.gallery-caption:before {
+	box-shadow: 0 -10px 15px #000 inset;
+	content: "";
+	height: 74px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
 }
 
+.gallery-item:hover .gallery-caption {
+	opacity: 1;
+}
 
 /**
  * 5.6 Post Formats
