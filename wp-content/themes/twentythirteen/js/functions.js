@@ -5,17 +5,40 @@
  */
 
 ( function( $ ) {
-	/**
-	 * Repositions the window on jump-to-anchor to account for
-	 * navbar height.
-	 */
-	var twentyThirteenAdjustAnchor = function() {
-		if ( window.location.hash )
-			window.scrollBy( 0, -49 );
+	var twentyThirteen = {
+		/**
+		 * Adds a top margin to the footer if the sidebar widget area is 
+		 * higher than the rest of the page, to help the footer always
+		 * visually clear the sidebar.
+		 */
+		adjustFooter : function() {
+			var sidebar   = $( '#secondary .widget-area' ),
+			    secondary = ( 0 == sidebar.length ) ? -40 : sidebar.height(),
+			    margin    = $( '#tertiary .widget-area' ).height() - $( '#content' ).height() - secondary;
+
+			if ( margin > 0 && window.innerWidth > 999 )
+				$( '#colophon' ).css( 'margin-top', margin + 'px' );
+			else
+				console.log( 'nothing' );
+		},
+
+		/**
+		 * Repositions the window on jump-to-anchor to account for navbar
+		 * height.
+		 */
+		adjustAnchor : function() {
+			if ( window.location.hash )
+				window.scrollBy( 0, -49 );
+		}
 	};
 
-	$( document ).on( 'ready',    twentyThirteenAdjustAnchor );
-	$( window ).on( 'hashchange', twentyThirteenAdjustAnchor );
+	$( document ).on( 'ready', function() {
+		twentyThirteen.adjustAnchor();
+
+		if ( body.is( '.sidebar' ) )
+			twentyThirteen.adjustFooter();
+	} );
+	$( window ).on( 'hashchange', twentyThirteen.adjustAnchor );
 
 	/**
 	 * Displays the fixed navbar based on screen position.
