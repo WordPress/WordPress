@@ -925,7 +925,7 @@ function wp_ajax_add_meta() {
 			$_POST['post_type'] = $post->post_type;
 			$_POST['post_status'] = 'draft';
 			$now = current_time('timestamp', 1);
-			$_POST['post_title'] = sprintf('Draft created on %s at %s', date(get_option('date_format'), $now), date(get_option('time_format'), $now));
+			$_POST['post_title'] = sprintf( __( 'Draft created on %1$s at %2$s' ), date( get_option( 'date_format' ), $now ), date( get_option( 'time_format' ), $now ) );
 
 			if ( $pid = edit_post() ) {
 				if ( is_wp_error( $pid ) ) {
