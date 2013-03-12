@@ -147,29 +147,34 @@ function get_template_part( $slug, $name = null ) {
  *
  * @since 2.7.0
  * @param boolean $echo Default to echo and not return the form.
+ * @param string $format Which type to use for the search field. If set to 'html5' it changes to search input type and adds placeholder text.
  * @return string|null String when retrieving, null when displaying or if searchform.php exists.
  */
-function get_search_form($echo = true) {
+function get_search_form( $echo = true, $format = 'xhtml' ) {
 	do_action( 'get_search_form' );
 
-	$search_form_template = locate_template('searchform.php');
+	$search_form_template = locate_template( 'searchform.php' );
 	if ( '' != $search_form_template ) {
 		ob_start();
-		require($search_form_template);
+		require( $search_form_template );
 		$form = ob_get_clean();
 	} else {
-		$form = '<form role="search" method="get" id="searchform" action="' . esc_url( home_url( '/' ) ) . '" >
-		<div><label class="screen-reader-text" for="s">' . __('Search for:') . '</label>
-		<input type="text" value="' . get_search_query() . '" name="s" id="s" />
-		<input type="submit" id="searchsubmit" value="'. esc_attr__('Search') .'" />
-		</div>
+		$type        = ( 'html5' === $format ) ? 'search' : 'text';
+		$placeholder = ( 'html5' === $format ) ? 'placeholder="' . esc_attr_x( 'Search &hellip;', 'placeholder' ) . '" ' : '';
+
+		$form = '<form role="search" method="get" id="searchform" class="searchform" action="' . esc_url( home_url( '/' ) ) . '">
+			<div>
+				<label class="screen-reader-text" for="s">' . _x( 'Search for:', 'label' ) . '</label>
+				<input type="' . $type . '" ' . $placeholder . 'value="' . get_search_query() . '" name="s" id="s" />
+				<input type="submit" id="searchsubmit" value="'. esc_attr_x( 'Search', 'submit button' ) .'" />
+			</div>
 		</form>';
 	}
 
 	if ( $echo )
-		echo apply_filters('get_search_form', $form);
+		echo apply_filters( 'get_search_form', $form );
 	else
-		return apply_filters('get_search_form', $form);
+		return apply_filters( 'get_search_form', $form );
 }
 
 /**
