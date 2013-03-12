@@ -100,25 +100,17 @@ function twentythirteen_setup() {
 add_action( 'after_setup_theme', 'twentythirteen_setup' );
 
 /**
- * Loads our special font CSS file.
+ * Returns the Google font stylesheet URL, if available.
  *
  * The use of Source Sans Pro and Bitter by default is localized. For languages
  * that use characters not supported by the font, the font can be disabled.
  *
- * To disable in a child theme, use wp_dequeue_style()
- * function mytheme_dequeue_fonts() {
- *     wp_dequeue_style( 'twentythirteen-fonts' );
- * }
- * add_action( 'wp_enqueue_scripts', 'mytheme_dequeue_fonts', 11 );
- *
- * Also used in the Appearance > Header admin panel:
- * @see twentythirteen_custom_header_setup()
- *
  * @since Twenty Thirteen 1.0
  *
- * @return void
+ * @return string Font stylesheet or empty string if disabled.
  */
-function twentythirteen_fonts() {
+function twentythirteen_fonts_url() {
+	$fonts_url = '';
 
 	/* Translators: If there are characters in your language that are not
 	 * supported by Source Sans Pro, translate this to 'off'. Do not translate
@@ -146,10 +138,59 @@ function twentythirteen_fonts() {
 			'family' => implode( '|', $font_families ),
 			'subset' => 'latin,latin-ext',
 		);
-		wp_enqueue_style( 'twentythirteen-fonts', add_query_arg( $query_args, "$protocol://fonts.googleapis.com/css" ), array(), null );
+		$fonts_url = add_query_arg( $query_args, "$protocol://fonts.googleapis.com/css" );
 	}
+
+	return $fonts_url;
+}
+
+/**
+ * Loads our special font CSS file.
+ *
+ * To disable in a child theme, use wp_dequeue_style()
+ * function mytheme_dequeue_fonts() {
+ *     wp_dequeue_style( 'twentythirteen-fonts' );
+ * }
+ * add_action( 'wp_enqueue_scripts', 'mytheme_dequeue_fonts', 11 );
+ *
+ * Also used in the Appearance > Header admin panel:
+ * @see twentythirteen_custom_header_setup()
+ *
+ * @since Twenty Thirteen 1.0
+ *
+ * @return void
+ */
+function twentythirteen_fonts() {
+	$fonts_url = twentythirteen_fonts_url();
+	if ( ! empty( $fonts_url ) )
+		wp_enqueue_style( 'twentythirteen-fonts', esc_url_raw( $fonts_url ), array(), null );
 }
 add_action( 'wp_enqueue_scripts', 'twentythirteen_fonts' );
+
+/**
+ * Adds additional stylesheets to the TinyMCE editor if needed.
+ *
+ * @uses twentythirteen_fonts_url() to get the Google Font stylesheet URL.
+ *
+ * @since Twenty Thirteen 1.0
+ *
+ * @param string $mce_css CSS path to load in TinyMCE.
+ * @return string
+ */
+function twentythirteen_mce_css( $mce_css ) {
+	$fonts_url = twentythirteen_fonts_url();
+
+	if ( empty( $fonts_url ) )
+		return $mce_css;
+
+	if ( ! empty( $mce_css ) )
+		$mce_css .= ',';
+
+	$mce_css .= esc_url_raw( str_replace( ',', '%2C', $fonts_url ) );
+
+	return $mce_css;
+}
+add_filter( 'mce_css', 'twentythirteen_mce_css' );
 
 /**
  * Enqueues scripts and styles for front end.
