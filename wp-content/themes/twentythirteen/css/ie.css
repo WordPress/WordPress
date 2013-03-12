@@ -32,7 +32,7 @@ Styles for older IE versions (previous to IE9).
 	left: 100%;
 }
 
-.site-header .searchform .field {
+.site-header .searchform [type="search"] {
 	padding-top: 6px;
 }
 
@@ -174,8 +174,7 @@ img.alignleft {
 	width: 13px;
 }
 
-.ie7 .assistive-text,
-.ie7 .site .screen-reader-text {
+.ie7 .screen-reader-text {
 	clip: rect(1px 1px 1px 1px); /* IE7 */
 }
 
@@ -204,7 +203,7 @@ img.alignleft {
 	left: 100%;
 }
 
-.ie7 .site-header .searchform .field {
+.ie7 .site-header .searchform [type="search"] {
 	background-color: #fff;
 	border: 2px solid #c3c0ab;
 	cursor: text;
