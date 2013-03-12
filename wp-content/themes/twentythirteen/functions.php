@@ -602,25 +602,6 @@ function twentythirteen_aside_date( $content ) {
 add_filter( 'the_content', 'twentythirteen_aside_date', 8 ); // After embeds, before everything else.
 
 /**
- * Usability improvement for better viewing of images on attachment pages.
- *
- * Moves the focus down to the main content area to by appending an in-page
- * anchor to attachment link URLs.
- *
- * @since Twenty Thirteen 1.0
- *
- * @param string $url The image attachment URL
- * @return string URL with extra anchor appended.
- */
-function twentythirteen_attachment_link( $url ) {
-	if ( wp_attachment_is_image() )
-		$url .= '#main';
-
-	return $url;
-}
-add_filter( 'attachment_link', 'twentythirteen_attachment_link' );
-
-/**
  * Add postMessage support for site title and description for the Customizer.
  *
  * @since Twenty Thirteen 1.0
