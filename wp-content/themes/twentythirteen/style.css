@@ -1264,65 +1264,58 @@ footer.entry-meta {
 	margin: 0 auto 20px;
 }
 
-.single .gallery-columns-1.gallery-size-medium .gallery-item,
-.single .gallery-columns-1.gallery-size-thumbnail .gallery-item,
-.single .gallery-columns-2.gallery-size-thumbnail .gallery-item,
-.single .gallery-columns-3.gallery-size-thumbnail .gallery-item {
-	width: auto;
-}
-
 .gallery-columns-1 .gallery-item {
 	max-width: 100%;
 }
 
 .gallery-columns-2 .gallery-item {
+	max-width: 48%;
+	max-width: -webkit-calc(50% - 4px);
+	max-width:         calc(50% - 4px);
 	text-align: center;
-	width: 48%;
-	width: -webkit-calc(50% - 4px);
-	width:         calc(50% - 4px);
 }
 
 .gallery-columns-3 .gallery-item {
+	max-width: 31%;
+	max-width: -webkit-calc(33.3% - 4px);
+	max-width:         calc(33.3% - 4px);
 	text-align: center;
-	width: 31%;
-	width: -webkit-calc(33.3% - 4px);
-	width:         calc(33.3% - 4px);
 }
 
 .gallery-columns-4 .gallery-item {
-	width: 23%;
-	width: -webkit-calc(25% - 4px);
-	width:         calc(25% - 4px);
+	max-width: 23%;
+	max-width: -webkit-calc(25% - 4px);
+	max-width:         calc(25% - 4px);
 }
 
 .gallery-columns-5 .gallery-item {
-	width: 19%;
-	width: -webkit-calc(20% - 4px);
-	width:         calc(20% - 4px);
+	max-width: 19%;
+	max-width: -webkit-calc(20% - 4px);
+	max-width:         calc(20% - 4px);
 }
 
 .gallery-columns-6 .gallery-item {
-	width: 15%;
-	width: -webkit-calc(16.7% - 4px);
-	width:         calc(16.7% - 4px);
+	max-width: 15%;
+	max-width: -webkit-calc(16.7% - 4px);
+	max-width:         calc(16.7% - 4px);
 }
 
 .gallery-columns-7 .gallery-item {
-	width: 13%;
-	width: -webkit-calc(14.28% - 4px);
-	width:         calc(14.28% - 4px);
+	max-width: 13%;
+	max-width: -webkit-calc(14.28% - 4px);
+	max-width:         calc(14.28% - 4px);
 }
 
 .gallery-columns-8 .gallery-item {
-	width: 11%;
-	width: -webkit-calc(12.5% - 4px);
-	width:         calc(12.5% - 4px);
+	max-width: 11%;
+	max-width: -webkit-calc(12.5% - 4px);
+	max-width:         calc(12.5% - 4px);
 }
 
 .gallery-columns-9 .gallery-item {
-	width: 9%;
-	width: -webkit-calc(11.1% - 4px);
-	width:         calc(11.1% - 4px);
+	max-width: 9%;
+	max-width: -webkit-calc(11.1% - 4px);
+	max-width:         calc(11.1% - 4px);
 }
 
 .gallery-columns-1 .gallery-item:nth-of-type(1n),
