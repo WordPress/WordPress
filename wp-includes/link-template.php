@@ -867,9 +867,10 @@ function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
 
 	if ( ! $link = get_post_type_archive_link( $post_type ) )
 		return false;
+
 	$post_type_obj = get_post_type_object( $post_type );
-	if ( $post_type_obj->rewrite['feeds'] && get_option( 'permalink_structure' ) ) {
-		$link = trailingslashit($link);
+	if ( get_option( 'permalink_structure' ) && is_array( $post_type_obj->rewrite ) && $post_type_obj->rewrite['feeds'] ) {
+		$link = trailingslashit( $link );
 		$link .= 'feed/';
 		if ( $feed != $default_feed )
 			$link .= "$feed/";
