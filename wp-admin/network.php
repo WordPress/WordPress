@@ -314,7 +314,7 @@ function network_step2( $errors = false ) {
 	$base              = parse_url( $slashed_home, PHP_URL_PATH );
 	$document_root_fix = str_replace( '\\', '/', realpath( $_SERVER['DOCUMENT_ROOT'] ) );
 	$abspath_fix       = str_replace( '\\', '/', ABSPATH );
-	$home_path         = 0 === strpos( $abspath_fix, $document_root_fix ) ? $document_root_fix . $base : str_replace( '\\', '/', get_home_path() );
+	$home_path         = 0 === strpos( $abspath_fix, $document_root_fix ) ? $document_root_fix . $base : get_home_path();
 	$wp_siteurl_subdir = preg_replace( '#^' . preg_quote( $home_path, '#' ) . '#', '', $abspath_fix );
 	$rewrite_base      = ! empty( $wp_siteurl_subdir ) ? ltrim( trailingslashit( $wp_siteurl_subdir ), '/' ) : '';
 

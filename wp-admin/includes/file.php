@@ -90,7 +90,7 @@ function get_home_path() {
 		$home_path = ABSPATH;
 	}
 
-	return $home_path;
+	return str_replace( '\\', '/', $home_path );
 }
 
 /**
