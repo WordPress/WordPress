@@ -801,7 +801,8 @@ img.wp-smiley,
 
 .site-header hgroup {
 	margin: 0 auto;
-	max-width: 1040px;
+	max-width: 1080px;
+	padding: 0 20px;
 	min-height: 230px;
 	width: 100%;
 }
@@ -837,14 +838,14 @@ img.wp-smiley,
 .main-navigation {
 	clear: both;
 	margin: 0 auto;
-	max-width: 1040px;
+	max-width: 1080px;
 	min-height: 45px;
 	position: relative;
 }
 
 ul.nav-menu,
 div.nav-menu > ul {
-	margin: 0 0 0 -20px;
+	margin: 0;
 	padding: 0 40px 0 0;
 }
 
@@ -928,7 +929,7 @@ ul.nav-menu li:hover > ul,
 
 .site-header .searchform {
 	position: absolute;
-	right: 0;
+	right: 20px;
 	top: 1px;
 }
 
@@ -2699,11 +2700,6 @@ footer.entry-meta {
 		margin-right: 0;
 	}
 
-	ul.nav-menu,
-	div.nav-menu > ul {
-		margin-left: 0;
-	}
-
 	.sidebar .format-image .entry-content .size-full {
 		margin: 0;
 	}
@@ -2716,7 +2712,6 @@ footer.entry-meta {
 		width: 100%;
 	}
 
-	.site-header hgroup,
 	.archive-header,
 	.search .page-header,
 	.archive .page-header,
@@ -2749,10 +2744,6 @@ footer.entry-meta {
 	.image-navigation .nav-previous,
 	.image-navigation .nav-next {
 		position: static;
-	}
-
-	.main-navigation .searchform {
-		right: 20px;
 	}
 
 	.site-main .widget-area {
