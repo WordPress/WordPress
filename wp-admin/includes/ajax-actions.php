@@ -1050,9 +1050,9 @@ function wp_ajax_autosave() {
 
 	$id = $revision_id = 0;
 
-	$post_ID = (int) $_POST['post_ID'];
-	$_POST['ID'] = $post_ID;
-	$post = get_post($post_ID);
+	$post_id = (int) $_POST['post_id'];
+	$_POST['ID'] = $_POST['post_ID'] = $post_id;
+	$post = get_post($post_id);
 	if ( 'auto-draft' == $post->post_status )
 		$_POST['post_status'] = 'draft';
 
@@ -1068,10 +1068,10 @@ function wp_ajax_autosave() {
 	}
 
 	if ( 'page' == $post->post_type ) {
-		if ( !current_user_can('edit_page', $post_ID) )
+		if ( !current_user_can('edit_page', $post->ID) )
 			wp_die( __( 'You are not allowed to edit this page.' ) );
 	} else {
-		if ( !current_user_can('edit_post', $post_ID) )
+		if ( !current_user_can('edit_post', $post->ID) )
 			wp_die( __( 'You are not allowed to edit this post.' ) );
 	}
 

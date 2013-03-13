@@ -106,7 +106,7 @@ function wp_default_scripts( &$scripts ) {
 		'dismiss' => __('Dismiss'),
 	) );
 
-	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response'), false, 1 );
+	$scripts->add( 'autosave', "/wp-includes/js/autosave$suffix.js", array('schedule', 'wp-ajax-response', 'editor'), false, 1 );
 
 	$scripts->add( 'heartbeat', "/wp-includes/js/heartbeat$suffix.js", array('jquery'), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'heartbeat', 'heartbeatSettings',
@@ -585,7 +585,8 @@ function wp_just_in_time_script_localization() {
 	wp_localize_script( 'autosave', 'autosaveL10n', array(
 		'autosaveInterval' => AUTOSAVE_INTERVAL,
 		'savingText' => __('Saving Draft&#8230;'),
-		'saveAlert' => __('The changes you made will be lost if you navigate away from this page.')
+		'saveAlert' => __('The changes you made will be lost if you navigate away from this page.'),
+		'blog_id' => get_current_blog_id(),
 	) );
 
 }

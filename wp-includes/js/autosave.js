@@ -187,6 +187,7 @@ function autosave_saved(response) {
 function autosave_saved_new(response) {
 	blockSave = false;
 	var res = autosave_parse_response(response), postID;
+
 	if ( res && res.responses.length && !res.errors ) {
 		// An ID is sent only for real auto-saves, not for autosave=0 "keepalive" saves
 		postID = parseInt( res.responses[0].id, 10 );
@@ -257,76 +258,20 @@ autosave = function() {
 
 	autosave_disable_buttons();
 
-	post_data = {
-		action: "autosave",
-		post_ID:  jQuery("#post_ID").val() || 0,
-		autosavenonce: jQuery('#autosavenonce').val(),
-		post_type: jQuery('#post_type').val() || "",
-		autosave: 1
-	};
-
-	jQuery('.tags-input').each( function() {
-		post_data[this.name] = this.value;
-	} );
+	post_data = wp.autosave.getPostData();
 
 	// We always send the ajax request in order to keep the post lock fresh.
 	// This (bool) tells whether or not to write the post to the DB during the ajax request.
-	doAutoSave = true;
+	doAutoSave = post_data.autosave;
 
 	// No autosave while thickbox is open (media buttons)
 	if ( jQuery("#TB_window").css('display') == 'block' )
 		doAutoSave = false;
 
-	/* Gotta do this up here so we can check the length when tinymce is in use */
-	if ( rich && doAutoSave ) {
-		ed = tinymce.activeEditor;
-		// Don't run while the tinymce spellcheck is on. It resets all found words.
-		if ( ed.plugins.spellchecker && ed.plugins.spellchecker.active ) {
-			doAutoSave = false;
-		} else {
-			if ( 'mce_fullscreen' == ed.id || 'wp_mce_fullscreen' == ed.id )
-				tinymce.get('content').setContent(ed.getContent({format : 'raw'}), {format : 'raw'});
-			tinymce.triggerSave();
-		}
-	}
-
-	if ( fullscreen && fullscreen.settings.visible ) {
-		post_data["post_title"] = jQuery('#wp-fullscreen-title').val() || '';
-		post_data["content"] = jQuery("#wp_mce_fullscreen").val() || '';
-	} else {
-		post_data["post_title"] = jQuery("#title").val() || '';
-		post_data["content"] = jQuery("#content").val() || '';
-	}
-
-	if ( jQuery('#post_name').val() )
-		post_data["post_name"] = jQuery('#post_name').val();
-
 	// Nothing to save or no change.
 	if ( ( post_data["post_title"].length == 0 && post_data["content"].length == 0 ) || post_data["post_title"] + post_data["content"] == autosaveLast ) {
 		doAutoSave = false;
 	}
-
-	origStatus = jQuery('#original_post_status').val();
-
-	goodcats = ([]);
-	jQuery("[name='post_category[]']:checked").each( function(i) {
-		goodcats.push(this.value);
-	} );
-	post_data["catslist"] = goodcats.join(",");
-
-	if ( jQuery("#comment_status").prop("checked") )
-		post_data["comment_status"] = 'open';
-	if ( jQuery("#ping_status").prop("checked") )
-		post_data["ping_status"] = 'open';
-	if ( jQuery("#excerpt").size() )
-		post_data["excerpt"] = jQuery("#excerpt").val();
-	if ( jQuery("#post_author").size() )
-		post_data["post_author"] = jQuery("#post_author").val();
-	if ( jQuery("#parent_id").val() )
-		post_data["parent_id"] = jQuery("#parent_id").val();
-	post_data["user_ID"] = jQuery("#user-id").val();
-	if ( jQuery('#auto_draft').val() == '1' )
-		post_data["auto_draft"] = '1';
 
 	if ( doAutoSave ) {
 		autosaveLast = post_data["post_title"] + post_data["content"];
@@ -350,3 +295,382 @@ autosave = function() {
 		success: successCallback
 	});
 }
+
+// Autosave in localStorage
+// set as simple object/mixin for now
+window.wp = window.wp || {};
+wp.autosave = wp.autosave || {};
+
+(function($){
+// Returns the data for saving in both localStorage and autosaves to the server
+wp.autosave.getPostData = function() {
+	var ed = typeof tinymce != 'undefined' ? tinymce.activeEditor : null, post_name, parent_id, cats = [],
+		data = {
+			action: 'autosave',
+			autosave: true,
+			post_id: $('#post_ID').val() || 0,
+			autosavenonce: $('#autosavenonce').val() || '',
+			post_type: $('#post_type').val() || '',
+			post_author: $('#post_author').val() || '',
+			excerpt: $('#excerpt').val() || ''
+		};
+
+	if ( ed && !ed.isHidden() ) {
+		// Don't run while the tinymce spellcheck is on. It resets all found words.
+		if ( ed.plugins.spellchecker && ed.plugins.spellchecker.active ) {
+			data.autosave = false;
+			return data;
+		} else {
+			if ( 'mce_fullscreen' == ed.id )
+				tinymce.get('content').setContent(ed.getContent({format : 'raw'}), {format : 'raw'});
+
+			tinymce.triggerSave();
+		}
+	}
+
+	if ( typeof fullscreen != 'undefined' && fullscreen.settings.visible ) {
+		data['post_title'] = $('#wp-fullscreen-title').val() || '';
+		data['content'] = $('#wp_mce_fullscreen').val() || '';
+	} else {
+		data['post_title'] = $('#title').val() || '';
+		data['content'] = $('#content').val() || '';
+	}
+
+	/*
+	// We haven't been saving tags with autosave since 2.8... Start again?
+	$('.the-tags').each( function() {
+		data[this.name] = this.value;
+	});
+	*/
+
+	$('input[id^="in-category-"]:checked').each( function() {
+		cats.push(this.value);
+	});
+	data['catslist'] = cats.join(',');
+
+	if ( post_name = $('#post_name').val() )
+		data['post_name'] = post_name;
+
+	if ( parent_id = $('#parent_id').val() )
+		data['parent_id'] = parent_id;
+
+	if ( $('#comment_status').prop('checked') )
+		data['comment_status'] = 'open';
+
+	if ( $('#ping_status').prop('checked') )
+		data['ping_status'] = 'open';
+
+	if ( $('#auto_draft').val() == '1' )
+		data['auto_draft'] = '1';
+
+	return data;
+}
+
+wp.autosave.local = {
+
+	lastsaveddata: '',
+	blog_id: 0,
+	ajaxurl: window.ajaxurl || 'wp-admin/admin-ajax.php',
+	hasStorage: false,
+
+	// Check if the browser supports sessionStorage and it's not disabled
+	checkStorage: function() {
+		var test = Math.random(), result = false;
+
+		try {
+			sessionStorage.setItem('wp-test', test);
+			result = sessionStorage.getItem('wp-test') == test;
+			sessionStorage.removeItem('wp-test');
+		} catch(e) {}
+
+		this.hasStorage = result;
+		return result;
+    },
+
+	/**
+	 * Initialize the local storage
+	 *
+	 * @return mixed False if no sessionStorage in the browser or an Object containing all post_data for this blog
+	 */
+	getStorage: function() {
+		var stored_obj = false;
+		// Separate local storage containers for each blog_id
+		if ( this.hasStorage && this.blog_id ) {
+			stored_obj = sessionStorage.getItem( 'wp-autosave-' + this.blog_id );
+
+			if ( stored_obj )
+				stored_obj = JSON.parse( stored_obj );
+			else
+				stored_obj = {};
+		}
+
+		return stored_obj;
+	},
+
+	/**
+	 * Set the storage for this blog
+	 *
+	 * Confirms that the data was saved successfully.
+	 *
+	 * @return bool
+	 */
+	setStorage: function( stored_obj ) {
+		var key;
+
+		if ( this.hasStorage && this.blog_id ) {
+			key = 'wp-autosave-' + this.blog_id;
+			sessionStorage.setItem( key, JSON.stringify( stored_obj ) );
+			return sessionStorage.getItem( key ) !== null;
+		}
+
+		return false;
+	},
+
+	/**
+	 * Get the saved post data for the current post
+	 *
+	 * @return mixed False if no storage or no data or the post_data as an Object
+	 */
+	getData: function() {
+		var stored = this.getStorage(), post_id = $('#post_ID').val();
+
+		if ( !stored || !post_id )
+			return false;
+
+		return stored[ 'post_' + post_id ] || false;
+	},
+
+	/**
+	 * Set (save) post data in the storage
+	 *
+	 * @return bool
+	 */
+	setData: function( stored_data ) {
+		var stored = this.getStorage(), post_id = $('#post_ID').val();
+
+		if ( !stored || !post_id )
+			return false;
+
+		stored[ 'post_' + post_id ] = stored_data;
+
+		return this.setStorage(stored);
+	},
+
+	/**
+	 * Save post data for the current post
+	 *
+	 * Runs on a 15 sec. schedule, saves when there are differences in the post title or content.
+	 * When the optional data is provided, updates the last saved post data.
+	 *
+	 * $param data optional Object The post data for saving, minimum 'post_title' and 'content'
+	 * @return bool
+	 */
+	save: function( data ) {
+		var result = false;
+
+		if ( ! data ) {
+			post_data = wp.autosave.getPostData();
+		} else {
+			post_data = this.getData() || {};
+			$.extend( post_data, data );
+		}
+
+		// If the content and title are empty or did not change since the last save, don't save again
+		if ( post_data.post_title + ': ' + post_data.content == this.lastsaveddata )
+			return false;
+
+		// Cannot get the post data at the moment
+		if ( !post_data.autosave )
+			return false;
+
+		post_data['save_time'] = (new Date()).getTime();
+		post_data['status'] = $('#post_status').val() || '';
+		result = this.setData( post_data );
+
+		if ( result )
+			this.lastsaveddata = post_data.post_title + ': ' + post_data.content;
+
+		return result;
+	},
+
+	// Initialize and run checkPost() on loading the script (before TinyMCE init)
+	init: function( settings ) {
+		var self = this;
+
+		// Run only on the Add/Edit Post screens and in browsers that have sessionStorage
+		if ( 'post' != window.pagenow || ! this.checkStorage() )
+			return;
+		// editor.js has to be loaded before autosave.js
+		if ( typeof switchEditors == 'undefined' )
+			return;
+
+		if ( settings )
+			$.extend( this, settings );
+
+		if ( !this.blog_id )
+			this.blog_id = typeof window.autosaveL10n != 'undefined' ? window.autosaveL10n.blog_id : 0;
+
+		this.checkPost();
+		$(document).ready( self.run );
+	},
+
+	// Run on DOM ready
+	run: function() {
+		var self = this, post_data;
+
+		// Set the comparison string
+		if ( !this.lastsaveddata ) {
+			post_data = wp.autosave.getPostData();
+
+			if ( post_data.content && $('#wp-content-wrap').hasClass('tmce-active') )
+				this.lastsaveddata = post_data.post_title + ': ' + switchEditors.pre_wpautop( post_data.content );
+			else
+				this.lastsaveddata = post_data.post_title + ': ' + post_data.content;
+		}
+
+		// Set the schedule
+		this.schedule = $.schedule({
+			time: 15 * 1000,
+			func: function() { wp.autosave.local.save(); },
+			repeat: true,
+			protect: true
+		});
+
+		$('form#post').on('submit.autosave-local', function() {
+			var editor = typeof tinymce != 'undefined' && tinymce.get('content');
+
+			if ( editor && ! editor.isHidden() ) {
+				// Last onSubmit event in the editor, needs to run after the content has been moved to the textarea.
+				editor.onSubmit.add( function() {
+					wp.autosave.local.save({
+						post_title: $('#title').val() || '',
+						content: $('#content').val() || '',
+						excerpt: $('#excerpt').val() || ''
+					});
+				});
+			} else {
+				self.save({
+					post_title: $('#title').val() || '',
+					content: $('#content').val() || '',
+					excerpt: $('#excerpt').val() || ''
+				});
+			}
+		});
+	},
+
+	// Strip whitespace and compare two strings
+	compare: function( str1, str2, strip_tags ) {
+		function remove( string, strip_tags ) {
+			string = string.toString();
+
+			if ( strip_tags )
+				string = string.replace(/<[^<>]+>/g, '');
+
+			return string.replace(/[\x20\t\r\n\f]+/g, '');
+		}
+
+		return ( remove( str1 || '', strip_tags ) == remove( str2 || '', strip_tags ) );
+	},
+
+	/**
+	 * Check if the saved data for the current post (if any) is different than the loaded post data on the screen
+	 *
+	 * Shows a standard message letting the user restore the post data if different.
+	 *
+	 * @return void
+	 */
+	checkPost: function() {
+		var self = this, post_data = this.getData(), content, check_data, strip_tags = false, notice;
+
+		if ( ! post_data )
+			return;
+
+		// There is a newer autosave. Don't show two "restore" notices at the same time.
+		if ( $('#has-newer-autosave').length )
+			return;
+
+		content = $('#content').val();
+		check_data = $.extend( {}, post_data );
+
+		if ( $('#wp-content-wrap').hasClass('tmce-active') )
+			content = switchEditors.pre_wpautop( content );
+
+		// The post has just been published, only compare text
+		if ( $('#post_status').val() == 'publish' && check_data.status != 'publish' )
+			strip_tags = true;
+
+		if ( this.compare( content, check_data.content, strip_tags ) && this.compare( $('#title').val(), check_data.post_title, strip_tags ) && this.compare( $('#excerpt').val(), check_data.excerpt, strip_tags ) )
+			return;
+
+		// We have three choices here:
+		// - Do an autosave and then show the standard notice "There is an autosave newer than...".
+		// - Offer to load/restore the backed up post data.
+		// - Restore the post_data without asking, then show a notice with an Undo link/button.
+		// Doing an autosave will take few seconds and may take up to 30 and fail if network connectivity is bad
+		// Restoring the post will leave the user with the proper content, but it won't be saved to the server until the next autosave.
+
+		this.restore_post_data = post_data;
+		this.undo_post_data = wp.autosave.getPostData();
+
+		/*
+		if ( $('#post_status').val() == 'publish' ) {
+			// Different message when a post is published?
+			// Comparing the current and saved post data may fail (false positive) when the post is published
+			// as in some cases there are changes to post_content on publishing and updating before saving to the DB.
+		}
+		*/
+
+		notice = $('#local-storage-notice');
+		$('form#post').before( notice.addClass('updated').show() );
+
+		notice.on( 'click', function(e) {
+			var target = $( e.target );
+
+			if ( target.hasClass('restore-backup') ) {
+				self.restorePost( self.restore_post_data );
+				target.parent().hide();
+				$(this).find('p.undo-restore').show();
+			} else if ( target.hasClass('undo-restore-backup') ) {
+				self.restorePost( self.undo_post_data );
+				target.parent().hide();
+				$(this).find('p.local-restore').show();
+			}
+
+			e.preventDefault();
+		});
+	},
+
+	// Restore the current title, content and excerpt from post_data.
+	restorePost: function( post_data ) {
+		var editor;
+
+		if ( post_data ) {
+			// Set the last saved data
+			this.lastsaveddata = post_data.post_title + ': ' + post_data.content;
+
+			if ( $('#title').val() != post_data.post_title )
+				$('#title').focus().val( post_data.post_title || '' );
+
+			$('#excerpt').val( post_data.excerpt || '' );
+			editor = typeof tinymce != 'undefined' && tinymce.get('content');
+
+			if ( editor && ! editor.isHidden() ) {
+				// Make sure there's an undo level in the editor
+				editor.undoManager.add();
+				editor.setContent( post_data.content ? switchEditors.wpautop( post_data.content ) : '' );
+			} else {
+				// Make sure the Text editor is selected
+				$('#content-html').click();
+				$('#content').val( post_data.content );
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+}
+
+wp.autosave.local.init();
+
+}(jQuery));

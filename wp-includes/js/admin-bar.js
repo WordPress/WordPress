@@ -132,6 +132,18 @@ if ( typeof(jQuery) != 'undefined' ) {
 				}, 100);
 			}
 		});
+
+		// Empty sessionStorage on logging out
+		if ( 'sessionStorage' in window ) {
+			$('#wp-admin-bar-logout a').click( function() {
+				try {
+					for ( var key in sessionStorage ) {
+						if ( key.indexOf('wp-autosave-') != -1 )
+							sessionStorage.removeItem(key);
+					}
+				} catch(e) {}
+			});
+		}
 	});
 } else {
 	(function(d, w) {
@@ -309,6 +321,17 @@ if ( typeof(jQuery) != 'undefined' ) {
 
 				addEvent(aB, 'click', function(e) {
 					scrollToTop( e.target || e.srcElement );
+				});
+
+				addEvent( document.getElementById('wp-admin-bar-logout'), 'click', function() {
+					if ( 'sessionStorage' in window ) {
+						try {
+							for ( var key in sessionStorage ) {
+								if ( key.indexOf('wp-autosave-') != -1 )
+									sessionStorage.removeItem(key);
+							}
+						} catch(e) {}
+					}
 				});
 			}
 
