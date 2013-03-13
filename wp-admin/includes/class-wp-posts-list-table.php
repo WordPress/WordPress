@@ -553,9 +553,15 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 				echo "</strong>\n";
 
-				if ( $lock_holder && $can_edit_post && $post->post_status != 'trash' ) {
-					printf( '<span class="lock-holder">%s</span>',
-						esc_html( sprintf( __( '%s is currently editing' ), $lock_holder->display_name ) ) );
+				if ( $can_edit_post && $post->post_status != 'trash' ) {
+					if ( $lock_holder ) {
+						$locked_avatar = get_avatar( $lock_holder->ID, 18 );
+						$locked_text = esc_html( sprintf( __( '%s is currently editing' ), $lock_holder->display_name ) );
+					} else {
+						$locked_avatar = $locked_text = '';
+					}
+
+					echo '<span class="locked-avatar">' . $locked_avatar . '</span> <span class="locked-text">' . $locked_text . "</span>\n";
 				}
 
 				if ( ! $this->hierarchical_display && 'excerpt' == $mode && current_user_can( 'read_post', $post->ID ) )

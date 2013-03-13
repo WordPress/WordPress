@@ -2425,12 +2425,13 @@ table.fixed {
 
 .fixed .column-date,
 .fixed .column-parent,
-.fixed .column-links {
+.fixed .column-links,
+.fixed .column-author,
+.fixed .column-format {
 	width: 10%;
 }
 
 .fixed .column-response,
-.fixed .column-author,
 .fixed .column-categories,
 .fixed .column-tags,
 .fixed .column-rel,
@@ -2529,8 +2530,8 @@ table.fixed {
 }
 
 tr.wp-locked .locked-indicator {
-	background: url('../images/lock16.png') no-repeat;
-	margin: -2px 0 0 8px;
+	background: url('../images/lock.png') no-repeat;
+	margin: -2px 0 0 6px;
 	height: 16px;
 	width: 16px;
 }
@@ -2538,13 +2539,8 @@ tr.wp-locked .locked-indicator {
 tr.wp-locked .check-column label,
 tr.wp-locked .check-column input[type="checkbox"],
 tr.wp-locked .row-actions .inline,
-tr.wp-locked .row-actions .trash,
-.lock-holder {
+tr.wp-locked .row-actions .trash {
 	display: none;
-}
-
-tr.wp-locked .lock-holder {
-	display: inline;
 }
 
 .fixed .column-comments .sorting-indicator {
@@ -9032,6 +9028,11 @@ a.widget-control-edit {
 	.post-com-count {
 		background-image: url('../images/bubble_bg-2x.gif');
 		background-size: 18px 100px;
+	}
+
+	tr.wp-locked .locked-indicator  {
+		background-image: url('../images/lock-2x.png');
+		background-size: 16px 16px;
 	}
 
 	th .comment-grey-bubble {

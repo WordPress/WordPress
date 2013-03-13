@@ -290,5 +290,39 @@ inlineEditPost = {
 	}
 };
 
-$(document).ready(function(){inlineEditPost.init();});
-})(jQuery);
+$( document ).ready( function(){ inlineEditPost.init(); } );
+
+// Show/hide locks on posts
+$( document ).on( 'heartbeat-tick.wp-check-locked', function( e, data ) {
+	var locked = data['wp-check-locked'] || {};
+
+	$('#the-list tr').each( function(i, el) {
+		var key = el.id, row = $(el), lock_data, avatar;
+
+		if ( locked.hasOwnProperty( key ) ) {
+			if ( ! row.hasClass('wp-locked') ) {
+				lock_data = locked[key];
+				row.addClass('wp-locked').find('.column-title .locked-text').text( lock_data.text );
+				row.find('.check-column checkbox').prop('checked', false);
+
+				if ( lock_data.avatar_src ) {
+					avatar = $('<img class="avatar avatar-18 photo" width="18" height="18" />').attr( 'src', lock_data.avatar_src.replace(/&amp;/g, '&') );
+					row.find('.column-title .locked-avatar').empty().append( avatar );
+				}
+			}
+		} else if ( row.hasClass('wp-locked') ) {
+			row.removeClass('wp-locked').find('.column-title .locked-text').empty();
+			row.find('.column-title .locked-avatar').empty();
+		}
+	});
+}).on( 'heartbeat-send.wp-check-locked', function( e, data ) {
+	var check = [];
+
+	$('#the-list tr').each( function(i, el) {
+		check.push( el.id );
+	});
+
+	data['wp-check-locked'] = check;
+});
+
+}(jQuery));
