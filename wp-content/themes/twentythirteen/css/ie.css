@@ -32,6 +32,10 @@ Styles for older IE versions (previous to IE9).
 	left: 100%;
 }
 
+.site-header hgroup { 
+	max-width: 1040px; 
+} 
+
 .site-header .searchform [type="search"] {
 	padding-top: 6px;
 }
