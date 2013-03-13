@@ -2523,7 +2523,7 @@ function wp_richedit_pre($text) {
 
 	$output = convert_chars($text);
 	$output = wpautop($output);
-	$output = htmlspecialchars($output, ENT_NOQUOTES);
+	$output = htmlspecialchars($output, ENT_NOQUOTES, get_option( 'blog_charset' ) );
 
 	return apply_filters('richedit_pre', $output);
 }
@@ -2541,7 +2541,7 @@ function wp_richedit_pre($text) {
  */
 function wp_htmledit_pre($output) {
 	if ( !empty($output) )
-		$output = htmlspecialchars($output, ENT_NOQUOTES); // convert only < > &
+		$output = htmlspecialchars($output, ENT_NOQUOTES, get_option( 'blog_charset' ) ); // convert only < > &
 
 	return apply_filters('htmledit_pre', $output);
 }
@@ -2728,7 +2728,7 @@ function esc_attr( $text ) {
  * @return string
  */
 function esc_textarea( $text ) {
-	$safe_text = htmlspecialchars( $text, ENT_QUOTES );
+	$safe_text = htmlspecialchars( $text, ENT_QUOTES, get_option( 'blog_charset' ) );
 	return apply_filters( 'esc_textarea', $safe_text, $text );
 }
 
