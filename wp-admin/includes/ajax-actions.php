@@ -9,20 +9,29 @@
 /*
  * No-privilege Ajax handlers.
  */
+function wp_ajax_nopriv_heartbeat() {
+	$response = array();
 
-function wp_ajax_nopriv_autosave() {
-	$id = isset( $_POST['post_ID'] ) ? (int) $_POST['post_ID'] : 0;
+	// screen_id is the same as $current_screen->id and the JS global 'pagenow'
+	if ( ! empty($_POST['screenid']) )
+		$screen_id = sanitize_key($_POST['screenid']);
+	else
+		$screen_id = 'site';
 
-	if ( ! $id )
-		wp_die( -1 );
+	if ( ! empty($_POST['data']) ) {
+		$data = wp_unslash( (array) $_POST['data'] );
+		$response = apply_filters( 'heartbeat_nopriv_received', $response, $data, $screen_id );
+	}
 
-	$message = sprintf( __('<strong>ALERT: You are logged out!</strong> Could not save draft. <a href="%s" target="_blank">Please log in again.</a>'), wp_login_url() );
-	$x = new WP_Ajax_Response( array(
-		'what' => 'autosave',
-		'id' => $id,
-		'data' => $message
-	) );
-	$x->send();
+	$response = apply_filters( 'heartbeat_nopriv_send', $response, $screen_id );
+
+	// Allow the transport to be replaced with long-polling easily
+	do_action( 'heartbeat_nopriv_tick', $response, $screen_id );
+
+	// send the current time according to the server
+	$response['servertime'] = time();
+
+	wp_send_json($response);
 }
 
 /*
@@ -2091,31 +2100,6 @@ function wp_ajax_heartbeat() {
 
 	// Allow the transport to be replaced with long-polling easily
 	do_action( 'heartbeat_tick', $response, $screen_id );
-
-	// send the current time acording to the server
-	$response['servertime'] = time();
-
-	wp_send_json($response);
-}
-
-function wp_ajax_nopriv_heartbeat() {
-	$response = array();
-
-	// screen_id is the same as $current_screen->id and the JS global 'pagenow'
-	if ( ! empty($_POST['screenid']) )
-		$screen_id = sanitize_key($_POST['screenid']);
-	else
-		$screen_id = 'site';
-
-	if ( ! empty($_POST['data']) ) {
-		$data = wp_unslash( (array) $_POST['data'] );
-		$response = apply_filters( 'heartbeat_nopriv_received', $response, $data, $screen_id );
-	}
-
-	$response = apply_filters( 'heartbeat_nopriv_send', $response, $screen_id );
-
-	// Allow the transport to be replaced with long-polling easily
-	do_action( 'heartbeat_nopriv_tick', $response, $screen_id );
 
 	// send the current time acording to the server
 	$response['servertime'] = time();
