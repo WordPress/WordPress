@@ -48,7 +48,7 @@ function get_blogaddress_by_name( $blogname ) {
 			$blogname = 'www';
 		$url = rtrim( network_home_url(), '/' );
 		if ( !empty( $blogname ) )
-			$url = preg_replace( '|^([^\.]+://)|', '$1' . $blogname . '.', $url );
+			$url = preg_replace( '|^([^\.]+://)|', "\${1}" . $blogname . '.', $url );
 	} else {
 		$url = network_home_url( $blogname );
 	}
