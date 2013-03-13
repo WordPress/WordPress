@@ -648,8 +648,8 @@ default:
 	}
 
 	$errors = $user;
-	// Clear errors if loggedout is set.
-	if ( !empty($_GET['loggedout']) || $reauth )
+	// Clear errors if loggedout or interim_login is set.
+	if ( !empty($_GET['loggedout']) || $reauth || $interim_login )
 		$errors = new WP_Error();
 
 	// If cookies are disabled we can't log in even with a valid user+pass
