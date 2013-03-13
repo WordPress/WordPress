@@ -1731,7 +1731,7 @@ footer.entry-meta {
 .format-status .entry-meta:before {
 	background: url(images/dotted-line.png) repeat-y left bottom;
 	background-size: 4px 4px;
-	content: normal;
+	content: "";
 	display: block;
 	height: 100%;
 	position: absolute;
@@ -1767,7 +1767,7 @@ footer.entry-meta {
 
 .format-status .entry-content p:first-child:before {
 	background-color: rgba(0, 0, 0, 0.65);
-	content: normal;
+	content: "";
 	height: 3px;
 	margin-top: 13px;
 	position: absolute;
@@ -2248,7 +2248,7 @@ footer.entry-meta {
 .comment-list .children > li:before {
 	background: url(images/dotted-line.png) repeat left top;
 	background-size: 4px 4px;
-	content: normal;
+	content: "";
 	display: block;
 	height: 1px;
 	width: 100%;
