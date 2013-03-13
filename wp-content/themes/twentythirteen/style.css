@@ -2393,10 +2393,7 @@ footer.entry-meta {
 	margin-bottom: 8px;
 }
 
-#commentform label[for="author"],
-#commentform label[for="email"],
-#commentform label[for="url"],
-#commentform label[for="comment"] {
+#commentform label {
 	float: left;
 	padding: 5px 0;
 	width: 100px;
@@ -2406,7 +2403,9 @@ footer.entry-meta {
 	color: #ed331c;
 }
 
-#commentform input[type="text"] {
+#commentform input[type="text"],
+#commentform input[type="email"],
+#commentform input[type="url"] {
 	max-width: 270px;
 	width: 60%;
 }
@@ -3027,7 +3026,9 @@ footer.entry-meta {
 		width:         calc(100% - 104px);
 	}
 
-	#commentform input[type="text"] {
+	#commentform input[type="text"],
+	#commentform input[type="email"],
+	#commentform input[type="url"] {
 		width: -webkit-calc(100% - 100px);
 		width:         calc(100% - 100px);
 	}

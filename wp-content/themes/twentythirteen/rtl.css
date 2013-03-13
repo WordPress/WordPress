@@ -652,10 +652,7 @@ div.nav-menu > ul {
 	content: normal;
 }
 
-#commentform label[for="author"],
-#commentform label[for="email"],
-#commentform label[for="url"],
-#commentform label[for="comment"] {
+#commentform label {
 	float: right;
 }
 
