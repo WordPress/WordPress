@@ -1366,6 +1366,13 @@ footer.entry-meta {
 	opacity: 1;
 }
 
+.gallery-columns-7 .gallery-caption,
+.gallery-columns-8 .gallery-caption,
+.gallery-columns-9 .gallery-caption {
+	display: none;
+}
+
+
 /**
  * 5.5 Post Formats
  * ----------------------------------------------------------------------------
@@ -2880,6 +2887,10 @@ footer.entry-meta {
 		max-width: 604px;
 		padding: 0;
 		width: 100%;
+	}
+
+	.gallery-caption {
+		display: none;
 	}
 }
 
