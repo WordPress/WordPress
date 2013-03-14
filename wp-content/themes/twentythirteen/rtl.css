@@ -854,7 +854,7 @@ div.nav-menu > ul {
 	.toggled-on .nav-menu,
 	.toggled-on .nav-menu > ul {
 		margin-left: auto;
-		margin-right: 0px;
+		margin-right: 0;
 	}
 
 	.toggled-on .nav-menu li > ul {
