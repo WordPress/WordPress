@@ -2650,6 +2650,7 @@ footer.entry-meta {
 .sidebar .site-footer .widget-area {
 	left: -158px;
 	max-width: 724px;
+	position: relative;
 }
 
 .site-footer .widget {
