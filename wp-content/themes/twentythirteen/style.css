@@ -510,7 +510,7 @@ hr {
 .navigation:after,
 .nav-links:after,
 .gallery:after,
-.comment:after {
+.comment-body:after {
 	clear: both;
 }
 
@@ -530,8 +530,8 @@ hr {
 .nav-links:after,
 .gallery:before,
 .gallery:after,
-.comment:before,
-.comment:after {
+.comment-body:before,
+.comment-body:after {
 	content: "";
 	display: table;
 }
@@ -2258,14 +2258,15 @@ footer.entry-meta {
 	display: none;
 }
 
-.comment {
+.comment-body {
 	padding: 24px 0;
+	position: relative;
 }
 
 .comment-author {
-	float: left;
-	margin-right: 50px;
 	max-width: 74px;
+	position: absolute;
+	left: 0;
 }
 
 .comment-author .avatar {
@@ -2274,16 +2275,21 @@ footer.entry-meta {
 }
 
 .comment-author .fn,
+.comment-author .url,
 .comment-reply-link {
 	color: #ed331c;
 	font-size: 14px;
 	font-style: normal;
 }
 
+.says {
+	display: none;
+}
+
 .no-avatars .comment-author {
-	float: none;
 	margin: 0 0 5px;
 	max-width: 100%;
+	position: relative;
 }
 
 .no-avatars .comment-meta,
@@ -2329,6 +2335,7 @@ footer.entry-meta {
 
 .comment-awaiting-moderation {
 	color: #a2a2a2;
+	margin: 20px 0 0;
 }
 
 .comment-awaiting-moderation:before {
@@ -2349,8 +2356,8 @@ footer.entry-meta {
 	padding: 30px 0;
 }
 
-.comment + #respond {
-	margin-bottom: 30px;
+.comment #respond {
+	margin-bottom: 20px;
 	padding: 20px;
 }
 
@@ -3117,9 +3124,9 @@ footer.entry-meta {
 
 	/* Comments */
 	.comment-author {
-		float: none;
 		margin: 0 0 5px;
 		max-width: 100%;
+		position: relative;
 	}
 
 	.comment-author .avatar {

@@ -30,7 +30,14 @@ if ( post_password_required() )
 		</h2>
 
 		<ol class="comment-list">
-			<?php wp_list_comments( array( 'callback' => 'twentythirteen_comment', 'style' => 'ol' ) ); ?>
+			<?php
+				wp_list_comments( array(
+					'style'       => 'ol',
+					'format'      => 'html5',
+					'short_ping'  => true,
+					'avatar_size' => 74,
+				) );
+			?>
 		</ol><!-- .comment-list -->
 
 		<?php

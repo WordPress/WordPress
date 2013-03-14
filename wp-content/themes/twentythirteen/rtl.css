@@ -591,9 +591,10 @@ div.nav-menu > ul {
 }
 
 .comment-author {
-	float: right;
 	margin-left: 50px;
 	margin-right: auto;
+	left: auto;
+	right: 0;
 }
 
 
