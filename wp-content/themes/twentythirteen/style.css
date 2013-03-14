@@ -388,6 +388,7 @@ input[type="radio"] {
 input[type="search"] {
 	-webkit-appearance: textfield;
 	padding-right: 2px; /* Don't cut off the webkit search cancel button */
+	width: 270px;
 }
 
 input[type="search"]::-webkit-search-decoration {
@@ -2938,7 +2939,7 @@ footer.entry-meta {
 	.toggled-on .nav-menu,
 	.toggled-on .nav-menu > ul {
 		display: block;
-		margin-left: 0px;
+		margin-left: 0;
 		padding: 0;
 		width: 100%;
 	}
