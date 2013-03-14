@@ -475,7 +475,7 @@ wp.autosave.local = {
 			$.extend( post_data, data );
 		}
 
-		// If the content and title are empty or did not change since the last save, don't save again
+		// If the content and title did not change since the last save, don't save again
 		if ( post_data.post_title + ': ' + post_data.content == this.lastsaveddata )
 			return false;
 
@@ -537,7 +537,7 @@ wp.autosave.local = {
 		});
 
 		$('form#post').on('submit.autosave-local', function() {
-			var editor = typeof tinymce != 'undefined' && tinymce.get('content');
+			var editor = typeof tinymce != 'undefined' && tinymce.get('content'), post_id = $('#post_ID').val() || 0;
 
 			if ( editor && ! editor.isHidden() ) {
 				// Last onSubmit event in the editor, needs to run after the content has been moved to the textarea.
@@ -555,21 +555,18 @@ wp.autosave.local = {
 					excerpt: $('#excerpt').val() || ''
 				});
 			}
+
+			wpCookies.set( 'wp-saving-post-' + post_id, 'check' );
 		});
 	},
 
 	// Strip whitespace and compare two strings
-	compare: function( str1, str2, strip_tags ) {
-		function remove( string, strip_tags ) {
-			string = string.toString();
-
-			if ( strip_tags )
-				string = string.replace(/<[^<>]+>/g, '');
-
-			return string.replace(/[\x20\t\r\n\f]+/g, '');
+	compare: function( str1, str2 ) {
+		function remove( string ) {
+			return string.toString().replace(/[\x20\t\r\n\f]+/g, '');
 		}
 
-		return ( remove( str1 || '', strip_tags ) == remove( str2 || '', strip_tags ) );
+		return ( remove( str1 || '' ) == remove( str2 || '' ) );
 	},
 
 	/**
@@ -580,7 +577,8 @@ wp.autosave.local = {
 	 * @return void
 	 */
 	checkPost: function() {
-		var self = this, post_data = this.getData(), content, check_data, strip_tags = false, notice;
+		var self = this, post_data = this.getData(), content, check_data, strip_tags = false, notice,
+			post_id = $('#post_ID').val() || 0, cookie = wpCookies.get( 'wp-saving-post-' + post_id );
 
 		if ( ! post_data )
 			return;
@@ -589,36 +587,21 @@ wp.autosave.local = {
 		if ( $('#has-newer-autosave').length )
 			return;
 
-		content = $('#content').val();
-		check_data = $.extend( {}, post_data );
-
-		if ( $('#wp-content-wrap').hasClass('tmce-active') )
-			content = switchEditors.pre_wpautop( content );
-
-		// The post has just been published, only compare text
-		if ( $('#post_status').val() == 'publish' && check_data.status != 'publish' )
-			strip_tags = true;
-
-		if ( this.compare( content, check_data.content, strip_tags ) && this.compare( $('#title').val(), check_data.post_title, strip_tags ) && this.compare( $('#excerpt').val(), check_data.excerpt, strip_tags ) )
+		if ( cookie == 'saved' ) {
 			return;
+		} else if ( cookie != 'check' ) {
+			content = $('#content').val();
+			check_data = $.extend( {}, post_data );
 
-		// We have three choices here:
-		// - Do an autosave and then show the standard notice "There is an autosave newer than...".
-		// - Offer to load/restore the backed up post data.
-		// - Restore the post_data without asking, then show a notice with an Undo link/button.
-		// Doing an autosave will take few seconds and may take up to 30 and fail if network connectivity is bad
-		// Restoring the post will leave the user with the proper content, but it won't be saved to the server until the next autosave.
+			if ( $('#wp-content-wrap').hasClass('tmce-active') )
+				content = switchEditors.pre_wpautop( content );
+
+			if ( this.compare( content, check_data.content ) && this.compare( $('#title').val(), check_data.post_title ) && this.compare( $('#excerpt').val(), check_data.excerpt ) )
+				return;
+		}
 
 		this.restore_post_data = post_data;
 		this.undo_post_data = wp.autosave.getPostData();
-
-		/*
-		if ( $('#post_status').val() == 'publish' ) {
-			// Different message when a post is published?
-			// Comparing the current and saved post data may fail (false positive) when the post is published
-			// as in some cases there are changes to post_content on publishing and updating before saving to the DB.
-		}
-		*/
 
 		notice = $('#local-storage-notice');
 		$('form#post').before( notice.addClass('updated').show() );
