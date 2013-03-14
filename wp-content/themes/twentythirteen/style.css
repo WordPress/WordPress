@@ -1337,10 +1337,9 @@ footer.entry-meta {
 	box-sizing: border-box;
 	color: #fff;
 	font-size: 14px;
-	height: 74px;
 	line-height: 1.3;
 	margin: 0;
-	max-height: 100%;
+	max-height: 50%;
 	opacity: 0;
 	padding: 2px 8px;
 	position: absolute;
@@ -1355,10 +1354,11 @@ footer.entry-meta {
 .gallery-caption:before {
 	box-shadow: 0 -10px 15px #000 inset;
 	content: "";
-	height: 74px;
+	height: 100%;
+	min-height: 49px;
 	position: absolute;
-	bottom: 0;
 	left: 0;
+	top: 0;
 	width: 100%;
 }
 
