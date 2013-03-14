@@ -1034,8 +1034,6 @@ function wp_ajax_add_user( $action ) {
 }
 
 function wp_ajax_autosave() {
-	global $login_grace_period;
-
 	define( 'DOING_AUTOSAVE', true );
 
 	$nonce_age = check_ajax_referer( 'autosave', 'autosavenonce' );
@@ -1046,18 +1044,14 @@ function wp_ajax_autosave() {
 
 	$do_autosave = (bool) $_POST['autosave'];
 	$do_lock = true;
+	$data = '';
+	$supplemental = array();
+	$id = $revision_id = 0;
 
-	$data = $alert = '';
 	/* translators: draft saved date format, see http://php.net/date */
 	$draft_saved_date_format = __('g:i:s a');
 	/* translators: %s: date and time */
 	$message = sprintf( __('Draft saved at %s.'), date_i18n( $draft_saved_date_format ) );
-
-	$supplemental = array();
-	if ( isset($login_grace_period) )
-		$alert .= sprintf( __('Your login has expired. Please open a new browser window and <a href="%s" target="_blank">log in again</a>. '), add_query_arg( 'interim-login', 1, wp_login_url() ) );
-
-	$id = $revision_id = 0;
 
 	$post_id = (int) $_POST['post_id'];
 	$_POST['ID'] = $_POST['post_ID'] = $post_id;
@@ -1116,9 +1110,6 @@ function wp_ajax_autosave() {
 				$supplemental['replace-_wpnonce'] = wp_create_nonce('update-page_' . $id);
 		}
 	}
-
-	if ( ! empty($alert) )
-		$supplemental['alert'] = $alert;
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'autosave',
