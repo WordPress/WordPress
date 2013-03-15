@@ -23,6 +23,7 @@ if ( ! current_user_can('edit_theme_options') )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 wp_enqueue_script( 'nav-menu' );
+wp_enqueue_script( 'accordion' );
 
 if ( wp_is_mobile() )
 	wp_enqueue_script( 'jquery-touch-punch' );
@@ -510,7 +511,7 @@ require_once( './admin-header.php' );
 			<input type="hidden" name="menu" id="nav-menu-meta-object-id" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
 			<input type="hidden" name="action" value="add-menu-item" />
 			<?php wp_nonce_field( 'add-menu_item', 'menu-settings-column-nonce' ); ?>
-			<?php do_meta_boxes( 'nav-menus', 'side', null ); ?>
+			<?php do_accordion_sections( 'nav-menus', 'side', null ); ?>
 		</form>
 
 	</div><!-- /#menu-settings-column -->

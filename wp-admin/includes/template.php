@@ -968,6 +968,70 @@ function remove_meta_box($id, $screen, $context) {
 }
 
 /**
+ * Meta Box Accordion Template Function
+ *
+ * Largely made up of abstracted code from {@link do_meta_boxes()}, this
+ * function serves to build meta boxes as list items for display as
+ * a collapsible accordion.
+ *
+ * @since 3.6.0
+ *
+ * @uses global $wp_meta_boxes Used to retrieve registered meta boxes.
+ *
+ * @param string|object $screen The screen identifier.
+ * @param string $context The meta box context.
+ * @param mixed $object gets passed to the section callback function as first parameter.
+ * @return int number of meta boxes as accordion sections.
+ */
+function do_accordion_sections( $screen, $context, $object ) {
+	global $wp_meta_boxes;
+
+	if ( empty( $screen ) )
+		$screen = get_current_screen();
+	elseif ( is_string( $screen ) )
+		$screen = convert_to_screen( $screen );
+
+	$page = $screen->id;
+
+	$hidden = get_hidden_meta_boxes( $screen );
+	?>
+	<div id="side-sortables" class="accordion-container">
+		<ul class="outer-border">
+	<?php
+	$i = 0;
+	do {
+		if ( ! isset( $wp_meta_boxes ) || ! isset( $wp_meta_boxes[$page] ) || ! isset( $wp_meta_boxes[$page][$context] ) )
+			break;
+
+		foreach ( array( 'high', 'sorted', 'core', 'default', 'low' ) as $priority ) {
+			if ( isset( $wp_meta_boxes[$page][$context][$priority] ) ) {
+				foreach ( $wp_meta_boxes[$page][$context][$priority] as $box ) {
+					if ( false == $box || ! $box['title'] )
+						continue;
+					$i++;
+					$hidden_class = in_array( $box['id'], $hidden ) ? 'hide-if-js' : '';
+					?>
+					<li class="control-section accordion-section <?php echo $hidden_class; ?> <?php echo esc_attr( $box['id'] ); ?>" id="<?php echo esc_attr( $box['id'] ); ?>">
+						<h3 class="accordion-section-title hndle" tabindex="0" title="<?php echo esc_attr( $box['title'] ); ?>"><?php echo esc_html( $box['title'] ); ?></h3>
+						<div class="accordion-section-content <?php postbox_classes( $box['id'], $page ); ?>">
+							<div class="inside">
+								<?php call_user_func( $box['callback'], $object, $box ); ?>
+							</div><!-- .inside -->
+						</div><!-- .accordion-section-content -->
+					</li><!-- .accordion-section -->
+					<?php
+				}
+			}
+		}
+	} while(0);
+	?>
+		</ul><!-- .outer-border -->
+	</div><!-- .accordion-container -->
+	<?php
+	return $i;
+}
+
+/**
  * Add a new section to a settings page.
  *
  * Part of the Settings API. Use this to define new settings sections for an admin page.

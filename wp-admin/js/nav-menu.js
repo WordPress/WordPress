@@ -42,7 +42,7 @@ var wpNavMenu;
 
 			this.attachUnsavedChangesListener();
 
-			if( api.menuList.length ) // If no menu, we're in the + tab.
+			if( api.menuList.length )
 				this.initSortables();
 
 			if( oneThemeLocationNoMenus )
@@ -51,6 +51,9 @@ var wpNavMenu;
 			this.initAccessibility();
 
 			this.initToggles();
+
+			// Open first accordion option
+			this.initAccordion();
 		},
 
 		jQueryExtensions : function() {
@@ -262,6 +265,12 @@ var wpNavMenu;
 			});
 		},
 
+		initAccordion : function() {
+			var accordionOptions = $( '.accordion-container li.accordion-section' );
+			accordionOptions.removeClass('open');
+			accordionOptions.filter(':visible').first().addClass( 'open' );
+		},
+
 		initAccessibility : function() {
 			$( '.item-edit' ).off( 'focus' ).on( 'focus', function(){
 				$(this).on( 'keydown', function(e){
@@ -391,6 +400,18 @@ var wpNavMenu;
 			}
 			// hide fields
 			api.menuList.hideAdvancedMenuItemFields();
+
+			$('.hide-postbox-tog').click(function () {
+				api.initAccordion();
+
+				var hidden = $( '.accordion-container li.accordion-section' ).filter(':hidden').map(function() { return this.id; }).get().join(',');
+				$.post(ajaxurl, {
+					action: 'closed-postboxes',
+					hidden: hidden,
+					closedpostboxesnonce: jQuery('#closedpostboxesnonce').val(),
+					page: 'nav-menus'
+				});
+			});
 		},
 
 		initSortables : function() {
@@ -786,13 +807,10 @@ var wpNavMenu;
 					target = $(e.target);
 
 				if ( target.hasClass('nav-tab-link') ) {
-					panelId = /#(.*)$/.exec(e.target.href);
-					if ( panelId && panelId[1] )
-						panelId = panelId[1]
-					else
-						return false;
 
-					wrapper = target.parents('.inside').first();
+					panelId = target.data( 'type' );
+
+					wrapper = target.parents('.accordion-section-content').first();
 
 					// upon changing tabs, we want to uncheck all checkboxes
 					$('input', wrapper).removeAttr('checked');
@@ -806,7 +824,7 @@ var wpNavMenu;
 					// select the search bar
 					$('.quick-search', wrapper).focus();
 
-					return false;
+					e.preventDefault();
 				} else if ( target.hasClass('select-all') ) {
 					selectAreaMatch = /#(.*)$/.exec(e.target.href);
 					if ( selectAreaMatch && selectAreaMatch[1] ) {

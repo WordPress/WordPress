@@ -6037,6 +6037,10 @@ body.full-overlay-active {
 	overflow: auto;
 }
 
+.wp-full-overlay-sidebar-content .accordion-section:first-child {
+	border-top: 1px solid #fff;
+}
+
 /* Close Link */
 .wp-full-overlay .close-full-overlay {
 	text-decoration: none;
@@ -7202,6 +7206,29 @@ a.rsswidget {
 	display: block;
 }
 
+#nav-menu-meta ul.outer-border {
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.accordion-section ul.category-tabs,
+.accordion-section ul.add-menu-item-tabs,
+.accordion-section ul.wp-tab-bar {
+	margin: 0;
+}
+
+.accordion-section .categorychecklist {
+	margin: 13px 0;
+}
+
+#nav-menu-meta .accordion-section-content {
+	padding: 18px 13px;
+}
+
+#nav-menu-meta .button-controls {
+	margin-bottom: 0;
+}
+
 #nav-menus-frame {
 	margin-left: 300px;
 	margin-top: 28px;
@@ -7331,7 +7358,7 @@ a.rsswidget {
 }
 
 .nav-menus-php #post-body {
-	padding: 0 10px;
+	padding: 0 10px 10px;
 	border-width: 1px 0;
 	border-style: solid;
 }
@@ -7401,13 +7428,36 @@ a.rsswidget {
 }
 
 /* Add Menu Item Boxes */
-.postbox .howto input {
+.postbox .howto input,
+.accordion-container .howto input {
 	width: 180px;
 	float: right;
 }
 
+.accordion-container .outer-border {
+	margin-top: 0;
+}
+
+.accordion-container .accordion-section:first-child {
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+}
+
+.accordion-container .accordion-section:last-child {
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
 .customlinkdiv .howto input {
-	width: 200px;
+	width: 180px;
+}
+
+.customlinkdiv p {
+	margin-top: 0
 }
 
 #nav-menu-theme-locations .howto select {
@@ -8818,6 +8868,10 @@ a.widget-control-edit {
 	margin: 0;
 }
 
+.accordion-section:first-child {
+	border-top: 1px solid #dfdfdf;
+}
+
 .accordion-section:last-child {
 	box-shadow: 0 1px 0 0px #fff;
 }
@@ -8825,6 +8879,8 @@ a.widget-control-edit {
 .accordion-section.open .accordion-section-content {
 	display: block;
 	background: #fdfdfd;
+	border-left: 1px solid #dfdfdf;
+	border-right: 1px solid #dfdfdf;
 }
 
 .accordion-section.open:hover {
@@ -8841,6 +8897,8 @@ a.widget-control-edit {
 	margin: 0;
 	padding: 15px 20px;
 	position: relative;
+	border-left: 1px solid #dfdfdf;
+	border-right: 1px solid #dfdfdf;
 
 	cursor: pointer;
 
@@ -8914,6 +8972,8 @@ a.widget-control-edit {
 	background-image:    -moz-linear-gradient(bottom, #6d6d6d, #808080);
 	background-image:      -o-linear-gradient(bottom, #6d6d6d, #808080);
 	background-image: linear-gradient(to top, #6d6d6d, #808080);
+	border-left: 1px solid #808080;
+	border-right: 1px solid #808080;
 }
 
 .control-section.accordion-section:hover,
