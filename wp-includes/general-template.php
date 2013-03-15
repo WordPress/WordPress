@@ -1598,7 +1598,7 @@ function feed_links( $args = array() ) {
 		'separator'	=> _x('&raquo;', 'feed link'),
 		/* translators: 1: blog title, 2: separator (raquo) */
 		'feedtitle'	=> __('%1$s %2$s Feed'),
-		/* translators: %s: blog title, 2: separator (raquo) */
+		/* translators: 1: blog title, 2: separator (raquo) */
 		'comstitle'	=> __('%1$s %2$s Comments Feed'),
 	);
 
