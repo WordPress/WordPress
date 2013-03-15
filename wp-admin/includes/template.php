@@ -916,7 +916,6 @@ function do_meta_boxes( $screen, $context, $object ) {
 					if ( false == $box || ! $box['title'] )
 						continue;
 					$i++;
-					$style = '';
 					$hidden_class = in_array($box['id'], $hidden) ? ' hide-if-js' : '';
 					echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . $hidden_class . '" ' . '>' . "\n";
 					if ( 'dashboard_browser_nag' != $box['id'] )
