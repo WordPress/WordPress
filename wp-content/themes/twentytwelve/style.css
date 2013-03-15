@@ -240,7 +240,7 @@ input[type="submit"],
 input[type="button"],
 input[type="reset"],
 article.post-password-required input[type=submit],
-li.bypostauthor cite span {
+.bypostauthor cite span {
 	padding: 6px 10px;
 	padding: 0.428571429rem 0.714285714rem;
 	font-size: 11px;
@@ -302,7 +302,7 @@ input[type="reset"]:active {
 	box-shadow: inset 0 0 8px 2px #c6c6c6, 0 1px 0 0 #f4f4f4;
 	border-color: transparent;
 }
-li.bypostauthor cite span {
+.bypostauthor cite span {
 	color: #fff;
 	background-color: #21759b;
 	background-image: none;
@@ -1200,6 +1200,9 @@ article.format-quote .entry-content blockquote {
 	font-size: 1.071428571rem;
 	line-height: 1.42857143;
 }
+.comments-area cite b {
+	font-weight: normal;
+}
 .comments-area article header time {
 	line-height: 1.714285714;
 	text-decoration: none;
@@ -1240,7 +1243,7 @@ article.format-quote .entry-content blockquote {
 	border-radius: 3px;
 	border: 1px solid #007cbd;
 }
-.comments-area li.bypostauthor cite span {
+.comments-area .bypostauthor cite span {
 	position: absolute;
 	margin-left: 5px;
 	margin-left: 0.357142857rem;
@@ -1248,6 +1251,9 @@ article.format-quote .entry-content blockquote {
 	padding: 0.142857143rem 0.357142857rem;
 	font-size: 10px;
 	font-size: 0.714285714rem;
+}
+.comments-area .bypostauthor cite b {
+	font-weight: bold;
 }
 a.comment-reply-link,
 a.comment-edit-link {

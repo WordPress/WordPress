@@ -117,7 +117,7 @@ article.format-link .entry-content {
 	left: 0;
 	right: auto;
 }
-.comments-area li.bypostauthor cite span {
+.comments-area .bypostauthor cite span {
 	margin-right: 5px;
 	margin-right: 0.357142857rem;
 	margin-left: auto;
