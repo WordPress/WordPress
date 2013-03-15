@@ -216,6 +216,27 @@ function twentyten_admin_header_style() {
 endif;
 
 /**
+ * Enqueue scripts and styles.
+ *
+ * Hooked on priority 0 to make sure they are enqueued prior to dependent
+ * scripts/styles. This is only necessary because they were previously enqueued
+ * prior to wp_head() running, and we want to provide maximum
+ * backwards compatibility.
+ *
+ * @since Twenty Ten 1.6
+ */
+function twentyten_scripts() {
+	wp_enqueue_style( 'twentyten', get_stylesheet_uri() );
+
+	/* We add some JavaScript to pages with the comment form
+	 * to support sites with threaded comments (when in use).
+	 */
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
+		wp_enqueue_script( 'comment-reply' );
+}
+add_action( 'wp_enqueue_scripts', 'twentyten_scripts', 0 );
+
+/**
  * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
  *
  * To override this in a child theme, remove the filter and optionally add
