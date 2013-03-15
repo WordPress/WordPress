@@ -1198,34 +1198,48 @@ function wp_set_post_lock( $post_id ) {
  * @return none
  */
 function _admin_notice_post_locked() {
-	global $post_ID;
+	if ( ! $post = get_post() )
+		return;
 
-	if ( !empty( $post_ID ) && ( $user = wp_check_post_lock( $post_ID ) ) ) {
+	if ( $user = wp_check_post_lock( $post->ID ) ) {
 		$user = get_userdata( $user );
-		$locked = apply_filters( 'show_post_locked_dialog', true, $post_ID, $user );
+		$locked = apply_filters( 'show_post_locked_dialog', true, $post, $user );
 	} else {
 		$locked = false;
 	}
 
+	$class = $locked ? '' : ' class="hidden"';
+
 	?>
-	<div id="notification-dialog-wrap"<?php if ( ! $locked ) echo ' style="display:none"'; ?>>
+	<div id="notification-dialog-wrap"<?php echo $class; ?>>
 	<div id="notification-dialog-background"></div>
 	<div id="notification-dialog">
 	<?php
 
 	if ( $locked ) {
+		$preview_link = set_url_scheme( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) );
+
+		if ( 'publish' == $post->post_status || $user->ID != $post->post_author ) {
+			// Latest content is in autosave
+			$nonce = wp_create_nonce( 'post_preview_' . $post->ID );
+			$preview_link = add_query_arg( array( 'preview_id' => $post->ID, 'preview_nonce' => $nonce ), $preview_link );
+		}
+
+		$preview_link = apply_filters( 'preview_post_link', $preview_link );
+
 		?>
 		<div class="post-locked-message">
 		<div class="post-locked-avatar"><?php echo get_avatar( $user->ID, 64 ); ?></div>
 		<p><?php esc_html_e( sprintf( __( 'This content is currently locked. If you take over, %s will be blocked from continuing to edit.' ), $user->display_name ) ); ?></p>
 		<p>
 		<a class="button" href="<?php echo esc_url( wp_get_referer() ); ?>"><?php _e('Go back'); ?></a>
+		<a class="button" href="<?php echo esc_url( $preview_link ); ?>"><?php _e('Preview'); ?></a>
 		<?php
 
-		// Allow plugins to prevent some users taking over
-		if ( apply_filters( 'post_lock_take_over', true, $post_ID, $user ) ) {
+		// Allow plugins to prevent some users overriding the post lock
+		if ( apply_filters( 'override_post_lock', true, $post, $user ) ) {
 			?>
-			<a class="button button-primary" href="<?php echo esc_url( add_query_arg( 'get-post-lock', '1', get_edit_post_link( $post_ID, 'url' ) ) ); ?>"><?php _e('Take over'); ?></a>
+			<a class="button button-primary" href="<?php echo esc_url( add_query_arg( 'get-post-lock', '1', get_edit_post_link( $post->ID, 'url' ) ) ); ?>"><?php _e('Take over'); ?></a>
 			<?php
 		}
 

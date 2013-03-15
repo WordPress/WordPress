@@ -3430,8 +3430,8 @@ td.plugin-title p {
 	margin: 25px;
 }
 
-#notification-dialog .post-locked-message a.button-primary {
-	margin: 0 10px;
+#notification-dialog .post-locked-message a.button {
+	margin-right: 10px;
 }
 
 #notification-dialog .post-locked-avatar {

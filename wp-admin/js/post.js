@@ -279,7 +279,7 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 				autosave();
 				wrap.find('p.currently-editing').text( received.lock_error.text );
 				
-				if ( received.lock_error.avatar_src && /^https?:\/\/[a-z0-9]+?\.gravatar\.com\/avatar/.test( received.lock_error.avatar_src ) ) {
+				if ( received.lock_error.avatar_src ) {
 					avatar = $('<img class="avatar avatar-64 photo" width="64" height="64" />').attr( 'src', received.lock_error.avatar_src.replace(/&amp;/g, '&') );
 					wrap.find('div.post-locked-avatar').empty().append( avatar );
 				}
