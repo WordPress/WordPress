@@ -21,7 +21,7 @@
 function twentytwelve_custom_header_setup() {
 	$args = array(
 		// Text color and image (empty to use none).
-		'default-text-color'     => '444',
+		'default-text-color'     => '515151',
 		'default-image'          => '',
 
 		// Set height and width, with a maximum value for the width.
@@ -47,9 +47,23 @@ function twentytwelve_custom_header_setup() {
 add_action( 'after_setup_theme', 'twentytwelve_custom_header_setup' );
 
 /**
+ * Loads our special font CSS file.
+ *
+ * @since Twenty Twelve 1.2
+ *
+ * @return void
+ */
+function twentytwelve_custom_header_fonts() {
+	$font_url = twentytwelve_get_font_url();
+	if ( ! empty( $font_url ) )
+		wp_enqueue_style( 'twentytwelve-fonts', esc_url_raw( $font_url ), array(), null );
+}
+add_action( 'admin_print_styles-appearance_page_custom-header', 'twentytwelve_custom_header_fonts' );
+
+/**
  * Styles the header text displayed on the blog.
  *
- * get_header_textcolor() options: 444 is default, hide text (returns 'blank'), or any hex value.
+ * get_header_textcolor() options: 515151 is default, hide text (returns 'blank'), or any hex value.
  *
  * @since Twenty Twelve 1.0
  */
@@ -96,26 +110,27 @@ function twentytwelve_admin_header_style() {
 	<style type="text/css">
 	.appearance_page_custom-header #headimg {
 		border: none;
+		font-family: "Open Sans", ​Helvetica,​ Arial, ​sans-serif;
 	}
 	#headimg h1,
 	#headimg h2 {
-		line-height: 1.6;
+		line-height: 1.84615;
 		margin: 0;
 		padding: 0;
 	}
 	#headimg h1 {
-		font-size: 30px;
+		font-size: 26px;
 	}
 	#headimg h1 a {
 		color: #515151;
 		text-decoration: none;
 	}
 	#headimg h1 a:hover {
-		color: #21759b;
+		color: #21759b !important; /* Has to override custom inline style. */
 	}
 	#headimg h2 {
 		color: #757575;
-		font: normal 13px/1.8 "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
+		font-size: 13px;
 		margin-bottom: 24px;
 	}
 	#headimg img {
