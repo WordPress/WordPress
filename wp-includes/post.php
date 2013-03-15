@@ -1529,11 +1529,8 @@ function add_post_type_support( $post_type, $feature ) {
 function remove_post_type_support( $post_type, $feature ) {
 	global $_wp_post_type_features;
 
-	if ( !isset($_wp_post_type_features[$post_type]) )
-		return;
-
-	if ( isset($_wp_post_type_features[$post_type][$feature]) )
-		unset($_wp_post_type_features[$post_type][$feature]);
+	if ( isset( $_wp_post_type_features[$post_type][$feature] ) )
+		unset( $_wp_post_type_features[$post_type][$feature] );
 }
 
 /**
@@ -1565,17 +1562,7 @@ function get_all_post_type_supports( $post_type ) {
 function post_type_supports( $post_type, $feature ) {
 	global $_wp_post_type_features;
 
-	if ( !isset( $_wp_post_type_features[$post_type][$feature] ) )
-		return false;
-
-	// If no args passed then no extra checks need be performed
-	if ( func_num_args() <= 2 )
-		return true;
-
-	// @todo Allow pluggable arg checking
-	//$args = array_slice( func_get_args(), 2 );
-
-	return true;
+	return ( isset( $_wp_post_type_features[$post_type][$feature] ) );
 }
 
 /**
