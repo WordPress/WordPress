@@ -511,7 +511,7 @@ wp.autosave.local = {
 			this.blog_id = typeof window.autosaveL10n != 'undefined' ? window.autosaveL10n.blog_id : 0;
 
 		this.checkPost();
-		$(document).ready( self.run );
+		$(document).ready( function(){ self.run(); } );
 	},
 
 	// Run on DOM ready
