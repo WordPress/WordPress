@@ -327,6 +327,27 @@ function twentyeleven_admin_header_image() { ?>
 endif; // twentyeleven_admin_header_image
 
 /**
+ * Enqueue scripts and styles.
+ *
+ * Hooked on priority 0 to make sure they are enqueued prior to dependent
+ * scripts/styles. This is only necessary because they were previously enqueued
+ * prior to wp_head() running, and we want to provide maximum
+ * backwards compatibility.
+ *
+ * @since Twenty Eleven 1.6
+ */
+function twentyeleven_scripts() {
+	wp_enqueue_style( 'twentyeleven', get_stylesheet_uri() );
+
+	/* We add some JavaScript to pages with the comment form
+	 * to support sites with threaded comments (when in use).
+	 */
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
+		wp_enqueue_script( 'comment-reply' );
+}
+add_action( 'wp_enqueue_scripts', 'twentyeleven_scripts', 0 );
+
+/**
  * Sets the post excerpt length to 40 words.
  *
  * To override this length in a child theme, remove the filter and add your own
