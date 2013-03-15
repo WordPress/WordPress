@@ -549,21 +549,8 @@ function wp_nav_menu_disabled_check( $nav_menu_selected_id ) {
  */
 function wp_nav_menu_item_link_meta_box() {
 	global $_nav_menu_placeholder, $nav_menu_selected_id;
+
 	$_nav_menu_placeholder = 0 > $_nav_menu_placeholder ? $_nav_menu_placeholder - 1 : -1;
-
-	$current_tab = 'create';
-	if ( isset( $_REQUEST['customlink-tab'] ) && in_array( $_REQUEST['customlink-tab'], array('create', 'all') ) ) {
-		$current_tab = $_REQUEST['customlink-tab'];
-	}
-
-	$removed_args = array(
-		'action',
-		'customlink-tab',
-		'edit-menu-item',
-		'menu-item',
-		'page-tab',
-		'_wpnonce',
-	);
 
 	?>
 	<div class="customlinkdiv" id="customlinkdiv">
