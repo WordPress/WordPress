@@ -487,6 +487,10 @@ wp.autosave.local = {
 		post_data['status'] = $('#post_status').val() || '';
 		result = this.setData( post_data );
 
+		// temp logging
+		if ( this.debug )
+			console.log( 'saved, post content = %s', post_data.content );
+
 		if ( result )
 			this.lastsaveddata = post_data.post_title + ': ' + post_data.content;
 
@@ -583,9 +587,16 @@ wp.autosave.local = {
 		if ( ! post_data )
 			return;
 
+		if ( cookie )
+			wpCookies.remove( 'wp-saving-post-' + post_id );
+
 		// There is a newer autosave. Don't show two "restore" notices at the same time.
 		if ( $('#has-newer-autosave').length )
 			return;
+
+		// temp logging
+		if ( typeof console != 'undefined' )
+			console.log( 'checkPost, post content = %s', post_data.content );
 
 		if ( cookie == 'saved' ) {
 			return;
