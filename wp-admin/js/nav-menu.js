@@ -45,7 +45,7 @@ var wpNavMenu;
 			if( api.menuList.length )
 				this.initSortables();
 
-			if( oneThemeLocationNoMenus )
+			if( menu.oneThemeLocationNoMenus )
 				$( '#posttype-page' ).addSelectedToMenu( api.addMenuItemToBottom );
 
 			this.initAccessibility();
@@ -162,7 +162,7 @@ var wpNavMenu;
 
 					return this.each(function() {
 						var t = $(this), menuItems = {},
-							checkboxes = ( oneThemeLocationNoMenus && 0 == t.find('.tabs-panel-active .categorychecklist li input:checked').length ) ? t.find('#page-all li input[type="checkbox"]') : t.find('.tabs-panel-active .categorychecklist li input:checked'),
+							checkboxes = ( menu.oneThemeLocationNoMenus && 0 == t.find('.tabs-panel-active .categorychecklist li input:checked').length ) ? t.find('#page-all li input[type="checkbox"]') : t.find('.tabs-panel-active .categorychecklist li input:checked'),
 							re = new RegExp('menu-item\\[(\[^\\]\]*)');
 
 						processMethod = processMethod || api.addMenuItemToBottom;
@@ -271,9 +271,226 @@ var wpNavMenu;
 			accordionOptions.filter(':visible').first().addClass( 'open' );
 		},
 
+		countMenuItems : function( depth ) {
+			return $( '.menu-item-depth-' + depth ).length;
+		},
+
+		moveMenuItem : function( $this, dir ) {
+
+			var menuItems = $('#menu-to-edit li');
+				menuItemsCount = menuItems.length,
+				thisItem = $this.parents( 'li.menu-item' ),
+				thisItemChildren = thisItem.childMenuItems(),
+				thisItemData = thisItem.getItemData(),
+				thisItemDepth = parseInt( thisItem.menuItemDepth() ),
+				thisItemPosition = parseInt( thisItem.index() ),
+				nextItem = thisItem.next(),
+				nextItemChildren = nextItem.childMenuItems(),
+				nextItemDepth = parseInt( nextItem.menuItemDepth() ) + 1,
+				prevItem = thisItem.prev(),
+				prevItemDepth = parseInt( prevItem.menuItemDepth() ),
+				prevItemId = prevItem.getItemData()['menu-item-db-id'];
+
+			switch ( dir ) {
+			case 'up':
+				var newItemPosition = thisItemPosition - 1;
+
+				// Already at top
+				if ( 0 === thisItemPosition )
+					break;
+
+				// If a sub item is moved to top, shift it to 0 depth
+				if ( 0 === newItemPosition && 0 !== thisItemDepth )
+					thisItem.moveHorizontally( 0, thisItemDepth );
+
+				// If prev item is sub item, shift to match depth
+				if ( 0 !== prevItemDepth )
+					thisItem.moveHorizontally( prevItemDepth, thisItemDepth );
+
+				// Does this item have sub items?
+				if ( thisItemChildren ) {
+					var items = thisItem.add( thisItemChildren );
+					// Move the entire block
+					items.detach().insertBefore( menuItems.eq( newItemPosition ) ).updateParentMenuItemDBId();
+				} else {
+					thisItem.detach().insertBefore( menuItems.eq( newItemPosition ) ).updateParentMenuItemDBId();
+				}
+				break;
+			case 'down':
+				// Does this item have sub items?
+				if ( thisItemChildren ) {
+					var items = thisItem.add( thisItemChildren ),
+						nextItem = menuItems.eq( items.length + thisItemPosition ),
+						nextItemChildren = 0 !== nextItem.childMenuItems().length;
+
+					if ( nextItemChildren ) {
+						var newDepth = parseInt( nextItem.menuItemDepth() ) + 1;
+						thisItem.moveHorizontally( newDepth, thisItemDepth );
+					}
+
+					// Have we reached the bottom?
+					if ( menuItemsCount === thisItemPosition + items.length )
+						break;
+
+					items.detach().insertAfter( menuItems.eq( thisItemPosition + items.length ) ).updateParentMenuItemDBId();
+				} else {
+					// If next item has sub items, shift depth
+					if ( 0 !== nextItemChildren.length )
+						thisItem.moveHorizontally( nextItemDepth, thisItemDepth );
+
+					// Have we reached the bottom
+					if ( menuItemsCount === thisItemPosition + 1 )
+						break;
+					thisItem.detach().insertAfter( menuItems.eq( thisItemPosition + 1 ) ).updateParentMenuItemDBId();
+				}
+				break;
+			case 'top':
+				// Already at top
+				if ( 0 === thisItemPosition )
+					break;
+				// Does this item have sub items?
+				if ( thisItemChildren ) {
+					var items = thisItem.add( thisItemChildren );
+					// Move the entire block
+					items.detach().insertBefore( menuItems.eq( 0 ) ).updateParentMenuItemDBId();
+				} else {
+					thisItem.detach().insertBefore( menuItems.eq( 0 ) ).updateParentMenuItemDBId();
+				}
+				break;
+			case 'left':
+				// As far left as possible
+				if ( 0 === thisItemDepth )
+					break;
+				thisItem.shiftHorizontally( -1 );
+				break;
+			case 'right':
+				// Can't be sub item at top
+				if ( 0 === thisItemPosition )
+					break;
+				// Already sub item of prevItem
+				if ( thisItemData['menu-item-parent-id'] === prevItemId )
+					break;
+				thisItem.shiftHorizontally( 1 );
+				break;
+			}
+			$this.focus();
+			api.registerChange();
+			api.refreshKeyboardAccessibility();
+			api.refreshAdvancedAccessibility();
+		},
+
 		initAccessibility : function() {
+			api.refreshKeyboardAccessibility();
+			api.refreshAdvancedAccessibility();
+
+			// Events
+			$( '.menus-move-up' ).on( 'click', function ( e ) {
+				api.moveMenuItem( $( this ).parents( 'li.menu-item' ).find( 'a.item-edit' ), 'up' );
+				e.preventDefault();
+			});
+			$( '.menus-move-down' ).on( 'click', function ( e ) {
+				api.moveMenuItem( $( this ).parents( 'li.menu-item' ).find( 'a.item-edit' ), 'down' );
+				e.preventDefault();
+			});
+			$( '.menus-move-top' ).on( 'click', function ( e ) {
+				api.moveMenuItem( $( this ).parents( 'li.menu-item' ).find( 'a.item-edit' ), 'top' );
+				e.preventDefault();
+			});
+			$( '.menus-move-left' ).on( 'click', function ( e ) {
+				api.moveMenuItem( $( this ).parents( 'li.menu-item' ).find( 'a.item-edit' ), 'left' );
+				e.preventDefault();
+			});
+			$( '.menus-move-right' ).on( 'click', function ( e ) {
+				api.moveMenuItem( $( this ).parents( 'li.menu-item' ).find( 'a.item-edit' ), 'right' );
+				e.preventDefault();
+			});
+		},
+
+		refreshAdvancedAccessibility : function() {
+
+			// Hide all links by default
+			$( '.menu-item-settings .field-move a' ).hide();
+
+			$( '.item-edit' ).each( function() {
+				var $this = $(this),
+					movement = [],
+					availableMovement = '',
+					menuItem = $this.parents( 'li.menu-item' ).first(),
+					depth = menuItem.menuItemDepth(),
+					isPrimaryMenuItem = ( 0 === depth ),
+					itemName = $this.parents( '.menu-item-handle' ).find( '.menu-item-title' ).text(),
+					position = parseInt( menuItem.index() ),
+					prevItemDepth = ( isPrimaryMenuItem ) ? depth : parseInt( depth - 1 ),
+					prevItemNameLeft = menuItem.prevAll('.menu-item-depth-' + prevItemDepth).first().find( '.menu-item-title' ).text(),
+					prevItemNameRight = menuItem.prevAll('.menu-item-depth-' + depth).first().find( '.menu-item-title' ).text(),
+					totalMenuItems = $('#menu-to-edit li').length,
+					hasSameDepthSibling = menuItem.nextAll( '.menu-item-depth-' + depth ).length;
+
+				// Where can they move this menu item?
+				if ( 0 !== position ) {
+					var thisLink = menuItem.find( '.menus-move-up' ),
+						thisLinkText = thisLink.text();
+					thisLink.prop('title', menus.move + ' ' + thisLinkText).show();
+				}
+
+				if ( 0 !== position && isPrimaryMenuItem ) {
+					var thisLink = menuItem.find( '.menus-move-top' ),
+						thisLinkText = thisLink.text();
+					thisLink.prop('title', menus.move + ' ' + thisLinkText).show();
+				}
+
+				if ( position + 1 !== totalMenuItems && 0 !== position ) {
+					var thisLink = menuItem.find( '.menus-move-down' ),
+						thisLinkText = thisLink.text();
+					thisLink.prop('title', menus.move + ' ' + thisLinkText).show();
+				}
+
+				if ( 0 === position && 0 !== hasSameDepthSibling ) {
+					var thisLink = menuItem.find( '.menus-move-down' ),
+						thisLinkText = thisLink.text();
+					thisLink.prop('title', menus.move + ' ' + thisLinkText).show();
+				}
+
+				if ( ! isPrimaryMenuItem ) {
+					var thisLink = menuItem.find( '.menus-move-left' ),
+						thisLinkText = menus.outFrom + ' ' + prevItemNameLeft;
+					thisLink.prop('title', menus.move + ' ' + thisLinkText).html(thisLinkText).show();
+				}
+
+				if ( 0 !== position ) {
+					if ( menuItem.find( '.menu-item-data-parent-id' ).val() !== menuItem.prev().find( '.menu-item-data-db-id' ).val() ) {
+						var thisLink = menuItem.find( '.menus-move-right' ),
+							thisLinkText = menus.under + ' ' + prevItemNameRight;
+						thisLink.prop('title', menus.move + ' ' + thisLinkText).html(thisLinkText).show();
+					}
+				}
+
+				if ( isPrimaryMenuItem ) {
+					var primaryItems = $( '.menu-item-depth-0' ),
+						itemPosition = primaryItems.index( menuItem ) + 1,
+						totalMenuItems = primaryItems.length,
+
+						// String together help text for primary menu items
+						title = itemName + '. ' + menus.menuFocus.replace('%d', itemPosition).replace('%d', totalMenuItems) + '.';
+				} else {
+					var parentItem = menuItem.prevAll( '.menu-item-depth-' + parseInt( depth - 1 ) ).first(),
+						parentItemId = parentItem.find( '.menu-item-data-db-id' ).val(),
+						parentItemName = parentItem.find( '.menu-item-title' ).text(),
+						subItems = $( '.menu-item .menu-item-data-parent-id[value="' + parentItemId + '"]' ),
+						itemPosition = $(subItems.parents('.menu-item').get().reverse()).index( menuItem ) + 1;
+
+						// String together help text for sub menu items
+
+						title = itemName + '. ' + menus.subMenuFocus.replace('%d', itemPosition) + parentItemName + '.';
+				}
+
+				$this.prop('title', title).html( title );
+			});
+		},
+
+		refreshKeyboardAccessibility : function() {
 			$( '.item-edit' ).off( 'focus' ).on( 'focus', function(){
-				$(this).on( 'keydown', function(e){
+				$(this).off( 'keydown' ).on( 'keydown', function(e){
 
 					var $this = $(this);
 
@@ -284,22 +501,8 @@ var wpNavMenu;
 					// Avoid multiple keydown events
 					$this.off('keydown');
 
-					var menuItems = $('#menu-to-edit li');
-						menuItemsCount = menuItems.length,
-						thisItem = $this.parents( 'li.menu-item' ),
-						thisItemChildren = thisItem.childMenuItems(),
-						thisItemData = thisItem.getItemData(),
-						thisItemDepth = parseInt( thisItem.menuItemDepth() ),
-						thisItemPosition = parseInt( thisItem.index() ),
-						nextItem = thisItem.next(),
-						nextItemChildren = nextItem.childMenuItems(),
-						nextItemDepth = parseInt( nextItem.menuItemDepth() ) + 1,
-						prevItem = thisItem.prev(),
-						prevItemDepth = parseInt( prevItem.menuItemDepth() ),
-						prevItemId = prevItem.getItemData()['menu-item-db-id'];
-
 					// Bail if there is only one menu item
-					if ( 1 === menuItemsCount )
+					if ( 1 === $('#menu-to-edit li').length )
 						return;
 
 					// If RTL, swap left/right arrows
@@ -309,80 +512,22 @@ var wpNavMenu;
 
 					switch ( arrows[e.which] ) {
 					case 'up':
-						var newItemPosition = thisItemPosition - 1;
-
-						// Already at top
-						if ( 0 === thisItemPosition )
-							break;
-
-						// If a sub item is moved to top, shift it to 0 depth
-						if ( 0 === newItemPosition && 0 !== thisItemDepth )
-							thisItem.moveHorizontally( 0, thisItemDepth );
-
-						// If prev item is sub item, shift to match depth
-						if ( 0 !== prevItemDepth )
-							thisItem.moveHorizontally( prevItemDepth, thisItemDepth );
-
-						// Does this item have sub items?
-						if ( thisItemChildren ) {
-							var items = thisItem.add( thisItemChildren );
-							// Move the entire block
-							items.detach().insertBefore( menuItems.eq( newItemPosition ) );
-						} else {
-							thisItem.detach().insertBefore( menuItems.eq( newItemPosition ) );
-						}
+						api.moveMenuItem( $this, 'up' );
 						break;
 					case 'down':
-						// Does this item have sub items?
-						if ( thisItemChildren ) {
-							var items = thisItem.add( thisItemChildren ),
-								nextItem = menuItems.eq( items.length + thisItemPosition ),
-								nextItemChildren = 0 !== nextItem.childMenuItems().length;
-
-							if ( nextItemChildren ) {
-								var newDepth = parseInt( nextItem.menuItemDepth() ) + 1;
-								thisItem.moveHorizontally( newDepth, thisItemDepth );
-							}
-
-							// Have we reached the bottom?
-							if ( menuItemsCount === thisItemPosition + items.length )
-								break;
-
-							items.detach().insertAfter( menuItems.eq( thisItemPosition + items.length ) );
-						} else {
-							// If next item has sub items, shift depth
-							if ( 0 !== nextItemChildren.length )
-								thisItem.moveHorizontally( nextItemDepth, thisItemDepth );
-
-							// Have we reached the bottom
-							if ( menuItemsCount === thisItemPosition + 1 )
-								break;
-							thisItem.detach().insertAfter( menuItems.eq( thisItemPosition + 1 ) );
-						}
+						api.moveMenuItem( $this, 'down' );
 						break;
 					case 'left':
-						// As far left as possible
-						if ( 0 === thisItemDepth )
-							break;
-						thisItem.shiftHorizontally( -1 );
+						api.moveMenuItem( $this, 'left' );
 						break;
 					case 'right':
-						// Can't be sub item at top
-						if ( 0 === thisItemPosition )
-							break;
-						// Already sub item of prevItem
-						if ( thisItemData['menu-item-parent-id'] === prevItemId )
-							break;
-						thisItem.shiftHorizontally( 1 );
+						api.moveMenuItem( $this, 'right' );
 						break;
 					}
-					api.registerChange();
 					// Put focus back on same menu item
 					$( '#edit-' + thisItemData['menu-item-db-id'] ).focus();
 					return false;
 				});
-			}).blur(function () {
-				$(this).off( 'keydown' );
 			});
 		},
 
@@ -512,6 +657,9 @@ var wpNavMenu;
 						ui.item[0].style.left = 'auto';
 						ui.item[0].style.right = 0;
 					}
+
+					api.refreshKeyboardAccessibility();
+					api.refreshAdvancedAccessibility();
 				},
 				change: function(e, ui) {
 					// Make sure the placeholder is inside the menu.
@@ -773,12 +921,14 @@ var wpNavMenu;
 		 */
 		addMenuItemToBottom : function( menuMarkup, req ) {
 			$(menuMarkup).hideAdvancedMenuItemFields().appendTo( api.targetList );
-			api.initAccessibility();
+			api.refreshKeyboardAccessibility();
+			api.refreshAdvancedAccessibility();
 		},
 
 		addMenuItemToTop : function( menuMarkup, req ) {
 			$(menuMarkup).hideAdvancedMenuItemFields().prependTo( api.targetList );
-			api.initAccessibility();
+			api.refreshKeyboardAccessibility();
+			api.refreshAdvancedAccessibility();
 		},
 
 		attachUnsavedChangesListener : function() {

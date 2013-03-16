@@ -354,6 +354,16 @@ $add_new_screen = ( isset( $_GET['menu'] ) && 0 == $_GET['menu'] ) ? true : fals
 $page_count = wp_count_posts( 'page' );
 $one_theme_location_no_menus = ( 1 == count( get_registered_nav_menus() ) && ! $add_new_screen && empty( $nav_menus ) && ! empty( $page_count->publish ) ) ? true : false;
 
+$l10n = array(
+	"oneThemeLocationNoMenus" => ( $one_theme_location_no_menus ) ? 'true' : 'false',
+	"move" => __( 'Move' ),
+	"menuFocus" => __( 'Menu item %d of %d' ),
+	"subMenuFocus" => __( 'Sub item number %d under' ),
+	"under" => __( 'Under' ),
+	"outFrom" => __( 'Out from under' )
+);
+wp_localize_script( 'nav-menu', 'menus', $l10n );
+
 // Redirect to add screen if there are no menus and this users has either zero, or more than 1 theme locations
 if ( 0 == $menu_count && ! $add_new_screen && ! $one_theme_location_no_menus )
 	wp_redirect( admin_url( 'nav-menus.php?action=edit&menu=0' ) );
@@ -543,6 +553,7 @@ require_once( './admin-header.php' );
 					<div id="post-body">
 						<div id="post-body-content">
 							<?php if ( ! $add_new_screen ) : ?>
+							<h3><?php _e( 'Menu Structure' ); ?></h3>
 							<?php $starter_copy = ( $one_theme_location_no_menus ) ? __( 'Edit your default menu by adding or removing items. Drag each item into the order you prefer. Click Create Menu to save your changes.' ) : __( 'Drag each item into the order you prefer. Click an item to reveal additional configuration options.' ); ?>
 							<div class="drag-instructions post-body-plain" <?php if ( isset( $menu_items ) && 0 == count( $menu_items ) ) { ?>style="display: none;"<?php } ?>>
 								<p><?php echo $starter_copy; ?></p>
@@ -559,6 +570,7 @@ require_once( './admin-header.php' );
 								<p class="post-body-plain"><?php _e( 'Give your menu a name above, then click Create Menu.' ); ?></p>
 							<?php endif; ?>
 							<div class="menu-settings" <?php if ( $one_theme_location_no_menus ) { ?>style="display: none;"<?php } ?>>
+								<h3><?php _e( 'Menu Settings' ); ?></h3>
 								<?php
 								if ( ! isset( $auto_add ) ) {
 									$auto_add = get_option( 'nav_menu_options' );
@@ -612,5 +624,4 @@ require_once( './admin-header.php' );
 	</div><!-- /#menu-management-liquid -->
 	</div><!-- /#nav-menus-frame -->
 </div><!-- /.wrap-->
-<script type="text/javascript">var oneThemeLocationNoMenus = <?php if ( $one_theme_location_no_menus ) echo 'true'; else echo 'false'; ?>;</script>
 <?php include( './admin-footer.php' ); ?>

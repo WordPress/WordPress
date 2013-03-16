@@ -7305,9 +7305,12 @@ a.rsswidget {
 	margin: .3em 0 .6em;
 }
 
+.menu-edit #post-body-content h3 {
+	margin: 0 0 10px;
+}
+
 .menu-settings {
 	margin-top: 2em;
-	padding-top: 16px;
 	overflow: hidden;
 }
 
@@ -7799,6 +7802,11 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	-webkit-border-bottom-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
+}
+
+.menu-item-settings .field-move a {
+	display: none;
+	margin: 0 2px;
 }
 
 .menu-item-edit-active .menu-item-settings {

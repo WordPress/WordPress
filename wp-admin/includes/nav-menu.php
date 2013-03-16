@@ -89,7 +89,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<li id="menu-item-<?php echo $item_id; ?>" class="<?php echo implode(' ', $classes ); ?>">
 			<dl class="menu-item-bar">
 				<dt class="menu-item-handle">
-					<span class="item-title"><?php echo esc_html( $title ); ?> <span class="is-submenu" <?php echo $submenu_text; ?>><?php _e( 'sub item' ); ?></span></span>
+					<span class="item-title"><span class="menu-item-title"><?php echo esc_html( $title ); ?></span> <span class="is-submenu" <?php echo $submenu_text; ?>><?php _e( 'sub item' ); ?></span></span>
 					<span class="item-controls">
 						<span class="item-type"><?php echo esc_html( $item->type_label ); ?></span>
 						<span class="item-order hide-if-js">
@@ -170,6 +170,17 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 						<?php _e( 'Description' ); ?><br />
 						<textarea id="edit-menu-item-description-<?php echo $item_id; ?>" class="widefat edit-menu-item-description" rows="3" cols="20" name="menu-item-description[<?php echo $item_id; ?>]"><?php echo esc_html( $item->description ); // textarea_escaped ?></textarea>
 						<span class="description"><?php _e('The description will be displayed in the menu if the current theme supports it.'); ?></span>
+					</label>
+				</p>
+
+				<p class="field-move description description-wide">
+					<label>
+						<?php _e( 'Move' ); ?>
+						<a href="#" class="menus-move-up"><?php _e( 'Up one' ); ?></a>
+						<a href="#" class="menus-move-down"><?php _e( 'Down one' ); ?></a>
+						<a href="#" class="menus-move-left"></a>
+						<a href="#" class="menus-move-right"></a>
+						<a href="#" class="menus-move-top"><?php _e( 'To the top' ); ?></a>
 					</label>
 				</p>
 
