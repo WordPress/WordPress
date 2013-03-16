@@ -806,6 +806,233 @@ function gallery_shortcode($attr) {
 }
 
 /**
+ * Provide a No-JS Flash fallback as a last resort for audio / video
+ *
+ * @since 3.6.0
+ *
+ * @param string $url
+ * @return string Fallback HTML
+ */
+function wp_mediaelement_fallback( $url ) {
+	return apply_filters( 'wp_mediaelement_fallback', sprintf( '<a href="%1$s">%1$s</a>', esc_url( $url ) ), $url );
+}
+
+/**
+ * Return a filtered list of WP-supported audio formats
+ *
+ * @since 3.6.0
+ * @return array
+ */
+function wp_get_audio_extensions() {
+	return apply_filters( 'wp_audio_extensions', array( 'mp3', 'ogg', 'wma', 'm4a', 'wav' ) );
+}
+
+/**
+ * The Audio shortcode.
+ *
+ * This implements the functionality of the Audio Shortcode for displaying
+ * WordPress mp3s in a post.
+ *
+ * @since 3.6.0
+ *
+ * @param array $attr Attributes of the shortcode.
+ * @return string HTML content to display audio.
+ */
+function wp_audio_shortcode( $attr ) {
+	$post_id = get_post() ? get_the_ID() : 0;
+
+	static $instances = 0;
+	$instances++;
+
+	$audio = null;
+
+	$default_types = wp_get_audio_extensions();
+	$defaults_atts = array( 'src' => '' );
+	foreach ( $default_types as $type  )
+		$defaults_atts[$type] = '';
+
+	$atts = shortcode_atts( $defaults_atts, $attr );
+	extract( $atts );
+
+	$primary = false;
+	if ( ! empty( $src ) ) {
+		$type = wp_check_filetype( $src );
+		if ( ! in_array( $type['ext'], $default_types ) ) {
+			printf( '<a class="wp-post-format-link-audio" href="%1$s">%1$s</a>', $src );
+			return;
+		}
+		$primary = true;
+		array_unshift( $default_types, 'src' );
+	} else {
+		foreach ( $default_types as $ext ) {
+			if ( ! empty( $$ext ) ) {
+				$type = wp_check_filetype( $$ext );
+				if ( $type['ext'] === $ext )
+					$primary = true;
+			}
+		}
+	}
+
+	if ( ! $primary ) {
+		$audios = get_post_audio( $post_id );
+		if ( empty( $audios ) )
+			return;
+
+		$audio = reset( $audios );
+		$src = wp_get_attachment_url( $audio->ID );
+		if ( empty( $src ) )
+			return;
+
+		array_unshift( $default_types, 'src' );
+	}
+
+	$library = apply_filters( 'wp_audio_shortcode_library', 'mediaelement' );
+	if ( 'mediaelement' === $library ) {
+		wp_enqueue_style( 'wp-mediaelement' );
+		wp_enqueue_script( 'wp-mediaelement' );
+	}
+
+	$atts = array(
+		sprintf( 'class="%s"', apply_filters( 'wp_audio_shortcode_class', 'wp-audio-shortcode' ) ),
+		sprintf( 'id="audio-%d-%d"', $post_id, $instances ),
+	);
+
+	$html = sprintf( '<audio %s controls="controls" preload="none">', join( ' ', $atts ) );
+
+	$fileurl = '';
+	$source = '<source type="%s" src="%s" />';
+	foreach ( $default_types as $fallback ) {
+		if ( ! empty( $$fallback ) ) {
+			if ( empty( $fileurl ) )
+				$fileurl = $$fallback;
+			$type = wp_check_filetype( $$fallback );
+			$html .= sprintf( $source, $type['type'], $$fallback );
+		}
+	}
+
+	if ( 'mediaelement' === $library )
+		$html .= wp_mediaelement_fallback( $fileurl );
+	$html .= '</audio>';
+
+	return apply_filters( 'wp_audio_shortcode', $html, $atts, $audio, $post_id );
+}
+add_shortcode( 'audio', apply_filters( 'wp_audio_shortcode_handler', 'wp_audio_shortcode' ) );
+
+/**
+ * Return a filtered list of WP-supported video formats
+ *
+ * @since 3.6.0
+ * @return array
+ */
+function wp_get_video_extensions() {
+	return apply_filters( 'wp_video_extensions', array( 'mp4', 'm4v', 'webm', 'ogv', 'wmv', 'flv' ) );
+}
+
+/**
+ * The Video shortcode.
+ *
+ * This implements the functionality of the Video Shortcode for displaying
+ * WordPress mp4s in a post.
+ *
+ * @since 3.6.0
+ *
+ * @param array $attr Attributes of the shortcode.
+ * @return string HTML content to display video.
+ */
+function wp_video_shortcode( $attr ) {
+	global $content_width;
+	$post_id = get_post() ? get_the_ID() : 0;
+
+	static $instances = 0;
+	$instances++;
+
+	$video = null;
+
+	$default_types = wp_get_video_extensions();
+	$defaults_atts = array(
+		'src' => '',
+		'poster' => '',
+		'height' => 360,
+		'width' => empty( $content_width ) ? 640 : $content_width,
+	);
+	foreach ( $default_types as $type  )
+		$defaults_atts[$type] = '';
+
+	$atts = shortcode_atts( $defaults_atts, $attr );
+	extract( $atts );
+
+	$primary = false;
+	if ( ! empty( $src ) ) {
+		$type = wp_check_filetype( $src );
+		if ( ! in_array( $type['ext'], $default_types ) ) {
+			printf( '<a class="wp-post-format-link-video" href="%1$s">%1$s</a>', $src );
+			return;
+		}
+		$primary = true;
+		array_unshift( $default_types, 'src' );
+	} else {
+		foreach ( $default_types as $ext ) {
+			if ( ! empty( $$ext ) ) {
+				$type = wp_check_filetype( $$ext );
+				if ( $type['ext'] === $ext )
+					$primary = true;
+			}
+		}
+	}
+
+	if ( ! $primary ) {
+		$videos = get_post_video( $post_id );
+		if ( empty( $videos ) )
+			return;
+
+		$video = reset( $videos );
+		$src = wp_get_attachment_url( $video->ID );
+		if ( empty( $src ) )
+			return;
+
+		array_unshift( $default_types, 'src' );
+	}
+
+	$library = apply_filters( 'wp_video_shortcode_library', 'mediaelement' );
+	if ( 'mediaelement' === $library ) {
+		wp_enqueue_style( 'wp-mediaelement' );
+		wp_enqueue_script( 'wp-mediaelement' );
+	}
+
+	$atts = array(
+		sprintf( 'class="%s"', apply_filters( 'wp_video_shortcode_class', 'wp-video-shortcode' ) ),
+		sprintf( 'id="video-%d-%d"', $post_id, $instances ),
+		sprintf( 'width="%d"', $width ),
+		sprintf( 'height="%d"', $height ),
+	);
+
+	if ( ! empty( $poster ) )
+		$atts[] = sprintf( 'poster="%s"', esc_url( $poster ) );
+
+	$html = sprintf( '<video %s controls="controls" preload="none">', join( ' ', $atts ) );
+
+	$fileurl = '';
+	$source = '<source type="%s" src="%s" />';
+	foreach ( $default_types as $fallback ) {
+		if ( ! empty( $$fallback ) ) {
+			if ( empty( $fileurl ) )
+				$fileurl = $$fallback;
+			$type = wp_check_filetype( $$fallback );
+			// m4v sometimes shows up as video/mpeg which collides with mp4
+			if ( 'm4v' === $type['ext'] )
+				$type['type'] = 'video/m4v';
+			$html .= sprintf( $source, $type['type'], $$fallback );
+		}
+	}
+	if ( 'mediaelement' === $library )
+		$html .= wp_mediaelement_fallback( $fileurl, $width, $height );
+	$html .= '</video>';
+
+	return apply_filters( 'wp_video_shortcode', $html, $atts, $video, $post_id );
+}
+add_shortcode( 'video', apply_filters( 'wp_video_shortcode_handler', 'wp_video_shortcode' ) );
+
+/**
  * Display previous image link that has the same post parent.
  *
  * @since 2.5.0
@@ -1545,3 +1772,91 @@ function wp_enqueue_media( $args = array() ) {
 
 	do_action( 'wp_enqueue_media' );
 }
+
+/**
+ * Retrieve audio attached to the passed post
+ *
+ * @since 3.6.0
+ *
+ * @param int $post_id  Post ID
+ * @return array Found audio attachments
+ */
+function get_post_audio( $post_id = 0 ) {
+	$post = empty( $post_id ) ? get_post() : get_post( $post_id );
+	if ( empty( $post ) )
+		return;
+
+	$children = get_children( array(
+		'post_parent' => $post->ID,
+		'post_type' => 'attachment',
+		'post_mime_type' => 'audio',
+		'posts_per_page' => -1
+	) );
+
+	if ( ! empty( $children ) )
+		return $children;
+}
+
+/**
+ * Retrieve video attached to the passed post
+ *
+ * @since 3.6.0
+ *
+ * @param int $post_id  Post ID
+ * @return array Found video attachments
+ */
+function get_post_video( $post_id = 0 ) {
+	$post = empty( $post_id ) ? get_post() : get_post( $post_id );
+	if ( empty( $post ) )
+		return;
+
+	$children = get_children( array(
+		'post_parent' => $post->ID,
+		'post_type' => 'attachment',
+		'post_mime_type' => 'video',
+		'posts_per_page' => -1
+	) );
+
+	if ( ! empty( $children ) )
+		return $children;
+}
+
+/**
+ * Audio embed handler callback.
+ *
+ * @param array $matches The regex matches from the provided regex when calling {@link wp_embed_register_handler()}.
+ * @param array $attr Embed attributes.
+ * @param string $url The original URL that was matched by the regex.
+ * @param array $rawattr The original unmodified attributes.
+ * @return string The embed HTML.
+ */
+function wp_audio_embed( $matches, $attr, $url, $rawattr ) {
+	$audio = $url;
+	if ( shortcode_exists( 'audio' ) )
+		$audio = do_shortcode( '[audio src="' . $url . '" /]' );
+	return apply_filters( 'wp_audio_embed', $audio, $attr, $url, $rawattr );
+}
+wp_embed_register_handler( 'wp_audio_embed', '#https?://.+?\.(' . join( '|', wp_get_audio_extensions() ) . ')#i', apply_filters( 'wp_audio_embed_handler', 'wp_audio_embed' ), 9999 );
+
+/**
+ * Video embed handler callback.
+ *
+ * @param array $matches The regex matches from the provided regex when calling {@link wp_embed_register_handler()}.
+ * @param array $attr Embed attributes.
+ * @param string $url The original URL that was matched by the regex.
+ * @param array $rawattr The original unmodified attributes.
+ * @return string The embed HTML.
+ */
+function wp_video_embed( $matches, $attr, $url, $rawattr ) {
+	$dimensions = '';
+	$video = $url;
+	if ( shortcode_exists( 'video' ) ) {
+		if ( ! empty( $rawattr['width'] ) && ! empty( $rawattr['height'] ) ) {
+			$dimensions .= sprintf( 'width="%d" ', (int) $rawattr['width'] );
+			$dimensions .= sprintf( 'height="%d" ', (int) $rawattr['height'] );
+		}
+		$video = do_shortcode( '[video ' . $dimensions . 'src="' . $url . '" /]' );
+	}
+	return apply_filters( 'wp_video_embed', $video, $attr, $url, $rawattr );
+}
+wp_embed_register_handler( 'wp_video_embed', '#https?://.+?\.(' . join( '|', wp_get_video_extensions() ) . ')#i', apply_filters( 'wp_video_embed_handler', 'wp_video_embed' ), 9999 );

@@ -128,6 +128,44 @@ function remove_all_shortcodes() {
 }
 
 /**
+ * Whether a registered shortcode exists named $tag
+ *
+ * @since 3.6.0
+ *
+ * @global array $shortcode_tags
+ * @param string $tag
+ * @return boolean
+ */
+function shortcode_exists( $tag ) {
+	global $shortcode_tags;
+	return array_key_exists( $tag, $shortcode_tags );
+}
+
+/**
+ * Whether the passed content contains the specified shortcode
+ *
+ * @since 3.6.0
+ *
+ * @global array $shortcode_tags
+ * @param string $tag
+ * @return boolean
+ */
+function has_shortcode( $content, $tag ) {
+	if ( shortcode_exists( $tag ) ) {
+		$matches = array();
+		preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );
+		if ( empty( $matches ) )
+			return false;
+
+		foreach ( $matches as $shortcode ) {
+			if ( $tag === $shortcode[2] )
+				return true;
+		}
+	}
+	return false;
+}
+
+/**
  * Search content for shortcodes and filter shortcodes through their hooks.
  *
  * If there are no shortcode tags defined, then the content will be returned

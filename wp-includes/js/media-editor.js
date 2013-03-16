@@ -66,7 +66,8 @@
 					src:       size.url,
 					captionId: 'attachment_' + attachment.id
 				});
-
+			} else if ( 'video' === attachment.type || 'audio' === attachment.type ) {
+				_.extend( props, _.pick( attachment, 'title', 'type', 'icon', 'mime' ) );
 			// Format properties for non-images.
 			} else {
 				props.title = props.title || attachment.filename;
@@ -93,6 +94,89 @@
 				options.attrs.rel = props.rel;
 
 			return wp.html.string( options );
+		},
+
+		audio: function( props, attachment ) {
+			var shortcode, html;
+
+			props = wp.media.string.props( props, attachment );
+
+			shortcode = {};
+
+			if ( props.mime ) {
+				switch ( props.mime ) {
+				case 'audio/mpeg':
+					if ( props.linkUrl.indexOf( 'mp3' ) )
+						shortcode.mp3 = props.linkUrl;
+					else if ( props.linkUrl.indexOf( 'm4a' ) )
+						shortcode.m4a = props.linkUrl;
+					break;
+				case 'audio/mp3':
+					shortcode.mp3 = props.linkUrl;
+					break;
+				case 'audio/m4a':
+					shortcode.m4a = props.linkUrl;
+					break;
+				case 'audio/wav':
+					shortcode.wav = props.linkUrl;
+					break;
+				case 'audio/ogg':
+					shortcode.ogg = props.linkUrl;
+					break;
+				case 'audio/x-ms-wma':
+				case 'audio/wma':
+					shortcode.wma = props.linkUrl;
+					break;
+				}
+			}
+
+			html = wp.shortcode.string({
+				tag:     'audio',
+				attrs:   shortcode
+			});
+
+			return html;
+		},
+
+		video: function( props, attachment ) {
+			var shortcode, html;
+
+			props = wp.media.string.props( props, attachment );
+
+			shortcode = {};
+
+			if ( props.mime ) {
+				switch ( props.mime ) {
+				case 'video/mp4':
+					shortcode.mp4 = props.linkUrl;
+					break;
+				case 'video/m4v':
+					shortcode.m4v = props.linkUrl;
+					break;
+				case 'video/webm':
+					shortcode.webm = props.linkUrl;
+					break;
+				case 'video/ogg':
+					shortcode.ogv = props.linkUrl;
+					break;
+				case 'video/x-ms-wmv':
+				case 'video/wmv':
+				case 'video/asf':
+					shortcode.wmv = props.linkUrl;
+					break;
+				case 'video/flv':
+				case 'video/x-flv':
+					shortcode.flv = props.linkUrl;
+					break;
+				}
+			}
+
+			html = wp.shortcode.string({
+				tag:     'video',
+				attrs:   shortcode
+			});
+
+			return html;
 		},
 
 		image: function( props, attachment ) {
@@ -575,7 +659,10 @@
 						if ( props[ prop ] )
 							options[ option ] = props[ prop ];
 					});
-
+				} else if ( 'video' === attachment.type ) {
+					html = wp.media.string.video( props );
+				} else if ( 'audio' === attachment.type ) {
+					html = wp.media.string.audio( props );
 				} else {
 					html = wp.media.string.link( props );
 					options.post_title = props.title;

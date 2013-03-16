@@ -308,6 +308,8 @@ function post_formats_compat( $content, $id = 0 ) {
 	$show_content = true;
 	$format_output = '';
 	$meta = get_post_format_meta( $post->ID );
+	// passed by ref in preg_match()
+	$matches = array();
 
 	switch ( $format ) {
 		case 'link':
@@ -365,32 +367,19 @@ function post_formats_compat( $content, $id = 0 ) {
 			break;
 
 		case 'gallery':
-			preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches );
-			if ( ! empty( $matches ) && isset( $matches[2] ) ) {
-				foreach ( (array) $matches[2] as $match ) {
-					if ( 'gallery' === $match )
-						break 2; // foreach + case
-				}
-			}
-
-			if ( ! empty( $meta['gallery'] ) ) {
+			if ( ! has_shortcode( $post->post_content, $format ) && ! empty( $meta['gallery'] ) )
 				$format_output .= $meta['gallery'];
-			}
 			break;
 
 		case 'video':
 		case 'audio':
-			$shortcode_regex = '/' . get_shortcode_regex() . '/s';
-			$matches = preg_match( $shortcode_regex, $content );
-			if ( ! $matches || $format !== $matches[2] ) {
-				if ( ! empty( $meta['media'] ) ) {
-					// the metadata is a shortcode or an embed code
-					if ( preg_match( $shortcode_regex, $meta['media'] ) || preg_match( '#<[^>]+>#', $meta['media'] ) ) {
-						$format_output .= $meta['media'];
-					} elseif ( ! stristr( $content, $meta['media'] ) ) {
-						// attempt to embed the URL
-						$format_output .= sprintf( '[embed]%s[/embed]', $meta['media'] );
-					}
+			if ( ! has_shortcode( $post->post_content, $format ) && ! empty( $meta['media'] ) ) {
+				// the metadata is a shortcode or an embed code
+				if ( preg_match( '/' . get_shortcode_regex() . '/s', $meta['media'] ) || preg_match( '#<[^>]+>#', $meta['media'] ) ) {
+					$format_output .= $meta['media'];
+				} elseif ( ! stristr( $content, $meta['media'] ) ) {
+					// attempt to embed the URL
+					$format_output .= sprintf( '[embed]%s[/embed]', $meta['media'] );
 				}
 			}
 			break;

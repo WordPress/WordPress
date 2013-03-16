@@ -1,0 +1,11 @@
+.mejs-container, .mejs-embed, .mejs-embed body {
+	background: #464646;
+}
+
+.mejs-controls .mejs-time-rail .mejs-time-loaded {
+	background: #21759b;
+}
+
+.mejs-controls .mejs-time-rail .mejs-time-current {
+	background: #d54e21;
+}
