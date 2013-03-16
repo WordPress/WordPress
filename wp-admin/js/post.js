@@ -265,6 +265,7 @@ $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
 	data['wp-refresh-post-lock'] = send;
 });
 
+// Post locks: update the lock string or show the dialog if somebody has taken over editing
 $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 	var received, wrap, avatar;
 
@@ -277,19 +278,17 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 
 			if ( ! wrap.is(':visible') ) {
 				autosave();
-				wrap.find('p.currently-editing').text( received.lock_error.text );
-				
+
 				if ( received.lock_error.avatar_src ) {
 					avatar = $('<img class="avatar avatar-64 photo" width="64" height="64" />').attr( 'src', received.lock_error.avatar_src.replace(/&amp;/g, '&') );
 					wrap.find('div.post-locked-avatar').empty().append( avatar );
 				}
 
-				wrap.show();
+				wrap.show().find('p.currently-editing').text( received.lock_error.text ).focus();
 			}
+		} else if ( received.new_lock ) {
+			$('#active_post_lock').val( received.new_lock );
 		}
-
-		if ( received['new_lock'] )
-			$('#active_post_lock').val( received['new_lock'].replace(/[^0-9:]+/, '') );
 	}
 });
 
@@ -299,6 +298,9 @@ jQuery(document).ready( function($) {
 	var stamp, visibility, sticky = '', last = 0, co = $('#content');
 
 	postboxes.add_postbox_toggles(pagenow);
+
+	// Post locks: if the Post Locked dialog is shown, focus it.
+	$('#notification-dialog:visible').find('p.currently-editing').focus();
 
 	// multi-taxonomies
 	if ( $('#tagsdiv-post_tag').length ) {

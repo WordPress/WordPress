@@ -1230,7 +1230,7 @@ function _admin_notice_post_locked() {
 		?>
 		<div class="post-locked-message">
 		<div class="post-locked-avatar"><?php echo get_avatar( $user->ID, 64 ); ?></div>
-		<p><?php esc_html_e( sprintf( __( 'This content is currently locked. If you take over, %s will be blocked from continuing to edit.' ), $user->display_name ) ); ?></p>
+		<p class="currently-editing" tabindex="0"><?php esc_html_e( sprintf( __( 'This content is currently locked. If you take over, %s will be blocked from continuing to edit.' ), $user->display_name ) ); ?></p>
 		<p>
 		<a class="button" href="<?php echo esc_url( wp_get_referer() ); ?>"><?php _e('Go back'); ?></a>
 		<a class="button" href="<?php echo esc_url( $preview_link ); ?>"><?php _e('Preview'); ?></a>
@@ -1251,7 +1251,7 @@ function _admin_notice_post_locked() {
 		?>
 		<div class="post-taken-over">
 			<div class="post-locked-avatar"></div>
-			<p class="currently-editing"></p>
+			<p class="currently-editing" tabindex="0"></p>
 			<p><a class="button button-primary" href="<?php echo esc_url( admin_url('edit.php') ); ?>"><?php _e('Go to All Posts'); ?></a></p>
 		</div>
 		<?php
