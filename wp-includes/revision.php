@@ -135,51 +135,32 @@ function wp_save_post_revision( $post_id, $new_data = null ) {
  * Retrieve the autosaved data of the specified post.
  *
  * Returns a post object containing the information that was autosaved for the
- * specified post.
+ * specified post. If the optional $user_id is passed, returns the autosave for that user
+ * otherwise returns the latest autosave.
  *
  * @package WordPress
  * @subpackage Post_Revisions
  * @since 2.6.0
- *
+ * @uses wp_get_post_revisions()
+ *  
  * @param int $post_id The post ID.
+ * @param int $user_id optional The post author ID.
  * @return object|bool The autosaved data or false on failure or when no autosave exists.
  */
-function wp_get_post_autosave( $post_id ) {
+function wp_get_post_autosave( $post_id, $user_id = 0 ) {
+	$revisions = wp_get_post_revisions($post_id);
 
-	if ( !$post = get_post( $post_id ) )
-		return false;
+	foreach ( $revisions as $revision ) {
+		if ( false !== strpos( $revision->post_name, "{$post_id}-autosave" ) ) {
+			if ( $user_id && $user_id != $revision->post_author )
+				continue;
 
-	$q = array(
-		'name' => "{$post->ID}-autosave",
-		'post_parent' => $post->ID,
-		'post_type' => 'revision',
-		'post_status' => 'inherit'
-	);
-
-	// Use WP_Query so that the result gets cached
-	$autosave_query = new WP_Query;
-
-	add_action( 'parse_query', '_wp_get_post_autosave_hack' );
-	$autosave = $autosave_query->query( $q );
-	remove_action( 'parse_query', '_wp_get_post_autosave_hack' );
-
-	if ( $autosave && is_array($autosave) && is_object($autosave[0]) )
-		return $autosave[0];
+			return $revision;
+			break;
+		}
+	}
 
 	return false;
-}
-
-/**
- * Internally used to hack WP_Query into submission.
- *
- * @package WordPress
- * @subpackage Post_Revisions
- * @since 2.6.0
- *
- * @param object $query WP_Query object
- */
-function _wp_get_post_autosave_hack( $query ) {
-	$query->is_single = false;
 }
 
 /**
@@ -195,6 +176,7 @@ function _wp_get_post_autosave_hack( $query ) {
 function wp_is_post_revision( $post ) {
 	if ( !$post = wp_get_post_revision( $post ) )
 		return false;
+
 	return (int) $post->post_parent;
 }
 
@@ -211,9 +193,11 @@ function wp_is_post_revision( $post ) {
 function wp_is_post_autosave( $post ) {
 	if ( !$post = wp_get_post_revision( $post ) )
 		return false;
-	if ( "{$post->post_parent}-autosave" !== $post->post_name )
-		return false;
-	return (int) $post->post_parent;
+
+	if ( false !== strpos( $post->post_name, "{$post->post_parent}-autosave" ) )
+		return (int) $post->post_parent;
+
+	return false;
 }
 
 /**
@@ -234,6 +218,7 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 		$post = get_object_vars( $post );
 	elseif ( !is_array($post) )
 		$post = get_post($post, ARRAY_A);
+
 	if ( !$post || empty($post['ID']) )
 		return;
 
@@ -249,6 +234,7 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 
 	if ( $revision_id )
 		do_action( '_wp_put_post_revision', $revision_id );
+
 	return $revision_id;
 }
 
@@ -312,8 +298,9 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
 		$fields = array_keys( _wp_post_revision_fields() );
 
 	$update = array();
-	foreach( array_intersect( array_keys( $revision ), $fields ) as $field )
+	foreach( array_intersect( array_keys( $revision ), $fields ) as $field ) {
 		$update[$field] = $revision[$field];
+	}
 
 	if ( !$update )
 		return false;
@@ -374,8 +361,6 @@ function wp_delete_post_revision( $revision_id ) {
  * @return array empty if no revisions
  */
 function wp_get_post_revisions( $post_id = 0, $args = null ) {
-	if ( ! WP_POST_REVISIONS )
-		return array();
 	if ( ( !$post = get_post( $post_id ) ) || empty( $post->ID ) )
 		return array();
 
@@ -385,6 +370,7 @@ function wp_get_post_revisions( $post_id = 0, $args = null ) {
 
 	if ( !$revisions = get_children( $args ) )
 		return array();
+
 	return $revisions;
 }
 

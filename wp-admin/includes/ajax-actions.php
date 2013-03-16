@@ -1043,32 +1043,18 @@ function wp_ajax_autosave() {
 		unset($_POST['post_category']);
 
 	$do_autosave = (bool) $_POST['autosave'];
-	$do_lock = true;
 	$data = '';
 	$supplemental = array();
 	$id = $revision_id = 0;
 
-	/* translators: draft saved date format, see http://php.net/date */
-	$draft_saved_date_format = __('g:i:s a');
-	/* translators: %s: date and time */
-	$message = sprintf( __('Draft saved at %s.'), date_i18n( $draft_saved_date_format ) );
+	if ( ! $user_id = get_current_user_id() )
+		wp_die('-1');
 
 	$post_id = (int) $_POST['post_id'];
 	$_POST['ID'] = $_POST['post_ID'] = $post_id;
 	$post = get_post($post_id);
 	if ( 'auto-draft' == $post->post_status )
 		$_POST['post_status'] = 'draft';
-
-	if ( $last = wp_check_post_lock( $post->ID ) ) {
-		// This will change after we have per-user autosaves
-		$do_autosave = $do_lock = false;
-
-		$last_user = get_userdata( $last );
-		$last_user_name = $last_user ? $last_user->display_name : __( 'Someone' );
-		$data = __( 'Autosave disabled.' );
-
-		$supplemental['disable_autosave'] = 'disable';
-	}
 
 	if ( 'page' == $post->post_type ) {
 		if ( !current_user_can('edit_page', $post->ID) )
@@ -1079,17 +1065,28 @@ function wp_ajax_autosave() {
 	}
 
 	if ( $do_autosave ) {
-		// Drafts and auto-drafts are just overwritten by autosave
-		if ( 'auto-draft' == $post->post_status || 'draft' == $post->post_status ) {
+		// Drafts and auto-drafts are just overwritten by autosave for the same user
+		if ( $user_id == $post->post_author && ( 'auto-draft' == $post->post_status || 'draft' == $post->post_status ) ) {
 			$id = edit_post();
-		} else { // Non drafts are not overwritten. The autosave is stored in a special post revision.
+		} else { // Non drafts are not overwritten. The autosave is stored in a special post revision for each user.
 			$revision_id = wp_create_post_autosave( $post->ID );
 			if ( is_wp_error($revision_id) )
 				$id = $revision_id;
 			else
 				$id = $post->ID;
 		}
-		$data = $message;
+
+		if ( is_wp_error($id) ) {
+			// is_wp_error($id) overwrites $data in WP_Ajax_Response but no point in doing wp_create_nonce('update-post_' . $id) below
+			// todo: Needs review. The errors generated in WP_Ajax_Response and parsed with wpAjax.parseAjaxResponse() haven't been used for many years.
+			$data = $id;
+			$id = 0;
+		} else {
+			/* translators: draft saved date format, see http://php.net/date */
+			$draft_saved_date_format = __('g:i:s a');
+			/* translators: %s: date and time */
+			$data = sprintf( __('Draft saved at %s.'), date_i18n( $draft_saved_date_format ) );
+		}
 	} else {
 		if ( ! empty( $_POST['auto_draft'] ) )
 			$id = 0; // This tells us it didn't actually save
@@ -1103,12 +1100,8 @@ function wp_ajax_autosave() {
 		$supplemental['replace-samplepermalinknonce'] = wp_create_nonce('samplepermalink');
 		$supplemental['replace-closedpostboxesnonce'] = wp_create_nonce('closedpostboxes');
 		$supplemental['replace-_ajax_linking_nonce'] = wp_create_nonce( 'internal-linking' );
-		if ( $id ) {
-			if ( $_POST['post_type'] == 'post' )
-				$supplemental['replace-_wpnonce'] = wp_create_nonce('update-post_' . $id);
-			elseif ( $_POST['post_type'] == 'page' )
-				$supplemental['replace-_wpnonce'] = wp_create_nonce('update-page_' . $id);
-		}
+		if ( $id )
+			$supplemental['replace-_wpnonce'] = wp_create_nonce('update-post_' . $id);
 	}
 
 	$x = new WP_Ajax_Response( array(

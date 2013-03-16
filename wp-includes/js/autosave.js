@@ -1,4 +1,4 @@
-var autosave, autosaveLast = '', autosavePeriodical, autosaveOldMessage = '', autosaveDelayPreview = false, notSaved = true, blockSave = false, fullscreen, autosaveLockRelease = true;
+var autosave, autosaveLast = '', autosavePeriodical, autosaveDelayPreview = false, notSaved = true, blockSave = false, fullscreen, autosaveLockRelease = true;
 
 jQuery(document).ready( function($) {
 
@@ -130,49 +130,29 @@ jQuery(document).ready( function($) {
 	}
 });
 
-function autosave_parse_response(response) {
-	var res = wpAjax.parseAjaxResponse(response, 'autosave'), message = '', postID, sup;
+function autosave_parse_response( response ) {
+	var res = wpAjax.parseAjaxResponse(response, 'autosave'), post_id, sup;
 
 	if ( res && res.responses && res.responses.length ) {
-		message = res.responses[0].data; // The saved message or error.
-		// someone else is editing: disable autosave, set errors
 		if ( res.responses[0].supplemental ) {
 			sup = res.responses[0].supplemental;
-			if ( 'disable' == sup['disable_autosave'] ) {
-				autosave = function() {};
-				autosaveLockRelease = false;
-				res = { errors: true };
-			}
 
-			if ( sup['active-post-lock'] ) {
-				jQuery('#active_post_lock').val( sup['active-post-lock'] );
-			}
-
-			if ( sup['alert'] ) {
-				jQuery('#autosave-alert').remove();
-				jQuery('#titlediv').after('<div id="autosave-alert" class="error below-h2"><p>' + sup['alert'] + '</p></div>');
-			}
-
-			jQuery.each(sup, function(selector, value) {
-				if ( selector.match(/^replace-/) ) {
-					jQuery('#'+selector.replace('replace-', '')).val(value);
-				}
+			jQuery.each( sup, function( selector, value ) {
+				if ( selector.match(/^replace-/) )
+					jQuery( '#' + selector.replace('replace-', '') ).val( value );
 			});
 		}
 
-		// if no errors: add slug UI
+		// if no errors: add slug UI and update autosave-message
 		if ( !res.errors ) {
-			postID = parseInt( res.responses[0].id, 10 );
-			if ( !isNaN(postID) && postID > 0 ) {
-				autosave_update_slug(postID);
-			}
+			if ( post_id = parseInt( res.responses[0].id, 10 ) )
+				autosave_update_slug( post_id );
+
+			if ( res.responses[0].data ) // update autosave message
+				jQuery('.autosave-message').text( res.responses[0].data );
 		}
 	}
-	if ( message ) { // update autosave message
-		jQuery('.autosave-message').html(message);
-	} else if ( autosaveOldMessage && res ) {
-		jQuery('.autosave-message').html( autosaveOldMessage );
-	}
+
 	return res;
 }
 
@@ -186,16 +166,19 @@ function autosave_saved(response) {
 // called when autosaving new post
 function autosave_saved_new(response) {
 	blockSave = false;
-	var res = autosave_parse_response(response), postID;
+	var res = autosave_parse_response(response), post_id;
 
 	if ( res && res.responses.length && !res.errors ) {
 		// An ID is sent only for real auto-saves, not for autosave=0 "keepalive" saves
-		postID = parseInt( res.responses[0].id, 10 );
-		if ( !isNaN(postID) && postID > 0 ) {
+		post_id = parseInt( res.responses[0].id, 10 );
+
+		if ( post_id ) {
 			notSaved = false;
 			jQuery('#auto_draft').val('0'); // No longer an auto-draft
 		}
+
 		autosave_enable_buttons();
+
 		if ( autosaveDelayPreview ) {
 			autosaveDelayPreview = false;
 			doPreview();
@@ -286,7 +269,6 @@ autosave = function() {
 		successCallback = autosave_saved; // pre-existing post
 	}
 
-	autosaveOldMessage = jQuery('#autosave').html();
 	jQuery.ajax({
 		data: post_data,
 		beforeSend: doAutoSave ? autosave_loading : null,
