@@ -1315,7 +1315,7 @@ function wp_post_revision_title( $revision, $link = true ) {
 	$date = date_i18n( $datef, strtotime( $revision->post_modified ) );
 	if ( $link && current_user_can( 'edit_post', $revision->ID ) && $link = get_edit_post_link( $revision->ID ) )
 		$date = "<a href='$link'>$date</a>";
-	
+
 	$revision_date_author = sprintf(
 		'%s %s, %s %s (%s)',
 		$gravatar,
