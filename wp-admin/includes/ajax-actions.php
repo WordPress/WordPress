@@ -2134,11 +2134,11 @@ function wp_ajax_revisions_data() {
 			$compare_to_date = date_i18n( $datef, strtotime( $left_revision->post_modified ) );
 
 			$revision_from_date_author = sprintf(
-				'%s %s, %s %s (%s)',
+				/* translators: post revision title: 1: author avatar, 2: author name, 3: time ago, 4: date */
+				_x( '%1$s %2$s, %3$s ago (%4$s)', 'post revision title' ),
 				$compare_to_gravatar,
 				$compare_to_author,
 				human_time_diff( strtotime( $left_revision->post_modified ), current_time( 'timestamp' ) ),
-				__( ' ago ' ),
 				$compare_to_date
 			);
 		}
@@ -2205,11 +2205,11 @@ function wp_ajax_revisions_data() {
 		$author = get_the_author_meta( 'display_name', $revision->post_author );
 		$date = date_i18n( $datef, strtotime( $revision->post_modified ) );
 		$revision_date_author = sprintf(
-			'%s %s, %s %s (%s)',
+			/* translators: post revision title: 1: author avatar, 2: author name, 3: time ago, 4: date */
+			_x( '%1$s %2$s, %3$s ago (%4$s)', 'post revision title' ),
 			$gravatar,
 			$author,
 			human_time_diff( strtotime( $revision->post_modified ), current_time( 'timestamp' ) ),
-			__( ' ago ' ),
 			$date
 		);
 

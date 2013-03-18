@@ -1317,11 +1317,11 @@ function wp_post_revision_title( $revision, $link = true ) {
 		$date = "<a href='$link'>$date</a>";
 
 	$revision_date_author = sprintf(
-		'%s %s, %s %s (%s)',
+		/* translators: post revision title: 1: author avatar, 2: author name, 3: time ago, 4: date */
+		_x( '%1$s %2$s, %3$s ago (%4$s)', 'post revision title' ),
 		$gravatar,
 		$author,
 		human_time_diff( strtotime( $revision->post_modified ), current_time( 'timestamp' ) ),
-		__( 'ago' ),
 		$date
 	);
 
@@ -1484,12 +1484,13 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 			/* translators: revision date format, see http://php.net/date */ 
 			$datef = _x( 'j F, Y @ G:i:s', 'revision date format'); 
 			$date = date_i18n( $datef, strtotime( $restored_from_meta[ 'restored_time' ] ) ); 
-			$timesince = human_time_diff( $restored_from_meta[ 'restored_time' ], current_time( 'timestamp' ) ) . __( ' ago ' ); 
+			$timesince = human_time_diff( $restored_from_meta[ 'restored_time' ], current_time( 'timestamp' ) ); 
 			?> 
 			<hr />
 			<div id="revisions-meta-restored"> 
 				<?php 
-				printf( 'Previously restored from Revision ID %d, %s by %s (%s)', 
+				/* translators: restored revision details: 1: revision ID, 2: time ago, 3: author name, 4: date */
+				printf( _x( 'Previously restored from revision ID %1$d, %2$s ago by %3$s (%4$s)', 'restored revision details' ), 
 				$restored_from_meta[ 'restored_revision_id'], 
 				$timesince, 
 				$author, 
