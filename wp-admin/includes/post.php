@@ -352,14 +352,6 @@ function bulk_edit_posts( $post_data = null ) {
 		}
 	}
 
-	if ( isset( $post_data['post_format'] ) ) {
-		if ( '0' == $post_data['post_format'] )
-			$post_data['post_format'] = false;
-		// don't change the post format if it's not supported or not '0' (standard)
-		elseif ( ! current_theme_supports( 'post-formats', $post_data['post_format'] ) )
-			unset( $post_data['post_format'] );
-	}
-
 	$updated = $skipped = $locked = array();
 	foreach ( $post_IDs as $post_ID ) {
 		$post_type_object = get_post_type_object( get_post_type( $post_ID ) );
@@ -409,9 +401,6 @@ function bulk_edit_posts( $post_data = null ) {
 			else
 				unstick_post( $post_ID );
 		}
-
-		if ( isset( $post_data['post_format'] ) )
-			set_post_format( $post_ID, $post_data['post_format'] );
 	}
 
 	return array( 'updated' => $updated, 'skipped' => $skipped, 'locked' => $locked );
