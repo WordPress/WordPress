@@ -2635,9 +2635,21 @@ function wp_insert_post($postarr, $wp_error = false) {
 	extract($postarr, EXTR_SKIP);
 
 	// Are we updating or creating?
+	$post_ID = 0;
 	$update = false;
-	if ( !empty($ID) ) {
+	if ( ! empty( $ID ) ) {
 		$update = true;
+
+		// Get the post ID and GUID
+		$post_ID = $ID;
+		$post_before = get_post( $post_ID );
+		if ( is_null( $post_before ) ) {
+			if ( $wp_error )
+				return new WP_Error( 'invalid_post', __( 'Invalid post ID.' ) );
+			return 0;
+		}
+
+		$guid = get_post_field( 'guid', $post_ID );
 		$previous_status = get_post_field('post_status', $ID);
 	} else {
 		$previous_status = 'new';
@@ -2672,15 +2684,6 @@ function wp_insert_post($postarr, $wp_error = false) {
 
 	if ( empty($post_author) )
 		$post_author = $user_ID;
-
-	$post_ID = 0;
-
-	// Get the post ID and GUID
-	if ( $update ) {
-		$post_ID = (int) $ID;
-		$guid = get_post_field( 'guid', $post_ID );
-		$post_before = get_post($post_ID);
-	}
 
 	// Don't allow contributors to set the post slug for pending review posts
 	if ( 'pending' == $post_status && !current_user_can( 'publish_posts' ) )
@@ -2893,6 +2896,12 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
 
 	// First, get all of the original fields
 	$post = get_post($postarr['ID'], ARRAY_A);
+
+	if ( is_null( $post ) ) {
+		if ( $wp_error )
+			return new WP_Error( 'invalid_post', __( 'Invalid post ID.' ) );
+		return 0;
+	}
 
 	// Escape data pulled from DB.
 	$post = wp_slash($post);
