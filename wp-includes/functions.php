@@ -3327,7 +3327,7 @@ function _wp_timezone_choice_usort_callback( $a, $b ) {
 }
 
 /**
- * Gives a nicely formatted list of timezone strings. // temporary! Not in final
+ * Gives a nicely formatted list of timezone strings.
  *
  * @since 2.9.0
  *
