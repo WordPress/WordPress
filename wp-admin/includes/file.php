@@ -979,7 +979,7 @@ jQuery(function($){
 });
 -->
 </script>
-<form action="<?php echo $form_post ?>" method="post">
+<form action="<?php echo esc_url( $form_post ) ?>" method="post">
 <div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php _e('Connection Information') ?></h2>
