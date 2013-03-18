@@ -217,12 +217,11 @@
 			});
 
 			ed.onSaveContent.add(function(ed, o) {
-				if ( ed.getParam('wpautop', true) && typeof(switchEditors) == 'object' ) {
-					if ( ed.isHidden() )
-						o.content = o.element.value;
-					else
-						o.content = switchEditors.pre_wpautop(o.content);
-				}
+				// If editor is hidden, we just want the textarea's value to be saved
+				if ( ed.isHidden() )
+					o.content = o.element.value;
+				else if ( ed.getParam('wpautop', true) && typeof(switchEditors) == 'object' )
+					o.content = switchEditors.pre_wpautop(o.content);
 			});
 
 			/* disable for now
