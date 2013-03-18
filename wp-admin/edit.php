@@ -48,7 +48,7 @@ $doaction = $wp_list_table->current_action();
 if ( $doaction ) {
 	check_admin_referer('bulk-posts');
 
-	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), wp_get_referer() );
+	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'locked', 'ids'), wp_get_referer() );
 	if ( ! $sendback )
 		$sendback = admin_url( $parent_file );
 	$sendback = add_query_arg( 'paged', $pagenum, $sendback );
@@ -75,17 +75,24 @@ if ( $doaction ) {
 
 	switch ( $doaction ) {
 		case 'trash':
-			$trashed = 0;
+			$trashed = $locked = 0;
+
 			foreach( (array) $post_ids as $post_id ) {
 				if ( !current_user_can($post_type_object->cap->delete_post, $post_id) )
 					wp_die( __('You are not allowed to move this item to the Trash.') );
+
+				if ( wp_check_post_lock( $post_id ) ) {
+					$locked++;
+					continue;
+				}
 
 				if ( !wp_trash_post($post_id) )
 					wp_die( __('Error in moving to Trash.') );
 
 				$trashed++;
 			}
-			$sendback = add_query_arg( array('trashed' => $trashed, 'ids' => join(',', $post_ids) ), $sendback );
+
+			$sendback = add_query_arg( array('trashed' => $trashed, 'ids' => join(',', $post_ids), 'locked' => $locked ), $sendback );
 			break;
 		case 'untrash':
 			$untrashed = 0;
