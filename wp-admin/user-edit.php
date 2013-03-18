@@ -393,25 +393,27 @@ if ( $show_password_fields ) :
 		do_action( 'edit_user_profile', $profileuser );
 ?>
 
-<?php if ( count($profileuser->caps) > count($profileuser->roles) && apply_filters('additional_capabilities_display', true, $profileuser) ) { ?>
-<br class="clear" />
-	<table width="99%" style="border: none;" cellspacing="2" cellpadding="3" class="editform">
-		<tr>
-			<th scope="row"><?php _e('Additional Capabilities') ?></th>
-			<td><?php
-			$output = '';
-			foreach ( $profileuser->caps as $cap => $value ) {
-				if ( !$wp_roles->is_role($cap) ) {
-					if ( $output != '' )
-						$output .= ', ';
-					$output .= $value ? $cap : "Denied: {$cap}";
-				}
-			}
-			echo $output;
-			?></td>
-		</tr>
-	</table>
-<?php } ?>
+<?php if ( count( $profileuser->caps ) > count( $profileuser->roles ) && apply_filters( 'additional_capabilities_display', true, $profileuser ) ) : ?>
+<h3><?php _e( 'Additional Capabilities' ); ?></h3>
+<table class="form-table">
+<tr>
+	<th scope="row"><?php _e( 'Capabilities' ); ?></th>
+	<td>
+<?php
+	$output = '';
+	foreach ( $profileuser->caps as $cap => $value ) {
+		if ( ! $wp_roles->is_role( $cap ) ) {
+			if ( '' != $output )
+				$output .= ', ';
+			$output .= $value ? $cap : sprintf( __( 'Denied: %s' ), $cap );
+		}
+	}
+	echo $output;
+?>
+	</td>
+</tr>
+</table>
+<?php endif; ?>
 
 <input type="hidden" name="action" value="update" />
 <input type="hidden" name="user_id" id="user_id" value="<?php echo esc_attr($user_id); ?>" />
