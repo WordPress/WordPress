@@ -14,7 +14,7 @@ if ( is_active_sidebar( 'sidebar-2' ) ) : ?>
 		<div class="sidebar-inner">
 			<div class="widget-area">
 				<?php dynamic_sidebar( 'sidebar-2' ); ?>
-			</div>
-		</div>
+			</div><!-- .widget-area -->
+		</div><!-- .sidebar-inner -->
 	</div><!-- #tertiary -->
 <?php endif; ?>

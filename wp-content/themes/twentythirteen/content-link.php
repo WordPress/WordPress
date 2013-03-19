@@ -31,6 +31,6 @@
 		<?php if ( get_the_author_meta( 'description' ) && is_multi_author() ) : ?>
 			<?php get_template_part( 'author-bio' ); ?>
 		<?php endif; ?>
-	</footer>
+	</footer><!-- .entry-meta -->
 	<?php endif; // is_single() ?>
 </article><!-- #post -->

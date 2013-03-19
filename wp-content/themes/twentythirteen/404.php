@@ -14,7 +14,7 @@ get_header(); ?>
 
 			<header class="page-header">
 				<h1 class="page-title"><?php _e( 'Not found', 'twentythirteen' ); ?></h1>
-			</header><!-- .page-header -->
+			</header>
 
 			<div class="page-wrapper">
 				<div class="page-content">
