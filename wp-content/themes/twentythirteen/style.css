@@ -3072,14 +3072,6 @@ footer.entry-meta {
 	.format-audio .entry-content:before {
 		display: none;
 	}
-
-	.single .gallery-columns-3 br {
-		display: none;
-	}
-
-	.single .gallery-columns-3 .gallery-item:nth-of-type(3n) {
-		margin-right: 4px;
-	}
 }
 
 /* Mobile devices */
@@ -3095,6 +3087,7 @@ footer.entry-meta {
 	.search .format-gallery .gallery-item {
 		margin-bottom: 2%;
 		margin-right: 2%;
+		max-width: none;
 		width: 49%;
 	}
 
@@ -3115,12 +3108,7 @@ footer.entry-meta {
 		width: 100%;
 	}
 
-	.gallery-columns-3 .gallery-item,
-	.single .gallery-columns-3.gallery-size-thumbnail .gallery-item {
-		width: 32%;
-	}
-
-	.single .gallery.gallery-columns-3 .gallery-item:nth-of-type(even),
+	.gallery-columns-3 .gallery-item:nth-of-type(3n),
 	.gallery-columns-5 .gallery-item:nth-of-type(5n),
 	.gallery-columns-7 .gallery-item:nth-of-type(7n),
 	.gallery-columns-9 .gallery-item:nth-of-type(9n) {
@@ -3134,8 +3122,7 @@ footer.entry-meta {
 	.blog .format-gallery .gallery-item:nth-of-type(odd),
 	.archive .format-gallery .gallery-item:nth-of-type(odd),
 	.search .format-gallery .gallery-item:nth-of-type(odd),
-	.single .gallery .gallery-item:nth-of-type(even),
-	.single .gallery.gallery-columns-3 .gallery-item:nth-of-type(3n) {
+	.single .gallery .gallery-item:nth-of-type(even) {
 		margin-right: 0;
 	}
 
