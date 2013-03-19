@@ -18,8 +18,6 @@
 
 			if ( margin > 0 && window.innerWidth > 999 )
 				$( '#colophon' ).css( 'margin-top', margin + 'px' );
-			else
-				console.log( 'nothing' );
 		},
 
 		/**
