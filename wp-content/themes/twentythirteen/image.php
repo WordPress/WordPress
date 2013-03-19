@@ -68,8 +68,10 @@ get_header(); ?>
 							);
 
 							$metadata = wp_get_attachment_metadata();
-							printf( '<span class="attachment-meta full-size-link"><a href="%1$s" title="Link to full-size image">View full %2$s &times; %3$s resolution</a></span>',
+							printf( '<span class="attachment-meta full-size-link"><a href="%1$s" title="%2$s">%3$s (%4$s &times; %5$s)</a></span>',
 								esc_url( wp_get_attachment_url() ),
+								esc_attr__( 'Link to full-size image', 'twentythirteen' ),
+								__( 'Full resolution', 'twentythirteen' ),
 								$metadata['width'],
 								$metadata['height']
 							);
