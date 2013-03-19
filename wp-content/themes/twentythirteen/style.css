@@ -901,7 +901,7 @@ ul.nav-menu ul a,
 
 ul.nav-menu ul a:hover,
 .nav-menu ul ul a:hover {
-	background-color: #e1562d;
+	background-color: #db572f;
 }
 
 ul.nav-menu li:hover > ul,
@@ -913,7 +913,7 @@ ul.nav-menu li:hover > ul,
 .nav-menu .current_page_ancestor > a,
 .nav-menu .current-menu-item > a,
 .nav-menu .current-menu-ancestor > a {
-	color: #ca3c08;
+	color: #825920;
 	font-style: italic;
 }
 
@@ -1084,11 +1084,11 @@ ul.nav-menu li:hover > ul,
 }
 
 .entry-meta a {
-	color: #ca3c08;
+	color: #bc360a;
 }
 
 .entry-meta a:hover {
-	color: #ca3c08;
+	color: #bc360a;
 }
 
 .entry-meta > span {
@@ -1154,7 +1154,7 @@ ul.nav-menu li:hover > ul,
 
 .entry-content a,
 .comment-content a {
-	color: #f24b12;
+	color: #bc360a;
 }
 
 .entry-content a:hover,
@@ -1212,8 +1212,8 @@ footer.entry-meta {
 .format-gallery .entry-content .page-links a,
 .format-chat .entry-content .page-links a,
 .page-links a {
-	background: #ca3c08;
-	border: 1px solid #ca3c08;
+	background: #e63f2a;
+	border: 1px solid #e63f2a;
 	color: #fff;
 }
 
@@ -1225,7 +1225,7 @@ footer.entry-meta {
 .format-quote .entry-content .page-links a:hover,
 .page-links a:hover {
 	background: #fff;
-	color: #ca3c08;
+	color: #e63f2a;
 }
 
 .format-status .entry-content .page-links > span,
@@ -1427,7 +1427,7 @@ footer.entry-meta {
 
 /* Audio */
 .format-audio {
-	background-color: #dd5625;
+	background-color: #db572f;
 }
 
 .format-audio .entry-title {
@@ -1436,7 +1436,7 @@ footer.entry-meta {
 }
 
 .format-audio .entry-meta a {
-	color: #220e10;
+	color: #fbfaf3;
 }
 
 .format-audio .entry-content:before {
@@ -1506,7 +1506,7 @@ footer.entry-meta {
 
 /* Gallery */
 .format-gallery {
-	background-color: #fccb27;
+	background-color: #fbca3c;
 }
 
 .format-gallery .entry-header {
@@ -1522,7 +1522,7 @@ footer.entry-meta {
 .format-gallery .entry-meta a,
 .format-gallery .entry-content a,
 .format-gallery span.tags-links {
-	color: #a22400;
+	color: #722d19;
 }
 
 /* Blog gallery */
@@ -1664,6 +1664,10 @@ footer.entry-meta {
 	margin-right: 20px;
 }
 
+.format-link .entry-title a {
+	color: #bc360a;
+}
+
 .format-link div.entry-meta {
 	display: inline;
 }
@@ -1671,7 +1675,7 @@ footer.entry-meta {
 
 /* Quote */
 .format-quote {
-	background-color: #220e10;
+	background-color: #210d10;
 }
 
 .format-quote .entry-content {
@@ -1692,7 +1696,7 @@ footer.entry-meta {
 
 .format-quote .entry-content a,
 .format-quote .entry-meta a {
-	color: #e6402e;
+	color: #e63f2a;
 }
 
 .format-quote .entry-content small,
@@ -1802,7 +1806,7 @@ footer.entry-meta {
 
 /* Video */
 .format-video {
-	background-color: #dd5625;
+	background-color: #db572f;
 }
 
 .format-video .entry-content a,
@@ -1969,7 +1973,7 @@ footer.entry-meta {
 }
 
 .navigation a {
-	color: #ca3c08;
+	color: #e63f2a;
 }
 
 .navigation a:hover {
@@ -2004,7 +2008,7 @@ footer.entry-meta {
 }
 
 .paging-navigation .meta-nav {
-	background-color: #e6402a;
+	background-color: #e63f2a;
 	border-radius: 50%;
 	color: #fff;
 	display: inline-block;
@@ -2549,7 +2553,7 @@ footer.entry-meta {
 }
 
 .widget a {
-	color: #ca3c08;
+	color: #bc360a;
 }
 
 .widget a:hover {
@@ -2984,7 +2988,7 @@ footer.entry-meta {
 
 	.toggled-on .nav-menu li a:hover,
 	.toggled-on .nav-menu ul a:hover {
-		background-color: #e1562d;
+		background-color: #db572f;
 		color: #fff;
 	}
 
