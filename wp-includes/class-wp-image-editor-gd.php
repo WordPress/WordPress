@@ -279,8 +279,8 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @param boolean $horz Horizontal Flip
-	 * @param boolean $vert Vertical Flip
+	 * @param boolean $horz Flip along Horizontal Axis
+	 * @param boolean $vert Flip along Vertical Axis
 	 * @returns boolean|WP_Error
 	 */
 	public function flip( $horz, $vert ) {
