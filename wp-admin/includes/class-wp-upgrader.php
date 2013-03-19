@@ -1336,11 +1336,11 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
 		$this->upgrader->strings['skin_before_update_header'] = __('Updating Plugin %1$s (%2$d/%3$d)');
 	}
 
-	function before() {
+	function before($title = '') {
 		parent::before($this->plugin_info['Title']);
 	}
 
-	function after() {
+	function after($title = '') {
 		parent::after($this->plugin_info['Title']);
 	}
 	function bulk_footer() {
@@ -1370,11 +1370,11 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 		$this->upgrader->strings['skin_before_update_header'] = __('Updating Theme %1$s (%2$d/%3$d)');
 	}
 
-	function before() {
+	function before($title = '') {
 		parent::before( $this->theme_info->display('Name') );
 	}
 
-	function after() {
+	function after($title = '') {
 		parent::after( $this->theme_info->display('Name') );
 	}
 
