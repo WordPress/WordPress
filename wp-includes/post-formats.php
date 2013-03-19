@@ -83,9 +83,7 @@ function get_post_format_meta( $post_id = 0 ) {
 	$values = array(
 		'quote'        => '',
 		'quote_source' => '',
-		'image'        => '',
 		'url'          => '',
-		'gallery'      => '',
 		'media'        => '',
 	);
 
@@ -299,7 +297,6 @@ function post_formats_compat( $content, $id = 0 ) {
 		'tag' => 'div',
 		'class' => get_post_format_content_class( $format ),
 		'link_class' => '',
-		'image_class' => '',
 	);
 
 	$args = apply_filters( 'post_format_compat', array() );
@@ -341,34 +338,6 @@ function post_formats_compat( $content, $id = 0 ) {
 					);
 				}
 			}
-			break;
-
-		case 'image':
-			if ( ! empty( $meta['image'] ) ) {
-				$image = is_numeric( $meta['image'] ) ? wp_get_attachment_url( $meta['image'] ) : $meta['image'];
-
-				if ( ! empty( $image ) && ! stristr( $content, $image ) ) {
-					$image_html = sprintf(
-						'<img %ssrc="%s" alt="" />',
-						empty( $compat['image_class'] ) ? '' : sprintf( 'class="%s" ', esc_attr( $compat['image_class'] ) ),
-						$image
-					);
-					if ( empty( $meta['url'] ) ) {
-						$format_output .= $image_html;
-					} else {
-						$format_output .= sprintf(
-							'<a href="%s">%s</a>',
-							esc_url( $meta['url'] ),
-							$image_html
-						);
-					}
-				}
-			}
-			break;
-
-		case 'gallery':
-			if ( ! has_shortcode( $post->post_content, $format ) && ! empty( $meta['gallery'] ) )
-				$format_output .= $meta['gallery'];
 			break;
 
 		case 'video':

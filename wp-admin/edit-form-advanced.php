@@ -393,11 +393,6 @@ if ( has_action( 'edit_form_after_title' ) ) {
 // post format fields
 if ( post_type_supports( $post_type, 'post-formats' ) ) {
 	$format_meta = get_post_format_meta( $post_ID );
-
-if ( isset( $format_meta['image'] ) )
-	$image = is_numeric( $format_meta['image'] ) ? wp_get_attachment_url( $format_meta['image'] ) : $format_meta['image'];
-else
-	$image = false;
 ?>
 <div class="post-formats-fields edit-form-section">
 
@@ -413,31 +408,9 @@ else
 	<input type="text" name="_wp_format_quote_source" value="<?php echo esc_attr( $format_meta['quote_source'] ); ?>" placeholder="<?php esc_attr_e( 'Quote source' ); ?>" class="widefat" />
 </div>
 
-<div class="field wp-format-image">
-	<div id="wp-format-image-holder" class="hide-if-no-js<?php if ( ! $image ) echo ' empty'; ?>">
-		<a href="#" id="wp-format-image-select"
-			data-choose="<?php esc_attr_e( 'Choose an Image' ); ?>"
-			data-update="<?php esc_attr_e( 'Select Image' ); ?>">
-			<?php
-				if ( $image )
-					echo '<img src="' . esc_url( $image ) . '" />';
-				else
-					_e( 'Select Image' );
-			?>
-		</a>
-	</div>
-	<label for="_wp_format_image" class="screen-reader-text"><?php _e( 'Image ID or URL' ); ?>:</label>
-	<input type="text" name="_wp_format_image" id="wp_format_image" value="<?php echo esc_attr( $format_meta['image'] ); ?>" placeholder="<?php esc_attr_e( 'Image ID or URL' ); ?>" class="widefat hide-if-js" />
-</div>
-
-<div class="field wp-format-link wp-format-quote wp-format-image">
+<div class="field wp-format-link wp-format-quote">
 	<label for="_wp_format_url" class="screen-reader-text"><?php _e( 'Link URL' ); ?>:</label>
 	<input type="text" name="_wp_format_url" value="<?php echo esc_url( $format_meta['url'] ); ?>" placeholder="<?php esc_attr_e( 'Link URL' ); ?>" class="widefat" />
-</div>
-
-<div class="field wp-format-gallery">
-	<label for="_wp_format_gallery" class="screen-reader-text"><?php _e( 'Gallery shortcode' ); ?>:</label>
-	<input type="text" name="_wp_format_gallery" id="wp_format_gallery" value="<?php echo esc_attr( $format_meta['gallery'] ); ?>" placeholder="<?php esc_attr_e( 'Gallery shortcode' ); ?>" class="widefat" />
 </div>
 
 <div class="field wp-format-audio wp-format-video">
