@@ -252,6 +252,16 @@ function get_blog_details( $fields = null, $get_all = true ) {
 function refresh_blog_details( $blog_id ) {
 	$blog_id = (int) $blog_id;
 	$details = get_blog_details( $blog_id, false );
+	if ( ! $details ) {
+		// Make sure clean_blog_cache() gets the blog ID
+		// when the blog has been previously cached as
+		// non-existent.
+		$details = (object) array(
+			'blog_id' => $blog_id,
+			'domain' => null,
+			'path' => null
+		);
+	}
 
 	clean_blog_cache( $details );
 
