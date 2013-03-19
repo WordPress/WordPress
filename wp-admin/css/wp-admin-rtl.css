@@ -2571,17 +2571,23 @@ div.sidebar-name h3 {
 }
 
 .manage-menus .submit-btn {
-  float: right;
+	float: right;
 }
 
 .manage-menus .selected-menu {
-  float: right;
-  margin: 5px 0 0 6px;
+	float: right;
+	margin: 5px 0 0 6px;
 }
 
 .nav-menus-php .add-new-menu-action {
-  float: right;
-  margin: 4px 6px 0 0;
+	float: right;
+	margin: 4px 6px 0 0;
+}
+
+.nav-menus-php .meta-sep,
+.nav-menus-php .submitdelete,
+.nav-menus-php .submitcancel {
+	float: right;
 }
 
 /*------------------------------------------------------------------------------
