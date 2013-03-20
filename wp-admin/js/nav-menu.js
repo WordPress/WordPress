@@ -428,40 +428,36 @@ var wpNavMenu;
 
 				// Where can they move this menu item?
 				if ( 0 !== position ) {
-					var thisLink = menuItem.find( '.menus-move-up' ),
-						thisLinkText = thisLink.text();
-					thisLink.prop('title', menus.move + ' ' + thisLinkText).show();
+					var thisLink = menuItem.find( '.menus-move-up' );
+					thisLink.prop( 'title', menus.moveUp ).show();
 				}
 
 				if ( 0 !== position && isPrimaryMenuItem ) {
-					var thisLink = menuItem.find( '.menus-move-top' ),
-						thisLinkText = thisLink.text();
-					thisLink.prop('title', menus.move + ' ' + thisLinkText).show();
+					var thisLink = menuItem.find( '.menus-move-top' );
+					thisLink.prop( 'title', menus.moveToTop ).show();
 				}
 
 				if ( position + 1 !== totalMenuItems && 0 !== position ) {
-					var thisLink = menuItem.find( '.menus-move-down' ),
-						thisLinkText = thisLink.text();
-					thisLink.prop('title', menus.move + ' ' + thisLinkText).show();
+					var thisLink = menuItem.find( '.menus-move-down' );
+					thisLink.prop( 'title', menus.moveDown ).show();
 				}
 
 				if ( 0 === position && 0 !== hasSameDepthSibling ) {
-					var thisLink = menuItem.find( '.menus-move-down' ),
-						thisLinkText = thisLink.text();
-					thisLink.prop('title', menus.move + ' ' + thisLinkText).show();
+					var thisLink = menuItem.find( '.menus-move-down' );
+					thisLink.prop( 'title', menus.moveDown ).show();
 				}
 
 				if ( ! isPrimaryMenuItem ) {
 					var thisLink = menuItem.find( '.menus-move-left' ),
-						thisLinkText = menus.outFrom + ' ' + prevItemNameLeft;
-					thisLink.prop('title', menus.move + ' ' + thisLinkText).html(thisLinkText).show();
+						thisLinkText = menus.outFrom.replace( '%s', prevItemNameLeft );
+					thisLink.prop( 'title', menus.moveOutFrom.replace( '%s', prevItemNameLeft ) ).html( thisLinkText ).show();
 				}
 
 				if ( 0 !== position ) {
 					if ( menuItem.find( '.menu-item-data-parent-id' ).val() !== menuItem.prev().find( '.menu-item-data-db-id' ).val() ) {
 						var thisLink = menuItem.find( '.menus-move-right' ),
-							thisLinkText = menus.under + ' ' + prevItemNameRight;
-						thisLink.prop('title', menus.move + ' ' + thisLinkText).html(thisLinkText).show();
+							thisLinkText = menus.under.replace( '%s', prevItemNameRight );
+						thisLink.prop( 'title', menus.moveUnder.replace( '%s', prevItemNameRight ) ).html( thisLinkText ).show();
 					}
 				}
 
@@ -471,17 +467,16 @@ var wpNavMenu;
 						totalMenuItems = primaryItems.length,
 
 						// String together help text for primary menu items
-						title = itemName + '. ' + menus.menuFocus.replace('%d', itemPosition).replace('%d', totalMenuItems) + '.';
+						title = menus.menuFocus.replace( '%1$s', itemName ).replace( '%2$d', itemPosition ).replace( '%3$d', totalMenuItems );
 				} else {
 					var parentItem = menuItem.prevAll( '.menu-item-depth-' + parseInt( depth - 1 ) ).first(),
 						parentItemId = parentItem.find( '.menu-item-data-db-id' ).val(),
 						parentItemName = parentItem.find( '.menu-item-title' ).text(),
 						subItems = $( '.menu-item .menu-item-data-parent-id[value="' + parentItemId + '"]' ),
-						itemPosition = $(subItems.parents('.menu-item').get().reverse()).index( menuItem ) + 1;
+						itemPosition = $( subItems.parents('.menu-item').get().reverse() ).index( menuItem ) + 1;
 
 						// String together help text for sub menu items
-
-						title = itemName + '. ' + menus.subMenuFocus.replace('%d', itemPosition) + parentItemName + '.';
+						title = menus.subMenuFocus.replace( '%1$s', itemName ).replace( '%2$d', itemPosition ).replace( '%3$s', parentItemName );
 				}
 
 				$this.prop('title', title).html( title );

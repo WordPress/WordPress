@@ -355,12 +355,22 @@ $page_count = wp_count_posts( 'page' );
 $one_theme_location_no_menus = ( 1 == count( get_registered_nav_menus() ) && ! $add_new_screen && empty( $nav_menus ) && ! empty( $page_count->publish ) ) ? true : false;
 
 $l10n = array(
-	"oneThemeLocationNoMenus" => $one_theme_location_no_menus,
-	"move" => __( 'Move' ),
-	"menuFocus" => __( 'Menu item %d of %d' ),
-	"subMenuFocus" => __( 'Sub item number %d under' ),
-	"under" => __( 'Under' ),
-	"outFrom" => __( 'Out from under' )
+	'oneThemeLocationNoMenus' => $one_theme_location_no_menus,
+	'moveUp'       => __( 'Move up one' ),
+	'moveDown'     => __( 'Move down one' ),
+	'moveToTop'    => __( 'Move to the top' ),
+	/* translators: %s: previous item name */
+	'moveUnder'    => __( 'Move under %s' ),
+	/* translators: %s: previous item name */
+	'moveOutFrom'  => __( 'Move out from under %s' ),
+	/* translators: %s: previous item name */
+	'under'        => __( 'Under %s' ),
+	/* translators: %s: previous item name */
+	'outFrom'      => __( 'Out from under %s' ),
+	/* translators: 1: item name, 2: item position, 3: total number of items */
+	'menuFocus'    => __( '%1$s. Menu item %2$d of %3$d.' ),
+	/* translators: 1: item name, 2: item position, 3: parent item name */
+	'subMenuFocus' => __( '%1$s. Sub item number %2$d under %3$s.' ),
 );
 wp_localize_script( 'nav-menu', 'menus', $l10n );
 
