@@ -355,7 +355,7 @@ $page_count = wp_count_posts( 'page' );
 $one_theme_location_no_menus = ( 1 == count( get_registered_nav_menus() ) && ! $add_new_screen && empty( $nav_menus ) && ! empty( $page_count->publish ) ) ? true : false;
 
 $l10n = array(
-	"oneThemeLocationNoMenus" => ( $one_theme_location_no_menus ) ? 'true' : 'false',
+	"oneThemeLocationNoMenus" => $one_theme_location_no_menus,
 	"move" => __( 'Move' ),
 	"menuFocus" => __( 'Menu item %d of %d' ),
 	"subMenuFocus" => __( 'Sub item number %d under' ),
