@@ -1211,6 +1211,7 @@ footer.entry-meta {
 .format-status .entry-content .page-links a,
 .format-gallery .entry-content .page-links a,
 .format-chat .entry-content .page-links a,
+.format-quote .entry-content .page-links a,
 .page-links a {
 	background: #e63f2a;
 	border: 1px solid #e63f2a;
