@@ -73,6 +73,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	$attachment = get_post( $attachment_id );
 
 	$metadata = array();
+	$support = false;
 	if ( preg_match('!^image/!', get_post_mime_type( $attachment )) && file_is_displayable_image($file) ) {
 		$imagesize = getimagesize( $file );
 		$metadata['width'] = $imagesize[0];
@@ -117,7 +118,40 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		if ( $image_meta )
 			$metadata['image_meta'] = $image_meta;
 
+	} elseif ( preg_match( '#^video/#', get_post_mime_type( $attachment ) ) ) {
+		$metadata = wp_read_video_metadata( $file );
+		$support = current_theme_supports( 'post-thumbnails', 'attachment:video' ) && post_type_supports( 'attachment:video', 'thumbnail' );
+	} elseif ( preg_match( '#^audio/#', get_post_mime_type( $attachment ) ) ) {
+		$metadata = wp_read_audio_metadata( $file );
+		$support = current_theme_supports( 'post-thumbnails', 'attachment:audio' ) && post_type_supports( 'attachment:audio', 'thumbnail' );
 	}
+
+	if ( $support && ! empty( $metadata['image']['data'] ) ) {
+		$ext = '.jpg';
+		switch ( $metadata['image']['mime'] ) {
+		case 'image/gif':
+			$ext = '.gif';
+			break;
+		case 'image/png':
+			$ext = '.png';
+			break;
+		}
+		$basename = str_replace( '.', '-', basename( $file ) ) . '-image' . $ext;
+		$uploaded = wp_upload_bits( $basename, '', $metadata['image']['data'] );
+		if ( false === $uploaded['error'] ) {
+			$attachment = array(
+				'post_mime_type' => $metadata['image']['mime'],
+				'post_type' => 'attachment',
+				'post_content' => '',
+			);
+			$sub_attachment_id = wp_insert_attachment( $attachment, $uploaded['file'] );
+			$attach_data = wp_generate_attachment_metadata( $sub_attachment_id, $uploaded['file'] );
+			wp_update_attachment_metadata( $sub_attachment_id, $attach_data );
+			update_post_meta( $attachment_id, '_thumbnail_id', $sub_attachment_id );
+		}
+	}
+	// remove the blob of binary data from the array
+	unset( $metadata['image']['data'] );
 
 	return apply_filters( 'wp_generate_attachment_metadata', $metadata, $attachment_id );
 }

@@ -141,8 +141,15 @@ if ( post_type_supports( $post_type, 'post-formats' ) ) {
 if ( post_type_supports($post_type, 'page-attributes') )
 	add_meta_box('pageparentdiv', 'page' == $post_type ? __('Page Attributes') : __('Attributes'), 'page_attributes_meta_box', null, 'side', 'core');
 
-if ( current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports( $post_type, 'thumbnail' ) )
-		add_meta_box('postimagediv', __('Featured Image'), 'post_thumbnail_meta_box', null, 'side', 'low');
+$audio_post_support = $video_post_support = false;
+$theme_support = current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports( $post_type, 'thumbnail' );
+if ( 'attachment' === $post_type && ! empty( $post->post_mime_type ) ) {
+	$audio_post_support = 0 === strpos( $post->post_mime_type, 'audio/' ) && current_theme_supports( 'post-thumbnails', 'attachment:audio' ) && post_type_supports( 'attachment:audio', 'thumbnail' );
+	$video_post_support = 0 === strpos( $post->post_mime_type, 'video/' ) && current_theme_supports( 'post-thumbnails', 'attachment:video' ) && post_type_supports( 'attachment:video', 'thumbnail' );
+}
+
+if ( $theme_support || $audio_post_support || $video_post_support )
+	add_meta_box('postimagediv', __('Featured Image'), 'post_thumbnail_meta_box', null, 'side', 'low');
 
 if ( post_type_supports($post_type, 'excerpt') )
 	add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', null, 'normal', 'core');

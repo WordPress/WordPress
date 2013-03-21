@@ -2397,3 +2397,140 @@ add_filter( 'media_upload_gallery', 'media_upload_gallery' );
 add_filter( 'media_upload_library', 'media_upload_library' );
 
 add_action( 'attachment_submitbox_misc_actions', 'attachment_submitbox_metadata' );
+
+/**
+ * Parse ID3v2, ID3v1, and getID3 comments to extract usable data
+ *
+ * @since 3.6.0
+ *
+ * @param array $metadata An existing array with data
+ * @param array $data Data supplied by ID3 tags
+ */
+function wp_add_id3_tag_data( &$metadata, $data ) {
+	foreach ( array( 'id3v2', 'id3v1' ) as $version ) {
+		if ( ! empty( $data[$version]['comments'] ) ) {
+			foreach ( $data[$version]['comments'] as $key => $list ) {
+				if ( ! empty( $list ) ) {
+					$metadata[$key] = reset( $list );
+					// fix bug in byte stream analysis
+					if ( 'terms_of_use' === $key && 0 === strpos( $metadata[$key], 'yright notice.' ) )
+						$metadata[$key] = 'Cop' . $metadata[$key];
+				}
+			}
+			break;
+		}
+	}
+
+	if ( ! empty( $data['id3v2']['APIC'] ) ) {
+		$image = reset( $data['id3v2']['APIC']);
+		if ( ! empty( $image['data'] ) ) {
+			$metadata['image'] = array(
+				'data' => $image['data'],
+				'mime' => $image['image_mime'],
+				'width' => $image['image_width'],
+				'height' => $image['image_height']
+			);
+		}
+	} elseif ( ! empty( $data['comments']['picture'] ) ) {
+		$image = reset( $data['comments']['picture'] );
+		if ( ! empty( $image['data'] ) ) {
+			$metadata['image'] = array(
+				'data' => $image['data'],
+				'mime' => $image['image_mime']
+			);
+		}
+	}
+}
+
+/**
+ * Retrieve metadata from a video file's ID3 tags
+ *
+ * @since 3.6.0
+ *
+ * @param string $file Path to file.
+ * @return array|boolean Returns array of metadata, if found.
+ */
+function wp_read_video_metadata( $file ) {
+	if ( ! file_exists( $file ) )
+		return false;
+
+	$metadata = array();
+
+	if ( ! class_exists( 'getID3' ) )
+		require( ABSPATH . WPINC . '/ID3/class-getid3.php' );
+	$id3 = new getID3();
+	$data = $id3->analyze( $file );
+
+	if ( isset( $data['video']['lossless'] ) )
+		$metadata['lossless'] = $data['video']['lossless'];
+	if ( ! empty( $data['video']['bitrate'] ) )
+		$metadata['bitrate'] = (int) $data['video']['bitrate'];
+	if ( ! empty( $data['video']['bitrate_mode'] ) )
+		$metadata['bitrate_mode'] = $data['video']['bitrate_mode'];
+	if ( ! empty( $data['filesize'] ) )
+		$metadata['filesize'] = (int) $data['filesize'];
+	if ( ! empty( $data['mime_type'] ) )
+		$metadata['mime_type'] = $data['mime_type'];
+	if ( ! empty( $data['playtime_seconds'] ) )
+		$metadata['length'] = (int) ceil( $data['playtime_seconds'] );
+	if ( ! empty( $data['playtime_string'] ) )
+		$metadata['length_formatted'] = $data['playtime_string'];
+	if ( ! empty( $data['video']['resolution_x'] ) )
+		$metadata['width'] = (int) $data['video']['resolution_x'];
+	if ( ! empty( $data['video']['resolution_y'] ) )
+		$metadata['height'] = (int) $data['video']['resolution_y'];
+	if ( ! empty( $data['fileformat'] ) )
+		$metadata['fileformat'] = $data['fileformat'];
+	if ( ! empty( $data['video']['dataformat'] ) )
+		$metadata['dataformat'] = $data['video']['dataformat'];
+	if ( ! empty( $data['video']['encoder'] ) )
+		$metadata['encoder'] = $data['video']['encoder'];
+	if ( ! empty( $data['video']['codec'] ) )
+		$metadata['codec'] = $data['video']['codec'];
+
+	unset( $data['audio']['streams'] );
+	$metadata['audio'] = $data['audio'];
+
+	wp_add_id3_tag_data( $metadata, $data );
+
+	return $metadata;
+}
+
+/**
+ * Retrieve metadata from a audio file's ID3 tags
+ *
+ * @since 3.6.0
+ *
+ * @param string $file Path to file.
+ * @return array|boolean Returns array of metadata, if found.
+ */
+function wp_read_audio_metadata( $file ) {
+	if ( ! file_exists( $file ) )
+		return false;
+	$metadata = array();
+
+	if ( ! class_exists( 'getID3' ) )
+		require( ABSPATH . WPINC . '/ID3/class-getid3.php' );
+	$id3 = new getID3();
+	$data = $id3->analyze( $file );
+
+	if ( ! empty( $data['audio'] ) ) {
+		unset( $data['audio']['streams'] );
+		$metadata = $data['audio'];
+	}
+
+	if ( ! empty( $data['fileformat'] ) )
+		$metadata['fileformat'] = $data['fileformat'];
+	if ( ! empty( $data['filesize'] ) )
+		$metadata['filesize'] = (int) $data['filesize'];
+	if ( ! empty( $data['mime_type'] ) )
+		$metadata['mime_type'] = $data['mime_type'];
+	if ( ! empty( $data['playtime_seconds'] ) )
+		$metadata['length'] = (int) ceil( $data['playtime_seconds'] );
+	if ( ! empty( $data['playtime_string'] ) )
+		$metadata['length_formatted'] = $data['playtime_string'];
+
+	wp_add_id3_tag_data( $metadata, $data );
+
+	return $metadata;
+}
