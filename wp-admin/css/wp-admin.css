@@ -2685,8 +2685,52 @@ th.asc:hover span.sorting-indicator {
 	padding: 0 0 .2em 1px;
 }
 
-span.post-state-format {
-	font-weight: normal;
+a.post-state-format {
+	overflow: hidden;
+	display: inline-block;
+	vertical-align: middle;
+	height: 16px;
+	width: 16px;
+	margin-right: 5px;
+	background-image: url(../images/post-formats.png);
+	background-repeat: no-repeat;
+	text-indent: -999em;
+}
+
+a.post-state-format.format-image {
+	background-position: -40px -8px;
+}
+
+a.post-state-format.format-gallery {
+	background-position: -72px -8px;
+}
+
+a.post-state-format.format-audio {
+	background-position: -104px -8px;
+}
+
+a.post-state-format.format-video {
+	background-position: -135px -8px;
+}
+
+a.post-state-format.format-chat {
+	background-position: -168px -8px;
+}
+
+a.post-state-format.format-status {
+	background-position: -200px -8px;
+}
+
+a.post-state-format.format-aside {
+	background-position: -232px -8px;
+}
+
+a.post-state-format.format-quote {
+	background-position: -264px -8px;
+}
+
+a.post-state-format.format-link {
+	background-position: -296px -8px;
 }
 
 
@@ -9072,6 +9116,11 @@ a.widget-control-edit {
 	tr.wp-locked .locked-indicator  {
 		background-image: url('../images/lock-2x.png');
 		background-size: 16px 16px;
+	}
+
+	a.post-state-format {
+		background-image: url(../images/post-formats-2x.png);
+		background-size: 320px 32px;
 	}
 
 	th .comment-grey-bubble {

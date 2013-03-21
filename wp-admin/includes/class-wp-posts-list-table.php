@@ -259,9 +259,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( post_type_supports( $post_type, 'author' ) )
 			$posts_columns['author'] = __( 'Author' );
 
-		if ( post_type_supports( $post_type, 'post-formats' ) )
-			$posts_columns['format'] = _x( 'Format', 'post format' );
-
 		$taxonomies = array();
 
 		$taxonomies = get_object_taxonomies( $post_type, 'objects' );
@@ -541,6 +538,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 				$pad = str_repeat( '&#8212; ', $level );
 				echo "<td $attributes><strong>";
+
+				if ( $format = get_post_format( $post->ID ) ) {
+					$label = get_post_format_string( $format );
+
+					echo '<a href="' . esc_url( add_query_arg( array( 'post_format' => $format, 'post_type' => $post->post_type ), 'edit.php' ) ) . '" class="post-state-format format-' . $format . '" title="' . $label . '">' . $label . ":</a> ";
+				}
+
 				if ( $can_edit_post && $post->post_status != 'trash' ) {
 					echo '<a class="row-title" href="' . $edit_link . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ) . '">' . $pad . $title . '</a>';
 				} else {
@@ -651,17 +655,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 					esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'author' => get_the_author_meta( 'ID' ) ), 'edit.php' )),
 					get_the_author()
 				);
-			?></td>
-			<?php
-			break;
-
-			case 'format':
-			?>
-			<td <?php echo $attributes ?>><?php
-				if ( get_post_format( $post->ID ) )
-					printf( '<a href="%s">%s</a>', add_query_arg( array( 'post_format' => get_post_format( $post->ID ), 'post_type' => $post->post_type ), 'edit.php' ), get_post_format_string( get_post_format( $post->ID ) ) );
-				else
-					echo '&#8212;';
 			?></td>
 			<?php
 			break;
