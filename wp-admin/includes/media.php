@@ -2285,8 +2285,9 @@ function edit_form_image_editor() {
 	$title = esc_attr( $post->post_title );
 	$alt_text = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
 
-	$att_url = wp_get_attachment_url( $post->ID );
-
+	$att_url = wp_get_attachment_url( $post->ID ); ?>
+	<div class="wp_attachment_holder">
+	<?php
 	if ( wp_attachment_is_image( $post->ID ) ) :
 		$image_edit_button = '';
 		if ( wp_image_editor_supports( array( 'mime_type' => $post->post_mime_type ) ) ) {
@@ -2294,7 +2295,7 @@ function edit_form_image_editor() {
 			$image_edit_button = "<input type='button' id='imgedit-open-btn-$post->ID' onclick='imageEdit.open( $post->ID, \"$nonce\" )' class='button' value='" . esc_attr__( 'Edit Image' ) . "' /> <span class='spinner'></span>";
 		}
  	?>
-	<div class="wp_attachment_holder">
+
 		<div class="imgedit-response" id="imgedit-response-<?php echo $attachment_id; ?>"></div>
 
 		<div<?php if ( $open ) echo ' style="display:none"'; ?> class="wp_attachment_image" id="media-head-<?php echo $attachment_id; ?>">
@@ -2304,9 +2305,23 @@ function edit_form_image_editor() {
 		<div<?php if ( ! $open ) echo ' style="display:none"'; ?> class="image-editor" id="image-editor-<?php echo $attachment_id; ?>">
 			<?php if ( $open ) wp_image_editor( $attachment_id ); ?>
 		</div>
-	</div>
-	<?php endif; ?>
+	<?php
+	elseif ( $attachment_id && 0 === strpos( $post->post_mime_type, 'audio/' ) ):
 
+		echo do_shortcode( '[audio src="' . $att_url . '"]' );
+
+	elseif ( $attachment_id && 0 === strpos( $post->post_mime_type, 'video/' ) ):
+
+		$meta = wp_get_attachment_metadata( $attachment_id );
+		$shortcode = sprintf( '[video src="%s"%s%s]',
+			$att_url,
+			empty( $meta['width'] ) ? '' : sprintf( ' width="%d"', $meta['width'] ),
+			empty( $meta['height'] ) ? '' : sprintf( ' height="%d"', $meta['height'] )
+		);
+		echo do_shortcode( $shortcode );
+
+	endif; ?>
+	</div>
 	<div class="wp_attachment_details edit-form-section">
 		<p>
 			<label for="attachment_caption"><strong><?php _e( 'Caption' ); ?></strong></label><br />
