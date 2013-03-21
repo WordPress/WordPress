@@ -3597,6 +3597,16 @@ table.diff .diff-addedline ins {
 	vertical-align: middle;
 }
 
+.diff-from-title,
+.diff-to-title {
+	font-size: 14px;
+	font-weight: bold;
+	width:60px;
+	text-align: right;
+	float: left;
+	margin-right: 5px;
+}
+
 .revisiondiffcontainer {
 	width: 96%;
 }
@@ -3605,11 +3615,13 @@ table.diff .diff-addedline ins {
 	margin: 2px;
 }
 
-#diffrestore,
-#diffnext,
-#diffcancel {
+#diffnext {
 	float: right;
 	margin-right: 5px;
+}
+
+#diffrestore input{
+	margin-left: 10px;
 }
 
 #diffprevious,
@@ -3623,7 +3635,6 @@ table.diff .diff-addedline ins {
 
 #diffprevious,
 #diffnext {
-	margin-top: 7px;
 	height: 30px;
 }
 
@@ -3635,24 +3646,37 @@ table.diff .diff-addedline ins {
 #diffheader {
 	border-bottom: 1px solid #dfdfdf;
 	width: 100%;
-	height: 45px;
-	line-height: 45px;
-	padding-top: 10px;
+	height: 40px;
+	line-height: 40px;
+	padding-top: 30px;
 }
 
-#diffsubheader {
-	border-bottom: 1px solid #dfdfdf;
+#diffsubheader,.diff-left-hand-meta-row {
 	width: 100%;
 	height:35px;
 	line-height: 35px;
+	display: block;
 }
 
-#diffslider {
+#diffslider{
 	width: 70%;
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
-	height: 3.5em;
+	height: 0.8em;
+	margin-top: 20px;
+}
+
+.diff-slider-ticks-wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+#diff-slider-ticks {
+	position: absolute;
+	margin-top: 50px;
+	z-index: 1;
 }
 
 #revisioncount {
@@ -3722,6 +3746,9 @@ table.diff .diff-addedline ins {
 
 #comparetworevisions {
 	float: right;
+	position: absolute;
+	top: 10px;
+	right: 10px;
 	line-height: 35px;
 	padding-right: 5px;
 }
@@ -3731,9 +3758,14 @@ table.diff .diff-addedline ins {
 }
 
 #difftitle img,
-#difftitlefrom img {
+#difftitlefrom img,
+.post-revisions li img {
 	vertical-align: middle;
 	margin-left: 5px;
+}
+.post-revisions li {
+	vertical-align: middle;
+	height: 28px;
 }
 
 #showsplitviewoption,
@@ -3757,11 +3789,11 @@ table.diff .diff-addedline ins {
 .comparetwo #diffprevious,
 .comparetwo #diffnext,
 span#diff_left_current_revision,
-span#diff_from_current_revision,
+#diff_from_current_revision,
 .currentversion span#diff_left_count,
 .currentversion span#diff_left_count_inner,
-.currentversion #difftitlefrom,
-.comparetwo.currentversion #difftitlefrom {
+.comparetwo.currentversion #diff_from_current_revision,
+#diffsubheader.diff-left-hand-meta-row {
 	display: none;
 }
 
@@ -3769,13 +3801,51 @@ span#diff_from_current_revision,
 span#diff_left_count,
 span#diff_left_count_inner,
 .comparetwo #difftitlefrom,
-.comparetwo.currentversion span#diff_from_current_revision,
 .leftmodelloading #modelsloading,
 .rightmodelloading #modelsloading,
 .leftmodelloading #modelsloading .spinner,
 .rightmodelloading #modelsloading .spinner,
-{
-	display: inline;
+.comparetwo #diffsubheader.diff-left-hand-meta-row {
+	display: block;
+}
+
+.revision-tick {
+	width: 1px;
+	float: left;
+	margin-right: 15px;
+	height: 11px;
+	padding: 0;
+	margin-left: 0px;
+}
+
+.revision-tick.revision-scopeofchanges-vsmall {
+		width: 1px;
+		background-color: #aaa;
+}
+
+.revision-tick.revision-scopeofchanges-small {
+		width: 2px;
+		background-color: #aaa;
+		margin-left: -1px;
+}
+
+.revision-tick.revision-scopeofchanges-med {
+		width: 3px;
+		margin-left: -2px;
+		background-color: #666;
+}
+
+.revision-tick.revision-scopeofchanges-large {
+		width: 4px;
+		margin-left: -3px;
+		background-color: #333;
+}
+
+.revision-tick.revision-scopeofchanges-vlarge {
+		margin-left: -3px;
+		width: 4px;
+		background-color: #111;
+		left: 1;
 }
 
 .diff-loading {
@@ -3792,23 +3862,89 @@ span#diff_left_count_inner,
 	float: none;
 }
 
-#difftitlefrom {
-	float: left;
-	display: none;
-}
-
 #modelsloading {
 	float: right;
+	position: absolute;
 	line-height: 30px;
 	display: none;
 	clear: none;
-	margin: 0;
+	right: 170px;
 	margin-top: -40px;
 }
 
 #modelsloading .spinner {
  	float: left;
- }
+}
+
+.ui-tooltip-content img {
+	float: left;
+	margin-right: 5px;
+}
+
+
+
+/*  jQuery UI Tooltip 1.10.1 */
+
+.ui-tooltip {
+	padding: 8px;
+	position: absolute;
+	z-index: 9999;
+	max-width: 300px;
+	min-width: 130px;
+}
+
+body .ui-tooltip {
+	border-width: 1px;
+}
+
+.ui-tooltip, .arrow:after {
+	border: 1px solid #d7d7d7;
+}
+
+.ui-tooltip {
+	padding: 5px 10px;
+}
+
+.arrow {
+	width: 70px;
+	height: 16px;
+	overflow: hidden;
+	position: absolute;
+	left: 50%;
+	margin-left: -35px;
+	bottom: -16px;
+	z-index: 99999;
+
+}
+
+.arrow.top {
+	top: -16px;
+	bottom: auto;
+}
+
+.arrow.left {
+	left: 20%;
+}
+
+.arrow:after {
+	content: "";
+	position: absolute;
+	left: 20px;
+	top: -20px;
+	width: 25px;
+	height: 25px;
+	background-color: #FFF;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	tranform: rotate(45deg);
+}
+
+.arrow.top:after {
+	bottom: -20px;
+	top: auto;
+}
 
  /* jQuery UI Slider */
 
@@ -3824,11 +3960,9 @@ span#diff_left_count_inner,
 .wp-slider .ui-slider-handle {
 	position: absolute;
 	z-index: 2;
-	width: 1.2em;
-	height: 1.2em;
-	border-width: 1px;
-	border-style: solid;
-	border-radius: 3px;
+	width: 17px;
+	height: 17px;
+	border: none;
 }
 
 .wp-slider .ui-slider-range {

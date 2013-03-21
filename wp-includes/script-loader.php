@@ -273,7 +273,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'template', "/wp-includes/js/template$suffix.js", array('underscore'), '1.4.4', 1 );
 	$scripts->add( 'backbone', '/wp-includes/js/backbone.min.js', array('underscore','jquery', 'template'), '0.9.10', 1 );
 
-	$scripts->add( 'revisions', "/wp-admin/js/revisions$suffix.js", array( 'backbone', 'jquery-ui-slider' ), false, 1 );
+	$scripts->add( 'revisions', "/wp-admin/js/revisions$suffix.js", array( 'backbone', 'jquery-ui-slider', 'jquery-ui-tooltip' ), false, 1 );
 
 	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.8', 1 );
 

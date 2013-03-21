@@ -7,19 +7,33 @@ window.wp = window.wp || {};
 
 		Model : Backbone.Model.extend({
 			idAttribute : 'ID',
-			urlRoot : ajaxurl +	'?action=revisions-data&compare_to=' + wpRevisionsSettings.post_id +
-				'&show_autosaves=false&show_split_view=true&nonce=' + wpRevisionsSettings.nonce,
+			urlRoot : ajaxurl +	'?action=revisions-data' +
+				'&show_autosaves=true&show_split_view=true&nonce=' + wpRevisionsSettings.nonce,
 			defaults: {
 				ID : 0,
 				revision_date_author : '',
+				revision_date_author_short: '',
 				revisiondiff : '<div class="diff-loading"><div class="spinner"></div></div>',
 				restoreaction : '',
 				revision_from_date_author : '',
-				revision_toload : false
+				revision_toload : false,
+				lines_added : 0,
+				lines_deleted : 0,
+				scope_of_changes : 'none',
+				previous_revision_id : 0
 			},
 
 			url : function() {
-				return this.urlRoot + '&single_revision_id=' + this.id;
+				if ( 1 === REVAPP._compareoneortwo ) {
+					return this.urlRoot +
+						'&single_revision_id=' + this.id +
+						'&compare_to=' + this.get( 'previous_revision_id' ) +
+						'&post_id=' + wpRevisionsSettings.post_id;
+				} else {
+					return this.urlRoot +
+				'&single_revision_id=' + this.id;
+				}
+
 			}
 
 		}),
@@ -33,45 +47,71 @@ window.wp = window.wp || {};
 			_right_handle_revisions : null,
 			_revisionsInteractions : null,
 			_revisionsOptions : null,
-			_left_diff : 0,
+			_left_diff : 1,
 			_right_diff : 1,
-			_autosaves : false,
+			_autosaves : true,
 			_show_split_view : true,
 			_compareoneortwo : 1,
 			_left_model_loading : false,	//keep track of model loads
 			_right_model_loading : false,	//disallow slider interaction, also repeat loads, while loading
+			_tickmarkView : null, //the slider tickmarks
+			_has_tooltip : false,
 
-			//TODO add ability to arrive on specific revision
 			routes : {
-			},
-
-			viewrevision : function( revision ) {
-				//coming soon
 			},
 
 			reload_toload_revisions : function( model_collection, reverse_direction ) {
 				var self = this;
 				var revisions_to_load = model_collection.where( { revision_toload : true } );
-				//console.log(revisions_to_load);
 				var delay=0;
-				_.each(revisions_to_load, function( the_model ) {
+				//match slider to passed revision_id
+				_.each( revisions_to_load, function( the_model ) {
+					if ( the_model.get( 'ID' )  == wpRevisionsSettings.revision_id ) {
+						self._right_diff = self._revisions.indexOf( the_model ) + 1;
+					}
+
+				});
+				_.each( revisions_to_load, function( the_model ) {
 						the_model.urlRoot = model_collection.url;
 						_.delay( function() {
 							the_model.fetch( {
 								update : true,
 								add : false,
 								remove : false,
-								//async : false,
 								success : function( model ) {
-									//console.log(model.get( 'ID' ) +'-'+self._revisions.at( self._right_diff ).get( 'ID' ));
-									if ( model.get( 'ID' ) === self._revisions.at( self._right_diff - 1 ).get( 'ID' ) ) { //reload if current model refreshed
-										//console.log('render');
+									model.set( 'revision_toload', 'false' );
+
+									//stop spinner when all models are loaded
+									if ( 0 === model_collection.where( { revision_toload : true } ).length )
+										self.stop_model_loading_spinner();
+
+									self._tickmarkView.render();
+
+									var total_changes = model.get( 'lines_added' ) + model.get( 'lines_deleted');
+									var scope_of_changes = 'vsmall';
+
+									// Note: hard coded scope of changes
+									// TODO change to dynamic based on range of values
+									if  ( total_changes > 1 && total_changes <= 3 ) {
+										scope_of_changes = 'small';
+									} else if(total_changes > 3 && total_changes <= 5 ) {
+										scope_of_changes = 'med';
+									} else if(total_changes > 5 && total_changes <= 10 ) {
+										scope_of_changes = 'large';
+									} else if(total_changes > 10 ) {
+										scope_of_changes = 'vlarge';
+									}
+									model.set( 'scope_of_changes', scope_of_changes );
+									if ( 0 !== self._right_diff &&
+										model.get( 'ID' ) === self._revisions.at( self._right_diff - 1 ).get( 'ID' ) ) {
+										//reload if current model refreshed
 										self._revisionView.render();
 									}
+
 								}
 						} );
 						}, delay ) ;
-						delay = delay + 200; //stagger model loads by 200 ms to avoid hammering server with requests
+						delay = delay + 150; //stagger model loads to avoid hammering server with requests
 					}
 				);
 			},
@@ -83,7 +123,6 @@ window.wp = window.wp || {};
 
 			stop_left_model_loading : function() {
 				this._left_model_loading = false;
-				$('.revisiondiffcontainer').removeClass('leftmodelloading');
 			},
 
 			start_right_model_loading : function() {
@@ -93,7 +132,11 @@ window.wp = window.wp || {};
 
 			stop_right_model_loading : function() {
 				this._right_model_loading = false;
+			},
+
+			stop_model_loading_spinner : function() {
 				$('.revisiondiffcontainer').removeClass('rightmodelloading');
+				$('.revisiondiffcontainer').removeClass('leftmodelloading');
 			},
 
 			reloadmodel : function() {
@@ -104,44 +147,49 @@ window.wp = window.wp || {};
 				}
 			},
 
+			//load the models for the single handle mode
 			reloadmodelsingle : function() {
 				var self = this;
 				self._revisions.url = ajaxurl +	'?action=revisions-data&compare_to=' + wpRevisionsSettings.post_id +
 											'&show_autosaves=' + self._autosaves +
-											'&show_split_view=' +  REVAPP._show_split_view +
+											'&show_split_view=' +  self._show_split_view +
 											'&nonce=' + wpRevisionsSettings.nonce;
 				self.start_right_model_loading();
-				this._revisions.fetch({ //reload revision data
+				self._revisions.fetch({ //reload revision data
 					success : function() {
-						self.stop_right_model_loading();
+						console.log('loaded');
+						//self.stop_right_model_loading();
+						//REVAPP._right_diff -= 1;
 						var revisioncount = self._revisions.length;
-						if ( self._right_diff > revisioncount ) //if right handle past rightmost, move
-							self._right_diff = revisioncount;
-
+						self._revisionView.model = self._revisions;
 						self._revisionView.render();
 						self.reload_toload_revisions( self._revisions );
+						self._tickmarkView.model = self._revisions;
+						self._tickmarkView.render();
+						$( '#slider' ).slider( 'option', 'max', revisioncount-1 ); //TODO test this, if autsave option changed
+						$( '#slider' ).slider( 'value', self._right_diff - 1 ).trigger( 'slide' );
 
-						$( '#slider' ).slider( 'option', 'max', revisioncount-1 ); //TODO test this, autsaves changed
 					},
 
 					error : function () {
 						self.stop_right_model_loading();
-						//console.log( 'Error loading revision data' );
 					}
 
 				});
 			},
 
+			//load the models for the left handle
 			reloadleft : function() {
 				var self = this;
 				self.start_left_model_loading();
 				self._left_handle_revisions = new wp.revisions.Collection();
+
 				self._left_handle_revisions.url =
 					ajaxurl +
 					'?action=revisions-data&compare_to=' + self._revisions.at( self._right_diff - 1 ).get( 'ID' ) +
 					'&post_id=' + wpRevisionsSettings.post_id +
-					'&show_autosaves=' + self._autosaves +
-					'&show_split_view=' +  self._show_split_view +
+					'&show_autosaves=' + REVAPP._autosaves +
+					'&show_split_view=' +  REVAPP._show_split_view +
 					'&nonce=' + wpRevisionsSettings.nonce +
 					'&right_handle_at='  + ( self._right_diff );
 
@@ -150,47 +198,48 @@ window.wp = window.wp || {};
 					success : function(){
 						self.stop_left_model_loading();
 						self.reload_toload_revisions( self._left_handle_revisions );
-					},
+						self._tickmarkView.model = self._left_handle_revisions;
+						$( '#slider' ).slider( 'option', 'max', self._revisions.length );
+						// ensure right handle not beyond length, in particular if viewing autosaves is switched from on to off
+						// the number of models in the collection might get shorter, this ensures right handle is not beyond last model
+						if ( self._right_diff > self._revisions.length )
+							self._right_diff = self._revisions.length;
+						},
 
 					error : function () {
-						//console.log( 'Error loading revision data' );
 						self.stop_left_model_loading();
 					}
 				});
 			},
 
+			//load the models for the right handle
 			reloadright : function() {
 				var self = this;
 				self.start_right_model_loading();
 				self._right_handle_revisions = new wp.revisions.Collection();
-				if ( 0 === self._left_diff ) {
+
 					self._right_handle_revisions.url =
 						ajaxurl +
-						'?action=revisions-data&compare_to=' + wpRevisionsSettings.post_id +
+						'?action=revisions-data&compare_to=' + ( self._revisions.at( self._left_diff ).get( 'ID' ) -1)+
 						'&post_id=' + wpRevisionsSettings.post_id +
-						'&show_autosaves=' + self._autosaves +
-						'&show_split_view=' +  self._show_split_view +
+						'&show_autosaves=' + REVAPP._autosaves +
+						'&show_split_view=' +  REVAPP._show_split_view +
 						'&nonce=' + wpRevisionsSettings.nonce;
-				} else {
-					self._right_handle_revisions.url =
-						ajaxurl +
-						'?action=revisions-data&compare_to=' + self._revisions.at( self._left_diff - 1 ).get( 'ID' ) +
-						'&post_id=' + wpRevisionsSettings.post_id +
-						'&show_autosaves=' + self._autosaves +
-						'&show_split_view=' +  self._show_split_view +
-						'&nonce=' + wpRevisionsSettings.nonce +
-						'&left_handle_at=' + (self._left_diff ) ;
-				}
 
 				self._right_handle_revisions.fetch({
 
 					success : function(){
 						self.stop_right_model_loading();
 						self.reload_toload_revisions( self._right_handle_revisions );
+						self._tickmarkView.model = self._right_handle_revisions;
+						$( '#slider' ).slider( 'option', 'max', self._revisions.length );
+						$( '#slider' ).slider( 'values', [ REVAPP._left_diff, REVAPP._right_diff] ).trigger( 'slide' );
+
+						//REVAPP._revisionView.render();
+
 					},
 
 					error : function ( response ) {
-						//console.log( 'Error loading revision data - ' + response.toSource() );
 						self.stop_right_model_loading();
 					}
 				});
@@ -198,6 +247,8 @@ window.wp = window.wp || {};
 			},
 
 			reloadleftright : function() {
+				this.start_right_model_loading();
+				this.start_left_model_loading();
 				this.reloadleft();
 				this.reloadright();
 			},
@@ -208,35 +259,79 @@ window.wp = window.wp || {};
 			initialize : function( options ) {
 				var self = this; //store the application instance
 				if (this._revisions === null) {
-					self._autosaves = '';
 					self._revisions = new wp.revisions.Collection(); //set up collection
 					self.start_right_model_loading();
 					self._revisions.fetch({ //load revision data
 
 						success : function() {
 							self.stop_right_model_loading();
-							self.revisionDiffSetup();
+							//self._right_handle_revisions = self._revisions;
+							self.completeApplicationSetup();
 						}
 					});
 				}
 				return this;
 			},
 
-			revisionDiffSetup : function() {
+			addTooltip : function( handle, message ) {
+
+				handle.attr( 'title', '' ).tooltip({
+					track: false,
+
+					position: {
+						my: "left-30 top-66",
+						at: "top left",
+						using: function( position, feedback ) {
+							$( this ).css( position );
+							$( "<div>" )
+							.addClass( "arrow" )
+							.addClass( feedback.vertical )
+							.addClass( feedback.horizontal )
+							.appendTo( $( this ) );
+						}
+					},
+					show: false,
+					hide: false,
+					content:  function() {
+						return message;
+					}
+
+				} );
+			},
+/**/
+
+			completeApplicationSetup : function() {
 				this._revisionView = new wp.revisions.views.View({
 					model : this._revisions
 				});
 				this._revisionView.render();
-				$( '#diff_max, #diff_maxof' ).html( this._revisions.length );
-				$( '#diff_count' ).html( REVAPP._right_diff );
 				$( '#slider' ).slider( 'option', 'max', this._revisions.length - 1 );
 
 				this.reload_toload_revisions( this._revisions );
+
 				this._revisionsInteractions = new wp.revisions.views.Interact({
 					model : this._revisions
 				});
 				this._revisionsInteractions.render();
 
+				this._tickmarkView = new wp.revisions.views.Tickmarks({
+					model : this._revisions
+				});
+				this._tickmarkView.render();
+				this._tickmarkView.resetticks();
+
+
+				/*
+				.on( 'mouseup', function( event ) {
+					REVAPP._keep_tooltip_open = false;
+					$( this ).find('.ui-slider-tooltip').hide();
+				} ).on( 'mousedown', function( event ) {
+					REVAPP._keep_tooltip_open = true;
+				} ).on( 'mouseout', function( event ) {
+					if ( REVAPP._keep_tooltip_open)
+						event.stopImmediatePropagation();
+					});
+				*/
 				/*
 				//Options hidden for now, moving to screen options
 				this._revisionsOptions = new wp.revisions.views.Options({
@@ -252,13 +347,74 @@ window.wp = window.wp || {};
 	wp.revisions.Collection = Backbone.Collection.extend({
 		model : wp.revisions.Model,
 		url : ajaxurl +	'?action=revisions-data&compare_to=' + wpRevisionsSettings.post_id +
-			'&show_autosaves=false&show_split_view=true&nonce=' + wpRevisionsSettings.nonce,
+			'&show_autosaves=true&show_split_view=true&nonce=' + wpRevisionsSettings.nonce,
 
 		initialize : function() {
 			}
 	} );
 
 	_.extend(wp.revisions.views, {
+
+		//Ticks inside slider view
+		//
+		Tickmarks : Backbone.View.extend({
+			el : $('#diff-slider-ticks')[0],
+			tagName : 'diff-slider-ticks-view',
+			className : 'diff-slider-ticks-container',
+			template : wp.template('revision-ticks'),
+			model : wp.revisions.Model,
+
+			resetticks : function() {
+				var slider_max = $( '#slider' ).slider( 'option', 'max');
+				var slider_width = $( '#slider' ).width();
+				var adjust_max = ( 2 === REVAPP._compareoneortwo ) ? 1 : 0;
+				var tick_width = Math.floor( slider_width / ( slider_max - adjust_max ) );
+
+				//TODO: adjust right margins for wider ticks so they stay centered on handle stop point
+
+				//set minimum and maximum widths for tick marks
+				tick_width = (tick_width > 50 ) ? 50 : tick_width;
+				tick_width = (tick_width < 10 ) ? 10 : tick_width;
+
+				slider_width = tick_width * (slider_max - adjust_max ) +1;
+
+				$( '#slider' ).width( slider_width );
+				$( '.diff-slider-ticks-wrapper' ).width( slider_width );
+				$( '#diffslider' ).width( slider_width );
+				$( '#diff-slider-ticks' ).width( slider_width );
+
+				var a_tick_width = $( '.revision-tick' ).width();
+
+				if ( tick_width !==  a_tick_width ) { // is the width already set correctly?
+					$( '.revision-tick' ).each( function( ) {
+						$(this).css( 'margin-right', tick_width - 1 + 'px'); //space the ticks out using right margin
+					});
+
+					if( 2 === REVAPP._compareoneortwo ) {
+						$( '.revision-tick' ).first().remove(); //TODO - remove the check
+					}
+					$( '.revision-tick' ).last().css( 'margin-right', '0' ); // last tick gets no right margin
+				}
+
+			},
+
+			//render the tickmark view
+			render : function() {
+				var self = this;
+
+				if ( null !== self.model ) {
+					var addhtml = "";
+					_.each ( self.model.models, function ( the_model ) {
+						addhtml = addhtml + self.template ( the_model.toJSON() );
+					});
+					self.$el.html( addhtml );
+
+				}
+				self.resetticks();
+				return self;
+			}
+		}),
+
 		//
 		//primary revision diff view
 		//
@@ -267,12 +423,8 @@ window.wp = window.wp || {};
 			tagName : 'revisionvview',
 			className : 'revisionview-container',
 			template : wp.template('revision'),
-			revvapp : null,
 			comparetwochecked : '',
 			draggingleft : false,
-
-			initialize : function(){
-			},
 
 			//
 			//render the revisions
@@ -280,6 +432,7 @@ window.wp = window.wp || {};
 			render : function() {
 				var addhtml = '';
 				//compare two revisions mode?
+
 				if ( 2 === REVAPP._compareoneortwo ) {
 					this.comparetwochecked = 'checked';
 					if ( this.draggingleft ) {
@@ -310,9 +463,34 @@ window.wp = window.wp || {};
 				this.$el.html( addhtml );
 				if ( this.model.length < 3 ) {
 					$( 'div#comparetworevisions' ).hide(); //don't allow compare two if fewer than three revisions
-
 				}
-				//console.log ( (this.model.at( REVAPP._right_diff - 1 )).url());
+				if ( this.model.length < 2 ) {
+					$( 'div#diffslider' ).hide(); //don't allow compare two if fewer than three revisions
+					$( 'div.diff-slider-ticks-wrapper' ).hide();
+				}
+
+				//
+				// add tooltips to the handles
+				//
+				if ( 2 === REVAPP._compareoneortwo ) {
+					REVAPP.addTooltip ( $( 'a.ui-slider-handle.left-handle' ),
+						( REVAPP._right_diff >= REVAPP._revisions.length ) ? '' : REVAPP._revisions.at( REVAPP._left_diff ).get( 'revision_date_author_short' ) );
+					REVAPP.addTooltip ( $( 'a.ui-slider-handle.right-handle' ),
+						( REVAPP._right_diff >= REVAPP._revisions.length ) ? '' : REVAPP._revisions.at( REVAPP._right_diff ).get( 'revision_date_author_short' ) );
+				} else {
+					REVAPP.addTooltip ( $( 'a.ui-slider-handle' ),
+						( REVAPP._right_diff >= REVAPP._revisions.length ) ? '' : REVAPP._revisions.at( REVAPP._right_diff ).get( 'revision_date_author_short' ) );
+				}
+
+				//
+				// hide the restore button when on the last sport/current post data
+				//
+				if (  REVAPP._right_diff === REVAPP._revisions.length ){
+					$( '.restore-button' ).hide();
+				} else {
+					$( '.restore-button' ).show();
+				}
+
 				return this;
 			},
 
@@ -326,30 +504,41 @@ window.wp = window.wp || {};
 			//
 			clickcomparetwo : function(){
 				self = this;
-				if ( $( 'input#comparetwo' ).is( ':checked' ) ) {
+
+				if ( $( 'input#comparetwo' ).is( ':checked' ) ) { //compare 2 mode
 					REVAPP._compareoneortwo = 2 ;
-					REVAPP.reloadleftright();
-				} else {
-					REVAPP._compareoneortwo = 1 ;
-					REVAPP._revisionView.draggingleft = false;
-					REVAPP._left_diff = 0;
-					REVAPP.reloadmodelsingle();
-				}
-				REVAPP._revisionsInteractions.render();
+
+					if ( 1 === REVAPP._right_diff )
+						REVAPP._right_diff = 2;
+						REVAPP._revisionView.draggingleft = false;
+
+						wpRevisionsSettings.revision_id = ''; // reset passed revision id so switching back to one handle mode doesn't re-select revision
+						REVAPP.reloadleftright();
+						REVAPP._revisionView.model = REVAPP._right_handle_revisions;
+
+					} else { //compare one mode
+						REVAPP._compareoneortwo = 1 ;
+						REVAPP._revisionView.draggingleft = false;
+						//REVAPP._left_diff = 0;
+						//REVAPP._right_diff = (REVAPP._revisions.length <= REVAPP._right_diff ) ? REVAPP._right_diff + 1 : REVAPP._right_diff + 1;
+						REVAPP.reloadmodelsingle();
+					}
+					//REVAPP._revisionView.render();
+					REVAPP._revisionsInteractions.render();
+					REVAPP._tickmarkView.render();
+
 			}
 		}),
 
 		//
 		//options view for show autosaves and show split view options
 		//
+		/* DISABLED for now
 		Options : Backbone.View.extend({
 			el : $('#backbonerevisionsoptions')[0],
 			tagName : 'revisionoptionsview',
 			className : 'revisionoptions-container',
 			template : wp.template('revisionoptions'),
-
-			initialize : function() {
-			},
 
 			//render the options view
 			render : function() {
@@ -396,7 +585,7 @@ window.wp = window.wp || {};
 				REVAPP.reloadmodel();
 			}
 		}),
-
+		*/
 		//
 		//main interactions view
 		//
@@ -405,14 +594,8 @@ window.wp = window.wp || {};
 			tagName : 'revisionvinteract',
 			className : 'revisionvinteract-container',
 			template : wp.template('revisionvinteract'),
-			_restoreword : '',
 
 			initialize : function() {
-				this._restoreword = $( 'input#restore' ).attr( 'value' );
-			},
-
-			reset_restore_button : function() {
-				$( 'input#restore' ).attr( 'value', this._restoreword + ' ' + REVAPP._revisions.at( REVAPP._right_diff - 1 ).get( 'ID' ) );
 			},
 
 			render : function() {
@@ -420,10 +603,6 @@ window.wp = window.wp || {};
 
 				var addhtml = this.template;
 				this.$el.html( addhtml );
-				$( '#diff_max, #diff_maxof' ).html( this.model.length );
-				$( '#diff_count' ).html( REVAPP._right_diff );
-				$( '#diff_left_count_inner' ).html( 0 === REVAPP._left_diff ? '' : 'revision' + REVAPP._left_diff );
-				self.reset_restore_button();
 
 				var modelcount = REVAPP._revisions.length;
 
@@ -431,23 +610,37 @@ window.wp = window.wp || {};
 				if ( 1 === REVAPP._compareoneortwo ) {
 					//set up the slider with a single handle
 					slider.slider({
-						value : REVAPP._right_diff-1,
-						min : 0,
-						max : modelcount-1,
-						step : 1,
+						value: REVAPP._right_diff-1,
+						min: 0,
+						max: modelcount-1,
+						step: 1,
+
 
 						//slide interactions for one handles slider
 						slide : function( event, ui ) {
-							if ( REVAPP._right_model_loading ) //left model stoll loading, prevent sliding left handle
-										return false;
 
-							REVAPP._right_diff =( ui.value+1 );
-							$( '#diff_count' ).html( REVAPP._right_diff );
+							REVAPP._right_diff = ( ui.value + 1 );
 							REVAPP._revisionView.render();
-							self.reset_restore_button();
-						}
+							/*
+							$( 'a.ui-slider-handle' ).tooltip( {
+								content: REVAPP._revisions.at( ui.value ).get( 'revision_date_author_short' ),
+								position: {
+								my: "top-65",
+								using: function( position, feedback ) {
+									$( this ).css( position );
+									$( "<div>" )
+									.addClass( "arrow" )
+									.addClass( feedback.vertical )
+									.addClass( feedback.horizontal )
+									.appendTo( this );
+									}
+								}
+							});//.trigger( 'close' ).trigger( 'open' );
+*/
+							}
 					});
 					$( '.revisiondiffcontainer' ).removeClass( 'comparetwo' );
+
 				} else { //comparing more than one, eg 2
 					//set up the slider with two handles
 					slider.slider({
@@ -460,28 +653,33 @@ window.wp = window.wp || {};
 						//in two handled mode when user starts dragging, swap in precalculated diff for handle
 						start : function (event, ui ) {
 							var index = $( ui.handle ).index(); //0 (left) or 1 (right)
-
 							switch ( index ) {
 								case 1: //left handle drag
-									if ( REVAPP._left_model_loading ) //left model stoll loading, prevent sliding left handle
+									if ( REVAPP._left_model_loading ) //left model still loading, prevent sliding left handle
 										return false;
 
-									if ( REVAPP._revisionView.model !== REVAPP._left_handle_revisions &&
-											null !== REVAPP._left_handle_revisions )
-										REVAPP._revisionView.model = REVAPP._left_handle_revisions;
-
 									REVAPP._revisionView.draggingleft = true;
+
+									if ( REVAPP._revisionView.model !== REVAPP._left_handle_revisions &&
+											null !== REVAPP._left_handle_revisions ) {
+										REVAPP._revisionView.model = REVAPP._left_handle_revisions;
+										REVAPP._tickmarkView.model = REVAPP._left_handle_revisions;
+										REVAPP._tickmarkView.render();
+									}
+
 									REVAPP._left_diff_start = ui.values[ 0 ];
 									break;
 
 								case 2: //right
-									if ( REVAPP._right_model_loading ) //right model stoll loading, prevent sliding right handle
+									if ( REVAPP._right_model_loading || 0 === REVAPP._right_handle_revisions.length) //right model still loading, prevent sliding right handle
 										return false;
 
-									//one extra spot at left end when comparing two
 									if ( REVAPP._revisionView.model !== REVAPP._right_handle_revisions &&
-											null !== REVAPP._right_handle_revisions )
+											null !== REVAPP._right_handle_revisions ) {
 										REVAPP._revisionView.model = REVAPP._right_handle_revisions;
+										REVAPP._tickmarkView.model = REVAPP._right_handle_revisions;
+										REVAPP._tickmarkView.render();
+									}
 
 									REVAPP._revisionView.draggingleft = false;
 									REVAPP._right_diff_start = ui.values[ 1 ];
@@ -501,29 +699,26 @@ window.wp = window.wp || {};
 									if ( REVAPP._left_model_loading ) //left model still loading, prevent sliding left handle
 										return false;
 
-									REVAPP._left_diff = ui.values[ 0 ] - 1; //one extra spot at left end when comparing two
+									REVAPP._left_diff = ui.values[ 0 ];
 									break;
 
 								case 2: //right
 									if ( REVAPP._right_model_loading ) //right model still loading, prevent sliding right handle
 										return false;
 
-									REVAPP._right_diff = ui.values[ 1 ] - 1 ;
+									REVAPP._right_diff = ui.values[ 1 ];
 									break;
 							}
-
-							$( '#diff_count' ).html( REVAPP._right_diff );
 
 							if ( 0 === REVAPP._left_diff ) {
 								$( '.revisiondiffcontainer' ).addClass( 'currentversion' );
 
 							} else {
 								$( '.revisiondiffcontainer' ).removeClass( 'currentversion' );
-								$( '#diff_left_count_inner' ).html( REVAPP._left_diff );
 							}
 
-							REVAPP._revisionView.render(); //render the diff view
-							self.reset_restore_button();
+							REVAPP._revisionView.render();
+
 						},
 
 						//when the user stops sliding  in 2 handle mode, recalculate diffs
@@ -536,23 +731,26 @@ window.wp = window.wp || {};
 
 								switch ( index ) {
 									case 1: //left
+
 										//left handle dragged & changed, reload right handle model
-										if ( ! ( REVAPP._left_diff_start === ui.values[ 0 ] || REVAPP._left_model_loading ) )
+										if ( REVAPP._left_diff_start !== ui.values[ 0 ] )
 											REVAPP.reloadright();
 
 										break;
 
 									case 2: //right
+										//REVAPP._right_diff =  ( 1 >= REVAPP._right_diff ) ? 1  : REVAPP._right_diff-1;
 										//right handle dragged & changed, reload left handle model if changed
-										if ( ! ( REVAPP._right_diff_start === ui.values[ 1 ] || REVAPP._right_model_loading ) ) {
+										if ( REVAPP._right_diff_start !== ui.values[ 1 ] )
 											REVAPP.reloadleft();
-										}
+
 										break;
 								}
 							}
 						}
 					});
 					$( '.revisiondiffcontainer' ).addClass( 'comparetwo' );
+					$( '#diffslider a.ui-slider-handle' ).first().addClass( 'left-handle' ).next().addClass( 'right-handle' );
 				}
 
 				return this;
@@ -571,9 +769,7 @@ window.wp = window.wp || {};
 
 				REVAPP._revisionView.render();
 
-				$( '#diff_count' ).html( REVAPP._right_diff );
 				$( '#slider' ).slider( 'value', REVAPP._right_diff - 1 ).trigger( 'slide' );
-				this.reset_restore_button();
 			},
 
 			//go the the previous revision
@@ -583,16 +779,12 @@ window.wp = window.wp || {};
 
 				REVAPP._revisionView.render();
 
-				$( '#diff_count' ).html( REVAPP._right_diff );
 				$( '#slider' ).slider( 'value', REVAPP._right_diff - 1 ).trigger( 'slide' );
-				this.reset_restore_button();
 			}
 		})
 	});
 
 	//instantiate Revision Application
 	REVAPP = new wp.revisions.App();
-	//TODO consider enable back button to step back thru states?
-	//Backbone.history.start({pushState: true});
 
 }(jQuery));

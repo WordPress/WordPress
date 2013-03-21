@@ -1306,11 +1306,50 @@ function wp_post_revision_title( $revision, $link = true ) {
 	if ( !in_array( $revision->post_type, array( 'post', 'page', 'revision' ) ) )
 		return false;
 
+	/* translators: revision date format, see http://php.net/date */
+	$datef = _x( 'j F, Y @ G:i', 'revision date format');
+	/* translators: 1: date */
+	$autosavef = __( '%1$s [Autosave]' );
+	/* translators: 1: date */
+	$currentf  = __( '%1$s [Current Revision]' );
+
+	$date = date_i18n( $datef, strtotime( $revision->post_modified ) );
+	if ( $link && current_user_can( 'edit_post', $revision->ID ) && $link = get_edit_post_link( $revision->ID ) )
+		$date = "<a href='$link'>$date</a>";
+
+	if ( !wp_is_post_revision( $revision ) )
+		$date = sprintf( $currentf, $date );
+	elseif ( wp_is_post_autosave( $revision ) )
+		$date = sprintf( $autosavef, $date );
+
+	return $date;
+}
+
+/**
+ * Retrieve formatted date timestamp of a revision (linked to that revisions's page).
+ *
+ * @package WordPress
+ * @subpackage Post_Revisions
+ * @since 3.6.0
+ *
+ * @uses date_i18n()
+ *
+ * @param int|object $revision Revision ID or revision object.
+ * @param bool $link Optional, default is true. Link to revisions's page?
+ * @return string gravatar, user, i18n formatted datetimestamp or localized 'Current Revision'.
+ */
+function wp_post_revision_title_expanded( $revision, $link = true ) {
+	if ( !$revision = get_post( $revision ) )
+		return $revision;
+
+	if ( !in_array( $revision->post_type, array( 'post', 'page', 'revision' ) ) )
+		return false;
+
 	$author = get_the_author_meta( 'display_name', $revision->post_author );
 	/* translators: revision date format, see http://php.net/date */
 	$datef = _x( 'j F, Y @ G:i:s', 'revision date format');
 
-	$gravatar = get_avatar( $revision->post_author, 18 );
+	$gravatar = get_avatar( $revision->post_author, 24 );
 
 	$date = date_i18n( $datef, strtotime( $revision->post_modified ) );
 	if ( $link && current_user_can( 'edit_post', $revision->ID ) && $link = get_edit_post_link( $revision->ID ) )
@@ -1388,10 +1427,17 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	}
 
 	/* translators: post revision: 1: when, 2: author name */
-	$titlef = _x( '%1$s by %2$s', 'post revision' );
+	$titlef = _x( '%1$s', 'post revision' );
 
 	if ( $parent )
 		array_unshift( $revisions, $post );
+
+	// since 3.6 revisions include a copy of the current post data as a revision
+	// the collowing removes this current revision if present from the list of
+	// revisions returned by wp_list_post_revisions, remove these to include the
+	// crrent post revision in the list of revisions
+	if ( wp_first_revision_matches_current_version( $post_id ) )
+		array_pop( $revisions );
 
 	$rows = $right_checked = '';
 	$class = false;
@@ -1402,34 +1448,11 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 		if ( 'revision' === $type && wp_is_post_autosave( $revision ) )
 			continue;
 
-		$date = wp_post_revision_title( $revision );
-		$name = get_the_author_meta( 'display_name', $revision->post_author );
+		$date = wp_post_revision_title_expanded( $revision );
 
-		if ( 'form-table' == $format ) {
-			if ( $left )
-				$left_checked = $left == $revision->ID ? ' checked="checked"' : '';
-			else
-				$left_checked = $right_checked ? ' checked="checked"' : ''; // [sic] (the next one)
-			$right_checked = $right == $revision->ID ? ' checked="checked"' : '';
+		$title = sprintf( $titlef, $date );
+		$rows .= "\t<li>$title</li>\n";
 
-			$class = $class ? '' : " class='alternate'";
-
-			if ( $post->ID != $revision->ID && $can_edit_post )
-				$actions = '<a href="' . wp_nonce_url( add_query_arg( array( 'revision' => $revision->ID, 'action' => 'restore' ) ), "restore-post_$post->ID|$revision->ID" ) . '">' . __( 'Restore' ) . '</a>';
-			else
-				$actions = '';
-
-			$rows .= "<tr$class>\n";
-			$rows .= "\t<th style='white-space: nowrap' scope='row'><input type='radio' name='left' value='$revision->ID'$left_checked /></th>\n";
-			$rows .= "\t<th style='white-space: nowrap' scope='row'><input type='radio' name='right' value='$revision->ID'$right_checked /></th>\n";
-			$rows .= "\t<td>$date</td>\n";
-			$rows .= "\t<td>$name</td>\n";
-			$rows .= "\t<td class='action-links'>$actions</td>\n";
-			$rows .= "</tr>\n";
-		} else {
-			$title = sprintf( $titlef, $date, $name );
-			$rows .= "\t<li>$title</li>\n";
-		}
 	}
 
 	if ( 'form-table' == $format ) : ?>
@@ -1479,27 +1502,27 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 		// if the post was previously restored from a revision
 		// show the restore event details
 		//
-		if ( $restored_from_meta = get_post_meta( $post->ID, '_post_restored_from', true ) ) { 
-			$author = get_the_author_meta( 'display_name', $restored_from_meta[ 'restored_by_user' ] ); 
-			/* translators: revision date format, see http://php.net/date */ 
-			$datef = _x( 'j F, Y @ G:i:s', 'revision date format'); 
-			$date = date_i18n( $datef, strtotime( $restored_from_meta[ 'restored_time' ] ) ); 
-			$timesince = human_time_diff( $restored_from_meta[ 'restored_time' ], current_time( 'timestamp' ) ); 
-			?> 
+		if ( $restored_from_meta = get_post_meta( $post->ID, '_post_restored_from', true ) ) {
+			$author = get_the_author_meta( 'display_name', $restored_from_meta[ 'restored_by_user' ] );
+			/* translators: revision date format, see http://php.net/date */
+			$datef = _x( 'j F, Y @ G:i:s', 'revision date format');
+			$date = date_i18n( $datef, strtotime( $restored_from_meta[ 'restored_time' ] ) );
+			$timesince = human_time_diff( $restored_from_meta[ 'restored_time' ], current_time( 'timestamp' ) ) ;
+			?>
 			<hr />
-			<div id="revisions-meta-restored"> 
-				<?php 
+			<div id="revisions-meta-restored">
+				<?php
 				/* translators: restored revision details: 1: revision ID, 2: time ago, 3: author name, 4: date */
-				printf( _x( 'Previously restored from revision ID %1$d, %2$s ago by %3$s (%4$s)', 'restored revision details' ), 
-				$restored_from_meta[ 'restored_revision_id'], 
-				$timesince, 
-				$author, 
-				$date ); 
-				?> 
-			</div> 
-			<?php 
+				printf( _x( 'Previously restored from revision ID %1$d, %2$s ago by %3$s (%4$s)', 'restored revision details' ),
+				$restored_from_meta[ 'restored_revision_id'],
+				$timesince,
+				$author,
+				$date );
+				?>
+			</div>
+			<?php
 		echo "</ul>";
-		} 
+		}
 
 	endif;
 

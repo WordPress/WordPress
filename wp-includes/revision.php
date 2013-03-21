@@ -404,3 +404,29 @@ function _show_post_preview() {
 		add_filter('the_preview', '_set_preview');
 	}
 }
+
+/**
+ * Determines if the specified post's most recent revision matches the post (by checking post_modified).
+ *
+ * @package WordPress
+ * @subpackage Post_Revisions
+ * @since 3.6.0
+ *
+ * @param int|object $post Post ID or post object.
+ * @return bool false if not a match, otherwise true.
+ */
+function wp_first_revision_matches_current_version( $post ) {
+
+        if ( ! $post = get_post( $post ) )
+                return false;
+
+        if ( ! $revisions = wp_get_post_revisions( $post->ID ) )
+                return false;
+
+        $last_revision = array_shift( $revisions );
+
+        if ( ! ($last_revision->post_modified == $post->post_modified ) )
+                return false;
+
+        return true;
+}

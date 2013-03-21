@@ -2123,34 +2123,25 @@ function wp_ajax_revisions_data() {
 	/* translators: revision date format, see http://php.net/date */
 	$datef = _x( 'j F, Y @ G:i:s', 'revision date format');
 
+	$left_revision = get_post( $compare_to );
+
 	//single model fetch mode
+	//return the diff of a single revision comparison
 	if ( 0 != $single_revision_id ) {
-		$left_revision = get_post( $compare_to );
 		$right_revision = get_post( $single_revision_id );
-
-		if ( $compare_two_mode ) {
-			$compare_to_gravatar = get_avatar( $left_revision->post_author, 18 );
-			$compare_to_author = get_the_author_meta( 'display_name', $left_revision->post_author );
-			$compare_to_date = date_i18n( $datef, strtotime( $left_revision->post_modified ) );
-
-			$revision_from_date_author = sprintf(
-				/* translators: post revision title: 1: author avatar, 2: author name, 3: time ago, 4: date */
-				_x( '%1$s %2$s, %3$s ago (%4$s)', 'post revision title' ),
-				$compare_to_gravatar,
-				$compare_to_author,
-				human_time_diff( strtotime( $left_revision->post_modified ), current_time( 'timestamp' ) ),
-				$compare_to_date
-			);
-		}
 
 		//
 		//make sure the left revision is the most recent
 		//
+
 		if ( strtotime( $right_revision->post_modified_gmt ) < strtotime( $left_revision->post_modified_gmt ) ) {
 			$temp = $left_revision;
 			$left_revision = $right_revision;
 			$right_revision = $temp;
 		}
+
+		$linesadded=0;
+		$linesdeleted=0;
 
 		//
 		//compare from left to right, passed from application
@@ -2167,41 +2158,77 @@ function wp_ajax_revisions_data() {
 			if ( ! empty( $show_split_view ) )
 				 $args = array( 'show_split_view' => true );
 
-			$content .= wp_text_diff( $left_content, $right_content, $args );
+			$diff = wp_text_diff_with_count( $left_content, $right_content, $args );
+
+			if ( isset( $diff[ 'html' ] ) )
+				$content .= $diff[ 'html' ];
+
+			if ( isset( $diff[ 'linesadded' ] ) )
+				$linesadded = $linesadded + $diff[ 'linesadded' ];
+
+			if ( isset( $diff[ 'linesdeleted' ] ) )
+				$linesdeleted = $linesdeleted + $diff[ 'linesdeleted' ];
+
+
 		}
-			$content = '' == $content ? __( 'No difference' ) : $content;
-			$alltherevisions = array (
-				'revisiondiff' => $content
-			);
+		$content = '' == $content ? __( 'No difference' ) : $content;
+
+		$alltherevisions = array (
+			'revisiondiff' => $content,
+			'lines_deleted' => $linesdeleted,
+			'lines_added' => $linesadded
+		);
 		echo json_encode( $alltherevisions );
 		exit();
-	}
+	} //end single model fetch
+
+	//fetch the list of revisions available
 
 	//if we are comparing two revisions, the first 'revision' represented by the leftmost
 	//slider position is the current revision, prepend a comparison to this revision
-	if ( $compare_two_mode ) 
-		array_unshift( $revisions, get_post( $post_id ) );
-		
+	if ( ! wp_first_revision_matches_current_version( $post_id ) ) //revisions don't have current version
+		array_unshift( $revisions, get_post( $post_id ) ) ;
+	//$revisions->append ( get_post( $post_id ) );
+	//error_log( var_dump( $revisions ));
 	$count = -1;
 
+	//reverse the list to start with oldes revision
+	$revisions = array_reverse( $revisions );
+
+	$previous_revision_id = 0;
 	foreach ( $revisions as $revision ) :
-		if ( ! empty( $show_autosaves ) && wp_is_post_autosave( $revision ) )
+		//error_log( ( $show_autosaves  ));
+		if ( empty( $show_autosaves ) && wp_is_post_autosave( $revision ) )
 				continue;
 
 		$revision_from_date_author = '';
 		$count++;
 		// return blank data for diffs to the left of the left handle (for right handel model)
 		// or to the right of the right handle (for left handel model)
-		if ( ( 0 != $left_handle_at && $count <= $left_handle_at ) || 
-			 ( 0 != $right_handle_at && $count > $right_handle_at )) { 
+		if ( ( 0 != $left_handle_at && $count <= $left_handle_at ) ||
+			 ( 0 != $right_handle_at && $count > $right_handle_at )) {
 			$alltherevisions[] = array (
 				'ID' => $revision->ID,
 			);
-			
 			continue;
 		}
 
-		$gravatar = get_avatar( $revision->post_author, 18 );
+		if ( $compare_two_mode ) {
+			$compare_to_gravatar = get_avatar( $left_revision->post_author, 24 );
+			$compare_to_author = get_the_author_meta( 'display_name', $left_revision->post_author );
+			$compare_to_date = date_i18n( $datef, strtotime( $left_revision->post_modified ) );
+
+			$revision_from_date_author = sprintf(
+				/* translators: post revision title: 1: author avatar, 2: author name, 3: time ago, 4: date */
+				_x( '%1$s %2$s, %3$s ago (%4$s)', 'post revision title' ),
+				$compare_to_gravatar,
+				$compare_to_author,
+				human_time_diff( strtotime( $left_revision->post_modified ), current_time( 'timestamp' ) ),
+				$compare_to_date
+			);
+		}
+
+		$gravatar = get_avatar( $revision->post_author, 24 );
 		$author = get_the_author_meta( 'display_name', $revision->post_author );
 		$date = date_i18n( $datef, strtotime( $revision->post_modified ) );
 		$revision_date_author = sprintf(
@@ -2213,22 +2240,58 @@ function wp_ajax_revisions_data() {
 			$date
 		);
 
+		$autosavef = __( '%1$s [Autosave]' );
+		$currentf  = __( '%1$s [Current Revision]' );
+
+		if ( ! $post = get_post( $post_id))
+			exit();
+
+		if ( $left_revision->post_modified === $post->post_modified )
+			$revision_from_date_author = sprintf( $currentf, $revision_from_date_author );
+		elseif ( wp_is_post_autosave( $left_revision ) )
+			$revision_from_date_author = sprintf( $autosavef, $revision_from_date_author );
+
+		if ( $revision->post_modified === $post->post_modified )
+			$revision_date_author = sprintf( $currentf, $revision_date_author );
+		elseif ( wp_is_post_autosave( $revision ) )
+			$revision_date_author = sprintf( $autosavef, $revision_date_author );
+
+		$date_short_format = __( 'j M @ G:i' );
+		$date_short = date_i18n( $date_short_format, strtotime( $revision->post_modified ) );
+
+		$revision_date_author_short = sprintf(
+			'%s <strong>%s</strong><br />%s',
+			$gravatar,
+			$author,
+			$date_short
+		);
+
 		$restoreaction = wp_nonce_url(
 			add_query_arg(
 				array( 'revision' => $revision->ID,
 					'action' => 'restore' ),
 					admin_url( 'revision.php' )
 			),
-			"restore-post_{$compare_to}|{$revision->ID}"
+			"restore-post_{$revision->ID}"
 		);
-
-		$alltherevisions[] = array (
+		// if this is a left handled calculation swap data
+		if ( 0 != $right_handle_at ) {
+			$tmp = $revision_from_date_author;
+			$revision_from_date_author = $revision_date_author;
+			$revision_date_author = $tmp;
+		}
+		if ( ( $compare_two_mode || 0 !== $previous_revision_id ) ) {
+			$alltherevisions[] = array (
 				'ID' => $revision->ID,
 				'revision_date_author' => $revision_date_author,
 				'revision_from_date_author' => $revision_from_date_author,
+				'revision_date_author_short' => $revision_date_author_short,
 				'restoreaction' => urldecode( $restoreaction ),
-				'revision_toload' => true
+				'revision_toload' => true,
+				'previous_revision_id' => $previous_revision_id
 			);
+		}
+		$previous_revision_id = $revision->ID;
 
 	endforeach;
 
