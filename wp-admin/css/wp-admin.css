@@ -3411,6 +3411,7 @@ td.plugin-title p {
 
 #notification-dialog .currently-editing {
 	margin-bottom: 20px;
+	outline: 0;
 }
 
 

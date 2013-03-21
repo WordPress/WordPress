@@ -299,8 +299,21 @@ jQuery(document).ready( function($) {
 
 	postboxes.add_postbox_toggles(pagenow);
 
-	// Post locks: if the Post Locked dialog is shown, focus it.
-	$('#notification-dialog:visible').find('p.currently-editing').focus();
+	// Post locks: contain focus inside the dialog. If the dialog is shown, focus the first item.
+	$('#notification-dialog').on( 'keydown', function(e) {
+		if ( e.which != 9 )
+			return;
+
+		var target = $(e.target);
+
+		if ( target.hasClass('wp-tab-first') && e.shiftKey ) {
+			$(this).find('.wp-tab-last').focus();
+			e.preventDefault();
+		} else if ( target.hasClass('wp-tab-last') && ! e.shiftKey ) {
+			$(this).find('.wp-tab-first').focus();
+			e.preventDefault();
+		}
+	}).filter(':visible').find('.wp-tab-first').focus();
 
 	// multi-taxonomies
 	if ( $('#tagsdiv-post_tag').length ) {

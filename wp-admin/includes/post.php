@@ -1215,20 +1215,22 @@ function _admin_notice_post_locked() {
 		}
 
 		$preview_link = apply_filters( 'preview_post_link', $preview_link );
+		$override = apply_filters( 'override_post_lock', true, $post, $user );
+		$tab_last = $override ? '' : ' wp-tab-last';
 
 		?>
 		<div class="post-locked-message">
 		<div class="post-locked-avatar"><?php echo get_avatar( $user->ID, 64 ); ?></div>
-		<p class="currently-editing" tabindex="0"><?php esc_html_e( sprintf( __( 'This content is currently locked. If you take over, %s will be blocked from continuing to edit.' ), $user->display_name ) ); ?></p>
+		<p class="currently-editing wp-tab-first" tabindex="0"><?php esc_html_e( sprintf( __( 'This content is currently locked. If you take over, %s will be blocked from continuing to edit.' ), $user->display_name ) ); ?></p>
 		<p>
 		<a class="button" href="<?php echo esc_url( wp_get_referer() ); ?>"><?php _e('Go back'); ?></a>
-		<a class="button" href="<?php echo esc_url( $preview_link ); ?>"><?php _e('Preview'); ?></a>
+		<a class="button<?php echo $tab_last; ?>" href="<?php echo esc_url( $preview_link ); ?>"><?php _e('Preview'); ?></a>
 		<?php
 
 		// Allow plugins to prevent some users overriding the post lock
-		if ( apply_filters( 'override_post_lock', true, $post, $user ) ) {
+		if ( $override ) {
 			?>
-			<a class="button button-primary" href="<?php echo esc_url( add_query_arg( 'get-post-lock', '1', get_edit_post_link( $post->ID, 'url' ) ) ); ?>"><?php _e('Take over'); ?></a>
+			<a class="button button-primary wp-tab-last" href="<?php echo esc_url( add_query_arg( 'get-post-lock', '1', get_edit_post_link( $post->ID, 'url' ) ) ); ?>"><?php _e('Take over'); ?></a>
 			<?php
 		}
 
@@ -1240,8 +1242,8 @@ function _admin_notice_post_locked() {
 		?>
 		<div class="post-taken-over">
 			<div class="post-locked-avatar"></div>
-			<p class="currently-editing" tabindex="0"></p>
-			<p><a class="button button-primary" href="<?php echo esc_url( admin_url('edit.php') ); ?>"><?php _e('Go to All Posts'); ?></a></p>
+			<p class="currently-editing wp-tab-first" tabindex="0"></p>
+			<p><a class="button button-primary wp-tab-last" href="<?php echo esc_url( admin_url('edit.php') ); ?>"><?php _e('Go to All Posts'); ?></a></p>
 		</div>
 		<?php
 	}
