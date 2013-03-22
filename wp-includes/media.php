@@ -1774,6 +1774,36 @@ function wp_enqueue_media( $args = array() ) {
 }
 
 /**
+ * Retrieve media attached to the passed post
+ *
+ * @since 3.6.0
+ *
+ * @param string $type (Mime) type of media desired
+ * @param int $post_id  Post ID
+ * @return array Found attachments
+ */
+function get_attached_media( $type, $post_id = 0 ) {
+	$post = empty( $post_id ) ? get_post() : get_post( $post_id );
+	if ( empty( $post ) )
+		return;
+
+	$args = array(
+		'post_parent' => $post->ID,
+		'post_type' => 'attachment',
+		'post_mime_type' => $type,
+		'posts_per_page' => -1,
+		'orderby' => 'menu_order',
+		'order' => 'ASC',
+	);
+
+	$args = apply_filters( 'get_attached_media_args', $args, $type, $post );
+
+	$children = get_children( $args );
+
+	return (array) apply_filters( 'get_attached_media', $children, $type, $post );
+}
+
+/**
  * Retrieve audio attached to the passed post
  *
  * @since 3.6.0
@@ -1782,19 +1812,7 @@ function wp_enqueue_media( $args = array() ) {
  * @return array Found audio attachments
  */
 function get_attached_audio( $post_id = 0 ) {
-	$post = empty( $post_id ) ? get_post() : get_post( $post_id );
-	if ( empty( $post ) )
-		return;
-
-	$children = get_children( array(
-		'post_parent' => $post->ID,
-		'post_type' => 'attachment',
-		'post_mime_type' => 'audio',
-		'posts_per_page' => -1
-	) );
-
-	if ( ! empty( $children ) )
-		return $children;
+	return get_attached_media( 'audio', $post_id );
 }
 
 /**
@@ -1806,19 +1824,7 @@ function get_attached_audio( $post_id = 0 ) {
  * @return array Found video attachments
  */
 function get_attached_video( $post_id = 0 ) {
-	$post = empty( $post_id ) ? get_post() : get_post( $post_id );
-	if ( empty( $post ) )
-		return;
-
-	$children = get_children( array(
-		'post_parent' => $post->ID,
-		'post_type' => 'attachment',
-		'post_mime_type' => 'video',
-		'posts_per_page' => -1
-	) );
-
-	if ( ! empty( $children ) )
-		return $children;
+	return get_attached_media( 'video', $post_id );
 }
 
 /**
@@ -2003,23 +2009,7 @@ wp_embed_register_handler( 'wp_video_embed', '#https?://.+?\.(' . join( '|', wp_
  * @return array Found image attachments
  */
 function get_attached_images( $post_id = 0 ) {
-	$post = empty( $post_id ) ? get_post() : get_post( $post_id );
-	if ( empty( $post ) )
-		return array();
-
-	$children = get_children( array(
-		'post_parent' => $post->ID,
-		'post_type' => 'attachment',
-		'post_mime_type' => 'image',
-		'posts_per_page' => -1,
-		'orderby' => 'menu_order',
-		'order' => 'ASC'
-	) );
-
-	if ( ! empty( $children ) )
-		return $children;
-
-	return array();
+	return get_attached_media( 'image', $post_id );
 }
 
 /**
