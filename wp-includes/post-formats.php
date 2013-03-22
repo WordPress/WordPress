@@ -311,19 +311,31 @@ function post_formats_compat( $content, $id = 0 ) {
 	switch ( $format ) {
 		case 'link':
 			$compat['tag'] = '';
+			$compat['position'] = 'before';
 
 			if ( ! empty( $meta['url'] ) ) {
 				$esc_url = preg_quote( $meta['url'], '#' );
 				// Make sure the same URL isn't in the post (modified/extended versions allowed)
-				if ( ! preg_match( '#' . $esc_url . '[^/&\?]#', $content ) ) {
-					$format_output .= sprintf(
-						'<a %shref="%s">%s</a>',
-						empty( $compat['link_class'] ) ? '' : sprintf( 'class="%s" ', esc_attr( $compat['link_class'] ) ),
-						esc_url( $meta['url'] ),
-						empty( $post->post_title ) ? esc_url( $meta['url'] ) : apply_filters( 'the_title', $post->post_title, $post->ID )
-					);
+				if ( ! preg_match( '#' . $esc_url . '[^/&\?]?#', $content ) ) {
+					$url = $meta['url'];
+				} else {
+					$url = get_content_url( $content, true );
 				}
+			} else {
+				$content_before = $content;
+				$url = get_content_url( $content, true );
+				if ( $content_before == $content )
+					$url = '';
 			}
+
+			if ( ! empty( $url ) ) {
+				$format_output .= sprintf(
+					'<a %shref="%s">%s</a>',
+					empty( $compat['link_class'] ) ? '' : sprintf( 'class="%s" ', esc_attr( $compat['link_class'] ) ),
+					esc_url( $url ),
+					empty( $post->post_title ) ? esc_url( $meta['url'] ) : apply_filters( 'the_title', $post->post_title )
+				);
+ 			}
 			break;
 
 		case 'quote':
@@ -377,4 +389,79 @@ function post_formats_compat( $content, $id = 0 ) {
 		$output .= "\n\n" . $content;
 
 	return $output;
+}
+
+/**
+ * Extract a URL from passed content, if possible
+ * Checks for a URL on the first line of the content or the first encountered href attribute.
+ *
+ * @since 3.6.0
+ *
+ * @param string $content A string which might contain a URL.
+ * @param boolean $remove Whether the remove the found URL from the passed content.
+ * @return string The found URL.
+ */
+function get_content_url( &$content, $remove = false ) {
+	if ( empty( $content ) )
+		return '';
+
+	$matches = array();
+
+	// the content is a URL
+	$trimmed = trim( $content );
+	if ( 0 === stripos( $trimmed, 'http' ) && ! preg_match( '#\s#', $trimmed ) ) {
+		if ( $remove )
+			$content = '';
+
+		return $trimmed;
+	// the content is HTML so we grab the first href
+	} elseif ( preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"]/is', $content, $matches ) ) {
+		return esc_url_raw( $matches[1] );
+	}
+
+	$lines = explode( "\n", $trimmed );
+	$line = trim( array_shift( $lines ) );
+
+	// the content is a URL followed by content
+	if ( 0 === stripos( $line, 'http' ) ) {
+		if ( $remove )
+			$content = trim( join( "\n", $lines ) );
+
+		return esc_url_raw( $line );
+	}
+
+	return '';
+}
+
+/**
+ * Attempt to retrieve a URL from a post's content
+ *
+ * @since 3.6.0
+ *
+ * @param int $id Optional. Post ID.
+ * @return string A URL, if found.
+ */
+function get_the_url( $id = 0 ) {
+	$post = empty( $id ) ? get_post() : get_post( $id );
+	if ( empty( $post ) )
+		return '';
+
+	if ( has_post_format( 'link', $post ) ) {
+		$meta = get_post_format_meta( $post->ID );
+		if ( ! empty( $meta['url'] ) )
+			return esc_url_raw( $meta['url'] );
+	}
+
+	if ( ! empty( $post->post_content ) )
+		return get_content_url( $post->post_content );
+}
+
+/**
+ * Attempt to output a URL from a post's content
+ *
+ * @since 3.6.0
+ *.
+ */
+function the_url() {
+	echo esc_url( get_the_url() );
 }
