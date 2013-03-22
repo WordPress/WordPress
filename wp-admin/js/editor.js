@@ -49,8 +49,15 @@ var switchEditors = {
 			if ( ed && ed.isHidden() )
 				return false;
 
-			if ( ed )
+			if ( ed ) {
 				ed.hide();
+			} else {
+				// The TinyMCE instance doesn't exist, run the content through "pre_wpautop()" and show the textarea
+				if ( tinyMCEPreInit.mceInit[id] && tinyMCEPreInit.mceInit[id].wpautop )
+					txtarea_el.value = t.pre_wpautop( txtarea_el.value );
+
+				dom.setStyles(txtarea_el, {'display': '', 'visibility': ''});
+			}
 
 			dom.removeClass(wrap_id, 'tmce-active');
 			dom.addClass(wrap_id, 'html-active');
