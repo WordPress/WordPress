@@ -874,7 +874,7 @@ function wp_audio_shortcode( $attr ) {
 	}
 
 	if ( ! $primary ) {
-		$audios = get_post_audio( $post_id );
+		$audios = get_attached_audio( $post_id );
 		if ( empty( $audios ) )
 			return;
 
@@ -981,7 +981,7 @@ function wp_video_shortcode( $attr ) {
 	}
 
 	if ( ! $primary ) {
-		$videos = get_post_video( $post_id );
+		$videos = get_attached_video( $post_id );
 		if ( empty( $videos ) )
 			return;
 
@@ -1781,7 +1781,7 @@ function wp_enqueue_media( $args = array() ) {
  * @param int $post_id  Post ID
  * @return array Found audio attachments
  */
-function get_post_audio( $post_id = 0 ) {
+function get_attached_audio( $post_id = 0 ) {
 	$post = empty( $post_id ) ? get_post() : get_post( $post_id );
 	if ( empty( $post ) )
 		return;
@@ -1805,7 +1805,7 @@ function get_post_audio( $post_id = 0 ) {
  * @param int $post_id  Post ID
  * @return array Found video attachments
  */
-function get_post_video( $post_id = 0 ) {
+function get_attached_video( $post_id = 0 ) {
 	$post = empty( $post_id ) ? get_post() : get_post( $post_id );
 	if ( empty( $post ) )
 		return;
@@ -1824,6 +1824,8 @@ function get_post_video( $post_id = 0 ) {
 /**
  * Audio embed handler callback.
  *
+ * @since 3.6.0
+ *
  * @param array $matches The regex matches from the provided regex when calling {@link wp_embed_register_handler()}.
  * @param array $attr Embed attributes.
  * @param string $url The original URL that was matched by the regex.
@@ -1840,6 +1842,8 @@ wp_embed_register_handler( 'wp_audio_embed', '#https?://.+?\.(' . join( '|', wp_
 
 /**
  * Video embed handler callback.
+ *
+ * @since 3.6.0
  *
  * @param array $matches The regex matches from the provided regex when calling {@link wp_embed_register_handler()}.
  * @param array $attr Embed attributes.
@@ -1860,3 +1864,226 @@ function wp_video_embed( $matches, $attr, $url, $rawattr ) {
 	return apply_filters( 'wp_video_embed', $video, $attr, $url, $rawattr );
 }
 wp_embed_register_handler( 'wp_video_embed', '#https?://.+?\.(' . join( '|', wp_get_video_extensions() ) . ')#i', apply_filters( 'wp_video_embed_handler', 'wp_video_embed' ), 9999 );
+
+/**
+ * Retrieve images attached to the passed post
+ *
+ * @since 3.6.0
+ *
+ * @param int $post_id Optional. Post ID.
+ * @return array Found image attachments
+ */
+function get_attached_images( $post_id = 0 ) {
+	$post = empty( $post_id ) ? get_post() : get_post( $post_id );
+	if ( empty( $post ) )
+		return array();
+
+	$children = get_children( array(
+		'post_parent' => $post->ID,
+		'post_type' => 'attachment',
+		'post_mime_type' => 'image',
+		'posts_per_page' => -1,
+		'orderby' => 'menu_order',
+		'order' => 'ASC'
+	) );
+
+	if ( ! empty( $children ) )
+		return $children;
+
+	return array();
+}
+
+/**
+ * Retrieve images attached to the passed post
+ *
+ * @since 3.6.0
+ *
+ * @param int $post_id Optional. Post ID.
+ * @return array Found image attachments
+ */
+function get_attached_image_srcs( $post_id = 0 ) {
+	$children = get_attached_images( $post_id );
+	if ( empty( $children ) )
+		return array();
+
+	$srcs = array();
+	foreach ( $children as $attachment )
+		$srcs[] = wp_get_attachment_url( $attachment->ID );
+
+	return $srcs;
+}
+
+/**
+ * Check the content blob for image srcs
+ *
+ * @since 3.6.0
+ *
+ * @param string $content A string which might contain image data.
+ * @param boolean $remove Whether to remove the found data from the passed content.
+ * @param int $limit Optional. The number of image srcs to return
+ * @return array The found image srcs
+ */
+function get_content_images( &$content, $remove = false, $limit = 0 ) {
+	$src = '';
+	$srcs = array();
+	$matches = array();
+
+	if ( $remove && preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
+		$captions = array();
+		foreach ( $matches as $shortcode ) {
+			if ( 'caption' === $shortcode[2] )
+				$captions[] = $shortcode[0];
+		}
+	}
+
+	if ( preg_match_all( '#<img[^>]+/?>#i', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
+		foreach ( $matches as $tag ) {
+			$count = 1;
+			if ( $remove ) {
+				foreach ( $captions as $caption ) {
+					if ( strstr( $caption, $tag[0] ) ) {
+						$content = str_replace( $caption, '', $content, $count );
+					}
+				}
+
+				$content = str_replace( $tag[0], '', $content, $count );
+			}
+
+			preg_match( '#src=[\'"](.+?)[\'"]#is', $tag[0], $src );
+			if ( ! empty( $src[1] ) ) {
+				$srcs[] = $src[1];
+				if ( $limit > 0 && count( $srcs ) >= $limit )
+					break;
+			}
+		}
+	}
+
+	return array_values( array_unique( $srcs ) );
+}
+
+/**
+ * Check the content blob for image srcs and return the first
+ *
+ * @since 3.6.0
+ *
+ * @param string $content A string which might contain image data.
+ * @param boolean $remove Whether to remove the found data from the passed content.
+ * @return string The found data
+ */
+function get_content_image( &$content, $remove = false ) {
+	$srcs = get_content_images( $content, $remove, 1 );
+	if ( empty( $srcs ) )
+		return '';
+
+	return reset( $srcs );
+}
+
+/**
+ * Check the content blob for galleries and return their image srcs
+ *
+ * @since 3.6.0
+ *
+ * @param string $content A string which might contain image data.
+ * @param boolean $remove Optional. Whether to remove the found data from the passed content.
+ * @param int $limit Optional. The number of galleries to return
+ * @return array A list of galleries, which in turn are a list of their srcs in order
+ */
+function get_content_galleries( &$content, $remove = false, $limit = 0 ) {
+	$src = '';
+	$galleries = array();
+	$matches = array();
+
+	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
+		foreach ( $matches as $shortcode ) {
+			if ( 'gallery' === $shortcode[2] ) {
+				$srcs = array();
+				$count = 1;
+				if ( $remove )
+					$content = str_replace( $shortcode[0], '', $content, $count );
+
+				$data = shortcode_parse_atts( $shortcode[3] );
+				$gallery = do_shortcode_tag( $shortcode );
+				preg_match_all( '#src=[\'"](.+?)[\'"]#is', $gallery, $src, PREG_SET_ORDER );
+				if ( ! empty( $src ) ) {
+					foreach ( $src as $s )
+						$srcs[] = $s[1];
+				}
+
+				$data['src'] = array_values( array_unique( $srcs ) );
+				$galleries[] = $data;
+				if ( $limit > 0 && count( $galleries ) >= $limit )
+					break;
+			}
+		}
+	}
+
+	return $galleries;
+}
+
+/**
+ * Retrieve galleries from the passed post's content
+ *
+ * @since 3.6.0
+ *
+ * @param int $post_id Optional. Post ID.
+ * @return array A list of arrays, each containing gallery data and srcs parsed
+ *		from the expanded shortcode
+ */
+function get_post_galleries( $post_id = 0 ) {
+	$post = empty( $post_id ) ? clone get_post() : get_post( $post_id );
+	if ( empty( $post ) || ! has_shortcode( $post->post_content, 'gallery' )  )
+		return array();
+
+	return get_content_galleries( $post->post_content );
+}
+
+/**
+ * Retrieve the image srcs from galleries from a post's content, if present
+ *
+ * @since 3.6.0
+ *
+ * @param int $post_id Optional. Post ID.
+ * @return array A list of lists, each containing image srcs parsed
+ *		from an expanded shortcode
+ */
+function get_post_galleries_images( $post_id = 0 ) {
+	$post = empty( $post_id ) ? clone get_post() : get_post( $post_id );
+	if ( empty( $post ) || ! has_shortcode( $post->post_content, 'gallery' )  )
+		return array();
+
+	$data = get_content_galleries( $post->post_content );
+	return wp_list_pluck( $data, 'src' );
+}
+
+/**
+ * Check a specified post's content for gallery and, if present, return the first
+ *
+ * @since 3.6.0
+ *
+ * @param int $post_id Optional. Post ID.
+ * @return array Gallery data and srcs parsed from the expanded shortcode
+ */
+function get_post_gallery( $post_id = 0 ) {
+	$post = empty( $post_id ) ? clone get_post() : get_post( $post_id );
+	if ( empty( $post ) || ! has_shortcode( $post->post_content, 'gallery' ) )
+		return array();
+
+	$data = get_content_galleries( $post->post_content, false, 1 );
+	return reset( $data );
+}
+
+/**
+ * Check a post's content for galleries and return the image srcs for the first found gallery
+ *
+ * @since 3.6.0
+ *
+ * @param int $post_id Optional. Post ID.
+ * @return array A list of a gallery's image srcs in order
+ */
+function get_post_gallery_images( $post_id = 0 ) {
+	$gallery = get_post_gallery( $post_id );
+	if ( empty( $gallery['src'] ) )
+		return array();
+
+	return $gallery['src'];
+}
