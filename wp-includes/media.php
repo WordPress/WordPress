@@ -1822,6 +1822,135 @@ function get_attached_video( $post_id = 0 ) {
 }
 
 /**
+ * Extract the srcs from the post's [{media type}] <source>s
+ *
+ * @since 3.6.0
+ *
+ * @param string $content A string which might contain media data.
+ * @param boolean $remove Whether to remove the found URL from the passed content.
+ * @return array A list of lists. Each item has a list of sources corresponding
+ *		to a [{media type}]'s primary src and specified fallbacks
+ */
+function get_content_media( $type, &$content, $remove = false ) {
+	$src = '';
+	$items = array();
+	$matches = array();
+
+	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
+		foreach ( $matches as $shortcode ) {
+			if ( $type === $shortcode[2] ) {
+				$srcs = array();
+				$count = 1;
+				if ( $remove )
+					$content = str_replace( $shortcode[0], '', $content, $count );
+
+				$item = do_shortcode_tag( $shortcode );
+				preg_match_all( '#src=[\'"](.+?)[\'"]#is', $item, $src, PREG_SET_ORDER );
+				if ( ! empty( $src ) ) {
+					foreach ( $src as $s )
+						$srcs[] = $s[1];
+
+					$items[] = array_values( array_unique( $srcs ) );
+				}
+			}
+		}
+	}
+	return $items;
+}
+
+/**
+ * Check the content blob for an <{media type}>, <object>, <embed>, or <iframe>, in that order
+ * If no HTML tag is found, check the first line of the post for a URL
+ *
+ * @since 3.6.0
+ *
+ * @param string $content A string which might contain media data.
+ * @param boolean $remove Whether to remove the found URL from the passed content.
+ * @return array A list of found HTML media embeds and possibly a URL by itself
+ */
+function get_embedded_media( $type, &$content, $remove = false ) {
+	$html = array();
+	$matches = '';
+
+	foreach ( array( $type, 'object', 'embed', 'iframe' ) as $tag ) {
+		if ( preg_match( '#' . get_tag_regex( $tag ) . '#', $content, $matches ) ) {
+			$html[] = $matches[1];
+			if ( $remove )
+				$content = str_replace( $matches[0], '', $content );
+
+			return $html;
+		}
+	}
+
+	$lines = explode( "\n", trim( $content ) );
+	$line = trim( array_shift( $lines  ) );
+
+	if ( 0 === stripos( $line, 'http' ) ) {
+		if ( $remove )
+			$content = join( "\n", $lines );
+
+		$html[] = $line;
+	}
+	return $html;
+}
+
+/**
+ * Extract the srcs from the post's [audio] <source>s
+ *
+ * @since 3.6.0
+ *
+ * @param string $content A string which might contain audio data.
+ * @param boolean $remove Whether to remove the found URL from the passed content.
+ * @return array A list of lists. Each item has a list of sources corresponding
+ *		to a [audio]'s primary src and specified fallbacks
+ */
+function get_content_audio( &$content, $remove = false ) {
+	return get_content_media( 'audio', $content, $remove );
+}
+
+/**
+ * Check the content blob for an <audio>, <object>, <embed>, or <iframe>, in that order
+ * If no HTML tag is found, check the first line of the post for a URL
+ *
+ * @since 3.6.0
+ *
+ * @param string $content A string which might contain audio data.
+ * @param boolean $remove Whether to remove the found URL from the passed content.
+ * @return array A list of found HTML audio embeds and possibly a URL by itself
+ */
+function get_embedded_audio( &$content, $remove = false ) {
+	return get_embedded_media( 'audio', $content, $remove );
+}
+
+/**
+ * Extract the srcs from the post's [video] <source>s
+ *
+ * @since 3.6.0
+ *
+ * @param string $content A string which might contain video data.
+ * @param boolean $remove Whether to remove the found URL from the passed content.
+ * @return array A list of lists. Each item has a list of sources corresponding
+ *		to a [video]'s primary src and specified fallbacks
+ */
+function get_content_video( &$content, $remove = false ) {
+	return get_content_media( 'video', $content, $remove );
+}
+
+/**
+ * Check the content blob for a <video>, <object>, <embed>, or <iframe>, in that order
+ * If no HTML tag is found, check the first line of the post for a URL
+ *
+ * @since 3.6.0
+ *
+ * @param string $content A string which might contain video data.
+ * @param boolean $remove Whether to remove the found URL from the passed content.
+ * @return array A list of found HTML video embeds and possibly a URL by itself
+ */
+function get_embedded_video( &$content, $remove = false ) {
+	return get_embedded_media( 'video', $content, $remove );
+}
+
+/**
  * Audio embed handler callback.
  *
  * @since 3.6.0
