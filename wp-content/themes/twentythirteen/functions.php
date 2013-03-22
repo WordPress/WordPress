@@ -421,17 +421,20 @@ endif;
 
 if ( ! function_exists( 'twentythirteen_get_first_url' ) ) :
 /**
- * Return the URL for the first link in the post content or the permalink if no
- * URL is found.
+ * Returns the URL from the post.
+ *
+ * @uses get_the_link() to get the URL in the post meta (if it exists) or
+ * the first link found in the post content.
+ *
+ * Falls back to the post permalink if no URL is found in the post.
  *
  * @since Twenty Thirteen 1.0
  * @return string URL
  */
 function twentythirteen_get_first_url() {
-	$has_url = preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"]/is', get_the_content(), $match );
-	$link    = ( $has_url ) ? $match[1] : apply_filters( 'the_permalink', get_permalink() );
+	$has_url = get_the_url();
 
-	return esc_url_raw( $link );
+	return ( $has_url ) ? $has_url : apply_filters( 'the_permalink', get_permalink() );
 }
 endif;
 
