@@ -447,16 +447,27 @@ if ( ! function_exists( 'twentythirteen_featured_gallery' ) ) :
 function twentythirteen_featured_gallery() {
 	$pattern = get_shortcode_regex();
 
-	if ( preg_match( "/$pattern/s", get_the_content(), $match ) ) {
-		if ( 'gallery' == $match[2] ) {
-			if ( ! strpos( $match[3], 'size' ) )
-				$match[3] .= ' size="medium"';
-
-			echo do_shortcode_tag( $match );
-		}
+	if ( preg_match( "/$pattern/s", get_the_content(), $match ) && 'gallery' == $match[2] ) {
+		add_filter( 'shortcode_atts_gallery', 'twentythirteen_gallery_atts' );
+		echo do_shortcode_tag( $match );
 	}
 }
 endif;
+
+/**
+ * Sets the image size in featured galleries to large.
+ *
+ * @see twentythirteen_featured_gallery()
+ *
+ * @since Twenty Thirteen 1.0
+ *
+ * @param array $atts Combined and filtered attribute list.
+ * @return array
+ */
+function twentythirteen_gallery_atts( $atts ) {
+	$atts['size'] = 'large';
+	return $atts;
+}
 
 /**
  * Extends the default WordPress body class to denote:
