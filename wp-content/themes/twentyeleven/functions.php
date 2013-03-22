@@ -327,27 +327,6 @@ function twentyeleven_admin_header_image() { ?>
 endif; // twentyeleven_admin_header_image
 
 /**
- * Enqueue scripts and styles.
- *
- * Hooked on priority 0 to make sure they are enqueued prior to dependent
- * scripts/styles. This is only necessary because they were previously enqueued
- * prior to wp_head() running, and we want to provide maximum
- * backwards compatibility.
- *
- * @since Twenty Eleven 1.6
- */
-function twentyeleven_scripts() {
-	wp_enqueue_style( 'twentyeleven', get_stylesheet_uri() );
-
-	/* We add some JavaScript to pages with the comment form
-	 * to support sites with threaded comments (when in use).
-	 */
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
-		wp_enqueue_script( 'comment-reply' );
-}
-add_action( 'wp_enqueue_scripts', 'twentyeleven_scripts', 0 );
-
-/**
  * Sets the post excerpt length to 40 words.
  *
  * To override this length in a child theme, remove the filter and add your own
@@ -634,35 +613,3 @@ function twentyeleven_body_classes( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'twentyeleven_body_classes' );
-
-/**
- * Creates a nicely formatted and more specific title element text
- * for output in head of document, based on current view.
- *
- * @since Twenty Eleven 1.6
- *
- * @param string $title Default title text for current view.
- * @param string $sep Optional separator.
- * @return string Filtered title.
- */
-function twentyeleven_wp_title( $title, $sep ) {
-	global $paged, $page;
-
-	if ( is_feed() )
-		return $title;
-
-	// Add the site name.
-	$title .= get_bloginfo( 'name' );
-
-	// Add the site description for the home/front page.
-	$site_description = get_bloginfo( 'description', 'display' );
-	if ( $site_description && ( is_home() || is_front_page() ) )
-		$title = "$title $sep $site_description";
-
-	// Add a page number if necessary.
-	if ( $paged >= 2 || $page >= 2 )
-		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentyeleven' ), max( $paged, $page ) );
-
-	return $title;
-}
-add_filter( 'wp_title', 'twentyeleven_wp_title', 10, 2 );
