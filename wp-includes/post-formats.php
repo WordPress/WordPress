@@ -398,7 +398,7 @@ function post_formats_compat( $content, $id = 0 ) {
  * @since 3.6.0
  *
  * @param string $content A string which might contain a URL.
- * @param boolean $remove Whether the remove the found URL from the passed content.
+ * @param boolean $remove Whether to remove the found URL from the passed content.
  * @return string The found URL.
  */
 function get_content_url( &$content, $remove = false ) {
@@ -446,14 +446,14 @@ function get_the_url( $id = 0 ) {
 	if ( empty( $post ) )
 		return '';
 
-	if ( has_post_format( 'link', $post ) ) {
+	if ( in_array( get_post_format( $post->ID, array( 'link', 'quote' ) ) ) ) {
 		$meta = get_post_format_meta( $post->ID );
 		if ( ! empty( $meta['url'] ) )
-			return esc_url_raw( $meta['url'] );
+			return apply_filters( 'get_the_url', esc_url_raw( $meta['url'] ), $post );
 	}
 
 	if ( ! empty( $post->post_content ) )
-		return get_content_url( $post->post_content );
+		return apply_filters( 'get_the_url', get_content_url( $post->post_content ), $post );
 }
 
 /**
