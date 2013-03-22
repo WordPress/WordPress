@@ -1409,7 +1409,10 @@ footer.entry-meta {
 }
 
 .blog .format-aside:first-of-type,
-.single .format-aside:first-of-type {
+.single .format-aside:first-of-type,
+.format-aside + .format-aside,
+.format-aside + .format-link,
+.format-link + .format-aside {
 	box-shadow: inset 0 2px 2px rgba(173, 165, 105, 0.2);
 }
 
@@ -1698,7 +1701,6 @@ footer.entry-meta {
 .format-link div.entry-meta {
 	display: inline;
 }
-
 
 /* Quote */
 .format-quote {
