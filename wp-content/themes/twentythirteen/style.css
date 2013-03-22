@@ -1241,6 +1241,31 @@ footer.entry-meta {
 	padding: 0;
 }
 
+/* Mediaelements */
+.entry-content .mejs-container .mejs-controls {
+	background: #220e10;
+}
+
+.entry-content .mejs-controls .mejs-time-rail .mejs-time-loaded,
+.entry-content .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
+	background: #fff;
+}
+
+.entry-content .mejs-controls .mejs-time-rail .mejs-time-current {
+	background: #ea9629;
+}
+
+.entry-content .mejs-controls .mejs-time-rail .mejs-time-total,
+.entry-content .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total {
+	background: #595959;
+}
+
+.entry-content .mejs-controls .mejs-time-rail span,
+.entry-content .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total,
+.entry-content .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
+	border-radius: 0;
+}
+
 
 /**
  * 5.4 Galleries
@@ -1441,14 +1466,11 @@ footer.entry-meta {
 }
 
 .format-audio .entry-content:before {
-	float: left;
 	content: "\f109";
+	float: left;
 	font-size: 64px;
-}
-
-.format-audio .entry-content:before,
-.format-audio .entry-content:after {
-	display: inline-block;
+	position: relative;
+	top: 4px;
 }
 
 .format-audio .entry-content a,
@@ -1469,11 +1491,16 @@ footer.entry-meta {
 	background: url(images/dotted-line.png) repeat-y left top;
 	background-size: 4px 4px;
 	float: right;
-	margin: 0 0 24px;
 	padding-left: 35px;
 	width: 80%;
 	width: -webkit-calc(100% - 115px);
 	width:         calc(100% - 115px);
+}
+
+.format-audio .wp-audio-shortcode {
+	height: 30px !important; /* Override mediaelement.js style */
+	margin: 20px 0;
+	max-width: 400px !important; /* Override mediaelement.js style */
 }
 
 .format-audio audio {

@@ -342,14 +342,13 @@ div.nav-menu > ul {
 }
 
 .format-audio .entry-content:before {
-	float: none;
-	content: normal;
-	font-size: inherit;
-}
-
-.format-audio .entry-content:after {
-	content: "\f109";
-	font-size: 64px;
+	-ms-filter: "FlipH";
+	filter: FlipH;
+	float: right;
+	-webkit-transform: scaleX(-1);
+	-moz-transform:    scaleX(-1);
+	-o-transform:      scaleX(-1);
+	transform:         scaleX(-1);
 }
 
 .format-audio .audio-content {
