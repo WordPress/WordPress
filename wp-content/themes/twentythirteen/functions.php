@@ -419,7 +419,6 @@ function twentythirteen_entry_date( $echo = true ) {
 }
 endif;
 
-if ( ! function_exists( 'twentythirteen_get_first_url' ) ) :
 /**
  * Returns the URL from the post.
  *
@@ -431,12 +430,11 @@ if ( ! function_exists( 'twentythirteen_get_first_url' ) ) :
  * @since Twenty Thirteen 1.0
  * @return string URL
  */
-function twentythirteen_get_first_url() {
+function twentythirteen_get_link_url() {
 	$has_url = get_the_url();
 
 	return ( $has_url ) ? $has_url : apply_filters( 'the_permalink', get_permalink() );
 }
-endif;
 
 if ( ! function_exists( 'twentythirteen_featured_gallery' ) ) :
 /**
