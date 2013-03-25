@@ -1703,8 +1703,22 @@ function wlwmanifest_link() {
  * @since 2.1.0
  */
 function noindex() {
+	$public = get_option( 'blog_public' );
+
+	if ( is_multisite() ) {
+		// Compare local and global and override with the local setting if they
+		// don't match.
+
+		global $current_blog;
+
+		if ( ( '' != $public ) && ( $public != $current_blog->public ) ) {
+			update_blog_status( get_current_blog_id(), 'public', $public );
+			$current_blog->public = $public;
+		}
+	}
+
 	// If the blog is not public, tell robots to go away.
-	if ( '0' == get_option('blog_public') )
+	if ( '0' == $public )
 		wp_no_robots();
 }
 

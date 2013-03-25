@@ -695,6 +695,8 @@ function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 		( $value == 1 ) ? do_action( 'archive_blog', $blog_id ) : do_action( 'unarchive_blog', $blog_id );
 	elseif ( 'deleted' == $pref )
 		( $value == 1 ) ? do_action( 'make_delete_blog', $blog_id ) : do_action( 'make_undelete_blog', $blog_id );
+	elseif ( 'public' == $pref )
+		do_action( 'update_blog_public', $blog_id, $value ); // Moved here from update_blog_public().
 
 	return $value;
 }
