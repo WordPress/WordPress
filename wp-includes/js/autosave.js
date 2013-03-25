@@ -423,8 +423,11 @@ wp.autosave.local = {
 	},
 
 	/**
-	 * Set (save) post data in the storage
+	 * Set (save or delete) post data in the storage.
 	 *
+	 * If stored_data evaluates to 'false' the storage key for the current post will be removed
+	 *
+	 * $param stored_data The post data to store or null/false/empty to delete the key
 	 * @return bool
 	 */
 	setData: function( stored_data ) {
@@ -433,7 +436,12 @@ wp.autosave.local = {
 		if ( !stored || !post_id )
 			return false;
 
-		stored[ 'post_' + post_id ] = stored_data;
+		if ( stored_data )
+			stored[ 'post_' + post_id ] = stored_data;
+		else if ( stored.hasOwnProperty( 'post_' + post_id ) )
+			delete stored[ 'post_' + post_id ];
+		else
+			return false;
 
 		return this.setStorage(stored);
 	},
@@ -470,8 +478,8 @@ wp.autosave.local = {
 		result = this.setData( post_data );
 
 		// temp logging
-		if ( this.debug )
-			console.log( 'saved, post content = %s', post_data.content );
+		if ( typeof console != 'undefined' )
+			console.log( 'Local autosave: saved, post content = %s', post_data.content );
 
 		if ( result )
 			this.lastsaveddata = post_data.post_title + ': ' + post_data.content;
@@ -566,23 +574,29 @@ wp.autosave.local = {
 		var self = this, post_data = this.getData(), content, check_data, strip_tags = false, notice,
 			post_id = $('#post_ID').val() || 0, cookie = wpCookies.get( 'wp-saving-post-' + post_id );
 
+		// temp logging
+		if ( typeof console != 'undefined' )
+			console.log( 'Local autosave: checkPost, cookie = %s, post content = %s', cookie, post_data && post_data.content );
+
 		if ( ! post_data )
 			return;
 
-		if ( cookie )
+		if ( cookie ) {
 			wpCookies.remove( 'wp-saving-post-' + post_id );
+
+			if ( cookie == 'saved' ) {
+				// The post was saved properly, remove old data and bail
+				this.setData( false );
+				return;
+			}
+		}
 
 		// There is a newer autosave. Don't show two "restore" notices at the same time.
 		if ( $('#has-newer-autosave').length )
 			return;
 
-		// temp logging
-		if ( typeof console != 'undefined' )
-			console.log( 'checkPost, post content = %s', post_data.content );
-
-		if ( cookie == 'saved' ) {
-			return;
-		} else if ( cookie != 'check' ) {
+		// cookie == 'check' means the post was not saved properly, always show #local-storage-notice
+		if ( cookie != 'check' ) {
 			content = $('#content').val();
 			check_data = $.extend( {}, post_data );
 
