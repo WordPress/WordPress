@@ -153,9 +153,16 @@ function get_template_part( $slug, $name = null ) {
  * @return string|null String when retrieving, null when displaying or if searchform.php exists.
  */
 function get_search_form( $echo = true ) {
+	static $search_form_counter = 0;
+
 	do_action( 'pre_get_search_form' );
 
 	$format = apply_filters( 'search_form_format', 'xhtml' );
+
+	// Initialize the values
+	$form_id   = $search_form_counter ? '' : ' id="searchform"';
+	$submit_id = $search_form_counter ? '' : ' id="searchsubmit"';
+	$text_id   = $search_form_counter ? 's-' . $search_form_counter : 's';
 
 	$search_form_template = locate_template( 'searchform.php' );
 	if ( '' != $search_form_template ) {
@@ -163,21 +170,31 @@ function get_search_form( $echo = true ) {
 		require( $search_form_template );
 		$form = ob_get_clean();
 	} else {
-		$type        = ( 'html5' === $format ) ? 'search' : 'text';
-		$placeholder = ( 'html5' === $format ) ? 'placeholder="' . esc_attr_x( 'Search &hellip;', 'placeholder' ) . '" ' : '';
-
-		$form = '<form role="search" method="get" id="searchform" class="searchform" action="' . esc_url( home_url( '/' ) ) . '">
-			<div>
-				<label class="screen-reader-text" for="s">' . _x( 'Search for:', 'label' ) . '</label>
-				<input type="' . $type . '" ' . $placeholder . 'value="' . get_search_query() . '" name="s" id="s" />
-				<input type="submit" id="searchsubmit" value="'. esc_attr_x( 'Search', 'submit button' ) .'" />
-			</div>
-		</form>';
+		if ( 'html5' == $format ) {
+			$form = '<form role="search" method="get" class="searchform" action="' . esc_url( home_url( '/' ) ) . '"> 
+				<div> 
+					<label><span class="screen-reader-text">' . _x( 'Search for:', 'label' ) . '</span> 
+						<input type="search" placeholder="' . esc_attr_x( 'Search &hellip;', 'placeholder' ) . '" value="' . get_search_query() . '" name="s" title="' . _x( 'Search for:', 'label' ) . '" /> 
+					</label> 
+					<input type="submit" class="searchsubmit" value="'. esc_attr_x( 'Search', 'submit button' ) .'" /> 
+				</div> 
+			</form>'; 
+		} else { 
+			$form = '<form role="search" method="get"' . $form_id . ' class="searchform" action="' . esc_url( home_url( '/' ) ) . '"> 
+				<div> 
+					<label class="screen-reader-text" for="' . $text_id . '">' . _x( 'Search for:', 'label' ) . '</label> 
+					<input type="text" value="' . get_search_query() . '" name="s" id="' . $text_id . '" /> 
+					<input type="submit"' . $submit_id . ' value="'. esc_attr_x( 'Search', 'submit button' ) .'" /> 
+				</div> 
+			</form>';
+		}
 	}
 
 	$result = apply_filters( 'get_search_form', $form );
 	if ( null === $result )
 		$result = $form;
+
+	$search_form_counter++;
 
 	if ( $echo )
 		echo $result;
