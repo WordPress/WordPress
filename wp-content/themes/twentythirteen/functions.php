@@ -546,6 +546,17 @@ function twentythirteen_aside_date( $content ) {
 add_filter( 'the_content', 'twentythirteen_aside_date', 8 ); // After embeds, before everything else.
 
 /**
+ * Switches default core markup for search form to output valid HTML5.
+ *
+ * @param string $format Expected markup format, default is `xhtml`
+ * @return string Twenty Thirteen loves HTML5.
+ */
+function twentythirteen_searchform_format( $format ) {
+	return 'html5';
+}
+add_filter( 'search_form_format', 'twentythirteen_searchform_format' );
+
+/**
  * Add postMessage support for site title and description for the Customizer.
  *
  * @since Twenty Thirteen 1.0
