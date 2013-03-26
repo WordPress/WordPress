@@ -141,7 +141,7 @@ function get_template_part( $slug, $name = null ) {
  * form into the sidebar and also by the search widget in WordPress.
  *
  * There is also an action that is called whenever the function is run called,
- * 'get_search_form'. This can be useful for outputting JavaScript that the
+ * 'pre_get_search_form'. This can be useful for outputting JavaScript that the
  * search relies on or various formatting that applies to the beginning of the
  * search. To give a few examples of what it can be used for.
  *
@@ -153,7 +153,7 @@ function get_template_part( $slug, $name = null ) {
  * @return string|null String when retrieving, null when displaying or if searchform.php exists.
  */
 function get_search_form( $echo = true ) {
-	do_action( 'get_search_form' );
+	do_action( 'pre_get_search_form' );
 
 	$format = apply_filters( 'search_form_format', 'xhtml' );
 
@@ -175,10 +175,14 @@ function get_search_form( $echo = true ) {
 		</form>';
 	}
 
+	$result = apply_filters( 'get_search_form', $form );
+	if ( null === $result )
+		$result = $form;
+
 	if ( $echo )
-		echo apply_filters( 'get_search_form', $form );
+		echo $result;
 	else
-		return apply_filters( 'get_search_form', $form );
+		return $result;
 }
 
 /**
