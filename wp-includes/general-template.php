@@ -146,12 +146,16 @@ function get_template_part( $slug, $name = null ) {
  * search. To give a few examples of what it can be used for.
  *
  * @since 2.7.0
+ * @uses apply_filters() Calls 'search_form_format' filter to determine which type to use for the search field.
+ *  If set to 'html5', it changes to search input type and adds placeholder text.
+ *
  * @param boolean $echo Default to echo and not return the form.
- * @param string $format Which type to use for the search field. If set to 'html5' it changes to search input type and adds placeholder text.
  * @return string|null String when retrieving, null when displaying or if searchform.php exists.
  */
-function get_search_form( $echo = true, $format = 'xhtml' ) {
+function get_search_form( $echo = true ) {
 	do_action( 'get_search_form' );
+
+	$format = apply_filters( 'search_form_format', 'xhtml' );
 
 	$search_form_template = locate_template( 'searchform.php' );
 	if ( '' != $search_form_template ) {
