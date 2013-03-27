@@ -2218,7 +2218,7 @@ function get_content_images( &$content, $html = true, $remove = false, $limit = 
 		}
 	}
 
-	return array_values( array_unique( $srcs ) );
+	return apply_filters( 'content_images', array_values( array_unique( $srcs ) ), $content );
 }
 
 /**
@@ -2236,7 +2236,7 @@ function get_content_image( &$content, $html = true, $remove = false ) {
 	if ( empty( $srcs ) )
 		return '';
 
-	return reset( $srcs );
+	return apply_filters( 'content_image', reset( $srcs ), $content );
 }
 
 /**
@@ -2278,7 +2278,7 @@ function get_content_galleries( &$content, $remove = false, $limit = 0 ) {
 		}
 	}
 
-	return $galleries;
+	return apply_filters( 'content_galleries', $galleries, $content );
 }
 
 /**
