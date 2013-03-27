@@ -697,6 +697,9 @@ form.upgrade .hint {
 .fixed .column-comments a {
 	float: right;
 }
+.fixed .column-menus {
+	text-align: right;
+}
 .sorting-indicator {
 	margin-left: 0;
 	margin-right: 7px;
@@ -2080,6 +2083,27 @@ body.login {
 #wpbody-content #menu-settings-column {
 	margin-right: -300px;
 	margin-left: 0;
+	float: right;
+}
+
+.menu-location-menus select {
+	float: right;
+}
+
+.locations-row-links {
+	float: right;
+	margin: 4px 6px 0 0;
+}
+
+.locations-add-menu-link {
+	direction: rtl;
+}
+
+.locations-edit-menu-link {
+	border-left: 1px solid #CCCCCC;
+	border-right: 0;
+	padding-left: 6px;
+	padding-right: 0;
 	float: right;
 }
 

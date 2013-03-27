@@ -48,6 +48,8 @@ var wpNavMenu;
 			if ( menus.oneThemeLocationNoMenus )
 				$( '#posttype-page' ).addSelectedToMenu( api.addMenuItemToBottom );
 
+			this.initManageLocations();
+
 			this.initAccessibility();
 
 			this.initToggles();
@@ -735,6 +737,19 @@ var wpNavMenu;
 			}
 		},
 
+		initManageLocations : function () {
+			$('#menu-locations-wrap form').submit(function(){
+				window.onbeforeunload = null;
+			});
+			$('.menu-location-menus select').on('change', function () {
+				var editLink = $(this).closest('tr').find('.locations-edit-menu-link');
+				if ($(this).find('option:selected').data('orig'))
+					editLink.show();
+				else
+					editLink.hide();
+			});
+		},
+
 		attachMenuEditListeners : function() {
 			var that = this;
 			$('#update-nav-menu').bind('click', function(e) {
@@ -927,11 +942,11 @@ var wpNavMenu;
 		},
 
 		attachUnsavedChangesListener : function() {
-			$('#menu-management input, #menu-management select, #menu-management, #menu-management textarea').change(function(){
+			$('#menu-management input, #menu-management select, #menu-management, #menu-management textarea, .menu-location-menus select').change(function(){
 				api.registerChange();
 			});
 
-			if ( 0 != $('#menu-to-edit').length ) {
+			if ( 0 != $('#menu-to-edit').length || 0 != $('.menu-location-menus select').length ) {
 				window.onbeforeunload = function(){
 					if ( api.menusChanged )
 						return navMenuL10n.saveAlert;
