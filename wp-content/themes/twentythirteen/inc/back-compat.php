@@ -4,7 +4,7 @@
  * to the previously activated theme or the default theme.
  */
 function twentythirteen_switch_theme( $theme_name, $theme ) {
-	if ( version_compare( $GLOBALS['wp_version'], '3.6', '>=' ) )
+	if ( version_compare( $GLOBALS['wp_version'], '3.6-alpha', '>=' ) )
 		return;
 
 	if ( 'twentythirteen' != $theme->template )
