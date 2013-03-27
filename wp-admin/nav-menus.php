@@ -486,7 +486,7 @@ require_once( './admin-header.php' );
 			<?php printf( __( 'Edit your menu below, or <a href="%s">create a new menu</a>.' ), esc_url( add_query_arg( array( 'action' => 'edit', 'menu' => 0 ), admin_url( 'nav-menus.php' ) ) ) ); ?>
 		</span><!-- /add-edit-menu-action -->
 	<?php else : ?>
-		<form method="post" action="<?php echo admin_url( 'nav-menus.php' ); ?>">
+		<form method="get" action="">
 			<input type="hidden" name="action" value="edit" />
 			<label for="menu" class="selected-menu"><?php _e( 'Select a menu to edit:' ); ?></label>
 			<select name="menu" id="menu">
@@ -527,7 +527,7 @@ require_once( './admin-header.php' );
 
 		<div class="clear"></div>
 
-		<form id="nav-menu-meta" action="<?php echo admin_url( 'nav-menus.php' ); ?>" class="nav-menu-meta" method="post" enctype="multipart/form-data">
+		<form id="nav-menu-meta" action="" class="nav-menu-meta" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="menu" id="nav-menu-meta-object-id" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
 			<input type="hidden" name="action" value="add-menu-item" />
 			<?php wp_nonce_field( 'add-menu_item', 'menu-settings-column-nonce' ); ?>
@@ -537,7 +537,7 @@ require_once( './admin-header.php' );
 	</div><!-- /#menu-settings-column -->
 	<div id="menu-management-liquid">
 		<div id="menu-management">
-			<form id="update-nav-menu" action="<?php echo esc_url( admin_url( 'nav-menus.php' ) ); ?>" method="post" enctype="multipart/form-data">
+			<form id="update-nav-menu" action="" method="post" enctype="multipart/form-data">
 				<div class="menu-edit <?php if ( $add_new_screen ) echo 'blank-slate'; ?>">
 					<?php
 					wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
