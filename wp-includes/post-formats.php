@@ -340,15 +340,12 @@ function post_formats_compat( $content, $id = 0 ) {
 
 		case 'quote':
 			if ( ! empty( $meta['quote'] ) && ! stristr( $content, $meta['quote'] ) ) {
-				$format_output .= sprintf( '<blockquote>%s</blockquote>', $meta['quote'] );
+				$quote = sprintf( '<blockquote>%s</blockquote>', wpautop( $meta['quote'] ) );
 				if ( ! empty( $meta['quote_source'] ) ) {
-					$format_output .= sprintf(
-						'<cite>%s</cite>',
-						! empty( $meta['url'] ) ?
-							sprintf( '<a href="%s">%s</a>', esc_url( $meta['url'] ), $meta['quote_source'] ) :
-							$meta['quote_source']
-					);
+					$source = ( empty( $quote_meta['url'] ) ) ? $meta['quote_source'] : sprintf( '<a href="%s">%s</a>', esc_url( $meta['url'] ), $meta['quote_source'] );
+					$quote .= sprintf( '<figcaption class="quote-caption">%s</figcaption>', $source );
 				}
+				$format_output .= sprintf( '<figure class="quote">%s</figure>', $quote );
 			}
 			break;
 
