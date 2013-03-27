@@ -1565,7 +1565,7 @@ if ( !function_exists('wp_set_password') ) :
 function wp_set_password( $password, $user_id ) {
 	global $wpdb;
 
-	$hash = wp_hash_password($password);
+	$hash = wp_hash_password( trim( $password ) );
 	$wpdb->update($wpdb->users, array('user_pass' => $hash, 'user_activation_key' => ''), array('ID' => $user_id) );
 
 	wp_cache_delete($user_id, 'users');
