@@ -1659,6 +1659,15 @@ footer.entry-meta {
 	font-weight: bold;
 }
 
+.format-image .entry-header {
+	max-width: 724px;
+}
+
+.format-image .entry-header img {
+	height: auto;
+	max-width: 724px;
+}
+
 .format-image .entry-content .size-full {
 	margin: 0 -60px;
 	max-width: 724px;
@@ -1871,6 +1880,10 @@ footer.entry-meta {
 .format-video .entry-title {
 	font-size: 50px;
 	font-weight: 400;
+}
+
+.format-video .entry-header {
+	max-width: 724px;
 }
 
 .format-video .entry-meta {
