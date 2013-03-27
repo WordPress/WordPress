@@ -1538,10 +1538,16 @@ footer.entry-meta {
 	margin: 0;
 }
 
-.format-chat .chat-transcript dt {
-	color: #686758;
-	font-style: italic;
+.format-chat .chat-transcript time {
+	color: #722d19;
+	float: right;
+	font-size: 12px;
 	font-weight: normal;
+	margin: 5px 10px 0;
+}
+
+.format-chat .chat-transcript cite {
+	font-style: normal;
 }
 
 /* Gallery */
