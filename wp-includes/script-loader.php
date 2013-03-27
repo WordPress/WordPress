@@ -113,6 +113,11 @@ function wp_default_scripts( &$scripts ) {
 		apply_filters( 'heartbeat_settings', array() )
 	);
 
+	$scripts->add( 'wp-auth-check', "/wp-includes/js/wp-auth-check$suffix.js", array('heartbeat'), false, 1 );
+	did_action( 'init' ) && $scripts->localize( 'wp-auth-check', 'authcheckL10n', array(
+		'beforeunload' => __('Your session has expired. You can log in again from this page or go to the login page.'),
+	) );
+
 	$scripts->add( 'wp-lists', "/wp-includes/js/wp-lists$suffix.js", array( 'wp-ajax-response', 'jquery-color' ), false, 1 );
 
 	// WordPress no longer uses or bundles Prototype or script.aculo.us. These are now pulled from an external source.
@@ -543,6 +548,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'customize-controls', "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie' ) );
 	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css", array( 'buttons' ) );
 	$styles->add( 'buttons', "/wp-includes/css/buttons$suffix.css" );
+	$styles->add( 'wp-auth-check', "/wp-includes/css/wp-auth-check$suffix.css" );
 
 	$styles->add( 'mediaelement', "/wp-includes/js/mediaelement/mediaelementplayer$suffix.css" );
 	$styles->add( 'wp-mediaelement', "/wp-includes/js/mediaelement/wp-mediaelement.css", array( 'mediaelement' ) );

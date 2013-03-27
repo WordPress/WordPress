@@ -1,0 +1,76 @@
+/*------------------------------------------------------------------------------
+ Interim login dialog
+------------------------------------------------------------------------------*/
+
+#wp-auth-check-wrap.hidden {
+	display: none;
+}
+
+#wp-auth-check-wrap #wp-auth-check-bg {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: #000;
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+	z-index: 1000000;
+}
+
+#wp-auth-check-wrap #wp-auth-check {
+	position: fixed;
+	left: 50%;
+	overflow: hidden;
+	top: 40px;
+	bottom: 20px;
+	max-height: 435px;
+	width: 380px;
+	margin: 0 0 0 -190px;
+	padding: 0;
+	background-color: #fbfbfb;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	z-index: 1000001;
+}
+
+#wp-auth-check-wrap.fallback #wp-auth-check {
+	max-height: 180px;
+	overflow: auto;
+}
+
+#wp-auth-check-wrap #wp-auth-check-form {
+	background: url('../images/wpspin-2x.gif') no-repeat center center;
+	background-size: 16px 16px;
+	height: 100%;
+}
+
+#wp-auth-check-wrap #wp-auth-check-form iframe {
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+}
+
+#wp-auth-check-wrap .wp-auth-check-close {
+	bottom: 10px;
+	display: none;
+	position: absolute;
+	right: 30px;
+}
+
+#wp-auth-check-wrap .wp-auth-fallback-expired {
+	outline: 0;
+}
+
+#wp-auth-check-wrap .wp-auth-fallback {
+	font-size: 14px;
+	line-height: 21px;
+	padding: 10px 25px;
+	display: none;
+}
+
+#wp-auth-check-wrap.fallback .wp-auth-fallback,
+#wp-auth-check-wrap.fallback .wp-auth-check-close {
+	display: block;
+}
+

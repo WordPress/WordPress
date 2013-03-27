@@ -48,10 +48,10 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 		$wp_error = new WP_Error();
 
 	// Shake it!
-	$shake_error_codes = array( 'empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password' );
+	$shake_error_codes = array( 'interim_login_error', 'empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password' );
 	$shake_error_codes = apply_filters( 'shake_error_codes', $shake_error_codes );
 
-	if ( ! $interim_login && $shake_error_codes && $wp_error->get_error_code() && in_array( $wp_error->get_error_code(), $shake_error_codes ) )
+	if ( $shake_error_codes && $wp_error->get_error_code() && in_array( $wp_error->get_error_code(), $shake_error_codes ) )
 		add_action( 'login_head', 'wp_shake_js', 12 );
 
 	?><!DOCTYPE html>
@@ -100,6 +100,12 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 		// Don't allow interim logins to navigate away from the page.
 		$login_header_url = '#';
 		$classes[] = 'interim-login';
+		?>
+		<style type="text/css">html{background-color: transparent;}</style>
+		<?php
+
+		if ( 'success' ===  $interim_login )
+			$classes[] = 'interim-login-success';
 	}
 
 	$classes = apply_filters( 'login_body_class', $classes, $action );
@@ -624,6 +630,7 @@ default:
 	if ( !is_wp_error($user) && !$reauth ) {
 		if ( $interim_login ) {
 			$message = '<p class="message">' . __('You have logged in successfully.') . '</p>';
+			$interim_login = 'success';
 			login_header( '', $message ); ?>
 			</div>
 			<?php do_action( 'login_footer' ); ?>
@@ -648,29 +655,42 @@ default:
 	}
 
 	$errors = $user;
-	// Clear errors if loggedout or interim_login is set.
-	if ( !empty($_GET['loggedout']) || $reauth || $interim_login )
+	// Clear errors if loggedout is set.
+	if ( !empty($_GET['loggedout']) || $reauth )
 		$errors = new WP_Error();
 
 	// If cookies are disabled we can't log in even with a valid user+pass
 	if ( isset($_POST['testcookie']) && empty($_COOKIE[TEST_COOKIE]) )
 		$errors->add('test_cookie', __("<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress."));
 
-	// Some parts of this script use the main login form to display a message
-	if		( isset($_GET['loggedout']) && true == $_GET['loggedout'] )
-		$errors->add('loggedout', __('You are now logged out.'), 'message');
-	elseif	( isset($_GET['registration']) && 'disabled' == $_GET['registration'] )
-		$errors->add('registerdisabled', __('User registration is currently not allowed.'));
-	elseif	( isset($_GET['checkemail']) && 'confirm' == $_GET['checkemail'] )
-		$errors->add('confirm', __('Check your e-mail for the confirmation link.'), 'message');
-	elseif	( isset($_GET['checkemail']) && 'newpass' == $_GET['checkemail'] )
-		$errors->add('newpass', __('Check your e-mail for your new password.'), 'message');
-	elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )
-		$errors->add('registered', __('Registration complete. Please check your e-mail.'), 'message');
-	elseif	( $interim_login )
-		$errors->add('expired', __('Please log in again. You will not move away from this page.'), 'message');
-	elseif ( strpos( $redirect_to, 'about.php?updated' ) )
-		$errors->add('updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to experience the awesomeness.' ), 'message' );
+	// Clear most errors if interim login
+	if ( $interim_login ) {
+		$error_code = $errors->get_error_code();
+		$errors = new WP_Error();
+
+		if ( $error_code ) {
+			if ( in_array( $error_code, array( 'empty_password', 'empty_username', 'invalid_username', 'incorrect_password' ) ) )
+				$errors->add('interim_login_error', __('<strong>ERROR</strong>: Invalid username or password.'));
+			else
+				$errors->add('interim_login_error_other', sprintf( __( '<strong>ERROR</strong>: Please contact the site administrator or try to <a href="%s" target="_blank">log in from a new window</a>.' ), wp_login_url() ) );
+		} else {
+			$errors->add('expired', __('Session expired. Please log in again. You will not move away from this page.'), 'message');
+		}
+	} else {
+		// Some parts of this script use the main login form to display a message
+		if		( isset($_GET['loggedout']) && true == $_GET['loggedout'] )
+			$errors->add('loggedout', __('You are now logged out.'), 'message');
+		elseif	( isset($_GET['registration']) && 'disabled' == $_GET['registration'] )
+			$errors->add('registerdisabled', __('User registration is currently not allowed.'));
+		elseif	( isset($_GET['checkemail']) && 'confirm' == $_GET['checkemail'] )
+			$errors->add('confirm', __('Check your e-mail for the confirmation link.'), 'message');
+		elseif	( isset($_GET['checkemail']) && 'newpass' == $_GET['checkemail'] )
+			$errors->add('newpass', __('Check your e-mail for your new password.'), 'message');
+		elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )
+			$errors->add('registered', __('Registration complete. Please check your e-mail.'), 'message');
+		elseif ( strpos( $redirect_to, 'about.php?updated' ) )
+			$errors->add('updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to experience the awesomeness.' ), 'message' );
+	}
 
 	// Clear any stale cookies.
 	if ( $reauth )

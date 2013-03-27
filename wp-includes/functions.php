@@ -3887,43 +3887,69 @@ function wp_checkdate( $month, $day, $year, $source_date ) {
 }
 
 /**
- * Load the auth check, for monitoring whether the user is still logged in
+ * Load the auth check for monitoring whether the user is still logged in.
+ * Can be disabled with remove_action( 'init', 'wp_auth_check_load' );
  *
  * @since 3.6.0
  *
  * @return void
  */
 function wp_auth_check_load() {
-	wp_enqueue_script( 'heartbeat' );
-	add_filter( 'heartbeat_received', 'wp_auth_check', 10, 2 );
-	add_filter( 'heartbeat_nopriv_received', 'wp_auth_check', 10, 2 );
+	global $pagenow;
 
-	if ( is_admin() )
-		add_action( 'admin_print_footer_scripts', 'wp_auth_check_js' );
-	elseif ( is_user_logged_in() )
-		add_action( 'wp_print_footer_scripts', 'wp_auth_check_js' );
+	// Don't load for these types of requests
+	if ( defined('XMLRPC_REQUEST') || defined('IFRAME_REQUEST') || 'wp-login.php' == $pagenow )
+		return;
+
+	if ( is_admin() || is_user_logged_in() ) {
+		if ( defined('DOING_AJAX') ) {
+			add_filter( 'heartbeat_received', 'wp_auth_check', 10, 2 );
+			add_filter( 'heartbeat_nopriv_received', 'wp_auth_check', 10, 2 );
+		} else {
+			wp_enqueue_style( 'wp-auth-check' );
+			wp_enqueue_script( 'wp-auth-check' );
+
+			if ( is_admin() )
+				add_action( 'admin_print_footer_scripts', 'wp_auth_check_html', 5 );
+			else
+				add_action( 'wp_print_footer_scripts', 'wp_auth_check_html', 5 );
+		}
+	}
 }
 
 /**
- * Output the JS that shows the wp-login iframe when the user is no longer logged in
+ * Output the HTML that shows the wp-login dialog when the user is no longer logged in
  */
-function wp_auth_check_js() {
-	?>
-	<script type="text/javascript">
-	(function($){
-	$( document ).on( 'heartbeat-tick.wp-auth-check', function( e, data ) {
-		var wrap = $('#wp-auth-check-notice-wrap');
+function wp_auth_check_html() {
+	$login_url = wp_login_url();
+	$current_domain = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'];
+	$same_domain = ( strpos( $login_url, $current_domain ) === 0 );
+	
+	// Let plugins change this if they know better.
+	$same_domain = apply_filters( 'wp_auth_check_same_domain', $same_domain );
+	$wrap_class = $same_domain ? 'hidden' : 'hidden fallback';
 
-		if ( data['wp-auth-check-html'] && ! wrap.length ) {
-			$('body').append( data['wp-auth-check-html'] );
-		} else if ( !data['wp-auth-check-html'] && wrap.length && ! wrap.data('logged-in') ) {
-			wrap.remove();
-		}
-	}).on( 'heartbeat-send.wp-auth-check', function( e, data ) {
-		data['wp-auth-check'] = 1;
-	});
-	}(jQuery));
-	</script>
+	?>
+	<div id="wp-auth-check-wrap" class="<?php echo $wrap_class; ?>">
+	<div id="wp-auth-check-bg"></div>
+	<div id="wp-auth-check">
+	<?php
+
+	if ( $same_domain ) {
+		?>
+		<div id="wp-auth-check-form" data-src="<?php echo esc_url( add_query_arg( array( 'interim-login' => 1 ), $login_url ) ); ?>"></div>
+		<?php
+	}
+
+	?>
+	<div class="wp-auth-fallback">
+		<p><b class="wp-auth-fallback-expired" tabindex="0"><?php _e('Session expired'); ?></b></p>
+		<p><a href="<?php echo esc_url( $login_url ); ?>" target="_blank"><?php _e('Please log in again.'); ?></a>
+		<?php _e('The login page will open in a new window. After logging in you can close it and return to this page.'); ?></p>
+	</div>
+	<p class="wp-auth-check-close"><a href="#" class="button button-primary"><?php _e('Close'); ?></a></p>
+	</div>
+	</div>
 	<?php
 }
 
@@ -3940,85 +3966,7 @@ function wp_auth_check( $response, $data ) {
 	if ( is_user_logged_in() && empty( $GLOBALS['login_grace_period'] ) )
 		return $response;
 
-	return array_merge( $response, array(
-		'wp-auth-check-html' => '<div id="wp-auth-check-notice-wrap">
-<style type="text/css" scoped>
-#wp-auth-check {
-	position: fixed;
-	height: 90%;
-	left: 50%;
-	max-height: 415px;
-	overflow: auto;
-	top: 35px;
-	width: 300px;
-	margin: 0 0 0 -160px;
-	padding: 12px 20px;
-	border: 1px solid #ddd;
-	background-color: #fbfbfb;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	z-index: 1000000000;
-}
-#wp-auth-check-form {
-	background: url("' . admin_url('/images/wpspin_light-2x.gif') . '") no-repeat center center;
-	background-size: 16px 16px;
-}
-#wp-auth-check-form iframe {
-	height: 100%;
-	overflow: hidden;
-}
-#wp-auth-check a.wp-auth-check-close {
-	position: absolute;
-	right: 8px;
-	top: 8px;
-	width: 24px;
-	height: 24px;
-	background: url("' . includes_url('images/uploader-icons.png') . '") no-repeat scroll -95px center transparent;
-}
-#wp-auth-check h3 {
-	margin: 0 0 12px;
-	padding: 0;
-	font-size: 1.25em;
-}
-@media print,
-  (-o-min-device-pixel-ratio: 5/4),
-  (-webkit-min-device-pixel-ratio: 1.25),
-  (min-resolution: 120dpi) {
-	#wp-auth-check a.wp-auth-check-close {
-		background-image: url("' . includes_url('images/uploader-icons-2x.png') . '");
-		background-size: 134px 15px;
-	}
-}
-</style>
-<div id="wp-auth-check" tabindex="0">
-<h3>' .  __('Session expired') . '</h3>
-<a href="#" class="wp-auth-check-close"><span class="screen-reader-text">' . __('close') . '</span></a>
-<div id="wp-auth-check-form">
-	<iframe src="' . esc_url( add_query_arg( array( 'interim-login' => 1 ), wp_login_url() ) ) . '" frameborder="0"></iframe>
-</div>
-</div>
-<script type="text/javascript">
-(function($){
-var el, wrap = $("#wp-auth-check-notice-wrap");
-el = $("#wp-auth-check").focus().find("a.wp-auth-check-close").on("click", function(e){
-	el.fadeOut(200, function(){ wrap.remove(); });
-	e.preventDefault();
-});
-$("#wp-auth-check-form iframe").load(function(){
-	var height;
-	try { height = $(this.contentWindow.document).find("#login").height(); } catch(er){}
-	if ( height ) {
-		$("#wp-auth-check").css("max-height", height + 40 + "px");
-		$(this).css("height", height + 5 + "px");
-		if ( height < 200 ) {
-			wrap.data("logged-in", true);
-			setTimeout( function(){ wrap.fadeOut(200, function(){ wrap.remove(); }); }, 5000 );
-		}
-	}
-});
-}(jQuery));
-</script>
-</div>' ) );
+	return array_merge( $response, array( 'wp-auth-check' => '1' ) );
 }
 
 /**

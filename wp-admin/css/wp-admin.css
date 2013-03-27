@@ -7291,9 +7291,13 @@ a.rsswidget {
 	width: auto;
 }
 
+body.interim-login {
+	height: auto;
+}
+
 .interim-login #login {
 	padding: 0;
-	width: 300px;
+	margin: 25px auto 20px;
 }
 
 .interim-login.login h1 a {
