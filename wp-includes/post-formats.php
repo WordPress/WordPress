@@ -392,6 +392,219 @@ function post_formats_compat( $content, $id = 0 ) {
 }
 
 /**
+ * Add chat detection support to the `get_content_chat()` chat parser
+ *
+ * @since 3.6.0
+ *
+ * @global array $_wp_chat_parsers
+ * @param string $name Unique identifier for chat format. Example: IRC
+ * @param string $newline_regex RegEx to match the start of a new line, typically when a new "username:" appears
+ *	The parser will handle up to 3 matched expressions
+ *	$matches[0] = the string before the user's message starts
+ *	$matches[1] = the time of the message, if present
+ *	$matches[2] = the author/username
+ *	OR
+ *	$matches[0] = the string before the user's message starts
+ *	$matches[1] = the author/username
+ * @param string $delimiter_regex RegEx to determine where to split the username syntax from the chat message
+ */
+function add_chat_detection_format( $name, $newline_regex, $delimiter_regex ) {
+	global $_wp_chat_parsers;
+
+	if ( empty( $_wp_chat_parsers ) )
+		$_wp_chat_parsers = array();
+
+	$_wp_chat_parsers = array( $name => array( $newline_regex, $delimiter_regex ) ) + $_wp_chat_parsers;
+}
+add_chat_detection_format( 'IM', '#^([^:]+):#', '#[:]#' );
+add_chat_detection_format( 'Skype', '#^(\[.+?\])\s([^:]+):#', '#[:]#' );
+
+/**
+ * Deliberately interpret passed content as a chat transcript that is optionally
+ * followed by commentary
+ *
+ * If the content does not contain username syntax, assume that it does not contain
+ * chat logs and return
+ *
+ * @since 3.6.0
+ *
+ * Example:
+ *
+ * One stanza of chat:
+ * Scott: Hey, let's chat!
+ * Helen: No.
+ *
+ * $stanzas = array(
+ *     array(
+ *         array(
+ *             'time' => '',
+ *             'author' => 'Scott',
+ *             'messsage' => "Hey, let's chat!"
+ *         ),
+ *         array(
+ *             'time' => '',
+ *             'author' => 'Helen',
+ *             'message' => 'No.'
+ *         )
+ *     )
+ * )
+ * @param string $content A string which might contain chat data.
+ * @param boolean $remove Whether to remove the found data from the passed content.
+ * @return array A chat log as structured data
+ */
+function get_content_chat( &$content, $remove = false ) {
+	global $_wp_chat_parsers;
+
+	$trimmed = trim( $content );
+	if ( empty( $trimmed ) )
+		return array();
+
+	$has_match = false;
+	$matched_parser = false;
+	foreach ( $_wp_chat_parsers as $parser ) {
+		@list( $newline_regex ) = $parser;
+		if ( preg_match( $newline_regex, $trimmed ) ) {
+			$has_match = true;
+			$matched_parser = $parser;
+			break;
+		}
+	}
+
+	if ( false === $matched_parser )
+		return array();
+
+	@list( $newline_regex, $delimiter_regex ) = $parser;
+
+	$last_index = 0;
+	$stanzas = array();
+	$lines = explode( "\n", make_clickable( $trimmed ) );
+
+	$author = $time = '';
+	$data = array();
+	$stanza = array();
+
+	foreach ( $lines as $index => $line ) {
+		$line = trim( $line );
+
+		if ( empty( $line ) ) {
+			if ( ! empty( $author ) ) {
+				$stanza[] = array(
+					'time' => $time,
+					'author' => $author,
+					'message' => join( ' ', $data )
+				);
+			}
+
+			$stanzas[] = $stanza;
+			$last_index = $index;
+			$stanza = array();
+			$author = $time = '';
+			$data = array();
+			if ( ! empty( $lines[$index + 1] ) && ! preg_match( $delimiter_regex, $lines[$index + 1] ) )
+				break;
+		}
+
+		$matches = array();
+		$matched = preg_match( $newline_regex, $line, $matches );
+		$author_match = empty( $matches[2] ) ? $matches[1] : $matches[2];
+		// assume username syntax if no whitespace is present
+		$no_ws = $matched && ! preg_match( '#\s#', $author_match );
+		// allow script-like stanzas
+		$has_ws = $matched && preg_match( '#\s#', $author_match ) && empty( $lines[$index + 1] ) && empty( $lines[$index - 1] );
+		if ( $matched && ( ! empty( $matches[2] ) || ( $no_ws || $has_ws ) ) ) {
+			if ( ! empty( $author ) ) {
+				$stanza[] = array(
+					'time' => $time,
+					'author' => $author,
+					'message' => join( ' ', $data )
+				);
+				$data = array();
+			}
+
+			$time = empty( $matches[2] ) ? '' : $matches[1];
+			$author = $author_match;
+			$data[] = trim( str_replace( $matches[0], '', $line ) );
+		} elseif ( preg_match( '#\S#', $line ) ) {
+			$data[] = $line;
+		}
+	}
+
+	if ( ! empty( $author ) ) {
+		$stanza[] = array(
+			'time' => $time,
+			'author' => $author,
+			'message' => trim( join( ' ', $data ) )
+		);
+	}
+
+	if ( ! empty( $stanza ) )
+		$stanzas[] = $stanza;
+
+	if ( $remove )
+		$content = trim( join( "\n", array_slice( $lines, $last_index ) ) );
+
+	return $stanzas;
+}
+
+/**
+ * Retrieve structured chat data from the current or passed post
+ *
+ * @since 3.6.0
+ *
+ * @param int $id Optional. Post ID
+ * @return array
+ */
+function get_the_chat( $id = 0 ) {
+	$post = empty( $id ) ? clone get_post() : get_post( $id );
+	if ( empty( $post ) )
+		return array();
+
+	$data = get_content_chat( get_paged_content( $post->post_content ) );
+	if ( empty( $data ) )
+		return array();
+
+	return $data;
+}
+
+/**
+ * Output HTML for a given chat's structured data. Themes can use this as a
+ * template tag in place of the_content() for Chat post format templates.
+ *
+ * @since 3.6.0
+ *
+ * @uses get_the_chat()
+ *
+ * @print HTML
+ */
+function the_chat() {
+	$output = '<dl class="chat-transcript">';
+
+	$stanzas = get_the_chat();
+
+	foreach ( $stanzas as $stanza ) {
+		foreach ( $stanza as $row ) {
+			$time = '';
+			if ( ! empty( $row['time'] ) )
+				$time = sprintf( '<time>%s</time>', esc_html( $row['time'] ) );
+
+			$output .= sprintf(
+				'<dt class="chat-author chat-author-%1$s vcard">%2$s <cite class="fn">%3$s</cite>: </dt>
+					<dd class="chat-text">%4$s</dd>
+				',
+				esc_attr( strtolower( $row['author'] ) ), // Slug.
+				$time,
+				esc_html( $row['author'] ),
+				esc_html( $row['message'] )
+			);
+		}
+	}
+
+	$output .= '</dl><!-- .chat-transcript -->';
+
+	echo $output;
+}
+
+/**
  * Extract a URL from passed content, if possible
  * Checks for a URL on the first line of the content or the first encountered href attribute.
  *
