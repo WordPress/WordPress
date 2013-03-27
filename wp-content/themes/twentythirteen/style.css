@@ -1534,6 +1534,16 @@ footer.entry-meta {
 	display: none;
 }
 
+.format-chat .chat-transcript {
+	margin: 0;
+}
+
+.format-chat .chat-transcript dt {
+	color: #686758;
+	font-style: italic;
+	font-weight: normal;
+}
+
 /* Gallery */
 .format-gallery {
 	background-color: #fbca3c;
