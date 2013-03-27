@@ -52,9 +52,10 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
 	$return['post_parent']   = $post['ID'];
 	$return['post_status']   = 'inherit';
 	$return['post_type']     = 'revision';
-	$return['post_name']     = $autosave ? "$post[ID]-autosave" : "$post[ID]-revision";
+	$return['post_name']     = $autosave ? "$post[ID]-autosave-v1" : "$post[ID]-revision-v1"; // "1" is the revisioning system version
 	$return['post_date']     = isset($post['post_modified']) ? $post['post_modified'] : '';
 	$return['post_date_gmt'] = isset($post['post_modified_gmt']) ? $post['post_modified_gmt'] : '';
+	$return['post_author']   = get_post_meta( $post['ID'], '_edit_last', true );
 
 	return $return;
 }
@@ -62,19 +63,27 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
 /**
  * Saves an already existing post as a post revision.
  *
- * Typically used immediately prior to post updates.
+ * Typically used immediately prior and after post updates.
+ * Prior to update checks for old revision data (latest revision != current post before update) and adds a copy of the current post as a revision if missing
+ * After update adds a copy of the current post as a revision, so latest revision always matches current post
  *
  * @package WordPress
  * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @uses _wp_put_post_revision()
+ * @uses wp_first_revision_matches_current_version()
  *
  * @param int $post_id The ID of the post to save as a revision.
  * @return mixed Null or 0 if error, new revision ID, if success.
  */
-function wp_save_post_revision( $post_id, $new_data = null ) {
-	// We do autosaves manually with wp_create_post_autosave()
+function wp_save_post_revision( $post_id ) {
+	//check to see if the post's first revision already matches the post data
+	//should be true before post update, _except_ for old data which
+	//doesn't include a copy of the current post data in revisions
+	if ( wp_first_revision_matches_current_version( $post_id ) )
+		return;
+
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 		return;
 
@@ -90,18 +99,32 @@ function wp_save_post_revision( $post_id, $new_data = null ) {
 	if ( ! post_type_supports( $post['post_type'], 'revisions' ) )
 		return;
 
-	// if new data is supplied, check that it is different from last saved revision, unless a plugin tells us to always save regardless
-	if ( apply_filters( 'wp_save_post_revision_check_for_changes', true, $post, $new_data ) && is_array( $new_data ) ) {
-		$post_has_changed = false;
-		foreach ( array_keys( _wp_post_revision_fields() ) as $field ) {
-			if ( normalize_whitespace( $new_data[ $field ] ) != normalize_whitespace( $post[ $field ] ) ) {
-				$post_has_changed = true;
-				break;
+	// compare the proposed update with the last stored revision, verify
+	// different, unless a plugin tells us to always save regardless
+	if ( $revisions = wp_get_post_revisions( $post_id ) ) {
+		// grab the last revision
+		$last_revision = array_shift( $revisions );
+
+		//if no previous revisions, save one for sure
+		if ( $last_revision_array = get_post( $last_revision->ID, ARRAY_A ) ) {
+
+			if ( apply_filters( 'wp_save_post_revision_check_for_changes', true, $last_revision_array, $post ) && is_array( $post ) ) {
+				$post_has_changed = false;
+
+				foreach ( array_keys( _wp_post_revision_fields() ) as $field ) {
+
+					if ( normalize_whitespace( $post[ $field ] ) != normalize_whitespace( $last_revision_array[ $field ] ) ) {
+						$post_has_changed = true;
+						break;
+
+					}
+				}
+
+				//don't save revision if post unchanged
+				if( ! $post_has_changed )
+					return;
 			}
 		}
-		//don't save revision if post unchanged
-		if( ! $post_has_changed )
-			return;
 	}
 
 	$return = _wp_put_post_revision( $post );
@@ -122,9 +145,9 @@ function wp_save_post_revision( $post_id, $new_data = null ) {
 	$revisions = array_slice( $revisions, 0, $delete );
 
 	for ( $i = 0; isset($revisions[$i]); $i++ ) {
-		if ( false !== strpos( $revisions[$i]->post_name, 'autosave' ) )
+		if ( false !== strpos( $revisions[ $i ]->post_name, 'autosave' ) )
 			continue;
-		wp_delete_post_revision( $revisions[$i]->ID );
+		wp_delete_post_revision( $revisions[ $i ]->ID );
 	}
 
 	return $return;
@@ -440,6 +463,148 @@ function _set_preview($post) {
 
 	return $post;
 }
+
+function _wp_get_post_revision_version( $post ) {
+	if ( is_array( $post ) ) {
+		if ( ! isset( $post['post_name'] ) ) {
+			return false;
+		}
+
+		$name = $post['post_name'];
+	} elseif ( is_object( $post ) ) {
+		if ( ! isset( $post->post_name ) ) {
+			return false;
+		}
+
+		$name = $post->post_name;
+	} else {
+		return false;
+	}
+
+	if ( ! preg_match( '/^(\d+-)(?:autosave|revision)(?:-v)(\d+)$/', $name, $matches ) ) {
+		return 0;
+	}
+
+	if ( '1' === $matches[2] ) {
+		return 1;
+	}
+
+	return 0;
+}
+
+/**
+ * Upgrade the data
+ *
+ * @package WordPress
+ * @subpackage Post_Revisions
+ * @since 3.6.0
+ *
+ * @uses get_post()
+ * @uses post_type_supports()
+ * @uses wp_get_post_revisions()
+ * @uses wp_save_post_revision()
+ *
+ * @param int|object $post_id Post ID or post object
+ * @return true if success, false if problems
+ */
+function _wp_upgrade_revisions_of_post( $post ) {
+	global $wpdb;
+
+	$post = get_post( $post );
+	if ( ! $post )
+		return false;
+
+	//make sure we have a current revision, only adds one if missing
+	wp_save_post_revision( $post->ID );
+
+	if ( ! post_type_supports( $post->post_type, 'revisions' ) )
+		return false;
+
+	$revisions = wp_get_post_revisions( $post->ID ); // array( 'order' => 'DESC', 'orderby' => 'date' ); // Always work from most recent to oldest
+
+
+	if ( ! $revisions )
+		return true;
+
+	// Add post option exclusively
+	$lock      = "revision-upgrade-{$post->ID}";
+	$locked_at = number_format( microtime( true ), 10, '.', '' );
+	$result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` (`option_name`, `option_value`, `autoload`) VALUES (%s, %s, 'no') /* LOCK */", $lock, $locked_at ) );
+	if ( ! $result ) {
+		// If we couldn't get a lock, see how old the previous lock is
+		$locked_at = get_option( $lock );
+		if ( !$locked_at ) {
+			// Can't write to the lock, and can't read the lock.
+			// Something broken has happened
+			return false;
+		}
+
+		if ( $lock_at < number_format( microtime( true ), 10, '.', '' ) - 3600 ) {
+			// Lock is too old - try again
+			delete_option( $lock );
+			return wp_upgrade_revisions_of_post( $post );
+		}
+
+		// Lock is not too old: some other process may be upgrading this post.  Bail.
+		return;
+	} else {
+		// If we could get a lock, re-"add" the option to fire all the correct filters.
+		add_option( $lock, $locked_at );
+	}
+
+	$success = true;
+
+	reset( $revisions );
+	do {
+		$this_revision = current( $revisions );
+		$prev_revision = next( $revisions );
+
+		$this_revision_version = _wp_get_post_revision_version( $this_revision );
+
+		error_log($this_revision_version);
+
+		// Something terrible happened
+		if ( false === $this_revision_version )
+			continue;
+
+		// 1 is the latest revision version, so we're already up to date
+		if ( 0 < $this_revision_version )
+			continue;
+
+		// This revision is the oldest revision of the post.
+		// The correct post_author is probably $post->post_author, but that's only a good guess.
+		// Leave un-upgraded.
+		if ( ! $prev_revision ) {
+			continue;
+		}
+
+		$prev_revision_version = _wp_get_post_revision_version( $prev_revision );
+
+		// If the previous revision is already up to date, it no longer has the information we need :(
+		if ( 0 < $prev_revision_version ) {
+			continue;
+		}
+
+		// Upgrade this revision
+		// Cast as object so that wp_update_post() handles slashing for us
+		$update = (object) array(
+			'ID'          => $this_revision->ID,
+			'post_name'   => preg_replace( '/^(\d+-)(autosave|revision)-(\d+)$/', '$1$2-v1', $this_revision->post_name ),
+			'post_author' => $prev_revision->post_author,
+		);
+		//error_log(json_encode($update));
+		$result = wp_update_post( $update );
+		if ( ! $result || is_wp_error( $result ) ) {
+			// Wilhelm!
+			$success = false;
+			break;
+		}
+	} while ( $prev_revision );
+
+	delete_option( $lock );
+	return true;
+}
+
 
 function _show_post_preview() {
 

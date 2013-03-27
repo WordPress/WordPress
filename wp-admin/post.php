@@ -135,6 +135,7 @@ case 'edit':
 
 	$p = $post_id;
 
+
 	if ( empty($post->ID) )
 		wp_die( __('You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?') );
 
@@ -152,6 +153,9 @@ case 'edit':
 		wp_redirect( get_edit_post_link( $post_id, 'url' ) );
 		exit();
 	}
+
+	//upgrade any old bad revision data (#16215)
+	_wp_upgrade_revisions_of_post( $p );
 
 	$post_type = $post->post_type;
 	if ( 'post' == $post_type ) {

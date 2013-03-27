@@ -3012,7 +3012,7 @@ function check_and_publish_future_post($post_id) {
  * @return string unique slug for the post, based on $post_name (with a -1, -2, etc. suffix)
  */
 function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent ) {
-	if ( in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) )
+	if ( in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) || ( 'inherit' == $post_status && 'revision' == $post_type ) )
 		return $slug;
 
 	global $wpdb, $wp_rewrite;
