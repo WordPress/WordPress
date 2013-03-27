@@ -592,3 +592,8 @@ add_action( 'customize_preview_init', 'twentythirteen_customize_preview_js' );
  * Adds support for a custom header image.
  */
 require( get_template_directory() . '/inc/custom-header.php' );
+
+/**
+ * Adds back compat handling for WP versions pre-3.6.
+ */
+require( get_template_directory() . '/inc/back-compat.php' );
