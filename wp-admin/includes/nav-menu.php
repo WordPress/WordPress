@@ -175,7 +175,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 
 				<p class="field-move description description-wide">
 					<label>
-						<?php _e( 'Move' ); ?>
+						<span><?php _e( 'Move' ); ?></span>
 						<a href="#" class="menus-move-up"><?php _e( 'Up one' ); ?></a>
 						<a href="#" class="menus-move-down"><?php _e( 'Down one' ); ?></a>
 						<a href="#" class="menus-move-left"></a>

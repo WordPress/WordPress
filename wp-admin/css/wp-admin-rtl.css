@@ -2202,10 +2202,21 @@ body.login {
 .menu-item-handle .item-title {
 	margin-left:13em;
 	margin-right:0;
+	overflow: hidden;
 }
 .menu-item-handle .item-edit {
 	right: auto;
 	left: -20px;
+}
+
+.menu-item-handle .menu-item-title {
+	float: right;
+}
+
+.menu-item-settings .field-move a,
+.menu-item-settings .field-move span {
+	float: right;
+	margin-left: 4px;
 }
 
 /* WARNING: The factor of 30px is hardcoded into the nav-menus javascript. */
@@ -2588,6 +2599,11 @@ div.sidebar-name h3 {
 .nav-menus-php .submitdelete,
 .nav-menus-php .submitcancel {
 	float: right;
+}
+
+.is-submenu {
+	float: right;
+	margin-right: 8px;
 }
 
 /*------------------------------------------------------------------------------
