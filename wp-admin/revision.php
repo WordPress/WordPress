@@ -48,7 +48,7 @@ default :
 		break;
 
 	// Revisions disabled and we're not looking at an autosave
-	if ( ( ! WP_POST_REVISIONS || !post_type_supports($post->post_type, 'revisions') ) && !wp_is_post_autosave( $revision ) ) {
+	if ( ! wp_revisions_enabled( $post ) && ! wp_is_post_autosave( $revision ) ) {
 		$redirect = 'edit.php?post_type=' . $post->post_type;
 		break;
 	}

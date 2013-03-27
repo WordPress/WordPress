@@ -78,17 +78,16 @@ function wp_save_post_revision( $post_id, $new_data = null ) {
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 		return;
 
-	// WP_POST_REVISIONS = 0, false
-	if ( ! WP_POST_REVISIONS )
+	if ( ! $post = get_post( $post_id, ARRAY_A ) )
 		return;
 
-	if ( !$post = get_post( $post_id, ARRAY_A ) )
+	if ( ! wp_revisions_enabled( (object) $post ) )
 		return;
 
 	if ( 'auto-draft' == $post['post_status'] )
 		return;
 
-	if ( !post_type_supports($post['post_type'], 'revisions') )
+	if ( ! post_type_supports( $post['post_type'], 'revisions' ) )
 		return;
 
 	// if new data is supplied, check that it is different from last saved revision, unless a plugin tells us to always save regardless
@@ -107,15 +106,15 @@ function wp_save_post_revision( $post_id, $new_data = null ) {
 
 	$return = _wp_put_post_revision( $post );
 
-	// WP_POST_REVISIONS = true (default), -1
-	if ( !is_numeric( WP_POST_REVISIONS ) || WP_POST_REVISIONS < 0 )
+	$revisions_to_keep = wp_revisions_to_keep( (object) $post );
+
+	if ( $revisions_to_keep < 0 )
 		return $return;
 
 	// all revisions and (possibly) one autosave
 	$revisions = wp_get_post_revisions( $post_id, array( 'order' => 'ASC' ) );
 
-	// WP_POST_REVISIONS = (int) (# of autosaves to save)
-	$delete = count($revisions) - WP_POST_REVISIONS;
+	$delete = count($revisions) - $revisions_to_keep;
 
 	if ( $delete < 1 )
 		return $return;
@@ -368,18 +367,60 @@ function wp_delete_post_revision( $revision_id ) {
  * @return array empty if no revisions
  */
 function wp_get_post_revisions( $post_id = 0, $args = null ) {
-	if ( ( !$post = get_post( $post_id ) ) || empty( $post->ID ) )
+	$post = get_post( $post_id );
+	if ( ! $post || empty( $post->ID ) || ! wp_revisions_enabled( $post ) )
 		return array();
 
 	$defaults = array( 'order' => 'DESC', 'orderby' => 'date' );
 	$args = wp_parse_args( $args, $defaults );
 	$args = array_merge( $args, array( 'post_parent' => $post->ID, 'post_type' => 'revision', 'post_status' => 'inherit' ) );
 
-	if ( !$revisions = get_children( $args ) )
+	if ( ! $revisions = get_children( $args ) )
 		return array();
 
 	return $revisions;
 }
+
+/**
+ * Determine if revisions are enabled for a given post.
+ *
+ * @since 3.6.0
+ *
+ * @uses wp_revisions_to_keep()
+ *
+ * @param object $post
+ * @return bool
+ */
+function wp_revisions_enabled( $post ) {
+	return wp_revisions_to_keep( $post ) != 0;
+}
+
+/**
+ * Determine how many revisions to retain for a given post.
+ * By default, an infinite number of revisions are stored if a post type supports revisions.
+ *
+ * @since 3.6.0
+ *
+ * @uses post_type_supports()
+ * @uses apply_filters() Calls 'wp_revisions_to_keep' hook on the number of revisions.
+ *
+ * @param object $post
+ * @return int
+ */
+function wp_revisions_to_keep( $post ) {
+	$num = WP_POST_REVISIONS;
+
+	if ( true === $num )
+		$num = -1;
+	else
+		$num = intval( $num );
+
+	if ( ! post_type_supports( $post->post_type, 'revisions' ) )
+		$num = 0;
+
+	return (int) apply_filters( 'wp_revisions_to_keep', $num, $post );
+}
+
 
 function _set_preview($post) {
 

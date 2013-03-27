@@ -3535,7 +3535,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit posts.' ) );
 
 		// Check if revisions are enabled.
-		if ( ! WP_POST_REVISIONS || ! post_type_supports( $post->post_type, 'revisions' ) )
+		if ( ! wp_revisions_enabled( $post ) )
 			return new IXR_Error( 401, __( 'Sorry, revisions are disabled.' ) );
 
 		$revisions = wp_get_post_revisions( $post_id );
@@ -3602,7 +3602,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 401, __( 'Sorry, you cannot edit this post.' ) );
 
 		// Check if revisions are disabled.
-		if ( ! WP_POST_REVISIONS || ! post_type_supports( $post->post_type, 'revisions' ) )
+		if ( ! wp_revisions_enabled( $post ) )
 			return new IXR_Error( 401, __( 'Sorry, revisions are disabled.' ) );
 
 		$post = wp_restore_post_revision( $revision_id );
