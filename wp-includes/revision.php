@@ -142,7 +142,7 @@ function wp_save_post_revision( $post_id, $new_data = null ) {
  * @subpackage Post_Revisions
  * @since 2.6.0
  * @uses wp_get_post_revisions()
- *  
+ *
  * @param int $post_id The post ID.
  * @param int $user_id optional The post author ID.
  * @return object|bool The autosaved data or false on failure or when no autosave exists.
@@ -316,6 +316,13 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
 	if ( $post_id )
 		do_action( 'wp_restore_post_revision', $post_id, $revision['ID'] );
 
+	$restore_details = array(
+		'restored_revision_id' => $revision_id,
+		'restored_by_user' => get_current_user_id(),
+		'restored_time' => time()
+	);
+	update_post_meta( $post_id, '_post_restored_from', $restore_details );
+
 	return $post_id;
 }
 
@@ -417,16 +424,80 @@ function _show_post_preview() {
  */
 function wp_first_revision_matches_current_version( $post ) {
 
-        if ( ! $post = get_post( $post ) )
-                return false;
+	if ( ! $post = get_post( $post ) )
+		return false;
 
-        if ( ! $revisions = wp_get_post_revisions( $post->ID ) )
-                return false;
+	if ( ! $revisions = wp_get_post_revisions( $post->ID ) )
+		return false;
 
-        $last_revision = array_shift( $revisions );
+	$last_revision = array_shift( $revisions );
 
-        if ( ! ($last_revision->post_modified == $post->post_modified ) )
-                return false;
+	if ( ! ($last_revision->post_modified == $post->post_modified ) )
+		return false;
 
-        return true;
+	return true;
 }
+
+/**
+ * Displays a human readable HTML representation of the difference between two strings.
+ * similar to wp_text_diff, but tracks and returns could of lines added and removed
+ *
+ * @since 3.6
+ * @see wp_parse_args() Used to change defaults to user defined settings.
+ * @uses Text_Diff
+ * @uses WP_Text_Diff_Renderer_Table
+ *
+ * @param string $left_string "old" (left) version of string
+ * @param string $right_string "new" (right) version of string
+ * @param string|array $args Optional. Change 'title', 'title_left', and 'title_right' defaults.
+ * @return array contains html, linesadded & linesdeletd, empty string if strings are equivalent.
+ */
+function wp_text_diff_with_count( $left_string, $right_string, $args = null ) {
+	$defaults = array( 'title' => '', 'title_left' => '', 'title_right' => '' );
+	$args = wp_parse_args( $args, $defaults );
+
+	if ( !class_exists( 'WP_Text_Diff_Renderer_Table' ) )
+			require( ABSPATH . WPINC . '/wp-diff.php' );
+
+	$left_string  = normalize_whitespace( $left_string );
+	$right_string = normalize_whitespace( $right_string );
+
+	$left_lines  = explode( "\n", $left_string );
+	$right_lines = explode( "\n", $right_string) ;
+
+	$text_diff = new Text_Diff($left_lines, $right_lines  );
+	$linesadded = $text_diff->countAddedLines();
+	$linesdeleted = $text_diff->countDeletedLines();
+
+	$renderer  = new WP_Text_Diff_Renderer_Table();
+	$diff = $renderer->render( $text_diff );
+
+	if ( !$diff )
+			return '';
+
+		$r  = "<table class='diff'>\n";
+
+	if ( ! empty( $args[ 'show_split_view' ] ) ) {
+		$r .= "<col class='content diffsplit left' /><col class='content diffsplit middle' /><col class='content diffsplit right' />";
+	} else {
+		$r .= "<col class='content' />";
+	}
+
+	if ( $args['title'] || $args['title_left'] || $args['title_right'] )
+		$r .= "<thead>";
+	if ( $args['title'] )
+		$r .= "<tr class='diff-title'><th colspan='4'>$args[title]</th></tr>\n";
+	if ( $args['title_left'] || $args['title_right'] ) {
+		$r .= "<tr class='diff-sub-title'>\n";
+		$r .= "\t<td></td><th>$args[title_left]</th>\n";
+		$r .= "\t<td></td><th>$args[title_right]</th>\n";
+		$r .= "</tr>\n";
+	}
+	if ( $args['title'] || $args['title_left'] || $args['title_right'] )
+		$r .= "</thead>\n";
+
+	$r .= "<tbody>\n$diff\n</tbody>\n";
+	$r .= "</table>";
+
+	return array( 'html' => $r, 'linesadded' => $linesadded, 'linesdeleted' => $linesdeleted );
+	}
