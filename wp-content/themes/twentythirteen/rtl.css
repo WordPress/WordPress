@@ -341,7 +341,7 @@ div.nav-menu > ul {
 	margin-left: 5px;
 }
 
-.format-audio .entry-content:before {
+.format-audio .entry-media:before {
 	-ms-filter: "FlipH";
 	filter: FlipH;
 	float: right;

@@ -484,7 +484,7 @@ hr {
 .featured-post:before,
 .date a:before,
 .entry-meta .author a:before,
-.format-audio .entry-content:before,
+.format-audio .entry-media:before,
 .comments-link a:before,
 .tags-links a:first-child:before,
 .categories-links a:first-child:before,
@@ -504,6 +504,7 @@ hr {
 
 /* Clearing floats */
 .clear:after,
+.format-audio .entry-media:after,
 .attachment .entry-header:after,
 .site-footer .widget-area:after,
 .entry-content:after,
@@ -517,6 +518,8 @@ hr {
 
 .clear:before,
 .clear:after,
+.format-audio .entry-media:before,
+.format-audio .entry-media:after,
 .attachment .entry-header:before,
 .attachment .entry-header:after,
 .site-footer .widget-area:before,
@@ -1241,27 +1244,27 @@ footer.entry-meta {
 }
 
 /* Mediaelements */
-.entry-content .mejs-container .mejs-controls {
+.hentry .mejs-container .mejs-controls {
 	background: #220e10;
 }
 
-.entry-content .mejs-controls .mejs-time-rail .mejs-time-loaded,
-.entry-content .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
+.hentry .mejs-controls .mejs-time-rail .mejs-time-loaded,
+.hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
 	background: #fff;
 }
 
-.entry-content .mejs-controls .mejs-time-rail .mejs-time-current {
+.hentry .mejs-controls .mejs-time-rail .mejs-time-current {
 	background: #ea9629;
 }
 
-.entry-content .mejs-controls .mejs-time-rail .mejs-time-total,
-.entry-content .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total {
+.hentry .mejs-controls .mejs-time-rail .mejs-time-total,
+.hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total {
 	background: #595959;
 }
 
-.entry-content .mejs-controls .mejs-time-rail span,
-.entry-content .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total,
-.entry-content .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
+.hentry .mejs-controls .mejs-time-rail span,
+.hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total,
+.hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
 	border-radius: 0;
 }
 
@@ -1463,11 +1466,13 @@ footer.entry-meta {
 	font-weight: bold;
 }
 
-.format-audio .entry-meta a {
-	color: #fbfaf3;
+.format-audio .entry-media {
+	margin: 0 auto 24px;
+	max-width: 604px;
+	width: 100%;
 }
 
-.format-audio .entry-content:before {
+.format-audio .entry-media:before {
 	content: "\f109";
 	float: left;
 	font-size: 64px;
@@ -1476,17 +1481,10 @@ footer.entry-meta {
 }
 
 .format-audio .entry-content a,
-.single-format-audio .entry-content a {
-	color: #fbfaf3;
-}
-
+.format-audio .entry-meta a,
 .format-audio .entry-content a:hover,
 .format-audio .entry-meta a:hover {
-	color: #ea9629;
-}
-
-.format-audio .audio-content p:last-child {
-	margin-bottom: 0;
+	color: #fbfaf3;
 }
 
 .format-audio .audio-content {
@@ -1495,8 +1493,8 @@ footer.entry-meta {
 	float: right;
 	padding-left: 35px;
 	width: 80%;
-	width: -webkit-calc(100% - 115px);
-	width:         calc(100% - 115px);
+	width: -webkit-calc(100% - 85px);
+	width:         calc(100% - 85px);
 }
 
 .format-audio .wp-audio-shortcode {
