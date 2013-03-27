@@ -1728,6 +1728,7 @@ footer.entry-meta {
 	color: #e63f2a;
 }
 
+.format-quote .quote-caption,
 .format-quote .entry-content small,
 .format-quote .entry-content cite {
 	display: block;
@@ -1735,8 +1736,10 @@ footer.entry-meta {
 	margin-top: 20px;
 }
 
-.format-quote footer.entry-meta {
-	margin-top: 0;
+.format-quote .quote-caption small,
+.format-quote .quote-caption cite {
+	display: inline;
+	margin: auto;
 }
 
 .format-quote .entry-meta .author {
