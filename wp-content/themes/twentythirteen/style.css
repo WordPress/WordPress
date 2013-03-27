@@ -2284,6 +2284,7 @@ footer.entry-meta {
 .comments-title,
 .comment-list,
 #reply-title,
+.must-log-in,
 #respond #commentform,
 #respond iframe {
 	display: block;
@@ -2294,6 +2295,7 @@ footer.entry-meta {
 
 .sidebar .comments-title,
 .sidebar .comment-list,
+.sidebar .must-log-in,
 .sidebar #reply-title,
 .sidebar .comment-navigation,
 .sidebar #respond #commentform {
