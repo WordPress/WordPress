@@ -887,7 +887,7 @@ function wp_audio_shortcode( $attr ) {
 	}
 
 	$library = apply_filters( 'wp_audio_shortcode_library', 'mediaelement' );
-	if ( 'mediaelement' === $library ) {
+	if ( 'mediaelement' === $library && did_action( 'init' ) ) {
 		wp_enqueue_style( 'wp-mediaelement' );
 		wp_enqueue_script( 'wp-mediaelement' );
 	}
@@ -994,7 +994,7 @@ function wp_video_shortcode( $attr ) {
 	}
 
 	$library = apply_filters( 'wp_video_shortcode_library', 'mediaelement' );
-	if ( 'mediaelement' === $library ) {
+	if ( 'mediaelement' === $library && did_action( 'init' ) ) {
 		wp_enqueue_style( 'wp-mediaelement' );
 		wp_enqueue_script( 'wp-mediaelement' );
 	}
@@ -1828,40 +1828,50 @@ function get_attached_video( $post_id = 0 ) {
 }
 
 /**
- * Extract the srcs from the post's [{media type}] <source>s
+ * Extract and parse {media type} shortcodes or srcs from the passed content
  *
  * @since 3.6.0
  *
+ * @param string $type Type of media: audio or video
  * @param string $content A string which might contain media data.
+ * @param boolean $html Whether to return HTML or URLs
  * @param boolean $remove Whether to remove the found URL from the passed content.
- * @return array A list of lists. Each item has a list of sources corresponding
- *		to a [{media type}]'s primary src and specified fallbacks
+ * @return array A list of parsed shortcodes or extracted srcs
  */
-function get_content_media( $type, &$content, $remove = false ) {
-	$src = '';
+function get_content_media( $type, &$content, $html = true, $remove = false ) {
 	$items = array();
 	$matches = array();
 
 	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
 		foreach ( $matches as $shortcode ) {
 			if ( $type === $shortcode[2] ) {
-				$srcs = array();
 				$count = 1;
 				if ( $remove )
-					$content = str_replace( $shortcode[0], '', $content, $count );
+					$content =& str_replace( $shortcode[0], '', $content, $count );
 
-				$item = do_shortcode_tag( $shortcode );
-				preg_match_all( '#src=[\'"](.+?)[\'"]#is', $item, $src, PREG_SET_ORDER );
-				if ( ! empty( $src ) ) {
-					foreach ( $src as $s )
-						$srcs[] = $s[1];
-
-					$items[] = array_values( array_unique( $srcs ) );
-				}
+				$items[] = do_shortcode_tag( $shortcode );
 			}
 		}
 	}
-	return $items;
+
+	if ( $html )
+		return $items;
+
+	$src = '';
+	$data = array();
+
+	foreach ( $items as $item ) {
+		preg_match_all( '#src=[\'"](.+?)[\'"]#is', $item, $src, PREG_SET_ORDER );
+		if ( ! empty( $src ) ) {
+			$srcs = array();
+			foreach ( $src as $s )
+				$srcs[] = $s[1];
+
+			$data[] = array_values( array_unique( $srcs ) );
+		}
+	}
+
+	return $data;
 }
 
 /**
@@ -1870,11 +1880,13 @@ function get_content_media( $type, &$content, $remove = false ) {
  *
  * @since 3.6.0
  *
+ * @param string $type Type of media: audio or video
  * @param string $content A string which might contain media data.
  * @param boolean $remove Whether to remove the found URL from the passed content.
+ * @param int $limit Optional. The number of galleries to return
  * @return array A list of found HTML media embeds and possibly a URL by itself
  */
-function get_embedded_media( $type, &$content, $remove = false ) {
+function get_embedded_media( $type, &$content, $remove = false, $limit = 0 ) {
 	$html = array();
 	$matches = '';
 
@@ -1884,13 +1896,16 @@ function get_embedded_media( $type, &$content, $remove = false ) {
 			if ( $remove )
 				$content = str_replace( $matches[0], '', $content );
 
-			return $html;
+			if ( $limit > 0 && count( $html ) >= $limit )
+				break;
 		}
 	}
 
+	if ( ! empty( $html ) && count( $html ) >= $limit )
+		return $html;
+
 	$lines = explode( "\n", trim( $content ) );
 	$line = trim( array_shift( $lines  ) );
-
 	if ( 0 === stripos( $line, 'http' ) ) {
 		if ( $remove )
 			$content = join( "\n", $lines );
@@ -1901,17 +1916,18 @@ function get_embedded_media( $type, &$content, $remove = false ) {
 }
 
 /**
- * Extract the srcs from the post's [audio] <source>s
+ * Extract the HTML or <source> srcs from the content's [audio]
  *
  * @since 3.6.0
  *
  * @param string $content A string which might contain audio data.
+ * @param boolean $html Whether to return HTML or URLs
  * @param boolean $remove Whether to remove the found URL from the passed content.
- * @return array A list of lists. Each item has a list of sources corresponding
- *		to a [audio]'s primary src and specified fallbacks
+ * @return array A list of lists. Each item has a list of HTML or srcs corresponding
+ *		to an [audio]'s HTML or primary src and specified fallbacks
  */
-function get_content_audio( &$content, $remove = false ) {
-	return get_content_media( 'audio', $content, $remove );
+function get_content_audio( &$content, $html = true, $remove = false ) {
+	return get_content_media( 'audio', $content, $html, $remove );
 }
 
 /**
@@ -1929,17 +1945,18 @@ function get_embedded_audio( &$content, $remove = false ) {
 }
 
 /**
- * Extract the srcs from the post's [video] <source>s
+ * Extract the HTML or <source> srcs from the content's [video]
  *
  * @since 3.6.0
  *
  * @param string $content A string which might contain video data.
+ * @param boolean $html Whether to return HTML or URLs
  * @param boolean $remove Whether to remove the found URL from the passed content.
- * @return array A list of lists. Each item has a list of sources corresponding
- *		to a [video]'s primary src and specified fallbacks
+ * @return array A list of lists. Each item has a list of HTML or srcs corresponding
+ *		to a [video]'s HTML or primary src and specified fallbacks
  */
-function get_content_video( &$content, $remove = false ) {
-	return get_content_media( 'video', $content, $remove );
+function get_content_video( &$content, $html = true, $remove = false ) {
+	return get_content_media( 'video', $content, $html, $remove );
 }
 
 /**
@@ -2001,6 +2018,117 @@ function wp_video_embed( $matches, $attr, $url, $rawattr ) {
 wp_embed_register_handler( 'wp_video_embed', '#https?://.+?\.(' . join( '|', wp_get_video_extensions() ) . ')#i', apply_filters( 'wp_video_embed_handler', 'wp_video_embed' ), 9999 );
 
 /**
+ * Return suitable HTML code for output based on the content related to the global $post
+ * If found, remove the content from the @global $post's post_content field
+ *
+ * @since 3.6.0
+ *
+ * @param string $type Required. 'audio' or 'video'
+ * @param WP_Post $post Optional. Used instead of global $post when passed.
+ * @return string
+ */
+function get_the_media( $type, &$post = null ) {
+	global $wp_embed;
+
+	if ( empty( $post ) )
+		$post =& get_post();
+
+	if ( empty( $post ) )
+		return '';
+
+	if ( isset( $post->format_content ) )
+		return $post->format_content;
+
+	$count = 1;
+
+	if ( has_post_format( $type ) ) {
+		$meta = get_post_format_meta( $post->ID );
+		if ( ! empty( $meta['media'] ) ) {
+			if ( is_numeric( $meta['media'] ) ) {
+				$url = wp_get_attachment_url( $meta['media'] );
+				$shortcode = sprintf( '[%s src="%s"]', $type, $url );
+			} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $meta['media'] ) ) {
+				$shortcode = $meta['media'];
+			} elseif ( preg_match( '#<[^>]+>#', $meta['media'] ) ) {
+				$post->format_content = $meta['media'];
+				return $post->format_content;
+			} elseif ( 0 === strpos( $meta['media'], 'http' ) ) {
+				$post->split_content = str_replace( $meta['media'], '', $post->post_content, $count );
+				if ( strstr( $meta['media'], home_url() ) ) {
+					$shortcode = sprintf( '[%s src="%s"]', $type, $meta['media'] );
+				} else {
+					$post->format_content = $wp_embed->autoembed( $meta['media'] );
+					return $post->format_content;
+				}
+			}
+
+			if ( ! empty( $shortcode ) ) {
+				$post->format_content = do_shortcode( $shortcode );
+				return $post->format_content;
+			}
+		}
+	}
+
+	$medias = call_user_func( 'get_attached_' . $type );
+	if ( ! empty( $medias ) ) {
+		$media = reset( $medias );
+		$url = wp_get_attachment_url( $media->ID );
+		$shortcode = sprintf( '[%s src="%s"]', $type, $url );
+		$post->format_content = do_shortcode( $shortcode );
+		return $post->format_content;
+	}
+
+	// these functions expected a reference, not a value
+	$_content = $post->post_content;
+	$content =& $_content;
+
+	$htmls = get_content_media( $type, $content, true, true );
+	if ( ! empty( $htmls ) ) {
+		$html = reset( $htmls );
+		$post->split_content = $content;
+		$post->format_content = $html;
+		return $post->format_content;
+	}
+
+	$embeds = get_embedded_media( $type, $content, true, 1 );
+	if ( ! empty( $embeds ) ) {
+		$embed = reset( $embeds );
+		$post->split_content = $content;
+		if ( 0 === strpos( $embed, 'http' ) ) {
+			if ( strstr( $embed, home_url() ) ) {
+				$post->format_content = do_shortcode( sprintf( '[%s src="%s"]', $type, $embed ) );
+			} else {
+				$post->format_content = $wp_embed->autoembed( $embed );
+			}
+		} else {
+			$post->format_content = $embed;
+		}
+		return $post->format_content;
+	}
+
+	return '';
+}
+
+/**
+ * Output the first video in the current (@global) post's content
+ *
+ * @since 3.6.0
+ *
+ */
+function the_video() {
+	echo get_the_media( 'video' );
+}
+/**
+ * Output the first audio  in the current (@global) post's content
+ *
+ * @since 3.6.0
+ *
+ */
+function the_audio() {
+	echo get_the_media( 'audio' );
+}
+
+/**
  * Retrieve images attached to the passed post
  *
  * @since 3.6.0
@@ -2033,22 +2161,22 @@ function get_attached_image_srcs( $post_id = 0 ) {
 }
 
 /**
- * Check the content blob for image srcs
+ * Check the content blob for images or image srcs
  *
  * @since 3.6.0
  *
  * @param string $content A string which might contain image data.
+ * @param boolean $html Whether to return HTML or URLs
  * @param boolean $remove Whether to remove the found data from the passed content.
  * @param int $limit Optional. The number of image srcs to return
- * @return array The found image srcs
+ * @return array The found images or srcs
  */
-function get_content_images( &$content, $remove = false, $limit = 0 ) {
-	$src = '';
-	$srcs = array();
+function get_content_images( &$content, $html = true, $remove = false, $limit = 0 ) {
 	$matches = array();
+	$tags = array();
+	$captions = array();
 
 	if ( $remove && preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
-		$captions = array();
 		foreach ( $matches as $shortcode ) {
 			if ( 'caption' === $shortcode[2] )
 				$captions[] = $shortcode[0];
@@ -2068,12 +2196,25 @@ function get_content_images( &$content, $remove = false, $limit = 0 ) {
 				$content = str_replace( $tag[0], '', $content, $count );
 			}
 
-			preg_match( '#src=[\'"](.+?)[\'"]#is', $tag[0], $src );
-			if ( ! empty( $src[1] ) ) {
-				$srcs[] = $src[1];
-				if ( $limit > 0 && count( $srcs ) >= $limit )
-					break;
-			}
+			$tags[] = $tag[0];
+
+			if ( $limit > 0 && count( $tags ) >= $limit )
+				break;
+		}
+	}
+
+	if ( $html )
+		return $tags;
+
+	$src = '';
+	$srcs = array();
+
+	foreach ( $tags as $tag ) {
+		preg_match( '#src=[\'"](.+?)[\'"]#is', $tag, $src );
+		if ( ! empty( $src[1] ) ) {
+			$srcs[] = $src[1];
+			if ( $limit > 0 && count( $srcs ) >= $limit )
+				break;
 		}
 	}
 
@@ -2081,16 +2222,17 @@ function get_content_images( &$content, $remove = false, $limit = 0 ) {
 }
 
 /**
- * Check the content blob for image srcs and return the first
+ * Check the content blob for images or srcs and return the first
  *
  * @since 3.6.0
  *
  * @param string $content A string which might contain image data.
+ * @param boolean $html Whether to return HTML or URLs
  * @param boolean $remove Whether to remove the found data from the passed content.
  * @return string The found data
  */
-function get_content_image( &$content, $remove = false ) {
-	$srcs = get_content_images( $content, $remove, 1 );
+function get_content_image( &$content, $html = true, $remove = false ) {
+	$srcs = get_content_images( $content, $html, $remove, 1 );
 	if ( empty( $srcs ) )
 		return '';
 
@@ -2205,4 +2347,85 @@ function get_post_gallery_images( $post_id = 0 ) {
 		return array();
 
 	return $gallery['src'];
+}
+
+/**
+ * Return the first image in the current (@global) post's content
+ *
+ * @since 3.6.0
+ *
+ * @param string $attached_size If an attached image is found, the size to display it.
+ * @param WP_Post $post Optional. Used instead of global $post when passed.
+ */
+function get_the_image( $attached_size = 'full', &$post = null ) {
+	if ( empty( $post ) )
+		$post = get_post();
+
+	if ( empty( $post ) )
+		return '';
+
+	if ( isset( $post->format_content ) )
+		return $post->format_content;
+
+	$medias = get_attached_images();
+	if ( ! empty( $medias ) ) {
+		$media = reset( $medias );
+		$sizes = get_intermediate_image_sizes();
+
+		$urls = array();
+		foreach ( $sizes as $size ) {
+			$urls[] = reset( wp_get_attachment_image_src( $media->ID, $size ) );
+			$urls[] = get_attachment_link( $media->ID );
+		}
+
+		$count = 1;
+		$matches = array();
+		$content =& $post->post_content;
+
+		if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
+			foreach ( $matches as $shortcode ) {
+				if ( 'caption' === $shortcode[2] ) {
+					foreach ( $urls as $url ) {
+						if ( strstr( $shortcode[0], $url ) )
+							$content = str_replace( $shortcode[0], '', $content, $count );
+					}
+				}
+			}
+		}
+
+		foreach ( array( 'a', 'img' ) as $tag ) {
+			if ( preg_match_all( '#' . get_tag_regex( $tag ) . '#', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
+				foreach ( $matches as $match ) {
+					foreach ( $urls as $url ) {
+						if ( strstr( $match[0], $url ) )
+							$content = str_replace( $match[0], '', $content, $count );
+					}
+				}
+			}
+		}
+
+		$post->split_content = $content;
+		$post->format_content = wp_get_attachment_image( $media->ID, $attached_size );
+		return $post->format_content;
+	}
+
+	$content =& $post->post_content;
+	$htmls = get_content_images( $content, true, true, 1 );
+	if ( ! empty( $htmls ) ) {
+		$html = reset( $htmls );
+		$post->split_content = $content;
+		$post->format_content = $html;
+		return $post->format_content;
+	}
+}
+
+/**
+ * Output the first image in the current (@global) post's content
+ *
+ * @since 3.6.0
+ *
+ * @param string $attached_size If an attached image is found, the size to display it.
+ */
+function the_image( $attached_size = 'full' ) {
+	echo get_the_image( $attached_size );
 }

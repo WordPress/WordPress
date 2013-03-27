@@ -678,3 +678,89 @@ function get_the_url( $id = 0 ) {
 function the_url() {
 	echo esc_url( get_the_url() );
 }
+
+/**
+ * Retrieve the post content, minus the extracted post format content
+ *
+ * @since 3.6.0
+ *
+ * @internal there is a lot of code that could be abstracted from get_the_content()
+ *
+ * @param string $more_link_text Optional. Content for when there is more text.
+ * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
+ * @return string
+ */
+function get_the_extra_content( $more_link_text = null, $strip_teaser = false ) {
+	global $more, $page, $format_pages, $multipage, $preview;
+
+	$post = get_post();
+
+	if ( null === $more_link_text )
+		$more_link_text = __( '(more...)' );
+
+	$output = '';
+	$has_teaser = false;
+	$matches = array();
+
+	// If post password required and it doesn't match the cookie.
+	if ( post_password_required() )
+		return get_the_password_form();
+
+	if ( $page > count( $format_pages ) ) // if the requested page doesn't exist
+		$page = count( $format_pages ); // give them the highest numbered page that DOES exist
+
+	$content = $format_pages[$page-1];
+	if ( preg_match( '/<!--more(.*?)?-->/', $content, $matches ) ) {
+		$content = explode( $matches[0], $content, 2 );
+		if ( ! empty( $matches[1] ) && ! empty( $more_link_text ) )
+			$more_link_text = strip_tags( wp_kses_no_null( trim( $matches[1] ) ) );
+
+		$has_teaser = true;
+	} else {
+		$content = array( $content );
+	}
+
+	if ( false !== strpos( $post->post_content, '<!--noteaser-->' ) && ( ! $multipage || $page == 1 ) )
+		$strip_teaser = true;
+
+	$teaser = $content[0];
+
+	if ( $more && $strip_teaser && $has_teaser )
+		$teaser = '';
+
+	$output .= $teaser;
+
+	if ( count( $content ) > 1 ) {
+		if ( $more ) {
+			$output .= '<span id="more-' . $post->ID . '"></span>' . $content[1];
+		} else {
+			if ( ! empty( $more_link_text ) )
+				$output .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-{$post->ID}\" class=\"more-link\">$more_link_text</a>", $more_link_text );
+
+			$output = force_balance_tags( $output );
+		}
+	}
+
+	if ( $preview ) // preview fix for javascript bug with foreign languages
+		$output = preg_replace_callback( '/\%u([0-9A-F]{4})/', '_convert_urlencoded_to_entities', $output );
+
+	return $output;
+}
+
+/**
+ * Display the post content minus the parsed post format data.
+ *
+ * @since 3.6.0
+ *
+ * @param string $more_link_text Optional. Content for when there is more text.
+ * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
+ */
+function the_extra_content( $more_link_text = null, $strip_teaser = false ) {
+	$extra = get_the_extra_content( $more_link_text, $strip_teaser );
+
+	remove_filter( 'the_content', 'post_formats_compat', 7 );
+	$content = apply_filters( 'the_content', $extra );
+	add_filter( 'the_content', 'post_formats_compat', 7 );
+
+	echo str_replace( ']]>', ']]&gt;', $content );
+}

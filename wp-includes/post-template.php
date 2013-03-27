@@ -159,13 +159,11 @@ function get_the_guid( $id = 0 ) {
  * @since 0.71
  *
  * @param string $more_link_text Optional. Content for when there is more text.
- * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
+ * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
  */
-function the_content($more_link_text = null, $stripteaser = false) {
-	$content = get_the_content($more_link_text, $stripteaser);
-	$content = apply_filters('the_content', $content);
-	$content = str_replace(']]>', ']]&gt;', $content);
-	echo $content;
+function the_content( $more_link_text = null, $strip_teaser = false ) {
+	$content = apply_filters( 'the_content', get_the_content( $more_link_text, $strip_teaser ) );
+	echo str_replace( ']]>', ']]&gt;', $content );
 }
 
 /**
@@ -177,7 +175,7 @@ function the_content($more_link_text = null, $stripteaser = false) {
  * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
  * @return string
  */
-function get_the_content( $more_link_text = null, $stripteaser = false ) {
+function get_the_content( $more_link_text = null, $strip_teaser = false ) {
 	global $more, $page, $pages, $multipage, $preview;
 
 	$post = get_post();
@@ -186,43 +184,49 @@ function get_the_content( $more_link_text = null, $stripteaser = false ) {
 		$more_link_text = __( '(more...)' );
 
 	$output = '';
-	$hasTeaser = false;
+	$has_teaser = false;
+	$matches = array();
 
 	// If post password required and it doesn't match the cookie.
 	if ( post_password_required() )
 		return get_the_password_form();
 
-	if ( $page > count($pages) ) // if the requested page doesn't exist
-		$page = count($pages); // give them the highest numbered page that DOES exist
+	if ( $page > count( $pages ) ) // if the requested page doesn't exist
+		$page = count( $pages ); // give them the highest numbered page that DOES exist
 
-	$content = $pages[$page-1];
-	if ( preg_match('/<!--more(.*?)?-->/', $content, $matches) ) {
-		$content = explode($matches[0], $content, 2);
-		if ( !empty($matches[1]) && !empty($more_link_text) )
-			$more_link_text = strip_tags(wp_kses_no_null(trim($matches[1])));
+	$content = $pages[$page - 1];
+	if ( preg_match( '/<!--more(.*?)?-->/', $content, $matches ) ) {
+		$content = explode( $matches[0], $content, 2 );
+		if ( ! empty( $matches[1] ) && ! empty( $more_link_text ) )
+			$more_link_text = strip_tags( wp_kses_no_null( trim( $matches[1] ) ) );
 
-		$hasTeaser = true;
+		$has_teaser = true;
 	} else {
-		$content = array($content);
+		$content = array( $content );
 	}
-	if ( (false !== strpos($post->post_content, '<!--noteaser-->') && ((!$multipage) || ($page==1))) )
-		$stripteaser = true;
+
+	if ( false !== strpos( $post->post_content, '<!--noteaser-->' ) && ( ! $multipage || $page == 1 ) )
+		$strip_teaser = true;
+
 	$teaser = $content[0];
-	if ( $more && $stripteaser && $hasTeaser )
+
+	if ( $more && $strip_teaser && $has_teaser )
 		$teaser = '';
+
 	$output .= $teaser;
-	if ( count($content) > 1 ) {
+
+	if ( count( $content ) > 1 ) {
 		if ( $more ) {
 			$output .= '<span id="more-' . $post->ID . '"></span>' . $content[1];
 		} else {
-			if ( ! empty($more_link_text) )
+			if ( ! empty( $more_link_text ) )
 				$output .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-{$post->ID}\" class=\"more-link\">$more_link_text</a>", $more_link_text );
-			$output = force_balance_tags($output);
+			$output = force_balance_tags( $output );
 		}
-
 	}
+
 	if ( $preview ) // preview fix for javascript bug with foreign languages
-		$output =	preg_replace_callback('/\%u([0-9A-F]{4})/', '_convert_urlencoded_to_entities', $output);
+		$output =	preg_replace_callback( '/\%u([0-9A-F]{4})/', '_convert_urlencoded_to_entities', $output );
 
 	return $output;
 }

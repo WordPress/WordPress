@@ -3677,7 +3677,7 @@ function get_paged_content( $content = null, $paged = null ) {
  * @return bool True when finished.
  */
 function setup_postdata($post) {
-	global $id, $authordata, $currentday, $currentmonth, $page, $pages, $multipage, $more, $numpages;
+	global $id, $authordata, $currentday, $currentmonth, $page, $pages, $format_pages, $multipage, $more, $numpages;
 
 	$id = (int) $post->ID;
 
@@ -3691,18 +3691,38 @@ function setup_postdata($post) {
 		$page = 1;
 	if ( is_single() || is_page() || is_feed() )
 		$more = 1;
-	$content = $post->post_content;
+	$split_content = $content = $post->post_content;
+	$format = get_post_format( $post );
+	if ( $format && in_array( $format, array( 'image', 'audio', 'video' ) ) ) {
+		switch ( $format ) {
+		case 'image':
+			get_the_image( 'full', $post );
+			if ( isset( $post->split_content ) )
+				$split_content = $post->split_content;
+			break;
+		case 'audio':
+			get_the_media( 'audio', $post );
+			if ( isset( $post->split_content ) )
+				$split_content = $post->split_content;
+			break;
+		case 'video':
+			get_the_media( 'video', $post );
+			if ( isset( $post->split_content ) )
+				$split_content = $post->split_content;
+			break;
+		}
+	}
+
 	if ( strpos( $content, '<!--nextpage-->' ) ) {
 		if ( $page > 1 )
 			$more = 1;
 		$multipage = 1;
-		$content = str_replace("\n<!--nextpage-->\n", '<!--nextpage-->', $content);
-		$content = str_replace("\n<!--nextpage-->", '<!--nextpage-->', $content);
-		$content = str_replace("<!--nextpage-->\n", '<!--nextpage-->', $content);
-		$pages = explode('<!--nextpage-->', $content);
-		$numpages = count($pages);
+		$pages = paginate_content( $content );
+		$format_pages = paginate_content( $split_content );
+		$numpages = count( $pages );
 	} else {
 		$pages = array( $post->post_content );
+		$format_pages = array( $split_content );
 		$multipage = 0;
 	}
 
