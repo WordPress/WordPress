@@ -262,7 +262,8 @@ blockquote blockquote {
 }
 
 blockquote cite,
-blockquote small {
+blockquote small,
+.quote-caption {
 	font-size: 14px;
 	font-weight: normal;
 	text-transform: uppercase;
@@ -1169,7 +1170,8 @@ ul.nav-menu li:hover > ul,
 }
 
 .entry-content blockquote cite,
-.entry-content blockquote small {
+.entry-content blockquote small,
+.entry-content .quote-caption {
 	font-size: 16px;
 }
 
@@ -1752,17 +1754,10 @@ footer.entry-meta {
 }
 
 .format-quote .quote-caption,
-.format-quote .entry-content small,
-.format-quote .entry-content cite {
+.format-quote blockquote small,
+.format-quote blockquote cite {
 	display: block;
 	font-size: 16px;
-	margin-top: 20px;
-}
-
-.format-quote .quote-caption small,
-.format-quote .quote-caption cite {
-	display: inline;
-	margin: auto;
 }
 
 .format-quote .entry-meta .author {
@@ -3081,8 +3076,9 @@ footer.entry-meta {
 		font-size: 18px;
 	}
 
-	.format-quote .entry-content small,
-	.format-quote .entry-content cite {
+	.format-quote blockquote small,
+	.format-quote blockquote cite,
+	.format-quote .quote-caption {
 		font-size: 13px;
 	}
 
