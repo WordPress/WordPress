@@ -70,20 +70,19 @@
 				<?php the_content(); ?>
 <?php else : ?>
 				<?php
-					$images = get_children( array( 'post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image', 'orderby' => 'menu_order', 'order' => 'ASC', 'numberposts' => 999 ) );
+					$images = twentyten_get_gallery_images();
 					if ( $images ) :
 						$total_images = count( $images );
 						$image = array_shift( $images );
-						$image_img_tag = wp_get_attachment_image( $image->ID, 'thumbnail' );
 				?>
 						<div class="gallery-thumb">
-							<a class="size-thumbnail" href="<?php the_permalink(); ?>"><?php echo $image_img_tag; ?></a>
+							<a class="size-thumbnail" href="<?php the_permalink(); ?>"><?php echo wp_get_attachment_image( $image, 'thumbnail' ); ?></a>
 						</div><!-- .gallery-thumb -->
 						<p><em><?php printf( _n( 'This gallery contains <a %1$s>%2$s photo</a>.', 'This gallery contains <a %1$s>%2$s photos</a>.', $total_images, 'twentyten' ),
 								'href="' . get_permalink() . '" title="' . esc_attr( sprintf( __( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ) ) . '" rel="bookmark"',
 								number_format_i18n( $total_images )
 							); ?></em></p>
-				<?php endif; ?>
+				<?php endif; // end twentyten_get_gallery_images() check ?>
 						<?php the_excerpt(); ?>
 <?php endif; ?>
 			</div><!-- .entry-content -->
