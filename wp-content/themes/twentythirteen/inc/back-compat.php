@@ -1,9 +1,10 @@
 <?php
 /**
- * Prevents Twenty Thirteen from running on WordPress versions prior to 3.6.
+ * Twenty Thirteen back compat functionality.
  *
- * Twenty Thirteen is not meant to be backwards compatible, since it relies on
- * a lot of new functions and markup changes that were introduced in 3.6.
+ * Prevents Twenty Thirteen from running on WordPress versions prior to 3.6,
+ * since this theme is not meant to be backwards compatible and relies on
+ * many new functions and markup changes introduced in 3.6.
  *
  * @package WordPress
  * @subpackage Twenty_Thirteen
