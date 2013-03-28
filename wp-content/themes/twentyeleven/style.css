@@ -498,7 +498,6 @@ a:hover {
 	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
 	clip: rect(1px, 1px, 1px, 1px);
 }
-#access a.assistive-text:active,
 #access a.assistive-text:focus {
 	background: #eee;
 	border-bottom: 1px solid #ddd;

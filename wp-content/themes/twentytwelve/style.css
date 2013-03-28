@@ -505,8 +505,6 @@ a:hover {
 	position: absolute !important;
 	clip: rect(1px, 1px, 1px, 1px);
 }
-.main-navigation .assistive-text:hover,
-.main-navigation .assistive-text:active,
 .main-navigation .assistive-text:focus {
 	background: #fff;
 	border: 2px solid #333;

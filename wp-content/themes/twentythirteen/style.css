@@ -547,7 +547,6 @@ hr {
 	clip: rect(1px, 1px, 1px, 1px);
 }
 
-.screen-reader-text:active,
 .screen-reader-text:focus {
 	background-color: #f1f1f1;
 	border-radius: 3px;

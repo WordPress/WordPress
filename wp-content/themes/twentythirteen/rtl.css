@@ -69,8 +69,6 @@ td {
 	padding-left: 10px;
 	padding-right: 0;
 }
-.assistive-text:hover,
-.assistive-text:active,
 .assistive-text:focus {
 	left: auto;
 	right: 5px;
