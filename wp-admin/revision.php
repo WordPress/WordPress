@@ -108,7 +108,6 @@ $comparetworevisionslink = get_edit_post_link( $revision->ID );
 		</div>
 		<div id="backbonerevisionsdiff">
 		</div>
-		<hr />
 	</div>
 </div>
 
