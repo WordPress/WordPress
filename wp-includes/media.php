@@ -2069,15 +2069,6 @@ function get_the_media( $type, &$post = null ) {
 		}
 	}
 
-	$medias = call_user_func( 'get_attached_' . $type );
-	if ( ! empty( $medias ) ) {
-		$media = reset( $medias );
-		$url = wp_get_attachment_url( $media->ID );
-		$shortcode = sprintf( '[%s src="%s"]', $type, $url );
-		$post->format_content = do_shortcode( $shortcode );
-		return $post->format_content;
-	}
-
 	// these functions expected a reference, not a value
 	$_content = $post->post_content;
 	$content =& $_content;
@@ -2103,6 +2094,15 @@ function get_the_media( $type, &$post = null ) {
 		} else {
 			$post->format_content = $embed;
 		}
+		return $post->format_content;
+	}
+
+	$medias = call_user_func( 'get_attached_' . $type );
+	if ( ! empty( $medias ) ) {
+		$media = reset( $medias );
+		$url = wp_get_attachment_url( $media->ID );
+		$shortcode = sprintf( '[%s src="%s"]', $type, $url );
+		$post->format_content = do_shortcode( $shortcode );
 		return $post->format_content;
 	}
 
