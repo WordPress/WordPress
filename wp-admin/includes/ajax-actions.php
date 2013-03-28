@@ -2130,6 +2130,13 @@ function wp_ajax_revisions_data() {
 	if ( 0 != $single_revision_id ) {
 		$right_revision = get_post( $single_revision_id );
 
+	// make sure the right revision is the most recent
+	if ( $compare_two_mode && $right_revision->ID < $left_revision->ID ) {
+		$temp = $left_revision;
+		$left_revision = $right_revision;
+		$right_revision = $temp;
+	}
+
 		$linesadded=0;
 		$linesdeleted=0;
 
