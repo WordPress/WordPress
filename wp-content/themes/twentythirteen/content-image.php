@@ -9,11 +9,11 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
-		<div class="entry-media">
-			<?php the_image(); ?>
-		</div>
+	<div class="entry-media">
+		<?php the_image( 'twentythirteen-image-post-format' ); ?>
+	</div><!-- .entry-media -->
 
+	<header class="entry-header">
 		<?php if ( is_single() ) : ?>
 		<h1 class="entry-title"><?php the_title(); ?></h1>
 		<?php else : ?>
