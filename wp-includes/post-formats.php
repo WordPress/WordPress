@@ -687,7 +687,7 @@ function the_url() {
  * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
  * @return string
  */
-function get_the_extra_content( $more_link_text = null, $strip_teaser = false ) {
+function get_the_remaining_content( $more_link_text = null, $strip_teaser = false ) {
 	global $more, $page, $format_pages, $multipage, $preview;
 
 	$post = get_post();
@@ -752,8 +752,8 @@ function get_the_extra_content( $more_link_text = null, $strip_teaser = false ) 
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
  */
-function the_extra_content( $more_link_text = null, $strip_teaser = false ) {
-	$extra = get_the_extra_content( $more_link_text, $strip_teaser );
+function the_remaining_content( $more_link_text = null, $strip_teaser = false ) {
+	$extra = get_the_remaining_content( $more_link_text, $strip_teaser );
 
 	remove_filter( 'the_content', 'post_formats_compat', 7 );
 	$content = apply_filters( 'the_content', $extra );
