@@ -1416,32 +1416,19 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	$defaults = array( 'parent' => false, 'right' => false, 'left' => false, 'format' => 'list', 'type' => 'all' );
 	extract( wp_parse_args( $args, $defaults ), EXTR_SKIP );
 
-	switch ( $type ) {
-		case 'autosave' :
-			if ( !$autosave = wp_get_post_autosave( $post->ID ) )
-				return;
-			$revisions = array( $autosave );
-			break;
-		case 'revision' : // just revisions - remove autosave later
-		case 'all' :
-		default :
-			if ( !$revisions = wp_get_post_revisions( $post->ID ) )
-				return;
-			break;
-	}
+	if ( !$revisions = wp_get_post_revisions( $post->ID ) )
+		return;
 
 	/* translators: post revision: 1: when, 2: author name */
 	$titlef = _x( '%1$s', 'post revision' );
 
-	if ( $parent )
-		array_unshift( $revisions, $post );
-
-	// since 3.6 revisions include a copy of the current post data as a revision
-	// the collowing removes this current revision if present from the list of
-	// revisions returned by wp_list_post_revisions, remove these to include the
-	// crrent post revision in the list of revisions
-	if ( wp_first_revision_matches_current_version( $post_id ) )
+	// Since 3.6 revisions include a copy of the current post data as a revision.
+	// The following removes that revision when $parent == false
+	$parent_included = wp_first_revision_matches_current_version( $post_id );
+	if ( $parent_included && ! $parent )
 		array_pop( $revisions );
+	elseif ( ! $parent_included && $parent )
+		array_unshift( $revisions, $post );
 
 	$rows = $right_checked = '';
 	$class = false;
@@ -1449,7 +1436,9 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	foreach ( $revisions as $revision ) {
 		if ( !current_user_can( 'read_post', $revision->ID ) )
 			continue;
-		if ( 'revision' === $type && wp_is_post_autosave( $revision ) )
+		
+		$is_autosave = wp_is_post_autosave( $revision );
+		if ( ( 'revision' === $type && $is_autosave ) || ( 'autosave' === $type && ! $is_autosave ) )
 			continue;
 
 		$date = wp_post_revision_title_expanded( $revision );
@@ -1529,5 +1518,4 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 		}
 
 	endif;
-
 }
