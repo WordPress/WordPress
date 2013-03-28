@@ -465,12 +465,12 @@ window.wp = window.wp || {};
 				// add tooltips to the handles
 				if ( 2 === REVAPP._compareOneOrTwo ) {
 					REVAPP.addTooltip ( $( 'a.ui-slider-handle.left-handle' ),
-						( REVAPP._rightDiff >= REVAPP._revisions.length ) ? '' : REVAPP._revisions.at( REVAPP._leftDiff ).get( 'revision_date_author_short' ) );
+						( REVAPP._leftDiff < 0 ) ? '' : REVAPP._revisions.at( REVAPP._leftDiff - 1 ).get( 'revision_date_author_short' ) );
 					REVAPP.addTooltip ( $( 'a.ui-slider-handle.right-handle' ),
-						( REVAPP._rightDiff >= REVAPP._revisions.length ) ? '' : REVAPP._revisions.at( REVAPP._rightDiff ).get( 'revision_date_author_short' ) );
+						( REVAPP._rightDiff > REVAPP._revisions.length ) ? '' : REVAPP._revisions.at( REVAPP._rightDiff - 1 ).get( 'revision_date_author_short' ) );
 				} else {
 					REVAPP.addTooltip ( $( 'a.ui-slider-handle' ),
-						( REVAPP._rightDiff >= REVAPP._revisions.length ) ? '' : REVAPP._revisions.at( REVAPP._rightDiff ).get( 'revision_date_author_short' ) );
+						( REVAPP._rightDiff > REVAPP._revisions.length ) ? '' : REVAPP._revisions.at( REVAPP._rightDiff - 1 ).get( 'revision_date_author_short' ) );
 				}
 
 				// hide the restore button when on the last sport/current post data

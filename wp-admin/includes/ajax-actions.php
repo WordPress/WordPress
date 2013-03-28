@@ -2130,16 +2130,6 @@ function wp_ajax_revisions_data() {
 	if ( 0 != $single_revision_id ) {
 		$right_revision = get_post( $single_revision_id );
 
-		//
-		//make sure the left revision is the most recent
-		//
-
-		if ( strtotime( $right_revision->post_modified_gmt ) < strtotime( $left_revision->post_modified_gmt ) ) {
-			$temp = $left_revision;
-			$left_revision = $right_revision;
-			$right_revision = $temp;
-		}
-
 		$linesadded=0;
 		$linesdeleted=0;
 
@@ -2182,14 +2172,6 @@ function wp_ajax_revisions_data() {
 		exit();
 	} //end single model fetch
 
-	//fetch the list of revisions available
-
-	//if we are comparing two revisions, the first 'revision' represented by the leftmost
-	//slider position is the current revision, prepend a comparison to this revision
-	if ( ! wp_first_revision_matches_current_version( $post_id ) ) //revisions don't have current version
-		array_unshift( $revisions, get_post( $post_id ) ) ;
-	//$revisions->append ( get_post( $post_id ) );
-	//error_log( var_dump( $revisions ));
 	$count = -1;
 
 	//reverse the list to start with oldes revision
