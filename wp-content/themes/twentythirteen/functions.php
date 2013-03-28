@@ -596,4 +596,5 @@ require( get_template_directory() . '/inc/custom-header.php' );
 /**
  * Adds back compat handling for WP versions pre-3.6.
  */
-require( get_template_directory() . '/inc/back-compat.php' );
+if ( version_compare( $GLOBALS['wp_version'], '3.6-alpha', '<' ) )
+	require( get_template_directory() . '/inc/back-compat.php' );
