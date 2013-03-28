@@ -1246,6 +1246,7 @@ footer.entry-meta {
 }
 
 /* Mediaelements */
+.hentry .mejs-mediaelement,
 .hentry .mejs-container .mejs-controls {
 	background: #220e10;
 }
