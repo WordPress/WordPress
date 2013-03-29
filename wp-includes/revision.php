@@ -61,6 +61,25 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
 }
 
 /**
+ * Determines which post meta fields are revisioned.
+ *
+ * @since 3.6
+ * @access private
+ * @return array An array of meta keys that should be revisioned.
+ */
+function _wp_post_revision_meta_keys() {
+	return array(
+		'_wp_format_url',
+		'_wp_format_quote',
+		'_wp_format_quote_source',
+		'_wp_format_image',
+		'_wp_format_gallery',
+		'_wp_format_audio',
+		'_wp_format_video',
+	);
+}
+
+/**
  * Saves an already existing post as a post revision.
  *
  * Typically used immediately after post updates.
@@ -108,6 +127,14 @@ function wp_save_post_revision( $post_id ) {
 
 			foreach ( array_keys( _wp_post_revision_fields() ) as $field ) {
 				if ( normalize_whitespace( $post->$field ) != normalize_whitespace( $last_revision->$field ) ) {
+					$post_has_changed = true;
+					break;
+				}
+			}
+
+			// Check whether revisioned meta fields have changed.
+			foreach ( _wp_post_revision_meta_keys() as $meta_key ) {
+				if ( get_post_meta( $post->ID, $meta_key ) != get_post_meta( $last_revision->ID, $meta_key ) ) {
 					$post_has_changed = true;
 					break;
 				}
@@ -240,6 +267,7 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 	if ( isset($post['post_type']) && 'revision' == $post['post_type'] )
 		return new WP_Error( 'post_type', __( 'Cannot create a revision of a revision' ) );
 
+	$post_id = $post['ID'];
 	$post = _wp_post_revision_fields( $post, $autosave );
 	$post = wp_slash($post); //since data is from db
 
@@ -249,6 +277,18 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 
 	if ( $revision_id )
 		do_action( '_wp_put_post_revision', $revision_id );
+
+	// Save revisioned meta fields.
+	foreach ( _wp_post_revision_meta_keys() as $meta_key ) {
+		$meta_values = get_post_meta( $post_id, $meta_key );
+		if ( false === $meta_values )
+			continue;
+
+		// Use the underlying add_metadata vs add_post_meta to make sure
+		// metadata is added to the revision post and not its parent.
+		foreach ( $meta_values as $meta_value )
+			add_metadata( 'post', $revision_id, $meta_key, $meta_value );
+	}
 
 	return $revision_id;
 }
@@ -323,6 +363,17 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
 	$update['ID'] = $revision['post_parent'];
 
 	$update = wp_slash( $update ); //since data is from db
+
+	// Restore revisioned meta fields.
+	foreach ( _wp_post_revision_meta_keys() as $meta_key ) {
+		delete_post_meta( $update['ID'], $meta_key );
+		$meta_values = get_post_meta( $revision['ID'], $meta_key );
+		if ( false === $meta_values )
+			continue;
+
+		foreach ( $meta_values as $meta_value )
+			add_post_meta( $update['ID'], $meta_key, $meta_value );
+	}
 
 	$post_id = wp_update_post( $update );
 	if ( is_wp_error( $post_id ) )
