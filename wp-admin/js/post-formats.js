@@ -1,7 +1,7 @@
 window.wp = window.wp || {};
 
 (function($) {
-	var container, mediaFrame, lastMimeType, lastMenu, mediaPreview, noUIFormats = ['standard', 'chat', 'status', 'aside'];
+	var container, mediaFrame, lastMimeType, lastMenu, mediaPreview, noUIFormats = ['standard', 'chat', 'status', 'aside', 'gallery'];
 
 	function switchFormatClass( format ) {
 		container.get(0).className = container.get(0).className.replace( /\bwp-format-[^ ]+/, '' );
