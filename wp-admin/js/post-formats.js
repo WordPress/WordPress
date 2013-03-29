@@ -118,7 +118,7 @@ window.wp = window.wp || {};
 				mediaPreview('video', url, mime);
 			} else {
 				// set the hidden input's value
-				$field.val(url);
+				$field.val(id);
 				// Show the image in the placeholder
 				$el.html('<img src="' + url + '" />');
 				$holder.removeClass('empty').show();

@@ -289,7 +289,7 @@ function post_formats_compat( $content, $id = 0 ) {
 		return $content;
 
 	$format = get_post_format( $post );
-	if ( empty( $format ) || in_array( $format, array( 'status', 'aside', 'chat' ) ) )
+	if ( empty( $format ) || in_array( $format, array( 'status', 'aside', 'chat', 'gallery' ) ) )
 		return $content;
 
 	if ( current_theme_supports( 'structured-post-formats', $format ) )
@@ -308,8 +308,6 @@ function post_formats_compat( $content, $id = 0 ) {
 	$show_content = true;
 	$format_output = '';
 	$meta = get_post_format_meta( $post->ID );
-	// passed by ref in preg_match()
-	$matches = array();
 
 	switch ( $format ) {
 		case 'link':
@@ -341,11 +339,34 @@ function post_formats_compat( $content, $id = 0 ) {
  			}
 			break;
 
+		case 'image':
+			if ( ! empty( $meta['image'] ) ) {
+				$image = is_numeric( $meta['image'] ) ? wp_get_attachment_url( $meta['image'] ) : $meta['image'];
+
+				if ( ! empty( $image ) && ! stristr( $content, $image ) ) {
+					$image_html = sprintf(
+						'<img %ssrc="%s" alt="" />',
+						empty( $compat['image_class'] ) ? '' : sprintf( 'class="%s" ', esc_attr( $compat['image_class'] ) ),
+						$image
+					);
+					if ( empty( $meta['url'] ) ) {
+						$format_output .= $image_html;
+					} else {
+						$format_output .= sprintf(
+							'<a href="%s">%s</a>',
+							esc_url( $meta['url'] ),
+							$image_html
+						);
+					}
+				}
+			}
+			break;
+
 		case 'quote':
 			if ( ! empty( $meta['quote'] ) && ! stristr( $content, $meta['quote'] ) ) {
 				$quote = sprintf( '<blockquote>%s</blockquote>', wpautop( $meta['quote'] ) );
 				if ( ! empty( $meta['quote_source'] ) ) {
-					$source = ( empty( $quote_meta['url'] ) ) ? $meta['quote_source'] : sprintf( '<a href="%s">%s</a>', esc_url( $meta['url'] ), $meta['quote_source'] );
+					$source = ( empty( $meta['url'] ) ) ? $meta['quote_source'] : sprintf( '<a href="%s">%s</a>', esc_url( $meta['url'] ), $meta['quote_source'] );
 					$quote .= sprintf( '<figcaption class="quote-caption">%s</figcaption>', $source );
 				}
 				$format_output .= sprintf( '<figure class="quote">%s</figure>', $quote );

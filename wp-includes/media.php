@@ -2367,6 +2367,12 @@ function get_the_image( $attached_size = 'full', &$post = null ) {
 	if ( isset( $post->format_content ) )
 		return $post->format_content;
 
+	$meta = get_post_format_meta( $post->ID );
+	if ( ! empty( $meta['image'] ) ) {
+		$post->format_content = wp_get_attachment_image( $meta['image'], $attached_size );
+		return $post->format_content;
+	}
+
 	$medias = get_attached_images();
 	if ( ! empty( $medias ) ) {
 		$media = reset( $medias );
