@@ -10,7 +10,7 @@ jQuery(document).ready( function($) {
 		if ( section.hasClass('cannot-expand') )
 			return;
 
-		section.closest( '.accordion-container' ).find( '.accordion-section' ).not( section ).removeClass( 'open' );
+		section.siblings( '.open' ).removeClass( 'open' );
 		section.toggleClass( 'open' );
 	});
 });
