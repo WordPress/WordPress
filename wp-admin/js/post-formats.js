@@ -45,20 +45,20 @@ window.wp = window.wp || {};
 		$('.post-format-tip').html( $('.post-format-options a.active').prop('title') );
 	});
 
- 	// Media selection
- 	$('.wp-format-media-select').click(function (event) {
-	 	event.preventDefault();
-	 	var $el = $(this), $holder, $field, mime = 'image', menu = '',
-	 		$holder = $el.closest('.wp-format-media-holder'),
-	 		$field = $( '#wp_format_' + $holder.data('format') );
+	// Media selection
+	$('.wp-format-media-select').click(function (event) {
+		event.preventDefault();
+		var $el = $(this), $holder, $field, mime = 'image', menu = '',
+		    $holder = $el.closest('.wp-format-media-holder'),
+		    $field = $( '#wp_format_' + $holder.data('format') );
 
-	 	switch ( $holder.data('format') ) {
-		 	case 'audio':
-		 		mime = 'audio';
-		 		break;
-		 	case 'video':
-		 		mime = 'video';
-		 		break;
+		switch ( $holder.data('format') ) {
+			case 'audio':
+				mime = 'audio';
+				break;
+			case 'video':
+				mime = 'video';
+				break;
 		}
 
 		// If the media frame already exists, reopen it.
@@ -123,8 +123,8 @@ window.wp = window.wp || {};
 				$el.html('<img src="' + url + '" />');
 				$holder.removeClass('empty').show();
 			}
- 		});
+		});
 
- 		mediaFrame.open();
- 	});
+		mediaFrame.open();
+	});
 })(jQuery);
