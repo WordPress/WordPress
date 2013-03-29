@@ -1548,11 +1548,11 @@ footer.entry-meta {
 	display: none;
 }
 
-.format-chat .chat-transcript {
+.format-chat .chat {
 	margin: 0;
 }
 
-.format-chat .chat-transcript time {
+.format-chat .chat .chat-timestamp {
 	color: #722d19;
 	float: right;
 	font-size: 12px;
@@ -1560,7 +1560,7 @@ footer.entry-meta {
 	margin: 5px 10px 0;
 }
 
-.format-chat .chat-transcript cite {
+.format-chat .chat .fn {
 	font-style: normal;
 }
 
