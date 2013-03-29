@@ -1,17 +1,16 @@
 jQuery(document).ready( function($) {
 	// Expand/Collapse
-	$('.accordion-section-title').on('click keydown', function( event ) {
-
-		if ( event.type === 'keydown' &&  13 !== event.which ) // enter
+	$('.accordion-container').on( 'click keydown', '.accordion-section-title', function(e) {
+		if ( e.type === 'keydown' && 13 !== e.which ) // "return" key
 				return;
+		e.preventDefault(); // Keep this AFTER the key filter above
 
-		var clicked = $( this ).closest( '.accordion-section' );
+		var section = $( this ).closest( '.accordion-section' );
 
-		if ( clicked.hasClass('cannot-expand') )
+		if ( section.hasClass('cannot-expand') )
 			return;
 
-		clicked.closest( '.accordion-container' ).find( '.accordion-section' ).not( clicked ).removeClass( 'open' );
-		clicked.toggleClass( 'open' );
-		event.preventDefault();
+		section.closest( '.accordion-container' ).find( '.accordion-section' ).not( section ).removeClass( 'open' );
+		section.toggleClass( 'open' );
 	});
 });
