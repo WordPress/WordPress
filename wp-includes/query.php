@@ -3626,14 +3626,14 @@ function wp_old_slug_redirect() {
  *
  * @since 3.6.0
  *
- * @param string $content Content to split
- * @return array Paged content
+ * @param string $content Content to split.
+ * @return array Paged content.
  */
 function paginate_content( $content ) {
 	$content = str_replace( "\n<!--nextpage-->\n", '<!--nextpage-->', $content );
-	$content = str_replace( "\n<!--nextpage-->", '<!--nextpage-->', $content );
-	$content = str_replace( "<!--nextpage-->\n", '<!--nextpage-->', $content );
-	return explode( '<!--nextpage-->', $content);
+	$content = str_replace( "\n<!--nextpage-->",   '<!--nextpage-->', $content );
+	$content = str_replace( "<!--nextpage-->\n",   '<!--nextpage-->', $content );
+	return explode( '<!--nextpage-->', $content );
 }
 
 /**
@@ -3642,9 +3642,10 @@ function paginate_content( $content ) {
  * @since 3.6.0
  *
  * @param string $content
+ * @param int $paged
  * @return string
  */
-function get_paged_content( $content = null, $paged = null ) {
+function get_paged_content( $content = '', $paged = 0 ) {
 	global $page;
 	if ( empty( $page ) )
 		$page = 1;
@@ -3655,7 +3656,7 @@ function get_paged_content( $content = null, $paged = null ) {
 	if ( empty( $content ) ) {
 		$post = get_post();
 		if ( empty( $post ) )
-			return;
+			return '';
 
 		$content = $post->post_content;
 	}

@@ -417,7 +417,7 @@ function post_formats_compat( $content, $id = 0 ) {
 }
 
 /**
- * Add chat detection support to the `get_content_chat()` chat parser
+ * Add chat detection support to the `get_content_chat()` chat parser.
  *
  * @since 3.6.0
  *
@@ -484,12 +484,10 @@ function get_content_chat( &$content, $remove = false ) {
 	if ( empty( $trimmed ) )
 		return array();
 
-	$has_match = false;
 	$matched_parser = false;
 	foreach ( $_wp_chat_parsers as $parser ) {
-		@list( $newline_regex ) = $parser;
+		@list( $newline_regex, $delimiter_regex ) = $parser;
 		if ( preg_match( $newline_regex, $trimmed ) ) {
-			$has_match = true;
 			$matched_parser = $parser;
 			break;
 		}
@@ -498,15 +496,11 @@ function get_content_chat( &$content, $remove = false ) {
 	if ( false === $matched_parser )
 		return array();
 
-	@list( $newline_regex, $delimiter_regex ) = $parser;
-
 	$last_index = 0;
-	$stanzas = array();
+	$stanzas = $data = $stanza = array();
+	$author = $time = '';
 	$lines = explode( "\n", make_clickable( $trimmed ) );
 
-	$author = $time = '';
-	$data = array();
-	$stanza = array();
 
 	foreach ( $lines as $index => $line ) {
 		$line = trim( $line );
@@ -514,17 +508,16 @@ function get_content_chat( &$content, $remove = false ) {
 		if ( empty( $line ) ) {
 			if ( ! empty( $author ) ) {
 				$stanza[] = array(
-					'time' => $time,
-					'author' => $author,
+					'time'    => $time,
+					'author'  => $author,
 					'message' => join( ' ', $data )
 				);
 			}
 
 			$stanzas[] = $stanza;
 			$last_index = $index;
-			$stanza = array();
+			$stanza = $data = array();
 			$author = $time = '';
-			$data = array();
 			if ( ! empty( $lines[$index + 1] ) && ! preg_match( $delimiter_regex, $lines[$index + 1] ) )
 				break;
 		}
@@ -539,8 +532,8 @@ function get_content_chat( &$content, $remove = false ) {
 		if ( $matched && ( ! empty( $matches[2] ) || ( $no_ws || $has_ws ) ) ) {
 			if ( ! empty( $author ) ) {
 				$stanza[] = array(
-					'time' => $time,
-					'author' => $author,
+					'time'    => $time,
+					'author'  => $author,
 					'message' => join( ' ', $data )
 				);
 				$data = array();
@@ -556,8 +549,8 @@ function get_content_chat( &$content, $remove = false ) {
 
 	if ( ! empty( $author ) ) {
 		$stanza[] = array(
-			'time' => $time,
-			'author' => $author,
+			'time'    => $time,
+			'author'  => $author,
 			'message' => trim( join( ' ', $data ) )
 		);
 	}
@@ -602,29 +595,28 @@ function get_the_chat( $id = 0 ) {
  * @print HTML
  */
 function the_chat() {
-	$output = '<dl class="chat-transcript">';
-
+	$output  = '<dl class="chat">';
 	$stanzas = get_the_chat();
 
 	foreach ( $stanzas as $stanza ) {
 		foreach ( $stanza as $row ) {
 			$time = '';
 			if ( ! empty( $row['time'] ) )
-				$time = sprintf( '<time>%s</time>', esc_html( $row['time'] ) );
+				$time = sprintf( '<time class="chat-timestamp">%s</time>', esc_html( $row['time'] ) );
 
 			$output .= sprintf(
 				'<dt class="chat-author chat-author-%1$s vcard">%2$s <cite class="fn">%3$s</cite>: </dt>
 					<dd class="chat-text">%4$s</dd>
 				',
-				esc_attr( strtolower( $row['author'] ) ), // Slug.
+				esc_attr( sanitize_title_with_dashes( $row['author'] ) ), // Slug.
 				$time,
 				esc_html( $row['author'] ),
-				esc_html( $row['message'] )
+				$row['message']
 			);
 		}
 	}
 
-	$output .= '</dl><!-- .chat-transcript -->';
+	$output .= '</dl><!-- .chat -->';
 
 	echo $output;
 }
