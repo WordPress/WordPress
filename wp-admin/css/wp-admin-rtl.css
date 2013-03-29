@@ -23,6 +23,7 @@ TABLE OF CONTENTS:
 	11.1 - Custom Fields
 	11.2 - Post Revisions
 	11.3 - Featured Images
+	11.4 - Post Format Selection
 12.0 - Categories
 13.0 - Tags
 14.0 - Media Screen
@@ -964,6 +965,33 @@ table.diff td, table.diff th {
 
 #select-featured-image a {
 	float: right;
+}
+
+/*------------------------------------------------------------------------------
+  11.4 - Post format selection
+------------------------------------------------------------------------------*/
+
+.post-format-options a {
+	border-left: 1px solid #ebebeb;
+	border-right: none;
+}
+
+.post-format-options a:first-child {
+	-webkit-border-bottom-left-radius: 0;
+	-webkit-border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+}
+
+.post-format-options a:last-child {
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.post-format-tip {
+	float: left;
 }
 
 /*------------------------------------------------------------------------------

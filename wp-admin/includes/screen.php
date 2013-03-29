@@ -142,11 +142,13 @@ function screen_icon( $screen = '' ) {
  *
  * @since 3.2.0
  *
+ * @global $post_ID
  * @param string|WP_Screen $screen Optional. Accepts a screen object (and defaults to the current screen object)
  * 	which it uses to determine an icon HTML ID. Or, if a string is provided, it is used to form the icon HTML ID.
  * @return string HTML for the screen icon.
  */
 function get_screen_icon( $screen = '' ) {
+	global $post_ID;
 	if ( empty( $screen ) )
 		$screen = get_current_screen();
 	elseif ( is_string( $screen ) )
@@ -165,6 +167,12 @@ function get_screen_icon( $screen = '' ) {
 
 		if ( $screen->post_type )
 			$class .= ' ' . sanitize_html_class( 'icon32-posts-' . $screen->post_type );
+
+		if ( $post_ID ) {
+			$format = get_post_format( $post_ID );
+			if ( $format )
+				$class .= ' ' . $format;
+		}
 	}
 
 	return '<div id="icon-' . esc_attr( $icon_id ) . '" class="' . $class . '"><br /></div>';

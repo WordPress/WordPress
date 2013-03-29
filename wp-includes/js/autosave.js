@@ -199,7 +199,13 @@ function autosave_update_slug(post_id) {
 			},
 			function(data) {
 				if ( data !== '-1' ) {
-					jQuery('#edit-slug-box').html(data);
+					var box = jQuery('#edit-slug-box');
+					box.html(data);
+					if (box.hasClass('hidden')) {
+						box.fadeIn('fast', function () {
+							box.removeClass('hidden');
+						});
+					}
 					makeSlugeditClickable();
 				}
 			}

@@ -24,6 +24,7 @@ TABLE OF CONTENTS:
 	11.1 - Custom Fields
 	11.2 - Post Revisions
 	11.3 - Featured Images
+	11.4 - Post Format Selection
 12.0 - Categories
 13.0 - Tags
 14.0 - Media Screen
@@ -3150,10 +3151,14 @@ input#link_url {
 	display: none;
 }
 
+.wp-format-gallery .post-formats-fields,
+.wp-format-image .post-formats-fields,
 .wp-format-link .post-formats-fields,
 .wp-format-quote .post-formats-fields,
 .wp-format-video .post-formats-fields,
 .wp-format-audio .post-formats-fields,
+.wp-format-gallery .field.wp-format-gallery,
+.wp-format-image .field.wp-format-image,
 .wp-format-chat .field.wp-format-chat,
 .wp-format-link .field.wp-format-link,
 .wp-format-quote .field.wp-format-quote,
@@ -3165,12 +3170,73 @@ input#link_url {
 .post-formats-fields .field {
 	display: none;
 	margin-bottom: 10px;
+	overflow: hidden;
 }
 
 .post-formats-fields input,
 .post-formats-fields textarea {
 	padding: 5px;
 	font-size: 1.2em;
+}
+
+.wp-format-media-holder {
+	float: left;
+	overflow: hidden;
+	width: 40%;
+	height: 200px;
+	border: 1px dashed #dfdfdf;
+	background: #f5f5f5 url(../images/media-button-2x.png) no-repeat 50% 25%;
+}
+
+.wp-format-media-holder.empty {
+	height: auto;
+	padding: 55px 0 20px;
+}
+
+.wp-format-media-holder:hover {
+	background-color: #eee;
+}
+
+.wp-format-media-preview {
+	margin-bottom: 20px;
+}
+
+.mejs-audio audio,
+.mejs-video video {
+	display: block;
+}
+
+.wp-format-media-select {
+	display: block;
+	height: 200px;
+	text-align: center;
+}
+
+.wp-format-media-select img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.empty .wp-format-media-select {
+	height: 20px;
+}
+
+.empty .wp-format-media-metaedit {
+	height: 20px;
+	display: block;
+	text-align: center;
+}
+
+.edit-format-preview {
+	display: block;
+	margin: 5px 0;
+}
+
+#wp_format_audio, #wp_format_video {
+	float: left;
+	margin-right: 23px;
+	max-width: 50%;
+	min-height: 97px;
 }
 
 /* Post Screen */
@@ -4063,6 +4129,151 @@ body .ui-tooltip {
 
 .no-js #select-featured-image .choose {
 	display: none;
+}
+
+/*------------------------------------------------------------------------------
+  11.4 - Post format selection
+------------------------------------------------------------------------------*/
+
+#icon-edit.standard {
+	background: url(../images/post-formats32.png) no-repeat -3px -4px;
+}
+
+#icon-edit.image {
+	background: url(../images/post-formats32.png) no-repeat  -43px -4px;
+}
+
+#icon-edit.gallery {
+	background: url(../images/post-formats32.png) no-repeat -83px -4px;
+}
+
+#icon-edit.audio {
+	background: url(../images/post-formats32.png) no-repeat -123px -4px;
+}
+
+#icon-edit.video {
+	background: url(../images/post-formats32.png) no-repeat -163px -4px;
+}
+
+#icon-edit.chat {
+	background: url(../images/post-formats32.png) no-repeat -202px -4px;
+}
+
+#icon-edit.status {
+	background: url(../images/post-formats32.png) no-repeat -242px -4px;
+}
+
+#icon-edit.aside {
+	background: url(../images/post-formats32.png) no-repeat -282px -4px;
+}
+
+#icon-edit.quote {
+	background: url(../images/post-formats32.png) no-repeat -322px -4px;
+}
+
+#icon-edit.link {
+	background: url(../images/post-formats32.png) no-repeat -362px -4px;
+}
+
+.post-format-description {
+	color: #666;
+	display: none;
+	margin: 10px 0;
+}
+
+.post-format-options {
+	height: 29px;
+	background: #f9f9f9;
+	border: 1px solid #dfdfdf;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	margin: 0 0 9px 1px;
+	padding: 0;
+}
+
+.post-format-options a {
+	border-right: 1px solid #ebebeb;
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	padding: 6px;
+	position: relative;
+	text-decoration: none;
+}
+
+.post-format-options a:first-child {
+	-webkit-border-bottom-left-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
+}
+
+.post-format-options a.active,
+.post-format-options a:focus,
+.post-format-options a:hover {
+	background: #fff;
+	outline: none;
+	opacity: 1;
+}
+
+.post-format-options a div {
+	height: 16px;
+	width: 16px;
+	opacity: 0.4;
+}
+
+.post-format-options a.active div,
+.post-format-options a:focus div,
+.post-format-options a:hover div {
+	opacity: 1;
+}
+
+.post-format-options .standard {
+	background: url(../images/post-formats.png) no-repeat -8px -8px;
+}
+
+.post-format-options .image {
+	background: url(../images/post-formats.png) no-repeat -40px -8px;
+}
+
+.post-format-options .gallery {
+	background: url(../images/post-formats.png) no-repeat -72px -8px;
+}
+
+.post-format-options .audio {
+	background: url(../images/post-formats.png) no-repeat -104px -8px;
+}
+
+.post-format-options .video {
+	background: url(../images/post-formats.png) no-repeat -136px -8px;
+}
+
+.post-format-options .chat {
+	background: url(../images/post-formats.png) no-repeat -168px -8px;
+}
+
+.post-format-options .status {
+	background: url(../images/post-formats.png) no-repeat -200px -8px;
+}
+
+.post-format-options .aside {
+	background: url(../images/post-formats.png) no-repeat -232px -8px;
+}
+
+.post-format-options .quote {
+	background: url(../images/post-formats.png) no-repeat -264px -8px;
+}
+
+.post-format-options .link {
+	background: url(../images/post-formats.png) no-repeat -296px -8px;
+}
+
+.post-format-tip {
+	color: #999;
+	font-size: 14px;
+	float: right;
+	padding: 6px 10px;
+	text-transform: capitalize;
 }
 
 /*------------------------------------------------------------------------------

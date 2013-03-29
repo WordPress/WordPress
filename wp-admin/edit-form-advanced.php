@@ -130,6 +130,8 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 $format_class = '';
 if ( post_type_supports( $post_type, 'post-formats' ) ) {
 	wp_enqueue_script( 'post-formats' );
+	wp_enqueue_script( 'wp-mediaelement' );
+	wp_enqueue_style( 'wp-mediaelement' );
 	$post_format = get_post_format();
 
 	if ( ! $post_format )
@@ -137,6 +139,57 @@ if ( post_type_supports( $post_type, 'post-formats' ) ) {
 
 	$format_class = " class='wp-format-{$post_format}'";
 }
+
+if ( post_type_supports( $post_type, 'post-formats' ) ) {
+	$all_post_formats = array(
+		'standard' => array (
+			'description' => __( 'Add a title and use the editor to compose your post.' )
+		),
+		'image' => array (
+			'description' => __( 'Select or upload an image to use for your post.' )
+		),
+		'gallery' => array (
+			'description' => __( 'Use the Add Media button to select or upload images for your gallery.' )
+		),
+		'link' => array (
+			'description' => __( 'Add a link URL below.' )
+		),
+		'video' => array (
+			'description' => __( 'Paste a video embed into the box, upload a video file, or choose one from your Media Library.' )
+		),
+		'audio' => array (
+			'description' => __( 'Paste an audio embed into the box, upload an audio file, or choose one from your Media Library.' )
+		),
+		'chat' => array (
+			'description' => __( 'Copy a chat or Q&A transcript into the editor.' )
+		),
+		'status' => array (
+			'description' => __( 'Use the editor to compose a status update. What&#8217;s new?' )
+		),
+		'quote' => array (
+			'description' => __( 'Copy a quotation into the box. Also add the source and URL if you have them.' )
+		),
+		'aside' => array (
+			'description' => __( 'An aside is a quick thought or side topic. Use the editor to compose one.' )
+		)
+	);
+	$post_format_options = '';
+
+	foreach ( $all_post_formats as $slug => $attr ) {
+		$class = '';
+		if ( $post_format == $slug ) {
+			$class = 'class="active"';
+			$active_post_type_slug = $slug;
+			$active_post_type_label = ucfirst( $slug );
+			$active_post_format_description = $attr['description'];
+		}
+
+		$post_format_options .= '<a ' . $class . ' href="?format=' . $slug . '" data-description="' . $attr['description'] . '" data-wp-format="' . $slug . '" title="' . ucfirst( sprintf( __( '%s Post' ), $slug ) ) . '"><div class="' . $slug . '"></div></a>';
+	}
+}
+
+$current_post_format = array( 'currentPostFormat' => esc_html( $active_post_type_slug ) );
+wp_localize_script( 'post', 'postFormats', $current_post_format );
 
 if ( post_type_supports($post_type, 'page-attributes') )
 	add_meta_box('pageparentdiv', 'page' == $post_type ? __('Page Attributes') : __('Attributes'), 'page_attributes_meta_box', null, 'side', 'core');
@@ -337,28 +390,15 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 ?>
 
 <div id="poststuff">
-
-<?php
-if ( post_type_supports( $post_type, 'post-formats' ) ) {
-	$all_post_formats = get_post_format_strings();
-
-	echo '<h2 class="nav-tab-wrapper post-format-select">';
-
-	foreach ( $all_post_formats as $slug => $label ) {
-		if ( $post_format == $slug )
-			$class = 'nav-tab nav-tab-active';
-		else
-			$class = 'nav-tab';
-
-		echo '<a class="' . $class . '" href="?format=' . $slug . '" data-wp-format="' . $slug . '">' . $label . '</a>';
-	}
-
-	echo '</h2>';
-}
-?>
-
 <div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 <div id="post-body-content"<?php echo $format_class; ?>>
+
+<?php if ( ! empty( $post_format_options ) ) : ?>
+<div class="post-format-options">
+	<span class="post-format-tip">Standard Post</span>
+	<?php echo $post_format_options; ?>
+</div>
+<?php endif; ?>
 
 <?php if ( post_type_supports($post_type, 'title') ) { ?>
 <div id="titlediv">
@@ -373,10 +413,12 @@ $shortlink = wp_get_shortlink($post->ID, 'post');
 if ( !empty($shortlink) )
     $sample_permalink_html .= '<input id="shortlink" type="hidden" value="' . esc_attr($shortlink) . '" /><a href="#" class="button button-small" onclick="prompt(&#39;URL:&#39;, jQuery(\'#shortlink\').val()); return false;">' . __('Get Shortlink') . '</a>';
 
-if ( $post_type_object->public && ! ( 'pending' == get_post_status( $post ) && !current_user_can( $post_type_object->cap->publish_posts ) ) ) { ?>
-	<div id="edit-slug-box" class="hide-if-no-js">
+if ( $post_type_object->public && ! ( 'pending' == get_post_status( $post ) && !current_user_can( $post_type_object->cap->publish_posts ) ) ) {
+	$has_sample_permalink = $sample_permalink_html && 'auto-draft' != $post->post_status;
+?>
+	<div id="edit-slug-box" class="hide-if-no-js<?php if ( ! $has_sample_permalink ) echo ' hidden' ?>">
 	<?php
-		if ( $sample_permalink_html && 'auto-draft' != $post->post_status )
+		if ( $has_sample_permalink )
 			echo $sample_permalink_html;
 	?>
 	</div>
@@ -398,36 +440,8 @@ if ( has_action( 'edit_form_after_title' ) ) {
 }
 
 // post format fields
-if ( post_type_supports( $post_type, 'post-formats' ) ) {
-	$format_meta = get_post_format_meta( $post_ID );
-?>
-<div class="post-formats-fields edit-form-section">
-
-<input type="hidden" name="post_format" id="post_format" value="<?php echo esc_attr( $post_format ); ?>" />
-
-<div class="field wp-format-quote">
-	<label for="_wp_format_quote" class="screen-reader-text"><?php _e( 'Quote' ); ?>:</label>
-	<textarea name="_wp_format_quote" placeholder="<?php esc_attr_e( 'Quote' ); ?>" class="widefat"><?php echo esc_textarea( $format_meta['quote'] ); ?></textarea>
-</div>
-
-<div class="field wp-format-quote">
-	<label for="_wp_format_quote_source" class="screen-reader-text"><?php _e( 'Quote source' ); ?>:</label>
-	<input type="text" name="_wp_format_quote_source" value="<?php echo esc_attr( $format_meta['quote_source'] ); ?>" placeholder="<?php esc_attr_e( 'Quote source' ); ?>" class="widefat" />
-</div>
-
-<div class="field wp-format-link wp-format-quote">
-	<label for="_wp_format_url" class="screen-reader-text"><?php _e( 'Link URL' ); ?>:</label>
-	<input type="text" name="_wp_format_url" value="<?php echo esc_url( $format_meta['url'] ); ?>" placeholder="<?php esc_attr_e( 'Link URL' ); ?>" class="widefat" />
-</div>
-
-<div class="field wp-format-audio wp-format-video">
-	<label for="_wp_format_media" class="screen-reader-text"><?php _e( 'Embed code or URL' ); ?>:</label>
-	<textarea name="_wp_format_media" placeholder="<?php esc_attr_e( 'Embed code or URL' ); ?>" class="widefat"><?php echo esc_textarea( $format_meta['media'] ); ?></textarea>
-</div>
-
-</div>
-<?php
-}
+if ( post_type_supports( $post_type, 'post-formats' ) )
+	require_once( './includes/post-formats.php' );
 
 if ( post_type_supports($post_type, 'editor') ) {
 ?>

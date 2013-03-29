@@ -84,7 +84,10 @@ function get_post_format_meta( $post_id = 0 ) {
 		'quote'        => '',
 		'quote_source' => '',
 		'url'          => '',
-		'media'        => '',
+		'image'        => '',
+		'gallery'      => '',
+		'audio'        => '',
+		'video'        => '',
 	);
 
 	foreach ( $values as $key => $value )
@@ -351,13 +354,17 @@ function post_formats_compat( $content, $id = 0 ) {
 
 		case 'video':
 		case 'audio':
-			if ( ! has_shortcode( $post->post_content, $format ) && ! empty( $meta['media'] ) ) {
+			if ( ! has_shortcode( $post->post_content, $format ) && ! empty( $meta[$format] ) ) {
+				// the metadata is an attachment ID
+				if ( is_numeric( $meta[$format] ) ) {
+					$url = wp_get_attachment_url( $meta[$format] );
+					$format_output .= sprintf( '[%s src="%s"]', $format, $url );
 				// the metadata is a shortcode or an embed code
-				if ( preg_match( '/' . get_shortcode_regex() . '/s', $meta['media'] ) || preg_match( '#<[^>]+>#', $meta['media'] ) ) {
-					$format_output .= $meta['media'];
-				} elseif ( ! stristr( $content, $meta['media'] ) ) {
+				} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $meta[$format] ) || preg_match( '#<[^>]+>#', $meta[$format] ) ) {
+					$format_output .= $meta[$format];
+				} elseif ( ! stristr( $content, $meta[$format] ) ) {
 					// attempt to embed the URL
-					$format_output .= sprintf( '[embed]%s[/embed]', $meta['media'] );
+					$format_output .= sprintf( '[embed]%s[/embed]', $meta[$format] );
 				}
 			}
 			break;

@@ -2043,21 +2043,21 @@ function get_the_media( $type, &$post = null ) {
 
 	if ( has_post_format( $type ) ) {
 		$meta = get_post_format_meta( $post->ID );
-		if ( ! empty( $meta['media'] ) ) {
-			if ( is_numeric( $meta['media'] ) ) {
-				$url = wp_get_attachment_url( $meta['media'] );
+		if ( ! empty( $meta[$type] ) ) {
+			if ( is_integer( $meta[$type] ) ) {
+				$url = wp_get_attachment_url( $meta[$type] );
 				$shortcode = sprintf( '[%s src="%s"]', $type, $url );
-			} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $meta['media'] ) ) {
-				$shortcode = $meta['media'];
-			} elseif ( preg_match( '#<[^>]+>#', $meta['media'] ) ) {
-				$post->format_content = $meta['media'];
+			} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $meta[$type] ) ) {
+				$shortcode = $meta[$type];
+			} elseif ( preg_match( '#<[^>]+>#', $meta[$type] ) ) {
+				$post->format_content = $meta[$type];
 				return $post->format_content;
-			} elseif ( 0 === strpos( $meta['media'], 'http' ) ) {
-				$post->split_content = str_replace( $meta['media'], '', $post->post_content, $count );
-				if ( strstr( $meta['media'], home_url() ) ) {
-					$shortcode = sprintf( '[%s src="%s"]', $type, $meta['media'] );
+			} elseif ( 0 === strpos( $meta[$type], 'http' ) ) {
+				$post->split_content = str_replace( $meta[$type], '', $post->post_content, $count );
+				if ( strstr( $meta[$type], home_url() ) ) {
+					$shortcode = sprintf( '[%s src="%s"]', $type, $meta[$type] );
 				} else {
-					$post->format_content = $wp_embed->autoembed( $meta['media'] );
+					$post->format_content = $wp_embed->autoembed( $meta[$type] );
 					return $post->format_content;
 				}
 			}

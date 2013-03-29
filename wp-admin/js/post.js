@@ -641,7 +641,13 @@ jQuery(document).ready( function($) {
 					new_title: $('#title').val(),
 					samplepermalinknonce: $('#samplepermalinknonce').val()
 				}, function(data) {
-					$('#edit-slug-box').html(data);
+					var box = $('#edit-slug-box');
+					box.html(data);
+					if (box.hasClass('hidden')) {
+						box.fadeIn('fast', function () {
+							box.removeClass('hidden');
+						});
+					}
 					b.html(revert_b);
 					real_slug.val(new_slug);
 					makeSlugeditClickable();
