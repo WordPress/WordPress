@@ -1426,7 +1426,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	// The following removes that revision when $parent == false
 	$parent_included = _wp_last_revision_matches_current_post( $post_id );
 	if ( $parent_included && ! $parent )
-		array_pop( $revisions );
+		array_shift( $revisions );
 	elseif ( ! $parent_included && $parent )
 		array_unshift( $revisions, $post );
 
@@ -1436,7 +1436,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	foreach ( $revisions as $revision ) {
 		if ( !current_user_can( 'read_post', $revision->ID ) )
 			continue;
-		
+
 		$is_autosave = wp_is_post_autosave( $revision );
 		if ( ( 'revision' === $type && $is_autosave ) || ( 'autosave' === $type && ! $is_autosave ) )
 			continue;

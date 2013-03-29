@@ -424,19 +424,22 @@ window.wp = window.wp || {};
 			// render the revisions
 			render: function() {
 				var addHtml = '';
+				var thediff;
 				// compare two revisions mode?
 
 				if ( 2 === REVAPP._compareOneOrTwo ) {
+
 					this.comparetwochecked = 'checked';
 					if ( this.draggingLeft ) {
-							if ( this.model.at( REVAPP._leftDiff ) ) {
+						thediff = REVAPP._leftDiff -1;
+						if ( this.model.at( thediff ) ) {
 							addHtml = this.template( _.extend(
-								this.model.at( REVAPP._leftDiff ).toJSON(),
+								this.model.at( thediff ).toJSON(),
 								{ comparetwochecked: this.comparetwochecked } // keep the checkmark checked
 							) );
 						}
 					} else { // dragging right handle
-						var thediff = REVAPP._rightDiff;
+						thediff = REVAPP._rightDiff -1;
 						if ( this.model.at( thediff ) ) {
 							addHtml = this.template( _.extend(
 								this.model.at( thediff ).toJSON(),

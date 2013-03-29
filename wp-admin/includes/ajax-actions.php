@@ -2130,6 +2130,9 @@ function wp_ajax_revisions_data() {
 	if ( 0 != $single_revision_id ) {
 		$right_revision = get_post( $single_revision_id );
 
+	if ( 0 == $compare_to )
+			$left_revision = get_post( $post_id );
+
 	// make sure the right revision is the most recent
 	if ( $compare_two_mode && $right_revision->ID < $left_revision->ID ) {
 		$temp = $left_revision;
@@ -2155,7 +2158,8 @@ function wp_ajax_revisions_data() {
 			if ( ! empty( $show_split_view ) )
 				 $args = array( 'show_split_view' => true );
 
-			$diff = wp_text_diff_with_count( $left_content, $right_content, $args );
+			// compare_to == 0 means first revision, so compare to a blank field to show whats changed
+			$diff = wp_text_diff_with_count( ( 0 == $compare_to) ? '' : $left_content, $right_content, $args );
 
 			if ( isset( $diff[ 'html' ] ) )
 				$content .= $diff[ 'html' ];
@@ -2185,6 +2189,7 @@ function wp_ajax_revisions_data() {
 	$revisions = array_reverse( $revisions );
 
 	$previous_revision_id = 0;
+
 	foreach ( $revisions as $revision ) :
 		//error_log( ( $show_autosaves  ));
 		if ( empty( $show_autosaves ) && wp_is_post_autosave( $revision ) )
@@ -2269,7 +2274,7 @@ function wp_ajax_revisions_data() {
 			$revision_from_date_author = $revision_date_author;
 			$revision_date_author = $tmp;
 		}
-		if ( ( $compare_two_mode || 0 !== $previous_revision_id ) ) {
+		if ( ( $compare_two_mode || -1 !== $previous_revision_id ) ) {
 			$alltherevisions[] = array (
 				'ID' => $revision->ID,
 				'revision_date_author' => $revision_date_author,
