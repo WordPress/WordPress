@@ -2069,9 +2069,8 @@ function get_the_media( $type, &$post = null ) {
 		}
 	}
 
-	// these functions expected a reference, not a value
-	$_content = $post->post_content;
-	$content =& $_content;
+	// these functions expect a reference, so we should make a copy of post content to avoid changing it
+	$content = $post->post_content;
 
 	$htmls = get_content_media( $type, $content, true, true );
 	if ( ! empty( $htmls ) ) {
@@ -2386,7 +2385,7 @@ function get_the_image( $attached_size = 'full', &$post = null ) {
 
 		$count = 1;
 		$matches = array();
-		$content =& $post->post_content;
+		$content = $post->post_content;
 
 		if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
 			foreach ( $matches as $shortcode ) {
@@ -2415,7 +2414,7 @@ function get_the_image( $attached_size = 'full', &$post = null ) {
 		return $post->format_content;
 	}
 
-	$content =& $post->post_content;
+	$content = $post->post_content;
 	$htmls = get_content_images( $content, true, true, 1 );
 	if ( ! empty( $htmls ) ) {
 		$html = reset( $htmls );
