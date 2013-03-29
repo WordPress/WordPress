@@ -1127,7 +1127,7 @@ function get_media_item( $attachment_id, $args = null ) {
 
 	$media_dims = '';
 	$meta = wp_get_attachment_metadata( $post->ID );
-	if ( is_array( $meta ) && array_key_exists( 'width', $meta ) && array_key_exists( 'height', $meta ) )
+	if ( isset( $meta['width'], $meta['height'] ) )
 		$media_dims .= "<span id='media-dims-$post->ID'>{$meta['width']}&nbsp;&times;&nbsp;{$meta['height']}</span> ";
 	$media_dims = apply_filters( 'media_meta', $media_dims, $post );
 
@@ -2368,7 +2368,7 @@ function attachment_submitbox_metadata() {
 
 	$media_dims = '';
 	$meta = wp_get_attachment_metadata( $post->ID );
-	if ( is_array( $meta ) && array_key_exists( 'width', $meta ) && array_key_exists( 'height', $meta ) )
+	if ( isset( $meta['width'], $meta['height'] ) )
 		$media_dims .= "<span id='media-dims-$post->ID'>{$meta['width']}&nbsp;&times;&nbsp;{$meta['height']}</span> ";
 	$media_dims = apply_filters( 'media_meta', $media_dims, $post );
 

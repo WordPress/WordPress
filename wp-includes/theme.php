@@ -1013,8 +1013,10 @@ function get_uploaded_header_images() {
 		$header_images[$header_index]['attachment_id'] =  $header->ID;
 		$header_images[$header_index]['url'] =  $url;
 		$header_images[$header_index]['thumbnail_url'] =  $url;
-		$header_images[$header_index]['width'] = $header_data['width'];
-		$header_images[$header_index]['height'] = $header_data['height'];
+		if ( isset( $header_data['width'] ) )
+			$header_images[$header_index]['width'] = $header_data['width'];
+		if ( isset( $header_data['height'] ) )
+			$header_images[$header_index]['height'] = $header_data['height'];
 	}
 
 	return $header_images;

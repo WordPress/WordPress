@@ -13,7 +13,7 @@ function wp_image_editor($post_id, $msg = false) {
 	$sub_sizes = isset($meta['sizes']) && is_array($meta['sizes']);
 	$note = '';
 
-	if ( is_array($meta) && isset($meta['width']) )
+	if ( isset( $meta['width'], $meta['height'] ) )
 		$big = max( $meta['width'], $meta['height'] );
 	else
 		die( __('Image data does not exist. Please re-upload the image.') );
@@ -21,8 +21,9 @@ function wp_image_editor($post_id, $msg = false) {
 	$sizer = $big > 400 ? 400 / $big : 1;
 
 	$backup_sizes = get_post_meta( $post_id, '_wp_attachment_backup_sizes', true );
-	$can_restore = !empty($backup_sizes) && isset($backup_sizes['full-orig'])
-		&& $backup_sizes['full-orig']['file'] != basename($meta['file']);
+	$can_restore = false;
+	if ( ! empty( $backup_sizes ) && isset( $backup_sizes['full-orig'], $meta['file'] ) )
+		$can_restore = $backup_sizes['full-orig']['file'] != basename( $meta['file'] );
 
 	if ( $msg ) {
 		if ( isset($msg->error) )
@@ -63,8 +64,8 @@ function wp_image_editor($post_id, $msg = false) {
 	<input type="hidden" id="imgedit-history-<?php echo $post_id; ?>" value="" />
 	<input type="hidden" id="imgedit-undone-<?php echo $post_id; ?>" value="0" />
 	<input type="hidden" id="imgedit-selection-<?php echo $post_id; ?>" value="" />
-	<input type="hidden" id="imgedit-x-<?php echo $post_id; ?>" value="<?php echo $meta['width']; ?>" />
-	<input type="hidden" id="imgedit-y-<?php echo $post_id; ?>" value="<?php echo $meta['height']; ?>" />
+	<input type="hidden" id="imgedit-x-<?php echo $post_id; ?>" value="<?php echo isset( $meta['width'] ) ? $meta['width'] : 0; ?>" />
+	<input type="hidden" id="imgedit-y-<?php echo $post_id; ?>" value="<?php echo isset( $meta['height'] ) ? $meta['height'] : 0; ?>" />
 
 	<div id="imgedit-crop-<?php echo $post_id; ?>" class="imgedit-crop-wrap">
 	<img id="image-preview-<?php echo $post_id; ?>" onload="imageEdit.imgLoaded('<?php echo $post_id; ?>')" src="<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>?action=imgedit-preview&amp;_ajax_nonce=<?php echo $nonce; ?>&amp;postid=<?php echo $post_id; ?>&amp;rand=<?php echo rand(1, 99999); ?>" />
@@ -82,9 +83,11 @@ function wp_image_editor($post_id, $msg = false) {
 		<a class="imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;" href="#"><strong><?php _e('Scale Image'); ?></strong></a>
 		<div class="imgedit-help">
 		<p><?php _e('You can proportionally scale the original image. For best results the scaling should be done before performing any other operations on it like crop, rotate, etc. Note that if you make the image larger it may become fuzzy.'); ?></p>
+		<?php if ( isset( $meta['width'], $meta['height'] ) ): ?>
 		<p><?php printf( __('Original dimensions %s'), $meta['width'] . '&times;' . $meta['height'] ); ?></p>
+		<?php endif ?>
 		<div class="imgedit-submit">
-		<span class="nowrap"><input type="text" id="imgedit-scale-width-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 1)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 1)" style="width:4em;" value="<?php echo $meta['width']; ?>" />&times;<input type="text" id="imgedit-scale-height-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0)" style="width:4em;" value="<?php echo $meta['height']; ?>" />
+		<span class="nowrap"><input type="text" id="imgedit-scale-width-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 1)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 1)" style="width:4em;" value="<?php echo isset( $meta['width'] ) ? $meta['width'] : 0; ?>" />&times;<input type="text" id="imgedit-scale-height-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0)" style="width:4em;" value="<?php echo isset( $meta['height'] ) ? $meta['height'] : 0; ?>" />
 		<span class="imgedit-scale-warn" id="imgedit-scale-warn-<?php echo $post_id; ?>">!</span></span>
 		<input type="button" onclick="imageEdit.action(<?php echo "$post_id, '$nonce'"; ?>, 'scale')" class="button-primary" value="<?php esc_attr_e( 'Scale' ); ?>" />
 		</div>
@@ -499,7 +502,7 @@ function wp_restore_image($post_id) {
 					$delpath = apply_filters('wp_delete_file', $file);
 					@unlink($delpath);
 				}
-			} else {
+			} elseif ( isset( $meta['width'], $meta['height'] ) ) {
 				$backup_sizes["full-$suffix"] = array('width' => $meta['width'], 'height' => $meta['height'], 'file' => $parts['basename']);
 			}
 		}

@@ -164,7 +164,7 @@ function image_downsize($id, $size = 'medium') {
 			$is_intermediate = true;
 		}
 	}
-	if ( !$width && !$height && isset($meta['width'], $meta['height']) ) {
+	if ( !$width && !$height && isset( $meta['width'], $meta['height'] ) ) {
 		// any other type: use the real image
 		$width = $meta['width'];
 		$height = $meta['height'];
@@ -780,7 +780,10 @@ function gallery_shortcode($attr) {
 	foreach ( $attachments as $id => $attachment ) {
 		$link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false) : wp_get_attachment_link($id, $size, true, false);
 		$image_meta  = wp_get_attachment_metadata( $id );
-		$orientation = ( $image_meta['height'] > $image_meta['width'] ) ? 'portrait' : 'landscape';
+
+		$orientation = '';
+		if ( isset( $image_meta['height'], $image_meta['width'] ) )
+			$orientation = ( $image_meta['height'] > $image_meta['width'] ) ? 'portrait' : 'landscape';
 
 		$output .= "<{$itemtag} class='gallery-item'>";
 		$output .= "
@@ -1626,12 +1629,13 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			}
 		}
 
-		$sizes['full'] = array(
-			'height'      => $meta['height'],
-			'width'       => $meta['width'],
-			'url'         => $attachment_url,
-			'orientation' => $meta['height'] > $meta['width'] ? 'portrait' : 'landscape',
-		);
+		$sizes['full'] = array( 'url' => $attachment_url );
+
+		if ( isset( $meta['height'], $meta['width'] ) ) {
+			$sizes['full']['height'] = $meta['height'];
+			$sizes['full']['width'] = $meta['width'];
+			$sizes['full']['orientation'] = $meta['height'] > $meta['width'] ? 'portrait' : 'landscape';
+		}
 
 		$response = array_merge( $response, array( 'sizes' => $sizes ), $sizes['full'] );
 	}

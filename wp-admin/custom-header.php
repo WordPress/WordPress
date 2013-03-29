@@ -663,8 +663,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			list( $width, $height, $type, $attr ) = getimagesize( $file );
 		} else {
 			$data = wp_get_attachment_metadata( $attachment_id );
-			$height = $data[ 'height' ];
-			$width = $data[ 'width' ];
+			$height = isset( $data[ 'height' ] ) ? $data[ 'height' ] : 0;
+			$width = isset( $data[ 'width' ] ) ? $data[ 'width' ] : 0;
 			unset( $data );
 		}
 
