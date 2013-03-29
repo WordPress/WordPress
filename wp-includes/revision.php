@@ -509,6 +509,18 @@ function _set_preview($post) {
 	return $post;
 }
 
+function _show_post_preview() {
+
+	if ( isset($_GET['preview_id']) && isset($_GET['preview_nonce']) ) {
+		$id = (int) $_GET['preview_id'];
+
+		if ( false == wp_verify_nonce( $_GET['preview_nonce'], 'post_preview_' . $id ) )
+			wp_die( __('You do not have permission to preview drafts.') );
+
+		add_filter('the_preview', '_set_preview');
+	}
+}
+
 /**
  * Filters post meta retrieval to get values from the actual autosave post,
  * and not its parent. Filters revisioned meta keys only.
@@ -640,19 +652,6 @@ function _wp_upgrade_revisions_of_post( $post ) {
 	// Add a copy of the post as latest revision.
 	wp_save_post_revision( $post->ID );
 	return true;
-}
-
-
-function _show_post_preview() {
-
-	if ( isset($_GET['preview_id']) && isset($_GET['preview_nonce']) ) {
-		$id = (int) $_GET['preview_id'];
-
-		if ( false == wp_verify_nonce( $_GET['preview_nonce'], 'post_preview_' . $id ) )
-			wp_die( __('You do not have permission to preview drafts.') );
-
-		add_filter('the_preview', '_set_preview');
-	}
 }
 
 /**
