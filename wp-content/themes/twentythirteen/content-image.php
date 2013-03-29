@@ -10,7 +10,7 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<div class="entry-media">
-		<?php the_image( 'twentythirteen-image-post-format' ); ?>
+		<?php the_image( 'twentythirteen-image-post' ); ?>
 	</div><!-- .entry-media -->
 
 	<header class="entry-header">
