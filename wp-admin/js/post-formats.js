@@ -1,28 +1,44 @@
 window.wp = window.wp || {};
 
 (function($) {
-	var mediaFrame, lastMimeType, lastMenu, mediaPreview;
+	var container, mediaFrame, lastMimeType, lastMenu, mediaPreview, noUIFormats = ['standard', 'chat', 'status', 'aside'];
+
+	function switchFormatClass( format ) {
+		container.get(0).className = container.get(0).className.replace( /\bwp-format-[^ ]+/, '' );
+		container.addClass('wp-format-' + format);
+	}
+
 	$(function(){
 		var $container = $( '.post-formats-fields' );
 
 		// Post formats selection
 		$('.post-format-options').on( 'click', 'a', function(e){
+			e.preventDefault();
 			var $this = $(this), editor, body,
 				parent = $this.parent(),
 				format = $this.data('wp-format'),
-				container = $('#post-body-content'),
 				description = $('.post-format-description');
+
+		if ( typeof container === 'undefined' )
+			container = $('#post-body-content');
+
+			// Already on this post format. Bail.
+			if ( format === postFormats.currentPostFormat )
+				return;
 
 			parent.find('a.active').removeClass('active');
 			$this.addClass('active');
 			$('#icon-edit').removeClass(postFormats.currentPostFormat).addClass(format);
 			$('#post_format').val(format);
 
-			$container.slideUp( 200, function(){
-				container.get(0).className = container.get(0).className.replace( /\bwp-format-[^ ]+/, '' );
-				container.addClass('wp-format-' + format);
-				$container.slideDown( 400 );
-			});
+			if ( -1 < $.inArray( format, noUIFormats ) && -1 < $.inArray( postFormats.currentPostFormat, noUIFormats ) ) {
+				switchFormatClass( format ); // No slide
+			} else {
+				$container.slideUp( 200, function(){
+					switchFormatClass( format );
+					$container.slideDown( 400 );
+				});
+			}
 
 			$('#title').focus();
 
@@ -43,8 +59,6 @@ window.wp = window.wp || {};
 			}
 
 			postFormats.currentPostFormat = format;
-
-			e.preventDefault();
 		}).on('mouseenter focusin', 'a', function () {
 			$('.post-format-tip').html( $(this).prop('title') );
 		}).on('mouseleave focusout', 'a', function () {
