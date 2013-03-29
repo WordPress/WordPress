@@ -4211,7 +4211,9 @@ body .ui-tooltip {
 .post-format-options a.active,
 .post-format-options a:focus,
 .post-format-options a:hover {
-	background: #fff;
+	background: #eee;
+	-webkit-box-shadow: inset 0 0 10px #ddd;
+	box-shadow: inset 0 0 10px #ddd;
 	outline: none;
 	opacity: 1;
 }
