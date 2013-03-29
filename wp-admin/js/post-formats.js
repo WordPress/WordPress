@@ -3,8 +3,10 @@ window.wp = window.wp || {};
 (function($) {
 	var mediaFrame, lastMimeType, lastMenu, mediaPreview;
 	$(function(){
+		var $container = $( '.post-formats-fields' );
+
 		// Post formats selection
-		$('.post-format-options a').on( 'click', function(e){
+		$('.post-format-options').on( 'click', 'a', function(e){
 			var $this = $(this), editor, body,
 				parent = $this.parent(),
 				format = $this.data('wp-format'),
@@ -16,8 +18,12 @@ window.wp = window.wp || {};
 			$('#icon-edit').removeClass(postFormats.currentPostFormat).addClass(format);
 			$('#post_format').val(format);
 
-			container.get(0).className = container.get(0).className.replace( /\bwp-format-[^ ]+/, '' );
-			container.addClass('wp-format-' + format);
+			$container.slideUp( 200, function(){
+				container.get(0).className = container.get(0).className.replace( /\bwp-format-[^ ]+/, '' );
+				container.addClass('wp-format-' + format);
+				$container.slideDown( 400 );
+			});
+
 			$('#title').focus();
 
 			// Update description line
@@ -39,9 +45,9 @@ window.wp = window.wp || {};
 			postFormats.currentPostFormat = format;
 
 			e.preventDefault();
-		}).on('mouseenter focusin', function () {
+		}).on('mouseenter focusin', 'a', function () {
 			$('.post-format-tip').html( $(this).prop('title') );
-		}).on('mouseleave focusout', function () {
+		}).on('mouseleave focusout', 'a', function () {
 			$('.post-format-tip').html( $('.post-format-options a.active').prop('title') );
 		});
 

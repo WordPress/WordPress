@@ -4,7 +4,7 @@ $format_meta = get_post_format_meta( $post_ID );
 
 ?>
 <div class="post-format-description"></div>
-<div class="post-formats-fields edit-form-section">
+<div class="post-formats-fields">
 
 	<input type="hidden" name="post_format" id="post_format" value="<?php echo esc_attr( $post_format ); ?>" />
 
