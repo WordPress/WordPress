@@ -20,8 +20,10 @@ $format_meta = get_post_format_meta( $post_ID );
 
 	<?php
 	$image = false;
-	if ( isset( $format_meta['image'] ) )
-		$image = is_numeric( $format_meta['image'] ) ? wp_get_attachment_url( $format_meta['image'] ) : $format_meta['image'];
+	if ( ! empty( $format_meta['image'] ) && is_numeric( $format_meta['image'] ) ) {
+		$format_meta['image'] = absint( $format_meta['image'] );
+		$image = wp_get_attachment_url( $format_meta['image'] );
+	}
 	?>
 	<div class="field wp-format-image">
 		<div data-format="image" class="wp-format-media-holder hide-if-no-js<?php if ( ! $image ) echo ' empty'; ?>">
@@ -36,8 +38,8 @@ $format_meta = get_post_format_meta( $post_ID );
 				?>
 			</a>
 		</div>
-		<label for="_wp_format_image" class="screen-reader-text"><?php _e( 'Image URL' ); ?>:</label>
-		<input id="wp_format_image" type="hidden" name="_wp_format_image" value="<?php echo esc_url( $format_meta['image'] ); ?>" placeholder="<?php esc_attr_e( 'Image URL' ); ?>" class="widefat" />
+		<label for="_wp_format_image" class="screen-reader-text"><?php _e( 'Attachment ID' ); ?>:</label>
+		<input id="wp_format_image" type="hidden" name="_wp_format_image" value="<?php esc_attr_e( $format_meta['image'] ); ?>" placeholder="<?php esc_attr_e( 'Attachment ID' ); ?>" class="widefat" />
 	</div>
 
 	<div class="field wp-format-link wp-format-quote wp-format-image">
