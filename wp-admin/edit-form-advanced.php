@@ -138,9 +138,8 @@ if ( post_type_supports( $post_type, 'post-formats' ) ) {
 		$post_format = 'standard';
 
 	$format_class = " class='wp-format-{$post_format}'";
-}
 
-if ( post_type_supports( $post_type, 'post-formats' ) ) {
+
 	$all_post_formats = array(
 		'standard' => array (
 			'description' => __( 'Add a title and use the editor to compose your post.' )
@@ -186,10 +185,10 @@ if ( post_type_supports( $post_type, 'post-formats' ) ) {
 
 		$post_format_options .= '<a ' . $class . ' href="?format=' . $slug . '" data-description="' . $attr['description'] . '" data-wp-format="' . $slug . '" title="' . ucfirst( sprintf( __( '%s Post' ), $slug ) ) . '"><div class="' . $slug . '"></div></a>';
 	}
-}
 
-$current_post_format = array( 'currentPostFormat' => esc_html( $active_post_type_slug ) );
-wp_localize_script( 'post', 'postFormats', $current_post_format );
+	$current_post_format = array( 'currentPostFormat' => esc_html( $active_post_type_slug ) );
+	wp_localize_script( 'post-formats', 'postFormats', $current_post_format );
+}
 
 if ( post_type_supports($post_type, 'page-attributes') )
 	add_meta_box('pageparentdiv', 'page' == $post_type ? __('Page Attributes') : __('Attributes'), 'page_attributes_meta_box', null, 'side', 'core');
