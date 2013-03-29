@@ -155,10 +155,10 @@ if ( post_type_supports( $post_type, 'post-formats' ) ) {
 			'description' => __( 'Add a link URL below.' )
 		),
 		'video' => array (
-			'description' => __( 'Paste a video embed into the box, upload a video file, or choose one from your Media Library.' )
+			'description' => __( 'Select or upload a video, or paste a video embed code into the box.' )
 		),
 		'audio' => array (
-			'description' => __( 'Paste an audio embed into the box, upload an audio file, or choose one from your Media Library.' )
+			'description' => __( 'Select or upload an audio file, or paste an audio embed code into the box.' )
 		),
 		'chat' => array (
 			'description' => __( 'Copy a chat or Q&A transcript into the editor.' )
