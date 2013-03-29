@@ -504,7 +504,26 @@ function _set_preview($post) {
 	$post->post_title = $preview->post_title;
 	$post->post_excerpt = $preview->post_excerpt;
 
+	add_filter( 'get_post_metadata', '_wp_preview_meta_filter', 10, 4 );
+
 	return $post;
+}
+
+/**
+ * Filters post meta retrieval to get values from the actual autosave post,
+ * and not its parent. Filters revisioned meta keys only.
+ *
+ * @since 3.6
+ * @access private
+ */
+function _wp_preview_meta_filter( $value, $object_id, $meta_key, $single ) {
+	$post = get_post();
+
+	if ( $post->ID != $object_id || ! in_array( $meta_key, _wp_post_revision_meta_keys() ) || 'revision' == $post->post_type )
+		return $value;
+
+	$preview = wp_get_post_autosave( $post->ID );
+	return get_post_meta( $preview->ID, $meta_key, $single );
 }
 
 function _wp_get_post_revision_version( $revision ) {

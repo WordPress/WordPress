@@ -1278,6 +1278,18 @@ function wp_create_post_autosave( $post_id ) {
 		$new_autosave = _wp_post_revision_fields( $_POST, true );
 		$new_autosave['ID'] = $old_autosave->ID;
 		$new_autosave['post_author'] = $post_author;
+
+		// Auto-save revisioned meta fields too.
+		foreach ( _wp_post_revision_meta_keys() as $meta_key ) {
+			if ( ! isset( $_POST[ $meta_key ] ) )
+				continue;
+
+			// Use the underlying delete_metadata and add_metadata vs delete_post_meta
+			// and add_post_meta to make sure we're working with the actual revision meta.
+			delete_metadata( 'post', $new_autosave['ID'], $meta_key );
+			add_metadata( 'post', $new_autosave['ID'], $meta_key, $_POST[ $meta_key ] );
+		}
+
 		return wp_update_post( $new_autosave );
 	}
 
