@@ -200,7 +200,7 @@ function edit_post( $post_data = null ) {
 		update_post_meta( $post_ID, '_wp_format_url', wp_slash( esc_url_raw( wp_unslash( $post_data['_wp_format_url'] ) ) ) );
 	}
 
-	$format_keys = array( 'quote', 'quote_source', 'image', 'gallery', 'image', 'gallery', 'audio', 'video' );
+	$format_keys = array( 'quote', 'quote_source', 'image', 'gallery', 'audio', 'video' );
 
 	foreach ( $format_keys as $key ) {
 		if ( isset( $post_data[ '_wp_format_' . $key ] ) )
