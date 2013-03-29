@@ -473,20 +473,55 @@ wp_initial_nav_menu_meta_boxes();
 if ( ! current_theme_supports( 'menus' ) && ! wp_get_nav_menus() )
 	$messages[] = '<div id="message" class="updated"><p>' . __('The current theme does not natively support menus, but you can use the &#8220;Custom Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p></div>';
 
-get_current_screen()->add_help_tab( array(
-'id'		=> 'overview',
-'title'		=> __('Overview'),
-'content'	=>
-	'<p>' . __('This feature allows you to use a custom menu in place of your theme&#8217;s default menus.') . '</p>' .
-	'<p>' . __('Custom menus may contain links to pages, categories, custom links or other content types (use the Screen Options tab to decide which ones to show on the screen). You can specify a different navigation label for a menu item as well as other attributes. You can create multiple menus. If your theme includes more than one menu location, you can choose which custom menu to associate with each. You can also use custom menus in conjunction with the Custom Menus widget.') . '</p>' .
-	'<p>' . sprintf( __('If your theme does not support the custom menus feature (the default themes, %1$s and %2$s, do), you can learn about adding this support by following the Documentation link to the side.'), 'Twenty Thirteen', 'Twenty Twelve' ) . '</p>'
-) );
-get_current_screen()->add_help_tab( array(
-'id'		=> 'create-menus',
-'title'		=> __('Create Menus'),
-'content'	=>
-	'<p>' . __('To create a new custom menu, click on the + tab, give the menu a name, and click Create Menu. Next, add menu items from the appropriate boxes. You&#8217;ll be able to edit the information for each menu item, and can drag and drop to change their order. You can also drag a menu item a little to the right to make it a submenu. Don&#8217;t forget to click Save Menu when you&#8217;re finished.') . '</p>'
-) );
+if ( ! $locations_screen ) : // Main tab
+	$overview  = '<p>' . __( 'This screen is used for managing your custom navigation menus.' ) . '</p>';
+	$overview .= '<p>' . sprintf( __( 'Menus can be displayed in locations defined by your theme, even used in sidebars by adding a Custom Menus widget on the <a href="%s">Widgets</a> screen. ' ), admin_url( 'widgets.php') );
+	$overview .= sprintf( __( 'If your theme does not support the custom menus feature (the default themes, %1$s and %2$s, do), you can learn about adding this support by following the Documentation link to the side.' ), 'Twenty Thirteen', 'Twenty Twelve' ) . '</p>';
+	$overview .= '<p>' . __( 'From this screen you can:' ) . '</p>';
+	$overview .= '<ul><li>' . __( 'Create, edit, and delete menus' ) . '</li>';
+	$overview .= '<li>' . __( 'Add, organize, and modify individual menu items' ) . '</li></ul>';
+
+	get_current_screen()->add_help_tab( array(
+		'id'      => 'overview',
+		'title'   => __( 'Overview' ),
+		'content' => $overview
+	) );
+
+	$menu_management  = '<p>' . __( 'The menu management box at the top of the screen is used to control which menu is opened in the editor below.' ) . '</p>';
+	$menu_management .= '<ul><li>' . __( 'To edit an existing menu, <strong>choose a menu from the drop down and click Select</strong>' ) . '</li>';
+	$menu_management .= '<li>' . __( 'If you haven&#8217;t yet created any menus, <strong>click the &#8217;create a new menu&#8217; link or the Add New button</strong> to get started' ) . '</li></ul>';
+	$menu_management .= '<p>' . __( 'You can assign theme locations to individual menus by <strong>selecting the desired settings</strong> at the bottom of the menu editor. To assign menus to all theme locations at once, <strong>visit the Manage Locations tab</strong> at the top of the screen.' ) . '</p>';
+
+	get_current_screen()->add_help_tab( array(
+		'id'      => 'menu-management',
+		'title'   => __( 'Menu Management' ),
+		'content' => $menu_management
+	) );
+
+	$editing_menus  = '<p>' . __( 'Each custom menu may contain a mix of links to pages, categories, custom URLs or other content types. Menu links are added by selecting items from the expanding boxes in the left-hand column below.' ) . '</p>';
+	$editing_menus .= '<p>' . __( '<strong>Clicking the title of any menu item</strong> in the editor will reveal a standard group of settings. Additional settings such as link target, CSS classes, link relationships, and link descriptions can be enabled and disabled via the Screen Options tab.' ) . '</p>';
+	$editing_menus .= '<ul><li>' . __( 'Add one or several items at once by <strong>selecting the checkbox next to each item and clicking Add to Menu</strong>' ) . '</li>';
+	$editing_menus .= '<li>' . __( 'To add a custom link, <strong>expand the Links section, enter a URL and link text, and click Add to Menu</strong>' ) .'</li>';
+	$editing_menus .= '<li>' . __( 'To reorganize menu items, <strong>drag and drop items with your mouse or use your keyboard</strong>. Drag or move a menu item a little to the right to make it a submenu' ) . '</li>';
+	$editing_menus .= '<li>' . __( 'Delete a menu item by <strong>expanding it and clicking the Remove link</strong>' ) . '</li></ul>';
+
+	get_current_screen()->add_help_tab( array(
+		'id'      => 'editing-menus',
+		'title'   => __( 'Editing Menus' ),
+		'content' => $editing_menus
+	) );
+else : // Locations Tab
+	$locations_overview  = '<p>' . __( 'This screen is used for globally assigning menus to locations defined by your theme.' ) . '</p>';
+	$locations_overview .= '<ul><li>' . __( 'To assign menus to one or more theme locations, <strong>select a menu from each location&#8217;s drop down.</strong> When you&#8217;re finished, <strong>click Save Changes</strong>' ) . '</li>';
+	$locations_overview .= '<li>' . __( 'To edit a menu currently assigned to a theme location, <strong>click the adjacent &#8217;Edit&#8217; link</strong>' ) . '</li>';
+	$locations_overview .= '<li>' . __( 'To add a new menu instead of assigning an existing one, <strong>click the &#8217;Use new menu&#8217; link</strong>. Your new menu will be automatically assigned to that theme location' ) . '</li></ul>';
+
+	get_current_screen()->add_help_tab( array(
+		'id'      => 'locations-overview',
+		'title'   => __( 'Overview' ),
+		'content' => $locations_overview
+	) );
+endif;
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
