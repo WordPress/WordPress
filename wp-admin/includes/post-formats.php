@@ -39,7 +39,7 @@ $format_meta = get_post_format_meta( $post_ID );
 			</a>
 		</div>
 		<label for="_wp_format_image" class="screen-reader-text"><?php _e( 'Attachment ID' ); ?>:</label>
-		<input id="wp_format_image" type="hidden" name="_wp_format_image" value="<?php esc_attr_e( $format_meta['image'] ); ?>" placeholder="<?php esc_attr_e( 'Attachment ID' ); ?>" class="widefat" />
+		<input id="wp_format_image" type="hidden" name="_wp_format_image" value="<?php echo esc_attr( $format_meta['image'] ); ?>" placeholder="<?php esc_attr_e( 'Attachment ID' ); ?>" class="widefat" />
 	</div>
 
 	<div class="field wp-format-link wp-format-quote wp-format-image">
