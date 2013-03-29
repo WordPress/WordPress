@@ -1338,19 +1338,14 @@ h3.available-themes {
 	margin-right: -330px;
 }
 
-.theme-options .load-customize {
-	margin-right: 0;
-	margin-left: 30px;
-	float: right;
-}
-
 .theme-options span {
 	float: right;
 	margin-right: 0;
 	margin-left: 10px;
 }
 
-.theme-options ul {
+.theme-options ul,
+.theme-options .load-customize {
 	float: right;
 }
 

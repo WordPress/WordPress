@@ -161,6 +161,12 @@ $customize_title = sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->display('Na
 			$class = '';
 			if ( 'themes.php' == $item[2] || 'theme-editor.php' == $item[2] )
 				continue;
+			if ( 'customize.php' == $item[2] ) {
+				if ( current_user_can( 'edit_theme_options' ) )
+					$class = ' class="load-customize hide-if-no-customize"';
+				else
+					continue;
+			}
 			// 0 = name, 1 = capability, 2 = file
 			if ( ( strcmp($self, $item[2]) == 0 && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file)) )
 				$class = ' class="current"';
@@ -187,12 +193,7 @@ $customize_title = sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->display('Na
 	if ( $options || current_user_can( 'edit_theme_options' ) ) :
 	?>
 	<div class="theme-options">
-		<?php if ( current_user_can( 'edit_theme_options' ) ) : ?>
-		<a id="customize-current-theme-link" href="<?php echo wp_customize_url(); ?>" class="load-customize hide-if-no-customize" title="<?php echo esc_attr( $customize_title ); ?>"><?php _e( 'Customize' ); ?></a>
-		<?php
-		endif; // edit_theme_options
-		if ( $options ) :
-		?>
+		<?php if ( $options ) : ?>
 		<span><?php _e( 'Options:' )?></span>
 		<ul>
 			<?php foreach ( $options as $option ) : ?>
