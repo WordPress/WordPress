@@ -63,78 +63,70 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
 /**
  * Saves an already existing post as a post revision.
  *
- * Typically used immediately prior and after post updates.
- * Prior to update checks for old revision data (latest revision != current post before update) and adds a copy of the current post as a revision if missing
- * After update adds a copy of the current post as a revision, so latest revision always matches current post
+ * Typically used immediately after post updates.
+ * Adds a copy of the current post as a revision, so latest revision always matches current post
  *
  * @package WordPress
  * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @uses _wp_put_post_revision()
- * @uses wp_first_revision_matches_current_version()
  *
  * @param int $post_id The ID of the post to save as a revision.
  * @return mixed Null or 0 if error, new revision ID, if success.
  */
 function wp_save_post_revision( $post_id ) {
-	//check to see if the post's first revision already matches the post data
-	//should be true before post update, _except_ for old data which
-	//doesn't include a copy of the current post data in revisions
-	if ( wp_first_revision_matches_current_version( $post_id ) )
-		return;
-
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 		return;
 
-	if ( ! $post = get_post( $post_id, ARRAY_A ) )
+	if ( ! $post = get_post( $post_id ) )
 		return;
 
-	if ( ! wp_revisions_enabled( (object) $post ) )
+	if ( ! post_type_supports( $post->post_type, 'revisions' ) )
 		return;
 
-	if ( 'auto-draft' == $post['post_status'] )
+	if ( 'auto-draft' == $post->post_status )
 		return;
 
-	if ( ! post_type_supports( $post['post_type'], 'revisions' ) )
+	if ( ! wp_revisions_enabled( $post ) )
 		return;
 
-	// compare the proposed update with the last stored revision, verify
-	// different, unless a plugin tells us to always save regardless
+	// Compare the proposed update with the last stored revision verifying that
+	// they are different, unless a plugin tells us to always save regardless.
+	// If no previous revisions, save one
 	if ( $revisions = wp_get_post_revisions( $post_id ) ) {
-		// grab the last revision
-		$last_revision = array_shift( $revisions );
-
-		//if no previous revisions, save one for sure
-		if ( $last_revision_array = get_post( $last_revision->ID, ARRAY_A ) ) {
-
-			if ( apply_filters( 'wp_save_post_revision_check_for_changes', true, $last_revision_array, $post ) && is_array( $post ) ) {
-				$post_has_changed = false;
-
-				foreach ( array_keys( _wp_post_revision_fields() ) as $field ) {
-
-					if ( normalize_whitespace( $post[ $field ] ) != normalize_whitespace( $last_revision_array[ $field ] ) ) {
-						$post_has_changed = true;
-						break;
-
-					}
-				}
-
-				//don't save revision if post unchanged
-				if( ! $post_has_changed )
-					return;
+		// grab the last revision, but not an autosave
+		foreach ( $revisions as $revision ) {
+			if ( false !== strpos( $revision->post_name, "{$revision->post_parent}-revision" ) ) {
+				$last_revision = $revision;
+				break;
 			}
+		}
+
+		if ( isset( $last_revision ) && apply_filters( 'wp_save_post_revision_check_for_changes', true, $last_revision, $post ) ) {
+			$post_has_changed = false;
+
+			foreach ( array_keys( _wp_post_revision_fields() ) as $field ) {
+				if ( normalize_whitespace( $post->$field ) != normalize_whitespace( $last_revision->$field ) ) {
+					$post_has_changed = true;
+					break;
+				}
+			}
+
+			//don't save revision if post unchanged
+			if( ! $post_has_changed )
+				return;
 		}
 	}
 
 	$return = _wp_put_post_revision( $post );
 
-	$revisions_to_keep = wp_revisions_to_keep( (object) $post );
+	$revisions_to_keep = wp_revisions_to_keep( $post );
 
 	if ( $revisions_to_keep < 0 )
 		return $return;
 
-	// all revisions and (possibly) one autosave
+	// all revisions and autosaves
 	$revisions = wp_get_post_revisions( $post_id, array( 'order' => 'ASC' ) );
 
 	$delete = count($revisions) - $revisions_to_keep;
@@ -144,9 +136,10 @@ function wp_save_post_revision( $post_id ) {
 
 	$revisions = array_slice( $revisions, 0, $delete );
 
-	for ( $i = 0; isset($revisions[$i]); $i++ ) {
+	for ( $i = 0; isset( $revisions[$i] ); $i++ ) {
 		if ( false !== strpos( $revisions[ $i ]->post_name, 'autosave' ) )
 			continue;
+
 		wp_delete_post_revision( $revisions[ $i ]->ID );
 	}
 
@@ -444,7 +437,6 @@ function wp_revisions_to_keep( $post ) {
 	return (int) apply_filters( 'wp_revisions_to_keep', $num, $post );
 }
 
-
 function _set_preview($post) {
 
 	if ( ! is_object($post) )
@@ -464,30 +456,14 @@ function _set_preview($post) {
 	return $post;
 }
 
-function _wp_get_post_revision_version( $post ) {
-	if ( is_array( $post ) ) {
-		if ( ! isset( $post['post_name'] ) ) {
-			return false;
-		}
-
-		$name = $post['post_name'];
-	} elseif ( is_object( $post ) ) {
-		if ( ! isset( $post->post_name ) ) {
-			return false;
-		}
-
-		$name = $post->post_name;
-	} else {
+function _wp_get_post_revision_version( $revision ) {
+	if ( is_object( $revision ) )
+		$revision = get_object_vars( $revision );
+	elseif ( !is_array( $revision ) )
 		return false;
-	}
 
-	if ( ! preg_match( '/^(\d+-)(?:autosave|revision)(?:-v)(\d+)$/', $name, $matches ) ) {
-		return 0;
-	}
-
-	if ( '1' === $matches[2] ) {
-		return 1;
-	}
+	if ( preg_match( '/^\d+-(?:autosave|revision)-v(\d+)$/', $revision['post_name'], $matches ) )
+		return (int) $matches[1];
 
 	return 0;
 }
@@ -502,7 +478,6 @@ function _wp_get_post_revision_version( $post ) {
  * @uses get_post()
  * @uses post_type_supports()
  * @uses wp_get_post_revisions()
- * @uses wp_save_post_revision()
  *
  * @param int|object $post_id Post ID or post object
  * @return true if success, false if problems
@@ -514,54 +489,49 @@ function _wp_upgrade_revisions_of_post( $post ) {
 	if ( ! $post )
 		return false;
 
-	//make sure we have a current revision, only adds one if missing
-	wp_save_post_revision( $post->ID );
-
 	if ( ! post_type_supports( $post->post_type, 'revisions' ) )
 		return false;
 
 	$revisions = wp_get_post_revisions( $post->ID ); // array( 'order' => 'DESC', 'orderby' => 'date' ); // Always work from most recent to oldest
 
+	if ( ! $first = reset( $revisions ) )
+		return true;
 
-	if ( ! $revisions )
+	// Check if the revisions have already been updated
+	if ( preg_match( '/^\d+-(?:autosave|revision)-v\d+$/', $first->post_name ) )
 		return true;
 
 	// Add post option exclusively
-	$lock      = "revision-upgrade-{$post->ID}";
-	$locked_at = number_format( microtime( true ), 10, '.', '' );
-	$result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` (`option_name`, `option_value`, `autoload`) VALUES (%s, %s, 'no') /* LOCK */", $lock, $locked_at ) );
+	$lock = "revision-upgrade-{$post->ID}";
+	$now = time();
+	$result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` (`option_name`, `option_value`, `autoload`) VALUES (%s, %s, 'no') /* LOCK */", $lock, $now ) );
 	if ( ! $result ) {
 		// If we couldn't get a lock, see how old the previous lock is
-		$locked_at = get_option( $lock );
-		if ( !$locked_at ) {
+		$locked = get_option( $lock );
+		if ( ! $locked ) {
 			// Can't write to the lock, and can't read the lock.
 			// Something broken has happened
 			return false;
 		}
 
-		if ( $lock_at < number_format( microtime( true ), 10, '.', '' ) - 3600 ) {
-			// Lock is too old - try again
-			delete_option( $lock );
-			return wp_upgrade_revisions_of_post( $post );
+		if ( $locked > $now - 3600 ) {
+			// Lock is not too old: some other process may be upgrading this post.  Bail.
+			return false;
 		}
 
-		// Lock is not too old: some other process may be upgrading this post.  Bail.
-		return;
-	} else {
-		// If we could get a lock, re-"add" the option to fire all the correct filters.
-		add_option( $lock, $locked_at );
+		// Lock is too old - update it (below) and continue
 	}
 
-	$success = true;
+	// If we could get a lock, re-"add" the option to fire all the correct filters.
+	update_option( $lock, $now );
 
 	reset( $revisions );
+
 	do {
 		$this_revision = current( $revisions );
 		$prev_revision = next( $revisions );
 
 		$this_revision_version = _wp_get_post_revision_version( $this_revision );
-
-		error_log($this_revision_version);
 
 		// Something terrible happened
 		if ( false === $this_revision_version )
@@ -571,37 +541,34 @@ function _wp_upgrade_revisions_of_post( $post ) {
 		if ( 0 < $this_revision_version )
 			continue;
 
-		// This revision is the oldest revision of the post.
-		// The correct post_author is probably $post->post_author, but that's only a good guess.
-		// Leave un-upgraded.
-		if ( ! $prev_revision ) {
-			continue;
-		}
+		// Always update the revision version
+		$update = array(
+			'post_name' => preg_replace( '/^(\d+-(?:autosave|revision))[\d-]*$/', '$1-v1', $this_revision->post_name ),
+		);
 
-		$prev_revision_version = _wp_get_post_revision_version( $prev_revision );
+		// If this revision is the oldest revision of the post, i.e. no $prev_revision,
+		// the correct post_author is probably $post->post_author, but that's only a good guess.
+		// Update the revision version only and Leave the author as-is.
+		if ( $prev_revision ) {
+			$prev_revision_version = _wp_get_post_revision_version( $prev_revision );
 
-		// If the previous revision is already up to date, it no longer has the information we need :(
-		if ( 0 < $prev_revision_version ) {
-			continue;
+			// If the previous revision is already up to date, it no longer has the information we need :(
+			if ( $prev_revision_version < 1 )
+				$update['post_author'] = $prev_revision->post_author;
 		}
 
 		// Upgrade this revision
-		// Cast as object so that wp_update_post() handles slashing for us
-		$update = (object) array(
-			'ID'          => $this_revision->ID,
-			'post_name'   => preg_replace( '/^(\d+-)(autosave|revision)-(\d+)$/', '$1$2-v1', $this_revision->post_name ),
-			'post_author' => $prev_revision->post_author,
-		);
-		//error_log(json_encode($update));
-		$result = wp_update_post( $update );
-		if ( ! $result || is_wp_error( $result ) ) {
-			// Wilhelm!
-			$success = false;
-			break;
-		}
+		$result = $wpdb->update( $wpdb->posts, $update, array( 'ID' => $this_revision->ID ) );
+
+		if ( $result )
+			wp_cache_delete( $this_revision->ID, 'posts' );
+
 	} while ( $prev_revision );
 
 	delete_option( $lock );
+
+	// Add a copy of the post as latest revision.
+	wp_save_post_revision( $post->ID );
 	return true;
 }
 
@@ -628,20 +595,37 @@ function _show_post_preview() {
  * @param int|object $post Post ID or post object.
  * @return bool false if not a match, otherwise true.
  */
-function wp_first_revision_matches_current_version( $post ) {
-
+function _wp_last_revision_matches_current_post( $post ) {
 	if ( ! $post = get_post( $post ) )
 		return false;
 
 	if ( ! $revisions = wp_get_post_revisions( $post->ID ) )
 		return false;
 
-	$last_revision = array_shift( $revisions );
+	foreach ( $revisions as $revision ) {
+		if ( false !== strpos( $revision->post_name, "{$revision->post_parent}-revision" ) ) {
+			$last_revision = $revision;
+			break;
+		}
+	}
 
-	if ( ! ($last_revision->post_modified == $post->post_modified ) )
+	// No revisions yet, only autosaves
+	if ( ! isset( $last_revision ) )
 		return false;
 
-	return true;
+	$post_has_changed = false;
+	if ( $last_revision->post_modified == $post->post_modified ) {
+		foreach ( array_keys( _wp_post_revision_fields() ) as $field ) {
+			if ( normalize_whitespace( $post->$field ) != normalize_whitespace( $last_revision->$field ) ) {
+				$post_has_changed = true;
+				break;
+			}
+		}
+	} else {
+		return false;
+	}
+
+	return ! $post_has_changed;
 }
 
 /**
@@ -706,4 +690,4 @@ function wp_text_diff_with_count( $left_string, $right_string, $args = null ) {
 	$r .= "</table>";
 
 	return array( 'html' => $r, 'linesadded' => $linesadded, 'linesdeleted' => $linesdeleted );
-	}
+}

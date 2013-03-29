@@ -1424,7 +1424,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 
 	// Since 3.6 revisions include a copy of the current post data as a revision.
 	// The following removes that revision when $parent == false
-	$parent_included = wp_first_revision_matches_current_version( $post_id );
+	$parent_included = _wp_last_revision_matches_current_post( $post_id );
 	if ( $parent_included && ! $parent )
 		array_pop( $revisions );
 	elseif ( ! $parent_included && $parent )
