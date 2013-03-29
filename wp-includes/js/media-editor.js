@@ -100,32 +100,31 @@
 			var shortcode, html;
 
 			props = wp.media.string.props( props, attachment );
-
 			shortcode = {};
 
 			if ( props.mime ) {
 				switch ( props.mime ) {
 				case 'audio/mpeg':
-					if ( props.linkUrl.indexOf( 'mp3' ) )
-						shortcode.mp3 = props.linkUrl;
-					else if ( props.linkUrl.indexOf( 'm4a' ) )
-						shortcode.m4a = props.linkUrl;
+					if ( attachment.url.indexOf( 'mp3' ) )
+						shortcode.mp3 = attachment.url;
+					else if ( attachment.url.indexOf( 'm4a' ) )
+						shortcode.m4a = attachment.url;
 					break;
 				case 'audio/mp3':
-					shortcode.mp3 = props.linkUrl;
+					shortcode.mp3 = attachment.url;
 					break;
 				case 'audio/m4a':
-					shortcode.m4a = props.linkUrl;
+					shortcode.m4a = attachment.url;
 					break;
 				case 'audio/wav':
-					shortcode.wav = props.linkUrl;
+					shortcode.wav = attachment.url;
 					break;
 				case 'audio/ogg':
-					shortcode.ogg = props.linkUrl;
+					shortcode.ogg = attachment.url;
 					break;
 				case 'audio/x-ms-wma':
 				case 'audio/wma':
-					shortcode.wma = props.linkUrl;
+					shortcode.wma = attachment.url;
 					break;
 				}
 			}
@@ -148,25 +147,25 @@
 			if ( props.mime ) {
 				switch ( props.mime ) {
 				case 'video/mp4':
-					shortcode.mp4 = props.linkUrl;
+					shortcode.mp4 = attachment.url;
 					break;
 				case 'video/m4v':
-					shortcode.m4v = props.linkUrl;
+					shortcode.m4v = attachment.url;
 					break;
 				case 'video/webm':
-					shortcode.webm = props.linkUrl;
+					shortcode.webm = attachment.url;
 					break;
 				case 'video/ogg':
-					shortcode.ogv = props.linkUrl;
+					shortcode.ogv = attachment.url;
 					break;
 				case 'video/x-ms-wmv':
 				case 'video/wmv':
 				case 'video/asf':
-					shortcode.wmv = props.linkUrl;
+					shortcode.wmv = attachment.url;
 					break;
 				case 'video/flv':
 				case 'video/x-flv':
-					shortcode.flv = props.linkUrl;
+					shortcode.flv = attachment.url
 					break;
 				}
 			}
@@ -660,9 +659,9 @@
 							options[ option ] = props[ prop ];
 					});
 				} else if ( 'video' === attachment.type ) {
-					html = wp.media.string.video( props );
+					html = wp.media.string.video( props, attachment );
 				} else if ( 'audio' === attachment.type ) {
-					html = wp.media.string.audio( props );
+					html = wp.media.string.audio( props, attachment );
 				} else {
 					html = wp.media.string.link( props );
 					options.post_title = props.title;
