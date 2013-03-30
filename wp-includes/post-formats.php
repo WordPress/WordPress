@@ -520,6 +520,8 @@ function get_content_chat( &$content, $remove = false ) {
 			$author = $time = '';
 			if ( ! empty( $lines[$index + 1] ) && ! preg_match( $delimiter_regex, $lines[$index + 1] ) )
 				break;
+			else
+				continue;
 		}
 
 		$matches = array();
