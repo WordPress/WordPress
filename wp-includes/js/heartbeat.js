@@ -12,13 +12,14 @@ window.wp = window.wp || {};
 			beat,
 			nonce,
 			screenid = typeof pagenow != 'undefined' ? pagenow : '',
+			url = typeof ajaxurl != 'undefined' ? ajaxurl : '',
 			settings,
 			tick = 0,
 			queue = {},
 			interval,
-			lastconnect = 0,
 			connecting,
-			countdown,
+			countdown = 0,
+			errorcount = 0,
 			tempInterval,
 			hasFocus = true,
 			isUserActive,
@@ -26,16 +27,18 @@ window.wp = window.wp || {};
 			winBlurTimeout,
 			frameBlurTimeout = -1;
 
-		this.url = typeof ajaxurl != 'undefined' ? ajaxurl : 'wp-admin/admin-ajax.php';
 		this.autostart = true;
+		this.connectionLost = false;
 
 		if ( typeof( window.heartbeatSettings != 'undefined' ) ) {
-			settings = $.extend( {}, window.heartbeatSettings );
-			window.heartbeatSettings = null;
+			settings = window.heartbeatSettings;
 
 			// Add private vars
 			nonce = settings.nonce || '';
 			delete settings.nonce;
+
+			url = settings.ajaxurl || url;
+			delete settings.ajaxurl;
 
 			interval = settings.interval || 15; // default interval
 			delete settings.interval;
@@ -47,7 +50,6 @@ window.wp = window.wp || {};
 
 			interval = interval * 1000;
 
-			// todo: needed?
 			// 'screenid' can be added from settings on the front-end where the JS global 'pagenow' is not set
 			screenid = screenid || settings.screenid || 'site';
 			delete settings.screenid;
@@ -72,21 +74,39 @@ window.wp = window.wp || {};
 			return false;
 		}
 
-		// Set error state and fire an event if errors persist for over 2 min when the window has focus
-		// or 6 min when the window is in the background
-		function errorstate() {
-			var since;
+		// Set error state and fire an event if XHR errors or timeout
+		function errorstate( error ) {
+			var trigger;
 
-			if ( lastconnect ) {
-				since = time() - lastconnect, duration = hasFocus ? 120000 : 360000;
+			if ( error ) {
+				switch ( error ) {
+					case 'abort':
+						// do nothing
+						break;
+					case 'timeout':
+						// no response for 30 sec.
+						trigger = true;
+						break;
+					case 'parsererror':
+					case 'error':
+					case 'empty':
+					case 'unknown':
+						errorcount++;
 
-				if ( since > duration ) {
-					self.connectionLost = true;
-					$(document).trigger( 'heartbeat-connection-lost', parseInt(since / 1000) );
-				} else if ( self.connectionLost ) {
-					self.connectionLost = false;
-					$(document).trigger( 'heartbeat-connection-restored' );
+						if ( errorcount > 2 )
+							trigger = true;
+
+						break;
 				}
+
+				if ( trigger && ! self.connectionLost ) {
+					self.connectionLost = true;
+					$(document).trigger( 'heartbeat-connection-lost' );
+				}
+			} else if ( self.connectionLost ) {
+				errorcount = 0;
+				self.connectionLost = false;
+				$(document).trigger( 'heartbeat-connection-restored' );
 			}
 		}
 
@@ -95,6 +115,9 @@ window.wp = window.wp || {};
 			tick = time();
 
 			data.data = $.extend( {}, queue );
+			// Clear the data queue, anything added after this point will be send on the next tick
+			queue = {};
+
 			$(document).trigger( 'heartbeat-send', [data.data] );
 
 			data.interval = interval / 1000;
@@ -104,32 +127,36 @@ window.wp = window.wp || {};
 			data.has_focus = hasFocus;
 
 			connecting = true;
-			self.xhr = $.post( self.url, data, 'json' )
-			.done( function( data, textStatus, jqXHR ) {
-				var interval;
+			self.xhr = $.ajax({
+				url: url,
+				type: 'post',
+				timeout: 30000, // throw an error of not completed after 30 sec.
+				data: data,
+				dataType: 'json'
+			}).done( function( data, textStatus, jqXHR ) {
+				var new_interval, timed;
 
-				// Clear the data queue
-				queue = {};
+				if ( ! data )
+					return errorstate( 'empty' );
 
 				// Clear error state
-				lastconnect = time();
 				if ( self.connectionLost )
 					errorstate();
 
 				// Change the interval from PHP
-				interval = data.heartbeat_interval;
+				new_interval = data.heartbeat_interval;
 				delete data.heartbeat_interval;
 
 				self.tick( data, textStatus, jqXHR );
 
-				// do this last, can trigger the next XHR
-				if ( interval )
-					self.interval.apply( self, data.heartbeat_interval );
-			}).always( function(){
+				// do this last, can trigger the next XHR if connection time > 5 sec. and new_interval == 'fast'
+				if ( new_interval )
+					self.interval.call( self, new_interval );
+			}).always( function() {
 				connecting = false;
 				next();
-			}).fail( function( jqXHR, textStatus, error ){
-				errorstate();
+			}).fail( function( jqXHR, textStatus, error ) {
+				errorstate( textStatus || 'unknown' );
 				self.error( jqXHR, textStatus, error );
 			});
 		};
@@ -142,7 +169,7 @@ window.wp = window.wp || {};
 
 			if ( !hasFocus ) {
 				t = 120000; // 2 min
-			} else if ( countdown && tempInterval ) {
+			} else if ( countdown > 0 && tempInterval ) {
 				t = tempInterval;
 				countdown--;
 			}
@@ -214,10 +241,10 @@ window.wp = window.wp || {};
 			});
 		}
 
-		$(window).on('blur.wp-heartbeat-focus', function(e){
+		$(window).on('blur.wp-heartbeat-focus', function(e) {
 			setFrameEvents();
 			winBlurTimeout = window.setTimeout( function(){ blurred(); }, 500 );
-		}).on('focus.wp-heartbeat-focus', function(){
+		}).on('focus.wp-heartbeat-focus', function() {
 			$('iframe').each( function(i, frame){
 				if ( !isLocalFrame(frame) )
 					return;
@@ -261,12 +288,14 @@ window.wp = window.wp || {};
 
 			if ( !userActiveEvents ) {
 				$(document).on('mouseover.wp-heartbeat-active keyup.wp-heartbeat-active', function(){ userIsActive(); });
+
 				$('iframe').each( function(i, frame){
 					if ( !isLocalFrame(frame) )
 						return;
 
 					$(frame.contentWindow).on('mouseover.wp-heartbeat-active keyup.wp-heartbeat-active', function(){ userIsActive(); });
 				});
+
 				userActiveEvents = true;
 			}
 		}
@@ -283,33 +312,31 @@ window.wp = window.wp || {};
 			});
 		}
 
-		this.winHasFocus = function() {
+		this.hasFocus = function() {
 			return hasFocus;
 		}
 
 		/**
 		 * Get/Set the interval
 		 *
-		 * When setting the interval to 'fast', the number of ticks is specified wiht the second argument, default 30.
-		 * If the window doesn't have focus, the interval is overridden to 2 min. In this case setting the 'ticks'
-		 * will start counting after the window gets focus.
+		 * When setting to 'fast', the interval is 5 sec. for the next 30 ticks (for 2 min and 30 sec).
+		 * If the window doesn't have focus, the interval slows down to 2 min.
 		 *
 		 * @param string speed Interval speed: 'fast' (5sec), 'standard' (15sec) default, 'slow' (60sec)
-		 * @param int ticks Number of ticks for the changed interval, optional when setting 'standard' or 'slow'
 		 * @return int Current interval in seconds
 		 */
-		this.interval = function(speed, ticks) {
+		this.interval = function( speed ) {
 			var reset, seconds;
 
 			if ( speed ) {
 				switch ( speed ) {
 					case 'fast':
 						seconds = 5;
-						countdown = parseInt(ticks) || 30;
+						countdown = 30;
 						break;
 					case 'slow':
 						seconds = 60;
-						countdown = parseInt(ticks) || 0;
+						countdown = 0;
 						break;
 					case 'long-polling':
 						// Allow long polling, (experimental)
@@ -324,7 +351,7 @@ window.wp = window.wp || {};
 				// Reset when the new interval value is lower than the current one
 				reset = seconds * 1000 < interval;
 
-				if ( countdown ) {
+				if ( countdown > 0 ) {
 					tempInterval = seconds * 1000;
 				} else {
 					interval = seconds * 1000;
@@ -361,7 +388,7 @@ window.wp = window.wp || {};
 		}
 
 		/**
-		 * Send data with the next XHR
+		 * Enqueue data to send with the next XHR
 		 *
 		 * As the data is sent later, this function doesn't return the XHR response.
 		 * To see the response, use the custom jQuery event 'heartbeat-tick' on the document, example:
@@ -371,14 +398,14 @@ window.wp = window.wp || {};
 		 * If the same 'handle' is used more than once, the data is overwritten when the third argument is 'true'.
 		 * Use wp.heartbeat.isQueued('handle') to see if any data is already queued for that handle.
 		 *
-		 * $param string handle Unique handle for the data. The handle is used in PHP to receive the data
-		 * $param mixed data The data to be sent
-		 * $param bool overwrite Whether to overwrite existing data in the queue
-		 * $return bool Whether the data was queued or not
+		 * $param string handle Unique handle for the data. The handle is used in PHP to receive the data.
+		 * $param mixed data The data to send.
+		 * $param bool dont_overwrite Whether to overwrite existing data in the queue.
+		 * $return bool Whether the data was queued or not.
 		 */
-		this.send = function(handle, data, overwrite) {
+		this.enqueue = function( handle, data, dont_overwrite ) {
 			if ( handle ) {
-				if ( queue.hasOwnProperty(handle) && !overwrite )
+				if ( queue.hasOwnProperty(handle) && dont_overwrite )
 					return false;
 
 				queue[handle] = data;
@@ -393,16 +420,16 @@ window.wp = window.wp || {};
 		 * $param string handle The handle for the data
 		 * $return mixed The data queued with that handle or null
 		 */
-		this.isQueued = function(handle) {
+		this.isQueued = function( handle ) {
 			return queue[handle];
 		}
 	}
 
 	$.extend( Heartbeat.prototype, {
-		tick: function(data, textStatus, jqXHR) {
+		tick: function( data, textStatus, jqXHR ) {
 			$(document).trigger( 'heartbeat-tick', [data, textStatus, jqXHR] );
 		},
-		error: function(jqXHR, textStatus, error) {
+		error: function( jqXHR, textStatus, error ) {
 			$(document).trigger( 'heartbeat-error', [jqXHR, textStatus, error] );
 		}
 	});
