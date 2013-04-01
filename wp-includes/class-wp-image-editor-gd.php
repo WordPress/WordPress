@@ -97,6 +97,11 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		if ( ! $size )
 			return new WP_Error( 'invalid_image', __('Could not read image size.'), $this->file );
 
+		if ( function_exists( 'imagealphablending' ) && function_exists( 'imagesavealpha' ) ) {
+			imagealphablending( $this->image, false );
+			imagesavealpha( $this->image, true );
+		}
+
 		$this->update_size( $size[0], $size[1] );
 		$this->mime_type = $size['mime'];
 
