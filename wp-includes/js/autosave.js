@@ -128,6 +128,15 @@ jQuery(document).ready( function($) {
 			delayed_autosave();
 		});
 	}
+
+	// When connection is lost, keep user from submitting changes.
+	$(document).on('heartbeat-connection-lost.autosave', function() {
+		autosave_disable_buttons();
+		$('#lost-connection-notice').show();
+	}).on('heartbeat-connection-restored.autosave', function() {
+		autosave_enable_buttons();
+		$('#lost-connection-notice').hide();
+	});
 });
 
 function autosave_parse_response( response ) {
@@ -218,17 +227,20 @@ function autosave_loading() {
 }
 
 function autosave_enable_buttons() {
-	// delay that a bit to avoid some rare collisions while the DOM is being updated.
-	setTimeout(function(){
-		jQuery(':button, :submit', '#submitpost').removeAttr('disabled');
-		jQuery('.spinner', '#submitpost').hide();
-	}, 500);
+	if ( ! wp.heartbeat.connectionLost ) {
+		// delay that a bit to avoid some rare collisions while the DOM is being updated.
+		setTimeout(function(){
+			var parent = jQuery('#submitpost');
+			parent.find(':button, :submit').removeAttr('disabled');
+			parent.find('.spinner').hide();
+		}, 500);
+	}
 }
 
 function autosave_disable_buttons() {
-	jQuery(':button, :submit', '#submitpost').prop('disabled', true);
+	jQuery('#submitpost').find(':button, :submit').prop('disabled', true);
 	// Re-enable 5 sec later. Just gives autosave a head start to avoid collisions.
-	setTimeout(autosave_enable_buttons, 5000);
+	setTimeout( autosave_enable_buttons, 5000 );
 }
 
 function delayed_autosave() {
@@ -245,6 +257,7 @@ autosave = function() {
 	var rich = (typeof tinymce != "undefined") && tinymce.activeEditor && !tinymce.activeEditor.isHidden(),
 		post_data, doAutoSave, ed, origStatus, successCallback;
 
+	// Disable buttons until we know the save completed.
 	autosave_disable_buttons();
 
 	post_data = wp.autosave.getPostData();

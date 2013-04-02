@@ -383,6 +383,8 @@ window.wp = window.wp || {};
 			if ( self.xhr && self.xhr.readyState != 4 )
 				self.xhr.abort();
 
+			// Reset the error state
+			errorstate();
 			running = false;
 			return true;
 		}

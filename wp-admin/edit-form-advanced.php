@@ -365,6 +365,9 @@ if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create
 <?php if ( $message ) : ?>
 <div id="message" class="updated"><p><?php echo $message; ?></p></div>
 <?php endif; ?>
+<div id="lost-connection-notice" class="error hidden">
+	<p><?php _e("You have lost your connection with the server, and saving has been disabled. This message will vanish once you've reconnected."); ?></p>
+</div>
 <form name="post" action="post.php" method="post" id="post"<?php do_action('post_edit_form_tag'); ?>>
 <?php wp_nonce_field($nonce_action); ?>
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
