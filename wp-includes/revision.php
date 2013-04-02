@@ -658,49 +658,6 @@ function _wp_upgrade_revisions_of_post( $post ) {
 }
 
 /**
- * Determines if the specified post's most recent revision matches the post (by checking post_modified).
- *
- * @package WordPress
- * @subpackage Post_Revisions
- * @since 3.6.0
- *
- * @param int|object $post Post ID or post object.
- * @return bool false if not a match, otherwise true.
- */
-function _wp_last_revision_matches_current_post( $post ) {
-	if ( ! $post = get_post( $post ) )
-		return false;
-
-	if ( ! $revisions = wp_get_post_revisions( $post->ID ) )
-		return false;
-
-	foreach ( $revisions as $revision ) {
-		if ( false !== strpos( $revision->post_name, "{$revision->post_parent}-revision" ) ) {
-			$last_revision = $revision;
-			break;
-		}
-	}
-
-	// No revisions yet, only autosaves
-	if ( ! isset( $last_revision ) )
-		return false;
-
-	$post_has_changed = false;
-	if ( $last_revision->post_modified == $post->post_modified ) {
-		foreach ( array_keys( _wp_post_revision_fields() ) as $field ) {
-			if ( normalize_whitespace( $post->$field ) != normalize_whitespace( $last_revision->$field ) ) {
-				$post_has_changed = true;
-				break;
-			}
-		}
-	} else {
-		return false;
-	}
-
-	return ! $post_has_changed;
-}
-
-/**
  * Displays a human readable HTML representation of the difference between two strings.
  * similar to wp_text_diff, but tracks and returns could of lines added and removed
  *
