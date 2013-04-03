@@ -30,7 +30,7 @@
 		}
 	};
 
-	$( document ).on( 'ready', function() {
+	$( function() {
 		twentyThirteen.adjustAnchor();
 
 		if ( body.is( '.sidebar' ) )
