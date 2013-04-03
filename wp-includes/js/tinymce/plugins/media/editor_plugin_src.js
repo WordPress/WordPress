@@ -438,7 +438,7 @@
 			}
 
 			// Add HTML5 video element
-			if (typeItem.name === 'Video' && data.video.sources[0]) {
+			if (typeItem.name === 'Video' && data.video.sources && data.video.sources[0]) {
 				// Create new object element
 				video = new Node('video', 1).attr(tinymce.extend({
 					id : node.attr('id'),
@@ -477,7 +477,7 @@
 			}
 
 			// Add HTML5 audio element
-			if (typeItem.name === 'Audio' && data.video.sources[0]) {
+			if (typeItem.name === 'Audio' && data.video.sources && data.video.sources[0]) {
 				// Create new object element
 				audio = new Node('audio', 1).attr(tinymce.extend({
 					id : node.attr('id'),
