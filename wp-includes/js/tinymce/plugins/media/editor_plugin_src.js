@@ -575,10 +575,9 @@
 						type: typeItem.mimes[0]
 					});
 				} else {
-					object.attr({
-						classid: "clsid:" + typeItem.clsids[0],
-						codebase: typeItem.codebase
-					});
+					if ( typeItem.clsids )
+						object.attr('clsid', typeItem.clsids[0]);
+					object.attr('codebase', typeItem.codebase);
 
 					embed = new Node('embed', 1);
 					embed.shortEnded = true;
