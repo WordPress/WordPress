@@ -1042,13 +1042,9 @@ function wp_ajax_autosave() {
 	if ( $_POST['post_type'] == 'page' || empty($_POST['post_category']) )
 		unset($_POST['post_category']);
 
-	$do_autosave = (bool) $_POST['autosave'];
 	$data = '';
 	$supplemental = array();
 	$id = $revision_id = 0;
-
-	if ( ! $user_id = get_current_user_id() )
-		wp_die('-1');
 
 	$post_id = (int) $_POST['post_id'];
 	$_POST['ID'] = $_POST['post_ID'] = $post_id;
@@ -1064,7 +1060,7 @@ function wp_ajax_autosave() {
 			wp_die( __( 'You are not allowed to edit this post.' ) );
 	}
 
-	if ( $do_autosave ) {
+	if ( ! empty( $_POST['autosave'] ) ) {
 		// Drafts and auto-drafts are just overwritten by autosave for the same user
 		if ( $user_id == $post->post_author && ( 'auto-draft' == $post->post_status || 'draft' == $post->post_status ) ) {
 			$id = edit_post();
