@@ -75,13 +75,13 @@ window.wp = window.wp || {};
 
 		options.success = function( resp ) {
 			if ( success )
-				success( model, resp, options );
+				success( resp );
 			model.trigger( 'sync', model, resp, options );
 		};
 
 		options.error = function( xhr ) {
 			if ( error )
-				error( model, xhr, options );
+				error( xhr );
 			model.trigger( 'error', model, xhr, options );
 		};
 
@@ -745,7 +745,7 @@ window.wp = window.wp || {};
 				return $.Deferred().resolveWith( this ).promise();
 
 			options = options || {};
-			options.add = true;
+			options.remove = false;
 
 			return this._more = this.fetch( options ).done( function( resp ) {
 				if ( _.isEmpty( resp ) || -1 === this.args.posts_per_page || resp.length < this.args.posts_per_page )
