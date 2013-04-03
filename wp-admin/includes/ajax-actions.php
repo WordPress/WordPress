@@ -1062,7 +1062,7 @@ function wp_ajax_autosave() {
 
 	if ( ! empty( $_POST['autosave'] ) ) {
 		// Drafts and auto-drafts are just overwritten by autosave for the same user
-		if ( $user_id == $post->post_author && ( 'auto-draft' == $post->post_status || 'draft' == $post->post_status ) ) {
+		if ( get_current_user_id() == $post->post_author && ( 'auto-draft' == $post->post_status || 'draft' == $post->post_status ) ) {
 			$id = edit_post();
 		} else { // Non drafts are not overwritten. The autosave is stored in a special post revision for each user.
 			$revision_id = wp_create_post_autosave( $post->ID );
