@@ -116,7 +116,7 @@ require_once( './admin-header.php' );
 </div>
 
 <script id="tmpl-revisions-diff" type="text/html">
-	<div id="toogle-revision-compare-mode">
+	<div id="toggle-revision-compare-mode">
 		<label>
 			<input type="checkbox" id="compare-two-revisions" />
 			<?php esc_attr_e( 'Compare two revisions' ); ?>
