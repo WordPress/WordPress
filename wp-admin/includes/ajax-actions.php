@@ -2186,6 +2186,7 @@ function wp_ajax_revisions_data() {
 			continue;
 
 		$revision_from_date_author = '';
+		$is_current_revision = false;
 		$count++;
 		// return blank data for diffs to the left of the left handle (for right handel model)
 		// or to the right of the right handle (for left handel model)
@@ -2235,10 +2236,12 @@ function wp_ajax_revisions_data() {
 		elseif ( wp_is_post_autosave( $left_revision ) )
 			$revision_from_date_author = sprintf( $autosavef, $revision_from_date_author );
 
-		if ( $revision->post_modified === $post->post_modified )
+		if ( $revision->post_modified === $post->post_modified ) {
 			$revision_date_author = sprintf( $currentf, $revision_date_author );
-		elseif ( wp_is_post_autosave( $revision ) )
+			$is_current_revision = true;
+		} elseif ( wp_is_post_autosave( $revision ) ) {
 			$revision_date_author = sprintf( $autosavef, $revision_date_author );
+		}
 
 		/* translators: revision date short format, see http://php.net/date */
 		$date_short_format = _x( 'j M @ G:i', 'revision date short format');
@@ -2275,7 +2278,8 @@ function wp_ajax_revisions_data() {
 				'titleTooltip'         => $revision_date_author_short,
 				'restoreLink'          => urldecode( $restore_link ),
 				'revision_toload'      => true,
-				'previous_revision_id' => $previous_revision_id
+				'previous_revision_id' => $previous_revision_id,
+				'is_current_revision'  => $is_current_revision,
 			);
 		}
 		$previous_revision_id = $revision->ID;

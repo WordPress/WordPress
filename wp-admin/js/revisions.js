@@ -633,11 +633,7 @@ window.wp = window.wp || {};
 			this.toogleCompareTwoCheckbox();
 
 			// hide the restore button when on the last sport/current post data
-			if ( Diff.rightDiff === Diff.revisions.length ){
-				$( '#restore-revision' ).hide();
-			} else {
-				$( '#restore-revision' ).show();
-			}
+			$( '#restore-revision' ).toggle( ! Diff.revisions.at( Diff.rightDiff - 1 ).get( 'is_current_revision' ) );
 
 			return this;
 		},
@@ -703,7 +699,8 @@ window.wp = window.wp || {};
 			lines_added: 0,
 			lines_deleted: 0,
 			scope_of_changes: 'none',
-			previous_revision_id: 0
+			previous_revision_id: 0,
+			is_current_revision: false
 		},
 
 		url: function() {
