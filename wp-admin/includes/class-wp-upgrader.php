@@ -166,6 +166,7 @@ class WP_Upgrader {
 		global $wp_filesystem;
 		$defaults = array( 'source' => '', 'destination' => '', //Please always pass these
 						'clear_destination' => false, 'clear_working' => false,
+						'abort_if_destination_exists' => true,
 						'hook_extra' => array());
 
 		$args = wp_parse_args($args, $defaults);
@@ -224,7 +225,7 @@ class WP_Upgrader {
 				return $removed;
 			else if ( ! $removed )
 				return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
-		} elseif ( $wp_filesystem->exists($remote_destination) ) {
+		} elseif ( $abort_if_destination_exists && $wp_filesystem->exists($remote_destination) ) {
 			//If we're not clearing the destination folder and something exists there already, Bail.
 			//But first check to see if there are actually any files in the folder.
 			$_files = $wp_filesystem->dirlist($remote_destination);
@@ -272,6 +273,7 @@ class WP_Upgrader {
 		$defaults = array( 	'package' => '', //Please always pass this.
 							'destination' => '', //And this
 							'clear_destination' => false,
+							'abort_if_destination_exists' => true, // Abort if the Destination directory exists, Pass clear_destination as false please
 							'clear_working' => true,
 							'is_multi' => false,
 							'hook_extra' => array() //Pass any extra $hook_extra args here, this will be passed to any hooked filters.
@@ -318,6 +320,7 @@ class WP_Upgrader {
 											'source' => $working_dir,
 											'destination' => $destination,
 											'clear_destination' => $clear_destination,
+											'abort_if_destination_exists' => $abort_if_destination_exists,
 											'clear_working' => $clear_working,
 											'hook_extra' => $hook_extra
 										) );
@@ -412,6 +415,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		// Force refresh of plugin update information
 		delete_site_transient('update_plugins');
 		wp_cache_delete( 'plugins', 'plugins' );
+		do_action( 'upgrader_process_complete', $this, array( 'action' => 'install', 'type' => 'plugin' ), $package );
 
 		return true;
 	}
@@ -457,6 +461,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		// Force refresh of plugin update information
 		delete_site_transient('update_plugins');
 		wp_cache_delete( 'plugins', 'plugins' );
+		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'plugin' ), $plugin );
 	}
 
 	function bulk_upgrade($plugins) {
@@ -539,6 +544,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		// Force refresh of plugin update information
 		delete_site_transient('update_plugins');
 		wp_cache_delete( 'plugins', 'plugins' );
+		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'plugin', 'bulk' => true ), $plugins );
 
 		return $results;
 	}
@@ -764,6 +770,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Force refresh of theme update information
 		wp_clean_themes_cache();
+		do_action( 'upgrader_process_complete', $this, array( 'action' => 'install', 'type' => 'theme' ), $package );
 
 		return true;
 	}
@@ -810,6 +817,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Force refresh of theme update information
 		wp_clean_themes_cache();
+		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'theme' ), $theme );
 
 		return true;
 	}
@@ -897,6 +905,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Force refresh of theme update information
 		wp_clean_themes_cache();
+		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'theme', 'bulk' => true ), $themes );
 
 		return $results;
 	}
@@ -1067,7 +1076,9 @@ class Core_Upgrader extends WP_Upgrader {
 		if ( ! function_exists( 'update_core' ) )
 			return new WP_Error( 'copy_failed_space', $this->strings['copy_failed_space'] );
 
-		return update_core($working_dir, $wp_dir);
+		$result = update_core( $working_dir, $wp_dir );
+		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'core' ), $result );
+		return $result;
 	}
 
 }
