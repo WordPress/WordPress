@@ -3662,7 +3662,7 @@ table.diff .diff-addedline ins {
 	position: relative;
 }
 
-#toogle-revision-compare-mode {
+#toggle-revision-compare-mode {
 	position: absolute;
 	top: 0;
 	right: 0;
