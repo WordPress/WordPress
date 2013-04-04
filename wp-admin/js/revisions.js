@@ -670,7 +670,7 @@ window.wp = window.wp || {};
 		},
 
 		restore: function() {
-			document.location = $( '#restore' ).data( 'restoreLink' );
+			document.location = $( '#restore-revision' ).data( 'restoreLink' );
 		}
 	});
 
