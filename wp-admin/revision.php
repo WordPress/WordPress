@@ -79,12 +79,20 @@ wp_enqueue_script( 'revisions' );
 
 require_once( './admin-header.php' );
 
-//TODO - Some of the translations below split things into multiple strings that are contextually related and this makes it pretty impossible for RTL translation.
-//TODO can we pass the context in a better way
-$wpRevisionsSettings = array( 'post_id' => $post->ID,
-						'nonce' => wp_create_nonce( 'revisions-ajax-nonce' ),
-						'revision_id' => $revision_id );
-wp_localize_script( 'revisions', 'wpRevisionsSettings', $wpRevisionsSettings );
+$strings = array(
+	'diffFromTitle' => _x( 'From: %s', 'revision from title'  ),
+	'diffToTitle'   => _x( 'To: %s', 'revision to title' )
+);
+
+$settings = array(
+	'post_id'     => $post->ID,
+	'nonce'       => wp_create_nonce( 'revisions-ajax-nonce' ),
+	'revision_id' => $revision_id
+);
+
+$strings['settings'] = $settings;
+
+wp_localize_script( 'revisions', 'wpRevisionsL10n', $strings );
 
 $comparetworevisionslink = get_edit_post_link( $revision->ID );
 ?>
@@ -112,25 +120,28 @@ $comparetworevisionslink = get_edit_post_link( $revision->ID );
 </div>
 
 <script id="tmpl-revision" type="text/html">
+	<div id="comparetworevisions">
+		<label>
+			<input type="checkbox" id="comparetwo" />
+			<?php esc_attr_e( 'Compare two revisions' ); ?>
+		</label>
+	</div>
+
 	<div id="diffsubheader" class="diff-left-hand-meta-row">
 		<div id="diff_from_current_revision">
 			<?php printf( '<b>%1$s</b> %2$s.' , __( 'From:' ), __( 'the current version' ) ); ?>
 		</div>
 		<div id="difftitlefrom">
-			<div class="diff-from-title"><?php _e( 'From:' ); ?></div>{{{ data.revision_from_date_author }}}
+			<div class="diff-from-title"><?php _e( 'From:' ); ?></div>{{{ data.titleFrom }}}
 		</div>
 	</div>
 
 	<div id="diffsubheader">
 		<div id="difftitle">
-			<div class="diff-to-title"><?php _e( 'To:' ); ?></div>{{{ data.revision_date_author }}}
+			<div class="diff-to-title"><?php _e( 'To:' ); ?></div>{{{ data.titleTo }}}
 		</div>
 		<div id="diffrestore">
-			<input class="button button-primary restore-button" onClick="document.location='{{{ data.restoreaction }}}'" type="submit" id="restore" value="<?php esc_attr_e( 'Restore This Revision' )?>" />
-		</div>
-		<div id="comparetworevisions">
-			<input type="checkbox" id="comparetwo" value="comparetwo" {{{ data.comparetwochecked }}} name="comparetwo"/>
-				<label for="comparetwo"><?php esc_attr_e( 'Compare two revisions' ); ?></a></label>
+			<input class="button button-primary" data-restore-link="{{{ data.restoreLink }}}" type="button" id="restore" value="<?php esc_attr_e( 'Restore This Revision' )?>" />
 		</div>
 	</div>
 
@@ -138,10 +149,10 @@ $comparetworevisionslink = get_edit_post_link( $revision->ID );
 		<div id="removed"><?php _e( 'Removed -' ); ?></div>
 		<div id="added"><?php _e( 'Added +' ); ?></div>
 	</div
-	<div>{{{ data.revisiondiff }}}</div>
+	<div>{{{ data.diff }}}</div>
 </script>
 
-<script id="tmpl-revisionvinteract" type="text/html">
+<script id="tmpl-revision-interact" type="text/html">
 	<div id="diffheader">
 		<div id="diffprevious"><input class="button" type="submit" id="previous" value="<?php esc_attr_e( 'Previous' ); ?>" />
 		</div>
@@ -153,22 +164,10 @@ $comparetworevisionslink = get_edit_post_link( $revision->ID );
 		</div>
 	</div>
 </script>
+
 <script id="tmpl-revision-ticks" type="text/html">
 	<div class="revision-tick revision-toload{{{ data.revision_toload }}} revision-scopeofchanges-{{{ data.scope_of_changes }}}">
 	</div>
 </script>
 <?php
-/*
-TODO Convert these into screen options
-<script id="tmpl-revisionoptions" type="text/html">
-	<div id="revisionoptions">
-		<div id="showsplitviewoption">
-			<input type='checkbox' id="show_split_view" checked="checked" value="1" /> <?php _e( 'Show split diff view' ); ?>
-		</div>
-		<div id="toggleshowautosavesoption">
-			<input type='checkbox' id="toggleshowautosaves" value="1" /> <?php _e( 'Show autosaves' ); ?>
-		</div>
-	</div>
-</script>
-*/
 require_once( './admin-footer.php' );

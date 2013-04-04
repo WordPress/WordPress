@@ -675,7 +675,7 @@ function wp_text_diff_with_count( $left_string, $right_string, $args = null ) {
 	$defaults = array( 'title' => '', 'title_left' => '', 'title_right' => '' );
 	$args = wp_parse_args( $args, $defaults );
 
-	if ( !class_exists( 'WP_Text_Diff_Renderer_Table' ) )
+	if ( ! class_exists( 'WP_Text_Diff_Renderer_Table' ) )
 			require( ABSPATH . WPINC . '/wp-diff.php' );
 
 	$left_string  = normalize_whitespace( $left_string );
@@ -685,8 +685,8 @@ function wp_text_diff_with_count( $left_string, $right_string, $args = null ) {
 	$right_lines = explode( "\n", $right_string) ;
 
 	$text_diff = new Text_Diff($left_lines, $right_lines  );
-	$linesadded = $text_diff->countAddedLines();
-	$linesdeleted = $text_diff->countDeletedLines();
+	$lines_added = $text_diff->countAddedLines();
+	$lines_deleted = $text_diff->countDeletedLines();
 
 	$renderer  = new WP_Text_Diff_Renderer_Table();
 	$diff = $renderer->render( $text_diff );
@@ -718,5 +718,5 @@ function wp_text_diff_with_count( $left_string, $right_string, $args = null ) {
 	$r .= "<tbody>\n$diff\n</tbody>\n";
 	$r .= "</table>";
 
-	return array( 'html' => $r, 'linesadded' => $linesadded, 'linesdeleted' => $linesdeleted );
+	return array( 'html' => $r, 'lines_added' => $lines_added, 'lines_deleted' => $lines_deleted );
 }
