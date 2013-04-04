@@ -3617,6 +3617,11 @@ td.plugin-title p {
   11.2 - Post Revisions
 ------------------------------------------------------------------------------*/
 
+/* Revision meta box */
+.post-revisions li img {
+	vertical-align: middle;
+}
+
 table.diff {
 	width: 100%;
 }
@@ -3653,270 +3658,175 @@ table.diff .diff-addedline ins {
 	text-decoration: none;
 }
 
-#revisions-meta-mostrecent,
-#revisions-meta-stored,
-#revisions-meta-oldest,
-#revisions-meta-link {
+#revision-diff-container {
+	position: relative;
+}
+
+#toogle-revision-compare-mode {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding-top: 15px;
+}
+
+#loading-status {
+	position: absolute;
+	top: 0;
+	right: 170px;
 	line-height: 30px;
-	height: 30px;
-	vertical-align: middle;
-	padding-right: 10px;
+	display: none;
+	margin: 9px 0 0;
 }
 
-#revisions-meta-mostrecent img,
-#revisions-meta-oldest img {
-	vertical-align: middle;
+#loading-status .spinner {
+ 	float: left;
 }
 
-.diff-from-title,
-.diff-to-title {
-	font-size: 14px;
-	font-weight: bold;
-	width:60px;
-	text-align: right;
-	float: left;
-	margin-right: 5px;
-}
-
-.revisiondiffcontainer {
-	width: 96%;
-}
-
-.revisiondiffcontainer input.button {
-	margin: 2px;
-}
-
-#diffnext {
-	float: right;
-	margin-right: 5px;
-}
-
-#diffrestore input{
-	margin-left: 10px;
-}
-
-#diffprevious,
-#difftitle,
-#difftitlefrom,
-#diff_from_current_revision {
-	float: left;
-	margin-left: 5px;
-	height: 35px;
-}
-
-#diffprevious,
-#diffnext {
-	height: 30px;
-}
-
-#diffheader, #diffsubheader {
-	clear: both;
-	width: 100%;
-}
-
-#diffheader {
+#revision-interact {
 	border-bottom: 1px solid #dfdfdf;
-	width: 100%;
-	height: 40px;
-	line-height: 40px;
-	padding-top: 30px;
+	padding: 20px 0;
 }
 
-#diffsubheader,.diff-left-hand-meta-row {
-	width: 100%;
-	height:35px;
-	line-height: 35px;
-	display: block;
+#diff-next-revision,
+#diff-previous-revision {
+	margin-top: -.4em; /* Same line as the slider (height: .8em) */
 }
 
-#diffslider{
+#diff-next-revision {
+	float: right;
+}
+
+#diff-previous-revision {
+	float: left;
+}
+
+#diff-slider{
 	width: 70%;
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
-	height: 0.8em;
-	margin-top: 20px;
+	margin: 0 auto;
+}
+
+.comparetwo #diff-slider {
+	width: 95%;
 }
 
 .diff-slider-ticks-wrapper {
-	margin-left: auto;
-	margin-right: auto;
+	margin: 0 auto;
 	text-align: center;
 }
 
 #diff-slider-ticks {
 	position: absolute;
-	margin-top: 50px;
 	z-index: 1;
+	margin-top: 20px;
 }
 
-#revisioncount {
-	width: 50%;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 0;
-	line-height: 1em;
-	height: 1em;
-	text-align: center;
-	clear: none;
-	padding: 5px;
+.diff-header {
+	height: 35px;
+	line-height: 35px;
 }
 
-.revisiondiffcontainer {
-	margin-top: 10px;
-}
-
-#diffsliderwrap {
-	width: 80%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-#diffsliderwrap #sliderinner {
-	position: relative;
-	top: 47px;
-}
-
-#removedandadded {
-	width: 100%;
-	padding-bottom: 30px;
-	padding-top: 3px;
-	font-size: 16px;
-}
-
-#removed,
-#added {
-	width: auto;
-	text-align: left;
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-top: 5px;
-	padding-bottom: 5px;
+.diff-title {
 	float: left;
 }
 
-.diffsplit #added {
-	float: right;
-	width: 47%;
-	text-align: left;
+.diff-title strong {
+	font-size: 14px;
+	width: 60px;
+	text-align: right;
+	float: left;
+	margin-right: 5px;
 }
 
-.diffsplit #removedandadded {
+.diff-title img {
+	vertical-align: middle;
+}
+
+#restore-revision {
+	margin-left: 10px;
+}
+
+.diff-col-titles {
+	font-size: 16px;
 	width: 100%;
+	margin: 20px 0 10px;
 }
 
-#added {
- 	padding-left: 10px;
+.diff-col-title-added,
+.diff-col-title-removed {
+	width: auto;
+	text-align: left;
+	float: left;
+	width: 48%;
+}
+
+.diff-col-title-added span,
+.diff-col-title-removed span {
+	padding: .5em;
+}
+
+.diff-col-title-added {
+	float: right;
  	color: #00a100;
 }
 
-#removed {
- 	padding-left: 0px;
+.diff-col-title-removed {
 	color: #d2281f;
 }
 
-#comparetworevisions {
-	float: right;
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	line-height: 35px;
-	padding-right: 5px;
-}
-
-#comparetworevisions input {
-	margin-right: 2px;
-}
-
-#difftitle img,
-#difftitlefrom img,
-.post-revisions li img {
-	vertical-align: middle;
-	margin-left: 5px;
-}
-.post-revisions li {
-	vertical-align: middle;
-	height: 28px;
-}
-
-#showsplitviewoption,
-#toggleshowautosavesoption {
-	float: right;
-	padding-left: 10px;
-	padding-right: 10px;
-}
-
-#revisionoptions {
-	margin-top: 0px;
-	line-height: 40px;
-	clear: both;
-	width: 100%;
-}
-
-.comparetwo #diffslider {
-	width: 95%;
-}
-
-.comparetwo #diffprevious,
-.comparetwo #diffnext,
-span#diff_left_current_revision,
-#diff_from_current_revision,
-.currentversion span#diff_left_count,
-.currentversion span#diff_left_count_inner,
-.comparetwo.currentversion #diff_from_current_revision,
-#diffsubheader.diff-left-hand-meta-row {
+.comparing-two-revisions #diff-previous-revision,
+.comparing-two-revisions #diff-next-revision,
+#diff-title-from-current-version,
+.comparing-two-revisions.current-version #diff-title-from-current-version,
+#diff-header-from {
 	display: none;
 }
 
-.currentversion span#diff_left_current_revision,
-span#diff_left_count,
-span#diff_left_count_inner,
-.comparetwo #difftitlefrom,
-.leftmodelloading #modelsloading,
-.rightmodelloading #modelsloading,
-.leftmodelloading #modelsloading .spinner,
-.rightmodelloading #modelsloading .spinner,
-.comparetwo #diffsubheader.diff-left-hand-meta-row {
+.comparing-two-revisions #diff-title-from,
+.left-model-loading #loading-status,
+.right-model-loading #loading-status,
+.left-model-loading #loading-status .spinner,
+.right-model-loading #loading-status .spinner,
+.comparing-two-revisions #diff-header-from {
 	display: block;
 }
 
 .revision-tick {
 	width: 1px;
 	float: left;
-	margin-right: 15px;
-	height: 11px;
+	margin: 1px 15px 0 0;
+	height: .8em;
 	padding: 0;
 	margin-left: 0px;
 }
 
-.revision-tick.revision-scopeofchanges-vsmall {
-		width: 1px;
-		background-color: #aaa;
+.revision-tick.scope-of-changes-vsmall {
+	width: 1px;
+	background-color: #aaa;
 }
 
-.revision-tick.revision-scopeofchanges-small {
-		width: 2px;
-		background-color: #aaa;
-		margin-left: -1px;
+.revision-tick.scope-of-changes-small {
+	width: 2px;
+	background-color: #aaa;
+	margin-left: -1px;
 }
 
-.revision-tick.revision-scopeofchanges-med {
-		width: 3px;
-		margin-left: -2px;
-		background-color: #666;
+.revision-tick.scope-of-changes-med {
+	width: 3px;
+	margin-left: -2px;
+	background-color: #666;
 }
 
-.revision-tick.revision-scopeofchanges-large {
-		width: 4px;
-		margin-left: -3px;
-		background-color: #333;
+.revision-tick.scope-of-changes-large {
+	width: 4px;
+	margin-left: -3px;
+	background-color: #333;
 }
 
-.revision-tick.revision-scopeofchanges-vlarge {
-		margin-left: -3px;
-		width: 4px;
-		background-color: #111;
-		left: 1;
+.revision-tick.scope-of-changes-vlarge {
+	margin-left: -3px;
+	width: 4px;
+	background-color: #111;
+	left: 1;
 }
 
 .diff-loading {
@@ -3924,8 +3834,8 @@ span#diff_left_count_inner,
 	width: 100%;
 	height: 200px;
 }
-.diff-loading .spinner
-{
+
+.diff-loading .spinner {
 	clear: both;
 	margin-left: auto;
 	margin-right: auto;
@@ -3933,25 +3843,10 @@ span#diff_left_count_inner,
 	float: none;
 }
 
-#modelsloading {
-	float: right;
-	position: absolute;
-	line-height: 30px;
-	display: none;
-	clear: none;
-	right: 170px;
-	margin-top: -40px;
-}
-
-#modelsloading .spinner {
- 	float: left;
-}
-
 .ui-tooltip-content img {
 	float: left;
 	margin-right: 5px;
 }
-
 
 
 /*  jQuery UI Tooltip 1.10.1 */
@@ -3985,7 +3880,6 @@ body .ui-tooltip {
 	margin-left: -35px;
 	bottom: -16px;
 	z-index: 99999;
-
 }
 
 .arrow.top {

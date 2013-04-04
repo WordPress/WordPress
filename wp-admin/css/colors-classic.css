@@ -1476,12 +1476,23 @@ table.diff .diff-addedline ins {
 	background-color: #e9f6ea;
 }
 
-#diffsubheader{
+.diff-header {
 	background-color: #f7f7f7;
 }
 
-#att-info {
-	background-color: #e4f2fd;
+#diff-title-to strong {
+	color: #0080aa;
+}
+
+.revision-tick.loading-true {
+	background-color: #9999cc;
+	background: url(../images/wpspin_light.gif) no-repeat;
+	background-position: middle;
+	background-size: 1px 10px;
+}
+
+.revision-tick.loading-false {
+	background-color: #aaa;
 }
 
 /* jQuery UI Slider */

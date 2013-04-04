@@ -116,7 +116,7 @@ window.wp = window.wp || {};
 
 		startLeftModelLoading: function() {
 			this.leftModelLoading = true;
-			$('.revisiondiffcontainer').addClass('leftmodelloading');
+			$('#revision-diff-container').addClass('left-model-loading');
 		},
 
 		stopLeftModelLoading: function() {
@@ -125,7 +125,7 @@ window.wp = window.wp || {};
 
 		startRightModelLoading: function() {
 			this.rightModelLoading = true;
-			$('.revisiondiffcontainer').addClass('rightmodelloading');
+			$('#revision-diff-container').addClass('right-model-loading');
 		},
 
 		stopRightModelLoading: function() {
@@ -133,8 +133,8 @@ window.wp = window.wp || {};
 		},
 
 		stopModelLoadingSpinner: function() {
-			$('.revisiondiffcontainer').removeClass('rightmodelloading');
-			$('.revisiondiffcontainer').removeClass('leftmodelloading');
+			$('#revision-diff-container').removeClass('right-model-loading');
+			$('#revision-diff-container').removeClass('left-model-loading');
 		},
 
 		reloadModel: function() {
@@ -279,7 +279,7 @@ window.wp = window.wp || {};
 	 * The slider
 	 */
 	revisions.view.Slider = Backbone.View.extend({
-		el: $( '#slider' ),
+		el: $( '#diff-slider' ),
 		singleRevision: true,
 
 		initialize: function( options ) {
@@ -314,9 +314,9 @@ window.wp = window.wp || {};
 				}
 
 				if ( 0 === Diff.leftDiff ) {
-					$( '.revisiondiffcontainer' ).addClass( 'currentversion' );
+					$( '#revision-diff-container' ).addClass( 'currentversion' );
 				} else {
-					$( '.revisiondiffcontainer' ).removeClass( 'currentversion' );
+					$( '#revision-diff-container' ).removeClass( 'currentversion' );
 				}
 
 				Diff.revisionView.render();
@@ -380,7 +380,6 @@ window.wp = window.wp || {};
 		},
 
 		addTooltip: function( handle, message ) {
-
 			handle.attr( 'title', '' ).tooltip({
 				track: false,
 
@@ -406,29 +405,29 @@ window.wp = window.wp || {};
 		},
 
 		width: function() {
-			return $( '#slider' ).width();
+			return $( '#diff-slider' ).width();
 		},
 
 		setWidth: function( width ) {
-			return $( '#slider' ).width( width );
+			return $( '#diff-slider' ).width( width );
 		},
 
 		refresh: function( options, slide ) {
-			$( '#slider' ).slider( 'option', options );
+			$( '#diff-slider' ).slider( 'option', options );
 
 			// Triggers the slide event
 			if ( slide )
-				$( '#slider' ).trigger( 'slide' );
+				$( '#diff-slider' ).trigger( 'slide' );
 		},
 
 		option: function( key ) {
-			return $( '#slider' ).slider( 'option', key );
+			return $( '#diff-slider' ).slider( 'option', key );
 		},
 
 		render: function() {
 			var self = this;
 			// this.$el doesn't work, why?
-			$( '#slider' ).slider( {
+			$( '#diff-slider' ).slider( {
 				slide: $.proxy( self.slide, self ),
 				start: $.proxy( self.start, self ),
 				stop: $.proxy( self.stop, self )
@@ -465,7 +464,6 @@ window.wp = window.wp || {};
 
 			Diff.slider.setWidth( sliderWidth );
 			$( '.diff-slider-ticks-wrapper' ).width( sliderWidth );
-			$( '#diffslider' ).width( sliderWidth );
 			$( '#diff-slider-ticks' ).width( sliderWidth );
 
 			var aTickWidth = $( '.revision-tick' ).width();
@@ -507,8 +505,8 @@ window.wp = window.wp || {};
 	 */
 	// TODO: Change Interact to something else.
 	revisions.view.Interact = Backbone.View.extend({
-		el: $('#backbonerevisionsinteract'),
-		template: wp.template('revision-interact'),
+		el: $( '#revision-interact' ),
+		template: wp.template( 'revision-interact' ),
 
 		// next and previous buttons, only available in compare one mode
 		events: {
@@ -517,10 +515,7 @@ window.wp = window.wp || {};
 		},
 
 		render: function() {
-			var self = this;
-
-			var addHtml = this.template;
-			this.$el.html( addHtml );
+			this.$el.html( this.template );
 
 			var modelcount = Diff.revisions.length;
 
@@ -534,7 +529,7 @@ window.wp = window.wp || {};
 					max: modelcount - 1
 				});
 
-				$( '.revisiondiffcontainer' ).removeClass( 'comparetwo' );
+				$( '#revision-diff-container' ).removeClass( 'comparing-two-revisions' );
 
 			} else {
 				Diff.slider.refresh({
@@ -544,9 +539,9 @@ window.wp = window.wp || {};
 					range: true
 				});
 
-				$( '.revisiondiffcontainer' ).addClass( 'comparetwo' );
-				$( '#diffslider a.ui-slider-handle' ).first().addClass( 'left-handle' );
-				$( '#diffslider a.ui-slider-handle' ).last().addClass( 'right-handle' );
+				$( '#revision-diff-container' ).addClass( 'comparing-two-revisions' );
+				$( '#diff-slider a.ui-slider-handle' ).first().addClass( 'left-handle' );
+				$( '#diff-slider a.ui-slider-handle' ).last().addClass( 'right-handle' );
 
 			}
 
@@ -584,14 +579,14 @@ window.wp = window.wp || {};
 	 * Next/Prev buttons and the slider
 	 */
 	revisions.view.Diff = Backbone.View.extend({
-		el: $('#backbonerevisionsdiff'),
-		template: wp.template('revision'),
+		el: $( '#revisions-diff' ),
+		template: wp.template( 'revisions-diff' ),
 		draggingLeft: false,
 
 		// the compare two button is in this view, add the interaction here
 		events: {
-			'click #comparetwo': 'compareTwo',
-			'click #restore':    'restore'
+			'click #compare-two-revisions': 'compareTwo',
+			'click #restore-revision':      'restore'
 		},
 
 		// render the revisions
@@ -613,7 +608,6 @@ window.wp = window.wp || {};
 					}
 				}
 			} else { // end compare two revisions mode, eg only one slider handle
-				this.comparetwochecked = '';
 				if ( this.model.at( Diff.rightDiff - 1 ) ) {
 					addHtml = this.template( this.model.at( Diff.rightDiff - 1 ).toJSON() );
 				}
@@ -621,7 +615,7 @@ window.wp = window.wp || {};
 			this.$el.html( addHtml );
 
 			if ( this.model.length < 2 ) {
-				$( '#diffslider' ).hide(); // don't allow compare two if fewer than three revisions
+				$( '#diff-slider' ).hide(); // don't allow compare two if fewer than three revisions
 				$( '.diff-slider-ticks-wrapper' ).hide();
 			}
 
@@ -640,9 +634,9 @@ window.wp = window.wp || {};
 
 			// hide the restore button when on the last sport/current post data
 			if ( Diff.rightDiff === Diff.revisions.length ){
-				$( '#restore' ).hide();
+				$( '#restore-revision' ).hide();
 			} else {
-				$( '#restore' ).show();
+				$( '#restore-revision' ).show();
 			}
 
 			return this;
@@ -651,14 +645,14 @@ window.wp = window.wp || {};
 		toogleCompareTwoCheckbox: function() {
 			// don't allow compare two if fewer than three revisions
 			if ( this.model.length < 3 )
-				$( '#comparetworevisions' ).hide();
+				$( '#toogle-revision-compare-mode' ).hide();
 
-			$( '#comparetwo' ).prop( 'checked', ! Diff.singleRevision );
+			$( '#compare-two-revisions' ).prop( 'checked', ! Diff.singleRevision );
 		},
 
 		// turn on/off the compare two mode
 		compareTwo: function() {
-			if ( $( 'input#comparetwo' ).is( ':checked' ) ) { // compare 2 mode
+			if ( $( '#compare-two-revisions' ).is( ':checked' ) ) { // compare 2 mode
 				Diff.singleRevision = false ;
 
 				if ( 1 === Diff.rightDiff )

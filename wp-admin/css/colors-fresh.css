@@ -1379,31 +1379,23 @@ table.diff .diff-addedline ins {
 	background-color: #e9f6ea;
 }
 
-.diff-to-title {
-	color: #0080AA;
+#diff-title-to strong {
+	color: #0080aa;
 }
 
-#diffsubheader{
+.diff-header {
 	background-color: #f7f7f7;
 }
 
-.comparetwo#diffsubheader.diff-left-hand-meta-row {
-	background-color: #fcfcfc;
-}
-
-.revision-tick.revision-toloadtrue {
+.revision-tick.loading-true {
 	background-color: #9999cc;
 	background: url(../images/wpspin_light.gif) no-repeat;
 	background-position: middle;
 	background-size: 1px 10px;
 }
 
-.revision-tick.revision-toloadfalse {
+.revision-tick.loading-false {
 	background-color: #aaa;
-}
-
-#att-info {
-	background-color: #e4f2Fd;
 }
 
 body .ui-tooltip {
