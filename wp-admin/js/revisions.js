@@ -630,7 +630,7 @@ window.wp = window.wp || {};
 					( Diff.rightDiff > Diff.revisions.length ) ? '' : Diff.revisions.at( Diff.rightDiff - 1 ).get( 'titleTooltip' ) );
 			}
 
-			this.toogleCompareTwoCheckbox();
+			this.toggleCompareTwoCheckbox();
 
 			// hide the restore button when on the last sport/current post data
 			$( '#restore-revision' ).toggle( ! Diff.revisions.at( Diff.rightDiff - 1 ).get( 'is_current_revision' ) );
@@ -638,10 +638,10 @@ window.wp = window.wp || {};
 			return this;
 		},
 
-		toogleCompareTwoCheckbox: function() {
+		toggleCompareTwoCheckbox: function() {
 			// don't allow compare two if fewer than three revisions
 			if ( this.model.length < 3 )
-				$( '#toogle-revision-compare-mode' ).hide();
+				$( '#toggle-revision-compare-mode' ).hide();
 
 			$( '#compare-two-revisions' ).prop( 'checked', ! Diff.singleRevision );
 		},
