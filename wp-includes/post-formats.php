@@ -528,9 +528,9 @@ function get_content_chat( &$content, $remove = false ) {
 		$matched = preg_match( $newline_regex, $line, $matches );
 		$author_match = empty( $matches[2] ) ? $matches[1] : $matches[2];
 		// assume username syntax if no whitespace is present
-		$no_ws = $matched && ! preg_match( '#\s#', $author_match );
+		$no_ws = $matched && ! preg_match( '#[\r\n\t ]#', $author_match );
 		// allow script-like stanzas
-		$has_ws = $matched && preg_match( '#\s#', $author_match ) && empty( $lines[$index + 1] ) && empty( $lines[$index - 1] );
+		$has_ws = $matched && preg_match( '#[\r\n\t ]#', $author_match ) && empty( $lines[$index + 1] ) && empty( $lines[$index - 1] );
 		if ( $matched && ( ! empty( $matches[2] ) || ( $no_ws || $has_ws ) ) ) {
 			if ( ! empty( $author ) ) {
 				$stanza[] = array(
