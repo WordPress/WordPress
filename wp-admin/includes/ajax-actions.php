@@ -724,14 +724,16 @@ function wp_ajax_replyto_comment( $action ) {
 	check_ajax_referer( $action, '_ajax_nonce-replyto-comment' );
 
 	$comment_post_ID = (int) $_POST['comment_post_ID'];
+	$post = get_post( $comment_post_ID );
+	if ( ! $post )
+		wp_die( -1 );
+
 	if ( !current_user_can( 'edit_post', $comment_post_ID ) )
 		wp_die( -1 );
 
-	$status = $wpdb->get_var( $wpdb->prepare("SELECT post_status FROM $wpdb->posts WHERE ID = %d", $comment_post_ID) );
-
-	if ( empty($status) )
+	if ( empty( $post->post_status ) )
 		wp_die( 1 );
-	elseif ( in_array($status, array('draft', 'pending', 'trash') ) )
+	elseif ( in_array($post->post_status, array('draft', 'pending', 'trash') ) )
 		wp_die( __('ERROR: you are replying to a comment on a draft post.') );
 
 	$user = wp_get_current_user();
