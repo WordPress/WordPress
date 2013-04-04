@@ -1206,36 +1206,6 @@ function _wp_delete_orphaned_draft_menu_items() {
 add_action('admin_head-nav-menus.php', '_wp_delete_orphaned_draft_menu_items');
 
 /**
- * Delete nav menus from the nav menu management screen
- *
- * @since 3.6.0
- * @access private
- *
- * @param int|string $nav_menu_id The menu to delete (id, slug, or name)
- * @return false if Error, otherwise true
- */
-function _wp_delete_nav_menu( $nav_menu_id ) {
-
-	if ( ! is_nav_menu( $nav_menu_id ) )
-		return;
-
-	$deleted_nav_menu = wp_get_nav_menu_object( $nav_menu_id );
-	$delete_nav_menu = wp_delete_nav_menu( $nav_menu_id );
-
-	if ( is_wp_error( $delete_nav_menu ) )
-		return $delete_nav_menu;
-
-	// Remove this menu from any locations.
-	$locations = get_theme_mod( 'nav_menu_locations' );
-	foreach ( (array) $locations as $location => $menu_id ) {
-		if ( $menu_id == $nav_menu_id )
-			$locations[ $location ] = 0;
-	}
-	set_theme_mod( 'nav_menu_locations', $locations );
- 	return true;
-}
-
-/**
  * Saves nav menu items
  *
  * @since 3.6.0

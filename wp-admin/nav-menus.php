@@ -231,7 +231,7 @@ switch ( $action ) {
 	case 'delete':
 		check_admin_referer( 'delete-nav_menu-' . $nav_menu_selected_id );
 		if ( is_nav_menu( $nav_menu_selected_id ) ) {
-			$deletion = _wp_delete_nav_menu( $nav_menu_selected_id );
+			$deletion = wp_delete_nav_menu( $nav_menu_selected_id );
 		} else {
 			// Reset the selected menu
 			$nav_menu_selected_id = 0;
@@ -253,7 +253,7 @@ switch ( $action ) {
 			if ( ! is_nav_menu( $menu_id_to_delete ) )
 				continue;
 
-			$deletion = _wp_delete_nav_menu( $menu_id_to_delete );
+			$deletion = wp_delete_nav_menu( $menu_id_to_delete );
 			if ( is_wp_error( $deletion ) ) {
 				$messages[] = '<div id="message" class="error"><p>' . $deletion->get_error_message() . '</p></div>';
 				$deletion_error = true;
