@@ -3697,17 +3697,17 @@ function setup_postdata($post) {
 	if ( $format && in_array( $format, array( 'image', 'audio', 'video' ) ) ) {
 		switch ( $format ) {
 		case 'image':
-			get_the_image( 'full', $post );
+			get_the_post_format_image( 'full', $post );
 			if ( isset( $post->split_content ) )
 				$split_content = $post->split_content;
 			break;
 		case 'audio':
-			get_the_media( 'audio', $post );
+			get_the_post_format_media( 'audio', $post );
 			if ( isset( $post->split_content ) )
 				$split_content = $post->split_content;
 			break;
 		case 'video':
-			get_the_media( 'video', $post );
+			get_the_post_format_media( 'video', $post );
 			if ( isset( $post->split_content ) )
 				$split_content = $post->split_content;
 			break;

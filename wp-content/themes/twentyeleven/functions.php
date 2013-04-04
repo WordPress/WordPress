@@ -465,7 +465,7 @@ endif; // twentyeleven_content_nav
  * @return string
  */
 function twentyeleven_get_first_url() {
-	$has_url = function_exists( 'get_the_url' ) ? get_the_url() : false;
+	$has_url = function_exists( 'get_the_post_format_url' ) ? get_the_post_format_url() : false;
 
 	if ( ! $has_url )
 		$has_url = twentyeleven_url_grabber();

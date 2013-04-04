@@ -10,7 +10,7 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<div class="entry-media">
-		<?php the_video(); ?>
+		<?php the_post_format_video(); ?>
 	</div><!-- .entry-media -->
 
 	<header class="entry-header">

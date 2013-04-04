@@ -440,7 +440,7 @@ endif;
  * @return string URL
  */
 function twentythirteen_get_link_url() {
-	$has_url = get_the_url();
+	$has_url = get_the_post_format_url();
 
 	return ( $has_url ) ? $has_url : apply_filters( 'the_permalink', get_permalink() );
 }

@@ -21,7 +21,7 @@
 
 	<div class="entry-media">
 		<div class="audio-content">
-			<?php the_audio(); ?>
+			<?php the_post_format_audio(); ?>
 		</div><!-- .audio-content -->
 	</div><!-- .entry-media -->
 

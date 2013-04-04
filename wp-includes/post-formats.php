@@ -574,7 +574,7 @@ function get_content_chat( &$content, $remove = false ) {
  * @param int $id Optional. Post ID
  * @return array
  */
-function get_the_chat( $id = 0 ) {
+function get_the_post_format_chat( $id = 0 ) {
 	$post = empty( $id ) ? clone get_post() : get_post( $id );
 	if ( empty( $post ) )
 		return array();
@@ -592,13 +592,13 @@ function get_the_chat( $id = 0 ) {
  *
  * @since 3.6.0
  *
- * @uses get_the_chat()
+ * @uses get_the_post_format_chat()
  *
  * @print HTML
  */
-function the_chat() {
+function the_post_format_chat() {
 	$output  = '<dl class="chat">';
-	$stanzas = get_the_chat();
+	$stanzas = get_the_post_format_chat();
 
 	foreach ( $stanzas as $stanza ) {
 		foreach ( $stanza as $row ) {
@@ -673,7 +673,7 @@ function get_content_url( &$content, $remove = false ) {
  * @param int $id Optional. Post ID.
  * @return string A URL, if found.
  */
-function get_the_url( $id = 0 ) {
+function get_the_post_format_url( $id = 0 ) {
 	$post = empty( $id ) ? get_post() : get_post( $id );
 	if ( empty( $post ) )
 		return '';
@@ -681,11 +681,11 @@ function get_the_url( $id = 0 ) {
 	if ( in_array( get_post_format( $post->ID ), array( 'link', 'quote' ) ) ) {
 		$meta = get_post_format_meta( $post->ID );
 		if ( ! empty( $meta['url'] ) )
-			return apply_filters( 'get_the_url', esc_url_raw( $meta['url'] ), $post );
+			return apply_filters( 'get_the_post_format_url', esc_url_raw( $meta['url'] ), $post );
 	}
 
 	if ( ! empty( $post->post_content ) )
-		return apply_filters( 'get_the_url', get_content_url( $post->post_content ), $post );
+		return apply_filters( 'get_the_post_format_url', get_content_url( $post->post_content ), $post );
 }
 
 /**
@@ -694,8 +694,8 @@ function get_the_url( $id = 0 ) {
  * @since 3.6.0
  *.
  */
-function the_url() {
-	echo esc_url( get_the_url() );
+function the_post_format_url() {
+	echo esc_url( get_the_post_format_url() );
 }
 
 /**

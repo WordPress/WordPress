@@ -2031,7 +2031,7 @@ wp_embed_register_handler( 'wp_video_embed', '#https?://.+?\.(' . join( '|', wp_
  * @param WP_Post $post Optional. Used instead of global $post when passed.
  * @return string
  */
-function get_the_media( $type, &$post = null ) {
+function get_the_post_format_media( $type, &$post = null ) {
 	global $wp_embed;
 
 	if ( empty( $post ) )
@@ -2118,8 +2118,8 @@ function get_the_media( $type, &$post = null ) {
  * @since 3.6.0
  *
  */
-function the_video() {
-	echo get_the_media( 'video' );
+function the_post_format_video() {
+	echo get_the_post_format_media( 'video' );
 }
 /**
  * Output the first audio  in the current (@global) post's content
@@ -2127,8 +2127,8 @@ function the_video() {
  * @since 3.6.0
  *
  */
-function the_audio() {
-	echo get_the_media( 'audio' );
+function the_post_format_audio() {
+	echo get_the_post_format_media( 'audio' );
 }
 
 /**
@@ -2360,7 +2360,7 @@ function get_post_gallery_images( $post_id = 0 ) {
  * @param string $attached_size If an attached image is found, the size to display it.
  * @param WP_Post $post Optional. Used instead of global $post when passed.
  */
-function get_the_image( $attached_size = 'full', &$post = null ) {
+function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 	if ( empty( $post ) )
 		$post = get_post();
 
@@ -2435,6 +2435,6 @@ function get_the_image( $attached_size = 'full', &$post = null ) {
  *
  * @param string $attached_size If an attached image is found, the size to display it.
  */
-function the_image( $attached_size = 'full' ) {
-	echo get_the_image( $attached_size );
+function the_post_format_image( $attached_size = 'full' ) {
+	echo get_the_post_format_image( $attached_size );
 }
