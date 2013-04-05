@@ -9,13 +9,13 @@ $format_meta = get_post_format_meta( $post_ID );
 	<input type="hidden" name="post_format" id="post_format" value="<?php echo esc_attr( $post_format ); ?>" />
 
 	<div class="field wp-format-quote">
-		<label for="_wp_format_quote" class="screen-reader-text"><?php _e( 'Quote' ); ?>:</label>
-		<textarea name="_wp_format_quote" placeholder="<?php esc_attr_e( 'Quote' ); ?>" class="widefat"><?php echo esc_textarea( $format_meta['quote'] ); ?></textarea>
+		<label for="_wp_format_quote"><?php _e( 'Quote' ); ?></label>
+		<textarea name="_wp_format_quote" class="widefat"><?php echo esc_textarea( $format_meta['quote'] ); ?></textarea>
 	</div>
 
 	<div class="field wp-format-quote">
-		<label for="_wp_format_quote_source" class="screen-reader-text"><?php _e( 'Quote source' ); ?>:</label>
-		<input type="text" name="_wp_format_quote_source" value="<?php echo esc_attr( $format_meta['quote_source'] ); ?>" placeholder="<?php esc_attr_e( 'Quote source' ); ?>" class="widefat" />
+		<label for="_wp_format_quote_source"><?php _e( 'Quote source' ); ?></label>
+		<input type="text" name="_wp_format_quote_source" value="<?php echo esc_attr( $format_meta['quote_source'] ); ?>" class="widefat" />
 	</div>
 
 	<?php
@@ -38,13 +38,13 @@ $format_meta = get_post_format_meta( $post_ID );
 				?>
 			</a>
 		</div>
-		<label for="_wp_format_image" class="screen-reader-text"><?php _e( 'Attachment ID' ); ?>:</label>
+		<label for="_wp_format_image" class="screen-reader-text"><?php _e( 'Attachment ID' ); ?></label>
 		<input id="wp_format_image" type="hidden" name="_wp_format_image" value="<?php echo esc_attr( $format_meta['image'] ); ?>" placeholder="<?php esc_attr_e( 'Attachment ID' ); ?>" class="widefat" />
 	</div>
 
 	<div class="field wp-format-link wp-format-quote wp-format-image">
-		<label for="_wp_format_url" class="screen-reader-text"><?php _e( 'Link URL' ); ?>:</label>
-		<input type="text" name="_wp_format_url" value="<?php echo esc_url( $format_meta['url'] ); ?>" placeholder="<?php esc_attr_e( 'Link URL' ); ?>" class="widefat" />
+		<label for="_wp_format_url"><?php _e( 'Link URL' ); ?></label>
+		<input type="text" name="_wp_format_url" value="<?php echo esc_url( $format_meta['url'] ); ?>" class="widefat" />
 	</div>
 
 	<?php
@@ -70,8 +70,8 @@ $format_meta = get_post_format_meta( $post_ID );
 			?>
 		</div>
 		<?php endif ?>
-		<label for="_wp_format_video" class="screen-reader-text"><?php _e( 'Video embed code or URL' ); ?>:</label>
-		<textarea id="wp_format_video" type="text" name="_wp_format_video" placeholder="<?php esc_attr_e( 'Video embed code or URL' ); ?>" class="widefat"><?php esc_html_e( $format_meta['video'] ); ?></textarea>
+		<label for="_wp_format_video"><?php _e( 'Video embed code or URL' ); ?></label>
+		<textarea id="wp_format_video" type="text" name="_wp_format_video" class="widefat"><?php esc_html_e( $format_meta['video'] ); ?></textarea>
 		<div data-format="video" class="wp-format-media-holder hide-if-no-js<?php if ( ! $image ) echo ' empty'; ?>">
 			<a href="#" class="wp-format-media-select"
 				data-choose="<?php esc_attr_e( 'Choose a Video' ); ?>"
@@ -104,8 +104,8 @@ $format_meta = get_post_format_meta( $post_ID );
 			?>
 		</div>
 		<?php endif ?>
-		<label for="_wp_format_audio" class="screen-reader-text"><?php _e( 'Audio embed code or URL' ); ?>:</label>
-		<textarea id="wp_format_audio" name="_wp_format_audio" placeholder="<?php esc_attr_e( 'Audio embed code or URL' ); ?>" class="widefat"><?php esc_html_e( $format_meta['audio'] );
+		<label for="_wp_format_audio"><?php _e( 'Audio embed code or URL' ); ?></label>
+		<textarea id="wp_format_audio" name="_wp_format_audio" class="widefat"><?php esc_html_e( $format_meta['audio'] );
 ?></textarea>
 		<div data-format="audio" class="wp-format-media-holder hide-if-no-js<?php if ( empty( $format_meta['audio'] ) ) echo ' empty'; ?>">
 			<a href="#" class="wp-format-media-select" data-choose="<?php esc_attr_e( 'Choose Audio' ); ?>" data-update="<?php esc_attr_e( 'Select Audio' ); ?>">

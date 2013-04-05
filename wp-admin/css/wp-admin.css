@@ -3179,6 +3179,11 @@ input#link_url {
 	font-size: 1.2em;
 }
 
+.wp-format-video label,
+.wp-format-audio label {
+	float: left;
+}
+
 .wp-format-media-holder {
 	float: left;
 	overflow: hidden;
