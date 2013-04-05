@@ -854,7 +854,7 @@ function wp_audio_shortcode( $attr ) {
 	foreach ( $default_types as $type  )
 		$defaults_atts[$type] = '';
 
-	$atts = shortcode_atts( $defaults_atts, $attr );
+	$atts = shortcode_atts( $defaults_atts, $attr, 'audio' );
 	extract( $atts );
 
 	$primary = false;
@@ -961,7 +961,7 @@ function wp_video_shortcode( $attr ) {
 	foreach ( $default_types as $type  )
 		$defaults_atts[$type] = '';
 
-	$atts = shortcode_atts( $defaults_atts, $attr );
+	$atts = shortcode_atts( $defaults_atts, $attr, 'video' );
 	extract( $atts );
 
 	$primary = false;
