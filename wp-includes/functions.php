@@ -3888,7 +3888,7 @@ function wp_checkdate( $month, $day, $year, $source_date ) {
 
 /**
  * Load the auth check for monitoring whether the user is still logged in.
- * Can be disabled with remove_action( 'init', 'wp_auth_check_load' );
+ * Can be disabled with remove_action( 'admin_init', 'wp_auth_check_load' );
  *
  * @since 3.6.0
  *
@@ -3924,7 +3924,7 @@ function wp_auth_check_html() {
 	$login_url = wp_login_url();
 	$current_domain = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'];
 	$same_domain = ( strpos( $login_url, $current_domain ) === 0 );
-	
+
 	// Let plugins change this if they know better.
 	$same_domain = apply_filters( 'wp_auth_check_same_domain', $same_domain );
 	$wrap_class = $same_domain ? 'hidden' : 'hidden fallback';
