@@ -495,6 +495,7 @@ hr {
 .attachment-meta a:before,
 .comment-awaiting-moderation:before,
 .comment-reply-link:before,
+.comment-reply-login:before,
 #reply-title small a:before,
 .bypostauthor .fn:before,
 .error404 .page-title:before {
@@ -2317,7 +2318,8 @@ footer.entry-meta {
 
 .comment-author .fn,
 .comment-author .url,
-.comment-reply-link {
+.comment-reply-link,
+.comment-reply-login {
 	color: #ed331c;
 	font-size: 14px;
 	font-style: normal;
@@ -2386,7 +2388,8 @@ footer.entry-meta {
 	top: -2px;
 }
 
-.comment-reply-link:before {
+.comment-reply-link:before,
+.comment-reply-login:before {
 	content: "\f412";
 	margin-right: 3px;
 }
@@ -3303,7 +3306,8 @@ footer.entry-meta {
 	}
 
 	.comment-author .fn,
-	.comment-reply-link {
+	.comment-reply-link,
+	.comment-reply-login {
 		color: #333;
 	}
 }
