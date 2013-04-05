@@ -314,9 +314,9 @@ window.wp = window.wp || {};
 				}
 
 				if ( 0 === Diff.leftDiff ) {
-					$( '#revision-diff-container' ).addClass( 'currentversion' );
+					$( '#revision-diff-container' ).addClass( 'current-version' );
 				} else {
-					$( '#revision-diff-container' ).removeClass( 'currentversion' );
+					$( '#revision-diff-container' ).removeClass( 'current-version' );
 				}
 
 				Diff.revisionView.render();
