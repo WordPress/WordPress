@@ -154,9 +154,6 @@ case 'edit':
 		exit();
 	}
 
-	//upgrade any old bad revision data (#16215)
-	_wp_upgrade_revisions_of_post( $p );
-
 	$post_type = $post->post_type;
 	if ( 'post' == $post_type ) {
 		$parent_file = "edit.php";

@@ -586,37 +586,20 @@ function _wp_get_post_revision_version( $revision ) {
 }
 
 /**
- * Upgrade the data
+ * Upgrade the revisions author, add the current post as a revision and set the revisions version to 1
  *
  * @package WordPress
  * @subpackage Post_Revisions
  * @since 3.6.0
  *
- * @uses get_post()
- * @uses post_type_supports()
  * @uses wp_get_post_revisions()
  *
- * @param int|object $post_id Post ID or post object
- * @return true if success, false if problems
+ * @param object $post Post object
+ * @param array $revisions Current revisions of the post
+ * @return bool true if the revisions were upgraded, false if problems
  */
-function _wp_upgrade_revisions_of_post( $post ) {
+function _wp_upgrade_revisions_of_post( $post, $revisions ) {
 	global $wpdb;
-
-	$post = get_post( $post );
-	if ( ! $post )
-		return false;
-
-	if ( ! post_type_supports( $post->post_type, 'revisions' ) )
-		return false;
-
-	$revisions = wp_get_post_revisions( $post->ID ); // array( 'order' => 'DESC', 'orderby' => 'date' ); // Always work from most recent to oldest
-
-	if ( ! $first = reset( $revisions ) )
-		return true;
-
-	// Check if the revisions have already been updated
-	if ( preg_match( '/^\d+-(?:autosave|revision)-v\d+$/', $first->post_name ) )
-		return true;
 
 	// Add post option exclusively
 	$lock = "revision-upgrade-{$post->ID}";
