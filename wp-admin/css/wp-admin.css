@@ -3141,109 +3141,6 @@ input#link_url {
 	margin-top: 3px;
 }
 
-/* Post formats form */
-#poststuff .post-format-select {
-	margin-top: 0;
-	padding-bottom: 0;
-}
-
-.post-formats-fields {
-	display: none;
-}
-
-.wp-format-gallery .post-formats-fields,
-.wp-format-image .post-formats-fields,
-.wp-format-link .post-formats-fields,
-.wp-format-quote .post-formats-fields,
-.wp-format-video .post-formats-fields,
-.wp-format-audio .post-formats-fields,
-.wp-format-gallery .field.wp-format-gallery,
-.wp-format-image .field.wp-format-image,
-.wp-format-chat .field.wp-format-chat,
-.wp-format-link .field.wp-format-link,
-.wp-format-quote .field.wp-format-quote,
-.wp-format-video .field.wp-format-video,
-.wp-format-audio .field.wp-format-audio {
-	display: block;
-}
-
-.post-formats-fields .field {
-	display: none;
-	margin-bottom: 10px;
-	overflow: hidden;
-}
-
-.post-formats-fields input,
-.post-formats-fields textarea {
-	padding: 5px;
-	font-size: 1.2em;
-}
-
-.wp-format-video label,
-.wp-format-audio label {
-	float: left;
-}
-
-.wp-format-media-holder {
-	float: left;
-	overflow: hidden;
-	width: 40%;
-	height: 200px;
-	border: 1px dashed #dfdfdf;
-	background: #f5f5f5 url(../images/media-button-2x.png) no-repeat 50% 25%;
-}
-
-.wp-format-media-holder.empty {
-	height: auto;
-	padding: 55px 0 20px;
-}
-
-.wp-format-media-holder:hover {
-	background-color: #eee;
-}
-
-.wp-format-media-preview {
-	margin-bottom: 20px;
-}
-
-.mejs-audio audio,
-.mejs-video video {
-	display: block;
-}
-
-.wp-format-media-select {
-	display: block;
-	height: 200px;
-	text-align: center;
-}
-
-.wp-format-media-select img {
-	max-width: 100%;
-	max-height: 100%;
-}
-
-.empty .wp-format-media-select {
-	height: 20px;
-}
-
-.empty .wp-format-media-metaedit {
-	height: 20px;
-	display: block;
-	text-align: center;
-}
-
-.edit-format-preview {
-	display: block;
-	margin: 5px 0;
-}
-
-#wp_format_audio, #wp_format_video {
-	float: left;
-	margin-right: 23px;
-	max-width: 50%;
-	min-height: 97px;
-}
-
 /* Post Screen */
 #post-body #normal-sortables {
 	min-height: 50px;
@@ -4031,8 +3928,111 @@ body .ui-tooltip {
 }
 
 /*------------------------------------------------------------------------------
-  11.4 - Post format selection
+  11.4 - Post formats
 ------------------------------------------------------------------------------*/
+
+#poststuff .post-format-select {
+	margin-top: 0;
+	padding-bottom: 0;
+}
+
+.post-formats-fields {
+	display: none;
+}
+
+.wp-format-gallery .post-formats-fields,
+.wp-format-image .post-formats-fields,
+.wp-format-link .post-formats-fields,
+.wp-format-quote .post-formats-fields,
+.wp-format-video .post-formats-fields,
+.wp-format-audio .post-formats-fields,
+.wp-format-gallery .field.wp-format-gallery,
+.wp-format-image .field.wp-format-image,
+.wp-format-chat .field.wp-format-chat,
+.wp-format-link .field.wp-format-link,
+.wp-format-quote .field.wp-format-quote,
+.wp-format-video .field.wp-format-video,
+.wp-format-audio .field.wp-format-audio {
+	display: block;
+}
+
+.post-formats-fields .field {
+	display: none;
+	margin-bottom: 10px;
+	overflow: hidden;
+}
+
+.post-formats-fields input,
+.post-formats-fields textarea {
+	padding: 5px;
+	font-size: 1.2em;
+}
+
+.wp-format-video label,
+.wp-format-audio label {
+	float: left;
+}
+
+.wp-format-media-holder {
+	float: left;
+	overflow: hidden;
+	width: 40%;
+	height: 200px;
+	border: 1px dashed #dfdfdf;
+	background: #f5f5f5 url(../images/media-button-2x.png) no-repeat 50% 25%;
+}
+
+.wp-format-media-holder.empty {
+	height: auto;
+	padding: 55px 0 20px;
+}
+
+.wp-format-media-holder:hover {
+	background-color: #eee;
+}
+
+.wp-format-media-preview {
+	margin-bottom: 20px;
+}
+
+.mejs-audio audio,
+.mejs-video video {
+	display: block;
+}
+
+.wp-format-media-select {
+	display: block;
+	height: 200px;
+	text-align: center;
+}
+
+.wp-format-media-select img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.empty .wp-format-media-select {
+	height: 20px;
+}
+
+.empty .wp-format-media-metaedit {
+	height: 20px;
+	display: block;
+	text-align: center;
+}
+
+.edit-format-preview {
+	display: block;
+	margin: 5px 0;
+}
+
+#wp_format_audio,
+#wp_format_video {
+	float: left;
+	margin-right: 23px;
+	max-width: 50%;
+	min-height: 97px;
+}
 
 #icon-edit.standard {
 	background: url(../images/post-formats32.png) no-repeat -3px -4px;
