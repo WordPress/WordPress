@@ -134,11 +134,15 @@ function wp_save_post_revision( $post_id ) {
 
 			// Check whether revisioned meta fields have changed.
 			foreach ( _wp_post_revision_meta_keys() as $meta_key ) {
-				if ( get_post_meta( $post->ID, $meta_key ) != get_post_meta( $last_revision->ID, $meta_key ) ) {
+				if ( get_post_meta( $post->ID, $meta_key, true ) != get_post_meta( $last_revision->ID, $meta_key, true ) ) {
 					$post_has_changed = true;
 					break;
 				}
 			}
+
+			// Check whether the post format has changed
+			if ( get_post_format( $post->ID ) != get_post_meta( $last_revision->ID, '_revision_post_format', true ) )
+				$post_has_changed = true;
 
 			//don't save revision if post unchanged
 			if( ! $post_has_changed )
@@ -280,15 +284,18 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 
 	// Save revisioned meta fields.
 	foreach ( _wp_post_revision_meta_keys() as $meta_key ) {
-		$meta_values = get_post_meta( $post_id, $meta_key );
-		if ( false === $meta_values )
+		$meta_value = get_post_meta( $post_id, $meta_key, true );
+		if ( empty( $meta_value ) )
 			continue;
 
 		// Use the underlying add_metadata vs add_post_meta to make sure
 		// metadata is added to the revision post and not its parent.
-		foreach ( $meta_values as $meta_value )
-			add_metadata( 'post', $revision_id, $meta_key, $meta_value );
+		add_metadata( 'post', $revision_id, $meta_key, wp_slash( $meta_value ) );
 	}
+
+	// Save the post format
+	if ( $post_format = get_post_format( $post_id ) )
+		add_metadata( 'post', $revision_id, '_revision_post_format', $post_format );
 
 	return $revision_id;
 }
@@ -366,14 +373,15 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
 
 	// Restore revisioned meta fields.
 	foreach ( _wp_post_revision_meta_keys() as $meta_key ) {
-		delete_post_meta( $update['ID'], $meta_key );
-		$meta_values = get_post_meta( $revision['ID'], $meta_key );
-		if ( false === $meta_values )
-			continue;
-
-		foreach ( $meta_values as $meta_value )
-			add_post_meta( $update['ID'], $meta_key, $meta_value );
+		$meta_value = get_post_meta( $revision['ID'], $meta_key, true );
+		if ( empty( $meta_value ) )
+			$meta_value = '';
+		// Add slashes to data pulled from the db
+		update_post_meta( $update['ID'], $meta_key, wp_slash( $meta_value ) );
 	}
+
+	// Restore post format
+	set_post_format( $update['ID'], get_post_meta( $revision['ID'], '_revision_post_format', true ) );
 
 	$post_id = wp_update_post( $update );
 	if ( is_wp_error( $post_id ) )
@@ -505,6 +513,7 @@ function _set_preview($post) {
 	$post->post_excerpt = $preview->post_excerpt;
 
 	add_filter( 'get_post_metadata', '_wp_preview_meta_filter', 10, 4 );
+	add_filter( 'get_the_terms', '_wp_preview_terms_filter', 10, 3 );
 
 	return $post;
 }
@@ -539,6 +548,29 @@ function _wp_preview_meta_filter( $value, $object_id, $meta_key, $single ) {
 		return $value;
 
 	return get_post_meta( $preview->ID, $meta_key, $single );
+}
+
+/**
+ * Filters terms lookup to get the post format saved with the preview revision.
+ *
+ * @since 2.6
+ * @access private
+ */
+function _wp_preview_terms_filter( $terms, $post_id, $taxonomy ) {
+	$post = get_post();
+
+	if ( $post->ID != $post_id || 'post_format' != $taxonomy || 'revision' == $post->post_type )
+		return $terms;
+
+	if ( ! $preview = wp_get_post_autosave( $post->ID ) )
+		return $terms;
+
+	if ( $post_format = get_post_meta( $preview->ID, '_revision_post_format', true ) ) {
+		if ( $term = get_term_by( 'slug', 'post-format-' . sanitize_key( $post_format ), 'post_format' ) )
+			$terms = array( $term ); // Can only have one post format
+	}
+
+	return $terms;
 }
 
 function _wp_get_post_revision_version( $revision ) {

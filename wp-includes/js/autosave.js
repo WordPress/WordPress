@@ -305,7 +305,7 @@ wp.autosave = wp.autosave || {};
 (function($){
 // Returns the data for saving in both localStorage and autosaves to the server
 wp.autosave.getPostData = function() {
-	var ed = typeof tinymce != 'undefined' ? tinymce.activeEditor : null, post_name, parent_id, cats = [],
+	var ed = typeof tinymce != 'undefined' ? tinymce.activeEditor : null, post_name, parent_id, post_format, cats = [],
 		data = {
 			action: 'autosave',
 			autosave: true,
@@ -363,6 +363,13 @@ wp.autosave.getPostData = function() {
 
 	if ( $('#auto_draft').val() == '1' )
 		data['auto_draft'] = '1';
+
+	post_format = $('#post_format').val() || '';
+	data['post_format'] = post_format == 'standard' ? '' : post_format;
+
+	$('.post-formats-fields').find('input[name^="_wp_format_"], textarea[name^="_wp_format_"]').each( function(i, field) {
+		data[ field.name ] = field.value || '';
+	});
 
 	return data;
 }
