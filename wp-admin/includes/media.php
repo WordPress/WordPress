@@ -2503,8 +2503,10 @@ function wp_read_video_metadata( $file ) {
 	if ( ! empty( $data['video']['codec'] ) )
 		$metadata['codec'] = $data['video']['codec'];
 
-	unset( $data['audio']['streams'] );
-	$metadata['audio'] = $data['audio'];
+	if ( ! empty( $data['audio'] ) ) {
+		unset( $data['audio']['streams'] );
+		$metadata['audio'] = $data['audio'];
+	}
 
 	wp_add_id3_tag_data( $metadata, $data );
 
