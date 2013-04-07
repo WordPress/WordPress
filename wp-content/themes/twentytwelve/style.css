@@ -1275,12 +1275,12 @@ a.comment-edit-link:hover {
 	margin-top: 48px;
 	margin-top: 3.428571429rem;
 }
-#respond h3#reply-title {
+#reply-title {
 	font-size: 16px;
 	font-size: 1.142857143rem;
 	line-height: 1.5;
 }
-#respond h3#reply-title #cancel-comment-reply-link {
+#cancel-comment-reply-link {
 	margin-left: 10px;
 	margin-left: 0.714285714rem;
 	font-weight: normal;
