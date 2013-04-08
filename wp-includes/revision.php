@@ -55,7 +55,6 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
 	$return['post_name']     = $autosave ? "$post[ID]-autosave-v1" : "$post[ID]-revision-v1"; // "1" is the revisioning system version
 	$return['post_date']     = isset($post['post_modified']) ? $post['post_modified'] : '';
 	$return['post_date_gmt'] = isset($post['post_modified_gmt']) ? $post['post_modified_gmt'] : '';
-	$return['post_author']   = get_post_meta( $post['ID'], '_edit_last', true );
 
 	return $return;
 }
