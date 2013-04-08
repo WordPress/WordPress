@@ -145,7 +145,7 @@ require_once( './admin-header.php' );
 		<div class="diff-col-title-removed"><span><?php _e( 'Removed -' ); ?></span></div>
 		<div class="diff-col-title-added"><span><?php _e( 'Added +' ); ?></span></div>
 		<div class="clear"></div>
-	</div
+	</div>
 
 	<div>{{{ data.diff }}}</div>
 </script>
