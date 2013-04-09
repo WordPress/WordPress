@@ -2045,7 +2045,7 @@ function get_the_post_format_media( $type, &$post = null ) {
 
 	$count = 1;
 
-	if ( has_post_format( $type ) ) {
+	if ( has_post_format( $type, $post ) ) {
 		$meta = get_post_format_meta( $post->ID );
 		if ( ! empty( $meta[$type] ) ) {
 			if ( is_integer( $meta[$type] ) ) {
@@ -2100,7 +2100,7 @@ function get_the_post_format_media( $type, &$post = null ) {
 		return $post->format_content;
 	}
 
-	$medias = call_user_func( 'get_attached_' . $type );
+	$medias = call_user_func( 'get_attached_' . $type, $post->ID );
 	if ( ! empty( $medias ) ) {
 		$media = reset( $medias );
 		$url = wp_get_attachment_url( $media->ID );
