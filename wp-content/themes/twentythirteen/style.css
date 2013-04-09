@@ -2896,13 +2896,13 @@ footer.entry-meta {
 
 /* Collapse oversized image and pulled images after iPad breakpoint. */
 @media (max-width: 767px) {
-	img.alignleft,
-	.wp-caption.alignleft {
+	.entry-content img.alignleft,
+	.entry-content .wp-caption.alignleft {
 		margin-left: 0;
 	}
 
-	img.alignright,
-	.wp-caption.alignright {
+	.entry-content img.alignright,
+	.entry-content .wp-caption.alignright {
 		margin-right: 0;
 	}
 
