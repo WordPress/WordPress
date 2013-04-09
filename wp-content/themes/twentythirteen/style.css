@@ -1082,10 +1082,6 @@ ul.nav-menu li:hover > ul,
 	font-size: 14px;
 }
 
-.entry-meta span.tags-links {
-	color: #f94a0a;
-}
-
 .entry-meta a {
 	color: #bc360a;
 }
@@ -1535,8 +1531,7 @@ footer.entry-meta {
 }
 
 .format-chat .entry-meta a,
-.format-chat .entry-content a,
-.format-chat span.tags-links {
+.format-chat .entry-content a {
 	color: #722d19;
 }
 
@@ -1581,8 +1576,7 @@ footer.entry-meta {
 }
 
 .format-gallery .entry-meta a,
-.format-gallery .entry-content a,
-.format-gallery span.tags-links {
+.format-gallery .entry-content a {
 	color: #722d19;
 }
 
@@ -3269,8 +3263,7 @@ footer.entry-meta {
 	}
 
 	.entry-meta,
-	.entry-meta a,
-	.entry-meta span.tags-links {
+	.entry-meta a {
 		color: #444;
 		font-size: 10pt;
 	}
