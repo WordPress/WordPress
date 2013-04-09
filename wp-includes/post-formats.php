@@ -11,7 +11,7 @@
  *
  * @since 3.1.0
  *
- * @param int|object $post A post
+ * @param int|object $post A post.
  *
  * @return mixed The format if successful. False if no format is set. WP_Error if errors.
  */
@@ -35,10 +35,11 @@ function get_post_format( $post = null ) {
  * Check if a post has a particular format
  *
  * @since 3.1.0
+ *
  * @uses has_term()
  *
- * @param string $format The format to check for
- * @param object|id $post The post to check. If not supplied, defaults to the current post if used in the loop.
+ * @param string $format The format to check for.
+ * @param object|int $post The post to check. If not supplied, defaults to the current post if used in the loop.
  * @return bool True if the post has the format, false otherwise.
  */
 function has_post_format( $format, $post = null ) {
@@ -50,8 +51,8 @@ function has_post_format( $format, $post = null ) {
  *
  * @since 3.1.0
  *
- * @param int|object $post The post for which to assign a format
- * @param string $format  A format to assign. Use an empty string or array to remove all formats from the post.
+ * @param int|object $post The post for which to assign a format.
+ * @param string $format A format to assign. Use an empty string or array to remove all formats from the post.
  * @return mixed WP_Error on error. Array of affected term IDs on success.
  */
 function set_post_format( $post, $format ) {
@@ -76,8 +77,8 @@ function set_post_format( $post, $format ) {
  *
  * @since 3.6.0
  *
- * @param int $post_id
- * @return null
+ * @param int $post_id (optional) The post ID.
+ * @return array The array of post format metadata.
  */
 function get_post_format_meta( $post_id = 0 ) {
 	$values = array(
@@ -101,7 +102,7 @@ function get_post_format_meta( $post_id = 0 ) {
  *
  * @since 3.1.0
  *
- * @return array The array of translations
+ * @return array The array of translated post format names.
  */
 function get_post_format_strings() {
 	$strings = array(
@@ -124,6 +125,8 @@ function get_post_format_strings() {
  *
  * @since 3.1.0
  *
+ * @uses get_post_format_strings()
+ *
  * @return array The array of post format slugs.
  */
 function get_post_format_slugs() {
@@ -136,8 +139,10 @@ function get_post_format_slugs() {
  *
  * @since 3.1.0
  *
- * @param string $slug A post format slug
- * @return string The translated post format name
+ * @uses get_post_format_strings()
+ *
+ * @param string $slug A post format slug.
+ * @return string The translated post format name.
  */
 function get_post_format_string( $slug ) {
 	$strings = get_post_format_strings();
@@ -152,8 +157,8 @@ function get_post_format_string( $slug ) {
  *
  * @since 3.1.0
  *
- * @param string $format Post format
- * @return string Link
+ * @param string $format The post format slug.
+ * @return string The post format term link.
  */
 function get_post_format_link( $format ) {
 	$term = get_term_by('slug', 'post-format-' . $format, 'post_format' );
@@ -259,18 +264,19 @@ add_filter( 'wp_get_object_terms', '_post_format_wp_get_object_terms' );
  *
  * @since 3.6.0
  *
- * @param string $format
+ * @param string $format The post format slug, such as status, quote, image, gallery, etc.
+ * @return string Filtered post format content class.
  */
 function get_post_format_content_class( $format ) {
 	return apply_filters( 'post_format_content_class', 'post-format-content', $format );
 }
 
 /**
- * Ouput the class for a post format content wrapper
+ * Output the class for a post format content wrapper
  *
  * @since 3.6.0
  *
- * @param string $format
+ * @param string $format The post format slug, such as status, quote, image, gallery, etc.
  */
 function post_format_content_class( $format ) {
 	echo get_post_format_content_class( $format );
@@ -281,7 +287,11 @@ function post_format_content_class( $format ) {
  *
  * @since 3.6.0
  *
- * @param string $content
+ * @uses get_post_format_meta()
+ *
+ * @param string $content The post content.
+ * @param int $id (optional) The post ID.
+ * @return string Formatted output based on associated post format.
  */
 function post_formats_compat( $content, $id = 0 ) {
 	$post = empty( $id ) ? get_post() : get_post( $id );
@@ -422,6 +432,7 @@ function post_formats_compat( $content, $id = 0 ) {
  * @since 3.6.0
  *
  * @global array $_wp_chat_parsers
+ *
  * @param string $name Unique identifier for chat format. Example: IRC
  * @param string $newline_regex RegEx to match the start of a new line, typically when a new "username:" appears
  *	The parser will handle up to 3 matched expressions
@@ -451,8 +462,6 @@ add_chat_detection_format( 'Skype', '#^(\[.+?\])\s([^:]+):#', '#[:]#' );
  * If the content does not contain username syntax, assume that it does not contain
  * chat logs and return
  *
- * @since 3.6.0
- *
  * Example:
  *
  * One stanza of chat:
@@ -473,7 +482,10 @@ add_chat_detection_format( 'Skype', '#^(\[.+?\])\s([^:]+):#', '#[:]#' );
  *         )
  *     )
  * )
- * @param string $content A string which might contain chat data.
+ *
+ * @since 3.6.0
+ *
+ * @param string $content A string which might contain chat data, passed by reference.
  * @param boolean $remove Whether to remove the found data from the passed content.
  * @return array A chat log as structured data
  */
@@ -571,8 +583,8 @@ function get_content_chat( &$content, $remove = false ) {
  *
  * @since 3.6.0
  *
- * @param int $id Optional. Post ID
- * @return array
+ * @param int $id (optional) The post ID.
+ * @return array The chat content.
  */
 function get_the_post_format_chat( $id = 0 ) {
 	$post = empty( $id ) ? clone get_post() : get_post( $id );
@@ -629,7 +641,7 @@ function the_post_format_chat() {
  *
  * @since 3.6.0
  *
- * @param string $content A string which might contain a URL.
+ * @param string $content A string which might contain a URL, passed by reference.
  * @param boolean $remove Whether to remove the found URL from the passed content.
  * @return string The found URL.
  */
@@ -670,7 +682,7 @@ function get_content_url( &$content, $remove = false ) {
  *
  * @since 3.6.0
  *
- * @param int $id Optional. Post ID.
+ * @param int $id (optional) The post ID.
  * @return string A URL, if found.
  */
 function get_the_post_format_url( $id = 0 ) {
@@ -707,7 +719,7 @@ function the_post_format_url() {
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
- * @return string
+ * @return string The content minus the extracted post format content.
  */
 function get_the_remaining_content( $more_link_text = null, $strip_teaser = false ) {
 	global $more, $page, $format_pages, $multipage, $preview;
