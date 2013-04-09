@@ -2376,7 +2376,7 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 		return $post->format_content;
 	}
 
-	$medias = get_attached_images();
+	$medias = get_attached_images( $post->ID );
 	if ( ! empty( $medias ) ) {
 		$media = reset( $medias );
 		$sizes = get_intermediate_image_sizes();
