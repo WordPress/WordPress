@@ -128,7 +128,7 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 
 // post format
 $format_class = '';
-if ( post_type_supports( $post_type, 'post-formats' ) ) {
+if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'show_post_format_ui', true, $post ) ) {
 	wp_enqueue_script( 'post-formats' );
 	wp_enqueue_script( 'wp-mediaelement' );
 	wp_enqueue_style( 'wp-mediaelement' );
@@ -450,7 +450,7 @@ if ( has_action( 'edit_form_after_title' ) ) {
 }
 
 // post format fields
-if ( post_type_supports( $post_type, 'post-formats' ) )
+if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'show_post_format_ui', true, $post ) )
 	require_once( './includes/post-formats.php' );
 
 if ( post_type_supports($post_type, 'editor') ) {
