@@ -533,7 +533,7 @@ function _show_post_preview() {
  * Filters post meta retrieval to get values from the actual autosave post,
  * and not its parent. Filters revisioned meta keys only.
  *
- * @since 3.6
+ * @since 3.6.0
  * @access private
  */
 function _wp_preview_meta_filter( $value, $object_id, $meta_key, $single ) {
@@ -552,7 +552,7 @@ function _wp_preview_meta_filter( $value, $object_id, $meta_key, $single ) {
 /**
  * Filters terms lookup to get the post format saved with the preview revision.
  *
- * @since 2.6
+ * @since 3.6.0
  * @access private
  */
 function _wp_preview_terms_filter( $terms, $post_id, $taxonomy ) {
@@ -675,7 +675,7 @@ function _wp_upgrade_revisions_of_post( $post, $revisions ) {
  * Displays a human readable HTML representation of the difference between two strings.
  * similar to wp_text_diff, but tracks and returns could of lines added and removed
  *
- * @since 3.6
+ * @since 3.6.0
  * @see wp_parse_args() Used to change defaults to user defined settings.
  * @uses Text_Diff
  * @uses WP_Text_Diff_Renderer_Table
