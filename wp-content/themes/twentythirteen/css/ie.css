@@ -117,6 +117,10 @@ img.alignleft {
 	width: auto;
 }
 
+.ie8 .gallery img {
+	max-width: none;
+}
+
 .ie8 .sidebar .entry-header,
 .ie8 .sidebar .entry-content,
 .ie8 .sidebar .entry-summary,
