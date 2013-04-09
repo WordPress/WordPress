@@ -32,7 +32,7 @@ $format_meta = get_post_format_meta( $post_ID );
 				data-update="<?php esc_attr_e( 'Select Image' ); ?>">
 				<?php
 					if ( $image )
-						echo '<img src="' . esc_url( $image ) . '" />';
+						printf( '<img src="%s" alt="%s" />', esc_url( $image ), get_the_title( $format_meta['image'] ) );
 					else
 						_e( 'Select / Upload Image' );
 				?>
