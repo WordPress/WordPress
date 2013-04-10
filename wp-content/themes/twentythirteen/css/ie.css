@@ -60,6 +60,21 @@ img.alignleft {
 	max-width: 604px;
 	margin: 0;
 }
+
+.gallery-item,
+.gallery img {
+	max-width: none;
+}
+
+.gallery-caption {
+	background: #000;
+	filter: alpha(opacity=0);
+}
+
+.gallery-item:hover .gallery-caption {
+	filter: alpha(opacity=70);
+}
+
 .comment {
 	clear: both;
 }
@@ -115,10 +130,6 @@ img.alignleft {
 .ie8 img.size-large {
 	height: auto;
 	width: auto;
-}
-
-.ie8 .gallery img {
-	max-width: none;
 }
 
 .ie8 .sidebar .entry-header,
