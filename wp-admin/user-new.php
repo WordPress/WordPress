@@ -208,7 +208,7 @@ if ( isset($_GET['update']) ) {
 			case "does_not_exist":
 				$messages[] = __('The requested user does not exist.');
 				break;
-			case "does_not_exist":
+			case "enter_email":
 				$messages[] = __('Please enter a valid email address.');
 				break;
 		}
