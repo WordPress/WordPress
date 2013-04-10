@@ -23,7 +23,7 @@ if ( !defined('ABSPATH') )
 <input type="hidden" name="comment_post_ID" value="<?php echo esc_attr( $comment->comment_post_ID ); ?>" />
 
 <div id="post-body" class="metabox-holder columns-2">
-<div id="post-body-content">
+<div id="post-body-content" class="edit-form-section">
 <div id="namediv" class="stuffbox">
 <h3><label for="name"><?php _e( 'Author' ) ?></label></h3>
 <div class="inside">
