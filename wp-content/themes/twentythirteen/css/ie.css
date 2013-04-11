@@ -1,9 +1,11 @@
 /*
 Styles for older IE versions (previous to IE9).
 */
+
 .site {
 	min-width: 1040px;
 }
+
 .genericon:before:hover,
 .menu-toggle:after:hover,
 .date a:before:hover,
@@ -61,9 +63,14 @@ img.alignleft {
 	margin: 0;
 }
 
-.gallery-item,
-.gallery img {
+.gallery-columns-1 .gallery-item,
+.gallery-columns-2 .gallery-item,
+.gallery-columns-3 .gallery-item {
 	max-width: none;
+}
+
+.gallery img {
+	width: auto;
 }
 
 .gallery-caption {
