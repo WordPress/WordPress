@@ -110,10 +110,21 @@ window.wp = window.wp || {};
 				}
 			});
 
-			mediaPreview = function (format, url, mime) {
+			mediaPreview = function (attachment) {
+				var dimensions = '', url = attachment.url,
+					mime = attachment.mime,
+					format = attachment.type;
+
+				if ( 'video' === format ) {
+					if ( attachment.width )
+						dimensions += ' width="' + attachment.width + '"';
+					if ( attachment.height )
+						dimensions += ' height="' + attachment.height + '"';
+				}
+
 				$('#' + format + '-preview').remove();
 				$holder.parent().prepend( '<div id="' + format + '-preview" class="wp-format-media-preview">' +
-					'<' + format + ' class="wp-' + format + '-shortcode" controls="controls" preload="none">' +
+					'<' + format + dimensions + ' class="wp-' + format + '-shortcode" controls="controls" preload="none">' +
 						'<source type="' + mime + '" src="' + url + '" />' +
 					'</' + format + '></div>' );
 				$('.wp-' + format + '-shortcode').mediaelementplayer();
@@ -122,25 +133,25 @@ window.wp = window.wp || {};
 			// When an image is selected, run a callback.
 			mediaFrame.on( 'select', function () {
 				// Grab the selected attachment.
-				var attachment = mediaFrame.state().get('selection').first(), mime, url, id;
+				var attachment = mediaFrame.state().get('selection').first().toJSON();
 
-				id = attachment.get('id');
-				url = attachment.get('url');
-				mime = attachment.get('mime');
-
-				if ( 0 === mime.indexOf('audio') ) {
-					$field.val(url);
+				if ( 0 === attachment.mime.indexOf('audio') ) {
+					$field.val(attachment.url);
 					// show one preview at a time
-					mediaPreview('audio', url, mime);
-				} else if ( 0 === mime.indexOf('video') ) {
-					$field.val(url);
+					mediaPreview(attachment);
+				} else if ( 0 === attachment.mime.indexOf('video') ) {
+					attachment.src = attachment.url;
+					$field.val(wp.shortcode.string({
+						tag:     'video',
+						attrs: _.pick( attachment, 'src', 'width', 'height' )
+					}));
 					// show one preview at a time
-					mediaPreview('video', url, mime);
+					mediaPreview(attachment);
 				} else {
 					// set the hidden input's value
-					$field.val(id);
+					$field.val(attachment.id);
 					// Show the image in the placeholder
-					$el.html('<img src="' + url + '" />');
+					$el.html('<img src="' + attachment.url + '" />');
 					$holder.removeClass('empty').show();
 				}
 			});

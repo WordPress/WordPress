@@ -144,6 +144,12 @@
 
 			shortcode = {};
 
+			if ( attachment.width )
+				shortcode.width = attachment.width;
+
+			if ( attachment.height )
+				shortcode.height = attachment.height;
+
 			if ( props.mime ) {
 				switch ( props.mime ) {
 				case 'video/mp4':

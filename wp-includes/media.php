@@ -1638,6 +1638,11 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		}
 
 		$response = array_merge( $response, array( 'sizes' => $sizes ), $sizes['full'] );
+	} elseif ( $meta && 'video' === $type ) {
+		if ( isset( $meta['width'] ) )
+			$response['width'] = (int) $meta['width'];
+		if ( isset( $meta['height'] ) )
+			$response['height'] = (int) $meta['height'];
 	}
 
 	if ( function_exists('get_compat_media_markup') )
@@ -2014,6 +2019,15 @@ function wp_video_embed( $matches, $attr, $url, $rawattr ) {
 		if ( ! empty( $rawattr['width'] ) && ! empty( $rawattr['height'] ) ) {
 			$dimensions .= sprintf( 'width="%d" ', (int) $rawattr['width'] );
 			$dimensions .= sprintf( 'height="%d" ', (int) $rawattr['height'] );
+		} elseif ( strstr( $url, home_url() ) ) {
+			$id = attachment_url_to_postid( $url );
+			if ( ! empty( $id ) ) {
+				$meta = wp_get_attachment_metadata( $id );
+				if ( ! empty( $meta['width'] ) )
+					$dimensions .= sprintf( 'width="%d" ', (int) $meta['width'] );
+				if ( ! empty( $meta['height'] ) )
+					$dimensions .= sprintf( 'height="%d" ', (int) $meta['height'] );
+			}
 		}
 		$video = do_shortcode( '[video ' . $dimensions . 'src="' . $url . '" /]' );
 	}
@@ -2437,4 +2451,25 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
  */
 function the_post_format_image( $attached_size = 'full' ) {
 	echo get_the_post_format_image( $attached_size );
+}
+
+/**
+ * Retrieve the post id for an attachment file URL
+ *
+ * @since 3.6.0
+ *
+ * @param string $url Permalink to check.
+ * @return int Post ID, or 0 on failure.
+ */
+function attachment_url_to_postid( $url ) {
+	global $wpdb;
+	if ( preg_match( '#\.[a-zA-Z0-9]+$#', $url ) ) {
+		$id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment' " .
+			"AND guid = %s", $url ) );
+
+		if ( ! empty( $id ) )
+			return (int) $id;
+	}
+
+	return 0;
 }
