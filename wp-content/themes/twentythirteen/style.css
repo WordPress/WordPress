@@ -1487,8 +1487,12 @@ footer.entry-meta {
 	font-weight: bold;
 }
 
-.format-audio .entry-media,
+.format-audio .entry-media {
+	max-width: 604px;
+}
+
 .sidebar .format-audio .entry-media {
+	max-width: 1040px;
 	padding: 0 374px 0 60px;
 }
 
