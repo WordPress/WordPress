@@ -177,6 +177,11 @@ div.nav-menu > ul {
  * ----------------------------------------------------------------------------
  */
 
+.sidebar .entry-media {
+	padding-left: 316px;
+	padding-right: 0;
+}
+
 .sidebar .entry-header,
 .sidebar .entry-content,
 .sidebar .entry-summary,
@@ -347,6 +352,12 @@ div.nav-menu > ul {
 	-moz-transform:    scaleX(-1);
 	-o-transform:      scaleX(-1);
 	transform:         scaleX(-1);
+}
+
+.format-audio .entry-media,
+.sidebar .format-audio .entry-media {
+	padding-left: 374px;
+	padding-right: 60px;
 }
 
 .format-audio .audio-content {
@@ -731,6 +742,13 @@ div.nav-menu > ul {
  */
 
 @media (max-width: 1069px) {
+	.sidebar .entry-media,
+	.format-audio .entry-media,
+	.sidebar .format-audio .entry-media {
+		padding-left: 376px;
+		padding-right: 60px;
+	}
+	
 	ul.nav-menu,
 	div.nav-menu > ul {
 		margin-left: auto;
@@ -768,6 +786,13 @@ div.nav-menu > ul {
 	.author.sidebar .author-info,
 	.sidebar .format-image .entry-content {
 		max-width: 604px;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.sidebar .entry-media,
+	.format-audio .entry-media,
+	.sidebar .format-audio .entry-media {
 		padding-left: 0;
 		padding-right: 0;
 	}
@@ -877,6 +902,8 @@ div.nav-menu > ul {
 	}
 
 	.format-audio .audio-content {
+		background: none;
+		float: none;
 		padding-left: auto;
 		padding-right: 0;
 	}
