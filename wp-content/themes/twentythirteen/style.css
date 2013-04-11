@@ -2454,10 +2454,13 @@ footer.entry-meta {
 	margin-bottom: 8px;
 }
 
-#commentform label {
+#commentform [for="author"],
+#commentform [for="email"],
+#commentform [for="url"],
+#commentform [for="comment"] {
 	float: left;
 	padding: 5px 0;
-	width: 100px;
+	width: 120px;
 }
 
 #commentform .required {
@@ -3113,8 +3116,8 @@ footer.entry-meta {
 	#commentform input[type="text"],
 	#commentform input[type="email"],
 	#commentform input[type="url"] {
-		width: -webkit-calc(100% - 100px);
-		width:         calc(100% - 100px);
+		width: -webkit-calc(100% - 120px);
+		width:         calc(100% - 120px);
 	}
 
 	#commentform textarea {
