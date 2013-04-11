@@ -524,10 +524,11 @@ function twentythirteen_comment_class( $classes ) {
 add_filter( 'comment_class', 'twentythirteen_comment_class' );
 
 /**
- * Adjusts content_width value for image post formats, video post formats, and
- * image attachment templates.
+ * Adjusts content_width value for video post formats and attachment templates.
  *
  * @since Twenty Thirteen 1.0
+ *
+ * @return void
  */
 function twentythirteen_content_width() {
 	if ( has_post_format( 'video' ) || is_attachment() ) {
@@ -536,6 +537,23 @@ function twentythirteen_content_width() {
 	}
 }
 add_action( 'template_redirect', 'twentythirteen_content_width' );
+
+/**
+ * Adjusts content_width value for video shortcodes in video post formats.
+ *
+ * @since Twenty Thirteen 1.0
+ *
+ * @param array $atts Attribute list.
+ * @return array Filtered attribute list.
+ */
+function twentythirteen_video_width( $atts ) {
+	if ( has_post_format( 'video' ) )
+		$atts['width'] = 724;
+
+	return $atts;
+}
+add_action( 'embed_defaults',       'twentythirteen_video_width' );
+add_action( 'shortcode_atts_video', 'twentythirteen_video_width' );
 
 /**
  * Adds entry date to aside posts after the content.
