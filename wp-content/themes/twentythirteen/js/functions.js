@@ -5,7 +5,14 @@
  */
 
 ( function( $ ) {
-	var twentyThirteen = {
+	var html          = $( 'html' ),
+	    body          = $( 'body' ),
+	    navbar        = $( '#navbar' ),
+	    _window       = $( window ),
+	    navbarOffset  = -1,
+	    toolbarOffset = body.is( '.admin-bar' ) ? 28 : 0,
+
+	    twentyThirteen = {
 		/**
 		 * Adds a top margin to the footer if the sidebar widget area is
 		 * higher than the rest of the page, to help the footer always
@@ -16,7 +23,7 @@
 			    secondary = ( 0 == sidebar.length ) ? -40 : sidebar.height(),
 			    margin    = $( '#tertiary .widget-area' ).height() - $( '#content' ).height() - secondary;
 
-			if ( margin > 0 && window.innerWidth > 999 )
+			if ( margin > 0 && _window.innerWidth() > 999 )
 				$( '#colophon' ).css( 'margin-top', margin + 'px' );
 		},
 
@@ -36,22 +43,17 @@
 		if ( body.is( '.sidebar' ) )
 			twentyThirteen.adjustFooter();
 	} );
-	$( window ).on( 'hashchange', twentyThirteen.adjustAnchor );
+	_window.on( 'hashchange', twentyThirteen.adjustAnchor );
 
 	/**
 	 * Displays the fixed navbar based on screen position.
 	 */
-	var html          = $( 'html' ),
-		body          = $( 'body' ),
-		navbar        = $( '#navbar' ),
-		navbarOffset  = -1,
-		toolbarOffset = body.is( '.admin-bar' ) ? 28 : 0;
-
-	$( window ).scroll( function() {
+	_window.scroll( function() {
+		var scrollOffset = ( typeof window.scrollY === 'undefined' ) ? document.documentElement.scrollTop : window.scrollY;
 		if ( navbarOffset < 0 )
 			navbarOffset = navbar.offset().top - toolbarOffset;
 
-		if ( window.scrollY >= navbarOffset && 644 < window.innerWidth )
+		if ( scrollOffset >= navbarOffset && _window.innerWidth() > 644 )
 			html.addClass( 'navbar-fixed' );
 		else
 			html.removeClass( 'navbar-fixed' );
@@ -97,7 +99,7 @@
 	 *
 	 * @link http://www.nczonline.net/blog/2013/01/15/fixing-skip-to-content-links/
 	 */
-	$( window ).on( 'hashchange', function() {
+	_window.on( 'hashchange', function() {
 		var element = $( location.hash );
 
 		if ( element ) {
