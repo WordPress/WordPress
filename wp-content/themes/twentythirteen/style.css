@@ -500,6 +500,7 @@ hr {
 .bypostauthor .fn:before,
 .error404 .page-title:before {
 	-webkit-font-smoothing: antialiased;
+	display: inline-block;
 	font: normal 16px/1 Genericons;
 	vertical-align: text-bottom;
 }

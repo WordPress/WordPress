@@ -99,6 +99,7 @@ td {
 .bypostauthor .fn:after,
 .error404 .page-title:after {
 	-webkit-font-smoothing: antialiased;
+	display: inline-block;
 	font: normal 16px/1 Genericons;
 	vertical-align: text-bottom;
 }
@@ -748,7 +749,7 @@ div.nav-menu > ul {
 		padding-left: 376px;
 		padding-right: 60px;
 	}
-	
+
 	ul.nav-menu,
 	div.nav-menu > ul {
 		margin-left: auto;
