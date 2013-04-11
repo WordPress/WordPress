@@ -519,6 +519,7 @@ div.nav-menu > ul {
 
 .post-navigation a[rel="next"] {
 	float: left;
+	text-align: left;
 }
 
 

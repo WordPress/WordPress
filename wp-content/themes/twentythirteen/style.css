@@ -766,6 +766,9 @@ img.wp-smiley,
 	background-color: #fff;
 	border-left: 1px solid #f2f2f2;
 	border-right: 1px solid #f2f2f2;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing:    content-box;
+	box-sizing:         content-box;
 	margin: 0 auto;
 	max-width: 1600px;
 	width: 100%;
@@ -916,7 +919,7 @@ ul.nav-menu li:hover > ul,
 .nav-menu .current_page_ancestor > a,
 .nav-menu .current-menu-item > a,
 .nav-menu .current-menu-ancestor > a {
-	color: #825920;
+	color: #bc360a;
 	font-style: italic;
 }
 
@@ -1730,6 +1733,14 @@ footer.entry-meta {
 .format-quote .entry-meta a {
 	color: #e63f2a;
 }
+.format-quote .entry-content cite a {
+	border-bottom: 1px dotted #fff;
+	color: #fff;
+}
+
+.format-quote .entry-content cite a:hover {
+	text-decoration: none;
+}
 
 .format-quote .quote-caption,
 .format-quote blockquote small,
@@ -1997,7 +2008,7 @@ footer.entry-meta {
 }
 
 .navigation a {
-	color: #e63f2a;
+	color: #bc360a;
 }
 
 .navigation a:hover {
@@ -2077,6 +2088,7 @@ footer.entry-meta {
 
 .post-navigation a[rel="next"] {
 	float: right;
+	text-align: right;
 }
 
 
@@ -2316,7 +2328,7 @@ footer.entry-meta {
 .comment-author .url,
 .comment-reply-link,
 .comment-reply-login {
-	color: #ed331c;
+	color: #bc360a;
 	font-size: 14px;
 	font-style: normal;
 }
