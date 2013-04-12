@@ -1387,6 +1387,8 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
  *
  * Second argument controls parameters:
  *   (bool)   parent : include the parent (the "Current Revision") in the list.
+ *                     Deprecated (ignored), since 3.6 the revisions always include
+ *                     a copy of the current post.
  *   (string) format : 'list' or 'form-table'. 'list' outputs UL, 'form-table'
  *                     outputs TABLE with UI.
  *   (int)    right  : what revision is currently being viewed - used in
@@ -1413,7 +1415,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	if ( !$post = get_post( $post_id ) )
 		return;
 
-	$defaults = array( 'parent' => false, 'right' => false, 'left' => false, 'format' => 'list', 'type' => 'all' );
+	$defaults = array( 'right' => false, 'left' => false, 'format' => 'list', 'type' => 'all' );
 	extract( wp_parse_args( $args, $defaults ), EXTR_SKIP );
 
 	if ( !$revisions = wp_get_post_revisions( $post->ID ) )
@@ -1421,14 +1423,6 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 
 	/* translators: post revision: 1: when, 2: author name */
 	$titlef = _x( '%1$s', 'post revision' );
-
-	// Since 3.6 revisions include a copy of the current post data as a revision.
-	// The following removes that revision when $parent == false
-	$parent_included = _wp_get_post_revision_version( reset( $revisions ) ) > 0;
-	if ( $parent_included && ! $parent )
-		array_shift( $revisions );
-	elseif ( ! $parent_included && $parent )
-		array_unshift( $revisions, $post );
 
 	$rows = $right_checked = '';
 	$class = false;
