@@ -224,8 +224,60 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 	$title = $name;
 	$content = '';
 
+	if ( preg_match( '#^audio#', $type ) ) {
+		$meta = wp_read_audio_metadata( $file );
+
+		if ( ! empty( $meta['title'] ) )
+			$title = $meta['title'];
+
+		$content = '';
+
+		if ( ! empty( $title ) ) {
+
+			if ( ! empty( $meta['album'] ) && ! empty( $meta['artist'] ) ) {
+				/* translators: 1: audio track title, 2: album title, 3: artist name */
+				$content .= sprintf( __( '&#8220;%1$s&#8221; from %2$s by %3$s.' ), $title, $meta['album'], $meta['artist'] );
+			} else if ( ! empty( $meta['album'] ) ) {
+				/* translators: 1: audio track title, 2: album title */
+				$content .= sprintf( __( '&#8220;%1$s&#8221; from %2$s.' ), $title, $meta['album'] );
+			} else if ( ! empty( $meta['artist'] ) ) {
+				/* translators: 1: audio track title, 2: artist name */
+				$content .= sprintf( __( '&#8220;%1$s&#8221; by %2$s.' ), $title, $meta['artist'] );
+			} else {
+				$content .= sprintf( __( '&#8220;%s&#8221;.' ), $title );
+			}
+
+		} else if ( ! empty( $meta['album'] ) ) {
+
+			if ( ! empty( $meta['artist'] ) ) {
+				/* translators: 1: audio album title, 2: artist name */
+				$content .= sprintf( __( '%1$s by %2$s.' ), $meta['album'], $meta['artist'] );
+			} else {
+				$content .= $meta['album'] . '.';
+			}
+
+		} else if ( ! empty( $meta['artist'] ) ) {
+
+			$content .= $meta['artist'] . '.';
+
+		}
+
+		if ( ! empty( $meta['year'] ) )
+			$content .= ' ' . sprintf( __( 'Released: %d.' ), $meta['year'] );
+
+		if ( ! empty( $meta['track_number'] ) ) {
+			$track_number = explode( '/', $meta['track_number'] );
+			if ( isset( $track_number[1] ) )
+				$content .= ' ' . sprintf( __( 'Track %1$s of %2$s.' ), number_format_i18n( $track_number[0] ), number_format_i18n( $track_number[1] ) );
+			else
+				$content .= ' ' . sprintf( __( 'Track %1$s.' ), number_format_i18n( $track_number[0] ) );
+		}
+
+		if ( ! empty( $meta['genre'] ) )
+			$content .= ' ' . sprintf( __( 'Genre: %s.' ), $meta['genre'] );
+
 	// use image exif/iptc data for title and caption defaults if possible
-	if ( $image_meta = @wp_read_image_metadata($file) ) {
+	} elseif ( $image_meta = @wp_read_image_metadata( $file ) ) {
 		if ( trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) )
 			$title = $image_meta['title'];
 		if ( trim( $image_meta['caption'] ) )
@@ -2313,10 +2365,17 @@ function edit_form_image_editor() {
 	elseif ( $attachment_id && 0 === strpos( $post->post_mime_type, 'video/' ) ):
 
 		$meta = wp_get_attachment_metadata( $attachment_id );
+		$w = ! empty( $meta['width'] ) ? min( $meta['width'], 600 ) : 0;
+		$h = 0;
+		if ( ! empty( $meta['height'] ) )
+			$h = $meta['height'];
+		if ( $h && $w < $meta['width'] )
+			$h = round( ( $meta['height'] * $w ) / $meta['width'] );
+
 		$shortcode = sprintf( '[video src="%s"%s%s]',
 			$att_url,
-			empty( $meta['width'] ) ? '' : sprintf( ' width="%d"', $meta['width'] ),
-			empty( $meta['height'] ) ? '' : sprintf( ' height="%d"', $meta['height'] )
+			empty( $meta['width'] ) ? '' : sprintf( ' width="%d"', $w ),
+			empty( $meta['height'] ) ? '' : sprintf( ' height="%d"', $h )
 		);
 		echo do_shortcode( $shortcode );
 
@@ -2390,7 +2449,55 @@ function attachment_submitbox_metadata() {
 		?></strong>
 	</div>
 
-<?php if ( $media_dims ) : ?>
+<?php
+	if ( preg_match( '#^audio|video#', $post->post_mime_type ) ):
+
+		$fields = array(
+			'mime_type' => __( 'Mime-type:' ),
+			'year' => __( 'Year:' ),
+			'genre' => __( 'Genre:' ),
+			'length_formatted' => __( 'Length:' ),
+		);
+
+		foreach ( $fields as $key => $label ):
+			if ( ! empty( $meta[$key] ) ) : ?>
+		<div class="misc-pub-section">
+			<?php echo $label ?> <strong><?php echo esc_html( $meta[$key] ); ?></strong>
+		</div>
+	<?php
+			endif;
+		endforeach;
+
+		if ( ! empty( $meta['bitrate'] ) ) : ?>
+		<div class="misc-pub-section">
+			<?php _e( 'Bitrate:' ); ?> <strong><?php
+				echo $meta['bitrate'] / 1000, 'kb/s';
+
+				if ( ! empty( $meta['bitrate_mode'] ) )
+					echo ' ', strtoupper( $meta['bitrate_mode'] );
+
+			?></strong>
+		</div>
+	<?php
+		endif;
+
+		$audio_fields = array(
+			'dataformat' => __( 'Audio Format:' ),
+			'codec' => __( 'Audio Codec:' )
+		);
+
+		foreach ( $audio_fields as $key => $label ):
+			if ( ! empty( $meta['audio'][$key] ) ) : ?>
+		<div class="misc-pub-section">
+			<?php echo $label; ?> <strong><?php echo esc_html( $meta['audio'][$key] ); ?></strong>
+		</div>
+	<?php
+			endif;
+		endforeach;
+
+	endif;
+
+	if ( $media_dims ) : ?>
 	<div class="misc-pub-section">
 		<?php _e( 'Dimensions:' ); ?> <strong><?php echo $media_dims; ?></strong>
 	</div>
