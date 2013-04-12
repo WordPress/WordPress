@@ -453,7 +453,7 @@ function add_chat_detection_format( $name, $newline_regex, $delimiter_regex ) {
 	$_wp_chat_parsers = array( $name => array( $newline_regex, $delimiter_regex ) ) + $_wp_chat_parsers;
 }
 add_chat_detection_format( 'IM', '#^([^:]+):#', '#[:]#' );
-add_chat_detection_format( 'Skype', '#^(\[.+?\])\s([^:]+):#', '#[:]#' );
+add_chat_detection_format( 'Skype', '#(\[.+?\])\s([^:]+):#', '#[:]#' );
 
 /**
  * Deliberately interpret passed content as a chat transcript that is optionally
@@ -492,7 +492,7 @@ add_chat_detection_format( 'Skype', '#^(\[.+?\])\s([^:]+):#', '#[:]#' );
 function get_content_chat( &$content, $remove = false ) {
 	global $_wp_chat_parsers;
 
-	$trimmed = trim( $content );
+	$trimmed = strip_tags( trim( $content ) );
 	if ( empty( $trimmed ) )
 		return array();
 
@@ -512,12 +512,16 @@ function get_content_chat( &$content, $remove = false ) {
 	$stanzas = $data = $stanza = array();
 	$author = $time = '';
 	$lines = explode( "\n", make_clickable( $trimmed ) );
-
+	$found = false;
+	$found_index = 0;
 
 	foreach ( $lines as $index => $line ) {
+		if ( ! $found )
+			$found_index = $index;
+
 		$line = trim( $line );
 
-		if ( empty( $line ) ) {
+		if ( empty( $line ) && $found ) {
 			if ( ! empty( $author ) ) {
 				$stanza[] = array(
 					'time'    => $time,
@@ -527,7 +531,7 @@ function get_content_chat( &$content, $remove = false ) {
 			}
 
 			$stanzas[] = $stanza;
-			$last_index = $index;
+
 			$stanza = $data = array();
 			$author = $time = '';
 			if ( ! empty( $lines[$index + 1] ) && ! preg_match( $delimiter_regex, $lines[$index + 1] ) )
@@ -538,6 +542,11 @@ function get_content_chat( &$content, $remove = false ) {
 
 		$matches = array();
 		$matched = preg_match( $newline_regex, $line, $matches );
+		if ( ! $matched )
+			continue;
+
+		$found = true;
+		$last_index = $index;
 		$author_match = empty( $matches[2] ) ? $matches[1] : $matches[2];
 		// assume username syntax if no whitespace is present
 		$no_ws = $matched && ! preg_match( '#[\r\n\t ]#', $author_match );
@@ -572,8 +581,16 @@ function get_content_chat( &$content, $remove = false ) {
 	if ( ! empty( $stanza ) )
 		$stanzas[] = $stanza;
 
-	if ( $remove )
-		$content = trim( join( "\n", array_slice( $lines, $last_index ) ) );
+	if ( $remove ) {
+		if ( 0 === $found_index ) {
+			$removed = array_slice( $lines, $last_index );
+		} else {
+			$before = array_slice( $lines, 0, $found_index );
+			$after = array_slice( $lines, $last_index + 1 );
+			$removed = array_filter( array_merge( $before, $after ) );
+		}
+		$content = trim( join( "\n", $removed ) );
+	}
 
 	return $stanzas;
 }
