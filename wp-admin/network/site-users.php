@@ -85,12 +85,10 @@ if ( $action ) {
 			if ( !empty( $_POST['newuser'] ) ) {
 				$update = 'adduser';
 				$newuser = $_POST['newuser'];
-				$userid = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM " . $wpdb->users . " WHERE user_login = %s", $newuser ) );
-				if ( $userid ) {
-					$blog_prefix = $wpdb->get_blog_prefix( $id );
-					$user = $wpdb->get_var( "SELECT user_id FROM " . $wpdb->usermeta . " WHERE user_id='$userid' AND meta_key='{$blog_prefix}capabilities'" );
-					if ( $user == false )
-						add_user_to_blog( $id, $userid, $_POST['new_role'] );
+				$user = get_user_by( 'login', $newuser );
+				if ( $user->exists() ) {
+					if ( ! is_user_member_of_blog( $user->ID, $id ) )
+						add_user_to_blog( $id, $user->ID, $_POST['new_role'] );
 					else
 						$update = 'err_add_member';
 				} else {
