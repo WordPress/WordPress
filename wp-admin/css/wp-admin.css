@@ -3044,6 +3044,7 @@ ul.cat-checklist {
 	padding: 3px 8px;
 	font-size: 1.7em;
 	line-height: 100%;
+	height: 1.7em;
 	width: 100%;
 	outline: none;
 }
@@ -3053,7 +3054,7 @@ ul.cat-checklist {
 	color: #bbb;
 	position: absolute;
 	font-size: 1.7em;
-	padding: 8px 10px;
+	padding: 11px 10px;
 }
 
 #wp-fullscreen-save .fs-saved {
