@@ -276,8 +276,9 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 			// show "editing taken over" message
 			wrap = $('#notification-dialog-wrap');
 
-			if ( ! wrap.is(':visible') ) {
-				autosave();
+			if ( wrap.length && ! wrap.is(':visible') ) {
+				if ( typeof autosave == 'function' )
+					autosave();
 
 				if ( received.lock_error.avatar_src ) {
 					avatar = $('<img class="avatar avatar-64 photo" width="64" height="64" />').attr( 'src', received.lock_error.avatar_src.replace(/&amp;/g, '&') );

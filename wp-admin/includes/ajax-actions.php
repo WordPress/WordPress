@@ -1063,10 +1063,11 @@ function wp_ajax_autosave() {
 	}
 
 	if ( ! empty( $_POST['autosave'] ) ) {
-		// Drafts and auto-drafts are just overwritten by autosave for the same user
-		if ( get_current_user_id() == $post->post_author && ( 'auto-draft' == $post->post_status || 'draft' == $post->post_status ) ) {
+		if ( ! wp_check_post_lock( $post->ID ) && get_current_user_id() == $post->post_author && ( 'auto-draft' == $post->post_status || 'draft' == $post->post_status ) ) {
+			// Drafts and auto-drafts are just overwritten by autosave for the same user if the post is not locked
 			$id = edit_post();
-		} else { // Non drafts are not overwritten. The autosave is stored in a special post revision for each user.
+		} else {
+			// Non drafts or other users drafts are not overwritten. The autosave is stored in a special post revision for each user.
 			$revision_id = wp_create_post_autosave( $post->ID );
 			if ( is_wp_error($revision_id) )
 				$id = $revision_id;
@@ -1074,12 +1075,9 @@ function wp_ajax_autosave() {
 				$id = $post->ID;
 		}
 
-		if ( is_wp_error($id) ) {
-			// is_wp_error($id) overwrites $data in WP_Ajax_Response but no point in doing wp_create_nonce('update-post_' . $id) below
-			// todo: Needs review. The errors generated in WP_Ajax_Response and parsed with wpAjax.parseAjaxResponse() haven't been used for many years.
-			$data = $id;
-			$id = 0;
-		} else {
+		// When is_wp_error($id), $id overwrites $data in WP_Ajax_Response
+		// todo: Needs review. The errors generated in WP_Ajax_Response and parsed with wpAjax.parseAjaxResponse() haven't been used for years.
+		if ( ! is_wp_error($id) ) {
 			/* translators: draft saved date format, see http://php.net/date */
 			$draft_saved_date_format = __('g:i:s a');
 			/* translators: %s: date and time */
@@ -1098,14 +1096,13 @@ function wp_ajax_autosave() {
 		$supplemental['replace-samplepermalinknonce'] = wp_create_nonce('samplepermalink');
 		$supplemental['replace-closedpostboxesnonce'] = wp_create_nonce('closedpostboxes');
 		$supplemental['replace-_ajax_linking_nonce'] = wp_create_nonce( 'internal-linking' );
-		if ( $id )
-			$supplemental['replace-_wpnonce'] = wp_create_nonce('update-post_' . $id);
+		$supplemental['replace-_wpnonce'] = wp_create_nonce( 'update-post_' . $post->ID );
 	}
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'autosave',
 		'id' => $id,
-		'data' => $id ? $data : '',
+		'data' => $data,
 		'supplemental' => $supplemental
 	) );
 	$x->send();
@@ -2129,7 +2126,7 @@ function wp_ajax_revisions_data() {
 			$left_revision = get_post( $post_id );
 
 		// make sure the right revision is the most recent
-		if ( $compare_two_mode && $right_revision->post_date < $left_revision->post_date ) {
+		if ( $compare_two_mode && $right_revision->ID < $left_revision->ID ) {
 			$temp = $left_revision;
 			$left_revision = $right_revision;
 			$right_revision = $temp;
