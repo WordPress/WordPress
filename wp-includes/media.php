@@ -860,10 +860,8 @@ function wp_audio_shortcode( $attr ) {
 	$primary = false;
 	if ( ! empty( $src ) ) {
 		$type = wp_check_filetype( $src );
-		if ( ! in_array( $type['ext'], $default_types ) ) {
-			printf( '<a class="wp-post-format-link-audio" href="%1$s">%1$s</a>', $src );
-			return;
-		}
+		if ( ! in_array( $type['ext'], $default_types ) )
+			return sprintf( '<a class="wp-post-format-link-audio" href="%1$s">%1$s</a>', $src );
 		$primary = true;
 		array_unshift( $default_types, 'src' );
 	} else {
@@ -967,10 +965,8 @@ function wp_video_shortcode( $attr ) {
 	$primary = false;
 	if ( ! empty( $src ) ) {
 		$type = wp_check_filetype( $src );
-		if ( ! in_array( $type['ext'], $default_types ) ) {
-			printf( '<a class="wp-post-format-link-video" href="%1$s">%1$s</a>', $src );
-			return;
-		}
+		if ( ! in_array( $type['ext'], $default_types ) )
+			return sprintf( '<a class="wp-post-format-link-video" href="%1$s">%1$s</a>', $src );
 		$primary = true;
 		array_unshift( $default_types, 'src' );
 	} else {
