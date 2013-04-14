@@ -547,8 +547,11 @@ add_action( 'template_redirect', 'twentythirteen_content_width' );
  * @return array Filtered attribute list.
  */
 function twentythirteen_video_width( $atts ) {
-	if ( has_post_format( 'video' ) )
-		$atts['width'] = 724;
+	if ( ! is_admin() && has_post_format( 'video' ) ) {
+		$new_width = 724;
+		$atts['height'] = round( ( $atts['height'] * $new_width ) / $atts['width'] );
+		$atts['width'] = $new_width;
+	}
 
 	return $atts;
 }

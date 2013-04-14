@@ -111,15 +111,24 @@ window.wp = window.wp || {};
 			});
 
 			mediaPreview = function (attachment) {
-				var dimensions = '', url = attachment.url,
+				var w, h, dimensions = '', url = attachment.url,
 					mime = attachment.mime,
 					format = attachment.type;
 
 				if ( 'video' === format ) {
-					if ( attachment.width )
-						dimensions += ' width="' + attachment.width + '"';
-					if ( attachment.height )
-						dimensions += ' height="' + attachment.height + '"';
+					if ( attachment.width ) {
+						w = attachment.width;
+						if ( w > 600 )
+							w = 600;
+						dimensions += ' width="' + w + '"';
+					}
+
+					if ( attachment.height ) {
+						h = attachment.height;
+						if ( attachment.width && w < attachment.width )
+							h = Math.round( ( h * w ) / attachment.width );
+						dimensions += ' height="' + h + '"';
+					}
 				}
 
 				$('#' + format + '-preview').remove();

@@ -956,11 +956,24 @@ function wp_video_shortcode( $attr ) {
 		'height' => 360,
 		'width' => empty( $content_width ) ? 640 : $content_width,
 	);
+
 	foreach ( $default_types as $type  )
 		$defaults_atts[$type] = '';
 
 	$atts = shortcode_atts( $defaults_atts, $attr, 'video' );
 	extract( $atts );
+
+	$w = $width;
+	$h = $height;
+	if ( is_admin() && $width > 600 )
+		$w = 600;
+	elseif ( ! is_admin() && $w > $defaults_atts['width'] )
+		$w = $defaults_atts['width'];
+
+	if ( $w < $width )
+		$height = round( ( $h * $w ) / $width );
+
+	$width = $w;
 
 	$primary = false;
 	if ( ! empty( $src ) ) {
