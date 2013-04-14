@@ -203,8 +203,12 @@ function edit_post( $post_data = null ) {
 	$format_keys = array( 'quote', 'quote_source', 'image', 'gallery', 'audio', 'video' );
 
 	foreach ( $format_keys as $key ) {
-		if ( isset( $post_data[ '_wp_format_' . $key ] ) )
-		 	update_post_meta( $post_ID, '_wp_format_' . $key, wp_filter_post_kses( $post_data[ '_wp_format_' . $key ] ) );
+		if ( isset( $post_data[ '_wp_format_' . $key ] ) ) {
+			if ( current_user_can( 'unfiltered_html' ) )
+				update_post_meta( $post_ID, '_wp_format_' . $key, $post_data[ '_wp_format_' . $key ] );
+			else
+				update_post_meta( $post_ID, '_wp_format_' . $key, wp_filter_post_kses( $post_data[ '_wp_format_' . $key ] ) );
+		}
 	}
 
 	// Meta Stuff

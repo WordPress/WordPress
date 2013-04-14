@@ -69,7 +69,12 @@ $format_meta = get_post_format_meta( $post_ID );
 			?>
 		</div>
 		<?php endif; ?>
-		<label for="wp_format_video"><?php _e( 'Video embed code or URL' ); ?></label>
+		<label for="wp_format_video"><?php
+			if ( current_user_can( 'unfiltered_html' ) )
+				_e( 'Video embed code or URL' );
+			else
+				_e( 'Video URL' );
+		?></label>
 		<textarea id="wp_format_video" type="text" name="_wp_format_video" class="widefat"><?php esc_html_e( $format_meta['video'] ); ?></textarea>
 		<div data-format="video" class="wp-format-media-holder hide-if-no-js<?php if ( ! $image ) echo ' empty'; ?>">
 			<a href="#" class="wp-format-media-select"
@@ -103,7 +108,12 @@ $format_meta = get_post_format_meta( $post_ID );
 			?>
 		</div>
 		<?php endif; ?>
-		<label for="wp_format_audio"><?php _e( 'Audio embed code or URL' ); ?></label>
+		<label for="wp_format_audio"><?php
+			if ( current_user_can( 'unfiltered_html' ) )
+				_e( 'Audio embed code or URL' );
+			else
+				_e( 'Audio URL' );
+		?></label>
 		<textarea id="wp_format_audio" name="_wp_format_audio" class="widefat"><?php esc_html_e( $format_meta['audio'] );
 ?></textarea>
 		<div data-format="audio" class="wp-format-media-holder hide-if-no-js<?php if ( empty( $format_meta['audio'] ) ) echo ' empty'; ?>">
