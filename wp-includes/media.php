@@ -1845,9 +1845,10 @@ function get_attached_video( $post_id = 0 ) {
  * @param string $content A string which might contain media data.
  * @param boolean $html Whether to return HTML or URLs
  * @param boolean $remove Whether to remove the found URL from the passed content.
+ * @param int $limit Optional. The number of medias to return
  * @return array A list of parsed shortcodes or extracted srcs
  */
-function get_content_media( $type, &$content, $html = true, $remove = false ) {
+function get_content_media( $type, &$content, $html = true, $remove = false, $limit = 0 ) {
 	$items = array();
 	$matches = array();
 
@@ -1859,6 +1860,8 @@ function get_content_media( $type, &$content, $html = true, $remove = false ) {
 					$content =& str_replace( $shortcode[0], '', $content, $count );
 
 				$items[] = do_shortcode_tag( $shortcode );
+				if ( $limit > 0 && count( $items ) >= $limit )
+					break;
 			}
 		}
 	}
@@ -2043,9 +2046,10 @@ wp_embed_register_handler( 'wp_video_embed', '#https?://.+?\.(' . join( '|', wp_
  *
  * @param string $type Required. 'audio' or 'video'
  * @param WP_Post $post Optional. Used instead of global $post when passed.
+ * @param int $limit Optional. The number of medias to remove if content is scanned.
  * @return string
  */
-function get_the_post_format_media( $type, &$post = null ) {
+function get_the_post_format_media( $type, &$post = null, $limit = 0 ) {
 	global $wp_embed;
 
 	if ( empty( $post ) )
@@ -2090,7 +2094,7 @@ function get_the_post_format_media( $type, &$post = null ) {
 	// these functions expect a reference, so we should make a copy of post content to avoid changing it
 	$content = $post->post_content;
 
-	$htmls = get_content_media( $type, $content, true, true );
+	$htmls = get_content_media( $type, $content, true, true, $limit );
 	if ( ! empty( $htmls ) ) {
 		$html = reset( $htmls );
 		$post->split_content = $content;
@@ -2133,7 +2137,8 @@ function get_the_post_format_media( $type, &$post = null ) {
  *
  */
 function the_post_format_video() {
-	echo get_the_post_format_media( 'video' );
+	$null = null;
+	echo get_the_post_format_media( 'video', $null, 1 );
 }
 /**
  * Output the first audio  in the current (@global) post's content
@@ -2142,7 +2147,8 @@ function the_post_format_video() {
  *
  */
 function the_post_format_audio() {
-	echo get_the_post_format_media( 'audio' );
+	$null = null;
+	echo get_the_post_format_media( 'audio', $null, 1 );
 }
 
 /**

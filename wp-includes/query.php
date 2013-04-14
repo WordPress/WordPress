@@ -3702,12 +3702,12 @@ function setup_postdata($post) {
 				$split_content = $post->split_content;
 			break;
 		case 'audio':
-			get_the_post_format_media( 'audio', $post );
+			get_the_post_format_media( 'audio', $post, 1 );
 			if ( isset( $post->split_content ) )
 				$split_content = $post->split_content;
 			break;
 		case 'video':
-			get_the_post_format_media( 'video', $post );
+			get_the_post_format_media( 'video', $post, 1 );
 			if ( isset( $post->split_content ) )
 				$split_content = $post->split_content;
 			break;

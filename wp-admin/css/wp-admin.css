@@ -3983,7 +3983,9 @@ body .ui-tooltip {
 	background: #f5f5f5 url(../images/media-button-2x.png) no-repeat 50% 25%;
 }
 
-.wp-format-media-holder.empty {
+.wp-format-media-holder.empty,
+.wp-format-audio .wp-format-media-holder,
+.wp-format-video .wp-format-media-holder {
 	height: auto;
 	padding: 55px 0 20px;
 }
@@ -4012,7 +4014,9 @@ body .ui-tooltip {
 	max-height: 100%;
 }
 
-.empty .wp-format-media-select {
+.empty .wp-format-media-select,
+.wp-format-audio .wp-format-media-select,
+.wp-format-video .wp-format-media-select {
 	height: 20px;
 }
 
