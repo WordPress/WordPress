@@ -2400,8 +2400,13 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 		return $post->format_content;
 
 	$meta = get_post_format_meta( $post->ID );
+
+	$link_fmt = '%s';
+	if ( ! empty( $meta['url'] ) )
+		$link_fmt = '<a href="' . esc_url( $meta['url'] ) . '">%s</a>';
+
 	if ( ! empty( $meta['image'] ) ) {
-		$post->format_content = wp_get_attachment_image( $meta['image'], $attached_size );
+		$post->format_content = sprintf( $link_fmt, wp_get_attachment_image( $meta['image'], $attached_size ) );
 		return $post->format_content;
 	}
 
@@ -2412,8 +2417,11 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 
 		$urls = array();
 		foreach ( $sizes as $size ) {
-			$urls[] = reset( wp_get_attachment_image_src( $media->ID, $size ) );
-			$urls[] = get_attachment_link( $media->ID );
+			$image = wp_get_attachment_image_src( $media->ID, $size );
+			if ( $image ) {
+				$urls[] = reset( $image );
+				$urls[] = get_attachment_link( $media->ID );
+			}
 		}
 
 		$count = 1;
@@ -2443,7 +2451,8 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 		}
 
 		$post->split_content = $content;
-		$post->format_content = wp_get_attachment_image( $media->ID, $attached_size );
+		$image = wp_get_attachment_image( $media->ID, $attached_size );
+		$post->format_content = sprintf( $link_fmt, $image );
 		return $post->format_content;
 	}
 
@@ -2452,7 +2461,7 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 	if ( ! empty( $htmls ) ) {
 		$html = reset( $htmls );
 		$post->split_content = $content;
-		$post->format_content = $html;
+		$post->format_content = sprintf( $link_fmt, $html );
 		return $post->format_content;
 	}
 }

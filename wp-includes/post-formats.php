@@ -707,7 +707,7 @@ function get_the_post_format_url( $id = 0 ) {
 	if ( empty( $post ) )
 		return '';
 
-	if ( in_array( get_post_format( $post->ID ), array( 'link', 'quote' ) ) ) {
+	if ( in_array( get_post_format( $post->ID ), array( 'image', 'link', 'quote' ) ) ) {
 		$meta = get_post_format_meta( $post->ID );
 		if ( ! empty( $meta['url'] ) )
 			return apply_filters( 'get_the_post_format_url', esc_url_raw( $meta['url'] ), $post );
