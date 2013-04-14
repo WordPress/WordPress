@@ -1421,7 +1421,8 @@ footer.entry-meta {
 	max-width: 1040px;
 	padding: 0 316px 0 0;
 }
-.entry-media > * {
+
+.entry-media > *, .entry-media > * > img {
 	display: block;
 	margin: 0 auto;
 	max-width: 100%;
