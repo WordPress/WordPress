@@ -171,7 +171,7 @@
 					break;
 				case 'video/flv':
 				case 'video/x-flv':
-					shortcode.flv = attachment.url
+					shortcode.flv = attachment.url;
 					break;
 				}
 			}
