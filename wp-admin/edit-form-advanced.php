@@ -179,8 +179,6 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'show_po
 		if ( $post_format == $slug ) {
 			$class = 'class="active"';
 			$active_post_type_slug = $slug;
-			$active_post_type_label = ucfirst( $slug );
-			$active_post_format_description = $attr['description'];
 		}
 
 		$post_format_options .= '<a ' . $class . ' href="?format=' . $slug . '" data-description="' . $attr['description'] . '" data-wp-format="' . $slug . '" title="' . ucfirst( sprintf( __( '%s Post' ), $slug ) ) . '"><div class="' . $slug . '"></div></a>';
