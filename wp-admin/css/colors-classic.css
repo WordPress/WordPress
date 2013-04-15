@@ -1459,21 +1459,20 @@ div.wp-menu-image {
 
 /* Diff */
 table.diff .diff-deletedline {
-	background-color: #ffe5e6;
-	color: #8b0012;
+	background-color: #fdd;
 	text-decoration: line-through;
 }
 
 table.diff .diff-deletedline del {
-	background-color: #ffe5e6;
+	background-color: #ffaaaa;
 }
 
 table.diff .diff-addedline {
-	background-color: #e9f6ea;
+	background-color: #dfd;
 }
 
 table.diff .diff-addedline ins {
-	background-color: #e9f6ea;
+	background-color: #aaffaa;
 }
 
 .diff-header {
