@@ -3612,6 +3612,14 @@ table.diff .diff-addedline ins {
 	width: 95%;
 }
 
+#diff-title-to strong {
+	display: none;
+}
+
+.comparing-two-revisions #diff-title-to strong {
+	display: inline;
+}
+
 .diff-slider-ticks-wrapper {
 	margin: 0 auto;
 	text-align: center;
@@ -3621,6 +3629,12 @@ table.diff .diff-addedline ins {
 	position: absolute;
 	z-index: 1;
 	margin-top: 20px;
+}
+
+.diff-label {
+	margin: 20px 0 5px;
+	padding-left: 3px;
+	font-size: 13px;
 }
 
 .diff-header {
@@ -3642,38 +3656,15 @@ table.diff .diff-addedline ins {
 
 .diff-title img {
 	vertical-align: middle;
+	margin-left: 5px;
 }
 
 #restore-revision {
 	margin-left: 10px;
 }
 
-.diff-col-titles {
-	font-size: 16px;
-	width: 100%;
-	margin: 20px 0 10px;
-}
-
-.diff-col-title-added,
-.diff-col-title-removed {
-	width: auto;
-	text-align: left;
-	float: left;
-	width: 48%;
-}
-
-.diff-col-title-added span,
-.diff-col-title-removed span {
-	padding: .5em;
-}
-
-.diff-col-title-added {
-	float: right;
- 	color: #00a100;
-}
-
-.diff-col-title-removed {
-	color: #d2281f;
+#diff-table {
+	margin-top: 20px;
 }
 
 .comparing-two-revisions #diff-previous-revision,

@@ -1398,6 +1398,10 @@ table.diff .diff-addedline ins {
 	background-color: #aaa;
 }
 
+.diff-label {
+	color: #666;
+}
+
 body .ui-tooltip {
 	border-color: #d7d7d7;
 	background-color: #fff;

@@ -1495,6 +1495,10 @@ table.diff .diff-addedline ins {
 	background-color: #aaa;
 }
 
+.diff-label {
+	color: #666;
+}
+
 /* jQuery UI Slider */
 .wp-slider.ui-slider {
 	border-color: #d1e5ee;

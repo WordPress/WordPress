@@ -2135,7 +2135,7 @@ function wp_ajax_revisions_data() {
 		$lines_added = $lines_deleted = 0;
 		$content = '';
 		//compare from left to right, passed from application
-		foreach ( array_keys( _wp_post_revision_fields() ) as $field ) {
+		foreach ( _wp_post_revision_fields() as $field => $field_value ) {
 			$left_content = apply_filters( "_wp_post_revision_field_$field", $left_revision->$field, $field, $left_revision, 'left' );
 			$right_content = apply_filters( "_wp_post_revision_field_$field", $right_revision->$field, $field, $right_revision, 'right' );
 
@@ -2149,8 +2149,10 @@ function wp_ajax_revisions_data() {
 			// compare_to == 0 means first revision, so compare to a blank field to show whats changed
 			$diff = wp_text_diff_with_count( ( 0 == $compare_to ) ? '' : $left_content, $right_content, $args );
 
-			if ( isset( $diff[ 'html' ] ) )
+			if ( isset( $diff[ 'html' ] ) ) {
+				$content .= sprintf( '<div class="diff-label">%s</div>', $field_value );
 				$content .= $diff[ 'html' ];
+			}
 
 			if ( isset( $diff[ 'lines_added' ] ) )
 				$lines_added = $lines_added + $diff[ 'lines_added' ];

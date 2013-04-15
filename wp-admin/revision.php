@@ -141,13 +141,7 @@ require_once( './admin-header.php' );
 		<input type="button" id="restore-revision" class="button button-primary" data-restore-link="{{{ data.restoreLink }}}" value="<?php esc_attr_e( 'Restore This Revision' )?>" />
 	</div>
 
-	<div class="diff-col-titles">
-		<div class="diff-col-title-removed"><span><?php _e( 'Removed -' ); ?></span></div>
-		<div class="diff-col-title-added"><span><?php _e( 'Added +' ); ?></span></div>
-		<div class="clear"></div>
-	</div>
-
-	<div>{{{ data.diff }}}</div>
+	<div id="diff-table">{{{ data.diff }}}</div>
 </script>
 
 <script id="tmpl-revision-interact" type="text/html">
