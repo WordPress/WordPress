@@ -1325,6 +1325,8 @@ function wp_maybe_load_embeds() {
 	if ( ! apply_filters( 'load_default_embeds', true ) )
 		return;
 	wp_embed_register_handler( 'googlevideo', '#http://video\.google\.([A-Za-z.]{2,5})/videoplay\?docid=([\d-]+)(.*?)#i', 'wp_embed_handler_googlevideo' );
+	wp_embed_register_handler( 'audio', '#^https?://.+?\.(' . join( '|', wp_get_audio_extensions() ) . ')$#i', apply_filters( 'wp_audio_embed_handler', 'wp_embed_handler_audio' ), 9999 );
+	wp_embed_register_handler( 'video', '#^https?://.+?\.(' . join( '|', wp_get_video_extensions() ) . ')$#i', apply_filters( 'wp_video_embed_handler', 'wp_embed_handler_video' ), 9999 );
 }
 
 /**
@@ -1349,6 +1351,57 @@ function wp_embed_handler_googlevideo( $matches, $attr, $url, $rawattr ) {
 	}
 
 	return apply_filters( 'embed_googlevideo', '<embed type="application/x-shockwave-flash" src="http://video.google.com/googleplayer.swf?docid=' . esc_attr($matches[2]) . '&amp;hl=en&amp;fs=true" style="width:' . esc_attr($width) . 'px;height:' . esc_attr($height) . 'px" allowFullScreen="true" allowScriptAccess="always" />', $matches, $attr, $url, $rawattr );
+}
+
+/**
+ * Audio embed handler callback.
+ *
+ * @since 3.6.0
+ *
+ * @param array $matches The regex matches from the provided regex when calling {@link wp_embed_register_handler()}.
+ * @param array $attr Embed attributes.
+ * @param string $url The original URL that was matched by the regex.
+ * @param array $rawattr The original unmodified attributes.
+ * @return string The embed HTML.
+ */
+function wp_embed_handler_audio( $matches, $attr, $url, $rawattr ) {
+	$audio = $url;
+	if ( shortcode_exists( 'audio' ) )
+		$audio = do_shortcode( '[audio src="' . $url . '" /]' );
+	return apply_filters( 'wp_embed_handler_audio', $audio, $attr, $url, $rawattr );
+}
+
+/**
+ * Video embed handler callback.
+ *
+ * @since 3.6.0
+ *
+ * @param array $matches The regex matches from the provided regex when calling {@link wp_embed_register_handler()}.
+ * @param array $attr Embed attributes.
+ * @param string $url The original URL that was matched by the regex.
+ * @param array $rawattr The original unmodified attributes.
+ * @return string The embed HTML.
+ */
+function wp_embed_handler_video( $matches, $attr, $url, $rawattr ) {
+	$dimensions = '';
+	$video = $url;
+	if ( shortcode_exists( 'video' ) ) {
+		if ( ! empty( $rawattr['width'] ) && ! empty( $rawattr['height'] ) ) {
+			$dimensions .= sprintf( 'width="%d" ', (int) $rawattr['width'] );
+			$dimensions .= sprintf( 'height="%d" ', (int) $rawattr['height'] );
+		} elseif ( strstr( $url, home_url() ) ) {
+			$id = attachment_url_to_postid( $url );
+			if ( ! empty( $id ) ) {
+				$meta = wp_get_attachment_metadata( $id );
+				if ( ! empty( $meta['width'] ) )
+					$dimensions .= sprintf( 'width="%d" ', (int) $meta['width'] );
+				if ( ! empty( $meta['height'] ) )
+					$dimensions .= sprintf( 'height="%d" ', (int) $meta['height'] );
+			}
+		}
+		$video = do_shortcode( '[video ' . $dimensions . 'src="' . $url . '" /]' );
+	}
+	return apply_filters( 'wp_embed_handler_video', $video, $attr, $url, $rawattr );
 }
 
 /**
@@ -1993,59 +2046,6 @@ function get_content_video( &$content, $html = true, $remove = false ) {
 function get_embedded_video( &$content, $remove = false ) {
 	return get_embedded_media( 'video', $content, $remove );
 }
-
-/**
- * Audio embed handler callback.
- *
- * @since 3.6.0
- *
- * @param array $matches The regex matches from the provided regex when calling {@link wp_embed_register_handler()}.
- * @param array $attr Embed attributes.
- * @param string $url The original URL that was matched by the regex.
- * @param array $rawattr The original unmodified attributes.
- * @return string The embed HTML.
- */
-function wp_audio_embed( $matches, $attr, $url, $rawattr ) {
-	$audio = $url;
-	if ( shortcode_exists( 'audio' ) )
-		$audio = do_shortcode( '[audio src="' . $url . '" /]' );
-	return apply_filters( 'wp_audio_embed', $audio, $attr, $url, $rawattr );
-}
-wp_embed_register_handler( 'wp_audio_embed', '#https?://.+?\.(' . join( '|', wp_get_audio_extensions() ) . ')#i', apply_filters( 'wp_audio_embed_handler', 'wp_audio_embed' ), 9999 );
-
-/**
- * Video embed handler callback.
- *
- * @since 3.6.0
- *
- * @param array $matches The regex matches from the provided regex when calling {@link wp_embed_register_handler()}.
- * @param array $attr Embed attributes.
- * @param string $url The original URL that was matched by the regex.
- * @param array $rawattr The original unmodified attributes.
- * @return string The embed HTML.
- */
-function wp_video_embed( $matches, $attr, $url, $rawattr ) {
-	$dimensions = '';
-	$video = $url;
-	if ( shortcode_exists( 'video' ) ) {
-		if ( ! empty( $rawattr['width'] ) && ! empty( $rawattr['height'] ) ) {
-			$dimensions .= sprintf( 'width="%d" ', (int) $rawattr['width'] );
-			$dimensions .= sprintf( 'height="%d" ', (int) $rawattr['height'] );
-		} elseif ( strstr( $url, home_url() ) ) {
-			$id = attachment_url_to_postid( $url );
-			if ( ! empty( $id ) ) {
-				$meta = wp_get_attachment_metadata( $id );
-				if ( ! empty( $meta['width'] ) )
-					$dimensions .= sprintf( 'width="%d" ', (int) $meta['width'] );
-				if ( ! empty( $meta['height'] ) )
-					$dimensions .= sprintf( 'height="%d" ', (int) $meta['height'] );
-			}
-		}
-		$video = do_shortcode( '[video ' . $dimensions . 'src="' . $url . '" /]' );
-	}
-	return apply_filters( 'wp_video_embed', $video, $attr, $url, $rawattr );
-}
-wp_embed_register_handler( 'wp_video_embed', '#https?://.+?\.(' . join( '|', wp_get_video_extensions() ) . ')#i', apply_filters( 'wp_video_embed_handler', 'wp_video_embed' ), 9999 );
 
 /**
  * Return suitable HTML code for output based on the content related to the global $post
