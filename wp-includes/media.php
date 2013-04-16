@@ -2414,15 +2414,17 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 	if ( ! empty( $medias ) ) {
 		$media = reset( $medias );
 		$sizes = get_intermediate_image_sizes();
+		$sizes[] = 'full'; // Add original image source.
 
 		$urls = array();
 		foreach ( $sizes as $size ) {
 			$image = wp_get_attachment_image_src( $media->ID, $size );
-			if ( $image ) {
+			if ( $image )
 				$urls[] = reset( $image );
-				$urls[] = get_attachment_link( $media->ID );
-			}
 		}
+
+		// Add media permalink.
+		$urls[] = get_attachment_link( $media->ID );
 
 		$count = 1;
 		$matches = array();
