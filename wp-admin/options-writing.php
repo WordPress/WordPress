@@ -125,7 +125,7 @@ do_settings_fields('writing', 'remote_publishing'); // A deprecated section.
 </div>
 
 <?php if ( apply_filters( 'enable_post_by_email_configuration', true ) ) { ?>
-<h3><?php _e('Post via e-mail') ?></h3>
+<h3 class="title"><?php _e('Post via e-mail') ?></h3>
 <p><?php printf(__('To post to WordPress by e-mail you must set up a secret e-mail account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <kbd>%s</kbd>, <kbd>%s</kbd>, <kbd>%s</kbd>.'), wp_generate_password(8, false), wp_generate_password(8, false), wp_generate_password(8, false)) ?></p>
 
 <table class="form-table">
@@ -159,7 +159,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 <?php } ?>
 
 <?php if ( apply_filters( 'enable_update_services_configuration', true ) ) { ?>
-<h3><?php _e('Update Services') ?></h3>
+<h3 class="title"><?php _e('Update Services') ?></h3>
 
 <?php if ( 1 == get_option('blog_public') ) : ?>
 

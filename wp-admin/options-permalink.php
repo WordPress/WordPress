@@ -188,7 +188,7 @@ $structures = array(
 	4 => $prefix . '/%postname%/',
 );
 ?>
-<h3><?php _e('Common Settings'); ?></h3>
+<h3 class="title"><?php _e('Common Settings'); ?></h3>
 <table class="form-table permalink-structure">
 	<tr>
 		<th><label><input name="selection" type="radio" value="" <?php checked('', $permalink_structure); ?> /> <?php _e('Default'); ?></label></th>
@@ -223,7 +223,7 @@ $structures = array(
 	</tr>
 </table>
 
-<h3><?php _e('Optional'); ?></h3>
+<h3 class="title"><?php _e('Optional'); ?></h3>
 <?php
 $suffix = '';
 if ( ! $is_apache && ! $iis7_permalinks )

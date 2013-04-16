@@ -46,7 +46,7 @@ include('./admin-header.php');
 <form action="options.php" method="post">
 <?php settings_fields('media'); ?>
 
-<h3><?php _e('Image sizes') ?></h3>
+<h3 class="title"><?php _e('Image sizes') ?></h3>
 <p><?php _e('The sizes listed below determine the maximum dimensions in pixels to use when inserting an image into the body of a post.'); ?></p>
 
 <table class="form-table">
@@ -86,14 +86,14 @@ include('./admin-header.php');
 </table>
 
 <?php if ( isset( $GLOBALS['wp_settings']['media']['embeds'] ) ) : ?>
-<h3><?php _e('Embeds') ?></h3>
+<h3 class="title"><?php _e('Embeds') ?></h3>
 <table class="form-table">
 <?php do_settings_fields( 'media', 'embeds' ); ?>
 </table>
 <?php endif; ?>
 
 <?php if ( !is_multisite() ) : ?>
-<h3><?php _e('Uploading Files'); ?></h3>
+<h3 class="title"><?php _e('Uploading Files'); ?></h3>
 <table class="form-table">
 <?php
 // If upload_url_path is not the default (empty), and upload_path is not the default ('wp-content/uploads' or empty)
