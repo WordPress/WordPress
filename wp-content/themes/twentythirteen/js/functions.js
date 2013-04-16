@@ -5,12 +5,13 @@
  */
 
 ( function( $ ) {
-	var html          = $( 'html' ),
-	    body          = $( 'body' ),
-	    navbar        = $( '#navbar' ),
-	    _window       = $( window ),
-	    navbarOffset  = -1,
-	    toolbarOffset = body.is( '.admin-bar' ) ? 28 : 0,
+	var html               = $( 'html' ),
+	    body               = $( 'body' ),
+	    navbar             = $( '#navbar' ),
+	    _window            = $( window ),
+	    toolbarOffset      = body.is( '.admin-bar' ) ? 28 : 0,
+	    navbarOffset       = navbar.offset().top - toolbarOffset,
+	    scrollOffsetMethod = ( typeof window.scrollY === 'undefined' ),
 	    adjustFooter,
 	    adjustAnchor;
 
@@ -48,16 +49,16 @@
 	/**
 	 * Displays the fixed navbar based on screen position.
 	 */
-	_window.on( 'scroll.twentythirteen', function() {
-		var scrollOffset = ( typeof window.scrollY === 'undefined' ) ? document.documentElement.scrollTop : window.scrollY;
-		if ( navbarOffset < 0 )
-			navbarOffset = navbar.offset().top - toolbarOffset;
-
-		if ( scrollOffset >= navbarOffset && _window.innerWidth() > 644 )
-			html.addClass( 'navbar-fixed' );
-		else
-			html.removeClass( 'navbar-fixed' );
-	} );
+	if ( _window.innerWidth() > 644 ) {
+		_window.on( 'scroll.twentythirteen', function() {
+			var scrollOffset = scrollOffsetMethod ? document.documentElement.scrollTop : window.scrollY;
+	
+			if ( scrollOffset > navbarOffset )
+				html.addClass( 'navbar-fixed' );
+			else
+				html.removeClass( 'navbar-fixed' );
+		} );
+	}
 
 	/**
 	 * Allows clicking the navbar to scroll to top.
