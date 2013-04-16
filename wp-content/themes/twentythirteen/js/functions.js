@@ -11,44 +11,44 @@
 	    _window       = $( window ),
 	    navbarOffset  = -1,
 	    toolbarOffset = body.is( '.admin-bar' ) ? 28 : 0,
+	    adjustFooter,
+	    adjustAnchor;
 
-	    twentyThirteen = {
-		/**
-		 * Adds a top margin to the footer if the sidebar widget area is
-		 * higher than the rest of the page, to help the footer always
-		 * visually clear the sidebar.
-		 */
-		adjustFooter : function() {
-			var sidebar   = $( '#secondary .widget-area' ),
-			    secondary = ( 0 == sidebar.length ) ? -40 : sidebar.height(),
-			    margin    = $( '#tertiary .widget-area' ).height() - $( '#content' ).height() - secondary;
+	/**
+	 * Adds a top margin to the footer if the sidebar widget area is
+	 * higher than the rest of the page, to help the footer always
+	 * visually clear the sidebar.
+	 */
+	adjustFooter = function() {
+		var sidebar   = $( '#secondary .widget-area' ),
+		    secondary = ( 0 == sidebar.length ) ? -40 : sidebar.height(),
+		    margin    = $( '#tertiary .widget-area' ).height() - $( '#content' ).height() - secondary;
 
-			if ( margin > 0 && _window.innerWidth() > 999 )
-				$( '#colophon' ).css( 'margin-top', margin + 'px' );
-		},
+		if ( margin > 0 && _window.innerWidth() > 999 )
+			$( '#colophon' ).css( 'margin-top', margin + 'px' );
+	};
 
-		/**
-		 * Repositions the window on jump-to-anchor to account for navbar
-		 * height.
-		 */
-		adjustAnchor : function() {
-			if ( window.location.hash )
-				window.scrollBy( 0, -49 );
-		}
+	/**
+	 * Repositions the window on jump-to-anchor to account for navbar
+	 * height.
+	 */
+	adjustAnchor = function() {
+		if ( window.location.hash )
+			window.scrollBy( 0, -49 );
 	};
 
 	$( function() {
-		twentyThirteen.adjustAnchor();
+		adjustAnchor();
 
 		if ( body.is( '.sidebar' ) )
-			twentyThirteen.adjustFooter();
+			adjustFooter();
 	} );
-	_window.on( 'hashchange', twentyThirteen.adjustAnchor );
+	_window.on( 'hashchange.twentythirteen', adjustAnchor );
 
 	/**
 	 * Displays the fixed navbar based on screen position.
 	 */
-	_window.scroll( function() {
+	_window.on( 'scroll.twentythirteen', function() {
 		var scrollOffset = ( typeof window.scrollY === 'undefined' ) ? document.documentElement.scrollTop : window.scrollY;
 		if ( navbarOffset < 0 )
 			navbarOffset = navbar.offset().top - toolbarOffset;
@@ -62,7 +62,7 @@
 	/**
 	 * Allows clicking the navbar to scroll to top.
 	 */
-	navbar.on( 'click', function( event ) {
+	navbar.on( 'click.twentythirteen', function( event ) {
 		// Ensure that the navbar element was the target of the click.
 		if ( 'navbar' == event.target.id  || 'site-navigation' == event.target.id )
 			$( 'html, body' ).animate( { scrollTop: 0 }, 'fast' );
@@ -87,11 +87,10 @@
 			return;
 		}
 
-		$( '.menu-toggle' ).on( 'click', function() {
+		$( '.menu-toggle' ).on( 'click.twentythirteen', function() {
 			nav.toggleClass( 'toggled-on' );
 		} );
 	} )();
-
 
 	/**
 	 * Makes "skip to content" link work correctly in IE9 and Chrome for better
@@ -99,7 +98,7 @@
 	 *
 	 * @link http://www.nczonline.net/blog/2013/01/15/fixing-skip-to-content-links/
 	 */
-	_window.on( 'hashchange', function() {
+	_window.on( 'hashchange.twentythirteen', function() {
 		var element = $( location.hash );
 
 		if ( element ) {
