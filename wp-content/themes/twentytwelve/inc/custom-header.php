@@ -76,7 +76,7 @@ function twentytwelve_header_style() {
 
 	// If we get this far, we have custom styles.
 	?>
-	<style type="text/css">
+	<style type="text/css" id="twentytwelve-header-css">
 	<?php
 		// Has the text been hidden?
 		if ( ! display_header_text() ) :
@@ -107,7 +107,7 @@ function twentytwelve_header_style() {
  */
 function twentytwelve_admin_header_style() {
 ?>
-	<style type="text/css">
+	<style type="text/css" id="twentytwelve-header-css">
 	.appearance_page_custom-header #headimg {
 		border: none;
 		font-family: "Open Sans", ​Helvetica,​ Arial, ​sans-serif;
