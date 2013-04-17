@@ -2074,21 +2074,22 @@ function get_the_post_format_media( $type, &$post = null, $limit = 0 ) {
 
 	if ( has_post_format( $type, $post ) ) {
 		$meta = get_post_format_meta( $post->ID );
-		if ( ! empty( $meta[$type] ) ) {
-			if ( is_integer( $meta[$type] ) ) {
-				$url = wp_get_attachment_url( $meta[$type] );
+		if ( ! empty( $meta[$type . '_embed'] ) ) {
+			$value = $meta[$type . '_embed'];
+			if ( is_integer( $value ) ) {
+				$url = wp_get_attachment_url( $value );
 				$shortcode = sprintf( '[%s src="%s"]', $type, $url );
-			} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $meta[$type] ) ) {
-				$shortcode = $meta[$type];
-			} elseif ( preg_match( '#<[^>]+>#', $meta[$type] ) ) {
-				$post->format_content = $meta[$type];
+			} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $value ) ) {
+				$shortcode = $value;
+			} elseif ( preg_match( '#<[^>]+>#', $value ) ) {
+				$post->format_content = $value;
 				return $post->format_content;
-			} elseif ( 0 === strpos( $meta[$type], 'http' ) ) {
-				$post->split_content = str_replace( $meta[$type], '', $post->post_content, $count );
-				if ( strstr( $meta[$type], home_url() ) ) {
-					$shortcode = sprintf( '[%s src="%s"]', $type, $meta[$type] );
+			} elseif ( 0 === strpos( $value, 'http' ) ) {
+				$post->split_content = str_replace( $value, '', $post->post_content, $count );
+				if ( strstr( $value, home_url() ) ) {
+					$shortcode = sprintf( '[%s src="%s"]', $type, $value );
 				} else {
-					$post->format_content = $wp_embed->autoembed( $meta[$type] );
+					$post->format_content = $wp_embed->autoembed( $value );
 					return $post->format_content;
 				}
 			}

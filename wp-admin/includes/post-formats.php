@@ -11,28 +11,30 @@ $format_meta = get_post_format_meta( $post_ID );
 
 	<div class="field wp-format-quote">
 		<label for="wp_format_quote"><?php _e( 'Quote' ); ?></label>
-		<textarea id="wp_format_quote" name="_wp_format_quote" class="widefat"><?php echo esc_textarea( $format_meta['quote'] ); ?></textarea>
+		<textarea id="wp_format_quote" name="_format_quote" class="widefat"><?php echo esc_textarea( $format_meta['quote'] ); ?></textarea>
 	</div>
 
 	<div class="field wp-format-quote">
 		<label for="wp_format_quote_source"><?php _e( 'Quote source' ); ?></label>
-		<input type="text" id="wp_format_quote_source" name="_wp_format_quote_source" value="<?php echo esc_attr( $format_meta['quote_source'] ); ?>" class="widefat" />
+		<input type="text" id="wp_format_quote_source" name="_format_quote_source_name" value="<?php echo esc_attr( $format_meta['quote_source_name'] ); ?>" class="widefat" />
 	</div>
 
 	<div class="field wp-format-image">
-		<?php if ( ! empty( $format_meta['image'] ) ) : ?>
+		<?php if ( ! empty( $format_meta['image'] ) ) :
+			$value = $format_meta['image'];
+		?>
 		<div id="image-preview" class="wp-format-media-preview">
 			<?php
-				if ( is_numeric( $format_meta['image'] ) ) {
-					$format_meta['image'] = absint( $format_meta['image'] );
+				if ( is_numeric( $value ) ) {
+					$format_meta['image'] = absint( $value );
 					$image = wp_get_attachment_url( $format_meta['image'] );
 					printf( '<img src="%s" alt="%s" />', esc_url( $image ), get_the_title( $format_meta['image'] ) );
-				} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $format_meta['image'] ) ) {
-					echo do_shortcode( $format_meta['image'] );
-				} elseif ( ! preg_match( '#<[^>]+>#', $format_meta['image'] ) ) {
-					printf( '<img src="%s" alt="" />', esc_url( $format_meta['image'] ) );
+				} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $value ) ) {
+					echo do_shortcode( $value );
+				} elseif ( ! preg_match( '#<[^>]+>#', $value ) ) {
+					printf( '<img src="%s" alt="" />', esc_url( $value ) );
 				} else {
-					echo $format_meta['image'];
+					echo $value;
 				}
 			?>
 		</div>
@@ -43,7 +45,7 @@ $format_meta = get_post_format_meta( $post_ID );
 			else
 				_e( 'Image URL' );
 		?></label>
-		<textarea id="wp_format_image" type="text" name="_wp_format_image" class="widefat"><?php esc_html_e( $format_meta['image'] ); ?></textarea>
+		<textarea id="wp_format_image" type="text" name="_format_image" class="widefat"><?php esc_html_e( $format_meta['image'] ); ?></textarea>
 		<div data-format="image" class="wp-format-media-holder hide-if-no-js">
 			<a href="#" class="wp-format-media-select"
 				data-choose="<?php esc_attr_e( 'Choose an Image' ); ?>"
@@ -53,27 +55,39 @@ $format_meta = get_post_format_meta( $post_ID );
 		</div>
 	</div>
 
-	<div class="field wp-format-link wp-format-quote wp-format-image">
-		<label for="wp_format_url"><?php _e( 'Link URL' ); ?></label>
-		<input type="text" id="wp_format_url" name="_wp_format_url" value="<?php echo esc_url( $format_meta['url'] ); ?>" class="widefat" />
+	<div class="field wp-format-link">
+		<label for="wp_format_link_url"><?php _e( 'Link URL' ); ?></label>
+		<input type="text" id="wp_format_link_url" name="_format_link_url" value="<?php echo esc_url( $format_meta['link_url'] ); ?>" class="widefat" />
+	</div>
+
+	<div class="field wp-format-quote">
+		<label for="wp_format_quote_source_url"><?php _e( 'Link URL' ); ?></label>
+		<input type="text" id="wp_format_quote_source_url" name="_format_quote_source_url" value="<?php echo esc_url( $format_meta['quote_source_url'] ); ?>" class="widefat" />
+	</div>
+
+	<div class="field wp-format-image">
+		<label for="wp_format_image_url"><?php _e( 'Link URL' ); ?></label>
+		<input type="text" id="wp_format_image_url" name="_format_url" value="<?php echo esc_url( $format_meta['url'] ); ?>" class="widefat" />
 	</div>
 
 	<div class="field wp-format-video">
-		<?php if ( ! empty( $format_meta['video'] ) ): ?>
+		<?php if ( ! empty( $format_meta['video_embed'] ) ):
+			$value = $format_meta['video_embed'];
+		?>
 		<div id="video-preview" class="wp-format-media-preview">
 			<?php
-				if ( is_numeric( $format_meta['video'] ) ) {
-					$url = wp_get_attachment_url( $format_meta['video'] );
+				if ( is_numeric( $value ) ) {
+					$url = wp_get_attachment_url( $value );
 					echo do_shortcode( sprintf( '[video src="%s"]', $url ) );
-				} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $format_meta['video'] ) ) {
-					echo do_shortcode( $format_meta['video'] );
-				} elseif ( ! preg_match( '#<[^>]+>#', $format_meta['video'] ) ) {
-					if ( strstr( $format_meta['video'], home_url() ) )
-						echo do_shortcode( sprintf( '[video src="%s"]', $format_meta['video'] ) );
+				} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $value ) ) {
+					echo do_shortcode( $value );
+				} elseif ( ! preg_match( '#<[^>]+>#', $value ) ) {
+					if ( strstr( $value, home_url() ) )
+						echo do_shortcode( sprintf( '[video src="%s"]', $value ) );
 					else
-						echo $wp_embed->autoembed( $format_meta['video'] );
+						echo $wp_embed->autoembed( $value );
 				} else {
-					echo $format_meta['video'];
+					echo $value;
 				}
 			?>
 		</div>
@@ -84,7 +98,7 @@ $format_meta = get_post_format_meta( $post_ID );
 			else
 				_e( 'Video URL' );
 		?></label>
-		<textarea id="wp_format_video" type="text" name="_wp_format_video" class="widefat"><?php esc_html_e( $format_meta['video'] ); ?></textarea>
+		<textarea id="wp_format_video" type="text" name="_format_video_embed" class="widefat"><?php esc_html_e( $format_meta['video_embed'] ); ?></textarea>
 		<div data-format="video" class="wp-format-media-holder hide-if-no-js">
 			<a href="#" class="wp-format-media-select"
 				data-choose="<?php esc_attr_e( 'Choose a Video' ); ?>"
@@ -95,21 +109,23 @@ $format_meta = get_post_format_meta( $post_ID );
 	</div>
 
 	<div class="field wp-format-audio">
-		<?php if ( ! empty( $format_meta['audio'] ) ): ?>
+		<?php if ( ! empty( $format_meta['audio_embed'] ) ):
+			$value = $format_meta['audio_embed'];
+		?>
 		<div id="audio-preview" class="wp-format-media-preview">
 			<?php
-				if ( is_numeric( $format_meta['audio'] ) ) {
-					$url = wp_get_attachment_url( $format_meta['audio'] );
+				if ( is_numeric( $value ) ) {
+					$url = wp_get_attachment_url( $value );
 					echo do_shortcode( sprintf( '[audio src="%s"]', $url ) );
-				} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $format_meta['audio'] ) ) {
-					echo do_shortcode( $format_meta['audio'] );
-				} elseif ( ! preg_match( '#<[^>]+>#', $format_meta['audio'] ) ) {
-					if ( strstr( $format_meta['audio'], home_url() ) )
-						echo do_shortcode( sprintf( '[audio src="%s"]', $format_meta['audio'] ) );
+				} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $value ) ) {
+					echo do_shortcode( $value );
+				} elseif ( ! preg_match( '#<[^>]+>#', $value ) ) {
+					if ( strstr( $value, home_url() ) )
+						echo do_shortcode( sprintf( '[audio src="%s"]', $value ) );
 					else
-						echo $wp_embed->autoembed( $format_meta['audio'] );
+						echo $wp_embed->autoembed( $value );
 				} else {
-					echo $format_meta['audio'];
+					echo $value;
 				}
 			?>
 		</div>
@@ -120,7 +136,7 @@ $format_meta = get_post_format_meta( $post_ID );
 			else
 				_e( 'Audio URL' );
 		?></label>
-		<textarea id="wp_format_audio" name="_wp_format_audio" class="widefat"><?php esc_html_e( $format_meta['audio'] ); ?></textarea>
+		<textarea id="wp_format_audio" name="_format_audio_embed" class="widefat"><?php esc_html_e( $format_meta['audio_embed'] ); ?></textarea>
 		<div data-format="audio" class="wp-format-media-holder hide-if-no-js">
 			<a href="#" class="wp-format-media-select" data-choose="<?php esc_attr_e( 'Choose Audio' ); ?>" data-update="<?php esc_attr_e( 'Select Audio' ); ?>">
 				<?php _e( 'Select Audio From Media Library' ) ?>

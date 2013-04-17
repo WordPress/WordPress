@@ -1,9 +1,9 @@
 window.wp = window.wp || {};
 
 (function($) {
-	var container, mediaFrame, lastMimeType, lastMenu, mediaPreview,
-	    noUIFormats = ['standard', 'chat', 'status', 'aside', 'gallery'],
-	    $container  = $( '.post-formats-fields' );
+	var container, mediaFrame, lastMimeType, mediaPreview,
+		noUIFormats = ['standard', 'chat', 'status', 'aside', 'gallery'],
+		$container = $( '.post-formats-fields' );
 
 	function switchFormatClass( format ) {
 		container.get(0).className = container.get(0).className.replace( /\bwp-format-[^ ]+/g, '' );
@@ -76,9 +76,9 @@ window.wp = window.wp || {};
 		// Media selection
 		$('.wp-format-media-select').click(function(event) {
 			event.preventDefault();
-			var $el = $(this), mime,
-			    $holder = $el.closest('.wp-format-media-holder'),
-			    $field = $( '#wp_format_' + $holder.data('format') );
+			var $el = $(this), mime = 'image',
+				$holder = $el.closest('.wp-format-media-holder'),
+				$field = $( '#wp_format_' + $holder.data('format') );
 
 			mime = $holder.data('format');
 

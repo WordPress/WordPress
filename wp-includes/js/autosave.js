@@ -367,7 +367,7 @@ wp.autosave.getPostData = function() {
 	post_format = $('#post_format').val() || '';
 	data['post_format'] = post_format == 'standard' ? '' : post_format;
 
-	$('.post-formats-fields').find('input[name^="_wp_format_"], textarea[name^="_wp_format_"]').each( function(i, field) {
+	$('.post-formats-fields').find('input[name^="_format_"], textarea[name^="_format_"]').each( function(i, field) {
 		data[ field.name ] = field.value || '';
 	});
 

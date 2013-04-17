@@ -68,13 +68,15 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
  */
 function _wp_post_revision_meta_keys() {
 	return array(
-		'_wp_format_url',
-		'_wp_format_quote',
-		'_wp_format_quote_source',
-		'_wp_format_image',
-		'_wp_format_gallery',
-		'_wp_format_audio',
-		'_wp_format_video',
+		'_format_url',
+		'_format_link_url',
+		'_format_quote_source_url',
+		'_format_quote_source_name',
+		'_format_quote',
+		'_format_image',
+		'_format_gallery',
+		'_format_audio_embed',
+		'_format_video_embed',
 	);
 }
 

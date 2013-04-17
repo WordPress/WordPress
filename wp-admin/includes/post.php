@@ -192,22 +192,25 @@ function edit_post( $post_data = null ) {
 	}
 
 	// Post Formats
-	if ( isset( $post_data['post_format'] ) ) {
+	if ( isset( $post_data['post_format'] ) )
 		set_post_format( $post_ID, $post_data['post_format'] );
+
+	$format_meta_urls = array( 'url', 'link_url', 'quote_source_url' );
+	foreach ( $format_meta_urls as $format_meta_url ) {
+		$keyed = '_format_' . $format_meta_url;
+		if ( isset( $post_data[ $keyed ] ) )
+			update_post_meta( $post_ID, $keyed, wp_slash( esc_url_raw( wp_unslash( $post_data[ $keyed ] ) ) ) );
 	}
 
-	if ( isset( $post_data[ '_wp_format_url' ] ) ) {
-		update_post_meta( $post_ID, '_wp_format_url', wp_slash( esc_url_raw( wp_unslash( $post_data['_wp_format_url'] ) ) ) );
-	}
-
-	$format_keys = array( 'quote', 'quote_source', 'image', 'gallery', 'audio', 'video' );
+	$format_keys = array( 'quote', 'quote_source_name', 'image', 'gallery', 'audio_embed', 'video_embed' );
 
 	foreach ( $format_keys as $key ) {
-		if ( isset( $post_data[ '_wp_format_' . $key ] ) ) {
+		$keyed = '_format_' . $key;
+		if ( isset( $post_data[ $keyed ] ) ) {
 			if ( current_user_can( 'unfiltered_html' ) )
-				update_post_meta( $post_ID, '_wp_format_' . $key, $post_data[ '_wp_format_' . $key ] );
+				update_post_meta( $post_ID, $keyed, $post_data[ $keyed ] );
 			else
-				update_post_meta( $post_ID, '_wp_format_' . $key, wp_filter_post_kses( $post_data[ '_wp_format_' . $key ] ) );
+				update_post_meta( $post_ID, $keyed, wp_filter_post_kses( $post_data[ $keyed ] ) );
 		}
 	}
 

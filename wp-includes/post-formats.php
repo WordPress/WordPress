@@ -81,18 +81,44 @@ function set_post_format( $post, $format ) {
  * @return array The array of post format metadata.
  */
 function get_post_format_meta( $post_id = 0 ) {
-	$values = array(
-		'quote'        => '',
-		'quote_source' => '',
-		'url'          => '',
-		'image'        => '',
-		'gallery'      => '',
-		'audio'        => '',
-		'video'        => '',
+	$meta = get_post_meta( $post_id );
+	$keys = array( 'quote', 'quote_source_name', 'quote_source_url', 'link_url', 'gallery', 'audio_embed', 'video_embed', 'url', 'image' );
+
+	if ( empty( $meta ) )
+		return array_fill_keys( $keys, '' );
+
+	$upgrade = array(
+		'_wp_format_quote_source' => 'quote_source_name',
+		'_wp_format_audio' => 'audio_embed',
+		'_wp_format_video' => 'video_embed'
 	);
 
-	foreach ( $values as $key => $value )
-		$values[$key] = get_post_meta( $post_id, '_wp_format_' . $key, true );
+	$format = get_post_format( $post_id );
+	if ( ! empty( $format ) ) {
+		switch ( $format ) {
+		case 'link':
+			$upgrade['_wp_format_url'] = 'link_url';
+			break;
+		case 'quote':
+			$upgrade['_wp_format_url'] = 'quote_source_url';
+			break;
+		}
+	}
+
+	$upgrade_keys = array_keys( $upgrade );
+	foreach ( $meta as $key => $values ) {
+		if ( ! in_array( $key, $upgrade_keys ) )
+			continue;
+		update_post_meta( $post_id, '_format_' . $upgrade[$key], reset( $values ) );
+		delete_post_meta( $post_id, $key );
+	}
+
+	$values = array();
+
+	foreach ( $keys as $key ) {
+		$value = get_post_meta( $post_id, '_format_' . $key, true );
+		$values[$key] = empty( $value ) ? '' : $value;
+	}
 
 	return $values;
 }
@@ -324,11 +350,11 @@ function post_formats_compat( $content, $id = 0 ) {
 			$compat['tag'] = '';
 			$compat['position'] = 'before';
 
-			if ( ! empty( $meta['url'] ) ) {
-				$esc_url = preg_quote( $meta['url'], '#' );
+			if ( ! empty( $meta['link_url'] ) ) {
+				$esc_url = preg_quote( $meta['link_url'], '#' );
 				// Make sure the same URL isn't in the post (modified/extended versions allowed)
 				if ( ! preg_match( '#' . $esc_url . '[^/&\?]?#', $content ) ) {
-					$url = $meta['url'];
+					$url = $meta['link_url'];
 				} else {
 					$url = get_content_url( $content, true );
 				}
@@ -344,7 +370,7 @@ function post_formats_compat( $content, $id = 0 ) {
 					'<a %shref="%s">%s</a>',
 					empty( $compat['link_class'] ) ? '' : sprintf( 'class="%s" ', esc_attr( $compat['link_class'] ) ),
 					esc_url( $url ),
-					empty( $post->post_title ) ? esc_url( $meta['url'] ) : apply_filters( 'the_title', $post->post_title, $post->ID )
+					empty( $post->post_title ) ? esc_url( $meta['link_url'] ) : apply_filters( 'the_title', $post->post_title, $post->ID )
 				);
  			}
 			break;
@@ -375,8 +401,8 @@ function post_formats_compat( $content, $id = 0 ) {
 		case 'quote':
 			if ( ! empty( $meta['quote'] ) && ! stristr( $content, $meta['quote'] ) ) {
 				$quote = sprintf( '<blockquote>%s</blockquote>', wpautop( $meta['quote'] ) );
-				if ( ! empty( $meta['quote_source'] ) ) {
-					$source = ( empty( $meta['url'] ) ) ? $meta['quote_source'] : sprintf( '<a href="%s">%s</a>', esc_url( $meta['url'] ), $meta['quote_source'] );
+				if ( ! empty( $meta['quote_source_name'] ) ) {
+					$source = ( empty( $meta['quote_source_url'] ) ) ? $meta['quote_source_name'] : sprintf( '<a href="%s">%s</a>', esc_url( $meta['quote_source_url'] ), $meta['quote_source_name'] );
 					$quote .= sprintf( '<figcaption class="quote-caption">%s</figcaption>', $source );
 				}
 				$format_output .= sprintf( '<figure class="quote">%s</figure>', $quote );
@@ -385,17 +411,18 @@ function post_formats_compat( $content, $id = 0 ) {
 
 		case 'video':
 		case 'audio':
-			if ( ! has_shortcode( $post->post_content, $format ) && ! empty( $meta[$format] ) ) {
+			if ( ! has_shortcode( $post->post_content, $format ) && ! empty( $meta[$format . '_embed'] ) ) {
+				$value = $meta[$format . '_embed'];
 				// the metadata is an attachment ID
-				if ( is_numeric( $meta[$format] ) ) {
-					$url = wp_get_attachment_url( $meta[$format] );
+				if ( is_numeric( $value ) ) {
+					$url = wp_get_attachment_url( $value );
 					$format_output .= sprintf( '[%s src="%s"]', $format, $url );
 				// the metadata is a shortcode or an embed code
-				} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $meta[$format] ) || preg_match( '#<[^>]+>#', $meta[$format] ) ) {
-					$format_output .= $meta[$format];
-				} elseif ( ! stristr( $content, $meta[$format] ) ) {
+				} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $value ) || preg_match( '#<[^>]+>#', $value ) ) {
+					$format_output .= $value;
+				} elseif ( ! stristr( $content, $value ) ) {
 					// attempt to embed the URL
-					$format_output .= sprintf( '[embed]%s[/embed]', $meta[$format] );
+					$format_output .= sprintf( '[embed]%s[/embed]', $value );
 				}
 			}
 			break;
@@ -707,10 +734,28 @@ function get_the_post_format_url( $id = 0 ) {
 	if ( empty( $post ) )
 		return '';
 
-	if ( in_array( get_post_format( $post->ID ), array( 'image', 'link', 'quote' ) ) ) {
+	$format = get_post_format( $post->ID );
+	if ( in_array( $format, array( 'image', 'link', 'quote' ) ) ) {
 		$meta = get_post_format_meta( $post->ID );
-		if ( ! empty( $meta['url'] ) )
-			return apply_filters( 'get_the_post_format_url', esc_url_raw( $meta['url'] ), $post );
+		$meta_link = '';
+
+		switch ( $format ) {
+		case 'link':
+			if ( ! empty( $meta['link_url'] ) )
+				$meta_link = $meta['link_url'];
+			break;
+		case 'image':
+			if ( ! empty( $meta['url'] ) )
+				$meta_link = $meta['url'];
+			break;
+		case 'quote':
+			if ( ! empty( $meta['quote_source_url'] ) )
+				$meta_link = $meta['quote_source_url'];
+			break;
+		}
+
+		if ( ! empty( $meta_link ) )
+			return apply_filters( 'get_the_post_format_url', esc_url_raw( $meta_link ), $post );
 	}
 
 	if ( ! empty( $post->post_content ) )
