@@ -157,7 +157,7 @@ require_once( './admin-header.php' );
 </script>
 
 <script id="tmpl-revision-ticks" type="text/html">
-	<div class="revision-tick loading-{{{ data.revision_toload }}} scope-of-changes-{{{ data.scope_of_changes }}}"></div>
+	<div class="revision-tick completed-{{{ data.completed }}} scope-of-changes-{{{ data.scopeOfChanges }}}"></div>
 </script>
 <?php
 require_once( './admin-footer.php' );

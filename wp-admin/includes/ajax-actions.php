@@ -2164,8 +2164,8 @@ function wp_ajax_revisions_data() {
 
 		$all_the_revisions = array (
 			'diff'          => $content,
-			'lines_deleted' => $lines_deleted,
-			'lines_added'   => $lines_added
+			'linesDeleted' => $lines_deleted,
+			'linesAdded'   => $lines_added
 		);
 
 		echo json_encode( $all_the_revisions );
@@ -2273,14 +2273,13 @@ function wp_ajax_revisions_data() {
 
 		if ( ( $compare_two_mode || -1 !== $previous_revision_id ) ) {
 			$all_the_revisions[] = array (
-				'ID'                   => $revision->ID,
-				'titleTo'              => $revision_date_author,
-				'titleFrom'            => $revision_from_date_author,
-				'titleTooltip'         => $revision_date_author_short,
-				'restoreLink'          => urldecode( $restore_link ),
-				'revision_toload'      => true,
-				'previous_revision_id' => $previous_revision_id,
-				'is_current_revision'  => $is_current_revision,
+				'ID'           => $revision->ID,
+				'titleTo'      => $revision_date_author,
+				'titleFrom'    => $revision_from_date_author,
+				'titleTooltip' => $revision_date_author_short,
+				'restoreLink'  => urldecode( $restore_link ),
+				'previousID'   => $previous_revision_id,
+				'isCurrent'    => $is_current_revision,
 			);
 		}
 		$previous_revision_id = $revision->ID;

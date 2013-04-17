@@ -1483,14 +1483,14 @@ table.diff .diff-addedline ins {
 	color: #0080aa;
 }
 
-.revision-tick.loading-true {
+.revision-tick.completed-false {
 	background-color: #9999cc;
 	background: url(../images/wpspin_light.gif) no-repeat;
 	background-position: middle;
 	background-size: 1px 10px;
 }
 
-.revision-tick.loading-false {
+.revision-tick.completed-true {
 	background-color: #aaa;
 }
 
