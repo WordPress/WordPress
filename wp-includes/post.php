@@ -2655,12 +2655,9 @@ function wp_insert_post($postarr, $wp_error = false) {
 		$previous_status = 'new';
 	}
 
-	if ( empty( $post_format ) )
-		$post_format = '';
-
 	$maybe_empty = ! $post_content && ! $post_title && ! $post_excerpt && post_type_supports( $post_type, 'editor' )
 		&& post_type_supports( $post_type, 'title' ) && post_type_supports( $post_type, 'excerpt' )
-		&& ! in_array( $post_format, array( 'audio', 'video', 'quote', 'image' ) );
+		&& ! in_array( get_post_format( $post_ID ), array( 'audio', 'video', 'quote', 'image' ) );
 
 	if ( apply_filters( 'wp_insert_post_empty_content', $maybe_empty, $postarr ) ) {
 		if ( $wp_error )
