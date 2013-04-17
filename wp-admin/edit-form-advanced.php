@@ -128,6 +128,8 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 
 // post format
 $format_class = '';
+$post_format_set_class = '';
+$post_format_options = '';
 if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'show_post_format_ui', true, $post ) ) {
 	wp_enqueue_script( 'post-formats' );
 	wp_enqueue_script( 'wp-mediaelement' );
@@ -176,7 +178,6 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'show_po
 			'description' => __( 'Use the editor to share a quick thought or side topic.' )
 		)
 	);
-	$post_format_options = '';
 
 	foreach ( $all_post_formats as $slug => $attr ) {
 		$class = '';
