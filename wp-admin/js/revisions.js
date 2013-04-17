@@ -243,6 +243,24 @@ window.wp = window.wp || {};
 			this.reloadRight();
 		},
 
+		disabledButtonCheck: function( val ) {
+			var maxVal = this.revisions.length - 1,
+				next = $( '#next' ),
+				prev = $( '#previous' );
+
+			// Disable "Next" button if you're on the last node
+			if ( maxVal === val )
+				next.prop( 'disabled', true );
+			else
+				next.prop( 'disabled', false );
+
+			// Disable "Previous" button if you're on the 0 node
+			if ( 0 === val )
+				prev.prop( 'disabled', true );
+			else
+				prev.prop( 'disabled', false );
+		},
+
 		completeApplicationSetup: function() {
 			this.revisionView = new revisions.view.Diff({
 				model: this.revisions
@@ -293,6 +311,7 @@ window.wp = window.wp || {};
 			if ( this.singleRevision ) {
 				Diff.rightDiff = ( ui.value + 1 );
 				Diff.revisionView.render();
+				Diff.disabledButtonCheck( ui.value );
 			} else {
 				if ( ui.values[0] === ui.values[1] ) // prevent compare to self
 					return false;
@@ -416,6 +435,8 @@ window.wp = window.wp || {};
 			// Triggers the slide event
 			if ( slide )
 				$( '#diff-slider' ).trigger( 'slide' );
+
+			Diff.disabledButtonCheck( options.value );
 		},
 
 		option: function( key ) {

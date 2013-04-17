@@ -3628,7 +3628,7 @@ table.diff .diff-addedline ins {
 
 #diff-slider-ticks {
 	position: absolute;
-	z-index: 1;
+	z-index: 2;
 	margin-top: 20px;
 }
 

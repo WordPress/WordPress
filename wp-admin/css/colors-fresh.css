@@ -1385,7 +1385,7 @@ table.diff .diff-addedline ins {
 }
 
 .revision-tick.completed-true {
-	background-color: #aaa;
+	background-color: #d7d7d7;
 }
 
 .diff-label {
