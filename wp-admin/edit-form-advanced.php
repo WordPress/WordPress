@@ -133,19 +133,23 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'show_po
 	wp_enqueue_script( 'wp-mediaelement' );
 	wp_enqueue_style( 'wp-mediaelement' );
 	$post_format = get_post_format();
+	$post_format_set_class = 'post-format-set';
 
-	if ( ! $post_format )
+	if ( ! $post_format ) {
 		$post_format = 'standard';
+		if ( 'auto-draft' == $post->post_status )
+			$post_format_set_class = '';
+	}
 
 	$format_class = " class='wp-format-{$post_format}'";
 
 
 	$all_post_formats = array(
 		'standard' => array (
-			'description' => __( 'Add a title and use the editor to compose your post.' )
+			'description' => __( 'Use the editor below to compose your post.' )
 		),
 		'image' => array (
-			'description' => __( 'Select or upload an image to use for your post.' )
+			'description' => __( 'Select or upload an image for your post.' )
 		),
 		'gallery' => array (
 			'description' => __( 'Use the Add Media button to select or upload images for your gallery.' )
@@ -166,10 +170,10 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'show_po
 			'description' => __( 'Use the editor to compose a status update. What&#8217;s new?' )
 		),
 		'quote' => array (
-			'description' => __( 'Copy a quotation into the box. Also add the source and URL if you have them.' )
+			'description' => __( 'Copy a quotation into the box below. Add a source and URL if you have them.' )
 		),
 		'aside' => array (
-			'description' => __( 'An aside is a quick thought or side topic. Use the editor to compose one.' )
+			'description' => __( 'Use the editor to share a quick thought or side topic.' )
 		)
 	);
 	$post_format_options = '';
@@ -181,7 +185,7 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'show_po
 			$active_post_type_slug = $slug;
 		}
 
-		$post_format_options .= '<a ' . $class . ' href="?format=' . $slug . '" data-description="' . $attr['description'] . '" data-wp-format="' . $slug . '" title="' . ucfirst( sprintf( __( '%s Post' ), $slug ) ) . '"><div class="' . $slug . '"></div></a>';
+		$post_format_options .= '<a ' . $class . ' href="?format=' . $slug . '" data-description="' . $attr['description'] . '" data-wp-format="' . $slug . '" title="' . ucfirst( $slug ) . '"><div class="' . $slug . '"></div><span class="post-format-title">' . ucfirst( $slug ) . '</span></a>';
 	}
 
 	$current_post_format = array( 'currentPostFormat' => esc_html( $active_post_type_slug ) );
@@ -358,7 +362,7 @@ if ( 'post' == $post_type ) {
 require_once('./admin-header.php');
 ?>
 
-<div class="wrap">
+<div class="wrap <?php echo $post_format_set_class; ?>">
 <?php screen_icon(); ?>
 <h2><?php
 echo esc_html( $title );
@@ -374,6 +378,11 @@ if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create
 <div id="lost-connection-notice" class="error hidden">
 	<p><?php _e("You have lost your connection with the server, and saving has been disabled. This message will vanish once you've reconnected."); ?></p>
 </div>
+<?php if ( ! empty( $post_format_options ) ) : ?>
+<div class="post-format-options">
+	<?php echo $post_format_options; ?>
+</div>
+<?php endif; ?>
 <form name="post" action="post.php" method="post" id="post"<?php do_action('post_edit_form_tag'); ?>>
 <?php wp_nonce_field($nonce_action); ?>
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
@@ -400,14 +409,6 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 <div id="poststuff">
 <div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 <div id="post-body-content"<?php echo $format_class; ?>>
-
-<?php if ( ! empty( $post_format_options ) ) : ?>
-<div class="post-format-options">
-	<span class="post-format-tip">Standard Post</span>
-	<?php echo $post_format_options; ?>
-</div>
-<?php endif; ?>
-
 <?php if ( post_type_supports($post_type, 'title') ) { ?>
 <div id="titlediv">
 <div id="titlewrap">
@@ -424,7 +425,7 @@ if ( !empty($shortlink) )
 if ( $post_type_object->public && ! ( 'pending' == get_post_status( $post ) && !current_user_can( $post_type_object->cap->publish_posts ) ) ) {
 	$has_sample_permalink = $sample_permalink_html && 'auto-draft' != $post->post_status;
 ?>
-	<div id="edit-slug-box" class="hide-if-no-js<?php if ( ! $has_sample_permalink ) echo ' hidden' ?>">
+	<div id="edit-slug-box" class="hide-if-no-js">
 	<?php
 		if ( $has_sample_permalink )
 			echo $sample_permalink_html;

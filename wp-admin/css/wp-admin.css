@@ -3024,7 +3024,7 @@ ul.cat-checklist {
 
 #titlediv {
 	position: relative;
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 }
 
 #titlediv label {
@@ -3047,6 +3047,7 @@ ul.cat-checklist {
 	height: 1.7em;
 	width: 100%;
 	outline: none;
+	margin: 1px 0;
 }
 
 #titlediv #title-prompt-text,
@@ -3087,10 +3088,10 @@ input#link_url {
 }
 
 #edit-slug-box {
-	line-height: 23px;
-	min-height: 23px;
+	line-height: 24px;
+	min-height: 25px; /* Yes, line-height + 1 */
 	margin-top: 5px;
-	padding: 0 10px;
+	padding-right: 6px;
 }
 
 #edit-slug-box .cancel {
@@ -3930,6 +3931,7 @@ body .ui-tooltip {
 
 .post-formats-fields {
 	display: none;
+	margin-bottom: 15px;
 }
 
 .wp-format-gallery .post-formats-fields,
@@ -3960,6 +3962,7 @@ body .ui-tooltip {
 	font-size: 1.2em;
 }
 
+.wp-format-image label,
 .wp-format-video label,
 .wp-format-audio label {
 	float: left;
@@ -3969,16 +3972,10 @@ body .ui-tooltip {
 	float: left;
 	overflow: hidden;
 	width: 40%;
-	height: 200px;
-	border: 1px dashed #dfdfdf;
-	background: #f5f5f5 url(../images/media-button-2x.png) no-repeat 50% 25%;
-}
-
-.wp-format-media-holder.empty,
-.wp-format-audio .wp-format-media-holder,
-.wp-format-video .wp-format-media-holder {
 	height: auto;
 	padding: 55px 0 20px;
+	border: 1px dashed #dfdfdf;
+	background: #f5f5f5 url(../images/media-button-2x.png) no-repeat 50% 25%;
 }
 
 .wp-format-media-holder:hover {
@@ -4005,9 +4002,7 @@ body .ui-tooltip {
 	max-height: 100%;
 }
 
-.empty .wp-format-media-select,
-.wp-format-audio .wp-format-media-select,
-.wp-format-video .wp-format-media-select {
+.wp-format-media-select {
 	height: 20px;
 }
 
@@ -4022,6 +4017,7 @@ body .ui-tooltip {
 	margin: 5px 0;
 }
 
+#wp_format_image,
 #wp_format_audio,
 #wp_format_video {
 	float: left;
@@ -4030,147 +4026,208 @@ body .ui-tooltip {
 	min-height: 97px;
 }
 
-#icon-edit.standard {
+#icon-edit.standard,
+.post-format-options .standard {
 	background: url(../images/post-formats32.png) no-repeat -3px -4px;
 }
 
-#icon-edit.image {
+#icon-edit.image,
+.post-format-options .image {
 	background: url(../images/post-formats32.png) no-repeat  -43px -4px;
 }
 
-#icon-edit.gallery {
+#icon-edit.gallery,
+.post-format-options .gallery {
 	background: url(../images/post-formats32.png) no-repeat -83px -4px;
 }
 
-#icon-edit.audio {
+#icon-edit.audio,
+.post-format-options .audio {
 	background: url(../images/post-formats32.png) no-repeat -123px -4px;
 }
 
-#icon-edit.video {
+#icon-edit.video,
+.post-format-options .video {
 	background: url(../images/post-formats32.png) no-repeat -163px -4px;
 }
 
-#icon-edit.chat {
+#icon-edit.chat,
+.post-format-options .chat {
 	background: url(../images/post-formats32.png) no-repeat -202px -4px;
 }
 
-#icon-edit.status {
+#icon-edit.status,
+.post-format-options .status {
 	background: url(../images/post-formats32.png) no-repeat -242px -4px;
 }
 
-#icon-edit.aside {
+#icon-edit.aside,
+.post-format-options .aside {
 	background: url(../images/post-formats32.png) no-repeat -282px -4px;
 }
 
-#icon-edit.quote {
+#icon-edit.quote,
+.post-format-options .quote {
 	background: url(../images/post-formats32.png) no-repeat -322px -4px;
 }
 
-#icon-edit.link {
+#icon-edit.link,
+.post-format-options .link {
 	background: url(../images/post-formats32.png) no-repeat -362px -4px;
 }
 
 .post-format-description {
 	color: #666;
-	display: none;
-	margin: 10px 0;
+	font-size: 12px;
 }
 
 .post-format-options {
-	height: 29px;
-	background: #f9f9f9;
-	border: 1px solid #dfdfdf;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	margin: 0 0 9px 1px;
+	height: 50px;
+	margin: 13px 0 10px;
 	padding: 0;
 }
 
 .post-format-options a {
-	border-right: 1px solid #ebebeb;
 	display: inline-block;
-	height: 16px;
-	width: 16px;
-	padding: 6px;
+	height: 34px;
+	margin-right: 33px;
 	position: relative;
 	text-decoration: none;
-}
-
-.post-format-options a:first-child {
-	-webkit-border-bottom-left-radius: 3px;
-	-webkit-border-top-left-radius: 3px;
-	border-bottom-left-radius: 3px;
-	border-top-left-radius: 3px;
-}
-
-.post-format-options a.active,
-.post-format-options a:focus,
-.post-format-options a:hover {
-	background: #eee;
-	-webkit-box-shadow: inset 0 0 10px #ddd;
-	box-shadow: inset 0 0 10px #ddd;
-	outline: none;
-	opacity: 1;
+	text-align: center;
 }
 
 .post-format-options a div {
+	height: 34px;
+	width: 34px;
+	margin: 0 auto;
+}
+
+.post-format-title {
+	color: #777;
+	display: block;
+	margin-top: 4px;
+}
+
+.post-format-change, .post-format-set .post-format-options {
+	display: none;
+}
+
+.post-format-set .post-format-change {
+	display: block;
+}
+
+#poststuff .post-format-change {
+	margin: 11px 0 13px;
+	padding: 0;
+	font-size: 1.5em;
+	line-height: 18px;
+	clear: left;
+}
+
+.post-format-change span.icon {
+	float: left;
 	height: 16px;
+	margin: 2px 5px 0 0;
 	width: 16px;
-	opacity: 0.4;
 }
 
-.post-format-options a.active div,
-.post-format-options a:focus div,
-.post-format-options a:hover div {
-	opacity: 1;
-}
-
-.post-format-options .standard {
+.post-format-change span.icon.standard {
 	background: url(../images/post-formats.png) no-repeat -8px -8px;
 }
 
-.post-format-options .image {
+.post-format-change span.icon.image {
 	background: url(../images/post-formats.png) no-repeat -40px -8px;
 }
 
-.post-format-options .gallery {
+.post-format-change span.icon.gallery {
 	background: url(../images/post-formats.png) no-repeat -72px -8px;
 }
 
-.post-format-options .audio {
+.post-format-change span.icon.audio {
 	background: url(../images/post-formats.png) no-repeat -104px -8px;
 }
 
-.post-format-options .video {
+.post-format-change span.icon.video {
 	background: url(../images/post-formats.png) no-repeat -136px -8px;
 }
 
-.post-format-options .chat {
+.post-format-change span.icon.chat {
 	background: url(../images/post-formats.png) no-repeat -168px -8px;
 }
 
-.post-format-options .status {
+.post-format-change span.icon.status {
 	background: url(../images/post-formats.png) no-repeat -200px -8px;
 }
 
-.post-format-options .aside {
+.post-format-change span.icon.aside {
 	background: url(../images/post-formats.png) no-repeat -232px -8px;
 }
 
-.post-format-options .quote {
+.post-format-change span.icon.quote {
 	background: url(../images/post-formats.png) no-repeat -264px -8px;
 }
 
-.post-format-options .link {
+.post-format-change span.icon.link {
 	background: url(../images/post-formats.png) no-repeat -296px -8px;
 }
 
-.post-format-tip {
-	color: #999;
-	font-size: 14px;
-	float: right;
-	padding: 6px 10px;
-	text-transform: capitalize;
+.post-format-change a {
+	font-size: 12px;
+}
+
+@media only screen and (max-width: 782px) {
+	.post-format-options {
+		height: 33px;
+	}
+
+	.post-format-options a {
+		margin-right: 19px;
+	}
+
+	.post-format-options a div {
+		height: 18px;
+		width: 16px;
+	}
+
+	.post-format-options .standard {
+		background: url(../images/post-formats.png) no-repeat -8px -8px;
+	}
+
+	.post-format-options .image {
+		background: url(../images/post-formats.png) no-repeat -40px -8px;
+	}
+
+	.post-format-options .gallery {
+		background: url(../images/post-formats.png) no-repeat -72px -8px;
+	}
+
+	.post-format-options .audio {
+		background: url(../images/post-formats.png) no-repeat -104px -8px;
+	}
+
+	.post-format-options .video {
+		background: url(../images/post-formats.png) no-repeat -136px -8px;
+	}
+
+	.post-format-options .chat {
+		background: url(../images/post-formats.png) no-repeat -168px -8px;
+	}
+
+	.post-format-options .status {
+		background: url(../images/post-formats.png) no-repeat -200px -8px;
+	}
+
+	.post-format-options .aside {
+		background: url(../images/post-formats.png) no-repeat -232px -8px;
+	}
+
+	.post-format-options .quote {
+		background: url(../images/post-formats.png) no-repeat -264px -8px;
+	}
+
+	.post-format-options .link {
+		background: url(../images/post-formats.png) no-repeat -296px -8px;
+	}
 }
 
 /*------------------------------------------------------------------------------

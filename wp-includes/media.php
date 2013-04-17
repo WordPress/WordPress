@@ -2406,7 +2406,16 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 		$link_fmt = '<a href="' . esc_url( $meta['url'] ) . '">%s</a>';
 
 	if ( ! empty( $meta['image'] ) ) {
-		$post->format_content = sprintf( $link_fmt, wp_get_attachment_image( $meta['image'], $attached_size ) );
+		if ( is_numeric( $meta['image'] ) )
+			$image = wp_get_attachment_image( absint( $meta['image'] ), $attached_size );
+		elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $meta['image'] ) )
+			$image = do_shortcode( $meta['image'] );
+		elseif ( ! preg_match( '#<[^>]+>#', $meta['image'] ) )
+			$image = sprintf( '<img src="%s" alt="" />', esc_url( $meta['image'] ) );
+		else
+			$image = $meta['image'];
+
+		$post->format_content = sprintf( $link_fmt, $image );
 		return $post->format_content;
 	}
 

@@ -191,7 +191,7 @@
 			props = wp.media.string.props( props, attachment );
 			classes = props.classes || [];
 
-			img.src = props.url;
+			img.src = attachment.url;
 			_.extend( img, _.pick( props, 'width', 'height', 'alt' ) );
 
 			// Only assign the align class to the image if we're not printing

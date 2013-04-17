@@ -1,102 +1,100 @@
 window.wp = window.wp || {};
 
 (function($) {
-	var container, mediaFrame, lastMimeType, lastMenu, mediaPreview, noUIFormats = ['standard', 'chat', 'status', 'aside', 'gallery'];
+	var container, mediaFrame, lastMimeType, lastMenu, mediaPreview,
+		noUIFormats = ['standard', 'chat', 'status', 'aside', 'gallery'],
+		$container = $( '.post-formats-fields' );
 
 	function switchFormatClass( format ) {
-		container.get(0).className = container.get(0).className.replace( /\bwp-format-[^ ]+/, '' );
+		container.get(0).className = container.get(0).className.replace( /\bwp-format-[^ ]+/g, '' );
 		container.addClass('wp-format-' + format);
 	}
 
-	$(function(){
-		var $container = $( '.post-formats-fields' );
-
-		// Post formats selection
-		$('.post-format-options').on( 'click', 'a', function(e){
-			e.preventDefault();
-			var $this = $(this), editor, body,
-				parent = $this.parent(),
-				format = $this.data('wp-format'),
-				description = $('.post-format-description');
+	function switchFormat ($this) {
+		var editor, body,
+			parent = $this.parent(),
+			format = $this.data('wp-format'),
+			description = $('.post-format-description'),
+			postTitle = $('#title');
 
 		if ( typeof container === 'undefined' )
 			container = $('#post-body-content');
 
-			// Already on this post format. Bail.
-			if ( format === postFormats.currentPostFormat )
-				return;
+		parent.slideUp().find('a.active').removeClass('active');
+		$this.addClass('active');
+		$('#post_format').val(format);
+		$('.post-format-change').show().find('span.icon').removeClass(postFormats.currentPostFormat).addClass(format);
+		// container.addClass('wp-format-set');
 
-			parent.find('a.active').removeClass('active');
-			$this.addClass('active');
-			$('#icon-edit').removeClass(postFormats.currentPostFormat).addClass(format);
-			$('#post_format').val(format);
+		if ( -1 < $.inArray( format, noUIFormats ) ) {
+			switchFormatClass( format ); // No slide
+			$container.hide();
+		} else {
+			$container.slideUp( 200, function(){
+				switchFormatClass( format );
+				$container.slideDown( 400 );
+			});
+		}
 
-			if ( -1 < $.inArray( format, noUIFormats ) && -1 < $.inArray( postFormats.currentPostFormat, noUIFormats ) ) {
-				switchFormatClass( format ); // No slide
-			} else {
-				$container.slideUp( 200, function(){
-					switchFormatClass( format );
-					$container.slideDown( 400 );
-				});
+		postTitle.focus();
+
+		if ( '' === postTitle.val() )
+			$('#title-prompt-text').removeClass('screen-reader-text');
+
+		// Update description line
+		description.html($this.data('description'));
+
+		if (description.not(':visible'))
+			description.slideDown('fast');
+
+		if ( typeof tinymce != 'undefined' ) {
+			editor = tinymce.get('content');
+
+			if ( editor ) {
+				body = editor.getBody();
+				body.className = body.className.replace( /\bpost-format-[^ ]+/, '' );
+				editor.dom.addClass( body, 'post-format-' + format );
 			}
+		}
 
-			$('#title').focus();
+		postFormats.currentPostFormat = format;
+	}
 
-			// Update description line
-			description.html($this.data('description'));
+	$(function(){
 
-			if (description.not(':visible'))
-				description.slideDown('fast');
+		$('.post-format-change a').click(function () {
+			$('.post-formats-fields, .post-format-change').slideUp();
+			$('.post-format-options').slideDown();
+			return false;
+		});
 
-			if ( typeof tinymce != 'undefined' ) {
-				editor = tinymce.get('content');
-
-				if ( editor ) {
-					body = editor.getBody();
-					body.className = body.className.replace( /\bpost-format-[^ ]+/, '' );
-					editor.dom.addClass( body, 'post-format-' + format );
-				}
-			}
-
-			postFormats.currentPostFormat = format;
-		}).on('mouseenter focusin', 'a', function () {
-			$('.post-format-tip').html( $(this).prop('title') );
-		}).on('mouseleave focusout', 'a', function () {
-			$('.post-format-tip').html( $('.post-format-options a.active').prop('title') );
+		// Post formats selection
+		$('.post-format-options').on( 'click', 'a', function(e){
+			e.preventDefault();
+			switchFormat($(this));
 		});
 
 		// Media selection
 		$('.wp-format-media-select').click(function (event) {
 			event.preventDefault();
-			var $el = $(this), $holder, $field, mime = 'image', menu = '',
+			var $el = $(this), mime,
 			    $holder = $el.closest('.wp-format-media-holder'),
 			    $field = $( '#wp_format_' + $holder.data('format') );
 
-			switch ( $holder.data('format') ) {
-				case 'audio':
-					mime = 'audio';
-					break;
-				case 'video':
-					mime = 'video';
-					break;
-			}
+			mime = $holder.data('format');
 
 			// If the media frame already exists, reopen it.
-			if ( mediaFrame && lastMimeType === mime && lastMenu === menu ) {
+			if ( mediaFrame && lastMimeType === mime ) {
 				mediaFrame.open();
 				return;
 			}
 
 			lastMimeType = mime;
-			lastMenu = menu;
 
 			// Create the media frame.
 			mediaFrame = wp.media.frames.formatMedia = wp.media({
 				// Set the title of the modal.
 				title: $el.data('choose'),
-
-				// Set the menu sidebar of the modal, if applicable
-				toolbar: menu,
 
 				// Tell the modal to show only items matching the current mime type.
 				library: {
@@ -142,7 +140,7 @@ window.wp = window.wp || {};
 			// When an image is selected, run a callback.
 			mediaFrame.on( 'select', function () {
 				// Grab the selected attachment.
-				var attachment = mediaFrame.state().get('selection').first().toJSON();
+				var w = 0, h = 0, html, attachment = mediaFrame.state().get('selection').first().toJSON();
 
 				if ( 0 === attachment.mime.indexOf('audio') ) {
 					$field.val(attachment.url);
@@ -157,11 +155,22 @@ window.wp = window.wp || {};
 					// show one preview at a time
 					mediaPreview(attachment);
 				} else {
+					html = wp.media.string.image({}, attachment);
 					// set the hidden input's value
-					$field.val(attachment.id);
-					// Show the image in the placeholder
-					$el.html('<img src="' + attachment.url + '" />');
-					$holder.removeClass('empty').show();
+					$field.val(html);
+					$('#image-preview').remove();
+					if ( attachment.width )
+						w = attachment.width > 600 ? 600 : attachment.width;
+					if ( attachment.height )
+						h = attachment.height;
+					if ( w < attachment.width )
+						h = Math.round( ( h * w ) / attachment.width );
+					$holder.parent().prepend( ['<div id="image-preview" class="wp-format-media-preview">',
+						'<img src="', attachment.url, '"',
+						w ? ' width="' + w + '"' : '',
+						h ? ' height="' + h + '"' : '',
+						' />',
+					'</div>'].join('') );
 				}
 			});
 
