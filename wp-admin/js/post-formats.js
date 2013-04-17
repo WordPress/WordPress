@@ -2,15 +2,15 @@ window.wp = window.wp || {};
 
 (function($) {
 	var container, mediaFrame, lastMimeType, lastMenu, mediaPreview,
-		noUIFormats = ['standard', 'chat', 'status', 'aside', 'gallery'],
-		$container = $( '.post-formats-fields' );
+	    noUIFormats = ['standard', 'chat', 'status', 'aside', 'gallery'],
+	    $container  = $( '.post-formats-fields' );
 
 	function switchFormatClass( format ) {
 		container.get(0).className = container.get(0).className.replace( /\bwp-format-[^ ]+/g, '' );
 		container.addClass('wp-format-' + format);
 	}
 
-	function switchFormat ($this) {
+	function switchFormat($this) {
 		var editor, body,
 			parent = $this.parent(),
 			format = $this.data('wp-format'),
@@ -24,7 +24,6 @@ window.wp = window.wp || {};
 		$this.addClass('active');
 		$('#post_format').val(format);
 		$('.post-format-change').show().find('span.icon').removeClass(postFormats.currentPostFormat).addClass(format);
-		// container.addClass('wp-format-set');
 
 		if ( -1 < $.inArray( format, noUIFormats ) ) {
 			switchFormatClass( format ); // No slide
@@ -62,7 +61,7 @@ window.wp = window.wp || {};
 
 	$(function(){
 
-		$('.post-format-change a').click(function () {
+		$('.post-format-change a').click(function() {
 			$('.post-formats-fields, .post-format-change').slideUp();
 			$('.post-format-options').slideDown();
 			return false;
@@ -75,7 +74,7 @@ window.wp = window.wp || {};
 		});
 
 		// Media selection
-		$('.wp-format-media-select').click(function (event) {
+		$('.wp-format-media-select').click(function(event) {
 			event.preventDefault();
 			var $el = $(this), mime,
 			    $holder = $el.closest('.wp-format-media-holder'),
@@ -108,10 +107,8 @@ window.wp = window.wp || {};
 				}
 			});
 
-			mediaPreview = function (attachment) {
-				var w, h, dimensions = '', url = attachment.url,
-					mime = attachment.mime,
-					format = attachment.type;
+			mediaPreview = function(attachment) {
+				var w, h, dimensions = '', url = attachment.url, mime = attachment.mime, format = attachment.type;
 
 				if ( 'video' === format ) {
 					if ( attachment.width ) {
@@ -138,7 +135,7 @@ window.wp = window.wp || {};
 			};
 
 			// When an image is selected, run a callback.
-			mediaFrame.on( 'select', function () {
+			mediaFrame.on( 'select', function() {
 				// Grab the selected attachment.
 				var w = 0, h = 0, html, attachment = mediaFrame.state().get('selection').first().toJSON();
 
