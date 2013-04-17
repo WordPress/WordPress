@@ -110,7 +110,7 @@ function twentytwelve_admin_header_style() {
 	<style type="text/css" id="twentytwelve-header-css">
 	.appearance_page_custom-header #headimg {
 		border: none;
-		font-family: "Open Sans", ​Helvetica,​ Arial, ​sans-serif;
+		font-family: "Open Sans", Helvetica,​Arial, sans-serif;
 	}
 	#headimg h1,
 	#headimg h2 {
