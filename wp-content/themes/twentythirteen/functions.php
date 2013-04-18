@@ -445,29 +445,8 @@ function twentythirteen_get_link_url() {
 	return ( $has_url ) ? $has_url : apply_filters( 'the_permalink', get_permalink() );
 }
 
-if ( ! function_exists( 'twentythirteen_featured_gallery' ) ) :
-/**
- * Displays first gallery from post content. Changes image size from thumbnail
- * to large, to display a larger first image.
- *
- * @since Twenty Thirteen 1.0
- *
- * @return void
- */
-function twentythirteen_featured_gallery() {
-	$pattern = get_shortcode_regex();
-
-	if ( preg_match( "/$pattern/s", get_the_content(), $match ) && 'gallery' == $match[2] ) {
-		add_filter( 'shortcode_atts_gallery', 'twentythirteen_gallery_atts' );
-		echo do_shortcode_tag( $match );
-	}
-}
-endif;
-
 /**
  * Sets the image size in featured galleries to large.
- *
- * @see twentythirteen_featured_gallery()
  *
  * @since Twenty Thirteen 1.0
  *
@@ -475,9 +454,12 @@ endif;
  * @return array
  */
 function twentythirteen_gallery_atts( $atts ) {
-	$atts['size'] = 'large';
+	if ( has_post_format( 'gallery' ) && ! is_single() )
+		$atts['size'] = 'large';
+
 	return $atts;
 }
+add_filter( 'shortcode_atts_gallery', 'twentythirteen_gallery_atts' );
 
 /**
  * Extends the default WordPress body class to denote:
