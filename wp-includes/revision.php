@@ -72,7 +72,6 @@ function _wp_post_revision_meta_keys() {
 		'_format_link_url',
 		'_format_quote_source_url',
 		'_format_quote_source_name',
-		'_format_quote',
 		'_format_image',
 		'_format_gallery',
 		'_format_audio_embed',

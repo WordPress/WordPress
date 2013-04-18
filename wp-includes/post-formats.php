@@ -399,14 +399,11 @@ function post_formats_compat( $content, $id = 0 ) {
 			break;
 
 		case 'quote':
-			if ( ! empty( $meta['quote'] ) && ! stristr( $content, $meta['quote'] ) ) {
-				$quote = sprintf( '<blockquote>%s</blockquote>', wpautop( $meta['quote'] ) );
-				if ( ! empty( $meta['quote_source_name'] ) ) {
-					$source = ( empty( $meta['quote_source_url'] ) ) ? $meta['quote_source_name'] : sprintf( '<a href="%s">%s</a>', esc_url( $meta['quote_source_url'] ), $meta['quote_source_name'] );
-					$quote .= sprintf( '<figcaption class="quote-caption">%s</figcaption>', $source );
-				}
-				$format_output .= sprintf( '<figure class="quote">%s</figure>', $quote );
-			}
+			$quote = get_the_post_format_quote( $post );
+
+			// Replace the existing quote in-place.
+			if ( ! empty( $quote ) )
+				get_content_quote( $content, true, $quote );
 			break;
 
 		case 'video':
@@ -677,6 +674,83 @@ function the_post_format_chat() {
 	$output .= '</dl><!-- .chat -->';
 
 	echo $output;
+}
+
+/**
+ * Get the first <blockquote> from the $content string passed by reference.
+ *
+ * If $content does not have a blockquote, assume the whole string
+ * is the quote.
+ *
+ * @since 3.6.0
+ *
+ * @param string $content A string which might contain chat data, passed by reference.
+ * @param bool $remove (optional) Whether to remove the quote from the content.
+ * @param string $replace (optional) Content to replace the quote content with if $remove is set to true.
+ * @return string The quote content.
+ */
+function get_content_quote( &$content, $remove = false, $replace = '' ) {
+	if ( empty( $content ) )
+		return '';
+
+	$matches = array();
+	if ( ! preg_match( '/<blockquote[^>]*>(.+?)<\/blockquote>/is', $content, $matches ) ) {
+		$quote = $content;
+		if ( $remove || ! empty( $replace ) )
+			$content = $replace;
+		return $quote;
+	}
+
+	if ( $remove || ! empty( $replace ) )
+		$content = preg_replace( '/<blockquote[^>]*>(.+?)<\/blockquote>/is', addcslashes( $replace, '\\$' ), $content, 1 );
+
+	return $matches[1];
+}
+
+/**
+ * Get a quote from the post content and set split_content for future use.
+ *
+ * @since 3.6.0
+ *
+ * @uses get_content_quote()
+ *
+ * @param object $post (optional) A reference to the post object, falls back to get_post().
+ * @return string The quote html.
+ */
+function get_the_post_format_quote( &$post = null ) {
+	if ( empty( $post ) )
+		$post = get_post();
+
+	if ( empty( $post ) )
+		return '';
+
+	$content = $post->post_content;
+	$quote = get_content_quote( $content, true );
+	$post->split_content = $content;
+
+	if ( ! empty( $quote ) )
+		$quote = sprintf( '<blockquote>%s</blockquote>', wpautop( $quote ) );
+
+	$meta = get_post_format_meta( $post->ID );
+
+	if ( ! empty( $meta['quote_source_name'] ) ) {
+		$source = ( empty( $meta['quote_source_url'] ) ) ? $meta['quote_source_name'] : sprintf( '<a href="%s">%s</a>', esc_url( $meta['quote_source_url'] ), $meta['quote_source_name'] );
+		$quote .= sprintf( '<figcaption class="quote-caption">%s</figcaption>', $source );
+	}
+
+	if ( ! empty( $quote ) )
+		$quote = sprintf( '<figure class="quote">%s</figure>', $quote );
+
+	return $quote;
+}
+
+/**
+ * Outputs the post format quote.
+ *
+ * @since 3.6.0
+ */
+function the_post_format_quote() {
+	echo get_the_post_format_quote();
 }
 
 /**

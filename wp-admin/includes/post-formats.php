@@ -10,11 +10,6 @@ $format_meta = get_post_format_meta( $post_ID );
 	<input type="hidden" name="post_format" id="post_format" value="<?php echo esc_attr( $post_format ); ?>" />
 
 	<div class="field wp-format-quote">
-		<label for="wp_format_quote"><?php _e( 'Quote' ); ?></label>
-		<textarea id="wp_format_quote" name="_format_quote" class="widefat"><?php echo esc_textarea( $format_meta['quote'] ); ?></textarea>
-	</div>
-
-	<div class="field wp-format-quote">
 		<label for="wp_format_quote_source"><?php _e( 'Quote source' ); ?></label>
 		<input type="text" id="wp_format_quote_source" name="_format_quote_source_name" value="<?php echo esc_attr( $format_meta['quote_source_name'] ); ?>" class="widefat" />
 	</div>

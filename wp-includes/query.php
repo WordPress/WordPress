@@ -3694,7 +3694,7 @@ function setup_postdata($post) {
 		$more = 1;
 	$split_content = $content = $post->post_content;
 	$format = get_post_format( $post );
-	if ( $format && in_array( $format, array( 'image', 'audio', 'video' ) ) ) {
+	if ( $format && in_array( $format, array( 'image', 'audio', 'video', 'quote' ) ) ) {
 		switch ( $format ) {
 		case 'image':
 			get_the_post_format_image( 'full', $post );
@@ -3708,6 +3708,11 @@ function setup_postdata($post) {
 			break;
 		case 'video':
 			get_the_post_format_media( 'video', $post, 1 );
+			if ( isset( $post->split_content ) )
+				$split_content = $post->split_content;
+			break;
+		case 'quote':
+			get_the_post_format_quote( $post );
 			if ( isset( $post->split_content ) )
 				$split_content = $post->split_content;
 			break;

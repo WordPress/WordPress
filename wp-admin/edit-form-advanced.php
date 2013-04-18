@@ -172,7 +172,7 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'show_po
 			'description' => __( 'Use the editor to compose a status update. What&#8217;s new?' )
 		),
 		'quote' => array (
-			'description' => __( 'Copy a quotation into the box below. Add a source and URL if you have them.' )
+			'description' => __( 'Add a source and URL if you have them. Use the editor to compose the quote.' )
 		),
 		'aside' => array (
 			'description' => __( 'Use the editor to share a quick thought or side topic.' )
