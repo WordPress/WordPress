@@ -26,9 +26,8 @@ $format_meta = get_post_format_meta( $post_ID );
 		<div id="image-preview" class="wp-format-media-preview">
 			<?php
 				if ( is_numeric( $value ) ) {
-					$format_meta['image'] = absint( $value );
-					$image = wp_get_attachment_url( $format_meta['image'] );
-					printf( '<img src="%s" alt="%s" />', esc_url( $image ), get_the_title( $format_meta['image'] ) );
+					$image = wp_get_attachment_url( $value );
+					printf( '<img src="%s" alt="%s" />', esc_url( $image ), get_the_title( $value ) );
 				} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $value ) ) {
 					echo do_shortcode( $value );
 				} elseif ( ! preg_match( '#<[^>]+>#', $value ) ) {
@@ -77,8 +76,8 @@ $format_meta = get_post_format_meta( $post_ID );
 		<div id="video-preview" class="wp-format-media-preview">
 			<?php
 				if ( is_numeric( $value ) ) {
-					$url = wp_get_attachment_url( $value );
-					echo do_shortcode( sprintf( '[video src="%s"]', $url ) );
+					$video = wp_get_attachment_url( $value );
+					echo do_shortcode( sprintf( '[video src="%s"]', $video ) );
 				} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $value ) ) {
 					echo do_shortcode( $value );
 				} elseif ( ! preg_match( '#<[^>]+>#', $value ) ) {
@@ -115,8 +114,8 @@ $format_meta = get_post_format_meta( $post_ID );
 		<div id="audio-preview" class="wp-format-media-preview">
 			<?php
 				if ( is_numeric( $value ) ) {
-					$url = wp_get_attachment_url( $value );
-					echo do_shortcode( sprintf( '[audio src="%s"]', $url ) );
+					$audio = wp_get_attachment_url( $value );
+					echo do_shortcode( sprintf( '[audio src="%s"]', $audio ) );
 				} elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $value ) ) {
 					echo do_shortcode( $value );
 				} elseif ( ! preg_match( '#<[^>]+>#', $value ) ) {
