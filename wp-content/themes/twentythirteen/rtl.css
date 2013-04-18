@@ -155,7 +155,8 @@ div.nav-menu > ul {
 	right: auto;
 }
 
-.site-header .searchform [type="search"] {
+.site-header .searchform [type="search"],
+.site-header .searchform [type="text"] {
 	background-position: 98% center;
 	padding: 0 34px 0 0;
 }

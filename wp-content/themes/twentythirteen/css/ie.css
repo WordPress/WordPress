@@ -38,7 +38,8 @@ Styles for older IE versions (previous to IE9).
 	max-width: 1040px;
 }
 
-.site-header .searchform [type="search"] {
+.site-header .searchform [type="search"],
+.site-header .searchform [type="text"] {
 	padding-top: 6px;
 }
 
@@ -229,12 +230,14 @@ img.alignleft {
 	left: 100%;
 }
 
-.ie7 .site-header .searchform [type="search"] {
+.ie7 .site-header .searchform [type="search"],
+.ie7 .site-header .searchform [type="text"] {
 	background-color: #fff;
 	border: 2px solid #c3c0ab;
 	cursor: text;
 	outline: 0;
 	width: 150px;
+	height: 28px;
 }
 
 .ie7 .entry-header,
