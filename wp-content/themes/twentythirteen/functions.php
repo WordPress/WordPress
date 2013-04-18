@@ -32,6 +32,17 @@ if ( ! isset( $content_width ) )
 	$content_width = 604;
 
 /**
+ * Adds support for a custom header image.
+ */
+require( get_template_directory() . '/inc/custom-header.php' );
+
+/**
+ * Twenty Thirteen only works in WordPress 3.6 or later.
+ */
+if ( version_compare( $GLOBALS['wp_version'], '3.6-alpha', '<' ) )
+	require( get_template_directory() . '/inc/back-compat.php' );
+
+/**
  * Sets up theme defaults and registers the various WordPress features that
  * Twenty Thirteen supports.
  *
@@ -466,6 +477,7 @@ add_filter( 'shortcode_atts_gallery', 'twentythirteen_gallery_atts' );
  * 1. Custom fonts enabled.
  * 2. Single or multiple authors.
  * 3. Active widgets in the sidebar to change the layout and spacing.
+ * 4. When avatars are disabled in discussion settings.
  *
  * @since Twenty Thirteen 1.0
  *
@@ -484,26 +496,12 @@ function twentythirteen_body_class( $classes ) {
 	if ( is_active_sidebar( 'sidebar-2' ) && ! is_attachment() && ! is_404() )
 		$classes[] = 'sidebar';
 
-	return $classes;
-}
-add_filter( 'body_class', 'twentythirteen_body_class' );
-
-/**
- * Extends the default WordPress comment class to add 'no-avatars' class
- * if avatars are disabled in discussion settings.
- *
- * @since Twenty Thirteen 1.0
- *
- * @param array $classes Existing class values.
- * @return array Filtered class values.
- */
-function twentythirteen_comment_class( $classes ) {
-	if ( ! get_option ( 'show_avatars' ) )
+	if ( ! get_option( 'show_avatars' ) )
 		$classes[] = 'no-avatars';
 
 	return $classes;
 }
-add_filter( 'comment_class', 'twentythirteen_comment_class' );
+add_filter( 'body_class', 'twentythirteen_body_class' );
 
 /**
  * Adjusts content_width value for video post formats and attachment templates.
@@ -563,10 +561,10 @@ add_filter( 'the_content', 'twentythirteen_aside_date', 8 ); // After embeds, be
  * @param string $format Expected markup format, default is `xhtml`
  * @return string Twenty Thirteen loves HTML5.
  */
-function twentythirteen_searchform_format( $format ) {
+function twentythirteen_search_form_format( $format ) {
 	return 'html5';
 }
-add_filter( 'search_form_format', 'twentythirteen_searchform_format' );
+add_filter( 'search_form_format', 'twentythirteen_search_form_format' );
 
 /**
  * Add postMessage support for site title and description for the Customizer.
@@ -593,14 +591,3 @@ function twentythirteen_customize_preview_js() {
 	wp_enqueue_script( 'twentythirteen-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20130226', true );
 }
 add_action( 'customize_preview_init', 'twentythirteen_customize_preview_js' );
-
-/**
- * Adds support for a custom header image.
- */
-require( get_template_directory() . '/inc/custom-header.php' );
-
-/**
- * Adds back compat handling for WP versions pre-3.6.
- */
-if ( version_compare( $GLOBALS['wp_version'], '3.6-alpha', '<' ) )
-	require( get_template_directory() . '/inc/back-compat.php' );
