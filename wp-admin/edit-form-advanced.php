@@ -234,7 +234,7 @@ if ( post_type_supports($post_type, 'revisions') && 'auto-draft' != $post->post_
 	$revisions = wp_get_post_revisions( $post_ID );
 
 	// Check if the revisions have been upgraded
-	if ( ! empty( $revisions ) && _wp_get_post_revision_version( reset( $revisions ) ) < 1 )
+	if ( ! empty( $revisions ) && _wp_get_post_revision_version( end( $revisions ) ) < 1 )
 		_wp_upgrade_revisions_of_post( $post, $revisions );
 
 	// We should aim to show the revisions metabox only when there are revisions.
