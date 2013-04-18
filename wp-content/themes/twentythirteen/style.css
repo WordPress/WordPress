@@ -969,16 +969,12 @@ ul.nav-menu li:hover > ul,
 }
 
 /* Fixed Navbar */
-.wp-toolbar {
-	margin-top: 28px;
-}
-
 .navbar-fixed {
 	margin-top: 45px;
 }
 
 .wp-toolbar.navbar-fixed {
-	margin-top: 73px;
+	margin-top: 73px !important;
 }
 
 .navbar-fixed .site-title {

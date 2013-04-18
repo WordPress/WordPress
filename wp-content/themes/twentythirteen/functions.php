@@ -49,7 +49,7 @@ if ( version_compare( $GLOBALS['wp_version'], '3.6-alpha', '<' ) )
  * @uses load_theme_textdomain() For translation/localization support.
  * @uses add_editor_style() To add a Visual Editor stylesheet.
  * @uses add_theme_support() To add support for automatic feed links, post
- * formats, admin bar, and post thumbnails.
+ * formats, and post thumbnails.
  * @uses register_nav_menu() To add support for a navigation menu.
  * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
  *
@@ -89,16 +89,6 @@ function twentythirteen_setup() {
 	) );
 	add_theme_support( 'post-formats', array(
 		'aside', 'audio', 'chat', 'gallery', 'image', 'quote', 'status'
-	) );
-
-	/*
-	 * Custom callback to make it easier for our fixed navbar to coexist with
-	 * the WordPress toolbar. See `.wp-toolbar` in style.css.
-	 *
-	 * @see WP_Admin_Bar::initialize()
-	 */
-	add_theme_support( 'admin-bar', array(
-		'callback' => '__return_false'
 	) );
 
 	// This theme uses wp_nav_menu() in one location.
