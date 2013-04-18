@@ -627,6 +627,7 @@ function _wp_upgrade_revisions_of_post( $post, $revisions ) {
 	update_option( $lock, $now );
 
 	reset( $revisions );
+	$add_last = true;
 
 	do {
 		$this_revision = current( $revisions );
@@ -638,9 +639,12 @@ function _wp_upgrade_revisions_of_post( $post, $revisions ) {
 		if ( false === $this_revision_version )
 			continue;
 
-		// 1 is the latest revision version, so we're already up to date
-		if ( 0 < $this_revision_version )
+		// 1 is the latest revision version, so we're already up to date.
+		// No need to add a copy of the post as latest revision.
+		if ( 0 < $this_revision_version ) {
+			$add_last = false;
 			continue;
+		}
 
 		// Always update the revision version
 		$update = array(
@@ -669,7 +673,9 @@ function _wp_upgrade_revisions_of_post( $post, $revisions ) {
 	delete_option( $lock );
 
 	// Add a copy of the post as latest revision.
-	wp_save_post_revision( $post->ID );
+	if ( $add_last )
+		wp_save_post_revision( $post->ID );
+
 	return true;
 }
 
