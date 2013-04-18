@@ -22,8 +22,8 @@
  * @return void
  */
 function twentythirteen_switch_theme( $theme_name, $theme ) {
-	if ( 'twentythirteen' != $theme->template )
-		switch_theme( $theme->template, $theme->stylesheet );
+	if ( 'twentythirteen' != $theme->get_template() )
+		switch_theme( $theme->get_template(), $theme->get_stylesheet() );
 	elseif ( 'twentythirteen' != WP_DEFAULT_THEME )
 		switch_theme( WP_DEFAULT_THEME );
 
