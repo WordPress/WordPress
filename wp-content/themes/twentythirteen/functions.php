@@ -487,7 +487,7 @@ add_filter( 'shortcode_atts_gallery', 'twentythirteen_gallery_atts' );
 function twentythirteen_body_class( $classes ) {
 
 	// Enable custom font class only if the font CSS is queued to load.
-	if ( wp_style_is( 'twentythirteen-fonts', 'queue' ) )
+	if ( wp_style_is( 'twentythirteen-fonts', 'enqueued' ) )
 		$classes[] = 'custom-font';
 
 	if ( ! is_multi_author() )
