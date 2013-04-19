@@ -4031,52 +4031,52 @@ body .ui-tooltip {
 	min-height: 97px;
 }
 
-#icon-edit.standard,
+#icon-edit.wp-format-standard,
 .post-format-options .standard {
 	background: url(../images/post-formats32.png) no-repeat -3px -4px;
 }
 
-#icon-edit.image,
+#icon-edit.wp-format-image,
 .post-format-options .image {
 	background: url(../images/post-formats32.png) no-repeat  -43px -4px;
 }
 
-#icon-edit.gallery,
+#icon-edit.wp-format-gallery,
 .post-format-options .gallery {
 	background: url(../images/post-formats32.png) no-repeat -83px -4px;
 }
 
-#icon-edit.audio,
+#icon-edit.wp-format-audio,
 .post-format-options .audio {
 	background: url(../images/post-formats32.png) no-repeat -123px -4px;
 }
 
-#icon-edit.video,
+#icon-edit.wp-format-video,
 .post-format-options .video {
 	background: url(../images/post-formats32.png) no-repeat -163px -4px;
 }
 
-#icon-edit.chat,
+#icon-edit.wp-format-chat,
 .post-format-options .chat {
 	background: url(../images/post-formats32.png) no-repeat -202px -4px;
 }
 
-#icon-edit.status,
+#icon-edit.wp-format-status,
 .post-format-options .status {
 	background: url(../images/post-formats32.png) no-repeat -242px -4px;
 }
 
-#icon-edit.aside,
+#icon-edit.wp-format-aside,
 .post-format-options .aside {
 	background: url(../images/post-formats32.png) no-repeat -282px -4px;
 }
 
-#icon-edit.quote,
+#icon-edit.wp-format-quote,
 .post-format-options .quote {
 	background: url(../images/post-formats32.png) no-repeat -322px -4px;
 }
 
-#icon-edit.link,
+#icon-edit.wp-format-link,
 .post-format-options .link {
 	background: url(../images/post-formats32.png) no-repeat -362px -4px;
 }

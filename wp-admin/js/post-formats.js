@@ -3,11 +3,14 @@ window.wp = window.wp || {};
 (function($) {
 	var container, mediaFrame, lastMimeType, mediaPreview,
 		noUIFormats = ['standard', 'chat', 'status', 'aside', 'gallery'],
-		$container = $( '.post-formats-fields' );
+		$container = $( '.post-formats-fields' ),
+		$screenIcon = $( '.icon32' );
 
 	function switchFormatClass( format ) {
-		container.get(0).className = container.get(0).className.replace( /\bwp-format-[^ ]+/g, '' );
+		container.get(0).className = container.get(0).className.replace( /\s?\bwp-format-[^ ]+/g, '' );
 		container.addClass('wp-format-' + format);
+		$screenIcon.get(0).className = $screenIcon.get(0).className.replace( /\s?\bwp-format-[^ ]+/g, '' );
+		$screenIcon.addClass('wp-format-' + format);
 	}
 
 	function switchFormat($this) {

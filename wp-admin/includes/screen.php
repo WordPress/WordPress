@@ -171,7 +171,7 @@ function get_screen_icon( $screen = '' ) {
 		if ( $post_ID ) {
 			$format = get_post_format( $post_ID );
 			if ( $format )
-				$class .= ' ' . $format;
+				$class .= ' wp-format-' . $format;
 		}
 	}
 
