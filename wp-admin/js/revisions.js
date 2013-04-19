@@ -212,7 +212,7 @@ window.wp = window.wp || {};
 			var self = this;
 			self.startRightModelLoading();
 			self.rightHandleRevisions = new Revisions( {}, {
-				'compareTo': self.revisions.at( self.leftDiff ).get( 'ID' ) - 1,
+				'compareTo': self.revisions.at( self.leftDiff - 1 ).get( 'ID' ),
 				'showAutosaves': self.autosaves,
 				'showSplitView': self.showSplitView,
 				'leftHandleAt': self.leftDiff
