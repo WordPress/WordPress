@@ -3986,6 +3986,11 @@ body .ui-tooltip {
 	margin-bottom: 20px;
 }
 
+.wp-format-aside .wp-media-buttons .insert-media,
+.wp-format-status .wp-media-buttons .insert-media {
+	display: none;
+}
+
 .mejs-audio audio,
 .mejs-video video {
 	display: block;
