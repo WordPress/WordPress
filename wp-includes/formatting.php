@@ -1369,9 +1369,9 @@ function zeroise($number, $threshold) {
  * @return string String with backslashes inserted.
  */
 function backslashit($string) {
-	$string = preg_replace('/^([0-9])/', '\\\\\\\\\1', $string);
-	$string = preg_replace('/([a-z])/i', '\\\\\1', $string);
-	return $string;
+	if ( isset( $string[0] ) && $string[0] >= '0' && $string[0] <= '9' )
+		$string = '\\\\' . $string;
+	return addcslashes( $string, 'A..Za..z' );
 }
 
 /**
