@@ -53,7 +53,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 			$class[] = 'wp-has-submenu';
 			$submenu_items = $submenu[$item[2]];
 		}
-		
+
 		if ( ( $parent_file && $item[2] == $parent_file ) || ( empty($typenow) && $self == $item[2] ) ) {
 			$class[] = ! empty( $submenu_items ) ? 'wp-has-current-submenu wp-menu-open' : 'current';
 		} else {
@@ -82,9 +82,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		if ( false !== strpos( $class, 'wp-menu-separator' ) ) {
 			echo '<div class="separator"></div>';
 		} elseif ( $submenu_as_parent && ! empty( $submenu_items ) ) {
-			$temp_submenu_items = $submenu_items = array_values( $submenu_items );  // Re-index.
-			if ( 'customize.php' == $submenu_items[0][2] )
-				$submenu_items[0][2] = 'themes.php';
+			$submenu_items = array_values( $submenu_items );  // Re-index.
 			$menu_hook = get_plugin_page_hook( $submenu_items[0][2], $item[2] );
 			$menu_file = $submenu_items[0][2];
 			if ( false !== ( $pos = strpos( $menu_file, '?' ) ) )
@@ -95,7 +93,6 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 			} else {
 				echo "\n\t<a href='{$submenu_items[0][2]}'$class $aria_attributes>$arrow<div class='wp-menu-image'>$img</div><div class='wp-menu-name'>$title</div></a>";
 			}
-			$submenu_items = $temp_submenu_items;
 		} elseif ( ! empty( $item[2] ) && current_user_can( $item[1] ) ) {
 			$menu_hook = get_plugin_page_hook( $item[2], 'admin.php' );
 			$menu_file = $item[2];
@@ -108,7 +105,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				echo "\n\t<a href='{$item[2]}'$class $aria_attributes>$arrow<div class='wp-menu-image'>$img</div><div class='wp-menu-name'>{$item[0]}</div></a>";
 			}
 		}
-		
+
 		if ( ! empty( $submenu_items ) ) {
 			echo "\n\t<ul class='wp-submenu wp-submenu-wrap'>";
 			echo "<li class='wp-submenu-head'>{$item[0]}</li>";
@@ -143,9 +140,6 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				) {
 					$class[] = 'current';
 				}
-				
-				if ( ! empty( $sub_item[3] ) )
-					$class[] = $sub_item[3];
 
 				$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
 

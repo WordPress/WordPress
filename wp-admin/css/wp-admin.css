@@ -5515,6 +5515,11 @@ h3.available-themes {
 	padding-bottom: 10px;
 }
 
+.theme-options .load-customize {
+	margin-right: 30px;
+	float: left;
+}
+
 .theme-options span {
 	float: left;
 	margin-right: 10px;
@@ -5524,8 +5529,7 @@ h3.available-themes {
 	color: #999;
 }
 
-.theme-options ul,
-.theme-options .load-customize {
+.theme-options ul {
 	float: left;
 	margin: 0;
 }
@@ -6455,8 +6459,7 @@ body.full-overlay-active {
 .no-customize-support.wp-core-ui .hide-if-no-customize,
 .no-customize-support .wp-core-ui .hide-if-no-customize,
 .customize-support.wp-core-ui .hide-if-customize,
-.customize-support .wp-core-ui .hide-if-customize,
-.no-customize-support .theme-options ul li:first-child {
+.customize-support .wp-core-ui .hide-if-customize {
 	display: none;
 }
 
