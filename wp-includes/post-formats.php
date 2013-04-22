@@ -380,12 +380,17 @@ function post_formats_compat( $content, $id = 0 ) {
 				$image = is_numeric( $meta['image'] ) ? wp_get_attachment_url( $meta['image'] ) : $meta['image'];
 
 				if ( ! empty( $image ) && ! stristr( $content, $image ) ) {
-					$image_html = sprintf(
-						'<img %ssrc="%s" alt="" />',
-						empty( $compat['image_class'] ) ? '' : sprintf( 'class="%s" ', esc_attr( $compat['image_class'] ) ),
-						$image
-					);
-					if ( empty( $meta['url'] ) ) {
+					if ( false === strpos( $image, '<a ' ) ) {
+						$image_html = sprintf(
+							'<img %ssrc="%s" alt="" />',
+							empty( $compat['image_class'] ) ? '' : sprintf( 'class="%s" ', esc_attr( $compat['image_class'] ) ),
+							$image
+						);
+					} else {
+						$image_html = $image;
+					}
+
+					if ( empty( $meta['url'] ) || false !== strpos( $image, '<a ' ) ) {
 						$format_output .= $image_html;
 					} else {
 						$format_output .= sprintf(
