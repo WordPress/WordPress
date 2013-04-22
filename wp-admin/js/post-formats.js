@@ -93,22 +93,18 @@ window.wp = window.wp || {};
 
 			lastMimeType = mime;
 
-			// Create the media frame.
-			mediaFrame = wp.media.frames.formatMedia = wp.media({
-				// Set the title of the modal.
-				title: $el.data('choose'),
-
-				// Tell the modal to show only items matching the current mime type.
-				library: {
-					type: mime
-				},
-
-				// Customize the submit button.
+			mediaFrame = wp.media.frames.formatMedia = wp.media( {
 				button: {
-					// Set the text of the button.
 					text: $el.data('update')
-				}
-			});
+				},
+				states: [
+					new wp.media.controller.Library({
+						library: wp.media.query( { type: mime } ),
+						title: $el.data('choose'),
+						displaySettings: 'image' === mime
+					})
+				]
+			} );
 
 			mediaPreview = function(attachment) {
 				var w, h, dimensions = '', url = attachment.url, mime = attachment.mime, format = attachment.type;
@@ -155,7 +151,11 @@ window.wp = window.wp || {};
 					// show one preview at a time
 					mediaPreview(attachment);
 				} else {
-					html = wp.media.string.image({}, attachment);
+					html = wp.media.string.image({
+						align : getUserSetting('align'),
+						size : getUserSetting('imgsize'),
+						link : getUserSetting('urlbutton')
+					}, attachment);
 					// set the hidden input's value
 					$field.val(html);
 					$('#image-preview').remove();

@@ -1966,7 +1966,7 @@ function get_embedded_media( $type, &$content, $remove = false, $limit = 0 ) {
 
 	foreach ( array( $type, 'object', 'embed', 'iframe' ) as $tag ) {
 		if ( preg_match( '#' . get_tag_regex( $tag ) . '#', $content, $matches ) ) {
-			$html[] = $matches[1];
+			$html[] = $matches[0];
 			if ( $remove )
 				$content = str_replace( $matches[0], '', $content );
 
@@ -2209,30 +2209,45 @@ function get_content_images( &$content, $html = true, $remove = false, $limit = 
 	$tags = array();
 	$captions = array();
 
-	if ( $remove && preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
+	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
 		foreach ( $matches as $shortcode ) {
-			if ( 'caption' === $shortcode[2] )
+			if ( 'caption' === $shortcode[2] ) {
 				$captions[] = $shortcode[0];
-		}
-	}
-
-	if ( preg_match_all( '#<img[^>]+/?>#i', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
-		foreach ( $matches as $tag ) {
-			$count = 1;
-			if ( $remove ) {
-				foreach ( $captions as $caption ) {
-					if ( strstr( $caption, $tag[0] ) ) {
-						$content = str_replace( $caption, '', $content, $count );
-					}
-				}
-
-				$content = str_replace( $tag[0], '', $content, $count );
+				if ( $html )
+					$tags[] = do_shortcode( $shortcode[0] );
 			}
-
-			$tags[] = $tag[0];
 
 			if ( $limit > 0 && count( $tags ) >= $limit )
 				break;
+		}
+	}
+
+	foreach ( array( 'a', 'img' ) as $tag ) {
+		if ( preg_match_all( '#' . get_tag_regex( $tag ) .  '#i', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
+			foreach ( $matches as $node ) {
+				if ( ! strstr( $node[0], '<img ' ) )
+					continue;
+
+				$count = 1;
+				$found = false;
+
+				foreach ( $captions as $caption ) {
+					if ( strstr( $caption, $node[0] ) ) {
+						$found = true;
+						if ( $remove )
+							$content = str_replace( $caption, '', $content, $count );
+					}
+				}
+
+				if ( $remove )
+					$content = str_replace( $node[0], '', $content, $count );
+
+				if ( ! $found )
+					$tags[] = $node[0];
+
+				if ( $limit > 0 && count( $tags ) >= $limit )
+					break 2;
+			}
 		}
 	}
 
@@ -2400,6 +2415,7 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 	if ( isset( $post->format_content ) )
 		return $post->format_content;
 
+	$matched = false;
 	$meta = get_post_format_meta( $post->ID );
 
 	$link_fmt = '%s';
@@ -2407,16 +2423,33 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 		$link_fmt = '<a href="' . esc_url( $meta['url'] ) . '">%s</a>';
 
 	if ( ! empty( $meta['image'] ) ) {
-		if ( is_numeric( $meta['image'] ) )
+		if ( is_numeric( $meta['image'] ) ) {
 			$image = wp_get_attachment_image( absint( $meta['image'] ), $attached_size );
-		elseif ( preg_match( '/' . get_shortcode_regex() . '/s', $meta['image'] ) )
+			// wrap image in <a>
+			if ( ! empty( $meta['url'] ) )
+				$image = sprint( $link_fmt, $image );
+		} elseif ( has_shortcode( $meta['image'], 'gallery' ) ) {
+			// wrap <img> in <a>
+			if ( ! empty( $meta['url'] ) && false === strpos( $meta['image'], '<a ' ) ) {
+				$meta['image'] = preg_replace(
+					'#(<img[^>]+>)#',
+					sprintf( '<a href="%s">$1</a>', esc_url( $meta['url'] ) ),
+					$meta['image']
+				);
+			}
 			$image = do_shortcode( $meta['image'] );
-		elseif ( ! preg_match( '#<[^>]+>#', $meta['image'] ) )
+		} elseif ( ! preg_match( '#<[^>]+>#', $meta['image'] ) ) {
+			// not HTML, assume URL
 			$image = sprintf( '<img src="%s" alt="" />', esc_url( $meta['image'] ) );
-		else
+		} else {
+			// assume HTML
 			$image = $meta['image'];
+		}
 
-		$post->format_content = sprintf( $link_fmt, $image );
+		if ( false === strpos( $image, '<a ' ) )
+			$post->format_content = sprintf( $link_fmt, $image );
+		else
+			$post->format_content = $image;
 		return $post->format_content;
 	}
 
@@ -2444,8 +2477,11 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 			foreach ( $matches as $shortcode ) {
 				if ( 'caption' === $shortcode[2] ) {
 					foreach ( $urls as $url ) {
-						if ( strstr( $shortcode[0], $url ) )
+						if ( strstr( $shortcode[0], $url ) ) {
+							if ( ! $matched )
+								$matched = do_shortcode( $shortcode[0] );
 							$content = str_replace( $shortcode[0], '', $content, $count );
+						}
 					}
 				}
 			}
@@ -2455,16 +2491,25 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 			if ( preg_match_all( '#' . get_tag_regex( $tag ) . '#', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
 				foreach ( $matches as $match ) {
 					foreach ( $urls as $url ) {
-						if ( strstr( $match[0], $url ) )
+						if ( strstr( $match[0], $url ) ) {
+							if ( ! $matched )
+								$matched = $match[0];
 							$content = str_replace( $match[0], '', $content, $count );
+						}
 					}
 				}
 			}
 		}
 
 		$post->split_content = $content;
-		$image = wp_get_attachment_image( $media->ID, $attached_size );
-		$post->format_content = sprintf( $link_fmt, $image );
+		if ( ! $matched ) {
+			$image = wp_get_attachment_image( $media->ID, $attached_size );
+			$post->format_content = sprintf( $link_fmt, $image );
+		} else {
+			$post->format_content = $matched;
+			if ( ! empty( $meta['url'] ) && false === stripos( $matched, '<a ' ) )
+				$post->format_content = sprintf( $link_fmt, $matched );
+		}
 		return $post->format_content;
 	}
 
