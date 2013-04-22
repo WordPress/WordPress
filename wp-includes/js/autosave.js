@@ -227,6 +227,7 @@ function autosave_loading() {
 }
 
 function autosave_enable_buttons() {
+	jQuery(document).trigger('autosave-enable-buttons');
 	if ( ! wp.heartbeat.connectionLost ) {
 		// delay that a bit to avoid some rare collisions while the DOM is being updated.
 		setTimeout(function(){
@@ -238,6 +239,7 @@ function autosave_enable_buttons() {
 }
 
 function autosave_disable_buttons() {
+	jQuery(document).trigger('autosave-disable-buttons');
 	jQuery('#submitpost').find(':button, :submit').prop('disabled', true);
 	// Re-enable 5 sec later. Just gives autosave a head start to avoid collisions.
 	setTimeout( autosave_enable_buttons, 5000 );

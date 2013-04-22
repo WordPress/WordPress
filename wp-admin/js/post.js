@@ -277,15 +277,26 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 			wrap = $('#notification-dialog-wrap');
 
 			if ( wrap.length && ! wrap.is(':visible') ) {
-				if ( typeof autosave == 'function' )
+				if ( typeof autosave == 'function' ) {
+					$(document).on('autosave-disable-buttons.post-lock', function() {
+						wrap.addClass('saving');
+					}).on('autosave-enable-buttons.post-lock', function() {
+						wrap.removeClass('saving').addClass('saved');
+						window.onbeforeunload = null;
+					});
+
+					// Save the latest changes and disable
 					autosave();
+					autosave = function(){};
+				}
 
 				if ( received.lock_error.avatar_src ) {
 					avatar = $('<img class="avatar avatar-64 photo" width="64" height="64" />').attr( 'src', received.lock_error.avatar_src.replace(/&amp;/g, '&') );
 					wrap.find('div.post-locked-avatar').empty().append( avatar );
 				}
 
-				wrap.show().find('p.currently-editing').text( received.lock_error.text ).focus();
+				wrap.show().find('.currently-editing').text( received.lock_error.text );
+				wrap.find('.wp-tab-first').focus();
 			}
 		} else if ( received.new_lock ) {
 			$('#active_post_lock').val( received.new_lock );

@@ -3399,6 +3399,7 @@ td.plugin-title p {
 	width: 450px;
 	margin-left: -225px;
 	background: #fff;
+	line-height: 1.5;
 	z-index: 1000005;
 }
 
@@ -3425,14 +3426,22 @@ td.plugin-title p {
 
 #notification-dialog .post-locked-avatar {
 	float: left;
-	margin-right: 20px;
+	margin: 0 20px 20px 0;
 }
 
-#notification-dialog .currently-editing {
-	margin-bottom: 20px;
+#notification-dialog .wp-tab-first {
 	outline: 0;
 }
 
+#notification-dialog .locked-saving img {
+	float: left;
+	margin-right: 3px;
+}
+
+#notification-dialog-wrap.saving .locked-saving,
+#notification-dialog-wrap.saved .locked-saved {
+	display: inline;
+}
 
 /*------------------------------------------------------------------------------
   11.1 - Custom Fields
