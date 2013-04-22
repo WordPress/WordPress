@@ -480,6 +480,8 @@ class WP_User_Query {
 					$search_columns = array('user_login', 'user_nicename');
 			}
 
+			$search_columns = apply_filters( 'user_search_columns', $search_columns, $search, $this );
+
 			$this->query_where .= $this->get_search_sql( $search, $search_columns, $wild );
 		}
 
