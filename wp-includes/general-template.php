@@ -219,12 +219,12 @@ function wp_loginout($redirect = '', $echo = true) {
 /**
  * Returns the Log Out URL.
  *
- * Returns the URL that allows the user to log out of the site
+ * Returns the URL that allows the user to log out of the site.
  *
  * @since 2.7.0
- * @uses wp_nonce_url() To protect against CSRF
- * @uses site_url() To generate the log in URL
- * @uses apply_filters() calls 'logout_url' hook on final logout url
+ * @uses wp_nonce_url() To protect against CSRF.
+ * @uses site_url() To generate the log out URL.
+ * @uses apply_filters() calls 'logout_url' hook on final logout URL.
  *
  * @param string $redirect Path to redirect to on logout.
  * @return string A log out URL.
@@ -244,11 +244,11 @@ function wp_logout_url($redirect = '') {
 /**
  * Returns the Log In URL.
  *
- * Returns the URL that allows the user to log in to the site
+ * Returns the URL that allows the user to log in to the site.
  *
  * @since 2.7.0
- * @uses site_url() To generate the log in URL
- * @uses apply_filters() calls 'login_url' hook on final login url
+ * @uses site_url() To generate the log in URL.
+ * @uses apply_filters() calls 'login_url' hook on final login URL.
  *
  * @param string $redirect Path to redirect to on login.
  * @param bool $force_reauth Whether to force reauthorization, even if a cookie is present. Default is false.
@@ -264,6 +264,21 @@ function wp_login_url($redirect = '', $force_reauth = false) {
 		$login_url = add_query_arg('reauth', '1', $login_url);
 
 	return apply_filters('login_url', $login_url, $redirect);
+}
+
+/**
+ * Returns the user registration URL.
+ *
+ * Returns the URL that allows the user to register on the site.
+ *
+ * @since 3.6.0
+ * @uses site_url() To generate the registration URL.
+ * @uses apply_filters() calls 'register_url' hook on final URL.
+ *
+ * @return string
+ */
+function wp_registration_url() {
+	return apply_filters( 'register_url', site_url( 'wp-login.php?action=register', 'login' ) );
 }
 
 /**
@@ -359,7 +374,7 @@ function wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
 
 	if ( ! is_user_logged_in() ) {
 		if ( get_option('users_can_register') )
-			$link = $before . '<a href="' . site_url('wp-login.php?action=register', 'login') . '">' . __('Register') . '</a>' . $after;
+			$link = $before . '<a href="' . esc_url( wp_registration_url() ) . '">' . __('Register') . '</a>' . $after;
 		else
 			$link = '';
 	} else {
