@@ -50,7 +50,7 @@ class WP_Styles extends WP_Dependencies {
 				$this->concat .= "$handle,";
 				$this->concat_version .= "$handle$ver";
 
-				$this->print_code .= $this->get_data( $handle, 'after' );
+				$this->print_code .= $this->print_inline_style( $handle, false );
 
 				return true;
 			}
