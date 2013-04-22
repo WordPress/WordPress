@@ -196,8 +196,8 @@ function twentythirteen_admin_header_image() {
 	<div id="headimg" style="background: url(<?php header_image(); ?>) no-repeat scroll top; background-size: 1600px auto;">
 		<?php $style = ' style="color:#' . get_header_textcolor() . ';"'; ?>
 		<div class="hgroup">
-			<h1><a id="name"<?php echo $style; ?> onclick="return false;" href="#"><?php bloginfo( 'name' ); ?></a></h1>
-			<h2 id="desc"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></h2>
+			<h1 class="displaying-header-text"><a id="name"<?php echo $style; ?> onclick="return false;" href="#"><?php bloginfo( 'name' ); ?></a></h1>
+			<h2 id="desc" class="displaying-header-text"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></h2>
 		</div>
 	</div>
 <?php }
