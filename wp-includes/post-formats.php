@@ -931,3 +931,71 @@ function the_remaining_content( $more_link_text = null, $strip_teaser = false ) 
 
 	echo str_replace( ']]>', ']]&gt;', $content );
 }
+
+/**
+ * Don't display post titles for asides and status posts on the front end.
+ *
+ * @since 3.6.0
+ * @access private
+ */
+function _post_formats_title( $title, $post_id ) {
+	if ( is_admin() || is_feed() || ! in_array( get_post_format( $post_id ), array( 'aside', 'status' ) ) )
+		return $title;
+
+	// Return an empty string only if the title is auto-generated.
+	$post = get_post( $post_id );
+	if ( $title == _post_formats_generate_title( $post->post_content, get_post_format( $post_id ) ) )
+		$title = '';
+
+	return $title;
+}
+
+/**
+ * Generate a title from the post content or format.
+ *
+ * @since 3.6.0
+ * @access private
+ */
+function _post_formats_generate_title( $content, $post_format = '' ) {
+	$title = wp_trim_words( strip_shortcodes( $content ), 8, '' );
+
+	if ( empty( $title ) )
+		$title = get_post_format_string( $post_format );
+
+	return $title;
+}
+
+/**
+ * Runs during save_post, fixes empty titles for asides and statuses.
+ *
+ * @since 3.6.0
+ * @access private
+ */
+function _post_formats_fix_empty_title( $data, $postarr ) {
+	if ( 'auto-draft' == $data['post_status'] || ! post_type_supports( $data['post_type'], 'post-formats' ) )
+		return $data;
+
+	$post_id = ( isset( $postarr['ID'] ) ) ? absint( $postarr['ID'] ) : 0;
+
+	if ( $post_id )
+		$post_format = get_post_format( $post_id );
+
+	if ( isset( $postarr['post_format'] ) )
+		$post_format = ( in_array( $postarr['post_format'], get_post_format_slugs() ) ) ? $postarr['post_format'] : '';
+
+	if ( ! in_array( $post_format, array( 'aside', 'status' ) ) )
+		return $data;
+
+	if ( $data['post_title'] == _post_formats_generate_title( $data['post_content'], $post_format ) )
+		return $data;
+
+	// If updating an existing post, check whether the title was auto-generated.
+	if ( $post_id && $post = get_post( $post_id ) )
+		if ( $post->post_title == $data['post_title'] && $post->post_title == _post_formats_generate_title( $post->post_content, get_post_format( $post->ID ) ) )
+			$data['post_title'] = '';
+
+	if ( empty( $data['post_title'] ) )
+		$data['post_title'] = _post_formats_generate_title( $data['post_content'], $post_format );
+
+	return $data;
+}

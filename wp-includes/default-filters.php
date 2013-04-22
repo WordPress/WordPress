@@ -131,6 +131,7 @@ add_filter( 'wp_update_term_parent', 'wp_check_term_hierarchy_for_loops', 10, 3 
 add_filter( 'the_title', 'wptexturize'   );
 add_filter( 'the_title', 'convert_chars' );
 add_filter( 'the_title', 'trim'          );
+add_filter( 'the_title', '_post_formats_title', 10, 2 );
 
 add_filter( 'the_content', 'post_formats_compat', 7 );
 add_filter( 'the_content', 'wptexturize'            );
@@ -250,6 +251,7 @@ add_action( 'init',                       'smilies_init',                       
 add_action( 'plugins_loaded',             'wp_maybe_load_widgets',                    0    );
 add_action( 'plugins_loaded',             'wp_maybe_load_embeds',                     0    );
 add_action( 'shutdown',                   'wp_ob_end_flush_all',                      1    );
+add_action( 'wp_insert_post_data',        '_post_formats_fix_empty_title',           10, 2 );
 add_action( 'wp_insert_post',             'wp_save_post_revision',                   10, 1 );
 add_action( 'publish_post',               '_publish_post_hook',                       5, 1 );
 add_action( 'transition_post_status',     '_transition_post_status',                  5, 3 );

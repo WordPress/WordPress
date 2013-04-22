@@ -3995,6 +3995,8 @@ body .ui-tooltip {
 	margin-bottom: 20px;
 }
 
+.wp-format-aside #titlewrap,
+.wp-format-status #titlewrap,
 .wp-format-aside .wp-media-buttons .insert-media,
 .wp-format-status .wp-media-buttons .insert-media {
 	display: none;
