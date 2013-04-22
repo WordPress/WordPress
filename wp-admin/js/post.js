@@ -483,11 +483,12 @@ jQuery(document).ready( function($) {
 			} else {
 				$('#timestamp').html(
 					publishOn + ' <b>' +
-					$('option[value="' + $('#mm').val() + '"]', '#mm').text() + ' ' +
-					jj + ', ' +
-					aa + ' @ ' +
-					hh + ':' +
-					mn + '</b> '
+					postL10n.dateFormat.replace( '%1$s', $('option[value="' + $('#mm').val() + '"]', '#mm').text() )
+						.replace( '%2$s', jj )
+						.replace( '%3$s', aa )
+						.replace( '%4$s', hh )
+						.replace( '%5$s', mn )
+					+ '</b> '
 				);
 			}
 
