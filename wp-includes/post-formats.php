@@ -686,7 +686,7 @@ function the_post_format_chat() {
  *
  * @param string $content A string which might contain chat data, passed by reference.
  * @param bool $remove (optional) Whether to remove the quote from the content.
- * @param string $replace (optional) Content to replace the quote content with if $remove is set to true.
+ * @param string $replace (optional) Content to replace the quote content with.
  * @return string The quote content.
  */
 function get_content_quote( &$content, $remove = false, $replace = '' ) {
