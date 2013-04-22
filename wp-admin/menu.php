@@ -140,7 +140,7 @@ $appearance_cap = current_user_can( 'switch_themes') ? 'switch_themes' : 'edit_t
 
 $menu[60] = array( __('Appearance'), $appearance_cap, 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'div' );
 	$submenu['themes.php'][5] = array( __( 'Themes' ), $appearance_cap, 'themes.php' );
-	$submenu['themes.php'][6] = array( __( 'Customize' ), $appearance_cap, 'customize.php', 'hide-if-no-customize' );
+	$submenu['themes.php'][6] = array( __( 'Customize' ), 'edit_theme_options', 'customize.php', 'hide-if-no-customize' );
 	if ( current_theme_supports( 'menus' ) || current_theme_supports( 'widgets' ) )
 		$submenu['themes.php'][10] = array(__( 'Menus' ), 'edit_theme_options', 'nav-menus.php');
 
