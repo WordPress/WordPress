@@ -1358,7 +1358,7 @@ table.diff .diff-deletedline {
 }
 
 table.diff .diff-deletedline del {
-	background-color: #ffaaaa;
+	background-color: #faa;
 }
 
 table.diff .diff-addedline {
@@ -1366,7 +1366,7 @@ table.diff .diff-addedline {
 }
 
 table.diff .diff-addedline ins {
-	background-color: #aaffaa;
+	background-color: #afa;
 }
 
 #diff-title-to strong {
@@ -1378,7 +1378,7 @@ table.diff .diff-addedline ins {
 }
 
 .revision-tick.completed-false {
-	background-color: #9999cc;
+	background-color: #99c;
 	background: url(../images/wpspin_light.gif) no-repeat;
 	background-position: middle;
 	background-size: 1px 10px;
