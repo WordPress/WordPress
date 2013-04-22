@@ -176,7 +176,7 @@ final class _WP_Editors {
 				$qtInit = array_merge($qtInit, $set['quicktags']);
 
 			if ( empty($qtInit['buttons']) )
-				$qtInit['buttons'] = 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close';
+				$qtInit['buttons'] = 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,close';
 
 			if ( $set['dfw'] )
 				$qtInit['buttons'] .= ',fullscreen';

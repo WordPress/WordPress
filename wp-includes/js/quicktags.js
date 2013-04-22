@@ -8,7 +8,7 @@
  * settings = {
  *   id : 'my_id',          the HTML ID of the textarea, required
  *   buttons: ''            Comma separated list of the names of the default buttons to show. Optional.
- *                          Current list of default button names: 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close';
+ *                          Current list of default button names: 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,close';
  * }
  *
  * The settings can also be a string quicktags_id.
@@ -229,7 +229,7 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 
 	qt._buttonsInit = function() {
 		var t = this, canvas, name, settings, theButtons, html, inst, ed, id, i, use,
-			defaults = ',strong,em,link,block,del,ins,img,ul,ol,li,code,more,spell,close,';
+			defaults = ',strong,em,link,block,del,ins,img,ul,ol,li,code,more,close,';
 
 		for ( inst in t.instances ) {
 			if ( inst == 0 )
@@ -499,36 +499,8 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 		}
 	};
 
-	// the spell button
-	qt.SpellButton = function() {
-		qt.Button.call(this, 'spell', quicktagsL10n.lookup, '', quicktagsL10n.dictionaryLookup);
-	};
-	qt.SpellButton.prototype = new qt.Button();
-	qt.SpellButton.prototype.callback = function(element, canvas, ed) {
-		var word = '', sel, startPos, endPos;
-
-		if ( document.selection ) {
-			canvas.focus();
-			sel = document.selection.createRange();
-			if ( sel.text.length > 0 ) {
-				word = sel.text;
-			}
-		} else if ( canvas.selectionStart || canvas.selectionStart == '0' ) {
-			startPos = canvas.selectionStart;
-			endPos = canvas.selectionEnd;
-			if ( startPos != endPos ) {
-				word = canvas.value.substring(startPos, endPos);
-			}
-		}
-
-		if ( word === '' ) {
-			word = prompt(quicktagsL10n.wordLookup, '');
-		}
-
-		if ( word !== null && /^\w[\w ]*$/.test(word)) {
-			window.open('http://www.answers.com/' + encodeURIComponent(word));
-		}
-	};
+	// removed
+	qt.SpellButton = function() {};
 
 	// the close tags button
 	qt.CloseButton = function() {
@@ -643,7 +615,6 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	edButtons[100] = new qt.TagButton('li','li','\t<li>','</li>\n','l'),
 	edButtons[110] = new qt.TagButton('code','code','<code>','</code>','c'),
 	edButtons[120] = new qt.TagButton('more','more','<!--more-->','','t'),
-	edButtons[130] = new qt.SpellButton(),
 	edButtons[140] = new qt.CloseButton()
 
 })();

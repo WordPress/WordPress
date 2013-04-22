@@ -75,9 +75,6 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'quicktags', "/wp-includes/js/quicktags$suffix.js", array(), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'quicktags', 'quicktagsL10n', array(
-		'wordLookup' => __('Enter a word to look up:'),
-		'dictionaryLookup' => esc_attr(__('Dictionary lookup')),
-		'lookup' => esc_attr(__('lookup')),
 		'closeAllOpenTags' => esc_attr(__('Close all open tags')),
 		'closeTags' => esc_attr(__('close tags')),
 		'enterURL' => __('Enter the URL'),

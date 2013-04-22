@@ -2395,7 +2395,7 @@ function edit_form_image_editor() {
 	<?php endif; ?>
 
 	<?php
-		$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,spell,close' );
+		$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close' );
 		$editor_args = array(
 			'textarea_name' => 'content',
 			'textarea_rows' => 5,
