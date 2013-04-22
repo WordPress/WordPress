@@ -97,11 +97,14 @@ abstract class WP_Image_Editor {
 	 * Processes current image and saves to disk
 	 * multiple sizes from single source.
 	 *
+	 * 'width' and 'height' are required.
+	 * 'crop' defaults to false when not provided.
+	 *
 	 * @since 3.5.0
 	 * @access public
 	 * @abstract
 	 *
-	 * @param array $sizes { {'width'=>int, 'height'=>int, 'crop'=>bool}, ... }
+	 * @param array $sizes { {'width'=>int, 'height'=>int, ['crop'=>bool]}, ... }
 	 * @return array
 	 */
 	abstract public function multi_resize( $sizes );

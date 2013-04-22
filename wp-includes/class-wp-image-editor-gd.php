@@ -178,10 +178,13 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * Processes current image and saves to disk
 	 * multiple sizes from single source.
 	 *
+	 * 'width' and 'height' are required.
+	 * 'crop' defaults to false when not provided.
+	 *
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @param array $sizes { {'width'=>int, 'height'=>int, 'crop'=>bool}, ... }
+	 * @param array $sizes { {'width'=>int, 'height'=>int, ['crop'=>bool]}, ... }
 	 * @return array
 	 */
 	public function multi_resize( $sizes ) {
@@ -189,6 +192,12 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		$orig_size = $this->size;
 
 		foreach ( $sizes as $size => $size_data ) {
+			if ( ! ( isset( $size_data['width'] ) && isset( $size_data['height'] ) ) )
+				continue;
+
+			if ( ! isset( $size_data['crop'] ) )
+				$size_data['crop'] = false;
+
 			$image = $this->_resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
 			if( ! is_wp_error( $image ) ) {

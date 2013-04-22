@@ -245,10 +245,13 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * Processes current image and saves to disk
 	 * multiple sizes from single source.
 	 *
+	 * 'width' and 'height' are required.
+	 * 'crop' defaults to false when not provided.
+	 *
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @param array $sizes { {'width'=>int, 'height'=>int, 'crop'=>bool}, ... }
+	 * @param array $sizes { {'width'=>int, 'height'=>int, ['crop'=>bool]}, ... }
 	 * @return array
 	 */
 	public function multi_resize( $sizes ) {
@@ -259,6 +262,12 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		foreach ( $sizes as $size => $size_data ) {
 			if ( ! $this->image )
 				$this->image = $orig_image->getImage();
+
+			if ( ! ( isset( $size_data['width'] ) && isset( $size_data['height'] ) ) )
+				continue;
+
+			if ( ! isset( $size_data['crop'] ) )
+				$size_data['crop'] = false;
 
 			$resize_result = $this->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
