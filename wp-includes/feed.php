@@ -520,11 +520,14 @@ function feed_content_type( $type = '' ) {
  *
  * @since 2.8
  *
- * @param string $url URL to retrieve feed
+ * @param mixed $url URL of feed to retrieve. If an array of URLs, the feeds are merged
+ * using SimplePie's multifeed feature.
+ * See also {@link ​http://simplepie.org/wiki/faq/typical_multifeed_gotchas}
+ *
  * @return WP_Error|SimplePie WP_Error object on failure or SimplePie object on success
  */
-function fetch_feed($url) {
-	require_once (ABSPATH . WPINC . '/class-feed.php');
+function fetch_feed( $url ) {
+	require_once ( ABSPATH . WPINC . '/class-feed.php' );
 
 	$feed = new SimplePie();
 
@@ -536,14 +539,14 @@ function fetch_feed($url) {
 	$feed->set_cache_class( 'WP_Feed_Cache' );
 	$feed->set_file_class( 'WP_SimplePie_File' );
 
-	$feed->set_feed_url($url);
+	$feed->set_feed_url( $url );
 	$feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
 	do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
 	$feed->init();
 	$feed->handle_content_type();
 
 	if ( $feed->error() )
-		return new WP_Error('simplepie-error', $feed->error());
+		return new WP_Error( 'simplepie-error', $feed->error() );
 
 	return $feed;
 }
