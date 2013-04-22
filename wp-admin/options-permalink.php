@@ -71,8 +71,6 @@ jQuery(document).ready(function() {
 }
 add_filter('admin_head', 'options_permalink_add_js');
 
-include('./admin-header.php');
-
 $home_path = get_home_path();
 $iis7_permalinks = iis7_supports_permalinks();
 
@@ -115,7 +113,8 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 		$wp_rewrite->set_tag_base( $tag_base );
 	}
 
-	create_initial_taxonomies();
+	wp_redirect( admin_url( 'options-permalink.php?settings-updated=true' ) );
+	exit;
 }
 
 $permalink_structure = get_option('permalink_structure');
@@ -141,7 +140,9 @@ else
 
 flush_rewrite_rules();
 
-if (isset($_POST['submit'])) : ?>
+require( ABSPATH . 'wp-admin/admin-header.php' );
+
+if ( ! empty( $_GET['settings-updated'] ) ) : ?>
 <div id="message" class="updated"><p><?php
 if ( ! is_multisite() ) {
 	if ( $iis7_permalinks ) {
