@@ -11,12 +11,12 @@
  *
  * @since 3.1.0
  *
- * @param int|object $post A post.
- *
- * @return mixed The format if successful. False if no format is set. WP_Error if errors.
+ * @param int|object $post Post ID or post object. Optional, default is the current post from the loop.
+ * @return mixed The format if successful. False otherwise.
  */
 function get_post_format( $post = null ) {
-	$post = get_post($post);
+	if ( ! $post = get_post( $post ) )
+		return false;
 
 	if ( ! post_type_supports( $post->post_type, 'post-formats' ) )
 		return false;
@@ -28,7 +28,7 @@ function get_post_format( $post = null ) {
 
 	$format = array_shift( $_format );
 
-	return ( str_replace('post-format-', '', $format->slug ) );
+	return str_replace('post-format-', '', $format->slug );
 }
 
 /**
