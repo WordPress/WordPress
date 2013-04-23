@@ -323,19 +323,6 @@ div.nav-menu > ul {
  * ----------------------------------------------------------------------------
  */
 
-.format-aside .entry-content .date {
-	margin-left: auto;
-	margin-right: 20px;
-}
-
-.format-aside .entry-content .date a:before {
-	content: normal;
-}
-
-.format-aside .entry-content .date a:after {
-	content: "\f303";
-}
-
 .format-aside cite:before {
 	content: normal;
 	margin-right: auto;

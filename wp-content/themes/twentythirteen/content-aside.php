@@ -14,17 +14,18 @@
 		<?php wp_link_pages( array( 'before' => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentythirteen' ) . '</span>', 'after' => '</div>', 'link_before' => '<span>', 'link_after' => '</span>' ) ); ?>
 	</div><!-- .entry-content -->
 
-	<?php if ( is_single() ) : ?>
 	<footer class="entry-meta">
-		<?php twentythirteen_entry_meta(); ?>
-		<?php edit_post_link( __( 'Edit', 'twentythirteen' ), '<span class="edit-link">', '</span>' ); ?>
+		<?php if ( is_single() ) : ?>
+			<?php twentythirteen_entry_meta(); ?>
+			<?php edit_post_link( __( 'Edit', 'twentythirteen' ), '<span class="edit-link">', '</span>' ); ?>
 
-		<?php if ( get_the_author_meta( 'description' ) && is_multi_author() ) : ?>
-			<?php get_template_part( 'author-bio' ); ?>
-		<?php endif; ?>
+			<?php if ( get_the_author_meta( 'description' ) && is_multi_author() ) : ?>
+				<?php get_template_part( 'author-bio' ); ?>
+			<?php endif; ?>
+
+		<?php else : ?>
+			<?php twentythirteen_entry_date(); ?>
+			<?php edit_post_link( __( 'Edit', 'twentythirteen' ), '<span class="edit-link">', '</span>' ); ?>
+		<?php endif; // is_single() ?>
 	</footer><!-- .entry-meta -->
-
-	<?php else : ?>
-		<?php edit_post_link( __( 'Edit', 'twentythirteen' ), '<footer class="entry-meta"><span class="edit-link">', '</span></footer><!-- .entry-meta -->' ); ?>
-	<?php endif; // is_single() ?>
 </article><!-- #post -->

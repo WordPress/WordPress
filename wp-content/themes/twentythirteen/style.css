@@ -1437,21 +1437,7 @@ footer.entry-meta {
 	box-shadow: inset 0 2px 2px rgba(173, 165, 105, 0.2);
 }
 
-.format-aside .entry-content .date {
-	color: #ca3c08;
-	font-size: 14px;
-	margin-left: 20px;
-}
-
-.format-aside .entry-content .date a:hover {
-	color: #ea9629;
-}
-
-.format-aside .entry-content .date a:before {
-	content: "\f303";
-}
-
-.format-aside footer.entry-meta {
+.format-aside .entry-meta {
 	margin-top: 0;
 }
 
@@ -1468,10 +1454,6 @@ footer.entry-meta {
 .format-aside cite:before {
 	content: "\2014";
 	margin-right: 5px;
-}
-
-.blog .format-aside .entry-content p:last-child {
-	margin-bottom: 0;
 }
 
 /* Audio */
