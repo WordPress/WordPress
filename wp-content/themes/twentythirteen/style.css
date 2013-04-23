@@ -2096,24 +2096,17 @@ footer.entry-meta {
 	padding: 50px 0 0;
 }
 
-.author-avatar {
+.author-avatar .avatar {
 	float: left;
 	margin: 0 30px 30px 0;
 }
 
 .single-format-status .author-description,
-.single-format-status .author-description h2,
-.single-format-quote .author-description,
-.single-format-quote .author-description h2 {
+.single-format-quote .author-description {
 	color: #f7f5e7;
 }
 
-.single-format-audio .author-description a,
-.single-format-video .author-description a {
-	color: #fbfaf3;
-}
-
-.author-description h2 {
+.author-description .author-title {
 	clear: none;
 	font: 300 italic 20px "Source Sans Pro", Helvetica, sans-serif;
 	margin: 0 0 8px;

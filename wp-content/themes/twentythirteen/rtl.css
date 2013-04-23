@@ -537,7 +537,7 @@ div.nav-menu > ul {
 	padding-right: 60px;
 }
 
-.author-avatar {
+.author-avatar .avatar {
 	float: right;
 	margin: 0 0 30px 30px;
 }
