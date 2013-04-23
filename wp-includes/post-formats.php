@@ -347,9 +347,6 @@ function post_formats_compat( $content, $id = 0 ) {
 
 	switch ( $format ) {
 		case 'link':
-			$compat['tag'] = '';
-			$compat['position'] = 'before';
-
 			if ( ! empty( $meta['link_url'] ) ) {
 				$esc_url = preg_quote( $meta['link_url'], '#' );
 				// Make sure the same URL isn't in the post (modified/extended versions allowed)
