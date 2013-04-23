@@ -103,7 +103,7 @@ function twentythirteen_header_style() {
 	<?php
 			if ( empty( $header_image ) ) :
 	?>
-		.site-header hgroup {
+		.site-header .home-link {
 			min-height: 0;
 		}
 	<?php
@@ -141,7 +141,7 @@ function twentythirteen_admin_header_style() {
 		} ?>
 		padding: 0 20px;
 	}
-	#headimg .hgroup {
+	#headimg .home-link {
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing:    border-box;
 		box-sizing:         border-box;
@@ -195,7 +195,7 @@ function twentythirteen_admin_header_image() {
 	?>
 	<div id="headimg" style="background: url(<?php header_image(); ?>) no-repeat scroll top; background-size: 1600px auto;">
 		<?php $style = ' style="color:#' . get_header_textcolor() . ';"'; ?>
-		<div class="hgroup">
+		<div class="home-link">
 			<h1 class="displaying-header-text"><a id="name"<?php echo $style; ?> onclick="return false;" href="#"><?php bloginfo( 'name' ); ?></a></h1>
 			<h2 id="desc" class="displaying-header-text"<?php echo $style; ?>><?php bloginfo( 'description' ); ?></h2>
 		</div>

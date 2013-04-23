@@ -70,7 +70,6 @@ figcaption,
 figure,
 footer,
 header,
-hgroup,
 nav,
 section,
 summary {
@@ -807,16 +806,14 @@ img.wp-smiley,
 	position: relative;
 }
 
-.site-header hgroup {
+.site-header .home-link {
+	color: #141412;
+	display: block;
 	margin: 0 auto;
 	max-width: 1080px;
 	padding: 0 20px;
 	min-height: 230px;
 	width: 100%;
-}
-
-.site-header a {
-	color: #141412;
 	text-decoration: none;
 }
 
@@ -991,7 +988,7 @@ ul.nav-menu li:hover > ul,
 	z-index: 3;
 }
 
-.navbar-fixed #masthead .site-title {
+.navbar-fixed .site-title {
 	color: #141412;
 }
 
@@ -3238,7 +3235,7 @@ footer.entry-meta {
 		background-image: none !important;
 	}
 
-	.site-header hgroup {
+	.site-header .home-link {
 		min-height: 0;
 		max-width: none;
 	}

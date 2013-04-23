@@ -22,13 +22,13 @@
 		value.bind( function( to ) {
 			if ( 'blank' == to ) {
 				if ( 'remove-header' == _wpCustomizeSettings.values.header_image )
-					$( '#masthead hgroup' ).css( 'min-height', '0' );
+					$( '.home-link' ).css( 'min-height', '0' );
 				$( '.site-title, .site-description' ).css( {
 					'clip': 'rect(1px, 1px, 1px, 1px)',
 					'position': 'absolute'
 				} );
 			} else {
-				$( '#masthead hgroup' ).css( 'min-height', '230px' );
+				$( '.home-link' ).css( 'min-height', '230px' );
 				$( '.site-title, .site-description' ).css( {
 					'clip': 'auto',
 					'color': to,

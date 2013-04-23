@@ -34,7 +34,7 @@ Styles for older IE versions (previous to IE9).
 	left: 100%;
 }
 
-.site-header hgroup {
+.site-header .home-link {
 	max-width: 1040px;
 }
 
