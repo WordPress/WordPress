@@ -589,12 +589,10 @@ div.nav-menu > ul {
 }
 
 .comment-author {
+	float: right;
 	margin-left: 50px;
 	margin-right: auto;
-	left: auto;
-	right: 0;
 }
-
 
 .bypostauthor .fn:before {
 	content: normal;
@@ -611,7 +609,7 @@ div.nav-menu > ul {
 	margin-right: 20px;
 }
 
-.comment-meta,
+.comment-metadata,
 .comment-content,
 .reply {
 	float: left;
