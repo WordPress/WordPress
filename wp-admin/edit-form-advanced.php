@@ -128,6 +128,7 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 
 // post format
 $format_class = '';
+$post_format = '';
 $post_format_set_class = '';
 $post_format_options = '';
 if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_post_format_ui', true, $post ) ) {
