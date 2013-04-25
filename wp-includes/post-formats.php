@@ -56,20 +56,20 @@ function has_post_format( $format, $post = null ) {
  * @return mixed WP_Error on error. Array of affected term IDs on success.
  */
 function set_post_format( $post, $format ) {
-	$post = get_post($post);
+	$post = get_post( $post );
 
-	if ( empty($post) )
-		return new WP_Error('invalid_post', __('Invalid post'));
+	if ( empty( $post ) )
+		return new WP_Error( 'invalid_post', __( 'Invalid post' ) );
 
-	if ( !empty($format) ) {
-		$format = sanitize_key($format);
-		if ( 'standard' == $format || !in_array( $format, array_keys( get_post_format_slugs() ) ) )
+	if ( ! empty( $format ) ) {
+		$format = sanitize_key( $format );
+		if ( 'standard' === $format || ! in_array( $format, get_post_format_slugs() ) )
 			$format = '';
 		else
 			$format = 'post-format-' . $format;
 	}
 
-	return wp_set_post_terms($post->ID, $format, 'post_format');
+	return wp_set_post_terms( $post->ID, $format, 'post_format' );
 }
 
 /**

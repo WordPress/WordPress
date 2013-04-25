@@ -1261,7 +1261,7 @@ function add_theme_support( $feature ) {
 	switch ( $feature ) {
 		case 'structured-post-formats' :
 			if ( is_array( $args[0] ) )
-				$args[0] = array_intersect( $args[0], array_keys( get_post_format_slugs() ) );
+				$args[0] = array_intersect( $args[0], get_post_format_slugs() );
 			// structured-post-formats support automatically adds support for post-formats.
 			$_wp_theme_features['post-formats'] = $args;
 		case 'post-formats' :
@@ -1269,7 +1269,7 @@ function add_theme_support( $feature ) {
 			if ( current_theme_supports( 'structured-post-formats' ) )
 				$args = get_theme_support( 'structured-post-formats' );
 			elseif ( is_array( $args[0] ) )
-				$args[0] = array_intersect( $args[0], array_keys( get_post_format_slugs() ) );
+				$args[0] = array_intersect( $args[0], get_post_format_slugs() );
 			break;
 
 		case 'custom-header-uploads' :
