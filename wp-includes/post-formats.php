@@ -120,7 +120,7 @@ function get_post_format_meta( $post_id = 0 ) {
 		$values[$key] = empty( $value ) ? '' : $value;
 	}
 
-	return $values;
+	return apply_filters( 'post_format_meta', $values );
 }
 
 /**
