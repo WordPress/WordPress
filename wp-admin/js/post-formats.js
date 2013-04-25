@@ -93,18 +93,15 @@ window.wp = window.wp || {};
 		}
 
 		// If gallery, force it to open to gallery state
-		if ( 'gallery' === format )
-			insertMediaButton.addClass( 'gallery' );
-		else
-			insertMediaButton.removeClass( 'gallery' );
+		insertMediaButton.toggleClass( 'gallery', 'gallery' === format );
 
-			postFormats.currentPostFormat = format;
-		}
+		postFormats.currentPostFormat = format;
+	}
 
 
 
 	$(function() {
-		insertMediaButton = $( '#insert-media-button' );
+		insertMediaButton = $( '#insert-media-button' ).toggleClass( 'gallery', 'gallery' === postFormats.currentPostFormat );
 		$container = $( '.post-formats-fields' );
 
 		initialFormat = $( '.post-format-options .active' ).data( 'wp-format' );
