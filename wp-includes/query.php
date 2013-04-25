@@ -2,8 +2,8 @@
 /**
  * WordPress Query API
  *
- * The query API attempts to get which part of WordPress to the user is on. It
- * also provides functionality to getting URL query information.
+ * The query API attempts to get which part of WordPress the user is on. It
+ * also provides functionality for getting URL query information.
  *
  * @link http://codex.wordpress.org/The_Loop More information on The Loop.
  *
@@ -2809,7 +2809,7 @@ class WP_Query {
 	function set_found_posts( $q, $limits ) {
 		global $wpdb;
 
-		// Bail if posts is an empty array. Continue if posts is an empty string
+		// Bail if posts is an empty array. Continue if posts is an empty string,
 		// null, or false to accommodate caching plugins that fill posts later.
 		if ( $q['no_found_rows'] || ( is_array( $this->posts ) && ! $this->posts ) )
 			return;
