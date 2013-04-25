@@ -992,6 +992,7 @@ function _post_formats_fix_empty_title( $data, $postarr ) {
 		return $data;
 
 	$post_id = ( isset( $postarr['ID'] ) ) ? absint( $postarr['ID'] ) : 0;
+	$post_format = '';
 
 	if ( $post_id )
 		$post_format = get_post_format( $post_id );
