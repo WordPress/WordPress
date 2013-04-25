@@ -139,7 +139,10 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_
 
 	if ( ! $post_format ) {
 		$post_format = 'standard';
-		if ( 'auto-draft' == $post->post_status )
+
+		if ( ! empty( $_REQUEST['format'] ) && in_array( $_REQUEST['format'], get_post_format_slugs() ) )
+			$post_format = $_REQUEST['format'];
+		elseif ( 'auto-draft' == $post->post_status )
 			$post_format_set_class = '';
 	}
 

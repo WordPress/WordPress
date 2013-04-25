@@ -148,7 +148,6 @@ function screen_icon( $screen = '' ) {
  * @return string HTML for the screen icon.
  */
 function get_screen_icon( $screen = '' ) {
-	global $post_ID;
 	if ( empty( $screen ) )
 		$screen = get_current_screen();
 	elseif ( is_string( $screen ) )
@@ -168,10 +167,13 @@ function get_screen_icon( $screen = '' ) {
 		if ( $screen->post_type )
 			$class .= ' ' . sanitize_html_class( 'icon32-posts-' . $screen->post_type );
 
-		if ( $post_ID ) {
-			$format = get_post_format( $post_ID );
-			if ( $format )
-				$class .= ' wp-format-' . $format;
+		if ( 'post' == $screen->id ) {
+			$post_format = get_post_format();
+			if ( ! $post_format && ! empty( $_REQUEST['format'] ) && in_array( $_REQUEST['format'], get_post_format_slugs() ) )
+				$post_format = $_REQUEST['format'];
+
+			if ( $post_format )
+				$class .= ' wp-format-' . $post_format;
 		}
 	}
 
