@@ -1365,9 +1365,7 @@ function wp_embed_handler_googlevideo( $matches, $attr, $url, $rawattr ) {
  * @return string The embed HTML.
  */
 function wp_embed_handler_audio( $matches, $attr, $url, $rawattr ) {
-	$audio = $url;
-	if ( shortcode_exists( 'audio' ) )
-		$audio = do_shortcode( '[audio src="' . $url . '" /]' );
+	$audio = sprintf( '[audio src="%s" /]', esc_url( $url ) );
 	return apply_filters( 'wp_embed_handler_audio', $audio, $attr, $url, $rawattr );
 }
 
@@ -1384,23 +1382,21 @@ function wp_embed_handler_audio( $matches, $attr, $url, $rawattr ) {
  */
 function wp_embed_handler_video( $matches, $attr, $url, $rawattr ) {
 	$dimensions = '';
-	$video = $url;
-	if ( shortcode_exists( 'video' ) ) {
-		if ( ! empty( $rawattr['width'] ) && ! empty( $rawattr['height'] ) ) {
-			$dimensions .= sprintf( 'width="%d" ', (int) $rawattr['width'] );
-			$dimensions .= sprintf( 'height="%d" ', (int) $rawattr['height'] );
-		} elseif ( strstr( $url, home_url() ) ) {
-			$id = attachment_url_to_postid( $url );
-			if ( ! empty( $id ) ) {
-				$meta = wp_get_attachment_metadata( $id );
-				if ( ! empty( $meta['width'] ) )
-					$dimensions .= sprintf( 'width="%d" ', (int) $meta['width'] );
-				if ( ! empty( $meta['height'] ) )
-					$dimensions .= sprintf( 'height="%d" ', (int) $meta['height'] );
-			}
+	if ( ! empty( $rawattr['width'] ) && ! empty( $rawattr['height'] ) ) {
+		$dimensions .= sprintf( 'width="%d" ', (int) $rawattr['width'] );
+		$dimensions .= sprintf( 'height="%d" ', (int) $rawattr['height'] );
+	} elseif ( strstr( $url, home_url() ) ) {
+		$id = attachment_url_to_postid( $url );
+		if ( ! empty( $id ) ) {
+			$meta = wp_get_attachment_metadata( $id );
+			if ( ! empty( $meta['width'] ) )
+				$dimensions .= sprintf( 'width="%d" ', (int) $meta['width'] );
+			if ( ! empty( $meta['height'] ) )
+				$dimensions .= sprintf( 'height="%d" ', (int) $meta['height'] );
 		}
-		$video = do_shortcode( '[video ' . $dimensions . 'src="' . $url . '" /]' );
 	}
+
+	$video = sprintf( '[video %s src="%s" /]', $dimensions, esc_url( $url ) );
 	return apply_filters( 'wp_embed_handler_video', $video, $attr, $url, $rawattr );
 }
 
