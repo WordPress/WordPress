@@ -962,6 +962,18 @@ final class WP_Screen {
 						echo '<label for="wp_welcome_panel-hide">';
 						echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked( (bool) $welcome_checked, true, false ) . ' />';
 						echo _x( 'Welcome', 'Welcome panel' ) . "</label>\n";
+					} elseif ( 'post' == $this->base && post_type_supports( $this->post_type, 'post-formats' ) && apply_filters( 'enable_post_format_ui', true, $GLOBALS['post'] ) ) {
+						$user_wants = get_user_option( 'post_formats_' . $this->post_type );
+						if ( false !== $user_wants ) {
+							// User wants what user gets.
+							$show_post_format_ui = (bool) $user_wants;
+						} else {
+							// UI is shown when the theme supports formats, or if the site has formats assigned to posts.
+							$show_post_format_ui = current_theme_supports( 'post-formats' ) || get_terms( 'post_format', array( 'number' => 1 ) );
+						}
+						echo '<label for="show_post_format_ui">';
+						echo '<input type="checkbox" id="show_post_format_ui"' . checked( $show_post_format_ui, true, false ) . ' />';
+						echo __( 'Post Formats' ) . "</label>\n";
 					}
 				?>
 				<br class="clear" />

@@ -1135,6 +1135,25 @@ function wp_ajax_closed_postboxes() {
 	wp_die( 1 );
 }
 
+function wp_ajax_show_post_format_ui() {
+	error_log( serialize( $_REQUEST ) );
+
+	if ( empty( $_POST['post_type'] ) )
+		wp_die( 0 );
+
+	check_ajax_referer( 'show-post-format-ui_' . $_POST['post_type'], 'nonce' );
+
+	if ( ! $post_type_object = get_post_type_object( $_POST['post_type'] ) )
+		wp_die( 0 );
+
+	if ( ! current_user_can( $post_type_object->cap->edit_posts ) )
+		wp_die( -1 );
+
+	update_user_option( get_current_user_id(), 'post_formats_' . $post_type_object->name, empty( $_POST['show'] ) ? 0 : 1 );
+
+	wp_die( 1 );
+}
+
 function wp_ajax_hidden_columns() {
 	check_ajax_referer( 'screen-options-nonce', 'screenoptionnonce' );
 	$hidden = isset( $_POST['hidden'] ) ? $_POST['hidden'] : '';

@@ -276,11 +276,6 @@ function update_user_option( $user_id, $option_name, $newvalue, $global = false 
 	if ( !$global )
 		$option_name = $wpdb->prefix . $option_name;
 
-	// For backward compatibility. See differences between update_user_meta() and deprecated update_usermeta().
-	// http://core.trac.wordpress.org/ticket/13088
-	if ( is_null( $newvalue ) || is_scalar( $newvalue ) && empty( $newvalue ) )
-		return delete_user_meta( $user_id, $option_name );
-
 	return update_user_meta( $user_id, $option_name, $newvalue );
 }
 

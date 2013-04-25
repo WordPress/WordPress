@@ -146,6 +146,15 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_
 			$post_format_set_class = '';
 	}
 
+	$user_wants = get_user_option( 'post_formats_' . $post_type );
+	if ( false !== $user_wants ) {
+		// User wants what user gets.
+		$show_post_format_ui = (bool) $user_wants;
+	} else {
+		// UI is shown when the theme supports formats, or if the site has formats assigned to posts.
+		$show_post_format_ui = current_theme_supports( 'post-formats' ) || get_terms( 'post_format', array( 'number' => 1 ) );
+	}
+
 	$format_class = " class='wp-format-{$post_format}'";
 
 
@@ -383,8 +392,10 @@ if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create
 	<p><?php _e("You have lost your connection with the server, and saving has been disabled. This message will vanish once you've reconnected."); ?></p>
 </div>
 <?php if ( ! empty( $post_format_options ) ) : ?>
-<div class="post-format-options">
-	<?php echo $post_format_options; ?>
+<div class="wp-post-format-ui<?php if ( ! $show_post_format_ui ) echo ' no-ui' ?>">
+	<div class="post-format-options">
+		<?php echo $post_format_options; ?>
+	</div>
 </div>
 <?php endif; ?>
 <form name="post" action="post.php" method="post" id="post"<?php do_action('post_edit_form_tag'); ?>>

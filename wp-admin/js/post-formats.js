@@ -109,6 +109,16 @@ window.wp = window.wp || {};
 			resizeContent( initialFormat, true );
 		}
 
+		$('#show_post_format_ui').on('change', function() {
+			$('.wp-post-format-ui').toggleClass('no-ui', ! this.checked );
+			$.post( ajaxurl, {
+				action: 'show-post-format-ui',
+				post_type: $('#post_type').val(),
+				show: this.checked ? 1 : 0,
+				nonce: $('#show_post_format_ui_nonce').val()
+			});
+		});
+
 		$('.post-format-change a').click(function() {
 			$('.post-formats-fields, .post-format-change').slideUp();
 			$('.post-format-options').slideDown();

@@ -3938,6 +3938,10 @@ body .ui-tooltip {
 	padding-bottom: 0;
 }
 
+.no-ui {
+	display: none;
+}
+
 .post-formats-fields {
 	display: none;
 	margin-bottom: 15px;
