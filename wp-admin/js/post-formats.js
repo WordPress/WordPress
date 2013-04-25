@@ -1,16 +1,31 @@
 window.wp = window.wp || {};
 
 (function($) {
-	var container, mediaFrame, lastMimeType, mediaPreview,
-		noUIFormats = ['standard', 'chat', 'status', 'aside', 'gallery'],
+	var container, mediaFrame, lastMimeType, mediaPreview, lastHeight, content,
 		$container = $( '.post-formats-fields' ),
+		shortClass = 'short-format',
+		shortContentFormats = ['status', 'aside'],
+		noUIFormats = ['standard', 'chat', 'status', 'aside', 'gallery'],
 		$screenIcon = $( '.icon32' );
+
 
 	function switchFormatClass( format ) {
 		container.get(0).className = container.get(0).className.replace( /\s?\bwp-format-[^ ]+/g, '' );
 		container.addClass('wp-format-' + format);
 		$screenIcon.get(0).className = $screenIcon.get(0).className.replace( /\s?\bwp-format-[^ ]+/g, '' );
 		$screenIcon.addClass('wp-format-' + format);
+	}
+
+	function resizeContent( shorter ) {
+		content = content || $('#content, #content_ifr');
+		if ( shorter ) {
+			if ( ! content.hasClass(shortClass) ) {
+				lastHeight = content.height();
+				content.addClass(shortClass).animate({ height : 120 });
+			}
+		} else if ( lastHeight ) {
+			content.removeClass(shortClass).animate({ height : lastHeight });
+		}
 	}
 
 	function switchFormat($this) {
@@ -37,6 +52,8 @@ window.wp = window.wp || {};
 				$container.slideDown( 400 );
 			});
 		}
+
+		resizeContent( -1 < $.inArray( format, shortContentFormats ) );
 
 		postTitle.focus();
 
@@ -71,7 +88,7 @@ window.wp = window.wp || {};
 		});
 
 		// Post formats selection
-		$('.post-format-options').on( 'click', 'a', function(e){
+		$('.post-format-options').on( 'click', 'a', function (e) {
 			e.preventDefault();
 			switchFormat($(this));
 		});
