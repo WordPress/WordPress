@@ -2412,7 +2412,7 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 	if ( empty( $post ) )
 		return '';
 
-	if ( isset( $post->format_content ) )
+	if ( isset( $post->format_content ) && false !== strpos( $post->format_content, 'attachment-' . $attached_size ) )
 		return $post->format_content;
 
 	$matched = false;
