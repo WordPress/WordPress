@@ -1,7 +1,7 @@
 window.wp = window.wp || {};
 
 (function($) {
-	var container, $container, mediaFrame, lastMimeType, mediaPreview, lastHeight = 360, content,
+	var container, $container, mediaFrame, lastMimeType, mediaPreview, lastHeight = 360, content, insertMediaButton,
 		initialFormat = 'standard',
 		shortClass = 'short-format',
 		shortContentFormats = ['status', 'aside'],
@@ -92,10 +92,19 @@ window.wp = window.wp || {};
 			}
 		}
 
-		postFormats.currentPostFormat = format;
-	}
+		// If gallery, force it to open to gallery state
+		if ( 'gallery' === format )
+			insertMediaButton.addClass( 'gallery' );
+		else
+			insertMediaButton.removeClass( 'gallery' );
+
+			postFormats.currentPostFormat = format;
+		}
+
+
 
 	$(function() {
+		insertMediaButton = $( '#insert-media-button' );
 		$container = $( '.post-formats-fields' );
 
 		initialFormat = $( '.post-format-options .active' ).data( 'wp-format' );
