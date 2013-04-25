@@ -1,8 +1,8 @@
 window.wp = window.wp || {};
 
 (function($) {
-	var container, mediaFrame, lastMimeType, mediaPreview, lastHeight, content,
-		$container = $( '.post-formats-fields' ),
+	var container, $container, mediaFrame, lastMimeType, mediaPreview, lastHeight = 360, content,
+		initialFormat = 'standard',
 		shortClass = 'short-format',
 		shortContentFormats = ['status', 'aside'],
 		noUIFormats = ['standard', 'chat', 'status', 'aside', 'gallery'],
@@ -16,14 +16,30 @@ window.wp = window.wp || {};
 		$screenIcon.addClass('wp-format-' + format);
 	}
 
-	function resizeContent( shorter ) {
-		content = content || $('#content, #content_ifr');
-		if ( shorter ) {
+	function resizeContent( format, noAnimate ) {
+		var height;
+
+		content = $('#content, #content_ifr');
+
+		height = content.height();
+		if ( 120 < height ) {
+			lastHeight = height;
+		}
+
+		if ( -1 < $.inArray( format, shortContentFormats ) ) {
 			if ( ! content.hasClass(shortClass) ) {
-				lastHeight = content.height();
-				content.addClass(shortClass).animate({ height : 120 });
+				content.addClass(shortClass);
+				if ( noAnimate ) {
+					content.each(function () {
+						$(this).css({ height : 120 });
+					});
+				} else {
+					content.each(function () {
+						$(this).animate({ height : 120 });
+					});
+				}
 			}
-		} else if ( lastHeight ) {
+		} else {
 			content.removeClass(shortClass).animate({ height : lastHeight });
 		}
 	}
@@ -53,7 +69,7 @@ window.wp = window.wp || {};
 			});
 		}
 
-		resizeContent( -1 < $.inArray( format, shortContentFormats ) );
+		resizeContent( format );
 
 		postTitle.focus();
 
@@ -79,7 +95,13 @@ window.wp = window.wp || {};
 		postFormats.currentPostFormat = format;
 	}
 
-	$(function(){
+	$(function() {
+		$container = $( '.post-formats-fields' );
+
+		initialFormat = $( '.post-format-options .active' ).data( 'wp-format' );
+		if ( -1 < $.inArray( initialFormat, shortContentFormats ) ) {
+			resizeContent( initialFormat, true );
+		}
 
 		$('.post-format-change a').click(function() {
 			$('.post-formats-fields, .post-format-change').slideUp();
