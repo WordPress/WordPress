@@ -374,27 +374,41 @@ function post_formats_compat( $content, $id = 0 ) {
 
 		case 'image':
 			if ( ! empty( $meta['image'] ) ) {
-				$image = is_numeric( $meta['image'] ) ? wp_get_attachment_url( $meta['image'] ) : $meta['image'];
 
-				if ( ! empty( $image ) && ! stristr( $content, $image ) ) {
-					if ( false === strpos( $image, '<a ' ) ) {
-						$image_html = sprintf(
+				if ( has_shortcode( $meta['image'], 'caption' ) ) {
+					// wrap <img> in <a>
+					if ( ! empty( $meta['url'] ) && false === strpos( $meta['image'], '<a ' ) ) {
+						$meta['image'] = preg_replace(
+							'#(<img[^>]+>)#',
+							sprintf( '<a href="%s">$1</a>', esc_url( $meta['url'] ) ),
+							$meta['image']
+						);
+					}
+					$format_output .= do_shortcode( $meta['image'] );
+				} else {
+
+					if ( is_numeric( $meta['image'] ) ) {
+						$image = wp_get_attachment_image( absint( $meta['image'] ), 'full' );
+					} elseif ( ! preg_match( '#<[^>]+>#', $meta['image'] ) ) {
+						// not HTML, assume URL
+						$image = sprintf(
 							'<img %ssrc="%s" alt="" />',
 							empty( $compat['image_class'] ) ? '' : sprintf( 'class="%s" ', esc_attr( $compat['image_class'] ) ),
-							$image
+							esc_url( $meta['image'] )
 						);
 					} else {
-						$image_html = $image;
+						// assume HTML
+						$image = $meta['image'];
 					}
 
-					if ( empty( $meta['url'] ) || false !== strpos( $image, '<a ' ) ) {
-						$format_output .= $image_html;
-					} else {
+					if ( ! empty( $meta['url'] ) && false === strpos( $image, '<a ' ) ) {
 						$format_output .= sprintf(
 							'<a href="%s">%s</a>',
 							esc_url( $meta['url'] ),
-							$image_html
+							$image
 						);
+					} else {
+						$format_output .= $image;
 					}
 				}
 			}

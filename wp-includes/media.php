@@ -2428,7 +2428,7 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 			// wrap image in <a>
 			if ( ! empty( $meta['url'] ) )
 				$image = sprint( $link_fmt, $image );
-		} elseif ( has_shortcode( $meta['image'], 'gallery' ) ) {
+		} elseif ( has_shortcode( $meta['image'], 'caption' ) ) {
 			// wrap <img> in <a>
 			if ( ! empty( $meta['url'] ) && false === strpos( $meta['image'], '<a ' ) ) {
 				$meta['image'] = preg_replace(
