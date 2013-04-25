@@ -2294,11 +2294,12 @@ function get_content_image( &$content, $html = true, $remove = false ) {
  * @since 3.6.0
  *
  * @param string $content A string which might contain image data.
+ * @param boolean $html Whether to return HTML or data
  * @param boolean $remove Optional. Whether to remove the found data from the passed content.
  * @param int $limit Optional. The number of galleries to return
  * @return array A list of galleries, which in turn are a list of their srcs in order
  */
-function get_content_galleries( &$content, $remove = false, $limit = 0 ) {
+function get_content_galleries( &$content, $html = true, $remove = false, $limit = 0 ) {
 	$src = '';
 	$galleries = array();
 	$matches = array();
@@ -2313,14 +2314,19 @@ function get_content_galleries( &$content, $remove = false, $limit = 0 ) {
 
 				$data = shortcode_parse_atts( $shortcode[3] );
 				$gallery = do_shortcode_tag( $shortcode );
-				preg_match_all( '#src=[\'"](.+?)[\'"]#is', $gallery, $src, PREG_SET_ORDER );
-				if ( ! empty( $src ) ) {
-					foreach ( $src as $s )
-						$srcs[] = $s[1];
+				if ( $html ) {
+					$galleries[] = $gallery;
+				} else {
+					preg_match_all( '#src=[\'"](.+?)[\'"]#is', $gallery, $src, PREG_SET_ORDER );
+					if ( ! empty( $src ) ) {
+						foreach ( $src as $s )
+							$srcs[] = $s[1];
+					}
+
+					$data['src'] = array_values( array_unique( $srcs ) );
+					$galleries[] = $data;
 				}
 
-				$data['src'] = array_values( array_unique( $srcs ) );
-				$galleries[] = $data;
 				if ( $limit > 0 && count( $galleries ) >= $limit )
 					break;
 			}
@@ -2336,15 +2342,16 @@ function get_content_galleries( &$content, $remove = false, $limit = 0 ) {
  * @since 3.6.0
  *
  * @param int $post_id Optional. Post ID.
+ * @param boolean $html Whether to return HTML or data
  * @return array A list of arrays, each containing gallery data and srcs parsed
  *		from the expanded shortcode
  */
-function get_post_galleries( $post_id = 0 ) {
+function get_post_galleries( $post_id = 0, $html = true ) {
 	$post = empty( $post_id ) ? clone get_post() : get_post( $post_id );
 	if ( empty( $post ) || ! has_shortcode( $post->post_content, 'gallery' )  )
 		return array();
 
-	return get_content_galleries( $post->post_content );
+	return get_content_galleries( $post->post_content, $html );
 }
 
 /**
@@ -2361,7 +2368,7 @@ function get_post_galleries_images( $post_id = 0 ) {
 	if ( empty( $post ) || ! has_shortcode( $post->post_content, 'gallery' )  )
 		return array();
 
-	$data = get_content_galleries( $post->post_content );
+	$data = get_content_galleries( $post->post_content, false );
 	return wp_list_pluck( $data, 'src' );
 }
 
@@ -2371,15 +2378,25 @@ function get_post_galleries_images( $post_id = 0 ) {
  * @since 3.6.0
  *
  * @param int $post_id Optional. Post ID.
+ * @param boolean $html Whether to return HTML or data
  * @return array Gallery data and srcs parsed from the expanded shortcode
  */
-function get_post_gallery( $post_id = 0 ) {
+function get_post_gallery( $post_id = 0, $html = true ) {
 	$post = empty( $post_id ) ? clone get_post() : get_post( $post_id );
 	if ( empty( $post ) || ! has_shortcode( $post->post_content, 'gallery' ) )
 		return array();
 
-	$data = get_content_galleries( $post->post_content, false, 1 );
+	$data = get_content_galleries( $post->post_content, $html, false, 1 );
 	return reset( $data );
+}
+
+/**
+ * Output the first gallery in the current (@global) $post
+ *
+ * @since 3.6.0
+ */
+function the_post_format_gallery() {
+	echo get_post_gallery();
 }
 
 /**
@@ -2391,7 +2408,7 @@ function get_post_gallery( $post_id = 0 ) {
  * @return array A list of a gallery's image srcs in order
  */
 function get_post_gallery_images( $post_id = 0 ) {
-	$gallery = get_post_gallery( $post_id );
+	$gallery = get_post_gallery( $post_id, false );
 	if ( empty( $gallery['src'] ) )
 		return array();
 
