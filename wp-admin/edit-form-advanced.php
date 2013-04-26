@@ -129,7 +129,6 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 // post format
 $format_class = '';
 $post_format = '';
-$post_format_set_class = '';
 $post_format_options = '';
 if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_post_format_ui', true, $post ) ) {
 	wp_enqueue_script( 'post-formats' );
@@ -373,7 +372,7 @@ if ( 'post' == $post_type ) {
 require_once('./admin-header.php');
 ?>
 
-<div class="wrap <?php echo $post_format_set_class; ?>">
+<div class="wrap">
 <?php screen_icon(); ?>
 <h2><?php
 echo esc_html( $title );

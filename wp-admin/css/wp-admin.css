@@ -4148,14 +4148,6 @@ body .ui-tooltip {
 	margin-top: 4px;
 }
 
-.post-format-set .post-format-options {
-	display: none;
-}
-
-.post-format-set .post-format-change {
-	display: block;
-}
-
 #poststuff .post-format-change {
 	margin: -7px 0 13px 2px;
 	padding: 0;
