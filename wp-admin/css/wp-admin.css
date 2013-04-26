@@ -4111,13 +4111,14 @@ body .ui-tooltip {
 	border-color: #CCC;
 	margin: 13px 0 10px;
 	padding: 5px;
+	overflow: hidden;
 }
 
 .post-format-options a {
-	display: inline-block;
+	float: left;
 	min-width: 62px;
-	padding:5px;
-	border:1px solid transparent;
+	padding: 5px;
+	border: 1px solid transparent;
 	margin-right: 10px;
 	position: relative;
 	text-decoration: none;
@@ -4208,10 +4209,6 @@ body .ui-tooltip {
 }
 
 @media only screen and (max-width: 782px) {
-	.post-format-options {
-		height: 33px;
-	}
-
 	.post-format-options a {
 		margin-right: 19px;
 	}

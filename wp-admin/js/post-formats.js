@@ -81,21 +81,17 @@ window.wp = window.wp || {};
 		formatTo = -1 < $.inArray( format, noUIFormats );
 		formatFrom = -1 < $.inArray( postFormats.currentPostFormat, noUIFormats );
 		if ( formatTo && formatFrom ) { // To/from have no UI. No slide.
-			console.log( 'both no UI' );
 			switchFormatClass( format );
 			fields.hide();
 		} else if ( formatFrom ) { // Only destination has UI. Slide down.
-			console.log( 'destination only' );
 			fields.hide();
 			switchFormatClass( format );
 			fields.slideDown( 400 );
 		} else if ( formatTo ) { // Only source has UI. Slide up.
-			console.log( 'source only' );
 			fields.slideUp( 200, function(){
 				switchFormatClass( format );
 			});
 		} else { // Both have UI. Slide both ways.
-			console.log( 'both' );
 			fields.slideUp( 200, function(){
 				switchFormatClass( format );
 				fields.slideDown( 400 );
