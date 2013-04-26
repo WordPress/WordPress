@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Thirteen 0.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentythirteen\n"
-"POT-Creation-Date: 2013-02-14 18:13:37+00:00\n"
+"POT-Creation-Date: 2013-04-26 13:58:48+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -73,61 +73,59 @@ msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
 msgstr[0] ""
 msgstr[1] ""
 
-#: comments.php:41
+#: comments.php:48
 msgid "Comment navigation"
 msgstr ""
 
-#: comments.php:42
+#: comments.php:49
 msgid "&larr; Older Comments"
 msgstr ""
 
-#: comments.php:43
+#: comments.php:50
 msgid "Newer Comments &rarr;"
 msgstr ""
 
-#: comments.php:48
+#: comments.php:55
 msgid "Comments are closed."
 msgstr ""
 
-#: content-aside.php:13 content-audio.php:24 content-chat.php:23
-#: content-gallery.php:24 content-image.php:23 content-link.php:24
-#: content-quote.php:13 content-status.php:13 content-video.php:23
-#: content.php:39
+#: content-aside.php:13 content-audio.php:29 content-gallery.php:24
+#: content-image.php:27 content-link.php:24 content-quote.php:13
+#: content-status.php:13 content-video.php:27 content.php:39
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: content-aside.php:14 content-audio.php:25 content-chat.php:24
-#: content-gallery.php:25 content-image.php:24 content-link.php:25
-#: content-quote.php:14 content-status.php:14 content-video.php:24
-#: content.php:40 image.php:106 page.php:35
+#: content-aside.php:14 content-audio.php:30 content-chat.php:24
+#: content-gallery.php:25 content-image.php:28 content-link.php:25
+#: content-quote.php:14 content-status.php:14 content-video.php:28
+#: content.php:40 image.php:108 page.php:35
 msgid "Pages:"
 msgstr ""
 
-#: content-aside.php:20 content-aside.php:28 content-audio.php:31
-#: content-chat.php:29 content-gallery.php:39 content-image.php:35
-#: content-link.php:19 content-quote.php:25 content-status.php:23
-#: content-video.php:35 content.php:29 functions.php:339 functions.php:359
-#: image.php:77 page.php:39
+#: content-aside.php:20 content-aside.php:28 content-audio.php:35
+#: content-chat.php:29 content-gallery.php:39 content-image.php:39
+#: content-link.php:19 content-quote.php:25 content-status.php:19
+#: content-video.php:39 content.php:29 image.php:79 page.php:39
 msgid "Edit"
 msgstr ""
 
 #: content-audio.php:17 content-chat.php:17 content-gallery.php:17
-#: content-image.php:17 content-video.php:17 content.php:23 functions.php:438
+#: content-image.php:21 content-video.php:21 content.php:23 functions.php:420
 msgid "Permalink to %s"
 msgstr ""
 
-#: content-gallery.php:36 content-image.php:32 content-quote.php:22
-#: content-video.php:32 content.php:47
+#: content-gallery.php:36 content-image.php:36 content-quote.php:22
+#: content-video.php:36 content.php:47
 msgid "Leave a comment"
 msgstr ""
 
-#: content-gallery.php:36 content-image.php:32 content-quote.php:22
-#: content-video.php:32 content.php:47
+#: content-gallery.php:36 content-image.php:36 content-quote.php:22
+#: content-video.php:36 content.php:47
 msgid "One comment so far"
 msgstr ""
 
-#: content-gallery.php:36 content-image.php:32 content-quote.php:22
-#: content-video.php:32 content.php:47
+#: content-gallery.php:36 content-image.php:36 content-quote.php:22
+#: content-video.php:36 content.php:47
 msgid "View all % comments"
 msgstr ""
 
@@ -166,96 +164,86 @@ msgstr ""
 msgid "Proudly powered by %s"
 msgstr ""
 
-#: functions.php:88
+#: functions.php:95
 msgid "Navigation Menu"
 msgstr ""
 
-#: functions.php:127
+#. Translators: If there are characters in your language that are not
+#. 	 * supported by Source Sans Pro, translate this to 'off'. Do not translate
+#. 	 * into your own language.
+#: functions.php:129
 msgctxt "Source Sans Pro font: on or off"
 msgid "on"
 msgstr ""
 
-#: functions.php:133
+#. Translators: If there are characters in your language that are not
+#. 	 * supported by Bitter, translate this to 'off'. Do not translate into your
+#. 	 * own language.
+#: functions.php:135
 msgctxt "Bitter font: on or off"
 msgid "on"
 msgstr ""
 
-#: functions.php:213
+#: functions.php:264
 msgid "Page %s"
 msgstr ""
 
-#: functions.php:228
-msgid "Sidebar"
+#: functions.php:279
+msgid "Main Widget Area"
 msgstr ""
 
-#: functions.php:230
-msgid "Appears on posts and pages"
-msgstr ""
-
-#: functions.php:238
-msgid "Footer Widget Area"
-msgstr ""
-
-#: functions.php:240
+#: functions.php:281
 msgid "Appears in the footer section of the site"
 msgstr ""
 
-#: functions.php:265
+#: functions.php:289
+msgid "Secondary Widget Area"
+msgstr ""
+
+#: functions.php:291
+msgid "Appears on posts and pages in the sidebar."
+msgstr ""
+
+#: functions.php:316
 msgid "Posts navigation"
 msgstr ""
 
-#: functions.php:269
+#: functions.php:320
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:273
+#: functions.php:324
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:301
+#: functions.php:352
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:304
+#: functions.php:355
 msgctxt "Previous post link"
 msgid "<span class=\"meta-nav\">&larr;</span> %title"
 msgstr ""
 
-#: functions.php:305
+#: functions.php:356
 msgctxt "Next post link"
 msgid "%title <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:339
-msgid "Pingback:"
-msgstr ""
-
-#: functions.php:357
-msgctxt "1: date, 2: time"
-msgid "%1$s at %2$s"
-msgstr ""
-
-#: functions.php:364
-msgid "Your comment is awaiting moderation."
-msgstr ""
-
-#: functions.php:372
-msgid "Reply"
-msgstr ""
-
-#: functions.php:394
+#: functions.php:376
 msgid "Sticky"
 msgstr ""
 
-#: functions.php:400 functions.php:406
+#. Translators: used between list items, there is a space after the comma.
+#: functions.php:382 functions.php:388
 msgid ", "
 msgstr ""
 
-#: functions.php:415
+#: functions.php:397
 msgid "View all posts by %s"
 msgstr ""
 
-#: functions.php:434
+#: functions.php:416
 msgctxt "1: post format name. 2: date"
 msgid "%1$s on %2$s"
 msgstr ""
@@ -275,12 +263,30 @@ msgid ""
 "rel=\"gallery\">%5$s</a></span>"
 msgstr ""
 
-#: image.php:83
+#: image.php:73
+msgid "Link to full-size image"
+msgstr ""
+
+#: image.php:74
+msgid "Full resolution"
+msgstr ""
+
+#: image.php:85
 msgid "<span class=\"meta-nav\">&larr;</span> Previous"
 msgstr ""
 
-#: image.php:84
+#: image.php:86
 msgid "Next <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: inc/back-compat.php:44 inc/back-compat.php:56
+msgid ""
+"Twenty Thirteen requires at least WordPress version 3.6. You are running "
+"version %s. Please upgrade and try again."
+msgstr ""
+
+#: inc/back-compat.php:56
+msgid "Go back."
 msgstr ""
 
 #: inc/custom-header.php:48
@@ -300,21 +306,6 @@ msgstr ""
 
 #: search.php:18
 msgid "Search Results for: %s"
-msgstr ""
-
-#: searchform.php:11
-msgctxt "assistive text"
-msgid "Search"
-msgstr ""
-
-#: searchform.php:12
-msgctxt "placeholder"
-msgid "Search &hellip;"
-msgstr ""
-
-#: searchform.php:13
-msgctxt "submit button"
-msgid "Search"
 msgstr ""
 
 #: tag.php:21
@@ -345,12 +336,4 @@ msgstr ""
 
 #. Author of the plugin/theme
 msgid "the WordPress team"
-msgstr ""
-
-#. Tags of the plugin/theme
-msgid ""
-"black, brown, orange, tan, white, light, one-column, two-columns, right-"
-"sidebar, flexible-width, custom-header, custom-menu, editor-style, featured-"
-"images, microformats, post-formats, rtl-language-support, sticky-post, "
-"translation-ready"
 msgstr ""
