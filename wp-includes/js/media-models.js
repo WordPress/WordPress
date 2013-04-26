@@ -571,13 +571,6 @@ window.wp = window.wp || {};
 			return this.mirroring ? this.mirroring.hasMore() : false;
 		},
 
-		parse: function( resp, xhr ) {
-			return _.map( resp, function( attrs ) {
-				var attachment = Attachment.get( attrs.id );
-				return attachment.set( attachment.parse( attrs, xhr ) );
-			});
-		},
-
 		_requery: function() {
 			if ( this.props.get('query') )
 				this.mirror( Query.get( this.props.toJSON() ) );
