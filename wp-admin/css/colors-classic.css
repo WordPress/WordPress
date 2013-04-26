@@ -164,6 +164,7 @@ textarea.disabled {
 	color: #fff;
 }
 
+.post-format-options,
 .widget .widget-top,
 .postbox h3,
 .stuffbox h3,
@@ -688,6 +689,7 @@ table.widefat span.spam a,
 	background-image: linear-gradient(to top, #eff8ff, #f7fcfe);
 }
 
+.post-format-options,
 .postbox h3 {
 	color: #174f69;
 }

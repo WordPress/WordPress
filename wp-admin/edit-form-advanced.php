@@ -136,15 +136,12 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_
 	wp_enqueue_script( 'wp-mediaelement' );
 	wp_enqueue_style( 'wp-mediaelement' );
 	$post_format = get_post_format();
-	$post_format_set_class = 'post-format-set';
 
 	if ( ! $post_format ) {
 		$post_format = 'standard';
 
 		if ( ! empty( $_REQUEST['format'] ) && in_array( $_REQUEST['format'], get_post_format_slugs() ) )
 			$post_format = $_REQUEST['format'];
-		elseif ( 'auto-draft' == $post->post_status )
-			$post_format_set_class = '';
 	}
 
 	$user_wants = get_user_option( 'post_formats_' . $post_type );
@@ -425,6 +422,9 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 <div id="poststuff">
 <div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 <div id="post-body-content"<?php echo $format_class; ?>>
+<div class="wp-post-format-ui<?php if ( ! $show_post_format_ui ) echo ' no-ui' ?>">
+	<div class="post-format-change"><span class="icon <?php echo esc_attr( 'wp-format-' . $post_format ); ?>"></span> <span class="post-format-description"><?php echo $all_post_formats[$post_format]['description']; ?></span></div>
+</div>
 <?php if ( post_type_supports($post_type, 'title') ) { ?>
 <div id="titlediv">
 <div id="titlewrap">

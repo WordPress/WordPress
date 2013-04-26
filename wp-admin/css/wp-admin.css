@@ -4000,6 +4000,9 @@ body .ui-tooltip {
 }
 
 .wp-format-status #titlewrap,
+.wp-format-image .wp-media-buttons .insert-media,
+.wp-format-audio .wp-media-buttons .insert-media,
+.wp-format-video .wp-media-buttons .insert-media,
 .wp-format-aside .wp-media-buttons .insert-media,
 .wp-format-status .wp-media-buttons .insert-media {
 	display: none;
@@ -4101,18 +4104,36 @@ body .ui-tooltip {
 }
 
 .post-format-options {
-	height: 50px;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	border-color: #CCC;
 	margin: 13px 0 10px;
-	padding: 0;
+	padding: 5px;
 }
 
 .post-format-options a {
 	display: inline-block;
-	height: 34px;
-	margin-right: 33px;
+	min-width: 62px;
+	padding:5px;
+	border:1px solid transparent;
+	margin-right: 10px;
 	position: relative;
 	text-decoration: none;
 	text-align: center;
+	transition: opacity 0.1s linear;
+	opacity: 0.6;
+}
+
+.post-format-options:hover a {
+	opacity: 1.0;
+}
+.post-format-options a:hover,
+.post-format-options a.active {
+	opacity: 1.0;
+	background-color: #fff;
+	border-color: #ccc;
 }
 
 .post-format-options a div {
@@ -4127,7 +4148,7 @@ body .ui-tooltip {
 	margin-top: 4px;
 }
 
-.post-format-change, .post-format-set .post-format-options {
+.post-format-set .post-format-options {
 	display: none;
 }
 
@@ -4136,7 +4157,7 @@ body .ui-tooltip {
 }
 
 #poststuff .post-format-change {
-	margin: 11px 0 13px;
+	margin: -7px 0 13px 2px;
 	padding: 0;
 	font-size: 1.5em;
 	line-height: 18px;
@@ -4150,43 +4171,43 @@ body .ui-tooltip {
 	width: 16px;
 }
 
-.post-format-change span.icon.standard {
+.post-format-change span.icon.wp-format-standard {
 	background: url(../images/post-formats.png) no-repeat -8px -8px;
 }
 
-.post-format-change span.icon.image {
+.post-format-change span.icon.wp-format-image {
 	background: url(../images/post-formats.png) no-repeat -40px -8px;
 }
 
-.post-format-change span.icon.gallery {
+.post-format-change span.icon.wp-format-gallery {
 	background: url(../images/post-formats.png) no-repeat -72px -8px;
 }
 
-.post-format-change span.icon.audio {
+.post-format-change span.icon.wp-format-audio {
 	background: url(../images/post-formats.png) no-repeat -104px -8px;
 }
 
-.post-format-change span.icon.video {
+.post-format-change span.icon.wp-format-video {
 	background: url(../images/post-formats.png) no-repeat -136px -8px;
 }
 
-.post-format-change span.icon.chat {
+.post-format-change span.icon.wp-format-chat {
 	background: url(../images/post-formats.png) no-repeat -168px -8px;
 }
 
-.post-format-change span.icon.status {
+.post-format-change span.icon.wp-format-status {
 	background: url(../images/post-formats.png) no-repeat -200px -8px;
 }
 
-.post-format-change span.icon.aside {
+.post-format-change span.icon.wp-format-aside {
 	background: url(../images/post-formats.png) no-repeat -232px -8px;
 }
 
-.post-format-change span.icon.quote {
+.post-format-change span.icon.wp-format-quote {
 	background: url(../images/post-formats.png) no-repeat -264px -8px;
 }
 
-.post-format-change span.icon.link {
+.post-format-change span.icon.wp-format-link {
 	background: url(../images/post-formats.png) no-repeat -296px -8px;
 }
 

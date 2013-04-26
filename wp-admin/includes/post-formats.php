@@ -10,7 +10,6 @@ wp_nonce_field( 'show-post-format-ui_' . $post_type, 'show_post_format_ui_nonce'
 
 ?>
 <div class="wp-post-format-ui<?php if ( ! $show_post_format_ui ) echo ' no-ui' ?>">
-	<div class="post-format-change"><span class="icon <?php echo esc_attr( $post_format ); ?>"></span> <span class="post-format-description"><?php echo $all_post_formats[$post_format]['description']; ?></span> <a href="#"><?php _e('Change format'); ?></a></div>
 	<div class="post-formats-fields">
 
 		<input type="hidden" name="post_format" id="post_format" value="<?php echo esc_attr( $post_format ); ?>" />
