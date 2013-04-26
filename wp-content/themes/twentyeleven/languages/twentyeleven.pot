@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyeleven\n"
-"POT-Creation-Date: 2013-01-01 00:19:40+00:00\n"
+"POT-Creation-Date: 2013-04-26 13:58:43+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -253,8 +253,8 @@ msgstr ""
 
 #: content-single.php:39
 msgid ""
-"This entry was posted by <a href=\"%6$s\">%5$s</a>. Bookmark the <a href=\"%3"
-"$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+"This entry was posted by <a href=\"%6$s\">%5$s</a>. Bookmark the <a href="
+"\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
 #: content-single.php:64
