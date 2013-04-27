@@ -2237,6 +2237,8 @@ class WP_Query {
 				}
 				if ( ! $post_type )
 					$post_type = 'any';
+				elseif ( count( $post_type ) == 1 )
+					$post_type = $post_type[0];
 
 				$post_status_join = true;
 			} elseif ( in_array('attachment', (array) $post_type) ) {
@@ -2403,9 +2405,11 @@ class WP_Query {
 				$orderby .= " {$q['order']}";
 		}
 
-		if ( is_array( $post_type ) ) {
+		if ( is_array( $post_type ) && count( $post_type ) > 1 ) {
 			$post_type_cap = 'multiple_post_type';
 		} else {
+			if ( is_array( $post_type ) )
+				$post_type = reset( $post_type );
 			$post_type_object = get_post_type_object( $post_type );
 			if ( empty( $post_type_object ) )
 				$post_type_cap = $post_type;
