@@ -371,8 +371,8 @@ jQuery(document).ready( function($) {
 
 		$('#new' + taxonomy).keypress( function(event){
 			if( 13 === event.keyCode ) {
-				 event.preventDefault();
-				 $('#' + taxonomy + '-add-submit').click();
+				event.preventDefault();
+				$('#' + taxonomy + '-add-submit').click();
 			}
 		});
 		$('#' + taxonomy + '-add-submit').click( function(){ $('#new' + taxonomy).focus(); });
@@ -409,7 +409,7 @@ jQuery(document).ready( function($) {
 			return false;
 		});
 
-		$('#' + taxonomy + 'checklist, #' + taxonomy + 'checklist-pop').on( 'click', 'input[type="checkbox"]', function() {
+		$('#' + taxonomy + 'checklist, #' + taxonomy + 'checklist-pop').on( 'click', 'li.popular-category > label input[type="checkbox"]', function() {
 			var t = $(this), c = t.is(':checked'), id = t.val();
 			if ( id && t.parents('#taxonomy-'+taxonomy).length )
 				$('#in-' + taxonomy + '-' + id + ', #in-popular-' + taxonomy + '-' + id).prop( 'checked', c );
