@@ -99,11 +99,11 @@ require_once( './admin-header.php' );
 <div class="wrap">
 	<?php screen_icon(); ?>
 	<div id="revision-diff-container" class="current-version right-model-loading">
-		<div id="loading-status" class="updated message">
-			<span class="spinner" ></span> <?php _e( 'Calculating revision diffs' ); ?>
-		</div>
-
 		<h2 class="long-header"><?php echo $h2; ?></h2>
+
+		<div id="loading-status" class="updated message">
+			<p><span class="spinner" ></span> <?php _e( 'Calculating revision diffs' ); ?></p>
+		</div>
 
 		<div class="diff-slider-ticks-wrapper">
 			<div id="diff-slider-ticks"></div>
@@ -123,22 +123,26 @@ require_once( './admin-header.php' );
 		</label>
 	</div>
 
-	<div id="diff-header-from" class="diff-header">
-		<div id="diff-title-from-current-version" class="diff-title">
-			<?php printf( '<strong>%1$s</strong> %2$s.' , __( 'From:' ), __( 'the current version' ) ); ?>
+	<div id="diff-header">
+		<div id="diff-header-from" class="diff-header">
+			<div id="diff-title-from-current-version" class="diff-title">
+				<?php printf( '<strong>%1$s</strong> %2$s.' , __( 'From:' ), __( 'the current version' ) ); ?>
+			</div>
+
+			<div id="diff-title-from" class="diff-title">
+				<strong><?php _e( 'From:' ); ?></strong> {{{ data.titleFrom }}}
+			</div>
 		</div>
 
-		<div id="diff-title-from" class="diff-title">
-			<strong><?php _e( 'From:' ); ?></strong> {{{ data.titleFrom }}}
+		<div id="diff-header-to" class="diff-header">
+			<div id="diff-title-to" class="diff-title">
+				<strong><?php _e( 'To:' ); ?></strong> {{{ data.titleTo }}}
+			</div>
+
+			<input type="button" id="restore-revision" class="button button-primary" data-restore-link="{{{ data.restoreLink }}}" value="<?php esc_attr_e( 'Restore This Revision' )?>" />
 		</div>
 	</div>
 
-	<div id="diff-header-to" class="diff-header">
-		<div id="diff-title-to" class="diff-title">
-			<strong><?php _e( 'To:' ); ?></strong> {{{ data.titleTo }}}
-		</div>
-
-		<input type="button" id="restore-revision" class="button button-primary" data-restore-link="{{{ data.restoreLink }}}" value="<?php esc_attr_e( 'Restore This Revision' )?>" />
 	</div>
 
 	<div id="diff-table">{{{ data.diff }}}</div>

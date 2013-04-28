@@ -397,28 +397,7 @@ window.wp = window.wp || {};
 		},
 
 		addTooltip: function( handle, message ) {
-			handle.attr( 'title', '' ).tooltip({
-				track: false,
-
-				position: {
-					my: "left-30 top-66",
-					at: "top left",
-					using: function( position, feedback ) {
-						$( this ).css( position );
-						$( "<div>" )
-						.addClass( "arrow" )
-						.addClass( feedback.vertical )
-						.addClass( feedback.horizontal )
-						.appendTo( $( this ) );
-					}
-				},
-				show: false,
-				hide: false,
-				content:  function() {
-					return message;
-				}
-
-			} );
+			handle.find( '.ui-slider-tooltip' ).html( message );
 		},
 
 		width: function() {
@@ -426,11 +405,15 @@ window.wp = window.wp || {};
 		},
 
 		setWidth: function( width ) {
-			return $( '#diff-slider' ).width( width );
+			$( '#diff-slider' ).width( width );
 		},
 
 		refresh: function( options, slide ) {
 			$( '#diff-slider' ).slider( 'option', options );
+
+			// reset all of the slider tooltips during a refresh, but not on prev/next button actions
+			if ( ! slide )
+				$( 'a.ui-slider-handle' ).html( '<span class="ui-slider-tooltip ui-widget-content ui-corner-all"></span>' );
 
 			// Triggers the slide event
 			if ( slide )

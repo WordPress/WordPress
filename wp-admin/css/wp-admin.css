@@ -3548,7 +3548,7 @@ table.diff col.content.diffsplit {
 }
 
 table.diff col.diffsplit.middle {
-	width: 4%;
+	width: auto;
 }
 
 table.diff col.ltype {
@@ -3571,7 +3571,7 @@ table.diff .diff-addedline ins {
 	text-decoration: none;
 }
 
-#revision-diff-container {
+#revisions-diff {
 	position: relative;
 }
 
@@ -3579,24 +3579,20 @@ table.diff .diff-addedline ins {
 	position: absolute;
 	top: 0;
 	right: 0;
-	padding-top: 15px;
+	padding: 9px 9px 0 0;
 }
 
 #loading-status {
-	position: absolute;
-	top: 0;
-	right: 170px;
-	line-height: 30px;
 	display: none;
-	margin: 9px 0 0;
 }
 
 #loading-status .spinner {
- 	float: left;
+	display: inline-block;
+	float: none;
+	margin: -4px 0;
 }
 
 #revision-interact {
-	border-bottom: 1px solid #dfdfdf;
 	padding: 20px 0;
 }
 
@@ -3613,13 +3609,26 @@ table.diff .diff-addedline ins {
 	float: left;
 }
 
-#diff-slider{
+#diff-slider {
 	width: 70%;
 	margin: 0 auto;
 }
 
 .comparetwo #diff-slider {
 	width: 95%;
+}
+
+#diff-slider .ui-slider-tooltip {
+	display: none;
+	position: absolute;
+	bottom: 20px;
+	margin-left: -4em;
+}
+
+#diff-slider .ui-state-active .ui-slider-tooltip,
+#diff-slider .ui-state-focus .ui-slider-tooltip,
+#diff-slider .ui-state-hover .ui-slider-tooltip {
+	display: block;
 }
 
 #diff-title-to strong {
@@ -3645,6 +3654,11 @@ table.diff .diff-addedline ins {
 	margin: 20px 0 5px;
 	padding-left: 3px;
 	font-size: 13px;
+}
+
+#diff-header {
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .diff-header {
@@ -3688,8 +3702,6 @@ table.diff .diff-addedline ins {
 .comparing-two-revisions #diff-title-from,
 .left-model-loading #loading-status,
 .right-model-loading #loading-status,
-.left-model-loading #loading-status .spinner,
-.right-model-loading #loading-status .spinner,
 .comparing-two-revisions #diff-header-from {
 	display: block;
 }
@@ -3705,31 +3717,26 @@ table.diff .diff-addedline ins {
 
 .revision-tick.scope-of-changes-vsmall {
 	width: 1px;
-	background-color: #aaa;
 }
 
 .revision-tick.scope-of-changes-small {
 	width: 2px;
-	background-color: #aaa;
 	margin-left: -1px;
 }
 
 .revision-tick.scope-of-changes-med {
 	width: 3px;
 	margin-left: -2px;
-	background-color: #666;
 }
 
 .revision-tick.scope-of-changes-large {
 	width: 4px;
 	margin-left: -3px;
-	background-color: #333;
 }
 
 .revision-tick.scope-of-changes-vlarge {
 	margin-left: -3px;
 	width: 4px;
-	background-color: #111;
 	left: 1;
 }
 
@@ -3747,7 +3754,8 @@ table.diff .diff-addedline ins {
 	float: none;
 }
 
-.ui-tooltip-content img {
+.ui-tooltip-content img,
+.ui-slider-tooltip img {
 	float: left;
 	margin-right: 5px;
 }
@@ -3755,7 +3763,8 @@ table.diff .diff-addedline ins {
 
 /*  jQuery UI Tooltip 1.10.1 */
 
-.ui-tooltip {
+.ui-tooltip,
+.ui-slider-tooltip {
 	padding: 8px;
 	position: absolute;
 	z-index: 9999;
@@ -3763,15 +3772,19 @@ table.diff .diff-addedline ins {
 	min-width: 130px;
 }
 
-body .ui-tooltip {
+body .ui-tooltip,
+body .ui-slider-tooltip {
 	border-width: 1px;
 }
 
-.ui-tooltip, .arrow:after {
+.ui-tooltip,
+.ui-slider-tooltip,
+.arrow:after {
 	border: 1px solid #d7d7d7;
 }
 
-.ui-tooltip {
+.ui-tooltip,
+.ui-slider-tooltip {
 	padding: 5px 10px;
 }
 
