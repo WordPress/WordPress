@@ -2450,7 +2450,7 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 			$image = wp_get_attachment_image( absint( $meta['image'] ), $attached_size );
 			// wrap image in <a>
 			if ( ! empty( $meta['url'] ) )
-				$image = sprint( $link_fmt, $image );
+				$image = sprintf( $link_fmt, $image );
 		} elseif ( has_shortcode( $meta['image'], 'caption' ) ) {
 			// wrap <img> in <a>
 			if ( ! empty( $meta['url'] ) && false === strpos( $meta['image'], '<a ' ) ) {
