@@ -143,8 +143,18 @@ class WP_Terms_List_Table extends WP_List_Table {
 		if ( is_taxonomy_hierarchical( $taxonomy ) && !isset( $orderby ) ) {
 			// We'll need the full set of terms then.
 			$args['number'] = $args['offset'] = 0;
+		}
+		$terms = get_terms( $taxonomy, $args );
 
-			$terms = get_terms( $taxonomy, $args );
+		if ( empty( $terms ) ) {
+			list( $columns, $hidden ) = $this->get_column_info();
+			echo '<tr class="no-items"><td class="colspanchange" colspan="' . $this->get_column_count() . '">';
+			$this->no_items();
+			echo '</td></tr>';
+			return;
+		}
+
+		if ( is_taxonomy_hierarchical( $taxonomy ) && !isset( $orderby ) ) {
 			if ( !empty( $search ) ) // Ignore children on searches.
 				$children = array();
 			else
@@ -155,19 +165,12 @@ class WP_Terms_List_Table extends WP_List_Table {
 		} else {
 			$terms = get_terms( $taxonomy, $args );
 			foreach ( $terms as $term )
-				$this->single_row( $term, 0, $taxonomy );
+				$this->single_row( $term );
 			$count = $number; // Only displaying a single page.
-		}
-
-		if ( empty( $terms ) ) {
-			list( $columns, $hidden ) = $this->get_column_info();
-			echo '<tr class="no-items"><td class="colspanchange" colspan="' . $this->get_column_count() . '">';
-			$this->no_items();
-			echo '</td></tr>';
 		}
 	}
 
-	function _rows( $taxonomy, $terms, &$children, $start = 0, $per_page = 20, &$count, $parent = 0, $level = 0 ) {
+	function _rows( $taxonomy, $terms, &$children, $start, $per_page, &$count, $parent = 0, $level = 0 ) {
 
 		$end = $start + $per_page;
 
@@ -196,14 +199,14 @@ class WP_Terms_List_Table extends WP_List_Table {
 				$num_parents = count( $my_parents );
 				while ( $my_parent = array_pop( $my_parents ) ) {
 					echo "\t";
-					$this->single_row( $my_parent, $level - $num_parents, $taxonomy );
+					$this->single_row( $my_parent, $level - $num_parents );
 					$num_parents--;
 				}
 			}
 
 			if ( $count >= $start ) {
 				echo "\t";
-				$this->single_row( $term, $level, $taxonomy );
+				$this->single_row( $term, $level );
 			}
 
 			++$count;
