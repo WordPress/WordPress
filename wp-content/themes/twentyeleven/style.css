@@ -2394,7 +2394,6 @@ p.comment-form-comment {
 		margin-right: 0;
 		width: auto;
 	}
-
 }
 @media (max-width: 650px) {
 	/* @media (max-width: 650px) Reduce font-sizes for better readability on smaller devices */
@@ -2496,7 +2495,6 @@ p.comment-form-comment {
 		width: 100%;
 		height: auto;
 	}
-
 }
 @media (max-width: 450px) {
 	#content .gallery-columns-2 .gallery-item {
@@ -2507,7 +2505,6 @@ p.comment-form-comment {
 		width: 100%;
 		height: auto;
 	}
-
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
 	body {
@@ -2519,7 +2516,6 @@ p.comment-form-comment {
 	#branding {
 		border-top: none;
 	}
-
 }
 
 
@@ -2688,7 +2684,6 @@ p.comment-form-comment {
 	.commentlist .children > li.bypostauthor > article .comment-meta {
 		color: #666;
 	}
-
 }
 
 
@@ -2713,6 +2708,7 @@ p.comment-form-comment {
 #ie7 section.recent-posts {
 	margin-right: 7.6%;
 }
+
 
 /* =IE8
 ----------------------------------------------- */
