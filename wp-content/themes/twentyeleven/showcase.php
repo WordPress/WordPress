@@ -196,7 +196,7 @@ get_header(); ?>
 					while ( $recent->have_posts() ) : $recent->the_post(); ?>
 
 						<li class="entry-title">
-							<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
+							<a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a>
 							<span class="comments-link">
 								<?php comments_popup_link( '<span class="leave-reply">' . __( 'Leave a reply', 'twentyeleven' ) . '</span>', __( '<b>1</b> Reply', 'twentyeleven' ), __( '<b>%</b> Replies', 'twentyeleven' ) ); ?>
 							</span>
