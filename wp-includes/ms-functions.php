@@ -460,9 +460,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 		$errors->add( 'user_name', __( 'Sorry, usernames may not contain the character &#8220;_&#8221;!' ) );
 
 	// all numeric?
-	$match = array();
-	preg_match( '/[0-9]*/', $user_name, $match );
-	if ( $match[0] == $user_name )
+	if ( preg_match( '/^[0-9]*$/', $user_name ) )
 		$errors->add('user_name', __('Sorry, usernames must have letters too!'));
 
 	if ( !is_email( $user_email ) )
@@ -572,9 +570,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 		$errors->add( 'blogname', __( 'Sorry, you may not use that site name.' ) );
 
 	// all numeric?
-	$match = array();
-	preg_match( '/[0-9]*/', $blogname, $match );
-	if ( $match[0] == $blogname )
+	if ( preg_match( '/^[0-9]*$/', $blogname ) )
 		$errors->add('blogname', __('Sorry, site names must have letters too!'));
 
 	$blogname = apply_filters( 'newblogname', $blogname );
