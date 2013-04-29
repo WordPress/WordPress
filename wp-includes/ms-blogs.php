@@ -469,7 +469,7 @@ function delete_blog_option( $id, $option ) {
  * @param int $id The blog id
  * @param string $option The option key
  * @param mixed $value The option value
- * @return bool True on success, false on failrue.
+ * @return bool True on success, false on failure.
  */
 function update_blog_option( $id, $option, $value, $deprecated = null ) {
 	$id = (int) $id;
