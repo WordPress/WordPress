@@ -382,8 +382,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 			if ( $count >= $end )
 				break;
 
-			if ( $count >= $start )
-				echo "\t" . $this->single_row( $page, $level );
+			if ( $count >= $start ) {
+				echo "\t";
+				$this->single_row( $page, $level );
+			}
 
 			$count++;
 
@@ -397,8 +399,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 				foreach ( $orphans as $op ) {
 					if ( $count >= $end )
 						break;
-					if ( $count >= $start )
-						echo "\t" . $this->single_row( $op, 0 );
+
+					if ( $count >= $start ) {
+						echo "\t";
+						$this->single_row( $op, 0 );
+					}
+
 					$count++;
 				}
 			}
@@ -444,13 +450,16 @@ class WP_Posts_List_Table extends WP_List_Table {
 				}
 				$num_parents = count( $my_parents );
 				while ( $my_parent = array_pop( $my_parents ) ) {
-					echo "\t" . $this->single_row( $my_parent, $level - $num_parents );
+					echo "\t";
+					$this->single_row( $my_parent, $level - $num_parents );
 					$num_parents--;
 				}
 			}
 
-			if ( $count >= $start )
-				echo "\t" . $this->single_row( $page, $level );
+			if ( $count >= $start ) {
+				echo "\t";
+				$this->single_row( $page, $level );
+			}
 
 			$count++;
 

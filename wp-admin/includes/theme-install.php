@@ -153,7 +153,7 @@ add_action('install_themes_upload', 'install_themes_upload', 10, 1);
 function display_theme( $theme ) {
 	_deprecated_function( __FUNCTION__, '3.4' );
 	global $wp_list_table;
-	return $wp_list_table->single_row( $theme );
+	$wp_list_table->single_row( $theme );
 }
 
 /**

@@ -1415,7 +1415,7 @@ function wp_ajax_inline_save_tax() {
 		$parent = $parent_tag->parent;
 		$level++;
 	}
-	echo $wp_list_table->single_row( $tag, $level );
+	$wp_list_table->single_row( $tag, $level );
 	wp_die();
 }
 

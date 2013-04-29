@@ -315,7 +315,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$this->user_can = current_user_can( 'edit_comment', $comment->comment_ID );
 
 		echo "<tr id='comment-$comment->comment_ID' class='$the_comment_class'>";
-		echo $this->single_row_columns( $comment );
+		$this->single_row_columns( $comment );
 		echo "</tr>\n";
 	}
 

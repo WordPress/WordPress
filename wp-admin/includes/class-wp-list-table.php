@@ -826,7 +826,7 @@ class WP_List_Table {
 		$row_class = ( $row_class == '' ? ' class="alternate"' : '' );
 
 		echo '<tr' . $row_class . '>';
-		echo $this->single_row_columns( $item );
+		$this->single_row_columns( $item );
 		echo '</tr>';
 	}
 
