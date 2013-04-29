@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Eleven 1.5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyeleven\n"
-"POT-Creation-Date: 2013-04-26 13:58:35+00:00\n"
+"POT-Creation-Date: 2013-04-29 17:14:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -107,13 +107,6 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#: content-aside.php:16 content-featured.php:14 content-gallery.php:16
-#: content-gallery.php:44 content-image.php:15 content-link.php:16
-#: content-quote.php:14 content-status.php:15 content.php:15 content.php:19
-#: inc/widgets.php:89 showcase.php:120 showcase.php:199
-msgid "Permalink to %s"
-msgstr ""
-
 #: content-aside.php:17
 msgid "Aside"
 msgstr ""
@@ -203,6 +196,10 @@ msgid "This gallery contains <a %1$s>%2$s photo</a>."
 msgid_plural "This gallery contains <a %1$s>%2$s photos</a>."
 msgstr[0] ""
 msgstr[1] ""
+
+#: content-gallery.php:44 showcase.php:120
+msgid "Permalink to %s"
+msgstr ""
 
 #: content-gallery.php:62 content-image.php:51 content-quote.php:48
 #: content.php:55
@@ -564,10 +561,6 @@ msgstr ""
 
 #: inc/widgets.php:91 inc/widgets.php:100
 msgid "% <span class=\"reply\">comments &rarr;</span>"
-msgstr ""
-
-#: inc/widgets.php:98
-msgid "Link to %s"
 msgstr ""
 
 #: inc/widgets.php:150
