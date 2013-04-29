@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyten\n"
-"POT-Creation-Date: 2013-04-26 13:58:33+00:00\n"
+"POT-Creation-Date: 2013-04-29 17:14:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -307,15 +307,15 @@ msgctxt "gallery category slug"
 msgid "gallery"
 msgstr ""
 
-#: loop.php:62 loop.php:82 loop.php:130
-msgid "Permalink to %s"
-msgstr ""
-
 #: loop.php:81
 msgid "This gallery contains <a %1$s>%2$s photo</a>."
 msgid_plural "This gallery contains <a %1$s>%2$s photos</a>."
 msgstr[0] ""
 msgstr[1] ""
+
+#: loop.php:82
+msgid "Permalink to %s"
+msgstr ""
 
 #: loop.php:92
 msgid "View Galleries"
