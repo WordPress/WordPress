@@ -30,7 +30,7 @@ window.wp = window.wp || {};
 		this.autostart = true;
 		this.connectionLost = false;
 
-		if ( typeof( window.heartbeatSettings != 'undefined' ) ) {
+		if ( typeof( window.heartbeatSettings ) != 'undefined' ) {
 			settings = window.heartbeatSettings;
 
 			// Add private vars
