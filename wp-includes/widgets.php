@@ -73,7 +73,7 @@ class WP_Widget {
 	/**
 	 * PHP4 constructor
 	 */
-	function WP_Widget( $id_base = false, $name, $widget_options = array(), $control_options = array() ) {
+	function WP_Widget( $id_base, $name, $widget_options = array(), $control_options = array() ) {
 		WP_Widget::__construct( $id_base, $name, $widget_options, $control_options );
 	}
 
@@ -90,7 +90,7 @@ class WP_Widget {
 	 *	 - width: required if more than 250px
 	 *	 - height: currently not used but may be needed in the future
 	 */
-	function __construct( $id_base = false, $name, $widget_options = array(), $control_options = array() ) {
+	function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
 		$this->id_base = empty($id_base) ? preg_replace( '/(wp_)?widget_/', '', strtolower(get_class($this)) ) : strtolower($id_base);
 		$this->name = $name;
 		$this->option_name = 'widget_' . $this->id_base;

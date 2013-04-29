@@ -794,12 +794,12 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
  * @deprecated Use get_author_posts_url()
  * @see get_author_posts_url()
  *
- * @param bool $echo Optional.
- * @param int $author_id Required.
+ * @param bool $echo
+ * @param int $author_id
  * @param string $author_nicename Optional.
  * @return string|null
  */
-function get_author_link($echo = false, $author_id, $author_nicename = '') {
+function get_author_link($echo, $author_id, $author_nicename = '') {
 	_deprecated_function( __FUNCTION__, '2.1', 'get_author_posts_url()' );
 
 	$link = get_author_posts_url($author_id, $author_nicename);

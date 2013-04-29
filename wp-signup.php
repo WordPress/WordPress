@@ -490,7 +490,7 @@ function validate_blog_signup() {
  * @param string $user_email The user's email address
  * @param string $meta Any additional meta from the 'add_signup_meta' filter in validate_blog_signup()
  */
-function confirm_blog_signup($domain, $path, $blog_title, $user_name = '', $user_email = '', $meta) {
+function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $user_email = '', $meta = array() ) {
 	?>
 	<h2><?php printf( __( 'Congratulations! Your new site, %s, is almost ready.' ), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
 

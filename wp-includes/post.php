@@ -4786,7 +4786,7 @@ function _transition_post_status($new_status, $old_status, $post) {
  *   wp_transition_post_status() and the default filter for _future_post_hook().
  * @param object $post Object type containing the post information
  */
-function _future_post_hook( $deprecated = '', $post ) {
+function _future_post_hook( $deprecated, $post ) {
 	wp_clear_scheduled_hook( 'publish_future_post', array( $post->ID ) );
 	wp_schedule_single_event( strtotime( get_gmt_from_date( $post->post_date ) . ' GMT') , 'publish_future_post', array( $post->ID ) );
 }
