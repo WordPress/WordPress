@@ -1037,7 +1037,7 @@ function wp_video_shortcode( $attr ) {
 		}
 	}
 	if ( 'mediaelement' === $library )
-		$html .= wp_mediaelement_fallback( $fileurl, $width, $height );
+		$html .= wp_mediaelement_fallback( $fileurl );
 	$html .= '</video>';
 
 	return apply_filters( 'wp_video_shortcode', $html, $atts, $video, $post_id );
