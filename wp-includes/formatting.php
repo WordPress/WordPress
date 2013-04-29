@@ -3264,7 +3264,6 @@ function sanitize_text_field($str) {
 		$filtered = trim( preg_replace('/[\r\n\t ]+/', ' ', $filtered) );
 	}
 
-	$match = array();
 	$found = false;
 	while ( preg_match('/%[a-f0-9]{2}/i', $filtered, $match) ) {
 		$filtered = str_replace($match[0], '', $filtered);

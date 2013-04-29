@@ -580,7 +580,6 @@ function get_content_chat( &$content, $remove = false ) {
 				continue;
 		}
 
-		$matches = array();
 		$matched = preg_match( $newline_regex, $line, $matches );
 		if ( ! $matched )
 			continue;
@@ -709,7 +708,6 @@ function get_content_quote( &$content, $remove = false, $replace = '' ) {
 	if ( empty( $content ) )
 		return '';
 
-	$matches = array();
 	if ( ! preg_match( '/<blockquote[^>]*>(.+?)<\/blockquote>/is', $content, $matches ) ) {
 		$quote = $content;
 		if ( $remove || ! empty( $replace ) )
@@ -782,8 +780,6 @@ function the_post_format_quote() {
 function get_content_url( &$content, $remove = false ) {
 	if ( empty( $content ) )
 		return '';
-
-	$matches = array();
 
 	// the content is a URL
 	$trimmed = trim( $content );
@@ -883,7 +879,6 @@ function get_the_remaining_content( $more_link_text = null, $strip_teaser = fals
 
 	$output = '';
 	$has_teaser = false;
-	$matches = array();
 
 	// If post password required and it doesn't match the cookie.
 	if ( post_password_required() )

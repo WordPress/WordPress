@@ -1908,7 +1908,6 @@ function get_attached_video( $post_id = 0 ) {
  */
 function get_content_media( $type, &$content, $html = true, $remove = false, $limit = 0 ) {
 	$items = array();
-	$matches = array();
 
 	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
 		foreach ( $matches as $shortcode ) {
@@ -1927,7 +1926,6 @@ function get_content_media( $type, &$content, $html = true, $remove = false, $li
 	if ( $html )
 		return $items;
 
-	$src = '';
 	$data = array();
 
 	foreach ( $items as $item ) {
@@ -1958,7 +1956,6 @@ function get_content_media( $type, &$content, $html = true, $remove = false, $li
  */
 function get_embedded_media( $type, &$content, $remove = false, $limit = 0 ) {
 	$html = array();
-	$matches = '';
 
 	foreach ( array( $type, 'object', 'embed', 'iframe' ) as $tag ) {
 		if ( preg_match( '#' . get_tag_regex( $tag ) . '#', $content, $matches ) ) {
@@ -2206,7 +2203,6 @@ function get_attached_image_srcs( $post_id = 0 ) {
  * @return array The found images or srcs
  */
 function get_content_images( &$content, $html = true, $remove = false, $limit = 0 ) {
-	$matches = array();
 	$tags = array();
 	$captions = array();
 
@@ -2255,7 +2251,6 @@ function get_content_images( &$content, $html = true, $remove = false, $limit = 
 	if ( $html )
 		return $tags;
 
-	$src = '';
 	$srcs = array();
 
 	foreach ( $tags as $tag ) {
@@ -2300,9 +2295,7 @@ function get_content_image( &$content, $html = true, $remove = false ) {
  * @return array A list of galleries, which in turn are a list of their srcs in order
  */
 function get_content_galleries( &$content, $html = true, $remove = false, $limit = 0 ) {
-	$src = '';
 	$galleries = array();
-	$matches = array();
 
 	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
 		foreach ( $matches as $shortcode ) {
@@ -2493,7 +2486,6 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 		$urls[] = get_attachment_link( $media->ID );
 
 		$count = 1;
-		$matches = array();
 		$content = $post->post_content;
 
 		if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {

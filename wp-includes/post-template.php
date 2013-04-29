@@ -185,7 +185,6 @@ function get_the_content( $more_link_text = null, $strip_teaser = false ) {
 
 	$output = '';
 	$has_teaser = false;
-	$matches = array();
 
 	// If post password required and it doesn't match the cookie.
 	if ( post_password_required() )

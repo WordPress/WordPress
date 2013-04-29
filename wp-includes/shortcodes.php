@@ -152,7 +152,6 @@ function shortcode_exists( $tag ) {
  */
 function has_shortcode( $content, $tag ) {
 	if ( shortcode_exists( $tag ) ) {
-		$matches = array();
 		preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );
 		if ( empty( $matches ) )
 			return false;
