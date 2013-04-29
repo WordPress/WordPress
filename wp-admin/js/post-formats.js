@@ -121,7 +121,7 @@ window.wp = window.wp || {};
 			description.slideDown( 'fast' );
 		}
 
-		if ( tinymce ) {
+		if ( typeof tinymce !== 'undefined' ) {
 			editor = tinymce.get( 'content' );
 
 			if ( editor ) {
