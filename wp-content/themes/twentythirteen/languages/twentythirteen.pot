@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Thirteen 0.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentythirteen\n"
-"POT-Creation-Date: 2013-04-26 13:58:48+00:00\n"
+"POT-Creation-Date: 2013-04-29 17:14:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -107,11 +107,6 @@ msgstr ""
 #: content-link.php:19 content-quote.php:25 content-status.php:19
 #: content-video.php:39 content.php:29 image.php:79 page.php:39
 msgid "Edit"
-msgstr ""
-
-#: content-audio.php:17 content-chat.php:17 content-gallery.php:17
-#: content-image.php:21 content-video.php:21 content.php:23 functions.php:420
-msgid "Permalink to %s"
 msgstr ""
 
 #: content-gallery.php:36 content-image.php:36 content-quote.php:22
@@ -246,6 +241,10 @@ msgstr ""
 #: functions.php:416
 msgctxt "1: post format name. 2: date"
 msgid "%1$s on %2$s"
+msgstr ""
+
+#: functions.php:420
+msgid "Permalink to %s"
 msgstr ""
 
 #: header.php:49
