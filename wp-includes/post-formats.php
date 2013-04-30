@@ -949,8 +949,8 @@ function the_remaining_content( $more_link_text = null, $strip_teaser = false ) 
  * @since 3.6.0
  * @access private
  */
-function _post_formats_title( $title, $post_id ) {
-	if ( is_admin() || is_feed() || ! in_array( get_post_format( $post_id ), array( 'aside', 'status' ) ) )
+function _post_formats_title( $title, $post_id = 0 ) {
+	if ( ! $post_id || is_admin() || is_feed() || ! in_array( get_post_format( $post_id ), array( 'aside', 'status' ) ) )
 		return $title;
 
 	// Return an empty string only if the title is auto-generated.
