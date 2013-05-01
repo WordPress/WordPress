@@ -738,6 +738,10 @@ img.aligncenter {
 	margin: 5px auto;
 }
 
+img.alignnone {
+	margin: 5px 0;
+}
+
 .wp-caption .wp-caption-text,
 .entry-caption,
 .gallery-caption {
