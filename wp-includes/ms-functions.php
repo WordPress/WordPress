@@ -562,7 +562,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
 	if ( strlen( $blogname ) < 4 && !is_super_admin() )
 		$errors->add('blogname',  __( 'Site name must be at least 4 characters.' ) );
 
-	if ( strpos( ' ' . $blogname, '_' ) != false )
+	if ( strpos( $blogname, '_' ) !== false )
 		$errors->add( 'blogname', __( 'Sorry, site names may not contain the character &#8220;_&#8221;!' ) );
 
 	// do not allow users to create a blog that conflicts with a page on the main blog.
