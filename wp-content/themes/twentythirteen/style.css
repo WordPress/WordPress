@@ -107,10 +107,6 @@ textarea {
 }
 
 body {
-	-webkit-hyphens: auto;
-	-moz-hyphens:    auto;
-	-ms-hyphens:     auto;
-	hyphens:         auto;
 	color: #141412;
 	line-height: 1.5;
 	margin: 0;
@@ -1022,7 +1018,6 @@ ul.nav-menu li:hover > ul,
 
 .hentry {
 	padding: 40px 0;
-	word-wrap: break-word;
 }
 
 .entry-header,
@@ -1153,6 +1148,14 @@ ul.nav-menu li:hover > ul,
  * 5.3 Entry Content
  * ----------------------------------------------------------------------------
  */
+
+.entry-content {
+	-webkit-hyphens: auto;
+	-moz-hyphens:    auto;
+	-ms-hyphens:     auto;
+	hyphens:         auto;
+	word-wrap: break-word;
+}
 
 .entry-content a,
 .comment-content a {
@@ -2546,9 +2549,14 @@ footer.entry-meta {
 
 .widget {
 	background-color: rgba(247, 245, 231, 0.7);
+	-webkit-hyphens: auto;
+	-moz-hyphens:    auto;
+	-ms-hyphens:     auto;
+	hyphens:         auto;
 	font-size: 14px;
 	margin: 0 0 24px;
 	padding: 20px;
+	word-wrap: break-word;
 }
 
 .widget .widget-title {

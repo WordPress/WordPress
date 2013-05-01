@@ -10,10 +10,6 @@ html .mceContentBody {
 
 body {
 	font-family: "Source Sans Pro", Helvetica, sans-serif;
-	-webkit-hyphens: auto;
-	-moz-hyphens:    auto;
-	-ms-hyphens:     auto;
-	hyphens: auto;
 	color: #141412;
 	line-height: 1.5;
 	text-rendering: optimizeLegibility;
@@ -126,10 +122,6 @@ pre,
 samp {
 	font-family: monospace, serif;
 	font-size: 14px;
-	-webkit-hyphens: auto;
-	-moz-hyphens:    auto;
-	-ms-hyphens:     auto;
-	hyphens: none;
 }
 
 pre {
@@ -147,10 +139,6 @@ pre {
 
 blockquote,
 q {
-	-webkit-hyphens: auto;
-	-moz-hyphens:    auto;
-	-ms-hyphens:     auto;
-	hyphens: none;
 	quotes: none;
 }
 
