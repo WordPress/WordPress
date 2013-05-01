@@ -155,7 +155,6 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_
 
 	$format_class = " class='wp-format-{$post_format}'";
 
-
 	$all_post_formats = array(
 		'standard' => array (
 			'description' => __( 'Use the editor below to compose your post.' )
@@ -422,9 +421,11 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 <div id="poststuff">
 <div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 <div id="post-body-content"<?php echo $format_class; ?>>
+<?php if ( ! empty( $all_post_formats ) ) : ?>
 <div class="wp-post-format-ui<?php if ( ! $show_post_format_ui ) echo ' no-ui' ?>">
 	<div class="post-format-change"><span class="icon <?php echo esc_attr( 'wp-format-' . $post_format ); ?>"></span> <span class="post-format-description"><?php echo $all_post_formats[$post_format]['description']; ?></span></div>
 </div>
+<?php endif; ?>
 <?php if ( post_type_supports($post_type, 'title') ) { ?>
 <div id="titlediv">
 <div id="titlewrap">
