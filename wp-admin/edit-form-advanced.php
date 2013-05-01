@@ -130,6 +130,7 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 $format_class = '';
 $post_format = '';
 $post_format_options = '';
+$show_post_format_ui = false;
 if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_post_format_ui', true, $post ) ) {
 	wp_enqueue_script( 'post-formats' );
 	wp_enqueue_script( 'wp-mediaelement' );
