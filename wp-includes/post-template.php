@@ -1400,7 +1400,7 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
  * @since 2.6.0
  *
  * @uses wp_get_post_revisions()
- * @uses wp_post_revision_title()
+ * @uses wp_post_revision_title_expanded()
  * @uses get_edit_post_link()
  * @uses get_the_author_meta()
  *
@@ -1420,12 +1420,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 	if ( !$revisions = wp_get_post_revisions( $post->ID ) )
 		return;
 
-	/* translators: post revision: 1: when, 2: author name */
-	$titlef = _x( '%1$s', 'post revision' );
-
-	$rows = $right_checked = '';
-	$class = false;
-	$can_edit_post = current_user_can( 'edit_post', $post->ID );
+	$rows = '';
 	foreach ( $revisions as $revision ) {
 		if ( !current_user_can( 'read_post', $revision->ID ) )
 			continue;
@@ -1434,11 +1429,7 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 		if ( ( 'revision' === $type && $is_autosave ) || ( 'autosave' === $type && ! $is_autosave ) )
 			continue;
 
-		$date = wp_post_revision_title_expanded( $revision );
-
-		$title = sprintf( $titlef, $date );
-		$rows .= "\t<li>$title</li>\n";
-
+		$rows .= "\t<li>" . wp_post_revision_title_expanded( $revision ) . "</li>\n";
 	}
 
 	if ( 'form-table' == $format ) : ?>
