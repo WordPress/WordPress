@@ -78,17 +78,11 @@ function twentythirteen_setup() {
 	add_theme_support( 'automatic-feed-links' );
 
 	/*
-	 * This theme supports all available post formats.
+	 * This theme supports all available post formats by default.
 	 * See http://codex.wordpress.org/Post_Formats
-	 *
-	 * Structured post formats are formats where Twenty Thirteen handles the
-	 * output instead of the default core HTML output.
 	 */
-	add_theme_support( 'structured-post-formats', array(
-		'link', 'video'
-	) );
 	add_theme_support( 'post-formats', array(
-		'aside', 'audio', 'chat', 'gallery', 'image', 'quote', 'status'
+		'aside', 'audio', 'chat', 'gallery', 'image', 'link', 'quote', 'status', 'video'
 	) );
 
 	// This theme uses wp_nav_menu() in one location.
