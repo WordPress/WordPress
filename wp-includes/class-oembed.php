@@ -51,6 +51,8 @@ class WP_oEmbed {
  			'#https?://(www\.)?soundcloud\.com/.*#i'             => array( 'http://soundcloud.com/oembed',                      true  ),
 			'#https?://(www\.)?slideshare.net/*#'                => array( 'http://www.slideshare.net/api/oembed/2',            true  ),
 			'#http://instagr(\.am|am\.com)/p/.*#i'               => array( 'http://api.instagram.com/oembed',                   true  ),
+			'#https?://(www\.)?rdio\.com/.*#i'                   => array( 'http://www.rdio.com/api/oembed/',                   true  ),
+			'#https?://rd\.io/x/.*#i'                            => array( 'http://www.rdio.com/api/oembed/',                   true  ),
 		) );
 
 		// Fix any embeds that contain new lines in the middle of the HTML which breaks wpautop().
