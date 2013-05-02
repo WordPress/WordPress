@@ -53,6 +53,7 @@ class WP_oEmbed {
 			'#http://instagr(\.am|am\.com)/p/.*#i'               => array( 'http://api.instagram.com/oembed',                   true  ),
 			'#https?://(www\.)?rdio\.com/.*#i'                   => array( 'http://www.rdio.com/api/oembed/',                   true  ),
 			'#https?://rd\.io/x/.*#i'                            => array( 'http://www.rdio.com/api/oembed/',                   true  ),
+			'#https?://open.spotify.com/.*#i'                    => array( 'https://embed.spotify.com/oembed/',                 true  ),
 		) );
 
 		// Fix any embeds that contain new lines in the middle of the HTML which breaks wpautop().
