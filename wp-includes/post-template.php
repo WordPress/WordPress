@@ -1475,26 +1475,26 @@ function wp_list_post_revisions( $post_id = 0, $args = null ) {
 		echo "<ul class='post-revisions'>\n";
 		echo $rows;
 
-		//
 		// if the post was previously restored from a revision
 		// show the restore event details
-		//
 		if ( $restored_from_meta = get_post_meta( $post->ID, '_post_restored_from', true ) ) {
-			$author = get_the_author_meta( 'display_name', $restored_from_meta[ 'restored_by_user' ] );
+			$author = get_user_by( 'id', $restored_from_meta[ 'restored_by_user' ] );
 			/* translators: revision date format, see http://php.net/date */
 			$datef = _x( 'j F, Y @ G:i:s', 'revision date format');
 			$date = date_i18n( $datef, strtotime( $restored_from_meta[ 'restored_time' ] ) );
-			$timesince = human_time_diff( $restored_from_meta[ 'restored_time' ], current_time( 'timestamp' ) ) ;
+			$time_diff = human_time_diff( $restored_from_meta[ 'restored_time' ] ) ;
 			?>
 			<hr />
 			<div id="revisions-meta-restored">
 				<?php
-				/* translators: restored revision details: 1: revision ID, 2: time ago, 3: author name, 4: date */
-				printf( _x( 'Previously restored from revision ID %1$d, %2$s ago by %3$s (%4$s)', 'restored revision details' ),
-				$restored_from_meta[ 'restored_revision_id'],
-				$timesince,
-				$author,
-				$date );
+				printf(
+					/* translators: restored revision details: 1: gravatar image, 2: author name, 3: time ago, 4: date */
+					__( 'Previously restored by %1$s %2$s, %3$s ago (%4$s)' ),
+					get_avatar( $author->ID, 24 ),
+					$author->display_name,
+					$time_diff,
+					$date
+				);
 				?>
 			</div>
 			<?php

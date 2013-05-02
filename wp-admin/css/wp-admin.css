@@ -3531,7 +3531,8 @@ td.plugin-title p {
 ------------------------------------------------------------------------------*/
 
 /* Revision meta box */
-.post-revisions li img {
+.post-revisions li img,
+#revisions-meta-restored img {
 	vertical-align: middle;
 }
 
