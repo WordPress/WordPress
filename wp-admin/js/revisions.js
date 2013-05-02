@@ -1,7 +1,7 @@
 window.wp = window.wp || {};
 
 (function($) {
-	var Revision, Revisions, Diff, l10n, revisions;
+	var Revision, Revisions, Diff, revisions;
 
 	revisions = wp.revisions = function() {
 		Diff = revisions.Diff = new Diff();
@@ -9,12 +9,8 @@ window.wp = window.wp || {};
 
 	_.extend( revisions, { model: {}, view: {}, controller: {} } );
 
-	// Link any localized strings.
-	l10n = revisions.model.l10n = typeof wpRevisionsL10n === 'undefined' ? {} : wpRevisionsL10n;
-
-	// Link any settings.
-	revisions.model.settings = l10n.settings || {};
-	delete l10n.settings;
+	// Link settings.
+	revisions.model.settings = typeof wpRevisionsSettings === 'undefined' ? {} : wpRevisionsSettings;
 
 
 	/**
@@ -328,12 +324,6 @@ window.wp = window.wp || {};
 						return false;
 
 					Diff.rightDiff = ui.values[1];
-				}
-
-				if ( 0 === Diff.leftDiff ) {
-					$( '#revision-diff-container' ).addClass( 'current-version' );
-				} else {
-					$( '#revision-diff-container' ).removeClass( 'current-version' );
 				}
 
 				Diff.revisionView.render();

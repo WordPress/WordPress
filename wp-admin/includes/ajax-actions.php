@@ -2245,7 +2245,9 @@ function wp_ajax_revisions_data() {
 			$date
 		);
 
+		/* translators: 1: date */
 		$autosavef = _x( '%1$s [Autosave]', 'post revision title extra' );
+		/* translators: 1: date */
 		$currentf  = _x( '%1$s [Current Revision]', 'post revision title extra' );
 
 		if ( ! $post = get_post( $post_id ) )

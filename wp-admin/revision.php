@@ -78,10 +78,6 @@ else
 
 wp_enqueue_script( 'revisions' );
 
-$strings = array(
-	'diffFromTitle' => _x( 'From: %s', 'revision from title'  ),
-	'diffToTitle'   => _x( 'To: %s', 'revision to title' )
-);
 
 $settings = array(
 	'post_id'     => $post->ID,
@@ -89,8 +85,7 @@ $settings = array(
 	'revision_id' => $revision_id
 );
 
-$strings['settings'] = $settings;
-wp_localize_script( 'revisions', 'wpRevisionsL10n', $strings );
+wp_localize_script( 'revisions', 'wpRevisionsSettings', $settings );
 
 require_once( './admin-header.php' );
 
@@ -125,18 +120,14 @@ require_once( './admin-header.php' );
 
 	<div id="diff-header">
 		<div id="diff-header-from" class="diff-header">
-			<div id="diff-title-from-current-version" class="diff-title">
-				<?php printf( '<strong>%1$s</strong> %2$s.' , __( 'From:' ), __( 'the current version' ) ); ?>
-			</div>
-
 			<div id="diff-title-from" class="diff-title">
-				<strong><?php _e( 'From:' ); ?></strong> {{{ data.titleFrom }}}
+				<strong><?php _ex( 'From:', 'Followed by post revision info' ); ?></strong> {{{ data.titleFrom }}}
 			</div>
 		</div>
 
 		<div id="diff-header-to" class="diff-header">
 			<div id="diff-title-to" class="diff-title">
-				<strong><?php _e( 'To:' ); ?></strong> {{{ data.titleTo }}}
+				<strong><?php _e( 'To:', 'Followed by post revision info' ); ?></strong> {{{ data.titleTo }}}
 			</div>
 
 			<input type="button" id="restore-revision" class="button button-primary" data-restore-link="{{{ data.restoreLink }}}" value="<?php esc_attr_e( 'Restore This Revision' )?>" />
@@ -150,11 +141,11 @@ require_once( './admin-header.php' );
 
 <script id="tmpl-revision-interact" type="text/html">
 	<div id="diff-previous-revision">
-		<input class="button" type="button" id="previous" value="<?php esc_attr_e( 'Previous' ); ?>" />
+		<input class="button" type="button" id="previous" value="<?php echo esc_attr_x( 'Previous', 'Button label for a previous revision' ); ?>" />
 	</div>
 
 	<div id="diff-next-revision">
-		<input class="button" type="button" id="next" value="<?php esc_attr_e( 'Next' ); ?>" />
+		<input class="button" type="button" id="next" value="<?php echo esc_attr_x( 'Next', 'Button label for a next revision' ); ?>" />
 	</div>
 
 	<div id="diff-slider" class="wp-slider"></div>

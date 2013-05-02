@@ -3694,8 +3694,6 @@ table.diff .diff-addedline ins {
 
 .comparing-two-revisions #diff-previous-revision,
 .comparing-two-revisions #diff-next-revision,
-#diff-title-from-current-version,
-.comparing-two-revisions.current-version #diff-title-from-current-version,
 #diff-header-from {
 	display: none;
 }
