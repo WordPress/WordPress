@@ -323,6 +323,11 @@ div.nav-menu > ul {
  * ----------------------------------------------------------------------------
  */
 
+.entry-media a,
+.entry-content a {
+	display: inline;
+}
+
 .format-aside cite:before {
 	content: normal;
 	margin-right: auto;
