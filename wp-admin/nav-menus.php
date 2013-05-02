@@ -379,7 +379,7 @@ $locations_screen = ( isset( $_GET['action'] ) && 'locations' == $_GET['action']
 $page_count = wp_count_posts( 'page' );
 $one_theme_location_no_menus = ( 1 == count( get_registered_nav_menus() ) && ! $add_new_screen && empty( $nav_menus ) && ! empty( $page_count->publish ) ) ? true : false;
 
-$l10n = array(
+$nav_menus_l10n = array(
 	'oneThemeLocationNoMenus' => $one_theme_location_no_menus,
 	'moveUp'       => __( 'Move up one' ),
 	'moveDown'     => __( 'Move down one' ),
@@ -397,7 +397,7 @@ $l10n = array(
 	/* translators: 1: item name, 2: item position, 3: parent item name */
 	'subMenuFocus' => __( '%1$s. Sub item number %2$d under %3$s.' ),
 );
-wp_localize_script( 'nav-menu', 'menus', $l10n );
+wp_localize_script( 'nav-menu', 'menus', $nav_menus_l10n );
 
 // Redirect to add screen if there are no menus and this users has either zero, or more than 1 theme locations
 if ( 0 == $menu_count && ! $add_new_screen && ! $one_theme_location_no_menus )
