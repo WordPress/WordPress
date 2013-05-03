@@ -30,7 +30,7 @@ class WP_oEmbed {
 		// The WP_Embed class disables discovery for non-unfiltered_html users, so only providers in this array will be used for them.
 		// Add to this list using the wp_oembed_add_provider() function (see its PHPDoc for details).
 		$this->providers = apply_filters( 'oembed_providers', array(
-			'#https?://(www\.)?youtube.com/watch.*#i'            => array( 'http://www.youtube.com/oembed',                     true  ),
+			'#https?://(www\.)?youtube\.com/watch.*#i'           => array( 'http://www.youtube.com/oembed',                     true  ),
 			'http://youtu.be/*'                                  => array( 'http://www.youtube.com/oembed',                     false ),
 			'http://blip.tv/*'                                   => array( 'http://blip.tv/oembed/',                            false ),
 			'#https?://(www\.)?vimeo\.com/.*#i'                  => array( 'http://vimeo.com/api/oembed.{format}',              true  ),
@@ -47,13 +47,13 @@ class WP_oEmbed {
 			'http://wordpress.tv/*'                              => array( 'http://wordpress.tv/oembed/',                       false ),
 			'#https?://(.+\.)?polldaddy\.com/.*#i'               => array( 'http://polldaddy.com/oembed/',                      true  ),
 			'#https?://(www\.)?funnyordie\.com/videos/.*#i'      => array( 'http://www.funnyordie.com/oembed',                  true  ),
-			'#https?://(www\.)?twitter.com/.+?/status(es)?/.*#i' => array( 'http://api.twitter.com/1/statuses/oembed.{format}', true  ),
+			'#https?://(www\.)?twitter\.com/.+?/status(es)?/.*#i'=> array( 'http://api.twitter.com/1/statuses/oembed.{format}', true  ),
  			'#https?://(www\.)?soundcloud\.com/.*#i'             => array( 'http://soundcloud.com/oembed',                      true  ),
-			'#https?://(www\.)?slideshare.net/*#'                => array( 'http://www.slideshare.net/api/oembed/2',            true  ),
+			'#https?://(www\.)?slideshare\.net/*#'               => array( 'http://www.slideshare.net/api/oembed/2',            true  ),
 			'#http://instagr(\.am|am\.com)/p/.*#i'               => array( 'http://api.instagram.com/oembed',                   true  ),
 			'#https?://(www\.)?rdio\.com/.*#i'                   => array( 'http://www.rdio.com/api/oembed/',                   true  ),
 			'#https?://rd\.io/x/.*#i'                            => array( 'http://www.rdio.com/api/oembed/',                   true  ),
-			'#https?://(open|play).spotify.com/.*#i'             => array( 'https://embed.spotify.com/oembed/',                 true  ),
+			'#https?://(open|play)\.spotify\.com/.*#i'           => array( 'https://embed.spotify.com/oembed/',                 true  ),
 		) );
 
 		// Fix any embeds that contain new lines in the middle of the HTML which breaks wpautop().
