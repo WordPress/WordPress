@@ -727,6 +727,7 @@ function get_content_quote( &$content, $remove = false, $replace = '' ) {
  * @since 3.6.0
  *
  * @uses get_content_quote()
+ * @uses apply_filters() Calls 'quote_source_format' filter to allow changing the typographical mark added to the quote source (em-dash prefix, by default)
  *
  * @param object $post (optional) A reference to the post object, falls back to get_post().
  * @return string The quote html.
@@ -749,6 +750,7 @@ function get_the_post_format_quote( &$post = null ) {
 
 	if ( ! empty( $meta['quote_source_name'] ) ) {
 		$source = ( empty( $meta['quote_source_url'] ) ) ? $meta['quote_source_name'] : sprintf( '<a href="%s">%s</a>', esc_url( $meta['quote_source_url'] ), $meta['quote_source_name'] );
+		$source = sprintf( apply_filters( 'quote_source_format', __( '&#8212;&#160;%s' ) ), $source );
 		$quote .= sprintf( '<figcaption class="quote-caption">%s</figcaption>', $source );
 	}
 
