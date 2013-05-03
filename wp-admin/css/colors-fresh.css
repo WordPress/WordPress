@@ -1376,7 +1376,8 @@ table.diff .diff-addedline ins {
 	border: 1px solid #dfdfdf;
 }
 
-#diff-slider .ui-slider-tooltip {
+#diff-slider .ui-slider-tooltip,
+#diff-slider-ticks .ui-slider-tooltip {
 	border-color: #d7d7d7;
 	background-color: #fff;
 }
@@ -1400,33 +1401,32 @@ table.diff .diff-addedline ins {
 	background-image: none;
 }
 
-.revision-tick.scope-of-changes-vsmall {
+.revision-tick.scope-of-changes-none {
 	background-color: #d7d7d7;
 }
 
-.revision-tick.scope-of-changes-small {
+.revision-tick.scope-of-changes-vsmall {
 	background-color: #c3c3c3;
 }
 
-.revision-tick.scope-of-changes-med {
+.revision-tick.scope-of-changes-small {
 	background-color: #b0b0b0;
 }
 
-.revision-tick.scope-of-changes-large {
+.revision-tick.scope-of-changes-med {
 	background-color: #9c9c9c;
 }
 
-.revision-tick.scope-of-changes-vlarge {
+.revision-tick.scope-of-changes-large {
 	background-color: #898989;
+}
+
+.revision-tick.scope-of-changes-vlarge {
+	background-color: #757575;
 }
 
 .diff-label {
 	color: #666;
-}
-
-body .ui-tooltip {
-	border-color: #d7d7d7;
-	background-color: #fff;
 }
 
 /* jQuery UI Slider */

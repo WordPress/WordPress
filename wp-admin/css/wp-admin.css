@@ -3585,6 +3585,9 @@ table.diff .diff-addedline ins {
 
 #loading-status {
 	display: none;
+	position: absolute;
+	top: 8px;
+	z-index: 1000;
 }
 
 #loading-status .spinner {
@@ -3619,11 +3622,12 @@ table.diff .diff-addedline ins {
 	width: 95%;
 }
 
-#diff-slider .ui-slider-tooltip {
+#diff-slider .ui-slider-tooltip,
+#diff-slider-ticks .ui-slider-tooltip {
 	display: none;
 	position: absolute;
-	bottom: 20px;
-	margin-left: -4em;
+	bottom: 21px;
+	margin-left: -74px;
 }
 
 #diff-slider .ui-state-active .ui-slider-tooltip,
@@ -3638,17 +3642,6 @@ table.diff .diff-addedline ins {
 
 .comparing-two-revisions #diff-title-to strong {
 	display: inline;
-}
-
-.diff-slider-ticks-wrapper {
-	margin: 0 auto;
-	text-align: center;
-}
-
-#diff-slider-ticks {
-	position: absolute;
-	z-index: 2;
-	margin-top: 20px;
 }
 
 .diff-label {
@@ -3705,38 +3698,59 @@ table.diff .diff-addedline ins {
 	display: block;
 }
 
+.diff-slider-ticks-wrapper {
+	margin: 0 auto;
+	text-align: left;
+}
+
+#diff-slider-ticks {
+	position: absolute;
+	z-index: 2;
+	margin-top: 20px;
+}
+
 .revision-tick {
 	width: 1px;
 	float: left;
-	margin: 1px 15px 0 0;
+	margin: 1px 0 0 0;
 	height: .8em;
 	padding: 0;
 	margin-left: 0px;
+	cursor: pointer;
 }
 
-.revision-tick.scope-of-changes-vsmall {
+#diff-slider-ticks .revision-tick:first-child {
+	border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
+}
+
+#diff-slider-ticks .revision-tick:last-child {
+	border-bottom-right-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.revision-tick.scope-of-changes-none {
 	width: 1px;
 }
 
-.revision-tick.scope-of-changes-small {
+.revision-tick.scope-of-changes-vsmall {
 	width: 2px;
-	margin-left: -1px;
+}
+
+.revision-tick.scope-of-changes-small {
+	width: 3px;
 }
 
 .revision-tick.scope-of-changes-med {
-	width: 3px;
-	margin-left: -2px;
+	width: 4px;
 }
 
 .revision-tick.scope-of-changes-large {
-	width: 4px;
-	margin-left: -3px;
+	width: 5px;
 }
 
 .revision-tick.scope-of-changes-vlarge {
-	margin-left: -3px;
-	width: 4px;
-	left: 1;
+	width: 6px;
 }
 
 .diff-loading {
@@ -3757,6 +3771,7 @@ table.diff .diff-addedline ins {
 .ui-slider-tooltip img {
 	float: left;
 	margin-right: 5px;
+	margin-top: 5px;
 }
 
 
@@ -3852,13 +3867,8 @@ body .ui-slider-tooltip {
 	font-size: .7em;
 	display: block;
 	border: 0;
-
-	background-color: #8cc1e9;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#72a7cf), to(#8cc1e9));
-	background-image: -webkit-linear-gradient(bottom, #72a7cf, #8cc1e9);
-	background-image:    -moz-linear-gradient(bottom, #72a7cf, #8cc1e9);
-	background-image:      -o-linear-gradient(bottom, #72a7cf, #8cc1e9);
-	background-image: linear-gradient(to top, #72a7cf, #8cc1e9);
+	background-color: transparent;
+	background-image: none;
 }
 
 .wp-slider.ui-slider-horizontal {

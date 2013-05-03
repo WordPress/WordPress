@@ -40,12 +40,13 @@ window.wp = window.wp || {};
 		slider: null, // the slider instance
 
 		constructor: function() {
+			var self    = this;
 			this.slider = new revisions.view.Slider();
+
 			if ( null === this.revisions ) {
 				this.revisions = new Revisions(); // set up collection
 				this.startRightModelLoading();
 
-				var self = this;
 				this.revisions.fetch({ // load revision data
 					success: function() {
 						self.stopRightModelLoading();
@@ -58,7 +59,8 @@ window.wp = window.wp || {};
 		loadDiffs: function( models ) {
 			var self = this,
 				revisionsToLoad = models.where( { completed: false } ),
-				delay = 0;
+				delay = 0,
+				totalChanges;
 
 			// match slider to passed revision_id
 			_.each( revisionsToLoad, function( revision ) {
@@ -79,9 +81,7 @@ window.wp = window.wp || {};
 								if ( 0 === models.where( { completed: false } ).length )
 									self.stopModelLoadingSpinner();
 
-								self.tickmarkView.render();
-
-								var totalChanges = model.get( 'linesAdded' ) + model.get( 'linesDeleted' ),
+								totalChanges = model.get( 'linesAdded' ) + model.get( 'linesDeleted' ),
 									scopeOfChanges = 'vsmall';
 
 								// Note: hard coded scope of changes
@@ -101,7 +101,7 @@ window.wp = window.wp || {};
 									// reload if current model refreshed
 									self.revisionView.render();
 								}
-
+								self.tickmarkView.render();
 							}
 					} );
 					}, delay ) ;
@@ -191,8 +191,7 @@ window.wp = window.wp || {};
 					self.slider.refresh({
 						'max': self.revisions.length
 					});
-					// ensure right handle not beyond length, in particular if viewing autosaves is switched from on to off
-					// the number of models in the collection might get shorter, this ensures right handle is not beyond last model
+					// ensure right handle not beyond length
 					if ( self.rightDiff > self.revisions.length )
 						self.rightDiff = self.revisions.length;
 					},
@@ -274,7 +273,6 @@ window.wp = window.wp || {};
 				model: this.revisions
 			});
 			this.tickmarkView.render();
-			this.tickmarkView.resetTicks();
 		}
 	});
 
@@ -401,10 +399,6 @@ window.wp = window.wp || {};
 		refresh: function( options, slide ) {
 			$( '#diff-slider' ).slider( 'option', options );
 
-			// reset all of the slider tooltips during a refresh, but not on prev/next button actions
-			if ( ! slide )
-				$( 'a.ui-slider-handle' ).html( '<span class="ui-slider-tooltip ui-widget-content ui-corner-all"></span>' );
-
 			// Triggers the slide event
 			if ( slide )
 				$( '#diff-slider' ).trigger( 'slide' );
@@ -441,41 +435,87 @@ window.wp = window.wp || {};
 		model: Revision,
 
 		resetTicks: function() {
-			var sliderMax   = Diff.slider.option( 'max' );
-			var sliderWidth = Diff.slider.width();
-			var adjustMax   = Diff.singleRevision ? 0 : 1;
-			var tickWidth   = Math.floor( sliderWidth / ( sliderMax - adjustMax ) );
+			var sliderMax, sliderWidth, adjustMax, tickWidth, tickCount = 0, aTickWidth, tickMargin, self = this, firstTick, lastTick;
+			sliderMax   = Diff.slider.option( 'max' );
+			sliderWidth = Diff.slider.width();
+			adjustMax   = Diff.singleRevision ? 0 : 1;
+			tickWidth   = Math.floor( sliderWidth / ( sliderMax - adjustMax ) );
+			tickWidth   = ( tickWidth > 50 ) ? 50 : tickWidth; // set minimum and maximum widths for tick marks
+			tickWidth   = ( tickWidth < 10 ) ? 10 : tickWidth;
+			sliderWidth = tickWidth * ( sliderMax - adjustMax ); //calculate the slider width
+			aTickWidth  = $( '.revision-tick' ).width();
 
-			// TODO: adjust right margins for wider ticks so they stay centered on handle stop point
+			if ( tickWidth !== aTickWidth ) { // is the width already set correctly?
+				$( '.revision-tick' ).each( function() {
+					tickMargin = Math.floor( ( tickWidth - $( this ).width() ) / 2 ) + 1;
+					$( this ).css( 'border-left', tickMargin + 'px solid #f7f7f7'); // space the ticks out using margins
+					$( this ).css( 'border-right', ( tickWidth - tickMargin - $( this ).width() ) + 'px solid #f7f7f7'); // space the ticks out using margins
+				});
+				firstTick = $( '.revision-tick' ).first(); //cache selectors for optimization
+				lastTick = $( '.revision-tick' ).last();
 
-			// set minimum and maximum widths for tick marks
-			tickWidth = (tickWidth > 50 ) ? 50 : tickWidth;
-			tickWidth = (tickWidth < 10 ) ? 10 : tickWidth;
+				sliderWidth = sliderWidth + Math.ceil( ( tickWidth - ( lastTick.outerWidth() - lastTick.innerWidth() ) ) / 2 ); // room for the last tick
+				sliderWidth = sliderWidth + Math.ceil( ( tickWidth - ( firstTick.outerWidth() - firstTick.innerWidth() ) ) / 2 ); // room for the first tick
+				firstTick.css( 'border-left', 'none' ); // first tick gets no left border
+				lastTick.css( 'border-right', 'none' ); // last tick gets no right border
+			}
 
-			sliderWidth = tickWidth * (sliderMax - adjustMax ) + 1;
-
+			/**
+			 * reset the slider width
+			 */
 			Diff.slider.setWidth( sliderWidth );
 			$( '.diff-slider-ticks-wrapper' ).width( sliderWidth );
 			$( '#diff-slider-ticks' ).width( sliderWidth );
 
-			var aTickWidth = $( '.revision-tick' ).width();
+			/**
+			 * go through all ticks, add hover and click interactions
+			 */
+			$( '.revision-tick' ).each( function() {
+				Diff.slider.addTooltip ( $( this ), Diff.revisions.at( tickCount++ ).get( 'titleTooltip' ) );
+				$( this ).hover(
+					function() {
+						$( this ).find( '.ui-slider-tooltip' ).show().append('<div class="arrow"></div>');
+					},
+					function() {
+						$( this ).find( '.ui-slider-tooltip' ).hide().find( '.arrow' ).remove();
+					}
+				);
 
-			if ( tickWidth !== aTickWidth ) { // is the width already set correctly?
-				$( '.revision-tick' ).each( function( ) {
-					$(this).css( 'margin-right', tickWidth - 1 + 'px'); // space the ticks out using right margin
-				});
-
-				$( '.revision-tick' ).last().css( 'margin-right', '0' ); // last tick gets no right margin
-			}
-
+				/**
+				 * move the slider handle when the tick marks are clicked
+				 */
+				$( this ).on( 'click',
+					{ tickCount: tickCount }, // //pass the tick through so we know where to move the handle
+					function( event ) {
+						if ( Diff.slider.singleRevision ) { //single handle mode
+							Diff.rightDiff = event.data.tickCount; //reposition the right handle
+							Diff.slider.refresh({
+								value: Diff.rightDiff - 1
+							} );
+						} else { //compare two mode
+							if ( event.data.tickCount < Diff.leftDiff ||
+								isRtl && event.data.tickCount > Diff.leftDiff ) { // click was on the 'left' side
+									Diff.leftDiff = event.data.tickCount; // set the left handle location
+									Diff.reloadRight(); //reload the right handle comparison models
+							} else { //middle or 'right' clicks
+								Diff.rightDiff = event.data.tickCount; // set the right handle location
+								Diff.reloadLeft(); //reload left handle models
+							}
+							Diff.slider.refresh( { // set the slider handle positions
+								values: [ Diff.leftDiff, Diff.rightDiff ]
+							} );
+						}
+						Diff.revisionView.render(); // render the main view
+					} );
+			} );
 		},
 
-		// render the tickmark view
+		// render the tick mark view
 		render: function() {
-			var self = this;
+			var self = this, addHtml;
 
 			if ( null !== self.model ) {
-				var addHtml = "";
+				addHtml = "";
 				_.each ( self.model.models, function( theModel ) {
 					addHtml = addHtml + self.template ( theModel.toJSON() );
 				});
@@ -485,7 +525,7 @@ window.wp = window.wp || {};
 			self.resetTicks();
 			return self;
 		}
-	});
+	} );
 
 	/**
 	 * wp.revisions.view.Interact
@@ -504,9 +544,10 @@ window.wp = window.wp || {};
 		},
 
 		render: function() {
+			var modelcount;
 			this.$el.html( this.template );
 
-			var modelcount = Diff.revisions.length;
+			modelcount = Diff.revisions.length;
 
 			Diff.slider.singleRevision = Diff.singleRevision;
 			Diff.slider.render();
@@ -580,8 +621,7 @@ window.wp = window.wp || {};
 
 		// render the revisions
 		render: function() {
-			var addHtml = '';
-			var thediff;
+			var addHtml = '', thediff;
 
 			// compare two revisions mode?
 			if ( ! Diff.singleRevision ) {
@@ -606,17 +646,6 @@ window.wp = window.wp || {};
 			if ( this.model.length < 2 ) {
 				$( '#diff-slider' ).hide(); // don't allow compare two if fewer than three revisions
 				$( '.diff-slider-ticks-wrapper' ).hide();
-			}
-
-			// add tooltips to the handles
-			if ( ! Diff.singleRevision ) {
-				Diff.slider.addTooltip ( $( 'a.ui-slider-handle.left-handle' ),
-					( Diff.leftDiff < 0 ) ? '' : Diff.revisions.at( Diff.leftDiff - 1 ).get( 'titleTooltip' ) );
-				Diff.slider.addTooltip ( $( 'a.ui-slider-handle.right-handle' ),
-					( Diff.rightDiff > Diff.revisions.length ) ? '' : Diff.revisions.at( Diff.rightDiff - 1 ).get( 'titleTooltip' ) );
-			} else {
-				Diff.slider.addTooltip ( $( 'a.ui-slider-handle' ),
-					( Diff.rightDiff > Diff.revisions.length ) ? '' : Diff.revisions.at( Diff.rightDiff - 1 ).get( 'titleTooltip' ) );
 			}
 
 			this.toggleCompareTwoCheckbox();

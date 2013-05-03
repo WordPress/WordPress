@@ -1482,7 +1482,8 @@ table.diff .diff-addedline ins {
 	border: 1px solid #d1e5ee;
 }
 
-#diff-slider .ui-slider-tooltip {
+#diff-slider .ui-slider-tooltip,
+#diff-slider-ticks .ui-slider-tooltip {
 	border-color: #d1e5ee;
 	background-color: #fff;
 }
@@ -1502,24 +1503,28 @@ table.diff .diff-addedline ins {
 	background-image: none;
 }
 
-.revision-tick.scope-of-changes-vsmall {
+.revision-tick.scope-of-changes-none {
 	background-color: #d1e5ee;
 }
 
-.revision-tick.scope-of-changes-small {
+.revision-tick.scope-of-changes-vsmall {
 	background-color: #b4d5e3;
 }
 
-.revision-tick.scope-of-changes-med {
+.revision-tick.scope-of-changes-small {
 	background-color: #98c5d9;
 }
 
-.revision-tick.scope-of-changes-large {
+.revision-tick.scope-of-changes-med {
 	background-color: #7bb4ce;
 }
 
-.revision-tick.scope-of-changes-vlarge {
+.revision-tick.scope-of-changes-large {
 	background-color: #5ea4c4;
+}
+
+.revision-tick.scope-of-changes-vlarge {
+	background-color: #4493b7;
 }
 
 .diff-label {

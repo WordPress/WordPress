@@ -118,7 +118,7 @@ require_once( './admin-header.php' );
 		<h2 class="long-header"><?php echo $h2; ?></h2>
 
 		<div id="loading-status" class="updated message">
-			<p><span class="spinner" ></span> <?php _e( 'Calculating revision diffs' ); ?></p>
+			<p><span class="spinner" ></span></p>
 		</div>
 
 		<div class="diff-slider-ticks-wrapper">
@@ -173,7 +173,9 @@ require_once( './admin-header.php' );
 </script>
 
 <script id="tmpl-revision-ticks" type="text/html">
-	<div class="revision-tick completed-{{{ data.completed }}} scope-of-changes-{{{ data.scopeOfChanges }}}"></div>
+	<div class="revision-tick completed-{{{ data.completed }}} scope-of-changes-{{{ data.scopeOfChanges }}}">
+		<span class="ui-slider-tooltip ui-widget-content ui-corner-all hidden"></span>
+	</div>
 </script>
 <?php
 require_once( './admin-footer.php' );
