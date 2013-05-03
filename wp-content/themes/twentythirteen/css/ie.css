@@ -279,3 +279,7 @@ img.alignleft {
 	max-width: none;
 	left: auto;
 }
+
+.ie7 .format-quote .quote {
+	padding: 0;
+}

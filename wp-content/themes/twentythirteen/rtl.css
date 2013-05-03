@@ -435,6 +435,19 @@ div.nav-menu > ul {
 	content: "\f105";
 }
 
+.format-quote .quote {
+	padding-left: 0;
+	padding-right: 75px;
+}
+
+.format-quote .quote:before {
+	content: '\201D';
+	padding-right: 0;
+	padding-left: 25px;
+	left: auto;
+	right: -15px;
+}
+
 
 /**
  * 5.6 Attachments

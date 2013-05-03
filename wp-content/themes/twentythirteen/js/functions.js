@@ -8,6 +8,7 @@
 	var html               = $( 'html' ),
 	    body               = $( 'body' ),
 	    _window            = $( window ),
+	    captions           = $( '.quote-caption' ),
 	    adjustFooter,
 
 	/**
@@ -69,6 +70,12 @@
 			element.focus();
 		}
 	} );
+
+	/** Better styles for Quote post formats with a linked source.
+	 *
+	 */
+	if ( captions )
+		captions.has( 'a' ).addClass( 'linked' );
 
 	/**
 	 * Arranges footer widgets vertically.
