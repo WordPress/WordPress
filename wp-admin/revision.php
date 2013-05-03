@@ -127,7 +127,7 @@ require_once( './admin-header.php' );
 
 		<div id="diff-header-to" class="diff-header">
 			<div id="diff-title-to" class="diff-title">
-				<strong><?php _e( 'To:', 'Followed by post revision info' ); ?></strong> {{{ data.titleTo }}}
+				<strong><?php _ex( 'To:', 'Followed by post revision info' ); ?></strong> {{{ data.titleTo }}}
 			</div>
 
 			<input type="button" id="restore-revision" class="button button-primary" data-restore-link="{{{ data.restoreLink }}}" value="<?php esc_attr_e( 'Restore This Revision' )?>" />
