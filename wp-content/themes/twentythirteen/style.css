@@ -2109,8 +2109,7 @@ footer.entry-meta {
 	margin: 0 30px 30px 0;
 }
 
-.single-format-status .author-description,
-.single-format-quote .author-description {
+.single-format-status .author-description {
 	color: #f7f5e7;
 }
 
