@@ -8,21 +8,15 @@
  * @subpackage Twenty_Thirteen
  * @since Twenty Thirteen 1.0
  */
-
-/*
- * Add class to allow styling for toolbar.
- */
-$html_class = ( is_admin_bar_showing() ) ? 'wp-toolbar' : '';
-
 ?><!DOCTYPE html>
 <!--[if IE 7]>
-<html class="ie ie7 <?php echo $html_class; ?>" <?php language_attributes(); ?>>
+<html class="ie ie7" <?php language_attributes(); ?>>
 <![endif]-->
 <!--[if IE 8]>
-<html class="ie ie8 <?php echo $html_class; ?>" <?php language_attributes(); ?>>
+<html class="ie ie8" <?php language_attributes(); ?>>
 <![endif]-->
 <!--[if !(IE 7) | !(IE 8)  ]><!-->
-<html class="<?php echo $html_class; ?>" <?php language_attributes(); ?>>
+<html <?php language_attributes(); ?>>
 <!--<![endif]-->
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />

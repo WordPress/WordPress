@@ -966,51 +966,6 @@ ul.nav-menu li:hover > ul,
 	width: 230px;
 }
 
-/* Fixed Navbar */
-.navbar-fixed {
-	margin-top: 45px;
-}
-
-.wp-toolbar.navbar-fixed {
-	margin-top: 73px !important;
-}
-
-.navbar-fixed .site-title {
-	font-size: 22px;
-	font-weight: bold;
-	line-height: 2;
-	max-width: 400px;
-	overflow: hidden;
-	padding: 0;
-	position: fixed;
-	text-overflow: ellipsis;
-	top: 0;
-	white-space: nowrap;
-	z-index: 3;
-}
-
-.navbar-fixed .site-title {
-	color: #141412;
-}
-
-.navbar-fixed .navbar {
-	box-shadow: 0 2px 2px rgba(173, 165, 105, 0.2);
-	height: 45px;
-	position: fixed;
-	top: 0;
-	z-index: 2;
-}
-
-.wp-toolbar.navbar-fixed .site-title,
-.wp-toolbar.navbar-fixed .navbar {
-	top: 28px;
-}
-
-.navbar-fixed .menu-toggle,
-.navbar-fixed .nav-menu {
-	display: none;
-}
-
 
 /**
  * 5.0 Content
@@ -3253,7 +3208,6 @@ footer.entry-meta {
 	.widget-area,
 	.main-navigation,
 	.navbar,
-	.navbar-fixed .site-title,
 	.more-link {
 		display: none;
 	}
