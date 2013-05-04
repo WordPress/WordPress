@@ -602,8 +602,8 @@ function post_author_meta_box($post) {
  *
  * @param object $post
  */
-function post_revisions_meta_box($post) {
-	wp_list_post_revisions();
+function post_revisions_meta_box( $post ) {
+	wp_list_post_revisions( $post );
 }
 
 // -- Page related Meta Boxes
