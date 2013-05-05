@@ -13,10 +13,9 @@
  * to be inserted into the posts table as a post revision. Otherwise, returns
  * an array whose keys are the post fields to be saved for post revisions.
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
  * @access private
+ *
  * @uses apply_filters() Calls '_wp_post_revision_fields' on 'title', 'content' and 'excerpt' fields.
  *
  * @param array $post Optional a post array to be processed for insertion as a post revision.
@@ -64,6 +63,7 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
  *
  * @since 3.6
  * @access private
+ *
  * @return array An array of meta keys that should be revisioned.
  */
 function _wp_post_revision_meta_keys() {
@@ -85,8 +85,6 @@ function _wp_post_revision_meta_keys() {
  * Typically used immediately after post updates.
  * Adds a copy of the current post as a revision, so latest revision always matches current post
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @uses _wp_put_post_revision()
@@ -184,9 +182,8 @@ function wp_save_post_revision( $post_id ) {
  * specified post. If the optional $user_id is passed, returns the autosave for that user
  * otherwise returns the latest autosave.
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
+ *
  * @uses wp_get_post_revisions()
  *
  * @param int $post_id The post ID.
@@ -212,8 +209,6 @@ function wp_get_post_autosave( $post_id, $user_id = 0 ) {
 /**
  * Determines if the specified post is a revision.
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @param int|object $post Post ID or post object.
@@ -229,8 +224,6 @@ function wp_is_post_revision( $post ) {
 /**
  * Determines if the specified post is an autosave.
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @param int|object $post Post ID or post object.
@@ -249,9 +242,8 @@ function wp_is_post_autosave( $post ) {
 /**
  * Inserts post data into the posts table as a post revision.
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
+ * @access private
  *
  * @uses wp_insert_post()
  *
@@ -303,16 +295,14 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 /**
  * Gets a post revision.
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @uses get_post()
  *
- * @param int|object $post Post ID or post object
+ * @param int|object $post The post ID or object.
  * @param string $output Optional. OBJECT, ARRAY_A, or ARRAY_N.
- * @param string $filter Optional sanitation filter. @see sanitize_post()
- * @return mixed Null if error or post object if success
+ * @param string $filter Optional sanitation filter. @see sanitize_post().
+ * @return mixed Null if error or post object if success.
  */
 function wp_get_post_revision(&$post, $output = OBJECT, $filter = 'raw') {
 	$null = null;
@@ -339,8 +329,6 @@ function wp_get_post_revision(&$post, $output = OBJECT, $filter = 'raw') {
  *
  * Can restore a past revision using all fields of the post revision, or only selected fields.
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @uses wp_get_post_revision()
@@ -405,8 +393,6 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
  *
  * Deletes the row from the posts table corresponding to the specified revision.
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @uses wp_get_post_revision()
@@ -432,14 +418,12 @@ function wp_delete_post_revision( $revision_id ) {
 /**
  * Returns all revisions of specified post.
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @uses get_children()
  *
  * @param int|object $post_id Post ID or post object
- * @return array empty if no revisions
+ * @return array An array of revisions, or an empty array if none.
  */
 function wp_get_post_revisions( $post_id = 0, $args = null ) {
 	$post = get_post( $post_id );
@@ -463,8 +447,8 @@ function wp_get_post_revisions( $post_id = 0, $args = null ) {
  *
  * @uses wp_revisions_to_keep()
  *
- * @param object $post
- * @return bool
+ * @param object $post The post object.
+ * @return bool True if number of revisions to keep isn't zero, false otherwise.
  */
 function wp_revisions_enabled( $post ) {
 	return wp_revisions_to_keep( $post ) != 0;
@@ -479,8 +463,8 @@ function wp_revisions_enabled( $post ) {
  * @uses post_type_supports()
  * @uses apply_filters() Calls 'wp_revisions_to_keep' hook on the number of revisions.
  *
- * @param object $post
- * @return int
+ * @param object $post The post object.
+ * @return int The number of revisions to keep.
  */
 function wp_revisions_to_keep( $post ) {
 	$num = WP_POST_REVISIONS;
@@ -496,6 +480,12 @@ function wp_revisions_to_keep( $post ) {
 	return (int) apply_filters( 'wp_revisions_to_keep', $num, $post );
 }
 
+/**
+ * Sets up the post object for preview based on the post autosave.
+ *
+ * @since 2.7.0
+ * @access private
+ */
 function _set_preview($post) {
 
 	if ( ! is_object($post) )
@@ -518,6 +508,12 @@ function _set_preview($post) {
 	return $post;
 }
 
+/**
+ * Filters the latest content for preview from the post autosave.
+ *
+ * @since 2.7.0
+ * @access private
+ */
 function _show_post_preview() {
 
 	if ( isset($_GET['preview_id']) && isset($_GET['preview_nonce']) ) {
@@ -573,6 +569,12 @@ function _wp_preview_terms_filter( $terms, $post_id, $taxonomy ) {
 	return $terms;
 }
 
+/**
+ * Gets the post revision version.
+ *
+ * @since 3.6.0
+ * @access private
+*/
 function _wp_get_post_revision_version( $revision ) {
 	if ( is_object( $revision ) )
 		$revision = get_object_vars( $revision );
@@ -588,9 +590,8 @@ function _wp_get_post_revision_version( $revision ) {
 /**
  * Upgrade the revisions author, add the current post as a revision and set the revisions version to 1
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 3.6.0
+ * @access private
  *
  * @uses wp_get_post_revisions()
  *
@@ -683,6 +684,7 @@ function _wp_upgrade_revisions_of_post( $post, $revisions ) {
  * similar to wp_text_diff, but tracks and returns could of lines added and removed
  *
  * @since 3.6.0
+ *
  * @see wp_parse_args() Used to change defaults to user defined settings.
  * @uses Text_Diff
  * @uses WP_Text_Diff_Renderer_Table
