@@ -48,7 +48,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 		$wp_error = new WP_Error();
 
 	// Shake it!
-	$shake_error_codes = array( 'interim_login_error', 'empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password' );
+	$shake_error_codes = array( 'empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password' );
 	$shake_error_codes = apply_filters( 'shake_error_codes', $shake_error_codes );
 
 	if ( $shake_error_codes && $wp_error->get_error_code() && in_array( $wp_error->get_error_code(), $shake_error_codes ) )
@@ -97,11 +97,10 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	if ( is_rtl() )
 		$classes[] = 'rtl';
 	if ( $interim_login ) {
-		// Don't allow interim logins to navigate away from the page.
-		$login_header_url = '#';
 		$classes[] = 'interim-login';
 		?>
 		<style type="text/css">html{background-color: transparent;}</style>
+		<base target="_blank">
 		<?php
 
 		if ( 'success' ===  $interim_login )
@@ -404,6 +403,8 @@ do_action( 'login_init' );
 do_action( 'login_form_' . $action );
 
 $http_post = ('POST' == $_SERVER['REQUEST_METHOD']);
+$interim_login = isset($_REQUEST['interim-login']);
+
 switch ($action) {
 
 case 'postpass' :
@@ -590,7 +591,6 @@ break;
 case 'login' :
 default:
 	$secure_cookie = '';
-	$interim_login = isset($_REQUEST['interim-login']);
 	$customize_login = isset( $_REQUEST['customize-login'] );
 	if ( $customize_login )
 		wp_enqueue_script( 'customize-base' );
@@ -663,19 +663,11 @@ default:
 	if ( isset($_POST['testcookie']) && empty($_COOKIE[TEST_COOKIE]) )
 		$errors->add('test_cookie', __("<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress."));
 
-	// Clear most errors if interim login
+	$form_target = '';
 	if ( $interim_login ) {
-		$error_code = $errors->get_error_code();
-		$errors = new WP_Error();
-
-		if ( $error_code ) {
-			if ( in_array( $error_code, array( 'empty_password', 'empty_username', 'invalid_username', 'incorrect_password' ) ) )
-				$errors->add('interim_login_error', __('<strong>ERROR</strong>: Invalid username or password.'));
-			else
-				$errors->add('interim_login_error_other', sprintf( __( '<strong>ERROR</strong>: Please contact the site administrator or try to <a href="%s" target="_blank">log in from a new window</a>.' ), wp_login_url() ) );
-		} else {
+		$form_target = ' target="_self"';
+		if ( ! $errors->get_error_code() )
 			$errors->add('expired', __('Session expired. Please log in again. You will not move away from this page.'), 'message');
-		}
 	} else {
 		// Some parts of this script use the main login form to display a message
 		if		( isset($_GET['loggedout']) && true == $_GET['loggedout'] )
@@ -692,6 +684,8 @@ default:
 			$errors->add('updated', __( '<strong>You have successfully updated WordPress!</strong> Please log back in to experience the awesomeness.' ), 'message' );
 	}
 
+	$errors = apply_filters( 'wp_login_errors', $errors, $redirect_to );
+
 	// Clear any stale cookies.
 	if ( $reauth )
 		wp_clear_auth_cookie();
@@ -703,7 +697,7 @@ default:
 	$rememberme = ! empty( $_POST['rememberme'] );
 ?>
 
-<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
+<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post"<?php echo $form_target; ?>>
 	<p>
 		<label for="user_login"><?php _e('Username') ?><br />
 		<input type="text" name="log" id="user_login" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" /></label>

@@ -11,8 +11,7 @@
 				e.originalEvent.returnValue = window.authcheckL10n.beforeunload;
 			});
 
-			// Add 'sandbox' for browsers that support it, only restrict access to the top window.
-			frame = $('<iframe id="wp-auth-check-frame" sandbox="allow-same-origin allow-forms allow-scripts" frameborder="0">').attr( 'title', noframe.text() );
+			frame = $('<iframe id="wp-auth-check-frame" frameborder="0">').attr( 'title', noframe.text() );
 			frame.load( function(e) {
 				var height, body;
 
@@ -25,6 +24,7 @@
 					wrap.addClass('fallback');
 					form.remove();
 					noframe.focus();
+					return;
 				}
 
 				if ( height ) {
