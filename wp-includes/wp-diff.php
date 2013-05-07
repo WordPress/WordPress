@@ -154,7 +154,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		$r = '';
 		foreach ($lines as $line) {
 			if ( $encode )
-				$line = wp_kses_post( $line );
+				$line = htmlspecialchars( $line );
 			if ( $this->_show_split_view ) {
 				$r .= '<tr>' . $this->emptyLine() . $this->emptyLine() . $this->addedLine( $line ) . "</tr>\n";
 			} else {
@@ -176,7 +176,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		$r = '';
 		foreach ($lines as $line) {
 			if ( $encode )
-				$line = wp_kses_post( $line );
+				$line = htmlspecialchars( $line );
 			if ( $this->_show_split_view ) {
 				$r .= '<tr>' . $this->deletedLine( $line ) . $this->emptyLine() . $this->emptyLine() . "</tr>\n";
 			} else {
@@ -199,7 +199,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		$r = '';
 		foreach ($lines as $line) {
 			if ( $encode )
-				$line = wp_kses_post( $line );
+				$line = htmlspecialchars( $line );
 			if (  $this->_show_split_view ) {
 				$r .= '<tr>' . $this->contextLine( $line ) . $this->emptyLine() . $this->contextLine( $line )  . "</tr>\n";
 			} else {

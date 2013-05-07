@@ -2158,7 +2158,7 @@ function wp_ajax_revisions_data() {
 			$left_content = apply_filters( "_wp_post_revision_field_$field", $left_revision->$field, $field, $left_revision, 'left' );
 			$right_content = apply_filters( "_wp_post_revision_field_$field", $right_revision->$field, $field, $right_revision, 'right' );
 
-			add_filter( "_wp_post_revision_field_$field", 'wp_kses_post' );
+			add_filter( "_wp_post_revision_field_$field", 'htmlspecialchars' );
 
 			$args = array();
 
