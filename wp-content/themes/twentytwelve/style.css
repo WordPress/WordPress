@@ -214,7 +214,7 @@ textarea {
 }
 button,
 input {
-    line-height: normal;
+	line-height: normal;
 }
 textarea {
 	font-size: 100%;
@@ -268,7 +268,7 @@ input[type="reset"] {
 }
 button[disabled],
 input[disabled] {
-    cursor: default;
+	cursor: default;
 }
 .menu-toggle:hover,
 button:hover,

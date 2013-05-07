@@ -133,8 +133,8 @@ blockquote {
 
 #access .menu-header,
 div.menu {
-    margin-right: 12px;
-    margin-left: 0;
+	margin-right: 12px;
+	margin-left: 0;
 }
 
 #access .menu-header li,
@@ -201,7 +201,7 @@ div.menu li{
 
 .category-gallery .gallery-thumb {
 	float: right;
- 	margin-left:20px;
+	margin-left:20px;
 	margin-right:0;
 }
 
