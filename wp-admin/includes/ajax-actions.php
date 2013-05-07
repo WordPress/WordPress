@@ -2017,7 +2017,7 @@ function wp_ajax_send_attachment_to_editor() {
 		$html = '<a href="' . esc_url( $url ) . '"' . $rel . '>' . $html . '</a>';
 	}
 
-	remove_filter( 'media_send_to_editor', 'image_media_send_to_editor', 10, 3 );
+	remove_filter( 'media_send_to_editor', 'image_media_send_to_editor' );
 
 	if ( 'image' === substr( $post->post_mime_type, 0, 5 ) ) {
 		$align = isset( $attachment['align'] ) ? $attachment['align'] : 'none';
