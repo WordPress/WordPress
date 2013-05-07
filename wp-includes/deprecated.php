@@ -1087,18 +1087,6 @@ function get_links_list($order = 'name') {
  */
 function links_popup_script($text = 'Links', $width=400, $height=400, $file='links.all.php', $count = true) {
 	_deprecated_function( __FUNCTION__, '2.1' );
-
-	if ( $count )
-		$counts = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->links");
-
-	$javascript = "<a href=\"#\" onclick=\"javascript:window.open('$file?popup=1', '_blank', 'width=$width,height=$height,scrollbars=yes,status=no'); return false\">";
-	$javascript .= $text;
-
-	if ( $count )
-		$javascript .= " ($counts)";
-
-	$javascript .= "</a>\n\n";
-		echo $javascript;
 }
 
 /**
