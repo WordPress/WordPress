@@ -230,6 +230,156 @@ function timer_stop( $display = 0, $precision = 3 ) { // if called like timer_st
 }
 
 /**
+ * Log time and memory data information to the global benchmark array. Requires WP_BENCHMARK to be set to true and that
+ * desired groups are stored in the option 'benchmark_groups'
+ *
+ * You can trigger a benchmark event either by wrapping code in a start and stop pair or by building a series of nodes.
+ * <code>
+ * wp_benchmark( 'my-benchmark-name', 'my-benchmark-group', 'start' );
+ * some_function_or_code_here();
+ * wp_benchmark( 'my-benchmark-name', 'my-benchmark-group', 'stop' );
+ * </code>
+ *
+ * Alternatively, you can place a series of benchmark functions throughout your theme to monitor the load intervals
+ * or memory usage:
+ * <code>
+ * wp_benchmark( __FILE__.':'.__LINE__, 'my-theme-group' );
+ * //header code here...
+ * wp_benchmark( __FILE__.':'.__LINE__, 'my-theme-group' );
+ * // more code here
+ * wp_benchmark( __FILE__.':'.__LINE__, 'my-theme-group' );
+ * </code>
+ *
+ * @since 3.7
+ * @global float $timestart Seconds from when timer_start() is called
+ * @global array $benchmark_data Data logged through benchmarking
+ * @global array $benchmark_starts Temporary array of benchmark start requests for use when stop requests are applied.
+ *
+ * @param string $name Use some identifier that is easily recognizable when scanning through benchmark results.
+ * @param string $group An identifier for a group of benchmarks such as 'hooks' or 'theme'.
+ * @param string $type Use 'node' to measure times between benchmarks in general or 'start' and 'stop' to specify intervals.
+ *
+ * @return array $benchmark_item
+ */
+function wp_benchmark( $name, $group = 'default', $type = 'node' ) {
+
+	global $timestart, $benchmark_data, $benchmark_starts;
+
+	if ( !defined( 'WP_BENCHMARK' ) || !WP_BENCHMARK )
+		return false;
+
+	$benchmark_groups = get_option('benchmark_groups', array('hooks') );
+
+	if ( !in_array( $group, $benchmark_groups ) )
+		return false;
+
+	$time_now = microtime( true ) - $timestart;
+	$memory_now = memory_get_usage( true );
+
+	if ( !is_array( $benchmark_data ) ) $benchmark_data = array();
+	if ( !is_array( $benchmark_starts ) ) $benchmark_starts = array();
+	if ( !isset( $benchmark_starts[$group] ) ) $benchmark_starts[$group] = array();
+
+	if ( $type == 'start' ) {
+
+		$benchmark_item = array(
+			'time' => $time_now,
+			'memory' => $memory_now
+		);
+
+		$benchmark_starts[$group][$name] = $benchmark_item;
+
+		return $benchmark_item;
+
+	} elseif ( $type == 'stop' ) {
+
+		if ( isset( $benchmark_starts[$group][$name] ) ) {
+			$last_benchmark = $benchmark_starts[$group][$name];
+			$time_delta = $time_now - $last_benchmark['time'];
+			$memory_delta = $memory_now - $last_benchmark['memory'];
+		} else {
+			$time_delta = $memory_delta = 0;
+		}
+
+	} elseif ( !isset( $benchmark_data[$group] ) ) {
+
+		$benchmark_data[$group] = array();
+		$time_delta = $memory_delta = 0;
+
+	} else {
+
+		$last_benchmark = end($benchmark_data[$group]);
+		$time_delta = $time_now - $last_benchmark['time'];
+		$memory_delta = $memory_now - $last_benchmark['memory'];
+
+	}
+
+	$benchmark_item = array(
+		'name' => $name,
+		'time' => $time_now,
+		'time_delta' => $time_delta,
+		'memory' => $memory_now,
+		'memory_delta' => $memory_delta,
+	);
+
+	$benchmark_data[$group][] = $benchmark_item;
+
+	return $benchmark_item;
+}
+
+/**
+ * Collect results of the benchmark test.
+ *
+ * For example, you can dump the results of a benchmark test to your error log:
+ * <code>
+ * error_log( print_r( wp_benchmark_results( 'hooks', true ), true ) );
+ * </code>
+ *
+ * @since 3.7
+ * @global array $benchmark_data Data logged through benchmarking
+ *
+ * @param string $group Restrict results to a specific benchmark group.
+ * @param bool $format_results Set to true if you'd like the results to be formatted for legibility.
+ * @param int $decimals Precision of the number of decimal places
+ *
+ * @return array Multidimensional array of benchmark data keyed by group.
+ */
+function wp_benchmark_results( $group = null, $format_results = false, $decimals = 0 ) {
+
+	global $benchmark_data;
+
+	if ( !defined( 'WP_BENCHMARK' ) || !WP_BENCHMARK ) return false;
+
+	$results = array();
+	if ( !empty( $group ) ) {
+		if ( isset( $benchmark_data[$group] ) ) {
+			$results[$group] = $benchmark_data[$group];
+		} else {
+			$results = array();
+		}
+	} else {
+		$results = $benchmark_data;
+	}
+
+	if ( $format_results ) {
+		foreach ( $results as $gk => $group ) {
+			foreach ( $group as $bk => $benchmark ) {
+				$benchmark['time'] = number_format_i18n( ($benchmark['time'] * 1000 ), $decimals ).' ms';
+				$benchmark['time_delta'] = number_format_i18n( ( $benchmark['time_delta'] * 1000 ), $decimals ).' ms';
+				//$benchmark['memory'] = size_format( $benchmark['memory'], $decimals );
+				//$benchmark['memory_delta'] = size_format( $benchmark['memory_delta'], $decimals );
+				$benchmark['memory'] = round( $benchmark['memory']/1048576, $decimals ).' MB';
+				$benchmark['memory_delta'] = round( $benchmark['memory_delta']/1024, $decimals ).' kB';
+				$results[$gk][$bk] = $benchmark;
+			}
+		}
+	}
+
+	return $results;
+
+}
+
+/**
  * Sets PHP error handling and handles WordPress debug mode.
  *
  * Uses three constants: WP_DEBUG, WP_DEBUG_DISPLAY, and WP_DEBUG_LOG. All three can be

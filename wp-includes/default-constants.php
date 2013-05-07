@@ -64,6 +64,9 @@ function wp_initial_constants() {
 	if ( !defined('WP_CACHE') )
 		define('WP_CACHE', false);
 
+	if ( !defined('WP_BENCHMARK') )
+		define('WP_BENCHMARK', false);
+
 	/**
 	 * Private
 	 */

@@ -170,7 +170,7 @@ function apply_filters($tag, $value) {
 		foreach( (array) current($wp_filter[$tag]) as $the_ )
 			if ( !is_null($the_['function']) ){
 				$args[1] = $value;
-				$value = call_user_func_array($the_['function'], array_slice($args, 1, (int) $the_['accepted_args']));
+				$value = wp_hooks_user_func_array($the_['function'], array_slice($args, 1, (int) $the_['accepted_args']), $tag);
 			}
 
 	} while ( next($wp_filter[$tag]) !== false );
@@ -227,7 +227,7 @@ function apply_filters_ref_array($tag, $args) {
 	do {
 		foreach( (array) current($wp_filter[$tag]) as $the_ )
 			if ( !is_null($the_['function']) )
-				$args[0] = call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
+				$args[0] = wp_hooks_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']), $tag);
 
 	} while ( next($wp_filter[$tag]) !== false );
 
@@ -403,7 +403,7 @@ function do_action($tag, $arg = '') {
 	do {
 		foreach ( (array) current($wp_filter[$tag]) as $the_ )
 			if ( !is_null($the_['function']) )
-				call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
+				wp_hooks_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']), $tag);
 
 	} while ( next($wp_filter[$tag]) !== false );
 
@@ -484,11 +484,51 @@ function do_action_ref_array($tag, $args) {
 	do {
 		foreach( (array) current($wp_filter[$tag]) as $the_ )
 			if ( !is_null($the_['function']) )
-				call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
+				wp_hooks_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']), $tag	);
 
 	} while ( next($wp_filter[$tag]) !== false );
 
 	array_pop($wp_current_filter);
+}
+
+/**
+ * Wrapper function for call_user_func_array for the various hook functions
+ *
+ * @package WordPress
+ * @subpackage Plugin
+ * @since 3.7
+ *
+ * @access private
+ *
+ * @param string|array $function The name of the function to be called when the filter is applied.
+ * @param array $args
+ * @param string $tag
+ *
+ * @return mixed Returns filter results if there are any.
+ */
+function wp_hooks_user_func_array( $function, $args, $tag = 'default' ) {
+
+	if ( WP_BENCHMARK ) {
+		if ( is_array( $function ) ) {
+			if ( is_object( $function[0] ) ) {
+				$class = get_class( $function[0] );
+			} else {
+				$class = $function[0];
+			}
+			$benchmark_name = sprintf( '%s : %s : %s', $tag, $class, $function[1] );
+		} else {
+			$benchmark_name = sprintf( '%s : %s', $tag, $function );
+		}
+
+		wp_benchmark( $benchmark_name, 'hooks', 'start' );
+	}
+
+	$results = call_user_func_array( $function, $args );
+
+	if ( WP_BENCHMARK )
+		wp_benchmark( $benchmark_name, 'hooks', 'stop' );
+
+	return $results;
 }
 
 /**
