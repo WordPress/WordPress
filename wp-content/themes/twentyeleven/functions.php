@@ -640,8 +640,8 @@ add_filter( 'body_class', 'twentyeleven_body_classes' );
 function twentyeleven_get_gallery_images() {
 	$images = array();
 
-	if ( function_exists( 'get_post_gallery_images' ) ) {
-		$galleries = get_post_galleries();
+	if ( function_exists( 'get_post_galleries' ) ) {
+		$galleries = get_post_galleries( get_the_ID(), false );
 		if ( isset( $galleries[0]['ids'] ) )
 		 	$images = explode( ',', $galleries[0]['ids'] );
 	} else {
