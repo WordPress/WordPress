@@ -60,12 +60,12 @@ wp_nonce_field( 'show-post-format-ui_' . $post_type, 'show_post_format_ui_nonce'
 		</div>
 
 		<div class="field wp-format-quote">
-			<label for="wp_format_quote_source_url"><?php _e( 'Link URL' ); ?></label>
+			<label for="wp_format_quote_source_url"><?php _e( 'Quote source link' ); ?></label>
 			<input type="text" id="wp_format_quote_source_url" name="_format_quote_source_url" value="<?php echo esc_url( $format_meta['quote_source_url'] ); ?>" class="widefat" />
 		</div>
 
 		<div class="field wp-format-image">
-			<label for="wp_format_image_url"><?php _e( 'Link URL' ); ?></label>
+			<label for="wp_format_image_url"><?php _e( 'Image click-through link' ); ?></label>
 			<input type="text" id="wp_format_image_url" name="_format_url" value="<?php echo esc_url( $format_meta['url'] ); ?>" class="widefat" />
 		</div>
 

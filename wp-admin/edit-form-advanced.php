@@ -166,7 +166,7 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_
 			'description' => __( 'Use the Add Media button to select or upload images for your gallery.' )
 		),
 		'link' => array (
-			'description' => __( 'Add a link URL below.' )
+			'description' => __( 'Add a link title and destination URL. Use the editor to compose optional text to accompany the link.' )
 		),
 		'video' => array (
 			'description' => __( 'Select or upload a video, or paste a video embed code into the box.' )
@@ -181,7 +181,7 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_
 			'description' => __( 'Use the editor to compose a status update. What&#8217;s new?' )
 		),
 		'quote' => array (
-			'description' => __( 'Add a source and URL if you have them. Use the editor to compose the quote.' )
+			'description' => __( 'Add a source name and link if you have them. Use the editor to compose the quote.' )
 		),
 		'aside' => array (
 			'description' => __( 'Use the editor to share a quick thought or side topic.' )
