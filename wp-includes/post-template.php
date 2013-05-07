@@ -1275,13 +1275,13 @@ function is_page_template( $template = '' ) {
  *
  * @since 3.4.0
  *
- * @param int $post_id The page ID to check. Defaults to the current post, when used in the loop.
+ * @param int $post_id Optional. The page ID to check. Defaults to the current post, when used in the loop.
  * @return string|bool Page template filename. Returns an empty string when the default page template
  * 	is in use. Returns false if the post is not a page.
  */
 function get_page_template_slug( $post_id = null ) {
 	$post = get_post( $post_id );
-	if ( 'page' != $post->post_type )
+	if ( ! $post || 'page' != $post->post_type )
 		return false;
 	$template = get_post_meta( $post->ID, '_wp_page_template', true );
 	if ( ! $template || 'default' == $template )
