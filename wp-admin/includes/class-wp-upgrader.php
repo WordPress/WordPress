@@ -1029,9 +1029,6 @@ class Core_Upgrader extends WP_Upgrader {
 		$this->init();
 		$this->upgrade_strings();
 
-		if ( !empty($feedback) )
-			add_filter('update_feedback', $feedback);
-
 		// Is an update available?
 		if ( !isset( $current->response ) || $current->response == 'latest' )
 			return new WP_Error('up_to_date', $this->strings['up_to_date']);

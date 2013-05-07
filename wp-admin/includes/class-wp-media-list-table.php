@@ -47,8 +47,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		$type_links = array();
 		$_num_posts = (array) wp_count_attachments();
 		$_total_posts = array_sum($_num_posts) - $_num_posts['trash'];
-		if ( !isset( $total_orphans ) )
-				$total_orphans = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1" );
+		$total_orphans = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1" );
 		$matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
 		foreach ( $matches as $type => $reals )
 			foreach ( $reals as $real )
