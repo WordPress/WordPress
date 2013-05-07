@@ -302,13 +302,11 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		break;
 
 	case 'parent':
-		if ( $post->post_parent > 0 ) {
-			if ( get_post( $post->post_parent ) ) {
-				$title =_draft_or_post_title( $post->post_parent );
-			}
+		if ( $post->post_parent > 0 && get_post( $post->post_parent ) ) {
+			$title = _draft_or_post_title( $post->post_parent );
 ?>
 			<td <?php echo $attributes ?>><strong>
-				<?php if( current_user_can( 'edit_post', $post->post_parent ) ) { ?>
+				<?php if ( current_user_can( 'edit_post', $post->post_parent ) ) { ?>
 					<a href="<?php echo get_edit_post_link( $post->post_parent ); ?>">
 						<?php echo $title ?></a><?php
 				} else {
@@ -320,7 +318,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		} else {
 ?>
 			<td <?php echo $attributes ?>><?php _e( '(Unattached)' ); ?><br />
-			<?php if( $user_can_edit ) {?>
+			<?php if ( $user_can_edit ) { ?>
 				<a class="hide-if-no-js"
 					onclick="findPosts.open( 'media[]','<?php echo $post->ID ?>' ); return false;"
 					href="#the-list">
