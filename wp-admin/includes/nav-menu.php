@@ -1131,7 +1131,7 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		$menu_items = wp_get_nav_menu_items( $menu->term_id, array('post_status' => 'any') );
 		$result = '<div id="menu-instructions" class="post-body-plain';
 		$result .= ( ! empty($menu_items) ) ? ' menu-instructions-inactive">' : '">';
-		$result .= '<p>' . __( 'Next, add menu items (i.e. pages, links, categories) from the column on the left.' ) . '</p>';
+		$result .= '<p>' . __( 'Add menu items (i.e. pages, links, categories) from the column on the left.' ) . '</p>';
 		$result .= '</div>';
 
 		if( empty($menu_items) )
