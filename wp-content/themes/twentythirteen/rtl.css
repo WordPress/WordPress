@@ -629,7 +629,7 @@ div.nav-menu > ul {
 
 .comment-metadata,
 .comment-content,
-.reply {
+.comment-list .reply {
 	float: left;
 }
 

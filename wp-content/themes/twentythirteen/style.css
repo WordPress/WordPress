@@ -2299,7 +2299,7 @@ footer.entry-meta {
 
 .no-avatars .comment-metadata,
 .no-avatars .comment-content,
-.no-avatars .reply {
+.no-avatars .comment-list .reply {
 	width: 100%;
 }
 
@@ -2314,7 +2314,7 @@ footer.entry-meta {
 
 .comment-metadata,
 .comment-content,
-.reply {
+.comment-list .reply {
 	float: right;
 	width: 79%;
 	width: -webkit-calc(100% - 124px);
@@ -3053,7 +3053,7 @@ footer.entry-meta {
 
 	.comment-metadata,
 	.comment-content,
-	.reply {
+	.comment-list .reply {
 		width: 70%;
 		width: -webkit-calc(100% - 104px);
 		width:         calc(100% - 104px);
@@ -3149,7 +3149,7 @@ footer.entry-meta {
 
 	.comment-metadata,
 	.comment-content,
-	.reply {
+	.comment-list .reply {
 		width: 100%;
 	}
 }

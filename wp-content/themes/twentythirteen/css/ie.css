@@ -89,31 +89,31 @@ img.alignleft {
 
 .comment-meta,
 .comment-content,
-.reply {
+.comment-list .reply {
 	width: 480px;
 }
 
 .depth-2 .comment-meta,
 .depth-2 .comment-content,
-.depth-2 .reply {
+.comment-list .depth-2 .reply {
 	width: 460px;
 }
 
 .depth-3 .comment-meta,
 .depth-3 .comment-content,
-.depth-3 .reply {
+.comment-list .depth-3 .reply {
 	width: 440px;
 }
 
 .depth-4 .comment-meta,
 .depth-4 .comment-content,
-.depth-4 .reply {
+.comment-list .depth-4 .reply {
 	width: 420px;
 }
 
 .depth-5 .comment-meta,
 .depth-5 .comment-content,
-.depth-5 .reply {
+.comment-list .depth-5 .reply {
 	width: 400px;
 }
 
