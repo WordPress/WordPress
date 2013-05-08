@@ -133,19 +133,19 @@ case 'edit':
 		exit();
 	}
 
-	if ( empty($post->ID) )
-		wp_die( __('You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?') );
+	if ( ! $post )
+		wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
 
-	if ( null == $post_type_object )
-		wp_die( __('Unknown post type.') );
+	if ( ! $post_type_object )
+		wp_die( __( 'Unknown post type.' ) );
 
-	if ( !current_user_can($post_type_object->cap->edit_post, $post_id) )
-		wp_die( __('You are not allowed to edit this item.') );
+	if ( ! current_user_can( $post_type_object->cap->edit_post, $post_id ) )
+		wp_die( __( 'You are not allowed to edit this item.' ) );
 
 	if ( 'trash' == $post->post_status )
-		wp_die( __('You can&#8217;t edit this item because it is in the Trash. Please restore it and try again.') );
+		wp_die( __( 'You can&#8217;t edit this item because it is in the Trash. Please restore it and try again.' ) );
 
-	if ( !empty( $_GET['get-post-lock'] ) ) {
+	if ( ! empty( $_GET['get-post-lock'] ) ) {
 		wp_set_post_lock( $post_id );
 		wp_redirect( get_edit_post_link( $post_id, 'url' ) );
 		exit();
@@ -220,16 +220,22 @@ case 'editpost':
 case 'trash':
 	check_admin_referer('trash-post_' . $post_id);
 
-	if ( !current_user_can($post_type_object->cap->delete_post, $post_id) )
-		wp_die( __('You are not allowed to move this item to the Trash.') );
+	if ( ! $post )
+		wp_die( __( 'The item you are trying to move to the Trash no longer exists.' ) );
+
+	if ( ! $post_type_object )
+		wp_die( __( 'Unknown post type.' ) );
+
+	if ( ! current_user_can( $post_type_object->cap->delete_post, $post_id ) )
+		wp_die( __( 'You are not allowed to move this item to the Trash.' ) );
 
 	if ( $user_id = wp_check_post_lock( $post_id ) ) {
 		$user = get_userdata( $user_id );
 		wp_die( sprintf( __( 'You cannot move this item to the Trash. %s is currently editing.' ), $user->display_name ) );
 	}
 
-	if ( ! wp_trash_post($post_id) )
-		wp_die( __('Error in moving to Trash.') );
+	if ( ! wp_trash_post( $post_id ) )
+		wp_die( __( 'Error in moving to Trash.' ) );
 
 	wp_redirect( add_query_arg( array('trashed' => 1, 'ids' => $post_id), $sendback ) );
 	exit();
@@ -238,11 +244,17 @@ case 'trash':
 case 'untrash':
 	check_admin_referer('untrash-post_' . $post_id);
 
-	if ( !current_user_can($post_type_object->cap->delete_post, $post_id) )
-		wp_die( __('You are not allowed to move this item out of the Trash.') );
+	if ( ! $post )
+		wp_die( __( 'The item you are trying to restore from the Trash no longer exists.' ) );
 
-	if ( ! wp_untrash_post($post_id) )
-		wp_die( __('Error in restoring from Trash.') );
+	if ( ! $post_type_object )
+		wp_die( __( 'Unknown post type.' ) );
+
+	if ( ! current_user_can( $post_type_object->cap->delete_post, $post_id ) )
+		wp_die( __( 'You are not allowed to move this item out of the Trash.' ) );
+
+	if ( ! wp_untrash_post( $post_id ) )
+		wp_die( __( 'Error in restoring from Trash.' ) );
 
 	wp_redirect( add_query_arg('untrashed', 1, $sendback) );
 	exit();
@@ -251,17 +263,23 @@ case 'untrash':
 case 'delete':
 	check_admin_referer('delete-post_' . $post_id);
 
-	if ( !current_user_can($post_type_object->cap->delete_post, $post_id) )
-		wp_die( __('You are not allowed to delete this item.') );
+	if ( ! $post )
+		wp_die( __( 'This item has already been deleted.' ) );
 
-	$force = !EMPTY_TRASH_DAYS;
+	if ( ! $post_type_object )
+		wp_die( __( 'Unknown post type.' ) );
+
+	if ( ! current_user_can( $post_type_object->cap->delete_post, $post_id ) )
+		wp_die( __( 'You are not allowed to delete this item.' ) );
+
+	$force = ! EMPTY_TRASH_DAYS;
 	if ( $post->post_type == 'attachment' ) {
-		$force = ( $force || !MEDIA_TRASH );
-		if ( ! wp_delete_attachment($post_id, $force) )
-			wp_die( __('Error in deleting.') );
+		$force = ( $force || ! MEDIA_TRASH );
+		if ( ! wp_delete_attachment( $post_id, $force ) )
+			wp_die( __( 'Error in deleting.' ) );
 	} else {
-		if ( !wp_delete_post($post_id, $force) )
-			wp_die( __('Error in deleting.') );
+		if ( ! wp_delete_post( $post_id, $force ) )
+			wp_die( __( 'Error in deleting.' ) );
 	}
 
 	wp_redirect( add_query_arg('deleted', 1, $sendback) );
