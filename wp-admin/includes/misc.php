@@ -223,7 +223,7 @@ function url_shorten( $url ) {
 	$short_url = str_replace( array( 'http://', 'www.' ), '', $url );
 	$short_url = untrailingslashit( $short_url );
 	if ( strlen( $short_url ) > 35 )
-		$short_url = substr( $short_url, 0, 32 ) . '...';
+		$short_url = substr( $short_url, 0, 32 ) . '&hellip;';
 	return $short_url;
 }
 

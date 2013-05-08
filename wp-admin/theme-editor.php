@@ -112,7 +112,7 @@ default:
 			$functions = wp_doc_link_parse( $content );
 
 			$docs_select = '<select name="docs-list" id="docs-list">';
-			$docs_select .= '<option value="">' . esc_attr__( 'Function Name...' ) . '</option>';
+			$docs_select .= '<option value="">' . esc_attr__( 'Function Name&hellip;' ) . '</option>';
 			foreach ( $functions as $function ) {
 				$docs_select .= '<option value="' . esc_attr( urlencode( $function ) ) . '">' . htmlspecialchars( $function ) . '()</option>';
 			}

@@ -585,7 +585,7 @@ $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( 
 			</div>
 		</div>
 
-		<div id="waiting" style="display: none"><span class="spinner"></span> <span><?php esc_html_e( 'Loading...' ); ?></span></div>
+		<div id="waiting" style="display: none"><span class="spinner"></span> <span><?php esc_html_e( 'Loading&hellip;' ); ?></span></div>
 
 		<div id="extra-fields" style="display: none"></div>
 

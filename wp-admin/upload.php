@@ -99,7 +99,7 @@ if ( $doaction ) {
 					wp_die( __( 'You are not allowed to move this post to the trash.' ) );
 
 				if ( !wp_trash_post( $post_id ) )
-					wp_die( __( 'Error in moving to trash...' ) );
+					wp_die( __( 'Error in moving to trash.' ) );
 			}
 			$location = add_query_arg( array( 'trashed' => count( $post_ids ), 'ids' => join( ',', $post_ids ) ), $location );
 			break;
@@ -111,7 +111,7 @@ if ( $doaction ) {
 					wp_die( __( 'You are not allowed to move this post out of the trash.' ) );
 
 				if ( !wp_untrash_post( $post_id ) )
-					wp_die( __( 'Error in restoring from trash...' ) );
+					wp_die( __( 'Error in restoring from trash.' ) );
 			}
 			$location = add_query_arg( 'untrashed', count( $post_ids ), $location );
 			break;
@@ -123,7 +123,7 @@ if ( $doaction ) {
 					wp_die( __( 'You are not allowed to delete this post.' ) );
 
 				if ( !wp_delete_attachment( $post_id_del ) )
-					wp_die( __( 'Error in deleting...' ) );
+					wp_die( __( 'Error in deleting.' ) );
 			}
 			$location = add_query_arg( 'deleted', count( $post_ids ), $location );
 			break;

@@ -393,8 +393,8 @@ function comment_date( $d = '', $comment_ID = 0 ) {
 /**
  * Retrieve the excerpt of the current comment.
  *
- * Will cut each word and only output the first 20 words with '...' at the end.
- * If the word count is less than 20, then no truncating is done and no '...'
+ * Will cut each word and only output the first 20 words with '&hellip;' at the end.
+ * If the word count is less than 20, then no truncating is done and no '&hellip;'
  * will appear.
  *
  * @since 1.5.0
@@ -419,7 +419,7 @@ function get_comment_excerpt( $comment_ID = 0 ) {
 	for ($i=0; $i<$k; $i++) {
 		$excerpt .= $blah[$i] . ' ';
 	}
-	$excerpt .= ($use_dotdotdot) ? '...' : '';
+	$excerpt .= ($use_dotdotdot) ? '&hellip;' : '';
 	return apply_filters('get_comment_excerpt', $excerpt);
 }
 

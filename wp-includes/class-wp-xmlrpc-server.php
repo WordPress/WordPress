@@ -5422,7 +5422,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 				// prevent really long link text
 				if ( strlen($context[1]) > 100 )
-					$context[1] = substr($context[1], 0, 100) . '...';
+					$context[1] = substr($context[1], 0, 100) . '&#8230;';
 
 				$marker = '<wpcontext>'.$context[1].'</wpcontext>';    // set up our marker
 				$excerpt= str_replace($context[0], $marker, $excerpt); // swap out the link for our marker
@@ -5440,7 +5440,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$pagelinkedfrom = str_replace('&', '&amp;', $pagelinkedfrom);
 
-		$context = '[...] ' . esc_html( $excerpt ) . ' [...]';
+		$context = '[&#8230;] ' . esc_html( $excerpt ) . ' [&#8230;]';
 		$pagelinkedfrom = $wpdb->escape( $pagelinkedfrom );
 
 		$comment_post_ID = (int) $post_ID;

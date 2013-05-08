@@ -877,7 +877,7 @@ function get_the_remaining_content( $more_link_text = null, $strip_teaser = fals
 	$post = get_post();
 
 	if ( null === $more_link_text )
-		$more_link_text = __( '(more...)' );
+		$more_link_text = __( '(more&hellip;)' );
 
 	$output = '';
 	$has_teaser = false;

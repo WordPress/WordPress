@@ -3339,7 +3339,7 @@ function trackback_url_list($tb_list, $post_id) {
 		$excerpt = strip_tags($post_excerpt ? $post_excerpt : $post_content);
 
 		if (strlen($excerpt) > 255) {
-			$excerpt = substr($excerpt,0,252) . '...';
+			$excerpt = substr($excerpt,0,252) . '&hellip;';
 		}
 
 		$trackback_urls = explode(',', $tb_list);

@@ -265,7 +265,7 @@ function retrieve_password() {
 	$message = apply_filters('retrieve_password_message', $message, $key);
 
 	if ( $message && !wp_mail($user_email, $title, $message) )
-		wp_die( __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...') );
+		wp_die( __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function.') );
 
 	return true;
 }
@@ -355,7 +355,7 @@ function register_new_user( $user_login, $user_email ) {
 	$user_pass = wp_generate_password( 12, false);
 	$user_id = wp_create_user( $sanitized_user_login, $user_pass, $user_email );
 	if ( ! $user_id ) {
-		$errors->add( 'registerfail', sprintf( __( '<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !' ), get_option( 'admin_email' ) ) );
+		$errors->add( 'registerfail', sprintf( __( '<strong>ERROR</strong>: Couldn&#8217;t register you&hellip; please contact the <a href="mailto:%s">webmaster</a> !' ), get_option( 'admin_email' ) ) );
 		return $errors;
 	}
 

@@ -117,10 +117,10 @@ if ( $doaction ) {
 
 				if ( $post_del->post_type == 'attachment' ) {
 					if ( ! wp_delete_attachment($post_id) )
-						wp_die( __('Error in deleting...') );
+						wp_die( __('Error in deleting.') );
 				} else {
 					if ( !wp_delete_post($post_id) )
-						wp_die( __('Error in deleting...') );
+						wp_die( __('Error in deleting.') );
 				}
 				$deleted++;
 			}
