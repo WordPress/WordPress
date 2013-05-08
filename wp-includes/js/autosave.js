@@ -254,19 +254,11 @@ function delayed_autosave() {
 }
 
 autosave = function() {
-	// (bool) is rich editor enabled and active
+	var post_data = wp.autosave.getPostData(),
+		doAutoSave = post_data.autosave,
+		successCallback;
+
 	blockSave = true;
-	var rich = (typeof tinymce != "undefined") && tinymce.activeEditor && !tinymce.activeEditor.isHidden(),
-		post_data, doAutoSave, ed, origStatus, successCallback;
-
-	// Disable buttons until we know the save completed.
-	autosave_disable_buttons();
-
-	post_data = wp.autosave.getPostData();
-
-	// We always send the ajax request in order to keep the post lock fresh.
-	// This (bool) tells whether or not to write the post to the DB during the ajax request.
-	doAutoSave = post_data.autosave;
 
 	// No autosave while thickbox is open (media buttons)
 	if ( jQuery("#TB_window").css('display') == 'block' )
@@ -281,8 +273,11 @@ autosave = function() {
 		autosaveLast = post_data["post_title"] + post_data["content"];
 		jQuery(document).triggerHandler('wpcountwords', [ post_data["content"] ]);
 	} else {
-		post_data['autosave'] = 0;
+		return false;
 	}
+
+	// Disable buttons until we know the save completed.
+	autosave_disable_buttons();
 
 	if ( post_data["auto_draft"] == '1' ) {
 		successCallback = autosave_saved_new; // new post
@@ -297,6 +292,8 @@ autosave = function() {
 		url: ajaxurl,
 		success: successCallback
 	});
+
+	return true;
 }
 
 // Autosave in localStorage

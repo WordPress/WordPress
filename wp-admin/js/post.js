@@ -252,7 +252,10 @@ WPRemoveThumbnail = function(nonce){
 };
 
 $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
-	var lock = $('#active_post_lock').val(), post_id = $('#post_ID').val(), send = {};
+	var lock = $('#active_post_lock').val(),
+		post_id = $('#post_ID').val(),
+		post_nonce = $('#_wpnonce').val(),
+		send = {};
 
 	if ( !post_id )
 		return;
@@ -261,6 +264,9 @@ $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
 
 	if ( lock )
 		send['lock'] = lock;
+
+	if ( post_nonce )
+		send['post_nonce'] = post_nonce;
 
 	data['wp-refresh-post-lock'] = send;
 });
@@ -286,7 +292,9 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 					});
 
 					// Save the latest changes and disable
-					autosave();
+					if ( ! autosave() )
+						window.onbeforeunload = null;
+
 					autosave = function(){};
 				}
 
@@ -300,6 +308,13 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 			}
 		} else if ( received.new_lock ) {
 			$('#active_post_lock').val( received.new_lock );
+		}
+
+		if ( received.update_nonces ) {
+			$.each( received.update_nonces, function( selector, value ) {
+				if ( selector.match(/^replace-/) )
+					$( '#' + selector.replace('replace-', '') ).val( value );
+			});
 		}
 	}
 });

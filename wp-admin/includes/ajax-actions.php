@@ -1038,7 +1038,7 @@ function wp_ajax_add_user( $action ) {
 function wp_ajax_autosave() {
 	define( 'DOING_AUTOSAVE', true );
 
-	$nonce_age = check_ajax_referer( 'autosave', 'autosavenonce' );
+	check_ajax_referer( 'autosave', 'autosavenonce' );
 
 	$_POST['post_category'] = explode(",", $_POST['catslist']);
 	if ( $_POST['post_type'] == 'page' || empty($_POST['post_category']) )
@@ -1088,15 +1088,6 @@ function wp_ajax_autosave() {
 			$id = 0; // This tells us it didn't actually save
 		else
 			$id = $post->ID;
-	}
-
-	if ( $nonce_age == 2 ) {
-		$supplemental['replace-autosavenonce'] = wp_create_nonce('autosave');
-		$supplemental['replace-getpermalinknonce'] = wp_create_nonce('getpermalink');
-		$supplemental['replace-samplepermalinknonce'] = wp_create_nonce('samplepermalink');
-		$supplemental['replace-closedpostboxesnonce'] = wp_create_nonce('closedpostboxes');
-		$supplemental['replace-_ajax_linking_nonce'] = wp_create_nonce( 'internal-linking' );
-		$supplemental['replace-_wpnonce'] = wp_create_nonce( 'update-post_' . $post->ID );
 	}
 
 	$x = new WP_Ajax_Response( array(
