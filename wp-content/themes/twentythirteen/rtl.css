@@ -629,7 +629,8 @@ div.nav-menu > ul {
 
 .comment-metadata,
 .comment-content,
-.comment-list .reply {
+.comment-list .reply,
+.comment-awaiting-moderation {
 	float: left;
 }
 

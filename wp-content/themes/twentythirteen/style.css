@@ -2313,6 +2313,7 @@ footer.entry-meta {
 }
 
 .comment-metadata,
+.comment-awaiting-moderation,
 .comment-content,
 .comment-list .reply {
 	float: right;
@@ -2343,7 +2344,6 @@ footer.entry-meta {
 
 .comment-awaiting-moderation {
 	color: #a2a2a2;
-	margin: 20px 0 0;
 }
 
 .comment-awaiting-moderation:before {
