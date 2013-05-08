@@ -697,7 +697,7 @@ function gallery_shortcode($attr) {
 	extract(shortcode_atts(array(
 		'order'      => 'ASC',
 		'orderby'    => 'menu_order ID',
-		'id'         => $post->ID,
+		'id'         => $post ? $post->ID : 0,
 		'itemtag'    => 'dl',
 		'icontag'    => 'dt',
 		'captiontag' => 'dd',
