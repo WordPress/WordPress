@@ -3761,8 +3761,7 @@ table.diff .diff-addedline ins {
 
 .diff-loading .spinner {
 	clear: both;
-	margin-left: auto;
-	margin-right: auto;
+	margin: 0 auto;
 	display: block;
 	float: none;
 }

@@ -2119,11 +2119,6 @@ function wp_ajax_revisions_data() {
 	$single_revision_id = ! empty( $_GET['single_revision_id'] ) ? absint( $_GET['single_revision_id'] ) : 0;
 	$compare_two_mode = (bool) $post_id;
 
-	//
-	//TODO: currently code returns all possible comparisons for the indicated 'compare_to' revision
-	//however, the front end prevents users from pulling the right handle past the left or the left pass the right,
-	//so only the possible diffs need be generated
-	//
 	$all_the_revisions = array();
 	if ( ! $post_id )
 		$post_id = $compare_to;
@@ -2136,8 +2131,8 @@ function wp_ajax_revisions_data() {
 
 	$left_revision = get_post( $compare_to );
 
-	//single model fetch mode
-	//return the diff of a single revision comparison
+	// single model fetch mode
+	// return the diff of a single revision comparison
 	if ( $single_revision_id ) {
 		$right_revision = get_post( $single_revision_id );
 
@@ -2153,7 +2148,7 @@ function wp_ajax_revisions_data() {
 
 		$lines_added = $lines_deleted = 0;
 		$content = '';
-		//compare from left to right, passed from application
+		// compare from left to right, passed from application
 		foreach ( _wp_post_revision_fields() as $field => $field_value ) {
 			$left_content = apply_filters( "_wp_post_revision_field_$field", $left_revision->$field, $field, $left_revision, 'left' );
 			$right_content = apply_filters( "_wp_post_revision_field_$field", $right_revision->$field, $field, $right_revision, 'right' );
@@ -2182,18 +2177,18 @@ function wp_ajax_revisions_data() {
 		$content = '' == $content ? __( 'No difference' ) : $content;
 
 		$all_the_revisions = array (
-			'diff'          => $content,
+			'diff'         => $content,
 			'linesDeleted' => $lines_deleted,
 			'linesAdded'   => $lines_added
 		);
 
 		echo json_encode( $all_the_revisions );
 		exit();
-	} //end single model fetch
+	} // end single model fetch
 
 	$count = -1;
 
-	//reverse the list to start with oldes revision
+	// reverse the list to start with oldest revision
 	$revisions = array_reverse( $revisions );
 
 	$previous_revision_id = 0;
@@ -2208,14 +2203,28 @@ function wp_ajax_revisions_data() {
 		$revision_from_date_author = '';
 		$is_current_revision = false;
 		$count++;
-		// return blank data for diffs to the left of the left handle (for right handel model)
-		// or to the right of the right handle (for left handel model)
-		if ( ( 0 != $left_handle_at && $count < $left_handle_at ) ||
-			 ( 0 != $right_handle_at && $count > ( $right_handle_at - 2 ) ) ) {
-			$all_the_revisions[] = array (
-				'ID' => $revision->ID,
-			);
-			continue;
+
+		/**
+		* return blank data for diffs to the left of the left handle (for right handel model)
+		* or to the right of the right handle (for left handel model)
+		* and visa versa in RTL mode
+		*/
+		if( ! is_rtl() ) {
+			if ( ( ( 0 != $left_handle_at && $count < $left_handle_at ) ||
+				 ( 0 != $right_handle_at && $count > ( $right_handle_at - 2 ) ) ) ) {
+				$all_the_revisions[] = array (
+					'ID' => $revision->ID,
+				);
+				continue;
+			}
+		} else { // is_rtl
+			if ( ( 0 != $left_handle_at && $count > ( $left_handle_at - 1 ) ||
+				 ( 0 != $left_handle_at && $count < $right_handle_at ) ) ) {
+				$all_the_revisions[] = array (
+					'ID' => $revision->ID,
+				);
+				continue;
+			}
 		}
 
 		if ( $compare_two_mode ) {
@@ -2306,6 +2315,10 @@ function wp_ajax_revisions_data() {
 		$previous_revision_id = $revision->ID;
 
 	endforeach;
+
+	// in RTL + single handle mode, reverse the revision direction
+	if ( is_rtl() && $compare_two_mode )
+		$all_the_revisions = array_reverse( $all_the_revisions );
 
 	echo json_encode( $all_the_revisions );
 	exit();

@@ -955,8 +955,58 @@ th.sorted a span {
   11.2 - Post Revisions
 ------------------------------------------------------------------------------*/
 
-table.diff td, table.diff th {
-	font-family: Consolas, Monaco, monospace;
+#toggle-revision-compare-mode {
+	right: auto;
+	left: 0;
+	padding: 9px 0 0 9px;
+
+}
+
+
+#diff-next-revision {
+	float: left;
+}
+
+#diff-previous-revision {
+	float: right;
+}
+
+.diff-title {
+	float: right;
+}
+
+.diff-title strong {
+	text-align: left;
+	float: right;
+	margin-right: 0;
+	margin-left: 5px;
+}
+
+#restore-revision {
+	margin-left: 0;
+	margin-right: 10px;
+}
+
+.diff-col-title-added,
+.diff-col-title-removed {
+	text-align: right;
+	float: right;
+}
+
+.diff-col-title-added {
+	float: left;
+}
+
+.ui-tooltip-content img {
+	float: right;
+	margin-right: 0;
+	margin-left: 5px;
+}
+
+#diff-slider .ui-slider-tooltip,
+#diff-slider-ticks .ui-slider-tooltip {
+	margin-left: 0;
+	margin-right: -78px;
 }
 
 /*------------------------------------------------------------------------------
