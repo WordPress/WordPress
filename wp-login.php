@@ -100,7 +100,6 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 		$classes[] = 'interim-login';
 		?>
 		<style type="text/css">html{background-color: transparent;}</style>
-		<base target="_blank">
 		<?php
 
 		if ( 'success' ===  $interim_login )
@@ -663,9 +662,7 @@ default:
 	if ( isset($_POST['testcookie']) && empty($_COOKIE[TEST_COOKIE]) )
 		$errors->add('test_cookie', __("<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress."));
 
-	$form_target = '';
 	if ( $interim_login ) {
-		$form_target = ' target="_self"';
 		if ( ! $errors->get_error_code() )
 			$errors->add('expired', __('Session expired. Please log in again. You will not move away from this page.'), 'message');
 	} else {
@@ -697,7 +694,7 @@ default:
 	$rememberme = ! empty( $_POST['rememberme'] );
 ?>
 
-<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post"<?php echo $form_target; ?>>
+<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
 	<p>
 		<label for="user_login"><?php _e('Username') ?><br />
 		<input type="text" name="log" id="user_login" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" /></label>
@@ -757,6 +754,17 @@ d.select();
 wp_attempt_focus();
 <?php } ?>
 if(typeof wpOnload=='function')wpOnload();
+<?php if ( $interim_login ) { ?>
+(function(){
+try {
+	var i, links = document.getElementsByTagName('a');
+	for ( i in links ) {
+		if ( links[i].href )
+			links[i].target = '_blank';
+	}
+} catch(e){}
+}());
+<?php } ?>
 </script>
 
 <?php

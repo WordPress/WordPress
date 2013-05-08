@@ -64,7 +64,7 @@
 		$(window).off( 'beforeunload.wp-auth-check' );
 
 		wrap.fadeOut( 200, function() {
-			wrap.addClass('hidden').css('display', '');
+			wrap.addClass('hidden').css('display', '').find('.wp-auth-check-close').css('display', '');
 			$('#wp-auth-check-frame').remove();
 		});
 	}
