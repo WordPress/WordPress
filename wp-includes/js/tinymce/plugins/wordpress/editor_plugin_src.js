@@ -7,7 +7,7 @@
 
 	tinymce.create('tinymce.plugins.WordPress', {
 		init : function(ed, url) {
-			var t = this, tbId = ed.getParam('wordpress_adv_toolbar', 'toolbar2'), last = 0, moreHTML, nextpageHTML, closeOnClick, mod_key;
+			var t = this, tbId = ed.getParam('wordpress_adv_toolbar', 'toolbar2'), last = 0, moreHTML, nextpageHTML, closeOnClick, mod_key, style;
 			moreHTML = '<img src="' + url + '/img/trans.gif" class="mceWPmore mceItemNoResize" title="'+ed.getLang('wordpress.wp_more_alt')+'" />';
 			nextpageHTML = '<img src="' + url + '/img/trans.gif" class="mceWPnextpage mceItemNoResize" title="'+ed.getLang('wordpress.wp_page_alt')+'" />';
 
@@ -133,6 +133,18 @@
 						}
 					}
 				}
+
+				if ( tinymce.isWebKit && ( 'InsertUnorderedList' == cmd || 'InsertOrderedList' == cmd ) ) {
+					if ( !style )
+						style = ed.dom.create('style', {'type': 'text/css'}, '#tinymce,#tinymce span,#tinymce li,#tinymce li>span,#tinymce p,#tinymce p>span{font:medium sans-serif;color:#000;line-height:normal;}');
+
+					ed.getDoc().head.appendChild( style );
+				}
+			});
+
+			ed.onExecCommand.add( function( ed, cmd, ui, val ) {
+				if ( tinymce.isWebKit && style && ( 'InsertUnorderedList' == cmd || 'InsertOrderedList' == cmd ) )
+					ed.dom.remove( style );
 			});
 
 			ed.onInit.add(function(ed) {

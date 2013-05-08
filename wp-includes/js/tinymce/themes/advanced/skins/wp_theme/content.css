@@ -45,16 +45,6 @@ body {
 	margin: 10px;
 }
 
-br[data-mce-bogus] {
-	line-height: 1em;
-	margin-top: -1em;
-}
-
-br[data-mce-bogus]:only-child {
-	line-height: inherit;
-	margin-top: inherit;
-}
-
 .aligncenter,
 dl.aligncenter {
 	display: block;
