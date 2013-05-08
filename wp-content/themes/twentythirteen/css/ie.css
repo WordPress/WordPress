@@ -20,7 +20,7 @@ Styles for older IE versions (previous to IE9).
 .comment-awaiting-moderation:before:hover,
 .comment-reply-link:before:hover,
 #reply-title small a:before:hover,
-.bypostauthor .fn:before:hover {
+.bypostauthor > .comment-body .fn:before:hover {
 	text-decoration: none;
 }
 

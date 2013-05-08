@@ -492,7 +492,7 @@ hr {
 .comment-reply-link:before,
 .comment-reply-login:before,
 #reply-title small a:before,
-.bypostauthor .fn:before,
+.bypostauthor > .comment-body .fn:before,
 .error404 .page-title:before {
 	-webkit-font-smoothing: antialiased;
 	display: inline-block;
@@ -2303,7 +2303,7 @@ footer.entry-meta {
 	width: 100%;
 }
 
-.bypostauthor .fn:before {
+.bypostauthor > .comment-body .fn:before {
 	content: "\f408";
 	vertical-align: text-top;
 }

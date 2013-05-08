@@ -96,7 +96,7 @@ td {
 .comment-awaiting-moderation:after,
 .comment-reply-link:after,
 #reply-title small a:after,
-.bypostauthor .fn:after,
+.bypostauthor > .comment-body .fn:after,
 .error404 .page-title:after {
 	-webkit-font-smoothing: antialiased;
 	display: inline-block;
@@ -612,12 +612,12 @@ div.nav-menu > ul {
 	margin-right: auto;
 }
 
-.bypostauthor .fn:before {
+.bypostauthor > .comment-body .fn:before {
 	content: normal;
 	vertical-align: inherit;
 }
 
-.bypostauthor .fn:after {
+.bypostauthor > .comment-body .fn:after {
 	content: "\f408";
 	vertical-align: text-top;
 }
