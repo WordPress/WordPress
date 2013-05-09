@@ -53,7 +53,7 @@ wp_nonce_field( 'show-post-format-ui_' . $post_type, 'show_post_format_ui_nonce'
 					else
 						_e( 'Image URL' );
 				?></label>
-				<textarea id="wp_format_image" type="text" name="_format_image" class="widefat"><?php esc_html_e( $format_meta['image'] ); ?></textarea>
+				<textarea id="wp_format_image" type="text" name="_format_image" class="widefat"><?php echo esc_html( $format_meta['image'] ); ?></textarea>
 			</div>
 			<p class="use-url-or-html hide-if-no-js"><span><?php printf( __( '(or %suse an image URL or HTML%s)' ), '<a href="#">', '</a>' ); ?></span>
 				<span style="display: none"><?php printf( __( '(or %sselect/upload an image%s)' ), '<a href="#">', '</a>' ); ?></span></p>
@@ -102,7 +102,7 @@ wp_nonce_field( 'show-post-format-ui_' . $post_type, 'show_post_format_ui_nonce'
 				else
 					_e( 'Video URL' );
 			?></label>
-			<textarea id="wp_format_video" type="text" name="_format_video_embed" class="widefat"><?php esc_html_e( $format_meta['video_embed'] ); ?></textarea>
+			<textarea id="wp_format_video" type="text" name="_format_video_embed" class="widefat"><?php echo esc_html( $format_meta['video_embed'] ); ?></textarea>
 			<div data-format="video" class="wp-format-media-holder hide-if-no-js">
 				<a href="#" class="wp-format-media-select"
 					data-choose="<?php esc_attr_e( 'Choose a Video' ); ?>"
@@ -140,7 +140,7 @@ wp_nonce_field( 'show-post-format-ui_' . $post_type, 'show_post_format_ui_nonce'
 				else
 					_e( 'Audio URL' );
 			?></label>
-			<textarea id="wp_format_audio" name="_format_audio_embed" class="widefat"><?php esc_html_e( $format_meta['audio_embed'] ); ?></textarea>
+			<textarea id="wp_format_audio" name="_format_audio_embed" class="widefat"><?php echo esc_html( $format_meta['audio_embed'] ); ?></textarea>
 			<div data-format="audio" class="wp-format-media-holder hide-if-no-js">
 				<a href="#" class="wp-format-media-select" data-choose="<?php esc_attr_e( 'Choose Audio' ); ?>" data-update="<?php esc_attr_e( 'Select Audio' ); ?>">
 					<?php _e( 'Select Audio From Media Library' ) ?>
