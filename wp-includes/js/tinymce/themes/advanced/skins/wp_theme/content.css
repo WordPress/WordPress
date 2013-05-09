@@ -99,8 +99,8 @@ td {
 }
 
 /* Styles for the WordPress plugins */
-img.mceWPnextpage,
-img.mceWPmore {
+img.mce-wp-nextpage,
+img.mce-wp-more {
 	border: 0;
 	border-top: 1px dotted #cccccc;
 	display: block;
@@ -109,15 +109,15 @@ img.mceWPmore {
 	margin: 15px auto 0;
 }
 
-img.mceWPmore {
+img.mce-wp-more {
 	background: transparent url("img/more_bug.gif") no-repeat right top;
 }
 
-img.mceWPnextpage {
+img.mce-wp-nextpage {
     background: transparent url("img/page_bug.gif") no-repeat right top;
 }
 
-img.wpGallery {
+img.wp-gallery {
 	border: 1px dashed #888;
 	background: #f2f8ff url("img/gallery.png") no-repeat scroll center center;
 	width: 99%;
