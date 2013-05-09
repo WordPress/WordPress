@@ -955,13 +955,31 @@ th.sorted a span {
   11.2 - Post Revisions
 ------------------------------------------------------------------------------*/
 
+#diff-slider .ui-slider-tooltip,
+#diff-slider-ticks .ui-slider-tooltip {
+	margin-left: 0;
+	margin-right: -78px;
+}
+
+.wp-slider .ui-slider-handle.left-handle:before,
+.wp-slider .ui-slider-handle.right-handle:before {
+	height: 8px;
+	width: 7px;
+}
+.wp-slider .ui-slider-handle.left-handle:before {
+	background-position: -5px -10px;
+	left: 6px;
+}
+.wp-slider .ui-slider-handle.right-handle:before {
+	background-position: -4px -29px;
+	left: 6px;
+}
+
 #toggle-revision-compare-mode {
 	right: auto;
 	left: 0;
 	padding: 9px 0 0 9px;
-
 }
-
 
 #diff-next-revision {
 	float: left;
@@ -969,6 +987,10 @@ th.sorted a span {
 
 #diff-previous-revision {
 	float: right;
+}
+
+#diff-header {
+	padding: 5px 5px 5px 200px;
 }
 
 .diff-title {
@@ -980,6 +1002,11 @@ th.sorted a span {
 	float: right;
 	margin-right: 0;
 	margin-left: 5px;
+}
+
+.diff-title img {
+	margin-left: 0;
+	margin-right: 5px;
 }
 
 #restore-revision {
@@ -2723,6 +2750,12 @@ div.sidebar-name h3 {
 	#content-resize-handle {
 		background: transparent url('../images/resize-rtl-2x.gif') no-repeat scroll left bottom;
 	}
+
+	.wp-slider .ui-slider-handle:before {
+		background-image: url(../images/arrows-pr-2x.png);
+		background-size: 16px 102px;
+	}
+
 }
 
 /* =Localized CSS

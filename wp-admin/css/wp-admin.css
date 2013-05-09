@@ -3564,7 +3564,13 @@ table.diff td,
 table.diff th {
 	padding: .5em;
 	font-family: Consolas, Monaco, monospace;
-	border: none;
+	border-radius: 3px;
+}
+
+table.diff .diff-deletedline,
+table.diff .diff-addedline {
+	border-width: 1px;
+	border-style: solid;
 }
 
 table.diff .diff-deletedline del,
@@ -3653,10 +3659,11 @@ table.diff .diff-addedline ins {
 #diff-header {
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	padding: 5px 200px 5px 5px;
 }
 
 .diff-header {
-	height: 35px;
+	min-height: 35px;
 	line-height: 35px;
 }
 
@@ -3855,9 +3862,38 @@ body .ui-slider-tooltip {
 .wp-slider .ui-slider-handle {
 	position: absolute;
 	z-index: 2;
-	width: 17px;
-	height: 17px;
-	border: none;
+	margin-top: -3px;
+	width: 19px;
+	height: 19px;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 50%;
+}
+
+.wp-slider .ui-slider-handle:before {
+	content: "";
+	position: absolute;
+	top: 6px;
+	left: 4px;
+	height: 8px;
+	width: 12px;
+	background: url(../images/arrows-pr.png) no-repeat -2px -47px;
+}
+
+.wp-slider .ui-slider-handle.left-handle:before,
+.wp-slider .ui-slider-handle.right-handle:before {
+	height: 8px;
+	width: 7px;
+}
+
+.wp-slider .ui-slider-handle.left-handle:before {
+	background-position: -5px -84px;
+	left: 7px;
+}
+
+.wp-slider .ui-slider-handle.right-handle:before {
+	background-position: -4px -65px;
+	left: 5px;
 }
 
 .wp-slider .ui-slider-range {
@@ -9585,6 +9621,12 @@ a.widget-control-edit {
 	.customize-loading #customize-container {
 		background-image: url(../images/wpspin_light-2x.gif);
 	}
+
+	.wp-slider .ui-slider-handle:before {
+		background-image: url(../images/arrows-pr-2x.png);
+		background-size: 16px 102px;
+	}
+
 }
 
 /* =Localized CSS
