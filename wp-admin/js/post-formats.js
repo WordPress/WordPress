@@ -6,6 +6,7 @@ window.wp = window.wp || {};
 	"use strict";
 
 	var mediaFrame, insertMediaButton, container, icon, formatField,
+		body,
 		lastMimeType,
 		classRegex = /\s?\bwp-format-[^ ]+/g,
 		shortHeight = 120,
@@ -17,16 +18,65 @@ window.wp = window.wp || {};
 		shortContentFormats = ['status', 'aside'],
 		noUIFormats = ['standard', 'chat', 'status', 'aside', 'gallery'];
 
+	function imageFormatUploadProgress( uploader, file ) {
+		var $bar = $( '#' + uploader.settings.drop_element + ' .media-progress-bar div' );
+		$bar.width( file.percent + '%' );
+	}
+
+	function imageFormatUploadStart( uploader ) {
+		$( '#' + uploader.settings.drop_element + ' .wp-format-media-select' ).append('<div class="media-progress-bar"><div></div></div>');
+	}
+
+	function imageFormatUploadError() {
+		$( '.media-progress-bar', $('.wp-format-media-holder[data-format=image]') ).remove();
+	}
+
+	function imageFormatUploadSuccess( attachment ) {
+		var $holder, $field, html = wp.media.string.image({
+			size : 'full',
+			align : false,
+			link : getUserSetting( 'urlbutton' )
+		}, attachment.attributes );
+
+		$holder = $('.wp-format-media-holder[data-format=image]');
+		$( '.media-progress-bar', $holder ).remove();
+
+		if ( 'image' !== attachment.attributes.type )
+			return;
+
+		$field = $( '#wp_format_' + $holder.data( 'format' ) );
+
+		// set the hidden input's value
+		$field.val( html );
+
+		$( '#image-preview' ).remove();
+
+		$holder.parent().prepend( ['<div id="image-preview" class="wp-format-media-preview">',
+			'<img src="', attachment.get('url'), '"',
+			attachment.get('width') ? ' width="' + attachment.get('width') + '"' : '',
+			attachment.get('height') ? ' height="' + attachment.get('height') + '"' : '',
+			' />',
+		'</div>'].join( '' ) );
+	}
+
+	var uploader = {
+		dropzone:  $('.wp-format-media-holder[data-format=image]'),
+		success:   imageFormatUploadSuccess,
+		error: imageFormatUploadError,
+		plupload:  {},
+		params:    {}
+	};
+	uploader = new wp.Uploader( uploader );
+	uploader.uploader.bind( 'BeforeUpload', imageFormatUploadStart );
+	uploader.uploader.bind( 'UploadProgress', imageFormatUploadProgress );
+
 	function switchFormatClass( format ) {
 		formatField.val( format );
 
-		container
-			.prop( 'className', container.prop( 'className' ).replace( classRegex, '' ) )
+		$.each( [ container, icon, body ], function(i, thing) {
+			thing.prop( 'className', thing.prop( 'className' ).replace( classRegex, '' ) )
 			.addClass( 'wp-format-' + format );
-
-		icon
-			.prop( 'className', icon.prop( 'className' ).replace( classRegex, '' ) )
-			.addClass( 'wp-format-' + format );
+		});
 	}
 
 	function resizeContent( format, noAnimate ) {
@@ -137,6 +187,7 @@ window.wp = window.wp || {};
 	}
 
 	$(function () {
+		body = $( 'body' );
 		container = $( '#post-body-content' );
 		icon = $( '.icon32' );
 		formatField = $( '#post_format' );
@@ -162,6 +213,13 @@ window.wp = window.wp || {};
 			e.preventDefault();
 			switchFormat( $( e.currentTarget ) );
 		} );
+
+		// Toggle select/upload and URL/HTML for images
+		$( '.use-url-or-html' ).on( 'click', 'a', function(e) {
+			e.preventDefault();
+			$( '.wp-format-media-holder, .wp-format-image-textarea' ).toggle();
+			$(this).closest( 'p' ).find( 'span' ).toggle();
+		});
 
 		// Media selection
 		$( '.wp-format-media-select' ).click( function (e) {
@@ -242,8 +300,8 @@ window.wp = window.wp || {};
 					mediaPreview( attachment );
 				} else {
 					html = wp.media.string.image({
-						align : getUserSetting( 'align' ),
-						size : getUserSetting( 'imgsize' ),
+						size: 'full',
+						align : false,
 						link : getUserSetting( 'urlbutton' )
 					}, attachment);
 

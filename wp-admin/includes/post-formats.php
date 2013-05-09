@@ -38,20 +38,25 @@ wp_nonce_field( 'show-post-format-ui_' . $post_type, 'show_post_format_ui_nonce'
 				?>
 			</div>
 			<?php endif ?>
-			<label for="wp_format_image"><?php
-				if ( current_user_can( 'unfiltered_html' ) )
-					_e( 'Image HTML or URL' );
-				else
-					_e( 'Image URL' );
-			?></label>
-			<textarea id="wp_format_image" type="text" name="_format_image" class="widefat"><?php esc_html_e( $format_meta['image'] ); ?></textarea>
 			<div data-format="image" class="wp-format-media-holder hide-if-no-js">
+				<div><h3><?php _e( 'Drop image file to upload' ); ?></h3></div>
 				<a href="#" class="wp-format-media-select"
 					data-choose="<?php esc_attr_e( 'Choose an Image' ); ?>"
 					data-update="<?php esc_attr_e( 'Select Image' ); ?>">
 					<?php _e( 'Select / Upload Image' ); ?>
 				</a>
 			</div>
+			<div class="wp-format-image-textarea hide-if-js">
+				<label for="wp_format_image"><?php
+					if ( current_user_can( 'unfiltered_html' ) )
+						_e( 'Image HTML or URL' );
+					else
+						_e( 'Image URL' );
+				?></label>
+				<textarea id="wp_format_image" type="text" name="_format_image" class="widefat"><?php esc_html_e( $format_meta['image'] ); ?></textarea>
+			</div>
+			<p class="use-url-or-html hide-if-no-js"><span><?php printf( __( '(or %suse an image URL or HTML%s)' ), '<a href="#">', '</a>' ); ?></span>
+				<span style="display: none"><?php printf( __( '(or %sselect/upload an image%s)' ), '<a href="#">', '</a>' ); ?></span></p>
 		</div>
 
 		<div class="field wp-format-link">

@@ -85,6 +85,17 @@ $admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-
 $admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
 $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 
+if ( false !== $post_format = get_post_format() ) {
+	if ( ! $post_format ) {
+		$post_format = 'standard';
+
+		if ( ! empty( $_REQUEST['format'] ) && in_array( $_REQUEST['format'], get_post_format_slugs() ) )
+			$post_format = $_REQUEST['format'];
+	}
+
+	$admin_body_class .= ' wp-format-' . $post_format;
+}
+
 if ( wp_is_mobile() )
 	$admin_body_class .= ' mobile';
 
@@ -98,7 +109,7 @@ $admin_body_class .= ' no-customize-support';
 </script>
 
 <?php
-// Make sure the customize body classes are correct as early as possible. 
+// Make sure the customize body classes are correct as early as possible.
 if ( current_user_can( 'edit_theme_options' ) )
 	wp_customize_support_script();
 ?>
