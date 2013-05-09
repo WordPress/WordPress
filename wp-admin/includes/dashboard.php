@@ -827,7 +827,7 @@ function wp_dashboard_incoming_links_output() {
 			$publisher = "<strong>$publisher</strong>";
 
 		$content = $item->get_content();
-		$content = wp_html_excerpt($content, 50) . ' &hellip;';
+		$content = wp_html_excerpt( $content, 50, ' &hellip;' );
 
 		if ( $link )
 			/* translators: incoming links feed, %1$s is other person, %3$s is content */

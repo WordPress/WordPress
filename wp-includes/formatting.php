@@ -2199,7 +2199,7 @@ function wp_trim_excerpt($text = '') {
  *
  * @param string $text Text to trim.
  * @param int $num_words Number of words. Default 55.
- * @param string $more What to append if $text needs to be trimmed. Default '&hellip;'.
+ * @param string $more Optional. What to append if $text needs to be trimmed. Default '&hellip;'.
  * @return string Trimmed text.
  */
 function wp_trim_words( $text, $num_words = 55, $more = null ) {
@@ -3118,14 +3118,19 @@ function wp_sprintf_l($pattern, $args) {
  *
  * @param integer $str String to get the excerpt from.
  * @param integer $count Maximum number of characters to take.
+ * @param string $more Optional. What to append if $str needs to be trimmed. Defaults to empty string.
  * @return string The excerpt.
  */
-function wp_html_excerpt( $str, $count ) {
+function wp_html_excerpt( $str, $count, $more = null ) {
+	if ( null === $more )
+		$more = '';
 	$str = wp_strip_all_tags( $str, true );
-	$str = mb_substr( $str, 0, $count );
+	$excerpt = mb_substr( $str, 0, $count );
 	// remove part of an entity at the end
-	$str = preg_replace( '/&[^;\s]{0,6}$/', '', $str );
-	return $str;
+	$excerpt = preg_replace( '/&[^;\s]{0,6}$/', '', $excerpt );
+	if ( $str != $excerpt )
+		$excerpt = trim( $excerpt ) . $more;
+	return $excerpt;
 }
 
 /**

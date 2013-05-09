@@ -229,9 +229,7 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 		$blogname = sprintf( __('Global Dashboard: %s'), esc_html( $current_site->site_name ) );
 	}
 
-	$title = wp_html_excerpt( $blogname, 40 );
-	if ( $title != $blogname )
-		$title = trim( $title ) . '&hellip;';
+	$title = wp_html_excerpt( $blogname, 40, '&hellip;' );
 
 	$wp_admin_bar->add_menu( array(
 		'id'    => 'site-name',

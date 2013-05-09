@@ -436,11 +436,7 @@ if ( ! $nav_menu_selected_title && is_nav_menu( $nav_menu_selected_id ) ) {
 
 // Generate truncated menu names
 foreach( (array) $nav_menus as $key => $_nav_menu ) {
-	$_nav_menu->truncated_name = trim( wp_html_excerpt( $_nav_menu->name, 40 ) );
-	if ( $_nav_menu->truncated_name != $_nav_menu->name )
-		$_nav_menu->truncated_name .= '&hellip;';
-
-	$nav_menus[$key]->truncated_name = $_nav_menu->truncated_name;
+	$nav_menus[$key]->truncated_name = wp_html_excerpt( $_nav_menu->name, 40, '&hellip;' );
 }
 
 // Retrieve menu locations
@@ -572,8 +568,7 @@ require_once( './admin-header.php' );
 								<?php foreach ( $nav_menus as $menu ) : ?>
 									<?php $selected = isset( $menu_locations[$_location] ) && $menu_locations[$_location] == $menu->term_id; ?>
 									<option <?php if ( $selected ) echo 'data-orig="true"'; ?> <?php selected( $selected ); ?> value="<?php echo $menu->term_id; ?>">
-										<?php $truncated_name = wp_html_excerpt( $menu->name, 40 );
-										echo $truncated_name == $menu->name ? $menu->name : trim( $truncated_name ) . '&hellip;'; ?>
+										<?php echo wp_html_excerpt( $menu->name, 40, '&hellip;' ); ?>
 									</option>
 								<?php endforeach; ?>
 							</select>
