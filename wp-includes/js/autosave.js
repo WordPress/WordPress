@@ -636,7 +636,7 @@ wp.autosave.local = {
 		this.undo_post_data = wp.autosave.getPostData();
 
 		notice = $('#local-storage-notice');
-		$('form#post').before( notice.addClass('updated').show() );
+		$('.wrap h2').after( notice.addClass('updated').show() );
 
 		notice.on( 'click', function(e) {
 			var target = $( e.target );
