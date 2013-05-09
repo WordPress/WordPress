@@ -10,7 +10,7 @@ Styles for older IE versions (previous to IE9).
 .menu-toggle:after:hover,
 .date a:before:hover,
 .entry-meta .author a:before:hover,
-.format-audio .entry-content:before:hover,
+.format-audio .entry-media:before:hover,
 .comments-link a:before:hover,
 .tags-links a:first-child:before:hover,
 .categories-links a:first-child:before:hover,
@@ -282,4 +282,12 @@ img.alignleft {
 
 .ie7 .format-quote .quote {
 	padding: 0;
+}
+
+/* RTL for Internet Explorer 7 & 8 */
+.rtl .format-audio .entry-media:before,
+.rtl .comment-reply-link:before,
+.rtl .comment-reply-login:before {
+	-ms-filter: "FlipH";
+	filter: FlipH;
 }
