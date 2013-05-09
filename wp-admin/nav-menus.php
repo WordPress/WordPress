@@ -351,6 +351,11 @@ switch ( $action ) {
 		}
 		break;
 	case 'locations':
+		if ( ! $num_locations ) {
+			wp_redirect( admin_url( 'nav-menus.php' ) );
+			exit();
+		}
+
 		add_filter( 'screen_options_show_screen', '__return_false' );
 
 		if ( isset( $_POST['menu-locations'] ) ) {
@@ -466,7 +471,7 @@ add_filter('admin_body_class', 'wp_nav_menu_max_depth');
 wp_nav_menu_setup();
 wp_initial_nav_menu_meta_boxes();
 
-if ( ! current_theme_supports( 'menus' ) && ! wp_get_nav_menus() )
+if ( ! current_theme_supports( 'menus' ) && ! $num_locations )
 	$messages[] = '<div id="message" class="updated"><p>' . __('The current theme does not natively support menus, but you can use the &#8220;Custom Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p></div>';
 
 if ( ! $locations_screen ) : // Main tab
@@ -532,7 +537,9 @@ require_once( './admin-header.php' );
 	<?php screen_icon(); ?>
 	<h2 class="nav-tab-wrapper">
 		<a href="<?php echo admin_url( 'nav-menus.php' ); ?>" class="nav-tab<?php if ( ! isset( $_GET['action'] ) || isset( $_GET['action'] ) && 'locations' != $_GET['action'] ) echo ' nav-tab-active'; ?>"><?php esc_html_e( 'Edit Menus' ); ?></a>
-		<a href="<?php echo esc_url( add_query_arg( array( 'action' => 'locations' ), admin_url( 'nav-menus.php' ) ) ); ?>" class="nav-tab<?php if ( $locations_screen ) echo ' nav-tab-active'; ?>"><?php esc_html_e( 'Manage Locations' ); ?></a>
+		<?php if ( $num_locations && $menu_count ) : ?>
+			<a href="<?php echo esc_url( add_query_arg( array( 'action' => 'locations' ), admin_url( 'nav-menus.php' ) ) ); ?>" class="nav-tab<?php if ( $locations_screen ) echo ' nav-tab-active'; ?>"><?php esc_html_e( 'Manage Locations' ); ?></a>
+		<?php endif; ?>
 	</h2>
 	<?php
 	foreach( $messages as $message ) :
