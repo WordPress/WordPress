@@ -3685,15 +3685,15 @@ function get_pages($args = '') {
 
 	$join = '';
 	$where = "$exclusions $inclusions ";
-	if ( ! empty( $meta_key ) || ! empty( $meta_value ) ) {
+	if ( '' !== $meta_key || '' !== $meta_value ) {
 		$join = " LEFT JOIN $wpdb->postmeta ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id )";
 
 		// meta_key and meta_value might be slashed
 		$meta_key = wp_unslash($meta_key);
 		$meta_value = wp_unslash($meta_value);
-		if ( ! empty( $meta_key ) )
+		if ( '' !== $meta_key )
 			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_key = %s", $meta_key);
-		if ( ! empty( $meta_value ) )
+		if ( '' !== $meta_value )
 			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_value = %s", $meta_value);
 
 	}
