@@ -1127,8 +1127,6 @@ function wp_ajax_closed_postboxes() {
 }
 
 function wp_ajax_show_post_format_ui() {
-	error_log( serialize( $_REQUEST ) );
-
 	if ( empty( $_POST['post_type'] ) )
 		wp_die( 0 );
 
