@@ -60,8 +60,8 @@ img.alignleft {
 }
 
 .format-image .entry-content .size-full {
-	max-width: 604px;
 	margin: 0;
+	max-width: 604px;
 }
 
 .gallery-columns-1 .gallery-item,
@@ -226,8 +226,8 @@ img.alignleft {
 }
 
 .ie7 .nav-menu li ul ul {
-	top: 0;
 	left: 100%;
+	top: 0;
 }
 
 .ie7 .site-header .searchform [type="search"],
@@ -235,9 +235,9 @@ img.alignleft {
 	background-color: #fff;
 	border: 2px solid #c3c0ab;
 	cursor: text;
+	height: 28px;
 	outline: 0;
 	width: 150px;
-	height: 28px;
 }
 
 .ie7 .entry-header,

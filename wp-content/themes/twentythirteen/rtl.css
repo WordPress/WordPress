@@ -69,6 +69,7 @@ td {
 	padding-left: 10px;
 	padding-right: 0;
 }
+
 .assistive-text:focus {
 	left: auto;
 	right: 5px;
@@ -84,6 +85,7 @@ td {
  * 4.1 Site Header
  * ----------------------------------------------------------------------------
  */
+
 .site-header > a:first-child {
 	display: inherit;
 }
@@ -139,7 +141,7 @@ div.nav-menu > ul {
 }
 
 .menu-toggle {
-	padding-left: auto;
+	padding-left: 0;
 	padding-right: 20px;
 }
 
@@ -179,8 +181,8 @@ div.nav-menu > ul {
 }
 
 .featured-post:before {
-	margin-right: auto;
 	margin-left: 2px;
+	margin-right: auto;
 }
 
 .entry-meta .date a:before {
@@ -276,13 +278,13 @@ div.nav-menu > ul {
 .format-audio .audio-content {
 	background-position: right top;
 	float: left;
-	padding-left: auto;
+	padding-left: 0;
 	padding-right: 35px;
 }
 
 .format-chat .entry-meta .date a:before {
-	margin-right: auto;
 	margin-left: 4px;
+	margin-right: auto;
 }
 
 .blog .format-gallery .gallery-item,
@@ -309,7 +311,7 @@ div.nav-menu > ul {
 
 .format-status .entry-content,
 .format-status .entry-meta {
-	padding-left: auto;
+	padding-left: 0;
 	padding-right: 35px;
 }
 
@@ -348,8 +350,8 @@ div.nav-menu > ul {
 
 .format-quote .quote:before {
 	content: '\201D';
-	padding-right: 0;
 	padding-left: 25px;
+	padding-right: 0;
 	left: auto;
 	right: -15px;
 }
@@ -589,8 +591,8 @@ div.nav-menu > ul {
 
 .site-footer .widget {
 	float: right;
-	margin-right: auto;
 	margin-left: 20px;
+	margin-right: auto;
 }
 
 .sidebar .site-footer .widget:nth-of-type(4),
@@ -626,8 +628,8 @@ div.nav-menu > ul {
 	}
 
 	.main-navigation .searchform {
-		right: auto;
 		left: 20px;
+		right: auto;
 	}
 
 	.site-main .widget-area {
@@ -673,7 +675,7 @@ div.nav-menu > ul {
 
 	.sidebar .format-status .entry-content,
 	.sidebar .format-status .entry-meta {
-		padding-left: auto;
+		padding-left: 0;
 		padding-right: 35px;
 	}
 
@@ -708,12 +710,12 @@ div.nav-menu > ul {
 @media (max-width: 643px) {
 	#content .format-status .entry-content,
 	#content .format-status .entry-met {
-		padding-left: auto;
+		padding-left: 0;
 		padding-right: 35px;
 	}
 
 	.menu-toggle:after {
-		padding-left: auto;
+		padding-left: 0;
 		padding-right: 8px;
 	}
 
@@ -730,7 +732,7 @@ div.nav-menu > ul {
 	}
 
 	#content .featured-gallery {
-		padding-left: auto;
+		padding-left: 0;
 		padding-right: 24px;
 	}
 
@@ -747,7 +749,7 @@ div.nav-menu > ul {
 	.format-audio .audio-content {
 		background: none;
 		float: none;
-		padding-left: auto;
+		padding-left: 0;
 		padding-right: 0;
 	}
 
