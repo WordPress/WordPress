@@ -2453,13 +2453,33 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 					$meta['image']
 				);
 			}
+
+			$attachment_id = img_html_to_post_id( $meta['image'], $matched_html );
+			if ( $attachment_id && $matched_html ) {
+				$meta['image'] = str_replace( $matched_html, wp_get_attachment_image( $attachment_id, $attached_size ), $meta['image'] );
+				$attachment = wp_get_attachment_image_src( $attachment_id, $attached_size );
+				$attachment_width = ( ! empty( $attachment[1] ) ) ? $attachment[1] : 0;
+
+				if ( $attachment_width && preg_match_all( '#width=([\'"])(.+?)\1#is', $meta['image'], $matches ) && ! empty( $matches ) )
+					foreach ( $matches[2] as $width )
+						if ( $width != $attachment_width )
+							$meta['image'] = str_replace( $matches[0], sprintf( 'width="%d"', $attachment_width ), $meta['image'] );
+			}
+
 			$image = do_shortcode( $meta['image'] );
 		} elseif ( ! preg_match( '#<[^>]+>#', $meta['image'] ) ) {
 			// not HTML, assume URL
-			$image = sprintf( '<img src="%s" alt="" />', esc_url( $meta['image'] ) );
+			$attachment_id = attachment_url_to_postid( $meta['image'] );
+			if ( $attachment_id )
+				$image = wp_get_attachment_image( $attachment_id, $attached_size );
+			else
+				$image = sprintf( '<img src="%s" alt="" />', esc_url( $meta['image'] ) );
 		} else {
 			// assume HTML
 			$image = $meta['image'];
+			$attachment_id = img_html_to_post_id( $image, $matched_html );
+			if ( $attachment_id && $matched_html )
+				$image = str_replace( $matched_html, wp_get_attachment_image( $attachment_id, $attached_size ), $image );
 		}
 
 		if ( false === strpos( $image, '<a ' ) )
@@ -2532,6 +2552,11 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 	$htmls = get_content_images( $content, true, true, 1 );
 	if ( ! empty( $htmls ) ) {
 		$html = reset( $htmls );
+
+		$attachment_id = img_html_to_post_id( $html, $matched_html );
+		if ( $attachment_id && $matched_html )
+			$html = str_replace( $matched_html, wp_get_attachment_image( $attachment_id, $attached_size ), $html );
+
 		$post->split_content = $content;
 		$post->format_content[ $cache_key ] = sprintf( $link_fmt, $html );
 		return $post->format_content[ $cache_key ];
@@ -2568,4 +2593,40 @@ function attachment_url_to_postid( $url ) {
 	}
 
 	return 0;
+}
+
+/**
+ * Retrieve the attachment post id from HTML containing an image.
+ *
+ * @since 3.6.0
+ *
+ * @param string $html The html, possibly with an image
+ * @param string $matched_html Passed by reference, will be set to to the matched img string
+ * @return int The attachment id if found, or 0.
+ */
+function img_html_to_post_id( $html, &$matched_html = null ) {
+	$attachment_id = 0;
+
+	// Look for an <img /> tag
+	if ( ! preg_match( '#' . get_tag_regex( 'img' ) .  '#i', $html, $matches ) || empty( $matches ) )
+		return $attachment_id;
+
+	$matched_html = $matches[0];
+
+	// Look for attributes.
+	if ( ! preg_match_all( '#(src|class)=([\'"])(.+?)\2#is', $matched_html, $matches ) || empty( $matches ) )
+		return $attachment_id;
+
+	$attr = array();
+	foreach ( $matches[1] as $key => $attribute_name )
+		$attr[ $attribute_name ] = $matches[3][ $key ];
+
+	if ( ! empty( $attr['class'] ) && false !== strpos( $attr['class'], 'wp-image-' ) )
+		if ( preg_match( '#wp-image-([0-9]+)#i', $attr['class'], $matches ) )
+			$attachment_id = absint( $matches[1] );
+
+	if ( ! $attachment_id && ! empty( $attr['src'] ) )
+		$attachment_id = attachment_url_to_postid( $attr['src'] );
+
+	return $attachment_id;
 }
