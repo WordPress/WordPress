@@ -49,14 +49,20 @@ wp_nonce_field( 'show-post-format-ui_' . $post_type, 'show_post_format_ui_nonce'
 			<div class="wp-format-image-textarea hide-if-js">
 				<label for="wp_format_image"><?php
 					if ( current_user_can( 'unfiltered_html' ) )
-						_e( 'Image HTML or URL' );
+						_e( 'Image URL or HTML' );
 					else
 						_e( 'Image URL' );
 				?></label>
 				<textarea id="wp_format_image" type="text" name="_format_image" class="widefat"><?php echo esc_textarea( $format_meta['image'] ); ?></textarea>
 			</div>
-			<p class="use-url-or-html hide-if-no-js"><span><?php printf( __( '(or %suse an image URL or HTML%s)' ), '<a href="#">', '</a>' ); ?></span>
-				<span style="display: none"><?php printf( __( '(or %sselect/upload an image%s)' ), '<a href="#">', '</a>' ); ?></span></p>
+			<p class="use-url-or-html hide-if-no-js">
+				<span><?php
+					if ( current_user_can( 'unfiltered_html' ) )
+						_e( '(or <a href="#">use an image URL or HTML</a>)' );
+					else
+						_e( '(or <a href="#">use an image URL</a>)' );
+				?></span>
+				<span style="display: none"><?php _e( '(or <a href="#">select/upload an image</a>)' ); ?></span></p>
 		</div>
 
 		<div class="field wp-format-link">
