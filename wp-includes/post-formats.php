@@ -24,7 +24,7 @@ function get_post_format( $post = null ) {
 	$_format = get_the_terms( $post->ID, 'post_format' );
 
 	if ( empty( $_format ) )
-		return '';
+		return false;
 
 	$format = array_shift( $_format );
 
