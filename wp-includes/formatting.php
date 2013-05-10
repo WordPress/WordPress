@@ -1913,7 +1913,7 @@ function _wp_iso_convert( $match ) {
  *
  * @since 1.2.0
  *
- * @uses get_option() to retrieve the the value of 'gmt_offset'.
+ * @uses get_option() to retrieve the value of 'gmt_offset'.
  * @param string $string The date to be converted.
  * @param string $format The format string for the returned date (default is Y-m-d H:i:s)
  * @return string GMT version of the date provided.

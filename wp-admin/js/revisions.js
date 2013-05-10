@@ -621,7 +621,7 @@ window.wp = window.wp || {};
 			}, true );
 		},
 
-		// go the the previous revision
+		// go to the previous revision
 		previousRevision: function() {
 			if ( Diff.rightDiff > 1 ) // unless at left boundry
 				Diff.rightDiff = Diff.rightDiff - 1 ;

@@ -1074,7 +1074,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *     * While the default settings of exclude_from_search, publicly_queryable, show_ui, and show_in_nav_menus are
  *       inherited from public, each does not rely on this relationship and controls a very specific intention.
  * - exclude_from_search - Whether to exclude posts with this post type from front end search results.
- *     * If not set, the the opposite of public's current value is used.
+ *     * If not set, the opposite of public's current value is used.
  * - publicly_queryable - Whether queries can be performed on the front end for the post type as part of parse_request().
  *     * ?post_type={post_type_key}
  *     * ?{post_type_key}={single_post_slug}

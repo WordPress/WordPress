@@ -2743,8 +2743,8 @@ function wp_ob_end_flush_all() {
  * search engines from caching the message. Custom DB messages should do the
  * same.
  *
- * This function was backported to the the WordPress 2.3.2, but originally was
- * added in WordPress 2.5.0.
+ * This function was backported to WordPress 2.3.2, but originally was added
+ * in WordPress 2.5.0.
  *
  * @since 2.3.2
  * @uses $wpdb

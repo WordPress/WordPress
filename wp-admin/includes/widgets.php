@@ -58,7 +58,7 @@ function _sort_name_callback( $a, $b ) {
 
 /**
  * Show the widgets and their settings for a sidebar.
- * Used in the the admin widget config screen.
+ * Used in the admin widget config screen.
  *
  * @since 2.5.0
  *

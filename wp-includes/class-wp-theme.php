@@ -87,7 +87,7 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * The directory name of the theme's files, inside the theme root.
 	 *
-	 * In the case of a child theme, this is directory name of the the child theme.
+	 * In the case of a child theme, this is directory name of the child theme.
 	 * Otherwise, 'stylesheet' is the same as 'template'.
 	 *
 	 * @access private
@@ -720,7 +720,7 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * The directory name of the theme's "stylesheet" files, inside the theme root.
 	 *
-	 * In the case of a child theme, this is directory name of the the child theme.
+	 * In the case of a child theme, this is directory name of the child theme.
 	 * Otherwise, get_stylesheet() is the same as get_template().
 	 *
 	 * @since 3.4.0
