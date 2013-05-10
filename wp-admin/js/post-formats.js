@@ -59,16 +59,27 @@ window.wp = window.wp || {};
 		'</div>'].join( '' ) );
 	}
 
+	function imageFormatUploadFilesAdded( uploader, files ) {
+		$.each( files, function( i, file ) {
+			if ( i > 0 )
+				uploader.removeFile(file);
+		});
+	}
+
 	var uploader = {
 		dropzone:  $('.wp-format-media-holder[data-format=image]'),
 		success:   imageFormatUploadSuccess,
-		error: imageFormatUploadError,
-		plupload:  {},
+		error:     imageFormatUploadError,
+		plupload:  {
+			runtimes: 'html5',
+			filters: [ {title: 'Image', extensions: 'jpg,jpeg,gif,png'} ]
+		},
 		params:    {}
 	};
 	uploader = new wp.Uploader( uploader );
 	uploader.uploader.bind( 'BeforeUpload', imageFormatUploadStart );
 	uploader.uploader.bind( 'UploadProgress', imageFormatUploadProgress );
+	uploader.uploader.bind( 'FilesAdded', imageFormatUploadFilesAdded );
 
 	function switchFormatClass( format ) {
 		formatField.val( format );

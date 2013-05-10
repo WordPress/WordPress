@@ -4061,6 +4061,7 @@ body .ui-slider-tooltip {
 .wp-format-media-holder div {
 	display: none;
 }
+
 .wp-format-media-holder.drag-over div {
 	position: absolute;
 	top: 10px;
@@ -4072,7 +4073,6 @@ body .ui-slider-tooltip {
 }
 
 #poststuff .wp-format-media-holder.drag-over div h3 {
-
 	position: absolute;
 	top: 50%;
 	left: 0;
@@ -4111,10 +4111,7 @@ body .ui-slider-tooltip {
 	text-align: center;
 }
 
-body.wp-format-image .attachment-display-settings {
-	display: none;
-}
-
+body.wp-format-image .attachment-display-settings,
 body.wp-format-status #titlewrap,
 body.wp-format-image .wp-media-buttons .insert-media,
 body.wp-format-audio .wp-media-buttons .insert-media,
@@ -4124,6 +4121,8 @@ body.wp-format-status .wp-media-buttons .insert-media {
 	display: none;
 }
 
+.wp-format-media-select .media-progress-bar,
+.wp-format-media-select .media-progress-bar div,
 .mejs-audio audio,
 .mejs-video video {
 	display: block;
