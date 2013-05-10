@@ -1929,11 +1929,11 @@ function get_content_media( $type, &$content, $html = true, $remove = false, $li
 	$data = array();
 
 	foreach ( $items as $item ) {
-		preg_match_all( '#src=[\'"](.+?)[\'"]#is', $item, $src, PREG_SET_ORDER );
+		preg_match_all( '#src=([\'"])(.+?)\1#is', $item, $src, PREG_SET_ORDER );
 		if ( ! empty( $src ) ) {
 			$srcs = array();
 			foreach ( $src as $s )
-				$srcs[] = $s[1];
+				$srcs[] = $s[2];
 
 			$data[] = array_values( array_unique( $srcs ) );
 		}
@@ -2254,9 +2254,9 @@ function get_content_images( &$content, $html = true, $remove = false, $limit = 
 	$srcs = array();
 
 	foreach ( $tags as $tag ) {
-		preg_match( '#src=[\'"](.+?)[\'"]#is', $tag, $src );
-		if ( ! empty( $src[1] ) ) {
-			$srcs[] = $src[1];
+		preg_match( '#src=([\'"])(.+?)\1#is', $tag, $src );
+		if ( ! empty( $src[2] ) ) {
+			$srcs[] = $src[2];
 			if ( $limit > 0 && count( $srcs ) >= $limit )
 				break;
 		}
@@ -2310,10 +2310,10 @@ function get_content_galleries( &$content, $html = true, $remove = false, $limit
 				if ( $html ) {
 					$galleries[] = $gallery;
 				} else {
-					preg_match_all( '#src=[\'"](.+?)[\'"]#is', $gallery, $src, PREG_SET_ORDER );
+					preg_match_all( '#src=([\'"])(.+?)\1#is', $gallery, $src, PREG_SET_ORDER );
 					if ( ! empty( $src ) ) {
 						foreach ( $src as $s )
-							$srcs[] = $s[1];
+							$srcs[] = $s[2];
 					}
 
 					$data['src'] = array_values( array_unique( $srcs ) );

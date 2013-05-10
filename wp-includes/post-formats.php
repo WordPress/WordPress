@@ -791,8 +791,8 @@ function get_content_url( &$content, $remove = false ) {
 
 		return $trimmed;
 	// the content is HTML so we grab the first href
-	} elseif ( preg_match( '/<a\s[^>]*?href=[\'"](.+?)[\'"]/is', $content, $matches ) ) {
-		return esc_url_raw( $matches[1] );
+	} elseif ( preg_match( '/<a\s[^>]*?href=([\'"])(.+?)\1/is', $content, $matches ) ) {
+		return esc_url_raw( $matches[2] );
 	}
 
 	$lines = explode( "\n", $trimmed );

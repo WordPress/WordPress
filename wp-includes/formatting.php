@@ -3206,7 +3206,7 @@ function links_add_target( $content, $target = '_blank', $tags = array('a') ) {
 function _links_add_target( $m ) {
 	global $_links_add_target;
 	$tag = $m[1];
-	$link = preg_replace('|(target=[\'"](.*?)[\'"])|i', '', $m[2]);
+	$link = preg_replace('|(target=([\'"])(.*?)\2)|i', '', $m[2]);
 	return '<' . $tag . $link . ' target="' . esc_attr( $_links_add_target ) . '">';
 }
 
