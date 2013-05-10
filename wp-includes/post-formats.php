@@ -979,10 +979,14 @@ function _post_formats_generate_title( $content, $post_format = '' ) {
 }
 
 /**
- * Runs during save_post, fixes empty titles for asides and statuses.
+ * Fixes empty titles for aside and status formats.
+ *
+ * Passes a generated post title to the 'wp_insert_post_data' filter.
  *
  * @since 3.6.0
  * @access private
+ *
+ * @uses _post_formats_generate_title()
  */
 function _post_formats_fix_empty_title( $data, $postarr ) {
 	if ( 'auto-draft' == $data['post_status'] || ! post_type_supports( $data['post_type'], 'post-formats' ) )
