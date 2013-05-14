@@ -250,7 +250,6 @@ if ( !( IS_PROFILE_PAGE && !$user_can_edit ) ) : ?>
 <td><select name="role" id="role">
 <?php
 // Compare user role against currently editable roles
-// TODO: create a function that does this: wp_get_user_role()
 $user_roles = array_intersect( array_values( $profileuser->roles ), array_keys( get_editable_roles() ) );
 $user_role  = array_shift( $user_roles );
 
