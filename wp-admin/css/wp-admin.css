@@ -4046,7 +4046,7 @@ body .ui-slider-tooltip {
 	border: 1px dashed #dfdfdf;
 	background: #f5f5f5 url(../images/media-button-2x.png) no-repeat 50% 25%;
 	box-sizing: border-box;
-	position:relative;
+	position: relative;
 }
 
 .wp-format-media-holder:hover {
@@ -4055,7 +4055,7 @@ body .ui-slider-tooltip {
 
 .wp-format-media-holder.drag-over {
 	background: rgba( 0, 86, 132, 0.9 );
-	border-color:transparent;
+	border-color: transparent;
 }
 
 .wp-format-media-holder div {
@@ -4069,7 +4069,7 @@ body .ui-slider-tooltip {
 	right: 10px;
 	bottom: 10px;
 	border: 1px dashed #fff;
-	display:block;
+	display: block;
 }
 
 #poststuff .wp-format-media-holder.drag-over div h3 {
@@ -4087,7 +4087,7 @@ body .ui-slider-tooltip {
 	font-weight: 200;
 	color: #fff;
 	padding: 0;
-	text-align:center;
+	text-align: center;
 	font-family: sans-serif;
 }
 
@@ -4220,7 +4220,7 @@ body.wp-format-link #icon-edit,
 	border-style: solid;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	border-color: #CCC;
+	border-color: #ccc;
 	margin: 13px 0 10px;
 	padding: 5px;
 	overflow: hidden;
