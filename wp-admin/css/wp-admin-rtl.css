@@ -2249,9 +2249,11 @@ body.login {
 }
 
 /* Add Menu Item Boxes */
-.postbox .howto input {
+.postbox .howto input,
+.accordion-container .howto input {
 	float: left;
 }
+
 #nav-menu-theme-locations .button-controls {
 	text-align: left;
 }
@@ -2681,12 +2683,10 @@ div.sidebar-name h3 {
 	right: 0;
 }
 
-.menu-settings dd input,
-.menu-settings dd span,
-.menu-settings dd label,
 .manage-menus select {
 	float: right;
-	margin-right: 6px;
+	margin-right: 0;
+	margin-left: 6px;
 }
 
 .manage-menus .submit-btn {
