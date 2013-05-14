@@ -561,7 +561,6 @@ window.wp = window.wp || {};
 	 *
 	 * Next/Prev buttons and the slider
 	 */
-	// TODO: Change Interact to something else.
 	revisions.view.Interact = Backbone.View.extend({
 		el: $( '#revision-interact' ),
 		template: wp.template( 'revision-interact' ),
@@ -637,7 +636,7 @@ window.wp = window.wp || {};
 	/**
 	 * wp.revisions.view.Diff
 	 *
-	 * Next/Prev buttons and the slider
+	 * Diff, compare two checkbox and restore button
 	 */
 	revisions.view.Diff = Backbone.View.extend({
 		el: $( '#revisions-diff' ),
