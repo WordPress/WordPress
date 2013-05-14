@@ -461,7 +461,7 @@ window.wp = window.wp || {};
 			adjustMax   = Diff.singleRevision ? 0 : 1;
 			tickWidth   = Math.floor( sliderWidth / ( sliderMax - adjustMax ) );
 			tickWidth   = ( tickWidth > 50 ) ? 50 : tickWidth; // set minimum and maximum widths for tick marks
-			tickWidth   = ( tickWidth < 10 ) ? 10 : tickWidth;
+			tickWidth   = ( tickWidth < 6 ) ? 6 : tickWidth;
 			sliderWidth = tickWidth * ( sliderMax - adjustMax ); // calculate the slider width
 			aTickWidth  = $( '.revision-tick' ).width();
 
