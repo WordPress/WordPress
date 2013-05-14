@@ -1850,8 +1850,7 @@ function wp_enqueue_media( $args = array() ) {
  * @return array Found attachments
  */
 function get_attached_media( $type, $post_id = 0 ) {
-	$post = empty( $post_id ) ? get_post() : get_post( $post_id );
-	if ( empty( $post ) )
+	if ( ! $post = get_post( $post_id ) )
 		return;
 
 	$args = array(
@@ -2340,8 +2339,10 @@ function get_content_galleries( &$content, $html = true, $remove = false, $limit
  *		from the expanded shortcode
  */
 function get_post_galleries( $post_id = 0, $html = true ) {
-	$post = empty( $post_id ) ? clone get_post() : get_post( $post_id );
-	if ( empty( $post ) || ! has_shortcode( $post->post_content, 'gallery' )  )
+	if ( ! $post = get_post( $post_id ) )
+		return array();
+
+	if ( ! has_shortcode( $post->post_content, 'gallery' )  )
 		return array();
 
 	return get_content_galleries( $post->post_content, $html );
@@ -2357,8 +2358,10 @@ function get_post_galleries( $post_id = 0, $html = true ) {
  *		from an expanded shortcode
  */
 function get_post_galleries_images( $post_id = 0 ) {
-	$post = empty( $post_id ) ? clone get_post() : get_post( $post_id );
-	if ( empty( $post ) || ! has_shortcode( $post->post_content, 'gallery' )  )
+	if ( ! $post = get_post( $post_id ) )
+		return array();
+
+	if ( ! has_shortcode( $post->post_content, 'gallery' )  )
 		return array();
 
 	$data = get_content_galleries( $post->post_content, false );
@@ -2375,8 +2378,10 @@ function get_post_galleries_images( $post_id = 0 ) {
  * @return array Gallery data and srcs parsed from the expanded shortcode
  */
 function get_post_gallery( $post_id = 0, $html = true ) {
-	$post = empty( $post_id ) ? clone get_post() : get_post( $post_id );
-	if ( empty( $post ) || ! has_shortcode( $post->post_content, 'gallery' ) )
+	if ( ! $post = get_post( $post_id ) )
+		return array();
+
+	if ( ! has_shortcode( $post->post_content, 'gallery' ) )
 		return array();
 
 	$data = get_content_galleries( $post->post_content, $html, false, 1 );

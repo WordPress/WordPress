@@ -316,12 +316,11 @@ function post_format_content_class( $format ) {
  * @uses get_post_format_meta()
  *
  * @param string $content The post content.
- * @param int $id (optional) The post ID.
+ * @param int $post_id (optional) The post ID.
  * @return string Formatted output based on associated post format.
  */
-function post_formats_compat( $content, $id = 0 ) {
-	$post = empty( $id ) ? get_post() : get_post( $id );
-	if ( empty( $post ) )
+function post_formats_compat( $content, $post_id = 0 ) {
+	if ( ! $post = get_post( $post_id ) )
 		return $content;
 
 	$format = get_post_format( $post );
@@ -639,12 +638,11 @@ function get_content_chat( &$content, $remove = false ) {
  *
  * @since 3.6.0
  *
- * @param int $id (optional) The post ID.
+ * @param int $post_id (optional) The post ID.
  * @return array The chat content.
  */
-function get_the_post_format_chat( $id = 0 ) {
-	$post = empty( $id ) ? clone get_post() : get_post( $id );
-	if ( empty( $post ) )
+function get_the_post_format_chat( $post_id = 0 ) {
+	if ( ! $post = get_post( $post_id ) )
 		return array();
 
 	$data = get_content_chat( get_paged_content( $post->post_content ) );
@@ -814,12 +812,11 @@ function get_content_url( &$content, $remove = false ) {
  *
  * @since 3.6.0
  *
- * @param int $id (optional) The post ID.
+ * @param int $post_id (optional) The post ID.
  * @return string A URL, if found.
  */
-function get_the_post_format_url( $id = 0 ) {
-	$post = empty( $id ) ? get_post() : get_post( $id );
-	if ( empty( $post ) )
+function get_the_post_format_url( $post_id = 0 ) {
+	if ( ! $post = get_post( $post_id ) )
 		return '';
 
 	$format = get_post_format( $post->ID );
