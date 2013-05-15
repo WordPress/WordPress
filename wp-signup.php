@@ -288,9 +288,9 @@ function validate_another_blog_signup() {
  * @param string $path The site root path
  * @param string $user_name The username
  * @param string $user_email The user's email address
- * @param string $meta Any additional meta from the 'add_signup_meta' filter in validate_blog_signup()
+ * @param array $meta Any additional meta from the 'add_signup_meta' filter in validate_blog_signup()
  */
-function confirm_another_blog_signup($domain, $path, $blog_title, $user_name, $user_email = '', $meta = '') {
+function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = array() ) {
 	?>
 	<h2><?php printf( __( 'The site %s is yours.' ), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
 	<p>
@@ -488,7 +488,7 @@ function validate_blog_signup() {
  * @param string $blog_title The new site title
  * @param string $user_name The user's username
  * @param string $user_email The user's email address
- * @param string $meta Any additional meta from the 'add_signup_meta' filter in validate_blog_signup()
+ * @param array $meta Any additional meta from the 'add_signup_meta' filter in validate_blog_signup()
  */
 function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $user_email = '', $meta = array() ) {
 	?>
