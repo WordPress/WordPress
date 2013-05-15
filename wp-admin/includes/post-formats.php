@@ -1,4 +1,10 @@
 <?php
+/**
+ * Structured data fields for the Post Formats UI
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
 defined( 'ABSPATH' ) or die;
 
