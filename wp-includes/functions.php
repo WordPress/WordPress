@@ -3921,9 +3921,12 @@ function wp_auth_check_load() {
  * Output the HTML that shows the wp-login dialog when the user is no longer logged in
  */
 function wp_auth_check_html() {
-	$login_url = site_url( 'wp-login.php', 'login_post' );
+	$login_url = wp_login_url();
 	$current_domain = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'];
 	$same_domain = ( strpos( $login_url, $current_domain ) === 0 );
+
+	if ( $same_domain && force_ssl_login() && ! force_ssl_admin() )
+		$same_domain = false;
 
 	// Let plugins change this if they know better.
 	$same_domain = apply_filters( 'wp_auth_check_same_domain', $same_domain );
