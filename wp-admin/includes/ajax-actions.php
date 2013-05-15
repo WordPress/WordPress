@@ -2134,8 +2134,8 @@ function wp_ajax_revisions_data() {
 		if ( ! $compare_to )
 			$left_revision = get_post( $post_id );
 
-		// make sure the right revision is the most recent
-		if ( $compare_two_mode && $right_revision->post_date < $left_revision->post_date ) {
+		// make sure the right revision is the most recent, except on oldest revision
+		if ( $compare_to && $right_revision->post_date < $left_revision->post_date ) {
 			$temp = $left_revision;
 			$left_revision = $right_revision;
 			$right_revision = $temp;
