@@ -1752,8 +1752,8 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
  *
  * @uses $wpdb
  * @uses do_action() Calls both 'delete_term' and 'delete_$taxonomy' action
- *	hooks, passing term object, term id. 'delete_term' gets an additional
- *	parameter with the $taxonomy parameter.
+ *	hooks, passing term ID, term taxonomy ID, and deleted term object. 'delete_term'
+ *	also gets taxonomy as the third parameter.
  *
  * @param int $term Term ID
  * @param string $taxonomy Taxonomy Name
