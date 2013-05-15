@@ -210,7 +210,12 @@ window.wp = window.wp || {};
 		}
 
 		$( '#show_post_format_ui' ).on( 'change', function () {
-			$( '.wp-post-format-ui' ).toggleClass( 'no-ui', ! this.checked );
+			body.toggleClass( 'wp-post-format-show-ui', this.checked );
+
+			// Reset the display properties of possibly hidden items.
+			insertMediaButton.css( 'display', '' );
+			$( '#titlewrap' ).css( 'display', '' );
+
 			$.post( ajaxurl, {
 				action: 'show-post-format-ui',
 				post_type: $( '#post_type' ).val(),

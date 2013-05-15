@@ -9,7 +9,7 @@ $format_meta = get_post_format_meta( $post_ID );
 wp_nonce_field( 'show-post-format-ui_' . $post_type, 'show_post_format_ui_nonce', false );
 
 ?>
-<div class="wp-post-format-ui<?php if ( ! $show_post_format_ui ) echo ' no-ui' ?>">
+<div class="wp-post-format-ui">
 	<div class="post-formats-fields">
 
 		<input type="hidden" name="post_format" id="post_format" value="<?php echo esc_attr( $post_format ); ?>" />

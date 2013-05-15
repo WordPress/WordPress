@@ -3995,8 +3995,12 @@ body .ui-slider-tooltip {
 	padding-bottom: 0;
 }
 
-.no-ui {
+.wp-post-format-ui {
 	display: none;
+}
+
+.wp-post-format-show-ui .wp-post-format-ui {
+	display: block;
 }
 
 .post-formats-fields {
@@ -4111,13 +4115,13 @@ body .ui-slider-tooltip {
 	text-align: center;
 }
 
-body.wp-format-image .attachment-display-settings,
-body.wp-format-status #titlewrap,
-body.wp-format-image .wp-media-buttons .insert-media,
-body.wp-format-audio .wp-media-buttons .insert-media,
-body.wp-format-video .wp-media-buttons .insert-media,
-body.wp-format-aside .wp-media-buttons .insert-media,
-body.wp-format-status .wp-media-buttons .insert-media {
+.wp-post-format-show-ui.wp-format-image .attachment-display-settings,
+.wp-post-format-show-ui.wp-format-status #titlewrap,
+.wp-post-format-show-ui.wp-format-image #insert-media-button,
+.wp-post-format-show-ui.wp-format-audio #insert-media-button,
+.wp-post-format-show-ui.wp-format-video #insert-media-button,
+.wp-post-format-show-ui.wp-format-aside #insert-media-button,
+.wp-post-format-show-ui.wp-format-status #insert-media-button {
 	display: none;
 }
 

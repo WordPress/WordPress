@@ -130,7 +130,6 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 $format_class = '';
 $post_format = '';
 $post_format_options = '';
-$show_post_format_ui = false;
 if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_post_format_ui', true, $post ) ) {
 	wp_enqueue_script( 'post-formats' );
 	wp_enqueue_script( 'wp-mediaelement' );
@@ -142,15 +141,6 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_
 
 		if ( ! empty( $_REQUEST['format'] ) && in_array( $_REQUEST['format'], get_post_format_slugs() ) )
 			$post_format = $_REQUEST['format'];
-	}
-
-	$user_wants = get_user_option( 'post_formats_' . $post_type );
-	if ( false !== $user_wants ) {
-		// User wants what user gets.
-		$show_post_format_ui = (bool) $user_wants;
-	} else {
-		// UI is shown when the theme supports formats, or if the site has formats assigned to posts.
-		$show_post_format_ui = current_theme_supports( 'post-formats' ) || get_terms( 'post_format', array( 'number' => 1 ) );
 	}
 
 	$format_class = " class='wp-format-{$post_format}'";
@@ -389,7 +379,7 @@ if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create
 	<p><?php _e("You have lost your connection with the server, and saving has been disabled. This message will vanish once you've reconnected."); ?></p>
 </div>
 <?php if ( ! empty( $post_format_options ) ) : ?>
-<div class="wp-post-format-ui<?php if ( ! $show_post_format_ui ) echo ' no-ui' ?>">
+<div class="wp-post-format-ui">
 	<div class="post-format-options">
 		<?php echo $post_format_options; ?>
 	</div>
@@ -422,7 +412,7 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 <div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 <div id="post-body-content"<?php echo $format_class; ?>>
 <?php if ( ! empty( $all_post_formats ) ) : ?>
-<div class="wp-post-format-ui<?php if ( ! $show_post_format_ui ) echo ' no-ui' ?>">
+<div class="wp-post-format-ui">
 	<div class="post-format-change"><span class="icon <?php echo esc_attr( 'wp-format-' . $post_format ); ?>"></span> <span class="post-format-description"><?php echo $all_post_formats[$post_format]['description']; ?></span></div>
 </div>
 <?php endif; ?>
