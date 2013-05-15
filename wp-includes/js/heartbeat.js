@@ -111,32 +111,48 @@ window.wp = window.wp || {};
 		}
 
 		function connect() {
-			var data = {};
+			var send = {}, data, i, empty = true;
 			tick = time();
 
-			data.data = $.extend( {}, queue );
+			data = $.extend( {}, queue );
 			// Clear the data queue, anything added after this point will be send on the next tick
 			queue = {};
 
-			$(document).trigger( 'heartbeat-send', [data.data] );
+			$(document).trigger( 'heartbeat-send', [data] );
 
-			data.interval = interval / 1000;
-			data._nonce = nonce;
-			data.action = 'heartbeat';
-			data.screenid = screenid;
-			data.has_focus = hasFocus;
+			for ( i in data ) {
+				if ( data.hasOwnProperty( i ) ) {
+					empty = false;
+					break;
+				}
+			}
+
+			// If nothing to send (nothing is expecting a response),
+			// schedule the next tick and bail
+			if ( empty ) {
+				connecting = false;
+				next();
+				return;
+			}
+
+			send.data = data;
+			send.interval = interval / 1000;
+			send._nonce = nonce;
+			send.action = 'heartbeat';
+			send.screenid = screenid;
+			send.has_focus = hasFocus;
 
 			connecting = true;
 			self.xhr = $.ajax({
 				url: url,
 				type: 'post',
 				timeout: 30000, // throw an error of not completed after 30 sec.
-				data: data,
+				data: send,
 				dataType: 'json'
-			}).done( function( data, textStatus, jqXHR ) {
+			}).done( function( response, textStatus, jqXHR ) {
 				var new_interval, timed;
 
-				if ( ! data )
+				if ( ! response )
 					return errorstate( 'empty' );
 
 				// Clear error state
@@ -144,10 +160,12 @@ window.wp = window.wp || {};
 					errorstate();
 
 				// Change the interval from PHP
-				new_interval = data.heartbeat_interval;
-				delete data.heartbeat_interval;
+				if ( response.heartbeat_interval ) {
+					new_interval = response.heartbeat_interval;
+					delete response.heartbeat_interval;
+				}
 
-				self.tick( data, textStatus, jqXHR );
+				self.tick( response, textStatus, jqXHR );
 
 				// do this last, can trigger the next XHR if connection time > 5 sec. and new_interval == 'fast'
 				if ( new_interval )
@@ -164,10 +182,10 @@ window.wp = window.wp || {};
 		function next() {
 			var delta = time() - tick, t = interval;
 
-			if ( !running )
+			if ( ! running )
 				return;
 
-			if ( !hasFocus ) {
+			if ( ! hasFocus ) {
 				t = 120000; // 2 min
 			} else if ( countdown > 0 && tempInterval ) {
 				t = tempInterval;
@@ -195,10 +213,6 @@ window.wp = window.wp || {};
 			winBlurTimeout = frameBlurTimeout = 0;
 
 			hasFocus = false;
-
-			// temp debug
-			if ( self.debug )
-				console.log('### blurred(), slow down...')
 		}
 
 		function focused() {
@@ -214,43 +228,39 @@ window.wp = window.wp || {};
 			hasFocus = true;
 			window.clearTimeout(beat);
 
-			if ( !connecting )
+			if ( ! connecting )
 				next();
-
-			// temp debug
-			if ( self.debug )
-				console.log('### focused(), speed up... ')
 		}
 
 		function setFrameEvents() {
-			$('iframe').each( function(i, frame){
-				if ( !isLocalFrame(frame) )
+			$('iframe').each( function( i, frame ){
+				if ( ! isLocalFrame( frame ) )
 					return;
 
-				if ( $.data(frame, 'wp-heartbeat-focus') )
+				if ( $.data( frame, 'wp-heartbeat-focus' ) )
 					return;
 
-				$.data(frame, 'wp-heartbeat-focus', 1);
+				$.data( frame, 'wp-heartbeat-focus', 1 );
 
-				$(frame.contentWindow).on('focus.wp-heartbeat-focus', function(e){
+				$( frame.contentWindow ).on( 'focus.wp-heartbeat-focus', function(e) {
 					focused();
-				}).on('blur.wp-heartbeat-focus', function(e){
+				}).on('blur.wp-heartbeat-focus', function(e) {
 					setFrameEvents();
 					frameBlurTimeout = window.setTimeout( function(){ blurred(); }, 500 );
 				});
 			});
 		}
 
-		$(window).on('blur.wp-heartbeat-focus', function(e) {
+		$(window).on( 'blur.wp-heartbeat-focus', function(e) {
 			setFrameEvents();
 			winBlurTimeout = window.setTimeout( function(){ blurred(); }, 500 );
-		}).on('focus.wp-heartbeat-focus', function() {
-			$('iframe').each( function(i, frame){
-				if ( !isLocalFrame(frame) )
+		}).on( 'focus.wp-heartbeat-focus', function() {
+			$('iframe').each( function( i, frame ) {
+				if ( !isLocalFrame( frame ) )
 					return;
 
-				$.removeData(frame, 'wp-heartbeat-focus');
-				$(frame.contentWindow).off('.wp-heartbeat-focus');
+				$.removeData( frame, 'wp-heartbeat-focus' );
+				$( frame.contentWindow ).off( '.wp-heartbeat-focus' );
 			});
 
 			focused();
@@ -258,19 +268,15 @@ window.wp = window.wp || {};
 
 		function userIsActive() {
 			userActiveEvents = false;
-			$(document).off('.wp-heartbeat-active');
-			$('iframe').each( function(i, frame){
-				if ( !isLocalFrame(frame) )
+			$(document).off( '.wp-heartbeat-active' );
+			$('iframe').each( function( i, frame ) {
+				if ( ! isLocalFrame( frame ) )
 					return;
 
-				$(frame.contentWindow).off('.wp-heartbeat-active');
+				$( frame.contentWindow ).off( '.wp-heartbeat-active' );
 			});
 
 			focused();
-
-			// temp debug
-			if ( self.debug )
-				console.log( 'userIsActive()' );
 		}
 
 		// Set 'hasFocus = true' if user is active and the window is in the background.
@@ -278,22 +284,18 @@ window.wp = window.wp || {};
 		function checkUserActive() {
 			var lastActive = isUserActive ? time() - isUserActive : 0;
 
-			// temp debug
-			if ( self.debug )
-				console.log( 'checkUserActive(), lastActive = %s seconds ago', parseInt(lastActive / 1000) || 'null' );
-
 			// Throttle down when no mouse or keyboard activity for 5 min
 			if ( lastActive > 300000 && hasFocus )
 				 blurred();
 
-			if ( !userActiveEvents ) {
-				$(document).on('mouseover.wp-heartbeat-active keyup.wp-heartbeat-active', function(){ userIsActive(); });
+			if ( ! userActiveEvents ) {
+				$(document).on( 'mouseover.wp-heartbeat-active keyup.wp-heartbeat-active', function(){ userIsActive(); } );
 
-				$('iframe').each( function(i, frame){
-					if ( !isLocalFrame(frame) )
+				$('iframe').each( function( i, frame ) {
+					if ( ! isLocalFrame( frame ) )
 						return;
 
-					$(frame.contentWindow).on('mouseover.wp-heartbeat-active keyup.wp-heartbeat-active', function(){ userIsActive(); });
+					$( frame.contentWindow ).on( 'mouseover.wp-heartbeat-active keyup.wp-heartbeat-active', function(){ userIsActive(); } );
 				});
 
 				userActiveEvents = true;
@@ -304,7 +306,7 @@ window.wp = window.wp || {};
 		window.setInterval( function(){ checkUserActive(); }, 30000 );
 
 		if ( this.autostart ) {
-			$(document).ready( function(){
+			$(document).ready( function() {
 				// Start one tick (15 sec) after DOM ready
 				running = true;
 				tick = time();
@@ -362,7 +364,7 @@ window.wp = window.wp || {};
 					next();
 			}
 
-			if ( !hasFocus )
+			if ( ! hasFocus )
 				return 120;
 
 			return tempInterval ? tempInterval / 1000 : interval / 1000;
@@ -394,10 +396,10 @@ window.wp = window.wp || {};
 		 *
 		 * As the data is sent later, this function doesn't return the XHR response.
 		 * To see the response, use the custom jQuery event 'heartbeat-tick' on the document, example:
-		 *		$(document).on('heartbeat-tick.myname', function(data, textStatus, jqXHR) {
+		 *		$(document).on( 'heartbeat-tick.myname', function( event, data, textStatus, jqXHR ) {
 		 *			// code
 		 *		});
-		 * If the same 'handle' is used more than once, the data is overwritten when the third argument is 'true'.
+		 * If the same 'handle' is used more than once, the data is not overwritten when the third argument is 'true'.
 		 * Use wp.heartbeat.isQueued('handle') to see if any data is already queued for that handle.
 		 *
 		 * $param string handle Unique handle for the data. The handle is used in PHP to receive the data.
@@ -407,7 +409,7 @@ window.wp = window.wp || {};
 		 */
 		this.enqueue = function( handle, data, dont_overwrite ) {
 			if ( handle ) {
-				if ( queue.hasOwnProperty(handle) && dont_overwrite )
+				if ( queue.hasOwnProperty( handle ) && dont_overwrite )
 					return false;
 
 				queue[handle] = data;
