@@ -254,7 +254,6 @@ WPRemoveThumbnail = function(nonce){
 $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
 	var lock = $('#active_post_lock').val(),
 		post_id = $('#post_ID').val(),
-		post_nonce = $('#_wpnonce').val(),
 		send = {};
 
 	if ( !post_id )
@@ -264,9 +263,6 @@ $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
 
 	if ( lock )
 		send['lock'] = lock;
-
-	if ( post_nonce )
-		send['post_nonce'] = post_nonce;
 
 	data['wp-refresh-post-lock'] = send;
 });
@@ -319,6 +315,42 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 	}
 });
 
+}(jQuery));
+
+(function($) {
+	var check, timeout;
+
+	function schedule() {
+		check = false;
+		window.clearTimeout( timeout );
+		timeout = window.setTimeout( function(){ check = 1; }, 3600000 );
+	}
+
+	$(document).on( 'heartbeat-send.wp-refresh-nonces', function( e, data ) { 
+		var nonce, post_id;
+
+		if ( check ) {
+			if ( ( post_id = $('#post_ID').val() ) && ( nonce = $('#_wpnonce').val() ) ) {
+				data['wp-refresh-post-nonces'] = {
+					post_id: post_id,
+					post_nonce: nonce
+				};
+			}
+			check = 2;
+		}
+	}).on( 'heartbeat-tick.wp-refresh-nonces', function( e, data ) {
+		if ( check === 2 )
+			schedule();
+
+		if ( data['wp-refresh-post-nonces'] ) {
+			$.each( data['wp-refresh-post-nonces'], function( selector, value ) {
+				if ( selector.match(/^replace-/) )
+					$( '#' + selector.replace('replace-', '') ).val( value );
+			});
+		}
+	}).ready( function() {
+		schedule();
+	});
 }(jQuery));
 
 jQuery(document).ready( function($) {

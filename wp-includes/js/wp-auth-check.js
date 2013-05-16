@@ -72,11 +72,11 @@
 	function schedule() {
 		check = false;
 		window.clearTimeout( timeout );
-		timeout = window.setTimeout( function(){ check = true; }, 180000 ); // 3 min.
+		timeout = window.setTimeout( function(){ check = 1; }, 180000 ); // 3 min.
 	}
 
 	$( document ).on( 'heartbeat-tick.wp-auth-check', function( e, data ) {
-		if ( check )
+		if ( check === 2 )
 			schedule();
 
 		if ( data['wp-auth-check'] && wrap.hasClass('hidden') ) {
@@ -103,6 +103,9 @@
 
 			if ( check || ! empty )
 				data['wp-auth-check'] = 1;
+
+			if ( check )
+				check = 2;
 		});
 	});
 

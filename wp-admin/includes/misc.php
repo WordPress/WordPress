@@ -623,8 +623,30 @@ function wp_refresh_post_lock( $response, $data, $screen_id ) {
 				$send['new_lock'] = implode( ':', $new_lock );
 		}
 
+		$response['wp-refresh-post-lock'] = $send;
+	}
+
+	return $response;
+}
+add_filter( 'heartbeat_received', 'wp_refresh_post_lock', 10, 3 );
+
+/**
+ * Check nonce expiration on the New/Edit Post screen and refresh if needed
+ *
+ * @since 3.6
+ */
+function wp_refresh_post_nonces( $response, $data, $screen_id ) {
+	if ( 'post' == $screen_id && array_key_exists( 'wp-refresh-post-nonces', $data ) ) {
+		$received = $data['wp-refresh-post-nonces'];
+
+		if ( ! $post_id = absint( $received['post_id'] ) )
+			return $response;
+
+		if ( ! current_user_can('edit_post', $post_id) )
+			return $response;
+
 		if ( ! empty( $received['post_nonce'] ) && 2 === wp_verify_nonce( $received['post_nonce'], 'update-post_' . $post_id ) ) {
-			$send['update_nonces'] = array(
+			$response['wp-refresh-post-nonces'] = array(
 				'replace-autosavenonce' => wp_create_nonce('autosave'),
 				'replace-getpermalinknonce' => wp_create_nonce('getpermalink'),
 				'replace-samplepermalinknonce' => wp_create_nonce('samplepermalink'),
@@ -633,13 +655,11 @@ function wp_refresh_post_lock( $response, $data, $screen_id ) {
 				'replace-_wpnonce' => wp_create_nonce( 'update-post_' . $post_id ),
 			);
 		}
-
-		$response['wp-refresh-post-lock'] = $send;
 	}
 
 	return $response;
 }
-add_filter( 'heartbeat_received', 'wp_refresh_post_lock', 10, 3 );
+add_filter( 'heartbeat_received', 'wp_refresh_post_nonces', 10, 3 );
 
 /**
  * Output the HTML for restoring the post data from DOM storage
