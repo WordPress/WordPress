@@ -1,6 +1,6 @@
 // Interim login dialog
 (function($){
-	var wrap;
+	var wrap, check, timeout;
 
 	function show() {
 		var parent = $('#wp-auth-check'), form = $('#wp-auth-check-form'), noframe = wrap.find('.wp-auth-fallback-expired'), frame, loaded = false;
@@ -69,18 +69,40 @@
 		});
 	}
 
+	function schedule() {
+		check = false;
+		window.clearTimeout( timeout );
+		timeout = window.setTimeout( function(){ check = true; }, 180000 ); // 3 min.
+	}
+
 	$( document ).on( 'heartbeat-tick.wp-auth-check', function( e, data ) {
+		if ( check )
+			schedule();
+
 		if ( data['wp-auth-check'] && wrap.hasClass('hidden') ) {
 			show();
 		} else if ( ! data['wp-auth-check'] && ! wrap.hasClass('hidden') && ! wrap.data('logged-in') ) {
 			hide();
 		}
-	}).on( 'heartbeat-send.wp-auth-check', function( e, data ) {
-		data['wp-auth-check'] = 1;
 	}).ready( function() {
-		wrap = $('#wp-auth-check-wrap').data('logged-in', 0);
+		schedule();
+		wrap = $('#wp-auth-check-wrap').data( 'logged-in', 0 );
 		wrap.find('.wp-auth-check-close').on( 'click', function(e) {
 			hide();
+		});
+		// Bind later
+		$( document ).on( 'heartbeat-send.wp-auth-check', function( e, data ) {
+			var i, empty = true;
+			// Check if something is using heartbeat. If yes, trigger the logged out check too.
+			for ( i in data ) {
+				if ( data.hasOwnProperty( i ) ) {
+					empty = false;
+					break;
+				}
+			}
+
+			if ( check || ! empty )
+				data['wp-auth-check'] = 1;
 		});
 	});
 
