@@ -1658,20 +1658,13 @@ footer.entry-meta {
 	background-color: #210d10;
 }
 
-.format-quote .entry-content {
-	font-size: 28px;
-	font-style: italic;
-	font-weight: 300;
-	margin: 0 auto;
-	position: relative;
-}
-
 .format-quote .entry-content,
 .format-quote .entry-meta {
 	color: #f7f5e7;
 }
 
 .format-quote .entry-content blockquote {
+	font-size: 28px;
 	margin: 0;
 }
 
@@ -1698,7 +1691,10 @@ footer.entry-meta {
 }
 
 .format-quote .quote {
+	font-style: italic;
+	font-weight: 300;
 	padding-left: 75px;
+	position: relative;
 }
 
 .format-quote .quote:before {
