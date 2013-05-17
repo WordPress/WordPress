@@ -107,6 +107,23 @@ if ( isset( $post ) && is_a( $post, 'WP_Post' ) && post_type_supports( get_post_
 			$show_post_format_ui = (bool) $post_format_user_option;
 		else
 			$show_post_format_ui = current_theme_supports( 'post-formats' ) || (bool) get_terms( 'post_format', array( 'number' => 1 ) );
+
+		if ( ! $show_post_format_ui ) {
+			$meta = get_post_format_meta( $post->ID );
+			$format_meta_keys = array(
+				'link'  => array( 'linkurl' ),
+				'image' => array( 'url', 'image' ),
+				'quote' => array( 'quote_source_name', 'quote_source_url' ),
+				'video' => array( 'video_embed' ),
+				'audio' => array( 'audio_embed' ),
+			);
+
+			// If there's any structured post format data, enforce the UI display.
+			$format_meta_keys = isset( $format_meta_keys[ get_post_format() ] ) ? $format_meta_keys[ get_post_format() ] : array();
+			foreach ( $format_meta_keys as $key )
+				if ( ! empty( $meta[ $key ] ) )
+					$show_post_format_ui = true;
+		}
 	}
 
 	if ( $show_post_format_ui )

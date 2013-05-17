@@ -936,6 +936,7 @@ final class WP_Screen {
 
 		$columns = get_column_headers( $this );
 		$hidden  = get_hidden_columns( $this );
+		$post    = get_post();
 
 		?>
 		<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="<?php esc_attr_e('Screen Options Tab'); ?>">
@@ -962,15 +963,33 @@ final class WP_Screen {
 						echo '<label for="wp_welcome_panel-hide">';
 						echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked( (bool) $welcome_checked, true, false ) . ' />';
 						echo _x( 'Welcome', 'Welcome panel' ) . "</label>\n";
-					} elseif ( 'post' == $this->base && post_type_supports( $this->post_type, 'post-formats' ) && apply_filters( 'enable_post_format_ui', true, $GLOBALS['post'] ) ) {
-						$user_wants = get_user_option( 'post_formats_' . $this->post_type );
-						if ( false !== $user_wants ) {
-							// User wants what user gets.
-							$show_post_format_ui = (bool) $user_wants;
-						} else {
-							// UI is shown when the theme supports formats, or if the site has formats assigned to posts.
-							$show_post_format_ui = current_theme_supports( 'post-formats' ) || get_terms( 'post_format', array( 'number' => 1 ) );
+					} elseif ( 'post' == $this->base && post_type_supports( $this->post_type, 'post-formats' ) && apply_filters( 'enable_post_format_ui', true, $post ) ) {
+
+						// If the user has explicitly set a screen option, use it, otherwise the UI is shown
+						// when the theme supports formats, or if the site has formats assigned to posts.
+						$post_format_user_option = get_user_option( 'post_formats_' . $post->post_type );
+						if ( false !== $post_format_user_option )
+							$show_post_format_ui = (bool) $post_format_user_option;
+						else
+							$show_post_format_ui = current_theme_supports( 'post-formats' ) || (bool) get_terms( 'post_format', array( 'number' => 1 ) );
+
+						if ( ! $show_post_format_ui && 'auto-draft' != $post->post_status ) {
+							$meta = get_post_format_meta( $post->ID );
+							$format_meta_keys = array(
+								'link'  => array( 'linkurl' ),
+								'image' => array( 'url', 'image' ),
+								'quote' => array( 'quote_source_name', 'quote_source_url' ),
+								'video' => array( 'video_embed' ),
+								'audio' => array( 'audio_embed' ),
+							);
+
+							// If there's any structured post format data, enforce the UI display.
+							$format_meta_keys = isset( $format_meta_keys[ get_post_format() ] ) ? $format_meta_keys[ get_post_format() ] : array();
+							foreach ( $format_meta_keys as $key )
+								if ( ! empty( $meta[ $key ] ) )
+									$show_post_format_ui = true;
 						}
+
 						echo '<label for="show_post_format_ui">';
 						echo '<input type="checkbox" id="show_post_format_ui"' . checked( $show_post_format_ui, true, false ) . ' />';
 						echo __( 'Post Formats' ) . "</label>\n";
