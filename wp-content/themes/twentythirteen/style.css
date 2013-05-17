@@ -1599,6 +1599,7 @@ footer.entry-meta {
 .blog .format-gallery .gallery-item .gallery-icon img,
 .archive .format-gallery .gallery-item .gallery-icon img,
 .search .format-gallery .gallery-item .gallery-icon img {
+	-webkit-backface-visibility: hidden;
 	-webkit-transform: translate(-50%, -50%);
 	-ms-transform:     translate(-50%, -50%);
 	transform:         translate(-50%, -50%);
