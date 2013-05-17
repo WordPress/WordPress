@@ -234,7 +234,7 @@ if ( ! $is_apache && ! $iis7_permalinks )
 /* translators: %s is a placeholder that must come at the start of the URL path. */
 printf( __('If you like, you may enter custom structures for your category and tag <abbr title="Universal Resource Locator">URL</abbr>s here. For example, using <code>topics</code> as your category base would make your category links like <code>http://example.org/%stopics/uncategorized/</code>. If you leave these blank the defaults will be used.'), $suffix ); ?></p>
 
-<table class="form-table">
+<table class="form-table" id="permalink-settings">
 	<tr>
 		<th><label for="category_base"><?php /* translators: prefix for category permalinks */ _e('Category base'); ?></label></th>
 		<td><?php echo $blog_prefix; ?> <input name="category_base" id="category_base" type="text" value="<?php echo esc_attr( $category_base ); ?>" class="regular-text code" /></td>
