@@ -35,7 +35,7 @@ window.wp = window.wp || {};
 		var $holder, $field, html = wp.media.string.image({
 			size : 'full',
 			align : false,
-			link : getUserSetting( 'urlbutton' )
+			link : 'none'
 		}, attachment.attributes );
 
 		$holder = $('.wp-format-media-holder[data-format=image]');
@@ -318,7 +318,7 @@ window.wp = window.wp || {};
 					html = wp.media.string.image({
 						size: 'full',
 						align : false,
-						link : getUserSetting( 'urlbutton' )
+						link : 'none'
 					}, attachment);
 
 					// set the hidden input's value
