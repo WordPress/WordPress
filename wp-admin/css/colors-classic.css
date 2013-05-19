@@ -2443,14 +2443,14 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 		background-image: url('../images/wp-logo-vs-2x.png?ver=20120916');
 		background-size: 16px auto;
 	}
-	
+
 	/* 16px post formats */
 	.post-format-change span.icon,
 	a.post-state-format {
 		background-image: url(../images/post-formats32-vs.png);
 		background-size: 320px 32px;
 	}
-	
+
 	/* 32px */
 	.post-format-options a div,
 	#icon-edit.wp-format-standard,
@@ -2463,7 +2463,7 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	#icon-edit.wp-format-aside,
 	#icon-edit.wp-format-quote,
 	#icon-edit.wp-format-link {
-		background: url(../images/post-formats64-vs.png) no-repeat;
+		background-image: url(../images/post-formats64-vs.png);
 		background-size: 640px 64px;
 	}
 
@@ -2475,7 +2475,7 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
   (min-resolution: 120dpi) and (max-width: 782px) {
 	/* 16px responsive post formats */
 	.post-format-options a div {
-		background: url(../images/post-formats32-vs.png) no-repeat;
+		background-image: url(../images/post-formats32-vs.png);
 		background-size: 320px 32px;
 	}
 }
