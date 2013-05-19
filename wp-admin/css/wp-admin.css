@@ -2698,7 +2698,6 @@ a.post-state-format {
 	height: 16px;
 	width: 16px;
 	margin-right: 5px;
-	background-image: url(../images/post-formats.png);
 	background-repeat: no-repeat;
 	text-indent: -999em;
 }
@@ -4165,56 +4164,6 @@ body .ui-slider-tooltip {
 	min-height: 97px;
 }
 
-body.wp-format-standard #icon-edit,
-.post-format-options .standard {
-	background: url(../images/post-formats32.png) no-repeat -3px -4px;
-}
-
-body.wp-format-image #icon-edit,
-.post-format-options .image {
-	background: url(../images/post-formats32.png) no-repeat  -43px -4px;
-}
-
-body.wp-format-gallery #icon-edit,
-.post-format-options .gallery {
-	background: url(../images/post-formats32.png) no-repeat -83px -4px;
-}
-
-body.wp-format-audio #icon-edit,
-.post-format-options .audio {
-	background: url(../images/post-formats32.png) no-repeat -123px -4px;
-}
-
-body.wp-format-video #icon-edit,
-.post-format-options .video {
-	background: url(../images/post-formats32.png) no-repeat -163px -4px;
-}
-
-body.wp-format-chat #icon-edit,
-.post-format-options .chat {
-	background: url(../images/post-formats32.png) no-repeat -202px -4px;
-}
-
-body.wp-format-status #icon-edit,
-.post-format-options .status {
-	background: url(../images/post-formats32.png) no-repeat -242px -4px;
-}
-
-body.wp-format-aside #icon-edit,
-.post-format-options .aside {
-	background: url(../images/post-formats32.png) no-repeat -282px -4px;
-}
-
-body.wp-format-quote #icon-edit,
-.post-format-options .quote {
-	background: url(../images/post-formats32.png) no-repeat -322px -4px;
-}
-
-body.wp-format-link #icon-edit,
-.post-format-options .link {
-	background: url(../images/post-formats32.png) no-repeat -362px -4px;
-}
-
 .post-format-description {
 	color: #666;
 	font-size: 12px;
@@ -4281,50 +4230,6 @@ body.wp-format-link #icon-edit,
 	width: 16px;
 }
 
-.post-format-change span.icon.wp-format-standard {
-	background: url(../images/post-formats.png) no-repeat -8px -8px;
-}
-
-.post-format-change span.icon.wp-format-image {
-	background: url(../images/post-formats.png) no-repeat -40px -8px;
-}
-
-.post-format-change span.icon.wp-format-gallery {
-	background: url(../images/post-formats.png) no-repeat -72px -8px;
-}
-
-.post-format-change span.icon.wp-format-audio {
-	background: url(../images/post-formats.png) no-repeat -104px -8px;
-}
-
-.post-format-change span.icon.wp-format-video {
-	background: url(../images/post-formats.png) no-repeat -136px -8px;
-}
-
-.post-format-change span.icon.wp-format-chat {
-	background: url(../images/post-formats.png) no-repeat -168px -8px;
-}
-
-.post-format-change span.icon.wp-format-status {
-	background: url(../images/post-formats.png) no-repeat -200px -8px;
-}
-
-.post-format-change span.icon.wp-format-aside {
-	background: url(../images/post-formats.png) no-repeat -232px -8px;
-}
-
-.post-format-change span.icon.wp-format-quote {
-	background: url(../images/post-formats.png) no-repeat -264px -8px;
-}
-
-.post-format-change span.icon.wp-format-link {
-	background: url(../images/post-formats.png) no-repeat -296px -8px;
-}
-
-.post-format-change a {
-	font-size: 12px;
-}
-
 @media only screen and (max-width: 782px) {
 	.post-format-options a {
 		margin-right: 19px;
@@ -4335,45 +4240,6 @@ body.wp-format-link #icon-edit,
 		width: 16px;
 	}
 
-	.post-format-options .standard {
-		background: url(../images/post-formats.png) no-repeat -8px -8px;
-	}
-
-	.post-format-options .image {
-		background: url(../images/post-formats.png) no-repeat -40px -8px;
-	}
-
-	.post-format-options .gallery {
-		background: url(../images/post-formats.png) no-repeat -72px -8px;
-	}
-
-	.post-format-options .audio {
-		background: url(../images/post-formats.png) no-repeat -104px -8px;
-	}
-
-	.post-format-options .video {
-		background: url(../images/post-formats.png) no-repeat -136px -8px;
-	}
-
-	.post-format-options .chat {
-		background: url(../images/post-formats.png) no-repeat -168px -8px;
-	}
-
-	.post-format-options .status {
-		background: url(../images/post-formats.png) no-repeat -200px -8px;
-	}
-
-	.post-format-options .aside {
-		background: url(../images/post-formats.png) no-repeat -232px -8px;
-	}
-
-	.post-format-options .quote {
-		background: url(../images/post-formats.png) no-repeat -264px -8px;
-	}
-
-	.post-format-options .link {
-		background: url(../images/post-formats.png) no-repeat -296px -8px;
-	}
 }
 
 /*------------------------------------------------------------------------------
@@ -9604,11 +9470,6 @@ a.widget-control-edit {
 	tr.wp-locked .locked-indicator  {
 		background-image: url('../images/lock-2x.png');
 		background-size: 16px 16px;
-	}
-
-	a.post-state-format {
-		background-image: url(../images/post-formats-2x.png);
-		background-size: 320px 32px;
 	}
 
 	th .comment-grey-bubble {
