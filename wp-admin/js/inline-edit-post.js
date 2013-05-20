@@ -319,10 +319,12 @@ $( document ).on( 'heartbeat-tick.wp-check-locked', function( e, data ) {
 	var check = [];
 
 	$('#the-list tr').each( function(i, el) {
-		check.push( el.id );
+		if ( el.id )
+			check.push( el.id );
 	});
 
-	data['wp-check-locked'] = check;
+	if ( check.length )
+		data['wp-check-locked'] = check;
 });
 
 }(jQuery));
