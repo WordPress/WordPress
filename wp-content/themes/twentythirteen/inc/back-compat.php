@@ -17,8 +17,8 @@
  *
  * @since Twenty Thirteen 1.0
  *
- * @param string $theme_name
- * @param WP_Theme $theme
+ * @param string $theme_name The theme name.
+ * @param WP_Theme $theme The theme object.
  * @return void
  */
 function twentythirteen_switch_theme( $theme_name, $theme ) {
