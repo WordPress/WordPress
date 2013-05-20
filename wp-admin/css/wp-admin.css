@@ -3391,7 +3391,7 @@ td.plugin-title p {
 	border-style: solid;
 }
 
-#notification-dialog {
+.notification-dialog {
 	position: fixed;
 	top: 30%;
 	left: 50%;
@@ -3402,7 +3402,7 @@ td.plugin-title p {
 	z-index: 1000005;
 }
 
-#notification-dialog-background {
+.notification-dialog-background {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -3414,31 +3414,31 @@ td.plugin-title p {
 	z-index: 1000000;
 }
 
-#notification-dialog .post-locked-message,
-#notification-dialog .post-taken-over {
+#post-lock-dialog .post-locked-message,
+#post-lock-dialog .post-taken-over {
 	margin: 25px;
 }
 
-#notification-dialog .post-locked-message a.button {
+#post-lock-dialog .post-locked-message a.button {
 	margin-right: 10px;
 }
 
-#notification-dialog .post-locked-avatar {
+#post-lock-dialog .post-locked-avatar {
 	float: left;
 	margin: 0 20px 20px 0;
 }
 
-#notification-dialog .wp-tab-first {
+#post-lock-dialog .wp-tab-first {
 	outline: 0;
 }
 
-#notification-dialog .locked-saving img {
+#post-lock-dialog .locked-saving img {
 	float: left;
 	margin-right: 3px;
 }
 
-#notification-dialog-wrap.saving .locked-saving,
-#notification-dialog-wrap.saved .locked-saved {
+#post-lock-dialog.saving .locked-saving,
+#post-lock-dialog.saved .locked-saved {
 	display: inline;
 }
 

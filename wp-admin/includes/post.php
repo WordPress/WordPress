@@ -1202,12 +1202,12 @@ function _admin_notice_post_locked() {
 		$locked = false;
 	}
 
-	$class = $locked ? '' : ' class="hidden"';
+	$hidden = $locked ? '' : ' hidden';
 
 	?>
-	<div id="notification-dialog-wrap"<?php echo $class; ?>>
-	<div id="notification-dialog-background"></div>
-	<div id="notification-dialog">
+	<div id="post-lock-dialog" class="notification-dialog-wrap<?php echo $hidden; ?>">
+	<div class="notification-dialog-background"></div>
+	<div class="notification-dialog">
 	<?php
 
 	if ( $locked ) {

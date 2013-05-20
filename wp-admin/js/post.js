@@ -256,7 +256,7 @@ $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
 		post_id = $('#post_ID').val(),
 		send = {};
 
-	if ( !post_id )
+	if ( ! post_id || ! $('#post-lock-dialog').length )
 		return;
 
 	send['post_id'] = post_id;
@@ -276,7 +276,7 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 
 		if ( received.lock_error ) {
 			// show "editing taken over" message
-			wrap = $('#notification-dialog-wrap');
+			wrap = $('#post-lock-dialog');
 
 			if ( wrap.length && ! wrap.is(':visible') ) {
 				if ( typeof autosave == 'function' ) {
@@ -304,13 +304,6 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 			}
 		} else if ( received.new_lock ) {
 			$('#active_post_lock').val( received.new_lock );
-		}
-
-		if ( received.update_nonces ) {
-			$.each( received.update_nonces, function( selector, value ) {
-				if ( selector.match(/^replace-/) )
-					$( '#' + selector.replace('replace-', '') ).val( value );
-			});
 		}
 	}
 });
@@ -359,7 +352,7 @@ jQuery(document).ready( function($) {
 	postboxes.add_postbox_toggles(pagenow);
 
 	// Post locks: contain focus inside the dialog. If the dialog is shown, focus the first item.
-	$('#notification-dialog').on( 'keydown', function(e) {
+	$('#post-lock-dialog .notification-dialog').on( 'keydown', function(e) {
 		if ( e.which != 9 )
 			return;
 
