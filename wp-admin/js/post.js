@@ -326,7 +326,7 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 		timeout = window.setTimeout( function(){ check = 1; }, 3600000 );
 	}
 
-	$(document).on( 'heartbeat-send.wp-refresh-nonces', function( e, data ) { 
+	$(document).on( 'heartbeat-send.wp-refresh-nonces', function( e, data ) {
 		var nonce, post_id;
 
 		if ( check ) {

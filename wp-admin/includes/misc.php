@@ -611,7 +611,7 @@ function wp_refresh_post_lock( $response, $data, $screen_id ) {
 			$error = array(
 				'text' => sprintf( __( '%s has taken over and is currently editing.' ), $user->display_name )
 			);
-			
+
 			if ( $avatar = get_avatar( $user->ID, 64 ) ) {
 				if ( preg_match( "|src='([^']+)'|", $avatar, $matches ) )
 					$error['avatar_src'] = $matches[1];

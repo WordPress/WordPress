@@ -2216,12 +2216,12 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 
 	if ( ! $append ) {
 		$delete_tt_ids = array_diff( $old_tt_ids, $tt_ids );
-		
+
 		if ( $delete_tt_ids ) {
 			$in_delete_tt_ids = "'" . implode( "', '", $delete_tt_ids ) . "'";
 			$delete_term_ids = $wpdb->get_col( $wpdb->prepare( "SELECT tt.term_id FROM $wpdb->term_taxonomy AS tt WHERE tt.taxonomy = %s AND tt.term_taxonomy_id IN ($in_delete_tt_ids)", $taxonomy ) );
 			$delete_term_ids = array_map( 'intval', $delete_term_ids );
-			
+
 			$remove = wp_remove_object_terms( $object_id, $delete_term_ids, $taxonomy );
 			if ( is_wp_error( $remove ) ) {
 				return $remove;
@@ -2295,33 +2295,33 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
 	}
 
 	$tt_ids = array();
-	
+
 	foreach ( (array) $terms as $term ) {
 		if ( ! strlen( trim( $term ) ) ) {
 			continue;
 		}
-	
+
 		if ( ! $term_info = term_exists( $term, $taxonomy ) ) {
 			// Skip if a non-existent term ID is passed.
 			if ( is_int( $term ) ) {
 				continue;
 			}
 		}
-	
+
 		if ( is_wp_error( $term_info ) ) {
 			return $term_info;
 		}
-	
+
 		$tt_ids[] = $term_info['term_taxonomy_id'];
 	}
-	
+
 	if ( $tt_ids ) {
 		$in_tt_ids = "'" . implode( "', '", $tt_ids ) . "'";
 		do_action( 'delete_term_relationships', $object_id, $tt_ids );
 		$deleted = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_tt_ids)", $object_id ) );
 		do_action( 'deleted_term_relationships', $object_id, $tt_ids );
 		wp_update_term_count( $tt_ids, $taxonomy );
-		
+
 		return (bool) $deleted;
 	}
 

@@ -762,12 +762,12 @@ class WP_Http_Fsockopen {
 						$process['body'] = '';
 					}
 				}
-				
+
 				if ( isset( $r['limit-response-size'] ) && ( $bytes_written + strlen( $block ) ) > $r['limit-response-size'] )
 					$block = substr( $block, 0, ( $r['limit-response-size'] - $bytes_written ) );
 
-				$bytes_written += fwrite( $stream_handle, $block );				
-				
+				$bytes_written += fwrite( $stream_handle, $block );
+
 				$keep_reading = !isset( $r['limit-response-size'] ) || $bytes_written < $r['limit-response-size'];
 			}
 
@@ -1847,7 +1847,7 @@ class WP_Http_Encoding {
 
 			if ( function_exists( 'gzuncompress' ) )
 				$type[] = 'compress;q=0.5';
-	
+
 			if ( function_exists( 'gzdecode' ) )
 				$type[] = 'gzip;q=0.5';
 		}
