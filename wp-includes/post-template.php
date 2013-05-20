@@ -160,9 +160,20 @@ function get_the_guid( $id = 0 ) {
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
+ * @param int $id Optional. A post id. Defaults to the current post when in The Loop, undefined otherwise.
  */
-function the_content( $more_link_text = null, $strip_teaser = false ) {
-	$content = apply_filters( 'the_content', get_the_content( $more_link_text, $strip_teaser ) );
+function the_content( $more_link_text = null, $strip_teaser = false, $id = 0 ) {
+	$post = get_post( $id );
+
+	/*
+	 * Filter: the_content
+	 *
+	 * param string Post content as returned by get_the_content()
+	 * param int The ID of the post to which the content belongs. This was introduced
+	 *           in 3.6.0 and is not reliably passed by all plugins and themes that
+	 *           directly apply the_content. As such, it is not considered portable.
+	 */
+	$content = apply_filters( 'the_content', get_the_content( $more_link_text, $strip_teaser, $post->ID ), $post->ID );
 	echo str_replace( ']]>', ']]&gt;', $content );
 }
 
@@ -173,12 +184,19 @@ function the_content( $more_link_text = null, $strip_teaser = false ) {
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
+ * @param int $id Optional. A post id. Defaults to the current post when in The Loop, undefined otherwise.
  * @return string
  */
-function get_the_content( $more_link_text = null, $strip_teaser = false ) {
-	global $more, $page, $pages, $multipage, $preview;
+function get_the_content( $more_link_text = null, $strip_teaser = false, $id = 0 ) {
+	global $page, $more, $preview;
 
-	$post = get_post();
+	$post = get_post( $id );
+	// Avoid parsing again if the post is the same one parsed by setup_postdata().
+	// The extract() will set up $pages and $multipage.
+	if ( $post->ID != $GLOBALS['id'] )
+		extract( wp_parse_post_content( $post, false ) );
+	else
+		global $pages, $multipage;
 
 	if ( null === $more_link_text )
 		$more_link_text = __( '(more&hellip;)' );
@@ -187,8 +205,8 @@ function get_the_content( $more_link_text = null, $strip_teaser = false ) {
 	$has_teaser = false;
 
 	// If post password required and it doesn't match the cookie.
-	if ( post_password_required() )
-		return get_the_password_form();
+	if ( post_password_required( $post ) )
+		return get_the_password_form( $post );
 
 	if ( $page > count( $pages ) ) // if the requested page doesn't exist
 		$page = count( $pages ); // give them the highest numbered page that DOES exist
@@ -566,7 +584,7 @@ function get_body_class( $class = '' ) {
  *
  * @since 2.7.0
  *
- * @param int|object $post An optional post. Global $post used if not provided.
+ * @param int|WP_Post $post An optional post. Global $post used if not provided.
  * @return bool false if a password is not required or the correct password cookie is present, true otherwise.
  */
 function post_password_required( $post = null ) {
@@ -1225,11 +1243,11 @@ function prepend_attachment($content) {
  *
  * @since 1.0.0
  * @uses apply_filters() Calls 'the_password_form' filter on output.
- *
+ * @param int|WP_Post $post Optional. A post id or post object. Defaults to the current post when in The Loop, undefined otherwise.
  * @return string HTML content for password form for password protected post.
  */
-function get_the_password_form() {
-	$post = get_post();
+function get_the_password_form( $post = 0 ) {
+	$post = get_post( $post );
 	$label = 'pwbox-' . ( empty($post->ID) ? rand() : $post->ID );
 	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" method="post">
 	<p>' . __("This post is password protected. To view it please enter your password below:") . '</p>

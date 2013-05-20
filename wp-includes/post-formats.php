@@ -866,12 +866,15 @@ function the_post_format_url() {
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
+ * @param int $id Optional. A post id. Defaults to the current post when in The Loop, undefined otherwise.
  * @return string The content minus the extracted post format content.
  */
-function get_the_remaining_content( $more_link_text = null, $strip_teaser = false ) {
-	global $more, $page, $format_pages, $multipage, $preview;
+function get_the_remaining_content( $more_link_text = null, $strip_teaser = false, $id = 0 ) {
+	global $more, $page, $preview;
 
-	$post = get_post();
+	$post = get_post( $id );
+
+	extract( wp_parse_post_content( $post, true ) );
 
 	if ( null === $more_link_text )
 		$more_link_text = __( '(more&hellip;)' );
@@ -880,13 +883,13 @@ function get_the_remaining_content( $more_link_text = null, $strip_teaser = fals
 	$has_teaser = false;
 
 	// If post password required and it doesn't match the cookie.
-	if ( post_password_required() )
-		return get_the_password_form();
+	if ( post_password_required( $post ) )
+		return get_the_password_form( $post );
 
-	if ( $page > count( $format_pages ) ) // if the requested page doesn't exist
-		$page = count( $format_pages ); // give them the highest numbered page that DOES exist
+	if ( $page > count( $pages ) ) // if the requested page doesn't exist
+		$page = count( $pages ); // give them the highest numbered page that DOES exist
 
-	$content = $format_pages[$page-1];
+	$content = $pages[$page-1];
 	if ( preg_match( '/<!--more(.*?)?-->/', $content, $matches ) ) {
 		$content = explode( $matches[0], $content, 2 );
 		if ( ! empty( $matches[1] ) && ! empty( $more_link_text ) )
@@ -931,13 +934,16 @@ function get_the_remaining_content( $more_link_text = null, $strip_teaser = fals
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
+ * @param int $id Optional. A post id. Defaults to the current post when in The Loop, undefined otherwise.
  */
-function the_remaining_content( $more_link_text = null, $strip_teaser = false ) {
-	$extra = get_the_remaining_content( $more_link_text, $strip_teaser );
+function the_remaining_content( $more_link_text = null, $strip_teaser = false, $id = 0 ) {
+	$post = get_post( $id );
+
+	$extra = get_the_remaining_content( $more_link_text, $strip_teaser, $post->ID );
 
 	remove_filter( 'the_content', 'post_formats_compat', 7 );
-	$content = apply_filters( 'the_content', $extra );
-	add_filter( 'the_content', 'post_formats_compat', 7 );
+	$content = apply_filters( 'the_content', $extra, $post->ID );
+	add_filter( 'the_content', 'post_formats_compat', 7, 2 );
 
 	echo str_replace( ']]>', ']]&gt;', $content );
 }

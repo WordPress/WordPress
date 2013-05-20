@@ -1749,7 +1749,7 @@ function do_trackbacks($post_id) {
 	}
 
 	if ( empty($post->post_excerpt) )
-		$excerpt = apply_filters('the_content', $post->post_content);
+		$excerpt = apply_filters('the_content', $post->post_content, $post->ID);
 	else
 		$excerpt = apply_filters('the_excerpt', $post->post_excerpt);
 	$excerpt = str_replace(']]>', ']]&gt;', $excerpt);

@@ -136,7 +136,7 @@ add_filter( 'the_title', 'convert_chars' );
 add_filter( 'the_title', 'trim'          );
 add_filter( 'the_title', '_post_formats_title', 10, 2 );
 
-add_filter( 'the_content', 'post_formats_compat', 7 );
+add_filter( 'the_content', 'post_formats_compat', 7, 2 );
 add_filter( 'the_content', 'wptexturize'            );
 add_filter( 'the_content', 'convert_smilies'        );
 add_filter( 'the_content', 'convert_chars'          );

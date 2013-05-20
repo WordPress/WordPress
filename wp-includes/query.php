@@ -3681,8 +3681,8 @@ function get_paged_content( $content = '', $paged = 0 ) {
  * @uses do_action_ref_array() Calls 'the_post'
  * @return bool True when finished.
  */
-function setup_postdata($post) {
-	global $id, $authordata, $currentday, $currentmonth, $page, $pages, $format_pages, $multipage, $more, $numpages;
+function setup_postdata( $post ) {
+	global $id, $authordata, $currentday, $currentmonth, $page, $pages, $multipage, $more, $numpages;
 
 	$id = (int) $post->ID;
 
@@ -3692,49 +3692,15 @@ function setup_postdata($post) {
 	$currentmonth = mysql2date('m', $post->post_date, false);
 	$numpages = 1;
 	$page = get_query_var('page');
-	if ( !$page )
+	if ( ! $page )
 		$page = 1;
 	if ( is_single() || is_page() || is_feed() )
 		$more = 1;
-	$split_content = $content = $post->post_content;
-	$format = get_post_format( $post );
-	if ( $format && in_array( $format, array( 'image', 'audio', 'video', 'quote' ) ) ) {
-		switch ( $format ) {
-		case 'image':
-			get_the_post_format_image( 'full', $post );
-			if ( isset( $post->split_content ) )
-				$split_content = $post->split_content;
-			break;
-		case 'audio':
-			get_the_post_format_media( 'audio', $post, 1 );
-			if ( isset( $post->split_content ) )
-				$split_content = $post->split_content;
-			break;
-		case 'video':
-			get_the_post_format_media( 'video', $post, 1 );
-			if ( isset( $post->split_content ) )
-				$split_content = $post->split_content;
-			break;
-		case 'quote':
-			get_the_post_format_quote( $post );
-			if ( isset( $post->split_content ) )
-				$split_content = $post->split_content;
-			break;
-		}
-	}
 
-	if ( strpos( $content, '<!--nextpage-->' ) ) {
-		if ( $page > 1 )
+	extract( wp_parse_post_content( $post, false ) );
+
+	if ( $multipage && ( $page > 1 ) )
 			$more = 1;
-		$multipage = 1;
-		$pages = paginate_content( $content );
-		$format_pages = paginate_content( $split_content );
-		$numpages = count( $pages );
-	} else {
-		$pages = array( $post->post_content );
-		$format_pages = array( $split_content );
-		$multipage = 0;
-	}
 
 	do_action_ref_array('the_post', array(&$post));
 

@@ -567,6 +567,26 @@ final class WP_Post {
 	 */
 	public $filter;
 
+	/**
+	 * Private variable used by post formats to cache parsed content.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @var array
+	 * @access private
+	 */
+	public $format_content;
+
+	/**
+	 * Private variable used by post formats to cache parsed content.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @var string
+	 * @access private
+	 */
+	public $split_content;
+
 	public static function get_instance( $post_id ) {
 		global $wpdb;
 
@@ -4961,4 +4981,57 @@ function _prime_post_caches( $ids, $update_term_cache = true, $update_meta_cache
 
 		update_post_caches( $fresh_posts, 'any', $update_term_cache, $update_meta_cache );
 	}
+}
+
+/**
+ * Parse post content for pagination
+ *
+ * @since 3.6.0
+ *
+ * @uses paginate_content()
+ *
+ * @param object $post The post object.
+ * @param bool $remaining Whether to parse post formats from the content. Defaults to false.
+ * @return array An array of values used for paginating the parsed content.
+ */
+function wp_parse_post_content( $post, $remaining = false ) {
+	$numpages = 1;
+
+	if ( $remaining ) {
+		$format = get_post_format( $post );
+		if ( $format && in_array( $format, array( 'image', 'audio', 'video', 'quote' ) ) ) {
+			// Call get_the_post_format_*() to set $post->split_content
+			switch ( $format ) {
+				case 'image':
+					get_the_post_format_image( 'full', $post );
+					break;
+				case 'audio':
+					get_the_post_format_media( 'audio', $post, 1 );
+					break;
+				case 'video':
+					get_the_post_format_media( 'video', $post, 1 );
+					break;
+				case 'quote':
+					get_the_post_format_quote( $post );
+					break;
+			}
+		}
+	}
+
+	if ( strpos( $post->post_content, '<!--nextpage-->' ) ) {
+		$multipage = 1;
+		if ( $remaining && isset( $post->split_content ) )
+			$pages = paginate_content( $post->split_content );
+		else
+			$pages = paginate_content( $post->post_content );
+		$numpages = count( $pages );
+	} else {
+		if ( $remaining && isset( $post->split_content ) )
+			$pages = array( $post->split_content );
+		else
+			$pages = array( $post->post_content );
+		$multipage = 0;
+	}
+
+	return compact( 'multipage', 'pages', 'numpages' );
 }
