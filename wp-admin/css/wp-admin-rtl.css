@@ -1574,17 +1574,16 @@ h2 .nav-tab {
 	font-family: Tahoma, Arial, sans-serif;
 }
 
-#permalink-settings {
-	width: auto;
-}
-
-#permalink-settings code,
 #permalink_structure {
 	float: right;
 }
 
 .options-permalink-php code {
 	unicode-bidi: embed;
+}
+
+.options-permalink-php #rules {
+	direction: ltr;
 }
 
 /*------------------------------------------------------------------------------
