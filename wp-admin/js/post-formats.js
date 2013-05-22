@@ -67,6 +67,8 @@ window.wp = window.wp || {};
 	}
 
 	var uploader = {
+		container: null,
+		browser:   null,
 		dropzone:  $('.wp-format-media-holder[data-format=image]'),
 		success:   imageFormatUploadSuccess,
 		error:     imageFormatUploadError,
@@ -77,9 +79,15 @@ window.wp = window.wp || {};
 		params:    {}
 	};
 	uploader = new wp.Uploader( uploader );
-	uploader.uploader.bind( 'BeforeUpload', imageFormatUploadStart );
-	uploader.uploader.bind( 'UploadProgress', imageFormatUploadProgress );
-	uploader.uploader.bind( 'FilesAdded', imageFormatUploadFilesAdded );
+
+	if ( uploader.supports.dragdrop ) {
+		uploader.uploader.bind( 'BeforeUpload', imageFormatUploadStart );
+		uploader.uploader.bind( 'UploadProgress', imageFormatUploadProgress );
+		uploader.uploader.bind( 'FilesAdded', imageFormatUploadFilesAdded );
+	} else {
+		uploader.uploader.destroy();
+		uploader = null;
+	}
 
 	function switchFormatClass( format ) {
 		formatField.val( format );
