@@ -923,8 +923,8 @@ function wp_dashboard_secondary_output() {
 
 function wp_dashboard_plugins() {
 	wp_dashboard_cached_rss_widget( 'dashboard_plugins', 'wp_dashboard_plugins_output', array(
-		'http://wordpress.org/extend/plugins/rss/browse/popular/',
-		'http://wordpress.org/extend/plugins/rss/browse/new/'
+		'http://wordpress.org/plugins/rss/browse/popular/',
+		'http://wordpress.org/plugins/rss/browse/new/'
 	) );
 }
 
@@ -934,8 +934,8 @@ function wp_dashboard_plugins() {
  * @since 2.5.0
  */
 function wp_dashboard_plugins_output() {
-	$popular = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/popular/' );
-	$new     = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/new/' );
+	$popular = fetch_feed( 'http://wordpress.org/plugins/rss/browse/popular/' );
+	$new     = fetch_feed( 'http://wordpress.org/plugins/rss/browse/new/' );
 
 	if ( false === $plugin_slugs = get_transient( 'plugin_slugs' ) ) {
 		$plugin_slugs = array_keys( get_plugins() );
