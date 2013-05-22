@@ -308,7 +308,7 @@ img[class*="wp-image-"],
 img[class*="attachment-"] {
 	height: auto; /* Make sure images with WordPress-added height and width attributes are scaled correctly */
 }
-img.mceWPnextpage {
+img.mce-wp-nextpage {
 	border-radius: 0;
 	box-shadow: none;
 }
