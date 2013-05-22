@@ -535,7 +535,9 @@ class WP_User {
 			// to int 1.
 			if ( ! is_numeric( $value ) )
 				return false;
-			$value = absint( $value );
+			$value = intval( $value );
+			if ( $value < 1 )
+				return false;
 		} else {
 			$value = trim( $value );
 		}
