@@ -488,6 +488,7 @@ wp.autosave.local = {
 		} else {
 			post_data = this.getData() || {};
 			$.extend( post_data, data );
+			post_data.autosave = true;
 		}
 
 		// If the content and title did not change since the last save, don't save again
