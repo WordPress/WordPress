@@ -132,7 +132,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop') );
 
 	// jQuery
-	$scripts->add( 'jquery', false, array( 'jquery-core', 'jquery-migrate' ) );
+	$scripts->add( 'jquery', false, array( 'jquery-core', 'jquery-migrate' ), '1.9.1' );
 	$scripts->add( 'jquery-core', '/wp-includes/js/jquery/jquery.js', array(), '1.9.1' );
 	$scripts->add( 'jquery-migrate', '/wp-includes/js/jquery/jquery-migrate.js', array(), '1.2.1' );
 
