@@ -50,6 +50,7 @@ class WP_Upgrader {
 
 		$this->strings['download_failed'] = __('Download failed.');
 		$this->strings['installing_package'] = __('Installing the latest version&#8230;');
+		$this->strings['no_files'] = __('The package contains no files.');
 		$this->strings['folder_exists'] = __('Destination folder already exists.');
 		$this->strings['mkdir_failed'] = __('Could not create directory.');
 		$this->strings['incompatible_archive'] = __('The package could not be installed.');
@@ -194,7 +195,7 @@ class WP_Upgrader {
 		if ( 1 == count($source_files) && $wp_filesystem->is_dir( trailingslashit($source) . $source_files[0] . '/') ) //Only one folder? Then we want its contents.
 			$source = trailingslashit($source) . trailingslashit($source_files[0]);
 		elseif ( count($source_files) == 0 )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __( 'The plugin contains no files.' ) ); //There are no files?
+			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], $this->strings['no_files'] ); //There are no files?
 		else //It's only a single file, the upgrader will use the foldername of this file as the destination folder. foldername is based on zip filename.
 			$source = trailingslashit($source);
 
@@ -388,6 +389,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;');
 		$this->strings['unpack_package'] = __('Unpacking the package&#8230;');
 		$this->strings['installing_package'] = __('Installing the plugin&#8230;');
+		$this->strings['no_files'] = __('The plugin contains no files.');
 		$this->strings['process_failed'] = __('Plugin install failed.');
 		$this->strings['process_success'] = __('Plugin installed successfully.');
 	}
@@ -667,6 +669,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;');
 		$this->strings['unpack_package'] = __('Unpacking the package&#8230;');
 		$this->strings['installing_package'] = __('Installing the theme&#8230;');
+		$this->strings['no_files'] = __('The theme contains no files.');
 		$this->strings['process_failed'] = __('Theme install failed.');
 		$this->strings['process_success'] = __('Theme installed successfully.');
 		/* translators: 1: theme name, 2: version */
@@ -1239,7 +1242,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 
 	function add_strings() {
 		$this->upgrader->strings['skin_upgrade_start'] = __('The update process is starting. This process may take a while on some hosts, so please be patient.');
-		$this->upgrader->strings['skin_update_failed_error'] = __('An error occurred while updating %1$s: <strong>%2$s</strong>.');
+		$this->upgrader->strings['skin_update_failed_error'] = __('An error occurred while updating %1$s: <strong>%2$s</strong>');
 		$this->upgrader->strings['skin_update_failed'] = __('The update of %1$s failed.');
 		$this->upgrader->strings['skin_update_successful'] = __('%1$s updated successfully.').' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>'.__('Show Details').'</span><span class="hidden">'.__('Hide Details').'</span>.</a>';
 		$this->upgrader->strings['skin_upgrade_end'] = __('All updates have been completed.');
