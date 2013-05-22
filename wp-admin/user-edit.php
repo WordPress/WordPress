@@ -189,8 +189,8 @@ if ( ! IS_PROFILE_PAGE ) {
 } ?>
 </h2>
 
-<form id="your-profile" autocomplete="off" action="<?php echo esc_url( self_admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) ); ?>" method="post"<?php do_action('user_edit_form_tag'); ?>>
-<?php wp_nonce_field('update-user_' . $user_id); ?>
+<form id="your-profile" action="<?php echo esc_url( self_admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) ); ?>" method="post"<?php do_action('user_edit_form_tag'); ?>>
+<?php wp_nonce_field('update-user_' . $user_id) ?>
 <?php if ( $wp_http_referer ) : ?>
 	<input type="hidden" name="wp_http_referer" value="<?php echo esc_url($wp_http_referer); ?>" />
 <?php endif; ?>
