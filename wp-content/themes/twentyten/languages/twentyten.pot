@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Ten 1.5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyten\n"
-"POT-Creation-Date: 2013-04-29 17:14:07+00:00\n"
+"POT-Creation-Date: 2013-05-22 21:14:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -385,7 +385,7 @@ msgid "Twenty Ten"
 msgstr ""
 
 #. Theme URI of the plugin/theme
-msgid "http://wordpress.org/extend/themes/twentyten"
+msgid "http://wordpress.org/themes/twentyten"
 msgstr ""
 
 #. Description of the plugin/theme
