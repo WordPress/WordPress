@@ -175,7 +175,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	function display_rows() {
-		global $post, $id;
+		global $post;
 
 		add_filter( 'the_title','esc_html' );
 		$alt = '';
@@ -191,7 +191,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			$post_owner = ( get_current_user_id() == $post->post_author ) ? 'self' : 'other';
 			$att_title = _draft_or_post_title();
 ?>
-	<tr id='post-<?php echo $id; ?>' class='<?php echo trim( $alt . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>' valign="top">
+	<tr id='post-<?php echo $post->ID; ?>' class='<?php echo trim( $alt . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>' valign="top">
 <?php
 
 list( $columns, $hidden ) = $this->get_column_info();

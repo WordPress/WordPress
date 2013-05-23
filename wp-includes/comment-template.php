@@ -1597,10 +1597,8 @@ function wp_list_comments($args = array(), $comments = null ) {
  * @return void
  */
 function comment_form( $args = array(), $post_id = null ) {
-	global $id;
-
 	if ( null === $post_id )
-		$post_id = $id;
+		$post_id = get_the_ID();
 	else
 		$id = $post_id;
 
