@@ -971,6 +971,7 @@ ul.nav-menu li:hover > ul,
 
 .hentry {
 	padding: 40px 0;
+	word-wrap: break-word;
 }
 
 .entry-header,
@@ -1107,7 +1108,6 @@ ul.nav-menu li:hover > ul,
 	-moz-hyphens:    auto;
 	-ms-hyphens:     auto;
 	hyphens:         auto;
-	word-wrap: break-word;
 }
 
 .entry-content a,
@@ -2272,6 +2272,13 @@ footer.entry-meta {
 	margin-bottom: 10px;
 }
 
+.comment-author .fn {
+	-webkit-hyphens: auto;
+	-moz-hyphens:    auto;
+	-ms-hyphens:     auto;
+	hyphens:         auto;
+}
+
 .comment-author .fn,
 .comment-author .url,
 .comment-reply-link,
@@ -2505,6 +2512,7 @@ footer.entry-meta {
 .site-main .widget-area {
 	float: right;
 	width: 300px;
+	word-wrap: break-word;
 }
 
 
@@ -2522,7 +2530,6 @@ footer.entry-meta {
 	hyphens:         auto;
 	margin: 0 0 24px;
 	padding: 20px;
-	word-wrap: break-word;
 }
 
 .widget .widget-title {
