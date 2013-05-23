@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Thirteen 0.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentythirteen\n"
-"POT-Creation-Date: 2013-05-23 18:14:15+00:00\n"
+"POT-Creation-Date: 2013-05-23 21:14:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -166,7 +166,7 @@ msgstr ""
 #. Translators: If there are characters in your language that are not
 #. 	 * supported by Source Sans Pro, translate this to 'off'. Do not translate
 #. 	 * into your own language.
-#: functions.php:124
+#: functions.php:123
 msgctxt "Source Sans Pro font: on or off"
 msgid "on"
 msgstr ""
@@ -174,76 +174,76 @@ msgstr ""
 #. Translators: If there are characters in your language that are not
 #. 	 * supported by Bitter, translate this to 'off'. Do not translate into your
 #. 	 * own language.
-#: functions.php:130
+#: functions.php:129
 msgctxt "Bitter font: on or off"
 msgid "on"
 msgstr ""
 
-#: functions.php:259
+#: functions.php:258
 msgid "Page %s"
 msgstr ""
 
-#: functions.php:274
+#: functions.php:273
 msgid "Main Widget Area"
 msgstr ""
 
-#: functions.php:276
+#: functions.php:275
 msgid "Appears in the footer section of the site"
 msgstr ""
 
-#: functions.php:284
+#: functions.php:283
 msgid "Secondary Widget Area"
 msgstr ""
 
-#: functions.php:286
+#: functions.php:285
 msgid "Appears on posts and pages in the sidebar."
 msgstr ""
 
-#: functions.php:311
+#: functions.php:310
 msgid "Posts navigation"
 msgstr ""
 
-#: functions.php:315
+#: functions.php:314
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:319
+#: functions.php:318
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:347
+#: functions.php:346
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:350
+#: functions.php:349
 msgctxt "Previous post link"
 msgid "<span class=\"meta-nav\">&larr;</span> %title"
 msgstr ""
 
-#: functions.php:351
+#: functions.php:350
 msgctxt "Next post link"
 msgid "%title <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:371
+#: functions.php:370
 msgid "Sticky"
 msgstr ""
 
 #. Translators: used between list items, there is a space after the comma.
-#: functions.php:377 functions.php:383
+#: functions.php:376 functions.php:382
 msgid ", "
 msgstr ""
 
-#: functions.php:392
+#: functions.php:391
 msgid "View all posts by %s"
 msgstr ""
 
-#: functions.php:411
+#: functions.php:410
 msgctxt "1: post format name. 2: date"
 msgid "%1$s on %2$s"
 msgstr ""
 
-#: functions.php:415
+#: functions.php:414
 msgid "Permalink to %s"
 msgstr ""
 
