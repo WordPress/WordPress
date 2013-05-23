@@ -344,6 +344,7 @@ final class _WP_Editors {
 					'paste_strip_class_attributes' => 'all',
 					'paste_text_use_dialog' => true,
 					'webkit_fake_resize' => false,
+					'preview_styles' => 'font-family font-size font-weight text-decoration text-transform',
 					'spellchecker_rpc_url' => self::$baseurl . '/plugins/spellchecker/rpc.php',
 					'schema' => 'html5',
 					'wpeditimage_disable_captions' => $no_captions,
