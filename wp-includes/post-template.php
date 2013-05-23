@@ -193,7 +193,7 @@ function get_the_content( $more_link_text = null, $strip_teaser = false, $id = 0
 	$post = get_post( $id );
 	// Avoid parsing again if the post is the same one parsed by setup_postdata().
 	// The extract() will set up $pages and $multipage.
-	if ( $post->ID != $GLOBALS['id'] )
+	if ( $post->ID != get_post()->ID )
 		extract( wp_parse_post_content( $post, false ) );
 	else
 		global $pages, $multipage;
