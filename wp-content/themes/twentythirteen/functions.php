@@ -97,7 +97,6 @@ function twentythirteen_setup() {
 
 	// Register custom image sizes for image and gallery post formats.
 	add_image_size( 'twentythirteen-image-post', 724, 1288 );
-	add_image_size( 'twentythirteen-gallery-post', 300, 300, true );
 
 	// This theme uses its own gallery styles.
 	add_filter( 'use_default_gallery_style', '__return_false' );
@@ -451,7 +450,7 @@ function twentythirteen_get_link_url() {
  */
 function twentythirteen_gallery_atts( $atts ) {
 	if ( has_post_format( 'gallery' ) && ! is_single() )
-		$atts['size'] = wp_is_mobile() ? 'thumbnail' : 'twentythirteen-gallery-post';
+		$atts['size'] = wp_is_mobile() ? 'thumbnail' : 'medium';
 
 	return $atts;
 }
