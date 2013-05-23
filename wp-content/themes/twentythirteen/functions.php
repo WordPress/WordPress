@@ -95,7 +95,7 @@ function twentythirteen_setup() {
 	add_theme_support( 'post-thumbnails' );
 	set_post_thumbnail_size( 604, 270, true );
 
-	// Register custom image sizes for image and gallery post formats.
+	// Register custom image size for image post formats.
 	add_image_size( 'twentythirteen-image-post', 724, 1288 );
 
 	// This theme uses its own gallery styles.
