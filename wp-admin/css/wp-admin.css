@@ -9253,7 +9253,8 @@ a.widget-control-edit {
 	box-shadow: 0 1px 0 0px #fff;
 }
 
-.accordion-section.open .accordion-section-content {
+.accordion-section.open .accordion-section-content,
+.no-js .accordion-section .accordion-section-content {
 	display: block;
 	background: #fdfdfd;
 	border-left: 1px solid #dfdfdf;
