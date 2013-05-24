@@ -336,12 +336,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$comment_url = esc_url( get_comment_link( $comment->comment_ID ) );
 		$the_comment_status = wp_get_comment_status( $comment->comment_ID );
 
-		$ptime = date( 'G', strtotime( $comment->comment_date ) );
-		if ( ( abs( time() - $ptime ) ) < DAY_IN_SECONDS )
-			$ptime = sprintf( __( '%s ago' ), human_time_diff( $ptime ) );
-		else
-			$ptime = mysql2date( __( 'Y/m/d \a\t g:i A' ), $comment->comment_date );
-
 		if ( $user_can ) {
 			$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
 			$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
