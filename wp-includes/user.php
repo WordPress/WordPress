@@ -1426,9 +1426,6 @@ function wp_insert_user( $userdata ) {
  * It is possible to update a user's password by specifying the 'user_pass'
  * value in the $userdata parameter array.
  *
- * If $userdata does not contain an 'ID' key, then a new user will be created
- * and the new user's ID will be returned.
- *
  * If current user's password is being updated, then the cookies will be
  * cleared.
  *
