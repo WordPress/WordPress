@@ -179,7 +179,7 @@ add_action( 'wp_enqueue_scripts', 'twentythirteen_fonts' );
  * @since Twenty Thirteen 1.0
  *
  * @param string $mce_css CSS path to load in TinyMCE.
- * @return string
+ * @return string The filtered CSS paths list.
  */
 function twentythirteen_mce_css( $mce_css ) {
 	$fonts_url = twentythirteen_fonts_url();
@@ -237,7 +237,7 @@ add_action( 'wp_enqueue_scripts', 'twentythirteen_scripts_styles' );
  *
  * @param string $title Default title text for current view.
  * @param string $sep Optional separator.
- * @return string Filtered title.
+ * @return string The filtered title.
  */
 function twentythirteen_wp_title( $title, $sep ) {
 	global $paged, $page;
@@ -404,7 +404,7 @@ if ( ! function_exists( 'twentythirteen_entry_date' ) ) :
  * @since Twenty Thirteen 1.0
  *
  * @param boolean $echo Whether to echo the date. Default true.
- * @return string
+ * @return string The HTML-formatted post date.
  */
 function twentythirteen_entry_date( $echo = true ) {
 	$format_prefix = ( has_post_format( 'chat' ) || has_post_format( 'status' ) ) ? _x( '%1$s on %2$s', '1: post format name. 2: date', 'twentythirteen' ): '%2$s';
@@ -426,13 +426,14 @@ endif;
 /**
  * Returns the URL from the post.
  *
- * @uses get_the_link() to get the URL in the post meta (if it exists) or
+ * @uses get_the_post_format_url() to get the URL in the post meta (if it exists) or
  * the first link found in the post content.
  *
  * Falls back to the post permalink if no URL is found in the post.
  *
  * @since Twenty Thirteen 1.0
- * @return string URL
+ *
+ * @return string The Link format URL.
  */
 function twentythirteen_get_link_url() {
 	$has_url = get_the_post_format_url();
@@ -446,7 +447,7 @@ function twentythirteen_get_link_url() {
  * @since Twenty Thirteen 1.0
  *
  * @param array $atts Combined and filtered attribute list.
- * @return array
+ * @return array The filtered attribute list.
  */
 function twentythirteen_gallery_atts( $atts ) {
 	if ( has_post_format( 'gallery' ) && ! is_single() )
@@ -457,7 +458,9 @@ function twentythirteen_gallery_atts( $atts ) {
 add_filter( 'shortcode_atts_gallery', 'twentythirteen_gallery_atts' );
 
 /**
- * Extends the default WordPress body class to denote:
+ * Extends the default WordPress body classes.
+ *
+ * Adds body classes to denote:
  * 1. Custom fonts enabled.
  * 2. Single or multiple authors.
  * 3. Active widgets in the sidebar to change the layout and spacing.
@@ -465,8 +468,8 @@ add_filter( 'shortcode_atts_gallery', 'twentythirteen_gallery_atts' );
  *
  * @since Twenty Thirteen 1.0
  *
- * @param array $classes Existing class values.
- * @return array Filtered class values.
+ * @param array $classes A list of existing body class values.
+ * @return array The filtered body class list.
  */
 function twentythirteen_body_class( $classes ) {
 
@@ -507,8 +510,8 @@ add_action( 'template_redirect', 'twentythirteen_content_width' );
  *
  * @since Twenty Thirteen 1.0
  *
- * @param array $atts Attribute list.
- * @return array Filtered attribute list.
+ * @param array $atts The attribute list.
+ * @return array The filtered attribute list.
  */
 function twentythirteen_video_width( $atts ) {
 	if ( ! is_admin() && has_post_format( 'video' ) ) {
