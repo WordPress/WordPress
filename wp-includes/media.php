@@ -2048,7 +2048,7 @@ function get_embedded_video( &$content, $remove = false ) {
  * @param string $type Required. 'audio' or 'video'
  * @param WP_Post $post Optional. Used instead of global $post when passed.
  * @param int $limit Optional. The number of medias to remove if content is scanned.
- * @return string
+ * @return string HTML for the media. Blank string if no media is found.
  */
 function get_the_post_format_media( $type, &$post = null, $limit = 0 ) {
 	global $wp_embed;
@@ -2420,6 +2420,7 @@ function get_post_gallery_images( $post_id = 0 ) {
  *
  * @param string $attached_size If an attached image is found, the size to display it.
  * @param WP_Post $post Optional. Used instead of global $post when passed.
+ * @return string HTML for the image. Blank string if no image is found.
  */
 function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 	if ( empty( $post ) )
@@ -2566,6 +2567,8 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 		$post->format_content[ $cache_key ] = sprintf( $link_fmt, $html );
 		return $post->format_content[ $cache_key ];
 	}
+
+	return '';
 }
 
 /**
