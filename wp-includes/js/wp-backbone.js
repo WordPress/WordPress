@@ -1,7 +1,6 @@
 window.wp = window.wp || {};
 
 (function ($) {
-	var template;
 	/**
 	 * wp.template( id )
 	 *
@@ -11,7 +10,7 @@ window.wp = window.wp || {};
 	 *                       For example, "attachment" maps to "tmpl-attachment".
 	 * @return {function}    A function that lazily-compiles the template requested.
 	 */
-	template = wp.template = _.memoize(function ( id ) {
+	wp.template = _.memoize(function ( id ) {
 		var compiled,
 			options = {
 				evaluate:    /<#([\s\S]+?)#>/g,
