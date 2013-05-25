@@ -366,7 +366,7 @@ function post_formats_compat( $content, $post_id = 0 ) {
 					'<a %shref="%s">%s</a>',
 					empty( $compat['link_class'] ) ? '' : sprintf( 'class="%s" ', esc_attr( $compat['link_class'] ) ),
 					esc_url( $url ),
-					empty( $post->post_title ) ? esc_url( $meta['link_url'] ) : apply_filters( 'the_title', $post->post_title, $post->ID )
+					empty( $post->post_title ) ? esc_url( $url ) : apply_filters( 'the_title', $post->post_title, $post->ID )
 				);
  			}
 			break;
