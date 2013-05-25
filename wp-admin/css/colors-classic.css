@@ -1626,7 +1626,6 @@ a.post-state-format,
 /* Diff */
 table.diff .diff-deletedline {
 	background-color: #fdd;
-	text-decoration: line-through;
 	border-color: #ffc0c0;
 }
 
