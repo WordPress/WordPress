@@ -126,7 +126,7 @@ window.wp = window.wp || {};
 						if ( view.__detach )
 							view.$el.detach();
 						else
-							view.dispose();
+							view.remove();
 					});
 
 					_.each( next, function( view ) {
@@ -182,9 +182,9 @@ window.wp = window.wp || {};
 		//
 		// Stops tracking `views` registered to a `selector`. If no `views` are
 		// set, then all of the `selector`'s subviews will be unregistered and
-		// disposed.
+		// removed.
 		//
-		// Accepts an `options` object. If `options.silent` is set, `dispose`
+		// Accepts an `options` object. If `options.silent` is set, `remove`
 		// will *not* be triggered on the unregistered views.
 		unset: function( selector, views, options ) {
 			var existing;
@@ -203,7 +203,7 @@ window.wp = window.wp || {};
 			}
 
 			if ( ! options || ! options.silent )
-				_.invoke( views, 'dispose' );
+				_.invoke( views, 'remove' );
 
 			return this;
 		},
@@ -235,14 +235,14 @@ window.wp = window.wp || {};
 			return this;
 		},
 
-		// ### Dispose all subviews
+		// ### Remove all subviews
 		//
-		// Triggers the `dispose()` method on all subviews. Detaches the master
+		// Triggers the `remove()` method on all subviews. Detaches the master
 		// view from its parent. Resets the internals of the views manager.
 		//
 		// Accepts an `options` object. If `options.silent` is set, `unset`
 		// will *not* be triggered on the master view's parent.
-		dispose: function( options ) {
+		remove: function( options ) {
 			if ( ! options || ! options.silent ) {
 				if ( this.parent && this.parent.views )
 					this.parent.views.unset( this.selector, this.view, { silent: true });
@@ -250,7 +250,7 @@ window.wp = window.wp || {};
 				delete this.selector;
 			}
 
-			_.invoke( this.all(), 'dispose' );
+			_.invoke( this.all(), 'remove' );
 			this._views = [];
 			return this;
 		},
@@ -361,42 +361,21 @@ window.wp = window.wp || {};
 		// The constructor for the `Views` manager.
 		Subviews: wp.Subviews,
 
-		constructor: function( options ) {
+		constructor: function() {
 			this.views = new this.Subviews( this, this.views );
 			this.on( 'ready', this.ready, this );
-
-			if ( options && options.controller )
-				this.controller = options.controller;
 
 			Backbone.View.apply( this, arguments );
 		},
 
-		dispose: function() {
-			// Undelegating events, removing events from the model, and
-			// removing events from the controller mirror the code for
-			// `Backbone.View.dispose` in Backbone master.
-			this.undelegateEvents();
-
-			if ( this.model && this.model.off )
-				this.model.off( null, null, this );
-
-			if ( this.collection && this.collection.off )
-				this.collection.off( null, null, this );
-
-			// Unbind controller events.
-			if ( this.controller && this.controller.off )
-				this.controller.off( null, null, this );
-
-			// Recursively dispose child views.
-			if ( this.views )
-				this.views.dispose();
-
-			return this;
-		},
-
 		remove: function() {
-			this.dispose();
-			return Backbone.View.prototype.remove.apply( this, arguments );
+			var result = Backbone.View.prototype.remove.apply( this, arguments );
+
+			// Recursively remove child views.
+			if ( this.views )
+				this.views.remove();
+
+			return result;
 		},
 
 		render: function() {
