@@ -3563,13 +3563,6 @@ table.diff td,
 table.diff th {
 	padding: .5em;
 	font-family: Consolas, Monaco, monospace;
-	border-radius: 3px;
-}
-
-table.diff .diff-deletedline,
-table.diff .diff-addedline {
-	border-width: 1px;
-	border-style: solid;
 }
 
 table.diff .diff-deletedline del,

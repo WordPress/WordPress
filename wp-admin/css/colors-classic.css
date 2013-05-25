@@ -1625,8 +1625,7 @@ a.post-state-format,
 
 /* Diff */
 table.diff .diff-deletedline {
-	background-color: #fdd;
-	border-color: #ffc0c0;
+	background-color: #ffe9e9;
 }
 
 table.diff .diff-deletedline del {
@@ -1634,8 +1633,7 @@ table.diff .diff-deletedline del {
 }
 
 table.diff .diff-addedline {
-	background-color: #dfd;
-	border-color: #aef9ae;
+	background-color: #e9ffe9;
 }
 
 table.diff .diff-addedline ins {
