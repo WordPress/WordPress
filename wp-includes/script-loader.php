@@ -272,10 +272,10 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'json2', "/wp-includes/js/json2$suffix.js", array(), '2011-02-23');
 
 	$scripts->add( 'underscore', '/wp-includes/js/underscore.min.js', array(), '1.4.4', 1 );
-	$scripts->add( 'template', "/wp-includes/js/template$suffix.js", array('underscore'), '1.4.4', 1 );
-	$scripts->add( 'backbone', '/wp-includes/js/backbone.min.js', array('underscore','jquery', 'template'), '1.0.0', 1 );
+	$scripts->add( 'backbone', '/wp-includes/js/backbone.min.js', array('underscore','jquery'), '1.0.0', 1 );
+	$scripts->add( 'wp-backbone', "/wp-includes/js/wp-backbone$suffix.js", array('backbone'), false, 1 );
 
-	$scripts->add( 'revisions', "/wp-admin/js/revisions$suffix.js", array( 'backbone', 'jquery-ui-slider', 'jquery-ui-tooltip' ), false, 1 );
+	$scripts->add( 'revisions', "/wp-admin/js/revisions$suffix.js", array( 'wp-backbone', 'jquery-ui-slider', 'jquery-ui-tooltip' ), false, 1 );
 
 	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.8', 1 );
 
@@ -342,7 +342,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'accordion', "/wp-admin/js/accordion$suffix.js", array( 'jquery' ), false, 1 );
 
 	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
-	$scripts->add( 'media-models', "/wp-includes/js/media-models$suffix.js", array( 'backbone', 'jquery' ), false, 1 );
+	$scripts->add( 'media-models', "/wp-includes/js/media-models$suffix.js", array( 'wp-backbone' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'media-models', '_wpMediaModelsL10n', array(
 		'settings' => array(
 			'ajaxurl' => admin_url( 'admin-ajax.php', 'relative' ),
