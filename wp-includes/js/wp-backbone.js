@@ -26,18 +26,22 @@ window.wp = window.wp || {};
 	});
 
 
-	// wp.Subviews
-	// -----------
+	// Create the WordPress Backbone namespace.
+	wp.Backbone = {};
+
+
+	// wp.Backbone.Subviews
+	// --------------------
 	//
 	// A subview manager.
-	wp.Subviews = function( view, views ) {
+	wp.Backbone.Subviews = function( view, views ) {
 		this.view = view;
 		this._views = _.isArray( views ) ? { '': views } : views || {};
 	};
 
-	wp.Subviews.extend = Backbone.Model.extend;
+	wp.Backbone.Subviews.extend = Backbone.Model.extend;
 
-	_.extend( wp.Subviews.prototype, {
+	_.extend( wp.Backbone.Subviews.prototype, {
 		// ### Fetch all of the subviews
 		//
 		// Returns an array of all subviews.
@@ -138,7 +142,7 @@ window.wp = window.wp || {};
 			this._views[ selector ] = next;
 
 			_.each( views, function( subview ) {
-				var constructor = subview.Views || wp.Subviews,
+				var constructor = subview.Views || wp.Backbone.Subviews,
 					subviews = subview.views = subview.views || new constructor( subview );
 				subviews.parent   = this.view;
 				subviews.selector = selector;
@@ -353,13 +357,13 @@ window.wp = window.wp || {};
 	});
 
 
-	// wp.View
-	// -------
+	// wp.Backbone.View
+	// ----------------
 	//
 	// The base view class.
-	wp.View = Backbone.View.extend({
+	wp.Backbone.View = Backbone.View.extend({
 		// The constructor for the `Views` manager.
-		Subviews: wp.Subviews,
+		Subviews: wp.Backbone.Subviews,
 
 		constructor: function() {
 			this.views = new this.Subviews( this, this.views );

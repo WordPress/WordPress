@@ -854,12 +854,12 @@
 	//
 	// This behavior has since been removed, and should not be used
 	// outside of the media manager.
-	media.View = wp.View.extend({
+	media.View = wp.Backbone.View.extend({
 		constructor: function( options ) {
 			if ( options && options.controller )
 				this.controller = options.controller;
 
-			wp.View.apply( this, arguments );
+			wp.Backbone.View.apply( this, arguments );
 		},
 
 		dispose: function() {
@@ -883,7 +883,7 @@
 
 		remove: function() {
 			this.dispose();
-			return wp.View.prototype.remove.apply( this, arguments );
+			return wp.Backbone.View.prototype.remove.apply( this, arguments );
 		}
 	});
 
