@@ -275,6 +275,12 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'backbone', '/wp-includes/js/backbone.min.js', array('underscore','jquery'), '1.0.0', 1 );
 
 	$scripts->add( 'wp-util', "/wp-includes/js/wp-util$suffix.js", array('underscore', 'jquery'), false, 1 );
+	did_action( 'init' ) && $scripts->localize( 'wp-util', '_wpUtilSettings', array(
+		'xhr' => array(
+			'url' => admin_url( 'admin-ajax.php', 'relative' ),
+		),
+	) );
+
 	$scripts->add( 'wp-backbone', "/wp-includes/js/wp-backbone$suffix.js", array('backbone', 'wp-util'), false, 1 );
 
 	$scripts->add( 'revisions', "/wp-admin/js/revisions$suffix.js", array( 'wp-backbone', 'jquery-ui-slider', 'jquery-ui-tooltip' ), false, 1 );
