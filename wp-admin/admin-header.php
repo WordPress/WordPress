@@ -87,12 +87,12 @@ $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( 
 
 if ( isset( $post ) && is_a( $post, 'WP_Post' ) && post_type_supports( get_post_type(), 'post-formats' ) ) {
 	$post_format = get_post_format();
-	if ( ! $post_format ) {
-		$post_format = 'standard';
 
-		if ( ! empty( $_REQUEST['format'] ) && in_array( $_REQUEST['format'], get_post_format_slugs() ) )
-			$post_format = $_REQUEST['format'];
-	}
+	if ( ! empty( $_REQUEST['format'] ) && in_array( $_REQUEST['format'], get_post_format_slugs() ) )
+		$post_format = $_REQUEST['format'];
+
+	if ( ! $post_format )
+		$post_format = 'standard';
 
 	$admin_body_class .= ' wp-format-' . $post_format;
 

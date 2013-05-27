@@ -136,12 +136,11 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_
 	wp_enqueue_style( 'wp-mediaelement' );
 	$post_format = get_post_format();
 
-	if ( ! $post_format ) {
-		$post_format = 'standard';
+	if ( ! empty( $_REQUEST['format'] ) && in_array( $_REQUEST['format'], get_post_format_slugs() ) )
+		$post_format = $_REQUEST['format'];
 
-		if ( ! empty( $_REQUEST['format'] ) && in_array( $_REQUEST['format'], get_post_format_slugs() ) )
-			$post_format = $_REQUEST['format'];
-	}
+	if ( ! $post_format )
+		$post_format = 'standard';
 
 	$format_class = " class='wp-format-{$post_format}'";
 
@@ -185,7 +184,9 @@ if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_
 			$active_post_type_slug = $slug;
 		}
 
-		$post_format_options .= '<a ' . $class . ' href="?format=' . $slug . '" data-description="' . $attr['description'] . '" data-wp-format="' . $slug . '" title="' . ucfirst( $slug ) . '"><div class="' . $slug . '"></div><span class="post-format-title">' . ucfirst( $slug ) . '</span></a>';
+		$url = add_query_arg( 'format', $slug );
+
+		$post_format_options .= '<a ' . $class . ' href="' . esc_url( $url ) . '" data-description="' . $attr['description'] . '" data-wp-format="' . $slug . '" title="' . ucfirst( $slug ) . '"><div class="' . $slug . '"></div><span class="post-format-title">' . ucfirst( $slug ) . '</span></a>';
 	}
 
 	$current_post_format = array( 'currentPostFormat' => esc_html( $active_post_type_slug ) );
