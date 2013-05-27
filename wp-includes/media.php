@@ -2054,7 +2054,7 @@ function get_the_post_format_media( $type, &$post = null, $limit = 0 ) {
 	global $wp_embed;
 
 	if ( empty( $post ) )
-		$post =& get_post();
+		$post = get_post();
 
 	if ( empty( $post ) )
 		return '';
