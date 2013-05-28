@@ -933,7 +933,7 @@ class Walker_CategoryDropdown extends Walker {
 	 * @param int $depth Depth of category. Used for padding.
 	 * @param array $args Uses 'selected' and 'show_count' keys, if they exist.
 	 */
-	function start_el( &$output, $category, $depth, $args, $id = 0 ) {
+	function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
 
 		$cat_name = apply_filters('list_cats', $category->name, $category);

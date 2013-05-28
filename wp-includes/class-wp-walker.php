@@ -80,7 +80,7 @@ class Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 */
-	function start_el( &$output, $object, $depth, $args, $current_object_id = 0 )  {}
+	function start_el( &$output, $object, $depth = 0, $args = array(), $current_object_id = 0 )  {}
 
 	/**
 	 * Ends the element output, if needed.

@@ -14,7 +14,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	 *
 	 * @param string $output Passed by reference.
 	 */
-	function start_lvl(&$output) {}
+	function start_lvl( &$output, $depth = 0, $args = array() ) {}
 
 	/**
 	 * @see Walker_Nav_Menu::end_lvl()
@@ -22,8 +22,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	 *
 	 * @param string $output Passed by reference.
 	 */
-	function end_lvl(&$output) {
-	}
+	function end_lvl( &$output, $depth = 0, $args = array() ) {}
 
 	/**
 	 * @see Walker::start_el()
@@ -34,7 +33,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	 * @param int $depth Depth of menu item. Used for padding.
 	 * @param object $args
 	 */
-	function start_el(&$output, $item, $depth, $args) {
+	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		global $_wp_nav_menu_max_depth;
 		$_wp_nav_menu_max_depth = $depth > $_wp_nav_menu_max_depth ? $depth : $_wp_nav_menu_max_depth;
 
@@ -231,12 +230,12 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		}
 	}
 
-	function start_lvl( &$output, $depth ) {
+	function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat( "\t", $depth );
 		$output .= "\n$indent<ul class='children'>\n";
 	}
 
-	function end_lvl( &$output, $depth ) {
+	function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat( "\t", $depth );
 		$output .= "\n$indent</ul>";
 	}
@@ -250,7 +249,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	 * @param int $depth Depth of menu item. Used for padding.
 	 * @param object $args
 	 */
-	function start_el(&$output, $item, $depth, $args) {
+	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		global $_nav_menu_placeholder;
 
 		$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? intval($_nav_menu_placeholder) - 1 : -1;

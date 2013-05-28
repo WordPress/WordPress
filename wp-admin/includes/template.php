@@ -34,7 +34,7 @@ class Walker_Category_Checklist extends Walker {
 		$output .= "$indent</ul>\n";
 	}
 
-	function start_el( &$output, $category, $depth, $args, $id = 0 ) {
+	function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		extract($args);
 		if ( empty($taxonomy) )
 			$taxonomy = 'category';

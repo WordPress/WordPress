@@ -1053,7 +1053,7 @@ class Walker_Page extends Walker {
 	 * @param int $current_page Page ID.
 	 * @param array $args
 	 */
-	function start_el( &$output, $page, $depth, $args, $current_page = 0 ) {
+	function start_el( &$output, $page, $depth = 0, $args = array(), $current_page = 0 ) {
 		if ( $depth )
 			$indent = str_repeat("\t", $depth);
 		else
@@ -1135,7 +1135,7 @@ class Walker_PageDropdown extends Walker {
 	 * @param array $args Uses 'selected' argument for selected page to set selected HTML attribute for option element.
 	 * @param int $id
 	 */
-	function start_el(&$output, $page, $depth, $args, $id = 0) {
+	function start_el( &$output, $page, $depth = 0, $args = array(), $id = 0 ) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
 
 		$output .= "\t<option class=\"level-$depth\" value=\"$page->ID\"";
