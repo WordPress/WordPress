@@ -243,11 +243,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	function display_rows() {
-		foreach ( $this->items as $key => $theme )
-			$this->single_row( $key, $theme );
+		foreach ( $this->items as $theme )
+			$this->single_row( $theme );
 	}
 
-	function single_row( $key, $theme ) {
+	function single_row( $theme ) {
 		global $status, $page, $s, $totals;
 
 		$context = $status;
