@@ -327,6 +327,16 @@ class wp_xmlrpc_server extends IXR_Server {
 				'readonly'      => true,
 				'option'        => 'home'
 			),
+			'login_url'          => array(
+				'desc'          => __( 'Login Address (URL)' ),
+				'readonly'      => true,
+				'value'         => wp_login_url( )
+			),
+			'admin_url'          => array(
+				'desc'          => __( 'The URL to the admin area' ),
+				'readonly'      => true,
+				'value'         => get_admin_url( )
+			),
 			'image_default_link_type' => array(
 				'desc'          => __( 'Image default link type' ),
 				'readonly'      => true,
