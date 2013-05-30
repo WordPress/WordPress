@@ -415,8 +415,6 @@ function wp_default_scripts( &$scripts ) {
 			'comma' => _x( ',', 'tag delimiter' ),
 		) );
 
-		$scripts->add( 'post-formats', "/wp-admin/js/post-formats$suffix.js", array( 'media-models', 'wp-plupload' ), false, 1 );
-
 		$scripts->add( 'link', "/wp-admin/js/link$suffix.js", array( 'wp-lists', 'postbox' ), false, 1 );
 
 		$scripts->add( 'comment', "/wp-admin/js/comment$suffix.js", array( 'jquery', 'postbox' ) );

@@ -1290,26 +1290,6 @@ function wp_create_post_autosave( $post_id ) {
 		$new_autosave['ID'] = $old_autosave->ID;
 		$new_autosave['post_author'] = $post_author;
 
-		// Auto-save revisioned meta fields.
-		foreach ( _wp_post_revision_meta_keys() as $meta_key ) {
-			if ( isset( $_POST[ $meta_key ] ) && get_post_meta( $new_autosave['ID'], $meta_key, true ) != $_POST[ $meta_key ] ) {
-				// Use the underlying delete_metadata and add_metadata vs delete_post_meta
-				// and add_post_meta to make sure we're working with the actual revision meta.
-				delete_metadata( 'post', $new_autosave['ID'], $meta_key );
-
-				if ( ! empty( $_POST[ $meta_key ] ) )
-					add_metadata( 'post', $new_autosave['ID'], $meta_key, $_POST[ $meta_key ] );
-			}
-		}
-
-		// Save the post format if different
-		if ( isset( $_POST['post_format'] ) && get_post_meta( $new_autosave['ID'], '_revision_post_format', true ) != $_POST['post_format'] ) {
-			delete_metadata( 'post', $new_autosave['ID'], '_revision_post_format' );
-
-			if ( ! empty( $_POST['post_format'] ) )
-				add_metadata( 'post', $new_autosave['ID'], '_revision_post_format', $_POST['post_format'] );
-		}
-
 		return wp_update_post( $new_autosave );
 	}
 

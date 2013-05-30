@@ -95,39 +95,6 @@ if ( isset( $post ) && is_a( $post, 'WP_Post' ) && post_type_supports( get_post_
 		$post_format = 'standard';
 
 	$admin_body_class .= ' wp-format-' . $post_format;
-
-	$show_post_format_ui = false;
-
-	if ( apply_filters( 'enable_post_format_ui', true, $post ) ) {
-
-		// If the user has explicitly set a screen option, use it, otherwise the UI is shown
-		// when the theme supports formats, or if the site has formats assigned to posts.
-		$post_format_user_option = get_user_option( 'post_formats_' . $post->post_type );
-		if ( false !== $post_format_user_option )
-			$show_post_format_ui = (bool) $post_format_user_option;
-		else
-			$show_post_format_ui = current_theme_supports( 'post-formats' ) || (bool) get_terms( 'post_format', array( 'number' => 1 ) );
-
-		if ( ! $show_post_format_ui ) {
-			$meta = get_post_format_meta( $post->ID );
-			$format_meta_keys = array(
-				'link'  => array( 'linkurl' ),
-				'image' => array( 'url', 'image' ),
-				'quote' => array( 'quote_source_name', 'quote_source_url' ),
-				'video' => array( 'video_embed' ),
-				'audio' => array( 'audio_embed' ),
-			);
-
-			// If there's any structured post format data, enforce the UI display.
-			$format_meta_keys = isset( $format_meta_keys[ get_post_format() ] ) ? $format_meta_keys[ get_post_format() ] : array();
-			foreach ( $format_meta_keys as $key )
-				if ( ! empty( $meta[ $key ] ) )
-					$show_post_format_ui = true;
-		}
-	}
-
-	if ( $show_post_format_ui )
-		$admin_body_class .= ' wp-post-format-show-ui';
 }
 
 if ( wp_is_mobile() )

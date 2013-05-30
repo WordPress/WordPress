@@ -112,6 +112,9 @@ if ( 'attachment' == $post_type ) {
 	add_meta_box( 'submitdiv', __( 'Publish' ), 'post_submit_meta_box', null, 'side', 'core' );
 }
 
+if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post_type, 'post-formats' ) )
+	add_meta_box( 'formatdiv', _x( 'Format', 'post format' ), 'post_format_meta_box', null, 'side', 'core' );
+
 // all taxonomies
 foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 	$taxonomy = get_taxonomy($tax_name);
@@ -124,73 +127,6 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 		add_meta_box('tagsdiv-' . $tax_name, $label, 'post_tags_meta_box', null, 'side', 'core', array( 'taxonomy' => $tax_name ));
 	else
 		add_meta_box($tax_name . 'div', $label, 'post_categories_meta_box', null, 'side', 'core', array( 'taxonomy' => $tax_name ));
-}
-
-// post format
-$format_class = '';
-$post_format = '';
-$post_format_options = '';
-if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_post_format_ui', true, $post ) ) {
-	wp_enqueue_script( 'post-formats' );
-	wp_enqueue_script( 'wp-mediaelement' );
-	wp_enqueue_style( 'wp-mediaelement' );
-	$post_format = get_post_format();
-
-	if ( ! empty( $_REQUEST['format'] ) && in_array( $_REQUEST['format'], get_post_format_slugs() ) )
-		$post_format = $_REQUEST['format'];
-
-	if ( ! $post_format )
-		$post_format = 'standard';
-
-	$format_class = " class='wp-format-{$post_format}'";
-
-	$all_post_formats = array(
-		'standard' => array (
-			'description' => __( 'Use the editor below to compose your post.' )
-		),
-		'image' => array (
-			'description' => __( 'Select or upload an image for your post.' )
-		),
-		'gallery' => array (
-			'description' => __( 'Use the Add Media button to select or upload images for your gallery.' )
-		),
-		'link' => array (
-			'description' => __( 'Add a link title and destination URL. Use the editor to compose optional text to accompany the link.' )
-		),
-		'video' => array (
-			'description' => __( 'Select or upload a video, or paste a video embed code into the box.' )
-		),
-		'audio' => array (
-			'description' => __( 'Select or upload an audio file, or paste an audio embed code into the box.' )
-		),
-		'chat' => array (
-			'description' => __( 'Copy a chat or Q&A transcript into the editor.' )
-		),
-		'status' => array (
-			'description' => __( 'Use the editor to compose a status update. What&#8217;s new?' )
-		),
-		'quote' => array (
-			'description' => __( 'Add a source name and link if you have them. Use the editor to compose the quote.' )
-		),
-		'aside' => array (
-			'description' => __( 'Use the editor to share a quick thought or side topic.' )
-		)
-	);
-
-	foreach ( $all_post_formats as $slug => $attr ) {
-		$class = '';
-		if ( $post_format == $slug ) {
-			$class = 'class="active"';
-			$active_post_type_slug = $slug;
-		}
-
-		$url = add_query_arg( 'format', $slug );
-
-		$post_format_options .= '<a ' . $class . ' href="' . esc_url( $url ) . '" data-description="' . $attr['description'] . '" data-wp-format="' . $slug . '" title="' . ucfirst( $slug ) . '"><div class="' . $slug . '"></div><span class="post-format-title">' . ucfirst( $slug ) . '</span></a>';
-	}
-
-	$current_post_format = array( 'currentPostFormat' => esc_html( $active_post_type_slug ) );
-	wp_localize_script( 'post-formats', 'postFormats', $current_post_format );
 }
 
 if ( post_type_supports($post_type, 'page-attributes') )
@@ -379,13 +315,7 @@ if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create
 <div id="lost-connection-notice" class="error hidden">
 	<p><?php _e("You have lost your connection with the server, and saving has been disabled. This message will vanish once you've reconnected."); ?></p>
 </div>
-<?php if ( ! empty( $post_format_options ) ) : ?>
-<div class="wp-post-format-ui">
-	<div class="post-format-options">
-		<?php echo $post_format_options; ?>
-	</div>
-</div>
-<?php endif; ?>
+
 <form name="post" action="post.php" method="post" id="post"<?php do_action('post_edit_form_tag'); ?>>
 <?php wp_nonce_field($nonce_action); ?>
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
@@ -411,12 +341,8 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 
 <div id="poststuff">
 <div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
-<div id="post-body-content"<?php echo $format_class; ?>>
-<?php if ( ! empty( $all_post_formats ) ) : ?>
-<div class="wp-post-format-ui">
-	<div class="post-format-change"><span class="icon <?php echo esc_attr( 'wp-format-' . $post_format ); ?>"></span> <span class="post-format-description"><?php echo $all_post_formats[$post_format]['description']; ?></span></div>
-</div>
-<?php endif; ?>
+<div id="post-body-content">
+
 <?php if ( post_type_supports($post_type, 'title') ) { ?>
 <div id="titlediv">
 <div id="titlewrap">
@@ -456,10 +382,6 @@ if ( has_action( 'edit_form_after_title' ) ) {
 	echo '</div>';
 }
 
-// post format fields
-if ( post_type_supports( $post_type, 'post-formats' ) && apply_filters( 'enable_post_format_ui', true, $post ) )
-	require_once( './includes/post-formats.php' );
-
 if ( post_type_supports($post_type, 'editor') ) {
 ?>
 <div id="postdivrich" class="postarea edit-form-section">
@@ -467,7 +389,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 <?php wp_editor( $post->post_content, 'content', array(
 	'dfw' => true,
 	'tabfocus_elements' => 'insert-media-button,save-post',
-	'editor_height' => in_array( $post_format, array( 'status', 'aside' ) ) ? 120 : 360
+	'editor_height' => 360,
 ) ); ?>
 <table id="post-status-info" cellspacing="0"><tbody><tr>
 	<td id="wp-word-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></td>
