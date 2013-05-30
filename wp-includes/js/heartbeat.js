@@ -65,7 +65,16 @@ window.wp = window.wp || {};
 			return (new Date()).getTime();
 		}
 
-		function isLocalFrame(frame) {
+		function isLocalFrame( frame ) {
+			var origin, src = frame.src;
+
+			if ( src && /^https?:\/\//.test( src ) ) {
+				origin = window.location.origin ? window.location.origin : window.location.protocol + '//' + window.location.host;
+
+				if ( src.indexOf( origin ) !== 0 )
+					return false;
+			}
+
 			try {
 				if ( frame.contentWindow.document )
 					return true;
@@ -150,7 +159,7 @@ window.wp = window.wp || {};
 				data: send,
 				dataType: 'json'
 			}).done( function( response, textStatus, jqXHR ) {
-				var new_interval, timed;
+				var new_interval;
 
 				if ( ! response )
 					return errorstate( 'empty' );
