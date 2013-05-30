@@ -136,13 +136,12 @@ add_filter( 'the_title', 'convert_chars' );
 add_filter( 'the_title', 'trim'          );
 add_filter( 'the_title', '_post_formats_title', 10, 2 );
 
-add_filter( 'the_content', 'post_formats_compat', 7, 2 );
-add_filter( 'the_content', 'wptexturize'            );
-add_filter( 'the_content', 'convert_smilies'        );
-add_filter( 'the_content', 'convert_chars'          );
-add_filter( 'the_content', 'wpautop'                );
-add_filter( 'the_content', 'shortcode_unautop'      );
-add_filter( 'the_content', 'prepend_attachment'     );
+add_filter( 'the_content', 'wptexturize'        );
+add_filter( 'the_content', 'convert_smilies'    );
+add_filter( 'the_content', 'convert_chars'      );
+add_filter( 'the_content', 'wpautop'            );
+add_filter( 'the_content', 'shortcode_unautop'  );
+add_filter( 'the_content', 'prepend_attachment' );
 
 add_filter( 'the_excerpt',     'wptexturize'      );
 add_filter( 'the_excerpt',     'convert_smilies'  );
