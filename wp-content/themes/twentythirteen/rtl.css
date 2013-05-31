@@ -116,7 +116,7 @@ div.nav-menu > ul {
 
 .nav-menu .sub-menu ul,
 .nav-menu .children ul {
-	border-left: 2px solid #F7F5E7;
+	border-left: 2px solid #f7f5e7;
 	border-right: 0;
 	left: auto;
 	right: 100%;
