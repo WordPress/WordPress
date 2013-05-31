@@ -461,10 +461,9 @@ add_filter( 'shortcode_atts_gallery', 'twentythirteen_gallery_atts' );
  * Extends the default WordPress body classes.
  *
  * Adds body classes to denote:
- * 1. Custom fonts enabled.
- * 2. Single or multiple authors.
- * 3. Active widgets in the sidebar to change the layout and spacing.
- * 4. When avatars are disabled in discussion settings.
+ * 1. Single or multiple authors.
+ * 2. Active widgets in the sidebar to change the layout and spacing.
+ * 3. When avatars are disabled in discussion settings.
  *
  * @since Twenty Thirteen 1.0
  *
@@ -472,11 +471,6 @@ add_filter( 'shortcode_atts_gallery', 'twentythirteen_gallery_atts' );
  * @return array The filtered body class list.
  */
 function twentythirteen_body_class( $classes ) {
-
-	// Enable custom font class only if the font CSS is queued to load.
-	if ( wp_style_is( 'twentythirteen-fonts', 'enqueued' ) )
-		$classes[] = 'custom-font';
-
 	if ( ! is_multi_author() )
 		$classes[] = 'single-author';
 
