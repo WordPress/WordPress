@@ -95,9 +95,6 @@ function twentythirteen_setup() {
 	add_theme_support( 'post-thumbnails' );
 	set_post_thumbnail_size( 604, 270, true );
 
-	// Register custom image size for image post formats.
-	add_image_size( 'twentythirteen-image-post', 724, 1288 );
-
 	// This theme uses its own gallery styles.
 	add_filter( 'use_default_gallery_style', '__return_false' );
 }
@@ -436,7 +433,8 @@ endif;
  * @return string The Link format URL.
  */
 function twentythirteen_get_link_url() {
-	$has_url = get_the_post_format_url();
+	$content = get_the_content();
+	$has_url = get_content_url( $content );
 
 	return ( $has_url ) ? $has_url : apply_filters( 'the_permalink', get_permalink() );
 }
@@ -492,32 +490,14 @@ add_filter( 'body_class', 'twentythirteen_body_class' );
  * @return void
  */
 function twentythirteen_content_width() {
-	if ( has_post_format( 'video' ) || is_attachment() ) {
-		global $content_width;
+	global $content_width;
+
+	if ( is_attachment() )
 		$content_width = 724;
-	}
+	elseif ( has_post_format( 'audio' ) )
+		$content_width = 484;
 }
 add_action( 'template_redirect', 'twentythirteen_content_width' );
-
-/**
- * Adjusts content_width value for video shortcodes in video post formats.
- *
- * @since Twenty Thirteen 1.0
- *
- * @param array $atts The attribute list.
- * @return array The filtered attribute list.
- */
-function twentythirteen_video_width( $atts ) {
-	if ( ! is_admin() && has_post_format( 'video' ) ) {
-		$new_width = 724;
-		$atts['height'] = round( ( $atts['height'] * $new_width ) / $atts['width'] );
-		$atts['width'] = $new_width;
-	}
-
-	return $atts;
-}
-add_action( 'embed_defaults',       'twentythirteen_video_width' );
-add_action( 'shortcode_atts_video', 'twentythirteen_video_width' );
 
 /**
  * Switches default core markup for search form to output valid HTML5.

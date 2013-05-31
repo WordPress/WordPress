@@ -257,8 +257,7 @@ blockquote blockquote {
 }
 
 blockquote cite,
-blockquote small,
-.quote-caption {
+blockquote small {
 	font-size: 14px;
 	font-weight: normal;
 	text-transform: uppercase;
@@ -480,7 +479,7 @@ hr {
 .featured-post:before,
 .date a:before,
 .entry-meta .author a:before,
-.format-audio .entry-media:before,
+.format-audio .entry-content:before,
 .comments-link a:before,
 .tags-links a:first-child:before,
 .categories-links a:first-child:before,
@@ -502,7 +501,6 @@ hr {
 
 /* Clearing floats */
 .clear:after,
-.entry-media:after,
 .attachment .entry-header:after,
 .site-footer .widget-area:after,
 .entry-content:after,
@@ -516,8 +514,6 @@ hr {
 
 .clear:before,
 .clear:after,
-.entry-media:before,
-.entry-media:after,
 .attachment .entry-header:before,
 .attachment .entry-header:after,
 .site-footer .widget-area:before,
@@ -676,7 +672,6 @@ img[class*="attachment-"] {
 	height: auto;
 }
 
-.entry-media img,
 img.size-full,
 img.size-large,
 img.wp-post-image {
@@ -1126,8 +1121,7 @@ ul.nav-menu li:hover > ul,
 }
 
 .entry-content blockquote cite,
-.entry-content blockquote small,
-.entry-content .quote-caption {
+.entry-content blockquote small {
 	font-size: 16px;
 }
 
@@ -1365,23 +1359,6 @@ footer.entry-meta {
  * ----------------------------------------------------------------------------
  */
 
-.entry-media {
-	margin: 0 auto 24px;
-	max-width: 724px;
-	width: 100%;
-}
-
-.sidebar .entry-media {
-	max-width: 1040px;
-	padding: 0 316px 0 0;
-}
-
-.entry-media .wp-caption,
-.entry-media .wp-caption-text,
-.entry-media [class*="align"] {
-	margin: 0 auto;
-}
-
 /* Aside */
 .format-aside {
 	background-color: #f7f5e7;
@@ -1424,16 +1401,7 @@ footer.entry-meta {
 	font-weight: bold;
 }
 
-.format-audio .entry-media {
-	max-width: 604px;
-}
-
-.sidebar .format-audio .entry-media {
-	max-width: 1040px;
-	padding: 0 374px 0 60px;
-}
-
-.format-audio .entry-media:before {
+.format-audio .entry-content:before {
 	content: "\f109";
 	float: left;
 	font-size: 64px;
@@ -1682,21 +1650,20 @@ footer.entry-meta {
 	text-decoration: none;
 }
 
-.format-quote .quote-caption,
 .format-quote blockquote small,
 .format-quote blockquote cite {
 	display: block;
 	font-size: 16px;
 }
 
-.format-quote .quote {
+.format-quote blockquote {
 	font-style: italic;
 	font-weight: 300;
 	padding-left: 75px;
 	position: relative;
 }
 
-.format-quote .quote:before {
+.format-quote blockquote:before {
 	content: '\201C';
 	font-size: 140px;
 	font-weight: 400;
@@ -2711,10 +2678,6 @@ footer.entry-meta {
 }
 
 @media (max-width: 1069px) {
-	.sidebar .entry-media {
-		padding: 0 376px 0 60px;
-	}
-
 	.sidebar img.alignleft,
 	.sidebar .wp-caption.alignleft {
 		margin-left: 0;
@@ -2781,9 +2744,7 @@ footer.entry-meta {
 	.sidebar #respond #commentform,
 	.sidebar .featured-gallery,
 	.sidebar .post-navigation .nav-links,
-	.author.sidebar .author-info,
-	.format-audio .entry-media,
-	.sidebar .format-audio .entry-media {
+	.author.sidebar .author-info {
 		max-width: 604px;
 		padding-left: 0;
 		padding-right: 0;
@@ -2801,11 +2762,6 @@ footer.entry-meta {
 		max-width: 604px;
 	}
 
-	.sidebar .entry-media {
-		max-width: 724px;
-	}
-
-	.sidebar .entry-media,
 	.sidebar .archive-meta,
 	.attachment .entry-header,
 	.search.sidebar .page-content,
@@ -2886,11 +2842,6 @@ footer.entry-meta {
 		margin-right: 0;
 	}
 
-	.entry-media,
-	.sidebar .entry-media {
-		max-width: 604px;
-	}
-
 	.attachment .image-navigation,
 	.attachment .entry-attachment .attachment {
 		max-width: 604px;
@@ -2908,7 +2859,6 @@ footer.entry-meta {
 		font-size: 30px;
 	}
 
-	#content .entry-media,
 	#content .entry-header,
 	#content .entry-content,
 	#content .entry-summary,
@@ -3024,8 +2974,7 @@ footer.entry-meta {
 	}
 
 	.format-quote blockquote small,
-	.format-quote blockquote cite,
-	.format-quote .quote-caption {
+	.format-quote blockquote cite {
 		font-size: 13px;
 	}
 
@@ -3066,15 +3015,15 @@ footer.entry-meta {
 	}
 
 	/* Audio */
+	.format-audio .entry-content:before {
+		display: none;
+	}
+
 	.format-audio .audio-content {
 		background-image: none;
 		float: none;
 		padding-left: 0;
 		width: auto;
-	}
-
-	.format-audio .entry-media:before {
-		display: none;
 	}
 }
 
