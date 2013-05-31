@@ -263,6 +263,17 @@ blockquote small {
 	text-transform: uppercase;
 }
 
+blockquote em,
+blockquote i {
+	font-style: normal;
+	font-weight: 300;
+}
+
+blockquote strong,
+blockquote b {
+	font-weight: 400;
+}
+
 small {
 	font-size: smaller;
 }

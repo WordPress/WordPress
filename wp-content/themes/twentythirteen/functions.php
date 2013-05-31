@@ -129,7 +129,7 @@ function twentythirteen_fonts_url() {
 		$font_families = array();
 
 		if ( 'off' !== $source_sans_pro )
-			$font_families[] = 'Source+Sans+Pro:400,700,300italic,400italic,700italic';
+			$font_families[] = 'Source+Sans+Pro:300,400,700,300italic,400italic,700italic';
 
 		if ( 'off' !== $bitter )
 			$font_families[] = 'Bitter:400,700';
