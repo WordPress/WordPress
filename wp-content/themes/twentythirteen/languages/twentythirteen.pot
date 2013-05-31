@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Thirteen 0.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentythirteen\n"
-"POT-Creation-Date: 2013-05-23 21:14:28+00:00\n"
+"POT-Creation-Date: 2013-05-31 18:14:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -89,38 +89,38 @@ msgstr ""
 msgid "Comments are closed."
 msgstr ""
 
-#: content-aside.php:13 content-audio.php:29 content-gallery.php:24
-#: content-image.php:27 content-link.php:24 content-quote.php:13
-#: content-status.php:13 content-video.php:27 content.php:39
+#: content-aside.php:13 content-audio.php:24 content-gallery.php:24
+#: content-image.php:23 content-link.php:24 content-quote.php:13
+#: content-status.php:13 content-video.php:23 content.php:39
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: content-aside.php:14 content-audio.php:30 content-chat.php:24
-#: content-gallery.php:25 content-image.php:28 content-link.php:25
-#: content-quote.php:14 content-status.php:14 content-video.php:28
+#: content-aside.php:14 content-audio.php:25 content-chat.php:24
+#: content-gallery.php:25 content-image.php:24 content-link.php:25
+#: content-quote.php:14 content-status.php:14 content-video.php:24
 #: content.php:40 image.php:108 page.php:35
 msgid "Pages:"
 msgstr ""
 
-#: content-aside.php:20 content-aside.php:28 content-audio.php:35
-#: content-chat.php:29 content-gallery.php:39 content-image.php:39
+#: content-aside.php:20 content-aside.php:28 content-audio.php:31
+#: content-chat.php:29 content-gallery.php:39 content-image.php:35
 #: content-link.php:19 content-quote.php:25 content-status.php:19
-#: content-video.php:39 content.php:29 image.php:79 page.php:39
+#: content-video.php:35 content.php:29 image.php:79 page.php:39
 msgid "Edit"
 msgstr ""
 
-#: content-gallery.php:36 content-image.php:36 content-quote.php:22
-#: content-video.php:36 content.php:47
+#: content-gallery.php:36 content-image.php:32 content-quote.php:22
+#: content-video.php:32 content.php:47
 msgid "Leave a comment"
 msgstr ""
 
-#: content-gallery.php:36 content-image.php:36 content-quote.php:22
-#: content-video.php:36 content.php:47
+#: content-gallery.php:36 content-image.php:32 content-quote.php:22
+#: content-video.php:32 content.php:47
 msgid "One comment so far"
 msgstr ""
 
-#: content-gallery.php:36 content-image.php:36 content-quote.php:22
-#: content-video.php:36 content.php:47
+#: content-gallery.php:36 content-image.php:32 content-quote.php:22
+#: content-video.php:32 content.php:47
 msgid "View all % comments"
 msgstr ""
 
@@ -166,7 +166,7 @@ msgstr ""
 #. Translators: If there are characters in your language that are not
 #. 	 * supported by Source Sans Pro, translate this to 'off'. Do not translate
 #. 	 * into your own language.
-#: functions.php:123
+#: functions.php:120
 msgctxt "Source Sans Pro font: on or off"
 msgid "on"
 msgstr ""
@@ -174,76 +174,76 @@ msgstr ""
 #. Translators: If there are characters in your language that are not
 #. 	 * supported by Bitter, translate this to 'off'. Do not translate into your
 #. 	 * own language.
-#: functions.php:129
+#: functions.php:126
 msgctxt "Bitter font: on or off"
 msgid "on"
 msgstr ""
 
-#: functions.php:258
+#: functions.php:255
 msgid "Page %s"
 msgstr ""
 
-#: functions.php:273
+#: functions.php:270
 msgid "Main Widget Area"
 msgstr ""
 
-#: functions.php:275
+#: functions.php:272
 msgid "Appears in the footer section of the site"
 msgstr ""
 
-#: functions.php:283
+#: functions.php:280
 msgid "Secondary Widget Area"
 msgstr ""
 
-#: functions.php:285
+#: functions.php:282
 msgid "Appears on posts and pages in the sidebar."
 msgstr ""
 
-#: functions.php:310
+#: functions.php:307
 msgid "Posts navigation"
 msgstr ""
 
-#: functions.php:314
+#: functions.php:311
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:318
+#: functions.php:315
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:346
+#: functions.php:343
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:349
+#: functions.php:346
 msgctxt "Previous post link"
 msgid "<span class=\"meta-nav\">&larr;</span> %title"
 msgstr ""
 
-#: functions.php:350
+#: functions.php:347
 msgctxt "Next post link"
 msgid "%title <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:370
+#: functions.php:367
 msgid "Sticky"
 msgstr ""
 
 #. Translators: used between list items, there is a space after the comma.
-#: functions.php:376 functions.php:382
+#: functions.php:373 functions.php:379
 msgid ", "
 msgstr ""
 
-#: functions.php:391
+#: functions.php:388
 msgid "View all posts by %s"
 msgstr ""
 
-#: functions.php:410
+#: functions.php:407
 msgctxt "1: post format name. 2: date"
 msgid "%1$s on %2$s"
 msgstr ""
 
-#: functions.php:414
+#: functions.php:411
 msgid "Permalink to %s"
 msgstr ""
 
