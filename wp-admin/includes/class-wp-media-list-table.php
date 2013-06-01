@@ -377,7 +377,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		}
 ?>
 		<td <?php echo $attributes ?>>
-			<?php do_action( 'manage_media_custom_column', $column_name, $id ); ?>
+			<?php do_action( 'manage_media_custom_column', $column_name, $post->ID ); ?>
 		</td>
 <?php
 		break;
