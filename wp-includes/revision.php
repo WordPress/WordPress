@@ -59,27 +59,6 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
 }
 
 /**
- * Determines which post meta fields are revisioned.
- *
- * @since 3.6
- * @access private
- *
- * @return array An array of meta keys that should be revisioned.
- */
-function _wp_post_revision_meta_keys() {
-	return array(
-		'_format_url',
-		'_format_link_url',
-		'_format_quote_source_url',
-		'_format_quote_source_name',
-		'_format_image',
-		'_format_gallery',
-		'_format_audio_embed',
-		'_format_video_embed',
-	);
-}
-
-/**
  * Saves an already existing post as a post revision.
  *
  * Typically used immediately after post updates.
@@ -129,19 +108,6 @@ function wp_save_post_revision( $post_id ) {
 					break;
 				}
 			}
-
-			// Check whether revisioned meta fields have changed.
-			foreach ( _wp_post_revision_meta_keys() as $meta_key ) {
-				if ( get_post_meta( $post->ID, $meta_key, true ) != get_post_meta( $last_revision->ID, $meta_key, true ) ) {
-					$post_has_changed = true;
-					break;
-				}
-			}
-
-			// Check whether the post format has changed
-			if ( get_post_format( $post->ID ) != get_post_meta( $last_revision->ID, '_revision_post_format', true ) )
-				$post_has_changed = true;
-
 			//don't save revision if post unchanged
 			if( ! $post_has_changed )
 				return;
@@ -274,21 +240,6 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 	if ( $revision_id )
 		do_action( '_wp_put_post_revision', $revision_id );
 
-	// Save revisioned meta fields.
-	foreach ( _wp_post_revision_meta_keys() as $meta_key ) {
-		$meta_value = get_post_meta( $post_id, $meta_key, true );
-		if ( empty( $meta_value ) )
-			continue;
-
-		// Use the underlying add_metadata vs add_post_meta to make sure
-		// metadata is added to the revision post and not its parent.
-		add_metadata( 'post', $revision_id, $meta_key, wp_slash( $meta_value ) );
-	}
-
-	// Save the post format
-	if ( $post_format = get_post_format( $post_id ) )
-		add_metadata( 'post', $revision_id, '_revision_post_format', $post_format );
-
 	return $revision_id;
 }
 
@@ -358,18 +309,6 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
 	$update['ID'] = $revision['post_parent'];
 
 	$update = wp_slash( $update ); //since data is from db
-
-	// Restore revisioned meta fields.
-	foreach ( _wp_post_revision_meta_keys() as $meta_key ) {
-		$meta_value = get_post_meta( $revision['ID'], $meta_key, true );
-		if ( empty( $meta_value ) )
-			$meta_value = '';
-		// Add slashes to data pulled from the db
-		update_post_meta( $update['ID'], $meta_key, wp_slash( $meta_value ) );
-	}
-
-	// Restore post format
-	set_post_format( $update['ID'], get_post_meta( $revision['ID'], '_revision_post_format', true ) );
 
 	$post_id = wp_update_post( $update );
 	if ( ! $post_id || is_wp_error( $post_id ) )
@@ -505,9 +444,6 @@ function _set_preview($post) {
 	$post->post_title = $preview->post_title;
 	$post->post_excerpt = $preview->post_excerpt;
 
-	add_filter( 'get_post_metadata', '_wp_preview_meta_filter', 10, 4 );
-	add_filter( 'get_the_terms', '_wp_preview_terms_filter', 10, 3 );
-
 	return $post;
 }
 
@@ -527,49 +463,6 @@ function _show_post_preview() {
 
 		add_filter('the_preview', '_set_preview');
 	}
-}
-
-/**
- * Filters post meta retrieval to get values from the actual autosave post,
- * and not its parent. Filters revisioned meta keys only.
- *
- * @since 3.6.0
- * @access private
- */
-function _wp_preview_meta_filter( $value, $object_id, $meta_key, $single ) {
-	$post = get_post();
-
-	if ( $post->ID != $object_id || ! in_array( $meta_key, _wp_post_revision_meta_keys() ) || 'revision' == $post->post_type )
-		return $value;
-
-	$preview = wp_get_post_autosave( $post->ID );
-	if ( ! is_object( $preview ) )
-		return $value;
-
-	return get_post_meta( $preview->ID, $meta_key, $single );
-}
-
-/**
- * Filters terms lookup to get the post format saved with the preview revision.
- *
- * @since 3.6.0
- * @access private
- */
-function _wp_preview_terms_filter( $terms, $post_id, $taxonomy ) {
-	$post = get_post();
-
-	if ( $post->ID != $post_id || 'post_format' != $taxonomy || 'revision' == $post->post_type )
-		return $terms;
-
-	if ( ! $preview = wp_get_post_autosave( $post->ID ) )
-		return $terms;
-
-	if ( $post_format = get_post_meta( $preview->ID, '_revision_post_format', true ) ) {
-		if ( $term = get_term_by( 'slug', 'post-format-' . sanitize_key( $post_format ), 'post_format' ) )
-			$terms = array( $term ); // Can only have one post format
-	}
-
-	return $terms;
 }
 
 /**
