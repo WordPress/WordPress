@@ -476,7 +476,7 @@ endif;
 /**
  * Returns the URL from the post.
  *
- * @uses get_the_post_format_url() to get the URL in the post meta (if it exists) or
+ * @uses get_content_url() to get the URL in the post meta (if it exists) or
  * the first link found in the post content.
  *
  * Falls back to the post permalink if no URL is found in the post.
