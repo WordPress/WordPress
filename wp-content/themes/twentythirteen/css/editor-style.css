@@ -390,40 +390,7 @@ html .mceContentBody.rtl {
 	text-align: right;
 }
 
-.rtl.post-format-aside cite:before {
-	content: normal;
-	margin-right: auto;
-}
-
 .rtl blockquote blockquote {
 	margin-left: 0;
 	margin-right: 24px;
-}
-
-.rtl.post-format-quote blockquote {
-	padding-left: 0;
-	padding-right: 75px;
-}
-
-.rtl.post-format-quote blockquote:before {
-	content: '\201D';
-	padding-left: 25px;
-	padding-right: 0;
-	left: auto;
-	right: -15px;
-}
-
-.rtl.post-format-status {
-	padding-left: 0;
-	padding-right: 35px;
-}
-
-.rtl.post-format-status:before {
-	left: auto;
-	right: 15px;
-}
-
-.rtl.post-format-status p:first-child:before {
-	left: auto;
-	right: 9px;
 }
