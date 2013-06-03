@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Thirteen 0.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentythirteen\n"
-"POT-Creation-Date: 2013-05-31 18:14:36+00:00\n"
+"POT-Creation-Date: 2013-06-03 22:14:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -66,26 +66,26 @@ msgstr ""
 msgid "Category Archives: %s"
 msgstr ""
 
-#: comments.php:27
+#: comments.php:25
 msgctxt "comments title"
 msgid "One thought on &ldquo;%2$s&rdquo;"
 msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
 msgstr[0] ""
 msgstr[1] ""
 
-#: comments.php:48
+#: comments.php:46
 msgid "Comment navigation"
 msgstr ""
 
-#: comments.php:49
+#: comments.php:47
 msgid "&larr; Older Comments"
 msgstr ""
 
-#: comments.php:50
+#: comments.php:48
 msgid "Newer Comments &rarr;"
 msgstr ""
 
-#: comments.php:55
+#: comments.php:53
 msgid "Comments are closed."
 msgstr ""
 
@@ -98,14 +98,14 @@ msgstr ""
 #: content-aside.php:14 content-audio.php:25 content-chat.php:24
 #: content-gallery.php:25 content-image.php:24 content-link.php:25
 #: content-quote.php:14 content-status.php:14 content-video.php:24
-#: content.php:40 image.php:108 page.php:35
+#: content.php:40 image.php:70 page.php:35
 msgid "Pages:"
 msgstr ""
 
 #: content-aside.php:20 content-aside.php:28 content-audio.php:31
 #: content-chat.php:29 content-gallery.php:39 content-image.php:35
 #: content-link.php:19 content-quote.php:25 content-status.php:19
-#: content-video.php:35 content.php:29 image.php:79 page.php:39
+#: content-video.php:35 content.php:29 image.php:44 page.php:39
 msgid "Edit"
 msgstr ""
 
@@ -255,26 +255,26 @@ msgstr ""
 msgid "Skip to content"
 msgstr ""
 
-#: image.php:57
+#: image.php:22
 msgid ""
 "<span class=\"attachment-meta\">Published on <time class=\"entry-date\" "
 "datetime=\"%1$s\">%2$s</time> in <a href=\"%3$s\" title=\"Return to %4$s\" "
 "rel=\"gallery\">%5$s</a></span>"
 msgstr ""
 
-#: image.php:73
+#: image.php:38
 msgid "Link to full-size image"
 msgstr ""
 
-#: image.php:74
+#: image.php:39
 msgid "Full resolution"
 msgstr ""
 
-#: image.php:85
+#: image.php:51
 msgid "<span class=\"meta-nav\">&larr;</span> Previous"
 msgstr ""
 
-#: image.php:86
+#: image.php:52
 msgid "Next <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
