@@ -11,7 +11,7 @@ window.wp = window.wp || {};
 			running,
 			beat,
 			nonce,
-			screenid = typeof pagenow != 'undefined' ? pagenow : '',
+			screenId = typeof pagenow != 'undefined' ? pagenow : '',
 			url = typeof ajaxurl != 'undefined' ? ajaxurl : '',
 			settings,
 			tick = 0,
@@ -42,17 +42,17 @@ window.wp = window.wp || {};
 
 			interval = settings.interval || 15; // default interval
 			delete settings.interval;
-			// The interval can be from 5 to 60 sec.
-			if ( interval < 5 )
-				interval = 5;
+			// The interval can be from 15 to 60 sec. and can be set temporarily to 5 sec.
+			if ( interval < 15 )
+				interval = 15;
 			else if ( interval > 60 )
 				interval = 60;
 
 			interval = interval * 1000;
 
-			// 'screenid' can be added from settings on the front-end where the JS global 'pagenow' is not set
-			screenid = screenid || settings.screenid || 'site';
-			delete settings.screenid;
+			// 'screenId' can be added from settings on the front-end where the JS global 'pagenow' is not set
+			screenId = screenId || settings.screenId || 'front';
+			delete settings.screenId;
 
 			// Add or overwrite public vars
 			$.extend( this, settings );
@@ -83,7 +83,7 @@ window.wp = window.wp || {};
 			return false;
 		}
 
-		// Set error state and fire an event if XHR errors or timeout
+		// Set error state and fire an event on XHR errors or timeout
 		function errorstate( error ) {
 			var trigger;
 
@@ -148,7 +148,7 @@ window.wp = window.wp || {};
 			send.interval = interval / 1000;
 			send._nonce = nonce;
 			send.action = 'heartbeat';
-			send.screenid = screenid;
+			send.screen_id = screenId;
 			send.has_focus = hasFocus;
 
 			connecting = true;

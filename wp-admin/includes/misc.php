@@ -569,8 +569,8 @@ add_action('admin_head', '_ipad_meta');
 function wp_check_locked_posts( $response, $data, $screen_id ) {
 	$checked = array();
 
-	if ( 'edit-post' == $screen_id && array_key_exists( 'wp-check-locked', $data ) && is_array( $data['wp-check-locked'] ) ) {
-		foreach ( $data['wp-check-locked'] as $key ) {
+	if ( 'edit-post' == $screen_id && array_key_exists( 'wp-check-locked-posts', $data ) && is_array( $data['wp-check-locked-posts'] ) ) {
+		foreach ( $data['wp-check-locked-posts'] as $key ) {
 			$post_id = (int) substr( $key, 5 );
 
 			if ( current_user_can( 'edit_post', $post_id ) && ( $user_id = wp_check_post_lock( $post_id ) ) && ( $user = get_userdata( $user_id ) ) ) {
@@ -585,7 +585,7 @@ function wp_check_locked_posts( $response, $data, $screen_id ) {
 	}
 
 	if ( ! empty( $checked ) )
-		$response['wp-check-locked'] = $checked;
+		$response['wp-check-locked-posts'] = $checked;
 
 	return $response;
 }
@@ -601,10 +601,10 @@ function wp_refresh_post_lock( $response, $data, $screen_id ) {
 		$received = $data['wp-refresh-post-lock'];
 		$send = array();
 
-		if ( !$post_id = absint( $received['post_id'] ) )
+		if ( ! $post_id = absint( $received['post_id'] ) )
 			return $response;
 
-		if ( !current_user_can('edit_post', $post_id) )
+		if ( ! current_user_can('edit_post', $post_id) )
 			return $response;
 
 		if ( ( $user_id = wp_check_post_lock( $post_id ) ) && ( $user = get_userdata( $user_id ) ) ) {

@@ -293,8 +293,8 @@ inlineEditPost = {
 $( document ).ready( function(){ inlineEditPost.init(); } );
 
 // Show/hide locks on posts
-$( document ).on( 'heartbeat-tick.wp-check-locked', function( e, data ) {
-	var locked = data['wp-check-locked'] || {};
+$( document ).on( 'heartbeat-tick.wp-check-locked-posts', function( e, data ) {
+	var locked = data['wp-check-locked-posts'] || {};
 
 	$('#the-list tr').each( function(i, el) {
 		var key = el.id, row = $(el), lock_data, avatar;
@@ -315,7 +315,7 @@ $( document ).on( 'heartbeat-tick.wp-check-locked', function( e, data ) {
 			row.find('.column-title .locked-avatar').empty();
 		}
 	});
-}).on( 'heartbeat-send.wp-check-locked', function( e, data ) {
+}).on( 'heartbeat-send.wp-check-locked-posts', function( e, data ) {
 	var check = [];
 
 	$('#the-list tr').each( function(i, el) {
@@ -324,7 +324,7 @@ $( document ).on( 'heartbeat-tick.wp-check-locked', function( e, data ) {
 	});
 
 	if ( check.length )
-		data['wp-check-locked'] = check;
+		data['wp-check-locked-posts'] = check;
 });
 
 }(jQuery));
