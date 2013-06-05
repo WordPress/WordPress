@@ -1202,6 +1202,21 @@ function _admin_notice_post_locked() {
 		$locked = false;
 	}
 
+	if ( $locked && ( $sendback = wp_get_referer() ) && 
+		false === strpos( $sendback, 'post.php' ) && false === strpos( $sendback, 'post-new.php' ) ) {
+
+		$sendback_text = __('Go back');
+	} else {
+		$sendback = admin_url( 'edit.php' );
+
+		if ( 'post' != $post->post_type && ( $post_type_object = get_post_type_object( $post->post_type ) ) ) {
+			$sendback .= '?post_type=' . $post->post_type;
+			$sendback_text = sprintf( _x('Go to All %s', 'post type general name: Posts, Pages, etc.'), $post_type_object->labels->name );
+		} else {
+			$sendback_text = __('Go to All Posts');
+		}
+	}
+
 	$hidden = $locked ? '' : ' hidden';
 
 	?>
@@ -1229,7 +1244,7 @@ function _admin_notice_post_locked() {
 		<p class="currently-editing wp-tab-first" tabindex="0"><?php esc_html_e( sprintf( __( 'This content is currently locked. If you take over, %s will be blocked from continuing to edit.' ), $user->display_name ) ); ?></p>
 		<?php do_action( 'post_lock_text', $post ); ?>
 		<p>
-		<a class="button" href="<?php echo esc_url( wp_get_referer() ); ?>"><?php _e('Go back'); ?></a>
+		<a class="button" href="<?php echo esc_url( $sendback ); ?>"><?php echo $sendback_text; ?></a>
 		<a class="button<?php echo $tab_last; ?>" href="<?php echo esc_url( $preview_link ); ?>"><?php _e('Preview'); ?></a>
 		<?php
 
@@ -1254,7 +1269,7 @@ function _admin_notice_post_locked() {
 			<span class="locked-saved hidden"><?php _e('Your latest changes were saved as a revision.'); ?></span>
 			</p>
 			<?php do_action( 'post_lock_text', $post ); ?>
-			<p><a class="button button-primary wp-tab-last" href="<?php echo esc_url( admin_url('edit.php') ); ?>"><?php _e('Go to All Posts'); ?></a></p>
+			<p><a class="button button-primary wp-tab-last" href="<?php echo esc_url( $sendback ); ?>"><?php echo $sendback_text; ?></a></p>
 		</div>
 		<?php
 	}

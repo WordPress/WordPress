@@ -569,11 +569,12 @@ add_action('admin_head', '_ipad_meta');
 function wp_check_locked_posts( $response, $data, $screen_id ) {
 	$checked = array();
 
-	if ( 'edit-post' == $screen_id && array_key_exists( 'wp-check-locked-posts', $data ) && is_array( $data['wp-check-locked-posts'] ) ) {
+	if ( array_key_exists( 'wp-check-locked-posts', $data ) && is_array( $data['wp-check-locked-posts'] ) ) {
 		foreach ( $data['wp-check-locked-posts'] as $key ) {
-			$post_id = (int) substr( $key, 5 );
+			if ( ! $post_id = absint( substr( $key, 5 ) ) )
+				continue;
 
-			if ( current_user_can( 'edit_post', $post_id ) && ( $user_id = wp_check_post_lock( $post_id ) ) && ( $user = get_userdata( $user_id ) ) ) {
+			if ( ( $user_id = wp_check_post_lock( $post_id ) ) && ( $user = get_userdata( $user_id ) ) && current_user_can( 'edit_post', $post_id ) ) {
 				$send = array( 'text' => sprintf( __( '%s is currently editing' ), $user->display_name ) );
 
 				if ( ( $avatar = get_avatar( $user->ID, 18 ) ) && preg_match( "|src='([^']+)'|", $avatar, $matches ) )
@@ -597,7 +598,7 @@ add_filter( 'heartbeat_received', 'wp_check_locked_posts', 10, 3 );
  * @since 3.6
  */
 function wp_refresh_post_lock( $response, $data, $screen_id ) {
-	if ( 'post' == $screen_id && array_key_exists( 'wp-refresh-post-lock', $data ) ) {
+	if ( array_key_exists( 'wp-refresh-post-lock', $data ) ) {
 		$received = $data['wp-refresh-post-lock'];
 		$send = array();
 
@@ -636,7 +637,7 @@ add_filter( 'heartbeat_received', 'wp_refresh_post_lock', 10, 3 );
  * @since 3.6
  */
 function wp_refresh_post_nonces( $response, $data, $screen_id ) {
-	if ( 'post' == $screen_id && array_key_exists( 'wp-refresh-post-nonces', $data ) ) {
+	if ( array_key_exists( 'wp-refresh-post-nonces', $data ) ) {
 		$received = $data['wp-refresh-post-nonces'];
 
 		if ( ! $post_id = absint( $received['post_id'] ) )
