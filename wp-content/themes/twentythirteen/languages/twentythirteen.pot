@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Thirteen 0.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentythirteen\n"
-"POT-Creation-Date: 2013-06-06 18:14:03+00:00\n"
+"POT-Creation-Date: 2013-06-06 19:14:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -73,19 +73,19 @@ msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
 msgstr[0] ""
 msgstr[1] ""
 
-#: comments.php:46
+#: comments.php:45
 msgid "Comment navigation"
 msgstr ""
 
-#: comments.php:47
+#: comments.php:46
 msgid "&larr; Older Comments"
 msgstr ""
 
-#: comments.php:48
+#: comments.php:47
 msgid "Newer Comments &rarr;"
 msgstr ""
 
-#: comments.php:53
+#: comments.php:52
 msgid "Comments are closed."
 msgstr ""
 
