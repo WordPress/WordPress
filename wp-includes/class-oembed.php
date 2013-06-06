@@ -30,6 +30,8 @@ class WP_oEmbed {
 		// The WP_Embed class disables discovery for non-unfiltered_html users, so only providers in this array will be used for them.
 		// Add to this list using the wp_oembed_add_provider() function (see its PHPDoc for details).
 		$this->providers = apply_filters( 'oembed_providers', array(
+			'#https://(www\.)?youtube.com/watch.*#i'	     => array( 'http://youtube.com/oembed?scheme=https',            true  ),
+			'https://youtu.be/*'				     => array( 'http://youtube.com/oembed?scheme=https',            false ),
 			'#https?://(www\.)?youtube\.com/watch.*#i'           => array( 'http://www.youtube.com/oembed',                     true  ),
 			'http://youtu.be/*'                                  => array( 'http://www.youtube.com/oembed',                     false ),
 			'http://blip.tv/*'                                   => array( 'http://blip.tv/oembed/',                            false ),
