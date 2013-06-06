@@ -898,5 +898,20 @@ jQuery(document).ready( function($) {
 				});
 			});
 		});
+
+		// When changing post formats, change the editor body class
+		$('#post-formats-select input.post-format').on( 'change.set-editor-class', function( event ) {
+			var editor, body, format = this.id;
+
+			if ( format && $( this ).prop('checked') ) {
+				editor = tinymce.get( 'content' );
+
+				if ( editor ) {
+					body = editor.getBody();
+					body.className = body.className.replace( /\bpost-format-[^ ]+/, '' );
+					editor.dom.addClass( body, format == 'post-format-0' ? 'post-format-standard' : format );
+				}
+			}
+		});
 	}
 });

@@ -1352,15 +1352,16 @@ function post_preview() {
 	$post = get_post($post_ID);
 
 	if ( 'page' == $post->post_type ) {
-		if ( !current_user_can('edit_page', $post_ID) )
-			wp_die(__('You are not allowed to edit this page.'));
+		if ( ! current_user_can('edit_page', $post_ID) )
+			wp_die( __('You are not allowed to edit this page.') );
 	} else {
-		if ( !current_user_can('edit_post', $post_ID) )
-			wp_die(__('You are not allowed to edit this post.'));
+		if ( ! current_user_can('edit_post', $post_ID) )
+			wp_die( __('You are not allowed to edit this post.') );
 	}
 
 	$user_id = get_current_user_id();
-	if ( 'draft' == $post->post_status && $user_id == $post->post_author ) {
+	$locked = wp_check_post_lock( $post->ID );
+	if ( ! $locked && 'draft' == $post->post_status && $user_id == $post->post_author ) {
 		$id = edit_post();
 	} else { // Non drafts are not overwritten. The autosave is stored in a special post revision.
 		$id = wp_create_post_autosave( $post->ID );
@@ -1371,11 +1372,20 @@ function post_preview() {
 	if ( is_wp_error($id) )
 		wp_die( $id->get_error_message() );
 
-	if ( $_POST['post_status'] == 'draft' && $user_id == $post->post_author ) {
+	if ( ! $locked && $_POST['post_status'] == 'draft' && $user_id == $post->post_author ) {
 		$url = add_query_arg( 'preview', 'true', get_permalink($id) );
 	} else {
 		$nonce = wp_create_nonce('post_preview_' . $id);
-		$url = add_query_arg( array( 'preview' => 'true', 'preview_id' => $id, 'preview_nonce' => $nonce ), get_permalink($id) );
+		$args = array(
+			'preview' => 'true',
+			'preview_id' => $id,
+			'preview_nonce' => $nonce,
+		);
+
+		if ( isset( $_POST['post_format'] ) )
+			$args['post_format'] = empty( $_POST['post_format'] ) ? 'standard' : sanitize_key( $_POST['post_format'] );
+
+		$url = add_query_arg( $args, get_permalink($id) );
 	}
 
 	return apply_filters( 'preview_post_link', $url );
