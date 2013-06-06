@@ -166,15 +166,6 @@ function get_screen_icon( $screen = '' ) {
 
 		if ( $screen->post_type )
 			$class .= ' ' . sanitize_html_class( 'icon32-posts-' . $screen->post_type );
-
-		if ( 'post' == $screen->id ) {
-			$post_format = get_post_format();
-			if ( ! $post_format && ! empty( $_REQUEST['format'] ) && in_array( $_REQUEST['format'], get_post_format_slugs() ) )
-				$post_format = $_REQUEST['format'];
-
-			if ( $post_format )
-				$class .= ' wp-format-' . $post_format;
-		}
 	}
 
 	return '<div id="icon-' . esc_attr( $icon_id ) . '" class="' . $class . '"><br /></div>';
