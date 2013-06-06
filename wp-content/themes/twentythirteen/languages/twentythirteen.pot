@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Thirteen 0.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentythirteen\n"
-"POT-Creation-Date: 2013-06-03 22:14:13+00:00\n"
+"POT-Creation-Date: 2013-06-06 01:14:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -278,14 +278,10 @@ msgstr ""
 msgid "Next <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: inc/back-compat.php:44 inc/back-compat.php:56
+#: inc/back-compat.php:38 inc/back-compat.php:50 inc/back-compat.php:65
 msgid ""
 "Twenty Thirteen requires at least WordPress version 3.6. You are running "
 "version %s. Please upgrade and try again."
-msgstr ""
-
-#: inc/back-compat.php:56
-msgid "Go back."
 msgstr ""
 
 #: inc/custom-header.php:48
