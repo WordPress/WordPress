@@ -77,6 +77,9 @@ function twentythirteen_setup() {
 	// Adds RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
 
+	// Switches default core markup for search form to output valid HTML5.
+	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list' ) );
+
 	/*
 	 * This theme supports all available post formats by default.
 	 * See http://codex.wordpress.org/Post_Formats
@@ -551,17 +554,6 @@ function twentythirteen_content_width() {
 		$content_width = 484;
 }
 add_action( 'template_redirect', 'twentythirteen_content_width' );
-
-/**
- * Switches default core markup for search form to output valid HTML5.
- *
- * @param string $format Expected markup format, default is `xhtml`
- * @return string Twenty Thirteen loves HTML5.
- */
-function twentythirteen_search_form_format( $format ) {
-	return 'html5';
-}
-add_filter( 'search_form_format', 'twentythirteen_search_form_format' );
 
 /**
  * Add postMessage support for site title and description for the Customizer.
