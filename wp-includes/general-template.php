@@ -155,7 +155,7 @@ function get_template_part( $slug, $name = null ) {
 function get_search_form( $echo = true ) {
 	do_action( 'pre_get_search_form' );
 
-	$format = ( current_theme_supports( 'html5-search-form' ) ) ? 'html5' : 'xhtml';
+	$format = current_theme_supports( 'html5', 'search-form' ) ? 'html5' : 'xhtml';
 	$format = apply_filters( 'search_form_format', $format );
 
 	$search_form_template = locate_template( 'searchform.php' );
