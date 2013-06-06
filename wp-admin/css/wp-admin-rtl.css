@@ -1048,46 +1048,6 @@ th.sorted a span {
   11.4 - Post formats
 ------------------------------------------------------------------------------*/
 
-#post-body-content.wp-format-image label,
-#post-body-content.wp-format-video label,
-#post-body-content.wp-format-audio label {
-	float: right;
-}
-
-.wp-format-media-holder {
-	float: right;
-}
-
-#wp_format_image,
-#wp_format_audio,
-#wp_format_video {
-	float: right;
-	margin-right: 0;
-	margin-left: 23px;
-}
-
-.post-format-options a {
-	float: right;
-	margin-right: 0;
-	margin-left: 10px;
-}
-
-#poststuff .post-format-change {
-	margin: -7px 2px 13px 0;
-	clear: right;
-}
-
-.post-format-change span.icon {
-	float: right;
-	margin: 2px 0 0 5px;
-}
-
-@media only screen and (max-width: 782px) {
-	.post-format-options a {
-		margin-left: 0;
-		margin-right: 19px;
-	}
-}
 
 /*------------------------------------------------------------------------------
   12.0 - Categories

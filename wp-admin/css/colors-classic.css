@@ -165,7 +165,6 @@ textarea.disabled {
 }
 
 #diff-header,
-.post-format-options,
 .widget .widget-top,
 .postbox h3,
 .stuffbox h3,
@@ -690,7 +689,6 @@ table.widefat span.spam a,
 	background-image: linear-gradient(to top, #eff8ff, #f7fcfe);
 }
 
-.post-format-options,
 .postbox h3 {
 	color: #174f69;
 }
@@ -1462,165 +1460,8 @@ div.wp-menu-image {
 
 /* Post format icons */
 
-/* 16px */
-a.post-state-format,
-.post-format-change span.icon {
+a.post-state-format {
 	background: url(../images/post-formats-vs.png) no-repeat;
-}
-
-.post-format-change span.icon.wp-format-standard {
-	background-position: -8px -8px;
-}
-
-.post-format-change span.icon.wp-format-image {
-	background-position: -40px -8px;
-}
-
-.post-format-change span.icon.wp-format-gallery {
-	background-position: -72px -8px;
-}
-
-.post-format-change span.icon.wp-format-audio {
-	background-position: -104px -8px;
-}
-
-.post-format-change span.icon.wp-format-video {
-	background-position: -136px -8px;
-}
-
-.post-format-change span.icon.wp-format-chat {
-	background-position: -168px -8px;
-}
-
-.post-format-change span.icon.wp-format-status {
-	background-position: -200px -8px;
-}
-
-.post-format-change span.icon.wp-format-aside {
-	background-position: -232px -8px;
-}
-
-.post-format-change span.icon.wp-format-quote {
-	background-position: -264px -8px;
-}
-
-.post-format-change span.icon.wp-format-link {
-	background-position: -296px -8px;
-}
-
-/* 32px */
-
-.post-format-options a div,
-#icon-edit.wp-format-standard,
-#icon-edit.wp-format-image,
-#icon-edit.wp-format-gallery,
-#icon-edit.wp-format-audio,
-#icon-edit.wp-format-video,
-#icon-edit.wp-format-chat,
-#icon-edit.wp-format-status,
-#icon-edit.wp-format-aside,
-#icon-edit.wp-format-quote,
-#icon-edit.wp-format-link {
-	background: url(../images/post-formats32-vs.png) no-repeat;
-}
-
-#icon-edit.wp-format-standard,
-.post-format-options .standard {
-	background-position: -16px -18px;
-}
-
-#icon-edit.wp-format-image,
-.post-format-options .image {
-	background-position: -80px -16px;
-}
-
-#icon-edit.wp-format-gallery,
-.post-format-options .gallery {
-	background-position: -144px -16px;
-}
-
-#icon-edit.wp-format-audio,
-.post-format-options .audio {
-	background-position: -208px -16px;
-}
-
-#icon-edit.wp-format-video,
-.post-format-options .video {
-	background-position: -272px -16px;
-}
-
-#icon-edit.wp-format-chat,
-.post-format-options .chat {
-	background-position: -336px -17px;
-}
-
-#icon-edit.wp-format-status,
-.post-format-options .status {
-	background-position: -402px -16px;
-}
-
-#icon-edit.wp-format-aside,
-.post-format-options .aside {
-	background-position: -466px -16px;
-}
-
-#icon-edit.wp-format-quote,
-.post-format-options .quote {
-	background-position: -527px -17px;
-}
-
-#icon-edit.wp-format-link,
-.post-format-options .link {
-	background-position: -592px -16px;
-}
-
-/* Responsive post formats */
-
-@media only screen and (max-width: 782px) {
-
-	.post-format-options a div {
-		background: url(../images/post-formats-vs.png) no-repeat;
-	}
-
-	.post-format-options .standard {
-		background-position: -8px -8px;
-	}
-
-	.post-format-options .image {
-		background-position: -40px -8px;
-	}
-
-	.post-format-options .gallery {
-		background-position: -72px -8px;
-	}
-
-	.post-format-options .audio {
-		background-position: -104px -8px;
-	}
-
-	.post-format-options .video {
-		background-position: -136px -8px;
-	}
-
-	.post-format-options .chat {
-		background-position: -168px -8px;
-	}
-
-	.post-format-options .status {
-		background-position: -200px -8px;
-	}
-
-	.post-format-options .aside {
-		background-position: -232px -8px;
-	}
-
-	.post-format-options .quote {
-		background-position: -264px -8px;
-	}
-
-	.post-format-options .link {
-		background-position: -296px -8px;
-	}
 }
 
 /* Diff */
@@ -2442,37 +2283,9 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	}
 
 	/* 16px post formats */
-	.post-format-change span.icon,
 	a.post-state-format {
 		background-image: url(../images/post-formats32-vs.png);
 		background-size: 320px 32px;
 	}
 
-	/* 32px */
-	.post-format-options a div,
-	#icon-edit.wp-format-standard,
-	#icon-edit.wp-format-image,
-	#icon-edit.wp-format-gallery,
-	#icon-edit.wp-format-audio,
-	#icon-edit.wp-format-video,
-	#icon-edit.wp-format-chat,
-	#icon-edit.wp-format-status,
-	#icon-edit.wp-format-aside,
-	#icon-edit.wp-format-quote,
-	#icon-edit.wp-format-link {
-		background-image: url(../images/post-formats64-vs.png);
-		background-size: 640px 64px;
-	}
-
-}
-
-@media
-  (-o-min-device-pixel-ratio: 5/4) and (max-width: 782px),
-  (-webkit-min-device-pixel-ratio: 1.25) and (max-width: 782px),
-  (min-resolution: 120dpi) and (max-width: 782px) {
-	/* 16px responsive post formats */
-	.post-format-options a div {
-		background-image: url(../images/post-formats32-vs.png);
-		background-size: 320px 32px;
-	}
 }

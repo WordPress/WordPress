@@ -2691,53 +2691,6 @@ th.asc:hover span.sorting-indicator {
 	padding: 0 0 .2em 1px;
 }
 
-a.post-state-format {
-	overflow: hidden;
-	display: inline-block;
-	vertical-align: middle;
-	height: 16px;
-	width: 16px;
-	margin-right: 5px;
-	background-repeat: no-repeat;
-	text-indent: -999em;
-}
-
-a.post-state-format.format-image {
-	background-position: -40px -8px;
-}
-
-a.post-state-format.format-gallery {
-	background-position: -72px -8px;
-}
-
-a.post-state-format.format-audio {
-	background-position: -104px -8px;
-}
-
-a.post-state-format.format-video {
-	background-position: -135px -8px;
-}
-
-a.post-state-format.format-chat {
-	background-position: -168px -8px;
-}
-
-a.post-state-format.format-status {
-	background-position: -200px -8px;
-}
-
-a.post-state-format.format-aside {
-	background-position: -232px -8px;
-}
-
-a.post-state-format.format-quote {
-	background-position: -264px -8px;
-}
-
-a.post-state-format.format-link {
-	background-position: -296px -8px;
-}
-
 
 /*------------------------------------------------------------------------------
   10.1 - Inline Editing
@@ -3982,258 +3935,53 @@ body .ui-slider-tooltip {
   11.4 - Post formats
 ------------------------------------------------------------------------------*/
 
-#poststuff .post-format-select {
-	margin-top: 0;
-	padding-bottom: 0;
-}
-
-.wp-post-format-ui {
-	display: none;
-}
-
-.wp-post-format-show-ui .wp-post-format-ui {
-	display: block;
-}
-
-.post-formats-fields {
-	display: none;
-	margin-bottom: 15px;
-}
-
-#post-body-content.wp-format-gallery .post-formats-fields,
-#post-body-content.wp-format-image .post-formats-fields,
-#post-body-content.wp-format-link .post-formats-fields,
-#post-body-content.wp-format-quote .post-formats-fields,
-#post-body-content.wp-format-video .post-formats-fields,
-#post-body-content.wp-format-audio .post-formats-fields,
-#post-body-content.wp-format-gallery .field.wp-format-gallery,
-#post-body-content.wp-format-image .field.wp-format-image,
-#post-body-content.wp-format-chat .field.wp-format-chat,
-#post-body-content.wp-format-link .field.wp-format-link,
-#post-body-content.wp-format-quote .field.wp-format-quote,
-#post-body-content.wp-format-video .field.wp-format-video,
-#post-body-content.wp-format-audio .field.wp-format-audio {
-	display: block;
-}
-
-.post-formats-fields .field {
-	display: none;
-	margin-bottom: 10px;
+a.post-state-format {
 	overflow: hidden;
-}
-
-.post-formats-fields input,
-.post-formats-fields textarea {
-	padding: 5px;
-	font-size: 1.2em;
-}
-
-#post-body-content.wp-format-image label,
-#post-body-content.wp-format-video label,
-#post-body-content.wp-format-audio label {
-	float: left;
-}
-
-.wp-format-media-holder {
-	float: left;
-	overflow: hidden;
-	width: 40%;
-	height: auto;
-	border: 1px dashed #dfdfdf;
-	background: #f5f5f5 url(../images/media-button-2x.png) no-repeat 50% 25%;
-	box-sizing: border-box;
-	position: relative;
-}
-
-.wp-format-media-holder:hover {
-	background-color: #eee;
-}
-
-.wp-format-media-holder.drag-over {
-	background: rgba( 0, 86, 132, 0.9 );
-	border-color: transparent;
-}
-
-.wp-format-media-holder div {
-	display: none;
-}
-
-.wp-format-media-holder.drag-over div {
-	position: absolute;
-	top: 10px;
-	left: 10px;
-	right: 10px;
-	bottom: 10px;
-	border: 1px dashed #fff;
-	display: block;
-}
-
-#poststuff .wp-format-media-holder.drag-over div h3 {
-	position: absolute;
-	top: 50%;
-	left: 0;
-	right: 0;
-	-webkit-transform: translateY( -50% );
-	-moz-transform:    translateY( -50% );
-	-ms-transform:     translateY( -50% );
-	-o-transform:      translateY( -50% );
-	transform:         translateY( -50% );
-
-	font-size: 20px;
-	font-weight: 200;
-	color: #fff;
-	padding: 0;
-	text-align: center;
-	font-family: sans-serif;
-}
-
-#post-body-content.wp-format-image .wp-format-media-holder {
-	margin-top: 17px;
-}
-
-.wp-format-media-preview {
-	margin: 20px 0;
-}
-
-#image-preview img {
-	width: auto;
-	height: auto;
-	max-height: 300px;
-}
-
-#post-body-content .wp-format-image p.use-url-or-html {
-	padding-top: 10px;
-	clear: both;
-	width: 40%;
-	text-align: center;
-}
-
-.wp-post-format-show-ui.wp-format-image .attachment-display-settings,
-.wp-post-format-show-ui.wp-format-status #titlewrap,
-.wp-post-format-show-ui.wp-format-image #insert-media-button,
-.wp-post-format-show-ui.wp-format-audio #insert-media-button,
-.wp-post-format-show-ui.wp-format-video #insert-media-button,
-.wp-post-format-show-ui.wp-format-aside #insert-media-button,
-.wp-post-format-show-ui.wp-format-status #insert-media-button {
-	display: none;
-}
-
-.wp-format-media-select .media-progress-bar,
-.wp-format-media-select .media-progress-bar div,
-.mejs-audio audio,
-.mejs-video video {
-	display: block;
-}
-
-.wp-format-media-select {
-	display: block;
-	height: 20px;
-	padding: 55px 0 20px;
-	text-align: center;
-}
-
-.wp-format-media-select img {
-	max-width: 100%;
-	max-height: 100%;
-}
-
-.empty .wp-format-media-metaedit {
-	height: 20px;
-	display: block;
-	text-align: center;
-}
-
-.edit-format-preview {
-	display: block;
-	margin: 5px 0;
-}
-
-#wp_format_image,
-#wp_format_audio,
-#wp_format_video {
-	float: left;
-	margin-right: 23px;
-	max-width: 40%;
-	min-height: 97px;
-}
-
-.post-format-description {
-	color: #666;
-	font-size: 12px;
-}
-
-.post-format-options {
-	border-width: 1px;
-	border-style: solid;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	border-color: #ccc;
-	margin: 13px 0 10px;
-	padding: 5px;
-	overflow: hidden;
-}
-
-.post-format-options a {
-	float: left;
-	min-width: 62px;
-	padding: 5px;
-	border: 1px solid transparent;
-	margin-right: 10px;
-	position: relative;
-	text-decoration: none;
-	text-align: center;
-	transition: opacity 0.1s linear;
-	opacity: 0.6;
-}
-
-.post-format-options:hover a {
-	opacity: 1.0;
-}
-.post-format-options a:hover,
-.post-format-options a.active {
-	opacity: 1.0;
-	background-color: #fff;
-	border-color: #ccc;
-}
-
-.post-format-options a div {
-	height: 34px;
-	width: 34px;
-	margin: 0 auto;
-}
-
-.post-format-title {
-	color: #777;
-	display: block;
-	margin-top: 4px;
-}
-
-#poststuff .post-format-change {
-	margin: -7px 0 13px 2px;
-	padding: 0;
-	font-size: 1.5em;
-	line-height: 18px;
-	clear: left;
-}
-
-.post-format-change span.icon {
-	float: left;
+	display: inline-block;
+	vertical-align: middle;
 	height: 16px;
-	margin: 2px 5px 0 0;
 	width: 16px;
+	margin-right: 5px;
+	background-repeat: no-repeat;
+	text-indent: -999em;
 }
 
-@media only screen and (max-width: 782px) {
-	.post-format-options a {
-		margin-right: 19px;
-	}
-
-	.post-format-options a div {
-		height: 18px;
-		width: 16px;
-	}
-
+a.post-state-format.format-image  {
+	background-position: -40px -8px;
 }
+
+a.post-state-format.format-gallery {
+	background-position: -72px -8px;
+}
+
+a.post-state-format.format-audio {
+	background-position: -104px -8px;
+}
+
+a.post-state-format.format-video {
+	background-position: -135px -8px;
+}
+
+a.post-state-format.format-chat {
+	background-position: -168px -8px;
+}
+
+a.post-state-format.format-status {
+	background-position: -200px -8px;
+}
+
+a.post-state-format.format-aside {
+	background-position: -232px -8px;
+}
+
+a.post-state-format.format-quote {
+	background-position: -264px -8px;
+}
+
+a.post-state-format.format-link {
+	background-position: -296px -8px;
+}
+
 
 /*------------------------------------------------------------------------------
   12.0 - Categories
