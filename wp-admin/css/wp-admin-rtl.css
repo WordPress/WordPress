@@ -1053,6 +1053,53 @@ a.post-state-format {
 	margin-left: 5px;
 }
 
+label.post-format-icon {
+	margin-left: 0;
+	margin-right: 5px;
+	padding-left: 0px;
+	padding-right: 21px;
+}
+
+.post-format-icon.post-format-standard  {
+	background-position: 100% 0;
+}
+
+.post-format-icon.post-format-image  {
+	background-position: 100% -32px;
+}
+
+.post-format-icon.post-format-gallery {
+	background-position: 100% -64px;
+}
+
+.post-format-icon.post-format-audio {
+	background-position: 100% -96px;
+}
+
+.post-format-icon.post-format-video {
+	background-position: 100% -128px;
+}
+
+.post-format-icon.post-format-chat {
+	background-position: 100% -160px;
+}
+
+.post-format-icon.post-format-status {
+	background-position: 100% -192px;
+}
+
+.post-format-icon.post-format-aside {
+	background-position: 100% -224px;
+}
+
+.post-format-icon.post-format-quote {
+	background-position: 100% -256px;
+}
+
+.post-format-icon.post-format-link {
+	background-position: 100% -288px;
+}
+
 /*------------------------------------------------------------------------------
   12.0 - Categories
 ------------------------------------------------------------------------------*/

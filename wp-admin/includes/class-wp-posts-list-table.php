@@ -551,7 +551,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				if ( $format = get_post_format( $post->ID ) ) {
 					$label = get_post_format_string( $format );
 
-					echo '<a href="' . esc_url( add_query_arg( array( 'post_format' => $format, 'post_type' => $post->post_type ), 'edit.php' ) ) . '" class="post-state-format format-' . $format . '" title="' . $label . '">' . $label . ":</a> ";
+					echo '<a href="' . esc_url( add_query_arg( array( 'post_format' => $format, 'post_type' => $post->post_type ), 'edit.php' ) ) . '" class="post-state-format post-format-icon post-format-' . $format . '" title="' . $label . '">' . $label . ":</a> ";
 				}
 
 				if ( $can_edit_post && $post->post_status != 'trash' ) {

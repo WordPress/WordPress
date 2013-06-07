@@ -1354,7 +1354,7 @@ div.wp-menu-image {
 
 /* Post format icons */
 
-a.post-state-format {
+.post-format-icon {
 	background: url(../images/post-formats.png) no-repeat;
 }
 
@@ -2171,9 +2171,9 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	}
 
 	/* 16px post formats */
-	a.post-state-format {
+	.post-format-icon {
 		background-image: url(../images/post-formats32.png);
-		background-size: 32px 320px;
+		background-size: 16px 304px;
 	}
 
 }

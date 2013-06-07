@@ -3946,40 +3946,53 @@ a.post-state-format {
 	text-indent: -999em;
 }
 
-a.post-state-format.format-image  {
-	background-position: -8px -40px;
+#post-formats-select {
+	line-height: 2em;
 }
 
-a.post-state-format.format-gallery {
-	background-position: -8px -72px;
+label.post-format-icon {
+	margin-left: 5px;
+	padding: 2px 0 2px 21px;
 }
 
-a.post-state-format.format-audio {
-	background-position: -8px -104px;
+.post-format-icon.post-format-standard  {
+	background-position: 0 0;
 }
 
-a.post-state-format.format-video {
-	background-position: -8px -136px;
+.post-format-icon.post-format-image  {
+	background-position: 0 -32px;
 }
 
-a.post-state-format.format-chat {
-	background-position: -8px -168px;
+.post-format-icon.post-format-gallery {
+	background-position: 0 -64px;
 }
 
-a.post-state-format.format-status {
-	background-position: -8px -200px;
+.post-format-icon.post-format-audio {
+	background-position: 0 -96px;
 }
 
-a.post-state-format.format-aside {
-	background-position: -8px -232px;
+.post-format-icon.post-format-video {
+	background-position: 0 -128px;
 }
 
-a.post-state-format.format-quote {
-	background-position: -8px -265px;
+.post-format-icon.post-format-chat {
+	background-position: 0 -160px;
 }
 
-a.post-state-format.format-link {
-	background-position: -8px -296px;
+.post-format-icon.post-format-status {
+	background-position: 0 -192px;
+}
+
+.post-format-icon.post-format-aside {
+	background-position: 0 -224px;
+}
+
+.post-format-icon.post-format-quote {
+	background-position: 0 -256px;
+}
+
+.post-format-icon.post-format-link {
+	background-position: 0 -288px;
 }
 
 
@@ -6432,8 +6445,7 @@ table.form-table td .updated {
 	width: 250px;
 }
 
-#post-visibility-select,
-#post-formats-select {
+#post-visibility-select {
 	line-height: 1.5em;
 	margin-top: 3px;
 }
