@@ -2761,10 +2761,6 @@ footer.entry-meta {
 		padding-right: 0;
 	}
 
-	.sidebar.author .author-info {
-		padding: 30px 0 10px;
-	}
-
 	.sidebar .site-info,
 	.search.sidebar .page-content,
 	.blog.sidebar .page-content,
@@ -2879,7 +2875,7 @@ footer.entry-meta {
 	.blog.sidebar .page-content,
 	.sidebar .post-navigation .nav-links,
 	.paging-navigation .nav-links,
-	.author .author-info,
+	#content .author-info,
 	.comments-area .comments-title,
 	.comments-area .comment-list,
 	.comments-area .comment-navigation,
@@ -3049,10 +3045,10 @@ footer.entry-meta {
 	.blog .format-gallery .gallery-item,
 	.archive .format-gallery .gallery-item,
 	.search .format-gallery .gallery-item {
-		margin-bottom: 2%;
-		margin-right: 2%;
 		max-width: none;
 		width: 49%;
+		width: -webkit-calc(50% - 4px);
+		width:         calc(50% - 4px);
 	}
 
 	.single .gallery-columns-1.gallery-size-medium,
@@ -3069,17 +3065,19 @@ footer.entry-meta {
 	.archive .format-gallery .gallery-item:first-child,
 	.search .format-gallery .gallery-item:first-child {
 		text-align: center;
-		width: 100%;
+		width: 98%;
+		width: -webkit-calc(100% - 4px);
+		width:         calc(100% - 4px);
 	}
 
 	.gallery-columns-3 .gallery-item:nth-of-type(3n),
 	.gallery-columns-5 .gallery-item:nth-of-type(5n),
 	.gallery-columns-7 .gallery-item:nth-of-type(7n),
 	.gallery-columns-9 .gallery-item:nth-of-type(9n) {
-		margin-right: 2%;
+		margin-right: 4px;
 	}
 
-	.single .gallery br {
+	.gallery br {
 		display: none;
 	}
 
