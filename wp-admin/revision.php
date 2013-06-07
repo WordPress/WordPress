@@ -26,7 +26,7 @@ case 'restore' :
 		break;
 
 	// Revisions disabled (previously checked autosavegs && ! wp_is_post_autosave( $revision ))
-	if ( ( ! WP_POST_REVISIONS || ! post_type_supports( $post->post_type, 'revisions' ) ) ) {
+	if ( ! wp_revisions_enabled( $post ) ) {
 		$redirect = 'edit.php?post_type=' . $post->post_type;
 		break;
 	}
