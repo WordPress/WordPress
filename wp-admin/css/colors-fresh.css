@@ -2173,7 +2173,7 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	/* 16px post formats */
 	a.post-state-format {
 		background-image: url(../images/post-formats32.png);
-		background-size: 320px 32px;
+		background-size: 32px 320px;
 	}
 
 }

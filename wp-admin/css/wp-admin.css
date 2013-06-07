@@ -3947,39 +3947,39 @@ a.post-state-format {
 }
 
 a.post-state-format.format-image  {
-	background-position: -40px -8px;
+	background-position: -8px -40px;
 }
 
 a.post-state-format.format-gallery {
-	background-position: -72px -8px;
+	background-position: -8px -72px;
 }
 
 a.post-state-format.format-audio {
-	background-position: -104px -8px;
+	background-position: -8px -104px;
 }
 
 a.post-state-format.format-video {
-	background-position: -135px -8px;
+	background-position: -8px -136px;
 }
 
 a.post-state-format.format-chat {
-	background-position: -168px -8px;
+	background-position: -8px -168px;
 }
 
 a.post-state-format.format-status {
-	background-position: -200px -8px;
+	background-position: -8px -200px;
 }
 
 a.post-state-format.format-aside {
-	background-position: -232px -8px;
+	background-position: -8px -232px;
 }
 
 a.post-state-format.format-quote {
-	background-position: -264px -8px;
+	background-position: -8px -265px;
 }
 
 a.post-state-format.format-link {
-	background-position: -296px -8px;
+	background-position: -8px -296px;
 }
 
 
