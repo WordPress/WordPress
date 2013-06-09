@@ -20,16 +20,8 @@ error_reporting(E_ALL ^ E_DEPRECATED);
 // Load database settings from PRESSFLOW_SETTINGS environment variable...
 $pressflow_settings = json_decode($_SERVER['PRESSFLOW_SETTINGS'], TRUE);
 
-$pantheon_environment = $pressflow_settings['conf']['pantheon_environment'];
-
-$wp_url = "http://$pantheon_environment.nuclearrooster.gotpantheon.com";
-if ($pantheon_environment == 'live') {
-  $wp_url = 'http://dev.nuclearrooster.com';
-}
-
-define('WP_HOME', $wp_url);
-define('WP_SITEURL', $wp_url);
-
+define('WP_HOME', 'http://' . $_SERVER['HTTP_HOST']);
+define('WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST']);
 
 $database_settings = $pressflow_settings['databases']['default']['default'];
 
