@@ -2,7 +2,19 @@ var autosave, autosaveLast = '', autosavePeriodical, autosaveDelayPreview = fals
 
 jQuery(document).ready( function($) {
 
-	autosaveLast = ( $('#post #title').val() || '' ) + ( $('#post #content').val() || '' );
+	if ( $('#wp-content-wrap').hasClass('tmce-active') && typeof tinymce != 'undefined' ) {
+		tinymce.onAddEditor.add( function( tinymce, editor ) {
+			if ( 'content' == editor.id ) {
+				editor.onLoad.add( function() {
+					editor.save();
+					autosaveLast = ( $('#title').val() || '' ) + ( $('#content').val() || '' );
+				});
+			}
+		});
+	} else {
+		autosaveLast = ( $('#title').val() || '' ) + ( $('#content').val() || '' );
+	}
+
 	autosavePeriodical = $.schedule({time: autosaveL10n.autosaveInterval * 1000, func: function() { autosave(); }, repeat: true, protect: true});
 
 	//Disable autosave after the form has been submitted
