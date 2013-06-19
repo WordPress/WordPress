@@ -655,10 +655,10 @@ function add_query_arg() {
 	else
 		$frag = '';
 
-	if ( 0 === stripos( 'http://', $uri ) ) {
+	if ( 0 === stripos( $uri, 'http://' ) ) {
 		$protocol = 'http://';
 		$uri = substr( $uri, 7 );
-	} elseif ( 0 === stripos( 'https://', $uri ) ) {
+	} elseif ( 0 === stripos( $uri, 'https://' ) ) {
 		$protocol = 'https://';
 		$uri = substr( $uri, 8 );
 	} else {
