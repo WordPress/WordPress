@@ -539,6 +539,9 @@
 		add: function( id, options ) {
 			var workflow = this.get( id );
 
+			if ( workflow ) // only add once: if exists return existing
+				return workflow;
+
 			workflow = workflows[ id ] = wp.media( _.defaults( options || {}, {
 				frame:    'post',
 				state:    'insert',
