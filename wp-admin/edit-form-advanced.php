@@ -151,7 +151,7 @@ if ( post_type_supports($post_type, 'trackbacks') )
 if ( post_type_supports($post_type, 'custom-fields') )
 	add_meta_box('postcustom', __('Custom Fields'), 'post_custom_meta_box', null, 'normal', 'core');
 
-do_action('dbx_post_advanced');
+do_action('dbx_post_advanced', $post);
 if ( post_type_supports($post_type, 'comments') )
 	add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', null, 'normal', 'core');
 
@@ -316,7 +316,7 @@ if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create
 	<p><?php _e("You have lost your connection with the server, and saving has been disabled. This message will vanish once you've reconnected."); ?></p>
 </div>
 
-<form name="post" action="post.php" method="post" id="post"<?php do_action('post_edit_form_tag'); ?>>
+<form name="post" action="post.php" method="post" id="post"<?php do_action('post_edit_form_tag', $post); ?>>
 <?php wp_nonce_field($nonce_action); ?>
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value="<?php echo esc_attr( $form_action ) ?>" />
@@ -378,7 +378,7 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 
 if ( has_action( 'edit_form_after_title' ) ) {
 	echo '<div class="edit-form-section">';
-	do_action( 'edit_form_after_title' );
+	do_action( 'edit_form_after_title', $post );
 	echo '</div>';
 }
 
@@ -414,7 +414,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 
 if ( has_action( 'edit_form_after_editor' ) ) {
 	echo '<div class="edit-form-section">';
-	do_action( 'edit_form_after_editor' );
+	do_action( 'edit_form_after_editor', $post );
 	echo '</div>';
 }
 ?>
@@ -424,9 +424,9 @@ if ( has_action( 'edit_form_after_editor' ) ) {
 <?php
 
 if ( 'page' == $post_type )
-	do_action('submitpage_box');
+	do_action('submitpage_box', $post);
 else
-	do_action('submitpost_box');
+	do_action('submitpost_box', $post);
 
 do_meta_boxes($post_type, 'side', $post);
 
@@ -438,9 +438,9 @@ do_meta_boxes($post_type, 'side', $post);
 do_meta_boxes(null, 'normal', $post);
 
 if ( 'page' == $post_type )
-	do_action('edit_page_form');
+	do_action('edit_page_form', $post);
 else
-	do_action('edit_form_advanced');
+	do_action('edit_form_advanced', $post);
 
 do_meta_boxes(null, 'advanced', $post);
 
@@ -448,7 +448,7 @@ do_meta_boxes(null, 'advanced', $post);
 </div>
 <?php
 
-do_action('dbx_post_sidebar');
+do_action('dbx_post_sidebar', $post);
 
 ?>
 </div><!-- /post-body -->
