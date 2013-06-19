@@ -3298,7 +3298,7 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
  */
 function wp_get_single_post( $postid = 0, $mode = OBJECT ) {
 	_deprecated_function( __FUNCTION__, '3.5', 'get_post()' );
-	return get_post( $postid, $mode, 'edit' );
+	return get_post( $postid, $mode );
 }
 
 /**
