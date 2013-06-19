@@ -2901,7 +2901,7 @@ function sanitize_option($option, $value) {
 
 		case 'illegal_names':
 			if ( ! is_array( $value ) )
-				$value = explode( "\n", $value );
+				$value = explode( ' ', $value );
 
 			$value = array_values( array_filter( array_map( 'trim', $value ) ) );
 
