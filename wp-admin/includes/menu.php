@@ -156,7 +156,7 @@ function add_menu_classes($menu) {
 			continue;
 		}
 
-		if ( 0 === strpos($top[2], 'separator') ) { // if separator
+		if ( 0 === strpos($top[2], 'separator') && false !== $lastorder ) { // if separator
 			$first = true;
 			$c = $menu[$lastorder][4];
 			$menu[$lastorder][4] = add_cssclass('menu-top-last', $c);
