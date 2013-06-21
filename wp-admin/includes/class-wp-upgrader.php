@@ -98,7 +98,7 @@ class WP_Upgrader {
 					break;
 				default:
 					if ( ! $wp_filesystem->find_folder($dir) )
-						return new WP_Error('fs_no_folder', sprintf($this->strings['fs_no_folder'], $dir));
+						return new WP_Error( 'fs_no_folder', sprintf( $this->strings['fs_no_folder'], esc_html( basename( $dir ) ) ) );
 					break;
 			}
 		}
@@ -1133,7 +1133,7 @@ class WP_Upgrader_Skin {
 		} elseif ( is_wp_error($errors) && $errors->get_error_code() ) {
 			foreach ( $errors->get_error_messages() as $message ) {
 				if ( $errors->get_error_data() )
-					$this->feedback($message . ' ' . $errors->get_error_data() );
+					$this->feedback($message . ' ' . esc_html( $errors->get_error_data() ) );
 				else
 					$this->feedback($message);
 			}
@@ -1147,8 +1147,11 @@ class WP_Upgrader_Skin {
 		if ( strpos($string, '%') !== false ) {
 			$args = func_get_args();
 			$args = array_splice($args, 1);
-			if ( !empty($args) )
+			if ( $args ) {
+				$args = array_map( 'strip_tags', $args );
+				$args = array_map( 'esc_html', $args );
 				$string = vsprintf($string, $args);
+			}
 		}
 		if ( empty($string) )
 			return;
@@ -1188,11 +1191,11 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 	function after() {
 		$this->plugin = $this->upgrader->plugin_info();
 		if ( !empty($this->plugin) && !is_wp_error($this->result) && $this->plugin_active ){
-			echo '<iframe style="border:0;overflow:hidden" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&networkwide=' . $this->plugin_network_active . '&plugin=' . $this->plugin, 'activate-plugin_' . $this->plugin) .'"></iframe>';
+			echo '<iframe style="border:0;overflow:hidden" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&networkwide=' . $this->plugin_network_active . '&plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin) .'"></iframe>';
 		}
 
 		$update_actions =  array(
-			'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $this->plugin, 'activate-plugin_' . $this->plugin) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>',
+			'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>',
 			'plugins_page' => '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Go to plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>'
 		);
 		if ( $this->plugin_active || ! $this->result || is_wp_error( $this->result ) || ! current_user_can( 'activate_plugins' ) )
@@ -1244,8 +1247,11 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 		if ( strpos($string, '%') !== false ) {
 			$args = func_get_args();
 			$args = array_splice($args, 1);
-			if ( !empty($args) )
+			if ( $args ) {
+				$args = array_map( 'strip_tags', $args );
+				$args = array_map( 'esc_html', $args );
 				$string = vsprintf($string, $args);
+			}
 		}
 		if ( empty($string) )
 			return;
@@ -1269,7 +1275,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 		if ( is_wp_error($error) ) {
 			foreach ( $error->get_error_messages() as $emessage ) {
 				if ( $error->get_error_data() )
-					$messages[] = $emessage . ' ' . $error->get_error_data();
+					$messages[] = $emessage . ' ' . esc_html( $error->get_error_data() );
 				else
 					$messages[] = $emessage;
 			}
@@ -1430,12 +1436,12 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		$from = isset($_GET['from']) ? stripslashes($_GET['from']) : 'plugins';
 
 		if ( 'import' == $from )
-			$install_actions['activate_plugin'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;from=import&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin &amp; Run Importer') . '</a>';
+			$install_actions['activate_plugin'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;from=import&amp;plugin=' . urlencode( $plugin_file ), 'activate-plugin_' . $plugin_file) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin &amp; Run Importer') . '</a>';
 		else
-			$install_actions['activate_plugin'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>';
+			$install_actions['activate_plugin'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . urlencode( $plugin_file ), 'activate-plugin_' . $plugin_file) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>';
 
 		if ( is_multisite() && current_user_can( 'manage_network_plugins' ) ) {
-			$install_actions['network_activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;networkwide=1&amp;plugin=' . $plugin_file, 'activate-plugin_' . $plugin_file) . '" title="' . esc_attr__('Activate this plugin for all sites in this network') . '" target="_parent">' . __('Network Activate') . '</a>';
+			$install_actions['network_activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;networkwide=1&amp;plugin=' . urlencode( $plugin_file ), 'activate-plugin_' . $plugin_file) . '" title="' . esc_attr__('Activate this plugin for all sites in this network') . '" target="_parent">' . __('Network Activate') . '</a>';
 			unset( $install_actions['activate_plugin'] );
 		}
 
