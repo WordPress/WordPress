@@ -96,7 +96,7 @@ function the_title_attribute( $args = '' ) {
  *
  * @since 0.71
  *
- * @param mixed $post Optional. Post ID or object.
+ * @param int|object $post Optional. Post ID or object.
  * @return string
  */
 function get_the_title( $post = 0 ) {
@@ -1265,7 +1265,7 @@ function get_the_password_form( $post = 0 ) {
  * @uses $wp_query
  *
  * @param string $template The specific template name if specific matching is required.
- * @return bool False on failure, true if success.
+ * @return bool True on success, false on failure.
  */
 function is_page_template( $template = '' ) {
 	if ( ! is_page() )

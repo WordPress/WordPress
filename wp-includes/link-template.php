@@ -232,7 +232,7 @@ function post_permalink( $post_id = 0, $deprecated = '' ) {
  *
  * @since 1.5.0
  *
- * @param mixed $post Optional. Post ID or object.
+ * @param int|object $post Optional. Post ID or object.
  * @param bool $leavename Optional, defaults to false. Whether to keep page name.
  * @param bool $sample Optional, defaults to false. Is it a sample permalink.
  * @return string
@@ -256,7 +256,7 @@ function get_page_link( $post = false, $leavename = false, $sample = false ) {
  * @since 2.1.0
  * @access private
  *
- * @param mixed $post Optional. Post ID or object.
+ * @param int|object $post Optional. Post ID or object.
  * @param bool $leavename Optional. Leave name.
  * @param bool $sample Optional. Sample permalink.
  * @return string
@@ -291,7 +291,7 @@ function _get_page_link( $post = false, $leavename = false, $sample = false ) {
  *
  * @since 2.0.0
  *
- * @param mixed $post Optional. Post ID or object.
+ * @param int|object $post Optional. Post ID or object.
  * @param bool $leavename Optional. Leave name.
  * @return string
  */

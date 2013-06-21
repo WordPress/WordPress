@@ -3116,7 +3116,7 @@ function wp_sprintf_l($pattern, $args) {
  *
  * @since 2.5.0
  *
- * @param integer $str String to get the excerpt from.
+ * @param string $str String to get the excerpt from.
  * @param integer $count Maximum number of characters to take.
  * @param string $more Optional. What to append if $str needs to be trimmed. Defaults to empty string.
  * @return string The excerpt.

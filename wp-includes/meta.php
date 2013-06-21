@@ -26,7 +26,7 @@
  * @param bool $unique Optional, default is false. Whether the specified metadata key should be
  * 		unique for the object. If true, and the object already has a value for the specified
  * 		metadata key, no change will be made
- * @return bool The meta ID on successful update, false on failure.
+ * @return int|bool The meta ID on successful update, false on failure.
  */
 function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = false) {
 	if ( !$meta_type || !$meta_key )

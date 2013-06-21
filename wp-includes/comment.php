@@ -539,7 +539,7 @@ function get_comment_count( $post_id = 0 ) {
  * @param string $meta_key Metadata name.
  * @param mixed $meta_value Metadata value.
  * @param bool $unique Optional, default is false. Whether the same key should not be added.
- * @return bool False for failure. True for success.
+ * @return int|bool Meta ID on success, false on failure.
  */
 function add_comment_meta($comment_id, $meta_key, $meta_value, $unique = false) {
 	return add_metadata('comment', $comment_id, $meta_key, $meta_value, $unique);
@@ -559,7 +559,7 @@ function add_comment_meta($comment_id, $meta_key, $meta_value, $unique = false) 
  * @param int $comment_id comment ID
  * @param string $meta_key Metadata name.
  * @param mixed $meta_value Optional. Metadata value.
- * @return bool False for failure. True for success.
+ * @return bool True on success, false on failure.
  */
 function delete_comment_meta($comment_id, $meta_key, $meta_value = '') {
 	return delete_metadata('comment', $comment_id, $meta_key, $meta_value);
@@ -598,7 +598,7 @@ function get_comment_meta($comment_id, $key = '', $single = false) {
  * @param string $meta_key Metadata key.
  * @param mixed $meta_value Metadata value.
  * @param mixed $prev_value Optional. Previous value to check before removing.
- * @return bool False on failure, true if success.
+ * @return bool True on success, false on failure.
  */
 function update_comment_meta($comment_id, $meta_key, $meta_value, $prev_value = '') {
 	return update_metadata('comment', $comment_id, $meta_key, $meta_value, $prev_value);
@@ -994,7 +994,7 @@ function wp_count_comments( $post_id = 0 ) {
  *
  * @param int $comment_id Comment ID
  * @param bool $force_delete Whether to bypass trash and force deletion. Default is false.
- * @return bool False if delete comment query failure, true on success.
+ * @return bool True on success, false on failure.
  */
 function wp_delete_comment($comment_id, $force_delete = false) {
 	global $wpdb;
@@ -1044,7 +1044,7 @@ function wp_delete_comment($comment_id, $force_delete = false) {
  * @uses wp_delete_comment() if trash is disabled
  *
  * @param int $comment_id Comment ID.
- * @return mixed False on failure
+ * @return bool True on success, false on failure.
  */
 function wp_trash_comment($comment_id) {
 	if ( !EMPTY_TRASH_DAYS )
@@ -1073,7 +1073,7 @@ function wp_trash_comment($comment_id) {
  * @uses do_action() on 'untrashed_comment' after untrashing
  *
  * @param int $comment_id Comment ID.
- * @return mixed False on failure
+ * @return bool True on success, false on failure.
  */
 function wp_untrash_comment($comment_id) {
 	if ( ! (int)$comment_id )
@@ -1103,7 +1103,7 @@ function wp_untrash_comment($comment_id) {
  * @uses do_action() on 'spammed_comment' after spamming
  *
  * @param int $comment_id Comment ID.
- * @return mixed False on failure
+ * @return bool True on success, false on failure.
  */
 function wp_spam_comment($comment_id) {
 	if ( !$comment = get_comment($comment_id) )
@@ -1128,7 +1128,7 @@ function wp_spam_comment($comment_id) {
  * @uses do_action() on 'unspammed_comment' after unspamming
  *
  * @param int $comment_id Comment ID.
- * @return mixed False on failure
+ * @return bool True on success, false on failure.
  */
 function wp_unspam_comment($comment_id) {
 	if ( ! (int)$comment_id )
@@ -1423,7 +1423,7 @@ function wp_new_comment( $commentdata ) {
  * @param int $comment_id Comment ID.
  * @param string $comment_status New comment status, either 'hold', 'approve', 'spam', or 'trash'.
  * @param bool $wp_error Whether to return a WP_Error object if there is a failure. Default is false.
- * @return bool False on failure or deletion and true on success.
+ * @return bool|WP_Error True on success, false or WP_Error on failure.
  */
 function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) {
 	global $wpdb;
@@ -1601,7 +1601,7 @@ function wp_update_comment_count($post_id, $do_deferred=false) {
  * @uses do_action() Calls 'edit_posts' hook on $post_id and $post
  *
  * @param int $post_id Post ID
- * @return bool False on '0' $post_id or if post with ID does not exist. True on success.
+ * @return bool True on success, false on '0' $post_id or if post with ID does not exist.
  */
 function wp_update_comment_count_now($post_id) {
 	global $wpdb;
