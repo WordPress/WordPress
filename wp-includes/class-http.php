@@ -87,7 +87,7 @@ class WP_Http {
 			'redirection' => apply_filters( 'http_request_redirection_count', 5),
 			'httpversion' => apply_filters( 'http_request_version', '1.0'),
 			'user-agent' => apply_filters( 'http_headers_useragent', 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' ) ),
-			'reject_unsafe_urls' => apply_filters( 'http_request_reject_unsafe_urls', false ),
+			'reject_unsafe_urls' => apply_filters( 'http_request_reject_unsafe_urls', true ),
 			'blocking' => true,
 			'headers' => array(),
 			'cookies' => array(),
