@@ -65,14 +65,23 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 		}
 	}
 
-	if ( ! $update && isset( $post_data['user_ID'] ) && ( $post_data['post_author'] != $post_data['user_ID'] )
+	if ( isset( $post_data['user_ID'] ) && ( $post_data['post_author'] != $post_data['user_ID'] )
 		 && ! current_user_can( $ptype->cap->edit_others_posts ) ) {
-
-		if ( 'page' == $post_data['post_type'] )
-			return new WP_Error( 'edit_others_pages', __( 'You are not allowed to create pages as this user.' ) );
-		else
-			return new WP_Error( 'edit_others_posts', __( 'You are not allowed to create posts as this user.' ) );
+		if ( $update ) {
+			if ( 'page' == $post_data['post_type'] )
+				return new WP_Error( 'edit_others_pages', __( 'You are not allowed to edit pages as this user.' ) );
+			else
+				return new WP_Error( 'edit_others_posts', __( 'You are not allowed to edit posts as this user.' ) );
+		} else {
+			if ( 'page' == $post_data['post_type'] )
+				return new WP_Error( 'edit_others_pages', __( 'You are not allowed to create pages as this user.' ) );
+			else
+				return new WP_Error( 'edit_others_posts', __( 'You are not allowed to create posts as this user.' ) );
+		}
 	}
+
+	if ( ! empty( $post_data['post_status'] ) )
+		$post_data['post_status'] = sanitize_key( $post_data['post_status'] );
 
 	// What to do based on which button they pressed
 	if ( isset($post_data['saveasdraft']) && '' != $post_data['saveasdraft'] )
@@ -92,10 +101,12 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 		$post_id = false;
 	$previous_status = $post_id ? get_post_field( 'post_status', $post_id ) : false;
 
+	$published_statuses = array( 'publish', 'future' );
+
 	// Posts 'submitted for approval' present are submitted to $_POST the same as if they were being published.
 	// Change status from 'publish' to 'pending' if user lacks permissions to publish or to resave published posts.
-	if ( isset($post_data['post_status']) && ('publish' == $post_data['post_status'] && !current_user_can( $ptype->cap->publish_posts )) )
-		if ( $previous_status != 'publish' || !current_user_can( 'edit_post', $post_id ) )
+	if ( isset($post_data['post_status']) && (in_array( $post_data['post_status'], $published_statuses ) && !current_user_can( $ptype->cap->publish_posts )) )
+		if ( ! in_array( $previous_status, $published_statuses ) || !current_user_can( 'edit_post', $post_id ) )
 			$post_data['post_status'] = 'pending';
 
 	if ( ! isset($post_data['post_status']) )
