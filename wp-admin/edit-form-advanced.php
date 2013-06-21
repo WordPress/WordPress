@@ -144,7 +144,7 @@ if ( post_type_supports($post_type, 'trackbacks') )
 if ( post_type_supports($post_type, 'custom-fields') )
 	add_meta_box('postcustom', __('Custom Fields'), 'post_custom_meta_box', null, 'normal', 'core');
 
-do_action('dbx_post_advanced');
+do_action('dbx_post_advanced', $post);
 if ( post_type_supports($post_type, 'comments') )
 	add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', null, 'normal', 'core');
 
@@ -296,7 +296,7 @@ if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create
 <?php if ( $message ) : ?>
 <div id="message" class="updated"><p><?php echo $message; ?></p></div>
 <?php endif; ?>
-<form name="post" action="post.php" method="post" id="post"<?php do_action('post_edit_form_tag'); ?>>
+<form name="post" action="post.php" method="post" id="post"<?php do_action('post_edit_form_tag', $post); ?>>
 <?php wp_nonce_field($nonce_action); ?>
 <input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value="<?php echo esc_attr( $form_action ) ?>" />
@@ -354,7 +354,7 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 <?php
 }
 
-do_action( 'edit_form_after_title' );
+do_action( 'edit_form_after_title', $post );
 
 if ( post_type_supports($post_type, 'editor') ) {
 ?>
@@ -383,16 +383,16 @@ if ( post_type_supports($post_type, 'editor') ) {
 </div>
 <?php } ?>
 
-<?php do_action( 'edit_form_after_editor' ); ?>
+<?php do_action( 'edit_form_after_editor', $post ); ?>
 </div><!-- /post-body-content -->
 
 <div id="postbox-container-1" class="postbox-container">
 <?php
 
 if ( 'page' == $post_type )
-	do_action('submitpage_box');
+	do_action('submitpage_box', $post);
 else
-	do_action('submitpost_box');
+	do_action('submitpost_box', $post);
 
 do_meta_boxes($post_type, 'side', $post);
 
@@ -404,9 +404,9 @@ do_meta_boxes($post_type, 'side', $post);
 do_meta_boxes(null, 'normal', $post);
 
 if ( 'page' == $post_type )
-	do_action('edit_page_form');
+	do_action('edit_page_form', $post);
 else
-	do_action('edit_form_advanced');
+	do_action('edit_form_advanced', $post);
 
 do_meta_boxes(null, 'advanced', $post);
 
@@ -414,7 +414,7 @@ do_meta_boxes(null, 'advanced', $post);
 </div>
 <?php
 
-do_action('dbx_post_sidebar');
+do_action('dbx_post_sidebar', $post);
 
 ?>
 </div><!-- /post-body -->
