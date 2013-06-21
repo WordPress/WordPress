@@ -158,7 +158,7 @@ class WP_Roles {
 	 * @param string $role Role name.
 	 * @param string $display_name Role display name.
 	 * @param array $capabilities List of role capabilities in the above format.
-	 * @return null|WP_Role WP_Role object if role is added, null if already exists.
+	 * @return WP_Role|null WP_Role object if role is added, null if already exists.
 	 */
 	function add_role( $role, $display_name, $capabilities = array() ) {
 		if ( isset( $this->roles[$role] ) )
@@ -239,7 +239,7 @@ class WP_Roles {
 	 * @access public
 	 *
 	 * @param string $role Role name.
-	 * @return object|null Null, if role does not exist. WP_Role object, if found.
+	 * @return WP_Role|null WP_Role object if found, null if the role does not exist.
 	 */
 	function get_role( $role ) {
 		if ( isset( $this->role_objects[$role] ) )
@@ -1374,7 +1374,7 @@ function user_can( $user, $capability ) {
  * @since 2.0.0
  *
  * @param string $role Role name.
- * @return object
+ * @return WP_Role|null WP_Role object if found, null if the role does not exist.
  */
 function get_role( $role ) {
 	global $wp_roles;
@@ -1394,7 +1394,7 @@ function get_role( $role ) {
  * @param string $role Role name.
  * @param string $display_name Display name for role.
  * @param array $capabilities List of capabilities, e.g. array( 'edit_posts' => true, 'delete_posts' => false );
- * @return null|WP_Role WP_Role object if role is added, null if already exists.
+ * @return WP_Role|null WP_Role object if role is added, null if already exists.
  */
 function add_role( $role, $display_name, $capabilities = array() ) {
 	global $wp_roles;
