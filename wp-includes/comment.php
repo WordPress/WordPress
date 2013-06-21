@@ -1661,7 +1661,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	if ( 0 === strpos($url, $uploads_dir['baseurl']) )
 		return false;
 
-	$response = wp_remote_head( $url, array( 'timeout' => 2, 'httpversion' => '1.0' ) );
+	$response = wp_remote_head( $url, array( 'timeout' => 2, 'httpversion' => '1.0', 'reject_unsafe_urls' => true ) );
 
 	if ( is_wp_error( $response ) )
 		return false;
@@ -1674,7 +1674,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 		return false;
 
 	// Now do a GET since we're going to look in the html headers (and we're sure its not a binary file)
-	$response = wp_remote_get( $url, array( 'timeout' => 2, 'httpversion' => '1.0' ) );
+	$response = wp_remote_get( $url, array( 'timeout' => 2, 'httpversion' => '1.0', 'reject_unsafe_urls' => true ) );
 
 	if ( is_wp_error( $response ) )
 		return false;
@@ -1908,6 +1908,7 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 
 	$options = array();
 	$options['timeout'] = 4;
+	$options['reject_unsafe_urls'] = true;
 	$options['body'] = array(
 		'title' => $title,
 		'url' => get_permalink($ID),
@@ -1955,62 +1956,13 @@ function weblog_ping($server = '', $path = '') {
  * Default filter attached to pingback_ping_source_uri to validate the pingback's Source URI
  *
  * @since 3.5.1
+ * @see wp_http_validate_url()
  *
  * @param string $source_uri
  * @return string
  */
 function pingback_ping_source_uri( $source_uri ) {
-	$uri = esc_url_raw( $source_uri, array( 'http', 'https' ) );
-	if ( ! $uri )
-		return '';
-
-	$parsed_url = @parse_url( $uri );
-	if ( ! $parsed_url )
-		return '';
-
-	if ( isset( $parsed_url['user'] ) || isset( $parsed_url['pass'] ) )
-		return '';
-
-	if ( false !== strpos( $parsed_url['host'], ':' ) )
-		return '';
-
-	$parsed_home = @parse_url( get_option( 'home' ) );
-
-	$same_host = strtolower( $parsed_home['host'] ) === strtolower( $parsed_url['host'] );
-
-	if ( ! $same_host ) {
-		$host = trim( $parsed_url['host'], '.' );
-		if ( preg_match( '#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $host ) ) {
-			$ip = $host;
-		} else {
-			$ip = gethostbyname( $host );
-			if ( $ip === $host ) // Error condition for gethostbyname()
-				$ip = false;
-		}
-		if ( $ip ) {
-			if ( '127.0.0.1' === $ip )
-				return '';
-			$parts = array_map( 'intval', explode( '.', $ip ) );
-			if ( 10 === $parts[0] )
-				return '';
-			if ( 172 === $parts[0] && 16 <= $parts[1] && 31 >= $parts[1] )
-				return '';
-			if ( 192 === $parts[0] && 168 === $parts[1] )
-				return '';
-		}
-	}
-
-	if ( empty( $parsed_url['port'] ) )
-		return $uri;
-
-	$port = $parsed_url['port'];
-	if ( 80 === $port || 443 === $port || 8080 === $port )
-		return $uri;
-
-	if ( $parsed_home && $same_host && $parsed_home['port'] === $port )
-		return $uri;
-
-	return '';
+	return (string) wp_http_validate_url( $source_uri );
 }
 
 /**

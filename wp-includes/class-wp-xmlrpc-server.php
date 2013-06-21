@@ -5380,7 +5380,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		sleep(1);
 
 		// Let's check the remote site
-		$linea = wp_remote_retrieve_body( wp_remote_get( $pagelinkedfrom, array( 'timeout' => 10, 'redirection' => 0 ) ) );
+		$linea = wp_remote_retrieve_body( wp_remote_get( $pagelinkedfrom, array( 'timeout' => 10, 'redirection' => 0, 'reject_unsafe_urls' => true ) ) );
+
 		if ( !$linea )
 	  		return $this->pingback_error( 16, __( 'The source URL does not exist.' ) );
 
