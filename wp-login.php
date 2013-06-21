@@ -389,14 +389,11 @@ $http_post = ('POST' == $_SERVER['REQUEST_METHOD']);
 switch ($action) {
 
 case 'postpass' :
-	if ( empty( $wp_hasher ) ) {
-		require_once( ABSPATH . 'wp-includes/class-phpass.php' );
-		// By default, use the portable hash from phpass
-		$wp_hasher = new PasswordHash(8, true);
-	}
+	require_once ABSPATH . 'wp-includes/class-phpass.php';
+	$hasher = new PasswordHash( 8, true );
 
 	// 10 days
-	setcookie( 'wp-postpass_' . COOKIEHASH, $wp_hasher->HashPassword( stripslashes( $_POST['post_password'] ) ), time() + 10 * DAY_IN_SECONDS, COOKIEPATH );
+	setcookie( 'wp-postpass_' . COOKIEHASH, $hasher->HashPassword( stripslashes( $_POST['post_password'] ) ), time() + 10 * DAY_IN_SECONDS, COOKIEPATH );
 
 	wp_safe_redirect( wp_get_referer() );
 	exit();
