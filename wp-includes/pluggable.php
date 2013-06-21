@@ -1257,10 +1257,10 @@ function wp_verify_nonce($nonce, $action = -1) {
 	$i = wp_nonce_tick();
 
 	// Nonce generated 0-12 hours ago
-	if ( substr(wp_hash($i . $action . $uid, 'nonce'), -12, 10) == $nonce )
+	if ( substr(wp_hash($i . $action . $uid, 'nonce'), -12, 10) === $nonce )
 		return 1;
 	// Nonce generated 12-24 hours ago
-	if ( substr(wp_hash(($i - 1) . $action . $uid, 'nonce'), -12, 10) == $nonce )
+	if ( substr(wp_hash(($i - 1) . $action . $uid, 'nonce'), -12, 10) === $nonce )
 		return 2;
 	// Invalid nonce
 	return false;
