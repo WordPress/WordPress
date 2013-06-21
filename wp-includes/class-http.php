@@ -86,7 +86,8 @@ class WP_Http {
 			'timeout' => apply_filters( 'http_request_timeout', 5),
 			'redirection' => apply_filters( 'http_request_redirection_count', 5),
 			'httpversion' => apply_filters( 'http_request_version', '1.0'),
-			'user-agent' => apply_filters( 'http_headers_useragent', 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )  ),
+			'user-agent' => apply_filters( 'http_headers_useragent', 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' ) ),
+			'reject_unsafe_urls' => apply_filters( 'http_request_reject_unsafe_urls', false ),
 			'blocking' => true,
 			'headers' => array(),
 			'cookies' => array(),
@@ -118,7 +119,11 @@ class WP_Http {
 		if ( false !== $pre )
 			return $pre;
 
-		$arrURL = parse_url( $url );
+		if ( $r['reject_unsafe_urls'] )
+			$url = wp_http_validate_url( $url );
+		$url = wp_kses_bad_protocol( $url, array( 'http', 'https', 'ssl' ) );
+
+		$arrURL = @parse_url( $url );
 
 		if ( empty( $url ) || empty( $arrURL['scheme'] ) )
 			return new WP_Error('http_request_failed', __('A valid URL was not provided.'));
@@ -1146,6 +1151,8 @@ class WP_Http_Curl {
 		// The option doesn't work with safe mode or when open_basedir is set, and there's a
 		// bug #17490 with redirected POST requests, so handle redirections outside Curl.
 		curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, false );
+		if ( defined( 'CURLOPT_PROTOCOLS' ) ) // PHP 5.2.10 / cURL 7.19.4
+			curl_setopt( $handle, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS );
 
 		switch ( $r['method'] ) {
 			case 'HEAD':

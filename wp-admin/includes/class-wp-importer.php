@@ -183,6 +183,7 @@ class WP_Importer {
 
 		$headers = array();
 		$args = array();
+		$args['reject_unsafe_urls'] = true;
 		if ( true === $head )
 			$args['method'] = 'HEAD';
 		if ( !empty( $username ) && !empty( $password ) )
