@@ -120,7 +120,8 @@ class WP_Http {
 
 		if ( $r['reject_unsafe_urls'] )
 			$url = wp_http_validate_url( $url );
-		$url = wp_kses_bad_protocol( $url, array( 'http', 'https', 'ssl' ) );
+		if ( function_exists( 'wp_kses_bad_protocol' ) )
+			$url = wp_kses_bad_protocol( $url, array( 'http', 'https', 'ssl' ) );
 
 		$arrURL = @parse_url( $url );
 
