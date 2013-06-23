@@ -354,8 +354,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 		echo '<div class="submitted-on">';
 		/* translators: 2: comment date, 3: comment time */
 		printf( __( 'Submitted on <a href="%1$s">%2$s at %3$s</a>' ), $comment_url,
-			/* translators: comment date format. See http://php.net/date */ get_comment_date( __( 'Y/m/d' ) ),
-			/* translators: comment time format. See http://php.net/date */ get_comment_date( get_option( 'time_format' ) ) );
+			/* translators: comment date format. See http://php.net/date */
+			get_comment_date( __( 'Y/m/d' ) ),
+			get_comment_date( get_option( 'time_format' ) )
+		);
 
 		if ( $comment->comment_parent ) {
 			$parent = get_comment( $comment->comment_parent );
