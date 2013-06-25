@@ -770,9 +770,6 @@ img.wp-smiley,
 	background-color: #fff;
 	border-left: 1px solid #f2f2f2;
 	border-right: 1px solid #f2f2f2;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing:    content-box;
-	box-sizing:         content-box;
 	margin: 0 auto;
 	max-width: 1600px;
 	width: 100%;
