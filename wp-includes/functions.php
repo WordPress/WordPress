@@ -3998,3 +3998,25 @@ function get_tag_regex( $tag ) {
 		return;
 	return sprintf( '<%1$s[^<]*(?:>[\s\S]*<\/%1$s>|\s*\/>)', tag_escape( $tag ) );
 }
+
+/**
+ * Return a canonical form of the provided charset appropriate for passing to PHP
+ * functions such as htmlspecialchars() and charset html attributes.
+ *
+ * @link http://core.trac.wordpress.org/ticket/23688
+ * @since 3.6.0
+ *
+ * @param string A charset name
+ * @return string The canonical form of the charset
+ */
+function _canonical_charset( $charset ) {
+	if ( 'UTF-8' === $charset || 'utf-8' === $charset || 'utf8' === $charset ||
+		'UTF8' === $charset )
+		return 'UTF-8';
+
+	if ( 'ISO-8859-1' === $charset || 'iso-8859-1' === $charset ||
+		'iso8859-1' === $charset || 'ISO8859-1' === $charset )
+		return 'ISO-8859-1';
+
+	return $charset;
+}

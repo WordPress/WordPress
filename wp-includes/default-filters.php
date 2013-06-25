@@ -179,6 +179,7 @@ add_filter( 'the_author',         'ent2ncr',      8 );
 // Misc filters
 add_filter( 'option_ping_sites',        'privacy_ping_filter'                 );
 add_filter( 'option_blog_charset',      '_wp_specialchars'                    ); // IMPORTANT: This must not be wp_specialchars() or esc_html() or it'll cause an infinite loop
+add_filter( 'option_blog_charset',      '_canonical_charset'                  );
 add_filter( 'option_home',              '_config_wp_home'                     );
 add_filter( 'option_siteurl',           '_config_wp_siteurl'                  );
 add_filter( 'tiny_mce_before_init',     '_mce_set_direction'                  );
