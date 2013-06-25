@@ -6,7 +6,7 @@
 
 ( function( $ ) {
 	var body    = $( 'body' ),
-	    _window = $( window ),
+	    _window = $( window );
 
 	/**
 	 * Adds a top margin to the footer if the sidebar widget area is higher
