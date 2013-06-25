@@ -14,7 +14,8 @@ Description: Used to style the TinyMCE editor.
  * 5.0 - Alignment
  * 6.0 - Tables
  * 7.0 - Images
- * 8.0 - RTL
+ * 8.0 - Post Formats
+ * 9.0 - RTL
  * ----------------------------------------------------------------------------
  */
 
@@ -366,7 +367,178 @@ img {
 
 
 /**
- * 8.0 RTL
+ * 8.0 Post Formats
+ * ----------------------------------------------------------------------------
+ */
+
+/* Aside */
+.post-format-aside {
+	background-color: #f7f5e7;
+}
+
+.post-format-aside blockquote {
+	font-size: 100%;
+	font-weight: normal;
+}
+
+.post-format-aside cite {
+	font-size: 100%;
+	text-transform: none;
+}
+
+.post-format-aside cite:before {
+	content: "\2014";
+	margin-right: 5px;
+}
+
+/* Audio */
+.post-format-audio {
+	background-color: #db572f;
+	padding-left: 120px;
+}
+
+.post-format-audio a {
+	color: #fbfaf3;
+}
+
+.post-format-audio:before {
+	background: url(../images/dotted-line.png) repeat-y 85px 0;
+	background-size: 4px 4px;
+	-webkit-font-smoothing: antialiased;
+	font-family: Genericons;
+	font-size: 64px;
+	content: "\f109";
+	float: left;
+	width: 120px;
+	display: block;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 4px;
+}
+
+/* Chat */
+.post-format-chat {
+	background-color: #eadaa6;
+}
+
+.post-format-chat a {
+	color: #722d19;
+}
+
+/* Gallery */
+.post-format-gallery {
+	background-color: #fbca3c;
+}
+
+.post-format-gallery a {
+	color: #722d19;
+}
+
+/* Image: same as Standard/Defaults */
+
+/* Link */
+.post-format-link {
+	background-color: #f7f5e7;
+}
+
+/* Quote */
+.post-format-quote {
+	background-color: #210d10;
+	color: #f7f5e7;
+}
+
+.post-format-quote a {
+	color: #e63f2a;
+}
+
+.post-format-quote blockquote {
+	font-size: 28px;
+	font-style: italic;
+	font-weight: 300;
+	margin: 0;
+	padding-left: 75px;
+	position: relative;
+}
+
+.post-format-quote blockquote:before {
+	content: '\201C';
+	font-size: 140px;
+	font-weight: 400;
+	line-height: .8;
+	padding-right: 25px;
+	position: absolute;
+	left: -15px;
+	top: -3px;
+}
+
+.post-format-quote blockquote small,
+.post-format-quote blockquote cite {
+	display: block;
+	font-size: 16px;
+}
+
+.format-quote .entry-content cite a {
+	border-bottom: 1px dotted #fff;
+	color: #fff;
+}
+
+.format-quote .entry-content cite a:hover {
+	text-decoration: none;
+}
+
+
+/* Status */
+.post-format-status {
+	background-color: #722d19;
+	color: #f7f5e7;
+	font-style: italic;
+	font-weight: 300;
+	padding: 0;
+	padding-left: 35px;
+}
+
+.post-format-status.mceContentBody {
+	font-size: 24px;
+}
+
+.post-format-status:before {
+	background: url(../images/dotted-line.png) repeat-y left bottom;
+	background-size: 4px 4px;
+	content: "";
+	display: block;
+	height: 100%;
+	position: absolute;
+	left: 15px;
+	top: 0;
+	width: 1px;
+}
+
+.post-format-status p:first-child:before {
+	background-color: rgba(0, 0, 0, 0.65);
+	content: "";
+	height: 3px;
+	width: 13px;
+	margin-top: 13px;
+	position: absolute;
+	left: 9px;
+}
+
+.post-format-status a {
+	color: #eadaa6;
+}
+
+/* Video */
+.post-format-video {
+	background-color: #db572f;
+}
+
+.post-format-video a {
+	color: #fbfaf3;
+}
+
+/**
+ * 9.0 RTL
  * ----------------------------------------------------------------------------
  */
 
