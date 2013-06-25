@@ -168,6 +168,8 @@ function twentythirteen_fonts() {
 	$fonts_url = twentythirteen_fonts_url();
 	if ( ! empty( $fonts_url ) )
 		wp_enqueue_style( 'twentythirteen-fonts', esc_url_raw( $fonts_url ), array(), null );
+
+	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/fonts/genericons.css', array(), '2.09' );
 }
 add_action( 'wp_enqueue_scripts', 'twentythirteen_fonts' );
 
