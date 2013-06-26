@@ -126,6 +126,9 @@
 				case 'audio/wma':
 					shortcode.wma = attachment.url;
 					break;
+				default:
+					// Render unsupported audio files as links.
+					return wp.media.string.link( props );
 				}
 			}
 
