@@ -8,6 +8,12 @@
 
 /** WordPress Administration Bootstrap */
 require_once('./admin.php');
+
+require ABSPATH . 'wp-admin/includes/revision.php';
+
+// wp_get_revision_ui_diff( $post, $compare_from, $compare_to )
+// wp_prepare_revisions_for_js( $post )
+
 wp_reset_vars( array( 'revision', 'action' ) );
 
 $revision_id = absint( $revision );
@@ -20,7 +26,6 @@ case 'restore' :
 
 	if ( ! current_user_can( 'edit_post', $revision->post_parent ) )
 		break;
-
 
 	if ( ! $post = get_post( $revision->post_parent ) )
 		break;
@@ -77,15 +82,7 @@ else
 	$parent_file = $submenu_file = 'edit.php';
 
 wp_enqueue_script( 'revisions' );
-
-
-$settings = array(
-	'post_id'     => $post->ID,
-	'nonce'       => wp_create_nonce( 'revisions-ajax-nonce' ),
-	'revision_id' => $revision_id
-);
-
-wp_localize_script( 'revisions', 'wpRevisionsSettings', $settings );
+wp_localize_script( 'revisions', '_wpRevisionsSettings', wp_prepare_revisions_for_js( $post, $revision_id ) );
 
 /* Revisions Help Tab */
 
@@ -114,24 +111,73 @@ require_once( './admin-header.php' );
 
 <div class="wrap">
 	<?php screen_icon(); ?>
-	<div id="revision-diff-container" class="current-version right-model-loading">
-		<h2 class="long-header"><?php echo $h2; ?></h2>
-
-		<div id="loading-status" class="updated message">
-			<p><span class="spinner" ></span></p>
-		</div>
-
-		<div class="diff-slider-ticks-wrapper">
-			<div id="diff-slider-ticks"></div>
-		</div>
-
-		<div id="revision-interact"></div>
-
-		<div id="revisions-diff"></div>
-	</div>
+	<h2 class="long-header"><?php echo $h2; ?></h2>
 </div>
 
+<script id="tmpl-revisions-frame" type="text/html">
+	<span class="spinner"></span>
+	<div class="revisions-control-frame"></div>
+	<div class="revisions-diff-frame"></div>
+</script>
+
+<script id="tmpl-revisions-controls" type="text/html">
+
+	<div class="revision-toggle-compare-mode">
+		<label>
+			<input type="checkbox" class="compare-two-revisions" />
+			<?php esc_attr_e( 'Compare two revisions' ); ?>
+		</label>
+	</div>
+
+	<div class="revisions-previous">
+		<input class="button" type="button" id="previous" value="<?php echo esc_attr_x( 'Previous', 'Button label for a previous revision' ); ?>" />
+	</div>
+
+	<div class="revisions-next">
+		<input class="button" type="button" id="next" value="<?php echo esc_attr_x( 'Next', 'Button label for a next revision' ); ?>" />
+	</div>
+</script>
+
+
+<script id="tmpl-revisions-meta" type="text/html">
+	<div id="diff-header">
+		<div id="diff-header-from" class="diff-header">
+			<div id="diff-title-from" class="diff-title">
+				<strong>
+				<?php _ex( 'From:', 'Followed by post revision info' ); ?></strong>
+					<# if ( 'undefined' !== typeof data.from ) { #>
+						{{{ data.from.attributes.author.avatar }}} {{{ data.from.attributes.author.name }}},
+						{{{ data.from.attributes.timeAgo }}} <?php _e( 'ago' ); ?>
+						({{{ data.from.attributes.dateShort }}})
+					<# } #>
+
+			</div>
+			<div class="clear"></div>
+		</div>
+
+		<div id="diff-header-to" class="diff-header">
+			<div id="diff-title-to" class="diff-title">
+				<strong><?php _ex( 'To:', 'Followed by post revision info' ); ?></strong>
+					<# if ( 'undefined' !== typeof data.to ) { #>
+						{{{ data.to.attributes.author.avatar }}} {{{ data.to.attributes.author.name }}},
+						{{{ data.to.attributes.timeAgo }}} <?php _e( 'ago' ); ?>
+						({{{ data.to.attributes.dateShort }}})
+					<# } #>
+		</div>
+
+			<input type="button" id="restore-revision" class="button button-primary" data-restore-link="{{{ data.restoreLink }}}" value="<?php esc_attr_e( 'Restore This Revision' )?>" />
+		</div>
+	</div>
+</script>
+
 <script id="tmpl-revisions-diff" type="text/html">
+	<# _.each( data.fields, function( field ) { #>
+		<h3>{{{ field.name }}}</h3>
+		{{{ field.diff }}}
+	<# }); #>
+</script>
+
+<script id="tmpl-revisions-diff-old" type="text/html">
 	<div id="toggle-revision-compare-mode">
 		<label>
 			<input type="checkbox" id="compare-two-revisions" />
@@ -157,12 +203,10 @@ require_once( './admin-header.php' );
 		</div>
 	</div>
 
-	</div>
-
 	<div id="diff-table">{{{ data.diff }}}</div>
 </script>
 
-<script id="tmpl-revision-interact" type="text/html">
+<script id="tmpl-revision-interact-old" type="text/html">
 	<div id="diff-previous-revision">
 		<input class="button" type="button" id="previous" value="<?php echo esc_attr_x( 'Previous', 'Button label for a previous revision' ); ?>" />
 	</div>
@@ -171,7 +215,6 @@ require_once( './admin-header.php' );
 		<input class="button" type="button" id="next" value="<?php echo esc_attr_x( 'Next', 'Button label for a next revision' ); ?>" />
 	</div>
 
-	<div id="diff-slider" class="wp-slider"></div>
 </script>
 
 <script id="tmpl-revision-ticks" type="text/html">

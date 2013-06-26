@@ -3481,6 +3481,48 @@ td.plugin-title p {
 /*------------------------------------------------------------------------------
   11.2 - Post Revisions
 ------------------------------------------------------------------------------*/
+.revisions .spinner {
+	float: none;
+	margin: 100px auto;
+}
+
+.revisions.loading .spinner {
+	display: block;
+}
+
+.revisions-control-frame,
+.revisions-diff-frame {
+	position: relative;
+}
+
+.revisions-controls {
+	height: 60px;
+	padding: 40px 0 20px;
+	border-bottom: 1px solid #dfdfdf;
+	margin-bottom: 10px;
+}
+
+.revisions-meta {
+	margin-top: 15px;
+}
+.revision-toggle-compare-mode {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.revisions-previous {
+	float: left;
+}
+
+.revisions-next {
+	float: right;
+}
+
+.wp-slider {
+	width: 70%;
+	margin: 6px auto 0;
+}
 
 /* Revision meta box */
 .post-revisions li img,
@@ -3527,13 +3569,6 @@ table.diff .diff-addedline ins {
 	position: relative;
 }
 
-#toggle-revision-compare-mode {
-	position: absolute;
-	top: 0;
-	right: 0;
-	padding: 9px 9px 0 0;
-}
-
 #loading-status {
 	display: none;
 	position: absolute;
@@ -3549,24 +3584,6 @@ table.diff .diff-addedline ins {
 
 #revision-interact {
 	padding: 20px 0;
-}
-
-#diff-next-revision,
-#diff-previous-revision {
-	margin-top: -.4em; /* Same line as the slider (height: .8em) */
-}
-
-#diff-next-revision {
-	float: right;
-}
-
-#diff-previous-revision {
-	float: left;
-}
-
-#diff-slider {
-	width: 70%;
-	margin: 0 auto;
 }
 
 .comparetwo #diff-slider {
@@ -3588,7 +3605,7 @@ table.diff .diff-addedline ins {
 }
 
 #diff-title-to strong {
-	display: none;
+	display: inline;
 }
 
 .comparing-two-revisions #diff-title-to strong {
@@ -3605,6 +3622,7 @@ table.diff .diff-addedline ins {
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	padding: 5px 200px 5px 5px;
+	clear: both;
 }
 
 .diff-header {
