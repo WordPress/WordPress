@@ -1220,12 +1220,10 @@ function _admin_notice_post_locked() {
 	} else {
 		$sendback = admin_url( 'edit.php' );
 
-		if ( 'post' != $post->post_type && ( $post_type_object = get_post_type_object( $post->post_type ) ) ) {
-			$sendback .= '?post_type=' . $post->post_type;
-			$sendback_text = sprintf( _x('Go to All %s', 'post type general name: Posts, Pages, etc.'), $post_type_object->labels->name );
-		} else {
-			$sendback_text = __('Go to All Posts');
-		}
+		if ( 'post' != $post->post_type )
+			$sendback = add_query_arg( 'post_type', $post->post_type, $sendback );
+
+		$sendback_text = get_post_type_object( $post->post_type )->labels->all_items;
 	}
 
 	$hidden = $locked ? '' : ' hidden';
