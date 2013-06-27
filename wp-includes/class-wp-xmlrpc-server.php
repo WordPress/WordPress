@@ -281,7 +281,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				$pmeta = get_metadata_by_mid( 'post', $meta['id'] );
 				if ( isset($meta['key']) ) {
 					$meta['key'] = wp_unslash( $meta['key'] );
-					if ( $meta['key'] != $pmeta->meta_key )
+					if ( $meta['key'] !== $pmeta->meta_key )
 						continue;
 					$meta['value'] = wp_unslash( $meta['value'] );
 					if ( current_user_can( 'edit_post_meta', $post_id, $meta['key'] ) )
