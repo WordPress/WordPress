@@ -19,7 +19,7 @@ Styles for older IE versions (previous to IE9).
 .attachment-meta a:before:hover,
 .comment-awaiting-moderation:before:hover,
 .comment-reply-link:before:hover,
-#reply-title small a:before:hover,
+.comment-reply-title small a:before:hover,
 .bypostauthor > .comment-body .fn:before:hover {
 	text-decoration: none;
 }
@@ -270,8 +270,8 @@ img.alignleft {
 
 .ie7 .comments-title,
 .ie7 .comment-list,
-.ie7 #reply-title,
-.ie7 #respond #commentform {
+.ie7 .comment-reply-title,
+.ie7 .comment-respond .comment-form {
 	width: 604px;
 }
 

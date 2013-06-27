@@ -483,7 +483,7 @@ hr {
 .comment-awaiting-moderation:before,
 .comment-reply-link:before,
 .comment-reply-login:before,
-#reply-title small a:before,
+.comment-reply-title small a:before,
 .bypostauthor > .comment-body .fn:before,
 .error404 .page-title:before {
 	-webkit-font-smoothing: antialiased;
@@ -2162,10 +2162,10 @@ footer.entry-meta {
 
 .comments-title,
 .comment-list,
-#reply-title,
+.comment-reply-title,
 .must-log-in,
-#respond #commentform,
-#respond iframe {
+.comment-respond .comment-form,
+.comment-respond iframe {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -2176,9 +2176,9 @@ footer.entry-meta {
 .sidebar .comments-title,
 .sidebar .comment-list,
 .sidebar .must-log-in,
-.sidebar #reply-title,
+.sidebar .comment-reply-title,
 .sidebar .comment-navigation,
-.sidebar #respond #commentform {
+.sidebar .comment-respond .comment-form {
 	max-width: 1040px;
 	padding-left: 60px;
 	padding-right: 376px;
@@ -2313,21 +2313,21 @@ footer.entry-meta {
 }
 
 /* Comment form */
-#respond {
+.comment-respond {
 	background-color: #f7f5e7;
 	padding: 30px 0;
 }
 
-.comment #respond {
+.comment .comment-respond {
 	margin-bottom: 20px;
 	padding: 20px;
 }
 
-#reply-title {
+.comment-reply-title {
 	font: 300 italic 28px "Source Sans Pro", Helvetica, sans-serif;
 }
 
-#reply-title small a {
+.comment-reply-title small a {
 	color: #131310;
 	display: inline-block;
 	float: right;
@@ -2336,52 +2336,52 @@ footer.entry-meta {
 	width: 16px;
 }
 
-#reply-title small a:hover {
+.comment-reply-title small a:hover {
 	color: #ed331c;
 	text-decoration: none;
 }
 
-#reply-title small a:before {
+.comment-reply-title small a:before {
 	content: "\f406";
 	vertical-align: top;
 }
 
-.sidebar .comment-list #reply-title,
-.sidebar .comment-list #respond #commentform {
+.sidebar .comment-list .comment-reply-title,
+.sidebar .comment-list .comment-respond .comment-form {
 	padding: 0;
 }
 
-#commentform .comment-notes {
+.comment-form .comment-notes {
 	margin-bottom: 15px;
 }
 
-#commentform .comment-form-author,
-#commentform .comment-form-email,
-#commentform .comment-form-url {
+.comment-form .comment-form-author,
+.comment-form .comment-form-email,
+.comment-form .comment-form-url {
 	margin-bottom: 8px;
 }
 
-#commentform [for="author"],
-#commentform [for="email"],
-#commentform [for="url"],
-#commentform [for="comment"] {
+.comment-form [for="author"],
+.comment-form [for="email"],
+.comment-form [for="url"],
+.comment-form [for="comment"] {
 	float: left;
 	padding: 5px 0;
 	width: 120px;
 }
 
-#commentform .required {
+.comment-form .required {
 	color: #ed331c;
 }
 
-#commentform input[type="text"],
-#commentform input[type="email"],
-#commentform input[type="url"] {
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form input[type="url"] {
 	max-width: 270px;
 	width: 60%;
 }
 
-#commentform textarea {
+.comment-form textarea {
 	width: 100%;
 }
 
@@ -2723,9 +2723,9 @@ footer.entry-meta {
 	.sidebar .entry-summary,
 	.sidebar .entry-meta,
 	.sidebar .comment-list,
-	.sidebar #reply-title,
+	.sidebar .comment-reply-title,
 	.sidebar .comment-navigation,
-	.sidebar #respond #commentform,
+	.sidebar .comment-respond .comment-form,
 	.sidebar .featured-gallery,
 	.sidebar .post-navigation .nav-links,
 	.author.sidebar .author-info {
@@ -2852,7 +2852,7 @@ footer.entry-meta {
 	.comments-area .comments-title,
 	.comments-area .comment-list,
 	.comments-area .comment-navigation,
-	#respond,
+	.comment-respond,
 	.sidebar .site-info,
 	.sidebar .paging-navigation .nav-links {
 		padding-left: 20px;
@@ -2983,14 +2983,14 @@ footer.entry-meta {
 		width:         calc(100% - 104px);
 	}
 
-	#commentform input[type="text"],
-	#commentform input[type="email"],
-	#commentform input[type="url"] {
+	.comment-form input[type="text"],
+	.comment-form input[type="email"],
+	.comment-form input[type="url"] {
 		width: -webkit-calc(100% - 120px);
 		width:         calc(100% - 120px);
 	}
 
-	#commentform textarea {
+	.comment-form textarea {
 		height: 80px; /* Smaller field for mobile. */
 	}
 
@@ -3141,7 +3141,7 @@ footer.entry-meta {
 
 	.author-avatar,
 	.site-footer,
-	#respond,
+	.comment-respond,
 	.comments-area .comment-edit-link,
 	.comments-area .reply,
 	.comments-link,

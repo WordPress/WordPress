@@ -453,9 +453,9 @@ div.nav-menu > ul {
 
 .sidebar .comments-title,
 .sidebar .comment-list,
-.sidebar #reply-title,
+.sidebar .comment-reply-title,
 .sidebar .comment-navigation,
-.sidebar #respond #commentform {
+.sidebar .comment-respond .comment-form {
 	padding-left: 376px;
 	padding-right: 60px;
 }
@@ -499,14 +499,14 @@ div.nav-menu > ul {
 	transform:         scaleX(-1);
 }
 
-#reply-title small a {
+.comment-reply-title small a {
 	float: left;
 }
 
-#commentform [for="author"],
-#commentform [for="email"],
-#commentform [for="url"],
-#commentform [for="comment"] {
+.comment-form [for="author"],
+.comment-form [for="email"],
+.comment-form [for="url"],
+.comment-form [for="comment"] {
 	float: right;
 }
 
@@ -612,9 +612,9 @@ div.nav-menu > ul {
 	.sidebar .entry-summary,
 	.sidebar .entry-meta,
 	.sidebar .comment-list,
-	.sidebar #reply-title,
+	.sidebar .comment-reply-title,
 	.sidebar .comment-navigation,
-	.sidebar #respond #commentform,
+	.sidebar .comment-respond .comment-form,
 	.sidebar .featured-gallery,
 	.sidebar .post-navigation .nav-links,
 	.author.sidebar .author-info,
