@@ -448,12 +448,10 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 
 	// Send!
 	try {
-		$phpmailer->Send();
+		return $phpmailer->Send();
 	} catch ( phpmailerException $e ) {
 		return false;
 	}
-
-	return true;
 }
 endif;
 
