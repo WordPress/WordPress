@@ -38,7 +38,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		if ( ! $diff && 'post_title' === $field ) {
 			// It's a better user experience to still show the Title, even if it didn't change.
 			// No, you didn't see this.
-			$diff = "<table class='diff'><col class='ltype' /><col class='content' /><col class='ltype' /><col class='content' /><tbody><tr>";
+			$diff = '<table class="diff"><colgroup><col class="content diffsplit left"><col class="content diffsplit middle"><col class="content diffsplit right"></colgroup><tbody><tr>';
 			$diff .= '<td>' . esc_html( $compare_from->post_title ) . '</td><td></td><td>' . esc_html( $compare_to->post_title ) . '</td>';
 			$diff .= '</tr></tbody>';
 			$diff .= '</table>';
