@@ -2054,8 +2054,16 @@ function wp_ajax_send_link_to_editor() {
 }
 
 function wp_ajax_heartbeat() {
-	check_ajax_referer( 'heartbeat-nonce', '_nonce' );
+	if ( empty( $_POST['_nonce'] ) )
+		wp_send_json_error();
+
 	$response = array();
+
+	if ( false === wp_verify_nonce( $_POST['_nonce'], 'heartbeat-nonce' ) ) {
+		// User is logged in but nonces have expired.
+		$response['nonces_expired'] = true;
+		wp_send_json($response);
+	}
 
 	// screen_id is the same as $current_screen->id and the JS global 'pagenow'
 	if ( ! empty($_POST['screen_id']) )
@@ -2076,7 +2084,7 @@ function wp_ajax_heartbeat() {
 	// Allow the transport to be replaced with long-polling easily
 	do_action( 'heartbeat_tick', $response, $screen_id );
 
-	// send the current time acording to the server
+	// Send the current time acording to the server
 	$response['server_time'] = time();
 
 	wp_send_json($response);

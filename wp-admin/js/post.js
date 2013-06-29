@@ -316,7 +316,7 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 	function schedule() {
 		check = false;
 		window.clearTimeout( timeout );
-		timeout = window.setTimeout( function(){ check = 1; }, 3600000 );
+		timeout = window.setTimeout( function(){ check = true; }, 300000 );
 	}
 
 	$(document).on( 'heartbeat-send.wp-refresh-nonces', function( e, data ) {
@@ -329,17 +329,21 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 					post_nonce: nonce
 				};
 			}
-			check = 2;
 		}
 	}).on( 'heartbeat-tick.wp-refresh-nonces', function( e, data ) {
-		if ( check === 2 )
+		var nonces = data['wp-refresh-post-nonces'];
+
+		if ( nonces ) {
 			schedule();
 
-		if ( data['wp-refresh-post-nonces'] ) {
-			$.each( data['wp-refresh-post-nonces'], function( selector, value ) {
-				if ( selector.match(/^replace-/) )
-					$( '#' + selector.replace('replace-', '') ).val( value );
-			});
+			if ( nonces.replace ) {
+				$.each( nonces.replace, function( selector, value ) {
+					$( '#' + selector ).val( value );
+				});
+			}
+
+			if ( nonces.heartbeatNonce )
+				window.heartbeatSettings.nonce = nonces.heartbeatNonce;
 		}
 	}).ready( function() {
 		schedule();
