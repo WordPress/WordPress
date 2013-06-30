@@ -100,7 +100,7 @@ function display_setup_form( $error = null ) {
 			<td><input name="weblog_title" type="text" id="weblog_title" size="25" value="<?php echo esc_attr( $weblog_title ); ?>" /></td>
 		</tr>
 		<tr>
-			<th scope="row"><label for="user_name"><?php _e('Username'); ?></label></th>
+			<th scope="row"><label for="user_login"><?php _e('Username'); ?></label></th>
 			<td>
 			<?php
 			if ( $user_table ) {
