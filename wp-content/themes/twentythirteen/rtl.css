@@ -122,13 +122,12 @@ div.nav-menu > ul {
 	right: 100%;
 }
 
-.main-navigation .searchform {
+.main-navigation .search-form {
 	left: 0;
 	right: auto;
 }
 
-.site-header .searchform [type="search"],
-.site-header .searchform [type="text"] {
+.site-header .search-field {
 	background-position: 98% center;
 	padding: 0 34px 0 0;
 }
@@ -595,7 +594,7 @@ div.nav-menu > ul {
 		margin-right: auto;
 	}
 
-	.main-navigation .searchform {
+	.main-navigation .search-form {
 		left: 20px;
 		right: auto;
 	}
