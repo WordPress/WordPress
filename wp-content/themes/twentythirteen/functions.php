@@ -34,13 +34,13 @@ if ( ! isset( $content_width ) )
 /**
  * Adds support for a custom header image.
  */
-require( get_template_directory() . '/inc/custom-header.php' );
+require get_template_directory() . '/inc/custom-header.php';
 
 /**
  * Twenty Thirteen only works in WordPress 3.6 or later.
  */
 if ( version_compare( $GLOBALS['wp_version'], '3.6-alpha', '<' ) )
-	require( get_template_directory() . '/inc/back-compat.php' );
+	require get_template_directory() . '/inc/back-compat.php';
 
 /**
  * Sets up theme defaults and registers the various WordPress features that
@@ -274,7 +274,7 @@ function twentythirteen_widgets_init() {
 	register_sidebar( array(
 		'name'          => __( 'Main Widget Area', 'twentythirteen' ),
 		'id'            => 'sidebar-1',
-		'description'   => __( 'Appears in the footer section of the site', 'twentythirteen' ),
+		'description'   => __( 'Appears in the footer section of the site.', 'twentythirteen' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</aside>',
 		'before_title'  => '<h3 class="widget-title">',
@@ -305,7 +305,7 @@ function twentythirteen_paging_nav() {
 	global $wp_query;
 
 	// Don't print empty markup if there's only one page.
-	if ( $wp_query->max_num_pages < 2 && ( is_home() || is_archive() || is_search() ) )
+	if ( $wp_query->max_num_pages < 2 )
 		return;
 	?>
 	<nav class="navigation paging-navigation" role="navigation">
@@ -339,7 +339,7 @@ function twentythirteen_post_nav() {
 
 	// Don't print empty markup if there's nowhere to navigate.
 	$previous = ( is_attachment() ) ? get_post( $post->post_parent ) : get_adjacent_post( false, '', true );
-	$next = get_adjacent_post( false, '', false );
+	$next     = get_adjacent_post( false, '', false );
 
 	if ( ! $next && ! $previous )
 		return;
@@ -444,30 +444,33 @@ function twentythirteen_the_attached_image() {
 	 * looking at the last image in a gallery), or, in a gallery of one, just the
 	 * link to that image file.
 	 */
-	$attachments = array_values( get_children( array(
+	$attachment_ids = get_posts( array(
 		'post_parent'    => $post->post_parent,
+		'fields'         => 'ids',
+		'numberposts'    => -1,
 		'post_status'    => 'inherit',
 		'post_type'      => 'attachment',
 		'post_mime_type' => 'image',
 		'order'          => 'ASC',
 		'orderby'        => 'menu_order ID'
-	) ) );
+	) );
 
 	// If there is more than 1 attachment in a gallery...
-	if ( count( $attachments ) > 1 ) {
-		foreach ( $attachments as $k => $attachment ) {
-			if ( $attachment->ID == $post->ID )
+	if ( count( $attachment_ids ) > 1 ) {
+		foreach ( $attachment_ids as $attachment_id ) {
+			if ( $attachment_id == $post->ID ) {
+				$next_id = current( $attachment_ids );
 				break;
+			}
 		}
-		$k++;
 
 		// get the URL of the next image attachment...
-		if ( isset( $attachments[ $k ] ) )
-			$next_attachment_url = get_attachment_link( $attachments[ $k ]->ID );
+		if ( $next_id )
+			$next_attachment_url = get_attachment_link( $next_id );
 
 		// or get the URL of the first image attachment.
 		else
-			$next_attachment_url = get_attachment_link( $attachments[0]->ID );
+			$next_attachment_url = get_attachment_link( array_shift( $attachment_ids ) );
 	}
 
 	printf( '<a href="%1$s" title="%2$s" rel="attachment">%3$s</a>',
