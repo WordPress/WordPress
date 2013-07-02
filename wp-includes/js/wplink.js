@@ -113,8 +113,7 @@ var wpLink;
 				inputs.url.val( ed.dom.getAttrib(e, 'href') );
 				inputs.title.val( ed.dom.getAttrib(e, 'title') );
 				// Set open in new tab.
-				if ( "_blank" == ed.dom.getAttrib(e, 'target') )
-					inputs.openInNewTab.prop('checked', true);
+				inputs.openInNewTab.prop('checked', ( "_blank" == ed.dom.getAttrib( e, 'target' ) ) );
 				// Update save prompt.
 				inputs.submit.val( wpLinkL10n.update );
 

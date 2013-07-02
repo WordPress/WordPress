@@ -126,6 +126,9 @@
 				case 'audio/wma':
 					shortcode.wma = attachment.url;
 					break;
+				default:
+					// Render unsupported audio files as links.
+					return wp.media.string.link( props );
 				}
 			}
 
@@ -538,6 +541,9 @@
 
 		add: function( id, options ) {
 			var workflow = this.get( id );
+
+			if ( workflow ) // only add once: if exists return existing
+				return workflow;
 
 			workflow = workflows[ id ] = wp.media( _.defaults( options || {}, {
 				frame:    'post',

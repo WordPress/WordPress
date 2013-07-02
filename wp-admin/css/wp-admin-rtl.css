@@ -1048,45 +1048,56 @@ th.sorted a span {
   11.4 - Post formats
 ------------------------------------------------------------------------------*/
 
-#post-body-content.wp-format-image label,
-#post-body-content.wp-format-video label,
-#post-body-content.wp-format-audio label {
-	float: right;
-}
-
-.wp-format-media-holder {
-	float: right;
-}
-
-#wp_format_image,
-#wp_format_audio,
-#wp_format_video {
-	float: right;
+a.post-state-format {
 	margin-right: 0;
-	margin-left: 23px;
+	margin-left: 5px;
 }
 
-.post-format-options a {
-	float: right;
-	margin-right: 0;
-	margin-left: 10px;
+label.post-format-icon {
+	margin-left: 0;
+	margin-right: 5px;
+	padding-left: 0px;
+	padding-right: 21px;
 }
 
-#poststuff .post-format-change {
-	margin: -7px 2px 13px 0;
-	clear: right;
+.post-format-icon.post-format-standard  {
+	background-position: 100% 0;
 }
 
-.post-format-change span.icon {
-	float: right;
-	margin: 2px 0 0 5px;
+.post-format-icon.post-format-image  {
+	background-position: 100% -32px;
 }
 
-@media only screen and (max-width: 782px) {
-	.post-format-options a {
-		margin-left: 0;
-		margin-right: 19px;
-	}
+.post-format-icon.post-format-gallery {
+	background-position: 100% -64px;
+}
+
+.post-format-icon.post-format-audio {
+	background-position: 100% -96px;
+}
+
+.post-format-icon.post-format-video {
+	background-position: 100% -128px;
+}
+
+.post-format-icon.post-format-chat {
+	background-position: 100% -160px;
+}
+
+.post-format-icon.post-format-status {
+	background-position: 100% -192px;
+}
+
+.post-format-icon.post-format-aside {
+	background-position: 100% -224px;
+}
+
+.post-format-icon.post-format-quote {
+	background-position: 100% -256px;
+}
+
+.post-format-icon.post-format-link {
+	background-position: 100% -288px;
 }
 
 /*------------------------------------------------------------------------------
@@ -1572,6 +1583,18 @@ h2 .nav-tab {
 	padding-right: 25px;
 	font-style: normal;
 	font-family: Tahoma, Arial, sans-serif;
+}
+
+#permalink_structure {
+	float: right;
+}
+
+.options-permalink-php code {
+	unicode-bidi: embed;
+}
+
+.options-permalink-php #rules {
+	direction: ltr;
 }
 
 /*------------------------------------------------------------------------------

@@ -512,6 +512,8 @@ final class WP_Customize_Manager {
 			$setting->save();
 		}
 
+		do_action( 'customize_save_after', $this );
+
 		die;
 	}
 

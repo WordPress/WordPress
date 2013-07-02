@@ -539,7 +539,7 @@ function get_comment_count( $post_id = 0 ) {
  * @param string $meta_key Metadata name.
  * @param mixed $meta_value Metadata value.
  * @param bool $unique Optional, default is false. Whether the same key should not be added.
- * @return bool False for failure. True for success.
+ * @return int|bool Meta ID on success, false on failure.
  */
 function add_comment_meta($comment_id, $meta_key, $meta_value, $unique = false) {
 	return add_metadata('comment', $comment_id, $meta_key, $meta_value, $unique);
@@ -559,7 +559,7 @@ function add_comment_meta($comment_id, $meta_key, $meta_value, $unique = false) 
  * @param int $comment_id comment ID
  * @param string $meta_key Metadata name.
  * @param mixed $meta_value Optional. Metadata value.
- * @return bool False for failure. True for success.
+ * @return bool True on success, false on failure.
  */
 function delete_comment_meta($comment_id, $meta_key, $meta_value = '') {
 	return delete_metadata('comment', $comment_id, $meta_key, $meta_value);
@@ -598,7 +598,7 @@ function get_comment_meta($comment_id, $key = '', $single = false) {
  * @param string $meta_key Metadata key.
  * @param mixed $meta_value Metadata value.
  * @param mixed $prev_value Optional. Previous value to check before removing.
- * @return bool False on failure, true if success.
+ * @return bool True on success, false on failure.
  */
 function update_comment_meta($comment_id, $meta_key, $meta_value, $prev_value = '') {
 	return update_metadata('comment', $comment_id, $meta_key, $meta_value, $prev_value);
@@ -994,7 +994,7 @@ function wp_count_comments( $post_id = 0 ) {
  *
  * @param int $comment_id Comment ID
  * @param bool $force_delete Whether to bypass trash and force deletion. Default is false.
- * @return bool False if delete comment query failure, true on success.
+ * @return bool True on success, false on failure.
  */
 function wp_delete_comment($comment_id, $force_delete = false) {
 	global $wpdb;
@@ -1044,7 +1044,7 @@ function wp_delete_comment($comment_id, $force_delete = false) {
  * @uses wp_delete_comment() if trash is disabled
  *
  * @param int $comment_id Comment ID.
- * @return mixed False on failure
+ * @return bool True on success, false on failure.
  */
 function wp_trash_comment($comment_id) {
 	if ( !EMPTY_TRASH_DAYS )
@@ -1073,7 +1073,7 @@ function wp_trash_comment($comment_id) {
  * @uses do_action() on 'untrashed_comment' after untrashing
  *
  * @param int $comment_id Comment ID.
- * @return mixed False on failure
+ * @return bool True on success, false on failure.
  */
 function wp_untrash_comment($comment_id) {
 	if ( ! (int)$comment_id )
@@ -1103,7 +1103,7 @@ function wp_untrash_comment($comment_id) {
  * @uses do_action() on 'spammed_comment' after spamming
  *
  * @param int $comment_id Comment ID.
- * @return mixed False on failure
+ * @return bool True on success, false on failure.
  */
 function wp_spam_comment($comment_id) {
 	if ( !$comment = get_comment($comment_id) )
@@ -1128,7 +1128,7 @@ function wp_spam_comment($comment_id) {
  * @uses do_action() on 'unspammed_comment' after unspamming
  *
  * @param int $comment_id Comment ID.
- * @return mixed False on failure
+ * @return bool True on success, false on failure.
  */
 function wp_unspam_comment($comment_id) {
 	if ( ! (int)$comment_id )
@@ -1423,7 +1423,7 @@ function wp_new_comment( $commentdata ) {
  * @param int $comment_id Comment ID.
  * @param string $comment_status New comment status, either 'hold', 'approve', 'spam', or 'trash'.
  * @param bool $wp_error Whether to return a WP_Error object if there is a failure. Default is false.
- * @return bool False on failure or deletion and true on success.
+ * @return bool|WP_Error True on success, false or WP_Error on failure.
  */
 function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) {
 	global $wpdb;
@@ -1601,7 +1601,7 @@ function wp_update_comment_count($post_id, $do_deferred=false) {
  * @uses do_action() Calls 'edit_posts' hook on $post_id and $post
  *
  * @param int $post_id Post ID
- * @return bool False on '0' $post_id or if post with ID does not exist. True on success.
+ * @return bool True on success, false on '0' $post_id or if post with ID does not exist.
  */
 function wp_update_comment_count_now($post_id) {
 	global $wpdb;
@@ -1658,7 +1658,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	if ( 0 === strpos($url, $uploads_dir['baseurl']) )
 		return false;
 
-	$response = wp_remote_head( $url, array( 'timeout' => 2, 'httpversion' => '1.0' ) );
+	$response = wp_remote_head( $url, array( 'timeout' => 2, 'httpversion' => '1.0', 'reject_unsafe_urls' => true ) );
 
 	if ( is_wp_error( $response ) )
 		return false;
@@ -1671,7 +1671,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 		return false;
 
 	// Now do a GET since we're going to look in the html headers (and we're sure it's not a binary file)
-	$response = wp_remote_get( $url, array( 'timeout' => 2, 'httpversion' => '1.0' ) );
+	$response = wp_remote_get( $url, array( 'timeout' => 2, 'httpversion' => '1.0', 'reject_unsafe_urls' => true ) );
 
 	if ( is_wp_error( $response ) )
 		return false;
@@ -1749,7 +1749,7 @@ function do_trackbacks($post_id) {
 	}
 
 	if ( empty($post->post_excerpt) )
-		$excerpt = apply_filters('the_content', $post->post_content);
+		$excerpt = apply_filters('the_content', $post->post_content, $post->ID);
 	else
 		$excerpt = apply_filters('the_excerpt', $post->post_excerpt);
 	$excerpt = str_replace(']]>', ']]&gt;', $excerpt);
@@ -1906,6 +1906,7 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 
 	$options = array();
 	$options['timeout'] = 4;
+	$options['reject_unsafe_urls'] = true;
 	$options['body'] = array(
 		'title' => $title,
 		'url' => get_permalink($ID),
@@ -1953,62 +1954,13 @@ function weblog_ping($server = '', $path = '') {
  * Default filter attached to pingback_ping_source_uri to validate the pingback's Source URI
  *
  * @since 3.5.1
+ * @see wp_http_validate_url()
  *
  * @param string $source_uri
  * @return string
  */
 function pingback_ping_source_uri( $source_uri ) {
-	$uri = esc_url_raw( $source_uri, array( 'http', 'https' ) );
-	if ( ! $uri )
-		return '';
-
-	$parsed_url = @parse_url( $uri );
-	if ( ! $parsed_url )
-		return '';
-
-	if ( isset( $parsed_url['user'] ) || isset( $parsed_url['pass'] ) )
-		return '';
-
-	if ( false !== strpos( $parsed_url['host'], ':' ) )
-		return '';
-
-	$parsed_home = @parse_url( get_option( 'home' ) );
-
-	$same_host = strtolower( $parsed_home['host'] ) === strtolower( $parsed_url['host'] );
-
-	if ( ! $same_host ) {
-		$host = trim( $parsed_url['host'], '.' );
-		if ( preg_match( '#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $host ) ) {
-			$ip = $host;
-		} else {
-			$ip = gethostbyname( $host );
-			if ( $ip === $host ) // Error condition for gethostbyname()
-				$ip = false;
-		}
-		if ( $ip ) {
-			if ( '127.0.0.1' === $ip )
-				return '';
-			$parts = array_map( 'intval', explode( '.', $ip ) );
-			if ( 10 === $parts[0] )
-				return '';
-			if ( 172 === $parts[0] && 16 <= $parts[1] && 31 >= $parts[1] )
-				return '';
-			if ( 192 === $parts[0] && 168 === $parts[1] )
-				return '';
-		}
-	}
-
-	if ( empty( $parsed_url['port'] ) )
-		return $uri;
-
-	$port = $parsed_url['port'];
-	if ( 80 === $port || 443 === $port || 8080 === $port )
-		return $uri;
-
-	if ( $parsed_home && $same_host && $parsed_home['port'] === $port )
-		return $uri;
-
-	return '';
+	return (string) wp_http_validate_url( $source_uri );
 }
 
 /**

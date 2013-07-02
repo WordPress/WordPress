@@ -86,7 +86,7 @@ if ( $action ) {
 				$update = 'adduser';
 				$newuser = $_POST['newuser'];
 				$user = get_user_by( 'login', $newuser );
-				if ( $user->exists() ) {
+				if ( $user && $user->exists() ) {
 					if ( ! is_user_member_of_blog( $user->ID, $id ) )
 						add_user_to_blog( $id, $user->ID, $_POST['new_role'] );
 					else

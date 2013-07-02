@@ -2,9 +2,7 @@
 /**
  * The template for displaying Comments.
  *
- * The area of the page that contains both current comments and the comment
- * form. The actual display of comments is handled by a callback to
- * twentythirteen_comment() which is located in the functions.php file.
+ * The area of the page that contains comments and the comment form.
  *
  * @package WordPress
  * @subpackage Twenty_Thirteen
@@ -33,7 +31,6 @@ if ( post_password_required() )
 			<?php
 				wp_list_comments( array(
 					'style'       => 'ol',
-					'format'      => 'html5',
 					'short_ping'  => true,
 					'avatar_size' => 74,
 				) );
@@ -57,6 +54,6 @@ if ( post_password_required() )
 
 	<?php endif; // have_comments() ?>
 
-	<?php comment_form( array( 'format' => 'html5' ) ); ?>
+	<?php comment_form(); ?>
 
 </div><!-- #comments -->

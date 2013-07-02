@@ -252,9 +252,9 @@
 	border-top-right-radius: 2px;
 }
 
-/*.wp_themeSkin .mceListBox .mceLast {
-	display: none;
-}*/
+.wp_themeSkin .mceListBoxMenu .mce_formatPreview {
+	line-height: normal;
+}
 
 .wp_themeSkin .mceListBox .mceOpen,
 .wp_themeSkin .mceListBoxHover .mceOpen,

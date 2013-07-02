@@ -18,7 +18,7 @@
 		var $input, $results, timeout, prevLength, cache, cacheSize;
 
 		$input = $(input).attr("autocomplete", "off");
-		$results = $(document.createElement("ul"));
+		$results = $("<ul/>");
 
 		timeout = false;		// hold timeout ID for suggestion results to appear
 		prevLength = 0;			// last recorded length of $input.val()
@@ -37,22 +37,7 @@
 			setTimeout(function() { $results.hide() }, 200);
 		});
 
-
-		// help IE users if possible
-		if ( $.browser.msie ) {
-			try {
-				$results.bgiframe();
-			} catch(e) { }
-		}
-
-		// I really hate browser detection, but I don't see any other way
-		if ($.browser.mozilla)
-			$input.keypress(processKey);	// onkeypress repeats arrow keys in Mozilla/Opera
-		else
-			$input.keydown(processKey);		// onkeydown repeats arrow keys in IE/Safari
-
-
-
+		$input.keydown(processKey);
 
 		function resetPosition() {
 			// requires jquery.dimension plugin

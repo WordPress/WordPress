@@ -35,8 +35,9 @@ class WP_oEmbed {
 			'http://blip.tv/*'                                   => array( 'http://blip.tv/oembed/',                            false ),
 			'#https?://(www\.)?vimeo\.com/.*#i'                  => array( 'http://vimeo.com/api/oembed.{format}',              true  ),
 			'#https?://(www\.)?dailymotion\.com/.*#i'            => array( 'http://www.dailymotion.com/services/oembed',        true  ),
+			'http://dai.ly/*'                                    => array( 'http://www.dailymotion.com/services/oembed',        false ),
 			'#https?://(www\.)?flickr\.com/.*#i'                 => array( 'http://www.flickr.com/services/oembed/',            true  ),
-			'http://flic.kr/*'                                   => array( 'http://www.flickr.com/services/oembed/',            false ),			
+			'http://flic.kr/*'                                   => array( 'http://www.flickr.com/services/oembed/',            false ),
 			'#https?://(.+\.)?smugmug\.com/.*#i'                 => array( 'http://api.smugmug.com/services/oembed/',           true  ),
 			'#https?://(www\.)?hulu\.com/watch/.*#i'             => array( 'http://www.hulu.com/api/oembed.{format}',           true  ),
 			'#https?://(www\.)?viddler\.com/.*#i'                => array( 'http://lab.viddler.com/services/oembed/',           true  ),
@@ -112,7 +113,7 @@ class WP_oEmbed {
 		$providers = array();
 
 		// Fetch URL content
-		if ( $html = wp_remote_retrieve_body( wp_remote_get( $url ) ) ) {
+		if ( $html = wp_remote_retrieve_body( wp_remote_get( $url, array( 'reject_unsafe_urls' => true ) ) ) ) {
 
 			// <link> types that contain oEmbed provider URLs
 			$linktypes = apply_filters( 'oembed_linktypes', array(
@@ -194,7 +195,7 @@ class WP_oEmbed {
 	 */
 	function _fetch_with_format( $provider_url_with_args, $format ) {
 		$provider_url_with_args = add_query_arg( 'format', $format, $provider_url_with_args );
-		$response = wp_remote_get( $provider_url_with_args );
+		$response = wp_remote_get( $provider_url_with_args, array( 'reject_unsafe_urls' => true ) );
 		if ( 501 == wp_remote_retrieve_response_code( $response ) )
 			return new WP_Error( 'not-implemented' );
 		if ( ! $body = wp_remote_retrieve_body( $response ) )
@@ -223,35 +224,24 @@ class WP_oEmbed {
 		if ( !function_exists('simplexml_load_string') ) {
 			return false;
 		}
-
-		if ( ! class_exists( 'DOMDocument' ) )
+		if ( ! function_exists( 'libxml_disable_entity_loader' ) )
 			return false;
+
+		$loader = libxml_disable_entity_loader( true );
 
 		$errors = libxml_use_internal_errors( true );
-		$old_value = null;
-		if ( function_exists( 'libxml_disable_entity_loader' ) ) {
-			$old_value = libxml_disable_entity_loader( true );
-		}
-
-		$dom = new DOMDocument;
-		$success = $dom->loadXML( $response_body );
-
-		if ( ! is_null( $old_value ) ) {
-			libxml_disable_entity_loader( $old_value );
-		}
+		$data = simplexml_load_string( $response_body );
 		libxml_use_internal_errors( $errors );
 
-		if ( ! $success || isset( $dom->doctype ) ) {
-			return false;
+		$return = false;
+		if ( is_object( $data ) ) {
+			$return = new stdClass;
+			foreach ( $data as $key => $value ) {
+				$return->$key = (string) $value;
+			}
 		}
 
-		$data = simplexml_import_dom( $dom );
-		if ( ! is_object( $data ) )
-			return false;
-
-		$return = new stdClass;
-		foreach ( $data as $key => $value )
-			$return->$key = (string) $value;
+		libxml_disable_entity_loader( $loader );
 		return $return;
 	}
 

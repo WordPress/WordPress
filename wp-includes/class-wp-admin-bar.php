@@ -354,7 +354,9 @@ class WP_Admin_Bar {
 					$this->_render_group( $group );
 				} ?>
 			</div>
+			<?php if ( is_user_logged_in() ) : ?>
 			<a class="screen-reader-shortcut" href="<?php echo esc_url( wp_logout_url() ); ?>"><?php _e('Log Out'); ?></a>
+			<?php endif; ?>
 		</div>
 
 		<?php

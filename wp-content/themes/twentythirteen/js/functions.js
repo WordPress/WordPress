@@ -5,29 +5,23 @@
  */
 
 ( function( $ ) {
-	var html               = $( 'html' ),
-	    body               = $( 'body' ),
-	    _window            = $( window ),
-	    captions           = $( '.quote-caption' ),
-	    adjustFooter,
+	var body    = $( 'body' ),
+	    _window = $( window );
 
 	/**
-	 * Adds a top margin to the footer if the sidebar widget area is
-	 * higher than the rest of the page, to help the footer always
-	 * visually clear the sidebar.
+	 * Adds a top margin to the footer if the sidebar widget area is higher
+	 * than the rest of the page, to help the footer always visually clear
+	 * the sidebar.
 	 */
-	adjustFooter = function() {
-		var sidebar   = $( '#secondary .widget-area' ),
-		    secondary = ( 0 == sidebar.length ) ? -40 : sidebar.height(),
-		    margin    = $( '#tertiary .widget-area' ).height() - $( '#content' ).height() - secondary;
-
-		if ( margin > 0 && _window.innerWidth() > 999 )
-			$( '#colophon' ).css( 'margin-top', margin + 'px' );
-	};
-
 	$( function() {
-		if ( body.is( '.sidebar' ) )
-			adjustFooter();
+		if ( body.is( '.sidebar' ) ) {
+			var sidebar   = $( '#secondary .widget-area' ),
+			    secondary = ( 0 == sidebar.length ) ? -40 : sidebar.height(),
+			    margin    = $( '#tertiary .widget-area' ).height() - $( '#content' ).height() - secondary;
+
+			if ( margin > 0 && _window.innerWidth() > 999 )
+				$( '#colophon' ).css( 'margin-top', margin + 'px' );
+		}
 	} );
 
 	/**
@@ -39,11 +33,11 @@
 			return;
 
 		button = nav.find( '.menu-toggle' );
-		menu   = nav.find( '.nav-menu' );
 		if ( ! button )
 			return;
 
 		// Hide button if menu is missing or empty.
+		menu = nav.find( '.nav-menu' );
 		if ( ! menu || ! menu.children().length ) {
 			button.hide();
 			return;
@@ -70,12 +64,6 @@
 			element.focus();
 		}
 	} );
-
-	/** Better styles for Quote post formats with a linked source.
-	 *
-	 */
-	if ( captions )
-		captions.has( 'a' ).addClass( 'linked' );
 
 	/**
 	 * Arranges footer widgets vertically.

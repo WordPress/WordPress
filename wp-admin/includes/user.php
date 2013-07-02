@@ -43,10 +43,10 @@ function edit_user( $user_id = 0 ) {
 		$user->user_login = sanitize_user($_POST['user_login'], true);
 
 	$pass1 = $pass2 = '';
-	if ( isset( $_POST['pass1'] ))
-		$pass1 = wp_unslash( $_POST['pass1'] );
-	if ( isset( $_POST['pass2'] ))
-		$pass2 = wp_unslash( $_POST['pass2'] );
+	if ( isset( $_POST['pass1'] ) )
+		$pass1 = $_POST['pass1'];
+	if ( isset( $_POST['pass2'] ) )
+		$pass2 = $_POST['pass2'];
 
 	if ( isset( $_POST['role'] ) && current_user_can( 'edit_users' ) ) {
 		$new_role = sanitize_text_field( $_POST['role'] );
@@ -124,7 +124,7 @@ function edit_user( $user_id = 0 ) {
 	}
 
 	/* Check for "\" in password */
-	if ( false !== strpos( stripslashes($pass1), "\\" ) )
+	if ( false !== strpos( wp_unslash( $pass1 ), "\\" ) )
 		$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords may not contain the character "\\".' ), array( 'form-field' => 'pass1' ) );
 
 	/* checking the password has been typed twice the same */
@@ -159,7 +159,7 @@ function edit_user( $user_id = 0 ) {
 		$user_id = wp_update_user( $user );
 	} else {
 		$user_id = wp_insert_user( $user );
-		wp_new_user_notification( $user_id, isset( $_POST['send_password'] ) ? $pass1 : '' );
+		wp_new_user_notification( $user_id, isset( $_POST['send_password'] ) ? wp_unslash( $pass1 ) : '' );
 	}
 	return $user_id;
 }

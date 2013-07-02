@@ -2,7 +2,19 @@ var autosave, autosaveLast = '', autosavePeriodical, autosaveDelayPreview = fals
 
 jQuery(document).ready( function($) {
 
-	autosaveLast = ( $('#post #title').val() || '' ) + ( $('#post #content').val() || '' );
+	if ( $('#wp-content-wrap').hasClass('tmce-active') && typeof tinymce != 'undefined' ) {
+		tinymce.onAddEditor.add( function( tinymce, editor ) {
+			if ( 'content' == editor.id ) {
+				editor.onLoad.add( function() {
+					editor.save();
+					autosaveLast = ( $('#title').val() || '' ) + ( $('#content').val() || '' );
+				});
+			}
+		});
+	} else {
+		autosaveLast = ( $('#title').val() || '' ) + ( $('#content').val() || '' );
+	}
+
 	autosavePeriodical = $.schedule({time: autosaveL10n.autosaveInterval * 1000, func: function() { autosave(); }, repeat: true, protect: true});
 
 	//Disable autosave after the form has been submitted
@@ -304,7 +316,7 @@ wp.autosave = wp.autosave || {};
 (function($){
 // Returns the data for saving in both localStorage and autosaves to the server
 wp.autosave.getPostData = function() {
-	var ed = typeof tinymce != 'undefined' ? tinymce.activeEditor : null, post_name, parent_id, post_format, cats = [],
+	var ed = typeof tinymce != 'undefined' ? tinymce.activeEditor : null, post_name, parent_id, cats = [],
 		data = {
 			action: 'autosave',
 			autosave: true,
@@ -362,13 +374,6 @@ wp.autosave.getPostData = function() {
 
 	if ( $('#auto_draft').val() == '1' )
 		data['auto_draft'] = '1';
-
-	post_format = $('#post_format').val() || '';
-	data['post_format'] = post_format == 'standard' ? '' : post_format;
-
-	$('.post-formats-fields').find('input[name^="_format_"], textarea[name^="_format_"]').each( function(i, field) {
-		data[ field.name ] = field.value || '';
-	});
 
 	return data;
 }
@@ -488,6 +493,7 @@ wp.autosave.local = {
 		} else {
 			post_data = this.getData() || {};
 			$.extend( post_data, data );
+			post_data.autosave = true;
 		}
 
 		// If the content and title did not change since the last save, don't save again

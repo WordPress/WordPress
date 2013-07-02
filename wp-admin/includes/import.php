@@ -110,7 +110,8 @@ function wp_get_popular_importers() {
 	if ( ! $popular_importers ) {
 		$url = add_query_arg( 'locale', get_locale(), 'http://api.wordpress.org/core/importers/1.0/' );
 		$options = array( 'user-agent' => 'WordPress/' . $wp_version . '; ' . home_url() );
-		$popular_importers = maybe_unserialize( wp_remote_retrieve_body( wp_remote_get( $url, $options ) ) );
+		$response = wp_remote_get( $url, $options );
+		$popular_importers = maybe_unserialize( wp_remote_retrieve_body( $response ) );
 
 		if ( is_array( $popular_importers ) )
 			set_site_transient( 'popular_importers_' . $locale, $popular_importers, 2 * DAY_IN_SECONDS );

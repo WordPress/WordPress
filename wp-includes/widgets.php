@@ -71,13 +71,6 @@ class WP_Widget {
 	// Functions you'll need to call.
 
 	/**
-	 * PHP4 constructor
-	 */
-	function WP_Widget( $id_base, $name, $widget_options = array(), $control_options = array() ) {
-		WP_Widget::__construct( $id_base, $name, $widget_options, $control_options );
-	}
-
-	/**
 	 * PHP5 constructor
 	 *
 	 * @param string $id_base Optional Base ID for the widget, lower case,
@@ -96,6 +89,13 @@ class WP_Widget {
 		$this->option_name = 'widget_' . $this->id_base;
 		$this->widget_options = wp_parse_args( $widget_options, array('classname' => $this->option_name) );
 		$this->control_options = wp_parse_args( $control_options, array('id_base' => $this->id_base) );
+	}
+
+	/**
+	 * PHP4 constructor
+	 */
+	function WP_Widget( $id_base, $name, $widget_options = array(), $control_options = array() ) {
+		WP_Widget::__construct( $id_base, $name, $widget_options, $control_options );
 	}
 
 	/**

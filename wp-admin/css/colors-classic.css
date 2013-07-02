@@ -165,7 +165,6 @@ textarea.disabled {
 }
 
 #diff-header,
-.post-format-options,
 .widget .widget-top,
 .postbox h3,
 .stuffbox h3,
@@ -690,7 +689,6 @@ table.widefat span.spam a,
 	background-image: linear-gradient(to top, #eff8ff, #f7fcfe);
 }
 
-.post-format-options,
 .postbox h3 {
 	color: #174f69;
 }
@@ -1460,11 +1458,15 @@ div.wp-menu-image {
 
 /* end screen icons */
 
+/* Post format icons */
+
+.post-format-icon {
+	background: url(../images/post-formats-vs.png) no-repeat;
+}
+
 /* Diff */
 table.diff .diff-deletedline {
-	background-color: #fdd;
-	text-decoration: line-through;
-	border-color: #ffc0c0;
+	background-color: #ffe9e9;
 }
 
 table.diff .diff-deletedline del {
@@ -1472,8 +1474,7 @@ table.diff .diff-deletedline del {
 }
 
 table.diff .diff-addedline {
-	background-color: #dfd;
-	border-color: #aef9ae;
+	background-color: #e9ffe9;
 }
 
 table.diff .diff-addedline ins {
@@ -2279,6 +2280,12 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	#header-logo {
 		background-image: url('../images/wp-logo-vs-2x.png?ver=20120916');
 		background-size: 16px auto;
+	}
+
+	/* 16px post formats */
+	.post-format-icon {
+		background-image: url(../images/post-formats32-vs.png);
+		background-size: 16px 304px;
 	}
 
 }

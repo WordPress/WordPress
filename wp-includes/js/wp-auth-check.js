@@ -1,6 +1,6 @@
 // Interim login dialog
 (function($){
-	var wrap, check, timeout;
+	var wrap, check, scheduleTimeout, hideTimeout;
 
 	function show() {
 		var parent = $('#wp-auth-check'), form = $('#wp-auth-check-form'), noframe = wrap.find('.wp-auth-fallback-expired'), frame, loaded = false;
@@ -32,7 +32,7 @@
 						height += 35;
 						parent.find('.wp-auth-check-close').show();
 						wrap.data('logged-in', 1);
-						setTimeout( function() { hide(); }, 3000 );
+						hideTimeout = setTimeout( function() { hide(); }, 3000 );
 					}
 
 					parent.css( 'max-height', height + 60 + 'px' );
@@ -62,6 +62,14 @@
 
 	function hide() {
 		$(window).off( 'beforeunload.wp-auth-check' );
+		window.clearTimeout( hideTimeout );
+
+		// When on the Edit Post screen, speed up heartbeat after the user logs in to quickly refresh nonces
+		if ( typeof adminpage != 'undefined' && ( adminpage == 'post-php' || adminpage == 'post-new-php' )
+			 && typeof wp != 'undefined' && wp.heartbeat ) {
+
+			wp.heartbeat.interval( 'fast', 1 );
+		}
 
 		wrap.fadeOut( 200, function() {
 			wrap.addClass('hidden').css('display', '').find('.wp-auth-check-close').css('display', '');
@@ -71,8 +79,8 @@
 
 	function schedule() {
 		check = false;
-		window.clearTimeout( timeout );
-		timeout = window.setTimeout( function(){ check = 1; }, 180000 ); // 3 min.
+		window.clearTimeout( scheduleTimeout );
+		scheduleTimeout = window.setTimeout( function(){ check = 1; }, 300000 ); // 5 min.
 	}
 
 	$( document ).on( 'heartbeat-tick.wp-auth-check', function( e, data ) {

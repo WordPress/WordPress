@@ -336,12 +336,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$comment_url = esc_url( get_comment_link( $comment->comment_ID ) );
 		$the_comment_status = wp_get_comment_status( $comment->comment_ID );
 
-		$ptime = date( 'G', strtotime( $comment->comment_date ) );
-		if ( ( abs( time() - $ptime ) ) < DAY_IN_SECONDS )
-			$ptime = sprintf( __( '%s ago' ), human_time_diff( $ptime ) );
-		else
-			$ptime = mysql2date( __( 'Y/m/d \a\t g:i A' ), $comment->comment_date );
-
 		if ( $user_can ) {
 			$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
 			$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
@@ -360,8 +354,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 		echo '<div class="submitted-on">';
 		/* translators: 2: comment date, 3: comment time */
 		printf( __( 'Submitted on <a href="%1$s">%2$s at %3$s</a>' ), $comment_url,
-			/* translators: comment date format. See http://php.net/date */ get_comment_date( __( 'Y/m/d' ) ),
-			/* translators: comment time format. See http://php.net/date */ get_comment_date( get_option( 'time_format' ) ) );
+			/* translators: comment date format. See http://php.net/date */
+			get_comment_date( __( 'Y/m/d' ) ),
+			get_comment_date( get_option( 'time_format' ) )
+		);
 
 		if ( $comment->comment_parent ) {
 			$parent = get_comment( $comment->comment_parent );

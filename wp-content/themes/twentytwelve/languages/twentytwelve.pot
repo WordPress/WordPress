@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve 1.1.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2013-04-29 17:14:12+00:00\n"
+"POT-Creation-Date: 2013-05-22 21:14:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -328,7 +328,7 @@ msgid "Twenty Twelve"
 msgstr ""
 
 #. Theme URI of the plugin/theme
-msgid "http://wordpress.org/extend/themes/twentytwelve"
+msgid "http://wordpress.org/themes/twentytwelve"
 msgstr ""
 
 #. Description of the plugin/theme

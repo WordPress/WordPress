@@ -327,6 +327,21 @@ class WP_Locale {
 	function is_rtl() {
 		return 'rtl' == $this->text_direction;
 	}
+
+	/**
+	 * Private, unused function to add some date/time formats translated
+	 * on wp-admin/options-general.php to the general POT.
+	 *
+	 * @since 3.6.0
+	 */
+	private function strings_for_pot() {
+		/* translators: localized date format, see http://php.net/date */
+		__( 'F j, Y' );
+		/* translators: localized time format, see http://php.net/date */
+		__( 'g:i a' );
+		/* translators: localized date and time format, see http://php.net/date */
+		__( 'F j, Y g:i a' );
+	}
 }
 
 /**

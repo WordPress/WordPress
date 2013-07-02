@@ -203,7 +203,7 @@ function get_attached_file( $attachment_id, $unfiltered = false ) {
  *
  * @param int $attachment_id Attachment ID
  * @param string $file File path for the attachment
- * @return bool False on failure, true on success.
+ * @return bool True on success, false on failure.
  */
 function update_attached_file( $attachment_id, $file ) {
 	if ( !get_post( $attachment_id ) )
@@ -567,6 +567,17 @@ final class WP_Post {
 	 */
 	public $filter;
 
+	/**
+	 * Private variable used by post formats to cache parsed content.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @var array
+	 * @access private
+	 */
+	public $format_content;
+
+
 	public static function get_instance( $post_id ) {
 		global $wpdb;
 
@@ -713,10 +724,10 @@ function get_post_ancestors( $post ) {
  * @since 2.3.0
  * @uses sanitize_post_field() See for possible $context values.
  *
- * @param string $field Post field name
- * @param id $post Post ID
- * @param string $context Optional. How to filter the field. Default is display.
- * @return bool|string False on failure or returns the value in post field
+ * @param string $field Post field name.
+ * @param int|object $post Post ID or post object.
+ * @param string $context Optional. How to filter the field. Default is 'display'.
+ * @return string The value of the post field on success, empty string on failure.
  */
 function get_post_field( $field, $post, $context = 'display' ) {
 	$post = get_post( $post );
@@ -738,8 +749,8 @@ function get_post_field( $field, $post, $context = 'display' ) {
  *
  * @since 2.0.0
  *
- * @param int $ID Optional. Post ID.
- * @return bool|string False on failure or returns the mime type
+ * @param int $ID Optional. Post ID. Default is the current post from the loop.
+ * @return string|bool The mime type on success, false on failure.
  */
 function get_post_mime_type($ID = '') {
 	$post = get_post($ID);
@@ -758,8 +769,8 @@ function get_post_mime_type($ID = '') {
  *
  * @since 2.0.0
  *
- * @param int $ID Post ID
- * @return string|bool Post status or false on failure.
+ * @param int $ID Optional. Post ID. Default is the current post from the loop.
+ * @return string|bool Post status on success, false on failure.
  */
 function get_post_status($ID = '') {
 	$post = get_post($ID);
@@ -998,10 +1009,8 @@ function post_type_exists( $post_type ) {
  *
  * @since 2.1.0
  *
- * @uses $post The Loop current post global
- *
- * @param mixed $post Optional. Post object or post ID.
- * @return bool|string post type or false on failure.
+ * @param int|object $post Optional. Post ID or post object. Default is the current post from the loop.
+ * @return string|bool Post type on success, false on failure.
  */
 function get_post_type( $post = null ) {
 	if ( $post = get_post( $post ) )
@@ -1664,7 +1673,7 @@ function get_posts($args = null) {
  * @param string $meta_key Metadata name.
  * @param mixed $meta_value Metadata value.
  * @param bool $unique Optional, default is false. Whether the same key should not be added.
- * @return bool False for failure. True for success.
+ * @return int|bool Meta ID on success, false on failure.
  */
 function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
 	// make sure meta is added to the post, not a revision
@@ -1688,7 +1697,7 @@ function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
  * @param int $post_id post ID
  * @param string $meta_key Metadata name.
  * @param mixed $meta_value Optional. Metadata value.
- * @return bool False for failure. True for success.
+ * @return bool True on success, false on failure.
  */
 function delete_post_meta($post_id, $meta_key, $meta_value = '') {
 	// make sure meta is added to the post, not a revision
@@ -1731,7 +1740,7 @@ function get_post_meta($post_id, $key = '', $single = false) {
  * @param string $meta_key Metadata key.
  * @param mixed $meta_value Metadata value.
  * @param mixed $prev_value Optional. Previous value to check before removing.
- * @return bool False on failure, true if success.
+ * @return bool True on success, false on failure.
  */
 function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 	// make sure meta is added to the post, not a revision
@@ -2380,7 +2389,7 @@ function wp_untrash_post($post_id = 0) {
  * @uses do_action() on 'trash_post_comments' before trashing
  * @uses do_action() on 'trashed_post_comments' after trashing
  *
- * @param int $post Post ID or object.
+ * @param int|object $post Post ID or object.
  * @return mixed False on failure
  */
 function wp_trash_post_comments($post = null) {
@@ -2421,7 +2430,7 @@ function wp_trash_post_comments($post = null) {
  * @uses do_action() on 'untrash_post_comments' before trashing
  * @uses do_action() on 'untrashed_post_comments' after trashing
  *
- * @param int $post Post ID or object.
+ * @param int|object $post Post ID or object.
  * @return mixed False on failure
  */
 function wp_untrash_post_comments($post = null) {
@@ -2656,8 +2665,7 @@ function wp_insert_post($postarr, $wp_error = false) {
 	}
 
 	$maybe_empty = ! $post_content && ! $post_title && ! $post_excerpt && post_type_supports( $post_type, 'editor' )
-		&& post_type_supports( $post_type, 'title' ) && post_type_supports( $post_type, 'excerpt' )
-		&& ! in_array( get_post_format( $post_ID ), array( 'audio', 'video', 'quote', 'image' ) );
+		&& post_type_supports( $post_type, 'title' ) && post_type_supports( $post_type, 'excerpt' );
 
 	if ( apply_filters( 'wp_insert_post_empty_content', $maybe_empty, $postarr ) ) {
 		if ( $wp_error )
@@ -2943,7 +2951,7 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
  * @uses $wpdb
  * @uses do_action() Calls 'edit_post', 'save_post', and 'wp_insert_post' on post_id and post data.
  *
- * @param mixed $post Post ID or object.
+ * @param int|object $post Post ID or object.
  */
 function wp_publish_post( $post ) {
 	global $wpdb;
@@ -4596,7 +4604,7 @@ function update_post_cache( &$posts ) {
  *
  * @uses do_action() Calls 'clean_post_cache' on $id before adding children (if any).
  *
- * @param object|int $post The post object or ID to remove from the cache
+ * @param int|object $post Post ID or object to remove from the cache
  */
 function clean_post_cache( $post ) {
 	global $_wp_suspend_cache_invalidation, $wpdb;
@@ -4961,4 +4969,29 @@ function _prime_post_caches( $ids, $update_term_cache = true, $update_meta_cache
 
 		update_post_caches( $fresh_posts, 'any', $update_term_cache, $update_meta_cache );
 	}
+}
+
+/**
+ * Parse post content for pagination
+ *
+ * @since 3.6.0
+ *
+ * @uses paginate_content()
+ *
+ * @param object $post The post object.
+ * @return array An array of values used for paginating the parsed content.
+ */
+function wp_parse_post_content( $post ) {
+	$numpages = 1;
+
+	if ( strpos( $post->post_content, '<!--nextpage-->' ) ) {
+		$multipage = 1;
+		$pages = paginate_content( $post->post_content );
+		$numpages = count( $pages );
+	} else {
+		$pages = array( $post->post_content );
+		$multipage = 0;
+	}
+
+	return compact( 'multipage', 'pages', 'numpages' );
 }

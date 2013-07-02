@@ -164,17 +164,17 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 *
 	 * Example theme data:
 	 *   object(stdClass)[59]
-	 *     public 'name' => string 'Magazine Basic' (length=14)
-	 *     public 'slug' => string 'magazine-basic' (length=14)
-	 *     public 'version' => string '1.1' (length=3)
-	 *     public 'author' => string 'tinkerpriest' (length=12)
-	 *     public 'preview_url' => string 'http://wp-themes.com/?magazine-basic' (length=36)
-	 *     public 'screenshot_url' => string 'http://wp-themes.com/wp-content/themes/magazine-basic/screenshot.png' (length=68)
+	 *     public 'name' => string 'Magazine Basic'
+	 *     public 'slug' => string 'magazine-basic'
+	 *     public 'version' => string '1.1'
+	 *     public 'author' => string 'tinkerpriest'
+	 *     public 'preview_url' => string 'http://wp-themes.com/?magazine-basic'
+	 *     public 'screenshot_url' => string 'http://wp-themes.com/wp-content/themes/magazine-basic/screenshot.png'
 	 *     public 'rating' => float 80
 	 *     public 'num_ratings' => int 1
-	 *     public 'homepage' => string 'http://wordpress.org/extend/themes/magazine-basic' (length=49)
-	 *     public 'description' => string 'A basic magazine style layout with a fully customizable layout through a backend interface. Designed by <a href="http://bavotasan.com">c.bavota</a> of <a href="http://tinkerpriestmedia.com">Tinker Priest Media</a>.' (length=214)
-	 *     public 'download_link' => string 'http://wordpress.org/extend/themes/download/magazine-basic.1.1.zip' (length=66)
+	 *     public 'homepage' => string 'http://wordpress.org/themes/magazine-basic'
+	 *     public 'description' => string 'A basic magazine style layout with a fully customizable layout through a backend interface. Designed by <a href="http://bavotasan.com">c.bavota</a> of <a href="http://tinkerpriestmedia.com">Tinker Priest Media</a>.'
+	 *     public 'download_link' => string 'http://wordpress.org/themes/download/magazine-basic.1.1.zip'
 	 */
 	function single_row( $theme ) {
 		global $themes_allowedtags;
@@ -362,7 +362,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 * @uses $tab Global; current tab within Themes->Install screen
 	 * @uses $type Global; type of search.
 	 */
-	function _js_vars() {
+	function _js_vars( $extra_args = array() ) {
 		global $tab, $type;
 		parent::_js_vars( compact( 'tab', 'type' ) );
 	}

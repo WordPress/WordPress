@@ -176,7 +176,16 @@ case 'edit':
 			wp_enqueue_script('autosave');
 	}
 
-	add_action( 'admin_footer', '_admin_notice_post_locked' );
+	if ( is_multisite() ) {
+		add_action( 'admin_footer', '_admin_notice_post_locked' );
+	} else {
+		$check_users = get_users( array( 'fields' => 'ID', 'number' => 2 ) );
+
+		if ( count( $check_users ) > 1 )
+			add_action( 'admin_footer', '_admin_notice_post_locked' );
+
+		unset( $check_users );
+	}
 
 	$title = $post_type_object->labels->edit_item;
 	$post = get_post($post_id, OBJECT, 'edit');

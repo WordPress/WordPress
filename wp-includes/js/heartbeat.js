@@ -10,8 +10,7 @@ window.wp = window.wp || {};
 		var self = this,
 			running,
 			beat,
-			nonce,
-			screenid = typeof pagenow != 'undefined' ? pagenow : '',
+			screenId = typeof pagenow != 'undefined' ? pagenow : '',
 			url = typeof ajaxurl != 'undefined' ? ajaxurl : '',
 			settings,
 			tick = 0,
@@ -30,29 +29,27 @@ window.wp = window.wp || {};
 		this.autostart = true;
 		this.connectionLost = false;
 
-		if ( typeof( window.heartbeatSettings ) != 'undefined' ) {
-			settings = window.heartbeatSettings;
+		if ( typeof( window.heartbeatSettings ) == 'object' ) {
+			settings = $.extend( {}, window.heartbeatSettings );
 
 			// Add private vars
-			nonce = settings.nonce || '';
-			delete settings.nonce;
-
 			url = settings.ajaxurl || url;
 			delete settings.ajaxurl;
+			delete settings.nonce;
 
 			interval = settings.interval || 15; // default interval
 			delete settings.interval;
-			// The interval can be from 5 to 60 sec.
-			if ( interval < 5 )
-				interval = 5;
+			// The interval can be from 15 to 60 sec. and can be set temporarily to 5 sec.
+			if ( interval < 15 )
+				interval = 15;
 			else if ( interval > 60 )
 				interval = 60;
 
 			interval = interval * 1000;
 
-			// 'screenid' can be added from settings on the front-end where the JS global 'pagenow' is not set
-			screenid = screenid || settings.screenid || 'site';
-			delete settings.screenid;
+			// 'screenId' can be added from settings on the front-end where the JS global 'pagenow' is not set
+			screenId = screenId || settings.screenId || 'front';
+			delete settings.screenId;
 
 			// Add or overwrite public vars
 			$.extend( this, settings );
@@ -65,7 +62,16 @@ window.wp = window.wp || {};
 			return (new Date()).getTime();
 		}
 
-		function isLocalFrame(frame) {
+		function isLocalFrame( frame ) {
+			var origin, src = frame.src;
+
+			if ( src && /^https?:\/\//.test( src ) ) {
+				origin = window.location.origin ? window.location.origin : window.location.protocol + '//' + window.location.host;
+
+				if ( src.indexOf( origin ) !== 0 )
+					return false;
+			}
+
 			try {
 				if ( frame.contentWindow.document )
 					return true;
@@ -74,7 +80,7 @@ window.wp = window.wp || {};
 			return false;
 		}
 
-		// Set error state and fire an event if XHR errors or timeout
+		// Set error state and fire an event on XHR errors or timeout
 		function errorstate( error ) {
 			var trigger;
 
@@ -111,7 +117,8 @@ window.wp = window.wp || {};
 		}
 
 		function connect() {
-			var send = {}, data, i, empty = true;
+			var send = {}, data, i, empty = true,
+			nonce = typeof window.heartbeatSettings == 'object' ? window.heartbeatSettings.nonce : '';
 			tick = time();
 
 			data = $.extend( {}, queue );
@@ -139,7 +146,7 @@ window.wp = window.wp || {};
 			send.interval = interval / 1000;
 			send._nonce = nonce;
 			send.action = 'heartbeat';
-			send.screenid = screenid;
+			send.screen_id = screenId;
 			send.has_focus = hasFocus;
 
 			connecting = true;
@@ -150,7 +157,7 @@ window.wp = window.wp || {};
 				data: send,
 				dataType: 'json'
 			}).done( function( response, textStatus, jqXHR ) {
-				var new_interval, timed;
+				var new_interval;
 
 				if ( ! response )
 					return errorstate( 'empty' );
@@ -158,6 +165,11 @@ window.wp = window.wp || {};
 				// Clear error state
 				if ( self.connectionLost )
 					errorstate();
+
+				if ( response.nonces_expired ) {
+					$(document).trigger( 'heartbeat-nonces-expired' );
+					return;
+				}
 
 				// Change the interval from PHP
 				if ( response.heartbeat_interval ) {
@@ -325,16 +337,19 @@ window.wp = window.wp || {};
 		 * If the window doesn't have focus, the interval slows down to 2 min.
 		 *
 		 * @param string speed Interval speed: 'fast' (5sec), 'standard' (15sec) default, 'slow' (60sec)
+		 * @param string ticks Used with speed = 'fast', how many ticks before the speed reverts back
 		 * @return int Current interval in seconds
 		 */
-		this.interval = function( speed ) {
+		this.interval = function( speed, ticks ) {
 			var reset, seconds;
+			ticks = parseInt( ticks, 10 ) || 30;
+			ticks = ticks < 1 || ticks > 30 ? 30 : ticks;
 
 			if ( speed ) {
 				switch ( speed ) {
 					case 'fast':
 						seconds = 5;
-						countdown = 30;
+						countdown = ticks;
 						break;
 					case 'slow':
 						seconds = 60;

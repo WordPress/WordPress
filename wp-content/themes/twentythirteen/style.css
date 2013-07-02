@@ -1,6 +1,6 @@
 /*
 Theme Name: Twenty Thirteen
-Theme URI: http://wordpress.org/extend/themes/twentythirteen
+Theme URI: http://wordpress.org/themes/twentythirteen
 Author: the WordPress team
 Author URI: http://wordpress.org/
 Description: The 2013 theme for WordPress takes us back to the blog, featuring a full range of post formats, each displayed beautifully in their own unique way. Design details abound, starting with a gorgeous color scheme and matching header images, optional display fonts for beautiful typography, and a wide layout that looks great on large screens yet remains device-agnostic and is readable on any device.
@@ -20,7 +20,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
  *
  * 1.0 - Reset
  * 2.0 - Repeatable Patterns
- * 3.0 - Site Structure
+ * 3.0 - Basic Structure
  * 4.0 - Header
  *   4.1 - Site Header
  *   4.2 - Navigation
@@ -257,11 +257,21 @@ blockquote blockquote {
 }
 
 blockquote cite,
-blockquote small,
-.quote-caption {
+blockquote small {
 	font-size: 14px;
 	font-weight: normal;
 	text-transform: uppercase;
+}
+
+blockquote em,
+blockquote i {
+	font-style: normal;
+	font-weight: 300;
+}
+
+blockquote strong,
+blockquote b {
+	font-weight: 400;
 }
 
 small {
@@ -453,34 +463,16 @@ hr {
 
 
 /**
- * 2.0 Repeatable patterns
+ * 2.0 Repeatable Patterns
  * ----------------------------------------------------------------------------
  */
-
-/**
- * Genericons, a flexible icon-font.
- * License: GPL version 2 or any later version with font exception (http://www.gnu.org/licenses/gpl-faq.html#FontException)
- * See also LICENSE.txt and COPYING.txt in the ./fonts directory.
- * Thanks to FontSquirrel for web-font conversion!
- * More info: genericons.com
- */
-@font-face {
-	font-family: Genericons;
-	font-style: normal;
-	font-weight: normal;
-	src: url(fonts/genericons-regular-webfont.eot);
-	src: url(fonts/genericons-regular-webfont.eot?#iefix) format("embedded-opentype"),
-		 url(fonts/genericons-regular-webfont.woff) format("woff"),
-		 url(fonts/genericons-regular-webfont.ttf) format("truetype"),
-		 url(fonts/genericons-regular-webfont.svg#genericonsregular) format("svg");
-}
 
 .genericon:before,
 .menu-toggle:after,
 .featured-post:before,
 .date a:before,
 .entry-meta .author a:before,
-.format-audio .entry-media:before,
+.format-audio .entry-content:before,
 .comments-link a:before,
 .tags-links a:first-child:before,
 .categories-links a:first-child:before,
@@ -491,7 +483,7 @@ hr {
 .comment-awaiting-moderation:before,
 .comment-reply-link:before,
 .comment-reply-login:before,
-#reply-title small a:before,
+.comment-reply-title small a:before,
 .bypostauthor > .comment-body .fn:before,
 .error404 .page-title:before {
 	-webkit-font-smoothing: antialiased;
@@ -502,7 +494,6 @@ hr {
 
 /* Clearing floats */
 .clear:after,
-.entry-media:after,
 .attachment .entry-header:after,
 .site-footer .widget-area:after,
 .entry-content:after,
@@ -516,8 +507,6 @@ hr {
 
 .clear:before,
 .clear:after,
-.entry-media:before,
-.entry-media:after,
 .attachment .entry-header:before,
 .attachment .entry-header:after,
 .site-footer .widget-area:before,
@@ -592,7 +581,6 @@ input[type="reset"] {
 	background: #e05d22; /* Old browsers */
 	background: -webkit-linear-gradient(top, #e05d22 0%, #d94412 100%); /* Chrome 10+, Safari 5.1+ */
 	background:   linear-gradient(to bottom, #e05d22 0%, #d94412 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e05d22', endColorstr='#d94412', GradientType=0); /* IE6-9 */
 	border: none;
 	border-bottom: 3px solid #b93207;
 	border-radius: 2px;
@@ -613,7 +601,6 @@ input[type="reset"]:focus {
 	background: #ed6a31; /* Old browsers */
 	background: -webkit-linear-gradient(top, #ed6a31 0%, #e55627 100%); /* Chrome 10+, Safari 5.1+ */
 	background:   linear-gradient(to bottom, #ed6a31 0%, #e55627 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ed6a31', endColorstr='#e55627', GradientType=0); /* IE6-9 */
 	outline: none;
 }
 
@@ -624,7 +611,6 @@ input[type="reset"]:active {
 	background: #d94412; /* Old browsers */
 	background: -webkit-linear-gradient(top, #d94412 0%, #e05d22 100%); /* Chrome 10+, Safari 5.1+ */
 	background:   linear-gradient(to bottom, #d94412 0%, #e05d22 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d94412', endColorstr='#e05d22', GradientType=0); /* IE6-9 */
 	border: none;
 	border-top: 3px solid #b93207;
 	padding: 10px 24px 11px;
@@ -679,7 +665,6 @@ img[class*="attachment-"] {
 	height: auto;
 }
 
-.entry-media img,
 img.size-full,
 img.size-large,
 img.wp-post-image {
@@ -767,9 +752,6 @@ img.wp-smiley,
 	background-color: #fff;
 	border-left: 1px solid #f2f2f2;
 	border-right: 1px solid #f2f2f2;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing:    content-box;
-	box-sizing:         content-box;
 	margin: 0 auto;
 	max-width: 1600px;
 	width: 100%;
@@ -929,18 +911,18 @@ ul.nav-menu li:hover > ul,
 /* Navbar */
 .navbar {
 	background-color: #f7f5e7;
+	margin: 0 auto;
 	max-width: 1600px;
 	width: 100%;
 }
 
-.site-header .searchform {
+.site-header .search-form {
 	position: absolute;
 	right: 20px;
 	top: 1px;
 }
 
-.site-header .searchform [type="search"],
-.site-header .searchform [type="text"] {
+.site-header .search-field {
 	background-color: transparent;
 	background-image: url(images/search-icon.png);
 	background-position: 5px center;
@@ -957,8 +939,7 @@ ul.nav-menu li:hover > ul,
 	width: 0;
 }
 
-.site-header .searchform [type="search"]:focus,
-.site-header .searchform [type="text"]:focus {
+.site-header .search-field:focus {
 	background-color: #fff;
 	border: 2px solid #c3c0ab;
 	cursor: text;
@@ -1128,8 +1109,7 @@ ul.nav-menu li:hover > ul,
 }
 
 .entry-content blockquote cite,
-.entry-content blockquote small,
-.entry-content .quote-caption {
+.entry-content blockquote small {
 	font-size: 16px;
 }
 
@@ -1247,10 +1227,10 @@ footer.entry-meta {
 	position: relative;
 }
 
-.single .gallery-columns-1.gallery-size-medium,
-.single .gallery-columns-1.gallery-size-thumbnail,
-.single .gallery-columns-2.gallery-size-thumbnail,
-.single .gallery-columns-3.gallery-size-thumbnail {
+.gallery-columns-1.gallery-size-medium,
+.gallery-columns-1.gallery-size-thumbnail,
+.gallery-columns-2.gallery-size-thumbnail,
+.gallery-columns-3.gallery-size-thumbnail {
 	display: table;
 	margin: 0 auto 20px;
 }
@@ -1367,23 +1347,6 @@ footer.entry-meta {
  * ----------------------------------------------------------------------------
  */
 
-.entry-media {
-	margin: 0 auto 24px;
-	max-width: 724px;
-	width: 100%;
-}
-
-.sidebar .entry-media {
-	max-width: 1040px;
-	padding: 0 316px 0 0;
-}
-
-.entry-media .wp-caption,
-.entry-media .wp-caption-text,
-.entry-media [class*="align"] {
-	margin: 0 auto;
-}
-
 /* Aside */
 .format-aside {
 	background-color: #f7f5e7;
@@ -1426,16 +1389,7 @@ footer.entry-meta {
 	font-weight: bold;
 }
 
-.format-audio .entry-media {
-	max-width: 604px;
-}
-
-.sidebar .format-audio .entry-media {
-	max-width: 1040px;
-	padding: 0 374px 0 60px;
-}
-
-.format-audio .entry-media:before {
+.format-audio .entry-content:before {
 	content: "\f109";
 	float: left;
 	font-size: 64px;
@@ -1535,6 +1489,7 @@ footer.entry-meta {
 .archive .format-gallery .gallery,
 .search .format-gallery .gallery {
 	margin-bottom: 20px;
+	margin-left: -4px;
 	max-width: 608px;
 }
 
@@ -1658,20 +1613,13 @@ footer.entry-meta {
 	background-color: #210d10;
 }
 
-.format-quote .entry-content {
-	font-size: 28px;
-	font-style: italic;
-	font-weight: 300;
-	margin: 0 auto;
-	position: relative;
-}
-
 .format-quote .entry-content,
 .format-quote .entry-meta {
 	color: #f7f5e7;
 }
 
 .format-quote .entry-content blockquote {
+	font-size: 28px;
 	margin: 0;
 }
 
@@ -1690,18 +1638,20 @@ footer.entry-meta {
 	text-decoration: none;
 }
 
-.format-quote .quote-caption,
 .format-quote blockquote small,
 .format-quote blockquote cite {
 	display: block;
 	font-size: 16px;
 }
 
-.format-quote .quote {
+.format-quote blockquote {
+	font-style: italic;
+	font-weight: 300;
 	padding-left: 75px;
+	position: relative;
 }
 
-.format-quote .quote:before {
+.format-quote blockquote:before {
 	content: '\201C';
 	font-size: 140px;
 	font-weight: 400;
@@ -1927,8 +1877,7 @@ footer.entry-meta {
 .image-navigation .meta-nav {
 	font-size: 32px;
 	font-weight: 300;
-	vertical-align: -webkit-calc(-4px);
-	vertical-align:         calc(-4px);
+	vertical-align: -4px;
 }
 
 .attachment .entry-attachment,
@@ -2213,10 +2162,10 @@ footer.entry-meta {
 
 .comments-title,
 .comment-list,
-#reply-title,
+.comment-reply-title,
 .must-log-in,
-#respond #commentform,
-#respond iframe {
+.comment-respond .comment-form,
+.comment-respond iframe {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -2227,9 +2176,9 @@ footer.entry-meta {
 .sidebar .comments-title,
 .sidebar .comment-list,
 .sidebar .must-log-in,
-.sidebar #reply-title,
+.sidebar .comment-reply-title,
 .sidebar .comment-navigation,
-.sidebar #respond #commentform {
+.sidebar .comment-respond .comment-form {
 	max-width: 1040px;
 	padding-left: 60px;
 	padding-right: 376px;
@@ -2278,6 +2227,10 @@ footer.entry-meta {
 	margin-bottom: 10px;
 }
 
+.comment-author .fn {
+	word-wrap: break-word;
+}
+
 .comment-author .fn,
 .comment-author .url,
 .comment-reply-link,
@@ -2285,6 +2238,7 @@ footer.entry-meta {
 	color: #bc360a;
 	font-size: 14px;
 	font-style: normal;
+	font-weight: normal;
 }
 
 .says {
@@ -2360,21 +2314,21 @@ footer.entry-meta {
 }
 
 /* Comment form */
-#respond {
+.comment-respond {
 	background-color: #f7f5e7;
 	padding: 30px 0;
 }
 
-.comment #respond {
+.comment .comment-respond {
 	margin-bottom: 20px;
 	padding: 20px;
 }
 
-#reply-title {
+.comment-reply-title {
 	font: 300 italic 28px "Source Sans Pro", Helvetica, sans-serif;
 }
 
-#reply-title small a {
+.comment-reply-title small a {
 	color: #131310;
 	display: inline-block;
 	float: right;
@@ -2383,52 +2337,52 @@ footer.entry-meta {
 	width: 16px;
 }
 
-#reply-title small a:hover {
+.comment-reply-title small a:hover {
 	color: #ed331c;
 	text-decoration: none;
 }
 
-#reply-title small a:before {
+.comment-reply-title small a:before {
 	content: "\f406";
 	vertical-align: top;
 }
 
-.sidebar .comment-list #reply-title,
-.sidebar .comment-list #respond #commentform {
+.sidebar .comment-list .comment-reply-title,
+.sidebar .comment-list .comment-respond .comment-form {
 	padding: 0;
 }
 
-#commentform .comment-notes {
+.comment-form .comment-notes {
 	margin-bottom: 15px;
 }
 
-#commentform .comment-form-author,
-#commentform .comment-form-email,
-#commentform .comment-form-url {
+.comment-form .comment-form-author,
+.comment-form .comment-form-email,
+.comment-form .comment-form-url {
 	margin-bottom: 8px;
 }
 
-#commentform [for="author"],
-#commentform [for="email"],
-#commentform [for="url"],
-#commentform [for="comment"] {
+.comment-form [for="author"],
+.comment-form [for="email"],
+.comment-form [for="url"],
+.comment-form [for="comment"] {
 	float: left;
 	padding: 5px 0;
 	width: 120px;
 }
 
-#commentform .required {
+.comment-form .required {
 	color: #ed331c;
 }
 
-#commentform input[type="text"],
-#commentform input[type="email"],
-#commentform input[type="url"] {
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form input[type="url"] {
 	max-width: 270px;
 	width: 60%;
 }
 
-#commentform textarea {
+.comment-form textarea {
 	width: 100%;
 }
 
@@ -2565,12 +2519,8 @@ footer.entry-meta {
 }
 
 /* Search widget */
-.searchform [type="submit"] {
+.search-form .search-submit {
 	display: none;
-}
-
-.widget .searchform [type="text"] {
-	width: 100%;
 }
 
 /* RSS Widget */
@@ -2713,10 +2663,6 @@ footer.entry-meta {
 }
 
 @media (max-width: 1069px) {
-	.sidebar .entry-media {
-		padding: 0 376px 0 60px;
-	}
-
 	.sidebar img.alignleft,
 	.sidebar .wp-caption.alignleft {
 		margin-left: 0;
@@ -2778,21 +2724,15 @@ footer.entry-meta {
 	.sidebar .entry-summary,
 	.sidebar .entry-meta,
 	.sidebar .comment-list,
-	.sidebar #reply-title,
+	.sidebar .comment-reply-title,
 	.sidebar .comment-navigation,
-	.sidebar #respond #commentform,
+	.sidebar .comment-respond .comment-form,
 	.sidebar .featured-gallery,
 	.sidebar .post-navigation .nav-links,
-	.author.sidebar .author-info,
-	.format-audio .entry-media,
-	.sidebar .format-audio .entry-media {
+	.author.sidebar .author-info {
 		max-width: 604px;
 		padding-left: 0;
 		padding-right: 0;
-	}
-
-	.sidebar.author .author-info {
-		padding: 30px 0 10px;
 	}
 
 	.sidebar .site-info,
@@ -2803,11 +2743,6 @@ footer.entry-meta {
 		max-width: 604px;
 	}
 
-	.sidebar .entry-media {
-		max-width: 724px;
-	}
-
-	.sidebar .entry-media,
 	.sidebar .archive-meta,
 	.attachment .entry-header,
 	.search.sidebar .page-content,
@@ -2888,11 +2823,6 @@ footer.entry-meta {
 		margin-right: 0;
 	}
 
-	.entry-media,
-	.sidebar .entry-media {
-		max-width: 604px;
-	}
-
 	.attachment .image-navigation,
 	.attachment .entry-attachment .attachment {
 		max-width: 604px;
@@ -2910,7 +2840,6 @@ footer.entry-meta {
 		font-size: 30px;
 	}
 
-	#content .entry-media,
 	#content .entry-header,
 	#content .entry-content,
 	#content .entry-summary,
@@ -2920,11 +2849,11 @@ footer.entry-meta {
 	.blog.sidebar .page-content,
 	.sidebar .post-navigation .nav-links,
 	.paging-navigation .nav-links,
-	.author .author-info,
+	#content .author-info,
 	.comments-area .comments-title,
 	.comments-area .comment-list,
 	.comments-area .comment-navigation,
-	#respond,
+	.comment-respond,
 	.sidebar .site-info,
 	.sidebar .paging-navigation .nav-links {
 		padding-left: 20px;
@@ -2949,14 +2878,12 @@ footer.entry-meta {
 		content: "\f502";
 		font-size: 12px;
 		padding-left: 8px;
-		vertical-align: -webkit-calc(-4px);
-		vertical-align:         calc(-4px);
+		vertical-align: -4px;
 	}
 
 	.toggled-on .menu-toggle:after {
 		content: "\f500";
-		vertical-align: -webkit-calc(2px);
-		vertical-align:         calc(2px);
+		vertical-align: 2px;
 	}
 
 	.toggled-on .nav-menu,
@@ -3028,8 +2955,7 @@ footer.entry-meta {
 	}
 
 	.format-quote blockquote small,
-	.format-quote blockquote cite,
-	.format-quote .quote-caption {
+	.format-quote blockquote cite {
 		font-size: 13px;
 	}
 
@@ -3058,27 +2984,27 @@ footer.entry-meta {
 		width:         calc(100% - 104px);
 	}
 
-	#commentform input[type="text"],
-	#commentform input[type="email"],
-	#commentform input[type="url"] {
+	.comment-form input[type="text"],
+	.comment-form input[type="email"],
+	.comment-form input[type="url"] {
 		width: -webkit-calc(100% - 120px);
 		width:         calc(100% - 120px);
 	}
 
-	#commentform textarea {
+	.comment-form textarea {
 		height: 80px; /* Smaller field for mobile. */
 	}
 
 	/* Audio */
+	.format-audio .entry-content:before {
+		display: none;
+	}
+
 	.format-audio .audio-content {
 		background-image: none;
 		float: none;
 		padding-left: 0;
 		width: auto;
-	}
-
-	.format-audio .entry-media:before {
-		display: none;
 	}
 }
 
@@ -3093,10 +3019,10 @@ footer.entry-meta {
 	.blog .format-gallery .gallery-item,
 	.archive .format-gallery .gallery-item,
 	.search .format-gallery .gallery-item {
-		margin-bottom: 2%;
-		margin-right: 2%;
 		max-width: none;
 		width: 49%;
+		width: -webkit-calc(50% - 4px);
+		width:         calc(50% - 4px);
 	}
 
 	.single .gallery-columns-1.gallery-size-medium,
@@ -3113,17 +3039,19 @@ footer.entry-meta {
 	.archive .format-gallery .gallery-item:first-child,
 	.search .format-gallery .gallery-item:first-child {
 		text-align: center;
-		width: 100%;
+		width: 98%;
+		width: -webkit-calc(100% - 4px);
+		width:         calc(100% - 4px);
 	}
 
 	.gallery-columns-3 .gallery-item:nth-of-type(3n),
 	.gallery-columns-5 .gallery-item:nth-of-type(5n),
 	.gallery-columns-7 .gallery-item:nth-of-type(7n),
 	.gallery-columns-9 .gallery-item:nth-of-type(9n) {
-		margin-right: 2%;
+		margin-right: 4px;
 	}
 
-	.single .gallery br {
+	.gallery br {
 		display: none;
 	}
 
@@ -3165,8 +3093,7 @@ footer.entry-meta {
 	(-webkit-min-device-pixel-ratio: 1.25),
 	(min-resolution: 120dpi) {
 
-	.site-header .searchform [type="search"],
-	.site-header .searchform [type="text"] {
+	.site-header .search-field {
 		background-image: url(images/search-icon-2x.png);
 	}
 
@@ -3215,7 +3142,7 @@ footer.entry-meta {
 
 	.author-avatar,
 	.site-footer,
-	#respond,
+	.comment-respond,
 	.comments-area .comment-edit-link,
 	.comments-area .reply,
 	.comments-link,

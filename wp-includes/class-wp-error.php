@@ -194,13 +194,11 @@ class WP_Error {
 /**
  * Check whether variable is a WordPress Error.
  *
- * Looks at the object and if a WP_Error class. Does not check to see if the
- * parent is also WP_Error, so can't inherit WP_Error and still use this
- * function.
+ * Returns true if $thing is an object of the WP_Error class.
  *
  * @since 2.1.0
  *
- * @param mixed $thing Check if unknown variable is WordPress Error object.
+ * @param mixed $thing Check if unknown variable is a WP_Error object.
  * @return bool True, if WP_Error. False, if not WP_Error.
  */
 function is_wp_error($thing) {

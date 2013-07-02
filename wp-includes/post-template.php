@@ -96,7 +96,7 @@ function the_title_attribute( $args = '' ) {
  *
  * @since 0.71
  *
- * @param mixed $post Optional. Post ID or object.
+ * @param int|object $post Optional. Post ID or object.
  * @return string
  */
 function get_the_title( $post = 0 ) {
@@ -160,9 +160,20 @@ function get_the_guid( $id = 0 ) {
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
+ * @param int $id Optional. A post id. Defaults to the current post when in The Loop, undefined otherwise.
  */
-function the_content( $more_link_text = null, $strip_teaser = false ) {
-	$content = apply_filters( 'the_content', get_the_content( $more_link_text, $strip_teaser ) );
+function the_content( $more_link_text = null, $strip_teaser = false, $id = 0 ) {
+	$post = get_post( $id );
+
+	/*
+	 * Filter: the_content
+	 *
+	 * param string Post content as returned by get_the_content()
+	 * param int The ID of the post to which the content belongs. This was introduced
+	 *           in 3.6.0 and is not reliably passed by all plugins and themes that
+	 *           directly apply the_content. As such, it is not considered portable.
+	 */
+	$content = apply_filters( 'the_content', get_the_content( $more_link_text, $strip_teaser, $post->ID ), $post->ID );
 	echo str_replace( ']]>', ']]&gt;', $content );
 }
 
@@ -173,12 +184,19 @@ function the_content( $more_link_text = null, $strip_teaser = false ) {
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
+ * @param int $id Optional. A post id. Defaults to the current post when in The Loop, undefined otherwise.
  * @return string
  */
-function get_the_content( $more_link_text = null, $strip_teaser = false ) {
-	global $more, $page, $pages, $multipage, $preview;
+function get_the_content( $more_link_text = null, $strip_teaser = false, $id = 0 ) {
+	global $page, $more, $preview;
 
-	$post = get_post();
+	$post = get_post( $id );
+	// Avoid parsing again if the post is the same one parsed by setup_postdata().
+	// The extract() will set up $pages and $multipage.
+	if ( $post->ID != get_post()->ID )
+		extract( wp_parse_post_content( $post, false ) );
+	else
+		global $pages, $multipage;
 
 	if ( null === $more_link_text )
 		$more_link_text = __( '(more&hellip;)' );
@@ -187,8 +205,8 @@ function get_the_content( $more_link_text = null, $strip_teaser = false ) {
 	$has_teaser = false;
 
 	// If post password required and it doesn't match the cookie.
-	if ( post_password_required() )
-		return get_the_password_form();
+	if ( post_password_required( $post ) )
+		return get_the_password_form( $post );
 
 	if ( $page > count( $pages ) ) // if the requested page doesn't exist
 		$page = count( $pages ); // give them the highest numbered page that DOES exist
@@ -566,12 +584,10 @@ function get_body_class( $class = '' ) {
  *
  * @since 2.7.0
  *
- * @param int|object $post An optional post. Global $post used if not provided.
+ * @param int|WP_Post $post An optional post. Global $post used if not provided.
  * @return bool false if a password is not required or the correct password cookie is present, true otherwise.
  */
 function post_password_required( $post = null ) {
-	global $wp_hasher;
-
 	$post = get_post($post);
 
 	if ( empty( $post->post_password ) )
@@ -580,15 +596,14 @@ function post_password_required( $post = null ) {
 	if ( ! isset( $_COOKIE['wp-postpass_' . COOKIEHASH] ) )
 		return true;
 
-	if ( empty( $wp_hasher ) ) {
-		require_once( ABSPATH . 'wp-includes/class-phpass.php');
-		// By default, use the portable hash from phpass
-		$wp_hasher = new PasswordHash(8, true);
-	}
+	require_once ABSPATH . 'wp-includes/class-phpass.php';
+	$hasher = new PasswordHash( 8, true );
 
 	$hash = wp_unslash( $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] );
+	if ( 0 !== strpos( $hash, '$P$B' ) )
+		return true;
 
-	return ! $wp_hasher->CheckPassword( $post->post_password, $hash );
+	return ! $hasher->CheckPassword( $post->post_password, $hash );
 }
 
 /**
@@ -1035,7 +1050,7 @@ class Walker_Page extends Walker {
 	 * @param int $current_page Page ID.
 	 * @param array $args
 	 */
-	function start_el( &$output, $page, $depth, $args, $current_page = 0 ) {
+	function start_el( &$output, $page, $depth = 0, $args = array(), $current_page = 0 ) {
 		if ( $depth )
 			$indent = str_repeat("\t", $depth);
 		else
@@ -1117,7 +1132,7 @@ class Walker_PageDropdown extends Walker {
 	 * @param array $args Uses 'selected' argument for selected page to set selected HTML attribute for option element.
 	 * @param int $id
 	 */
-	function start_el(&$output, $page, $depth, $args, $id = 0) {
+	function start_el( &$output, $page, $depth = 0, $args = array(), $id = 0 ) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
 
 		$output .= "\t<option class=\"level-$depth\" value=\"$page->ID\"";
@@ -1225,11 +1240,11 @@ function prepend_attachment($content) {
  *
  * @since 1.0.0
  * @uses apply_filters() Calls 'the_password_form' filter on output.
- *
+ * @param int|WP_Post $post Optional. A post id or post object. Defaults to the current post when in The Loop, undefined otherwise.
  * @return string HTML content for password form for password protected post.
  */
-function get_the_password_form() {
-	$post = get_post();
+function get_the_password_form( $post = 0 ) {
+	$post = get_post( $post );
 	$label = 'pwbox-' . ( empty($post->ID) ? rand() : $post->ID );
 	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" method="post">
 	<p>' . __("This post is password protected. To view it please enter your password below:") . '</p>
@@ -1250,7 +1265,7 @@ function get_the_password_form() {
  * @uses $wp_query
  *
  * @param string $template The specific template name if specific matching is required.
- * @return bool False on failure, true if success.
+ * @return bool True on success, false on failure.
  */
 function is_page_template( $template = '' ) {
 	if ( ! is_page() )

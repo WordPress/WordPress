@@ -2901,7 +2901,7 @@ function sanitize_option($option, $value) {
 
 		case 'illegal_names':
 			if ( ! is_array( $value ) )
-				$value = explode( "\n", $value );
+				$value = explode( ' ', $value );
 
 			$value = array_values( array_filter( array_map( 'trim', $value ) ) );
 
@@ -3116,7 +3116,7 @@ function wp_sprintf_l($pattern, $args) {
  *
  * @since 2.5.0
  *
- * @param integer $str String to get the excerpt from.
+ * @param string $str String to get the excerpt from.
  * @param integer $count Maximum number of characters to take.
  * @param string $more Optional. What to append if $str needs to be trimmed. Defaults to empty string.
  * @return string The excerpt.

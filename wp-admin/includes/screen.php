@@ -166,15 +166,6 @@ function get_screen_icon( $screen = '' ) {
 
 		if ( $screen->post_type )
 			$class .= ' ' . sanitize_html_class( 'icon32-posts-' . $screen->post_type );
-
-		if ( 'post' == $screen->id ) {
-			$post_format = get_post_format();
-			if ( ! $post_format && ! empty( $_REQUEST['format'] ) && in_array( $_REQUEST['format'], get_post_format_slugs() ) )
-				$post_format = $_REQUEST['format'];
-
-			if ( $post_format )
-				$class .= ' wp-format-' . $post_format;
-		}
 	}
 
 	return '<div id="icon-' . esc_attr( $icon_id ) . '" class="' . $class . '"><br /></div>';
@@ -936,6 +927,7 @@ final class WP_Screen {
 
 		$columns = get_column_headers( $this );
 		$hidden  = get_hidden_columns( $this );
+		$post    = get_post();
 
 		?>
 		<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="<?php esc_attr_e('Screen Options Tab'); ?>">
@@ -962,18 +954,6 @@ final class WP_Screen {
 						echo '<label for="wp_welcome_panel-hide">';
 						echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked( (bool) $welcome_checked, true, false ) . ' />';
 						echo _x( 'Welcome', 'Welcome panel' ) . "</label>\n";
-					} elseif ( 'post' == $this->base && post_type_supports( $this->post_type, 'post-formats' ) && apply_filters( 'enable_post_format_ui', true, $GLOBALS['post'] ) ) {
-						$user_wants = get_user_option( 'post_formats_' . $this->post_type );
-						if ( false !== $user_wants ) {
-							// User wants what user gets.
-							$show_post_format_ui = (bool) $user_wants;
-						} else {
-							// UI is shown when the theme supports formats, or if the site has formats assigned to posts.
-							$show_post_format_ui = current_theme_supports( 'post-formats' ) || get_terms( 'post_format', array( 'number' => 1 ) );
-						}
-						echo '<label for="show_post_format_ui">';
-						echo '<input type="checkbox" id="show_post_format_ui"' . checked( $show_post_format_ui, true, false ) . ' />';
-						echo __( 'Post Formats' ) . "</label>\n";
 					}
 				?>
 				<br class="clear" />

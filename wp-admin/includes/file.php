@@ -328,8 +328,14 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 
 	// Move the file to the uploads dir
 	$new_file = $uploads['path'] . "/$filename";
-	if ( false === @ move_uploaded_file( $file['tmp_name'], $new_file ) )
-		return $upload_error_handler( $file, sprintf( __('The uploaded file could not be moved to %s.' ), $uploads['path'] ) );
+	if ( false === @ move_uploaded_file( $file['tmp_name'], $new_file ) ) {
+		if ( 0 === strpos( $uploads['basedir'], ABSPATH ) )
+			$error_path = str_replace( ABSPATH, '', $uploads['basedir'] ) . $uploads['subdir'];
+		else
+			$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
+
+		return $upload_error_handler( $file, sprintf( __('The uploaded file could not be moved to %s.' ), $error_path ) );
+	}
 
 	// Set correct file permissions
 	$stat = stat( dirname( $new_file ));
@@ -452,7 +458,11 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
 	// Move the file to the uploads dir
 	$new_file = $uploads['path'] . "/$filename";
 	if ( false === @ rename( $file['tmp_name'], $new_file ) ) {
-		return $upload_error_handler( $file, sprintf( __('The uploaded file could not be moved to %s.' ), $uploads['path'] ) );
+		if ( 0 === strpos( $uploads['basedir'], ABSPATH ) )
+			$error_path = str_replace( ABSPATH, '', $uploads['basedir'] ) . $uploads['subdir'];
+		else
+			$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
+		return $upload_error_handler( $file, sprintf( __('The uploaded file could not be moved to %s.' ), $error_path ) );
 	}
 
 	// Set correct file permissions
@@ -487,7 +497,7 @@ function download_url( $url, $timeout = 300 ) {
 	if ( ! $tmpfname )
 		return new WP_Error('http_no_file', __('Could not create Temporary file.'));
 
-	$response = wp_remote_get( $url, array( 'timeout' => $timeout, 'stream' => true, 'filename' => $tmpfname ) );
+	$response = wp_remote_get( $url, array( 'timeout' => $timeout, 'stream' => true, 'filename' => $tmpfname, 'reject_unsafe_urls' => true ) );
 
 	if ( is_wp_error( $response ) ) {
 		unlink( $tmpfname );

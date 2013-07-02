@@ -569,11 +569,12 @@ add_action('admin_head', '_ipad_meta');
 function wp_check_locked_posts( $response, $data, $screen_id ) {
 	$checked = array();
 
-	if ( 'edit-post' == $screen_id && array_key_exists( 'wp-check-locked', $data ) && is_array( $data['wp-check-locked'] ) ) {
-		foreach ( $data['wp-check-locked'] as $key ) {
-			$post_id = (int) substr( $key, 5 );
+	if ( array_key_exists( 'wp-check-locked-posts', $data ) && is_array( $data['wp-check-locked-posts'] ) ) {
+		foreach ( $data['wp-check-locked-posts'] as $key ) {
+			if ( ! $post_id = absint( substr( $key, 5 ) ) )
+				continue;
 
-			if ( current_user_can( 'edit_post', $post_id ) && ( $user_id = wp_check_post_lock( $post_id ) ) && ( $user = get_userdata( $user_id ) ) ) {
+			if ( ( $user_id = wp_check_post_lock( $post_id ) ) && ( $user = get_userdata( $user_id ) ) && current_user_can( 'edit_post', $post_id ) ) {
 				$send = array( 'text' => sprintf( __( '%s is currently editing' ), $user->display_name ) );
 
 				if ( ( $avatar = get_avatar( $user->ID, 18 ) ) && preg_match( "|src='([^']+)'|", $avatar, $matches ) )
@@ -585,7 +586,7 @@ function wp_check_locked_posts( $response, $data, $screen_id ) {
 	}
 
 	if ( ! empty( $checked ) )
-		$response['wp-check-locked'] = $checked;
+		$response['wp-check-locked-posts'] = $checked;
 
 	return $response;
 }
@@ -597,21 +598,21 @@ add_filter( 'heartbeat_received', 'wp_check_locked_posts', 10, 3 );
  * @since 3.6
  */
 function wp_refresh_post_lock( $response, $data, $screen_id ) {
-	if ( 'post' == $screen_id && array_key_exists( 'wp-refresh-post-lock', $data ) ) {
+	if ( array_key_exists( 'wp-refresh-post-lock', $data ) ) {
 		$received = $data['wp-refresh-post-lock'];
 		$send = array();
 
-		if ( !$post_id = absint( $received['post_id'] ) )
+		if ( ! $post_id = absint( $received['post_id'] ) )
 			return $response;
 
-		if ( !current_user_can('edit_post', $post_id) )
+		if ( ! current_user_can('edit_post', $post_id) )
 			return $response;
 
 		if ( ( $user_id = wp_check_post_lock( $post_id ) ) && ( $user = get_userdata( $user_id ) ) ) {
 			$error = array(
 				'text' => sprintf( __( '%s has taken over and is currently editing.' ), $user->display_name )
 			);
-			
+
 			if ( $avatar = get_avatar( $user->ID, 64 ) ) {
 				if ( preg_match( "|src='([^']+)'|", $avatar, $matches ) )
 					$error['avatar_src'] = $matches[1];
@@ -636,23 +637,27 @@ add_filter( 'heartbeat_received', 'wp_refresh_post_lock', 10, 3 );
  * @since 3.6
  */
 function wp_refresh_post_nonces( $response, $data, $screen_id ) {
-	if ( 'post' == $screen_id && array_key_exists( 'wp-refresh-post-nonces', $data ) ) {
+	if ( array_key_exists( 'wp-refresh-post-nonces', $data ) ) {
 		$received = $data['wp-refresh-post-nonces'];
+		$response['wp-refresh-post-nonces'] = array( 'check' => 1 );
 
 		if ( ! $post_id = absint( $received['post_id'] ) )
 			return $response;
 
-		if ( ! current_user_can('edit_post', $post_id) )
+		if ( ! current_user_can( 'edit_post', $post_id ) || empty( $received['post_nonce'] ) )
 			return $response;
 
-		if ( ! empty( $received['post_nonce'] ) && 2 === wp_verify_nonce( $received['post_nonce'], 'update-post_' . $post_id ) ) {
+		if ( 2 === wp_verify_nonce( $received['post_nonce'], 'update-post_' . $post_id ) ) {
 			$response['wp-refresh-post-nonces'] = array(
-				'replace-autosavenonce' => wp_create_nonce('autosave'),
-				'replace-getpermalinknonce' => wp_create_nonce('getpermalink'),
-				'replace-samplepermalinknonce' => wp_create_nonce('samplepermalink'),
-				'replace-closedpostboxesnonce' => wp_create_nonce('closedpostboxes'),
-				'replace-_ajax_linking_nonce' => wp_create_nonce( 'internal-linking' ),
-				'replace-_wpnonce' => wp_create_nonce( 'update-post_' . $post_id ),
+				'replace' => array(
+					'autosavenonce' => wp_create_nonce('autosave'),
+					'getpermalinknonce' => wp_create_nonce('getpermalink'),
+					'samplepermalinknonce' => wp_create_nonce('samplepermalink'),
+					'closedpostboxesnonce' => wp_create_nonce('closedpostboxes'),
+					'_ajax_linking_nonce' => wp_create_nonce( 'internal-linking' ),
+					'_wpnonce' => wp_create_nonce( 'update-post_' . $post_id ),
+				),
+				'heartbeatNonce' => wp_create_nonce( 'heartbeat-nonce' ),
 			);
 		}
 	}
