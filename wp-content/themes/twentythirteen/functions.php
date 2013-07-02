@@ -47,7 +47,7 @@ if ( version_compare( $GLOBALS['wp_version'], '3.6-alpha', '<' ) )
  * Twenty Thirteen supports.
  *
  * @uses load_theme_textdomain() For translation/localization support.
- * @uses add_editor_style() To add a Visual Editor stylesheet.
+ * @uses add_editor_style() To add Visual Editor stylesheets.
  * @uses add_theme_support() To add support for automatic feed links, post
  * formats, and post thumbnails.
  * @uses register_nav_menu() To add support for a navigation menu.
@@ -70,9 +70,9 @@ function twentythirteen_setup() {
 
 	/*
 	 * This theme styles the visual editor to resemble the theme style,
-	 * specifically font, colors, and column width.
+	 * specifically font, colors, icons, and column width.
 	 */
-	add_editor_style( 'css/editor-style.css' );
+	add_editor_style( array( 'css/editor-style.css', 'fonts/genericons.css' ) );
 
 	// Adds RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
