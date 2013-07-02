@@ -860,15 +860,12 @@ div.nav-menu > ul {
 .nav-menu .sub-menu,
 .nav-menu .children {
 	background-color: #220e10;
-	border: 2px solid rgba(247, 245, 231, 1);
+	border: 2px solid #f7f5e7;
 	border-top: 0;
-	color: #fff;
 	display: none;
-	float: left;
 	padding: 0;
 	position: absolute;
 	left: -2px;
-	top: 45px;
 	z-index: 99999;
 }
 
