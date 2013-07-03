@@ -341,7 +341,8 @@ foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_nam
 <?php if ( apply_filters('show_password_fields', true) ) : ?>
 	<tr class="form-field form-required">
 		<th scope="row"><label for="pass1"><?php _e('Password'); ?> <span class="description"><?php /* translators: password input field */_e('(required)'); ?></span></label></th>
-		<td><input name="pass1" type="password" id="pass1" autocomplete="off" />
+		<td>
+			<input name="pass1" type="password" id="pass1" autocomplete="off" />
 		</td>
 	</tr>
 	<tr class="form-field form-required">
