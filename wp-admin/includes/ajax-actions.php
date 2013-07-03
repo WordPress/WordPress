@@ -2084,7 +2084,7 @@ function wp_ajax_heartbeat() {
 	// Allow the transport to be replaced with long-polling easily
 	do_action( 'heartbeat_tick', $response, $screen_id );
 
-	// Send the current time acording to the server
+	// Send the current time according to the server
 	$response['server_time'] = time();
 
 	wp_send_json($response);
