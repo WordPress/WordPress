@@ -342,6 +342,7 @@ foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_nam
 	<tr class="form-field form-required">
 		<th scope="row"><label for="pass1"><?php _e('Password'); ?> <span class="description"><?php /* translators: password input field */_e('(required)'); ?></span></label></th>
 		<td>
+			<input class="hidden" value=" " /><!-- #24364 workaround -->
 			<input name="pass1" type="password" id="pass1" autocomplete="off" />
 		</td>
 	</tr>

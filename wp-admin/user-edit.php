@@ -377,6 +377,7 @@ if ( $show_password_fields ) :
 <tr id="password">
 	<th><label for="pass1"><?php _e('New Password'); ?></label></th>
 	<td>
+		<input class="hidden" value=" " /><!-- #24364 workaround -->
 		<input type="password" name="pass1" id="pass1" size="16" value="" autocomplete="off" /> <span class="description"><?php _e("If you would like to change the password type a new one. Otherwise leave this blank."); ?></span>
 	</td>
 </tr>
