@@ -778,7 +778,13 @@ function gallery_shortcode($attr) {
 
 	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
-		$link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false) : wp_get_attachment_link($id, $size, true, false);
+		if ( ! empty( $attr['link'] ) && 'file' === $attr['link'] )
+			$image_output = wp_get_attachment_link( $id, $size, false, false );
+		elseif ( ! empty( $attr['link'] ) && 'none' === $attr['link'] )
+			$image_output = wp_get_attachment_image( $id, $size, false );
+		else
+			$image_output = wp_get_attachment_link( $id, $size, true, false );
+
 		$image_meta  = wp_get_attachment_metadata( $id );
 
 		$orientation = '';
@@ -788,7 +794,7 @@ function gallery_shortcode($attr) {
 		$output .= "<{$itemtag} class='gallery-item'>";
 		$output .= "
 			<{$icontag} class='gallery-icon {$orientation}'>
-				$link
+				$image_output
 			</{$icontag}>";
 		if ( $captiontag && trim($attachment->post_excerpt) ) {
 			$output .= "

@@ -353,6 +353,9 @@ function wp_print_media_templates() {
 				<option value="file">
 					<?php esc_attr_e('Media File'); ?>
 				</option>
+				<option value="none">
+					<?php esc_attr_e('None'); ?>
+				</option>
 			</select>
 		</label>
 
