@@ -1385,17 +1385,7 @@ function wp_embed_handler_video( $matches, $attr, $url, $rawattr ) {
 	if ( ! empty( $rawattr['width'] ) && ! empty( $rawattr['height'] ) ) {
 		$dimensions .= sprintf( 'width="%d" ', (int) $rawattr['width'] );
 		$dimensions .= sprintf( 'height="%d" ', (int) $rawattr['height'] );
-	} elseif ( strstr( $url, home_url() ) ) {
-		$id = attachment_url_to_postid( $url );
-		if ( ! empty( $id ) ) {
-			$meta = wp_get_attachment_metadata( $id );
-			if ( ! empty( $meta['width'] ) )
-				$dimensions .= sprintf( 'width="%d" ', (int) $meta['width'] );
-			if ( ! empty( $meta['height'] ) )
-				$dimensions .= sprintf( 'height="%d" ', (int) $meta['height'] );
-		}
 	}
-
 	$video = sprintf( '[video %s src="%s" /]', $dimensions, esc_url( $url ) );
 	return apply_filters( 'wp_embed_handler_video', $video, $attr, $url, $rawattr );
 }
@@ -2488,27 +2478,6 @@ function the_post_format_image( $attached_size = 'full' ) {
 }
 
 /**
- * Retrieve the post id for an attachment file URL
- *
- * @since 3.6.0
- *
- * @param string $url Permalink to check.
- * @return int Post ID, or 0 on failure.
- */
-function attachment_url_to_postid( $url ) {
-	global $wpdb;
-	if ( preg_match( '#\.[a-zA-Z0-9]+$#', $url ) ) {
-		$id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment' " .
-			"AND guid = %s", $url ) );
-
-		if ( ! empty( $id ) )
-			return (int) $id;
-	}
-
-	return 0;
-}
-
-/**
  * Retrieve the attachment post id from HTML containing an image.
  *
  * @since 3.6.0
@@ -2526,20 +2495,14 @@ function img_html_to_post_id( $html, &$matched_html = null ) {
 
 	$matched_html = $matches[0];
 
-	// Look for attributes.
-	if ( ! preg_match_all( '#(src|class)=([\'"])(.+?)\2#is', $matched_html, $matches ) || empty( $matches ) )
+	// Look for the class attribute.
+	if ( ! preg_match( '#class=([\'"])(.+?)\1#is', $matched_html, $matches ) || empty( $matches ) )
 		return $attachment_id;
 
-	$attr = array();
-	foreach ( $matches[1] as $key => $attribute_name )
-		$attr[ $attribute_name ] = $matches[3][ $key ];
-
-	if ( ! empty( $attr['class'] ) && false !== strpos( $attr['class'], 'wp-image-' ) )
-		if ( preg_match( '#wp-image-([0-9]+)#i', $attr['class'], $matches ) )
+	$classes = $matches[2]; 
+	if ( ! empty( $classes ) && false !== strpos( $classes, 'wp-image-' ) ) 
+		if ( preg_match( '#wp-image-([0-9]+)#i', $classes, $matches ) )	
 			$attachment_id = absint( $matches[1] );
-
-	if ( ! $attachment_id && ! empty( $attr['src'] ) )
-		$attachment_id = attachment_url_to_postid( $attr['src'] );
 
 	return $attachment_id;
 }
