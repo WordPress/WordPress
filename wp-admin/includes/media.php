@@ -2357,7 +2357,7 @@ function edit_form_image_editor( $post ) {
 	<?php
 	elseif ( $attachment_id && 0 === strpos( $post->post_mime_type, 'audio/' ) ):
 
-		echo do_shortcode( '[audio src="' . $att_url . '"]' );
+		echo wp_audio_shortcode( array( 'src' => $att_url ) );
 
 	elseif ( $attachment_id && 0 === strpos( $post->post_mime_type, 'video/' ) ):
 
@@ -2369,12 +2369,15 @@ function edit_form_image_editor( $post ) {
 		if ( $h && $w < $meta['width'] )
 			$h = round( ( $meta['height'] * $w ) / $meta['width'] );
 
-		$shortcode = sprintf( '[video src="%s"%s%s]',
-			$att_url,
-			empty( $meta['width'] ) ? '' : sprintf( ' width="%d"', $w ),
-			empty( $meta['height'] ) ? '' : sprintf( ' height="%d"', $h )
-		);
-		echo do_shortcode( $shortcode );
+		$attr = array( 'src' => $att_url );
+
+		if ( ! empty( $meta['width' ] ) )
+			$attr['width'] = $w;
+
+		if ( ! empty( $meta['height'] ) )
+			$attr['height'] = $h;
+
+		echo wp_video_shortcode( $attr );
 
 	endif; ?>
 	</div>

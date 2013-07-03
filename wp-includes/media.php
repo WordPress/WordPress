@@ -2070,7 +2070,16 @@ function get_the_post_format_media( $type, &$post = null, $limit = 0 ) {
 		$embed = reset( $embeds );
 		if ( 0 === strpos( $embed, 'http' ) ) {
 			if ( strstr( $embed, home_url() ) ) {
-				$post->format_content[ $cache_key ] = do_shortcode( sprintf( '[%s src="%s"]', $type, $embed ) );
+
+				$format_content = '';
+				$attr = array( 'src' => $embed );
+
+				if ( 'audio' == $type )
+					$format_content = wp_audio_shortcode( $attr );
+				elseif ( 'video' == $type )
+					$format_content = wp_video_shortcode( $attr );
+
+				$post->format_content[ $cache_key ] = $format_content;
 			} else {
 				$post->format_content[ $cache_key ] = $wp_embed->autoembed( $embed );
 			}
@@ -2084,8 +2093,16 @@ function get_the_post_format_media( $type, &$post = null, $limit = 0 ) {
 	if ( ! empty( $medias ) ) {
 		$media = reset( $medias );
 		$url = wp_get_attachment_url( $media->ID );
-		$shortcode = sprintf( '[%s src="%s"]', $type, $url );
-		$post->format_content[ $cache_key ] = do_shortcode( $shortcode );
+
+		$format_content = '';
+		$attr = array( 'src' => $url );
+
+		if ( 'audio' == $type )
+			$format_content = wp_audio_shortcode( $attr );
+		elseif ( 'video' == $type )
+			$format_content = wp_video_shortcode( $attr );
+
+		$post->format_content[ $cache_key ] = $format_content;
 		return $post->format_content[ $cache_key ];
 	}
 
@@ -2164,7 +2181,7 @@ function get_content_images( $content, $html = true, $limit = 0 ) {
 			if ( 'caption' === $shortcode[2] ) {
 				$captions[] = $shortcode[0];
 				if ( $html )
-					$tags[] = do_shortcode( $shortcode[0] );
+					$tags[] = do_shortcode_tag( $shortcode );
 			}
 
 			if ( $limit > 0 && count( $tags ) >= $limit )
@@ -2410,7 +2427,7 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 					foreach ( $urls as $url ) {
 						if ( strstr( $shortcode[0], $url ) ) {
 							if ( ! $matched )
-								$matched = do_shortcode( $shortcode[0] );
+								$matched = do_shortcode_tag( $shortcode );
 							// $content = str_replace( $shortcode[0], '', $content, $count );
 						}
 					}
