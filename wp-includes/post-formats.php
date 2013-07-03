@@ -240,21 +240,18 @@ add_filter( 'wp_get_object_terms', '_post_format_wp_get_object_terms' );
  *
  * @since 3.6.0
  *
- * @param string $content A string which might contain a URL, passed by reference.
- * @param boolean $remove Whether to remove the found URL from the passed content.
+ * @param string $content A string which might contain a URL.
  * @return string The found URL.
  */
-function get_content_url( &$content, $remove = false ) {
+function get_content_url( $content ) {
 	if ( empty( $content ) )
 		return '';
 
 	// the content is a URL
 	$trimmed = trim( $content );
 	if ( 0 === stripos( $trimmed, 'http' ) && ! preg_match( '#\s#', $trimmed ) ) {
-		if ( $remove )
-			$content = '';
-
 		return $trimmed;
+
 	// the content is HTML so we grab the first href
 	} elseif ( preg_match( '/<a\s[^>]*?href=([\'"])(.+?)\1/is', $content, $matches ) ) {
 		return esc_url_raw( $matches[2] );
@@ -264,12 +261,8 @@ function get_content_url( &$content, $remove = false ) {
 	$line = trim( array_shift( $lines ) );
 
 	// the content is a URL followed by content
-	if ( 0 === stripos( $line, 'http' ) ) {
-		if ( $remove )
-			$content = trim( join( "\n", $lines ) );
-
+	if ( 0 === stripos( $line, 'http' ) )
 		return esc_url_raw( $line );
-	}
 
 	return '';
 }

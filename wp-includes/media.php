@@ -2424,7 +2424,6 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 						if ( strstr( $shortcode[0], $url ) ) {
 							if ( ! $matched )
 								$matched = do_shortcode_tag( $shortcode );
-							// $content = str_replace( $shortcode[0], '', $content, $count );
 						}
 					}
 				}
@@ -2438,7 +2437,6 @@ function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
 						if ( strstr( $match[0], $url ) ) {
 							if ( ! $matched )
 								$matched = $match[0];
-							// $content = str_replace( $match[0], '', $content, $count );
 						}
 					}
 				}
@@ -2505,9 +2503,9 @@ function img_html_to_post_id( $html, &$matched_html = null ) {
 	if ( ! preg_match( '#class=([\'"])(.+?)\1#is', $matched_html, $matches ) || empty( $matches ) )
 		return $attachment_id;
 
-	$classes = $matches[2]; 
-	if ( ! empty( $classes ) && false !== strpos( $classes, 'wp-image-' ) ) 
-		if ( preg_match( '#wp-image-([0-9]+)#i', $classes, $matches ) )	
+	$classes = $matches[2];
+	if ( ! empty( $classes ) && false !== strpos( $classes, 'wp-image-' ) )
+		if ( preg_match( '#wp-image-([0-9]+)#i', $classes, $matches ) )
 			$attachment_id = absint( $matches[1] );
 
 	return $attachment_id;
