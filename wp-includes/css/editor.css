@@ -586,7 +586,7 @@
 
 .wp_themeSkin .mce_h1 span.mceText {
 	font-weight: bolder;
-	font-size: 17px;
+	font-size: 18px;
 }
 
 .wp_themeSkin .mce_h2 span.mceText {
@@ -596,22 +596,22 @@
 
 .wp_themeSkin .mce_h3 span.mceText {
 	font-weight: bolder;
-	font-size: 15px;
+	font-size: 14px;
 }
 
 .wp_themeSkin .mce_h4 span.mceText {
 	font-weight: bolder;
-	font-size: 14px;
+	font-size: 12px;
 }
 
 .wp_themeSkin .mce_h5 span.mceText {
 	font-weight: bolder;
-	font-size: 13px;
+	font-size: 11px;
 }
 
 .wp_themeSkin .mce_h6 span.mceText {
 	font-weight: bolder;
-	font-size: 12px;
+	font-size: 10px;
 }
 
 /* Theme */
