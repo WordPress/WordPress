@@ -3498,8 +3498,12 @@ td.plugin-title p {
 .revisions-controls {
 	height: 60px;
 	padding: 40px 0 20px;
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: none;
 	margin-bottom: 10px;
+}
+
+.comparing-two-revisions .revisions-controls {
+	height: 90px;
 }
 
 .revisions-meta {
@@ -3509,6 +3513,10 @@ td.plugin-title p {
 	position: absolute;
 	top: 0;
 	right: 0;
+}
+.comparing-two-revisions .revisions-previous,
+.comparing-two-revisions .revisions-next {
+	display: none;
 }
 
 .revisions-previous {
@@ -3532,6 +3540,7 @@ td.plugin-title p {
 
 table.diff {
 	width: 100%;
+	white-space: pre-wrap;
 }
 
 table.diff col.content {
@@ -3590,18 +3599,11 @@ table.diff .diff-addedline ins {
 	width: 95%;
 }
 
-#diff-slider .ui-slider-tooltip,
-#diff-slider-ticks .ui-slider-tooltip {
-	display: none;
+.revisions .ui-slider-tooltip {
 	position: absolute;
-	bottom: 21px;
-	margin-left: -74px;
-}
-
-#diff-slider .ui-state-active .ui-slider-tooltip,
-#diff-slider .ui-state-focus .ui-slider-tooltip,
-#diff-slider .ui-state-hover .ui-slider-tooltip {
-	display: block;
+	bottom: 86px;
+	margin-left: -70px;
+	line-height: 28px;
 }
 
 #diff-title-to strong {
@@ -3655,8 +3657,8 @@ table.diff .diff-addedline ins {
 	margin-top: 20px;
 }
 
-.comparing-two-revisions #diff-previous-revision,
-.comparing-two-revisions #diff-next-revision,
+#diff-previous-revision,
+#diff-next-revision,
 #diff-header-from {
 	display: none;
 }
@@ -3668,6 +3670,9 @@ table.diff .diff-addedline ins {
 	display: block;
 }
 
+.comparing-two-revisions .revisions-tooltip div {
+	margin-bottom: 30px;
+}
 .diff-slider-ticks-wrapper {
 	margin: 0 auto;
 	text-align: left;
@@ -3740,7 +3745,9 @@ table.diff .diff-addedline ins {
 .ui-slider-tooltip img {
 	float: left;
 	margin-right: 5px;
-	margin-top: 5px;
+	margin-top: 2px;
+	padding: 0;
+	vertical-align: middle;
 }
 
 
@@ -3748,7 +3755,7 @@ table.diff .diff-addedline ins {
 
 .ui-tooltip,
 .ui-slider-tooltip {
-	padding: 8px;
+	padding: 4px;
 	position: absolute;
 	z-index: 9999;
 	max-width: 300px;
@@ -3768,7 +3775,11 @@ body .ui-slider-tooltip {
 
 .ui-tooltip,
 .ui-slider-tooltip {
-	padding: 5px 10px;
+	padding: 4px 4px;
+}
+
+.revisions-tooltip {
+	display: none;
 }
 
 .arrow {
@@ -3776,10 +3787,10 @@ body .ui-slider-tooltip {
 	height: 16px;
 	overflow: hidden;
 	position: absolute;
-	left: 50%;
+	left: 0;
 	margin-left: -35px;
-	bottom: -16px;
-	z-index: 99999;
+	bottom: 71px;
+	z-index: 10000;
 }
 
 .arrow.top {
@@ -3871,6 +3882,7 @@ body .ui-slider-tooltip {
 
 .wp-slider.ui-slider-horizontal {
 	height: .8em;
+	z-index: 10001;
 }
 
 .wp-slider.ui-slider-horizontal .ui-slider-handle {

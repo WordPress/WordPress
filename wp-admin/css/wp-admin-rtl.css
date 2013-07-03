@@ -975,17 +975,17 @@ th.sorted a span {
 	left: 6px;
 }
 
-#toggle-revision-compare-mode {
+.revision-toggle-compare-mode {
 	right: auto;
 	left: 0;
 	padding: 9px 0 0 9px;
 }
 
-#diff-next-revision {
+.revisions-next {
 	float: left;
 }
 
-#diff-previous-revision {
+.revisions-previous {
 	float: right;
 }
 
