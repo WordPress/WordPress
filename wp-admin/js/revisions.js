@@ -195,14 +195,12 @@ window.wp = window.wp || {};
 			this.diffs     = new revisions.model.Diffs( [], {revisions: this.revisions} );
 			this.listenTo( this, 'change:from', this.updateDiffFrom );
 			this.listenTo( this, 'change:to', this.updateDiffTo );
-			this.revisionsRouter = new revisions.router.Router();
-			this.revisionsRouter.model = this;
+			this.revisionsRouter = new revisions.router.Router({ model: this });
 		},
 
 		updateDiffTo: function() {
 			var from = this.get( 'from' );
-			var to   = this.get( 'to' );
-			this.set( 'diffId', (from ? from.id : '0' ) + ':' + to.id );
+			this.set( 'diffId', (from ? from.id : '0' ) + ':' + this.get('to').id );
 		},
 
 		updateDiffFrom: function() {
@@ -268,6 +266,7 @@ window.wp = window.wp || {};
 				this.views.set( '.revisions-diff-frame', new revisions.view.Diff({
 					model: diff
 				}));
+				this.model.trigger( 'renderDiff' );
 			});
 		}
 	});
@@ -684,9 +683,6 @@ window.wp = window.wp || {};
 					this.model.unset('from', { silent: true });
 			}
 			this.model.set( attributes );
-
-			// Maintain state history when dragging
-			this.model.revisionsRouter.navigateRoute( attributes.to.id, ( attributes.from ? attributes.from.id : 0 ) );
 		},
 
 		stop: function( event, ui ) {
@@ -717,7 +713,12 @@ window.wp = window.wp || {};
 	// The revisions router
 	// takes URLs with #hash fragments and routes them
 	revisions.router.Router = Backbone.Router.extend({
-		model: null,
+		initialize: function( options ) {
+			this.model = options.model;
+
+			// Maintain state history when dragging
+			this.listenTo( this.model, 'renderDiff', this.updateURL );
+		},
 
 		routes: {
 			'revision/from/:from/to/:to/handles/:handles': 'gotoRevisionId'
@@ -732,6 +733,11 @@ window.wp = window.wp || {};
 			}
 			this.navigate( navigateTo );
 		},
+
+		updateURL: _.debounce( function() {
+			var from = this.model.get('from');
+			this.navigateRoute( this.model.get('to').id, from ? from.id : 0 );
+		}, 250 ),
 
 		gotoRevisionId: function( from, to, handles ) {
 			if ( '2' === handles ) {
