@@ -19,6 +19,31 @@ jQuery( function($) {
 });
 
 /**
+ * Theme Browser Thickbox
+ *
+ * Aligns theme browser thickbox.
+ */
+var tb_position;
+jQuery(document).ready( function($) {
+	tb_position = function() {
+		var tbWindow = $('#TB_window'), width = $(window).width(), H = $(window).height(), W = ( 1040 < width ) ? 1040 : width, adminbar_height = 0;
+
+		if ( $('body.admin-bar').length )
+			adminbar_height = 28;
+
+		if ( tbWindow.size() ) {
+			tbWindow.width( W - 50 ).height( H - 45 - adminbar_height );
+			$('#TB_iframeContent').width( W - 50 ).height( H - 75 - adminbar_height );
+			tbWindow.css({'margin-left': '-' + parseInt( ( ( W - 50 ) / 2 ), 10 ) + 'px'});
+			if ( typeof document.body.style.maxWidth != 'undefined' )
+				tbWindow.css({'top': 20 + adminbar_height + 'px','margin-top':'0'});
+		};
+	};
+
+	$(window).resize(function(){ tb_position(); });
+});
+
+/**
  * Theme Install
  *
  * Displays theme previews on theme install pages.
