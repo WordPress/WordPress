@@ -1437,7 +1437,9 @@ function wp_list_post_revisions( $post_id = 0, $type = 'all' ) {
 		$rows .= "\t<li>" . wp_post_revision_title_expanded( $revision ) . "</li>\n";
 	}
 
-	echo "<ul class='post-revisions'>\n";
+	echo "<div class='hide-if-js'><p>" . __( 'JavaScript must be enabled to use this feature.' ) . "</p></div>\n";
+
+	echo "<ul class='post-revisions hide-if-no-js'>\n";
 	echo $rows;
 
 	// if the post was previously restored from a revision
