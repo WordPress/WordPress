@@ -7439,14 +7439,6 @@ body.interim-login {
 	float: left;
 	margin: 0;
 	width: 60%;
-	padding-left: 170px;
-}
-
-.menu-settings dt {
-	clear: both;
-	left: 0;
-	padding: 3px 0 0;
-	position: absolute;
 }
 
 .menu-edit .checkbox-input {
