@@ -2243,15 +2243,6 @@ function get_post_gallery( $post_id = 0, $html = true ) {
 }
 
 /**
- * Output the first gallery in the current (@global) $post
- *
- * @since 3.6.0
- */
-function the_post_format_gallery() {
-	echo get_post_gallery();
-}
-
-/**
  * Check a post's content for galleries and return the image srcs for the first found gallery
  *
  * @since 3.6.0
