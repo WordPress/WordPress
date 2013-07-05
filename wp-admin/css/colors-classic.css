@@ -1485,53 +1485,13 @@ table.diff .diff-addedline ins {
 	border: 1px solid #d1e5ee;
 }
 
-#diff-slider .ui-slider-tooltip,
-#diff-slider-ticks .ui-slider-tooltip {
+.diff-slider .ui-slider-tooltip {
 	border-color: #d1e5ee;
 	background-color: #fff;
 }
 
 #diff-title-to strong {
 	color: #08a;
-}
-
-.revision-tick.completed-false {
-	background-color: #99c;
-	background: url(../images/wpspin_light.gif) no-repeat;
-	background-position: middle;
-	background-size: 1px 10px;
-}
-
-.revision-tick.completed-false {
-	background-image: none;
-}
-
-.revision-tick.scope-of-changes-none {
-	background-color: #d1e5ee;
-}
-
-.revision-tick.scope-of-changes-vsmall {
-	background-color: #b4d5e3;
-}
-
-.revision-tick.scope-of-changes-small {
-	background-color: #98c5d9;
-}
-
-.revision-tick.scope-of-changes-med {
-	background-color: #7bb4ce;
-}
-
-.revision-tick.scope-of-changes-large {
-	background-color: #5ea4c4;
-}
-
-.revision-tick.scope-of-changes-vlarge {
-	background-color: #4493b7;
-}
-
-.diff-label {
-	color: #666;
 }
 
 /* jQuery UI Slider */

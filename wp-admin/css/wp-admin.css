@@ -3481,39 +3481,26 @@ td.plugin-title p {
 /*------------------------------------------------------------------------------
   11.2 - Post Revisions
 ------------------------------------------------------------------------------*/
-.revisions .spinner {
-	float: none;
-	margin: 100px auto;
-}
-
-.revisions.loading .spinner {
-	display: block;
-}
-
 .revisions-control-frame,
 .revisions-diff-frame {
 	position: relative;
 }
 
 .revisions-controls {
-	height: 60px;
 	padding: 40px 0 20px;
-	border-bottom: none;
 	margin-bottom: 10px;
-}
-
-.comparing-two-revisions .revisions-controls {
-	height: 90px;
 }
 
 .revisions-meta {
 	margin-top: 15px;
 }
+
 .revision-toggle-compare-mode {
 	position: absolute;
 	top: 0;
 	right: 0;
 }
+
 .comparing-two-revisions .revisions-previous,
 .comparing-two-revisions .revisions-next {
 	display: none;
@@ -3574,50 +3561,15 @@ table.diff .diff-addedline ins {
 	text-decoration: none;
 }
 
-#revisions-diff {
-	position: relative;
-}
-
-#loading-status {
-	display: none;
-	position: absolute;
-	top: 8px;
-	z-index: 1000;
-}
-
-#loading-status .spinner {
-	display: inline-block;
-	float: none;
-	margin: -4px 0;
-}
-
-#revision-interact {
-	padding: 20px 0;
-}
-
-.comparetwo #diff-slider {
-	width: 95%;
-}
-
 .revisions .ui-slider-tooltip {
 	position: absolute;
-	bottom: 86px;
+	bottom: 105px;
 	margin-left: -70px;
 	line-height: 28px;
 }
 
 #diff-title-to strong {
 	display: inline;
-}
-
-.comparing-two-revisions #diff-title-to strong {
-	display: inline;
-}
-
-.diff-label {
-	margin: 20px 0 5px;
-	padding-left: 3px;
-	font-size: 13px;
 }
 
 #diff-header {
@@ -3653,92 +3605,13 @@ table.diff .diff-addedline ins {
 	margin-left: 10px;
 }
 
-#diff-table {
-	margin-top: 20px;
-}
-
-#diff-previous-revision,
-#diff-next-revision,
 #diff-header-from {
 	display: none;
 }
 
 .comparing-two-revisions #diff-title-from,
-.left-model-loading #loading-status,
-.right-model-loading #loading-status,
 .comparing-two-revisions #diff-header-from {
 	display: block;
-}
-
-.comparing-two-revisions .revisions-tooltip div {
-	margin-bottom: 30px;
-}
-.diff-slider-ticks-wrapper {
-	margin: 0 auto;
-	text-align: left;
-}
-
-#diff-slider-ticks {
-	position: absolute;
-	z-index: 2;
-	margin-top: 20px;
-}
-
-.revision-tick {
-	width: 1px;
-	float: left;
-	margin: 1px 0 0 0;
-	height: .8em;
-	padding: 0;
-	margin-left: 0px;
-	cursor: pointer;
-}
-
-#diff-slider-ticks .revision-tick:first-child {
-	border-bottom-left-radius: 3px;
-	border-top-left-radius: 3px;
-}
-
-#diff-slider-ticks .revision-tick:last-child {
-	border-bottom-right-radius: 3px;
-	border-top-right-radius: 3px;
-}
-
-.revision-tick.scope-of-changes-none {
-	width: 1px;
-}
-
-.revision-tick.scope-of-changes-vsmall {
-	width: 2px;
-}
-
-.revision-tick.scope-of-changes-small {
-	width: 3px;
-}
-
-.revision-tick.scope-of-changes-med {
-	width: 4px;
-}
-
-.revision-tick.scope-of-changes-large {
-	width: 5px;
-}
-
-.revision-tick.scope-of-changes-vlarge {
-	width: 6px;
-}
-
-.diff-loading {
-	margin-top: 50px;
-	width: 100%;
-	height: 200px;
-}
-
-.diff-loading .spinner {
-	clear: both;
-	margin: 0 auto;
-	display: block;
-	float: none;
 }
 
 .ui-tooltip-content img,
@@ -3785,7 +3658,7 @@ body .ui-slider-tooltip {
 	position: absolute;
 	left: 0;
 	margin-left: -35px;
-	bottom: 71px;
+	bottom: 90px;
 	z-index: 10000;
 }
 

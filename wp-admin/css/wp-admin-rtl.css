@@ -954,22 +954,17 @@ th.sorted a span {
 /*------------------------------------------------------------------------------
   11.2 - Post Revisions
 ------------------------------------------------------------------------------*/
-
-#diff-slider .ui-slider-tooltip,
-#diff-slider-ticks .ui-slider-tooltip {
-	margin-left: 0;
-	margin-right: -78px;
-}
-
 .wp-slider .ui-slider-handle.left-handle:before,
 .wp-slider .ui-slider-handle.right-handle:before {
 	height: 8px;
 	width: 7px;
 }
+
 .wp-slider .ui-slider-handle.left-handle:before {
 	background-position: -5px -10px;
 	left: 6px;
 }
+
 .wp-slider .ui-slider-handle.right-handle:before {
 	background-position: -4px -29px;
 	left: 6px;
@@ -1028,12 +1023,6 @@ th.sorted a span {
 	float: right;
 	margin-right: 0;
 	margin-left: 5px;
-}
-
-#diff-slider .ui-slider-tooltip,
-#diff-slider-ticks .ui-slider-tooltip {
-	margin-left: 0;
-	margin-right: -78px;
 }
 
 /*------------------------------------------------------------------------------
