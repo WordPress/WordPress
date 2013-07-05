@@ -97,7 +97,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 				return false;
 
 		try {
-			return ( (bool) Imagick::queryFormats( $imagick_extension ) );
+			return ( (bool) @Imagick::queryFormats( $imagick_extension ) );
 		}
 		catch ( Exception $e ) {
 			return false;
