@@ -574,7 +574,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 						$locked_avatar = $locked_text = '';
 					}
 
-					echo '<span class="locked-avatar">' . $locked_avatar . '</span> <span class="locked-text">' . $locked_text . "</span>\n";
+					echo '<div class="locked-info"><span class="locked-avatar">' . $locked_avatar . '</span> <span class="locked-text">' . $locked_text . "</span></div>\n";
 				}
 
 				if ( ! $this->hierarchical_display && 'excerpt' == $mode && current_user_can( 'read_post', $post->ID ) )

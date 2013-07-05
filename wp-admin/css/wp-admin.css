@@ -2534,7 +2534,7 @@ table.fixed {
 tr.wp-locked .locked-indicator {
 	background: url('../images/lock.png') no-repeat;
 	margin: -2px 0 0 6px;
-	height: 16px;
+	height: 20px;
 	width: 16px;
 }
 
@@ -2543,6 +2543,20 @@ tr.wp-locked .check-column input[type="checkbox"],
 tr.wp-locked .row-actions .inline,
 tr.wp-locked .row-actions .trash {
 	display: none;
+}
+
+tr .locked-info {
+	height: 0;
+	opacity: 0;
+	-webkit-transition: height 1s, opacity 500ms;
+	transition:         height 1s, opacity 500ms;
+}
+
+tr.wp-locked .locked-info {
+	height: 22px;
+	opacity: 1;
+	-webkit-transition: height 1s, opacity 500ms 500ms;
+	transition:         height 1s, opacity 500ms 500ms;
 }
 
 .fixed .column-comments .sorting-indicator {
