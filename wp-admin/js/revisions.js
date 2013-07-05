@@ -23,6 +23,13 @@ window.wp = window.wp || {};
 		}
 	});
 
+	revisions.model.Tooltip = Backbone.Model.extend({
+		defaults: {
+			revision: null,
+			position: 0
+		}
+	});
+
 	revisions.model.Revision = Backbone.Model.extend({});
 
 	revisions.model.Revisions = Backbone.Collection.extend({
@@ -289,12 +296,15 @@ window.wp = window.wp || {};
 			}));
 
 			// Add the tooltip view
-			this.views.add( new revisions.view.Tooltip({
-				model: this.model
-			}));
-			// Add the Slider view
+			var tooltip = new revisions.view.Tooltip({
+				model: new revisions.model.Tooltip()
+			});
+			this.views.add( tooltip );
+
+			// Add the Slider view with a reference to the tooltip view
 			this.views.add( new revisions.view.Slider({
-				model: this.model
+				model: this.model,
+				tooltip: tooltip
 			}) );
 
 			// Add the Meta view
@@ -394,35 +404,34 @@ window.wp = window.wp || {};
 		template: wp.template( 'revisions-tooltip' ),
 
 		initialize: function() {
-			this.listenTo( this.model, 'change:sliderHovering', this.sliderHoveringChanged );
-			this.listenTo( this.model, 'change:tooltipPosition', this.tooltipPositionChanged );
+			this.listenTo( this.model, 'change', this.render );
 		},
 
 		ready: function() {
+			// Hide tooltip on start.
+			this.$el.addClass( 'hidden' );
 		},
 
-		// Show or hide tooltip based on sliderHovering is true
-		sliderHoveringChanged: function() {
-			if ( this.model.get( 'sliderHovering' ) ) {
-				this.$el.show();
-			} else {
-				this.$el.hide();
-			}
+		show: function() {
+			this.$el.removeClass( 'hidden' );
 		},
 
-		tooltipPositionChanged: function() {
-			this.$el.html( this.template( this.model.revisions.at( this.model.get( 'hoveringAt') ).toJSON() ) );
-
-			this.setTooltip( this.model.get( 'tooltipPosition' ) );
+		hide: function() {
+			this.$el.addClass( 'hidden' );
 		},
 
-		setTooltip: function( tooltipPosition ) {
+		render: function() {
+			// Check if a revision exists.
+			if ( null === this.model.get( 'revision' ) )
+				return;
+
+			this.$el.html( this.template( this.model.get( 'revision' ).toJSON() ) );
+
 			var offset = $( '.revisions-buttons' ).offset().left,
-				calculatedX = tooltipPosition - offset;
+				calculatedX = this.model.get( 'position' ) - offset;
 
-
-			this.$el.find( '.ui-slider-tooltip' ).css( 'left', calculatedX );
-			this.$el.find( '.arrow' ).css( 'left', calculatedX );
+			$( '.ui-slider-tooltip', this.$el ).css( 'left', calculatedX );
+			$( '.arrow', this.$el ).css( 'left', calculatedX );
 		}
 	});
 
@@ -486,16 +495,10 @@ window.wp = window.wp || {};
 				val = this.model.revisions.indexOf( this.model.get( 'to' ) );
 
 			// Disable "Next" button if you're on the last node.
-			if ( maxVal === val )
-				next.prop( 'disabled', true );
-			else
-				next.prop( 'disabled', false );
+			next.prop( 'disabled', ( maxVal === val ) );
 
 			// Disable "Previous" button if you're on the first node.
-			if ( minVal === val )
-				previous.prop( 'disabled', true );
-			else
-				previous.prop( 'disabled', false );
+			previous.prop( 'disabled', ( minVal === val ) );
 		}
 	});
 
@@ -512,8 +515,10 @@ window.wp = window.wp || {};
 			'mouseleave' : 'mouseleave'
 		},
 
-		initialize: function() {
+		initialize: function( options ) {
 			_.bindAll( this, 'start', 'slide', 'stop' );
+
+			this.tooltip = options.tooltip;
 
 			// Create the slider model from the provided collection data.
 			var latestRevisionIndex = this.model.revisions.length - 1;
@@ -521,7 +526,7 @@ window.wp = window.wp || {};
 			// Find the initially selected revision
 			var initiallySelectedRevisionIndex =
 				this.model.revisions.indexOf(
-					this.model.revisions.findWhere(  { id: Number( revisions.settings.selectedRevision ) } ) );
+					this.model.revisions.findWhere( { id: Number( revisions.settings.selectedRevision ) } ) );
 
 			this.settings = new revisions.model.Slider({
 				max:   latestRevisionIndex,
@@ -533,20 +538,23 @@ window.wp = window.wp || {};
 		},
 
 		ready: function() {
+			// Refresh the currently selected revision position in case router has set it.
+			this.settings.attributes.value = this.model.revisions.indexOf(
+				this.model.revisions.findWhere( { id: Number( revisions.settings.selectedRevision ) } ) );
+
+			this.slide( '', this.settings.attributes );
+
 			this.$el.slider( this.settings.toJSON() );
 
 			// Listen for changes in Compare Two Mode setting
 			this.listenTo( this.model, 'change:compareTwoMode', this.updateSliderSettings );
 
-			this.settings.on( 'change', function( model, options ) {
+			this.settings.on( 'change', function() {
 				this.updateSliderSettings();
 			}, this );
 
 			// Listen for changes in the diffId
 			this.listenTo( this.model, 'change:diffId', this.diffIdChanged );
-
-			// Reset to the initially selected revision
-			this.slide( '', this.settings.attributes );
 
 		},
 
@@ -557,9 +565,9 @@ window.wp = window.wp || {};
 				actualX = e.clientX - sliderLeft,
 				hoveringAt = Math.floor( actualX / tickWidth );
 
-				// Reverse direction in Rtl mode.
-				if ( isRtl )
-					hoveringAt = this.model.revisions.length - hoveringAt - 1;
+			// Reverse direction in Rtl mode.
+			if ( isRtl )
+				hoveringAt = this.model.revisions.length - hoveringAt - 1;
 
 			// Ensure sane value for hoveringAt.
 			if ( hoveringAt < 0 )
@@ -567,18 +575,17 @@ window.wp = window.wp || {};
 			else if ( hoveringAt >= this.model.revisions.length )
 				hoveringAt = this.model.revisions.length - 1;
 
-			// Update the model
-			this.model.set( 'hoveringAt', hoveringAt );
-			this.model.set( 'tooltipPosition', e.clientX );
-
+			// Update the tooltip model
+			this.tooltip.model.set( 'revision', this.model.revisions.at( hoveringAt ) );
+			this.tooltip.model.set( 'position', e.clientX );
 		},
 
 		mouseenter: function( e ) {
-			this.model.set( 'sliderHovering', true );
+			this.tooltip.show();
 		},
 
 		mouseleave: function( e ) {
-			this.model.set( 'sliderHovering', false );
+			this.tooltip.hide();
 		},
 
 		updateSliderSettings: function() {
@@ -592,7 +599,7 @@ window.wp = window.wp || {};
 						values: [
 							this.model.revisions.indexOf( this.model.get( 'from' ) ),
 							this.model.revisions.indexOf( this.model.get( 'to' ) )
-								],
+						],
 						value: null,
 						range: true // Range mode ensures handles can't cross
 					} );
@@ -638,23 +645,6 @@ window.wp = window.wp || {};
 		},
 
 		start: function( event, ui ) {
-			if ( ! this.model.get( 'compareTwoMode' ) )
-				return;
-
-			// Track the mouse position to enable smooth dragging, overrides default jquery ui step behaviour .
-			$( window ).mousemove( function( e ) {
-				var sliderLeft = this.$el.offset().left,
-					sliderRight = sliderLeft + this.$el.width();
-
-				// Follow mouse movements, as long as handle remains inside slider.
-				if ( e.clientX < sliderLeft ) {
-					$( ui.handle ).css( 'left', 0 ); // Mouse to left of slider.
-				} else if ( e.clientX > sliderRight ) {
-					$( ui.handle ).css( 'left', sliderRight - sliderLeft); // Mouse to right of slider.
-				} else {
-					$( ui.handle ).css( 'left', e.clientX - sliderLeft ); // Mouse in slider.
-				}
-			} ); // End mousemove.
 		},
 
 		slide: function( event, ui ) {
@@ -686,13 +676,10 @@ window.wp = window.wp || {};
 		},
 
 		stop: function( event, ui ) {
-			if ( ! this.model.get( 'compareTwoMode' ) )
+			if ( this.model.get( 'compareTwoMode' ) )
 				return;
 
-			// Stop tracking the mouse.
-			$( window ).unbind( 'mousemove' );
-
-			// Reset settings pops handle back to the step position.
+			// Reset settings props handle back to the step position.
 			this.settings.trigger( 'change' );
 		}
 	});
@@ -726,10 +713,10 @@ window.wp = window.wp || {};
 
 		navigateRoute: function( to, from ) {
 			var navigateTo = '/revision/from/' + from + '/to/' + to + '/handles/';
-			if ( this.model.get( 'compareTwoMode' ) ){
-				navigateTo = navigateTo + '2';
+			if ( this.model.get( 'compareTwoMode' ) ) {
+				navigateTo += '2';
 			} else {
-				navigateTo = navigateTo + '1';
+				navigateTo += '1';
 			}
 			this.navigate( navigateTo );
 		},
@@ -740,11 +727,7 @@ window.wp = window.wp || {};
 		}, 250 ),
 
 		gotoRevisionId: function( from, to, handles ) {
-			if ( '2' === handles ) {
-				this.model.set( { compareTwoMode: true } );
-			} else {
-				this.model.set( { compareTwoMode: false } );
-			}
+			this.model.set( { compareTwoMode: ( '2' === handles ) } );
 
 			if ( 'undefined' !== typeof this.model ) {
 				var selectedToRevision =
@@ -756,6 +739,7 @@ window.wp = window.wp || {};
 					to:   selectedToRevision,
 					from: selectedFromRevision } );
 			}
+			revisions.settings.selectedRevision = to;
 		}
 	});
 
