@@ -881,7 +881,7 @@ function wp_audio_shortcode( $attr ) {
 	}
 
 	if ( ! $primary ) {
-		$audios = get_attached_audio( $post_id );
+		$audios = get_attached_media( 'audio', $post_id );
 		if ( empty( $audios ) )
 			return;
 
@@ -999,7 +999,7 @@ function wp_video_shortcode( $attr ) {
 	}
 
 	if ( ! $primary ) {
-		$videos = get_attached_video( $post_id );
+		$videos = get_attached_media( 'video', $post_id );
 		if ( empty( $videos ) )
 			return;
 
@@ -1866,30 +1866,6 @@ function get_attached_media( $type, $post_id = 0 ) {
 }
 
 /**
- * Retrieve audio attached to the passed post
- *
- * @since 3.6.0
- *
- * @param int $post_id  Post ID
- * @return array Found audio attachments
- */
-function get_attached_audio( $post_id = 0 ) {
-	return get_attached_media( 'audio', $post_id );
-}
-
-/**
- * Retrieve video attached to the passed post
- *
- * @since 3.6.0
- *
- * @param int $post_id  Post ID
- * @return array Found video attachments
- */
-function get_attached_video( $post_id = 0 ) {
-	return get_attached_media( 'video', $post_id );
-}
-
-/**
  * Extract and parse {media type} shortcodes or srcs from the passed content
  *
  * @since 3.6.0
@@ -2030,20 +2006,8 @@ function get_embedded_video( $content ) {
  * @param int $post_id Optional. Post ID.
  * @return array Found image attachments
  */
-function get_attached_images( $post_id = 0 ) {
-	return get_attached_media( 'image', $post_id );
-}
-
-/**
- * Retrieve images attached to the passed post
- *
- * @since 3.6.0
- *
- * @param int $post_id Optional. Post ID.
- * @return array Found image attachments
- */
 function get_attached_image_srcs( $post_id = 0 ) {
-	$children = get_attached_images( $post_id );
+	$children = get_attached_media( 'image', $post_id );
 	if ( empty( $children ) )
 		return array();
 
