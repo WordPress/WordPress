@@ -2024,7 +2024,7 @@ function get_attached_image_srcs( $post_id = 0 ) {
  * @since 3.6.0
  *
  * @param string $content A string which might contain image data.
- * @param boolean $html Whether to return HTML or URLs
+ * @param boolean $html Whether to return HTML or URLs in the array
  * @param int $limit Optional. The number of image srcs to return
  * @return array The found images or srcs
  */
@@ -2109,7 +2109,7 @@ function get_content_image( $content, $html = true ) {
  * @since 3.6.0
  *
  * @param string $content A string which might contain image data.
- * @param boolean $html Whether to return HTML or data
+ * @param boolean $html Whether to return HTML or data in the array
  * @param int $limit Optional. The number of galleries to return
  * @return array A list of galleries, which in turn are a list of their srcs in order
  */
@@ -2152,7 +2152,7 @@ function get_content_galleries( $content, $html = true, $limit = 0 ) {
  * @since 3.6.0
  *
  * @param int $post_id Optional. Post ID.
- * @param boolean $html Whether to return HTML or data
+ * @param boolean $html Whether to return HTML or data in the array
  * @return array A list of arrays, each containing gallery data and srcs parsed
  *		from the expanded shortcode
  */
@@ -2193,14 +2193,14 @@ function get_post_galleries_images( $post_id = 0 ) {
  *
  * @param int $post_id Optional. Post ID.
  * @param boolean $html Whether to return HTML or data
- * @return array Gallery data and srcs parsed from the expanded shortcode
+ * @return string|array Gallery data and srcs parsed from the expanded shortcode
  */
 function get_post_gallery( $post_id = 0, $html = true ) {
 	if ( ! $post = get_post( $post_id ) )
-		return array();
+		return $html ? '' : array();
 
 	if ( ! has_shortcode( $post->post_content, 'gallery' ) )
-		return array();
+		return $html ? '' : array();
 
 	$data = get_content_galleries( $post->post_content, $html, false, 1 );
 	return reset( $data );
