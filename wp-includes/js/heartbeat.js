@@ -107,7 +107,7 @@ window.wp = window.wp || {};
 
 				if ( trigger && ! self.connectionLost ) {
 					self.connectionLost = true;
-					$(document).trigger( 'heartbeat-connection-lost' );
+					$(document).trigger( 'heartbeat-connection-lost', [error] );
 				}
 			} else if ( self.connectionLost ) {
 				errorcount = 0;
@@ -136,7 +136,7 @@ window.wp = window.wp || {};
 
 			// If nothing to send (nothing is expecting a response),
 			// schedule the next tick and bail
-			if ( empty ) {
+			if ( empty && ! self.connectionLost ) {
 				connecting = false;
 				next();
 				return;
