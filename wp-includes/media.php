@@ -2266,33 +2266,3 @@ function get_post_gallery_images( $post_id = 0 ) {
 
 	return $gallery['src'];
 }
-
-/**
- * Retrieve the attachment post id from HTML containing an image.
- *
- * @since 3.6.0
- *
- * @param string $html The html, possibly with an image
- * @param string $matched_html Passed by reference, will be set to to the matched img string
- * @return int The attachment id if found, or 0.
- */
-function img_html_to_post_id( $html, &$matched_html = null ) {
-	$attachment_id = 0;
-
-	// Look for an <img /> tag
-	if ( ! preg_match( '#' . get_tag_regex( 'img' ) .  '#i', $html, $matches ) || empty( $matches ) )
-		return $attachment_id;
-
-	$matched_html = $matches[0];
-
-	// Look for the class attribute.
-	if ( ! preg_match( '#class=([\'"])(.+?)\1#is', $matched_html, $matches ) || empty( $matches ) )
-		return $attachment_id;
-
-	$classes = $matches[2];
-	if ( ! empty( $classes ) && false !== strpos( $classes, 'wp-image-' ) )
-		if ( preg_match( '#wp-image-([0-9]+)#i', $classes, $matches ) )
-			$attachment_id = absint( $matches[1] );
-
-	return $attachment_id;
-}
