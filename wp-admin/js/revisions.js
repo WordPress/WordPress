@@ -645,6 +645,25 @@ window.wp = window.wp || {};
 		},
 
 		start: function( event, ui ) {
+			if ( this.model.get( 'compareTwoMode' ) )
+				return;
+
+			// Track the mouse position to enable smooth dragging,
+			// overrides default jQuery UI step behaviour.
+			$( window ).on( 'mousemove', { slider: this }, function( e ) {
+				var slider = e.data.slider,
+					sliderLeft = slider.$el.offset().left,
+					sliderRight = sliderLeft + slider.$el.width();
+
+				// Follow mouse movements, as long as handle remains inside slider.
+				if ( e.clientX < sliderLeft ) {
+					$( ui.handle ).css( 'left', 0 ); // Mouse to left of slider.
+				} else if ( e.clientX > sliderRight ) {
+					$( ui.handle ).css( 'left', sliderRight - sliderLeft); // Mouse to right of slider.
+				} else {
+					$( ui.handle ).css( 'left', e.clientX - sliderLeft ); // Mouse in slider.
+				}
+			} );
 		},
 
 		slide: function( event, ui ) {
@@ -678,6 +697,8 @@ window.wp = window.wp || {};
 		stop: function( event, ui ) {
 			if ( this.model.get( 'compareTwoMode' ) )
 				return;
+
+			$( window ).off( 'mousemove' );
 
 			// Reset settings props handle back to the step position.
 			this.settings.trigger( 'change' );
