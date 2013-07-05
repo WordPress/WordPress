@@ -641,6 +641,9 @@ function wp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->object = $object->name;
 			$menu_item->type_label = $object->labels->singular_name;
 
+			if ( '' === $menu_item->post_title )
+				$menu_item->post_title = sprintf( __( '#%d (no title)' ), $menu_item->ID );
+
 			$menu_item->title = $menu_item->post_title;
 			$menu_item->url = get_permalink( $menu_item->ID );
 			$menu_item->target = '';
