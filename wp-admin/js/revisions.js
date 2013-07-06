@@ -236,6 +236,8 @@ window.wp = window.wp || {};
 
 			this.listenTo( this.model, 'change:diffId', this.updateDiff );
 
+			this.listenTo( this.model, 'change:compareTwoMode', this.updateCompareTwoMode );
+
 			this.views.set( '.revisions-control-frame', new revisions.view.Controls({
 				model: this.model
 			}) );
@@ -275,6 +277,10 @@ window.wp = window.wp || {};
 				}));
 				this.model.trigger( 'renderDiff' );
 			});
+		},
+
+		updateCompareTwoMode: function() {
+			this.$el.toggleClass( 'comparing-two-revisions' );
 		}
 	});
 
@@ -336,11 +342,8 @@ window.wp = window.wp || {};
 
 		updateMeta: function() {
 			this.$el.html( this.template( this.model.toJSON() ) );
-			if( this.model.get( 'to' ).attributes.current ) {
-				$( '#restore-revision' ).prop( 'disabled', true );
-			} else {
-				$( '#restore-revision' ).prop( 'disabled', false );
-			}
+
+			$( '#restore-revision' ).prop( 'disabled', this.model.get( 'to' ).attributes.current );
 		}
 	});
 
@@ -375,11 +378,7 @@ window.wp = window.wp || {};
 		// Toggle the compare two mode feature when the compare two checkbox is checked.
 		compareTwoToggle: function( event ) {
 			// Activate compare two mode?
-			if ( $( '.compare-two-revisions' ).is( ':checked' ) ) {
-				this.model.set( { compareTwoMode: true } );
-			} else {
-				this.model.set( { compareTwoMode: false } );
-			}
+			this.model.set( { compareTwoMode: $( '.compare-two-revisions' ).prop( 'checked' ) } );
 
 			// Update route
 			this.model.revisionsRouter.navigateRoute( this.model.get( 'to').id, this.model.get( 'from' ).id );
@@ -545,9 +544,7 @@ window.wp = window.wp || {};
 
 			// And update the slider in case the route has set it.
 			this.updateSliderSettings();
-
 			this.slide( '', this.settings.attributes );
-
 			this.$el.slider( this.settings.toJSON() );
 
 			// Listen for changes in Compare Two Mode setting
@@ -568,7 +565,7 @@ window.wp = window.wp || {};
 				actualX = e.clientX - sliderLeft,
 				hoveringAt = Math.floor( actualX / tickWidth );
 
-			// Reverse direction in Rtl mode.
+			// Reverse direction in RTL mode.
 			if ( isRtl )
 				hoveringAt = this.model.revisions.length - hoveringAt - 1;
 
@@ -606,7 +603,7 @@ window.wp = window.wp || {};
 						rightValue = leftValue + 1;
 					}
 				} else {
-					leftValue  = isRtl ?	this.model.revisions.length -  this.model.revisions.indexOf( this.model.get( 'to' ) ) - 1 :
+					leftValue = isRtl ?	this.model.revisions.length - this.model.revisions.indexOf( this.model.get( 'to' ) ) - 1 :
 											this.model.revisions.indexOf( this.model.get( 'from' ) ),
 					rightValue = isRtl ?	this.model.revisions.length - this.model.revisions.indexOf( this.model.get( 'from' ) ) - 1 :
 											this.model.revisions.indexOf( this.model.get( 'to' ) );
@@ -631,9 +628,8 @@ window.wp = window.wp || {};
 					range: false
 				} );
 			}
-			if ( this.model.get( 'compareTwoMode' ) ){
-				$( '.revisions' ).addClass( 'comparing-two-revisions' );
 
+			if ( this.model.get( 'compareTwoMode' ) ){
 				// in RTL mode the 'left handle' is the second in the slider, 'right' is first
 				$( 'a.ui-slider-handle', this.$el )
 					.first()
@@ -643,8 +639,6 @@ window.wp = window.wp || {};
 					.last()
 					.addClass( isRtl ? 'left-handle' : 'right-handle' )
 					.removeClass( isRtl ? 'right-handle' : 'left-handle' );
-			} else {
-				$( '.revisions' ).removeClass( 'comparing-two-revisions' );
 			}
 		},
 
@@ -665,23 +659,53 @@ window.wp = window.wp || {};
 		},
 
 		start: function( event, ui ) {
-			if ( this.model.get( 'compareTwoMode' ) )
-				return;
-
 			// Track the mouse position to enable smooth dragging,
-			// overrides default jQuery UI step behaviour.
-			$( window ).on( 'mousemove', { slider: this }, function( e ) {
-				var slider = e.data.slider,
-					sliderLeft = slider.$el.offset().left,
-					sliderRight = sliderLeft + slider.$el.width();
+			// overrides default jQuery UI step behavior.
+			$( window ).on( 'mousemove', { view: this }, function( e ) {
+				var view              = e.data.view,
+					leftDragBoundary  = view.$el.offset().left, // Initial left boundary
+					sliderOffset      = leftDragBoundary,
+					sliderRightEdge   = leftDragBoundary + view.$el.width(),
+					rightDragBoundary = sliderRightEdge, // Initial right boundary
+					leftDragReset     = 0, // Initial left drag reset
+					rightDragReset    = sliderRightEdge - sliderOffset; // Initial right drag reset
+
+				// In two handle mode, ensure handles can't be dragged past each other.
+				// Adjust left/right boundaries and reset points.
+				if ( view.model.get( 'compareTwoMode' ) ) {
+					var rightHandle = $( ui.handle ).parent().find( '.right-handle' ),
+						leftHandle  = $( ui.handle ).parent().find( '.left-handle' );
+
+					if ( $( ui.handle ).hasClass( 'left-handle' ) ) {
+						// Dragging the left handle, boundary is right handle.
+						// RTL mode calculations reverse directions.
+						if ( isRtl ) {
+							leftDragBoundary = rightHandle.offset().left + rightHandle.width();
+							leftDragReset    = leftDragBoundary - sliderOffset;
+						} else {
+							rightDragBoundary = rightHandle.offset().left;
+							rightDragReset    = rightDragBoundary - sliderOffset;
+						}
+					} else {
+						// Dragging the right handle, boundary is the left handle.
+						// RTL mode calculations reverse directions.
+						if ( isRtl ) {
+							rightDragBoundary = leftHandle.offset().left;
+							rightDragReset    = rightDragBoundary - sliderOffset;
+						} else {
+							leftDragBoundary = leftHandle.offset().left + leftHandle.width() ;
+							leftDragReset    = leftDragBoundary - sliderOffset;
+						}
+					}
+				}
 
 				// Follow mouse movements, as long as handle remains inside slider.
-				if ( e.clientX < sliderLeft ) {
-					$( ui.handle ).css( 'left', 0 ); // Mouse to left of slider.
-				} else if ( e.clientX > sliderRight ) {
-					$( ui.handle ).css( 'left', sliderRight - sliderLeft); // Mouse to right of slider.
+				if ( e.clientX < leftDragBoundary ) {
+					$( ui.handle ).css( 'left', leftDragReset ); // Mouse to left of slider.
+				} else if ( e.clientX > rightDragBoundary ) {
+					$( ui.handle ).css( 'left', rightDragReset ); // Mouse to right of slider.
 				} else {
-					$( ui.handle ).css( 'left', e.clientX - sliderLeft ); // Mouse in slider.
+					$( ui.handle ).css( 'left', e.clientX - sliderOffset ); // Mouse in slider.
 				}
 			} );
 		},
@@ -716,9 +740,6 @@ window.wp = window.wp || {};
 		},
 
 		stop: function( event, ui ) {
-			if ( this.model.get( 'compareTwoMode' ) )
-				return;
-
 			$( window ).off( 'mousemove' );
 
 			// Reset settings props handle back to the step position.
