@@ -1485,7 +1485,8 @@ table.diff .diff-addedline ins {
 	border: 1px solid #d1e5ee;
 }
 
-.diff-slider .ui-slider-tooltip {
+.revisions-tooltip,
+.revisions-tooltip-arrow:after {
 	border-color: #d1e5ee;
 	background-color: #fff;
 }

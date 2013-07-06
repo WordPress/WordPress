@@ -357,19 +357,16 @@ window.wp = window.wp || {};
 
 		initialize: function() {
 			this.$el.html( this.template() );
-			this.listenTo( this.model, 'change:compareTwoMode', this.updateCompareTwoMode );
 		},
 
 		updateCompareTwoMode: function() {
 			if ( this.model.get( 'compareTwoMode' ) ) {
-				$( '.compare-two-revisions' ).parent().css('border', '1px solid #f00;').prop( 'checked', true );
-				$( '.revisions-control-frame' ).addClass( 'comparing-two-revisions' );
+				$( '.compare-two-revisions' ).prop( 'checked', true );
 				// in RTL mode the 'left handle' is the second in the slider, 'right' is first
 				$( '.wp-slider a.ui-slider-handle' ).first().addClass( isRtl ? 'right-handle' : 'left-handle' );
 				$( '.wp-slider a.ui-slider-handle' ).last().addClass( isRtl ? 'left-handle' : 'right-handle' );
 			} else {
 				$( '.compare-two-revisions' ).prop( 'checked', false );
-				$( '.revisions-control-frame' ).removeClass( 'comparing-two-revisions' );
 				$( '.wp-slider a.ui-slider-handle' ).removeClass( 'left-handle' ).removeClass( 'right-handle' );
 			}
 
@@ -392,6 +389,11 @@ window.wp = window.wp || {};
 			// Hide compare two mode toggle when fewer than three revisions.
 			if ( this.model.revisions.length < 3 )
 				$( '.revision-toggle-compare-mode' ).hide();
+
+			this.listenTo( this.model, 'change:compareTwoMode', this.updateCompareTwoMode );
+
+			// Update the mode in case route has set it
+			this.updateCompareTwoMode();
 		}
 
 	});
@@ -425,13 +427,12 @@ window.wp = window.wp || {};
 			if ( null === this.model.get( 'revision' ) )
 				return;
 
+			// Insert revision data.
 			this.$el.html( this.template( this.model.get( 'revision' ).toJSON() ) );
 
-			var offset = $( '.revisions-buttons' ).offset().left,
-				calculatedX = this.model.get( 'position' ) - offset;
-
-			$( '.ui-slider-tooltip', this.$el ).css( 'left', calculatedX );
-			$( '.arrow', this.$el ).css( 'left', calculatedX );
+			// Set the position.
+			var offset = $( '.revisions-buttons' ).offset().left;
+			this.$el.css( 'left', this.model.get( 'position' ) - offset );
 		}
 	});
 
@@ -542,6 +543,9 @@ window.wp = window.wp || {};
 			this.settings.attributes.value = this.model.revisions.indexOf(
 				this.model.revisions.findWhere( { id: Number( revisions.settings.selectedRevision ) } ) );
 
+			// And update the slider in case the route has set it.
+			this.updateSliderSettings();
+
 			this.slide( '', this.settings.attributes );
 
 			this.$el.slider( this.settings.toJSON() );
@@ -555,7 +559,6 @@ window.wp = window.wp || {};
 
 			// Listen for changes in the diffId
 			this.listenTo( this.model, 'change:diffId', this.diffIdChanged );
-
 		},
 
 		mousemove: function( e ) {
@@ -589,27 +592,44 @@ window.wp = window.wp || {};
 		},
 
 		updateSliderSettings: function() {
-			if ( isRtl ) {
-				this.$el.slider( { // Order reversed in RTL mode
-					value: this.model.revisions.length - this.model.revisions.indexOf( this.model.get( 'to' ) ) - 1
+			if ( this.model.get( 'compareTwoMode' ) ) {
+				var leftValue, rightValue;
+
+				// In single handle mode, the 1st stored revision is 'blank' and the 'from' model is not set
+				// In this case we move the to index over one
+				if ( 'undefined' == typeof this.model.get( 'from' ) ) {
+					if ( isRtl ) {
+						leftValue  = this.model.revisions.length -  this.model.revisions.indexOf( this.model.get( 'to' ) ) - 2;
+						rightValue = leftValue + 1;
+					} else {
+						leftValue  = this.model.revisions.indexOf( this.model.get( 'to' ) );
+						rightValue = leftValue + 1;
+					}
+				} else {
+					leftValue  = isRtl ?	this.model.revisions.length -  this.model.revisions.indexOf( this.model.get( 'to' ) ) - 1 :
+											this.model.revisions.indexOf( this.model.get( 'from' ) ),
+					rightValue = isRtl ?	this.model.revisions.length - this.model.revisions.indexOf( this.model.get( 'from' ) ) - 1 :
+											this.model.revisions.indexOf( this.model.get( 'to' ) );
+				}
+
+				// Set handles to current from / to models.
+				// Reverse order for RTL
+				this.$el.slider( {
+					values: [
+						leftValue,
+						rightValue
+					],
+					value: null,
+					range: true // Range mode ensures handles can't cross
 				} );
 			} else {
-				if ( this.model.get( 'compareTwoMode' ) ) {
-					this.$el.slider( { // Set handles to current from/to models
-						values: [
-							this.model.revisions.indexOf( this.model.get( 'from' ) ),
-							this.model.revisions.indexOf( this.model.get( 'to' ) )
-						],
-						value: null,
-						range: true // Range mode ensures handles can't cross
-					} );
-				} else {
-					this.$el.slider( { // Set handle to current to model
-						value: this.model.revisions.indexOf( this.model.get( 'to' ) ),
-						values: null, // Clear existing two handled values
-						range: false
-					} );
-				}
+				this.$el.slider( { // Set handle to current to model
+					// Reverse order for RTL.
+					value: isRtl ?  this.model.revisions.length - this.model.revisions.indexOf( this.model.get( 'to' ) ) - 1 :
+									this.model.revisions.indexOf( this.model.get( 'to' ) ),
+					values: null, // Clear existing two handled values
+					range: false
+				} );
 			}
 			if ( this.model.get( 'compareTwoMode' ) ){
 				$( '.revisions' ).addClass( 'comparing-two-revisions' );
@@ -675,9 +695,10 @@ window.wp = window.wp || {};
 					return false;
 
 				attributes = {
-					to: this.model.revisions.at( isRtl ? this.model.revisions.length - ui.values[1] - 1 : ui.values[1] ), // Reverse directions for RTL.
-					from: this.model.revisions.at( isRtl ? this.model.revisions.length - ui.values[0] - 1 : ui.values[0] ) // Reverse directions for RTL.
+					to: this.model.revisions.at( isRtl ? this.model.revisions.length - ui.values[0] - 1 : ui.values[1] ), // Reverse directions for RTL.
+					from: this.model.revisions.at( isRtl ? this.model.revisions.length - ui.values[1] - 1 : ui.values[0] ) // Reverse directions for RTL.
 				};
+
 			} else {
 				// Compare single revision mode
 				var sliderPosition = this.getSliderPosition( ui );

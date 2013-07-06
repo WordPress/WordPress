@@ -27,6 +27,12 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		$compare_to = $temp;
 	}
 
+	// Add default title if title field is empty
+	if ( $compare_from && empty( $compare_from->post_title ) )
+		$compare_from->post_title = __( '(no title)' );
+	if ( empty( $compare_to->post_title ) )
+		$compare_to->post_title = __( '(no title)' );
+
 	$return = array();
 
 	foreach ( _wp_post_revision_fields() as $field => $name ) {

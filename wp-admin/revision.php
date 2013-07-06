@@ -55,7 +55,7 @@ default :
 		break;
 	}
 
-	$post_title = '<a href="' . get_edit_post_link() . '">' . get_the_title() . '</a>';
+	$post_title = '<a href="' . get_edit_post_link() . '">' . _draft_or_post_title() . '</a>';
 	$h2 = sprintf( __( 'Compare Revisions of &#8220;%1$s&#8221;' ), $post_title );
 	$title = __( 'Revisions' );
 
@@ -127,14 +127,14 @@ require_once( './admin-header.php' );
 </script>
 
 <script id="tmpl-revisions-tooltip" type="text/html">
-	<div class="ui-slider-tooltip ui-widget-content ui-corner-all ">
+	<div class="revisions-tooltip-content">
 	<# if ( 'undefined' !== typeof data && 'undefined' !== typeof data.author ) { #>
 			{{{ data.author.avatar }}} {{{ data.author.name }}},
 			{{{ data.timeAgo }}} <?php _e( 'ago' ); ?>
 			({{{ data.dateShort }}})
 	<# } #>
 	</div>
-	<div class="arrow"></div>
+	<div class="revisions-tooltip-arrow"></div>
 </script>
 
 <script id="tmpl-revisions-checkbox" type="text/html">

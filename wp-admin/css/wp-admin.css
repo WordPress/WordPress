@@ -3501,8 +3501,12 @@ td.plugin-title p {
 }
 
 .revisions-controls {
-	padding: 40px 0 20px;
-	margin-bottom: 10px;
+	padding-top: 40px;
+	height: 100px;
+}
+
+.comparing-two-revisions .revisions-controls {
+	height: 140px;
 }
 
 .revisions-meta {
@@ -3575,13 +3579,6 @@ table.diff .diff-addedline ins {
 	text-decoration: none;
 }
 
-.revisions .ui-slider-tooltip {
-	position: absolute;
-	bottom: 105px;
-	margin-left: -70px;
-	line-height: 28px;
-}
-
 #diff-title-to strong {
 	display: inline;
 }
@@ -3589,7 +3586,7 @@ table.diff .diff-addedline ins {
 #diff-header {
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	padding: 5px 200px 5px 5px;
+	padding: 5px;
 	clear: both;
 }
 
@@ -3628,71 +3625,46 @@ table.diff .diff-addedline ins {
 	display: block;
 }
 
-.ui-tooltip-content img,
-.ui-slider-tooltip img {
+.revisions-tooltip {
+	position: absolute;
+	bottom: 105px;
+	margin-left: -70px;
+	line-height: 28px;
+	z-index: 9999;
+	max-width: 350px;
+	min-width: 130px;
+	padding: 4px;
+}
+
+.comparing-two-revisions .revisions-tooltip {
+	bottom: 145px;
+}
+
+.revisions-tooltip img {
 	float: left;
-	margin-right: 5px;
-	margin-top: 2px;
+	margin: 2px 5px 0 0;
 	padding: 0;
 	vertical-align: middle;
 }
 
-
-/*  jQuery UI Tooltip 1.10.1 */
-
-.ui-tooltip,
-.ui-slider-tooltip {
-	padding: 4px;
-	position: absolute;
-	z-index: 9999;
-	max-width: 300px;
-	min-width: 130px;
-}
-
-body .ui-tooltip,
-body .ui-slider-tooltip {
-	border-width: 1px;
-}
-
-.ui-tooltip,
-.ui-slider-tooltip,
-.arrow:after {
-	border: 1px solid #d7d7d7;
-}
-
-.ui-tooltip,
-.ui-slider-tooltip {
-	padding: 4px 4px;
-}
-
-.arrow {
+.revisions-tooltip-arrow {
 	width: 70px;
-	height: 16px;
+	height: 15px;
 	overflow: hidden;
 	position: absolute;
 	left: 0;
-	margin-left: -35px;
-	bottom: 90px;
+	margin-left: 35px;
+	bottom: -15px;
 	z-index: 10000;
 }
 
-.arrow.top {
-	top: -16px;
-	bottom: auto;
-}
-
-.arrow.left {
-	left: 20%;
-}
-
-.arrow:after {
+.revisions-tooltip-arrow:after {
 	content: "";
 	position: absolute;
 	left: 20px;
 	top: -20px;
 	width: 25px;
 	height: 25px;
-	background-color: #FFF;
 	-webkit-transform: rotate(45deg);
 	-moz-transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
@@ -3700,13 +3672,13 @@ body .ui-slider-tooltip {
 	tranform: rotate(45deg);
 }
 
-.arrow.top:after {
-	bottom: -20px;
-	top: auto;
+.revisions-tooltip,
+.revisions-tooltip-arrow:after {
+	border-width: 1px;
+	border-style: solid;
 }
 
  /* jQuery UI Slider */
-
 .wp-slider.ui-slider {
 	position: relative;
 	border-width: 1px;
@@ -3784,30 +3756,6 @@ body .ui-slider-tooltip {
 
 .wp-slider.ui-slider-horizontal .ui-slider-range-max {
 	right: 0;
-}
-
-.wp-slider.ui-slider-vertical {
-	width: .8em;
-	height: 100px;
-}
-
-.wp-slider.ui-slider-vertical .ui-slider-handle {
-	left: -.3em;
-	margin-left: 0;
-	margin-bottom: -.6em;
-}
-
-.wp-slider.ui-slider-vertical .ui-slider-range {
-	left: 0;
-	width: 100%;
-}
-
-.wp-slider.ui-slider-vertical .ui-slider-range-min {
-	bottom: 0;
-}
-
-.wp-slider.ui-slider-vertical .ui-slider-range-max {
-	top: 0;
 }
 
 
