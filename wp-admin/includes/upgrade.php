@@ -1652,7 +1652,7 @@ function dbDelta( $queries = '', $execute = true ) {
 		foreach ( (array) $indices as $index ) {
 			// Push a query line into $cqueries that adds the index to that table
 			$cqueries[] = "ALTER TABLE {$table} ADD $index";
-			$for_update[$table.'.'.$fieldname] = 'Added index '.$table.' '.$index;
+			$for_update[] = 'Added index ' . $table . ' ' . $index;
 		}
 
 		// Remove the original table creation query from processing
