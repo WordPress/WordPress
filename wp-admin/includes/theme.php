@@ -37,7 +37,7 @@ function delete_theme($stylesheet, $redirect = '') {
 	}
 
 	if ( ! WP_Filesystem($credentials) ) {
-		request_filesystem_credentials($url, '', true); // Failed to connect, Error and request again
+		request_filesystem_credentials($redirect, '', true); // Failed to connect, Error and request again
 		$data = ob_get_contents();
 		ob_end_clean();
 		if ( ! empty($data) ) {
