@@ -3978,6 +3978,10 @@ span.description,
 	padding: 8px 0;
 }
 
+.form-wrap .form-field #parent {
+	max-width: 100%;
+}
+
 .col-wrap h3 {
 	margin: 12px 0;
 	font-size: 1.1em;
