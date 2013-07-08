@@ -18,7 +18,7 @@
  * one or the other.
  *
  * Prevents redirection for feeds, trackbacks, searches, comment popup, and
- * admin URLs. Does not redirect on non-pretty-permalink-supporting IIS 7,
+ * admin URLs. Does not redirect on non-pretty-permalink-supporting IIS 7+,
  * page/post previews, WP admin, Trackbacks, robots.txt, searches, or on POST
  * requests.
  *

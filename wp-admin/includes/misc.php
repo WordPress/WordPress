@@ -370,7 +370,7 @@ function set_screen_options() {
 }
 
 /**
- * Check if rewrite rule for WordPress already exists in the IIS 7 configuration file
+ * Check if rewrite rule for WordPress already exists in the IIS 7+ configuration file
  *
  * @since 2.8.0
  *
@@ -428,7 +428,7 @@ function iis7_delete_rewrite_rule($filename) {
 }
 
 /**
- * Add WordPress rewrite rule to the IIS 7 configuration file.
+ * Add WordPress rewrite rule to the IIS 7+ configuration file.
  *
  * @since 2.8.0
  *

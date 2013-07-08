@@ -3038,7 +3038,7 @@ function apache_mod_loaded($mod, $default = false) {
 }
 
 /**
- * Check if IIS 7 supports pretty permalinks.
+ * Check if IIS 7+ supports pretty permalinks.
  *
  * @since 2.8.0
  *
@@ -3049,11 +3049,10 @@ function iis7_supports_permalinks() {
 
 	$supports_permalinks = false;
 	if ( $is_iis7 ) {
-		/* First we check if the DOMDocument class exists. If it does not exist,
-		 * which is the case for PHP 4.X, then we cannot easily update the xml configuration file,
-		 * hence we just bail out and tell user that pretty permalinks cannot be used.
-		 * This is not a big issue because PHP 4.X is going to be deprecated and for IIS it
-		 * is recommended to use PHP 5.X NTS.
+		/* First we check if the DOMDocument class exists. If it does not exist, then we cannot
+		 * easily update the xml configuration file, hence we just bail out and tell user that
+		 * pretty permalinks cannot be used.
+		 *
 		 * Next we check if the URL Rewrite Module 1.1 is loaded and enabled for the web site. When
 		 * URL Rewrite 1.1 is loaded it always sets a server variable called 'IIS_UrlRewriteModule'.
 		 * Lastly we make sure that PHP is running via FastCGI. This is important because if it runs
