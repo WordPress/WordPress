@@ -280,7 +280,10 @@ window.wp = window.wp || {};
 		},
 
 		updateCompareTwoMode: function() {
-			this.$el.toggleClass( 'comparing-two-revisions' );
+			if ( this.model.get( 'compareTwoMode' ) )
+				this.$el.addClass( 'comparing-two-revisions' );
+			else
+				this.$el.removeClass( 'comparing-two-revisions' );
 		}
 	});
 
@@ -307,6 +310,11 @@ window.wp = window.wp || {};
 			});
 			this.views.add( tooltip );
 
+			// Add the Tickmarks view
+			this.views.add( new revisions.view.Tickmarks({
+				model: this.model
+			}));
+
 			// Add the Slider view with a reference to the tooltip view
 			this.views.add( new revisions.view.Slider({
 				model: this.model,
@@ -317,6 +325,39 @@ window.wp = window.wp || {};
 			this.views.add( new revisions.view.Meta({
 				model: this.model
 			}) );
+
+		}
+	});
+
+	// The tickmarks view
+	// This contains the slider tickmarks.
+	revisions.view.Tickmarks = wp.Backbone.View.extend({
+		tagName: 'div',
+		className: 'revisions-tickmarks',
+		template: wp.template('revisions-tickmarks'),
+
+		numberOfTickmarksSet: function() {
+			var tickCount = this.model.revisions.length - 1, // One tickmark per model
+				sliderWidth = $( '.wp-slider' ).parent().width() * 0.7, // Width of slider is 70% of container (reset on resize)
+				tickWidth = Math.floor( sliderWidth / tickCount ), // Divide width by # of tickmarks, round down
+				newSiderWidth = ( ( tickWidth + 1 ) * tickCount ) + 1, // Calculate the actual width
+				tickNumber;
+
+			$( '.wp-slider' ).css( 'width', newSiderWidth ); // Reset the slider width to match the calculated tick size
+			this.$el.css( 'width', newSiderWidth ); // Match the tickmark div width
+
+			for ( tickNumber = 0; tickNumber <= tickCount; tickNumber++ ){
+				this.$el.append( '<div style="left:' + ( tickWidth * tickNumber ) + 'px;"></div>' );
+			}
+		},
+
+		ready: function() {
+			var self = this;
+			self.numberOfTickmarksSet();
+			$( window ).on( 'resize', _.debounce( function() {
+				self.$el.html( '' );
+				self.numberOfTickmarksSet();
+				}, 50 ) );
 		}
 	});
 
@@ -511,8 +552,8 @@ window.wp = window.wp || {};
 
 		events: {
 			'mousemove'  : 'mousemove',
-			'mouseenter' : 'mouseenter',
-			'mouseleave' : 'mouseleave'
+			'mouseleave' : 'mouseleave',
+			'mouseenter' : 'mouseenter'
 		},
 
 		initialize: function( options ) {
@@ -559,33 +600,35 @@ window.wp = window.wp || {};
 		},
 
 		mousemove: function( e ) {
-			var sliderLeft = Math.ceil( this.$el.offset().left ),
-				sliderWidth = Math.ceil( this.$el.width() ) + 2,
-				tickWidth = Math.ceil( ( sliderWidth ) / this.model.revisions.length ),
-				actualX = e.clientX - sliderLeft,
-				hoveringAt = Math.floor( actualX / tickWidth );
+			var tickCount = this.model.revisions.length - 1, // One tickmark per model
+				sliderLeft = Math.ceil( this.$el.offset().left ), // Left edge of slider
+				sliderWidth = this.$el.width(), // Width of slider
+				tickWidth = Math.floor( sliderWidth / tickCount ), // Calculated width of tickmark
+				actualX = e.clientX - sliderLeft, // Offset of mouse position in slider
+				currentModelIndex = Math.floor( ( actualX + tickWidth / 2 ) / tickWidth ), // Calculate the model index
+				tooltipPosition = sliderLeft + 2 + currentModelIndex * tickWidth; // Stick tooltip to tickmark
 
 			// Reverse direction in RTL mode.
 			if ( isRtl )
-				hoveringAt = this.model.revisions.length - hoveringAt - 1;
+				currentModelIndex = this.model.revisions.length - currentModelIndex - 1;
 
-			// Ensure sane value for hoveringAt.
-			if ( hoveringAt < 0 )
-				hoveringAt = 0;
-			else if ( hoveringAt >= this.model.revisions.length )
-				hoveringAt = this.model.revisions.length - 1;
+			// Ensure sane value for currentModelIndex.
+			if ( currentModelIndex < 0 )
+				currentModelIndex = 0;
+			else if ( currentModelIndex >= this.model.revisions.length )
+				currentModelIndex = this.model.revisions.length - 1;
 
 			// Update the tooltip model
-			this.tooltip.model.set( 'revision', this.model.revisions.at( hoveringAt ) );
-			this.tooltip.model.set( 'position', e.clientX );
-		},
-
-		mouseenter: function( e ) {
-			this.tooltip.show();
+			this.tooltip.model.set( 'revision', this.model.revisions.at( currentModelIndex ) );
+			this.tooltip.model.set( 'position', tooltipPosition );
 		},
 
 		mouseleave: function( e ) {
 			this.tooltip.hide();
+		},
+
+		mouseenter: function( e ) {
+			this.tooltip.show();
 		},
 
 		updateSliderSettings: function() {

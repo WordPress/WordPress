@@ -1385,6 +1385,15 @@ table.diff .diff-addedline ins {
 	background-color: #fff;
 }
 
+
+.revisions-tickmarks {
+	background-color: #f7f7f7;
+}
+
+.revisions-tickmarks > div {
+	background-color: #ccc;
+}
+
 #diff-title-to strong {
 	color: #08a;
 }
@@ -1392,7 +1401,7 @@ table.diff .diff-addedline ins {
 /* jQuery UI Slider */
 .wp-slider.ui-slider {
 	border-color: #d7d7d7;
-	background: #f7f7f7;
+	background: transparent;
 }
 
 .wp-slider .ui-slider-handle {

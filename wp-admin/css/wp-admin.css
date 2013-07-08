@@ -3505,6 +3505,22 @@ td.plugin-title p {
 	height: 100px;
 }
 
+.revisions-tickmarks {
+	position: relative;
+	margin: 0 auto 0;
+	height: 0.8em;
+	z-index: 2;
+	top: 7px;
+}
+
+.revisions-tickmarks > div {
+	height: 0.8em;
+	width: 1px;
+	float: left;
+	position: relative;
+	z-index: 10002;
+}
+
 .comparing-two-revisions .revisions-controls {
 	height: 140px;
 }
@@ -3534,7 +3550,8 @@ td.plugin-title p {
 
 .wp-slider {
 	width: 70%;
-	margin: 6px auto 0;
+	margin: 0 auto 0;
+	top: -3px;
 }
 
 /* Revision meta box */

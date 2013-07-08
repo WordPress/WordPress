@@ -152,6 +152,9 @@ require_once( './admin-header.php' );
 	</div>
 </script>
 
+<script id="tmpl-revisions-tickmarks" type="text/html">
+</script>
+
 <script id="tmpl-revisions-meta" type="text/html">
 	<div id="diff-header">
 		<div id="diff-header-from" class="diff-header">

@@ -1019,10 +1019,18 @@ th.sorted a span {
 	float: left;
 }
 
-.ui-tooltip-content img {
+.revisions img {
 	float: right;
 	margin-right: 0;
 	margin-left: 5px;
+}
+
+.revisions-tooltip {
+	margin-left: -185px;
+}
+
+.revisions-tooltip-arrow {
+	margin-left: 150px;
 }
 
 /*------------------------------------------------------------------------------
