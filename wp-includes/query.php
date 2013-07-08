@@ -2440,14 +2440,13 @@ class WP_Query {
 			$post_type_object = get_post_type_object ( 'post' );
 		}
 
+		$edit_cap = 'edit_post';
+		$read_cap = 'read_post';
+
 		if ( ! empty( $post_type_object ) ) {
-			$edit_cap = $post_type_object->cap->edit_post;
-			$read_cap = $post_type_object->cap->read_post;
 			$edit_others_cap = $post_type_object->cap->edit_others_posts;
 			$read_private_cap = $post_type_object->cap->read_private_posts;
 		} else {
-			$edit_cap = 'edit_' . $post_type_cap;
-			$read_cap = 'read_' . $post_type_cap;
 			$edit_others_cap = 'edit_others_' . $post_type_cap . 's';
 			$read_private_cap = 'read_private_' . $post_type_cap . 's';
 		}

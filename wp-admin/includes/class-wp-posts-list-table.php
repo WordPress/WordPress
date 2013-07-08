@@ -480,7 +480,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$edit_link = get_edit_post_link( $post->ID );
 		$title = _draft_or_post_title();
 		$post_type_object = get_post_type_object( $post->post_type );
-		$can_edit_post = current_user_can( $post_type_object->cap->edit_post, $post->ID );
+		$can_edit_post = current_user_can( 'edit_post', $post->ID );
 
 		$alternate = 'alternate' == $alternate ? '' : 'alternate';
 		$classes = $alternate . ' iedit author-' . ( get_current_user_id() == $post->post_author ? 'self' : 'other' );
@@ -585,7 +585,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID, true ) . '" title="' . esc_attr( __( 'Edit this item' ) ) . '">' . __( 'Edit' ) . '</a>';
 					$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr( __( 'Edit this item inline' ) ) . '">' . __( 'Quick&nbsp;Edit' ) . '</a>';
 				}
-				if ( current_user_can( $post_type_object->cap->delete_post, $post->ID ) ) {
+				if ( current_user_can( 'delete_post', $post->ID ) ) {
 					if ( 'trash' == $post->post_status )
 						$actions['untrash'] = "<a title='" . esc_attr( __( 'Restore this item from the Trash' ) ) . "' href='" . wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-post_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
 					elseif ( EMPTY_TRASH_DAYS )

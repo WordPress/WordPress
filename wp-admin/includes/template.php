@@ -240,7 +240,7 @@ function wp_link_category_checklist( $link_id = 0 ) {
  */
 function get_inline_data($post) {
 	$post_type_object = get_post_type_object($post->post_type);
-	if ( ! current_user_can($post_type_object->cap->edit_post, $post->ID) )
+	if ( ! current_user_can( 'edit_post', $post->ID ) )
 		return;
 
 	$title = esc_textarea( trim( $post->post_title ) );

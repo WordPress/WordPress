@@ -28,7 +28,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 
 	$ptype = get_post_type_object( $post_data['post_type'] );
 
-	if ( $update && ! current_user_can( $ptype->cap->edit_post, $post_data['ID'] ) ) {
+	if ( $update && ! current_user_can( 'edit_post', $post_data['ID'] ) ) {
 		if ( 'page' == $post_data['post_type'] )
 			return new WP_Error( 'edit_others_pages', __( 'You are not allowed to edit pages as this user.' ) );
 		else
@@ -172,7 +172,7 @@ function edit_post( $post_data = null ) {
 	$post_data['post_mime_type'] = $post->post_mime_type;
 
 	$ptype = get_post_type_object($post_data['post_type']);
-	if ( !current_user_can( $ptype->cap->edit_post, $post_ID ) ) {
+	if ( !current_user_can( 'edit_post', $post_ID ) ) {
 		if ( 'page' == $post_data['post_type'] )
 			wp_die( __('You are not allowed to edit this page.' ));
 		else
@@ -374,7 +374,7 @@ function bulk_edit_posts( $post_data = null ) {
 	foreach ( $post_IDs as $post_ID ) {
 		$post_type_object = get_post_type_object( get_post_type( $post_ID ) );
 
-		if ( !isset( $post_type_object ) || ( isset($children) && in_array($post_ID, $children) ) || !current_user_can( $post_type_object->cap->edit_post, $post_ID ) ) {
+		if ( !isset( $post_type_object ) || ( isset($children) && in_array($post_ID, $children) ) || !current_user_can( 'edit_post', $post_ID ) ) {
 			$skipped[] = $post_ID;
 			continue;
 		}

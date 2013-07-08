@@ -1162,8 +1162,7 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'delete_post_meta':
 	case 'add_post_meta':
 		$post = get_post( $args[0] );
-		$post_type_object = get_post_type_object( $post->post_type );
-		$caps = map_meta_cap( $post_type_object->cap->edit_post, $user_id, $post->ID );
+		$caps = map_meta_cap( 'edit_post', $user_id, $post->ID );
 
 		$meta_key = isset( $args[ 1 ] ) ? $args[ 1 ] : false;
 
@@ -1178,9 +1177,7 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'edit_comment':
 		$comment = get_comment( $args[0] );
 		$post = get_post( $comment->comment_post_ID );
-		$post_type_object = get_post_type_object( $post->post_type );
-
-		$caps = map_meta_cap( $post_type_object->cap->edit_post, $user_id, $post->ID );
+		$caps = map_meta_cap( 'edit_post', $user_id, $post->ID );
 		break;
 	case 'unfiltered_upload':
 		if ( defined('ALLOW_UNFILTERED_UPLOADS') && ALLOW_UNFILTERED_UPLOADS && ( !is_multisite() || is_super_admin( $user_id ) )  )

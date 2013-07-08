@@ -78,7 +78,7 @@ if ( $doaction ) {
 			$trashed = $locked = 0;
 
 			foreach( (array) $post_ids as $post_id ) {
-				if ( !current_user_can($post_type_object->cap->delete_post, $post_id) )
+				if ( !current_user_can( 'delete_post', $post_id) )
 					wp_die( __('You are not allowed to move this item to the Trash.') );
 
 				if ( wp_check_post_lock( $post_id ) ) {
@@ -97,7 +97,7 @@ if ( $doaction ) {
 		case 'untrash':
 			$untrashed = 0;
 			foreach( (array) $post_ids as $post_id ) {
-				if ( !current_user_can($post_type_object->cap->delete_post, $post_id) )
+				if ( !current_user_can( 'delete_post', $post_id) )
 					wp_die( __('You are not allowed to restore this item from the Trash.') );
 
 				if ( !wp_untrash_post($post_id) )
@@ -112,7 +112,7 @@ if ( $doaction ) {
 			foreach( (array) $post_ids as $post_id ) {
 				$post_del = get_post($post_id);
 
-				if ( !current_user_can($post_type_object->cap->delete_post, $post_id) )
+				if ( !current_user_can( 'delete_post', $post_id ) )
 					wp_die( __('You are not allowed to delete this item.') );
 
 				if ( $post_del->post_type == 'attachment' ) {

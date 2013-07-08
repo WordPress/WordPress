@@ -1017,7 +1017,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( $update ) {
 			if ( ! get_post( $post_data['ID'] ) )
 				return new IXR_Error( 401, __( 'Invalid post ID.' ) );
-			if ( ! current_user_can( $post_type->cap->edit_post, $post_data['ID'] ) )
+			if ( ! current_user_can( 'edit_post', $post_data['ID'] ) )
 				return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit this post.' ) );
 			if ( $post_data['post_type'] != get_post_type( $post_data['ID'] ) )
 				return new IXR_Error( 401, __( 'The post type may not be changed.' ) );
@@ -1327,8 +1327,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( empty( $post['ID'] ) )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
-		$post_type = get_post_type_object( $post['post_type'] );
-		if ( ! current_user_can( $post_type->cap->delete_post, $post_id ) )
+		if ( ! current_user_can( 'delete_post', $post_id ) )
 			return new IXR_Error( 401, __( 'Sorry, you are not allowed to delete this post.' ) );
 
 		$result = wp_delete_post( $post_id );
@@ -1409,8 +1408,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( empty( $post['ID'] ) )
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
-		$post_type = get_post_type_object( $post['post_type'] );
-		if ( ! current_user_can( $post_type->cap->edit_post, $post_id ) )
+		if ( ! current_user_can( 'edit_post', $post_id ) )
 			return new IXR_Error( 401, __( 'Sorry, you cannot edit this post.' ) );
 
 		return $this->_prepare_post( $post, $fields );
@@ -1505,8 +1503,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$struct = array();
 
 		foreach ( $posts_list as $post ) {
-			$post_type = get_post_type_object( $post['post_type'] );
-			if ( ! current_user_can( $post_type->cap->edit_post, $post['ID'] ) )
+			if ( ! current_user_can( 'edit_post', $post['ID'] ) )
 				continue;
 
 			$struct[] = $this->_prepare_post( $post, $fields );

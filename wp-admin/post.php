@@ -139,7 +139,7 @@ case 'edit':
 	if ( ! $post_type_object )
 		wp_die( __( 'Unknown post type.' ) );
 
-	if ( ! current_user_can( $post_type_object->cap->edit_post, $post_id ) )
+	if ( ! current_user_can( 'edit_post', $post_id ) )
 		wp_die( __( 'You are not allowed to edit this item.' ) );
 
 	if ( 'trash' == $post->post_status )
@@ -235,7 +235,7 @@ case 'trash':
 	if ( ! $post_type_object )
 		wp_die( __( 'Unknown post type.' ) );
 
-	if ( ! current_user_can( $post_type_object->cap->delete_post, $post_id ) )
+	if ( ! current_user_can( 'delete_post', $post_id ) )
 		wp_die( __( 'You are not allowed to move this item to the Trash.' ) );
 
 	if ( $user_id = wp_check_post_lock( $post_id ) ) {
@@ -259,7 +259,7 @@ case 'untrash':
 	if ( ! $post_type_object )
 		wp_die( __( 'Unknown post type.' ) );
 
-	if ( ! current_user_can( $post_type_object->cap->delete_post, $post_id ) )
+	if ( ! current_user_can( 'delete_post', $post_id ) )
 		wp_die( __( 'You are not allowed to move this item out of the Trash.' ) );
 
 	if ( ! wp_untrash_post( $post_id ) )
@@ -278,7 +278,7 @@ case 'delete':
 	if ( ! $post_type_object )
 		wp_die( __( 'Unknown post type.' ) );
 
-	if ( ! current_user_can( $post_type_object->cap->delete_post, $post_id ) )
+	if ( ! current_user_can( 'delete_post', $post_id ) )
 		wp_die( __( 'You are not allowed to delete this item.' ) );
 
 	$force = ! EMPTY_TRASH_DAYS;
