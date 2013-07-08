@@ -1606,7 +1606,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	$response = array(
 		'id'          => $attachment->ID,
 		'title'       => $attachment->post_title,
-		'filename'    => basename( $attachment->guid ),
+		'filename'    => wp_basename( $attachment->guid ),
 		'url'         => $attachment_url,
 		'link'        => get_attachment_link( $attachment->ID ),
 		'alt'         => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
