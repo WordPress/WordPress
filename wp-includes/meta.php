@@ -716,7 +716,7 @@ class WP_Meta_Query {
 
 		// Split out the queries with empty arrays as value
 		foreach ( $this->queries as $k => $q ) {
-			if ( is_array( $q['value'] ) && empty( $q['value'] ) ) {
+			if ( isset( $q['value'] ) && is_array( $q['value'] ) && empty( $q['value'] ) ) {
 				$key_only_queries[$k] = $q;
 				unset( $this->queries[$k] );
 			}
