@@ -376,11 +376,7 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 <?php
 }
 
-if ( has_action( 'edit_form_after_title' ) ) {
-	echo '<div class="edit-form-section">';
-	do_action( 'edit_form_after_title', $post );
-	echo '</div>';
-}
+do_action( 'edit_form_after_title', $post );
 
 if ( post_type_supports($post_type, 'editor') ) {
 ?>
@@ -412,11 +408,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 </div>
 <?php }
 
-if ( has_action( 'edit_form_after_editor' ) ) {
-	echo '<div class="edit-form-section">';
-	do_action( 'edit_form_after_editor', $post );
-	echo '</div>';
-}
+do_action( 'edit_form_after_editor', $post );
 ?>
 </div><!-- /post-body-content -->
 
