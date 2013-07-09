@@ -3,7 +3,7 @@ window.wp = window.wp || {};
 (function($) {
 	var revisions;
 
-	revisions = wp.revisions = { model: {}, view: {}, controller: {}, router: {} };
+	revisions = wp.revisions = { model: {}, view: {}, controller: {} };
 
 	// Link settings.
 	revisions.settings = typeof _wpRevisionsSettings === 'undefined' ? {} : _wpRevisionsSettings;
@@ -202,7 +202,7 @@ window.wp = window.wp || {};
 			this.diffs = new revisions.model.Diffs( [], { revisions: this.revisions });
 			this.listenTo( this, 'change:from', this.updateDiff );
 			this.listenTo( this, 'change:to', this.updateDiff );
-			this.revisionsRouter = new revisions.router.Router({ model: this });
+			this.revisionsRouter = new revisions.Router({ model: this });
 		},
 
 		// So long as `from` and `to` are changed at the same time, the diff
@@ -791,7 +791,7 @@ window.wp = window.wp || {};
 
 	// The revisions router
 	// takes URLs with #hash fragments and routes them
-	revisions.router.Router = Backbone.Router.extend({
+	revisions.Router = Backbone.Router.extend({
 		initialize: function( options ) {
 			this.model = options.model;
 
