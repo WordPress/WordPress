@@ -169,16 +169,22 @@ $(document).ready( function() {
 	});
 
 	$('#collapse-menu').on('click.collapse-menu', function(e){
-		var body = $(document.body);
+		var body = $( document.body ), respWidth;
 
 		// reset any compensation for submenus near the bottom of the screen
 		$('#adminmenu div.wp-submenu').css('margin-top', '');
 
-		if ( $(window).width() < 900 ) {
+		// WebKit excludes the width of the vertical scrollbar when applying the CSS "@media screen and (max-width: ...)"
+		// and matches $(window).width().
+		// Firefox and IE > 8 include the scrollbar width, so after the jQuery normalization
+		// $(window).width() is 884px but window.innerWidth is 900px.
+		// (using window.innerWidth also excludes IE < 9)
+		respWidth = navigator.userAgent.indexOf('AppleWebKit/') > -1 ? $(window).width() : window.innerWidth;
+
+		if ( respWidth && respWidth < 900 ) {
 			if ( body.hasClass('auto-fold') ) {
-				body.removeClass('auto-fold');
+				body.removeClass('auto-fold').removeClass('folded');
 				setUserSetting('unfold', 1);
-				body.removeClass('folded');
 				deleteUserSetting('mfold');
 			} else {
 				body.addClass('auto-fold');
