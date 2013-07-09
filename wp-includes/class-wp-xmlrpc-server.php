@@ -3199,6 +3199,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	function _getOptions($options) {
 		$data = array();
+		$can_manage = current_user_can( 'manage_options' );
 		foreach ( $options as $option ) {
 			if ( array_key_exists( $option, $this->blog_options ) ) {
 				$data[$option] = $this->blog_options[$option];
@@ -3207,6 +3208,9 @@ class wp_xmlrpc_server extends IXR_Server {
 					$data[$option]['value'] = get_option( $data[$option]['option'] );
 					unset($data[$option]['option']);
 				}
+
+				if ( ! $can_manage )
+					$data[$option]['readonly'] = true;
 			}
 		}
 
