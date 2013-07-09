@@ -327,7 +327,6 @@ window.wp = window.wp || {};
 	// This contains the slider tickmarks.
 	revisions.view.Tickmarks = wp.Backbone.View.extend({
 		className: 'revisions-tickmarks',
-		template: wp.template('revisions-tickmarks'),
 
 		numberOfTickmarksSet: function() {
 			var tickCount = this.model.revisions.length - 1, // One tickmark per model
