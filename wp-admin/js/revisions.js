@@ -412,7 +412,7 @@ window.wp = window.wp || {};
 			this.model.set({ compareTwoMode: $('.compare-two-revisions').prop('checked') });
 
 			// Update route
-			this.model.revisionsRouter.navigateRoute( this.model.get('to').id, this.model.get('from').id );
+			this.model.revisionsRouter.updateUrl();
 		},
 
 		ready: function() {
@@ -498,7 +498,7 @@ window.wp = window.wp || {};
 			this.model.set( attributes );
 
 			// Update route
-			this.model.revisionsRouter.navigateRoute( attributes.to.id, attributes.from ? attributes.from.id : 0 );
+			this.model.revisionsRouter.updateUrl();
 		},
 
 		// Go to the 'next' revision, direction takes into account RTL mode.
@@ -796,27 +796,20 @@ window.wp = window.wp || {};
 			this.model = options.model;
 
 			// Maintain state history when dragging
-			this.listenTo( this.model, 'renderDiff', this.updateURL );
+			this.listenTo( this.model, 'renderDiff', _.debounce( this.updateUrl, 250 ) );
 		},
 
 		routes: {
 			'revision/from/:from/to/:to/handles/:handles': 'gotoRevisionId'
 		},
 
-		navigateRoute: function( to, from ) {
-			var navigateTo = '/revision/from/' + from + '/to/' + to + '/handles/';
-			if ( this.model.get('compareTwoMode') ) {
-				navigateTo += '2';
-			} else {
-				navigateTo += '1';
-			}
-			this.navigate( navigateTo );
-		},
+		updateUrl: function() {
+			var from = this.model.has('from') ? this.model.get('from').id : 0;
+			var to = this.model.get('to').id;
+			var handles = this.model.get('compareTwoMode') ? '2' : '1';
 
-		updateURL: _.debounce( function() {
-			var from = this.model.get('from');
-			this.navigateRoute( this.model.get('to').id, from ? from.id : 0 );
-		}, 250 ),
+			this.navigate( '/revision/from/' + from + '/to/' + to + '/handles/' + handles );
+		},
 
 		gotoRevisionId: function( from, to, handles ) {
 			from = parseInt( from, 10 );
