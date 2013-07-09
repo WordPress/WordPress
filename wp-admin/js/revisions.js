@@ -199,20 +199,18 @@ window.wp = window.wp || {};
 	revisions.model.FrameState = Backbone.Model.extend({
 		initialize: function( attributes, options ) {
 			this.revisions = options.revisions;
-			this.diffs     = new revisions.model.Diffs( [], {revisions: this.revisions} );
-			this.listenTo( this, 'change:from', this.updateDiffFrom );
-			this.listenTo( this, 'change:to', this.updateDiffTo );
+			this.diffs = new revisions.model.Diffs( [], { revisions: this.revisions });
+			this.listenTo( this, 'change:from', this.updateDiff );
+			this.listenTo( this, 'change:to', this.updateDiff );
 			this.revisionsRouter = new revisions.router.Router({ model: this });
 		},
 
-		updateDiffTo: function() {
-			var from = this.get( 'from' );
+		// So long as `from` and `to` are changed at the same time, the diff
+		// will only be updated once. This is because Backbone updates all of
+		// the changed attributes in `set`, and then fires the `change` events.
+		updateDiff: function() {
+			var from = this.get('from');
 			this.set( 'diffId', (from ? from.id : '0' ) + ':' + this.get('to').id );
-		},
-
-		updateDiffFrom: function() {
-			if ( this.get( 'compareTwoMode' ) )
-				this.updateDiffTo();
 		}
 	});
 
