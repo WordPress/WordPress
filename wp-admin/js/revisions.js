@@ -209,8 +209,26 @@ window.wp = window.wp || {};
 		// will only be updated once. This is because Backbone updates all of
 		// the changed attributes in `set`, and then fires the `change` events.
 		updateDiff: function() {
-			var from = this.get('from');
-			this.set( 'diffId', (from ? from.id : '0' ) + ':' + this.get('to').id );
+			var from, to, diffId;
+
+			from = this.get('from');
+			to = this.get('to');
+			diffId = ( from ? from.id : 0 ) + ':' + to.id;
+
+			// Check if we're actually changing the diff id.
+			if ( this._diffId === diffId )
+				return;
+
+			this._diffId = diffId;
+			this.trigger( 'update:revisions', from, to );
+
+			this.diffs.ensure( diffId, this ).done( function( diff ) {
+				// Check if the current diff changed while the request was in flight.
+				if ( this._diffId !== diff.id )
+					return;
+
+				this.trigger( 'update:diff', diff );
+			});
 		}
 	});
 
@@ -231,7 +249,7 @@ window.wp = window.wp || {};
 				revisions: this.collection
 			});
 
-			this.listenTo( this.model, 'change:diffId', this.updateDiff );
+			this.listenTo( this.model, 'update:diff', this.renderDiff );
 			this.listenTo( this.model, 'change:compareTwoMode', this.updateCompareTwoMode );
 
 			this.views.set( '.revisions-control-frame', new revisions.view.Controls({
@@ -264,17 +282,10 @@ window.wp = window.wp || {};
 			return this;
 		},
 
-		updateDiff: function() {
-			this.model.diffs.ensure( this.model.get('diffId'), this ).done( function( diff ) {
-				if ( this.model.get('diffId') !== diff.id )
-					return;
-
-				this.views.set( '.revisions-diff-frame', new revisions.view.Diff({
-					model: diff
-				}) );
-
-				this.model.trigger('renderDiff');
-			});
+		renderDiff: function( diff ) {
+			this.views.set( '.revisions-diff-frame', new revisions.view.Diff({
+				model: diff
+			}) );
 		},
 
 		updateCompareTwoMode: function() {
@@ -364,7 +375,7 @@ window.wp = window.wp || {};
 		},
 
 		initialize: function() {
-			this.listenTo( this.model, 'change:diffId', this.updateMeta );
+			this.listenTo( this.model, 'update:revisions', this.updateMeta );
 		},
 
 		restoreRevision: function() {
@@ -372,10 +383,10 @@ window.wp = window.wp || {};
 			document.location = restoreUrl;
 		},
 
-		updateMeta: function() {
+		updateMeta: function( from, to ) {
 			this.$el.html( this.template( this.model.toJSON() ) );
 
-			$('#restore-revision').prop( 'disabled', this.model.get('to').attributes.current );
+			$('#restore-revision').prop( 'disabled', to.attributes.current );
 		}
 	});
 
@@ -481,7 +492,7 @@ window.wp = window.wp || {};
 		},
 
 		ready: function() {
-			this.listenTo( this.model, 'change:diffId', this.disabledButtonCheck );
+			this.listenTo( this.model, 'update:revisions', this.disabledButtonCheck );
 		},
 
 		// Go to a specific modelindex, taking into account RTL mode.
@@ -582,8 +593,8 @@ window.wp = window.wp || {};
 				this.updateSliderSettings();
 			}, this );
 
-			// Listen for changes in the diffId
-			this.listenTo( this.model, 'change:diffId', this.diffIdChanged );
+			// Listen for changes to the revisions
+			this.listenTo( this.model, 'update:revisions', this.updateRevisions );
 		},
 
 		mousemove: function( e ) {
@@ -672,15 +683,15 @@ window.wp = window.wp || {};
 			}
 		},
 
-		diffIdChanged: function() {
-			// Reset the view settings when diffId is changed
+		updateRevisions: function( from, to ) {
+			// Update the view settings when the revisions have changed.
 			if ( this.model.get('compareTwoMode') ) {
 				this.settings.set({ 'values': [
-					this.model.revisions.indexOf( this.model.get('from') ),
-					this.model.revisions.indexOf( this.model.get('to') )
+					this.model.revisions.indexOf( from ),
+					this.model.revisions.indexOf( to )
 				] });
 			} else {
-				this.settings.set({ 'value': this.model.revisions.indexOf( this.model.get('to') ) });
+				this.settings.set({ 'value': this.model.revisions.indexOf( to ) });
 			}
 		},
 
