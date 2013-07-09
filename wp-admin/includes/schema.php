@@ -494,7 +494,8 @@ function populate_options() {
 	// Set autoload to no for these options
 	$fat_options = array( 'moderation_keys', 'recently_edited', 'blacklist_keys', 'uninstall_plugins' );
 
-	$existing_options = $wpdb->get_col("SELECT option_name FROM $wpdb->options");
+	$keys = "'" . implode( "', '", array_keys( $options ) ) . "'";
+	$existing_options = $wpdb->get_col( "SELECT option_name FROM $wpdb->options WHERE option_name in ( $keys )" );
 
 	$insert = '';
 	foreach ( $options as $option => $value ) {
