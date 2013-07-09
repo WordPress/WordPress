@@ -223,7 +223,6 @@ window.wp = window.wp || {};
 
 	// The frame view. This contains the entire page.
 	revisions.view.Frame = wp.Backbone.View.extend({
-		tagName: 'div',
 		className: 'revisions',
 		template: wp.template('revisions-frame'),
 
@@ -285,7 +284,6 @@ window.wp = window.wp || {};
 	// The control view.
 	// This contains the revision slider, previous/next buttons, the meta info and the compare checkbox.
 	revisions.view.Controls = wp.Backbone.View.extend({
-		tagName: 'div',
 		className: 'revisions-controls',
 
 		initialize: function() {
@@ -327,7 +325,6 @@ window.wp = window.wp || {};
 	// The tickmarks view
 	// This contains the slider tickmarks.
 	revisions.view.Tickmarks = wp.Backbone.View.extend({
-		tagName: 'div',
 		className: 'revisions-tickmarks',
 		template: wp.template('revisions-tickmarks'),
 
@@ -359,7 +356,6 @@ window.wp = window.wp || {};
 	// The meta view.
 	// This contains the revision meta, and the restore button.
 	revisions.view.Meta = wp.Backbone.View.extend({
-		tagName: 'div',
 		className: 'revisions-meta',
 		template: wp.template('revisions-meta'),
 
@@ -386,7 +382,6 @@ window.wp = window.wp || {};
 	// The checkbox view.
 	// Encapsulates all of the configuration for the compare checkbox.
 	revisions.view.Checkbox = wp.Backbone.View.extend({
-		tagName: 'div',
 		className: 'revisions-checkbox',
 		template: wp.template( 'revisions-checkbox' ),
 
@@ -436,7 +431,6 @@ window.wp = window.wp || {};
 	// The tooltip view.
 	// Encapsulates the tooltip.
 	revisions.view.Tooltip = wp.Backbone.View.extend({
-		tagName: 'div',
 		className: 'revisions-tooltip',
 		template: wp.template( 'revisions-tooltip' ),
 
@@ -474,7 +468,6 @@ window.wp = window.wp || {};
 	// The buttons view.
 	// Encapsulates all of the configuration for the previous/next buttons.
 	revisions.view.Buttons = wp.Backbone.View.extend({
-		tagName: 'div',
 		className: 'revisions-buttons',
 		template: wp.template( 'revisions-buttons' ),
 
@@ -542,7 +535,6 @@ window.wp = window.wp || {};
 	// The slider view.
 	// Encapsulates all of the configuration for the jQuery UI slider into a view.
 	revisions.view.Slider = wp.Backbone.View.extend({
-		tagName: 'div',
 		className: 'wp-slider',
 
 		events: {
@@ -788,7 +780,6 @@ window.wp = window.wp || {};
 	// The diff view.
 	// This is the view for the current active diff.
 	revisions.view.Diff = wp.Backbone.View.extend({
-		tagName: 'div',
 		className: 'revisions-diff',
 		template: wp.template('revisions-diff'),
 
