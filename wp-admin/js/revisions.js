@@ -202,7 +202,7 @@ window.wp = window.wp || {};
 			this.diffs = new revisions.model.Diffs( [], { revisions: this.revisions });
 			this.listenTo( this, 'change:from', this.updateDiff );
 			this.listenTo( this, 'change:to', this.updateDiff );
-			this.revisionsRouter = new revisions.Router({ model: this });
+			this.router = new revisions.Router({ model: this });
 		},
 
 		// So long as `from` and `to` are changed at the same time, the diff
@@ -412,7 +412,7 @@ window.wp = window.wp || {};
 			this.model.set({ compareTwoMode: $('.compare-two-revisions').prop('checked') });
 
 			// Update route
-			this.model.revisionsRouter.updateUrl();
+			this.model.router.updateUrl();
 		},
 
 		ready: function() {
@@ -498,7 +498,7 @@ window.wp = window.wp || {};
 			this.model.set( attributes );
 
 			// Update route
-			this.model.revisionsRouter.updateUrl();
+			this.model.router.updateUrl();
 		},
 
 		// Go to the 'next' revision, direction takes into account RTL mode.
