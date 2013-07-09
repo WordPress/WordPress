@@ -8,6 +8,14 @@ window.wp = window.wp || {};
 	// Link settings.
 	revisions.settings = typeof _wpRevisionsSettings === 'undefined' ? {} : _wpRevisionsSettings;
 
+	// For debugging
+	revisions.debug = true;
+
+	revisions.log = function() {
+		if ( revisions.debug )
+			console.log.apply( console, arguments );
+	}
+
 	// wp_localize_script transforms top-level numbers into strings. Undo that.
 	if ( revisions.settings.selectedRevision )
 		revisions.settings.selectedRevision = parseInt( revisions.settings.selectedRevision, 10 );
@@ -111,39 +119,48 @@ window.wp = window.wp || {};
 		},
 
 		loadNew: function( comparisons ) {
-			comparisons = _.object( comparisons, comparisons );
-			_.each( comparisons, _.bind( function( id ) {
-				// Exists
-				if ( this.get( id ) )
-					delete comparisons[ id ];
-			}, this ) );
-			comparisons = _.toArray( comparisons );
-			return this.load( comparisons );
+			var self = this;
+			_.each( comparisons, function( id, index ) {
+				// Already exists in collection. Don't request it again.
+				if ( self.get( id ) )
+					delete comparisons[ index ];
+			});
+			wp.revisions.log( 'loadNew', comparisons );
+
+			if ( comparisons.length )
+				return this.load( comparisons );
+			else
+				return $.Deferred().resolve().promise();
 		},
 
 		load: function( comparisons ) {
+			wp.revisions.log( 'load', comparisons );
 			// Our collection should only ever grow, never shrink, so remove: false
 			return this.fetch({ data: { compare: comparisons }, remove: false });
 		},
 
 		loadLast: function( num ) {
-			num     = num || 1;
-			var ids = this.getProximalDiffIds();
-			ids     = _.last( ids, num );
+			var ids;
 
-			if ( ids.length ) {
+			num = num || 1;
+			ids = _.last( this.getProximalDiffIds(), num );
+
+			if ( ids.length )
 				return this.loadNew( ids );
-			}
+			else
+				return $.Deferred().resolve().promise();
 		},
 
 		loadLastUnloaded: function( num ) {
-			num     = num || 1;
-			var ids = this.getUnloadedProximalDiffIds();
-			ids     = _.last( ids, num );
+			var ids;
 
-			if ( ids.length ) {
+			num = num || 1;
+			ids = _.last( this.getUnloadedProximalDiffIds(), num );
+
+			if ( ids.length )
 				return this.loadNew( ids );
-			}
+			else
+				return $.Deferred().resolve().promise();
 		},
 
 		getProximalDiffIds: function() {
@@ -235,7 +252,29 @@ window.wp = window.wp || {};
 
 			this.listenTo( this, 'change:from', this.changeRevisionHandler );
 			this.listenTo( this, 'change:to', this.changeRevisionHandler );
+			this.listenTo( this, 'update:revisions', this.loadSurrounding );
+			this.listenTo( this, 'change:compareTwoMode', this.changedMode );
 			this.updateDiff({ immediate: true });
+		},
+
+		changedMode: function() {
+			// This isn't passed from/to so we grab them from the model
+			this.loadSurrounding( this.get( 'from' ), this.get( 'to' ) );
+		},
+
+		loadSurrounding: function( from, to ) {
+			// Different strategies for single and compare-two models
+			if ( this.get( 'compareTwoMode' ) ) {
+				// TODO: compare-two loading strategy
+			} else {
+				// TODO: clean this up to hook in to the ensure process
+				if ( this.revisions.length ) {
+					// Load the rest: first 10, then the rest by 50
+					this.diffs.loadLastUnloaded( 10 ).always( _.bind( function() {
+						this.diffs.loadAllBy( 50 );
+					}, this ) );
+				}
+			}
 		},
 
 		// Fetch the currently loaded diff.
@@ -314,14 +353,6 @@ window.wp = window.wp || {};
 			this.views.set( '.revisions-control-frame', new revisions.view.Controls({
 				model: this.model
 			}) );
-
-			// TODO: The rest of this method should be rewritten and moved into the FrameState.
-			if ( this.model.revisions.length ) {
-				// Load the rest: first 10, then the rest by 50
-				this.model.diffs.loadLastUnloaded( 10 ).always( _.bind( function() {
-					this.model.diffs.loadAllBy( 50 );
-				}, this ) );
-			}
 		},
 
 		render: function() {
