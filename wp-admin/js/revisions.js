@@ -554,7 +554,7 @@ window.wp = window.wp || {};
 			// Find the initially selected revision
 			var initiallySelectedRevisionIndex =
 				this.model.revisions.indexOf(
-					this.model.revisions.findWhere({ id: Number( revisions.settings.selectedRevision ) }) );
+					this.model.revisions.findWhere({ id: revisions.settings.selectedRevision }) );
 
 			this.settings = new revisions.model.Slider({
 				max:   latestRevisionIndex,
@@ -568,7 +568,7 @@ window.wp = window.wp || {};
 		ready: function() {
 			// Refresh the currently selected revision position in case router has set it.
 			this.settings.attributes.value = this.model.revisions.indexOf(
-				this.model.revisions.findWhere({ id: Number( revisions.settings.selectedRevision ) }) );
+				this.model.revisions.findWhere({ id: revisions.settings.selectedRevision }) );
 
 			// And update the slider in case the route has set it.
 			this.updateSliderSettings();
@@ -819,11 +819,14 @@ window.wp = window.wp || {};
 		}, 250 ),
 
 		gotoRevisionId: function( from, to, handles ) {
-			this.model.set( { compareTwoMode: ( '2' === handles ) } );
+			from = parseInt( from, 10 );
+			to = parseInt( to, 10 );
+
+			this.model.set({ compareTwoMode: ( '2' === handles ) });
 
 			if ( 'undefined' !== typeof this.model ) {
-				var selectedToRevision = this.model.revisions.findWhere({ 'id': Number( to ) }),
-					selectedFromRevision = this.model.revisions.findWhere({ 'id': Number( from ) });
+				var selectedToRevision = this.model.revisions.findWhere({ id: to }),
+					selectedFromRevision = this.model.revisions.findWhere({ id: from });
 
 				this.model.set({
 					to: selectedToRevision,
