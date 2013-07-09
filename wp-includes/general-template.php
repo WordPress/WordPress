@@ -25,7 +25,8 @@ function get_header( $name = null ) {
 	do_action( 'get_header', $name );
 
 	$templates = array();
-	if ( isset($name) )
+	$name = (string) $name;
+	if ( '' !== $name )
 		$templates[] = "header-{$name}.php";
 
 	$templates[] = 'header.php';
@@ -54,7 +55,8 @@ function get_footer( $name = null ) {
 	do_action( 'get_footer', $name );
 
 	$templates = array();
-	if ( isset($name) )
+	$name = (string) $name;
+	if ( null !== $name && false !== $name )
 		$templates[] = "footer-{$name}.php";
 
 	$templates[] = 'footer.php';
@@ -83,7 +85,8 @@ function get_sidebar( $name = null ) {
 	do_action( 'get_sidebar', $name );
 
 	$templates = array();
-	if ( isset($name) )
+	$name = (string) $name;
+	if ( '' !== $name )
 		$templates[] = "sidebar-{$name}.php";
 
 	$templates[] = 'sidebar.php';
@@ -120,7 +123,8 @@ function get_template_part( $slug, $name = null ) {
 	do_action( "get_template_part_{$slug}", $slug, $name );
 
 	$templates = array();
-	if ( isset($name) )
+	$name = (string) $name;
+	if ( '' !== $name )
 		$templates[] = "{$slug}-{$name}.php";
 
 	$templates[] = "{$slug}.php";
