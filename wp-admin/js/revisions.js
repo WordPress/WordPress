@@ -278,10 +278,7 @@ window.wp = window.wp || {};
 		},
 
 		updateCompareTwoMode: function() {
-			if ( this.model.get( 'compareTwoMode' ) )
-				this.$el.addClass( 'comparing-two-revisions' );
-			else
-				this.$el.removeClass( 'comparing-two-revisions' );
+			this.$el.toggleClass( 'comparing-two-revisions', this.model.get('compareTwoMode') );
 		}
 	});
 
