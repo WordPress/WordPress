@@ -160,21 +160,12 @@ function get_the_guid( $id = 0 ) {
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
- * @param int $id Optional. A post id. Defaults to the current post when in The Loop, undefined otherwise.
  */
-function the_content( $more_link_text = null, $strip_teaser = false, $id = 0 ) {
-	$post = get_post( $id );
-
-	/*
-	 * Filter: the_content
-	 *
-	 * param string Post content as returned by get_the_content()
-	 * param int The ID of the post to which the content belongs. This was introduced
-	 *           in 3.6.0 and is not reliably passed by all plugins and themes that
-	 *           directly apply the_content. As such, it is not considered portable.
-	 */
-	$content = apply_filters( 'the_content', get_the_content( $more_link_text, $strip_teaser, $post->ID ), $post->ID );
-	echo str_replace( ']]>', ']]&gt;', $content );
+function the_content( $more_link_text = null, $strip_teaser = false) {
+	$content = get_the_content( $more_link_text, $strip_teaser );
+	$content = apply_filters( 'the_content', $content );
+	$content = str_replace( ']]>', ']]&gt;', $content );
+	echo $content;
 }
 
 /**
@@ -184,19 +175,12 @@ function the_content( $more_link_text = null, $strip_teaser = false, $id = 0 ) {
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
- * @param int $id Optional. A post id. Defaults to the current post when in The Loop, undefined otherwise.
  * @return string
  */
-function get_the_content( $more_link_text = null, $strip_teaser = false, $id = 0 ) {
-	global $page, $more, $preview;
+function get_the_content( $more_link_text = null, $strip_teaser = false ) {
+	global $page, $more, $preview, $pages, $multipage;
 
-	$post = get_post( $id );
-	// Avoid parsing again if the post is the same one parsed by setup_postdata().
-	// The extract() will set up $pages and $multipage.
-	if ( $post->ID != get_post()->ID )
-		extract( wp_parse_post_content( $post, false ) );
-	else
-		global $pages, $multipage;
+	$post = get_post();
 
 	if ( null === $more_link_text )
 		$more_link_text = __( '(more&hellip;)' );

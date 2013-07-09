@@ -4970,28 +4970,3 @@ function _prime_post_caches( $ids, $update_term_cache = true, $update_meta_cache
 		update_post_caches( $fresh_posts, 'any', $update_term_cache, $update_meta_cache );
 	}
 }
-
-/**
- * Parse post content for pagination
- *
- * @since 3.6.0
- *
- * @uses paginate_content()
- *
- * @param object $post The post object.
- * @return array An array of values used for paginating the parsed content.
- */
-function wp_parse_post_content( $post ) {
-	$numpages = 1;
-
-	if ( strpos( $post->post_content, '<!--nextpage-->' ) ) {
-		$multipage = 1;
-		$pages = paginate_content( $post->post_content );
-		$numpages = count( $pages );
-	} else {
-		$pages = array( $post->post_content );
-		$multipage = 0;
-	}
-
-	return compact( 'multipage', 'pages', 'numpages' );
-}
