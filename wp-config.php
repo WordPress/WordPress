@@ -1,5 +1,8 @@
 <?php
 
+// Don't show deprecations
+error_reporting(E_ALL ^ E_DEPRECATED);
+
 if (isset($_SERVER['PANTHEON_ENVIRONMENT'])) {
   // Tweak #1
   // Load database settings from PRESSFLOW_SETTINGS environment variable...
