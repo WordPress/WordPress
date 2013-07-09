@@ -101,6 +101,6 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id ) {
 		'postId'           => $post->ID,
 		'nonce'            => wp_create_nonce( 'revisions-ajax-nonce' ),
 		'revisionData'     => array_values( $revisions ),
-		'selectedRevision' => (int) $selected_revision_id,
+		'selectedRevision' => $selected_revision_id,
 	);
 }

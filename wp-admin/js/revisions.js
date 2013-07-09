@@ -8,6 +8,10 @@ window.wp = window.wp || {};
 	// Link settings.
 	revisions.settings = typeof _wpRevisionsSettings === 'undefined' ? {} : _wpRevisionsSettings;
 
+	// wp_localize_script transforms top-level numbers into strings. Undo that.
+	if ( revisions.settings.selectedRevision )
+		revisions.settings.selectedRevision = parseInt( revisions.settings.selectedRevision, 10 );
+
 
 	/**
 	 * ========================================================================
@@ -37,6 +41,20 @@ window.wp = window.wp || {};
 
 		comparator: function( revision ) {
 			return revision.id;
+		},
+
+		next: function( revision ) {
+			var index = this.indexOf( revision );
+
+			if ( index !== -1 && index !== this.length - 1 )
+				return this.at( index + 1 );
+		},
+
+		prev: function( revision ) {
+			var index = this.indexOf( revision );
+
+			if ( index !== -1 && index !== 0 )
+				return this.at( index - 1 );
 		}
 	});
 
@@ -198,19 +216,40 @@ window.wp = window.wp || {};
 
 	revisions.model.FrameState = Backbone.Model.extend({
 		initialize: function( attributes, options ) {
+			var properties = {};
+
+			this._debouncedEnsureDiff = _.debounce( this._ensureDiff, 200 );
+
 			this.revisions = options.revisions;
 			this.diffs = new revisions.model.Diffs( [], { revisions: this.revisions });
-			this.listenTo( this, 'change:from', this.updateDiff );
-			this.listenTo( this, 'change:to', this.updateDiff );
+
+			// Set the initial revision provided through the settings.
+			properties.to = this.revisions.get( revisions.settings.selectedRevision );
+			properties.from = this.revisions.prev( properties.to );
+			this.set( properties );
+
+			// Start the router. This will trigger a navigate event and ensure that
+			// the `from` and `to` revisions accurately reflect the hash.
 			this.router = new revisions.Router({ model: this });
+			Backbone.history.start();
+
+			this.listenTo( this, 'change:from', this.changeRevisionHandler );
+			this.listenTo( this, 'change:to', this.changeRevisionHandler );
+			this.updateDiff({ immediate: true });
+		},
+
+		// Fetch the currently loaded diff.
+		diff: function() {
+			return this.diffs.get( this._diffId );
 		},
 
 		// So long as `from` and `to` are changed at the same time, the diff
 		// will only be updated once. This is because Backbone updates all of
 		// the changed attributes in `set`, and then fires the `change` events.
-		updateDiff: function() {
-			var from, to, diffId;
+		updateDiff: function( options ) {
+			var from, to, diffId, diff;
 
+			options = options || {};
 			from = this.get('from');
 			to = this.get('to');
 			diffId = ( from ? from.id : 0 ) + ':' + to.id;
@@ -222,12 +261,31 @@ window.wp = window.wp || {};
 			this._diffId = diffId;
 			this.trigger( 'update:revisions', from, to );
 
-			this.diffs.ensure( diffId, this ).done( function( diff ) {
-				// Check if the current diff changed while the request was in flight.
-				if ( this._diffId !== diff.id )
-					return;
-
+			// If we already have the diff, then immediately trigger the update.
+			diff = this.diffs.get( diffId );
+			if ( diff ) {
 				this.trigger( 'update:diff', diff );
+
+			// Otherwise, fetch the diff.
+			} else {
+				if ( options.immediate )
+					this._ensureDiff();
+				else
+					this._debouncedEnsureDiff();
+			}
+		},
+
+		// A simple wrapper around `updateDiff` to prevent the change event's
+		// parameters from being passed through.
+		changeRevisionHandler: function( model, value, options ) {
+			this.updateDiff();
+		},
+
+		_ensureDiff: function() {
+			this.diffs.ensure( this._diffId, this ).done( function( diff ) {
+				// Make sure the current diff didn't change while the request was in flight.
+				if ( this._diffId === diff.id )
+					this.trigger( 'update:diff', diff );
 			});
 		}
 	});
@@ -245,6 +303,7 @@ window.wp = window.wp || {};
 		template: wp.template('revisions-frame'),
 
 		initialize: function() {
+			// Generate the frame model.
 			this.model = new revisions.model.FrameState({}, {
 				revisions: this.collection
 			});
@@ -256,21 +315,13 @@ window.wp = window.wp || {};
 				model: this.model
 			}) );
 
+			// TODO: The rest of this method should be rewritten and moved into the FrameState.
 			if ( this.model.revisions.length ) {
-				var last = this.model.revisions.last(2);
-				var attributes = { to: last.pop() };
-
-				if ( last.length )
-					attributes.from = last.pop();
-
-				this.model.set( attributes );
-
 				// Load the rest: first 10, then the rest by 50
 				this.model.diffs.loadLastUnloaded( 10 ).always( _.bind( function() {
 					this.model.diffs.loadAllBy( 50 );
 				}, this ) );
 			}
-			Backbone.history.start();
 		},
 
 		render: function() {
@@ -807,7 +858,7 @@ window.wp = window.wp || {};
 			this.model = options.model;
 
 			// Maintain state history when dragging
-			this.listenTo( this.model, 'renderDiff', _.debounce( this.updateUrl, 250 ) );
+			this.listenTo( this.model, 'update:diff', _.debounce( this.updateUrl, 250 ) );
 		},
 
 		routes: {
