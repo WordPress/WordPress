@@ -3656,12 +3656,15 @@ function setup_postdata( $post ) {
 	if ( is_single() || is_page() || is_feed() )
 		$more = 1;
 	$content = $post->post_content;
-	if ( strpos( $content, '<!--nextpage-->' ) ) {
+	if ( false !== strpos( $content, '<!--nextpage-->' ) ) {
 		if ( $page > 1 )
 			$more = 1;
 		$content = str_replace( "\n<!--nextpage-->\n", '<!--nextpage-->', $content );
 		$content = str_replace( "\n<!--nextpage-->", '<!--nextpage-->', $content );
 		$content = str_replace( "<!--nextpage-->\n", '<!--nextpage-->', $content );
+		// Ignore nextpage at the beginning of the content.
+		if ( 0 === strpos( $content, '<!--nextpage-->' ) )
+			$content = substr( $content, 15 );
 		$pages = explode('<!--nextpage-->', $content);
 		$numpages = count($pages);
 		if ( $numpages > 1 )
