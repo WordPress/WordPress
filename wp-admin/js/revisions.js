@@ -14,7 +14,7 @@ window.wp = window.wp || {};
 	revisions.log = function() {
 		if ( revisions.debug )
 			console.log.apply( console, arguments );
-	}
+	};
 
 	// wp_localize_script transforms top-level numbers into strings. Undo that.
 	if ( revisions.settings.selectedRevision )
@@ -47,8 +47,13 @@ window.wp = window.wp || {};
 	revisions.model.Revisions = Backbone.Collection.extend({
 		model: revisions.model.Revision,
 
-		comparator: function( revision ) {
-			return revision.id;
+		comparator: function( a, b ) {
+			var a_ = a.get('dateUnix');
+			var b_ = b.get('dateUnix');
+			var cmp = (a_ > b_) - (a_ < b_);
+			if (cmp === 0 && a.id != b.id)
+				cmp = a.id < b.id ? -1 : 1;
+			return cmp;
 		},
 
 		next: function( revision ) {

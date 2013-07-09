@@ -90,6 +90,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id ) {
 			),
 			'date'         => date_i18n( __( 'M j, Y @ G:i' ), $modified_gmt ),
 			'dateShort'    => date_i18n( _x( 'j M @ G:i', 'revision date short format' ), $modified_gmt ),
+			'dateUnix'     => $modified_gmt,
 			'timeAgo'      => human_time_diff( $modified_gmt, $current ),
 			'autosave'     => wp_is_post_autosave( $revision ),
 			'current'      => $revision->post_modified_gmt === $post->post_modified_gmt,
