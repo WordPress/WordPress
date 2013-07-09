@@ -56,7 +56,7 @@ function get_footer( $name = null ) {
 
 	$templates = array();
 	$name = (string) $name;
-	if ( null !== $name && false !== $name )
+	if ( '' !== $name )
 		$templates[] = "footer-{$name}.php";
 
 	$templates[] = 'footer.php';
