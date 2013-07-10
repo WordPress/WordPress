@@ -6,7 +6,7 @@ window.wp = window.wp || {};
 	revisions = wp.revisions = { model: {}, view: {}, controller: {} };
 
 	// Link settings.
-	revisions.settings = typeof _wpRevisionsSettings === 'undefined' ? {} : _wpRevisionsSettings;
+	revisions.settings = _.isUndefined( _wpRevisionsSettings ) ? {} : _wpRevisionsSettings;
 
 	// For debugging
 	revisions.debug = true;
@@ -718,7 +718,7 @@ window.wp = window.wp || {};
 
 				// In single handle mode, the 1st stored revision is 'blank' and the 'from' model is not set
 				// In this case we move the to index over one
-				if ( 'undefined' == typeof this.model.get('from') ) {
+				if ( _.isUndefined( this.model.get('from') ) ) {
 					if ( isRtl ) {
 						leftValue  = this.model.revisions.length -  this.model.revisions.indexOf( this.model.get('to') ) - 2;
 						rightValue = leftValue + 1;
@@ -836,7 +836,7 @@ window.wp = window.wp || {};
 		slide: function( event, ui ) {
 			var attributes;
 			// Compare two revisions mode
-			if ( 'undefined' !== typeof ui.values && this.model.get('compareTwoMode') ) {
+			if ( ! _.isUndefined( ui.values ) && this.model.get('compareTwoMode') ) {
 				// Prevent sliders from occupying same spot
 				if ( ui.values[1] === ui.values[0] )
 					return false;
@@ -893,24 +893,37 @@ window.wp = window.wp || {};
 		},
 
 		routes: {
-			'revision/from/:from/to/:to/handles/:handles': 'gotoRevisionId'
+			'from/:from/to/:to': 'handleRoute',
+			'at/:to': 'routeSingle'
 		},
 
 		updateUrl: function() {
 			var from = this.model.has('from') ? this.model.get('from').id : 0;
 			var to = this.model.get('to').id;
-			var handles = this.model.get('compareTwoMode') ? '2' : '1';
-
-			this.navigate( '/revision/from/' + from + '/to/' + to + '/handles/' + handles );
+			if ( this.model.get('compareTwoMode' ) )
+				this.navigate( 'from/' + from + '/to/' + to );
+			else
+				this.navigate( 'at/' + to );
 		},
 
-		gotoRevisionId: function( from, to, handles ) {
-			from = parseInt( from, 10 );
-			to = parseInt( to, 10 );
+		handleRoute: function( a, b ) {
+			var from, to, compareTwo;
 
-			this.model.set({ compareTwoMode: ( '2' === handles ) });
+			// If `b` is undefined, this was a 'revision/:to' route
+			if ( _.isUndefined( b ) ) {
+				b = a;
+				a = 0;
+				compareTwo = true;
+			} else {
+				compareTwo = false;
+			}
 
-			if ( 'undefined' !== typeof this.model ) {
+			from = parseInt( a, 10 );
+			to = parseInt( b, 10 );
+
+			this.model.set({ compareTwoMode: compareTwo });
+
+			if ( ! _.isUndefined( this.model ) ) {
 				var selectedToRevision = this.model.revisions.findWhere({ id: to }),
 					selectedFromRevision = this.model.revisions.findWhere({ id: from });
 
