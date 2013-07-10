@@ -281,6 +281,7 @@ body {
 
 body.iframe {
 	min-width: 0;
+	padding-top: 1px;
 }
 
 body.login {
