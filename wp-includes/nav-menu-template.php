@@ -179,17 +179,17 @@ function wp_nav_menu( $args = array() ) {
 
 	/*
 	 * If no menu was found:
-	 *  - Fallback (if one was specified), or bail.
+	 *  - Fall back (if one was specified), or bail.
 	 *
 	 * If no menu items were found:
-	 *  - Fallback, but only if no theme location was specified.
+	 *  - Fall back, but only if no theme location was specified.
 	 *  - Otherwise, bail.
 	 */
 	if ( ( !$menu || is_wp_error($menu) || ( isset($menu_items) && empty($menu_items) && !$args->theme_location ) )
 		&& $args->fallback_cb && is_callable( $args->fallback_cb ) )
 			return call_user_func( $args->fallback_cb, (array) $args );
 
-	if ( !$menu || is_wp_error( $menu ) || empty( $menu_items ) )
+	if ( ! $menu || is_wp_error( $menu ) )
 		return false;
 
 	$nav_menu = $items = '';
@@ -238,6 +238,10 @@ function wp_nav_menu( $args = array() ) {
 	// Allow plugins to hook into the menu to add their own <li>'s
 	$items = apply_filters( 'wp_nav_menu_items', $items, $args );
 	$items = apply_filters( "wp_nav_menu_{$menu->slug}_items", $items, $args );
+
+	// Don't print any markup if there are no items at this point.
+	if ( empty( $items ) )
+		return false;
 
 	$nav_menu .= sprintf( $args->items_wrap, esc_attr( $wrap_id ), esc_attr( $wrap_class ), $items );
 	unset( $items );
