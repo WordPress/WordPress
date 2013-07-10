@@ -133,6 +133,9 @@ class WP_Scripts extends WP_Dependencies {
 	 * Localizes only if the script has already been added
 	 */
 	function localize( $handle, $object_name, $l10n ) {
+		if ( $handle === 'jquery' )
+			$handle = 'jquery-core';
+
 		if ( is_array($l10n) && isset($l10n['l10n_print_after']) ) { // back compat, preserve the code in 'l10n_print_after' if present
 			$after = $l10n['l10n_print_after'];
 			unset($l10n['l10n_print_after']);
