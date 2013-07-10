@@ -130,7 +130,7 @@ require_once( './admin-header.php' );
 	<div class="revisions-tooltip-content">
 	<# if ( 'undefined' !== typeof data && 'undefined' !== typeof data.author ) { #>
 			{{{ data.author.avatar }}} {{{ data.author.name }}},
-			{{{ data.timeAgo }}} <?php _e( 'ago' ); ?>
+			{{{ data.timeAgo }}}
 			({{{ data.dateShort }}})
 	<# } #>
 	</div>
@@ -159,7 +159,7 @@ require_once( './admin-header.php' );
 				<strong><?php _ex( 'From:', 'Followed by post revision info' ); ?></strong>
 				<# if ( 'undefined' !== typeof data.from ) { #>
 					{{{ data.from.attributes.author.avatar }}} {{{ data.from.attributes.author.name }}},
-					{{{ data.from.attributes.timeAgo }}} <?php _e( 'ago' ); ?>
+					{{{ data.from.attributes.timeAgo }}}
 					({{{ data.from.attributes.dateShort }}})
 				<# } #>
 			</div>
@@ -171,7 +171,7 @@ require_once( './admin-header.php' );
 				<strong><?php _ex( 'To:', 'Followed by post revision info' ); ?></strong>
 				<# if ( 'undefined' !== typeof data.to ) { #>
 					{{{ data.to.attributes.author.avatar }}} {{{ data.to.attributes.author.name }}},
-					{{{ data.to.attributes.timeAgo }}} <?php _e( 'ago' ); ?>
+					{{{ data.to.attributes.timeAgo }}}
 					({{{ data.to.attributes.dateShort }}})
 				<# } #>
 			</div>
