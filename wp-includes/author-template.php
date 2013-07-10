@@ -372,10 +372,10 @@ function wp_list_authors($args = '') {
 function is_multi_author() {
 	global $wpdb;
 
-	if ( false === ( $is_multi_author = wp_cache_get('is_multi_author', 'posts') ) ) {
+	if ( false === ( $is_multi_author = get_transient( 'is_multi_author' ) ) ) {
 		$rows = (array) $wpdb->get_col("SELECT DISTINCT post_author FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' LIMIT 2");
 		$is_multi_author = 1 < count( $rows ) ? 1 : 0;
-		wp_cache_set('is_multi_author', $is_multi_author, 'posts');
+		set_transient( 'is_multi_author', $is_multi_author );
 	}
 
 	return apply_filters( 'is_multi_author', (bool) $is_multi_author );
@@ -387,6 +387,6 @@ function is_multi_author() {
  * @private
  */
 function __clear_multi_author_cache() {
-	wp_cache_delete('is_multi_author', 'posts');
+	delete_transient( 'is_multi_author' );
 }
 add_action('transition_post_status', '__clear_multi_author_cache');
