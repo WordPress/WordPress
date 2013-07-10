@@ -1427,11 +1427,7 @@ function __get_option($setting) {
 	if ( 'siteurl' == $setting || 'home' == $setting || 'category_base' == $setting || 'tag_base' == $setting )
 		$option = untrailingslashit( $option );
 
-	@ $kellogs = unserialize( $option );
-	if ( $kellogs !== false )
-		return $kellogs;
-	else
-		return $option;
+	return maybe_unserialize( $option );
 }
 
 /**
