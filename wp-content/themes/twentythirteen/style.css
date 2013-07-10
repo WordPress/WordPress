@@ -625,7 +625,7 @@ input[type="reset"]:active {
 	padding: 5px 24px 6px;
 }
 
-/* Placeholder text color -- selectors need to be in separate to work. */
+/* Placeholder text color -- selectors need to be separate to work. */
 ::-webkit-input-placeholder {
 	color: #7d7b6d;
 }
