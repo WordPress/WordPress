@@ -259,7 +259,6 @@ window.wp = window.wp || {};
 			this.listenTo( this, 'change:to', this.changeRevisionHandler );
 			this.listenTo( this, 'update:revisions', this.loadSurrounding );
 			this.listenTo( this, 'change:compareTwoMode', this.changedMode );
-			this.updateDiff({ immediate: true });
 		},
 
 		changedMode: function() {
@@ -300,7 +299,7 @@ window.wp = window.wp || {};
 
 			// Check if we're actually changing the diff id.
 			if ( this._diffId === diffId )
-				return;
+				return $.Deferred().fail().promise();
 
 			this._diffId = diffId;
 			this.trigger( 'update:revisions', from, to );
@@ -309,13 +308,15 @@ window.wp = window.wp || {};
 			diff = this.diffs.get( diffId );
 			if ( diff ) {
 				this.trigger( 'update:diff', diff );
-
+				return $.Deferred().resolve().promise();
 			// Otherwise, fetch the diff.
 			} else {
-				if ( options.immediate )
-					this._ensureDiff();
-				else
+				if ( options.immediate ) {
+					return this._ensureDiff();
+				} else {
 					this._debouncedEnsureDiff();
+					return $.Deferred().fail().promise();
+				}
 			}
 		},
 
@@ -326,7 +327,7 @@ window.wp = window.wp || {};
 		},
 
 		_ensureDiff: function() {
-			this.diffs.ensure( this._diffId, this ).done( function( diff ) {
+			return this.diffs.ensure( this._diffId, this ).done( function( diff ) {
 				// Make sure the current diff didn't change while the request was in flight.
 				if ( this._diffId === diff.id )
 					this.trigger( 'update:diff', diff );
@@ -361,10 +362,12 @@ window.wp = window.wp || {};
 		},
 
 		render: function() {
-			wp.Backbone.View.prototype.render.apply( this, arguments );
+			this.model.updateDiff({ immediate: true }).done( _.bind( function() {
+				wp.Backbone.View.prototype.render.apply( this, arguments );
 
-			$('#wpbody-content .wrap').append( this.el );
-			this.views.ready();
+				$('#wpbody-content .wrap').append( this.el );
+				this.views.ready();
+			}, this ) );
 
 			return this;
 		},
