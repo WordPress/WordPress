@@ -366,6 +366,7 @@ window.wp = window.wp || {};
 				wp.Backbone.View.prototype.render.apply( this, arguments );
 
 				$('#wpbody-content .wrap').append( this.el );
+				this.updateCompareTwoMode();
 				this.views.ready();
 			}, this ) );
 
