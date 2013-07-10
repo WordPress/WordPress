@@ -339,12 +339,12 @@ function send_origin_headers() {
  * @return mixed URL or false on failure.
  */
 function wp_http_validate_url( $url ) {
-	$url = esc_url_raw( $url, array( 'http', 'https' ) );
+	$url = wp_kses_bad_protocol( $url, array( 'http', 'https' ) );
 	if ( ! $url )
 		return false;
 
 	$parsed_url = @parse_url( $url );
-	if ( ! $parsed_url )
+	if ( ! $parsed_url || empty( $parsed_url['host'] ) )
 		return false;
 
 	if ( isset( $parsed_url['user'] ) || isset( $parsed_url['pass'] ) )
