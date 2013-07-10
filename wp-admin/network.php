@@ -374,8 +374,7 @@ define('SUBDOMAIN_INSTALL', <?php echo $subdomain_install ? 'true' : 'false'; ?>
 define('DOMAIN_CURRENT_SITE', '<?php echo $hostname; ?>');
 define('PATH_CURRENT_SITE', '<?php echo $base; ?>');
 define('SITE_ID_CURRENT_SITE', 1);
-define('BLOG_ID_CURRENT_SITE', 1);
-</textarea>
+define('BLOG_ID_CURRENT_SITE', 1);</textarea>
 <?php
 	$keys_salts = array( 'AUTH_KEY' => '', 'SECURE_AUTH_KEY' => '', 'LOGGED_IN_KEY' => '', 'NONCE_KEY' => '', 'AUTH_SALT' => '', 'SECURE_AUTH_SALT' => '', 'LOGGED_IN_SALT' => '', 'NONCE_SALT' => '' );
 	foreach ( $keys_salts as $c => $v ) {
