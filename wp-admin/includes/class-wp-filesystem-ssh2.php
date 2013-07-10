@@ -184,8 +184,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		if ( ! $this->exists($file) )
 			return false;
 		if ( ! $recursive || ! $this->is_dir($file) )
-			return $this->run_command(sprintf('chgrp %o %s', $mode, escapeshellarg($file)), true);
-		return $this->run_command(sprintf('chgrp -R %o %s', $mode, escapeshellarg($file)), true);
+			return $this->run_command(sprintf('chgrp %s %s', escapeshellarg($group), escapeshellarg($file)), true);
+		return $this->run_command(sprintf('chgrp -R %s %s', escapeshellarg($group), escapeshellarg($file)), true);
 	}
 
 	function chmod($file, $mode = false, $recursive = false) {
@@ -210,8 +210,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		if ( ! $this->exists($file) )
 			return false;
 		if ( ! $recursive || ! $this->is_dir($file) )
-			return $this->run_command(sprintf('chown %o %s', $mode, escapeshellarg($file)), true);
-		return $this->run_command(sprintf('chown -R %o %s', $mode, escapeshellarg($file)), true);
+			return $this->run_command(sprintf('chown %s %s', escapeshellarg($owner), escapeshellarg($file)), true);
+		return $this->run_command(sprintf('chown -R %s %s', escapeshellarg($owner), escapeshellarg($file)), true);
 	}
 
 	function owner($file) {
