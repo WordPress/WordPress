@@ -5,12 +5,16 @@ jQuery(document).ready( function($) {
 				return;
 		e.preventDefault(); // Keep this AFTER the key filter above
 
-		var section = $( this ).closest( '.accordion-section' );
+		var section = $( this ).closest( '.accordion-section' ),
+		    siblings = section.siblings( '.open' ),
+		    content = section.find( '.accordion-section-content' );
 
 		if ( section.hasClass('cannot-expand') )
 			return;
 
-		section.siblings( '.open' ).removeClass( 'open' );
+		siblings.removeClass( 'open' );
+		siblings.find( '.accordion-section-content' ).show().slideUp( 150 );
+		content.toggle( section.hasClass( 'open' ) ).slideToggle( 150 );
 		section.toggleClass( 'open' );
 	});
 });
