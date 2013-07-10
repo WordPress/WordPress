@@ -4314,22 +4314,20 @@ class wp_xmlrpc_server extends IXR_Server {
 		return strval($post_ID);
 	}
 
-	function add_enclosure_if_new($post_ID, $enclosure) {
+	function add_enclosure_if_new( $post_ID, $enclosure ) {
 		if ( is_array( $enclosure ) && isset( $enclosure['url'] ) && isset( $enclosure['length'] ) && isset( $enclosure['type'] ) ) {
-
-			$encstring = $enclosure['url'] . "\n" . $enclosure['length'] . "\n" . $enclosure['type'];
+			$encstring = $enclosure['url'] . "\n" . $enclosure['length'] . "\n" . $enclosure['type'] . "\n";
 			$found = false;
-			foreach ( (array) get_post_custom($post_ID) as $key => $val) {
-				if ($key == 'enclosure') {
-					foreach ( (array) $val as $enc ) {
-						if ($enc == $encstring) {
-							$found = true;
-							break 2;
-						}
+			if ( $enclosures = get_post_meta( $post_ID, 'enclosure' ) ) {
+				foreach ( $enclosures as $enc ) {
+					// This method used to omit the trailing new line. #23219
+					if ( rtrim( $enc, "\n" ) == rtrim( $encstring, "\n" ) ) {
+						$found = true;
+						break;
 					}
 				}
 			}
-			if (!$found)
+			if ( ! $found )
 				add_post_meta( $post_ID, 'enclosure', $encstring );
 		}
 	}
