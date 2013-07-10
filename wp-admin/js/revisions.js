@@ -495,16 +495,7 @@ window.wp = window.wp || {};
 		},
 
 		updateCompareTwoMode: function() {
-			if ( this.model.get('compareTwoMode') ) {
-				$('.compare-two-revisions').prop( 'checked', true );
-				// in RTL mode the 'left handle' is the second in the slider, 'right' is first
-				$('.wp-slider a.ui-slider-handle').first().addClass( isRtl ? 'right-handle' : 'left-handle' );
-				$('.wp-slider a.ui-slider-handle').last().addClass( isRtl ? 'left-handle' : 'right-handle' );
-			} else {
-				$('.compare-two-revisions').prop( 'checked', false );
-				$('.wp-slider a.ui-slider-handle').removeClass('left-handle').removeClass('right-handle');
-			}
-
+			this.$('.compare-two-revisions').prop( 'checked', this.model.get('compareTwoMode') );
 		},
 
 		// Toggle the compare two mode feature when the compare two checkbox is checked.
@@ -720,6 +711,8 @@ window.wp = window.wp || {};
 		},
 
 		updateSliderSettings: function() {
+			var handles;
+
 			if ( this.model.get('compareTwoMode') ) {
 				var leftValue, rightValue;
 
@@ -750,26 +743,25 @@ window.wp = window.wp || {};
 					value: null,
 					range: true // Range mode ensures handles can't cross
 				} );
+
+				handles = this.$('a.ui-slider-handle');
+				// in RTL mode the 'left handle' is the second in the slider, 'right' is first
+				handles.first()
+					.toggleClass( 'right-handle', !! isRtl )
+					.toggleClass( 'left-handle', ! isRtl );
+				handles.last()
+					.toggleClass( 'left-handle', !! isRtl )
+					.toggleClass( 'right-handle', ! isRtl );
+
 			} else {
 				this.$el.slider( { // Set handle to current to model
 					// Reverse order for RTL.
-					value: isRtl ?  this.model.revisions.length - this.model.revisions.indexOf( this.model.get('to') ) - 1 :
+					value: isRtl ? this.model.revisions.length - this.model.revisions.indexOf( this.model.get('to') ) - 1 :
 									this.model.revisions.indexOf( this.model.get('to') ),
 					values: null, // Clear existing two handled values
 					range: false
 				} );
-			}
-
-			if ( this.model.get('compareTwoMode') ){
-				// in RTL mode the 'left handle' is the second in the slider, 'right' is first
-				$( 'a.ui-slider-handle', this.$el )
-					.first()
-					.addClass( isRtl ? 'right-handle' : 'left-handle' )
-					.removeClass( isRtl ? 'left-handle' : 'right-handle' );
-				$( 'a.ui-slider-handle', this.$el )
-					.last()
-					.addClass( isRtl ? 'left-handle' : 'right-handle' )
-					.removeClass( isRtl ? 'right-handle' : 'left-handle' );
+				this.$('a.ui-slider-handle').removeClass('left-handle right-handle');
 			}
 		},
 
