@@ -301,7 +301,7 @@ if ( get_background_image() ) {
 </tr>
 
 <tr valign="top">
-<th scope="row"><?php _e( 'Attachment' ); ?></th>
+<th scope="row"><?php _ex( 'Attachment', 'Background Attachment' ); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Attachment' ); ?></span></legend>
 <label>
 <input name="background-attachment" type="radio" value="scroll" <?php checked('scroll', get_theme_mod('background_attachment', 'scroll')); ?> />
