@@ -1004,7 +1004,7 @@ th.sorted a span {
 	margin-right: 5px;
 }
 
-#restore-revision {
+.diff-header > input.restore-revision {
 	margin-left: 0;
 	margin-right: 10px;
 }

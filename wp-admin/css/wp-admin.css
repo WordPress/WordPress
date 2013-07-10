@@ -3629,7 +3629,7 @@ table.diff .diff-addedline ins {
 	margin-left: 5px;
 }
 
-#restore-revision {
+.diff-header > input.restore-revision {
 	margin-left: 10px;
 }
 

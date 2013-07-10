@@ -462,7 +462,7 @@ window.wp = window.wp || {};
 		template: wp.template('revisions-meta'),
 
 		events: {
-			'click #restore-revision': 'restoreRevision'
+			'click .restore-revision': 'restoreRevision'
 		},
 
 		initialize: function() {
@@ -476,8 +476,7 @@ window.wp = window.wp || {};
 
 		updateMeta: function( from, to ) {
 			this.$el.html( this.template( this.model.toJSON() ) );
-
-			$('#restore-revision').prop( 'disabled', to.attributes.current );
+			this.$('.restore-revision').prop( 'disabled', to.attributes.current );
 		}
 	});
 

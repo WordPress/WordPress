@@ -176,7 +176,7 @@ require_once( './admin-header.php' );
 				<# } #>
 			</div>
 
-			<input type="button" id="restore-revision" class="button button-primary" data-restore-link="{{{ data.restoreLink }}}" value="<?php esc_attr_e( 'Restore This Revision' )?>" />
+			<input type="button" class="restore-revision button button-primary" data-restore-link="{{{ data.restoreLink }}}" value="<?php esc_attr_e( 'Restore This Revision' )?>" />
 		</div>
 	</div>
 </script>
