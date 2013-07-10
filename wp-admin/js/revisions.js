@@ -248,6 +248,7 @@ window.wp = window.wp || {};
 			// Set the initial revision provided through the settings.
 			properties.to = this.revisions.get( revisions.settings.selectedRevision );
 			properties.from = this.revisions.prev( properties.to );
+			properties.compareTwoMode = false;
 			this.set( properties );
 
 			// Start the router. This will trigger a navigate event and ensure that
@@ -894,7 +895,7 @@ window.wp = window.wp || {};
 
 		routes: {
 			'from/:from/to/:to': 'handleRoute',
-			'at/:to': 'routeSingle'
+			'at/:to': 'handleRoute'
 		},
 
 		updateUrl: function() {
@@ -909,13 +910,13 @@ window.wp = window.wp || {};
 		handleRoute: function( a, b ) {
 			var from, to, compareTwo;
 
-			// If `b` is undefined, this was a 'revision/:to' route
+			// If `b` is undefined, this is an 'at/:to' route, for a single revision
 			if ( _.isUndefined( b ) ) {
 				b = a;
 				a = 0;
-				compareTwo = true;
-			} else {
 				compareTwo = false;
+			} else {
+				compareTwo = true;
 			}
 
 			from = parseInt( a, 10 );
