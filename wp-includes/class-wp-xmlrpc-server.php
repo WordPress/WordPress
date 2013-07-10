@@ -4347,7 +4347,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$attachments = $wpdb->get_results( "SELECT ID, guid FROM {$wpdb->posts} WHERE post_parent = '0' AND post_type = 'attachment'" );
 		if ( is_array( $attachments ) ) {
 			foreach ( $attachments as $file ) {
-				if ( strpos( $post_content, $file->guid ) !== false )
+				if ( ! empty( $file->guid ) && strpos( $post_content, $file->guid ) !== false )
 					$wpdb->update($wpdb->posts, array('post_parent' => $post_ID), array('ID' => $file->ID) );
 			}
 		}
