@@ -619,13 +619,11 @@ window.wp = window.wp || {};
 
 		toggleVisibility: function( options ) {
 			options = options || {};
-			var visible = this.visible()
+			var visible = this.visible();
 			if ( visible ) { // Immediate show
-				// this.$el.removeClass('fade');
-				this.$el.css( 'opacity', 1 );
+				this.$el.fadeIn( 200 );
 			} else if ( options.immediate ) { // Immediate fade out
-				this.$el.addClass('fade');
-				this.$el.css( 'opacity', 0 );
+				this.$el.fadeOut( 200 );
 			} else { // Wait a bit, make sure we're really done, then fade it out
 				_.delay( function( view ) {
 					if ( ! view.visible() )

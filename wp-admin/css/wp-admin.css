@@ -3666,14 +3666,6 @@ table.diff .diff-addedline ins {
 	padding: 4px;
 }
 
-.revisions-tooltip.fade {
-	-webkit-transition: opacity 200ms;
-	-ms-transition:     opacity 200ms;
-	-moz-transition:    opacity 200ms;
-	-o-transition:      opacity 200ms;
-	transition:         opacity 200ms;
-}
-
 .comparing-two-revisions .revisions-tooltip {
 	bottom: 145px;
 }
