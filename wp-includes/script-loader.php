@@ -269,7 +269,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'wp-util', "/wp-includes/js/wp-util$suffix.js", array('underscore', 'jquery'), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'wp-util', '_wpUtilSettings', array(
-		'xhr' => array(
+		'ajax' => array(
 			'url' => admin_url( 'admin-ajax.php', 'relative' ),
 		),
 	) );

@@ -101,17 +101,17 @@ window.wp = window.wp || {};
 		 * media.post( [action], [data] )
 		 *
 		 * Sends a POST request to WordPress.
-		 * See wp.xhr.post() in `wp-includes/js/wp-util.js`.
+		 * See wp.ajax.post() in `wp-includes/js/wp-util.js`.
 		 */
-		post: wp.xhr.post,
+		post: wp.ajax.post,
 
 		/**
 		 * media.ajax( [action], [options] )
 		 *
 		 * Sends an XHR request to WordPress.
-		 * See wp.xhr.send() in `wp-includes/js/wp-util.js`.
+		 * See wp.ajax.send() in `wp-includes/js/wp-util.js`.
 		 */
-		ajax: wp.xhr.send,
+		ajax: wp.ajax.send,
 
 		// Scales a set of dimensions to fit within bounding dimensions.
 		fit: function( dimensions ) {

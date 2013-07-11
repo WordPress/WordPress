@@ -207,7 +207,7 @@ window.wp = window.wp || {};
 					post_id: revisions.settings.postId
 				});
 
-				var deferred = wp.xhr.send( options );
+				var deferred = wp.ajax.send( options );
 				var requests = this.requests;
 
 				// Record that we're requesting each diff.
