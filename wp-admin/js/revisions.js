@@ -17,9 +17,14 @@ window.wp = window.wp || {};
 	};
 
 	// wp_localize_script transforms top-level numbers into strings. Undo that.
-	if ( revisions.settings.selectedRevision )
-		revisions.settings.selectedRevision = parseInt( revisions.settings.selectedRevision, 10 );
+	if ( revisions.settings.to )
+		revisions.settings.to = parseInt( revisions.settings.to, 10 );
+	if ( revisions.settings.from )
+		revisions.settings.from = parseInt( revisions.settings.from, 10 );
 
+	// wp_localize_script does not allow for top-level booleans. Fix that.
+	if ( revisions.settings.compareTwoMode )
+		revisions.settings.compareTwoMode = revisions.settings.compareTwoMode === '1';
 
 	/**
 	 * ========================================================================
@@ -40,7 +45,7 @@ window.wp = window.wp || {};
 			this.revisions = options.revisions;
 			this.set({
 				max:   this.revisions.length - 1,
-				value: this.revisions.indexOf( this.revisions.get( revisions.settings.selectedRevision ) ),
+				value: this.revisions.indexOf( this.revisions.get( revisions.settings.to ) ),
 				compareTwoMode: this.frame.get('compareTwoMode')
 			});
 
@@ -314,6 +319,10 @@ window.wp = window.wp || {};
 
 
 	revisions.model.FrameState = Backbone.Model.extend({
+		defaults: {
+			compareTwoMode: false
+		},
+
 		initialize: function( attributes, options ) {
 			var properties = {};
 
@@ -322,17 +331,22 @@ window.wp = window.wp || {};
 			this.revisions = options.revisions;
 			this.diffs = new revisions.model.Diffs( [], { revisions: this.revisions });
 
-			// Set the initial revision provided through the settings.
-			properties.to = this.revisions.get( revisions.settings.selectedRevision );
-			properties.from = this.revisions.prev( properties.to );
-			properties.compareTwoMode = false;
+			// Set the initial diffs collection provided through the settings
+			this.diffs.set( revisions.settings.diffData );
+
+			// Set the initial revisions, baseUrl, and mode as provided through settings
+			properties.to = this.revisions.get( revisions.settings.to );
+			properties.from = this.revisions.get( revisions.settings.from ) || this.revisions.prev( properties.to );
+			properties.compareTwoMode = revisions.settings.compareTwoMode;
+			properties.baseUrl = revisions.settings.baseUrl;
 			this.set( properties );
 
 			// Start the router. This will trigger a navigate event and ensure that
 			// the `from` and `to` revisions accurately reflect the hash.
 			this.router = new revisions.Router({ model: this });
-			Backbone.history.start();
+			Backbone.history.start({ pushState: true });
 
+			// Set up internal listeners
 			this.listenTo( this, 'change:from', this.changeRevisionHandler );
 			this.listenTo( this, 'change:to', this.changeRevisionHandler );
 			this.listenTo( this, 'update:revisions', this.loadSurrounding );
@@ -937,23 +951,30 @@ window.wp = window.wp || {};
 	revisions.Router = Backbone.Router.extend({
 		initialize: function( options ) {
 			this.model = options.model;
+			this.routes = this.getRoutes();
 
 			// Maintain state history when dragging
 			this.listenTo( this.model, 'update:diff', _.debounce( this.updateUrl, 250 ) );
 		},
 
-		routes: {
-			'from/:from/to/:to': 'handleRoute',
-			'at/:to': 'handleRoute'
+		getRoutes: function() {
+			var routes = {};
+			routes[this.baseUrl( '?from=:from&to=:to' )] = 'handleRoute';
+			routes[this.baseUrl( '?revision=:to' )] = 'handleRoute';
+			return routes;
+		},
+
+		baseUrl: function( url ) {
+			return this.model.get('baseUrl') + url;
 		},
 
 		updateUrl: function() {
 			var from = this.model.has('from') ? this.model.get('from').id : 0;
 			var to = this.model.get('to').id;
 			if ( this.model.get('compareTwoMode' ) )
-				this.navigate( 'from/' + from + '/to/' + to );
+				this.navigate( this.baseUrl( '?from=' + from + '&to=' + to ) );
 			else
-				this.navigate( 'at/' + to );
+				this.navigate( this.baseUrl( '?revision=' + to ) );
 		},
 
 		handleRoute: function( a, b ) {
@@ -964,7 +985,7 @@ window.wp = window.wp || {};
 				b = this.model.revisions.get( a );
 				a = this.model.revisions.prev( b );
 				b = b ? b.id : 0;
-				a = a ? a.id : 0
+				a = a ? a.id : 0;
 				compareTwo = false;
 			} else {
 				compareTwo = true;
@@ -984,7 +1005,7 @@ window.wp = window.wp || {};
 					from: selectedFromRevision
 				});
 			}
-			revisions.settings.selectedRevision = to;
+			revisions.settings.to = to;
 		}
 	});
 

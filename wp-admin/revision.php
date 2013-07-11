@@ -11,9 +11,12 @@ require_once('./admin.php');
 
 require ABSPATH . 'wp-admin/includes/revision.php';
 
-wp_reset_vars( array( 'revision', 'action' ) );
+wp_reset_vars( array( 'revision', 'action', 'from', 'to' ) );
 
 $revision_id = absint( $revision );
+$from = absint( $from );
+if ( ! $revision_id )
+	$revision_id = absint( $to );
 $redirect = 'edit.php';
 
 switch ( $action ) :
@@ -79,7 +82,7 @@ else
 	$parent_file = $submenu_file = 'edit.php';
 
 wp_enqueue_script( 'revisions' );
-wp_localize_script( 'revisions', '_wpRevisionsSettings', wp_prepare_revisions_for_js( $post, $revision_id ) );
+wp_localize_script( 'revisions', '_wpRevisionsSettings', wp_prepare_revisions_for_js( $post, $revision_id, $from ) );
 
 /* Revisions Help Tab */
 
