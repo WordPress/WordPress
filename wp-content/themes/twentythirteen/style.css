@@ -1736,7 +1736,7 @@ footer.entry-meta {
 	width: 13px;
 }
 
-.sidebar .format-status .entry-content p:first-child:before {
+.sidebar .format-status .entry-content > p:first-child:before {
 	left: 64px;
 }
 

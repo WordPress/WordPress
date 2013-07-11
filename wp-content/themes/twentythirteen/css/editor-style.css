@@ -514,7 +514,7 @@ img {
 	width: 1px;
 }
 
-.post-format-status p:first-child:before {
+.post-format-status > p:first-child:before {
 	background-color: rgba(0, 0, 0, 0.65);
 	content: "";
 	height: 3px;
