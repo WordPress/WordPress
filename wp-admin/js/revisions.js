@@ -664,10 +664,11 @@ window.wp = window.wp || {};
 
 		initialize: function() {
 			this.$el.html( this.template() );
+			this.listenTo( this.model, 'update:revisions', this.disabledButtonCheck );
 		},
 
 		ready: function() {
-			this.listenTo( this.model, 'update:revisions', this.disabledButtonCheck );
+			this.disabledButtonCheck();
 		},
 
 		// Go to a specific modelindex, taking into account RTL mode.
