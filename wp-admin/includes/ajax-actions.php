@@ -1075,8 +1075,6 @@ function wp_ajax_autosave() {
 				$id = $post->ID;
 		}
 
-		// When is_wp_error($id), $id overwrites $data in WP_Ajax_Response
-		// todo: Needs review. The errors generated in WP_Ajax_Response and parsed with wpAjax.parseAjaxResponse() haven't been used for years.
 		if ( ! is_wp_error($id) ) {
 			/* translators: draft saved date format, see http://php.net/date */
 			$draft_saved_date_format = __('g:i:s a');
@@ -1090,6 +1088,7 @@ function wp_ajax_autosave() {
 			$id = $post->ID;
 	}
 
+	// @todo Consider exposing any errors, rather than having 'Saving draft...'
 	$x = new WP_Ajax_Response( array(
 		'what' => 'autosave',
 		'id' => $id,
