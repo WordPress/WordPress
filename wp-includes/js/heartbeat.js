@@ -1,5 +1,21 @@
 /**
  * Heartbeat API
+ *
+ * Heartbeat is a simple server polling API that sends XHR requests to
+ * the server every 15 seconds and triggers events (or callbacks) upon
+ * receiving data. Currently these 'ticks' handle transports for post locking,
+ * login-expiration warnings, and related tasks while a user is logged in.
+ *
+ * Available filters in ajax-actions.php:
+ * - heartbeat_received
+ * - heartbeat_send
+ * - heartbeat_tick
+ * - heartbeat_nopriv_received
+ * - heartbeat_nopriv_send
+ * - heartbeat_nopriv_tick
+ * @see wp_ajax_nopriv_heartbeat(), wp_ajax_heartbeat()
+ *
+ * @since 3.6.0
  */
 
  // Ensure the global `wp` object exists.
