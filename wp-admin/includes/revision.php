@@ -64,7 +64,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 function wp_prepare_revisions_for_js( $post, $selected_revision_id ) {
 	$post = get_post( $post );
 	$revisions = array();
-	$current = current_time( 'timestamp' );
+	$now_gmt = time();
 
 	$revisions = wp_get_post_revisions( $post->ID );
 
@@ -91,7 +91,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id ) {
 			'date'         => date_i18n( __( 'M j, Y @ G:i' ), $modified_gmt ),
 			'dateShort'    => date_i18n( _x( 'j M @ G:i', 'revision date short format' ), $modified_gmt ),
 			'dateUnix'     => $modified_gmt,
-			'timeAgo'      => sprintf( __( '%s ago' ), human_time_diff( $modified_gmt, $current ) ),
+			'timeAgo'      => sprintf( __( '%s ago' ), human_time_diff( $modified_gmt, $now_gmt ) ),
 			'autosave'     => wp_is_post_autosave( $revision ),
 			'current'      => $revision->post_modified_gmt === $post->post_modified_gmt,
 			'restoreUrl'   => urldecode( $restore_link ),
