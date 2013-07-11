@@ -1391,7 +1391,7 @@ table.diff .diff-addedline ins {
 }
 
 .revisions-tickmarks > div {
-	background-color: #ccc;
+	border-color: #aaa;
 }
 
 #diff-title-to strong {

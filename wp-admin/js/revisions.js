@@ -31,14 +31,87 @@ window.wp = window.wp || {};
 			value: 0,
 			min: 0,
 			max: 1,
-			step: 1
+			step: 1,
+			compareTwoMode: false
+		},
+
+		initialize: function( options ) {
+			this.frame = options.frame;
+			this.revisions = options.revisions;
+			this.set({
+				max:   this.revisions.length - 1,
+				value: this.revisions.indexOf( this.revisions.get( revisions.settings.selectedRevision ) ),
+				compareTwoMode: this.frame.get('compareTwoMode')
+			});
+
+			// Listen for changes to the revisions or mode from outside
+			this.listenTo( this.frame, 'update:revisions', this.receiveRevisions );
+			this.listenTo( this.frame, 'change:compareTwoMode', this.updateMode );
+
+			// Listen for internal changes
+			this.listenTo( this, 'change:from', this.handleLocalChanges );
+			this.listenTo( this, 'change:to', this.handleLocalChanges );
+
+			// Listen for changes to the hovered revision
+			this.listenTo( this, 'change:hoveredRevision', this.hoverRevision );
+		},
+
+		// Called when a revision is hovered
+		hoverRevision: function( model, value ) {
+			this.trigger( 'hovered:revision', value );
+		},
+
+		// Called when `compareTwoMode` changes
+		updateMode: function( model, value ) {
+			this.set({ compareTwoMode: value });
+		},
+
+		// Called when `from` or `to` changes in the local model
+		handleLocalChanges: function() {
+			this.frame.set({
+				from: this.get('from'),
+				to: this.get('to')
+			});
+		},
+
+		// Receives revisions changes from outside the model
+		receiveRevisions: function( from, to ) {
+			// Bail if nothing changed
+			if ( this.get('from') === from && this.get('to') === to )
+				return;
+
+			this.set({ from: from, to: to }, { silent: true });
+			this.trigger( 'update:revisions', from, to );
 		}
+
 	});
 
 	revisions.model.Tooltip = Backbone.Model.extend({
 		defaults: {
 			revision: null,
-			position: 0
+			hovering: false, // Whether the mouse is hovering
+			scrubbing: false // Whether the mouse is scrubbing
+		},
+
+		initialize: function( options ) {
+			this.revisions = options.revisions;
+			this.slider = options.slider;
+
+			this.listenTo( this.slider, 'hovered:revision', this.updateRevision );
+			this.listenTo( this.slider, 'change:hovering', this.setHovering );
+			this.listenTo( this.slider, 'change:scrubbing', this.setScrubbing );
+		},
+
+		updateRevision: function( revision ) {
+			this.set({ revision: revision });
+		},
+
+		setHovering: function( model, value ) {
+			this.set({ hovering: value });
+		},
+
+		setScrubbing: function( model, value ) {
+			this.set({ scrubbing: value });
 		}
 	});
 
@@ -46,6 +119,10 @@ window.wp = window.wp || {};
 
 	revisions.model.Revisions = Backbone.Collection.extend({
 		model: revisions.model.Revision,
+
+		initialize: function() {
+			_.bindAll( this, 'next', 'prev' );
+		},
 
 		comparator: function( a, b ) {
 			var a_ = a.get('dateUnix');
@@ -401,21 +478,28 @@ window.wp = window.wp || {};
 				model: this.model
 			}) );
 
-			// Add the tooltip view
-			var tooltip = new revisions.view.Tooltip({
-				model: new revisions.model.Tooltip()
+			// Prep the slider model
+			var slider = new revisions.model.Slider({
+				frame: this.model,
+				revisions: this.model.revisions
 			});
-			this.views.add( tooltip );
 
-			// Add the Tickmarks view
+			// Add the tooltip view
+			this.views.add( new revisions.view.Tooltip({
+				model: new revisions.model.Tooltip({
+					revisions: this.model.revisions,
+					slider: slider
+				})
+			}) );
+
+			// Add the tickmarks view
 			this.views.add( new revisions.view.Tickmarks({
 				model: this.model
 			}) );
 
-			// Add the Slider view with a reference to the tooltip view
+			// Add the slider view
 			this.views.add( new revisions.view.Slider({
-				model: this.model,
-				tooltip: tooltip
+				model: slider
 			}) );
 
 			// Add the Meta view
@@ -431,28 +515,20 @@ window.wp = window.wp || {};
 	revisions.view.Tickmarks = wp.Backbone.View.extend({
 		className: 'revisions-tickmarks',
 
-		numberOfTickmarksSet: function() {
-			var tickCount = this.model.revisions.length - 1, // One tickmark per model
-				sliderWidth = $('.wp-slider').parent().width() * 0.7, // Width of slider is 70% of container (reset on resize)
-				tickWidth = Math.floor( sliderWidth / tickCount ), // Divide width by # of tickmarks, round down
-				newSiderWidth = ( ( tickWidth + 1 ) * tickCount ) + 1, // Calculate the actual width
-				tickNumber;
+		render: function() {
+			var tickCount, tickWidth;
 
-			$('.wp-slider').css( 'width', newSiderWidth ); // Reset the slider width to match the calculated tick size
-			this.$el.css( 'width', newSiderWidth ); // Match the tickmark div width
+			tickCount = this.model.revisions.length - 1;
+			tickWidth = 1 / tickCount;
 
-			for ( tickNumber = 0; tickNumber <= tickCount; tickNumber++ ){
-				this.$el.append('<div style="left:' + ( tickWidth * tickNumber ) + 'px;"></div>');
-			}
+			this.$el.html('');
+			_(tickCount).times( function(){ this.$el.append( '<div></div>' ); }, this );
+
+			this.$('div').css( 'width', ( 100 * tickWidth ) + '%' );
 		},
 
 		ready: function() {
-			var self = this;
-			self.numberOfTickmarksSet();
-			$( window ).on( 'resize', _.debounce( function() {
-				self.$el.html('');
-				self.numberOfTickmarksSet();
-			}, 50 ) );
+			this.render();
 		}
 	});
 
@@ -527,34 +603,53 @@ window.wp = window.wp || {};
 		className: 'revisions-tooltip',
 		template: wp.template('revisions-tooltip'),
 
-		initialize: function() {
-			this.listenTo( this.model, 'change', this.render );
+		initialize: function( options ) {
+			this.listenTo( this.model, 'change:revision', this.render );
+			this.listenTo( this.model, 'change:hovering', this.toggleVisibility );
+			this.listenTo( this.model, 'change:scrubbing', this.toggleVisibility );
 		},
 
 		ready: function() {
-			// Hide tooltip on start.
-			this.$el.addClass('hidden');
+			this.toggleVisibility({ immediate: true });
 		},
 
-		show: function() {
-			this.$el.removeClass('hidden');
+		visible: function() {
+			return this.model.get( 'scrubbing' ) || this.model.get( 'hovering' );
 		},
 
-		hide: function() {
-			this.$el.addClass('hidden');
+		toggleVisibility: function( options ) {
+			options = options || {};
+			var visible = this.visible()
+			if ( visible ) { // Immediate show
+				// this.$el.removeClass('fade');
+				this.$el.css( 'opacity', 1 );
+			} else if ( options.immediate ) { // Immediate fade out
+				this.$el.addClass('fade');
+				this.$el.css( 'opacity', 0 );
+			} else { // Wait a bit, make sure we're really done, then fade it out
+				_.delay( function( view ) {
+					if ( ! view.visible() )
+						view.toggleVisibility({ immediate: true });
+				}, 500, this );
+			}
 		},
 
 		render: function() {
+			var offset;
 			// Check if a revision exists.
-			if ( null === this.model.get('revision') )
+			if ( _.isNull( this.model.get('revision') ) )
 				return;
 
 			// Insert revision data.
 			this.$el.html( this.template( this.model.get('revision').toJSON() ) );
 
 			// Set the position.
-			var offset = $('.revisions-buttons').offset().left;
-			this.$el.css( 'left', this.model.get('position') - offset );
+			offset = this.model.revisions.indexOf( this.model.get('revision') ) / ( this.model.revisions.length - 1 );
+			// 15% to get us to the start of the slider
+			// 0.7 to convert the slider-relative percentage to a page-relative percentage
+			// 100 to convert to a percentage
+			offset = 15 + (0.7 * offset * 100 ); // Now in a percentage
+			this.$el.css( 'left', offset + '%' );
 		}
 	});
 
@@ -626,67 +721,38 @@ window.wp = window.wp || {};
 
 
 	// The slider view.
-	// Encapsulates all of the configuration for the jQuery UI slider into a view.
 	revisions.view.Slider = wp.Backbone.View.extend({
 		className: 'wp-slider',
 
 		events: {
-			'mousemove'  : 'mousemove',
-			'mouseleave' : 'mouseleave',
-			'mouseenter' : 'mouseenter'
+			'mousemove'  : 'mouseMove',
+			'mouseleave' : 'mouseLeave',
+			'mouseenter' : 'mouseEnter'
 		},
 
-		initialize: function( options ) {
-			_.bindAll( this, 'start', 'slide', 'stop' );
-
-			this.tooltip = options.tooltip;
-
-			// Create the slider model from the provided collection data.
-			var latestRevisionIndex = this.model.revisions.length - 1;
-
-			// Find the initially selected revision
-			var initiallySelectedRevisionIndex =
-				this.model.revisions.indexOf(
-					this.model.revisions.findWhere({ id: revisions.settings.selectedRevision }) );
-
-			this.settings = new revisions.model.Slider({
-				max:   latestRevisionIndex,
-				value: initiallySelectedRevisionIndex,
-				start: this.start,
-				slide: this.slide,
-				stop:  this.stop
-			});
+		initialize: function() {
+			_.bindAll( this, 'start', 'slide', 'stop', 'mouseMove' );
+			this.listenTo( this.model, 'change:compareTwoMode', this.updateSliderSettings );
+			this.listenTo( this.model, 'update:revisions', this.updateSliderSettings );
 		},
 
 		ready: function() {
-			// Refresh the currently selected revision position in case router has set it.
-			this.settings.attributes.value = this.model.revisions.indexOf(
-				this.model.revisions.findWhere({ id: revisions.settings.selectedRevision }) );
+			this.$el.slider( _.extend( this.model.toJSON(), {
+				start: this.start,
+				slide: this.slide,
+				stop:  this.stop
+			}) );
 
-			// And update the slider in case the route has set it.
-			this.updateSliderSettings();
-			this.slide( '', this.settings.attributes );
-			this.$el.slider( this.settings.toJSON() );
-
-			// Listen for changes in Compare Two Mode setting
-			this.listenTo( this.model, 'change:compareTwoMode', this.updateSliderSettings );
-
-			this.settings.on( 'change', function() {
-				this.updateSliderSettings();
-			}, this );
-
-			// Listen for changes to the revisions
-			this.listenTo( this.model, 'update:revisions', this.updateRevisions );
+			this.listenTo( this, 'slide:stop', this.updateSliderSettings );
 		},
 
-		mousemove: function( e ) {
-			var tickCount = this.model.revisions.length - 1, // One tickmark per model
-				sliderLeft = Math.ceil( this.$el.offset().left ), // Left edge of slider
+		mouseMove: function( e ) {
+			var zoneCount = this.model.revisions.length - 1, // One fewer zone than models
+				sliderLeft = this.$el.offset().left, // Left edge of slider
 				sliderWidth = this.$el.width(), // Width of slider
-				tickWidth = Math.floor( sliderWidth / tickCount ), // Calculated width of tickmark
+				tickWidth = sliderWidth / zoneCount, // Calculated width of zone
 				actualX = e.clientX - sliderLeft, // Offset of mouse position in slider
-				currentModelIndex = Math.floor( ( actualX + tickWidth / 2 ) / tickWidth ), // Calculate the model index
-				tooltipPosition = sliderLeft + 2 + currentModelIndex * tickWidth; // Stick tooltip to tickmark
+				currentModelIndex = Math.floor( ( actualX + ( tickWidth / 2 )  ) / tickWidth ); // Calculate the model index
 
 			// Reverse direction in RTL mode.
 			if ( isRtl )
@@ -699,40 +765,27 @@ window.wp = window.wp || {};
 				currentModelIndex = this.model.revisions.length - 1;
 
 			// Update the tooltip model
-			this.tooltip.model.set( 'revision', this.model.revisions.at( currentModelIndex ) );
-			this.tooltip.model.set( 'position', tooltipPosition );
+			this.model.set({
+				'hoveredRevision': this.model.revisions.at( currentModelIndex )
+			});
 		},
 
-		mouseleave: function( e ) {
-			this.tooltip.hide();
+		mouseLeave: function() {
+			this.model.set({ hovering: false });
 		},
 
-		mouseenter: function( e ) {
-			this.tooltip.show();
+		mouseEnter: function() {
+			this.model.set({ hovering: true });
 		},
 
 		updateSliderSettings: function() {
-			var handles;
+			var handles, leftValue, rightValue;
 
 			if ( this.model.get('compareTwoMode') ) {
-				var leftValue, rightValue;
-
-				// In single handle mode, the 1st stored revision is 'blank' and the 'from' model is not set
-				// In this case we move the to index over one
-				if ( _.isUndefined( this.model.get('from') ) ) {
-					if ( isRtl ) {
-						leftValue  = this.model.revisions.length -  this.model.revisions.indexOf( this.model.get('to') ) - 2;
-						rightValue = leftValue + 1;
-					} else {
-						leftValue  = this.model.revisions.indexOf( this.model.get('to') );
-						rightValue = leftValue + 1;
-					}
-				} else {
-					leftValue = isRtl ?	this.model.revisions.length - this.model.revisions.indexOf( this.model.get('to') ) - 1 :
+				leftValue = isRtl ?	this.model.revisions.length - this.model.revisions.indexOf( this.model.get('to') ) - 1 :
 											this.model.revisions.indexOf( this.model.get('from') ),
-					rightValue = isRtl ?	this.model.revisions.length - this.model.revisions.indexOf( this.model.get('from') ) - 1 :
+				rightValue = isRtl ?	this.model.revisions.length - this.model.revisions.indexOf( this.model.get('from') ) - 1 :
 											this.model.revisions.indexOf( this.model.get('to') );
-				}
 
 				// Set handles to current from / to models.
 				// Reverse order for RTL
@@ -766,27 +819,17 @@ window.wp = window.wp || {};
 			}
 		},
 
-		updateRevisions: function( from, to ) {
-			// Update the view settings when the revisions have changed.
-			if ( this.model.get('compareTwoMode') ) {
-				this.settings.set({ 'values': [
-					this.model.revisions.indexOf( from ),
-					this.model.revisions.indexOf( to )
-				] });
-			} else {
-				this.settings.set({ 'value': this.model.revisions.indexOf( to ) });
-			}
-		},
-
 		getSliderPosition: function( ui ){
 			return isRtl ? this.model.revisions.length - ui.value - 1 : ui.value;
 		},
 
 		start: function( event, ui ) {
+			this.model.set({ scrubbing: true });
+
 			// Track the mouse position to enable smooth dragging,
 			// overrides default jQuery UI step behavior.
-			$( window ).on( 'mousemove', { view: this }, function( e ) {
-				var view              = e.data.view,
+			$( window ).on( 'mousemove.wp.revisions', { view: this }, function( e ) {
+				var view            = e.data.view,
 					leftDragBoundary  = view.$el.offset().left, // Initial left boundary
 					sliderOffset      = leftDragBoundary,
 					sliderRightEdge   = leftDragBoundary + view.$el.width(),
@@ -796,7 +839,7 @@ window.wp = window.wp || {};
 
 				// In two handle mode, ensure handles can't be dragged past each other.
 				// Adjust left/right boundaries and reset points.
-				if ( view.model.get('compareTwoMode') ) {
+				if ( view.model.frame.get('compareTwoMode') ) {
 					var rightHandle = $( ui.handle ).parent().find('.right-handle'),
 						leftHandle  = $( ui.handle ).parent().find('.left-handle');
 
@@ -834,10 +877,11 @@ window.wp = window.wp || {};
 			} );
 		},
 
+		// Responds to slide events
 		slide: function( event, ui ) {
 			var attributes;
 			// Compare two revisions mode
-			if ( ! _.isUndefined( ui.values ) && this.model.get('compareTwoMode') ) {
+			if ( ! _.isUndefined( ui.values ) && this.model.frame.get('compareTwoMode') ) {
 				// Prevent sliders from occupying same spot
 				if ( ui.values[1] === ui.values[0] )
 					return false;
@@ -858,16 +902,22 @@ window.wp = window.wp || {};
 				if ( sliderPosition ) // Reverse directions for RTL.
 					attributes.from = this.model.revisions.at( sliderPosition - 1  );
 				else
-					this.model.unset( 'from', { silent: true });
+					attributes.from = undefined;
 			}
 			this.model.set( attributes );
+
+			// If we are scrubbing, a scrub to a revision is considered a hover
+			if ( this.model.get( 'scrubbing' ) ) {
+				this.model.set({
+					'hoveredRevision': attributes.to
+				});
+			}
 		},
 
 		stop: function( event, ui ) {
-			$( window ).off('mousemove');
-
-			// Reset settings props handle back to the step position.
-			this.settings.trigger('change');
+			$( window ).off('mousemove.wp.revisions');
+			this.updateSliderSettings();
+			this.model.set({ scrubbing: false });
 		}
 	});
 
@@ -912,8 +962,10 @@ window.wp = window.wp || {};
 
 			// If `b` is undefined, this is an 'at/:to' route, for a single revision
 			if ( _.isUndefined( b ) ) {
-				b = a;
-				a = 0;
+				b = this.model.revisions.get( a );
+				a = this.model.revisions.prev( b );
+				b = b ? b.id : 0;
+				a = a ? a.id : 0
 				compareTwo = false;
 			} else {
 				compareTwo = true;
@@ -925,8 +977,8 @@ window.wp = window.wp || {};
 			this.model.set({ compareTwoMode: compareTwo });
 
 			if ( ! _.isUndefined( this.model ) ) {
-				var selectedToRevision = this.model.revisions.findWhere({ id: to }),
-					selectedFromRevision = this.model.revisions.findWhere({ id: from });
+				var selectedToRevision = this.model.revisions.get( to ),
+					selectedFromRevision = this.model.revisions.get( from );
 
 				this.model.set({
 					to: selectedToRevision,

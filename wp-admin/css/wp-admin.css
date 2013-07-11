@@ -2549,15 +2549,19 @@ tr.wp-locked .row-actions .trash {
 tr .locked-info {
 	height: 0;
 	opacity: 0;
-	-webkit-transition: height 1s, opacity 500ms;
-	transition:         height 1s, opacity 500ms;
 }
 
 tr.wp-locked .locked-info {
 	height: 22px;
 	opacity: 1;
-	-webkit-transition: height 1s, opacity 500ms 500ms;
-	transition:         height 1s, opacity 500ms 500ms;
+}
+
+tr.locked-info, tr.wp-locked .locked-info {
+	-webkit-transition: height 1s, opacity 500ms;
+	-moz-transition:    height 1s, opacity 500ms;
+	-ms-transition:     height 1s, opacity 500ms;
+	-o-transition:      height 1s, opacity 500ms;
+	transition:         height 1s, opacity 500ms;
 }
 
 .fixed .column-comments .sorting-indicator {
@@ -3512,14 +3516,22 @@ td.plugin-title p {
 	height: 0.8em;
 	z-index: 2;
 	top: 7px;
+	width: 70%;
+	box-sizing: border-box;
 }
 
 .revisions-tickmarks > div {
-	height: 0.8em;
-	width: 1px;
-	float: left;
 	position: relative;
+	height: 100%;
+	float: left;
 	z-index: 10002;
+	border-style: solid;
+	border-width: 0 0 0 1px;
+	box-sizing: border-box;
+}
+
+.revisions-tickmarks > div:first-of-type {
+	border-left-width: 0;
 }
 
 .comparing-two-revisions .revisions-controls {
@@ -3652,6 +3664,14 @@ table.diff .diff-addedline ins {
 	max-width: 350px;
 	min-width: 130px;
 	padding: 4px;
+}
+
+.revisions-tooltip.fade {
+	-webkit-transition: opacity 200ms;
+	-ms-transition:     opacity 200ms;
+	-moz-transition:    opacity 200ms;
+	-o-transition:      opacity 200ms;
+	transition:         opacity 200ms;
 }
 
 .comparing-two-revisions .revisions-tooltip {
