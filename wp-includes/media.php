@@ -1870,14 +1870,20 @@ function get_attached_media( $type, $post = 0 ) {
  *
  * @since 3.6.0
  *
- * @param string $type Type of media: audio or video
  * @param string $content A string which might contain media data.
+ * @param array $types array of media types: 'audio', 'video', 'object', 'embed', or 'iframe'
  * @return array A list of found HTML media embeds
  */
-function get_media_embedded_in_content( $content ) {
+function get_media_embedded_in_content( $content, $types = null ) {
 	$html = array();
+	$allowed_media_types = array( 'audio', 'video', 'object', 'embed', 'iframe' );
+	if ( ! empty( $types ) ) {
+		if ( ! is_array( $types ) )
+			$types = array( $types );
+		$allowed_media_types = array_intersect( $allowed_media_types, $types );
+	}
 
-	foreach ( array( 'audio', 'video', 'object', 'embed', 'iframe' ) as $tag ) {
+	foreach ( $allowed_media_types as $tag ) {
 		if ( preg_match( '#' . get_tag_regex( $tag ) . '#', $content, $matches ) ) {
 			$html[] = $matches[0];
 		}
