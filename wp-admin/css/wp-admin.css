@@ -3697,6 +3697,7 @@ table.diff .diff-addedline ins {
 	max-width: 350px;
 	min-width: 130px;
 	padding: 4px;
+	display: none;
 }
 
 .comparing-two-revisions .revisions-tooltip {

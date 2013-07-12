@@ -14,7 +14,8 @@ require ABSPATH . 'wp-admin/includes/revision.php';
 wp_reset_vars( array( 'revision', 'action', 'from', 'to' ) );
 
 $revision_id = absint( $revision );
-$from = absint( $from );
+
+$from = is_numeric( $from ) ? absint( $from ) : null;
 if ( ! $revision_id )
 	$revision_id = absint( $to );
 $redirect = 'edit.php';
