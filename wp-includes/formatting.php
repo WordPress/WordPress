@@ -3410,3 +3410,21 @@ function wp_slash( $value ) {
 function wp_unslash( $value ) {
 	return stripslashes_deep( $value );
 }
+
+/**
+ * Extract and return the first URL from passed content.
+ *
+ * @since 3.6.0
+ *
+ * @param string $content A string which might contain a URL.
+ * @return string The found URL.
+ */
+function get_url_in_content( $content ) {
+	if ( empty( $content ) )
+		return '';
+
+	if ( preg_match( '/<a\s[^>]*?href=([\'"])(.+?)\1/is', $content, $matches ) )
+		return esc_url_raw( $matches[2] );
+
+	return false;
+}

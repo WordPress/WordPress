@@ -235,24 +235,6 @@ function _post_format_wp_get_object_terms( $terms ) {
 add_filter( 'wp_get_object_terms', '_post_format_wp_get_object_terms' );
 
 /**
- * Extract and return the first URL from passed content.
- *
- * @since 3.6.0
- *
- * @param string $content A string which might contain a URL.
- * @return string The found URL.
- */
-function get_url_in_content( $content ) {
-	if ( empty( $content ) )
-		return '';
-
-	if ( preg_match( '/<a\s[^>]*?href=([\'"])(.+?)\1/is', $content, $matches ) )
-		return esc_url_raw( $matches[2] );
-
-	return false;
-}
-
-/**
  * Don't display post titles for asides and status posts on the front end.
  *
  * @since 3.6.0
