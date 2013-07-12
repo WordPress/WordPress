@@ -597,18 +597,11 @@ window.wp = window.wp || {};
 		},
 
 		toggleVisibility: function( options ) {
-			options = options || {};
-			var visible = this.visible();
-			if ( visible ) { // Immediate show
-				this.$el.fadeIn( 200 );
-			} else if ( options.immediate ) { // Immediate fade out
-				this.$el.fadeOut( 200 );
-			} else { // Wait a bit, make sure we're really done, then fade it out
-				_.delay( function( view ) {
-					if ( ! view.visible() )
-						view.toggleVisibility({ immediate: true });
-				}, 500, this );
-			}
+			if ( this.visible() )
+				this.$el.stop().show().fadeTo( 100 - this.el.style.opacity * 100, 1 );
+			else
+				this.$el.stop().fadeTo( this.el.style.opacity * 300, 0, function(){ $(this).hide(); } );
+			return;
 		},
 
 		render: function() {
@@ -698,13 +691,11 @@ window.wp = window.wp || {};
 		className: 'wp-slider',
 
 		events: {
-			'mousemove'  : 'mouseMove',
-			'mouseleave' : 'mouseLeave',
-			'mouseenter' : 'mouseEnter'
+			'mousemove' : 'mouseMove'
 		},
 
 		initialize: function() {
-			_.bindAll( this, 'start', 'slide', 'stop', 'mouseMove' );
+			_.bindAll( this, 'start', 'slide', 'stop', 'mouseMove', 'mouseEnter', 'mouseLeave' );
 			this.listenTo( this.model, 'update:slider', this.applySliderSettings );
 		},
 
@@ -714,6 +705,12 @@ window.wp = window.wp || {};
 				slide: this.slide,
 				stop:  this.stop
 			}) );
+
+			this.$el.hoverIntent({
+				over: this.mouseEnter,
+				out: this.mouseLeave,
+				timeout: 800
+			});
 
 			this.applySliderSettings();
 		},

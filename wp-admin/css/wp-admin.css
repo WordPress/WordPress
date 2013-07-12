@@ -3710,6 +3710,12 @@ table.diff .diff-addedline ins {
 	min-width: 130px;
 	padding: 4px;
 	display: none;
+	opacity: 0;
+	-webkit-transition: left 15ms;
+	-moz-transition:    left 15ms;
+	-ms-transition:     left 15ms;
+	-o-transition:      left 15ms;
+	transition:         left 15ms;
 }
 
 .comparing-two-revisions .revisions-tooltip {
