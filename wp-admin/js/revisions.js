@@ -827,7 +827,7 @@ window.wp = window.wp || {};
 
 		// Responds to slide events
 		slide: function( event, ui ) {
-			var attributes;
+			var attributes, movedRevision;
 			// Compare two revisions mode
 			if ( ! _.isUndefined( ui.values ) && this.model.get('compareTwoMode') ) {
 				// Prevent sliders from occupying same spot
@@ -838,28 +838,26 @@ window.wp = window.wp || {};
 					to: this.model.revisions.at( isRtl ? this.model.revisions.length - ui.values[0] - 1 : ui.values[1] ), // Reverse directions for RTL.
 					from: this.model.revisions.at( isRtl ? this.model.revisions.length - ui.values[1] - 1 : ui.values[0] ) // Reverse directions for RTL.
 				};
-
+				movedRevision = ! isRtl && ui.value === ui.values[0] ? attributes.from : attributes.to;
 			} else {
 				// Compare single revision mode
 				var sliderPosition = this.getSliderPosition( ui );
 				attributes = {
 					to: this.model.revisions.at( sliderPosition )
 				};
-
+				movedRevision = attributes.to;
 				// If we're at the first revision, unset 'from'.
 				if ( sliderPosition ) // Reverse directions for RTL.
 					attributes.from = this.model.revisions.at( sliderPosition - 1  );
 				else
 					attributes.from = undefined;
 			}
-			this.model.set( attributes );
 
 			// If we are scrubbing, a scrub to a revision is considered a hover
-			if ( this.model.get( 'scrubbing' ) ) {
-				this.model.set({
-					'hoveredRevision': attributes.to
-				});
-			}
+			if ( this.model.get('scrubbing') )
+				attributes.hoveredRevision = movedRevision;
+
+			this.model.set( attributes );
 		},
 
 		stop: function( event, ui ) {
