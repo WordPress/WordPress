@@ -3500,6 +3500,10 @@ td.plugin-title p {
 /*------------------------------------------------------------------------------
   11.2 - Post Revisions
 ------------------------------------------------------------------------------*/
+body.revision-php {
+	overflow-y: scroll; /* Force a scrollbar, so centering doesn't jump */
+}
+
 .revisions-control-frame,
 .revisions-diff-frame {
 	position: relative;
