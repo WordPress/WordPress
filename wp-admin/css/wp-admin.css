@@ -3517,6 +3517,9 @@ td.plugin-title p {
 	z-index: 2;
 	top: 7px;
 	width: 70%;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box; /* ie8 only */
 	box-sizing: border-box;
 }
 
@@ -3527,6 +3530,9 @@ td.plugin-title p {
 	z-index: 10002;
 	border-style: solid;
 	border-width: 0 0 0 1px;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box; /* ie8 only */
 	box-sizing: border-box;
 }
 
