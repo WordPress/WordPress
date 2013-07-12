@@ -53,9 +53,6 @@ var wpNavMenu;
 			this.initAccessibility();
 
 			this.initToggles();
-
-			// Open first accordion option
-			this.initAccordion();
 		},
 
 		jQueryExtensions : function() {
@@ -265,12 +262,6 @@ var wpNavMenu;
 					return this;
 				}
 			});
-		},
-
-		initAccordion : function() {
-			var accordionOptions = $( '.accordion-container li.accordion-section' );
-			accordionOptions.removeClass('open');
-			accordionOptions.filter(':visible').first().addClass( 'open' );
 		},
 
 		countMenuItems : function( depth ) {
@@ -544,8 +535,6 @@ var wpNavMenu;
 			api.menuList.hideAdvancedMenuItemFields();
 
 			$('.hide-postbox-tog').click(function () {
-				api.initAccordion();
-
 				var hidden = $( '.accordion-container li.accordion-section' ).filter(':hidden').map(function() { return this.id; }).get().join(',');
 				$.post(ajaxurl, {
 					action: 'closed-postboxes',

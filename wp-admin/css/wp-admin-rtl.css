@@ -2708,7 +2708,7 @@ div.sidebar-name h3 {
 	font-family: Tahoma, Arial, sans-serif;
 }
 
-.accordion-section-title:after {
+.js .accordion-section-title:after {
 	right: auto;
 	left: 20px;
 }

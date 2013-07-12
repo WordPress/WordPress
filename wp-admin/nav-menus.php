@@ -23,7 +23,6 @@ if ( ! current_user_can('edit_theme_options') )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 wp_enqueue_script( 'nav-menu' );
-wp_enqueue_script( 'accordion' );
 
 if ( wp_is_mobile() )
 	wp_enqueue_script( 'jquery-touch-punch' );

@@ -7500,14 +7500,24 @@ body.interim-login {
 	margin: 0;
 }
 
-.accordion-container .accordion-section:first-child {
+#nav-menu-meta .accordion-container .top {
+	border-top: 1px solid #dfdfdf;
+}
+
+#nav-menu-meta .accordion-container .accordion-section:first-child,
+#nav-menu-meta .accordion-container .accordion-section:first-child h3,
+#nav-menu-meta .accordion-container .top,
+#nav-menu-meta .accordion-container .top h3 {
 	-webkit-border-top-right-radius: 3px;
 	-webkit-border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 }
 
-.accordion-container .accordion-section:last-child {
+#nav-menu-meta .accordion-container .accordion-section:last-child,
+#nav-menu-meta .accordion-container .accordion-section:last-child .accordion-section-content,
+#nav-menu-meta .accordion-container .bottom,
+#nav-menu-meta .accordion-container .bottom:not(.open) h3 {
 	-webkit-border-bottom-right-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
@@ -8968,14 +8978,16 @@ a.widget-control-edit {
 	border-left: 1px solid #dfdfdf;
 	border-right: 1px solid #dfdfdf;
 
-	cursor: pointer;
-
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	user-select: none;
 }
 
-.accordion-section-title:after {
+.js .accordion-section-title {
+	cursor: pointer;
+}
+
+.js .accordion-section-title:after {
 	content: '';
 	width: 0;
 	height: 0;
@@ -9028,10 +9040,10 @@ a.widget-control-edit {
 	border-color: #eee transparent;
 }
 
-.control-section:hover .accordion-section-title,
-.control-section .accordion-section-title:hover,
-.control-section.open .accordion-section-title,
-.control-section .accordion-section-title:focus {
+.js .control-section:hover .accordion-section-title,
+.js .control-section .accordion-section-title:hover,
+.js .control-section.open .accordion-section-title,
+.js .control-section .accordion-section-title:focus {
 	color: #fff;
 	text-shadow: 0 -1px 0 #333;
 	background: #808080;
@@ -9044,7 +9056,7 @@ a.widget-control-edit {
 	border-right: 1px solid #808080;
 }
 
-.control-section.accordion-section:hover,
+.js .control-section.accordion-section:hover,
 .control-section.accordion-section.open {
 	border-top-color: #808080;
 }
