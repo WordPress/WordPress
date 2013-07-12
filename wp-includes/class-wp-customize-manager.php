@@ -975,6 +975,7 @@ final class WP_Customize_Manager {
 	 * Callback for validating the header_textcolor value.
 	 *
 	 * Accepts 'blank', and otherwise uses sanitize_hex_color_no_hash().
+	 * Returns default text color if hex color is empty.
 	 *
 	 * @since 3.4.0
 	 *
@@ -982,7 +983,14 @@ final class WP_Customize_Manager {
 	 * @return string
 	 */
 	public function _sanitize_header_textcolor( $color ) {
-		return ( 'blank' === $color ) ? 'blank' : sanitize_hex_color_no_hash( $color );
+		if ( 'blank' === $color )
+			return 'blank';
+
+		$color = sanitize_hex_color_no_hash( $color );
+		if ( empty( $color ) )
+			$color = get_theme_support( 'custom-header', 'default-text-color' );
+
+		return $color;
 	}
 };
 
