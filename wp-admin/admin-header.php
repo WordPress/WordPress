@@ -85,18 +85,6 @@ $admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-
 $admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
 $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 
-if ( isset( $post ) && is_a( $post, 'WP_Post' ) && post_type_supports( get_post_type(), 'post-formats' ) ) {
-	$post_format = get_post_format();
-
-	if ( ! empty( $_REQUEST['format'] ) && in_array( $_REQUEST['format'], get_post_format_slugs() ) )
-		$post_format = $_REQUEST['format'];
-
-	if ( ! $post_format )
-		$post_format = 'standard';
-
-	$admin_body_class .= ' wp-format-' . $post_format;
-}
-
 if ( wp_is_mobile() )
 	$admin_body_class .= ' mobile';
 
