@@ -3510,6 +3510,12 @@ td.plugin-title p {
 	height: 100px;
 }
 
+.revisions-controls input[type="checkbox"] {
+	position: relative;
+	top: -1px;
+	vertical-align: text-bottom;
+}
+
 .revisions-tickmarks {
 	position: relative;
 	margin: 0 auto 0;
@@ -3697,7 +3703,7 @@ table.diff .diff-addedline ins {
 .revisions-tooltip {
 	position: absolute;
 	bottom: 105px;
-	margin-left: -70px;
+	margin-left: -69px;
 	line-height: 28px;
 	z-index: 9999;
 	max-width: 350px;
