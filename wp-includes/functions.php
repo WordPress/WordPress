@@ -3943,6 +3943,7 @@ function wp_auth_check_html() {
 	<div id="wp-auth-check-wrap" class="<?php echo $wrap_class; ?>">
 	<div id="wp-auth-check-bg"></div>
 	<div id="wp-auth-check">
+	<div class="wp-auth-check-close" tabindex="0" title="<?php esc_attr_e('Close'); ?>"></div>
 	<?php
 
 	if ( $same_domain ) {
@@ -3957,7 +3958,6 @@ function wp_auth_check_html() {
 		<p><a href="<?php echo esc_url( $login_url ); ?>" target="_blank"><?php _e('Please log in again.'); ?></a>
 		<?php _e('The login page will open in a new window. After logging in you can close it and return to this page.'); ?></p>
 	</div>
-	<p class="wp-auth-check-close"><a href="#" class="button button-primary"><?php _e('Close'); ?></a></p>
 	</div>
 	</div>
 	<?php
@@ -3974,9 +3974,9 @@ function wp_auth_check( $response, $data ) {
 
 	// If the user is logged in and we are outside the login grace period, bail.
 	if ( is_user_logged_in() && empty( $GLOBALS['login_grace_period'] ) )
-		return $response;
+		return array_merge( $response, array( 'wp-auth-check' => '1' ) );
 
-	return array_merge( $response, array( 'wp-auth-check' => '1' ) );
+	return array_merge( $response, array( 'wp-auth-check' => 'show' ) );
 }
 
 /**
