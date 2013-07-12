@@ -101,7 +101,8 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 	// Now, grab the initial diff
 	$compare_two_mode = (bool) $from;
 	if ( ! $from ) // Single mode
-		$from = array_keys( array_slice( $revisions, array_search( $selected_revision_id, array_keys( $revisions ) ) - 1, 1, true ) )[0];
+		$from = array_keys( array_slice( $revisions, array_search( $selected_revision_id, array_keys( $revisions ) ) - 1, 1, true ) );
+		$from = $from[0];
 
 	$diffs = array( array(
 		'id' => $from . ':' . $selected_revision_id,
