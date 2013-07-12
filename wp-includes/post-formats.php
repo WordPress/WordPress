@@ -235,36 +235,21 @@ function _post_format_wp_get_object_terms( $terms ) {
 add_filter( 'wp_get_object_terms', '_post_format_wp_get_object_terms' );
 
 /**
- * Extract a URL from passed content, if possible
- * Checks for a URL on the first line of the content or the first encountered href attribute.
+ * Extract and return the first URL from passed content.
  *
  * @since 3.6.0
  *
  * @param string $content A string which might contain a URL.
  * @return string The found URL.
  */
-function get_content_url( $content ) {
+function get_url_in_content( $content ) {
 	if ( empty( $content ) )
 		return '';
 
-	// the content is a URL
-	$trimmed = trim( $content );
-	if ( 0 === stripos( $trimmed, 'http' ) && ! preg_match( '#\s#', $trimmed ) ) {
-		return $trimmed;
-
-	// the content is HTML so we grab the first href
-	} elseif ( preg_match( '/<a\s[^>]*?href=([\'"])(.+?)\1/is', $content, $matches ) ) {
+	if ( preg_match( '/<a\s[^>]*?href=([\'"])(.+?)\1/is', $content, $matches ) )
 		return esc_url_raw( $matches[2] );
-	}
 
-	$lines = explode( "\n", $trimmed );
-	$line = trim( array_shift( $lines ) );
-
-	// the content is a URL followed by content
-	if ( 0 === stripos( $line, 'http' ) )
-		return esc_url_raw( $line );
-
-	return '';
+	return false;
 }
 
 /**

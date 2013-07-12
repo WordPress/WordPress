@@ -857,7 +857,7 @@ function wp_audio_shortcode( $attr ) {
 
 	$default_types = wp_get_audio_extensions();
 	$defaults_atts = array( 'src' => '' );
-	foreach ( $default_types as $type  )
+	foreach ( $default_types as $type )
 		$defaults_atts[$type] = '';
 
 	$atts = shortcode_atts( $defaults_atts, $attr, 'audio' );
@@ -963,7 +963,7 @@ function wp_video_shortcode( $attr ) {
 		'width' => empty( $content_width ) ? 640 : $content_width,
 	);
 
-	foreach ( $default_types as $type  )
+	foreach ( $default_types as $type )
 		$defaults_atts[$type] = '';
 
 	$atts = shortcode_atts( $defaults_atts, $attr, 'video' );
@@ -1444,7 +1444,7 @@ function wp_get_image_editor( $path, $args = array() ) {
 	$args['path'] = $path;
 
 	if ( ! isset( $args['mime_type'] ) ) {
-		$file_info  = wp_check_filetype( $args['path'] );
+		$file_info = wp_check_filetype( $args['path'] );
 
 		// If $file_info['type'] is false, then we let the editor attempt to
 		// figure out the file type, rather than forcing a failure based on extension.
@@ -1473,7 +1473,7 @@ function wp_get_image_editor( $path, $args = array() ) {
  * @since 3.5.0
  * @access public
  *
- * @param string|array $args Array of requirements.  Accepts { 'mime_type'=>string, 'methods'=>{string, string, ...} }
+ * @param string|array $args Array of requirements. Accepts { 'mime_type'=>string, 'methods'=>{string, string, ...} }
  * @return boolean true if an eligible editor is found; false otherwise
  */
 function wp_image_editor_supports( $args = array() ) {
@@ -1842,12 +1842,12 @@ function wp_enqueue_media( $args = array() ) {
  * @since 3.6.0
  *
  * @param string $type (Mime) type of media desired
- * @param int $post_id  Post ID
+ * @param mixed $post Post ID or object
  * @return array Found attachments
  */
-function get_attached_media( $type, $post_id = 0 ) {
-	if ( ! $post = get_post( $post_id ) )
-		return;
+function get_attached_media( $type, $post = 0 ) {
+	if ( ! $post = get_post( $post ) )
+		return array();
 
 	$args = array(
 		'post_parent' => $post->ID,
@@ -1866,156 +1866,24 @@ function get_attached_media( $type, $post_id = 0 ) {
 }
 
 /**
- * Extract and parse {media type} shortcodes or srcs from the passed content
+ * Check the content blob for an <audio>, <video> <object>, <embed>, or <iframe>
  *
  * @since 3.6.0
  *
  * @param string $type Type of media: audio or video
  * @param string $content A string which might contain media data.
- * @param boolean $html Whether to return HTML or URLs
- * @param int $limit Optional. The number of medias to return
- * @return array A list of parsed shortcodes or extracted srcs
+ * @return array A list of found HTML media embeds
  */
-function get_content_media( $type, $content, $html = true, $limit = 0 ) {
-	$items = array();
-
-	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
-		foreach ( $matches as $shortcode ) {
-			if ( $type === $shortcode[2] ) {
-				$count = 1;
-
-				$items[] = do_shortcode_tag( $shortcode );
-				if ( $limit > 0 && count( $items ) >= $limit )
-					break;
-			}
-		}
-	}
-
-	if ( $html )
-		return $items;
-
-	$data = array();
-
-	foreach ( $items as $item ) {
-		preg_match_all( '#src=([\'"])(.+?)\1#is', $item, $src, PREG_SET_ORDER );
-		if ( ! empty( $src ) ) {
-			$srcs = array();
-			foreach ( $src as $s )
-				$srcs[] = $s[2];
-
-			$data[] = array_values( array_unique( $srcs ) );
-		}
-	}
-
-	return $data;
-}
-
-/**
- * Check the content blob for an <{media type}>, <object>, <embed>, or <iframe>, in that order
- * If no HTML tag is found, check the first line of the post for a URL
- *
- * @since 3.6.0
- *
- * @param string $type Type of media: audio or video
- * @param string $content A string which might contain media data.
- * @param int $limit Optional. The number of galleries to return
- * @return array A list of found HTML media embeds and possibly a URL by itself
- */
-function get_embedded_media( $type, $content, $limit = 0 ) {
+function get_media_embedded_in_content( $content ) {
 	$html = array();
 
-	foreach ( array( $type, 'object', 'embed', 'iframe' ) as $tag ) {
+	foreach ( array( 'audio', 'video', 'object', 'embed', 'iframe' ) as $tag ) {
 		if ( preg_match( '#' . get_tag_regex( $tag ) . '#', $content, $matches ) ) {
 			$html[] = $matches[0];
-
-			if ( $limit > 0 && count( $html ) >= $limit )
-				break;
 		}
 	}
 
-	if ( ! empty( $html ) && count( $html ) >= $limit )
-		return $html;
-
-	$lines = explode( "\n", trim( $content ) );
-	$line = trim( array_shift( $lines  ) );
-	if ( 0 === stripos( $line, 'http' ) ) {
-		$html[] = $line;
-	}
 	return $html;
-}
-
-/**
- * Extract the HTML or <source> srcs from the content's [audio]
- *
- * @since 3.6.0
- *
- * @param string $content A string which might contain audio data.
- * @param boolean $html Whether to return HTML or URLs
- * @return array A list of lists. Each item has a list of HTML or srcs corresponding
- *		to an [audio]'s HTML or primary src and specified fallbacks
- */
-function get_content_audio( $content, $html = true ) {
-	return get_content_media( 'audio', $content, $html );
-}
-
-/**
- * Check the content blob for an <audio>, <object>, <embed>, or <iframe>, in that order
- * If no HTML tag is found, check the first line of the post for a URL
- *
- * @since 3.6.0
- *
- * @param string $content A string which might contain audio data.
- * @return array A list of found HTML audio embeds and possibly a URL by itself
- */
-function get_embedded_audio( $content ) {
-	return get_embedded_media( 'audio', $content );
-}
-
-/**
- * Extract the HTML or <source> srcs from the content's [video]
- *
- * @since 3.6.0
- *
- * @param string $content A string which might contain video data.
- * @param boolean $html Whether to return HTML or URLs
- * @return array A list of lists. Each item has a list of HTML or srcs corresponding
- *		to a [video]'s HTML or primary src and specified fallbacks
- */
-function get_content_video( $content, $html = true ) {
-	return get_content_media( 'video', $content, $html );
-}
-
-/**
- * Check the content blob for a <video>, <object>, <embed>, or <iframe>, in that order
- * If no HTML tag is found, check the first line of the post for a URL
- *
- * @since 3.6.0
- *
- * @param string $content A string which might contain video data.
- * @return array A list of found HTML video embeds and possibly a URL by itself
- */
-function get_embedded_video( $content ) {
-	return get_embedded_media( 'video', $content );
-}
-
-/**
- * Retrieve images attached to the passed post
- *
- * @since 3.6.0
- *
- * @param int $post_id Optional. Post ID.
- * @return array Found image attachments
- */
-function get_attached_image_srcs( $post_id = 0 ) {
-	$children = get_attached_media( 'image', $post_id );
-	if ( empty( $children ) )
-		return array();
-
-	$srcs = array();
-	foreach ( $children as $attachment )
-		$srcs[] = wp_get_attachment_url( $attachment->ID );
-
-	return $srcs;
 }
 
 /**
@@ -2025,28 +1893,24 @@ function get_attached_image_srcs( $post_id = 0 ) {
  *
  * @param string $content A string which might contain image data.
  * @param boolean $html Whether to return HTML or URLs in the array
- * @param int $limit Optional. The number of image srcs to return
  * @return array The found images or srcs
  */
-function get_content_images( $content, $html = true, $limit = 0 ) {
+function get_images_in_content( $content, $html = true ) {
 	$tags = array();
 	$captions = array();
 
-	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
+	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) ) {
 		foreach ( $matches as $shortcode ) {
 			if ( 'caption' === $shortcode[2] ) {
 				$captions[] = $shortcode[0];
 				if ( $html )
 					$tags[] = do_shortcode_tag( $shortcode );
 			}
-
-			if ( $limit > 0 && count( $tags ) >= $limit )
-				break;
 		}
 	}
 
 	foreach ( array( 'a', 'img' ) as $tag ) {
-		if ( preg_match_all( '#' . get_tag_regex( $tag ) .  '#i', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
+		if ( preg_match_all( '#' . get_tag_regex( $tag ) . '#i', $content, $matches, PREG_SET_ORDER ) ) {
 			foreach ( $matches as $node ) {
 				if ( ! strstr( $node[0], '<img ' ) )
 					continue;
@@ -2062,9 +1926,6 @@ function get_content_images( $content, $html = true, $limit = 0 ) {
 
 				if ( ! $found )
 					$tags[] = $node[0];
-
-				if ( $limit > 0 && count( $tags ) >= $limit )
-					break 2;
 			}
 		}
 	}
@@ -2072,18 +1933,16 @@ function get_content_images( $content, $html = true, $limit = 0 ) {
 	if ( $html )
 		return $tags;
 
-	$srcs = array();
+	$image_srcs = array();
 
 	foreach ( $tags as $tag ) {
 		preg_match( '#src=([\'"])(.+?)\1#is', $tag, $src );
-		if ( ! empty( $src[2] ) ) {
-			$srcs[] = $src[2];
-			if ( $limit > 0 && count( $srcs ) >= $limit )
-				break;
-		}
+		if ( ! empty( $src[2] ) )
+			$image_srcs[] = $src[2];
 	}
 
-	return apply_filters( 'content_images', array_values( array_unique( $srcs ) ), $content );
+	$image_srcs = array_values( array_unique( $image_srcs ) );
+	return apply_filters( 'get_images_in_content', $image_srcs, $content );
 }
 
 /**
@@ -2095,34 +1954,35 @@ function get_content_images( $content, $html = true, $limit = 0 ) {
  * @param boolean $html Whether to return HTML or URLs
  * @return string The found data
  */
-function get_content_image( $content, $html = true ) {
-	$srcs = get_content_images( $content, $html, 1 );
-	if ( empty( $srcs ) )
-		return '';
-
-	return apply_filters( 'content_image', reset( $srcs ), $content );
+function get_image_in_content( $content, $html = true ) {
+	$srcs = get_images_from_content( $content, $html );
+	return apply_filters( 'get_image_in_content', reset( $srcs ), $content );
 }
 
 /**
- * Check the content blob for galleries and return their image srcs
+ * Retrieve galleries from the passed post's content
  *
  * @since 3.6.0
  *
- * @param string $content A string which might contain image data.
+ * @param mixed $post Optional. Post ID or object.
  * @param boolean $html Whether to return HTML or data in the array
- * @param int $limit Optional. The number of galleries to return
- * @return array A list of galleries, which in turn are a list of their srcs in order
+ * @return array A list of arrays, each containing gallery data and srcs parsed
+ *		from the expanded shortcode
  */
-function get_content_galleries( $content, $html = true, $limit = 0 ) {
-	$galleries = array();
+function get_post_galleries( $post, $html = true ) {
+	if ( ! $post = get_post( $post ) )
+		return array();
 
-	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
+	if ( ! has_shortcode( $post->post_content, 'gallery' ) )
+		return array();
+
+	$galleries = array();
+	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $post->post_content, $matches, PREG_SET_ORDER ) ) {
 		foreach ( $matches as $shortcode ) {
 			if ( 'gallery' === $shortcode[2] ) {
 				$srcs = array();
 				$count = 1;
 
-				$data = shortcode_parse_atts( $shortcode[3] );
 				$gallery = do_shortcode_tag( $shortcode );
 				if ( $html ) {
 					$galleries[] = $gallery;
@@ -2133,57 +1993,15 @@ function get_content_galleries( $content, $html = true, $limit = 0 ) {
 							$srcs[] = $s[2];
 					}
 
+					$data = shortcode_parse_atts( $shortcode[3] );
 					$data['src'] = array_values( array_unique( $srcs ) );
 					$galleries[] = $data;
 				}
-
-				if ( $limit > 0 && count( $galleries ) >= $limit )
-					break;
 			}
 		}
 	}
 
-	return apply_filters( 'content_galleries', $galleries, $content );
-}
-
-/**
- * Retrieve galleries from the passed post's content
- *
- * @since 3.6.0
- *
- * @param int $post_id Optional. Post ID.
- * @param boolean $html Whether to return HTML or data in the array
- * @return array A list of arrays, each containing gallery data and srcs parsed
- *		from the expanded shortcode
- */
-function get_post_galleries( $post_id = 0, $html = true ) {
-	if ( ! $post = get_post( $post_id ) )
-		return array();
-
-	if ( ! has_shortcode( $post->post_content, 'gallery' )  )
-		return array();
-
-	return get_content_galleries( $post->post_content, $html );
-}
-
-/**
- * Retrieve the image srcs from galleries from a post's content, if present
- *
- * @since 3.6.0
- *
- * @param int $post_id Optional. Post ID.
- * @return array A list of lists, each containing image srcs parsed
- *		from an expanded shortcode
- */
-function get_post_galleries_images( $post_id = 0 ) {
-	if ( ! $post = get_post( $post_id ) )
-		return array();
-
-	if ( ! has_shortcode( $post->post_content, 'gallery' )  )
-		return array();
-
-	$data = get_content_galleries( $post->post_content, false );
-	return wp_list_pluck( $data, 'src' );
+	return apply_filters( 'get_post_galleries', $galleries, $post );
 }
 
 /**
@@ -2191,19 +2009,29 @@ function get_post_galleries_images( $post_id = 0 ) {
  *
  * @since 3.6.0
  *
- * @param int $post_id Optional. Post ID.
+ * @param mixed $post Optional. Post ID or object.
  * @param boolean $html Whether to return HTML or data
  * @return string|array Gallery data and srcs parsed from the expanded shortcode
  */
-function get_post_gallery( $post_id = 0, $html = true ) {
-	if ( ! $post = get_post( $post_id ) )
-		return $html ? '' : array();
+function get_post_gallery( $post = 0, $html = true ) {
+	$galleries = get_post_galleries( $post, $html );
+	$gallery = reset( $galleries );
 
-	if ( ! has_shortcode( $post->post_content, 'gallery' ) )
-		return $html ? '' : array();
+	return apply_filters( 'get_post_gallery', $gallery, $post, $galleries );
+}
 
-	$data = get_content_galleries( $post->post_content, $html, false, 1 );
-	return reset( $data );
+/**
+ * Retrieve the image srcs from galleries from a post's content, if present
+ *
+ * @since 3.6.0
+ *
+ * @param mixed $post Optional. Post ID or object.
+ * @return array A list of lists, each containing image srcs parsed
+ *		from an expanded shortcode
+ */
+function get_post_galleries_images( $post = 0 ) {
+	$galleries = get_post_galleries( $post, false );
+	return wp_list_pluck( $galleries, 'src' );
 }
 
 /**
@@ -2211,13 +2039,10 @@ function get_post_gallery( $post_id = 0, $html = true ) {
  *
  * @since 3.6.0
  *
- * @param int $post_id Optional. Post ID.
+ * @param mixed $post Optional. Post ID or object.
  * @return array A list of a gallery's image srcs in order
  */
-function get_post_gallery_images( $post_id = 0 ) {
-	$gallery = get_post_gallery( $post_id, false );
-	if ( empty( $gallery['src'] ) )
-		return array();
-
-	return $gallery['src'];
+function get_post_gallery_images( $post = 0 ) {
+	$galleries = get_post_gallery( $post, false );
+	return empty( $gallery['src'] ) ? array() : $gallery['src'];
 }
