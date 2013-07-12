@@ -66,7 +66,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 	$revisions = array();
 	$now_gmt = time();
 
-	$revisions = wp_get_post_revisions( $post->ID, array( 'order' => 'ASC', 'orderby' => 'modified' ) );
+	$revisions = wp_get_post_revisions( $post->ID, array( 'order' => 'ASC' ) );
 
 	cache_users( wp_list_pluck( $revisions, 'post_author' ) );
 
