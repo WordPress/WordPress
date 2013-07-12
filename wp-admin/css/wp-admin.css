@@ -3538,6 +3538,39 @@ td.plugin-title p {
 	height: 140px;
 }
 
+.revisions .loading-indicator {
+	position: absolute;
+	text-align: center;
+	vertical-align: middle;
+	opacity: 0;
+	margin: 0 auto;
+	width: 100%;
+	height: 32px;
+	top: 3em;
+	background: #fff url(../images/wpspin_light-2x.gif) no-repeat center top;
+	-webkit-transition: opacity 0.5s;
+	-moz-transition:    opacity 0.5s;
+	-ms-transition:     opacity 0.5s;
+	-o-transition:      opacity 0.5s;
+	transition:         opacity 0.5s;
+}
+
+.revisions.loading .loading-indicator {
+	opacity: 1;
+}
+
+.revisions .diff {
+	-webkit-transition: opacity 0.5s;
+	-moz-transition:    opacity 0.5s;
+	-ms-transition:     opacity 0.5s;
+	-o-transition:      opacity 0.5s;
+	transition:         opacity 0.5s;
+}
+
+.revisions.loading .diff {
+	opacity: 0.5;
+}
+
 .revisions-meta {
 	margin-top: 15px;
 }

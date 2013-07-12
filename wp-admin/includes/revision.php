@@ -66,11 +66,12 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 	$revisions = array();
 	$now_gmt = time();
 
-	$revisions = wp_get_post_revisions( $post->ID );
+	$revisions = wp_get_post_revisions( $post->ID, array( 'order' => 'ASC', 'orderby' => 'modified' ) );
 
 	cache_users( wp_list_pluck( $revisions, 'post_author' ) );
 
 	foreach ( $revisions as $revision ) {
+		$modified = strtotime( $revision->post_modified );
 		$modified_gmt = strtotime( $revision->post_modified_gmt );
 		$restore_link = wp_nonce_url(
 			add_query_arg(
@@ -88,9 +89,8 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 				'avatar' => get_avatar( $revision->post_author, 24 ),
 				'name'   => get_the_author_meta( 'display_name', $revision->post_author ),
 			),
-			'date'         => date_i18n( __( 'M j, Y @ G:i' ), $modified_gmt ),
-			'dateShort'    => date_i18n( _x( 'j M @ G:i', 'revision date short format' ), $modified_gmt ),
-			'dateUnix'     => $modified_gmt,
+			'date'         => date_i18n( __( 'M j, Y @ G:i' ), $modified ),
+			'dateShort'    => date_i18n( _x( 'j M @ G:i', 'revision date short format' ), $modified ),
 			'timeAgo'      => sprintf( __( '%s ago' ), human_time_diff( $modified_gmt, $now_gmt ) ),
 			'autosave'     => wp_is_post_autosave( $revision ),
 			'current'      => $revision->post_modified_gmt === $post->post_modified_gmt,
@@ -99,16 +99,13 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 	}
 
 	// Now, grab the initial diff
-	if ( ! $from ) { // Single mode
-		$initial_revisions = array_reverse( array_keys( array_slice( $revisions, array_search( $selected_revision_id, array_keys( $revisions ) ), 2, true ) ) );
-		$compare_two_mode = false;
-	} else { // Compare two
-		$compare_two_mode = true;
-		$initial_revisions = array( $from, $selected_revision_id );
-	}
+	$compare_two_mode = (bool) $from;
+	if ( ! $from ) // Single mode
+		$from = array_keys( array_slice( $revisions, array_search( $selected_revision_id, array_keys( $revisions ) ) - 1, 1, true ) )[0];
+
 	$diffs = array( array(
-		'id' => $initial_revisions[0] . ':' . $initial_revisions[1],
-		'fields' => wp_get_revision_ui_diff( $post->ID, $initial_revisions[0], $initial_revisions[1] ),
+		'id' => $from . ':' . $selected_revision_id,
+		'fields' => wp_get_revision_ui_diff( $post->ID, $from, $selected_revision_id ),
 	));
 
 	return array(
@@ -120,5 +117,6 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 		'diffData'         => $diffs,
 		'baseUrl'          => parse_url( admin_url( 'revision.php' ), PHP_URL_PATH ),
 		'compareTwoMode'   => absint( $compare_two_mode ), // Apparently booleans are not allowed
+		'revisionIds'      => array_keys( $revisions ),
 	);
 }

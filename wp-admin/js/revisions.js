@@ -129,15 +129,6 @@ window.wp = window.wp || {};
 			_.bindAll( this, 'next', 'prev' );
 		},
 
-		comparator: function( a, b ) {
-			var a_ = a.get('dateUnix');
-			var b_ = b.get('dateUnix');
-			var cmp = (a_ > b_) - (a_ < b_);
-			if (cmp === 0 && a.id != b.id)
-				cmp = a.id < b.id ? -1 : 1;
-			return cmp;
-		},
-
 		next: function( revision ) {
 			var index = this.indexOf( revision );
 
@@ -335,28 +326,33 @@ window.wp = window.wp || {};
 			// Set the initial diffs collection provided through the settings
 			this.diffs.set( revisions.settings.diffData );
 
-			// Set the initial revisions, baseUrl, and mode as provided through settings
-			properties.to = this.revisions.get( revisions.settings.to );
-			properties.from = this.revisions.get( revisions.settings.from ) || this.revisions.prev( properties.to );
-			properties.compareTwoMode = revisions.settings.compareTwoMode;
-			properties.baseUrl = revisions.settings.baseUrl;
-			this.set( properties );
-
-			// Start the router. This will trigger a navigate event and ensure that
-			// the `from` and `to` revisions accurately reflect the hash.
-			this.router = new revisions.Router({ model: this });
-			Backbone.history.start({ pushState: true });
-
 			// Set up internal listeners
 			this.listenTo( this, 'change:from', this.changeRevisionHandler );
 			this.listenTo( this, 'change:to', this.changeRevisionHandler );
 			this.listenTo( this, 'update:revisions', this.loadSurrounding );
 			this.listenTo( this, 'change:compareTwoMode', this.changedMode );
+			this.listenTo( this.diffs, 'ensure:load', this.updateLoadingStatus );
+			this.listenTo( this, 'update:diff', this.updateLoadingStatus );
+
+			// Set the initial revisions, baseUrl, and mode as provided through settings
+			properties.to = this.revisions.get( revisions.settings.to );
+			properties.from = this.revisions.get( revisions.settings.from );
+			properties.compareTwoMode = revisions.settings.compareTwoMode;
+			properties.baseUrl = revisions.settings.baseUrl;
+			this.set( properties, { silent: true } );
+
+			// Start the router
+			this.router = new revisions.Router({ model: this });
+			Backbone.history.start({ pushState: true });
 		},
 
 		changedMode: function() {
 			// This isn't passed from/to so we grab them from the model
 			this.loadSurrounding( this.get( 'from' ), this.get( 'to' ) );
+		},
+
+		updateLoadingStatus: function() {
+			this.set( 'loading', ! this.diff() );
 		},
 
 		loadSurrounding: function( from, to ) {
@@ -441,13 +437,9 @@ window.wp = window.wp || {};
 		template: wp.template('revisions-frame'),
 
 		initialize: function() {
-			// Generate the frame model.
-			this.model = new revisions.model.FrameState({}, {
-				revisions: this.collection
-			});
-
 			this.listenTo( this.model, 'update:diff', this.renderDiff );
 			this.listenTo( this.model, 'change:compareTwoMode', this.updateCompareTwoMode );
+			this.listenTo( this.model, 'change:loading', this.updateLoadingStatus );
 
 			this.views.set( '.revisions-control-frame', new revisions.view.Controls({
 				model: this.model
@@ -455,6 +447,7 @@ window.wp = window.wp || {};
 		},
 
 		render: function() {
+			console.log( 'diff', this.model.diff() );
 			this.model.updateDiff({ immediate: true }).done( _.bind( function() {
 				wp.Backbone.View.prototype.render.apply( this, arguments );
 
@@ -470,6 +463,10 @@ window.wp = window.wp || {};
 			this.views.set( '.revisions-diff-frame', new revisions.view.Diff({
 				model: diff
 			}) );
+		},
+
+		updateLoadingStatus: function() {
+			this.$el.toggleClass( 'loading', this.model.get('loading') );
 		},
 
 		updateCompareTwoMode: function() {
@@ -1013,7 +1010,9 @@ window.wp = window.wp || {};
 	// Initialize the revisions UI.
 	revisions.init = function() {
 		revisions.view.frame = new revisions.view.Frame({
-			collection: new revisions.model.Revisions( revisions.settings.revisionData )
+			model: new revisions.model.FrameState({}, {
+				revisions: new revisions.model.Revisions( revisions.settings.revisionData )
+			})
 		}).render();
 	};
 

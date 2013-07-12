@@ -185,10 +185,13 @@ require_once( './admin-header.php' );
 </script>
 
 <script id="tmpl-revisions-diff" type="text/html">
+	<div class="loading-indicator"></div>
+	<div class="diff">
 	<# _.each( data.fields, function( field ) { #>
 		<h3>{{{ field.name }}}</h3>
 		{{{ field.diff }}}
 	<# }); #>
+	</div>
 </script>
 
 

@@ -2092,8 +2092,6 @@ function wp_ajax_heartbeat() {
 function wp_ajax_get_revision_diffs() {
 	require ABSPATH . 'wp-admin/includes/revision.php';
 
-	// check_ajax_referer( 'revisions-ajax-nonce', 'nonce' );
-
 	if ( ! $post = get_post( (int) $_REQUEST['post_id'] ) )
 		wp_send_json_error();
 
