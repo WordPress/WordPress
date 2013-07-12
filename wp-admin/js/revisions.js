@@ -320,6 +320,7 @@ window.wp = window.wp || {};
 
 	revisions.model.FrameState = Backbone.Model.extend({
 		defaults: {
+			loading: false,
 			compareTwoMode: false
 		},
 
@@ -391,7 +392,7 @@ window.wp = window.wp || {};
 
 			// Check if we're actually changing the diff id.
 			if ( this._diffId === diffId )
-				return $.Deferred().fail().promise();
+				return $.Deferred().reject().promise();
 
 			this._diffId = diffId;
 			this.trigger( 'update:revisions', from, to );
@@ -407,7 +408,7 @@ window.wp = window.wp || {};
 					return this._ensureDiff();
 				} else {
 					this._debouncedEnsureDiff();
-					return $.Deferred().fail().promise();
+					return $.Deferred().reject().promise();
 				}
 			}
 		},
