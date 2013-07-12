@@ -142,12 +142,14 @@ jQuery(document).ready( function($) {
 	}
 
 	// When connection is lost, keep user from submitting changes.
-	$(document).on('heartbeat-connection-lost.autosave', function() {
-		autosave_disable_buttons();
-		$('#lost-connection-notice').show();
+	$(document).on('heartbeat-connection-lost.autosave', function( e, error ) {
+		if ( 'timeout' === error ) {
+			$('#lost-connection-notice').show();
+			autosave_disable_buttons();
+		}
 	}).on('heartbeat-connection-restored.autosave', function() {
-		autosave_enable_buttons();
 		$('#lost-connection-notice').hide();
+		autosave_enable_buttons();
 	});
 });
 
