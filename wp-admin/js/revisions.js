@@ -12,7 +12,7 @@ window.wp = window.wp || {};
 	revisions.debug = true;
 
 	revisions.log = function() {
-		if ( revisions.debug )
+		if ( window.console && revisions.debug )
 			console.log.apply( console, arguments );
 	};
 
@@ -342,9 +342,11 @@ window.wp = window.wp || {};
 			properties.baseUrl = revisions.settings.baseUrl;
 			this.set( properties );
 
-			// Start the router
-			this.router = new revisions.Router({ model: this });
-			Backbone.history.start({ pushState: true });
+			// Start the router if browser supports History API
+			if ( window.history && window.history.pushState ) {
+				this.router = new revisions.Router({ model: this });
+				Backbone.history.start({ pushState: true });
+			}
 		},
 
 		updateLoadingStatus: function() {
