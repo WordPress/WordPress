@@ -737,9 +737,7 @@ window.wp = window.wp || {};
 				currentModelIndex = this.model.revisions.length - 1;
 
 			// Update the tooltip model
-			this.model.set({
-				'hoveredRevision': this.model.revisions.at( currentModelIndex )
-			});
+			this.model.set({ hoveredRevision: this.model.revisions.at( currentModelIndex ) });
 		},
 
 		mouseLeave: function() {
@@ -827,21 +825,20 @@ window.wp = window.wp || {};
 
 		// Responds to slide events
 		slide: function( event, ui ) {
-			var attributes, movedRevision;
+			var attributes, movedRevision, sliderPosition;
 			// Compare two revisions mode
-			if ( ! _.isUndefined( ui.values ) && this.model.get('compareTwoMode') ) {
+			if ( this.model.get('compareTwoMode') ) {
 				// Prevent sliders from occupying same spot
 				if ( ui.values[1] === ui.values[0] )
 					return false;
 
 				attributes = {
-					to: this.model.revisions.at( isRtl ? this.model.revisions.length - ui.values[0] - 1 : ui.values[1] ), // Reverse directions for RTL.
-					from: this.model.revisions.at( isRtl ? this.model.revisions.length - ui.values[1] - 1 : ui.values[0] ) // Reverse directions for RTL.
+					to: this.model.revisions.at( isRtl ? this.model.revisions.length - ui.values[0] - 1 : ui.values[1] ),
+					from: this.model.revisions.at( isRtl ? this.model.revisions.length - ui.values[1] - 1 : ui.values[0] )
 				};
 				movedRevision = ! isRtl && ui.value === ui.values[0] ? attributes.from : attributes.to;
 			} else {
-				// Compare single revision mode
-				var sliderPosition = this.getSliderPosition( ui );
+				sliderPosition = this.getSliderPosition( ui );
 				attributes = {
 					to: this.model.revisions.at( sliderPosition )
 				};
@@ -884,18 +881,13 @@ window.wp = window.wp || {};
 	revisions.Router = Backbone.Router.extend({
 		initialize: function( options ) {
 			this.model = options.model;
-			this.routes = this.getRoutes();
-
-			// Maintain state history when dragging/clicking
+			this.routes = _.object([
+				[ this.baseUrl( '?from=:from&to=:to' ), 'handleRoute' ],
+				[ this.baseUrl( '?from=:from&to=:to' ), 'handleRoute' ]
+			]);
+			// Maintain state and history when navigating
 			this.listenTo( this.model, 'update:diff', _.debounce( this.updateUrl, 250 ) );
 			this.listenTo( this.model, 'change:compareTwoMode', this.updateUrl );
-		},
-
-		getRoutes: function() {
-			var routes = {};
-			routes[this.baseUrl( '?from=:from&to=:to' )] = 'handleRoute';
-			routes[this.baseUrl( '?revision=:to' )] = 'handleRoute';
-			return routes;
 		},
 
 		baseUrl: function( url ) {
@@ -912,34 +904,20 @@ window.wp = window.wp || {};
 		},
 
 		handleRoute: function( a, b ) {
-			var from, to, compareTwo;
+			var from, to, compareTwo = _.isUndefined( b );
 
-			// If `b` is undefined, this is an 'at/:to' route, for a single revision
-			if ( _.isUndefined( b ) ) {
+			if ( ! compareTwo ) {
 				b = this.model.revisions.get( a );
 				a = this.model.revisions.prev( b );
 				b = b ? b.id : 0;
 				a = a ? a.id : 0;
-				compareTwo = false;
-			} else {
-				compareTwo = true;
 			}
 
-			from = parseInt( a, 10 );
-			to = parseInt( b, 10 );
-
-			this.model.set({ compareTwoMode: compareTwo });
-
-			if ( ! _.isUndefined( this.model ) ) {
-				var selectedToRevision = this.model.revisions.get( to ),
-					selectedFromRevision = this.model.revisions.get( from );
-
-				this.model.set({
-					to: selectedToRevision,
-					from: selectedFromRevision
-				});
-			}
-			revisions.settings.to = to;
+			this.model.set({
+				from: this.model.revisions.get( parseInt( a, 10 ) ),
+				to: this.model.revisions.get( parseInt( a, 10 ) ),
+				compareTwoMode: compareTwo
+			});
 		}
 	});
 
