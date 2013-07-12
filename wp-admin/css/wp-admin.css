@@ -3748,6 +3748,10 @@ table.diff .diff-addedline ins {
 	border-style: solid;
 }
 
+div.revisions-controls > .wp-slider > .ui-slider-handle {
+	margin-left: -10px;
+}
+
  /* jQuery UI Slider */
 .wp-slider.ui-slider {
 	position: relative;
@@ -3773,9 +3777,9 @@ table.diff .diff-addedline ins {
 	content: "";
 	position: absolute;
 	top: 6px;
-	left: 4px;
+	left: 3px;
 	height: 8px;
-	width: 12px;
+	width: 13px;
 	background: url(../images/arrows-pr.png) no-repeat -2px -47px;
 }
 
@@ -3811,7 +3815,7 @@ table.diff .diff-addedline ins {
 }
 
 .wp-slider.ui-slider-horizontal .ui-slider-handle {
-	top: -.3em;
+	top: -.25em;
 	margin-left: -.6em;
 }
 
