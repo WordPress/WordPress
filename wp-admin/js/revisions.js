@@ -331,6 +331,7 @@ window.wp = window.wp || {};
 			// Set up internal listeners
 			this.listenTo( this, 'change:from', this.changeRevisionHandler );
 			this.listenTo( this, 'change:to', this.changeRevisionHandler );
+			this.listenTo( this, 'change:compareTwoMode', this.changeMode );
 			this.listenTo( this, 'update:revisions', this.updatedRevisions );
 			this.listenTo( this.diffs, 'ensure:load', this.updateLoadingStatus );
 			this.listenTo( this, 'update:diff', this.updateLoadingStatus );
@@ -351,6 +352,16 @@ window.wp = window.wp || {};
 
 		updateLoadingStatus: function() {
 			this.set( 'loading', ! this.diff() );
+		},
+
+		changeMode: function( model, value ) {
+			// If we were on the first revision before switching, we have to bump them over one
+			if ( value && 0 === this.revisions.indexOf( this.get('to') ) ) {
+				this.set({
+					from: this.revisions.at(0),
+					to: this.revisions.at(1)
+				});
+			}
 		},
 
 		updatedRevisions: function( from, to ) {
@@ -620,7 +631,7 @@ window.wp = window.wp || {};
 			// 0.7 to convert the slider-relative percentage to a page-relative percentage
 			// 100 to convert to a percentage
 			offset = 15 + (0.7 * offset * 100 ); // Now in a percentage
-			this.$el.css( 'left', offset + '%' );
+			this.$el.css( isRtl ? 'right' : 'left', offset + '%' );
 		}
 	});
 
@@ -835,7 +846,10 @@ window.wp = window.wp || {};
 					to: this.model.revisions.at( isRtl ? this.model.revisions.length - ui.values[0] - 1 : ui.values[1] ),
 					from: this.model.revisions.at( isRtl ? this.model.revisions.length - ui.values[1] - 1 : ui.values[0] )
 				};
-				movedRevision = ! isRtl && ui.value === ui.values[0] ? attributes.from : attributes.to;
+				if ( isRtl )
+					movedRevision = ui.value === ui.values[1] ? attributes.from : attributes.to;
+				else
+					movedRevision = ui.value === ui.values[0] ? attributes.from : attributes.to;
 			} else {
 				sliderPosition = this.getSliderPosition( ui );
 				attributes = {

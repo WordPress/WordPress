@@ -1021,16 +1021,28 @@ th.sorted a span {
 
 .revisions img {
 	float: right;
-	margin-right: 0;
-	margin-left: 5px;
+	margin: 5px 0 0 5px;
 }
 
 .revisions-tooltip {
-	margin-left: -185px;
+	margin-right: -73px;
+	margin-left: 0;
+	-webkit-transition: right 15ms;
+	-moz-transition:    right 15ms;
+	-ms-transition:     right 15ms;
+	-o-transition:      right 15ms;
+	transition:         right 15ms;
 }
 
 .revisions-tooltip-arrow {
-	margin-left: 150px;
+	right: 0;
+	margin-left: 0;
+	margin-right: 35px;
+}
+
+.revisions-tooltip-image {
+	float: right;
+	margin: 2px 0 0 5px;
 }
 
 /*------------------------------------------------------------------------------
