@@ -2734,16 +2734,10 @@ div.sidebar-name h3 {
 
 .menu-settings dd {
 	float: right;
-	padding-right: 170px;
 }
 
 .manage-menus span {
 	float: right;
-}
-
-.menu-settings dt {
-	left: auto;
-	right: 0;
 }
 
 .manage-menus select {
