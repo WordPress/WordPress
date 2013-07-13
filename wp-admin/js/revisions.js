@@ -9,7 +9,7 @@ window.wp = window.wp || {};
 	revisions.settings = _.isUndefined( _wpRevisionsSettings ) ? {} : _wpRevisionsSettings;
 
 	// For debugging
-	revisions.debug = true;
+	revisions.debug = false;
 
 	revisions.log = function() {
 		if ( window.console && revisions.debug )
