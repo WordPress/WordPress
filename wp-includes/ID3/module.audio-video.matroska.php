@@ -216,14 +216,14 @@ class getid3_matroska extends getid3_handler
 {
 	// public options
 	public static $hide_clusters    = true;  // if true, do not return information about CLUSTER chunks, since there's a lot of them and they're not usually useful [default: TRUE]
-    public static $parse_whole_file = false; // true to parse the whole file, not only header [default: FALSE]
+	public static $parse_whole_file = false; // true to parse the whole file, not only header [default: FALSE]
 
-    // private parser settings/placeholders
-    private $EBMLbuffer        = '';
-    private $EBMLbuffer_offset = 0;
-    private $EBMLbuffer_length = 0;
-    private $current_offset    = 0;
-    private $unuseful_elements = array(EBML_ID_CRC32, EBML_ID_VOID);
+	// private parser settings/placeholders
+	private $EBMLbuffer        = '';
+	private $EBMLbuffer_offset = 0;
+	private $EBMLbuffer_length = 0;
+	private $current_offset    = 0;
+	private $unuseful_elements = array(EBML_ID_CRC32, EBML_ID_VOID);
 
 	public function Analyze()
 	{
@@ -495,7 +495,7 @@ class getid3_matroska extends getid3_handler
 			}
 		}
 
-        // determine mime type
+		// determine mime type
 		if (!empty($info['video']['streams'])) {
 			$info['mime_type'] = ($info['matroska']['doctype'] == 'webm' ? 'video/webm' : 'video/x-matroska');
 		} elseif (!empty($info['audio']['streams'])) {
@@ -507,7 +507,7 @@ class getid3_matroska extends getid3_handler
 		return true;
 	}
 
-    private function parseEBML(&$info) {
+	private function parseEBML(&$info) {
 		// http://www.matroska.org/technical/specs/index.html#EBMLBasics
 		$this->current_offset = $info['avdataoffset'];
 
@@ -536,18 +536,12 @@ class getid3_matroska extends getid3_handler
 								$info['matroska']['doctype'] = $element_data['data'];
 								break;
 
-							case EBML_ID_CRC32: // not useful, ignore
-								$this->current_offset = $element_data['end'];
-								unset($element_data);
-								break;
-
 							default:
 								$this->unhandledElement('header', __LINE__, $element_data);
 						}
-						if (!empty($element_data)) {
-							unset($element_data['offset'], $element_data['end']);
-							$info['matroska']['header']['elements'][] = $element_data;
-						}
+
+						unset($element_data['offset'], $element_data['end']);
+						$info['matroska']['header']['elements'][] = $element_data;
 					}
 					break;
 
@@ -874,7 +868,7 @@ class getid3_matroska extends getid3_handler
 												switch ($sub_subelement['id']) {
 
 													case EBML_ID_CUETRACKPOSITIONS:
-                                                    	$cuetrackpositions_entry = array();
+														$cuetrackpositions_entry = array();
 
 														while ($this->getEBMLelement($sub_sub_subelement, $sub_subelement['end'], true)) {
 															switch ($sub_sub_subelement['id']) {
@@ -912,7 +906,7 @@ class getid3_matroska extends getid3_handler
 								break;
 
 							case EBML_ID_TAGS: // Element containing elements specific to Tracks/Chapters.
-                            	$tags_entry = array();
+								$tags_entry = array();
 
 								while ($this->getEBMLelement($subelement, $element_data['end'], false)) {
 									switch ($subelement['id']) {
@@ -1209,7 +1203,7 @@ class getid3_matroska extends getid3_handler
 					$this->unhandledElement('root', __LINE__, $top_element);
 			}
 		}
-    }
+	}
 
 	private function EnsureBufferHasEnoughData($min_data=1024) {
 		if (($this->current_offset - $this->EBMLbuffer_offset) >= ($this->EBMLbuffer_length - $min_data)) {
@@ -1391,7 +1385,7 @@ class getid3_matroska extends getid3_handler
 		}
 		$block_data['flags']['lacing_type'] = self::BlockLacingType($block_data['flags']['lacing']);
 
-        // Lace (when lacing bit is set)
+		// Lace (when lacing bit is set)
 		if ($block_data['flags']['lacing'] > 0) {
 			$block_data['lace_frames'] = getid3_lib::BigEndian2Int($this->readEBMLelementData(1)) + 1; // Number of frames in the lace-1 (uint8)
 			if ($block_data['flags']['lacing'] != 0x02) {

@@ -667,7 +667,7 @@ class getid3_id3v2 extends getid3_handler
 
 			if (!empty($parsedFrame['framenameshort']) && !empty($parsedFrame['data'])) {
 				// ID3v2.3 specs say that TPE1 (and others) can contain multiple artist values separated with /
-				// This of course breaks when an aritst name contains slash character, e.g. "AC/DC"
+				// This of course breaks when an artist name contains slash character, e.g. "AC/DC"
 				// MP3tag (maybe others) implement alternative system where multiple artists are null-separated, which makes more sense
 				// getID3 will split null-separated artists into multiple artists and leave slash-separated ones to the user
 				switch ($parsedFrame['encoding']) {
@@ -3411,3 +3411,4 @@ class getid3_id3v2 extends getid3_handler
 	}
 
 }
+

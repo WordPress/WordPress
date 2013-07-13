@@ -103,7 +103,7 @@ class getID3
 	protected $startup_warning = '';
 	protected $memory_limit    = 0;
 
-	const VERSION           = '1.9.5-20130220';
+	const VERSION           = '1.9.7-20130705';
 	const FREAD_BUFFER_SIZE = 32768;
 
 	const ATTACHMENTS_NONE   = false;
@@ -221,6 +221,7 @@ class getID3
 		return $this->option_fread_buffer_size;
 	}
 
+
 	// public: setOption
 	public function setOption($optArray) {
 		if (!is_array($optArray) || empty($optArray)) {
@@ -234,6 +235,7 @@ class getID3
 		}
 		return true;
 	}
+
 
 	public function openfile($filename) {
 		try {
@@ -293,7 +295,7 @@ class getID3
 							throw new getid3_exception('PHP seems to think the file is larger than '.round(PHP_INT_MAX / 1073741824).'GB, but filesystem reports it as '.number_format($real_filesize, 3).'GB, please report to info@getid3.org');
 						}
 						$this->info['filesize'] = $real_filesize;
-						$this->error('File is larger than '.round(PHP_INT_MAX / 1073741824).'GB (filesystem reports it as '.number_format($real_filesize, 3).'GB) and is not properly supported by PHP.');
+						$this->warning('File is larger than '.round(PHP_INT_MAX / 1073741824).'GB (filesystem reports it as '.number_format($real_filesize, 3).'GB) and is not properly supported by PHP.');
 				}
 			}
 
@@ -1764,8 +1766,11 @@ abstract class getid3_handler
 
 		return $attachment;
 	}
+
 }
 
-class getid3_exception extends Exception {
+
+class getid3_exception extends Exception
+{
 	public $message;
 }
