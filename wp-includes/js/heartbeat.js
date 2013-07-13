@@ -169,7 +169,7 @@ window.wp = window.wp || {};
 			self.xhr = $.ajax({
 				url: url,
 				type: 'post',
-				timeout: 30000, // throw an error of not completed after 30 sec.
+				timeout: 30000, // throw an error if not completed after 30 sec.
 				data: send,
 				dataType: 'json'
 			}).done( function( response, textStatus, jqXHR ) {
