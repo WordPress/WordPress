@@ -42,7 +42,7 @@ There are a number of plugins can be added to improve the performance and functi
 - _[W3 Total Cache](http://wordpress.org/plugins/w3-total-cache/)_
 - _[Solr for Wordpress](http://wordpress.org/plugins/solr-for-wordpress/)_ 
 - _[wp-shell](http://wordpress.org/plugins/solr-for-wordpress/) - (Not available)_ 
-- 
+ 
 ## Breaking changes
 
 There are some breaking changes that should be considered before using Freakpress.
