@@ -394,7 +394,6 @@ img {
 /* Audio */
 .post-format-audio {
 	background-color: #db572f;
-	padding-left: 120px;
 }
 
 .post-format-audio a {
@@ -404,17 +403,15 @@ img {
 .post-format-audio:before {
 	background: url(../images/dotted-line.png) repeat-y 85px 0;
 	background-size: 4px 4px;
-	-webkit-font-smoothing: antialiased;
+	content: "\f109";
+	display: block;
+	float: left;
 	font-family: Genericons;
 	font-size: 64px;
-	content: "\f109";
-	float: left;
-	width: 120px;
-	display: block;
+	-webkit-font-smoothing: antialiased;
 	height: 100%;
-	position: absolute;
-	left: 0;
-	top: 4px;
+	line-height: 1;
+	width: 120px;
 }
 
 /* Chat */
@@ -507,10 +504,10 @@ img {
 	background-size: 4px 4px;
 	content: "";
 	display: block;
+	float: left;
 	height: 100%;
-	position: absolute;
-	left: 15px;
-	top: 0;
+	position: relative;
+	left: -30px;
 	width: 1px;
 }
 
@@ -565,4 +562,11 @@ html .mceContentBody.rtl {
 .rtl blockquote blockquote {
 	margin-left: 0;
 	margin-right: 24px;
+}
+
+.rtl.post-format-audio:before,
+.rtl.post-format-status:before,
+.rtl.post-format-status > p:first-child:before {
+	background: none;
+	content: none;
 }
