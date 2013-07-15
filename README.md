@@ -8,7 +8,7 @@ Pantheon is development platform optimized and configured to run high performanc
 
 ## Getting Started
 
-The goal is to keep Freakpress as close to Wordpress as possible and avoid hacking the core. There are three steps to getting a Freakpress install up and running. 
+The goal is to keep Freakpress as close to Wordpress as possible and avoid hacking the core. There are four steps to getting a Freakpress install up and running. 
 
 ### 1. Spin-up a site
 
@@ -24,7 +24,9 @@ When the spin-up process is complete, you will be redirected to the site's dashb
 
 ### 3. Run the Wordpress installer 
 
-No need to worry about database connection information as that is taken care of in the background. The only step that you need to complete is the site information and the installation process will be complete
+How about the Wordpress database config screen? No need to worry about database connection information as that is taken care of in the background. The only step that you need to complete is the site information and the installation process will be complete.
+
+We will post more information about how this works but we recommend developers take a look at `wp-congfig.php` to get an understanding.
 
 ![alt](http://i.imgur.com/4EOcqYN.png, '')
 
@@ -32,6 +34,15 @@ No need to worry about database connection information as that is taken care of 
 
 ![alt](http://i.imgur.com/DwFe35s.png, '') 
 
+
+## Recommended Plugins - _Unstable_
+
+There are a number of plugins can be added to improve the performance and functionality of Freakpress. These have not been fully tested and may require some work to be 100% functional
+
+- _[W3 Total Cache](http://wordpress.org/plugins/w3-total-cache/)_
+- _[Solr for Wordpress](http://wordpress.org/plugins/solr-for-wordpress/)_ 
+- _[wp-shell](http://wordpress.org/plugins/solr-for-wordpress/) - (Not available)_ 
+- 
 ## Breaking changes
 
 There are some breaking changes that should be considered before using Freakpress.
@@ -47,14 +58,6 @@ Absolute URLs are standard in Wordpress which can lead to broken links and other
 Pantheon is configured for Drupal so the cookie scheme is set to the Drupal convention of the _SESS_ prefix for all cookies. This is handled in `wp-config.php` by setting configuration variables. For any custom modules that rely on cookies, it will be important to keep this in mind.
 
 If cookies are detected they will be stripped out and this will also prevent Varnish from caching and serving requests. 
-
-## Recommended Plugins - _Unstable_
-
-There are a number of plugins can be added to improve the performance and functionality of Freakpress. These have not been fully tested and may require some work to be 100% functional
-
-- _[W3 Total Cache](http://wordpress.org/plugins/w3-total-cache/)_
-- _[Solr for Wordpress](http://wordpress.org/plugins/solr-for-wordpress/)_ 
-- _[wp-shell](http://wordpress.org/plugins/solr-for-wordpress/) - (Not available)_ 
 
 ## Troubleshooting & Useful Tools 
 
