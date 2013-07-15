@@ -63,10 +63,11 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 
 function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null ) {
 	$post = get_post( $post );
-	$revisions = array();
+	$revisions = $authors = array();
 	$now_gmt = time();
 
 	$revisions = wp_get_post_revisions( $post->ID, array( 'order' => 'ASC' ) );
+	$show_avatars = get_option( 'show_avatars' );
 
 	cache_users( wp_list_pluck( $revisions, 'post_author' ) );
 
@@ -81,20 +82,25 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 			),
 			"restore-post_{$revision->ID}"
 		);
+
+		if ( ! isset( $authors[ $revision->post_author ] ) ) {
+			$authors[ $revision->post_author ] = array(
+				'id' => (int) $revision->post_author,
+				'avatar' => $show_avatars ? get_avatar( $revision->post_author, 24 ) : '',
+				'name' => get_the_author_meta( 'display_name', $revision->post_author ),
+			);
+		}
+
 		$revisions[ $revision->ID ] = array(
-			'id'           => $revision->ID,
-			'title'        => get_the_title( $post->ID ),
-			'author' => array(
-				'id'     => (int) $revision->post_author,
-				'avatar' => get_avatar( $revision->post_author, 24 ),
-				'name'   => get_the_author_meta( 'display_name', $revision->post_author ),
-			),
-			'date'         => date_i18n( __( 'M j, Y @ G:i' ), $modified ),
-			'dateShort'    => date_i18n( _x( 'j M @ G:i', 'revision date short format' ), $modified ),
-			'timeAgo'      => sprintf( __( '%s ago' ), human_time_diff( $modified_gmt, $now_gmt ) ),
-			'autosave'     => wp_is_post_autosave( $revision ),
-			'current'      => $revision->post_modified_gmt === $post->post_modified_gmt,
-			'restoreUrl'   => urldecode( $restore_link ),
+			'id'         => $revision->ID,
+			'title'      => get_the_title( $post->ID ),
+			'author'     => $authors[ $revision->post_author ],
+			'date'       => date_i18n( __( 'M j, Y @ G:i' ), $modified ),
+			'dateShort'  => date_i18n( _x( 'j M @ G:i', 'revision date short format' ), $modified ),
+			'timeAgo'    => sprintf( __( '%s ago' ), human_time_diff( $modified_gmt, $now_gmt ) ),
+			'autosave'   => wp_is_post_autosave( $revision ),
+			'current'    => $revision->post_modified_gmt === $post->post_modified_gmt,
+			'restoreUrl' => urldecode( $restore_link ),
 		);
 	}
 
