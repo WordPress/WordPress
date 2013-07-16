@@ -442,15 +442,6 @@ class wpdb {
 	var $collate;
 
 	/**
-	 * Whether to use mysql_real_escape_string
-	 *
-	 * @since 2.8.0
-	 * @access public
-	 * @var bool
-	 */
-	var $real_escape = false;
-
-	/**
 	 * Database Username
 	 *
 	 * @since 2.9.0
@@ -648,7 +639,6 @@ class wpdb {
 		if ( $this->has_cap( 'collation' ) && ! empty( $charset ) ) {
 			if ( function_exists( 'mysql_set_charset' ) && $this->has_cap( 'set_charset' ) ) {
 				mysql_set_charset( $charset, $dbh );
-				$this->real_escape = true;
 			} else {
 				$query = $this->prepare( 'SET NAMES %s', $charset );
 				if ( ! empty( $collate ) )
@@ -870,10 +860,9 @@ class wpdb {
 	}
 
 	/**
-	 * Real escape, using mysql_real_escape_string() or addslashes()
+	 * Real escape, using mysql_real_escape_string()
 	 *
 	 * @see mysql_real_escape_string()
-	 * @see addslashes()
 	 * @since 2.8.0
 	 * @access private
 	 *
@@ -881,10 +870,7 @@ class wpdb {
 	 * @return string escaped
 	 */
 	function _real_escape( $string ) {
-		if ( $this->dbh && $this->real_escape )
-			return mysql_real_escape_string( $string, $this->dbh );
-		else
-			return addslashes( $string );
+		return mysql_real_escape_string( $string, $this->dbh );
 	}
 
 	/**
