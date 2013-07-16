@@ -40,7 +40,7 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 
 	global $wpdb;
 
-	$column = esc_sql($meta_type . '_id');
+	$column = sanitize_key($meta_type . '_id');
 
 	// expected_slashed ($meta_key)
 	$meta_key = wp_unslash($meta_key);
@@ -110,7 +110,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 
 	global $wpdb;
 
-	$column = esc_sql($meta_type . '_id');
+	$column = sanitize_key($meta_type . '_id');
 	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
 
 	// expected_slashed ($meta_key)
@@ -193,7 +193,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 
 	global $wpdb;
 
-	$type_column = esc_sql($meta_type . '_id');
+	$type_column = sanitize_key($meta_type . '_id');
 	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
 	// expected_slashed ($meta_key)
 	$meta_key = wp_unslash($meta_key);
@@ -397,7 +397,7 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
 	if ( ! $table = _get_meta_table( $meta_type ) )
 		return false;
 
-	$column = esc_sql($meta_type . '_id');
+	$column = sanitize_key($meta_type . '_id');
 	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
 
 	// Fetch the meta and go on if it's found.
@@ -478,7 +478,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 		return false;
 
 	// object and id columns
-	$column = esc_sql($meta_type . '_id');
+	$column = sanitize_key($meta_type . '_id');
 	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
 
 	// Fetch the meta and go on if it's found.
@@ -528,7 +528,7 @@ function update_meta_cache($meta_type, $object_ids) {
 	if ( ! $table = _get_meta_table($meta_type) )
 		return false;
 
-	$column = esc_sql($meta_type . '_id');
+	$column = sanitize_key($meta_type . '_id');
 
 	global $wpdb;
 
@@ -706,7 +706,7 @@ class WP_Meta_Query {
 		if ( ! $meta_table = _get_meta_table( $type ) )
 			return false;
 
-		$meta_id_column = esc_sql( $type . '_id' );
+		$meta_id_column = sanitize_key( $type . '_id' );
 
 		$join = array();
 		$where = array();

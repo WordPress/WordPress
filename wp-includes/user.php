@@ -393,7 +393,7 @@ class WP_User_Query {
 
 			$this->query_fields = array();
 			foreach ( $qv['fields'] as $field )
-				$this->query_fields[] = $wpdb->users . '.' . esc_sql( $field );
+				$this->query_fields[] = $wpdb->users . '.' . sanitize_key( $field );
 			$this->query_fields = implode( ',', $this->query_fields );
 		} elseif ( 'all' == $qv['fields'] ) {
 			$this->query_fields = "$wpdb->users.*";
