@@ -211,28 +211,20 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Sanitize string or array of strings for database.
+	 * Escape string or array of strings for database.
 	 *
 	 * @since 1.5.2
 	 *
-	 * @param string|array $array Sanitize single string or array of strings.
-	 * @return string|array Type matches $array and sanitized for the database.
+	 * @param string|array $data Escape single string or array of strings.
+	 * @return string|array Type matches $data and sanitized for the database.
 	 */
-	function escape(&$array) {
-		global $wpdb;
+	function escape( &$data ) {
+		if ( ! is_array( $data ) )
+			return wp_slash( $data );
 
-		if (!is_array($array)) {
-			return($wpdb->escape($array));
-		} else {
-			foreach ( (array) $array as $k => $v ) {
-				if ( is_array($v) ) {
-					$this->escape($array[$k]);
-				} else if ( is_object($v) ) {
-					//skip
-				} else {
-					$array[$k] = $wpdb->escape($v);
-				}
-			}
+		foreach ( $data as &$v ) {
+			if ( ! is_object( $v ) )
+				$v = wp_slash( $v );
 		}
 	}
 
@@ -2985,9 +2977,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		$comment['comment_post_ID'] = $post_id;
 
 		if ( $logged_in ) {
-			$comment['comment_author'] = $wpdb->escape( $user->display_name );
-			$comment['comment_author_email'] = $wpdb->escape( $user->user_email );
-			$comment['comment_author_url'] = $wpdb->escape( $user->user_url );
+			$comment['comment_author'] = $this->escape( $user->display_name );
+			$comment['comment_author_email'] = $this->escape( $user->user_email );
+			$comment['comment_author_url'] = $this->escape( $user->user_url );
 			$comment['user_ID'] = $user->ID;
 		} else {
 			$comment['comment_author'] = '';
@@ -4923,8 +4915,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		global $wpdb;
 
 		$blog_ID     = (int) $args[0];
-		$username  = $wpdb->escape($args[1]);
-		$password   = $wpdb->escape($args[2]);
+		$username  = $this->escape($args[1]);
+		$password   = $this->escape($args[2]);
 		$data        = $args[3];
 
 		$name = sanitize_file_name( $data['name'] );
@@ -5451,7 +5443,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$pagelinkedfrom = str_replace('&', '&amp;', $pagelinkedfrom);
 
 		$context = '[&#8230;] ' . esc_html( $excerpt ) . ' [&#8230;]';
-		$pagelinkedfrom = $wpdb->escape( $pagelinkedfrom );
+		$pagelinkedfrom = $this->escape( $pagelinkedfrom );
 
 		$comment_post_ID = (int) $post_ID;
 		$comment_author = $title;
