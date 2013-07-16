@@ -646,7 +646,7 @@ function add_meta( $post_ID ) {
 		if ( is_protected_meta( $metakey, 'post' ) || ! current_user_can( 'add_post_meta', $post_ID, $metakey ) )
 			return false;
 
-		$metakey = esc_sql( $metakey );
+		$metakey = wp_slash( $metakey );
 
 		return add_post_meta( $post_ID, $metakey, $metavalue );
 	}
