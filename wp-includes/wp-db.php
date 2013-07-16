@@ -846,16 +846,22 @@ class wpdb {
 	}
 
 	/**
-	 * Weak escape, using addslashes()
+	 * Do not use, deprecated.
 	 *
-	 * @see addslashes()
+	 * Use esc_sql() or wpdb::prepare() instead.
+	 *
 	 * @since 2.8.0
+	 * @deprecated 3.6.0
+	 * @see wpdb::prepare
+	 * @see esc_sql()
 	 * @access private
 	 *
 	 * @param string $string
 	 * @return string
 	 */
 	function _weak_escape( $string ) {
+		if ( func_num_args() === 1 )
+			_deprecated_function( __METHOD__, '3.6', 'wpdb::prepare() or esc_sql()' );
 		return addslashes( $string );
 	}
 
@@ -876,7 +882,6 @@ class wpdb {
 	/**
 	 * Escape data. Works on arrays.
 	 *
-	 * @uses wpdb::_escape()
 	 * @uses wpdb::_real_escape()
 	 * @since  2.8.0
 	 * @access private
@@ -886,7 +891,7 @@ class wpdb {
 	 */
 	function _escape( $data ) {
 		if ( is_array( $data ) ) {
-			foreach ( (array) $data as $k => $v ) {
+			foreach ( $data as $k => $v ) {
 				if ( is_array($v) )
 					$data[$k] = $this->_escape( $v );
 				else
@@ -900,24 +905,30 @@ class wpdb {
 	}
 
 	/**
-	 * Escapes content for insertion into the database using addslashes(), for security.
+	 * Do not use, deprecated.
 	 *
-	 * Works on arrays.
+	 * Use esc_sql() or wpdb::prepare() instead.
 	 *
 	 * @since 0.71
-	 * @param string|array $data to escape
-	 * @return string|array escaped as query safe string
+	 * @deprecated 3.6.0
+	 * @see wpdb::prepare()
+	 * @see esc_sql()
+	 *
+	 * @param mixed $data
+	 * @return mixed
 	 */
 	function escape( $data ) {
+		if ( func_num_args() === 1 )
+			_deprecated_function( __METHOD__, '3.6', 'wpdb::prepare() or esc_sql()' );
 		if ( is_array( $data ) ) {
-			foreach ( (array) $data as $k => $v ) {
+			foreach ( $data as $k => $v ) {
 				if ( is_array( $v ) )
-					$data[$k] = $this->escape( $v );
+					$data[$k] = $this->escape( $v, 'recursive' );
 				else
-					$data[$k] = $this->_weak_escape( $v );
+					$data[$k] = $this->_weak_escape( $v, 'internal' );
 			}
 		} else {
-			$data = $this->_weak_escape( $data );
+			$data = $this->_weak_escape( $data, 'internal' );
 		}
 
 		return $data;

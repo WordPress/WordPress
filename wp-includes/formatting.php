@@ -2591,17 +2591,19 @@ function _deep_replace( $search, $subject ) {
 }
 
 /**
- * Escapes data for use in a MySQL query
+ * Escapes data for use in a MySQL query.
  *
- * This is just a handy shortcut for $wpdb->escape(), for completeness' sake
+ * Usually you should prepare queries using wpdb::prepare().
+ * Sometimes, spot-escaping is required or useful. One example
+ * is preparing an array for use in an IN clause.
  *
  * @since 2.8.0
- * @param string $sql Unescaped SQL data
- * @return string The cleaned $sql
+ * @param string $data Unescaped data
+ * @return string Escaped data
  */
-function esc_sql( $sql ) {
+function esc_sql( $data ) {
 	global $wpdb;
-	return $wpdb->escape( $sql );
+	return $wpdb->_escape( $data );
 }
 
 /**
