@@ -462,13 +462,13 @@ endif; // twentyeleven_content_nav
  * Return the first link from the post content. If none found, the
  * post permalink is used as a fallback.
  *
- * @uses get_content_url() to get the first URL from the post content.
+ * @uses get_url_in_content() to get the first URL from the post content.
  *
  * @return string
  */
 function twentyeleven_get_first_url() {
 	$content = get_the_content();
-	$has_url = function_exists( 'get_content_url' ) ? get_content_url( $content ) : false;
+	$has_url = function_exists( 'get_url_in_content' ) ? get_url_in_content( $content ) : false;
 
 	if ( ! $has_url )
 		$has_url = twentyeleven_url_grabber();
