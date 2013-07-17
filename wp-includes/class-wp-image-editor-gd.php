@@ -401,4 +401,22 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 				return imagejpeg( $this->image, null, $this->quality );
 		}
 	}
+
+	/**
+	 * Either calls editor's save function or handles file as a stream.
+	 *
+	 * @since 3.5.0
+	 * @access protected
+	 *
+	 * @param string|stream $filename
+	 * @param callable $function
+	 * @param array $arguments
+	 * @return boolean
+	 */
+	protected function make_image( $filename, $function, $arguments ) {
+		if ( wp_is_stream( $filename ) )
+			$arguments[1] = null;
+
+		return parent::make_image( $filename, $function, $arguments );
+	}
 }

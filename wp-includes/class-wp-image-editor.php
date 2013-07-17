@@ -327,14 +327,11 @@ abstract class WP_Image_Editor {
 	 * @return boolean
 	 */
 	protected function make_image( $filename, $function, $arguments ) {
-		$dst_file = $filename;
-
-		// The directory containing the original file may no longer exist when using a replication plugin.
-		wp_mkdir_p( dirname( $dst_file ) );
-
 		if ( $stream = wp_is_stream( $filename ) ) {
-			$filename = null;
 			ob_start();
+		} else {
+			// The directory containing the original file may no longer exist when using a replication plugin. 
+			wp_mkdir_p( dirname( $filename ) ); 
 		}
 
 		$result = call_user_func_array( $function, $arguments );
@@ -342,7 +339,7 @@ abstract class WP_Image_Editor {
 		if ( $result && $stream ) {
 			$contents = ob_get_contents();
 
-			$fp = fopen( $dst_file, 'w' );
+			$fp = fopen( $filename, 'w' );
 
 			if ( ! $fp )
 				return false;
