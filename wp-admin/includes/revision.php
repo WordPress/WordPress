@@ -84,7 +84,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
  * @param int $selected_revision_id The selected revision id.
  * @param int $from (optional) The revision id to compare from.
  *
- * @return array An associative array of revision daIta and related settings.
+ * @return array An associative array of revision data and related settings.
  */
 function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null ) {
 	$post = get_post( $post );
