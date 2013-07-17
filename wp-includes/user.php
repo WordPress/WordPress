@@ -392,8 +392,10 @@ class WP_User_Query {
 			$qv['fields'] = array_unique( $qv['fields'] );
 
 			$this->query_fields = array();
-			foreach ( $qv['fields'] as $field )
-				$this->query_fields[] = $wpdb->users . '.' . sanitize_key( $field );
+			foreach ( $qv['fields'] as $field ) {
+				$field = 'ID' === $field ? 'ID' : sanitize_key( $field );
+				$this->query_fields[] = "$wpdb->users.$field";
+			}
 			$this->query_fields = implode( ',', $this->query_fields );
 		} elseif ( 'all' == $qv['fields'] ) {
 			$this->query_fields = "$wpdb->users.*";
@@ -1029,7 +1031,7 @@ function wp_dropdown_users( $args = '' ) {
 	extract( $r, EXTR_SKIP );
 
 	$query_args = wp_array_slice_assoc( $r, array( 'blog_id', 'include', 'exclude', 'orderby', 'order', 'who' ) );
-	$query_args['fields'] = array( 'ID', $show );
+	$query_args['fields'] = array( 'ID', 'user_login', $show );
 	$users = get_users( $query_args );
 
 	$output = '';
