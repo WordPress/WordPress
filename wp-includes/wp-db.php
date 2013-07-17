@@ -860,7 +860,7 @@ class wpdb {
 	 * @return string
 	 */
 	function _weak_escape( $string ) {
-		if ( func_num_args() === 1 )
+		if ( func_num_args() === 1 && function_exists( '_deprecated_function' ) )
 			_deprecated_function( __METHOD__, '3.6', 'wpdb::prepare() or esc_sql()' );
 		return addslashes( $string );
 	}
@@ -918,7 +918,7 @@ class wpdb {
 	 * @return mixed
 	 */
 	function escape( $data ) {
-		if ( func_num_args() === 1 )
+		if ( func_num_args() === 1 && function_exists( '_deprecated_function' ) )
 			_deprecated_function( __METHOD__, '3.6', 'wpdb::prepare() or esc_sql()' );
 		if ( is_array( $data ) ) {
 			foreach ( $data as $k => $v ) {
