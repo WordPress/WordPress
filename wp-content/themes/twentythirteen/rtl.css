@@ -261,19 +261,6 @@ div.nav-menu > ul {
 	margin-right: auto;
 }
 
-.blog .format-gallery .gallery-item,
-.archive .format-gallery .gallery-item,
-.search .format-gallery .gallery-item {
-	margin-left: 4px;
-	margin-right: auto;
-}
-.blog .format-gallery .gallery-item img,
-.archive .format-gallery .gallery-item img,
-.search .format-gallery .gallery-item img {
-	position: absolute;
-	left: 0;
-}
-
 .format-image .wp-caption-text {
 	text-align: right;
 }
@@ -726,7 +713,7 @@ div.nav-menu > ul {
 		padding-right: 0;
 	}
 
-	.single .gallery-columns-3 .gallery-item:nth-of-type(3n) {
+	.gallery-columns-3 .gallery-item:nth-of-type(3n) {
 		margin-left: 4px;
 		margin-right: auto;
 	}
@@ -738,25 +725,18 @@ div.nav-menu > ul {
 		margin-right: 0;
 	}
 
+	.gallery .gallery-item:nth-of-type(even) {
+		margin-left: 0;
+		margin-right: auto;
+	}
+
 	.gallery .gallery-item,
-	.single .gallery-columns-2.gallery-size-thumbnail .gallery-item,
-	.blog .format-gallery .gallery-item,
-	.archive .format-gallery .gallery-item,
-	.search .format-gallery .gallery-item,
-	.single .gallery.gallery-columns-3 .gallery-item:nth-of-type(even),
+	.gallery.gallery-columns-3 .gallery-item:nth-of-type(even),
 	.gallery-columns-3 .gallery-item:nth-of-type(3n),
 	.gallery-columns-5 .gallery-item:nth-of-type(5n),
 	.gallery-columns-7 .gallery-item:nth-of-type(7n),
 	.gallery-columns-9 .gallery-item:nth-of-type(9n) {
 		margin-left: 4px;
-		margin-right: auto;
-	}
-
-	.blog .format-gallery .gallery-item:nth-of-type(odd),
-	.archive .format-gallery .gallery-item:nth-of-type(odd),
-	.search .format-gallery .gallery-item:nth-of-type(odd),
-	.single .gallery .gallery-item:nth-of-type(even) {
-		margin-left: 0;
 		margin-right: auto;
 	}
 

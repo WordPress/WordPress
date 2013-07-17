@@ -501,22 +501,6 @@ function twentythirteen_get_link_url() {
 }
 
 /**
- * Sets the image size in featured galleries to large.
- *
- * @since Twenty Thirteen 1.0
- *
- * @param array $atts Combined and filtered attribute list.
- * @return array The filtered attribute list.
- */
-function twentythirteen_gallery_atts( $atts ) {
-	if ( has_post_format( 'gallery' ) && ! is_single() )
-		$atts['size'] = wp_is_mobile() ? 'thumbnail' : 'medium';
-
-	return $atts;
-}
-add_filter( 'shortcode_atts_gallery', 'twentythirteen_gallery_atts' );
-
-/**
  * Extends the default WordPress body classes.
  *
  * Adds body classes to denote:
