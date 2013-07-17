@@ -1,5 +1,21 @@
 <?php
+/**
+ * WordPress Administration Revisions API.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
 
+/**
+ * Get the revision UI diff.
+ *
+ * @param object $post The post object.
+ * @param int $compare_from The revision id to compare from.
+ * @param int $compare_to The revision id to come to.
+ *
+ * @return array|bool Associative array of a post's revisioned fields and their diffs.
+ * 	Or, false on failure.
+ */
 function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 	if ( ! $post = get_post( $post ) )
 		return false;
@@ -61,6 +77,15 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 	return $return;
 }
 
+/**
+ * Prepare revisions for JavaScript.
+ *
+ * @param object $post The post object.
+ * @param int $selected_revision_id The selected revision id.
+ * @param int $from (optional) The revision id to compare from.
+ *
+ * @return array An associative array of revision daIta and related settings.
+ */
 function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null ) {
 	$post = get_post( $post );
 	$revisions = $authors = array();
