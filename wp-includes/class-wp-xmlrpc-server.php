@@ -12,8 +12,8 @@
  * pingback. Additional WordPress API for managing comments, pages, posts,
  * options, etc.
  *
- * Since WordPress 2.6.0, WordPress XMLRPC server can be disabled in the
- * administration panels.
+ * As of WordPress 3.5.0, XML-RPC is enabled by default. It can be disabled
+ * via the xmlrpc_enabled filter found in wp_xmlrpc_server::login().
  *
  * @package WordPress
  * @subpackage Publishing
