@@ -223,7 +223,9 @@ class wp_xmlrpc_server extends IXR_Server {
 			return wp_slash( $data );
 
 		foreach ( $data as &$v ) {
-			if ( ! is_object( $v ) )
+			if ( is_array( $v ) )
+				$this->escape( $v );
+			elseif ( ! is_object( $v ) )
 				$v = wp_slash( $v );
 		}
 	}
