@@ -35,7 +35,7 @@
 <h2>Using the Automatic Updater</h2>
 <p>If you are updating from version 2.7 or higher, you can use the automatic updater:</p>
 <ol>
-	<li>Open the <span class="file"><a href="wp-admin/update-core.php">wp-admin/update-core.php</a></span> in your browser and follow the instructions.</li>
+	<li>Open <span class="file"><a href="wp-admin/update-core.php">wp-admin/update-core.php</a></span> in your browser and follow the instructions.</li>
 	<li>You wanted more, perhaps? That&#8217;s it!</li>
 </ol>
 
@@ -46,9 +46,6 @@
 	<li>Upload the new files.</li>
 	<li>Point your browser to <span class="file"><a href="wp-admin/upgrade.php">/wp-admin/upgrade.php</a>.</span></li>
 </ol>
-
-<h2>Theme Template Changes</h2>
-<p>If you have customized your theme templates, you may have to make some changes across major versions.</p>
 
 <h1>Migrating from other systems</h1>
 <p>WordPress can <a href="http://codex.wordpress.org/Importing_Content">import from a number of systems</a>. First you need to get WordPress installed and working as described above, before using <a href="wp-admin/import.php" title="Import to WordPress">our import tools</a>.</p>
@@ -79,16 +76,6 @@
 	<dt><a href="http://codex.wordpress.org/IRC">WordPress <abbr title="Internet Relay Chat">IRC</abbr> Channel</a></dt>
 		<dd>There is an online chat channel that is used for discussion among people who use WordPress and occasionally support topics. The above wiki page should point you in the right direction. (<a href="irc://irc.freenode.net/wordpress">irc.freenode.net #wordpress</a>)</dd>
 </dl>
-
-<h1><abbr title="eXtensible Markup Language">XML</abbr>-<abbr title="Remote Procedure Call">RPC</abbr> and Atom Interface</h1>
-<p>You can post to your WordPress blog with tools like <a href="http://download.live.com/writer">Windows Live Writer</a>, <a href="http://illuminex.com/ecto/">Ecto</a>, <a href="http://bloggar.com/">w.bloggar</a>, <a href="http://radio.userland.com/">Radio Userland</a> (which means you can use Radio&#8217;s email-to-blog feature), <a href="http://www.newzcrawler.com/">NewzCrawler</a>, and other tools that support the blogging <abbr title="application programming interface">API</abbr>s! :) You can read more about <a href="http://codex.wordpress.org/XML-RPC_Support"><abbr>XML</abbr>-<abbr>RPC</abbr> support on the Codex</a>.</p>
-
-<h1>Post via Email</h1>
-<p>You can post from an email client! To set this up go to your &#8220;Writing&#8221; options screen and fill in the connection details for your secret <abbr title="Post Office Protocol version 3">POP3</abbr> account. Then you need to set up <code>wp-mail.php</code> to execute periodically to check the mailbox for new posts. You can do it with <a href="http://en.wikipedia.org/wiki/Cron">cron</a>-jobs, or if your host doesn&#8217;t support it you can look into the various website-monitoring services, and make them check your <code>wp-mail.php</code> <abbr title="Uniform Resource Locator">URL</abbr>.</p>
-<p>Posting is easy: Any email sent to the address you specify will be posted, with the subject as the title. It is best to keep the address discrete. The script will <em>delete</em> emails that are successfully posted.</p>
-
-<h1>User Roles</h1>
-<p>We introduced a very flexible roles system in version 2.0. You can <a href="http://codex.wordpress.org/Roles_and_Capabilities" title="WordPress roles and capabilities">read more about Roles and Capabilities on the Codex</a>.</p>
 
 <h1>Final Notes</h1>
 <ul>
