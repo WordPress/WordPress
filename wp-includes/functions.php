@@ -3916,37 +3916,39 @@ function wp_checkdate( $month, $day, $year, $source_date ) {
 
 /**
  * Load the auth check for monitoring whether the user is still logged in.
- * Can be disabled with remove_action( 'admin_init', 'wp_auth_check_load' );
+ *
+ * Can be disabled with remove_action( 'admin_enqueue_scripts', 'wp_auth_check_load' );
+ *
+ * This is disabled for certain screens where a login screen could cause an
+ * inconvenient interruption. A filter called wp_auth_check_load can be used
+ * for fine-grained control.
  *
  * @since 3.6.0
- *
- * @return void
  */
 function wp_auth_check_load() {
-	global $pagenow;
-
-	// Don't load for these types of requests
-	if ( defined('XMLRPC_REQUEST') || defined('IFRAME_REQUEST') || 'wp-login.php' == $pagenow )
+	if ( ! is_admin() && ! is_user_logged_in() )
 		return;
 
-	if ( is_admin() || is_user_logged_in() ) {
-		if ( defined('DOING_AJAX') ) {
-			add_filter( 'heartbeat_received', 'wp_auth_check', 10, 2 );
-			add_filter( 'heartbeat_nopriv_received', 'wp_auth_check', 10, 2 );
-		} else {
-			wp_enqueue_style( 'wp-auth-check' );
-			wp_enqueue_script( 'wp-auth-check' );
+	if ( defined( 'IFRAME_REQUEST' ) )
+		return;
 
-			if ( is_admin() )
-				add_action( 'admin_print_footer_scripts', 'wp_auth_check_html', 5 );
-			else
-				add_action( 'wp_print_footer_scripts', 'wp_auth_check_html', 5 );
-		}
+	$screen = get_current_screen();
+	$hidden = array( 'update', 'update-network', 'update-core', 'update-core-network', 'upgrade', 'upgrade-network', 'network' );
+	$show = ! in_array( $screen->id, $hidden );
+
+	if ( apply_filters( 'wp_auth_check_load', $show, $screen ) ) {
+		wp_enqueue_style( 'wp-auth-check' );
+		wp_enqueue_script( 'wp-auth-check' );
+
+		add_action( 'admin_print_footer_scripts', 'wp_auth_check_html', 5 );
+		add_action( 'wp_print_footer_scripts', 'wp_auth_check_html', 5 );
 	}
 }
 
 /**
- * Output the HTML that shows the wp-login dialog when the user is no longer logged in
+ * Output the HTML that shows the wp-login dialog when the user is no longer logged in.
+ *
+ * @since 3.6.0
  */
 function wp_auth_check_html() {
 	$login_url = wp_login_url();
@@ -3985,19 +3987,16 @@ function wp_auth_check_html() {
 }
 
 /**
- * Check whether a user is still logged in, and act accordingly if not.
+ * Check whether a user is still logged in, for the heartbeat.
+ *
+ * Send a result that shows a log-in box if the user is no longer logged in,
+ * or if their cookie is within the grace period.
  *
  * @since 3.6.0
  */
 function wp_auth_check( $response, $data ) {
-	if ( ! isset( $data['wp-auth-check'] ) )
-		return $response;
-
-	// If the user is logged in and we are outside the login grace period, bail.
-	if ( is_user_logged_in() && empty( $GLOBALS['login_grace_period'] ) )
-		return array_merge( $response, array( 'wp-auth-check' => '1' ) );
-
-	return array_merge( $response, array( 'wp-auth-check' => 'show' ) );
+	$response['wp-auth-check'] = is_user_logged_in() && empty( $GLOBALS['login_grace_period'] );
+	return $response;
 }
 
 /**

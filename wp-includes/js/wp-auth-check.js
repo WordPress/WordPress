@@ -85,17 +85,16 @@
 	}
 
 	$( document ).on( 'heartbeat-tick.wp-auth-check', function( e, data ) {
-		if ( data['wp-auth-check'] ) {
+		if ( 'wp-auth-check' in data ) {
 			schedule();
-
-			if ( data['wp-auth-check'] == 'show' && wrap.hasClass('hidden') )
+			if ( ! data['wp-auth-check'] && wrap.hasClass('hidden') )
 				show();
-			else if ( data['wp-auth-check'] != 'show' && ! wrap.hasClass('hidden') )
+			else if ( data['wp-auth-check'] && ! wrap.hasClass('hidden') )
 				hide();
 		}
 	}).on( 'heartbeat-send.wp-auth-check', function( e, data ) {
 		if ( ( new Date() ).getTime() > next )
-			data['wp-auth-check'] = 1;
+			data['wp-auth-check'] = true;
 	}).ready( function() {
 		schedule();
 		wrap = $('#wp-auth-check-wrap');

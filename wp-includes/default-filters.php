@@ -295,6 +295,8 @@ add_filter( 'default_option_embed_autourls', '__return_true' );
 add_filter( 'heartbeat_settings', 'wp_heartbeat_settings' );
 
 // Check if the user is logged out
-add_action( 'admin_init', 'wp_auth_check_load' );
+add_action( 'admin_enqueue_scripts',     'wp_auth_check_load'   );
+add_filter( 'heartbeat_received',        'wp_auth_check', 10, 2 );
+add_filter( 'heartbeat_nopriv_received', 'wp_auth_check', 10, 2 );
 
 unset($filter, $action);
