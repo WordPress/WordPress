@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Thirteen 0.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentythirteen\n"
-"POT-Creation-Date: 2013-07-18 19:13:53+00:00\n"
+"POT-Creation-Date: 2013-07-18 20:13:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -179,71 +179,71 @@ msgctxt "Bitter font: on or off"
 msgid "on"
 msgstr ""
 
-#: functions.php:214
+#: functions.php:212
 msgid "Page %s"
 msgstr ""
 
-#: functions.php:229
+#: functions.php:227
 msgid "Main Widget Area"
 msgstr ""
 
-#: functions.php:231
+#: functions.php:229
 msgid "Appears in the footer section of the site."
 msgstr ""
 
-#: functions.php:239
+#: functions.php:237
 msgid "Secondary Widget Area"
 msgstr ""
 
-#: functions.php:241
+#: functions.php:239
 msgid "Appears on posts and pages in the sidebar."
 msgstr ""
 
-#: functions.php:266
+#: functions.php:264
 msgid "Posts navigation"
 msgstr ""
 
-#: functions.php:270
+#: functions.php:268
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:274
+#: functions.php:272
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:302
+#: functions.php:300
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:305
+#: functions.php:303
 msgctxt "Previous post link"
 msgid "<span class=\"meta-nav\">&larr;</span> %title"
 msgstr ""
 
-#: functions.php:306
+#: functions.php:304
 msgctxt "Next post link"
 msgid "%title <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:326
+#: functions.php:324
 msgid "Sticky"
 msgstr ""
 
 #. Translators: used between list items, there is a space after the comma.
-#: functions.php:332 functions.php:338
+#: functions.php:330 functions.php:336
 msgid ", "
 msgstr ""
 
-#: functions.php:347
+#: functions.php:345
 msgid "View all posts by %s"
 msgstr ""
 
-#: functions.php:366
+#: functions.php:364
 msgctxt "1: post format name. 2: date"
 msgid "%1$s on %2$s"
 msgstr ""
 
-#: functions.php:370
+#: functions.php:368
 msgid "Permalink to %s"
 msgstr ""
 
