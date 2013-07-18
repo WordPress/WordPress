@@ -3554,21 +3554,35 @@ body.revision-php {
 	height: 140px;
 }
 
-.revisions .loading-indicator {
+.revisions .diff-error {
 	position: absolute;
 	text-align: center;
-	vertical-align: middle;
-	opacity: 0;
 	margin: 0 auto;
 	width: 100%;
-	height: 32px;
+	display: none;
+}
+
+.revisions.diff-error .diff-error {
+	display: block;
+}
+
+.revisions .loading-indicator {
+	position: absolute;
+	vertical-align: middle;
+	opacity: 0;
+	width: 100%;
 	top: 3em;
-	background: #fff url(../images/wpspin_light-2x.gif) no-repeat center top;
 	-webkit-transition: opacity 0.5s;
 	-moz-transition:    opacity 0.5s;
 	-ms-transition:     opacity 0.5s;
 	-o-transition:      opacity 0.5s;
 	transition:         opacity 0.5s;
+}
+
+.revisions .loading-indicator span.spinner {
+	display: block;
+	margin: 0 auto;
+	float: none;
 }
 
 .revisions.loading .loading-indicator {
@@ -3585,6 +3599,10 @@ body.revision-php {
 
 .revisions.loading .diff {
 	opacity: 0.5;
+}
+
+.revisions.diff-error .diff {
+	visibility: hidden;
 }
 
 .revisions-meta {

@@ -233,7 +233,9 @@ window.wp = window.wp || {};
 
 				request.done( _.bind( function() {
 					deferred.resolveWith( context, [ this.get( id ) ] );
-				}, this ) );
+				}, this ) ).fail( _.bind( function() {
+					deferred.reject();
+				}) );
 			}
 
 			return deferred.promise();
@@ -256,13 +258,22 @@ window.wp = window.wp || {};
 			diffs = _.first( this.getClosestUnloaded( allRevisionIds, centerId ), num );
 			if ( _.size( diffs ) > 0 ) {
 				this.load( diffs ).done( function() {
-					deferred.resolve();
-					self._loadAll( allRevisionIds, centerId, num );
+					self._loadAll( allRevisionIds, centerId, num ).done( function() {
+						deferred.resolve();
+					});
+				}).fail( function() {
+					if ( 1 === num ) { // Already tried 1. This just isn't working. Give up.
+						deferred.reject();
+					} else { // Request fewer diffs this time
+						self._loadAll( allRevisionIds, centerId, Math.ceil( num / 2 ) ).done( function() {
+							deferred.resolve();
+						});
+					}
 				});
-				return deferred.promise();
 			} else {
-				return deferred.reject().promise();
+				deferred.resolve();
 			}
+			return deferred;
 		},
 
 		load: function( comparisons ) {
@@ -314,12 +325,14 @@ window.wp = window.wp || {};
 	revisions.model.FrameState = Backbone.Model.extend({
 		defaults: {
 			loading: false,
+			error: false,
 			compareTwoMode: false
 		},
 
 		initialize: function( attributes, options ) {
 			var properties = {};
 
+			_.bindAll( this, 'receiveDiff' );
 			this._debouncedEnsureDiff = _.debounce( this._ensureDiff, 200 );
 
 			this.revisions = options.revisions;
@@ -351,6 +364,7 @@ window.wp = window.wp || {};
 		},
 
 		updateLoadingStatus: function() {
+			this.set( 'error', false );
 			this.set( 'loading', ! this.diff() );
 		},
 
@@ -399,7 +413,7 @@ window.wp = window.wp || {};
 
 			// If we already have the diff, then immediately trigger the update.
 			if ( diff ) {
-				this.trigger( 'update:diff', diff );
+				this.receiveDiff( diff );
 				return $.Deferred().resolve().promise();
 			// Otherwise, fetch the diff.
 			} else {
@@ -418,12 +432,20 @@ window.wp = window.wp || {};
 			this.updateDiff();
 		},
 
+		receiveDiff: function( diff ) {
+			// Did we actually get a diff?
+			if ( _.isUndefined( diff ) || _.isUndefined( diff.id ) ) {
+				this.set({
+					loading: false,
+					error: true
+				});
+			} else if ( this._diffId === diff.id ) { // Make sure the current diff didn't change
+				this.trigger( 'update:diff', diff );
+			}
+		},
+
 		_ensureDiff: function() {
-			return this.diffs.ensure( this._diffId, this ).done( function( diff ) {
-				// Make sure the current diff didn't change while the request was in flight.
-				if ( this._diffId === diff.id )
-					this.trigger( 'update:diff', diff );
-			});
+			return this.diffs.ensure( this._diffId, this ).always( this.receiveDiff );
 		}
 	});
 
@@ -443,6 +465,7 @@ window.wp = window.wp || {};
 			this.listenTo( this.model, 'update:diff', this.renderDiff );
 			this.listenTo( this.model, 'change:compareTwoMode', this.updateCompareTwoMode );
 			this.listenTo( this.model, 'change:loading', this.updateLoadingStatus );
+			this.listenTo( this.model, 'change:error', this.updateErrorStatus );
 
 			this.views.set( '.revisions-control-frame', new revisions.view.Controls({
 				model: this.model
@@ -468,6 +491,10 @@ window.wp = window.wp || {};
 
 		updateLoadingStatus: function() {
 			this.$el.toggleClass( 'loading', this.model.get('loading') );
+		},
+
+		updateErrorStatus: function() {
+			this.$el.toggleClass( 'diff-error', this.model.get('error') );
 		},
 
 		updateCompareTwoMode: function() {

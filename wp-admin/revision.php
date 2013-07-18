@@ -186,7 +186,8 @@ require_once( './admin-header.php' );
 </script>
 
 <script id="tmpl-revisions-diff" type="text/html">
-	<div class="loading-indicator"></div>
+	<div class="loading-indicator"><span class="spinner"></span></div>
+	<div class="diff-error"><?php _e( 'Sorry, something went wrong. The requested comparison could not be loaded.' ); ?></div>
 	<div class="diff">
 	<# _.each( data.fields, function( field ) { #>
 		<h3>{{ field.name }}</h3>
