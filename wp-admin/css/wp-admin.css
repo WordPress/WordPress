@@ -9047,6 +9047,7 @@ a.widget-control-edit {
 
 .control-section .accordion-section-title {
 	padding: 10px 20px;
+	color: #464646;
 	font-size: 15px;
 	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-weight: normal;
@@ -9063,34 +9064,21 @@ a.widget-control-edit {
 	top: 15px;
 }
 
-.control-section .accordion-section-title:hover:after,
-.control-section .accordion-section-title:focus:after {
-	border-color: #eee transparent;
-}
-
 .js .control-section:hover .accordion-section-title,
 .js .control-section .accordion-section-title:hover,
 .js .control-section.open .accordion-section-title,
 .js .control-section .accordion-section-title:focus {
-	color: #fff;
-	text-shadow: 0 -1px 0 #333;
-	background: #808080;
-	background-image: -webkit-gradient(linear, left bottom, left top, from(#6d6d6d), to(#808080));
-	background-image: -webkit-linear-gradient(bottom, #6d6d6d, #808080);
-	background-image:    -moz-linear-gradient(bottom, #6d6d6d, #808080);
-	background-image:      -o-linear-gradient(bottom, #6d6d6d, #808080);
-	background-image: linear-gradient(to top, #6d6d6d, #808080);
-	border-left: 1px solid #808080;
-	border-right: 1px solid #808080;
-}
-
-.js .control-section.accordion-section:hover,
-.control-section.accordion-section.open {
-	border-top-color: #808080;
+	color: #000;
+	background: #f9f9f9;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#ececec), to(#f9f9f9));
+	background-image: -webkit-linear-gradient(bottom, #ececec, #f9f9f9);
+	background-image:    -moz-linear-gradient(bottom, #ececec, #f9f9f9);
+	background-image:      -o-linear-gradient(bottom, #ececec, #f9f9f9);
+	background-image: linear-gradient(to top, #ececec, #f9f9f9);
 }
 
 .control-section.open .accordion-section-title {
-	border-bottom: 1px solid #6d6d6d;
+	border-bottom: 1px solid #dfdfdf;
 }
 
 /* =Media Queries

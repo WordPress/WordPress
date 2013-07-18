@@ -121,6 +121,36 @@ body {
 	height: 100%;
 }
 
+#customize-theme-controls .accordion-section-title:hover:after,
+#customize-theme-controls .accordion-section-title:focus:after {
+	border-color: #eee transparent;
+}
+
+#customize-theme-controls .control-section:hover .accordion-section-title,
+#customize-theme-controls .control-section .accordion-section-title:hover,
+#customize-theme-controls .control-section.open .accordion-section-title,
+#customize-theme-controls .control-section .accordion-section-title:focus {
+	color: #fff;
+	text-shadow: 0 -1px 0 #333;
+	background: #808080;
+	background-image: -webkit-gradient(linear, left bottom, left top, from(#6d6d6d), to(#808080));
+	background-image: -webkit-linear-gradient(bottom, #6d6d6d, #808080);
+	background-image:    -moz-linear-gradient(bottom, #6d6d6d, #808080);
+	background-image:      -o-linear-gradient(bottom, #6d6d6d, #808080);
+	background-image: linear-gradient(to top, #6d6d6d, #808080);
+	border-left: 1px solid #808080;
+	border-right: 1px solid #808080;
+}
+
+#customize-theme-controls .control-section.accordion-section:hover,
+#customize-theme-controls .control-section.accordion-section.open {
+	border-top-color: #808080;
+}
+
+#customize-theme-controls .control-section.open .accordion-section-title {
+	border-bottom: 1px solid #6d6d6d;
+}
+
 /*
  * Style for custom settings
  */

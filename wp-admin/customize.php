@@ -46,7 +46,7 @@ do_action( 'customize_controls_enqueue_scripts' );
 wp_user_settings();
 _wp_admin_html_begin();
 
-$body_class = 'wp-core-ui';
+$body_class = 'wp-core-ui js';
 
 if ( wp_is_mobile() ) :
 	$body_class .= ' mobile';
@@ -90,8 +90,8 @@ do_action( 'customize_controls_print_scripts' );
 			$cannot_expand = ! ( $screenshot || $wp_customize->theme()->get('Description') );
 		?>
 
-		<div class="wp-full-overlay-sidebar-content" tabindex="-1">
-			<div id="customize-info" class="accordion-section<?php if ( $cannot_expand ) echo ' cannot-expand'; ?>">
+		<div class="wp-full-overlay-sidebar-content accordion-container" tabindex="-1">
+			<div id="customize-info" class="accordion-section <?php if ( $cannot_expand ) echo ' cannot-expand'; ?>">
 				<div class="accordion-section-title" aria-label="<?php esc_attr_e( 'Theme Customizer Options' ); ?>" tabindex="0">
 					<span class="preview-notice"><?php
 						/* translators: %s is the theme name in the Customize/Live Preview pane */
@@ -111,7 +111,7 @@ do_action( 'customize_controls_print_scripts' );
 				<?php endif; ?>
 			</div>
 
-			<div id="customize-theme-controls" class="accordion-container"><ul>
+			<div id="customize-theme-controls"><ul>
 				<?php
 				foreach ( $wp_customize->sections() as $section )
 					$section->maybe_render();

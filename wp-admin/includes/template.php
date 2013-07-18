@@ -1000,6 +1000,7 @@ function do_accordion_sections( $screen, $context, $object ) {
 		<ul class="outer-border">
 	<?php
 	$i = 0;
+	$first_open = false;
 	do {
 		if ( ! isset( $wp_meta_boxes ) || ! isset( $wp_meta_boxes[$page] ) || ! isset( $wp_meta_boxes[$page][$context] ) )
 			break;
@@ -1011,8 +1012,14 @@ function do_accordion_sections( $screen, $context, $object ) {
 						continue;
 					$i++;
 					$hidden_class = in_array( $box['id'], $hidden ) ? 'hide-if-js' : '';
+
+					$open_class = '';
+					if ( ! $first_open && empty( $hidden_class ) ) {
+						$first_open = true;
+						$open_class = 'open';
+					}
 					?>
-					<li class="control-section accordion-section <?php echo $hidden_class; ?> <?php echo esc_attr( $box['id'] ); ?>" id="<?php echo esc_attr( $box['id'] ); ?>">
+					<li class="control-section accordion-section <?php echo $hidden_class; ?> <?php echo $open_class; ?> <?php echo esc_attr( $box['id'] ); ?>" id="<?php echo esc_attr( $box['id'] ); ?>">
 						<h3 class="accordion-section-title hndle" tabindex="0" title="<?php echo esc_attr( $box['title'] ); ?>"><?php echo esc_html( $box['title'] ); ?></h3>
 						<div class="accordion-section-content <?php postbox_classes( $box['id'], $page ); ?>">
 							<div class="inside">
