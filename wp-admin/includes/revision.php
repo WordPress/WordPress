@@ -116,6 +116,19 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 			);
 		}
 
+		$autosave = wp_is_post_autosave( $revision );
+		$current = ! $autosave && $revision->post_modified_gmt === $post->post_modified_gmt;
+		if ( $current && ! empty( $current_id ) ) {
+			if ( $current_id < $revision->ID ) {
+				$revisions[ $current_id ]['current'] = false;
+				$current_id = $revision->ID;
+			} else {
+				$current = false;
+			}
+		} elseif ( $current ) {
+			$current_id = $revision->ID;
+		}
+
 		$revisions[ $revision->ID ] = array(
 			'id'         => $revision->ID,
 			'title'      => get_the_title( $post->ID ),
@@ -123,8 +136,8 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 			'date'       => date_i18n( __( 'M j, Y @ G:i' ), $modified ),
 			'dateShort'  => date_i18n( _x( 'j M @ G:i', 'revision date short format' ), $modified ),
 			'timeAgo'    => sprintf( __( '%s ago' ), human_time_diff( $modified_gmt, $now_gmt ) ),
-			'autosave'   => wp_is_post_autosave( $revision ),
-			'current'    => $revision->post_modified_gmt === $post->post_modified_gmt,
+			'autosave'   => $autosave,
+			'current'    => $current,
 			'restoreUrl' => urldecode( $restore_link ),
 		);
 	}
