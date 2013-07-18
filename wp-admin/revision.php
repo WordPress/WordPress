@@ -133,9 +133,9 @@ require_once( './admin-header.php' );
 <script id="tmpl-revisions-tooltip" type="text/html">
 	<div class="revisions-tooltip-content">
 	<# if ( 'undefined' !== typeof data && 'undefined' !== typeof data.author ) { #>
-			{{{ data.author.avatar }}} {{{ data.author.name }}},
-			{{{ data.timeAgo }}}
-			({{{ data.dateShort }}})
+			{{{ data.author.avatar }}} {{ data.author.name }},
+			{{ data.timeAgo }}
+			({{ data.dateShort }})
 	<# } #>
 	</div>
 	<div class="revisions-tooltip-arrow"></div>
@@ -162,9 +162,9 @@ require_once( './admin-header.php' );
 			<div id="diff-title-from" class="diff-title">
 				<strong><?php _ex( 'From:', 'Followed by post revision info' ); ?></strong>
 				<# if ( 'undefined' !== typeof data.from ) { #>
-					{{{ data.from.attributes.author.avatar }}} {{{ data.from.attributes.author.name }}},
-					{{{ data.from.attributes.timeAgo }}}
-					({{{ data.from.attributes.dateShort }}})
+					{{{ data.from.attributes.author.avatar }}} {{ data.from.attributes.author.name }},
+					{{ data.from.attributes.timeAgo }}
+					({{ data.from.attributes.dateShort }})
 				<# } #>
 			</div>
 			<div class="clear"></div>
@@ -174,9 +174,9 @@ require_once( './admin-header.php' );
 			<div id="diff-title-to" class="diff-title">
 				<strong><?php _ex( 'To:', 'Followed by post revision info' ); ?></strong>
 				<# if ( 'undefined' !== typeof data.to ) { #>
-					{{{ data.to.attributes.author.avatar }}} {{{ data.to.attributes.author.name }}},
-					{{{ data.to.attributes.timeAgo }}}
-					({{{ data.to.attributes.dateShort }}})
+					{{{ data.to.attributes.author.avatar }}} {{ data.to.attributes.author.name }},
+					{{ data.to.attributes.timeAgo }}
+					({{ data.to.attributes.dateShort }})
 				<# } #>
 			</div>
 
@@ -189,7 +189,7 @@ require_once( './admin-header.php' );
 	<div class="loading-indicator"></div>
 	<div class="diff">
 	<# _.each( data.fields, function( field ) { #>
-		<h3>{{{ field.name }}}</h3>
+		<h3>{{ field.name }}</h3>
 		{{{ field.diff }}}
 	<# }); #>
 	</div>
