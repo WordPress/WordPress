@@ -152,7 +152,6 @@ final class _WP_Editors {
 	}
 
 	public static function editor_settings($editor_id, $set) {
-		global $editor_styles;
 		$first_run = false;
 
 		if ( empty(self::$first_init) ) {
@@ -353,12 +352,23 @@ final class _WP_Editors {
 				);
 
 				// load editor_style.css if the current theme supports it
-				if ( ! empty( $editor_styles ) && is_array( $editor_styles ) ) {
+				if ( ! empty( $GLOBALS['editor_styles'] ) && is_array( $GLOBALS['editor_styles'] ) ) {
+					$editor_styles = $GLOBALS['editor_styles'];
+
 					$mce_css = array();
-					$editor_styles = array_unique($editor_styles);
+					$editor_styles = array_unique( array_filter( $editor_styles ) );
 					$style_uri = get_stylesheet_directory_uri();
 					$style_dir = get_stylesheet_directory();
 
+					// Support externally referenced styles (like, say, fonts).
+					foreach ( $editor_styles as $key => $file ) {
+						if ( preg_match( '~^(https?:)?//~', $file ) ) {
+							$mce_css[] = esc_url_raw( $file );
+							unset( $editor_styles[ $key ] );
+						}
+					}
+
+					// Look in a parent theme first, that way child theme CSS overrides.
 					if ( is_child_theme() ) {
 						$template_uri = get_template_directory_uri();
 						$template_dir = get_template_directory();

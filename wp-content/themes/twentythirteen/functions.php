@@ -72,12 +72,13 @@ function twentythirteen_setup() {
 	 * This theme styles the visual editor to resemble the theme style,
 	 * specifically font, colors, icons, and column width.
 	 */
-	add_editor_style( array( 'css/editor-style.css', 'fonts/genericons.css' ) );
+	add_editor_style( array( 'css/editor-style.css', 'fonts/genericons.css', twentythirteen_fonts_url() ) );
 
 	// Adds RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
 
-	// Switches default core markup for search form to output valid HTML5.
+	// Switches default core markup for search form, comment form, and comments
+	// to output valid HTML5.
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list' ) );
 
 	/*
@@ -132,71 +133,20 @@ function twentythirteen_fonts_url() {
 		$font_families = array();
 
 		if ( 'off' !== $source_sans_pro )
-			$font_families[] = 'Source+Sans+Pro:300,400,700,300italic,400italic,700italic';
+			$font_families[] = 'Source Sans Pro:300,400,700,300italic,400italic,700italic';
 
 		if ( 'off' !== $bitter )
 			$font_families[] = 'Bitter:400,700';
 
-		$protocol = is_ssl() ? 'https' : 'http';
 		$query_args = array(
-			'family' => implode( '|', $font_families ),
-			'subset' => 'latin,latin-ext',
+			'family' => urlencode( implode( '|', $font_families ) ),
+			'subset' => urlencode( 'latin,latin-ext' ),
 		);
-		$fonts_url = add_query_arg( $query_args, "$protocol://fonts.googleapis.com/css" );
+		$fonts_url = add_query_arg( $query_args, "//fonts.googleapis.com/css" );
 	}
 
 	return $fonts_url;
 }
-
-/**
- * Loads our special font CSS file.
- *
- * To disable in a child theme, use wp_dequeue_style()
- * function mytheme_dequeue_fonts() {
- *     wp_dequeue_style( 'twentythirteen-fonts' );
- * }
- * add_action( 'wp_enqueue_scripts', 'mytheme_dequeue_fonts', 11 );
- *
- * Also used in the Appearance > Header admin panel:
- * @see twentythirteen_custom_header_setup()
- *
- * @since Twenty Thirteen 1.0
- *
- * @return void
- */
-function twentythirteen_fonts() {
-	$fonts_url = twentythirteen_fonts_url();
-	if ( ! empty( $fonts_url ) )
-		wp_enqueue_style( 'twentythirteen-fonts', esc_url_raw( $fonts_url ), array(), null );
-
-	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/fonts/genericons.css', array(), '2.09' );
-}
-add_action( 'wp_enqueue_scripts', 'twentythirteen_fonts' );
-
-/**
- * Adds additional stylesheets to the TinyMCE editor if needed.
- *
- * @uses twentythirteen_fonts_url() to get the Google Font stylesheet URL.
- *
- * @since Twenty Thirteen 1.0
- *
- * @param string $mce_css CSS path to load in TinyMCE.
- * @return string The filtered CSS paths list.
- */
-function twentythirteen_mce_css( $mce_css ) {
-	$fonts_url = twentythirteen_fonts_url();
-
-	if ( empty( $fonts_url ) )
-		return $mce_css;
-
-	if ( ! empty( $mce_css ) )
-		$mce_css .= ',';
-
-	$mce_css .= esc_url_raw( str_replace( ',', '%2C', $fonts_url ) );
-
-	return $mce_css;
-}
-add_filter( 'mce_css', 'twentythirteen_mce_css' );
 
 /**
  * Enqueues scripts and styles for front end.
@@ -208,10 +158,8 @@ add_filter( 'mce_css', 'twentythirteen_mce_css' );
 function twentythirteen_scripts_styles() {
 	global $wp_styles;
 
-	/*
-	 * Adds JavaScript to pages with the comment form to support sites with
-	 * threaded comments (when in use).
-	 */
+	// Adds JavaScript to pages with the comment form to support sites with
+	// threaded comments (when in use).
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
 		wp_enqueue_script( 'comment-reply' );
 
@@ -222,8 +170,14 @@ function twentythirteen_scripts_styles() {
 	// Loads JavaScript file with functionality specific to Twenty Thirteen.
 	wp_enqueue_script( 'twentythirteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20130625a', true );
 
+	// Add Open Sans and Bitter fonts, used in the main stylesheet.
+	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), null );
+
+	// Add Genericons font, used in the main stylesheet.
+	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/fonts/genericons.css', array(), '2.09' );
+
 	// Loads our main stylesheet.
-	wp_enqueue_style( 'twentythirteen-style', get_stylesheet_uri() );
+	wp_enqueue_style( 'twentythirteen-style', get_stylesheet_uri(), array( 'genericons' ), '1.0' );
 
 	// Loads the Internet Explorer specific stylesheet.
 	wp_enqueue_style( 'twentythirteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentythirteen-style' ), '20130213' );
