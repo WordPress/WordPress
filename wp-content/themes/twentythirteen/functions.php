@@ -156,8 +156,6 @@ function twentythirteen_fonts_url() {
  * @return void
  */
 function twentythirteen_scripts_styles() {
-	global $wp_styles;
-
 	// Adds JavaScript to pages with the comment form to support sites with
 	// threaded comments (when in use).
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
@@ -181,7 +179,7 @@ function twentythirteen_scripts_styles() {
 
 	// Loads the Internet Explorer specific stylesheet.
 	wp_enqueue_style( 'twentythirteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentythirteen-style' ), '2013-07-18' );
-	$wp_styles->add_data( 'twentythirteen-ie', 'conditional', 'lt IE 9' );
+	wp_style_add_data( 'twentythirteen-ie', 'conditional', 'lt IE 9' );
 }
 add_action( 'wp_enqueue_scripts', 'twentythirteen_scripts_styles' );
 
