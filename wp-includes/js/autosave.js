@@ -144,7 +144,11 @@ jQuery(document).ready( function($) {
 	// When connection is lost, keep user from submitting changes.
 	$(document).on('heartbeat-connection-lost.autosave', function( e, error ) {
 		if ( 'timeout' === error ) {
-			$('#lost-connection-notice').show();
+			var notice = $('#lost-connection-notice');
+			if ( ! wp.autosave.local.hasStorage ) {
+				notice.find('.hide-if-no-sessionstorage').hide();
+			}
+			notice.show();
 			autosave_disable_buttons();
 		}
 	}).on('heartbeat-connection-restored.autosave', function() {

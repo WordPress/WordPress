@@ -2993,6 +2993,17 @@ ul.cat-checklist {
 	float: left;
 }
 
+#lost-connection-notice .spinner {
+	display: block;
+	float: left;
+	margin: 0 5px 0 0;
+}
+
+.rtl #lost-connection-notice .spinner {
+	float: right;
+	margin: 0 0 0 5px;
+}
+
 #titlediv {
 	position: relative;
 	margin-bottom: 5px;

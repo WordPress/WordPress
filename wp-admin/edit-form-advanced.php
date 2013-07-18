@@ -313,7 +313,9 @@ if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create
 <div id="message" class="updated"><p><?php echo $message; ?></p></div>
 <?php endif; ?>
 <div id="lost-connection-notice" class="error hidden">
-	<p><?php _e("You have lost your connection with the server, and saving has been disabled. This message will vanish once you've reconnected."); ?></p>
+	<p><span class="spinner"></span> <?php _e( '<strong>Connection lost.</strong> Saving has been disabled until you&#8217;re reconnected.' ); ?>
+	<span class="hide-if-no-sessionstorage"><?php _e( 'We&#8217;re backing up this post in your browser, just in case.' ); ?></span>
+	</p>
 </div>
 
 <form name="post" action="post.php" method="post" id="post"<?php do_action('post_edit_form_tag', $post); ?>>
