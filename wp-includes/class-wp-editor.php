@@ -192,7 +192,7 @@ final class _WP_Editors {
 				self::$baseurl = includes_url('js/tinymce');
 				self::$mce_locale = $mce_locale = ( '' == get_locale() ) ? 'en' : strtolower( substr(get_locale(), 0, 2) ); // only ISO 639-1
 				$no_captions = (bool) apply_filters( 'disable_captions', '' );
-				$plugins = array( 'inlinepopups', 'spellchecker', 'tabfocus', 'paste', 'media', 'fullscreen', 'wordpress', 'wpeditimage', 'wpgallery', 'wplink', 'wpdialogs' );
+				$plugins = array( 'inlinepopups', 'tabfocus', 'paste', 'media', 'fullscreen', 'wordpress', 'wpeditimage', 'wpgallery', 'wplink', 'wpdialogs' );
 				$first_run = true;
 				$ext_plugins = '';
 
@@ -285,20 +285,22 @@ final class _WP_Editors {
 				self::$plugins = $plugins;
 				self::$ext_plugins = $ext_plugins;
 
-				/*
-				translators: These languages show up in the spellchecker drop-down menu, in the order specified, and with the first
-				language listed being the default language. They must be comma-separated and take the format of name=code, where name
-				is the language name (which you may internationalize), and code is a valid ISO 639 language code. Please test the
-				spellchecker with your values.
-				*/
-				$mce_spellchecker_languages = __( 'English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv' );
+				if ( in_array( 'spellchecker', $plugins ) ) {
+					/*
+					translators: These languages show up in the spellchecker drop-down menu, in the order specified, and with the first
+					language listed being the default language. They must be comma-separated and take the format of name=code, where name
+					is the language name (which you may internationalize), and code is a valid ISO 639 language code. Please test the
+					spellchecker with your values.
+					*/
+					$mce_spellchecker_languages = __( 'English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es,Swedish=sv' );
 
-				/*
-				The following filter allows localization scripts to change the languages displayed in the spellchecker's drop-down menu.
-				By default it uses Google's spellchecker API, but can be configured to use PSpell/ASpell if installed on the server.
-				The + sign marks the default language. More: http://www.tinymce.com/wiki.php/Plugin:spellchecker.
-				*/
-				$mce_spellchecker_languages = apply_filters( 'mce_spellchecker_languages', '+' . $mce_spellchecker_languages );
+					/*
+					The following filter allows localization scripts to change the languages displayed in the spellchecker's drop-down menu.
+					By default it uses Google's spellchecker API, but can be configured to use PSpell/ASpell if installed on the server.
+					The + sign marks the default language. More: http://www.tinymce.com/wiki.php/Plugin:spellchecker.
+					*/
+					$mce_spellchecker_languages = apply_filters( 'mce_spellchecker_languages', '+' . $mce_spellchecker_languages );
+				}
 
 				self::$first_init = array(
 					'mode' => 'exact',
@@ -306,7 +308,6 @@ final class _WP_Editors {
 					'theme' => 'advanced',
 					'skin' => 'wp_theme',
 					'language' => self::$mce_locale,
-					'spellchecker_languages' => $mce_spellchecker_languages,
 					'theme_advanced_toolbar_location' => 'top',
 					'theme_advanced_toolbar_align' => 'left',
 					'theme_advanced_statusbar_location' => 'bottom',
@@ -344,12 +345,16 @@ final class _WP_Editors {
 					'paste_text_use_dialog' => true,
 					'webkit_fake_resize' => false,
 					'preview_styles' => 'font-family font-weight text-decoration text-transform',
-					'spellchecker_rpc_url' => self::$baseurl . '/plugins/spellchecker/rpc.php',
 					'schema' => 'html5',
 					'wpeditimage_disable_captions' => $no_captions,
 					'wp_fullscreen_content_css' => self::$baseurl . '/plugins/wpfullscreen/css/wp-fullscreen.css',
 					'plugins' => implode( ',', $plugins )
 				);
+
+				if ( in_array( 'spellchecker', $plugins ) ) {
+					self::$first_init['spellchecker_rpc_url'] = self::$baseurl . '/plugins/spellchecker/rpc.php';
+					self::$first_init['spellchecker_languages'] = $mce_spellchecker_languages;
+				}
 
 				// load editor_style.css if the current theme supports it
 				if ( ! empty( $GLOBALS['editor_styles'] ) && is_array( $GLOBALS['editor_styles'] ) ) {
