@@ -281,7 +281,26 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.8', 1 );
 
-	$scripts->add( 'mediaelement', "/wp-includes/js/mediaelement/mediaelement-and-player.js", array('jquery'), '2.12.0', 1 );
+	$scripts->add( 'mediaelement', "/wp-includes/js/mediaelement/mediaelement-and-player.js", array('jquery'), '2.12.0-20130719', 1 );
+	did_action( 'init' ) && $scripts->localize( 'mediaelement', 'mejsL10n', array(
+		'language' => get_bloginfo( 'language' ),
+		'strings'  => array(
+			'Close'               => __( 'Close' ),
+			'Fullscreen'          => __( 'Fullscreen' ),
+			'Download File'       => __( 'Download File' ),
+			'Download Video'      => __( 'Download Video' ),
+			'Play/Pause'          => __( 'Play/Pause' ),
+			'Mute Toggle'         => __( 'Mute Toggle' ),
+			'None'                => __( 'None' ),
+			'Turn off Fullscreen' => __( 'Turn off Fullscreen' ),
+			'Go Fullscreen'       => __( 'Go Fullscreen' ),
+			'Unmute'              => __( 'Unmute' ),
+			'Mute'                => __( 'Mute' ),
+			'Captions/Subtitles'  => __( 'Captions/Subtitles' )
+		),
+	) );
+
+
 	$scripts->add( 'wp-mediaelement', "/wp-includes/js/mediaelement/wp-mediaelement.js", array('mediaelement'), false, 1 );
 
 	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), false, 1 );
