@@ -3511,10 +3511,6 @@ td.plugin-title p {
 /*------------------------------------------------------------------------------
   11.2 - Post Revisions
 ------------------------------------------------------------------------------*/
-body.revision-php {
-	overflow-y: scroll; /* Force a scrollbar, so centering doesn't jump */
-}
-
 .revisions-control-frame,
 .revisions-diff-frame {
 	position: relative;
@@ -3533,14 +3529,14 @@ body.revision-php {
 
 .revisions-tickmarks {
 	position: relative;
-	margin: 0 auto 0;
+	margin: 0 auto;
 	height: 0.8em;
 	z-index: 2;
 	top: 7px;
-	width: 70%;
+	width: 100%;
+	padding: 0 15%;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	-ms-box-sizing: border-box; /* ie8 only */
 	box-sizing: border-box;
 }
 
@@ -3548,17 +3544,16 @@ body.revision-php {
 	position: relative;
 	height: 100%;
 	float: left;
-	z-index: 10002;
+	z-index: 3;
 	border-style: solid;
-	border-width: 0 0 0 1px;
+	border-width: 0 1px 0 0;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	-ms-box-sizing: border-box; /* ie8 only */
 	box-sizing: border-box;
 }
 
-.revisions-tickmarks > div:first-of-type {
-	border-left-width: 0;
+.revisions-tickmarks > div:last-child {
+	border-width: 0;
 }
 
 .comparing-two-revisions .revisions-controls {
@@ -3588,6 +3583,7 @@ body.revision-php {
 	-ms-transition:     opacity 0.5s;
 	-o-transition:      opacity 0.5s;
 	transition:         opacity 0.5s;
+	filter: alpha(opacity=0); /* ie8 and earlier */
 }
 
 .revisions .loading-indicator span.spinner {
@@ -3598,6 +3594,7 @@ body.revision-php {
 
 .revisions.loading .loading-indicator {
 	opacity: 1;
+	filter: alpha(opacity=100); /* ie8 and earlier */
 }
 
 .revisions .diff {
@@ -3610,6 +3607,7 @@ body.revision-php {
 
 .revisions.loading .diff {
 	opacity: 0.5;
+	filter: alpha(opacity=50); /* ie8 and earlier */
 }
 
 .revisions.diff-error .diff {
@@ -3631,6 +3629,12 @@ body.revision-php {
 	display: none;
 }
 
+.revisions-previous,
+.revisions-next {
+	position: relative;
+	z-index: 4;
+}
+
 .revisions-previous {
 	float: left;
 }
@@ -3641,7 +3645,7 @@ body.revision-php {
 
 .wp-slider {
 	width: 70%;
-	margin: 0 auto 0;
+	margin: 0 auto;
 	top: -3px;
 }
 
@@ -3736,7 +3740,8 @@ table.diff .diff-addedline ins {
 .revisions-tooltip {
 	position: absolute;
 	bottom: 105px;
-	margin-left: -69px;
+	margin-right: 0;
+	margin-left: -70px;
 	line-height: 28px;
 	z-index: 9999;
 	max-width: 350px;
@@ -3773,7 +3778,7 @@ table.diff .diff-addedline ins {
 	z-index: 10000;
 }
 
-.revisions-tooltip-arrow:after {
+.revisions-tooltip-arrow > span {
 	content: "";
 	position: absolute;
 	left: 20px;
@@ -3787,8 +3792,14 @@ table.diff .diff-addedline ins {
 	tranform: rotate(45deg);
 }
 
+.ie8 .revisions-tooltip-arrow > span {
+	left: 14px;
+	top: -25px;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)"; /* IE8 */
+}
+
 .revisions-tooltip,
-.revisions-tooltip-arrow:after {
+.revisions-tooltip-arrow > span {
 	border-width: 1px;
 	border-style: solid;
 }
@@ -3828,18 +3839,18 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	background: url(../images/arrows-pr.png) no-repeat -2px -47px;
 }
 
-.wp-slider .ui-slider-handle.left-handle:before,
-.wp-slider .ui-slider-handle.right-handle:before {
+.wp-slider .ui-slider-handle.from-handle:before,
+.wp-slider .ui-slider-handle.to-handle:before {
 	height: 8px;
 	width: 7px;
 }
 
-.wp-slider .ui-slider-handle.left-handle:before {
+.wp-slider .ui-slider-handle.from-handle:before {
 	background-position: -5px -84px;
 	left: 7px;
 }
 
-.wp-slider .ui-slider-handle.right-handle:before {
+.wp-slider .ui-slider-handle.to-handle:before {
 	background-position: -4px -65px;
 	left: 5px;
 }

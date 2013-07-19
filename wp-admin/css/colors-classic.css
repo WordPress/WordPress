@@ -1486,7 +1486,7 @@ table.diff .diff-addedline ins {
 }
 
 .revisions-tooltip,
-.revisions-tooltip-arrow:after {
+.revisions-tooltip-arrow span {
 	border-color: #d1e5ee;
 	background-color: #fff;
 }

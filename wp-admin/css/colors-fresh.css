@@ -1380,14 +1380,9 @@ table.diff .diff-addedline ins {
 }
 
 .revisions-tooltip,
-.revisions-tooltip-arrow:after {
+.revisions-tooltip-arrow span {
 	border-color: #d7d7d7;
 	background-color: #fff;
-}
-
-
-.revisions-tickmarks {
-	background-color: #f7f7f7;
 }
 
 .revisions-tickmarks > div {

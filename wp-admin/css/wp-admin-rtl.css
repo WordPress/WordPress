@@ -954,18 +954,18 @@ th.sorted a span {
 /*------------------------------------------------------------------------------
   11.2 - Post Revisions
 ------------------------------------------------------------------------------*/
-.wp-slider .ui-slider-handle.left-handle:before,
-.wp-slider .ui-slider-handle.right-handle:before {
+.wp-slider .ui-slider-handle.from-handle:before,
+.wp-slider .ui-slider-handle.to-handle:before {
 	height: 8px;
 	width: 7px;
 }
 
-.wp-slider .ui-slider-handle.left-handle:before {
+.wp-slider .ui-slider-handle.from-handle:before {
 	background-position: -5px -10px;
 	left: 6px;
 }
 
-.wp-slider .ui-slider-handle.right-handle:before {
+.wp-slider .ui-slider-handle.to-handle:before {
 	background-position: -4px -29px;
 	left: 6px;
 }
@@ -1025,13 +1025,17 @@ th.sorted a span {
 }
 
 .revisions-tooltip {
-	margin-right: -73px;
 	margin-left: 0;
+	margin-right: -70px;
 	-webkit-transition: right 15ms;
 	-moz-transition:    right 15ms;
 	-ms-transition:     right 15ms;
 	-o-transition:      right 15ms;
 	transition:         right 15ms;
+}
+
+.ie8 .revisions-tooltip {
+	margin-right: -75px;
 }
 
 .revisions-tooltip-arrow {
@@ -1040,9 +1044,18 @@ th.sorted a span {
 	margin-right: 35px;
 }
 
-.revisions-tooltip-image {
+.revisions-tooltip-arrow > span {
+	right: 20px;
+}
+
+.revisions-tooltip img {
 	float: right;
 	margin: 2px 0 0 5px;
+}
+
+.revisions-tickmarks > div {
+	float: right;
+	border-width: 0 0 0 1px;
 }
 
 /*------------------------------------------------------------------------------

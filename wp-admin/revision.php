@@ -138,7 +138,7 @@ require_once( './admin-header.php' );
 			({{ data.dateShort }})
 	<# } #>
 	</div>
-	<div class="revisions-tooltip-arrow"></div>
+	<div class="revisions-tooltip-arrow"><span></span></div>
 </script>
 
 <script id="tmpl-revisions-checkbox" type="text/html">
