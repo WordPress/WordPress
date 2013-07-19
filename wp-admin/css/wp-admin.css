@@ -1458,7 +1458,7 @@ form.upgrade .hint {
 #adminmenu .wp-has-current-submenu .wp-submenu.sub-open,
 #adminmenu .wp-has-current-submenu.opensub .wp-submenu {
 	position: relative;
-	z-index: 2;
+	z-index: 3;
 	top: auto;
 	left: auto;
 	right: auto;
@@ -3531,7 +3531,6 @@ td.plugin-title p {
 	position: relative;
 	margin: 0 auto;
 	height: 0.8em;
-	z-index: 2;
 	top: 7px;
 	width: 100%;
 	padding: 0 15%;
@@ -3544,7 +3543,6 @@ td.plugin-title p {
 	position: relative;
 	height: 100%;
 	float: left;
-	z-index: 3;
 	border-style: solid;
 	border-width: 0 1px 0 0;
 	-moz-box-sizing: border-box;
@@ -3632,7 +3630,7 @@ td.plugin-title p {
 .revisions-previous,
 .revisions-next {
 	position: relative;
-	z-index: 4;
+	z-index: 1;
 }
 
 .revisions-previous {
@@ -3743,7 +3741,7 @@ table.diff .diff-addedline ins {
 	margin-right: 0;
 	margin-left: -70px;
 	line-height: 28px;
-	z-index: 9999;
+	z-index: 1;
 	max-width: 350px;
 	min-width: 130px;
 	padding: 4px;
@@ -3857,7 +3855,6 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 
 .wp-slider .ui-slider-range {
 	position: absolute;
-	z-index: 1;
 	font-size: .7em;
 	display: block;
 	border: 0;
@@ -3867,7 +3864,6 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 
 .wp-slider.ui-slider-horizontal {
 	height: .8em;
-	z-index: 10001;
 }
 
 .wp-slider.ui-slider-horizontal .ui-slider-handle {
