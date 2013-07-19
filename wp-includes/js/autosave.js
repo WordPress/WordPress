@@ -524,11 +524,12 @@ wp.autosave.local = {
 	init: function( settings ) {
 		var self = this;
 
-		// Run only on the Add/Edit Post screens and in browsers that have sessionStorage
-		if ( 'post' != window.pagenow || ! this.checkStorage() )
+		// Check if the browser supports sessionStorage and editor.js is loaded
+		if ( ! this.checkStorage() || typeof switchEditors == 'undefined' )
 			return;
-		// editor.js has to be loaded before autosave.js
-		if ( typeof switchEditors == 'undefined' )
+
+		// Don't run if the post type supports neither 'editor' (textarea#content) nor 'excerpt'.
+		if ( ! $('#content').length && ! $('#excerpt').length )
 			return;
 
 		if ( settings )
