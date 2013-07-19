@@ -246,7 +246,7 @@ function autosave_loading() {
 
 function autosave_enable_buttons() {
 	jQuery(document).trigger('autosave-enable-buttons');
-	if ( ! wp.heartbeat.connectionLost ) {
+	if ( ! wp.heartbeat.hasConnectionError() ) {
 		// delay that a bit to avoid some rare collisions while the DOM is being updated.
 		setTimeout(function(){
 			var parent = jQuery('#submitpost');
