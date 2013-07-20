@@ -876,7 +876,12 @@ class wpdb {
 	 * @return string escaped
 	 */
 	function _real_escape( $string ) {
-		return mysql_real_escape_string( $string, $this->dbh );
+		if ( $this->dbh )
+			return mysql_real_escape_string( $string, $this->dbh );
+
+		$class = get_class( $this );
+		_doing_it_wrong( $class, "$class must set a database connection for use with escaping.", E_USER_NOTICE );
+		return addslashes( $string );
 	}
 
 	/**
