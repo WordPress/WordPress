@@ -631,15 +631,7 @@ table.ie-fixed {
 	height: 29px;
 }
 
-/* Revisions */
-.revisions-tooltip-arrow span {
-	left: 25px;
-	top: -24px;
-	filter: progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476); /* IE7 */
-}
-
-.revisions-controls .revisions-tickmarks > div {
-	margin-right: -1px;
-	border-width: 0 0 0 0;
-		border-style: none;
+.revisions-tickmarks,
+.revisions-tooltip {
+	display: none !important;
 }
