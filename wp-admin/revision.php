@@ -135,7 +135,9 @@ require_once( './admin-header.php' );
 	<# if ( 'undefined' !== typeof data && 'undefined' !== typeof data.author ) { #>
 		{{{ data.author.avatar }}}
 		<div class="author-info">
-			<span class="byline">Edit by <span class="author-name">{{ data.author.name }}</span></span>
+				
+			<span class="byline"><?php printf( __( 'Revision by %s' ),
+				'<span class="author-name">{{ data.author.name }}</span>' ); ?></span>
 			<span class="time-ago">{{ data.timeAgo }}</span>
 			<span class="date">({{ data.dateShort }})</span>
 		</div>
@@ -168,7 +170,7 @@ require_once( './admin-header.php' );
 				{{{ data.from.attributes.author.avatar }}}
 				<div class="author-info">
 					<span class="byline"><?php printf( __( 'Revision by %s' ),
-						'<span class="author-name">{{ data.to.attributes.author.name }}</span>' ); ?></span>
+						'<span class="author-name">{{ data.from.attributes.author.name }}</span>' ); ?></span>
 					<span class="time-ago">{{ data.from.attributes.timeAgo }}</span>
 					<span class="date">({{ data.from.attributes.dateShort }})</span>
 				</div>
