@@ -635,3 +635,8 @@ table.ie-fixed {
 .revisions-tooltip {
 	display: none !important;
 }
+
+.revisions.pinned .revisions-controls {
+    position: relative;
+}
+
