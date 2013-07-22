@@ -247,10 +247,10 @@ function update_option( $option, $newvalue ) {
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		$alloptions = wp_load_alloptions();
 		if ( isset( $alloptions[$option] ) ) {
-			$alloptions[$option] = $_newvalue;
+			$alloptions[$option] = $newvalue;
 			wp_cache_set( 'alloptions', $alloptions, 'options' );
 		} else {
-			wp_cache_set( $option, $_newvalue, 'options' );
+			wp_cache_set( $option, $newvalue, 'options' );
 		}
 	}
 
