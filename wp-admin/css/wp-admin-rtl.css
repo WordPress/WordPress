@@ -1030,7 +1030,7 @@ body.folded .revisions .loading-indicator {
 
 .revisions-tooltip {
 	margin-left: 0;
-	margin-right: -70px;
+	margin-right: -69px;
 }
 
 .revisions-tooltip.flipped {
@@ -1040,6 +1040,10 @@ body.folded .revisions .loading-indicator {
 
 .ie8 .revisions-tooltip {
 	margin-right: -75px;
+}
+
+.ie8 .revisions-tooltip.flipped {
+	margin-left: -63px;
 }
 
 .revisions-tooltip-arrow {
@@ -1062,6 +1066,10 @@ body.folded .revisions .loading-indicator {
 .revisions-tooltip.flipped .revisions-tooltip-arrow > span {
 	right: auto;
 	left: 20px;
+}
+
+.ie8 .revisions-tooltip-arrow > span {
+	right: 21px;
 }
 
 .revisions-tooltip img {

@@ -615,29 +615,33 @@ window.wp = window.wp || {};
 	// The tickmarks view
 	revisions.view.Tickmarks = wp.Backbone.View.extend({
 		className: 'revisions-tickmarks',
+		direction: isRtl ? 'right' : 'left',
 
 		initialize: function() {
 			this.listenTo( this.model, 'change:revision', this.reportTickPosition );
 		},
 
 		reportTickPosition: function( model, revision ) {
-			var elWidth, offset, tick, index = this.model.revisions.indexOf( revision );
+			var offset, thisOffset, parentOffset, tick, index = this.model.revisions.indexOf( revision );
+			thisOffset = this.$el.allOffsets();
+			parentOffset = this.$el.parent().allOffsets();
 			if ( index === this.model.revisions.length - 1 ) {
 				// Last one
-				tick = this.$('div:nth-of-type(' + index + ')');
-				offset = tick.allPositions();
-				elWidth = tick.outerWidth();
-				_.extend( offset, {
-					rightPlusWidth: offset.right,
-					leftPlusWidth: offset.left
-				});
+				offset = {
+					rightPlusWidth: thisOffset.left - parentOffset.left + 1,
+					leftPlusWidth: thisOffset.right - parentOffset.right + 1
+				};
 			} else {
 				// Normal tick
 				tick = this.$('div:nth-of-type(' + (index + 1) + ')');
 				offset = tick.allPositions();
 				_.extend( offset, {
-					leftPlusWidth: offset.left + tick.outerWidth() + 1,
-					rightPlusWidth: offset.right + tick.outerWidth() + 1
+					left: offset.left + thisOffset.left - parentOffset.left,
+					right: offset.right + thisOffset.right - parentOffset.right
+				});
+				_.extend( offset, {
+					leftPlusWidth: offset.left + tick.outerWidth(),
+					rightPlusWidth: offset.right + tick.outerWidth()
 				});
 			}
 			this.model.set({ offset: offset });
@@ -648,9 +652,8 @@ window.wp = window.wp || {};
 			tickCount = this.model.revisions.length - 1;
 			tickWidth = 1 / tickCount;
 
-			_(tickCount).times( function(){ this.$el.append( '<div></div>' ); }, this );
-
-			this.$('div').css( 'width', ( 100 * tickWidth ) + '%' );
+			_(tickCount).times( function( index ){
+				this.$el.append( '<div style="' + this.direction + ': ' + ( 100 * tickWidth * index ) + '%"></div>' ); }, this );
 		}
 	});
 

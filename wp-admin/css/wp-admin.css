@@ -3539,17 +3539,15 @@ td.plugin-title p {
 	margin: 0 auto;
 	height: 0.8em;
 	top: 7px;
-	width: 100%;
-	padding: 0 15%;
+	width: 70%;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
 .revisions-tickmarks > div {
-	position: relative;
+	position: absolute;
 	height: 100%;
-	float: left;
 	border-style: solid;
 	border-width: 0 1px 0 0;
 	-moz-box-sizing: border-box;
@@ -3557,7 +3555,7 @@ td.plugin-title p {
 	box-sizing: border-box;
 }
 
-.revisions-tickmarks > div:last-child {
+.revisions-tickmarks > div:first-child {
 	border-width: 0;
 }
 
@@ -3764,7 +3762,7 @@ table.diff .diff-addedline ins {
 	position: absolute;
 	bottom: 105px;
 	margin-right: 0;
-	margin-left: -70px;
+	margin-left: -69px;
 	z-index: 1;
 	max-width: 350px;
 	min-width: 130px;
@@ -3824,9 +3822,13 @@ table.diff .diff-addedline ins {
 }
 
 .ie8 .revisions-tooltip-arrow > span {
-	left: 14px;
+	left: 15px;
 	top: -25px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)";
+}
+
+.ie8 .revisions-tooltip.flipped .revisions-tooltip-arrow > span {
+	right: 25px;
 }
 
 .revisions-tooltip,
