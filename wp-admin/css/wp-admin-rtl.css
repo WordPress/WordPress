@@ -976,16 +976,20 @@ th.sorted a span {
 	padding: 9px 0 0 9px;
 }
 
+.revisions .loading-indicator {
+	margin-right: -90px;
+}
+
+body.folded .revisions .loading-indicator {
+	margin-right: -32px;
+}
+
 .revisions-next {
 	float: left;
 }
 
 .revisions-previous {
 	float: right;
-}
-
-#diff-header {
-	padding: 5px 5px 5px 200px;
 }
 
 .diff-title {
@@ -1004,7 +1008,7 @@ th.sorted a span {
 	margin-right: 5px;
 }
 
-.diff-header > input.restore-revision {
+.diff-meta > input.restore-revision {
 	margin-left: 0;
 	margin-right: 10px;
 }
@@ -1027,11 +1031,11 @@ th.sorted a span {
 .revisions-tooltip {
 	margin-left: 0;
 	margin-right: -70px;
-	-webkit-transition: right 15ms;
-	-moz-transition:    right 15ms;
-	-ms-transition:     right 15ms;
-	-o-transition:      right 15ms;
-	transition:         right 15ms;
+}
+
+.revisions-tooltip.flipped {
+	margin-right: 0;
+	margin-left: -70px;
 }
 
 .ie8 .revisions-tooltip {
@@ -1044,8 +1048,20 @@ th.sorted a span {
 	margin-right: 35px;
 }
 
+.revisions-tooltip.flipped .revisions-tooltip-arrow {
+	margin-right: 0;
+	margin-left: 35px;
+	right: auto;
+	left: 0;
+}
+
 .revisions-tooltip-arrow > span {
 	right: 20px;
+}
+
+.revisions-tooltip.flipped .revisions-tooltip-arrow > span {
+	right: auto;
+	left: 20px;
 }
 
 .revisions-tooltip img {

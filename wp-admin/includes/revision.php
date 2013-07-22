@@ -99,19 +99,19 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 	foreach ( $revisions as $revision ) {
 		$modified = strtotime( $revision->post_modified );
 		$modified_gmt = strtotime( $revision->post_modified_gmt );
-		$restore_link = wp_nonce_url(
+		$restore_link = str_replace( '&amp;', '&', wp_nonce_url(
 			add_query_arg(
 				array( 'revision' => $revision->ID,
 					'action' => 'restore' ),
 					admin_url( 'revision.php' )
 			),
 			"restore-post_{$revision->ID}"
-		);
+		) );
 
 		if ( ! isset( $authors[ $revision->post_author ] ) ) {
 			$authors[ $revision->post_author ] = array(
 				'id' => (int) $revision->post_author,
-				'avatar' => $show_avatars ? get_avatar( $revision->post_author, 24 ) : '',
+				'avatar' => $show_avatars ? get_avatar( $revision->post_author, 32 ) : '',
 				'name' => get_the_author_meta( 'display_name', $revision->post_author ),
 			);
 		}
@@ -141,6 +141,11 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 			'restoreUrl' => urldecode( $restore_link ),
 		);
 	}
+
+	// If a post has been saved since the last revision (no revisioned fields were changed)
+	// we may not have a "current" revision. Mark the latest revision as "current".
+	if ( empty( $current_id ) )
+		$revisions[ $revision->ID ]['current'] = true;
 
 	// Now, grab the initial diff
 	$compare_two_mode = is_numeric( $from );

@@ -164,7 +164,7 @@ textarea.disabled {
 	color: #fff;
 }
 
-#diff-header,
+.revisions-meta,
 .widget .widget-top,
 .postbox h3,
 .stuffbox h3,
@@ -1375,8 +1375,17 @@ table.diff .diff-addedline ins {
 	background-color: #afa;
 }
 
-#diff-header {
+.revisions-meta {
 	border: 1px solid #dfdfdf;
+}
+
+.revisions-controls {
+	background: #fff;
+	background: -webkit-gradient(linear, left bottom, left top, color-stop(0%,rgba(255,255,255,1)), color-stop(30px,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,1)));
+	background: -webkit-linear-gradient(bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30px, rgba(255,255,255,1) 100%);
+	background:    -moz-linear-gradient(bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 30px, rgba(255,255,255,1) 100%);
+	background:      -o-linear-gradient(bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30px, rgba(255,255,255,1) 100%);
+	background: linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30px, rgba(255,255,255,1) 100%);
 }
 
 .revisions-tooltip,
@@ -1389,14 +1398,9 @@ table.diff .diff-addedline ins {
 	border-color: #aaa;
 }
 
-#diff-title-to strong {
-	color: #08a;
-}
-
 /* jQuery UI Slider */
 .wp-slider.ui-slider {
 	border-color: #d7d7d7;
-	background: transparent;
 }
 
 .wp-slider .ui-slider-handle {

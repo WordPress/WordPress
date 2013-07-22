@@ -3519,12 +3519,19 @@ td.plugin-title p {
 .revisions-controls {
 	padding-top: 40px;
 	height: 100px;
+	z-index: 1;
 }
 
 .revisions-controls input[type="checkbox"] {
 	position: relative;
 	top: -1px;
 	vertical-align: text-bottom;
+}
+
+.revisions.pinned .revisions-controls {
+	position: fixed;
+	top: 0;
+	padding-bottom: 10px;
 }
 
 .revisions-tickmarks {
@@ -3571,17 +3578,22 @@ td.plugin-title p {
 }
 
 .revisions .loading-indicator {
-	position: absolute;
+	position: fixed;
 	vertical-align: middle;
 	opacity: 0;
 	width: 100%;
-	top: 3em;
+	top: 50%;
+	margin-left: -90px;
 	-webkit-transition: opacity 0.5s;
 	-moz-transition:    opacity 0.5s;
 	-ms-transition:     opacity 0.5s;
 	-o-transition:      opacity 0.5s;
 	transition:         opacity 0.5s;
 	filter: alpha(opacity=0); /* ie8 and earlier */
+}
+
+body.folded .revisions .loading-indicator {
+	margin-left: -32px;
 }
 
 .revisions .loading-indicator span.spinner {
@@ -3623,8 +3635,20 @@ td.plugin-title p {
 }
 
 .comparing-two-revisions .revisions-previous,
-.comparing-two-revisions .revisions-next {
+.comparing-two-revisions .revisions-next,
+.revisions-meta .diff-meta-to strong {
 	display: none;
+}
+
+.revisions-controls .author-card .date {
+	color: #777;
+}
+.revisions-controls .author-card .author-name {
+	font-weight: bold;
+}
+
+.comparing-two-revisions .diff-meta-to strong {
+	display: block;
 }
 
 .revisions-previous,
@@ -3689,49 +3713,50 @@ table.diff .diff-addedline ins {
 	text-decoration: none;
 }
 
-#diff-title-to strong {
-	display: inline;
-}
-
-#diff-header {
+.diff-meta {
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	padding: 5px;
 	clear: both;
-}
-
-.diff-header {
-	min-height: 35px;
-	line-height: 35px;
-}
-
-.diff-title {
-	float: left;
+	min-height: 32px;
 }
 
 .diff-title strong {
-	font-size: 14px;
-	width: 60px;
+	line-height: 32px;
+	min-width: 60px;
 	text-align: right;
 	float: left;
 	margin-right: 5px;
 }
 
-.diff-title img {
+.revisions-controls .author-card .avatar,
+.revisions-controls .author-card .author-info {
+	float: left;
+	margin-left: 6px;
+	margin-right: 6px;
+}
+
+.revisions-controls .author-card .byline {
+	display: block;
+	font-size: 12px;
+}
+
+.revisions-controls .author-card .avatar {
 	vertical-align: middle;
-	margin-left: 5px;
 }
 
-.diff-header > input.restore-revision {
-	margin-left: 10px;
+.diff-meta input.restore-revision {
+	float: right;
+	margin-left: 6px;
+	margin-right: 6px;
+	margin-top: 4px;
 }
 
-#diff-header-from {
+.diff-meta-from {
 	display: none;
 }
 
-.comparing-two-revisions #diff-title-from,
-.comparing-two-revisions #diff-header-from {
+.comparing-two-revisions .diff-meta-from {
 	display: block;
 }
 
@@ -3740,29 +3765,25 @@ table.diff .diff-addedline ins {
 	bottom: 105px;
 	margin-right: 0;
 	margin-left: -70px;
-	line-height: 28px;
 	z-index: 1;
 	max-width: 350px;
 	min-width: 130px;
-	padding: 4px;
+	padding: 8px 4px;
 	display: none;
 	opacity: 0;
-	-webkit-transition: left 15ms;
-	-moz-transition:    left 15ms;
-	-ms-transition:     left 15ms;
-	-o-transition:      left 15ms;
-	transition:         left 15ms;
+}
+
+.revisions-tooltip.flipped {
+	margin-left: 0;
+	margin-right: -70px;
+}
+
+.revisions.pinned .revisions-tooltip {
+	display: none !important;
 }
 
 .comparing-two-revisions .revisions-tooltip {
 	bottom: 145px;
-}
-
-.revisions-tooltip img {
-	float: left;
-	margin: 2px 5px 0 0;
-	padding: 0;
-	vertical-align: middle;
 }
 
 .revisions-tooltip-arrow {
@@ -3774,6 +3795,13 @@ table.diff .diff-addedline ins {
 	margin-left: 35px;
 	bottom: -15px;
 	z-index: 10000;
+}
+
+.revisions-tooltip.flipped .revisions-tooltip-arrow {
+	margin-left: 0;
+	margin-right: 35px;
+	left: auto;
+	right: 0;
 }
 
 .revisions-tooltip-arrow > span {
@@ -3790,10 +3818,15 @@ table.diff .diff-addedline ins {
 	tranform: rotate(45deg);
 }
 
+.revisions-tooltip.flipped .revisions-tooltip-arrow > span {
+	left: auto;
+	right: 20px;
+}
+
 .ie8 .revisions-tooltip-arrow > span {
 	left: 14px;
 	top: -25px;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)"; /* IE8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)";
 }
 
 .revisions-tooltip,

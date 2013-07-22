@@ -122,20 +122,23 @@ require_once( './admin-header.php' );
 
 <script id="tmpl-revisions-buttons" type="text/html">
 	<div class="revisions-previous">
-		<input class="button" type="button" id="previous" value="<?php echo esc_attr_x( 'Previous', 'Button label for a previous revision' ); ?>" />
+		<input class="button" type="button" value="<?php echo esc_attr_x( 'Previous', 'Button label for a previous revision' ); ?>" />
 	</div>
 
 	<div class="revisions-next">
-		<input class="button" type="button" id="next" value="<?php echo esc_attr_x( 'Next', 'Button label for a next revision' ); ?>" />
+		<input class="button" type="button" value="<?php echo esc_attr_x( 'Next', 'Button label for a next revision' ); ?>" />
 	</div>
 </script>
 
 <script id="tmpl-revisions-tooltip" type="text/html">
-	<div class="revisions-tooltip-content">
+	<div class="author-card">
 	<# if ( 'undefined' !== typeof data && 'undefined' !== typeof data.author ) { #>
-			{{{ data.author.avatar }}} {{ data.author.name }},
-			{{ data.timeAgo }}
-			({{ data.dateShort }})
+		{{{ data.author.avatar }}}
+		<div class="author-info">
+			<span class="byline">Edit by <span class="author-name">{{ data.author.name }}</span></span>
+			<span class="time-ago">{{ data.timeAgo }}</span>
+			<span class="date">({{ data.dateShort }})</span>
+		</div>
 	<# } #>
 	</div>
 	<div class="revisions-tooltip-arrow"><span></span></div>
@@ -157,30 +160,41 @@ require_once( './admin-header.php' );
 </script>
 
 <script id="tmpl-revisions-meta" type="text/html">
-	<div id="diff-header">
-		<div id="diff-header-from" class="diff-header">
-			<div id="diff-title-from" class="diff-title">
-				<strong><?php _ex( 'From:', 'Followed by post revision info' ); ?></strong>
-				<# if ( 'undefined' !== typeof data.from ) { #>
-					{{{ data.from.attributes.author.avatar }}} {{ data.from.attributes.author.name }},
-					{{ data.from.attributes.timeAgo }}
-					({{ data.from.attributes.dateShort }})
-				<# } #>
+	<div class="diff-meta diff-meta-from">
+		<div class="diff-title">
+			<strong><?php _ex( 'From:', 'Followed by post revision info' ); ?></strong>
+		<# if ( 'undefined' !== typeof data.from ) { #>
+			<div class="author-card">
+				{{{ data.from.attributes.author.avatar }}}
+				<div class="author-info">
+					<span class="byline"><?php printf( __( 'Revision by %s' ),
+						'<span class="author-name">{{ data.to.attributes.author.name }}</span>' ); ?></span>
+					<span class="time-ago">{{ data.from.attributes.timeAgo }}</span>
+					<span class="date">({{ data.from.attributes.dateShort }})</span>
+				</div>
 			</div>
-			<div class="clear"></div>
+		<# } #>
 		</div>
+	</div>
 
-		<div id="diff-header-to" class="diff-header">
-			<div id="diff-title-to" class="diff-title">
-				<strong><?php _ex( 'To:', 'Followed by post revision info' ); ?></strong>
-				<# if ( 'undefined' !== typeof data.to ) { #>
-					{{{ data.to.attributes.author.avatar }}} {{ data.to.attributes.author.name }},
-					{{ data.to.attributes.timeAgo }}
-					({{ data.to.attributes.dateShort }})
-				<# } #>
-			</div>
-
-			<input type="button" class="restore-revision button button-primary" data-restore-link="{{{ data.restoreLink }}}" value="<?php esc_attr_e( 'Restore This Revision' )?>" />
+	<div class="diff-meta diff-meta-to">
+		<div class="diff-title">
+			<strong><?php _ex( 'To:', 'Followed by post revision info' ); ?></strong>
+		<# if ( 'undefined' !== typeof data.to ) { #>
+			<div class="author-card">
+				{{{ data.to.attributes.author.avatar }}}
+				<div class="author-info">
+					<span class="byline"><?php printf( __( 'Revision by %s' ),
+						'<span class="author-name">{{ data.to.attributes.author.name }}</span>' ); ?></span>
+					<span class="time-ago">{{ data.to.attributes.timeAgo }}</span>
+					<span class="date">({{ data.to.attributes.dateShort }})</span>
+				</div>
+		<# } #>
+			<input 
+			<# if ( data.to.attributes.current ) { #>
+				disabled="disabled"
+			<# } #>
+			type="button" class="restore-revision button button-primary" data-restore-link="{{{ data.restoreLink }}}" value="<?php esc_attr_e( 'Restore This Revision' ); ?>" />
 		</div>
 	</div>
 </script>
