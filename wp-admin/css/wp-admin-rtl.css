@@ -973,7 +973,6 @@ th.sorted a span {
 .revision-toggle-compare-mode {
 	right: auto;
 	left: 0;
-	padding: 9px 0 0 9px;
 }
 
 .revisions .loading-indicator {
@@ -992,10 +991,6 @@ body.folded .revisions .loading-indicator {
 	float: right;
 }
 
-.diff-title {
-	float: right;
-}
-
 .diff-title strong {
 	text-align: left;
 	float: right;
@@ -1003,29 +998,19 @@ body.folded .revisions .loading-indicator {
 	margin-left: 5px;
 }
 
-.diff-title img {
-	margin-left: 0;
-	margin-right: 5px;
+.revisions-controls .author-card .avatar,
+.revisions-controls .author-card .author-info {
+	float: right;
 }
 
-.diff-meta > input.restore-revision {
-	margin-left: 0;
-	margin-right: 10px;
+.diff-meta input.restore-revision {
+	float: left;
 }
 
 .diff-col-title-added,
 .diff-col-title-removed {
 	text-align: right;
 	float: right;
-}
-
-.diff-col-title-added {
-	float: left;
-}
-
-.revisions img {
-	float: right;
-	margin: 5px 0 0 5px;
 }
 
 .revisions-tooltip {
@@ -1060,6 +1045,7 @@ body.folded .revisions .loading-indicator {
 }
 
 .revisions-tooltip-arrow > span {
+	left: auto;
 	right: 20px;
 }
 
@@ -1070,11 +1056,6 @@ body.folded .revisions .loading-indicator {
 
 .ie8 .revisions-tooltip-arrow > span {
 	right: 21px;
-}
-
-.revisions-tooltip img {
-	float: right;
-	margin: 2px 0 0 5px;
 }
 
 .revisions-tickmarks > div {
