@@ -1,7 +1,7 @@
 window.wp = window.wp || {};
 
 (function($){
-	var Attachment, Attachments, Query, compare, l10n, media, bindSyncEvents;
+	var Attachment, Attachments, Query, compare, l10n, media;
 
 	/**
 	 * wp.media( attributes )
@@ -65,27 +65,6 @@ window.wp = window.wp || {};
 			return ac === bc ? 0 : (ac > bc ? -1 : 1);
 		else
 			return a > b ? -1 : 1;
-	};
-
-	// Ensures the 'sync' and 'error' events are always
-	// correctly triggered when overloading `Backbone.sync`.
-	bindSyncEvents = function( model, options ) {
-		var success = options.success,
-			error = options.error;
-
-		options.success = function( resp ) {
-			if ( success )
-				success( resp );
-			model.trigger( 'sync', model, resp, options );
-		};
-
-		options.error = function( xhr ) {
-			if ( error )
-				error( xhr );
-			model.trigger( 'error', model, xhr, options );
-		};
-
-		return options;
 	};
 
 	_.extend( media, {
@@ -197,7 +176,6 @@ window.wp = window.wp || {};
 					action: 'get-attachment',
 					id: this.id
 				});
-				bindSyncEvents( model, options );
 				return media.ajax( options );
 
 			// Overload the `update` request so properties can be saved.
@@ -226,7 +204,6 @@ window.wp = window.wp || {};
 					}, this );
 				}
 
-				bindSyncEvents( model, options );
 				return media.ajax( options );
 
 			// Overload the `delete` request so attachments can be removed.
@@ -244,7 +221,6 @@ window.wp = window.wp || {};
 					_wpnonce: this.get('nonces')['delete']
 				});
 
-				bindSyncEvents( model, options );
 				return media.ajax( options ).done( function() {
 					this.destroyed = true;
 				}).fail( function() {
@@ -506,6 +482,27 @@ window.wp = window.wp || {};
 			return this.mirroring ? this.mirroring.hasMore() : false;
 		},
 
+		parse: function( resp, xhr ) {
+			if ( ! _.isArray( resp ) )
+				resp = [resp];
+
+			return _.map( resp, function( attrs ) {
+				var id, attachment;
+				if ( attrs instanceof Backbone.Model ) {
+					id = attrs.get( 'id' );
+					attrs = attrs.attributes;
+				} else {
+					id = attrs.id;
+				}
+
+				attachment = Attachment.get( attrs.id );
+				if ( ! _.isEqual( attachment.attributes, attrs ) )
+					attachment.set( attachment.parse( attrs, xhr ) );
+
+				return attachment;
+			});
+		},
+
 		_requery: function() {
 			if ( this.props.get('query') )
 				this.mirror( Query.get( this.props.toJSON() ) );
@@ -701,7 +698,6 @@ window.wp = window.wp || {};
 					args.paged = Math.floor( this.length / args.posts_per_page ) + 1;
 
 				options.data.query = args;
-				bindSyncEvents( model, options );
 				return media.ajax( options );
 
 			// Otherwise, fall back to Backbone.sync()
