@@ -1929,3 +1929,24 @@ function convert_to_screen( $hook_name ) {
 
 	return WP_Screen::get( $hook_name );
 }
+
+/**
+ * Output the HTML for restoring the post data from DOM storage
+ *
+ * @since 3.6
+ * @access private
+ */
+function _local_storage_notice() {
+	?>
+	<div id="local-storage-notice" class="hidden">
+	<p class="local-restore">
+		<?php _e('The backup of this post in your browser is different from the version below.'); ?>
+		<a class="restore-backup" href="#"><?php _e('Restore the backup.'); ?></a>
+	</p>
+	<p class="undo-restore hidden">
+		<?php _e('Post restored successfully.'); ?>
+		<a class="undo-restore-backup" href="#"><?php _e('Undo.'); ?></a>
+	</p>
+	</div>
+	<?php
+}

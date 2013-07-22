@@ -29,6 +29,9 @@ if ( post_type_supports($post_type, 'editor') || post_type_supports($post_type, 
 	wp_enqueue_media( array( 'post' => $post_ID ) );
 }
 
+// Add the local autosave notice HTML
+add_action( 'admin_footer', '_local_storage_notice' );
+
 $messages = array();
 $messages['post'] = array(
 	 0 => '', // Unused. Messages start at index 1.
