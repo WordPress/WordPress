@@ -19,7 +19,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	protected $image = null; // Imagick Object
 
 	function __destruct() {
-		if ( $this->image ) {
+		if ( $this->image instanceof Imagick ) {
 			// we don't need the original in memory anymore
 			$this->image->clear();
 			$this->image->destroy();
@@ -113,7 +113,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @return boolean|WP_Error True if loaded; WP_Error on failure.
 	 */
 	public function load() {
-		if ( $this->image )
+		if ( $this->image instanceof Imagick )
 			return true;
 
 		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) )
@@ -124,6 +124,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 		try {
 			$this->image = new Imagick( $this->file );
+			ob_start(); var_dump( $this->image instanceof Imagick ); error_log( ob_get_clean() );
 
 			if( ! $this->image->valid() )
 				return new WP_Error( 'invalid_image', __('File is not an image.'), $this->file);
