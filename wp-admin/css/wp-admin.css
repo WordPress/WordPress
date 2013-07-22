@@ -3760,7 +3760,7 @@ table.diff .diff-addedline ins {
 
 .revisions-tooltip {
 	position: absolute;
-	bottom: 105px;
+	bottom: 106px;
 	margin-right: 0;
 	margin-left: -69px;
 	z-index: 1;
@@ -3781,7 +3781,7 @@ table.diff .diff-addedline ins {
 }
 
 .comparing-two-revisions .revisions-tooltip {
-	bottom: 145px;
+	bottom: 146px;
 }
 
 .revisions-tooltip-arrow {
@@ -3792,7 +3792,6 @@ table.diff .diff-addedline ins {
 	left: 0;
 	margin-left: 35px;
 	bottom: -15px;
-	z-index: 10000;
 }
 
 .revisions-tooltip.flipped .revisions-tooltip-arrow {
