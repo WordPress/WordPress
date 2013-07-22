@@ -124,7 +124,6 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 		try {
 			$this->image = new Imagick( $this->file );
-			ob_start(); var_dump( $this->image instanceof Imagick ); error_log( ob_get_clean() );
 
 			if( ! $this->image->valid() )
 				return new WP_Error( 'invalid_image', __('File is not an image.'), $this->file);
