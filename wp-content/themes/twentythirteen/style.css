@@ -743,6 +743,12 @@ img.wp-smiley,
 	padding: 0;
 }
 
+.wp-caption.alignleft + ul,
+.wp-caption.alignleft + ol  {
+	list-style-position: inside;
+}
+
+
 /**
  * 3.0 Basic Structure
  * ----------------------------------------------------------------------------

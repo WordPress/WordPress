@@ -365,6 +365,11 @@ img {
 	padding: 0;
 }
 
+.mceTemp + ul,
+.mceTemp + ol  {
+	list-style-position: inside;
+}
+
 
 /**
  * 8.0 Post Formats
@@ -533,6 +538,7 @@ img {
 .post-format-video a {
 	color: #fbfaf3;
 }
+
 
 /**
  * 9.0 RTL
