@@ -65,7 +65,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	wp_admin_css( 'colors-fresh', true );
 
 	if ( wp_is_mobile() ) { ?>
-		<meta name="viewport" content="width=320; initial-scale=0.9; maximum-scale=1.0; user-scalable=0;" /><?php
+		<meta name="viewport" content="width=320, initial-scale=0.9, maximum-scale=1.0, user-scalable=0" /><?php
 	}
 
 	// Remove all stored post data on logging out.
