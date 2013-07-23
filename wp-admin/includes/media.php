@@ -2470,7 +2470,7 @@ function attachment_submitbox_metadata() {
 		if ( ! empty( $meta['bitrate'] ) ) : ?>
 		<div class="misc-pub-section">
 			<?php _e( 'Bitrate:' ); ?> <strong><?php
-				echo $meta['bitrate'] / 1000, 'kb/s';
+				echo round( $meta['bitrate'] / 1000 ), 'kb/s';
 
 				if ( ! empty( $meta['bitrate_mode'] ) )
 					echo ' ', strtoupper( $meta['bitrate_mode'] );

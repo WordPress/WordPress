@@ -205,6 +205,10 @@ function wp_print_media_templates() {
 					<# } #>
 				<# } #>
 
+				<# if ( data.fileLength ) { #>
+					<div class="file-length"><?php _e( 'Length:' ); ?> {{ data.fileLength }}</div>
+				<# } #>
+
 				<# if ( ! data.uploading && data.can.remove ) { #>
 					<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
 				<# } #>
@@ -281,25 +285,52 @@ function wp_print_media_templates() {
 
 		<div class="setting">
 			<label>
-				<span><?php _e('Link To'); ?></span>
+				<# if ( data.model.canEmbed ) { #>
+					<span><?php _e('Embed or Link'); ?></span>
+				<# } else { #>
+					<span><?php _e('Link To'); ?></span>
+				<# } #>
+
 				<select class="link-to"
 					data-setting="link"
-					<# if ( data.userSettings ) { #>
+					<# if ( data.userSettings && ! data.model.canEmbed ) { #>
 						data-user-setting="urlbutton"
 					<# } #>>
 
-					<option value="custom">
-						<?php esc_attr_e('Custom URL'); ?>
+				<# if ( data.model.canEmbed && 'audio' === data.type ) { #>
+					<option value="embed" selected>
+						<?php esc_attr_e('Embed Audio Player'); ?>
 					</option>
+					<option value="file">
+				<# } else if ( data.model.canEmbed && 'video' === data.type ) { #>
+					<option value="embed" selected>
+						<?php esc_attr_e('Embed Video Player'); ?>
+					</option>
+					<option value="file">
+				<# } else { #>
 					<option value="file" selected>
+				<# } #>
+					<# if ( data.model.canEmbed ) { #>
+						<?php esc_attr_e('Link to Media File'); ?>
+					<# } else { #>
 						<?php esc_attr_e('Media File'); ?>
+					<# } #>
 					</option>
 					<option value="post">
+					<# if ( data.model.canEmbed ) { #>
+						<?php esc_attr_e('Link to Attachment Page'); ?>
+					<# } else { #>
 						<?php esc_attr_e('Attachment Page'); ?>
+					<# } #>
+					</option>
+				<# if ( 'image' === data.type ) { #>
+					<option value="custom">
+						<?php esc_attr_e('Custom URL'); ?>
 					</option>
 					<option value="none">
 						<?php esc_attr_e('None'); ?>
 					</option>
+				<# } #>
 				</select>
 			</label>
 			<input type="text" class="link-to-custom" data-setting="linkUrl" />

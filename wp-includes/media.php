@@ -1699,6 +1699,11 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			$response['height'] = (int) $meta['height'];
 	}
 
+	if ( $meta && ( 'audio' === $type || 'video' === $type ) ) {
+		if ( isset( $meta['length_formatted'] ) )
+			$response['fileLength'] = $meta['length_formatted'];
+	}
+
 	if ( function_exists('get_compat_media_markup') )
 		$response['compat'] = get_compat_media_markup( $attachment->ID, array( 'in_modal' => true ) );
 
@@ -1753,6 +1758,7 @@ function wp_enqueue_media( $args = array() ) {
 			'id' => 0,
 		),
 		'defaultProps' => $props,
+		'embedExts'    => array_merge( wp_get_audio_extensions(), wp_get_video_extensions() ),
 	);
 
 	$post = null;

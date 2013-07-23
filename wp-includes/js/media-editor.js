@@ -45,7 +45,7 @@
 			props.title = props.title || attachment.title;
 
 			link = props.link || defaultProps.link || getUserSetting( 'urlbutton', 'file' );
-			if ( 'file' === link )
+			if ( 'file' === link || 'embed' === link )
 				linkUrl = attachment.url;
 			else if ( 'post' === link )
 				linkUrl = attachment.link;
@@ -97,90 +97,41 @@
 		},
 
 		audio: function( props, attachment ) {
-			var shortcode, html;
-
-			props = wp.media.string.props( props, attachment );
-			shortcode = {};
-
-			if ( props.mime ) {
-				switch ( props.mime ) {
-				case 'audio/mpeg':
-					if ( attachment.url.indexOf( 'mp3' ) )
-						shortcode.mp3 = attachment.url;
-					else if ( attachment.url.indexOf( 'm4a' ) )
-						shortcode.m4a = attachment.url;
-					break;
-				case 'audio/mp3':
-					shortcode.mp3 = attachment.url;
-					break;
-				case 'audio/m4a':
-					shortcode.m4a = attachment.url;
-					break;
-				case 'audio/wav':
-					shortcode.wav = attachment.url;
-					break;
-				case 'audio/ogg':
-					shortcode.ogg = attachment.url;
-					break;
-				case 'audio/x-ms-wma':
-				case 'audio/wma':
-					shortcode.wma = attachment.url;
-					break;
-				default:
-					// Render unsupported audio files as links.
-					return wp.media.string.link( props );
-				}
-			}
-
-			html = wp.shortcode.string({
-				tag:     'audio',
-				attrs:   shortcode
-			});
-
-			return html;
+			return wp.media.string._audioVideo( 'audio', props, attachment );
 		},
 
 		video: function( props, attachment ) {
-			var shortcode, html;
+			return wp.media.string._audioVideo( 'video', props, attachment );
+		},
+
+		_audioVideo: function( type, props, attachment ) {
+			var shortcode, html, extension;
 
 			props = wp.media.string.props( props, attachment );
+			if ( props.link !== 'embed' )
+				return wp.media.string.link( props );
 
 			shortcode = {};
 
-			if ( attachment.width )
-				shortcode.width = attachment.width;
+			if ( 'video' === type ) {
+				if ( attachment.width )
+					shortcode.width = attachment.width;
 
-			if ( attachment.height )
-				shortcode.height = attachment.height;
+				if ( attachment.height )
+					shortcode.height = attachment.height;
+			}
 
-			if ( props.mime ) {
-				switch ( props.mime ) {
-				case 'video/mp4':
-					shortcode.mp4 = attachment.url;
-					break;
-				case 'video/m4v':
-					shortcode.m4v = attachment.url;
-					break;
-				case 'video/webm':
-					shortcode.webm = attachment.url;
-					break;
-				case 'video/ogg':
-					shortcode.ogv = attachment.url;
-					break;
-				case 'video/x-ms-wmv':
-				case 'video/wmv':
-				case 'video/asf':
-					shortcode.wmv = attachment.url;
-					break;
-				case 'video/flv':
-				case 'video/x-flv':
-					shortcode.flv = attachment.url;
-					break;
-				}
+			extension = attachment.filename.split('.').pop();
+
+			if ( _.contains( wp.media.view.settings.embedExts, extension ) ) {
+				shortcode[extension] = attachment.url;
+			} else {
+				// Render unsupported audio and video files as links.
+				return wp.media.string.link( props );
 			}
 
 			html = wp.shortcode.string({
-				tag:     'video',
+				tag:     type,
 				attrs:   shortcode
 			});
 
