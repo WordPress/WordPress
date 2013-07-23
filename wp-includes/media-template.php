@@ -297,14 +297,9 @@ function wp_print_media_templates() {
 						data-user-setting="urlbutton"
 					<# } #>>
 
-				<# if ( data.model.canEmbed && 'audio' === data.type ) { #>
+				<# if ( data.model.canEmbed ) { #>
 					<option value="embed" selected>
-						<?php esc_attr_e('Embed Audio Player'); ?>
-					</option>
-					<option value="file">
-				<# } else if ( data.model.canEmbed && 'video' === data.type ) { #>
-					<option value="embed" selected>
-						<?php esc_attr_e('Embed Video Player'); ?>
+						<?php esc_attr_e('Embed Media Player'); ?>
 					</option>
 					<option value="file">
 				<# } else { #>

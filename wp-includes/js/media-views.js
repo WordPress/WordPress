@@ -462,9 +462,12 @@
 		},
 
 		canEmbed: function( attachment ) {
-			var type = attachment.get('type');
-			if ( type !== 'audio' && type !== 'video' )
-				return false;
+			// If uploading, we know the filename but not the mime type.
+			if ( ! attachment.get('uploading') ) {
+				var type = attachment.get('type');
+				if ( type !== 'audio' && type !== 'video' )
+					return false;
+			}
 
 			return _.contains( media.view.settings.embedExts, attachment.get('filename').split('.').pop() );
 		},
