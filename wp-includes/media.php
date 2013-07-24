@@ -856,7 +856,12 @@ function wp_audio_shortcode( $attr ) {
 	$audio = null;
 
 	$default_types = wp_get_audio_extensions();
-	$defaults_atts = array( 'src' => '' );
+	$defaults_atts = array(
+		'src'      => '',
+		'loop'     => '',
+		'autoplay' => '',
+		'preload' => 'none'
+	);
 	foreach ( $default_types as $type )
 		$defaults_atts[$type] = '';
 
@@ -900,11 +905,25 @@ function wp_audio_shortcode( $attr ) {
 	}
 
 	$atts = array(
-		sprintf( 'class="%s"', apply_filters( 'wp_audio_shortcode_class', 'wp-audio-shortcode' ) ),
-		sprintf( 'id="audio-%d-%d"', $post_id, $instances ),
+		'class'    => apply_filters( 'wp_audio_shortcode_class', 'wp-audio-shortcode' ),
+		'id'       => sprintf( 'audio-%d-%d', $post_id, $instances ),
+		'loop'     => $loop,
+		'autoplay' => $autoplay,
+		'preload'  => $preload,
 	);
 
-	$html = sprintf( '<audio %s controls="controls" preload="none">', join( ' ', $atts ) );
+	// These ones should just be omitted altogether if they are blank
+	foreach ( array( 'loop', 'autoplay', 'preload' ) as $a ) {
+		if ( empty( $atts[$a] ) )
+			unset( $atts[$a] );
+	}
+
+	$attr_strings = [];
+	foreach ( $atts as $k => $v ) {
+		$attr_strings[] = $k . '="' . esc_attr( $v ) . '"';
+	}
+
+	$html = sprintf( '<audio %s controls="controls">', join( ' ', $attr_strings ) );
 
 	$fileurl = '';
 	$source = '<source type="%s" src="%s" />';
@@ -957,10 +976,13 @@ function wp_video_shortcode( $attr ) {
 
 	$default_types = wp_get_video_extensions();
 	$defaults_atts = array(
-		'src' => '',
-		'poster' => '',
-		'height' => 360,
-		'width' => empty( $content_width ) ? 640 : $content_width,
+		'src'      => '',
+		'poster'   => '',
+		'loop'     => '',
+		'autoplay' => '',
+		'preload'  => 'metadata',
+		'height'   => 360,
+		'width'    => empty( $content_width ) ? 640 : $content_width,
 	);
 
 	foreach ( $default_types as $type )
@@ -1018,16 +1040,28 @@ function wp_video_shortcode( $attr ) {
 	}
 
 	$atts = array(
-		sprintf( 'class="%s"', apply_filters( 'wp_video_shortcode_class', 'wp-video-shortcode' ) ),
-		sprintf( 'id="video-%d-%d"', $post_id, $instances ),
-		sprintf( 'width="%d"', $width ),
-		sprintf( 'height="%d"', $height ),
+		'class'    => apply_filters( 'wp_video_shortcode_class', 'wp-video-shortcode' ),
+		'id'       => sprintf( 'video-%d-%d', $post_id, $instances ),
+		'width'    => absint( $width ),
+		'height'   => absint( $height ),
+		'poster'   => esc_url( $poster ),
+		'loop'     => $loop,
+		'autoplay' => $autoplay,
+		'preload'  => $preload,
 	);
 
-	if ( ! empty( $poster ) )
-		$atts[] = sprintf( 'poster="%s"', esc_url( $poster ) );
+	// These ones should just be omitted altogether if they are blank
+	foreach ( array( 'poster', 'loop', 'autoplay', 'preload' ) as $a ) {
+		if ( empty( $atts[$a] ) )
+			unset( $atts[$a] );
+	}
 
-	$html = sprintf( '<video %s controls="controls" preload="none">', join( ' ', $atts ) );
+	$attr_strings = [];
+	foreach ( $atts as $k => $v ) {
+		$attr_strings[] = $k . '="' . esc_attr( $v ) . '"';
+	}
+
+	$html = sprintf( '<video %s controls="controls">', join( ' ', $attr_strings ) );
 
 	$fileurl = '';
 	$source = '<source type="%s" src="%s" />';
@@ -1046,6 +1080,7 @@ function wp_video_shortcode( $attr ) {
 		$html .= wp_mediaelement_fallback( $fileurl );
 	$html .= '</video>';
 
+	$html = sprintf( '<div style="width: %dpx; max-width: 100%%;">%s</div>', $width, $html );
 	return apply_filters( 'wp_video_shortcode', $html, $atts, $video, $post_id );
 }
 add_shortcode( 'video', apply_filters( 'wp_video_shortcode_handler', 'wp_video_shortcode' ) );
