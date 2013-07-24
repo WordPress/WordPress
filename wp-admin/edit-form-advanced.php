@@ -98,6 +98,9 @@ if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql
 			break;
 		}
 	}
+	// If this autosave isn't different from the current post, begone.
+	if ( ! $notice )
+		wp_delete_post_revision( $autosave->ID );
 	unset($autosave_field, $_autosave_field);
 }
 

@@ -7,7 +7,15 @@ jQuery(document).ready( function($) {
 			if ( 'content' == editor.id ) {
 				editor.onLoad.add( function() {
 					editor.save();
-					autosaveLast = wp.autosave.getCompareString();
+					if ( typeof switchEditors != 'undefined' ) {
+						autosaveLast = wp.autosave.getCompareString({
+							post_title : $('#title').val() || '',
+							content : switchEditors.pre_wpautop( $('#content').val() ) || '',
+							excerpt : $('#excerpt').val() || '',
+						});
+					} else {
+						autosaveLast = wp.autosave.getCompareString();
+					}
 				});
 			}
 		});
