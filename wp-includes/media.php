@@ -918,7 +918,7 @@ function wp_audio_shortcode( $attr ) {
 			unset( $atts[$a] );
 	}
 
-	$attr_strings = [];
+	$attr_strings = array();
 	foreach ( $atts as $k => $v ) {
 		$attr_strings[] = $k . '="' . esc_attr( $v ) . '"';
 	}
@@ -1056,7 +1056,7 @@ function wp_video_shortcode( $attr ) {
 			unset( $atts[$a] );
 	}
 
-	$attr_strings = [];
+	$attr_strings = array();
 	foreach ( $atts as $k => $v ) {
 		$attr_strings[] = $k . '="' . esc_attr( $v ) . '"';
 	}
