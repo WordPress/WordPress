@@ -31,7 +31,7 @@ case 'restore' :
 	if ( ! $post = get_post( $revision->post_parent ) )
 		break;
 
-	// Revisions disabled (previously checked autosavegs && ! wp_is_post_autosave( $revision ))
+	// Revisions disabled (previously checked autosaves && ! wp_is_post_autosave( $revision ))
 	if ( ! wp_revisions_enabled( $post ) ) {
 		$redirect = 'edit.php?post_type=' . $post->post_type;
 		break;
@@ -133,14 +133,23 @@ require_once( './admin-header.php' );
 <script id="tmpl-revisions-tooltip" type="text/html">
 	<div class="author-card">
 	<# if ( 'undefined' !== typeof data && 'undefined' !== typeof data.author ) { #>
-		{{{ data.author.avatar }}}
-		<div class="author-info">
-				
-			<span class="byline"><?php printf( __( 'Revision by %s' ),
-				'<span class="author-name">{{ data.author.name }}</span>' ); ?></span>
-			<span class="time-ago">{{ data.timeAgo }}</span>
-			<span class="date">({{ data.dateShort }})</span>
-		</div>
+			<div class="author-card<# if ( data.autosave ) { #> autosave<# } #>">
+				{{{ data.author.avatar }}}
+				<div class="author-info">
+				<# if ( data.autosave ) { #>
+					<span class="byline"><?php printf( __( 'Autosave by %s' ),
+						'<span class="author-name">{{ data.author.name }}</span>' ); ?></span>
+				<# } else if ( data.current ) { #>
+					<span class="byline"><?php printf( __( 'Current Revision by %s' ),
+						'<span class="author-name">{{ data.author.name }}</span>' ); ?></span>
+				<# } else { #>
+					<span class="byline"><?php printf( __( 'Revision by %s' ),
+						'<span class="author-name">{{ data.author.name }}</span>' ); ?></span>
+				<# } #>
+					<span class="time-ago">{{ data.timeAgo }}</span>
+					<span class="date">({{ data.dateShort }})</span>
+				</div>
+			</div>
 	<# } #>
 	</div>
 	<div class="revisions-tooltip-arrow"><span></span></div>
@@ -166,11 +175,19 @@ require_once( './admin-header.php' );
 		<div class="diff-title">
 			<strong><?php _ex( 'From:', 'Followed by post revision info' ); ?></strong>
 		<# if ( 'undefined' !== typeof data.from ) { #>
-			<div class="author-card">
+			<div class="author-card<# if ( data.from.attributes.autosave ) { #> autosave<# } #>">
 				{{{ data.from.attributes.author.avatar }}}
 				<div class="author-info">
+				<# if ( data.from.attributes.autosave ) { #>
+					<span class="byline"><?php printf( __( 'Autosave by %s' ),
+						'<span class="author-name">{{ data.from.attributes.author.name }}</span>' ); ?></span>
+				<# } else if ( data.from.attributes.current ) { #>
+					<span class="byline"><?php printf( __( 'Current Revision by %s' ),
+						'<span class="author-name">{{ data.from.attributes.author.name }}</span>' ); ?></span>
+				<# } else { #>
 					<span class="byline"><?php printf( __( 'Revision by %s' ),
 						'<span class="author-name">{{ data.from.attributes.author.name }}</span>' ); ?></span>
+				<# } #>
 					<span class="time-ago">{{ data.from.attributes.timeAgo }}</span>
 					<span class="date">({{ data.from.attributes.dateShort }})</span>
 				</div>
@@ -183,20 +200,34 @@ require_once( './admin-header.php' );
 		<div class="diff-title">
 			<strong><?php _ex( 'To:', 'Followed by post revision info' ); ?></strong>
 		<# if ( 'undefined' !== typeof data.to ) { #>
-			<div class="author-card">
+			<div class="author-card<# if ( data.to.attributes.autosave ) { #> autosave<# } #>">
 				{{{ data.to.attributes.author.avatar }}}
 				<div class="author-info">
+				<# if ( data.to.attributes.autosave ) { #>
+					<span class="byline"><?php printf( __( 'Autosave by %s' ),
+						'<span class="author-name">{{ data.to.attributes.author.name }}</span>' ); ?></span>
+				<# } else if ( data.to.attributes.current ) { #>
+					<span class="byline"><?php printf( __( 'Current Revision by %s' ),
+						'<span class="author-name">{{ data.to.attributes.author.name }}</span>' ); ?></span>
+				<# } else { #>
 					<span class="byline"><?php printf( __( 'Revision by %s' ),
 						'<span class="author-name">{{ data.to.attributes.author.name }}</span>' ); ?></span>
+				<# } #>
 					<span class="time-ago">{{ data.to.attributes.timeAgo }}</span>
 					<span class="date">({{ data.to.attributes.dateShort }})</span>
 				</div>
 		<# } #>
+		<# if ( data.to.attributes.restoreUrl ) { #>
 			<input 
 			<# if ( data.to.attributes.current ) { #>
 				disabled="disabled"
 			<# } #>
-			type="button" class="restore-revision button button-primary" data-restore-link="{{{ data.restoreLink }}}" value="<?php esc_attr_e( 'Restore This Revision' ); ?>" />
+			<# if ( data.to.attributes.autosave ) { #>
+				type="button" class="restore-revision button button-primary" value="<?php esc_attr_e( 'Restore This Autosave' ); ?>" />
+			<# } else { #>
+				type="button" class="restore-revision button button-primary" value="<?php esc_attr_e( 'Restore This Revision' ); ?>" />
+			<# } #>
+		<# } #>
 		</div>
 	</div>
 </script>

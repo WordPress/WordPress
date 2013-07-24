@@ -109,13 +109,30 @@ $post_type_object = get_post_type_object($post_type);
 // All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
 require_once('./includes/meta-boxes.php');
 
+
+$publish_callback_args = null;
+if ( post_type_supports($post_type, 'revisions') && 'auto-draft' != $post->post_status ) {
+	$revisions = wp_get_post_revisions( $post_ID );
+
+	// Check if the revisions have been upgraded
+	if ( ! empty( $revisions ) && _wp_get_post_revision_version( end( $revisions ) ) < 1 )
+		_wp_upgrade_revisions_of_post( $post, $revisions );
+
+	// We should aim to show the revisions metabox only when there are revisions.
+	if ( count( $revisions ) > 1 ) {
+		reset( $revisions ); // Reset pointer for key()
+		$publish_callback_args = array( 'revisions_count' => count( $revisions ), 'revision_id' => key( $revisions ) );
+		// add_meta_box('revisionsdiv', __('Revisions'), 'post_revisions_meta_box', null, 'normal', 'core');
+	}
+}
+
 if ( 'attachment' == $post_type ) {
 	wp_enqueue_script( 'image-edit' );
 	wp_enqueue_style( 'imgareaselect' );
 	add_meta_box( 'submitdiv', __('Save'), 'attachment_submit_meta_box', null, 'side', 'core' );
 	add_action( 'edit_form_after_title', 'edit_form_image_editor' );
 } else {
-	add_meta_box( 'submitdiv', __( 'Publish' ), 'post_submit_meta_box', null, 'side', 'core' );
+	add_meta_box( 'submitdiv', __( 'Publish' ), 'post_submit_meta_box', null, 'side', 'core', $publish_callback_args );
 }
 
 if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post_type, 'post-formats' ) )
@@ -170,18 +187,6 @@ if ( ! ( 'pending' == get_post_status( $post ) && ! current_user_can( $post_type
 if ( post_type_supports($post_type, 'author') ) {
 	if ( is_super_admin() || current_user_can( $post_type_object->cap->edit_others_posts ) )
 		add_meta_box('authordiv', __('Author'), 'post_author_meta_box', null, 'normal', 'core');
-}
-
-if ( post_type_supports($post_type, 'revisions') && 'auto-draft' != $post->post_status ) {
-	$revisions = wp_get_post_revisions( $post_ID );
-
-	// Check if the revisions have been upgraded
-	if ( ! empty( $revisions ) && _wp_get_post_revision_version( end( $revisions ) ) < 1 )
-		_wp_upgrade_revisions_of_post( $post, $revisions );
-
-	// We should aim to show the revisions metabox only when there are revisions.
-	if ( count( $revisions ) > 1 )
-		add_meta_box('revisionsdiv', __('Revisions'), 'post_revisions_meta_box', null, 'normal', 'core');
 }
 
 do_action('add_meta_boxes', $post_type, $post);

@@ -9,7 +9,7 @@
  *
  * @param object $post
  */
-function post_submit_meta_box($post) {
+function post_submit_meta_box($post, $args = array() ) {
 	global $action;
 
 	$post_type = $post->post_type;
@@ -170,6 +170,24 @@ if ( 0 != $post->ID ) {
 	$stamp = __('Publish <b>immediately</b>');
 	$date = date_i18n( $datef, strtotime( current_time('mysql') ) );
 }
+
+if ( ! empty( $args['args']['revisions_count'] ) ) :
+	$revisions_to_keep = wp_revisions_to_keep( $post );
+?>
+<div class="misc-pub-section num-revisions">
+<?php
+	if ( $revisions_to_keep > 0 && $revisions_to_keep <= $args['args']['revisions_count'] ) {
+		echo '<span title="' . esc_attr( sprintf( __( 'Your site is configured to keep only the last %s revisions.' ),
+			number_format_i18n( $revisions_to_keep ) ) ) . '">';
+		printf( __( 'Revisions: %s' ), '<b>' . number_format_i18n( $args['args']['revisions_count'] ) . '+</b>' );
+		echo '</span>';
+	} else {
+		printf( 'Revisions: %s', '<b>' . number_format_i18n( $args['args']['revisions_count'] ) . '</b>' );
+	}
+?>
+	<a class="hide-if-no-js" href="<?php echo esc_url( get_edit_post_link( $args['args']['revision_id'] ) ); ?>"><?php _ex( 'Browse', 'revisions' ); ?></a>
+</div>
+<?php endif;
 
 if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
 <div class="misc-pub-section curtime">

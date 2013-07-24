@@ -3539,7 +3539,7 @@ td.plugin-title p {
 	margin: 0 auto;
 	height: 0.8em;
 	top: 7px;
-	width: 70%;
+	max-width: 70%;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
@@ -3641,6 +3641,11 @@ body.folded .revisions .loading-indicator {
 .revisions-controls .author-card .date {
 	color: #777;
 }
+
+.revisions-controls .author-card.autosave {
+	color: #d54e21;
+}
+
 .revisions-controls .author-card .author-name {
 	font-weight: bold;
 }
@@ -3663,8 +3668,8 @@ body.folded .revisions .loading-indicator {
 	float: right;
 }
 
-.wp-slider {
-	width: 70%;
+.revisions-controls .wp-slider {
+	max-width: 70%;
 	margin: 0 auto;
 	top: -3px;
 }

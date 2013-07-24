@@ -2099,7 +2099,7 @@ function wp_ajax_get_revision_diffs() {
 		wp_send_json_error();
 
 	// Really just pre-loading the cache here.
-	if ( ! $revisions = wp_get_post_revisions( $post->ID ) )
+	if ( ! $revisions = wp_get_post_revisions( $post->ID, array( 'check_enabled' => false ) ) )
 		wp_send_json_error();
 
 	$return = array();

@@ -157,7 +157,7 @@ function wp_save_post_revision( $post_id ) {
  * @return object|bool The autosaved data or false on failure or when no autosave exists.
  */
 function wp_get_post_autosave( $post_id, $user_id = 0 ) {
-	$revisions = wp_get_post_revisions($post_id);
+	$revisions = wp_get_post_revisions( $post_id, array( 'check_enabled' => false ) );
 
 	foreach ( $revisions as $revision ) {
 		if ( false !== strpos( $revision->post_name, "{$post_id}-autosave" ) ) {
@@ -369,11 +369,15 @@ function wp_delete_post_revision( $revision_id ) {
  */
 function wp_get_post_revisions( $post_id = 0, $args = null ) {
 	$post = get_post( $post_id );
-	if ( ! $post || empty( $post->ID ) || ! wp_revisions_enabled( $post ) )
+	if ( ! $post || empty( $post->ID ) )
 		return array();
 
-	$defaults = array( 'order' => 'DESC', 'orderby' => 'date' );
+	$defaults = array( 'order' => 'DESC', 'orderby' => 'date', 'check_enabled' => true );
 	$args = wp_parse_args( $args, $defaults );
+
+	if ( $args['check_enabled'] && ! wp_revisions_enabled( $post ) )
+		return array();
+
 	$args = array_merge( $args, array( 'post_parent' => $post->ID, 'post_type' => 'revision', 'post_status' => 'inherit' ) );
 
 	if ( ! $revisions = get_children( $args ) )

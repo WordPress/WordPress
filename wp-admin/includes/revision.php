@@ -32,9 +32,10 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		return false;
 
 	// If comparing revisions, make sure we're dealing with the right post parent.
-	if ( $compare_from && $compare_from->post_parent !== $post->ID )
+	// The parent post may be a 'revision' when revisions are disabled and we're looking at autosaves.
+	if ( $compare_from && $compare_from->post_parent !== $post->ID && $compare_from->ID !== $post->ID )
 		return false;
-	if ( $compare_to->post_parent !== $post->ID )
+	if ( $compare_to->post_parent !== $post->ID && $compare_to->ID !== $post->ID )
 		return false;
 
 	if ( $compare_from && strtotime( $compare_from->post_date_gmt ) > strtotime( $compare_to->post_date_gmt ) ) {
@@ -91,22 +92,35 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 	$revisions = $authors = array();
 	$now_gmt = time();
 
-	$revisions = wp_get_post_revisions( $post->ID, array( 'order' => 'ASC' ) );
+	$revisions = wp_get_post_revisions( $post->ID, array( 'order' => 'ASC', 'check_enabled' => false ) );
+	// If revisions are disabled, we only want autosaves and the current post.
+	if ( ! wp_revisions_enabled( $post ) ) {
+		foreach ( $revisions as $revision_id => $revision ) {
+			if ( ! wp_is_post_autosave( $revision ) )
+				unset( $revisions[ $revision_id ] );
+		}
+		$revisions = array( $post->ID => $post ) + $revisions;
+	}
+
 	$show_avatars = get_option( 'show_avatars' );
 
 	cache_users( wp_list_pluck( $revisions, 'post_author' ) );
 
+	$can_restore = current_user_can( 'edit_post', $post->ID );
+
 	foreach ( $revisions as $revision ) {
 		$modified = strtotime( $revision->post_modified );
 		$modified_gmt = strtotime( $revision->post_modified_gmt );
-		$restore_link = str_replace( '&amp;', '&', wp_nonce_url(
-			add_query_arg(
-				array( 'revision' => $revision->ID,
-					'action' => 'restore' ),
-					admin_url( 'revision.php' )
-			),
-			"restore-post_{$revision->ID}"
-		) );
+		if ( $can_restore ) {
+			$restore_link = str_replace( '&amp;', '&', wp_nonce_url(
+				add_query_arg(
+					array( 'revision' => $revision->ID,
+						'action' => 'restore' ),
+						admin_url( 'revision.php' )
+				),
+				"restore-post_{$revision->ID}"
+			) );
+		}
 
 		if ( ! isset( $authors[ $revision->post_author ] ) ) {
 			$authors[ $revision->post_author ] = array(
@@ -116,9 +130,10 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 			);
 		}
 
-		$autosave = wp_is_post_autosave( $revision );
+		$autosave = (bool) wp_is_post_autosave( $revision );
 		$current = ! $autosave && $revision->post_modified_gmt === $post->post_modified_gmt;
 		if ( $current && ! empty( $current_id ) ) {
+			// If multiple revisions have the same post_modified_gmt, highest ID is current.
 			if ( $current_id < $revision->ID ) {
 				$revisions[ $current_id ]['current'] = false;
 				$current_id = $revision->ID;
@@ -138,14 +153,24 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 			'timeAgo'    => sprintf( __( '%s ago' ), human_time_diff( $modified_gmt, $now_gmt ) ),
 			'autosave'   => $autosave,
 			'current'    => $current,
-			'restoreUrl' => urldecode( $restore_link ),
+			'restoreUrl' => $can_restore ? $restore_link : false,
 		);
 	}
 
 	// If a post has been saved since the last revision (no revisioned fields were changed)
 	// we may not have a "current" revision. Mark the latest revision as "current".
-	if ( empty( $current_id ) )
-		$revisions[ $revision->ID ]['current'] = true;
+	if ( empty( $current_id ) ) {
+		if ( $revisions[ $revision->ID ]['autosave'] ) {
+			$revision = end( $revisions );
+			while ( $revision['autosave'] ) {
+				$revision = prev( $revisions );
+			}
+			$current_id = $revision['id'];
+		} else {
+			$current_id = $revision->ID;
+		}
+		$revisions[ $current_id ]['current'] = true;
+	}
 
 	// Now, grab the initial diff
 	$compare_two_mode = is_numeric( $from );

@@ -651,9 +651,11 @@ window.wp = window.wp || {};
 			var tickCount, tickWidth;
 			tickCount = this.model.revisions.length - 1;
 			tickWidth = 1 / tickCount;
+			this.$el.css('width', ( this.model.revisions.length * 50 ) + 'px');
 
 			_(tickCount).times( function( index ){
-				this.$el.append( '<div style="' + this.direction + ': ' + ( 100 * tickWidth * index ) + '%"></div>' ); }, this );
+				this.$el.append( '<div style="' + this.direction + ': ' + ( 100 * tickWidth * index ) + '%"></div>' );
+			}, this );
 		}
 	});
 
@@ -831,6 +833,7 @@ window.wp = window.wp || {};
 		},
 
 		ready: function() {
+			this.$el.css('width', ( this.model.revisions.length * 50 ) + 'px');
 			this.$el.slider( _.extend( this.model.toJSON(), {
 				start: this.start,
 				slide: this.slide,
