@@ -501,6 +501,9 @@ hr {
 .navigation:after,
 .nav-links:after,
 .gallery:after,
+.comment-form-author:after,
+.comment-form-email:after,
+.comment-form-url:after,
 .comment-body:after {
 	clear: both;
 }
@@ -521,6 +524,12 @@ hr {
 .nav-links:after,
 .gallery:before,
 .gallery:after,
+.comment-form-author:before,
+.comment-form-author:after,
+.comment-form-email:before,
+.comment-form-email:after,
+.comment-form-url:before,
+.comment-form-url:after,
 .comment-body:before,
 .comment-body:after {
 	content: "";
