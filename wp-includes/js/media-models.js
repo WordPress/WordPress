@@ -401,7 +401,6 @@ window.wp = window.wp || {};
 
 			attachments.on( 'add change remove', this._validateHandler, this );
 			attachments.on( 'reset', this._validateAllHandler, this );
-
 			this.validateAll( attachments );
 			return this;
 		},
@@ -487,7 +486,8 @@ window.wp = window.wp || {};
 				resp = [resp];
 
 			return _.map( resp, function( attrs ) {
-				var id, attachment;
+				var id, attachment, newAttributes;
+
 				if ( attrs instanceof Backbone.Model ) {
 					id = attrs.get( 'id' );
 					attrs = attrs.attributes;
@@ -495,9 +495,11 @@ window.wp = window.wp || {};
 					id = attrs.id;
 				}
 
-				attachment = Attachment.get( attrs.id );
-				if ( ! _.isEqual( attachment.attributes, attrs ) )
-					attachment.set( attachment.parse( attrs, xhr ) );
+				attachment = Attachment.get( id );
+				newAttributes = attachment.parse( attrs, xhr );
+
+				if ( ! _.isEqual( attachment.attributes, newAttributes ) )
+					attachment.set( newAttributes );
 
 				return attachment;
 			});
