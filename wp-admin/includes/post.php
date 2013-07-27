@@ -1213,7 +1213,7 @@ function _admin_notice_post_locked() {
 		$locked = false;
 	}
 
-	if ( $locked && ( $sendback = wp_get_referer() ) && 
+	if ( $locked && ( $sendback = wp_get_referer() ) &&
 		false === strpos( $sendback, 'post.php' ) && false === strpos( $sendback, 'post-new.php' ) ) {
 
 		$sendback_text = __('Go back');
@@ -1235,12 +1235,16 @@ function _admin_notice_post_locked() {
 	<?php
 
 	if ( $locked ) {
-		$preview_link = set_url_scheme( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) );
+		if ( get_post_type_object( $post->post_type )->public ) {
+			$preview_link = set_url_scheme( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) );
 
-		if ( 'publish' == $post->post_status || $user->ID != $post->post_author ) {
-			// Latest content is in autosave
-			$nonce = wp_create_nonce( 'post_preview_' . $post->ID );
-			$preview_link = add_query_arg( array( 'preview_id' => $post->ID, 'preview_nonce' => $nonce ), $preview_link );
+			if ( 'publish' == $post->post_status || $user->ID != $post->post_author ) {
+				// Latest content is in autosave
+				$nonce = wp_create_nonce( 'post_preview_' . $post->ID );
+				$preview_link = add_query_arg( array( 'preview_id' => $post->ID, 'preview_nonce' => $nonce ), $preview_link );
+			}
+		} else {
+			$preview_link = '';
 		}
 
 		$preview_link = apply_filters( 'preview_post_link', $preview_link );
@@ -1254,8 +1258,10 @@ function _admin_notice_post_locked() {
 		<?php do_action( 'post_lock_text', $post ); ?>
 		<p>
 		<a class="button" href="<?php echo esc_url( $sendback ); ?>"><?php echo $sendback_text; ?></a>
+		<?php if ( $preview_link ) { ?>
 		<a class="button<?php echo $tab_last; ?>" href="<?php echo esc_url( $preview_link ); ?>"><?php _e('Preview'); ?></a>
 		<?php
+		}
 
 		// Allow plugins to prevent some users overriding the post lock
 		if ( $override ) {
