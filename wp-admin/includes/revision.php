@@ -9,6 +9,8 @@
 /**
  * Get the revision UI diff.
  *
+ * @since 3.6.0
+ *
  * @param object $post The post object.
  * @param int $compare_from The revision id to compare from.
  * @param int $compare_to The revision id to come to.
@@ -80,6 +82,8 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 
 /**
  * Prepare revisions for JavaScript.
+ *
+ * @since 3.6.0
  *
  * @param object $post The post object.
  * @param int $selected_revision_id The selected revision id.
