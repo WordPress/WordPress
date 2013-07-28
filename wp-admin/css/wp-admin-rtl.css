@@ -691,20 +691,29 @@ form.upgrade .hint {
 .fixed .column-comments {
 	text-align: right;
 }
+
 .fixed .column-comments .vers {
 	padding-left: 0;
 	padding-right: 3px;
 }
+
 .fixed .column-comments a {
 	float: right;
 }
+
 .fixed .column-menus {
 	text-align: right;
 }
+
 .sorting-indicator {
 	margin-left: 0;
 	margin-right: 7px;
 }
+
+tr.wp-locked .locked-indicator {
+	margin: -2px 6px 0 0;
+}
+
 th.sortable a span,
 th.sorted a span {
 	float: right;
@@ -944,6 +953,23 @@ th.sorted a span {
 	padding-right: 0;
 	padding-left: 10px;
 }
+
+#post-lock-dialog .post-locked-message a.button {
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+#post-lock-dialog .post-locked-avatar {
+	float: right;
+	margin: 0 0 20px 20px;
+}
+
+#post-lock-dialog .locked-saving img {
+	float: right;
+	margin-right: 0;
+	margin-left: 3px;
+}
+
 
 /*------------------------------------------------------------------------------
   11.1 - Custom Fields
