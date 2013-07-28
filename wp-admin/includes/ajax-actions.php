@@ -9,6 +9,12 @@
 /*
  * No-privilege Ajax handlers.
  */
+
+/**
+ * Heartbeat API (experimental)
+ *
+ * Runs when the user is not logged in.
+ */
 function wp_ajax_nopriv_heartbeat() {
 	$response = array();
 
@@ -2052,6 +2058,11 @@ function wp_ajax_send_link_to_editor() {
 	wp_send_json_success( $html );
 }
 
+/**
+ * Heartbeat API (experimental)
+ *
+ * Runs when the user is logged in.
+ */
 function wp_ajax_heartbeat() {
 	if ( empty( $_POST['_nonce'] ) )
 		wp_send_json_error();
@@ -2072,9 +2083,6 @@ function wp_ajax_heartbeat() {
 
 	if ( ! empty($_POST['data']) ) {
 		$data = (array) $_POST['data'];
-
-		// todo: separate filters: 'heartbeat_[action]' so we call different callbacks only when there is data for them,
-		// or all callbacks listen to one filter and run when there is something for them in $data?
 		$response = apply_filters( 'heartbeat_received', $response, $data, $screen_id );
 	}
 
