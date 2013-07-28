@@ -205,12 +205,34 @@ function _ex( $text, $context, $domain = 'default' ) {
 	echo _x( $text, $context, $domain );
 }
 
-function esc_attr_x( $single, $context, $domain = 'default' ) {
-	return esc_attr( translate_with_gettext_context( $single, $context, $domain ) );
+/**
+ * Displays translated string with gettext context and escapes it for safe use in an attribute.
+ *
+ * @see esc_attr()
+ * @since 2.8.0
+ *
+ * @param string $text Text to translate
+ * @param string $context Context information for the translators
+ * @param string $domain Optional. Domain to retrieve the translated text
+ * @return string Translated text
+ */
+function esc_attr_x( $text, $context, $domain = 'default' ) {
+	return esc_attr( translate_with_gettext_context( $text, $context, $domain ) );
 }
 
-function esc_html_x( $single, $context, $domain = 'default' ) {
-	return esc_html( translate_with_gettext_context( $single, $context, $domain ) );
+/**
+ * Displays translated string with gettext context and escapes it for safe use in HTML output.
+ *
+ * @see esc_html()
+ * @since 2.9.0
+ *
+ * @param string $text Text to translate
+ * @param string $context Context information for the translators
+ * @param string $domain Optional. Domain to retrieve the translated text
+ * @return string Translated text
+ */
+function esc_html_x( $text, $context, $domain = 'default' ) {
+	return esc_html( translate_with_gettext_context( $text, $context, $domain ) );
 }
 
 /**
