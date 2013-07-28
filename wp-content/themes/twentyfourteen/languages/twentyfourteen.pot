@@ -1,0 +1,539 @@
+# Copyright (C) 2013 the WordPress team
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Twenty Fourteen 0.1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyfourteen\n"
+"POT-Creation-Date: 2013-07-28 22:14:19+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: 404.php:16
+msgid "Oops! That page can&rsquo;t be found."
+msgstr ""
+
+#: 404.php:20
+msgid "It looks like nothing was found at this location. Maybe try one of the links below or a search?"
+msgstr ""
+
+#: archive.php:22
+msgid "Category Archives: %s"
+msgstr ""
+
+#: archive.php:25
+msgid "Tag Archives: %s"
+msgstr ""
+
+#: archive.php:32
+msgid "Author Archives: %s"
+msgstr ""
+
+#: archive.php:40
+msgid "Daily Archives: %s"
+msgstr ""
+
+#: archive.php:43
+msgid "Monthly Archives: %s"
+msgstr ""
+
+#: archive.php:46
+msgid "Yearly Archives: %s"
+msgstr ""
+
+#: archive.php:49 sidebar.php:36
+msgid "Archives"
+msgstr ""
+
+#: comments.php:32
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:39 comments.php:59
+msgid "Comment navigation"
+msgstr ""
+
+#: comments.php:40 comments.php:60
+msgid "&larr; Older Comments"
+msgstr ""
+
+#: comments.php:41 comments.php:61
+msgid "Newer Comments &rarr;"
+msgstr ""
+
+#: comments.php:71
+msgid "Comments are closed."
+msgstr ""
+
+#: content-featured-post.php:9 content-post-format.php:15
+#: content-recent-formatted-post.php:29 content-recent-formatted-post.php:45
+#: content.php:10
+msgid "Permalink to %s"
+msgstr ""
+
+#. translators: used between list items, there is a space after the comma
+
+#: content-featured-post.php:29 content-post-format.php:25
+#: content-single.php:25 content.php:20
+msgid ", "
+msgstr ""
+
+#: content-page.php:19 content-post-format.php:60 content-single.php:59
+#: content.php:59 image.php:85
+msgid "Pages:"
+msgstr ""
+
+#: content-page.php:25 content-post-format.php:52 content-single.php:51
+#: content.php:46 image.php:29 inc/template-tags.php:90
+#: inc/template-tags.php:118
+msgid "Edit"
+msgstr ""
+
+#: content-post-format.php:40 content-single.php:41 content.php:33
+msgid "All %s posts"
+msgstr ""
+
+#: content-post-format.php:49 content-recent-formatted-post.php:50
+#: content-single.php:48 content.php:43
+msgid "Leave a comment"
+msgstr ""
+
+#: content-post-format.php:49 content-recent-formatted-post.php:50
+#: content-single.php:48 content.php:43
+msgid "1 Comment"
+msgstr ""
+
+#: content-post-format.php:49 content-recent-formatted-post.php:50
+#: content-single.php:48 content.php:43
+msgid "% Comments"
+msgstr ""
+
+#: content-post-format.php:57 content-recent-formatted-post.php:36
+#: content.php:56
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: content-recent-formatted-post.php:28
+msgid "This gallery contains <a %1$s>%2$s photo</a>."
+msgid_plural "This gallery contains <a %1$s>%2$s photos</a>."
+msgstr[0] ""
+msgstr[1] ""
+
+#: footer.php:19
+msgid "http://wordpress.org/"
+msgstr ""
+
+#: footer.php:19
+msgid "Semantic Personal Publishing Platform"
+msgstr ""
+
+#: footer.php:19
+msgid "Proudly powered by %s"
+msgstr ""
+
+#: functions.php:72
+msgid "Top primary menu"
+msgstr ""
+
+#: functions.php:73
+msgid "Secondary menu in left sidebar"
+msgstr ""
+
+#: functions.php:133
+msgid "Primary Sidebar"
+msgstr ""
+
+#: functions.php:135
+msgid "Main sidebar that appears on the left."
+msgstr ""
+
+#: functions.php:142
+msgid "Content Sidebar"
+msgstr ""
+
+#: functions.php:144
+msgid "Additional sidebar that appears on the right, on single posts and pages."
+msgstr ""
+
+#: functions.php:151
+msgid "Footer Widget Area One"
+msgstr ""
+
+#: functions.php:159
+msgid "Footer Widget Area Two"
+msgstr ""
+
+#: functions.php:167
+msgid "Footer Widget Area Three"
+msgstr ""
+
+#: functions.php:175
+msgid "Footer Widget Area Four"
+msgstr ""
+
+#: functions.php:183
+msgid "Footer Widget Area Five"
+msgstr ""
+
+#. translators: If there are characters in your language that are not supported
+#. 	   by Lato, translate this to 'off'. Do not translate into your own
+#. language.
+
+#: functions.php:200
+msgctxt "Lato font: on or off"
+msgid "on"
+msgstr ""
+
+#: functions.php:262
+msgid "Read More <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: functions.php:442
+msgid "Page %s"
+msgstr ""
+
+#: header.php:77
+msgid "Connect"
+msgstr ""
+
+#: header.php:82 searchform.php:10 searchform.php:12
+msgid "Search"
+msgstr ""
+
+#: header.php:87
+msgid "Primary Menu"
+msgstr ""
+
+#: header.php:88
+msgid "Skip to content"
+msgstr ""
+
+#: header.php:101 header.php:102
+msgid "Email"
+msgstr ""
+
+#: header.php:109 header.php:110
+msgid "Twitter"
+msgstr ""
+
+#: header.php:117 header.php:118
+msgid "Facebook"
+msgstr ""
+
+#: header.php:125 header.php:126
+msgid "Pinterest"
+msgstr ""
+
+#: header.php:133 header.php:134
+msgid "Google Plus"
+msgstr ""
+
+#: header.php:141 header.php:142
+msgid "LinkedIn"
+msgstr ""
+
+#: header.php:149 header.php:150
+msgid "Flickr"
+msgstr ""
+
+#: header.php:157 header.php:158
+msgid "Github"
+msgstr ""
+
+#: header.php:165 header.php:166
+msgid "Dribbble"
+msgstr ""
+
+#: header.php:173 header.php:174
+msgid "Vimeo"
+msgstr ""
+
+#: header.php:181 header.php:182
+msgid "YouTube"
+msgstr ""
+
+#: image.php:95
+msgid "<a class=\"comment-link\" href=\"#respond\" title=\"Post a comment\">Post a comment</a> or leave a trackback: <a class=\"trackback-link\" href=\"%s\" title=\"Trackback URL for your post\" rel=\"trackback\">Trackback URL</a>."
+msgstr ""
+
+#: image.php:97
+msgid "Comments are closed, but you can leave a trackback: <a class=\"trackback-link\" href=\"%s\" title=\"Trackback URL for your post\" rel=\"trackback\">Trackback URL</a>."
+msgstr ""
+
+#: image.php:99
+msgid "Trackbacks are closed, but you can <a class=\"comment-link\" href=\"#respond\" title=\"Post a comment\">post a comment</a>."
+msgstr ""
+
+#: image.php:101
+msgid "Both comments and trackbacks are currently closed."
+msgstr ""
+
+#: image.php:107
+msgid "<div class=\"previous-image\">Previous Image</div>"
+msgstr ""
+
+#: image.php:108
+msgid "<div class=\"next-image\">Next Image</div>"
+msgstr ""
+
+#: inc/customizer.php:20
+msgid "Theme Options"
+msgstr ""
+
+#: inc/customizer.php:31
+msgid "Email Link"
+msgstr ""
+
+#: inc/customizer.php:45
+msgid "Twitter Link"
+msgstr ""
+
+#: inc/customizer.php:59
+msgid "Facebook Link"
+msgstr ""
+
+#: inc/customizer.php:73
+msgid "Pinterest Link"
+msgstr ""
+
+#: inc/customizer.php:87
+msgid "Google+ Link"
+msgstr ""
+
+#: inc/customizer.php:101
+msgid "LinkedIn Link"
+msgstr ""
+
+#: inc/customizer.php:115
+msgid "Flickr Link"
+msgstr ""
+
+#: inc/customizer.php:129
+msgid "Github Link"
+msgstr ""
+
+#: inc/customizer.php:143
+msgid "Dribbble Link"
+msgstr ""
+
+#: inc/customizer.php:157
+msgid "Vimeo Link"
+msgstr ""
+
+#: inc/customizer.php:171
+msgid "YouTube Link"
+msgstr ""
+
+#: inc/template-tags.php:38
+msgid "Post navigation"
+msgstr ""
+
+#: inc/template-tags.php:42
+msgid "<div class=\"nav-previous\"><span class=\"meta-nav\">Previous Post</span>%title</div>"
+msgstr ""
+
+#: inc/template-tags.php:43
+msgid "<div class=\"nav-next\"><span class=\"meta-nav\">Next Post</span>%title</div>"
+msgstr ""
+
+#: inc/template-tags.php:61
+msgid "&larr; Previous"
+msgstr ""
+
+#: inc/template-tags.php:62
+msgid "Next &rarr;"
+msgstr ""
+
+#: inc/template-tags.php:90
+msgid "Pingback:"
+msgstr ""
+
+#: inc/template-tags.php:100
+msgid "%s"
+msgstr ""
+
+#: inc/template-tags.php:107
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#. translators: 1: date, 2: time
+
+#: inc/template-tags.php:115
+msgid "%1$s at %2$s"
+msgstr ""
+
+#: inc/template-tags.php:136
+msgid "Sticky"
+msgstr ""
+
+#: inc/template-tags.php:138
+msgid "<span class=\"entry-date\"><a href=\"%1$s\" title=\"%2$s\" rel=\"bookmark\"><time class=\"entry-date\" datetime=\"%3$s\">%4$s</time></a></span> <span class=\"byline\"><span class=\"author vcard\"><a class=\"url fn n\" href=\"%5$s\" title=\"%6$s\" rel=\"author\">%7$s</a></span></span>"
+msgstr ""
+
+#: inc/template-tags.php:144
+msgid "View all posts by %s"
+msgstr ""
+
+#: no-results.php:14
+msgid "Nothing Found"
+msgstr ""
+
+#: no-results.php:20
+msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+
+#: no-results.php:24
+msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
+msgstr ""
+
+#: no-results.php:29
+msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
+msgstr ""
+
+#: recent-formatted-posts.php:19
+msgid "All Video Posts"
+msgstr ""
+
+#: recent-formatted-posts.php:19
+msgid "Videos"
+msgstr ""
+
+#: recent-formatted-posts.php:26
+msgid "More Videos"
+msgstr ""
+
+#: recent-formatted-posts.php:26
+msgid "More Videos <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: recent-formatted-posts.php:36
+msgid "All Image Posts"
+msgstr ""
+
+#: recent-formatted-posts.php:36
+msgid "Images"
+msgstr ""
+
+#: recent-formatted-posts.php:43
+msgid "More images"
+msgstr ""
+
+#: recent-formatted-posts.php:43
+msgid "More images <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: recent-formatted-posts.php:53
+msgid "All Gallery Posts"
+msgstr ""
+
+#: recent-formatted-posts.php:53
+msgid "Galleries"
+msgstr ""
+
+#: recent-formatted-posts.php:60
+msgid "More Galleries"
+msgstr ""
+
+#: recent-formatted-posts.php:60
+msgid "More galleries <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: recent-formatted-posts.php:70
+msgid "All Aside Posts"
+msgstr ""
+
+#: recent-formatted-posts.php:70
+msgid "Asides"
+msgstr ""
+
+#: recent-formatted-posts.php:77
+msgid "More Asides"
+msgstr ""
+
+#: recent-formatted-posts.php:77
+msgid "More asides <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: recent-formatted-posts.php:87
+msgid "All Link Posts"
+msgstr ""
+
+#: recent-formatted-posts.php:87
+msgid "Links"
+msgstr ""
+
+#: recent-formatted-posts.php:94
+msgid "More Links"
+msgstr ""
+
+#: recent-formatted-posts.php:94
+msgid "More links <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: recent-formatted-posts.php:104
+msgid "All Quote Posts"
+msgstr ""
+
+#: recent-formatted-posts.php:104
+msgid "Quotes"
+msgstr ""
+
+#: recent-formatted-posts.php:111
+msgid "More Quotes"
+msgstr ""
+
+#: recent-formatted-posts.php:111
+msgid "More quotes <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: search.php:17
+msgid "Search Results for: %s"
+msgstr ""
+
+#: searchform.php:11
+msgid "Search &hellip;"
+msgstr ""
+
+#: sidebar-content.php:18
+msgid "Blogroll"
+msgstr ""
+
+#: sidebar-content.php:25
+msgid "Meta"
+msgstr ""
+
+#: sidebar.php:29
+msgid "Categories"
+msgstr ""
+#. Theme Name of the plugin/theme
+msgid "Twenty Fourteen"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://wordpress.org/themes/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "The default theme for 2014 is a magazine theme with a sleek, modern, and beautifully crafted responsive design. As a magazine theme it highlights featured content prominently on the home page."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "the WordPress team"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://wordpress.org/"
+msgstr ""
+
+#. Tags of the plugin/theme
+msgid "black, green, white, light, dark, two-columns, three-columns, fixed-width, responsive-width, custom-background, custom-header, custom-menu, featured-images, flexible-header, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Full Width Page"
+msgstr ""
