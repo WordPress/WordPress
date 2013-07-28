@@ -300,6 +300,8 @@ function is_taxonomy_hierarchical($taxonomy) {
  *
  * labels - An array of labels for this taxonomy. You can see accepted values in {@link get_taxonomy_labels()}. By default tag labels are used for non-hierarchical types and category labels for hierarchical ones.
  *
+ * description - A short descriptive summary of what the taxonomy is for. Defaults to blank.
+ *
  * @package WordPress
  * @subpackage Taxonomy
  * @since 2.3.0
@@ -329,6 +331,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		'labels' => array(),
 		'capabilities' => array(),
 		'show_in_nav_menus' => null,
+		'description' => '',
 	);
 	$args = wp_parse_args($args, $defaults);
 
