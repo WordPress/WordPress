@@ -37,6 +37,10 @@ case 'restore' :
 		break;
 	}
 
+	// Don't allow revision restore when post is locked
+	if ( wp_check_post_lock( $post->ID ) )
+		break;
+
 	check_admin_referer( "restore-post_{$revision->ID}" );
 
 	wp_restore_post_revision( $revision->ID );
@@ -170,10 +174,13 @@ require_once( './admin-header.php' );
 					<span class="date">({{ data.attributes.dateShort }})</span>
 				</div>
 			<# if ( 'to' === data.type && data.attributes.restoreUrl ) { #>
-				<input 
-				<# if ( data.attributes.current ) { #>
+				<input  <?php if ( wp_check_post_lock( $post->ID ) ) { ?>
 					disabled="disabled"
-				<# } #>
+				<?php } else { ?>
+					<# if ( data.attributes.current ) { #>
+						disabled="disabled"
+					<# } #>
+				<?php } ?>
 				<# if ( data.attributes.autosave ) { #>
 					type="button" class="restore-revision button button-primary" value="<?php esc_attr_e( 'Restore This Autosave' ); ?>" />
 				<# } else { #>
