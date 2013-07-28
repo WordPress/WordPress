@@ -407,8 +407,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 <?php
 	if ( 'auto-draft' != $post->post_status ) {
 		echo '<span id="last-edit">';
-		if ( $last_id = get_post_meta($post_ID, '_edit_last', true) ) {
-			$last_user = get_userdata($last_id);
+		if ( $last_user = get_userdata( get_post_meta( $post_ID, '_edit_last', true ) ) ) {
 			printf(__('Last edited by %1$s on %2$s at %3$s'), esc_html( $last_user->display_name ), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified));
 		} else {
 			printf(__('Last edited on %1$s at %2$s'), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified));
