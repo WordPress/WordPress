@@ -1435,8 +1435,8 @@ class WP_Rewrite {
 					if ( !empty($endpoints) ) {
 						foreach ( (array) $ep_query_append as $regex => $ep ) {
 							if ( $ep[0] & EP_ATTACHMENT ) {
-								$rewrite[$sub1 . $regex] = $subquery . $ep[1] . $this->preg_index(2);
-								$rewrite[$sub2 . $regex] = $subquery . $ep[1] . $this->preg_index(2);
+								$rewrite[$sub1 . $regex] = $subquery . $ep[1] . $this->preg_index(3);
+								$rewrite[$sub2 . $regex] = $subquery . $ep[1] . $this->preg_index(3);
 							}
 						}
 					}
