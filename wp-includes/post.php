@@ -2872,8 +2872,8 @@ function wp_insert_post($postarr, $wp_error = false) {
 		do_action( 'post_updated', $post_ID, $post_after, $post_before);
 	}
 
-	do_action('save_post', $post_ID, $post);
-	do_action('wp_insert_post', $post_ID, $post);
+	do_action( 'save_post', $post_ID, $post, $update );
+	do_action( 'wp_insert_post', $post_ID, $post, $update );
 
 	return $post_ID;
 }
