@@ -2077,9 +2077,9 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		} else {
 			// The alias isn't in a group, so let's create a new one and firstly add the alias term to it.
 			$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms") + 1;
-			do_action( 'edit_terms', $alias->term_id );
+			do_action( 'edit_terms', $alias->term_id, $taxonomy );
 			$wpdb->update($wpdb->terms, compact('term_group'), array('term_id' => $alias->term_id) );
-			do_action( 'edited_terms', $alias->term_id );
+			do_action( 'edited_terms', $alias->term_id, $taxonomy );
 		}
 	}
 
@@ -2118,9 +2118,9 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	// Seems unreachable, However, Is used in the case that a term name is provided, which sanitizes to an empty string.
 	if ( empty($slug) ) {
 		$slug = sanitize_title($slug, $term_id);
-		do_action( 'edit_terms', $term_id );
+		do_action( 'edit_terms', $term_id, $taxonomy );
 		$wpdb->update( $wpdb->terms, compact( 'slug' ), compact( 'term_id' ) );
-		do_action( 'edited_terms', $term_id );
+		do_action( 'edited_terms', $term_id, $taxonomy );
 	}
 
 	$tt_id = $wpdb->get_var( $wpdb->prepare( "SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d", $taxonomy, $term_id ) );
@@ -2476,9 +2476,9 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 		} else {
 			// The alias isn't in a group, so let's create a new one and firstly add the alias term to it.
 			$term_group = $wpdb->get_var("SELECT MAX(term_group) FROM $wpdb->terms") + 1;
-			do_action( 'edit_terms', $alias->term_id );
+			do_action( 'edit_terms', $alias->term_id, $taxonomy );
 			$wpdb->update( $wpdb->terms, compact('term_group'), array( 'term_id' => $alias->term_id ) );
-			do_action( 'edited_terms', $alias->term_id );
+			do_action( 'edited_terms', $alias->term_id, $taxonomy );
 		}
 	}
 
@@ -2495,13 +2495,13 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 		else
 			return new WP_Error('duplicate_term_slug', sprintf(__('The slug &#8220;%s&#8221; is already in use by another term'), $slug));
 	}
-	do_action( 'edit_terms', $term_id );
+	do_action( 'edit_terms', $term_id, $taxonomy );
 	$wpdb->update($wpdb->terms, compact( 'name', 'slug', 'term_group' ), compact( 'term_id' ) );
 	if ( empty($slug) ) {
 		$slug = sanitize_title($name, $term_id);
 		$wpdb->update( $wpdb->terms, compact( 'slug' ), compact( 'term_id' ) );
 	}
-	do_action( 'edited_terms', $term_id );
+	do_action( 'edited_terms', $term_id, $taxonomy );
 
 	$tt_id = $wpdb->get_var( $wpdb->prepare( "SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d", $taxonomy, $term_id) );
 	do_action( 'edit_term_taxonomy', $tt_id, $taxonomy );
