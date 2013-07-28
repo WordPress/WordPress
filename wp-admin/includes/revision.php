@@ -55,8 +55,8 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 	$return = array();
 
 	foreach ( _wp_post_revision_fields() as $field => $name ) {
-		$content_from = $compare_from ? apply_filters( "_wp_post_revision_field_$field", $compare_from->$field, $field, $compare_from, 'left' ) : '';
-		$content_to = apply_filters( "_wp_post_revision_field_$field", $compare_to->$field, $field, $compare_to, 'right' );
+		$content_from = $compare_from ? apply_filters( "_wp_post_revision_field_$field", $compare_from->$field, $field, $compare_from, 'from' ) : '';
+		$content_to = apply_filters( "_wp_post_revision_field_$field", $compare_to->$field, $field, $compare_to, 'to' );
 
 		$diff = wp_text_diff( $content_from, $content_to, array( 'show_split_view' => true ) );
 
