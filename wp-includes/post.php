@@ -375,7 +375,6 @@ function get_extended($post) {
  * $post, must be given as a variable, since it is passed by reference.
  *
  * @since 1.5.1
- * @uses $wpdb
  * @link http://codex.wordpress.org/Function_Reference/get_post
  *
  * @param int|object $post Post ID or post object. Optional, default is the current post from the loop.
@@ -1617,7 +1616,6 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
  *     'post_status' - Default is 'publish'. Post status to retrieve.
  *
  * @since 1.2.0
- * @uses $wpdb
  * @uses WP_Query::query() See for more default arguments and information.
  * @link http://codex.wordpress.org/Template_Tags/get_posts
  *
@@ -1666,7 +1664,6 @@ function get_posts($args = null) {
  * Post meta data is called "Custom Fields" on the Administration Screen.
  *
  * @since 1.5.0
- * @uses $wpdb
  * @link http://codex.wordpress.org/Function_Reference/add_post_meta
  *
  * @param int $post_id Post ID.
@@ -1691,7 +1688,6 @@ function add_post_meta($post_id, $meta_key, $meta_value, $unique = false) {
  * allows removing all metadata matching key, if needed.
  *
  * @since 1.5.0
- * @uses $wpdb
  * @link http://codex.wordpress.org/Function_Reference/delete_post_meta
  *
  * @param int $post_id post ID
@@ -1711,7 +1707,6 @@ function delete_post_meta($post_id, $meta_key, $meta_value = '') {
  * Retrieve post meta field for a post.
  *
  * @since 1.5.0
- * @uses $wpdb
  * @link http://codex.wordpress.org/Function_Reference/get_post_meta
  *
  * @param int $post_id Post ID.
@@ -1733,7 +1728,6 @@ function get_post_meta($post_id, $key = '', $single = false) {
  * If the meta field for the post does not exist, it will be added.
  *
  * @since 1.5.0
- * @uses $wpdb
  * @link http://codex.wordpress.org/Function_Reference/update_post_meta
  *
  * @param int $post_id Post ID.
@@ -1754,7 +1748,6 @@ function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
  * Delete everything from post meta matching meta key.
  *
  * @since 2.3.0
- * @uses $wpdb
  *
  * @param string $post_meta_key Key to search for when deleting.
  * @return bool Whether the post meta key was deleted from the database
@@ -3268,7 +3261,6 @@ function add_ping($post_id, $uri) {
  * Retrieve enclosures already enclosed for a post.
  *
  * @since 1.5.0
- * @uses $wpdb
  *
  * @param int $post_id Post ID.
  * @return array List of enclosures
@@ -4642,7 +4634,6 @@ function clean_post_cache( $post ) {
  * @subpackage Cache
  * @since 1.5.0
  *
- * @uses $wpdb
  * @uses update_post_cache()
  * @uses update_object_term_cache()
  * @uses update_postmeta_cache()
@@ -4696,8 +4687,6 @@ function update_post_caches(&$posts, $post_type = 'post', $update_term_cache = t
  * @package WordPress
  * @subpackage Cache
  * @since 2.1.0
- *
- * @uses $wpdb
  *
  * @param array $post_ids List of post IDs.
  * @return bool|array Returns false if there is nothing to update or an array of metadata.
