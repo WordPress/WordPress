@@ -259,7 +259,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 		}
 		if ( current_user_can( $tax->cap->delete_terms ) && $tag->term_id != $default_term )
 			$actions['delete'] = "<a class='delete-tag' href='" . wp_nonce_url( "edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id ) . "'>" . __( 'Delete' ) . "</a>";
-		$actions['view'] = '<a href="' . get_term_link( $tag ) . '">' . __( 'View' ) . '</a>';
+		if ( $tax->public )
+			$actions['view'] = '<a href="' . get_term_link( $tag ) . '">' . __( 'View' ) . '</a>';
 
 		$actions = apply_filters( 'tag_row_actions', $actions, $tag );
 		$actions = apply_filters( "{$taxonomy}_row_actions", $actions, $tag );
