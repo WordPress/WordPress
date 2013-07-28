@@ -2042,6 +2042,9 @@ function unstick_post($post_id) {
 function wp_count_posts( $type = 'post', $perm = '' ) {
 	global $wpdb;
 
+	if ( ! post_type_exists( $type ) )
+		return new stdClass;
+
 	$user = wp_get_current_user();
 
 	$cache_key = $type;
