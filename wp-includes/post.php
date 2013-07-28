@@ -1270,7 +1270,9 @@ function register_post_type( $post_type, $args = array() ) {
 				add_rewrite_rule( "{$archive_slug}/{$wp_rewrite->pagination_base}/([0-9]{1,})/?$", "index.php?post_type=$post_type" . '&paged=$matches[1]', 'top' );
 		}
 
-		add_permastruct( $post_type, "{$args->rewrite['slug']}/%$post_type%", $args->rewrite );
+		$permastruct_args = $args->rewrite;
+		$permastruct_args['feed'] = $permastruct_args['feeds'];
+		add_permastruct( $post_type, "{$args->rewrite['slug']}/%$post_type%", $permastruct_args );
 	}
 
 	if ( $args->register_meta_box_cb )
