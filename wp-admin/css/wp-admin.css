@@ -5314,6 +5314,54 @@ h3.available-themes {
 	margin: 0;
 }
 
+/* Allow for three-up in small windows when sidebar is collapsed */
+@media only screen and (max-width: 1200px) {
+	.folded .available-theme,
+	.folded .available-theme .screenshot {
+		width: 300px;
+	}
+
+	.folded .available-theme .screenshot {
+		height: 225px;
+	}
+
+	.folded #current-theme img {
+		width: 300px;
+	}
+
+	.folded #current-theme.has-screenshot {
+		padding-left: 330px;
+	}
+
+	.folded #current-theme img {
+		margin-left: -330px;
+	}
+}
+
+/* Adjust three-up display in smaller windows when sidebar is collapsed */
+@media only screen and (max-width: 1079px) {
+	.folded .available-theme,
+	.folded .available-theme .screenshot {
+		width: 270px;
+	}
+
+	.folded .available-theme .screenshot {
+		height: 203px;
+	}
+
+	.folded #current-theme img {
+		width: 270px;
+	}
+
+	.folded #current-theme.has-screenshot {
+		padding-left: 300px;
+	}
+
+	.folded #current-theme img {
+		margin-left: -300px;
+	}
+}
+
 /* Allow for three-up on 1024px wide screens, e.g. tablets */
 @media only screen and (max-width: 1200px) {
 	.available-theme,
