@@ -422,7 +422,7 @@ function do_enclose( $content, $post_ID ) {
 	$punc = '.:?\-';
 	$any = $ltrs . $gunk . $punc;
 
-	preg_match_all( "{\b http : [$any] +? (?= [$punc] * [^$any] | $)}x", $content, $post_links_temp );
+	preg_match_all( "{\b https? : [$any] +? (?= [$punc] * [^$any] | $)}x", $content, $post_links_temp );
 
 	foreach ( $pung as $link_test ) {
 		if ( !in_array( $link_test, $post_links_temp[0] ) ) { // link no longer in post
