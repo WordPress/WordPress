@@ -551,6 +551,8 @@ $_old_files = array(
 'wp-includes/js/tinymce/themes/advanced/skins/wp_theme/ui.css',
 // 3.5.2
 'wp-includes/js/swfupload/swfupload-all.js',
+// 3.6
+'wp-admin/js/revisions-js.php',
 );
 
 /**
