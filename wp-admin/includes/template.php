@@ -1752,8 +1752,6 @@ final class WP_Internal_Pointers {
 			'wp340_customize_current_theme_link' => array( 'edit_theme_options' ),
 			'wp340_choose_image_from_library' => array( 'edit_theme_options' ),
 			'wp350_media' => array( 'upload_files' ),
-			'wp360_revisions' => array( 'edit_posts' ),
-			'wp360_locks' => array( 'read' ),
 		);
 
 		// Get dismissed pointers
