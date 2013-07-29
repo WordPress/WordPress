@@ -186,7 +186,7 @@ function get_bookmarks($args = '') {
 	}
 
 	if ( ! empty($search) ) {
-		$search = like_escape($search);
+		$search = esc_sql( like_escape( $search ) );
 		$search = " AND ( (link_url LIKE '%$search%') OR (link_name LIKE '%$search%') OR (link_description LIKE '%$search%') ) ";
 	}
 
