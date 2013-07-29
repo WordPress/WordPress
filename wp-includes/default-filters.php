@@ -299,4 +299,8 @@ add_action( 'admin_enqueue_scripts',     'wp_auth_check_load'   );
 add_filter( 'heartbeat_received',        'wp_auth_check', 10, 2 );
 add_filter( 'heartbeat_nopriv_received', 'wp_auth_check', 10, 2 );
 
+// Default authentication filters
+add_filter( 'authenticate', 'wp_authenticate_username_password',  20, 3 );
+add_filter( 'authenticate', 'wp_authenticate_spam_check',         99    );
+
 unset($filter, $action);

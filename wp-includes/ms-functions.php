@@ -1705,14 +1705,17 @@ function fix_phpmailer_messageid( $phpmailer ) {
  * @since MU
  * @uses get_user_by()
  *
- * @param string $user_login Optional. Defaults to current user.
+ * @param string|WP_User $user Optional. Defaults to current user. WP_User object,
+ * 	or user login name as a string. 
  * @return bool
  */
-function is_user_spammy( $user_login = null ) {
-	if ( $user_login )
-		$user = get_user_by( 'login', $user_login );
-	else
-		$user = wp_get_current_user();
+function is_user_spammy( $user = null ) {
+    if ( ! is_a( $user, 'WP_User' ) ) {
+		if ( $user )
+			$user = get_user_by( 'login', $user );
+		else
+			$user = wp_get_current_user();
+	}
 
 	return $user && isset( $user->spam ) && 1 == $user->spam;
 }

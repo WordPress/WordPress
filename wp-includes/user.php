@@ -89,19 +89,6 @@ function wp_authenticate_username_password($user, $username, $password) {
 	if ( !$user )
 		return new WP_Error( 'invalid_username', sprintf( __( '<strong>ERROR</strong>: Invalid username. <a href="%s" title="Password Lost and Found">Lost your password</a>?' ), wp_lostpassword_url() ) );
 
-	if ( is_multisite() ) {
-		// Is user marked as spam?
-		if ( 1 == $user->spam )
-			return new WP_Error( 'spammer_account', __( '<strong>ERROR</strong>: Your account has been marked as a spammer.' ) );
-
-		// Is a user's blog marked as spam?
-		if ( !is_super_admin( $user->ID ) && isset( $user->primary_blog ) ) {
-			$details = get_blog_details( $user->primary_blog );
-			if ( is_object( $details ) && $details->spam == 1 )
-				return new WP_Error( 'blog_suspended', __( 'Site Suspended.' ) );
-		}
-	}
-
 	$user = apply_filters('wp_authenticate_user', $user, $password);
 	if ( is_wp_error($user) )
 		return $user;
@@ -137,6 +124,22 @@ function wp_authenticate_cookie($user, $username, $password) {
 		// If the cookie is not set, be silent.
 	}
 
+	return $user;
+}
+
+/**
+ * For multisite blogs, check if the authenticated user has been marked as a
+ * spammer, or if the user's primary blog has been marked as spam.
+ *
+ * @since 3.7.0
+ */
+function wp_authenticate_spam_check( $user ) {
+	if ( $user && is_a( $user, 'WP_User' ) && is_multisite() ) {
+		$spammed = apply_filters( 'check_is_user_spammed', is_user_spammy(), $user );
+
+		if ( $spammed )
+			return new WP_Error( 'spammer_account', __( '<strong>ERROR</strong>: Your account has been marked as a spammer.' ) );
+	}
 	return $user;
 }
 
