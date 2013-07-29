@@ -2017,6 +2017,6 @@ function get_post_galleries_images( $post = 0 ) {
  * @return array A list of a gallery's image srcs in order
  */
 function get_post_gallery_images( $post = 0 ) {
-	$galleries = get_post_gallery( $post, false );
+	$gallery = get_post_gallery( $post, false );
 	return empty( $gallery['src'] ) ? array() : $gallery['src'];
 }
