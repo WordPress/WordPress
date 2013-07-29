@@ -144,7 +144,7 @@ require_once( './admin-header.php' );
 			}
 			#>
 			/>
-			<?php esc_attr_e( 'Compare two revisions' ); ?>
+			<?php esc_attr_e( 'Compare any two revisions' ); ?>
 		</label>
 	</div>
 </script>
