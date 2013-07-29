@@ -182,7 +182,7 @@ if ( ! empty( $args['args']['revisions_count'] ) ) :
 		printf( __( 'Revisions: %s' ), '<b>' . number_format_i18n( $args['args']['revisions_count'] ) . '+</b>' );
 		echo '</span>';
 	} else {
-		printf( 'Revisions: %s', '<b>' . number_format_i18n( $args['args']['revisions_count'] ) . '</b>' );
+		printf( __( 'Revisions: %s' ), '<b>' . number_format_i18n( $args['args']['revisions_count'] ) . '</b>' );
 	}
 ?>
 	<a class="hide-if-no-js" href="<?php echo esc_url( get_edit_post_link( $args['args']['revision_id'] ) ); ?>"><?php _ex( 'Browse', 'revisions' ); ?></a>
