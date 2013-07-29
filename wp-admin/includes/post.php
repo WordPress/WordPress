@@ -1254,7 +1254,7 @@ function _admin_notice_post_locked() {
 		?>
 		<div class="post-locked-message">
 		<div class="post-locked-avatar"><?php echo get_avatar( $user->ID, 64 ); ?></div>
-		<p class="currently-editing wp-tab-first" tabindex="0"><?php esc_html_e( sprintf( __( 'This content is currently locked. If you take over, %s will be blocked from continuing to edit.' ), $user->display_name ) ); ?></p>
+		<p class="currently-editing wp-tab-first" tabindex="0"><?php echo esc_html( sprintf( __( 'This content is currently locked. If you take over, %s will be blocked from continuing to edit.' ), $user->display_name ) ); ?></p>
 		<?php do_action( 'post_lock_text', $post ); ?>
 		<p>
 		<a class="button" href="<?php echo esc_url( $sendback ); ?>"><?php echo $sendback_text; ?></a>
