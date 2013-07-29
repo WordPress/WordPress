@@ -180,10 +180,12 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 	$compare_two_mode = is_numeric( $from );
 	if ( ! $compare_two_mode ) {
 		$found = array_search( $selected_revision_id, array_keys( $revisions ) );
-		if ( $found )
-			$from = array_shift( array_keys( array_slice( $revisions, $found - 1, 1, true ) ) );
-		else
+		if ( $found ) {
+			$from = array_keys( array_slice( $revisions, $found - 1, 1, true ) );
+			$from = reset( $from );
+		} else {
 			$from = 0;
+		}
 	}
 
 	$from = absint( $from );
