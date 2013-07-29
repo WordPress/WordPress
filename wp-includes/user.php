@@ -73,6 +73,9 @@ function wp_authenticate_username_password($user, $username, $password) {
 	if ( is_a($user, 'WP_User') ) { return $user; }
 
 	if ( empty($username) || empty($password) ) {
+		if ( is_wp_error( $user ) )
+			return $user;
+
 		$error = new WP_Error();
 
 		if ( empty($username) )
