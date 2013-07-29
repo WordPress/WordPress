@@ -177,7 +177,7 @@ require_once( './admin-header.php' );
 				<input  <?php if ( wp_check_post_lock( $post->ID ) ) { ?>
 					disabled="disabled"
 				<?php } else { ?>
-					<# if ( data.to.attributes.current ) { #>
+					<# if ( data.attributes.current ) { #>
 						disabled="disabled"
 					<# } #>
 				<?php } ?>
