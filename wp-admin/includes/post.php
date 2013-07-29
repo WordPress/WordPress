@@ -1320,14 +1320,29 @@ function wp_create_post_autosave( $post_id ) {
 		$new_autosave['ID'] = $old_autosave->ID;
 		$new_autosave['post_author'] = $post_author;
 
+		// If the new autosave is the same content as the post, delete the old autosave.
+		$post = get_post( $post_id );
+		$autosave_is_different = false;
+		foreach ( array_keys( _wp_post_revision_fields() ) as $field ) {
+			if ( normalize_whitespace( $new_autosave[ $field ] ) != normalize_whitespace( $post->$field ) ) {
+				$autosave_is_different = true;
+				break;
+			}
+		}
+
+		if ( ! $autosave_is_different ) {
+			wp_delete_post_revision( $old_autosave->ID );
+			return;
+		}
+
 		return wp_update_post( $new_autosave );
 	}
 
 	// _wp_put_post_revision() expects unescaped.
-	$_POST = wp_unslash($_POST);
+	$post_data = wp_unslash( $_POST );
 
 	// Otherwise create the new autosave as a special post revision
-	return _wp_put_post_revision( $_POST, true );
+	return _wp_put_post_revision( $post_data, true );
 }
 
 /**
