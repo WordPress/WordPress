@@ -2,22 +2,11 @@ var autosave, autosaveLast = '', autosavePeriodical, autosaveDelayPreview = fals
 
 jQuery(document).ready( function($) {
 
-	if ( $('#wp-content-wrap').hasClass('tmce-active') && typeof tinymce != 'undefined' ) {
-		tinymce.onAddEditor.add( function( tinymce, editor ) {
-			if ( 'content' == editor.id ) {
-				editor.onLoad.add( function() {
-					editor.save();
-					if ( typeof switchEditors != 'undefined' ) {
-						autosaveLast = wp.autosave.getCompareString({
-							post_title : $('#title').val() || '',
-							content : switchEditors.pre_wpautop( $('#content').val() ) || '',
-							excerpt : $('#excerpt').val() || '',
-						});
-					} else {
-						autosaveLast = wp.autosave.getCompareString();
-					}
-				});
-			}
+	if ( $('#wp-content-wrap').hasClass('tmce-active') && typeof switchEditors != 'undefined' ) {
+		autosaveLast = wp.autosave.getCompareString({
+			post_title : $('#title').val() || '',
+			content : switchEditors.pre_wpautop( $('#content').val() ) || '',
+			excerpt : $('#excerpt').val() || ''
 		});
 	} else {
 		autosaveLast = wp.autosave.getCompareString();
