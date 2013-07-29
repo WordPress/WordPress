@@ -617,7 +617,13 @@ class WP_Http {
 		if ( $args['redirection']-- <= 0 )
 			return new WP_Error( 'http_request_failed', __('Too many redirects.') );
 
-		$redirect_location = WP_HTTP::make_absolute_url( $response['headers']['location'], $url );
+		$redirect_location = $response['headers']['location'];
+
+		// If there were multiple Location headers, use the last header specified
+		if ( is_array( $redirect_location ) )
+			$redirect_location = array_pop( $redirect_location );
+
+		$redirect_location = WP_HTTP::make_absolute_url( $redirect_location, $url );
 
 		// POST requests should not POST to a redirected location
 		if ( 'POST' == $args['method'] ) {
