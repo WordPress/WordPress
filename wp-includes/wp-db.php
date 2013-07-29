@@ -1204,6 +1204,10 @@ class wpdb {
 
 		// If there is an error then take note of it..
 		if ( $this->last_error = mysql_error( $this->dbh ) ) {
+			// Clear insert_id on a subsequent failed insert.
+			if ( $this->insert_id && preg_match( '/^\s*(insert|replace)\s/i', $query ) )
+				$this->insert_id = 0;
+
 			$this->print_error();
 			return false;
 		}
