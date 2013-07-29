@@ -860,7 +860,7 @@ function wp_audio_shortcode( $attr ) {
 		'src'      => '',
 		'loop'     => '',
 		'autoplay' => '',
-		'preload' => 'none'
+		'preload'  => 'none'
 	);
 	foreach ( $default_types as $type )
 		$defaults_atts[$type] = '';
@@ -872,7 +872,7 @@ function wp_audio_shortcode( $attr ) {
 	if ( ! empty( $src ) ) {
 		$type = wp_check_filetype( $src );
 		if ( ! in_array( $type['ext'], $default_types ) )
-			return sprintf( '<a class="wp-post-format-link-audio" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
+			return sprintf( '<a class="wp-embedded-audio" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
 		$primary = true;
 		array_unshift( $default_types, 'src' );
 	} else {
@@ -1007,7 +1007,7 @@ function wp_video_shortcode( $attr ) {
 	if ( ! empty( $src ) ) {
 		$type = wp_check_filetype( $src );
 		if ( ! in_array( $type['ext'], $default_types ) )
-			return sprintf( '<a class="wp-post-format-link-video" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
+			return sprintf( '<a class="wp-embedded-video" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
 		$primary = true;
 		array_unshift( $default_types, 'src' );
 	} else {
