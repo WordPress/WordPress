@@ -1207,8 +1207,15 @@ function _admin_notice_post_locked() {
 	if ( ! $post = get_post() )
 		return;
 
-	if ( ( $user_id = wp_check_post_lock( $post->ID ) ) && ( $user = get_userdata( $user_id ) ) ) {
-		$locked = apply_filters( 'show_post_locked_dialog', true, $post, $user );
+	$user = null;
+	if (  $user_id = wp_check_post_lock( $post->ID ) )
+		$user = get_userdata( $user_id );
+
+	if ( $user ) {
+		if ( ! apply_filters( 'show_post_locked_dialog', true, $post, $user ) )
+			return;
+
+		$locked = true;
 	} else {
 		$locked = false;
 	}
@@ -1283,7 +1290,7 @@ function _admin_notice_post_locked() {
 			<span class="locked-saving hidden"><img src="images/wpspin_light-2x.gif" width="16" height="16" /> <?php _e('Saving revision...'); ?></span>
 			<span class="locked-saved hidden"><?php _e('Your latest changes were saved as a revision.'); ?></span>
 			</p>
-			<?php do_action( 'post_lock_text', $post ); ?>
+			<?php do_action( 'lock_taken_over_dialog', $post ); ?>
 			<p><a class="button button-primary wp-tab-last" href="<?php echo esc_url( $sendback ); ?>"><?php echo $sendback_text; ?></a></p>
 		</div>
 		<?php
