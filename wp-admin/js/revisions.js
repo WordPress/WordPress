@@ -155,8 +155,6 @@ window.wp = window.wp || {};
 			this.listenTo( this.slider, 'hovered:revision', this.updateRevision );
 			this.listenTo( this.slider, 'change:hovering', this.setHovering );
 			this.listenTo( this.slider, 'change:scrubbing', this.setScrubbing );
-
-			this.set({ revision: this.revisions.get( this.frame.get('to') ) });
 		},
 
 
@@ -754,9 +752,12 @@ window.wp = window.wp || {};
 		},
 
 		prepare: function() {
-			return _.extend( { type: 'tooltip' }, {
-				attributes: this.model.get('revision').toJSON()
-			});
+			if ( _.isNull( this.model.get('revision') ) )
+				return;
+			else
+				return _.extend( { type: 'tooltip' }, {
+					attributes: this.model.get('revision').toJSON()
+				});
 		},
 
 		render: function() {

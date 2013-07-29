@@ -179,8 +179,11 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 	// Now, grab the initial diff
 	$compare_two_mode = is_numeric( $from );
 	if ( ! $compare_two_mode ) {
-		$from = array_keys( array_slice( $revisions, array_search( $selected_revision_id, array_keys( $revisions ) ) - 1, 1, true ) );
-		$from = $from[0];
+		$found = array_search( $selected_revision_id, array_keys( $revisions ) );
+		if ( $found )
+			$from = array_shift( array_keys( array_slice( $revisions, $found - 1, 1, true ) ) );
+		else
+			$from = 0;
 	}
 
 	$from = absint( $from );
