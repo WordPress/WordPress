@@ -693,6 +693,14 @@ class WP_Http_Fsockopen {
 			}
 		}
 
+		if ( isset( $r['headers']['Host'] ) || isset( $r['headers']['host'] ) ) {
+			if ( isset( $r['headers']['Host'] ) )
+				$arrURL['host'] = $r['headers']['Host'];
+			else
+				$arrURL['host'] = $r['headers']['host'];
+			unset( $r['headers']['Host'], $r['headers']['host'] );
+		}
+
 		//fsockopen has issues with 'localhost' with IPv6 with certain versions of PHP, It attempts to connect to ::1,
 		// which fails when the server is not set up for it. For compatibility, always connect to the IPv4 address.
 		if ( 'localhost' == strtolower($fsockopen_host) )
