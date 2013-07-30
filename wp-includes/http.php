@@ -29,6 +29,84 @@ function _wp_http_get_object() {
 }
 
 /**
+ * Retrieve the raw response from a safe HTTP request.
+ *
+ * This function is ideal when the HTTP request is being made to an arbitrary
+ * URL. The URL is validated to avoid redirection and request forgery attacks.
+ *
+ * @see wp_remote_request() For more information on the response array format
+ * 	and default arguments.
+ *
+ * @since 3.6.0
+ *
+ * @param string $url Site URL to retrieve.
+ * @param array $args Optional. Override the defaults.
+ * @return WP_Error|array The response or WP_Error on failure.
+ */
+function wp_safe_remote_request( $url, $args = array() ) {
+	$args['reject_unsafe_urls'] = true;
+	$http = _wp_http_get_object();
+	return $http->request( $url, $args );
+}
+
+/**
+ * Retrieve the raw response from a safe HTTP request using the GET method.
+ *
+ * @see wp_remote_request() For more information on the response array format
+ * 	and default arguments.
+ *
+ * @since 3.6.0
+ *
+ * @param string $url Site URL to retrieve.
+ * @param array $args Optional. Override the defaults.
+ * @return WP_Error|array The response or WP_Error on failure.
+ */
+function wp_safe_remote_get( $url, $args = array() ) {
+	$args['reject_unsafe_urls'] = true;
+	$http = _wp_http_get_object();
+	return $http->get( $url, $args );
+}
+
+/**
+ * Retrieve the raw response from a safe HTTP request using the POST method.
+ *
+ * @see wp_remote_request() For more information on the response array format
+ * 	and default arguments.
+ *
+ * @since 3.6.0
+ *
+ * @param string $url Site URL to retrieve.
+ * @param array $args Optional. Override the defaults.
+ * @return WP_Error|array The response or WP_Error on failure.
+ */
+function wp_safe_remote_post( $url, $args = array() ) {
+	$args['reject_unsafe_urls'] = true;
+	$http = _wp_http_get_object();
+	return $http->post( $url, $args );
+}
+
+/**
+ * Retrieve the raw response from a safe HTTP request using the HEAD method.
+ *
+ * This function is ideal when the HTTP request is being made to an arbitrary
+ * URL. The URL is validated to avoid redirection and request forgery attacks.
+ *
+ * @see wp_remote_request() For more information on the response array format
+ * 	and default arguments.
+ *
+ * @since 3.6.0
+ *
+ * @param string $url Site URL to retrieve.
+ * @param array $args Optional. Override the defaults.
+ * @return WP_Error|array The response or WP_Error on failure.
+ */
+function wp_safe_remote_head( $url, $args = array() ) {
+	$args['reject_unsafe_urls'] = true;
+	$http = _wp_http_get_object();
+	return $http->head( $url, $args );
+}
+
+/**
  * Retrieve the raw response from the HTTP request.
  *
  * The array structure is a little complex.
