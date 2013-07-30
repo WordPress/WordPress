@@ -52,6 +52,9 @@ function wp_safe_remote_request( $url, $args = array() ) {
 /**
  * Retrieve the raw response from a safe HTTP request using the GET method.
  *
+ * This function is ideal when the HTTP request is being made to an arbitrary
+ * URL. The URL is validated to avoid redirection and request forgery attacks.
+ *
  * @see wp_remote_request() For more information on the response array format
  * 	and default arguments.
  *
@@ -69,6 +72,9 @@ function wp_safe_remote_get( $url, $args = array() ) {
 
 /**
  * Retrieve the raw response from a safe HTTP request using the POST method.
+ *
+ * This function is ideal when the HTTP request is being made to an arbitrary
+ * URL. The URL is validated to avoid redirection and request forgery attacks.
  *
  * @see wp_remote_request() For more information on the response array format
  * 	and default arguments.
