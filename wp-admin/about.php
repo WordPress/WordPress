@@ -90,31 +90,31 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="feature-section col three-col">
 		<div>
-			<h4><?php echo ( 'Shortcode Improvements' ); ?></h4>
-			<p><?php echo ( 'Search content for shortcodes with <code>has_shortcode()</code> and adjust shortcode attributes with an all new filter.' ); ?></p>
+			<h4><?php _e( 'Audio/Video API' ); ?></h4>
+			<p><?php _e( 'The new audio/video APIs give developers access to powerful media metadata, like ID3 tags.' ); ?></p>
 		</div>
 		<div>
-			<h4><?php echo ( 'Revision Control' ); ?></h4>
-			<p><?php echo ( 'Finely-grained revision controls allow you to keep a different number of revisions for each post type.' ); ?></p>
+			<h4><?php echo _e( 'Semantic Markup' ); ?></h4>
+			<p><?php echo ( 'Themes can now opt-in to improved HTML5 markup for comment forms, search forms, and comment lists.' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php echo ( 'Audio/Video API' ); ?></h4>
-			<p><?php echo ( 'The new audio/video APIs give developers access to powerful media metadata.' ); ?></p>
+			<h4><?php _e( 'JavaScript Utilities' ); ?></h4>
+			<p><?php _e( 'Handy JavaScript utilities ease common tasks like Ajax requests, templating, and Backbone view management.' ); ?></p>
 		</div>
 	</div>
 
 	<div class="feature-section col three-col">
 		<div>
-			<h4><?php echo ( 'Semantic Markup' ); ?></h4>
-			<p><?php echo ( 'Improved markup for comment forms, search forms, and comment lists, including support for HTML5 markup.' ); ?></p>
+			<h4><?php _e( 'Shortcode Improvements' ); ?></h4>
+			<p><?php _e( 'Search content for shortcodes with <code>has_shortcode()</code> and adjust shortcode attributes with a new filter.' ); ?></p>
 		</div>
 		<div>
-			<h4><?php echo ( 'JS Utilities' ); ?></h4>
-			<p><?php echo ( 'Handy JavaScript utilities ease common tasks like Ajax requests, templating, and Backbone view management.' ); ?></p>
+			<h4><?php _e( 'Revision Control' ); ?></h4>
+			<p><?php _e( 'Fine-grained revision controls allow you to keep a different number of revisions for each post type.' ); ?></p>
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'External Libraries' ); ?></h4>
-			<p><?php echo ( 'New and updated libraries: MediaElement.js, jQuery 1.10, jQuery UI 1.10.3, jQuery Migrate, Backbone 1.0.' ); ?></p>
+			<p><?php _e( 'New and updated libraries: <a href="%s">MediaElement.js</a>, jQuery 1.10, jQuery UI 1.10.3, jQuery Migrate, Backbone 1.0.' ); ?></p>
 		</div>
 	</div>
 </div>
