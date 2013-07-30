@@ -95,7 +95,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 		<div>
 			<h4><?php echo _e( 'Semantic Markup' ); ?></h4>
-			<p><?php echo ( 'Themes can now opt-in to improved HTML5 markup for comment forms, search forms, and comment lists.' ); ?></p>
+			<p><?php echo _e( 'Themes can now opt into improved HTML5 markup for comment forms, search forms, and comment lists.' ); ?></p>
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'JavaScript Utilities' ); ?></h4>
