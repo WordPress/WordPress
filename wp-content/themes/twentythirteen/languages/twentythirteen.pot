@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Thirteen 0.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentythirteen\n"
-"POT-Creation-Date: 2013-07-24 22:14:04+00:00\n"
+"POT-Creation-Date: 2013-07-30 23:14:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,8 +12,8 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: 404.php:16
-msgid "Not found"
+#: 404.php:16 content-none.php:12
+msgid "Nothing Found"
 msgstr ""
 
 #: 404.php:21
@@ -122,10 +122,6 @@ msgstr ""
 #: content-gallery.php:36 content-image.php:32 content-quote.php:22
 #: content-video.php:32 content.php:47
 msgid "View all % comments"
-msgstr ""
-
-#: content-none.php:12
-msgid "Nothing Found"
 msgstr ""
 
 #: content-none.php:18
