@@ -114,7 +114,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'External Libraries' ); ?></h4>
-			<p><?php printf( __( 'New and updated libraries: <a href="%s">MediaElement.js</a>, jQuery 1.10, jQuery UI 1.10.3, jQuery Migrate, Backbone 1.0.' ), 'http://mediaelementjs.com/' ); ?></p>
+			<p><?php
+				/* translators: placeholders 2, 3 and 4 are version numbers */
+				printf( __( 'New and updated libraries: <a href="%1$s">MediaElement.js</a>, jQuery %2$s, jQuery UI %3$s, jQuery Migrate, Backbone %4$s.' ), 'http://mediaelementjs.com/', '1.10.2', '1.10.3', '1.0' ); ?></p>
 		</div>
 	</div>
 </div>
