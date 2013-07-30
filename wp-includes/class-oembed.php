@@ -221,27 +221,52 @@ class WP_oEmbed {
 	 * @access private
 	 */
 	function _parse_xml( $response_body ) {
-		if ( !function_exists('simplexml_load_string') ) {
-			return false;
-		}
 		if ( ! function_exists( 'libxml_disable_entity_loader' ) )
 			return false;
 
 		$loader = libxml_disable_entity_loader( true );
-
 		$errors = libxml_use_internal_errors( true );
-		$data = simplexml_load_string( $response_body );
-		libxml_use_internal_errors( $errors );
 
-		$return = false;
-		if ( is_object( $data ) ) {
-			$return = new stdClass;
-			foreach ( $data as $key => $value ) {
-				$return->$key = (string) $value;
-			}
+		$return = $this->_parse_xml_body( $response_body );
+
+		libxml_use_internal_errors( $errors );
+		libxml_disable_entity_loader( $loader );
+
+		return $return;
+	}
+
+	/**
+	 * Helper function for parsing an XML response body.
+	 *
+	 * @since 3.6.0
+	 * @access private
+	 */
+	private function _parse_xml_body( $response_body ) {
+		if ( ! function_exists( 'simplexml_import_dom' ) || ! class_exists( 'DOMDocument' ) )
+			return false;
+
+		$dom = new DOMDocument;
+		$success = $dom->loadXML( $response_body );
+		if ( ! $success )
+			return false;
+
+		if ( isset( $dom->doctype ) )
+			return false;
+
+		foreach ( $dom->childNodes as $child ) {
+			if ( XML_DOCUMENT_TYPE_NODE === $child->nodeType )
+				return false;
 		}
 
-		libxml_disable_entity_loader( $loader );
+		$xml = simplexml_import_dom( $dom );
+		if ( ! $xml )
+			return false;
+
+		$return = new stdClass;
+		foreach ( $xml as $key => $value ) {
+			$return->$key = (string) $value;
+		}
+
 		return $return;
 	}
 
