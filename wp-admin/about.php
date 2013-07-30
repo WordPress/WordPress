@@ -54,11 +54,11 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<p><?php _e( 'From the first word you write, WordPress saves every change. Each revision is always at your fingertips. Text is highlighted as you scroll through revisions at lightning speed, so you can see what changes have been made along the way.' ); ?></p>
 		<p><?php _e( 'It&#8217;s easy to compare two revisions from any point in time, and to restore a revision and go back to writing. Now you can be confident that no mistake is permanent.' ); ?></p>
 
-		
+
 
 
 	</div>
-	
+
 	<div class="feature-section col two-col">
 		<div>
 			<h4><?php _e( 'Improved Autosaves' ); ?></h4>
@@ -69,7 +69,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p><?php _e( 'Always know who&#8217;s editing with live updates that appear in the list of posts. And if someone leaves for lunch with a post open, you can take over where they left off.' ); ?></p>
 		</div>
 	</div>
-	
 </div>
 
 <div class="changelog">
@@ -92,30 +91,30 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="feature-section col three-col">
 		<div>
 			<h4><?php echo ( 'Shortcode Improvements' ); ?></h4>
-			<p><?php echo ( 'New shortcode utility functions and shortcode_atts_$shortcode filter' ); ?></p>
+			<p><?php echo ( 'Search content for shortcodes with <code>has_shortcode()</code> and adjust shortcode attributes with an all new filter.' ); ?></p>
 		</div>
 		<div>
 			<h4><?php echo ( 'Revision Control' ); ?></h4>
-			<p><?php echo ( 'New fine-grained revision controls (wp_revisions_to_keep(), etc.  — filters instead of constants)' ); ?></p>
+			<p><?php echo ( 'Finely-grained revision controls allow you to keep a different number of revisions for each post type.' ); ?></p>
 		</div>
 		<div class="last-feature">
 			<h4><?php echo ( 'Audio/Video API' ); ?></h4>
-			<p><?php echo ( 'New audio/video API, including access to file metadata' ); ?></p>
+			<p><?php echo ( 'The new audio/video APIs give developers access to powerful media metadata.' ); ?></p>
 		</div>
 	</div>
 
 	<div class="feature-section col three-col">
 		<div>
-			<h4><?php echo ( 'Markup Updates' ); ?></h4>
-			<p><?php echo ( 'Improved markup for comment forms, search forms, and comment lists, including HTML5 markup support' ); ?></p>
+			<h4><?php echo ( 'Semantic Markup' ); ?></h4>
+			<p><?php echo ( 'Improved markup for comment forms, search forms, and comment lists, including support for HTML5 markup.' ); ?></p>
 		</div>
 		<div>
 			<h4><?php echo ( 'JS Utilities' ); ?></h4>
-			<p><?php echo ( 'Handy JavaScript utilities for things like Ajax, templating, and Backbone view management' ); ?></p>
+			<p><?php echo ( 'Handy JavaScript utilities ease common tasks like Ajax requests, templating, and Backbone view management.' ); ?></p>
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'External Libraries' ); ?></h4>
-			<p><?php echo ( 'New and updated libraries: MediaElement.js, jQuery 1.10, jQuery UI 1.10.3, jQuery Migrate, Backbone 1.0' ); ?></p>
+			<p><?php echo ( 'New and updated libraries: MediaElement.js, jQuery 1.10, jQuery UI 1.10.3, jQuery Migrate, Backbone 1.0.' ); ?></p>
 		</div>
 	</div>
 </div>
