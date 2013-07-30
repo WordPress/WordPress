@@ -94,8 +94,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p><?php _e( 'The new audio/video APIs give developers access to powerful media metadata, like ID3 tags.' ); ?></p>
 		</div>
 		<div>
-			<h4><?php echo _e( 'Semantic Markup' ); ?></h4>
-			<p><?php echo _e( 'Themes can now opt into improved HTML5 markup for comment forms, search forms, and comment lists.' ); ?></p>
+			<h4><?php _e( 'Semantic Markup' ); ?></h4>
+			<p><?php _e( 'Themes can now choose improved HTML5 markup for comment forms, search forms, and comment lists.' ); ?></p>
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'JavaScript Utilities' ); ?></h4>
@@ -114,7 +114,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'External Libraries' ); ?></h4>
-			<p><?php _e( 'New and updated libraries: <a href="%s">MediaElement.js</a>, jQuery 1.10, jQuery UI 1.10.3, jQuery Migrate, Backbone 1.0.' ); ?></p>
+			<p><?php printf( __( 'New and updated libraries: <a href="%s">MediaElement.js</a>, jQuery 1.10, jQuery UI 1.10.3, jQuery Migrate, Backbone 1.0.' ), 'http://mediaelementjs.com/' ); ?></p>
 		</div>
 	</div>
 </div>
