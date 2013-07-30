@@ -597,12 +597,12 @@ class WP_Http {
 	/**
 	 * Handles HTTP Redirects and follows them if appropriate.
 	 *
-	 * @since 3.7
+	 * @since 3.7.0
 	 *
-	 * @param $url The URL which was requested
-	 * @param $args The Arguements which were used to make the request
-	 * @param $response The Response of the HTTP request
-	 * @return false|object False if no redirect is present, a WP_HTTP or WP_Error result otherwise
+	 * @param string $url The URL which was requested.
+	 * @param array $args The Arguements which were used to make the request.
+	 * @param array $response The Response of the HTTP request.
+	 * @return false|object False if no redirect is present, a WP_HTTP or WP_Error result otherwise.
 	 */
 	static function handle_redirects( $url, $args, $response ) {
 		// If no redirects are present, or, redirects were not requested, perform no action.
