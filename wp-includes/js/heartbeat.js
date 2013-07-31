@@ -225,7 +225,7 @@ window.wp = window.wp || {};
 				return;
 
 			if ( ! hasFocus ) {
-				t = 120000; // 2 min
+				t = 100000; // 100 sec. Post locks expire after 120 sec.
 			} else if ( countdown > 0 && tempInterval ) {
 				t = tempInterval;
 				countdown--;
