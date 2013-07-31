@@ -196,6 +196,8 @@ add_filter( 'nav_menu_meta_box_object', '_wp_nav_menu_meta_box_object'        );
 add_filter( 'pingback_ping_source_uri', 'pingback_ping_source_uri'            );
 add_filter( 'xmlrpc_pingback_error',    'xmlrpc_pingback_error'               );
 
+add_filter( 'http_request_host_is_external', 'allowed_http_request_hosts', 10, 2 );
+
 // Actions
 add_action( 'wp_head',             'wp_enqueue_scripts',              1     );
 add_action( 'wp_head',             'feed_links',                      2     );

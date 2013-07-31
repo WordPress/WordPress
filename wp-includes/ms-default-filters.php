@@ -64,3 +64,6 @@ remove_filter( 'option_home',    '_config_wp_home'    );
 
 // If the network upgrade hasn't run yet, assume ms-files.php rewriting is used.
 add_filter( 'default_site_option_ms_files_rewriting', '__return_true' );
+
+// Whitelist multisite domains for HTTP requests
+add_filter( 'http_request_host_is_external', 'ms_allowed_http_request_hosts', 20, 2 );
