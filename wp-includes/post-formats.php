@@ -38,12 +38,20 @@ function get_post_format( $post = null ) {
  *
  * @uses has_term()
  *
- * @param string $format The format to check for.
- * @param object|int $post The post to check. If not supplied, defaults to the current post if used in the loop.
+ * @param string|array $format The format or formats to check.
+ * @param object|int   $post   The post to check. If not supplied, defaults to the current post if used in the loop.
  * @return bool True if the post has the format, false otherwise.
  */
 function has_post_format( $format, $post = null ) {
-	return has_term('post-format-' . sanitize_key($format), 'post_format', $post);
+	if ( ! is_array( $format ) )
+		$format = array( $format );
+
+	$prefixed = array();
+	foreach( $format as $single ) {
+		$prefixed[] = 'post-format-' . sanitize_key( $single );
+	}
+
+	return has_term( $prefixed, 'post_format', $post );
 }
 
 /**
