@@ -3681,8 +3681,10 @@ body.folded .revisions .loading-indicator {
 }
 
 table.diff {
+	table-layout: fixed;
 	width: 100%;
 	white-space: pre-wrap;
+	word-wrap: break-word;
 }
 
 table.diff col.content {
