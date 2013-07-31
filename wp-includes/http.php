@@ -451,15 +451,16 @@ function wp_http_validate_url( $url ) {
 				$ip = false;
 		}
 		if ( $ip ) {
-			if ( '127.0.0.1' === $ip )
-				return false;
 			$parts = array_map( 'intval', explode( '.', $ip ) );
-			if ( 10 === $parts[0] )
-				return false;
-			if ( 172 === $parts[0] && 16 <= $parts[1] && 31 >= $parts[1] )
-				return false;
-			if ( 192 === $parts[0] && 168 === $parts[1] )
-				return false;
+			if ( '127.0.0.1' === $ip
+				|| ( 10 === $parts[0] )
+				|| ( 172 === $parts[0] && 16 <= $parts[1] && 31 >= $parts[1] )
+				|| ( 192 === $parts[0] && 168 === $parts[1] )
+			) {
+				// If host appears local, reject unless specifically allowed.
+				if ( ! apply_filters( 'http_request_host_is_external', false, $host, $url ) )
+					return false;
+			}
 		}
 	}
 
@@ -474,4 +475,45 @@ function wp_http_validate_url( $url ) {
 		return $url;
 
 	return false;
+}
+
+/**
+ * Whitelists allowed redirect hosts for safe HTTP requests as well.
+ *
+ * Attached to the http_request_host_is_external filter.
+ *
+ * @since 3.6.0
+ *
+ * @param bool $is_external
+ * @param string $host
+ * @return bool
+ */
+function allowed_http_request_hosts( $is_external, $host ) {
+	if ( ! $is_external && wp_validate_redirect( 'http://' . $host ) )
+		$is_external = true;
+	return $is_external;
+}
+
+/**
+ * Whitelists any domain in a multisite installation for safe HTTP requests.
+ *
+ * Attached to the http_request_host_is_external filter.
+ *
+ * @since 3.6.0
+ *
+ * @param bool $is_external
+ * @param string $host
+ * @return bool
+ */
+function ms_allowed_http_request_hosts( $is_external, $host ) {
+	global $wpdb, $current_site;
+	static $queried = array();
+	if ( $is_external )
+		return $is_external;
+	if ( $host === $current_site->domain )
+		return true;
+	if ( isset( $queried[ $host ] ) )
+		return $queried[ $host ];
+	$queried[ $host ] = (bool) $wpdb->get_var( $wpdb->prepare( "SELECT domain FROM $wpdb->blogs WHERE domain = %s LIMIT 1", $host ) );
+	return $queried[ $host ];
 }
