@@ -69,7 +69,6 @@ class WP_SimplePie_File extends SimplePie_File {
 			$args = array(
 				'timeout' => $this->timeout,
 				'redirection' => $this->redirects,
-				'reject_unsafe_urls' => true,
 			);
 
 			if ( !empty($this->headers) )
@@ -78,7 +77,7 @@ class WP_SimplePie_File extends SimplePie_File {
 			if ( SIMPLEPIE_USERAGENT != $this->useragent ) //Use default WP user agent unless custom has been specified
 				$args['user-agent'] = $this->useragent;
 
-			$res = wp_remote_request($url, $args);
+			$res = wp_safe_remote_request($url, $args);
 
 			if ( is_wp_error($res) ) {
 				$this->error = 'WP HTTP Error: ' . $res->get_error_message();

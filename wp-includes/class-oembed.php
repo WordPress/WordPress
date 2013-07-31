@@ -113,7 +113,7 @@ class WP_oEmbed {
 		$providers = array();
 
 		// Fetch URL content
-		if ( $html = wp_remote_retrieve_body( wp_remote_get( $url, array( 'reject_unsafe_urls' => true ) ) ) ) {
+		if ( $html = wp_remote_retrieve_body( wp_safe_remote_get( $url ) ) ) {
 
 			// <link> types that contain oEmbed provider URLs
 			$linktypes = apply_filters( 'oembed_linktypes', array(
@@ -195,7 +195,7 @@ class WP_oEmbed {
 	 */
 	function _fetch_with_format( $provider_url_with_args, $format ) {
 		$provider_url_with_args = add_query_arg( 'format', $format, $provider_url_with_args );
-		$response = wp_remote_get( $provider_url_with_args, array( 'reject_unsafe_urls' => true ) );
+		$response = wp_safe_remote_get( $provider_url_with_args );
 		if ( 501 == wp_remote_retrieve_response_code( $response ) )
 			return new WP_Error( 'not-implemented' );
 		if ( ! $body = wp_remote_retrieve_body( $response ) )
