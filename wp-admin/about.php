@@ -37,7 +37,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<h3><?php _e( 'Colorful New Theme' ); ?></h3>
 
 	<div class="feature-section images-stagger-right">
-		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-twenty-twelve.png' ) ); ?>" class="image-66" />
+		<img alt="" src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.6/theme.png" class="image-66" />
 		<h4><?php _e( 'Introducing Twenty Thirteen' ); ?></h4>
 		<p><?php printf( __( "The new default theme puts focus on your content with a colorful, single-column design made for media-rich blogging." ) ); ?></p>
 		<p><?php _e( 'Inspired by modern art, Twenty Thirteen features quirky details, beautiful typography, and bold, high-contrast colors &mdash; all with a flexible layout that looks great on any device, big or small.' ); ?></p>
@@ -48,7 +48,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<h3><?php _e( 'Write with Confidence' ); ?></h3>
 
 	<div class="feature-section images-stagger-right">
-		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-retina.png' ) ); ?>" class="image-66" />
+		<img alt="" src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.6/revisions.png" class="image-66" />
 		<h4><?php _e( 'Explore Revisions' ); ?></h4>
 		<p></p>
 		<p><?php _e( 'From the first word you write, WordPress saves every change. Each revision is always at your fingertips. Text is highlighted as you scroll through revisions at lightning speed, so you can see what changes have been made along the way.' ); ?></p>
@@ -75,7 +75,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<h3><?php _e( 'Support for Audio and Video' ); ?></h3>
 
 	<div class="feature-section images-stagger-right">
-		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-color-picker.png' ) ); ?>" class="image-30" />
+		<div class="video image-66"><?php echo wp_video_shortcode(
+			array(
+				'm4v' => (is_ssl() ? 'https://' : 'http://s.' ) . 'wordpress.org/images/core/3.6/video.m4v',
+				'ogv' => (is_ssl() ? 'https://' : 'http://s.' ) . 'wordpress.org/images/core/3.6/video.ogv',
+				'width' => 625,
+				'height' => 360,
+			)
+		); ?></div>
 		<h4><?php _e( 'New Media Player' ); ?></h4>
 		<p><?php _e( 'Share your audio and video with the new built-in HTML5 media player. Upload files using the media manager and embed them in your posts.' ); ?></p>
 

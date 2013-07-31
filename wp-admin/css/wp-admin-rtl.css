@@ -1729,7 +1729,8 @@ h2 .nav-tab {
 	margin: 0 0 10px 0.7%;
 }
 
-.about-wrap .feature-section.images-stagger-right img {
+.about-wrap .feature-section.images-stagger-right img,
+.about-wrap .feature-section.images-stagger-right .video {
 	float: left;
 	margin: 0 2em 12px 5px;
 }
@@ -1746,16 +1747,22 @@ h2 .nav-tab {
 	margin-left: 10px;
 }
 
+@media only screen and (max-width: 900px) {
+	.about-wrap .feature-section.images-stagger-right .video.image-66 {
+		margin-right: 3px;
+	}
+}
+
 @media only screen and (max-width: 768px) {
-	.about-wrap .feature-section img.image-66 {
+	.about-wrap .feature-section .image-66 {
 		float: none;
 	}
 
-	.about-wrap .feature-section.images-stagger-right img.image-66 {
+	.about-wrap .feature-section.images-stagger-right .image-66 {
 		margin-right: 3px;
 	}
 
-	.about-wrap .feature-section.images-stagger-left img.image-66 {
+	.about-wrap .feature-section.images-stagger-left .image-66 {
 		margin-left: 3px;
 	}
 }

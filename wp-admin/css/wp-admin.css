@@ -5823,7 +5823,8 @@ h2 .nav-tab {
 
 /* Changelog / Update screen */
 
-.about-wrap .feature-section img {
+.about-wrap .feature-section img,
+.about-wrap .feature-section .video {
 	border: none;
 	margin: 0 1.94% 10px 0;
 	-webkit-border-radius: 3px;
@@ -5840,7 +5841,8 @@ h2 .nav-tab {
 	margin-left: 0;
 }
 
-.about-wrap .feature-section.images-stagger-right img {
+.about-wrap .feature-section.images-stagger-right img,
+.about-wrap .feature-section.images-stagger-right .video {
 	float: right;
 	margin: 0 5px 12px 2em;
 }
@@ -5850,16 +5852,20 @@ h2 .nav-tab {
 	margin: 0 2em 12px 5px;
 }
 
-.about-wrap .feature-section img.image-100 {
+.about-wrap .feature-section .image-100 {
 	margin: 0 0 2em 0;
 	width: 100%;
 }
 
-.about-wrap .feature-section img.image-66 {
+.about-wrap .feature-section .image-66 {
 	width: 65%;
 }
 
-.about-wrap .feature-section img.image-50 {
+.about-wrap .feature-section .image-66.video {
+	max-width: 600px;
+}
+
+.about-wrap .feature-section .image-50 {
 	max-width: 50%;
 }
 
@@ -5927,23 +5933,34 @@ h2 .nav-tab {
 
 @media only screen and (max-width: 900px) {
 	.about-wrap .feature-section.images-stagger-left img,
-	.about-wrap .feature-section.images-stagger-right img {
+	.about-wrap .feature-section.images-stagger-right img,
+	.about-wrap .feature-section.images-stagger-right .video {
 		clear: both;
 	}
-}
 
-@media only screen and (max-width: 768px) {
-	.about-wrap .feature-section img.image-66 {
+	.about-wrap .feature-section .video.image-66 {
 		float: none;
 		width: 98%;
 		max-width: 98%;
 	}
 
-	.about-wrap .feature-section.images-stagger-right img.image-66 {
+	.about-wrap .feature-section.images-stagger-right .video.image-66 {
+		margin-left: 3px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.about-wrap .feature-section .image-66 {
+		float: none;
+		width: 98%;
+		max-width: 98%;
+	}
+
+	.about-wrap .feature-section.images-stagger-right .image-66 {
 		margin-left: 3px;
 	}
 
-	.about-wrap .feature-section.images-stagger-left img.image-66 {
+	.about-wrap .feature-section.images-stagger-left .image-66 {
 		margin-right: 3px;
 	}
 }
