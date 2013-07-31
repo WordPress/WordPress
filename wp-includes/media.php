@@ -923,7 +923,10 @@ function wp_audio_shortcode( $attr ) {
 		$attr_strings[] = $k . '="' . esc_attr( $v ) . '"';
 	}
 
-	$html = sprintf( '<audio %s controls="controls">', join( ' ', $attr_strings ) );
+	$html = '';
+	if ( 'mediaelement' === $library && 1 === $instances )
+		$html .= "<!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->\n";
+	$html .= sprintf( '<audio %s controls="controls">', join( ' ', $attr_strings ) );
 
 	$fileurl = '';
 	$source = '<source type="%s" src="%s" />';
@@ -940,7 +943,7 @@ function wp_audio_shortcode( $attr ) {
 		$html .= wp_mediaelement_fallback( $fileurl );
 	$html .= '</audio>';
 
-	return apply_filters( 'wp_audio_shortcode', $html, $atts, $audio, $post_id );
+	return apply_filters( 'wp_audio_shortcode', $html, $atts, $audio, $post_id, $library );
 }
 add_shortcode( 'audio', apply_filters( 'wp_audio_shortcode_handler', 'wp_audio_shortcode' ) );
 
@@ -1061,7 +1064,10 @@ function wp_video_shortcode( $attr ) {
 		$attr_strings[] = $k . '="' . esc_attr( $v ) . '"';
 	}
 
-	$html = sprintf( '<video %s controls="controls">', join( ' ', $attr_strings ) );
+	$html = '';
+	if ( 'mediaelement' === $library && 1 === $instances )
+		$html .= "<!--[if lt IE 9]><script>document.createElement('video');</script><![endif]-->\n";
+	$html .= sprintf( '<video %s controls="controls">', join( ' ', $attr_strings ) );
 
 	$fileurl = '';
 	$source = '<source type="%s" src="%s" />';
@@ -1081,7 +1087,7 @@ function wp_video_shortcode( $attr ) {
 	$html .= '</video>';
 
 	$html = sprintf( '<div style="width: %dpx; max-width: 100%%;">%s</div>', $width, $html );
-	return apply_filters( 'wp_video_shortcode', $html, $atts, $video, $post_id );
+	return apply_filters( 'wp_video_shortcode', $html, $atts, $video, $post_id, $library );
 }
 add_shortcode( 'video', apply_filters( 'wp_video_shortcode_handler', 'wp_video_shortcode' ) );
 
