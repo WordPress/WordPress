@@ -2552,7 +2552,7 @@ tr .locked-info {
 }
 
 tr.wp-locked .locked-info {
-	height: 22px;
+	height: auto;
 	opacity: 1;
 }
 
