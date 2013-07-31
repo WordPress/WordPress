@@ -5392,10 +5392,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		$http_api_args = array(
 			'timeout' => 10,
 			'redirection' => 0,
-			'reject_unsafe_urls' => true,
 			'limit_response_size' => 153600, // 150 KB
 		);
-		$linea = wp_remote_retrieve_body( wp_remote_get( $pagelinkedfrom, $http_api_args ) );
+		$linea = wp_remote_retrieve_body( wp_safe_remote_get( $pagelinkedfrom, $http_api_args ) );
 
 		if ( !$linea )
 	  		return $this->pingback_error( 16, __( 'The source URL does not exist.' ) );

@@ -1658,7 +1658,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	if ( 0 === strpos($url, $uploads_dir['baseurl']) )
 		return false;
 
-	$response = wp_remote_head( $url, array( 'timeout' => 2, 'httpversion' => '1.0', 'reject_unsafe_urls' => true ) );
+	$response = wp_safe_remote_head( $url, array( 'timeout' => 2, 'httpversion' => '1.0' ) );
 
 	if ( is_wp_error( $response ) )
 		return false;
@@ -1671,7 +1671,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 		return false;
 
 	// Now do a GET since we're going to look in the html headers (and we're sure it's not a binary file)
-	$response = wp_remote_get( $url, array( 'timeout' => 2, 'httpversion' => '1.0', 'reject_unsafe_urls' => true ) );
+	$response = wp_safe_remote_get( $url, array( 'timeout' => 2, 'httpversion' => '1.0' ) );
 
 	if ( is_wp_error( $response ) )
 		return false;
@@ -1906,7 +1906,6 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 
 	$options = array();
 	$options['timeout'] = 4;
-	$options['reject_unsafe_urls'] = true;
 	$options['body'] = array(
 		'title' => $title,
 		'url' => get_permalink($ID),
@@ -1914,7 +1913,7 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 		'excerpt' => $excerpt
 	);
 
-	$response = wp_remote_post($trackback_url, $options);
+	$response = wp_safe_remote_post( $trackback_url, $options );
 
 	if ( is_wp_error( $response ) )
 		return;
