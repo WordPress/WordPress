@@ -302,6 +302,9 @@ function wp_default_scripts( &$scripts ) {
 
 
 	$scripts->add( 'wp-mediaelement', "/wp-includes/js/mediaelement/wp-mediaelement.js", array('mediaelement'), false, 1 );
+	did_action( 'init' ) && $scripts->localize( 'wp-mediaelement', '_wpmejsSettings', array(
+		'pluginPath' => includes_url( 'js/mediaelement/', 'relative' ),
+	) );
 
 	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'password-strength-meter', 'pwsL10n', array(
