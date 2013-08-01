@@ -870,7 +870,7 @@ function wp_audio_shortcode( $attr ) {
 
 	$primary = false;
 	if ( ! empty( $src ) ) {
-		$type = wp_check_filetype( $src );
+		$type = wp_check_filetype( $src, wp_get_mime_types() );
 		if ( ! in_array( $type['ext'], $default_types ) )
 			return sprintf( '<a class="wp-embedded-audio" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
 		$primary = true;
@@ -878,7 +878,7 @@ function wp_audio_shortcode( $attr ) {
 	} else {
 		foreach ( $default_types as $ext ) {
 			if ( ! empty( $$ext ) ) {
-				$type = wp_check_filetype( $$ext );
+				$type = wp_check_filetype( $$ext, wp_get_mime_types() );
 				if ( $type['ext'] === $ext )
 					$primary = true;
 			}
@@ -934,7 +934,7 @@ function wp_audio_shortcode( $attr ) {
 		if ( ! empty( $$fallback ) ) {
 			if ( empty( $fileurl ) )
 				$fileurl = $$fallback;
-			$type = wp_check_filetype( $$fallback );
+			$type = wp_check_filetype( $$fallback, wp_get_mime_types() );
 			$html .= sprintf( $source, $type['type'], esc_url( $$fallback ) );
 		}
 	}
@@ -1008,7 +1008,7 @@ function wp_video_shortcode( $attr ) {
 
 	$primary = false;
 	if ( ! empty( $src ) ) {
-		$type = wp_check_filetype( $src );
+		$type = wp_check_filetype( $src, wp_get_mime_types() );
 		if ( ! in_array( $type['ext'], $default_types ) )
 			return sprintf( '<a class="wp-embedded-video" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
 		$primary = true;
@@ -1016,7 +1016,7 @@ function wp_video_shortcode( $attr ) {
 	} else {
 		foreach ( $default_types as $ext ) {
 			if ( ! empty( $$ext ) ) {
-				$type = wp_check_filetype( $$ext );
+				$type = wp_check_filetype( $$ext, wp_get_mime_types() );
 				if ( $type['ext'] === $ext )
 					$primary = true;
 			}
@@ -1075,7 +1075,7 @@ function wp_video_shortcode( $attr ) {
 		if ( ! empty( $$fallback ) ) {
 			if ( empty( $fileurl ) )
 				$fileurl = $$fallback;
-			$type = wp_check_filetype( $$fallback );
+			$type = wp_check_filetype( $$fallback, wp_get_mime_types() );
 			// m4v sometimes shows up as video/mpeg which collides with mp4
 			if ( 'm4v' === $type['ext'] )
 				$type['type'] = 'video/m4v';
