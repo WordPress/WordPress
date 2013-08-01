@@ -37,7 +37,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<h3><?php _e( 'Colorful New Theme' ); ?></h3>
 
 	<div class="feature-section images-stagger-right">
-		<img alt="" src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.6/theme.png" class="image-66" />
+		<img alt="" src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.6/twentythirteen.png" class="image-66" />
 		<h4><?php _e( 'Introducing Twenty Thirteen' ); ?></h4>
 		<p><?php printf( __( "The new default theme puts focus on your content with a colorful, single-column design made for media-rich blogging." ) ); ?></p>
 		<p><?php _e( 'Inspired by modern art, Twenty Thirteen features quirky details, beautiful typography, and bold, high-contrast colors &mdash; all with a flexible layout that looks great on any device, big or small.' ); ?></p>
@@ -77,8 +77,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="feature-section images-stagger-right">
 		<div class="video image-66"><?php echo wp_video_shortcode(
 			array(
-				'm4v' => (is_ssl() ? 'https://' : 'http://s.' ) . 'wordpress.org/images/core/3.6/video.m4v',
-				'ogv' => (is_ssl() ? 'https://' : 'http://s.' ) . 'wordpress.org/images/core/3.6/video.ogv',
+				'mp4' => (is_ssl() ? 'https://' : 'http://s.' ) . 'wordpress.org/images/core/3.6/sample-video.mp4',
+				'ogv' => (is_ssl() ? 'https://' : 'http://s.' ) . 'wordpress.org/images/core/3.6/sample-video.ogv',
 				'width' => 625,
 				'height' => 360,
 			)
