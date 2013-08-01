@@ -910,6 +910,7 @@ function wp_audio_shortcode( $attr ) {
 		'loop'     => $loop,
 		'autoplay' => $autoplay,
 		'preload'  => $preload,
+		'style'    => 'width: 100%',
 	);
 
 	// These ones should just be omitted altogether if they are blank
