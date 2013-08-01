@@ -53,10 +53,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<p></p>
 		<p><?php _e( 'From the first word you write, WordPress saves every change. Each revision is always at your fingertips. Text is highlighted as you scroll through revisions at lightning speed, so you can see what changes have been made along the way.' ); ?></p>
 		<p><?php _e( 'It&#8217;s easy to compare two revisions from any point in time, and to restore a revision and go back to writing. Now you can be confident that no mistake is permanent.' ); ?></p>
-
-
-
-
 	</div>
 
 	<div class="feature-section col two-col">
