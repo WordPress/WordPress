@@ -75,14 +75,22 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<h3><?php _e( 'Support for Audio and Video' ); ?></h3>
 
 	<div class="feature-section images-stagger-right">
-		<div class="video image-66"><?php echo wp_video_shortcode(
-			array(
-				'mp4' => (is_ssl() ? 'https://' : 'http://s.' ) . 'wordpress.org/images/core/3.6/sample-video.mp4',
-				'ogv' => (is_ssl() ? 'https://' : 'http://s.' ) . 'wordpress.org/images/core/3.6/sample-video.ogv',
+		<div class="video image-66"><?php
+			$sample_video = ( is_ssl() ? 'https://' : 'http://s.' ) . 'wordpress.org/images/core/3.6/sample-video';
+			$args = array(
+				'mp4' => "$sample_video.mp4",
+				'ogv' => "$sample_video.ogv",
 				'width' => 625,
 				'height' => 360,
-			)
-		); ?></div>
+			);
+			// Opera 12 (Presto, pre-Chromium) fails to load ogv properly
+			// when combined with ME.js. Works fine in Opera 15.
+			// Don't serve ogv to Opera 12 to avoid complete brokeness.
+			if ( $GLOBALS['is_opera'] )
+				unset( $args['ogv'] );
+			// Our current ME.js API is limited to shortcodes in posts.
+			echo wp_video_shortcode( $args );
+		?></div>
 		<h4><?php _e( 'New Media Player' ); ?></h4>
 		<p><?php _e( 'Share your audio and video with the new built-in HTML5 media player. Upload files using the media manager and embed them in your posts.' ); ?></p>
 
