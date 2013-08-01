@@ -334,7 +334,7 @@ class WP_Locale {
 	 *
 	 * @since 3.6.0
 	 */
-	private function strings_for_pot() {
+	function _strings_for_pot() {
 		/* translators: localized date format, see http://php.net/date */
 		__( 'F j, Y' );
 		/* translators: localized time format, see http://php.net/date */
