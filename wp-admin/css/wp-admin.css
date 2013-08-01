@@ -5881,6 +5881,10 @@ h2 .nav-tab {
 	border-radius: 3px;
 }
 
+.about-wrap .feature-section .video video {
+	max-width: 100%;
+}
+
 .about-wrap .feature-section.three-col img {
 	margin: 0.5em 0 0.5em 5px;
 	max-width: 100%;
