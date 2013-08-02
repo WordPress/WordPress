@@ -34,7 +34,7 @@ get_admin_page_parent();
  * @param bool $submenu_as_parent
  */
 function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
-	global $self, $parent_file, $submenu_file, $plugin_page, $pagenow, $typenow;
+	global $self, $parent_file, $submenu_file, $plugin_page, $typenow;
 
 	$first = true;
 	// 0 = name, 1 = capability, 2 = file, 3 = class, 4 = id, 5 = icon src

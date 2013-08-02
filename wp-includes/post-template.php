@@ -650,7 +650,7 @@ function wp_link_pages( $args = '' ) {
 	$r = apply_filters( 'wp_link_pages_args', $r );
 	extract( $r, EXTR_SKIP );
 
-	global $page, $numpages, $multipage, $more, $pagenow;
+	global $page, $numpages, $multipage, $more;
 
 	$output = '';
 	if ( $multipage ) {
