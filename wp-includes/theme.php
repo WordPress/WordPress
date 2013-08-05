@@ -373,8 +373,10 @@ function search_theme_directories( $force = false ) {
 
 		// Start with directories in the root of the current theme directory.
 		$dirs = @ scandir( $theme_root );
-		if ( ! $dirs )
-			return false;
+		if ( ! $dirs ) {
+			trigger_error( "$theme_root is not readable", E_USER_NOTICE );
+			continue;
+		}
 		foreach ( $dirs as $dir ) {
 			if ( ! is_dir( $theme_root . '/' . $dir ) || $dir[0] == '.' || $dir == 'CVS' )
 				continue;
@@ -390,8 +392,10 @@ function search_theme_directories( $force = false ) {
 				// wp-content/themes/a-folder-of-themes/*
 				// wp-content/themes is $theme_root, a-folder-of-themes is $dir, then themes are $sub_dirs
 				$sub_dirs = @ scandir( $theme_root . '/' . $dir );
-				if ( ! $sub_dirs )
-					return false;
+				if ( ! $sub_dirs ) {
+					trigger_error( "$theme_root/$dir is not readable", E_USER_NOTICE );
+					continue;
+				}
 				foreach ( $sub_dirs as $sub_dir ) {
 					if ( ! is_dir( $theme_root . '/' . $dir . '/' . $sub_dir ) || $dir[0] == '.' || $dir == 'CVS' )
 						continue;
