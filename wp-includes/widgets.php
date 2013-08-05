@@ -1008,7 +1008,7 @@ function wp_get_sidebars_widgets($deprecated = true) {
 	if ( $deprecated !== true )
 		_deprecated_argument( __FUNCTION__, '2.8.1' );
 
-	global $wp_registered_widgets, $_wp_sidebars_widgets, $sidebars_widgets;
+	global $_wp_sidebars_widgets, $sidebars_widgets;
 
 	// If loading from front page, consult $_wp_sidebars_widgets rather than options
 	// to see if wp_convert_widget_settings() has made manipulations in memory.
