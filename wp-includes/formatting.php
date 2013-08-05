@@ -2598,8 +2598,8 @@ function _deep_replace( $search, $subject ) {
  * is preparing an array for use in an IN clause.
  *
  * @since 2.8.0
- * @param string $data Unescaped data
- * @return string Escaped data
+ * @param string|array $data Unescaped data
+ * @return string|array Escaped data
  */
 function esc_sql( $data ) {
 	global $wpdb;
