@@ -475,7 +475,7 @@ if ( ! current_theme_supports( 'menus' ) && ! $num_locations )
 
 if ( ! $locations_screen ) : // Main tab
 	$overview  = '<p>' . __( 'This screen is used for managing your custom navigation menus.' ) . '</p>';
-	$overview .= '<p>' . sprintf( __( 'Menus can be displayed in locations defined by your theme, even used in sidebars by adding a &#8220;Custom Menus&#8221; widget on the <a href="%1$s">Widgets</a> screen. If your theme does not support the custom menus feature (the default themes, %2$s and %3$s, do), you can learn about adding this support by following the Documentation link to the side.' ), admin_url( 'widgets.php' ), 'Twenty Thirteen', 'Twenty Twelve' ) . '</p>';
+	$overview .= '<p>' . sprintf( __( 'Menus can be displayed in locations defined by your theme, even used in sidebars by adding a &#8220;Custom Menu&#8221; widget on the <a href="%1$s">Widgets</a> screen. If your theme does not support the custom menus feature (the default themes, %2$s and %3$s, do), you can learn about adding this support by following the Documentation link to the side.' ), admin_url( 'widgets.php' ), 'Twenty Thirteen', 'Twenty Twelve' ) . '</p>';
 	$overview .= '<p>' . __( 'From this screen you can:' ) . '</p>';
 	$overview .= '<ul><li>' . __( 'Create, edit, and delete menus' ) . '</li>';
 	$overview .= '<li>' . __( 'Add, organize, and modify individual menu items' ) . '</li></ul>';
