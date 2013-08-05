@@ -167,8 +167,9 @@ add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
 /**
  * Retrieve attached file path based on attachment ID.
  *
- * You can optionally send it through the 'get_attached_file' filter, but by
- * default it will just return the file path unfiltered.
+ * By default the path will go through the 'get_attached_file' filter, but
+ * passing a true to the $unfiltered argument of get_attached_file() will
+ * return the file path unfiltered.
  *
  * The function works by getting the single post meta name, named
  * '_wp_attached_file' and returning it. This is a convenience function to
