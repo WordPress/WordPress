@@ -2969,8 +2969,8 @@ function wp_publish_post( $post ) {
 	wp_transition_post_status( 'publish', $old_status, $post );
 
 	do_action( 'edit_post', $post->ID, $post );
-	do_action( 'save_post', $post->ID, $post );
-	do_action( 'wp_insert_post', $post->ID, $post );
+	do_action( 'save_post', $post->ID, $post, true );
+	do_action( 'wp_insert_post', $post->ID, $post, true );
 }
 
 /**
