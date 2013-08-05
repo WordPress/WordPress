@@ -417,12 +417,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 *
 	 * @since 3.1.0 (Standalone function exists since 2.6.0)
 	 *
-	 * @param unknown_type $children_pages
-	 * @param unknown_type $count
-	 * @param unknown_type $parent
-	 * @param unknown_type $level
-	 * @param unknown_type $pagenum
-	 * @param unknown_type $per_page
+	 * @param array $children_pages
+	 * @param int $count
+	 * @param int $parent
+	 * @param int $level
+	 * @param int $pagenum
+	 * @param int $per_page
 	 */
 	function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_page ) {
 
