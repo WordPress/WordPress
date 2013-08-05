@@ -117,9 +117,6 @@ function get_approved_comments($post_id) {
  * after being passed through a filter. If the comment is empty, then the global
  * comment variable will be used, if it is set.
  *
- * If the comment is empty, then the global comment variable will be used, if it
- * is set.
- *
  * @since 2.0.0
  * @uses $wpdb
  *
