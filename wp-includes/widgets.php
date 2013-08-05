@@ -833,20 +833,13 @@ function wp_unregister_widget_control($id) {
 /**
  * Display dynamic sidebar.
  *
- * By default it displays the default sidebar or 'sidebar-1'. The 'sidebar-1' is
- * not named by the theme, the actual name is '1', but 'sidebar-' is added to
- * the registered sidebars for the name. If you named your sidebar 'after-post',
- * then the parameter $index will still be 'after-post', but the lookup will be
- * for 'sidebar-after-post'.
- *
- * It is confusing for the $index parameter, but just know that it should just
- * work. When you register the sidebar in the theme, you will use the same name
- * for this function or "Pay no heed to the man behind the curtain." Just accept
- * it as an oddity of WordPress sidebar register and display.
+ * By default this displays the default sidebar or 'sidebar-1'. If your theme specifies the 'id' or
+ * 'name' parameter for its registered sidebars you can pass an id or name as the $index parameter.
+ * Otherwise, you can pass in a numerical index to display the sidebar at that index.
  *
  * @since 2.2.0
  *
- * @param int|string $index Optional, default is 1. Name or ID of dynamic sidebar.
+ * @param int|string $index Optional, default is 1. Index, name or ID of dynamic sidebar.
  * @return bool True, if widget sidebar was found and called. False if not found or not called.
  */
 function dynamic_sidebar($index = 1) {
