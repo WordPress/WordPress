@@ -13,12 +13,12 @@
 if ( ! isset( $content_width ) )
 	$content_width = 474; /* pixels */
 
-function futher_set_content_width() {
+function twentyfourteen_set_content_width() {
 	global $content_width;
 	if ( is_page_template( 'full-width-page.php' ) || is_attachment() )
 		$content_width = 895;
 }
-add_action( 'template_redirect', 'futher_set_content_width' );
+add_action( 'template_redirect', 'twentyfourteen_set_content_width' );
 
 if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 /**
