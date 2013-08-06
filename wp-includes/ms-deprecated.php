@@ -14,6 +14,23 @@
  */
 
 /**
+ * Get the "dashboard blog", the blog where users without a blog edit their profile data.
+ * Dashboard blog functionality was removed in WordPress 3.1, replaced by the user admin.
+ *
+ * @since MU
+ * @deprecated 3.1.0
+ * @see get_blog_details()
+ * @return int
+ */
+function get_dashboard_blog() {
+    _deprecated_function( __FUNCTION__, '3.1' );
+    if ( $blog = get_site_option( 'dashboard_blog' ) )
+        return get_blog_details( $blog );
+
+    return get_blog_details( $GLOBALS['current_site']->blog_id );
+}
+
+/**
  * @since MU
  * @deprecated 3.0.0
  * @deprecated Use wp_generate_password()

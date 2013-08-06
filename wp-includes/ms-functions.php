@@ -1738,21 +1738,6 @@ function update_blog_public( $old_value, $value ) {
 add_action('update_option_blog_public', 'update_blog_public', 10, 2);
 
 /**
- * Get the "dashboard blog", the blog where users without a blog edit their profile data.
- *
- * @since MU
- * @uses get_blog_details()
- *
- * @return int
- */
-function get_dashboard_blog() {
-	if ( $blog = get_site_option( 'dashboard_blog' ) )
-		return get_blog_details( $blog );
-
-	return get_blog_details( $GLOBALS['current_site']->blog_id );
-}
-
-/**
  * Check whether a usermeta key has to do with the current blog.
  *
  * @since MU
