@@ -1165,7 +1165,7 @@ function _wp_sidebars_changed() {
 
 // look for "lost" widgets, this has to run at least on each theme change
 function retrieve_widgets($theme_changed = false) {
-	global $wp_registered_widget_updates, $wp_registered_sidebars, $sidebars_widgets, $wp_registered_widgets;
+	global $wp_registered_sidebars, $sidebars_widgets, $wp_registered_widgets;
 
 	$registered_sidebar_keys = array_keys( $wp_registered_sidebars );
 	$orphaned = 0;
