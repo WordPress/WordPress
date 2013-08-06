@@ -298,7 +298,7 @@ if ( current_user_can( 'create_users') ) {
 	if ( $do_both )
 		echo '<h3 id="create-new-user">' . __( 'Add New User' ) . '</h3>';
 ?>
-<p><?php _e('Create a brand new user and add it to this site.'); ?></p>
+<p><?php _e('Create a brand new user and add them to this site.'); ?></p>
 <form action="" method="post" name="createuser" id="createuser" class="validate"<?php do_action('user_new_form_tag');?>>
 <input name="action" type="hidden" value="createuser" />
 <?php wp_nonce_field( 'create-user', '_wpnonce_create-user' ) ?>
