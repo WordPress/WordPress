@@ -277,8 +277,6 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
  * @since 3.1.0
  */
 function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
-	global $wpdb;
-
 	// Don't show for logged out users or single site mode.
 	if ( ! is_user_logged_in() || ! is_multisite() )
 		return;
