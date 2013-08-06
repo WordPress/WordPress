@@ -1424,7 +1424,7 @@ function get_temp_dir() {
 	}
 
 	$temp = ini_get('upload_tmp_dir');
-	if ( is_dir( $temp ) && wp_is_writable( $temp ) )
+	if ( @is_dir( $temp ) && wp_is_writable( $temp ) )
 		return trailingslashit( rtrim( $temp, '\\' ) );
 
 	$temp = WP_CONTENT_DIR . '/';
