@@ -72,6 +72,8 @@ add_action( 'in_admin_header', 'wp_admin_bar_render', 0 );
  * Add the WordPress logo menu.
  *
  * @since 3.3.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 	$wp_admin_bar->add_menu( array(
@@ -130,6 +132,8 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
  * Add the "My Account" item.
  *
  * @since 3.3.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_my_account_item( $wp_admin_bar ) {
 	$user_id      = get_current_user_id();
@@ -159,6 +163,8 @@ function wp_admin_bar_my_account_item( $wp_admin_bar ) {
  * Add the "My Account" submenu items.
  *
  * @since 3.1.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
 	$user_id      = get_current_user_id();
@@ -206,6 +212,8 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
  * Add the "Site Name" menu.
  *
  * @since 3.3.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_site_menu( $wp_admin_bar ) {
 	global $current_site;
@@ -275,6 +283,8 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
  * Add the "My Sites/[Site Name]" menu and all submenus.
  *
  * @since 3.1.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 	// Don't show for logged out users or single site mode.
@@ -394,6 +404,8 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
  * Provide a shortlink.
  *
  * @since 3.1.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_shortlink_menu( $wp_admin_bar ) {
 	$short = wp_get_shortlink( 0, 'query' );
@@ -416,6 +428,8 @@ function wp_admin_bar_shortlink_menu( $wp_admin_bar ) {
  * Provide an edit link for posts and terms.
  *
  * @since 3.1.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 	global $tag, $wp_the_query;
@@ -481,6 +495,8 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
  * Add "Add New" menu.
  *
  * @since 3.1.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 	$actions = array();
@@ -546,6 +562,8 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
  * Add edit comments link with awaiting moderation count bubble.
  *
  * @since 3.1.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_comments_menu( $wp_admin_bar ) {
 	if ( !current_user_can('edit_posts') )
@@ -570,6 +588,8 @@ function wp_admin_bar_comments_menu( $wp_admin_bar ) {
  * Add appearance submenu items to the "Site Name" menu.
  *
  * @since 3.1.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 	$wp_admin_bar->add_group( array( 'parent' => 'site-name', 'id' => 'appearance' ) );
@@ -609,6 +629,8 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
  * Provide an update link if theme/plugin/core updates are available.
  *
  * @since 3.1.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_updates_menu( $wp_admin_bar ) {
 
@@ -634,6 +656,8 @@ function wp_admin_bar_updates_menu( $wp_admin_bar ) {
  * Add search form.
  *
  * @since 3.3.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_search_menu( $wp_admin_bar ) {
 	if ( is_admin() )
@@ -659,6 +683,8 @@ function wp_admin_bar_search_menu( $wp_admin_bar ) {
  * Add secondary menus.
  *
  * @since 3.3.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_add_secondary_groups( $wp_admin_bar ) {
 	$wp_admin_bar->add_group( array(
@@ -681,7 +707,6 @@ function wp_admin_bar_add_secondary_groups( $wp_admin_bar ) {
  * Style and scripts for the admin bar.
  *
  * @since 3.1.0
- *
  */
 function wp_admin_bar_header() { ?>
 <style type="text/css" media="print">#wpadminbar { display:none; }</style>
@@ -692,7 +717,6 @@ function wp_admin_bar_header() { ?>
  * Default admin bar callback.
  *
  * @since 3.1.0
- *
  */
 function _admin_bar_bump_cb() { ?>
 <style type="text/css" media="screen">
