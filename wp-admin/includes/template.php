@@ -1453,6 +1453,10 @@ do_action("admin_head-$hook_suffix");
 do_action('admin_head');
 
 $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
+
+if ( is_rtl() )
+	$admin_body_class .= ' rtl';
+
 ?>
 </head>
 <body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?> class="wp-admin wp-core-ui no-js iframe <?php echo apply_filters( 'admin_body_class', '' ) . ' ' . $admin_body_class; ?>">
