@@ -659,7 +659,7 @@ body {
 .search-toggle:hover,
 .social-links-toggle.active,
 .search-toggle.active {
-	background-color: #35921f
+	background-color: #35921f;
 }
 .search-toggle {
 	display: none;
@@ -942,7 +942,7 @@ body {
 	text-decoration: none;
 }
 .mobile-navigation a:hover {
-	color: rgba(255, 255, 255, 0.7)
+	color: rgba(255, 255, 255, 0.7);
 }
 
 
@@ -1361,8 +1361,8 @@ footer.entry-meta {
 .attachment-featured-featured {
 	background-color: #2b2b2b;
 	display: block;
-	min-height: 168px
-	min-height: 16.8rem
+	min-height: 168px;
+	min-height: 16.8rem;
 }
 .attachment-featured-featured:hover img {
 	opacity: 0.8;
@@ -2570,7 +2570,7 @@ span > object {
 img#wpstats {
 	margin-top: -5px;
 	margin-top: -0.5rem;
-	position: absolute
+	position: absolute;
 }
 
 /* Subscription */
@@ -2649,7 +2649,6 @@ img[src^="http://botd"] {
 		 margin-bottom: 6px;
 		 margin-bottom: 0.6rem;
 		 text-transform: none;
-
 	}
 	.list-view #primary .entry-meta {
 		background-color: transparent;
@@ -2674,7 +2673,7 @@ img[src^="http://botd"] {
 /* Enable Genricons */
 @media screen and (min-width: 400px) {
 	a.attachment-featured-thumbnail:hover img {
-		opacity: 0.8
+		opacity: 0.8;
 	}
 	#primary span + span.entry-date:before,
 	#primary span + .byline:before,
