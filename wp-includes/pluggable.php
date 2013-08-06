@@ -856,7 +856,7 @@ if ( !function_exists('wp_redirect') ) :
  *
  * @param string $location The path to redirect to
  * @param int $status Status code to use
- * @return bool False if $location is not set
+ * @return bool False if $location is not provided, true otherwise.
  */
 function wp_redirect($location, $status = 302) {
 	global $is_IIS;
@@ -873,6 +873,8 @@ function wp_redirect($location, $status = 302) {
 		status_header($status); // This causes problems on IIS and some FastCGI setups
 
 	header("Location: $location", true, $status);
+
+	return true;
 }
 endif;
 
