@@ -57,7 +57,10 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->default_version = get_bloginfo( 'version' );
 	$scripts->default_dirs = array('/wp-admin/js/', '/wp-includes/js/');
 
-	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+	if ( ! defined( 'SCRIPT_DEBUG' ) )
+		define( 'SCRIPT_DEBUG', ! file_exists( ABSPATH . WPINC . '/wp-util.min.js' ) );
+
+	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
 	$scripts->add( 'utils', "/wp-includes/js/utils$suffix.js" );
 	did_action( 'init' ) && $scripts->localize( 'utils', 'userSettings', array(
@@ -537,7 +540,10 @@ function wp_default_styles( &$styles ) {
 	$styles->text_direction = function_exists( 'is_rtl' ) && is_rtl() ? 'rtl' : 'ltr';
 	$styles->default_dirs = array('/wp-admin/', '/wp-includes/css/');
 
-	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+	if ( ! defined( 'SCRIPT_DEBUG' ) )
+		define( 'SCRIPT_DEBUG', ! file_exists( ABSPATH . WPINC . '/wp-util.min.js' ) );
+
+	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
 	$rtl_styles = array( 'wp-admin', 'ie', 'media', 'admin-bar', 'customize-controls', 'media-views', 'wp-color-picker' );
 	// Any rtl stylesheets that don't have a .min version
