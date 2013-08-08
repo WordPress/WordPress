@@ -409,9 +409,9 @@ class WP_Http {
 	/**
 	 * Takes the arguments for a ::request() and checks for the cookie array.
 	 *
-	 * If it's found, then it's assumed to contain WP_Http_Cookie objects, which are each parsed
-	 * into strings and added to the Cookie: header (within the arguments array). Edits the array by
-	 * reference.
+	 * If it's found, then it upgrades any basic name => value pairs to WP_Http_Cookie instances,
+	 * which are each parsed into strings and added to the Cookie: header (within the arguments array).
+	 * Edits the array by reference.
 	 *
 	 * @access public
 	 * @version 2.8.0
@@ -421,10 +421,17 @@ class WP_Http {
 	 */
 	public static function buildCookieHeader( &$r ) {
 		if ( ! empty($r['cookies']) ) {
+			// Upgrade any name => value cookie pairs to WP_HTTP_Cookie instances
+			foreach ( $r['cookies'] as $name => $value ) {
+				if ( ! is_object( $value ) )
+					$r['cookies'][ $name ] = new WP_HTTP_Cookie( array( 'name' => $name, 'value' => $value ) );
+			}
+
 			$cookies_header = '';
 			foreach ( (array) $r['cookies'] as $cookie ) {
 				$cookies_header .= $cookie->getHeaderValue() . '; ';
 			}
+
 			$cookies_header = substr( $cookies_header, 0, -2 );
 			$r['headers']['cookie'] = $cookies_header;
 		}
