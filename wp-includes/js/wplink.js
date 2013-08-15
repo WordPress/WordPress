@@ -279,26 +279,28 @@ var wpLink;
 				inputs.url.focus();
 		},
 		setDefaultValues : function() {
-			var selectedText,
-				textarea = wpLink.textarea;
-
 			// Set URL and description to defaults.
 			// Leave the new tab setting as-is.
 			inputs.url.val('http://');
 			inputs.title.val('');
-			if ( wpLink.isMCE() ) {
-				selectedText = tinyMCEPopup.editor.selection.getContent( { format: 'text' } );
-			} else {
-				if ( document.selection && wpLink.range ) {
-					selectedText = wpLink.range.text;
-				} else if ( typeof textarea.selectionStart !== 'undefined' ) {
-					selectedText = textarea.value.substring( textarea.selectionStart, textarea.selectionEnd );
+
+			if ( $('#search-panel').is(':visible') ) {
+				var selectedText,
+					textarea = wpLink.textarea;
+
+				if ( wpLink.isMCE() ) {
+					selectedText = tinyMCEPopup.editor.selection.getContent( { format: 'text' } );
+				} else {
+					if ( document.selection && wpLink.range ) {
+						selectedText = wpLink.range.text;
+					} else if ( 'undefined' !== typeof textarea.selectionStart ) {
+						selectedText = textarea.value.substring( textarea.selectionStart, textarea.selectionEnd );
+					}
 				}
-			}
-			if ( selectedText && ( selectedText = selectedText.replace( /^\s+|\s+$/g, '' ) ) ) {
-				if ( ! $('#search-panel').is(':visible') )
-					$('#internal-toggle').trigger('click');
-				inputs.search.val( selectedText ).trigger('keyup');
+
+				if ( selectedText && ( selectedText = selectedText.replace( /^\s+|\s+$/g, '' ) ) ) {
+					inputs.search.val( selectedText ).trigger('keyup');
+				}
 			}
 
 			// Update save prompt.
