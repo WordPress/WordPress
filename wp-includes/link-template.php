@@ -2351,20 +2351,21 @@ function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
 
 	global $wp_query;
 	$post_id = 0;
-	if ( 'query' == $context && is_single() ) {
+	if ( 'query' == $context && is_singular() ) { 
 		$post_id = $wp_query->get_queried_object_id();
+		$post = get_post( $post_id );
 	} elseif ( 'post' == $context ) {
-		$post = get_post($id);
+		$post = get_post( $id );
 		$post_id = $post->ID;
 	}
 
 	$shortlink = '';
 
-	// Return p= link for posts.
-	if ( !empty($post_id) && '' != get_option('permalink_structure') ) {
-		$post = get_post($post_id);
-		if ( isset($post->post_type) && 'post' == $post->post_type )
-			$shortlink = home_url('?p=' . $post->ID);
+	// Return p= link for all public post types.
+	if ( ! empty( $post_id ) ) {
+		$post_type = get_post_type_object( $post->post_type );
+		if ( $post_type->public )
+			$shortlink = home_url('?p=' . $post_id);
 	}
 
 	return apply_filters('get_shortlink', $shortlink, $id, $context, $allow_slugs);
