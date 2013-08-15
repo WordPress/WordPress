@@ -371,10 +371,6 @@ div#dashboard-widgets {
 	display: block;
 }
 
-.tagchecklist span a {
-	margin: 4px 0 0 -9px;
-}
-
 .tablenav .button-secondary,
 .nav .button-secondary {
 	padding-top: 2px;

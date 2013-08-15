@@ -6496,7 +6496,7 @@ table.form-table td .updated {
 	cursor: default;
 }
 .tagchecklist span a {
-	margin: 6px 0pt 0pt -9px;
+	margin: 4px 0 0 -10px;
 	cursor: pointer;
 	width: 10px;
 	height: 10px;
