@@ -17,8 +17,6 @@
  * @return array Site and user count for the network.
  */
 function get_sitestats() {
-	global $wpdb;
-
 	$stats = array(
 		'blogs' => get_blog_count(),
 		'users' => get_user_count(),
@@ -815,7 +813,7 @@ function wpmu_signup_user_notification($user, $user_email, $key, $meta = '') {
  * @return array An array containing information about the activated user and/or blog
  */
 function wpmu_activate_signup($key) {
-	global $wpdb, $current_site;
+	global $wpdb;
 
 	$signup = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->signups WHERE activation_key = %s", $key) );
 
@@ -1608,7 +1606,6 @@ function signup_nonce_check( $result ) {
  * @since MU
  */
 function maybe_redirect_404() {
-	global $current_site;
 	if ( is_main_site() && is_404() && defined( 'NOBLOGREDIRECT' ) && ( $destination = apply_filters( 'blog_redirect_404', NOBLOGREDIRECT ) ) ) {
 		if ( $destination == '%siteurl%' )
 			$destination = network_home_url();
