@@ -1,3 +1,14 @@
+<?php
+/**
+ * The template for displaying featured content.
+ *
+ * @todo: Add support for featured content.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Fourteen
+ */
+?>
+
 <div class="featured-content-wrapper">
 	<div id="featured-content" class="featured-content">
 

@@ -1,74 +1,81 @@
 <?php
 /**
- * Twenty Fourteen functions and definitions
+ * Twenty Fourteen functions and definitions.
+ *
+ * Sets up the theme and provides some helper functions, which are used in the
+ * theme as custom template tags. Others are attached to action and filter
+ * hooks in WordPress to change core functionality.
+ *
+ * When using a child theme (see http://codex.wordpress.org/Theme_Development
+ * and http://codex.wordpress.org/Child_Themes), you can override certain
+ * functions (those wrapped in a function_exists() call) by defining them first
+ * in your child theme's functions.php file. The child theme's functions.php
+ * file is included before the parent theme's file, so the child theme
+ * functions would be used.
+ *
+ * Functions that are not pluggable (not wrapped in function_exists()) are
+ * instead attached to a filter or action hook.
+ *
+ * For more information on hooks, actions, and filters,
+ * see http://codex.wordpress.org/Plugin_API
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
  */
 
 /**
- * Set the content width based on the theme's design and stylesheet.
- *
+ * Sets up the content width value based on the theme's design.
+ * @see twentyfourteen_content_width() for template-specific adjustments.
  */
 if ( ! isset( $content_width ) )
-	$content_width = 474; /* pixels */
-
-function twentyfourteen_set_content_width() {
-	global $content_width;
-	if ( is_page_template( 'full-width-page.php' ) || is_attachment() )
-		$content_width = 895;
-}
-add_action( 'template_redirect', 'twentyfourteen_set_content_width' );
+	$content_width = 474;
 
 if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
  *
- * Note that this function is hooked into the after_setup_theme hook, which runs
- * before the init hook. The init hook is too late for some features, such as indicating
- * support post thumbnails.
+ * Note that this function is hooked into the after_setup_theme hook, which
+ * runs before the init hook. The init hook is too late for some features, such
+ * as indicating support post thumbnails.
  */
 function twentyfourteen_setup() {
 
-	/**
-	 * Make theme available for translation
-	 * Translations can be filed in the /languages/ directory
-	 * If you're building a theme based on Twenty Fourteen, use a find and replace
-	 * to change 'twentyfourteen' to the name of your theme in all the template files
+	/*
+	 * Makes Twenty Fourteen available for translation.
+	 *
+	 * Translations can be added to the /languages/ directory.
+	 * If you're building a theme based on Twenty Fourteen, use a find and
+	 * replace to change 'twentyfourteen' to the name of your theme in all
+	 * template files.
 	 */
 	load_theme_textdomain( 'twentyfourteen', get_template_directory() . '/languages' );
 
-	/**
-	 * Add default posts and comments RSS feed links to head
-	 */
+	// Adds RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
 
-	/**
-	 * Enable support for Post Thumbnails
-	 */
+	// Enable support for Post Thumbnails.
 	add_theme_support( 'post-thumbnails', array( 'post' ) );
 
-	/**
-	 * Adding several sizes for Post Thumbnails
-	 */
+	// Adding several sizes for Post Thumbnails.
 	add_image_size( 'featured-thumbnail-large', 672, 0 );
 	add_image_size( 'featured-thumbnail-featured', 672, 336, true );
 	add_image_size( 'featured-thumbnail-formatted', 306, 0 );
 
-	/**
-	 * This theme uses wp_nav_menu() in one location.
-	 */
+	// This theme uses wp_nav_menu() in two locations.
 	register_nav_menus( array(
-		'primary' => __( 'Top primary menu', 'twentyfourteen' ),
-		'secondary' => __( 'Secondary menu in left sidebar', 'twentyfourteen' )
+		'primary'   => __( 'Top primary menu', 'twentyfourteen' ),
+		'secondary' => __( 'Secondary menu in left sidebar', 'twentyfourteen' ),
 	) );
 
-	/**
-	 * Enable support for Post Formats
+	/*
+	 * Enable support for Post Formats.
+	 * See http://codex.wordpress.org/Post_Formats
 	 */
-	add_theme_support( 'post-formats', array( 'aside', 'image', 'video', 'quote', 'link', 'gallery' ) );
+	add_theme_support( 'post-formats', array(
+		'aside', 'image', 'video', 'quote', 'link', 'gallery'
+	) );
 
-	/**
+	/*
 	 * This theme allows users to set a custom background.
 	 */
 	add_theme_support( 'custom-background', apply_filters( 'twentyfourteen_custom_background_args', array(
@@ -79,8 +86,18 @@ endif; // twentyfourteen_setup
 add_action( 'after_setup_theme', 'twentyfourteen_setup' );
 
 /**
- * Getter function for Featured Content Plugin.
+ * Adjusts content_width value for full width and attachment templates.
  *
+ * @return void
+ */
+function twentyfourteen_content_width() {
+	if ( is_page_template( 'full-width-page.php' ) || is_attachment() )
+		$GLOBALS['content_width'] = 895;
+}
+add_action( 'template_redirect', 'twentyfourteen_content_width' );
+
+/**
+ * Getter function for Featured Content Plugin.
  */
 function twentyfourteen_get_featured_posts() {
 	return apply_filters( 'twentyfourteen_get_featured_posts', false );
@@ -90,20 +107,20 @@ function twentyfourteen_get_featured_posts() {
  * A helper conditional function that returns a boolean value
  * So that we can use a condition like
  * if ( twentyfourteen_has_featured_posts( 1 ) )
- *
  */
 function twentyfourteen_has_featured_posts( $minimum = 1 ) {
 	if ( is_paged() )
 		return false;
 
-	$featured_posts = apply_filters( 'twentyfourteen_get_featured_posts', array() );
+		$featured_posts = apply_filters( 'twentyfourteen_get_featured_posts', array() );
 
 	return is_array( $featured_posts ) && count( $featured_posts ) > absint( $minimum );
 }
 
 /**
- * Register widgetized area and update sidebar with default widgets
+ * Registers two widget areas.
  *
+ * @return void
  */
 function twentyfourteen_widgets_init() {
 	register_sidebar( array(
@@ -170,6 +187,7 @@ add_action( 'widgets_init', 'twentyfourteen_widgets_init' );
 /**
  * Register Google fonts for Twenty Fourteen.
  *
+ * @return void
  */
 function twentyfourteen_fonts() {
 	/* translators: If there are characters in your language that are not supported
@@ -180,8 +198,9 @@ function twentyfourteen_fonts() {
 add_action( 'init', 'twentyfourteen_fonts' );
 
 /**
- * Enqueue scripts and styles
+ * Enqueues scripts and styles for front end.
  *
+ * @return void
  */
 function twentyfourteen_scripts() {
 	wp_enqueue_style( 'twentyfourteen-style', get_stylesheet_uri() );
@@ -201,6 +220,7 @@ add_action( 'wp_enqueue_scripts', 'twentyfourteen_scripts' );
 /**
  * Enqueue Google fonts style to admin screen for custom header display.
  *
+ * @return void
  */
 function twentyfourteen_admin_fonts() {
 	wp_enqueue_style( 'twentyfourteen-lato' );
@@ -208,14 +228,10 @@ function twentyfourteen_admin_fonts() {
 add_action( 'admin_print_scripts-appearance_page_custom-header', 'twentyfourteen_admin_fonts' );
 
 /**
- * Implement the Custom Header feature
- *
- */
-require( get_template_directory() . '/inc/custom-header.php' );
-
-/**
  * Sets the post excerpt length to 40 words.
  *
+ * @param int $length
+ * @return int
  */
 function twentyfourteen_excerpt_length( $length ) {
 	return 20;
@@ -225,13 +241,18 @@ add_filter( 'excerpt_length', 'twentyfourteen_excerpt_length' );
 /**
  * Returns a "Continue Reading" link for excerpts
  *
+ * @return string
  */
 function twentyfourteen_continue_reading_link() {
 	return ' <a href="'. esc_url( get_permalink() ) . '" class="more-link">' . __( 'Read More <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ) . '</a>';
 }
 
 /**
- * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis and twentyeleven_continue_reading_link().
+ * Replaces "[...]" (appended to automatically generated excerpts) with an
+ * ellipsis and twentyeleven_continue_reading_link().
+ *
+ * @param string $more
+ * @return string
  */
 function twentyfourteen_auto_excerpt_more( $more ) {
 	return ' &hellip;' . twentyfourteen_continue_reading_link();
@@ -244,6 +265,8 @@ add_filter( 'excerpt_more', 'twentyfourteen_auto_excerpt_more' );
  * To override this link in a child theme, remove the filter and add your own
  * function tied to the get_the_excerpt filter hook.
  *
+ * @param string $output
+ * @return string
  */
 function twentyfourteen_custom_excerpt_more( $output ) {
 	if ( has_excerpt() && ! is_attachment() ) {
@@ -256,8 +279,6 @@ add_filter( 'get_the_excerpt', 'twentyfourteen_custom_excerpt_more' );
 if ( ! function_exists( 'twentyfourteen_the_attached_image' ) ) :
 /**
  * Prints the attached image with a link to the next attached image.
- *
- * @since Twenty Thirteen 1.0
  *
  * @return void
  */
@@ -280,7 +301,7 @@ function twentyfourteen_the_attached_image() {
 		'post_type'      => 'attachment',
 		'post_mime_type' => 'image',
 		'order'          => 'ASC',
-		'orderby'        => 'menu_order ID'
+		'orderby'        => 'menu_order ID',
 	) );
 
 	// If there is more than 1 attachment in a gallery...
@@ -427,8 +448,14 @@ function twentyfourteen_pre_get_posts( $query ) {
 add_action( 'pre_get_posts', 'twentyfourteen_pre_get_posts' );
 
 /**
- * Adds custom classes to the array of body classes.
+ *  Extends the default WordPress body classes.
  *
+ * Adds body classes to denote:
+ * 1. Single or multiple authors.
+ * 2. Index views.
+ *
+ * @param array $classes A list of existing body class values.
+ * @return array The filtered body class list.
  */
 function twentyfourteen_body_classes( $classes ) {
 	// Adds a class of group-blog to blogs with more than 1 published author
@@ -444,30 +471,40 @@ function twentyfourteen_body_classes( $classes ) {
 add_filter( 'body_class', 'twentyfourteen_body_classes' );
 
 /**
- * Filters wp_title to print a neat <title> tag based on what is being viewed.
+ * Creates a nicely formatted and more specific title element text for output
+ * in head of document, based on current view.
  *
+ * @param string $title Default title text for current view.
+ * @param string $sep Optional separator.
+ * @return string The filtered title.
  */
 function twentyfourteen_wp_title( $title, $sep ) {
-	global $page, $paged;
+	global $paged, $page;
 
 	if ( is_feed() )
 		return $title;
 
-	// Add the blog name
+	// Add the site name.
 	$title .= get_bloginfo( 'name' );
 
-	// Add the blog description for the home/front page.
+	// Add the site description for the home/front page.
 	$site_description = get_bloginfo( 'description', 'display' );
 	if ( $site_description && ( is_home() || is_front_page() ) )
-		$title .= " $sep $site_description";
+		$title = "$title $sep $site_description";
 
-	// Add a page number if necessary:
+	// Add a page number if necessary.
 	if ( $paged >= 2 || $page >= 2 )
-		$title .= " $sep " . sprintf( __( 'Page %s', 'twentyfourteen' ), max( $paged, $page ) );
+		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentyfourteen' ), max( $paged, $page ) );
 
 	return $title;
 }
 add_filter( 'wp_title', 'twentyfourteen_wp_title', 10, 2 );
+
+/**
+ * Implement the Custom Header feature
+ *
+ */
+require get_template_directory() . '/inc/custom-header.php';
 
 /**
  * Custom template tags for this theme.

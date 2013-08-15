@@ -3,37 +3,31 @@
  * @package WordPress
  * @subpackage Twenty_Fourteen
  */
-$format = get_post_format();
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'clearfix' ); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php
-		if ( 'gallery' == $format ) :
-			$images = get_children( array( 'post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image', 'orderby' => 'menu_order', 'order' => 'ASC' ) );
+		if ( has_post_format( 'gallery' ) ) :
+			$images = get_children( array( 'post_parent' => get_the_ID(), 'post_type' => 'attachment', 'post_mime_type' => 'image', 'orderby' => 'menu_order', 'order' => 'ASC' ) );
 			if ( $images ) :
-				$image = array_shift( $images ); ?>
+				$image = array_shift( $images );
+				?>
 				<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'twentyfourteen' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="<?php the_ID(); ?>" class="attachment-featured-thumbnail">
 				<?php echo wp_get_attachment_image( $image->ID, 'featured-thumbnail-large' ); ?>
-				</a><?php
+				</a>
+				<?php
 			endif;
 		endif;
 	?>
 
 	<header class="entry-header">
-		<?php
-			/* translators: used between list items, there is a space after the comma */
-			$categories_list = get_the_category_list( __( ', ', 'twentyfourteen' ) );
-			if ( $categories_list && twentyfourteen_categorized_blog() && 'post' == get_post_type() ) :
-		?>
+		<?php if ( in_array( 'category', get_object_taxonomies( get_post_type() ) ) && twentyfourteen_categorized_blog() ) : ?>
 		<div class="entry-meta">
-			<span class="cat-links"><?php echo $categories_list; ?></span>
-		</div>
+			<span class="cat-links"><?php echo get_the_category_list( _x( ', ', 'Used between list items, there is a space after the comma.', 'twentyfourteen' ) ); ?></span>
+		</div><!-- .entry-meta -->
 		<?php endif; ?>
 
-		<?php
-			/* Show title only if it exists */
-			the_title( '<h1 class="entry-title"><a href="' . get_permalink() . '" rel="bookmark">', '</a></h1>' );
-		?>
+		<?php the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' ); ?>
 
 		<div class="entry-meta">
 			<span class="post-format">

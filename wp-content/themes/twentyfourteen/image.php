@@ -69,7 +69,7 @@ get_header();
 			</footer><!-- .entry-meta -->
 		</article><!-- #post-## -->
 
-		<nav id="image-navigation" class="site-navigation">
+		<nav id="image-navigation" class="navigation image-navigation">
 			<?php previous_image_link( false, __( '<div class="previous-image">Previous Image</div>', 'twentyfourteen' ) ); ?>
 			<?php next_image_link( false, __( '<div class="next-image">Next Image</div>', 'twentyfourteen' ) ); ?>
 		</nav><!-- #image-navigation -->

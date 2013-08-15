@@ -56,7 +56,7 @@ if ( post_password_required() )
 	<?php endif; // Check for comment navigation. ?>
 
 	<?php if ( ! comments_open() ) : ?>
-	<p class="nocomments"><?php _e( 'Comments are closed.', 'twentyfourteen' ); ?></p>
+	<p class="no-comments"><?php _e( 'Comments are closed.', 'twentyfourteen' ); ?></p>
 	<?php endif; ?>
 
 	<?php endif; // have_comments() ?>

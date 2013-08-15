@@ -28,8 +28,8 @@ get_header(); ?>
 				endwhile;
 			?>
 
-		</div><!-- #content .site-content -->
-	</div><!-- #primary .content-area -->
+		</div><!-- #content -->
+	</div><!-- #primary -->
 
 <?php
 get_sidebar( 'content' );

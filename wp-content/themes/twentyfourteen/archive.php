@@ -49,7 +49,7 @@ get_header(); ?>
 
 					twentyfourteen_get_template_part();
 				endwhile;
-				twentyfourteen_content_nav( 'nav-below' );
+				twentyfourteen_paging_nav();
 
 			else :
 				get_template_part( 'no-results', 'archive' );

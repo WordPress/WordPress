@@ -2,76 +2,87 @@
 /**
  * Custom template tags for this theme.
  *
- * Eventually, some of the functionality here could be replaced by core features
- *
  * @package WordPress
  * @subpackage Twenty_Fourteen
  */
 
-if ( ! function_exists( 'twentyfourteen_content_nav' ) ) :
+if ( ! function_exists( 'twentyfourteen_paging_nav' ) ) :
 /**
- * Display navigation to next/previous pages when applicable
+ * Displays navigation to next/previous set of posts when applicable.
  *
+ * @return void
  */
-function twentyfourteen_content_nav( $nav_id ) {
-	global $wp_query, $post;
-
-	// Don't print empty markup on single pages if there's nowhere to navigate.
-	if ( is_single() ) {
-		$previous = ( is_attachment() ) ? get_post( $post->post_parent ) : get_adjacent_post( false, '', true );
-		$next = get_adjacent_post( false, '', false );
-
-		if ( ! $next && ! $previous )
-			return;
-	}
-
-	// Don't print empty markup in archives if there's only one page.
-	if ( $wp_query->max_num_pages < 2 && ( is_home() || is_archive() || is_search() ) )
+function twentyfourteen_paging_nav() {
+	// Don't print empty markup if there's only one page.
+	if ( $GLOBALS['wp_query']->max_num_pages < 2 )
 		return;
 
-	$nav_class = 'site-navigation paging-navigation';
-	if ( is_single() )
-		$nav_class = 'site-navigation post-navigation';
+	$paged        = get_query_var( 'paged' ) ? intval( get_query_var( 'paged' ) ) : 1;
+	$pagenum_link = html_entity_decode( get_pagenum_link() );
+	$query_args   = array();
+	$url_parts    = explode( '?', $pagenum_link );
+
+	if ( isset( $url_parts[1] ) )
+		wp_parse_str( $url_parts[1], $query_args );
+
+	$pagenum_link = remove_query_arg( array_keys( $query_args ), $pagenum_link );
+	$pagenum_link = trailingslashit( $pagenum_link ) . '%_%';
+
+	$format  = $GLOBALS['wp_rewrite']->using_index_permalinks() && ! strpos( $pagenum_link, 'index.php' ) ? 'index.php/' : '';
+	$format .= $GLOBALS['wp_rewrite']->using_permalinks() ? user_trailingslashit( 'page/%#%', 'paged' ) : '?paged=%#%';
+
+	$links   = paginate_links( array(
+		'base'     => $pagenum_link,
+		'format'   => $format,
+		'total'    => $GLOBALS['wp_query']->max_num_pages,
+		'current'  => $paged,
+		'mid_size' => 1,
+		'add_args' => array_map( 'urlencode', $query_args ),
+		'prev_text' => __( '&larr; Previous', 'twentyfourteen' ),
+		'next_text' => __( 'Next &rarr;', 'twentyfourteen' ),
+	) );
+
+	if ( $links ) :
 
 	?>
-	<nav role="navigation" id="<?php echo $nav_id; ?>" class="<?php echo $nav_class; ?>">
-		<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'twentyfourteen' ); ?></h1>
-
-	<?php if ( is_single() ) : // navigation links for single posts ?>
-
-		<?php previous_post_link( '%link', __( '<div class="nav-previous"><span class="meta-nav">Previous Post</span>%title</div>', 'twentyfourteen' ) ); ?>
-		<?php next_post_link( '%link', __( '<div class="nav-next"><span class="meta-nav">Next Post</span>%title</div>', 'twentyfourteen' ) ); ?>
-
-	<?php elseif ( $wp_query->max_num_pages > 1 && ( is_home() || is_archive() || is_search() ) ) : // navigation links for home, archive, and search pages ?>
-
+	<nav class="navigation paging-navigation" role="navigation">
+		<h1 class="screen-reader-text"><?php _e( 'Posts navigation', 'twentyfourteen' ); ?></h1>
 		<div class="pagination loop-pagination">
-		<?php
-			/* Get the current page. */
-			$current = ( get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1 );
+			<?php echo $links; ?>
+		</div><!-- .pagination -->
+	</nav><!-- .navigation -->
+	<?php
+	endif;
+}
+endif;
 
-			/* Get the max number of pages. */
-			$max_num_pages = intval( $wp_query->max_num_pages );
+if ( ! function_exists( 'twentyfourteen_post_nav' ) ) :
+/**
+ * Displays navigation to next/previous post when applicable.
+*
+* @return void
+*/
+function twentyfourteen_post_nav() {
+	// Don't print empty markup if there's nowhere to navigate.
+	$previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
+	$next     = get_adjacent_post( false, '', false );
 
-			/* Set up arguments for the paginate_links() function. */
-			$args = array(
-				'base' => add_query_arg( 'paged', '%#%' ),
-				'format' => '',
-				'total' => $max_num_pages,
-				'current' => $current,
-				'prev_text' => __( '&larr; Previous', 'twentyfourteen' ),
-				'next_text' => __( 'Next &rarr;', 'twentyfourteen' ),
-				'mid_size' => 1
-			);
+	if ( ! $next && ! $previous )
+		return;
 
-			echo paginate_links( $args )
-		?>
-		</div>
-	<?php endif; ?>
-
-	</nav><!-- #<?php echo $nav_id; ?> -->
+	?>
+	<nav class="navigation post-navigation" role="navigation">
+		<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'twentyfourteen' ); ?></h1>
+		<div class="nav-links">
+			<?php
+				previous_post_link( '%link', __( '<span class="meta-nav">Previous Post</span>%title', 'twentyfourteen' ) );
+				next_post_link( '%link', __( '<span class="meta-nav">Next Post</span>%title', 'twentyfourteen' ) );
+			?>
+		</div><!-- .nav-links -->
+	</nav><!-- .navigation -->
 	<?php
 }
-endif; // twentyfourteen_content_nav
+endif;
 
 if ( ! function_exists( 'twentyfourteen_comment' ) ) :
 /**
@@ -130,6 +141,7 @@ if ( ! function_exists( 'twentyfourteen_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post-date/time and author.
  *
+ * @return void
  */
 function twentyfourteen_posted_on() {
 	if ( is_sticky() && is_home() && ! is_paged() )
@@ -150,6 +162,7 @@ endif;
 /**
  * Returns true if a blog has more than 1 category
  *
+ * @return boolean
  */
 function twentyfourteen_categorized_blog() {
 	if ( false === ( $all_the_cool_cats = get_transient( 'all_the_cool_cats' ) ) ) {

@@ -30,4 +30,4 @@
 			</ul>
 		</aside>
 	<?php endif; // end sidebar widget area ?>
-</div><!-- #content-sidebar .widget-area -->
+</div><!-- #content-sidebar -->

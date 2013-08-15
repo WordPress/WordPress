@@ -25,7 +25,8 @@ ul, ol {
 	margin: 0 2.2rem 2.4rem 0;
 }
 
-ul ul, ol ol, ul ol, ol ul {
+li > ul,
+li > ol {
 	margin-right: 20px;
 	margin-right: 2.0rem;
 	margin-left: auto;
@@ -295,7 +296,7 @@ img.alignleft,
 	left: auto;
 }
 
-.comment-meta,
+.comment-metadata,
 .comment-content {
 	padding-right: 36px;
 	padding-right: 3.6rem;
@@ -308,7 +309,7 @@ img.alignleft,
 	margin: 0 2.2rem 2.4rem 0;
 }
 
-.commentlist .children {
+.comment-list .children {
 	margin-right: 20px;
 	margin-right: 2.0rem;
 	margin-left: auto;
@@ -324,10 +325,8 @@ img.alignleft,
 /* =Widgets
 ----------------------------------------------- */
 
-.widget ul ul,
-.widget ol ol,
-.widget ul ol,
-.widget ol ul {
+.widget li > ul,
+.widget li > ol {
 	margin: 0 10px 0 0;
 	margin: 0 1.0rem 0 0;
 }
@@ -337,12 +336,6 @@ img.alignleft,
 	margin-right: 1px;
 	margin-right: 0.1rem;
 	margin-left: auto;
-}
-
-/* Authors Widget */
-.widget_authors img {
-	margin: 0 0 9px 5px;
-	margin: 0 0 0.9rem 0.5rem;
 }
 
 /* Caledar widget*/
@@ -400,7 +393,7 @@ img.alignleft,
 	#primary span.entry-date a:before,
 	#primary .byline a:before,
 	#primary .comments-link a:before,
-	#primary .edit-link a:before,
+	.entry-comment .edit-link a:before,
 	.attachment span.entry-date:before,
 	#primary .full-size-link a:before,
 	#primary .parent-post-link a:before {
@@ -446,12 +439,12 @@ img.alignleft,
 		margin: -0.1rem 0 0 0.2rem;
 	}
 
-	#primary .edit-link a:before {
+	.entry-comment .edit-link a:before {
 		margin: -1px 0 0 2px;
 		margin: -0.1rem 0 0 0.2rem;
 	}
 
-	.page #primary .edit-link a:before {
+	.page .entry-comment .edit-link a:before {
 		margin: 5px 0 0 2px;
 		margin: 0.5rem 0 0 0.2rem;
 	}
@@ -503,10 +496,10 @@ img.alignleft,
 	.nocomments,
 	#comments #respond,
 	.comments-area article,
-	.commentlist li.trackback,
-	.commentlist li.pingback,
-	.post-navigation .nav-previous,
-	.post-navigation .nav-next {
+	.comment-list li.trackback,
+	.comment-list li.pingback,
+	.post-navigation [rel="prev"],
+	.post-navigation [rel="next"] {
 		padding-left: 9.12778904%;
 		padding-right: 9.12778904%;
 	}
@@ -522,8 +515,8 @@ img.alignleft,
 	.full-width .comments-title,
 	.full-width #comments #respond,
 	.full-width .comments-area article,
-	.full-width .commentlist li.trackback,
-	.full-width .commentlist li.pingback {
+	.full-width .comment-list li.trackback,
+	.full-width .comment-list li.pingback {
 		padding-left: 6.04307432%;
 		padding-right: 6.04307432%;
 	}
@@ -567,10 +560,10 @@ img.alignleft,
 	.nocomments,
 	#comments #respond,
 	.comments-area article,
-	.commentlist li.trackback,
-	.commentlist li.pingback,
-	.post-navigation .nav-previous,
-	.post-navigation .nav-next {
+	.comment-list li.trackback,
+	.comment-list li.pingback,
+	.post-navigation [rel="prev"],
+	.post-navigation [rel="next"] {
 		padding-left: 12.39493534%;
 		padding-right: 17.06896551%;
 	}
@@ -579,8 +572,8 @@ img.alignleft,
 		padding-left: 13.8900862%;
 	}
 
-	.commentlist,
-	.full-width .commentlist {
+	.comment-list,
+	.full-width .comment-list {
 		margin-right: -70px;
 		margin-right: -7.0rem;
 		margin-left: auto;
@@ -602,8 +595,8 @@ img.alignleft,
 	.full-width .comments-title,
 	.full-width #comments #respond,
 	.full-width .comments-area article,
-	.full-width .commentlist li.trackback,
-	.full-width .commentlist li.pingback {
+	.full-width .comment-list li.trackback,
+	.full-width .comment-list li.pingback {
 		padding-left: 11.30926724%;
 		padding-right: 11.30926724%;
 	}
@@ -700,16 +693,16 @@ img.alignleft,
 	.nocomments,
 	#comments #respond,
 	.comments-area article,
-	.commentlist li.trackback,
-	.commentlist li.pingback,
-	.post-navigation .nav-previous,
-	.post-navigation .nav-next {
+	.comment-list li.trackback,
+	.comment-list li.pingback,
+	.post-navigation [rel="prev"],
+	.post-navigation [rel="next"] {
 		padding-left: 9.87001616%;
 		padding-right: 9.19765166%;
 	}
 
-	.commentlist,
-	.full-width .commentlist {
+	.comment-list,
+	.full-width .comment-list {
 		margin-right: 0;
 		margin-left: auto;
 	}
@@ -725,8 +718,8 @@ img.alignleft,
 	.full-width .comments-title,
 	.full-width #comments #respond,
 	.full-width .comments-area article,
-	.full-width .commentlist li.trackback,
-	.full-width .commentlist li.pingback {
+	.full-width .comment-list li.trackback,
+	.full-width .comment-list li.pingback {
 		padding-left: 5.882236%;
 		padding-right: 5.882236%;
 	}
@@ -771,10 +764,10 @@ img.alignleft,
 	.nocomments,
 	#comments #respond,
 	.comments-area article,
-	.commentlist li.trackback,
-	.commentlist li.pingback,
-	.post-navigation .nav-previous,
-	.post-navigation .nav-next {
+	.comment-list li.trackback,
+	.comment-list li.pingback,
+	.post-navigation [rel="prev"],
+	.post-navigation [rel="next"] {
 		padding-left: 12.44146986%;
 		padding-right: 16.77524429%;
 	}
@@ -783,8 +776,8 @@ img.alignleft,
 		padding-left: 13.73697916%;
 	}
 
-	.commentlist,
-	.full-width .commentlist {
+	.comment-list,
+	.full-width .comment-list {
 		margin-right: -70px;
 		margin-right: -7.0rem;
 		margin-left: auto;
@@ -811,8 +804,8 @@ img.alignleft,
 	.full-width .comments-title,
 	.full-width #comments #respond,
 	.full-width .comments-area article,
-	.full-width .commentlist li.trackback,
-	.full-width .commentlist li.pingback {
+	.full-width .comment-list li.trackback,
+	.full-width .comment-list li.pingback {
 		padding-left: 11.21868265%;
 		padding-right: 11.21868265%;
 	}
@@ -852,8 +845,8 @@ img.alignleft,
 	.full-width .comments-title,
 	.full-width #comments #respond,
 	.full-width .comments-area article,
-	.full-width .commentlist li.trackback,
-	.full-width .commentlist li.pingback {
+	.full-width .comment-list li.trackback,
+	.full-width .comment-list li.pingback {
 		padding-left: 0;
 	}
 }

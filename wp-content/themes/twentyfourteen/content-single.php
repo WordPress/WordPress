@@ -3,7 +3,6 @@
  * @package WordPress
  * @subpackage Twenty_Fourteen
  */
-has_post_format()
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -27,7 +26,7 @@ has_post_format()
 		?>
 
 		<div class="entry-meta">
-			<?php if ( has_post_format() ) : ?>
+			<?php if ( has_post_format( array( 'status', 'chat', 'aside', 'link', 'quote', 'audio' ) ) ) : ?>
 			<span class="post-format">
 				<a class="entry-format" href="<?php echo esc_url( get_post_format_link( get_post_format() ) ); ?>" title="<?php echo esc_attr( sprintf( __( 'All %s posts', 'twentyfourteen' ), get_post_format_string( get_post_format() ) ) ); ?>"><?php echo get_post_format_string( get_post_format() ); ?></a>
 			</span>
