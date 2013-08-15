@@ -8,58 +8,22 @@
 
 get_header(); ?>
 
-<?php if ( is_front_page() ) : ?>
-
-	<div class="front-page-content-wrapper">
-		<div class="front-page-content-main">
-
-			<?php if ( twentyfourteen_has_featured_posts() ) : ?>
-				<?php get_template_part( 'featured-content' ); ?>
-			<?php endif; ?>
-
-			<div class="front-page-content-area clearfix">
-
-				<div id="primary" class="content-area no-sidebar">
-					<div id="content" class="site-content full-width" role="main">
-					<?php
-						if ( have_posts() ) :
-							while ( have_posts() ) :
-								the_post();
-								get_template_part( 'content', 'page' );
-								comments_template( '', true );
-							endwhile;
-
-							twentyfourteen_content_nav( 'nav-below' );
-						else :
-							get_template_part( 'no-results', 'index' );
-						endif;
-					?>
-					</div><!-- #content .site-content -->
-				</div><!-- #primary .content-area -->
-
-			</div><!-- .front-page-content-area -->
-
-		</div><!-- .front-page-content-main -->
-	</div><!-- .front-page-content-wrapper -->
-
-<?php else : ?>
-
 	<div id="primary" class="content-area">
 		<div id="content" class="site-content full-width" role="main">
+			<?php
+				while ( have_posts() ) :
+					the_post();
 
-			<?php while ( have_posts() ) : the_post(); ?>
+					get_template_part( 'content', 'page' );
 
-				<?php get_template_part( 'content', 'page' ); ?>
+					// If comments are open or we have at least one comment, load up the comment template.
+					if ( comments_open() || get_comments_number() )
+						comments_template();
+				endwhile;
+			?>
+		</div><!-- #content -->
+	</div><!-- #primary -->
 
-				<?php comments_template( '', true ); ?>
-
-			<?php endwhile; ?>
-
-		</div><!-- #content .site-content -->
-	</div><!-- #primary .content-area -->
-
-<?php endif; // is_front_page() check ?>
-
-<?php get_sidebar(); ?>
-
-<?php get_footer(); ?>
+<?php
+get_sidebar();
+get_footer();

@@ -6,29 +6,39 @@
 if ( isset( $GLOBALS['content_width'] ) )
 	$GLOBALS['content_width'] = 306;
 
-$format = get_post_format();
-if ( false === $format )
-	$format = 'standard';
+$images = get_posts( array(
+	'post_parent'    => get_post()->post_parent,
+	'fields'         => 'ids',
+	'numberposts'    => -1,
+	'post_status'    => 'inherit',
+	'post_type'      => 'attachment',
+	'post_mime_type' => 'image',
+	'order'          => 'ASC',
+	'orderby'        => 'menu_order ID'
+) );
+$total_images = count( $images );
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'clearfix' ); ?>>
-	<div class="entry-content clearfix">
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+	<div class="entry-content">
 		<?php
-			if ( 'gallery' == $format ) :
-				$featured_image = get_the_post_thumbnail( get_the_ID(), 'featured-thumbnail-formatted' );
-				$images = get_children( array( 'post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image', 'orderby' => 'menu_order', 'order' => 'ASC' ) );
-				if ( $images ) :
-					$total_images = count( $images );
-					if ( empty( $featured_image ) ) {
-						$image = array_shift( $images );
-						$featured_image = wp_get_attachment_image( $image->ID, 'featured-thumbnail-formatted' );
-					}
+			if ( has_post_format( 'gallery' ) ) :
+				if ( has_post_thumbnail() ) :
+					$featured_image = get_the_post_thumbnail( get_the_ID(), 'featured-thumbnail-formatted' );
+				elseif ( $total_images > 0 ) :
+					$image = array_shift( $images );
+					$featured_image = wp_get_attachment_image( $image, 'featured-thumbnail-formatted' );
 		?>
-					<a href="<?php the_permalink(); ?>"><?php echo $featured_image; ?></a>
-					<p class="wp-caption-text"><?php printf( _n( 'This gallery contains <a %1$s>%2$s photo</a>.', 'This gallery contains <a %1$s>%2$s photos</a>.', $total_images, 'twentyfourteen' ),
-					'href="' . get_permalink() . '" title="' . esc_attr( sprintf( __( 'Permalink to %s', 'twentyfourteen' ), the_title_attribute( 'echo=0' ) ) ) . '" rel="bookmark"',
+		<a href="<?php the_permalink(); ?>"><?php echo $featured_image; ?></a>
+		<p class="wp-caption-text">
+			<?php
+				printf( _n( 'This gallery contains <a href="%1$s" rel="bookmark">%2$s photo</a>.', 'This gallery contains <a href="%1$s" rel="bookmark">%2$s photos</a>.', $total_images, 'twentyfourteen' ),
+					esc_url( get_permalink() ),
 					number_format_i18n( $total_images )
-				); ?></p><?php
+				);
+			?>
+		</p>
+		<?php
 				else :
 					the_excerpt();
 				endif;
@@ -41,14 +51,16 @@ if ( false === $format )
 	<header class="entry-header">
 		<div class="entry-meta">
 			<?php
-				if ( 'link' != $format ) :
-					the_title( '<h1 class="entry-title"><a href="' . get_permalink() . '" title="' . esc_attr( sprintf( __( 'Permalink to %s', 'twentyfourteen' ), the_title_attribute( 'echo=0' ) ) ) . '" rel="bookmark">', '</a></h1>' );
+				if ( ! has_post_format( 'link' ) ) :
+					the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' );
 				endif;
+
+				twentyfourteen_posted_on();
+
+				if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) :
 			?>
-			<?php twentyfourteen_posted_on(); ?>
-			<?php if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
 			<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyfourteen' ), __( '1 Comment', 'twentyfourteen' ), __( '% Comments', 'twentyfourteen' ) ); ?></span>
 			<?php endif; ?>
 		</div><!-- .entry-meta -->
 	</header><!-- .entry-header -->
-</article>
+</article><!-- #post-## -->

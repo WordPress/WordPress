@@ -35,7 +35,7 @@ function twentyfourteen_content_nav( $nav_id ) {
 
 	?>
 	<nav role="navigation" id="<?php echo $nav_id; ?>" class="<?php echo $nav_class; ?>">
-		<h1 class="assistive-text"><?php _e( 'Post navigation', 'twentyfourteen' ); ?></h1>
+		<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'twentyfourteen' ); ?></h1>
 
 	<?php if ( is_single() ) : // navigation links for single posts ?>
 
@@ -182,27 +182,15 @@ function twentyfourteen_category_transient_flusher() {
 	delete_transient( 'all_the_cool_cats' );
 }
 add_action( 'edit_category', 'twentyfourteen_category_transient_flusher' );
-add_action( 'save_post', 'twentyfourteen_category_transient_flusher' );
+add_action( 'save_post',     'twentyfourteen_category_transient_flusher' );
 
 /**
  * Include the Post-Format-specific template for the content.
  * This is called in index.php and single.php
  */
 function twentyfourteen_get_template_part() {
-
-	$format = get_post_format();
-
-	switch( $format ) {
-		case 'aside':
-		case 'quote':
-		case 'link':
-		case 'video':
-		case 'image':
-			get_template_part( 'content', 'post-format' );
-			break;
-		default:
-			get_template_part( 'content', get_post_format() );
-			break;
-	}
-
+	if ( has_post_format( array( 'aside', 'quote', 'link', 'video', 'image' ) ) )
+		get_template_part( 'content', 'post-format' );
+	else
+		get_template_part( 'content', get_post_format() );
 }

@@ -22,8 +22,7 @@
  * @subpackage Twenty_Fourteen
  */
 function twentyfourteen_custom_header_setup() {
-	$args = array(
-		'default-image'          => '',
+	add_theme_support( 'custom-header', apply_filters( 'twentyfourteen_custom_header_args', array(
 		'default-text-color'     => 'fff',
 		'width'                  => 1260,
 		'height'                 => 240,
@@ -31,48 +30,10 @@ function twentyfourteen_custom_header_setup() {
 		'wp-head-callback'       => 'twentyfourteen_header_style',
 		'admin-head-callback'    => 'twentyfourteen_admin_header_style',
 		'admin-preview-callback' => 'twentyfourteen_admin_header_image',
-	);
+	) ) );
 
-	$args = apply_filters( 'twentyfourteen_custom_header_args', $args );
-
-	if ( function_exists( 'wp_get_theme' ) ) {
-		add_theme_support( 'custom-header', $args );
-	} else {
-		// Compat: Versions of WordPress prior to 3.4.
-		define( 'HEADER_TEXTCOLOR',    $args['default-text-color'] );
-		define( 'HEADER_IMAGE',        $args['default-image'] );
-		define( 'HEADER_IMAGE_WIDTH',  $args['width'] );
-		define( 'HEADER_IMAGE_HEIGHT', $args['height'] );
-		add_custom_image_header( $args['wp-head-callback'], $args['admin-head-callback'], $args['admin-preview-callback'] );
-	}
 }
 add_action( 'after_setup_theme', 'twentyfourteen_custom_header_setup' );
-
-/**
- * Shiv for get_custom_header().
- *
- * get_custom_header() was introduced to WordPress
- * in version 3.4. To provide backward compatibility
- * with previous versions, we will define our own version
- * of this function.
- *
- * @todo Remove this function when WordPress 3.6 is released.
- * @return stdClass All properties represent attributes of the curent header image.
- *
- * @package WordPress
- * @subpackage Twenty_Fourteen
- */
-
-if ( ! function_exists( 'get_custom_header' ) ) {
-	function get_custom_header() {
-		return (object) array(
-			'url'           => get_header_image(),
-			'thumbnail_url' => get_header_image(),
-			'width'         => HEADER_IMAGE_WIDTH,
-			'height'        => HEADER_IMAGE_HEIGHT,
-		);
-	}
-}
 
 if ( ! function_exists( 'twentyfourteen_header_style' ) ) :
 /**
@@ -82,17 +43,18 @@ if ( ! function_exists( 'twentyfourteen_header_style' ) ) :
  *
  */
 function twentyfourteen_header_style() {
+	$header_text_color = get_header_textcolor();
 
 	// If no custom options for text are set, let's bail
-	// get_header_textcolor() options: HEADER_TEXTCOLOR is default, hide text (returns 'blank') or any hex value
-	if ( HEADER_TEXTCOLOR == get_header_textcolor() )
+	// $header_text_color options: HEADER_TEXTCOLOR is default, hide text (returns 'blank') or any hex value
+	if ( HEADER_TEXTCOLOR == $header_text_color )
 		return;
 	// If we get this far, we have custom styles. Let's do this.
 	?>
 	<style type="text/css">
 	<?php
 		// Has the text been hidden?
-		if ( 'blank' == get_header_textcolor() ) :
+		if ( 'blank' == $header_text_color ) :
 	?>
 		.site-title {
 			position: absolute !important;
@@ -104,7 +66,7 @@ function twentyfourteen_header_style() {
 		else :
 	?>
 		.site-title a  {
-			color: #<?php echo get_header_textcolor(); ?> !important;
+			color: #<?php echo $header_text_color; ?> !important;
 		}
 	<?php endif; ?>
 	</style>
@@ -153,19 +115,15 @@ if ( ! function_exists( 'twentyfourteen_admin_header_image' ) ) :
  * @see twentyfourteen_custom_header_setup().
  *
  */
-function twentyfourteen_admin_header_image() { ?>
+function twentyfourteen_admin_header_image() {
+	$header_image = get_header_image();
+?>
 	<div id="headimg">
-		<?php
-		if ( 'blank' == get_header_textcolor() || '' == get_header_textcolor() )
-			$style = ' style="display:none;"';
-		else
-			$style = ' style="color:#' . get_header_textcolor() . ';"';
-		?>
-		<?php $header_image = get_header_image();
-		if ( ! empty( $header_image ) ) : ?>
-			<img src="<?php echo esc_url( $header_image ); ?>" alt="" />
+		<?php if ( ! empty( $header_image ) ) : ?>
+		<img src="<?php echo esc_url( $header_image ); ?>" alt="">
 		<?php endif; ?>
-		<h1><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+		<h1 class="displaying-header-text"><a id="name"<?php echo sprintf( ' style="color:#%s;"', get_header_textcolor() ); ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 	</div>
-<?php }
+<?php
+}
 endif; // twentyfourteen_admin_header_image

@@ -10,13 +10,6 @@
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js">
 <head>
-<script>
-/**
- * Replaces class "no-js" with "js" in the <html>-tag when JavaScript is being used.
- * Allows easy styling for browsers [not] supporting/running JavaScript.
- */
-document.documentElement.className = document.documentElement.className.replace(/(\s|^)no-js(\s|$)/, '$1js$2');
-</script>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width" />
 <title><?php wp_title( '|', true, 'right' ); ?></title>
@@ -59,16 +52,16 @@ document.documentElement.className = document.documentElement.className.replace(
 	<?php do_action( 'before' ); ?>
 
 	<?php $header_image = get_header_image();
-	if ( ! empty( $header_image ) ) { ?>
+	if ( ! empty( $header_image ) ) : ?>
 	<div id="site-header">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home">
 			<img src="<?php header_image(); ?>" width="<?php echo get_custom_header()->width; ?>" height="<?php echo get_custom_header()->height; ?>" alt="" />
 		</a>
 	</div>
-	<?php } ?>
+	<?php endif; ?>
 
-	<header id="masthead" class="site-header clearfix" role="banner">
-		<div class="header-main clearfix">
+	<header id="masthead" class="site-header" role="banner">
+		<div class="header-main clear">
 			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
 
 			<div class="header-extra">
@@ -84,8 +77,8 @@ document.documentElement.className = document.documentElement.className.replace(
 			</div>
 
 			<nav role="navigation" class="site-navigation primary-navigation">
-				<h1 class="assistive-text"><?php _e( 'Primary Menu', 'twentyfourteen' ); ?></h1>
-				<div class="assistive-text skip-link"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentyfourteen' ); ?>"><?php _e( 'Skip to content', 'twentyfourteen' ); ?></a></div>
+				<h1 class="screen-reader-text"><?php _e( 'Primary Menu', 'twentyfourteen' ); ?></h1>
+				<div class="screen-reader-text skip-link"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentyfourteen' ); ?>"><?php _e( 'Skip to content', 'twentyfourteen' ); ?></a></div>
 				<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
 			</nav>
 
@@ -95,7 +88,7 @@ document.documentElement.className = document.documentElement.className.replace(
 
 		<?php if ( $social_links ) : ?>
 			<div class="social-links-wrapper hide">
-				<ul class="social-links clearfix">
+				<ul class="social-links clear">
 					<?php if ( is_email( $email_link ) ) : ?>
 					<li class="email-link">
 						<a href="mailto:<?php echo antispambot( sanitize_email( $email_link ) ); ?>" class="genericon" title="<?php esc_attr_e( 'Email', 'twentyfourteen' ); ?>" target="_blank">
@@ -188,10 +181,10 @@ document.documentElement.className = document.documentElement.className.replace(
 		<?php endif; ?>
 
 		<div class="search-box-wrapper hide">
-			<div class="search-box clearfix">
+			<div class="search-box clear">
 			<?php get_search_form(); ?>
 			</div>
 		</div>
-	</header><!-- #masthead .site-header -->
+	</header><!-- #masthead -->
 
-	<div id="main" class="site-main clearfix">
+	<div id="main" class="site-main">

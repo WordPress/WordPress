@@ -27,18 +27,8 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
  * Note that this function is hooked into the after_setup_theme hook, which runs
  * before the init hook. The init hook is too late for some features, such as indicating
  * support post thumbnails.
- *
  */
 function twentyfourteen_setup() {
-	/**
-	 * Custom template tags for this theme.
-	 */
-	require( get_template_directory() . '/inc/template-tags.php' );
-
-	/**
-	 * Customizer additions
-	 */
-	require( get_template_directory() . '/inc/customizer.php' );
 
 	/**
 	 * Make theme available for translation
@@ -81,15 +71,9 @@ function twentyfourteen_setup() {
 	/**
 	 * This theme allows users to set a custom background.
 	 */
-	$args = apply_filters( 'twentyfourteen_custom_background_args', array( 'default-color' => 'f5f5f5' ) );
-
-	if ( function_exists( 'wp_get_theme' ) ) {
-		add_theme_support( 'custom-background', $args );
-	} else {
-		// Compat: Versions of WordPress prior to 3.4.
-		define( 'BACKGROUND_COLOR', $args['default-color'] );
-		add_custom_background();
-	}
+	add_theme_support( 'custom-background', apply_filters( 'twentyfourteen_custom_background_args', array(
+		'default-color' => 'f5f5f5',
+	) ) );
 }
 endif; // twentyfourteen_setup
 add_action( 'after_setup_theme', 'twentyfourteen_setup' );
@@ -112,16 +96,9 @@ function twentyfourteen_has_featured_posts( $minimum = 1 ) {
 	if ( is_paged() )
 		return false;
 
-	$minimum = absint( $minimum );
 	$featured_posts = apply_filters( 'twentyfourteen_get_featured_posts', array() );
 
-	if ( ! is_array( $featured_posts ) )
-		return false;
-
-	if ( $minimum > count( $featured_posts ) )
-		return false;
-
-	return true;
+	return is_array( $featured_posts ) && count( $featured_posts ) > absint( $minimum );
 }
 
 /**
@@ -191,18 +168,14 @@ function twentyfourteen_widgets_init() {
 add_action( 'widgets_init', 'twentyfourteen_widgets_init' );
 
 /**
- * Register Google fonts for Twenty Fourteen
+ * Register Google fonts for Twenty Fourteen.
  *
  */
 function twentyfourteen_fonts() {
 	/* translators: If there are characters in your language that are not supported
 	   by Lato, translate this to 'off'. Do not translate into your own language. */
-	if ( 'off' !== _x( 'on', 'Lato font: on or off', 'twentyfourteen' ) ) {
-
-		$protocol = is_ssl() ? 'https' : 'http';
-
-		wp_register_style( 'twentyfourteen-lato', "$protocol://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic", array(), null );
-	}
+	if ( 'off' !== _x( 'on', 'Lato font: on or off', 'twentyfourteen' ) )
+		wp_register_style( 'twentyfourteen-lato', '//fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic', array(), null );
 }
 add_action( 'init', 'twentyfourteen_fonts' );
 
@@ -215,13 +188,11 @@ function twentyfourteen_scripts() {
 
 	wp_enqueue_style( 'twentyfourteen-lato' );
 
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
 		wp_enqueue_script( 'comment-reply' );
-	}
 
-	if ( is_singular() && wp_attachment_is_image() ) {
+	if ( is_singular() && wp_attachment_is_image() )
 		wp_enqueue_script( 'twentyfourteen-keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20130402' );
-	}
 
 	wp_enqueue_script( 'twentyfourteen-theme', get_template_directory_uri() . '/js/theme.js', array( 'jquery' ), '20130402', true );
 }
@@ -231,13 +202,10 @@ add_action( 'wp_enqueue_scripts', 'twentyfourteen_scripts' );
  * Enqueue Google fonts style to admin screen for custom header display.
  *
  */
-function twentyfourteen_admin_fonts( $hook_suffix ) {
-	if ( 'appearance_page_custom-header' != $hook_suffix )
-		return;
-
+function twentyfourteen_admin_fonts() {
 	wp_enqueue_style( 'twentyfourteen-lato' );
 }
-add_action( 'admin_enqueue_scripts', 'twentyfourteen_admin_fonts' );
+add_action( 'admin_print_scripts-appearance_page_custom-header', 'twentyfourteen_admin_fonts' );
 
 /**
  * Implement the Custom Header feature
@@ -285,6 +253,62 @@ function twentyfourteen_custom_excerpt_more( $output ) {
 }
 add_filter( 'get_the_excerpt', 'twentyfourteen_custom_excerpt_more' );
 
+if ( ! function_exists( 'twentyfourteen_the_attached_image' ) ) :
+/**
+ * Prints the attached image with a link to the next attached image.
+ *
+ * @since Twenty Thirteen 1.0
+ *
+ * @return void
+ */
+function twentyfourteen_the_attached_image() {
+	$post                = get_post();
+	$attachment_size     = apply_filters( 'twentyfourteen_attachment_size', array( 1200, 1200 ) );
+	$next_attachment_url = wp_get_attachment_url();
+
+	/**
+	 * Grab the IDs of all the image attachments in a gallery so we can get the URL
+	 * of the next adjacent image in a gallery, or the first image (if we're
+	 * looking at the last image in a gallery), or, in a gallery of one, just the
+	 * link to that image file.
+	 */
+	$attachment_ids = get_posts( array(
+		'post_parent'    => $post->post_parent,
+		'fields'         => 'ids',
+		'numberposts'    => -1,
+		'post_status'    => 'inherit',
+		'post_type'      => 'attachment',
+		'post_mime_type' => 'image',
+		'order'          => 'ASC',
+		'orderby'        => 'menu_order ID'
+	) );
+
+	// If there is more than 1 attachment in a gallery...
+	if ( count( $attachment_ids ) > 1 ) {
+		foreach ( $attachment_ids as $attachment_id ) {
+			if ( $attachment_id == $post->ID ) {
+				$next_id = current( $attachment_ids );
+				break;
+			}
+		}
+
+		// get the URL of the next image attachment...
+		if ( $next_id )
+			$next_attachment_url = get_attachment_link( $next_id );
+
+		// or get the URL of the first image attachment.
+		else
+			$next_attachment_url = get_attachment_link( array_shift( $attachment_ids ) );
+	}
+
+	printf( '<a href="%1$s" title="%2$s" rel="attachment">%3$s</a>',
+		esc_url( $next_attachment_url ),
+		the_title_attribute( array( 'echo' => false ) ),
+		wp_get_attachment_image( $post->ID, $attachment_size )
+	);
+}
+endif;
+
 /**
  * Count the number of footer sidebars to enable dynamic classes for the footer
  *
@@ -328,7 +352,7 @@ function twentyfourteen_footer_sidebar_class() {
 	}
 
 	if ( $class )
-		echo 'class="clearfix ' . $class . '"';
+		printf( 'class="%s"', $class );
 }
 
 /**
@@ -444,3 +468,13 @@ function twentyfourteen_wp_title( $title, $sep ) {
 	return $title;
 }
 add_filter( 'wp_title', 'twentyfourteen_wp_title', 10, 2 );
+
+/**
+ * Custom template tags for this theme.
+ */
+require get_template_directory() . '/inc/template-tags.php';
+
+/**
+ * Customizer additions
+ */
+require get_template_directory() . '/inc/customizer.php';
