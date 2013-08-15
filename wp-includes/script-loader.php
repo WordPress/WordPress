@@ -384,13 +384,6 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'media-models' ), false, 1 );
 
 	if ( is_admin() ) {
-		$scripts->add( 'ajaxcat', "/wp-admin/js/cat$suffix.js", array( 'wp-lists' ) );
-		$scripts->add_data( 'ajaxcat', 'group', 1 );
-		did_action( 'init' ) && $scripts->localize( 'ajaxcat', 'catL10n', array(
-			'add' => esc_attr(__('Add')),
-			'how' => __('Separate multiple categories with commas.')
-		) );
-
 		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array('jquery', 'wp-ajax-response'), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'admin-tags', 'tagsl10n', array(
 			'noPerm' => __('You do not have permission to do that.'),
