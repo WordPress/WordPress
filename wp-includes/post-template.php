@@ -875,7 +875,7 @@ function wp_list_pages($args = '') {
  *
  * <ul>
  * <li><strong>sort_column</strong> - How to sort the list of pages. Defaults
- * to page title. Use column for posts table.</li>
+ * to 'menu_order, post_title'. Use column for posts table.</li>
  * <li><strong>menu_class</strong> - Class to use for the div ID which contains
  * the page list. Defaults to 'menu'.</li>
  * <li><strong>echo</strong> - Whether to echo list or return it. Defaults to

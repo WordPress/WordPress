@@ -996,9 +996,9 @@ function postbox_classes( $id, $page ) {
  * @return array With two entries of type string
  */
 function get_sample_permalink($id, $title = null, $name = null) {
-	$post = get_post($id);
-	if ( !$post->ID )
-		return array('', '');
+	$post = get_post( $id );
+	if ( ! $post )
+		return array( '', '' );
 
 	$ptype = get_post_type_object($post->post_type);
 
@@ -1058,8 +1058,9 @@ function get_sample_permalink($id, $title = null, $name = null) {
  * @return string The HTML of the sample permalink slug editor.
  */
 function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
-	global $wpdb;
-	$post = get_post($id);
+	$post = get_post( $id );
+	if ( ! $post )
+		return '';
 
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 

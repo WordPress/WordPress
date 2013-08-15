@@ -241,10 +241,11 @@ function wp_ajax_logged_in() {
  * @return die
  */
 function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
-	$total = (int) @$_POST['_total'];
-	$per_page = (int) @$_POST['_per_page'];
-	$page = (int) @$_POST['_page'];
-	$url = esc_url_raw( @$_POST['_url'] );
+	$total    = isset( $_POST['_total'] )    ? (int) $_POST['_total']    : 0;
+	$per_page = isset( $_POST['_per_page'] ) ? (int) $_POST['_per_page'] : 0;
+	$page     = isset( $_POST['_page'] )     ? (int) $_POST['_page']     : 0;
+	$url      = isset( $_POST['_url'] )      ? esc_url_raw( $_POST['_url'] ) : '';
+
 	// JS didn't send us everything we need to know. Just die with success message
 	if ( !$total || !$per_page || !$page || !$url )
 		wp_die( time() );

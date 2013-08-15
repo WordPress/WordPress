@@ -192,8 +192,12 @@ class WP_Filesystem_Base {
 
 		$folder = untrailingslashit($folder);
 
+		if ( $this->verbose )
+			printf( "\n" . __('Looking for %1$s in %2$s') . "<br/>\n", $folder, $base );
+
 		$folder_parts = explode('/', $folder);
-		$last_index = array_pop( array_keys( $folder_parts ) );
+		$folder_part_keys = array_keys( $folder_parts );
+		$last_index = array_pop( $folder_part_keys );
 		$last_path = $folder_parts[ $last_index ];
 
 		$files = $this->dirlist( $base );
@@ -210,7 +214,7 @@ class WP_Filesystem_Base {
 				//Lets try that folder:
 				$newdir = trailingslashit(path_join($base, $key));
 				if ( $this->verbose )
-					printf( __('Changing to %s') . '<br/>', $newdir );
+					printf( "\n" . __('Changing to %s') . "<br/>\n", $newdir );
 				// only search for the remaining path tokens in the directory, not the full path again
 				$newfolder = implode( '/', array_slice( $folder_parts, $index + 1 ) );
 				if ( $ret = $this->search_for_folder( $newfolder, $newdir, $loop) )
@@ -221,13 +225,18 @@ class WP_Filesystem_Base {
 		//Only check this as a last resort, to prevent locating the incorrect install. All above procedures will fail quickly if this is the right branch to take.
 		if (isset( $files[ $last_path ] ) ) {
 			if ( $this->verbose )
-				printf( __('Found %s') . '<br/>',  $base . $last_path );
+				printf( "\n" . __('Found %s') . "<br/>\n",  $base . $last_path );
 			return trailingslashit($base . $last_path);
 		}
-		if ( $loop )
-			return false; //Prevent this function from looping again.
-		//As an extra last resort, Change back to / if the folder wasn't found. This comes into effect when the CWD is /home/user/ but WP is at /var/www/.... mainly dedicated setups.
-		return $this->search_for_folder($folder, '/', true);
+
+		// Prevent this function from looping again.
+		// No need to proceed if we've just searched in /
+		if ( $loop || '/' == $base )
+			return false;
+
+		// As an extra last resort, Change back to / if the folder wasn't found.
+		// This comes into effect when the CWD is /home/user/ but WP is at /var/www/....
+		return $this->search_for_folder( $folder, '/', true );
 
 	}
 

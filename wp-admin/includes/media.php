@@ -2077,17 +2077,18 @@ $arc_query = "SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmon
 $arc_result = $wpdb->get_results( $arc_query );
 
 $month_count = count($arc_result);
+$selected_month = isset( $_GET['m'] ) ? $_GET['m'] : 0;
 
 if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?>
 <select name='m'>
-<option<?php selected( @$_GET['m'], 0 ); ?> value='0'><?php _e('Show all dates'); ?></option>
+<option<?php selected( $selected_month, 0 ); ?> value='0'><?php _e('Show all dates'); ?></option>
 <?php
 foreach ($arc_result as $arc_row) {
 	if ( $arc_row->yyear == 0 )
 		continue;
 	$arc_row->mmonth = zeroise( $arc_row->mmonth, 2 );
 
-	if ( isset($_GET['m']) && ( $arc_row->yyear . $arc_row->mmonth == $_GET['m'] ) )
+	if ( $arc_row->yyear . $arc_row->mmonth == $selected_month )
 		$default = ' selected="selected"';
 	else
 		$default = '';
