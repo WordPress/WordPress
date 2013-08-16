@@ -677,7 +677,7 @@ function single_post_title($prefix = '', $display = true) {
 	if ( $display )
 		echo $prefix . $title;
 	else
-		return $title;
+		return $prefix . $title;
 }
 
 /**
@@ -702,7 +702,7 @@ function post_type_archive_title( $prefix = '', $display = true ) {
 	if ( $display )
 		echo $prefix . $title;
 	else
-		return $title;
+		return $prefix . $title;
 }
 
 /**
@@ -785,7 +785,7 @@ function single_term_title( $prefix = '', $display = true ) {
 	if ( $display )
 		echo $prefix . $term_name;
 	else
-		return $term_name;
+		return $prefix . $term_name;
 }
 
 /**
