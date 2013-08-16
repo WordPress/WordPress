@@ -349,7 +349,7 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 
 <div class="form-wrap">
 <h3><?php echo $tax->labels->add_new_item; ?></h3>
-<form id="addtag" method="post" action="edit-tags.php" class="validate">
+<form id="addtag" method="post" action="edit-tags.php" class="validate"<?php do_action( $taxonomy . '_term_new_form_tag' ); ?>>
 <input type="hidden" name="action" value="add-tag" />
 <input type="hidden" name="screen" value="<?php echo esc_attr($current_screen->id); ?>" />
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
