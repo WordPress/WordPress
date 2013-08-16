@@ -767,6 +767,11 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
  	if ( false !== $pre )
  		return $pre;
 
+	// prevent non-existent options from triggering multiple queries
+	$notoptions = wp_cache_get( 'notoptions', 'site-options' );
+	if ( isset( $notoptions[$option] ) )
+		return apply_filters( 'default_site_option_' . $option, $default );
+
 	if ( ! is_multisite() ) {
 		$default = apply_filters( 'default_site_option_' . $option, $default );
 		$value = get_option($option, $default);
@@ -784,6 +789,8 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 				$value = maybe_unserialize( $value );
 				wp_cache_set( $cache_key, $value, 'site-options' );
 			} else {
+				$notoptions[$option] = true;
+				wp_cache_set( 'notoptions', $notoptions, 'site-options' );
 				$value = apply_filters( 'default_site_option_' . $option, $default );
 			}
 		}
@@ -813,6 +820,8 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
 function add_site_option( $option, $value ) {
 	global $wpdb;
 
+	wp_protect_special_option( $option );
+
 	$value = apply_filters( 'pre_add_site_option_' . $option, $value );
 
 	if ( !is_multisite() ) {
@@ -820,16 +829,27 @@ function add_site_option( $option, $value ) {
 	} else {
 		$cache_key = "{$wpdb->siteid}:$option";
 
-		if ( false !== get_site_option( $option ) )
-			return false;
+		// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
+		$notoptions = wp_cache_get( 'notoptions', 'site-options' );
+		if ( ! is_array( $notoptions ) || ! isset( $notoptions[$option] ) )
+			if ( false !== get_site_option( $option ) )
+				return false;
 
 		$value = sanitize_option( $option, $value );
+
 		wp_cache_set( $cache_key, $value, 'site-options' );
 
 		$_value = $value;
 		$value = maybe_serialize( $value );
 		$result = $wpdb->insert( $wpdb->sitemeta, array('site_id' => $wpdb->siteid, 'meta_key' => $option, 'meta_value' => $value ) );
 		$value = $_value;
+
+		// This option exists now
+		$notoptions = wp_cache_get( 'notoptions', 'site-options' ); // yes, again... we need it to be fresh
+		if ( is_array( $notoptions ) && isset( $notoptions[$option] ) ) {
+			unset( $notoptions[$option] );
+			wp_cache_set( 'notoptions', $notoptions, 'site-options' );
+		}
 	}
 
 	if ( $result ) {
@@ -901,6 +921,8 @@ function delete_site_option( $option ) {
 function update_site_option( $option, $value ) {
 	global $wpdb;
 
+	wp_protect_special_option( $option );
+
 	$oldvalue = get_site_option( $option );
 	$value = apply_filters( 'pre_update_site_option_' . $option, $value, $oldvalue );
 
@@ -909,6 +931,12 @@ function update_site_option( $option, $value ) {
 
 	if ( false === $oldvalue )
 		return add_site_option( $option, $value );
+
+	$notoptions = wp_cache_get( 'notoptions', 'site-options' );
+	if ( is_array( $notoptions ) && isset( $notoptions[$option] ) ) {
+		unset( $notoptions[$option] );
+		wp_cache_set( 'notoptions', $notoptions, 'site-options' );
+	}
 
 	if ( !is_multisite() ) {
 		$result = update_option( $option, $value );
