@@ -284,8 +284,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		if ( ! $allowed && current_user_can( 'delete_themes' ) && ! $this->is_site_themes && $stylesheet != get_option( 'stylesheet' ) && $stylesheet != get_option( 'template' ) )
 			$actions['delete'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=delete-selected&amp;checked[]=' . $theme_key . '&amp;theme_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-themes' ) ) . '" title="' . esc_attr__( 'Delete this theme' ) . '" class="delete">' . __( 'Delete' ) . '</a>';
 
-		$actions = apply_filters( 'theme_action_links', array_filter( $actions ), $stylesheet, $theme, $context );
-		$actions = apply_filters( "theme_action_links_$stylesheet", $actions, $stylesheet, $theme, $context );
+		$actions = apply_filters( 'theme_action_links', array_filter( $actions ), $theme, $context );
+		$actions = apply_filters( "theme_action_links_$stylesheet", $actions, $theme, $context );
 
 		$class = ! $allowed ? 'inactive' : 'active';
 		$checkbox_id = "checkbox_" . md5( $theme->get('Name') );

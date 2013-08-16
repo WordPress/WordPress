@@ -149,6 +149,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 					. "' );" . '">' . __( 'Delete' ) . '</a>';
 
 			$actions       = apply_filters( 'theme_action_links', $actions, $theme );
+			$actions       = apply_filters( "theme_action_links_$stylesheet", $actions, $theme );
 			$delete_action = isset( $actions['delete'] ) ? '<div class="delete-theme">' . $actions['delete'] . '</div>' : '';
 			unset( $actions['delete'] );
 
