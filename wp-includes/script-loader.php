@@ -58,7 +58,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->default_dirs = array('/wp-admin/js/', '/wp-includes/js/');
 
 	if ( ! defined( 'SCRIPT_DEBUG' ) )
-		define( 'SCRIPT_DEBUG', ! file_exists( ABSPATH . WPINC . '/wp-util.min.js' ) );
+		define( 'SCRIPT_DEBUG', ! file_exists( ABSPATH . WPINC . '/js/wp-util.min.js' ) );
 
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
@@ -534,7 +534,7 @@ function wp_default_styles( &$styles ) {
 	$styles->default_dirs = array('/wp-admin/', '/wp-includes/css/');
 
 	if ( ! defined( 'SCRIPT_DEBUG' ) )
-		define( 'SCRIPT_DEBUG', ! file_exists( ABSPATH . WPINC . '/wp-util.min.js' ) );
+		define( 'SCRIPT_DEBUG', ! file_exists( ABSPATH . WPINC . '/js/wp-util.min.js' ) );
 
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
