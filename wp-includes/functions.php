@@ -3668,6 +3668,19 @@ function __return_null() {
 }
 
 /**
+ * Returns an empty string.
+ *
+ * Useful for returning an empty string to filters easily.
+ *
+ * @since 3.7.0
+ * @see __return_null()
+ * @return string Empty string
+ */
+function __return_empty_string() {
+	return '';
+}
+
+/**
  * Send a HTTP header to disable content type sniffing in browsers which support it.
  *
  * @link http://blogs.msdn.com/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx
