@@ -2516,6 +2516,11 @@ p.comment-form-comment {
 	#branding {
 		border-top: none;
 	}
+	.singular .entry-header .entry-meta,
+	.singular .entry-header .entry-format,
+	.singular .entry-meta .edit-link a {
+		position: static;
+	}
 }
 
 
