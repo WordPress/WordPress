@@ -14,6 +14,9 @@ if ( defined('ABSPATH') )
 else
 	require_once('../wp-load.php');
 
+/** Allow for cross-domain requests (from the frontend). */
+send_origin_headers();
+
 require_once(ABSPATH . 'wp-admin/includes/admin.php');
 
 nocache_headers();
