@@ -158,7 +158,7 @@ class WP_Http {
 			$r['headers'] = array();
 
 		if ( ! is_array( $r['headers'] ) ) {
-			$processedHeaders = WP_Http::processHeaders( $r['headers'] );
+			$processedHeaders = WP_Http::processHeaders( $r['headers'], $url );
 			$r['headers'] = $processedHeaders['headers'];
 		}
 
@@ -349,10 +349,11 @@ class WP_Http {
 	 * @since 2.7.0
 	 *
 	 * @param string|array $headers
+	 * @param string $url The URL that was requested
 	 * @return array Processed string headers. If duplicate headers are encountered,
 	 * 					Then a numbered array is returned as the value of that header-key.
 	 */
-	public static function processHeaders($headers) {
+	public static function processHeaders( $headers, $url ) {
 		// split headers, one per array element
 		if ( is_string($headers) ) {
 			// tolerate line terminator: CRLF = LF (RFC 2616 19.3)
@@ -400,7 +401,7 @@ class WP_Http {
 				$newheaders[ $key ] = $value;
 			}
 			if ( 'set-cookie' == $key )
-				$cookies[] = new WP_Http_Cookie( $value );
+				$cookies[] = new WP_Http_Cookie( $value, $url );
 		}
 
 		return array('response' => $response, 'headers' => $newheaders, 'cookies' => $cookies);
@@ -857,7 +858,7 @@ class WP_Http_Fsockopen {
 		if ( true === $secure_transport )
 			error_reporting($error_reporting);
 
-		$arrHeaders = WP_Http::processHeaders( $process['headers'] );
+		$arrHeaders = WP_Http::processHeaders( $process['headers'], $url );
 
 		$response = array(
 			'headers' => $arrHeaders['headers'],
@@ -1051,9 +1052,9 @@ class WP_Http_Streams {
 
 		$processedHeaders = array();
 		if ( isset( $meta['wrapper_data']['headers'] ) )
-			$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']['headers']);
+			$processedHeaders = WP_Http::processHeaders( $meta['wrapper_data']['headers'], $url );
 		else
-			$processedHeaders = WP_Http::processHeaders($meta['wrapper_data']);
+			$processedHeaders = WP_Http::processHeaders( $meta['wrapper_data'], $url );
 
 		$response = array(
 			'headers' => $processedHeaders['headers'],
@@ -1301,7 +1302,7 @@ class WP_Http_Curl {
 		}
 
 		$theResponse = curl_exec( $handle );
-		$theHeaders = WP_Http::processHeaders( $this->headers );
+		$theHeaders = WP_Http::processHeaders( $this->headers, $url );
 		$theBody = $this->body;
 
 		$this->headers = '';
@@ -1667,14 +1668,23 @@ class WP_Http_Cookie {
 	 * <li>Expires - (optional) String or int (UNIX timestamp).</li>
 	 * <li>Path (optional)</li>
 	 * <li>Domain (optional)</li>
+	 * <li>Port (optional)</li>
 	 * </ol>
 	 *
 	 * @access public
 	 * @since 2.8.0
 	 *
 	 * @param string|array $data Raw cookie data.
+	 * @param string $requested_url The URL which the cookie was set on, used for default 'domain' and 'port' values
 	 */
-	function __construct( $data ) {
+	function __construct( $data, $requested_url = '' ) {
+		$arrURL = @parse_url( $requested_url );
+		if ( isset( $arrURL['host'] ) )
+			$this->domain = $arrURL['host'];
+		$this->path = isset( $arrURL['path'] ) ? $arrURL['path'] : '/';
+		if (  '/' != substr( $this->path, -1 ) )
+			$this->path = dirname( $this->path ) . '/';
+
 		if ( is_string( $data ) ) {
 			// Assume it's a header string direct from a previous request
 			$pairs = explode( ';', $data );
@@ -1703,10 +1713,10 @@ class WP_Http_Cookie {
 				return false;
 
 			// Set properties based directly on parameters
-			$this->name   = $data['name'];
-			$this->value  = isset( $data['value'] ) ? $data['value'] : '';
-			$this->path   = isset( $data['path'] ) ? $data['path'] : '';
-			$this->domain = isset( $data['domain'] ) ? $data['domain'] : '';
+			foreach ( array( 'name', 'value', 'path', 'domain', 'port' ) as $field ) {
+				if ( isset( $data[ $field ] ) )
+					$this->$field = $data[ $field ];
+			}
 
 			if ( isset( $data['expires'] ) )
 				$this->expires = is_int( $data['expires'] ) ? $data['expires'] : strtotime( $data['expires'] );
@@ -1727,18 +1737,21 @@ class WP_Http_Cookie {
 	 * @return boolean true if allowed, false otherwise.
 	 */
 	function test( $url ) {
+		if ( is_null( $this->name ) )
+			return false;
+
 		// Expires - if expired then nothing else matters
 		if ( isset( $this->expires ) && time() > $this->expires )
 			return false;
 
 		// Get details on the URL we're thinking about sending to
 		$url = parse_url( $url );
-		$url['port'] = isset( $url['port'] ) ? $url['port'] : 80;
+		$url['port'] = isset( $url['port'] ) ? $url['port'] : ( 'https' == $url['scheme'] ? 443 : 80 );
 		$url['path'] = isset( $url['path'] ) ? $url['path'] : '/';
 
 		// Values to use for comparison against the URL
 		$path   = isset( $this->path )   ? $this->path   : '/';
-		$port   = isset( $this->port )   ? $this->port   : 80;
+		$port   = isset( $this->port )   ? $this->port   : null;
 		$domain = isset( $this->domain ) ? strtolower( $this->domain ) : strtolower( $url['host'] );
 		if ( false === stripos( $domain, '.' ) )
 			$domain .= '.local';
@@ -1749,7 +1762,7 @@ class WP_Http_Cookie {
 			return false;
 
 		// Port - supports "port-lists" in the format: "80,8000,8080"
-		if ( !in_array( $url['port'], explode( ',', $port) ) )
+		if ( !empty( $port ) && !in_array( $url['port'], explode( ',', $port) ) )
 			return false;
 
 		// Path - request path must start with path restriction
