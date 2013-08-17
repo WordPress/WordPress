@@ -2616,7 +2616,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  * @uses $user_ID
  * @uses do_action() Calls 'pre_post_update' on post ID if this is an update.
  * @uses do_action() Calls 'edit_post' action on post ID and post data if this is an update.
- * @uses do_action() Calls 'save_post' and 'wp_insert_post' on post id and post data just before returning.
+ * @uses do_action() Calls 'save_post_{$post_type}', 'save_post' and 'wp_insert_post' on post id and post data just before returning.
  * @uses apply_filters() Calls 'wp_insert_post_data' passing $data, $postarr prior to database update or insert.
  * @uses wp_transition_post_status()
  *
@@ -2878,6 +2878,7 @@ function wp_insert_post($postarr, $wp_error = false) {
 		do_action( 'post_updated', $post_ID, $post_after, $post_before);
 	}
 
+	do_action( "save_post_{$post->post_type}", $post_ID, $post, $update );
 	do_action( 'save_post', $post_ID, $post, $update );
 	do_action( 'wp_insert_post', $post_ID, $post, $update );
 
@@ -2948,7 +2949,7 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
  *
  * @since 2.1.0
  * @uses $wpdb
- * @uses do_action() Calls 'edit_post', 'save_post', and 'wp_insert_post' on post_id and post data.
+ * @uses do_action() Calls 'edit_post', 'save_post_{$post_type}', 'save_post' and 'wp_insert_post' on post_id and post data.
  *
  * @param int|object $post Post ID or object.
  */
@@ -2970,6 +2971,7 @@ function wp_publish_post( $post ) {
 	wp_transition_post_status( 'publish', $old_status, $post );
 
 	do_action( 'edit_post', $post->ID, $post );
+	do_action( "save_post_{$post->post_type}", $post->ID, $post, true );
 	do_action( 'save_post', $post->ID, $post, true );
 	do_action( 'wp_insert_post', $post->ID, $post, true );
 }
