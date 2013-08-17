@@ -195,7 +195,19 @@ class WP_Http {
 				$r['headers']['Content-Length'] = strlen( $r['body'] );
 		}
 
-		return $this->_dispatch_request($url, $r);
+		$response = $this->_dispatch_request($url, $r);
+
+		// Append cookies that were used in this request to the response
+		if ( ! empty( $r['cookies'] ) ) {
+      		$cookies_set = wp_list_pluck( $response['cookies'], 'name' );
+      		foreach ( $r['cookies'] as $cookie ) {
+            		if ( ! in_array( $cookie->name, $cookies_set ) && $cookie->test( $url ) ) {
+                        		$response['cookies'][] = $cookie;
+            		}
+      		}
+		}
+
+		return $response;
 	}
 
 	/**
@@ -637,6 +649,14 @@ class WP_Http {
 		if ( 'POST' == $args['method'] ) {
 			if ( in_array( $response['response']['code'], array( 302, 303 ) ) )
 				$args['method'] = 'GET';
+		}
+
+		// Include valid cookies in the redirect process
+		if ( ! empty( $response['cookies'] ) ) {
+      		foreach ( $response['cookies'] as $cookie ) {
+      			if ( $cookie->test( $redirect_location ) )
+            			$args['cookies'][] = $cookie;
+			}
 		}
 
 		return wp_remote_request( $redirect_location, $args );	
