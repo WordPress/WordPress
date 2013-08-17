@@ -619,7 +619,11 @@ default:
 	if ( !$secure_cookie && is_ssl() && force_ssl_login() && !force_ssl_admin() && ( 0 !== strpos($redirect_to, 'https') ) && ( 0 === strpos($redirect_to, 'http') ) )
 		$secure_cookie = false;
 
-	$user = wp_signon('', $secure_cookie);
+	// If cookies are disabled we can't log in even with a valid user+pass
+	if ( isset($_POST['testcookie']) && empty($_COOKIE[TEST_COOKIE]) )
+		$user = new WP_Error('test_cookie', __("<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress."));
+	else
+		$user = wp_signon('', $secure_cookie);
 
 	$redirect_to = apply_filters('login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user);
 
@@ -654,10 +658,6 @@ default:
 	// Clear errors if loggedout is set.
 	if ( !empty($_GET['loggedout']) || $reauth )
 		$errors = new WP_Error();
-
-	// If cookies are disabled we can't log in even with a valid user+pass
-	if ( isset($_POST['testcookie']) && empty($_COOKIE[TEST_COOKIE]) )
-		$errors->add('test_cookie', __("<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress."));
 
 	if ( $interim_login ) {
 		if ( ! $errors->get_error_code() )
