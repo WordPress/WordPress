@@ -1336,19 +1336,23 @@ function wp_mkdir_p( $target ) {
 	if ( file_exists( $target ) )
 		return @is_dir( $target );
 
-	// Attempting to create the directory may clutter up our display.
-	if ( @mkdir( $target ) ) {
-		$stat = @stat( dirname( $target ) );
-		$dir_perms = $stat['mode'] & 0007777;  // Get the permission bits.
-		@chmod( $target, $dir_perms );
-		return true;
-	} elseif ( is_dir( dirname( $target ) ) ) {
-			return false;
+	// We need to find the permissions of the parent folder that exists and inherit that.
+	$target_parent = dirname( $target );
+	while ( '.' != $target_parent && ! is_dir( $target_parent ) ) {
+		$target_parent = dirname( $target_parent );
 	}
 
-	// If the above failed, attempt to create the parent node, then try again.
-	if ( ( $target != '/' ) && ( wp_mkdir_p( dirname( $target ) ) ) )
-		return wp_mkdir_p( $target );
+	// Get the permission bits.
+	if ( $target_parent && '.' != $target_parent ) {
+		$stat = @stat( $target_parent );
+		$dir_perms = $stat['mode'] & 0007777;
+	} else {
+		$dir_perms = 0777;
+	}
+
+	if ( @mkdir( $target, $dir_perms, true ) ) {
+		return true;
+	}
 
 	return false;
 }
