@@ -487,10 +487,13 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$this->skin->bulk_header();
 
-		// Only start maintenance mode if running in Multisite OR the plugin is in use
-		$maintenance = is_multisite(); // @TODO: This should only kick in for individual sites if at all possible.
+		// Only start maintenance mode if:
+		// - running Multisite and there are one or more plugins specified, OR
+		// - a plugin with an update available is currently active.
+		// @TODO: For multisite, maintenance mode should only kick in for individual sites if at all possible.
+		$maintenance = ( is_multisite() && ! empty( $plugins ) );
 		foreach ( $plugins as $plugin )
-			$maintenance = $maintenance || (is_plugin_active($plugin) && isset($current->response[ $plugin ]) ); // Only activate Maintenance mode if a plugin is active AND has an update available
+			$maintenance = $maintenance || ( is_plugin_active( $plugin ) && isset( $current->response[ $plugin] ) );
 		if ( $maintenance )
 			$this->maintenance_mode(true);
 
@@ -848,8 +851,11 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$this->skin->bulk_header();
 
-		// Only start maintenance mode if running in Multisite OR the theme is in use
-		$maintenance = is_multisite(); // @TODO: This should only kick in for individual sites if at all possible.
+		// Only start maintenance mode if:
+		// - running Multisite and there are one or more themes specified, OR
+		// - a theme with an update available is currently in use.
+		// @TODO: For multisite, maintenance mode should only kick in for individual sites if at all possible.
+		$maintenance = ( is_multisite() && ! empty( $themes ) );
 		foreach ( $themes as $theme )
 			$maintenance = $maintenance || $theme == get_stylesheet() || $theme == get_template();
 		if ( $maintenance )
