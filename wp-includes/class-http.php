@@ -1394,6 +1394,11 @@ class WP_Http_Curl {
 	 * @return int
 	 */
 	private function stream_body( $handle, $data ) {
+		if ( function_exists( 'ini_get' ) && ( ini_get( 'mbstring.func_overload' ) & 2 ) && function_exists( 'mb_internal_encoding' ) ) {
+			$mb_encoding = mb_internal_encoding();
+			mb_internal_encoding( 'ISO-8859-1' );
+		}
+
 		if ( $this->max_body_length && ( strlen( $this->body ) + strlen( $data ) ) > $this->max_body_length )
 			$data = substr( $data, 0, ( $this->max_body_length - strlen( $this->body ) ) );
 
@@ -1402,7 +1407,12 @@ class WP_Http_Curl {
 		else
 			$this->body .= $data;
 
-		return strlen( $data );
+		$data_length = strlen( $data );
+
+		if ( isset( $mb_encoding ) )
+			mb_internal_encoding( $mb_encoding );
+
+		return $data_length;
 	}
 
 	/**
