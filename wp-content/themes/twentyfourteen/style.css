@@ -1291,7 +1291,8 @@ footer.entry-meta .entry-title a:hover {
 	position: relative;
 	text-transform: uppercase;
 }
-.tag-links a:hover {
+.tag-links a:hover,
+.tag-links a:focus {
 	background-color: #2b2b2b;
 	color: #fff;
 	text-decoration: none;
@@ -1316,7 +1317,8 @@ footer.entry-meta .entry-title a:hover {
 		left: -1.0rem;
 	}
 }
-.tag-links a:hover:before {
+.tag-links a:hover:before,
+.tag-links a:focus:before {
 	border-right-color: #2b2b2b;
 }
 .tag-links a:after {
