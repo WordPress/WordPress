@@ -43,6 +43,8 @@
 			if ( $socialLinksToggle.hasClass( 'active' ) ) {
 				$socialLinksToggle.removeClass( 'active' );
 			}
+			if ( $( this ).hasClass( 'active' ) )
+				$searchBoxWrapper.find( '.search-field' ).focus();
 		} );
 
 		// DOM manupilations for mobile header

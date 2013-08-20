@@ -213,7 +213,7 @@ function twentyfourteen_scripts() {
 	if ( is_singular() && wp_attachment_is_image() )
 		wp_enqueue_script( 'twentyfourteen-keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20130402' );
 
-	wp_enqueue_script( 'twentyfourteen-theme', get_template_directory_uri() . '/js/theme.js', array( 'jquery' ), '20130402', true );
+	wp_enqueue_script( 'twentyfourteen-theme', get_template_directory_uri() . '/js/theme.js', array( 'jquery' ), '20130820', true );
 }
 add_action( 'wp_enqueue_scripts', 'twentyfourteen_scripts' );
 
