@@ -1483,25 +1483,26 @@ function rawurlencode_deep( $value ) {
  *
  * @since 0.71
  *
- * @param string $emailaddy Email address.
- * @param int $mailto Optional. Range from 0 to 1. Used for encoding.
+ * @param string $email_address Email address.
+ * @param int $extra_entrpoy Optional. Range from 0 to 1. Used for encoding.
  * @return string Converted email address.
  */
-function antispambot($emailaddy, $mailto=0) {
-	$emailNOSPAMaddy = '';
-	srand ((float) microtime() * 1000000);
-	for ($i = 0; $i < strlen($emailaddy); $i = $i + 1) {
-		$j = floor(rand(0, 1+$mailto));
-		if ($j==0) {
-			$emailNOSPAMaddy .= '&#'.ord(substr($emailaddy,$i,1)).';';
-		} elseif ($j==1) {
-			$emailNOSPAMaddy .= substr($emailaddy,$i,1);
-		} elseif ($j==2) {
-			$emailNOSPAMaddy .= '%'.zeroise(dechex(ord(substr($emailaddy, $i, 1))), 2);
+function antispambot( $email_address, $extra_entropy = 0 ) {
+	$email_no_spam_address = '';
+	for ( $i = 0; $i < strlen( $email_address ); $i++ ) {
+		$j = rand( 0, 1 + $extra_entropy );
+		if ( $j == 0 ) {
+			$email_no_spam_address .= '&#' . ord( substr( $email_address, $i, 1 ) ) . ';';
+		} elseif ( $j == 1 ) {
+			$email_no_spam_address .= substr( $email_address, $i, 1 );
+		} elseif ( $j == 2 ) {
+			$email_no_spam_address .= '%' . zeroise( dechex( ord( substr( $email_address, $i, 1 ) ) ), 2 );
 		}
 	}
-	$emailNOSPAMaddy = str_replace('@','&#64;',$emailNOSPAMaddy);
-	return $emailNOSPAMaddy;
+
+	$email_no_spam_address = str_replace( '@', '&#64;', $email_no_spam_address );
+
+	return $email_no_spam_address;
 }
 
 /**
