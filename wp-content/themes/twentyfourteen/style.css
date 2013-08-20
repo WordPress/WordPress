@@ -847,6 +847,7 @@ body {
 	padding: 0 10px;
 	padding: 0 1.0rem;
 	text-decoration: none;
+	white-space: nowrap;
 }
 .primary-navigation ul ul {
 	background-color: rgba(0, 0, 0, 0.9);
@@ -872,6 +873,7 @@ body {
 	padding: 0.9rem 1.2rem;
 	width: 148px;
 	width: 14.8rem;
+	white-space: normal;
 }
 .primary-navigation ul ul li {
 }
