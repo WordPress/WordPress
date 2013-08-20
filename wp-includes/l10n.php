@@ -447,7 +447,13 @@ function load_plugin_textdomain( $domain, $abs_rel_path = false, $plugin_rel_pat
 		$path = WP_PLUGIN_DIR;
 	}
 
-	$mofile = $path . '/'. $domain . '-' . $locale . '.mo';
+	// Load the textdomain according to the plugin first
+	$mofile = $domain . '-' . $locale . '.mo';
+	if ( $loaded = load_textdomain( $domain, $path . '/'. $mofile ) )
+		return $loaded;
+
+	// Otherwise, load from the languages directory
+	$mofile = WP_LANG_DIR . '/plugins/' . $mofile;
 	return load_textdomain( $domain, $mofile );
 }
 
@@ -462,8 +468,16 @@ function load_plugin_textdomain( $domain, $abs_rel_path = false, $plugin_rel_pat
  */
 function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
 	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
-	$path = WPMU_PLUGIN_DIR . '/' . ltrim( $mu_plugin_rel_path, '/' );
-	load_textdomain( $domain, trailingslashit( $path ) . "$domain-$locale.mo" );
+	$path = trailingslashit( WPMU_PLUGIN_DIR . '/' . ltrim( $mu_plugin_rel_path, '/' ) );
+
+	// Load the textdomain according to the plugin first
+	$mofile = $domain . '-' . $locale . '.mo';
+	if ( $loaded = load_textdomain( $domain, $path . $mofile ) )
+		return $loaded;
+
+	// Otherwise, load from the languages directory
+	$mofile = WP_LANG_DIR . '/plugins/' . $mofile;
+	return load_textdomain( $domain, $mofile );
 }
 
 /**
@@ -484,14 +498,14 @@ function load_theme_textdomain( $domain, $path = false ) {
 	if ( ! $path )
 		$path = get_template_directory();
 
-	// Load the textdomain from the Theme provided location, or theme directory first
+	// Load the textdomain according to the theme 
 	$mofile = "{$path}/{$locale}.mo";
-	if ( $loaded = load_textdomain($domain, $mofile) )
+	if ( $loaded = load_textdomain( $domain, $mofile ) )
 		return $loaded;
 
-	// Else, load textdomain from the Language directory
+	// Otherwise, load from the languages directory
 	$mofile = WP_LANG_DIR . "/themes/{$domain}-{$locale}.mo";
-	return load_textdomain($domain, $mofile);
+	return load_textdomain( $domain, $mofile );
 }
 
 /**
