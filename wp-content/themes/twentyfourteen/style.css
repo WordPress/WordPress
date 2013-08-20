@@ -614,9 +614,11 @@ body {
 		top: 0;
 }
 .admin-bar .site-header.masthead-fixed {
+	top: 28px;
+}
+.admin-bar.mp6 .site-header.masthead-fixed {
 	top: 32px;
 }
-
 #site-header {
 	position: relative;
 	z-index: 3;
