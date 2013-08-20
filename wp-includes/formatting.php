@@ -1484,7 +1484,7 @@ function rawurlencode_deep( $value ) {
  * @since 0.71
  *
  * @param string $email_address Email address.
- * @param int $extra_entrpoy Optional. Range from 0 to 1. Used for encoding.
+ * @param int $extra_entropy Optional. Range from 0 to 1. Used for encoding.
  * @return string Converted email address.
  */
 function antispambot( $email_address, $extra_entropy = 0 ) {
