@@ -110,7 +110,7 @@
 			if ( $mastheadOffset < 0 )
 				$mastheadOffset = $masthead.offset().top - $toolbarOffset;
 
-			if ( ( window.scrollY >= $mastheadOffset ) && ( $( window ).width() > 769 ) ) {
+			if ( ( window.scrollY > $mastheadOffset ) && ( $( window ).width() > 769 ) ) {
 				$masthead.addClass( 'masthead-fixed' );
 				$maindiv.css( {
 					marginTop: $masthead.height()
