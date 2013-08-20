@@ -125,6 +125,17 @@
 			}
 		} );
 
+		// Arranges footer widgets vertically.
+		if ( $.isFunction( $.fn.masonry ) ) {
+
+			$( '#footer-sidebar' ).masonry( {
+				itemSelector: '.widget',
+				columnWidth: 225,
+				gutterWidth: 27,
+				isRTL: $( 'body' ).is( '.rtl' )
+			} );
+		}
+
 	} );
 
 } )( jQuery );

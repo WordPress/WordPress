@@ -142,40 +142,8 @@ function twentyfourteen_widgets_init() {
 		'after_title' => '</h1>',
 	) );
 	register_sidebar( array(
-		'name' => __( 'Footer Widget Area One', 'twentyfourteen' ),
+		'name' => __( 'Footer Widget Area', 'twentyfourteen' ),
 		'id' => 'sidebar-3',
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget' => '</aside>',
-		'before_title' => '<h1 class="widget-title">',
-		'after_title' => '</h1>',
-	) );
-	register_sidebar( array(
-		'name' => __( 'Footer Widget Area Two', 'twentyfourteen' ),
-		'id' => 'sidebar-4',
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget' => '</aside>',
-		'before_title' => '<h1 class="widget-title">',
-		'after_title' => '</h1>',
-	) );
-	register_sidebar( array(
-		'name' => __( 'Footer Widget Area Three', 'twentyfourteen' ),
-		'id' => 'sidebar-5',
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget' => '</aside>',
-		'before_title' => '<h1 class="widget-title">',
-		'after_title' => '</h1>',
-	) );
-	register_sidebar( array(
-		'name' => __( 'Footer Widget Area Four', 'twentyfourteen' ),
-		'id' => 'sidebar-6',
-		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget' => '</aside>',
-		'before_title' => '<h1 class="widget-title">',
-		'after_title' => '</h1>',
-	) );
-	register_sidebar( array(
-		'name' => __( 'Footer Widget Area Five', 'twentyfourteen' ),
-		'id' => 'sidebar-7',
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => '</aside>',
 		'before_title' => '<h1 class="widget-title">',
@@ -212,6 +180,9 @@ function twentyfourteen_scripts() {
 
 	if ( is_singular() && wp_attachment_is_image() )
 		wp_enqueue_script( 'twentyfourteen-keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20130402' );
+
+	if ( is_active_sidebar( 'sidebar-3' ) )
+		wp_enqueue_script( 'jquery-masonry' );
 
 	wp_enqueue_script( 'twentyfourteen-theme', get_template_directory_uri() . '/js/theme.js', array( 'jquery' ), '20130820', true );
 }
@@ -329,52 +300,6 @@ function twentyfourteen_the_attached_image() {
 	);
 }
 endif;
-
-/**
- * Count the number of footer sidebars to enable dynamic classes for the footer
- *
- */
-function twentyfourteen_footer_sidebar_class() {
-	$count = 0;
-
-	if ( is_active_sidebar( 'sidebar-3' ) )
-		$count++;
-
-	if ( is_active_sidebar( 'sidebar-4' ) )
-		$count++;
-
-	if ( is_active_sidebar( 'sidebar-5' ) )
-		$count++;
-
-	if ( is_active_sidebar( 'sidebar-6' ) )
-		$count++;
-
-	if ( is_active_sidebar( 'sidebar-7' ) )
-		$count++;
-
-	$class = '';
-
-	switch ( $count ) {
-		case '1':
-			$class = 'one';
-			break;
-		case '2':
-			$class = 'two';
-			break;
-		case '3':
-			$class = 'three';
-			break;
-		case '4':
-			$class = 'four';
-			break;
-		case '5':
-			$class = 'five';
-			break;
-	}
-
-	if ( $class )
-		printf( 'class="%s"', $class );
-}
 
 /**
  * Gets recent formatted posts that are not featured in FC plugin.

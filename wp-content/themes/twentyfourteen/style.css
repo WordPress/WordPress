@@ -2339,9 +2339,14 @@ span > object {
 /* =Footer Sidebar
 ----------------------------------------------- */
 
-#supplementary .widget-area {
+.site-footer .widget-area {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+}
+.site-footer .widget {
+	float: left;
+	padding-left: 27px;
+	width: 198px;
 }
 
 /* =Media Queries
@@ -2996,26 +3001,7 @@ span > object {
 		padding-right: 0;
 		padding-left: 0;
 	}
-	#supplementary .widget-area {
-		float: left;
-		padding: 0 27px;
-		padding: 0 2.7rem;
-	}
-	#supplementary.one .widget-area {
-		width: 100%;
-	}
-	#supplementary.two .widget-area {
-		width: 50%;
-	}
-	#supplementary.three .widget-area {
-		width: 33.33333333%;
-	}
-	#supplementary.four .widget-area {
-		width: 25%;
-	}
-	#supplementary.five .widget-area {
-		width: 20%;
-	}
+
 }
 
 @media screen and (min-width: 1150px) {
