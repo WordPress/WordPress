@@ -131,12 +131,12 @@ textarea {
 
 /* Selection */
 ::-moz-selection {
-	background: #41a62a;
+	background: #24890d;
 	color: #fff;
 	text-shadow: none;
 }
 ::selection {
-	background: #41a62a;
+	background: #24890d;
 	color: #fff;
 	text-shadow: none;
 }
@@ -193,7 +193,7 @@ h3 a:hover,
 h4 a:hover,
 h5 a:hover,
 h6 a:hover {
-	color: #41a62a;
+	color: #24890d;
 	text-decoration: none;
 }
 hr {
@@ -249,7 +249,7 @@ blockquote em, blockquote i, blockquote cite {
 	font-style: normal;
 }
 blockquote p {
-	color: #8c8c8c;
+	color: #767676;
 	font-size: 19px;
 	font-size: 1.9rem;
 	line-height: 1.2631578947;
@@ -378,7 +378,7 @@ button:focus,
 html input[type="button"]:focus,
 input[type="reset"]:focus,
 input[type="submit"]:focus {
-	background-color: #41a62a;
+	background-color: #24890d;
 	cursor: pointer;
 }
 button:active,
@@ -441,7 +441,7 @@ textarea {
 
 /* Links */
 a {
-	color: #41a62a;
+	color: #24890d;
 	text-decoration: none;
 }
 a:hover,
@@ -585,7 +585,7 @@ body {
 }
 .site-footer {
 	background-color: #000;
-	color: rgba(255, 255, 255, 0.4);
+	color: rgba(255, 255, 255, 0.55);
 	font-size: 12px;
 	font-size: 1.2rem;
 	padding: 15px 10px;
@@ -632,7 +632,7 @@ body {
 	padding-left: 1.0rem;
 }
 .header-extra {
-	background-color: #41a62a;
+	background-color: #24890d;
 	float: right;
 }
 .site-title {
@@ -665,7 +665,7 @@ body {
 }
 .social-links-toggle,
 .search-toggle {
-	background-color: #41a62a;
+	background-color: #24890d;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	color: #fff;
@@ -754,7 +754,7 @@ body {
 	text-decoration: none;
 	width: 32px;
 	width: 3.2rem;
-	height: 32px;
+	height: 32px;s
 	height: 3.2rem;
 }
 .social-links li a:hover {
@@ -886,7 +886,7 @@ body {
 	background-color: #000;
 }
 .primary-navigation ul ul a:hover {
-	color: #41a62a;
+	color: #24890d;
 }
 .primary-navigation ul li:hover > ul {
 	display: block;
@@ -989,7 +989,7 @@ body {
 	max-width: 67.2rem;
 }
 .attachment-featured-thumbnail {
-	background: #8c8c8c url(images/pattern.png) repeat 0 0;
+	background: #767676 url(images/pattern.png) repeat 0 0;
 	background-size: 5px 5px;
 	display: block;
 	float: none;
@@ -1019,18 +1019,18 @@ body {
 	color: #2b2b2b;
 }
 .entry-title a:hover {
-	color: #41a62a;
+	color: #24890d;
 }
 .entry-meta {
 	clear: both;
-	color: #8c8c8c;
+	color: #767676;
 	font-size: 12px;
 	font-size: 1.2rem;
 	font-weight:400;
 	line-height: 1.3333333333;
 }
 .entry-meta a {
-	color: #8c8c8c;
+	color: #767676;
 }
 .entry-meta a:hover {
 	color: #2b2b2b;
@@ -1043,7 +1043,7 @@ body {
 	color: #2b2b2b;
 }
 .cat-links a:hover {
-	color: #41a62a;
+	color: #24890d;
 }
 .byline {
 	display: none;
@@ -1156,7 +1156,7 @@ footer.entry-meta {
 	text-transform: none;
 }
 footer.entry-meta .entry-title a {
-	color: #8c8c8c;
+	color: #767676;
 }
 footer.entry-meta .entry-title a:hover {
 	color: #2b2b2b;
@@ -1259,8 +1259,8 @@ footer.entry-meta .entry-title a:hover {
 	text-decoration: none;
 }
 .page-links a:hover {
-	background: #41a62a;
-	border: 1px solid #41a62a;
+	background: #24890d;
+	border: 1px solid #24890d;
 }
 .page-links > span.page-links-title {
 	margin: 0;
@@ -1276,7 +1276,7 @@ footer.entry-meta .entry-title a:hover {
 	transition: all 0s ease-out;
 }
 .tag-links a {
-	background-color: #8c8c8c;
+	background-color: #767676;
 	border-radius: 0 2px 2px 0;
 	color: #fff;
 	display: inline-block;
@@ -1298,7 +1298,7 @@ footer.entry-meta .entry-title a:hover {
 }
 .tag-links a:before {
 	border-top: 10px solid transparent;
-	border-right: 8px solid #8c8c8c;
+	border-right: 8px solid #767676;
 	border-bottom: 10px solid transparent;
 	content: '';
 	position: absolute;
@@ -1311,7 +1311,7 @@ footer.entry-meta .entry-title a:hover {
 /* For Firefox to avoid jagged edge */
 @-moz-document url-prefix() {
 	.tag-links a:before {
-		border-right: 10px solid #8c8c8c;
+		border-right: 10px solid #767676;
 		left: -10px;
 		left: -1.0rem;
 	}
@@ -1348,7 +1348,7 @@ footer.entry-meta .entry-title a:hover {
 	margin-bottom: 2.4rem;
 }
 .taxonomy-description p {
-	color: #8c8c8c;
+	color: #767676;
 	font-size: 12px;
 	font-size: 1.2rem;
 	line-height: 1.5;
@@ -1537,7 +1537,7 @@ footer.entry-meta .entry-title a:hover {
 	margin-bottom: 1.8rem;
 }
 .post-formatted-posts .entry-meta a {
-	color: #8c8c8c;
+	color: #767676;
 }
 .post-formatted-posts .entry-meta a:hover {
 	color: #2b2b2b;
@@ -1767,8 +1767,8 @@ span > object {
 	text-transform: uppercase;
 }
 .paging-navigation .page-numbers.current {
-	border-top: 1px solid #41a62a;
-	color: #41a62a;
+	border-top: 1px solid #24890d;
+	color: #24890d;
 }
 .paging-navigation a {
 	color: #2b2b2b;
@@ -1800,7 +1800,7 @@ span > object {
 	margin: 0;
 }
 .post-navigation .meta-nav {
-	color: #8c8c8c;
+	color: #767676;
 	display: block;
 	font-size: 12px;
 	font-size: 1.2rem;
@@ -1821,7 +1821,7 @@ span > object {
 .site-content .post-navigation a:hover,
 .site-content .image-navigation a:hover {
 	background-color: rgba(0, 0, 0, 0.01);
-	color: #41a62a;
+	color: #24890d;
 }
 .comment-navigation {
 	color: rgba(0, 0, 0, 0.2);
@@ -1892,13 +1892,13 @@ span > object {
 .comment-meta a,
 .comment-list li.trackback a,
 .comment-list li.pingback a {
-	color: #8c8c8c;
+	color: #767676;
 }
 .comment-author a:hover,
 .comment-meta a:hover,
 .comment-list .trackback a:hover,
 .comment-list .pingback a:hover {
-	color: #41a62a;
+	color: #24890d;
 	text-decoration: none;
 }
 .comment-edit-link:before,
@@ -1943,7 +1943,7 @@ span > object {
 	height: 2.2rem;
 }
 .bypostauthor .comment-author .comment-author-avatar {
-	background-color: #41a62a;
+	background-color: #24890d;
 }
 .comment-author cite {
 	font-style: normal;
@@ -1999,7 +1999,7 @@ span > object {
 	margin-bottom: 2.4rem;
 }
 .no-comments {
-	color: #8c8c8c;
+	color: #767676;
 	font-size: 16px;
 	font-size: 1.6rem;
 	font-weight: 900;
@@ -2031,7 +2031,7 @@ span > object {
 ----------------------------------------------- */
 
 .site-description {
-	color: rgba(255, 255, 255, 0.4);
+	color: rgba(255, 255, 255, 0.55);
 	display: none;
 	font-size: 11px;
 	font-size: 1.1rem;
@@ -2043,7 +2043,7 @@ span > object {
 ----------------------------------------------- */
 
 .site-footer a {
-	color: rgba(255, 255, 255, 0.4);
+	color: rgba(255, 255, 255, 0.55);
 }
 .site-footer a:hover {
 	color: #fff;
@@ -2095,7 +2095,7 @@ span > object {
 .widget-area html input[type="button"],
 .widget-area input[type="reset"],
 .widget-area input[type="submit"] {
-	background-color: #41a62a;
+	background-color: #24890d;
 	font-size: 11px;
 	font-size: 1.1rem;
 	padding: 6px 24px;
@@ -2145,7 +2145,7 @@ span > object {
 
 /* Caledar widget*/
 .widget_calendar a {
-	background-color: #41a62a;
+	background-color: #24890d;
 	color: #fff;
 	display: block;
 }
@@ -2236,7 +2236,7 @@ span > object {
 ----------------------------------------------- */
 
 .content-sidebar {
-	color: #8c8c8c;
+	color: #767676;
 	font-size: 14px;
 	font-size: 1.4rem;
 	line-height: 1.2857142857;
@@ -2249,7 +2249,7 @@ span > object {
 	color: #2b2b2b;
 }
 .content-sidebar a:hover {
-	color: #41a62a;
+	color: #24890d;
 }
 .content-sidebar button,
 .content-sidebar html input[type="button"],
@@ -2269,7 +2269,7 @@ span > object {
 .content-sidebar html input[type="button"]:focus,
 .content-sidebar input[type="reset"]:focus,
 .content-sidebar input[type="submit"]:focus {
-	background-color: #41a62a;
+	background-color: #24890d;
 }
 .content-sidebar button:active,
 .content-sidebar html input[type="button"]:active,
