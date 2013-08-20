@@ -4,9 +4,9 @@
 
 		var $primaryNaviClone,
 			$secondaryNaviClone,
-			$masthead = $( 'header#masthead' ),
-			$secondaryTop = $( 'div#secondary-top' ),
-			$mobileNavigations = $( 'div#mobile-navigations'),
+			$masthead = $( '#masthead' ),
+			$secondaryTop = $( '#secondary-top' ),
+			$mobileNavigations = $( '#mobile-navigations'),
 			$socialLinksWrapper = $( 'div.social-links-wrapper' ),
 			$searchBoxWrapper = $( 'div.search-box-wrapper' ),
 			$searchToggle = $( 'div.search-toggle' ),
@@ -16,7 +16,7 @@
 		// Toggle function.
 		function menuToggle() {
 			$( 'span#nav-toggle' ).toggleClass( 'active' );
-			$masthead.find( 'div#mobile-navigations' ).toggleClass( 'hide' );
+			$masthead.find( '#mobile-navigations' ).toggleClass( 'hide' );
 		}
 
 		// Click event for toggle the social links
@@ -48,7 +48,7 @@
 		// DOM manupilations for mobile header
 		function mobileHeader()	{
 			// Check if the toggler exists. If not add it.
-			if ( ! $( 'span#nav-toggle' ).length )
+			if ( ! $( '#nav-toggle' ).length )
 			$( '<span id="nav-toggle" class="genericon" />' ).appendTo( $masthead );
 
 			// Clone and detach the primary navigation for use later
@@ -104,7 +104,7 @@
 		// Sticky header.
 		var $mastheadOffset  = -1,
 			$toolbarOffset = $( 'body' ).is( '.admin-bar' ) ? 32 : 0,
-			$maindiv = $( 'div#main' );
+			$maindiv = $( '#main' );
 
 		$( window ).on( 'scroll', false, function() {
 			if ( $mastheadOffset < 0 )
