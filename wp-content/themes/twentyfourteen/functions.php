@@ -171,9 +171,15 @@ add_action( 'init', 'twentyfourteen_fonts' );
  * @return void
  */
 function twentyfourteen_scripts() {
-	wp_enqueue_style( 'twentyfourteen-style', get_stylesheet_uri() );
 
+	// Add Lato font, used in the main stylesheet.
 	wp_enqueue_style( 'twentyfourteen-lato' );
+
+	// Add Genericons font, used in the main stylesheet.
+	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/fonts/genericons.css', array(), '2.09' );
+
+	// Loads our main stylesheet.
+	wp_enqueue_style( 'twentyfourteen-style', get_stylesheet_uri() );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
 		wp_enqueue_script( 'comment-reply' );

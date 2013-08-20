@@ -85,34 +85,6 @@ a img {
 	border: 0;
 }
 
-/* =Repeatable patterns
------------------------------------------------ */
-
-/* Genericons */
-/*
-IE8 and below use EOT and allow cross-site embedding.
-IE9 uses WOFF which is base64 encoded to allow cross-site embedding.
-So unfortunately, IE9 will throw a console error, but it'll still work.
-*/
-@font-face {
-	font-family: 'Genericons';
-	src: url('fonts/genericons-regular-webfont.eot');
-	src: url('fonts/genericons-regular-webfont.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/genericons-regular-webfont.woff') format('woff'),
-		 url('fonts/genericons-regular-webfont.ttf') format('truetype'),
-		 url('fonts/genericons-regular-webfont.svg#genericonsregular') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-.genericon:before {
-	display: inline-block;
-	-webkit-font-smoothing: antialiased;
-	font: normal 16px/1 'Genericons';
-	font-size: 1.6rem;
-	vertical-align: top;
-}
-
-
 /* =Global
 ----------------------------------------------- */
 
