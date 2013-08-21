@@ -73,9 +73,9 @@ function permalink_anchor( $mode = 'id' ) {
  *
  * @since 1.0.0
  *
- * @param int $id Optional. Post ID.
- * @param bool $leavename Optional, defaults to false. Whether to keep post name or page name.
- * @return string
+ * @param int|WP_Post $id Optional. Post ID or post object, defaults to the current post.
+ * @param bool $leavename Optional. Whether to keep post name or page name, defaults to false.
+ * @return string|bool The permalink URL or false if post does not exist.
  */
 function get_permalink( $id = 0, $leavename = false ) {
 	$rewritecode = array(
