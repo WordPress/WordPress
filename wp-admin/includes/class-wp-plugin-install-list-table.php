@@ -85,7 +85,10 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 			default:
 				$args = false;
+				break;
 		}
+
+		$args = apply_filters( 'install_plugins_table_api_args_' . $tab, $args );
 
 		if ( !$args )
 			return;

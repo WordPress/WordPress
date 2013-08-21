@@ -90,7 +90,10 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
 			default:
 				$args = false;
+				break;
 		}
+
+		$args = apply_filters( 'install_themes_table_api_args_' . $tab, $args );
 
 		if ( ! $args )
 			return;
