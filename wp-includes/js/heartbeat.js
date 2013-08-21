@@ -427,7 +427,7 @@ window.wp = window.wp || {};
 		 */
 		this.enqueue = function( handle, data, dont_overwrite ) {
 			if ( handle ) {
-				if ( queue.hasOwnProperty( handle ) && dont_overwrite )
+				if ( dont_overwrite && this.isQueued( handle ) )
 					return false;
 
 				queue[handle] = data;
@@ -440,10 +440,33 @@ window.wp = window.wp || {};
 		 * Check if data with a particular handle is queued
 		 *
 		 * $param string handle The handle for the data
-		 * $return mixed The data queued with that handle or null
+		 * $return bool Whether some data is queued with this handle
 		 */
 		this.isQueued = function( handle ) {
-			return queue[handle];
+			if ( handle )
+				return queue.hasOwnProperty( handle );
+		};
+
+		/**
+		 * Remove data with a particular handle from the queue
+		 *
+		 * $param string handle The handle for the data
+		 * $return void
+		 */
+		this.dequeue = function( handle ) {
+			if ( handle )
+				delete queue[handle];
+		};
+
+		/**
+		 * Get data that was enqueued with a particular handle
+		 *
+		 * $param string handle The handle for the data
+		 * $return mixed The data or undefined
+		 */
+		this.getQueuedItem = function( handle ) {
+			if ( handle )
+				return this.isQueued( handle ) ? queue[handle] : undefined;
 		};
 	};
 
