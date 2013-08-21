@@ -461,12 +461,13 @@ function get_transient( $transient ) {
 				if ( get_option( $transient_timeout ) < time() ) {
 					delete_option( $transient_option  );
 					delete_option( $transient_timeout );
-					return false;
+					$value = false;
 				}
 			}
 		}
 
-		$value = get_option( $transient_option );
+		if ( ! isset( $value ) )
+			$value = get_option( $transient_option );
 	}
 
 	return apply_filters( 'transient_' . $transient, $value );
@@ -1029,11 +1030,12 @@ function get_site_transient( $transient ) {
 			if ( false !== $timeout && $timeout < time() ) {
 				delete_site_option( $transient_option  );
 				delete_site_option( $transient_timeout );
-				return false;
+				$value = false;
 			}
 		}
 
-		$value = get_site_option( $transient_option );
+		if ( ! isset( $value ) )
+			$value = get_site_option( $transient_option );
 	}
 
 	return apply_filters( 'site_transient_' . $transient, $value );
