@@ -208,7 +208,7 @@ function wp_load_core_site_options( $site_id = null ) {
  * @uses do_action() Calls 'update_option_$option' and 'updated_option' hooks on success.
  *
  * @param string $option Option name. Expected to not be SQL-escaped.
- * @param mixed $newvalue Option value. Expected to not be SQL-escaped.
+ * @param mixed $newvalue Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
  * @return bool False if value was not updated and true if value was updated.
  */
 function update_option( $option, $newvalue ) {
@@ -284,7 +284,7 @@ function update_option( $option, $newvalue ) {
  * @uses do_action() Calls 'add_option_$option' and 'added_option' hooks on success.
  *
  * @param string $option Name of option to add. Expected to not be SQL-escaped.
- * @param mixed $value Optional. Option value, can be anything. Expected to not be SQL-escaped.
+ * @param mixed $value Optional. Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
  * @param mixed $deprecated Optional. Description. Not used anymore.
  * @param bool $autoload Optional. Default is enabled. Whether to load the option when WordPress starts up.
  * @return bool False if option was not added and true if option was added.
@@ -488,7 +488,7 @@ function get_transient( $transient ) {
  * @uses do_action() Calls 'set_transient_$transient' and 'setted_transient' hooks on success.
  *
  * @param string $transient Transient name. Expected to not be SQL-escaped.
- * @param mixed $value Transient value. Expected to not be SQL-escaped.
+ * @param mixed $value Transient value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
  * @param int $expiration Time until expiration in seconds, default 0
  * @return bool False if value was not set and true if value was set.
  */

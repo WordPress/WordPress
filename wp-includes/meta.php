@@ -22,7 +22,7 @@
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int $object_id ID of the object metadata is for
  * @param string $meta_key Metadata key
- * @param string $meta_value Metadata value
+ * @param mixed $meta_value Metadata value. Must be serializable if non-scalar.
  * @param bool $unique Optional, default is false. Whether the specified metadata key should be
  * 		unique for the object. If true, and the object already has a value for the specified
  * 		metadata key, no change will be made
@@ -93,8 +93,8 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int $object_id ID of the object metadata is for
  * @param string $meta_key Metadata key
- * @param string $meta_value Metadata value
- * @param string $prev_value Optional. If specified, only update existing metadata entries with
+ * @param mixed $meta_value Metadata value. Must be serializable if non-scalar.
+ * @param mixed $prev_value Optional. If specified, only update existing metadata entries with
  * 		the specified value. Otherwise, update all entries.
  * @return bool True on successful update, false on failure.
  */
@@ -174,7 +174,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int $object_id ID of the object metadata is for
  * @param string $meta_key Metadata key
- * @param string $meta_value Optional. Metadata value. If specified, only delete metadata entries
+ * @param mixed $meta_value Optional. Metadata value. Must be serializable if non-scalar. If specified, only delete metadata entries
  * 		with this value. Otherwise, delete all entries with the specified meta_key.
  * @param bool $delete_all Optional, default is false. If true, delete matching metadata entries
  * 		for all objects, ignoring the specified object_id. Otherwise, only delete matching
@@ -720,8 +720,8 @@ class WP_Meta_Query {
 				$key_only_queries[$k] = $q;
 				unset( $this->queries[$k] );
 			}
-		}		
-		
+		}
+
 		// Split out the meta_key only queries (we can only do this for OR)
 		if ( 'OR' == $this->relation ) {
 			foreach ( $this->queries as $k => $q ) {
