@@ -84,59 +84,6 @@ function twentyfourteen_post_nav() {
 }
 endif;
 
-if ( ! function_exists( 'twentyfourteen_comment' ) ) :
-/**
- * Template for comments and pingbacks.
- *
- * Used as a callback by wp_list_comments() for displaying the comments.
- *
- */
-function twentyfourteen_comment( $comment, $args, $depth ) {
-	$GLOBALS['comment'] = $comment;
-	switch ( $comment->comment_type ) :
-		case 'pingback' :
-		case 'trackback' :
-	?>
-	<li class="post pingback">
-		<p><?php _e( 'Pingback:', 'twentyfourteen' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __( 'Edit', 'twentyfourteen' ), ' ' ); ?></p>
-	<?php
-			break;
-		default :
-	?>
-	<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
-		<article id="comment-<?php comment_ID(); ?>" class="comment">
-			<footer>
-				<div class="comment-author vcard">
-					<span class="comment-author-avatar"><?php echo get_avatar( $comment, 32 ); ?></span>
-					<?php printf( __( '%s', 'twentyfourteen' ), sprintf( '<cite class="fn">%s</cite> says:', get_comment_author_link() ) ); ?>
-				</div><!-- .comment-author .vcard -->
-			</footer>
-
-			<div class="comment-content">
-				<?php comment_text(); ?>
-				<?php if ( $comment->comment_approved == '0' ) : ?>
-					<p><em><?php _e( 'Your comment is awaiting moderation.', 'twentyfourteen' ); ?></em></p>
-				<?php endif; ?>
-			</div>
-
-			<div class="comment-meta commentmetadata">
-				<a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>"><time pubdate datetime="<?php comment_time( 'c' ); ?>">
-				<?php
-					/* translators: 1: date, 2: time */
-					printf( __( '%1$s at %2$s', 'twentyfourteen' ), get_comment_date(), get_comment_time() ); ?>
-				</time></a>
-				<?php comment_reply_link( array_merge( $args, array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
-				<?php edit_comment_link( __( 'Edit', 'twentyfourteen' ), ' ' );
-				?>
-			</div><!-- .comment-meta .commentmetadata -->
-		</article><!-- #comment-## -->
-
-	<?php
-			break;
-	endswitch;
-}
-endif; // ends check for twentyfourteen_comment()
-
 if ( ! function_exists( 'twentyfourteen_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post-date/time and author.

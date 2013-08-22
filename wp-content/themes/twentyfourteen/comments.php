@@ -40,9 +40,6 @@ if ( post_password_required() )
 			wp_list_comments( array(
 				'style'      => 'ol',
 				'short_ping' => true,
-
-				// TODO: Remove callback and update styles.
-				'callback'=>'twentyfourteen_comment',
 			) );
 		?>
 	</ol><!-- .comment-list -->

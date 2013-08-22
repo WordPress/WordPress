@@ -1850,33 +1850,32 @@ span > object {
 	margin: 0 0 48px 0;
 	margin: 0 0 4.8rem 0;
 }
-.comment-meta,
+.comment-metadata,
 .comment-author {
 	font-size: 14px;
 	font-size: 1.4rem;
 	line-height: 1.7142857142;
 }
-.comment-author cite {
+.comment-author .fn {
 	font-weight: 900;
 	text-transform: uppercase;
 }
 .comment-author a {
 	color: #2b2b2b;
 }
-.comment-meta a,
-.comment-list li.trackback a,
-.comment-list li.pingback a {
+.comment-metadata a,
+.comment-list .trackback a,
+.comment-list .pingback a {
 	color: #767676;
 }
 .comment-author a:hover,
-.comment-meta a:hover,
+.comment-metadata a:hover,
 .comment-list .trackback a:hover,
 .comment-list .pingback a:hover {
 	color: #24890d;
 	text-decoration: none;
 }
-.comment-edit-link:before,
-.comment-reply-link:before {
+.comment-edit-link:before {
 	color: rgba(0, 0, 0, 0.2);
 	content: '\007c\0020';
 }
@@ -1896,14 +1895,13 @@ span > object {
 	background: none;
 	min-height: 48px;
 	min-height: 4.8rem;
-	position: relative;
 }
 .comment-author {
 	padding-left: 36px;
 	padding-left: 3.6rem;
 	position: relative;
 }
-.comment-author .comment-author-avatar {
+.comment-author .avatar {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	padding: 2px;
 	padding: 0.2rem;
@@ -1916,10 +1914,10 @@ span > object {
 	height: 22px;
 	height: 2.2rem;
 }
-.bypostauthor .comment-author .comment-author-avatar {
+.bypostauthor .avatar {
 	background-color: #24890d;
 }
-.comment-author cite {
+.comment-author .fn {
 	font-style: normal;
 }
 .comment-author .avatar {
@@ -1933,7 +1931,7 @@ span > object {
 	height: 22px;
 	height: 2.2rem;
 }
-.comment-meta,
+.comment-metadata,
 .comment-content {
 	padding-left: 36px;
 	padding-left: 3.6rem;
@@ -2412,7 +2410,7 @@ span > object {
 	.content-area .entry-date a:before,
 	.content-area .byline a:before,
 	.content-area .comments-link a:before,
-	.content-area .edit-link a:before,
+	.entry-meta .edit-link a:before,
 	.attachment .entry-date:before,
 	.content-area .full-size-link a:before,
 	.content-area .parent-post-link a:before {
@@ -2475,7 +2473,7 @@ span > object {
 		margin: -1px 2px 0 0;
 		margin: -0.1rem 0.2rem 0 0;
 	}
-	.content-area .edit-link a:before {
+	.entry-meta .edit-link a:before {
 		content: '\F411';
 		margin: -1px 2px 0 0;
 		margin: -0.1rem 0.2rem 0 0;
@@ -2486,7 +2484,7 @@ span > object {
 	.content-area .parent-post-link a:before {
 		content: '\F301';
 	}
-	.page .content-area .edit-link a:before {
+	.page .entry-meta .edit-link a:before {
 		margin: 5px 2px 0 0;
 		margin: 0.5rem 0.2rem 0 0;
 	}
@@ -2605,25 +2603,21 @@ span > object {
 		margin-top: 0;
 	}
 	.comments-area article,
-	.comment-list li.trackback,
-	.comment-list li.pingback {
+	.comment-list .trackback,
+	.comment-list .pingback {
 		margin-bottom: 36px;
 		margin-bottom: 3.6rem;
 		padding-top: 36px;
 		padding-top: 3.6rem;
 	}
-	.comment-author {
-		padding-left: 60px;
-		padding-left: 6.0rem;
-	}
-	.comment-author .comment-author-avatar,
 	.comment-author .avatar {
 		width: 32px;
 		width: 3.2rem;
 		height: 32px;
 		height: 3.2rem;
 	}
-	.comment-meta,
+	.comment-author,
+	.comment-metadata,
 	.comment-content {
 		padding-left: 60px;
 		padding-left: 6.0rem;
@@ -2632,8 +2626,8 @@ span > object {
 	.no-comments,
 	.comment-respond,
 	.comments-area article,
-	.comment-list li.trackback,
-	.comment-list li.pingback,
+	.comment-list .trackback,
+	.comment-list .pingback,
 	.post-navigation [rel="prev"],
 	.post-navigation [rel="next"] {
 		padding-right: 9.12778904%;
@@ -2652,8 +2646,8 @@ span > object {
 	.full-width .comments-title,
 	.full-width .comment-respond,
 	.full-width .comments-area article,
-	.full-width .comment-list li.trackback,
-	.full-width .comment-list li.pingback {
+	.full-width .comment-list .trackback,
+	.full-width .comment-list .pingback {
 		padding-right: 6.04307432%;
 		padding-left: 6.04307432%;
 	}
@@ -2728,8 +2722,8 @@ span > object {
 	.no-comments,
 	.comment-respond,
 	.comments-area article,
-	.comment-list li.trackback,
-	.comment-list li.pingback,
+	.comment-list .trackback,
+	.comment-list .pingback,
 	.post-navigation [rel="prev"],
 	.post-navigation [rel="next"] {
 		padding-right: 12.39493534%;
@@ -2752,8 +2746,8 @@ span > object {
 	.full-width .comments-title,
 	.full-width .comment-respond,
 	.full-width .comments-area article,
-	.full-width .comment-list li.trackback,
-	.full-width .comment-list li.pingback {
+	.full-width .comment-list .trackback,
+	.full-width .comment-list .pingback {
 		padding-right: 11.30926724%;
 		padding-left: 11.30926724%;
 	}
@@ -2923,8 +2917,8 @@ span > object {
 	.no-comments,
 	.comment-respond,
 	.comments-area article,
-	.comment-list li.trackback,
-	.comment-list li.pingback,
+	.comment-list .trackback,
+	.comment-list .pingback,
 	.post-navigation [rel="prev"],
 	.post-navigation [rel="next"] {
 		padding-right: 9.87001616%;
@@ -2943,8 +2937,8 @@ span > object {
 	.full-width .comments-title,
 	.full-width .comment-respond,
 	.full-width .comments-area article,
-	.full-width .comment-list li.trackback,
-	.full-width .comment-list li.pingback {
+	.full-width .comment-list .trackback,
+	.full-width .comment-list .pingback {
 		padding-right: 5.882236%;
 		padding-left: 5.882236%;
 	}
@@ -2997,8 +2991,8 @@ span > object {
 	.no-comments,
 	.comment-respond,
 	.comments-area article,
-	.comment-list li.trackback,
-	.comment-list li.pingback,
+	.comment-list .trackback,
+	.comment-list .pingback,
 	.post-navigation [rel="prev"],
 	.post-navigation [rel="next"] {
 		padding-right: 12.44146986%;
@@ -3035,8 +3029,8 @@ span > object {
 	.full-width .comments-title,
 	.full-width .comment-respond,
 	.full-width .comments-area article,
-	.full-width .comment-list li.trackback,
-	.full-width .comment-list li.pingback {
+	.full-width .comment-list .trackback,
+	.full-width .comment-list .pingback {
 		padding-right: 11.21868265%;
 		padding-left: 11.21868265%;
 	}
@@ -3075,8 +3069,8 @@ span > object {
 	.full-width .comments-title,
 	.full-width .comment-respond,
 	.full-width .comments-area article,
-	.full-width .comment-list li.trackback,
-	.full-width .comment-list li.pingback {
+	.full-width .comment-list .trackback,
+	.full-width .comment-list .pingback {
 		padding-right: 0;
 	}
 }
