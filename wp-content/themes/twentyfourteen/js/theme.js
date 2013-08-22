@@ -47,7 +47,7 @@
 				$searchBoxWrapper.find( '.search-field' ).focus();
 		} );
 
-		// DOM manupilations for mobile header
+		// DOM manipulations for mobile header
 		function mobileHeader()	{
 			// Check if the toggler exists. If not add it.
 			if ( ! $( '#nav-toggle' ).length )
