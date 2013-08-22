@@ -1703,7 +1703,7 @@ function fix_phpmailer_messageid( $phpmailer ) {
  * @uses get_user_by()
  *
  * @param string|WP_User $user Optional. Defaults to current user. WP_User object,
- * 	or user login name as a string. 
+ * 	or user login name as a string.
  * @return bool
  */
 function is_user_spammy( $user = null ) {

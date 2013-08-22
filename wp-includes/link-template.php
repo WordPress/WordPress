@@ -2351,7 +2351,7 @@ function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
 
 	global $wp_query;
 	$post_id = 0;
-	if ( 'query' == $context && is_singular() ) { 
+	if ( 'query' == $context && is_singular() ) {
 		$post_id = $wp_query->get_queried_object_id();
 		$post = get_post( $post_id );
 	} elseif ( 'post' == $context ) {

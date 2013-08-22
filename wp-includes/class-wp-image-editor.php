@@ -330,8 +330,8 @@ abstract class WP_Image_Editor {
 		if ( $stream = wp_is_stream( $filename ) ) {
 			ob_start();
 		} else {
-			// The directory containing the original file may no longer exist when using a replication plugin. 
-			wp_mkdir_p( dirname( $filename ) ); 
+			// The directory containing the original file may no longer exist when using a replication plugin.
+			wp_mkdir_p( dirname( $filename ) );
 		}
 
 		$result = call_user_func_array( $function, $arguments );
