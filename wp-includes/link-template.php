@@ -662,11 +662,11 @@ function get_edit_tag_link( $tag_id, $taxonomy = 'post_tag' ) {
  * @param string $link Optional. Anchor text.
  * @param string $before Optional. Display before edit link.
  * @param string $after Optional. Display after edit link.
- * @param int|object $tag Tag object or ID
+ * @param object $tag Tag object.
  * @return string HTML content.
  */
 function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
-	$link = edit_term_link( $link, '', '', false, $tag );
+	$link = edit_term_link( $link, '', '', $tag, false );
 	echo $before . apply_filters( 'edit_tag_link', $link ) . $after;
 }
 
@@ -709,7 +709,7 @@ function get_edit_term_link( $term_id, $taxonomy, $object_type = '' ) {
  * @param string $link Optional. Anchor text.
  * @param string $before Optional. Display before edit link.
  * @param string $after Optional. Display after edit link.
- * @param object $term Term object
+ * @param object $term Term object.
  * @return string HTML content.
  */
 function edit_term_link( $link = '', $before = '', $after = '', $term = null, $echo = true ) {
