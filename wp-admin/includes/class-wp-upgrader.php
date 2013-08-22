@@ -93,8 +93,8 @@ class WP_Upgrader {
 					if ( ! $wp_filesystem->wp_plugins_dir() )
 						return new WP_Error('fs_no_plugins_dir', $this->strings['fs_no_plugins_dir']);
 					break;
-				case WP_CONTENT_DIR . '/themes':
-					if ( ! $wp_filesystem->find_folder(WP_CONTENT_DIR . '/themes') )
+				case get_theme_root():
+					if ( ! $wp_filesystem->wp_themes_dir() )
 						return new WP_Error('fs_no_themes_dir', $this->strings['fs_no_themes_dir']);
 					break;
 				default:
@@ -164,7 +164,8 @@ class WP_Upgrader {
 	}
 
 	function install_package($args = array()) {
-		global $wp_filesystem;
+		global $wp_filesystem, $wp_theme_directories;
+
 		$defaults = array( 'source' => '', 'destination' => '', //Please always pass these
 						'clear_destination' => false, 'clear_working' => false,
 						'abort_if_destination_exists' => true,
@@ -208,8 +209,10 @@ class WP_Upgrader {
 		if ( $source !== $remote_source )
 			$source_files = array_keys( $wp_filesystem->dirlist($source) );
 
-		//Protection against deleting files in any important base directories.
-		if ( in_array( $destination, array(ABSPATH, WP_CONTENT_DIR, WP_PLUGIN_DIR, WP_CONTENT_DIR . '/themes') ) ) {
+		// Protection against deleting files in any important base directories.
+		// Theme_Upgrader & Plugin_Upgrader also trigger this, as they pass the destination directory (WP_PLUGIN_DIR / wp-content/themes)
+		// intending to copy the directory into the directory, whilst they pass the source as the actual files to copy.
+		if ( in_array( $destination, array_merge( array( ABSPATH, WP_CONTENT_DIR, WP_PLUGIN_DIR, WP_CONTENT_DIR . '/themes' ), $wp_theme_directories ) ) ) {
 			$remote_destination = trailingslashit($remote_destination) . trailingslashit(basename($source));
 			$destination = trailingslashit($destination) . trailingslashit(basename($source));
 		}
@@ -727,7 +730,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		// Install the parent theme
 		$parent_result = $this->run( array(
 			'package' => $api->download_link,
-			'destination' => WP_CONTENT_DIR . '/themes',
+			'destination' => get_theme_root(),
 			'clear_destination' => false, //Do not overwrite files.
 			'clear_working' => true
 		) );
@@ -760,11 +763,11 @@ class Theme_Upgrader extends WP_Upgrader {
 		add_filter('upgrader_post_install', array(&$this, 'check_parent_theme_filter'), 10, 3);
 
 		$options = array(
-						'package' => $package,
-						'destination' => WP_CONTENT_DIR . '/themes',
-						'clear_destination' => false, //Do not overwrite files.
-						'clear_working' => true
-						);
+			'package' => $package,
+			'destination' => get_theme_root(),
+			'clear_destination' => false, //Do not overwrite files.
+			'clear_working' => true
+		);
 
 		$this->run($options);
 
@@ -803,14 +806,14 @@ class Theme_Upgrader extends WP_Upgrader {
 		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_theme'), 10, 4);
 
 		$options = array(
-						'package' => $r['package'],
-						'destination' => WP_CONTENT_DIR . '/themes',
-						'clear_destination' => true,
-						'clear_working' => true,
-						'hook_extra' => array(
-											'theme' => $theme
-											)
-						);
+			'package' => $r['package'],
+			'destination' => get_theme_root( $theme ),
+			'clear_destination' => true,
+			'clear_working' => true,
+			'hook_extra' => array(
+				'theme' => $theme
+			),
+		);
 
 		$this->run($options);
 
@@ -883,14 +886,14 @@ class Theme_Upgrader extends WP_Upgrader {
 			$r = $current->response[ $theme ];
 
 			$options = array(
-							'package' => $r['package'],
-							'destination' => WP_CONTENT_DIR . '/themes',
-							'clear_destination' => true,
-							'clear_working' => true,
-							'hook_extra' => array(
-												'theme' => $theme
-												)
-							);
+				'package' => $r['package'],
+				'destination' => get_theme_root( $theme ),
+				'clear_destination' => true,
+				'clear_working' => true,
+				'hook_extra' => array(
+					'theme' => $theme
+				),
+			);
 
 			$result = $this->run($options);
 
@@ -984,18 +987,22 @@ class Theme_Upgrader extends WP_Upgrader {
 		return $return;
 	}
 
-	function delete_old_theme($removed, $local_destination, $remote_destination, $theme) {
+	function delete_old_theme( $removed, $local_destination, $remote_destination, $theme ) {
 		global $wp_filesystem;
 
-		$theme = isset($theme['theme']) ? $theme['theme'] : '';
+		if ( is_wp_error( $removed ) )
+			return $removed; // Pass errors through.
 
-		if ( is_wp_error($removed) || empty($theme) )
-			return $removed; //Pass errors through.
+		if ( ! isset( $theme['theme'] ) )
+			return $removed;
 
-		$themes_dir = $wp_filesystem->wp_themes_dir();
-		if ( $wp_filesystem->exists( trailingslashit($themes_dir) . $theme ) )
-			if ( ! $wp_filesystem->delete( trailingslashit($themes_dir) . $theme, true ) )
+		$theme = $theme['theme'];
+		$themes_dir = trailingslashit( $wp_filesystem->wp_themes_dir( $theme ) );
+		if ( $wp_filesystem->exists( $themes_dir . $theme ) ) {
+			if ( ! $wp_filesystem->delete( $themes_dir . $theme, true ) )
 				return false;
+		}
+
 		return true;
 	}
 
@@ -1007,7 +1014,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			else
 				return false;
 		}
-		return wp_get_theme( $theme, WP_CONTENT_DIR . '/themes/' );
+		return wp_get_theme( $theme );
 	}
 
 }

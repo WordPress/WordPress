@@ -79,10 +79,17 @@ class WP_Filesystem_Base {
 	 * @since 2.7
 	 * @access public
 	 *
+	 * @param string $theme The Theme stylesheet or template for the directory
 	 * @return string The location of the remote path.
 	 */
-	function wp_themes_dir() {
-		return $this->wp_content_dir() . 'themes/';
+	function wp_themes_dir( $theme = false ) {
+		$theme_root = get_theme_root( $theme );
+
+		// Account for relative theme roots
+		if ( '/themes' == $theme_root || ! is_dir( $theme_root ) )
+			$theme_root = WP_CONTENT_DIR . $theme_root;
+
+		return $this->find_folder( $theme_root );
 	}
 	/**
 	 * Returns the path on the remote filesystem of WP_LANG_DIR
