@@ -1909,7 +1909,7 @@ final class WP_Internal_Pointers {
 		$content  = '<h3>' . __( 'Compare Revisions' ) . '</h3>';
 		$content .= '<p>' . __( 'View, compare, and restore other versions of this content on the improved revisions screen.' ) . '</p>';
 
-		self::print_js( 'wp360_revisions', '.misc-pub-section.num-revisions', array(
+		self::print_js( 'wp360_revisions', '.misc-pub-section.misc-pub-revisions', array(
 			'content' => $content,
 			'position' => array( 'edge' => is_rtl() ? 'left' : 'right', 'align' => 'center', 'my' => is_rtl() ? 'left' : 'right-14px' ),
 		) );

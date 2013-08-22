@@ -55,7 +55,7 @@ if ( 'publish' == $post->post_status ) {
 
 <div id="misc-publishing-actions">
 
-<div class="misc-pub-section"><label for="post_status"><?php _e('Status:') ?></label>
+<div class="misc-pub-section misc-pub-post-status"><label for="post_status"><?php _e('Status:') ?></label>
 <span id="post-status-display">
 <?php
 switch ( $post->post_status ) {
@@ -105,7 +105,7 @@ switch ( $post->post_status ) {
 <?php } ?>
 </div><!-- .misc-pub-section -->
 
-<div class="misc-pub-section" id="visibility">
+<div class="misc-pub-section misc-pub-visibility" id="visibility">
 <?php _e('Visibility:'); ?> <span id="post-visibility-display"><?php
 
 if ( 'private' == $post->post_status ) {
@@ -174,7 +174,7 @@ if ( 0 != $post->ID ) {
 if ( ! empty( $args['args']['revisions_count'] ) ) :
 	$revisions_to_keep = wp_revisions_to_keep( $post );
 ?>
-<div class="misc-pub-section num-revisions">
+<div class="misc-pub-section misc-pub-revisions">
 <?php
 	if ( $revisions_to_keep > 0 && $revisions_to_keep <= $args['args']['revisions_count'] ) {
 		echo '<span title="' . esc_attr( sprintf( __( 'Your site is configured to keep only the last %s revisions.' ),
@@ -190,7 +190,7 @@ if ( ! empty( $args['args']['revisions_count'] ) ) :
 <?php endif;
 
 if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
-<div class="misc-pub-section curtime">
+<div class="misc-pub-section curtime misc-pub-curtime">
 	<span id="timestamp">
 	<?php printf($stamp, $date); ?></span>
 	<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><?php _e('Edit') ?></a>
@@ -278,7 +278,7 @@ function attachment_submit_meta_box( $post ) {
 	$stamp = __('Uploaded on: <b>%1$s</b>');
 	$date = date_i18n( $datef, strtotime( $post->post_date ) );
 	?>
-	<div class="misc-pub-section curtime">
+	<div class="misc-pub-section curtime misc-pub-curtime">
 		<span id="timestamp"><?php printf($stamp, $date); ?></span>
 	</div><!-- .misc-pub-section -->
 
@@ -702,7 +702,7 @@ function link_submit_meta_box($link) {
 </div>
 
 <div id="misc-publishing-actions">
-<div class="misc-pub-section">
+<div class="misc-pub-section misc-pub-private">
 	<label for="link_private" class="selectit"><input id="link_private" name="link_visible" type="checkbox" value="N" <?php checked($link->link_visible, 'N'); ?> /> <?php _e('Keep this link private') ?></label>
 </div>
 </div>

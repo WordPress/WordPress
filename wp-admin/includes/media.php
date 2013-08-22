@@ -2433,14 +2433,14 @@ function attachment_submitbox_metadata() {
 
 	$att_url = wp_get_attachment_url( $post->ID );
 ?>
-	<div class="misc-pub-section">
+	<div class="misc-pub-section misc-pub-attachment">
 			<label for="attachment_url"><?php _e( 'File URL:' ); ?></label>
 			<input type="text" class="widefat urlfield" readonly="readonly" name="attachment_url" value="<?php echo esc_attr($att_url); ?>" />
 	</div>
-	<div class="misc-pub-section">
+	<div class="misc-pub-section misc-pub-filename">
 		<?php _e( 'File name:' ); ?> <strong><?php echo $filename; ?></strong>
 	</div>
-	<div class="misc-pub-section">
+	<div class="misc-pub-section misc-pub-filetype">
 		<?php _e( 'File type:' ); ?> <strong><?php
 			if ( preg_match( '/^.*?\.(\w+)$/', get_attached_file( $post->ID ), $matches ) )
 				echo esc_html( strtoupper( $matches[1] ) );
@@ -2461,7 +2461,7 @@ function attachment_submitbox_metadata() {
 
 		foreach ( $fields as $key => $label ):
 			if ( ! empty( $meta[$key] ) ) : ?>
-		<div class="misc-pub-section">
+		<div class="misc-pub-section misc-pub-mime-meta">
 			<?php echo $label ?> <strong><?php echo esc_html( $meta[$key] ); ?></strong>
 		</div>
 	<?php
@@ -2469,7 +2469,7 @@ function attachment_submitbox_metadata() {
 		endforeach;
 
 		if ( ! empty( $meta['bitrate'] ) ) : ?>
-		<div class="misc-pub-section">
+		<div class="misc-pub-section misc-pub-bitrate">
 			<?php _e( 'Bitrate:' ); ?> <strong><?php
 				echo round( $meta['bitrate'] / 1000 ), 'kb/s';
 
@@ -2488,7 +2488,7 @@ function attachment_submitbox_metadata() {
 
 		foreach ( $audio_fields as $key => $label ):
 			if ( ! empty( $meta['audio'][$key] ) ) : ?>
-		<div class="misc-pub-section">
+		<div class="misc-pub-section misc-pub-audio">
 			<?php echo $label; ?> <strong><?php echo esc_html( $meta['audio'][$key] ); ?></strong>
 		</div>
 	<?php
@@ -2498,7 +2498,7 @@ function attachment_submitbox_metadata() {
 	endif;
 
 	if ( $media_dims ) : ?>
-	<div class="misc-pub-section">
+	<div class="misc-pub-section misc-pub-dimensions">
 		<?php _e( 'Dimensions:' ); ?> <strong><?php echo $media_dims; ?></strong>
 	</div>
 <?php
