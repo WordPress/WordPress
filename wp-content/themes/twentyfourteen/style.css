@@ -381,6 +381,7 @@ input::-moz-focus-inner { /* Corrects inner padding and border displayed oddly i
 }
 input[type="text"],
 input[type="email"],
+input[type="search"],
 input[type="password"],
 textarea {
 	border: 1px solid rgba(0, 0, 0, 0.1);
@@ -391,11 +392,14 @@ textarea {
 }
 input[type="text"]:focus,
 input[type="email"]:focus,
+input[type="search"]:focus,
+input[type="password"]:focus,
 textarea:focus {
 	color: #2b2b2b;
 }
 input[type="text"],
 input[type="email"],
+input[type="search"],
 input[type="password"] {
 	padding: 8px 10px;
 	padding: 0.8rem 1.0rem;
@@ -2086,6 +2090,7 @@ span > object {
 }
 .widget-area input[type="text"],
 .widget-area input[type="email"],
+.widget-area input[type="search"],
 .widget-area input[type="password"],
 .widget-area textarea {
 	background-color: #2b2b2b;
@@ -2246,6 +2251,7 @@ span > object {
 }
 .content-sidebar input[type="text"],
 .content-sidebar input[type="email"],
+.content-sidebar input[type="search"],
 .content-sidebar input[type="password"],
 .content-sidebar textarea {
 	background-color: #fff;
