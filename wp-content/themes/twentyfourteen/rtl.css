@@ -219,7 +219,7 @@ blockquote.pull.alignleft {
 /* =Post Formatted posts column
 ----------------------------------------------- */
 
-.format-title:before {
+.ephemera .widget-title:before {
 	margin-left: 10px;
 	margin-left: 1.0rem;
 	margin-right: auto;

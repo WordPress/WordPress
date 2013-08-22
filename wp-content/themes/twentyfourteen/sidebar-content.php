@@ -9,7 +9,7 @@
 <div id="content-sidebar" class="content-sidebar widget-area" role="complementary">
 	<?php do_action( 'before_sidebar' ); ?>
 
-	<?php if ( ! dynamic_sidebar( 'sidebar-2' ) ) : ?>
+	<?php if ( ! dynamic_sidebar( 'sidebar-3' ) ) : ?>
 		<aside id="search" class="widget widget_search">
 				<?php get_search_form(); ?>
 		</aside>

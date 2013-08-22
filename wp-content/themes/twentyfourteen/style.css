@@ -428,7 +428,7 @@ a:active {
 /* Animated elements */
 .site a,
 .more-link .meta-nav,
-.more-formatted-posts-link .meta-nav,
+.post-format-archive-link .meta-nav,
 .attachment-featured-featured img,
 .attachment-featured-thumbnail img,
 .social-links-toggle,
@@ -1028,7 +1028,7 @@ body {
 .group-blog .byline {
 	display: inline;
 }
-.post-formatted-posts .entry-title:after,
+.ephemera .entry-title:after,
 .content-area span + .entry-date:before,
 span + .byline:before,
 span + .comments-link:before,
@@ -1182,23 +1182,23 @@ footer.entry-meta .entry-title a:hover {
 	text-transform: none;
 }
 .more-link,
-.more-formatted-posts-link {
+.post-format-archive-link {
 	font-size: 14px;
 	font-size: 1.4rem;
 	text-transform: uppercase;
 	white-space: pre;
 }
 .more-link:hover,
-.more-formatted-posts-link:hover {
+.post-format-archive-link:hover {
 	text-decoration: none;
 }
 .more-link .meta-nav,
-.more-formatted-posts-link .meta-nav {
+.post-format-archive-link .meta-nav {
 	position: relative;
 	left: 0;
 }
 .more-link:hover .meta-nav,
-.more-formatted-posts-link:hover .meta-nav {
+.post-format-archive-link:hover .meta-nav {
 	left: 5px;
 	left: 0.5rem;
 }
@@ -1430,7 +1430,7 @@ footer.entry-meta .entry-title a:hover {
 /* =Post Formatted posts column
 ----------------------------------------------- */
 
-.post-formatted-posts {
+.ephemera {
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	-moz-box-sizing: border-box;
@@ -1439,7 +1439,7 @@ footer.entry-meta .entry-title a:hover {
 	padding: 23px 10px 0;
 	padding: 2.3rem 1.0rem 0;
 }
-.post-formatted-posts .format-title {
+.ephemera .widget-title {
 	border-top: 5px solid #000;
 	color: #2b2b2b;
 	font-size: 14px;
@@ -1451,10 +1451,10 @@ footer.entry-meta .entry-title a:hover {
 	padding-top: 1px;
 	text-transform: uppercase;
 }
-.post-formatted-posts .entry-content a {
+.ephemera .entry-content a {
 	word-wrap: break-word;
 }
-.format-title:before {
+.ephemera .widget-title:before {
 	background-color: #000;
 	color: #fff;
 	margin-top: -1px;
@@ -1467,34 +1467,34 @@ footer.entry-meta .entry-title a:hover {
 	width: 36px;
 	width: 3.6rem;
 }
-.recent-videos .format-title:before {
+.ephemera .video.widget-title:before {
 	content: '\F104';
 }
-.recent-images .format-title:before {
+.ephemera .image.widget-title:before {
 	content: '\F102';
 }
-.recent-galleries .format-title:before {
+.ephemera .gallery.widget-title:before {
 	content: '\F103';
 }
-.recent-asides .format-title:before {
+.ephemera .aside.widget-title:before {
 	content: '\F101';
 }
-.recent-quotes .format-title:before {
+.ephemera .quote.widget-title:before {
 	content: '\F106';
 }
-.recent-links .format-title:before {
+.ephemera .link.widget-title:before {
 	content: '\F107';
 }
-.post-formatted-posts .hentry {
+.ephemera .hentry {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	margin-bottom: 18px;
 	margin-bottom: 1.8rem;
 }
-.post-formatted-posts .hentry:last-of-type {
+.ephemera .hentry:last-of-type {
 	margin-bottom: 9px;
 	margin-bottom: 0.9rem;
 }
-.post-formatted-posts .entry-title {
+.ephemera .entry-title {
 	display: inline;
 	font-size: 12px;
 	font-size: 1.2rem;
@@ -1503,50 +1503,50 @@ footer.entry-meta .entry-title a:hover {
 	margin: 0 0 6px 0;
 	margin: 0 0 0.6rem 0;
 }
-.post-formatted-posts .entry-meta {
+.ephemera .entry-meta {
 	color: rgba(0, 0, 0, 0.2);
 	line-height: 1.5;
 	margin-bottom: 18px;
 	margin-bottom: 1.8rem;
 }
-.post-formatted-posts .entry-meta a {
+.ephemera .entry-meta a {
 	color: #767676;
 }
-.post-formatted-posts .entry-meta a:hover {
+.ephemera .entry-meta a:hover {
 	color: #2b2b2b;
 }
-.post-formatted-posts .entry-content p:not(.wp-caption-text) {
+.ephemera .entry-content p:not(.wp-caption-text) {
 	font-size: 13px;
 	font-size: 1.3rem;
 	line-height: 1.3846153846;
 	margin-bottom: 18px;
 	margin-bottom: 1.8rem;
 }
-.post-formatted-posts .entry-content blockquote p cite {
+.ephemera .entry-content blockquote p cite {
 	font-size: 13px;
 	font-size: 1.3rem;
 	line-height: 1.3846153846;
 }
-.post-formatted-posts .wp-caption {
+.ephemera .wp-caption {
 	margin-bottom: 18px;
 	margin-bottom: 1.8rem;
 }
-.post-formatted-posts .wp-caption-text {
+.ephemera .wp-caption-text {
 	line-height: 1.5;
 	margin: 6px 0 0;
 	margin: 0.6rem 0 0;
 	padding: 0;
 }
-.post-formatted-posts .format-gallery .wp-caption-text {
+.ephemera .format-gallery .wp-caption-text {
 	margin-bottom: 18px;
 	margin-bottom: 1.8rem;
 }
-.post-formatted-posts .more-link {
+.ephemera .more-link {
 	font-size: 12px;
 	font-size: 1.2rem;
 	line-height: 1.5;
 }
-.post-formatted-posts .more-formatted-posts-link {
+.ephemera .post-format-archive-link {
 	display: inline-block;
 	font-size: 12px;
 	font-size: 1.2rem;
@@ -2106,7 +2106,6 @@ span > object {
 	margin-left: 1px;
 	margin-left: 0.1rem;
 }
-.widget div:last-child,
 .widget table:last-child,
 .widget iframe:last-child,
 .widget p:last-child,
@@ -2518,7 +2517,7 @@ span > object {
 		padding: 3.6rem 1.0rem 2.4rem 0;
 		width: 30.35714285%;
 	}
-	.post-formatted-posts {
+	.ephemera {
 		border: none;
 		clear: none;
 		float: right;
@@ -2823,7 +2822,7 @@ span > object {
 		margin: 0 27.31707317% 0 22.2rem;
 	}
 	.content-sidebar,
-	.post-formatted-posts {
+	.ephemera {
 		margin: 0 0 0 -27.31707317%;
 		width: 24.87804878%;
 	}
@@ -3055,7 +3054,7 @@ span > object {
 		max-width: 126.0rem;
 	}
 	.content-sidebar,
-	.post-formatted-posts {
+	.ephemera {
 		padding-right: 0;
 	}
 	.content-area .full-width .entry-header,

@@ -131,31 +131,44 @@ function twentyfourteen_has_featured_posts( $minimum = 1 ) {
  * @return void
  */
 function twentyfourteen_widgets_init() {
+	require get_template_directory() . '/inc/widgets.php';
+	register_widget( 'Twenty_Fourteen_Ephemera_Widget' );
+
 	register_sidebar( array(
-		'name' => __( 'Primary Sidebar', 'twentyfourteen' ),
-		'id' => 'sidebar-1',
-		'description' => __( 'Main sidebar that appears on the left.', 'twentyfourteen' ),
+		'name'          => __( 'Primary Sidebar', 'twentyfourteen' ),
+		'id'            => 'sidebar-1',
+		'description'   => __( 'Main sidebar that appears on the left.', 'twentyfourteen' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget' => '</aside>',
-		'before_title' => '<h1 class="widget-title">',
-		'after_title' => '</h1>',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h1 class="widget-title">',
+		'after_title'   => '</h1>',
 	) );
 	register_sidebar( array(
-		'name' => __( 'Content Sidebar', 'twentyfourteen' ),
-		'id' => 'sidebar-2',
-		'description' => __( 'Additional sidebar that appears on the right, on single posts and pages.', 'twentyfourteen' ),
+		'name'          => __( 'Front Page Sidebar', 'twentyfourteen' ),
+		'id'            => 'sidebar-2',
+		'description'   => __( 'Additional sidebar that appears on the right, on the home page.', 'twentyfourteen' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget' => '</aside>',
-		'before_title' => '<h1 class="widget-title">',
-		'after_title' => '</h1>',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h1 class="widget-title">',
+		'after_title'   => '</h1>',
 	) );
 	register_sidebar( array(
-		'name' => __( 'Footer Widget Area', 'twentyfourteen' ),
-		'id' => 'sidebar-3',
+		'name'          => __( 'Content Sidebar', 'twentyfourteen' ),
+		'id'            => 'sidebar-3',
+		'description'   => __( 'Additional sidebar that appears on the right, on single posts and pages.', 'twentyfourteen' ),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
-		'after_widget' => '</aside>',
-		'before_title' => '<h1 class="widget-title">',
-		'after_title' => '</h1>',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h1 class="widget-title">',
+		'after_title'   => '</h1>',
+	) );
+	register_sidebar( array(
+		'name'          => __( 'Footer Widget Area', 'twentyfourteen' ),
+		'id'            => 'sidebar-4',
+		'description'   => __( 'Appears in the footer section of the site.', 'twentyfourteen' ),
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h1 class="widget-title">',
+		'after_title'   => '</h1>',
 	) );
 }
 add_action( 'widgets_init', 'twentyfourteen_widgets_init' );

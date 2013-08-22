@@ -38,7 +38,7 @@ get_header(); ?>
 					</div><!-- #content .site-content -->
 				</div><!-- #primary .content-area -->
 
-				<?php get_template_part( 'recent-formatted-posts' ); ?>
+				<?php get_sidebar( 'ephemera' ); ?>
 
 			</div><!-- .front-page-content-area -->
 
