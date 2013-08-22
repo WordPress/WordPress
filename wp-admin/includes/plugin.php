@@ -114,6 +114,9 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
  */
 function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup = true, $translate = true ) {
 
+	// Sanitize the plugin filename to a WP_PLUGIN_DIR relative path
+	$plugin_file = plugin_basename( $plugin_file );
+
 	// Translate fields
 	if ( $translate ) {
 		if ( $textdomain = $plugin_data['TextDomain'] ) {
