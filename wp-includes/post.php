@@ -567,7 +567,7 @@ final class WP_Post {
 	public $menu_order = 0;
 
 	/**
-	 * The post's type, like pot or page.
+	 * The post's type, like post or page.
 	 *
 	 * @var string
 	 */
