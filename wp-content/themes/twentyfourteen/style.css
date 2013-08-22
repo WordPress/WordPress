@@ -1025,7 +1025,7 @@ body {
 	display: inline;
 }
 .post-formatted-posts .entry-title:after,
-.content-area span + span.entry-date:before,
+.content-area span + .entry-date:before,
 span + .byline:before,
 span + .comments-link:before,
 span + .edit-link:before,
@@ -1139,11 +1139,6 @@ footer.entry-meta .entry-title a:hover {
 .format-image,
 .format-video {
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-.format-aside .entry-title,
-.format-quote .entry-title,
-.format-link .entry-title {
-	display: none;
 }
 .format-aside .entry-content,
 .format-aside .entry-summary,

@@ -143,14 +143,3 @@ function twentyfourteen_category_transient_flusher() {
 }
 add_action( 'edit_category', 'twentyfourteen_category_transient_flusher' );
 add_action( 'save_post',     'twentyfourteen_category_transient_flusher' );
-
-/**
- * Include the Post-Format-specific template for the content.
- * This is called in index.php and single.php
- */
-function twentyfourteen_get_template_part() {
-	if ( has_post_format( array( 'aside', 'quote', 'link', 'video', 'image' ) ) )
-		get_template_part( 'content', 'post-format' );
-	else
-		get_template_part( 'content', get_post_format() );
-}

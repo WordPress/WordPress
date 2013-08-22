@@ -22,7 +22,7 @@ get_header(); ?>
 				while ( have_posts() ) :
 					the_post();
 
-					twentyfourteen_get_template_part();
+					get_template_part( 'content', get_post_format() );
 				endwhile;
 				twentyfourteen_paging_nav();
 
