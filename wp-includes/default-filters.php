@@ -100,7 +100,7 @@ foreach ( array( 'comment_author', 'term_name', 'link_name', 'link_description',
 }
 
 // Format WordPress
-foreach ( array( 'the_content', 'the_title' ) as $filter )
+foreach ( array( 'the_content', 'the_title', 'wp_title' ) as $filter )
 	add_filter( $filter, 'capital_P_dangit', 11 );
 add_filter( 'comment_text', 'capital_P_dangit', 31 );
 
