@@ -1074,11 +1074,16 @@ function wp_notify_postauthor( $comment_id, $comment_type = '' ) {
 	if ( isset($reply_to) )
 		$message_headers .= $reply_to . "\n";
 
-	$notify_message = apply_filters('comment_notification_text', $notify_message, $comment_id);
-	$subject = apply_filters('comment_notification_subject', $subject, $comment_id);
-	$message_headers = apply_filters('comment_notification_headers', $message_headers, $comment_id);
+	$emails = array( $author->user_email );
 
-	@wp_mail( $author->user_email, $subject, $notify_message, $message_headers );
+	$emails          = apply_filters( 'comment_notification_recipients', $emails,          $comment_id );
+	$notify_message  = apply_filters( 'comment_notification_text',       $notify_message,  $comment_id );
+	$subject         = apply_filters( 'comment_notification_subject',    $subject,         $comment_id );
+	$message_headers = apply_filters( 'comment_notification_headers',    $message_headers, $comment_id );
+
+	foreach ( $emails as $email ) {
+		@wp_mail( $emails, $subject, $notify_message, $message_headers );
+	}
 
 	return true;
 }
@@ -1104,9 +1109,9 @@ function wp_notify_moderator($comment_id) {
 	$post = get_post($comment->comment_post_ID);
 	$user = get_userdata( $post->post_author );
 	// Send to the administration and to the post author if the author can modify the comment.
-	$email_to = array( get_option('admin_email') );
+	$emails = array( get_option('admin_email') );
 	if ( user_can($user->ID, 'edit_comment', $comment_id) && !empty($user->user_email) && ( get_option('admin_email') != $user->user_email) )
-		$email_to[] = $user->user_email;
+		$emails[] = $user->user_email;
 
 	$comment_author_domain = @gethostbyaddr($comment->comment_author_IP);
 	$comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $wpdb->comments WHERE comment_approved = '0'");
@@ -1156,12 +1161,14 @@ function wp_notify_moderator($comment_id) {
 	$subject = sprintf( __('[%1$s] Please moderate: "%2$s"'), $blogname, $post->post_title );
 	$message_headers = '';
 
-	$notify_message = apply_filters('comment_moderation_text', $notify_message, $comment_id);
-	$subject = apply_filters('comment_moderation_subject', $subject, $comment_id);
-	$message_headers = apply_filters('comment_moderation_headers', $message_headers);
+	$emails          = apply_filters( 'comment_moderation_recipients', $emails,          $comment_id );
+	$notify_message  = apply_filters( 'comment_moderation_text',       $notify_message,  $comment_id );
+	$subject         = apply_filters( 'comment_moderation_subject',    $subject,         $comment_id );
+	$message_headers = apply_filters( 'comment_moderation_headers',    $message_headers, $comment_id );
 
-	foreach ( $email_to as $email )
-		@wp_mail($email, $subject, $notify_message, $message_headers);
+	foreach ( $emails as $email ) {
+		@wp_mail( $email, $subject, $notify_message, $message_headers );
+	}
 
 	return true;
 }
