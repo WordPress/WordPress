@@ -3314,12 +3314,12 @@ function wp_timezone_override_offset() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Sort-helper for timezones.
  *
  * @since 2.9.0
  *
- * @param unknown_type $a
- * @param unknown_type $b
+ * @param array $a
+ * @param array $b
  * @return int
  */
 function _wp_timezone_choice_usort_callback( $a, $b ) {
