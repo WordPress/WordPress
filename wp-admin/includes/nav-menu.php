@@ -37,8 +37,6 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		global $_wp_nav_menu_max_depth;
 		$_wp_nav_menu_max_depth = $depth > $_wp_nav_menu_max_depth ? $depth : $_wp_nav_menu_max_depth;
 
-		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
-
 		ob_start();
 		$item_id = esc_attr( $item->ID );
 		$removed_args = array(
