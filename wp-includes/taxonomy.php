@@ -2380,8 +2380,8 @@ function wp_unique_term_slug($slug, $term) {
 	}
 
 	// If we didn't get a unique slug, try appending a number to make it unique.
-	if ( !empty($args['term_id']) )
-		$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s AND term_id != %d", $slug, $args['term_id'] );
+	if ( ! empty( $term->term_id ) )
+		$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s AND term_id != %d", $slug, $term->term_id );
 	else
 		$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $slug );
 
