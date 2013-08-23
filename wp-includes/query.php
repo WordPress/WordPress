@@ -932,11 +932,11 @@ class WP_Query {
 	var $in_the_loop = false;
 
 	/**
-	 * The current post ID.
+	 * The current post.
 	 *
 	 * @since 1.5.0
 	 * @access public
-	 * @var object
+	 * @var WP_Post
 	 */
 	var $post;
 
