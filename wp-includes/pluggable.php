@@ -1082,7 +1082,7 @@ function wp_notify_postauthor( $comment_id, $comment_type = '' ) {
 	$message_headers = apply_filters( 'comment_notification_headers',    $message_headers, $comment_id );
 
 	foreach ( $emails as $email ) {
-		@wp_mail( $emails, $subject, $notify_message, $message_headers );
+		@wp_mail( $email, $subject, $notify_message, $message_headers );
 	}
 
 	return true;
