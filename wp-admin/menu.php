@@ -7,7 +7,7 @@
  */
 
 /**
- * Constructs the admin menu bar.
+ * Constructs the admin menu.
  *
  * The elements in the array are :
  *     0: Menu item name
