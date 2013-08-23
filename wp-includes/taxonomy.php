@@ -1235,14 +1235,14 @@ function get_terms($taxonomies, $args = '') {
 	extract($args, EXTR_SKIP);
 
 	if ( $child_of ) {
-		$hierarchy = _get_term_hierarchy($taxonomies[0]);
-		if ( !isset($hierarchy[$child_of]) )
+		$hierarchy = _get_term_hierarchy( reset( $taxonomies ) );
+		if ( ! isset( $hierarchy[ $child_of ] ) )
 			return $empty_array;
 	}
 
 	if ( $parent ) {
-		$hierarchy = _get_term_hierarchy($taxonomies[0]);
-		if ( !isset($hierarchy[$parent]) )
+		$hierarchy = _get_term_hierarchy( reset( $taxonomies ) );
+		if ( ! isset( $hierarchy[ $parent ] ) )
 			return $empty_array;
 	}
 
@@ -1307,13 +1307,13 @@ function get_terms($taxonomies, $args = '') {
 	$where .= $inclusions;
 
 	$exclusions = '';
-	if ( !empty( $exclude_tree ) ) {
-		$excluded_trunks = wp_parse_id_list($exclude_tree);
+	if ( ! empty( $exclude_tree ) ) {
+		$excluded_trunks = wp_parse_id_list( $exclude_tree );
 		foreach ( $excluded_trunks as $extrunk ) {
-			$excluded_children = (array) get_terms($taxonomies[0], array('child_of' => intval($extrunk), 'fields' => 'ids', 'hide_empty' => 0));
+			$excluded_children = (array) get_terms( reset( $taxonomies ), array( 'child_of' => intval( $extrunk ), 'fields' => 'ids', 'hide_empty' => 0 ) );
 			$excluded_children[] = $extrunk;
 			foreach( $excluded_children as $exterm ) {
-				if ( empty($exclusions) )
+				if ( empty( $exclusions ) )
 					$exclusions = ' AND ( t.term_id <> ' . intval($exterm) . ' ';
 				else
 					$exclusions .= ' AND t.term_id <> ' . intval($exterm) . ' ';
@@ -1419,21 +1419,21 @@ function get_terms($taxonomies, $args = '') {
 	}
 
 	if ( $child_of ) {
-		$children = _get_term_hierarchy($taxonomies[0]);
-		if ( ! empty($children) )
-			$terms = _get_term_children($child_of, $terms, $taxonomies[0]);
+		$children = _get_term_hierarchy( reset( $taxonomies ) );
+		if ( ! empty( $children ) )
+			$terms = _get_term_children( $child_of, $terms, reset( $taxonomies ) );
 	}
 
 	// Update term counts to include children.
 	if ( $pad_counts && 'all' == $fields )
-		_pad_term_counts($terms, $taxonomies[0]);
+		_pad_term_counts( $terms, reset( $taxonomies ) );
 
 	// Make sure we show empty categories that have children.
-	if ( $hierarchical && $hide_empty && is_array($terms) ) {
+	if ( $hierarchical && $hide_empty && is_array( $terms ) ) {
 		foreach ( $terms as $k => $term ) {
 			if ( ! $term->count ) {
-				$children = _get_term_children($term->term_id, $terms, $taxonomies[0]);
-				if ( is_array($children) )
+				$children = _get_term_children( $term->term_id, $terms, reset( $taxonomies ) );
+				if ( is_array( $children ) )
 					foreach ( $children as $child )
 						if ( $child->count )
 							continue 2;
