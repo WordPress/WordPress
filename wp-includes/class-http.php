@@ -195,16 +195,18 @@ class WP_Http {
 				$r['headers']['Content-Length'] = strlen( $r['body'] );
 		}
 
-		$response = $this->_dispatch_request($url, $r);
+		$response = $this->_dispatch_request( $url, $r );
+		if ( is_wp_error( $response ) )
+			return $response;
 
 		// Append cookies that were used in this request to the response
 		if ( ! empty( $r['cookies'] ) ) {
-      		$cookies_set = wp_list_pluck( $response['cookies'], 'name' );
-      		foreach ( $r['cookies'] as $cookie ) {
-            		if ( ! in_array( $cookie->name, $cookies_set ) && $cookie->test( $url ) ) {
-                        		$response['cookies'][] = $cookie;
-            		}
-      		}
+			$cookies_set = wp_list_pluck( $response['cookies'], 'name' );
+			foreach ( $r['cookies'] as $cookie ) {
+				if ( ! in_array( $cookie->name, $cookies_set ) && $cookie->test( $url ) ) {
+					$response['cookies'][] = $cookie;
+				}
+			}
 		}
 
 		return $response;
@@ -653,9 +655,9 @@ class WP_Http {
 
 		// Include valid cookies in the redirect process
 		if ( ! empty( $response['cookies'] ) ) {
-      		foreach ( $response['cookies'] as $cookie ) {
-      			if ( $cookie->test( $redirect_location ) )
-            			$args['cookies'][] = $cookie;
+			foreach ( $response['cookies'] as $cookie ) {
+				if ( $cookie->test( $redirect_location ) )
+					$args['cookies'][] = $cookie;
 			}
 		}
 
