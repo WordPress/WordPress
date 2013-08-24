@@ -1811,7 +1811,7 @@ final class WP_Internal_Pointers {
 			});
 
 			setup = function() {
-				$('<?php echo $selector; ?>').pointer( options ).pointer('open');
+				$('<?php echo $selector; ?>').first().pointer( options ).pointer('open');
 			};
 
 			if ( options.position && options.position.defer_loading )
