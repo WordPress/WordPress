@@ -871,7 +871,7 @@ function wp_audio_shortcode( $attr ) {
 	$primary = false;
 	if ( ! empty( $src ) ) {
 		$type = wp_check_filetype( $src, wp_get_mime_types() );
-		if ( ! in_array( $type['ext'], $default_types ) )
+		if ( ! in_array( strtolower( $type['ext'] ), $default_types ) )
 			return sprintf( '<a class="wp-embedded-audio" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
 		$primary = true;
 		array_unshift( $default_types, 'src' );
@@ -879,7 +879,7 @@ function wp_audio_shortcode( $attr ) {
 		foreach ( $default_types as $ext ) {
 			if ( ! empty( $$ext ) ) {
 				$type = wp_check_filetype( $$ext, wp_get_mime_types() );
-				if ( $type['ext'] === $ext )
+				if ( strtolower( $type['ext'] ) === $ext )
 					$primary = true;
 			}
 		}
@@ -1010,7 +1010,7 @@ function wp_video_shortcode( $attr ) {
 	$primary = false;
 	if ( ! empty( $src ) ) {
 		$type = wp_check_filetype( $src, wp_get_mime_types() );
-		if ( ! in_array( $type['ext'], $default_types ) )
+		if ( ! in_array( strtolower( $type['ext'] ), $default_types ) )
 			return sprintf( '<a class="wp-embedded-video" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
 		$primary = true;
 		array_unshift( $default_types, 'src' );
@@ -1018,7 +1018,7 @@ function wp_video_shortcode( $attr ) {
 		foreach ( $default_types as $ext ) {
 			if ( ! empty( $$ext ) ) {
 				$type = wp_check_filetype( $$ext, wp_get_mime_types() );
-				if ( $type['ext'] === $ext )
+				if ( strtolower( $type['ext'] ) === $ext )
 					$primary = true;
 			}
 		}
