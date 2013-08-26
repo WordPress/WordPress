@@ -936,7 +936,10 @@ function wpmu_create_user( $user_name, $password, $email ) {
  * @param int $site_id Optional. Only relevant on multi-network installs.
  * @return mixed Returns WP_Error object on failure, int $blog_id on success
  */
-function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id = 1) {
+function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = '', $site_id = 1 ) {
+	$defaults = array( 'public' => 0 );
+	$meta = wp_parse_args( $meta, $defaults );
+
 	$domain = preg_replace( '/\s+/', '', sanitize_user( $domain, true ) );
 
 	if ( is_subdomain_install() )
@@ -964,15 +967,15 @@ function wpmu_create_blog($domain, $path, $title, $user_id, $meta = '', $site_id
 
 	add_user_to_blog($blog_id, $user_id, 'administrator');
 
-	if ( is_array($meta) ) foreach ($meta as $key => $value) {
-		if ( $key == 'public' || $key == 'archived' || $key == 'mature' || $key == 'spam' || $key == 'deleted' || $key == 'lang_id' )
+	foreach ( $meta as $key => $value ) {
+		if ( in_array( $key, array( 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id' ) ) )
 			update_blog_status( $blog_id, $key, $value );
 		else
 			update_option( $key, $value );
 	}
 
 	add_option( 'WPLANG', get_site_option( 'WPLANG' ) );
-	update_option( 'blog_public', (int)$meta['public'] );
+	update_option( 'blog_public', (int) $meta['public'] );
 
 	if ( ! is_super_admin( $user_id ) && ! get_user_meta( $user_id, 'primary_blog', true ) )
 		update_user_meta( $user_id, 'primary_blog', $blog_id );
