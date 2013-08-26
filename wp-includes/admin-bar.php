@@ -334,9 +334,15 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'network-admin',
-			'id'     => 'network-admin-v',
-			'title'  => __( 'Visit Network' ),
-			'href'   => network_home_url(),
+			'id'     => 'network-admin-t',
+			'title'  => __( 'Themes' ),
+			'href'   => network_admin_url( 'themes.php' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'network-admin',
+			'id'     => 'network-admin-p',
+			'title'  => __( 'Plugins' ),
+			'href'   => network_admin_url( 'plugins.php' ),
 		) );
 	}
 
