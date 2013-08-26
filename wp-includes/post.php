@@ -1102,6 +1102,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *     * Defaults to false.
  *     * While the default settings of exclude_from_search, publicly_queryable, show_ui, and show_in_nav_menus are
  *       inherited from public, each does not rely on this relationship and controls a very specific intention.
+ * - hierarchical - Whether the post type is hierarchical (e.g. page). Defaults to false.
  * - exclude_from_search - Whether to exclude posts with this post type from front end search results.
  *     * If not set, the opposite of public's current value is used.
  * - publicly_queryable - Whether queries can be performed on the front end for the post type as part of parse_request().
@@ -1111,8 +1112,6 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *     * If not set, the default is inherited from public.
  * - show_ui - Whether to generate a default UI for managing this post type in the admin.
  *     * If not set, the default is inherited from public.
- * - show_in_nav_menus - Makes this post type available for selection in navigation menus.
- *     * If not set, the default is inherited from public.
  * - show_in_menu - Where to show the post type in the admin menu.
  *     * If true, the post type is shown in its own top level menu.
  *     * If false, no menu is shown
@@ -1120,6 +1119,8 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *       be placed as a sub menu of that.
  *     * show_ui must be true.
  *     * If not set, the default is inherited from show_ui
+ * - show_in_nav_menus - Makes this post type available for selection in navigation menus.
+ *     * If not set, the default is inherited from public.
  * - show_in_admin_bar - Makes this post type available via the admin bar.
  *     * If not set, the default is inherited from show_in_menu
  * - menu_position - The position in the menu order the post type should appear.
@@ -1133,7 +1134,6 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *     * By default the capability_type is used as a base to construct capabilities.
  *     * You can see accepted values in {@link get_post_type_capabilities()}.
  * - map_meta_cap - Whether to use the internal default meta capability handling. Defaults to false.
- * - hierarchical - Whether the post type is hierarchical (e.g. page). Defaults to false.
  * - supports - An alias for calling add_post_type_support() directly. Defaults to title and editor.
  *     * See {@link add_post_type_support()} for documentation.
  * - register_meta_box_cb - Provide a callback function that will be called when setting up the
@@ -1166,37 +1166,55 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *
  * @since 2.9.0
  * @uses $wp_post_types Inserts new post type object into the list
+ * @uses $wp_rewrite Gets default feeds
+ * @uses $wp Adds query vars
  *
- * @param string $post_type Post type key, must not exceed 20 characters
+ * @param string $post_type Post type key, must not exceed 20 characters.
  * @param array|string $args See optional args description above.
- * @return object|WP_Error the registered post type object, or an error object
+ * @return object|WP_Error the registered post type object, or an error object.
  */
 function register_post_type( $post_type, $args = array() ) {
 	global $wp_post_types, $wp_rewrite, $wp;
 
-	if ( !is_array($wp_post_types) )
+	if ( ! is_array( $wp_post_types ) )
 		$wp_post_types = array();
 
 	// Args prefixed with an underscore are reserved for internal use.
 	$defaults = array(
-		'labels' => array(), 'description' => '', 'publicly_queryable' => null, 'exclude_from_search' => null,
-		'capability_type' => 'post', 'capabilities' => array(), 'map_meta_cap' => null,
-		'_builtin' => false, '_edit_link' => 'post.php?post=%d', 'hierarchical' => false,
-		'public' => false, 'rewrite' => true, 'has_archive' => false, 'query_var' => true,
-		'supports' => array(), 'register_meta_box_cb' => null,
-		'taxonomies' => array(), 'show_ui' => null, 'menu_position' => null, 'menu_icon' => null,
-		'can_export' => true,
-		'show_in_nav_menus' => null, 'show_in_menu' => null, 'show_in_admin_bar' => null,
-		'delete_with_user' => null,
+		'labels'               => array(),
+		'description'          => '',
+		'public'               => false,
+		'hierarchical'         => false,
+		'exclude_from_search'  => null,
+		'publicly_queryable'   => null,
+		'show_ui'              => null,
+		'show_in_menu'         => null,
+		'show_in_nav_menus'    => null,
+		'show_in_admin_bar'    => null,
+		'menu_position'        => null,
+		'menu_icon'            => null,
+		'capability_type'      => 'post',
+		'capabilities'         => array(),
+		'map_meta_cap'         => null,
+		'supports'             => array(),
+		'register_meta_box_cb' => null,
+		'taxonomies'           => array(),
+		'has_archive'          => false,
+		'rewrite'              => true,
+		'query_var'            => true,
+		'can_export'           => true,
+		'delete_with_user'     => null,
+		'_builtin'             => false,
+		'_edit_link'           => 'post.php?post=%d',
 	);
-	$args = wp_parse_args($args, $defaults);
+	$args = wp_parse_args( $args, $defaults );
 	$args = (object) $args;
 
-	$post_type = sanitize_key($post_type);
+	$post_type = sanitize_key( $post_type );
 	$args->name = $post_type;
 
 	if ( strlen( $post_type ) > 20 )
-			return new WP_Error( 'post_type_too_long', __( 'Post types cannot exceed 20 characters in length' ) );
+		return new WP_Error( 'post_type_too_long', __( 'Post types cannot exceed 20 characters in length' ) );
 
 	// If not set, default to the setting for public.
 	if ( null === $args->publicly_queryable )
@@ -1214,7 +1232,7 @@ function register_post_type( $post_type, $args = array() ) {
 	if ( null === $args->show_in_admin_bar )
 		$args->show_in_admin_bar = true === $args->show_in_menu;
 
-	// Whether to show this type in nav-menus.php. Defaults to the setting for public.
+	// If not set, default to the setting for public.
 	if ( null === $args->show_in_nav_menus )
 		$args->show_in_nav_menus = $args->public;
 
@@ -1226,32 +1244,33 @@ function register_post_type( $post_type, $args = array() ) {
 	if ( empty( $args->capabilities ) && null === $args->map_meta_cap && in_array( $args->capability_type, array( 'post', 'page' ) ) )
 		$args->map_meta_cap = true;
 
+	// If not set, default to false.
 	if ( null === $args->map_meta_cap )
 		$args->map_meta_cap = false;
 
 	$args->cap = get_post_type_capabilities( $args );
-	unset($args->capabilities);
+	unset( $args->capabilities );
 
 	if ( is_array( $args->capability_type ) )
 		$args->capability_type = $args->capability_type[0];
 
-	if ( ! empty($args->supports) ) {
-		add_post_type_support($post_type, $args->supports);
-		unset($args->supports);
+	if ( ! empty( $args->supports ) ) {
+		add_post_type_support( $post_type, $args->supports );
+		unset( $args->supports );
 	} elseif ( false !== $args->supports ) {
 		// Add default features
-		add_post_type_support($post_type, array('title', 'editor'));
+		add_post_type_support( $post_type, array( 'title', 'editor' ) );
 	}
 
-	if ( false !== $args->query_var && !empty($wp) ) {
+	if ( false !== $args->query_var && ! empty( $wp ) ) {
 		if ( true === $args->query_var )
 			$args->query_var = $post_type;
 		else
-			$args->query_var = sanitize_title_with_dashes($args->query_var);
-		$wp->add_query_var($args->query_var);
+			$args->query_var = sanitize_title_with_dashes( $args->query_var );
+		$wp->add_query_var( $args->query_var );
 	}
 
-	if ( false !== $args->rewrite && ( is_admin() || '' != get_option('permalink_structure') ) ) {
+	if ( false !== $args->rewrite && ( is_admin() || '' != get_option( 'permalink_structure' ) ) ) {
 		if ( ! is_array( $args->rewrite ) )
 			$args->rewrite = array();
 		if ( empty( $args->rewrite['slug'] ) )
@@ -1270,9 +1289,9 @@ function register_post_type( $post_type, $args = array() ) {
 		}
 
 		if ( $args->hierarchical )
-			add_rewrite_tag("%$post_type%", '(.+?)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
+			add_rewrite_tag( "%$post_type%", '(.+?)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=" );
 		else
-			add_rewrite_tag("%$post_type%", '([^/]+)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=");
+			add_rewrite_tag( "%$post_type%", '([^/]+)', $args->query_var ? "{$args->query_var}=" : "post_type=$post_type&name=" );
 
 		if ( $args->has_archive ) {
 			$archive_slug = $args->has_archive === true ? $args->rewrite['slug'] : $args->has_archive;
@@ -1297,12 +1316,12 @@ function register_post_type( $post_type, $args = array() ) {
 	}
 
 	if ( $args->register_meta_box_cb )
-		add_action('add_meta_boxes_' . $post_type, $args->register_meta_box_cb, 10, 1);
+		add_action( 'add_meta_boxes_' . $post_type, $args->register_meta_box_cb, 10, 1 );
 
 	$args->labels = get_post_type_labels( $args );
 	$args->label = $args->labels->name;
 
-	$wp_post_types[$post_type] = $args;
+	$wp_post_types[ $post_type ] = $args;
 
 	add_action( 'future_' . $post_type, '_future_post_hook', 5, 2 );
 
