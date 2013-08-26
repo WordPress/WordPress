@@ -371,7 +371,20 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 <?php if ( is_taxonomy_hierarchical($taxonomy) ) : ?>
 <div class="form-field">
 	<label for="parent"><?php _ex('Parent', 'Taxonomy Parent'); ?></label>
-	<?php wp_dropdown_categories(array('hide_empty' => 0, 'hide_if_empty' => false, 'taxonomy' => $taxonomy, 'name' => 'parent', 'orderby' => 'name', 'hierarchical' => true, 'show_option_none' => __('None'))); ?>
+	<?php
+	$dropdown_args = array(
+		'hide_empty'       => 0,
+		'hide_if_empty'    => false,
+		'taxonomy'         => $taxonomy,
+		'name'             => 'parent',
+		'orderby'          => 'name',
+		'hierarchical'     => true,
+		'show_option_none' => __( 'None' ),
+	);
+
+	$dropdown_args = apply_filters( 'taxonomy_parent_dropdown_args', $dropdown_args, $taxonomy );
+	wp_dropdown_categories( $dropdown_args );
+	?>
 	<?php if ( 'category' == $taxonomy ) : // @todo: Generic text for hierarchical taxonomies ?>
 		<p><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></p>
 	<?php endif; ?>
