@@ -280,6 +280,11 @@ function is_taxonomy_hierarchical($taxonomy) {
  * - hierarchical - Whether the taxonomy is hierarchical (e.g. category). Defaults to false.
  * - show_ui -Whether to generate a default UI for managing this taxonomy in the admin.
  *     * If not set, the default is inherited from public.
+ * - show_in_menu - Where to show the taxonomy in the admin menu.
+ *     * If true, the taxonomy is shown as a submenu of the object type menu.
+ *     * If false, no menu is shown.
+ *     * show_ui must be true.
+ *     * If not set, the default is inherited from show_ui.
  * - show_in_nav_menus - Makes this taxonomy available for selection in navigation menus.
  *     * If not set, the default is inherited from public.
  * - show_tagcloud - Whether to list the taxonomy in the Tag Cloud Widget.
@@ -324,6 +329,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		'public'                => true,
 		'hierarchical'          => false,
 		'show_ui'               => null,
+		'show_in_menu'          => null,
 		'show_in_nav_menus'     => null,
 		'show_tagcloud'         => null,
 		'capabilities'          => array(),
@@ -365,6 +371,10 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	// If not set, default to the setting for public.
 	if ( null === $args['show_ui'] )
 		$args['show_ui'] = $args['public'];
+
+	// If not set, default to the setting for show_ui.
+	if ( null === $args['show_in_menu' ] || ! $args['show_ui'] )
+		$args['show_in_menu' ] = $args['show_ui'];
 
 	// If not set, default to the setting for public.
 	if ( null === $args['show_in_nav_menus'] )
