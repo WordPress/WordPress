@@ -309,9 +309,13 @@ var photostorage = false;
 </script>
 
 <?php
-	do_action('admin_print_styles');
-	do_action('admin_print_scripts');
-	do_action('admin_head');
+	do_action( 'admin_enqueue_scripts', 'press-this.php' );
+	do_action( 'admin_print_styles-press-this.php' );
+	do_action( 'admin_print_styles' );
+	do_action( 'admin_print_scripts-press-this.php' );
+	do_action( 'admin_print_scripts' );
+	do_action( 'admin_head-press-this.php' );
+	do_action( 'admin_head' );
 ?>
 	<script type="text/javascript">
 	var wpActiveEditor = 'content';
