@@ -1445,7 +1445,7 @@ class WP_Query {
 		$qv['monthnum'] = absint($qv['monthnum']);
 		$qv['day'] = absint($qv['day']);
 		$qv['w'] = absint($qv['w']);
-		$qv['m'] = absint($qv['m']);
+		$qv['m'] = preg_replace( '|[^0-9]|', '', $qv['m'] );
 		$qv['paged'] = absint($qv['paged']);
 		$qv['cat'] = preg_replace( '|[^0-9,-]|', '', $qv['cat'] ); // comma separated list of positive or negative integers
 		$qv['pagename'] = trim( $qv['pagename'] );
@@ -2047,7 +2047,6 @@ class WP_Query {
 
 		// If a month is specified in the querystring, load that month
 		if ( $q['m'] ) {
-			$q['m'] = '' . preg_replace('|[^0-9]|', '', $q['m']);
 			$where .= " AND YEAR($wpdb->posts.post_date)=" . substr($q['m'], 0, 4);
 			if ( strlen($q['m']) > 5 )
 				$where .= " AND MONTH($wpdb->posts.post_date)=" . substr($q['m'], 4, 2);
