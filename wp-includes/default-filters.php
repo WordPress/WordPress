@@ -74,9 +74,7 @@ foreach ( array( 'user_url', 'link_url', 'link_image', 'link_rss', 'comment_url'
 }
 
 // Slugs
-foreach ( array( 'pre_term_slug' ) as $filter ) {
-	add_filter( $filter, 'sanitize_title' );
-}
+add_filter( 'pre_term_slug', 'sanitize_title' );
 
 // Keys
 foreach ( array( 'pre_post_type', 'pre_post_status', 'pre_post_comment_status', 'pre_post_ping_status' ) as $filter ) {
@@ -119,9 +117,7 @@ foreach ( array( 'term_description' ) as $filter ) {
 }
 
 // Format for RSS
-foreach ( array( 'term_name_rss' ) as $filter ) {
-	add_filter( $filter, 'convert_chars' );
-}
+add_filter( 'term_name_rss', 'convert_chars' );
 
 // Pre save hierarchy
 add_filter( 'wp_insert_post_parent', 'wp_check_post_hierarchy_for_loops', 10, 2 );
