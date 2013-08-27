@@ -867,6 +867,15 @@ class WP_Query {
 	var $meta_query = false;
 
 	/**
+	 * Date query container
+	 *
+	 * @since 3.7.0
+	 * @access public
+	 * @var object WP_Date_Query
+	 */
+	var $date_query = false;
+
+	/**
 	 * Holds the data for a single object that is queried.
 	 *
 	 * Holds the contents of a post, page, category, attachment.
@@ -2045,7 +2054,7 @@ class WP_Query {
 		if ( '' !== $q['menu_order'] )
 			$where .= " AND $wpdb->posts.menu_order = " . $q['menu_order'];
 
-		// If a month is specified in the querystring, load that month
+		// The "m" parameter is meant for months but accepts datetimes of varying specificity
 		if ( $q['m'] ) {
 			$where .= " AND YEAR($wpdb->posts.post_date)=" . substr($q['m'], 0, 4);
 			if ( strlen($q['m']) > 5 )
@@ -2060,23 +2069,42 @@ class WP_Query {
 				$where .= " AND SECOND($wpdb->posts.post_date)=" . substr($q['m'], 12, 2);
 		}
 
+		// Handle the other individual date parameters
+		$date_parameters = array();
+
 		if ( '' !== $q['hour'] )
-			$where .= " AND HOUR($wpdb->posts.post_date)='" . $q['hour'] . "'";
+			$date_parameters['hour'] = $q['hour'];
 
 		if ( '' !== $q['minute'] )
-			$where .= " AND MINUTE($wpdb->posts.post_date)='" . $q['minute'] . "'";
+			$date_parameters['minute'] = $q['minute'];
 
 		if ( '' !== $q['second'] )
-			$where .= " AND SECOND($wpdb->posts.post_date)='" . $q['second'] . "'";
+			$date_parameters['second'] = $q['second'];
 
 		if ( $q['year'] )
-			$where .= " AND YEAR($wpdb->posts.post_date)='" . $q['year'] . "'";
+			$date_parameters['year'] = $q['year'];
 
 		if ( $q['monthnum'] )
-			$where .= " AND MONTH($wpdb->posts.post_date)='" . $q['monthnum'] . "'";
+			$date_parameters['monthnum'] = $q['monthnum'];
+
+		if ( $q['w'] )
+			$date_parameters['week'] = $q['w'];
 
 		if ( $q['day'] )
-			$where .= " AND DAYOFMONTH($wpdb->posts.post_date)='" . $q['day'] . "'";
+			$date_parameters['day'] = $q['day'];
+
+		if ( $date_parameters ) {
+			$date_query = new WP_Date_Query( array( $date_parameters ) );
+			$where .= $date_query->get_sql();
+		}
+		unset( $date_parameters, $date_query );
+
+		// Handle complex date queries
+		if ( ! empty( $q['date_query'] ) ) {
+			$this->date_query = new WP_Date_Query( $q['date_query'] );
+			$where .= $this->date_query->get_sql();
+		}
+
 
 		// If we've got a post_type AND it's not "any" post_type.
 		if ( !empty($q['post_type']) && 'any' != $q['post_type'] ) {
@@ -2146,8 +2174,6 @@ class WP_Query {
 			$where .= " AND $wpdb->posts.post_name = '" . $q['attachment'] . "'";
 		}
 
-		if ( $q['w'] )
-			$where .= ' AND ' . _wp_mysql_week( "`$wpdb->posts`.`post_date`" ) . " = '" . $q['w'] . "'";
 
 		if ( intval($q['comments_popup']) )
 			$q['p'] = absint($q['comments_popup']);

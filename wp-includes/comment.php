@@ -197,6 +197,15 @@ class WP_Comment_Query {
 	var $meta_query = false;
 
 	/**
+	 * Date query container
+	 *
+	 * @since 3.7.0
+	 * @access public
+	 * @var object WP_Date_Query
+	 */
+	var $date_query = false;
+
+	/**
 	 * Execute the query
 	 *
 	 * @since 3.1.0
@@ -231,6 +240,7 @@ class WP_Comment_Query {
 			'meta_key' => '',
 			'meta_value' => '',
 			'meta_query' => '',
+			'date_query' => null, // See WP_Date_Query
 		);
 
 		$groupby = '';
@@ -358,6 +368,11 @@ class WP_Comment_Query {
 			$join .= $clauses['join'];
 			$where .= $clauses['where'];
 			$groupby = "{$wpdb->comments}.comment_ID";
+		}
+
+		if ( ! empty( $date_query ) && is_array( $date_query ) ) {
+			$date_query_object = new WP_Date_Query( $date_query, 'comment_date' );
+			$where .= $date_query_object->get_sql();
 		}
 
 		$pieces = array( 'fields', 'join', 'where', 'orderby', 'order', 'limits', 'groupby' );
