@@ -1288,7 +1288,7 @@ function get_terms($taxonomies, $args = '') {
 	else
 		$orderby = 't.name';
 
-	$orderby = apply_filters( 'get_terms_orderby', $orderby, $args );
+	$orderby = apply_filters( 'get_terms_orderby', $orderby, $args, $taxonomies );
 
 	if ( !empty($orderby) )
 		$orderby = "ORDER BY $orderby";
