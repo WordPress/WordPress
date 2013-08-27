@@ -60,8 +60,10 @@ if ( $user->exists() ) {
 	$comment_author       = wp_slash( $user->display_name );
 	$comment_author_email = wp_slash( $user->user_email );
 	$comment_author_url   = wp_slash( $user->user_url );
-	if ( current_user_can( 'unfiltered_html' ) && isset( $_POST['_wp_unfiltered_html_comment'] ) ) {
-		if ( wp_create_nonce( 'unfiltered-html-comment_' . $comment_post_ID ) != $_POST['_wp_unfiltered_html_comment'] ) {
+	if ( current_user_can( 'unfiltered_html' ) ) {
+		if ( ! isset( $_POST['_wp_unfiltered_html_comment'] )
+			|| ! wp_verify_nonce( $_POST['_wp_unfiltered_html_comment'], 'unfiltered-html-comment_' . $comment_post_ID )
+		) {
 			kses_remove_filters(); // start with a clean slate
 			kses_init_filters(); // set up the filters
 		}
