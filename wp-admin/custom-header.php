@@ -464,6 +464,7 @@ class Custom_Image_Header {
 <table class="form-table">
 <tbody>
 
+<?php if ( get_custom_header() || display_header_text() ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e( 'Preview' ); ?></th>
 <td>
@@ -490,6 +491,8 @@ class Custom_Image_Header {
 	<?php } ?>
 </td>
 </tr>
+<?php endif; ?>
+
 <?php if ( current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e( 'Select Image' ); ?></th>
