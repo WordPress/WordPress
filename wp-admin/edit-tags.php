@@ -252,12 +252,53 @@ require_once ('admin-header.php');
 if ( !current_user_can($tax->cap->edit_terms) )
 	wp_die( __('You are not allowed to edit this item.') );
 
-$messages[1] = __('Item added.');
-$messages[2] = __('Item deleted.');
-$messages[3] = __('Item updated.');
-$messages[4] = __('Item not added.');
-$messages[5] = __('Item not updated.');
-$messages[6] = __('Items deleted.');
+$messages = array();
+$messages['_item'] = array(
+	0 => '', // Unused. Messages start at index 1.
+	1 => __( 'Item added.' ),
+	2 => __( 'Item deleted.' ),
+	3 => __( 'Item updated.' ),
+	4 => __( 'Item not added.' ),
+	5 => __( 'Item not updated.' ),
+	6 => __( 'Items deleted.' )
+);
+$messages['category'] = array(
+	0 => '', // Unused. Messages start at index 1.
+	1 => __( 'Category added.' ),
+	2 => __( 'Category deleted.' ),
+	3 => __( 'Category updated.' ),
+	4 => __( 'Category not added.' ),
+	5 => __( 'Category not updated.' ),
+	6 => __( 'Categories deleted.' )
+);
+$messages['link_category'] = array(
+	0 => '', // Unused. Messages start at index 1.
+	1 => __( 'Category added.' ),
+	2 => __( 'Category deleted.' ),
+	3 => __( 'Category updated.' ),
+	4 => __( 'Category not added.' ),
+	5 => __( 'Category not updated.' ),
+	6 => __( 'Categories deleted.' )
+);
+$messages['post_tag'] = array(
+	0 => '', // Unused. Messages start at index 1.
+	1 => __( 'Tag added.' ),
+	2 => __( 'Tag deleted.' ),
+	3 => __( 'Tag updated.' ),
+	4 => __( 'Tag not added.' ),
+	5 => __( 'Tag not updated.' ),
+	6 => __( 'Tags deleted.' )
+);
+
+$messages = apply_filters( 'term_updated_messages', $messages );
+
+$message = false;
+if ( isset( $_REQUEST['message'] ) && ( $msg = (int) $_REQUEST['message'] ) ) {
+	if ( isset( $messages[ $taxonomy ][ $msg ] ) )
+		$message = $messages[ $taxonomy ][ $msg ];
+	elseif ( ! isset( $messages[ $taxonomy ] ) && isset( $messages['_item'][ $msg ] ) )
+		$message = $messages['_item'][ $msg ];
+}
 
 ?>
 
@@ -268,8 +309,8 @@ if ( !empty($_REQUEST['s']) )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( wp_unslash($_REQUEST['s']) ) ); ?>
 </h2>
 
-<?php if ( isset($_REQUEST['message']) && ( $msg = (int) $_REQUEST['message'] ) ) : ?>
-<div id="message" class="updated"><p><?php echo $messages[$msg]; ?></p></div>
+<?php if ( $message ) : ?>
+<div id="message" class="updated"><p><?php echo $message; ?></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
 endif; ?>
 <div id="ajax-response"></div>
