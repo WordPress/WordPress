@@ -22,17 +22,17 @@
  */
 function get_comment_author( $comment_ID = 0 ) {
 	$comment = get_comment( $comment_ID );
-	if ( empty($comment->comment_author) ) {
-		if (!empty($comment->user_id)){
-			$user=get_userdata($comment->user_id);
-			$author=$user->user_login;
-		} else {
+
+	if ( empty( $comment->comment_author ) ) {
+		if ( $comment->user_id && $user = get_userdata( $comment->user_id ) )
+			$author = $user->display_name;
+		else
 			$author = __('Anonymous');
-		}
 	} else {
 		$author = $comment->comment_author;
 	}
-	return apply_filters('get_comment_author', $author);
+
+	return apply_filters( 'get_comment_author', $author );
 }
 
 /**
