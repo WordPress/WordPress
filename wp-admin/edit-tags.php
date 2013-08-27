@@ -271,15 +271,7 @@ $messages['category'] = array(
 	5 => __( 'Category not updated.' ),
 	6 => __( 'Categories deleted.' )
 );
-$messages['link_category'] = array(
-	0 => '', // Unused. Messages start at index 1.
-	1 => __( 'Category added.' ),
-	2 => __( 'Category deleted.' ),
-	3 => __( 'Category updated.' ),
-	4 => __( 'Category not added.' ),
-	5 => __( 'Category not updated.' ),
-	6 => __( 'Categories deleted.' )
-);
+$messages['link_category'] = $messages['category'];
 $messages['post_tag'] = array(
 	0 => '', // Unused. Messages start at index 1.
 	1 => __( 'Tag added.' ),
