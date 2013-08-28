@@ -55,9 +55,9 @@ class WP_Http {
 	 * accept setting that value.
 	 *
 	 * The 'httpversion' option is used to sent the HTTP version and accepted values are '1.0', and
-	 * '1.1' and should be a string. Version 1.1 is not supported, because of chunk response. The
-	 * 'user-agent' option is the user-agent and is used to replace the default user-agent, which is
-	 * 'WordPress/WP_Version', where WP_Version is the value from $wp_version.
+	 * '1.1' and should be a string. The 'user-agent' option is the user-agent and is used to
+	 * replace the default user-agent, which is 'WordPress/WP_Version', where WP_Version is the
+	 * value from $wp_version.
 	 *
 	 * 'blocking' is the default, which is used to tell the transport, whether it should halt PHP
 	 * while it performs the request or continue regardless. Actually, that isn't entirely correct.
