@@ -1606,6 +1606,7 @@ function comment_form( $args = array(), $post_id = null ) {
 	$user = wp_get_current_user();
 	$user_identity = $user->exists() ? $user->display_name : '';
 
+	$args = wp_parse_args( $args );
 	if ( ! isset( $args['format'] ) )
 		$args['format'] = current_theme_supports( 'html5', 'comment-form' ) ? 'html5' : 'xhtml';
 
