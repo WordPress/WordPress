@@ -1484,19 +1484,19 @@ function rawurlencode_deep( $value ) {
  * @since 0.71
  *
  * @param string $email_address Email address.
- * @param int $extra_entropy Optional. Range from 0 to 1. Used for encoding.
+ * @param int $hex_encoding Optional. Set to 1 to enable hex encoding.
  * @return string Converted email address.
  */
-function antispambot( $email_address, $extra_entropy = 0 ) {
+function antispambot( $email_address, $hex_encoding = 0 ) {
 	$email_no_spam_address = '';
 	for ( $i = 0; $i < strlen( $email_address ); $i++ ) {
-		$j = rand( 0, 1 + $extra_entropy );
+		$j = rand( 0, 1 + $hex_encoding );
 		if ( $j == 0 ) {
-			$email_no_spam_address .= '&#' . ord( substr( $email_address, $i, 1 ) ) . ';';
+			$email_no_spam_address .= '&#' . ord( $email_address[$i] ) . ';';
 		} elseif ( $j == 1 ) {
-			$email_no_spam_address .= substr( $email_address, $i, 1 );
+			$email_no_spam_address .= $email_address[$i];
 		} elseif ( $j == 2 ) {
-			$email_no_spam_address .= '%' . zeroise( dechex( ord( substr( $email_address, $i, 1 ) ) ), 2 );
+			$email_no_spam_address .= '%' . zeroise( dechex( ord( $email_address[$i] ) ), 2 );
 		}
 	}
 
