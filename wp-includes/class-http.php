@@ -479,7 +479,7 @@ class WP_Http {
 		$body_original = $body; // We'll be altering $body, so need a backup in case of error
 
 		while ( true ) {
-			$has_chunk = (bool) preg_match( '/^([0-9a-f]+)[^\r\n]*\r\n/i', $body_copy, $match );
+			$has_chunk = (bool) preg_match( '/^([0-9a-f]+)[^\r\n]*\r\n/i', $body, $match );
 			if ( ! $has_chunk || empty( $match[1] ) )
 				return $body_original;
 
