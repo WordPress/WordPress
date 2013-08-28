@@ -459,12 +459,10 @@ class WP_Http {
 	/**
 	 * Decodes chunk transfer-encoding, based off the HTTP 1.1 specification.
 	 *
-	 * Based off the HTTP http_encoding_dechunk function. Does not support UTF-8. Does not support
-	 * returning footer headers. Shouldn't be too difficult to support it though.
+	 * Based off the HTTP http_encoding_dechunk function.
 	 *
 	 * @link http://tools.ietf.org/html/rfc2616#section-19.4.6 Process for chunked decoding.
 	 *
-	 * @todo Add support for footer chunked headers.
 	 * @access public
 	 * @since 2.7.0
 	 * @static
@@ -472,35 +470,31 @@ class WP_Http {
 	 * @param string $body Body content
 	 * @return string Chunked decoded body on success or raw body on failure.
 	 */
-	function chunkTransferDecode($body) {
-		$body = str_replace(array("\r\n", "\r"), "\n", $body);
-		// The body is not chunked encoding or is malformed.
-		if ( ! preg_match( '/^[0-9a-f]+(\s|\n)+/mi', trim($body) ) )
+	public static function chunkTransferDecode( $body ) {
+		// The body is not chunked encoded or is malformed.
+		if ( ! preg_match( '/^([0-9a-f]+)[^\r\n]*\r\n/i', trim( $body ) ) )
 			return $body;
 
-		$parsedBody = '';
-		//$parsedHeaders = array(); Unsupported
+		$parsed_body = '';
+		$body_original = $body; // We'll be altering $body, so need a backup in case of error
 
 		while ( true ) {
-			$hasChunk = (bool) preg_match( '/^([0-9a-f]+)(\s|\n)+/mi', $body, $match );
+			$has_chunk = (bool) preg_match( '/^([0-9a-f]+)[^\r\n]*\r\n/i', $body_copy, $match );
+			if ( ! $has_chunk || empty( $match[1] ) )
+				return $body_original;
 
-			if ( $hasChunk ) {
-				if ( empty( $match[1] ) )
-					return $body;
+			$length = hexdec( $match[1] );
+			$chunk_length = strlen( $match[0] );
 
-				$length = hexdec( $match[1] );
-				$chunkLength = strlen( $match[0] );
+			// Parse out the chunk of data
+			$parsed_body .= substr( $body, $chunk_length, $length );
 
-				$strBody = substr($body, $chunkLength, $length);
-				$parsedBody .= $strBody;
+			// Remove the chunk from the raw data
+			$body = substr( $body, $length + $chunk_length );
 
-				$body = ltrim(str_replace(array($match[0], $strBody), '', $body), "\n");
-
-				if ( "0" == trim($body) )
-					return $parsedBody; // Ignore footer headers.
-			} else {
-				return $body;
-			}
+			// End of document
+			if ( '0' === trim( $body ) )
+				return $parsed_body;
 		}
 	}
 
