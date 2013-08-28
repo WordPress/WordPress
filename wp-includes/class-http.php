@@ -555,7 +555,7 @@ class WP_Http {
 			if ( false !== strpos(WP_ACCESSIBLE_HOSTS, '*') ) {
 				$wildcard_regex = array();
 				foreach ( $accessible_hosts as $host )
-					$wildcard_regex[] = str_replace('\*', '[\w.]+?', preg_quote($host, '/'));
+					$wildcard_regex[] = str_replace( '\*', '.+', preg_quote( $host, '/' ) );
 				$wildcard_regex = '/^(' . implode('|', $wildcard_regex) . ')$/i';
 			}
 		}
@@ -1621,7 +1621,7 @@ class WP_HTTP_Proxy {
 			if ( false !== strpos(WP_PROXY_BYPASS_HOSTS, '*') ) {
 				$wildcard_regex = array();
 				foreach ( $bypass_hosts as $host )
-					$wildcard_regex[] = str_replace('\*', '[\w.]+?', preg_quote($host, '/'));
+					$wildcard_regex[] = str_replace( '\*', '.+', preg_quote( $host, '/' ) );
 				$wildcard_regex = '/^(' . implode('|', $wildcard_regex) . ')$/i';
 			}
 		}
