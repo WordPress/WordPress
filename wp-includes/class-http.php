@@ -172,6 +172,10 @@ class WP_Http {
 			unset( $r['headers']['user-agent'] );
 		}
 
+		if ( '1.1' == $r['httpversion'] && !isset( $r['headers']['connection'] ) ) {
+			$r['headers']['connection'] = 'close';
+		}
+
 		// Construct Cookie: header if any cookies are set
 		WP_Http::buildCookieHeader( $r );
 
