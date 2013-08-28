@@ -3246,25 +3246,61 @@ function wp_suspend_cache_invalidation($suspend = true) {
 }
 
 /**
- * Is main site?
- *
+ * Whether a site is the main site of the current network.
  *
  * @since 3.0.0
- * @package WordPress
  *
- * @param int $blog_id optional blog id to test (default current blog)
- * @return bool True if not multisite or $blog_id is main site
+ * @param int $site_id Optional. Site ID to test. Defaults to current site.
+ * @return bool True if $site_id is the main site of the network, or if not running multisite.
  */
-function is_main_site( $blog_id = '' ) {
+function is_main_site( $site_id = null ) {
+	// This is the current network's information; 'site' is old terminology.
 	global $current_site;
 
 	if ( ! is_multisite() )
 		return true;
 
-	if ( ! $blog_id )
-		$blog_id = get_current_blog_id();
+	if ( ! $site_id )
+		$site_id = get_current_blog_id();
 
-	return $blog_id == $current_site->blog_id;
+	return (int) $site_id === (int) $current_site->blog_id;
+}
+
+/**
+ * Whether a network is the main network of the multisite install.
+ *
+ * @since 3.7.0
+ *
+ * @param int $network_id Optional. Network ID to test. Defaults to current network.
+ * @return bool True if $network_id is the main network, or if not running multisite.
+ */
+function is_main_network( $network_id = null ) {
+	global $current_site, $wpdb;
+
+	$current_network_id = (int) $current_site->id;
+
+	if ( ! is_multisite() )
+		return true;
+
+	if ( ! $network_id )
+		$network_id = $current_network_id;
+	$network_id = (int) $network_id;
+
+	if ( defined( 'PRIMARY_NETWORK_ID' ) )
+		return $network_id === (int) PRIMARY_NETWORK_ID;
+
+	if ( 1 === $current_network_id )
+		return $network_id === $current_network_id;
+
+	$primary_network_id = (int) wp_cache_get( 'primary_network_id', 'site-options' );
+
+	if ( $primary_network_id )
+		return $network_id === $primary_network_id;
+
+	$primary_network_id = (int) $wpdb->get_var( "SELECT id FROM $wpdb->site ORDER BY id LIMIT 1" );
+	wp_cache_add( 'primary_network_id', $primary_network_id, 'site-options' );
+
+	return $network_id === $primary_network_id;
 }
 
 /**
