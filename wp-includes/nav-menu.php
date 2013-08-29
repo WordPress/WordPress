@@ -685,9 +685,10 @@ function wp_setup_nav_menu_item( $menu_item ) {
  *
  * @param int $object_id The ID of the original object.
  * @param string $object_type The type of object, such as "taxonomy" or "post_type."
+ * @param string $taxonomy If $object_type is "taxonomy", $taxonomy is the name of the tax that $object_id belongs to
  * @return array The array of menu item IDs; empty array if none;
  */
-function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_type' ) {
+function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_type', $taxonomy = '' ) {
 	$object_id = (int) $object_id;
 	$menu_item_ids = array();
 
@@ -703,7 +704,8 @@ function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_
 	);
 	foreach( (array) $menu_items as $menu_item ) {
 		if ( isset( $menu_item->ID ) && is_nav_menu_item( $menu_item->ID ) ) {
-			if ( get_post_meta( $menu_item->ID, '_menu_item_type', true ) != $object_type )
+			if ( get_post_meta( $menu_item->ID, '_menu_item_type', true ) !== $object_type ||
+				get_post_meta( $menu_item->ID, '_menu_item_object', true ) !== $taxonomy )
 				continue;
 
 			$menu_item_ids[] = (int) $menu_item->ID;
@@ -741,10 +743,10 @@ function _wp_delete_post_menu_item( $object_id = 0 ) {
  * @param int $object_id The ID of the original object being trashed.
  *
  */
-function _wp_delete_tax_menu_item( $object_id = 0 ) {
+function _wp_delete_tax_menu_item( $object_id = 0, $tt_id, $taxonomy ) {
 	$object_id = (int) $object_id;
 
-	$menu_item_ids = wp_get_associated_nav_menu_items( $object_id, 'taxonomy' );
+	$menu_item_ids = wp_get_associated_nav_menu_items( $object_id, 'taxonomy', $taxonomy );
 
 	foreach( (array) $menu_item_ids as $menu_item_id ) {
 		wp_delete_post( $menu_item_id, true );
