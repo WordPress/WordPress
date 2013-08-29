@@ -62,10 +62,13 @@ require_once(ABSPATH . WPINC . '/formatting.php');
 // Add magic quotes and set up $_REQUEST ( $_GET + $_POST )
 wp_magic_quotes();
 
-if ( ! file_exists( ABSPATH . 'wp-config-sample.php' ) )
+// Support wp-config-sample.php one level up, for the develop repo.
+if ( file_exists( ABSPATH . 'wp-config-sample.php' ) )
+	$config_file = file( ABSPATH . 'wp-config-sample.php' );
+elseif ( file_exists( dirname( ABSPATH ) . '/wp-config-sample.php' ) )
+	$config_file = file( dirname( ABSPATH ) . '/wp-config-sample.php' );
+else
 	wp_die( __( 'Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.' ) );
-
-$config_file = file(ABSPATH . 'wp-config-sample.php');
 
 // Check if wp-config.php has been created
 if ( file_exists( ABSPATH . 'wp-config.php' ) )
@@ -275,12 +278,19 @@ el.select();
 </script>
 <?php
 	else :
-		$handle = fopen(ABSPATH . 'wp-config.php', 'w');
+		// If this file doesn't exist, then we are using the wp-config-sample.php
+		// file one level up, which is for the develop repo.
+		if ( file_exists( ABSPATH . 'wp-config-sample.php' ) )
+			$path_to_wp_config = ABSPATH . 'wp-config.php';
+		else
+			$path_to_wp_config = dirname( ABSPATH ) . '/wp-config.php';
+
+		$handle = fopen( $path_to_wp_config, 'w' );
 		foreach( $config_file as $line ) {
-			fwrite($handle, $line);
+			fwrite( $handle, $line );
 		}
-		fclose($handle);
-		chmod(ABSPATH . 'wp-config.php', 0666);
+		fclose( $handle );
+		chmod( $path_to_wp_config, 0666 );
 		setup_config_display_header();
 ?>
 <p><?php _e( "All right, sparky! You&#8217;ve made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to&hellip;" ); ?></p>
