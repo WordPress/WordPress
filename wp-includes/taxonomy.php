@@ -1383,19 +1383,26 @@ function get_terms($taxonomies, $args = '') {
 	$selects = array();
 	switch ( $fields ) {
 		case 'all':
-			$selects = array('t.*', 'tt.*');
+			$selects = array( 't.*', 'tt.*' );
 			break;
 		case 'ids':
 		case 'id=>parent':
-			$selects = array('t.term_id', 'tt.parent', 'tt.count');
+			$selects = array( 't.term_id', 'tt.parent', 'tt.count' );
 			break;
 		case 'names':
-			$selects = array('t.term_id', 'tt.parent', 'tt.count', 't.name');
+			$selects = array( 't.term_id', 'tt.parent', 'tt.count', 't.name' );
 			break;
 		case 'count':
 			$orderby = '';
 			$order = '';
-			$selects = array('COUNT(*)');
+			$selects = array( 'COUNT(*)' );
+			break;
+		case 'id=>name':
+			$selects = array( 't.term_id', 't.name' );
+			break;
+		case 'id=>slug':
+			$selects = array( 't.term_id', 't.slug' );
+			break;
 	}
 
 	$_fields = $fields;
@@ -1454,29 +1461,35 @@ function get_terms($taxonomies, $args = '') {
 			}
 		}
 	}
-	reset ( $terms );
+	reset( $terms );
 
 	$_terms = array();
 	if ( 'id=>parent' == $fields ) {
-		while ( $term = array_shift($terms) )
+		while ( $term = array_shift( $terms ) )
 			$_terms[$term->term_id] = $term->parent;
-		$terms = $_terms;
 	} elseif ( 'ids' == $fields ) {
-		while ( $term = array_shift($terms) )
+		while ( $term = array_shift( $terms ) )
 			$_terms[] = $term->term_id;
-		$terms = $_terms;
 	} elseif ( 'names' == $fields ) {
-		while ( $term = array_shift($terms) )
+		while ( $term = array_shift( $terms ) )
 			$_terms[] = $term->name;
-		$terms = $_terms;
+	} elseif ( 'id=>name' == $fields ) {
+		while ( $term = array_shift( $terms ) )
+			$_terms[$term->term_id] = $term->name;
+	} elseif ( 'id=>slug' == $fields ) {
+		while ( $term = array_shift( $terms ) )
+			$_terms[$term->term_id] = $term->slug;
 	}
+
+	if ( ! empty( $_terms ) )
+		$terms = $_terms;
 
 	if ( $number && is_array( $terms ) && count( $terms ) > $number )
 		$terms = array_slice( $terms, $offset, $number );
 
 	wp_cache_add( $cache_key, $terms, 'terms', DAY_IN_SECONDS );
 
-	$terms = apply_filters('get_terms', $terms, $taxonomies, $args);
+	$terms = apply_filters( 'get_terms', $terms, $taxonomies, $args );
 	return $terms;
 }
 
