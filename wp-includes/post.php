@@ -3680,14 +3680,14 @@ function get_pages($args = '') {
 		$hierarchical = false;
 		$incpages = wp_parse_id_list( $include );
 		if ( ! empty( $incpages ) )
-			$inclusions = ' AND ID IN (' . implode( ',', array_map( 'intval', $incpages ) ) .  ')';
+			$inclusions = ' AND ID IN (' . implode( ',', $incpages ) .  ')';
 	}
 
 	$exclusions = '';
 	if ( ! empty( $exclude ) ) {
 		$expages = wp_parse_id_list( $exclude );
 		if ( ! empty( $expages ) )
-			$exclusions = ' AND ID NOT IN (' . implode( ',', array_map( 'intval', $expages ) ) .  ')';
+			$exclusions = ' AND ID NOT IN (' . implode( ',', $expages ) .  ')';
 	}
 
 	$author_query = '';

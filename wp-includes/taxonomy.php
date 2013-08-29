@@ -1304,7 +1304,7 @@ function get_terms($taxonomies, $args = '') {
 	if ( ! empty( $include ) ) {
 		$exclude = '';
 		$exclude_tree = '';
-		$inclusions = implode( ',', array_map( 'intval', wp_parse_id_list( $include ) ) );
+		$inclusions = implode( ',', wp_parse_id_list( $include ) );
 	}
 
 	if ( ! empty( $inclusions ) )
@@ -1325,7 +1325,7 @@ function get_terms($taxonomies, $args = '') {
 	}
 
 	if ( ! empty( $exclude ) ) {
-		$exterms = array_map( 'intval', wp_parse_id_list( $exclude ) );
+		$exterms = wp_parse_id_list( $exclude );
 		if ( empty( $exclusions ) )
 			$exclusions = implode( ',', $exterms );
 		else
