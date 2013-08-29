@@ -1301,50 +1301,41 @@ function get_terms($taxonomies, $args = '') {
 
 	$where = "tt.taxonomy IN ('" . implode("', '", $taxonomies) . "')";
 	$inclusions = '';
-	if ( !empty($include) ) {
+	if ( ! empty( $include ) ) {
 		$exclude = '';
 		$exclude_tree = '';
-		$interms = wp_parse_id_list($include);
-		foreach ( $interms as $interm ) {
-			if ( empty($inclusions) )
-				$inclusions = ' AND ( t.term_id = ' . intval($interm) . ' ';
-			else
-				$inclusions .= ' OR t.term_id = ' . intval($interm) . ' ';
-		}
+		$inclusions = implode( ',', array_map( 'intval', wp_parse_id_list( $include ) ) );
 	}
 
-	if ( !empty($inclusions) )
-		$inclusions .= ')';
+	if ( ! empty( $inclusions ) )
+		$inclusions = ' AND t.term_id IN ( ' . $inclusions . ' )';
 	$where .= $inclusions;
 
 	$exclusions = '';
 	if ( ! empty( $exclude_tree ) ) {
-		$excluded_trunks = wp_parse_id_list( $exclude_tree );
-		foreach ( $excluded_trunks as $extrunk ) {
-			$excluded_children = (array) get_terms( reset( $taxonomies ), array( 'child_of' => intval( $extrunk ), 'fields' => 'ids', 'hide_empty' => 0 ) );
-			$excluded_children[] = $extrunk;
-			foreach( $excluded_children as $exterm ) {
-				if ( empty( $exclusions ) )
-					$exclusions = ' AND ( t.term_id <> ' . intval($exterm) . ' ';
-				else
-					$exclusions .= ' AND t.term_id <> ' . intval($exterm) . ' ';
-			}
+		$exclude_tree = wp_parse_id_list( $exclude_tree );
+		$excluded_children = array();
+		foreach ( $exclude_tree as $extrunk ) {
+			$excluded_children = array_merge(
+				$excluded_children,
+				(array) get_terms( $taxonomies[0], array( 'child_of' => intval( $extrunk ), 'fields' => 'ids', 'hide_empty' => 0 ) )
+			);
 		}
+		$exclusions = implode( ',', array_map( 'intval', $excluded_children ) );
 	}
 
-	if ( !empty($exclude) ) {
-		$exterms = wp_parse_id_list($exclude);
-		foreach ( $exterms as $exterm ) {
-			if ( empty($exclusions) )
-				$exclusions = ' AND ( t.term_id <> ' . intval($exterm) . ' ';
-			else
-				$exclusions .= ' AND t.term_id <> ' . intval($exterm) . ' ';
-		}
+	if ( ! empty( $exclude ) ) {
+		$exterms = array_map( 'intval', wp_parse_id_list( $exclude ) );
+		if ( empty( $exclusions ) )
+			$exclusions = implode( ',', $exterms );
+		else
+			$exclusions .= ', ' . implode( ',', $exterms );
 	}
 
-	if ( !empty($exclusions) )
-		$exclusions .= ')';
-	$exclusions = apply_filters('list_terms_exclusions', $exclusions, $args );
+	if ( ! empty( $exclusions ) )
+		$exclusions = ' AND t.term_id NOT IN (' . $exclusions . ')';
+
+	$exclusions = apply_filters( 'list_terms_exclusions', $exclusions, $args );
 	$where .= $exclusions;
 
 	if ( !empty($slug) ) {
