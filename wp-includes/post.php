@@ -3671,7 +3671,7 @@ function get_pages($args = '') {
 		$cache = array();
 
 	$inclusions = '';
-	if ( !empty($include) ) {
+	if ( ! empty( $include ) ) {
 		$child_of = 0; //ignore child_of, parent, exclude, meta_key, and meta_value params if using include
 		$parent = -1;
 		$exclude = '';
@@ -3679,32 +3679,16 @@ function get_pages($args = '') {
 		$meta_value = '';
 		$hierarchical = false;
 		$incpages = wp_parse_id_list( $include );
-		if ( ! empty( $incpages ) ) {
-			foreach ( $incpages as $incpage ) {
-				if (empty($inclusions))
-					$inclusions = $wpdb->prepare(' AND ( ID = %d ', $incpage);
-				else
-					$inclusions .= $wpdb->prepare(' OR ID = %d ', $incpage);
-			}
-		}
+		if ( ! empty( $incpages ) )
+			$inclusions = ' AND ID IN (' . implode( ',', array_map( 'intval', $incpages ) ) .  ')';
 	}
-	if (!empty($inclusions))
-		$inclusions .= ')';
 
 	$exclusions = '';
-	if ( !empty($exclude) ) {
+	if ( ! empty( $exclude ) ) {
 		$expages = wp_parse_id_list( $exclude );
-		if ( ! empty( $expages ) ) {
-			foreach ( $expages as $expage ) {
-				if (empty($exclusions))
-					$exclusions = $wpdb->prepare(' AND ( ID <> %d ', $expage);
-				else
-					$exclusions .= $wpdb->prepare(' AND ID <> %d ', $expage);
-			}
-		}
+		if ( ! empty( $expages ) )
+			$exclusions = ' AND ID NOT IN (' . implode( ',', array_map( 'intval', $expages ) ) .  ')';
 	}
-	if (!empty($exclusions))
-		$exclusions .= ')';
 
 	$author_query = '';
 	if (!empty($authors)) {
