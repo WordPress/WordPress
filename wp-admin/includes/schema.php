@@ -947,9 +947,10 @@ We hope you enjoy your new site. Thanks!
 			$wp_rewrite->set_permalink_structure( '/blog/%year%/%monthnum%/%day%/%postname%/' );
 
 		flush_rewrite_rules();
-	}
 
-	if ( $subdomain_install ) {
+		if ( ! $subdomain_install )
+			return true;
+
 		$vhost_ok = false;
 		$errstr = '';
 		$hostname = substr( md5( time() ), 0, 6 ) . '.' . $domain; // Very random hostname!
