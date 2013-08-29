@@ -1366,9 +1366,9 @@ function get_terms($taxonomies, $args = '') {
 		$limits = '';
 	}
 
-	if ( !empty($search) ) {
-		$search = like_escape($search);
-		$where .= $wpdb->prepare( " AND (t.name LIKE %s)", '%' . $search . '%');
+	if ( ! empty( $search ) ) {
+		$search = like_escape( $search );
+		$where .= $wpdb->prepare( ' AND ((t.name LIKE %s) OR (t.slug LIKE %s))', '%' . $search . '%', '%' . $search . '%' );
 	}
 
 	$selects = array();
