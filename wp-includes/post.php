@@ -311,8 +311,11 @@ function get_children($args = '', $output = OBJECT) {
 
 	$children = get_posts( $r );
 
-	if ( !$children )
+	if ( ! $children )
 		return $kids;
+
+	if ( ! empty( $r['fields'] ) )
+		return $children;
 
 	update_post_cache($children);
 
