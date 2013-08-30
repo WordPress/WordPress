@@ -272,6 +272,7 @@ CREATE TABLE $wpdb->sitemeta (
   KEY site_id (site_id)
 ) $charset_collate;
 CREATE TABLE $wpdb->signups (
+  signup_id bigint(20) NOT NULL auto_increment,
   domain varchar(200) NOT NULL default '',
   path varchar(100) NOT NULL default '',
   title longtext NOT NULL,
@@ -282,8 +283,11 @@ CREATE TABLE $wpdb->signups (
   active tinyint(1) NOT NULL default '0',
   activation_key varchar(50) NOT NULL default '',
   meta longtext,
+  PRIMARY KEY  (signup_id),
   KEY activation_key (activation_key),
-  KEY domain (domain)
+  KEY user_email (user_email)
+  KEY user_login_email (user_login,user_email),
+  KEY domain_path (domain,path),
 ) $charset_collate;";
 
 	switch ( $scope ) {

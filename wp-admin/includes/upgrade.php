@@ -1978,6 +1978,11 @@ function pre_schema_upgrade() {
 		$wpdb->query("ALTER TABLE $wpdb->options DROP INDEX option_name");
 	}
 
+	// Upgrade verions prior to 3.7
+	if ( $wp_current_db_version < 25179 && is_multisite() && is_main_network() && ! defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
+		$wpdb->query( "ALTER TABLE $wpdb->signups ADD signup_id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST" );
+		$wpdb->query( "ALTER TABLE $wpdb->signups DROP INDEX domain" );
+	}
 }
 
 /**
