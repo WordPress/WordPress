@@ -1631,6 +1631,7 @@ function comment_form( $args = array(), $post_id = null ) {
 		'comment_notes_after'  => '<p class="form-allowed-tags">' . sprintf( __( 'You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes: %s' ), ' <code>' . allowed_tags() . '</code>' ) . '</p>',
 		'id_form'              => 'commentform',
 		'id_submit'            => 'submit',
+		'src_submit'           => '',
 		'title_reply'          => __( 'Leave a Reply' ),
 		'title_reply_to'       => __( 'Leave a Reply to %s' ),
 		'cancel_reply_link'    => __( 'Cancel reply' ),
@@ -1667,7 +1668,11 @@ function comment_form( $args = array(), $post_id = null ) {
 						<?php echo apply_filters( 'comment_form_field_comment', $args['comment_field'] ); ?>
 						<?php echo $args['comment_notes_after']; ?>
 						<p class="form-submit">
+						<?php if(!empty($args['src_submit'])): ?>
+							<input name="submit" type="image" src="<?php echo esc_attr( $args['src_submit'] ); ?>" id="<?php echo esc_attr( $args['id_submit'] ); ?>" />
+						<?php else: ?>
 							<input name="submit" type="submit" id="<?php echo esc_attr( $args['id_submit'] ); ?>" value="<?php echo esc_attr( $args['label_submit'] ); ?>" />
+						<?php endif; ?>
 							<?php comment_id_fields( $post_id ); ?>
 						</p>
 						<?php do_action( 'comment_form', $post_id ); ?>
