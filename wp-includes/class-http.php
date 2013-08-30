@@ -371,7 +371,7 @@ class WP_Http {
 	 * @return array Processed string headers. If duplicate headers are encountered,
 	 * 					Then a numbered array is returned as the value of that header-key.
 	 */
-	public static function processHeaders( $headers, $url ) {
+	public static function processHeaders( $headers, $url = '' ) {
 		// split headers, one per array element
 		if ( is_string($headers) ) {
 			// tolerate line terminator: CRLF = LF (RFC 2616 19.3)
@@ -1708,7 +1708,8 @@ class WP_Http_Cookie {
 	 * @param string $requested_url The URL which the cookie was set on, used for default 'domain' and 'port' values
 	 */
 	function __construct( $data, $requested_url = '' ) {
-		$arrURL = @parse_url( $requested_url );
+		if ( $requested_url )
+			$arrURL = @parse_url( $requested_url );
 		if ( isset( $arrURL['host'] ) )
 			$this->domain = $arrURL['host'];
 		$this->path = isset( $arrURL['path'] ) ? $arrURL['path'] : '/';
