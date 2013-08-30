@@ -212,7 +212,10 @@ class WP_Upgrader {
 		// Protection against deleting files in any important base directories.
 		// Theme_Upgrader & Plugin_Upgrader also trigger this, as they pass the destination directory (WP_PLUGIN_DIR / wp-content/themes)
 		// intending to copy the directory into the directory, whilst they pass the source as the actual files to copy.
-		if ( in_array( $destination, array_merge( array( ABSPATH, WP_CONTENT_DIR, WP_PLUGIN_DIR, WP_CONTENT_DIR . '/themes' ), $wp_theme_directories ) ) ) {
+		$protected_directories = array( ABSPATH, WP_CONTENT_DIR, WP_PLUGIN_DIR, WP_CONTENT_DIR . '/themes' );
+		if ( is_array( $wp_theme_directories ) )
+			$protected_directories = array_merge( $protected_directories, $wp_theme_directories );
+		if ( in_array( $destination, $protected_directories ) ) {
 			$remote_destination = trailingslashit($remote_destination) . trailingslashit(basename($source));
 			$destination = trailingslashit($destination) . trailingslashit(basename($source));
 		}
