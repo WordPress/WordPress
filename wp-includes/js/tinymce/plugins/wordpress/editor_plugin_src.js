@@ -228,6 +228,16 @@
 				o.content = o.content.replace(/<p>(<br ?\/?>|\u00a0|\uFEFF)?<\/p>/g, '<p>&nbsp;</p>');
 			});
 
+			// Fix bug in iOS Safari where it's impossible to type after a touchstart event on the parent document.
+			// Happens after zooming in or out while the keyboard is open. See #25131.
+			if ( tinymce.isIOS5 ) {
+				ed.onKeyDown.add( function() {
+					if ( document.activeElement == document.body ) {
+						ed.getWin().focus();
+					}
+				});
+			}
+
 			ed.onSaveContent.add(function(ed, o) {
 				// If editor is hidden, we just want the textarea's value to be saved
 				if ( ed.isHidden() )
