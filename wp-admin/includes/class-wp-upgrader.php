@@ -470,6 +470,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 		delete_site_transient('update_plugins');
 		wp_cache_delete( 'plugins', 'plugins' );
 		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'plugin' ), $plugin );
+
+		return true;
 	}
 
 	function bulk_upgrade($plugins) {
