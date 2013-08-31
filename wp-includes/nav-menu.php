@@ -190,8 +190,8 @@ function wp_delete_nav_menu( $menu ) {
 	$result = wp_delete_term( $menu->term_id, 'nav_menu' );
 
 	// Remove this menu from any locations.
-	$locations = get_theme_mod( 'nav_menu_locations' );
-	foreach ( (array) $locations as $location => $menu_id ) {
+	$locations = get_nav_menu_locations();
+	foreach ( $locations as $location => $menu_id ) {
 		if ( $menu_id == $menu->term_id )
 			$locations[ $location ] = 0;
 	}
