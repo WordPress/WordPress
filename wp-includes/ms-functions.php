@@ -379,7 +379,10 @@ function is_email_address_unsafe( $user_email ) {
 	$is_email_address_unsafe = false;
 
 	if ( $banned_names && is_array( $banned_names ) ) {
-		list( $email_local_part, $email_domain ) = explode( '@', $user_email );
+		$banned_names = array_map( 'strtolower', $banned_names );
+		$normalized_email = strtolower( $user_email );
+
+		list( $email_local_part, $email_domain ) = explode( '@', $normalized_email );
 
 		foreach ( $banned_names as $banned_domain ) {
 			if ( ! $banned_domain )
@@ -391,7 +394,7 @@ function is_email_address_unsafe( $user_email ) {
 			}
 
 			$dotted_domain = ".$banned_domain";
-			if ( $dotted_domain === substr( $user_email, -strlen( $dotted_domain ) ) ) {
+			if ( $dotted_domain === substr( $normalized_email, -strlen( $dotted_domain ) ) ) {
 				$is_email_address_unsafe = true;
 				break;
 			}
