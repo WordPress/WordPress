@@ -1271,6 +1271,16 @@ function add_theme_support( $feature ) {
 				$args[0] = array_intersect( $args[0], array_keys( get_post_format_slugs() ) );
 			break;
 
+		case 'html5' :
+			// You can't just pass 'html5', you need to pass an array of types.
+			if ( ! is_array( $args[0] ) )
+				return false;
+
+			// Calling 'html5' again merges, rather than overwrites.
+			if ( isset( $_wp_theme_features['html5'] ) )
+				$args[0] = array_merge( $_wp_theme_features['html5'][0], $args[0] );
+			break;
+
 		case 'custom-header-uploads' :
 			return add_theme_support( 'custom-header', array( 'uploads' => true ) );
 			break;
@@ -1554,11 +1564,15 @@ function current_theme_supports( $feature ) {
 			return in_array( $content_type, $_wp_theme_features[$feature][0] );
 			break;
 
+		case 'html5':
 		case 'post-formats':
 			// specific post formats can be registered by passing an array of types to
 			// add_theme_support()
-			$post_format = $args[0];
-			return in_array( $post_format, $_wp_theme_features[$feature][0] );
+
+			// Specific areas of HTML5 support *must* be passed via an array to add_theme_support()
+
+			$type = $args[0];
+			return in_array( $type, $_wp_theme_features[$feature][0] );
 			break;
 
 		case 'custom-header':
