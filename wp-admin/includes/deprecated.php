@@ -1023,3 +1023,19 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
 	_deprecated_function( __FUNCTION__, '3.5', 'image_resize()' );
 	return apply_filters( 'wp_create_thumbnail', image_resize( $file, $max_side, $max_side ) );
 }
+
+/**
+ * Get the real filesystem path to a file to edit within the admin.
+ *
+ * @since 1.5.0
+ * @deprecated 2.9.0
+ * @uses WP_CONTENT_DIR Full filesystem path to the wp-content directory.
+ * 
+ * @param string $file Filesystem path relative to the wp-content directory.
+ * @return string Full filesystem path to edit.
+ */
+function get_real_file_to_edit( $file ) {
+	_deprecated_function( __FUNCTION__, '2.9' );
+
+	return WP_CONTENT_DIR . $file;
+}

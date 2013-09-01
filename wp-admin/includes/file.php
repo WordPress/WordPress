@@ -94,30 +94,6 @@ function get_home_path() {
 }
 
 /**
- * Get the real file system path to a file to edit within the admin
- *
- * If the $file is index.php or .htaccess this function will assume it is relative
- * to the install root, otherwise it is assumed the file is relative to the wp-content
- * directory
- *
- * @since 1.5.0
- *
- * @uses get_home_path
- * @uses WP_CONTENT_DIR full filesystem path to the wp-content directory
- * @param string $file filesystem path relative to the WordPress install directory or to the wp-content directory
- * @return string full file system path to edit
- */
-function get_real_file_to_edit( $file ) {
-	if ('index.php' == $file || '.htaccess' == $file ) {
-		$real_file = get_home_path() . $file;
-	} else {
-		$real_file = WP_CONTENT_DIR . $file;
-	}
-
-	return $real_file;
-}
-
-/**
  * Returns a listing of all files in the specified folder and all subdirectories up to 100 levels deep.
  * The depth of the recursiveness can be controlled by the $levels param.
  *
