@@ -90,7 +90,7 @@ class WP_Styles extends WP_Dependencies {
 			$this->print_html .= $this->print_inline_style( $handle, false );
 		} else {
 			echo $tag;
-			$this->print_inline_style( $handle );
+			echo $this->print_inline_style( $handle, false );
 		}
 
 		return true;
