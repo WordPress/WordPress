@@ -115,7 +115,7 @@ if ( !function_exists('get_userdata') ) :
  * @since 0.71
  *
  * @param int $user_id User ID
- * @return bool|object False on failure, WP_User object on success
+ * @return WP_User|bool WP_User object on success, false on failure.
  */
 function get_userdata( $user_id ) {
 	return get_user_by( 'id', $user_id );
@@ -130,7 +130,7 @@ if ( !function_exists('get_user_by') ) :
  *
  * @param string $field The field to retrieve the user with. id | slug | email | login
  * @param int|string $value A value for $field. A user ID, slug, email address, or login name.
- * @return bool|object False on failure, WP_User object on success
+ * @return WP_User|bool WP_User object on success, false on failure.
  */
 function get_user_by( $field, $value ) {
 	$userdata = WP_User::get_data_by( $field, $value );
@@ -463,7 +463,7 @@ if ( !function_exists('wp_authenticate') ) :
  *
  * @param string $username User's username
  * @param string $password User's password
- * @return WP_Error|WP_User WP_User object if login successful, otherwise WP_Error object.
+ * @return WP_User|WP_Error WP_User object if login successful, otherwise WP_Error object.
  */
 function wp_authenticate($username, $password) {
 	$username = sanitize_user($username);
