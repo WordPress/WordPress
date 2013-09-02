@@ -303,12 +303,13 @@ function check_password_reset_key($key, $login) {
  * @param object $user The user
  * @param string $new_pass New password for the user in plaintext
  */
-function reset_password($user, $new_pass) {
-	do_action('password_reset', $user, $new_pass);
+function reset_password( $user, $new_pass ) {
+	do_action( 'password_reset', $user, $new_pass );
 
-	wp_set_password($new_pass, $user->ID);
+	wp_set_password( $new_pass, $user->ID );
+	update_user_option( $user->ID, 'default_password_nag', false, true );
 
-	wp_password_change_notification($user);
+	wp_password_change_notification( $user );
 }
 
 /**
