@@ -485,51 +485,6 @@ function wp_nav_menu_taxonomy_meta_boxes() {
 }
 
 /**
- * Displays a metabox for the nav menu theme locations.
- *
- * @since 3.0.0
- */
-function wp_nav_menu_locations_meta_box() {
-	global $nav_menu_selected_id;
-
-	if ( ! current_theme_supports( 'menus' ) ) {
-		// We must only support widgets. Leave a message and bail.
-		echo '<p class="howto">' . __('The current theme does not natively support menus, but you can use the &#8220;Custom Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p>';
-		return;
-	}
-
-	$locations = get_registered_nav_menus();
-	$menus = wp_get_nav_menus();
-	$menu_locations = get_nav_menu_locations();
-	$num_locations = count( array_keys($locations) );
-
-	echo '<p class="howto">' . _n( 'Select a menu to use within your theme.', 'Select the menus you will use in your theme.', $num_locations ) . '</p>';
-
-	foreach ( $locations as $location => $description ) {
-		?>
-		<p>
-			<label class="howto" for="locations-<?php echo $location; ?>">
-				<span><?php echo $description; ?></span>
-				<select name="menu-locations[<?php echo $location; ?>]" id="locations-<?php echo $location; ?>">
-					<option value="0"></option>
-					<?php foreach ( $menus as $menu ) : ?>
-					<option<?php selected( isset( $menu_locations[ $location ] ) && $menu_locations[ $location ] == $menu->term_id ); ?>
-						value="<?php echo $menu->term_id; ?>"><?php echo wp_html_excerpt( $menu->name, 40, '&hellip;' ); ?></option>
-					<?php endforeach; ?>
-				</select>
-			</label>
-		</p>
-	<?php
-	}
-	?>
-	<p class="button-controls">
-		<?php submit_button( __( 'Save' ), 'primary right', 'nav-menu-locations', false, wp_nav_menu_disabled_check( $nav_menu_selected_id ) ); ?>
-		<span class="spinner"></span>
-	</p>
-	<?php
-}
-
-/**
  * Check whether to disable the Menu Locations meta box submit button
  *
  * @since 3.6.0

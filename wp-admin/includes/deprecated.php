@@ -1041,3 +1041,15 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
 	_deprecated_function( __FUNCTION__, '3.5', 'image_resize()' );
 	return apply_filters( 'wp_create_thumbnail', image_resize( $file, $max_side, $max_side ) );
 }
+
+/**
+ * This was once used to display a metabox for the nav menu theme locations.
+ *
+ * Deprecated in favor of a 'Manage Locations' tab added to nav menus management screen.
+ *
+ * @since 3.0.0
+ * @deprecated 3.6.0
+ */
+function wp_nav_menu_locations_meta_box() {
+	_deprecated_function( __FUNCTION__, '3.6' );	
+}
