@@ -628,7 +628,7 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
  * @param string $user_email The user's email address.
  * @param array $meta By default, contains the requested privacy setting and lang_id.
  */
-function wpmu_signup_blog($domain, $path, $title, $user, $user_email, $meta = '') {
+function wpmu_signup_blog( $domain, $path, $title, $user, $user_email, $meta = array() )  {
 	global $wpdb;
 
 	$key = substr( md5( time() . rand() . $domain ), 0, 16 );
@@ -661,7 +661,7 @@ function wpmu_signup_blog($domain, $path, $title, $user, $user_email, $meta = ''
  * @param string $user_email The user's email address.
  * @param array $meta By default, this is an empty array.
  */
-function wpmu_signup_user($user, $user_email, $meta = '') {
+function wpmu_signup_user( $user, $user_email, $meta = array() ) {
 	global $wpdb;
 
 	// Format data
@@ -704,11 +704,11 @@ function wpmu_signup_user($user, $user_email, $meta = '') {
  * @param string $title The site title.
  * @param string $user The user's login name.
  * @param string $user_email The user's email address.
- * @param array $meta By default, contains the requested privacy setting and lang_id.
  * @param string $key The activation key created in wpmu_signup_blog()
+ * @param array $meta By default, contains the requested privacy setting and lang_id.
  * @return bool
  */
-function wpmu_signup_blog_notification($domain, $path, $title, $user, $user_email, $key, $meta = '') {
+function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_email, $key, $meta = array() ) {
 	global $current_site;
 
 	if ( !apply_filters('wpmu_signup_blog_notification', $domain, $path, $title, $user, $user_email, $key, $meta) )
@@ -765,11 +765,11 @@ function wpmu_signup_blog_notification($domain, $path, $title, $user, $user_emai
  *
  * @param string $user The user's login name.
  * @param string $user_email The user's email address.
- * @param array $meta By default, an empty array.
  * @param string $key The activation key created in wpmu_signup_user()
+ * @param array $meta By default, an empty array.
  * @return bool
  */
-function wpmu_signup_user_notification($user, $user_email, $key, $meta = '') {
+function wpmu_signup_user_notification( $user, $user_email, $key, $meta = array() ) {
 	if ( !apply_filters('wpmu_signup_user_notification', $user, $user_email, $key, $meta) )
 		return false;
 
@@ -937,7 +937,7 @@ function wpmu_create_user( $user_name, $password, $email ) {
  * @param int $site_id Optional. Only relevant on multi-network installs.
  * @return mixed Returns WP_Error object on failure, int $blog_id on success
  */
-function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = '', $site_id = 1 ) {
+function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $site_id = 1 ) {
 	$defaults = array( 'public' => 0 );
 	$meta = wp_parse_args( $meta, $defaults );
 
@@ -1201,7 +1201,7 @@ function install_blog_defaults($blog_id, $user_id) {
  * @param array $meta Optional. Not used in the default function, but is passed along to hooks for customization.
  * @return bool
  */
-function wpmu_welcome_notification($blog_id, $user_id, $password, $title, $meta = '') {
+function wpmu_welcome_notification( $blog_id, $user_id, $password, $title, $meta = array() ) {
 	global $current_site;
 
 	if ( !apply_filters('wpmu_welcome_notification', $blog_id, $user_id, $password, $title, $meta) )
@@ -1265,7 +1265,7 @@ We hope you enjoy your new site. Thanks!
  * @param array $meta Optional. Not used in the default function, but is passed along to hooks for customization.
  * @return bool
  */
-function wpmu_welcome_user_notification($user_id, $password, $meta = '') {
+function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) {
 	global $current_site;
 
 	if ( !apply_filters('wpmu_welcome_user_notification', $user_id, $password, $meta) )
