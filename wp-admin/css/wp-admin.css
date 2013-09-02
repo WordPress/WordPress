@@ -7913,8 +7913,9 @@ body.interim-login {
 	font-weight: bold;
 	padding: 7px 0;
 	line-height: 20px;
-	display:block;
-	margin-right:13em;
+	min-height: 20px;
+	display: block;
+	margin-right: 13em;
 }
 
 /* Sortables */
