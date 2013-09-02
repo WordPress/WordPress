@@ -296,9 +296,11 @@ function install_plugin_information() {
 			$api->$key = wp_kses( $api->$key, $plugins_allowedtags );
 	}
 
-	$section = isset($_REQUEST['section']) ? wp_unslash( $_REQUEST['section'] ) : 'description'; //Default to the Description tab, Do not translate, API returns English.
-	if ( empty($section) || ! isset($api->sections[ $section ]) )
-		$section = array_shift( $section_titles = array_keys((array)$api->sections) );
+	$section = isset( $_REQUEST['section'] ) ? wp_unslash( $_REQUEST['section'] ) : 'description'; //Default to the Description tab, Do not translate, API returns English.
+	if ( empty( $section ) || ! isset( $api->sections[ $section ] ) ) {
+		$section_titles = array_keys( (array) $api->sections );
+		$section = array_shift( $section_titles );
+	}
 
 	iframe_header( __('Plugin Install') );
 	echo "<div id='$tab-header'>\n";
