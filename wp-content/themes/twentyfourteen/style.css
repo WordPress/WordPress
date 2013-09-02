@@ -1768,11 +1768,18 @@ span > object {
 	margin: 0 0 48px 0;
 	margin: 0 0 4.8rem 0;
 }
-.comment-metadata,
 .comment-author {
 	font-size: 14px;
 	font-size: 1.4rem;
 	line-height: 1.7142857142;
+	text-transform: uppercase;
+}
+.comment-metadata,
+.comment-list .reply {
+	font-size: 12px;
+	font-size: 1.2rem;
+	line-height: 2;
+	text-transform: uppercase;
 }
 .comment-author .fn {
 	font-weight: 900;
@@ -1792,10 +1799,6 @@ span > object {
 .comment-list .pingback a:hover {
 	color: #24890d;
 	text-decoration: none;
-}
-.comment-edit-link:before {
-	color: rgba(0, 0, 0, 0.2);
-	content: '\007c\0020';
 }
 .comments-area article,
 .comment-list .trackback,
@@ -1824,35 +1827,51 @@ span > object {
 	padding: 2px;
 	padding: 0.2rem;
 	position: absolute;
-		top: 3px;
-		top: 0.3rem;
+		top: 0;
 		left: 0;
-	width: 22px;
-	width: 2.2rem;
-	height: 22px;
-	height: 2.2rem;
+	width: 18px;
+	width: 1.8rem;
+	height: 18px;
+	height: 1.8rem;
 }
 .bypostauthor .avatar {
 	background-color: #24890d;
 }
+.says {
+	display: none;
+}
 .comment-author .fn {
 	font-style: normal;
 }
-.comment-author .avatar {
-	position: absolute;
-		top: 2px;
-		top: 0.2rem;
-		left: 2px;
-		left: 0.2rem;
-	width: 22px;
-	width: 2.2rem;
-	height: 22px;
-	height: 2.2rem;
-}
 .comment-metadata,
-.comment-content {
+.comment-content,
+.comment-list .reply {
 	padding-left: 36px;
 	padding-left: 3.6rem;
+}
+.comment-edit-link:before,
+.comment-reply-link:before,
+.comment-reply-login:before {
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	font: normal 16px/1 'Genericons';
+	font-size:1.6rem;
+	vertical-align: top;
+}
+.comment-edit-link {
+	margin-left: 10px;
+	margin-left: 1.0rem;
+}
+.comment-edit-link:before {
+	content: "\f411";
+	margin: 3px 2px 0 0;
+	margin: 0.3rem 0.2rem 0 0;
+}
+.comment-reply-link:before,
+.comment-reply-login:before {
+	content: "\f412";
+	margin: 3px 3px 0 0;
+	margin: 0.3rem 0.3rem 0 0;
 }
 .comment-content a {
 	word-wrap: break-word;
@@ -1880,8 +1899,8 @@ span > object {
 	margin-bottom: 2.4rem;
 }
 .comment .comment-respond {
-	margin-left: 47px;
-	margin-left: 4.7rem;
+	margin-left: 36px;
+	margin-left: 3.6rem;
 }
 .comment-respond h3 {
 	margin-top: 0;
@@ -2527,14 +2546,15 @@ span > object {
 		padding-top: 3.6rem;
 	}
 	.comment-author .avatar {
-		width: 32px;
-		width: 3.2rem;
-		height: 32px;
-		height: 3.2rem;
+		width: 42px;
+		width: 4.2rem;
+		height: 42px;
+		height: 4.2rem;
 	}
 	.comment-author,
 	.comment-metadata,
-	.comment-content {
+	.comment-content,
+	.comment-list .reply {
 		padding-left: 60px;
 		padding-left: 6.0rem;
 	}
@@ -2555,6 +2575,10 @@ span > object {
 	}
 	.comment-navigation {
 		padding-left: 9.12778904%;
+	}
+	.comment .comment-respond {
+		margin-left: 60px;
+		margin-left: 6.0rem;
 	}
 	.image-navigation .previous-image,
 	.image-navigation .next-image,
@@ -2638,21 +2662,28 @@ span > object {
 	.comments-title,
 	.no-comments,
 	.comment-respond,
-	.comments-area article,
-	.comment-list .trackback,
-	.comment-list .pingback,
 	.post-navigation [rel="prev"],
 	.post-navigation [rel="next"] {
 		padding-right: 12.39493534%;
 		padding-left: 17.06896551%;
 	}
+	.comments-area article,
+	.comment-list .trackback,
+	.comment-list .pingback {
+		padding-right: 11.25%;
+		padding-left: 15.46875%;
+	}
 	.comment-respond {
 		padding-right: 13.8900862%;
 	}
+	.comment .comment-respond {
+		margin-left: 50px;
+		margin-left: 5.0rem;
+	}
 	.comment-list,
 	.full-width .comment-list {
-		margin-left: -70px;
-		margin-left: -7.0rem;
+		margin-left: -60px;
+		margin-left: -6.0rem;
 	}
 	.comment-navigation {
 		padding-left: 17.06896551%;
@@ -2847,6 +2878,10 @@ span > object {
 	.comment-navigation {
 		padding-left: 9.19765166%;
 	}
+	.comment .comment-respond {
+		margin-left: 60px;
+		margin-left: 6.0rem;
+	}
 	.image-navigation .previous-image,
 	.image-navigation .next-image,
 	.full-width .comment-navigation,
@@ -2905,21 +2940,28 @@ span > object {
 	.comments-title,
 	.no-comments,
 	.comment-respond,
-	.comments-area article,
-	.comment-list .trackback,
-	.comment-list .pingback,
 	.post-navigation [rel="prev"],
 	.post-navigation [rel="next"] {
 		padding-right: 12.44146986%;
 		padding-left: 16.77524429%;
 	}
+	.comments-area article,
+	.comment-list .trackback,
+	.comment-list .pingback {
+		padding-right: 11.27596439%;
+		padding-left: 15.2818991%;
+	}
 	.comment-respond {
 		padding-right: 13.73697916%;
 	}
+	.comment .comment-respond {
+		margin-left: 50px;
+		margin-left: 5.0rem;
+	}
 	.comment-list,
 	.full-width .comment-list {
-		margin-left: -70px;
-		margin-left: -7.0rem;
+		margin-left: -60px;
+		margin-left: -6.0rem;
 	}
 	.comment-navigation {
 		padding-left: 16.77524429%;
