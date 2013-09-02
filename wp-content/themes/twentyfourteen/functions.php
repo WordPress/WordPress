@@ -50,6 +50,11 @@ function twentyfourteen_setup() {
 	 */
 	load_theme_textdomain( 'twentyfourteen', get_template_directory() . '/languages' );
 
+	/*
+	* This theme styles the visual editor to resemble the theme style.
+	*/
+	add_editor_style( array( 'editor-style.css', twentyfourteen_font_url() ) );
+
 	// Adds RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
 
@@ -174,17 +179,21 @@ function twentyfourteen_widgets_init() {
 add_action( 'widgets_init', 'twentyfourteen_widgets_init' );
 
 /**
- * Register Google fonts for Twenty Fourteen.
+ * Register Lato Google font for Twenty Fourteen.
  *
  * @return void
  */
-function twentyfourteen_fonts() {
-	/* translators: If there are characters in your language that are not supported
-	   by Lato, translate this to 'off'. Do not translate into your own language. */
+function twentyfourteen_font_url() {
+	$font_url = '';
+	/*
+	 * Translators: If there are characters in your language that are not supported
+	 * by Lato, translate this to 'off'. Do not translate into your own language.
+	 */
 	if ( 'off' !== _x( 'on', 'Lato font: on or off', 'twentyfourteen' ) )
-		wp_register_style( 'twentyfourteen-lato', '//fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic', array(), null );
+		$font_url = add_query_arg( 'family', urlencode( 'Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' ), "//fonts.googleapis.com/css" );
+
+	return $font_url;
 }
-add_action( 'init', 'twentyfourteen_fonts' );
 
 /**
  * Enqueues scripts and styles for front end.
@@ -212,6 +221,9 @@ function twentyfourteen_scripts() {
 		wp_enqueue_script( 'jquery-masonry' );
 
 	wp_enqueue_script( 'twentyfourteen-theme', get_template_directory_uri() . '/js/theme.js', array( 'jquery' ), '20130820', true );
+
+	// Add Lato font used in the main stylesheet.
+	wp_enqueue_style( 'twentyfourteen-lato', twentyfourteen_font_url(), array(), null );
 }
 add_action( 'wp_enqueue_scripts', 'twentyfourteen_scripts' );
 
