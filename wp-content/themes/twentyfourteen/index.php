@@ -27,7 +27,7 @@ get_header(); ?>
 				twentyfourteen_paging_nav();
 
 			else :
-				get_template_part( 'no-results', 'index' );
+				get_template_part( 'content', 'none' );
 
 			endif;
 		?>

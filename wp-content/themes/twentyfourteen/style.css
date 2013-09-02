@@ -1083,14 +1083,12 @@ footer.entry-meta {
 }
 
 /* .content-area specific styles */
-.content-area .entry-header,
-.content-area .page-header {
+.content-area .entry-header {
 	background-color: #fff;
 	padding: 24px 10px 12px;
 	padding: 2.4rem 1.0rem 1.2rem;
 }
-.content-area .entry-title,
-.content-area .page-title {
+.content-area .entry-title {
 	font-size: 33px;
 	font-size: 3.3rem;
 	font-weight: 300;
@@ -1306,12 +1304,14 @@ footer.entry-meta .entry-title a:hover {
 	height: 4px;
 	height: 0.4rem;
 }
+.archive-header,
 .page-header {
 	margin: 0 0 24px;
 	margin: 0 0 2.4rem;
 	padding: 0 10px;
 	padding: 0 1.0rem;
 }
+.archive-title,
 .page-title {
 	font-size: 16px;
 	font-size: 1.6rem;
@@ -1320,7 +1320,7 @@ footer.entry-meta .entry-title a:hover {
 	margin-bottom: 24px;
 	margin-bottom: 2.4rem;
 }
-.taxonomy-description p {
+.taxonomy-description {
 	color: #767676;
 	font-size: 12px;
 	font-size: 1.2rem;
@@ -2563,6 +2563,7 @@ span > object {
 		margin: 1.2rem 4.59183673% 2.4rem;
 		padding: 0 4.46428571%;
 	}
+	.archive-header,
 	.page-header {
 		margin: 0 4.59183673% 24px;
 		margin: 0 4.59183673% 2.4rem;
@@ -2701,6 +2702,7 @@ span > object {
 	.content-area .full-width footer.entry-meta {
 		margin: 0 11.30926724%;
 	}
+	.archive-header,
 	.page-header {
 		margin: 0 8.03571428% 24px 12.5%;
 		margin: 0 8.03571428% 2.4rem 12.5%;
@@ -2826,8 +2828,7 @@ span > object {
 		margin: 0 0 0 -27.31707317%;
 		width: 24.87804878%;
 	}
-	.content-area .entry-header,
-	.content-area .page-header {
+	.content-area .entry-header {
 		margin: -48px 4.59183673% 0;
 		margin: -4.8rem 4.59183673% 0;
 		padding: 24px 4.46428571% 12px;
@@ -2845,6 +2846,7 @@ span > object {
 		margin: 1.2rem 4.59183673% 2.4rem;
 		padding: 0 4.46428571%;
 	}
+	.archive-header,
 	.page-header {
 		margin: 0 4.59183673% 24px;
 		margin: 0 4.59183673% 2.4rem;
@@ -2973,8 +2975,7 @@ span > object {
 }
 
 @media screen and (min-width: 1150px) {
-	.content-area .entry-header,
-	.content-area .page-header {
+	.content-area .entry-header {
 		margin: -48px 8.03571428% 0 12.5%;
 		margin: -4.8rem 8.03571428% 0 12.5%;
 	}
@@ -3009,6 +3010,7 @@ span > object {
 	.comment-navigation {
 		padding-left: 16.77524429%;
 	}
+	.archive-header,
 	.page-header {
 		margin: 0 8.03571428% 24px 12.5%;
 		margin: 0 8.03571428% 2.4rem 12.5%;

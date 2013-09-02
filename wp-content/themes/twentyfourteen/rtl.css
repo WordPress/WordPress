@@ -551,6 +551,7 @@ img.alignleft,
 		margin: 0 12.5% 0 8.03571428%;
 	}
 
+	.archive-header,
 	.page-header {
 		margin: 0 12.5% 24px 8.03571428%;
 		margin: 0 12.5% 2.4rem 8.03571428%;
@@ -788,6 +789,7 @@ img.alignleft,
 		padding-left: 0;
 	}
 
+	.archive-header,
 	.page-header {
 		margin: 0 12.5% 24px 8.03571428%;
 		margin: 0 12.5% 2.4rem 8.03571428%;
