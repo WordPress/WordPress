@@ -7,10 +7,8 @@
 			$masthead = $( '#masthead' ),
 			$secondaryTop = $( '#secondary-top' ),
 			$mobileNavigations = $( '#mobile-navigations'),
-			$socialLinksWrapper = $( 'div.social-links-wrapper' ),
 			$searchBoxWrapper = $( 'div.search-box-wrapper' ),
 			$searchToggle = $( 'div.search-toggle' ),
-			$socialLinksToggle = $( 'div.social-links-toggle' ),
 			timeout = false;
 
 		// Toggle function.
@@ -19,30 +17,11 @@
 			$masthead.find( '#mobile-navigations' ).toggleClass( 'hide' );
 		}
 
-		// Click event for toggle the social links
-		$socialLinksToggle.click( function() {
-			$( this ).toggleClass( 'active' );
-			$socialLinksWrapper.toggleClass( 'hide' );
-			// if .search-box-wrapper is visible hide it
-			if ( ! $searchBoxWrapper.hasClass( 'hide' ) ) {
-				$searchBoxWrapper.addClass( 'hide' );
-			}
-			if ( $searchToggle.hasClass( 'active' ) ) {
-				$searchToggle.removeClass( 'active' );
-			}
-		} );
-
 		// Click event for toggle the search
 		$searchToggle.click( function() {
 			$( this ).toggleClass( 'active' );
 			$searchBoxWrapper.toggleClass( 'hide' );
-			// if .social-links-wrapper is visible hide it
-			if ( ! $socialLinksWrapper.hasClass( 'hide' ) ) {
-				$socialLinksWrapper.addClass( 'hide' );
-			}
-			if ( $socialLinksToggle.hasClass( 'active' ) ) {
-				$socialLinksToggle.removeClass( 'active' );
-			}
+
 			if ( $( this ).hasClass( 'active' ) )
 				$searchBoxWrapper.find( '.search-field' ).focus();
 		} );

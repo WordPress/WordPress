@@ -82,29 +82,16 @@ blockquote.pull.alignleft {
 	right: auto;
 }
 
-.social-links-toggle,
 .search-toggle {
 	float: right;
 }
 
-.social-links-toggle {
-	border-left: 1px solid rgba(255, 255, 255, 0.4);
-	border-right: none;
-}
-
-.social-links-toggle span:before,
-.search-toggle span:before {
+.genericon-search:before {
 	margin-right: -8px;
 	margin-right: -0.8rem;
 	right: 50%;
 	left: auto;
 	margin-left: auto;
-}
-
-.social-links li {
-	float: left;
-	margin: 8px 0 8px 10px;
-	margin: 0.8rem 0 0.8rem 1.0rem;
 }
 
 .search-box .search-field {
@@ -635,7 +622,6 @@ img.alignleft,
 		padding-left: 0;
 	}
 
-	.social-links-wrapper,
 	.search-box-wrapper {
 		padding-right: 222px;
 		padding-right: 22.2rem;
