@@ -381,6 +381,7 @@ input::-moz-focus-inner { /* Corrects inner padding and border displayed oddly i
 }
 input[type="text"],
 input[type="email"],
+input[type="url"],
 input[type="search"],
 input[type="password"],
 textarea {
@@ -392,6 +393,7 @@ textarea {
 }
 input[type="text"]:focus,
 input[type="email"]:focus,
+input[type="url"]:focus,
 input[type="search"]:focus,
 input[type="password"]:focus,
 textarea:focus {
@@ -399,6 +401,7 @@ textarea:focus {
 }
 input[type="text"],
 input[type="email"],
+input[type="url"],
 input[type="search"],
 input[type="password"] {
 	padding: 8px 10px;
@@ -2006,6 +2009,7 @@ span > object {
 }
 .widget-area input[type="text"],
 .widget-area input[type="email"],
+.widget-area input[type="url"],
 .widget-area input[type="search"],
 .widget-area input[type="password"],
 .widget-area textarea {
@@ -2166,6 +2170,7 @@ span > object {
 }
 .content-sidebar input[type="text"],
 .content-sidebar input[type="email"],
+.content-sidebar input[type="url"],
 .content-sidebar input[type="search"],
 .content-sidebar input[type="password"],
 .content-sidebar textarea {
