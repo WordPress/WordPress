@@ -15,15 +15,9 @@
 /**
  * WordPress HTTP Class for managing HTTP Transports and making HTTP requests.
  *
- * This class is called for the functionality of making HTTP requests and replaces Snoopy
- * functionality. There is no available functionality to add HTTP transport implementations, since
- * most of the HTTP transports are added and available for use.
- *
- * There are no properties, because none are needed and for performance reasons. Some of the
- * functions are static and while they do have some overhead over functions in PHP4, the purpose is
- * maintainability. When PHP5 is finally the requirement, it will be easy to add the static keyword
- * to the code. It is not as easy to convert a function to a method after enough code uses the old
- * way.
+ * This class is used to consistently make outgoing HTTP requests easy for developers
+ * while still being compatible with the many PHP configurations under which
+ * WordPress runs.
  *
  * Debugging includes several actions, which pass different variables for debugging the HTTP API.
  *
@@ -42,8 +36,7 @@ class WP_Http {
 	 * using http_build_query().
 	 *
 	 * The only URI that are supported in the HTTP Transport implementation are the HTTP and HTTPS
-	 * protocols. HTTP and HTTPS are assumed so the server might not know how to handle the send
-	 * headers. Other protocols are unsupported and most likely will fail.
+	 * protocols.
 	 *
 	 * The defaults are 'method', 'timeout', 'redirection', 'httpversion', 'blocking' and
 	 * 'user-agent'.
@@ -59,20 +52,13 @@ class WP_Http {
 	 * replace the default user-agent, which is 'WordPress/WP_Version', where WP_Version is the
 	 * value from $wp_version.
 	 *
-	 * 'blocking' is the default, which is used to tell the transport, whether it should halt PHP
-	 * while it performs the request or continue regardless. Actually, that isn't entirely correct.
-	 * Blocking mode really just means whether the fread should just pull what it can whenever it
-	 * gets bytes or if it should wait until it has enough in the buffer to read or finishes reading
-	 * the entire content. It doesn't actually always mean that PHP will continue going after making
-	 * the request.
+	 * The 'blocking' parameter can be used to specify if the calling code requires the result of
+	 * the HTTP request. If set to false, the request will be sent to the remote server, and
+	 * processing returned to the calling code immediately, the caller will know if the request
+	 * suceeded or failed, but will not receive any response from the remote server.
 	 *
 	 * @access public
 	 * @since 2.7.0
-	 * @todo Refactor this code. The code in this method extends the scope of its original purpose
-	 *		and should be refactored to allow for cleaner abstraction and reduce duplication of the
-	 *		code. One suggestion is to create a class specifically for the arguments, however
-	 *		preliminary refactoring to this affect has affect more than just the scope of the
-	 *		arguments. Something to ponder at least.
 	 *
 	 * @param string $url URI resource.
 	 * @param str|array $args Optional. Override the defaults.
@@ -252,11 +238,6 @@ class WP_Http {
 	 *
 	 * The order for blocking requests is cURL, Streams, and finally Fsockopen.
 	 * The order for non-blocking requests is cURL, Streams and Fsockopen().
-	 *
-	 * There are currently issues with "localhost" not resolving correctly with DNS. This may cause
-	 * an error "failed to open stream: A connection attempt failed because the connected party did
-	 * not properly respond after a period of time, or established connection failed because [the]
-	 * connected host has failed to respond."
 	 *
 	 * @since 3.2.0
 	 * @access private
@@ -522,19 +503,9 @@ class WP_Http {
 		if ( ! defined( 'WP_HTTP_BLOCK_EXTERNAL' ) || ! WP_HTTP_BLOCK_EXTERNAL )
 			return false;
 
-		// parse_url() only handles http, https type URLs, and will emit E_WARNING on failure.
-		// This will be displayed on blogs, which is not reasonable.
-		$check = @parse_url($uri);
-
-		/* Malformed URL, can not process, but this could mean ssl, so let through anyway.
-		 *
-		 * This isn't very security sound. There are instances where a hacker might attempt
-		 * to bypass the proxy and this check. However, the reason for this behavior is that
-		 * WordPress does not do any checking currently for non-proxy requests, so it is keeps with
-		 * the default unsecure nature of the HTTP request.
-		 */
-		if ( $check === false )
-			return false;
+		$check = parse_url($uri);
+		if ( ! $check )
+			return true;
 
 		$home = parse_url( get_option('siteurl') );
 
