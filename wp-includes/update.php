@@ -77,7 +77,7 @@ function wp_version_check() {
 
 	$url = 'http://api.wordpress.org/core/version-check/1.7/?' . http_build_query( $query, null, '&' );
 
-	if ( wp_http_supports( 'ssl' ) )
+	if ( wp_http_supports( array( 'ssl' ) ) )
 		$url = set_url_scheme( $url, 'https' );
 
 	$options = array(
