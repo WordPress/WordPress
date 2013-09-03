@@ -75,7 +75,10 @@ function wp_version_check() {
 		'multisite_enabled' => $multisite_enabled
 	);
 
-	$url = 'http://api.wordpress.org/core/version-check/1.6/?' . http_build_query( $query, null, '&' );
+	$url = 'http://api.wordpress.org/core/version-check/1.7/?' . http_build_query( $query, null, '&' );
+
+	if ( wp_http_supports( 'ssl' ) )
+		$url = set_url_scheme( $url, 'https' );
 
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3 ),
@@ -92,7 +95,7 @@ function wp_version_check() {
 		return false;
 
 	$body = trim( wp_remote_retrieve_body( $response ) );
-	$body = maybe_unserialize( $body );
+	$body = json_decode( $body, true );
 
 	if ( ! is_array( $body ) || ! isset( $body['offers'] ) )
 		return false;
@@ -110,7 +113,7 @@ function wp_version_check() {
 				$offer[ $offer_key ] = esc_html( $value );
 		}
 		$offer = (object) array_intersect_key( $offer, array_fill_keys( array( 'response', 'download', 'locale',
-			'packages', 'current', 'php_version', 'mysql_version', 'new_bundled', 'partial_version' ), '' ) );
+			'packages', 'current', 'version', 'php_version', 'mysql_version', 'new_bundled', 'partial_version' ), '' ) );
 	}
 
 	$updates = new stdClass();
