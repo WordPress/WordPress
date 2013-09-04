@@ -300,18 +300,19 @@ switch ( $action ) {
 						// If there are menu items, add them
 						wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selected_title );
 						// Auto-save nav_menu_locations
-						$locations = get_theme_mod( 'nav_menu_locations' );
-						foreach ( (array) $locations as $location => $menu_id ) {
+						$locations = get_nav_menu_locations();
+						foreach ( $locations as $location => $menu_id ) {
 								$locations[ $location ] = $nav_menu_selected_id;
 								break; // There should only be 1
 						}
 						set_theme_mod( 'nav_menu_locations', $locations );
 					}
 					if ( isset( $_REQUEST['use-location'] ) ) {
-						$locations = get_theme_mod( 'nav_menu_locations' );
-						if ( isset( $locations[$_REQUEST['use-location']] ) )
-							$locations[$_REQUEST['use-location']] = $nav_menu_selected_id;
-						set_theme_mod( 'nav_menu_locations', $locations );
+						$locations = get_registered_nav_menus();
+						$menu_locations = get_nav_menu_locations();
+						if ( isset( $locations[ $_REQUEST['use-location'] ] ) )
+							$menu_locations[ $_REQUEST['use-location'] ] = $nav_menu_selected_id;
+						set_theme_mod( 'nav_menu_locations', $menu_locations );
 					}
 					// $messages[] = '<div id="message" class="updated"><p>' . sprintf( __( '<strong>%s</strong> has been created.' ), $nav_menu_selected_title ) . '</p></div>';
 					wp_redirect( admin_url( 'nav-menus.php?menu=' . $_nav_menu_selected_id ) );
