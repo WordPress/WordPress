@@ -1273,8 +1273,12 @@ function add_theme_support( $feature ) {
 
 		case 'html5' :
 			// You can't just pass 'html5', you need to pass an array of types.
-			if ( ! is_array( $args[0] ) )
+			if ( empty( $args[0] ) ) {
+				$args = array( 0 => array( 'comment-list', 'comment-form', 'search-form' ) );
+			} elseif ( ! is_array( $args[0] ) ) {
+				_doing_it_wrong( "add_theme_support( 'html5' )", 'You need to pass an array of types.', '3.6.1' );
 				return false;
+			}
 
 			// Calling 'html5' again merges, rather than overwrites.
 			if ( isset( $_wp_theme_features['html5'] ) )
