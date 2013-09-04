@@ -81,6 +81,7 @@ class WP_Http {
 			'compress' => false,
 			'decompress' => true,
 			'sslverify' => true,
+			'sslcertificates' => ABSPATH . WPINC . '/certificates/ca-bundle.crt',
 			'stream' => false,
 			'filename' => null,
 			'limit_response_size' => null,
@@ -214,7 +215,7 @@ class WP_Http {
 	 * @return string|bool Class name for the first transport that claims to support the request. False if no transport claims to support the request.
 	 */
 	public function _get_first_available_transport( $args, $url = null ) {
-		$request_order = apply_filters( 'http_api_transports', array( 'curl', 'streams', 'fsockopen' ), $args, $url );
+		$request_order = apply_filters( 'http_api_transports', array(  'streams' ), $args, $url );
 
 		// Loop over each transport on each HTTP request looking for one which will serve this request's needs
 		foreach ( $request_order as $transport ) {
@@ -236,8 +237,7 @@ class WP_Http {
 	 * Tests each transport in order to find a transport which matches the request arguments.
 	 * Also caches the transport instance to be used later.
 	 *
-	 * The order for blocking requests is cURL, Streams, and finally Fsockopen.
-	 * The order for non-blocking requests is cURL, Streams and Fsockopen().
+	 * The order for requests is cURL, and then PHP Streams.
 	 *
 	 * @since 3.2.0
 	 * @access private
@@ -632,30 +632,52 @@ class WP_Http {
 
 		return wp_remote_request( $redirect_location, $args );	
 	}
+
+	/**
+	 * Determines if a specified string represents an IP address or not.
+	 *
+	 * This function also detects the type of the IP address, returning either
+	 * '4' or '6' to represent a IPv4 and IPv6 address respectively.
+	 * This does not verify if the IP is a valid IP, only that it appears to be
+	 * an IP address.
+	 *
+	 * @see http://home.deds.nl/~aeron/regex/ for IPv6 regex
+	 *
+	 * @since 3.7.0
+	 * @static
+	 *
+	 * @param string $maybe_ip A suspected IP address
+	 * @return integer|bool Upon success, '4' or '6' to represent a IPv4 or IPv6 address, false upon failure
+	 */
+	static function is_ip_address( $maybe_ip ) {
+		if ( preg_match( '/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $maybe_ip ) )
+			return 4;
+
+		if ( false !== strpos( $maybe_ip, ':' ) && preg_match( '/^(((?=.*(::))(?!.*\3.+\3))\3?|([\dA-F]{1,4}(\3|:\b|$)|\2))(?4){5}((?4){2}|(((2[0-4]|1\d|[1-9])?\d|25[0-5])\.?\b){4})$/i', trim( $maybe_ip, ' []' ) ) )
+			return 6;
+
+		return false;
+	}
+
 }
 
 /**
- * HTTP request method uses fsockopen function to retrieve the url.
- *
- * This would be the preferred method, but the fsockopen implementation has the most overhead of all
- * the HTTP transport implementations.
+ * HTTP request method uses PHP Streams to retrieve the url.
  *
  * @package WordPress
  * @subpackage HTTP
- * @since 2.7.0
+ * @since 3.7.0
  */
-class WP_Http_Fsockopen {
+class WP_Http_Streams {
 	/**
-	 * Send a HTTP request to a URI using fsockopen().
-	 *
-	 * Does not support non-blocking mode.
+	 * Send a HTTP request to a URI using PHP Streams.
 	 *
 	 * @see WP_Http::request For default options descriptions.
 	 *
-	 * @since 2.7
+	 * @since 3.7.0
 	 * @access public
 	 * @param string $url URI resource.
-	 * @param str|array $args Optional. Override the defaults.
+	 * @param string|array $args Optional. Override the defaults.
 	 * @return array 'headers', 'body', 'response', 'cookies' and 'filename' keys.
 	 */
 	function request($url, $args = array()) {
@@ -679,18 +701,13 @@ class WP_Http_Fsockopen {
 		// Construct Cookie: header if any cookies are set
 		WP_Http::buildCookieHeader( $r );
 
-		$iError = null; // Store error number
-		$strError = null; // Store error string
-
 		$arrURL = parse_url($url);
 
-		$fsockopen_host = $arrURL['host'];
+		$connect_host = $arrURL['host'];
 
-		$secure_transport = false;
-
+		$secure_transport = ( $arrURL['scheme'] == 'ssl' || $arrURL['scheme'] == 'https' );
 		if ( ! isset( $arrURL['port'] ) ) {
-			if ( ( $arrURL['scheme'] == 'ssl' || $arrURL['scheme'] == 'https' ) && extension_loaded('openssl') ) {
-				$fsockopen_host = "ssl://$fsockopen_host";
+			if ( $arrURL['scheme'] == 'ssl' || $arrURL['scheme'] == 'https' ) {
 				$arrURL['port'] = 443;
 				$secure_transport = true;
 			} else {
@@ -706,45 +723,74 @@ class WP_Http_Fsockopen {
 			unset( $r['headers']['Host'], $r['headers']['host'] );
 		}
 
-		//fsockopen has issues with 'localhost' with IPv6 with certain versions of PHP, It attempts to connect to ::1,
+		// Certain versions of PHP have issues with 'localhost' and IPv6, It attempts to connect to ::1,
 		// which fails when the server is not set up for it. For compatibility, always connect to the IPv4 address.
-		if ( 'localhost' == strtolower($fsockopen_host) )
-			$fsockopen_host = '127.0.0.1';
+		if ( 'localhost' == strtolower( $connect_host ) )
+			$connect_host = '127.0.0.1';
 
-		// There are issues with the HTTPS and SSL protocols that cause errors that can be safely
-		// ignored and should be ignored.
-		if ( true === $secure_transport )
-			$error_reporting = error_reporting(0);
+		$connect_host = $secure_transport ? 'ssl://' . $connect_host : 'tcp://' . $connect_host;
 
-		$startDelay = time();
+		$is_local = isset( $r['local'] ) && $r['local'];
+		$ssl_verify = isset( $r['sslverify'] ) && $r['sslverify'];
+		if ( $is_local )
+			$ssl_verify = apply_filters( 'https_local_ssl_verify', $ssl_verify );
+		elseif ( ! $is_local )
+			$ssl_verify = apply_filters( 'https_ssl_verify', $ssl_verify );
 
 		$proxy = new WP_HTTP_Proxy();
 
-		if ( !WP_DEBUG ) {
-			if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
-				$handle = @fsockopen( $proxy->host(), $proxy->port(), $iError, $strError, $r['timeout'] );
-			else
-				$handle = @fsockopen( $fsockopen_host, $arrURL['port'], $iError, $strError, $r['timeout'] );
-		} else {
-			if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
-				$handle = fsockopen( $proxy->host(), $proxy->port(), $iError, $strError, $r['timeout'] );
-			else
-				$handle = fsockopen( $fsockopen_host, $arrURL['port'], $iError, $strError, $r['timeout'] );
-		}
-
-		$endDelay = time();
-
-		// If the delay is greater than the timeout then fsockopen shouldn't be used, because it will
-		// cause a long delay.
-		$elapseDelay = ($endDelay-$startDelay) > $r['timeout'];
-		if ( true === $elapseDelay )
-			add_option( 'disable_fsockopen', $endDelay, null, true );
-
-		if ( false === $handle )
-			return new WP_Error('http_request_failed', $iError . ': ' . $strError);
+		$context = stream_context_create( array(
+			'ssl' => array(
+				'verify_peer' => $ssl_verify,
+				//'CN_match' => $arrURL['host'], // This is handled by self::verify_ssl_certficate()
+				'capture_peer_cert' => $ssl_verify,
+				'SNI_enabled' => true,
+				'cafile' => $r['sslcertificates'],
+				'allow_self_signed' => ! $ssl_verify,
+			)
+		) );
 
 		$timeout = (int) floor( $r['timeout'] );
 		$utimeout = $timeout == $r['timeout'] ? 0 : 1000000 * $r['timeout'] % 1000000;
+		$connect_timeout = max( $timeout, 1 );
+
+		$connection_error = null; // Store error number
+		$connection_error_str = null; // Store error string
+
+		if ( !WP_DEBUG ) {
+			// In the event that the SSL connection fails, silence the many PHP Warnings
+			if ( $secure_transport )
+				$error_reporting = error_reporting(0);
+
+			if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
+				$handle = @stream_socket_client( 'tcp://' . $proxy->host() . ':' . $proxy->port(), $connection_error, $connection_error_str, $connect_timeout, STREAM_CLIENT_CONNECT, $context );
+			else
+				$handle = @stream_socket_client( $connect_host . ':' . $arrURL['port'], $connection_error, $connection_error_str, $connect_timeout, STREAM_CLIENT_CONNECT, $context );
+
+			if ( $secure_transport )
+				error_reporting( $error_reporting );
+
+		} else {
+			if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
+				$handle = stream_socket_client( 'tcp://' . $proxy->host() . ':' . $proxy->port(), $connection_error, $connection_error_str, $connect_timeout, STREAM_CLIENT_CONNECT, $context );
+			else
+				$handle = stream_socket_client( $connect_host . ':' . $arrURL['port'], $connection_error, $connection_error_str, $connect_timeout, STREAM_CLIENT_CONNECT, $context );
+		}
+
+		if ( false === $handle ) {
+			// SSL connection failed due to expired/invalid cert, or, OpenSSL configuration is broken
+			if ( $secure_transport && 0 === $connection_error && '' === $connection_error_str )
+				return new WP_Error( 'http_request_failed', __( 'The SSL Certificate for the host could not be verified.' ) );
+
+			return new WP_Error('http_request_failed', $connection_error . ': ' . $connection_error_str );
+		}
+
+		// Verify that the SSL certificate is valid for this request
+		if ( $secure_transport && $ssl_verify && ! $proxy->is_enabled() ) {
+			if ( ! self::verify_ssl_certficate( $handle, $arrURL['host'] ) )
+				return new WP_Error( 'http_request_failed', __( 'The SSL Certificate for the host could not be verified.' ) );
+		}
+
 		stream_set_timeout( $handle, $timeout, $utimeout );
 
 		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) //Some proxies require full URL in this field.
@@ -783,7 +829,8 @@ class WP_Http_Fsockopen {
 		fwrite($handle, $strHeaders);
 
 		if ( ! $r['blocking'] ) {
-			fclose($handle);
+			stream_set_blocking( $handle, 0 );
+			fclose( $handle );
 			return array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
 		}
 
@@ -846,9 +893,6 @@ class WP_Http_Fsockopen {
 
 		fclose( $handle );
 
-		if ( true === $secure_transport )
-			error_reporting($error_reporting);
-
 		$arrHeaders = WP_Http::processHeaders( $process['headers'], $url );
 
 		$response = array(
@@ -879,220 +923,105 @@ class WP_Http_Fsockopen {
 	}
 
 	/**
+	 * Verifies the received SSL certificate against it's Common Names and subjectAltName fields
+	 * 
+	 * PHP's SSL verifications only verify that it's a valid Certificate, it doesn't verify if
+	 * the certificate is valid for the hostname which was requested.
+	 * This function verifies the requested hostname against certificate's subjectAltName field,
+	 * if that is empty, or contains no DNS entries, a fallback to the Common Name field is used.
+	 *
+	 * IP Address support is included if the request is being made to an IP address.
+	 *
+	 * @since 3.7.0
+	 * @static
+	 *
+	 * @param stream $stream The PHP Stream which the SSL request is being made over
+	 * @param string $host The hostname being requested
+	 * @return bool If the cerficiate presented in $stream is valid for $host
+	 */
+	static function verify_ssl_certficate( $stream, $host ) {
+		$context_options = stream_context_get_options( $stream );
+
+		if ( empty( $context_options['ssl']['peer_certificate'] ) )
+			return false;
+
+		$cert = openssl_x509_parse( $context_options['ssl']['peer_certificate'] );
+		if ( ! $cert )
+			return false;
+
+		// If the request is being made to an IP address, we'll validate against IP fields in the cert (if they exist)
+		$host_type = ( WP_HTTP::is_ip_address( $host ) ? 'ip' : 'dns' );
+
+		$certificate_hostnames = array();
+		if ( ! empty( $cert['extensions']['subjectAltName'] ) ) {
+			$match_against = preg_split( '/,\s*/', $cert['extensions']['subjectAltName'] );
+			foreach ( $match_against as $match ) {
+				list( $match_type, $match_host ) = explode( ':', $match );
+				if ( $host_type == strtolower( trim( $match_type ) ) ) // IP: or DNS:
+					$certificate_hostnames[] = strtolower( trim( $match_host ) );
+			}
+		} elseif ( !empty( $cert['subject']['CN'] ) ) {
+			// Only use the CN when the certificate includes no subjectAltName extension
+			$certificate_hostnames[] = strtolower( $cert['subject']['CN'] );
+		}
+
+		// Exact hostname/IP matches
+		if ( in_array( strtolower( $host ), $certificate_hostnames ) )
+			return true;
+
+		// IP's can't be wildcards, Stop processing
+		if ( 'ip' == $host_type )
+			return false;
+
+		// Test to see if the domain is at least 2 deep for wildcard support
+		if ( substr_count( $host, '.' ) < 2 )
+			return false;
+
+		// Wildcard subdomains certs (*.example.com) are valid for a.example.com but not a.b.example.com
+		$wildcard_host = preg_replace( '/^[^.]+\./', '*.', $host );
+
+		return in_array( strtolower( $wildcard_host ), $certificate_hostnames );
+	}
+
+	/**
 	 * Whether this class can be used for retrieving an URL.
 	 *
-	 * @since 2.7.0
 	 * @static
+	 * @access public
+	 * @since 3.7.0
+	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
 	public static function test( $args = array() ) {
-		if ( ! function_exists( 'fsockopen' ) )
-			return false;
-
-		if ( false !== ( $option = get_option( 'disable_fsockopen' ) ) && time() - $option < 12 * HOUR_IN_SECONDS )
+		if ( ! function_exists( 'stream_socket_client' ) )
 			return false;
 
 		$is_ssl = isset( $args['ssl'] ) && $args['ssl'];
 
-		if ( $is_ssl && ! extension_loaded( 'openssl' ) )
-			return false;
+		if ( $is_ssl ) {
+			if ( ! extension_loaded( 'openssl' ) )
+				return false;
+			if ( ! function_exists( 'openssl_x509_parse' ) )
+				return false;
+		}
 
-		return apply_filters( 'use_fsockopen_transport', true, $args );
+		return apply_filters( 'use_streams_transport', true, $args );
 	}
 }
 
 /**
- * HTTP request method uses Streams to retrieve the url.
+ * Deprecated HTTP Transport method which used fsockopen.
+ * This class is not used, and is included for backwards compatibility only.
+ * All code should make use of WP_HTTP directly through it's API.
  *
- * Requires PHP 5.0+ and uses fopen with stream context. Requires that 'allow_url_fopen' PHP setting
- * to be enabled.
- *
- * Second preferred method for getting the URL, for PHP 5.
+ * @see WP_HTTP::request
  *
  * @package WordPress
  * @subpackage HTTP
- * @since 2.7.0
+ * @since 3.7.0
  */
-class WP_Http_Streams {
-	/**
-	 * Send a HTTP request to a URI using streams with fopen().
-	 *
-	 * @access public
-	 * @since 2.7.0
-	 *
-	 * @param string $url
-	 * @param str|array $args Optional. Override the defaults.
-	 * @return array 'headers', 'body', 'response', 'cookies' and 'filename' keys.
-	 */
-	function request($url, $args = array()) {
-		$defaults = array(
-			'method' => 'GET', 'timeout' => 5,
-			'redirection' => 5, 'httpversion' => '1.0',
-			'blocking' => true,
-			'headers' => array(), 'body' => null, 'cookies' => array()
-		);
-
-		$r = wp_parse_args( $args, $defaults );
-
-		if ( isset($r['headers']['User-Agent']) ) {
-			$r['user-agent'] = $r['headers']['User-Agent'];
-			unset($r['headers']['User-Agent']);
-		} else if ( isset($r['headers']['user-agent']) ) {
-			$r['user-agent'] = $r['headers']['user-agent'];
-			unset($r['headers']['user-agent']);
-		}
-
-		// Construct Cookie: header if any cookies are set
-		WP_Http::buildCookieHeader( $r );
-
-		$arrURL = parse_url($url);
-
-		if ( false === $arrURL )
-			return new WP_Error('http_request_failed', sprintf(__('Malformed URL: %s'), $url));
-
-		if ( 'http' != $arrURL['scheme'] && 'https' != $arrURL['scheme'] )
-			$url = preg_replace('|^' . preg_quote($arrURL['scheme'], '|') . '|', 'http', $url);
-
-		// Convert Header array to string.
-		$strHeaders = '';
-		if ( is_array( $r['headers'] ) )
-			foreach ( $r['headers'] as $name => $value )
-				$strHeaders .= "{$name}: $value\r\n";
-		else if ( is_string( $r['headers'] ) )
-			$strHeaders = $r['headers'];
-
-		$is_local = isset($args['local']) && $args['local'];
-		$ssl_verify = isset($args['sslverify']) && $args['sslverify'];
-		if ( $is_local )
-			$ssl_verify = apply_filters('https_local_ssl_verify', $ssl_verify);
-		elseif ( ! $is_local )
-			$ssl_verify = apply_filters('https_ssl_verify', $ssl_verify);
-
-		$arrContext = array('http' =>
-			array(
-				'method' => strtoupper($r['method']),
-				'user_agent' => $r['user-agent'],
-				'max_redirects' => 0, // Follow no redirects
-				'follow_redirects' => false,
-				'protocol_version' => (float) $r['httpversion'],
-				'header' => $strHeaders,
-				'ignore_errors' => true, // Return non-200 requests.
-				'timeout' => $r['timeout'],
-				'ssl' => array(
-						'verify_peer' => $ssl_verify,
-						'verify_host' => $ssl_verify
-				)
-			)
-		);
-
-		$proxy = new WP_HTTP_Proxy();
-
-		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) {
-			$arrContext['http']['proxy'] = 'tcp://' . $proxy->host() . ':' . $proxy->port();
-			$arrContext['http']['request_fulluri'] = true;
-
-			// We only support Basic authentication so this will only work if that is what your proxy supports.
-			if ( $proxy->use_authentication() )
-				$arrContext['http']['header'] .= $proxy->authentication_header() . "\r\n";
-		}
-
-		if ( ! is_null( $r['body'] ) )
-			$arrContext['http']['content'] = $r['body'];
-
-		$context = stream_context_create($arrContext);
-
-		if ( !WP_DEBUG )
-			$handle = @fopen($url, 'r', false, $context);
-		else
-			$handle = fopen($url, 'r', false, $context);
-
-		if ( ! $handle )
-			return new WP_Error('http_request_failed', sprintf(__('Could not open handle for fopen() to %s'), $url));
-
-		$timeout = (int) floor( $r['timeout'] );
-		$utimeout = $timeout == $r['timeout'] ? 0 : 1000000 * $r['timeout'] % 1000000;
-		stream_set_timeout( $handle, $timeout, $utimeout );
-
-		if ( ! $r['blocking'] ) {
-			stream_set_blocking($handle, 0);
-			fclose($handle);
-			return array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
-		}
-
-		$max_bytes = isset( $r['limit_response_size'] ) ? intval( $r['limit_response_size'] ) : -1;
-		if ( $r['stream'] ) {
-			if ( ! WP_DEBUG )
-				$stream_handle = @fopen( $r['filename'], 'w+' );
-			else
-				$stream_handle = fopen( $r['filename'], 'w+' );
-
-			if ( ! $stream_handle )
-				return new WP_Error( 'http_request_failed', sprintf( __( 'Could not open handle for fopen() to %s' ), $r['filename'] ) );
-
-			stream_copy_to_stream( $handle, $stream_handle, $max_bytes );
-
-			fclose( $stream_handle );
-			$strResponse = '';
-		} else {
-			$strResponse = stream_get_contents( $handle, $max_bytes );
-		}
-
-		$meta = stream_get_meta_data( $handle );
-
-		fclose( $handle );
-
-		$processedHeaders = array();
-		if ( isset( $meta['wrapper_data']['headers'] ) )
-			$processedHeaders = WP_Http::processHeaders( $meta['wrapper_data']['headers'], $url );
-		else
-			$processedHeaders = WP_Http::processHeaders( $meta['wrapper_data'], $url );
-
-		$response = array(
-			'headers' => $processedHeaders['headers'],
-			'body' => null,
-			'response' => $processedHeaders['response'],
-			'cookies' => $processedHeaders['cookies'],
-			'filename' => $r['filename']
-		);
-
-		// Handle redirects
-		if ( false !== ( $redirect_response = WP_HTTP::handle_redirects( $url, $r, $response ) ) )
-			return $redirect_response;
-
-		if ( ! empty( $strResponse ) && isset( $processedHeaders['headers']['transfer-encoding'] ) && 'chunked' == $processedHeaders['headers']['transfer-encoding'] )
-			$strResponse = WP_Http::chunkTransferDecode($strResponse);
-
-		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($processedHeaders['headers']) )
-			$strResponse = WP_Http_Encoding::decompress( $strResponse );
-
-		$response['body'] = $strResponse;
-
-		return $response;
-	}
-
-	/**
-	 * Whether this class can be used for retrieving an URL.
-	 *
-	 * @static
-	 * @access public
-	 * @since 2.7.0
-	 *
-	 * @return boolean False means this class can not be used, true means it can.
-	 */
-	public static function test( $args = array() ) {
-		if ( ! function_exists( 'fopen' ) )
-			return false;
-
-		if ( ! function_exists( 'ini_get' ) || true != ini_get( 'allow_url_fopen' ) )
-			return false;
-
-		$is_ssl = isset( $args['ssl'] ) && $args['ssl'];
-
-		if ( $is_ssl && ! extension_loaded( 'openssl' ) )
-			return false;
-
-		return apply_filters( 'use_streams_transport', true, $args );
-	}
+class WP_HTTP_Fsockopen extends WP_HTTP_Streams {
+	// For backwards compatibility for users who are using the class directly
 }
 
 /**
@@ -1102,7 +1031,7 @@ class WP_Http_Streams {
  *
  * @package WordPress
  * @subpackage HTTP
- * @since 2.7
+ * @since 2.7.0
  */
 class WP_Http_Curl {
 
@@ -1207,6 +1136,7 @@ class WP_Http_Curl {
 		curl_setopt( $handle, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $handle, CURLOPT_SSL_VERIFYHOST, ( $ssl_verify === true ) ? 2 : false );
 		curl_setopt( $handle, CURLOPT_SSL_VERIFYPEER, $ssl_verify );
+		curl_setopt( $handle, CURLOPT_CAINFO, $r['sslcertificates'] );
 		curl_setopt( $handle, CURLOPT_USERAGENT, $r['user-agent'] );
 		// The option doesn't work with safe mode or when open_basedir is set, and there's a
 		// bug #17490 with redirected POST requests, so handle redirections outside Curl.
