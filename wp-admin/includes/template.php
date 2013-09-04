@@ -1072,13 +1072,6 @@ function add_settings_section($id, $title, $callback, $page) {
 		$page = 'reading';
 	}
 
-	if ( !isset($wp_settings_sections) )
-		$wp_settings_sections = array();
-	if ( !isset($wp_settings_sections[$page]) )
-		$wp_settings_sections[$page] = array();
-	if ( !isset($wp_settings_sections[$page][$id]) )
-		$wp_settings_sections[$page][$id] = array();
-
 	$wp_settings_sections[$page][$id] = array('id' => $id, 'title' => $title, 'callback' => $callback);
 }
 
@@ -1117,13 +1110,6 @@ function add_settings_field($id, $title, $callback, $page, $section = 'default',
 		$page = 'reading';
 	}
 
-	if ( !isset($wp_settings_fields) )
-		$wp_settings_fields = array();
-	if ( !isset($wp_settings_fields[$page]) )
-		$wp_settings_fields[$page] = array();
-	if ( !isset($wp_settings_fields[$page][$section]) )
-		$wp_settings_fields[$page][$section] = array();
-
 	$wp_settings_fields[$page][$section][$id] = array('id' => $id, 'title' => $title, 'callback' => $callback, 'args' => $args);
 }
 
@@ -1143,7 +1129,7 @@ function add_settings_field($id, $title, $callback, $page, $section = 'default',
 function do_settings_sections( $page ) {
 	global $wp_settings_sections, $wp_settings_fields;
 
-	if ( ! isset( $wp_settings_sections ) || !isset( $wp_settings_sections[$page] ) )
+	if ( ! isset( $wp_settings_sections[$page] ) )
 		return;
 
 	foreach ( (array) $wp_settings_sections[$page] as $section ) {
@@ -1178,7 +1164,7 @@ function do_settings_sections( $page ) {
 function do_settings_fields($page, $section) {
 	global $wp_settings_fields;
 
-	if ( !isset($wp_settings_fields) || !isset($wp_settings_fields[$page]) || !isset($wp_settings_fields[$page][$section]) )
+	if ( ! isset( $wp_settings_fields[$page][$section] ) )
 		return;
 
 	foreach ( (array) $wp_settings_fields[$page][$section] as $field ) {
@@ -1218,9 +1204,6 @@ function do_settings_fields($page, $section) {
  */
 function add_settings_error( $setting, $code, $message, $type = 'error' ) {
 	global $wp_settings_errors;
-
-	if ( !isset($wp_settings_errors) )
-		$wp_settings_errors = array();
 
 	$new_error = array(
 		'setting' => $setting,
