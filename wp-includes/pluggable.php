@@ -857,17 +857,34 @@ if ( !function_exists('wp_redirect') ) :
  * @since 1.5.1
  * @uses apply_filters() Calls 'wp_redirect' hook on $location and $status.
  *
- * @param string $location The path to redirect to
- * @param int $status Status code to use
+ * @param string $location The path to redirect to.
+ * @param int $status Status code to use.
  * @return bool False if $location is not provided, true otherwise.
  */
 function wp_redirect($location, $status = 302) {
 	global $is_IIS;
 
-	$location = apply_filters('wp_redirect', $location, $status);
-	$status = apply_filters('wp_redirect_status', $status, $location);
+	/**
+	 * Filter the redirect location
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $location The path to redirect to.
+	 * @param int    $status   Status code to use.
+	 */
+	$location = apply_filters( 'wp_redirect', $location, $status );
 
-	if ( !$location ) // allows the wp_redirect filter to cancel a redirect
+	/**
+	 * Filter the redirect status code
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param int    $status   Status code to use.
+	 * @param string $location The path to redirect to.
+	 */
+	$status = apply_filters( 'wp_redirect_status', $status, $location );
+
+	if ( ! $location )
 		return false;
 
 	$location = wp_sanitize_redirect($location);
