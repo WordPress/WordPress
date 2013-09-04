@@ -215,7 +215,7 @@ class WP_Http {
 	 * @return string|bool Class name for the first transport that claims to support the request. False if no transport claims to support the request.
 	 */
 	public function _get_first_available_transport( $args, $url = null ) {
-		$request_order = apply_filters( 'http_api_transports', array(  'streams' ), $args, $url );
+		$request_order = apply_filters( 'http_api_transports', array( 'curl', 'streams' ), $args, $url );
 
 		// Loop over each transport on each HTTP request looking for one which will serve this request's needs
 		foreach ( $request_order as $transport ) {
