@@ -3228,24 +3228,28 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
  * @since 2.1.0
  *
  * @param int $post_ID Post ID.
- * @param array $post_categories Optional. List of categories.
+ * @param array|int $post_categories Optional. List of categories or ID of category.
+ * @param bool $append If true, don't delete existing categories, just add on. If false, replace the categories with the new categories.
  * @return bool|mixed
  */
-function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
+function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $append = false ) {
 	$post_ID = (int) $post_ID;
 	$post_type = get_post_type( $post_ID );
 	$post_status = get_post_status( $post_ID );
 	// If $post_categories isn't already an array, make it one:
-	if ( !is_array($post_categories) || empty($post_categories) ) {
-		if ( 'post' == $post_type && 'auto-draft' != $post_status )
+	$post_categories = (array) $post_categories;
+	if ( empty( $post_categories ) ) {
+		if ( 'post' == $post_type && 'auto-draft' != $post_status ) {
 			$post_categories = array( get_option('default_category') );
-		else
+			$append = false;
+		} else {
 			$post_categories = array();
+		}
 	} else if ( 1 == count($post_categories) && '' == reset($post_categories) ) {
 		return true;
 	}
 
-	return wp_set_post_terms($post_ID, $post_categories, 'category');
+	return wp_set_post_terms( $post_ID, $post_categories, 'category', $append );
 }
 
 /**
