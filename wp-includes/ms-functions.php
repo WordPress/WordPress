@@ -1301,8 +1301,10 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 /**
  * Get the current site info.
  *
- * Returns an object containing the ID, domain, path, and site_name
- * of the site being viewed.
+ * Returns an object containing the 'id', 'domain', 'path', and 'site_name'
+ * properties of the site being viewed.
+ *
+ * @see wpmu_current_site()
  *
  * @since MU
  *
