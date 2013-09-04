@@ -49,8 +49,11 @@ require( ABSPATH . WPINC . '/functions.wp-styles.php' );
  */
 function wp_default_scripts( &$scripts ) {
 
-	if ( !$guessurl = site_url() )
+
+	if ( ! $guessurl = site_url() ) {
+		$guessed_url = true;
 		$guessurl = wp_guess_url();
+	}
 
 	$scripts->base_url = $guessurl;
 	$scripts->content_url = defined('WP_CONTENT_URL')? WP_CONTENT_URL : '';
@@ -311,7 +314,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'zxcvbn-async', "/wp-includes/js/zxcvbn-async$suffix.js", array(), '1.0' );
 	did_action( 'init' ) && $scripts->localize( 'zxcvbn-async', '_zxcvbnSettings', array(
-		'src' => includes_url( '/js/zxcvbn.min.js' ),
+		'src' => empty( $guessed_url ) ? includes_url( '/js/zxcvbn.min.js' ) : $scripts->base_url . '/wp-includes/js/zxcvbn.min.js',
 	) );
 
 	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array( 'jquery', 'zxcvbn-async' ), false, 1 );
