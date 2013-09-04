@@ -1166,8 +1166,11 @@ function get_term_to_edit( $id, $taxonomy ) {
  * search - Returned terms' names will contain the value of 'search',
  * case-insensitive. Default is an empty string.
  *
- * name__like - Returned terms' names will begin with the value of 'name__like',
+ * name__like - Returned terms' names will contain the value of 'name__like',
  * case-insensitive. Default is empty string.
+ *
+ * description__like - Returned terms' descriptions will contain the value of
+ *  'description__like', case-insensitive. Default is empty string.
  *
  * The argument 'pad_counts', if set to true will include the quantity of a term's
  * children in the quantity of each term's "count" object variable.
@@ -1222,7 +1225,7 @@ function get_terms($taxonomies, $args = '') {
 	$defaults = array('orderby' => 'name', 'order' => 'ASC',
 		'hide_empty' => true, 'exclude' => array(), 'exclude_tree' => array(), 'include' => array(),
 		'number' => '', 'fields' => 'all', 'slug' => '', 'parent' => '',
-		'hierarchical' => true, 'child_of' => 0, 'get' => '', 'name__like' => '',
+		'hierarchical' => true, 'child_of' => 0, 'get' => '', 'name__like' => '', 'description__like' => '',
 		'pad_counts' => false, 'offset' => '', 'search' => '', 'cache_domain' => 'core' );
 	$args = wp_parse_args( $args, $defaults );
 	$args['number'] = absint( $args['number'] );
@@ -1345,7 +1348,12 @@ function get_terms($taxonomies, $args = '') {
 
 	if ( !empty($name__like) ) {
 		$name__like = like_escape( $name__like );
-		$where .= $wpdb->prepare( " AND t.name LIKE %s", $name__like . '%' );
+		$where .= $wpdb->prepare( " AND t.name LIKE %s", '%' . $name__like . '%' );
+	}
+
+	if ( ! empty( $description__like ) ) {
+		$description__like = like_escape( $description__like );
+		$where .= $wpdb->prepare( " AND tt.description LIKE %s", '%' . $description__like . '%' );
 	}
 
 	if ( '' !== $parent ) {
