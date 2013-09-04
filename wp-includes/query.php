@@ -1396,6 +1396,7 @@ class WP_Query {
 			, 'tag'
 			, 'cat'
 			, 'tag_id'
+			, 'author'
 			, 'author_name'
 			, 'feed'
 			, 'tb'
@@ -1416,7 +1417,8 @@ class WP_Query {
 		}
 
 		$array_keys = array( 'category__in', 'category__not_in', 'category__and', 'post__in', 'post__not_in',
-			'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and', 'post_parent__in', 'post_parent__not_in' );
+			'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and', 'post_parent__in', 'post_parent__not_in',
+			'author__in', 'author__not_in' );
 
 		foreach ( $array_keys as $key ) {
 			if ( !isset($array[$key]) )
@@ -1457,6 +1459,7 @@ class WP_Query {
 		$qv['m'] = preg_replace( '|[^0-9]|', '', $qv['m'] );
 		$qv['paged'] = absint($qv['paged']);
 		$qv['cat'] = preg_replace( '|[^0-9,-]|', '', $qv['cat'] ); // comma separated list of positive or negative integers
+		$qv['author'] = preg_replace( '|[^0-9,-]|', '', $qv['author'] ); // comma separated list of positive or negative integers
 		$qv['pagename'] = trim( $qv['pagename'] );
 		$qv['name'] = trim( $qv['name'] );
 		if ( '' !== $qv['hour'] ) $qv['hour'] = absint($qv['hour']);
@@ -1769,9 +1772,9 @@ class WP_Query {
 			$q['category__in'][] = absint( reset( $q['category__and'] ) );
 			unset( $q['category__and'] );
 		}
-			
+
 		if ( ! empty( $q['category__in'] ) ) {
-			$q['category__in'] = array_map( 'absint', array_unique( (array) $q['category__in'] ) );			
+			$q['category__in'] = array_map( 'absint', array_unique( (array) $q['category__in'] ) );
 			$tax_query[] = array(
 				'taxonomy' => 'category',
 				'terms' => $q['category__in'],
@@ -2333,26 +2336,22 @@ class WP_Query {
 
 		// Author/user stuff
 
-		if ( empty($q['author']) || ($q['author'] == '0') ) {
-			$whichauthor = '';
-		} else {
-			$q['author'] = (string)urldecode($q['author']);
-			$q['author'] = addslashes_gpc($q['author']);
-			if ( strpos($q['author'], '-') !== false ) {
-				$eq = '!=';
-				$andor = 'AND';
-				$q['author'] = explode('-', $q['author']);
-				$q['author'] = (string)absint($q['author'][1]);
-			} else {
-				$eq = '=';
-				$andor = 'OR';
+		if ( ! empty( $q['author'] ) && $q['author'] != '0' ) {
+			$q['author'] = addslashes_gpc( '' . urldecode( $q['author'] ) );
+			$authors = array_unique( array_map( 'intval', preg_split( '/[,\s]+/', $q['author'] ) ) );
+			foreach ( $authors as $author ) {
+				$key = $author > 0 ? 'author__in' : 'author__not_in';
+				$q[$key][] = abs( $author );
 			}
-			$author_array = preg_split('/[,\s]+/', $q['author']);
-			$_author_array = array();
-			foreach ( $author_array as $key => $_author )
-				$_author_array[] = "$wpdb->posts.post_author " . $eq . ' ' . absint($_author);
-			$whichauthor .= ' AND (' . implode(" $andor ", $_author_array) . ')';
-			unset($author_array, $_author_array);
+			$q['author'] = implode( ',', $authors );
+		}
+
+		if ( ! empty( $q['author__not_in'] ) ) {
+			$author__not_in = implode( ',', array_map( 'absint', array_unique( (array) $q['author__not_in'] ) ) );
+			$where .= " AND {$wpdb->posts}.post_author NOT IN ($author__not_in) ";
+		} elseif ( ! empty( $q['author__in'] ) ) {
+			$author__in = implode( ',', array_map( 'absint', array_unique( (array) $q['author__in'] ) ) );
+			$where .= " AND {$wpdb->posts}.post_author IN ($author__in) ";
 		}
 
 		// Author stuff for nice URLs
@@ -2457,7 +2456,7 @@ class WP_Query {
 			$in_search_post_types = get_post_types( array('exclude_from_search' => false) );
 			if ( empty( $in_search_post_types ) )
 				$where .= ' AND 1=0 ';
-			else	
+			else
 				$where .= " AND $wpdb->posts.post_type IN ('" . join("', '", $in_search_post_types ) . "')";
 		} elseif ( !empty( $post_type ) && is_array( $post_type ) ) {
 			$where .= " AND $wpdb->posts.post_type IN ('" . join("', '", $post_type) . "')";
