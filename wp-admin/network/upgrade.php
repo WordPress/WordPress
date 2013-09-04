@@ -90,7 +90,7 @@ switch ( $action ) {
 		<p><?php _e( 'WordPress has been updated! Before we send you on your way, we need to individually upgrade the sites in your network.' ); ?></p>
 		<?php endif; ?>
 
-		<p><?php _e( 'The upgrade process may take a little while, so please be patient.' ); ?></p>
+		<p><?php _e( 'The database upgrade process may take a little while, so please be patient.' ); ?></p>
 		<p><a class="button" href="upgrade.php?action=upgrade"><?php _e( 'Upgrade Network' ); ?></a></p>
 		<?php
 		do_action( 'wpmu_upgrade_page' );
