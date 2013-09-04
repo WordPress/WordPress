@@ -182,7 +182,8 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 
 	if ( isset($_GET['addnew']) ) {
 		// Default to the first sidebar
-		$sidebar = array_shift( $keys = array_keys($wp_registered_sidebars) );
+		$keys = array_keys( $wp_registered_sidebars );
+		$sidebar = array_shift( $keys );
 
 		if ( isset($_GET['base']) && isset($_GET['num']) ) { // multi-widget
 			// Copy minimal info from an existing instance of this widget to a new instance
