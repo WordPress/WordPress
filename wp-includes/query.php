@@ -1762,8 +1762,16 @@ class WP_Query {
 			$q['cat'] = implode(',', $req_cats);
 		}
 
-		if ( !empty($q['category__in']) ) {
-			$q['category__in'] = array_map('absint', array_unique( (array) $q['category__in'] ) );
+		if ( ! empty( $q['category__and'] ) && 1 === count( (array) $q['category__and'] ) ) {
+			$q['category__and'] = (array) $q['category__and'];
+			if ( ! isset( $q['category__in'] ) )
+				$q['category__in'] = array();
+			$q['category__in'][] = absint( reset( $q['category__and'] ) );
+			unset( $q['category__and'] );
+		}
+			
+		if ( ! empty( $q['category__in'] ) ) {
+			$q['category__in'] = array_map( 'absint', array_unique( (array) $q['category__in'] ) );			
 			$tax_query[] = array(
 				'taxonomy' => 'category',
 				'terms' => $q['category__in'],
@@ -1772,8 +1780,8 @@ class WP_Query {
 			);
 		}
 
-		if ( !empty($q['category__not_in']) ) {
-			$q['category__not_in'] = array_map('absint', array_unique( (array) $q['category__not_in'] ) );
+		if ( ! empty($q['category__not_in']) ) {
+			$q['category__not_in'] = array_map( 'absint', array_unique( (array) $q['category__not_in'] ) );
 			$tax_query[] = array(
 				'taxonomy' => 'category',
 				'terms' => $q['category__not_in'],
@@ -1782,8 +1790,8 @@ class WP_Query {
 			);
 		}
 
-		if ( !empty($q['category__and']) ) {
-			$q['category__and'] = array_map('absint', array_unique( (array) $q['category__and'] ) );
+		if ( ! empty($q['category__and']) ) {
+			$q['category__and'] = array_map( 'absint', array_unique( (array) $q['category__and'] ) );
 			$tax_query[] = array(
 				'taxonomy' => 'category',
 				'terms' => $q['category__and'],
