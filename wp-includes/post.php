@@ -3735,8 +3735,13 @@ function get_pages($args = '') {
 
 	}
 
-	if ( $parent >= 0 )
+	if ( is_array( $parent ) ) {
+		$post_parent__in = implode( ',', array_map( 'absint', (array) $parent ) );
+		if ( ! empty( $post_parent__in ) )
+			$where .= " AND post_parent IN ($post_parent__in)";
+	} elseif ( $parent >= 0 ) {
 		$where .= $wpdb->prepare(' AND post_parent = %d ', $parent);
+	}
 
 	if ( 1 == count( $post_status ) ) {
 		$where_post_type = $wpdb->prepare( "post_type = %s AND post_status = %s", $post_type, array_shift( $post_status ) );
