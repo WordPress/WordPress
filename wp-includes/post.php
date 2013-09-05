@@ -3597,15 +3597,18 @@ function _page_traverse_name( $page_id, &$children, &$result ){
  * @since 1.5.0
  *
  * @param mixed $page Page object or page ID.
- * @return string Page URI.
+ * @return string|false Page URI, false on error.
  */
-function get_page_uri($page) {
+function get_page_uri( $page ) {
 	$page = get_post( $page );
+
+	if ( ! $page )
+		return false;
 
 	$uri = $page->post_name;
 
 	foreach ( $page->ancestors as $parent ) {
-		$uri = get_post( $parent )->post_name . "/" . $uri;
+		$uri = get_post( $parent )->post_name . '/' . $uri;
 	}
 
 	return $uri;
