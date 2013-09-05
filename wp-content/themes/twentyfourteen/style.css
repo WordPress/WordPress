@@ -1873,7 +1873,7 @@ span > object {
 	margin: 3px 3px 0 0;
 	margin: 0.3rem 0.3rem 0 0;
 }
-.comment-content a {
+.comment-content {
 	word-wrap: break-word;
 }
 .comment-content ul,
