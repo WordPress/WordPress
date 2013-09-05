@@ -1310,9 +1310,10 @@ function get_terms($taxonomies, $args = '') {
 		$inclusions = implode( ',', wp_parse_id_list( $include ) );
 	}
 
-	if ( ! empty( $inclusions ) )
+	if ( ! empty( $inclusions ) ) {
 		$inclusions = ' AND t.term_id IN ( ' . $inclusions . ' )';
-	$where .= $inclusions;
+		$where .= $inclusions;
+	}
 
 	$exclusions = '';
 	if ( ! empty( $exclude_tree ) ) {
@@ -1339,7 +1340,9 @@ function get_terms($taxonomies, $args = '') {
 		$exclusions = ' AND t.term_id NOT IN (' . $exclusions . ')';
 
 	$exclusions = apply_filters( 'list_terms_exclusions', $exclusions, $args );
-	$where .= $exclusions;
+
+	if ( ! empty( $exclusions ) )
+		$where .= $exclusions;
 
 	if ( !empty($slug) ) {
 		$slug = sanitize_title($slug);
