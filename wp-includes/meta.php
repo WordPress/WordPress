@@ -604,30 +604,6 @@ function get_meta_sql( $meta_query, $type, $primary_table, $primary_id_column, $
 }
 
 /**
- * Given a meta type, return the appropriate alias if applicable
- *
- * @since 3.7.0
- *
- * @see WP_Meta_Query
- *
- * @param string $type MySQL type to cast meta_value
- * @return string MySQL type
- */
-function get_meta_type( $type = '' ) {
-	if ( empty( $type ) )
-		return 'CHAR';
-
-	$meta_type = strtoupper( $type );
-
-	if ( ! in_array( $meta_type, array( 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED', 'NUMERIC' ) ) )
-		return 'CHAR';
-
-	if ( 'NUMERIC' == $meta_type )
-		$meta_type = 'SIGNED';
-
-	return $meta_type;
-}
-/**
  * Container class for a multiple metadata query
  *
  * @since 3.2.0
@@ -713,6 +689,29 @@ class WP_Meta_Query {
 	}
 
 	/**
+	 * Given a meta type, return the appropriate alias if applicable
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $type MySQL type to cast meta_value
+	 * @return string MySQL type
+	 */
+	function get_cast_for_type( $type = '' ) {
+		if ( empty( $type ) )
+			return 'CHAR';
+
+		$meta_type = strtoupper( $type );
+
+		if ( ! in_array( $meta_type, array( 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED', 'NUMERIC' ) ) )
+			return 'CHAR';
+
+		if ( 'NUMERIC' == $meta_type )
+			$meta_type = 'SIGNED';
+
+		return $meta_type;
+	}
+
+	/**
 	 * Generates SQL clauses to be appended to a main query.
 	 *
 	 * @since 3.2.0
@@ -768,7 +767,7 @@ class WP_Meta_Query {
 
 		foreach ( $queries as $k => $q ) {
 			$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
-			$meta_type = get_meta_type( isset( $q['type'] ) ? $q['type'] : '' );
+			$meta_type = $this->get_cast_for_type( isset( $q['type'] ) ? $q['type'] : '' );
 
 			$meta_value = isset( $q['value'] ) ? $q['value'] : null;
 

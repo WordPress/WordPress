@@ -2421,11 +2421,11 @@ class WP_Query {
 					case $q['meta_key']:
 					case 'meta_value':
 						if ( isset( $q['meta_type'] ) ) {
-							$meta_type = get_meta_type( $q['meta_type'] );
+							$meta_type = $this->meta_query->get_cast_for_type( $q['meta_type'] );
 							$orderby = "CAST($wpdb->postmeta.meta_value AS {$meta_type})";
 						} else {
 							$orderby = "$wpdb->postmeta.meta_value";
-						}	
+						}
 						break;
 					case 'meta_value_num':
 						$orderby = "$wpdb->postmeta.meta_value+0";
