@@ -1616,7 +1616,8 @@ img.aligncenter,
 
 /* Mediaelements */
 .hentry .mejs-container {
-	margin: .5em 0;
+	margin: 12px 0 18px;
+	margin: 1.2rem 0 1.8rem;
 }
 
 .hentry .mejs-mediaelement,
@@ -1638,6 +1639,11 @@ img.aligncenter,
 	background: #595959;
 }
 
+.hentry .mejs-container .mejs-controls .mejs-time {
+	padding-top: 9px;
+	padding-top: .9rem;
+}
+
 .hentry .mejs-controls .mejs-time-rail span,
 .hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total,
 .hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
@@ -1645,7 +1651,7 @@ img.aligncenter,
 }
 
 .hentry .mejs-overlay-loading {
-	background: transparent
+	background: transparent;
 }
 
 /* Make sure embeds and iframes fit their containers */
