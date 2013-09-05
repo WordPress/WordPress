@@ -829,7 +829,8 @@ class WP_Rewrite {
 		global $wpdb;
 
 		//get pages in order of hierarchy, i.e. children after parents
-		$posts = get_page_hierarchy( $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'page' AND post_status != 'auto-draft'") );
+		$pages = $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'page' AND post_status != 'auto-draft'");
+		$posts = get_page_hierarchy( $pages );
 
 		// If we have no pages get out quick
 		if ( !$posts )
