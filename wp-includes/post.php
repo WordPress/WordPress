@@ -3615,32 +3615,32 @@ function get_page_uri( $page ) {
 }
 
 /**
- * Retrieve a list of pages.
+ * Retrieve a list of pages
  *
  * @global wpdb $wpdb WordPress database abstraction object
  *
  * @since 1.5.0
  *
  * @param mixed $args (optional) Array or string of arguments {
- *     @type int      'child_of'     Page ID to return child and grandchild pages of (default 0).
- *     @type string   'sort_order'   How to sort retrieved pages (default 'ASC', accepts 'ASC', 'DESC').
- *     @type string   'sort_column'  What column to sort pages by (default 'post_title', accepts post fields).
- *     @type bool     'hierarchical' Whether to return pages hierarchically (default 1|true).
- *     @type array    'exclude'      Array of page IDs to exclude (default array).
- *     @type array    'include'      Array of page IDs to include (default array).
- *     @type string   'meta_key'     Only include pages with this meta key (default empty).
- *     @type string   'meta_value'   Only include pages with this meta value (default empty).
- *     @type string   'authors'      A comma-separated list of author IDs (default empty).
- *     @type int      'parent'       Page ID to return direct children of. 'hierarchical' must be 0|false (default -1).
- *     @type int      'exclude_tree' Remove all children of given ID from returned pages (default empty).
- *     @type int      'number'       The number of pages to return (default empty).
- *     @type int      'offset'       The number of pages to skip before returning (default 0).
- *     @type string   'post_type'    The post type to return (default 'page').
- *     @type string   'post_status'  A comma-separated list of post status types to include (default 'publish').
+ *     @type int    'child_of'     Page ID to return child and grandchild pages of (default 0).
+ *     @type string 'sort_order'   How to sort retrieved pages (default 'ASC', accepts 'ASC', 'DESC').
+ *     @type string 'sort_column'  What column to sort pages by (default 'post_title', accepts post fields).
+ *     @type bool   'hierarchical' Whether to return pages hierarchically (default 1|true).
+ *     @type array  'exclude'      Array of page IDs to exclude (default array).
+ *     @type array  'include'      Array of page IDs to include (default array).
+ *     @type string 'meta_key'     Only include pages with this meta key (default empty).
+ *     @type string 'meta_value'   Only include pages with this meta value (default empty).
+ *     @type string 'authors'      A comma-separated list of author IDs (default empty).
+ *     @type int    'parent'       Page ID to return direct children of. 'hierarchical' must be 0|false (default -1).
+ *     @type int    'exclude_tree' Remove all children of given ID from returned pages (default empty).
+ *     @type int    'number'       The number of pages to return (default empty).
+ *     @type int    'offset'       The number of pages to skip before returning (default 0).
+ *     @type string 'post_type'    The post type to return (default 'page').
+ *     @type string 'post_status'  A comma-separated list of post status types to include (default 'publish').
  * }
- * @return array List of pages matching defaults or $args
+ * @return array List of pages matching defaults or $args.
  */
-function get_pages($args = '') {
+function get_pages( $args = '' ) {
 	global $wpdb;
 
 	$pages = false;
