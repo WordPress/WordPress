@@ -104,7 +104,14 @@ if ( !empty($tb_url) && !empty($title) ) {
 	$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type');
 
 	wp_new_comment($commentdata);
+	$trackback_id = $wpdb->insert_id;
 
-	do_action('trackback_post', $wpdb->insert_id);
-	trackback_response(0);
+	/**
+	 * Fires after a trackback is added to a post
+	 *
+	 * @since 1.2.0
+	 * @param int $trackback_id Trackback ID.
+	 */
+	do_action( 'trackback_post', $trackback_id );
+	trackback_response( 0 );
 }
