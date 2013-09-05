@@ -50,7 +50,7 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] ) {
 	switch_to_blog( $id );
 
 	if ( isset( $_POST['update_home_url'] ) && $_POST['update_home_url'] == 'update' ) {
-		$blog_address = get_blogaddress_by_domain( $_POST['blog']['domain'], $_POST['blog']['path'] );
+		$blog_address = esc_url_raw( $_POST['blog']['domain'] . $_POST['blog']['path'] );
 		if ( get_option( 'siteurl' ) != $blog_address )
 			update_option( 'siteurl', $blog_address );
 
