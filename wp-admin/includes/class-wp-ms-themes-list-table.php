@@ -84,7 +84,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		if ( $s ) {
 			$status = 'search';
-			$themes['search'] = array_filter( array_merge( $themes['all'], $themes['broken'] ), array( &$this, '_search_callback' ) );
+			$themes['search'] = array_filter( array_merge( $themes['all'], $themes['broken'] ), array( $this, '_search_callback' ) );
 		}
 
 		$totals = array();
@@ -108,7 +108,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 				if ( 'ASC' == $order )
 					$this->items = array_reverse( $this->items );
 			} else {
-				uasort( $this->items, array( &$this, '_order_callback' ) );
+				uasort( $this->items, array( $this, '_order_callback' ) );
 			}
 		}
 

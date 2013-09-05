@@ -403,7 +403,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->init();
 		$this->install_strings();
 
-		add_filter('upgrader_source_selection', array(&$this, 'check_package') );
+		add_filter('upgrader_source_selection', array($this, 'check_package') );
 
 		$this->run(array(
 					'package' => $package,
@@ -413,7 +413,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 					'hook_extra' => array()
 					));
 
-		remove_filter('upgrader_source_selection', array(&$this, 'check_package') );
+		remove_filter('upgrader_source_selection', array($this, 'check_package') );
 
 		if ( ! $this->result || is_wp_error($this->result) )
 			return $this->result;
@@ -443,9 +443,9 @@ class Plugin_Upgrader extends WP_Upgrader {
 		// Get the URL to the zip file
 		$r = $current->response[ $plugin ];
 
-		add_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'), 10, 2);
-		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'), 10, 4);
-		//'source_selection' => array(&$this, 'source_selection'), //there's a trac ticket to move up the directory for zip's which are made a bit differently, useful for non-.org plugins.
+		add_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'), 10, 2);
+		add_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'), 10, 4);
+		//'source_selection' => array($this, 'source_selection'), //there's a trac ticket to move up the directory for zip's which are made a bit differently, useful for non-.org plugins.
 
 		$this->run(array(
 					'package' => $r->package,
@@ -458,8 +458,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 				));
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'));
-		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'));
+		remove_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'));
+		remove_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'));
 
 		if ( ! $this->result || is_wp_error($this->result) )
 			return $this->result;
@@ -480,7 +480,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$current = get_site_transient( 'update_plugins' );
 
-		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'), 10, 4);
+		add_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'), 10, 4);
 
 		$this->skin->header();
 
@@ -550,7 +550,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->skin->footer();
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'));
+		remove_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'));
 
 		// Force refresh of plugin update information
 		delete_site_transient('update_plugins');
@@ -712,7 +712,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		if ( ! $api || is_wp_error($api) ) {
 			$this->skin->feedback( 'parent_theme_not_found', $theme_info->get('Template') );
 			// Don't show activate or preview actions after install
-			add_filter('install_theme_complete_actions', array(&$this, 'hide_activate_preview_actions') );
+			add_filter('install_theme_complete_actions', array($this, 'hide_activate_preview_actions') );
 			return $install_result;
 		}
 
@@ -737,7 +737,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		) );
 
 		if ( is_wp_error($parent_result) )
-			add_filter('install_theme_complete_actions', array(&$this, 'hide_activate_preview_actions') );
+			add_filter('install_theme_complete_actions', array($this, 'hide_activate_preview_actions') );
 
 		// Start cleaning up after the parents installation
 		remove_filter('install_theme_complete_actions', '__return_false', 999);
@@ -760,8 +760,8 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->init();
 		$this->install_strings();
 
-		add_filter('upgrader_source_selection', array(&$this, 'check_package') );
-		add_filter('upgrader_post_install', array(&$this, 'check_parent_theme_filter'), 10, 3);
+		add_filter('upgrader_source_selection', array($this, 'check_package') );
+		add_filter('upgrader_post_install', array($this, 'check_parent_theme_filter'), 10, 3);
 
 		$options = array(
 			'package' => $package,
@@ -772,8 +772,8 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$this->run($options);
 
-		remove_filter('upgrader_source_selection', array(&$this, 'check_package') );
-		remove_filter('upgrader_post_install', array(&$this, 'check_parent_theme_filter'));
+		remove_filter('upgrader_source_selection', array($this, 'check_package') );
+		remove_filter('upgrader_post_install', array($this, 'check_parent_theme_filter'));
 
 		if ( ! $this->result || is_wp_error($this->result) )
 			return $this->result;
@@ -802,9 +802,9 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$r = $current->response[ $theme ];
 
-		add_filter('upgrader_pre_install', array(&$this, 'current_before'), 10, 2);
-		add_filter('upgrader_post_install', array(&$this, 'current_after'), 10, 2);
-		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_theme'), 10, 4);
+		add_filter('upgrader_pre_install', array($this, 'current_before'), 10, 2);
+		add_filter('upgrader_post_install', array($this, 'current_after'), 10, 2);
+		add_filter('upgrader_clear_destination', array($this, 'delete_old_theme'), 10, 4);
 
 		$options = array(
 			'package' => $r['package'],
@@ -818,9 +818,9 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$this->run($options);
 
-		remove_filter('upgrader_pre_install', array(&$this, 'current_before'));
-		remove_filter('upgrader_post_install', array(&$this, 'current_after'));
-		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_theme'));
+		remove_filter('upgrader_pre_install', array($this, 'current_before'));
+		remove_filter('upgrader_post_install', array($this, 'current_after'));
+		remove_filter('upgrader_clear_destination', array($this, 'delete_old_theme'));
 
 		if ( ! $this->result || is_wp_error($this->result) )
 			return $this->result;
@@ -840,9 +840,9 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$current = get_site_transient( 'update_themes' );
 
-		add_filter('upgrader_pre_install', array(&$this, 'current_before'), 10, 2);
-		add_filter('upgrader_post_install', array(&$this, 'current_after'), 10, 2);
-		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_theme'), 10, 4);
+		add_filter('upgrader_pre_install', array($this, 'current_before'), 10, 2);
+		add_filter('upgrader_post_install', array($this, 'current_after'), 10, 2);
+		add_filter('upgrader_clear_destination', array($this, 'delete_old_theme'), 10, 4);
 
 		$this->skin->header();
 
@@ -912,9 +912,9 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->skin->footer();
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter('upgrader_pre_install', array(&$this, 'current_before'));
-		remove_filter('upgrader_post_install', array(&$this, 'current_after'));
-		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_theme'));
+		remove_filter('upgrader_pre_install', array($this, 'current_before'));
+		remove_filter('upgrader_post_install', array($this, 'current_after'));
+		remove_filter('upgrader_clear_destination', array($this, 'delete_old_theme'));
 
 		// Force refresh of theme update information
 		wp_clean_themes_cache();

@@ -87,7 +87,7 @@ class WP_List_Table {
 
 		$this->screen = convert_to_screen( $args['screen'] );
 
-		add_filter( "manage_{$this->screen->id}_columns", array( &$this, 'get_columns' ), 0 );
+		add_filter( "manage_{$this->screen->id}_columns", array( $this, 'get_columns' ), 0 );
 
 		if ( !$args['plural'] )
 			$args['plural'] = $this->screen->base;
@@ -99,7 +99,7 @@ class WP_List_Table {
 
 		if ( $args['ajax'] ) {
 			// wp_enqueue_script( 'list-table' );
-			add_action( 'admin_footer', array( &$this, '_js_vars' ) );
+			add_action( 'admin_footer', array( $this, '_js_vars' ) );
 		}
 	}
 
@@ -857,7 +857,7 @@ class WP_List_Table {
 			}
 			elseif ( method_exists( $this, 'column_' . $column_name ) ) {
 				echo "<td $attributes>";
-				echo call_user_func( array( &$this, 'column_' . $column_name ), $item );
+				echo call_user_func( array( $this, 'column_' . $column_name ), $item );
 				echo "</td>";
 			}
 			else {
