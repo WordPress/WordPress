@@ -324,14 +324,14 @@ function url_to_postid($url) {
 	if ( !$wp_rewrite->using_index_permalinks() )
 		$url = str_replace( $wp_rewrite->index . '/', '', $url );
 
-	if ( false !== strpos($url, home_url()) ) {
-		// Chop off http://domain.com
+	if ( false !== strpos( trailingslashit( $url ), home_url( '/' ) ) ) {
+		// Chop off http://domain.com/[path]
 		$url = str_replace(home_url(), '', $url);
 	} else {
 		// Chop off /path/to/blog
-		$home_path = parse_url(home_url());
+		$home_path = parse_url( home_url( '/' ) );
 		$home_path = isset( $home_path['path'] ) ? $home_path['path'] : '' ;
-		$url = str_replace($home_path, '', $url);
+		$url = preg_replace( sprintf( '#^%s#', preg_quote( $home_path ) ), '', trailingslashit( $url ) );
 	}
 
 	// Trim leading and lagging slashes
