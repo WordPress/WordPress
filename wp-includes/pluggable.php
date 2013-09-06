@@ -865,7 +865,7 @@ function wp_redirect($location, $status = 302) {
 	global $is_IIS;
 
 	/**
-	 * Filter the redirect location
+	 * Filter the redirect location.
 	 *
 	 * @since 2.1.0
 	 *
@@ -875,7 +875,7 @@ function wp_redirect($location, $status = 302) {
 	$location = apply_filters( 'wp_redirect', $location, $status );
 
 	/**
-	 * Filter the redirect status code
+	 * Filter the redirect status code.
 	 *
 	 * @since 2.3.0
 	 *

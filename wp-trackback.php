@@ -107,7 +107,7 @@ if ( !empty($tb_url) && !empty($title) ) {
 	$trackback_id = $wpdb->insert_id;
 
 	/**
-	 * Fires after a trackback is added to a post
+	 * Fires after a trackback is added to a post.
 	 *
 	 * @since 1.2.0
 	 * @param int $trackback_id Trackback ID.

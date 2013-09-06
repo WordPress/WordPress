@@ -122,7 +122,7 @@ $today = current_time('mysql', 1);
 		<a class="welcome-panel-close" href="<?php echo esc_url( admin_url( '?welcome=0' ) ); ?>"><?php _e( 'Dismiss' ); ?></a>
 		<?php
 		/**
-		 * Add content to the welcome panel on the admin dashboard
+		 * Add content to the welcome panel on the admin dashboard.
 		 * 
 		 * To remove the default welcome panel, use remove_action():
 		 * <code>remove_action( 'welcome_panel', 'wp_welcome_panel' );</code>

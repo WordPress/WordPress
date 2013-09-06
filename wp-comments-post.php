@@ -23,7 +23,7 @@ $post = get_post($comment_post_ID);
 
 if ( empty( $post->comment_status ) ) {
 	/**
-	 * Fires when a comment is attempted on a post that does not exist
+	 * Fires when a comment is attempted on a post that does not exist.
 	 *
 	 * @since unknown
 	 * @param int $comment_post_ID Post ID.
@@ -39,7 +39,7 @@ $status_obj = get_post_status_object($status);
 
 if ( ! comments_open( $comment_post_ID ) ) {
 	/**
-	 * Fires when a comment is attempted on a post that has comments closed
+	 * Fires when a comment is attempted on a post that has comments closed.
 	 *
 	 * @since unknown
 	 * @param int $comment_post_ID Post ID.
@@ -48,7 +48,7 @@ if ( ! comments_open( $comment_post_ID ) ) {
 	wp_die( __('Sorry, comments are closed for this item.') );
 } elseif ( 'trash' == $status ) {
 	/**
-	 * Fires when a comment is attempted on a trashed post
+	 * Fires when a comment is attempted on a trashed post.
 	 *
 	 * @since 2.9.0
 	 * @param int $comment_post_ID Post ID.
@@ -57,7 +57,7 @@ if ( ! comments_open( $comment_post_ID ) ) {
 	exit;
 } elseif ( ! $status_obj->public && ! $status_obj->private ) {
 	/**
-	 * Fires when a comment is attempted on a post in draft mode
+	 * Fires when a comment is attempted on a post in draft mode.
 	 *
 	 * @since unknown
 	 * @param int $comment_post_ID Post ID.
@@ -66,7 +66,7 @@ if ( ! comments_open( $comment_post_ID ) ) {
 	exit;
 } elseif ( post_password_required( $comment_post_ID ) ) {
 	/**
-	 * Fires when a comment is attempted on a password-protected post
+	 * Fires when a comment is attempted on a password-protected post.
 	 *
 	 * @since unknown
 	 * @param int $comment_post_ID Post ID.
@@ -75,7 +75,7 @@ if ( ! comments_open( $comment_post_ID ) ) {
 	exit;
 } else {
 	/**
-	 * Fires before a comment is posted
+	 * Fires before a comment is posted.
 	 *
 	 * @since unknown
 	 * @param int $comment_post_ID Post ID.
@@ -129,7 +129,7 @@ $comment_id = wp_new_comment( $commentdata );
 $comment = get_comment($comment_id);
 
 /**
- * Perform other actions when comment cookies are set
+ * Perform other actions when comment cookies are set.
  *
  * @since 3.4.0
  *
@@ -141,7 +141,7 @@ do_action( 'set_comment_cookies', $comment, $user );
 $location = empty($_POST['redirect_to']) ? get_comment_link($comment_id) : $_POST['redirect_to'] . '#comment-' . $comment_id;
 
 /**
- * The location URI to send commenter after posting
+ * The location URI to send commenter after posting.
  *
  * @since unknown
  *

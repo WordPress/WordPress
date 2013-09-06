@@ -27,7 +27,7 @@ if ( !defined('ABSPATH') )
 	<p id="footer-left" class="alignleft">
 		<?php
 		/**
-		 * Filter the "Thank you" text displayed in the admin footer
+		 * Filter the "Thank you" text displayed in the admin footer.
 		 * 
 		 * @since 2.8.0
 		 * @param string The content that will be printed.
@@ -38,7 +38,7 @@ if ( !defined('ABSPATH') )
 	<p id="footer-upgrade" class="alignright">
 		<?php
 		/**
-		 * Filter the version/update text displayed in the admin footer
+		 * Filter the version/update text displayed in the admin footer.
 		 *
 		 * @see core_update_footer() WordPress prints the current version and update information,
 		 *	using core_update_footer() at priority 10.
@@ -53,7 +53,7 @@ if ( !defined('ABSPATH') )
 </div>
 <?php
 /**
- * Print scripts or data before the default footer scripts
+ * Print scripts or data before the default footer scripts.
  * 
  * @since 2.5.0
  * @param string The data to print.
@@ -61,18 +61,18 @@ if ( !defined('ABSPATH') )
 do_action('admin_footer', '');
 
 /**
- * Prints any scripts and data queued for the footer
+ * Prints any scripts and data queued for the footer.
  * 
  * @since 2.8.0
  */
 do_action('admin_print_footer_scripts');
 
 /**
- * Print scripts or data after the default footer scripts
+ * Print scripts or data after the default footer scripts.
  * 
- * @since unknown
+ * @since 2.8.0
  * 
- * @param type $GLOBALS['hook_suffix'] The current admin page.
+ * @param string $GLOBALS['hook_suffix'] The current admin page.
  */
 do_action("admin_footer-" . $GLOBALS['hook_suffix']);
 
