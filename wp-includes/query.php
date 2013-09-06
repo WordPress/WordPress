@@ -1946,7 +1946,7 @@ class WP_Query {
 	 * @return array List of posts.
 	 */
 	function get_posts() {
-		global $wpdb, $user_ID, $_wp_using_ext_object_cache;
+		global $wpdb, $user_ID;
 
 		$this->parse_query();
 
@@ -1996,7 +1996,7 @@ class WP_Query {
 			$q['suppress_filters'] = false;
 
 		if ( !isset($q['cache_results']) ) {
-			if ( $_wp_using_ext_object_cache )
+			if ( wp_using_ext_object_cache() )
 				$q['cache_results'] = false;
 			else
 				$q['cache_results'] = true;

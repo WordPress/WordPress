@@ -165,9 +165,9 @@ function wp_load_alloptions() {
  * @param int $site_id Optional site ID for which to query the options. Defaults to the current site.
  */
 function wp_load_core_site_options( $site_id = null ) {
-	global $wpdb, $_wp_using_ext_object_cache;
+	global $wpdb;
 
-	if ( !is_multisite() || $_wp_using_ext_object_cache || defined( 'WP_INSTALLING' ) )
+	if ( !is_multisite() || wp_using_ext_object_cache() || defined( 'WP_INSTALLING' ) )
 		return;
 
 	if ( empty($site_id) )
@@ -404,11 +404,9 @@ function delete_option( $option ) {
  * @return bool true if successful, false otherwise
  */
 function delete_transient( $transient ) {
-	global $_wp_using_ext_object_cache;
-
 	do_action( 'delete_transient_' . $transient, $transient );
 
-	if ( $_wp_using_ext_object_cache ) {
+	if ( wp_using_ext_object_cache() ) {
 		$result = wp_cache_delete( $transient, 'transient' );
 	} else {
 		$option_timeout = '_transient_timeout_' . $transient;
@@ -443,13 +441,11 @@ function delete_transient( $transient ) {
  * @return mixed Value of transient
  */
 function get_transient( $transient ) {
-	global $_wp_using_ext_object_cache;
-
 	$pre = apply_filters( 'pre_transient_' . $transient, false );
 	if ( false !== $pre )
 		return $pre;
 
-	if ( $_wp_using_ext_object_cache ) {
+	if ( wp_using_ext_object_cache() ) {
 		$value = wp_cache_get( $transient, 'transient' );
 	} else {
 		$transient_option = '_transient_' . $transient;
@@ -493,11 +489,9 @@ function get_transient( $transient ) {
  * @return bool False if value was not set and true if value was set.
  */
 function set_transient( $transient, $value, $expiration = 0 ) {
-	global $_wp_using_ext_object_cache;
-
 	$value = apply_filters( 'pre_set_transient_' . $transient, $value );
 
-	if ( $_wp_using_ext_object_cache ) {
+	if ( wp_using_ext_object_cache() ) {
 		$result = wp_cache_set( $transient, $value, 'transient', $expiration );
 	} else {
 		$transient_timeout = '_transient_timeout_' . $transient;
@@ -970,10 +964,8 @@ function update_site_option( $option, $value ) {
  * @return bool True if successful, false otherwise
  */
 function delete_site_transient( $transient ) {
-	global $_wp_using_ext_object_cache;
-
 	do_action( 'delete_site_transient_' . $transient, $transient );
-	if ( $_wp_using_ext_object_cache ) {
+	if ( wp_using_ext_object_cache() ) {
 		$result = wp_cache_delete( $transient, 'site-transient' );
 	} else {
 		$option_timeout = '_site_transient_timeout_' . $transient;
@@ -1008,13 +1000,11 @@ function delete_site_transient( $transient ) {
  * @return mixed Value of transient
  */
 function get_site_transient( $transient ) {
-	global $_wp_using_ext_object_cache;
-
 	$pre = apply_filters( 'pre_site_transient_' . $transient, false );
 	if ( false !== $pre )
 		return $pre;
 
-	if ( $_wp_using_ext_object_cache ) {
+	if ( wp_using_ext_object_cache() ) {
 		$value = wp_cache_get( $transient, 'site-transient' );
 	} else {
 		// Core transients that do not have a timeout. Listed here so querying timeouts can be avoided.
@@ -1058,11 +1048,9 @@ function get_site_transient( $transient ) {
  * @return bool False if value was not set and true if value was set.
  */
 function set_site_transient( $transient, $value, $expiration = 0 ) {
-	global $_wp_using_ext_object_cache;
-
 	$value = apply_filters( 'pre_set_site_transient_' . $transient, $value );
 
-	if ( $_wp_using_ext_object_cache ) {
+	if ( wp_using_ext_object_cache() ) {
 		$result = wp_cache_set( $transient, $value, 'site-transient', $expiration );
 	} else {
 		$transient_timeout = '_site_transient_timeout_' . $transient;

@@ -476,8 +476,6 @@ function _is_valid_nav_menu_item( $item ) {
  * @return mixed $items array of menu items, else false.
  */
 function wp_get_nav_menu_items( $menu, $args = array() ) {
-	global $_wp_using_ext_object_cache;
-
 	$menu = wp_get_nav_menu_object( $menu );
 
 	if ( ! $menu )
@@ -504,7 +502,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		return false;
 
 	// Get all posts and terms at once to prime the caches
-	if ( empty( $fetched[$menu->term_id] ) || $_wp_using_ext_object_cache ) {
+	if ( empty( $fetched[$menu->term_id] ) || wp_using_ext_object_cache() ) {
 		$fetched[$menu->term_id] = true;
 		$posts = array();
 		$terms = array();

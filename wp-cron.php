@@ -28,10 +28,10 @@ if ( !defined('ABSPATH') ) {
 
 // Uncached doing_cron transient fetch
 function _get_cron_lock() {
-	global $_wp_using_ext_object_cache, $wpdb;
+	global $wpdb;
 
 	$value = 0;
-	if ( $_wp_using_ext_object_cache ) {
+	if ( wp_using_ext_object_cache() ) {
 		// Skip local cache and force refetch of doing_cron transient in case
 		// another processs updated the cache
 		$value = wp_cache_get( 'doing_cron', 'transient', true );
