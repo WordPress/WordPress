@@ -246,10 +246,10 @@ function is_category( $category = '' ) {
  * @since 2.3.0
  * @uses $wp_query
  *
- * @param mixed $slug Optional. Tag slug or array of slugs.
+ * @param mixed $tag Optional. Tag ID, name, slug, or array of Tag IDs, names, and slugs.
  * @return bool
  */
-function is_tag( $slug = '' ) {
+function is_tag( $tag = '' ) {
 	global $wp_query;
 
 	if ( ! isset( $wp_query ) ) {
@@ -257,7 +257,7 @@ function is_tag( $slug = '' ) {
 		return false;
 	}
 
-	return $wp_query->is_tag( $slug );
+	return $wp_query->is_tag( $tag );
 }
 
 /**
@@ -3238,21 +3238,25 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed $slug Optional. Tag slug or array of slugs.
+	 * @param mixed $tag Optional. Tag ID, name, slug, or array of Tag IDs, names, and slugs.
 	 * @return bool
 	 */
-	function is_tag( $slug = '' ) {
-		if ( !$this->is_tag )
+	function is_tag( $tag = '' ) {
+		if ( ! $this->is_tag )
 			return false;
 
-		if ( empty( $slug ) )
+		if ( empty( $tag ) )
 			return true;
 
 		$tag_obj = $this->get_queried_object();
 
-		$slug = (array) $slug;
+		$tag = (array) $tag;
 
-		if ( in_array( $tag_obj->slug, $slug ) )
+		if ( in_array( $tag_obj->term_id, $tag ) )
+			return true;
+		elseif ( in_array( $tag_obj->name, $tag ) )
+			return true;
+		elseif ( in_array( $tag_obj->slug, $tag ) )
 			return true;
 
 		return false;
