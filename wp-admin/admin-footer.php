@@ -43,7 +43,7 @@ if ( !defined('ABSPATH') )
 		 * @see core_update_footer() WordPress prints the current version and update information,
 		 *	using core_update_footer() at priority 10.
 		 * 
-		 * @since 2.5.0
+		 * @since 2.3.0
 		 * @param string The content that will be printed.
 		 */
 		echo apply_filters( 'update_footer', '' ); 
@@ -55,7 +55,7 @@ if ( !defined('ABSPATH') )
 /**
  * Print scripts or data before the default footer scripts.
  * 
- * @since 2.5.0
+ * @since 1.2.0
  * @param string The data to print.
  */
 do_action('admin_footer', '');
