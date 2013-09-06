@@ -577,6 +577,13 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 		$title = single_post_title( '', false );
 	}
 
+	// If there's a post type archive
+	if ( is_post_type_archive() ) {
+		$post_type_object = get_post_type_object( get_query_var( 'post_type' ) );
+		if ( ! $post_type_object->has_archive )
+			$title = post_type_archive_title( '', false );
+	}
+
 	// If there's a category or tag
 	if ( is_category() || is_tag() ) {
 		$title = single_term_title( '', false );
@@ -595,8 +602,8 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 		$title = $author->display_name;
 	}
 
-	// If there's a post type archive
-	if ( is_post_type_archive() )
+	// Post type archives with has_archive should override terms.
+	if ( is_post_type_archive() && $post_type_object->has_archive )
 		$title = post_type_archive_title( '', false );
 
 	// If there's a month
@@ -696,7 +703,7 @@ function post_type_archive_title( $prefix = '', $display = true ) {
 	if ( ! is_post_type_archive() )
 		return;
 
-	$post_type_obj = get_queried_object();
+	$post_type_obj = get_post_type_object( get_query_var( 'post_type' ) );
 	$title = apply_filters('post_type_archive_title', $post_type_obj->labels->name );
 
 	if ( $display )
@@ -1670,7 +1677,7 @@ function feed_links_extra( $args = array() ) {
 
 	$args = wp_parse_args( $args, $defaults );
 
-	if ( is_single() || is_page() ) {
+	if ( is_singular() ) {
 		$id = 0;
 		$post = get_post( $id );
 
@@ -1678,6 +1685,10 @@ function feed_links_extra( $args = array() ) {
 			$title = sprintf( $args['singletitle'], get_bloginfo('name'), $args['separator'], esc_html( get_the_title() ) );
 			$href = get_post_comments_feed_link( $post->ID );
 		}
+	} elseif ( is_post_type_archive() ) {
+		$post_type_obj = get_post_type_object( get_query_var( 'post_type' ) );
+		$title = sprintf( $args['posttypetitle'], get_bloginfo( 'name' ), $args['separator'], $post_type_obj->labels->name );
+		$href = get_post_type_archive_feed_link( $post_type_obj->name );
 	} elseif ( is_category() ) {
 		$term = get_queried_object();
 

@@ -73,6 +73,21 @@ function get_archive_template() {
 }
 
 /**
+ * Retrieve path of post type archive template in current or parent template.
+ *
+ * @since 3.7.0
+ *
+ * @return string
+ */
+function get_post_type_archive_template() {
+	$obj = get_post_type_object( get_query_var( 'post_type' ) );
+	if ( ! $obj->has_archive )
+		return '';
+
+	return get_archive_template();
+}
+
+/**
  * Retrieve path of author template in current or parent template.
  *
  * @since 1.5.0

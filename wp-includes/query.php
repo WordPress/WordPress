@@ -3147,10 +3147,10 @@ class WP_Query {
 	 * @return bool
 	 */
 	function is_post_type_archive( $post_types = '' ) {
-		if ( empty( $post_types ) || !$this->is_post_type_archive )
+		if ( empty( $post_types ) || ! $this->is_post_type_archive )
 			return (bool) $this->is_post_type_archive;
 
-		$post_type_object = $this->get_queried_object();
+		$post_type_object = get_post_type_object( $this->get( 'post_type' ) );
 
 		return in_array( $post_type_object->name, (array) $post_types );
 	}
