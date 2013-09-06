@@ -316,3 +316,32 @@ function get_user_id_from_string( $string ) {
 		return $user->ID;
 	return 0;
 }
+
+/**
+ * Get a full blog URL, given a domain and a path.
+ *
+ * @since MU
+ * @deprecated 3.7.0
+ *
+ * @param string $domain
+ * @param string $path
+ * @return string
+ */
+function get_blogaddress_by_domain( $domain, $path ) {
+	_deprecated_function( __FUNCTION__, '3.7' );
+
+	if ( is_subdomain_install() ) {
+		$url = "http://" . $domain.$path;
+	} else {
+		if ( $domain != $_SERVER['HTTP_HOST'] ) {
+			$blogname = substr( $domain, 0, strpos( $domain, '.' ) );
+			$url = 'http://' . substr( $domain, strpos( $domain, '.' ) + 1 ) . $path;
+			// we're not installing the main blog
+			if ( $blogname != 'www.' )
+				$url .= $blogname . '/';
+		} else { // main blog
+			$url = 'http://' . $domain . $path;
+		}
+	}
+	return esc_url_raw( $url );
+}
