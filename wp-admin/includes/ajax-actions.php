@@ -1834,6 +1834,13 @@ function wp_ajax_query_attachments() {
 	if ( current_user_can( get_post_type_object( 'attachment' )->cap->read_private_posts ) )
 		$query['post_status'] .= ',private';
 
+	/**
+	 * Filter the arguments passed to WP_Query during an AJAX call for querying attachments.
+	 *
+	 * @since 3.7.0
+	 * @param array $query Array of query variables.
+	 */
+	$query = apply_filters( 'ajax_query_attachments_args', $query );
 	$query = new WP_Query( $query );
 
 	$posts = array_map( 'wp_prepare_attachment_for_js', $query->posts );
