@@ -163,13 +163,17 @@ class WP_Upgrader {
 		return $working_dir;
 	}
 
-	function install_package($args = array()) {
+	function install_package( $args = array() ) {
 		global $wp_filesystem, $wp_theme_directories;
 
-		$defaults = array( 'source' => '', 'destination' => '', //Please always pass these
-						'clear_destination' => false, 'clear_working' => false,
-						'abort_if_destination_exists' => true,
-						'hook_extra' => array());
+		$defaults = array(
+			'source' => '', // Please always pass this
+			'destination' => '', // and this
+			'clear_destination' => false,
+			'clear_working' => false,
+			'abort_if_destination_exists' => true,
+			'hook_extra' => array()
+		);
 
 		$args = wp_parse_args($args, $defaults);
 		extract($args);
@@ -277,14 +281,15 @@ class WP_Upgrader {
 
 	function run($options) {
 
-		$defaults = array( 	'package' => '', //Please always pass this.
-							'destination' => '', //And this
-							'clear_destination' => false,
-							'abort_if_destination_exists' => true, // Abort if the Destination directory exists, Pass clear_destination as false please
-							'clear_working' => true,
-							'is_multi' => false,
-							'hook_extra' => array() //Pass any extra $hook_extra args here, this will be passed to any hooked filters.
-						);
+		$defaults = array(
+			'package' => '', // Please always pass this.
+			'destination' => '', // And this
+			'clear_destination' => false,
+			'abort_if_destination_exists' => true, // Abort if the Destination directory exists, Pass clear_destination as false please
+			'clear_working' => true,
+			'is_multi' => false,
+			'hook_extra' => array() // Pass any extra $hook_extra args here, this will be passed to any hooked filters.
+		);
 
 		$options = wp_parse_args($options, $defaults);
 		extract($options);
@@ -324,13 +329,14 @@ class WP_Upgrader {
 
 		//With the given options, this installs it to the destination directory.
 		$result = $this->install_package( array(
-											'source' => $working_dir,
-											'destination' => $destination,
-											'clear_destination' => $clear_destination,
-											'abort_if_destination_exists' => $abort_if_destination_exists,
-											'clear_working' => $clear_working,
-											'hook_extra' => $hook_extra
-										) );
+			'source' => $working_dir,
+			'destination' => $destination,
+			'clear_destination' => $clear_destination,
+			'abort_if_destination_exists' => $abort_if_destination_exists,
+			'clear_working' => $clear_working,
+			'hook_extra' => $hook_extra
+		) );
+
 		$this->skin->set_result($result);
 		if ( is_wp_error($result) ) {
 			$this->skin->error($result);
@@ -398,20 +404,25 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->strings['process_success'] = __('Plugin installed successfully.');
 	}
 
-	function install($package) {
+	function install( $package, $args = array() ) {
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $defaults, $args );
 
 		$this->init();
 		$this->install_strings();
 
 		add_filter('upgrader_source_selection', array($this, 'check_package') );
 
-		$this->run(array(
-					'package' => $package,
-					'destination' => WP_PLUGIN_DIR,
-					'clear_destination' => false, //Do not overwrite files.
-					'clear_working' => true,
-					'hook_extra' => array()
-					));
+		$this->run( array(
+			'package' => $package,
+			'destination' => WP_PLUGIN_DIR,
+			'clear_destination' => false, // Do not overwrite files.
+			'clear_working' => true,
+			'hook_extra' => array()
+		) );
 
 		remove_filter('upgrader_source_selection', array($this, 'check_package') );
 
@@ -419,14 +430,19 @@ class Plugin_Upgrader extends WP_Upgrader {
 			return $this->result;
 
 		// Force refresh of plugin update information
-		delete_site_transient('update_plugins');
-		wp_cache_delete( 'plugins', 'plugins' );
+		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
+
 		do_action( 'upgrader_process_complete', $this, array( 'action' => 'install', 'type' => 'plugin' ), $package );
 
 		return true;
 	}
 
-	function upgrade($plugin) {
+	function upgrade( $plugin, $args = array() ) {
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $defaults, $args );
 
 		$this->init();
 		$this->upgrade_strings();
@@ -447,15 +463,15 @@ class Plugin_Upgrader extends WP_Upgrader {
 		add_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'), 10, 4);
 		//'source_selection' => array($this, 'source_selection'), //there's a trac ticket to move up the directory for zip's which are made a bit differently, useful for non-.org plugins.
 
-		$this->run(array(
-					'package' => $r->package,
-					'destination' => WP_PLUGIN_DIR,
-					'clear_destination' => true,
-					'clear_working' => true,
-					'hook_extra' => array(
-								'plugin' => $plugin
-					)
-				));
+		$this->run( array(
+			'package' => $r->package,
+			'destination' => WP_PLUGIN_DIR,
+			'clear_destination' => true,
+			'clear_working' => true,
+			'hook_extra' => array(
+				'plugin' => $plugin
+			),
+		) );
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
 		remove_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'));
@@ -465,14 +481,19 @@ class Plugin_Upgrader extends WP_Upgrader {
 			return $this->result;
 
 		// Force refresh of plugin update information
-		delete_site_transient('update_plugins');
-		wp_cache_delete( 'plugins', 'plugins' );
+		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
+
 		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'plugin' ), $plugin );
 
 		return true;
 	}
 
-	function bulk_upgrade($plugins) {
+	function bulk_upgrade( $plugins, $args = array() ) {
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $defaults, $args );
 
 		$this->init();
 		$this->bulk = true;
@@ -525,16 +546,16 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 			$this->skin->plugin_active = is_plugin_active($plugin);
 
-			$result = $this->run(array(
-						'package' => $r->package,
-						'destination' => WP_PLUGIN_DIR,
-						'clear_destination' => true,
-						'clear_working' => true,
-						'is_multi' => true,
-						'hook_extra' => array(
-									'plugin' => $plugin
-						)
-					));
+			$result = $this->run( array(
+				'package' => $r->package,
+				'destination' => WP_PLUGIN_DIR,
+				'clear_destination' => true,
+				'clear_working' => true,
+				'is_multi' => true,
+				'hook_extra' => array(
+					'plugin' => $plugin
+				)
+			) );
 
 			$results[$plugin] = $this->result;
 
@@ -553,8 +574,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 		remove_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'));
 
 		// Force refresh of plugin update information
-		delete_site_transient('update_plugins');
-		wp_cache_delete( 'plugins', 'plugins' );
+		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
+
 		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'plugin', 'bulk' => true ), $plugins );
 
 		return $results;
@@ -755,7 +776,12 @@ class Theme_Upgrader extends WP_Upgrader {
 		return $actions;
 	}
 
-	function install($package) {
+	function install( $package, $args = array() ) {
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $defaults, $args );
 
 		$this->init();
 		$this->install_strings();
@@ -763,14 +789,12 @@ class Theme_Upgrader extends WP_Upgrader {
 		add_filter('upgrader_source_selection', array($this, 'check_package') );
 		add_filter('upgrader_post_install', array($this, 'check_parent_theme_filter'), 10, 3);
 
-		$options = array(
+		$this->run( array(
 			'package' => $package,
 			'destination' => get_theme_root(),
 			'clear_destination' => false, //Do not overwrite files.
 			'clear_working' => true
-		);
-
-		$this->run($options);
+		) );
 
 		remove_filter('upgrader_source_selection', array($this, 'check_package') );
 		remove_filter('upgrader_post_install', array($this, 'check_parent_theme_filter'));
@@ -778,14 +802,20 @@ class Theme_Upgrader extends WP_Upgrader {
 		if ( ! $this->result || is_wp_error($this->result) )
 			return $this->result;
 
-		// Force refresh of theme update information
-		wp_clean_themes_cache();
+		// Refresh the Theme Update information
+		wp_clean_themes_cache( $parsed_args['clear_update_cache'] );
+
 		do_action( 'upgrader_process_complete', $this, array( 'action' => 'install', 'type' => 'theme' ), $package );
 
 		return true;
 	}
 
-	function upgrade($theme) {
+	function upgrade( $theme, $args = array() ) {
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $defaults, $args );
 
 		$this->init();
 		$this->upgrade_strings();
@@ -806,7 +836,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		add_filter('upgrader_post_install', array($this, 'current_after'), 10, 2);
 		add_filter('upgrader_clear_destination', array($this, 'delete_old_theme'), 10, 4);
 
-		$options = array(
+		$this->run( array(
 			'package' => $r['package'],
 			'destination' => get_theme_root( $theme ),
 			'clear_destination' => true,
@@ -814,9 +844,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			'hook_extra' => array(
 				'theme' => $theme
 			),
-		);
-
-		$this->run($options);
+		) );
 
 		remove_filter('upgrader_pre_install', array($this, 'current_before'));
 		remove_filter('upgrader_post_install', array($this, 'current_after'));
@@ -825,14 +853,19 @@ class Theme_Upgrader extends WP_Upgrader {
 		if ( ! $this->result || is_wp_error($this->result) )
 			return $this->result;
 
-		// Force refresh of theme update information
-		wp_clean_themes_cache();
+		wp_clean_themes_cache( $parsed_args['clear_update_cache'] );
+
 		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'theme' ), $theme );
 
 		return true;
 	}
 
-	function bulk_upgrade($themes) {
+	function bulk_upgrade( $themes, $args = array() ) {
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $defaults, $args );
 
 		$this->init();
 		$this->bulk = true;
@@ -886,7 +919,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			// Get the URL to the zip file
 			$r = $current->response[ $theme ];
 
-			$options = array(
+			$result = $this->run( array(
 				'package' => $r['package'],
 				'destination' => get_theme_root( $theme ),
 				'clear_destination' => true,
@@ -894,9 +927,7 @@ class Theme_Upgrader extends WP_Upgrader {
 				'hook_extra' => array(
 					'theme' => $theme
 				),
-			);
-
-			$result = $this->run($options);
+			) );
 
 			$results[$theme] = $this->result;
 
@@ -916,8 +947,9 @@ class Theme_Upgrader extends WP_Upgrader {
 		remove_filter('upgrader_post_install', array($this, 'current_after'));
 		remove_filter('upgrader_clear_destination', array($this, 'delete_old_theme'));
 
-		// Force refresh of theme update information
-		wp_clean_themes_cache();
+		// Refresh the Theme Update information
+		wp_clean_themes_cache( $parsed_args['clear_update_cache'] );
+
 		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'theme', 'bulk' => true ), $themes );
 
 		return $results;
@@ -1038,8 +1070,12 @@ class Core_Upgrader extends WP_Upgrader {
 		$this->strings['copy_failed_space'] = __('Could not copy files. You may have run out of disk space.' );
 	}
 
-	function upgrade($current) {
+	function upgrade( $current, $args = array() ) {
 		global $wp_filesystem, $wp_version;
+
+		$defaults = array(
+		);
+		$parsed_args = wp_parse_args( $defaults, $args );
 
 		$this->init();
 		$this->upgrade_strings();
