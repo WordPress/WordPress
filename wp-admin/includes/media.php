@@ -914,18 +914,19 @@ function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
  * @param array $attachment {@internal $attachment not used}}
  * @return array
  */
-function image_attachment_fields_to_save($post, $attachment) {
-	if ( substr($post['post_mime_type'], 0, 5) == 'image' ) {
-		if ( strlen(trim($post['post_title'])) == 0 ) {
-			$post['post_title'] = preg_replace('/\.\w+$/', '', basename($post['guid']));
-			$post['errors']['post_title']['errors'][] = __('Empty Title filled from filename.');
+function image_attachment_fields_to_save( $post, $attachment ) {
+	if ( substr( $post['post_mime_type'], 0, 5 ) == 'image' ) {
+		if ( strlen( trim( $post['post_title'] ) ) == 0 ) {
+			$attachment_url = ( isset( $post['attachment_url'] ) ) ? $post['attachment_url'] : $post['guid'];
+			$post['post_title'] = preg_replace( '/\.\w+$/', '', wp_basename( $attachment_url ) );
+			$post['errors']['post_title']['errors'][] = __( 'Empty Title filled from filename.' );
 		}
 	}
 
 	return $post;
 }
 
-add_filter('attachment_fields_to_save', 'image_attachment_fields_to_save', 10, 2);
+add_filter( 'attachment_fields_to_save', 'image_attachment_fields_to_save', 10, 2 );
 
 /**
  * {@internal Missing Short Description}}
