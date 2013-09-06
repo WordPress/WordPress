@@ -55,7 +55,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 				$original_title = false;
 		} elseif ( 'post_type' == $item->type ) {
 			$original_object = get_post( $item->object_id );
-			$original_title = $original_object->post_title;
+			$original_title = get_the_title( $original_object->ID );
 		}
 
 		$classes = array(
@@ -260,14 +260,17 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		$output .= '<label class="menu-item-title">';
 		$output .= '<input type="checkbox" class="menu-item-checkbox';
 		if ( property_exists( $item, 'front_or_home' ) && $item->front_or_home ) {
-			$title = sprintf( _x( 'Home: %s', 'nav menu front page title' ), $item->post_title );
+			$title = sprintf( _x( 'Home: %s', 'nav menu front page title' ), get_the_title( $item->ID ) );
 			$output .= ' add-to-top';
 		} elseif ( property_exists( $item, 'label' ) ) {
 			$title = $item->label;
 		}
 		$output .= '" name="menu-item[' . $possible_object_id . '][menu-item-object-id]" value="'. esc_attr( $item->object_id ) .'" /> ';
-		$output .= isset( $title ) ? esc_html( $title ) : esc_html( $item->title );
-		$output .= '</label>';
+		if ( isset( $item->post_type ) )
+			$output .= empty( $item->label ) ? esc_html( get_the_title( $item->ID ) ) : esc_html( $item->label );
+		else
+			$output .= isset( $title ) ? esc_html( $title ) : esc_html( $item->title );
+ 		$output .= '</label>';
 
 		// Menu item hidden fields
 		$output .= '<input type="hidden" class="menu-item-db-id" name="menu-item[' . $possible_object_id . '][menu-item-db-id]" value="' . $possible_db_id . '" />';
