@@ -279,6 +279,15 @@ case 'editedcomment' :
 	edit_comment();
 
 	$location = ( empty( $_POST['referredby'] ) ? "edit-comments.php?p=$comment_post_id" : $_POST['referredby'] ) . '#comment-' . $comment_id;
+	
+	/**
+	 * Filter the URI the user is redirected to after editing a comment in the admin.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $location The URI the user will be redirected to.
+	 * @param int $comment_id The ID of the comment being edited.
+	 */
 	$location = apply_filters( 'comment_edit_redirect', $location, $comment_id );
 	wp_redirect( $location );
 
