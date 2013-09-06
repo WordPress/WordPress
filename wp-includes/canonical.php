@@ -101,6 +101,20 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			}
 		}
 
+		if ( get_query_var( 'day' ) && get_query_var( 'monthnum' ) && get_query_var( 'year' ) ) {
+			$year  = get_query_var( 'year' );
+			$month = get_query_var( 'monthnum' );
+			$day   = get_query_var( 'day' );
+			$date  = sprintf( '%04d-%02d-%02d', $year, $month, $day );
+			if ( ! wp_checkdate( $month, $day, $year, $date ) ) {
+				$redirect_url = get_month_link( $year, $month );
+				$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'year', 'monthnum', 'day' ), $redirect_url );
+			}
+		} elseif ( get_query_var( 'monthnum' ) && get_query_var( 'year' ) && 12 < get_query_var( 'monthnum' ) ) {
+			$redirect_url = get_year_link( get_query_var( 'year' ) );
+			$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'year', 'monthnum' ), $redirect_url );
+		}
+
 		if ( ! $redirect_url ) {
 			if ( $redirect_url = redirect_guess_404_permalink() ) {
 				$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'page', 'feed', 'p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type' ), $redirect_url );

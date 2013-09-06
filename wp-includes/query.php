@@ -1513,15 +1513,24 @@ class WP_Query {
 
 			if ( $qv['day'] ) {
 				if ( ! $this->is_date ) {
-					$this->is_day = true;
-					$this->is_date = true;
+					$date = sprintf( '%04d-%02d-%02d', $qv['year'], $qv['monthnum'], $qv['day'] );
+					if ( $qv['monthnum'] && $qv['year'] && ! wp_checkdate( $qv['monthnum'], $qv['day'], $qv['year'], $date ) ) {
+						$qv['error'] = '404';
+					} else {
+						$this->is_day = true;
+						$this->is_date = true;
+					}
 				}
 			}
 
 			if ( $qv['monthnum'] ) {
 				if ( ! $this->is_date ) {
-					$this->is_month = true;
-					$this->is_date = true;
+					if ( 12 < $qv['monthnum'] ) {
+						$qv['error'] = '404';
+					} else {
+						$this->is_month = true;
+						$this->is_date = true;
+					}
 				}
 			}
 
