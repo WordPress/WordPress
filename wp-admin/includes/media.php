@@ -2479,7 +2479,7 @@ function attachment_submitbox_metadata() {
 
 		foreach ( $fields as $key => $label ):
 			if ( ! empty( $meta[$key] ) ) : ?>
-		<div class="misc-pub-section misc-pub-mime-meta">
+		<div class="misc-pub-section misc-pub-mime-meta misc-pub-<?php echo sanitize_html_class( $key ); ?>">
 			<?php echo $label ?> <strong><?php echo esc_html( $meta[$key] ); ?></strong>
 		</div>
 	<?php
@@ -2521,7 +2521,7 @@ function attachment_submitbox_metadata() {
 
 		foreach ( $audio_fields as $key => $label ):
 			if ( ! empty( $meta['audio'][$key] ) ) : ?>
-		<div class="misc-pub-section misc-pub-audio">
+		<div class="misc-pub-section misc-pub-audio misc-pub-<?php echo sanitize_html_class( $key ); ?>">
 			<?php echo $label; ?> <strong><?php echo esc_html( $meta['audio'][$key] ); ?></strong>
 		</div>
 	<?php
