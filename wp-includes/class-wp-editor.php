@@ -798,6 +798,8 @@ final class _WP_Editors {
 
 		$query['offset'] = $args['pagenum'] > 1 ? $query['posts_per_page'] * ( $args['pagenum'] - 1 ) : 0;
 
+		$query = apply_filters( 'wp_link_query_args', $query );
+
 		// Do main query.
 		$get_posts = new WP_Query;
 		$posts = $get_posts->query( $query );
@@ -821,7 +823,7 @@ final class _WP_Editors {
 			);
 		}
 
-		return $results;
+		return apply_filters( 'wp_link_query', $results, $query );
 	}
 
 	/**
