@@ -2453,12 +2453,29 @@ function attachment_submitbox_metadata() {
 <?php
 	if ( preg_match( '#^audio|video#', $post->post_mime_type ) ):
 
-		$fields = array(
+		/**
+		 * Audio and video metadata fields to be shown in the publish meta box.
+		 *
+		 * The key for each item in the array should correspond to an attachment
+		 * metadata key, and the value should be the desired label.
+		 *
+		 * @since  3.7.0
+		 *
+		 * @param array $fields {
+		 *     An array of the attachment metadata keys and labels.
+		 *
+		 *     @type string 'mime_type' Label to be shown before the field mime_type.
+		 *     @type string 'year' Label to be shown before the field year.
+		 *     @type string 'genre' Label to be shown before the field genre.
+		 *     @type string 'length_formatted' Label to be shown before the field length_formatted.
+		 * }
+		 */
+		$fields = apply_filters( 'media_submitbox_misc_sections', array(
 			'mime_type' => __( 'Mime-type:' ),
 			'year' => __( 'Year:' ),
 			'genre' => __( 'Genre:' ),
 			'length_formatted' => __( 'Length:' ),
-		);
+		) );
 
 		foreach ( $fields as $key => $label ):
 			if ( ! empty( $meta[$key] ) ) : ?>
@@ -2482,10 +2499,25 @@ function attachment_submitbox_metadata() {
 	<?php
 		endif;
 
-		$audio_fields = array(
+		/**
+		 * Audio attachment metadata fields to be shown in the publish meta box.
+		 *
+		 * The key for each item in the array should correspond to an attachment
+		 * metadata key, and the value should be the desired label.
+		 *
+		 * @since  3.7.0
+		 *
+		 * @param array $fields {
+		 *     An array of the attachment metadata keys and labels.
+		 *
+		 *     @type string 'dataformat' Label to be shown before the field dataformat.
+		 *     @type string 'codec' Label to be shown before the field codec.
+		 * }
+		 */
+		$audio_fields = apply_filters( 'audio_submitbox_misc_sections', array(
 			'dataformat' => __( 'Audio Format:' ),
 			'codec' => __( 'Audio Codec:' )
-		);
+		) );
 
 		foreach ( $audio_fields as $key => $label ):
 			if ( ! empty( $meta['audio'][$key] ) ) : ?>
