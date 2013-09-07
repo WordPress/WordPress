@@ -929,7 +929,7 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 	$default_inputs = array( 'url' => true, 'title' => true, 'items' => true, 'show_summary' => true, 'show_author' => true, 'show_date' => true );
 	$inputs = wp_parse_args( $inputs, $default_inputs );
 	extract( $args );
-	extract( $inputs, EXTR_SKIP);
+	extract( $inputs, EXTR_SKIP );
 
 	$number = esc_attr( $number );
 	$title  = esc_attr( $title );
@@ -1000,11 +1000,11 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 	$items = (int) $widget_rss['items'];
 	if ( $items < 1 || 20 < $items )
 		$items = 10;
-	$url           = esc_url_raw(strip_tags( $widget_rss['url'] ));
-	$title         = trim(strip_tags( $widget_rss['title'] ));
-	$show_summary  = isset($widget_rss['show_summary']) ? (int) $widget_rss['show_summary'] : 0;
-	$show_author   = isset($widget_rss['show_author']) ? (int) $widget_rss['show_author'] :0;
-	$show_date     = isset($widget_rss['show_date']) ? (int) $widget_rss['show_date'] : 0;
+	$url           = esc_url_raw( strip_tags( $widget_rss['url'] ) );
+	$title         = isset( $widget_rss['title'] ) ? trim( strip_tags( $widget_rss['title'] ) ) : '';
+	$show_summary  = isset( $widget_rss['show_summary'] ) ? (int) $widget_rss['show_summary'] : 0;
+	$show_author   = isset( $widget_rss['show_author'] ) ? (int) $widget_rss['show_author'] :0;
+	$show_date     = isset( $widget_rss['show_date'] ) ? (int) $widget_rss['show_date'] : 0;
 
 	if ( $check_feed ) {
 		$rss = fetch_feed($url);
