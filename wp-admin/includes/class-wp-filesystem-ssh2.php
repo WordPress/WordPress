@@ -150,7 +150,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		return false;
 	}
 
-	function get_contents($file, $type = '', $resumepos = 0 ) {
+	function get_contents( $file ) {
 		$file = ltrim($file, '/');
 		return file_get_contents('ssh2.sftp://' . $this->sftp_link . '/' . $file);
 	}
@@ -164,9 +164,12 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		$file = ltrim($file, '/');
 		$ret = file_put_contents('ssh2.sftp://' . $this->sftp_link . '/' . $file, $contents);
 
+		if ( $ret !== strlen( $contents ) )
+			return false;
+
 		$this->chmod($file, $mode);
 
-		return false !== $ret;
+		return true;
 	}
 
 	function cwd() {

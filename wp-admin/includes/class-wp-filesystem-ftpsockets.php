@@ -75,19 +75,15 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 			return false;
 		}
 
-		$this->ftp->SetType(FTP_AUTOASCII);
-		$this->ftp->Passive(true);
-		$this->ftp->setTimeout(FS_TIMEOUT);
+		$this->ftp->SetType( FTP_BINARY );
+		$this->ftp->Passive( true );
+		$this->ftp->setTimeout( FS_TIMEOUT );
 		return true;
 	}
 
-	function get_contents($file, $type = '', $resumepos = 0) {
+	function get_contents( $file ) {
 		if ( ! $this->exists($file) )
 			return false;
-
-		if ( empty($type) )
-			$type = FTP_AUTOASCII;
-		$this->ftp->SetType($type);
 
 		$temp = wp_tempnam( $file );
 
@@ -122,11 +118,14 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 			return false;
 		}
 
-		fwrite($temphandle, $contents);
-		fseek($temphandle, 0); //Skip back to the start of the file being written to
+		$bytes_written = fwrite( $temphandle, $contents );
+		if ( false === $bytes_written || $bytes_written != strlen( $contents ) ) {
+			fclose( $temphandle );
+			unlink( $temp );
+			return false;
+		}
 
-		$type = $this->is_binary($contents) ? FTP_BINARY : FTP_ASCII;
-		$this->ftp->SetType($type);
+		fseek( $temphandle, 0 ); // Skip back to the start of the file being written to
 
 		$ret = $this->ftp->fput($file, $temphandle);
 

@@ -59,12 +59,20 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	 * @param int $mode (optional) The file permissions as octal number, usually 0644.
 	 * @return bool False upon failure.
 	 */
-	function put_contents($file, $contents, $mode = false ) {
-		if ( ! ($fp = @fopen($file, 'w')) )
+	function put_contents( $file, $contents, $mode = false ) {
+		$fp = @fopen( $file, 'wb' );
+		if ( ! $fp )
 			return false;
-		@fwrite($fp, $contents);
-		@fclose($fp);
-		$this->chmod($file, $mode);
+
+		$bytes_written = fwrite( $fp, $contents );
+
+		fclose( $fp );
+
+		if ( false === $bytes_written || $bytes_written != strlen( $contents ) )
+			return false;
+
+		$this->chmod( $file, $mode );
+
 		return true;
 	}
 	/**

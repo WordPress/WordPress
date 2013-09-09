@@ -88,17 +88,14 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return true;
 	}
 
-	function get_contents($file, $type = '', $resumepos = 0 ) {
-		if ( empty($type) )
-			$type = FTP_BINARY;
-
+	function get_contents( $file ) {
 		$tempfile = wp_tempnam($file);
 		$temp = fopen($tempfile, 'w+');
 
 		if ( ! $temp )
 			return false;
 
-		if ( ! @ftp_fget($this->link, $temp, $file, $type, $resumepos) )
+		if ( ! @ftp_fget($this->link, $temp, $file, FTP_BINARY ) )
 			return false;
 
 		fseek($temp, 0); //Skip back to the start of the file being written to
@@ -117,15 +114,20 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 	function put_contents($file, $contents, $mode = false ) {
 		$tempfile = wp_tempnam($file);
-		$temp = fopen($tempfile, 'w+');
+		$temp = fopen( $tempfile, 'wb+' );
 		if ( ! $temp )
 			return false;
 
-		fwrite($temp, $contents);
-		fseek($temp, 0); //Skip back to the start of the file being written to
+		$bytes_written = fwrite( $temp, $contents );
+		if ( false === $bytes_written || $bytes_written != strlen( $contents ) ) {
+			fclose( $temp );
+			unlink( $tempfile );
+			return false;
+		}
 
-		$type = $this->is_binary($contents) ? FTP_BINARY : FTP_ASCII;
-		$ret = @ftp_fput($this->link, $file, $temp, $type);
+		fseek( $temp, 0 ); // Skip back to the start of the file being written to
+
+		$ret = @ftp_fput( $this->link, $file, $temp, FTP_BINARY );
 
 		fclose($temp);
 		unlink($tempfile);
@@ -187,7 +189,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		if ( ! $overwrite && $this->exists($destination) )
 			return false;
 		$content = $this->get_contents($source);
-		if ( false === $content)
+		if ( false === $content )
 			return false;
 		return $this->put_contents($destination, $content, $mode);
 	}
