@@ -666,7 +666,9 @@ class WP_Http {
  *
  * @package WordPress
  * @subpackage HTTP
- * @since 3.7.0
+ *
+ * @since 2.7.0
+ * @since 3.7.0 Combined with the fsockopen transport and switched to stream_socket_client().
  */
 class WP_Http_Streams {
 	/**
@@ -674,7 +676,9 @@ class WP_Http_Streams {
 	 *
 	 * @see WP_Http::request For default options descriptions.
 	 *
-	 * @since 3.7.0
+	 * @since 2.7.0
+	 * @since 3.7.0 Combined with the fsockopen transport and switched to stream_socket_client().
+	 *
 	 * @access public
 	 * @param string $url URI resource.
 	 * @param string|array $args Optional. Override the defaults.
@@ -998,7 +1002,8 @@ class WP_Http_Streams {
 	 *
 	 * @static
 	 * @access public
-	 * @since 3.7.0
+	 * @since 2.7.0
+	 * @since 3.7.0 Combined with the fsockopen transport and switched to stream_socket_client().
 	 *
 	 * @return boolean False means this class can not be used, true means it can.
 	 */
@@ -1021,6 +1026,7 @@ class WP_Http_Streams {
 
 /**
  * Deprecated HTTP Transport method which used fsockopen.
+ *
  * This class is not used, and is included for backwards compatibility only.
  * All code should make use of WP_HTTP directly through it's API.
  *
@@ -1028,7 +1034,9 @@ class WP_Http_Streams {
  *
  * @package WordPress
  * @subpackage HTTP
- * @since 3.7.0
+ *
+ * @since 2.7.0
+ * @deprecated 3.7.0 Please use WP_HTTP::request() directly
  */
 class WP_HTTP_Fsockopen extends WP_HTTP_Streams {
 	// For backwards compatibility for users who are using the class directly
