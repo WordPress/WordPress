@@ -282,7 +282,17 @@ function themes_api($action, $args = null) {
 	$res = apply_filters('themes_api', false, $action, $args); //NOTE: Allows a theme to completely override the builtin WordPress.org API.
 
 	if ( ! $res ) {
-		$request = wp_remote_post('http://api.wordpress.org/themes/info/1.0/', array( 'body' => array('action' => $action, 'request' => serialize($args))) );
+		$url = 'http://api.wordpress.org/themes/info/1.0/';
+		if ( wp_http_supports( array( 'ssl' ) ) )
+			$url = set_url_scheme( $url, 'https' );
+
+		$request = wp_remote_post( $url, array(
+			'body' => array(
+				'action' => $action,
+				'request' => serialize( $args )
+			)
+		) );
+
 		if ( is_wp_error($request) ) {
 			$res = new WP_Error('themes_api_failed', __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="http://wordpress.org/support/">support forums</a>.' ), $request->get_error_message() );
 		} else {

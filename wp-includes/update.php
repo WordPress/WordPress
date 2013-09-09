@@ -76,7 +76,6 @@ function wp_version_check() {
 	);
 
 	$url = 'http://api.wordpress.org/core/version-check/1.7/?' . http_build_query( $query, null, '&' );
-
 	if ( wp_http_supports( array( 'ssl' ) ) )
 		$url = set_url_scheme( $url, 'https' );
 
@@ -205,7 +204,11 @@ function wp_update_plugins() {
 		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
-	$raw_response = wp_remote_post('http://api.wordpress.org/plugins/update-check/1.0/', $options);
+	$url = 'http://api.wordpress.org/plugins/update-check/1.0/';
+	if ( wp_http_supports( array( 'ssl' ) ) )
+		$url = set_url_scheme( $url, 'https' );
+
+	$raw_response = wp_remote_post( $url, $options );
 
 	if ( is_wp_error( $raw_response ) || 200 != wp_remote_retrieve_response_code( $raw_response ) )
 		return false;
@@ -310,7 +313,11 @@ function wp_update_themes() {
 		'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
-	$raw_response = wp_remote_post( 'http://api.wordpress.org/themes/update-check/1.0/', $options );
+	$url = 'http://api.wordpress.org/themes/update-check/1.0/';
+	if ( wp_http_supports( array( 'ssl' ) ) )
+		$url = set_url_scheme( $url, 'https' );
+
+	$raw_response = wp_remote_post( $url, $options );
 
 	if ( is_wp_error( $raw_response ) || 200 != wp_remote_retrieve_response_code( $raw_response ) )
 		return false;
