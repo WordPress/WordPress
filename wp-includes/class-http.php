@@ -864,10 +864,20 @@ class WP_Http_Streams {
 					}
 				}
 
-				if ( isset( $r['limit_response_size'] ) && ( $bytes_written + strlen( $block ) ) > $r['limit_response_size'] )
+				$this_block_size = strlen( $block );
+
+				if ( isset( $r['limit_response_size'] ) && ( $bytes_written + $this_block_size ) > $r['limit_response_size'] )
 					$block = substr( $block, 0, ( $r['limit_response_size'] - $bytes_written ) );
 
-				$bytes_written += fwrite( $stream_handle, $block );
+				$bytes_written_to_file = fwrite( $stream_handle, $block );
+
+				if ( $bytes_written_to_file != $this_block_size ) {
+					fclose( $handle );
+					fclose( $stream_handle );
+					return new WP_Error( 'http_request_failed', __( 'Failed to write request to temporary file.' ) );
+				}
+
+				$bytes_written += $bytes_written_to_file;
 
 				$keep_reading = !isset( $r['limit_response_size'] ) || $bytes_written < $r['limit_response_size'];
 			}
@@ -1229,8 +1239,14 @@ class WP_Http_Curl {
 		$this->headers = '';
 		$this->body = '';
 
-		// If no response
-		if ( 0 == strlen( $theBody ) && empty( $theHeaders['headers'] ) ) {
+		$curl_error = curl_errno( $handle );
+
+		// If an error occured, or, no response
+		if ( $curl_error || ( 0 == strlen( $theBody ) && empty( $theHeaders['headers'] ) ) ) {
+			if ( CURLE_WRITE_ERROR /* 23 */ == $curl_error &&  $r['stream'] ) {
+				fclose( $this->stream_handle );
+				return new WP_Error( 'http_request_failed', __( 'Failed to write request to temporary file.' ) );
+			}
 			if ( $curl_error = curl_error( $handle ) ) {
 				curl_close( $handle );
 				return new WP_Error( 'http_request_failed', $curl_error );
@@ -1300,20 +1316,23 @@ class WP_Http_Curl {
 			mb_internal_encoding( 'ISO-8859-1' );
 		}
 
-		if ( $this->max_body_length && ( strlen( $this->body ) + strlen( $data ) ) > $this->max_body_length )
-			$data = substr( $data, 0, ( $this->max_body_length - strlen( $this->body ) ) );
-
-		if ( $this->stream_handle )
-			fwrite( $this->stream_handle, $data );
-		else
-			$this->body .= $data;
-
 		$data_length = strlen( $data );
+
+		if ( $this->max_body_length && ( strlen( $this->body ) + $data_length ) > $this->max_body_length )
+			$data = substr( $data, 0, ( $this->max_body_length - $data_length ) );
+
+		if ( $this->stream_handle ) {
+			$bytes_written = fwrite( $this->stream_handle, $data );
+		} else {
+			$this->body .= $data;
+			$bytes_written = $data_length;
+		}
 
 		if ( isset( $mb_encoding ) )
 			mb_internal_encoding( $mb_encoding );
 
-		return $data_length;
+		// Upon event of this function returning less than strlen( $data ) curl will error with CURLE_WRITE_ERROR
+		return $bytes_written;
 	}
 
 	/**
