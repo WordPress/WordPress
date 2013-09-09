@@ -873,7 +873,7 @@ function _redirect_to_about_wordpress( $new_version ) {
 	if ( version_compare( $wp_version, '3.4-RC1', '>=' ) )
 		return;
 
-	// Ensure we only run this on the update-core.php page. wp_update_core() could be called in other contexts.
+	// Ensure we only run this on the update-core.php page. The Core_Upgrader may be used in other contexts.
 	if ( 'update-core.php' != $pagenow )
 		return;
 

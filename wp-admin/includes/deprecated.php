@@ -1053,3 +1053,66 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
 function wp_nav_menu_locations_meta_box() {
 	_deprecated_function( __FUNCTION__, '3.6' );	
 }
+
+/**
+ * This was once used to kick-off the Core Updater.
+ *
+ * Deprecated in favor of instantating a Core_Upgrader instance directly,
+ * and calling the 'upgrade' method.
+ *
+ * @since 2.7.0
+ * @deprecated 3.7.0
+ */
+function wp_update_core($current, $feedback = '') {
+	_deprecated_function( __FUNCTION__, '3.7', 'new Core_Upgrader();' );
+
+	if ( !empty($feedback) )
+		add_filter('update_feedback', $feedback);
+
+	include ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	$upgrader = new Core_Upgrader();
+	return $upgrader->upgrade($current);
+
+}
+
+/**
+ * This was once used to kick-off the Plugin Updater.
+ *
+ * Deprecated in favor of instantating a Plugin_Upgrader instance directly,
+ * and calling the 'upgrade' method.
+ * Unused since 2.8.0.
+ *
+ * @since 2.5.0
+ * @deprecated 3.7.0
+ */
+function wp_update_plugin($plugin, $feedback = '') {
+	_deprecated_function( __FUNCTION__, '3.7', 'new Plugin_Upgrader();' );
+
+	if ( !empty($feedback) )
+		add_filter('update_feedback', $feedback);
+
+	include ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	$upgrader = new Plugin_Upgrader();
+	return $upgrader->upgrade($plugin);
+}
+
+/**
+ * This was once used to kick-off the Plugin Updater.
+ *
+ * Deprecated in favor of instantating a Plugin_Upgrader instance directly,
+ * and calling the 'upgrade' method.
+ * Unused since 2.8.0.
+ *
+ * @since 2.7.0
+ * @deprecated 3.7.0
+ */
+function wp_update_theme($theme, $feedback = '') {
+	_deprecated_function( __FUNCTION__, '3.7', 'new Theme_Upgrader();' );
+
+	if ( !empty($feedback) )
+		add_filter('update_feedback', $feedback);
+
+	include ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	$upgrader = new Theme_Upgrader();
+	return $upgrader->upgrade($theme);
+}

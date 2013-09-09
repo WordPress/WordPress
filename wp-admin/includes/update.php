@@ -6,8 +6,6 @@
  * @subpackage Administration
  */
 
-// The admin side of our 1.1 update system
-
 /**
  * Selects the first update version from the update_core option
  *
@@ -220,15 +218,6 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 	}
 }
 
-function wp_update_plugin($plugin, $feedback = '') {
-	if ( !empty($feedback) )
-		add_filter('update_feedback', $feedback);
-
-	include ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	$upgrader = new Plugin_Upgrader();
-	return $upgrader->upgrade($plugin);
-}
-
 function get_theme_updates() {
 	$themes = wp_get_themes();
 	$current = get_site_transient('update_themes');
@@ -243,15 +232,6 @@ function get_theme_updates() {
 	}
 
 	return $update_themes;
-}
-
-function wp_update_theme($theme, $feedback = '') {
-	if ( !empty($feedback) )
-		add_filter('update_feedback', $feedback);
-
-	include ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	$upgrader = new Theme_Upgrader();
-	return $upgrader->upgrade($theme);
 }
 
 function wp_theme_update_rows() {
@@ -292,16 +272,6 @@ function wp_theme_update_row( $theme_key, $theme ) {
 	do_action( "in_theme_update_message-$theme_key", $theme, $r );
 
 	echo '</div></td></tr>';
-}
-
-function wp_update_core($current, $feedback = '') {
-	if ( !empty($feedback) )
-		add_filter('update_feedback', $feedback);
-
-	include ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	$upgrader = new Core_Upgrader();
-	return $upgrader->upgrade($current);
-
 }
 
 function maintenance_nag() {

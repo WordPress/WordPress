@@ -314,6 +314,8 @@ function list_theme_updates() {
 function do_core_upgrade( $reinstall = false ) {
 	global $wp_filesystem;
 
+	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
 	if ( $reinstall )
 		$url = 'update-core.php?action=do-core-reinstall';
 	else
@@ -347,7 +349,10 @@ function do_core_upgrade( $reinstall = false ) {
 	if ( $reinstall )
 		$update->response = 'reinstall';
 
-	$result = wp_update_core($update, 'show_message');
+	add_filter( 'update_feedback', 'show_message' );
+
+	$upgrader = new Core_Upgrader();
+	$result = $upgrader->upgrade( $update );
 
 	if ( is_wp_error($result) ) {
 		show_message($result);
