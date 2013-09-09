@@ -25,6 +25,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		$this->method = 'direct';
 		$this->errors = new WP_Error();
 	}
+
 	/**
 	 * connect filesystem.
 	 *
@@ -33,6 +34,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	function connect() {
 		return true;
 	}
+
 	/**
 	 * Reads entire file into a string
 	 *
@@ -42,6 +44,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	function get_contents($file) {
 		return @file_get_contents($file);
 	}
+
 	/**
 	 * Reads entire file into an array
 	 *
@@ -51,6 +54,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	function get_contents_array($file) {
 		return @file($file);
 	}
+
 	/**
 	 * Write a string to a file
 	 *
@@ -75,6 +79,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 
 		return true;
 	}
+
 	/**
 	 * Gets the current working directory
 	 *
@@ -83,6 +88,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	function cwd() {
 		return @getcwd();
 	}
+
 	/**
 	 * Change directory
 	 *
@@ -92,6 +98,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	function chdir($dir) {
 		return @chdir($dir);
 	}
+
 	/**
 	 * Changes file group
 	 *
@@ -107,7 +114,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 			return @chgrp($file, $group);
 		if ( ! $this->is_dir($file) )
 			return @chgrp($file, $group);
-		//Is a directory, and we want recursive
+		// Is a directory, and we want recursive
 		$file = trailingslashit($file);
 		$filelist = $this->dirlist($file);
 		foreach ($filelist as $filename)
@@ -115,6 +122,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 
 		return true;
 	}
+
 	/**
 	 * Changes filesystem permissions
 	 *
@@ -135,7 +143,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 
 		if ( ! $recursive || ! $this->is_dir($file) )
 			return @chmod($file, $mode);
-		//Is a directory, and we want recursive
+		// Is a directory, and we want recursive
 		$file = trailingslashit($file);
 		$filelist = $this->dirlist($file);
 		foreach ( (array)$filelist as $filename => $filemeta)
@@ -143,6 +151,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 
 		return true;
 	}
+
 	/**
 	 * Changes file owner
 	 *
@@ -158,13 +167,14 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 			return @chown($file, $owner);
 		if ( ! $this->is_dir($file) )
 			return @chown($file, $owner);
-		//Is a directory, and we want recursive
+		// Is a directory, and we want recursive
 		$filelist = $this->dirlist($file);
 		foreach ($filelist as $filename) {
 			$this->chown($file . '/' . $filename, $owner, $recursive);
 		}
 		return true;
 	}
+
 	/**
 	 * Gets file owner
 	 *
@@ -180,6 +190,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		$ownerarray = posix_getpwuid($owneruid);
 		return $ownerarray['name'];
 	}
+
 	/**
 	 * Gets file permissions
 	 *
@@ -191,6 +202,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	function getchmod($file) {
 		return substr(decoct(@fileperms($file)),3);
 	}
+
 	function group($file) {
 		$gid = @filegroup($file);
 		if ( ! $gid )
@@ -228,27 +240,30 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 
 	function delete($file, $recursive = false, $type = false) {
-		if ( empty($file) ) //Some filesystems report this as /, which can cause non-expected recursive deletion of all files in the filesystem.
+		if ( empty( $file ) ) // Some filesystems report this as /, which can cause non-expected recursive deletion of all files in the filesystem.
 			return false;
-		$file = str_replace('\\', '/', $file); //for win32, occasional problems deleting files otherwise
+		$file = str_replace( '\\', '/', $file ); // for win32, occasional problems deleting files otherwise
 
 		if ( 'f' == $type || $this->is_file($file) )
 			return @unlink($file);
 		if ( ! $recursive && $this->is_dir($file) )
 			return @rmdir($file);
 
-		//At this point it's a folder, and we're in recursive mode
+		// At this point it's a folder, and we're in recursive mode
 		$file = trailingslashit($file);
 		$filelist = $this->dirlist($file, true);
 
 		$retval = true;
-		if ( is_array($filelist) ) //false if no files, So check first.
-			foreach ($filelist as $filename => $fileinfo)
+		if ( is_array( $filelist ) ) {
+			foreach ( $filelist as $filename => $fileinfo ) {
 				if ( ! $this->delete($file . $filename, $recursive, $fileinfo['type']) )
 					$retval = false;
+			}
+		}
 
 		if ( file_exists($file) && ! @rmdir($file) )
 			$retval = false;
+
 		return $retval;
 	}
 
@@ -279,6 +294,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	function mtime($file) {
 		return @filemtime($file);
 	}
+
 	function size($file) {
 		return @filesize($file);
 	}

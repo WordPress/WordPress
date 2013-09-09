@@ -23,12 +23,11 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		$this->method = 'ftpsockets';
 		$this->errors = new WP_Error();
 
-		//Check if possible to use ftp functions.
+		// Check if possible to use ftp functions.
 		if ( ! @include_once ABSPATH . 'wp-admin/includes/class-ftp.php' )
 				return false;
 		$this->ftp = new ftp();
 
-		//Set defaults:
 		if ( empty($opt['port']) )
 			$this->options['port'] = 21;
 		else
@@ -93,10 +92,10 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		if ( ! $this->ftp->fget($temphandle, $file) ) {
 			fclose($temphandle);
 			unlink($temp);
-			return ''; //Blank document, File does exist, It's just blank.
+			return ''; // Blank document, File does exist, It's just blank.
 		}
 
-		fseek($temphandle, 0); //Skip back to the start of the file being written to
+		fseek( $temphandle, 0 ); // Skip back to the start of the file being written to
 		$contents = '';
 
 		while ( ! feof($temphandle) )
@@ -242,12 +241,10 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	function is_readable($file) {
-		//Get dir list, Check if the file is writable by the current user??
 		return true;
 	}
 
 	function is_writable($file) {
-		//Get dir list, Check if the file is writable by the current user??
 		return true;
 	}
 

@@ -20,6 +20,7 @@ class WP_Filesystem_Base {
 	 * @var bool
 	 */
 	var $verbose = false;
+
 	/**
 	 * Cached list of local filepaths to mapped remote filepaths.
 	 *
@@ -47,11 +48,12 @@ class WP_Filesystem_Base {
 	 */
 	function abspath() {
 		$folder = $this->find_folder(ABSPATH);
-		//Perhaps the FTP folder is rooted at the WordPress install, Check for wp-includes folder in root, Could have some false positives, but rare.
+		// Perhaps the FTP folder is rooted at the WordPress install, Check for wp-includes folder in root, Could have some false positives, but rare.
 		if ( ! $folder && $this->is_dir('/wp-includes') )
 			$folder = '/';
 		return $folder;
 	}
+
 	/**
 	 * Returns the path on the remote filesystem of WP_CONTENT_DIR
 	 *
@@ -62,6 +64,7 @@ class WP_Filesystem_Base {
 	function wp_content_dir() {
 		return $this->find_folder(WP_CONTENT_DIR);
 	}
+
 	/**
 	 * Returns the path on the remote filesystem of WP_PLUGIN_DIR
 	 *
@@ -73,6 +76,7 @@ class WP_Filesystem_Base {
 	function wp_plugins_dir() {
 		return $this->find_folder(WP_PLUGIN_DIR);
 	}
+
 	/**
 	 * Returns the path on the remote filesystem of the Themes Directory
 	 *
@@ -91,6 +95,7 @@ class WP_Filesystem_Base {
 
 		return $this->find_folder( $theme_root );
 	}
+
 	/**
 	 * Returns the path on the remote filesystem of WP_LANG_DIR
 	 *
@@ -121,6 +126,7 @@ class WP_Filesystem_Base {
 		$this->verbose = $echo;
 		return $this->abspath();
 	}
+
 	/**
 	 * Locates a folder on the remote filesystem.
 	 *
@@ -188,17 +194,17 @@ class WP_Filesystem_Base {
 				}
 			}
 		} elseif ( 'direct' == $this->method ) {
-			$folder = str_replace('\\', '/', $folder); //Windows path sanitisation
+			$folder = str_replace('\\', '/', $folder); // Windows path sanitisation
 			return trailingslashit($folder);
 		}
 
-		$folder = preg_replace('|^([a-z]{1}):|i', '', $folder); //Strip out windows drive letter if it's there.
-		$folder = str_replace('\\', '/', $folder); //Windows path sanitisation
+		$folder = preg_replace('|^([a-z]{1}):|i', '', $folder); // Strip out windows drive letter if it's there.
+		$folder = str_replace('\\', '/', $folder); // Windows path sanitisation
 
 		if ( isset($this->cache[ $folder ] ) )
 			return $this->cache[ $folder ];
 
-		if ( $this->exists($folder) ) { //Folder exists at that absolute path.
+		if ( $this->exists($folder) ) { // Folder exists at that absolute path.
 			$folder = trailingslashit($folder);
 			$this->cache[ $folder ] = $folder;
 			return $folder;
@@ -239,14 +245,14 @@ class WP_Filesystem_Base {
 
 		foreach ( $folder_parts as $index => $key ) {
 			if ( $index == $last_index )
-				continue; //We want this to be caught by the next code block.
+				continue; // We want this to be caught by the next code block.
 
-			//Working from /home/ to /user/ to /wordpress/ see if that file exists within the current folder,
+			// Working from /home/ to /user/ to /wordpress/ see if that file exists within the current folder,
 			// If it's found, change into it and follow through looking for it.
 			// If it cant find WordPress down that route, it'll continue onto the next folder level, and see if that matches, and so on.
 			// If it reaches the end, and still cant find it, it'll return false for the entire function.
 			if ( isset($files[ $key ]) ){
-				//Lets try that folder:
+				// Lets try that folder:
 				$newdir = trailingslashit(path_join($base, $key));
 				if ( $this->verbose )
 					printf( "\n" . __('Changing to %s') . "<br/>\n", $newdir );
@@ -257,7 +263,7 @@ class WP_Filesystem_Base {
 			}
 		}
 
-		//Only check this as a last resort, to prevent locating the incorrect install. All above procedures will fail quickly if this is the right branch to take.
+		// Only check this as a last resort, to prevent locating the incorrect install. All above procedures will fail quickly if this is the right branch to take.
 		if (isset( $files[ $last_path ] ) ) {
 			if ( $this->verbose )
 				printf( "\n" . __('Found %s') . "<br/>\n",  $base . $last_path );
@@ -372,6 +378,6 @@ class WP_Filesystem_Base {
 	 * @return bool true if string is binary, false otherwise
 	 */
 	function is_binary( $text ) {
-		return (bool) preg_match('|[^\x20-\x7E]|', $text); //chr(32)..chr(127)
+		return (bool) preg_match( '|[^\x20-\x7E]|', $text ); // chr(32)..chr(127)
 	}
 }
