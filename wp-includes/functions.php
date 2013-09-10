@@ -242,9 +242,10 @@ function maybe_unserialize( $original ) {
  * @since 2.0.5
  *
  * @param mixed $data Value to check to see if was serialized.
+ * @param bool $strict Optional. Whether to be strict about the end of the string. Defaults true.
  * @return bool False if not serialized and true if it was.
  */
-function is_serialized( $data ) {
+function is_serialized( $data, $strict = true ) {
 	// if it isn't a string, it isn't serialized
 	if ( ! is_string( $data ) )
 		return false;
@@ -256,21 +257,32 @@ function is_serialized( $data ) {
 		return false;
 	if ( ':' !== $data[1] )
 		return false;
-	$lastc = $data[$length-1];
-	if ( ';' !== $lastc && '}' !== $lastc )
-		return false;
+	if ( $strict ) {
+		$lastc = $data[ $length - 1 ];
+		if ( ';' !== $lastc && '}' !== $lastc )
+			return false;
+	} else {
+		// ensures ; or } exists but is not in the first X chars
+		if ( strpos( $data, ';' ) < 3 && strpos( $data, '}' ) < 4 )
+			return false;
+	}
 	$token = $data[0];
 	switch ( $token ) {
 		case 's' :
-			if ( '"' !== $data[$length-2] )
+			if ( $strict ) {
+				if ( '"' !== $data[ $length - 2 ] )
+					return false;
+			} elseif ( false === strpos( $data, '"' ) ) {
 				return false;
+			}
 		case 'a' :
 		case 'O' :
 			return (bool) preg_match( "/^{$token}:[0-9]+:/s", $data );
 		case 'b' :
 		case 'i' :
 		case 'd' :
-			return (bool) preg_match( "/^{$token}:[0-9.E-]+;\$/", $data );
+			$end = $strict ? '$' : '';
+			return (bool) preg_match( "/^{$token}:[0-9.E-]+;$end/", $data );
 	}
 	return false;
 }
@@ -317,7 +329,7 @@ function maybe_serialize( $data ) {
 
 	// Double serialization is required for backward compatibility.
 	// See http://core.trac.wordpress.org/ticket/12930
-	if ( is_serialized( $data ) )
+	if ( is_serialized( $data, false ) )
 		return serialize( $data );
 
 	return $data;
