@@ -3076,7 +3076,10 @@ class WP_Query {
 					_make_cat_compat( $this->queried_object );
 			}
 		} elseif ( $this->is_post_type_archive ) {
-			$this->queried_object = get_post_type_object( $this->get('post_type') );
+			$post_type = $this->get( 'post_type' );
+			if ( is_array( $post_type ) )
+				$post_type = reset( $post_type );
+			$this->queried_object = get_post_type_object( $post_type );
 		} elseif ( $this->is_posts_page ) {
 			$page_for_posts = get_option('page_for_posts');
 			$this->queried_object = get_post( $page_for_posts );
@@ -3152,7 +3155,10 @@ class WP_Query {
 		if ( empty( $post_types ) || ! $this->is_post_type_archive )
 			return (bool) $this->is_post_type_archive;
 
-		$post_type_object = get_post_type_object( $this->get( 'post_type' ) );
+		$post_type = $this->get( 'post_type' );
+		if ( is_array( $post_type ) )
+			$post_type = reset( $post_type );
+		$post_type_object = get_post_type_object( $post_type );
 
 		return in_array( $post_type_object->name, (array) $post_types );
 	}

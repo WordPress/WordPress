@@ -579,7 +579,10 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 
 	// If there's a post type archive
 	if ( is_post_type_archive() ) {
-		$post_type_object = get_post_type_object( get_query_var( 'post_type' ) );
+		$post_type = get_query_var( 'post_type' );
+		if ( is_array( $post_type ) )
+			$post_type = reset( $post_type );
+		$post_type_object = get_post_type_object( $post_type );
 		if ( ! $post_type_object->has_archive )
 			$title = post_type_archive_title( '', false );
 	}
@@ -706,7 +709,11 @@ function post_type_archive_title( $prefix = '', $display = true ) {
 	if ( ! is_post_type_archive() )
 		return;
 
-	$post_type_obj = get_post_type_object( get_query_var( 'post_type' ) );
+	$post_type = get_query_var( 'post_type' );
+	if ( is_array( $post_type ) )
+		$post_type = reset( $post_type );
+
+	$post_type_obj = get_post_type_object( $post_type );
 	$title = apply_filters('post_type_archive_title', $post_type_obj->labels->name );
 
 	if ( $display )
@@ -1689,7 +1696,11 @@ function feed_links_extra( $args = array() ) {
 			$href = get_post_comments_feed_link( $post->ID );
 		}
 	} elseif ( is_post_type_archive() ) {
-		$post_type_obj = get_post_type_object( get_query_var( 'post_type' ) );
+		$post_type = get_query_var( 'post_type' );
+		if ( is_array( $post_type ) )
+			$post_type = reset( $post_type );
+
+		$post_type_obj = get_post_type_object( $post_type );
 		$title = sprintf( $args['posttypetitle'], get_bloginfo( 'name' ), $args['separator'], $post_type_obj->labels->name );
 		$href = get_post_type_archive_feed_link( $post_type_obj->name );
 	} elseif ( is_category() ) {

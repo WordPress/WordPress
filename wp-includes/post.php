@@ -1058,9 +1058,6 @@ function get_post_type( $post = null ) {
 function get_post_type_object( $post_type ) {
 	global $wp_post_types;
 
-	if ( is_array( $post_type ) )
-		$post_type = reset( $post_type );
-
 	if ( empty($wp_post_types[$post_type]) )
 		return null;
 

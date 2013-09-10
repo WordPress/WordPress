@@ -80,7 +80,11 @@ function get_archive_template() {
  * @return string
  */
 function get_post_type_archive_template() {
-	$obj = get_post_type_object( get_query_var( 'post_type' ) );
+	$post_type = get_query_var( 'post_type' );
+	if ( is_array( $post_type ) )
+		$post_type = reset( $post_type );
+	
+	$obj = get_post_type_object( $post_type );
 	if ( ! $obj->has_archive )
 		return '';
 
