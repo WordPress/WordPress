@@ -2238,10 +2238,17 @@ function set_url_scheme( $url, $scheme = null ) {
 			$scheme = ( is_ssl() ? 'https' : 'http' );
 	}
 
-	if ( 'relative' == $scheme )
-		$url = preg_replace( '#^.+://[^/]*#', '', $url );
-	else
-		$url = preg_replace( '#^.+://#', $scheme . '://', $url );
+	$url = trim( $url );
+	if ( $url[0] === '/' && $url[1] === '/' )
+		$url = 'http:' . $url;
+
+	if ( 'relative' == $scheme ) {
+		$url = ltrim( preg_replace( '#^\w+://[^/]*#', '', $url ) );
+		if ( $url[0] === '/' )
+			$url = '/' . ltrim($url , "/ \t\n\r\0\x0B" );
+	} else {
+		$url = preg_replace( '#^\w+://#', $scheme . '://', $url );
+	}
 
 	return apply_filters( 'set_url_scheme', $url, $scheme, $orig_scheme );
 }
