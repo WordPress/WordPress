@@ -1337,18 +1337,50 @@ function get_boundary_post( $in_same_cat = false, $excluded_categories = '', $st
 	return get_posts( array('numberposts' => 1, 'category' => $categories, 'order' => $order, 'update_post_term_cache' => false, 'update_post_meta_cache' => false) );
 }
 
+/*
+ * Get previous post link that is adjacent to the current post.
+ *
+ * @since 3.7.0
+ *
+ * @param string $format Optional. Link anchor format.
+ * @param string $link Optional. Link permalink format.
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ * @return string
+ */
+function get_previous_post_link( $format = '&laquo; %link', $link = '%title', $in_same_cat = false, $excluded_categories = '' ) {
+	return get_adjacent_post_link( $format, $link, $in_same_cat, $excluded_categories, true );
+}
+
 /**
  * Display previous post link that is adjacent to the current post.
  *
  * @since 1.5.0
+ * @uses get_previous_post_link()
  *
  * @param string $format Optional. Link anchor format.
  * @param string $link Optional. Link permalink format.
  * @param bool $in_same_cat Optional. Whether link should be in a same category.
  * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
  */
-function previous_post_link($format='&laquo; %link', $link='%title', $in_same_cat = false, $excluded_categories = '') {
-	adjacent_post_link($format, $link, $in_same_cat, $excluded_categories, true);
+function previous_post_link( $format = '&laquo; %link', $link = '%title', $in_same_cat = false, $excluded_categories = '' ) {
+	echo get_previous_post_link( $format, $link, $in_same_cat, $excluded_categories );
+}
+
+/**
+ * Get previous post link that is adjacent to the current post.
+ *
+ * @since 3.7.0
+ * @uses get_next_post_link()
+ *
+ * @param string $format Optional. Link anchor format.
+ * @param string $link Optional. Link permalink format.
+ * @param bool $in_same_cat Optional. Whether link should be in same category.
+ * @param string $excluded_categories Optional. Excluded categories IDs.
+ * @return string
+ */
+function get_next_post_link( $format = '&laquo; %link', $link = '%title', $in_same_cat = false, $excluded_categories = '' ) {
+	return get_adjacent_post_link( $format, $link, $in_same_cat, $excluded_categories, false );
 }
 
 /**
@@ -1361,24 +1393,25 @@ function previous_post_link($format='&laquo; %link', $link='%title', $in_same_ca
  * @param bool $in_same_cat Optional. Whether link should be in a same category.
  * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
  */
-function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = false, $excluded_categories = '') {
-	adjacent_post_link($format, $link, $in_same_cat, $excluded_categories, false);
+function next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_cat = false, $excluded_categories = '' ) {
+	 echo get_next_post_link( $format, $link, $in_same_cat, $excluded_categories );
 }
 
 /**
- * Display adjacent post link.
+ * Get adjacent post link.
  *
  * Can be either next post link or previous.
  *
- * @since 2.5.0
+ * @since 3.7.0
  *
  * @param string $format Link anchor format.
  * @param string $link Link permalink format.
  * @param bool $in_same_cat Optional. Whether link should be in a same category.
  * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
  * @param bool $previous Optional, default is true. Whether to display link to previous or next post.
+ * @return string
  */
-function adjacent_post_link( $format, $link, $in_same_cat = false, $excluded_categories = '', $previous = true ) {
+function get_adjacent_post_link( $format, $link, $in_same_cat = false, $excluded_categories = '', $previous = true ) {
 	if ( $previous && is_attachment() )
 		$post = get_post( get_post()->post_parent );
 	else
@@ -1406,7 +1439,26 @@ function adjacent_post_link( $format, $link, $in_same_cat = false, $excluded_cat
 
 	$adjacent = $previous ? 'previous' : 'next';
 
-	echo apply_filters( "{$adjacent}_post_link", $output, $format, $link, $post );
+	return apply_filters( "{$adjacent}_post_link", $output, $format, $link, $post );
+}
+
+/**
+ * Display adjacent post link.
+ *
+ * Can be either next post link or previous.
+ *
+ * @since 2.5.0
+ * @uses get_adjacent_post_link()
+ *
+ * @param string $format Link anchor format.
+ * @param string $link Link permalink format.
+ * @param bool $in_same_cat Optional. Whether link should be in a same category.
+ * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
+ * @param bool $previous Optional, default is true. Whether to display link to previous or next post.
+ * @return string
+ */
+function adjacent_post_link( $format, $link, $in_same_cat = false, $excluded_categories = '', $previous = true ) {
+	echo get_adjacent_post_link( $format, $link, $in_same_cat, $excluded_categories, $previous );
 }
 
 /**
