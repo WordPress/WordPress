@@ -1887,6 +1887,8 @@ class WP_Query {
 		}
 
 		$this->tax_query = new WP_Tax_Query( $tax_query );
+
+		do_action( 'parse_tax_query', $this );
 	}
 
 	/**
