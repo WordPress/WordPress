@@ -1893,9 +1893,11 @@ class WP_Rewrite {
 	function flush_rules($hard = true) {
 		delete_option('rewrite_rules');
 		$this->wp_rewrite_rules();
-		if ( $hard && function_exists('save_mod_rewrite_rules') )
+		if ( ! $hard || ! apply_filters( 'flush_rewrite_rules_hard', true ) )
+			return;
+		if ( function_exists( 'save_mod_rewrite_rules' ) )
 			save_mod_rewrite_rules();
-		if ( $hard && function_exists('iis7_save_url_rewrite_rules') )
+		if ( function_exists( 'iis7_save_url_rewrite_rules' ) )
 			iis7_save_url_rewrite_rules();
 	}
 
