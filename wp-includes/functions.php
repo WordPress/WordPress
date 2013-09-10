@@ -1283,7 +1283,7 @@ function wp_get_referer() {
 		$ref = wp_unslash( $_SERVER['HTTP_REFERER'] );
 
 	if ( $ref && $ref !== wp_unslash( $_SERVER['REQUEST_URI'] ) )
-		return wp_unslash( $ref );
+		return wp_validate_redirect( $ref, false );
 	return false;
 }
 
@@ -1298,7 +1298,7 @@ function wp_get_referer() {
  */
 function wp_get_original_referer() {
 	if ( !empty( $_REQUEST['_wp_original_http_referer'] ) )
-		return wp_unslash( $_REQUEST['_wp_original_http_referer'] );
+		return wp_validate_redirect( wp_unslash( $_REQUEST['_wp_original_http_referer'] ), false );
 	return false;
 }
 
