@@ -435,6 +435,8 @@ class WP_User_Query {
 			$orderby = 'post_count';
 		} elseif ( 'ID' == $qv['orderby'] || 'id' == $qv['orderby'] ) {
 			$orderby = 'ID';
+		} elseif ( 'meta_value' == $qv['orderby'] ) {
+			$orderby = "$wpdb->usermeta.meta_value";
 		} else {
 			$orderby = 'user_login';
 		}
