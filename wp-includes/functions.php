@@ -2006,10 +2006,18 @@ function wp_get_mime_types() {
  * @uses apply_filters() Calls 'upload_mimes' on returned array
  * @uses wp_get_upload_mime_types() to fetch the list of mime types
  *
+ * @param int|WP_User $user Optional. User to check. Defaults to current user.
  * @return array Array of mime types keyed by the file extension regex corresponding to those types.
  */
-function get_allowed_mime_types() {
-	return apply_filters( 'upload_mimes', wp_get_mime_types() );
+function get_allowed_mime_types( $user = null ) {
+	$t = wp_get_mime_types();
+
+	unset( $t['swf'], $t['exe'] );
+	$unfiltered = $user ? user_can( $user, 'unfiltered_html' ) : current_user_can( 'unfiltered_html' );
+	if ( ! $unfiltered )
+		unset( $t['htm|html'] );
+
+	return apply_filters( 'upload_mimes', $t, $user );
 }
 
 /**
