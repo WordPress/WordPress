@@ -91,6 +91,12 @@ if ( !defined('ABSPATH') )
 <label class="spam"><input type="radio"<?php checked( $comment->comment_approved, 'spam' ); ?> name="comment_status" value="spam" /><?php /* translators: comment type radio button */ _ex('Spam', 'adjective'); ?></label>
 </div>
 
+<?php if ( $ip = get_comment_author_IP() ) : ?>
+<div class="misc-pub-section misc-pub-comment-author-ip">
+	<?php _e( 'IP address:' ); ?> <strong><a href="<?php echo esc_url( sprintf( 'http://whois.arin.net/rest/ip/%s', $ip ) ); ?>"><?php echo esc_html( $ip ); ?></a></strong>
+</div>
+<?php endif; ?>
+
 <div class="misc-pub-section curtime misc-pub-curtime">
 <?php
 // translators: Publish box date format, see http://php.net/date
