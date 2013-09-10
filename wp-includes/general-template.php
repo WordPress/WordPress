@@ -592,14 +592,17 @@ function wp_title($sep = '&raquo;', $display = true, $seplocation = '') {
 	// If there's a taxonomy
 	if ( is_tax() ) {
 		$term = get_queried_object();
-		$tax = get_taxonomy( $term->taxonomy );
-		$title = single_term_title( $tax->labels->name . $t_sep, false );
+		if ( $term ) {
+			$tax = get_taxonomy( $term->taxonomy );
+			$title = single_term_title( $tax->labels->name . $t_sep, false );
+		}
 	}
 
 	// If there's an author
 	if ( is_author() ) {
 		$author = get_queried_object();
-		$title = $author->display_name;
+		if ( $author )
+			$title = $author->display_name;
 	}
 
 	// Post type archives with has_archive should override terms.
@@ -1692,13 +1695,17 @@ function feed_links_extra( $args = array() ) {
 	} elseif ( is_category() ) {
 		$term = get_queried_object();
 
-		$title = sprintf( $args['cattitle'], get_bloginfo('name'), $args['separator'], $term->name );
-		$href = get_category_feed_link( $term->term_id );
+		if ( $term ) {
+			$title = sprintf( $args['cattitle'], get_bloginfo('name'), $args['separator'], $term->name );
+			$href = get_category_feed_link( $term->term_id );
+		}
 	} elseif ( is_tag() ) {
 		$term = get_queried_object();
 
-		$title = sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $term->name );
-		$href = get_tag_feed_link( $term->term_id );
+		if ( $term ) {
+			$title = sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $term->name );
+			$href = get_tag_feed_link( $term->term_id );
+		}
 	} elseif ( is_author() ) {
 		$author_id = intval( get_query_var('author') );
 
@@ -1709,7 +1716,9 @@ function feed_links_extra( $args = array() ) {
 		$href = get_search_feed_link();
 	} elseif ( is_post_type_archive() ) {
 		$title = sprintf( $args['posttypetitle'], get_bloginfo('name'), $args['separator'], post_type_archive_title( '', false ) );
-		$href = get_post_type_archive_feed_link( get_queried_object()->name );
+		$post_type_obj = get_queried_object();
+		if ( $post_type_obj )
+			$href = get_post_type_archive_feed_link( $post_type_obj->name );
 	}
 
 	if ( isset($title) && isset($href) )

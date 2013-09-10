@@ -465,7 +465,7 @@ function wp_list_categories( $args = '' ) {
 
 		if ( empty( $r['current_category'] ) && ( is_category() || is_tax() || is_tag() ) ) {
 			$current_term_object = get_queried_object();
-			if ( $r['taxonomy'] == $current_term_object->taxonomy )
+			if ( $current_term_object && $r['taxonomy'] === $current_term_object->taxonomy )
 				$r['current_category'] = get_queried_object_id();
 		}
 
@@ -1037,10 +1037,12 @@ function tag_description( $tag = 0 ) {
  * @return string Term description, available.
  */
 function term_description( $term = 0, $taxonomy = 'post_tag' ) {
-	if ( !$term && ( is_tax() || is_tag() || is_category() ) ) {
+	if ( ! $term && ( is_tax() || is_tag() || is_category() ) ) {
 		$term = get_queried_object();
-		$taxonomy = $term->taxonomy;
-		$term = $term->term_id;
+		if ( $term ) {
+			$taxonomy = $term->taxonomy;
+			$term = $term->term_id;
+		}
 	}
 	$description = get_term_field( 'description', $term, $taxonomy );
 	return is_wp_error( $description ) ? '' : $description;

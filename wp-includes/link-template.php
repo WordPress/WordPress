@@ -713,12 +713,14 @@ function get_edit_term_link( $term_id, $taxonomy, $object_type = '' ) {
  * @return string HTML content.
  */
 function edit_term_link( $link = '', $before = '', $after = '', $term = null, $echo = true ) {
-	if ( is_null( $term ) ) {
+	if ( is_null( $term ) )
 		$term = get_queried_object();
-	}
+
+	if ( ! $term )
+		return;
 
 	$tax = get_taxonomy( $term->taxonomy );
-	if ( !current_user_can($tax->cap->edit_terms) )
+	if ( ! current_user_can( $tax->cap->edit_terms ) )
 		return;
 
 	if ( empty( $link ) )
