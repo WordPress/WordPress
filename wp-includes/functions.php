@@ -393,6 +393,26 @@ function xmlrpc_removepostdata( $content ) {
 }
 
 /**
+ * Use RegEx to extract URLs from arbitrary content
+ *
+ * @since 3.7.0
+ *
+ * @param string $content
+ * @return array URLs found in passed string
+ */
+function wp_extract_urls( $content ) {
+	preg_match_all(
+		"#((?:[\w-]+://?|[\w\d]+[.])[^\s()<>]+[.](?:\([\w\d]+\)|(?:[^`!()\[\]{};:'\".,<>?«»“”‘’\s]|(?:[:]\d+)?/?)+))#",
+		$content,
+		$post_links
+	);
+
+	$post_links = array_unique( array_map( 'html_entity_decode', $post_links[0] ) );
+
+	return array_values( $post_links );
+}
+
+/**
  * Check content for video and audio links to add as enclosures.
  *
  * Will not add enclosures that have already been added and will
@@ -417,22 +437,17 @@ function do_enclose( $content, $post_ID ) {
 
 	$pung = get_enclosed( $post_ID );
 
-	$ltrs = '\w';
-	$gunk = '/#~:.?+=&%@!\-';
-	$punc = '.:?\-';
-	$any = $ltrs . $gunk . $punc;
-
-	preg_match_all( "{\b https? : [$any] +? (?= [$punc] * [^$any] | $)}x", $content, $post_links_temp );
+	$post_links_temp = wp_extract_urls( $content );
 
 	foreach ( $pung as $link_test ) {
-		if ( !in_array( $link_test, $post_links_temp[0] ) ) { // link no longer in post
+		if ( ! in_array( $link_test, $post_links_temp ) ) { // link no longer in post
 			$mids = $wpdb->get_col( $wpdb->prepare("SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = 'enclosure' AND meta_value LIKE (%s)", $post_ID, like_escape( $link_test ) . '%') );
 			foreach ( $mids as $mid )
 				delete_metadata_by_mid( 'post', $mid );
 		}
 	}
 
-	foreach ( (array) $post_links_temp[0] as $link_test ) {
+	foreach ( (array) $post_links_temp as $link_test ) {
 		if ( !in_array( $link_test, $pung ) ) { // If we haven't pung it already
 			$test = @parse_url( $link_test );
 			if ( false === $test )
