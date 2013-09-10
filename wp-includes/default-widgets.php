@@ -1134,7 +1134,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		$nav_menu = isset( $instance['nav_menu'] ) ? $instance['nav_menu'] : '';
 
 		// Get menus
-		$menus = get_terms( 'nav_menu', array( 'hide_empty' => false ) );
+		$menus = wp_get_nav_menus( array( 'orderby' => 'name' ) );
 
 		// If no menus exists, direct the user to go and create some.
 		if ( !$menus ) {
