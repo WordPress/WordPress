@@ -39,13 +39,13 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 <item rdf:about="<?php the_permalink_rss() ?>">
 	<title><?php the_title_rss() ?></title>
 	<link><?php the_permalink_rss() ?></link>
-	 <dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', $post->post_date_gmt, false); ?></dc:date>
-	<dc:creator><?php the_author() ?></dc:creator>
+	<dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', $post->post_date_gmt, false); ?></dc:date>
+	<dc:creator><![CDATA[<?php the_author() ?>]]></dc:creator>
 	<?php the_category_rss('rdf') ?>
 <?php if (get_option('rss_use_excerpt')) : ?>
-	<description><?php the_excerpt_rss() ?></description>
+	<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 <?php else : ?>
-	<description><?php the_excerpt_rss() ?></description>
+	<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 	<content:encoded><![CDATA[<?php the_content_feed('rdf') ?>]]></content:encoded>
 <?php endif; ?>
 	<?php do_action('rdf_item'); ?>
