@@ -52,8 +52,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 	if ( isset($post_data['trackback_url']) )
 		$post_data['to_ping'] = $post_data['trackback_url'];
 
-	if ( !isset($post_data['user_ID']) )
-		$post_data['user_ID'] = $GLOBALS['user_ID'];
+	$post_data['user_ID'] = $GLOBALS['user_ID'];
 
 	if (!empty ( $post_data['post_author_override'] ) ) {
 		$post_data['post_author'] = (int) $post_data['post_author_override'];
