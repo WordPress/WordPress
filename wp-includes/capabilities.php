@@ -936,7 +936,7 @@ class WP_User {
 		}
 
 		// Must have ALL requested caps
-		$capabilities = apply_filters( 'user_has_cap', $this->allcaps, $caps, $args );
+		$capabilities = apply_filters( 'user_has_cap', $this->allcaps, $caps, $args, $this );
 		$capabilities['exist'] = true; // Everyone is allowed to exist
 		foreach ( (array) $caps as $cap ) {
 			if ( empty( $capabilities[ $cap ] ) )
