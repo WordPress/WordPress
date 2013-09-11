@@ -1054,15 +1054,15 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 		$result = wp_cache_set( $transient, $value, 'site-transient', $expiration );
 	} else {
 		$transient_timeout = '_site_transient_timeout_' . $transient;
-		$transient = '_site_transient_' . $transient;
-		if ( false === get_site_option( $transient ) ) {
+		$option = '_site_transient_' . $transient;
+		if ( false === get_site_option( $option ) ) {
 			if ( $expiration )
 				add_site_option( $transient_timeout, time() + $expiration );
-			$result = add_site_option( $transient, $value );
+			$result = add_site_option( $option, $value );
 		} else {
 			if ( $expiration )
 				update_site_option( $transient_timeout, time() + $expiration );
-			$result = update_site_option( $transient, $value );
+			$result = update_site_option( $option, $value );
 		}
 	}
 	if ( $result ) {
