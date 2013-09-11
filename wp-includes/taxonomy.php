@@ -954,7 +954,7 @@ function get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
  * @uses sanitize_term() Cleanses the term based on $filter context before returning.
  * @see sanitize_term_field() The $context param lists the available values for get_term_by() $filter param.
  *
- * @param string $field Either 'slug', 'name', or 'id'
+ * @param string $field Either 'slug', 'name', 'id' (term_id), or 'term_taxonomy_id'
  * @param string|int $value Search for this term value
  * @param string $taxonomy Taxonomy Name
  * @param string $output Constant OBJECT, ARRAY_A, or ARRAY_N
@@ -976,6 +976,9 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
 		// Assume already escaped
 		$value = wp_unslash($value);
 		$field = 't.name';
+	} else if ( 'term_taxonomy_id' == $field ) {
+		$value = (int) $value;
+		$field = 'tt.term_taxonomy_id';
 	} else {
 		$term = get_term( (int) $value, $taxonomy, $output, $filter);
 		if ( is_wp_error( $term ) )
