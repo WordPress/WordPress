@@ -352,13 +352,17 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	}
 
 	if ( false !== $args['rewrite'] && ( is_admin() || '' != get_option( 'permalink_structure' ) ) ) {
+		if ( ! is_array( $args['rewrite'] ) )
+			$args['rewrite'] = array();
+
 		if ( empty( $args['rewrite']['slug'] ) )
 			$args['rewrite']['slug'] = sanitize_title_with_dashes( $taxonomy );
-		$args['rewrite'] = wp_parse_args( $args['rewrite'], array(
+
+		$args['rewrite'] = array_merge( array(
 			'with_front' => true,
 			'hierarchical' => false,
 			'ep_mask' => EP_NONE,
-		) );
+		), $args['rewrite'] );
 
 		if ( $args['hierarchical'] && $args['rewrite']['hierarchical'] )
 			$tag = '(.+?)';
