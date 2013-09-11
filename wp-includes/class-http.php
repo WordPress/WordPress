@@ -166,6 +166,9 @@ class WP_Http {
 		// Construct Cookie: header if any cookies are set
 		WP_Http::buildCookieHeader( $r );
 
+		// Avoid issues where mbstring.func_overload is enabled
+		mbstring_binary_safe_encoding();
+
 		if ( ! isset( $r['headers']['Accept-Encoding'] ) ) {
 			if ( $encoding = WP_Http_Encoding::accept_encoding( $url, $r ) )
 				$r['headers']['Accept-Encoding'] = $encoding;
@@ -187,6 +190,9 @@ class WP_Http {
 		}
 
 		$response = $this->_dispatch_request( $url, $r );
+
+		reset_mbstring_encoding();
+
 		if ( is_wp_error( $response ) )
 			return $response;
 
@@ -1319,11 +1325,6 @@ class WP_Http_Curl {
 	 * @return int
 	 */
 	private function stream_body( $handle, $data ) {
-		if ( function_exists( 'ini_get' ) && ( ini_get( 'mbstring.func_overload' ) & 2 ) && function_exists( 'mb_internal_encoding' ) ) {
-			$mb_encoding = mb_internal_encoding();
-			mb_internal_encoding( 'ISO-8859-1' );
-		}
-
 		$data_length = strlen( $data );
 
 		if ( $this->max_body_length && ( strlen( $this->body ) + $data_length ) > $this->max_body_length )
@@ -1335,9 +1336,6 @@ class WP_Http_Curl {
 			$this->body .= $data;
 			$bytes_written = $data_length;
 		}
-
-		if ( isset( $mb_encoding ) )
-			mb_internal_encoding( $mb_encoding );
 
 		// Upon event of this function returning less than strlen( $data ) curl will error with CURLE_WRITE_ERROR
 		return $bytes_written;
