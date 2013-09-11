@@ -4130,3 +4130,54 @@ function _canonical_charset( $charset ) {
 
 	return $charset;
 }
+
+/**
+ * Sets the mbstring internal encoding to a binary safe encoding whne func_overload is enabled.
+ *
+ * When mbstring.func_overload is in use for multi-byte encodings, the results from strlen() and
+ * similar functions respect the utf8 characters, causing binary data to return incorrect lengths.
+ *
+ * This function overrides the mbstring encoding to a binary-safe encoding, and resets it to the
+ * users expected encoding afterwards through the `reset_mbstring_encoding` function.
+ *
+ * It is safe to recursively call this function, however each `mbstring_binary_safe_encoding()`
+ * call must be followed up with an equal number of `reset_mbstring_encoding()` calls.
+ *
+ * @see reset_mbstring_encoding()
+ *
+ * @since 3.7.0
+ *
+ * @param bool $reset Whether to reset the encoding back to a previously-set encoding.
+ */
+function mbstring_binary_safe_encoding( $reset = false ) {
+	static $encodings = array();
+	static $overloaded = null;
+
+	if ( is_null( $overloaded ) )
+		$overloaded = function_exists( 'mb_internal_encoding' ) && ( ini_get( 'mbstring.func_overload' ) & 2 );
+
+	if ( false === $overloaded )
+		return;
+
+	if ( ! $reset ) {
+		$encoding = mb_internal_encoding();
+		array_push( $encodings, $encoding );
+		mb_internal_encoding( 'ISO-8859-1' );
+	}
+
+	if ( $reset && $encodings ) {
+		$encoding = array_pop( $encodings );
+		mb_internal_encoding( $encoding );
+	}
+}
+
+/**
+ * Resets the mbstring internal encoding to a users previously set encoding.
+ *
+ * @see mbstring_binary_safe_encoding()
+ *
+ * @since 3.7.0
+ */
+function reset_mbstring_encoding() {
+	mbstring_binary_safe_encoding( true );
+}
