@@ -68,11 +68,17 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		if ( ! $fp )
 			return false;
 
+		mbstring_binary_safe_encoding();
+
+		$data_length = strlen( $contents );
+
 		$bytes_written = fwrite( $fp, $contents );
+
+		reset_mbstring_encoding();
 
 		fclose( $fp );
 
-		if ( false === $bytes_written || $bytes_written != strlen( $contents ) )
+		if ( $data_length !== $bytes_written )
 			return false;
 
 		$this->chmod( $file, $mode );
