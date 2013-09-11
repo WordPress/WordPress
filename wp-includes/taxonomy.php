@@ -352,8 +352,9 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	}
 
 	if ( false !== $args['rewrite'] && ( is_admin() || '' != get_option( 'permalink_structure' ) ) ) {
+		if ( empty( $args['rewrite']['slug'] ) )
+			$args['rewrite']['slug'] = sanitize_title_with_dashes( $taxonomy );
 		$args['rewrite'] = wp_parse_args( $args['rewrite'], array(
-			'slug' => sanitize_title_with_dashes( $taxonomy ),
 			'with_front' => true,
 			'hierarchical' => false,
 			'ep_mask' => EP_NONE,
