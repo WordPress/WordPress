@@ -2293,12 +2293,12 @@ function set_url_scheme( $url, $scheme = null ) {
 	}
 
 	$url = trim( $url );
-	if ( $url[0] === '/' && $url[1] === '/' )
+	if ( substr( $url, 0, 2 ) === '//' )
 		$url = 'http:' . $url;
 
 	if ( 'relative' == $scheme ) {
 		$url = ltrim( preg_replace( '#^\w+://[^/]*#', '', $url ) );
-		if ( $url[0] === '/' )
+		if ( $url !== '' && $url[0] === '/' )
 			$url = '/' . ltrim($url , "/ \t\n\r\0\x0B" );
 	} else {
 		$url = preg_replace( '#^\w+://#', $scheme . '://', $url );
