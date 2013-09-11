@@ -642,11 +642,7 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 	global $wp_filesystem;
 
-	// See #15789 - PclZip uses string functions on binary data, If it's overloaded with Multibyte safe functions the results are incorrect.
-	if ( ( ini_get('mbstring.func_overload') & 2 ) && function_exists('mb_internal_encoding') ) {
-		$previous_encoding = mb_internal_encoding();
-		mb_internal_encoding('ISO-8859-1');
-	}
+	mbstring_binary_safe_encoding();
 
 	require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
 
@@ -654,8 +650,7 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 
 	$archive_files = $archive->extract(PCLZIP_OPT_EXTRACT_AS_STRING);
 
-	if ( isset($previous_encoding) )
-		mb_internal_encoding($previous_encoding);
+	reset_mbstring_encoding();
 
 	// Is the archive valid?
 	if ( !is_array($archive_files) )
