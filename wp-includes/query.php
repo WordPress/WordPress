@@ -2390,9 +2390,17 @@ class WP_Query {
 
 		$where .= $search . $whichauthor . $whichmimetype;
 
-		if ( empty($q['order']) || ((strtoupper($q['order']) != 'ASC') && (strtoupper($q['order']) != 'DESC')) )
-			$q['order'] = 'DESC';
-
+		if (empty($q['order'])) {
+			$orderings = array('DESC');
+		} else {
+			$orderings = explode(' ', $q['order']);
+			foreach ($orderings as $i => $order) {
+				if (strtoupper($order) != 'ASC' && strtoupper($order) != 'ASC') {
+					$orderings[$i] = 'DESC';
+				}
+			}
+		}
+		
 		// Order by
 		if ( empty($q['orderby']) ) {
 			$orderby = "$wpdb->posts.post_date " . $q['order'];
@@ -2447,6 +2455,14 @@ class WP_Query {
 					default:
 						$orderby = "$wpdb->posts.post_" . $orderby;
 				}
+				
+				if (isset($orderings[$i])) {
+					$order = $orderings[$i];
+					$orderby .= " {$order}";
+				} else if (count($orderings) == 1) {
+					$order = reset($orderings);
+					$orderby .= " {$order}";	
+				}
 
 				$orderby_array[] = $orderby;
 			}
@@ -2454,8 +2470,7 @@ class WP_Query {
 
 			if ( empty( $orderby ) )
 				$orderby = "$wpdb->posts.post_date ".$q['order'];
-			else
-				$orderby .= " {$q['order']}";
+			
 		}
 
 		if ( is_array( $post_type ) && count( $post_type ) > 1 ) {
