@@ -1303,6 +1303,8 @@ function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
  * @return string|bool False on failure. Referer URL on success.
  */
 function wp_get_referer() {
+	if ( ! function_exists( 'wp_validate_redirect' ) )
+		return false;
 	$ref = false;
 	if ( ! empty( $_REQUEST['_wp_http_referer'] ) )
 		$ref = wp_unslash( $_REQUEST['_wp_http_referer'] );
