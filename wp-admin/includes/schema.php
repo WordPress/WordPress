@@ -546,6 +546,8 @@ function populate_options() {
 
 	// delete obsolete magpie stuff
 	$wpdb->query("DELETE FROM $wpdb->options WHERE option_name REGEXP '^rss_[0-9a-f]{32}(_ts)?$'");
+	// clear transient data
+	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '\_transient\_%' OR option_name LIKE '\_site\_transient\_%'" );
 }
 
 /**
