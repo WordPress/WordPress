@@ -922,6 +922,16 @@ We hope you enjoy your new site. Thanks!
 	if ( ! $subdomain_install )
 		$sitemeta['illegal_names'][] = 'blog';
 
+	/**
+	 * Filter meta for a network on creation.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param array $sitemeta Associative of meta keys and values to be inserted.
+	 * @param int $network_id Network ID being created.
+	 */
+	$sitemeta = apply_filters( 'populate_network_meta', $sitemeta, $network_id );
+
 	$insert = '';
 	foreach ( $sitemeta as $meta_key => $meta_value ) {
 		if ( is_array( $meta_value ) )
