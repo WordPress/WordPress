@@ -238,7 +238,7 @@ function twentyfourteen_admin_fonts() {
 add_action( 'admin_print_scripts-appearance_page_custom-header', 'twentyfourteen_admin_fonts' );
 
 /**
- * Sets the post excerpt length to 40 words.
+ * Sets the post excerpt length to 20 words.
  *
  * @param int $length
  * @return int
