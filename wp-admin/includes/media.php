@@ -2450,7 +2450,19 @@ function attachment_submitbox_metadata() {
 		?></strong>
 	</div>
 
-<?php
+	<?php
+		if ( isset( $meta['filesize'] ) )
+			$file_size = $meta['filesize'];
+		else
+			$file_size = filesize( get_attached_file( $post->ID ) );
+
+		if ( ! empty( $file_size ) ) : ?>
+			<div class="misc-pub-section misc-pub-filesize">
+				<?php _e( 'File size:' ); ?> <strong><?php echo size_format( $file_size ); ?></strong>
+			</div>
+			<?php
+		endif;
+
 	if ( preg_match( '#^audio|video#', $post->post_mime_type ) ):
 
 		/**
