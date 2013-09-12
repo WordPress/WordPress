@@ -1238,7 +1238,7 @@ function get_terms($taxonomies, $args = '') {
 	$args = wp_parse_args( $args, $defaults );
 	$args['number'] = absint( $args['number'] );
 	$args['offset'] = absint( $args['offset'] );
-	if ( !$single_taxonomy || !is_taxonomy_hierarchical($taxonomies[0]) ||
+	if ( !$single_taxonomy || ! is_taxonomy_hierarchical( reset( $taxonomies ) ) ||
 		'' !== $args['parent'] ) {
 		$args['child_of'] = 0;
 		$args['hierarchical'] = false;
