@@ -55,6 +55,9 @@ wp_load_translations_early();
 // Turn register_globals off.
 wp_unregister_GLOBALS();
 
+// Standardize $_SERVER variables across setups.
+wp_fix_server_vars();
+
 require_once(ABSPATH . WPINC . '/compat.php');
 require_once(ABSPATH . WPINC . '/class-wp-error.php');
 require_once(ABSPATH . WPINC . '/formatting.php');
@@ -198,12 +201,11 @@ switch($step) {
 	if ( ! $no_api ) {
 		require_once( ABSPATH . WPINC . '/class-http.php' );
 		require_once( ABSPATH . WPINC . '/http.php' );
-		wp_fix_server_vars();
 		/**#@+
 		 * @ignore
 		 */
 		function get_bloginfo() {
-			return ( ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . str_replace( $_SERVER['PHP_SELF'], '/wp-admin/setup-config.php', '' ) );
+			return wp_guess_url();
 		}
 		/**#@-*/
 		$secret_keys = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );

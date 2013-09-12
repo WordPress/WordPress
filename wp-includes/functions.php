@@ -3231,8 +3231,31 @@ function wp_guess_url() {
 	if ( defined('WP_SITEURL') && '' != WP_SITEURL ) {
 		$url = WP_SITEURL;
 	} else {
+		// The request is for the admin
+		if ( strpos( $_SERVER['REQUEST_URI'], 'wp-admin' ) !== false || strpos( $_SERVER['REQUEST_URI'], 'wp-login.php' ) !== false ) {
+			$path = preg_replace( '#/(wp-admin/.*|wp-login.php)#i', '', $_SERVER['REQUEST_URI'] );
+
+		// The request is for a file in ABSPATH
+		} elseif ( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/' == ABSPATH ) {
+			// Strip off any file/query params in the path
+			$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['PHP_SELF'] );
+
+		} else {
+			if ( false !== strpos( $_SERVER['SCRIPT_FILENAME'], ABSPATH ) ) {
+				// Request is hitting a file inside ABSPATH
+				$directory = str_replace( ABSPATH, '', dirname( $_SERVER['SCRIPT_FILENAME'] ) );
+				// Strip off the sub directory, and any file/query paramss
+				$path = preg_replace( '#/' . preg_quote( $directory, '#' ) . '/[^/]*$#i', '' , $_SERVER['REQUEST_URI'] );
+			} else {
+				// Request is hitting a file above ABSPATH
+				$subdirectory = str_replace( dirname( $_SERVER['SCRIPT_FILENAME'] ), '', ABSPATH );
+				// Strip off any file/query params from the path, appending the sub directory to the install
+				$path = preg_replace( '#/[^/]*$#i', '' , $_SERVER['REQUEST_URI'] ) . $subdirectory;
+			}
+		}
+
 		$schema = is_ssl() ? 'https://' : 'http://'; // set_url_scheme() is not defined yet
-		$url = preg_replace( '#/(wp-admin/.*|wp-login.php)#i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+		$url = $schema . $_SERVER['HTTP_HOST'] . $path;
 	}
 
 	return rtrim($url, '/');

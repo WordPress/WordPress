@@ -50,15 +50,7 @@ if ( file_exists( ABSPATH . 'wp-config.php') ) {
 
 	require_once( ABSPATH . WPINC . '/functions.php' );
 
-	// Set a path for the link to the installer
-	if ( strpos( $_SERVER['PHP_SELF'], 'wp-admin' ) !== false ) {
-		$path = 'setup-config.php';
-	} elseif ( file_exists( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/wp-admin/setup-config.php' ) ) {
-		$path = 'wp-admin/setup-config.php';
-	} else {
-		// WordPress files are in a sub directory, and the user is hitting the index.php in the parent directory
-		$path = str_replace( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/', '', dirname( __FILE__ ) . '/wp-admin/setup-config.php' );
-	}
+	$path = wp_guess_url() . '/wp-admin/setup-config.php';
 
 	// Die with an error message
 	$die  = __( "There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started." ) . '</p>';
