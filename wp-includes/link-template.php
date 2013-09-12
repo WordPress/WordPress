@@ -2417,7 +2417,8 @@ function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
 		$post = get_post( $post_id );
 	} elseif ( 'post' == $context ) {
 		$post = get_post( $id );
-		$post_id = $post->ID;
+		if ( ! empty( $post->ID ) )
+			$post_id = $post->ID;
 	}
 
 	$shortlink = '';
