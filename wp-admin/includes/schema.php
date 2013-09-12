@@ -285,9 +285,9 @@ CREATE TABLE $wpdb->signups (
   meta longtext,
   PRIMARY KEY  (signup_id),
   KEY activation_key (activation_key),
-  KEY user_email (user_email)
+  KEY user_email (user_email),
   KEY user_login_email (user_login,user_email),
-  KEY domain_path (domain,path),
+  KEY domain_path (domain,path)
 ) $charset_collate;";
 
 	switch ( $scope ) {
