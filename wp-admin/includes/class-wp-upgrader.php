@@ -299,21 +299,26 @@ class WP_Upgrader {
 		if ( ! $res ) //Mainly for non-connected filesystem.
 			return false;
 
-		if ( is_wp_error($res) ) {
-			$this->skin->error($res);
-			return $res;
-		}
-
-		if ( !$is_multi ) // call $this->header separately if running multiple times
+		if ( ! $is_multi ) // call $this->header separately if running multiple times
 			$this->skin->header();
 
 		$this->skin->before();
+
+		if ( is_wp_error($res) ) {
+			$this->skin->error($res);
+			$this->skin->after();
+			if ( ! $is_multi )
+				$this->skin->footer();
+			return $res;
+		}
 
 		//Download the package (Note, This just returns the filename of the file if the package is a local file)
 		$download = $this->download_package( $package );
 		if ( is_wp_error($download) ) {
 			$this->skin->error($download);
 			$this->skin->after();
+			if ( ! $is_multi )
+				$this->skin->footer();
 			return $download;
 		}
 
@@ -324,6 +329,8 @@ class WP_Upgrader {
 		if ( is_wp_error($working_dir) ) {
 			$this->skin->error($working_dir);
 			$this->skin->after();
+			if ( ! $is_multi )
+				$this->skin->footer();
 			return $working_dir;
 		}
 
@@ -345,9 +352,10 @@ class WP_Upgrader {
 			//Install Succeeded
 			$this->skin->feedback('process_success');
 		}
+
 		$this->skin->after();
 
-		if ( !$is_multi )
+		if ( ! $is_multi )
 			$this->skin->footer();
 
 		return $result;
