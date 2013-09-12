@@ -282,6 +282,7 @@ function is_serialized( $data, $strict = true ) {
 			} elseif ( false === strpos( $data, '"' ) ) {
 				return false;
 			}
+			// or else fall through
 		case 'a' :
 		case 'O' :
 			return (bool) preg_match( "/^{$token}:[0-9]+:/s", $data );
