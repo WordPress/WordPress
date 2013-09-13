@@ -1137,6 +1137,61 @@ class Core_Upgrader extends WP_Upgrader {
 		return $result;
 	}
 
+	// Determines if this WordPress Core version should update to $offered_ver or not
+	static function should_upgrade_to_version( $offered_ver /* x.y.z */ ) {
+		include ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
+
+		$current_branch = implode( '.', array_slice( preg_split( '/[.-]/', $wp_version  ), 0, 2 ) ); // x.y
+		$new_branch     = implode( '.', array_slice( preg_split( '/[.-]/', $offered_ver ), 0, 2 ) ); // x.y
+		$current_is_development_version = (bool) strpos( $wp_version, '-' );
+
+		// Defaults:
+		$upgrade_dev   = false;
+		$upgrade_minor = false; // @TODO: Update for release by toggling to true.
+		$upgrade_major = false;
+
+		// WP_AUTO_UPDATE_CORE = true (all), 'minor', false.
+		if ( defined( 'WP_AUTO_UPDATE_CORE' ) ) {
+			if ( false === WP_AUTO_UPDATE_CORE ) {
+				// Defaults to turned off, unless a filter allows it
+				$upgrade_dev = $upgrade_minor = $upgrade_major = false;
+			} elseif ( true === WP_AUTO_UPDATE_CORE ) {
+				// ALL updates for core
+				$upgrade_dev = $upgrade_minor = $upgrade_major = true;
+			} elseif ( 'minor' === WP_AUTO_UPDATE_CORE ) {
+				// Only minor updates for core
+				$upgrade_dev = $upgrade_major = false;
+				$upgrade_minor = true;
+			}
+		}
+
+		// 1: If we're already on that version, not much point in updating?
+		if ( $offered_ver == $wp_version )
+			return false;
+
+		// 2: If we're running a newer version, that's a nope
+		if ( version_compare( $wp_version, $offered_ver, '>=' ) )
+			return false;
+
+		// 3: 3.7-alpha-25000 -> 3.7-alpha-25678 -> 3.7-beta1 -> 3.7-beta2
+		if ( $current_is_development_version ) {
+			if ( ! apply_filters( 'allow_dev_auto_core_updates', $upgrade_dev ) )
+				return false;
+			// else fall through to minor + major branches below
+		}
+
+		// 4: Minor In-branch updates (3.7.0 -> 3.7.1 -> 3.7.2 -> 3.7.4)
+		if ( $current_branch == $new_branch )
+			return apply_filters( 'allow_minor_auto_core_updates', $upgrade_minor );
+
+		// 5: Major version updates (3.7.0 -> 3.8.0 -> 3.9.1)
+		if ( version_compare( $new_branch, $current_branch, '>' ) )
+			return apply_filters( 'allow_major_auto_core_updates', $upgrade_major );
+
+		// If we're not sure, we don't want it
+		return false;
+	}
+
 }
 
 /**
@@ -1211,4 +1266,224 @@ class File_Upload_Upgrader {
 
 		return true;
 	}
+}
+
+/**
+ * WordPress Automatic Upgrader helper class
+ *
+ * @since 3.7.0
+ */
+class WP_Automatic_Upgrader {
+
+	static $skin;
+
+	static function upgrader_disabled() {
+		// That's a no if you don't want files changes
+		if ( defined( 'DISABLE_FILE_MODS' ) && DISABLE_FILE_MODS )
+			return true;
+
+		// More fine grained control can be done through the WP_AUTO_UPDATE_CORE constant and filters
+		if ( defined( 'AUTOMATIC_UPDATER_DISABLED' ) && AUTOMATIC_UPDATER_DISABLED )
+			return true;
+
+		if ( defined( 'WP_INSTALLING' ) )
+			return true;
+
+		return apply_filters( 'auto_upgrader_disabled', false );
+	}
+
+	/**
+	 * Tests to see if we should upgrade a specific item, does not test to see if we CAN update the item.
+	 */
+	static function should_auto_update( $type, $item, $context ) {
+
+		if ( self::upgrader_disabled() )
+			return false;
+
+		// ..and also check for GIT/SVN checkouts
+		if ( ! apply_filters( 'auto_upgrade_ignore_checkout_status', false ) ) {
+			$stop_dirs = array(
+				ABSPATH,
+				untrailingslashit( $context ),
+			);
+			if ( ! file_exists( ABSPATH . '/wp-config.php' ) ) // wp-config.php up one folder in a deployment situation
+				$stop_dirs[] = dirname( ABSPATH );
+			foreach ( array_unique( $stop_dirs ) as $dir ) {
+				if ( file_exists( $dir . '/.svn' ) || file_exists( $dir . '/.git' ) )
+					return false;
+			}
+		}
+
+		// Next up, do we actually have it enabled for this type of update?
+		switch ( $type ) {
+			case 'core':
+				$upgrade = Core_Upgrader::should_upgrade_to_version( $item->current );
+				break;
+			default:
+			case 'plugin':
+			case 'theme':
+				$upgrade = false;
+				break;
+		}
+
+		// And does the user / plugins want it?
+		// Plugins may filter on 'auto_upgrade_plugin', and check the 2nd param, $item, to only enable it for certain Plugins/Themes
+		if ( ! apply_filters( 'auto_upgrade_' . $type, $upgrade, $item ) )
+			return false;
+
+		// If it's a core update, are we actually compatible with it's requirements?
+		if ( 'core' == $type ) {
+			global $wpdb;
+
+			$php_compat = version_compare( phpversion(), $item->php_version, '>=' );
+			if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) )
+				$mysql_compat = true;
+			else
+				$mysql_compat = version_compare( $wpdb->db_version(), $item->mysql_version, '>=' );
+
+			if ( ! $php_compat || ! $mysql_compat )
+				return false;
+		}
+
+		return true;
+	}
+
+	// Checks to see if WP_Filesystem is setup to allow unattended upgrades
+	static function can_auto_update( $context ) {
+		if ( ! self::$skin )
+			self::$skin = new Automatic_Upgrader_Skin();
+		return (bool) self::$skin->request_filesystem_credentials();
+	}
+
+	static function upgrade( $type, $item ) {
+
+		self::$skin = new Automatic_Upgrader_Skin();
+
+		switch ( $type ) {
+			case 'core':
+				// The Core upgrader doesn't use the Upgrader's skin during the actual main part of the upgrade, instead, firing a filter
+				add_filter( 'update_feedback', function( $message ) {
+					WP_Background_Upgrader::$skin->feedback( $message );
+					return $message;
+				} );
+				$upgrader = new Core_Upgrader( self::$skin );
+				$context  = ABSPATH;
+				break;
+			case 'plugin':
+				$upgrader = new Plugin_Upgrader( self::$skin );
+				$context  = WP_PLUGIN_DIR; // We don't support custom Plugin directories, or updates for WPMU_PLUGIN_DIR
+				break;
+			case 'theme':
+				$upgrader = new Theme_Upgrader( self::$skin );
+				$context  = get_theme_root( $item );
+				break;
+		}
+
+		// Determine if we can perform this upgrade or not
+		if ( ! self::should_auto_update( $type, $item, $context )  || ! self::can_auto_update( $context ) )
+			return false;
+
+		/*wp_mail(
+			get_site_option( 'admin_email' ),
+			__METHOD__,
+			"Starting an upgrade for:\n\n" . var_export( compact( 'type', 'item' ), true ) . "\n\n" . wp_debug_backtrace_summary()
+		);*/
+
+		// Boom, This sites about to get a whole new splash of paint!
+		$upgrade_result = $upgrader->upgrade( $item, array(
+			'clear_update_cache' => false,
+		) );
+
+		// Core doesn't output this, so lets append it so we don't get confused
+		if ( 'core' == $type ) {
+			if ( is_wp_error( $upgrade_result ) ) {
+				self::$skin->error( __( 'Installation Failed' ), $upgrade_result );
+			} else {
+				self::$skin->feedback( __( 'WordPress updated successfully' ) );
+			}
+		}
+
+		// Clear cache's and transients
+		switch ( $type ) {
+			case 'core':
+				delete_site_transient( 'update_core' );
+				break;
+			case 'theme':
+				wp_clean_themes_cache();
+				break;
+			case 'plugin':
+				wp_clean_plugins_cache();
+				break;
+		}
+
+		//var_dump( compact( 'type', 'item', 'upgrader', 'upgrade_result' ) );
+
+		wp_mail(
+			get_site_option( 'admin_email' ),
+			__METHOD__,
+			var_export( array(
+				$upgrade_result,
+				$upgrader,
+				self::$skin,
+			), true )
+		);
+
+		return $upgrade_result;
+	}
+
+	/**
+	 * Kicks off a upgrade request for each item in the upgrade "queue"
+	 */
+	static function perform_auto_updates() {
+
+		$lock_name = 'auto_upgrader.lock';
+		if ( get_site_transient( $lock_name ) ) {
+			// Test to see if it was set more than an hour ago, if so, cleanup.
+			if ( true || get_site_transient( $lock_name ) < ( time() - HOUR_IN_SECONDS ) )
+				delete_site_transient( $lock_name );
+			else // Recent lock
+				return;
+		}
+		// Lock upgrades for us for half an hour
+		if ( ! set_site_transient( $lock_name, microtime( true ), HOUR_IN_SECONDS / 2 ) )
+			return;
+
+		// Next, Plugins
+		wp_update_plugins(); // Check for Plugin updates
+		$plugin_updates = get_site_transient( 'update_plugins' );
+		if ( $plugin_updates && !empty( $plugin_updates->response ) ) {
+			foreach ( array_keys( $plugin_updates->response ) as $plugin ) {
+				self::upgrade( 'plugin', $plugin );
+			}
+			// Force refresh of plugin update information
+			wp_clean_plugins_cache();
+		}
+
+		// Next, those themes we all love
+		wp_update_themes();  // Check for Theme updates
+		$theme_updates = get_site_transient( 'update_themes' );
+		if ( $theme_updates && !empty( $theme_updates->response ) ) {
+			foreach ( array_keys( $theme_updates->response ) as $theme ) {
+				self::upgrade( 'theme', $theme );
+			}
+			// Force refresh of theme update information
+			wp_clean_themes_cache();
+		}
+
+		// Finally, Process any core upgrade
+		wp_version_check(); // Check for Core updates
+		$core_update = find_core_auto_update();
+		if ( $core_update )
+			self::upgrade( 'core', $core_update );
+
+		// Cleanup, These won't trigger any updates this time due to the locking transient
+		wp_version_check();  // check for Core updates
+		wp_update_themes();  // Check for Theme updates
+		wp_update_plugins(); // Check for Plugin updates
+
+		// TODO The core database upgrade has already cleared this transient..
+		delete_site_transient( $lock_name );
+
+	}
+
 }

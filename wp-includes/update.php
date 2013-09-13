@@ -120,6 +120,8 @@ function wp_version_check() {
 	$updates->last_checked = time();
 	$updates->version_checked = $wp_version;
 	set_site_transient( 'update_core',  $updates);
+
+	wp_auto_updates_maybe_queue( 'core' );
 }
 
 /**
@@ -221,6 +223,8 @@ function wp_update_plugins() {
 		$new_option->response = array();
 
 	set_site_transient( 'update_plugins', $new_option );
+
+	wp_auto_updates_maybe_queue( 'plugins' );
 }
 
 /**
@@ -331,6 +335,53 @@ function wp_update_themes() {
 		$new_update->response = $response;
 
 	set_site_transient( 'update_themes', $new_update );
+
+	wp_auto_updates_maybe_queue( 'themes' );
+}
+
+/**
+ * Queues a cron entry if a potentially upgrade is detected.
+ *
+ * @since 3.7.0
+ *
+ * @param string $type The type of update to check for, may be 'core', 'plugins', or, 'themes'.
+ */
+function wp_auto_updates_maybe_queue( $type = 'core' ) {
+	include_once ABSPATH . '/wp-admin/includes/class-wp-upgrader.php';
+	include_once ABSPATH . '/wp-admin/includes/update.php';
+
+	if ( WP_Automatic_Upgrader::upgrader_disabled() )
+		return;
+
+	$updates_available = false;
+	if ( 'core' == $type ) {
+		$updates_available = (bool) find_core_auto_update();
+	} elseif ( 'plugins' == $type ) {
+		$plugin_updates = get_site_transient( 'update_plugins' );
+		$updates_available = !empty( $plugin_updates->response );
+	} elseif ( 'themes' == $type ) {
+		$theme_updates = get_site_transient( 'update_themes' );
+		$updates_available = empty( $theme_updates->response );
+	}
+
+	if ( $updates_available && ! wp_next_scheduled( 'wp_auto_updates_execute' ) ) {
+		// If the transient update was triggered by a user pageview, update in an hours time, else, now.
+		$when_to_update = get_current_user_id() ? time() + HOUR_IN_SECONDS : time();
+		$when_to_update = apply_filters( 'auto_upgrade_when_to_upgrade', $when_to_update );
+
+		wp_schedule_single_event( $when_to_update, 'wp_auto_updates_execute' );
+	}
+
+}
+
+function wp_auto_updates_execute() {
+	include_once ABSPATH . '/wp-admin/includes/admin.php';
+	include_once ABSPATH . '/wp-admin/includes/class-wp-upgrader.php';
+
+	if ( WP_Automatic_Upgrader::upgrader_disabled() )
+		return;
+
+	WP_Automatic_Upgrader::perform_auto_updates();
 }
 
 /*
@@ -455,5 +506,8 @@ add_action( 'load-update.php', 'wp_update_themes' );
 add_action( 'load-update-core.php', 'wp_update_themes' );
 add_action( 'admin_init', '_maybe_update_themes' );
 add_action( 'wp_update_themes', 'wp_update_themes' );
+
+// Automatic Updates - Cron callback
+add_action( 'wp_auto_updates_execute', 'wp_auto_updates_execute' );
 
 add_action('init', 'wp_schedule_update_checks');

@@ -57,6 +57,36 @@ function get_core_updates( $options = array() ) {
 	return $result;
 }
 
+/**
+ * Gets the best available (and enabled) Auto-Update for WordPress Core.
+ *
+ * If there's 1.2.3 and 1.3 on offer, it'll choose 1.3 if the install allows it, else, 1.2.3
+ *
+ * @since 3.7.0
+ *
+ * @return bool|array False on failure, otherwise the core update offering.
+ */
+function find_core_auto_update() {
+	$updates = get_site_transient( 'update_core' );
+	if ( ! $updates || empty( $updates->updates ) )
+		return false;
+
+	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
+	$auto_update = false;
+	foreach ( $updates->updates as $update ) {
+		if ( 'autoupdate' != $update->response )
+			continue;
+
+		if ( ! WP_Automatic_Upgrader::should_auto_update( 'core', $update, ABSPATH ) )
+			continue;
+
+		if ( ! $auto_update || version_compare( $update->current, $auto_update->current, '>' ) )
+			$auto_update = $update;
+	}
+	return $auto_update;
+}
+
 function dismiss_core_update( $update ) {
 	$dismissed = get_site_option( 'dismissed_update_core' );
 	$dismissed[ $update->current . '|' . $update->locale ] = true;
