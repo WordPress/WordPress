@@ -108,6 +108,19 @@ class WP_Upgrader {
 
 	function download_package($package) {
 
+		/**
+		 * Filter whether to return the package.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param bool    $reply   Whether to bail without returning the package. Default is false.
+		 * @param string  $package The package file name.
+		 * @param object  $this    The WP_Upgrader instance.
+		 */
+		$reply = apply_filters( 'upgrader_pre_download', false, $package, $this );
+		if ( false !== $reply )
+			return $reply;
+
 		if ( ! preg_match('!^(http|https|ftp)://!i', $package) && file_exists($package) ) //Local file or remote?
 			return $package; //must be a local file..
 
