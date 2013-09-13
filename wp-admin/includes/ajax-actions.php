@@ -547,7 +547,7 @@ function wp_ajax_dim_comment() {
 		wp_die( -1 );
 
 	$current = wp_get_comment_status( $comment->comment_ID );
-	if ( $_POST['new'] == $current )
+	if ( isset( $_POST['new'] ) && $_POST['new'] == $current )
 		wp_die( time() );
 
 	check_ajax_referer( "approve-comment_$id" );
@@ -751,6 +751,9 @@ function wp_ajax_replyto_comment( $action ) {
 		$comment_author_url   = wp_slash( $user->user_url );
 		$comment_content      = trim($_POST['content']);
 		if ( current_user_can( 'unfiltered_html' ) ) {
+			if ( ! isset( $_POST['_wp_unfiltered_html_comment'] ) )
+				$_POST['_wp_unfiltered_html_comment'] = '';
+
 			if ( wp_create_nonce( 'unfiltered-html-comment' ) != $_POST['_wp_unfiltered_html_comment'] ) {
 				kses_remove_filters(); // start with a clean slate
 				kses_init_filters(); // set up the filters
@@ -763,7 +766,9 @@ function wp_ajax_replyto_comment( $action ) {
 	if ( '' == $comment_content )
 		wp_die( __( 'ERROR: please type a comment.' ) );
 
-	$comment_parent = absint($_POST['comment_ID']);
+	$comment_parent = 0;
+	if ( isset( $_POST['comment_ID'] ) )
+		$comment_parent = absint( $_POST['comment_ID'] );
 	$comment_auto_approved = false;
 	$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID');
 
@@ -784,19 +789,18 @@ function wp_ajax_replyto_comment( $action ) {
 	$position = ( isset($_POST['position']) && (int) $_POST['position'] ) ? (int) $_POST['position'] : '-1';
 
 	ob_start();
-		if ( 'dashboard' == $_REQUEST['mode'] ) {
-			require_once( ABSPATH . 'wp-admin/includes/dashboard.php' );
-			_wp_dashboard_recent_comments_row( $comment );
+	if ( isset( $_REQUEST['mode'] ) && 'dashboard' == $_REQUEST['mode'] ) {
+		require_once( ABSPATH . 'wp-admin/includes/dashboard.php' );
+		_wp_dashboard_recent_comments_row( $comment );
+	} else {
+		if ( isset( $_REQUEST['mode'] ) && 'single' == $_REQUEST['mode'] ) {
+			$wp_list_table = _get_list_table('WP_Post_Comments_List_Table', array( 'screen' => 'edit-comments' ) );
 		} else {
-			if ( 'single' == $_REQUEST['mode'] ) {
-				$wp_list_table = _get_list_table('WP_Post_Comments_List_Table', array( 'screen' => 'edit-comments' ) );
-			} else {
-				$wp_list_table = _get_list_table('WP_Comments_List_Table', array( 'screen' => 'edit-comments' ) );
-			}
-			$wp_list_table->single_row( $comment );
+			$wp_list_table = _get_list_table('WP_Comments_List_Table', array( 'screen' => 'edit-comments' ) );
 		}
-		$comment_list_item = ob_get_contents();
-	ob_end_clean();
+		$wp_list_table->single_row( $comment );
+	}
+	$comment_list_item = ob_get_clean();
 
 	$response =  array(
 		'what' => 'comment',
@@ -825,7 +829,8 @@ function wp_ajax_edit_comment() {
 	if ( '' == $_POST['content'] )
 		wp_die( __( 'ERROR: please type a comment.' ) );
 
-	$_POST['comment_status'] = $_POST['status'];
+	if ( isset( $_POST['status'] ) )
+		$_POST['comment_status'] = $_POST['status'];
 	edit_comment();
 
 	$position = ( isset($_POST['position']) && (int) $_POST['position']) ? (int) $_POST['position'] : '-1';
@@ -837,9 +842,8 @@ function wp_ajax_edit_comment() {
 	$comment = get_comment( $comment_id );
 
 	ob_start();
-		$wp_list_table->single_row( $comment );
-		$comment_list_item = ob_get_contents();
-	ob_end_clean();
+	$wp_list_table->single_row( $comment );
+	$comment_list_item = ob_get_clean();
 
 	$x = new WP_Ajax_Response();
 
