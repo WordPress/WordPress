@@ -1018,25 +1018,42 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 /**
  * Retrieve HTML content for reply to comment link.
  *
- * The default arguments that can be override are 'add_below', 'respond_id',
- * 'reply_text', 'login_text', and 'depth'. The 'login_text' argument will be
- * used, if the user must log in or register first before posting a comment. The
- * 'reply_text' will be used, if they can post a reply. The 'add_below' and
- * 'respond_id' arguments are for the JavaScript moveAddCommentForm() function
- * parameters.
- *
  * @since 2.7.0
  *
- * @param array $args Optional. Override default options.
+ * @param array $args {
+ *     Override default options.
+ *
+ *     @type string 'add_below'  The first part of the selector used to identify the comment to respond below. The resulting value is passed as the first parameter to addComment.moveForm(), concatenated as $add_below-$comment->comment_ID.
+ *                               Default is 'comment'.
+ *     @type string 'respond_id' The selector identifying the responding comment. Passed as the third parameter to addComment.moveForm(), and appended to the link URL as a hash value.
+ *                               Default is 'respond'.
+ *     @type string 'reply_text' The text of the Reply link.
+ *                               Default is 'Reply'.
+ *     @type string 'login_text' The text of the link to reply if logged out.
+ *                               Default is 'Log in to Reply'.
+ *     @type int    'depth'      The depth of the new comment. Must be greater than 0 and less than the value of the 'thread_comments_depth' option set in Settings > Discussion.
+ *                               Default is 0.
+ *     @type string 'before'     The text or HTML to add before the reply link.
+ *                               Default empty string.
+ *     @type string 'after'      The text or HTML to add after the reply link.
+ *                               Default empty string.
+ * }
  * @param int $comment Optional. Comment being replied to.
- * @param int $post Optional. Post that the comment is going to be displayed on.
+ * @param int $post    Optional. Post that the comment is going to be displayed on.
  * @return string|bool|null Link to show comment form, if successful. False, if comments are closed.
  */
 function get_comment_reply_link($args = array(), $comment = null, $post = null) {
 	global $user_ID;
 
-	$defaults = array('add_below' => 'comment', 'respond_id' => 'respond', 'reply_text' => __('Reply'),
-		'login_text' => __('Log in to Reply'), 'depth' => 0, 'before' => '', 'after' => '');
+	$defaults = array(
+		'add_below'  => 'comment',
+		'respond_id' => 'respond',
+		'reply_text' => __('Reply'),
+		'login_text' => __('Log in to Reply'),
+		'depth'      => 0,
+		'before'     => '',
+		'after'      => ''
+	);
 
 	$args = wp_parse_args($args, $defaults);
 
@@ -1059,7 +1076,20 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null) 
 		$link = '<a rel="nofollow" class="comment-reply-login" href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . $login_text . '</a>';
 	else
 		$link = "<a class='comment-reply-link' href='" . esc_url( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $respond_id . "' onclick='return addComment.moveForm(\"$add_below-$comment->comment_ID\", \"$comment->comment_ID\", \"$respond_id\", \"$post->ID\")'>$reply_text</a>";
-	return apply_filters('comment_reply_link', $before . $link . $after, $args, $comment, $post);
+
+	/**
+	 * Filter the comment reply link.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string  $before  Text or HTML displayed before the reply link.
+	 * @param string  $link    The HTML markup for the comment reply link.
+	 * @param string  $after   Text or HTML displayed after the reply link.
+	 * @param array   $args    An array of arguments overriding the defaults.
+	 * @param object  $comment The object of the comment being replied.
+	 * @param WP_Post $post    The WP_Post object.
+	 */
+	return apply_filters( 'comment_reply_link', $before . $link . $after, $args, $comment, $post );
 }
 
 /**
@@ -1068,7 +1098,7 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null) 
  * @since 2.7.0
  * @see get_comment_reply_link() Echoes result
  *
- * @param array $args Optional. Override default options.
+ * @param array $args Optional. Override default options, @see get_comment_reply_link().
  * @param int $comment Optional. Comment being replied to.
  * @param int $post Optional. Post that the comment is going to be displayed on.
  * @return string|bool|null Link to show comment form, if successful. False, if comments are closed.
@@ -1086,6 +1116,8 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
  * 'reply_text' will be used, if they can post a reply. The 'add_below' and
  * 'respond_id' arguments are for the JavaScript moveAddCommentForm() function
  * parameters.
+ *
+ * @todo See get_comment_reply_link() for a template of the args docblock.
  *
  * @since 2.7.0
  *
@@ -1116,10 +1148,10 @@ function get_post_reply_link($args = array(), $post = null) {
 
 /**
  * Displays the HTML content for reply to post link.
+ * 
  * @since 2.7.0
- * @see get_post_reply_link()
  *
- * @param array $args Optional. Override default options.
+ * @param array $args Optional. Override default options, @see get_post_reply_link().
  * @param int|object $post Optional. Post that the comment is going to be displayed on.
  * @return string|bool|null Link to show comment form, if successful. False, if comments are closed.
  */
