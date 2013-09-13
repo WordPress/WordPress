@@ -43,7 +43,7 @@ if ( isset( $_POST['action'] ) && $_POST['action'] == 'deleteblog' && isset( $_P
 
 	$url_delete = esc_url( admin_url( 'ms-delete-site.php?h=' . $hash ) );
 
-	$content = apply_filters( 'delete_site_email_content', __( "Dear User,
+	$content = __( "Dear User,
 You recently clicked the 'Delete Site' link on your site and filled in a
 form on that page.
 If you really want to delete your site, click the link below. You will not
@@ -56,7 +56,15 @@ are gone forever.)
 
 Thanks for using the site,
 Webmaster
-###SITE_NAME###" ) );
+###SITE_NAME###" );
+	/**
+	 * Filter the email content sent when a site in a Multisite network is deleted.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $content The email content that will be sent to the user who deleted a site in a Multisite network.
+	 */
+	$content = apply_filters( 'delete_site_email_content', $content );
 
 	$content = str_replace( '###URL_DELETE###', $url_delete, $content );
 	$content = str_replace( '###SITE_NAME###', $current_site->site_name, $content );
