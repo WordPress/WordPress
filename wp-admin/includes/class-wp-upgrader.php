@@ -1352,7 +1352,7 @@ class WP_Automatic_Upgrader {
 	static function can_auto_update( $context ) {
 		if ( ! self::$skin )
 			self::$skin = new Automatic_Upgrader_Skin();
-		return (bool) self::$skin->request_filesystem_credentials();
+		return (bool) self::$skin->request_filesystem_credentials( false, $context );
 	}
 
 	static function upgrade( $type, $item ) {
