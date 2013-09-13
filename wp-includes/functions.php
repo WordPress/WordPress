@@ -2585,7 +2585,7 @@ function smilies_init() {
 		$wp_smiliessearch .= preg_quote($rest, '/');
 	}
 
-	$wp_smiliessearch .= ')(?:\s|$)/m';
+	$wp_smiliessearch .= ')|(?:\s|^)(?:\s|$)/m';
 }
 
 /**
