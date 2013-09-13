@@ -1047,9 +1047,10 @@ function wp_ajax_autosave() {
 
 	check_ajax_referer( 'autosave', 'autosavenonce' );
 
-	$_POST['post_category'] = explode(",", $_POST['catslist']);
-	if ( $_POST['post_type'] == 'page' || empty($_POST['post_category']) )
-		unset($_POST['post_category']);
+	if ( ! empty( $_POST['catslist'] ) )
+		$_POST['post_category'] = explode( ',', $_POST['catslist'] );
+	if ( $_POST['post_type'] == 'page' || empty( $_POST['post_category'] ) )
+		unset( $_POST['post_category'] );
 
 	$data = '';
 	$supplemental = array();
@@ -1057,17 +1058,15 @@ function wp_ajax_autosave() {
 
 	$post_id = (int) $_POST['post_id'];
 	$_POST['ID'] = $_POST['post_ID'] = $post_id;
-	$post = get_post($post_id);
+	$post = get_post( $post_id );
+	if ( empty( $post->ID ) || ! current_user_can( 'edit_post', $post->ID ) )
+		wp_die( __( 'You are not allowed to edit this post.' ) );
+
+	if ( 'page' == $post->post_type && ! current_user_can( 'edit_page', $post->ID ) )
+		wp_die( __( 'You are not allowed to edit this page.' ) );
+
 	if ( 'auto-draft' == $post->post_status )
 		$_POST['post_status'] = 'draft';
-
-	if ( 'page' == $post->post_type ) {
-		if ( !current_user_can('edit_page', $post->ID) )
-			wp_die( __( 'You are not allowed to edit this page.' ) );
-	} else {
-		if ( !current_user_can('edit_post', $post->ID) )
-			wp_die( __( 'You are not allowed to edit this post.' ) );
-	}
 
 	if ( ! empty( $_POST['autosave'] ) ) {
 		if ( ! wp_check_post_lock( $post->ID ) && get_current_user_id() == $post->post_author && ( 'auto-draft' == $post->post_status || 'draft' == $post->post_status ) ) {
