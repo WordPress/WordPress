@@ -206,7 +206,7 @@ function wp_update_plugins() {
 		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
-	$url = 'http://api.wordpress.org/plugins/update-check/1.0/';
+	$url = 'http://api.wordpress.org/plugins/update-check/1.1/';
 	if ( wp_http_supports( array( 'ssl' ) ) )
 		$url = set_url_scheme( $url, 'https' );
 
@@ -215,10 +215,10 @@ function wp_update_plugins() {
 	if ( is_wp_error( $raw_response ) || 200 != wp_remote_retrieve_response_code( $raw_response ) )
 		return false;
 
-	$response = maybe_unserialize( wp_remote_retrieve_body( $raw_response ) );
+	$response = json_decode( wp_remote_retrieve_body( $raw_response ) );
 
-	if ( is_array( $response ) )
-		$new_option->response = $response;
+	if ( is_object( $response ) )
+		$new_option->response = (array) $response;
 	else
 		$new_option->response = array();
 
@@ -317,7 +317,7 @@ function wp_update_themes() {
 		'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
-	$url = 'http://api.wordpress.org/themes/update-check/1.0/';
+	$url = 'http://api.wordpress.org/themes/update-check/1.1/';
 	if ( wp_http_supports( array( 'ssl' ) ) )
 		$url = set_url_scheme( $url, 'https' );
 
@@ -330,7 +330,7 @@ function wp_update_themes() {
 	$new_update->last_checked = time();
 	$new_update->checked = $checked;
 
-	$response = maybe_unserialize( wp_remote_retrieve_body( $raw_response ) );
+	$response = json_decode( wp_remote_retrieve_body( $raw_response ), true );
 	if ( is_array( $response ) )
 		$new_update->response = $response;
 
