@@ -1066,6 +1066,8 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'edit_post':
 	case 'edit_page':
 		$post = get_post( $args[0] );
+		if ( empty( $post ) )
+			break;
 
 		if ( 'revision' == $post->post_type ) {
 			$post = get_post( $post->post_parent );
@@ -1170,6 +1172,8 @@ function map_meta_cap( $cap, $user_id ) {
 		break;
 	case 'edit_comment':
 		$comment = get_comment( $args[0] );
+		if ( empty( $comment ) )
+			break;
 		$post = get_post( $comment->comment_post_ID );
 		$caps = map_meta_cap( 'edit_post', $user_id, $post->ID );
 		break;

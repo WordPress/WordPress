@@ -1505,6 +1505,8 @@ function wp_update_comment($commentarr) {
 
 	// First, get all of the original fields
 	$comment = get_comment($commentarr['comment_ID'], ARRAY_A);
+	if ( empty( $comment ) )
+		return 0;
 
 	// Escape data pulled from DB.
 	$comment = wp_slash($comment);

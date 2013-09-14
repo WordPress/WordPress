@@ -695,9 +695,18 @@ function wp_ajax_get_comments( $action ) {
 
 	check_ajax_referer( $action );
 
+	if ( empty( $post_id ) && ! empty( $_REQUEST['p'] ) ) {
+		$id = absint( $_REQUEST['p'] );
+		if ( ! empty( $id ) )
+			$post_id = $id;
+	}
+
+	if ( empty( $post_id ) )
+		wp_die( -1 );
+
 	$wp_list_table = _get_list_table( 'WP_Post_Comments_List_Table', array( 'screen' => 'edit-comments' ) );
 
-	if ( !current_user_can( 'edit_post', $post_id ) )
+	if ( ! current_user_can( 'edit_post', $post_id ) )
 		wp_die( -1 );
 
 	$wp_list_table->prepare_items();
@@ -840,6 +849,8 @@ function wp_ajax_edit_comment() {
 	$wp_list_table = _get_list_table( $checkbox ? 'WP_Comments_List_Table' : 'WP_Post_Comments_List_Table', array( 'screen' => 'edit-comments' ) );
 
 	$comment = get_comment( $comment_id );
+	if ( empty( $comment->comment_ID ) )
+		wp_die( -1 );
 
 	ob_start();
 	$wp_list_table->single_row( $comment );
