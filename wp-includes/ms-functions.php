@@ -1987,3 +1987,75 @@ function wp_is_large_network( $using = 'sites' ) {
 	$count = get_blog_count();
 	return apply_filters( 'wp_is_large_network', $count > 10000, 'sites', $count );
 }
+
+
+/**
+ * Return an array of sites for a network.
+ *
+ * @see wp_is_large_network() Returns an empty array if the install is considered large.
+ *
+ * @since 3.7.0
+ *
+ * @param array $args {
+ *     Array of arguments. Optional.
+ *
+ *     @type int|array 'network_id' A network ID or array of network IDs. Set to null to retrieve sites
+ *                                  from all networks. Defaults to current network ID.
+ *     @type int       'public'     Retrieve public or non-public sites. Default null, for any.
+ *     @type int       'archived'   Retrieve archived or non-archived sites. Default null, for any.
+ *     @type int       'mature'     Retrieve mature or non-mature sites. Default null, for any.
+ *     @type int       'spam'       Retrieve spam or non-spam sites. Default null, for any.
+ *     @type int       'deleted'    Retrieve deleted or non-deleted sites. Default null, for any.
+ *     @type int       'limit'      Number of sites to limit the query to. Default 100.
+ * }
+ *
+ * @return array An array of site data
+ */
+function wp_get_sites( $args = array() ) {
+	global $wpdb;
+
+	if ( wp_is_large_network() )
+		return array();
+
+	$defaults = array(
+		'network_id' => $wpdb->siteid,
+		'public'     => null,
+		'archived'   => null,
+		'mature'     => null,
+		'spam'       => null,
+		'deleted'    => null,
+		'limit'      => 100,
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	$query = "SELECT * FROM $wpdb->blogs WHERE 1=1 ";
+
+	if ( isset( $args['network_id'] ) && ( is_array( $args['network_id'] ) || is_numeric( $args['network_id'] ) ) ) {
+		$network_ids = array_map('intval', (array) $args['network_id'] );
+		$network_ids = implode( ',', $network_ids );
+		$query .= "AND site_id IN ($network_ids) ";
+	}
+
+	if ( isset( $args['public'] ) )
+		$query .= $wpdb->prepare( "AND public = %d ", $args['public'] );
+
+	if ( isset( $args['archived'] ) )
+		$query .= $wpdb->prepare( "AND archived = %d ", $args['archived'] );
+
+	if ( isset( $args['mature'] ) )
+		$query .= $wpdb->prepare( "AND mature = %d ", $args['mature'] );
+
+	if ( isset( $args['spam'] ) )
+		$query .= $wpdb->prepare( "AND spam = %d ", $args['spam'] );
+
+	if ( isset( $args['deleted'] ) )
+		$query .= $wpdb->prepare( "AND deleted = %d ", $args['deleted'] );
+
+	if ( isset( $args['limit'] ) )
+		$query .= $wpdb->prepare( "LIMIT %d ", $args['limit'] );
+
+	$site_results = $wpdb->get_results( $query, ARRAY_A );
+
+	return $site_results;
+}
