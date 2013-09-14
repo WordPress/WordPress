@@ -111,8 +111,12 @@ function wp_deregister_script( $handle ) {
 		$wp_scripts = new WP_Scripts();
 	}
 
-	// Do not allow accidental or negligent deregistering of critical scripts in the admin. Show minimal remorse if the correct hook is used.
-	if ( is_admin() && 'admin_enqueue_scripts' !== current_filter() ) {
+	// Do not allow accidental or negligent deregistering of critical scripts in the admin.
+	// Show minimal remorse if the correct hook is used.
+	$current_filter = current_filter();
+	if ( ( is_admin() && 'admin_enqueue_scripts' !== $current_filter ) ||
+		( 'wp-login.php' === $GLOBALS['pagenow'] && 'login_enqueue_scripts' !== $current_filter )
+	) {
 		$no = array(
 			'jquery', 'jquery-core', 'jquery-migrate', 'jquery-ui-core', 'jquery-ui-accordion',
 			'jquery-ui-autocomplete', 'jquery-ui-button', 'jquery-ui-datepicker', 'jquery-ui-dialog',
