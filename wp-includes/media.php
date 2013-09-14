@@ -640,20 +640,49 @@ function img_caption_shortcode($attr, $content = null) {
 	if ( $output != '' )
 		return $output;
 
-	extract(shortcode_atts(array(
-		'id'	=> '',
-		'align'	=> 'alignnone',
-		'width'	=> '',
+	$atts = shortcode_atts( array(
+		'id'	  => '',
+		'align'	  => 'alignnone',
+		'width'	  => '',
 		'caption' => ''
-	), $attr, 'caption'));
+	), $attr, 'caption' );
 
-	if ( 1 > (int) $width || empty($caption) )
+	$atts['width'] = (int) $atts['width'];
+	if ( $atts['width'] < 1 || empty( $atts['caption'] ) )
 		return $content;
 
-	if ( $id ) $id = 'id="' . esc_attr($id) . '" ';
+	if ( ! empty( $atts['id'] ) )
+		$atts['id'] = 'id="' . esc_attr( $atts['id'] ) . '" ';
 
-	return '<div ' . $id . 'class="wp-caption ' . esc_attr($align) . '" style="width: ' . (10 + (int) $width) . 'px">'
-	. do_shortcode( $content ) . '<p class="wp-caption-text">' . $caption . '</p></div>';
+	$caption_width = 10 + $atts['width'];
+
+	/**
+	 * Filter the width of an image's caption.
+	 *
+	 * By default, the caption is 10 pixels greater than the width of the image,
+	 * to prevent post content from running up against a floated image.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param int $caption_width Width in pixels. To remove this inline style, return zero.
+	 * @param array $atts {
+	 *     The attributes of the caption shortcode.
+	 *
+	 *     @type string 'id'      The ID of the div element for the caption.
+	 *     @type string 'align'   The class name that aligns the caption. Default 'alignnone'.
+	 *     @type int    'width'   The width of the image being captioned.
+	 *     @type string 'caption' The image's caption.
+	 * }
+	 * @param string $content The image element, possibly wrapped in a hyperlink.
+	 */
+	$caption_width = apply_filters( 'img_caption_shortcode_width', $caption_width, $atts, $content );
+
+	$style = '';
+	if ( $caption_width )
+		$style = 'style="width: ' . (int) $caption_width . 'px" ';
+
+	return '<div ' . $atts['id'] . $style . 'class="wp-caption ' . esc_attr( $atts['align'] ) . '">'
+	. do_shortcode( $content ) . '<p class="wp-caption-text">' . $atts['caption'] . '</p></div>';
 }
 
 add_shortcode('gallery', 'gallery_shortcode');
