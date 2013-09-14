@@ -1813,7 +1813,9 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
  * @return string|null The file type, example: audio, video, document, spreadsheet, etc. Null if not found.
  */
 function wp_ext2type( $ext ) {
+	$ext = strtolower( $ext );
 	$ext2type = apply_filters( 'ext2type', array(
+		'image'       => array( 'jpg', 'jpeg', 'jpe',  'gif',  'png',  'bmp',   'tif',  'tiff', 'ico' ),
 		'audio'       => array( 'aac', 'ac3',  'aif',  'aiff', 'm3a',  'm4a',   'm4b',  'mka',  'mp1',  'mp2',  'mp3', 'ogg', 'oga', 'ram', 'wav', 'wma' ),
 		'video'       => array( 'asf', 'avi',  'divx', 'dv',   'flv',  'm4v',   'mkv',  'mov',  'mp4',  'mpeg', 'mpg', 'mpv', 'ogm', 'ogv', 'qt',  'rm', 'vob', 'wmv' ),
 		'document'    => array( 'doc', 'docx', 'docm', 'dotm', 'odt',  'pages', 'pdf',  'rtf',  'wp',   'wpd' ),
@@ -1822,10 +1824,13 @@ function wp_ext2type( $ext ) {
 		'text'        => array( 'asc', 'csv',  'tsv',  'txt' ),
 		'archive'     => array( 'bz2', 'cab',  'dmg',  'gz',   'rar',  'sea',   'sit',  'sqx',  'tar',  'tgz',  'zip', '7z' ),
 		'code'        => array( 'css', 'htm',  'html', 'php',  'js' ),
-	));
+	) );
+
 	foreach ( $ext2type as $type => $exts )
 		if ( in_array( $ext, $exts ) )
 			return $type;
+
+	return null;
 }
 
 /**
