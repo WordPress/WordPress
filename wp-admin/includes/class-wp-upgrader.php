@@ -1370,15 +1370,13 @@ class WP_Automatic_Upgrader {
 
 	static function upgrade( $type, $item ) {
 
-		self::$skin = new Automatic_Upgrader_Skin();
+		if ( ! self::$skin )
+			self::$skin = new Automatic_Upgrader_Skin();
 
 		switch ( $type ) {
 			case 'core':
 				// The Core upgrader doesn't use the Upgrader's skin during the actual main part of the upgrade, instead, firing a filter
-				add_filter( 'update_feedback', function( $message ) {
-					WP_Background_Upgrader::$skin->feedback( $message );
-					return $message;
-				} );
+				add_filter( 'update_feedback', array( self::$skin, 'feedback' ) );
 				$upgrader = new Core_Upgrader( self::$skin );
 				$context  = ABSPATH;
 				break;
