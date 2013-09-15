@@ -1978,10 +1978,21 @@ function pre_schema_upgrade() {
 		$wpdb->query("ALTER TABLE $wpdb->options DROP INDEX option_name");
 	}
 
-	// Upgrade verions prior to 3.7
-	if ( $wp_current_db_version < 25179 && is_multisite() && is_main_network() && ! defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
-		$wpdb->query( "ALTER TABLE $wpdb->signups ADD signup_id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST" );
-		$wpdb->query( "ALTER TABLE $wpdb->signups DROP INDEX domain" );
+	// Multisite schema upgrades.
+	if ( $wp_current_db_version < 25448 && is_multisite() && ! defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) && is_main_network() ) {
+
+		// Upgrade verions prior to 3.7
+		if ( $wp_current_db_version < 25179 ) {
+			// New primary key for signups.
+			$wpdb->query( "ALTER TABLE $wpdb->signups ADD signup_id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST" );
+			$wpdb->query( "ALTER TABLE $wpdb->signups DROP INDEX domain" );
+		}
+
+		if ( $wp_current_db_version < 25448 ) {
+			// Convert archived from enum to tinyint.
+			$wpdb->query( "ALTER TABLE $wpdb->blogs CHANGE COLUMN archived archived varchar(1) NOT NULL default '0'" );
+			$wpdb->query( "ALTER TABLE $wpdb->blogs CHANGE COLUMN archived archived tinyint(2) NOT NULL default 0" );
+		}
 	}
 }
 

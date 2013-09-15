@@ -230,7 +230,7 @@ CREATE TABLE $wpdb->posts (
   registered datetime NOT NULL default '0000-00-00 00:00:00',
   last_updated datetime NOT NULL default '0000-00-00 00:00:00',
   public tinyint(2) NOT NULL default '1',
-  archived enum('0','1') NOT NULL default '0',
+  archived tinyint(2) NOT NULL default '0',
   mature tinyint(2) NOT NULL default '0',
   spam tinyint(2) NOT NULL default '0',
   deleted tinyint(2) NOT NULL default '0',
