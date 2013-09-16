@@ -1893,6 +1893,14 @@ class WP_Rewrite {
 	function flush_rules($hard = true) {
 		delete_option('rewrite_rules');
 		$this->wp_rewrite_rules();
+		/**
+		 * Filter whether a "hard" rewrite rule flush should be performed when requested.
+		 *
+		 * A "hard" flush updates .htaccess (Apache) or web.config (IIS).
+		 *
+		 * @since 3.7.0
+		 * @param bool $hard Defaults to true.
+		 */
 		if ( ! $hard || ! apply_filters( 'flush_rewrite_rules_hard', true ) )
 			return;
 		if ( function_exists( 'save_mod_rewrite_rules' ) )
