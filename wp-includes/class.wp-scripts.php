@@ -119,6 +119,9 @@ class WP_Scripts extends WP_Dependencies {
 
 		$src = esc_url( apply_filters( 'script_loader_src', $src, $handle ) );
 
+		if ( ! $src )
+			return true;
+
 		if ( $this->do_concat )
 			$this->print_html .= "<script type='text/javascript' src='$src'></script>\n";
 		else
