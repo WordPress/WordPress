@@ -469,7 +469,7 @@ if ( post_type_supports( $post_type, 'comments' ) )
 	wp_comment_reply();
 ?>
 
-<?php if ( (isset($post->post_title) && '' == $post->post_title) || (isset($_GET['message']) && 2 > $_GET['message']) ) : ?>
+<?php if ( '' === $post->post_title ) : ?>
 <script type="text/javascript">
 try{document.post.title.focus();}catch(e){}
 </script>
