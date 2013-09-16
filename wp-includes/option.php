@@ -490,6 +490,7 @@ function get_transient( $transient ) {
  */
 function set_transient( $transient, $value, $expiration = 0 ) {
 	$value = apply_filters( 'pre_set_transient_' . $transient, $value );
+	$expiration = (int) $expiration;
 
 	if ( wp_using_ext_object_cache() ) {
 		$result = wp_cache_set( $transient, $value, 'transient', $expiration );
@@ -1049,6 +1050,7 @@ function get_site_transient( $transient ) {
  */
 function set_site_transient( $transient, $value, $expiration = 0 ) {
 	$value = apply_filters( 'pre_set_site_transient_' . $transient, $value );
+	$expiration = (int) $expiration;
 
 	if ( wp_using_ext_object_cache() ) {
 		$result = wp_cache_set( $transient, $value, 'site-transient', $expiration );
