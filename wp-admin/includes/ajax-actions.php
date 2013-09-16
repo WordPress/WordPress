@@ -87,7 +87,7 @@ function wp_ajax_ajax_tag_search() {
 	if ( strlen( $s ) < 2 )
 		wp_die(); // require 2 chars for matching
 
-	$results = $wpdb->get_col( $wpdb->prepare( "SELECT t.name FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.name LIKE (%s)", $taxonomy, '%' . like_escape( $s ) . '%' ) );
+	$results = get_terms( $taxonomy, array( 'name__like' => $s, 'fields' => 'names', 'hide_empty' => false ) );
 
 	echo join( $results, "\n" );
 	wp_die();
