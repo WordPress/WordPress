@@ -419,7 +419,8 @@ class WP_Admin_Bar {
 
 		<li id="<?php echo esc_attr( 'wp-admin-bar-' . $node->id ); ?>"<?php echo $menuclass; ?>><?php
 			if ( $has_link ):
-				?><a class="ab-item" <?php echo $aria_attributes; ?> href="<?php echo esc_url( $node->href ) ?>"<?php
+			// target="_blank" for the convenience of users
+				?><a class="ab-item" <?php echo $aria_attributes; ?> href="<?php echo esc_url( $node->href ) ?>" target="_blank"<?php
 					if ( ! empty( $node->meta['onclick'] ) ) :
 						?> onclick="<?php echo esc_js( $node->meta['onclick'] ); ?>"<?php
 					endif;
@@ -431,7 +432,8 @@ class WP_Admin_Bar {
 				endif;
 				?>><?php
 			else:
-				?><div class="ab-item ab-empty-item" <?php echo $aria_attributes;
+			// target="_blank" for the convenience of users
+				?><div class="ab-item ab-empty-item" target="_blank" <?php echo $aria_attributes;
 				if ( ! empty( $node->meta['title'] ) ) :
 					?> title="<?php echo esc_attr( $node->meta['title'] ); ?>"<?php
 				endif;
