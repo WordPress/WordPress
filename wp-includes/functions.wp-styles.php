@@ -149,7 +149,7 @@ function wp_enqueue_style( $handle, $src = false, $deps = array(), $ver = false,
 /**
  * Remove an enqueued style.
  *
- * @since WP 3.1
+ * @since 3.1.0
  * @see WP_Styles::dequeue() For parameter information.
  */
 function wp_dequeue_style( $handle ) {
@@ -171,7 +171,7 @@ function wp_dequeue_style( $handle ) {
  * pass 'registered' to $list, to see if the style is registered,
  * and you can check processing statuses with 'to_do' and 'done'.
  *
- * @since WP unknown; BP unknown
+ * @since 2.8.0
  * @global object $wp_styles The WP_Styles object for printing styles.
  *
  * @param string $handle Name of the stylesheet.

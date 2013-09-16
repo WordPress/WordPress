@@ -167,7 +167,7 @@ function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false
 /**
  * Remove an enqueued script.
  *
- * @since WP 3.1
+ * @since 3.1.0
  * @see WP_Scripts::dequeue() For parameter information.
  */
 function wp_dequeue_script( $handle ) {
@@ -189,7 +189,7 @@ function wp_dequeue_script( $handle ) {
  * pass 'registered' to $list, to see if the script is registered,
  * and you can check processing statuses with 'to_do' and 'done'.
  *
- * @since WP unknown; BP unknown
+ * @since 2.8.0
  *
  * @param string $handle Name of the script.
  * @param string $list Optional. Defaults to 'enqueued'. Values are
