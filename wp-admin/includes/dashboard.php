@@ -146,7 +146,7 @@ function wp_dashboard_setup() {
 	do_action('do_meta_boxes', $screen->id, 'side', '');
 }
 
-function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null ) {
+function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null, $callback_args = null ) {
 	$screen = get_current_screen();
 	global $wp_dashboard_control_callbacks;
 
@@ -177,7 +177,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 	if ( 'dashboard_browser_nag' === $widget_id )
 		$priority = 'high';
 
-	add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority );
+	add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority, $callback_args );
 }
 
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
