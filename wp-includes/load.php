@@ -572,6 +572,11 @@ function wp_magic_quotes() {
  * @since 1.2.0
  */
 function shutdown_action_hook() {
+	/**
+	 * Fires just before PHP shuts down execution.
+	 *
+	 * @since 1.2.0
+	 */
 	do_action( 'shutdown' );
 	wp_cache_close();
 }
