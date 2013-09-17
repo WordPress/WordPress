@@ -1394,12 +1394,6 @@ class WP_Automatic_Upgrader {
 		if ( ! self::should_auto_update( $type, $item, $context )  || ! self::can_auto_update( $context ) )
 			return false;
 
-		/*wp_mail(
-			get_site_option( 'admin_email' ),
-			__METHOD__,
-			"Starting an upgrade for:\n\n" . var_export( compact( 'type', 'item' ), true ) . "\n\n" . wp_debug_backtrace_summary()
-		);*/
-
 		// Boom, This sites about to get a whole new splash of paint!
 		$upgrade_result = $upgrader->upgrade( $item, array(
 			'clear_update_cache' => false,
@@ -1427,8 +1421,6 @@ class WP_Automatic_Upgrader {
 				break;
 		}
 
-		//var_dump( compact( 'type', 'item', 'upgrader', 'upgrade_result' ) );
-
 		wp_mail(
 			get_site_option( 'admin_email' ),
 			__METHOD__,
@@ -1452,10 +1444,8 @@ class WP_Automatic_Upgrader {
 			// Test to see if it was set more than an hour ago, if so, cleanup.
 			if ( get_site_option( $lock_name ) < ( time() - HOUR_IN_SECONDS ) )
 				delete_site_option( $lock_name );
-			else { // The process is already locked
-				echo "There's a lock in place";
+			else // The process is already locked
 				return;
-			}
 		}
 		// Lock upgrades for us for half an hour
 		if ( ! add_site_option( $lock_name, microtime( true ), HOUR_IN_SECONDS / 2 ) )
