@@ -1448,15 +1448,17 @@ class WP_Automatic_Upgrader {
 	static function perform_auto_updates() {
 
 		$lock_name = 'auto_upgrader.lock';
-		if ( get_site_transient( $lock_name ) ) {
+		if ( get_site_option( $lock_name ) ) {
 			// Test to see if it was set more than an hour ago, if so, cleanup.
-			if ( true || get_site_transient( $lock_name ) < ( time() - HOUR_IN_SECONDS ) )
-				delete_site_transient( $lock_name );
-			else // Recent lock
+			if ( get_site_option( $lock_name ) < ( time() - HOUR_IN_SECONDS ) )
+				delete_site_option( $lock_name );
+			else { // The process is already locked
+				echo "There's a lock in place";
 				return;
+			}
 		}
 		// Lock upgrades for us for half an hour
-		if ( ! set_site_transient( $lock_name, microtime( true ), HOUR_IN_SECONDS / 2 ) )
+		if ( ! add_site_option( $lock_name, microtime( true ), HOUR_IN_SECONDS / 2 ) )
 			return;
 
 		// Next, Plugins
@@ -1492,8 +1494,8 @@ class WP_Automatic_Upgrader {
 		wp_update_themes();  // Check for Theme updates
 		wp_update_plugins(); // Check for Plugin updates
 
-		// TODO The core database upgrade has already cleared this transient..
-		delete_site_transient( $lock_name );
+		// Clear the lock
+		delete_site_option( $lock_name );
 
 	}
 
