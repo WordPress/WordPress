@@ -112,7 +112,7 @@ function dropdown_link_categories( $default = 0 ) {
  * @since 1.5.0
  * @deprecated 2.9.0
  * @uses WP_CONTENT_DIR Full filesystem path to the wp-content directory.
- * 
+ *
  * @param string $file Filesystem path relative to the wp-content directory.
  * @return string Full filesystem path to edit.
  */
@@ -1051,7 +1051,7 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
  * @deprecated 3.6.0
  */
 function wp_nav_menu_locations_meta_box() {
-	_deprecated_function( __FUNCTION__, '3.6' );	
+	_deprecated_function( __FUNCTION__, '3.6' );
 }
 
 /**
@@ -1115,4 +1115,19 @@ function wp_update_theme($theme, $feedback = '') {
 	include ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 	$upgrader = new Theme_Upgrader();
 	return $upgrader->upgrade($theme);
+}
+
+/**
+ * This was once used to display attachment links. Now it is deprecated and stubbed.
+ *
+ * {@internal Missing Short Description}}
+ * 
+ * @since 2.0.0 
+ * @deprecated 3.7.0
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
+function the_attachment_links( $id = false ) {
+	_deprecated_function( __FUNCTION__, '3.7' );
 }

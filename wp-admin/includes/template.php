@@ -696,57 +696,6 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
- * @since 2.0.0
- *
- * @param unknown_type $id
- * @return unknown
- */
-function the_attachment_links( $id = false ) {
-	$id = (int) $id;
-	$post = get_post( $id );
-
-	if ( $post->post_type != 'attachment' )
-		return false;
-
-	$icon = wp_get_attachment_image( $post->ID, 'thumbnail', true );
-	$attachment_data = wp_get_attachment_metadata( $id );
-	$thumb = isset( $attachment_data['thumb'] );
-?>
-<form id="the-attachment-links">
-<table>
-	<col />
-	<col class="widefat" />
-	<tr>
-		<th scope="row"><?php _e( 'URL' ) ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><?php echo esc_textarea( wp_get_attachment_url() ); ?></textarea></td>
-	</tr>
-<?php if ( $icon ) : ?>
-	<tr>
-		<th scope="row"><?php $thumb ? _e( 'Thumbnail linked to file' ) : _e( 'Image linked to file' ); ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo wp_get_attachment_url(); ?>"><?php echo $icon ?></a></textarea></td>
-	</tr>
-	<tr>
-		<th scope="row"><?php $thumb ? _e( 'Thumbnail linked to page' ) : _e( 'Image linked to page' ); ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link( $post->ID ) ?>" rel="attachment wp-att-<?php echo $post->ID; ?>"><?php echo $icon ?></a></textarea></td>
-	</tr>
-<?php else : ?>
-	<tr>
-		<th scope="row"><?php _e( 'Link to file' ) ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo wp_get_attachment_url(); ?>" class="attachmentlink"><?php echo basename( wp_get_attachment_url() ); ?></a></textarea></td>
-	</tr>
-	<tr>
-		<th scope="row"><?php _e( 'Link to page' ) ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link( $post->ID ) ?>" rel="attachment wp-att-<?php echo $post->ID ?>"><?php the_title(); ?></a></textarea></td>
-	</tr>
-<?php endif; ?>
-</table>
-</form>
-<?php
-}
-
-/**
  * Print out <option> html elements for role selectors
  *
  * @since 2.1.0
