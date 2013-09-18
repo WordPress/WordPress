@@ -873,10 +873,11 @@ function wp_get_audio_extensions() {
  *
  * @since 3.6.0
  *
- * @param array $attr Attributes of the shortcode.
+ * @param array  $attr    Attributes of the shortcode.
+ * @param string $content Optional. Shortcode content.
  * @return string HTML content to display audio.
  */
-function wp_audio_shortcode( $attr ) {
+function wp_audio_shortcode( $attr, $content = '' ) {
 	$post_id = get_post() ? get_the_ID() : 0;
 
 	static $instances = 0;
@@ -887,12 +888,13 @@ function wp_audio_shortcode( $attr ) {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param null             Empty variable to be replaced with shortcode markup.
-	 * @param array $attr      Attributes of the shortcode.
-	 * @param int   $instances Unique numeric ID of this audio shortcode instance.
+	 * @param null              Empty variable to be replaced with shortcode markup.
+	 * @param array  $attr      Attributes of the shortcode.
+	 * @param string $content   Shortcode content.
+	 * @param int    $instances Unique numeric ID of this audio shortcode instance.
 	 */
-	$html = apply_filters( 'wp_audio_shortcode_override', null, $attr, $instances );
-	if ( null !== $html )
+	$html = apply_filters( 'wp_audio_shortcode_override', '', $attr, $content, $instances );
+	if ( '' !== $html )
 		return $html;
 
 	$audio = null;
@@ -1008,10 +1010,11 @@ function wp_get_video_extensions() {
  *
  * @since 3.6.0
  *
- * @param array $attr Attributes of the shortcode.
+ * @param array  $attr    Attributes of the shortcode.
+ * @param string $content Optional. Shortcode content.
  * @return string HTML content to display video.
  */
-function wp_video_shortcode( $attr ) {
+function wp_video_shortcode( $attr, $content = '' ) {
 	global $content_width;
 	$post_id = get_post() ? get_the_ID() : 0;
 
@@ -1023,12 +1026,13 @@ function wp_video_shortcode( $attr ) {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param null             Empty variable to be replaced with shortcode markup.
-	 * @param array $attr      Attributes of the shortcode.
-	 * @param int   $instances Unique numeric ID of this video shortcode instance.
+	 * @param null              Empty variable to be replaced with shortcode markup.
+	 * @param array  $attr      Attributes of the shortcode.
+	 * @param string $content   Shortcode content.
+	 * @param int    $instances Unique numeric ID of this video shortcode instance.
 	 */
-	$html = apply_filters( 'wp_video_shortcode_override', null, $attr, $instances );
-	if ( null !== $html )
+	$html = apply_filters( 'wp_video_shortcode_override', '', $attr, $content, $instances );
+	if ( '' !== $html )
 		return $html;
 
 	$video = null;
