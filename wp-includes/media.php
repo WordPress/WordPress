@@ -882,6 +882,19 @@ function wp_audio_shortcode( $attr ) {
 	static $instances = 0;
 	$instances++;
 
+	/**
+	 * Override the default audio shortcode.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param null             Empty variable to be replaced with shortcode markup.
+	 * @param array $attr      Attributes of the shortcode.
+	 * @param int   $instances Unique numeric ID of this audio shortcode instance.
+	 */
+	$html = apply_filters( 'wp_audio_shortcode_override', null, $attr, $instances );
+	if ( null !== $html )
+		return $html;
+
 	$audio = null;
 
 	$default_types = wp_get_audio_extensions();
@@ -975,7 +988,7 @@ function wp_audio_shortcode( $attr ) {
 
 	return apply_filters( 'wp_audio_shortcode', $html, $atts, $audio, $post_id, $library );
 }
-add_shortcode( 'audio', apply_filters( 'wp_audio_shortcode_handler', 'wp_audio_shortcode' ) );
+add_shortcode( 'audio', 'wp_audio_shortcode' );
 
 /**
  * Return a filtered list of WP-supported video formats
@@ -1004,6 +1017,19 @@ function wp_video_shortcode( $attr ) {
 
 	static $instances = 0;
 	$instances++;
+
+	/**
+	 * Override the default video shortcode.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param null             Empty variable to be replaced with shortcode markup.
+	 * @param array $attr      Attributes of the shortcode.
+	 * @param int   $instances Unique numeric ID of this video shortcode instance.
+	 */
+	$html = apply_filters( 'wp_video_shortcode_override', null, $attr, $instances );
+	if ( null !== $html )
+		return $html;
 
 	$video = null;
 
@@ -1119,7 +1145,7 @@ function wp_video_shortcode( $attr ) {
 	$html = sprintf( '<div style="width: %dpx; max-width: 100%%;">%s</div>', $width, $html );
 	return apply_filters( 'wp_video_shortcode', $html, $atts, $video, $post_id, $library );
 }
-add_shortcode( 'video', apply_filters( 'wp_video_shortcode_handler', 'wp_video_shortcode' ) );
+add_shortcode( 'video', 'wp_video_shortcode' );
 
 /**
  * Display previous image link that has the same post parent.
