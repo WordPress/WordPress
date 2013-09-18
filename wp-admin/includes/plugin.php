@@ -541,24 +541,26 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 
 		if ( ! $silent ) {
 			/**
-			 * Fires before a plugin is activated in activate_plugin() when the $silent parameter is false
+			 * Fires before a plugin is activated in activate_plugin() when the $silent parameter is false.
 			 * 
 			 * @since 2.9.0
 			 *
-			 * @param string $plugin       Basename of the plugin path from {@see activate_plugin()}.
-			 * @param bool   $network_wide Argument from {@see activate_plugin()}.
+			 * @param string $plugin       Plugin path to main plugin file with plugin data.
+			 * @param bool   $network_wide Whether to enable the plugin for all sites in the network
+			 *                             or just the current site. Multisite only. Default is false.
 			 */
 			do_action( 'activate_plugin', $plugin, $network_wide );
 
 			/**
-			 * Fires before a plugin is activated in activate_plugin() when the $silent parameter is false
+			 * Fires before a plugin is activated in activate_plugin() when the $silent parameter is false.
 			 * 
 			 * The action concatenates the 'activate_' prefix with the $plugin value passed to
-			 * activate_plugin() to create a dynamically named action.
+			 * activate_plugin() to create a dynamically-named action.
 			 * 
 			 * @since 2.0.0
 			 *
-			 * @param bool $network_wide Argument from {@see activate_plugin()}.
+			 * @param bool $network_wide Whether to enable the plugin for all sites in the network
+			 *                           or just the current site. Multisite only. Default is false.
 			 */
 			do_action( 'activate_' . $plugin, $network_wide );
 		}
@@ -574,12 +576,13 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 
 		if ( ! $silent ) {
 			/**
-			 * Fires after a plugin has been activated in activate_plugin() when the $silent parameter is false
+			 * Fires after a plugin has been activated in activate_plugin() when the $silent parameter is false.
 			 * 
 			 * @since 2.9.0
 			 *
-			 * @param string $plugin       Basename of the plugin path from {@see activate_plugin()}.
-			 * @param bool   $network_wide Argument from {@see activate_plugin()}.
+			 * @param string $plugin       Plugin path to main plugin file with plugin data.
+			 * @param bool   $network_wide Whether to enable the plugin for all sites in the network
+			 *                             or just the current site. Multisite only. Default is false.
 			 */
 			do_action( 'activated_plugin', $plugin, $network_wide );
 		}
@@ -627,8 +630,9 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			 * 
 			 * @since 2.9.0
 			 *
-			 * @param string $plugin               Basename of the plugin path from {@see activate_plugin()}.
-			 * @param bool   $network_deactivating True if $network_wide passed in {@see deactivate_plugin()} is true and the plugin is active for the network.
+			 * @param string $plugin               Plugin path to main plugin file with plugin data.
+			 * @param bool   $network_deactivating Whether the plugin is deactivated for all sites in the network 
+			 *                                     or just the current site. Multisite only. Default is false.
 			 */
 			do_action( 'deactivate_plugin', $plugin, $network_deactivating );
 
@@ -655,11 +659,12 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			 * and when the $silent parameter is false.
 			 * 
 			 * The action concatenates the 'deactivate_' prefix with the plugin's basename
-			 * to create a dynamically named action.
+			 * to create a dynamically-named action.
 			 * 
 			 * @since 2.0.0
 			 *
-			 * @param bool $network_deactivating True if $network_wide passed in {@see deactivate_plugin()} is true and the plugin is active for the network.
+			 * @param bool $network_deactivating Whether the plugin is deactivated for all sites in the network 
+			 *                                   or just the current site. Multisite only. Default is false.
 			 */
 			do_action( 'deactivate_' . $plugin, $network_deactivating );
 
@@ -669,8 +674,9 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			 * 
 			 * @since 2.9.0
 			 *
-			 * @param string $plugin               Basename of the plugin path from {@see activate_plugin()}.
-			 * @param bool   $network_deactivating True if $network_wide passed in {@see deactivate_plugin()} is true and the plugin is active for the network.
+			 * @param string $plugin               Plugin path to main plugin file with plugin data.
+			 * @param bool   $network_deactivating Whether the plugin is deactivated for all sites in the network 
+			 *                                     or just the current site. Multisite only. Default is false.
 			 */
 			do_action( 'deactivated_plugin', $plugin, $network_deactivating );
 		}
@@ -927,7 +933,7 @@ function uninstall_plugin($plugin) {
 		 * Fires in uninstall_plugin() once the plugin has been uninstalled.
 		 * 
 		 * The action concatenates the 'uninstall_' prefix with the basename of the
-		 * plugin passed to {@see uninstall_plugin()} to create a dynamically named action.
+		 * plugin passed to {@see uninstall_plugin()} to create a dynamically-named action.
 		 *
 		 * @since 2.7.0
 		 */
