@@ -752,7 +752,7 @@ class WP_Http_Streams {
 		$context = stream_context_create( array(
 			'ssl' => array(
 				'verify_peer' => $ssl_verify,
-				//'CN_match' => $arrURL['host'], // This is handled by self::verify_ssl_certficate()
+				//'CN_match' => $arrURL['host'], // This is handled by self::verify_ssl_certificate()
 				'capture_peer_cert' => $ssl_verify,
 				'SNI_enabled' => true,
 				'cafile' => $r['sslcertificates'],
@@ -797,7 +797,7 @@ class WP_Http_Streams {
 
 		// Verify that the SSL certificate is valid for this request
 		if ( $secure_transport && $ssl_verify && ! $proxy->is_enabled() ) {
-			if ( ! self::verify_ssl_certficate( $handle, $arrURL['host'] ) )
+			if ( ! self::verify_ssl_certificate( $handle, $arrURL['host'] ) )
 				return new WP_Error( 'http_request_failed', __( 'The SSL Certificate for the host could not be verified.' ) );
 		}
 
@@ -959,7 +959,7 @@ class WP_Http_Streams {
 	 * @param string $host The hostname being requested
 	 * @return bool If the cerficiate presented in $stream is valid for $host
 	 */
-	static function verify_ssl_certficate( $stream, $host ) {
+	static function verify_ssl_certificate( $stream, $host ) {
 		$context_options = stream_context_get_options( $stream );
 
 		if ( empty( $context_options['ssl']['peer_certificate'] ) )
