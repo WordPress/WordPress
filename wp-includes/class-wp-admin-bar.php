@@ -58,6 +58,11 @@ class WP_Admin_Bar {
 		wp_enqueue_script( 'admin-bar' );
 		wp_enqueue_style( 'admin-bar' );
 
+		/**
+		 * Fires after WP_Admin_Bar is initialized
+		 *
+		 * @since 3.0.2
+		 */
 		do_action( 'admin_bar_init' );
 	}
 
@@ -487,6 +492,11 @@ class WP_Admin_Bar {
 
 		add_action( 'admin_bar_menu', 'wp_admin_bar_add_secondary_groups', 200 );
 
+		/**
+		 * Fires after menus are added to the menu bar
+		 *
+		 * @since 3.0.4
+		 */
 		do_action( 'add_admin_bar_menus' );
 	}
 }
