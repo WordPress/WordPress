@@ -136,16 +136,17 @@ function get_comment_author_email_link($linktext='', $before='', $after='') {
 }
 
 /**
- * Retrieve the html link to the url of the author of the current comment.
+ * Retrieve the HTML link to the URL of the author of the current comment.
+ * 
+ * Both get_comment_author_url() and get_comment_author() rely on get_comment(),
+ * which falls back to the global comment variable if the $comment_ID argument is empty.
  *
  * @since 1.5.0
- * @uses apply_filters() Calls 'get_comment_author_link' hook on the complete link HTML or author
  *
- * @param int $comment_ID The ID of the comment for which to get the author's link. Optional.
- * @return string Comment Author name or HTML link for author's URL
+ * @param int $comment_ID Optional. The ID of the comment for which to get the author's link.
+ * @return string The comment author name or HTML link for author's URL.
  */
 function get_comment_author_link( $comment_ID = 0 ) {
-	/** @todo Only call these functions when they are needed. Include in if... else blocks */
 	$url    = get_comment_author_url( $comment_ID );
 	$author = get_comment_author( $comment_ID );
 
