@@ -166,7 +166,7 @@ function wpmu_delete_user( $id ) {
 	 *
 	 * @since MU
 	 *
-	 * @param int $id User ID of the user about to be deleted from the network.
+	 * @param int $id ID of the user about to be deleted from the network.
 	 */
 	do_action( 'wpmu_delete_user', $id );
 
@@ -207,7 +207,7 @@ function wpmu_delete_user( $id ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param int $id User ID of the user that was deleted from the network.
+	 * @param int $id ID of the user that was deleted from the network.
 	 */
 	do_action( 'deleted_user', $id );
 
@@ -451,7 +451,7 @@ function update_user_status( $id, $pref, $value, $deprecated = null ) {
 			 * 
 			 * @since 3.0.0
 			 * 
-			 * @param int $id User ID of the user marked as SPAM.
+			 * @param int $id ID of the user marked as SPAM.
 			 */
 			do_action( 'make_spam_user', $id );
 		} else {
@@ -460,7 +460,7 @@ function update_user_status( $id, $pref, $value, $deprecated = null ) {
 			 *
 			 * @since 3.0.0
 			 * 
-			 * @param int $id User ID of the user marked as HAM.
+			 * @param int $id ID of the user marked as HAM.
 			 */
 			do_action( 'make_ham_user', $id );
 		}
@@ -694,16 +694,16 @@ function choose_primary_blog() {
 }
 
 /**
- * Grants super admin privileges.
+ * Grants Super Admin privileges.
  *
  * @since 3.0.0
- * @param int $user_id
+ * @param int $user_id ID of the user to be granted Super Admin privileges.
  */
 function grant_super_admin( $user_id ) {
 	global $super_admins;
 
 	// If global super_admins override is defined, there is nothing to do here.
-	if ( isset($super_admins) )
+	if ( isset( $super_admins ) )
 		return false;
 	
 	/**
@@ -711,7 +711,7 @@ function grant_super_admin( $user_id ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param int $user_id User ID of the user that is about to be granted Super Admin privileges.
+	 * @param int $user_id ID of the user that is about to be granted Super Admin privileges.
 	 */
 	do_action( 'grant_super_admin', $user_id );
 
@@ -728,7 +728,7 @@ function grant_super_admin( $user_id ) {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param int $user_id User ID of the user that was granted Super Admin privileges.
+		 * @param int $user_id ID of the user that was granted Super Admin privileges.
 		 */
 		do_action( 'granted_super_admin', $user_id );
 		return true;
@@ -737,23 +737,24 @@ function grant_super_admin( $user_id ) {
 }
 
 /**
- * Revokes super admin privileges.
+ * Revokes Super Admin privileges.
  *
  * @since 3.0.0
- * @param int $user_id
+ * @param int $user_id ID of the user Super Admin privileges to be revoked from.
  */
 function revoke_super_admin( $user_id ) {
 	global $super_admins;
 
 	// If global super_admins override is defined, there is nothing to do here.
-	if ( isset($super_admins) )
+	if ( isset( $super_admins ) )
 		return false;
+
 	/**
 	 * Fires before the user's Super Admin privileges are revoked.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param int $user_id User ID of the user Super Admin privileges are being revoked from.
+	 * @param int $user_id ID of the user Super Admin privileges are being revoked from.
 	 */
 	do_action( 'revoke_super_admin', $user_id );
 
@@ -771,7 +772,7 @@ function revoke_super_admin( $user_id ) {
 			 *
 			 * @since 3.0.0
 			 *
-			 * @param int $user_id User ID of the user Super Admin privileges were revoked from.
+			 * @param int $user_id ID of the user Super Admin privileges were revoked from.
 			 */
 			do_action( 'revoked_super_admin', $user_id );
 			return true;
@@ -791,10 +792,11 @@ function revoke_super_admin( $user_id ) {
 function can_edit_network( $site_id ) {
 	global $wpdb;
 
-	if ($site_id == $wpdb->siteid )
+	if ( $site_id == $wpdb->siteid )
 		$result = true;
 	else
 		$result = false;
+
 	/**
 	 * Filter whether this network can be edited from this page.
 	 *
