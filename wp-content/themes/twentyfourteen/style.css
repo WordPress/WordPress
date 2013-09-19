@@ -963,7 +963,9 @@ span + .edit-link:before,
 	z-index: 2;
 }
 .entry-content a,
-.page-content a, {
+.page-content a,
+.entry-summary a,
+.comment-content a {
 	text-decoration: underline;
 }
 .entry-content table,
