@@ -514,6 +514,8 @@ function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
  * @since 1.5.0
  *
  * @param string $domain Unique identifier for retrieving translated strings.
+ * @param string $path   Optional. Path to the directory containing the .mo file.
+ *                       Default false.
  * @return bool True when textdomain is successfully loaded, false otherwise.
  */
 function load_theme_textdomain( $domain, $path = false ) {
