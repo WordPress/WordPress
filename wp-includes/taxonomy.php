@@ -2020,57 +2020,47 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 }
 
 /**
- * Adds a new term to the database. Optionally marks it as an alias of an existing term.
+ * Add a new term to the database.
  *
- * Error handling is assigned for the nonexistence of the $taxonomy and $term
- * parameters before inserting. If both the term id and taxonomy exist
- * previously, then an array will be returned that contains the term id and the
- * contents of what is returned. The keys of the array are 'term_id' and
- * 'term_taxonomy_id' containing numeric values.
+ * A non-existent term is inserted in the following sequence:
+ * 1. The term is added to the term table, then related to the taxonomy.
+ * 2. If everything is correct, several actions are fired.
+ * 3. The 'term_id_filter' is evaluated.
+ * 4. The term cache is cleaned.
+ * 5. Several more actions are fired.
+ * 6. An array is returned containing the term_id and term_taxonomy_id.
  *
- * It is assumed that the term does not yet exist or the above will apply. The
- * term will be first added to the term table and then related to the taxonomy
- * if everything is well. If everything is correct, then several actions will be
- * run prior to a filter and then several actions will be run after the filter
- * is run.
+ * If the 'slug' argument is not empty, then it will be checked to see if the term
+ * is invalid. If it is not a valid, existing term, it is added and the term_id is given.
+ * If the taxonomy is hierarchical, and the 'parent' argument is not empty, the term
+ * will be inserted and the term_id will be given.
+
+ * Error handling:
+ * If $taxonomy does not exist -- or $term is numeric or empty,
+ * a WP_Error object will be returned.
  *
- * The arguments decide how the term is handled based on the $args parameter.
- * The following is a list of the available overrides and the defaults.
+ * If the term already exists, the term slug is not unique, or both the term id and taxonomy
+ * already exist, a WP_Error object will be returned.
  *
- * 'alias_of'. There is no default, but if added, expected is the slug that the
- * term will be an alias of. Expected to be a string.
- *
- * 'description'. There is no default. If exists, will be added to the database
- * along with the term. Expected to be a string.
- *
- * 'parent'. Expected to be numeric and default is 0 (zero). Will assign value
- * of 'parent' to the term.
- *
- * 'slug'. Expected to be a string. There is no default.
- *
- * If 'slug' argument exists then the slug will be checked to see if it is not
- * a valid term. If that check succeeds (it is not a valid term), then it is
- * added and the term id is given. If it fails, then a check is made to whether
- * the taxonomy is hierarchical and the parent argument is not empty. If the
- * second check succeeds, the term will be inserted and the term id will be
- * given.
- *
- * @package WordPress
- * @subpackage Taxonomy
+ * @global wpdb $wpdb The WordPress database object.
+
  * @since 2.3.0
- * @uses $wpdb
  *
- * @uses apply_filters() Calls 'pre_insert_term' hook with term and taxonomy as parameters.
- * @uses do_action() Calls 'create_term' hook with the term id and taxonomy id as parameters.
- * @uses do_action() Calls 'create_$taxonomy' hook with term id and taxonomy id as parameters.
- * @uses apply_filters() Calls 'term_id_filter' hook with term id and taxonomy id as parameters.
- * @uses do_action() Calls 'created_term' hook with the term id and taxonomy id as parameters.
- * @uses do_action() Calls 'created_$taxonomy' hook with term id and taxonomy id as parameters.
+ * @param string       $term     The term to add or update.
+ * @param string       $taxonomy The taxonomy to which to add the term
+ * @param array|string $args {
+ *     Arguments to change values of the inserted term.
  *
- * @param string $term The term to add or update.
- * @param string $taxonomy The taxonomy to which to add the term
- * @param array|string $args Change the values of the inserted term
- * @return array|WP_Error The Term ID and Term Taxonomy ID
+ *     @type string 'alias_of'    Slug of the term to make this term an alias of.
+ *                                Default empty string. Accepts a term slug.
+ *     @type string 'description' The term description.
+ *                                Default empty string.
+ *     @type int    'parent'      The id of the parent term.
+ *                                Default 0.
+ *     @type string 'slug'        The term slug to use.
+ *                                Default empty string.
+ * }
+ * @return array|WP_Error An array containing the term_id and term_taxonomy_id, WP_Error otherwise.
  */
 function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
