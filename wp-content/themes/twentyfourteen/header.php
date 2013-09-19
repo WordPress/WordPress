@@ -40,9 +40,7 @@
 			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
 
 			<div class="header-extra">
-				<div class="search-toggle">
-					<span class="genericon-search"><?php _e( 'Search', 'twentyfourteen' ); ?></span>
-				</div>
+				<div class="search-toggle"><?php _e( 'Search', 'twentyfourteen' ); ?></div>
 			</div>
 
 			<nav role="navigation" class="site-navigation primary-navigation">

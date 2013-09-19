@@ -493,6 +493,20 @@ input[type="submit"] {
 	clear: both;
 }
 
+/* Genericons */
+.search-toggle:before,
+.widget_twentyfourteen_ephemera .widget-title:before {
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	font-size: 16px;
+	line-height: 1;
+	font-family: 'Genericons';
+	text-decoration: inherit;
+	font-weight: normal;
+	font-style: normal;
+	vertical-align: top;
+}
+
 
 /* =Basic Structure
 ----------------------------------------------- */
@@ -635,8 +649,8 @@ body {
 	min-width: 7.0rem;
 	min-height: 48px;
 	min-height: 4.8rem;
-	padding: 0 10px;
-	padding: 0 1.0rem;
+	padding: 25px 10px 0;
+	padding: 2.5rem 1.0rem 0;
 	position: relative;
 	text-align: center;
 	text-transform: uppercase;
@@ -651,13 +665,9 @@ body {
 .search-toggle:hover {
 	cursor: pointer;
 }
-.genericon-search {
-	display: inline-block;
-	padding: 25px 0 0 0;
-	padding: 2.5rem 0 0 0;
-}
-.genericon-search:before {
+.search-toggle:before {
 	color: #fff;
+	content: '\f400';
 	margin-left: -8px;
 	margin-left: -0.8rem;
 	position: absolute;
@@ -1371,7 +1381,7 @@ footer.entry-meta .entry-title a:hover {
 .ephemera .entry-content a {
 	word-wrap: break-word;
 }
-.ephemera .widget-title:before {
+.widget_twentyfourteen_ephemera .widget-title:before {
 	background-color: #000;
 	color: #fff;
 	margin-top: -1px;
