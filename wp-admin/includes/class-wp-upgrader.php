@@ -1183,7 +1183,7 @@ class Core_Upgrader extends WP_Upgrader {
 			return false;
 
 		// 2: If we're running a newer version, that's a nope
-		if ( version_compare( $wp_version, $offered_ver, '>=' ) )
+		if ( version_compare( $wp_version, $offered_ver, '>' ) )
 			return false;
 
 		// 3: 3.7-alpha-25000 -> 3.7-alpha-25678 -> 3.7-beta1 -> 3.7-beta2
@@ -1288,7 +1288,7 @@ class File_Upload_Upgrader {
  */
 class WP_Automatic_Upgrader {
 
-	static $skin;
+	static $upgrade_results = array();
 
 	static function upgrader_disabled() {
 		// That's a no if you don't want files changes
@@ -1362,37 +1362,53 @@ class WP_Automatic_Upgrader {
 	}
 
 	// Checks to see if WP_Filesystem is setup to allow unattended upgrades
-	static function can_auto_update( $context ) {
-		if ( ! self::$skin )
-			self::$skin = new Automatic_Upgrader_Skin();
-		return (bool) self::$skin->request_filesystem_credentials( false, $context );
+	static function can_auto_update( $context, $skin = false ) {
+		if ( ! $skin )
+			$skin = new Automatic_Upgrader_Skin();
+		return (bool) $skin->request_filesystem_credentials( false, $context );
 	}
 
 	static function upgrade( $type, $item ) {
 
-		if ( ! self::$skin )
-			self::$skin = new Automatic_Upgrader_Skin();
+		$skin = new Automatic_Upgrader_Skin();
 
 		switch ( $type ) {
 			case 'core':
 				// The Core upgrader doesn't use the Upgrader's skin during the actual main part of the upgrade, instead, firing a filter
-				add_filter( 'update_feedback', array( self::$skin, 'feedback' ) );
-				$upgrader = new Core_Upgrader( self::$skin );
+				add_filter( 'update_feedback', array( $skin, 'feedback' ) );
+				$upgrader = new Core_Upgrader( $skin );
 				$context  = ABSPATH;
 				break;
 			case 'plugin':
-				$upgrader = new Plugin_Upgrader( self::$skin );
+				$upgrader = new Plugin_Upgrader( $skin );
 				$context  = WP_PLUGIN_DIR; // We don't support custom Plugin directories, or updates for WPMU_PLUGIN_DIR
 				break;
 			case 'theme':
-				$upgrader = new Theme_Upgrader( self::$skin );
+				$upgrader = new Theme_Upgrader( $skin );
 				$context  = get_theme_root( $item );
 				break;
 		}
 
 		// Determine if we can perform this upgrade or not
-		if ( ! self::should_auto_update( $type, $item, $context )  || ! self::can_auto_update( $context ) )
+		if ( ! self::should_auto_update( $type, $item, $context )  || ! self::can_auto_update( $context, $skin ) )
 			return false;
+
+		switch ( $type ) {
+			case 'core':
+				$skin->feedback( __( 'Updating to WordPress %s' ), $item->version );
+				$item_name = sprintf( __( 'WordPress %s' ), $item->version );
+				break;
+			case 'theme':
+				$theme = wp_get_theme( $item );
+				$item_name = $theme->Get( 'Name' );
+				$skin->feedback( __( 'Updating Theme: %s' ), $item_name );
+				break;
+			case 'plugin':
+				$plugin_data = get_plugin_data( $context . '/' . $item );
+				$item_name = $plugin_data['Name'];
+				$skin->feedback( __( 'Updating Plugin: %s' ), $item_name );
+				break;
+		}
 
 		// Boom, This sites about to get a whole new splash of paint!
 		$upgrade_result = $upgrader->upgrade( $item, array(
@@ -1402,33 +1418,17 @@ class WP_Automatic_Upgrader {
 		// Core doesn't output this, so lets append it so we don't get confused
 		if ( 'core' == $type ) {
 			if ( is_wp_error( $upgrade_result ) ) {
-				self::$skin->error( __( 'Installation Failed' ), $upgrade_result );
+				$skin->error( __( 'Installation Failed' ), $upgrade_result );
 			} else {
-				self::$skin->feedback( __( 'WordPress updated successfully' ) );
+				$skin->feedback( __( 'WordPress updated successfully' ) );
 			}
 		}
 
-		// Clear cache's and transients
-		switch ( $type ) {
-			case 'core':
-				delete_site_transient( 'update_core' );
-				break;
-			case 'theme':
-				wp_clean_themes_cache();
-				break;
-			case 'plugin':
-				wp_clean_plugins_cache();
-				break;
-		}
-
-		wp_mail(
-			get_site_option( 'admin_email' ),
-			__METHOD__,
-			var_export( array(
-				$upgrade_result,
-				$upgrader,
-				self::$skin,
-			), true )
+		self::$upgrade_results[ $type ][] = (object) array(
+			'item'     => $item,
+			'result'   => ! is_wp_error( $upgrade_result ) && $upgrade_result,
+			'name'     => $item_name,
+			'messages' => $skin->get_upgrade_messages()
 		);
 
 		return $upgrade_result;
@@ -1476,17 +1476,100 @@ class WP_Automatic_Upgrader {
 		// Finally, Process any core upgrade
 		wp_version_check(); // Check for Core updates
 		$core_update = find_core_auto_update();
-		if ( $core_update )
+		if ( $core_update ) {
 			self::upgrade( 'core', $core_update );
+			delete_site_transient( 'update_core' );
+		}
 
 		// Cleanup, These won't trigger any updates this time due to the locking transient
 		wp_version_check();  // check for Core updates
 		wp_update_themes();  // Check for Theme updates
 		wp_update_plugins(); // Check for Plugin updates
 
+		self::send_email();
+
 		// Clear the lock
 		delete_site_option( $lock_name );
 
+	}
+
+	static function send_email() {
+
+		if ( empty( self::$upgrade_results ) )
+			return;
+
+		$upgrade_count = 0;
+		foreach ( self::$upgrade_results as $type => $upgrades )
+			$upgrade_count += count( $upgrades );
+
+		$subject = sprintf( '[%s] %s updates have finished', get_bloginfo( 'name' ), $upgrade_count );
+
+		$body = '';
+		if ( isset( self::$upgrade_results['core'] ) ) {
+			$result = self::$upgrade_results['core'][0];
+			if ( $result->result && ! is_wp_error( $result->result ) )
+				$body[] = sprintf( __( 'WordPress was successfully updated to %s' ), $result->name );
+			else
+				$body[] = sprintf( __( 'WordPress unsuccessfully attempted to update to %s' ), $result->name );
+		}
+
+		// Plugins
+		if ( isset( self::$upgrade_results['plugin'] ) ) {
+			$success_plugins = wp_list_filter( self::$upgrade_results['plugin'], array( 'result' => true ) );
+
+			if ( $success_plugins )
+				$body[] = sprintf( _n( 'The following plugin was successfully updated: %s', 'The following plugins were successfully updated: %s', count( $success_plugins ) ), implode( ', ', wp_list_pluck( $success_plugins, 'name' ) ) );
+			if ( $success_plugins != self::$upgrade_results['plugin'] ) {
+				// Failed updates
+				$failed_plugins = array();
+				foreach ( self::$upgrade_results['plugin'] as $plugin ) {
+					if ( ! $plugin->result || is_wp_error( $plugin->result ) )
+						$failed_plugins[] = $plugin;
+				}
+				$body[] = sprintf( _n( 'The following plugin failed to successfully update: %s', 'The following plugins failed to successfully update: %s', count( $success_plugins ) ), implode( ', ', wp_list_pluck( $failed_plugins, 'name' ) ) );
+			}
+		}
+
+		// Themes
+		if ( isset( self::$upgrade_results['theme'] ) ) {
+			$success_themes = wp_list_filter( self::$upgrade_results['theme'], array( 'result' => true ) );
+
+			if ( $success_themes )
+				$body[] = sprintf( _n( 'The following theme was successfully updated: %s', 'The following themes were successfully updated: %s', count( $success_themes ) ), implode( ', ', wp_list_pluck( $success_themes, 'name' ) ) );
+			if ( $success_themes != self::$upgrade_results['theme'] ) {
+				// Failed updates
+				$failed_themes = array();
+				foreach ( self::$upgrade_results['theme'] as $theme ) {
+					if ( ! $theme->result || is_wp_error( $theme->result ) )
+						$failed_themes[] = $theme;
+				}
+				$body[] = sprintf( _n( 'The following theme failed to successfully update: %s', 'The following themes failed to successfully update: %s', count( $failed_themes ) ), implode( ', ', wp_list_pluck( $failed_themes, 'name' ) ) );
+			}
+		}
+
+		$body[] = '';
+		$body[] = __( 'Below is the upgrade logs for update performed' );
+
+		foreach ( array( 'core', 'plugin', 'theme' ) as $type ) {
+			if ( ! isset( self::$upgrade_results[ $type ] ) )
+				continue;
+			foreach ( self::$upgrade_results[ $type ] as $upgrade ) {
+				$body[] = $upgrade->name;
+				$body[] = str_repeat( '=', strlen( $upgrade->name ) );
+				foreach ( $upgrade->messages as $message )
+					$body[] = "  " . html_entity_decode( $message );
+				$body[] = '';
+			}
+		}
+
+		//echo "<h1>$subject</h1>";
+		//echo '<pre>' . implode( "\n", $body ) . '</pre>';
+
+		wp_mail(
+			get_site_option( 'admin_email' ),
+			$subject,
+			implode( "\n", $body ) 
+		);
 	}
 
 }

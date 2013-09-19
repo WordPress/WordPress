@@ -539,7 +539,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
  * @since 3.7.0
  */
 class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
-	var $messages = array();
+	private $messages = array();
 
 	function request_filesystem_credentials( $error = false, $context = '' ) {
 		if ( $context )
@@ -551,6 +551,10 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 		$result = parent::request_filesystem_credentials( $error );
 		ob_end_clean();
 		return $result;
+	}
+
+	function get_upgrade_messages() {
+		return $this->messages;
 	}
 
 	function feedback( $data ) {
