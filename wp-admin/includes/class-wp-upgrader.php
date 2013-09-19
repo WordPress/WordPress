@@ -430,7 +430,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$defaults = array(
 			'clear_update_cache' => true,
 		);
-		$parsed_args = wp_parse_args( $defaults, $args );
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->install_strings();
@@ -463,7 +463,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$defaults = array(
 			'clear_update_cache' => true,
 		);
-		$parsed_args = wp_parse_args( $defaults, $args );
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->upgrade_strings();
@@ -514,7 +514,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$defaults = array(
 			'clear_update_cache' => true,
 		);
-		$parsed_args = wp_parse_args( $defaults, $args );
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->bulk = true;
@@ -802,7 +802,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		$defaults = array(
 			'clear_update_cache' => true,
 		);
-		$parsed_args = wp_parse_args( $defaults, $args );
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->install_strings();
@@ -836,7 +836,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		$defaults = array(
 			'clear_update_cache' => true,
 		);
-		$parsed_args = wp_parse_args( $defaults, $args );
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->upgrade_strings();
@@ -886,7 +886,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		$defaults = array(
 			'clear_update_cache' => true,
 		);
-		$parsed_args = wp_parse_args( $defaults, $args );
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->bulk = true;
@@ -1096,7 +1096,7 @@ class Core_Upgrader extends WP_Upgrader {
 
 		$defaults = array(
 		);
-		$parsed_args = wp_parse_args( $defaults, $args );
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->upgrade_strings();
