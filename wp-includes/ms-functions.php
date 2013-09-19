@@ -2032,8 +2032,7 @@ function wp_get_sites( $args = array() ) {
 	$query = "SELECT * FROM $wpdb->blogs WHERE 1=1 ";
 
 	if ( isset( $args['network_id'] ) && ( is_array( $args['network_id'] ) || is_numeric( $args['network_id'] ) ) ) {
-		$network_ids = array_map('intval', (array) $args['network_id'] );
-		$network_ids = implode( ',', $network_ids );
+		$network_ids = implode( ',', wp_parse_id_list( $args['network_id'] ) );
 		$query .= "AND site_id IN ($network_ids) ";
 	}
 
