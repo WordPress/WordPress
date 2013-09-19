@@ -233,26 +233,6 @@ blockquote cite {
 	font-weight: 400;
 	line-height: 1.5;
 }
-blockquote.pull p {
-	margin-bottom: 17px;
-	margin-bottom: 1.7rem;
-}
-blockquote.pull.alignleft,
-blockquote.pull.alignright {
-	border-top: 1px solid rgba(0, 0, 0, 0.1);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-	padding-top: 17px;
-	padding-top: 1.7rem;
-	width: 50%;
-}
-blockquote.pull.alignleft {
-	margin: 7px 24px 7px 0;
-	margin: 0.7rem 2.4rem 0.7rem 0;
-}
-blockquote.pull.alignright {
-	margin: 7px 0 7px 24px;
-	margin: 0.7rem 0 0.7rem 2.4rem;
-}
 address {
 	margin: 0 0 24px;
 	margin: 0 0 2.4rem;
@@ -997,6 +977,19 @@ span + .edit-link:before,
 	padding: 8px;
 	padding: 0.8rem;
 }
+.site-content blockquote.alignleft,
+.site-content blockquote.alignright {
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	padding-top: 17px;
+	padding-top: 1.7rem;
+	width: 50%;
+}
+.site-content blockquote.alignleft p,
+.site-content blockquote.alignright p {
+	margin-bottom: 17px;
+	margin-bottom: 1.7rem;
+}
 .entry-content .video-player,
 .entry-content .PDS_Poll {
 	margin-bottom: 24px;
@@ -1517,12 +1510,14 @@ img {
 	vertical-align: middle;
 }
 img.alignleft,
-.wp-caption.alignleft {
+.wp-caption.alignleft,
+blockquote.alignleft {
 	margin: 7px 24px 7px 0;
 	margin: 0.7rem 2.4rem 0.7rem 0;
 }
 img.alignright,
-.wp-caption.alignright {
+.wp-caption.alignright,
+blockquote.alignright {
 	margin: 7px 0 7px 24px;
 	margin: 0.7rem 0 0.7rem 2.4rem;
 }
@@ -2747,10 +2742,10 @@ span > object {
 		padding-right: 11.30926724%;
 		padding-left: 11.30926724%;
 	}
-	blockquote.pull.alignleft {
+	.site-content blockquote.alignleft {
 		margin-left: -20%;
 	}
-	blockquote.pull.alignright {
+	.site-content blockquote.alignright {
 		margin-right: -20%;
 	}
 	.content-area .no-results .entry-header {
@@ -2941,10 +2936,10 @@ span > object {
 		padding-right: 5.882236%;
 		padding-left: 5.882236%;
 	}
-	blockquote.pull.alignleft {
+	.site-content blockquote.alignleft {
 		margin-left: 0;
 	}
-	blockquote.pull.alignright {
+	.site-content blockquote.alignright {
 		margin-right: 0;
 	}
 	#secondary .widget,
@@ -3044,10 +3039,10 @@ span > object {
 		padding-left: 10px;
 		padding-left: 1.0rem;
 	}
-	blockquote.pull.alignleft {
+	.site-content blockquote.alignleft {
 		margin-left: -20%;
 	}
-	blockquote.pull.alignright {
+	.site-content blockquote.alignright {
 		margin-right: -20%;
 	}
 }
