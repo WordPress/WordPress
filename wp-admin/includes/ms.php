@@ -162,7 +162,7 @@ function wpmu_delete_user( $id ) {
 	if ( !$user->exists() )
 		return false;
 	/**
-	 * Fires when a user is deleted from the network.
+	 * Fires before a user is deleted from the network.
 	 *
 	 * @since MU
 	 *
@@ -207,7 +207,7 @@ function wpmu_delete_user( $id ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param int $id User ID of the user about to be deleted from the network.
+	 * @param int $id User ID of the user that was deleted from the network.
 	 */
 	do_action( 'deleted_user', $id );
 
@@ -447,7 +447,7 @@ function update_user_status( $id, $pref, $value, $deprecated = null ) {
 	if ( $pref == 'spam' ) {
 		if ( $value == 1 ) {
 			/**
-			 * Fires when the user is marked as a SPAM user.
+			 * Fires after the user is marked as a SPAM user.
 			 * 
 			 * @since 3.0.0
 			 * 
@@ -456,7 +456,7 @@ function update_user_status( $id, $pref, $value, $deprecated = null ) {
 			do_action( 'make_spam_user', $id );
 		} else {
 			/**
-			 * Fires when the user is marked as a HAM user. Opposite of SPAM.
+			 * Fires after the user is marked as a HAM user. Opposite of SPAM.
 			 *
 			 * @since 3.0.0
 			 * 
@@ -711,7 +711,7 @@ function grant_super_admin( $user_id ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param int $user_id User ID of the user is granted Super Admin privileges.
+	 * @param int $user_id User ID of the user that is about to be granted Super Admin privileges.
 	 */
 	do_action( 'grant_super_admin', $user_id );
 
@@ -728,7 +728,7 @@ function grant_super_admin( $user_id ) {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param int $user_id User ID of the user is granted Super Admin privileges.
+		 * @param int $user_id User ID of the user that was granted Super Admin privileges.
 		 */
 		do_action( 'granted_super_admin', $user_id );
 		return true;
