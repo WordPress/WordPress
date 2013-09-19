@@ -2030,17 +2030,19 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
  * 5. Several more actions are fired.
  * 6. An array is returned containing the term_id and term_taxonomy_id.
  *
- * If the 'slug' argument is not empty, then it will be checked to see if the term
- * is invalid. If it is not a valid, existing term, it is added and the term_id is given.
- * If the taxonomy is hierarchical, and the 'parent' argument is not empty, the term
- * will be inserted and the term_id will be given.
+ * If the 'slug' argument is not empty, then it is checked to see if the term
+ * is invalid. If it is not a valid, existing term, it is added and the term_id
+ * is given.
+ *
+ * If the taxonomy is hierarchical, and the 'parent' argument is not empty,
+ * the term is inserted and the term_id will be given.
 
  * Error handling:
- * If $taxonomy does not exist -- or $term is numeric or empty,
+ * If $taxonomy does not exist or $term is empty,
  * a WP_Error object will be returned.
  *
- * If the term already exists, the term slug is not unique, or both the term id and taxonomy
- * already exist, a WP_Error object will be returned.
+ * If the term already exists on the same hierarchical level,
+ * or the term slug and name are not unique, a WP_Error object will be returned.
  *
  * @global wpdb $wpdb The WordPress database object.
 
