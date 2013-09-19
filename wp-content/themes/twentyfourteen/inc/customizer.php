@@ -131,7 +131,6 @@ function twentyfourteen_customizer_styles() {
 		input[type="submit"]:focus,
 		.header-extra,
 		.search-toggle,
-		.bypostauthor .avatar,
 		.widget-area button,
 		.widget-area html input[type="button"],
 		.widget-area input[type="reset"],
