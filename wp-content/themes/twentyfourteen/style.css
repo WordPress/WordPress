@@ -38,8 +38,8 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 html {
 	font-size: 62.5%; /* Corrects text resizing oddly in IE6/7 when body font-size is set using em units http://clagnut.com/blog/348/#c790 */
 	overflow-y: scroll; /* Keeps page centred in all browsers regardless of content height */
-	-webkit-text-size-adjust: 100%; /* Prevents iOS text size adjust after orientation change, without disabling user zoom */
-	-ms-text-size-adjust: 100%; /* www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/ */
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust:     100%;
 }
 body {
 	background: #fff;
@@ -362,14 +362,16 @@ input[type="submit"]:active {
 }
 input[type="checkbox"],
 input[type="radio"] {
-	box-sizing: border-box; /* Addresses box sizing set to content-box in IE8/9 */
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 	padding: 0; /* Addresses excess padding in IE8/9 */
 }
 input[type="search"] {
 	-webkit-appearance: textfield; /* Addresses appearance set to searchfield in S5, Chrome */
-	-moz-box-sizing: content-box;
-	-webkit-box-sizing: content-box; /* Addresses box sizing set to border-box in S5, Chrome (include -moz to future-proof) */
-	box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing:    content-box;
+	box-sizing:         content-box;
 }
 input[type="search"]::-webkit-search-decoration { /* Corrects inner padding displayed oddly in S5, Chrome on OSX */
 	-webkit-appearance: none;
@@ -387,8 +389,9 @@ input[type="password"],
 textarea {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	border-radius: 2px;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 	color: #2b2b2b;
 }
 input[type="text"]:focus,
@@ -439,11 +442,8 @@ button,
 html input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-	-webkit-transition: all 0.2s ease-out;
-	-moz-transition: all 0.2s ease-out;
-	-ms-transition: all 0.2s ease-out;
-	-o-transition: all 0.2s ease-out;
-	transition: all 0.2s ease-out;
+	-webkit-transition: all 200ms ease-out;
+	transition:         all 200ms ease-out;
 }
 
 /* Alignment */
@@ -545,8 +545,9 @@ body {
 	z-index: 2;
 }
 .content-sidebar {
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 	padding: 36px 10px 0;
 	padding: 3.6rem 1.0rem 0;
 	position: relative;
@@ -642,8 +643,9 @@ body {
 }
 .search-toggle {
 	background-color: #24890d;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 	color: #fff;
 	display: block;
 	float: left;
@@ -684,8 +686,9 @@ body {
 		left: 50%;
 }
 .search-box-wrapper {
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 	position: absolute;
 	width: 100%;
 	z-index: 2;
@@ -728,8 +731,9 @@ body {
 	padding-left: 0;
 }
 .primary-navigation li {
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 	display: inline-block;
 	height: 48px;
 	height: 4.8rem;
@@ -835,8 +839,9 @@ body {
 }
 .mobile-navigation {
 	background-color: #000;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 	font-size: 14px;
 	font-size: 1.4rem;
 	font-weight: 700;
@@ -1158,11 +1163,8 @@ footer.entry-meta .entry-title a:hover {
 	height: auto;
 }
 .site .tag-links a {
-	-webkit-transition: all 0s ease-out;
-	-moz-transition: all 0s ease-out;
-	-ms-transition: all 0s ease-out;
-	-o-transition: all 0s ease-out;
-	transition: all 0s ease-out;
+	-webkit-transition: all 0ms ease-out;
+	transition:         all 0ms ease-out;
 }
 .tag-links a {
 	background-color: #767676;
@@ -1275,8 +1277,9 @@ footer.entry-meta .entry-title a:hover {
 #featured-content {
 	background: #000 url(images/pattern-dark.png) repeat 0 0;
 	background-size: 5px 5px;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 	width: 100%;
 }
 #featured-content .hentry {
@@ -1353,8 +1356,9 @@ footer.entry-meta .entry-title a:hover {
 .ephemera {
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 	clear: both;
 	padding: 23px 10px 0;
 	padding: 2.3rem 1.0rem 0;
@@ -1547,8 +1551,9 @@ img.aligncenter,
 	max-width: 100%;
 }
 .wp-caption-text {
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 	font-size: 12px;
 	font-size: 1.2rem;
 	font-style: italic;
@@ -1721,8 +1726,9 @@ span > object {
 .image-navigation .previous-image,
 .image-navigation .next-image  {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 	float: none;
 	padding: 11px 10px;
 	padding: 1.1rem 1.0rem;
@@ -2293,8 +2299,9 @@ span > object {
 ----------------------------------------------- */
 
 .site-footer .widget-area {
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 }
 .site-footer .widget {
 	float: left;
