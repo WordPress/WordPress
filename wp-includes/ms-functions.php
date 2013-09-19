@@ -2007,6 +2007,7 @@ function wp_is_large_network( $using = 'sites' ) {
  *     @type int       'spam'       Retrieve spam or non-spam sites. Default null, for any.
  *     @type int       'deleted'    Retrieve deleted or non-deleted sites. Default null, for any.
  *     @type int       'limit'      Number of sites to limit the query to. Default 100.
+ *     @type int       'offset'     Exclude the first x sites. Used in combination with the limit parameter. Default 0.
  * }
  *
  * @return array An array of site data
@@ -2025,6 +2026,7 @@ function wp_get_sites( $args = array() ) {
 		'spam'       => null,
 		'deleted'    => null,
 		'limit'      => 100,
+		'offset'     => 0,
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -2051,8 +2053,12 @@ function wp_get_sites( $args = array() ) {
 	if ( isset( $args['deleted'] ) )
 		$query .= $wpdb->prepare( "AND deleted = %d ", $args['deleted'] );
 
-	if ( isset( $args['limit'] ) )
-		$query .= $wpdb->prepare( "LIMIT %d ", $args['limit'] );
+	if ( isset( $args['limit'] ) && $args['limit'] ) {
+		if ( isset( $args['offset'] ) && $args['offset'] )
+			$query .= $wpdb->prepare( "LIMIT %d , %d ", $args['offset'], $args['limit'] );
+		else
+			$query .= $wpdb->prepare( "LIMIT %d ", $args['limit'] );
+	}
 
 	$site_results = $wpdb->get_results( $query, ARRAY_A );
 
