@@ -1034,6 +1034,33 @@ class WP_Posts_List_Table extends WP_List_Table {
 	<?php endif; // 'post' && $can_publish && current_user_can( 'edit_others_cap' ) ?>
 
 			</div>
+
+	<?php
+
+	if ( $bulk && post_type_supports( $screen->post_type, 'post-formats' ) ) {
+		$all_post_formats = get_post_format_strings();
+
+		?>
+		<label class="alignleft" for="post_format">
+		<span class="title"><?php _ex( 'Format', 'post format' ); ?></span>
+		<select name="post_format">
+			<option value="-1"><?php _e( '&mdash; No Change &mdash;' ); ?></option>
+			<?php
+
+			foreach ( $all_post_formats as $slug => $format ) {
+				?>
+				<option value="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $format ); ?></option>
+				<?php
+			}
+
+			?>
+		</select></label>
+	<?php
+
+	}
+
+	?>
+
 		</div></fieldset>
 
 	<?php

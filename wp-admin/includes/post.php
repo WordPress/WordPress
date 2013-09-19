@@ -324,7 +324,13 @@ function bulk_edit_posts( $post_data = null ) {
 
 	$post_IDs = array_map( 'intval', (array) $post_data['post'] );
 
-	$reset = array( 'post_author', 'post_status', 'post_password', 'post_parent', 'page_template', 'comment_status', 'ping_status', 'keep_private', 'tax_input', 'post_category', 'sticky' );
+	$reset = array(
+		'post_author', 'post_status', 'post_password',
+		'post_parent', 'page_template', 'comment_status',
+		'ping_status', 'keep_private', 'tax_input',
+		'post_category', 'sticky', 'post_format',
+	);
+
 	foreach ( $reset as $field ) {
 		if ( isset($post_data[$field]) && ( '' == $post_data[$field] || -1 == $post_data[$field] ) )
 			unset($post_data[$field]);
@@ -418,6 +424,9 @@ function bulk_edit_posts( $post_data = null ) {
 			else
 				unstick_post( $post_ID );
 		}
+
+		if ( isset( $post_data['post_format'] ) )
+			set_post_format( $post_ID, $post_data['post_format'] );
 	}
 
 	return array( 'updated' => $updated, 'skipped' => $skipped, 'locked' => $locked );
