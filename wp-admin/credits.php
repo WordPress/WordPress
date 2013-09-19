@@ -11,6 +11,15 @@ require_once( './admin.php' );
 
 $title = __( 'Credits' );
 
+/**
+ * Retrieve the contributor credits.
+ *
+ * @global string $wp_version The current WordPress version.
+ *
+ * @since 3.2.0
+ *
+ * @return array A list of all of the contributors.
+*/
 function wp_credits() {
 	global $wp_version;
 	$locale = get_locale();
@@ -36,10 +45,30 @@ function wp_credits() {
 	return $results;
 }
 
+/**
+ * Retrieve the link to a contributor's WordPress.org profile page.
+ *
+ * @access private
+ * @since 3.2.0
+ *
+ * @param string &$display_name The contributor's display name, passed by reference.
+ * @param string $user_name     The contributor's username.
+ * @param string $profiles      URL to the contributor's WordPress.org profile page.
+ * @return string A contributor's display name, hyperlinked to a WordPress.org profile page.
+ */
 function _wp_credits_add_profile_link( &$display_name, $username, $profiles ) {
 	$display_name = '<a href="' . esc_url( sprintf( $profiles, $username ) ) . '">' . esc_html( $display_name ) . '</a>';
 }
 
+/**
+ * Retrieve the link to an external library used in WordPress.
+ *
+ * @access private
+ * @since 3.2.0
+ *
+ * @param string &$data External library data, passed by reference.
+ * @return string Link to the external library.
+ */
 function _wp_credits_build_object_link( &$data ) {
 	$data = '<a href="' . esc_url( $data[1] ) . '">' . $data[0] . '</a>';
 }
