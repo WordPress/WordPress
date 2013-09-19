@@ -219,7 +219,7 @@ function _ex( $text, $context, $domain = 'default' ) {
 }
 
 /**
- * Display translated string with gettext context, and escapes it for safe use in an attribute.
+ * Translate string with gettext context, and escapes it for safe use in an attribute.
  *
  * @since 2.8.0
  *
@@ -233,7 +233,7 @@ function esc_attr_x( $text, $context, $domain = 'default' ) {
 }
 
 /**
- * Display translated string with gettext context, and escapes it for safe use in HTML output.
+ * Translate string with gettext context, and escapes it for safe use in HTML output.
  *
  * @since 2.9.0
  *
