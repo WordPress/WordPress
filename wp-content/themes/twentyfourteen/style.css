@@ -519,7 +519,6 @@ input[type="submit"] {
 
 body {
 	background-color: #f5f5f5;
-	text-rendering: optimizeLegibility;
 }
 .site {
 	background-color: #fff;
