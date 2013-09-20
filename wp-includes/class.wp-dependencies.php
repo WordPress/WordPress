@@ -17,12 +17,69 @@
  * @since r74
  */
 class WP_Dependencies {
+	/**
+	 * An array of registered handle objects.
+	 *
+	 * @access public
+	 * @since 2.6.8
+	 * @var array
+	 */
 	var $registered = array();
+
+	/**
+	 * An array of queued _WP_Dependency handle objects.
+	 *
+	 * @access public
+	 * @since 2.6.8
+	 * @var array
+	 */
 	var $queue = array();
+
+	/**
+	 * An array of _WP_Dependency handle objects to queue.
+	 *
+	 * @access public
+	 * @since 2.6.0
+	 * @var array
+	 */
 	var $to_do = array();
+
+	/**
+	 * An array of _WP_Dependency handle objects already queued.
+	 *
+	 * @access public
+	 * @since 2.6.0
+	 * @var array
+	 */
 	var $done = array();
+
+	/**
+	 * An array of additional arguments passed when a handle is registered.
+	 *
+	 * Arguments are appended to the item query string.
+	 *
+	 * @access public
+	 * @since 2.6.0
+	 * @var array
+	 */
 	var $args = array();
+
+	/**
+	 * An array of handle groups to enqueue.
+	 *
+	 * @access public
+	 * @since 2.8.0
+	 * @var array
+	 */
 	var $groups = array();
+
+	/**
+	 * A handle group to enqueue.
+	 *
+	 * @access public
+	 * @since 2.8.0
+	 * @var int
+	 */
 	var $group = 0;
 
 	/**
