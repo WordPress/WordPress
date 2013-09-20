@@ -1,8 +1,8 @@
 <?php
 /**
- * The template for displaying image attachments.
+ * The template for displaying image attachments
  *
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ * @link http://codex.wordpress.org/Template_Hierarchy
  *
  * @package WordPress
  * @subpackage Twenty_Twelve
@@ -74,6 +74,16 @@ else :
 endif;
 ?>
 								<a href="<?php echo esc_url( $next_attachment_url ); ?>" title="<?php the_title_attribute(); ?>" rel="attachment"><?php
+								/**
+ 								 * Filter the image attachment size to use.
+								 *
+								 * @since Twenty Twelve 1.0
+								 *
+								 * @param array $size {
+								 *     @type int The attachment height in pixels.
+								 *     @type int The attachment width in pixels.
+								 * }
+								 */
 								$attachment_size = apply_filters( 'twentytwelve_attachment_size', array( 960, 960 ) );
 								echo wp_get_attachment_image( $post->ID, $attachment_size );
 								?></a>
