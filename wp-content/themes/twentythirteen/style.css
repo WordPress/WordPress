@@ -2191,6 +2191,7 @@ footer.entry-meta {
 	width: 79%;
 	width: -webkit-calc(100% - 124px);
 	width:         calc(100% - 124px);
+	word-wrap: break-word;
 }
 
 .comment-meta,
