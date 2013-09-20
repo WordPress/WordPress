@@ -284,25 +284,6 @@ var wpLink;
 			inputs.url.val('http://');
 			inputs.title.val('');
 
-			if ( $('#search-panel').is(':visible') ) {
-				var selectedText,
-					textarea = wpLink.textarea;
-
-				if ( wpLink.isMCE() ) {
-					selectedText = tinyMCEPopup.editor.selection.getContent( { format: 'text' } );
-				} else {
-					if ( document.selection && wpLink.range ) {
-						selectedText = wpLink.range.text;
-					} else if ( 'undefined' !== typeof textarea.selectionStart ) {
-						selectedText = textarea.value.substring( textarea.selectionStart, textarea.selectionEnd );
-					}
-				}
-
-				if ( selectedText && ( selectedText = selectedText.replace( /^\s+|\s+$/g, '' ) ) ) {
-					inputs.search.val( selectedText ).trigger('keyup');
-				}
-			}
-
 			// Update save prompt.
 			inputs.submit.val( wpLinkL10n.save );
 		},
