@@ -34,11 +34,30 @@ function plugins_api($action, $args = null) {
 	if ( !isset($args->per_page) )
 		$args->per_page = 24;
 
-	// Allows a plugin to override the WordPress.org API entirely.
-	// Use the filter 'plugins_api_result' to merely add results.
-	// Please ensure that a object is returned from the following filters.
-	$args = apply_filters('plugins_api_args', $args, $action);
-	$res = apply_filters('plugins_api', false, $action, $args);
+	/**
+	 * Override the Plugin Install API arguments.
+	 *
+	 * Please ensure that an object is returned.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param object $args   Plugin API arguments.
+	 * @param string $action The type of information being requested from the Plugin Install API.
+	 */
+	$args = apply_filters( 'plugins_api_args', $args, $action );
+
+	/**
+	 * Allows a plugin to override the WordPress.org Plugin Install API entirely.
+	 *
+	 * Please ensure that an object is returned.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param bool|object         The result object. Default is false.
+	 * @param string      $action The type of information being requested from the Plugin Install API.
+	 * @param object      $args   Plugin API arguments.
+	 */
+	$res = apply_filters( 'plugins_api', false, $action, $args );
 
 	if ( false === $res ) {
 		$url = 'http://api.wordpress.org/plugins/info/1.0/';
@@ -64,7 +83,16 @@ function plugins_api($action, $args = null) {
 		$res->external = true;
 	}
 
-	return apply_filters('plugins_api_result', $res, $action, $args);
+	/**
+	 * Filter the Plugin Install API response results.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param object|WP_Error $res    Response object or WP_Error.
+	 * @param string          $action The type of information being requested from the Plugin Install API.
+	 * @param object          $args   Plugin API arguments.
+	 */
+	return apply_filters( 'plugins_api_result', $res, $action, $args );
 }
 
 /**
