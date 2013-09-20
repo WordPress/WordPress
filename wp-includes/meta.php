@@ -614,7 +614,8 @@ class WP_Meta_Query {
 	* - 'key' string The meta key
 	* - 'value' string|array The meta value
 	* - 'compare' (optional) string How to compare the key to the value.
-	*              Possible values: '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'.
+	*              Possible values: '=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN',
+	*              'BETWEEN', 'NOT BETWEEN', 'REGEXP', 'NOT REGEXP', 'RLIKE'.
 	*              Default: '='
 	* - 'type' string (optional) The type of the value.
 	*              Possible values: 'NUMERIC', 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED'.
@@ -781,7 +782,8 @@ class WP_Meta_Query {
 				'LIKE', 'NOT LIKE',
 				'IN', 'NOT IN',
 				'BETWEEN', 'NOT BETWEEN',
-				'NOT EXISTS'
+				'NOT EXISTS',
+				'REGEXP', 'NOT REGEXP', 'RLIKE'
 			) ) )
 				$meta_compare = '=';
 
