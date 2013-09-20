@@ -9,7 +9,9 @@
 if ( !defined( 'IFRAME_REQUEST' ) && isset( $_GET['tab'] ) && ( 'plugin-information' == $_GET['tab'] ) )
 	define( 'IFRAME_REQUEST', true );
 
-/** WordPress Administration Bootstrap */
+/**
+ * WordPress Administration Bootstrap.
+ */
 require_once('./admin.php');
 
 if ( ! current_user_can('install_plugins') )
@@ -33,7 +35,15 @@ if ( 'plugin-information' != $tab )
 
 $body_id = $tab;
 
-do_action('install_plugins_pre_' . $tab); //Used to override the general interface, Eg, install or plugin information.
+/**
+ * Fires before each tab on the Install Plugins screen is loaded.
+ *
+ * The dynamic portion of the action hook, $tab, allows for targeting
+ * individual tabs, for instance 'install_plugins_pre_plugin-information'.
+ *
+ * @since 2.7.0
+ */
+do_action( "install_plugins_pre_$tab" );
 
 get_current_screen()->add_help_tab( array(
 'id'		=> 'overview',
@@ -57,6 +67,9 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
+/**
+ * WordPress Administration Template Header.
+ */
 include(ABSPATH . 'wp-admin/admin-header.php');
 ?>
 <div class="wrap">
@@ -66,7 +79,22 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 <?php $wp_list_table->views(); ?>
 
 <br class="clear" />
-<?php do_action('install_plugins_' . $tab, $paged); ?>
+<?php
+/**
+ * Fires after the plugins list table in each tab of the Install Plugins screen.
+ *
+ * The dynamic portion of the action hook, $tab, allows for targeting
+ * individual tabs, for instance 'install_plugins_plugin-information'.
+ *
+ * @since 2.7.0
+ *
+ * @param int $paged The current page number of the plugins list table.
+ */
+?>
+<?php do_action( "install_plugins_$tab", $paged ); ?>
 </div>
 <?php
+/**
+ * WordPress Administration Template Footer.
+ */
 include(ABSPATH . 'wp-admin/admin-footer.php');
