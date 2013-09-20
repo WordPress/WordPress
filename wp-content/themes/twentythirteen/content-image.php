@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying posts in the Image post format.
+ * The template for displaying posts in the Image post format
  *
  * @package WordPress
  * @subpackage Twenty_Thirteen
