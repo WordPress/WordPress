@@ -146,6 +146,8 @@ function wp_update_plugins() {
 		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 	$plugins = get_plugins();
+	$languages = wp_get_installed_language_data( 'plugins' );
+
 	$active  = get_option( 'active_plugins', array() );
 	$current = get_site_transient( 'update_plugins' );
 	if ( ! is_object($current) )
@@ -200,7 +202,7 @@ function wp_update_plugins() {
 
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
-		'body' => array( 'plugins' => json_encode( $to_send ) ),
+		'body' => array( 'plugins' => json_encode( $to_send ), 'languages' => json_encode( $languages ) ),
 		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
@@ -243,6 +245,8 @@ function wp_update_themes() {
 		return false;
 
 	$installed_themes = wp_get_themes();
+	$languages = wp_get_installed_language_data( 'themes' );
+
 	$last_update = get_site_transient( 'update_themes' );
 	if ( ! is_object($last_update) )
 		$last_update = new stdClass;
@@ -310,7 +314,7 @@ function wp_update_themes() {
 
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
-		'body'			=> array( 'themes' => json_encode( $request ) ),
+		'body'			=> array( 'themes' => json_encode( $request ), 'languages' => json_encode( $languages ) ),
 		'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 

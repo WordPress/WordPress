@@ -625,3 +625,63 @@ function get_available_languages( $dir = null ) {
 
 	return $languages;
 }
+
+/**
+ * Get installed language data.
+ *
+ * Looks in the wp-content/languages directory for translations of
+ * plugins or themes.
+ *
+ * @since 3.7.0
+ *
+ * @param string $type What to search for. Accepts 'plugins', 'themes'.
+ * @return array Array of language data.
+ */
+function wp_get_installed_language_data( $type ) {
+	if ( $type !== 'themes' && $type !== 'plugins' )
+		return array();
+
+	if ( ! is_dir( WP_LANG_DIR ) || ! is_dir( WP_LANG_DIR . "/$type" ) )
+		return array();
+
+	$files = scandir( WP_LANG_DIR . "/$type" );
+	if ( ! $files )
+		return array();
+
+	$language_data = array();
+
+	foreach ( $files as $file ) {
+		if ( '.' === $file[0] || is_dir( $file ) )
+			continue;
+		if ( substr( $file, -3 ) !== '.po' )
+			continue;
+		if ( ! preg_match( '/(.*)-([A-Za-z_]{2,6}).po/', $file, $match ) )
+			continue;
+
+		list( , $textdomain, $language ) = $match;
+		$language_data[ $textdomain ][ $language ] = wp_get_pomo_file_data( WP_LANG_DIR . "/$type/$file" );
+	}
+	return $language_data;
+}
+
+/**
+ * Extract headers from a PO file.
+ *
+ * @since 3.7.0
+ *
+ * @param string $po_file Path to PO file.
+ * @return array PO file headers.
+ */
+function wp_get_pomo_file_data( $po_file ) {
+	$headers = get_file_data( $po_file, array(
+		'POT-Creation-Date'  => '"POT-Creation-Date',
+		'PO-Revision-Date'   => '"PO-Revision-Date',
+		'Project-Id-Version' => '"Project-Id-Version',
+		'X-Generator'        => '"X-Generator',
+	) );
+	foreach ( $headers as &$header ) {
+		// Remove possible contextual '\n' and closing double quote.
+		$header = preg_replace( '~(\\\n)?"$~', '', $header );
+	}
+	return $headers;
+}
