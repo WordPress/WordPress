@@ -99,13 +99,13 @@ endif; // twentyfourteen_setup
 add_action( 'after_setup_theme', 'twentyfourteen_setup' );
 
 /**
- * Adjusts content_width value for full width and attachment templates.
+ * Adjusts content_width value for full-width and attachment templates.
  *
  * @return void
  */
 function twentyfourteen_content_width() {
 	if ( is_page_template( 'full-width-page.php' ) || is_attachment() )
-		$GLOBALS['content_width'] = 895;
+		$GLOBALS['content_width'] = 810;
 }
 add_action( 'template_redirect', 'twentyfourteen_content_width' );
 
@@ -361,17 +361,19 @@ function twentyfourteen_list_authors() {
 			continue;
 	?>
 
-	<div class="contributor clear">
-		<div class="contributor-avatar"><?php echo get_avatar( $contributor_id, 132 ); ?></div>
-		<div class="contributor-summary">
-			<h2 class="contributor-name"><?php echo get_the_author_meta( 'display_name', $contributor_id ); ?></h2>
-			<p class="contributor-bio">
-				<?php echo get_the_author_meta( 'description', $contributor_id ); ?>
-			</p>
-			<a class="contributor-posts-link" href="<?php echo esc_url( get_author_posts_url( $contributor_id ) ); ?>">
-				<?php printf( _n( '%d Article', '%d Articles', $post_count, 'twentyfourteen' ), $post_count ); ?>
-			</a>
-		</div>
+	<div class="contributor">
+		<div class="contributor-info clear">
+			<div class="contributor-avatar"><?php echo get_avatar( $contributor_id, 132 ); ?></div>
+			<div class="contributor-summary">
+				<h2 class="contributor-name"><?php echo get_the_author_meta( 'display_name', $contributor_id ); ?></h2>
+				<p class="contributor-bio">
+					<?php echo get_the_author_meta( 'description', $contributor_id ); ?>
+				</p>
+				<a class="contributor-posts-link" href="<?php echo esc_url( get_author_posts_url( $contributor_id ) ); ?>">
+					<?php printf( _n( '%d Article', '%d Articles', $post_count, 'twentyfourteen' ), $post_count ); ?>
+				</a>
+			</div><!-- .contributor-summary -->
+		</div><!-- .contributor-info -->
 	</div><!-- .contributor -->
 
 	<?php
@@ -456,18 +458,20 @@ add_action( 'pre_get_posts', 'twentyfourteen_pre_get_posts' );
  * Adds body classes to denote:
  * 1. Single or multiple authors.
  * 2. Index views.
+ * 3. Full-width content layout.
  *
  * @param array $classes A list of existing body class values.
  * @return array The filtered body class list.
  */
 function twentyfourteen_body_classes( $classes ) {
-	// Adds a class of group-blog to blogs with more than 1 published author
-	if ( is_multi_author() ) {
+	if ( is_multi_author() )
 		$classes[] = 'group-blog';
-	}
-	if ( is_archive() || is_search() || is_home() ) {
+
+	if ( is_archive() || is_search() || is_home() )
 		$classes[] = 'list-view';
-	}
+
+	if ( is_page_template( 'full-width-page.php' ) || is_page_template( 'contributor-page.php' ) || is_attachment() )
+		$classes[] = 'full-width';
 
 	return $classes;
 }

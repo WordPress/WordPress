@@ -6,11 +6,13 @@
  * @subpackage Twenty_Fourteen
  */
 
+$metadata = wp_get_attachment_metadata();
+
 get_header();
 ?>
 
 <section id="primary" class="content-area image-attachment">
-	<div id="content" class="site-content full-width" role="main">
+	<div id="content" class="site-content" role="main">
 
 	<?php while ( have_posts() ) : the_post(); ?>
 
@@ -19,7 +21,6 @@ get_header();
 				<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 
 				<div class="entry-meta">
-					<?php $metadata = wp_get_attachment_metadata(); ?>
 
 					<span class="entry-date"><time class="entry-date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date() ); ?></time></span>
 
@@ -70,8 +71,10 @@ get_header();
 		</article><!-- #post-## -->
 
 		<nav id="image-navigation" class="navigation image-navigation">
+			<div class="nav-links">
 			<?php previous_image_link( false, __( '<div class="previous-image">Previous Image</div>', 'twentyfourteen' ) ); ?>
 			<?php next_image_link( false, __( '<div class="next-image">Next Image</div>', 'twentyfourteen' ) ); ?>
+			</div><!-- .nav-links -->
 		</nav><!-- #image-navigation -->
 
 		<?php comments_template(); ?>
