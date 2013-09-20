@@ -196,11 +196,11 @@ function wp_update_plugins() {
 	$current->last_checked = time();
 	set_site_transient( 'update_plugins', $current );
 
-	$to_send = (object) compact('plugins', 'active');
+	$to_send = compact( 'plugins', 'active' );
 
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
-		'body' => array( 'plugins' => serialize( $to_send ) ),
+		'body' => array( 'plugins' => json_encode( $to_send ) ),
 		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
@@ -216,7 +216,7 @@ function wp_update_plugins() {
 	$response = json_decode( wp_remote_retrieve_body( $raw_response ) );
 
 	if ( is_object( $response ) )
-		$new_option->response = (array) $response;
+		$new_option->response = (array) $response->plugins;
 	else
 		$new_option->response = array();
 
@@ -247,11 +247,10 @@ function wp_update_themes() {
 	if ( ! is_object($last_update) )
 		$last_update = new stdClass;
 
-	$themes = array();
-	$checked = array();
+	$themes = $checked = $request = array();
 
 	// Put slug of current theme into request.
-	$themes['current_theme'] = get_option( 'stylesheet' );
+	$request['active'] = get_option( 'stylesheet' );
 
 	foreach ( $installed_themes as $theme ) {
 		$checked[ $theme->get_stylesheet() ] = $theme->get('Version');
@@ -307,9 +306,11 @@ function wp_update_themes() {
 	$last_update->last_checked = time();
 	set_site_transient( 'update_themes', $last_update );
 
+	$request['themes'] = $themes;
+
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
-		'body'			=> array( 'themes' => serialize( $themes ) ),
+		'body'			=> array( 'themes' => json_encode( $request ) ),
 		'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
@@ -327,8 +328,9 @@ function wp_update_themes() {
 	$new_update->checked = $checked;
 
 	$response = json_decode( wp_remote_retrieve_body( $raw_response ), true );
+
 	if ( is_array( $response ) )
-		$new_update->response = $response;
+		$new_update->response = $response['themes'];
 
 	set_site_transient( 'update_themes', $new_update );
 }
