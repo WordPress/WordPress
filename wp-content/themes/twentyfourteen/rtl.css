@@ -22,38 +22,32 @@ caption, th, td {
 
 ul, ol {
 	margin: 0 22px 24px 0;
-	margin: 0 2.2rem 2.4rem 0;
 }
 
 li > ul,
 li > ol {
 	margin-right: 20px;
-	margin-right: 2.0rem;
 	margin-left: auto;
 }
 
 blockquote.pull.alignright {
 	margin: 7px 0 7px 24px;
-	margin: 0.7rem 0 0.7rem 2.4rem;
 }
 
 blockquote.pull.alignleft {
 	margin: 7px 24px 7px 0;
-	margin: 0.7rem 2.4rem 0.7rem 0;
 }
 
 /* Alignment */
 .alignright {
 	float: right;
 	margin-left: 24px;
-	margin-left: 2.4rem;
 	margin-right: auto;
 }
 
 .alignleft {
 	float: left;
 	margin-right: 24px;
-	margin-right: 2.4rem;
 	margin-left: auto;
 }
 
@@ -62,9 +56,7 @@ blockquote.pull.alignleft {
 
 .header-main {
 	margin-left: 48px;
-	margin-left: 4.8rem;
 	padding-right: 10px;
-	padding-right: 1.0rem;
 	padding-left: 0;
 	margin-right: auto;
 }
@@ -88,7 +80,6 @@ blockquote.pull.alignleft {
 
 .genericon-search:before {
 	margin-right: -8px;
-	margin-right: -0.8rem;
 	right: 50%;
 	left: auto;
 	margin-left: auto;
@@ -106,7 +97,6 @@ blockquote.pull.alignleft {
 .primary-navigation {
 	float: left;
 	margin: 0 -10px 0 10px;
-	margin: 0 -1.0rem 0 1.0rem;
 }
 
 .primary-navigation ul {
@@ -128,13 +118,11 @@ blockquote.pull.alignleft {
 /* Secondary Navigation */
 .secondary-navigation ul ul {
 	margin: 0 20px 0 0;
-	margin: 0 2.0rem 0 0;
 }
 
 /* Mobile Navigations */
 .mobile-navigation ul ul li {
 	margin-right: 15px;
-	margin-right: 1.5rem;
 	margin-left: auto;
 }
 
@@ -163,14 +151,12 @@ blockquote.pull.alignleft {
 .more-link:hover .meta-nav,
 .more-formatted-posts-link:hover .meta-nav {
 	right: 5px;
-	right: 0.5rem;
 	left: auto;
 }
 
 .page-links a,
 .page-links > span {
 	margin-left: 1px;
-	margin-left: 0.1rem;
 	margin-right: auto;
 }
 
@@ -181,13 +167,11 @@ blockquote.pull.alignleft {
 
 .tag-links a {
 	margin: 0 10px 4px 4px;
-	margin: 0 1.0rem 0.4rem 0.4rem;
 }
 
 .tag-links a:before {
 	border-left: 10px solid #8c8c8c;
 	right: -10px;
-	right: -1.0rem;
 	left: auto;
 	border-right: none;
 }
@@ -198,7 +182,6 @@ blockquote.pull.alignleft {
 
 .tag-links a:after {
 	right: -2px;
-	right: -0.2rem;
 	left: auto;
 }
 
@@ -208,7 +191,6 @@ blockquote.pull.alignleft {
 
 .ephemera .widget-title:before {
 	margin-left: 10px;
-	margin-left: 1.0rem;
 	margin-right: auto;
 }
 
@@ -219,18 +201,15 @@ blockquote.pull.alignleft {
 img.alignright,
 .wp-caption.alignright {
 	margin: 7px 0 7px 24px;
-	margin: 0.7rem 0 0.7rem 2.4rem;
 }
 
 img.alignleft,
 .wp-caption.alignleft {
 	margin: 7px 24px 7px 0;
-	margin: 0.7rem 2.4rem 0.7rem 0;
 }
 
 .wp-caption-text {
 	padding: 0 0 0 10px;
-	padding: 0 0 0 1.0rem;
 	text-align: right;
 }
 
@@ -240,7 +219,6 @@ img.alignleft,
 
 .paging-navigation .page-numbers {
 	margin-left: 5px;
-	margin-left: 0.5rem;
 	margin-right: auto;
 }
 
@@ -253,7 +231,6 @@ img.alignleft,
 
 .comment-navigation {
 	padding-right: 10px;
-	padding-right: 1.0rem;
 	padding-left: 0;
 }
 
@@ -268,7 +245,6 @@ img.alignleft,
 
 .comment-author {
 	padding-right: 36px;
-	padding-right: 3.6rem;
 	padding-left: 0;
 }
 
@@ -279,32 +255,27 @@ img.alignleft,
 
 .comment-author .avatar {
 	right: 2px;
-	right: 0.2rem;
 	left: auto;
 }
 
 .comment-metadata,
 .comment-content {
 	padding-right: 36px;
-	padding-right: 3.6rem;
 	padding-left: 0;
 }
 
 .comment-content ul,
 .comment-content ol {
 	margin: 0 22px 24px 0;
-	margin: 0 2.2rem 2.4rem 0;
 }
 
 .comment-list .children {
 	margin-right: 20px;
-	margin-right: 2.0rem;
 	margin-left: auto;
 }
 
 .comment .comment-respond {
 	margin-right: 47px;
-	margin-right: 4.7rem;
 	margin-left: auto;
 }
 
@@ -315,13 +286,11 @@ img.alignleft,
 .widget li > ul,
 .widget li > ol {
 	margin: 0 10px 0 0;
-	margin: 0 1.0rem 0 0;
 }
 
 .widget select,
 .widget iframe {
 	margin-right: 1px;
-	margin-right: 0.1rem;
 	margin-left: auto;
 }
 
@@ -332,14 +301,12 @@ img.alignleft,
 
 .widget_calendar#prev {
 	padding-right: 5px;
-	padding-right: 0.5rem;
 	padding-left: 0;
 }
 
 .widget_calendar #next {
 	border-left: 1px solid rgba(255, 255, 255, 0.2);
 	padding-left: 5px;
-	padding-left: 0.5rem;
 	text-align: left;
 	padding-right: 0;
 	border-right: none;
@@ -352,12 +319,10 @@ img.alignleft,
 .content-sidebar .widget .children,
 .content-sidebar .widget .sub-menu {
 	margin:0 20px 0 0;
-	margin:0 2.0rem 0 0;
 }
 
 .content-sidebar .widget .widgets-multi-column-grid li {
 	padding: 0 0 6px 8px;
-	padding: 0 0 0.6rem 0.8rem;
 }
 
 
@@ -369,7 +334,6 @@ img.alignleft,
 	.list-view .attachment-featured-thumbnail img {
 		float: right;
 		margin: 0 0 3px 10px;
-		margin: 0 0 0.3rem 1.0rem;
 	}
 }
 
@@ -385,55 +349,45 @@ img.alignleft,
 	.content-area .full-size-link a:before,
 	.content-area .parent-post-link a:before {
 		margin: 0 0 0 2px;
-		margin: 0 0 0 0.2rem;
 	}
 
 	.content-area .entry-meta > span {
 		margin-left: 10px;
-		margin-left: 1.0rem;
 		margin-right: auto;
 	}
 
 	.content-area .format-video .post-format a:before {
 		margin: -1px 0 0 2px;
-		margin: -0.1rem 0 0 0.2rem;
 	}
 
 	.content-area .format-image .post-format a:before {
 		margin: -1px 0 0 2px;
-		margin: -0.1rem 0 0 0.2rem;
 	}
 
 	.content-area .format-gallery .post-format a:before {
 		margin: -1px 0 0 4px;
-		margin: -0.1rem 0 0 0.4rem;
 	}
 
 	.content-area .featured-post:before {
 		margin: -1px 0 0 3px;
-		margin: -0.1rem 0 0 0.3rem;
 	}
 
 	.content-area .post-format + .entry-date a:before,
 	.content-area .entry-date a:before,
 	.attachment .entry-date:before {
 		margin: 0 0 0 1px;
-		margin: 0 0 0 0.1rem;
 	}
 
 	.content-area .comments-link a:before {
 		margin: -1px 0 0 2px;
-		margin: -0.1rem 0 0 0.2rem;
 	}
 
 	.entry-comment .edit-link a:before {
 		margin: -1px 0 0 2px;
-		margin: -0.1rem 0 0 0.2rem;
 	}
 
 	.page .entry-comment .edit-link a:before {
 		margin: 5px 0 0 2px;
-		margin: 0.5rem 0 0 0.2rem;
 	}
 }
 
@@ -450,14 +404,12 @@ img.alignleft,
 		float: left;
 		margin: 0 -30.35714285% 0 0;
 		padding: 36px 0 24px 10px;
-		padding: 3.6rem 0 2.4rem 1.0rem;
 	}
 
 	.post-formatted-posts {
 		float: left;
 		margin: 0 -30.35714285% 0 0;
 		padding: 36px 0 0 10px;
-		padding: 3.6rem 0 0 1.0rem;
 	}
 
 	#featured-content .hentry {
@@ -468,14 +420,12 @@ img.alignleft,
 @media screen and (min-width: 740px) {
 	.comment-author {
 		padding-right: 60px;
-		padding-right: 6.0rem;
 		padding-left: 0;
 	}
 
 	.comment-meta,
 	.comment-content {
 		padding-right: 60px;
-		padding-right: 6.0rem;
 		padding-left: 0;
 	}
 
@@ -530,7 +480,6 @@ img.alignleft,
 
 	.content-area footer.entry-meta {
 		margin: 12px 12.5% 24px 8.03571428%;
-		margin: 1.2rem 12.5% 2.4rem 8.03571428%;
 	}
 
 	.page .content-area .entry-header,
@@ -541,7 +490,6 @@ img.alignleft,
 	.archive-header,
 	.page-header {
 		margin: 0 12.5% 24px 8.03571428%;
-		margin: 0 12.5% 2.4rem 8.03571428%;
 	}
 
 	.comments-title,
@@ -563,7 +511,6 @@ img.alignleft,
 	.comment-list,
 	.full-width .comment-list {
 		margin-right: -70px;
-		margin-right: -7.0rem;
 		margin-left: auto;
 	}
 
@@ -574,7 +521,6 @@ img.alignleft,
 
 	#content-sidebar {
 		padding-top: 72px;
-		padding-top: 7.2rem;
 	}
 
 	.image-navigation .previous-image,
@@ -618,19 +564,16 @@ img.alignleft,
 
 	.header-main {
 		padding-right: 27px;
-		padding-right: 2.7rem;
 		padding-left: 0;
 	}
 
 	.search-box-wrapper {
 		padding-right: 222px;
-		padding-right: 22.2rem;
 		padding-left: 0;
 	}
 
 	.site-content {
 		margin: 0 222px 0 27.31707317%;
-		margin: 0 22.2rem 0 27.31707317%;
 	}
 
 	#secondary {
@@ -644,7 +587,6 @@ img.alignleft,
 
 	.site-content {
 		margin: 0 222px 0 27.31707317%;
-		margin: 0 22.2rem 0 27.31707317%;
 	}
 
 	.content-sidebar,
@@ -654,25 +596,21 @@ img.alignleft,
 
 	#featured-content {
 		padding-right: 222px;
-		padding-right: 22.2rem;
 		padding-left: 0;
 	}
 
 	.site-footer {
 		padding-right: 27px;
-		padding-right: 2.7rem;
 		padding-left: 0;
 	}
 
 	.secondary-navigation ul ul {
 		right: 168px;
-		right: 16.8rem;
 		left: auto;
 	}
 
 	.full-width.site-content {
 		margin-right: 222px;
-		margin-right: 22.2rem;
 		margin-left: auto;
 	}
 
@@ -734,7 +672,6 @@ img.alignleft,
 @media screen and (min-width: 1150px) {
 	.content-area .entry-header {
 		margin: -48px 12.5% 0 8.03571428%;
-		margin: -4.8rem 12.5% 0 8.03571428%;
 	}
 
 	.content-area .entry-content,
@@ -744,7 +681,6 @@ img.alignleft,
 
 	.content-area footer.entry-meta {
 		margin: 12px 12.5% 24px 8.03571428%;
-		margin: 1.2rem 12.5% 2.4rem 8.03571428%;
 	}
 
 	.comments-title,
@@ -766,7 +702,6 @@ img.alignleft,
 	.comment-list,
 	.full-width .comment-list {
 		margin-right: -70px;
-		margin-right: -7.0rem;
 		margin-left: auto;
 	}
 
@@ -778,7 +713,6 @@ img.alignleft,
 	.archive-header,
 	.page-header {
 		margin: 0 12.5% 24px 8.03571428%;
-		margin: 0 12.5% 2.4rem 8.03571428%;
 	}
 
 	.page .content-area .entry-header,
@@ -800,7 +734,6 @@ img.alignleft,
 
 	.content-area .entry-content .wp-caption.alignright .wp-caption-text {
 		padding-right: 10px;
-		padding-right: 1.0rem;
 		padding-left: 0;
 	}
 

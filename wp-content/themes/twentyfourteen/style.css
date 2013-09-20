@@ -96,7 +96,6 @@ textarea {
 	color: #2b2b2b;
 	font-family: lato, sans-serif;
 	font-size: 16px;
-	font-size: 1.6rem;
 	font-weight: 400;
 	line-height: 1.5;
 }
@@ -118,36 +117,29 @@ h1,h2,h3,h4,h5,h6 {
 	clear: both;
 	font-weight: 700;
 	margin: 36px 0 12px;
-	margin: 3.6rem 0 1.2rem;
 }
 h1 {
 	font-size: 26px;
-	font-size: 2.6rem;
 	line-height: 1.3846153846;
 }
 h2 {
 	font-size: 24px;
-	font-size: 2.4rem;
 	line-height: 1;
 }
 h3 {
 	font-size: 22px;
-	font-size: 2.2rem;
 	line-height: 1.0909090909;
 }
 h4 {
 	font-size: 20px;
-	font-size: 2.0rem;
 	line-height: 1.2;
 }
 h5 {
 	font-size: 18px;
-	font-size: 1.8rem;
 	line-height: 1.3333333333;
 }
 h6 {
 	font-size: 16px;
-	font-size: 1.6rem;
 	line-height: 1.5;
 }
 h1 a,
@@ -172,19 +164,15 @@ hr {
 	background-color: rgba(0, 0, 0, 0.1);
 	border: 0;
 	height: 1px;
-	height: 0.1rem;
 	margin-bottom: 23px;
-	margin-bottom: 2.3rem;
 }
 
 /* Text elements */
 p {
 	margin-bottom: 24px;
-	margin-bottom: 2.4rem;
 }
 ul, ol {
 	margin: 0 0 24px 22px;
-	margin: 0 0 2.4rem 2.2rem;
 }
 ul {
 	list-style: disc;
@@ -196,14 +184,12 @@ li > ul,
 li > ol {
 	margin-bottom: 0;
 	margin-left: 20px;
-	margin-left: 2.0rem;
 }
 dt {
 	font-weight: bold;
 }
 dd {
 	margin: 0 0 24px;
-	margin: 0 0 2.4rem;
 }
 b, strong {
 	font-weight: bold;
@@ -215,7 +201,6 @@ blockquote {
 	font-style: italic;
 	font-weight: 300;
 	margin: 0 0 24px;
-	margin: 0 0 2.4rem;
 }
 blockquote em, blockquote i, blockquote cite {
 	font-style: normal;
@@ -223,36 +208,29 @@ blockquote em, blockquote i, blockquote cite {
 blockquote p {
 	color: #767676;
 	font-size: 19px;
-	font-size: 1.9rem;
 	line-height: 1.2631578947;
 }
 blockquote cite {
 	color: #2b2b2b;
 	font-size: 16px;
-	font-size: 1.6rem;
 	font-weight: 400;
 	line-height: 1.5;
 }
 address {
 	margin: 0 0 24px;
-	margin: 0 0 2.4rem;
 }
 pre {
 	background: #eee;
 	font-family: 'Courier 10 Pitch', Courier, monospace;
 	font-size: 15px;
-	font-size: 1.5rem;
 	line-height: 1.6;
 	margin-bottom: 24px;
-	margin-bottom: 2.4rem;
 	padding: 12px;
-	padding: 1.2rem;
 	overflow: auto;
 	max-width: 100%;
 }
 code, kbd, tt, var {
 	font: 15px/1.6 Monaco, Consolas, 'Andale Mono', 'DejaVu Sans Mono', monospace;
-	font-size: 1.5rem;
 }
 abbr, acronym {
 	border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
@@ -287,7 +265,6 @@ figure {
 }
 table {
 	margin: 0 0 24px;
-	margin: 0 0 2.4rem;
 	width: 100%;
 }
 th {
@@ -315,11 +292,9 @@ input[type="submit"] {
 	border-radius: 2px;
 	color: #fff;
 	font-size: 12px;
-	font-size: 1.2rem;
 	font-weight: 700;
 	line-height: 1;
 	padding: 13px 33px 11px;
-	padding: 1.3rem 3.3rem 1.1rem;
 	text-transform: uppercase;
 	vertical-align: top;
 }
@@ -392,12 +367,10 @@ input[type="url"],
 input[type="search"],
 input[type="password"] {
 	padding: 8px 10px;
-	padding: 0.8rem 1.0rem;
 }
 textarea {
 	overflow: auto; /* Removes default vertical scrollbar in IE6/7/8/9 */
 	padding: 8px 10px;
-	padding: 0.8rem 1.0rem;
 	vertical-align: top; /* Improves readability and alignment in all browsers */
 	width: 100%;
 }
@@ -435,13 +408,11 @@ input[type="submit"] {
 	display: inline;
 	float: left;
 	margin-right: 24px;
-	margin-right: 2.4rem;
 }
 .alignright {
 	display: inline;
 	float: right;
 	margin-left: 24px;
-	margin-left: 2.4rem;
 }
 .aligncenter {
 	clear: both;
@@ -533,7 +504,6 @@ body {
 	clear: both;
 	color: rgba(255, 255, 255, 0.55);
 	padding: 48px 10px 0;
-	padding: 4.8rem 1.0rem 0;
 	position: relative;
 	z-index: 2;
 }
@@ -542,7 +512,6 @@ body {
 	-moz-box-sizing:    border-box;
 	box-sizing:         border-box;
 	padding: 36px 10px 0;
-	padding: 3.6rem 1.0rem 0;
 	position: relative;
 }
 #supplementary {
@@ -550,7 +519,6 @@ body {
 	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 	color: #949a92;
 	padding: 48px 10px 0;
-	padding: 4.8rem 1.0rem 0;
 	position: relative;
 	z-index: 3;
 }
@@ -558,9 +526,7 @@ body {
 	background-color: #000;
 	color: rgba(255, 255, 255, 0.55);
 	font-size: 12px;
-	font-size: 1.2rem;
 	padding: 15px 10px;
-	padding: 1.5rem 1.0rem;
 	position: relative;
 	z-index: 3;
 }
@@ -595,11 +561,8 @@ body {
 }
 .header-main {
 	margin-right: 48px;
-	margin-right: 4.8rem;
 	min-height: 48px;
-	min-height: 4.8rem;
 	padding-left: 10px;
-	padding-left: 1.0rem;
 }
 .header-extra {
 	background-color: #24890d;
@@ -609,7 +572,6 @@ body {
 	display: inline-block;
 	float: left;
 	font-size: 18px;
-	font-size: 1.8rem;
 	font-weight: 700;
 	line-height: 48px;
 	margin: 0;
@@ -620,7 +582,6 @@ body {
 #nav-toggle {
 	background-color: #000;
 	padding: 16px;
-	padding: 1.6rem;
 	position: absolute;
 		top:0;
 		right: 0;
@@ -642,13 +603,9 @@ body {
 	display: block;
 	float: left;
 	font-size: 10px;
-	font-size: 1.0rem;
 	min-width: 70px;
-	min-width: 7.0rem;
 	min-height: 48px;
-	min-height: 4.8rem;
 	padding: 25px 10px 0;
-	padding: 2.5rem 1.0rem 0;
 	position: relative;
 	text-align: center;
 	text-transform: uppercase;
@@ -664,10 +621,8 @@ body {
 	color: #fff;
 	content: '\f400';
 	margin-left: -8px;
-	margin-left: -0.8rem;
 	position: absolute;
 		top: 9px;
-		top: 0.9rem;
 		left: 50%;
 }
 .search-box-wrapper {
@@ -685,13 +640,9 @@ body {
 	background-color: #fff;
 	float: right;
 	font-size: 13px;
-	font-size: 1.3rem;
 	margin: 12px 10px;
-	margin: 1.2rem 1.0rem;
 	padding: 3px 6px;
-	padding: 0.3rem 0.6rem;
 	width: 326px;
-	width: 32.6rem;
 }
 
 
@@ -703,11 +654,9 @@ body {
 	display: none;
 	float: right;
 	font-size: 11px;
-	font-size: 1.1rem;
 	font-weight: 700;
 	line-height: 1.6363636363;
 	margin: 0 10px 0 -10px;
-	margin: 0 1.0rem 0 -1.0rem;
 	text-transform: uppercase;
 }
 .primary-navigation ul {
@@ -721,16 +670,13 @@ body {
 	box-sizing:         border-box;
 	display: inline-block;
 	height: 48px;
-	height: 4.8rem;
 	line-height: 48px;
-	line-height: 4.8rem;
 	position: relative;
 }
 .primary-navigation a {
 	color: #fff;
 	display: inline-block;
 	padding: 0 10px;
-	padding: 0 1.0rem;
 	text-decoration: none;
 	white-space: nowrap;
 }
@@ -740,7 +686,6 @@ body {
 	float: left;
 	position: absolute;
 		top: 48px;
-		top: 4.8rem;
 		left: 0;
 	z-index: 99999;
 }
@@ -755,9 +700,7 @@ body {
 }
 .primary-navigation ul ul a {
 	padding: 9px 12px;
-	padding: 0.9rem 1.2rem;
 	width: 148px;
-	width: 14.8rem;
 	white-space: normal;
 }
 .primary-navigation ul ul li {
@@ -783,7 +726,6 @@ body {
 .secondary-navigation {
 	border-bottom: 1px solid rgba(255, 255, 255, 0.4);
 	font-size: 14px;
-	font-size: 1.4rem;
 	margin: 0 auto 48px;
 	max-width: 474px;
 }
@@ -792,7 +734,6 @@ body {
 	color: #fff;
 	font-weight: 700;
 	padding: 7px 0 7px;
-	padding: 0.7rem 0 0.7rem;
 	text-transform: uppercase;
 }
 .secondary-navigation a:hover {
@@ -804,7 +745,6 @@ body {
 }
 .secondary-navigation ul ul {
 	margin: 0 0 0 20px;
-	margin: 0 0 0 2.0rem;
 }
 .secondary-navigation li {
 	border-top: 1px solid rgba(255, 255, 255, 0.4);
@@ -828,10 +768,8 @@ body {
 	-moz-box-sizing:    border-box;
 	box-sizing:         border-box;
 	font-size: 14px;
-	font-size: 1.4rem;
 	font-weight: 700;
 	padding: 24px 10px 0;
-	padding: 2.4rem 1.0rem 0;
 	text-transform: uppercase;
 }
 .mobile-navigation ul {
@@ -846,13 +784,11 @@ body {
 }
 .mobile-navigation ul ul li {
 	margin-left: 15px;
-	margin-left: 1.5rem;
 }
 .mobile-navigation a {
 	color: rgba(255, 255, 255, 1);
 	display: block;
 	padding: 7px 0 7px;
-	padding: 0.7rem 0 0.7rem;
 	text-decoration: none;
 }
 .mobile-navigation a:hover {
@@ -868,9 +804,7 @@ body {
 }
 .hentry {
 	margin-bottom: 24px;
-	margin-bottom: 2.4rem;
 	max-width: 672px;
-	max-width: 67.2rem;
 }
 .attachment-featured-thumbnail {
 	background: #767676 url(images/pattern.png) repeat 0 0;
@@ -879,7 +813,6 @@ body {
 	float: none;
 	margin: 0;
 	min-height: 180px;
-	min-height: 18.0rem;
 	position: relative;
 	width: 100%;
 	height: auto;
@@ -896,12 +829,9 @@ body {
 .entry-title {
 	clear: none;
 	font-size: 15px;
-	font-size: 1.5rem;
 	font-weight: 900;
 	line-height: 18px;
-	line-height: 1.8rem;
 	margin: 0 0 6px 0;
-	margin: 0 0 0.6rem 0;
 }
 .entry-title a {
 	color: #2b2b2b;
@@ -913,7 +843,6 @@ body {
 	clear: both;
 	color: #767676;
 	font-size: 12px;
-	font-size: 1.2rem;
 	font-weight:400;
 	line-height: 1.3333333333;
 }
@@ -966,17 +895,14 @@ span + .edit-link:before,
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	border-width: 1px 0 1px 1px;
 	font-size: 14px;
-	font-size: 1.4rem;
 	line-height: 1.2857142857;
 	margin-bottom: 24px;
-	margin-bottom: 2.4rem;
 }
 .entry-content th,
 .comment-content th {
 	border-right: 1px solid rgba(0, 0, 0, 0.1);
 	font-weight: 700;
 	padding: 8px;
-	padding: 0.8rem;
 	text-transform: uppercase;
 }
 .entry-content td,
@@ -984,29 +910,24 @@ span + .edit-link:before,
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	border-right: 1px solid rgba(0, 0, 0, 0.1);
 	padding: 8px;
-	padding: 0.8rem;
 }
 .site-content blockquote.alignleft,
 .site-content blockquote.alignright {
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	padding-top: 17px;
-	padding-top: 1.7rem;
 	width: 50%;
 }
 .site-content blockquote.alignleft p,
 .site-content blockquote.alignright p {
 	margin-bottom: 17px;
-	margin-bottom: 1.7rem;
 }
 .entry-content .video-player,
 .entry-content .PDS_Poll {
 	margin-bottom: 24px;
-	margin-bottom: 2.4rem;
 }
 footer.entry-meta {
 	margin-bottom: 36px;
-	margin-bottom: 3.6rem;
 }
 
 /* .content-area specific styles */
@@ -1021,21 +942,17 @@ footer.entry-meta {
 .content-area .entry-header {
 	background-color: #fff;
 	padding: 24px 10px 12px;
-	padding: 2.4rem 1.0rem 1.2rem;
 }
 .content-area .entry-title {
 	font-size: 33px;
-	font-size: 3.3rem;
 	font-weight: 300;
 	line-height: 1.0909090909;
 	margin-bottom: 12px;
-	margin-bottom: 1.2rem;
 	text-transform: uppercase;
 }
 .content-area .entry-meta {
 	background-color: #fff;
 	margin-bottom: 8px;
-	margin-bottom: 0.8rem;
 	text-transform: uppercase;
 }
 .content-area .entry-content,
@@ -1043,25 +960,19 @@ footer.entry-meta {
 .content-area .entry-summary {
 	background-color: #fff;
 	padding: 12px 10px 0;
-	padding: 1.2rem 1.0rem 0;
 }
 .content-area footer.entry-meta {
 	margin-top: 12px;
-	margin-top: 1.2rem;
 	padding: 0 10px;
-	padding: 0 1.0rem;
 }
 .content-area footer.entry-meta {
 	margin-bottom: 36px;
-	margin-bottom: 3.6rem;
 }
 .content-area footer.entry-meta .entry-title {
 	font-size: 12px;
-	font-size: 1.2rem;
 	font-weight: 400;
 	line-height: 1.3333333333;
 	margin-bottom: 8px;
-	margin-bottom: 0.8rem;
 	text-transform: none;
 }
 footer.entry-meta .entry-title a {
@@ -1116,7 +1027,6 @@ footer.entry-meta .entry-title a:hover {
 .more-link,
 .post-format-archive-link {
 	font-size: 14px;
-	font-size: 1.4rem;
 	text-transform: uppercase;
 	white-space: pre;
 }
@@ -1132,16 +1042,13 @@ footer.entry-meta .entry-title a:hover {
 .more-link:hover .meta-nav,
 .post-format-archive-link:hover .meta-nav {
 	left: 5px;
-	left: 0.5rem;
 }
 .page-links {
 	clear: both;
 	font-size: 12px;
-	font-size: 1.2rem;
 	font-weight: 900;
 	line-height: 2;
 	margin: 0 0 24px;
-	margin: 0 0 2.4rem;
 	text-transform: uppercase;
 }
 .page-links a,
@@ -1181,13 +1088,10 @@ footer.entry-meta .entry-title a:hover {
 	color: #fff;
 	display: inline-block;
 	font-size: 11px;
-	font-size: 1.1rem;
 	font-weight: 700;
 	line-height: 1.2727272727;
 	margin: 0 4px 4px 10px;
-	margin: 0 0.4rem 0.4rem 1.0rem;
 	padding: 3px 7px;
-	padding: 0.3rem 0.7rem;
 	position: relative;
 	text-transform: uppercase;
 }
@@ -1205,7 +1109,6 @@ footer.entry-meta .entry-title a:hover {
 	position: absolute;
 		top: 0;
 		left: -8px;
-		left: -0.8rem;
 	width: 0;
 	height: 0;
 }
@@ -1214,7 +1117,6 @@ footer.entry-meta .entry-title a:hover {
 	.tag-links a:before {
 		border-right: 10px solid #767676;
 		left: -10px;
-		left: -1.0rem;
 	}
 }
 .tag-links a:hover:before,
@@ -1227,13 +1129,9 @@ footer.entry-meta .entry-title a:hover {
 	content: '';
 	position: absolute;
 		top: 8px;
-		top: 0.8rem;
 		left: -2px;
-		left: -0.2rem;
 	width: 4px;
-	width: 0.4rem;
 	height: 4px;
-	height: 0.4rem;
 }
 .archive-header,
 .page-header {
@@ -1243,19 +1141,15 @@ footer.entry-meta .entry-title a:hover {
 .archive-title,
 .page-title {
 	font-size: 16px;
-	font-size: 1.6rem;
 	font-weight: 900;
 	line-height: 1.5;
 	margin-bottom: 24px;
-	margin-bottom: 2.4rem;
 }
 .taxonomy-description {
 	color: #767676;
 	font-size: 12px;
-	font-size: 1.2rem;
 	line-height: 1.5;
 	margin-bottom: 18px;
-	margin-bottom: 1.8rem;
 }
 .taxonomy-description p:last-child {
 	margin: 0;
@@ -1279,13 +1173,11 @@ footer.entry-meta .entry-title a:hover {
 
 .error404 .page-content .search-form {
 	margin-bottom: 36px;
-	margin-bottom: 3.6rem;
 }
 .error404 .page-content .widget-title {
 	border-top: 5px solid #000;
 	color: #2b2b2b;
 	padding-top: 7px;
-	padding-top: 0.7rem;
 }
 
 
@@ -1319,7 +1211,6 @@ footer.entry-meta .entry-title a:hover {
 	background-color: #2b2b2b;
 	display: block;
 	min-height: 168px;
-	min-height: 16.8rem;
 }
 .attachment-featured-featured:hover img {
 	opacity: 0.8;
@@ -1328,7 +1219,6 @@ footer.entry-meta .entry-title a:hover {
 	background-color: #000;
 	overflow: hidden;
 	padding: 12px 10px;
-	padding: 1.2rem 1.0rem;
 }
 #featured-content .entry-meta a,
 #featured-content .entry-title a {
@@ -1340,7 +1230,6 @@ footer.entry-meta .entry-title a:hover {
 }
 #featured-content .entry-meta {
 	font-size: 11px;
-	font-size: 1.1rem;
 	font-weight: 700;
 	line-height: 1.0909090909;
 }
@@ -1349,7 +1238,6 @@ footer.entry-meta .entry-title a:hover {
 }
 #featured-content .entry-title {
 	font-size: 18px;
-	font-size: 1.8rem;
 	font-weight: 300;
 	line-height: 1.3333333333;
 	margin-bottom: 0;
@@ -1359,20 +1247,16 @@ footer.entry-meta .entry-title a:hover {
 	background-color: transparent;
 	color: rgba(255, 255, 255, 0.75);
 	padding-bottom: 12px;
-	padding-bottom: 1.2rem;
 }
 #featured-content .entry-summary p {
 	font-size: 11px;
-	font-size: 1.1rem;
 	line-height: 1.6363636363;
 	margin-top: 9px;
-	margin-top: 0.9rem;
 	margin-bottom: 0;
 }
 #featured-content .more-link {
 	color: #5FF23D;
 	font-size: 11px;
-	font-size: 1.1rem;
 }
 
 
@@ -1389,17 +1273,14 @@ footer.entry-meta .entry-title a:hover {
 	margin: 0 auto;
 	max-width: 494px;
 	padding: 23px 10px 0;
-	padding: 2.3rem 1.0rem 0;
 }
 .ephemera .widget-title {
 	border-top: 5px solid #000;
 	color: #2b2b2b;
 	font-size: 14px;
-	font-size: 1.4rem;
 	font-weight: 900;
 	line-height: 1.2857142857;
 	margin-bottom: 18px;
-	margin-bottom: 1.8rem;
 	padding-top: 1px;
 	text-transform: uppercase;
 }
@@ -1411,13 +1292,10 @@ footer.entry-meta .entry-title a:hover {
 	color: #fff;
 	margin-top: -1px;
 	margin-right: 10px;
-	margin-right: 1.0rem;
 	padding: 6px 0 9px;
-	padding: 0.6rem 0 0.9rem;
 	text-align: center;
 	vertical-align: middle;
 	width: 36px;
-	width: 3.6rem;
 }
 .ephemera .video.widget-title:before {
 	content: '\F104';
@@ -1440,26 +1318,21 @@ footer.entry-meta .entry-title a:hover {
 .ephemera .hentry {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	margin-bottom: 18px;
-	margin-bottom: 1.8rem;
 }
 .ephemera .hentry:last-of-type {
 	margin-bottom: 9px;
-	margin-bottom: 0.9rem;
 }
 .ephemera .entry-title {
 	display: inline;
 	font-size: 12px;
-	font-size: 1.2rem;
 	font-weight: 400;
 	line-height: 1.5;
 	margin: 0 0 6px 0;
-	margin: 0 0 0.6rem 0;
 }
 .ephemera .entry-meta {
 	color: rgba(0, 0, 0, 0.2);
 	line-height: 1.5;
 	margin-bottom: 18px;
-	margin-bottom: 1.8rem;
 }
 .ephemera .entry-meta a {
 	color: #767676;
@@ -1469,43 +1342,34 @@ footer.entry-meta .entry-title a:hover {
 }
 .ephemera .entry-content p:not(.wp-caption-text) {
 	font-size: 13px;
-	font-size: 1.3rem;
 	line-height: 1.3846153846;
 	margin-bottom: 18px;
-	margin-bottom: 1.8rem;
 }
 .ephemera .entry-content blockquote p cite {
 	font-size: 13px;
-	font-size: 1.3rem;
 	line-height: 1.3846153846;
 }
 .ephemera .wp-caption {
 	margin-bottom: 18px;
-	margin-bottom: 1.8rem;
 }
 .ephemera .wp-caption-text {
 	line-height: 1.5;
 	margin: 6px 0 0;
-	margin: 0.6rem 0 0;
 	padding: 0;
 }
 .ephemera .format-gallery .wp-caption-text {
 	margin-bottom: 18px;
-	margin-bottom: 1.8rem;
 }
 .ephemera .more-link {
 	font-size: 12px;
-	font-size: 1.2rem;
 	line-height: 1.5;
 }
 .ephemera .post-format-archive-link {
 	display: inline-block;
 	font-size: 12px;
-	font-size: 1.2rem;
 	font-weight: 900;
 	line-height: 1.5;
 	margin-bottom: 36px;
-	margin-bottom: 3.6rem;
 }
 
 
@@ -1533,20 +1397,16 @@ img.alignleft,
 .wp-caption.alignleft,
 blockquote.alignleft {
 	margin: 7px 24px 7px 0;
-	margin: 0.7rem 2.4rem 0.7rem 0;
 }
 img.alignright,
 .wp-caption.alignright,
 blockquote.alignright {
 	margin: 7px 0 7px 24px;
-	margin: 0.7rem 0 0.7rem 2.4rem;
 }
 img.aligncenter,
 .wp-caption.aligncenter {
 	margin-top: 7px;
-	margin-top: 0.7rem;
 	margin-bottom: 7px;
-	margin-bottom: 0.7rem;
 }
 .wp-smiley {
 	border: none;
@@ -1556,7 +1416,6 @@ img.aligncenter,
 }
 .wp-caption {
 	margin-bottom: 24px;
-	margin-bottom: 2.4rem;
 	max-width: 100%;
 }
 .wp-caption img[class*="wp-image-"] {
@@ -1570,13 +1429,10 @@ img.aligncenter,
 	-moz-box-sizing:    border-box;
 	box-sizing:         border-box;
 	font-size: 12px;
-	font-size: 1.2rem;
 	font-style: italic;
 	line-height: 1.6666666666;
 	margin: 4px 0;
-	margin: 0.4em 0;
 	padding: 0 10px 0 0; /* Avoid the caption to overflow the width of the image because wp-caption has 10px wider width */
-	padding: 0 1.0rem 0 0;
 	text-align: left;
 }
 .site-content .gallery a img {
@@ -1589,15 +1445,12 @@ img.aligncenter,
 }
 .site-content .gallery .gallery-item {
 	margin: 0 0 12px 0;
-	margin: 0 0 1.2rem 0;
 }
 .site-content .gallery {
 	margin-bottom: 12px;
-	margin-bottom: 1.2rem;
 }
 .site-content .gallery dd {
 	margin: 4px 0 0 0; /* Reset the margin and add a bit of margin-top to captions */
-	margin: 0.4rem 0 0 0;
 }
 .gallery-caption {
 	padding: 0;
@@ -1607,7 +1460,6 @@ img.aligncenter,
 }
 .hentry .tiled-gallery {
 	margin-bottom: 24px;
-	margin-bottom: 2.4rem;
 }
 .site-content .gallery-columns-1 a img {
 	max-width: 100%;
@@ -1632,13 +1484,11 @@ img.aligncenter,
 }
 .entry-attachment .attachment {
 	margin-bottom: 24px;
-	margin-bottom: 2.4rem;
 }
 
 /* Mediaelements */
 .hentry .mejs-container {
 	margin: 12px 0 18px;
-	margin: 1.2rem 0 1.8rem;
 }
 
 .hentry .mejs-mediaelement,
@@ -1662,7 +1512,6 @@ img.aligncenter,
 
 .hentry .mejs-container .mejs-controls .mejs-time {
 	padding-top: 9px;
-	padding-top: .9rem;
 }
 
 .hentry .mejs-controls .mejs-time-rail span,
@@ -1681,7 +1530,6 @@ iframe,
 object,
 video {
 	margin-bottom: 24px;
-	margin-bottom: 2.4rem;
 	max-width: 100%;
 }
 p > embed,
@@ -1700,23 +1548,18 @@ span > object {
 .paging-navigation {
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	margin: 36px 0;
-	margin: 3.6rem 0;
 }
 .paging-navigation .loop-pagination {
 	margin-top: -1px;
-	margin-top: -0.1rem;
 	text-align: center;
 }
 .paging-navigation .page-numbers {
 	border-top: 1px solid transparent;
 	display: inline-block;
 	font-size: 12px;
-	font-size: 1.2rem;
 	font-weight: 900;
 	margin-right: 5px;
-	margin-right: 0.5rem;
 	padding: 9px 15px;
-	padding: 0.9rem 1.5rem;
 	text-transform: uppercase;
 }
 .paging-navigation .page-numbers.current {
@@ -1759,7 +1602,6 @@ span > object {
 	color: #767676;
 	display: block;
 	font-size: 12px;
-	font-size: 1.2rem;
 	line-height: 2;
 	font-weight: 900;
 	text-transform: uppercase;
@@ -1769,7 +1611,6 @@ span > object {
 	color: #2b2b2b;
 	display: block;
 	font-size: 14px;
-	font-size: 1.4rem;
 	font-weight: 700;
 	line-height: 1.7142857142;
 	text-transform: none;
@@ -1782,10 +1623,8 @@ span > object {
 .comment-navigation {
 	color: rgba(0, 0, 0, 0.2);
 	font-size: 12px;
-	font-size: 1.2rem;
 	line-height: 2;
 	margin-bottom: 48px;
-	margin-bottom: 4.8rem;
 	text-transform: uppercase;
 }
 .comment-navigation .nav-previous,
@@ -1797,7 +1636,6 @@ span > object {
 }
 #comment-nav-above {
 	margin-top: 36px;
-	margin-top: 3.6rem;
 	margin-bottom: 0;
 }
 
@@ -1807,16 +1645,12 @@ span > object {
 
 .comments-area {
 	margin: 36px auto;
-	margin: 3.6rem auto;
 	max-width: 474px;
-	max-width: 47.4rem;
 	padding: 0 10px;
-	padding: 0 1.0rem;
 }
 .comments-title,
 .comment-reply-title {
 	font-size: 16px;
-	font-size: 1.6rem;
 	font-weight: 900;
 	line-height: 1.5;
 	margin-bottom: 0;
@@ -1828,18 +1662,15 @@ span > object {
 .comment-list {
 	list-style: none;
 	margin: 0 0 48px 0;
-	margin: 0 0 4.8rem 0;
 }
 .comment-author {
 	font-size: 14px;
-	font-size: 1.4rem;
 	line-height: 1.7142857142;
 	text-transform: uppercase;
 }
 .comment-metadata,
 .comment-list .reply {
 	font-size: 12px;
-	font-size: 1.2rem;
 	line-height: 2;
 	text-transform: uppercase;
 }
@@ -1867,7 +1698,6 @@ span > object {
 .comment-list .pingback {
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	margin-bottom: 24px;
-	margin-bottom: 2.4rem;
 	padding-top: 24px;
 }
 .comment-list li:first-child article {
@@ -1876,24 +1706,19 @@ span > object {
 .comments-area article {
 	background: none;
 	min-height: 48px;
-	min-height: 4.8rem;
 }
 .comment-author {
 	padding-left: 36px;
-	padding-left: 3.6rem;
 	position: relative;
 }
 .comment-author .avatar {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	padding: 2px;
-	padding: 0.2rem;
 	position: absolute;
 		top: 0;
 		left: 0;
 	width: 18px;
-	width: 1.8rem;
 	height: 18px;
-	height: 1.8rem;
 }
 .bypostauthor .avatar {
 	background-color: #000;
@@ -1908,7 +1733,6 @@ span > object {
 .comment-content,
 .comment-list .reply {
 	padding-left: 36px;
-	padding-left: 3.6rem;
 }
 .comment-edit-link:before,
 .comment-reply-link:before,
@@ -1916,23 +1740,19 @@ span > object {
 	display: inline-block;
 	-webkit-font-smoothing: antialiased;
 	font: normal 16px/1 'Genericons';
-	font-size:1.6rem;
 	vertical-align: top;
 }
 .comment-edit-link {
 	margin-left: 10px;
-	margin-left: 1.0rem;
 }
 .comment-edit-link:before {
 	content: "\f411";
 	margin: 3px 2px 0 0;
-	margin: 0.3rem 0.2rem 0 0;
 }
 .comment-reply-link:before,
 .comment-reply-login:before {
 	content: "\f412";
 	margin: 3px 3px 0 0;
-	margin: 0.3rem 0.3rem 0 0;
 }
 .comment-content {
 	word-wrap: break-word;
@@ -1940,7 +1760,6 @@ span > object {
 .comment-content ul,
 .comment-content ol {
 	margin: 0 0 24px 22px;
-	margin: 0 0 2.4rem 2.2rem;
 }
 .comment-content li > ul,
 .comment-content li > ol {
@@ -1956,27 +1775,21 @@ span > object {
 .comment-respond {
 	padding: 0;
 	margin-bottom: 24px;
-	margin-bottom: 2.4rem;
 }
 .comment .comment-respond {
 	margin-left: 36px;
-	margin-left: 3.6rem;
 }
 .comment-respond h3 {
 	margin-top: 0;
 	margin-bottom: 24px;
-	margin-bottom: 2.4rem;
 }
 .no-comments {
 	color: #767676;
 	font-size: 16px;
-	font-size: 1.6rem;
 	font-weight: 900;
 	line-height: 1.5;
 	margin-top: 24px;
-	margin-top: 2.4rem;
 	padding: 0 10px;
-	padding: 0 1.0rem;
 	text-transform: uppercase;
 }
 .comment-form label {
@@ -2000,7 +1813,6 @@ span > object {
 	color: rgba(255, 255, 255, 0.55);
 	display: none;
 	font-size: 11px;
-	font-size: 1.1rem;
 	font-weight: 400;
 }
 
@@ -2021,7 +1833,6 @@ span > object {
 
 .widget-area p {
 	margin-bottom: 18px;
-	margin-bottom: 1.8rem;
 }
 .widget-area a {
 	color: rgba(255, 255, 255, 0.75);
@@ -2046,15 +1857,12 @@ span > object {
 .widget li > ul,
 .widget li > ol {
 	margin: 0 0 0 10px;
-	margin: 0 0 0 1.0rem;
 }
 .widget-title {
 	font-size: 14px;
-	font-size: 1.4rem;
 	font-weight: 900;
 	line-height: 1.7142857142;
 	margin: 0 0 24px 0;
-	margin: 0 0 2.4rem 0;
 	text-transform: uppercase;
 }
 .widget-area button,
@@ -2063,9 +1871,7 @@ span > object {
 .widget-area input[type="submit"] {
 	background-color: #24890d;
 	font-size: 11px;
-	font-size: 1.1rem;
 	padding: 6px 24px;
-	padding: 0.6rem 2.4rem;
 }
 .widget-area button:hover,
 .widget-area html input[type="button"]:hover,
@@ -2094,13 +1900,11 @@ span > object {
 	color: #fff;
 	max-width: 100%;
 	padding: 4px;
-	padding: 0.4rem;
 }
 .widget select,
 .widget iframe {
 	max-width: 99%;
 	margin-left: 1px;
-	margin-left: 0.1rem;
 }
 .widget table:last-child,
 .widget iframe:last-child,
@@ -2130,7 +1934,6 @@ span > object {
 	font-weight: 700;
 	line-height: 1.7142857142;
 	margin-bottom: 18px;
-	margin-bottom: 1.8rem;
 	text-align: left;
 	text-transform: uppercase;
 }
@@ -2142,12 +1945,10 @@ span > object {
 }
 .widget_calendar #prev {
 	padding-left: 5px;
-	padding-left: 0.5rem;
 }
 .widget_calendar #next {
 	border-right: 1px solid rgba(255, 255, 255, 0.2);
 	padding-right: 5px;
-	padding-right: 0.5rem;
 	text-align: right;
 }
 
@@ -2160,7 +1961,6 @@ span > object {
 /* RSS Widget */
 .widget_rss li {
 	margin-bottom: 18px;
-	margin-bottom: 1.8rem;
 }
 .widget_rss li:last-child {
 	margin-bottom: 0;
@@ -2173,18 +1973,14 @@ span > object {
 .widget_recent_comments .avatar {
 	max-width: none;
 }
-.widget_recent_comments tr {
-}
 .widget_recent_comments .recentcommentsavatartop,
 .widget_recent_comments .recentcommentsavatarend {
 	padding: 8px 8px 8px 0;
-	padding: 0.8rem 0.8rem 0.8rem 0;
 }
 .widget_recent_comments .recentcommentstexttop,
 .widget_recent_comments .recentcommentstextend {
 	line-height: 1.2857142857;
 	padding: 8px 0 8px 8px;
-	padding: 0.8rem 0 0.8rem 0.8rem;
 	vertical-align: top;
 }
 
@@ -2205,12 +2001,10 @@ span > object {
 .content-sidebar {
 	color: #767676;
 	font-size: 14px;
-	font-size: 1.4rem;
 	line-height: 1.2857142857;
 }
 .content-sidebar p {
 	margin-bottom: 18px;
-	margin-bottom: 1.8rem;
 }
 .content-sidebar a {
 	color: #2b2b2b;
@@ -2224,9 +2018,7 @@ span > object {
 .content-sidebar input[type="submit"] {
 	background-color: #000;
 	font-size: 12px;
-	font-size: 1.2rem;
 	padding: 6px 24px;
-	padding: 0.6rem 2.4rem;
 }
 .content-sidebar button:hover,
 .content-sidebar html input[type="button"]:hover,
@@ -2254,24 +2046,19 @@ span > object {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	color: #2b2b2b;
 	padding: 4px;
-	padding: 0.4rem;
 }
 .content-sidebar .widget-title {
 	border-top: 5px solid #000;
 	color: #2b2b2b;
 	font-size: 14px;
-	font-size: 1.4rem;
 	font-weight: 900;
 	margin: 0 0 18px 0;
-	margin: 0 0 1.8rem 0;
 	padding-top: 7px;
-	padding-top: 0.7rem;
 	text-transform: uppercase;
 }
 .content-sidebar .widget li {
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	padding: 8px 0 9px;
-	padding: 0.8rem 0 0.9rem;
 }
 .content-sidebar .widget li:first-child {
 	border-top:	none;
@@ -2279,7 +2066,6 @@ span > object {
 .content-sidebar .widget .children,
 .content-sidebar .widget .sub-menu {
 	margin:0 0 0 20px;
-	margin:0 0 0 2.0rem;
 }
 .content-sidebar .widget li li {
 	border-top:	none;
@@ -2294,7 +2080,6 @@ span > object {
 .content-sidebar .widget_calendar caption {
 	color: #2b2b2b;
 	font-size: 14px;
-	font-size: 1.4rem;
 	font-weight: 900;
 }
 .content-sidebar .widget_calendar thead th {
@@ -2336,7 +2121,6 @@ span > object {
 .contributor-avatar {
 	float: left;
 	padding: 2px;
-	padding: 0.2rem;
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	margin: 0 30px 20px 0;
 }
@@ -2345,7 +2129,6 @@ span > object {
 }
 .contributor-name {
 	font-size: 16px;
-	font-size: 1.6rem;
 	font-weight: 900;
 	line-height: 1.5;
 	margin: 0;
@@ -2370,16 +2153,12 @@ span > object {
 @media screen and (max-width: 400px) {
 	.list-view .content-area {
 		padding: 12px 10px;
-		padding: 1.2rem 1.0rem;
 	}
 	.list-view .content-area .hentry {
 		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 		margin-bottom: 12px;
-		margin-bottom: 1.2rem;
 		min-height: 60px;
-		min-height: 6.0rem;
 		padding-bottom: 9px;
-		padding-bottom: 0.9rem;
 	}
 	.list-view .content-area .cat-links,
 	.list-view .content-area .entry-content,
@@ -2396,9 +2175,7 @@ span > object {
 	.list-view .attachment-featured-thumbnail img {
 		float: left;
 		margin: 0 10px 3px 0;
-		margin: 0 1.0rem 0.3rem 0;
 		width: 84px;
-		width: 8.4rem;
 	}
 	.list-view .content-area .entry-header {
 		background-color: transparent;
@@ -2406,11 +2183,9 @@ span > object {
 	}
 	.list-view .content-area .entry-title {
 		 font-size: 15px;
-		 font-size: 1.5rem;
 		 font-weight: 900;
 		 line-height: 1.2;
 		 margin-bottom: 6px;
-		 margin-bottom: 0.6rem;
 		 text-transform: none;
 	}
 	.list-view .content-area .entry-meta {
@@ -2435,12 +2210,10 @@ span > object {
 	.page-header {
 		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 		padding-top: 12px;
-		padding-top: 1.2rem;
 	}
 	.error404 .page-header {
 		border-bottom: 0;
 		padding: 0 10px;
-		padding: 0 1.0rem;
 	}
 }
 
@@ -2469,24 +2242,19 @@ span > object {
 		display: inline-block;
 		-webkit-font-smoothing: antialiased;
 		font: normal 16px/1 'Genericons';
-		font-size:1.6rem;
 		margin: 0 2px 0 0;
-		margin: 0 0.2rem 0 0;
 		text-transform: none;
 	}
 	.content-area .entry-meta > span {
 		margin-right: 10px;
-		margin-right: 1.0rem;
 	}
 	.content-area .format-video .post-format a:before {
 		content: '\F104';
 		margin: -1px 2px 0 0;
-		margin: -0.1rem 0.2rem 0 0;
 	}
 	.content-area .format-image .post-format a:before {
 		content: '\F102';
 		margin: -1px 2px 0 0;
-		margin: -0.1rem 0.2rem 0 0;
 	}
 	.content-area .format-quote .post-format a:before {
 		content: '\F106';
@@ -2494,7 +2262,6 @@ span > object {
 	.content-area .format-gallery .post-format a:before {
 		content: '\F103';
 		margin: -1px 4px 0 0;
-		margin: -0.1rem 0.4rem 0 0;
 	}
 	.content-area .format-aside .post-format a:before {
 		content: '\F101';
@@ -2505,29 +2272,24 @@ span > object {
 	.content-area .featured-post:before {
 		content: '\F308';
 		margin: -1px 3px 0 0;
-		margin: -0.1rem 0.3rem 0 0;
 	}
 	.content-area .post-format + .entry-date a:before,
 	.content-area .entry-date a:before,
 	.attachment span.entry-date:before {
 		content: '\F303';
 		margin: 0 1px 0 0;
-		margin: 0 0.1rem 0 0;
 	}
 	.content-area .byline a:before {
 		content: '\F304';
 		margin: -1px 0 0 0;
-		margin: -0.1rem 0 0 0;
 	}
 	.content-area .comments-link a:before {
 		content: '\F300';
 		margin: -1px 2px 0 0;
-		margin: -0.1rem 0.2rem 0 0;
 	}
 	.entry-meta .edit-link a:before {
 		content: '\F411';
 		margin: -1px 2px 0 0;
-		margin: -0.1rem 0.2rem 0 0;
 	}
 	.content-area .full-size-link a:before {
 		content: '\F402';
@@ -2581,9 +2343,7 @@ span > object {
 	.image-navigation,
 	.comments-area {
 		padding-right: 30px;
-		padding-right: 3.0rem;
 		padding-left: 30px;
-		padding-left: 3.0rem;
 	}
 	.content-sidebar,
 	.ephemera {
@@ -2608,7 +2368,6 @@ span > object {
 	}
 	#featured-content .entry-wrap {
 		height: 96px;
-		height: 9.6rem;
 	}
 	.full-width .site-content {
 		margin-right: 0;
@@ -2677,7 +2436,6 @@ span > object {
 	.content-area .format-video .entry-header,
 	.content-area .format-image .entry-header {
 		margin-top: 12px;
-		margin-top: 1.2rem;
 	}
 	.single .content-area .format-aside .entry-header,
 	.single .content-area .format-quote .entry-header,
@@ -2690,9 +2448,7 @@ span > object {
 	.comment-list .trackback,
 	.comment-list .pingback {
 		margin-bottom: 36px;
-		margin-bottom: 3.6rem;
 		padding-top: 36px;
-		padding-top: 3.6rem;
 	}
 	.comment-author .avatar {
 		top: 2px;
@@ -2710,11 +2466,9 @@ span > object {
 	}
 	.comment .comment-respond {
 		margin-left: 60px;
-		margin-left: 6.0rem;
 	}
 	.content-sidebar {
 		padding-top: 72px;
-		padding-top: 7.2rem;
 	}
 	#featured-content .hentry {
 		width: 33.3333333%;
@@ -2782,19 +2536,16 @@ span > object {
 		line-height: 1.6363636363;
 		margin: 0 0 0 -100%;
 		padding: 0 27px;
-		padding: 0 2.7rem;
 		width: 128px;
 	}
 	.site-description {
 		display: block;
 		line-height: 1.6363636363;
 		margin: -3px 0 21px;
-		margin: -0.3rem 0 2.1rem;
 	}
 	.secondary-navigation {
 		border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 		font-size: 11px;
-		font-size: 1.1rem;
 	}
 	.secondary-navigation ul,
 	.secondary-navigation ul ul {
@@ -2807,14 +2558,12 @@ span > object {
 	}
 	.secondary-navigation a {
 		padding: 8px 0 9px;
-		padding: 0.8rem 0 0.9rem;
 	}
 	.secondary-navigation ul ul {
 		background: rgba(0, 0, 0, 0.9);
 		display: none;
 		position: absolute;
 			top: -1px;
-			top: -0.1rem;
 			left: 128px;
 		width: 128px;
 		z-index: 9999;
@@ -2828,20 +2577,16 @@ span > object {
 	#secondary .widget,
 	#supplementary .widget {
 		margin-bottom: 48px;
-		margin-bottom: 4.8rem;
 	}
 	#secondary .widget-title,
 	#supplementary .widget-title {
 		font-size: 11px;
-		font-size: 1.1rem;
 		font-weight: 700;
 		line-height: 1.6363636363;
 		margin-bottom: 18px;
-		margin-bottom: 1.8rem;
 	}
 	#supplementary {
 		font-size: 11px;
-		font-size: 1.1rem;
 		line-height: 1.6363636363;
 		padding-right: 0;
 		padding-left: 0;
