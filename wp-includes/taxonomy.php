@@ -1369,6 +1369,9 @@ function get_terms($taxonomies, $args = '') {
 		$where .= " AND tt.parent = '$parent'";
 	}
 
+	if ( 'count' == $fields )
+		$hierarchical = false;
+
 	if ( $hide_empty && !$hierarchical )
 		$where .= ' AND tt.count > 0';
 
