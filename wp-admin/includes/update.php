@@ -87,6 +87,68 @@ function find_core_auto_update() {
 	return $auto_update;
 }
 
+/**
+ * Gets and caches the checksums for the given versions of WordPress
+ *
+ * @since 3.7.0
+ *
+ * @param $version string|array A single version, or an array of versions to fetch
+ *
+ * @return bool|array False on failure, otherwise the array of checksums, keyed by version
+ */
+function get_core_checksums( $version ) {
+	if ( ! is_array( $version ) )
+		$version = array( $version );
+
+	$return = array();
+
+	// Check to see if we have cached copies available, if we do, no need to request them
+	foreach ( $version as $i => $v ) {
+		if ( $checksums = get_site_transient( "core_checksums_$v" ) ) {
+			unset( $version[ $i ] );
+			$return[ $v ] = $checksums;
+		}
+	}
+
+	// We had cached copies for all of the versions!
+	if ( empty( $version ) )
+		return $return;
+
+	$url = 'http://api.wordpress.org/core/checksums/1.0/?' . http_build_query( array( 'version' => $version ), null, '&' );
+
+	if ( wp_http_supports( array( 'ssl' ) ) )
+		$url = set_url_scheme( $url, 'https' );
+
+	$options = array(
+		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3 ),
+	);
+
+	$response = wp_remote_get( $url, $options );
+
+	if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )
+		return false;
+
+	$body = trim( wp_remote_retrieve_body( $response ) );
+	$body = json_decode( $body, true );
+
+	if ( ! is_array( $body ) || ! isset( $body['checksums'] ) || ! is_array( $body['checksums'] ) )
+		return false;
+
+	// Cache the checksums for later
+	foreach ( $version as $v ) {
+		set_site_transient( "core_checksums_$v", $body['checksums'][ $v ], HOUR_IN_SECONDS );
+		$return[ $v ] = $body['checksums'][ $v ];
+	}
+
+	// If the API didn't return anything for a version, explicitly set it's return value to false
+	foreach ( $return as $v => $r ) {
+		if ( empty( $r ) )
+			$return[ $v ] = false;
+	}
+
+	return $return;
+}
+
 function dismiss_core_update( $update ) {
 	$dismissed = get_site_option( 'dismissed_update_core' );
 	$dismissed[ $update->current . '|' . $update->locale ] = true;
