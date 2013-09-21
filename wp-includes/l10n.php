@@ -627,7 +627,7 @@ function get_available_languages( $dir = null ) {
 }
 
 /**
- * Get installed language data.
+ * Get installed translations.
  *
  * Looks in the wp-content/languages directory for translations of
  * plugins or themes.
@@ -637,7 +637,7 @@ function get_available_languages( $dir = null ) {
  * @param string $type What to search for. Accepts 'plugins', 'themes'.
  * @return array Array of language data.
  */
-function wp_get_installed_language_data( $type ) {
+function wp_get_installed_translations( $type ) {
 	if ( $type !== 'themes' && $type !== 'plugins' )
 		return array();
 

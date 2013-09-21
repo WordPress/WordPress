@@ -146,7 +146,7 @@ function wp_update_plugins() {
 		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 	$plugins = get_plugins();
-	$languages = wp_get_installed_language_data( 'plugins' );
+	$translations = wp_get_installed_translations( 'plugins' );
 
 	$active  = get_option( 'active_plugins', array() );
 	$current = get_site_transient( 'update_plugins' );
@@ -202,7 +202,11 @@ function wp_update_plugins() {
 
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
-		'body' => array( 'plugins' => json_encode( $to_send ), 'languages' => json_encode( $languages ) ),
+		'body' => array(
+			'plugins'      => json_encode( $to_send ),
+			'translations' => json_encode( $translations ),
+			'locale'       => json_encode( array( get_locale() ) ), // @todo filter.
+		),
 		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
@@ -215,12 +219,18 @@ function wp_update_plugins() {
 	if ( is_wp_error( $raw_response ) || 200 != wp_remote_retrieve_response_code( $raw_response ) )
 		return false;
 
-	$response = json_decode( wp_remote_retrieve_body( $raw_response ) );
+	$response = json_decode( wp_remote_retrieve_body( $raw_response ), true );
+	foreach ( $response['plugins'] as &$plugin ) {
+		$plugin = (object) $plugin;
+	}
+	unset( $plugin );
 
-	if ( is_object( $response ) )
-		$new_option->response = (array) $response->plugins;
-	else
+	if ( is_array( $response ) ) {
+		$new_option->response = $response['plugins'];
+		$new_option->translations = $response['translations'];
+	} else {
 		$new_option->response = array();
+	}
 
 	set_site_transient( 'update_plugins', $new_option );
 }
@@ -245,7 +255,7 @@ function wp_update_themes() {
 		return false;
 
 	$installed_themes = wp_get_themes();
-	$languages = wp_get_installed_language_data( 'themes' );
+	$translations = wp_get_installed_translations( 'themes' );
 
 	$last_update = get_site_transient( 'update_themes' );
 	if ( ! is_object($last_update) )
@@ -314,7 +324,11 @@ function wp_update_themes() {
 
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
-		'body'			=> array( 'themes' => json_encode( $request ), 'languages' => json_encode( $languages ) ),
+		'body' => array(
+			'themes'       => json_encode( $request ),
+			'translations' => json_encode( $translations ),
+			'locale'       => json_encode( array( get_locale() ) ), // @todo filter.
+		),
 		'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
@@ -333,8 +347,10 @@ function wp_update_themes() {
 
 	$response = json_decode( wp_remote_retrieve_body( $raw_response ), true );
 
-	if ( is_array( $response ) )
-		$new_update->response = $response['themes'];
+	if ( is_array( $response ) ) {
+		$new_update->response     = $response['themes'];
+		$new_update->translations = $response['translations'];
+	}
 
 	set_site_transient( 'update_themes', $new_update );
 }
