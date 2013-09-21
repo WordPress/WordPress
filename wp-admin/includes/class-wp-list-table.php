@@ -367,6 +367,16 @@ class WP_List_Table {
 			ORDER BY post_date DESC
 		", $post_type ) );
 
+		/**
+		 * Filter the months dropdown results.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param object $months    The months dropdown query results.
+		 * @param string $post_type The post type.
+		 */
+		$months = apply_filters( 'months_dropdown_results', $months, $post_type );
+
 		$month_count = count( $months );
 
 		if ( !$month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
