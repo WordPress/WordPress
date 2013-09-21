@@ -438,6 +438,8 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  */
 
 function get_taxonomy_labels( $tax ) {
+	$tax->labels = (array) $tax->labels;
+
 	if ( isset( $tax->helps ) && empty( $tax->labels['separate_items_with_commas'] ) )
 		$tax->labels['separate_items_with_commas'] = $tax->helps;
 

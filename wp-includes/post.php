@@ -1473,6 +1473,8 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * Above, the first default value is for non-hierarchical post types (like posts) and the second one is for hierarchical post types (like pages).
  *
  * @since 3.0.0
+ * @access private
+ *
  * @param object $post_type_object
  * @return object object with all the labels as member variables
  */
@@ -1506,6 +1508,7 @@ function get_post_type_labels( $post_type_object ) {
  * @since 3.0.0
  */
 function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
+	$object->labels = (array) $object->labels;
 
 	if ( isset( $object->label ) && empty( $object->labels['name'] ) )
 		$object->labels['name'] = $object->label;
