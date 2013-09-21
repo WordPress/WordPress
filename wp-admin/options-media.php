@@ -47,7 +47,7 @@ include('./admin-header.php');
 <?php settings_fields('media'); ?>
 
 <h3 class="title"><?php _e('Image sizes') ?></h3>
-<p><?php _e('The sizes listed below determine the maximum dimensions in pixels to use when inserting an image into the body of a post.'); ?></p>
+<p><?php _e( 'The sizes listed below determine the maximum dimensions in pixels to use when adding an image to the Media Library.' ); ?></p>
 
 <table class="form-table">
 <tr valign="top">
