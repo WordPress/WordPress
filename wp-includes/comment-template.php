@@ -591,28 +591,52 @@ function comments_number( $zero = false, $one = false, $more = false, $deprecate
  * Retrieve the text of the current comment.
  *
  * @since 1.5.0
- * @uses $comment
  *
- * @param int $comment_ID The ID of the comment for which to get the text. Optional.
- * @return string The comment content
+ * @param int   $comment_ID Optional. The ID of the comment for which to get the text.
+ *                          Default 0.
+ * @param array $args       Optional. An array of arguments. @see Walker_Comment::comment()
+ *                          Default empty array.
+ * @return string The comment content.
  */
-function get_comment_text( $comment_ID = 0 ) {
+function get_comment_text( $comment_ID = 0, $args = array() ) {
 	$comment = get_comment( $comment_ID );
-	return apply_filters( 'get_comment_text', $comment->comment_content, $comment );
+
+	/**
+	 * Filter the text of a comment.
+	 *
+	 * @since 1.5.2
+	 *
+	 * @param string $comment->comment_content The text of the comment.
+	 * @param object $comment                  The comment object.
+	 * @param array  $args                     An array of arguments. @see Walker_Comment::comment()
+	 */
+	return apply_filters( 'get_comment_text', $comment->comment_content, $comment, $args );
 }
 
 /**
- * Displays the text of the current comment.
+ * Display the text of the current comment.
  *
  * @since 0.71
- * @uses apply_filters() Passes the comment content through the 'comment_text' hook before display
- * @uses get_comment_text() Gets the comment content
  *
- * @param int $comment_ID The ID of the comment for which to print the text. Optional.
+ * @param int   $comment_ID Optional. The ID of the comment for which to print the text.
+ *                          Default 0.
+ * @param array $args       Optional. An array of arguments. @see Walker_Comment::comment()
+ *                          Default empty array.
  */
-function comment_text( $comment_ID = 0 ) {
+function comment_text( $comment_ID = 0, $args = array() ) {
 	$comment = get_comment( $comment_ID );
-	echo apply_filters( 'comment_text', get_comment_text( $comment_ID ), $comment );
+
+	$comment_text = get_comment_text( $comment_ID , $args );
+	/**
+	 * Filter the text of a comment to be displayed.
+	 *
+	 * @since 1.2.1
+	 *
+	 * @param string $comment_text The text of the current comment.
+	 * @param object $comment      The comment object.
+	 * @param array  $args         An array of arguments. @see Walker_Comment::comment()
+	 */
+	echo apply_filters( 'comment_text', $comment_text, $comment, $args );
 }
 
 /**
@@ -1452,7 +1476,7 @@ class Walker_Comment extends Walker {
 			?>
 		</div>
 
-		<?php comment_text() ?>
+		<?php comment_text( get_comment_id(), array_merge( $args, array( 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
 
 		<div class="reply">
 			<?php comment_reply_link( array_merge( $args, array( 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
