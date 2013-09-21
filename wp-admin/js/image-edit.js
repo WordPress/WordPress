@@ -158,33 +158,35 @@ imageEdit = {
 			'rand': t.intval(Math.random() * 1000000)
 		};
 
-		img = $('<img id="image-preview-' + postid + '" />');
-		img.load( function() {
-			var max1, max2, parent = $('#imgedit-crop-' + postid), t = imageEdit;
+		img = $('<img id="image-preview-' + postid + '" />')
+			.on('load', function() {
+				var max1, max2, parent = $('#imgedit-crop-' + postid), t = imageEdit;
 
-			parent.empty().append(img);
+				parent.empty().append(img);
 
-			// w, h are the new full size dims
-			max1 = Math.max( t.hold.w, t.hold.h );
-			max2 = Math.max( $(img).width(), $(img).height() );
-			t.hold['sizer'] = max1 > max2 ? max2 / max1 : 1;
+				// w, h are the new full size dims
+				max1 = Math.max( t.hold.w, t.hold.h );
+				max2 = Math.max( $(img).width(), $(img).height() );
+				t.hold['sizer'] = max1 > max2 ? max2 / max1 : 1;
 
-			t.initCrop(postid, img, parent);
-			t.setCropSelection(postid, 0);
+				t.initCrop(postid, img, parent);
+				t.setCropSelection(postid, 0);
 
-			if ( (typeof callback != "unknown") && callback != null )
-				callback();
+				if ( (typeof callback != "unknown") && callback != null )
+					callback();
 
-			if ( $('#imgedit-history-' + postid).val() && $('#imgedit-undone-' + postid).val() == 0 )
-				$('input.imgedit-submit-btn', '#imgedit-panel-' + postid).removeAttr('disabled');
-			else
-				$('input.imgedit-submit-btn', '#imgedit-panel-' + postid).prop('disabled', true);
+				if ( $('#imgedit-history-' + postid).val() && $('#imgedit-undone-' + postid).val() == 0 )
+					$('input.imgedit-submit-btn', '#imgedit-panel-' + postid).removeAttr('disabled');
+				else
+					$('input.imgedit-submit-btn', '#imgedit-panel-' + postid).prop('disabled', true);
 
-			t.toggleEditor(postid, 0);
-		}).error(function(){
-			$('#imgedit-crop-' + postid).empty().append('<div class="error"><p>' + imageEditL10n.error + '</p></div>');
-			t.toggleEditor(postid, 0);
-		}).attr('src', ajaxurl + '?' + $.param(data));
+				t.toggleEditor(postid, 0);
+			})
+			.on('error', function() {
+				$('#imgedit-crop-' + postid).empty().append('<div class="error"><p>' + imageEditL10n.error + '</p></div>');
+				t.toggleEditor(postid, 0);
+			})
+			.attr('src', ajaxurl + '?' + $.param(data));
 	},
 
 	action : function(postid, nonce, action) {
