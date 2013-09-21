@@ -1508,7 +1508,19 @@ class WP_Automatic_Upgrader {
 		wp_update_themes();  // Check for Theme updates
 		wp_update_plugins(); // Check for Plugin updates
 
-		self::send_email();
+		/**
+		 * Filter whether to email an update summary to the site administrator.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param bool                        Whether or not email should be sent to administrator. Default true.
+		 * @param bool|array $core_update     An array of core update data, false otherwise.
+		 * @param object     $theme_updates   Object containing theme update properties.
+		 * @param object     $plugin_updates  Object containing plugin update properties.
+		 * @param array      $upgrade_results An array of the upgrade results keyed by upgrade type, and plugin/theme slug
+		 */
+		if ( apply_filters( 'enable_auto_upgrade_email', true, $core_update, $theme_updates, $plugin_updates, self::$upgrade_results ) )
+			self::send_email();
 
 		// Clear the lock
 		delete_site_option( $lock_name );
@@ -1590,7 +1602,7 @@ class WP_Automatic_Upgrader {
 		wp_mail(
 			get_site_option( 'admin_email' ),
 			$subject,
-			implode( "\n", $body ) 
+			implode( "\n", $body )
 		);
 	}
 
