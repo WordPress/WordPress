@@ -832,13 +832,11 @@ if ( !function_exists('check_ajax_referer') ) :
 function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
 	$nonce = '';
 
-	if ( $query_arg && isset( $_REQUEST[$query_arg] ) )
-		$nonce = $_REQUEST[$query_arg];
-
-	if ( isset( $_REQUEST['_ajax_nonce'] ) )
+	if ( $query_arg && isset( $_REQUEST[ $query_arg ] ) )
+		$nonce = $_REQUEST[ $query_arg ];
+	elseif ( isset( $_REQUEST['_ajax_nonce'] ) )
 		$nonce = $_REQUEST['_ajax_nonce'];
-
-	if ( isset( $_REQUEST['_wpnonce'] ) )
+	elseif ( isset( $_REQUEST['_wpnonce'] ) )
 		$nonce = $_REQUEST['_wpnonce'];
 
 	$result = wp_verify_nonce( $nonce, $action );
