@@ -902,12 +902,16 @@ var wpNavMenu;
 
 			$.post( ajaxurl, params, function(menuMarkup) {
 				var ins = $('#menu-instructions');
+
+				menuMarkup = $.trim( menuMarkup ); // Trim leading whitespaces
 				processMethod(menuMarkup, params);
+
 				// Make it stand out a bit more visually, by adding a fadeIn
 				$( 'li.pending' ).hide().fadeIn('slow');
 				$( '.drag-instructions' ).show();
 				if( ! ins.hasClass( 'menu-instructions-inactive' ) && ins.siblings().length )
 					ins.addClass( 'menu-instructions-inactive' );
+
 				callback();
 			});
 		},
