@@ -1517,7 +1517,7 @@ class WP_Automatic_Upgrader {
 		 * @param bool|array $core_update     An array of core update data, false otherwise.
 		 * @param object     $theme_updates   Object containing theme update properties.
 		 * @param object     $plugin_updates  Object containing plugin update properties.
-		 * @param array      $upgrade_results An array of the upgrade results keyed by upgrade type, and plugin/theme slug
+		 * @param array      $upgrade_results An array of the upgrade results keyed by upgrade type, and plugin/theme slug.
 		 */
 		if ( apply_filters( 'enable_auto_upgrade_email', true, $core_update, $theme_updates, $plugin_updates, self::$upgrade_results ) )
 			self::send_email();
