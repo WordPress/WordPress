@@ -230,6 +230,7 @@ function wp_update_plugins() {
 		$new_option->translations = $response['translations'];
 	} else {
 		$new_option->response = array();
+		$new_option->translations = array();
 	}
 
 	set_site_transient( 'update_plugins', $new_option );
