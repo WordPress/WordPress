@@ -2070,7 +2070,7 @@ function unstick_post($post_id) {
 }
 
 /**
- * Count number of posts of a post type and is user has permissions to view.
+ * Count number of posts of a post type and if user has permissions to view.
  *
  * This function provides an efficient method of finding the amount of post's
  * type a blog has. Another method is to count the amount of items in
@@ -2080,8 +2080,9 @@ function unstick_post($post_id) {
  * The $perm parameter checks for 'readable' value and if the user can read
  * private posts, it will display that for the user that is signed in.
  *
- * @since 2.5.0
  * @link http://codex.wordpress.org/Template_Tags/wp_count_posts
+ *
+ * @since 2.5.0
  *
  * @param string $type Optional. Post type to retrieve count
  * @param string $perm Optional. 'readable' or empty.
@@ -2095,7 +2096,7 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 
 	$user = wp_get_current_user();
 
-	$cache_key = $type;
+	$cache_key = 'posts-' . $type;
 
 	$query = "SELECT post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts} WHERE post_type = %s";
 	if ( 'readable' == $perm && is_user_logged_in() ) {
@@ -2107,23 +2108,32 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 	}
 	$query .= ' GROUP BY post_status';
 
-	$count = wp_cache_get($cache_key, 'counts');
-	if ( false !== $count )
-		return $count;
+	$counts = wp_cache_get( $cache_key, 'counts' );
+	if ( false !== $counts ) {
+		/**
+		 * Modify returned post counts by status for the current post type.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param object $counts An object containing the current post_type's post counts by status.
+		 * @param string $type   The post type.
+		 * @param string $perm   The permission to determine if the posts are 'readable' by the current user.
+		 */
+		return apply_filters( 'count_posts', $counts, $type, $perm );
+	}
 
-	$count = $wpdb->get_results( $wpdb->prepare( $query, $type ), ARRAY_A );
+	$results = (array) $wpdb->get_results( $wpdb->prepare( $query, $type ), ARRAY_A );
 
-	$stats = array();
-	foreach ( get_post_stati() as $state )
-		$stats[$state] = 0;
+	$counts = array_fill_keys( get_post_stati(), 0 );
 
-	foreach ( (array) $count as $row )
-		$stats[$row['post_status']] = $row['num_posts'];
+	foreach ( $results as $row )
+		$counts[ $row['post_status'] ] = $row['num_posts'];
 
-	$stats = (object) $stats;
-	wp_cache_set($cache_key, $stats, 'counts');
+	$counts = (object) $counts;
+	wp_cache_set( $cache_key, $counts, 'counts' );
 
-	return $stats;
+	//duplicate_hook
+	return apply_filters( 'count_posts', $counts, $type, $perm );
 }
 
 /**
