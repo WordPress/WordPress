@@ -26,12 +26,39 @@ function wp_ajax_nopriv_heartbeat() {
 
 	if ( ! empty($_POST['data']) ) {
 		$data = wp_unslash( (array) $_POST['data'] );
+
+		/**
+		 * Filter Heartbeat AJAX response in no-privilege environments.
+		 *
+		 * @since 3.6.0
+		 *
+		 * @param array|object $response  The no-priv Heartbeat response object or array.
+		 * @param array        $data      An array of data passed via $_POST.
+		 * @param string       $screen_id The screen id.
+		 */
 		$response = apply_filters( 'heartbeat_nopriv_received', $response, $data, $screen_id );
 	}
 
+	/**
+	 * Filter Heartbeat AJAX response when no data is passed.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param array|object $response  The Heartbeat response object or array.
+	 * @param string       $screen_id The screen id.
+	 */
 	$response = apply_filters( 'heartbeat_nopriv_send', $response, $screen_id );
 
-	// Allow the transport to be replaced with long-polling easily
+	/**
+	 * Fires when Heartbeat ticks in no-privilege environments.
+	 *
+	 * Allows the transport to be easily replaced with long-polling.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param array|object $response  The no-priv Heartbeat response.
+	 * @param string       $screen_id The screen id.
+	 */
 	do_action( 'heartbeat_nopriv_tick', $response, $screen_id );
 
 	// send the current time according to the server
@@ -163,6 +190,7 @@ function wp_ajax_autocomplete_user() {
 	if ( ! is_multisite() || ! current_user_can( 'promote_users' ) || wp_is_large_network( 'users' ) )
 		wp_die( -1 );
 
+	//duplicate_hook
 	if ( ! is_super_admin() && ! apply_filters( 'autocomplete_users_for_site_admins', false ) )
 		wp_die( -1 );
 
@@ -921,6 +949,14 @@ function wp_ajax_add_menu_item() {
 		}
 	}
 
+	/**
+	 * Filter the Walker class used when adding nav menu items.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param string $class   The walker class to use. Default 'Walker_Nav_Menu_Edit'.
+	 * @param int    $menu_id The menu id, derived from $_POST['menu'].
+	 */
 	$walker_class_name = apply_filters( 'wp_edit_nav_menu_walker', 'Walker_Nav_Menu_Edit', $_POST['menu'] );
 
 	if ( ! class_exists( $walker_class_name ) )
@@ -1192,7 +1228,15 @@ function wp_ajax_menu_get_metabox() {
 	}
 
 	if ( ! empty( $_POST['item-object'] ) && isset( $items[$_POST['item-object']] ) ) {
-		$item = apply_filters( 'nav_menu_meta_box_object', $items[ $_POST['item-object'] ] );
+		$menus_meta_box_object = $items[ $_POST['item-object'] ];
+		/**
+		 * Filter a nav menu meta box object.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param object $menus_meta_box_object A nav menu meta box object, such as Page, Post, Category, Tag, etc.
+		 */
+		$item = apply_filters( 'nav_menu_meta_box_object', $menus_meta_box_object );
 		ob_start();
 		call_user_func_array($callback, array(
 			null,
@@ -1521,9 +1565,26 @@ function wp_ajax_save_widget() {
 
 	unset( $_POST['savewidgets'], $_POST['action'] );
 
-	do_action('load-widgets.php');
-	do_action('widgets.php');
-	do_action('sidebar_admin_setup');
+	/**
+	 * Fires early when editing the widgets displayed in sidebars.
+	 *
+	 * @since 2.8.0
+	 */
+	do_action( 'load-widgets.php' );
+
+	/**
+	 * Fires early when editing the widgets displayed in sidebars.
+	 *
+	 * @since 2.8.0
+	 */
+	do_action( 'widgets.php' );
+
+	/**
+	 * Fires early when editing the widgets displayed in sidebars.
+	 *
+	 * @since 2.2.0
+	 */
+	do_action( 'sidebar_admin_setup' );
 
 	$id_base = $_POST['id_base'];
 	$widget_id = $_POST['widget-id'];
@@ -1777,6 +1838,13 @@ function wp_ajax_wp_remove_post_lock() {
 	if ( $active_lock[1] != get_current_user_id() )
 		wp_die( 0 );
 
+	/**
+	 * Filter the post lock window duration.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param int $interval The interval in seconds the post lock duration should last, plus 5 seconds. Default 120.
+	 */
 	$new_lock = ( time() - apply_filters( 'wp_check_post_lock_window', 120 ) + 5 ) . ':' . $active_lock[1];
 	update_post_meta( $post_id, '_edit_lock', $new_lock, implode( ':', $active_lock ) );
 	wp_die( 1 );
@@ -1852,7 +1920,8 @@ function wp_ajax_query_attachments() {
 	 * Filter the arguments passed to WP_Query during an AJAX call for querying attachments.
 	 *
 	 * @since 3.7.0
-	 * @param array $query Array of query variables.
+	 *
+	 * @param array $query An array of query variables. @see WP_Query::parse_query()
 	 */
 	$query = apply_filters( 'ajax_query_attachments_args', $query );
 	$query = new WP_Query( $query );
@@ -1933,6 +2002,7 @@ function wp_ajax_save_attachment_compat() {
 	if ( 'attachment' != $post['post_type'] )
 		wp_send_json_error();
 
+	//duplicate_hook
 	$post = apply_filters( 'attachment_fields_to_save', $post, $attachment_data );
 
 	if ( isset( $post['errors'] ) ) {
@@ -2035,6 +2105,7 @@ function wp_ajax_send_attachment_to_editor() {
 		$html = stripslashes_deep( $_POST['html'] );
 	}
 
+	//duplicate_hook
 	$html = apply_filters( 'media_send_to_editor', $html, $id, $attachment );
 
 	wp_send_json_success( $html );
@@ -2075,6 +2146,7 @@ function wp_ajax_send_link_to_editor() {
 		&& ( 'audio' == $ext_type || 'video' == $ext_type ) )
 			$type = $ext_type;
 
+	//duplicate_hook
 	$html = apply_filters( $type . '_send_to_editor_url', $html, $src, $title );
 
 	wp_send_json_success( $html );
@@ -2105,12 +2177,39 @@ function wp_ajax_heartbeat() {
 
 	if ( ! empty($_POST['data']) ) {
 		$data = (array) $_POST['data'];
+
+		/**
+		 * Filter the Heartbeat response received.
+		 *
+		 * @since 3.6.0
+		 *
+		 * @param array|object $response  The Heartbeat response object or array.
+		 * @param array        $data      The $_POST data sent.
+		 * @param string       $screen_id The screen id.
+		 */
 		$response = apply_filters( 'heartbeat_received', $response, $data, $screen_id );
 	}
 
+	/**
+	 * Filter the Heartbeat response sent.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param array|object $response  The Heartbeat response object or array.
+	 * @param string       $screen_id The screen id.
+	 */
 	$response = apply_filters( 'heartbeat_send', $response, $screen_id );
 
-	// Allow the transport to be replaced with long-polling easily
+	/**
+	 * Fires when Heartbeat ticks in logged-in environments.
+	 *
+	 * Allows the transport to be easily replaced with long-polling.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param array|object $response  The Heartbeat response object or array.
+	 * @param string       $screen_id The screen id.
+	 */
 	do_action( 'heartbeat_tick', $response, $screen_id );
 
 	// Send the current time according to the server
