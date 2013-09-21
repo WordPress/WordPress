@@ -21,6 +21,11 @@ if ( !is_multisite() ) {
 if ( is_object( $wp_object_cache ) )
 	$wp_object_cache->cache_enabled = false;
 
+/**
+ * Fires before the Site Activation page is loaded.
+ *
+ * @since 3.0
+ */
 do_action( 'activate_header' );
 
 /**
@@ -29,7 +34,12 @@ do_action( 'activate_header' );
  * @since MU
  */
 function do_activate_header() {
-	do_action( 'activate_wp_head' );
+    /**
+     * Fires before the Site Activation page is loaded, but on the wp_head action.
+     *
+     * @since 3.0
+     */
+    do_action( 'activate_wp_head' );
 }
 add_action( 'wp_head', 'do_activate_header' );
 
