@@ -158,8 +158,8 @@ function get_stylesheet() {
  * @return string Path to current theme directory.
  */
 function get_stylesheet_directory() {
-	$stylesheet = get_stylesheet();
-	$theme_root = get_theme_root( $stylesheet );
+	$stylesheet     = get_stylesheet();
+	$theme_root     = get_theme_root( $stylesheet );
 	$stylesheet_dir = "$theme_root/$stylesheet";
 
 	return apply_filters( 'stylesheet_directory', $stylesheet_dir, $stylesheet, $theme_root );
@@ -173,8 +173,8 @@ function get_stylesheet_directory() {
  * @return string
  */
 function get_stylesheet_directory_uri() {
-	$stylesheet = get_stylesheet();
-	$theme_root_uri = get_theme_root_uri( $stylesheet );
+	$stylesheet         = get_stylesheet();
+	$theme_root_uri     = get_theme_root_uri( $stylesheet );
 	$stylesheet_dir_uri = "$theme_root_uri/$stylesheet";
 
 	return apply_filters( 'stylesheet_directory_uri', $stylesheet_dir_uri, $stylesheet, $theme_root_uri );
@@ -193,7 +193,7 @@ function get_stylesheet_directory_uri() {
  */
 function get_stylesheet_uri() {
 	$stylesheet_dir_uri = get_stylesheet_directory_uri();
-	$stylesheet_uri = $stylesheet_dir_uri . '/style.css';
+	$stylesheet_uri     = $stylesheet_dir_uri . '/style.css';
 	return apply_filters('stylesheet_uri', $stylesheet_uri, $stylesheet_dir_uri);
 }
 
@@ -251,8 +251,8 @@ function get_template() {
  * @return string Template directory path.
  */
 function get_template_directory() {
-	$template = get_template();
-	$theme_root = get_theme_root( $template );
+	$template     = get_template();
+	$theme_root   = get_theme_root( $template );
 	$template_dir = "$theme_root/$template";
 
 	return apply_filters( 'template_directory', $template_dir, $template, $theme_root );
@@ -267,8 +267,8 @@ function get_template_directory() {
  * @return string Template directory URI.
  */
 function get_template_directory_uri() {
-	$template = get_template();
-	$theme_root_uri = get_theme_root_uri( $template );
+	$template         = get_template();
+	$theme_root_uri   = get_theme_root_uri( $template );
 	$template_dir_uri = "$theme_root_uri/$template";
 
 	return apply_filters( 'template_directory_uri', $template_dir_uri, $template, $theme_root_uri );
@@ -1296,17 +1296,17 @@ function add_theme_support( $feature ) {
 				$args = array( 0 => array() );
 
 			$defaults = array(
-				'default-image' => '',
-				'random-default' => false,
-				'width' => 0,
-				'height' => 0,
-				'flex-height' => false,
-				'flex-width' => false,
-				'default-text-color' => '',
-				'header-text' => true,
-				'uploads' => true,
-				'wp-head-callback' => '',
-				'admin-head-callback' => '',
+				'default-image'    	 => '',
+				'random-default' 	 => false,
+				'width' 		 => 0,
+				'height' 		 => 0,
+				'flex-height' 		 => false,
+				'flex-width' 		 => false,
+				'default-text-color'     => '',
+				'header-text' 		 => true,
+				'uploads'         	 => true,
+				'wp-head-callback'       => '',
+				'admin-head-callback'    => '',
 				'admin-preview-callback' => '',
 			);
 
@@ -1635,7 +1635,7 @@ add_action( 'delete_attachment', '_delete_attachment_theme_mod' );
  * @since 3.3.0
  */
 function check_theme_switched() {
-	if ( $stylesheet = get_option( 'theme_switched' ) ) {
+	if ( $stylesheet   = get_option( 'theme_switched' ) ) {
 		$old_theme = wp_get_theme( $stylesheet );
 
 		if ( $old_theme->exists() )
