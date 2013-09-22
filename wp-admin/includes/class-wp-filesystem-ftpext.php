@@ -181,10 +181,6 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return (bool)@ftp_chmod($this->link, $mode, $file);
 	}
 
-	function chown($file, $owner, $recursive = false ) {
-		return false;
-	}
-
 	function owner($file) {
 		$dir = $this->dirlist($file);
 		return $dir[$file]['owner'];

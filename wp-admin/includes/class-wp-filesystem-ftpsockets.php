@@ -187,10 +187,6 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		return $this->ftp->chmod($file, $mode);
 	}
 
-	function chown($file, $owner, $recursive = false ) {
-		return false;
-	}
-
 	function owner($file) {
 		$dir = $this->dirlist($file);
 		return $dir[$file]['owner'];

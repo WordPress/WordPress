@@ -15,7 +15,7 @@
  * @uses WP_Filesystem_Base Extends class
  */
 class WP_Filesystem_Direct extends WP_Filesystem_Base {
-	var $errors = null;
+
 	/**
 	 * constructor
 	 *
@@ -24,15 +24,6 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	function __construct($arg) {
 		$this->method = 'direct';
 		$this->errors = new WP_Error();
-	}
-
-	/**
-	 * connect filesystem.
-	 *
-	 * @return bool Returns true on success or false on failure (always true for WP_Filesystem_Direct).
-	 */
-	function connect() {
-		return true;
 	}
 
 	/**
@@ -185,7 +176,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	 * Gets file owner
 	 *
 	 * @param string $file Path to the file.
-	 * @return string Username of the user.
+	 * @return string|bool Username of the user or false on error.
 	 */
 	function owner($file) {
 		$owneruid = @fileowner($file);
