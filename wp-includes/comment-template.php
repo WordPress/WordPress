@@ -137,7 +137,7 @@ function get_comment_author_email_link($linktext='', $before='', $after='') {
 
 /**
  * Retrieve the HTML link to the URL of the author of the current comment.
- * 
+ *
  * Both get_comment_author_url() and get_comment_author() rely on get_comment(),
  * which falls back to the global comment variable if the $comment_ID argument is empty.
  *
@@ -1068,7 +1068,6 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
  * @return string|bool|null Link to show comment form, if successful. False, if comments are closed.
  */
 function get_comment_reply_link($args = array(), $comment = null, $post = null) {
-	global $user_ID;
 
 	$defaults = array(
 		'add_below'  => 'comment',
@@ -1097,7 +1096,7 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null) 
 
 	$link = '';
 
-	if ( get_option('comment_registration') && !$user_ID )
+	if ( get_option('comment_registration') && ! is_user_logged_in() )
 		$link = '<a rel="nofollow" class="comment-reply-login" href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . $login_text . '</a>';
 	else
 		$link = "<a class='comment-reply-link' href='" . esc_url( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $respond_id . "' onclick='return addComment.moveForm(\"$add_below-$comment->comment_ID\", \"$comment->comment_ID\", \"$respond_id\", \"$post->ID\")'>$reply_text</a>";
@@ -1151,10 +1150,14 @@ function comment_reply_link($args = array(), $comment = null, $post = null) {
  * @return string|bool|null Link to show comment form, if successful. False, if comments are closed.
  */
 function get_post_reply_link($args = array(), $post = null) {
-	global $user_ID;
-
-	$defaults = array('add_below' => 'post', 'respond_id' => 'respond', 'reply_text' => __('Leave a Comment'),
-		'login_text' => __('Log in to leave a Comment'), 'before' => '', 'after' => '');
+	$defaults = array(
+		'add_below'  => 'post',
+		'respond_id' => 'respond',
+		'reply_text' => __('Leave a Comment'),
+		'login_text' => __('Log in to leave a Comment'),
+		'before'     => '',
+		'after'      => '',
+	);
 
 	$args = wp_parse_args($args, $defaults);
 	extract($args, EXTR_SKIP);
@@ -1163,7 +1166,7 @@ function get_post_reply_link($args = array(), $post = null) {
 	if ( !comments_open($post->ID) )
 		return false;
 
-	if ( get_option('comment_registration') && !$user_ID ) {
+	if ( get_option('comment_registration') && ! is_user_logged_in() ) {
 		$link = '<a rel="nofollow" href="' . wp_login_url( get_permalink() ) . '">' . $login_text . '</a>';
 	} else {
 		$link = "<a rel='nofollow' class='comment-reply-link' href='" . get_permalink($post->ID) . "#$respond_id' onclick='return addComment.moveForm(\"$add_below-$post->ID\", \"0\", \"$respond_id\", \"$post->ID\")'>$reply_text</a>";
@@ -1173,7 +1176,7 @@ function get_post_reply_link($args = array(), $post = null) {
 
 /**
  * Displays the HTML content for reply to post link.
- * 
+ *
  * @since 2.7.0
  *
  * @param array $args Optional. Override default options, @see get_post_reply_link().
