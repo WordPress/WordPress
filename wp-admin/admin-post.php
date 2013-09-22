@@ -1,6 +1,8 @@
 <?php
 /**
- * WordPress Administration Generic POST Handler.
+ * WordPress Generic Request (POST/GET) Handler
+ *
+ * Intended for form submission handling in themes and plugins.
  *
  * @package WordPress
  * @subpackage Administration
