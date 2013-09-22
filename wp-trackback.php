@@ -1,8 +1,11 @@
 <?php
 /**
- * Handle Trackbacks and Pingbacks sent to WordPress
+ * Handle Trackbacks and Pingbacks Sent to WordPress
+ *
+ * @since 0.71
  *
  * @package WordPress
+ * @subpackage Trackbacks
  */
 
 if (empty($wp)) {
@@ -11,10 +14,15 @@ if (empty($wp)) {
 }
 
 /**
- * trackback_response() - Respond with an error or success XML message
+ * Response to a trackback.
  *
- * @param int|bool $error Whether there was an error
- * @param string $error_message Error message if an error occurred
+ * Responds with an error or success XML message.
+ *
+ * @since 0.71
+ *
+ * @param int|bool $error         Whether there was an error.
+ *                                Default '0'. Accepts '0' or '1'.
+ * @param string   $error_message Error message if an error occurred.
  */
 function trackback_response($error = 0, $error_message = '') {
 	header('Content-Type: text/xml; charset=' . get_option('blog_charset') );
@@ -33,7 +41,7 @@ function trackback_response($error = 0, $error_message = '') {
 	}
 }
 
-// trackback is done by a POST
+// Trackback is done by a POST.
 $request_array = 'HTTP_POST_VARS';
 
 if ( !isset($_GET['tb_id']) || !$_GET['tb_id'] ) {
@@ -44,7 +52,7 @@ if ( !isset($_GET['tb_id']) || !$_GET['tb_id'] ) {
 $tb_url  = isset($_POST['url'])     ? $_POST['url']     : '';
 $charset = isset($_POST['charset']) ? $_POST['charset'] : '';
 
-// These three are stripslashed here so that they can be properly escaped after mb_convert_encoding()
+// These three are stripslashed here so they can be properly escaped after mb_convert_encoding().
 $title     = isset($_POST['title'])     ? wp_unslash($_POST['title'])      : '';
 $excerpt   = isset($_POST['excerpt'])   ? wp_unslash($_POST['excerpt'])    : '';
 $blog_name = isset($_POST['blog_name']) ? wp_unslash($_POST['blog_name'])  : '';
@@ -54,17 +62,18 @@ if ($charset)
 else
 	$charset = 'ASCII, UTF-8, ISO-8859-1, JIS, EUC-JP, SJIS';
 
-// No valid uses for UTF-7
+// No valid uses for UTF-7.
 if ( false !== strpos($charset, 'UTF-7') )
 	die;
 
-if ( function_exists('mb_convert_encoding') ) { // For international trackbacks
+// For international trackbacks.
+if ( function_exists('mb_convert_encoding') ) {
 	$title     = mb_convert_encoding($title, get_option('blog_charset'), $charset);
 	$excerpt   = mb_convert_encoding($excerpt, get_option('blog_charset'), $charset);
 	$blog_name = mb_convert_encoding($blog_name, get_option('blog_charset'), $charset);
 }
 
-// Now that mb_convert_encoding() has been given a swing, we need to escape these three
+// Now that mb_convert_encoding() has been given a swing, we need to escape these three.
 $title     = wp_slash($title);
 $excerpt   = wp_slash($excerpt);
 $blog_name = wp_slash($blog_name);
@@ -76,7 +85,7 @@ if ( !isset($tb_id) || !intval( $tb_id ) )
 	trackback_response(1, 'I really need an ID for this to work.');
 
 if (empty($title) && empty($tb_url) && empty($blog_name)) {
-	// If it doesn't look like a trackback at all...
+	// If it doesn't look like a trackback at all.
 	wp_redirect(get_permalink($tb_id));
 	exit;
 }
@@ -110,6 +119,7 @@ if ( !empty($tb_url) && !empty($title) ) {
 	 * Fires after a trackback is added to a post.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @param int $trackback_id Trackback ID.
 	 */
 	do_action( 'trackback_post', $trackback_id );
