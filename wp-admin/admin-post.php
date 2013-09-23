@@ -23,7 +23,8 @@ require_once(ABSPATH . 'wp-admin/includes/admin.php');
 
 nocache_headers();
 
-do_action('admin_init');
+//duplicate_hook
+do_action( 'admin_init' );
 
 $action = 'admin_post';
 
@@ -33,4 +34,12 @@ if ( !wp_validate_auth_cookie() )
 if ( !empty($_REQUEST['action']) )
 	$action .= '_' . $_REQUEST['action'];
 
-do_action($action);
+/**
+ * Fires the requested handler action.
+ *
+ * admin_post_nopriv_{$_REQUEST['action']} is called for not-logged-in users.
+ * admin_post_{$_REQUEST['action']} is called for logged-in users.
+ *
+ * @since 2.6.0
+ */
+do_action( $action );
