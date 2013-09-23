@@ -379,3 +379,25 @@ function maintenance_nag() {
 	echo "<div class='update-nag'>$msg</div>";
 }
 add_action( 'admin_notices', 'maintenance_nag' );
+
+/**
+ * Retrieves a list of all language updates available.
+ *
+ * @since 3.7.0
+ */
+function wp_get_translation_updates() {
+	$updates = array();
+	$transients = array( 'update_core' => 'core', 'update_plugins' => 'plugin', 'update_themes' => 'theme' );
+	foreach ( $transients as $transient => $type ) {
+
+		$transient = get_site_transient( $transient );
+		if ( empty( $transient->translations ) )
+			continue;
+
+		foreach ( $transient->translations as $translation ) {
+			$updates[] = (object) $translation;
+		}
+	}
+
+	return $updates;
+}

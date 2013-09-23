@@ -1073,6 +1073,127 @@ class Theme_Upgrader extends WP_Upgrader {
 
 }
 
+add_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20, 3 );
+class Language_Pack_Upgrader extends WP_Upgrader {
+
+	var $result;
+	var $bulk = true;
+
+	static function async_upgrade( $upgrader, $context, $package ) {
+		// Avoid recursion.
+		if ( $upgrader instanceof Language_Pack_Upgrader )
+			return;
+
+		$lp_upgrader = new Language_Pack_Upgrader( new Headerless_Upgrader_Skin() );
+		$lp_upgrader->upgrade();
+	}
+
+	function upgrade_strings() {
+		$this->strings['starting_upgrade'] = __( 'Some of your language files need updating. Sit tight for a few more seconds while we update them as well.' );
+		$this->strings['up_to_date'] = __( 'The language is up to date.' ); // We need to silently skip this case
+		$this->strings['no_package'] = __( 'Update package not available.' );
+		$this->strings['downloading_package'] = __( 'Downloading language update from <span class="code">%s</span>&#8230;' );
+		$this->strings['unpack_package'] = __( 'Unpacking the update&#8230;' );
+		$this->strings['process_failed'] = __( 'Language update failed.' );
+		$this->strings['process_success'] = __( 'Language updated successfully.' );
+	}
+
+	function upgrade() {
+		return $this->bulk_upgrade();
+	}
+
+	function bulk_upgrade() {
+
+		$this->init();
+		$this->upgrade_strings();
+
+		$language_updates = wp_get_translation_updates();
+
+		if ( empty( $language_updates ) )
+			return true;
+
+		$this->skin->feedback( 'starting_upgrade' );
+
+		add_filter( 'upgrader_source_selection', array( &$this, 'check_package' ), 10, 3 );
+
+		$this->skin->header();
+
+		// Connect to the Filesystem first.
+		$res = $this->fs_connect( array( WP_CONTENT_DIR, WP_LANG_DIR ) );
+		if ( ! $res ) {
+			$this->skin->footer();
+			return false;
+		}
+
+		$results = array();
+
+		$this->update_count = count( $language_updates );
+		$this->update_current = 0;
+		foreach ( $language_updates as $language_update ) {
+
+			$destination = WP_LANG_DIR;
+			if ( 'plugin' == $language_update->type )
+				$destination .= '/plugins';
+			elseif ( 'theme' == $language_update->type )
+				$destination .= '/themes';
+
+			$this->update_current++;
+
+			$options = array(
+				'package' => $language_update->package,
+				'destination' => $destination,
+				'clear_destination' => false,
+				'abort_if_destination_exists' => false, // We expect the destination to exist.
+				'clear_working' => true,
+				'is_multi' => true,
+				'hook_extra' => array(
+					'language_update_type' => $language_update->type,
+					'language_update' => $language_update,
+				)
+			);
+
+			$result = $this->run( $options );
+
+			$results[] = $this->result;
+
+			// Prevent credentials auth screen from displaying multiple times.
+			if ( false === $result )
+				break;
+		}
+
+		// Clean up our hooks, in case something else does an upgrade on this connection.
+		remove_filter( 'upgrader_source_selection', array( &$this, 'check_package' ), 10, 2 );
+
+		return $results;
+	}
+
+	function check_package( $source, $remote_source ) {
+		global $wp_filesystem;
+
+		if ( is_wp_error( $source ) )
+			return $source;
+
+		// Check that the folder contains a valid language.
+		$files = $wp_filesystem->dirlist( $remote_source );
+
+		// Check to see if a .po and .mo exist in the folder.
+		$po = $mo = false;
+		foreach ( (array) $files as $file => $filedata ) {
+			if ( '.po' == substr( $file, -3 ) )
+				$po = true;
+			elseif ( '.mo' == substr( $file, -3 ) )
+				$mo = true;
+		}
+
+		if ( ! $mo || ! $po )
+			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'],
+				__( 'The language pack is missing either the <code>.po</code> or <code>.mo</code> files.' ) );
+
+		return $source;
+	}
+
+}
+
 /**
  * Core Upgrader class for WordPress. It allows for WordPress to upgrade itself in combination with the wp-admin/includes/update-core.php file
  *
