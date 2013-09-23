@@ -2151,13 +2151,21 @@ function wp_count_attachments( $mime_type = '' ) {
 	$and = wp_post_mime_type_where( $mime_type );
 	$count = $wpdb->get_results( "SELECT post_mime_type, COUNT( * ) AS num_posts FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' $and GROUP BY post_mime_type", ARRAY_A );
 
-	$stats = array();
+	$counts = array();
 	foreach( (array) $count as $row ) {
-		$stats[$row['post_mime_type']] = $row['num_posts'];
+		$counts[ $row['post_mime_type'] ] = $row['num_posts'];
 	}
-	$stats['trash'] = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status = 'trash' $and");
+	$counts['trash'] = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status = 'trash' $and");
 
-	return (object) $stats;
+	/**
+	 * Modify returned attachment counts by mime type.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param object $counts    An object containing the attachment counts by mime type.
+	 * @param string $mime_type The mime type pattern used to filter the attachments counted.
+	 */
+	return apply_filters( 'wp_count_attachments', (object) $stats, $mime_type );
 }
 
 /**
