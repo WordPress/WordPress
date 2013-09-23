@@ -1098,21 +1098,25 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		$this->strings['process_success'] = __( 'Language updated successfully.' );
 	}
 
-	function upgrade() {
-		return $this->bulk_upgrade();
+	function upgrade( $update = false ) {
+		if ( $update )
+			$update = array( $update );
+		return $this->bulk_upgrade( $update );
 	}
 
-	function bulk_upgrade() {
+	function bulk_upgrade( $language_updates = array() ) {
 
 		$this->init();
 		$this->upgrade_strings();
 
-		$language_updates = wp_get_translation_updates();
+		if ( ! $language_updates )
+			$language_updates = wp_get_translation_updates();
 
 		if ( empty( $language_updates ) )
 			return true;
 
-		$this->skin->feedback( 'starting_upgrade' );
+		if ( 'upgrader_process_complete' == current_filter() )
+			$this->skin->feedback( 'starting_upgrade' );
 
 		add_filter( 'upgrader_source_selection', array( &$this, 'check_package' ), 10, 3 );
 
@@ -1287,8 +1291,8 @@ class Core_Upgrader extends WP_Upgrader {
 		$current_is_development_version = (bool) strpos( $wp_version, '-' );
 
 		// Defaults:
-		$upgrade_dev   = false;
-		$upgrade_minor = false; // @TODO: Update for release by toggling to true.
+		$upgrade_dev   = false; // TODO Enable
+		$upgrade_minor = false; // TODO Enable
 		$upgrade_major = false;
 
 		// WP_AUTO_UPDATE_CORE = true (all), 'minor', false.
@@ -1472,6 +1476,9 @@ class WP_Automatic_Upgrader {
 
 		// Next up, do we actually have it enabled for this type of update?
 		switch ( $type ) {
+			case 'language':
+				$upgrade = false; // TODO Enable
+				break;
 			case 'core':
 				$upgrade = Core_Upgrader::should_upgrade_to_version( $item->current );
 				break;
@@ -1530,6 +1537,10 @@ class WP_Automatic_Upgrader {
 				$upgrader = new Theme_Upgrader( $skin );
 				$context  = get_theme_root( $item );
 				break;
+			case 'language':
+				$upgrader = new Language_Pack_Upgrader( $skin );
+				$context  = WP_LANG_DIR;
+				break;
 		}
 
 		// Determine if we can perform this upgrade or not
@@ -1550,6 +1561,44 @@ class WP_Automatic_Upgrader {
 				$plugin_data = get_plugin_data( $context . '/' . $item );
 				$item_name = $plugin_data['Name'];
 				$skin->feedback( __( 'Updating Plugin: %s' ), $item_name );
+				break;
+			case 'language':
+				if ( 'theme' == $item->type ) {
+					$theme = wp_get_theme( $item->slug );
+					$skin->feedback( sprintf(
+						__( 'Updating the %1$s language files for the %2$s Theme' ),
+						$item->language,
+						$theme->Get( 'Name' )
+					) );
+					$item_name = sprintf(
+						__( '%1$s translation for the %2$s Theme' ),
+						$item->language,
+						$theme->Get( 'Name' )
+					);
+				} elseif ( 'plugin' == $item->type ) {
+					$plugin_data = get_plugins( '/' . $item->slug );
+					$plugin_data = array_shift( $plugin_data );
+					$skin->feedback( sprintf(
+						__( 'Updating the %1$s language files for the %2$s Plugin' ),
+						$item->language,
+						$plugin_data['Name']
+					) );
+					$item_name = sprintf(
+						__( '%1$s translation for the %2$s Plugin' ),
+						$item->language,
+						$plugin_data['Name']
+					);
+				} else {
+					$skin->feedback( sprintf(
+						__( 'Updating %s translation' ),
+						$item->language
+					) );
+					$item_name = sprintf(
+						__( '%s translation' ),
+						$item->language
+					);
+				}
+				
 				break;
 		}
 
@@ -1594,6 +1643,12 @@ class WP_Automatic_Upgrader {
 		if ( ! add_site_option( $lock_name, microtime( true ), HOUR_IN_SECONDS / 2 ) )
 			return;
 
+		// Don't automatically run these thins, as we'll handle it ourselves
+		remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20, 3 ); 
+		remove_action( 'upgrader_process_complete', 'wp_version_check' ); 
+		remove_action( 'upgrader_process_complete', 'wp_update_plugins' ); 
+		remove_action( 'upgrader_process_complete', 'wp_update_themes' ); 
+
 		// Next, Plugins
 		wp_update_plugins(); // Check for Plugin updates
 		$plugin_updates = get_site_transient( 'update_plugins' );
@@ -1616,7 +1671,7 @@ class WP_Automatic_Upgrader {
 			wp_clean_themes_cache();
 		}
 
-		// Finally, Process any core upgrade
+		// Next, Process any core upgrade
 		wp_version_check(); // Check for Core updates
 		$core_update = find_core_auto_update();
 		if ( $core_update ) {
@@ -1624,23 +1679,40 @@ class WP_Automatic_Upgrader {
 			delete_site_transient( 'update_core' );
 		}
 
-		// Cleanup, These won't trigger any updates this time due to the locking transient
+		// Cleanup, and check for any pending translations
 		wp_version_check();  // check for Core updates
 		wp_update_themes();  // Check for Theme updates
 		wp_update_plugins(); // Check for Plugin updates
+
+		// Finally, Process any new translations
+		$language_updates = wp_get_translation_updates();
+		if ( $language_updates ) {
+			foreach ( $language_updates as $update ) {
+				self::upgrade( 'language', $update );
+			}
+			// Clear existing caches
+			wp_clean_plugins_cache();
+			wp_clean_themes_cache();
+			delete_site_transient( 'update_core' );
+
+			wp_version_check();  // check for Core updates
+			wp_update_themes();  // Check for Theme updates
+			wp_update_plugins(); // Check for Plugin updates
+		}
 
 		/**
 		 * Filter whether to email an update summary to the site administrator.
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param bool                        Whether or not email should be sent to administrator. Default true.
-		 * @param bool|array $core_update     An array of core update data, false otherwise.
-		 * @param object     $theme_updates   Object containing theme update properties.
-		 * @param object     $plugin_updates  Object containing plugin update properties.
-		 * @param array      $upgrade_results An array of the upgrade results keyed by upgrade type, and plugin/theme slug.
+		 * @param bool                         Whether or not email should be sent to administrator. Default true.
+		 * @param bool|array $core_update      An array of core update data, false otherwise.
+		 * @param object     $theme_updates    Object containing theme update properties.
+		 * @param object     $plugin_updates   Object containing plugin update properties.
+		 * @param array      $language_updates Array containing the Language updates available.
+		 * @param array      $upgrade_results  Array of the upgrade results keyed by upgrade type, and plugin/theme slug.
 		 */
-		if ( apply_filters( 'enable_auto_upgrade_email', true, $core_update, $theme_updates, $plugin_updates, self::$upgrade_results ) )
+		if ( apply_filters( 'enable_auto_upgrade_email', true, $core_update, $theme_updates, $plugin_updates, $language_updates, self::$upgrade_results ) )
 			self::send_email();
 
 		// Clear the lock
@@ -1702,10 +1774,27 @@ class WP_Automatic_Upgrader {
 			}
 		}
 
+		// Languages
+		if ( isset( self::$upgrade_results['language'] ) ) {
+			$success_languages = wp_list_filter( self::$upgrade_results['language'], array( 'result' => true ) );
+
+			if ( $success_languages )
+				$body[] = sprintf( _n( 'The following language file was successfully updated: %s', 'The following language files were successfully updated: %s', count( $success_languages ) ), implode( ', ', wp_list_pluck( $success_languages, 'name' ) ) );
+			if ( $success_languages != self::$upgrade_results['language'] ) {
+				// Failed updates
+				$failed_languages = array();
+				foreach ( self::$upgrade_results['language'] as $language ) {
+					if ( ! $language->result || is_wp_error( $language->result ) )
+						$failed_languages[] = $language;
+				}
+				$body[] = sprintf( _n( 'The following language file failed to successfully update: %s', 'The following language files failed to successfully update: %s', count( $failed_languages ) ), implode( ', ', wp_list_pluck( $failed_languages, 'name' ) ) );
+			}
+		}
+
 		$body[] = '';
 		$body[] = __( 'Below is the upgrade logs for update performed' );
 
-		foreach ( array( 'core', 'plugin', 'theme' ) as $type ) {
+		foreach ( array( 'core', 'plugin', 'theme', 'language' ) as $type ) {
 			if ( ! isset( self::$upgrade_results[ $type ] ) )
 				continue;
 			foreach ( self::$upgrade_results[ $type ] as $upgrade ) {
