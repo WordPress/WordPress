@@ -441,27 +441,35 @@ class WP {
 	 * WordPress environment.
 	 *
 	 * @global string $query_string Query string for the loop.
+	 * @global array $posts The found posts.
+	 * @global WP_Post|null $post The current post, if available.
+	 * @global string $request The SQL statement for the request.
 	 * @global int $more Only set, if single page or post.
 	 * @global int $single If single page or post. Only set, if single page or post.
+	 * @global WP_User $authordata Only set, if author archive.
 	 *
 	 * @since 2.0.0
 	 */
 	function register_globals() {
 		global $wp_query;
+
 		// Extract updated query vars back into global namespace.
-		foreach ( (array) $wp_query->query_vars as $key => $value) {
-			$GLOBALS[$key] = $value;
+		foreach ( (array) $wp_query->query_vars as $key => $value ) {
+			$GLOBALS[ $key ] = $value;
 		}
 
 		$GLOBALS['query_string'] = $this->query_string;
 		$GLOBALS['posts'] = & $wp_query->posts;
-		$GLOBALS['post'] = (isset($wp_query->post)) ? $wp_query->post : null;
+		$GLOBALS['post'] = isset( $wp_query->post ) ? $wp_query->post : null;
 		$GLOBALS['request'] = $wp_query->request;
 
-		if ( is_single() || is_page() ) {
-			$GLOBALS['more'] = 1;
+		if ( $wp_query->is_single() || $wp_query->is_page() ) {
+			$GLOBALS['more']   = 1;
 			$GLOBALS['single'] = 1;
 		}
+
+		if ( $wp_query->is_author() && $wp_query->post )
+			$GLOBALS['authordata'] = get_userdata( $wp_query->post->post_author );
 	}
 
 	/**
