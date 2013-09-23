@@ -2165,7 +2165,7 @@ function wp_count_attachments( $mime_type = '' ) {
 	 * @param object $counts    An object containing the attachment counts by mime type.
 	 * @param string $mime_type The mime type pattern used to filter the attachments counted.
 	 */
-	return apply_filters( 'wp_count_attachments', (object) $stats, $mime_type );
+	return apply_filters( 'wp_count_attachments', (object) $counts, $mime_type );
 }
 
 /**
