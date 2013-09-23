@@ -151,7 +151,9 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	if ( 'post' == $meta_type )
 		do_action( 'update_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
 
-	$wpdb->update( $table, $data, $where );
+	$result = $wpdb->update( $table, $data, $where );
+	if ( ! $result )
+		return false;
 
 	wp_cache_delete($object_id, $meta_type . '_meta');
 
@@ -435,7 +437,9 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
 			do_action( 'update_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
 
 		// Run the update query, all fields in $data are %s, $where is a %d.
-		$result = (bool) $wpdb->update( $table, $data, $where, '%s', '%d' );
+		$result = $wpdb->update( $table, $data, $where, '%s', '%d' );
+		if ( ! $result )
+			return false;
 
 		// Clear the caches.
 		wp_cache_delete($object_id, $meta_type . '_meta');
@@ -445,7 +449,7 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
 		if ( 'post' == $meta_type )
 			do_action( 'updated_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
 
-		return $result;
+		return true;
 	}
 
 	// And if the meta was not found.
