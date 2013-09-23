@@ -224,6 +224,44 @@ if ( 'post' == $post_type ) {
 
 add_screen_option( 'per_page', array( 'label' => $title, 'default' => 20, 'option' => 'edit_' . $post_type . '_per_page' ) );
 
+$bulk_counts = array(
+	'updated'   => isset( $_REQUEST['updated'] )   ? absint( $_REQUEST['updated'] )   : 0,
+	'locked'    => isset( $_REQUEST['locked'] )    ? absint( $_REQUEST['locked'] )    : 0,
+	'deleted'   => isset( $_REQUEST['deleted'] )   ? absint( $_REQUEST['deleted'] )   : 0,
+	'trashed'   => isset( $_REQUEST['trashed'] )   ? absint( $_REQUEST['trashed'] )   : 0,
+	'untrashed' => isset( $_REQUEST['untrashed'] ) ? absint( $_REQUEST['untrashed'] ) : 0,
+);
+
+$bulk_messages = array();
+$bulk_messages['post'] = array(
+	'updated'   => _n( '%s post updated.', '%s posts updated.', $bulk_counts['updated'] ),
+	'locked'    => _n( '%s post not updated, somebody is editing it.', '%s posts not updated, somebody is editing them.', $bulk_counts['locked'] ),
+	'deleted'   => _n( '%s post permanently deleted.', '%s posts permanently deleted.', $bulk_counts['deleted'] ),
+	'trashed'   => _n( '%s post moved to the Trash.', '%s posts moved to the Trash.', $bulk_counts['trashed'] ),
+	'untrashed' => _n( '%s post restored from the Trash.', '%s posts restored from the Trash.', $bulk_counts['untrashed'] ),
+);
+$bulk_messages['page'] = array(
+	'updated'   => _n( '%s page updated.', '%s pages updated.', $bulk_counts['updated'] ),
+	'locked'    => _n( '%s page not updated, somebody is editing it.', '%s pages not updated, somebody is editing them.', $bulk_counts['locked'] ),
+	'deleted'   => _n( '%s page permanently deleted.', '%s pages permanently deleted.', $bulk_counts['deleted'] ),
+	'trashed'   => _n( '%s page moved to the Trash.', '%s pages moved to the Trash.', $bulk_counts['trashed'] ),
+	'untrashed' => _n( '%s page restored from the Trash.', '%s pages restored from the Trash.', $bulk_counts['untrashed'] ),
+);
+
+/**
+ * Filter the bulk action updated messages.
+ *
+ * By default, custom post types use the messages for the 'post' post type.
+ *
+ * @since 3.7.0
+ *
+ * @param array $bulk_messages Arrays of messages, each keyed by the corresponding post type. Messages are
+ *                             keyed with 'updated', 'locked', 'deleted', 'trashed', and 'untrashed'.
+ * @param array $bulk_counts   Array of item counts for each message, used to build internationalized strings.
+ */
+$bulk_messages = apply_filters( 'bulk_post_updated_messages', $bulk_messages, $bulk_counts );
+$bulk_counts = array_filter( $bulk_counts );
+
 require_once('./admin-header.php');
 ?>
 <div class="wrap">
@@ -236,40 +274,27 @@ if ( ! empty( $_REQUEST['s'] ) )
 	printf( ' <span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', get_search_query() );
 ?></h2>
 
-<?php if ( isset( $_REQUEST['locked'] ) || isset( $_REQUEST['updated'] ) || isset( $_REQUEST['deleted'] ) || isset( $_REQUEST['trashed'] ) || isset( $_REQUEST['untrashed'] ) ) {
-	$messages = array();
-?>
-<div id="message" class="updated"><p>
-<?php if ( isset( $_REQUEST['updated'] ) && $updated = absint( $_REQUEST['updated'] ) ) {
-	$messages[] = sprintf( _n( '%s post updated.', '%s posts updated.', $updated ), number_format_i18n( $updated ) );
-}
+<?php
+// If we have a bulk message to issue:
+$messages = array();
+foreach ( $bulk_counts as $message => $count ) {
+	if ( isset( $bulk_messages[ $post_type ][ $message ] ) )
+		$messages[] = sprintf( $bulk_messages[ $post_type ][ $message ], number_format_i18n( $count ) );
+	elseif ( isset( $bulk_messages['post'][ $message ] ) )
+		$messages[] = sprintf( $bulk_messages['post'][ $message ], number_format_i18n( $count ) );
 
-if ( isset( $_REQUEST['locked'] ) && $locked = absint( $_REQUEST['locked'] ) ) {
-	$messages[] = sprintf( _n( '%s item not updated, somebody is editing it.', '%s items not updated, somebody is editing them.', $locked ), number_format_i18n( $locked ) );
-}
-
-if ( isset( $_REQUEST['deleted'] ) && $deleted = absint( $_REQUEST['deleted'] ) ) {
-	$messages[] = sprintf( _n( 'Item permanently deleted.', '%s items permanently deleted.', $deleted ), number_format_i18n( $deleted ) );
-}
-
-if ( isset( $_REQUEST['trashed'] ) && $trashed = absint( $_REQUEST['trashed'] ) ) {
-	$messages[] = sprintf( _n( 'Item moved to the Trash.', '%s items moved to the Trash.', $trashed ), number_format_i18n( $trashed ) );
-	$ids = isset($_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
-	$messages[] = '<a href="' . esc_url( wp_nonce_url( "edit.php?post_type=$post_type&doaction=undo&action=untrash&ids=$ids", "bulk-posts" ) ) . '">' . __('Undo') . '</a>';
-}
-
-if ( isset( $_REQUEST['untrashed'] ) && $untrashed = absint( $_REQUEST['untrashed'] ) ) {
-	$messages[] = sprintf( _n( 'Item restored from the Trash.', '%s items restored from the Trash.', $untrashed ), number_format_i18n( $untrashed ) );
+	if ( $message == 'trashed' && isset( $_REQUEST['ids'] ) ) {
+		$ids = preg_replace( '/[^0-9,]/', '', $_REQUEST['ids'] );
+		$messages[] = '<a href="' . esc_url( wp_nonce_url( "edit.php?post_type=$post_type&doaction=undo&action=untrash&ids=$ids", "bulk-posts" ) ) . '">' . __('Undo') . '</a>';
+	}
 }
 
 if ( $messages )
-	echo join( ' ', $messages );
+	echo '<div id="message" class="updated"><p>' . join( ' ', $messages ) . '</p></div>';
 unset( $messages );
 
 $_SERVER['REQUEST_URI'] = remove_query_arg( array( 'locked', 'skipped', 'updated', 'deleted', 'trashed', 'untrashed' ), $_SERVER['REQUEST_URI'] );
 ?>
-</p></div>
-<?php } ?>
 
 <?php $wp_list_table->views(); ?>
 
