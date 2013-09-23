@@ -289,6 +289,8 @@ function is_taxonomy_hierarchical($taxonomy) {
  *     * If not set, the default is inherited from public.
  * - show_tagcloud - Whether to list the taxonomy in the Tag Cloud Widget.
  *     * If not set, the default is inherited from show_ui.
+ * - meta_box_cb - Provide a callback function for the meta box display. Defaults to
+ *     post_categories_meta_box for hierarchical taxonomies and post_tags_meta_box for non-hierarchical.
  * - capabilities - Array of capabilities for this taxonomy.
  *     * You can see accepted values in this function.
  * - rewrite - Triggers the handling of rewrites for this taxonomy. Defaults to true, using $taxonomy as slug.
@@ -332,6 +334,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		'show_in_menu'          => null,
 		'show_in_nav_menus'     => null,
 		'show_tagcloud'         => null,
+		'meta_box_cb'           => null,
 		'capabilities'          => array(),
 		'rewrite'               => true,
 		'query_var'             => $taxonomy,
@@ -400,6 +403,14 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 
 	$args['labels'] = get_taxonomy_labels( (object) $args );
 	$args['label'] = $args['labels']->name;
+
+	// If not set, use the default meta box
+	if ( null === $args['meta_box_cb'] ) {
+		if ( $args['hierarchical'] )
+			$args['meta_box_cb'] = 'post_categories_meta_box';
+		else
+			$args['meta_box_cb'] = 'post_tags_meta_box';
+	}
 
 	$wp_taxonomies[ $taxonomy ] = (object) $args;
 

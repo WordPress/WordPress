@@ -1139,8 +1139,8 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - map_meta_cap - Whether to use the internal default meta capability handling. Defaults to false.
  * - supports - An alias for calling add_post_type_support() directly. Defaults to title and editor.
  *     * See {@link add_post_type_support()} for documentation.
- * - register_meta_box_cb - Provide a callback function that will be called when setting up the
- *     meta boxes for the edit form. Do remove_meta_box() and add_meta_box() calls in the callback.
+ * - register_meta_box_cb - Provide a callback function that sets up the meta boxes
+ *     for the edit form. Do remove_meta_box() and add_meta_box() calls in the callback.
  * - taxonomies - An array of taxonomy identifiers that will be registered for the post type.
  *     * Default is no taxonomies.
  *     * Taxonomies can be registered later with register_taxonomy() or register_taxonomy_for_object_type().

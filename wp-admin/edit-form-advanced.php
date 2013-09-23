@@ -140,16 +140,18 @@ if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post_type,
 
 // all taxonomies
 foreach ( get_object_taxonomies( $post ) as $tax_name ) {
-	$taxonomy = get_taxonomy($tax_name);
+	$taxonomy = get_taxonomy( $tax_name );
 	if ( ! $taxonomy->show_ui )
 		continue;
 
 	$label = $taxonomy->labels->name;
 
-	if ( !is_taxonomy_hierarchical($tax_name) )
-		add_meta_box('tagsdiv-' . $tax_name, $label, 'post_tags_meta_box', null, 'side', 'core', array( 'taxonomy' => $tax_name ));
+	if ( ! is_taxonomy_hierarchical( $tax_name ) )
+		$tax_meta_box_id = 'tagsdiv-' . $tax_name;
 	else
-		add_meta_box($tax_name . 'div', $label, 'post_categories_meta_box', null, 'side', 'core', array( 'taxonomy' => $tax_name ));
+		$tax_meta_box_id = $tax_name . 'div';
+
+	add_meta_box( $tax_meta_box_id, $label, $taxonomy->meta_box_cb, null, 'side', 'core', array( 'taxonomy' => $tax_name ) );
 }
 
 if ( post_type_supports($post_type, 'page-attributes') )
