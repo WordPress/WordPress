@@ -1357,7 +1357,7 @@ function get_terms($taxonomies, $args = '') {
 	if ( ! empty( $exclusions ) )
 		$exclusions = ' AND t.term_id NOT IN (' . $exclusions . ')';
 
-	$exclusions = apply_filters( 'list_terms_exclusions', $exclusions, $args );
+	$exclusions = apply_filters( 'list_terms_exclusions', $exclusions, $args, $taxonomies );
 
 	if ( ! empty( $exclusions ) )
 		$where .= $exclusions;
@@ -1430,7 +1430,7 @@ function get_terms($taxonomies, $args = '') {
 
 	$_fields = $fields;
 
-	$fields = implode(', ', apply_filters( 'get_terms_fields', $selects, $args ));
+	$fields = implode( ', ', apply_filters( 'get_terms_fields', $selects, $args, $taxonomies ) );
 
 	$join = "INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id";
 
