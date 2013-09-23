@@ -1654,9 +1654,11 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *     @type string 'must_log_in'          HTML element for a 'must be logged in to comment' message.
  *     @type string 'logged_in_as'         HTML element for a 'logged in as <user>' message.
  *     @type string 'comment_notes_before' HTML element for a message displayed before the comment form.
+ *                                         Default 'Your email address will not be published.'.
  *     @type string 'comment_notes_after'  HTML element for a message displayed after the comment form.
- *     @type string 'id_form'              The comment form element id attribute.
- *     @type string 'id_submit'            The comment submit element id attribute.
+ *                                         Default 'You may use these HTML tags and attributes ...'.
+ *     @type string 'id_form'              The comment form element id attribute. Default 'commentform'.
+ *     @type string 'id_submit'            The comment submit element id attribute. Default 'submit'.
  *     @type string 'title_reply'          The translatable 'reply' button label. Default 'Leave a Reply'.
  *     @type string 'title_reply_to'       The translatable 'reply-to' button label. Default 'Leave a Reply to %s',
  *                                         where %s is the author of the comment being replied to.
