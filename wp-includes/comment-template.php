@@ -1640,8 +1640,30 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *
  * @since 3.0.0
  *
- * @todo Fully document $args
- * @param array       $args    Optional. Options for strings, fields etc. in the form.
+ * @param array       $args {
+ *     Optional. Default arguments and form fields to override.
+ *
+ *     @type array 'fields' {
+ *         Default comment fields, filterable by default via the 'comment_form_default_fields' hook.
+ *
+ *         @type string 'author' The comment author field HTML.
+ *         @type string 'email'  The comment author email field HTML.
+ *         @type string 'url'    The comment author URL field HTML.
+ *     }
+ *     @type string 'comment_field'        The comment textarea field HTML.
+ *     @type string 'must_log_in'          HTML element for a 'must be logged in to comment' message.
+ *     @type string 'logged_in_as'         HTML element for a 'logged in as <user>' message.
+ *     @type string 'comment_notes_before' HTML element for a message displayed before the comment form.
+ *     @type string 'comment_notes_after'  HTML element for a message displayed after the comment form.
+ *     @type string 'id_form'              The comment form element id attribute.
+ *     @type string 'id_submit'            The comment submit element id attribute.
+ *     @type string 'title_reply'          The translatable 'reply' button label. Default 'Leave a Reply'.
+ *     @type string 'title_reply_to'       The translatable 'reply-to' button label. Default 'Leave a Reply to %s',
+ *                                         where %s is the author of the comment being replied to.
+ *     @type string 'cancel_reply_link'    The translatable 'cancel reply' button label. Default 'Cancel reply'.
+ *     @type string 'label_submit'         The translatable 'submit' button label. Default 'Post a comment'.
+ *     @type string 'format'               The comment form format. Default 'xhtml'. Accepts 'xhtml', 'html5'.
+ * }
  * @param int|WP_Post $post_id Optional. Post ID or WP_Post object to generate the form for. Default current post.
  */
 function comment_form( $args = array(), $post_id = null ) {
