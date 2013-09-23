@@ -1235,7 +1235,7 @@ function get_the_password_form( $post = 0 ) {
 	$post = get_post( $post );
 	$label = 'pwbox-' . ( empty($post->ID) ? rand() : $post->ID );
 	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" class="post-password-form" method="post">
-	<p>' . __( 'This post is password protected. To view it please enter your password below:' ) . '</p>
+	<p>' . __( 'This content is password protected. To view it please enter your password below:' ) . '</p>
 	<p><label for="' . $label . '">' . __( 'Password:' ) . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . esc_attr__( 'Submit' ) . '" /></p>
 	</form>
 	';
