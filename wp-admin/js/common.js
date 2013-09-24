@@ -334,6 +334,20 @@ $(document).ready( function() {
 		});
 	});
 
+	// Show row actions on keyboard focus of its parent container element or any other elements contained within
+	var transitionTimeout, focusedRowActions;
+	$( 'td.post-title, td.title, td.comment, .bookmarks td.column-name, td.blogname, td.username, .dashboard-comment-wrap' ).focusin(function(){
+		clearTimeout( transitionTimeout );
+		focusedRowActions = $(this).find( '.row-actions' );
+		focusedRowActions.addClass( 'visible' );
+	}).focusout(function(){
+		// Tabbing between post title and .row-actions links needs a brief pause, otherwise
+		// the .row-actions div gets hidden in transit in some browsers (ahem, Firefox).
+		transitionTimeout = setTimeout(function(){
+			focusedRowActions.removeClass( 'visible' );
+		}, 30);
+	});
+
 	$('#default-password-nag-no').click( function() {
 		setUserSetting('default_password_nag', 'hide');
 		$('div.default-password-nag').hide();
