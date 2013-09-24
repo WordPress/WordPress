@@ -2451,10 +2451,13 @@ function attachment_submitbox_metadata() {
 	</div>
 
 	<?php
+		$file  = get_attached_file( $post->ID );
+		$file_size = false;
+
 		if ( isset( $meta['filesize'] ) )
 			$file_size = $meta['filesize'];
-		else
-			$file_size = filesize( get_attached_file( $post->ID ) );
+		elseif ( file_exists( $file ) )
+			$file_size = filesize( $file );
 
 		if ( ! empty( $file_size ) ) : ?>
 			<div class="misc-pub-section misc-pub-filesize">
