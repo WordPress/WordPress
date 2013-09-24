@@ -350,7 +350,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 </tr>
 
 <?php
-	foreach (_wp_get_user_contactmethods( $profileuser ) as $name => $desc) {
+	foreach ( wp_get_user_contact_methods( $profileuser ) as $name => $desc ) {
 ?>
 <tr>
 	<th><label for="<?php echo $name; ?>"><?php echo apply_filters('user_'.$name.'_label', $desc); ?></label></th>

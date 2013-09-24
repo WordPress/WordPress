@@ -1539,30 +1539,48 @@ function wp_create_user($username, $password, $email = '') {
  */
 function _get_additional_user_keys( $user ) {
 	$keys = array( 'first_name', 'last_name', 'nickname', 'description', 'rich_editing', 'comment_shortcuts', 'admin_color', 'use_ssl', 'show_admin_bar_front' );
-	return array_merge( $keys, array_keys( _wp_get_user_contactmethods( $user ) ) );
+	return array_merge( $keys, array_keys( wp_get_user_contact_methods( $user ) ) );
 }
 
 /**
- * Set up the contact methods.
+ * Set up the user contact methods.
  *
  * Default contact methods were removed in 3.6. A filter dictates contact methods.
  *
- * @since 2.9.0
- * @access private
+ * @since 3.7.0
  *
- * @param object $user User data object (optional).
- * @return array $user_contactmethods Array of contact methods and their labels.
+ * @param WP_User $user Optional. WP_User object.
+ * @return array Array of contact methods and their labels.
  */
-function _wp_get_user_contactmethods( $user = null ) {
-	$user_contactmethods = array();
+function wp_get_user_contact_methods( $user = null ) {
+	$methods = array();
 	if ( get_site_option( 'initial_db_version' ) < 23588 ) {
-		$user_contactmethods = array(
+		$methods = array(
 			'aim'    => __( 'AIM' ),
 			'yim'    => __( 'Yahoo IM' ),
 			'jabber' => __( 'Jabber / Google Talk' )
 		);
 	}
-	return apply_filters( 'user_contactmethods', $user_contactmethods, $user );
+
+	/**
+	 * Filter the user contact methods.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param array   $methods Array of contact methods and their labels.
+ 	 * @param WP_User $user    Optional. WP_User object.
+	 */
+	return apply_filters( 'user_contactmethods', $methods, $user );
+}
+
+/**
+ * The old private function for setting up user contact methods.
+ *
+ * @since 2.9.0
+ * @access private
+ */
+function _wp_get_user_contactmethods( $user = null ) {
+	return wp_get_user_contact_methods( $user );
 }
 
 /**
