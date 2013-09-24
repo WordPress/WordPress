@@ -2231,12 +2231,11 @@ span > object {
 	}
 	.content-area .featured-post:before,
 	.content-area .post-format a:before,
-	.content-area .post-format + .entry-date a:before,
+	.content-area .entry-date a:before,
 	.attachment span.entry-date:before,
 	.content-area .byline a:before,
 	.content-area .comments-link a:before,
 	.entry-meta .edit-link a:before,
-	.attachment .entry-date:before,
 	.content-area .full-size-link a:before,
 	.content-area .parent-post-link a:before {
 		display: inline-block;
@@ -2244,6 +2243,7 @@ span > object {
 		font: normal 16px/1 'Genericons';
 		margin: 0 2px 0 0;
 		text-transform: none;
+		vertical-align: top;
 	}
 	.content-area .entry-meta > span {
 		margin-right: 10px;
@@ -2273,7 +2273,6 @@ span > object {
 		content: '\F308';
 		margin: -1px 3px 0 0;
 	}
-	.content-area .post-format + .entry-date a:before,
 	.content-area .entry-date a:before,
 	.attachment span.entry-date:before {
 		content: '\F303';
