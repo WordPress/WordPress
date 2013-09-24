@@ -248,8 +248,9 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
 	if ( ! $user = get_userdata( $user ) )
 		return false;
 
-	if ( $user->has_prop( $wpdb->prefix . $option ) ) // Blog specific
-		$result = $user->get( $wpdb->prefix . $option );
+	$prefix = $wpdb->get_blog_prefix();
+	if ( $user->has_prop( $prefix . $option ) ) // Blog specific
+		$result = $user->get( $prefix . $option );
 	elseif ( $user->has_prop( $option ) ) // User specific and cross-blog
 		$result = $user->get( $option );
 	else
@@ -280,7 +281,7 @@ function update_user_option( $user_id, $option_name, $newvalue, $global = false 
 	global $wpdb;
 
 	if ( !$global )
-		$option_name = $wpdb->prefix . $option_name;
+		$option_name = $wpdb->get_blog_prefix() . $option_name;
 
 	return update_user_meta( $user_id, $option_name, $newvalue );
 }
@@ -304,7 +305,7 @@ function delete_user_option( $user_id, $option_name, $global = false ) {
 	global $wpdb;
 
 	if ( !$global )
-		$option_name = $wpdb->prefix . $option_name;
+		$option_name = $wpdb->get_blog_prefix() . $option_name;
 	return delete_user_meta( $user_id, $option_name );
 }
 
