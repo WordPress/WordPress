@@ -108,17 +108,14 @@ function wp_reset_query() {
 
 /**
  * After looping through a separate query, this function restores
- * the $post global to the current post in the main query
+ * the $post global to the current post in the main query.
  *
  * @since 3.0.0
  * @uses $wp_query
  */
 function wp_reset_postdata() {
 	global $wp_query;
-	if ( !empty($wp_query->post) ) {
-		$GLOBALS['post'] = $wp_query->post;
-		setup_postdata($wp_query->post);
-	}
+	$wp_query->reset_postdata();
 }
 
 /*
@@ -3627,6 +3624,21 @@ class WP_Query {
 	function is_main_query() {
 		global $wp_the_query;
 		return $wp_the_query === $this;
+	}
+
+	/**
+	 * After looping through a nested query, this function
+	 * restores the $post global to the current post in this query.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @return bool
+	 */
+	function reset_postdata() {
+		if ( ! empty( $this->post ) ) {
+			$GLOBALS['post'] = $this->post;
+			setup_postdata( $this->post );
+		}
 	}
 }
 
