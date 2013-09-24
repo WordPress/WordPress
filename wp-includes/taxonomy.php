@@ -507,6 +507,32 @@ function register_taxonomy_for_object_type( $taxonomy, $object_type) {
 	return true;
 }
 
+/**
+ * Remove an already registered taxonomy from an object type.
+ *
+ * @since 3.7.0
+ *
+ * @param string $taxonomy    Name of taxonomy object.
+ * @param string $object_type Name of the object type.
+ * @return bool True if successful, false if not.
+ */
+function unregister_taxonomy_for_object_type( $taxonomy, $object_type ) {
+	global $wp_taxonomies;
+
+	if ( ! isset( $wp_taxonomies[ $taxonomy ] ) )
+		return false;
+
+	if ( ! get_post_type_object( $object_type ) )
+		return false;
+
+	$key = array_search( $object_type, $wp_taxonomies[ $taxonomy ]->object_type, true );
+	if ( false === $key )
+		return false;
+
+	unset( $wp_taxonomies[ $taxonomy ]->object_type[ $key ] );
+	return true;
+}
+
 //
 // Term API
 //
