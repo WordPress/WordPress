@@ -271,11 +271,22 @@ function wp_nav_menu( $args = array() ) {
 	// Set up the $menu_item variables
 	_wp_menu_item_classes_by_context( $menu_items );
 
-	$sorted_menu_items = array();
-	foreach ( (array) $menu_items as $key => $menu_item )
-		$sorted_menu_items[$menu_item->menu_order] = $menu_item;
+	$sorted_menu_items = $menu_items_with_children = array();
+	foreach ( (array) $menu_items as $menu_item ) {
+		$sorted_menu_items[ $menu_item->menu_order ] = $menu_item;
+		if ( $menu_item->menu_item_parent )
+			$menu_items_with_children[ $menu_item->menu_item_parent ] = true;
+	}
 
-	unset($menu_items);
+	// Add the menu-item-has-children class where applicable
+	if ( $menu_items_with_children ) {
+		foreach ( $sorted_menu_items as &$menu_item ) {
+			if ( isset( $menu_items_with_children[ $menu_item->ID ] ) )
+				$menu_item->classes[] = 'menu-item-has-children';
+		}
+	}
+
+	unset( $menu_items, $menu_item );
 
 	/**
 	 * Filter the sorted list of menu item objects before generating the menu's HTML.

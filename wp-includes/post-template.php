@@ -955,6 +955,11 @@ function walk_page_tree($pages, $depth, $current_page, $r) {
 	else
 		$walker = $r['walker'];
 
+	foreach ( (array) $pages as $page ) {
+		if ( $page->post_parent )
+			$r['pages_with_children'][ $page->post_parent ] = true;
+	}
+
 	$args = array($pages, $depth, $r, $current_page);
 	return call_user_func_array(array($walker, 'walk'), $args);
 }
@@ -1043,6 +1048,10 @@ class Walker_Page extends Walker {
 
 		extract($args, EXTR_SKIP);
 		$css_class = array('page_item', 'page-item-'.$page->ID);
+
+		if( isset( $args['pages_with_children'][ $page->ID ] ) )
+			$css_class[] = 'page_item_has_children';
+
 		if ( !empty($current_page) ) {
 			$_current_page = get_post( $current_page );
 			if ( in_array( $page->ID, $_current_page->ancestors ) )
