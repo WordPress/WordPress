@@ -177,11 +177,10 @@ add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
  * attached filename through a filter.
  *
  * @since 2.0.0
- * @uses apply_filters() Calls 'get_attached_file' on file path and attachment ID.
  *
  * @param int $attachment_id Attachment ID.
  * @param bool $unfiltered Whether to apply filters.
- * @return string|bool The file path to the attached file, or false if the attachment does not exist.
+ * @return string|bool The file path to where the attached file should be, false otherwise.
  */
 function get_attached_file( $attachment_id, $unfiltered = false ) {
 	$file = get_post_meta( $attachment_id, '_wp_attached_file', true );
