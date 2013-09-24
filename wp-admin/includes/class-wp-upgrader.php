@@ -1439,7 +1439,7 @@ class WP_Automatic_Upgrader {
 
 	static function upgrader_disabled() {
 		// That's a no if you don't want files changes
-		if ( defined( 'DISABLE_FILE_MODS' ) && DISABLE_FILE_MODS )
+		if ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS )
 			return true;
 
 		// More fine grained control can be done through the WP_AUTO_UPDATE_CORE constant and filters
