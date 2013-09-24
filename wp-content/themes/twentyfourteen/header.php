@@ -39,7 +39,9 @@
 			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
 
 			<div class="header-extra">
-				<div class="search-toggle"><?php _e( 'Search', 'twentyfourteen' ); ?></div>
+				<div class="search-toggle">
+					<a href="#search-container"><?php _e( 'Search', 'twentyfourteen' ); ?></a>
+				</div>
 			</div>
 
 			<nav role="navigation" class="site-navigation primary-navigation">
@@ -51,7 +53,7 @@
 
 		<div id="mobile-navigations" class="hide"></div>
 
-		<div class="search-box-wrapper hide">
+		<div id="search-container" class="search-box-wrapper hide">
 			<div class="search-box clear">
 				<?php get_search_form(); ?>
 			</div>

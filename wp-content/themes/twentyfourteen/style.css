@@ -609,6 +609,9 @@ body {
 	text-align: center;
 	text-transform: uppercase;
 }
+.search-toggle a {
+	color: #fff;
+}
 .search-toggle:hover,
 .search-toggle.active {
 	background-color: #35921f;
