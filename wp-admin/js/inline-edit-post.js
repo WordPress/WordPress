@@ -69,6 +69,20 @@ inlineEditPost = {
 			t.revert();
 			$('select[name^="action"]').val('-1');
 		});
+
+		// Show the 'quick links' section when user tabs into post title triggering focus.
+		var transitionTimeout, focusedRow;
+		$( 'td.post-title' ).focusin(function(){
+			clearTimeout( transitionTimeout );
+			focusedRow = $(this);
+			focusedRow.find( '.row-actions' ).addClass( 'visible' );
+		}).focusout(function(){
+			// Tabbing between post title and .row-actions links needs a brief pause, otherwise
+			// the .row-actions div gets hidden in transit in some browsers (ahem, Firefox).
+			transitionTimeout = setTimeout(function(){
+				focusedRow.find( '.row-actions' ).removeClass( 'visible' );
+			}, 30);
+		});
 	},
 
 	toggle : function(el){
