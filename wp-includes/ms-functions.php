@@ -2042,7 +2042,7 @@ function wp_get_sites( $args = array() ) {
 		$query .= $wpdb->prepare( "AND public = %d ", $args['public'] );
 
 	if ( isset( $args['archived'] ) )
-		$query .= $wpdb->prepare( "AND archived = %s ", (int) $args['archived'] ); // ENUM field
+		$query .= $wpdb->prepare( "AND archived = %d ", $args['archived'] );
 
 	if ( isset( $args['mature'] ) )
 		$query .= $wpdb->prepare( "AND mature = %d ", $args['mature'] );
