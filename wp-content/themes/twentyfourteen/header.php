@@ -26,8 +26,7 @@
 <div id="page" class="hfeed site">
 	<?php do_action( 'before' ); ?>
 
-	<?php $header_image = get_header_image();
-	if ( ! empty( $header_image ) ) : ?>
+	<?php if ( get_header_image() ) : ?>
 	<div id="site-header">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home">
 			<img src="<?php header_image(); ?>" width="<?php echo get_custom_header()->width; ?>" height="<?php echo get_custom_header()->height; ?>" alt="" />
