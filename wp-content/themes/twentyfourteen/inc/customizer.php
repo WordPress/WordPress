@@ -129,6 +129,7 @@ function twentyfourteen_customizer_styles() {
 		html input[type="button"]:focus,
 		input[type="reset"]:focus,
 		input[type="submit"]:focus,
+		.hentry .mejs-controls .mejs-time-rail .mejs-time-current,
 		.header-extra,
 		.search-toggle,
 		.widget-area button,

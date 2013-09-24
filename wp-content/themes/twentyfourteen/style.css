@@ -1080,6 +1080,7 @@ footer.entry-meta .entry-title a:hover {
 .page-links a:hover {
 	background: #24890d;
 	border: 1px solid #24890d;
+	color: #fff;
 }
 .page-links > span.page-links-title {
 	margin: 0;
@@ -1576,6 +1577,7 @@ span > object {
 .paging-navigation a:hover {
 	background-color: #f5f5f5;
 	border-top: 1px solid #000;
+	color: #2b2b2b;
 }
 .post-navigation,
 .image-navigation {
@@ -1926,6 +1928,9 @@ span > object {
 }
 .widget_calendar a:hover {
 	background-color: #35921f;
+}
+.widget-area .widget_calendar a:hover {
+	color: #fff; /* Override custom accent color with more specific selector. */
 }
 .widget_calendar table {
 	border: 1px solid rgba(255, 255, 255, 0.2);
