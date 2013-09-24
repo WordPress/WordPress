@@ -83,6 +83,7 @@ a:active { /* Improves readability when focused and also mouse hovered in all br
 }
 a img {
 	border: 0;
+	display: block;
 }
 
 /* =Global
@@ -1390,13 +1391,6 @@ footer.entry-meta .entry-title a:hover {
 img {
 	max-width: 100%;
 	height: auto;
-}
-.site-header img,
-.attachment-featured-thumbnail-large,
-.entry-content img,
-.comment-content img,
-.widget img {
-	vertical-align: middle;
 }
 .attachment-featured-featured img,
 .attachment-featured-thumbnail img {
