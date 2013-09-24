@@ -392,8 +392,6 @@ a:active {
 .site a,
 .more-link .meta-nav,
 .post-format-archive-link .meta-nav,
-.attachment-featured-featured img,
-.attachment-featured-thumbnail img,
 .search-toggle,
 button,
 html input[type="button"],
@@ -807,8 +805,11 @@ body {
 	max-width: 672px;
 }
 .attachment-featured-thumbnail {
-	background: #767676 url(images/pattern.png) repeat 0 0;
-	background-size: 5px 5px;
+	background: #767676;
+	background-attachment: fixed;
+	background-image: -webkit-linear-gradient(135deg, #767676 12.5%, #fff 12.5%, #fff 50%, #767676 50%, #767676 62.5%, #fff 62.5%);
+	background-image:         linear-gradient(135deg, #767676 12.5%, #fff 12.5%, #fff 50%, #767676 50%, #767676 62.5%, #fff 62.5%);
+	background-size: 4px 4px;
 	display: block;
 	float: none;
 	margin: 0;
@@ -817,6 +818,13 @@ body {
 	width: 100%;
 	height: auto;
 	z-index: 0;
+}
+.attachment-featured-thumbnail:hover {
+	background: #919191;
+	background-attachment: fixed;
+	background-image: -webkit-linear-gradient(135deg, #919191 12.5%, #fff 12.5%, #fff 50%, #919191 50%, #919191 62.5%, #fff 62.5%);
+	background-image:         linear-gradient(135deg, #919191 12.5%, #fff 12.5%, #fff 50%, #919191 50%, #919191 62.5%, #fff 62.5%);
+	background-size: 4px 4px;
 }
 .full-width .attachment-featured-thumbnail img {
 	display: block;
@@ -1193,8 +1201,11 @@ footer.entry-meta .entry-title a:hover {
 ----------------------------------------------- */
 
 #featured-content {
-	background: #000 url(images/pattern-dark.png) repeat 0 0;
-	background-size: 5px 5px;
+	background: #000;
+	background-attachment: fixed;
+	background-image: -webkit-linear-gradient(135deg, #4d4d4d 12.5%, #000 12.5%, #000 50%, #4d4d4d 50%, #4d4d4d 62.5%, #000 62.5%);
+	background-image:         linear-gradient(135deg, #4d4d4d 12.5%, #000 12.5%, #000 50%, #4d4d4d 50%, #4d4d4d 62.5%, #000 62.5%);
+	background-size: 4px 4px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing:    border-box;
 	box-sizing:         border-box;
@@ -1213,7 +1224,7 @@ footer.entry-meta .entry-title a:hover {
 	min-height: 168px;
 }
 .attachment-featured-featured:hover img {
-	opacity: 0.8;
+	opacity: 0.85;
 }
 #featured-content .entry-wrap {
 	background-color: #000;
@@ -1391,7 +1402,6 @@ img {
 .attachment-featured-thumbnail img {
 	height: auto;
 	max-width: 100%;
-	vertical-align: middle;
 }
 img.alignleft,
 .wp-caption.alignleft,
@@ -2219,7 +2229,7 @@ span > object {
 
 @media screen and (min-width: 401px) {
 	.attachment-featured-thumbnail:hover img {
-		opacity: 0.8;
+		opacity: 0.85;
 	}
 	.content-area span + .entry-date:before,
 	.content-area span + .byline:before,
