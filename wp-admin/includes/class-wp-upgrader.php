@@ -1291,8 +1291,8 @@ class Core_Upgrader extends WP_Upgrader {
 		$current_is_development_version = (bool) strpos( $wp_version, '-' );
 
 		// Defaults:
-		$upgrade_dev   = false; // TODO Enable
-		$upgrade_minor = false; // TODO Enable
+		$upgrade_dev   = true;
+		$upgrade_minor = true;
 		$upgrade_major = false;
 
 		// WP_AUTO_UPDATE_CORE = true (all), 'minor', false.
@@ -1477,7 +1477,7 @@ class WP_Automatic_Upgrader {
 		// Next up, do we actually have it enabled for this type of update?
 		switch ( $type ) {
 			case 'language':
-				$upgrade = false; // TODO Enable
+				$upgrade = true;
 				break;
 			case 'core':
 				$upgrade = Core_Upgrader::should_upgrade_to_version( $item->current );
