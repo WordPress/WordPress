@@ -500,12 +500,15 @@ function _list_meta_row( $entry, &$count ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Prints the form in the Custom Fields meta box.
  *
  * @since 1.2.0
+ *
+ * @param WP_Post $post Optional. The post being edited.
  */
-function meta_form() {
+function meta_form( $post = null ) {
 	global $wpdb;
+	$post = get_post( $post );
 	$limit = (int) apply_filters( 'postmeta_form_limit', 30 );
 	$keys = $wpdb->get_col( "
 		SELECT meta_key
@@ -535,7 +538,7 @@ function meta_form() {
 <?php
 
 	foreach ( $keys as $key ) {
-		if ( is_protected_meta( $key, 'post' ) )
+		if ( is_protected_meta( $key, 'post' ) || ! current_user_can( 'add_post_meta', $post->ID, $key ) )
 			continue;
 		echo "\n<option value='" . esc_attr($key) . "'>" . esc_html($key) . "</option>";
 	}

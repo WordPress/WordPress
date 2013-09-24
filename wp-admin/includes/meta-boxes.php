@@ -506,7 +506,7 @@ foreach ( $metadata as $key => $value ) {
 		unset( $metadata[ $key ] );
 }
 list_meta( $metadata );
-meta_form(); ?>
+meta_form( $post ); ?>
 </div>
 <p><?php _e('Custom fields can be used to add extra metadata to a post that you can <a href="http://codex.wordpress.org/Using_Custom_Fields" target="_blank">use in your theme</a>.'); ?></p>
 <?php
