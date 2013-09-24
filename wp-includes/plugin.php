@@ -19,6 +19,21 @@
  * @since 1.5
  */
 
+// Initialize the filter globals.
+global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
+
+if ( ! isset( $wp_filter ) )
+	$wp_filter = array();
+
+if ( ! isset( $wp_actions ) )
+	$wp_actions = array();
+
+if ( ! isset( $merged_filters ) )
+	$merged_filters = array();
+
+if ( ! isset( $wp_current_filter ) )
+	$wp_current_filter = array();
+
 /**
  * Hooks a function or method to a specific filter action.
  *
@@ -371,9 +386,6 @@ function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 function do_action($tag, $arg = '') {
 	global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
 
-	if ( ! isset($wp_actions) )
-		$wp_actions = array();
-
 	if ( ! isset($wp_actions[$tag]) )
 		$wp_actions[$tag] = 1;
 	else
@@ -435,7 +447,7 @@ function do_action($tag, $arg = '') {
 function did_action($tag) {
 	global $wp_actions;
 
-	if ( ! isset( $wp_actions ) || ! isset( $wp_actions[$tag] ) )
+	if ( ! isset( $wp_actions[ $tag ] ) )
 		return 0;
 
 	return $wp_actions[$tag];
@@ -459,9 +471,6 @@ function did_action($tag) {
  */
 function do_action_ref_array($tag, $args) {
 	global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
-
-	if ( ! isset($wp_actions) )
-		$wp_actions = array();
 
 	if ( ! isset($wp_actions[$tag]) )
 		$wp_actions[$tag] = 1;
