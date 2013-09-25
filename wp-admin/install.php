@@ -91,7 +91,7 @@ function display_setup_form( $error = null ) {
 
 	if ( ! is_null( $error ) ) {
 ?>
-<p class="message"><?php printf( __( '<strong>ERROR</strong>: %s' ), $error ); ?></p>
+<p class="message"><?php echo $error; ?></p>
 <?php } ?>
 <form id="setup" method="post" action="install.php?step=2">
 	<table class="form-table">
@@ -199,22 +199,22 @@ switch($step) {
 		$error = false;
 		if ( empty( $user_name ) ) {
 			// TODO: poka-yoke
-			display_setup_form( __('you must provide a valid username.') );
+			display_setup_form( __( 'Please provide a valid username.' ) );
 			$error = true;
 		} elseif ( $user_name != sanitize_user( $user_name, true ) ) {
-			display_setup_form( __('the username you provided has invalid characters.') );
+			display_setup_form( __( 'The username you provided has invalid characters.' ) );
 			$error = true;
 		} elseif ( $admin_password != $admin_password_check ) {
 			// TODO: poka-yoke
-			display_setup_form( __( 'your passwords do not match. Please try again' ) );
+			display_setup_form( __( 'Your passwords do not match. Please try again' ) );
 			$error = true;
 		} else if ( empty( $admin_email ) ) {
 			// TODO: poka-yoke
-			display_setup_form( __( 'you must provide an e-mail address.' ) );
+			display_setup_form( __( 'You must provide an email address.' ) );
 			$error = true;
 		} elseif ( ! is_email( $admin_email ) ) {
 			// TODO: poka-yoke
-			display_setup_form( __( 'that isn&#8217;t a valid e-mail address. E-mail addresses look like: <code>username@example.com</code>' ) );
+			display_setup_form( __( 'Sorry, that isn&#8217;t a valid email address. Email addresses look like: <code>username@example.com</code>' ) );
 			$error = true;
 		}
 
