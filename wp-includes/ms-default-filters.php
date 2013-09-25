@@ -37,8 +37,15 @@ add_filter( 'term_id_filter', 'global_terms', 10, 2 );
 add_action( 'publish_post', 'update_posts_count' );
 add_action( 'delete_post', '_update_blog_date_on_post_delete' );
 add_action( 'transition_post_status', '_update_blog_date_on_post_publish', 10, 3 );
+
+// Counts
 add_action( 'admin_init', 'wp_schedule_update_network_counts');
 add_action( 'update_network_counts', 'wp_update_network_counts');
+foreach ( array( 'user_register', 'deleted_user', 'wpmu_new_user', 'make_spam_user', 'make_ham_user' ) as $action )
+	add_action( $action, 'wp_maybe_update_network_user_counts' );
+foreach ( array( 'make_spam_blog', 'make_ham_blog', 'archive_blog', 'unarchive_blog', 'make_delete_blog', 'make_undelete_blog' ) as $action )
+	add_action( $action, 'wp_maybe_update_network_site_counts' );
+unset( $action );
 
 // Files
 add_filter( 'wp_upload_bits', 'upload_is_file_too_big' );
