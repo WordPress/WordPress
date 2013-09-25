@@ -2646,7 +2646,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 }
 
 /**
- * Insert a post.
+ * Insert or update a post.
  *
  * If the $postarr parameter has 'ID' set to a value, then post will be updated.
  *
@@ -2654,35 +2654,34 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  * and 'post_date_gmt' keys. You can close the comments or open the comments by
  * setting the value for 'comment_status' key.
  *
- * The defaults for the parameter $postarr are:
- *     'post_status'   - Default is 'draft'.
- *     'post_type'     - Default is 'post'.
- *     'post_author'   - Default is current user ID ($user_ID). The ID of the user who added the post.
- *     'ping_status'   - Default is the value in 'default_ping_status' option.
- *                       Whether the attachment can accept pings.
- *     'post_parent'   - Default is 0. Set this for the post it belongs to, if any.
- *     'menu_order'    - Default is 0. The order it is displayed.
- *     'to_ping'       - Whether to ping.
- *     'pinged'        - Default is empty string.
- *     'post_password' - Default is empty string. The password to access the attachment.
- *     'guid'          - Global Unique ID for referencing the attachment.
- *     'post_content_filtered' - Post content filtered.
- *     'post_excerpt'  - Post excerpt.
+ * @global wpdb $wpdb    WordPress database abstraction object.
+ * @global int  $user_ID
  *
  * @since 1.0.0
- * @uses $wpdb
- * @uses $user_ID
- * @uses do_action() Calls 'pre_post_update' on post ID if this is an update.
- * @uses do_action() Calls 'edit_post' action on post ID and post data if this is an update.
- * @uses do_action() Calls 'save_post_{$post_type}', 'save_post' and 'wp_insert_post' on post id and post data just before returning.
- * @uses apply_filters() Calls 'wp_insert_post_data' passing $data, $postarr prior to database update or insert.
- * @uses wp_transition_post_status()
  *
- * @param array $postarr Elements that make up post to insert.
- * @param bool $wp_error Optional. Allow return of WP_Error on failure.
- * @return int|WP_Error The value 0 or WP_Error on failure. The post ID on success.
+ * @param array $postarr {
+ *     An array of elements that make up a post to update or insert.
+ *
+ *     @type int    'ID'                    The post ID. If equal to something other than 0, the post with that ID will
+ *                                          be updated. Default 0.
+ *     @type string 'post_status'           The post status. Default 'draft'.
+ *     @type string 'post_type'             The post type. Default 'post'.
+ *     @type int    'post_author'           The ID of the user who added the post. Default $user_ID, the current user ID.
+ *     @type bool   'ping_status'           Whether the post can accept pings. Default value of 'default_ping_status' option.
+ *     @type int    'post_parent'           Set this for the post it belongs to, if any. Default 0.
+ *     @type int    'menu_order'            The order it is displayed. Default 0.
+ *     @type string 'to_ping'               Space or carriage return-separated list of URLs to ping. Default empty string.
+ *     @type string 'pinged'                Space or carriage return-separated list of URLs that have been pinged.
+ *                                          Default empty string.
+ *     @type string 'post_password          The password to access the post. Default empty string.
+ *     @type string 'guid'                  Global Unique ID for referencing the post.
+ *     @type string 'post_content_filtered' The filtered post content. Default empty string.
+ *     @type string 'post_excerpt'          The post excerpt. Default empty string.
+ * }
+ * @param bool  $wp_error Optional. Allow return of WP_Error on failure.
+ * @return int|WP_Error The post ID on success. The value 0 or WP_Error on failure.
  */
-function wp_insert_post($postarr, $wp_error = false) {
+function wp_insert_post( $postarr, $wp_error = false ) {
 	global $wpdb, $user_ID;
 
 	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_ID,
