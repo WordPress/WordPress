@@ -1,6 +1,6 @@
 <?php
 /**
- * The default template for displaying content
+ * Template for displaying content
  *
  * @package WordPress
  * @subpackage Twenty_Eleven
