@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying Author Archive pages.
+ * Template for displaying Author Archive pages
  *
  * @package WordPress
  * @subpackage Twenty_Ten
@@ -13,7 +13,8 @@ get_header(); ?>
 			<div id="content" role="main">
 
 <?php
-	/* Queue the first post, that way we know who
+	/**
+	 * Queue the first post, that way we know who
 	 * the author is when we try to get their name,
 	 * URL, description, avatar, etc.
 	 *
@@ -31,7 +32,16 @@ get_header(); ?>
 if ( get_the_author_meta( 'description' ) ) : ?>
 					<div id="entry-author-info">
 						<div id="author-avatar">
-							<?php echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentyten_author_bio_avatar_size', 60 ) ); ?>
+							<?php
+							/**
+							 * Filter the Twenty Ten author bio avatar size.
+							 *
+							 * @since Twenty Ten 1.0
+							 *
+							 * @param int The height and width avatar dimensions in pixels. Default 60.
+							 */
+							echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentyten_author_bio_avatar_size', 60 ) );
+							?>
 						</div><!-- #author-avatar -->
 						<div id="author-description">
 							<h2><?php printf( __( 'About %s', 'twentyten' ), get_the_author() ); ?></h2>
@@ -41,13 +51,15 @@ if ( get_the_author_meta( 'description' ) ) : ?>
 <?php endif; ?>
 
 <?php
-	/* Since we called the_post() above, we need to
+	/**
+	 * Since we called the_post() above, we need to
 	 * rewind the loop back to the beginning that way
 	 * we can run the loop properly, in full.
 	 */
 	rewind_posts();
 
-	/* Run the loop for the author archive page to output the authors posts
+	/**
+	 * Run the loop for the author archive page to output the authors posts
 	 * If you want to overload this in a child theme then include a file
 	 * called loop-author.php and that will be used instead.
 	 */

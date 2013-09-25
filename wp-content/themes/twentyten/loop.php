@@ -1,6 +1,6 @@
 <?php
 /**
- * The loop that displays posts.
+ * The loop that displays posts
  *
  * The loop displays the posts and the post content. See
  * http://codex.wordpress.org/The_Loop to understand it and
@@ -39,7 +39,8 @@
 <?php endif; ?>
 
 <?php
-	/* Start the Loop.
+	/**
+	 * Start the Loop.
 	 *
 	 * In Twenty Ten we use the same loop in multiple contexts.
 	 * It is broken into three main parts: when we're displaying
@@ -52,7 +53,8 @@
 	 * the rest of the loop that is shared.
 	 *
 	 * Without further ado, the loop:
-	 */ ?>
+	 */
+?>
 <?php while ( have_posts() ) : the_post(); ?>
 
 <?php /* How to display posts of the Gallery format. The gallery category is the old way. */ ?>

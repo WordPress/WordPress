@@ -1,6 +1,6 @@
 <?php
 /**
- * The loop that displays a single post.
+ * The loop that displays a single post
  *
  * The loop displays the posts and the post content. See
  * http://codex.wordpress.org/The_Loop to understand it and
@@ -37,7 +37,10 @@
 <?php if ( get_the_author_meta( 'description' ) ) : // If a user has filled out their description, show a bio on their entries  ?>
 					<div id="entry-author-info">
 						<div id="author-avatar">
-							<?php echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentyten_author_bio_avatar_size', 60 ) ); ?>
+							<?php
+							//duplicate_hook
+							echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentyten_author_bio_avatar_size', 60 ) );
+							?>
 						</div><!-- #author-avatar -->
 						<div id="author-description">
 							<h2><?php printf( __( 'About %s', 'twentyten' ), get_the_author() ); ?></h2>

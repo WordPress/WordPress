@@ -52,7 +52,7 @@ add_action( 'after_setup_theme', 'twentyten_setup' );
 
 if ( ! function_exists( 'twentyten_setup' ) ):
 /**
- * Sets up theme defaults and registers support for various WordPress features.
+ * Set up theme defaults and registers support for various WordPress features.
  *
  * Note that this function is hooked into the after_setup_theme hook, which runs
  * before the init hook. The init hook is too late for some features, such as indicating
@@ -61,12 +61,12 @@ if ( ! function_exists( 'twentyten_setup' ) ):
  * To override twentyten_setup() in a child theme, add your own twentyten_setup to your child theme's
  * functions.php file.
  *
- * @uses add_theme_support() To add support for post thumbnails, custom headers and backgrounds, and automatic feed links.
- * @uses register_nav_menus() To add support for navigation menus.
- * @uses add_editor_style() To style the visual editor.
- * @uses load_theme_textdomain() For translation/localization support.
+ * @uses add_theme_support()        To add support for post thumbnails, custom headers and backgrounds, and automatic feed links.
+ * @uses register_nav_menus()       To add support for navigation menus.
+ * @uses add_editor_style()         To style the visual editor.
+ * @uses load_theme_textdomain()    For translation/localization support.
  * @uses register_default_headers() To register the default custom header images provided with the theme.
- * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
+ * @uses set_post_thumbnail_size()  To set a custom post thumbnail size.
  *
  * @since Twenty Ten 1.0
  */
@@ -84,8 +84,10 @@ function twentyten_setup() {
 	// Add default posts and comments RSS feed links to head
 	add_theme_support( 'automatic-feed-links' );
 
-	// Make theme available for translation
-	// Translations can be filed in the /languages/ directory
+	/**
+	 * Make theme available for translation.
+	 * Translations can be filed in the /languages/ directory
+	 */
 	load_theme_textdomain( 'twentyten', get_template_directory() . '/languages' );
 
 	// This theme uses wp_nav_menu() in one location.
@@ -102,11 +104,27 @@ function twentyten_setup() {
 	// The custom header business starts here.
 
 	$custom_header_support = array(
-		// The default image to use.
-		// The %s is a placeholder for the theme template directory URI.
+		/**
+		 * The default image to use.
+		 * The %s is a placeholder for the theme template directory URI.
+		 */
 		'default-image' => '%s/images/headers/path.jpg',
 		// The height and width of our custom header.
+		/**
+		 * Filter the Twenty Ten default header image width.
+		 *
+		 * @since Twenty Ten 1.0
+		 *
+		 * @param int The default header image width in pixels. Default 940.
+		 */
 		'width' => apply_filters( 'twentyten_header_image_width', 940 ),
+		/**
+		 * Filter the Twenty Ten defaul header image height.
+		 *
+		 * @since Twenty Ten 1.0
+		 *
+		 * @param int The default header image height in pixels. Default 198.
+		 */
 		'height' => apply_filters( 'twentyten_header_image_height', 198 ),
 		// Support flexible heights.
 		'flex-height' => true,
@@ -129,9 +147,11 @@ function twentyten_setup() {
 		add_custom_background();
 	}
 
-	// We'll be using post thumbnails for custom header images on posts and pages.
-	// We want them to be 940 pixels wide by 198 pixels tall.
-	// Larger images will be auto-cropped to fit, smaller ones will be ignored. See header.php.
+	/**
+	 * We'll be using post thumbnails for custom header images on posts and pages.
+	 * We want them to be 940 pixels wide by 198 pixels tall.
+	 * Larger images will be auto-cropped to fit, smaller ones will be ignored. See header.php.
+	 */
 	set_post_thumbnail_size( $custom_header_support['width'], $custom_header_support['height'], true );
 
 	// ... and thus ends the custom header business.
@@ -192,7 +212,7 @@ endif;
 
 if ( ! function_exists( 'twentyten_admin_header_style' ) ) :
 /**
- * Styles the header image displayed on the Appearance > Header admin panel.
+ * Style the header image displayed on the Appearance > Header admin panel.
  *
  * Referenced via add_custom_image_header() in twentyten_setup().
  *
@@ -216,12 +236,14 @@ function twentyten_admin_header_style() {
 endif;
 
 /**
- * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
+ * Show a home link for our wp_nav_menu() fallback, wp_page_menu().
  *
  * To override this in a child theme, remove the filter and optionally add
  * your own function tied to the wp_page_menu_args filter hook.
  *
  * @since Twenty Ten 1.0
+ *
+ * @param array $args An optional array of arguments. @see wp_page_menu()
  */
 function twentyten_page_menu_args( $args ) {
 	if ( ! isset( $args['show_home'] ) )
@@ -231,13 +253,15 @@ function twentyten_page_menu_args( $args ) {
 add_filter( 'wp_page_menu_args', 'twentyten_page_menu_args' );
 
 /**
- * Sets the post excerpt length to 40 characters.
+ * Set the post excerpt length to 40 characters.
  *
  * To override this length in a child theme, remove the filter and add your own
  * function tied to the excerpt_length filter hook.
  *
  * @since Twenty Ten 1.0
- * @return int
+ *
+ * @param int $length The number of excerpt characters.
+ * @return int The filtered number of excerpt characters.
  */
 function twentyten_excerpt_length( $length ) {
 	return 40;
@@ -246,10 +270,11 @@ add_filter( 'excerpt_length', 'twentyten_excerpt_length' );
 
 if ( ! function_exists( 'twentyten_continue_reading_link' ) ) :
 /**
- * Returns a "Continue Reading" link for excerpts
+ * Return a "Continue Reading" link for excerpts.
  *
  * @since Twenty Ten 1.0
- * @return string "Continue Reading" link
+ *
+ * @return string "Continue Reading" link.
  */
 function twentyten_continue_reading_link() {
 	return ' <a href="'. get_permalink() . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' ) . '</a>';
@@ -257,13 +282,17 @@ function twentyten_continue_reading_link() {
 endif;
 
 /**
- * Replaces "[...]" (appended to automatically generated excerpts) with an ellipsis and twentyten_continue_reading_link().
+ * Replace "[...]" with an ellipsis and twentyten_continue_reading_link().
+ *
+ * "[...]" is appended to automatically generated excerpts.
  *
  * To override this in a child theme, remove the filter and add your own
  * function tied to the excerpt_more filter hook.
  *
  * @since Twenty Ten 1.0
- * @return string An ellipsis
+ *
+ * @param string $more The Read More text.
+ * @return string An ellipsis.
  */
 function twentyten_auto_excerpt_more( $more ) {
 	return ' &hellip;' . twentyten_continue_reading_link();
@@ -271,13 +300,15 @@ function twentyten_auto_excerpt_more( $more ) {
 add_filter( 'excerpt_more', 'twentyten_auto_excerpt_more' );
 
 /**
- * Adds a pretty "Continue Reading" link to custom post excerpts.
+ * Add a pretty "Continue Reading" link to custom post excerpts.
  *
  * To override this link in a child theme, remove the filter and add your own
  * function tied to the get_the_excerpt filter hook.
  *
  * @since Twenty Ten 1.0
- * @return string Excerpt with a pretty "Continue Reading" link
+ *
+ * @param string $output The "Coninue Reading" link.
+ * @return string Excerpt with a pretty "Continue Reading" link.
  */
 function twentyten_custom_excerpt_more( $output ) {
 	if ( has_excerpt() && ! is_attachment() ) {
@@ -325,6 +356,10 @@ if ( ! function_exists( 'twentyten_comment' ) ) :
  * Used as a callback by wp_list_comments() for displaying the comments.
  *
  * @since Twenty Ten 1.0
+ *
+ * @param object $comment The comment object.
+ * @param array  $args    An array of arguments. @see get_comment_reply_link()
+ * @param int    $depth   The depth of the comment.
  */
 function twentyten_comment( $comment, $args, $depth ) {
 	$GLOBALS['comment'] = $comment;
@@ -376,7 +411,8 @@ endif;
  * function tied to the init hook.
  *
  * @since Twenty Ten 1.0
- * @uses register_sidebar
+ *
+ * @uses register_sidebar()
  */
 function twentyten_widgets_init() {
 	// Area 1, located at the top of the sidebar.
@@ -449,7 +485,7 @@ function twentyten_widgets_init() {
 add_action( 'widgets_init', 'twentyten_widgets_init' );
 
 /**
- * Removes the default styles that are packaged with the Recent Comments widget.
+ * Remove the default styles that are packaged with the Recent Comments widget.
  *
  * To override this in a child theme, remove the filter and optionally add your own
  * function tied to the widgets_init action hook.
@@ -467,7 +503,7 @@ add_action( 'widgets_init', 'twentyten_remove_recent_comments_style' );
 
 if ( ! function_exists( 'twentyten_posted_on' ) ) :
 /**
- * Prints HTML with meta information for the current post-date/time and author.
+ * Print HTML with meta information for the current post-date/time and author.
  *
  * @since Twenty Ten 1.0
  */
@@ -490,7 +526,7 @@ endif;
 
 if ( ! function_exists( 'twentyten_posted_in' ) ) :
 /**
- * Prints HTML with meta information for the current post (category, tags and permalink).
+ * Print HTML with meta information for the current post (category, tags and permalink).
  *
  * @since Twenty Ten 1.0
  */
@@ -516,10 +552,10 @@ function twentyten_posted_in() {
 endif;
 
 /**
- * Retrieves the IDs for images in a gallery.
+ * Retrieve the IDs for images in a gallery.
  *
- * @uses get_post_galleries() first, if available. Falls back to shortcode parsing,
- * then as last option uses a get_posts() call.
+ * @uses get_post_galleries() First, if available. Falls back to shortcode parsing,
+ *                            then as last option uses a get_posts() call.
  *
  * @since Twenty Ten 1.6.
  *

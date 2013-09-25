@@ -1,6 +1,6 @@
 <?php
 /**
- * The loop that displays a page.
+ * The loop that displays a page
  *
  * The loop displays the posts and the post content. See
  * http://codex.wordpress.org/The_Loop to understand it and
