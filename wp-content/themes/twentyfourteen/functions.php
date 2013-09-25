@@ -470,7 +470,10 @@ function twentyfourteen_body_classes( $classes ) {
 	if ( is_archive() || is_search() || is_home() )
 		$classes[] = 'list-view';
 
-	if ( is_page_template( 'full-width-page.php' ) || is_page_template( 'contributor-page.php' ) || is_attachment() )
+	if ( ( ! is_front_page() && ! is_active_sidebar( 'sidebar-3' ) )
+		|| is_page_template( 'full-width-page.php' )
+		|| is_page_template( 'contributor-page.php' )
+		|| is_attachment() )
 		$classes[] = 'full-width';
 
 	return $classes;
