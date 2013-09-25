@@ -709,12 +709,7 @@ body {
 }
 .primary-navigation li:hover > a {
 	background-color: #2b2b2b;
-}
-.primary-navigation li li:hover > a {
-	background-color: #000;
-}
-.primary-navigation ul ul a:hover {
-	color: #24890d;
+	color: #fff;
 }
 .primary-navigation ul li:hover > ul {
 	display: block;

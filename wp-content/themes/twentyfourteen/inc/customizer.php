@@ -107,7 +107,6 @@ function twentyfourteen_customizer_styles() {
 		h5 a:hover,
 		h6 a:hover,
 		a,
-		.primary-navigation ul ul a:hover,
 		.entry-title a:hover,
 		.cat-links a:hover,
 		.site-content .post-navigation a:hover,
