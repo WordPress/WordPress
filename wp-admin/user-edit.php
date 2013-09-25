@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 wp_reset_vars( array( 'action', 'user_id', 'wp_http_referer' ) );
 

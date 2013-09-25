@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'manage_options' ) )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
@@ -286,4 +286,4 @@ printf( __('If you like, you may enter custom structures for your category and t
 
 </div>
 
-<?php require('./admin-footer.php'); ?>
+<?php require( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

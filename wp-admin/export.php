@@ -7,13 +7,13 @@
  */
 
 /** Load WordPress Bootstrap */
-require_once ('admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( !current_user_can('export') )
 	wp_die(__('You do not have sufficient permissions to export the content of this site.'));
 
 /** Load WordPress export API */
-require_once('./includes/export.php');
+require_once( ABSPATH . 'wp-admin/includes/export.php' );
 $title = __('Export');
 
 /**
@@ -107,7 +107,7 @@ if ( isset( $_GET['download'] ) ) {
 	die();
 }
 
-require_once ('admin-header.php');
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 /**
  * Create the date options fields for exporting a given post type.
@@ -241,4 +241,4 @@ do_action( 'export_filters' );
 </form>
 </div>
 
-<?php include('admin-footer.php'); ?>
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

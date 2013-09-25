@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'manage_options' ) )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
@@ -72,7 +72,7 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-include( './admin-header.php' );
+include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
@@ -167,4 +167,4 @@ else :
 <?php submit_button(); ?>
 </form>
 </div>
-<?php include( './admin-footer.php' ); ?>
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

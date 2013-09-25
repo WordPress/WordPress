@@ -8,7 +8,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
@@ -71,7 +71,7 @@ if ( $_POST ) {
 	exit();
 }
 
-include( '../admin-header.php' );
+include( ABSPATH . 'wp-admin/admin-header.php' );
 
 if ( isset( $_GET['updated'] ) ) {
 	?><div id="message" class="updated"><p><?php _e( 'Options saved.' ) ?></p></div><?php
@@ -300,4 +300,4 @@ if ( isset( $_GET['updated'] ) ) {
 	</form>
 </div>
 
-<?php include( '../admin-footer.php' ); ?>
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

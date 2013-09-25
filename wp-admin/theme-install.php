@@ -10,7 +10,7 @@ if ( !defined( 'IFRAME_REQUEST' ) && isset( $_GET['tab'] ) && ( 'theme-informati
 	define( 'IFRAME_REQUEST', true );
 
 /** WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can('install_themes') )
 	wp_die( __( 'You do not have sufficient permissions to install themes on this site.' ) );

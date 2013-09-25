@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( !current_user_can('switch_themes') && !current_user_can('edit_theme_options') )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
@@ -91,7 +91,7 @@ get_current_screen()->set_help_sidebar(
 wp_enqueue_script( 'theme' );
 wp_enqueue_script( 'customize-loader' );
 
-require_once('./admin-header.php');
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap"><?php
@@ -213,7 +213,7 @@ $customize_title = sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->display('Na
 <?php
 if ( ! current_user_can( 'switch_themes' ) ) {
 	echo '</div>';
-	require( './admin-footer.php' );
+	require( ABSPATH . 'wp-admin/admin-footer.php' );
 	exit;
 }
 ?>
@@ -308,4 +308,4 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 ?>
 </div>
 
-<?php require('./admin-footer.php'); ?>
+<?php require( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

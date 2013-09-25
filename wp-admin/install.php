@@ -36,10 +36,10 @@ define( 'WP_INSTALLING', true );
 require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
 
 /** Load WordPress Administration Upgrade API */
-require_once( dirname( __FILE__ ) . '/includes/upgrade.php' );
+require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 /** Load wpdb */
-require_once(dirname(dirname(__FILE__)) . '/wp-includes/wp-db.php');
+require_once( ABSPATH . 'wp-includes/wp-db.php' );
 
 $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
 

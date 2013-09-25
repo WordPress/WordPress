@@ -9,7 +9,7 @@
 
 define( 'IFRAME_REQUEST', true );
 
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( ! current_user_can( 'edit_theme_options' ) )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 

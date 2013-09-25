@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 wp_enqueue_style( 'plugin-install' );
 wp_enqueue_script( 'plugin-install' );

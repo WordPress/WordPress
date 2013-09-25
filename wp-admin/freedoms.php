@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 $title = __( 'Freedoms' );
 

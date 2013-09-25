@@ -11,7 +11,7 @@ define( 'WP_INSTALLING', true );
 /** Sets up the WordPress Environment. */
 require( dirname(__FILE__) . '/wp-load.php' );
 
-require( './wp-blog-header.php' );
+require( dirname( __FILE__ ) . '/wp-blog-header.php' );
 
 if ( !is_multisite() ) {
 	wp_redirect( site_url( '/wp-login.php?action=register' ) );

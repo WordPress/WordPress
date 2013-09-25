@@ -8,7 +8,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 /** Load WordPress dashboard API */
 require_once( ABSPATH . 'wp-admin/includes/dashboard.php' );
@@ -62,7 +62,7 @@ add_thickbox();
 
 add_screen_option('layout_columns', array('max' => 4, 'default' => 2) );
 
-require_once( '../admin-header.php' );
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 ?>
 
@@ -79,4 +79,4 @@ require_once( '../admin-header.php' );
 
 </div><!-- wrap -->
 
-<?php include( '../admin-footer.php' ); ?>
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

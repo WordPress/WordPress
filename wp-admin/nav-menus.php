@@ -10,7 +10,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 // Load all the nav menu interface functions
 require_once( ABSPATH . 'wp-admin/includes/nav-menu.php' );
@@ -530,7 +530,7 @@ get_current_screen()->set_help_sidebar(
 );
 
 // Get the admin header
-require_once( './admin-header.php' );
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 <div class="wrap">
 	<?php screen_icon(); ?>
@@ -762,4 +762,4 @@ require_once( './admin-header.php' );
 	</div><!-- /#nav-menus-frame -->
 	<?php endif; ?>
 </div><!-- /.wrap-->
-<?php include( './admin-footer.php' ); ?>
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

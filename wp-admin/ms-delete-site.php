@@ -7,7 +7,7 @@
  * @since 3.0.0
  */
 
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( !is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
@@ -29,7 +29,7 @@ $blog = get_blog_details();
 
 $title = __( 'Delete Site' );
 $parent_file = 'tools.php';
-require_once( './admin-header.php' );
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 echo '<div class="wrap">';
 screen_icon();
@@ -89,4 +89,4 @@ Webmaster
 }
 echo '</div>';
 
-include( './admin-footer.php' );
+include( ABSPATH . 'wp-admin/admin-footer.php' );

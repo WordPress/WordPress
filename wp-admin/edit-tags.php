@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! $taxnow )
 	wp_die( __( 'Invalid taxonomy' ) );
@@ -126,8 +126,8 @@ case 'edit':
 	$tag = get_term( $tag_ID, $taxonomy, OBJECT, 'edit' );
 	if ( ! $tag )
 		wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
-	require_once ( 'admin-header.php' );
-	include( './edit-tag-form.php' );
+	require_once( ABSPATH . 'wp-admin/admin-header.php' );
+	include( ABSPATH . 'wp-admin/edit-tag-form.php' );
 
 break;
 
@@ -247,7 +247,7 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 	unset( $help );
 }
 
-require_once ('admin-header.php');
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 if ( !current_user_can($tax->cap->edit_terms) )
 	wp_die( __('You are not allowed to edit this item.') );
@@ -462,4 +462,4 @@ try{document.forms.addtag['tag-name'].focus();}catch(e){}
 break;
 }
 
-include('./admin-footer.php');
+include( ABSPATH . 'wp-admin/admin-footer.php' );

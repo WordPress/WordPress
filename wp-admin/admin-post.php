@@ -14,7 +14,7 @@ define('WP_ADMIN', true);
 if ( defined('ABSPATH') )
 	require_once(ABSPATH . 'wp-load.php');
 else
-	require_once('../wp-load.php');
+	require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
 
 /** Allow for cross-domain requests (from the frontend). */
 send_origin_headers();

@@ -8,7 +8,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
@@ -107,7 +107,7 @@ if ( isset($_GET['update']) ) {
 $title = __('Add New Site');
 $parent_file = 'sites.php';
 
-require('../admin-header.php');
+require( ABSPATH . 'wp-admin/admin-header.php' );
 
 ?>
 
@@ -150,4 +150,4 @@ if ( ! empty( $messages ) ) {
 	</form>
 </div>
 <?php
-require('../admin-footer.php');
+require( ABSPATH . 'wp-admin/admin-footer.php' );

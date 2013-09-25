@@ -527,7 +527,7 @@ function feed_content_type( $type = '' ) {
  * @return WP_Error|SimplePie WP_Error object on failure or SimplePie object on success
  */
 function fetch_feed( $url ) {
-	require_once ( ABSPATH . WPINC . '/class-feed.php' );
+	require_once( ABSPATH . WPINC . '/class-feed.php' );
 
 	$feed = new SimplePie();
 
