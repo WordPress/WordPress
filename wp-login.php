@@ -44,6 +44,9 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	// Don't index any of these forms
 	add_action( 'login_head', 'wp_no_robots' );
 
+	if ( wp_is_mobile() )
+		add_action( 'login_head', 'wp_login_viewport_meta' );
+
 	if ( empty($wp_error) )
 		$wp_error = new WP_Error();
 
@@ -63,10 +66,6 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 
 	wp_admin_css( 'wp-admin', true );
 	wp_admin_css( 'colors-fresh', true );
-
-	if ( wp_is_mobile() ) { ?>
-		<meta name="viewport" content="width=320, initial-scale=0.9, maximum-scale=1.0, user-scalable=0" /><?php
-	}
 
 	// Remove all stored post data on logging out.
 	// This could be added by add_action('login_head'...) like wp_shake_js()
@@ -187,6 +186,12 @@ function shake(id,a,d){c=a.shift();s(id,c);if(a.length>0){setTimeout(function(){
 addLoadEvent(function(){ var p=new Array(15,30,15,0,-15,-30,-15,0);p=p.concat(p.concat(p));var i=document.forms[0].id;g(i).position='relative';shake(i,p,20);});
 </script>
 <?php
+}
+
+function wp_login_viewport_meta() {
+	?>
+	<meta name="viewport" content="width=device-width" />
+	<?php
 }
 
 /**
