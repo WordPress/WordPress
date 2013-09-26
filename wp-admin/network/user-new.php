@@ -99,11 +99,7 @@ if ( isset( $add_user_errors ) && is_wp_error( $add_user_errors ) ) { ?>
 			<td colspan="2"><?php _e( 'Username and password will be mailed to the above email address.' ) ?></td>
 		</tr>
 	</table>
-	<?php
-	//duplicate_hook
-	do_action( 'user_new_form', 'add-new-user' );
-	?>
-	<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
+	<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ); ?>
 	<?php submit_button( __('Add User'), 'primary', 'add-user' ); ?>
 	</form>
 </div>
