@@ -310,6 +310,20 @@ if ( is_multisite() ) {
 	</tr>
 <?php } ?>
 </table>
+<?php
+/**
+ * Fires at the end of the new user form.
+ *
+ * Passes a contextual string to make both types of new user forms
+ * uniquely targetable. Contexts are 'add-existing-user' (Multisite),
+ * and 'add-new-user' (single site and network admin).
+ *
+ * @since 3.7.0
+ *
+ * @param string A contextual string specifying which type of new user form the hook follows.
+ */
+do_action( 'user_new_form', 'add-existing-user' );
+?>
 <?php submit_button( __( 'Add Existing User '), 'primary', 'adduser', true, array( 'id' => 'addusersub' ) ); ?>
 </form>
 <?php
@@ -325,7 +339,7 @@ if ( current_user_can( 'create_users') ) {
 ?>
 <form action="" method="post" name="createuser" id="createuser" class="validate"<?php do_action('user_new_form_tag');?>>
 <input name="action" type="hidden" value="createuser" />
-<?php wp_nonce_field( 'create-user', '_wpnonce_create-user' ) ?>
+<?php wp_nonce_field( 'create-user', '_wpnonce_create-user' ); ?>
 <?php
 // Load up the passed data, else set to a default.
 foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_name' => 'lastname',
@@ -411,6 +425,11 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 	</tr>
 	<?php } ?>
 </table>
+
+<?php
+//duplicate_hook
+do_action( 'user_new_form', 'add-new-user' );
+?>
 
 <?php submit_button( __( 'Add New User '), 'primary', 'createuser', true, array( 'id' => 'createusersub' ) ); ?>
 
