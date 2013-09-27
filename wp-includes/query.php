@@ -1290,6 +1290,14 @@ class WP_Query {
 	 var $thumbnails_cached = false;
 
 	/**
+	 * Cached list of search stopwords.
+	 *
+	 * @since 3.7.0
+	 * @var array
+	 */
+	private $stopwords;
+
+	/**
 	 * Resets query flags to false.
 	 *
 	 * The query flags are what page info WordPress was able to figure out.
@@ -1469,6 +1477,10 @@ class WP_Query {
 		if ( '' !== $qv['minute'] ) $qv['minute'] = absint($qv['minute']);
 		if ( '' !== $qv['second'] ) $qv['second'] = absint($qv['second']);
 		if ( '' !== $qv['menu_order'] ) $qv['menu_order'] = absint($qv['menu_order']);
+
+		// Fairly insane upper bound for search string lengths.
+		if ( ! empty( $qv['s'] ) && strlen( $qv['s'] ) > 1600 )
+			$qv['s'] = '';
 
 		// Compat. Map subpost to attachment.
 		if ( '' != $qv['subpost'] )
@@ -1895,6 +1907,183 @@ class WP_Query {
 	}
 
 	/**
+	 * Generate SQL for the WHERE clause based on passed search terms.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @global type $wpdb
+	 * @param array $q Query variables.
+	 */
+	protected function parse_search( &$q ) {
+		global $wpdb;
+
+		$search = '';
+
+		// added slashes screw with quote grouping when done early, so done later
+		$q['s'] = stripslashes( $q['s'] );
+		if ( empty( $_GET['s'] ) && $this->is_main_query() )
+			$q['s'] = urldecode( $q['s'] );
+		// there are no line breaks in <input /> fields
+		$q['s'] = str_replace( array( "\r", "\n" ), '', $q['s'] );
+		$q['search_terms_count'] = 1;
+		if ( ! empty( $q['sentence'] ) ) {
+			$q['search_terms'] = array( $q['s'] );
+		} else {
+			if ( preg_match_all( '/".*?("|$)|((?<=[\t ",+])|^)[^\t ",+]+/', $q['s'], $matches ) ) {
+				$q['search_terms_count'] = count( $matches[0] );
+				$q['search_terms'] = $this->parse_search_terms( $matches[0] );
+				// if the search string has only short terms or stopwords, or is 10+ terms long, match it as sentence
+				if ( empty( $q['search_terms'] ) || count( $q['search_terms'] ) > 9 )
+					$q['search_terms'] = array( $q['s'] );
+			} else {
+				$q['search_terms'] = array( $q['s'] );
+			}
+		}
+
+		$n = ! empty( $q['exact'] ) ? '' : '%';
+		$searchand = '';
+		$q['search_orderby_title'] = array();
+		foreach ( $q['search_terms'] as $term ) {
+			$term = like_escape( esc_sql( $term ) );
+			if ( $n )
+				$q['search_orderby_title'][] = "$wpdb->posts.post_title LIKE '%$term%'";
+
+			$search .= "{$searchand}(($wpdb->posts.post_title LIKE '{$n}{$term}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$term}{$n}'))";
+			$searchand = ' AND ';
+		}
+
+		if ( ! empty( $search ) ) {
+			$search = " AND ({$search}) ";
+			if ( ! is_user_logged_in() )
+				$search .= " AND ($wpdb->posts.post_password = '') ";
+		}
+
+		/**
+		 * Filter the search SQL that is used in the WHERE clause of WP_Query.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string   $search Search SQL for WHERE clause.
+		 * @param WP_Query $this   The current WP_Query object.
+		 */
+		return apply_filters_ref_array( 'posts_search', array( $search, &$this ) );
+	}
+
+	/**
+	 * Check if the terms are suitable for searching.
+	 *
+	 * Uses an array of stopwords (terms) that are excluded from the separate
+	 * term matching when searching for posts. The list of English stopwords is
+	 * the approximate search engines list, and is translatable.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param array Terms to check.
+	 * @return array Terms that are not stopwords.
+	 */
+	protected function parse_search_terms( $terms ) {
+		$strtolower = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
+		$checked = array();
+
+		$stopwords = $this->get_search_stopwords();
+
+		foreach ( $terms as $term ) {
+			// keep before/after spaces when term is for exact match
+			if ( preg_match( '/^".+"$/', $term ) )
+				$term = trim( $term, "\"'" );
+			else
+				$term = trim( $term, "\"' " );
+
+			// \p{L} matches a single letter that is not a Chinese, Japanese, etc. char
+			if ( ! $term || preg_match( '/^\p{L}$/u', $term ) )
+				continue;
+
+			if ( in_array( call_user_func( $strtolower, $term ), $stopwords, true ) )
+				continue;
+
+			$checked[] = $term;
+		}
+
+		return $checked;
+	}
+
+	/**
+	 * Retrieve stopwords used when parsing search terms.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @return array Stopwords.
+	 */
+	protected function get_search_stopwords() {
+		if ( isset( $this->stopwords ) )
+			return $this->stopwords;
+
+		/* translators: This is a comma-separated list of very common words that should be excluded from a search,
+		 * like a, an, and the. These are usually called "stopwords". You should not simply translate these individual
+		 * words into your language. Instead, look for and provide commonly accepted stopwords in your language.
+		 */
+		$words = explode( ',', _x( 'about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,was,what,when,where,who,will,with,www',
+			'Comma-separated list of search stopwords in your language' ) );
+
+		foreach( $words as $word ) {
+			$word = trim( $word, "\r\n\t " );
+			if ( $word )
+				$stopwords[] = $word;
+		}
+
+		/**
+		 * Filter stopwords used when parsing search terms.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param array $stopwords Stopwords.
+		 */
+		$this->stopwords = apply_filters( 'wp_search_stopwords', $stopwords );
+		return $this->stopwords;
+	}
+
+	/**
+	 * Generate SQL for the ORDER BY condition based on passed search terms.
+	 *
+	 * @global wpdb $wpdb
+	 * @param array $q Query variables.
+	 * @return string ORDER BY clause.
+	 */
+	protected function parse_search_order( &$q ) {
+		global $wpdb;
+
+		$search_orderby = '';
+
+		if ( $q['search_terms_count'] > 1 ) {
+			$num_terms = count( $q['search_orderby_title'] );
+			$search_orderby_s = like_escape( esc_sql( $q['s'] ) );
+
+			$search_orderby = '(CASE ';
+			// sentence match in 'post_title'
+			$search_orderby .= "WHEN $wpdb->posts.post_title LIKE '%{$search_orderby_s}%' THEN 1 ";
+
+			// sanity limit, sort as sentence when more than 6 terms
+			// (few searches are longer than 6 terms and most titles are not)
+			if ( $num_terms < 7 ) {
+				// all words in title
+				$search_orderby .= 'WHEN ' . implode( ' AND ', $q['search_orderby_title'] ) . ' THEN 2 ';
+				// any word in title, not needed when $num_terms == 1
+				if ( $num_terms > 1 )
+					$search_orderby .= 'WHEN ' . implode( ' OR ', $q['search_orderby_title'] ) . ' THEN 3 ';
+			}
+
+			// sentence match in 'post_content'
+			$search_orderby .= "WHEN $wpdb->posts.post_content LIKE '%{$search_orderby_s}%' THEN 4 ";
+			$search_orderby .= 'ELSE 5 END)';
+		} else {
+			// single word or sentence search
+			$search_orderby = reset( $q['search_orderby_title'] ) . ' DESC';
+		}
+
+		return $search_orderby;
+	}
+
+	/**
 	 * Sets the 404 property and saves whether query is feed.
 	 *
 	 * @since 2.0.0
@@ -2235,35 +2424,9 @@ class WP_Query {
 			}
 		}
 
-		// If a search pattern is specified, load the posts that match
-		if ( !empty($q['s']) ) {
-			// added slashes screw with quote grouping when done early, so done later
-			$q['s'] = stripslashes($q['s']);
-			if ( empty( $_GET['s'] ) && $this->is_main_query() )
-				$q['s'] = urldecode($q['s']);
-			if ( !empty($q['sentence']) ) {
-				$q['search_terms'] = array($q['s']);
-			} else {
-				preg_match_all('/".*?("|$)|((?<=[\r\n\t ",+])|^)[^\r\n\t ",+]+/', $q['s'], $matches);
-				$q['search_terms'] = array_map('_search_terms_tidy', $matches[0]);
-			}
-			$n = !empty($q['exact']) ? '' : '%';
-			$searchand = '';
-			foreach( (array) $q['search_terms'] as $term ) {
-				$term = esc_sql( like_escape( $term ) );
-				$search .= "{$searchand}(($wpdb->posts.post_title LIKE '{$n}{$term}{$n}') OR ($wpdb->posts.post_content LIKE '{$n}{$term}{$n}'))";
-				$searchand = ' AND ';
-			}
-
-			if ( !empty($search) ) {
-				$search = " AND ({$search}) ";
-				if ( !is_user_logged_in() )
-					$search .= " AND ($wpdb->posts.post_password = '') ";
-			}
-		}
-
-		// Allow plugins to contextually add/remove/modify the search section of the database query
-		$search = apply_filters_ref_array('posts_search', array( $search, &$this ) );
+		// If a search pattern is specified, load the posts that match.
+		if ( ! empty( $q['s'] ) )
+			$search = $this->parse_search( $q );
 
 		// Taxonomies
 		if ( !$this->is_singular ) {
@@ -2459,6 +2622,25 @@ class WP_Query {
 				$orderby = "$wpdb->posts.post_date ".$q['order'];
 			else
 				$orderby .= " {$q['order']}";
+		}
+
+		// Order search results by relevance only when another "orderby" is not specified in the query.
+		if ( ! empty( $q['s'] ) ) {
+			$search_orderby = '';
+			if ( ! empty( $q['search_orderby_title'] ) && empty( $q['orderby'] ) )
+				$search_orderby = $this->parse_search_order( $q );
+
+			/**
+			 * Filter the ORDER BY used when ordering search results.
+			 *
+			 * @since 3.7.0
+			 *
+			 * @param string   $search_orderby The ORDER BY clause.
+			 * @param WP_Query $this           The current WP_Query instance.
+			 */
+			$search_orderby = apply_filters( 'posts_search_orderby', $search_orderby, $this );
+			if ( $search_orderby )
+				$orderby = $orderby ? $search_orderby . ', ' . $orderby : $search_orderby;
 		}
 
 		if ( is_array( $post_type ) && count( $post_type ) > 1 ) {

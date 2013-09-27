@@ -3703,19 +3703,6 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 }
 
 /**
- * Used internally to tidy up the search terms.
- *
- * @access private
- * @since 2.9.0
- *
- * @param string $t
- * @return string
- */
-function _search_terms_tidy($t) {
-	return trim($t, "\"'\n\r ");
-}
-
-/**
  * Returns true.
  *
  * Useful for returning true to filters easily.
