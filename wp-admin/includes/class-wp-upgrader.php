@@ -1101,10 +1101,12 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	function upgrade( $update = false ) {
 		if ( $update )
 			$update = array( $update );
-		return $this->bulk_upgrade( $update );
+		$results = $this->bulk_upgrade( $update );
+		return $results[0];
 	}
 
 	function bulk_upgrade( $language_updates = array() ) {
+		global $wp_filesystem;
 
 		$this->init();
 		$this->upgrade_strings();
@@ -1133,6 +1135,14 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 
 		$this->update_count = count( $language_updates );
 		$this->update_current = 0;
+
+		// The filesystem's mkdir() is not recursive. Make sure WP_LANG_DIR exists,
+		// as we then may need to create a /plugins or /themes directory inside of it.
+		$remote_destination = $wp_filesystem->find_folder( WP_LANG_DIR );
+		if ( ! $wp_filesystem->exists( $remote_destination ) )
+			if ( ! $wp_filesystem->mkdir( $remote_destination, FS_CHMOD_DIR ) )
+				return new WP_Error( 'mkdir_failed', $this->strings['mkdir_failed'], $remote_destination );
+
 		foreach ( $language_updates as $language_update ) {
 
 			$destination = WP_LANG_DIR;
@@ -1453,6 +1463,27 @@ class WP_Automatic_Upgrader {
 	}
 
 	/**
+	 * Check for GIT/SVN checkouts.
+	 */
+	function is_vcs_checkout( $context ) {
+		$stop_dirs = array(
+			ABSPATH,
+			untrailingslashit( $context ),
+		);
+		if ( ! file_exists( ABSPATH . '/wp-config.php' ) ) // wp-config.php up one folder in a deployment situation
+			$stop_dirs[] = dirname( ABSPATH );
+
+		$checkout = false;
+		foreach ( array_unique( $stop_dirs ) as $dir ) {
+			if ( file_exists( $dir . '/.svn' ) || file_exists( $dir . '/.git' ) ) {
+				$checkout = true;
+				break;
+			}
+		}
+		return apply_filters( 'auto_upgrade_is_vcs_checkout', $checkout, $context );
+	}
+
+	/**
 	 * Tests to see if we should upgrade a specific item, does not test to see if we CAN update the item.
 	 */
 	static function should_auto_update( $type, $item, $context ) {
@@ -1460,19 +1491,8 @@ class WP_Automatic_Upgrader {
 		if ( self::upgrader_disabled() )
 			return false;
 
-		// ..and also check for GIT/SVN checkouts
-		if ( ! apply_filters( 'auto_upgrade_ignore_checkout_status', false ) ) {
-			$stop_dirs = array(
-				ABSPATH,
-				untrailingslashit( $context ),
-			);
-			if ( ! file_exists( ABSPATH . '/wp-config.php' ) ) // wp-config.php up one folder in a deployment situation
-				$stop_dirs[] = dirname( ABSPATH );
-			foreach ( array_unique( $stop_dirs ) as $dir ) {
-				if ( file_exists( $dir . '/.svn' ) || file_exists( $dir . '/.git' ) )
-					return false;
-			}
-		}
+		if ( self::is_vcs_checkout( $context ) )
+			return false;
 
 		// Next up, do we actually have it enabled for this type of update?
 		switch ( $type ) {
@@ -1539,12 +1559,12 @@ class WP_Automatic_Upgrader {
 				break;
 			case 'language':
 				$upgrader = new Language_Pack_Upgrader( $skin );
-				$context  = WP_LANG_DIR;
+				$context  = WP_CONTENT_DIR; // WP_LANG_DIR;
 				break;
 		}
 
 		// Determine if we can perform this upgrade or not
-		if ( ! self::should_auto_update( $type, $item, $context )  || ! self::can_auto_update( $context, $skin ) )
+		if ( ! self::should_auto_update( $type, $item, $context ) || ! self::can_auto_update( $context, $skin ) )
 			return false;
 
 		switch ( $type ) {
@@ -1618,7 +1638,7 @@ class WP_Automatic_Upgrader {
 
 		self::$upgrade_results[ $type ][] = (object) array(
 			'item'     => $item,
-			'result'   => ! is_wp_error( $upgrade_result ) && $upgrade_result,
+			'result'   => $upgrade_result,
 			'name'     => $item_name,
 			'messages' => $skin->get_upgrade_messages()
 		);
@@ -1729,91 +1749,81 @@ class WP_Automatic_Upgrader {
 		foreach ( self::$upgrade_results as $type => $upgrades )
 			$upgrade_count += count( $upgrades );
 
-		$subject = sprintf( '[%s] %s updates have finished', get_bloginfo( 'name' ), $upgrade_count );
+		$body = array();
+		$failures = 0;
 
-		$body = '';
+		// Core
 		if ( isset( self::$upgrade_results['core'] ) ) {
 			$result = self::$upgrade_results['core'][0];
-			if ( $result->result && ! is_wp_error( $result->result ) )
-				$body[] = sprintf( __( 'WordPress was successfully updated to %s' ), $result->name );
-			else
-				$body[] = sprintf( __( 'WordPress unsuccessfully attempted to update to %s' ), $result->name );
-		}
-
-		// Plugins
-		if ( isset( self::$upgrade_results['plugin'] ) ) {
-			$success_plugins = wp_list_filter( self::$upgrade_results['plugin'], array( 'result' => true ) );
-
-			if ( $success_plugins )
-				$body[] = sprintf( _n( 'The following plugin was successfully updated: %s', 'The following plugins were successfully updated: %s', count( $success_plugins ) ), implode( ', ', wp_list_pluck( $success_plugins, 'name' ) ) );
-			if ( $success_plugins != self::$upgrade_results['plugin'] ) {
-				// Failed updates
-				$failed_plugins = array();
-				foreach ( self::$upgrade_results['plugin'] as $plugin ) {
-					if ( ! $plugin->result || is_wp_error( $plugin->result ) )
-						$failed_plugins[] = $plugin;
-				}
-				$body[] = sprintf( _n( 'The following plugin failed to successfully update: %s', 'The following plugins failed to successfully update: %s', count( $success_plugins ) ), implode( ', ', wp_list_pluck( $failed_plugins, 'name' ) ) );
+			if ( $result->result && ! is_wp_error( $result->result ) ) {
+				$body[] = sprintf( 'SUCCESS: WordPress was successfully updated to %s', $result->name );
+			} else {
+				$body[] = sprintf( 'FAILED: WordPress failed to update to %s', $result->name );
+				$failures++;
 			}
+			$body[] = '';
 		}
 
-		// Themes
-		if ( isset( self::$upgrade_results['theme'] ) ) {
-			$success_themes = wp_list_filter( self::$upgrade_results['theme'], array( 'result' => true ) );
-
-			if ( $success_themes )
-				$body[] = sprintf( _n( 'The following theme was successfully updated: %s', 'The following themes were successfully updated: %s', count( $success_themes ) ), implode( ', ', wp_list_pluck( $success_themes, 'name' ) ) );
-			if ( $success_themes != self::$upgrade_results['theme'] ) {
-				// Failed updates
-				$failed_themes = array();
-				foreach ( self::$upgrade_results['theme'] as $theme ) {
-					if ( ! $theme->result || is_wp_error( $theme->result ) )
-						$failed_themes[] = $theme;
-				}
-				$body[] = sprintf( _n( 'The following theme failed to successfully update: %s', 'The following themes failed to successfully update: %s', count( $failed_themes ) ), implode( ', ', wp_list_pluck( $failed_themes, 'name' ) ) );
+		// Plugins, Themes, Languages
+		foreach ( array( 'plugin', 'theme', 'language' ) as $type ) {
+			if ( ! isset( self::$upgrade_results[ $type ] ) )
+				continue;
+			$success_items = wp_list_filter( self::$upgrade_results[ $type ], array( 'result' => true ) );
+			if ( $success_items ) {
+				$body[] = "The following {$type}s were successfully updated:";
+				foreach ( wp_list_pluck( $success_items, 'name' ) as $name )
+					$body[] = ' * SUCCESS: ' . $name;
 			}
-		}
-
-		// Languages
-		if ( isset( self::$upgrade_results['language'] ) ) {
-			$success_languages = wp_list_filter( self::$upgrade_results['language'], array( 'result' => true ) );
-
-			if ( $success_languages )
-				$body[] = sprintf( _n( 'The following language file was successfully updated: %s', 'The following language files were successfully updated: %s', count( $success_languages ) ), implode( ', ', wp_list_pluck( $success_languages, 'name' ) ) );
-			if ( $success_languages != self::$upgrade_results['language'] ) {
+			if ( $success_items != self::$upgrade_results[ $type ] ) {
 				// Failed updates
-				$failed_languages = array();
-				foreach ( self::$upgrade_results['language'] as $language ) {
-					if ( ! $language->result || is_wp_error( $language->result ) )
-						$failed_languages[] = $language;
+				$body[] = "The following {$type}s failed to update:";
+				foreach ( self::$upgrade_results[ $type ] as $item ) {
+					if ( ! $item->result || is_wp_error( $item->result ) ) {
+						$body[] = ' * FAILED: ' . $item->name;
+						$failures++;
+					}
 				}
-				$body[] = sprintf( _n( 'The following language file failed to successfully update: %s', 'The following language files failed to successfully update: %s', count( $failed_languages ) ), implode( ', ', wp_list_pluck( $failed_languages, 'name' ) ) );
 			}
+			$body[] = '';
 		}
 
+		if ( $failures ) {
+			$body[] = '';
+			$body[] = 'BETA TESTING?';
+			$body[] = '=============';
+			$body[] = '';
+			$body[] = 'If you think these failures might be due to a bug in WordPress 3.7, could you report it?';
+			$body[] = ' * Open a thread in the support forums: http://wordpress.org/support/forum/alphabeta';
+			$body[] = " * Or, if you're comfortable writing a bug report: http://core.trac.wordpress.org/";
+			$body[] = '';
+			$body[] = 'Thanks! -- The WordPress Team';
+			$body[] = '';
+			$subject = sprintf( '[%s] There were failures during background updates', get_bloginfo( 'name' ) );
+		} else {
+			$subject = sprintf( '[%s] Background updates have finished', get_bloginfo( 'name' ) );
+		}
+
+		$body[] = 'UPGRADE LOG';
+		$body[] = '===========';
 		$body[] = '';
-		$body[] = __( 'Below is the upgrade logs for update performed' );
 
 		foreach ( array( 'core', 'plugin', 'theme', 'language' ) as $type ) {
 			if ( ! isset( self::$upgrade_results[ $type ] ) )
 				continue;
 			foreach ( self::$upgrade_results[ $type ] as $upgrade ) {
 				$body[] = $upgrade->name;
-				$body[] = str_repeat( '=', strlen( $upgrade->name ) );
+				$body[] = str_repeat( '-', strlen( $upgrade->name ) );
 				foreach ( $upgrade->messages as $message )
-					$body[] = "  " . html_entity_decode( $message );
+					$body[] = "  " . html_entity_decode( str_replace( '&#8230;', '...', $message ) );
+				if ( is_wp_error( $upgrade->result ) )
+					$body[] = '  Error: [' . $upgrade->result->get_error_code() . '] ' . $upgrade->result->get_error_message();
 				$body[] = '';
 			}
 		}
 
-		//echo "<h1>$subject</h1>";
-		//echo '<pre>' . implode( "\n", $body ) . '</pre>';
+		//echo "<h1>\n$subject\n</h1>\n";
+		//echo "<pre>\n" . implode( "\n", $body ) . "\n</pre>";
 
-		wp_mail(
-			get_site_option( 'admin_email' ),
-			$subject,
-			implode( "\n", $body )
-		);
+		wp_mail( get_site_option( 'admin_email' ), $subject, implode( "\n", $body ) );
 	}
-
 }

@@ -153,6 +153,23 @@ function core_upgrade_preamble() {
 		echo '</h3>';
 	}
 
+	// This is temporary, for the WordPress 3.7 beta period.
+	if ( isset( $updates[0] ) && $updates[0]->response == 'development' ) {
+		require ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		$ssl_support = wp_http_supports( 'ssl' );
+		$should_auto_update = WP_Automatic_Upgrader::should_auto_update( 'core', $updates[0], ABSPATH );
+		if ( $ssl_support && $should_auto_update ) {
+			echo '<div class="updated inline"><p><strong>BETA TESTERS: This install will receive daily auto updates to future beta versions.</strong>';
+			if ( get_locale() !== 'en_US' )
+				echo ' Translations of importers and default themes will also be updated.';
+			echo '</p><p>You will receive an email with debugging output after each update. If something goes wrong, please <a href="http://wordpress.org/support/forum/alphabeta">post in the support forums</a> or <a href="https://core.trac.wordpress.org/">open a bug report</a>.</div>';
+		} elseif ( ! $ssl_support ) {
+			echo '<div class="error inline"><p><strong>BETA TESTERS:</strong> Your server does not support HTTP requests over SSL. This install will not receive auto updates.</p></div>';
+		} elseif ( WP_Automatic_Upgrader::is_vcs_checkout( ABSPATH ) ) {
+			echo '<div class="error inline"><p><strong>BETA TESTERS:</strong> This install uses version control (SVN or Git) and thus will not receive auto updates. Try a separate install of WordPress with the <a href="http://wordpress.org/plugins/wordpress-beta-tester/">Beta Tester</a> plugin set to bleeding edge.</p></div>';
+		}
+	}
+
 	echo '<ul class="core-updates">';
 	$alternate = true;
 	foreach( (array) $updates as $update ) {
