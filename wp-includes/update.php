@@ -203,12 +203,21 @@ function wp_update_plugins() {
 
 	$to_send = compact( 'plugins', 'active' );
 
+	/**
+	 * Filter the locales requested for plugin translations.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param array $locales Defaults to the current locale of the site.
+	 */
+	$locales = apply_filters( 'plugins_update_check_locales', array( get_locale() ) );
+
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
 		'body' => array(
 			'plugins'      => json_encode( $to_send ),
 			'translations' => json_encode( $translations ),
-			'locale'       => json_encode( array( get_locale() ) ), // @todo filter.
+			'locale'       => json_encode( $locales ),
 		),
 		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
@@ -329,12 +338,21 @@ function wp_update_themes() {
 
 	$request['themes'] = $themes;
 
+	/**
+	 * Filter the locales requested for theme translations.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param array $locales Defaults to the current locale of the site.
+	 */
+	$locales = apply_filters( 'themes_update_check_locales', array( get_locale() ) );
+
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
 		'body' => array(
 			'themes'       => json_encode( $request ),
 			'translations' => json_encode( $translations ),
-			'locale'       => json_encode( array( get_locale() ) ), // @todo filter.
+			'locale'       => json_encode( $locales ),
 		),
 		'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
