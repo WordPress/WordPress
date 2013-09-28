@@ -1465,7 +1465,7 @@ class WP_Automatic_Upgrader {
 	/**
 	 * Check for GIT/SVN checkouts.
 	 */
-	function is_vcs_checkout( $context ) {
+	static function is_vcs_checkout( $context ) {
 		$stop_dirs = array(
 			ABSPATH,
 			untrailingslashit( $context ),
