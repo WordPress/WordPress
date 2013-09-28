@@ -352,11 +352,18 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		 */
 		try {
 			$this->image->rotateImage( new ImagickPixel('none'), 360-$angle );
+
+			// Since this changes the dimensions of the image, update the size.
+			$result = $this->update_size();
+			if ( is_wp_error( $result ) )
+				return $result;
+
+			$this->image->setImagePage( $this->size['width'], $this->size['height'], 0, 0 );
 		}
 		catch ( Exception $e ) {
 			return new WP_Error( 'image_rotate_error', $e->getMessage() );
 		}
-		return $this->update_size();
+		return true;
 	}
 
 	/**
