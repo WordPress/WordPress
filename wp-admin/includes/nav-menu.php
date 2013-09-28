@@ -9,29 +9,42 @@
  */
 class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	/**
+	 * Starts the list before the elements are added.
+	 *
 	 * @see Walker_Nav_Menu::start_lvl()
+	 *
 	 * @since 3.0.0
 	 *
 	 * @param string $output Passed by reference.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   Not used.
 	 */
 	function start_lvl( &$output, $depth = 0, $args = array() ) {}
 
 	/**
+	 * Ends the list of after the elements are added.
+	 *
 	 * @see Walker_Nav_Menu::end_lvl()
+	 *
 	 * @since 3.0.0
 	 *
 	 * @param string $output Passed by reference.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   Not used.
 	 */
 	function end_lvl( &$output, $depth = 0, $args = array() ) {}
 
 	/**
-	 * @see Walker::start_el()
+	 * Start the element output.
+	 *
+	 * @see Walker_Nav_Menu::start_el()
 	 * @since 3.0.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param object $item Menu item data object.
-	 * @param int $depth Depth of menu item. Used for padding.
-	 * @param object $args
+	 * @param object $item   Menu item data object.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   Not used.
+	 * @param int    $id     Not used.
 	 */
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		global $_wp_nav_menu_max_depth;
@@ -212,7 +225,8 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<?php
 		$output .= ob_get_clean();
 	}
-}
+
+} // Walker_Nav_Menu_Edit
 
 /**
  * Create HTML list of nav menu input items.
@@ -228,24 +242,50 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		}
 	}
 
+	/**
+	 * Starts the list before the elements are added.
+	 *
+	 * @see Walker_Nav_Menu::start_lvl()
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int    $depth  Depth of page. Used for padding.
+	 * @param array  $args   Not used.
+	 */
 	function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat( "\t", $depth );
 		$output .= "\n$indent<ul class='children'>\n";
 	}
 
+	/**
+	 * Ends the list of after the elements are added.
+	 *
+	 * @see Walker_Nav_Menu::end_lvl()
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int    $depth  Depth of page. Used for padding.
+	 * @param array  $args   Not used.
+	 */
 	function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat( "\t", $depth );
 		$output .= "\n$indent</ul>";
 	}
 
 	/**
-	 * @see Walker::start_el()
+	 * Start the element output.
+	 *
+	 * @see Walker_Nav_Menu::start_el()
+	 *
 	 * @since 3.0.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param object $item Menu item data object.
-	 * @param int $depth Depth of menu item. Used for padding.
-	 * @param object $args
+	 * @param object $item   Menu item data object.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   Not used.
+	 * @param int    $id     Not used.
 	 */
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		global $_nav_menu_placeholder;
@@ -284,7 +324,8 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		$output .= '<input type="hidden" class="menu-item-classes" name="menu-item[' . $possible_object_id . '][menu-item-classes]" value="'. esc_attr( implode( ' ', $item->classes ) ) .'" />';
 		$output .= '<input type="hidden" class="menu-item-xfn" name="menu-item[' . $possible_object_id . '][menu-item-xfn]" value="'. esc_attr( $item->xfn ) .'" />';
 	}
-}
+
+} // Walker_Nav_Menu_Checklist
 
 /**
  * Prints the appropriate response to a menu quick search.
