@@ -763,6 +763,8 @@ function walk_category_dropdown_tree() {
  */
 class Walker_Category extends Walker {
 	/**
+	 * What the class handles.
+	 *
 	 * @see Walker::$tree_type
 	 * @since 2.1.0
 	 * @var string
@@ -770,6 +772,8 @@ class Walker_Category extends Walker {
 	var $tree_type = 'category';
 
 	/**
+	 * Database fields to use.
+	 *
 	 * @see Walker::$db_fields
 	 * @since 2.1.0
 	 * @todo Decouple this
@@ -778,12 +782,16 @@ class Walker_Category extends Walker {
 	var $db_fields = array ('parent' => 'parent', 'id' => 'term_id');
 
 	/**
+	 * Starts the list before the elements are added.
+	 *
 	 * @see Walker::start_lvl()
+	 *
 	 * @since 2.1.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int $depth Depth of category. Used for tab indentation.
-	 * @param array $args Will only append content if style argument value is 'list'.
+	 * @param int    $depth  Depth of category. Used for tab indentation.
+	 * @param array  $args   An array of arguments. Will only append content if style argument value is 'list'.
+	 *                       @see wp_list_categories()
 	 */
 	function start_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
@@ -794,12 +802,16 @@ class Walker_Category extends Walker {
 	}
 
 	/**
+	 * Ends the list of after the elements are added.
+	 *
 	 * @see Walker::end_lvl()
+	 *
 	 * @since 2.1.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int $depth Depth of category. Used for tab indentation.
-	 * @param array $args Will only append content if style argument value is 'list'.
+	 * @param int    $depth  Depth of category. Used for tab indentation.
+	 * @param array  $args   An array of arguments. Will only append content if style argument value is 'list'.
+	 *                       @wsee wp_list_categories()
 	 */
 	function end_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
@@ -810,13 +822,17 @@ class Walker_Category extends Walker {
 	}
 
 	/**
+	 * Start the element output.
+	 *
 	 * @see Walker::start_el()
+	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param string $output   Passed by reference. Used to append additional content.
 	 * @param object $category Category data object.
-	 * @param int $depth Depth of category in reference to parents.
-	 * @param array $args
+	 * @param int    $depth    Depth of category in reference to parents. Default 0.
+	 * @param array  $args     An array of arguments. @see wp_list_categories()
+	 * @param int    $id       ID of the current category.
 	 */
 	function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		extract($args);
@@ -882,13 +898,16 @@ class Walker_Category extends Walker {
 	}
 
 	/**
+	 * Ends the element output, if needed.
+	 *
 	 * @see Walker::end_el()
+	 *
 	 * @since 2.1.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param object $page Not used.
-	 * @param int $depth Depth of category. Not used.
-	 * @param array $args Only uses 'list' for whether should append to output.
+	 * @param object $page   Not used.
+	 * @param int    $depth  Depth of category. Not used.
+	 * @param array  $args   An array of arguments. Only uses 'list' for whether should append to output. @see wp_list_categories()
 	 */
 	function end_el( &$output, $page, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
@@ -923,13 +942,15 @@ class Walker_CategoryDropdown extends Walker {
 	var $db_fields = array ('parent' => 'parent', 'id' => 'term_id');
 
 	/**
+	 * Start the element output.
+	 *
 	 * @see Walker::start_el()
 	 * @since 2.1.0
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param string $output   Passed by reference. Used to append additional content.
 	 * @param object $category Category data object.
-	 * @param int $depth Depth of category. Used for padding.
-	 * @param array $args Uses 'selected' and 'show_count' keys, if they exist.
+	 * @param int    $depth    Depth of category. Used for padding.
+	 * @param array  $args     Uses 'selected' and 'show_count' keys, if they exist. @see wp_dropdown_categories()
 	 */
 	function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
