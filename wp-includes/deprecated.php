@@ -3317,18 +3317,6 @@ function user_pass_ok($user_login, $user_pass) {
 function _save_post_hook() {}
 
 /**
- * Formerly used internally to tidy up the search terms.
- *
- * @access private
- * @since 2.9.0
- * @deprecated 3.7.0
- */
-function _search_terms_tidy( $t ) {
-	_deprecated_function( __FUNCTION__, '3.5', '' );
-	return trim( $t, "\"'\n\r " );
-}
-
-/**
  * Check if the installed version of GD supports particular image type
  *
  * @since 2.9.0
@@ -3389,4 +3377,16 @@ function wp_convert_bytes_to_hr( $bytes ) {
 	}
 
 	return $size . $unit;
+}
+
+/**
+ * Formerly used internally to tidy up the search terms.
+ *
+ * @access private
+ * @since 2.9.0
+ * @deprecated 3.7.0
+ */
+function _search_terms_tidy( $t ) {
+	_deprecated_function( __FUNCTION__, '3.7' );
+	return trim( $t, "\"'\n\r " );
 }
