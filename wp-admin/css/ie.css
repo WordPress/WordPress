@@ -630,3 +630,13 @@ table.ie-fixed {
 * html #adminmenu div.wp-menu-image {
 	height: 29px;
 }
+
+.revisions-tickmarks,
+.revisions-tooltip {
+	display: none !important;
+}
+
+.revisions.pinned .revisions-controls {
+    position: relative;
+}
+

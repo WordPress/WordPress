@@ -45,7 +45,7 @@
  *
  * <strong>Note:</strong> the function will return true no matter if the
  * function was hooked fails or not. There are no checks for whether the
- * function exists beforehand and no checks to whether the <tt>$function_to_add
+ * function exists beforehand and no checks to whether the <tt>$function_to_add</tt>
  * is even a string. It is up to you to take care and this is done for
  * optimization purposes, so everything is as quick as possible.
  *

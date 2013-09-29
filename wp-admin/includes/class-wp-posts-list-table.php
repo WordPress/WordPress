@@ -480,7 +480,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$edit_link = get_edit_post_link( $post->ID );
 		$title = _draft_or_post_title();
 		$post_type_object = get_post_type_object( $post->post_type );
-		$can_edit_post = current_user_can( $post_type_object->cap->edit_post, $post->ID );
+		$can_edit_post = current_user_can( 'edit_post', $post->ID );
 
 		$alternate = 'alternate' == $alternate ? '' : 'alternate';
 		$classes = $alternate . ' iedit author-' . ( get_current_user_id() == $post->post_author ? 'self' : 'other' );
@@ -574,7 +574,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 						$locked_avatar = $locked_text = '';
 					}
 
-					echo '<span class="locked-avatar">' . $locked_avatar . '</span> <span class="locked-text">' . $locked_text . "</span>\n";
+					echo '<div class="locked-info"><span class="locked-avatar">' . $locked_avatar . '</span> <span class="locked-text">' . $locked_text . "</span></div>\n";
 				}
 
 				if ( ! $this->hierarchical_display && 'excerpt' == $mode && current_user_can( 'read_post', $post->ID ) )
@@ -585,7 +585,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID, true ) . '" title="' . esc_attr( __( 'Edit this item' ) ) . '">' . __( 'Edit' ) . '</a>';
 					$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr( __( 'Edit this item inline' ) ) . '">' . __( 'Quick&nbsp;Edit' ) . '</a>';
 				}
-				if ( current_user_can( $post_type_object->cap->delete_post, $post->ID ) ) {
+				if ( current_user_can( 'delete_post', $post->ID ) ) {
 					if ( 'trash' == $post->post_status )
 						$actions['untrash'] = "<a title='" . esc_attr( __( 'Restore this item from the Trash' ) ) . "' href='" . wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-post_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
 					elseif ( EMPTY_TRASH_DAYS )
@@ -596,7 +596,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				if ( $post_type_object->public ) {
 					if ( in_array( $post->post_status, array( 'pending', 'draft', 'future' ) ) ) {
 						if ( $can_edit_post )
-							$actions['view'] = '<a href="' . esc_url( apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
+							$actions['view'] = '<a href="' . esc_url( apply_filters( 'preview_post_link', set_url_scheme( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) ) ) ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
 					} elseif ( 'trash' != $post->post_status ) {
 						$actions['view'] = '<a href="' . get_permalink( $post->ID ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
 					}

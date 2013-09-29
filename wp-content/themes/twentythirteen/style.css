@@ -3,8 +3,8 @@ Theme Name: Twenty Thirteen
 Theme URI: http://wordpress.org/themes/twentythirteen
 Author: the WordPress team
 Author URI: http://wordpress.org/
-Description: The 2013 theme for WordPress takes us back to the blog, featuring a full range of post formats, each displayed beautifully in their own unique way. Design details abound, starting with a gorgeous color scheme and matching header images, optional display fonts for beautiful typography, and a wide layout that looks great on large screens yet remains device-agnostic and is readable on any device.
-Version: 0.1
+Description: The 2013 theme for WordPress takes us back to the blog, featuring a full range of post formats, each displayed beautifully in their own unique way. Design details abound, starting with a vibrant color scheme and matching header images, beautiful typography and icons, and a flexible layout that looks great on any device, big or small.
+Version: 1.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: black, brown, orange, tan, white, yellow, light, one-column, two-columns, right-sidebar, flexible-width, custom-header, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, translation-ready
@@ -501,6 +501,9 @@ hr {
 .navigation:after,
 .nav-links:after,
 .gallery:after,
+.comment-form-author:after,
+.comment-form-email:after,
+.comment-form-url:after,
 .comment-body:after {
 	clear: both;
 }
@@ -521,6 +524,12 @@ hr {
 .nav-links:after,
 .gallery:before,
 .gallery:after,
+.comment-form-author:before,
+.comment-form-author:after,
+.comment-form-email:before,
+.comment-form-email:after,
+.comment-form-url:before,
+.comment-form-url:after,
 .comment-body:before,
 .comment-body:after {
 	content: "";
@@ -625,7 +634,7 @@ input[type="reset"]:active {
 	padding: 5px 24px 6px;
 }
 
-/* Placeholder text color -- selectors need to be in separate to work. */
+/* Placeholder text color -- selectors need to be separate to work. */
 ::-webkit-input-placeholder {
 	color: #7d7b6d;
 }
@@ -742,6 +751,12 @@ img.wp-smiley,
 	margin-top: 0;
 	padding: 0;
 }
+
+.wp-caption.alignleft + ul,
+.wp-caption.alignleft + ol  {
+	list-style-position: inside;
+}
+
 
 /**
  * 3.0 Basic Structure
@@ -860,15 +875,12 @@ div.nav-menu > ul {
 .nav-menu .sub-menu,
 .nav-menu .children {
 	background-color: #220e10;
-	border: 2px solid rgba(247, 245, 231, 1);
+	border: 2px solid #f7f5e7;
 	border-top: 0;
-	color: #fff;
 	display: none;
-	float: left;
 	padding: 0;
 	position: absolute;
 	left: -2px;
-	top: 45px;
 	z-index: 99999;
 }
 
@@ -1235,21 +1247,9 @@ footer.entry-meta {
 	margin: 0 auto 20px;
 }
 
-.gallery-columns-1 .gallery-item {
-	max-width: 100%;
-}
-
-.gallery-columns-2 .gallery-item {
-	max-width: 48%;
-	max-width: -webkit-calc(50% - 4px);
-	max-width:         calc(50% - 4px);
-	text-align: center;
-}
-
+.gallery-columns-1 .gallery-item,
+.gallery-columns-2 .gallery-item,
 .gallery-columns-3 .gallery-item {
-	max-width: 31%;
-	max-width: -webkit-calc(33.3% - 4px);
-	max-width:         calc(33.3% - 4px);
 	text-align: center;
 }
 
@@ -1484,89 +1484,6 @@ footer.entry-meta {
 	color: #722d19;
 }
 
-/* Blog gallery */
-.blog .format-gallery .gallery,
-.archive .format-gallery .gallery,
-.search .format-gallery .gallery {
-	margin-bottom: 20px;
-	margin-left: -4px;
-	max-width: 608px;
-}
-
-.blog .format-gallery .gallery-item,
-.archive .format-gallery .gallery-item,
-.search .format-gallery .gallery-item {
-	display: block;
-	height: 148px;
-	margin-right: 4px;
-	max-height: 100%;
-	max-width: 100%;
-	overflow: hidden;
-	width: 148px;
-}
-
-.blog .format-gallery .gallery-item img,
-.archive .format-gallery .gallery-item img,
-.search .format-gallery .gallery-item img {
-	height: 100%;
-	max-height: 148px;
-	max-width: none;
-	width: auto;
-}
-
-.blog .format-gallery .gallery-item .portrait img,
-.archive .format-gallery .gallery-item .portrait img,
-.search .format-gallery .gallery-item .portrait img {
-	height: auto;
-	max-height: none;
-	max-width: 148px;
-	width: 100%;
-}
-
-.blog .format-gallery .gallery-item:first-child,
-.archive .format-gallery .gallery-item:first-child,
-.search .format-gallery .gallery-item:first-child {
-	height: 300px;
-	width: 300px;
-}
-
-.blog .format-gallery .gallery-item:first-child img,
-.archive .format-gallery .gallery-item:first-child img,
-.search .format-gallery .gallery-item:first-child img {
-	max-height: 300px;
-}
-
-.blog .format-gallery .gallery-item:first-child .portrait img,
-.archive .format-gallery .gallery-item:first-child .portrait img,
-.search .format-gallery .gallery-item:first-child .portrait img {
-	max-height: none;
-	max-width: 300px;
-}
-
-.blog .format-gallery .gallery-item .gallery-icon,
-.archive .format-gallery .gallery-item .gallery-icon,
-.search .format-gallery .gallery-item .gallery-icon {
-	height: 100%;
-	-webkit-transform: translate(50%, 50%);
-	-ms-transform:     translate(50%, 50%);
-	transform:         translate(50%, 50%);
-	width: 100%;
-}
-
-.blog .format-gallery .gallery-item .gallery-icon img,
-.archive .format-gallery .gallery-item .gallery-icon img,
-.search .format-gallery .gallery-item .gallery-icon img {
-	-webkit-transform: translate(-50%, -50%);
-	-ms-transform:     translate(-50%, -50%);
-	transform:         translate(-50%, -50%);
-}
-
-.blog .format-gallery .gallery br,
-.archive .format-gallery .gallery br,
-.search .format-gallery .gallery br {
-	display: none;
-}
-
 /* Image */
 .format-image .entry-title {
 	font-size: 28px;
@@ -1739,7 +1656,7 @@ footer.entry-meta {
 	width: 13px;
 }
 
-.sidebar .format-status .entry-content p:first-child:before {
+.sidebar .format-status .entry-content > p:first-child:before {
 	left: 64px;
 }
 
@@ -3015,29 +2932,23 @@ footer.entry-meta {
 	}
 
 	.gallery .gallery-item,
-	.single .gallery-columns-2.gallery-size-thumbnail .gallery-item,
-	.blog .format-gallery .gallery-item,
-	.archive .format-gallery .gallery-item,
-	.search .format-gallery .gallery-item {
+	.gallery-columns-2.gallery-size-thumbnail .gallery-item {
 		max-width: none;
 		width: 49%;
 		width: -webkit-calc(50% - 4px);
 		width:         calc(50% - 4px);
 	}
 
-	.single .gallery-columns-1.gallery-size-medium,
-	.single .gallery-columns-1.gallery-size-thumbnail,
-	.single .gallery-columns-2.gallery-size-thumbnail,
-	.single .gallery-columns-3.gallery-size-thumbnail {
+	.gallery-columns-1.gallery-size-medium,
+	.gallery-columns-1.gallery-size-thumbnail,
+	.gallery-columns-2.gallery-size-thumbnail,
+	.gallery-columns-3.gallery-size-thumbnail {
 		display: block;
 	}
 
 	.gallery-columns-1 .gallery-item,
-	.single .gallery-columns-1.gallery-size-medium .gallery-item,
-	.single .gallery-columns-1.gallery-size-thumbnail .gallery-item,
-	.blog .format-gallery .gallery-item:first-child,
-	.archive .format-gallery .gallery-item:first-child,
-	.search .format-gallery .gallery-item:first-child {
+	.gallery-columns-1.gallery-size-medium .gallery-item,
+	.gallery-columns-1.gallery-size-thumbnail .gallery-item {
 		text-align: center;
 		width: 98%;
 		width: -webkit-calc(100% - 4px);
@@ -3055,10 +2966,7 @@ footer.entry-meta {
 		display: none;
 	}
 
-	.blog .format-gallery .gallery-item:nth-of-type(odd),
-	.archive .format-gallery .gallery-item:nth-of-type(odd),
-	.search .format-gallery .gallery-item:nth-of-type(odd),
-	.single .gallery .gallery-item:nth-of-type(even) {
+	.gallery .gallery-item:nth-of-type(even) {
 		margin-right: 0;
 	}
 

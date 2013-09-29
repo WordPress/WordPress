@@ -172,7 +172,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 					</label>
 				</p>
 
-				<p class="field-move description description-wide">
+				<p class="field-move hide-if-no-js description description-wide">
 					<label>
 						<span><?php _e( 'Move' ); ?></span>
 						<a href="#" class="menus-move-up"><?php _e( 'Up one' ); ?></a>
@@ -264,6 +264,8 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		if ( property_exists( $item, 'front_or_home' ) && $item->front_or_home ) {
 			$title = sprintf( _x( 'Home: %s', 'nav menu front page title' ), $item->post_title );
 			$output .= ' add-to-top';
+		} elseif ( property_exists( $item, 'label' ) ) {
+			$title = $item->label;
 		}
 		$output .= '" name="menu-item[' . $possible_object_id . '][menu-item-object-id]" value="'. esc_attr( $item->object_id ) .'" /> ';
 		$output .= isset( $title ) ? esc_html( $title ) : esc_html( $item->title );

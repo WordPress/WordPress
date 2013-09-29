@@ -1,6 +1,6 @@
 // Interim login dialog
 (function($){
-	var wrap, check, scheduleTimeout, hideTimeout;
+	var wrap, check, next;
 
 	function show() {
 		var parent = $('#wp-auth-check'), form = $('#wp-auth-check-form'), noframe = wrap.find('.wp-auth-fallback-expired'), frame, loaded = false;
@@ -22,20 +22,23 @@
 					height = body.height();
 				} catch(e) {
 					wrap.addClass('fallback');
+					parent.css( 'max-height', '' );
 					form.remove();
 					noframe.focus();
 					return;
 				}
 
 				if ( height ) {
-					if ( body && body.hasClass('interim-login-success') ) {
-						height += 35;
-						parent.find('.wp-auth-check-close').show();
-						wrap.data('logged-in', 1);
-						hideTimeout = setTimeout( function() { hide(); }, 3000 );
-					}
-
-					parent.css( 'max-height', height + 60 + 'px' );
+					if ( body && body.hasClass('interim-login-success') )
+						hide();
+					else
+						parent.css( 'max-height', height + 40 + 'px' );
+				} else if ( ! body || ! body.length ) {
+					// Catch "silent" iframe origin exceptions in WebKit after another page is loaded in the iframe
+					wrap.addClass('fallback');
+					parent.css( 'max-height', '' );
+					form.remove();
+					noframe.focus();
 				}
 			}).attr( 'src', form.data('src') );
 
@@ -47,14 +50,14 @@
 		if ( frame ) {
 			frame.focus();
 			// WebKit doesn't throw an error if the iframe fails to load because of "X-Frame-Options: DENY" header.
-			// Wait for 5 sec. and switch to the fallback text.
+			// Wait for 10 sec. and switch to the fallback text.
 			setTimeout( function() {
 				if ( ! loaded ) {
 					wrap.addClass('fallback');
 					form.remove();
 					noframe.focus();
 				}
-			}, 5000 );
+			}, 10000 );
 		} else {
 			noframe.focus();
 		}
@@ -62,7 +65,6 @@
 
 	function hide() {
 		$(window).off( 'beforeunload.wp-auth-check' );
-		window.clearTimeout( hideTimeout );
 
 		// When on the Edit Post screen, speed up heartbeat after the user logs in to quickly refresh nonces
 		if ( typeof adminpage != 'undefined' && ( adminpage == 'post-php' || adminpage == 'post-new-php' )
@@ -72,48 +74,32 @@
 		}
 
 		wrap.fadeOut( 200, function() {
-			wrap.addClass('hidden').css('display', '').find('.wp-auth-check-close').css('display', '');
+			wrap.addClass('hidden').css('display', '');
 			$('#wp-auth-check-frame').remove();
 		});
 	}
 
 	function schedule() {
-		check = false;
-		window.clearTimeout( scheduleTimeout );
-		scheduleTimeout = window.setTimeout( function(){ check = 1; }, 300000 ); // 5 min.
+		var interval = parseInt( window.authcheckL10n.interval, 10 ) || 180; // in seconds, default 3 min.
+		next = ( new Date() ).getTime() + ( interval * 1000 );
 	}
 
 	$( document ).on( 'heartbeat-tick.wp-auth-check', function( e, data ) {
-		if ( check === 2 )
+		if ( 'wp-auth-check' in data ) {
 			schedule();
-
-		if ( data['wp-auth-check'] && wrap.hasClass('hidden') ) {
-			show();
-		} else if ( ! data['wp-auth-check'] && ! wrap.hasClass('hidden') && ! wrap.data('logged-in') ) {
-			hide();
+			if ( ! data['wp-auth-check'] && wrap.hasClass('hidden') )
+				show();
+			else if ( data['wp-auth-check'] && ! wrap.hasClass('hidden') )
+				hide();
 		}
+	}).on( 'heartbeat-send.wp-auth-check', function( e, data ) {
+		if ( ( new Date() ).getTime() > next )
+			data['wp-auth-check'] = true;
 	}).ready( function() {
 		schedule();
-		wrap = $('#wp-auth-check-wrap').data( 'logged-in', 0 );
+		wrap = $('#wp-auth-check-wrap');
 		wrap.find('.wp-auth-check-close').on( 'click', function(e) {
 			hide();
-		});
-		// Bind later
-		$( document ).on( 'heartbeat-send.wp-auth-check', function( e, data ) {
-			var i, empty = true;
-			// Check if something is using heartbeat. If yes, trigger the logged out check too.
-			for ( i in data ) {
-				if ( data.hasOwnProperty( i ) ) {
-					empty = false;
-					break;
-				}
-			}
-
-			if ( check || ! empty )
-				data['wp-auth-check'] = 1;
-
-			if ( check )
-				check = 2;
 		});
 	});
 

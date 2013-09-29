@@ -82,7 +82,7 @@ function wp_image_editor($post_id, $msg = false) {
 	<div class="imgedit-group-top">
 		<a class="imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;" href="#"><strong><?php _e('Scale Image'); ?></strong></a>
 		<div class="imgedit-help">
-		<p><?php _e('You can proportionally scale the original image. For best results the scaling should be done before performing any other operations on it like crop, rotate, etc. Note that if you make the image larger it may become fuzzy.'); ?></p>
+		<p><?php _e('You can proportionally scale the original image. For best results the scaling should be done before performing any other operations on it like crop, rotate, etc. Note that images can only be scaled down, not up.'); ?></p>
 		<?php if ( isset( $meta['width'], $meta['height'] ) ): ?>
 		<p><?php printf( __('Original dimensions %s'), $meta['width'] . '&times;' . $meta['height'] ); ?></p>
 		<?php endif ?>

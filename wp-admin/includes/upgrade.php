@@ -1427,11 +1427,7 @@ function __get_option($setting) {
 	if ( 'siteurl' == $setting || 'home' == $setting || 'category_base' == $setting || 'tag_base' == $setting )
 		$option = untrailingslashit( $option );
 
-	@ $kellogs = unserialize( $option );
-	if ( $kellogs !== false )
-		return $kellogs;
-	else
-		return $option;
+	return maybe_unserialize( $option );
 }
 
 /**
@@ -1652,7 +1648,7 @@ function dbDelta( $queries = '', $execute = true ) {
 		foreach ( (array) $indices as $index ) {
 			// Push a query line into $cqueries that adds the index to that table
 			$cqueries[] = "ALTER TABLE {$table} ADD $index";
-			$for_update[$table.'.'.$fieldname] = 'Added index '.$table.' '.$index;
+			$for_update[] = 'Added index ' . $table . ' ' . $index;
 		}
 
 		// Remove the original table creation query from processing

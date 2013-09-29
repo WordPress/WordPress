@@ -1,7 +1,7 @@
 window.wp = window.wp || {};
 
 (function($){
-	var Attachment, Attachments, Query, compare, l10n, media, bindSyncEvents;
+	var Attachment, Attachments, Query, compare, l10n, media;
 
 	/**
 	 * wp.media( attributes )
@@ -67,27 +67,6 @@ window.wp = window.wp || {};
 			return a > b ? -1 : 1;
 	};
 
-	// Ensures the 'sync' and 'error' events are always
-	// correctly triggered when overloading `Backbone.sync`.
-	bindSyncEvents = function( model, options ) {
-		var success = options.success,
-			error = options.error;
-
-		options.success = function( resp ) {
-			if ( success )
-				success( resp );
-			model.trigger( 'sync', model, resp, options );
-		};
-
-		options.error = function( xhr ) {
-			if ( error )
-				error( xhr );
-			model.trigger( 'error', model, xhr, options );
-		};
-
-		return options;
-	};
-
 	_.extend( media, {
 		/**
 		 * media.template( id )
@@ -101,17 +80,17 @@ window.wp = window.wp || {};
 		 * media.post( [action], [data] )
 		 *
 		 * Sends a POST request to WordPress.
-		 * See wp.xhr.post() in `wp-includes/js/wp-util.js`.
+		 * See wp.ajax.post() in `wp-includes/js/wp-util.js`.
 		 */
-		post: wp.xhr.post,
+		post: wp.ajax.post,
 
 		/**
 		 * media.ajax( [action], [options] )
 		 *
 		 * Sends an XHR request to WordPress.
-		 * See wp.xhr.send() in `wp-includes/js/wp-util.js`.
+		 * See wp.ajax.send() in `wp-includes/js/wp-util.js`.
 		 */
-		ajax: wp.xhr.send,
+		ajax: wp.ajax.send,
 
 		// Scales a set of dimensions to fit within bounding dimensions.
 		fit: function( dimensions ) {
@@ -197,7 +176,6 @@ window.wp = window.wp || {};
 					action: 'get-attachment',
 					id: this.id
 				});
-				bindSyncEvents( model, options );
 				return media.ajax( options );
 
 			// Overload the `update` request so properties can be saved.
@@ -226,7 +204,6 @@ window.wp = window.wp || {};
 					}, this );
 				}
 
-				bindSyncEvents( model, options );
 				return media.ajax( options );
 
 			// Overload the `delete` request so attachments can be removed.
@@ -244,7 +221,6 @@ window.wp = window.wp || {};
 					_wpnonce: this.get('nonces')['delete']
 				});
 
-				bindSyncEvents( model, options );
 				return media.ajax( options ).done( function() {
 					this.destroyed = true;
 				}).fail( function() {
@@ -425,7 +401,6 @@ window.wp = window.wp || {};
 
 			attachments.on( 'add change remove', this._validateHandler, this );
 			attachments.on( 'reset', this._validateAllHandler, this );
-
 			this.validateAll( attachments );
 			return this;
 		},
@@ -504,6 +479,30 @@ window.wp = window.wp || {};
 
 		hasMore: function() {
 			return this.mirroring ? this.mirroring.hasMore() : false;
+		},
+
+		parse: function( resp, xhr ) {
+			if ( ! _.isArray( resp ) )
+				resp = [resp];
+
+			return _.map( resp, function( attrs ) {
+				var id, attachment, newAttributes;
+
+				if ( attrs instanceof Backbone.Model ) {
+					id = attrs.get( 'id' );
+					attrs = attrs.attributes;
+				} else {
+					id = attrs.id;
+				}
+
+				attachment = Attachment.get( id );
+				newAttributes = attachment.parse( attrs, xhr );
+
+				if ( ! _.isEqual( attachment.attributes, newAttributes ) )
+					attachment.set( newAttributes );
+
+				return attachment;
+			});
 		},
 
 		_requery: function() {
@@ -701,7 +700,6 @@ window.wp = window.wp || {};
 					args.paged = Math.floor( this.length / args.posts_per_page ) + 1;
 
 				options.data.query = args;
-				bindSyncEvents( model, options );
 				return media.ajax( options );
 
 			// Otherwise, fall back to Backbone.sync()

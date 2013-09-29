@@ -190,3 +190,29 @@ function wp_style_is( $handle, $list = 'enqueued' ) {
 
 	return (bool) $wp_styles->query( $handle, $list );
 }
+
+/**
+ * Add metadata to CSS style files.
+ *
+ * Works only if the stylesheet has already been added.
+ * Possible values for $key and $value:
+ *
+ * conditional string      comments for IE 6, lte IE 7 etc.
+ * rtl         bool|string to declare an RTL stylesheet
+ * suffix      string      optional suffix, used in combination with RTL
+ * alt         bool        for rel="alternate stylesheet"
+ * title       string      for preferred/alternate stylesheets
+ *
+ * @since 3.6.0
+ * @see WP_Dependencies::add_data()
+ *
+ * @param string $handle Script name.
+ * @param string $key Name of data point for which we're storing a value.
+ *  Values are 'conditional', 'rtl', and 'suffix', and 'alt', 'title'.
+ * @param mixed $data
+ * @return bool True on success, false on failure.
+ */
+function wp_style_add_data( $handle, $key, $value ) {
+	global $wp_styles;
+	return $wp_styles->add_data( $handle, $key, $value );
+}

@@ -10,10 +10,12 @@
 // module.audio-video.quicktime.php                            //
 // module for analyzing Quicktime and MP3-in-MP4 files         //
 // dependencies: module.audio.mp3.php                          //
+// dependencies: module.tag.id3v2.php                          //
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
 getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio.mp3.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.id3v2.php', __FILE__, true); // needed for ISO 639-2 language code lookup
 
 class getid3_quicktime extends getid3_handler
 {
@@ -170,7 +172,8 @@ class getid3_quicktime extends getid3_handler
 
 		$info = &$this->getid3->info;
 
-		$atom_parent = array_pop($atomHierarchy);
+		//$atom_parent = array_pop($atomHierarchy);
+		$atom_parent = end($atomHierarchy); // http://www.getid3.org/phpBB3/viewtopic.php?t=1717
 		array_push($atomHierarchy, $atomname);
 		$atom_structure['hierarchy'] = implode(' ', $atomHierarchy);
 		$atom_structure['name']      = $atomname;
@@ -366,6 +369,12 @@ class getid3_quicktime extends getid3_handler
 							$boxsmallsize = getid3_lib::BigEndian2Int(substr($atom_data, $atomoffset,     2));
 							$boxsmalltype =                           substr($atom_data, $atomoffset + 2, 2);
 							$boxsmalldata =                           substr($atom_data, $atomoffset + 4, $boxsmallsize);
+							if ($boxsmallsize <= 1) {
+								$info['warning'][] = 'Invalid QuickTime atom smallbox size "'.$boxsmallsize.'" in atom "'.$atomname.'" at offset: '.($atom_structure['offset'] + $atomoffset);
+								$atom_structure['data'] = null;
+								$atomoffset = strlen($atom_data);
+								break;
+							}
 							switch ($boxsmalltype) {
 								case "\x10\xB5":
 									$atom_structure['data'] = $boxsmalldata;
@@ -657,19 +666,65 @@ class getid3_quicktime extends getid3_handler
 					switch ($atom_structure['sample_description_table'][$i]['encoder_vendor']) {
 
 						case "\x00\x00\x00\x00":
-							// audio atom
+							// audio tracks
 							$atom_structure['sample_description_table'][$i]['audio_channels']       =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'],  8,  2));
 							$atom_structure['sample_description_table'][$i]['audio_bit_depth']      =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 10,  2));
 							$atom_structure['sample_description_table'][$i]['audio_compression_id'] =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 12,  2));
 							$atom_structure['sample_description_table'][$i]['audio_packet_size']    =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 14,  2));
 							$atom_structure['sample_description_table'][$i]['audio_sample_rate']    = getid3_lib::FixedPoint16_16(substr($atom_structure['sample_description_table'][$i]['data'], 16,  4));
 
+							// video tracks
+							// http://developer.apple.com/library/mac/#documentation/QuickTime/QTFF/QTFFChap3/qtff3.html
+							$atom_structure['sample_description_table'][$i]['temporal_quality'] =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'],  8,  4));
+							$atom_structure['sample_description_table'][$i]['spatial_quality']  =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 12,  4));
+							$atom_structure['sample_description_table'][$i]['width']            =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 16,  2));
+							$atom_structure['sample_description_table'][$i]['height']           =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 18,  2));
+							$atom_structure['sample_description_table'][$i]['resolution_x']     = getid3_lib::FixedPoint16_16(substr($atom_structure['sample_description_table'][$i]['data'], 24,  4));
+							$atom_structure['sample_description_table'][$i]['resolution_y']     = getid3_lib::FixedPoint16_16(substr($atom_structure['sample_description_table'][$i]['data'], 28,  4));
+							$atom_structure['sample_description_table'][$i]['data_size']        =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 32,  4));
+							$atom_structure['sample_description_table'][$i]['frame_count']      =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 36,  2));
+							$atom_structure['sample_description_table'][$i]['compressor_name']  =                             substr($atom_structure['sample_description_table'][$i]['data'], 38,  4);
+							$atom_structure['sample_description_table'][$i]['pixel_depth']      =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 42,  2));
+							$atom_structure['sample_description_table'][$i]['color_table_id']   =   getid3_lib::BigEndian2Int(substr($atom_structure['sample_description_table'][$i]['data'], 44,  2));
+
 							switch ($atom_structure['sample_description_table'][$i]['data_format']) {
+								case '2vuY':
 								case 'avc1':
+								case 'cvid':
+								case 'dvc ':
+								case 'dvcp':
+								case 'gif ':
+								case 'h263':
+								case 'jpeg':
+								case 'kpcd':
+								case 'mjpa':
+								case 'mjpb':
 								case 'mp4v':
+								case 'png ':
+								case 'raw ':
+								case 'rle ':
+								case 'rpza':
+								case 'smc ':
+								case 'SVQ1':
+								case 'SVQ3':
+								case 'tiff':
+								case 'v210':
+								case 'v216':
+								case 'v308':
+								case 'v408':
+								case 'v410':
+								case 'yuv2':
 									$info['fileformat'] = 'mp4';
 									$info['video']['fourcc'] = $atom_structure['sample_description_table'][$i]['data_format'];
-									//$info['warning'][] = 'This version of getID3() ['.$this->getid3->version().'] does not fully support MPEG-4 audio/video streams'; // 2011-02-18: why am I warning about this again? What's not supported?
+// http://www.getid3.org/phpBB3/viewtopic.php?t=1550
+//if ((!empty($atom_structure['sample_description_table'][$i]['width']) && !empty($atom_structure['sample_description_table'][$i]['width'])) && (empty($info['video']['resolution_x']) || empty($info['video']['resolution_y']) || (number_format($info['video']['resolution_x'], 6) != number_format(round($info['video']['resolution_x']), 6)) || (number_format($info['video']['resolution_y'], 6) != number_format(round($info['video']['resolution_y']), 6)))) { // ugly check for floating point numbers
+if (!empty($atom_structure['sample_description_table'][$i]['width']) && !empty($atom_structure['sample_description_table'][$i]['height'])) {
+	// assume that values stored here are more important than values stored in [tkhd] atom
+	$info['video']['resolution_x'] = $atom_structure['sample_description_table'][$i]['width'];
+	$info['video']['resolution_y'] = $atom_structure['sample_description_table'][$i]['height'];
+	$info['quicktime']['video']['resolution_x'] = $info['video']['resolution_x'];
+	$info['quicktime']['video']['resolution_y'] = $info['video']['resolution_y'];
+}
 									break;
 
 								case 'qtvr':
@@ -1121,18 +1176,19 @@ class getid3_quicktime extends getid3_handler
 				$atom_structure['alternate_group']     =   getid3_lib::BigEndian2Int(substr($atom_data, 34, 2));
 				$atom_structure['volume']              =   getid3_lib::FixedPoint8_8(substr($atom_data, 36, 2));
 				$atom_structure['reserved3']           =   getid3_lib::BigEndian2Int(substr($atom_data, 38, 2));
+// http://developer.apple.com/library/mac/#documentation/QuickTime/RM/MovieBasics/MTEditing/K-Chapter/11MatrixFunctions.html
+// http://developer.apple.com/library/mac/#documentation/QuickTime/qtff/QTFFChap4/qtff4.html#//apple_ref/doc/uid/TP40000939-CH206-18737
 				$atom_structure['matrix_a']            = getid3_lib::FixedPoint16_16(substr($atom_data, 40, 4));
 				$atom_structure['matrix_b']            = getid3_lib::FixedPoint16_16(substr($atom_data, 44, 4));
-				$atom_structure['matrix_u']            = getid3_lib::FixedPoint16_16(substr($atom_data, 48, 4));
+				$atom_structure['matrix_u']            =  getid3_lib::FixedPoint2_30(substr($atom_data, 48, 4));
 				$atom_structure['matrix_c']            = getid3_lib::FixedPoint16_16(substr($atom_data, 52, 4));
 				$atom_structure['matrix_d']            = getid3_lib::FixedPoint16_16(substr($atom_data, 56, 4));
-				$atom_structure['matrix_v']            = getid3_lib::FixedPoint16_16(substr($atom_data, 60, 4));
-				$atom_structure['matrix_x']            =  getid3_lib::FixedPoint2_30(substr($atom_data, 64, 4));
-				$atom_structure['matrix_y']            =  getid3_lib::FixedPoint2_30(substr($atom_data, 68, 4));
+				$atom_structure['matrix_v']            =  getid3_lib::FixedPoint2_30(substr($atom_data, 60, 4));
+				$atom_structure['matrix_x']            = getid3_lib::FixedPoint16_16(substr($atom_data, 64, 4));
+				$atom_structure['matrix_y']            = getid3_lib::FixedPoint16_16(substr($atom_data, 68, 4));
 				$atom_structure['matrix_w']            =  getid3_lib::FixedPoint2_30(substr($atom_data, 72, 4));
 				$atom_structure['width']               = getid3_lib::FixedPoint16_16(substr($atom_data, 76, 4));
 				$atom_structure['height']              = getid3_lib::FixedPoint16_16(substr($atom_data, 80, 4));
-
 				$atom_structure['flags']['enabled']    = (bool) ($atom_structure['flags_raw'] & 0x0001);
 				$atom_structure['flags']['in_movie']   = (bool) ($atom_structure['flags_raw'] & 0x0002);
 				$atom_structure['flags']['in_preview'] = (bool) ($atom_structure['flags_raw'] & 0x0004);
@@ -1384,118 +1440,138 @@ class getid3_quicktime extends getid3_handler
 
 
 	public function QuicktimeLanguageLookup($languageid) {
+		// http://developer.apple.com/library/mac/#documentation/QuickTime/QTFF/QTFFChap4/qtff4.html#//apple_ref/doc/uid/TP40000939-CH206-34353
 		static $QuicktimeLanguageLookup = array();
 		if (empty($QuicktimeLanguageLookup)) {
-			$QuicktimeLanguageLookup[0]   = 'English';
-			$QuicktimeLanguageLookup[1]   = 'French';
-			$QuicktimeLanguageLookup[2]   = 'German';
-			$QuicktimeLanguageLookup[3]   = 'Italian';
-			$QuicktimeLanguageLookup[4]   = 'Dutch';
-			$QuicktimeLanguageLookup[5]   = 'Swedish';
-			$QuicktimeLanguageLookup[6]   = 'Spanish';
-			$QuicktimeLanguageLookup[7]   = 'Danish';
-			$QuicktimeLanguageLookup[8]   = 'Portuguese';
-			$QuicktimeLanguageLookup[9]   = 'Norwegian';
-			$QuicktimeLanguageLookup[10]  = 'Hebrew';
-			$QuicktimeLanguageLookup[11]  = 'Japanese';
-			$QuicktimeLanguageLookup[12]  = 'Arabic';
-			$QuicktimeLanguageLookup[13]  = 'Finnish';
-			$QuicktimeLanguageLookup[14]  = 'Greek';
-			$QuicktimeLanguageLookup[15]  = 'Icelandic';
-			$QuicktimeLanguageLookup[16]  = 'Maltese';
-			$QuicktimeLanguageLookup[17]  = 'Turkish';
-			$QuicktimeLanguageLookup[18]  = 'Croatian';
-			$QuicktimeLanguageLookup[19]  = 'Chinese (Traditional)';
-			$QuicktimeLanguageLookup[20]  = 'Urdu';
-			$QuicktimeLanguageLookup[21]  = 'Hindi';
-			$QuicktimeLanguageLookup[22]  = 'Thai';
-			$QuicktimeLanguageLookup[23]  = 'Korean';
-			$QuicktimeLanguageLookup[24]  = 'Lithuanian';
-			$QuicktimeLanguageLookup[25]  = 'Polish';
-			$QuicktimeLanguageLookup[26]  = 'Hungarian';
-			$QuicktimeLanguageLookup[27]  = 'Estonian';
-			$QuicktimeLanguageLookup[28]  = 'Lettish';
-			$QuicktimeLanguageLookup[28]  = 'Latvian';
-			$QuicktimeLanguageLookup[29]  = 'Saamisk';
-			$QuicktimeLanguageLookup[29]  = 'Lappish';
-			$QuicktimeLanguageLookup[30]  = 'Faeroese';
-			$QuicktimeLanguageLookup[31]  = 'Farsi';
-			$QuicktimeLanguageLookup[31]  = 'Persian';
-			$QuicktimeLanguageLookup[32]  = 'Russian';
-			$QuicktimeLanguageLookup[33]  = 'Chinese (Simplified)';
-			$QuicktimeLanguageLookup[34]  = 'Flemish';
-			$QuicktimeLanguageLookup[35]  = 'Irish';
-			$QuicktimeLanguageLookup[36]  = 'Albanian';
-			$QuicktimeLanguageLookup[37]  = 'Romanian';
-			$QuicktimeLanguageLookup[38]  = 'Czech';
-			$QuicktimeLanguageLookup[39]  = 'Slovak';
-			$QuicktimeLanguageLookup[40]  = 'Slovenian';
-			$QuicktimeLanguageLookup[41]  = 'Yiddish';
-			$QuicktimeLanguageLookup[42]  = 'Serbian';
-			$QuicktimeLanguageLookup[43]  = 'Macedonian';
-			$QuicktimeLanguageLookup[44]  = 'Bulgarian';
-			$QuicktimeLanguageLookup[45]  = 'Ukrainian';
-			$QuicktimeLanguageLookup[46]  = 'Byelorussian';
-			$QuicktimeLanguageLookup[47]  = 'Uzbek';
-			$QuicktimeLanguageLookup[48]  = 'Kazakh';
-			$QuicktimeLanguageLookup[49]  = 'Azerbaijani';
-			$QuicktimeLanguageLookup[50]  = 'AzerbaijanAr';
-			$QuicktimeLanguageLookup[51]  = 'Armenian';
-			$QuicktimeLanguageLookup[52]  = 'Georgian';
-			$QuicktimeLanguageLookup[53]  = 'Moldavian';
-			$QuicktimeLanguageLookup[54]  = 'Kirghiz';
-			$QuicktimeLanguageLookup[55]  = 'Tajiki';
-			$QuicktimeLanguageLookup[56]  = 'Turkmen';
-			$QuicktimeLanguageLookup[57]  = 'Mongolian';
-			$QuicktimeLanguageLookup[58]  = 'MongolianCyr';
-			$QuicktimeLanguageLookup[59]  = 'Pashto';
-			$QuicktimeLanguageLookup[60]  = 'Kurdish';
-			$QuicktimeLanguageLookup[61]  = 'Kashmiri';
-			$QuicktimeLanguageLookup[62]  = 'Sindhi';
-			$QuicktimeLanguageLookup[63]  = 'Tibetan';
-			$QuicktimeLanguageLookup[64]  = 'Nepali';
-			$QuicktimeLanguageLookup[65]  = 'Sanskrit';
-			$QuicktimeLanguageLookup[66]  = 'Marathi';
-			$QuicktimeLanguageLookup[67]  = 'Bengali';
-			$QuicktimeLanguageLookup[68]  = 'Assamese';
-			$QuicktimeLanguageLookup[69]  = 'Gujarati';
-			$QuicktimeLanguageLookup[70]  = 'Punjabi';
-			$QuicktimeLanguageLookup[71]  = 'Oriya';
-			$QuicktimeLanguageLookup[72]  = 'Malayalam';
-			$QuicktimeLanguageLookup[73]  = 'Kannada';
-			$QuicktimeLanguageLookup[74]  = 'Tamil';
-			$QuicktimeLanguageLookup[75]  = 'Telugu';
-			$QuicktimeLanguageLookup[76]  = 'Sinhalese';
-			$QuicktimeLanguageLookup[77]  = 'Burmese';
-			$QuicktimeLanguageLookup[78]  = 'Khmer';
-			$QuicktimeLanguageLookup[79]  = 'Lao';
-			$QuicktimeLanguageLookup[80]  = 'Vietnamese';
-			$QuicktimeLanguageLookup[81]  = 'Indonesian';
-			$QuicktimeLanguageLookup[82]  = 'Tagalog';
-			$QuicktimeLanguageLookup[83]  = 'MalayRoman';
-			$QuicktimeLanguageLookup[84]  = 'MalayArabic';
-			$QuicktimeLanguageLookup[85]  = 'Amharic';
-			$QuicktimeLanguageLookup[86]  = 'Tigrinya';
-			$QuicktimeLanguageLookup[87]  = 'Galla';
-			$QuicktimeLanguageLookup[87]  = 'Oromo';
-			$QuicktimeLanguageLookup[88]  = 'Somali';
-			$QuicktimeLanguageLookup[89]  = 'Swahili';
-			$QuicktimeLanguageLookup[90]  = 'Ruanda';
-			$QuicktimeLanguageLookup[91]  = 'Rundi';
-			$QuicktimeLanguageLookup[92]  = 'Chewa';
-			$QuicktimeLanguageLookup[93]  = 'Malagasy';
-			$QuicktimeLanguageLookup[94]  = 'Esperanto';
-			$QuicktimeLanguageLookup[128] = 'Welsh';
-			$QuicktimeLanguageLookup[129] = 'Basque';
-			$QuicktimeLanguageLookup[130] = 'Catalan';
-			$QuicktimeLanguageLookup[131] = 'Latin';
-			$QuicktimeLanguageLookup[132] = 'Quechua';
-			$QuicktimeLanguageLookup[133] = 'Guarani';
-			$QuicktimeLanguageLookup[134] = 'Aymara';
-			$QuicktimeLanguageLookup[135] = 'Tatar';
-			$QuicktimeLanguageLookup[136] = 'Uighur';
-			$QuicktimeLanguageLookup[137] = 'Dzongkha';
-			$QuicktimeLanguageLookup[138] = 'JavaneseRom';
+			$QuicktimeLanguageLookup[0]     = 'English';
+			$QuicktimeLanguageLookup[1]     = 'French';
+			$QuicktimeLanguageLookup[2]     = 'German';
+			$QuicktimeLanguageLookup[3]     = 'Italian';
+			$QuicktimeLanguageLookup[4]     = 'Dutch';
+			$QuicktimeLanguageLookup[5]     = 'Swedish';
+			$QuicktimeLanguageLookup[6]     = 'Spanish';
+			$QuicktimeLanguageLookup[7]     = 'Danish';
+			$QuicktimeLanguageLookup[8]     = 'Portuguese';
+			$QuicktimeLanguageLookup[9]     = 'Norwegian';
+			$QuicktimeLanguageLookup[10]    = 'Hebrew';
+			$QuicktimeLanguageLookup[11]    = 'Japanese';
+			$QuicktimeLanguageLookup[12]    = 'Arabic';
+			$QuicktimeLanguageLookup[13]    = 'Finnish';
+			$QuicktimeLanguageLookup[14]    = 'Greek';
+			$QuicktimeLanguageLookup[15]    = 'Icelandic';
+			$QuicktimeLanguageLookup[16]    = 'Maltese';
+			$QuicktimeLanguageLookup[17]    = 'Turkish';
+			$QuicktimeLanguageLookup[18]    = 'Croatian';
+			$QuicktimeLanguageLookup[19]    = 'Chinese (Traditional)';
+			$QuicktimeLanguageLookup[20]    = 'Urdu';
+			$QuicktimeLanguageLookup[21]    = 'Hindi';
+			$QuicktimeLanguageLookup[22]    = 'Thai';
+			$QuicktimeLanguageLookup[23]    = 'Korean';
+			$QuicktimeLanguageLookup[24]    = 'Lithuanian';
+			$QuicktimeLanguageLookup[25]    = 'Polish';
+			$QuicktimeLanguageLookup[26]    = 'Hungarian';
+			$QuicktimeLanguageLookup[27]    = 'Estonian';
+			$QuicktimeLanguageLookup[28]    = 'Lettish';
+			$QuicktimeLanguageLookup[28]    = 'Latvian';
+			$QuicktimeLanguageLookup[29]    = 'Saamisk';
+			$QuicktimeLanguageLookup[29]    = 'Lappish';
+			$QuicktimeLanguageLookup[30]    = 'Faeroese';
+			$QuicktimeLanguageLookup[31]    = 'Farsi';
+			$QuicktimeLanguageLookup[31]    = 'Persian';
+			$QuicktimeLanguageLookup[32]    = 'Russian';
+			$QuicktimeLanguageLookup[33]    = 'Chinese (Simplified)';
+			$QuicktimeLanguageLookup[34]    = 'Flemish';
+			$QuicktimeLanguageLookup[35]    = 'Irish';
+			$QuicktimeLanguageLookup[36]    = 'Albanian';
+			$QuicktimeLanguageLookup[37]    = 'Romanian';
+			$QuicktimeLanguageLookup[38]    = 'Czech';
+			$QuicktimeLanguageLookup[39]    = 'Slovak';
+			$QuicktimeLanguageLookup[40]    = 'Slovenian';
+			$QuicktimeLanguageLookup[41]    = 'Yiddish';
+			$QuicktimeLanguageLookup[42]    = 'Serbian';
+			$QuicktimeLanguageLookup[43]    = 'Macedonian';
+			$QuicktimeLanguageLookup[44]    = 'Bulgarian';
+			$QuicktimeLanguageLookup[45]    = 'Ukrainian';
+			$QuicktimeLanguageLookup[46]    = 'Byelorussian';
+			$QuicktimeLanguageLookup[47]    = 'Uzbek';
+			$QuicktimeLanguageLookup[48]    = 'Kazakh';
+			$QuicktimeLanguageLookup[49]    = 'Azerbaijani';
+			$QuicktimeLanguageLookup[50]    = 'AzerbaijanAr';
+			$QuicktimeLanguageLookup[51]    = 'Armenian';
+			$QuicktimeLanguageLookup[52]    = 'Georgian';
+			$QuicktimeLanguageLookup[53]    = 'Moldavian';
+			$QuicktimeLanguageLookup[54]    = 'Kirghiz';
+			$QuicktimeLanguageLookup[55]    = 'Tajiki';
+			$QuicktimeLanguageLookup[56]    = 'Turkmen';
+			$QuicktimeLanguageLookup[57]    = 'Mongolian';
+			$QuicktimeLanguageLookup[58]    = 'MongolianCyr';
+			$QuicktimeLanguageLookup[59]    = 'Pashto';
+			$QuicktimeLanguageLookup[60]    = 'Kurdish';
+			$QuicktimeLanguageLookup[61]    = 'Kashmiri';
+			$QuicktimeLanguageLookup[62]    = 'Sindhi';
+			$QuicktimeLanguageLookup[63]    = 'Tibetan';
+			$QuicktimeLanguageLookup[64]    = 'Nepali';
+			$QuicktimeLanguageLookup[65]    = 'Sanskrit';
+			$QuicktimeLanguageLookup[66]    = 'Marathi';
+			$QuicktimeLanguageLookup[67]    = 'Bengali';
+			$QuicktimeLanguageLookup[68]    = 'Assamese';
+			$QuicktimeLanguageLookup[69]    = 'Gujarati';
+			$QuicktimeLanguageLookup[70]    = 'Punjabi';
+			$QuicktimeLanguageLookup[71]    = 'Oriya';
+			$QuicktimeLanguageLookup[72]    = 'Malayalam';
+			$QuicktimeLanguageLookup[73]    = 'Kannada';
+			$QuicktimeLanguageLookup[74]    = 'Tamil';
+			$QuicktimeLanguageLookup[75]    = 'Telugu';
+			$QuicktimeLanguageLookup[76]    = 'Sinhalese';
+			$QuicktimeLanguageLookup[77]    = 'Burmese';
+			$QuicktimeLanguageLookup[78]    = 'Khmer';
+			$QuicktimeLanguageLookup[79]    = 'Lao';
+			$QuicktimeLanguageLookup[80]    = 'Vietnamese';
+			$QuicktimeLanguageLookup[81]    = 'Indonesian';
+			$QuicktimeLanguageLookup[82]    = 'Tagalog';
+			$QuicktimeLanguageLookup[83]    = 'MalayRoman';
+			$QuicktimeLanguageLookup[84]    = 'MalayArabic';
+			$QuicktimeLanguageLookup[85]    = 'Amharic';
+			$QuicktimeLanguageLookup[86]    = 'Tigrinya';
+			$QuicktimeLanguageLookup[87]    = 'Galla';
+			$QuicktimeLanguageLookup[87]    = 'Oromo';
+			$QuicktimeLanguageLookup[88]    = 'Somali';
+			$QuicktimeLanguageLookup[89]    = 'Swahili';
+			$QuicktimeLanguageLookup[90]    = 'Ruanda';
+			$QuicktimeLanguageLookup[91]    = 'Rundi';
+			$QuicktimeLanguageLookup[92]    = 'Chewa';
+			$QuicktimeLanguageLookup[93]    = 'Malagasy';
+			$QuicktimeLanguageLookup[94]    = 'Esperanto';
+			$QuicktimeLanguageLookup[128]   = 'Welsh';
+			$QuicktimeLanguageLookup[129]   = 'Basque';
+			$QuicktimeLanguageLookup[130]   = 'Catalan';
+			$QuicktimeLanguageLookup[131]   = 'Latin';
+			$QuicktimeLanguageLookup[132]   = 'Quechua';
+			$QuicktimeLanguageLookup[133]   = 'Guarani';
+			$QuicktimeLanguageLookup[134]   = 'Aymara';
+			$QuicktimeLanguageLookup[135]   = 'Tatar';
+			$QuicktimeLanguageLookup[136]   = 'Uighur';
+			$QuicktimeLanguageLookup[137]   = 'Dzongkha';
+			$QuicktimeLanguageLookup[138]   = 'JavaneseRom';
+			$QuicktimeLanguageLookup[32767] = 'Unspecified';
+		}
+		if (($languageid > 138) && ($languageid < 32767)) {
+			/*
+			ISO Language Codes - http://www.loc.gov/standards/iso639-2/php/code_list.php
+			Because the language codes specified by ISO 639-2/T are three characters long, they must be packed to fit into a 16-bit field.
+			The packing algorithm must map each of the three characters, which are always lowercase, into a 5-bit integer and then concatenate
+			these integers into the least significant 15 bits of a 16-bit integer, leaving the 16-bit integer's most significant bit set to zero.
+
+			One algorithm for performing this packing is to treat each ISO character as a 16-bit integer. Subtract 0x60 from the first character
+			and multiply by 2^10 (0x400), subtract 0x60 from the second character and multiply by 2^5 (0x20), subtract 0x60 from the third character,
+			and add the three 16-bit values. This will result in a single 16-bit value with the three codes correctly packed into the 15 least
+			significant bits and the most significant bit set to zero.
+			*/
+			$iso_language_id  = '';
+			$iso_language_id .= chr((($languageid & 0x7C00) >> 10) + 0x60);
+			$iso_language_id .= chr((($languageid & 0x03E0) >>  5) + 0x60);
+			$iso_language_id .= chr((($languageid & 0x001F) >>  0) + 0x60);
+			$QuicktimeLanguageLookup[$languageid] = getid3_id3v2::LanguageLookup($iso_language_id);
 		}
 		return (isset($QuicktimeLanguageLookup[$languageid]) ? $QuicktimeLanguageLookup[$languageid] : 'invalid');
 	}

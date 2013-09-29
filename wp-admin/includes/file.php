@@ -497,7 +497,7 @@ function download_url( $url, $timeout = 300 ) {
 	if ( ! $tmpfname )
 		return new WP_Error('http_no_file', __('Could not create Temporary file.'));
 
-	$response = wp_remote_get( $url, array( 'timeout' => $timeout, 'stream' => true, 'filename' => $tmpfname, 'reject_unsafe_urls' => true ) );
+	$response = wp_safe_remote_get( $url, array( 'timeout' => $timeout, 'stream' => true, 'filename' => $tmpfname ) );
 
 	if ( is_wp_error( $response ) ) {
 		unlink( $tmpfname );

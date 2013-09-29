@@ -778,7 +778,13 @@ function gallery_shortcode($attr) {
 
 	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
-		$link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false) : wp_get_attachment_link($id, $size, true, false);
+		if ( ! empty( $attr['link'] ) && 'file' === $attr['link'] )
+			$image_output = wp_get_attachment_link( $id, $size, false, false );
+		elseif ( ! empty( $attr['link'] ) && 'none' === $attr['link'] )
+			$image_output = wp_get_attachment_image( $id, $size, false );
+		else
+			$image_output = wp_get_attachment_link( $id, $size, true, false );
+
 		$image_meta  = wp_get_attachment_metadata( $id );
 
 		$orientation = '';
@@ -788,7 +794,7 @@ function gallery_shortcode($attr) {
 		$output .= "<{$itemtag} class='gallery-item'>";
 		$output .= "
 			<{$icontag} class='gallery-icon {$orientation}'>
-				$link
+				$image_output
 			</{$icontag}>";
 		if ( $captiontag && trim($attachment->post_excerpt) ) {
 			$output .= "
@@ -850,8 +856,13 @@ function wp_audio_shortcode( $attr ) {
 	$audio = null;
 
 	$default_types = wp_get_audio_extensions();
-	$defaults_atts = array( 'src' => '' );
-	foreach ( $default_types as $type  )
+	$defaults_atts = array(
+		'src'      => '',
+		'loop'     => '',
+		'autoplay' => '',
+		'preload'  => 'none'
+	);
+	foreach ( $default_types as $type )
 		$defaults_atts[$type] = '';
 
 	$atts = shortcode_atts( $defaults_atts, $attr, 'audio' );
@@ -859,15 +870,15 @@ function wp_audio_shortcode( $attr ) {
 
 	$primary = false;
 	if ( ! empty( $src ) ) {
-		$type = wp_check_filetype( $src );
+		$type = wp_check_filetype( $src, wp_get_mime_types() );
 		if ( ! in_array( $type['ext'], $default_types ) )
-			return sprintf( '<a class="wp-post-format-link-audio" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
+			return sprintf( '<a class="wp-embedded-audio" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
 		$primary = true;
 		array_unshift( $default_types, 'src' );
 	} else {
 		foreach ( $default_types as $ext ) {
 			if ( ! empty( $$ext ) ) {
-				$type = wp_check_filetype( $$ext );
+				$type = wp_check_filetype( $$ext, wp_get_mime_types() );
 				if ( $type['ext'] === $ext )
 					$primary = true;
 			}
@@ -875,7 +886,7 @@ function wp_audio_shortcode( $attr ) {
 	}
 
 	if ( ! $primary ) {
-		$audios = get_attached_audio( $post_id );
+		$audios = get_attached_media( 'audio', $post_id );
 		if ( empty( $audios ) )
 			return;
 
@@ -894,11 +905,29 @@ function wp_audio_shortcode( $attr ) {
 	}
 
 	$atts = array(
-		sprintf( 'class="%s"', apply_filters( 'wp_audio_shortcode_class', 'wp-audio-shortcode' ) ),
-		sprintf( 'id="audio-%d-%d"', $post_id, $instances ),
+		'class'    => apply_filters( 'wp_audio_shortcode_class', 'wp-audio-shortcode' ),
+		'id'       => sprintf( 'audio-%d-%d', $post_id, $instances ),
+		'loop'     => $loop,
+		'autoplay' => $autoplay,
+		'preload'  => $preload,
+		'style'    => 'width: 100%',
 	);
 
-	$html = sprintf( '<audio %s controls="controls" preload="none">', join( ' ', $atts ) );
+	// These ones should just be omitted altogether if they are blank
+	foreach ( array( 'loop', 'autoplay', 'preload' ) as $a ) {
+		if ( empty( $atts[$a] ) )
+			unset( $atts[$a] );
+	}
+
+	$attr_strings = array();
+	foreach ( $atts as $k => $v ) {
+		$attr_strings[] = $k . '="' . esc_attr( $v ) . '"';
+	}
+
+	$html = '';
+	if ( 'mediaelement' === $library && 1 === $instances )
+		$html .= "<!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->\n";
+	$html .= sprintf( '<audio %s controls="controls">', join( ' ', $attr_strings ) );
 
 	$fileurl = '';
 	$source = '<source type="%s" src="%s" />';
@@ -906,7 +935,7 @@ function wp_audio_shortcode( $attr ) {
 		if ( ! empty( $$fallback ) ) {
 			if ( empty( $fileurl ) )
 				$fileurl = $$fallback;
-			$type = wp_check_filetype( $$fallback );
+			$type = wp_check_filetype( $$fallback, wp_get_mime_types() );
 			$html .= sprintf( $source, $type['type'], esc_url( $$fallback ) );
 		}
 	}
@@ -915,7 +944,7 @@ function wp_audio_shortcode( $attr ) {
 		$html .= wp_mediaelement_fallback( $fileurl );
 	$html .= '</audio>';
 
-	return apply_filters( 'wp_audio_shortcode', $html, $atts, $audio, $post_id );
+	return apply_filters( 'wp_audio_shortcode', $html, $atts, $audio, $post_id, $library );
 }
 add_shortcode( 'audio', apply_filters( 'wp_audio_shortcode_handler', 'wp_audio_shortcode' ) );
 
@@ -951,13 +980,16 @@ function wp_video_shortcode( $attr ) {
 
 	$default_types = wp_get_video_extensions();
 	$defaults_atts = array(
-		'src' => '',
-		'poster' => '',
-		'height' => 360,
-		'width' => empty( $content_width ) ? 640 : $content_width,
+		'src'      => '',
+		'poster'   => '',
+		'loop'     => '',
+		'autoplay' => '',
+		'preload'  => 'metadata',
+		'height'   => 360,
+		'width'    => empty( $content_width ) ? 640 : $content_width,
 	);
 
-	foreach ( $default_types as $type  )
+	foreach ( $default_types as $type )
 		$defaults_atts[$type] = '';
 
 	$atts = shortcode_atts( $defaults_atts, $attr, 'video' );
@@ -977,15 +1009,15 @@ function wp_video_shortcode( $attr ) {
 
 	$primary = false;
 	if ( ! empty( $src ) ) {
-		$type = wp_check_filetype( $src );
+		$type = wp_check_filetype( $src, wp_get_mime_types() );
 		if ( ! in_array( $type['ext'], $default_types ) )
-			return sprintf( '<a class="wp-post-format-link-video" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
+			return sprintf( '<a class="wp-embedded-video" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
 		$primary = true;
 		array_unshift( $default_types, 'src' );
 	} else {
 		foreach ( $default_types as $ext ) {
 			if ( ! empty( $$ext ) ) {
-				$type = wp_check_filetype( $$ext );
+				$type = wp_check_filetype( $$ext, wp_get_mime_types() );
 				if ( $type['ext'] === $ext )
 					$primary = true;
 			}
@@ -993,7 +1025,7 @@ function wp_video_shortcode( $attr ) {
 	}
 
 	if ( ! $primary ) {
-		$videos = get_attached_video( $post_id );
+		$videos = get_attached_media( 'video', $post_id );
 		if ( empty( $videos ) )
 			return;
 
@@ -1012,16 +1044,31 @@ function wp_video_shortcode( $attr ) {
 	}
 
 	$atts = array(
-		sprintf( 'class="%s"', apply_filters( 'wp_video_shortcode_class', 'wp-video-shortcode' ) ),
-		sprintf( 'id="video-%d-%d"', $post_id, $instances ),
-		sprintf( 'width="%d"', $width ),
-		sprintf( 'height="%d"', $height ),
+		'class'    => apply_filters( 'wp_video_shortcode_class', 'wp-video-shortcode' ),
+		'id'       => sprintf( 'video-%d-%d', $post_id, $instances ),
+		'width'    => absint( $width ),
+		'height'   => absint( $height ),
+		'poster'   => esc_url( $poster ),
+		'loop'     => $loop,
+		'autoplay' => $autoplay,
+		'preload'  => $preload,
 	);
 
-	if ( ! empty( $poster ) )
-		$atts[] = sprintf( 'poster="%s"', esc_url( $poster ) );
+	// These ones should just be omitted altogether if they are blank
+	foreach ( array( 'poster', 'loop', 'autoplay', 'preload' ) as $a ) {
+		if ( empty( $atts[$a] ) )
+			unset( $atts[$a] );
+	}
 
-	$html = sprintf( '<video %s controls="controls" preload="none">', join( ' ', $atts ) );
+	$attr_strings = array();
+	foreach ( $atts as $k => $v ) {
+		$attr_strings[] = $k . '="' . esc_attr( $v ) . '"';
+	}
+
+	$html = '';
+	if ( 'mediaelement' === $library && 1 === $instances )
+		$html .= "<!--[if lt IE 9]><script>document.createElement('video');</script><![endif]-->\n";
+	$html .= sprintf( '<video %s controls="controls">', join( ' ', $attr_strings ) );
 
 	$fileurl = '';
 	$source = '<source type="%s" src="%s" />';
@@ -1029,7 +1076,7 @@ function wp_video_shortcode( $attr ) {
 		if ( ! empty( $$fallback ) ) {
 			if ( empty( $fileurl ) )
 				$fileurl = $$fallback;
-			$type = wp_check_filetype( $$fallback );
+			$type = wp_check_filetype( $$fallback, wp_get_mime_types() );
 			// m4v sometimes shows up as video/mpeg which collides with mp4
 			if ( 'm4v' === $type['ext'] )
 				$type['type'] = 'video/m4v';
@@ -1040,7 +1087,8 @@ function wp_video_shortcode( $attr ) {
 		$html .= wp_mediaelement_fallback( $fileurl );
 	$html .= '</video>';
 
-	return apply_filters( 'wp_video_shortcode', $html, $atts, $video, $post_id );
+	$html = sprintf( '<div style="width: %dpx; max-width: 100%%;">%s</div>', $width, $html );
+	return apply_filters( 'wp_video_shortcode', $html, $atts, $video, $post_id, $library );
 }
 add_shortcode( 'video', apply_filters( 'wp_video_shortcode_handler', 'wp_video_shortcode' ) );
 
@@ -1385,17 +1433,7 @@ function wp_embed_handler_video( $matches, $attr, $url, $rawattr ) {
 	if ( ! empty( $rawattr['width'] ) && ! empty( $rawattr['height'] ) ) {
 		$dimensions .= sprintf( 'width="%d" ', (int) $rawattr['width'] );
 		$dimensions .= sprintf( 'height="%d" ', (int) $rawattr['height'] );
-	} elseif ( strstr( $url, home_url() ) ) {
-		$id = attachment_url_to_postid( $url );
-		if ( ! empty( $id ) ) {
-			$meta = wp_get_attachment_metadata( $id );
-			if ( ! empty( $meta['width'] ) )
-				$dimensions .= sprintf( 'width="%d" ', (int) $meta['width'] );
-			if ( ! empty( $meta['height'] ) )
-				$dimensions .= sprintf( 'height="%d" ', (int) $meta['height'] );
-		}
 	}
-
 	$video = sprintf( '[video %s src="%s" /]', $dimensions, esc_url( $url ) );
 	return apply_filters( 'wp_embed_handler_video', $video, $attr, $url, $rawattr );
 }
@@ -1448,7 +1486,7 @@ function wp_get_image_editor( $path, $args = array() ) {
 	$args['path'] = $path;
 
 	if ( ! isset( $args['mime_type'] ) ) {
-		$file_info  = wp_check_filetype( $args['path'] );
+		$file_info = wp_check_filetype( $args['path'] );
 
 		// If $file_info['type'] is false, then we let the editor attempt to
 		// figure out the file type, rather than forcing a failure based on extension.
@@ -1477,7 +1515,7 @@ function wp_get_image_editor( $path, $args = array() ) {
  * @since 3.5.0
  * @access public
  *
- * @param string|array $args Array of requirements.  Accepts { 'mime_type'=>string, 'methods'=>{string, string, ...} }
+ * @param string|array $args Array of requirements. Accepts { 'mime_type'=>string, 'methods'=>{string, string, ...} }
  * @return boolean true if an eligible editor is found; false otherwise
  */
 function wp_image_editor_supports( $args = array() ) {
@@ -1610,7 +1648,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	$response = array(
 		'id'          => $attachment->ID,
 		'title'       => $attachment->post_title,
-		'filename'    => basename( $attachment->guid ),
+		'filename'    => wp_basename( $attachment->guid ),
 		'url'         => $attachment_url,
 		'link'        => get_attachment_link( $attachment->ID ),
 		'alt'         => get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
@@ -1703,6 +1741,11 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			$response['height'] = (int) $meta['height'];
 	}
 
+	if ( $meta && ( 'audio' === $type || 'video' === $type ) ) {
+		if ( isset( $meta['length_formatted'] ) )
+			$response['fileLength'] = $meta['length_formatted'];
+	}
+
 	if ( function_exists('get_compat_media_markup') )
 		$response['compat'] = get_compat_media_markup( $attachment->ID, array( 'in_modal' => true ) );
 
@@ -1757,6 +1800,7 @@ function wp_enqueue_media( $args = array() ) {
 			'id' => 0,
 		),
 		'defaultProps' => $props,
+		'embedExts'    => array_merge( wp_get_audio_extensions(), wp_get_video_extensions() ),
 	);
 
 	$post = null;
@@ -1846,12 +1890,12 @@ function wp_enqueue_media( $args = array() ) {
  * @since 3.6.0
  *
  * @param string $type (Mime) type of media desired
- * @param int $post_id  Post ID
+ * @param mixed $post Post ID or object
  * @return array Found attachments
  */
-function get_attached_media( $type, $post_id = 0 ) {
-	if ( ! $post = get_post( $post_id ) )
-		return;
+function get_attached_media( $type, $post = 0 ) {
+	if ( ! $post = get_post( $post ) )
+		return array();
 
 	$args = array(
 		'post_parent' => $post->ID,
@@ -1870,386 +1914,56 @@ function get_attached_media( $type, $post_id = 0 ) {
 }
 
 /**
- * Retrieve audio attached to the passed post
+ * Check the content blob for an <audio>, <video> <object>, <embed>, or <iframe>
  *
  * @since 3.6.0
  *
- * @param int $post_id  Post ID
- * @return array Found audio attachments
- */
-function get_attached_audio( $post_id = 0 ) {
-	return get_attached_media( 'audio', $post_id );
-}
-
-/**
- * Retrieve video attached to the passed post
- *
- * @since 3.6.0
- *
- * @param int $post_id  Post ID
- * @return array Found video attachments
- */
-function get_attached_video( $post_id = 0 ) {
-	return get_attached_media( 'video', $post_id );
-}
-
-/**
- * Extract and parse {media type} shortcodes or srcs from the passed content
- *
- * @since 3.6.0
- *
- * @param string $type Type of media: audio or video
  * @param string $content A string which might contain media data.
- * @param boolean $html Whether to return HTML or URLs
- * @param int $limit Optional. The number of medias to return
- * @return array A list of parsed shortcodes or extracted srcs
+ * @param array $types array of media types: 'audio', 'video', 'object', 'embed', or 'iframe'
+ * @return array A list of found HTML media embeds
  */
-function get_content_media( $type, $content, $html = true, $limit = 0 ) {
-	$items = array();
-
-	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
-		foreach ( $matches as $shortcode ) {
-			if ( $type === $shortcode[2] ) {
-				$count = 1;
-
-				$items[] = do_shortcode_tag( $shortcode );
-				if ( $limit > 0 && count( $items ) >= $limit )
-					break;
-			}
-		}
-	}
-
-	if ( $html )
-		return $items;
-
-	$data = array();
-
-	foreach ( $items as $item ) {
-		preg_match_all( '#src=([\'"])(.+?)\1#is', $item, $src, PREG_SET_ORDER );
-		if ( ! empty( $src ) ) {
-			$srcs = array();
-			foreach ( $src as $s )
-				$srcs[] = $s[2];
-
-			$data[] = array_values( array_unique( $srcs ) );
-		}
-	}
-
-	return $data;
-}
-
-/**
- * Check the content blob for an <{media type}>, <object>, <embed>, or <iframe>, in that order
- * If no HTML tag is found, check the first line of the post for a URL
- *
- * @since 3.6.0
- *
- * @param string $type Type of media: audio or video
- * @param string $content A string which might contain media data.
- * @param int $limit Optional. The number of galleries to return
- * @return array A list of found HTML media embeds and possibly a URL by itself
- */
-function get_embedded_media( $type, $content, $limit = 0 ) {
+function get_media_embedded_in_content( $content, $types = null ) {
 	$html = array();
+	$allowed_media_types = array( 'audio', 'video', 'object', 'embed', 'iframe' );
+	if ( ! empty( $types ) ) {
+		if ( ! is_array( $types ) )
+			$types = array( $types );
+		$allowed_media_types = array_intersect( $allowed_media_types, $types );
+	}
 
-	foreach ( array( $type, 'object', 'embed', 'iframe' ) as $tag ) {
+	foreach ( $allowed_media_types as $tag ) {
 		if ( preg_match( '#' . get_tag_regex( $tag ) . '#', $content, $matches ) ) {
 			$html[] = $matches[0];
-
-			if ( $limit > 0 && count( $html ) >= $limit )
-				break;
 		}
 	}
 
-	if ( ! empty( $html ) && count( $html ) >= $limit )
-		return $html;
-
-	$lines = explode( "\n", trim( $content ) );
-	$line = trim( array_shift( $lines  ) );
-	if ( 0 === stripos( $line, 'http' ) ) {
-		$html[] = $line;
-	}
 	return $html;
 }
 
 /**
- * Extract the HTML or <source> srcs from the content's [audio]
+ * Retrieve galleries from the passed post's content
  *
  * @since 3.6.0
  *
- * @param string $content A string which might contain audio data.
- * @param boolean $html Whether to return HTML or URLs
- * @return array A list of lists. Each item has a list of HTML or srcs corresponding
- *		to an [audio]'s HTML or primary src and specified fallbacks
+ * @param mixed $post Optional. Post ID or object.
+ * @param boolean $html Whether to return HTML or data in the array
+ * @return array A list of arrays, each containing gallery data and srcs parsed
+ *		from the expanded shortcode
  */
-function get_content_audio( $content, $html = true ) {
-	return get_content_media( 'audio', $content, $html );
-}
-
-/**
- * Check the content blob for an <audio>, <object>, <embed>, or <iframe>, in that order
- * If no HTML tag is found, check the first line of the post for a URL
- *
- * @since 3.6.0
- *
- * @param string $content A string which might contain audio data.
- * @return array A list of found HTML audio embeds and possibly a URL by itself
- */
-function get_embedded_audio( $content ) {
-	return get_embedded_media( 'audio', $content );
-}
-
-/**
- * Extract the HTML or <source> srcs from the content's [video]
- *
- * @since 3.6.0
- *
- * @param string $content A string which might contain video data.
- * @param boolean $html Whether to return HTML or URLs
- * @return array A list of lists. Each item has a list of HTML or srcs corresponding
- *		to a [video]'s HTML or primary src and specified fallbacks
- */
-function get_content_video( $content, $html = true ) {
-	return get_content_media( 'video', $content, $html );
-}
-
-/**
- * Check the content blob for a <video>, <object>, <embed>, or <iframe>, in that order
- * If no HTML tag is found, check the first line of the post for a URL
- *
- * @since 3.6.0
- *
- * @param string $content A string which might contain video data.
- * @return array A list of found HTML video embeds and possibly a URL by itself
- */
-function get_embedded_video( $content ) {
-	return get_embedded_media( 'video', $content );
-}
-
-/**
- * Return suitable HTML code for output based on the content related to the global $post
- *
- * @since 3.6.0
- *
- * @param string $type Required. 'audio' or 'video'
- * @param WP_Post $post Optional. Used instead of global $post when passed.
- * @param int $limit Optional. The number of medias to extract if content is scanned.
- * @return string HTML for the media. Blank string if no media is found.
- */
-function get_the_post_format_media( $type, &$post = null, $limit = 0 ) {
-	global $wp_embed;
-
-	if ( empty( $post ) )
-		$post = get_post();
-
-	if ( empty( $post ) )
-		return '';
-
-	$cache_key = "media:{$type}";
-
-	if ( isset( $post->format_content[ $cache_key ] ) )
-		return $post->format_content[ $cache_key ];
-
-	if ( ! isset( $post->format_content ) )
-		$post->format_content = array();
-
-	$count = 1;
-
-	// these functions expect a reference, so we should make a copy of post content to avoid changing it
-	$content = $post->post_content;
-
-	$htmls = get_content_media( $type, $content, true, $limit );
-	if ( ! empty( $htmls ) ) {
-		$html = reset( $htmls );
-		$post->format_content[ $cache_key ] = $html;
-		return $post->format_content[ $cache_key ];
-	}
-
-	$embeds = get_embedded_media( $type, $content, 1 );
-	if ( ! empty( $embeds ) ) {
-		$embed = reset( $embeds );
-		if ( 0 === strpos( $embed, 'http' ) ) {
-			if ( strstr( $embed, home_url() ) ) {
-				$post->format_content[ $cache_key ] = do_shortcode( sprintf( '[%s src="%s"]', $type, $embed ) );
-			} else {
-				$post->format_content[ $cache_key ] = $wp_embed->autoembed( $embed );
-			}
-		} else {
-			$post->format_content[ $cache_key ] = $embed;
-		}
-		return $post->format_content[ $cache_key ];
-	}
-
-	$medias = call_user_func( 'get_attached_' . $type, $post->ID );
-	if ( ! empty( $medias ) ) {
-		$media = reset( $medias );
-		$url = wp_get_attachment_url( $media->ID );
-		$shortcode = sprintf( '[%s src="%s"]', $type, $url );
-		$post->format_content[ $cache_key ] = do_shortcode( $shortcode );
-		return $post->format_content[ $cache_key ];
-	}
-
-	return '';
-}
-
-/**
- * Output the first video in the current (@global) post's content
- *
- * @since 3.6.0
- *
- */
-function the_post_format_video() {
-	$null = null;
-	echo get_the_post_format_media( 'video', $null, 1 );
-}
-/**
- * Output the first audio  in the current (@global) post's content
- *
- * @since 3.6.0
- *
- */
-function the_post_format_audio() {
-	$null = null;
-	echo get_the_post_format_media( 'audio', $null, 1 );
-}
-
-/**
- * Retrieve images attached to the passed post
- *
- * @since 3.6.0
- *
- * @param int $post_id Optional. Post ID.
- * @return array Found image attachments
- */
-function get_attached_images( $post_id = 0 ) {
-	return get_attached_media( 'image', $post_id );
-}
-
-/**
- * Retrieve images attached to the passed post
- *
- * @since 3.6.0
- *
- * @param int $post_id Optional. Post ID.
- * @return array Found image attachments
- */
-function get_attached_image_srcs( $post_id = 0 ) {
-	$children = get_attached_images( $post_id );
-	if ( empty( $children ) )
+function get_post_galleries( $post, $html = true ) {
+	if ( ! $post = get_post( $post ) )
 		return array();
 
-	$srcs = array();
-	foreach ( $children as $attachment )
-		$srcs[] = wp_get_attachment_url( $attachment->ID );
+	if ( ! has_shortcode( $post->post_content, 'gallery' ) )
+		return array();
 
-	return $srcs;
-}
-
-/**
- * Check the content blob for images or image srcs
- *
- * @since 3.6.0
- *
- * @param string $content A string which might contain image data.
- * @param boolean $html Whether to return HTML or URLs
- * @param int $limit Optional. The number of image srcs to return
- * @return array The found images or srcs
- */
-function get_content_images( $content, $html = true, $limit = 0 ) {
-	$tags = array();
-	$captions = array();
-
-	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
-		foreach ( $matches as $shortcode ) {
-			if ( 'caption' === $shortcode[2] ) {
-				$captions[] = $shortcode[0];
-				if ( $html )
-					$tags[] = do_shortcode( $shortcode[0] );
-			}
-
-			if ( $limit > 0 && count( $tags ) >= $limit )
-				break;
-		}
-	}
-
-	foreach ( array( 'a', 'img' ) as $tag ) {
-		if ( preg_match_all( '#' . get_tag_regex( $tag ) .  '#i', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
-			foreach ( $matches as $node ) {
-				if ( ! strstr( $node[0], '<img ' ) )
-					continue;
-
-				$count = 1;
-				$found = false;
-
-				foreach ( $captions as $caption ) {
-					if ( strstr( $caption, $node[0] ) ) {
-						$found = true;
-					}
-				}
-
-				if ( ! $found )
-					$tags[] = $node[0];
-
-				if ( $limit > 0 && count( $tags ) >= $limit )
-					break 2;
-			}
-		}
-	}
-
-	if ( $html )
-		return $tags;
-
-	$srcs = array();
-
-	foreach ( $tags as $tag ) {
-		preg_match( '#src=([\'"])(.+?)\1#is', $tag, $src );
-		if ( ! empty( $src[2] ) ) {
-			$srcs[] = $src[2];
-			if ( $limit > 0 && count( $srcs ) >= $limit )
-				break;
-		}
-	}
-
-	return apply_filters( 'content_images', array_values( array_unique( $srcs ) ), $content );
-}
-
-/**
- * Check the content blob for images or srcs and return the first
- *
- * @since 3.6.0
- *
- * @param string $content A string which might contain image data.
- * @param boolean $html Whether to return HTML or URLs
- * @return string The found data
- */
-function get_content_image( $content, $html = true ) {
-	$srcs = get_content_images( $content, $html, 1 );
-	if ( empty( $srcs ) )
-		return '';
-
-	return apply_filters( 'content_image', reset( $srcs ), $content );
-}
-
-/**
- * Check the content blob for galleries and return their image srcs
- *
- * @since 3.6.0
- *
- * @param string $content A string which might contain image data.
- * @param boolean $html Whether to return HTML or data
- * @param int $limit Optional. The number of galleries to return
- * @return array A list of galleries, which in turn are a list of their srcs in order
- */
-function get_content_galleries( $content, $html = true, $limit = 0 ) {
 	$galleries = array();
-
-	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
+	if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $post->post_content, $matches, PREG_SET_ORDER ) ) {
 		foreach ( $matches as $shortcode ) {
 			if ( 'gallery' === $shortcode[2] ) {
 				$srcs = array();
 				$count = 1;
 
-				$data = shortcode_parse_atts( $shortcode[3] );
 				$gallery = do_shortcode_tag( $shortcode );
 				if ( $html ) {
 					$galleries[] = $gallery;
@@ -2260,57 +1974,15 @@ function get_content_galleries( $content, $html = true, $limit = 0 ) {
 							$srcs[] = $s[2];
 					}
 
+					$data = shortcode_parse_atts( $shortcode[3] );
 					$data['src'] = array_values( array_unique( $srcs ) );
 					$galleries[] = $data;
 				}
-
-				if ( $limit > 0 && count( $galleries ) >= $limit )
-					break;
 			}
 		}
 	}
 
-	return apply_filters( 'content_galleries', $galleries, $content );
-}
-
-/**
- * Retrieve galleries from the passed post's content
- *
- * @since 3.6.0
- *
- * @param int $post_id Optional. Post ID.
- * @param boolean $html Whether to return HTML or data
- * @return array A list of arrays, each containing gallery data and srcs parsed
- *		from the expanded shortcode
- */
-function get_post_galleries( $post_id = 0, $html = true ) {
-	if ( ! $post = get_post( $post_id ) )
-		return array();
-
-	if ( ! has_shortcode( $post->post_content, 'gallery' )  )
-		return array();
-
-	return get_content_galleries( $post->post_content, $html );
-}
-
-/**
- * Retrieve the image srcs from galleries from a post's content, if present
- *
- * @since 3.6.0
- *
- * @param int $post_id Optional. Post ID.
- * @return array A list of lists, each containing image srcs parsed
- *		from an expanded shortcode
- */
-function get_post_galleries_images( $post_id = 0 ) {
-	if ( ! $post = get_post( $post_id ) )
-		return array();
-
-	if ( ! has_shortcode( $post->post_content, 'gallery' )  )
-		return array();
-
-	$data = get_content_galleries( $post->post_content, false );
-	return wp_list_pluck( $data, 'src' );
+	return apply_filters( 'get_post_galleries', $galleries, $post );
 }
 
 /**
@@ -2318,28 +1990,29 @@ function get_post_galleries_images( $post_id = 0 ) {
  *
  * @since 3.6.0
  *
- * @param int $post_id Optional. Post ID.
+ * @param mixed $post Optional. Post ID or object.
  * @param boolean $html Whether to return HTML or data
- * @return array Gallery data and srcs parsed from the expanded shortcode
+ * @return string|array Gallery data and srcs parsed from the expanded shortcode
  */
-function get_post_gallery( $post_id = 0, $html = true ) {
-	if ( ! $post = get_post( $post_id ) )
-		return array();
+function get_post_gallery( $post = 0, $html = true ) {
+	$galleries = get_post_galleries( $post, $html );
+	$gallery = reset( $galleries );
 
-	if ( ! has_shortcode( $post->post_content, 'gallery' ) )
-		return array();
-
-	$data = get_content_galleries( $post->post_content, $html, false, 1 );
-	return reset( $data );
+	return apply_filters( 'get_post_gallery', $gallery, $post, $galleries );
 }
 
 /**
- * Output the first gallery in the current (@global) $post
+ * Retrieve the image srcs from galleries from a post's content, if present
  *
  * @since 3.6.0
+ *
+ * @param mixed $post Optional. Post ID or object.
+ * @return array A list of lists, each containing image srcs parsed
+ *		from an expanded shortcode
  */
-function the_post_format_gallery() {
-	echo get_post_gallery();
+function get_post_galleries_images( $post = 0 ) {
+	$galleries = get_post_galleries( $post, false );
+	return wp_list_pluck( $galleries, 'src' );
 }
 
 /**
@@ -2347,182 +2020,10 @@ function the_post_format_gallery() {
  *
  * @since 3.6.0
  *
- * @param int $post_id Optional. Post ID.
+ * @param mixed $post Optional. Post ID or object.
  * @return array A list of a gallery's image srcs in order
  */
-function get_post_gallery_images( $post_id = 0 ) {
-	$gallery = get_post_gallery( $post_id, false );
-	if ( empty( $gallery['src'] ) )
-		return array();
-
-	return $gallery['src'];
-}
-
-/**
- * Return the first image in the current (@global) post's content
- *
- * @since 3.6.0
- *
- * @param string $attached_size If an attached image is found, the size to display it.
- * @param WP_Post $post Optional. Used instead of global $post when passed.
- * @return string HTML for the image. Blank string if no image is found.
- */
-function get_the_post_format_image( $attached_size = 'full', &$post = null ) {
-	if ( empty( $post ) )
-		$post = get_post();
-
-	if ( empty( $post ) )
-		return '';
-
-	$cache_key = "image:{$attached_size}";
-
-	if ( isset( $post->format_content[ $cache_key ] ) )
-		return $post->format_content[ $cache_key ];
-
-	if ( ! isset( $post->format_content ) )
-		$post->format_content = array();
-
-	$matched = false;
-	$link_fmt = '%s';
-
-	$medias = get_attached_images( $post->ID );
-	if ( ! empty( $medias ) ) {
-		$media = reset( $medias );
-		$sizes = get_intermediate_image_sizes();
-		$sizes[] = 'full'; // Add original image source.
-
-		$urls = array();
-		foreach ( $sizes as $size ) {
-			$image = wp_get_attachment_image_src( $media->ID, $size );
-			if ( $image )
-				$urls[] = reset( $image );
-		}
-
-		// Add media permalink.
-		$urls[] = get_attachment_link( $media->ID );
-
-		$count = 1;
-		$content = $post->post_content;
-
-		if ( preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
-			foreach ( $matches as $shortcode ) {
-				if ( 'caption' === $shortcode[2] ) {
-					foreach ( $urls as $url ) {
-						if ( strstr( $shortcode[0], $url ) ) {
-							if ( ! $matched )
-								$matched = do_shortcode( $shortcode[0] );
-							// $content = str_replace( $shortcode[0], '', $content, $count );
-						}
-					}
-				}
-			}
-		}
-
-		foreach ( array( 'a', 'img' ) as $tag ) {
-			if ( preg_match_all( '#' . get_tag_regex( $tag ) . '#', $content, $matches, PREG_SET_ORDER ) && ! empty( $matches ) ) {
-				foreach ( $matches as $match ) {
-					foreach ( $urls as $url ) {
-						if ( strstr( $match[0], $url ) ) {
-							if ( ! $matched )
-								$matched = $match[0];
-							// $content = str_replace( $match[0], '', $content, $count );
-						}
-					}
-				}
-			}
-		}
-
-		if ( ! $matched ) {
-			$image = wp_get_attachment_image( $media->ID, $attached_size );
-			$post->format_content[ $cache_key ] = sprintf( $link_fmt, $image );
-		} else {
-			$post->format_content[ $cache_key ] = $matched;
-			if ( ! empty( $meta['url'] ) && false === stripos( $matched, '<a ' ) )
-				$post->format_content[ $cache_key ] = sprintf( $link_fmt, $matched );
-		}
-		return $post->format_content[ $cache_key ];
-	}
-
-	$content = $post->post_content;
-	$htmls = get_content_images( $content, true, 1 );
-	if ( ! empty( $htmls ) ) {
-		$html = reset( $htmls );
-
-		$attachment_id = img_html_to_post_id( $html, $matched_html );
-		if ( $attachment_id && $matched_html )
-			$html = str_replace( $matched_html, wp_get_attachment_image( $attachment_id, $attached_size ), $html );
-
-		$post->format_content[ $cache_key ] = sprintf( $link_fmt, $html );
-		return $post->format_content[ $cache_key ];
-	}
-
-	return '';
-}
-
-/**
- * Output the first image in the current (@global) post's content
- *
- * @since 3.6.0
- *
- * @param string $attached_size If an attached image is found, the size to display it.
- */
-function the_post_format_image( $attached_size = 'full' ) {
-	echo get_the_post_format_image( $attached_size );
-}
-
-/**
- * Retrieve the post id for an attachment file URL
- *
- * @since 3.6.0
- *
- * @param string $url Permalink to check.
- * @return int Post ID, or 0 on failure.
- */
-function attachment_url_to_postid( $url ) {
-	global $wpdb;
-	if ( preg_match( '#\.[a-zA-Z0-9]+$#', $url ) ) {
-		$id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment' " .
-			"AND guid = %s", $url ) );
-
-		if ( ! empty( $id ) )
-			return (int) $id;
-	}
-
-	return 0;
-}
-
-/**
- * Retrieve the attachment post id from HTML containing an image.
- *
- * @since 3.6.0
- *
- * @param string $html The html, possibly with an image
- * @param string $matched_html Passed by reference, will be set to to the matched img string
- * @return int The attachment id if found, or 0.
- */
-function img_html_to_post_id( $html, &$matched_html = null ) {
-	$attachment_id = 0;
-
-	// Look for an <img /> tag
-	if ( ! preg_match( '#' . get_tag_regex( 'img' ) .  '#i', $html, $matches ) || empty( $matches ) )
-		return $attachment_id;
-
-	$matched_html = $matches[0];
-
-	// Look for attributes.
-	if ( ! preg_match_all( '#(src|class)=([\'"])(.+?)\2#is', $matched_html, $matches ) || empty( $matches ) )
-		return $attachment_id;
-
-	$attr = array();
-	foreach ( $matches[1] as $key => $attribute_name )
-		$attr[ $attribute_name ] = $matches[3][ $key ];
-
-	if ( ! empty( $attr['class'] ) && false !== strpos( $attr['class'], 'wp-image-' ) )
-		if ( preg_match( '#wp-image-([0-9]+)#i', $attr['class'], $matches ) )
-			$attachment_id = absint( $matches[1] );
-
-	if ( ! $attachment_id && ! empty( $attr['src'] ) )
-		$attachment_id = attachment_url_to_postid( $attr['src'] );
-
-	return $attachment_id;
+function get_post_gallery_images( $post = 0 ) {
+	$gallery = get_post_gallery( $post, false );
+	return empty( $gallery['src'] ) ? array() : $gallery['src'];
 }

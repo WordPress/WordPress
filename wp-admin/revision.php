@@ -11,12 +11,13 @@ require_once('./admin.php');
 
 require ABSPATH . 'wp-admin/includes/revision.php';
 
-// wp_get_revision_ui_diff( $post, $compare_from, $compare_to )
-// wp_prepare_revisions_for_js( $post )
-
-wp_reset_vars( array( 'revision', 'action' ) );
+wp_reset_vars( array( 'revision', 'action', 'from', 'to' ) );
 
 $revision_id = absint( $revision );
+
+$from = is_numeric( $from ) ? absint( $from ) : null;
+if ( ! $revision_id )
+	$revision_id = absint( $to );
 $redirect = 'edit.php';
 
 switch ( $action ) :
@@ -30,11 +31,15 @@ case 'restore' :
 	if ( ! $post = get_post( $revision->post_parent ) )
 		break;
 
-	// Revisions disabled (previously checked autosavegs && ! wp_is_post_autosave( $revision ))
+	// Revisions disabled (previously checked autosaves && ! wp_is_post_autosave( $revision ))
 	if ( ! wp_revisions_enabled( $post ) ) {
 		$redirect = 'edit.php?post_type=' . $post->post_type;
 		break;
 	}
+
+	// Don't allow revision restore when post is locked
+	if ( wp_check_post_lock( $post->ID ) )
+		break;
 
 	check_admin_referer( "restore-post_{$revision->ID}" );
 
@@ -58,7 +63,7 @@ default :
 		break;
 	}
 
-	$post_title = '<a href="' . get_edit_post_link() . '">' . get_the_title() . '</a>';
+	$post_title = '<a href="' . get_edit_post_link() . '">' . _draft_or_post_title() . '</a>';
 	$h2 = sprintf( __( 'Compare Revisions of &#8220;%1$s&#8221;' ), $post_title );
 	$title = __( 'Revisions' );
 
@@ -82,7 +87,7 @@ else
 	$parent_file = $submenu_file = 'edit.php';
 
 wp_enqueue_script( 'revisions' );
-wp_localize_script( 'revisions', '_wpRevisionsSettings', wp_prepare_revisions_for_js( $post, $revision_id ) );
+wp_localize_script( 'revisions', '_wpRevisionsSettings', wp_prepare_revisions_for_js( $post, $revision_id, $from ) );
 
 /* Revisions Help Tab */
 
@@ -90,7 +95,7 @@ $revisions_overview  = '<p>' . __( 'This screen is used for managing your conten
 $revisions_overview .= '<p>' . __( 'Revisions are saved copies of your post or page, which are periodically created as you update your content. The red text on the left shows the content that was removed. The green text on the right shows the content that was added.' ) . '</p>';
 $revisions_overview .= '<p>' . __( 'From this screen you can review, compare, and restore revisions:' ) . '</p>';
 $revisions_overview .= '<ul><li>' . __( 'To navigate between revisions, <strong>drag the slider handle left or right</strong> or <strong>use the Previous or Next buttons</strong>.' ) . '</li>';
-$revisions_overview .= '<li>' . __( 'Compare two different revisions by <strong>selecting the &#8220;Compare two revisions&#8221; box</strong> to the side.' ) . '</li>';
+$revisions_overview .= '<li>' . __( 'Compare two different revisions by <strong>selecting the &#8220;Compare any two revisions&#8221; box</strong> to the side.' ) . '</li>';
 $revisions_overview .= '<li>' . __( 'To restore a revision, <strong>click Restore This Revision</strong>.' ) . '</li></ul>';
 
 get_current_screen()->add_help_tab( array(
@@ -115,112 +120,91 @@ require_once( './admin-header.php' );
 </div>
 
 <script id="tmpl-revisions-frame" type="text/html">
-	<span class="spinner"></span>
 	<div class="revisions-control-frame"></div>
 	<div class="revisions-diff-frame"></div>
 </script>
 
-<script id="tmpl-revisions-controls" type="text/html">
-
-	<div class="revision-toggle-compare-mode">
-		<label>
-			<input type="checkbox" class="compare-two-revisions" />
-			<?php esc_attr_e( 'Compare two revisions' ); ?>
-		</label>
-	</div>
-
+<script id="tmpl-revisions-buttons" type="text/html">
 	<div class="revisions-previous">
-		<input class="button" type="button" id="previous" value="<?php echo esc_attr_x( 'Previous', 'Button label for a previous revision' ); ?>" />
+		<input class="button" type="button" value="<?php echo esc_attr_x( 'Previous', 'Button label for a previous revision' ); ?>" />
 	</div>
 
 	<div class="revisions-next">
-		<input class="button" type="button" id="next" value="<?php echo esc_attr_x( 'Next', 'Button label for a next revision' ); ?>" />
+		<input class="button" type="button" value="<?php echo esc_attr_x( 'Next', 'Button label for a next revision' ); ?>" />
 	</div>
 </script>
 
+<script id="tmpl-revisions-checkbox" type="text/html">
+	<div class="revision-toggle-compare-mode">
+		<label>
+			<input type="checkbox" class="compare-two-revisions"
+			<#
+			if ( 'undefined' !== typeof data && data.model.attributes.compareTwoMode ) {
+			 	#> checked="checked"<#
+			}
+			#>
+			/>
+			<?php esc_attr_e( 'Compare any two revisions' ); ?>
+		</label>
+	</div>
+</script>
 
 <script id="tmpl-revisions-meta" type="text/html">
-	<div id="diff-header">
-		<div id="diff-header-from" class="diff-header">
-			<div id="diff-title-from" class="diff-title">
-				<strong>
-				<?php _ex( 'From:', 'Followed by post revision info' ); ?></strong>
-					<# if ( 'undefined' !== typeof data.from ) { #>
-						{{{ data.from.attributes.author.avatar }}} {{{ data.from.attributes.author.name }}},
-						{{{ data.from.attributes.timeAgo }}} <?php _e( 'ago' ); ?>
-						({{{ data.from.attributes.dateShort }}})
-					<# } #>
-
-			</div>
-			<div class="clear"></div>
-		</div>
-
-		<div id="diff-header-to" class="diff-header">
-			<div id="diff-title-to" class="diff-title">
+	<# if ( ! _.isUndefined( data.attributes ) ) { #>
+		<div class="diff-title">
+			<# if ( 'from' === data.type ) { #>
+				<strong><?php _ex( 'From:', 'Followed by post revision info' ); ?></strong>
+			<# } else if ( 'to' === data.type ) { #>
 				<strong><?php _ex( 'To:', 'Followed by post revision info' ); ?></strong>
-					<# if ( 'undefined' !== typeof data.to ) { #>
-						{{{ data.to.attributes.author.avatar }}} {{{ data.to.attributes.author.name }}},
-						{{{ data.to.attributes.timeAgo }}} <?php _e( 'ago' ); ?>
-						({{{ data.to.attributes.dateShort }}})
+			<# } #>
+			<div class="author-card<# if ( data.attributes.autosave ) { #> autosave<# } #>">
+				{{{ data.attributes.author.avatar }}}
+				<div class="author-info">
+				<# if ( data.attributes.autosave ) { #>
+					<span class="byline"><?php printf( __( 'Autosave by %s' ),
+						'<span class="author-name">{{ data.attributes.author.name }}</span>' ); ?></span>
+				<# } else if ( data.attributes.current ) { #>
+					<span class="byline"><?php printf( __( 'Current Revision by %s' ),
+						'<span class="author-name">{{ data.attributes.author.name }}</span>' ); ?></span>
+				<# } else { #>
+					<span class="byline"><?php printf( __( 'Revision by %s' ),
+						'<span class="author-name">{{ data.attributes.author.name }}</span>' ); ?></span>
+				<# } #>
+					<span class="time-ago">{{ data.attributes.timeAgo }}</span>
+					<span class="date">({{ data.attributes.dateShort }})</span>
+				</div>
+			<# if ( 'to' === data.type && data.attributes.restoreUrl ) { #>
+				<input  <?php if ( wp_check_post_lock( $post->ID ) ) { ?>
+					disabled="disabled"
+				<?php } else { ?>
+					<# if ( data.attributes.current ) { #>
+						disabled="disabled"
 					<# } #>
+				<?php } ?>
+				<# if ( data.attributes.autosave ) { #>
+					type="button" class="restore-revision button button-primary" value="<?php esc_attr_e( 'Restore This Autosave' ); ?>" />
+				<# } else { #>
+					type="button" class="restore-revision button button-primary" value="<?php esc_attr_e( 'Restore This Revision' ); ?>" />
+				<# } #>
+			<# } #>
 		</div>
-
-			<input type="button" id="restore-revision" class="button button-primary" data-restore-link="{{{ data.restoreLink }}}" value="<?php esc_attr_e( 'Restore This Revision' )?>" />
-		</div>
-	</div>
+	<# if ( 'tooltip' === data.type ) { #>
+		<div class="revisions-tooltip-arrow"><span></span></div>
+	<# } #>
+<# } #>
 </script>
 
 <script id="tmpl-revisions-diff" type="text/html">
+	<div class="loading-indicator"><span class="spinner"></span></div>
+	<div class="diff-error"><?php _e( 'Sorry, something went wrong. The requested comparison could not be loaded.' ); ?></div>
+	<div class="diff">
 	<# _.each( data.fields, function( field ) { #>
-		<h3>{{{ field.name }}}</h3>
+		<h3>{{ field.name }}</h3>
 		{{{ field.diff }}}
 	<# }); #>
-</script>
-
-<script id="tmpl-revisions-diff-old" type="text/html">
-	<div id="toggle-revision-compare-mode">
-		<label>
-			<input type="checkbox" id="compare-two-revisions" />
-			<?php esc_attr_e( 'Compare two revisions' ); ?>
-		</label>
-	</div>
-
-	<div id="diff-header">
-		<div id="diff-header-from" class="diff-header">
-			<div id="diff-title-from" class="diff-title">
-				<strong><?php _ex( 'From:', 'Followed by post revision info' ); ?></strong> {{{ data.titleFrom }}}
-			</div>
-			<div class="clear"></div>
-		</div>
-
-		<div id="diff-header-to" class="diff-header">
-			<div id="diff-title-to" class="diff-title">
-				<strong><?php _ex( 'To:', 'Followed by post revision info' ); ?></strong> {{{ data.titleTo }}}
-			</div>
-
-			<input type="button" id="restore-revision" class="button button-primary" data-restore-link="{{{ data.restoreLink }}}" value="<?php esc_attr_e( 'Restore This Revision' )?>" />
-			<div class="clear"></div>
-		</div>
-	</div>
-
-	<div id="diff-table">{{{ data.diff }}}</div>
-</script>
-
-<script id="tmpl-revision-interact-old" type="text/html">
-	<div id="diff-previous-revision">
-		<input class="button" type="button" id="previous" value="<?php echo esc_attr_x( 'Previous', 'Button label for a previous revision' ); ?>" />
-	</div>
-
-	<div id="diff-next-revision">
-		<input class="button" type="button" id="next" value="<?php echo esc_attr_x( 'Next', 'Button label for a next revision' ); ?>" />
-	</div>
-
-</script>
-
-<script id="tmpl-revision-ticks" type="text/html">
-	<div class="revision-tick completed-{{{ data.completed }}} scope-of-changes-{{{ data.scopeOfChanges }}}">
-		<span class="ui-slider-tooltip ui-widget-content ui-corner-all hidden"></span>
 	</div>
 </script>
+
+
 <?php
 require_once( './admin-footer.php' );

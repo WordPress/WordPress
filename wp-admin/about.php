@@ -19,7 +19,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <h1><?php printf( __( 'Welcome to WordPress %s' ), $display_version ); ?></h1>
 
-<div class="about-text"><?php printf( __( 'Thank you for updating to the latest version! WordPress %s is more polished and enjoyable than ever before. We hope you like it.' ), $display_version ); ?></div>
+<div class="about-text"><?php printf( __( 'Thank you for updating to the latest version. WordPress %s makes your writing experience even better.' ), $display_version ); ?></div>
 
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
@@ -33,55 +33,74 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	</a>
 </h2>
 
+<div class="changelog point-releases">
+	<h3><?php echo _n( 'Maintenance and Security Release', 'Maintenance and Security Releases', 1 ); ?></h3>
+	<p><?php printf( _n( '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug.',
+         '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.', 13 ), '3.6.1', number_format_i18n( 13 ) ); ?>
+		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'http://codex.wordpress.org/Version_3.6.1' ); ?>
+ 	</p>
+</div>
+
 <div class="changelog">
-	<h3><?php _e( 'New Media Manager' ); ?></h3>
+	<h3><?php _e( 'Colorful New Theme' ); ?></h3>
+
+	<div class="feature-section images-stagger-right">
+		<img alt="" src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.6/twentythirteen.png" class="image-66" />
+		<h4><?php _e( 'Introducing Twenty Thirteen' ); ?></h4>
+		<p><?php printf( __( "The new default theme puts focus on your content with a colorful, single-column design made for media-rich blogging." ) ); ?></p>
+		<p><?php _e( 'Inspired by modern art, Twenty Thirteen features quirky details, beautiful typography, and bold, high-contrast colors &mdash; all with a flexible layout that looks great on any device, big or small.' ); ?></p>
+	</div>
+</div>
+
+<div class="changelog">
+	<h3><?php _e( 'Write with Confidence' ); ?></h3>
+
+	<div class="feature-section images-stagger-right">
+		<img alt="" src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.6/revisions.png" class="image-66" />
+		<h4><?php _e( 'Explore Revisions' ); ?></h4>
+		<p></p>
+		<p><?php _e( 'From the first word you write, WordPress saves every change. Each revision is always at your fingertips. Text is highlighted as you scroll through revisions at lightning speed, so you can see what changes have been made along the way.' ); ?></p>
+		<p><?php _e( 'It&#8217;s easy to compare two revisions from any point in time, and to restore a revision and go back to writing. Now you can be confident that no mistake is permanent.' ); ?></p>
+	</div>
 
 	<div class="feature-section col two-col">
-		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-media.png' ) ); ?>" class="image-100" />
-
 		<div>
-			<h4><?php _e( 'Beautiful Interface' ); ?></h4>
-			<p><?php _e( 'Adding media has been streamlined with an all-new experience, making it a breeze to upload files and place them into your posts.' ); ?></p>
+			<h4><?php _e( 'Improved Autosaves' ); ?></h4>
+			<p><?php _e( 'Never lose a word you&#8217;ve written. Autosaving is now even better; whether your power goes out, your browser crashes, or you lose your internet connection, your content is safe.' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php _e( 'Picturesque Galleries' ); ?></h4>
-			<p><?php _e( 'Creating image galleries is faster with drag and drop reordering, inline caption editing, and simplified controls for layout.' ); ?></p>
+			<h4><?php _e( 'Better Post Locking' ); ?></h4>
+			<p><?php _e( 'Always know who&#8217;s editing with live updates that appear in the list of posts. And if someone leaves for lunch with a post open, you can take over where they left off.' ); ?></p>
 		</div>
 	</div>
 </div>
 
 <div class="changelog">
-	<h3><?php _e( 'New Default Theme' ); ?></h3>
+	<h3><?php _e( 'Support for Audio and Video' ); ?></h3>
 
 	<div class="feature-section images-stagger-right">
-		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-twenty-twelve.png' ) ); ?>" class="image-66" />
-		<h4><?php _e( 'Introducing Twenty Twelve' ); ?></h4>
-		<p><?php _e( 'The newest default theme for WordPress is simple, flexible, and elegant.' ); ?></p>
-		<p><?php _e( 'What makes it really shine are the design details, like the gorgeous Open Sans typeface and a fully responsive design that looks great on any device.' ); ?></p>
-		<p><?php _e( 'Naturally, Twenty Twelve supports all the theme features you’ve come to know and love, but it is also designed to be as great for a website as it is for a blog.' ); ?></p>
-	</div>
-</div>
+		<div class="video image-66"><?php
+			$sample_video = ( is_ssl() ? 'https://' : 'http://s.' ) . 'wordpress.org/images/core/3.6/sample-video';
+			$args = array(
+				'mp4' => "$sample_video.mp4",
+				'ogv' => "$sample_video.ogv",
+				'width' => 625,
+				'height' => 360,
+			);
+			// Opera 12 (Presto, pre-Chromium) fails to load ogv properly
+			// when combined with ME.js. Works fine in Opera 15.
+			// Don't serve ogv to Opera 12 to avoid complete brokeness.
+			if ( $GLOBALS['is_opera'] )
+				unset( $args['ogv'] );
+			// Our current ME.js API is limited to shortcodes in posts.
+			echo wp_video_shortcode( $args );
+		?></div>
+		<h4><?php _e( 'New Media Player' ); ?></h4>
+		<p><?php _e( 'Share your audio and video with the new built-in HTML5 media player. Upload files using the media manager and embed them in your posts.' ); ?></p>
 
-<div class="changelog">
-	<h3><?php _e( 'Retina Ready' ); ?></h3>
-
-	<div class="feature-section images-stagger-right">
-		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-retina.png' ) ); ?>" class="image-66" />
-		<h4><?php _e( 'So Sharp You Can&#8217;t See the Pixels' ); ?></h4>
-		<p><?php _e( 'The WordPress dashboard now looks beautiful on high-resolution screens like those found on the iPad, Kindle Fire HD, Nexus 10, and MacBook Pro with Retina Display. Icons and other visual elements are crystal clear and full of detail.' ); ?></p>
-	</div>
-</div>
-
-<div class="changelog">
-	<h3><?php _e( 'Smoother Experience' ); ?></h3>
-
-	<div class="feature-section images-stagger-right">
-		<img alt="" src="<?php echo esc_url( admin_url( 'images/screenshots/about-color-picker.png' ) ); ?>" class="image-30" />
-		<h4><?php _e( 'Better Accessibility' ); ?></h4>
-		<p><?php _e( 'WordPress supports more usage modes than ever before. Screenreaders, touch devices, and mouseless workflows all have improved ease of use and accessibility.' ); ?></p>
-
-		<h4><?php _e( 'More Polish' ); ?></h4>
-		<p><?php _e( 'A number of screens and controls have been refined. For example, a new color picker makes it easier for you to choose that perfect shade of blue.' ); ?></p>
+		<h4><?php _e( 'Embed Music from Spotify, Rdio, and SoundCloud' ); ?></h4>
+		<p><?php _e( 'Embed songs and albums from your favorite artists, or playlists you&#8217;ve mixed yourself. It&#8217;s as simple as pasting a URL into a post on its own line.' ); ?></p>
+		<p><?php printf( __( '(Love another service? Check out all of the <a href="%s">embeds</a> that WordPress supports.)' ), 'http://codex.wordpress.org/Embeds' ); ?></p>
 	</div>
 </div>
 
@@ -90,31 +109,33 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="feature-section col three-col">
 		<div>
-			<h4><?php _e( 'Meta Query Additions' ); ?></h4>
-			<p><?php _e( 'The <code>WP_Comment_Query</code> and <code>WP_User_Query</code> classes now support meta queries just like <code>WP_Query.</code> Meta queries now support querying for objects without a particular meta key.' ); ?></p>
+			<h4><?php _e( 'Audio/Video API' ); ?></h4>
+			<p><?php _e( 'The new audio/video APIs give developers access to powerful media metadata, like ID3 tags.' ); ?></p>
 		</div>
 		<div>
-			<h4><?php _e( 'Post Objects' ); ?></h4>
-			<p><?php _e( 'Post objects are now instances of a <code>WP_Post</code> class, which improves performance by loading selected properties on demand.' ); ?></p>
+			<h4><?php _e( 'Semantic Markup' ); ?></h4>
+			<p><?php _e( 'Themes can now choose improved HTML5 markup for comment forms, search forms, and comment lists.' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php _e( 'Image Editing API' ); ?></h4>
-			<p><?php _e( 'The <code>WP_Image_Editor</code> class abstracts image editing functionality such as cropping and scaling, and uses ImageMagick when available.' ); ?></p>
+			<h4><?php _e( 'JavaScript Utilities' ); ?></h4>
+			<p><?php _e( 'Handy JavaScript utilities ease common tasks like Ajax requests, templating, and Backbone view management.' ); ?></p>
 		</div>
 	</div>
 
 	<div class="feature-section col three-col">
 		<div>
-			<h4><?php _e( 'Multisite Improvements' ); ?></h4>
-			<p><?php _e( '<code>switch_to_blog()</code> is now significantly faster and more reliable.' ); ?></p>
+			<h4><?php _e( 'Shortcode Improvements' ); ?></h4>
+			<p><?php _e( 'Search content for shortcodes with <code>has_shortcode()</code> and adjust shortcode attributes with a new filter.' ); ?></p>
 		</div>
 		<div>
-			<h4><?php _e( 'XML-RPC API' ); ?></h4>
-			<p><?php printf( __( 'The <a href="%s">WordPress API</a> is now always enabled, and supports fetching users, editing profiles, managing post revisions, and searching posts.' ), __( 'http://codex.wordpress.org/XML-RPC_WordPress_API' ) ); ?></p>
+			<h4><?php _e( 'Revision Control' ); ?></h4>
+			<p><?php _e( 'Fine-grained revision controls allow you to keep a different number of revisions for each post type.' ); ?></p>
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'External Libraries' ); ?></h4>
-			<p><?php printf( __( 'WordPress now includes the <a href="%1$s">Underscore</a> and <a href="%2$s">Backbone</a> JavaScript libraries. TinyMCE, jQuery, jQuery UI, and SimplePie have all been updated to the latest versions.' ), 'http://underscorejs.org/', 'http://backbonejs.org/' ); ?></p>
+			<p><?php
+				/* translators: placeholders 2, 3 and 4 are version numbers */
+				printf( __( 'New and updated libraries: <a href="%1$s">MediaElement.js</a>, jQuery %2$s, jQuery UI %3$s, jQuery Migrate, Backbone %4$s.' ), 'http://mediaelementjs.com/', '1.10.2', '1.10.3', '1.0' ); ?></p>
 		</div>
 	</div>
 </div>

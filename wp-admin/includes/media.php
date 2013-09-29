@@ -236,15 +236,15 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 
 			if ( ! empty( $meta['album'] ) && ! empty( $meta['artist'] ) ) {
 				/* translators: 1: audio track title, 2: album title, 3: artist name */
-				$content .= sprintf( __( '&#8220;%1$s&#8221; from %2$s by %3$s.' ), $title, $meta['album'], $meta['artist'] );
+				$content .= sprintf( __( '"%1$s" from %2$s by %3$s.' ), $title, $meta['album'], $meta['artist'] );
 			} else if ( ! empty( $meta['album'] ) ) {
 				/* translators: 1: audio track title, 2: album title */
-				$content .= sprintf( __( '&#8220;%1$s&#8221; from %2$s.' ), $title, $meta['album'] );
+				$content .= sprintf( __( '"%1$s" from %2$s.' ), $title, $meta['album'] );
 			} else if ( ! empty( $meta['artist'] ) ) {
 				/* translators: 1: audio track title, 2: artist name */
-				$content .= sprintf( __( '&#8220;%1$s&#8221; by %2$s.' ), $title, $meta['artist'] );
+				$content .= sprintf( __( '"%1$s" by %2$s.' ), $title, $meta['artist'] );
 			} else {
-				$content .= sprintf( __( '&#8220;%s&#8221;.' ), $title );
+				$content .= sprintf( __( '"%s".' ), $title );
 			}
 
 		} else if ( ! empty( $meta['album'] ) ) {
@@ -496,9 +496,8 @@ function media_upload_form_handler() {
 
 	if ( !empty($_POST['attachments']) ) foreach ( $_POST['attachments'] as $attachment_id => $attachment ) {
 		$post = $_post = get_post($attachment_id, ARRAY_A);
-		$post_type_object = get_post_type_object( $post[ 'post_type' ] );
 
-		if ( !current_user_can( $post_type_object->cap->edit_post, $attachment_id ) )
+		if ( !current_user_can( 'edit_post', $attachment_id ) )
 			continue;
 
 		if ( isset($attachment['post_content']) )
@@ -2357,7 +2356,7 @@ function edit_form_image_editor( $post ) {
 	<?php
 	elseif ( $attachment_id && 0 === strpos( $post->post_mime_type, 'audio/' ) ):
 
-		echo do_shortcode( '[audio src="' . $att_url . '"]' );
+		echo wp_audio_shortcode( array( 'src' => $att_url ) );
 
 	elseif ( $attachment_id && 0 === strpos( $post->post_mime_type, 'video/' ) ):
 
@@ -2369,12 +2368,15 @@ function edit_form_image_editor( $post ) {
 		if ( $h && $w < $meta['width'] )
 			$h = round( ( $meta['height'] * $w ) / $meta['width'] );
 
-		$shortcode = sprintf( '[video src="%s"%s%s]',
-			$att_url,
-			empty( $meta['width'] ) ? '' : sprintf( ' width="%d"', $w ),
-			empty( $meta['height'] ) ? '' : sprintf( ' height="%d"', $h )
-		);
-		echo do_shortcode( $shortcode );
+		$attr = array( 'src' => $att_url );
+
+		if ( ! empty( $meta['width' ] ) )
+			$attr['width'] = $w;
+
+		if ( ! empty( $meta['height'] ) )
+			$attr['height'] = $h;
+
+		echo wp_video_shortcode( $attr );
 
 	endif; ?>
 	</div>
@@ -2420,7 +2422,7 @@ function edit_form_image_editor( $post ) {
 function attachment_submitbox_metadata() {
 	$post = get_post();
 
-	$filename = esc_html( basename( $post->guid ) );
+	$filename = esc_html( wp_basename( $post->guid ) );
 
 	$media_dims = '';
 	$meta = wp_get_attachment_metadata( $post->ID );
@@ -2468,7 +2470,7 @@ function attachment_submitbox_metadata() {
 		if ( ! empty( $meta['bitrate'] ) ) : ?>
 		<div class="misc-pub-section">
 			<?php _e( 'Bitrate:' ); ?> <strong><?php
-				echo $meta['bitrate'] / 1000, 'kb/s';
+				echo round( $meta['bitrate'] / 1000 ), 'kb/s';
 
 				if ( ! empty( $meta['bitrate_mode'] ) )
 					echo ' ', strtoupper( $meta['bitrate_mode'] );
@@ -2576,7 +2578,7 @@ function wp_read_video_metadata( $file ) {
 	$metadata = array();
 
 	if ( ! class_exists( 'getID3' ) )
-		require( ABSPATH . WPINC . '/ID3/class-getid3.php' );
+		require( ABSPATH . WPINC . '/ID3/getid3.php' );
 	$id3 = new getID3();
 	$data = $id3->analyze( $file );
 
@@ -2631,7 +2633,7 @@ function wp_read_audio_metadata( $file ) {
 	$metadata = array();
 
 	if ( ! class_exists( 'getID3' ) )
-		require( ABSPATH . WPINC . '/ID3/class-getid3.php' );
+		require( ABSPATH . WPINC . '/ID3/getid3.php' );
 	$id3 = new getID3();
 	$data = $id3->analyze( $file );
 

@@ -449,9 +449,27 @@
 			var displays = this._displays;
 
 			if ( ! displays[ attachment.cid ] )
-				displays[ attachment.cid ] = new Backbone.Model( this._defaultDisplaySettings );
+				displays[ attachment.cid ] = new Backbone.Model( this.defaultDisplaySettings( attachment ) );
 
 			return displays[ attachment.cid ];
+		},
+
+		defaultDisplaySettings: function( attachment ) {
+			settings = this._defaultDisplaySettings;
+			if ( settings.canEmbed = this.canEmbed( attachment ) )
+				settings.link = 'embed';
+			return settings;
+		},
+
+		canEmbed: function( attachment ) {
+			// If uploading, we know the filename but not the mime type.
+			if ( ! attachment.get('uploading') ) {
+				var type = attachment.get('type');
+				if ( type !== 'audio' && type !== 'video' )
+					return false;
+			}
+
+			return _.contains( media.view.settings.embedExts, attachment.get('filename').split('.').pop() );
 		},
 
 		syncSelection: function() {
@@ -3666,7 +3684,7 @@
 				$input = this.$('.link-to-custom'),
 				attachment = this.options.attachment;
 
-			if ( 'none' === linkTo || ( ! attachment && 'custom' !== linkTo ) ) {
+			if ( 'none' === linkTo || 'embed' === linkTo || ( ! attachment && 'custom' !== linkTo ) ) {
 				$input.hide();
 				return;
 			}

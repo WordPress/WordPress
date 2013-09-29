@@ -942,6 +942,7 @@ if ( !function_exists('wp_validate_redirect') ) :
  * @return string redirect-sanitized URL
  **/
 function wp_validate_redirect($location, $default = '') {
+	$location = trim( $location );
 	// browsers will assume 'http' is your protocol, and will obey a redirect to a URL starting with '//'
 	if ( substr($location, 0, 2) == '//' )
 		$location = 'http:' . $location;
@@ -989,16 +990,16 @@ function wp_notify_postauthor( $comment_id, $comment_type = '' ) {
 	$post    = get_post( $comment->comment_post_ID );
 	$author  = get_userdata( $post->post_author );
 
-	// The post author is no longer a member of the blog
-	if ( ! is_user_member_of_blog( $post->post_author ) )
-		return false;
-
 	// The comment was left by the author
 	if ( $comment->user_id == $post->post_author )
 		return false;
 
 	// The author moderated a comment on his own post
 	if ( $post->post_author == get_current_user_id() )
+		return false;
+
+	// The post author is no longer a member of the blog
+	if ( ! user_can( $post->post_author, 'read_post', $post->ID ) )
 		return false;
 
 	// If there's no email to send the comment to
@@ -1045,11 +1046,14 @@ function wp_notify_postauthor( $comment_id, $comment_type = '' ) {
 	}
 	$notify_message .= get_permalink($comment->comment_post_ID) . "#comments\r\n\r\n";
 	$notify_message .= sprintf( __('Permalink: %s'), get_permalink( $comment->comment_post_ID ) . '#comment-' . $comment_id ) . "\r\n";
-	if ( EMPTY_TRASH_DAYS )
-		$notify_message .= sprintf( __('Trash it: %s'), admin_url("comment.php?action=trash&c=$comment_id") ) . "\r\n";
-	else
-		$notify_message .= sprintf( __('Delete it: %s'), admin_url("comment.php?action=delete&c=$comment_id") ) . "\r\n";
-	$notify_message .= sprintf( __('Spam it: %s'), admin_url("comment.php?action=spam&c=$comment_id") ) . "\r\n";
+
+	if ( user_can( $post->post_author, 'edit_comment', $comment_id ) ) {
+		if ( EMPTY_TRASH_DAYS )
+			$notify_message .= sprintf( __('Trash it: %s'), admin_url("comment.php?action=trash&c=$comment_id") ) . "\r\n";
+		else
+			$notify_message .= sprintf( __('Delete it: %s'), admin_url("comment.php?action=delete&c=$comment_id") ) . "\r\n";
+		$notify_message .= sprintf( __('Spam it: %s'), admin_url("comment.php?action=spam&c=$comment_id") ) . "\r\n";
+	}
 
 	$wp_email = 'wordpress@' . preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME']));
 

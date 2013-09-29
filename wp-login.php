@@ -65,7 +65,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 	wp_admin_css( 'colors-fresh', true );
 
 	if ( wp_is_mobile() ) { ?>
-		<meta name="viewport" content="width=320; initial-scale=0.9; maximum-scale=1.0; user-scalable=0;" /><?php
+		<meta name="viewport" content="width=320, initial-scale=0.9, maximum-scale=1.0, user-scalable=0" /><?php
 	}
 
 	// Remove all stored post data on logging out.
@@ -500,7 +500,7 @@ case 'rp' :
 	login_header(__('Reset Password'), '<p class="message reset-pass">' . __('Enter your new password below.') . '</p>', $errors );
 
 ?>
-<form name="resetpassform" id="resetpassform" action="<?php echo esc_url( site_url( 'wp-login.php?action=resetpass&key=' . urlencode( $_GET['key'] ) . '&login=' . urlencode( $_GET['login'] ), 'login_post' ) ); ?>" method="post">
+<form name="resetpassform" id="resetpassform" action="<?php echo esc_url( site_url( 'wp-login.php?action=resetpass&key=' . urlencode( $_GET['key'] ) . '&login=' . urlencode( $_GET['login'] ), 'login_post' ) ); ?>" method="post" autocomplete="off">
 	<input type="hidden" id="user_login" value="<?php echo esc_attr( $_GET['login'] ); ?>" autocomplete="off" />
 
 	<p>

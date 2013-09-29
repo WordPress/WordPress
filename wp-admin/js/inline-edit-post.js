@@ -302,17 +302,18 @@ $( document ).on( 'heartbeat-tick.wp-check-locked-posts', function( e, data ) {
 		if ( locked.hasOwnProperty( key ) ) {
 			if ( ! row.hasClass('wp-locked') ) {
 				lock_data = locked[key];
-				row.addClass('wp-locked').find('.column-title .locked-text').text( lock_data.text );
+				row.find('.column-title .locked-text').text( lock_data.text );
 				row.find('.check-column checkbox').prop('checked', false);
 
 				if ( lock_data.avatar_src ) {
 					avatar = $('<img class="avatar avatar-18 photo" width="18" height="18" />').attr( 'src', lock_data.avatar_src.replace(/&amp;/g, '&') );
 					row.find('.column-title .locked-avatar').empty().append( avatar );
 				}
+				row.addClass('wp-locked');
 			}
 		} else if ( row.hasClass('wp-locked') ) {
-			row.removeClass('wp-locked').find('.column-title .locked-text').empty();
-			row.find('.column-title .locked-avatar').empty();
+			// Make room for the CSS animation
+			row.removeClass('wp-locked').delay(1000).find('.locked-info span').empty();
 		}
 	});
 }).on( 'heartbeat-send.wp-check-locked-posts', function( e, data ) {

@@ -691,20 +691,29 @@ form.upgrade .hint {
 .fixed .column-comments {
 	text-align: right;
 }
+
 .fixed .column-comments .vers {
 	padding-left: 0;
 	padding-right: 3px;
 }
+
 .fixed .column-comments a {
 	float: right;
 }
+
 .fixed .column-menus {
 	text-align: right;
 }
+
 .sorting-indicator {
 	margin-left: 0;
 	margin-right: 7px;
 }
+
+tr.wp-locked .locked-indicator {
+	margin: -2px 6px 0 0;
+}
+
 th.sortable a span,
 th.sorted a span {
 	float: right;
@@ -945,6 +954,23 @@ th.sorted a span {
 	padding-left: 10px;
 }
 
+#post-lock-dialog .post-locked-message a.button {
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+#post-lock-dialog .post-locked-avatar {
+	float: right;
+	margin: 0 0 20px 20px;
+}
+
+#post-lock-dialog .locked-saving img {
+	float: right;
+	margin-right: 0;
+	margin-left: 3px;
+}
+
+
 /*------------------------------------------------------------------------------
   11.1 - Custom Fields
 ------------------------------------------------------------------------------*/
@@ -954,46 +980,40 @@ th.sorted a span {
 /*------------------------------------------------------------------------------
   11.2 - Post Revisions
 ------------------------------------------------------------------------------*/
-
-#diff-slider .ui-slider-tooltip,
-#diff-slider-ticks .ui-slider-tooltip {
-	margin-left: 0;
-	margin-right: -78px;
-}
-
-.wp-slider .ui-slider-handle.left-handle:before,
-.wp-slider .ui-slider-handle.right-handle:before {
+.wp-slider .ui-slider-handle.from-handle:before,
+.wp-slider .ui-slider-handle.to-handle:before {
 	height: 8px;
 	width: 7px;
 }
-.wp-slider .ui-slider-handle.left-handle:before {
+
+.wp-slider .ui-slider-handle.from-handle:before {
 	background-position: -5px -10px;
 	left: 6px;
 }
-.wp-slider .ui-slider-handle.right-handle:before {
+
+.wp-slider .ui-slider-handle.to-handle:before {
 	background-position: -4px -29px;
 	left: 6px;
 }
 
-#toggle-revision-compare-mode {
+.revision-toggle-compare-mode {
 	right: auto;
 	left: 0;
-	padding: 9px 0 0 9px;
 }
 
-#diff-next-revision {
+.revisions .loading-indicator {
+	margin-right: -90px;
+}
+
+body.folded .revisions .loading-indicator {
+	margin-right: -32px;
+}
+
+.revisions-next {
 	float: left;
 }
 
-#diff-previous-revision {
-	float: right;
-}
-
-#diff-header {
-	padding: 5px 5px 5px 200px;
-}
-
-.diff-title {
+.revisions-previous {
 	float: right;
 }
 
@@ -1004,14 +1024,13 @@ th.sorted a span {
 	margin-left: 5px;
 }
 
-.diff-title img {
-	margin-left: 0;
-	margin-right: 5px;
+.revisions-controls .author-card .avatar,
+.revisions-controls .author-card .author-info {
+	float: right;
 }
 
-#restore-revision {
-	margin-left: 0;
-	margin-right: 10px;
+.diff-meta input.restore-revision {
+	float: left;
 }
 
 .diff-col-title-added,
@@ -1020,20 +1039,54 @@ th.sorted a span {
 	float: right;
 }
 
-.diff-col-title-added {
-	float: left;
-}
-
-.ui-tooltip-content img {
-	float: right;
-	margin-right: 0;
-	margin-left: 5px;
-}
-
-#diff-slider .ui-slider-tooltip,
-#diff-slider-ticks .ui-slider-tooltip {
+.revisions-tooltip {
 	margin-left: 0;
-	margin-right: -78px;
+	margin-right: -69px;
+}
+
+.revisions-tooltip.flipped {
+	margin-right: 0;
+	margin-left: -70px;
+}
+
+.ie8 .revisions-tooltip {
+	margin-right: -75px;
+}
+
+.ie8 .revisions-tooltip.flipped {
+	margin-left: -63px;
+}
+
+.revisions-tooltip-arrow {
+	right: 0;
+	margin-left: 0;
+	margin-right: 35px;
+}
+
+.revisions-tooltip.flipped .revisions-tooltip-arrow {
+	margin-right: 0;
+	margin-left: 35px;
+	right: auto;
+	left: 0;
+}
+
+.revisions-tooltip-arrow > span {
+	left: auto;
+	right: 20px;
+}
+
+.revisions-tooltip.flipped .revisions-tooltip-arrow > span {
+	right: auto;
+	left: 20px;
+}
+
+.ie8 .revisions-tooltip-arrow > span {
+	right: 21px;
+}
+
+.revisions-tickmarks > div {
+	float: right;
+	border-width: 0 0 0 1px;
 }
 
 /*------------------------------------------------------------------------------
@@ -1676,7 +1729,8 @@ h2 .nav-tab {
 	margin: 0 0 10px 0.7%;
 }
 
-.about-wrap .feature-section.images-stagger-right img {
+.about-wrap .feature-section.images-stagger-right img,
+.about-wrap .feature-section.images-stagger-right .video {
 	float: left;
 	margin: 0 2em 12px 5px;
 }
@@ -1693,16 +1747,22 @@ h2 .nav-tab {
 	margin-left: 10px;
 }
 
+@media only screen and (max-width: 900px) {
+	.about-wrap .feature-section.images-stagger-right .video.image-66 {
+		margin-right: 3px;
+	}
+}
+
 @media only screen and (max-width: 768px) {
-	.about-wrap .feature-section img.image-66 {
+	.about-wrap .feature-section .image-66 {
 		float: none;
 	}
 
-	.about-wrap .feature-section.images-stagger-right img.image-66 {
+	.about-wrap .feature-section.images-stagger-right .image-66 {
 		margin-right: 3px;
 	}
 
-	.about-wrap .feature-section.images-stagger-left img.image-66 {
+	.about-wrap .feature-section.images-stagger-left .image-66 {
 		margin-left: 3px;
 	}
 }
@@ -2498,39 +2558,22 @@ div.star-holder .star-rating {
 	float: right;
 }
 
+#plugin-information .wrap {
+	margin: 4px 15px 0 0;
+}
+
 #plugin-information ul#sidemenu {
 	left: auto;
 	right: 0;
 }
 
-#plugin-information h2 {
-	margin-right: 0;
-	margin-left: 200px;
-}
-
 #plugin-information .fyi {
-	margin-left: 5px;
-	margin-right: 20px;
-}
-
-#plugin-information .fyi h2 {
-	margin-left: 0;
-}
-
-#plugin-information .fyi ul {
-	padding: 10px 7px 10px 5px;
+	float: right;
 }
 
 #plugin-information #section-screenshots li p {
 	padding-left: 0;
 	padding-right: 20px;
-}
-
-#plugin-information #section-screenshots ol,
-#plugin-information .updated,
-#plugin-information pre {
-	margin-right: 0;
-	margin-left: 215px;
 }
 
 #plugin-information .updated,
@@ -2619,6 +2662,14 @@ h3.tb {
 #TB_ajaxContent #options {
 	right: auto;
 	left: 25px;
+}
+
+#TB_closeAjaxWindow {
+	float: left;
+}
+
+#TB_ajaxWindowTitle {
+	float: right;
 }
 
 #post_status {
@@ -2720,7 +2771,7 @@ div.sidebar-name h3 {
 	font-family: Tahoma, Arial, sans-serif;
 }
 
-.accordion-section-title:after {
+.js .accordion-section-title:after {
 	right: auto;
 	left: 20px;
 }
@@ -2734,16 +2785,10 @@ div.sidebar-name h3 {
 
 .menu-settings dd {
 	float: right;
-	padding-right: 170px;
 }
 
 .manage-menus span {
 	float: right;
-}
-
-.menu-settings dt {
-	left: auto;
-	right: 0;
 }
 
 .manage-menus select {

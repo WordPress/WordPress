@@ -9,6 +9,12 @@
 /*
  * No-privilege Ajax handlers.
  */
+
+/**
+ * Heartbeat API (experimental)
+ *
+ * Runs when the user is not logged in.
+ */
 function wp_ajax_nopriv_heartbeat() {
 	$response = array();
 
@@ -739,9 +745,9 @@ function wp_ajax_replyto_comment( $action ) {
 	$user = wp_get_current_user();
 	if ( $user->exists() ) {
 		$user_ID = $user->ID;
-		$comment_author       = $wpdb->escape($user->display_name);
-		$comment_author_email = $wpdb->escape($user->user_email);
-		$comment_author_url   = $wpdb->escape($user->user_url);
+		$comment_author       = wp_slash( $user->display_name );
+		$comment_author_email = wp_slash( $user->user_email );
+		$comment_author_url   = wp_slash( $user->user_url );
 		$comment_content      = trim($_POST['content']);
 		if ( current_user_can( 'unfiltered_html' ) ) {
 			if ( wp_create_nonce( 'unfiltered-html-comment' ) != $_POST['_wp_unfiltered_html_comment'] ) {
@@ -1075,8 +1081,6 @@ function wp_ajax_autosave() {
 				$id = $post->ID;
 		}
 
-		// When is_wp_error($id), $id overwrites $data in WP_Ajax_Response
-		// todo: Needs review. The errors generated in WP_Ajax_Response and parsed with wpAjax.parseAjaxResponse() haven't been used for years.
 		if ( ! is_wp_error($id) ) {
 			/* translators: draft saved date format, see http://php.net/date */
 			$draft_saved_date_format = __('g:i:s a');
@@ -1090,6 +1094,7 @@ function wp_ajax_autosave() {
 			$id = $post->ID;
 	}
 
+	// @todo Consider exposing any errors, rather than having 'Saving draft...'
 	$x = new WP_Ajax_Response( array(
 		'what' => 'autosave',
 		'id' => $id,
@@ -2053,6 +2058,11 @@ function wp_ajax_send_link_to_editor() {
 	wp_send_json_success( $html );
 }
 
+/**
+ * Heartbeat API (experimental)
+ *
+ * Runs when the user is logged in.
+ */
 function wp_ajax_heartbeat() {
 	if ( empty( $_POST['_nonce'] ) )
 		wp_send_json_error();
@@ -2073,9 +2083,6 @@ function wp_ajax_heartbeat() {
 
 	if ( ! empty($_POST['data']) ) {
 		$data = (array) $_POST['data'];
-
-		// todo: separate filters: 'heartbeat_[action]' so we call different callbacks only when there is data for them,
-		// or all callbacks listen to one filter and run when there is something for them in $data?
 		$response = apply_filters( 'heartbeat_received', $response, $data, $screen_id );
 	}
 
@@ -2084,7 +2091,7 @@ function wp_ajax_heartbeat() {
 	// Allow the transport to be replaced with long-polling easily
 	do_action( 'heartbeat_tick', $response, $screen_id );
 
-	// Send the current time acording to the server
+	// Send the current time according to the server
 	$response['server_time'] = time();
 
 	wp_send_json($response);
@@ -2093,8 +2100,6 @@ function wp_ajax_heartbeat() {
 function wp_ajax_get_revision_diffs() {
 	require ABSPATH . 'wp-admin/includes/revision.php';
 
-	// check_ajax_referer( 'revisions-ajax-nonce', 'nonce' );
-
 	if ( ! $post = get_post( (int) $_REQUEST['post_id'] ) )
 		wp_send_json_error();
 
@@ -2102,11 +2107,11 @@ function wp_ajax_get_revision_diffs() {
 		wp_send_json_error();
 
 	// Really just pre-loading the cache here.
-	if ( ! $revisions = wp_get_post_revisions( $post->ID ) )
+	if ( ! $revisions = wp_get_post_revisions( $post->ID, array( 'check_enabled' => false ) ) )
 		wp_send_json_error();
 
 	$return = array();
-	@set_time_limit( count( $_REQUEST['compare'] ) );
+	@set_time_limit( 0 );
 
 	foreach ( $_REQUEST['compare'] as $compare_key ) {
 		list( $compare_from, $compare_to ) = explode( ':', $compare_key ); // from:to

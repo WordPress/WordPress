@@ -96,7 +96,7 @@ require(ABSPATH . '/wp-includes/script-loader.php');
 require(ABSPATH . '/wp-includes/version.php');
 
 $load = preg_replace( '/[^a-z0-9,_-]+/i', '', $_GET['load'] );
-$load = explode(',', $load);
+$load = array_unique( explode( ',', $load ) );
 
 if ( empty($load) )
 	exit;

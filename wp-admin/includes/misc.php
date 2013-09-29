@@ -370,7 +370,7 @@ function set_screen_options() {
 }
 
 /**
- * Check if rewrite rule for WordPress already exists in the IIS 7 configuration file
+ * Check if rewrite rule for WordPress already exists in the IIS 7+ configuration file
  *
  * @since 2.8.0
  *
@@ -428,7 +428,7 @@ function iis7_delete_rewrite_rule($filename) {
 }
 
 /**
- * Add WordPress rewrite rule to the IIS 7 configuration file.
+ * Add WordPress rewrite rule to the IIS 7+ configuration file.
  *
  * @since 2.8.0
  *
@@ -665,29 +665,3 @@ function wp_refresh_post_nonces( $response, $data, $screen_id ) {
 	return $response;
 }
 add_filter( 'heartbeat_received', 'wp_refresh_post_nonces', 10, 3 );
-
-/**
- * Output the HTML for restoring the post data from DOM storage
- *
- * @since 3.6
- * @access private
- */
-function _local_storage_notice() {
-	$screen = get_current_screen();
-	if ( ! $screen || 'post' != $screen->id )
-		return;
-
-	?>
-	<div id="local-storage-notice" class="hidden">
-	<p class="local-restore">
-		<?php _e('The backup of this post in your browser is different from the version below.'); ?>
-		<a class="restore-backup" href="#"><?php _e('Restore the backup.'); ?></a>
-	</p>
-	<p class="undo-restore hidden">
-		<?php _e('Post restored successfully.'); ?>
-		<a class="undo-restore-backup" href="#"><?php _e('Undo.'); ?></a>
-	</p>
-	</div>
-	<?php
-}
-add_action( 'admin_footer', '_local_storage_notice' );

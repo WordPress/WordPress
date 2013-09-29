@@ -164,7 +164,7 @@ textarea.disabled {
 	color: #fff;
 }
 
-#diff-header,
+.revisions-meta,
 .widget .widget-top,
 .postbox h3,
 .stuffbox h3,
@@ -1481,63 +1481,32 @@ table.diff .diff-addedline ins {
 	background-color: #afa;
 }
 
-#diff-header {
+.revisions-meta {
 	border: 1px solid #d1e5ee;
 }
 
-#diff-slider .ui-slider-tooltip,
-#diff-slider-ticks .ui-slider-tooltip {
+.revisions-controls {
+	background: #fff;
+	background: -webkit-gradient(linear, left bottom, left top, color-stop(0%,rgba(255,255,255,1)), color-stop(30px,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,1)));
+	background: -webkit-linear-gradient(bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30px, rgba(255,255,255,1) 100%);
+	background:    -moz-linear-gradient(bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 30px, rgba(255,255,255,1) 100%);
+	background:      -o-linear-gradient(bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30px, rgba(255,255,255,1) 100%);
+	background: linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30px, rgba(255,255,255,1) 100%);
+}
+
+.revisions-tooltip,
+.revisions-tooltip-arrow span {
 	border-color: #d1e5ee;
 	background-color: #fff;
 }
 
-#diff-title-to strong {
-	color: #08a;
-}
-
-.revision-tick.completed-false {
-	background-color: #99c;
-	background: url(../images/wpspin_light.gif) no-repeat;
-	background-position: middle;
-	background-size: 1px 10px;
-}
-
-.revision-tick.completed-false {
-	background-image: none;
-}
-
-.revision-tick.scope-of-changes-none {
-	background-color: #d1e5ee;
-}
-
-.revision-tick.scope-of-changes-vsmall {
-	background-color: #b4d5e3;
-}
-
-.revision-tick.scope-of-changes-small {
-	background-color: #98c5d9;
-}
-
-.revision-tick.scope-of-changes-med {
-	background-color: #7bb4ce;
-}
-
-.revision-tick.scope-of-changes-large {
-	background-color: #5ea4c4;
-}
-
-.revision-tick.scope-of-changes-vlarge {
-	background-color: #4493b7;
-}
-
-.diff-label {
-	color: #666;
+.revisions-tickmarks > div {
+	border-color: #d1e5ee;
 }
 
 /* jQuery UI Slider */
 .wp-slider.ui-slider {
 	border-color: #d1e5ee;
-	background: #eff8ff;
 }
 
 .wp-slider .ui-slider-handle {
@@ -1546,7 +1515,6 @@ table.diff .diff-addedline ins {
 }
 
 .wp-slider .ui-slider-handle {
-	border-color: #ccc;
 	border-color: #d0dfe9;
 	background: #eff8ff;
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#eff8ff), to(#fff));

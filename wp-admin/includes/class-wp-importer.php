@@ -183,7 +183,6 @@ class WP_Importer {
 
 		$headers = array();
 		$args = array();
-		$args['reject_unsafe_urls'] = true;
 		if ( true === $head )
 			$args['method'] = 'HEAD';
 		if ( !empty( $username ) && !empty( $password ) )
@@ -191,7 +190,7 @@ class WP_Importer {
 
 		$args['headers'] = $headers;
 
-		return wp_remote_request( $url, $args );
+		return wp_safe_remote_request( $url, $args );
 	}
 
 	/**

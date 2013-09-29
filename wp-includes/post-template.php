@@ -69,14 +69,14 @@ function the_title($before = '', $after = '', $echo = true) {
  * @return string|null Null on failure or display. String when echo is false.
  */
 function the_title_attribute( $args = '' ) {
-	$title = get_the_title();
+	$defaults = array('before' => '', 'after' =>  '', 'echo' => true, 'post' => get_post() );
+	$r = wp_parse_args($args, $defaults);
+	extract( $r, EXTR_SKIP );
+
+	$title = get_the_title( $post );
 
 	if ( strlen($title) == 0 )
 		return;
-
-	$defaults = array('before' => '', 'after' =>  '', 'echo' => true);
-	$r = wp_parse_args($args, $defaults);
-	extract( $r, EXTR_SKIP );
 
 	$title = $before . $title . $after;
 	$title = esc_attr(strip_tags($title));
@@ -160,21 +160,12 @@ function get_the_guid( $id = 0 ) {
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $strip_teaser Optional. Strip teaser content before the more text. Default is false.
- * @param int $id Optional. A post id. Defaults to the current post when in The Loop, undefined otherwise.
  */
-function the_content( $more_link_text = null, $strip_teaser = false, $id = 0 ) {
-	$post = get_post( $id );
-
-	/*
-	 * Filter: the_content
-	 *
-	 * param string Post content as returned by get_the_content()
-	 * param int The ID of the post to which the content belongs. This was introduced
-	 *           in 3.6.0 and is not reliably passed by all plugins and themes that
-	 *           directly apply the_content. As such, it is not considered portable.
-	 */
-	$content = apply_filters( 'the_content', get_the_content( $more_link_text, $strip_teaser, $post->ID ), $post->ID );
-	echo str_replace( ']]>', ']]&gt;', $content );
+function the_content( $more_link_text = null, $strip_teaser = false) {
+	$content = get_the_content( $more_link_text, $strip_teaser );
+	$content = apply_filters( 'the_content', $content );
+	$content = str_replace( ']]>', ']]&gt;', $content );
+	echo $content;
 }
 
 /**
@@ -184,19 +175,12 @@ function the_content( $more_link_text = null, $strip_teaser = false, $id = 0 ) {
  *
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
- * @param int $id Optional. A post id. Defaults to the current post when in The Loop, undefined otherwise.
  * @return string
  */
-function get_the_content( $more_link_text = null, $strip_teaser = false, $id = 0 ) {
-	global $page, $more, $preview;
+function get_the_content( $more_link_text = null, $strip_teaser = false ) {
+	global $page, $more, $preview, $pages, $multipage;
 
-	$post = get_post( $id );
-	// Avoid parsing again if the post is the same one parsed by setup_postdata().
-	// The extract() will set up $pages and $multipage.
-	if ( $post->ID != get_post()->ID )
-		extract( wp_parse_post_content( $post, false ) );
-	else
-		global $pages, $multipage;
+	$post = get_post();
 
 	if ( null === $more_link_text )
 		$more_link_text = __( '(more&hellip;)' );
@@ -1072,6 +1056,9 @@ class Walker_Page extends Walker {
 
 		$css_class = implode( ' ', apply_filters( 'page_css_class', $css_class, $page, $depth, $args, $current_page ) );
 
+		if ( '' === $page->post_title )
+			$page->post_title = sprintf( __( '#%d (no title)' ), $page->ID );
+
 		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_permalink($page->ID) . '">' . $link_before . apply_filters( 'the_title', $page->post_title, $page->ID ) . $link_after . '</a>';
 
 		if ( !empty($show_date) ) {
@@ -1437,33 +1424,9 @@ function wp_list_post_revisions( $post_id = 0, $type = 'all' ) {
 		$rows .= "\t<li>" . wp_post_revision_title_expanded( $revision ) . "</li>\n";
 	}
 
-	echo "<ul class='post-revisions'>\n";
+	echo "<div class='hide-if-js'><p>" . __( 'JavaScript must be enabled to use this feature.' ) . "</p></div>\n";
+
+	echo "<ul class='post-revisions hide-if-no-js'>\n";
 	echo $rows;
-
-	// if the post was previously restored from a revision
-	// show the restore event details
-	if ( $restored_from_meta = get_post_meta( $post->ID, '_post_restored_from', true ) ) {
-		$author = get_user_by( 'id', $restored_from_meta[ 'restored_by_user' ] );
-		/* translators: revision date format, see http://php.net/date */
-		$datef = _x( 'j F, Y @ G:i:s', 'revision date format');
-		$date = date_i18n( $datef, strtotime( $restored_from_meta[ 'restored_time' ] ) );
-		$time_diff = human_time_diff( $restored_from_meta[ 'restored_time' ] ) ;
-		?>
-		<hr />
-		<div id="revisions-meta-restored">
-			<?php
-			printf(
-				/* translators: restored revision details: 1: gravatar image, 2: author name, 3: time ago, 4: date */
-				__( 'Previously restored by %1$s %2$s, %3$s ago (%4$s)' ),
-				get_avatar( $author->ID, 24 ),
-				$author->display_name,
-				$time_diff,
-				$date
-			);
-			?>
-		</div>
-		<?php
-		echo "</ul>";
-	}
-
+	echo "</ul>";
 }

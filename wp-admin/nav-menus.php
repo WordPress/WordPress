@@ -23,7 +23,6 @@ if ( ! current_user_can('edit_theme_options') )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 wp_enqueue_script( 'nav-menu' );
-wp_enqueue_script( 'accordion' );
 
 if ( wp_is_mobile() )
 	wp_enqueue_script( 'jquery-touch-punch' );
@@ -301,18 +300,19 @@ switch ( $action ) {
 						// If there are menu items, add them
 						wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selected_title );
 						// Auto-save nav_menu_locations
-						$locations = get_theme_mod( 'nav_menu_locations' );
-						foreach ( (array) $locations as $location => $menu_id ) {
+						$locations = get_nav_menu_locations();
+						foreach ( $locations as $location => $menu_id ) {
 								$locations[ $location ] = $nav_menu_selected_id;
 								break; // There should only be 1
 						}
 						set_theme_mod( 'nav_menu_locations', $locations );
 					}
 					if ( isset( $_REQUEST['use-location'] ) ) {
-						$locations = get_theme_mod( 'nav_menu_locations' );
-						if ( isset( $locations[$_REQUEST['use-location']] ) )
-							$locations[$_REQUEST['use-location']] = $nav_menu_selected_id;
-						set_theme_mod( 'nav_menu_locations', $locations );
+						$locations = get_registered_nav_menus();
+						$menu_locations = get_nav_menu_locations();
+						if ( isset( $locations[ $_REQUEST['use-location'] ] ) )
+							$menu_locations[ $_REQUEST['use-location'] ] = $nav_menu_selected_id;
+						set_theme_mod( 'nav_menu_locations', $menu_locations );
 					}
 					// $messages[] = '<div id="message" class="updated"><p>' . sprintf( __( '<strong>%s</strong> has been created.' ), $nav_menu_selected_title ) . '</p></div>';
 					wp_redirect( admin_url( 'nav-menus.php?menu=' . $_nav_menu_selected_id ) );
@@ -476,8 +476,7 @@ if ( ! current_theme_supports( 'menus' ) && ! $num_locations )
 
 if ( ! $locations_screen ) : // Main tab
 	$overview  = '<p>' . __( 'This screen is used for managing your custom navigation menus.' ) . '</p>';
-	$overview .= '<p>' . sprintf( __( 'Menus can be displayed in locations defined by your theme, even used in sidebars by adding a &#8220;Custom Menus&#8221; widget on the <a href="%s">Widgets</a> screen. ' ), admin_url( 'widgets.php') );
-	$overview .= sprintf( __( 'If your theme does not support the custom menus feature (the default themes, %1$s and %2$s, do), you can learn about adding this support by following the Documentation link to the side.' ), 'Twenty Thirteen', 'Twenty Twelve' ) . '</p>';
+	$overview .= '<p>' . sprintf( __( 'Menus can be displayed in locations defined by your theme, even used in sidebars by adding a &#8220;Custom Menus&#8221; widget on the <a href="%1$s">Widgets</a> screen. If your theme does not support the custom menus feature (the default themes, %2$s and %3$s, do), you can learn about adding this support by following the Documentation link to the side.' ), admin_url( 'widgets.php' ), 'Twenty Thirteen', 'Twenty Twelve' ) . '</p>';
 	$overview .= '<p>' . __( 'From this screen you can:' ) . '</p>';
 	$overview .= '<ul><li>' . __( 'Create, edit, and delete menus' ) . '</li>';
 	$overview .= '<li>' . __( 'Add, organize, and modify individual menu items' ) . '</li></ul>';

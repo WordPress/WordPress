@@ -229,7 +229,8 @@ function install_plugin_install_status($api, $loop = false) {
 				if ( current_user_can('install_plugins') )
 					$url = wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=' . $api->slug), 'install-plugin_' . $api->slug);
 			} else {
-				$key = array_shift( $key = array_keys($installed_plugin) ); //Use the first plugin regardless of the name, Could have issues for multiple-plugins in one directory if they share different version numbers
+				$key = array_keys( $installed_plugin );
+				$key = array_shift( $key ); //Use the first plugin regardless of the name, Could have issues for multiple-plugins in one directory if they share different version numbers
 				if ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '=') ){
 					$status = 'latest_installed';
 				} elseif ( version_compare($api->version, $installed_plugin[ $key ]['Version'], '<') ) {

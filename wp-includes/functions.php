@@ -242,9 +242,10 @@ function maybe_unserialize( $original ) {
  * @since 2.0.5
  *
  * @param mixed $data Value to check to see if was serialized.
+ * @param bool $strict Optional. Whether to be strict about the end of the string. Defaults true.
  * @return bool False if not serialized and true if it was.
  */
-function is_serialized( $data ) {
+function is_serialized( $data, $strict = true ) {
 	// if it isn't a string, it isn't serialized
 	if ( ! is_string( $data ) )
 		return false;
@@ -256,21 +257,39 @@ function is_serialized( $data ) {
 		return false;
 	if ( ':' !== $data[1] )
 		return false;
-	$lastc = $data[$length-1];
-	if ( ';' !== $lastc && '}' !== $lastc )
-		return false;
+	if ( $strict ) {
+		$lastc = $data[ $length - 1 ];
+		if ( ';' !== $lastc && '}' !== $lastc )
+			return false;
+	} else {
+		$semicolon = strpos( $data, ';' );
+		$brace     = strpos( $data, '}' );
+		// Either ; or } must exist.
+		if ( false === $semicolon && false === $brace )
+			return false;
+		// But neither must be in the first X characters.
+		if ( false !== $semicolon && $semicolon < 3 )
+			return false;
+		if ( false !== $brace && $brace < 4 )
+			return false;
+	}
 	$token = $data[0];
 	switch ( $token ) {
 		case 's' :
-			if ( '"' !== $data[$length-2] )
+			if ( $strict ) {
+				if ( '"' !== $data[ $length - 2 ] )
+					return false;
+			} elseif ( false === strpos( $data, '"' ) ) {
 				return false;
+			}
 		case 'a' :
 		case 'O' :
 			return (bool) preg_match( "/^{$token}:[0-9]+:/s", $data );
 		case 'b' :
 		case 'i' :
 		case 'd' :
-			return (bool) preg_match( "/^{$token}:[0-9.E-]+;\$/", $data );
+			$end = $strict ? '$' : '';
+			return (bool) preg_match( "/^{$token}:[0-9.E-]+;$end/", $data );
 	}
 	return false;
 }
@@ -317,7 +336,7 @@ function maybe_serialize( $data ) {
 
 	// Double serialization is required for backward compatibility.
 	// See http://core.trac.wordpress.org/ticket/12930
-	if ( is_serialized( $data ) )
+	if ( is_serialized( $data, false ) )
 		return serialize( $data );
 
 	return $data;
@@ -496,14 +515,13 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
 
 	$options = array();
 	$options['redirection'] = 5;
-	$options['reject_unsafe_urls'] = true;
 
 	if ( false == $file_path )
 		$options['method'] = 'HEAD';
 	else
 		$options['method'] = 'GET';
 
-	$response = wp_remote_request($url, $options);
+	$response = wp_safe_remote_request( $url, $options );
 
 	if ( is_wp_error( $response ) )
 		return false;
@@ -544,7 +562,7 @@ function wp_get_http_headers( $url, $deprecated = false ) {
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '2.7' );
 
-	$response = wp_remote_head( $url, array( 'reject_unsafe_urls' => true ) );
+	$response = wp_safe_remote_head( $url );
 
 	if ( is_wp_error( $response ) )
 		return false;
@@ -759,9 +777,8 @@ function wp_remote_fopen( $uri ) {
 
 	$options = array();
 	$options['timeout'] = 10;
-	$options['reject_unsafe_urls'] = true;
 
-	$response = wp_remote_get( $uri, $options );
+	$response = wp_safe_remote_get( $uri, $options );
 
 	if ( is_wp_error( $response ) )
 		return false;
@@ -1285,7 +1302,7 @@ function wp_get_referer() {
 		$ref = wp_unslash( $_SERVER['HTTP_REFERER'] );
 
 	if ( $ref && $ref !== wp_unslash( $_SERVER['REQUEST_URI'] ) )
-		return wp_unslash( $ref );
+		return wp_validate_redirect( $ref, false );
 	return false;
 }
 
@@ -1300,7 +1317,7 @@ function wp_get_referer() {
  */
 function wp_get_original_referer() {
 	if ( !empty( $_REQUEST['_wp_original_http_referer'] ) )
-		return wp_unslash( $_REQUEST['_wp_original_http_referer'] );
+		return wp_validate_redirect( wp_unslash( $_REQUEST['_wp_original_http_referer'] ), false );
 	return false;
 }
 
@@ -1994,6 +2011,10 @@ function wp_get_mime_types() {
 	'odf' => 'application/vnd.oasis.opendocument.formula',
 	// WordPerfect formats
 	'wp|wpd' => 'application/wordperfect',
+	// iWork formats
+	'key' => 'application/vnd.apple.keynote',
+	'numbers' => 'application/vnd.apple.numbers',
+	'pages' => 'application/vnd.apple.pages',
 	) );
 }
 /**
@@ -2004,10 +2025,20 @@ function wp_get_mime_types() {
  * @uses apply_filters() Calls 'upload_mimes' on returned array
  * @uses wp_get_upload_mime_types() to fetch the list of mime types
  *
+ * @param int|WP_User $user Optional. User to check. Defaults to current user.
  * @return array Array of mime types keyed by the file extension regex corresponding to those types.
  */
-function get_allowed_mime_types() {
-	return apply_filters( 'upload_mimes', wp_get_mime_types() );
+function get_allowed_mime_types( $user = null ) {
+	$t = wp_get_mime_types();
+
+	unset( $t['swf'], $t['exe'] );
+	if ( function_exists( 'current_user_can' ) )
+		$unfiltered = $user ? user_can( $user, 'unfiltered_html' ) : current_user_can( 'unfiltered_html' );
+
+	if ( empty( $unfiltered ) )
+		unset( $t['htm|html'] );
+
+	return apply_filters( 'upload_mimes', $t, $user );
 }
 
 /**
@@ -2864,10 +2895,17 @@ function _deprecated_function( $function, $version, $replacement = null ) {
 
 	// Allow plugin to filter the output error trigger
 	if ( WP_DEBUG && apply_filters( 'deprecated_function_trigger_error', true ) ) {
-		if ( ! is_null($replacement) )
-			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.'), $function, $version, $replacement ) );
-		else
-			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s with no alternative available.'), $function, $version ) );
+		if ( function_exists( '__' ) ) {
+			if ( ! is_null( $replacement ) )
+				trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.'), $function, $version, $replacement ) );
+			else
+				trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s with no alternative available.'), $function, $version ) );
+		} else {
+			if ( ! is_null( $replacement ) )
+				trigger_error( sprintf( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', $function, $version, $replacement ) );
+			else
+				trigger_error( sprintf( '%1$s is <strong>deprecated</strong> since version %2$s with no alternative available.', $function, $version ) );
+		}
 	}
 }
 
@@ -2904,10 +2942,17 @@ function _deprecated_file( $file, $version, $replacement = null, $message = '' )
 	// Allow plugin to filter the output error trigger
 	if ( WP_DEBUG && apply_filters( 'deprecated_file_trigger_error', true ) ) {
 		$message = empty( $message ) ? '' : ' ' . $message;
-		if ( ! is_null( $replacement ) )
-			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.'), $file, $version, $replacement ) . $message );
-		else
-			trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s with no alternative available.'), $file, $version ) . $message );
+		if ( function_exists( '__' ) ) {
+			if ( ! is_null( $replacement ) )
+				trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.'), $file, $version, $replacement ) . $message );
+			else
+				trigger_error( sprintf( __('%1$s is <strong>deprecated</strong> since version %2$s with no alternative available.'), $file, $version ) . $message );
+		} else {
+			if ( ! is_null( $replacement ) )
+				trigger_error( sprintf( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', $file, $version, $replacement ) . $message );
+			else
+				trigger_error( sprintf( '%1$s is <strong>deprecated</strong> since version %2$s with no alternative available.', $file, $version ) . $message );
+		}
 	}
 }
 /**
@@ -2948,10 +2993,17 @@ function _deprecated_argument( $function, $version, $message = null ) {
 
 	// Allow plugin to filter the output error trigger
 	if ( WP_DEBUG && apply_filters( 'deprecated_argument_trigger_error', true ) ) {
-		if ( ! is_null( $message ) )
-			trigger_error( sprintf( __('%1$s was called with an argument that is <strong>deprecated</strong> since version %2$s! %3$s'), $function, $version, $message ) );
-		else
-			trigger_error( sprintf( __('%1$s was called with an argument that is <strong>deprecated</strong> since version %2$s with no alternative available.'), $function, $version ) );
+		if ( function_exists( '__' ) ) {
+			if ( ! is_null( $message ) )
+				trigger_error( sprintf( __('%1$s was called with an argument that is <strong>deprecated</strong> since version %2$s! %3$s'), $function, $version, $message ) );
+			else
+				trigger_error( sprintf( __('%1$s was called with an argument that is <strong>deprecated</strong> since version %2$s with no alternative available.'), $function, $version ) );
+		} else {
+			if ( ! is_null( $message ) )
+				trigger_error( sprintf( '%1$s was called with an argument that is <strong>deprecated</strong> since version %2$s! %3$s', $function, $version, $message ) );
+			else
+				trigger_error( sprintf( '%1$s was called with an argument that is <strong>deprecated</strong> since version %2$s with no alternative available.', $function, $version ) );
+		}
 	}
 }
 
@@ -3038,7 +3090,7 @@ function apache_mod_loaded($mod, $default = false) {
 }
 
 /**
- * Check if IIS 7 supports pretty permalinks.
+ * Check if IIS 7+ supports pretty permalinks.
  *
  * @since 2.8.0
  *
@@ -3049,11 +3101,10 @@ function iis7_supports_permalinks() {
 
 	$supports_permalinks = false;
 	if ( $is_iis7 ) {
-		/* First we check if the DOMDocument class exists. If it does not exist,
-		 * which is the case for PHP 4.X, then we cannot easily update the xml configuration file,
-		 * hence we just bail out and tell user that pretty permalinks cannot be used.
-		 * This is not a big issue because PHP 4.X is going to be deprecated and for IIS it
-		 * is recommended to use PHP 5.X NTS.
+		/* First we check if the DOMDocument class exists. If it does not exist, then we cannot
+		 * easily update the xml configuration file, hence we just bail out and tell user that
+		 * pretty permalinks cannot be used.
+		 *
 		 * Next we check if the URL Rewrite Module 1.1 is loaded and enabled for the web site. When
 		 * URL Rewrite 1.1 is loaded it always sets a server variable called 'IIS_UrlRewriteModule'.
 		 * Lastly we make sure that PHP is running via FastCGI. This is important because if it runs
@@ -3896,37 +3947,39 @@ function wp_checkdate( $month, $day, $year, $source_date ) {
 
 /**
  * Load the auth check for monitoring whether the user is still logged in.
- * Can be disabled with remove_action( 'admin_init', 'wp_auth_check_load' );
+ *
+ * Can be disabled with remove_action( 'admin_enqueue_scripts', 'wp_auth_check_load' );
+ *
+ * This is disabled for certain screens where a login screen could cause an
+ * inconvenient interruption. A filter called wp_auth_check_load can be used
+ * for fine-grained control.
  *
  * @since 3.6.0
- *
- * @return void
  */
 function wp_auth_check_load() {
-	global $pagenow;
-
-	// Don't load for these types of requests
-	if ( defined('XMLRPC_REQUEST') || defined('IFRAME_REQUEST') || 'wp-login.php' == $pagenow )
+	if ( ! is_admin() && ! is_user_logged_in() )
 		return;
 
-	if ( is_admin() || is_user_logged_in() ) {
-		if ( defined('DOING_AJAX') ) {
-			add_filter( 'heartbeat_received', 'wp_auth_check', 10, 2 );
-			add_filter( 'heartbeat_nopriv_received', 'wp_auth_check', 10, 2 );
-		} else {
-			wp_enqueue_style( 'wp-auth-check' );
-			wp_enqueue_script( 'wp-auth-check' );
+	if ( defined( 'IFRAME_REQUEST' ) )
+		return;
 
-			if ( is_admin() )
-				add_action( 'admin_print_footer_scripts', 'wp_auth_check_html', 5 );
-			else
-				add_action( 'wp_print_footer_scripts', 'wp_auth_check_html', 5 );
-		}
+	$screen = get_current_screen();
+	$hidden = array( 'update', 'update-network', 'update-core', 'update-core-network', 'upgrade', 'upgrade-network', 'network' );
+	$show = ! in_array( $screen->id, $hidden );
+
+	if ( apply_filters( 'wp_auth_check_load', $show, $screen ) ) {
+		wp_enqueue_style( 'wp-auth-check' );
+		wp_enqueue_script( 'wp-auth-check' );
+
+		add_action( 'admin_print_footer_scripts', 'wp_auth_check_html', 5 );
+		add_action( 'wp_print_footer_scripts', 'wp_auth_check_html', 5 );
 	}
 }
 
 /**
- * Output the HTML that shows the wp-login dialog when the user is no longer logged in
+ * Output the HTML that shows the wp-login dialog when the user is no longer logged in.
+ *
+ * @since 3.6.0
  */
 function wp_auth_check_html() {
 	$login_url = wp_login_url();
@@ -3944,6 +3997,7 @@ function wp_auth_check_html() {
 	<div id="wp-auth-check-wrap" class="<?php echo $wrap_class; ?>">
 	<div id="wp-auth-check-bg"></div>
 	<div id="wp-auth-check">
+	<div class="wp-auth-check-close" tabindex="0" title="<?php esc_attr_e('Close'); ?>"></div>
 	<?php
 
 	if ( $same_domain ) {
@@ -3958,26 +4012,22 @@ function wp_auth_check_html() {
 		<p><a href="<?php echo esc_url( $login_url ); ?>" target="_blank"><?php _e('Please log in again.'); ?></a>
 		<?php _e('The login page will open in a new window. After logging in you can close it and return to this page.'); ?></p>
 	</div>
-	<p class="wp-auth-check-close"><a href="#" class="button button-primary"><?php _e('Close'); ?></a></p>
 	</div>
 	</div>
 	<?php
 }
 
 /**
- * Check whether a user is still logged in, and act accordingly if not.
+ * Check whether a user is still logged in, for the heartbeat.
+ *
+ * Send a result that shows a log-in box if the user is no longer logged in,
+ * or if their cookie is within the grace period.
  *
  * @since 3.6.0
  */
 function wp_auth_check( $response, $data ) {
-	if ( ! isset( $data['wp-auth-check'] ) )
-		return $response;
-
-	// If the user is logged in and we are outside the login grace period, bail.
-	if ( is_user_logged_in() && empty( $GLOBALS['login_grace_period'] ) )
-		return $response;
-
-	return array_merge( $response, array( 'wp-auth-check' => '1' ) );
+	$response['wp-auth-check'] = is_user_logged_in() && empty( $GLOBALS['login_grace_period'] );
+	return $response;
 }
 
 /**

@@ -203,16 +203,17 @@ if ( $bgcolor = get_background_color() )
 	$background_styles .= 'background-color: #' . $bgcolor . ';';
 
 if ( get_background_image() ) {
+	$background_image_thumb = esc_url( set_url_scheme( get_theme_mod( 'background_image_thumb', str_replace( '%', '%%', get_background_image() ) ) ) );
 	// background-image URL must be single quote, see below
-	$background_styles .= ' background-image: url(\'' . set_url_scheme( get_theme_mod( 'background_image_thumb', get_background_image() ) ) . '\');'
+	$background_styles .= ' background-image: url(\'' . $background_image_thumb . '\');'
 		. ' background-repeat: ' . get_theme_mod('background_repeat', 'repeat') . ';'
 		. ' background-position: top ' . get_theme_mod('background_position_x', 'left');
 }
 ?>
 <div id="custom-background-image" style="<?php echo $background_styles; ?>"><?php // must be double quote, see above ?>
 <?php if ( get_background_image() ) { ?>
-<img class="custom-background-image" src="<?php echo set_url_scheme( get_theme_mod( 'background_image_thumb', get_background_image() ) ); ?>" style="visibility:hidden;" alt="" /><br />
-<img class="custom-background-image" src="<?php echo set_url_scheme( get_theme_mod( 'background_image_thumb', get_background_image() ) ); ?>" style="visibility:hidden;" alt="" />
+<img class="custom-background-image" src="<?php echo $background_image_thumb; ?>" style="visibility:hidden;" alt="" /><br />
+<img class="custom-background-image" src="<?php echo $background_image_thumb; ?>" style="visibility:hidden;" alt="" />
 <?php } ?>
 </div>
 <?php } ?>
@@ -301,7 +302,7 @@ if ( get_background_image() ) {
 </tr>
 
 <tr valign="top">
-<th scope="row"><?php _e( 'Attachment' ); ?></th>
+<th scope="row"><?php _ex( 'Attachment', 'Background Attachment' ); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Attachment' ); ?></span></legend>
 <label>
 <input name="background-attachment" type="radio" value="scroll" <?php checked('scroll', get_theme_mod('background_attachment', 'scroll')); ?> />

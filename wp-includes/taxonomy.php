@@ -791,7 +791,7 @@ class WP_Tax_Query {
 		if ( $query['field'] == $resulting_field )
 			return;
 
-		$resulting_field = esc_sql( $resulting_field );
+		$resulting_field = sanitize_key( $resulting_field );
 
 		switch ( $query['field'] ) {
 			case 'slug':

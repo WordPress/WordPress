@@ -28,16 +28,16 @@ window.wp = window.wp || {};
 		};
 	});
 
-	// wp.xhr
+	// wp.ajax
 	// ------
 	//
 	// Tools for sending ajax requests with JSON responses and built in error handling.
 	// Mirrors and wraps jQuery's ajax APIs.
-	wp.xhr = {
-		settings: settings.xhr || {},
+	wp.ajax = {
+		settings: settings.ajax || {},
 
 		/**
-		 * wp.xhr.post( [action], [data] )
+		 * wp.ajax.post( [action], [data] )
 		 *
 		 * Sends a POST request to WordPress.
 		 *
@@ -46,13 +46,13 @@ window.wp = window.wp || {};
 		 * @return {$.promise}     A jQuery promise that represents the request.
 		 */
 		post: function( action, data ) {
-			return wp.xhr.send({
+			return wp.ajax.send({
 				data: _.isObject( action ) ? action : _.extend( data || {}, { action: action })
 			});
 		},
 
 		/**
-		 * wp.xhr.send( [action], [options] )
+		 * wp.ajax.send( [action], [options] )
 		 *
 		 * Sends a POST request to WordPress.
 		 *
@@ -70,7 +70,7 @@ window.wp = window.wp || {};
 
 			options = _.defaults( options || {}, {
 				type:    'POST',
-				url:     wp.xhr.settings.url,
+				url:     wp.ajax.settings.url,
 				context: this
 			});
 

@@ -9,3 +9,7 @@
 .mejs-controls .mejs-time-rail .mejs-time-current {
 	background: #d54e21;
 }
+
+.me-cannotplay {
+	width: auto !important;
+}

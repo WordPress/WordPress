@@ -1606,6 +1606,7 @@ function comment_form( $args = array(), $post_id = null ) {
 	$user = wp_get_current_user();
 	$user_identity = $user->exists() ? $user->display_name : '';
 
+	$args = wp_parse_args( $args );
 	if ( ! isset( $args['format'] ) )
 		$args['format'] = current_theme_supports( 'html5', 'comment-form' ) ? 'html5' : 'xhtml';
 
@@ -1616,9 +1617,9 @@ function comment_form( $args = array(), $post_id = null ) {
 		'author' => '<p class="comment-form-author">' . '<label for="author">' . __( 'Name' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
 		            '<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30"' . $aria_req . ' /></p>',
 		'email'  => '<p class="comment-form-email"><label for="email">' . __( 'Email' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
-		            '<input id="email" name="email" ' . ( $html5 ? 'type="email" pattern=""' : 'type="text"' ) . ' value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' /></p>',
+		            '<input id="email" name="email" ' . ( $html5 ? 'type="email"' : 'type="text"' ) . ' value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' /></p>',
 		'url'    => '<p class="comment-form-url"><label for="url">' . __( 'Website' ) . '</label> ' .
-		            '<input id="url" name="url" ' . ( $html5 ? 'type="url" pattern=""' : 'type="text"' ) . ' value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" /></p>',
+		            '<input id="url" name="url" ' . ( $html5 ? 'type="url"' : 'type="text"' ) . ' value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" /></p>',
 	);
 
 	$required_text = sprintf( ' ' . __('Required fields are marked %s'), '<span class="required">*</span>' );

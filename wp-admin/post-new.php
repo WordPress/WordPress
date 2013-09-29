@@ -48,6 +48,17 @@ if ( ! wp_next_scheduled( 'wp_scheduled_auto_draft_delete' ) )
 
 wp_enqueue_script( 'autosave' );
 
+if ( is_multisite() ) {
+	add_action( 'admin_footer', '_admin_notice_post_locked' );
+} else {
+	$check_users = get_users( array( 'fields' => 'ID', 'number' => 2 ) );
+
+	if ( count( $check_users ) > 1 )
+		add_action( 'admin_footer', '_admin_notice_post_locked' );
+
+	unset( $check_users );
+}
+
 // Show post form.
 $post = get_default_post_to_edit( $post_type, true );
 $post_ID = $post->ID;

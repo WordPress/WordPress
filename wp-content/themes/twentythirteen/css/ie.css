@@ -24,11 +24,6 @@ Styles for older IE versions (previous to IE9).
 	text-decoration: none;
 }
 
-.nav-menu .sub-menu,
-.nav-menu .children {
-	left: 0;
-}
-
 .nav-menu .sub-menu ul,
 .nav-menu .children ul {
 	left: 100%;

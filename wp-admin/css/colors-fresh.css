@@ -164,7 +164,7 @@ textarea.disabled {
 	color: #fff;
 }
 
-#diff-header,
+.revisions-meta,
 .widget .widget-top,
 .postbox h3,
 .stuffbox h3,
@@ -1375,63 +1375,32 @@ table.diff .diff-addedline ins {
 	background-color: #afa;
 }
 
-#diff-header {
+.revisions-meta {
 	border: 1px solid #dfdfdf;
 }
 
-#diff-slider .ui-slider-tooltip,
-#diff-slider-ticks .ui-slider-tooltip {
+.revisions-controls {
+	background: #fff;
+	background: -webkit-gradient(linear, left bottom, left top, color-stop(0%,rgba(255,255,255,1)), color-stop(30px,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,1)));
+	background: -webkit-linear-gradient(bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30px, rgba(255,255,255,1) 100%);
+	background:    -moz-linear-gradient(bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 30px, rgba(255,255,255,1) 100%);
+	background:      -o-linear-gradient(bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30px, rgba(255,255,255,1) 100%);
+	background: linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 30px, rgba(255,255,255,1) 100%);
+}
+
+.revisions-tooltip,
+.revisions-tooltip-arrow span {
 	border-color: #d7d7d7;
 	background-color: #fff;
 }
 
-#diff-title-to strong {
-	color: #08a;
-}
-
-.revision-tick.completed-false {
-	background-color: #99c;
-	background-image: url(../images/wpspin_light.gif) no-repeat;
-	background-position: middle;
-	background-size: 1px 10px;
-}
-
-.revision-tick.completed-false {
-	background-image: none;
-}
-
-.revision-tick.scope-of-changes-none {
-	background-color: #d7d7d7;
-}
-
-.revision-tick.scope-of-changes-vsmall {
-	background-color: #c3c3c3;
-}
-
-.revision-tick.scope-of-changes-small {
-	background-color: #b0b0b0;
-}
-
-.revision-tick.scope-of-changes-med {
-	background-color: #9c9c9c;
-}
-
-.revision-tick.scope-of-changes-large {
-	background-color: #898989;
-}
-
-.revision-tick.scope-of-changes-vlarge {
-	background-color: #757575;
-}
-
-.diff-label {
-	color: #666;
+.revisions-tickmarks > div {
+	border-color: #aaa;
 }
 
 /* jQuery UI Slider */
 .wp-slider.ui-slider {
 	border-color: #d7d7d7;
-	background: #f7f7f7;
 }
 
 .wp-slider .ui-slider-handle {

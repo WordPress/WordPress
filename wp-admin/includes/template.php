@@ -240,7 +240,7 @@ function wp_link_category_checklist( $link_id = 0 ) {
  */
 function get_inline_data($post) {
 	$post_type_object = get_post_type_object($post->post_type);
-	if ( ! current_user_can($post_type_object->cap->edit_post, $post->ID) )
+	if ( ! current_user_can( 'edit_post', $post->ID ) )
 		return;
 
 	$title = esc_textarea( trim( $post->post_title ) );
@@ -985,6 +985,8 @@ function remove_meta_box($id, $screen, $context) {
 function do_accordion_sections( $screen, $context, $object ) {
 	global $wp_meta_boxes;
 
+	wp_enqueue_script( 'accordion' );
+
 	if ( empty( $screen ) )
 		$screen = get_current_screen();
 	elseif ( is_string( $screen ) )
@@ -998,19 +1000,26 @@ function do_accordion_sections( $screen, $context, $object ) {
 		<ul class="outer-border">
 	<?php
 	$i = 0;
+	$first_open = false;
 	do {
 		if ( ! isset( $wp_meta_boxes ) || ! isset( $wp_meta_boxes[$page] ) || ! isset( $wp_meta_boxes[$page][$context] ) )
 			break;
 
-		foreach ( array( 'high', 'sorted', 'core', 'default', 'low' ) as $priority ) {
+		foreach ( array( 'high', 'core', 'default', 'low' ) as $priority ) {
 			if ( isset( $wp_meta_boxes[$page][$context][$priority] ) ) {
 				foreach ( $wp_meta_boxes[$page][$context][$priority] as $box ) {
 					if ( false == $box || ! $box['title'] )
 						continue;
 					$i++;
 					$hidden_class = in_array( $box['id'], $hidden ) ? 'hide-if-js' : '';
+
+					$open_class = '';
+					if ( ! $first_open && empty( $hidden_class ) ) {
+						$first_open = true;
+						$open_class = 'open';
+					}
 					?>
-					<li class="control-section accordion-section <?php echo $hidden_class; ?> <?php echo esc_attr( $box['id'] ); ?>" id="<?php echo esc_attr( $box['id'] ); ?>">
+					<li class="control-section accordion-section <?php echo $hidden_class; ?> <?php echo $open_class; ?> <?php echo esc_attr( $box['id'] ); ?>" id="<?php echo esc_attr( $box['id'] ); ?>">
 						<h3 class="accordion-section-title hndle" tabindex="0" title="<?php echo esc_attr( $box['title'] ); ?>"><?php echo esc_html( $box['title'] ); ?></h3>
 						<div class="accordion-section-content <?php postbox_classes( $box['id'], $page ); ?>">
 							<div class="inside">
@@ -1725,7 +1734,8 @@ final class WP_Internal_Pointers {
 		$registered_pointers = array(
 			'index.php'    => 'wp330_toolbar',
 			'post-new.php' => 'wp350_media',
-			'post.php'     => 'wp350_media',
+			'post.php'     => array( 'wp350_media', 'wp360_revisions' ),
+			'edit.php'     => 'wp360_locks',
 			'themes.php'   => array( 'wp330_saving_widgets', 'wp340_customize_current_theme_link' ),
 			'appearance_page_custom-header' => 'wp340_choose_image_from_library',
 			'appearance_page_custom-background' => 'wp340_choose_image_from_library',
@@ -1801,7 +1811,7 @@ final class WP_Internal_Pointers {
 			});
 
 			setup = function() {
-				$('<?php echo $selector; ?>').pointer( options ).pointer('open');
+				$('<?php echo $selector; ?>').first().pointer( options ).pointer('open');
 			};
 
 			if ( options.position && options.position.defer_loading )
@@ -1891,13 +1901,36 @@ final class WP_Internal_Pointers {
 		) );
 	}
 
+	public static function pointer_wp360_revisions() {
+		$content  = '<h3>' . __( 'Compare Revisions' ) . '</h3>';
+		$content .= '<p>' . __( 'View, compare, and restore other versions of this content on the improved revisions screen.' ) . '</p>';
+
+		self::print_js( 'wp360_revisions', '.misc-pub-section.num-revisions', array(
+			'content' => $content,
+			'position' => array( 'edge' => is_rtl() ? 'left' : 'right', 'align' => 'center', 'my' => is_rtl() ? 'left' : 'right-14px' ),
+		) );
+	}
+
+	public static function pointer_wp360_locks() {
+		$content  = '<h3>' . __( 'Edit Lock' ) . '</h3>';
+		$content .= '<p>' . __( 'Someone else is editing this. No need to refresh; the lock will disappear when they&#8217;re done.' ) . '</p>';
+
+		if ( ! is_multi_author() )
+			return;
+
+		self::print_js( 'wp360_locks', 'tr.wp-locked .locked-indicator', array(
+			'content' => $content,
+			'position' => array( 'edge' => 'left', 'align' => 'left' ),
+		) );
+	}
+
 	/**
 	 * Prevents new users from seeing existing 'new feature' pointers.
 	 *
 	 * @since 3.3.0
 	 */
 	public static function dismiss_pointers_for_new_users( $user_id ) {
-		add_user_meta( $user_id, 'dismissed_wp_pointers', 'wp330_toolbar,wp330_saving_widgets,wp340_choose_image_from_library,wp340_customize_current_theme_link,wp350_media' );
+		add_user_meta( $user_id, 'dismissed_wp_pointers', 'wp330_toolbar,wp330_saving_widgets,wp340_choose_image_from_library,wp340_customize_current_theme_link,wp350_media,wp360_revisions,wp360_locks' );
 	}
 }
 
@@ -1919,4 +1952,25 @@ function convert_to_screen( $hook_name ) {
 	}
 
 	return WP_Screen::get( $hook_name );
+}
+
+/**
+ * Output the HTML for restoring the post data from DOM storage
+ *
+ * @since 3.6
+ * @access private
+ */
+function _local_storage_notice() {
+	?>
+	<div id="local-storage-notice" class="hidden">
+	<p class="local-restore">
+		<?php _e('The backup of this post in your browser is different from the version below.'); ?>
+		<a class="restore-backup" href="#"><?php _e('Restore the backup.'); ?></a>
+	</p>
+	<p class="undo-restore hidden">
+		<?php _e('Post restored successfully.'); ?>
+		<a class="undo-restore-backup" href="#"><?php _e('Undo.'); ?></a>
+	</p>
+	</div>
+	<?php
 }

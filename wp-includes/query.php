@@ -2440,14 +2440,13 @@ class WP_Query {
 			$post_type_object = get_post_type_object ( 'post' );
 		}
 
+		$edit_cap = 'edit_post';
+		$read_cap = 'read_post';
+
 		if ( ! empty( $post_type_object ) ) {
-			$edit_cap = $post_type_object->cap->edit_post;
-			$read_cap = $post_type_object->cap->read_post;
 			$edit_others_cap = $post_type_object->cap->edit_others_posts;
 			$read_private_cap = $post_type_object->cap->read_private_posts;
 		} else {
-			$edit_cap = 'edit_' . $post_type_cap;
-			$read_cap = 'read_' . $post_type_cap;
 			$edit_others_cap = 'edit_others_' . $post_type_cap . 's';
 			$read_private_cap = 'read_private_' . $post_type_cap . 's';
 		}
@@ -3630,52 +3629,6 @@ function wp_old_slug_redirect() {
 		exit;
 	endif;
 }
-/**
- * Split the passed content by <!--nextpage-->
- *
- * @since 3.6.0
- *
- * @param string $content Content to split.
- * @return array Paged content.
- */
-function paginate_content( $content ) {
-	$content = str_replace( "\n<!--nextpage-->\n", '<!--nextpage-->', $content );
-	$content = str_replace( "\n<!--nextpage-->",   '<!--nextpage-->', $content );
-	$content = str_replace( "<!--nextpage-->\n",   '<!--nextpage-->', $content );
-	return explode( '<!--nextpage-->', $content );
-}
-
-/**
- * Return content offset by $page
- *
- * @since 3.6.0
- *
- * @param string $content
- * @param int $paged
- * @return string
- */
-function get_paged_content( $content = '', $paged = 0 ) {
-	global $page;
-	if ( empty( $page ) )
-		$page = 1;
-
-	if ( empty( $paged ) )
-		$paged = $page;
-
-	if ( empty( $content ) ) {
-		$post = get_post();
-		if ( empty( $post ) )
-			return '';
-
-		$content = $post->post_content;
-	}
-
-	$pages = paginate_content( $content );
-	if ( isset( $pages[$paged - 1] ) )
-		return $pages[$paged - 1];
-
-	return reset( $pages );
-}
 
 /**
  * Set up global post data.
@@ -3696,16 +3649,29 @@ function setup_postdata( $post ) {
 	$currentday = mysql2date('d.m.y', $post->post_date, false);
 	$currentmonth = mysql2date('m', $post->post_date, false);
 	$numpages = 1;
+	$multipage = 0;
 	$page = get_query_var('page');
 	if ( ! $page )
 		$page = 1;
 	if ( is_single() || is_page() || is_feed() )
 		$more = 1;
-
-	extract( wp_parse_post_content( $post, false ) );
-
-	if ( $multipage && ( $page > 1 ) )
+	$content = $post->post_content;
+	if ( false !== strpos( $content, '<!--nextpage-->' ) ) {
+		if ( $page > 1 )
 			$more = 1;
+		$content = str_replace( "\n<!--nextpage-->\n", '<!--nextpage-->', $content );
+		$content = str_replace( "\n<!--nextpage-->", '<!--nextpage-->', $content );
+		$content = str_replace( "<!--nextpage-->\n", '<!--nextpage-->', $content );
+		// Ignore nextpage at the beginning of the content.
+		if ( 0 === strpos( $content, '<!--nextpage-->' ) )
+			$content = substr( $content, 15 );
+		$pages = explode('<!--nextpage-->', $content);
+		$numpages = count($pages);
+		if ( $numpages > 1 )
+			$multipage = 1;
+	} else {
+		$pages = array( $post->post_content );
+	}
 
 	do_action_ref_array('the_post', array(&$post));
 

@@ -3417,12 +3417,11 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	$page_path = str_replace('%2F', '/', $page_path);
 	$page_path = str_replace('%20', ' ', $page_path);
 	$parts = explode( '/', trim( $page_path, '/' ) );
-	$parts = array_map( 'esc_sql', $parts );
+	$parts = esc_sql( $parts );
 	$parts = array_map( 'sanitize_title_for_query', $parts );
 
 	$in_string = "'". implode( "','", $parts ) . "'";
-	$post_type_sql = $post_type;
-	$wpdb->escape_by_ref( $post_type_sql );
+	$post_type_sql = esc_sql( $post_type );
 	$pages = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_type FROM $wpdb->posts WHERE post_name IN ($in_string) AND (post_type = '$post_type_sql' OR post_type = 'attachment')", OBJECT_K );
 
 	$revparts = array_reverse( $parts );
@@ -3877,7 +3876,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	global $wpdb, $user_ID;
 
 	$defaults = array('post_status' => 'inherit', 'post_type' => 'post', 'post_author' => $user_ID,
-		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0,
+		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0, 'post_title' => '',
 		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '',
 		'guid' => '', 'post_content_filtered' => '', 'post_excerpt' => '', 'import_id' => 0, 'context' => '');
 
@@ -4969,29 +4968,4 @@ function _prime_post_caches( $ids, $update_term_cache = true, $update_meta_cache
 
 		update_post_caches( $fresh_posts, 'any', $update_term_cache, $update_meta_cache );
 	}
-}
-
-/**
- * Parse post content for pagination
- *
- * @since 3.6.0
- *
- * @uses paginate_content()
- *
- * @param object $post The post object.
- * @return array An array of values used for paginating the parsed content.
- */
-function wp_parse_post_content( $post ) {
-	$numpages = 1;
-
-	if ( strpos( $post->post_content, '<!--nextpage-->' ) ) {
-		$multipage = 1;
-		$pages = paginate_content( $post->post_content );
-		$numpages = count( $pages );
-	} else {
-		$pages = array( $post->post_content );
-		$multipage = 0;
-	}
-
-	return compact( 'multipage', 'pages', 'numpages' );
 }

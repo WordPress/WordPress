@@ -38,12 +38,20 @@ function get_post_format( $post = null ) {
  *
  * @uses has_term()
  *
- * @param string $format The format to check for.
- * @param object|int $post The post to check. If not supplied, defaults to the current post if used in the loop.
+ * @param string|array $format The format or formats to check.
+ * @param object|int   $post   The post to check. If not supplied, defaults to the current post if used in the loop.
  * @return bool True if the post has the format, false otherwise.
  */
 function has_post_format( $format, $post = null ) {
-	return has_term('post-format-' . sanitize_key($format), 'post_format', $post);
+	if ( ! is_array( $format ) )
+		$format = array( $format );
+
+	$prefixed = array();
+	foreach( $format as $single ) {
+		$prefixed[] = 'post-format-' . sanitize_key( $single );
+	}
+
+	return has_term( $prefixed, 'post_format', $post );
 }
 
 /**
@@ -233,116 +241,3 @@ function _post_format_wp_get_object_terms( $terms ) {
 	return $terms;
 }
 add_filter( 'wp_get_object_terms', '_post_format_wp_get_object_terms' );
-
-/**
- * Extract a URL from passed content, if possible
- * Checks for a URL on the first line of the content or the first encountered href attribute.
- *
- * @since 3.6.0
- *
- * @param string $content A string which might contain a URL, passed by reference.
- * @param boolean $remove Whether to remove the found URL from the passed content.
- * @return string The found URL.
- */
-function get_content_url( &$content, $remove = false ) {
-	if ( empty( $content ) )
-		return '';
-
-	// the content is a URL
-	$trimmed = trim( $content );
-	if ( 0 === stripos( $trimmed, 'http' ) && ! preg_match( '#\s#', $trimmed ) ) {
-		if ( $remove )
-			$content = '';
-
-		return $trimmed;
-	// the content is HTML so we grab the first href
-	} elseif ( preg_match( '/<a\s[^>]*?href=([\'"])(.+?)\1/is', $content, $matches ) ) {
-		return esc_url_raw( $matches[2] );
-	}
-
-	$lines = explode( "\n", $trimmed );
-	$line = trim( array_shift( $lines ) );
-
-	// the content is a URL followed by content
-	if ( 0 === stripos( $line, 'http' ) ) {
-		if ( $remove )
-			$content = trim( join( "\n", $lines ) );
-
-		return esc_url_raw( $line );
-	}
-
-	return '';
-}
-
-/**
- * Don't display post titles for asides and status posts on the front end.
- *
- * @since 3.6.0
- * @access private
- */
-function _post_formats_title( $title, $post_id = 0 ) {
-	if ( ! $post_id || is_admin() || is_feed() || ! in_array( get_post_format( $post_id ), array( 'aside', 'status' ) ) )
-		return $title;
-
-	// Return an empty string only if the title is auto-generated.
-	$post = get_post( $post_id );
-	if ( $title == _post_formats_generate_title( $post->post_content, get_post_format( $post_id ) ) )
-		$title = '';
-
-	return $title;
-}
-
-/**
- * Generate a title from the post content or format.
- *
- * @since 3.6.0
- * @access private
- */
-function _post_formats_generate_title( $content, $post_format = '' ) {
-	$title = wp_trim_words( strip_shortcodes( $content ), 8, '' );
-
-	if ( empty( $title ) )
-		$title = get_post_format_string( $post_format );
-
-	return $title;
-}
-
-/**
- * Fixes empty titles for aside and status formats.
- *
- * Passes a generated post title to the 'wp_insert_post_data' filter.
- *
- * @since 3.6.0
- * @access private
- *
- * @uses _post_formats_generate_title()
- */
-function _post_formats_fix_empty_title( $data, $postarr ) {
-	if ( 'auto-draft' == $data['post_status'] || ! post_type_supports( $data['post_type'], 'post-formats' ) )
-		return $data;
-
-	$post_id = ( isset( $postarr['ID'] ) ) ? absint( $postarr['ID'] ) : 0;
-	$post_format = '';
-
-	if ( $post_id )
-		$post_format = get_post_format( $post_id );
-
-	if ( isset( $postarr['post_format'] ) )
-		$post_format = ( in_array( $postarr['post_format'], get_post_format_slugs() ) ) ? $postarr['post_format'] : '';
-
-	if ( ! in_array( $post_format, array( 'aside', 'status' ) ) )
-		return $data;
-
-	if ( $data['post_title'] == _post_formats_generate_title( $data['post_content'], $post_format ) )
-		return $data;
-
-	// If updating an existing post, check whether the title was auto-generated.
-	if ( $post_id && $post = get_post( $post_id ) )
-		if ( $post->post_title == $data['post_title'] && $post->post_title == _post_formats_generate_title( $post->post_content, get_post_format( $post->ID ) ) )
-			$data['post_title'] = '';
-
-	if ( empty( $data['post_title'] ) )
-		$data['post_title'] = _post_formats_generate_title( $data['post_content'], $post_format );
-
-	return $data;
-}

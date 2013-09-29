@@ -492,7 +492,7 @@ class Services_JSON
                         
                         return ($this->use & SERVICES_JSON_SUPPRESS_ERRORS)
                         ? 'null'
-                        : new Services_JSON_Error(class_name($var).
+                        : new Services_JSON_Error(get_class($var).
                             " toJSON returned an object with a toJSON method.");
                             
                     }

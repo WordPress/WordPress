@@ -58,10 +58,22 @@ function twentythirteen_custom_header_setup() {
 			'description'   => _x( 'Star', 'header image description', 'twentythirteen' )
 		),
 	) );
-
-	add_action( 'admin_print_styles-appearance_page_custom-header', 'twentythirteen_fonts' );
 }
 add_action( 'after_setup_theme', 'twentythirteen_custom_header_setup' );
+
+/**
+ * Loads our special font CSS files.
+ *
+ * @since Twenty Thirteen 1.0
+ */
+function twentythirteen_custom_header_fonts() {
+	// Add Open Sans and Bitter fonts.
+	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), null );
+
+	// Add Genericons font.
+	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/fonts/genericons.css', array(), '2.09' );
+}
+add_action( 'admin_print_styles-appearance_page_custom-header', 'twentythirteen_custom_header_fonts' );
 
 /**
  * Styles the header text displayed on the blog.
