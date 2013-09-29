@@ -698,7 +698,9 @@ function update_core($from, $to) {
 		$checksums = get_core_checksums( $wp_version );
 		if ( ! empty( $checksums[ $wp_version ] ) && is_array( $checksums[ $wp_version ] ) ) {
 			foreach( $checksums[ $wp_version ] as $file => $checksum ) {
-				if ( md5_file( ABSPATH . $file ) === $checksum )
+				if ( 'wp-content' == substr( $file, 0, 10 ) )
+					continue;
+				if ( file_exists( ABSPATH . $file ) && md5_file( ABSPATH . $file ) === $checksum )
 					$skip[] = $file;
 			}
 		}
