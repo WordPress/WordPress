@@ -1230,6 +1230,7 @@ class Core_Upgrader extends WP_Upgrader {
 		global $wp_filesystem, $wp_version;
 
 		$defaults = array(
+			'pre_check_md5' => true,
 		);
 		$parsed_args = wp_parse_args( $args, $defaults );
 
@@ -1250,7 +1251,7 @@ class Core_Upgrader extends WP_Upgrader {
 		get_core_checksums( array( $wp_version, $current->version ) );
 
 		$no_partial = false;
-		if ( ! $this->check_files() )
+		if ( $parsed_args['pre_check_md5'] && ! $this->check_files() )
 			$no_partial = true;
 
 		// If partial update is returned from the API, use that, unless we're doing a reinstall.
@@ -1625,6 +1626,7 @@ class WP_Automatic_Upgrader {
 		// Boom, This sites about to get a whole new splash of paint!
 		$upgrade_result = $upgrader->upgrade( $item, array(
 			'clear_update_cache' => false,
+			'pre_check_md5'      => false, /* always use partial builds if possible for core updates */
 		) );
 
 		// Core doesn't output this, so lets append it so we don't get confused
