@@ -1744,29 +1744,29 @@ function wp_rel_nofollow_callback( $matches ) {
 /**
  * Convert one smiley code to the icon graphic file equivalent.
  *
+ * Callback handler for {@link convert_smilies()}.
  * Looks up one smiley code in the $wpsmiliestrans global array and returns an
  * <img> string for that smiley.
  *
  * @global array $wpsmiliestrans
  * @since 2.8.0
  *
- * @param string $smiley Smiley code to convert to image.
+ * @param array $matches Single match. Smiley code to convert to image.
  * @return string Image string for smiley.
  */
-function translate_smiley($smiley) {
+function translate_smiley( $matches ) {
 	global $wpsmiliestrans;
 
-	if (count($smiley) == 0) {
+	if ( count( $matches ) == 0 )
 		return '';
-	}
 
-	$smiley = trim(reset($smiley));
-	$img = $wpsmiliestrans[$smiley];
-	$smiley_masked = esc_attr($smiley);
+	$smiley = trim( reset( $matches ) );
+	$img = $wpsmiliestrans[ $smiley ];
+	$smiley_masked = esc_attr( $smiley );
 
-	$srcurl = apply_filters('smilies_src', includes_url("images/smilies/$img"), $img, site_url());
+	$src_url = apply_filters( 'smilies_src', includes_url( "images/smilies/$img" ), $img, site_url() );
 
-	return " <img src='$srcurl' alt='$smiley_masked' class='wp-smiley' /> ";
+	return " <img src='$src_url' alt='$smiley_masked' class='wp-smiley' /> ";
 }
 
 /**
