@@ -665,7 +665,7 @@ function update_core($from, $to) {
 	}
 
 	$wp_filesystem->chmod( $versions_file, FS_CHMOD_FILE );
-	require_once( WP_CONTENT_DIR . '/upgrade/version-current.php' );
+	require( WP_CONTENT_DIR . '/upgrade/version-current.php' );
 	$wp_filesystem->delete( $versions_file );
 
 	$php_version    = phpversion();

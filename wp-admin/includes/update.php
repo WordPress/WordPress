@@ -136,6 +136,8 @@ function get_core_checksums( $version ) {
 
 	// Cache the checksums for later
 	foreach ( $version as $v ) {
+		if ( ! isset( $body['checksums'][ $v ] ) )
+			$body['checksums'][ $v ] = false;
 		set_site_transient( "core_checksums_$v", $body['checksums'][ $v ], HOUR_IN_SECONDS );
 		$return[ $v ] = $body['checksums'][ $v ];
 	}

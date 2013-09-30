@@ -1224,13 +1224,17 @@ class Core_Upgrader extends WP_Upgrader {
 		$this->strings['unpack_package'] = __('Unpacking the update&#8230;');
 		$this->strings['copy_failed'] = __('Could not copy files.');
 		$this->strings['copy_failed_space'] = __('Could not copy files. You may have run out of disk space.' );
+		$this->strings['start_rollback'] = __( 'Attempting to rollback to previous version.' );
+		$this->strings['rollback_was_required'] = __( 'Due to an error during updating, WordPress has rolled back to your previous version' );
 	}
 
 	function upgrade( $current, $args = array() ) {
 		global $wp_filesystem, $wp_version;
 
 		$defaults = array(
-			'pre_check_md5' => true,
+			'pre_check_md5'    => true,
+			'attempt_rollback' => false,
+			'do_rollback'      => false,
 		);
 		$parsed_args = wp_parse_args( $args, $defaults );
 
@@ -1251,14 +1255,18 @@ class Core_Upgrader extends WP_Upgrader {
 		get_core_checksums( array( $wp_version, $current->version ) );
 
 		$no_partial = false;
-		if ( $parsed_args['pre_check_md5'] && ! $this->check_files() )
+		if ( $parsed_args['do_rollback'] )
+			$no_partial = true;
+		elseif ( $parsed_args['pre_check_md5'] && ! $this->check_files() )
 			$no_partial = true;
 
 		// If partial update is returned from the API, use that, unless we're doing a reinstall.
 		// If we cross the new_bundled version number, then use the new_bundled zip.
 		// Don't though if the constant is set to skip bundled items.
 		// If the API returns a no_content zip, go with it. Finally, default to the full zip.
-		if ( $current->packages->partial && 'reinstall' != $current->response && $wp_version == $current->partial_version && ! $no_partial )
+		if ( $parsed_args['do_rollback'] && $current->packages->rollback )
+			$to_download = 'rollback';
+		elseif ( $current->packages->partial && 'reinstall' != $current->response && $wp_version == $current->partial_version && ! $no_partial )
 			$to_download = 'partial';
 		elseif ( $current->packages->new_bundled && version_compare( $wp_version, $current->new_bundled, '<' )
 			&& ( ! defined( 'CORE_UPGRADE_SKIP_NEW_BUNDLED' ) || ! CORE_UPGRADE_SKIP_NEW_BUNDLED ) )
@@ -1283,12 +1291,22 @@ class Core_Upgrader extends WP_Upgrader {
 		}
 		$wp_filesystem->chmod($wp_dir . 'wp-admin/includes/update-core.php', FS_CHMOD_FILE);
 
-		require(ABSPATH . 'wp-admin/includes/update-core.php');
+		require_once( ABSPATH . 'wp-admin/includes/update-core.php' );
 
 		if ( ! function_exists( 'update_core' ) )
 			return new WP_Error( 'copy_failed_space', $this->strings['copy_failed_space'] );
 
-		$result = update_core( $working_dir, $wp_dir );
+		$result = update_core( $working_dir, $wp_dir, $parsed_args['do_rollback'] );
+
+		// In the event of an error, rollback to the previous version
+		if ( is_wp_error( $result ) && $parsed_args['attempt_rollback'] && $current->packages->rollback ) {
+			apply_filters( 'update_feedback', $result );
+			apply_filters( 'update_feedback', $this->strings['start_rollback'] );
+
+			$this->upgrade( $current, array_merge( $parsed_args, array( 'do_rollback' => true ) ) );
+
+			$result = new WP_Error( 'rollback_was_required', $this->strings['rollback_was_required'] );
+		}
 		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'core' ), $result );
 		return $result;
 	}
@@ -1630,6 +1648,7 @@ class WP_Automatic_Upgrader {
 		$upgrade_result = $upgrader->upgrade( $item, array(
 			'clear_update_cache' => false,
 			'pre_check_md5'      => false, /* always use partial builds if possible for core updates */
+			'attempt_rollback'   => true, /* only available for core updates */
 		) );
 
 		// Core doesn't output this, so lets append it so we don't get confused
