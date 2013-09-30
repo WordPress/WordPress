@@ -28,6 +28,8 @@ function wp_version_check() {
 	$php_version = phpversion();
 
 	$current = get_site_transient( 'update_core' );
+	$translations = wp_get_installed_translations( 'core' );
+
 	if ( ! is_object($current) ) {
 		$current = new stdClass;
 		$current->updates = array();
@@ -85,10 +87,13 @@ function wp_version_check() {
 		'headers' => array(
 			'wp_install' => $wp_install,
 			'wp_blog' => home_url( '/' )
-		)
+		),
+		'body' => array(
+			'translations' => json_encode( $translations ),
+		),
 	);
 
-	$response = wp_remote_get($url, $options);
+	$response = wp_remote_post( $url, $options );
 
 	if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )
 		return false;
@@ -119,6 +124,10 @@ function wp_version_check() {
 	$updates->updates = $offers;
 	$updates->last_checked = time();
 	$updates->version_checked = $wp_version;
+
+	if ( isset( $body['translations'] ) )
+		$updates->translations = $body['translations'];
+
 	set_site_transient( 'update_core',  $updates);
 }
 

@@ -745,17 +745,22 @@ function get_available_languages( $dir = null ) {
  *
  * @since 3.7.0
  *
- * @param string $type What to search for. Accepts 'plugins', 'themes'.
+ * @param string $type What to search for. Accepts 'plugins', 'themes', 'core'.
  * @return array Array of language data.
  */
 function wp_get_installed_translations( $type ) {
-	if ( $type !== 'themes' && $type !== 'plugins' )
+	if ( $type !== 'themes' && $type !== 'plugins' && $type !== 'core' )
 		return array();
 
-	if ( ! is_dir( WP_LANG_DIR ) || ! is_dir( WP_LANG_DIR . "/$type" ) )
+	$dir = 'core' === $type ? '' : "/$type";
+
+	if ( ! is_dir( WP_LANG_DIR ) )
 		return array();
 
-	$files = scandir( WP_LANG_DIR . "/$type" );
+	if ( $dir && ! is_dir( WP_LANG_DIR . $dir ) )
+		return array();
+
+	$files = scandir( WP_LANG_DIR . $dir );
 	if ( ! $files )
 		return array();
 
@@ -766,11 +771,13 @@ function wp_get_installed_translations( $type ) {
 			continue;
 		if ( substr( $file, -3 ) !== '.po' )
 			continue;
-		if ( ! preg_match( '/(.*)-([A-Za-z_]{2,6}).po/', $file, $match ) )
+		if ( ! preg_match( '/(?:(.+)-)?([A-Za-z_]{2,6}).po/', $file, $match ) )
 			continue;
 
 		list( , $textdomain, $language ) = $match;
-		$language_data[ $textdomain ][ $language ] = wp_get_pomo_file_data( WP_LANG_DIR . "/$type/$file" );
+		if ( '' === $textdomain )
+			$textdomain = 'default';
+		$language_data[ $textdomain ][ $language ] = wp_get_pomo_file_data( WP_LANG_DIR . "$dir/$file" );
 	}
 	return $language_data;
 }
