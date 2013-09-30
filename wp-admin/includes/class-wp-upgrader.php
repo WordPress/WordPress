@@ -1296,7 +1296,7 @@ class Core_Upgrader extends WP_Upgrader {
 		if ( ! function_exists( 'update_core' ) )
 			return new WP_Error( 'copy_failed_space', $this->strings['copy_failed_space'] );
 
-		$result = update_core( $working_dir, $wp_dir, $parsed_args['do_rollback'] );
+		$result = update_core( $working_dir, $wp_dir );
 
 		// In the event of an error, rollback to the previous version
 		if ( is_wp_error( $result ) && $parsed_args['attempt_rollback'] && $current->packages->rollback ) {
