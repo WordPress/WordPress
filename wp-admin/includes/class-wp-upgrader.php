@@ -1497,7 +1497,7 @@ class WP_Automatic_Upgrader {
 
 		$checkout = false;
 		foreach ( array_unique( $stop_dirs ) as $dir ) {
-			if ( file_exists( $dir . '/.svn' ) || file_exists( $dir . '/.git' ) ) {
+			if ( file_exists( $dir . '/.svn' ) || file_exists( $dir . '/.git' ) || file_exists( $dir . '/.hg' ) || file_exists( $dir . '/.bzr' ) ) {
 				$checkout = true;
 				break;
 			}
