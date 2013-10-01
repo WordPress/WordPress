@@ -1407,7 +1407,6 @@ function add_role( $role, $display_name, $capabilities = array() ) {
  * @since 2.0.0
  *
  * @param string $role Role name.
- * @return null
  */
 function remove_role( $role ) {
 	global $wp_roles;
@@ -1415,7 +1414,7 @@ function remove_role( $role ) {
 	if ( ! isset( $wp_roles ) )
 		$wp_roles = new WP_Roles();
 
-	return $wp_roles->remove_role( $role );
+	$wp_roles->remove_role( $role );
 }
 
 /**
