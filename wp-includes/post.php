@@ -3957,7 +3957,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 
 	$defaults = array('post_status' => 'inherit', 'post_type' => 'post', 'post_author' => $user_ID,
 		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0, 'post_title' => '',
-		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '',
+		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '', 'post_content' => '',
 		'guid' => '', 'post_content_filtered' => '', 'post_excerpt' => '', 'import_id' => 0, 'context' => '');
 
 	$object = wp_parse_args($object, $defaults);
