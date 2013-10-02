@@ -223,7 +223,7 @@ inlineEditPost = {
 	},
 
 	save : function(id) {
-		var params, fields, page = $('.post_status_page').val() || '';
+		var params, fields, parent_ID, page = $('.post_status_page').val() || '';
 
 		if ( typeof(id) == 'object' )
 			id = this.getId(id);
@@ -240,6 +240,9 @@ inlineEditPost = {
 
 		fields = $('#edit-'+id+' :input').serialize();
 		params = fields + '&' + $.param(params);
+		
+		// parent ID for repositioning pages if their parent is modified
+		parent_ID = $('#post_parent').val() || 0;
 
 		// make ajax request
 		$.post( ajaxurl, params,
@@ -250,6 +253,15 @@ inlineEditPost = {
 					if ( -1 != r.indexOf('<tr') ) {
 						$(inlineEditPost.what+id).remove();
 						$('#edit-'+id).before(r).remove();
+						if( parent_ID ){
+							if( $(inlineEditPost.what + parent_ID).length == 0 ) 	// parent does not exist on this page
+								return;
+
+							$(inlineEditPost.what + parent_ID).after( $(inlineEditPost.what + id) );
+							// redo alternates
+							$('#the-list>tr:odd').addClass("alternate");
+							$('#the-list>tr:even').removeClass("alternate");
+						}
 						$(inlineEditPost.what+id).hide().fadeIn();
 					} else {
 						r = r.replace( /<.[^<>]*?>/g, '' );
