@@ -133,13 +133,19 @@ function get_category_by_path( $category_path, $full_match = true, $output = OBJ
 			$path = '/' . $curcategory->slug . $path;
 		}
 
-		if ( $path == $full_path )
-			return get_category( $category->term_id, $output );
+		if ( $path == $full_path ) {
+			$category = get_term( $category->term_id, 'category', $output );
+			_make_cat_compat( $category );
+			return $category;
+		}
 	}
 
 	// If full matching is not required, return the first cat that matches the leaf.
-	if ( ! $full_match )
-		return get_category( $categories[0]->term_id, $output );
+	if ( ! $full_match ) {
+		$category = get_term( reset( $categories )->term_id, 'category', $output );
+		_make_cat_compat( $category );
+		return $category;
+	}
 
 	return null;
 }
@@ -185,7 +191,7 @@ function get_cat_ID( $cat_name ) {
  */
 function get_cat_name( $cat_id ) {
 	$cat_id = (int) $cat_id;
-	$category = get_category( $cat_id );
+	$category = get_term( $cat_id, 'category' );
 	if ( ! $category || is_wp_error( $category ) )
 		return '';
 	return $category->name;

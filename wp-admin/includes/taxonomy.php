@@ -34,7 +34,8 @@ function category_exists($cat_name, $parent = 0) {
  * @return unknown
  */
 function get_category_to_edit( $id ) {
-	$category = get_category( $id, OBJECT, 'edit' );
+	$category = get_term( $id, 'category', OBJECT, 'edit' );
+	_make_cat_compat( $category );
 	return $category;
 }
 
@@ -155,7 +156,8 @@ function wp_update_category($catarr) {
 		return false;
 
 	// First, get all of the original fields
-	$category = get_category($cat_ID, ARRAY_A);
+	$category = get_term( $cat_ID, 'category', ARRAY_A );
+	_make_cat_compat( $category );
 
 	// Escape data pulled from DB.
 	$category = wp_slash($category);

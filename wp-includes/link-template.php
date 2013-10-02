@@ -131,7 +131,7 @@ function get_permalink( $id = 0, $leavename = false ) {
 			// show default category in permalinks, without
 			// having to assign it explicitly
 			if ( empty($category) ) {
-				$default_category = get_category( get_option( 'default_category' ) );
+				$default_category = get_term( get_option( 'default_category' ), 'category' );
 				$category = is_wp_error( $default_category ) ? '' : $default_category->slug;
 			}
 		}
