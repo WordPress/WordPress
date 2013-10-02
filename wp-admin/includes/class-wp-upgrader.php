@@ -1089,13 +1089,13 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	}
 
 	function upgrade_strings() {
-		$this->strings['starting_upgrade'] = __( 'Some of your language files need updating. Sit tight for a few more seconds while we update them as well.' );
-		$this->strings['up_to_date'] = __( 'The language is up to date.' ); // We need to silently skip this case
+		$this->strings['starting_upgrade'] = __( 'Some of your translations need updating. Sit tight for a few more seconds while we update them as well.' );
+		$this->strings['up_to_date'] = __( 'The translation is up to date.' ); // We need to silently skip this case
 		$this->strings['no_package'] = __( 'Update package not available.' );
-		$this->strings['downloading_package'] = __( 'Downloading language update from <span class="code">%s</span>&#8230;' );
+		$this->strings['downloading_package'] = __( 'Downloading translation from <span class="code">%s</span>&#8230;' );
 		$this->strings['unpack_package'] = __( 'Unpacking the update&#8230;' );
-		$this->strings['process_failed'] = __( 'Language update failed.' );
-		$this->strings['process_success'] = __( 'Language updated successfully.' );
+		$this->strings['process_failed'] = __( 'Translation update failed.' );
+		$this->strings['process_success'] = __( 'Translation updated successfully.' );
 	}
 
 	function upgrade( $update = false ) {
@@ -1597,23 +1597,23 @@ class WP_Automatic_Upgrader {
 			case 'theme':
 				$theme = wp_get_theme( $item );
 				$item_name = $theme->Get( 'Name' );
-				$skin->feedback( __( 'Updating Theme: %s' ), $item_name );
+				$skin->feedback( __( 'Updating theme: %s' ), $item_name );
 				break;
 			case 'plugin':
 				$plugin_data = get_plugin_data( $context . '/' . $item );
 				$item_name = $plugin_data['Name'];
-				$skin->feedback( __( 'Updating Plugin: %s' ), $item_name );
+				$skin->feedback( __( 'Updating plugin: %s' ), $item_name );
 				break;
 			case 'language':
 				if ( 'theme' == $item->type ) {
 					$theme = wp_get_theme( $item->slug );
 					$skin->feedback( sprintf(
-						__( 'Updating the %1$s language files for the %2$s Theme' ),
+						__( 'Updating the %1$s translation for the %2$s theme' ),
 						$item->language,
 						$theme->Get( 'Name' )
 					) );
 					$item_name = sprintf(
-						__( '%1$s translation for the %2$s Theme' ),
+						__( '%1$s translation for the %2$s theme' ),
 						$item->language,
 						$theme->Get( 'Name' )
 					);
@@ -1621,12 +1621,12 @@ class WP_Automatic_Upgrader {
 					$plugin_data = get_plugins( '/' . $item->slug );
 					$plugin_data = array_shift( $plugin_data );
 					$skin->feedback( sprintf(
-						__( 'Updating the %1$s language files for the %2$s Plugin' ),
+						__( 'Updating the %1$s translation for the %2$s plugin' ),
 						$item->language,
 						$plugin_data['Name']
 					) );
 					$item_name = sprintf(
-						__( '%1$s translation for the %2$s Plugin' ),
+						__( '%1$s translation for the %2$s plugin' ),
 						$item->language,
 						$plugin_data['Name']
 					);

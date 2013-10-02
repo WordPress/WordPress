@@ -742,7 +742,7 @@ function update_core($from, $to) {
 
 		// If we don't have enough free space, it isn't worth trying again
 		if ( $total_size >= disk_free_space( ABSPATH ) )
-			$result = new WP_Error( 'disk_full', __( "There isn't enough free disk space to complete the upgrade." ), $to );
+			$result = new WP_Error( 'disk_full', __( 'There is not enough free disk space to complete the update.' ), $to );
 		else
 			$result = _copy_dir( $from . $distro, $to, $skip );
 	}
