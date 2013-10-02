@@ -2655,7 +2655,6 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  * setting the value for 'comment_status' key.
  *
  * @global wpdb $wpdb    WordPress database abstraction object.
- * @global int  $user_ID
  *
  * @since 1.0.0
  *
@@ -2666,7 +2665,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *                                          be updated. Default 0.
  *     @type string 'post_status'           The post status. Default 'draft'.
  *     @type string 'post_type'             The post type. Default 'post'.
- *     @type int    'post_author'           The ID of the user who added the post. Default $user_ID, the current user ID.
+ *     @type int    'post_author'           The ID of the user who added the post. Default the current user ID.
  *     @type bool   'ping_status'           Whether the post can accept pings. Default value of 'default_ping_status' option.
  *     @type int    'post_parent'           Set this for the post it belongs to, if any. Default 0.
  *     @type int    'menu_order'            The order it is displayed. Default 0.
@@ -2682,9 +2681,11 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  * @return int|WP_Error The post ID on success. The value 0 or WP_Error on failure.
  */
 function wp_insert_post( $postarr, $wp_error = false ) {
-	global $wpdb, $user_ID;
+	global $wpdb;
 
-	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_ID,
+	$user_id = get_current_user_id();
+
+	$defaults = array('post_status' => 'draft', 'post_type' => 'post', 'post_author' => $user_id,
 		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0,
 		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '',
 		'guid' => '', 'post_content_filtered' => '', 'post_excerpt' => '', 'import_id' => 0,
@@ -2749,7 +2750,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	}
 
 	if ( empty($post_author) )
-		$post_author = $user_ID;
+		$post_author = $user_id;
 
 	// Don't allow contributors to set the post slug for pending review posts
 	if ( 'pending' == $post_status && !current_user_can( 'publish_posts' ) )
@@ -3943,7 +3944,6 @@ function is_local_attachment($url) {
  *
  * @since 2.0.0
  * @uses $wpdb
- * @uses $user_ID
  * @uses do_action() Calls 'edit_attachment' on $post_ID if this is an update.
  * @uses do_action() Calls 'add_attachment' on $post_ID if this is not an update.
  *
@@ -3953,9 +3953,11 @@ function is_local_attachment($url) {
  * @return int Attachment ID.
  */
 function wp_insert_attachment($object, $file = false, $parent = 0) {
-	global $wpdb, $user_ID;
+	global $wpdb;
 
-	$defaults = array('post_status' => 'inherit', 'post_type' => 'post', 'post_author' => $user_ID,
+	$user_id = get_current_user_id();
+
+	$defaults = array('post_status' => 'inherit', 'post_type' => 'post', 'post_author' => $user_id,
 		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0, 'post_title' => '',
 		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '', 'post_content' => '',
 		'guid' => '', 'post_content_filtered' => '', 'post_excerpt' => '', 'import_id' => 0, 'context' => '');
@@ -3972,7 +3974,7 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	extract($object, EXTR_SKIP);
 
 	if ( empty($post_author) )
-		$post_author = $user_ID;
+		$post_author = $user_id;
 
 	$post_type = 'attachment';
 
@@ -4496,8 +4498,6 @@ function wp_check_for_changed_slugs($post_id, $post, $post_before) {
  *
  * @since 2.2.0
  *
- * @uses $user_ID
- *
  * @param string $post_type currently only supports 'post' or 'page'.
  * @return string SQL code that can be added to a where clause.
  */
@@ -4518,7 +4518,7 @@ function get_private_posts_cap_sql( $post_type ) {
  * @return string SQL WHERE code that can be added to a query.
  */
 function get_posts_by_author_sql( $post_type, $full = true, $post_author = null, $public_only = false ) {
-	global $user_ID, $wpdb;
+	global $wpdb;
 
 	// Private posts
 	$post_type_obj = get_post_type_object( $post_type );
@@ -4548,7 +4548,7 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
 			$sql .= " OR post_status = 'private'";
 		} elseif ( is_user_logged_in() ) {
 			// Users can view their own private posts.
-			$id = (int) $user_ID;
+			$id = get_current_user_id();
 			if ( null === $post_author || ! $full ) {
 				$sql .= " OR post_status = 'private' AND post_author = $id";
 			} elseif ( $id == (int) $post_author ) {

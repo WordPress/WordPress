@@ -1372,7 +1372,7 @@ function wp_ajax_inline_save() {
 	$data['excerpt'] = $post['post_excerpt'];
 
 	// rename
-	$data['user_ID'] = $GLOBALS['user_ID'];
+	$data['user_ID'] = get_current_user_id();
 
 	if ( isset($data['post_parent']) )
 		$data['parent_id'] = $data['post_parent'];

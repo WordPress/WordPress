@@ -2140,7 +2140,7 @@ class WP_Query {
 	 * @return array List of posts.
 	 */
 	function get_posts() {
-		global $wpdb, $user_ID;
+		global $wpdb;
 
 		$this->parse_query();
 
@@ -2713,18 +2713,20 @@ class WP_Query {
 				unset($p_status);
 			}
 
+			$user_id = get_current_user_id();
+
 			if ( !empty($e_status) ) {
 				$statuswheres[] = "(" . join( ' AND ', $e_status ) . ")";
 			}
 			if ( !empty($r_status) ) {
 				if ( !empty($q['perm'] ) && 'editable' == $q['perm'] && !current_user_can($edit_others_cap) )
-					$statuswheres[] = "($wpdb->posts.post_author = $user_ID " . "AND (" . join( ' OR ', $r_status ) . "))";
+					$statuswheres[] = "($wpdb->posts.post_author = $user_id " . "AND (" . join( ' OR ', $r_status ) . "))";
 				else
 					$statuswheres[] = "(" . join( ' OR ', $r_status ) . ")";
 			}
 			if ( !empty($p_status) ) {
 				if ( !empty($q['perm'] ) && 'readable' == $q['perm'] && !current_user_can($read_private_cap) )
-					$statuswheres[] = "($wpdb->posts.post_author = $user_ID " . "AND (" . join( ' OR ', $p_status ) . "))";
+					$statuswheres[] = "($wpdb->posts.post_author = $user_id " . "AND (" . join( ' OR ', $p_status ) . "))";
 				else
 					$statuswheres[] = "(" . join( ' OR ', $p_status ) . ")";
 			}
@@ -2757,7 +2759,7 @@ class WP_Query {
 				// Add private states that are limited to viewing by the author of a post or someone who has caps to read private states.
 				$private_states = get_post_stati( array('private' => true) );
 				foreach ( (array) $private_states as $state )
-					$where .= current_user_can( $read_private_cap ) ? " OR $wpdb->posts.post_status = '$state'" : " OR $wpdb->posts.post_author = $user_ID AND $wpdb->posts.post_status = '$state'";
+					$where .= current_user_can( $read_private_cap ) ? " OR $wpdb->posts.post_status = '$state'" : " OR $wpdb->posts.post_author = $user_id AND $wpdb->posts.post_status = '$state'";
 			}
 
 			$where .= ')';

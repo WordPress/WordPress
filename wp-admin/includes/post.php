@@ -52,7 +52,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 	if ( isset($post_data['trackback_url']) )
 		$post_data['to_ping'] = $post_data['trackback_url'];
 
-	$post_data['user_ID'] = $GLOBALS['user_ID'];
+	$post_data['user_ID'] = get_current_user_id();
 
 	if (!empty ( $post_data['post_author_override'] ) ) {
 		$post_data['post_author'] = (int) $post_data['post_author_override'];
@@ -266,7 +266,7 @@ function edit_post( $post_data = null ) {
 
 	add_meta( $post_ID );
 
-	update_post_meta( $post_ID, '_edit_last', $GLOBALS['current_user']->ID );
+	update_post_meta( $post_ID, '_edit_last', get_current_user_id() );
 
 	wp_update_post( $post_data );
 
@@ -538,8 +538,6 @@ function post_exists($title, $content = '', $date = '') {
  * @return unknown
  */
 function wp_write_post() {
-	global $user_ID;
-
 	if ( isset($_POST['post_type']) )
 		$ptype = get_post_type_object($_POST['post_type']);
 	else
