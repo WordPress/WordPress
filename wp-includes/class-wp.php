@@ -238,7 +238,7 @@ class WP {
 
 		$this->public_query_vars = apply_filters('query_vars', $this->public_query_vars);
 
-		foreach ( $GLOBALS['wp_post_types'] as $post_type => $t )
+		foreach ( get_post_types( array(), 'objects' ) as $post_type => $t )
 			if ( $t->query_var )
 				$post_type_query_vars[$t->query_var] = $post_type;
 
@@ -271,7 +271,7 @@ class WP {
 		}
 
 		// Convert urldecoded spaces back into +
-		foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t )
+		foreach ( get_taxonomies( array() , 'objects' ) as $taxonomy => $t )
 			if ( $t->query_var && isset( $this->query_vars[$t->query_var] ) )
 				$this->query_vars[$t->query_var] = str_replace( ' ', '+', $this->query_vars[$t->query_var] );
 

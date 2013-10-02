@@ -338,6 +338,12 @@ function url_to_postid($url) {
 	$url = trim($url, '/');
 
 	$request = $url;
+	$post_type_query_vars = array();
+
+	foreach ( get_post_types( array() , 'objects' ) as $post_type => $t ) {
+		if ( ! empty( $t->query_var ) )
+			$post_type_query_vars[ $t->query_var ] = $post_type;
+	}
 
 	// Look for matches.
 	$request_match = $request;
@@ -365,16 +371,21 @@ function url_to_postid($url) {
 
 			// Filter out non-public query vars
 			global $wp;
-			parse_str($query, $query_vars);
+			parse_str( $query, $query_vars );
 			$query = array();
 			foreach ( (array) $query_vars as $key => $value ) {
-				if ( in_array($key, $wp->public_query_vars) )
+				if ( in_array( $key, $wp->public_query_vars ) ){
 					$query[$key] = $value;
+					if ( isset( $post_type_query_vars[$key] ) ) {
+						$query['post_type'] = $post_type_query_vars[$key];
+						$query['name'] = $value;
+					}
+				}
 			}
 
 			// Do the query
-			$query = new WP_Query($query);
-			if ( !empty($query->posts) && $query->is_singular )
+			$query = new WP_Query( $query );
+			if ( ! empty( $query->posts ) && $query->is_singular )
 				return $query->post->ID;
 			else
 				return 0;

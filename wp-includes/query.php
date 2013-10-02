@@ -1735,7 +1735,7 @@ class WP_Query {
 			);
 		}
 
-		foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t ) {
+		foreach ( get_taxonomies( array() , 'objects' ) as $taxonomy => $t ) {
 			if ( 'post_tag' == $taxonomy )
 				continue;	// Handled further down in the $q['tag'] block
 
