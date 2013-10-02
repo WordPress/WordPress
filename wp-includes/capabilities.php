@@ -732,6 +732,8 @@ class WP_User {
 	 * @since 2.0.0
 	 * @uses $wp_roles
 	 * @access public
+	 *
+	 * @return array List of all capabilities for the user.
 	 */
 	function get_role_caps() {
 		global $wp_roles;
@@ -750,6 +752,8 @@ class WP_User {
 			$this->allcaps = array_merge( (array) $this->allcaps, (array) $the_role->capabilities );
 		}
 		$this->allcaps = array_merge( (array) $this->allcaps, (array) $this->caps );
+
+		return $this->allcaps;
 	}
 
 	/**
