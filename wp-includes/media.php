@@ -733,7 +733,8 @@ function gallery_shortcode($attr) {
 		'columns'    => 3,
 		'size'       => 'thumbnail',
 		'include'    => '',
-		'exclude'    => ''
+		'exclude'    => '',
+		'link'       => ''
 	), $attr, 'gallery'));
 
 	$id = intval($id);
@@ -807,9 +808,9 @@ function gallery_shortcode($attr) {
 
 	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
-		if ( ! empty( $attr['link'] ) && 'file' === $attr['link'] )
+		if ( ! empty( $link ) && 'file' === $link )
 			$image_output = wp_get_attachment_link( $id, $size, false, false );
-		elseif ( ! empty( $attr['link'] ) && 'none' === $attr['link'] )
+		elseif ( ! empty( $link ) && 'none' === $link )
 			$image_output = wp_get_attachment_image( $id, $size, false );
 		else
 			$image_output = wp_get_attachment_link( $id, $size, true, false );
