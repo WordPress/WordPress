@@ -2627,7 +2627,7 @@ class WP_Query {
 		// Order search results by relevance only when another "orderby" is not specified in the query.
 		if ( ! empty( $q['s'] ) ) {
 			$search_orderby = '';
-			if ( ! empty( $q['search_orderby_title'] ) && empty( $q['orderby'] ) )
+			if ( ! empty( $q['search_orderby_title'] ) && ( empty( $q['orderby'] ) && ! $this->is_feed ) || 'relevance' === $q['orderby'] )
 				$search_orderby = $this->parse_search_order( $q );
 
 			/**
