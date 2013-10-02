@@ -1254,11 +1254,11 @@ class Core_Upgrader extends WP_Upgrader {
 		// Pre-cache the checksums for the versions we care about
 		get_core_checksums( array( $wp_version, $current->version ) );
 
-		$no_partial = false;
+		$partial = true;
 		if ( $parsed_args['do_rollback'] )
-			$no_partial = true;
+			$partial = false;
 		elseif ( $parsed_args['pre_check_md5'] && ! $this->check_files() )
-			$no_partial = true;
+			$partial = false;
 
 		// If partial update is returned from the API, use that, unless we're doing a reinstall.
 		// If we cross the new_bundled version number, then use the new_bundled zip.
@@ -1266,7 +1266,7 @@ class Core_Upgrader extends WP_Upgrader {
 		// If the API returns a no_content zip, go with it. Finally, default to the full zip.
 		if ( $parsed_args['do_rollback'] && $current->packages->rollback )
 			$to_download = 'rollback';
-		elseif ( $current->packages->partial && 'reinstall' != $current->response && $wp_version == $current->partial_version && ! $no_partial )
+		elseif ( $current->packages->partial && 'reinstall' != $current->response && $wp_version == $current->partial_version && $partial )
 			$to_download = 'partial';
 		elseif ( $current->packages->new_bundled && version_compare( $wp_version, $current->new_bundled, '<' )
 			&& ( ! defined( 'CORE_UPGRADE_SKIP_NEW_BUNDLED' ) || ! CORE_UPGRADE_SKIP_NEW_BUNDLED ) )
