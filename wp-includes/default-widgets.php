@@ -574,7 +574,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		<ul>
 		<?php while ( $r->have_posts() ) : $r->the_post(); ?>
 			<li>
-				<a href="<?php the_permalink() ?>" title="<?php echo esc_attr( get_the_title() ? get_the_title() : get_the_ID() ); ?>"><?php if ( get_the_title() ) the_title(); else the_ID(); ?></a>
+				<a href="<?php the_permalink(); ?>"><?php get_the_title() ? the_title() : the_ID(); ?></a>
 			<?php if ( $show_date ) : ?>
 				<span class="post-date"><?php echo get_the_date(); ?></span>
 			<?php endif; ?>
