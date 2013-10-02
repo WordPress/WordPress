@@ -208,10 +208,10 @@ function wp_load_core_site_options( $site_id = null ) {
  * @uses do_action() Calls 'update_option_$option' and 'updated_option' hooks on success.
  *
  * @param string $option Option name. Expected to not be SQL-escaped.
- * @param mixed $newvalue Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
+ * @param mixed $value Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
  * @return bool False if value was not updated and true if value was updated.
  */
-function update_option( $option, $newvalue ) {
+function update_option( $option, $value ) {
 	global $wpdb;
 
 	$option = trim($option);
@@ -220,19 +220,25 @@ function update_option( $option, $newvalue ) {
 
 	wp_protect_special_option( $option );
 
-	if ( is_object($newvalue) )
-		$newvalue = clone $newvalue;
+	if ( is_object( $value ) )
+		$value = clone $value;
 
-	$newvalue = sanitize_option( $option, $newvalue );
-	$oldvalue = get_option( $option );
-	$newvalue = apply_filters( 'pre_update_option_' . $option, $newvalue, $oldvalue );
+	$value = sanitize_option( $option, $value );
+	$old_value = get_option( $option );
+	$value = apply_filters( 'pre_update_option_' . $option, $value, $old_value );
 
 	// If the new and old values are the same, no need to update.
-	if ( $newvalue === $oldvalue )
+	if ( $value === $old_value )
 		return false;
 
-	if ( false === $oldvalue )
-		return add_option( $option, $newvalue );
+	if ( false === $old_value )
+		return add_option( $option, $value );
+
+	$serialized_value = maybe_serialize( $value );
+
+	$result = $wpdb->update( $wpdb->options, array( 'option_value' => $serialized_value ), array( 'option_name' => $option ) );
+	if ( ! $result )
+		return false;
 
 	$notoptions = wp_cache_get( 'notoptions', 'options' );
 	if ( is_array( $notoptions ) && isset( $notoptions[$option] ) ) {
@@ -240,28 +246,20 @@ function update_option( $option, $newvalue ) {
 		wp_cache_set( 'notoptions', $notoptions, 'options' );
 	}
 
-	$_newvalue = $newvalue;
-	$newvalue = maybe_serialize( $newvalue );
-
-	do_action( 'update_option', $option, $oldvalue, $_newvalue );
+	do_action( 'update_option', $option, $old_value, $value );
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		$alloptions = wp_load_alloptions();
 		if ( isset( $alloptions[$option] ) ) {
-			$alloptions[$option] = $newvalue;
+			$alloptions[ $option ] = $serialized_value;
 			wp_cache_set( 'alloptions', $alloptions, 'options' );
 		} else {
-			wp_cache_set( $option, $newvalue, 'options' );
+			wp_cache_set( $option, $serialized_value, 'options' );
 		}
 	}
 
-	$result = $wpdb->update( $wpdb->options, array( 'option_value' => $newvalue ), array( 'option_name' => $option ) );
-
-	if ( $result ) {
-		do_action( "update_option_{$option}", $oldvalue, $_newvalue );
-		do_action( 'updated_option', $option, $oldvalue, $_newvalue );
-		return true;
-	}
-	return false;
+	do_action( "update_option_{$option}", $old_value, $value );
+	do_action( 'updated_option', $option, $old_value, $value );
+	return true;
 }
 
 /**
@@ -312,17 +310,21 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 		if ( false !== get_option( $option ) )
 			return false;
 
-	$_value = $value;
-	$value = maybe_serialize( $value );
+	$serialized_value = maybe_serialize( $value );
 	$autoload = ( 'no' === $autoload ) ? 'no' : 'yes';
-	do_action( 'add_option', $option, $_value );
+	do_action( 'add_option', $option, $value );
+
+	$result = $wpdb->query( $wpdb->prepare( "INSERT INTO `$wpdb->options` (`option_name`, `option_value`, `autoload`) VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE `option_name` = VALUES(`option_name`), `option_value` = VALUES(`option_value`), `autoload` = VALUES(`autoload`)", $option, $serialized_value, $autoload ) );
+	if ( ! $result )
+		return false;
+
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		if ( 'yes' == $autoload ) {
 			$alloptions = wp_load_alloptions();
-			$alloptions[$option] = $value;
+			$alloptions[ $option ] = $serialized_value;
 			wp_cache_set( 'alloptions', $alloptions, 'options' );
 		} else {
-			wp_cache_set( $option, $value, 'options' );
+			wp_cache_set( $option, $serialized_value, 'options' );
 		}
 	}
 
@@ -333,14 +335,9 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 		wp_cache_set( 'notoptions', $notoptions, 'options' );
 	}
 
-	$result = $wpdb->query( $wpdb->prepare( "INSERT INTO `$wpdb->options` (`option_name`, `option_value`, `autoload`) VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE `option_name` = VALUES(`option_name`), `option_value` = VALUES(`option_value`), `autoload` = VALUES(`autoload`)", $option, $value, $autoload ) );
-
-	if ( $result ) {
-		do_action( "add_option_{$option}", $option, $_value );
-		do_action( 'added_option', $option, $_value );
-		return true;
-	}
-	return false;
+	do_action( "add_option_{$option}", $option, $value );
+	do_action( 'added_option', $option, $value );
+	return true;
 }
 
 /**
@@ -829,12 +826,13 @@ function add_site_option( $option, $value ) {
 
 		$value = sanitize_option( $option, $value );
 
-		wp_cache_set( $cache_key, $value, 'site-options' );
+		$serialized_value = maybe_serialize( $value );
+		$result = $wpdb->insert( $wpdb->sitemeta, array('site_id' => $wpdb->siteid, 'meta_key' => $option, 'meta_value' => $serialized_value ) );
 
-		$_value = $value;
-		$value = maybe_serialize( $value );
-		$result = $wpdb->insert( $wpdb->sitemeta, array('site_id' => $wpdb->siteid, 'meta_key' => $option, 'meta_value' => $value ) );
-		$value = $_value;
+		if ( ! $result )
+			return false;
+
+		wp_cache_set( $cache_key, $value, 'site-options' );
 
 		// This option exists now
 		$notoptions = wp_cache_get( 'notoptions', 'site-options' ); // yes, again... we need it to be fresh
@@ -915,13 +913,13 @@ function update_site_option( $option, $value ) {
 
 	wp_protect_special_option( $option );
 
-	$oldvalue = get_site_option( $option );
-	$value = apply_filters( 'pre_update_site_option_' . $option, $value, $oldvalue );
+	$old_value = get_site_option( $option );
+	$value = apply_filters( 'pre_update_site_option_' . $option, $value, $old_value );
 
-	if ( $value === $oldvalue )
+	if ( $value === $old_value )
 		return false;
 
-	if ( false === $oldvalue )
+	if ( false === $old_value )
 		return add_site_option( $option, $value );
 
 	$notoptions = wp_cache_get( 'notoptions', 'site-options' );
@@ -934,18 +932,19 @@ function update_site_option( $option, $value ) {
 		$result = update_option( $option, $value );
 	} else {
 		$value = sanitize_option( $option, $value );
-		$cache_key = "{$wpdb->siteid}:$option";
-		wp_cache_set( $cache_key, $value, 'site-options' );
 
-		$_value = $value;
-		$value = maybe_serialize( $value );
-		$result = $wpdb->update( $wpdb->sitemeta, array( 'meta_value' => $value ), array( 'site_id' => $wpdb->siteid, 'meta_key' => $option ) );
-		$value = $_value;
+		$serialized_value = maybe_serialize( $value );
+		$result = $wpdb->update( $wpdb->sitemeta, array( 'meta_value' => $serialized_value ), array( 'site_id' => $wpdb->siteid, 'meta_key' => $option ) );
+
+		if ( $result ) {
+			$cache_key = "{$wpdb->siteid}:$option";
+			wp_cache_set( $cache_key, $value, 'site-options' );
+		}
 	}
 
 	if ( $result ) {
-		do_action( "update_site_option_{$option}", $option, $value, $oldvalue );
-		do_action( "update_site_option", $option, $value, $oldvalue );
+		do_action( "update_site_option_{$option}", $option, $value, $old_value );
+		do_action( "update_site_option", $option, $value, $old_value );
 		return true;
 	}
 	return false;
