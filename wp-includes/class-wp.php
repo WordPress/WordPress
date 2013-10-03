@@ -328,6 +328,7 @@ class WP {
 		} else {
 			// We're showing a feed, so WP is indeed the only thing that last changed
 			if ( !empty($this->query_vars['withcomments'])
+				|| false !== strpos( $this->query_vars['feed'], 'comments-' )
 				|| ( empty($this->query_vars['withoutcomments'])
 					&& ( !empty($this->query_vars['p'])
 						|| !empty($this->query_vars['name'])
