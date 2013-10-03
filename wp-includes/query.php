@@ -2686,6 +2686,8 @@ class WP_Query {
 			$read_private_cap = 'read_private_' . $post_type_cap . 's';
 		}
 
+		$user_id = get_current_user_id();
+
 		if ( ! empty( $q['post_status'] ) ) {
 			$statuswheres = array();
 			$q_status = $q['post_status'];
@@ -2712,8 +2714,6 @@ class WP_Query {
 				$r_status = array_merge($r_status, $p_status);
 				unset($p_status);
 			}
-
-			$user_id = get_current_user_id();
 
 			if ( !empty($e_status) ) {
 				$statuswheres[] = "(" . join( ' AND ', $e_status ) . ")";
