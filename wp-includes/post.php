@@ -2317,20 +2317,6 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 		$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => $post->post_type ) );
 	}
 
-	if ( 'page' == $post->post_type) {
-	 	// if the page is defined in option page_on_front or post_for_posts,
-		// adjust the corresponding options
-		if ( get_option('page_on_front') == $postid ) {
-			update_option('show_on_front', 'posts');
-			delete_option('page_on_front');
-		}
-		if ( get_option('page_for_posts') == $postid ) {
-			delete_option('page_for_posts');
-		}
-	} else {
-		unstick_post($postid);
-	}
-
 	// Do raw query. wp_get_post_revisions() is filtered
 	$revision_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'revision'", $postid ) );
 	// Use wp_delete_post (via wp_delete_post_revision) again. Ensures any meta/misplaced data gets cleaned up.
@@ -2365,6 +2351,34 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 
 	return $post;
 }
+
+/**
+ * Resets the page_on_front, show_on_front, and page_for_post settings when a
+ * linked page is deleted or trashed.
+ *
+ * Also ensures the post is no longer sticky.
+ *
+ * @access private
+ * @since 3.7.0
+ * @param $post_id
+ */
+function _reset_front_page_settings_for_post( $post_id ) {
+	$post = get_post( $post_id );
+	if ( 'page' == $post->post_type ) {
+	 	// If the page is defined in option page_on_front or post_for_posts,
+		// adjust the corresponding options
+		if ( get_option( 'page_on_front' ) == $post->ID ) {
+			update_option( 'show_on_front', 'posts' );
+			update_option( 'page_on_front', 0 );
+		}
+		if ( get_option( 'page_for_posts' ) == $post->ID ) {
+			delete_option( 'page_for_posts', 0 );
+		}
+	}
+	unstick_post( $post->ID );
+}
+add_action( 'before_delete_post', '_reset_front_page_settings_for_post' );
+add_action( 'wp_trash_post',      '_reset_front_page_settings_for_post' );
 
 /**
  * Moves a post or page to the Trash
