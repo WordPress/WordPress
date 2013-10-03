@@ -2091,7 +2091,7 @@ html.wp-toolbar {
 }
 
 /* one column on the post write/edit screen */
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 960px) {
 	#wpbody-content #poststuff #post-body {
 		margin: 0;
 	}
