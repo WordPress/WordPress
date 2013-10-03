@@ -64,11 +64,6 @@ inlineEditPost = {
 				t.revert();
 			}
 		});
-
-		$('#post-query-submit').mousedown(function(e){
-			t.revert();
-			$('select[name^="action"]').val('-1');
-		});
 	},
 
 	toggle : function(el){

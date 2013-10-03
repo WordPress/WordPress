@@ -410,6 +410,10 @@ $(document).ready( function() {
 		});
 	}
 
+	$('.search-box input[type="search"], .search-box input[type="submit"]').mousedown(function () {
+		$('select[name^="action"]').val('-1');
+	});
+
 	// Scroll into view when focused
 	$('#contextual-help-link, #show-settings-link').on( 'focus.scroll-into-view', function(e){
 		if ( e.target.scrollIntoView )
