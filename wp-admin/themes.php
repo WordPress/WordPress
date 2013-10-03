@@ -14,6 +14,8 @@ if ( !current_user_can('switch_themes') && !current_user_can('edit_theme_options
 
 $wp_list_table = _get_list_table('WP_Themes_List_Table');
 
+$_SERVER['REQUEST_URI'] = remove_query_arg( array( 's', 'features', '_ajax_fetch_list_nonce', '_wp_http_referer', 'paged' ), $_SERVER['REQUEST_URI'] );
+
 if ( current_user_can( 'switch_themes' ) && isset($_GET['action'] ) ) {
 	if ( 'activate' == $_GET['action'] ) {
 		check_admin_referer('switch-theme_' . $_GET['stylesheet']);
