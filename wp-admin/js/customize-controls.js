@@ -553,14 +553,19 @@
 
 				// Check for URLs that include "/wp-admin/" or end in "/wp-admin".
 				// Strip hashes and query strings before testing.
-				if ( /\/wp-admin(\/|$)/.test( to.replace(/[#?].*$/, '') ) )
+				if ( /\/wp-admin(\/|$)/.test( to.replace( /[#?].*$/, '' ) ) )
 					return null;
 
 				// Attempt to match the URL to the control frame's scheme
 				// and check if it's allowed. If not, try the original URL.
 				$.each([ to.replace( rscheme, self.scheme() ), to ], function( i, url ) {
 					$.each( self.allowedUrls, function( i, allowed ) {
-						if ( 0 === url.indexOf( allowed ) ) {
+						var path;
+
+						allowed = allowed.replace( /\/+$/, '' );
+						path = url.replace( allowed, '' );
+
+						if ( 0 === url.indexOf( allowed ) && /^([/#?]|$)/.test( path ) ) {
 							result = url;
 							return false;
 						}
