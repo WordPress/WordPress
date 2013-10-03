@@ -36,7 +36,7 @@
 			$.extend( this, options || {} );
 
 			this.id = id;
-			this.selector = '#customize-control-' + id.replace( ']', '' ).replace( '[', '-' );
+			this.selector = '#customize-control-' + id.replace( /\]/g, '' ).replace( /\[/g, '-' );
 			this.container = $( this.selector );
 
 			settings = $.map( this.params.settings, function( value ) {
