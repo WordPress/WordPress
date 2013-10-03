@@ -70,7 +70,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		if ( 'post' == $post_type && $sticky_posts = get_option( 'sticky_posts' ) ) {
 			$sticky_posts = implode( ', ', array_map( 'absint', (array) $sticky_posts ) );
-			$this->sticky_posts_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( 1 ) FROM $wpdb->posts WHERE post_type = %s AND post_status != 'trash' AND ID IN ($sticky_posts)", $post_type ) );
+			$this->sticky_posts_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( 1 ) FROM $wpdb->posts WHERE post_type = %s AND post_status NOT IN ('trash', 'auto-draft') AND ID IN ($sticky_posts)", $post_type ) );
 		}
 	}
 
