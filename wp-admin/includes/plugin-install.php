@@ -304,7 +304,7 @@ function install_plugin_install_status($api, $loop = false) {
 function install_plugin_information() {
 	global $tab;
 
-	$api = plugins_api('plugin_information', array('slug' => wp_unslash( $_REQUEST['plugin'] ) ));
+	$api = plugins_api( 'plugin_information', array( 'slug' => wp_unslash( $_REQUEST['plugin'] ), 'is_ssl' => is_ssl() ) );
 
 	if ( is_wp_error($api) )
 		wp_die($api);
