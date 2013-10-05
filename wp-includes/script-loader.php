@@ -48,7 +48,10 @@ require( ABSPATH . WPINC . '/functions.wp-styles.php' );
  * @param object $scripts WP_Scripts object.
  */
 function wp_default_scripts( &$scripts ) {
+	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
 
+	if ( ! defined( 'SCRIPT_DEBUG' ) )
+		define( 'SCRIPT_DEBUG', false !== strpos( $wp_version, '-src' ) );
 
 	if ( ! $guessurl = site_url() ) {
 		$guessed_url = true;
@@ -59,9 +62,6 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->content_url = defined('WP_CONTENT_URL')? WP_CONTENT_URL : '';
 	$scripts->default_version = get_bloginfo( 'version' );
 	$scripts->default_dirs = array('/wp-admin/js/', '/wp-includes/js/');
-
-	if ( ! defined( 'SCRIPT_DEBUG' ) )
-		define( 'SCRIPT_DEBUG', ! file_exists( ABSPATH . WPINC . '/js/wp-util.min.js' ) );
 
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
@@ -531,6 +531,10 @@ function wp_default_scripts( &$scripts ) {
  * @param object $styles
  */
 function wp_default_styles( &$styles ) {
+	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
+
+	if ( ! defined( 'SCRIPT_DEBUG' ) )
+		define( 'SCRIPT_DEBUG', false !== strpos( $wp_version, '-src' ) );
 
 	if ( ! $guessurl = site_url() )
 		$guessurl = wp_guess_url();
@@ -540,9 +544,6 @@ function wp_default_styles( &$styles ) {
 	$styles->default_version = get_bloginfo( 'version' );
 	$styles->text_direction = function_exists( 'is_rtl' ) && is_rtl() ? 'rtl' : 'ltr';
 	$styles->default_dirs = array('/wp-admin/', '/wp-includes/css/');
-
-	if ( ! defined( 'SCRIPT_DEBUG' ) )
-		define( 'SCRIPT_DEBUG', ! file_exists( ABSPATH . WPINC . '/js/wp-util.min.js' ) );
 
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
