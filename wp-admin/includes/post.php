@@ -748,15 +748,15 @@ function update_meta( $meta_id, $meta_key, $meta_value ) {
  * @since 2.3.0
  * @access private
  *
- * @param unknown_type $post_ID
- * @return unknown
+ * @param int|object $post Post ID or post object.
+ * @return void|int|WP_Error Void if nothing fixed. 0 or WP_Error on update failure. The post ID on update success.
  */
-function _fix_attachment_links( $post_ID ) {
-	$post = get_post( $post_ID, ARRAY_A );
+function _fix_attachment_links( $post ) {
+	$post = get_post( $post, ARRAY_A );
 	$content = $post['post_content'];
 
-	// quick sanity check, don't run if no pretty permalinks or post is not published
-	if ( !get_option('permalink_structure') || $post['post_status'] != 'publish' )
+	// Don't run if no pretty permalinks or post is not published, scheduled, or privately published.
+	if ( ! get_option( 'permalink_structure' ) || ! in_array( $post['post_status'], array( 'publish', 'future', 'private' ) ) )
 		return;
 
 	// Short if there aren't any links or no '?attachment_id=' strings (strpos cannot be zero)
