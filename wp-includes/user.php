@@ -1587,29 +1587,58 @@ function _wp_get_user_contactmethods( $user = null ) {
 /**
  * Retrieves a user row based on password reset key and login
  *
+ * A key is considered 'expired' if it exactly matches the value of the
+ * user_activation_key field, rather than being matched after going through the
+ * hashing process. This field is now hashed; old values are no longer accepted
+ * but have a different WP_Error code so good user feedback can be provided.
+ *
  * @uses $wpdb WordPress Database object
  *
- * @param string $key Hash to validate sending user's password
- * @param string $login The user login
- * @return object|WP_Error User's database row on success, error object for invalid keys
+ * @param string $key       Hash to validate sending user's password.
+ * @param string $login     The user login.
+ * @return WP_User|WP_Error WP_User object on success, WP_Error object for invalid or expired keys.
  */
-function check_password_reset_key( $key, $login ) {
-	global $wpdb;
+function check_password_reset_key($key, $login) {
+	global $wpdb, $wp_hasher;
 
-	$key = preg_replace( '/[^a-z0-9]/i', '', $key );
+	$key = preg_replace('/[^a-z0-9]/i', '', $key);
 
-	if ( empty( $key ) || ! is_string( $key ) )
-		return new WP_Error( 'invalid_key', __( 'Invalid key' ) );
+	if ( empty( $key ) || !is_string( $key ) )
+		return new WP_Error('invalid_key', __('Invalid key'));
 
-	if ( empty( $login ) || ! is_string( $login ) )
-		return new WP_Error( 'invalid_key', __( 'Invalid key' ) );
+	if ( empty($login) || !is_string($login) )
+		return new WP_Error('invalid_key', __('Invalid key'));
 
-	$user = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->users WHERE user_activation_key = %s AND user_login = %s", $key, $login ) );
+	$row = $wpdb->get_row( $wpdb->prepare( "SELECT ID, user_activation_key FROM $wpdb->users WHERE user_login = %s", $login ) );
+	if ( ! $row )
+		return new WP_Error('invalid_key', __('Invalid key'));
 
-	if ( empty( $user ) )
-		return new WP_Error( 'invalid_key', __( 'Invalid key' ) );
+	if ( empty( $wp_hasher ) ) {
+		require_once ABSPATH . 'wp-includes/class-phpass.php';
+		$wp_hasher = new PasswordHash( 8, true );
+	}
 
-	return $user;
+	if ( $wp_hasher->CheckPassword( $key, $row->user_activation_key ) )
+		return get_userdata( $row->ID );
+
+	if ( $key === $row->user_activation_key ) {
+		$return = new WP_Error( 'expired_key', __( 'Invalid key' ) );
+		$user_id = $row->ID;
+
+		/**
+		 * Filter the return value of check_password_reset_key() when an
+		 * old-style key is used (plain-text key was stored in the database).
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param WP_Error $return  A WP_Error object denoting an expired key.
+		 *                          Return a WP_User object to validate the key.
+		 * @param int      $user_id The matched user ID.
+		 */
+		return apply_filters( 'password_reset_key_expired', $return, $user_id );
+	}
+
+	return new WP_Error( 'invalid_key', __( 'Invalid key' ) );
 }
 
 /**

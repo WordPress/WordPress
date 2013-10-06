@@ -202,7 +202,7 @@ function wp_login_viewport_meta() {
  * @return bool|WP_Error True: when finish. WP_Error on error
  */
 function retrieve_password() {
-	global $wpdb, $current_site;
+	global $wpdb, $current_site, $wp_hasher;
 
 	$errors = new WP_Error();
 
@@ -241,14 +241,27 @@ function retrieve_password() {
 	else if ( is_wp_error($allow) )
 		return $allow;
 
-	$key = $wpdb->get_var($wpdb->prepare("SELECT user_activation_key FROM $wpdb->users WHERE user_login = %s", $user_login));
-	if ( empty($key) ) {
-		// Generate something random for a key...
-		$key = wp_generate_password(20, false);
-		do_action('retrieve_password_key', $user_login, $key);
-		// Now insert the new md5 key into the db
-		$wpdb->update($wpdb->users, array('user_activation_key' => $key), array('user_login' => $user_login));
+	// Generate something random for a password reset key.
+	$key = wp_generate_password( 20, false );
+
+	/**
+	 * Fires when a password reset key is generated.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $user_login The username for the user.
+	 * @param string $key        The generated password reset key.
+	 */
+	do_action( 'retrieve_password_key', $user_login, $key );
+
+	// Now insert the key, hashed, into the DB.
+	if ( empty( $wp_hasher ) ) {
+		require_once ABSPATH . 'wp-includes/class-phpass.php';
+		$wp_hasher = new PasswordHash( 8, true );
 	}
+	$hashed = $wp_hasher->HashPassword( $key );
+	$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
+
 	$message = __('Someone requested that the password be reset for the following account:') . "\r\n\r\n";
 	$message .= network_home_url( '/' ) . "\r\n\r\n";
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
@@ -358,7 +371,13 @@ case 'retrievepassword' :
 		}
 	}
 
-	if ( isset($_GET['error']) && 'invalidkey' == $_GET['error'] ) $errors->add('invalidkey', __('Sorry, that key does not appear to be valid.'));
+	if ( isset( $_GET['error'] ) ) {
+		if ( 'invalidkey' == $_GET['error'] )
+			$errors->add( 'invalidkey', __( 'Sorry, that key does not appear to be valid.' ) );
+		elseif ( 'expiredkey' == $_GET['error'] )
+			$errors->add( 'expiredkey', __( 'Sorry, that key has expired. Please try again.' ) );
+	}
+
 	$redirect_to = apply_filters( 'lostpassword_redirect', !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '' );
 
 	do_action('lost_password');
@@ -394,7 +413,10 @@ case 'rp' :
 	$user = check_password_reset_key($_GET['key'], $_GET['login']);
 
 	if ( is_wp_error($user) ) {
-		wp_redirect( site_url('wp-login.php?action=lostpassword&error=invalidkey') );
+		if ( $user->get_error_code() === 'expired_key' )
+			wp_redirect( site_url( 'wp-login.php?action=lostpassword&error=expiredkey' ) );
+		else
+			wp_redirect( site_url( 'wp-login.php?action=lostpassword&error=invalidkey' ) );
 		exit;
 	}
 
