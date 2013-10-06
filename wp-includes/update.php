@@ -42,7 +42,15 @@ function wp_version_check() {
 	if ( $time_not_changed )
 		return false;
 
-	$locale = apply_filters( 'core_version_check_locale', get_locale() );
+	$locale = get_locale();
+	/**
+	 * Filter the locale requested for WordPress core translations.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $locale Current locale.
+	 */
+	$locale = apply_filters( 'core_version_check_locale', $locale );
 
 	// Update last_checked for current to prevent multiple blocking requests if request hangs
 	$current->last_checked = time();
@@ -212,14 +220,15 @@ function wp_update_plugins() {
 
 	$to_send = compact( 'plugins', 'active' );
 
+	$locales = array( get_locale() );
 	/**
 	 * Filter the locales requested for plugin translations.
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param array $locales Defaults to the current locale of the site.
+	 * @param array $locales Plugin locale. Default is current locale of the site.
 	 */
-	$locales = apply_filters( 'plugins_update_check_locales', array( get_locale() ) );
+	$locales = apply_filters( 'plugins_update_check_locales', $locales );
 
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
@@ -347,14 +356,15 @@ function wp_update_themes() {
 
 	$request['themes'] = $themes;
 
+	$locales = array( get_locale() );
 	/**
 	 * Filter the locales requested for theme translations.
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param array $locales Defaults to the current locale of the site.
+	 * @param array $locales Theme locale. Default is current locale of the site.
 	 */
-	$locales = apply_filters( 'themes_update_check_locales', array( get_locale() ) );
+	$locales = apply_filters( 'themes_update_check_locales', $locales );
 
 	$options = array(
 		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
@@ -443,7 +453,21 @@ function wp_get_update_data() {
 
 	$update_title = $titles ? esc_attr( implode( ', ', $titles ) ) : '';
 
-	return apply_filters( 'wp_get_update_data', array( 'counts' => $counts, 'title' => $update_title ), $titles );
+	$update_data = array( 'counts' => $counts, 'title' => $update_title );
+	/**
+	 * Filter the returned array of update data for plugins, themes, and WordPress core.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param array $update_data {
+	 *     Fetched update data.
+	 *
+	 *     @type array   $counts       An array of counts for available plugin, theme, and WordPress updates.
+	 *     @type string  $update_title Titles of available updates.
+	 * }
+	 * @param array $titles An array of update counts and UI strings for available updates.
+	 */
+	return apply_filters( 'wp_get_update_data', $update_data, $titles );
 }
 
 function _maybe_update_core() {
