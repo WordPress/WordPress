@@ -1488,18 +1488,27 @@ class WP_Automatic_Upgrader {
 	 * Check for GIT/SVN checkouts.
 	 */
 	static function is_vcs_checkout( $context ) {
-		$stop_dirs = array(
-			ABSPATH,
-			untrailingslashit( $context ),
-		);
-		if ( ! file_exists( ABSPATH . '/wp-config.php' ) ) // wp-config.php up one folder in a deployment situation
-			$stop_dirs[] = dirname( ABSPATH );
+		$context_dirs = array( untrailingslashit( $context ) );
+		if ( $context !== ABSPATH )
+			$context_dirs[] = untrailingslashit( ABSPATH );
 
-		$checkout = false;
-		foreach ( array_unique( $stop_dirs ) as $dir ) {
-			if ( file_exists( $dir . '/.svn' ) || file_exists( $dir . '/.git' ) || file_exists( $dir . '/.hg' ) || file_exists( $dir . '/.bzr' ) ) {
-				$checkout = true;
-				break;
+		$vcs_dirs = array( '.svn', '.git', '.hg', '.bzr' );
+		$check_dirs = array();
+
+		foreach ( $context_dirs as $context_dir ) {
+			// Walk up from $context_dir to the root.
+			do {
+				$check_dirs[] = $context_dir;
+			} while ( $context_dir != dirname( $context_dir ) && $context_dir = dirname( $context_dir ) );
+		}
+
+		$check_dirs = array_unique( $check_dirs );
+
+		// Search all directories we've found for evidence of version control.
+		foreach ( $vcs_dirs as $vcs_dir ) {
+			foreach ( $check_dirs as $check_dir ) {
+				if ( $checkout = is_dir( rtrim( $check_dir, '\\/' ) . "/$vcs_dir" ) )
+					break 2;
 			}
 		}
 		return apply_filters( 'auto_upgrade_is_vcs_checkout', $checkout, $context );
