@@ -204,6 +204,13 @@ abstract class WP_Image_Editor {
 	 * @return boolean
 	 */
 	public function set_quality( $quality ) {
+		/**
+		* Filter the default quality setting.
+		*
+		* @since 3.5.0
+		*
+		* @param int $quality Quality level between 0 (low) and 100 (high).
+		*/
 		$this->quality = apply_filters( 'wp_editor_set_quality', $quality );
 
 		return ( (bool) $this->quality );
@@ -253,6 +260,15 @@ abstract class WP_Image_Editor {
 		// Double-check that the mime-type selected is supported by the editor.
 		// If not, choose a default instead.
 		if ( ! $this->supports_mime_type( $mime_type ) ) {
+			/**
+			* Filter default mime type prior to getting the file extension.
+			*
+			* @see wp_get_mime_types()
+			*
+			* @since 3.5.0
+			*
+			* @param string $mime_type Mime type string.
+			*/
 			$mime_type = apply_filters( 'image_editor_default_mime_type', $this->default_mime_type );
 			$new_ext = $this->get_extension( $mime_type );
 		}
