@@ -193,6 +193,9 @@ class WP_Roles {
 
 		if ( $this->use_db )
 			update_option( $this->role_key, $this->roles );
+
+		if ( get_option( 'default_role' ) == $role )
+			update_option( 'default_role', 'subscriber' );
 	}
 
 	/**

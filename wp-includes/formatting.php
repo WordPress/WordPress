@@ -2957,6 +2957,11 @@ function sanitize_option($option, $value) {
 			$value = esc_url_raw( $value );
 			$value = str_replace( 'http://', '', $value );
 			break;
+
+		case 'default_role' :
+			if ( ! get_role( $value ) && get_role( 'subscriber' ) )
+				$value = 'subscriber';
+			break;
 	}
 
 	$value = apply_filters("sanitize_option_{$option}", $value, $option);

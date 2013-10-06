@@ -756,7 +756,7 @@ function wp_dropdown_roles( $selected = false ) {
 	$p = '';
 	$r = '';
 
-	$editable_roles = get_editable_roles();
+	$editable_roles = array_reverse( get_editable_roles() );
 
 	foreach ( $editable_roles as $role => $details ) {
 		$name = translate_user_role($details['name'] );
