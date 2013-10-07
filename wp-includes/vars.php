@@ -52,6 +52,13 @@ if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
 		$is_lynx = true;
 	} elseif ( stripos($_SERVER['HTTP_USER_AGENT'], 'chrome') !== false ) {
 		if ( stripos( $_SERVER['HTTP_USER_AGENT'], 'chromeframe' ) !== false ) {
+			/**
+			 * Filter whether Google Chrome Frame should be used, if available.
+			 *
+			 * @since 3.2.0
+			 *
+			 * @param bool $is_admin Whether to use the Google Chrome Frame. Default is the value of is_admin().
+			 */
 			if ( $is_chrome = apply_filters( 'use_google_chrome_frame', is_admin() ) )
 				header( 'X-UA-Compatible: chrome=1' );
 			$is_winIE = ! $is_chrome;
