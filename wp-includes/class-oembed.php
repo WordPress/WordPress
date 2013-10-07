@@ -56,6 +56,7 @@ class WP_oEmbed {
 			'#https?://(www\.)?rdio\.com/.*#i'                   => array( 'http://www.rdio.com/api/oembed/',                   true  ),
 			'#https?://rd\.io/x/.*#i'                            => array( 'http://www.rdio.com/api/oembed/',                   true  ),
 			'#https?://(open|play)\.spotify\.com/.*#i'           => array( 'https://embed.spotify.com/oembed/',                 true  ),
+			'#http?://.*polarb.com/.*#i'                         => array( 'http://polarb.com/api/v4/o_embed.json',             true  ),
 		) );
 
 		// Fix any embeds that contain new lines in the middle of the HTML which breaks wpautop().
