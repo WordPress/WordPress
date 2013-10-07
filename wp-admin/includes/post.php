@@ -178,6 +178,15 @@ function edit_post( $post_data = null ) {
 			wp_die( __('You are not allowed to edit this post.' ));
 	}
 
+	if ( post_type_supports( $ptype->name, 'revisions' ) ) {
+		$revisions = wp_get_post_revisions( $post_ID, array( 'order' => 'ASC', 'posts_per_page' => 1 ) );
+		$revision = current( $revisions );
+
+		// Check if the revisions have been upgraded
+		if ( $revisions && _wp_get_post_revision_version( $revision ) < 1 )
+			_wp_upgrade_revisions_of_post( $post, wp_get_post_revisions( $post_ID ) );
+	}
+
 	$post_data = _wp_translate_postdata( true, $post_data );
 	if ( is_wp_error($post_data) )
 		wp_die( $post_data->get_error_message() );
