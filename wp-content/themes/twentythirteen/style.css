@@ -1738,8 +1738,7 @@ footer.entry-meta {
 	max-width: 104px;
 }
 
-.attachment footer.entry-meta,
-.single-attachment .site-main .sidebar-container {
+.attachment footer.entry-meta {
 	display: none;
 }
 
