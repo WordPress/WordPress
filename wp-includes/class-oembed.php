@@ -26,10 +26,7 @@ class WP_oEmbed {
 	 * @uses apply_filters() Filters a list of pre-defined oEmbed providers.
 	 */
 	function __construct() {
-		// List out some popular sites that support oEmbed.
-		// The WP_Embed class disables discovery for non-unfiltered_html users, so only providers in this array will be used for them.
-		// Add to this list using the wp_oembed_add_provider() function (see its PHPDoc for details).
-		$this->providers = apply_filters( 'oembed_providers', array(
+		$providers = array(
 			'#https?://(www\.)?youtube\.com/watch.*#i'           => array( 'http://www.youtube.com/oembed',                     true  ),
 			'http://youtu.be/*'                                  => array( 'http://www.youtube.com/oembed',                     false ),
 			'http://blip.tv/*'                                   => array( 'http://blip.tv/oembed/',                            false ),
@@ -56,7 +53,20 @@ class WP_oEmbed {
 			'#https?://(www\.)?rdio\.com/.*#i'                   => array( 'http://www.rdio.com/api/oembed/',                   true  ),
 			'#https?://rd\.io/x/.*#i'                            => array( 'http://www.rdio.com/api/oembed/',                   true  ),
 			'#https?://(open|play)\.spotify\.com/.*#i'           => array( 'https://embed.spotify.com/oembed/',                 true  ),
-		) );
+		);
+		/**
+		 * Filter the list of oEmbed providers.
+		 *
+		 * Discovery is disabled for users lacking the unfiltered_html capability.
+		 * Only providers in this array will be used for those users.
+		 *
+		 * @see wp_oembed_add_provider()
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array $providers An array of popular oEmbed providers.
+		 */
+		$this->providers = apply_filters( 'oembed_providers', $providers );
 
 		// Fix any embeds that contain new lines in the middle of the HTML which breaks wpautop().
 		add_filter( 'oembed_dataparse', array($this, '_strip_newlines'), 10, 3 );
@@ -100,6 +110,15 @@ class WP_oEmbed {
 		if ( !$provider || false === $data = $this->fetch( $provider, $url, $args ) )
 			return false;
 
+		/**
+		 * Filter the HTML returned by the oEmbed provider.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $data The returned oEmbed HTML.
+		 * @param string $url  URL of the content to be embedded.
+		 * @param array  $args Optional arguments, usually passed from a shortcode.
+		 */
 		return apply_filters( 'oembed_result', $this->data2html( $data, $url ), $url, $args );
 	}
 
@@ -115,11 +134,19 @@ class WP_oEmbed {
 		// Fetch URL content
 		if ( $html = wp_remote_retrieve_body( wp_safe_remote_get( $url ) ) ) {
 
-			// <link> types that contain oEmbed provider URLs
+			/**
+			 * Filter the link types that contain oEmbed provider URLs.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param array $format Array of oEmbed link types. Accepts 'application/json+oembed',
+			 *                      'text/xml+oembed', and 'application/xml+oembed' (incorrect,
+			 *                      used by at least Vimeo).
+			 */
 			$linktypes = apply_filters( 'oembed_linktypes', array(
 				'application/json+oembed' => 'json',
 				'text/xml+oembed' => 'xml',
-				'application/xml+oembed' => 'xml', // Incorrect, but used by at least Vimeo
+				'application/xml+oembed' => 'xml',
 			) );
 
 			// Strip <body>
@@ -173,6 +200,15 @@ class WP_oEmbed {
 		$provider = add_query_arg( 'maxheight', (int) $args['height'], $provider );
 		$provider = add_query_arg( 'url', urlencode($url), $provider );
 
+		/**
+		 * Filter the oEmbed URL to be fetched.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $provider URL of the oEmbed provider.
+		 * @param string $url      URL of the content to be embedded.
+		 * @param array  $args     Optional arguments, usually passed from a shortcode.
+		 */
 		$provider = apply_filters( 'oembed_fetch_url', $provider, $url, $args );
 
 		foreach( array( 'json', 'xml' ) as $format ) {
@@ -309,7 +345,17 @@ class WP_oEmbed {
 				$return = false;
 		}
 
-		// You can use this filter to add support for custom data types or to filter the result
+		/**
+		 * Filter the returned oEmbed HTML.
+		 *
+		 * Use this filter to add support for custom data types, or to filter the result.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $return The returned oEmbed HTML.
+		 * @param object $data   A data object result from an oEmbed provider.
+		 * @param string $url    The URL of the content to be embedded.
+		 */
 		return apply_filters( 'oembed_dataparse', $return, $data, $url );
 	}
 
