@@ -117,4 +117,16 @@
 
 	} );
 
+	/* Accessibility hover styles for menu. */
+	$( '.primary-navigation li' ).hover( function() {
+			$( this ).addClass( 'a11y-focus' );
+		}, function() {
+			$( this ).delay( '250' ).removeClass( 'a11y-focus' );
+		}
+	);
+	$( '.primary-navigation li a' ).on( 'focus blur', function() {
+			$( this ).parents().toggleClass( 'a11y-focus' );
+		}
+	);
+	
 } )( jQuery );

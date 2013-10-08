@@ -685,11 +685,10 @@ body {
 }
 .primary-navigation ul ul {
 	background-color: rgba(0, 0, 0, 0.9);
-	display: none;
 	float: left;
 	position: absolute;
 		top: 48px;
-		left: 0;
+		left: -999em;
 	z-index: 99999;
 }
 .primary-navigation li li {
@@ -698,7 +697,7 @@ body {
 	line-height: 1.6363636363;
 }
 .primary-navigation ul ul ul {
-	left: 100%;
+	left: -999em;
 	top: 0;
 }
 .primary-navigation ul ul a {
@@ -715,8 +714,13 @@ body {
 .primary-navigation ul ul a:hover {
 	color: #8c8c8c;
 }
-.primary-navigation ul li:hover > ul {
-	display: block;
+.primary-navigation ul li:hover > ul,
+.primary-navigation ul li.a11y-focus > ul {
+	left: auto;	
+}
+.primary-navigation ul ul li:hover > ul,
+.primary-navigation ul ul li.a11y-focus > ul {
+	left: 100%;
 }
 .primary-navigation li.current_page_item > a,
 .primary-navigation li.current-menu-item > a {
