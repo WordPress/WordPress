@@ -40,7 +40,16 @@ function get_categories( $args = '' ) {
 	$defaults = array( 'taxonomy' => 'category' );
 	$args = wp_parse_args( $args, $defaults );
 
-	$taxonomy = apply_filters( 'get_categories_taxonomy', $args['taxonomy'], $args );
+	$taxonomy = $args['taxonomy'];
+	/**
+	 * Filter the taxonomy used to retrieve terms when calling get_categories().
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $taxonomy Taxonomy to retrieve terms from.
+	 * @param array  $args     An array of arguments. @see get_terms()
+	 */
+	$taxonomy = apply_filters( 'get_categories_taxonomy', $taxonomy, $args );
 
 	// Back compat
 	if ( isset($args['type']) && 'link' == $args['type'] ) {
@@ -262,7 +271,15 @@ function get_tags( $args = '' ) {
 		$return = array();
 		return $return;
 	}
-
+	
+	/**
+	 * Filter the array of term objects returned for the 'post_tag' taxonomy.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param array $tags Array of 'post_tag' term objects.
+	 * @param array $args An array of arguments. @see get_terms()
+	 */
 	$tags = apply_filters( 'get_tags', $tags, $args );
 	return $tags;
 }
