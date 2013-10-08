@@ -2517,8 +2517,12 @@ span > object {
 		float: left;
 		line-height: 1.6363636363;
 		margin: 0 0 0 -100%;
+		min-height: 100vh;
 		padding: 0 27px;
 		width: 128px;
+	}
+	body.footer-widgets #secondary {
+		min-height: 0;
 	}
 	.site-description {
 		display: block;

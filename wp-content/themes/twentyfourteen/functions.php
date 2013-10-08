@@ -459,6 +459,7 @@ add_action( 'pre_get_posts', 'twentyfourteen_pre_get_posts' );
  * 1. Single or multiple authors.
  * 2. Index views.
  * 3. Full-width content layout.
+ * 4. Presence of footer widgets.
  *
  * @param array $classes A list of existing body class values.
  * @return array The filtered body class list.
@@ -475,6 +476,9 @@ function twentyfourteen_body_classes( $classes ) {
 		|| is_page_template( 'contributor-page.php' )
 		|| is_attachment() )
 		$classes[] = 'full-width';
+
+	if ( is_active_sidebar( 'sidebar-4' ) )
+		$classes[] = 'footer-widgets';
 
 	return $classes;
 }
