@@ -609,7 +609,8 @@ body {
 	text-align: center;
 	text-transform: uppercase;
 }
-.search-toggle a {
+.search-toggle a,
+.search-toggle a:hover {
 	color: #fff;
 }
 .search-toggle:hover,
@@ -710,6 +711,9 @@ body {
 .primary-navigation li:hover > a {
 	background-color: #2b2b2b;
 	color: #fff;
+}
+.primary-navigation ul ul a:hover {
+	color: #8c8c8c;
 }
 .primary-navigation ul li:hover > ul {
 	display: block;
