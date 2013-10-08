@@ -175,17 +175,21 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
-	 * Processes current image and saves to disk
-	 * multiple sizes from single source.
-	 *
-	 * 'width' and 'height' are required.
-	 * 'crop' defaults to false when not provided.
+	 * Resize multiple images from a single source.
 	 *
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @param array $sizes { {'width'=>int, 'height'=>int, ['crop'=>bool]}, ... }
-	 * @return array
+	 * @param array $sizes {
+	 *     An array of image size arrays. Default sizes are 'small', 'medium', 'large'.
+	 *
+	 *     @type array $size {
+	 *         @type int  $width  Image width.
+	 *         @type int  $height Image height.
+	 *         @type bool $crop   Optional. Whether to crop the image. Default false.
+	 *     }
+	 * }
+	 * @return array An array of resized images metadata by size.
 	 */
 	public function multi_resize( $sizes ) {
 		$metadata = array();
