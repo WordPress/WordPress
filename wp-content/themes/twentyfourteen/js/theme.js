@@ -128,5 +128,5 @@
 			$( this ).parents().toggleClass( 'a11y-focus' );
 		}
 	);
-	
+
 } )( jQuery );

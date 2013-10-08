@@ -143,3 +143,26 @@ function twentyfourteen_category_transient_flusher() {
 }
 add_action( 'edit_category', 'twentyfourteen_category_transient_flusher' );
 add_action( 'save_post',     'twentyfourteen_category_transient_flusher' );
+
+/**
+ * Displays featured image with appropriate html tag.
+ *
+ * @return void
+ */
+function twentyfourteen_featured_thumbnail() {
+	if ( ! post_password_required() ) :
+		if ( has_post_thumbnail() && is_singular() ) :
+		?>
+			<div class="attachment-featured-thumbnail">
+				<?php the_post_thumbnail( 'featured-thumbnail-large' ); ?>
+			</div>
+		<?php
+		else :
+		?>
+			<a href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>" class="attachment-featured-thumbnail">
+				<?php the_post_thumbnail( 'featured-thumbnail-large' ); ?>
+			</a>
+		<?php
+		endif;
+	endif;
+}

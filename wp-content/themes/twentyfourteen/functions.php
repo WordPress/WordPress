@@ -59,7 +59,7 @@ function twentyfourteen_setup() {
 	add_theme_support( 'automatic-feed-links' );
 
 	// Enable support for Post Thumbnails.
-	add_theme_support( 'post-thumbnails', array( 'post' ) );
+	add_theme_support( 'post-thumbnails' );
 
 	// Adding several sizes for Post Thumbnails.
 	add_image_size( 'featured-thumbnail-large', 672, 0 );
@@ -479,6 +479,23 @@ function twentyfourteen_body_classes( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'twentyfourteen_body_classes' );
+
+/**
+ * Extends the default WordPress post classes.
+ *
+ * Adds a post class to denote:
+ * Non-password protected page with a featured image.
+ *
+ * @param array $classes A list of existing post class values.
+ * @return array The filtered post class list.
+ */
+function twentyfourteen_post_classes( $classes ) {
+	if ( ! post_password_required() && has_post_thumbnail() )
+		$classes[] = 'has-featured-image';
+
+	return $classes;
+}
+add_filter( 'post_class', 'twentyfourteen_post_classes' );
 
 /**
  * Creates a nicely formatted and more specific title element text for output
