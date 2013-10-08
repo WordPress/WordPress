@@ -2466,7 +2466,7 @@ function attachment_submitbox_metadata() {
 			<?php
 		endif;
 
-	if ( preg_match( '#^audio|video#', $post->post_mime_type ) ):
+	if ( preg_match( '#^(audio|video)#', $post->post_mime_type ) ):
 
 		/**
 		 * Audio and video metadata fields to be shown in the publish meta box.
