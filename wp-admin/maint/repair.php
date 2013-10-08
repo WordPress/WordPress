@@ -38,7 +38,14 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
 	if ( is_multisite() && ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->sitecategories'" ) )
 		unset( $tables['sitecategories'] );
 
-	$tables = array_merge( $tables, (array) apply_filters( 'tables_to_repair', array() ) ); // Return tables with table prefixes.
+	/**
+	 * Filter additional database tables to repair.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $tables Array of prefixed table names to be repaired.
+	 */
+	$tables = array_merge( $tables, (array) apply_filters( 'tables_to_repair', array() ) );
 
 	// Loop over the tables, checking and repairing as needed.
 	foreach ( $tables as $table ) {
