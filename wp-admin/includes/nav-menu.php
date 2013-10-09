@@ -299,17 +299,22 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		$output .= $indent . '<li>';
 		$output .= '<label class="menu-item-title">';
 		$output .= '<input type="checkbox" class="menu-item-checkbox';
-		if ( property_exists( $item, 'front_or_home' ) && $item->front_or_home ) {
-			$title = sprintf( _x( 'Home: %s', 'nav menu front page title' ), get_the_title( $item->ID ) );
+
+		if ( ! empty( $item->front_or_home ) )
 			$output .= ' add-to-top';
-		} elseif ( property_exists( $item, 'label' ) ) {
-			$title = $item->label;
-		}
+
 		$output .= '" name="menu-item[' . $possible_object_id . '][menu-item-object-id]" value="'. esc_attr( $item->object_id ) .'" /> ';
-		if ( isset( $item->post_type ) )
-			$output .= empty( $item->label ) ? esc_html( get_the_title( $item->ID ) ) : esc_html( $item->label );
-		else
-			$output .= isset( $title ) ? esc_html( $title ) : esc_html( $item->title );
+
+		if ( ! empty( $item->label ) ) {
+			$title = $item->label;
+		} elseif ( isset( $item->post_type ) ) {
+			//duplicate_hook
+			$title = apply_filters( 'the_title', $item->post_title, $item->ID );
+			if ( ! empty( $item->front_or_home ) && _x( 'Home', 'nav menu home label' ) !== $title )
+				$title = sprintf( _x( 'Home: %s', 'nav menu front page title' ), $title );
+		}
+
+		$output .= isset( $title ) ? esc_html( $title ) : esc_html( $item->title );
  		$output .= '</label>';
 
 		// Menu item hidden fields
