@@ -836,9 +836,9 @@ function WP_Filesystem( $args = false, $context = false ) {
 
 	// Set the permission constants if not already set.
 	if ( ! defined('FS_CHMOD_DIR') )
-		define('FS_CHMOD_DIR', ( fileperms( ABSPATH ) & 0777 | 0750 ) );
+		define('FS_CHMOD_DIR', ( fileperms( ABSPATH ) & 0777 | 0755 ) );
 	if ( ! defined('FS_CHMOD_FILE') )
-		define('FS_CHMOD_FILE', ( fileperms( ABSPATH . 'index.php' ) & 0777 | 0640 ) );
+		define('FS_CHMOD_FILE', ( fileperms( ABSPATH . 'index.php' ) & 0777 | 0644 ) );
 
 	return true;
 }
