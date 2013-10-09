@@ -226,9 +226,9 @@ pre {
 	font-size: 15px;
 	line-height: 1.6;
 	margin-bottom: 24px;
-	padding: 12px;
-	overflow: auto;
 	max-width: 100%;
+	overflow: auto;
+	padding: 12px;
 }
 code, kbd, tt, var {
 	font: 15px/1.6 Monaco, Consolas, 'Andale Mono', 'DejaVu Sans Mono', monospace;
@@ -474,14 +474,14 @@ input[type="submit"] {
 .search-toggle:before,
 .contributor-posts-link:before,
 .widget_twentyfourteen_ephemera .widget-title:before {
-	display: inline-block;
 	-webkit-font-smoothing: antialiased;
-	font-size: 16px;
-	line-height: 1;
+	display: inline-block;
 	font-family: 'Genericons';
-	text-decoration: inherit;
-	font-weight: normal;
+	font-size: 16px;
 	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	text-decoration: inherit;
 	vertical-align: top;
 }
 
@@ -583,15 +583,15 @@ body {
 }
 #nav-toggle {
 	background-color: #000;
+	line-height: 1;
 	padding: 16px;
 	position: absolute;
 		top:0;
 		right: 0;
-	line-height: 1;
 }
 #nav-toggle:before {
-	content: '\F419';
 	color: #fff;
+	content: '\F419';
 }
 #nav-toggle:hover {
 	cursor: pointer;
@@ -705,8 +705,8 @@ body {
 }
 .primary-navigation ul ul a {
 	padding: 9px 12px;
-	width: 148px;
 	white-space: normal;
+	width: 148px;
 }
 .primary-navigation ul ul li {
 }
@@ -738,8 +738,8 @@ body {
 	max-width: 474px;
 }
 .secondary-navigation a {
-	display: block;
 	color: #fff;
+	display: block;
 	font-weight: 700;
 	padding: 7px 0 7px;
 	text-transform: uppercase;
@@ -865,7 +865,7 @@ body {
 	clear: both;
 	color: #767676;
 	font-size: 12px;
-	font-weight:400;
+	font-weight: 400;
 	line-height: 1.3333333333;
 }
 .entry-meta a {
@@ -1160,7 +1160,7 @@ footer.entry-meta .entry-title a:hover {
 	margin: 0;
 }
 .entry-content .edit-link {
-	clear:both;
+	clear: both;
 	display: block;
 }
 
@@ -1580,12 +1580,12 @@ span > object {
 	padding: 0 10px;
 }
 .nav-links {
- 	border-top: 1px solid rgba(0, 0, 0, 0.1);
- }
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
 .post-navigation [rel="prev"],
 .post-navigation [rel="next"],
 .image-navigation .previous-image,
-.image-navigation .next-image  {
+.image-navigation .next-image {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing:    border-box;
@@ -1602,8 +1602,8 @@ span > object {
 	color: #767676;
 	display: block;
 	font-size: 12px;
-	line-height: 2;
 	font-weight: 900;
+	line-height: 2;
 	text-transform: uppercase;
 }
 .site-content .post-navigation a,
@@ -1772,8 +1772,8 @@ span > object {
 	border: none;
 }
 .comment-respond {
-	padding: 0;
 	margin-bottom: 24px;
+	padding: 0;
 }
 .comment .comment-respond {
 	margin-left: 36px;
@@ -1902,8 +1902,8 @@ span > object {
 }
 .widget select,
 .widget iframe {
-	max-width: 99%;
 	margin-left: 1px;
+	max-width: 99%;
 }
 .widget table:last-child,
 .widget iframe:last-child,
@@ -1913,7 +1913,7 @@ span > object {
 	margin-bottom: 0;
 }
 
-/* Caledar widget*/
+/* Calendar widget*/
 .widget_calendar a {
 	background-color: #24890d;
 	color: #fff;
@@ -1957,7 +1957,7 @@ span > object {
 /* Cloud Widgets */
 .wp_widget_tag_cloud div,
 .widget_tag_cloud div {
- 	word-wrap: break-word;
+	word-wrap: break-word;
 }
 
 /* RSS Widget */
@@ -2063,14 +2063,14 @@ span > object {
 	padding: 8px 0 9px;
 }
 .content-sidebar .widget li:first-child {
-	border-top:	none;
+	border-top: none;
 }
 .content-sidebar .widget .children,
 .content-sidebar .widget .sub-menu {
-	margin:0 0 0 20px;
+	margin: 0 0 0 20px;
 }
 .content-sidebar .widget li li {
-	border-top:	none;
+	border-top: none;
 	padding-bottom: 0;
 }
 .content-sidebar .widget_calendar table,
@@ -2121,10 +2121,10 @@ span > object {
 	max-width: 474px;
 }
 .contributor-avatar {
-	float: left;
-	padding: 2px;
 	border: 1px solid rgba(0, 0, 0, 0.1);
+	float: left;
 	margin: 0 30px 20px 0;
+	padding: 2px;
 }
 .contributor-avatar .avatar {
 	vertical-align: middle;
@@ -2184,11 +2184,11 @@ span > object {
 		padding: 0;
 	}
 	.list-view .content-area .entry-title {
-		 font-size: 15px;
-		 font-weight: 900;
-		 line-height: 1.2;
-		 margin-bottom: 6px;
-		 text-transform: none;
+		font-size: 15px;
+		font-weight: 900;
+		line-height: 1.2;
+		margin-bottom: 6px;
+		text-transform: none;
 	}
 	.list-view .content-area .entry-meta {
 		background-color: transparent;
@@ -2420,7 +2420,7 @@ span > object {
 		margin-left: -168px;
 	}
 	.contributor-summary {
-		float: left
+		float: left;
 	}
 }
 
@@ -2511,8 +2511,8 @@ span > object {
 		background-color: transparent;
 		border-bottom: 0;
 		clear: none;
-		font-size: 11px;
 		float: left;
+		font-size: 11px;
 		line-height: 1.6363636363;
 		margin: 0 0 0 -100%;
 		min-height: 100vh;
