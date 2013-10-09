@@ -458,8 +458,10 @@ function get_body_class( $class = '' ) {
 	} elseif ( is_archive() ) {
 		if ( is_post_type_archive() ) {
 			$classes[] = 'post-type-archive';
-			foreach ( (array) get_query_var( 'post_type' ) as $post_type )
-				$classes[] = 'post-type-archive-' . sanitize_html_class( $post_type );
+			$post_type = get_query_var( 'post_type' );
+			if ( is_array( $post_type ) )
+				$post_type = reset( $post_type );
+			$classes[] = 'post-type-archive-' . sanitize_html_class( $post_type );
 		} else if ( is_author() ) {
 			$author = $wp_query->get_queried_object();
 			$classes[] = 'author';
