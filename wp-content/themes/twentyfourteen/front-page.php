@@ -15,7 +15,7 @@ get_header(); ?>
 			get_template_part( 'featured-content' );
 	?>
 
-		<div id="primary" class="content-area no-sidebar">
+		<div id="primary" class="content-area">
 			<div id="content" class="site-content" role="main">
 			<?php
 				if ( have_posts() ) :
