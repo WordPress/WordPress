@@ -46,7 +46,7 @@
 
 			<nav role="navigation" class="site-navigation primary-navigation">
 				<h1 class="screen-reader-text"><?php _e( 'Primary Menu', 'twentyfourteen' ); ?></h1>
-				<div class="screen-reader-text skip-link"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentyfourteen' ); ?>"><?php _e( 'Skip to content', 'twentyfourteen' ); ?></a></div>
+				<a class="screen-reader-text skip-link" href="#content"><?php _e( 'Skip to content', 'twentyfourteen' ); ?></a></a>
 				<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
 			</nav>
 		</div>
