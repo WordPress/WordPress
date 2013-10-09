@@ -27,9 +27,8 @@ get_header(); ?>
 						the_post();
 
 						printf( __( 'All posts by %s', 'twentyfourteen' ), sprintf(
-								'<span class="vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="me">%3$s</a></span>',
+								'<span class="vcard"><a class="url fn n" href="%1$s" rel="me">%2$s</a></span>',
 								esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-								esc_attr( get_the_author() ),
 								get_the_author()
 						) );
 					?>

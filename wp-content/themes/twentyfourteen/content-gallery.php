@@ -29,7 +29,7 @@ endif;
 		<?php echo wp_get_attachment_image( $image, 'featured-thumbnail-large' ); ?>
 	</div>
 	<?php elseif ( $image ) : ?>
-	<a class="attachment-featured-thumbnail" href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'twentyfourteen' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="<?php the_ID(); ?>">
+	<a class="attachment-featured-thumbnail" href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>">
 		<?php echo wp_get_attachment_image( $image, 'featured-thumbnail-large' ); ?>
 	</a>
 	<?php endif; ?>
@@ -51,7 +51,7 @@ endif;
 
 		<div class="entry-meta">
 			<span class="post-format">
-				<a class="entry-format" href="<?php echo esc_url( get_post_format_link( 'gallery' ) ); ?>" title="<?php echo esc_attr( sprintf( __( 'All %s posts', 'twentyfourteen' ), get_post_format_string( 'gallery' ) ) ); ?>"><?php echo get_post_format_string( 'gallery' ); ?></a>
+				<a class="entry-format" href="<?php echo esc_url( get_post_format_link( 'gallery' ) ); ?>"><?php echo get_post_format_string( 'gallery' ); ?></a>
 			</span>
 
 			<?php twentyfourteen_posted_on(); ?>

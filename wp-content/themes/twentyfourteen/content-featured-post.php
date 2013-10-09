@@ -6,7 +6,7 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<a class="attachment-featured-featured" href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'twentyfourteen' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="<?php the_ID(); ?>">
+	<a class="attachment-featured-featured" href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>">
 		<?php
 			if ( has_post_thumbnail() ) :
 				the_post_thumbnail( 'featured-thumbnail-featured' );
