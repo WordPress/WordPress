@@ -1022,11 +1022,10 @@ footer.entry-meta .entry-title a:hover {
 .page .entry-content,
 .error404 .page-header,
 .error404 .page-content,
-.single-attachment .entry-header,
-.single-attachment .entry-content {
+.attachment .entry-content {
 	padding-top: 0;
 }
-.single-attachment footer.entry-meta {
+.attachment footer.entry-meta {
 	text-transform: none;
 }
 .more-link,
@@ -2405,12 +2404,12 @@ span > object {
 		margin-right: -168px;
 	}
 	.full-width .entry-content img.size-full.alignnone,
-	.single-attachment .entry-content .attachment {
+	.attachment .entry-content .attachment {
 		margin-right: -168px;
 		margin-left: -168px;
 		max-width: 810px;
 	}
-	.single-attachment .entry-content .attachment img {
+	.attachment .entry-content .attachment img {
 		margin: 0 auto;
 	}
 	.full-width .entry-content blockquote.alignleft,
