@@ -234,7 +234,7 @@ code, kbd, tt, var {
 	font: 15px/1.6 Monaco, Consolas, 'Andale Mono', 'DejaVu Sans Mono', monospace;
 }
 abbr, acronym {
-	border-bottom: 1px dotted rgba(0, 0, 0, 0.1);
+	border-bottom: 1px dotted #2b2b2b;
 	cursor: help;
 }
 mark, ins {
@@ -1621,7 +1621,6 @@ span > object {
 	color: #24890d;
 }
 .comment-navigation {
-	color: rgba(0, 0, 0, 0.2);
 	font-size: 12px;
 	line-height: 2;
 	margin-bottom: 48px;

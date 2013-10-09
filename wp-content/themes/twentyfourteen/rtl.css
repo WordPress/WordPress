@@ -176,7 +176,8 @@ blockquote.pull.alignleft {
 	border-right: none;
 }
 
-.tag-links a:hover:before {
+.tag-links a:hover:before,
+.tag-links a:focus:before {
 	border-left-color: #2b2b2b;
 }
 
