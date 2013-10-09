@@ -26,7 +26,7 @@ get_header(); ?>
 				<?php while ( have_posts() ) : the_post(); ?>
 
 				<?php
-					/**
+					/*
 					 * We are using a heading by rendering the_content
 					 * If we have content for this page, let's display it.
 					 */
@@ -37,7 +37,7 @@ get_header(); ?>
 				<?php endwhile; ?>
 
 				<?php
-					/**
+					/*
 					 * Begin the featured posts section.
 					 *
 					 * See if we have any sticky posts and use them to create our featured posts.
@@ -61,7 +61,7 @@ get_header(); ?>
 					// Proceed only if published posts exist
 					if ( $featured->have_posts() ) :
 
-					/**
+					/*
 					 * We will need to count featured posts starting from zero
 					 * to create the slider navigation.
 					 */
@@ -84,7 +84,7 @@ get_header(); ?>
 					// Increase the counter.
 					$counter_slider++;
 
-					/**
+					/*
 					 * We're going to add a class to our featured post for featured images
 					 * by default it'll have the feature-text class.
 					 */
@@ -108,7 +108,7 @@ get_header(); ?>
 					<section class="featured-post <?php echo $feature_class; ?>" id="featured-post-<?php echo $counter_slider; ?>">
 
 						<?php
-							/**
+							/*
 							 * If the thumbnail is as big as the header image
 							 * make it a large featured post, otherwise render it small
 							 */

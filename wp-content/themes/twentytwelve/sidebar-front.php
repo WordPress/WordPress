@@ -9,7 +9,7 @@
  * @since Twenty Twelve 1.0
  */
 
-/**
+/*
  * The front page widget area is triggered if any of the areas
  * have widgets. So let's check that first.
  *

@@ -38,13 +38,11 @@
  * @since Twenty Eleven 1.0
  */
 
-/**
- * Set the content width based on the theme's design and stylesheet.
- */
+// Set the content width based on the theme's design and stylesheet.
 if ( ! isset( $content_width ) )
 	$content_width = 584;
 
-/**
+/*
  * Tell WordPress to run twentyeleven_setup() when the 'after_setup_theme' hook is run.
  */
 add_action( 'after_setup_theme', 'twentyeleven_setup' );
@@ -72,7 +70,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ):
  */
 function twentyeleven_setup() {
 
-	/**
+	/*
 	 * Make Twenty Eleven available for translation.
 	 * Translations can be added to the /languages/ directory.
 	 * If you're building a theme based on Twenty Eleven, use
@@ -107,7 +105,7 @@ function twentyeleven_setup() {
 
 	// Add support for custom backgrounds.
 	add_theme_support( 'custom-background', array(
-		/**
+		/*
 		 * Let WordPress know what our default background color is.
 		 * This is dependent on our current color scheme.
 		 */
@@ -162,14 +160,14 @@ function twentyeleven_setup() {
 		add_custom_background();
 	}
 
-	/**
+	/*
 	 * We'll be using post thumbnails for custom header images on posts and pages.
 	 * We want them to be the size of the header image that we just defined.
 	 * Larger images will be auto-cropped to fit, smaller ones will be ignored. See header.php.
 	 */
 	set_post_thumbnail_size( $custom_header_support['width'], $custom_header_support['height'], true );
 
-	/**
+	/*
 	 * Add Twenty Eleven's custom image sizes.
 	 * Used for large feature (header) images.
 	 */

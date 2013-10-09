@@ -39,7 +39,7 @@
 <?php endif; ?>
 
 <?php
-	/**
+	/*
 	 * Start the Loop.
 	 *
 	 * In Twenty Ten we use the same loop in multiple contexts.

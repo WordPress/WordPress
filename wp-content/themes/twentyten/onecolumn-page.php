@@ -18,7 +18,7 @@ get_header(); ?>
 			<div id="content" role="main">
 
 			<?php
-			/**
+			/*
 			 * Run the loop to output the page.
 			 * If you want to overload this in a child theme then include a file
 			 * called loop-page.php and that will be used instead.

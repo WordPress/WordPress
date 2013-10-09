@@ -40,7 +40,7 @@ function twentythirteen_custom_header_setup() {
 
 	add_theme_support( 'custom-header', $args );
 
-	/**
+	/*
 	 * Default custom headers packaged with the theme.
 	 * %s is a placeholder for the theme template directory URI.
 	 */

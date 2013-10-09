@@ -13,7 +13,7 @@ get_header(); ?>
 			<div id="content" role="main">
 
 <?php
-	/**
+	/*
 	 * Queue the first post, that way we know who
 	 * the author is when we try to get their name,
 	 * URL, description, avatar, etc.
@@ -51,14 +51,14 @@ if ( get_the_author_meta( 'description' ) ) : ?>
 <?php endif; ?>
 
 <?php
-	/**
+	/*
 	 * Since we called the_post() above, we need to
 	 * rewind the loop back to the beginning that way
 	 * we can run the loop properly, in full.
 	 */
 	rewind_posts();
 
-	/**
+	/*
 	 * Run the loop for the author archive page to output the authors posts
 	 * If you want to overload this in a child theme then include a file
 	 * called loop-author.php and that will be used instead.

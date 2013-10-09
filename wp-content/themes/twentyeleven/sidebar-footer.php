@@ -9,7 +9,7 @@
 ?>
 
 <?php
-	/**
+	/*
 	 * The footer widget area is triggered if any of the areas
 	 * have widgets. So let's check that first.
 	 *

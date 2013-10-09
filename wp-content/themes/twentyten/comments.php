@@ -18,7 +18,7 @@
 				<p class="nopassword"><?php _e( 'This post is password protected. Enter the password to view any comments.', 'twentyten' ); ?></p>
 			</div><!-- #comments -->
 <?php
-		/**
+		/*
 		 * Stop the rest of comments.php from being processed,
 		 * but don't kill the script entirely -- we still have
 		 * to fully load the template.
@@ -46,7 +46,7 @@
 
 			<ol class="commentlist">
 				<?php
-					/**
+					/*
 					 * Loop through and list the comments. Tell wp_list_comments()
 					 * to use twentyten_comment() to format the comments.
 					 * If you want to overload this in a child theme then you can
@@ -65,7 +65,7 @@
 <?php endif; // check for comment navigation ?>
 
 	<?php
-	/**
+	/*
 	 * If there are no comments and comments are closed, let's leave a little note, shall we?
 	 * But we only want the note on posts and pages that had comments in the first place.
 	 */

@@ -38,7 +38,7 @@
  * @since Twenty Ten 1.0
  */
 
-/**
+/*
  * Set the content width based on the theme's design and stylesheet.
  *
  * Used to set the width of images and content. Should be equal to the width the theme
@@ -47,7 +47,7 @@
 if ( ! isset( $content_width ) )
 	$content_width = 640;
 
-/** Tell WordPress to run twentyten_setup() when the 'after_setup_theme' hook is run. */
+/* Tell WordPress to run twentyten_setup() when the 'after_setup_theme' hook is run. */
 add_action( 'after_setup_theme', 'twentyten_setup' );
 
 if ( ! function_exists( 'twentyten_setup' ) ):
@@ -84,7 +84,7 @@ function twentyten_setup() {
 	// Add default posts and comments RSS feed links to head
 	add_theme_support( 'automatic-feed-links' );
 
-	/**
+	/*
 	 * Make theme available for translation.
 	 * Translations can be filed in the /languages/ directory
 	 */
@@ -104,7 +104,7 @@ function twentyten_setup() {
 	// The custom header business starts here.
 
 	$custom_header_support = array(
-		/**
+		/*
 		 * The default image to use.
 		 * The %s is a placeholder for the theme template directory URI.
 		 */
@@ -147,7 +147,7 @@ function twentyten_setup() {
 		add_custom_background();
 	}
 
-	/**
+	/*
 	 * We'll be using post thumbnails for custom header images on posts and pages.
 	 * We want them to be 940 pixels wide by 198 pixels tall.
 	 * Larger images will be auto-cropped to fit, smaller ones will be ignored. See header.php.

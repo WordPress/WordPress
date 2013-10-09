@@ -23,7 +23,7 @@
  * @since Twenty Thirteen 1.0
  */
 
-/**
+/*
  * Set up the content width value based on the theme's design.
  *
  * @see twentythirteen_content_width() for template-specific adjustments.
@@ -60,7 +60,7 @@ if ( version_compare( $GLOBALS['wp_version'], '3.6-alpha', '<' ) )
  * @return void
  */
 function twentythirteen_setup() {
-	/**
+	/*
 	 * Makes Twenty Thirteen available for translation.
 	 *
 	 * Translations can be added to the /languages/ directory.
@@ -70,7 +70,7 @@ function twentythirteen_setup() {
 	 */
 	load_theme_textdomain( 'twentythirteen', get_template_directory() . '/languages' );
 
-	/**
+	/*
 	 * This theme styles the visual editor to resemble the theme style,
 	 * specifically font, colors, icons, and column width.
 	 */
@@ -79,13 +79,13 @@ function twentythirteen_setup() {
 	// Adds RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
 
-	/**
+	/*
 	 * Switches default core markup for search form, comment form,
 	 * and comments to output valid HTML5.
 	 */
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list' ) );
 
-	/**
+	/*
 	 * This theme supports all available post formats by default.
 	 * See http://codex.wordpress.org/Post_Formats
 	 */
@@ -96,7 +96,7 @@ function twentythirteen_setup() {
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menu( 'primary', __( 'Navigation Menu', 'twentythirteen' ) );
 
-	/**
+	/*
 	 * This theme uses a custom image size for featured images, displayed on
 	 * "standard" posts and pages.
 	 */
@@ -121,14 +121,14 @@ add_action( 'after_setup_theme', 'twentythirteen_setup' );
 function twentythirteen_fonts_url() {
 	$fonts_url = '';
 
-	/**
+	/*
 	 * Translators: If there are characters in your language that are not
 	 * supported by Source Sans Pro, translate this to 'off'. Do not translate
 	 * into your own language.
 	 */
 	$source_sans_pro = _x( 'on', 'Source Sans Pro font: on or off', 'twentythirteen' );
 
-	/**
+	/*
 	 * Translators: If there are characters in your language that are not
 	 * supported by Bitter, translate this to 'off'. Do not translate into your
 	 * own language.
@@ -162,7 +162,7 @@ function twentythirteen_fonts_url() {
  * @return void
  */
 function twentythirteen_scripts_styles() {
-	/**
+	/*
 	 * Adds JavaScript to pages with the comment form to support
 	 * sites with threaded comments (when in use).
 	 */
@@ -413,7 +413,7 @@ function twentythirteen_the_attached_image() {
 	$next_attachment_url = wp_get_attachment_url();
 	$post                = get_post();
 
-	/**
+	/*
 	 * Grab the IDs of all the image attachments in a gallery so we can get the URL
 	 * of the next adjacent image in a gallery, or the first image (if we're
 	 * looking at the last image in a gallery), or, in a gallery of one, just the
