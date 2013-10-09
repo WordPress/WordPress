@@ -284,8 +284,9 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width=0,
 		// The larger ratio fits, and is likely to be a more "snug" fit.
 		$ratio = $larger_ratio;
 
-	$w = intval( $current_width  * $ratio );
-	$h = intval( $current_height * $ratio );
+	// Very small dimensions may result in 0, 1 should be the minimum.
+	$w = max ( 1, intval( $current_width  * $ratio ) );
+	$h = max ( 1, intval( $current_height * $ratio ) );
 
 	// Sometimes, due to rounding, we'll end up with a result like this: 465x700 in a 177x177 box is 117x176... a pixel short
 	// We also have issues with recursive calls resulting in an ever-changing result. Constraining to the result of a constraint should yield the original result.
