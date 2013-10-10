@@ -1740,6 +1740,7 @@ class WP_Automatic_Upgrader {
 			}
 			$extra_update_stats['fs_method'] = $GLOBALS['wp_filesystem']->method;
 			$extra_update_stats['time_taken'] = ( time() - $start_time );
+			$extra_update_stats['attempted'] = $core_update->version;
 		}
 
 		// Cleanup, and check for any pending translations
