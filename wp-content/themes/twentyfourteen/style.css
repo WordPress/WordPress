@@ -675,7 +675,7 @@ body {
 	white-space: nowrap;
 }
 .primary-navigation ul ul {
-	background-color: rgba(0, 0, 0, 0.9);
+	background-color: #24890d;
 	float: left;
 	position: absolute;
 		top: 48px;
@@ -699,11 +699,11 @@ body {
 .primary-navigation ul ul li {
 }
 .primary-navigation li:hover > a {
-	background-color: #2b2b2b;
+	background-color: #24890d;
 	color: #fff;
 }
 .primary-navigation ul ul a:hover {
-	color: #8c8c8c;
+	background-color: #000;
 }
 .primary-navigation ul li:hover > ul,
 .primary-navigation ul li.a11y-focus > ul {
@@ -713,9 +713,9 @@ body {
 .primary-navigation ul ul li.a11y-focus > ul {
 	left: 100%;
 }
-.primary-navigation li.current_page_item > a,
-.primary-navigation li.current-menu-item > a {
-	color: #5FF23D;
+.primary-navigation .current_page_item > a,
+.primary-navigation .current-menu-item > a {
+	color: #5ff23d;
 }
 
 /* Secondary Navigation */

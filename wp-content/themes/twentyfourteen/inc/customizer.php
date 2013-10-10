@@ -131,6 +131,8 @@ function twentyfourteen_customizer_styles() {
 		.hentry .mejs-controls .mejs-time-rail .mejs-time-current,
 		.header-extra,
 		.search-toggle,
+		.primary-navigation ul ul,
+		.primary-navigation li:hover > a,
 		.widget-area button,
 		.widget-area html input[type="button"],
 		.widget-area input[type="reset"],
