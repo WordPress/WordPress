@@ -203,9 +203,8 @@ function twentyfourteen_customizer_styles() {
 		.secondary-navigation a:hover,
 		#secondary .current_page_item > a,
 		#secondary .current-menu-item > a,
-		#featured-content .entry-meta a:hover,
-		#featured-content .entry-title a:hover,
-		#featured-content .more-link,
+		.featured-content a:hover,
+		.featured-content .more-link,
 		.widget-area a:hover {
 			color: ' . $accent_much_lighter . ';
 		}

@@ -446,7 +446,7 @@ blockquote.alignleft {
 		padding: 36px 0 0 10px;
 	}
 
-	#featured-content .hentry {
+	.featured-content .hentry {
 		float: right;
 	}
 }
@@ -628,7 +628,7 @@ blockquote.alignleft {
 		margin: 0 -27.31707317% 0 0;
 	}
 
-	#featured-content {
+	.featured-content {
 		padding-right: 222px;
 		padding-left: 0;
 	}
