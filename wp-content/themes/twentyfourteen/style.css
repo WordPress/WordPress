@@ -389,18 +389,6 @@ a:focus,
 a:active {
 	color: #5FF23D;
 }
-/* Animated elements */
-.site a,
-.more-link .meta-nav,
-.post-format-archive-link .meta-nav,
-.search-toggle,
-button,
-html input[type="button"],
-input[type="reset"],
-input[type="submit"] {
-	-webkit-transition: all 200ms ease-out;
-	transition:         all 200ms ease-out;
-}
 
 /* Alignment */
 .alignleft {
@@ -1082,10 +1070,6 @@ footer.entry-meta .entry-title a:hover {
 	padding-right: 9px;
 	width: auto;
 	height: auto;
-}
-.site .tag-links a {
-	-webkit-transition: all 0ms ease-out;
-	transition:         all 0ms ease-out;
 }
 .tag-links a {
 	background-color: #767676;
