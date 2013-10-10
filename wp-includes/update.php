@@ -17,9 +17,10 @@
  * @since 2.3.0
  * @uses $wp_version Used to check against the newest WordPress version.
  *
+ * @param array $extra_stats Extra statistics to report to the WordPress.org API. 
  * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
  */
-function wp_version_check() {
+function wp_version_check( $extra_stats = array() ) {
 	if ( defined('WP_INSTALLING') )
 		return;
 
@@ -39,7 +40,7 @@ function wp_version_check() {
 	// Wait 60 seconds between multiple version check requests
 	$timeout = 60;
 	$time_not_changed = isset( $current->last_checked ) && $timeout > ( time() - $current->last_checked );
-	if ( $time_not_changed )
+	if ( $time_not_changed && empty( $extra_args ) )
 		return false;
 
 	$locale = get_locale();
@@ -82,8 +83,11 @@ function wp_version_check() {
 		'local_package'     => isset( $wp_local_package ) ? $wp_local_package : '',
 		'blogs'             => $num_blogs,
 		'users'             => $user_count,
-		'multisite_enabled' => $multisite_enabled
+		'multisite_enabled' => $multisite_enabled,
 	);
+
+	if ( $extra_stats )
+		$query = array_merge( $query, $extra_stats );
 
 	$url = 'http://api.wordpress.org/core/version-check/1.7/?' . http_build_query( $query, null, '&' );
 	if ( wp_http_supports( array( 'ssl' ) ) )
@@ -542,7 +546,7 @@ if ( ( ! is_main_site() && ! is_network_admin() ) || ( defined( 'DOING_AJAX' ) &
 
 add_action( 'admin_init', '_maybe_update_core' );
 add_action( 'wp_version_check', 'wp_version_check' );
-add_action( 'upgrader_process_complete', 'wp_version_check' );
+add_action( 'upgrader_process_complete', 'wp_version_check', 10, 0 );
 
 add_action( 'load-plugins.php', 'wp_update_plugins' );
 add_action( 'load-update.php', 'wp_update_plugins' );

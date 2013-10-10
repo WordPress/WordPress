@@ -1299,13 +1299,13 @@ class Core_Upgrader extends WP_Upgrader {
 		$result = update_core( $working_dir, $wp_dir );
 
 		// In the event of an error, rollback to the previous version
-		if ( is_wp_error( $result ) && $parsed_args['attempt_rollback'] && $current->packages->rollback ) {
+		if ( is_wp_error( $result ) && $parsed_args['attempt_rollback'] && $current->packages->rollback && ! $parsed_args['do_rollback'] ) {
 			apply_filters( 'update_feedback', $result );
 			apply_filters( 'update_feedback', $this->strings['start_rollback'] );
 
-			$this->upgrade( $current, array_merge( $parsed_args, array( 'do_rollback' => true ) ) );
+			$rollback_result = $this->upgrade( $current, array_merge( $parsed_args, array( 'do_rollback' => true ) ) );
 
-			$result = new WP_Error( 'rollback_was_required', $this->strings['rollback_was_required'] );
+			$result = new WP_Error( 'rollback_was_required', $this->strings['rollback_was_required'], array( 'rollback' => $rollback_result, 'update' => $result ) );
 		}
 		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'core' ), $result );
 		return $result;
@@ -1726,14 +1726,24 @@ class WP_Automatic_Upgrader {
 
 		// Next, Process any core upgrade
 		wp_version_check(); // Check for Core updates
+		$extra_update_stats = array();
 		$core_update = find_core_auto_update();
 		if ( $core_update ) {
-			self::upgrade( 'core', $core_update );
+			$start_time = time();
+			$core_update_result = self::upgrade( 'core', $core_update );
 			delete_site_transient( 'update_core' );
+			$extra_update_stats['success'] = is_wp_error( $core_update_result ) ? $core_update_result->get_error_code() : true;
+			if ( is_wp_error( $core_update_result ) && 'rollback_was_required' == $core_update_result->get_error_code() ) {
+				$rollback_data = $core_update_result->get_error_data();
+				$extra_update_stats['success'] = is_wp_error( $rollback_data['update'] ) ? $rollback_data['update']->get_error_code() : $rollback_data['update'];
+				$extra_update_stats['rollback'] = is_wp_error( $rollback_data['rollback'] ) ? $rollback_data['rollback']->get_error_code() : $rollback_data['rollback'];
+			}
+			$extra_update_stats['fs_method'] = $GLOBALS['wp_filesystem']->method;
+			$extra_update_stats['time_taken'] = ( time() - $start_time );
 		}
 
 		// Cleanup, and check for any pending translations
-		wp_version_check();  // check for Core updates
+		wp_version_check( $extra_update_stats );  // check for Core updates
 		wp_update_themes();  // Check for Theme updates
 		wp_update_plugins(); // Check for Plugin updates
 
