@@ -8621,11 +8621,6 @@ input.newtag:focus ~ div.taghint {
 	visibility: hidden;
 }
 
-/* TinyMCE */
-#mce_fullscreen_container {
-	background: #fff;
-}
-
 #photo-add-url-div input[type="text"] {
 	width: 300px;
 }
