@@ -40,7 +40,7 @@ function wp_version_check( $extra_stats = array() ) {
 	// Wait 60 seconds between multiple version check requests
 	$timeout = 60;
 	$time_not_changed = isset( $current->last_checked ) && $timeout > ( time() - $current->last_checked );
-	if ( $time_not_changed && empty( $extra_args ) )
+	if ( $time_not_changed && empty( $extra_stats ) )
 		return false;
 
 	$locale = get_locale();
