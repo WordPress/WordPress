@@ -429,6 +429,7 @@ a:active {
 	left: 5px;
 	top: 5px;
 	text-decoration: none;
+	text-transform: none;
 	width: auto;
 	z-index: 100000; /* Above WP toolbar */
 }
@@ -706,11 +707,11 @@ body {
 	background-color: #000;
 }
 .primary-navigation ul li:hover > ul,
-.primary-navigation ul li.a11y-focus > ul {
+.primary-navigation ul li.focus > ul {
 	left: auto;
 }
 .primary-navigation ul ul li:hover > ul,
-.primary-navigation ul ul li.a11y-focus > ul {
+.primary-navigation ul ul li.focus > ul {
 	left: 100%;
 }
 .primary-navigation .current_page_item > a,

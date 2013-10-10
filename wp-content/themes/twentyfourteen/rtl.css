@@ -51,6 +51,11 @@ li > ol {
 	margin-left: auto;
 }
 
+.screen-reader-text:focus {
+	left: auto;
+	right: 5px;
+}
+
 /* =Header
 ----------------------------------------------- */
 
@@ -100,13 +105,25 @@ li > ol {
 
 .primary-navigation ul ul {
 	float: right;
-	right: 0;
+	right: -999em;
 	left: auto;
 }
 
 .primary-navigation ul ul ul {
-	right: 100%;
+	right: -999em;
 	left: auto;
+}
+
+
+.primary-navigation ul li:hover > ul,
+.primary-navigation ul li.focus > ul {
+	right: auto;
+}
+
+.primary-navigation ul ul li:hover > ul,
+.primary-navigation ul ul li.focus > ul {
+	left: auto;
+	right: 100%;
 }
 
 /* Secondary Navigation */
