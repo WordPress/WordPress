@@ -1736,7 +1736,7 @@ class WP_Automatic_Upgrader {
 			if ( is_wp_error( $core_update_result ) && 'rollback_was_required' == $core_update_result->get_error_code() ) {
 				$rollback_data = $core_update_result->get_error_data();
 				$extra_update_stats['success'] = is_wp_error( $rollback_data['update'] ) ? $rollback_data['update']->get_error_code() : $rollback_data['update'];
-				$extra_update_stats['rollback'] = is_wp_error( $rollback_data['rollback'] ) ? $rollback_data['rollback']->get_error_code() : $rollback_data['rollback'];
+				$extra_update_stats['rollback'] = is_wp_error( $rollback_data['rollback'] ) ? $rollback_data['rollback']->get_error_code() : true; // If it's not a WP_Error, the rollback was successful.
 			}
 			$extra_update_stats['fs_method'] = $GLOBALS['wp_filesystem']->method;
 			$extra_update_stats['time_taken'] = ( time() - $start_time );
