@@ -68,12 +68,12 @@ if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
 		}
 	} elseif ( stripos($_SERVER['HTTP_USER_AGENT'], 'safari') !== false ) {
 		$is_safari = true;
-	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Gecko') !== false ) {
-		$is_gecko = true;
-	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Win') !== false ) {
+	} elseif ( ( strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false ) && strpos($_SERVER['HTTP_USER_AGENT'], 'Win') !== false ) {
 		$is_winIE = true;
 	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Mac') !== false ) {
 		$is_macIE = true;
+	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Gecko') !== false ) {
+		$is_gecko = true;
 	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') !== false ) {
 		$is_opera = true;
 	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Nav') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla/4.') !== false ) {
