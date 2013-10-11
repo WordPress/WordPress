@@ -109,8 +109,8 @@
 
 			$( '#footer-sidebar' ).masonry( {
 				itemSelector: '.widget',
-				columnWidth: 225,
-				gutterWidth: 27,
+				columnWidth: 315,
+				gutterWidth: 0,
 				isRTL: $( 'body' ).is( '.rtl' )
 			} );
 		}

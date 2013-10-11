@@ -115,38 +115,23 @@ function twentyfourteen_customizer_styles() {
 		.comment-metadata a:hover,
 		.comment-list .trackback a:hover,
 		.comment-list .pingback a:hover,
-		.content-sidebar a:hover,
-		.paging-navigation .page-numbers.current {
+		.paging-navigation .page-numbers.current,
+		.content-sidebar.widget-area a:hover,
+		.content-sidebar .widget_twentyfourteen_ephemera .post-format-archive-link {
 			color: ' . $accent_color . ';
 		}
 
-		button:hover,
-		html input[type="button"]:hover,
-		input[type="reset"]:hover,
-		input[type="submit"]:hover,
-		button:focus,
-		html input[type="button"]:focus,
-		input[type="reset"]:focus,
-		input[type="submit"]:focus,
+		button,
+		html input[type="button"],
+		input[type="reset"],
+		input[type="submit"],
 		.hentry .mejs-controls .mejs-time-rail .mejs-time-current,
 		.header-extra,
 		.search-toggle,
 		.primary-navigation ul ul,
 		.primary-navigation li:hover > a,
-		.widget-area button,
-		.widget-area html input[type="button"],
-		.widget-area input[type="reset"],
-		.widget-area input[type="submit"],
-		.widget_calendar a,
-		.content-sidebar button:hover,
-		.content-sidebar html input[type="button"]:hover,
-		.content-sidebar input[type="reset"]:hover,
-		.content-sidebar input[type="submit"]:hover,
-		.content-sidebar button:focus,
-		.content-sidebar html input[type="button"]:focus,
-		.content-sidebar input[type="reset"]:focus,
-		.content-sidebar input[type="submit"]:focus,
-		.page-links a:hover {
+		.page-links a:hover,
+		.widget_calendar tbody a {
 			background-color: ' . $accent_color . ';
 		}
 
@@ -167,19 +152,15 @@ function twentyfourteen_customizer_styles() {
 		.search-toggle:hover,
 		.search-toggle.active,
 		.search-box,
-		.widget-area button:hover,
-		.widget-area html input[type="button"]:hover,
-		.widget-area input[type="reset"]:hover,
-		.widget-area input[type="submit"]:hover,
-		.widget-area button:focus,
-		.widget-area html input[type="button"]:focus,
-		.widget-area input[type="reset"]:focus,
-		.widget-area input[type="submit"]:focus,
-		.widget-area button:active,
-		.widget-area html input[type="button"]:active,
-		.widget-area input[type="reset"]:active,
-		.widget-area input[type="submit"]:active,
-		.widget_calendar a:hover {
+		button:hover,
+		html input[type="button"]:hover,
+		input[type="reset"]:hover,
+		input[type="submit"]:hover,
+		button:focus,
+		html input[type="button"]:focus,
+		input[type="reset"]:focus,
+		input[type="submit"]:focus,
+		.widget_calendar tbody a:hover {
 			background-color: ' . $accent_lighter . ';
 		}
 
@@ -187,11 +168,7 @@ function twentyfourteen_customizer_styles() {
 		button:active,
 		html input[type="button"]:active,
 		input[type="reset"]:active,
-		input[type="submit"]:active,
-		.content-sidebar button:active,
-		.content-sidebar html input[type="button"]:active,
-		.content-sidebar input[type="reset"]:active,
-		.content-sidebar input[type="submit"]:active {
+		input[type="submit"]:active {
 			background-color: ' . $accent_much_lighter . ';
 		}
 
