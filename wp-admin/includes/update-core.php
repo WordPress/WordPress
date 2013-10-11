@@ -661,7 +661,7 @@ function update_core($from, $to) {
 	$versions_file = trailingslashit( $wp_filesystem->wp_content_dir() ) . 'upgrade/version-current.php';
 	if ( ! $wp_filesystem->copy( $from . $distro . 'wp-includes/version.php', $versions_file ) ) {
 		 $wp_filesystem->delete( $from, true );
-		 return new WP_Error( 'copy_failed', __('Could not copy file.') );
+		 return new WP_Error( 'copy_failed_for_version_file', __( 'Could not copy file.' ) );
 	}
 
 	$wp_filesystem->chmod( $versions_file, FS_CHMOD_FILE );
@@ -741,10 +741,13 @@ function update_core($from, $to) {
 			$total_size += filesize( $working_dir_local . '/' . $file ); 
 
 		// If we don't have enough free space, it isn't worth trying again
-		if ( $total_size >= disk_free_space( ABSPATH ) )
+		if ( $total_size >= disk_free_space( ABSPATH ) ) {
 			$result = new WP_Error( 'disk_full', __( 'There is not enough free disk space to complete the update.' ), $to );
-		else
+		} else {
 			$result = _copy_dir( $from . $distro, $to, $skip );
+			if ( is_wp_error( $result ) )
+				$result = new WP_Error( $result->get_error_code() . '_retry', $result->get_error_message(), $result->get_error_data() );
+		}
 	}
 
 	// Custom Content Directory needs updating now.
@@ -800,7 +803,7 @@ function update_core($from, $to) {
 						continue;
 
 					if ( ! $wp_filesystem->copy($from . $distro . 'wp-content/' . $file, $dest . $filename, FS_CHMOD_FILE) )
-						$result = new WP_Error('copy_failed', __('Could not copy file.'), $dest . $filename);
+						$result = new WP_Error( 'copy_failed_for_new_bundled', __( 'Could not copy file.' ), $dest . $filename );
 				} else {
 					if ( ! $development_build && $wp_filesystem->is_dir( $dest . $filename ) )
 						continue;
@@ -887,12 +890,12 @@ function _copy_dir($from, $to, $skip_list = array() ) {
 				// If copy failed, chmod file to 0644 and try again.
 				$wp_filesystem->chmod($to . $filename, 0644);
 				if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true, FS_CHMOD_FILE) )
-					return new WP_Error('copy_failed', __('Could not copy file.'), $to . $filename);
+					return new WP_Error( 'copy_failed__copy_dir', __( 'Could not copy file.' ), $to . $filename );
 			}
 		} elseif ( 'd' == $fileinfo['type'] ) {
 			if ( !$wp_filesystem->is_dir($to . $filename) ) {
 				if ( !$wp_filesystem->mkdir($to . $filename, FS_CHMOD_DIR) )
-					return new WP_Error('mkdir_failed', __('Could not create directory.'), $to . $filename);
+					return new WP_Error( 'mkdir_failed__copy_dir', __( 'Could not create directory.' ), $to . $filename );
 			}
 
 			// generate the $sub_skip_list for the subdirectory as a sub-set of the existing $skip_list

@@ -213,7 +213,7 @@ class WP_Upgrader {
 		if ( 1 == count($source_files) && $wp_filesystem->is_dir( trailingslashit($source) . $source_files[0] . '/') ) //Only one folder? Then we want its contents.
 			$source = trailingslashit($source) . trailingslashit($source_files[0]);
 		elseif ( count($source_files) == 0 )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], $this->strings['no_files'] ); //There are no files?
+			return new WP_Error( 'incompatible_archive_empty', $this->strings['incompatible_archive'], $this->strings['no_files'] ); // There are no files?
 		else //It's only a single file, the upgrader will use the foldername of this file as the destination folder. foldername is based on zip filename.
 			$source = trailingslashit($source);
 
@@ -262,7 +262,7 @@ class WP_Upgrader {
 		//Create destination if needed
 		if ( !$wp_filesystem->exists($remote_destination) )
 			if ( !$wp_filesystem->mkdir($remote_destination, FS_CHMOD_DIR) )
-				return new WP_Error('mkdir_failed', $this->strings['mkdir_failed'], $remote_destination);
+				return new WP_Error( 'mkdir_failed_destination', $this->strings['mkdir_failed'], $remote_destination );
 
 		// Copy new version of item into place.
 		$result = copy_dir($source, $remote_destination);
@@ -623,7 +623,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		}
 
 		if ( ! $plugins_found )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __('No valid plugins were found.') );
+			return new WP_Error( 'incompatible_archive_no_plugins', $this->strings['incompatible_archive'], __( 'No valid plugins were found.' ) );
 
 		return $source;
 	}
@@ -989,16 +989,16 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// A proper archive should have a style.css file in the single subdirectory
 		if ( ! file_exists( $working_directory . 'style.css' ) )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __('The theme is missing the <code>style.css</code> stylesheet.') );
+			return new WP_Error( 'incompatible_archive_theme_no_style', $this->strings['incompatible_archive'], __( 'The theme is missing the <code>style.css</code> stylesheet.' ) );
 
 		$info = get_file_data( $working_directory . 'style.css', array( 'Name' => 'Theme Name', 'Template' => 'Template' ) );
 
 		if ( empty( $info['Name'] ) )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __("The <code>style.css</code> stylesheet doesn't contain a valid theme header.") );
+			return new WP_Error( 'incompatible_archive_theme_no_name', $this->strings['incompatible_archive'], __( "The <code>style.css</code> stylesheet doesn't contain a valid theme header." ) );
 
 		// If it's not a child theme, it must have at least an index.php to be legit.
 		if ( empty( $info['Template'] ) && ! file_exists( $working_directory . 'index.php' ) )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __('The theme is missing the <code>index.php</code> file.') );
+			return new WP_Error( 'incompatible_archive_theme_no_index', $this->strings['incompatible_archive'], __( 'The theme is missing the <code>index.php</code> file.' ) );
 
 		return $source;
 	}
@@ -1141,7 +1141,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		$remote_destination = $wp_filesystem->find_folder( WP_LANG_DIR );
 		if ( ! $wp_filesystem->exists( $remote_destination ) )
 			if ( ! $wp_filesystem->mkdir( $remote_destination, FS_CHMOD_DIR ) )
-				return new WP_Error( 'mkdir_failed', $this->strings['mkdir_failed'], $remote_destination );
+				return new WP_Error( 'mkdir_failed_lang_dir', $this->strings['mkdir_failed'], $remote_destination );
 
 		foreach ( $language_updates as $language_update ) {
 
@@ -1200,7 +1200,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		}
 
 		if ( ! $mo || ! $po )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'],
+			return new WP_Error( 'incompatible_archive_pomo', $this->strings['incompatible_archive'],
 				__( 'The language pack is missing either the <code>.po</code> or <code>.mo</code> files.' ) );
 
 		return $source;
@@ -1287,7 +1287,7 @@ class Core_Upgrader extends WP_Upgrader {
 		// Copy update-core.php from the new version into place.
 		if ( !$wp_filesystem->copy($working_dir . '/wordpress/wp-admin/includes/update-core.php', $wp_dir . 'wp-admin/includes/update-core.php', true) ) {
 			$wp_filesystem->delete($working_dir, true);
-			return new WP_Error('copy_failed', $this->strings['copy_failed']);
+			return new WP_Error( 'copy_failed_for_update_core_file', $this->strings['copy_failed'] );
 		}
 		$wp_filesystem->chmod($wp_dir . 'wp-admin/includes/update-core.php', FS_CHMOD_FILE);
 

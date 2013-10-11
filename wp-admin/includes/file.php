@@ -603,7 +603,7 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 
 	for ( $i = 0; $i < $z->numFiles; $i++ ) {
 		if ( ! $info = $z->statIndex($i) )
-			return new WP_Error('stat_failed', __('Could not retrieve file from archive.'));
+			return new WP_Error( 'stat_failed_ziparchive', __( 'Could not retrieve file from archive.' ) );
 
 		if ( '__MACOSX/' === substr($info['name'], 0, 9) ) // Skip the OS X-created __MACOSX directory
 			continue;
@@ -633,13 +633,13 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 	// Create those directories if need be:
 	foreach ( $needed_dirs as $_dir ) {
 		if ( ! $wp_filesystem->mkdir($_dir, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($_dir) ) // Only check to see if the Dir exists upon creation failure. Less I/O this way.
-			return new WP_Error('mkdir_failed', __('Could not create directory.'), $_dir);
+			return new WP_Error( 'mkdir_failed_ziparchive', __( 'Could not create directory.' ), $_dir );
 	}
 	unset($needed_dirs);
 
 	for ( $i = 0; $i < $z->numFiles; $i++ ) {
 		if ( ! $info = $z->statIndex($i) )
-			return new WP_Error('stat_failed', __('Could not retrieve file from archive.'));
+			return new WP_Error( 'stat_failed_ziparchive', __( 'Could not retrieve file from archive.' ) );
 
 		if ( '/' == substr($info['name'], -1) ) // directory
 			continue;
@@ -649,10 +649,10 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 
 		$contents = $z->getFromIndex($i);
 		if ( false === $contents )
-			return new WP_Error('extract_failed', __('Could not extract file from archive.'), $info['name']);
+			return new WP_Error( 'extract_failed_ziparchive', __( 'Could not extract file from archive.' ), $info['name'] );
 
 		if ( ! $wp_filesystem->put_contents( $to . $info['name'], $contents, FS_CHMOD_FILE) )
-			return new WP_Error('copy_failed', __('Could not copy file.'), $to . $info['name']);
+			return new WP_Error( 'copy_failed_ziparchive', __( 'Could not copy file.' ), $to . $info['name'] );
 	}
 
 	$z->close();
@@ -691,7 +691,7 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 		return new WP_Error('incompatible_archive', __('Incompatible Archive.'), $archive->errorInfo(true));
 
 	if ( 0 == count($archive_files) )
-		return new WP_Error('empty_archive', __('Empty archive.'));
+		return new WP_Error( 'empty_archive_pclzip', __( 'Empty archive.' ) );
 
 	// Determine any children directories needed (From within the archive)
 	foreach ( $archive_files as $file ) {
@@ -720,7 +720,7 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 	// Create those directories if need be:
 	foreach ( $needed_dirs as $_dir ) {
 		if ( ! $wp_filesystem->mkdir($_dir, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($_dir) ) // Only check to see if the dir exists upon creation failure. Less I/O this way.
-			return new WP_Error('mkdir_failed', __('Could not create directory.'), $_dir);
+			return new WP_Error( 'mkdir_failed_pclzip', __( 'Could not create directory.' ), $_dir );
 	}
 	unset($needed_dirs);
 
@@ -733,7 +733,7 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 			continue;
 
 		if ( ! $wp_filesystem->put_contents( $to . $file['filename'], $file['content'], FS_CHMOD_FILE) )
-			return new WP_Error('copy_failed', __('Could not copy file.'), $to . $file['filename']);
+			return new WP_Error( 'copy_failed_pclzip', __( 'Could not copy file.' ), $to . $file['filename'] );
 	}
 	return true;
 }
@@ -766,12 +766,12 @@ function copy_dir($from, $to, $skip_list = array() ) {
 				// If copy failed, chmod file to 0644 and try again.
 				$wp_filesystem->chmod($to . $filename, 0644);
 				if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true, FS_CHMOD_FILE) )
-					return new WP_Error('copy_failed', __('Could not copy file.'), $to . $filename);
+					return new WP_Error( 'copy_failed_copy_dir', __( 'Could not copy file.' ), $to . $filename );
 			}
 		} elseif ( 'd' == $fileinfo['type'] ) {
 			if ( !$wp_filesystem->is_dir($to . $filename) ) {
 				if ( !$wp_filesystem->mkdir($to . $filename, FS_CHMOD_DIR) )
-					return new WP_Error('mkdir_failed', __('Could not create directory.'), $to . $filename);
+					return new WP_Error( 'mkdir_failed_copy_dir', __( 'Could not create directory.' ), $to . $filename );
 			}
 
 			// generate the $sub_skip_list for the subdirectory as a sub-set of the existing $skip_list
