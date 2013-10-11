@@ -1,13 +1,16 @@
 <?php
 /**
- * Twenty Fourteen Theme Customizer
+ * Twenty Fourteen Theme Customizer support
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 
 /**
  * Add postMessage support for site title and description for the Theme Customizer.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
@@ -29,7 +32,9 @@ function twentyfourteen_customize_register( $wp_customize ) {
 add_action( 'customize_register', 'twentyfourteen_customize_register' );
 
 /**
- * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
+ * Bind JS handlers to make Theme Customizer preview reload changes asynchronously.
+ *
+ * @since Twenty Fourteen 1.0
  */
 function twentyfourteen_customize_preview_js() {
 	wp_enqueue_script( 'twentyfourteen_customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), '20120827', true );
@@ -37,7 +42,10 @@ function twentyfourteen_customize_preview_js() {
 add_action( 'customize_preview_init', 'twentyfourteen_customize_preview_js' );
 
 /**
- * Generates two variants of the accent color, returns the original, and saves the others as theme mods.
+ * Generate two variants of the accent color, return the original, and
+ * save the others as theme mods.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @param string $color The original color.
  * @return string $color The original color, sanitized.
@@ -52,14 +60,16 @@ function twentyfourteen_generate_accent_colors( $color ) {
 }
 
 /**
- * Tweaks the brightness of a color by adjusting the RGB values by the given interval.
+ * Tweak the brightness of a color by adjusting the RGB values by the given interval.
  *
  * Use positive values of $steps to brighten the color and negative values to darken the color.
  * All three RGB values are modified by the specified steps, within the range of 0-255. The hue
  * is generally maintained unless the number of steps causes one value to be capped at 0 or 255.
  *
+ * @since Twenty Fourteen 1.0
+ *
  * @param string $color The original color, in 3- or 6-digit hexadecimal form.
- * @param int $steps The number of steps to adjust the color by, in rgb units.
+ * @param int $steps The number of steps to adjust the color by, in RGB units.
  * @return string $color The new color, in 6-digit hexadecimal form.
  */
 function twentyfourteen_adjust_color( $color, $steps ) {
@@ -86,7 +96,11 @@ function twentyfourteen_adjust_color( $color, $steps ) {
 }
 
 /**
- * Outputs the css for the Theme Customizer options.
+ * Output the CSS for the Theme Customizer options.
+ *
+ * @since Twenty Fourteen 1.0
+ *
+ * @return void
  */
 function twentyfourteen_customizer_styles() {
 	$accent_color = get_theme_mod( 'accent_color' );

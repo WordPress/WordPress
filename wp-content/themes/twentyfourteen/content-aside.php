@@ -1,9 +1,10 @@
 <?php
 /**
- * The template for displaying posts in the Aside post format.
+ * The template for displaying posts in the Aside post format
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 ?>
 

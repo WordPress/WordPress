@@ -1,11 +1,12 @@
 <?php
 /**
- * The template for displaying Category pages.
+ * The template for displaying Category pages
  *
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ * @link http://codex.wordpress.org/Template_Hierarchy
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 
 get_header(); ?>

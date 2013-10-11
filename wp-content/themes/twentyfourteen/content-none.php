@@ -1,9 +1,10 @@
 <?php
 /**
- * The template for displaying a "No posts found" message.
+ * The template for displaying a "No posts found" message
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 ?>
 

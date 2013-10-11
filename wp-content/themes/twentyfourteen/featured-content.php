@@ -1,11 +1,12 @@
 <?php
 /**
- * The template for displaying featured content.
+ * The template for displaying featured content
  *
  * @todo: Add support for featured content.
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 ?>
 

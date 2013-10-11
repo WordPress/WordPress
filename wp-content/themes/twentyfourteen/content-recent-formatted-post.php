@@ -1,7 +1,10 @@
 <?php
 /**
+ * The template to display recent Featured Posts
+ *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 if ( isset( $GLOBALS['content_width'] ) )
 	$GLOBALS['content_width'] = 306;

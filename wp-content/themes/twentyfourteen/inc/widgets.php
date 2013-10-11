@@ -1,18 +1,22 @@
 <?php
 /**
- * Makes a custom Widget for displaying Aside, Quote, Video, Image, Gallery,
- * and Link posts, available with Twenty Fourteen.
+ * Custom Widget for displaying specific post formats
  *
- * Learn more: http://codex.wordpress.org/Widgets_API#Developing_Widgets
+ * Displays posts from Aside, Quote, Video, Image, Gallery, and Link formats.
+ *
+ * @link http://codex.wordpress.org/Widgets_API#Developing_Widgets
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 
 class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 
 	/**
 	 * The supported post formats.
+	 *
+	 * @since Twenty Fourteen 1.0
 	 *
 	 * @var array
 	 */
@@ -21,12 +25,16 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	/**
 	 * Pluralized post format strings.
 	 *
+	 * @since Twenty Fourteen 1.0
+	 *
 	 * @var array
 	 */
 	private $format_strings;
 
 	/**
 	 * Constructor.
+	 *
+	 * @since Twenty Fourteen 1.0
 	 *
 	 * @return Twenty_Fourteen_Ephemera_Widget
 	 */
@@ -36,7 +44,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 			'description' => __( 'Use this widget to list your recent Aside, Quote, Video, Image, Gallery, and Link posts', 'twentyfourteen' ),
 		) );
 
-		/**
+		/*
 		 * @todo http://core.trac.wordpress.org/ticket/23257
 		 */
 		$this->format_strings = array(
@@ -54,7 +62,9 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Outputs the HTML for this widget.
+	 * Output the HTML for this widget.
+	 *
+	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param array $args An array of standard parameters for widgets in this theme.
 	 * @param array $instance An array of settings for this widget instance.
@@ -191,8 +201,10 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Deals with the settings when they are saved by the admin. Here is where
-	 * any validation should be dealt with.
+	 * Deal with the settings when they are saved by the admin. Here is where
+	 * any validation should happen.
+	 *
+	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param array $new_instance
 	 * @param array $instance
@@ -210,7 +222,9 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Deletes the transient.
+	 * Delete the transient.
+	 *
+	 * @since Twenty Fourteen 1.0
 	 *
 	 * @return void
 	 */
@@ -219,7 +233,9 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Displays the form for this widget on the Widgets page of the Admin area.
+	 * Display the form for this widget on the Widgets page of the Admin area.
+	 *
+	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param array $instance
 	 * @return void

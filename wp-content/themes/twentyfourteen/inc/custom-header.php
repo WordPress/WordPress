@@ -1,11 +1,16 @@
 <?php
 /**
+ * Implement Custom Header functionality for Twenty Fourteen
+ *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 
 /**
- * Setup the WordPress core custom header feature.
+ * Set up the WordPress core custom header settings.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @uses twentyfourteen_header_style()
  * @uses twentyfourteen_admin_header_style()
@@ -25,9 +30,11 @@ add_action( 'after_setup_theme', 'twentyfourteen_custom_header_setup' );
 
 if ( ! function_exists( 'twentyfourteen_admin_header_style' ) ) :
 /**
- * Styles the header image displayed on the Appearance > Header admin panel.
+ * Style the header image displayed on the Appearance > Header admin panel.
  *
- * @see twentyfourteen_custom_header_setup().
+ * @link twentyfourteen_custom_header_setup().
+ *
+ * @since Twenty Fourteen 1.0
  */
 function twentyfourteen_admin_header_style() {
 ?>
@@ -58,9 +65,11 @@ endif; // twentyfourteen_admin_header_style
 
 if ( ! function_exists( 'twentyfourteen_admin_header_image' ) ) :
 /**
- * Custom header image markup displayed on the Appearance > Header admin panel.
+ * Create the custom header image markup displayed on the Appearance > Header admin panel.
  *
- * @see twentyfourteen_custom_header_setup().
+ * @link twentyfourteen_custom_header_setup().
+ *
+ * @since Twenty Fourteen 1.0
  */
 function twentyfourteen_admin_header_image() {
 ?>

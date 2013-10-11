@@ -1,8 +1,8 @@
 <?php
 /**
- * Twenty Fourteen functions and definitions.
+ * Twenty Fourteen functions and definitions
  *
- * Sets up the theme and provides some helper functions, which are used in the
+ * Set up the theme and provides some helper functions, which are used in the
  * theme as custom template tags. Others are attached to action and filter
  * hooks in WordPress to change core functionality.
  *
@@ -17,31 +17,39 @@
  * instead attached to a filter or action hook.
  *
  * For more information on hooks, actions, and filters,
- * see http://codex.wordpress.org/Plugin_API
+ * @link http://codex.wordpress.org/Plugin_API
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 
 /**
- * Sets up the content width value based on the theme's design.
- * @see twentyfourteen_content_width() for template-specific adjustments.
+ * Set up the content width value based on the theme's design.
+ *
+ * @link twentyfourteen_content_width()
+ *
+ * @since Twenty Fourteen 1.0
  */
 if ( ! isset( $content_width ) )
 	$content_width = 474;
 
 if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 /**
- * Sets up theme defaults and registers support for various WordPress features.
+ * Twenty Fourteen setup.
+ *
+ * Set up theme defaults and registers support for various WordPress features.
  *
  * Note that this function is hooked into the after_setup_theme hook, which
  * runs before the init hook. The init hook is too late for some features, such
  * as indicating support post thumbnails.
+ *
+ * @since Twenty Fourteen 1.0
  */
 function twentyfourteen_setup() {
 
 	/*
-	 * Makes Twenty Fourteen available for translation.
+	 * Make Twenty Fourteen available for translation.
 	 *
 	 * Translations can be added to the /languages/ directory.
 	 * If you're building a theme based on Twenty Fourteen, use a find and
@@ -50,18 +58,16 @@ function twentyfourteen_setup() {
 	 */
 	load_theme_textdomain( 'twentyfourteen', get_template_directory() . '/languages' );
 
-	/*
-	* This theme styles the visual editor to resemble the theme style.
-	*/
+	// This theme styles the visual editor to resemble the theme style.
 	add_editor_style( array( 'editor-style.css', twentyfourteen_font_url() ) );
 
-	// Adds RSS feed links to <head> for posts and comments.
+	// Add RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
 
 	// Enable support for Post Thumbnails.
 	add_theme_support( 'post-thumbnails' );
 
-	// Adding several sizes for Post Thumbnails.
+	// Add several sizes for Post Thumbnails.
 	add_image_size( 'featured-thumbnail-large', 672, 0 );
 	add_image_size( 'featured-thumbnail-featured', 672, 336, true );
 	add_image_size( 'featured-thumbnail-formatted', 306, 0 );
@@ -73,7 +79,7 @@ function twentyfourteen_setup() {
 	) );
 
 	/*
-	 * Switches default core markup for search form, comment form, and comments
+	 * Switch default core markup for search form, comment form, and comments
 	 * to output valid HTML5.
 	 */
 	add_theme_support( 'html5', array(
@@ -99,7 +105,9 @@ endif; // twentyfourteen_setup
 add_action( 'after_setup_theme', 'twentyfourteen_setup' );
 
 /**
- * Adjusts content_width value for full-width and attachment templates.
+ * Adjust content_width value for full-width and attachment templates.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @return void
  */
@@ -111,6 +119,8 @@ add_action( 'template_redirect', 'twentyfourteen_content_width' );
 
 /**
  * Getter function for Featured Content Plugin.
+ *
+ * @since Twenty Fourteen 1.0
  */
 function twentyfourteen_get_featured_posts() {
 	return apply_filters( 'twentyfourteen_get_featured_posts', false );
@@ -120,6 +130,8 @@ function twentyfourteen_get_featured_posts() {
  * A helper conditional function that returns a boolean value
  * So that we can use a condition like
  * if ( twentyfourteen_has_featured_posts( 1 ) )
+ *
+ * @since Twenty Fourteen 1.0
  */
 function twentyfourteen_has_featured_posts( $minimum = 1 ) {
 	if ( is_paged() )
@@ -131,7 +143,9 @@ function twentyfourteen_has_featured_posts( $minimum = 1 ) {
 }
 
 /**
- * Registers two widget areas.
+ * Register two widget areas.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @return void
  */
@@ -172,6 +186,8 @@ add_action( 'widgets_init', 'twentyfourteen_widgets_init' );
 /**
  * Register Lato Google font for Twenty Fourteen.
  *
+ * @since Twenty Fourteen 1.0
+ *
  * @return void
  */
 function twentyfourteen_font_url() {
@@ -187,7 +203,9 @@ function twentyfourteen_font_url() {
 }
 
 /**
- * Enqueues scripts and styles for front end.
+ * Enqueue scripts and styles for front end.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @return void
  */
@@ -221,6 +239,8 @@ add_action( 'wp_enqueue_scripts', 'twentyfourteen_scripts' );
 /**
  * Enqueue Google fonts style to admin screen for custom header display.
  *
+ * @since Twenty Fourteen 1.0
+ *
  * @return void
  */
 function twentyfourteen_admin_fonts() {
@@ -229,7 +249,9 @@ function twentyfourteen_admin_fonts() {
 add_action( 'admin_print_scripts-appearance_page_custom-header', 'twentyfourteen_admin_fonts' );
 
 /**
- * Sets the post excerpt length to 20 words.
+ * Set the post excerpt length to 20 words.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @param int $length
  * @return int
@@ -240,7 +262,9 @@ function twentyfourteen_excerpt_length( $length ) {
 add_filter( 'excerpt_length', 'twentyfourteen_excerpt_length' );
 
 /**
- * Returns a "Continue Reading" link for excerpts
+ * Return a "Continue Reading" link for excerpts.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @return string
  */
@@ -249,8 +273,10 @@ function twentyfourteen_continue_reading_link() {
 }
 
 /**
- * Replaces "[...]" (appended to automatically generated excerpts) with an
+ * Replace "[...]" (appended to automatically generated excerpts) with an
  * ellipsis and twentyeleven_continue_reading_link().
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @param string $more
  * @return string
@@ -261,10 +287,12 @@ function twentyfourteen_auto_excerpt_more( $more ) {
 add_filter( 'excerpt_more', 'twentyfourteen_auto_excerpt_more' );
 
 /**
- * Adds a pretty "Continue Reading" link to custom post excerpts.
+ * Add a pretty "Continue Reading" link to custom post excerpts.
  *
  * To override this link in a child theme, remove the filter and add your own
  * function tied to the get_the_excerpt filter hook.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @param string $output
  * @return string
@@ -279,7 +307,9 @@ add_filter( 'get_the_excerpt', 'twentyfourteen_custom_excerpt_more' );
 
 if ( ! function_exists( 'twentyfourteen_the_attached_image' ) ) :
 /**
- * Prints the attached image with a link to the next attached image.
+ * Print the attached image with a link to the next attached image.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @return void
  */
@@ -288,7 +318,7 @@ function twentyfourteen_the_attached_image() {
 	$attachment_size     = apply_filters( 'twentyfourteen_attachment_size', array( 1200, 1200 ) );
 	$next_attachment_url = wp_get_attachment_url();
 
-	/**
+	/*
 	 * Grab the IDs of all the image attachments in a gallery so we can get the URL
 	 * of the next adjacent image in a gallery, or the first image (if we're
 	 * looking at the last image in a gallery), or, in a gallery of one, just the
@@ -332,7 +362,9 @@ endif;
 
 if ( ! function_exists( 'twentyfourteen_list_authors' ) ) :
 /**
- * Prints a list of all site contributors who published at least one post.
+ * Print a list of all site contributors who published at least one post.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @return void
  */
@@ -372,8 +404,11 @@ function twentyfourteen_list_authors() {
 endif;
 
 /**
- * Gets recent formatted posts that are not featured in FC plugin.
+ * Get recent formatted posts that are not featured in FC plugin.
  *
+ * @since Twenty Fourteen 1.0
+ *
+ * @return object WP_Query
  */
 function twentyfourteen_get_recent( $post_format ) {
 	$args = array(
@@ -402,6 +437,9 @@ function twentyfourteen_get_recent( $post_format ) {
 /**
  * Filter the home page posts, and remove formatted posts visible in the sidebar from it
  *
+ * @since Twenty Fourteen 1.0
+ *
+ * @return void
  */
 function twentyfourteen_pre_get_posts( $query ) {
 	// Bail if not home, not a query, not main query.
@@ -443,13 +481,15 @@ function twentyfourteen_pre_get_posts( $query ) {
 add_action( 'pre_get_posts', 'twentyfourteen_pre_get_posts' );
 
 /**
- *  Extends the default WordPress body classes.
+ * Extend the default WordPress body classes.
  *
  * Adds body classes to denote:
  * 1. Single or multiple authors.
  * 2. Index views.
  * 3. Full-width content layout.
  * 4. Presence of footer widgets.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @param array $classes A list of existing body class values.
  * @return array The filtered body class list.
@@ -475,10 +515,12 @@ function twentyfourteen_body_classes( $classes ) {
 add_filter( 'body_class', 'twentyfourteen_body_classes' );
 
 /**
- * Extends the default WordPress post classes.
+ * Extend the default WordPress post classes.
  *
  * Adds a post class to denote:
  * Non-password protected page with a featured image.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @param array $classes A list of existing post class values.
  * @return array The filtered post class list.
@@ -492,8 +534,10 @@ function twentyfourteen_post_classes( $classes ) {
 add_filter( 'post_class', 'twentyfourteen_post_classes' );
 
 /**
- * Creates a nicely formatted and more specific title element text for output
+ * Create a nicely formatted and more specific title element text for output
  * in head of document, based on current view.
+ *
+ * @since Twenty Fourteen 1.0
  *
  * @param string $title Default title text for current view.
  * @param string $sep Optional separator.
@@ -521,18 +565,11 @@ function twentyfourteen_wp_title( $title, $sep ) {
 }
 add_filter( 'wp_title', 'twentyfourteen_wp_title', 10, 2 );
 
-/**
- * Implement the Custom Header feature
- *
- */
+// Implement Custom Header features.
 require get_template_directory() . '/inc/custom-header.php';
 
-/**
- * Custom template tags for this theme.
- */
+// Custom template tags for this theme.
 require get_template_directory() . '/inc/template-tags.php';
 
-/**
- * Customizer additions
- */
+// Add Theme Customizer functionality.
 require get_template_directory() . '/inc/customizer.php';
