@@ -4691,16 +4691,19 @@ class wp_xmlrpc_server extends IXR_Server {
 				$sticky = true;
 
 			$enclosure = array();
-			foreach ( (array) get_post_custom($post_ID) as $key => $val) {
-				if ($key == 'enclosure') {
-					foreach ( (array) $val as $enc ) {
+			$get_post_custom = (array) get_post_custom($post_ID);
+			$key = 'enclosure';
+
+			if (array_search ($key, $get_post_custom) === true) {
+
+					foreach ( (array) $get_post_custom[$key] as $enc ) {
 						$encdata = explode("\n", $enc);
 						$enclosure['url'] = trim(htmlspecialchars($encdata[0]));
 						$enclosure['length'] = (int) trim($encdata[1]);
 						$enclosure['type'] = trim($encdata[2]);
-						break 2;
+						break 1;
 					}
-				}
+
 			}
 
 			$resp = array(
