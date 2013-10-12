@@ -1796,6 +1796,8 @@ class WP_Automatic_Upgrader {
 		$body = array();
 		$failures = 0;
 
+		$body[] = 'WordPress site: ' . network_home_url( '/' );
+
 		// Core
 		if ( isset( self::$upgrade_results['core'] ) ) {
 			$result = self::$upgrade_results['core'][0];
