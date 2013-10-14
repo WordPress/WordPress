@@ -716,6 +716,8 @@ function update_core($from, $to) {
 	apply_filters( 'update_feedback', __( 'Copying the required files&#8230;' ) );
 	// Copy new versions of WP files into place.
 	$result = _copy_dir( $from . $distro, $to, $skip );
+	if ( is_wp_error( $result ) )
+		$result = new WP_Error( $result->get_error_code(), $result->get_error_message(), substr( $result->get_error_data(), strlen( $to ) ) );
 
 	// Check to make sure everything copied correctly, ignoring the contents of wp-content
 	$skip = array( 'wp-content' );
@@ -744,11 +746,11 @@ function update_core($from, $to) {
 		// Unlikely to be hit due to the check in unzip_file().
 		$available_space = disk_free_space( ABSPATH );
 		if ( $available_space && $total_size >= $available_space ) {
-			$result = new WP_Error( 'disk_full', __( 'There is not enough free disk space to complete the update.' ), $to );
+			$result = new WP_Error( 'disk_full', __( 'There is not enough free disk space to complete the update.' ) );
 		} else {
 			$result = _copy_dir( $from . $distro, $to, $skip );
 			if ( is_wp_error( $result ) )
-				$result = new WP_Error( $result->get_error_code() . '_retry', $result->get_error_message(), $result->get_error_data() );
+				$result = new WP_Error( $result->get_error_code() . '_retry', $result->get_error_message(), substr( $result->get_error_data(), strlen( $to ) ) );
 		}
 	}
 
@@ -770,7 +772,7 @@ function update_core($from, $to) {
 			if ( $wp_lang_dir ) {
 				$result = copy_dir($from . $distro . 'wp-content/languages/', $wp_lang_dir);
 				if ( is_wp_error( $result ) )
-					$result = new WP_Error( $result->get_error_code() . '_languages', $result->get_error_message(), $result->get_error_data() );
+					$result = new WP_Error( $result->get_error_code() . '_languages', $result->get_error_message(), substr( $result->get_error_data(), strlen( $wp_lang_dir ) ) );
 			}
 		}
 	}
@@ -820,7 +822,7 @@ function update_core($from, $to) {
 					if ( is_wp_error( $_result ) ) {
 						if ( ! is_wp_error( $result ) )
 							$result = new WP_Error;
-						$result->add( $_result->get_error_code() . "_$type", $_result->get_error_message(), $_result->get_error_data() );
+						$result->add( $_result->get_error_code() . "_$type", $_result->get_error_message(), substr( $_result->get_error_data(), strlen( $dest ) ) );
 					}
 				}
 			}
