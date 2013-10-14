@@ -765,8 +765,11 @@ function update_core($from, $to) {
 
 		if ( @is_dir($lang_dir) ) {
 			$wp_lang_dir = $wp_filesystem->find_folder($lang_dir);
-			if ( $wp_lang_dir )
+			if ( $wp_lang_dir ) {
 				$result = copy_dir($from . $distro . 'wp-content/languages/', $wp_lang_dir);
+				if ( is_wp_error( $result ) )
+					$result = new WP_Error( $result->get_error_code() . '_languages', $result->get_error_message(), $result->get_error_data() );
+			}
 		}
 	}
 
@@ -803,15 +806,20 @@ function update_core($from, $to) {
 						continue;
 
 					if ( ! $wp_filesystem->copy($from . $distro . 'wp-content/' . $file, $dest . $filename, FS_CHMOD_FILE) )
-						$result = new WP_Error( 'copy_failed_for_new_bundled', __( 'Could not copy file.' ), $dest . $filename );
+						$result = new WP_Error( "copy_failed_for_new_bundled_$type", __( 'Could not copy file.' ), $dest . $filename );
 				} else {
 					if ( ! $development_build && $wp_filesystem->is_dir( $dest . $filename ) )
 						continue;
 
 					$wp_filesystem->mkdir($dest . $filename, FS_CHMOD_DIR);
 					$_result = copy_dir( $from . $distro . 'wp-content/' . $file, $dest . $filename);
-					if ( is_wp_error($_result) ) //If a error occurs partway through this final step, keep the error flowing through, but keep process going.
-						$result = $_result;
+
+					// If a error occurs partway through this final step, keep the error flowing through, but keep process going.
+					if ( is_wp_error( $_result ) ) {
+						if ( ! is_wp_error( $result ) )
+							$result = new WP_Error;
+						$result->add( $_result->get_error_code() . "_$type", $_result->get_error_message(), $_result->get_error_data() );
+					}
 				}
 			}
 		} //end foreach
