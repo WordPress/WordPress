@@ -159,7 +159,7 @@ class WP_Upgrader {
 			$wp_filesystem->delete($working_dir, true);
 
 		// Unzip package to working directory
-		$result = unzip_file($package, $working_dir); //TODO optimizations, Copy when Move/Rename would suffice?
+		$result = unzip_file( $package, $working_dir );
 
 		// Once extracted, delete the package if required.
 		if ( $delete_package )
@@ -1298,15 +1298,29 @@ class Core_Upgrader extends WP_Upgrader {
 
 		$result = update_core( $working_dir, $wp_dir );
 
-		// In the event of an error, rollback to the previous version
-		if ( is_wp_error( $result ) && $parsed_args['attempt_rollback'] && $current->packages->rollback && ! $parsed_args['do_rollback'] ) {
-			apply_filters( 'update_feedback', $result );
-			apply_filters( 'update_feedback', $this->strings['start_rollback'] );
+		// In the event of an issue, we may be able to roll back.
+		if ( $parsed_args['attempt_rollback'] && $current->packages->rollback && ! $parsed_args['do_rollback'] ) {
+			$try_rollback = false;
+			if ( is_wp_error( $result ) ) {
+				$error_code = $result->get_error_code();
+				// Not all errors are equal. These codes are critical: copy_failed__copy_dir,
+				// mkdir_failed__copy_dir, copy_failed__copy_dir_retry, and disk_full.
+				if ( false !== strpos( $error_code, '__copy_dir' ) )
+					$try_rollback = true;
+				elseif ( 'disk_full' === $error_code )
+					$try_rollback = true;
+			}
 
-			$rollback_result = $this->upgrade( $current, array_merge( $parsed_args, array( 'do_rollback' => true ) ) );
+			if ( $try_rollback ) {
+				apply_filters( 'update_feedback', $result );
+				apply_filters( 'update_feedback', $this->strings['start_rollback'] );
 
-			$result = new WP_Error( 'rollback_was_required', $this->strings['rollback_was_required'], array( 'rollback' => $rollback_result, 'update' => $result ) );
+				$rollback_result = $this->upgrade( $current, array_merge( $parsed_args, array( 'do_rollback' => true ) ) );
+
+				$result = new WP_Error( 'rollback_was_required', $this->strings['rollback_was_required'], array( 'rollback' => $rollback_result, 'update' => $result ) );
+			}
 		}
+
 		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'core' ), $result );
 		return $result;
 	}
