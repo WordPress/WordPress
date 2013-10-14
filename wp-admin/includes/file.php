@@ -618,8 +618,13 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 			$needed_dirs[] = $to . untrailingslashit(dirname($info['name']));
 	}
 
+	/*
+	 * disk_free_space() could return false. Assume that any falsey value is an error.
+	 * A disk that has zero free bytes has bigger problems.
+	 * Require we have enough space to unzip the file and copy its contents, with a 10% buffer.
+	 */
 	$available_space = disk_free_space( WP_CONTENT_DIR );
-	if ( ( $uncompressed_size * 1.2 ) > $available_space )
+	if ( $available_space && ( $uncompressed_size * 2.1 ) > $available_space )
 		return new WP_Error( 'disk_full_unzip_file', __( 'Could not copy files. You may have run out of disk space.' ), compact( 'uncompressed_size', 'available_space' ) );
 
 	$needed_dirs = array_unique($needed_dirs);
@@ -713,8 +718,13 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 		$needed_dirs[] = $to . untrailingslashit( $file['folder'] ? $file['filename'] : dirname($file['filename']) );
 	}
 
+	/*
+	 * disk_free_space() could return false. Assume that any falsey value is an error.
+	 * A disk that has zero free bytes has bigger problems.
+	 * Require we have enough space to unzip the file and copy its contents, with a 10% buffer.
+	 */
 	$available_space = disk_free_space( WP_CONTENT_DIR );
-	if ( ( $uncompressed_size * 1.2 ) > $available_space )
+	if ( $available_space && ( $uncompressed_size * 2.1 ) > $available_space )
 		return new WP_Error( 'disk_full_unzip_file', __( 'Could not copy files. You may have run out of disk space.' ), compact( 'uncompressed_size', 'available_space' ) );
 
 	$needed_dirs = array_unique($needed_dirs);
