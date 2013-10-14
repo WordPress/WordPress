@@ -596,10 +596,9 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 
 	$z = new ZipArchive();
 
-	// PHP4-compat - php4 classes can't contain constants
-	$zopen = $z->open($file, /* ZIPARCHIVE::CHECKCONS */ 4);
+	$zopen = $z->open( $file, ZIPARCHIVE::CHECKCONS );
 	if ( true !== $zopen )
-		return new WP_Error('incompatible_archive', __('Incompatible Archive.'));
+		return new WP_Error( 'incompatible_archive', __( 'Incompatible Archive.' ), array( 'ziparchive_error' => $zopen ) );
 
 	$uncompressed_size = 0;
 
