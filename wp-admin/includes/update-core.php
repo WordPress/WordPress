@@ -740,8 +740,10 @@ function update_core($from, $to) {
 		foreach ( $failed as $file )
 			$total_size += filesize( $working_dir_local . '/' . $file ); 
 
-		// If we don't have enough free space, it isn't worth trying again
-		if ( $total_size >= disk_free_space( ABSPATH ) ) {
+		// If we don't have enough free space, it isn't worth trying again.
+		// Unlikely to be hit due to the check in unzip_file().
+		$available_space = disk_free_space( ABSPATH );
+		if ( $available_space && $total_size >= $available_space ) {
 			$result = new WP_Error( 'disk_full', __( 'There is not enough free disk space to complete the update.' ), $to );
 		} else {
 			$result = _copy_dir( $from . $distro, $to, $skip );
