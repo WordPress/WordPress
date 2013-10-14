@@ -1747,12 +1747,16 @@ class WP_Automatic_Upgrader {
 			$core_update_result = self::upgrade( 'core', $core_update );
 			delete_site_transient( 'update_core' );
 			$extra_update_stats['success'] = is_wp_error( $core_update_result ) ? $core_update_result->get_error_code() : true;
+			$extra_update_stats['error_data'] = is_wp_error( $core_update_result ) ? $core_update_result->get_error_data() : '';
 			if ( is_wp_error( $core_update_result ) && 'rollback_was_required' == $core_update_result->get_error_code() ) {
 				$rollback_data = $core_update_result->get_error_data();
 				$extra_update_stats['success'] = is_wp_error( $rollback_data['update'] ) ? $rollback_data['update']->get_error_code() : $rollback_data['update'];
+				$extra_update_stats['error_data'] = is_wp_error( $rollback_data['update'] ) ? $rollback_data['update']->get_error_data() : '';
 				$extra_update_stats['rollback'] = is_wp_error( $rollback_data['rollback'] ) ? $rollback_data['rollback']->get_error_code() : true; // If it's not a WP_Error, the rollback was successful.
+				$extra_update_stats['rollback_data'] = is_wp_error( $rollback_data['rollback'] ) ? $rollback_data['rollback']->get_error_data() : '';
 			}
 			$extra_update_stats['fs_method'] = $GLOBALS['wp_filesystem']->method;
+			$extra_update_stats['fs_method_forced'] = defined( 'FS_METHOD' ) || has_filter( 'fs_method' );
 			$extra_update_stats['time_taken'] = ( time() - $start_time );
 			$extra_update_stats['attempted'] = $core_update->version;
 		}

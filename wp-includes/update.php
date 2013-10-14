@@ -86,8 +86,12 @@ function wp_version_check( $extra_stats = array() ) {
 		'multisite_enabled' => $multisite_enabled,
 	);
 
+	$post_body = array(
+		'translations' => json_encode( $translations ),
+	);
+
 	if ( $extra_stats )
-		$query = array_merge( $query, $extra_stats );
+		$post_body = array_merge( $post_body, $extra_stats );
 
 	$url = 'http://api.wordpress.org/core/version-check/1.7/?' . http_build_query( $query, null, '&' );
 	if ( wp_http_supports( array( 'ssl' ) ) )
@@ -100,9 +104,7 @@ function wp_version_check( $extra_stats = array() ) {
 			'wp_install' => $wp_install,
 			'wp_blog' => home_url( '/' )
 		),
-		'body' => array(
-			'translations' => json_encode( $translations ),
-		),
+		'body' => $post_body,
 	);
 
 	$response = wp_remote_post( $url, $options );
