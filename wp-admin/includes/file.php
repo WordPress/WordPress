@@ -601,6 +601,8 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 	if ( true !== $zopen )
 		return new WP_Error('incompatible_archive', __('Incompatible Archive.'));
 
+	$uncompressed_size = 0;
+
 	for ( $i = 0; $i < $z->numFiles; $i++ ) {
 		if ( ! $info = $z->statIndex($i) )
 			return new WP_Error( 'stat_failed_ziparchive', __( 'Could not retrieve file from archive.' ) );
@@ -608,11 +610,17 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 		if ( '__MACOSX/' === substr($info['name'], 0, 9) ) // Skip the OS X-created __MACOSX directory
 			continue;
 
+		$uncompressed_size += $info['size'];
+
 		if ( '/' == substr($info['name'], -1) ) // directory
 			$needed_dirs[] = $to . untrailingslashit($info['name']);
 		else
 			$needed_dirs[] = $to . untrailingslashit(dirname($info['name']));
 	}
+
+	$available_space = disk_free_space( WP_CONTENT_DIR );
+	if ( ( $uncompressed_size * 1.2 ) > $available_space )
+		return new WP_Error( 'disk_full_unzip_file', __( 'Could not copy files. You may have run out of disk space.' ), compact( 'uncompressed_size', 'available_space' ) );
 
 	$needed_dirs = array_unique($needed_dirs);
 	foreach ( $needed_dirs as $dir ) {
@@ -693,13 +701,21 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 	if ( 0 == count($archive_files) )
 		return new WP_Error( 'empty_archive_pclzip', __( 'Empty archive.' ) );
 
+	$uncompressed_size = 0;
+
 	// Determine any children directories needed (From within the archive)
 	foreach ( $archive_files as $file ) {
 		if ( '__MACOSX/' === substr($file['filename'], 0, 9) ) // Skip the OS X-created __MACOSX directory
 			continue;
 
+		$uncompressed_size += $file['size'];
+
 		$needed_dirs[] = $to . untrailingslashit( $file['folder'] ? $file['filename'] : dirname($file['filename']) );
 	}
+
+	$available_space = disk_free_space( WP_CONTENT_DIR );
+	if ( ( $uncompressed_size * 1.2 ) > $available_space )
+		return new WP_Error( 'disk_full_unzip_file', __( 'Could not copy files. You may have run out of disk space.' ), compact( 'uncompressed_size', 'available_space' ) );
 
 	$needed_dirs = array_unique($needed_dirs);
 	foreach ( $needed_dirs as $dir ) {
