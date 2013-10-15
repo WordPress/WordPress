@@ -100,6 +100,11 @@ function twentyfourteen_setup() {
 	add_theme_support( 'custom-background', apply_filters( 'twentyfourteen_custom_background_args', array(
 		'default-color' => 'f5f5f5',
 	) ) );
+
+	/*
+	 * This theme uses its own gallery styles.
+	 */
+	add_filter( 'use_default_gallery_style', '__return_false' );
 }
 endif; // twentyfourteen_setup
 add_action( 'after_setup_theme', 'twentyfourteen_setup' );
@@ -112,7 +117,7 @@ add_action( 'after_setup_theme', 'twentyfourteen_setup' );
  * @return void
  */
 function twentyfourteen_content_width() {
-	if ( is_page_template( 'full-width-page.php' ) || is_attachment() )
+	if ( is_attachment() )
 		$GLOBALS['content_width'] = 810;
 }
 add_action( 'template_redirect', 'twentyfourteen_content_width' );
