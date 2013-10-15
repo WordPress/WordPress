@@ -112,8 +112,7 @@ function twentyfourteen_customizer_styles() {
 	$accent_lighter = get_theme_mod( 'accent_lighter' );
 	$accent_much_lighter = get_theme_mod( 'accent_much_lighter' );
 
-	$css = '<style type="text/css" id="twentyfourteen-accent-color">
-		/* Custom accent color. */
+	$css = '/* Custom accent color. */
 		h1 a:hover,
 		h2 a:hover,
 		h3 a:hover,
@@ -198,8 +197,7 @@ function twentyfourteen_customizer_styles() {
 		.featured-content .more-link,
 		.widget-area a:hover {
 			color: ' . $accent_much_lighter . ';
-		}
-		</style>';
+		}';
 
 	wp_add_inline_style( 'twentyfourteen-style', $css );
 }
