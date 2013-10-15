@@ -1305,7 +1305,10 @@ class Core_Upgrader extends WP_Upgrader {
 				$error_code = $result->get_error_code();
 				// Not all errors are equal. These codes are critical: copy_failed__copy_dir,
 				// mkdir_failed__copy_dir, copy_failed__copy_dir_retry, and disk_full.
-				if ( false !== strpos( $error_code, '__copy_dir' ) )
+				// do_rollback allows for update_core() to trigger a rollback if needed.
+				if ( false !== strpos( $error_code, 'do_rollback' ) )
+					$try_rollback = true;
+				elseif ( false !== strpos( $error_code, '__copy_dir' ) )
 					$try_rollback = true;
 				elseif ( 'disk_full' === $error_code )
 					$try_rollback = true;
