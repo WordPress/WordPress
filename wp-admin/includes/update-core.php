@@ -710,7 +710,7 @@ function update_core($from, $to) {
 	}
 
 	// If we're using the direct method, we can predict write failures that are due to permissions.
-	if ( $wp_filesystem->method === 'direct' ) {
+	if ( $check_is_writable && 'direct' === $wp_filesystem->method ) {
 		$files_writable = array_filter( $check_is_writable, array( $wp_filesystem, 'is_writable' ) );
 		if ( $files_writable !== $check_is_writable ) {
 			$files_not_writable = array_diff_key( $check_is_writable, $files_writable );
