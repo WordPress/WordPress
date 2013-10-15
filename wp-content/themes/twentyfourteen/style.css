@@ -1340,6 +1340,13 @@ span + .edit-link:before,
 	text-decoration: underline;
 }
 
+.entry-content a:hover,
+.page-content a:hover,
+.entry-summary a:hover,
+.comment-content a:hover {
+	text-decoration: none;
+}
+
 .entry-content table,
 .comment-content table {
 	font-size: 14px;
