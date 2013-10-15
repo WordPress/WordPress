@@ -279,7 +279,7 @@ function twentyfourteen_continue_reading_link() {
 
 /**
  * Replace "[...]" (appended to automatically generated excerpts) with an
- * ellipsis and twentyeleven_continue_reading_link().
+ * ellipsis and twentyfourteen_continue_reading_link().
  *
  * @since Twenty Fourteen 1.0
  *
