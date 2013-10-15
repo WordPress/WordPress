@@ -722,8 +722,10 @@ function update_core($from, $to) {
 			}
 
 			// Store package-relative paths (the key) of non-writable files in the WP_Error object.
+			$error_data = version_compare( $old_wp_version, '3.7-beta2', '>' ) ? array_keys( $files_not_writable ) : '';
+
 			if ( $files_not_writable )
-				return new WP_Error( 'files_not_writable', __( 'Could not copy file.' ), array_keys( $files_not_writable ) );
+				return new WP_Error( 'files_not_writable', __( 'Could not copy file.' ), $data );
 		}
 	}
 
