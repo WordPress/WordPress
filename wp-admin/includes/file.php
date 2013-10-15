@@ -744,7 +744,8 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 
 	// Create those directories if need be:
 	foreach ( $needed_dirs as $_dir ) {
-		// if ( ! $wp_filesystem->mkdir($_dir, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($_dir) ) // Only check to see if the dir exists upon creation failure. Less I/O this way.
+		// Only check to see if the dir exists upon creation failure. Less I/O this way.
+		if ( ! $wp_filesystem->mkdir( $_dir, FS_CHMOD_DIR ) && ! $wp_filesystem->is_dir( $_dir ) )
 			return new WP_Error( 'mkdir_failed_pclzip', __( 'Could not create directory.' ), substr( $_dir, strlen( $to ) ) );
 	}
 	unset($needed_dirs);
