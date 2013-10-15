@@ -1251,9 +1251,6 @@ class Core_Upgrader extends WP_Upgrader {
 
 		$wp_dir = trailingslashit($wp_filesystem->abspath());
 
-		// Pre-cache the checksums for the versions we care about
-		get_core_checksums( array( $wp_version, $current->version ) );
-
 		$partial = true;
 		if ( $parsed_args['do_rollback'] )
 			$partial = false;
@@ -1384,14 +1381,14 @@ class Core_Upgrader extends WP_Upgrader {
 	}
 
 	function check_files() {
-		global $wp_version;
+		global $wp_version, $wp_local_package;
 
-		$checksums = get_core_checksums( $wp_version );
+		$checksums = get_core_checksums( $wp_version, isset( $wp_local_package ) ? $wp_local_package : 'en_US' );
 
-		if ( empty( $checksums[ $wp_version ] ) || ! is_array( $checksums[ $wp_version ] ) )
+		if ( ! is_array( $checksums ) )
 			return false;
 
-		foreach ( $checksums[ $wp_version ] as $file => $checksum ) {
+		foreach ( $checksums as $file => $checksum ) {
 			// Skip files which get updated
 			if ( 'wp-content' == substr( $file, 0, 10 ) )
 				continue;

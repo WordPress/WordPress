@@ -696,12 +696,16 @@ function update_core($from, $to) {
 
 	// Check to see which files don't really need updating - only available for 3.7 and higher
 	if ( function_exists( 'get_core_checksums' ) ) {
-		$checksums = get_core_checksums( $wp_version );
-		if ( ! empty( $checksums[ $wp_version ] ) && is_array( $checksums[ $wp_version ] ) ) {
-			foreach( $checksums[ $wp_version ] as $file => $checksum ) {
+		$checksums = get_core_checksums( $wp_version, isset( $wp_local_package ) ? $wp_local_package : 'en_US' );
+		if ( is_array( current( $checksums ) ) ) // Compat code for 3.7-beta2
+			$checksums = current( $checksums );
+		if ( is_array( $checksums ) ) {
+			foreach( $checksums as $file => $checksum ) {
 				if ( 'wp-content' == substr( $file, 0, 10 ) )
 					continue;
-				if ( file_exists( ABSPATH . $file ) && md5_file( ABSPATH . $file ) === $checksum )
+				if ( ! file_exists( ABSPATH . $file ) )
+					continue;
+				if ( md5_file( ABSPATH . $file ) === $checksum )
 					$skip[] = $file;
 				else
 					$check_is_writable[ $file ] = ABSPATH . $file;
@@ -745,8 +749,8 @@ function update_core($from, $to) {
 	// Check to make sure everything copied correctly, ignoring the contents of wp-content
 	$skip = array( 'wp-content' );
 	$failed = array();
-	if ( ! empty( $checksums[ $wp_version ] ) && is_array( $checksums[ $wp_version ] ) ) {
-		foreach ( $checksums[ $wp_version ] as $file => $checksum ) {
+	if ( is_array( $checksums ) ) {
+		foreach ( $checksums as $file => $checksum ) {
 			if ( 0 === strpos( $file, 'wp-content' ) )
 				continue;
 
