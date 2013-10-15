@@ -1759,7 +1759,7 @@ class WP_Automatic_Upgrader {
 				$extra_update_stats['rollback_data'] = is_wp_error( $rollback_data['rollback'] ) ? $rollback_data['rollback']->get_error_data() : '';
 			}
 			$extra_update_stats['fs_method'] = $GLOBALS['wp_filesystem']->method;
-			$extra_update_stats['fs_method_forced'] = defined( 'FS_METHOD' ) || has_filter( 'fs_method' );
+			$extra_update_stats['fs_method_forced'] = defined( 'FS_METHOD' ) || has_filter( 'filesystem_method' );
 			$extra_update_stats['time_taken'] = ( time() - $start_time );
 			$extra_update_stats['attempted'] = $core_update->version;
 		}
