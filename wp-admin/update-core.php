@@ -22,11 +22,17 @@ if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_themes' 
 	wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
 
 function list_core_update( $update ) {
-	global $wp_local_package, $wpdb;
-	static $first_pass = true;
-
-	$version_string = ('en_US' == $update->locale && 'en_US' == get_locale() ) ?
-			$update->current : sprintf("%s&ndash;<strong>%s</strong>", $update->current, $update->locale);
+ 	global $wp_local_package, $wpdb, $wp_version;
+  	static $first_pass = true;
+  
+ 	if ( 'en_US' == $update->locale && 'en_US' == get_locale() )
+ 		$version_string = $update->current;
+ 	// If the only available update is a partial builds, it doesn't need a language-specific version string.
+ 	elseif ( 'en_US' == $update->locale && $update->packages->partial && $wp_version == $update->partial_version && ( $updates = get_core_updates() ) && 1 == count( $updates ) )
+ 		$version_string = $update->current;
+ 	else
+ 		$version_string = sprintf( "%s&ndash;<strong>%s</strong>", $update->current, $update->locale );
+  
 	$current = false;
 	if ( !isset($update->response) || 'latest' == $update->response )
 		$current = true;
@@ -89,7 +95,8 @@ function list_core_update( $update ) {
 	echo '</p>';
 	if ( 'en_US' != $update->locale && ( !isset($wp_local_package) || $wp_local_package != $update->locale ) )
 	    echo '<p class="hint">'.__('This localized version contains both the translation and various other localization fixes. You can skip upgrading if you want to keep your current translation.').'</p>';
-	else if ( 'en_US' == $update->locale && get_locale() != 'en_US' ) {
+	// Partial builds don't need language-specific warnings.
+	elseif ( 'en_US' == $update->locale && get_locale() != 'en_US' && ( ! $update->packages->partial && $wp_version == $update->partial_version ) ) {
 	    echo '<p class="hint">'.sprintf( __('You are about to install WordPress %s <strong>in English (US).</strong> There is a chance this update will break your translation. You may prefer to wait for the localized version to be released.'), $update->response != 'development' ? $update->current : '' ).'</p>';
 	}
 	echo '</form>';
