@@ -14,7 +14,7 @@
  * Passing an empty array to $handles prints the queue,
  * passing an array with one string prints that style,
  * and passing an array of strings prints those styles.
- * 
+ *
  * @see do_action() Calls 'wp_print_styles' hook.
  * @global WP_Styles $wp_styles The WP_Styles object for printing styles.
  *
@@ -69,6 +69,11 @@ function wp_add_inline_style( $handle, $data ) {
 			_doing_it_wrong( __FUNCTION__, sprintf( __( 'Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks.' ),
 				'<code>wp_enqueue_scripts</code>', '<code>admin_enqueue_scripts</code>', '<code>login_enqueue_scripts</code>' ), '3.3' );
 		$wp_styles = new WP_Styles();
+	}
+
+	if ( false !== stripos( $data, '</style>' ) ) {
+		_doing_it_wrong( __FUNCTION__, 'Do not pass <style> tags to wp_add_inline_style()', '3.7' );
+		$data = trim( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $data ) );
 	}
 
 	return $wp_styles->add_inline_style( $handle, $data );
