@@ -789,7 +789,7 @@ function copy_dir($from, $to, $skip_list = array() ) {
 		if ( 'f' == $fileinfo['type'] ) {
 			if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true, FS_CHMOD_FILE) ) {
 				// If copy failed, chmod file to 0644 and try again.
-				$wp_filesystem->chmod($to . $filename, 0644);
+				$wp_filesystem->chmod( $to . $filename, FS_CHMOD_FILE );
 				if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true, FS_CHMOD_FILE) )
 					return new WP_Error( 'copy_failed_copy_dir', __( 'Could not copy file.' ), $to . $filename );
 			}
