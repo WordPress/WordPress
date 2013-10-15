@@ -725,7 +725,7 @@ function update_core($from, $to) {
 			$error_data = version_compare( $old_wp_version, '3.7-beta2', '>' ) ? array_keys( $files_not_writable ) : '';
 
 			if ( $files_not_writable )
-				return new WP_Error( 'files_not_writable', __( 'Could not copy file.' ), $data );
+				return new WP_Error( 'files_not_writable', __( 'Could not copy file.' ), $error_data );
 		}
 	}
 
