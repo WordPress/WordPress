@@ -155,26 +155,31 @@ add_action( 'edit_category', 'twentyfourteen_category_transient_flusher' );
 add_action( 'save_post',     'twentyfourteen_category_transient_flusher' );
 
 /**
- * Display featured image with appropriate HTML tag.
- *
- * @since Twenty Fourteen 1.0
+ * Displays an optional featured image, with an anchor element
+ * when on index views, and a div element when on a single view.
  *
  * @return void
- */
-function twentyfourteen_featured_thumbnail() {
-	if ( ! post_password_required() ) :
-		if ( has_post_thumbnail() && is_singular() ) :
-		?>
-			<div class="attachment-featured-thumbnail">
-				<?php the_post_thumbnail( 'featured-thumbnail-large' ); ?>
-			</div>
-		<?php
-		else :
-		?>
-			<a href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>" class="attachment-featured-thumbnail">
-				<?php the_post_thumbnail( 'featured-thumbnail-large' ); ?>
-			</a>
-		<?php
-		endif;
-	endif;
+*/
+function twentyfourteen_post_thumbnail() {
+	if ( post_password_required() )
+		return;
+
+	if ( is_singular() ) :
+	?>
+
+	<div class="featured-thumbnail">
+		<?php the_post_thumbnail( 'featured-thumbnail-large' ); ?>
+	</div>
+
+	<?php else : ?>
+
+	<a class="featured-thumbnail" href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>">
+	<?php if ( has_post_thumbnail() ) :
+		the_post_thumbnail( 'featured-thumbnail-large' );
+	else : ?>
+		<p class="screen-reader-text"><?php _e( 'No featured image.', 'twentyfourteen' ); ?></p>
+	<?php endif; ?>
+	</a>
+
+	<?php endif; // End is_singular()
 }

@@ -560,7 +560,7 @@ img.wp-post-image {
 }
 
 .attachment-featured-featured img,
-.attachment-featured-thumbnail img {
+.featured-thumbnail img {
 	height: auto;
 	max-width: 100%;
 }
@@ -1107,7 +1107,7 @@ span + .edit-link:before,
  * -----------------------------------------------------------------------------
  */
 
- .attachment-featured-thumbnail {
+ .featured-thumbnail {
 	background: #767676;
 	background-attachment: fixed;
 	background-image: -webkit-linear-gradient(135deg, #767676 12.5%, #fff 12.5%, #fff 50%, #767676 50%, #767676 62.5%, #fff 62.5%);
@@ -1123,7 +1123,7 @@ span + .edit-link:before,
 	z-index: 0;
 }
 
-.attachment-featured-thumbnail:hover {
+.featured-thumbnail:hover {
 	background: #919191;
 	background-attachment: fixed;
 	background-image: -webkit-linear-gradient(135deg, #919191 12.5%, #fff 12.5%, #fff 50%, #919191 50%, #919191 62.5%, #fff 62.5%);
@@ -1131,13 +1131,13 @@ span + .edit-link:before,
 	background-size: 4px 4px;
 }
 
-.attachment-featured-thumbnail img {
+.featured-thumbnail img {
 	display: block;
 	margin: 0 auto;
 }
 
-.has-featured-image .attachment-featured-thumbnail,
-.format-standard .attachment-featured-thumbnail {
+.has-featured-image .featured-thumbnail,
+.format-standard .featured-thumbnail {
 	display: block;
 }
 
@@ -2637,14 +2637,14 @@ span + .edit-link:before,
  */
 
 @media screen and (max-width: 400px) {
-	.list-view .attachment-featured-thumbnail {
+	.list-view .featured-thumbnail {
 		background: none;
 		min-height: 0;
 		width: auto;
 		z-index: 2;
 	}
 
-	.list-view .attachment-featured-thumbnail img {
+	.list-view .featured-thumbnail img {
 		float: left;
 		margin: 0 10px 3px 0;
 		width: 84px;
@@ -2707,7 +2707,7 @@ span + .edit-link:before,
 }
 
 @media screen and (min-width: 401px) {
-	a.attachment-featured-thumbnail:hover img {
+	a.featured-thumbnail:hover img {
 		opacity: 0.85;
 	}
 
@@ -2809,8 +2809,8 @@ span + .edit-link:before,
 		margin: -3px 2px 0 0;
 	}
 
-	.list-view .site-content .has-featured-image .attachment-featured-thumbnail,
-	.list-view .site-content .format-standard .attachment-featured-thumbnail {
+	.list-view .site-content .has-featured-image .featured-thumbnail,
+	.list-view .site-content .format-standard .featured-thumbnail {
 		margin-top: -49px;
 	}
 
