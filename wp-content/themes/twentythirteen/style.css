@@ -1797,7 +1797,7 @@ footer.entry-meta {
 }
 
 .attachment .entry-attachment,
-.attachment p.attachment {
+.attachment .type-attachment p {
 	margin: 0 auto;
 	max-width: 724px;
 	text-align: center;
@@ -1819,6 +1819,10 @@ footer.entry-meta {
 .attachment .entry-caption p:last-child,
 .attachment .entry-description p:last-child {
 	margin: 0;
+}
+
+.attachment .site-main .sidebar-container {
+	display: none;
 }
 
 
