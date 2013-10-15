@@ -692,6 +692,7 @@ function update_core($from, $to) {
 
 	// Don't copy wp-content, we'll deal with that below
 	$skip = array( 'wp-content' );
+	$check_is_writable = array();
 
 	// Check to see which files don't really need updating - only available for 3.7 and higher
 	if ( function_exists( 'get_core_checksums' ) ) {
@@ -702,7 +703,27 @@ function update_core($from, $to) {
 					continue;
 				if ( file_exists( ABSPATH . $file ) && md5_file( ABSPATH . $file ) === $checksum )
 					$skip[] = $file;
+				else
+					$check_is_writable[ $file ] = ABSPATH . $file;
 			}
+		}
+	}
+
+	// If we're using the direct method, we can predict write failures that are due to permissions.
+	if ( $wp_filesystem->method === 'direct' ) {
+		$files_writable = array_filter( $check_is_writable, array( $wp_filesystem, 'is_writable' ) );
+		if ( $files_writable !== $check_is_writable ) {
+			$files_not_writable = array_diff_key( $check_is_writable, $files_writable );
+			foreach ( $files_not_writable as $relative_file_not_writable => $file_not_writable ) {
+				// If the writable check failed, chmod file to 0644 and try again, same as copy_dir().
+				$wp_filesystem->chmod( $file_not_writable, FS_CHMOD_FILE );
+				if ( $wp_filesystem->is_writable( $file_not_writable ) )
+					unset( $files_not_writable[ $relative_file_not_writable ] );
+			}
+
+			// Store package-relative paths (the key) of non-writable files in the WP_Error object.
+			if ( $files_not_writable )
+				return new WP_Error( 'files_not_writable', __( 'Could not copy file.' ), array_keys( $files_not_writable ) );
 		}
 	}
 
