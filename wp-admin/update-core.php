@@ -25,10 +25,6 @@ function list_core_update( $update ) {
 	global $wp_local_package, $wpdb;
 	static $first_pass = true;
 
-	// Don't show auto-updates in the updates page
-	if ( isset( $update->response ) && 'autoupdate' == $update->response )
-		return;
-
 	$version_string = ('en_US' == $update->locale && 'en_US' == get_locale() ) ?
 			$update->current : sprintf("%s&ndash;<strong>%s</strong>", $update->current, $update->locale);
 	$current = false;
