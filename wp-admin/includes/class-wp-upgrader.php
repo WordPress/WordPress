@@ -1623,7 +1623,7 @@ class WP_Automatic_Upgrader {
 		// Next up, do we actually have it enabled for this type of update?
 		switch ( $type ) {
 			case 'language':
-				$upgrade = true;
+				$upgrade = ! empty( $item->autoupdate );;
 				break;
 			case 'core':
 				$upgrade = Core_Upgrader::should_upgrade_to_version( $item->current );
