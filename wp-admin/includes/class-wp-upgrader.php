@@ -1700,8 +1700,9 @@ class WP_Automatic_Upgrader {
 				$skin->feedback( __( 'Updating plugin: %s' ), $item_name );
 				break;
 			case 'language':
-				$name = $upgrader->get_name_for_update( $item );
-				$skin->feedback( sprintf( __( 'Updating translations for %1$s (%2$s)&#8230;' ), $name, $item->language ) );
+				$language_item_name = $upgrader->get_name_for_update( $item );
+				$item_name = sprintf( __( 'Translations for %s' ), $language_item_name );
+				$skin->feedback( sprintf( __( 'Updating translations for %1$s (%2$s)&#8230;' ), $language_item_name, $item->language ) );
 				break;
 		}
 
