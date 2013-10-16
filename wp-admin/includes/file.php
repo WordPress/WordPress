@@ -891,6 +891,11 @@ function get_filesystem_method($args = array(), $context = false) {
 	if ( ! $method && function_exists('getmyuid') && function_exists('fileowner') ){
 		if ( !$context )
 			$context = WP_CONTENT_DIR;
+
+		// If the directory doesn't exist (wp-content/languages) then use the parent directory as we'll create it.
+		if ( WP_LANG_DIR == $context && ! is_dir( $context ) )
+			$context = dirname( $context );
+
 		$context = trailingslashit($context);
 		$temp_file_name = $context . 'temp-write-test-' . time();
 		$temp_handle = @fopen($temp_file_name, 'w');
@@ -1021,9 +1026,8 @@ jQuery(function($){
 -->
 </script>
 <form action="<?php echo esc_url( $form_post ) ?>" method="post">
-<div class="wrap">
-<?php screen_icon(); ?>
-<h2><?php _e('Connection Information') ?></h2>
+<div>
+<h3><?php _e('Connection Information') ?></h3>
 <p><?php
 	$label_user = __('Username');
 	$label_pass = __('Password');

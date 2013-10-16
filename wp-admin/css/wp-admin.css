@@ -6636,6 +6636,14 @@ body.iframe {
 	height: 98%;
 }
 
+/* Upgrader styles, Specific to Language Packs */
+.lp-show-latest p {
+	display: none;
+}
+.lp-show-latest p:last-child,
+.lp-show-latest .lp-error p {
+	display: block;
+}
 
 /* - Only used once or twice in all of WP - deprecate for global style
 ------------------------------------------------------------------------------*/

@@ -324,6 +324,27 @@ function list_theme_updates() {
 <?php
 }
 
+function list_translation_updates() {
+	$updates = wp_get_translation_updates();
+	if ( ! $updates ) {
+		if ( 'en_US' != get_locale() ) {
+			echo '<h3>' . __( 'Translations' ) . '</h3>';
+			echo '<p>' . __( 'Your translations are all up to date.' ) . '</p>';
+		}
+		return;
+	}
+
+	$form_action = 'update-core.php?action=do-translation-upgrade';
+	?>
+	<h3><?php _e( 'Translations' ); ?></h3>
+	<form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-themes" class="upgrade">
+		<p><?php _e( 'Some of your translations are out of date.' ); ?></p>
+		<?php wp_nonce_field('upgrade-translations'); ?>
+		<p><input class="button" type="submit" value="<?php esc_attr_e( 'Update Translations' ); ?>" name="upgrade" /></p>
+	</form>
+	<?php
+}
+
 /**
  * Upgrade WordPress core display.
  *
@@ -341,8 +362,6 @@ function do_core_upgrade( $reinstall = false ) {
 	else
 		$url = 'update-core.php?action=do-core-upgrade';
 	$url = wp_nonce_url($url, 'upgrade-core');
-	if ( false === ($credentials = request_filesystem_credentials($url, '', false, ABSPATH)) )
-		return;
 
 	$version = isset( $_POST['version'] )? $_POST['version'] : false;
 	$locale = isset( $_POST['locale'] )? $_POST['locale'] : 'en_US';
@@ -350,15 +369,24 @@ function do_core_upgrade( $reinstall = false ) {
 	if ( !$update )
 		return;
 
-	if ( ! WP_Filesystem($credentials, ABSPATH) ) {
-		request_filesystem_credentials($url, '', true, ABSPATH); //Failed to connect, Error and request again
-		return;
-	}
 ?>
 	<div class="wrap">
 	<?php screen_icon('tools'); ?>
 	<h2><?php _e('Update WordPress'); ?></h2>
 <?php
+
+	if ( false === ( $credentials = request_filesystem_credentials( $url, '', false, ABSPATH ) ) ) {
+		echo '</div>';
+		return;
+	}
+
+	if ( ! WP_Filesystem( $credentials, ABSPATH ) ) {
+		// Failed to connect, Error and request again
+		request_filesystem_credentials( $url, '', true, ABSPATH );
+		echo '</div>';
+		return;
+	}
+
 	if ( $wp_filesystem->errors->get_error_code() ) {
 		foreach ( $wp_filesystem->errors->get_error_messages() as $message )
 			show_message($message);
@@ -477,12 +505,15 @@ if ( 'upgrade-core' == $action ) {
 	echo ' &nbsp; <a class="button" href="' . esc_url( self_admin_url('update-core.php') ) . '">' . __( 'Check Again' ) . '</a>';
 	echo '</p>';
 
-	if ( current_user_can( 'update_core' ) )
+	if ( $core = current_user_can( 'update_core' ) )
 		core_upgrade_preamble();
-	if ( current_user_can( 'update_plugins' ) )
+	if ( $plugins = current_user_can( 'update_plugins' ) )
 		list_plugin_updates();
-	if ( current_user_can( 'update_themes' ) )
+	if ( $themes = current_user_can( 'update_themes' ) )
 		list_theme_updates();
+	if ( $core || $plugins || $themes )
+		list_translation_updates();
+	unset( $core, $plugins, $themes );
 	do_action('core_upgrade_preamble');
 	echo '</div>';
 	include(ABSPATH . 'wp-admin/admin-footer.php');
@@ -569,6 +600,26 @@ if ( 'upgrade-core' == $action ) {
 	echo "<iframe src='$url' style='width: 100%; height: 100%; min-height: 750px;' frameborder='0'></iframe>";
 	echo '</div>';
 	include(ABSPATH . 'wp-admin/admin-footer.php');
+
+} elseif ( 'do-translation-upgrade' == $action ) {
+
+	if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_plugins' ) && ! current_user_can( 'update_themes' ) )
+		wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
+
+	check_admin_referer( 'upgrade-translations' );
+
+	require_once( ABSPATH . 'wp-admin/admin-header.php' );
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+
+	$url = 'update-core.php?action=do-translation-upgrade';
+	$nonce = 'upgrade-translations';
+	$title = __( 'Update Translations' );
+	$context = WP_LANG_DIR;
+
+	$upgrader = new Language_Pack_Upgrader( new Language_Pack_Upgrader_Skin( compact( 'url', 'nonce', 'title', 'context' ) ) );
+	$result = $upgrader->bulk_upgrade();
+
+	require_once( ABSPATH . 'wp-admin/admin-footer.php' );
 
 } else {
 	do_action('update-core-custom_' . $action);

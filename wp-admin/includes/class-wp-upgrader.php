@@ -307,13 +307,17 @@ class WP_Upgrader {
 		$options = wp_parse_args($options, $defaults);
 		extract($options);
 
-		//Connect to the Filesystem first.
-		$res = $this->fs_connect( array(WP_CONTENT_DIR, $destination) );
-		if ( ! $res ) //Mainly for non-connected filesystem.
-			return false;
-
 		if ( ! $is_multi ) // call $this->header separately if running multiple times
 			$this->skin->header();
+
+		// Connect to the Filesystem first.
+		$res = $this->fs_connect( array(WP_CONTENT_DIR, $destination) );
+		// Mainly for non-connected filesystem.
+		if ( ! $res ) {
+			if ( ! $is_multi )
+				$this->skin->footer();
+			return false;
+		}
 
 		$this->skin->before();
 
@@ -368,8 +372,10 @@ class WP_Upgrader {
 
 		$this->skin->after();
 
-		if ( ! $is_multi )
+		if ( ! $is_multi ) {
+			do_action( 'upgrader_process_complete', $this, $hook_extra );
 			$this->skin->footer();
+		}
 
 		return $result;
 	}
@@ -442,7 +448,10 @@ class Plugin_Upgrader extends WP_Upgrader {
 			'destination' => WP_PLUGIN_DIR,
 			'clear_destination' => false, // Do not overwrite files.
 			'clear_working' => true,
-			'hook_extra' => array()
+			'hook_extra' => array(
+				'type' => 'plugin',
+				'action' => 'install',
+			)
 		) );
 
 		remove_filter('upgrader_source_selection', array($this, 'check_package') );
@@ -452,8 +461,6 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		// Force refresh of plugin update information
 		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
-
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'install', 'type' => 'plugin' ), $package );
 
 		return true;
 	}
@@ -490,7 +497,9 @@ class Plugin_Upgrader extends WP_Upgrader {
 			'clear_destination' => true,
 			'clear_working' => true,
 			'hook_extra' => array(
-				'plugin' => $plugin
+				'plugin' => $plugin,
+				'type' => 'plugin',
+				'action' => 'update',
 			),
 		) );
 
@@ -503,8 +512,6 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		// Force refresh of plugin update information
 		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
-
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'plugin' ), $plugin );
 
 		return true;
 	}
@@ -587,6 +594,13 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$this->maintenance_mode(false);
 
+		do_action( 'upgrader_process_complete', $this, array(
+			'action' => 'update',
+			'type' => 'plugin',
+			'bulk' => true,
+			'plugins' => $plugins,
+		) );
+
 		$this->skin->bulk_footer();
 
 		$this->skin->footer();
@@ -596,8 +610,6 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		// Force refresh of plugin update information
 		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
-
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'plugin', 'bulk' => true ), $plugins );
 
 		return $results;
 	}
@@ -814,7 +826,11 @@ class Theme_Upgrader extends WP_Upgrader {
 			'package' => $package,
 			'destination' => get_theme_root(),
 			'clear_destination' => false, //Do not overwrite files.
-			'clear_working' => true
+			'clear_working' => true,
+			'hook_extra' => array(
+				'type' => 'theme',
+				'action' => 'install',
+			),
 		) );
 
 		remove_filter('upgrader_source_selection', array($this, 'check_package') );
@@ -825,8 +841,6 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Refresh the Theme Update information
 		wp_clean_themes_cache( $parsed_args['clear_update_cache'] );
-
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'install', 'type' => 'theme' ), $package );
 
 		return true;
 	}
@@ -863,7 +877,9 @@ class Theme_Upgrader extends WP_Upgrader {
 			'clear_destination' => true,
 			'clear_working' => true,
 			'hook_extra' => array(
-				'theme' => $theme
+				'theme' => $theme,
+				'type' => 'theme',
+				'action' => 'update',
 			),
 		) );
 
@@ -875,8 +891,6 @@ class Theme_Upgrader extends WP_Upgrader {
 			return $this->result;
 
 		wp_clean_themes_cache( $parsed_args['clear_update_cache'] );
-
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'theme' ), $theme );
 
 		return true;
 	}
@@ -959,6 +973,13 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$this->maintenance_mode(false);
 
+		do_action( 'upgrader_process_complete', $this, array(
+			'action' => 'update',
+			'type' => 'plugin',
+			'bulk' => true,
+			'themes' => $themes,
+		) );
+
 		$this->skin->bulk_footer();
 
 		$this->skin->footer();
@@ -970,8 +991,6 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// Refresh the Theme Update information
 		wp_clean_themes_cache( $parsed_args['clear_update_cache'] );
-
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'theme', 'bulk' => true ), $themes );
 
 		return $results;
 	}
@@ -1073,18 +1092,27 @@ class Theme_Upgrader extends WP_Upgrader {
 
 }
 
-add_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20, 3 );
+add_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
 class Language_Pack_Upgrader extends WP_Upgrader {
 
 	var $result;
 	var $bulk = true;
 
-	static function async_upgrade( $upgrader, $context, $package ) {
+	static function async_upgrade( $upgrader = false ) {
 		// Avoid recursion.
-		if ( $upgrader instanceof Language_Pack_Upgrader )
+		if ( $upgrader && $upgrader instanceof Language_Pack_Upgrader )
 			return;
 
-		$lp_upgrader = new Language_Pack_Upgrader( new Headerless_Upgrader_Skin() );
+		// Nothing to do?
+		$language_updates = wp_get_translation_updates();
+		if ( ! $language_updates )
+			return;
+
+		$skin = new Language_Pack_Upgrader_Skin( array(
+			'skip_header_footer' => true,
+		) );
+
+		$lp_upgrader = new Language_Pack_Upgrader( $skin );
 		$lp_upgrader->upgrade();
 	}
 
@@ -1098,15 +1126,20 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		$this->strings['process_success'] = __( 'Translation updated successfully.' );
 	}
 
-	function upgrade( $update = false ) {
+	function upgrade( $update = false, $args = array() ) {
 		if ( $update )
 			$update = array( $update );
-		$results = $this->bulk_upgrade( $update );
+		$results = $this->bulk_upgrade( $update, $args );
 		return $results[0];
 	}
 
-	function bulk_upgrade( $language_updates = array() ) {
+	function bulk_upgrade( $language_updates = array(), $args = array() ) {
 		global $wp_filesystem;
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->upgrade_strings();
@@ -1114,8 +1147,16 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		if ( ! $language_updates )
 			$language_updates = wp_get_translation_updates();
 
-		if ( empty( $language_updates ) )
+		if ( empty( $language_updates ) ) {
+			$this->skin->header();
+			$this->skin->before();
+			$this->skin->set_result( true );
+			$this->skin->feedback( 'up_to_date' );
+			$this->skin->after();
+			$this->skin->bulk_footer();
+			$this->skin->footer();
 			return true;
+		}
 
 		if ( 'upgrader_process_complete' == current_filter() )
 			$this->skin->feedback( 'starting_upgrade' );
@@ -1144,6 +1185,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 				return new WP_Error( 'mkdir_failed_lang_dir', $this->strings['mkdir_failed'], $remote_destination );
 
 		foreach ( $language_updates as $language_update ) {
+
+			$this->skin->language_update = $language_update;
 
 			$destination = WP_LANG_DIR;
 			if ( 'plugin' == $language_update->type )
@@ -1175,8 +1218,18 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 				break;
 		}
 
+		$this->skin->bulk_footer();
+
+		$this->skin->footer();
+
 		// Clean up our hooks, in case something else does an upgrade on this connection.
 		remove_filter( 'upgrader_source_selection', array( &$this, 'check_package' ), 10, 2 );
+
+		if ( $parsed_args['clear_update_cache'] ) {
+			wp_clean_themes_cache( true );
+			wp_clean_plugins_cache( true );
+			delete_site_transient( 'update_core' );
+		}
 
 		return $results;
 	}
@@ -1204,6 +1257,26 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 				__( 'The language pack is missing either the <code>.po</code> or <code>.mo</code> files.' ) );
 
 		return $source;
+	}
+
+	function get_name_for_update( $update ) {
+		switch ( $update->type ) {
+			case 'core':
+				return 'WordPress'; // Not translated
+				break;
+			case 'theme':
+				$theme = wp_get_theme( $update->slug );
+				if ( $theme->exists() )
+					return $theme->Get( 'Name' );
+				break;
+			case 'plugin':
+				$plugin_data = get_plugins( '/' . $update->slug );
+				$plugin_data = array_shift( $plugin_data );
+				if ( $plugin_data )
+					return $plugin_data['Name'];
+				break;
+		}
+		return '';
 	}
 
 }
@@ -1321,7 +1394,6 @@ class Core_Upgrader extends WP_Upgrader {
 			}
 		}
 
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'core' ), $result );
 		return $result;
 	}
 
@@ -1628,42 +1700,8 @@ class WP_Automatic_Upgrader {
 				$skin->feedback( __( 'Updating plugin: %s' ), $item_name );
 				break;
 			case 'language':
-				if ( 'theme' == $item->type ) {
-					$theme = wp_get_theme( $item->slug );
-					$skin->feedback( sprintf(
-						__( 'Updating the %1$s translation for the %2$s theme' ),
-						$item->language,
-						$theme->Get( 'Name' )
-					) );
-					$item_name = sprintf(
-						__( '%1$s translation for the %2$s theme' ),
-						$item->language,
-						$theme->Get( 'Name' )
-					);
-				} elseif ( 'plugin' == $item->type ) {
-					$plugin_data = get_plugins( '/' . $item->slug );
-					$plugin_data = array_shift( $plugin_data );
-					$skin->feedback( sprintf(
-						__( 'Updating the %1$s translation for the %2$s plugin' ),
-						$item->language,
-						$plugin_data['Name']
-					) );
-					$item_name = sprintf(
-						__( '%1$s translation for the %2$s plugin' ),
-						$item->language,
-						$plugin_data['Name']
-					);
-				} else {
-					$skin->feedback( sprintf(
-						__( 'Updating %s translation' ),
-						$item->language
-					) );
-					$item_name = sprintf(
-						__( '%s translation' ),
-						$item->language
-					);
-				}
-				
+				$name = $upgrader->get_name_for_update( $item );
+				$skin->feedback( sprintf( __( 'Updating translations for %1$s (%2$s)&#8230;' ), $name, $item->language ) );
 				break;
 		}
 
@@ -1711,7 +1749,7 @@ class WP_Automatic_Upgrader {
 			return;
 
 		// Don't automatically run these thins, as we'll handle it ourselves
-		remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20, 3 ); 
+		remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 ); 
 		remove_action( 'upgrader_process_complete', 'wp_version_check' ); 
 		remove_action( 'upgrader_process_complete', 'wp_update_plugins' ); 
 		remove_action( 'upgrader_process_complete', 'wp_update_themes' ); 
