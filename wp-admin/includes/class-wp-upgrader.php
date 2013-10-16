@@ -1601,9 +1601,14 @@ class WP_Automatic_Upgrader {
 	}
 
 	/**
-	 * Tests to see if we should upgrade a specific item, does not test to see if we CAN update the item.
+	 * Tests to see if we can and should upgrade a specific item.
 	 */
 	static function should_auto_update( $type, $item, $context ) {
+
+		// Checks to see if WP_Filesystem is set up to allow unattended upgrades.
+		$skin = new Automatic_Upgrader_Skin;
+		if ( ! $skin->request_filesystem_credentials( false, $context ) )
+			return false;
 
 		if ( self::upgrader_disabled() )
 			return false;
@@ -1631,7 +1636,7 @@ class WP_Automatic_Upgrader {
 		if ( ! apply_filters( 'auto_upgrade_' . $type, $upgrade, $item ) )
 			return false;
 
-		// If it's a core update, are we actually compatible with it's requirements?
+		// If it's a core update, are we actually compatible with its requirements?
 		if ( 'core' == $type ) {
 			global $wpdb;
 
@@ -1646,13 +1651,6 @@ class WP_Automatic_Upgrader {
 		}
 
 		return true;
-	}
-
-	// Checks to see if WP_Filesystem is setup to allow unattended upgrades
-	static function can_auto_update( $context, $skin = false ) {
-		if ( ! $skin )
-			$skin = new Automatic_Upgrader_Skin();
-		return (bool) $skin->request_filesystem_credentials( false, $context );
 	}
 
 	static function upgrade( $type, $item ) {
@@ -1680,8 +1678,8 @@ class WP_Automatic_Upgrader {
 				break;
 		}
 
-		// Determine if we can perform this upgrade or not
-		if ( ! self::should_auto_update( $type, $item, $context ) || ! self::can_auto_update( $context, $skin ) )
+		// Determine whether we can and should perform this upgrade.
+		if ( ! self::should_auto_update( $type, $item, $context ) )
 			return false;
 
 		switch ( $type ) {
