@@ -1454,7 +1454,7 @@ img#wpstats {
 		width: 65.104166667%;
 	}
 	body.template-front-page .site-content,
-	body.single-attachment .site-content,
+	body.attachment .site-content,
 	body.full-width .site-content {
 		width: 100%;
 	}

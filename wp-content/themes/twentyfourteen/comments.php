@@ -1,11 +1,12 @@
 <?php
 /**
- * The template for displaying Comments.
+ * The template for displaying Comments
  *
  * The area of the page that contains comments and the comment form.
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 
 /*
@@ -40,9 +41,7 @@ if ( post_password_required() )
 			wp_list_comments( array(
 				'style'      => 'ol',
 				'short_ping' => true,
-
-				// TODO: Remove callback and update styles.
-				'callback'=>'twentyfourteen_comment',
+				'avatar_size'=> 34,
 			) );
 		?>
 	</ol><!-- .comment-list -->

@@ -11,7 +11,7 @@ define( 'WP_INSTALLING', true );
 /** Sets up the WordPress Environment. */
 require( dirname(__FILE__) . '/wp-load.php' );
 
-require( './wp-blog-header.php' );
+require( dirname( __FILE__ ) . '/wp-blog-header.php' );
 
 if ( !is_multisite() ) {
 	wp_redirect( site_url( '/wp-login.php?action=register' ) );
@@ -21,6 +21,14 @@ if ( !is_multisite() ) {
 if ( is_object( $wp_object_cache ) )
 	$wp_object_cache->cache_enabled = false;
 
+// Fix for page title
+$wp_query->is_404 = false;
+
+/**
+ * Fires before the Site Activation page is loaded.
+ *
+ * @since 3.0
+ */
 do_action( 'activate_header' );
 
 /**
@@ -29,7 +37,12 @@ do_action( 'activate_header' );
  * @since MU
  */
 function do_activate_header() {
-	do_action( 'activate_wp_head' );
+    /**
+     * Fires before the Site Activation page is loaded, but on the wp_head action.
+     *
+     * @since 3.0
+     */
+    do_action( 'activate_wp_head' );
 }
 add_action( 'wp_head', 'do_activate_header' );
 

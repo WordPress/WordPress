@@ -85,15 +85,58 @@ function update_post_thumbnail_cache( $wp_query = null ) {
 function get_the_post_thumbnail( $post_id = null, $size = 'post-thumbnail', $attr = '' ) {
 	$post_id = ( null === $post_id ) ? get_the_ID() : $post_id;
 	$post_thumbnail_id = get_post_thumbnail_id( $post_id );
+
+	/**
+	 * Filter the post thumbnail size.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param string $size The post thumbnail size.
+	 */
 	$size = apply_filters( 'post_thumbnail_size', $size );
+
 	if ( $post_thumbnail_id ) {
-		do_action( 'begin_fetch_post_thumbnail_html', $post_id, $post_thumbnail_id, $size ); // for "Just In Time" filtering of all of wp_get_attachment_image()'s filters
+
+		/**
+		 * Fires before fetching the post thumbnail HTML.
+		 *
+		 * Provides "just in time" filtering of all filters in wp_get_attachment_image().
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $post_id           The post ID.
+		 * @param string $post_thumbnail_id The post thumbnail ID.
+		 * @param string $size              The post thumbnail size.
+		 */
+		do_action( 'begin_fetch_post_thumbnail_html', $post_id, $post_thumbnail_id, $size );
 		if ( in_the_loop() )
 			update_post_thumbnail_cache();
 		$html = wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr );
+
+		/**
+		 * Fires after fetching the post thumbnail HTML.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $post_id           The post ID.
+		 * @param string $post_thumbnail_id The post thumbnail ID.
+		 * @param string $size              The post thumbnail size.
+		 */
 		do_action( 'end_fetch_post_thumbnail_html', $post_id, $post_thumbnail_id, $size );
+
 	} else {
 		$html = '';
 	}
+	/**
+	 * Filter the post thumbnail HTML.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param string $html              The post thumbnail HTML.
+	 * @param string $post_id           The post ID.
+	 * @param string $post_thumbnail_id The post thumbnail ID.
+	 * @param string $size              The post thumbnail size.
+	 * @param string $attr              Query string of attributes.
+	 */
 	return apply_filters( 'post_thumbnail_html', $html, $post_id, $post_thumbnail_id, $size, $attr );
 }

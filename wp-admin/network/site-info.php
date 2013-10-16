@@ -8,7 +8,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
@@ -50,7 +50,7 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] ) {
 	switch_to_blog( $id );
 
 	if ( isset( $_POST['update_home_url'] ) && $_POST['update_home_url'] == 'update' ) {
-		$blog_address = get_blogaddress_by_domain( $_POST['blog']['domain'], $_POST['blog']['path'] );
+		$blog_address = esc_url_raw( $_POST['blog']['domain'] . $_POST['blog']['path'] );
 		if ( get_option( 'siteurl' ) != $blog_address )
 			update_option( 'siteurl', $blog_address );
 
@@ -91,7 +91,7 @@ $title = sprintf( __('Edit Site: %s'), $site_url_no_http );
 $parent_file = 'sites.php';
 $submenu_file = 'sites.php';
 
-require('../admin-header.php');
+require( ABSPATH . 'wp-admin/admin-header.php' );
 
 ?>
 
@@ -177,4 +177,4 @@ if ( ! empty( $messages ) ) {
 
 </div>
 <?php
-require('../admin-footer.php');
+require( ABSPATH . 'wp-admin/admin-footer.php' );

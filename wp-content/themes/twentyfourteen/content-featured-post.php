@@ -1,12 +1,15 @@
 <?php
 /**
+ * The template for displaying featured posts on the front page
+ *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<a class="attachment-featured-featured" href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'twentyfourteen' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="<?php the_ID(); ?>">
+	<a class="attachment-featured-featured" href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>">
 		<?php
 			if ( has_post_thumbnail() ) :
 				the_post_thumbnail( 'featured-thumbnail-featured' );
@@ -24,10 +27,6 @@
 				if ( $images ) :
 					$image = array_shift( $images );
 					echo wp_get_attachment_image( $image->ID, 'featured-thumbnail-featured' );
-
-				else : ?>
-					<img class="featured-thumbnail-featured" src="<?php echo get_template_directory_uri(); ?>/images/placeholder.png" alt="" /><?php
-
 				endif;
 			endif;
 		?>
@@ -43,9 +42,5 @@
 
 			<?php the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' ); ?>
 		</header><!-- .entry-header -->
-
-		<div class="entry-summary">
-			<?php the_excerpt(); ?>
-		</div><!-- .entry-summary -->
 	</div>
 </article><!-- #post-## -->

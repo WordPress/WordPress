@@ -1484,19 +1484,19 @@ function rawurlencode_deep( $value ) {
  * @since 0.71
  *
  * @param string $email_address Email address.
- * @param int $extra_entropy Optional. Range from 0 to 1. Used for encoding.
+ * @param int $hex_encoding Optional. Set to 1 to enable hex encoding.
  * @return string Converted email address.
  */
-function antispambot( $email_address, $extra_entropy = 0 ) {
+function antispambot( $email_address, $hex_encoding = 0 ) {
 	$email_no_spam_address = '';
 	for ( $i = 0; $i < strlen( $email_address ); $i++ ) {
-		$j = rand( 0, 1 + $extra_entropy );
+		$j = rand( 0, 1 + $hex_encoding );
 		if ( $j == 0 ) {
-			$email_no_spam_address .= '&#' . ord( substr( $email_address, $i, 1 ) ) . ';';
+			$email_no_spam_address .= '&#' . ord( $email_address[$i] ) . ';';
 		} elseif ( $j == 1 ) {
-			$email_no_spam_address .= substr( $email_address, $i, 1 );
+			$email_no_spam_address .= $email_address[$i];
 		} elseif ( $j == 2 ) {
-			$email_no_spam_address .= '%' . zeroise( dechex( ord( substr( $email_address, $i, 1 ) ) ), 2 );
+			$email_no_spam_address .= '%' . zeroise( dechex( ord( $email_address[$i] ) ), 2 );
 		}
 	}
 
@@ -1744,29 +1744,29 @@ function wp_rel_nofollow_callback( $matches ) {
 /**
  * Convert one smiley code to the icon graphic file equivalent.
  *
+ * Callback handler for {@link convert_smilies()}.
  * Looks up one smiley code in the $wpsmiliestrans global array and returns an
  * <img> string for that smiley.
  *
  * @global array $wpsmiliestrans
  * @since 2.8.0
  *
- * @param string $smiley Smiley code to convert to image.
+ * @param array $matches Single match. Smiley code to convert to image.
  * @return string Image string for smiley.
  */
-function translate_smiley($smiley) {
+function translate_smiley( $matches ) {
 	global $wpsmiliestrans;
 
-	if (count($smiley) == 0) {
+	if ( count( $matches ) == 0 )
 		return '';
-	}
 
-	$smiley = trim(reset($smiley));
-	$img = $wpsmiliestrans[$smiley];
-	$smiley_masked = esc_attr($smiley);
+	$smiley = trim( reset( $matches ) );
+	$img = $wpsmiliestrans[ $smiley ];
+	$smiley_masked = esc_attr( $smiley );
 
-	$srcurl = apply_filters('smilies_src', includes_url("images/smilies/$img"), $img, site_url());
+	$src_url = apply_filters( 'smilies_src', includes_url( "images/smilies/$img" ), $img, site_url() );
 
-	return " <img src='$srcurl' alt='$smiley_masked' class='wp-smiley' /> ";
+	return " <img src='$src_url' alt='$smiley_masked' class='wp-smiley' /> ";
 }
 
 /**
@@ -2956,6 +2956,11 @@ function sanitize_option($option, $value) {
 		case 'tag_base':
 			$value = esc_url_raw( $value );
 			$value = str_replace( 'http://', '', $value );
+			break;
+
+		case 'default_role' :
+			if ( ! get_role( $value ) && get_role( 'subscriber' ) )
+				$value = 'subscriber';
 			break;
 	}
 

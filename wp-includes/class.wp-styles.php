@@ -87,7 +87,8 @@ class WP_Styles extends WP_Dependencies {
 
 		if ( $this->do_concat ) {
 			$this->print_html .= $tag;
-			$this->print_html .= $this->print_inline_style( $handle, false );
+			if ( $inline_style = $this->print_inline_style( $handle, false ) )
+				$this->print_html .= sprintf( "<style type='text/css'>\n%s\n</style>\n", $inline_style );
 		} else {
 			echo $tag;
 			$this->print_inline_style( $handle );

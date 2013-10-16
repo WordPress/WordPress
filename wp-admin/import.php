@@ -9,7 +9,7 @@
 define('WP_LOAD_IMPORTERS', true);
 
 /** Load WordPress Bootstrap */
-require_once ('admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( !current_user_can('import') )
 	wp_die(__('You do not have sufficient permissions to import content in this site.'));
@@ -47,7 +47,7 @@ if ( ! empty( $_GET['invalid'] ) && isset( $popular_importers[ $_GET['invalid'] 
 add_thickbox();
 wp_enqueue_script( 'plugin-install' );
 
-require_once ('admin-header.php');
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 $parent_file = 'tools.php';
 ?>
 
@@ -130,4 +130,4 @@ if ( current_user_can('install_plugins') )
 
 <?php
 
-include ('admin-footer.php');
+include( ABSPATH . 'wp-admin/admin-footer.php' );

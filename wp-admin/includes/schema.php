@@ -230,7 +230,7 @@ CREATE TABLE $wpdb->posts (
   registered datetime NOT NULL default '0000-00-00 00:00:00',
   last_updated datetime NOT NULL default '0000-00-00 00:00:00',
   public tinyint(2) NOT NULL default '1',
-  archived enum('0','1') NOT NULL default '0',
+  archived tinyint(2) NOT NULL default '0',
   mature tinyint(2) NOT NULL default '0',
   spam tinyint(2) NOT NULL default '0',
   deleted tinyint(2) NOT NULL default '0',
@@ -272,6 +272,7 @@ CREATE TABLE $wpdb->sitemeta (
   KEY site_id (site_id)
 ) $charset_collate;
 CREATE TABLE $wpdb->signups (
+  signup_id bigint(20) NOT NULL auto_increment,
   domain varchar(200) NOT NULL default '',
   path varchar(100) NOT NULL default '',
   title longtext NOT NULL,
@@ -282,8 +283,11 @@ CREATE TABLE $wpdb->signups (
   active tinyint(1) NOT NULL default '0',
   activation_key varchar(50) NOT NULL default '',
   meta longtext,
+  PRIMARY KEY  (signup_id),
   KEY activation_key (activation_key),
-  KEY domain (domain)
+  KEY user_email (user_email),
+  KEY user_login_email (user_login,user_email),
+  KEY domain_path (domain,path)
 ) $charset_collate;";
 
 	switch ( $scope ) {
@@ -542,6 +546,8 @@ function populate_options() {
 
 	// delete obsolete magpie stuff
 	$wpdb->query("DELETE FROM $wpdb->options WHERE option_name REGEXP '^rss_[0-9a-f]{32}(_ts)?$'");
+	// clear transient data
+	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '\_transient\_%' OR option_name LIKE '\_site\_transient\_%'" );
 }
 
 /**
@@ -918,6 +924,16 @@ We hope you enjoy your new site. Thanks!
 	if ( ! $subdomain_install )
 		$sitemeta['illegal_names'][] = 'blog';
 
+	/**
+	 * Filter meta for a network on creation.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param array $sitemeta Associative of meta keys and values to be inserted.
+	 * @param int $network_id Network ID being created.
+	 */
+	$sitemeta = apply_filters( 'populate_network_meta', $sitemeta, $network_id );
+
 	$insert = '';
 	foreach ( $sitemeta as $meta_key => $meta_value ) {
 		if ( is_array( $meta_value ) )
@@ -947,9 +963,10 @@ We hope you enjoy your new site. Thanks!
 			$wp_rewrite->set_permalink_structure( '/blog/%year%/%monthnum%/%day%/%postname%/' );
 
 		flush_rewrite_rules();
-	}
 
-	if ( $subdomain_install ) {
+		if ( ! $subdomain_install )
+			return true;
+
 		$vhost_ok = false;
 		$errstr = '';
 		$hostname = substr( md5( time() ), 0, 6 ) . '.' . $domain; // Very random hostname!

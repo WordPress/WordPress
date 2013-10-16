@@ -37,12 +37,6 @@ if ( file_exists( ABSPATH . 'wp-config.php') ) {
 
 	// A config file doesn't exist
 
-	// Set a path for the link to the installer
-	if ( strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false )
-		$path = 'setup-config.php';
-	else
-		$path = 'wp-admin/setup-config.php';
-
 	define( 'WPINC', 'wp-includes' );
 	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 	require_once( ABSPATH . WPINC . '/load.php' );
@@ -51,7 +45,12 @@ if ( file_exists( ABSPATH . 'wp-config.php') ) {
 	wp_check_php_mysql_versions();
 	wp_load_translations_early();
 
+	// Standardize $_SERVER variables across setups.
+	wp_fix_server_vars();
+
 	require_once( ABSPATH . WPINC . '/functions.php' );
+
+	$path = wp_guess_url() . '/wp-admin/setup-config.php';
 
 	// Die with an error message
 	$die  = __( "There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started." ) . '</p>';

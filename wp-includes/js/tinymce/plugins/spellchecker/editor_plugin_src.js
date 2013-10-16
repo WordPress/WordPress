@@ -126,6 +126,7 @@
 
 				c.onRenderMenu.add(function(c, m) {
 					m.add({title : 'spellchecker.langs', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+					t.menuItems = {};
 					each(t.languages, function(v, k) {
 						var o = {icon : 1}, mi;
 
@@ -133,26 +134,59 @@
 							if (v == t.selectedLang) {
 								return;
 							}
-							mi.setSelected(1);
-							t.selectedItem.setSelected(0);
-							t.selectedItem = mi;
+							t._updateMenu(mi);
 							t.selectedLang = v;
 						};
 
 						o.title = k;
 						mi = m.add(o);
 						mi.setSelected(v == t.selectedLang);
-
+						t.menuItems[v] = mi;
 						if (v == t.selectedLang)
 							t.selectedItem = mi;
-					})
+					});
 				});
+
+
 
 				return c;
 			}
 		},
 
+		setLanguage: function(lang) {
+			var t = this;
+
+			if (lang == t.selectedLang) {
+				// allowed
+				return;
+			}
+
+			if (tinymce.grep(t.languages, function(v) { return v === lang; }).length === 0) {
+				throw "Unknown language: " + lang;
+			}
+
+			t.selectedLang = lang;
+
+			// if the menu has been shown, update it as well
+			if (t.menuItems) {
+				t._updateMenu(t.menuItems[lang]);
+			}
+
+			if (t.active) {
+				// clear error in the old language.
+				t._done();
+
+				// Don't immediately block the UI to check spelling in the new language, this is an API not a user action.
+			}
+		},
+
 		// Internal functions
+
+		_updateMenu: function(mi) {
+			mi.setSelected(1);
+			this.selectedItem.setSelected(0);
+			this.selectedItem = mi;
+		},
 
 		_walk : function(n, f) {
 			var d = this.editor.getDoc(), w;
@@ -235,6 +269,7 @@
 			each(nl, function(n) {
 				var node, elem, txt, pos, v = n.nodeValue;
 
+				rx.lastIndex = 0;
 				if (rx.test(v)) {
 					// Encode the content
 					v = dom.encode(v);

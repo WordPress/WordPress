@@ -467,8 +467,8 @@ function stream_preview_image( $post_id ) {
 	$h = $size['height'];
 
 	$ratio = _image_get_preview_ratio( $w, $h );
-	$w2 = $w * $ratio;
-	$h2 = $h * $ratio;
+	$w2 = max ( 1, $w * $ratio );
+	$h2 = max ( 1, $h * $ratio );
 
 	if ( is_wp_error( $img->resize( $w2, $h2 ) ) )
 		return false;

@@ -458,7 +458,10 @@ function get_body_class( $class = '' ) {
 	} elseif ( is_archive() ) {
 		if ( is_post_type_archive() ) {
 			$classes[] = 'post-type-archive';
-			$classes[] = 'post-type-archive-' . sanitize_html_class( get_query_var( 'post_type' ) );
+			$post_type = get_query_var( 'post_type' );
+			if ( is_array( $post_type ) )
+				$post_type = reset( $post_type );
+			$classes[] = 'post-type-archive-' . sanitize_html_class( $post_type );
 		} else if ( is_author() ) {
 			$author = $wp_query->get_queried_object();
 			$classes[] = 'author';
@@ -910,7 +913,7 @@ function wp_page_menu( $args = array() ) {
 		$class = '';
 		if ( is_front_page() && !is_paged() )
 			$class = 'class="current_page_item"';
-		$menu .= '<li ' . $class . '><a href="' . home_url( '/' ) . '" title="' . esc_attr($text) . '">' . $args['link_before'] . $text . $args['link_after'] . '</a></li>';
+		$menu .= '<li ' . $class . '><a href="' . home_url( '/' ) . '">' . $args['link_before'] . $text . $args['link_after'] . '</a></li>';
 		// If the front page is a page, add it to the exclude list
 		if (get_option('show_on_front') == 'page') {
 			if ( !empty( $list_args['exclude'] ) ) {
@@ -953,6 +956,11 @@ function walk_page_tree($pages, $depth, $current_page, $r) {
 		$walker = new Walker_Page;
 	else
 		$walker = $r['walker'];
+
+	foreach ( (array) $pages as $page ) {
+		if ( $page->post_parent )
+			$r['pages_with_children'][ $page->post_parent ] = true;
+	}
 
 	$args = array($pages, $depth, $r, $current_page);
 	return call_user_func_array(array($walker, 'walk'), $args);
@@ -1042,6 +1050,10 @@ class Walker_Page extends Walker {
 
 		extract($args, EXTR_SKIP);
 		$css_class = array('page_item', 'page-item-'.$page->ID);
+
+		if( isset( $args['pages_with_children'][ $page->ID ] ) )
+			$css_class[] = 'page_item_has_children';
+
 		if ( !empty($current_page) ) {
 			$_current_page = get_post( $current_page );
 			if ( in_array( $page->ID, $_current_page->ancestors ) )
@@ -1191,7 +1203,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 	if ( trim( $link_text ) == '' )
 		$link_text = $_post->post_title;
 
-	return apply_filters( 'wp_get_attachment_link', "<a href='$url' title='$post_title'>$link_text</a>", $id, $size, $permalink, $icon, $text );
+	return apply_filters( 'wp_get_attachment_link', "<a href='$url'>$link_text</a>", $id, $size, $permalink, $icon, $text );
 }
 
 /**
@@ -1234,7 +1246,7 @@ function get_the_password_form( $post = 0 ) {
 	$post = get_post( $post );
 	$label = 'pwbox-' . ( empty($post->ID) ? rand() : $post->ID );
 	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" class="post-password-form" method="post">
-	<p>' . __( 'This post is password protected. To view it please enter your password below:' ) . '</p>
+	<p>' . __( 'This content is password protected. To view it please enter your password below:' ) . '</p>
 	<p><label for="' . $label . '">' . __( 'Password:' ) . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . esc_attr__( 'Submit' ) . '" /></p>
 	</form>
 	';
@@ -1428,31 +1440,5 @@ function wp_list_post_revisions( $post_id = 0, $type = 'all' ) {
 
 	echo "<ul class='post-revisions hide-if-no-js'>\n";
 	echo $rows;
-
-	// if the post was previously restored from a revision
-	// show the restore event details
-	if ( $restored_from_meta = get_post_meta( $post->ID, '_post_restored_from', true ) ) {
-		$author = get_user_by( 'id', $restored_from_meta[ 'restored_by_user' ] );
-		/* translators: revision date format, see http://php.net/date */
-		$datef = _x( 'j F, Y @ G:i:s', 'revision date format');
-		$date = date_i18n( $datef, strtotime( $restored_from_meta[ 'restored_time' ] ) );
-		$time_diff = human_time_diff( $restored_from_meta[ 'restored_time' ] ) ;
-		?>
-		<hr />
-		<div id="revisions-meta-restored">
-			<?php
-			printf(
-				/* translators: restored revision details: 1: gravatar image, 2: author name, 3: time ago, 4: date */
-				__( 'Previously restored by %1$s %2$s, %3$s ago (%4$s)' ),
-				get_avatar( $author->ID, 24 ),
-				$author->display_name,
-				$time_diff,
-				$date
-			);
-			?>
-		</div>
-		<?php
-		echo "</ul>";
-	}
-
+	echo "</ul>";
 }

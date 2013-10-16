@@ -141,22 +141,13 @@ class WP {
 			$error = '404';
 			$this->did_permalink = true;
 
-			if ( isset($_SERVER['PATH_INFO']) )
-				$pathinfo = $_SERVER['PATH_INFO'];
-			else
-				$pathinfo = '';
-			$pathinfo_array = explode('?', $pathinfo);
-			$pathinfo = str_replace("%", "%25", $pathinfo_array[0]);
-			$req_uri = $_SERVER['REQUEST_URI'];
-			$req_uri_array = explode('?', $req_uri);
-			$req_uri = $req_uri_array[0];
+			$pathinfo = isset( $_SERVER['PATH_INFO'] ) ? $_SERVER['PATH_INFO'] : '';
+			list( $pathinfo ) = explode( '?', $pathinfo );
+			$pathinfo = str_replace( "%", "%25", $pathinfo );
+
+			list( $req_uri ) = explode( '?', $_SERVER['REQUEST_URI'] );
 			$self = $_SERVER['PHP_SELF'];
-			$home_path = parse_url(home_url());
-			if ( isset($home_path['path']) )
-				$home_path = $home_path['path'];
-			else
-				$home_path = '';
-			$home_path = trim($home_path, '/');
+			$home_path = trim( parse_url( home_url(), PHP_URL_PATH ), '/' );
 
 			// Trim path info from the end and the leading home path from the
 			// front. For path info requests, this leaves us with the requesting
@@ -247,7 +238,7 @@ class WP {
 
 		$this->public_query_vars = apply_filters('query_vars', $this->public_query_vars);
 
-		foreach ( $GLOBALS['wp_post_types'] as $post_type => $t )
+		foreach ( get_post_types( array(), 'objects' ) as $post_type => $t )
 			if ( $t->query_var )
 				$post_type_query_vars[$t->query_var] = $post_type;
 
@@ -280,7 +271,7 @@ class WP {
 		}
 
 		// Convert urldecoded spaces back into +
-		foreach ( $GLOBALS['wp_taxonomies'] as $taxonomy => $t )
+		foreach ( get_taxonomies( array() , 'objects' ) as $taxonomy => $t )
 			if ( $t->query_var && isset( $this->query_vars[$t->query_var] ) )
 				$this->query_vars[$t->query_var] = str_replace( ' ', '+', $this->query_vars[$t->query_var] );
 
@@ -337,6 +328,7 @@ class WP {
 		} else {
 			// We're showing a feed, so WP is indeed the only thing that last changed
 			if ( !empty($this->query_vars['withcomments'])
+				|| false !== strpos( $this->query_vars['feed'], 'comments-' )
 				|| ( empty($this->query_vars['withoutcomments'])
 					&& ( !empty($this->query_vars['p'])
 						|| !empty($this->query_vars['name'])
@@ -441,27 +433,35 @@ class WP {
 	 * WordPress environment.
 	 *
 	 * @global string $query_string Query string for the loop.
+	 * @global array $posts The found posts.
+	 * @global WP_Post|null $post The current post, if available.
+	 * @global string $request The SQL statement for the request.
 	 * @global int $more Only set, if single page or post.
 	 * @global int $single If single page or post. Only set, if single page or post.
+	 * @global WP_User $authordata Only set, if author archive.
 	 *
 	 * @since 2.0.0
 	 */
 	function register_globals() {
 		global $wp_query;
+
 		// Extract updated query vars back into global namespace.
-		foreach ( (array) $wp_query->query_vars as $key => $value) {
-			$GLOBALS[$key] = $value;
+		foreach ( (array) $wp_query->query_vars as $key => $value ) {
+			$GLOBALS[ $key ] = $value;
 		}
 
 		$GLOBALS['query_string'] = $this->query_string;
 		$GLOBALS['posts'] = & $wp_query->posts;
-		$GLOBALS['post'] = (isset($wp_query->post)) ? $wp_query->post : null;
+		$GLOBALS['post'] = isset( $wp_query->post ) ? $wp_query->post : null;
 		$GLOBALS['request'] = $wp_query->request;
 
-		if ( is_single() || is_page() ) {
-			$GLOBALS['more'] = 1;
+		if ( $wp_query->is_single() || $wp_query->is_page() ) {
+			$GLOBALS['more']   = 1;
 			$GLOBALS['single'] = 1;
 		}
+
+		if ( $wp_query->is_author() && isset( $wp_query->post ) )
+			$GLOBALS['authordata'] = get_userdata( $wp_query->post->post_author );
 	}
 
 	/**

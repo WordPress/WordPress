@@ -1738,8 +1738,7 @@ footer.entry-meta {
 	max-width: 104px;
 }
 
-.attachment footer.entry-meta,
-.single-attachment .site-main .sidebar-container {
+.attachment footer.entry-meta {
 	display: none;
 }
 
@@ -1798,7 +1797,7 @@ footer.entry-meta {
 }
 
 .attachment .entry-attachment,
-.attachment p.attachment {
+.attachment .type-attachment p {
 	margin: 0 auto;
 	max-width: 724px;
 	text-align: center;
@@ -1820,6 +1819,10 @@ footer.entry-meta {
 .attachment .entry-caption p:last-child,
 .attachment .entry-description p:last-child {
 	margin: 0;
+}
+
+.attachment .site-main .sidebar-container {
+	display: none;
 }
 
 
@@ -2191,6 +2194,7 @@ footer.entry-meta {
 	width: 79%;
 	width: -webkit-calc(100% - 124px);
 	width:         calc(100% - 124px);
+	word-wrap: break-word;
 }
 
 .comment-meta,

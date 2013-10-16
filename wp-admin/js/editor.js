@@ -94,7 +94,7 @@ var switchEditors = {
 		// Mark </p> if it has any attributes.
 		content = content.replace(/(<p [^>]+>.*?)<\/p>/g, '$1</p#>');
 
-		// Sepatate <div> containing <p>
+		// Separate <div> containing <p>
 		content = content.replace(/<div( [^>]*)?>\s*<p>/gi, '<div$1>\n\n');
 
 		// Remove <p> and <br />

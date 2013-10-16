@@ -7,7 +7,7 @@
  */
 
 /**
- * Constructs the admin menu bar.
+ * Constructs the admin menu.
  *
  * The elements in the array are :
  *     0: Menu item name
@@ -53,7 +53,7 @@ $menu[5] = array( __('Posts'), 'edit_posts', 'edit.php', '', 'open-if-no-js menu
 
 	$i = 15;
 	foreach ( get_taxonomies( array(), 'objects' ) as $tax ) {
-		if ( ! $tax->show_ui || ! in_array('post', (array) $tax->object_type, true) )
+		if ( ! $tax->show_ui || ! $tax->show_in_menu || ! in_array('post', (array) $tax->object_type, true) )
 			continue;
 
 		$submenu['edit.php'][$i++] = array( esc_attr( $tax->labels->menu_name ), $tax->cap->manage_terms, 'edit-tags.php?taxonomy=' . $tax->name );
@@ -65,7 +65,7 @@ $menu[10] = array( __('Media'), 'upload_files', 'upload.php', '', 'menu-top menu
 	/* translators: add new file */
 	$submenu['upload.php'][10] = array( _x('Add New', 'file'), 'upload_files', 'media-new.php');
 	foreach ( get_taxonomies_for_attachments( 'objects' ) as $tax ) {
-		if ( ! $tax->show_ui )
+		if ( ! $tax->show_ui || ! $tax->show_in_menu )
 			continue;
 
 		$submenu['upload.php'][$i++] = array( esc_attr( $tax->labels->menu_name ), $tax->cap->manage_terms, 'edit-tags.php?taxonomy=' . $tax->name . '&amp;post_type=attachment' );
@@ -84,7 +84,7 @@ $menu[20] = array( __('Pages'), 'edit_pages', 'edit.php?post_type=page', '', 'me
 	$submenu['edit.php?post_type=page'][10] = array( _x('Add New', 'page'), get_post_type_object( 'page' )->cap->create_posts, 'post-new.php?post_type=page' );
 	$i = 15;
 	foreach ( get_taxonomies( array(), 'objects' ) as $tax ) {
-		if ( ! $tax->show_ui || ! in_array('page', (array) $tax->object_type, true) )
+		if ( ! $tax->show_ui || ! $tax->show_in_menu  || ! in_array('page', (array) $tax->object_type, true) )
 			continue;
 
 		$submenu['edit.php?post_type=page'][$i++] = array( esc_attr( $tax->labels->menu_name ), $tax->cap->manage_terms, 'edit-tags.php?taxonomy=' . $tax->name . '&amp;post_type=page' );
@@ -126,7 +126,7 @@ foreach ( (array) get_post_types( array('show_ui' => true, '_builtin' => false, 
 
 	$i = 15;
 	foreach ( get_taxonomies( array(), 'objects' ) as $tax ) {
-		if ( ! $tax->show_ui || ! in_array($ptype, (array) $tax->object_type, true) )
+		if ( ! $tax->show_ui || ! $tax->show_in_menu || ! in_array($ptype, (array) $tax->object_type, true) )
 			continue;
 
 		$submenu["edit.php?post_type=$ptype"][$i++] = array( esc_attr( $tax->labels->menu_name ), $tax->cap->manage_terms, "edit-tags.php?taxonomy=$tax->name&amp;post_type=$ptype" );

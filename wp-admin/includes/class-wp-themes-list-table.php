@@ -114,6 +114,16 @@ class WP_Themes_List_Table extends WP_List_Table {
 		return array();
 	}
 
+	function display_rows_or_placeholder() {
+		if ( $this->has_items() ) {
+			$this->display_rows();
+		} else {
+			echo '<div class="no-items">';
+			$this->no_items();
+			echo '</div>';
+		}
+	}
+
 	function display_rows() {
 		$themes = $this->items;
 

@@ -87,7 +87,7 @@ class WP_List_Table {
 
 		$this->screen = convert_to_screen( $args['screen'] );
 
-		add_filter( "manage_{$this->screen->id}_columns", array( &$this, 'get_columns' ), 0 );
+		add_filter( "manage_{$this->screen->id}_columns", array( $this, 'get_columns' ), 0 );
 
 		if ( !$args['plural'] )
 			$args['plural'] = $this->screen->base;
@@ -99,7 +99,7 @@ class WP_List_Table {
 
 		if ( $args['ajax'] ) {
 			// wp_enqueue_script( 'list-table' );
-			add_action( 'admin_footer', array( &$this, '_js_vars' ) );
+			add_action( 'admin_footer', array( $this, '_js_vars' ) );
 		}
 	}
 
@@ -340,7 +340,7 @@ class WP_List_Table {
 		if ( !$action_count )
 			return '';
 
-		$out = '<div class="' . ( $always_visible ? 'row-actions-visible' : 'row-actions' ) . '">';
+		$out = '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';
 		foreach ( $actions as $action => $link ) {
 			++$i;
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
@@ -366,6 +366,16 @@ class WP_List_Table {
 			WHERE post_type = %s
 			ORDER BY post_date DESC
 		", $post_type ) );
+
+		/**
+		 * Filter the months dropdown results.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param object $months    The months dropdown query results.
+		 * @param string $post_type The post type.
+		 */
+		$months = apply_filters( 'months_dropdown_results', $months, $post_type );
 
 		$month_count = count( $months );
 
@@ -764,7 +774,7 @@ class WP_List_Table {
 ?>
 	<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
-		<div class="alignleft actions">
+		<div class="alignleft actions bulkactions">
 			<?php $this->bulk_actions(); ?>
 		</div>
 <?php
@@ -857,7 +867,7 @@ class WP_List_Table {
 			}
 			elseif ( method_exists( $this, 'column_' . $column_name ) ) {
 				echo "<td $attributes>";
-				echo call_user_func( array( &$this, 'column_' . $column_name ), $item );
+				echo call_user_func( array( $this, 'column_' . $column_name ), $item );
 				echo "</td>";
 			}
 			else {

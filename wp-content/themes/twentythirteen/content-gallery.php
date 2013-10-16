@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying posts in the Gallery post format.
+ * The template for displaying posts in the Gallery post format
  *
  * @package WordPress
  * @subpackage Twenty_Thirteen

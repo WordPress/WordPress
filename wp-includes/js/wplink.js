@@ -121,8 +121,6 @@ var wpLink;
 			} else {
 				wpLink.setDefaultValues();
 			}
-
-			tinyMCEPopup.storeSelection();
 		},
 
 		close : function() {
@@ -226,7 +224,6 @@ var wpLink;
 			// If the values are empty, unlink and return
 			if ( ! attrs.href || attrs.href == 'http://' ) {
 				if ( e ) {
-					tinyMCEPopup.execCommand("mceBeginUndoLevel");
 					b = ed.selection.getBookmark();
 					ed.dom.remove(e, 1);
 					ed.selection.moveToBookmark(b);
@@ -235,8 +232,6 @@ var wpLink;
 				}
 				return;
 			}
-
-			tinyMCEPopup.execCommand("mceBeginUndoLevel");
 
 			if (e == null) {
 				ed.getDoc().execCommand("unlink", false, null);
@@ -252,7 +247,7 @@ var wpLink;
 				// Sometimes WebKit lets a user create a link where
 				// they shouldn't be able to. In this case, CreateLink
 				// injects "#mce_temp_url#" into their content. Fix it.
-				if ( $(e).text() == '#mce_temp_url#' ) {
+				if ( tinymce.isWebKit && $(e).text() == '#mce_temp_url#' ) {
 					ed.dom.remove(e);
 					e = null;
 				}
@@ -260,16 +255,16 @@ var wpLink;
 				ed.dom.setAttribs(e, attrs);
 			}
 
-			// Don't move caret if selection was image
+			// Move the caret if selection was not an image.
 			if ( e && (e.childNodes.length != 1 || e.firstChild.nodeName != 'IMG') ) {
-				ed.focus();
 				ed.selection.select(e);
 				ed.selection.collapse(0);
 				tinyMCEPopup.storeSelection();
 			}
 
-			tinyMCEPopup.execCommand("mceEndUndoLevel");
+			ed.execCommand("mceEndUndoLevel");
 			wpLink.close();
+			ed.focus();
 		},
 
 		updateFields : function( e, li, originalEvent ) {
@@ -283,25 +278,6 @@ var wpLink;
 			// Leave the new tab setting as-is.
 			inputs.url.val('http://');
 			inputs.title.val('');
-
-			if ( $('#search-panel').is(':visible') ) {
-				var selectedText,
-					textarea = wpLink.textarea;
-
-				if ( wpLink.isMCE() ) {
-					selectedText = tinyMCEPopup.editor.selection.getContent( { format: 'text' } );
-				} else {
-					if ( document.selection && wpLink.range ) {
-						selectedText = wpLink.range.text;
-					} else if ( 'undefined' !== typeof textarea.selectionStart ) {
-						selectedText = textarea.value.substring( textarea.selectionStart, textarea.selectionEnd );
-					}
-				}
-
-				if ( selectedText && ( selectedText = selectedText.replace( /^\s+|\s+$/g, '' ) ) ) {
-					inputs.search.val( selectedText ).trigger('keyup');
-				}
-			}
 
 			// Update save prompt.
 			inputs.submit.val( wpLinkL10n.save );

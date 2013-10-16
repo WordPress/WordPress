@@ -2091,7 +2091,7 @@ html.wp-toolbar {
 }
 
 /* one column on the post write/edit screen */
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 960px) {
 	#wpbody-content #poststuff #post-body {
 		margin: 0;
 	}
@@ -3819,7 +3819,7 @@ table.diff .diff-addedline ins {
 	-moz-transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
 	-o-transform: rotate(45deg);
-	tranform: rotate(45deg);
+	transform: rotate(45deg);
 }
 
 .revisions-tooltip.flipped .revisions-tooltip-arrow > span {
@@ -5546,7 +5546,7 @@ h2 .nav-tab {
 	list-style-type: disc;
 }
 
-.plugins .row-actions-visible {
+.plugins .row-actions {
 	padding: 0;
 }
 
@@ -5578,12 +5578,12 @@ h2 .nav-tab {
 }
 
 .plugins .second,
-.plugins .row-actions-visible {
+.plugins .row-actions {
 	padding: 0 0 5px;
 }
 
 .plugins .update .second,
-.plugins .update .row-actions-visible {
+.plugins .update .row-actions {
 	padding-bottom: 0;
 }
 
@@ -6455,15 +6455,14 @@ p.pagenav {
 	padding: 2px 0 0;
 }
 
-.mobile .row-actions {
-	visibility: visible;
-}
-
 tr:hover .row-actions,
+.mobile .row-actions,
+.row-actions.visible,
 div.comment-item:hover .row-actions {
 	visibility: visible;
 }
 
+/* deprecated */
 .row-actions-visible {
 	padding: 2px 0 0;
 }
@@ -6637,6 +6636,14 @@ body.iframe {
 	height: 98%;
 }
 
+/* Upgrader styles, Specific to Language Packs */
+.lp-show-latest p {
+	display: none;
+}
+.lp-show-latest p:last-child,
+.lp-show-latest .lp-error p {
+	display: block;
+}
 
 /* - Only used once or twice in all of WP - deprecate for global style
 ------------------------------------------------------------------------------*/
@@ -7913,8 +7920,9 @@ body.interim-login {
 	font-weight: bold;
 	padding: 7px 0;
 	line-height: 20px;
-	display:block;
-	margin-right:13em;
+	min-height: 20px;
+	display: block;
+	margin-right: 13em;
 }
 
 /* Sortables */
@@ -8619,11 +8627,6 @@ input.newtag ~ div.taghint {
 
 input.newtag:focus ~ div.taghint {
 	visibility: hidden;
-}
-
-/* TinyMCE */
-#mce_fullscreen_container {
-	background: #fff;
 }
 
 #photo-add-url-div input[type="text"] {

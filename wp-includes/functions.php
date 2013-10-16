@@ -242,9 +242,10 @@ function maybe_unserialize( $original ) {
  * @since 2.0.5
  *
  * @param mixed $data Value to check to see if was serialized.
+ * @param bool $strict Optional. Whether to be strict about the end of the string. Defaults true.
  * @return bool False if not serialized and true if it was.
  */
-function is_serialized( $data ) {
+function is_serialized( $data, $strict = true ) {
 	// if it isn't a string, it isn't serialized
 	if ( ! is_string( $data ) )
 		return false;
@@ -256,21 +257,40 @@ function is_serialized( $data ) {
 		return false;
 	if ( ':' !== $data[1] )
 		return false;
-	$lastc = $data[$length-1];
-	if ( ';' !== $lastc && '}' !== $lastc )
-		return false;
+	if ( $strict ) {
+		$lastc = $data[ $length - 1 ];
+		if ( ';' !== $lastc && '}' !== $lastc )
+			return false;
+	} else {
+		$semicolon = strpos( $data, ';' );
+		$brace     = strpos( $data, '}' );
+		// Either ; or } must exist.
+		if ( false === $semicolon && false === $brace )
+			return false;
+		// But neither must be in the first X characters.
+		if ( false !== $semicolon && $semicolon < 3 )
+			return false;
+		if ( false !== $brace && $brace < 4 )
+			return false;
+	}
 	$token = $data[0];
 	switch ( $token ) {
 		case 's' :
-			if ( '"' !== $data[$length-2] )
+			if ( $strict ) {
+				if ( '"' !== $data[ $length - 2 ] )
+					return false;
+			} elseif ( false === strpos( $data, '"' ) ) {
 				return false;
+			}
+			// or else fall through
 		case 'a' :
 		case 'O' :
 			return (bool) preg_match( "/^{$token}:[0-9]+:/s", $data );
 		case 'b' :
 		case 'i' :
 		case 'd' :
-			return (bool) preg_match( "/^{$token}:[0-9.E-]+;\$/", $data );
+			$end = $strict ? '$' : '';
+			return (bool) preg_match( "/^{$token}:[0-9.E-]+;$end/", $data );
 	}
 	return false;
 }
@@ -317,7 +337,7 @@ function maybe_serialize( $data ) {
 
 	// Double serialization is required for backward compatibility.
 	// See http://core.trac.wordpress.org/ticket/12930
-	if ( is_serialized( $data ) )
+	if ( is_serialized( $data, false ) )
 		return serialize( $data );
 
 	return $data;
@@ -393,6 +413,26 @@ function xmlrpc_removepostdata( $content ) {
 }
 
 /**
+ * Use RegEx to extract URLs from arbitrary content
+ *
+ * @since 3.7.0
+ *
+ * @param string $content
+ * @return array URLs found in passed string
+ */
+function wp_extract_urls( $content ) {
+	preg_match_all(
+		"#((?:[\w-]+://?|[\w\d]+[.])[^\s()<>]+[.](?:\([\w\d]+\)|(?:[^`!()\[\]{};:'\".,<>?«»“”‘’\s]|(?:[:]\d+)?/?)+))#",
+		$content,
+		$post_links
+	);
+
+	$post_links = array_unique( array_map( 'html_entity_decode', $post_links[0] ) );
+
+	return array_values( $post_links );
+}
+
+/**
  * Check content for video and audio links to add as enclosures.
  *
  * Will not add enclosures that have already been added and will
@@ -417,22 +457,17 @@ function do_enclose( $content, $post_ID ) {
 
 	$pung = get_enclosed( $post_ID );
 
-	$ltrs = '\w';
-	$gunk = '/#~:.?+=&%@!\-';
-	$punc = '.:?\-';
-	$any = $ltrs . $gunk . $punc;
-
-	preg_match_all( "{\b https? : [$any] +? (?= [$punc] * [^$any] | $)}x", $content, $post_links_temp );
+	$post_links_temp = wp_extract_urls( $content );
 
 	foreach ( $pung as $link_test ) {
-		if ( !in_array( $link_test, $post_links_temp[0] ) ) { // link no longer in post
+		if ( ! in_array( $link_test, $post_links_temp ) ) { // link no longer in post
 			$mids = $wpdb->get_col( $wpdb->prepare("SELECT meta_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = 'enclosure' AND meta_value LIKE (%s)", $post_ID, like_escape( $link_test ) . '%') );
 			foreach ( $mids as $mid )
 				delete_metadata_by_mid( 'post', $mid );
 		}
 	}
 
-	foreach ( (array) $post_links_temp[0] as $link_test ) {
+	foreach ( (array) $post_links_temp as $link_test ) {
 		if ( !in_array( $link_test, $pung ) ) { // If we haven't pung it already
 			$test = @parse_url( $link_test );
 			if ( false === $test )
@@ -666,14 +701,8 @@ function add_query_arg() {
 	}
 
 	if ( strpos( $uri, '?' ) !== false ) {
-		$parts = explode( '?', $uri, 2 );
-		if ( 1 == count( $parts ) ) {
-			$base = '?';
-			$query = $parts[0];
-		} else {
-			$base = $parts[0] . '?';
-			$query = $parts[1];
-		}
+		list( $base, $query ) = explode( '?', $uri, 2 );
+		$base .= '?';
 	} elseif ( $protocol || strpos( $uri, '=' ) === false ) {
 		$base = $uri . '?';
 		$query = '';
@@ -1005,10 +1034,8 @@ function do_feed() {
 		$feed = get_default_feed();
 
 	$hook = 'do_feed_' . $feed;
-	if ( !has_action($hook) ) {
-		$message = sprintf( __( 'ERROR: %s is not a valid feed template.' ), esc_html($feed));
-		wp_die( $message, '', array( 'response' => 404 ) );
-	}
+	if ( ! has_action( $hook ) )
+		wp_die( __( 'ERROR: This is not a valid feed template.' ), '', array( 'response' => 404 ) );
 
 	do_action( $hook, $wp_query->is_comment_feed );
 }
@@ -1276,6 +1303,8 @@ function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
  * @return string|bool False on failure. Referer URL on success.
  */
 function wp_get_referer() {
+	if ( ! function_exists( 'wp_validate_redirect' ) )
+		return false;
 	$ref = false;
 	if ( ! empty( $_REQUEST['_wp_http_referer'] ) )
 		$ref = wp_unslash( $_REQUEST['_wp_http_referer'] );
@@ -1283,7 +1312,7 @@ function wp_get_referer() {
 		$ref = wp_unslash( $_SERVER['HTTP_REFERER'] );
 
 	if ( $ref && $ref !== wp_unslash( $_SERVER['REQUEST_URI'] ) )
-		return wp_unslash( $ref );
+		return wp_validate_redirect( $ref, false );
 	return false;
 }
 
@@ -1297,8 +1326,8 @@ function wp_get_referer() {
  * @return string|bool False if no original referer or original referer if set.
  */
 function wp_get_original_referer() {
-	if ( !empty( $_REQUEST['_wp_original_http_referer'] ) )
-		return wp_unslash( $_REQUEST['_wp_original_http_referer'] );
+	if ( ! empty( $_REQUEST['_wp_original_http_referer'] ) && function_exists( 'wp_validate_redirect' ) )
+		return wp_validate_redirect( wp_unslash( $_REQUEST['_wp_original_http_referer'] ), false );
 	return false;
 }
 
@@ -1554,7 +1583,7 @@ function wp_upload_dir( $time = null ) {
 	}
 
 	// If multisite (and if not the main site in a post-MU network)
-	if ( is_multisite() && ! ( is_main_site() && defined( 'MULTISITE' ) ) ) {
+	if ( is_multisite() && ! ( is_main_network() && is_main_site() && defined( 'MULTISITE' ) ) ) {
 
 		if ( ! get_site_option( 'ms_files_rewriting' ) ) {
 			// If ms-files rewriting is disabled (networks created post-3.5), it is fairly straightforward:
@@ -1784,7 +1813,9 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
  * @return string|null The file type, example: audio, video, document, spreadsheet, etc. Null if not found.
  */
 function wp_ext2type( $ext ) {
+	$ext = strtolower( $ext );
 	$ext2type = apply_filters( 'ext2type', array(
+		'image'       => array( 'jpg', 'jpeg', 'jpe',  'gif',  'png',  'bmp',   'tif',  'tiff', 'ico' ),
 		'audio'       => array( 'aac', 'ac3',  'aif',  'aiff', 'm3a',  'm4a',   'm4b',  'mka',  'mp1',  'mp2',  'mp3', 'ogg', 'oga', 'ram', 'wav', 'wma' ),
 		'video'       => array( 'asf', 'avi',  'divx', 'dv',   'flv',  'm4v',   'mkv',  'mov',  'mp4',  'mpeg', 'mpg', 'mpv', 'ogm', 'ogv', 'qt',  'rm', 'vob', 'wmv' ),
 		'document'    => array( 'doc', 'docx', 'docm', 'dotm', 'odt',  'pages', 'pdf',  'rtf',  'wp',   'wpd' ),
@@ -1793,10 +1824,13 @@ function wp_ext2type( $ext ) {
 		'text'        => array( 'asc', 'csv',  'tsv',  'txt' ),
 		'archive'     => array( 'bz2', 'cab',  'dmg',  'gz',   'rar',  'sea',   'sit',  'sqx',  'tar',  'tgz',  'zip', '7z' ),
 		'code'        => array( 'css', 'htm',  'html', 'php',  'js' ),
-	));
+	) );
+
 	foreach ( $ext2type as $type => $exts )
 		if ( in_array( $ext, $exts ) )
 			return $type;
+
+	return null;
 }
 
 /**
@@ -1839,8 +1873,8 @@ function wp_check_filetype( $filename, $mimes = null ) {
  *
  * @since 3.0.0
  *
- * @param string $file Full path to the image.
- * @param string $filename The filename of the image (may differ from $file due to $file being in a tmp directory)
+ * @param string $file Full path to the file.
+ * @param string $filename The name of the file (may differ from $file due to $file being in a tmp directory)
  * @param array $mimes Optional. Key is the file extension with value as the mime type.
  * @return array Values for the extension, MIME, and either a corrected filename or false if original $filename is valid
  */
@@ -2010,10 +2044,20 @@ function wp_get_mime_types() {
  * @uses apply_filters() Calls 'upload_mimes' on returned array
  * @uses wp_get_upload_mime_types() to fetch the list of mime types
  *
+ * @param int|WP_User $user Optional. User to check. Defaults to current user.
  * @return array Array of mime types keyed by the file extension regex corresponding to those types.
  */
-function get_allowed_mime_types() {
-	return apply_filters( 'upload_mimes', wp_get_mime_types() );
+function get_allowed_mime_types( $user = null ) {
+	$t = wp_get_mime_types();
+
+	unset( $t['swf'], $t['exe'] );
+	if ( function_exists( 'current_user_can' ) )
+		$unfiltered = $user ? user_can( $user, 'unfiltered_html' ) : current_user_can( 'unfiltered_html' );
+
+	if ( empty( $unfiltered ) )
+		unset( $t['htm|html'] );
+
+	return apply_filters( 'upload_mimes', $t, $user );
 }
 
 /**
@@ -3194,8 +3238,36 @@ function wp_guess_url() {
 	if ( defined('WP_SITEURL') && '' != WP_SITEURL ) {
 		$url = WP_SITEURL;
 	} else {
+		$abspath_fix = str_replace( '\\', '/', ABSPATH );
+		$script_filename_dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
+
+		// The request is for the admin
+		if ( strpos( $_SERVER['REQUEST_URI'], 'wp-admin' ) !== false || strpos( $_SERVER['REQUEST_URI'], 'wp-login.php' ) !== false ) {
+			$path = preg_replace( '#/(wp-admin/.*|wp-login.php)#i', '', $_SERVER['REQUEST_URI'] );
+
+		// The request is for a file in ABSPATH
+		} elseif ( $script_filename_dir . '/' == $abspath_fix ) {
+			// Strip off any file/query params in the path
+			$path = preg_replace( '#/[^/]*$#i', '', $_SERVER['PHP_SELF'] );
+
+		} else {
+			if ( false !== strpos( $_SERVER['SCRIPT_FILENAME'], $abspath_fix ) ) {
+				// Request is hitting a file inside ABSPATH
+				$directory = str_replace( ABSPATH, '', $script_filename_dir );
+				// Strip off the sub directory, and any file/query paramss
+				$path = preg_replace( '#/' . preg_quote( $directory, '#' ) . '/[^/]*$#i', '' , $_SERVER['REQUEST_URI'] );
+			} elseif ( false !== strpos( $abspath_fix, $script_filename_dir ) ) {
+				// Request is hitting a file above ABSPATH
+				$subdirectory = str_replace( $script_filename_dir, '', $abspath_fix );
+				// Strip off any file/query params from the path, appending the sub directory to the install
+				$path = preg_replace( '#/[^/]*$#i', '' , $_SERVER['REQUEST_URI'] ) . $subdirectory;
+			} else {
+				$path = $_SERVER['REQUEST_URI'];
+			}
+		}
+
 		$schema = is_ssl() ? 'https://' : 'http://'; // set_url_scheme() is not defined yet
-		$url = preg_replace( '#/(wp-admin/.*|wp-login.php)#i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+		$url = $schema . $_SERVER['HTTP_HOST'] . $path;
 	}
 
 	return rtrim($url, '/');
@@ -3246,25 +3318,61 @@ function wp_suspend_cache_invalidation($suspend = true) {
 }
 
 /**
- * Is main site?
- *
+ * Whether a site is the main site of the current network.
  *
  * @since 3.0.0
- * @package WordPress
  *
- * @param int $blog_id optional blog id to test (default current blog)
- * @return bool True if not multisite or $blog_id is main site
+ * @param int $site_id Optional. Site ID to test. Defaults to current site.
+ * @return bool True if $site_id is the main site of the network, or if not running multisite.
  */
-function is_main_site( $blog_id = '' ) {
+function is_main_site( $site_id = null ) {
+	// This is the current network's information; 'site' is old terminology.
 	global $current_site;
 
 	if ( ! is_multisite() )
 		return true;
 
-	if ( ! $blog_id )
-		$blog_id = get_current_blog_id();
+	if ( ! $site_id )
+		$site_id = get_current_blog_id();
 
-	return $blog_id == $current_site->blog_id;
+	return (int) $site_id === (int) $current_site->blog_id;
+}
+
+/**
+ * Whether a network is the main network of the multisite install.
+ *
+ * @since 3.7.0
+ *
+ * @param int $network_id Optional. Network ID to test. Defaults to current network.
+ * @return bool True if $network_id is the main network, or if not running multisite.
+ */
+function is_main_network( $network_id = null ) {
+	global $current_site, $wpdb;
+
+	$current_network_id = (int) $current_site->id;
+
+	if ( ! is_multisite() )
+		return true;
+
+	if ( ! $network_id )
+		$network_id = $current_network_id;
+	$network_id = (int) $network_id;
+
+	if ( defined( 'PRIMARY_NETWORK_ID' ) )
+		return $network_id === (int) PRIMARY_NETWORK_ID;
+
+	if ( 1 === $current_network_id )
+		return $network_id === $current_network_id;
+
+	$primary_network_id = (int) wp_cache_get( 'primary_network_id', 'site-options' );
+
+	if ( $primary_network_id )
+		return $network_id === $primary_network_id;
+
+	$primary_network_id = (int) $wpdb->get_var( "SELECT id FROM $wpdb->site ORDER BY id LIMIT 1" );
+	wp_cache_add( 'primary_network_id', $primary_network_id, 'site-options' );
+
+	return $network_id === $primary_network_id;
 }
 
 /**
@@ -3314,12 +3422,12 @@ function wp_timezone_override_offset() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Sort-helper for timezones.
  *
  * @since 2.9.0
  *
- * @param unknown_type $a
- * @param unknown_type $b
+ * @param array $a
+ * @param array $b
  * @return int
  */
 function _wp_timezone_choice_usort_callback( $a, $b ) {
@@ -3592,19 +3700,6 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 	}
 
 	return $all_headers;
-}
-
-/**
- * Used internally to tidy up the search terms.
- *
- * @access private
- * @since 2.9.0
- *
- * @param string $t
- * @return string
- */
-function _search_terms_tidy($t) {
-	return trim($t, "\"'\n\r ");
 }
 
 /**
@@ -4057,4 +4152,55 @@ function _canonical_charset( $charset ) {
 		return 'ISO-8859-1';
 
 	return $charset;
+}
+
+/**
+ * Sets the mbstring internal encoding to a binary safe encoding whne func_overload is enabled.
+ *
+ * When mbstring.func_overload is in use for multi-byte encodings, the results from strlen() and
+ * similar functions respect the utf8 characters, causing binary data to return incorrect lengths.
+ *
+ * This function overrides the mbstring encoding to a binary-safe encoding, and resets it to the
+ * users expected encoding afterwards through the `reset_mbstring_encoding` function.
+ *
+ * It is safe to recursively call this function, however each `mbstring_binary_safe_encoding()`
+ * call must be followed up with an equal number of `reset_mbstring_encoding()` calls.
+ *
+ * @see reset_mbstring_encoding()
+ *
+ * @since 3.7.0
+ *
+ * @param bool $reset Whether to reset the encoding back to a previously-set encoding.
+ */
+function mbstring_binary_safe_encoding( $reset = false ) {
+	static $encodings = array();
+	static $overloaded = null;
+
+	if ( is_null( $overloaded ) )
+		$overloaded = function_exists( 'mb_internal_encoding' ) && ( ini_get( 'mbstring.func_overload' ) & 2 );
+
+	if ( false === $overloaded )
+		return;
+
+	if ( ! $reset ) {
+		$encoding = mb_internal_encoding();
+		array_push( $encodings, $encoding );
+		mb_internal_encoding( 'ISO-8859-1' );
+	}
+
+	if ( $reset && $encodings ) {
+		$encoding = array_pop( $encodings );
+		mb_internal_encoding( $encoding );
+	}
+}
+
+/**
+ * Resets the mbstring internal encoding to a users previously set encoding.
+ *
+ * @see mbstring_binary_safe_encoding()
+ *
+ * @since 3.7.0
+ */
+function reset_mbstring_encoding() {
+	mbstring_binary_safe_encoding( true );
 }

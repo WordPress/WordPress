@@ -7,7 +7,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can('manage_links') )
 	wp_die(__('You do not have sufficient permissions to add links to this site.'));
@@ -24,6 +24,6 @@ if ( wp_is_mobile() )
 	wp_enqueue_script( 'jquery-touch-punch' );
 
 $link = get_default_link_to_edit();
-include('./edit-link-form.php');
+include( ABSPATH . 'wp-admin/edit-link-form.php' );
 
-require('./admin-footer.php');
+require( ABSPATH . 'wp-admin/admin-footer.php' );

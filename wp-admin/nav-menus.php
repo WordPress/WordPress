@@ -10,7 +10,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 // Load all the nav menu interface functions
 require_once( ABSPATH . 'wp-admin/includes/nav-menu.php' );
@@ -300,18 +300,19 @@ switch ( $action ) {
 						// If there are menu items, add them
 						wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selected_title );
 						// Auto-save nav_menu_locations
-						$locations = get_theme_mod( 'nav_menu_locations' );
-						foreach ( (array) $locations as $location => $menu_id ) {
+						$locations = get_nav_menu_locations();
+						foreach ( $locations as $location => $menu_id ) {
 								$locations[ $location ] = $nav_menu_selected_id;
 								break; // There should only be 1
 						}
 						set_theme_mod( 'nav_menu_locations', $locations );
 					}
 					if ( isset( $_REQUEST['use-location'] ) ) {
-						$locations = get_theme_mod( 'nav_menu_locations' );
-						if ( isset( $locations[$_REQUEST['use-location']] ) )
-							$locations[$_REQUEST['use-location']] = $nav_menu_selected_id;
-						set_theme_mod( 'nav_menu_locations', $locations );
+						$locations = get_registered_nav_menus();
+						$menu_locations = get_nav_menu_locations();
+						if ( isset( $locations[ $_REQUEST['use-location'] ] ) )
+							$menu_locations[ $_REQUEST['use-location'] ] = $nav_menu_selected_id;
+						set_theme_mod( 'nav_menu_locations', $menu_locations );
 					}
 					// $messages[] = '<div id="message" class="updated"><p>' . sprintf( __( '<strong>%s</strong> has been created.' ), $nav_menu_selected_title ) . '</p></div>';
 					wp_redirect( admin_url( 'nav-menus.php?menu=' . $_nav_menu_selected_id ) );
@@ -529,7 +530,7 @@ get_current_screen()->set_help_sidebar(
 );
 
 // Get the admin header
-require_once( './admin-header.php' );
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 <div class="wrap">
 	<?php screen_icon(); ?>
@@ -546,7 +547,7 @@ require_once( './admin-header.php' );
 	?>
 	<?php
 	if ( $locations_screen ) :
-		echo '<p>' . sprintf( _n( 'Your theme supports %s menu. Select which menu you would like to use below.', 'Your theme supports %s menus. Select a menu to use for each theme location below.', $num_locations ), number_format_i18n( $num_locations ) ) . '</p>';
+		echo '<p>' . sprintf( _n( 'Your theme supports %s menu. Select which menu you would like to use.', 'Your theme supports %s menus. Select which menu appears in each location.', $num_locations ), number_format_i18n( $num_locations ) ) . '</p>';
 	?>
 	<div id="menu-locations-wrap">
 		<form method="post" action="<?php echo esc_url( add_query_arg( array( 'action' => 'locations' ), admin_url( 'nav-menus.php' ) ) ); ?>">
@@ -761,4 +762,4 @@ require_once( './admin-header.php' );
 	</div><!-- /#nav-menus-frame -->
 	<?php endif; ?>
 </div><!-- /.wrap-->
-<?php include( './admin-footer.php' ); ?>
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

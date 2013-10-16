@@ -1,8 +1,10 @@
 <?php
 /**
- * The template for displaying posts in the Image Post Format on index and archive pages
+ * Template for displaying posts in the Image Post Format
  *
- * Learn more: http://codex.wordpress.org/Post_Formats
+ * Used on index and archive pages.
+ *
+ * @link http://codex.wordpress.org/Post_Formats
  *
  * @package WordPress
  * @subpackage Twenty_Eleven

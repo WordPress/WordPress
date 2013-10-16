@@ -4,12 +4,13 @@
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 
 get_header(); ?>
 
 	<div id="primary" class="content-area">
-		<div id="content" class="site-content full-width" role="main">
+		<div id="content" class="site-content" role="main">
 			<?php
 				while ( have_posts() ) :
 					the_post();

@@ -1,6 +1,6 @@
 <?php
 /**
- * The loop that displays an attachment.
+ * The loop that displays an attachment
  *
  * The loop displays the posts and the post content. See
  * http://codex.wordpress.org/The_Loop to understand it and
@@ -86,7 +86,21 @@
 	}
 ?>
 						<p class="attachment"><a href="<?php echo $next_attachment_url; ?>" title="<?php the_title_attribute(); ?>" rel="attachment"><?php
+							/**
+							 * Filter the Twenty Ten default attachment width.
+							 *
+							 * @since Twenty Ten 1.0
+							 *
+							 * @param int The default attachment width in pixels. Default 900.
+							 */
 							$attachment_width  = apply_filters( 'twentyten_attachment_size', 900 );
+							/**
+							 * Filter the Twenty Ten default attachment height.
+							 *
+							 * @since Twenty Ten 1.0
+							 *
+							 * @param int The default attachment height in pixels. Default 900.
+							 */
 							$attachment_height = apply_filters( 'twentyten_attachment_height', 900 );
 							echo wp_get_attachment_image( $post->ID, array( $attachment_width, $attachment_height ) ); // filterable image width with, essentially, no limit for image height.
 						?></a></p>

@@ -8,7 +8,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
@@ -167,7 +167,7 @@ $submenu_file = 'sites.php';
 if ( ! wp_is_large_network( 'users' ) && apply_filters( 'show_network_site_users_add_existing_form', true ) )
 	wp_enqueue_script( 'user-suggest' );
 
-require('../admin-header.php'); ?>
+require( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 
 <script type='text/javascript'>
 /* <![CDATA[ */
@@ -307,4 +307,4 @@ endif; ?>
 <?php endif; ?>
 </div>
 <?php
-require('../admin-footer.php');
+require( ABSPATH . 'wp-admin/admin-footer.php' );

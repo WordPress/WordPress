@@ -681,7 +681,7 @@ window.wp = window.wp || {};
 		},
 
 		sync: function( method, model, options ) {
-			var fallback;
+			var args, fallback;
 
 			// Overload the read method so Attachment.fetch() functions correctly.
 			if ( 'read' === method ) {

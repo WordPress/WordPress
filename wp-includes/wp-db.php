@@ -1180,8 +1180,14 @@ class wpdb {
 	function query( $query ) {
 		if ( ! $this->ready )
 			return false;
-
-		// some queries are made before the plugins have been loaded, and thus cannot be filtered with this method
+		/**
+		 * Filter the database query.
+		 *
+		 * Some queries are made before the plugins have been loaded, and thus cannot be filtered with this method.
+		 *
+		 * @since 2.1.0
+		 * @param string $query Database query.
+		 */
 		$query = apply_filters( 'query', $query );
 
 		$return_val = 0;

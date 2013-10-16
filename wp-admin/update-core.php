@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 wp_enqueue_style( 'plugin-install' );
 wp_enqueue_script( 'plugin-install' );
@@ -22,11 +22,17 @@ if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_themes' 
 	wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
 
 function list_core_update( $update ) {
-	global $wp_local_package, $wpdb;
-	static $first_pass = true;
-
-	$version_string = ('en_US' == $update->locale && 'en_US' == get_locale() ) ?
-			$update->current : sprintf("%s&ndash;<strong>%s</strong>", $update->current, $update->locale);
+ 	global $wp_local_package, $wpdb, $wp_version;
+  	static $first_pass = true;
+  
+ 	if ( 'en_US' == $update->locale && 'en_US' == get_locale() )
+ 		$version_string = $update->current;
+ 	// If the only available update is a partial builds, it doesn't need a language-specific version string.
+ 	elseif ( 'en_US' == $update->locale && $update->packages->partial && $wp_version == $update->partial_version && ( $updates = get_core_updates() ) && 1 == count( $updates ) )
+ 		$version_string = $update->current;
+ 	else
+ 		$version_string = sprintf( "%s&ndash;<strong>%s</strong>", $update->current, $update->locale );
+  
 	$current = false;
 	if ( !isset($update->response) || 'latest' == $update->response )
 		$current = true;
@@ -89,7 +95,8 @@ function list_core_update( $update ) {
 	echo '</p>';
 	if ( 'en_US' != $update->locale && ( !isset($wp_local_package) || $wp_local_package != $update->locale ) )
 	    echo '<p class="hint">'.__('This localized version contains both the translation and various other localization fixes. You can skip upgrading if you want to keep your current translation.').'</p>';
-	else if ( 'en_US' == $update->locale && get_locale() != 'en_US' ) {
+	// Partial builds don't need language-specific warnings.
+	elseif ( 'en_US' == $update->locale && get_locale() != 'en_US' && ( ! $update->packages->partial && $wp_version == $update->partial_version ) ) {
 	    echo '<p class="hint">'.sprintf( __('You are about to install WordPress %s <strong>in English (US).</strong> There is a chance this update will break your translation. You may prefer to wait for the localized version to be released.'), $update->response != 'development' ? $update->current : '' ).'</p>';
 	}
 	echo '</form>';
@@ -147,6 +154,23 @@ function core_upgrade_preamble() {
 		echo '<h3 class="response">';
 		_e( 'An updated version of WordPress is available.' );
 		echo '</h3>';
+	}
+
+	// This is temporary, for the WordPress 3.7 beta period.
+	if ( isset( $updates[0] ) && $updates[0]->response == 'development' ) {
+		require ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		$ssl_support = wp_http_supports( 'ssl' );
+		$should_auto_update = WP_Automatic_Upgrader::should_auto_update( 'core', $updates[0], ABSPATH );
+		if ( $ssl_support && $should_auto_update ) {
+			echo '<div class="updated inline"><p><strong>BETA TESTERS: This install will receive daily auto updates to future beta versions.</strong>';
+			if ( get_locale() !== 'en_US' )
+				echo ' Translations of importers and default themes will also be updated.';
+			echo '</p><p>You will receive an email with debugging output after each update. If something goes wrong, please <a href="http://wordpress.org/support/forum/alphabeta">post in the support forums</a> or <a href="https://core.trac.wordpress.org/">open a bug report</a>.</div>';
+		} elseif ( ! $ssl_support ) {
+			echo '<div class="error inline"><p><strong>BETA TESTERS:</strong> Your server does not support HTTP requests over SSL. This install will not receive auto updates.</p></div>';
+		} elseif ( WP_Automatic_Upgrader::is_vcs_checkout( ABSPATH ) ) {
+			echo '<div class="error inline"><p><strong>BETA TESTERS:</strong> This install uses version control (SVN or Git) and thus will not receive auto updates. Try a separate install of WordPress with the <a href="http://wordpress.org/plugins/wordpress-beta-tester/">Beta Tester</a> plugin set to bleeding edge.</p></div>';
+		}
 	}
 
 	echo '<ul class="core-updates">';
@@ -265,7 +289,7 @@ function list_theme_updates() {
 ?>
 <h3><?php _e( 'Themes' ); ?></h3>
 <p><?php _e( 'The following themes have new versions available. Check the ones you want to update and then click &#8220;Update Themes&#8221;.' ); ?></p>
-<p><?php printf( __('<strong>Please Note:</strong> Any customizations you have made to theme files will be lost. Please consider using <a href="%s">child themes</a> for modifications.'), _x('http://codex.wordpress.org/Child_Themes', 'Link used in suggestion to use child themes in GUU') ); ?></p>
+<p><?php printf( __( '<strong>Please Note:</strong> Any customizations you have made to theme files will be lost. Please consider using <a href="%s">child themes</a> for modifications.' ), __( 'http://codex.wordpress.org/Child_Themes' ) ); ?></p>
 <form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-themes" class="upgrade">
 <?php wp_nonce_field('upgrade-core'); ?>
 <p><input id="upgrade-themes" class="button" type="submit" value="<?php esc_attr_e('Update Themes'); ?>" name="upgrade" /></p>
@@ -300,6 +324,27 @@ function list_theme_updates() {
 <?php
 }
 
+function list_translation_updates() {
+	$updates = wp_get_translation_updates();
+	if ( ! $updates ) {
+		if ( 'en_US' != get_locale() ) {
+			echo '<h3>' . __( 'Translations' ) . '</h3>';
+			echo '<p>' . __( 'Your translations are all up to date.' ) . '</p>';
+		}
+		return;
+	}
+
+	$form_action = 'update-core.php?action=do-translation-upgrade';
+	?>
+	<h3><?php _e( 'Translations' ); ?></h3>
+	<form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-themes" class="upgrade">
+		<p><?php _e( 'Some of your translations are out of date.' ); ?></p>
+		<?php wp_nonce_field('upgrade-translations'); ?>
+		<p><input class="button" type="submit" value="<?php esc_attr_e( 'Update Translations' ); ?>" name="upgrade" /></p>
+	</form>
+	<?php
+}
+
 /**
  * Upgrade WordPress core display.
  *
@@ -310,13 +355,13 @@ function list_theme_updates() {
 function do_core_upgrade( $reinstall = false ) {
 	global $wp_filesystem;
 
+	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
 	if ( $reinstall )
 		$url = 'update-core.php?action=do-core-reinstall';
 	else
 		$url = 'update-core.php?action=do-core-upgrade';
 	$url = wp_nonce_url($url, 'upgrade-core');
-	if ( false === ($credentials = request_filesystem_credentials($url, '', false, ABSPATH)) )
-		return;
 
 	$version = isset( $_POST['version'] )? $_POST['version'] : false;
 	$locale = isset( $_POST['locale'] )? $_POST['locale'] : 'en_US';
@@ -324,15 +369,24 @@ function do_core_upgrade( $reinstall = false ) {
 	if ( !$update )
 		return;
 
-	if ( ! WP_Filesystem($credentials, ABSPATH) ) {
-		request_filesystem_credentials($url, '', true, ABSPATH); //Failed to connect, Error and request again
-		return;
-	}
 ?>
 	<div class="wrap">
 	<?php screen_icon('tools'); ?>
 	<h2><?php _e('Update WordPress'); ?></h2>
 <?php
+
+	if ( false === ( $credentials = request_filesystem_credentials( $url, '', false, ABSPATH ) ) ) {
+		echo '</div>';
+		return;
+	}
+
+	if ( ! WP_Filesystem( $credentials, ABSPATH ) ) {
+		// Failed to connect, Error and request again
+		request_filesystem_credentials( $url, '', true, ABSPATH );
+		echo '</div>';
+		return;
+	}
+
 	if ( $wp_filesystem->errors->get_error_code() ) {
 		foreach ( $wp_filesystem->errors->get_error_messages() as $message )
 			show_message($message);
@@ -343,7 +397,10 @@ function do_core_upgrade( $reinstall = false ) {
 	if ( $reinstall )
 		$update->response = 'reinstall';
 
-	$result = wp_update_core($update, 'show_message');
+	add_filter( 'update_feedback', 'show_message' );
+
+	$upgrader = new Core_Upgrader();
+	$result = $upgrader->upgrade( $update );
 
 	if ( is_wp_error($result) ) {
 		show_message($result);
@@ -448,12 +505,15 @@ if ( 'upgrade-core' == $action ) {
 	echo ' &nbsp; <a class="button" href="' . esc_url( self_admin_url('update-core.php') ) . '">' . __( 'Check Again' ) . '</a>';
 	echo '</p>';
 
-	if ( current_user_can( 'update_core' ) )
+	if ( $core = current_user_can( 'update_core' ) )
 		core_upgrade_preamble();
-	if ( current_user_can( 'update_plugins' ) )
+	if ( $plugins = current_user_can( 'update_plugins' ) )
 		list_plugin_updates();
-	if ( current_user_can( 'update_themes' ) )
+	if ( $themes = current_user_can( 'update_themes' ) )
 		list_theme_updates();
+	if ( $core || $plugins || $themes )
+		list_translation_updates();
+	unset( $core, $plugins, $themes );
 	do_action('core_upgrade_preamble');
 	echo '</div>';
 	include(ABSPATH . 'wp-admin/admin-footer.php');
@@ -540,6 +600,26 @@ if ( 'upgrade-core' == $action ) {
 	echo "<iframe src='$url' style='width: 100%; height: 100%; min-height: 750px;' frameborder='0'></iframe>";
 	echo '</div>';
 	include(ABSPATH . 'wp-admin/admin-footer.php');
+
+} elseif ( 'do-translation-upgrade' == $action ) {
+
+	if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_plugins' ) && ! current_user_can( 'update_themes' ) )
+		wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
+
+	check_admin_referer( 'upgrade-translations' );
+
+	require_once( ABSPATH . 'wp-admin/admin-header.php' );
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+
+	$url = 'update-core.php?action=do-translation-upgrade';
+	$nonce = 'upgrade-translations';
+	$title = __( 'Update Translations' );
+	$context = WP_LANG_DIR;
+
+	$upgrader = new Language_Pack_Upgrader( new Language_Pack_Upgrader_Skin( compact( 'url', 'nonce', 'title', 'context' ) ) );
+	$result = $upgrader->bulk_upgrade();
+
+	require_once( ABSPATH . 'wp-admin/admin-footer.php' );
 
 } else {
 	do_action('update-core-custom_' . $action);

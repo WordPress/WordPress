@@ -7,7 +7,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( !isset($_GET['post_type']) )
 	$post_type = 'post';
@@ -22,8 +22,8 @@ if ( 'post' == $post_type ) {
 	$parent_file = 'edit.php';
 	$submenu_file = 'post-new.php';
 } elseif ( 'attachment' == $post_type ) {
-	wp_redirect( admin_url( 'media-new.php' ) );
-	exit;
+	if ( wp_redirect( admin_url( 'media-new.php' ) ) )
+		exit;
 } else {
 	$submenu_file = "post-new.php?post_type=$post_type";
 	if ( isset( $post_type_object ) && $post_type_object->show_in_menu && $post_type_object->show_in_menu !== true ) {
@@ -62,5 +62,5 @@ if ( is_multisite() ) {
 // Show post form.
 $post = get_default_post_to_edit( $post_type, true );
 $post_ID = $post->ID;
-include('edit-form-advanced.php');
-include('./admin-footer.php');
+include( ABSPATH . 'wp-admin/edit-form-advanced.php' );
+include( ABSPATH . 'wp-admin/admin-footer.php' );

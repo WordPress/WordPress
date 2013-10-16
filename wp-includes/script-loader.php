@@ -48,17 +48,20 @@ require( ABSPATH . WPINC . '/functions.wp-styles.php' );
  * @param object $scripts WP_Scripts object.
  */
 function wp_default_scripts( &$scripts ) {
+	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
 
-	if ( !$guessurl = site_url() )
+	if ( ! defined( 'SCRIPT_DEBUG' ) )
+		define( 'SCRIPT_DEBUG', false !== strpos( $wp_version, '-src' ) );
+
+	if ( ! $guessurl = site_url() ) {
+		$guessed_url = true;
 		$guessurl = wp_guess_url();
+	}
 
 	$scripts->base_url = $guessurl;
 	$scripts->content_url = defined('WP_CONTENT_URL')? WP_CONTENT_URL : '';
 	$scripts->default_version = get_bloginfo( 'version' );
 	$scripts->default_dirs = array('/wp-admin/js/', '/wp-includes/js/');
-
-	if ( ! defined( 'SCRIPT_DEBUG' ) )
-		define( 'SCRIPT_DEBUG', ! file_exists( ABSPATH . WPINC . '/js/wp-util.min.js' ) );
 
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
@@ -179,7 +182,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-ui-widget', '/wp-includes/js/jquery/ui/jquery.ui.widget.min.js', array('jquery'), '1.10.3', 1 );
 
 	// deprecated, not used in core, most functionality is included in jQuery 1.3
-	$scripts->add( 'jquery-form', "/wp-includes/js/jquery/jquery.form$suffix.js", array('jquery'), '2.73', 1 );
+	$scripts->add( 'jquery-form', "/wp-includes/js/jquery/jquery.form$suffix.js", array('jquery'), '3.37.0', 1 );
 
 	// jQuery plugins
 	$scripts->add( 'jquery-color', "/wp-includes/js/jquery/jquery.color.min.js", array('jquery'), '2.1.1', 1 );
@@ -204,7 +207,7 @@ function wp_default_scripts( &$scripts ) {
 			'closeImage' => includes_url('js/thickbox/tb-close.png')
 	) );
 
-	$scripts->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop.min.js", array('jquery'), '0.9.10');
+	$scripts->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop.min.js", array('jquery'), '0.9.12');
 
 	$scripts->add( 'swfobject', "/wp-includes/js/swfobject.js", array(), '2.2-20120417');
 
@@ -282,7 +285,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'revisions', "/wp-admin/js/revisions$suffix.js", array( 'wp-backbone', 'jquery-ui-slider', 'hoverIntent' ), false, 1 );
 
-	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.8', 1 );
+	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), '0.9.10', 1 );
 
 	$scripts->add( 'mediaelement', "/wp-includes/js/mediaelement/mediaelement-and-player.min.js", array('jquery'), '2.13.0', 1 );
 	did_action( 'init' ) && $scripts->localize( 'mediaelement', 'mejsL10n', array(
@@ -309,7 +312,12 @@ function wp_default_scripts( &$scripts ) {
 		'pluginPath' => includes_url( 'js/mediaelement/', 'relative' ),
 	) );
 
-	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array('jquery'), false, 1 );
+	$scripts->add( 'zxcvbn-async', "/wp-includes/js/zxcvbn-async$suffix.js", array(), '1.0' );
+	did_action( 'init' ) && $scripts->localize( 'zxcvbn-async', '_zxcvbnSettings', array(
+		'src' => empty( $guessed_url ) ? includes_url( '/js/zxcvbn.min.js' ) : $scripts->base_url . '/wp-includes/js/zxcvbn.min.js',
+	) );
+
+	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array( 'jquery', 'zxcvbn-async' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'password-strength-meter', 'pwsL10n', array(
 		'empty' => __('Strength indicator'),
 		'short' => __('Very weak'),
@@ -523,6 +531,10 @@ function wp_default_scripts( &$scripts ) {
  * @param object $styles
  */
 function wp_default_styles( &$styles ) {
+	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
+
+	if ( ! defined( 'SCRIPT_DEBUG' ) )
+		define( 'SCRIPT_DEBUG', false !== strpos( $wp_version, '-src' ) );
 
 	if ( ! $guessurl = site_url() )
 		$guessurl = wp_guess_url();
@@ -532,9 +544,6 @@ function wp_default_styles( &$styles ) {
 	$styles->default_version = get_bloginfo( 'version' );
 	$styles->text_direction = function_exists( 'is_rtl' ) && is_rtl() ? 'rtl' : 'ltr';
 	$styles->default_dirs = array('/wp-admin/', '/wp-includes/css/');
-
-	if ( ! defined( 'SCRIPT_DEBUG' ) )
-		define( 'SCRIPT_DEBUG', ! file_exists( ABSPATH . WPINC . '/js/wp-util.min.js' ) );
 
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
@@ -559,7 +568,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20121105' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u1' );
 	$styles->add( 'wp-color-picker', "/wp-admin/css/color-picker$suffix.css" );
-	$styles->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop.min.css", array(), '0.9.10' );
+	$styles->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop.min.css", array(), '0.9.12' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.8' );
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css" );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css" );

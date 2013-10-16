@@ -214,8 +214,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 				switch ( $column_name ) {
 					case 'cb': ?>
 						<th scope="row" class="check-column">
+							<?php if ( ! is_main_site( $blog['blog_id'] ) ) : ?>
 							<label class="screen-reader-text" for="blog_<?php echo $blog['blog_id']; ?>"><?php printf( __( 'Select %s' ), $blogname ); ?></label>
 							<input type="checkbox" id="blog_<?php echo $blog['blog_id'] ?>" name="allblogs[]" value="<?php echo esc_attr( $blog['blog_id'] ) ?>" />
+							<?php endif; ?>
 						</th>
 					<?php
 					break;

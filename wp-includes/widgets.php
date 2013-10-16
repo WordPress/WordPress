@@ -858,12 +858,17 @@ function dynamic_sidebar($index = 1) {
 	}
 
 	$sidebars_widgets = wp_get_sidebars_widgets();
-	if ( empty( $sidebars_widgets ) )
-		return false;
+	if ( empty( $wp_registered_sidebars[ $index ] ) || empty( $sidebars_widgets[ $index ] ) || ! is_array( $sidebars_widgets[ $index ] ) ) {
+		//temporary_hook #25368
+		do_action( 'temp_dynamic_sidebar_before', $index, false );
+		//temporary_hook #25368
+		do_action( 'temp_dynamic_sidebar_after',  $index, false );
+		//temporary_hook #25368
+		return apply_filters( 'temp_dynamic_sidebar_has_widgets', false, $index );
+	}
 
-	if ( empty($wp_registered_sidebars[$index]) || !array_key_exists($index, $sidebars_widgets) || !is_array($sidebars_widgets[$index]) || empty($sidebars_widgets[$index]) )
-		return false;
-
+	//temporary_hook #25368
+	do_action( 'temp_dynamic_sidebar_before', $index, true );
 	$sidebar = $wp_registered_sidebars[$index];
 
 	$did_one = false;
@@ -899,6 +904,10 @@ function dynamic_sidebar($index = 1) {
 		}
 	}
 
+	//temporary_hook #25368
+	do_action( 'temp_dynamic_sidebar_after', $index, true );
+	//temporary_hook #25368
+	$did_one = apply_filters( 'temp_dynamic_sidebar_has_widgets', $did_one, $index );
 	return $did_one;
 }
 
@@ -977,10 +986,10 @@ function is_dynamic_sidebar() {
 function is_active_sidebar( $index ) {
 	$index = ( is_int($index) ) ? "sidebar-$index" : sanitize_title($index);
 	$sidebars_widgets = wp_get_sidebars_widgets();
-	if ( !empty($sidebars_widgets[$index]) )
-		return true;
-
-	return false;
+	$is_active_sidebar = ! empty( $sidebars_widgets[$index] );
+	//temporary_hook #25368
+	$is_active_sidebar = apply_filters( 'temp_is_active_sidebar', $is_active_sidebar, $index );
+	return $is_active_sidebar;
 }
 
 /* Internal Functions */

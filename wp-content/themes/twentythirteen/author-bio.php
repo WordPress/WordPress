@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying Author bios.
+ * The template for displaying Author bios
  *
  * @package WordPress
  * @subpackage Twenty_Thirteen
@@ -10,7 +10,17 @@
 
 <div class="author-info">
 	<div class="author-avatar">
-		<?php echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentythirteen_author_bio_avatar_size', 74 ) ); ?>
+		<?php
+		/**
+		 * Filter the author bio avatar size.
+		 *
+		 * @since Twenty Thirteen 1.0
+		 *
+		 * @param int $size The avatar height and width size in pixels.
+		 */
+		$author_bio_avatar_size = apply_filters( 'twentythirteen_author_bio_avatar_size', 74 );
+		echo get_avatar( get_the_author_meta( 'user_email' ), $author_bio_avatar_size );
+		?>
 	</div><!-- .author-avatar -->
 	<div class="author-description">
 		<h2 class="author-title"><?php printf( __( 'About %s', 'twentythirteen' ), get_the_author() ); ?></h2>

@@ -1,9 +1,10 @@
 <?php
 /**
- * The Template for displaying all single posts.
+ * The Template for displaying all single posts
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 
 get_header(); ?>
@@ -14,7 +15,7 @@ get_header(); ?>
 			while ( have_posts() ) :
 				the_post();
 
-				get_template_part( 'content', 'single' );
+				get_template_part( 'content', get_post_format() );
 
 				twentyfourteen_post_nav();
 

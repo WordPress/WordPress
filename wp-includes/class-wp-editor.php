@@ -798,6 +798,19 @@ final class _WP_Editors {
 
 		$query['offset'] = $args['pagenum'] > 1 ? $query['posts_per_page'] * ( $args['pagenum'] - 1 ) : 0;
 
+		/**
+		 * Filter the link query arguments.
+		 *
+		 * Allows modification of the link query arguments before querying.
+		 *
+		 * @see WP_Query for a full list of arguments
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param array $query An array of WP_Query arguments.
+		 */
+		$query = apply_filters( 'wp_link_query_args', $query );
+
 		// Do main query.
 		$get_posts = new WP_Query;
 		$posts = $get_posts->query( $query );
@@ -821,7 +834,26 @@ final class _WP_Editors {
 			);
 		}
 
-		return $results;
+		/**
+		 * Filter the link query results.
+		 *
+		 * Allows modification of the returned link query results.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param array $results {
+		 *     An associative array of query results.
+		 *
+		 *     @type array {
+		 *         @type int    'ID'        The post ID.
+		 *         @type string 'title'     The trimmed, escaped post title.
+		 *         @type string 'permalink' The post permalink.
+		 *         @type string 'info'      A 'Y/m/d'-formatted date for 'post' post type, the 'singular_name' post type label otherwise.
+		 *     }
+		 * }
+		 * @param array $query   An array of WP_Query arguments. @see 'wp_link_query_args' filter
+		 */
+		return apply_filters( 'wp_link_query', $results, $query );
 	}
 
 	/**

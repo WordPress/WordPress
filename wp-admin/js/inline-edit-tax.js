@@ -90,6 +90,9 @@ inlineEditTax = {
 						$('#edit-'+id+' .inline-edit-save .error').html(r).show();
 				} else
 					$('#edit-'+id+' .inline-edit-save .error').html(inlineEditL10n.error).show();
+
+				if ($(row).prev('tr').hasClass('alternate'))
+					$(row).removeClass('alternate');
 			}
 		);
 		return false;

@@ -1,16 +1,15 @@
 <?php
 /**
+ * The template for displaying posts in the Video post format
+ *
  * @package WordPress
  * @subpackage Twenty_Fourteen
+ * @since Twenty Fourteen 1.0
  */
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<?php if ( has_post_thumbnail() && ! has_post_format( array( 'video', 'image', 'aside', 'link', 'quote' ) ) ) : ?>
-	<div class="attachment-featured-thumbnail">
-	<?php the_post_thumbnail( 'featured-thumbnail-large' ); ?>
-	</div>
-	<?php endif; ?>
+	<?php twentyfourteen_post_thumbnail(); ?>
 
 	<header class="entry-header">
 		<?php if ( in_array( 'category', get_object_taxonomies( get_post_type() ) ) && twentyfourteen_categorized_blog() ) : ?>
@@ -20,17 +19,17 @@
 		<?php
 			endif;
 
-			if ( ! has_post_format( array( 'status', 'chat', 'aside', 'link', 'quote', 'audio' ) ) ) :
+			if ( is_single() ) :
 				the_title( '<h1 class="entry-title">', '</h1>' );
+			else :
+				the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' );
 			endif;
 		?>
 
 		<div class="entry-meta">
-			<?php if ( has_post_format( array( 'status', 'chat', 'aside', 'link', 'quote', 'audio' ) ) ) : ?>
 			<span class="post-format">
-				<a class="entry-format" href="<?php echo esc_url( get_post_format_link( get_post_format() ) ); ?>" title="<?php echo esc_attr( sprintf( __( 'All %s posts', 'twentyfourteen' ), get_post_format_string( get_post_format() ) ) ); ?>"><?php echo get_post_format_string( get_post_format() ); ?></a>
+				<a class="entry-format" href="<?php echo esc_url( get_post_format_link( 'video' ) ); ?>"><?php echo get_post_format_string( 'video' ); ?></a>
 			</span>
-			<?php endif; ?>
 
 			<?php twentyfourteen_posted_on(); ?>
 
@@ -54,17 +53,11 @@
 		?>
 	</div><!-- .entry-content -->
 
+	<?php if ( has_tag() ) : ?>
 	<footer class="entry-meta">
-		<?php if ( has_post_format( array( 'quote', 'aside' ) ) ) : ?>
-		<div class="entry-meta">
-			<?php the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' ); ?>
-		</div><!-- .entry-meta -->
-		<?php endif; ?>
-
-		<?php if ( has_tag() ) : ?>
-			<span class="tag-links">
-				<?php echo get_the_tag_list(); ?>
-			</span>
-		<?php endif; ?>
+		<span class="tag-links">
+			<?php echo get_the_tag_list(); ?>
+		</span>
 	</footer><!-- .entry-meta -->
+	<?php endif; ?>
 </article><!-- #post-## -->

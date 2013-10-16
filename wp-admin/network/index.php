@@ -8,7 +8,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 /** Load WordPress dashboard API */
 require_once( ABSPATH . 'wp-admin/includes/dashboard.php' );
@@ -36,11 +36,11 @@ get_current_screen()->add_help_tab( array(
 ) );
 
 $quick_tasks = '<p>' . __( 'The Right Now widget on this screen provides current user and site counts on your network.' ) . '</p>';
-$quick_tasks .= '<ul><li>' . __( 'To add a new user <strong>click Create a New User</strong>' ) . '</li>';
-$quick_tasks .= '<li>' . __( 'To add a new site <strong>click Create a New Site</strong>' ) . '</li></ul>';
+$quick_tasks .= '<ul><li>' . __( 'To add a new user, <strong>click Create a New User</strong>.' ) . '</li>';
+$quick_tasks .= '<li>' . __( 'To add a new site, <strong>click Create a New Site</strong>.' ) . '</li></ul>';
 $quick_tasks .= '<p>' . __( 'To search for a user or site, use the search boxes.' ) . '</p>';
-$quick_tasks .= '<ul><li>' . __( '<strong>To search for a user</strong> enter all or part of a username or email address' ) . '</li>';
-$quick_tasks .= '<li>' . __( '<strong>To search for a site</strong> enter the path or domain' ) . '</li></ul>';
+$quick_tasks .= '<ul><li>' . __( 'To search for a user, <strong>enter an email address or username</strong>. Use a wildcard to search for a partial username, such as user&#42;.' ) . '</li>';
+$quick_tasks .= '<li>' . __( 'To search for a site, <strong>enter the path or domain</strong>.' ) . '</li></ul>';
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'quick-tasks',
@@ -62,7 +62,7 @@ add_thickbox();
 
 add_screen_option('layout_columns', array('max' => 4, 'default' => 2) );
 
-require_once( '../admin-header.php' );
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 ?>
 
@@ -79,4 +79,4 @@ require_once( '../admin-header.php' );
 
 </div><!-- wrap -->
 
-<?php include( '../admin-footer.php' ); ?>
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

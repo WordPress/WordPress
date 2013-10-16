@@ -95,7 +95,7 @@ class WP_Roles {
 	 */
 	function _init () {
 		global $wpdb, $wp_user_roles;
-		$this->role_key = $wpdb->prefix . 'user_roles';
+		$this->role_key = $wpdb->get_blog_prefix() . 'user_roles';
 		if ( ! empty( $wp_user_roles ) ) {
 			$this->roles = $wp_user_roles;
 			$this->use_db = false;
@@ -131,7 +131,7 @@ class WP_Roles {
 		global $wpdb, $wp_user_roles;
 
 		// Duplicated from _init() to avoid an extra function call.
-		$this->role_key = $wpdb->prefix . 'user_roles';
+		$this->role_key = $wpdb->get_blog_prefix() . 'user_roles';
 		$this->roles = get_option( $this->role_key );
 		if ( empty( $this->roles ) )
 			return;
@@ -193,6 +193,9 @@ class WP_Roles {
 
 		if ( $this->use_db )
 			update_option( $this->role_key, $this->roles );
+
+		if ( get_option( 'default_role' ) == $role )
+			update_option( 'default_role', 'subscriber' );
 	}
 
 	/**
@@ -709,7 +712,7 @@ class WP_User {
 		global $wpdb;
 
 		if ( empty($cap_key) )
-			$this->cap_key = $wpdb->prefix . 'capabilities';
+			$this->cap_key = $wpdb->get_blog_prefix() . 'capabilities';
 		else
 			$this->cap_key = $cap_key;
 
@@ -732,6 +735,8 @@ class WP_User {
 	 * @since 2.0.0
 	 * @uses $wp_roles
 	 * @access public
+	 *
+	 * @return array List of all capabilities for the user.
 	 */
 	function get_role_caps() {
 		global $wp_roles;
@@ -750,6 +755,8 @@ class WP_User {
 			$this->allcaps = array_merge( (array) $this->allcaps, (array) $the_role->capabilities );
 		}
 		$this->allcaps = array_merge( (array) $this->allcaps, (array) $this->caps );
+
+		return $this->allcaps;
 	}
 
 	/**
@@ -859,7 +866,7 @@ class WP_User {
 	function update_user_level_from_caps() {
 		global $wpdb;
 		$this->user_level = array_reduce( array_keys( $this->allcaps ), array( $this, 'level_reduction' ), 0 );
-		update_user_meta( $this->ID, $wpdb->prefix . 'user_level', $this->user_level );
+		update_user_meta( $this->ID, $wpdb->get_blog_prefix() . 'user_level', $this->user_level );
 	}
 
 	/**
@@ -901,7 +908,7 @@ class WP_User {
 		global $wpdb;
 		$this->caps = array();
 		delete_user_meta( $this->ID, $this->cap_key );
-		delete_user_meta( $this->ID, $wpdb->prefix . 'user_level' );
+		delete_user_meta( $this->ID, $wpdb->get_blog_prefix() . 'user_level' );
 		$this->get_role_caps();
 	}
 
@@ -936,7 +943,7 @@ class WP_User {
 		}
 
 		// Must have ALL requested caps
-		$capabilities = apply_filters( 'user_has_cap', $this->allcaps, $caps, $args );
+		$capabilities = apply_filters( 'user_has_cap', $this->allcaps, $caps, $args, $this );
 		$capabilities['exist'] = true; // Everyone is allowed to exist
 		foreach ( (array) $caps as $cap ) {
 			if ( empty( $capabilities[ $cap ] ) )
@@ -1039,10 +1046,8 @@ function map_meta_cap( $cap, $user_id ) {
 		if ( ! $post_author_id )
 			$post_author_id = $user_id;
 
-		$post_author_data = $post_author_id == get_current_user_id() ? wp_get_current_user() : get_userdata( $post_author_id );
-
 		// If the user is the author...
-		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID ) {
+		if ( $user_id == $post_author_id ) {
 			// If the post is published...
 			if ( 'publish' == $post->post_status ) {
 				$caps[] = $post_type->cap->delete_published_posts;
@@ -1068,6 +1073,8 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'edit_post':
 	case 'edit_page':
 		$post = get_post( $args[0] );
+		if ( empty( $post ) )
+			break;
 
 		if ( 'revision' == $post->post_type ) {
 			$post = get_post( $post->post_parent );
@@ -1089,10 +1096,8 @@ function map_meta_cap( $cap, $user_id ) {
 		if ( ! $post_author_id )
 			$post_author_id = $user_id;
 
-		$post_author_data = $post_author_id == get_current_user_id() ? wp_get_current_user() : get_userdata( $post_author_id );
-
 		// If the user is the author...
-		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID ) {
+		if ( $user_id == $post_author_id ) {
 			// If the post is published...
 			if ( 'publish' == $post->post_status ) {
 				$caps[] = $post_type->cap->edit_published_posts;
@@ -1143,9 +1148,7 @@ function map_meta_cap( $cap, $user_id ) {
 		if ( ! $post_author_id )
 			$post_author_id = $user_id;
 
-		$post_author_data = $post_author_id == get_current_user_id() ? wp_get_current_user() : get_userdata( $post_author_id );
-
-		if ( is_object( $post_author_data ) && $user_id == $post_author_data->ID )
+		if ( $user_id == $post_author_id )
 			$caps[] = $post_type->cap->read;
 		elseif ( $status_obj->private )
 			$caps[] = $post_type->cap->read_private_posts;
@@ -1176,6 +1179,8 @@ function map_meta_cap( $cap, $user_id ) {
 		break;
 	case 'edit_comment':
 		$comment = get_comment( $args[0] );
+		if ( empty( $comment ) )
+			break;
 		$post = get_post( $comment->comment_post_ID );
 		$caps = map_meta_cap( 'edit_post', $user_id, $post->ID );
 		break;
@@ -1409,7 +1414,6 @@ function add_role( $role, $display_name, $capabilities = array() ) {
  * @since 2.0.0
  *
  * @param string $role Role name.
- * @return null
  */
 function remove_role( $role ) {
 	global $wp_roles;
@@ -1417,7 +1421,7 @@ function remove_role( $role ) {
 	if ( ! isset( $wp_roles ) )
 		$wp_roles = new WP_Roles();
 
-	return $wp_roles->remove_role( $role );
+	$wp_roles->remove_role( $role );
 }
 
 /**

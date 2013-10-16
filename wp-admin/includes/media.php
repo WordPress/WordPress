@@ -914,18 +914,19 @@ function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
  * @param array $attachment {@internal $attachment not used}}
  * @return array
  */
-function image_attachment_fields_to_save($post, $attachment) {
-	if ( substr($post['post_mime_type'], 0, 5) == 'image' ) {
-		if ( strlen(trim($post['post_title'])) == 0 ) {
-			$post['post_title'] = preg_replace('/\.\w+$/', '', basename($post['guid']));
-			$post['errors']['post_title']['errors'][] = __('Empty Title filled from filename.');
+function image_attachment_fields_to_save( $post, $attachment ) {
+	if ( substr( $post['post_mime_type'], 0, 5 ) == 'image' ) {
+		if ( strlen( trim( $post['post_title'] ) ) == 0 ) {
+			$attachment_url = ( isset( $post['attachment_url'] ) ) ? $post['attachment_url'] : $post['guid'];
+			$post['post_title'] = preg_replace( '/\.\w+$/', '', wp_basename( $attachment_url ) );
+			$post['errors']['post_title']['errors'][] = __( 'Empty Title filled from filename.' );
 		}
 	}
 
 	return $post;
 }
 
-add_filter('attachment_fields_to_save', 'image_attachment_fields_to_save', 10, 2);
+add_filter( 'attachment_fields_to_save', 'image_attachment_fields_to_save', 10, 2 );
 
 /**
  * {@internal Missing Short Description}}
@@ -2433,14 +2434,14 @@ function attachment_submitbox_metadata() {
 
 	$att_url = wp_get_attachment_url( $post->ID );
 ?>
-	<div class="misc-pub-section">
+	<div class="misc-pub-section misc-pub-attachment">
 			<label for="attachment_url"><?php _e( 'File URL:' ); ?></label>
 			<input type="text" class="widefat urlfield" readonly="readonly" name="attachment_url" value="<?php echo esc_attr($att_url); ?>" />
 	</div>
-	<div class="misc-pub-section">
+	<div class="misc-pub-section misc-pub-filename">
 		<?php _e( 'File name:' ); ?> <strong><?php echo $filename; ?></strong>
 	</div>
-	<div class="misc-pub-section">
+	<div class="misc-pub-section misc-pub-filetype">
 		<?php _e( 'File type:' ); ?> <strong><?php
 			if ( preg_match( '/^.*?\.(\w+)$/', get_attached_file( $post->ID ), $matches ) )
 				echo esc_html( strtoupper( $matches[1] ) );
@@ -2449,19 +2450,51 @@ function attachment_submitbox_metadata() {
 		?></strong>
 	</div>
 
-<?php
-	if ( preg_match( '#^audio|video#', $post->post_mime_type ) ):
+	<?php
+		$file  = get_attached_file( $post->ID );
+		$file_size = false;
 
-		$fields = array(
-			'mime_type' => __( 'Mime-type:' ),
-			'year' => __( 'Year:' ),
-			'genre' => __( 'Genre:' ),
+		if ( isset( $meta['filesize'] ) )
+			$file_size = $meta['filesize'];
+		elseif ( file_exists( $file ) )
+			$file_size = filesize( $file );
+
+		if ( ! empty( $file_size ) ) : ?>
+			<div class="misc-pub-section misc-pub-filesize">
+				<?php _e( 'File size:' ); ?> <strong><?php echo size_format( $file_size ); ?></strong>
+			</div>
+			<?php
+		endif;
+
+	if ( preg_match( '#^(audio|video)#', $post->post_mime_type ) ):
+
+		/**
+		 * Audio and video metadata fields to be shown in the publish meta box.
+		 *
+		 * The key for each item in the array should correspond to an attachment
+		 * metadata key, and the value should be the desired label.
+		 *
+		 * @since  3.7.0
+		 *
+		 * @param array $fields {
+		 *     An array of the attachment metadata keys and labels.
+		 *
+		 *     @type string 'mime_type'        Label to be shown before the field mime_type.
+		 *     @type string 'year'             Label to be shown before the field year.
+		 *     @type string 'genre'            Label to be shown before the field genre.
+		 *     @type string 'length_formatted' Label to be shown before the field length_formatted.
+		 * }
+		 */
+		$fields = apply_filters( 'media_submitbox_misc_sections', array(
+			'mime_type'        => __( 'Mime-type:' ),
+			'year'             => __( 'Year:' ),
+			'genre'            => __( 'Genre:' ),
 			'length_formatted' => __( 'Length:' ),
-		);
+		) );
 
 		foreach ( $fields as $key => $label ):
 			if ( ! empty( $meta[$key] ) ) : ?>
-		<div class="misc-pub-section">
+		<div class="misc-pub-section misc-pub-mime-meta misc-pub-<?php echo sanitize_html_class( $key ); ?>">
 			<?php echo $label ?> <strong><?php echo esc_html( $meta[$key] ); ?></strong>
 		</div>
 	<?php
@@ -2469,7 +2502,7 @@ function attachment_submitbox_metadata() {
 		endforeach;
 
 		if ( ! empty( $meta['bitrate'] ) ) : ?>
-		<div class="misc-pub-section">
+		<div class="misc-pub-section misc-pub-bitrate">
 			<?php _e( 'Bitrate:' ); ?> <strong><?php
 				echo round( $meta['bitrate'] / 1000 ), 'kb/s';
 
@@ -2481,14 +2514,29 @@ function attachment_submitbox_metadata() {
 	<?php
 		endif;
 
-		$audio_fields = array(
+		/**
+		 * Audio attachment metadata fields to be shown in the publish meta box.
+		 *
+		 * The key for each item in the array should correspond to an attachment
+		 * metadata key, and the value should be the desired label.
+		 *
+		 * @since  3.7.0
+		 *
+		 * @param array $fields {
+		 *     An array of the attachment metadata keys and labels.
+		 *
+		 *     @type string 'dataformat' Label to be shown before the field dataformat.
+		 *     @type string 'codec'      Label to be shown before the field codec.
+		 * }
+		 */
+		$audio_fields = apply_filters( 'audio_submitbox_misc_sections', array(
 			'dataformat' => __( 'Audio Format:' ),
-			'codec' => __( 'Audio Codec:' )
-		);
+			'codec'      => __( 'Audio Codec:' )
+		) );
 
 		foreach ( $audio_fields as $key => $label ):
 			if ( ! empty( $meta['audio'][$key] ) ) : ?>
-		<div class="misc-pub-section">
+		<div class="misc-pub-section misc-pub-audio misc-pub-<?php echo sanitize_html_class( $key ); ?>">
 			<?php echo $label; ?> <strong><?php echo esc_html( $meta['audio'][$key] ); ?></strong>
 		</div>
 	<?php
@@ -2498,7 +2546,7 @@ function attachment_submitbox_metadata() {
 	endif;
 
 	if ( $media_dims ) : ?>
-	<div class="misc-pub-section">
+	<div class="misc-pub-section misc-pub-dimensions">
 		<?php _e( 'Dimensions:' ); ?> <strong><?php echo $media_dims; ?></strong>
 	</div>
 <?php

@@ -9,7 +9,7 @@
 			return;
 		}
 
-		strength = passwordStrength(pass1, user, pass2);
+		strength = wp.passwordStrength.meter( pass1, wp.passwordStrength.userInputBlacklist(), pass2 );
 
 		switch ( strength ) {
 			case 2:

@@ -1,22 +1,28 @@
 <?php
 /**
- * BackPress script procedural API.
+ * BackPress Scripts Procedural API
  *
- * @package BackPress
- * @since r16
+ * @since 2.6.0
+ *
+ * @package WordPress
+ * @subpackage BackPress
  */
 
 /**
- * Prints script tags in document head.
+ * Print scripts in document head that are in the $handles queue.
  *
- * Called by admin-header.php and by wp_head hook. Since it is called by wp_head
- * on every page load, the function does not instantiate the WP_Scripts object
- * unless script names are explicitly passed. Does make use of already
- * instantiated $wp_scripts if present. Use provided wp_print_scripts hook to
- * register/enqueue new scripts.
+ * Called by admin-header.php and wp_head hook. Since it is called by wp_head on every page load,
+ * the function does not instantiate the WP_Scripts object unless script names are explicitly passed.
+ * Makes use of already-instantiated $wp_scripts global if present. Use provided wp_print_scripts
+ * hook to register/enqueue new scripts.
  *
- * @since r16
- * @see WP_Dependencies::print_scripts()
+ * @see WP_Scripts::do_items()
+ * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
+ *
+ * @since 2.6.0
+ *
+ * @param array|bool $handles Optional. Scripts to be printed. Default 'false'.
+ * @return array On success, a processed array of WP_Dependencies items; otherwise, an empty array.
  */
 function wp_print_scripts( $handles = false ) {
 	do_action( 'wp_print_scripts' );
@@ -39,15 +45,25 @@ function wp_print_scripts( $handles = false ) {
 }
 
 /**
- * Register new Javascript file.
+ * Register a new script.
  *
- * @since r16
- * @param string $handle Script name
- * @param string $src Script url
- * @param array $deps (optional) Array of script names on which this script depends
- * @param string|bool $ver (optional) Script version (used for cache busting), set to null to disable
- * @param bool $in_footer (optional) Whether to enqueue the script before </head> or before </body>
- * @return null
+ * Registers a script to be linked later using the wp_enqueue_script() function.
+ *
+ * @see WP_Dependencies::add(), WP_Dependencies::add_data()
+ * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
+ *
+ * @since 2.6.0
+ *
+ * @param string      $handle    Name of the script. Should be unique.
+ * @param string      $src       Path to the script from the WordPress root directory. Example: '/js/myscript.js'.
+ * @param array       $deps      Optional. An array of registered script handles this script depends on. Set to false if there
+ *                               are no dependencies. Default empty array.
+ * @param string|bool $ver       Optional. String specifying script version number, if it has one, which is concatenated
+ *                               to end of path as a query string. If no version is specified or set to false, a version
+ *                               number is automatically added equal to current installed WordPress version.
+ *                               If set to null, no version is added. Default 'false'. Accepts 'false', 'null', or 'string'.
+ * @param bool        $in_footer Optional. Whether to enqueue the script before </head> or before </body>.
+ *                               Default 'false'. Accepts 'false' or 'true'.
  */
 function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_footer = false ) {
 	global $wp_scripts;
@@ -64,24 +80,30 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
 }
 
 /**
- * Wrapper for $wp_scripts->localize().
+ * Localize a script.
  *
- * Used to localize a script.
  * Works only if the script has already been added.
- * Accepts an associative array $l10n and creates JS object:
+ *
+ * Accepts an associative array $l10n and creates a JavaScript object:
+ * <code>
  * "$object_name" = {
- *   key: value,
- *   key: value,
- *   ...
+ *       key: value,
+ *       key: value,
+ *       ...
  * }
- * See http://core.trac.wordpress.org/ticket/11520 for more information.
+ * </code>
  *
- * @since r16
+ * @see WP_Dependencies::localize()
+ * @link http://core.trac.wordpress.org/ticket/11520
+ * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
  *
- * @param string $handle The script handle that was registered or used in script-loader
- * @param string $object_name Name for the created JS object. This is passed directly so it should be qualified JS variable /[a-zA-Z0-9_]+/
- * @param array $l10n Associative PHP array containing the translated strings. HTML entities will be converted and the array will be JSON encoded.
- * @return bool Whether the localization was added successfully.
+ * @since 2.6.0
+ *
+ * @param string $handle      Script handle the data will be attached to.
+ * @param string $object_name Name for the JavaScript object. Passed directly, so it should be qualified JS variable.
+ *                            Example: '/[a-zA-Z0-9_]+/'.
+ * @param array $l10n         The data itself. The data can be either a single or multi-dimensional array.
+ * @return bool True if the script was successfully localized, false otherwise.
  */
 function wp_localize_script( $handle, $object_name, $l10n ) {
 	global $wp_scripts;
@@ -99,8 +121,15 @@ function wp_localize_script( $handle, $object_name, $l10n ) {
 /**
  * Remove a registered script.
  *
- * @since r16
- * @see WP_Scripts::remove() For parameter information.
+ * Note: there are intentional safeguards in place to prevent critical admin scripts,
+ * such as jQuery core, from being unregistered.
+ *
+ * @see WP_Dependencies::remove()
+ * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
+ *
+ * @since 2.6.0
+ *
+ * @param string $handle Name of the script to be removed.
  */
 function wp_deregister_script( $handle ) {
 	global $wp_scripts;
@@ -111,16 +140,21 @@ function wp_deregister_script( $handle ) {
 		$wp_scripts = new WP_Scripts();
 	}
 
-	// Do not allow accidental or negligent deregistering of critical scripts in the admin. Show minimal remorse if the correct hook is used.
-	if ( is_admin() && 'admin_enqueue_scripts' !== current_filter() ) {
+	/**
+	 * Do not allow accidental or negligent de-registering of critical scripts in the admin.
+	 * Show minimal remorse if the correct hook is used.
+	 */
+	$current_filter = current_filter();
+	if ( ( is_admin() && 'admin_enqueue_scripts' !== $current_filter ) ||
+		( 'wp-login.php' === $GLOBALS['pagenow'] && 'login_enqueue_scripts' !== $current_filter )
+	) {
 		$no = array(
 			'jquery', 'jquery-core', 'jquery-migrate', 'jquery-ui-core', 'jquery-ui-accordion',
 			'jquery-ui-autocomplete', 'jquery-ui-button', 'jquery-ui-datepicker', 'jquery-ui-dialog',
 			'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-menu', 'jquery-ui-mouse',
 			'jquery-ui-position', 'jquery-ui-progressbar', 'jquery-ui-resizable', 'jquery-ui-selectable',
 			'jquery-ui-slider', 'jquery-ui-sortable', 'jquery-ui-spinner', 'jquery-ui-tabs',
-			'jquery-ui-tooltip', 'jquery-ui-widget',
-			'underscore', 'backbone',
+			'jquery-ui-tooltip', 'jquery-ui-widget', 'underscore', 'backbone',
 		);
 
 		if ( in_array( $handle, $no ) ) {
@@ -135,12 +169,23 @@ function wp_deregister_script( $handle ) {
 }
 
 /**
- * Enqueues script.
+ * Enqueue a script.
  *
- * Registers the script if src provided (does NOT overwrite) and enqueues.
+ * Registers the script if $src provided (does NOT overwrite), and enqueues it.
  *
- * @since r16
- * @see wp_register_script() For parameter information.
+ * @see WP_Dependencies::add(), WP_Dependencies::add_data(), WP_Dependencies::enqueue()
+ * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
+ *
+ * @since 2.6.0
+
+ * @param string      $handle    Name of the script.
+ * @param string|bool $src       Path to the script from the root directory of WordPress. Example: '/js/myscript.js'.
+ * @param array       $deps      An array of registered handles this script depends on. Default empty array.
+ * @param string|bool $ver       Optional. String specifying the script version number, if it has one. This parameter
+ *                               is used to ensure that the correct version is sent to the client regardless of caching,
+ *                               and so should be included if a version number is available and makes sense for the script.
+ * @param bool        $in_footer Optional. Whether to enqueue the script before </head> or before </body>.
+ *                               Default 'false'. Accepts 'false' or 'true'.
  */
 function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false ) {
 	global $wp_scripts;
@@ -161,10 +206,14 @@ function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false
 }
 
 /**
- * Remove an enqueued script.
+ * Remove a previously enqueued script.
  *
- * @since WP 3.1
- * @see WP_Scripts::dequeue() For parameter information.
+ * @see WP_Dependencies::dequeue()
+ * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
+ *
+ * @since 3.1.0
+ *
+ * @param string $handle Name of the script to be removed.
  */
 function wp_dequeue_script( $handle ) {
 	global $wp_scripts;
@@ -179,18 +228,17 @@ function wp_dequeue_script( $handle ) {
 }
 
 /**
- * Check whether script has been added to WordPress Scripts.
+ * Check whether a script has been added to the queue.
  *
- * By default, checks if the script has been enqueued. You can also
- * pass 'registered' to $list, to see if the script is registered,
- * and you can check processing statuses with 'to_do' and 'done'.
+ * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
  *
- * @since WP unknown; BP unknown
+ * @since 2.8.0
+ * @since 3.5.0 'enqueued' added as an alias of the 'queue' list.
  *
  * @param string $handle Name of the script.
- * @param string $list Optional. Defaults to 'enqueued'. Values are
- * 	'registered', 'enqueued' (or 'queue'), 'to_do', and 'done'.
- * @return bool Whether script is in the list.
+ * @param string $list   Optional. Status of the script to check. Default 'enqueued'.
+ *                       Accepts 'enqueued', 'registered', 'queue', 'to_do', and 'done'.
+ * @return bool Whether the script script is queued.
  */
 function wp_script_is( $handle, $list = 'enqueued' ) {
 	global $wp_scripts;

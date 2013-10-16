@@ -1,8 +1,8 @@
 <?php
 /**
- * The Header for our theme.
+ * Header template for the theme
  *
- * Displays all of the <head> section and everything up till <div id="main">
+ * Displays all of the <head> section and everything up till <div id="main">.
  *
  * @package WordPress
  * @subpackage Twenty_Eleven
@@ -25,9 +25,7 @@
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width" />
 <title><?php
-	/*
-	 * Print the <title> tag based on what is being viewed.
-	 */
+	// Print the <title> tag based on what is being viewed.
 	global $page, $paged;
 
 	wp_title( '|', true, 'right' );
@@ -52,13 +50,15 @@
 <script src="<?php echo get_template_directory_uri(); ?>/js/html5.js" type="text/javascript"></script>
 <![endif]-->
 <?php
-	/* We add some JavaScript to pages with the comment form
+	/*
+	 * We add some JavaScript to pages with the comment form
 	 * to support sites with threaded comments (when in use).
 	 */
 	if ( is_singular() && get_option( 'thread_comments' ) )
 		wp_enqueue_script( 'comment-reply' );
 
-	/* Always have wp_head() just before the closing </head>
+	/*
+	 * Always have wp_head() just before the closing </head>
 	 * tag of your theme, or you will break many plugins, which
 	 * generally use this hook to add elements to <head> such
 	 * as styles, scripts, and meta tags.
@@ -81,8 +81,10 @@
 				if ( $header_image ) :
 					// Compatibility with versions of WordPress prior to 3.4.
 					if ( function_exists( 'get_custom_header' ) ) {
-						// We need to figure out what the minimum width should be for our featured image.
-						// This result would be the suggested width if the theme were to implement flexible widths.
+						/*
+						 * We need to figure out what the minimum width should be for our featured image.
+						 * This result would be the suggested width if the theme were to implement flexible widths.
+						 */
 						$header_image_width = get_theme_support( 'custom-header', 'width' );
 					} else {
 						$header_image_width = HEADER_IMAGE_WIDTH;
@@ -90,8 +92,10 @@
 					?>
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
 				<?php
-					// The header image
-					// Check if this is a post or page, if it has a thumbnail, and if it's a big one
+					/*
+					 * The header image.
+					 * Check if this is a post or page, if it has a thumbnail, and if it's a big one
+					 */
 					if ( is_singular() && has_post_thumbnail( $post->ID ) &&
 							( /* $src, $width, $height */ $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), array( $header_image_width, $header_image_width ) ) ) &&
 							$image[1] >= $header_image_width ) :

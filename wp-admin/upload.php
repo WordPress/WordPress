@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( !current_user_can('upload_files') )
 	wp_die( __( 'You do not have permission to upload files.' ) );
@@ -173,7 +173,7 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
 );
 
-require_once('./admin-header.php');
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
@@ -247,4 +247,4 @@ if ( !empty($message) ) { ?>
 </div>
 
 <?php
-include('./admin-footer.php');
+include( ABSPATH . 'wp-admin/admin-footer.php' );

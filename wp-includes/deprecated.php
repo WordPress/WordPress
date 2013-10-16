@@ -3378,3 +3378,15 @@ function wp_convert_bytes_to_hr( $bytes ) {
 
 	return $size . $unit;
 }
+
+/**
+ * Formerly used internally to tidy up the search terms.
+ *
+ * @access private
+ * @since 2.9.0
+ * @deprecated 3.7.0
+ */
+function _search_terms_tidy( $t ) {
+	_deprecated_function( __FUNCTION__, '3.7' );
+	return trim( $t, "\"'\n\r " );
+}

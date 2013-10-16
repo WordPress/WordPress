@@ -4,51 +4,32 @@
 
 		var $primaryNaviClone,
 			$secondaryNaviClone,
-			$masthead = $( 'header#masthead' ),
-			$secondaryTop = $( 'div#secondary-top' ),
-			$mobileNavigations = $( 'div#mobile-navigations'),
-			$socialLinksWrapper = $( 'div.social-links-wrapper' ),
+			$masthead = $( '#masthead' ),
+			$secondaryTop = $( '#secondary-top' ),
+			$mobileNavigations = $( '#mobile-navigations'),
 			$searchBoxWrapper = $( 'div.search-box-wrapper' ),
 			$searchToggle = $( 'div.search-toggle' ),
-			$socialLinksToggle = $( 'div.social-links-toggle' ),
 			timeout = false;
 
 		// Toggle function.
 		function menuToggle() {
 			$( 'span#nav-toggle' ).toggleClass( 'active' );
-			$masthead.find( 'div#mobile-navigations' ).toggleClass( 'hide' );
+			$masthead.find( '#mobile-navigations' ).toggleClass( 'hide' );
 		}
-
-		// Click event for toggle the social links
-		$socialLinksToggle.click( function() {
-			$( this ).toggleClass( 'active' );
-			$socialLinksWrapper.toggleClass( 'hide' );
-			// if .search-box-wrapper is visible hide it
-			if ( ! $searchBoxWrapper.hasClass( 'hide' ) ) {
-				$searchBoxWrapper.addClass( 'hide' );
-			}
-			if ( $searchToggle.hasClass( 'active' ) ) {
-				$searchToggle.removeClass( 'active' );
-			}
-		} );
 
 		// Click event for toggle the search
 		$searchToggle.click( function() {
 			$( this ).toggleClass( 'active' );
 			$searchBoxWrapper.toggleClass( 'hide' );
-			// if .social-links-wrapper is visible hide it
-			if ( ! $socialLinksWrapper.hasClass( 'hide' ) ) {
-				$socialLinksWrapper.addClass( 'hide' );
-			}
-			if ( $socialLinksToggle.hasClass( 'active' ) ) {
-				$socialLinksToggle.removeClass( 'active' );
-			}
+
+			if ( $( this ).hasClass( 'active' ) )
+				$searchBoxWrapper.find( '.search-field' ).focus();
 		} );
 
-		// DOM manupilations for mobile header
+		// DOM manipulations for mobile header
 		function mobileHeader()	{
 			// Check if the toggler exists. If not add it.
-			if ( ! $( 'span#nav-toggle' ).length )
+			if ( ! $( '#nav-toggle' ).length )
 			$( '<span id="nav-toggle" class="genericon" />' ).appendTo( $masthead );
 
 			// Clone and detach the primary navigation for use later
@@ -104,13 +85,13 @@
 		// Sticky header.
 		var $mastheadOffset  = -1,
 			$toolbarOffset = $( 'body' ).is( '.admin-bar' ) ? 32 : 0,
-			$maindiv = $( 'div#main' );
+			$maindiv = $( '#main' );
 
 		$( window ).on( 'scroll', false, function() {
 			if ( $mastheadOffset < 0 )
 				$mastheadOffset = $masthead.offset().top - $toolbarOffset;
 
-			if ( ( window.scrollY >= $mastheadOffset ) && ( $( window ).width() > 769 ) ) {
+			if ( ( window.scrollY > $mastheadOffset ) && ( $( window ).width() > 769 ) ) {
 				$masthead.addClass( 'masthead-fixed' );
 				$maindiv.css( {
 					marginTop: $masthead.height()
@@ -123,6 +104,21 @@
 			}
 		} );
 
+		// Arranges footer widgets vertically.
+		if ( $.isFunction( $.fn.masonry ) ) {
+
+			$( '#footer-sidebar' ).masonry( {
+				itemSelector: '.widget',
+				columnWidth: 315,
+				gutterWidth: 0,
+				isRTL: $( 'body' ).is( '.rtl' )
+			} );
+		}
+
 	} );
 
+	/* Focus styles for primary menu. */
+	$( '.primary-navigation' ).find( 'a' ).on( 'focus.twentyfourteen blur.twentyfourteen', function() {
+		$( this ).parents().toggleClass( 'focus' );
+	});
 } )( jQuery );

@@ -8,7 +8,7 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
@@ -66,7 +66,7 @@ if ( isset($_GET['update']) ) {
 $title = __('Add New User');
 $parent_file = 'users.php';
 
-require('../admin-header.php'); ?>
+require( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -99,9 +99,9 @@ if ( isset( $add_user_errors ) && is_wp_error( $add_user_errors ) ) { ?>
 			<td colspan="2"><?php _e( 'Username and password will be mailed to the above email address.' ) ?></td>
 		</tr>
 	</table>
-	<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
+	<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ); ?>
 	<?php submit_button( __('Add User'), 'primary', 'add-user' ); ?>
 	</form>
 </div>
 <?php
-require('../admin-footer.php');
+require( ABSPATH . 'wp-admin/admin-footer.php' );
