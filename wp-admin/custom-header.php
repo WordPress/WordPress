@@ -633,6 +633,11 @@ if ( current_theme_supports( 'custom-header', 'default-text-color' ) ) {
 </table>
 <?php endif;
 
+/**
+ * Fires just before the submit button in the custom header options form.
+ *
+ * @since 3.1.0
+ */
 do_action( 'custom_header_options' );
 
 wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
@@ -690,7 +695,16 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 
 			$this->set_header_image( compact( 'url', 'attachment_id', 'width', 'height' ) );
 
-			do_action('wp_create_file_in_uploads', $file, $attachment_id); // For replication
+			/**
+			 * Fires after the header image is set or an error is returned.
+			 *
+			 * @since 2.1.0
+			 *
+			 * @param string $file          Path to the file.
+			 * @param int    $attachment_id Attachment ID.
+			 */
+			do_action( 'wp_create_file_in_uploads', $file, $attachment_id ); // For replication
+
 			return $this->finished();
 		} elseif ( $width > $max_width ) {
 			$oitar = $width / $max_width;
@@ -698,7 +712,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			if ( ! $image || is_wp_error( $image ) )
 				wp_die( __( 'Image could not be processed. Please go back and try again.' ), __( 'Image Processing Error' ) );
 
-			$image = apply_filters('wp_create_file_in_uploads', $image, $attachment_id); // For replication
+			//duplicate_hook
+			$image = apply_filters( 'wp_create_file_in_uploads', $image, $attachment_id ); // For replication
 
 			$url = str_replace(basename($url), basename($image), $url);
 			$width = $width / $oitar;
@@ -839,7 +854,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		if ( ! $cropped || is_wp_error( $cropped ) )
 			wp_die( __( 'Image could not be processed. Please go back and try again.' ), __( 'Image Processing Error' ) );
 
-		$cropped = apply_filters('wp_create_file_in_uploads', $cropped, $attachment_id); // For replication
+		//duplicate_hook
+		$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication
 
 		$parent = get_post($attachment_id);
 		$parent_url = $parent->guid;
@@ -870,10 +886,15 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 
 		// cleanup
 		$medium = str_replace( basename( $original ), 'midsize-' . basename( $original ), $original );
-		if ( file_exists( $medium ) )
+		if ( file_exists( $medium ) ) {
+			//duplicate_hook
 			@unlink( apply_filters( 'wp_delete_file', $medium ) );
-		if ( empty( $_POST['create-new-attachment'] ) && empty( $_POST['skip-cropping'] ) )
+		}
+
+		if ( empty( $_POST['create-new-attachment'] ) && empty( $_POST['skip-cropping'] ) ) {
+			//duplicate_hook
 			@unlink( apply_filters( 'wp_delete_file', $original ) );
+		}
 
 		return $this->finished();
 	}
