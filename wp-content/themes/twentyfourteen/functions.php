@@ -102,6 +102,14 @@ function twentyfourteen_setup() {
 	) ) );
 
 	/*
+	 * Add support for featured content.
+	 */
+	add_theme_support( 'featured-content', array(
+		'featured_content_filter' => 'twentyfourteen_get_featured_posts',
+		'max_posts' => 6,
+	) );
+
+	/*
 	 * This theme uses its own gallery styles.
 	 */
 	add_filter( 'use_default_gallery_style', '__return_false' );
@@ -126,25 +134,22 @@ add_action( 'template_redirect', 'twentyfourteen_content_width' );
  * Getter function for Featured Content Plugin.
  *
  * @since Twenty Fourteen 1.0
+ *
+ * @return array An array of WP_Post objects.
  */
 function twentyfourteen_get_featured_posts() {
-	return apply_filters( 'twentyfourteen_get_featured_posts', false );
+	return apply_filters( 'twentyfourteen_get_featured_posts', array() );
 }
 
 /**
- * A helper conditional function that returns a boolean value
- * So that we can use a condition like
- * if ( twentyfourteen_has_featured_posts( 1 ) )
+ * A helper conditional function that returns a boolean value.
  *
  * @since Twenty Fourteen 1.0
+ *
+ * @return bool Whether there are featured posts.
  */
-function twentyfourteen_has_featured_posts( $minimum = 1 ) {
-	if ( is_paged() )
-		return false;
-
-		$featured_posts = apply_filters( 'twentyfourteen_get_featured_posts', array() );
-
-	return is_array( $featured_posts ) && count( $featured_posts ) > absint( $minimum );
+function twentyfourteen_has_featured_posts() {
+	return ! is_paged() && (bool) apply_filters( 'twentyfourteen_get_featured_posts', false );
 }
 
 /**
@@ -352,7 +357,7 @@ function twentyfourteen_list_authors() {
 endif;
 
 /**
- * Get recent formatted posts that are not featured in FC plugin.
+ * Get recent formatted posts that are not featured in Featured Content area.
  *
  * @since Twenty Fourteen 1.0
  *
@@ -521,3 +526,12 @@ require get_template_directory() . '/inc/template-tags.php';
 
 // Add Theme Customizer functionality.
 require get_template_directory() . '/inc/customizer.php';
+
+/*
+ * Add Featured Content functionality.
+ *
+ * To overwrite in a plugin, define your own Featured_Content class on or
+ * before the 'setup_theme' hook.
+ */
+if ( ! class_exists( 'Featured_Content' ) && 'plugins.php' !== $GLOBALS['pagenow'] )
+	require get_template_directory() . '/inc/featured-content.php';
