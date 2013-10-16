@@ -72,7 +72,7 @@ function wp_add_inline_style( $handle, $data ) {
 	}
 
 	if ( false !== stripos( $data, '</style>' ) ) {
-		_doing_it_wrong( __FUNCTION__, 'Do not pass <style> tags to wp_add_inline_style()', '3.7' );
+		_doing_it_wrong( __FUNCTION__, 'Do not pass style tags to wp_add_inline_style().', '3.7' );
 		$data = trim( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $data ) );
 	}
 
