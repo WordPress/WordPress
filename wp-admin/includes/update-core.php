@@ -697,8 +697,8 @@ function update_core($from, $to) {
 	// Check to see which files don't really need updating - only available for 3.7 and higher
 	if ( function_exists( 'get_core_checksums' ) ) {
 		$checksums = get_core_checksums( $wp_version, isset( $wp_local_package ) ? $wp_local_package : 'en_US' );
-		if ( is_array( current( $checksums ) ) ) // Compat code for 3.7-beta2
-			$checksums = current( $checksums );
+		if ( is_array( $checksums ) && isset( $checksums[ $wp_version ] ) )
+			$checksums = $checksums[ $wp_version ]; // Compat code for 3.7-beta2
 		if ( is_array( $checksums ) ) {
 			foreach( $checksums as $file => $checksum ) {
 				if ( 'wp-content' == substr( $file, 0, 10 ) )
