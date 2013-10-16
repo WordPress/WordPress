@@ -27,10 +27,6 @@
 				if ( $images ) :
 					$image = array_shift( $images );
 					echo wp_get_attachment_image( $image->ID, 'featured-thumbnail-featured' );
-
-				else : ?>
-					<img class="featured-thumbnail-featured" src="<?php echo get_template_directory_uri(); ?>/images/placeholder.png" alt="" /><?php
-
 				endif;
 			endif;
 		?>
@@ -46,9 +42,5 @@
 
 			<?php the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' ); ?>
 		</header><!-- .entry-header -->
-
-		<div class="entry-summary">
-			<?php the_excerpt(); ?>
-		</div><!-- .entry-summary -->
 	</div>
 </article><!-- #post-## -->

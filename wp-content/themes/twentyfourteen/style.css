@@ -3013,6 +3013,10 @@ span + .edit-link:before,
 		margin-left: 60px;
 	}
 
+	.featured-content {
+		margin-bottom: -24px;
+	}
+
 	.attachment-featured-featured {
 		height: 192px;
 	}

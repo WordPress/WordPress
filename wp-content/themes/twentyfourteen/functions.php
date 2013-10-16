@@ -69,7 +69,7 @@ function twentyfourteen_setup() {
 
 	// Add several sizes for Post Thumbnails.
 	add_image_size( 'featured-thumbnail-large', 672, 0 );
-	add_image_size( 'featured-thumbnail-featured', 672, 336, true );
+	add_image_size( 'featured-thumbnail-featured', 672, 372, true );
 	add_image_size( 'featured-thumbnail-formatted', 306, 0 );
 
 	// This theme uses wp_nav_menu() in two locations.
@@ -252,63 +252,6 @@ function twentyfourteen_admin_fonts() {
 	wp_enqueue_style( 'twentyfourteen-lato' );
 }
 add_action( 'admin_print_scripts-appearance_page_custom-header', 'twentyfourteen_admin_fonts' );
-
-/**
- * Set the post excerpt length to 20 words.
- *
- * @since Twenty Fourteen 1.0
- *
- * @param int $length
- * @return int
- */
-function twentyfourteen_excerpt_length( $length ) {
-	return 20;
-}
-add_filter( 'excerpt_length', 'twentyfourteen_excerpt_length' );
-
-/**
- * Return a "Continue Reading" link for excerpts.
- *
- * @since Twenty Fourteen 1.0
- *
- * @return string
- */
-function twentyfourteen_continue_reading_link() {
-	return ' <a href="'. esc_url( get_permalink() ) . '" class="more-link">' . __( 'Read More <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ) . '</a>';
-}
-
-/**
- * Replace "[...]" (appended to automatically generated excerpts) with an
- * ellipsis and twentyfourteen_continue_reading_link().
- *
- * @since Twenty Fourteen 1.0
- *
- * @param string $more
- * @return string
- */
-function twentyfourteen_auto_excerpt_more( $more ) {
-	return ' &hellip;' . twentyfourteen_continue_reading_link();
-}
-add_filter( 'excerpt_more', 'twentyfourteen_auto_excerpt_more' );
-
-/**
- * Add a pretty "Continue Reading" link to custom post excerpts.
- *
- * To override this link in a child theme, remove the filter and add your own
- * function tied to the get_the_excerpt filter hook.
- *
- * @since Twenty Fourteen 1.0
- *
- * @param string $output
- * @return string
- */
-function twentyfourteen_custom_excerpt_more( $output ) {
-	if ( has_excerpt() && ! is_attachment() ) {
-		$output .= twentyfourteen_continue_reading_link();
-	}
-	return $output;
-}
-add_filter( 'get_the_excerpt', 'twentyfourteen_custom_excerpt_more' );
 
 if ( ! function_exists( 'twentyfourteen_the_attached_image' ) ) :
 /**
