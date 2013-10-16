@@ -138,7 +138,7 @@ function dismissed_updates() {
  * @return null
  */
 function core_upgrade_preamble() {
-	global $wp_version;
+	global $wp_version, $required_php_version, $required_mysql_version;
 
 	$updates = get_core_updates();
 
@@ -146,6 +146,19 @@ function core_upgrade_preamble() {
 		echo '<h3>';
 		_e('You have the latest version of WordPress.');
 		echo '</h3>';
+
+		if ( wp_http_supports( 'ssl' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+			$future_minor_update = (object) array(
+				'current'       => $wp_version . '.1-update-core.php',
+				'version'       => $wp_version . '.1-update-core.php',
+				'php_version'   => $required_php_version,
+				'mysql_version' => $required_mysql_version,
+			);
+			$should_auto_update = WP_Automatic_Upgrader::should_auto_update( 'core', $future_minor_update, ABSPATH );
+			if ( $should_auto_update )
+				echo '<div class="updated inline"><p>&#10004; &nbsp; This site is set up to install security updates of WordPress automatically. Cool!</p></div>';
+		}
 	} else {
 		echo '<div class="updated inline"><p>';
 		_e('<strong>Important:</strong> before updating, please <a href="http://codex.wordpress.org/WordPress_Backups">back up your database and files</a>. For help with updates, visit the <a href="http://codex.wordpress.org/Updating_WordPress">Updating WordPress</a> Codex page.');
@@ -156,21 +169,10 @@ function core_upgrade_preamble() {
 		echo '</h3>';
 	}
 
-	// This is temporary, for the WordPress 3.7 beta period.
 	if ( isset( $updates[0] ) && $updates[0]->response == 'development' ) {
-		require ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-		$ssl_support = wp_http_supports( 'ssl' );
-		$should_auto_update = WP_Automatic_Upgrader::should_auto_update( 'core', $updates[0], ABSPATH );
-		if ( $ssl_support && $should_auto_update ) {
-			echo '<div class="updated inline"><p><strong>BETA TESTERS: This install will receive daily auto updates to future beta versions.</strong>';
-			if ( get_locale() !== 'en_US' )
-				echo ' Translations of importers and default themes will also be updated.';
-			echo '</p><p>You will receive an email with debugging output after each update. If something goes wrong, please <a href="http://wordpress.org/support/forum/alphabeta">post in the support forums</a> or <a href="https://core.trac.wordpress.org/">open a bug report</a>.</div>';
-		} elseif ( ! $ssl_support ) {
-			echo '<div class="error inline"><p><strong>BETA TESTERS:</strong> Your server does not support HTTP requests over SSL. This install will not receive auto updates.</p></div>';
-		} elseif ( WP_Automatic_Upgrader::is_vcs_checkout( ABSPATH ) ) {
-			echo '<div class="error inline"><p><strong>BETA TESTERS:</strong> This install uses version control (SVN or Git) and thus will not receive auto updates. Try a separate install of WordPress with the <a href="http://wordpress.org/plugins/wordpress-beta-tester/">Beta Tester</a> plugin set to bleeding edge.</p></div>';
-		}
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		if ( wp_http_supports( 'ssl' ) && WP_Automatic_Upgrader::should_auto_update( 'core', $updates[0], ABSPATH ) )
+			echo '<div class="updated inline"><p><strong>BETA TESTERS:</strong> This site is set up to install updates of future beta versions automatically.</p></div>';
 	}
 
 	echo '<ul class="core-updates">';
