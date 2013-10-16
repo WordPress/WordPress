@@ -30,7 +30,7 @@ class Featured_Content {
 	 * All custom functionality will be hooked into the "init" action.
 	 */
 	public static function setup() {
-		add_action( 'init', array( __class__, 'init' ), 30 );
+		add_action( 'init', array( __CLASS____, 'init' ), 30 );
 	}
 
 	/**
@@ -308,8 +308,8 @@ class Featured_Content {
 	 * @return void
 	 */
 	public static function register_setting() {
-		add_settings_field( 'featured-content', __( 'Featured content', 'twentyfourteen' ), array( __class__, 'render_form' ), 'reading' );
-		register_setting( 'reading', 'featured-content', array( __class__, 'validate_settings' ) );
+		add_settings_field( 'featured-content', __( 'Featured content', 'twentyfourteen' ), array( __CLASS__, 'render_form' ), 'reading' );
+		register_setting( 'reading', 'featured-content', array( __CLASS__, 'validate_settings' ) );
 	}
 
 	/**
@@ -326,6 +326,8 @@ class Featured_Content {
 			if ( ! is_wp_error( $tag ) && isset( $tag->name ) )
 				$tag_name = $tag->name;
 		}
+
+		wp_enqueue_script( 'twentyfourteen-admin', get_template_directory_uri() . '/js/featured-content-admin.js', array( 'jquery', 'suggest' ), '20131016', true );
 		?>
 		<div id="featured-content-ui">
 			<p>
