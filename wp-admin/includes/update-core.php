@@ -754,7 +754,7 @@ function update_core($from, $to) {
 			if ( 0 === strpos( $file, 'wp-content' ) )
 				continue;
 
-			if ( md5_file( ABSPATH . $file ) == $checksum )
+			if ( file_exists( ABSPATH . $file ) && md5_file( ABSPATH . $file ) == $checksum )
 				$skip[] = $file;
 			else
 				$failed[] = $file;
@@ -765,9 +765,11 @@ function update_core($from, $to) {
 	if ( ! empty( $failed ) ) {
 		$total_size = 0;
 		// Find the local version of the working directory
-		$working_dir_local = str_replace( trailingslashit( $wp_filesystem->wp_content_dir() ), trailingslashit( WP_CONTENT_DIR ), $from . $distro );
-		foreach ( $failed as $file )
-			$total_size += filesize( $working_dir_local . '/' . $file ); 
+		$working_dir_local = WP_CONTENT_DIR . '/upgrade/' . basename( $from ) . $distro;
+		foreach ( $failed as $file ) {
+			if ( file_exists( $working_dir_local . $file ) )
+				$total_size += filesize( $working_dir_local . $file );
+		}
 
 		// If we don't have enough free space, it isn't worth trying again.
 		// Unlikely to be hit due to the check in unzip_file().
