@@ -662,6 +662,10 @@ class Plugin_Upgrader extends WP_Upgrader {
 		if ( is_wp_error($return) ) //Bypass.
 			return $return;
 
+		// When in cron (background updates) don't deactivate the plugin, as we require a browser to reactivate it
+		if ( defined( 'DOING_CRON' ) && DOING_CRON )
+			return $return;
+
 		$plugin = isset($plugin['plugin']) ? $plugin['plugin'] : '';
 		if ( empty($plugin) )
 			return new WP_Error('bad_request', $this->strings['bad_request']);
