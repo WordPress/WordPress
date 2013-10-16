@@ -661,17 +661,3 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	function before() {}
 	function after() {}
 }
-
-/**
- * A basic Upgrader skin which doesn't have any headers or footers.
- *
- * @package WordPress
- * @subpackage Upgrader
- * @since 3.7.0
- */
-class Headerless_Upgrader_Skin extends WP_Upgrader_Skin {
-	function before() {}
-	function after() {}
-	function header() {}
-	function footer() {}
-}
