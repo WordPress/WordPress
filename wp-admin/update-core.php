@@ -46,7 +46,7 @@ function list_core_update( $update ) {
 		$download = __('Download nightly build');
 	} else {
 		if ( $current ) {
-			$message = sprintf(__('You have the latest version of WordPress. You do not need to update. However, if you want to re-install version %s, you can do so automatically or download the package and re-install manually:'), $version_string);
+			$message = sprintf( __( 'If you need to re-install version %s, you can do so here or download the package and re-install manually:' ), $version_string );
 			$submit = __('Re-install Now');
 			$form_action = 'update-core.php?action=do-core-reinstall';
 		} else {
@@ -145,7 +145,6 @@ function core_upgrade_preamble() {
 	if ( !isset($updates[0]->response) || 'latest' == $updates[0]->response ) {
 		echo '<h3>';
 		_e('You have the latest version of WordPress.');
-		echo '</h3>';
 
 		if ( wp_http_supports( 'ssl' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -157,8 +156,9 @@ function core_upgrade_preamble() {
 			);
 			$should_auto_update = WP_Automatic_Upgrader::should_auto_update( 'core', $future_minor_update, ABSPATH );
 			if ( $should_auto_update )
-				echo '<div class="updated inline"><p>&#10004; &nbsp; This site is set up to install security updates of WordPress automatically. Cool!</p></div>';
+				echo ' ' . __( 'Future security updates will be applied automatically.' );
 		}
+		echo '</h3>';
 	} else {
 		echo '<div class="updated inline"><p>';
 		_e('<strong>Important:</strong> before updating, please <a href="http://codex.wordpress.org/WordPress_Backups">back up your database and files</a>. For help with updates, visit the <a href="http://codex.wordpress.org/Updating_WordPress">Updating WordPress</a> Codex page.');
@@ -183,9 +183,10 @@ function core_upgrade_preamble() {
 		echo '</li>';
 	}
 	echo '</ul>';
-	if ( $updates ) {
+	// Don't show the maintenance mode notice when we are only showing a single re-install option.
+	if ( $updates && ( count( $updates ) > 1 || $updates[0]->response != 'latest' ) ) {
 		echo '<p>' . __( 'While your site is being updated, it will be in maintenance mode. As soon as your updates are complete, your site will return to normal.' ) . '</p>';
-	} else {
+	} elseif ( ! $updates ) {
 		list( $normalized_version ) = explode( '-', $wp_version );
 		echo '<p>' . sprintf( __( '<a href="%s">Learn more about WordPress %s</a>.' ), esc_url( self_admin_url( 'about.php' ) ), $normalized_version ) . '</p>';
 	}
