@@ -41,9 +41,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<h4><?php _e( 'Updates While You Sleep' ); ?></h4>
 			<p><?php _e( 'With WordPress 3.7, you don&#8217;t have to lift a finger to apply maintenance and security updates. Most sites are now able to automatically apply these updates in the background, though some configurations may not allow it.' ); ?></p>
 			<?php
-			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-			$upgrader = new WP_Automatic_Upgrader;
-
 			$can_auto_update = wp_http_supports( 'ssl' );
 			if ( $can_auto_update ) {
 				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
