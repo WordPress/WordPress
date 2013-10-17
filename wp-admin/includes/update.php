@@ -77,11 +77,12 @@ function find_core_auto_update() {
 	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
 	$auto_update = false;
+	$upgrader = new WP_Automatic_Upgrader;
 	foreach ( $updates->updates as $update ) {
 		if ( 'autoupdate' != $update->response )
 			continue;
 
-		if ( ! WP_Automatic_Upgrader::should_auto_update( 'core', $update, ABSPATH ) )
+		if ( ! $upgrader->should_upgrade( 'core', $update, ABSPATH ) )
 			continue;
 
 		if ( ! $auto_update || version_compare( $update->current, $auto_update->current, '>' ) )

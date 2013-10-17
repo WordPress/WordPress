@@ -1551,33 +1551,32 @@ class File_Upload_Upgrader {
 }
 
 /**
- * WordPress Automatic Upgrader helper class
+ * WordPress automatic background upgrader.
  *
  * @since 3.7.0
  */
 class WP_Automatic_Upgrader {
 
-	static $upgrade_results = array();
+	protected $update_results = array();
 
-	static function upgrader_disabled() {
-		// That's a no if you don't want files changes
+	function is_disabled() {
+		// Background updates are disabled if you don't want file changes.
 		if ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS )
-			return true;
-
-		// More fine grained control can be done through the WP_AUTO_UPDATE_CORE constant and filters
-		if ( defined( 'AUTOMATIC_UPDATER_DISABLED' ) && AUTOMATIC_UPDATER_DISABLED )
 			return true;
 
 		if ( defined( 'WP_INSTALLING' ) )
 			return true;
 
-		return apply_filters( 'auto_upgrader_disabled', false );
+		// More fine grained control can be done through the WP_AUTO_UPDATE_CORE constant and filters.
+		$disabled = defined( 'AUTOMATIC_UPDATES_DISABLED' ) && AUTOMATIC_UPDATES_DISABLED;
+
+		return apply_filters( 'auto_upgrader_disabled', $disabled );
 	}
 
 	/**
 	 * Check for GIT/SVN checkouts.
 	 */
-	static function is_vcs_checkout( $context ) {
+	function is_vcs_checkout( $context ) {
 		$context_dirs = array( untrailingslashit( $context ) );
 		if ( $context !== ABSPATH )
 			$context_dirs[] = untrailingslashit( ABSPATH );
@@ -1607,17 +1606,16 @@ class WP_Automatic_Upgrader {
 	/**
 	 * Tests to see if we can and should upgrade a specific item.
 	 */
-	static function should_auto_update( $type, $item, $context ) {
+	function should_upgrade( $type, $item, $context ) {
+		if ( $this->is_disabled() )
+			return false;
 
 		// Checks to see if WP_Filesystem is set up to allow unattended upgrades.
 		$skin = new Automatic_Upgrader_Skin;
 		if ( ! $skin->request_filesystem_credentials( false, $context ) )
 			return false;
 
-		if ( self::upgrader_disabled() )
-			return false;
-
-		if ( self::is_vcs_checkout( $context ) )
+		if ( $this->is_vcs_checkout( $context ) )
 			return false;
 
 		// Next up, do we actually have it enabled for this type of update?
@@ -1657,7 +1655,7 @@ class WP_Automatic_Upgrader {
 		return true;
 	}
 
-	static function upgrade( $type, $item ) {
+	function upgrade( $type, $item ) {
 
 		$skin = new Automatic_Upgrader_Skin();
 
@@ -1683,7 +1681,7 @@ class WP_Automatic_Upgrader {
 		}
 
 		// Determine whether we can and should perform this upgrade.
-		if ( ! self::should_auto_update( $type, $item, $context ) )
+		if ( ! $this->should_upgrade( $type, $item, $context ) )
 			return false;
 
 		switch ( $type ) {
@@ -1724,7 +1722,7 @@ class WP_Automatic_Upgrader {
 			}
 		}
 
-		self::$upgrade_results[ $type ][] = (object) array(
+		$this->update_results[ $type ][] = (object) array(
 			'item'     => $item,
 			'result'   => $upgrade_result,
 			'name'     => $item_name,
@@ -1737,8 +1735,7 @@ class WP_Automatic_Upgrader {
 	/**
 	 * Kicks off a upgrade request for each item in the upgrade "queue"
 	 */
-	static function perform_auto_updates() {
-
+	function run() {
 		$lock_name = 'auto_upgrader.lock';
 		if ( get_site_option( $lock_name ) ) {
 			// Test to see if it was set more than an hour ago, if so, cleanup.
@@ -1762,7 +1759,7 @@ class WP_Automatic_Upgrader {
 		$plugin_updates = get_site_transient( 'update_plugins' );
 		if ( $plugin_updates && !empty( $plugin_updates->response ) ) {
 			foreach ( array_keys( $plugin_updates->response ) as $plugin ) {
-				self::upgrade( 'plugin', $plugin );
+				$this->upgrade( 'plugin', $plugin );
 			}
 			// Force refresh of plugin update information
 			wp_clean_plugins_cache();
@@ -1773,7 +1770,7 @@ class WP_Automatic_Upgrader {
 		$theme_updates = get_site_transient( 'update_themes' );
 		if ( $theme_updates && !empty( $theme_updates->response ) ) {
 			foreach ( array_keys( $theme_updates->response ) as $theme ) {
-				self::upgrade( 'theme', $theme );
+				$this->upgrade( 'theme', $theme );
 			}
 			// Force refresh of theme update information
 			wp_clean_themes_cache();
@@ -1783,12 +1780,16 @@ class WP_Automatic_Upgrader {
 		wp_version_check(); // Check for Core updates
 		$extra_update_stats = array();
 		$core_update = find_core_auto_update();
+
 		if ( $core_update ) {
 			$start_time = time();
-			$core_update_result = self::upgrade( 'core', $core_update );
+
+			$core_update_result = $this->upgrade( 'core', $core_update );
 			delete_site_transient( 'update_core' );
+
 			$extra_update_stats['success'] = is_wp_error( $core_update_result ) ? $core_update_result->get_error_code() : true;
 			$extra_update_stats['error_data'] = is_wp_error( $core_update_result ) ? $core_update_result->get_error_data() : '';
+
 			if ( is_wp_error( $core_update_result ) && 'rollback_was_required' == $core_update_result->get_error_code() ) {
 				$rollback_data = $core_update_result->get_error_data();
 				$extra_update_stats['success'] = is_wp_error( $rollback_data['update'] ) ? $rollback_data['update']->get_error_code() : $rollback_data['update'];
@@ -1796,6 +1797,7 @@ class WP_Automatic_Upgrader {
 				$extra_update_stats['rollback'] = is_wp_error( $rollback_data['rollback'] ) ? $rollback_data['rollback']->get_error_code() : true; // If it's not a WP_Error, the rollback was successful.
 				$extra_update_stats['rollback_data'] = is_wp_error( $rollback_data['rollback'] ) ? $rollback_data['rollback']->get_error_data() : '';
 			}
+
 			$extra_update_stats['fs_method'] = $GLOBALS['wp_filesystem']->method;
 			$extra_update_stats['fs_method_forced'] = defined( 'FS_METHOD' ) || has_filter( 'filesystem_method' );
 			$extra_update_stats['time_taken'] = ( time() - $start_time );
@@ -1811,8 +1813,9 @@ class WP_Automatic_Upgrader {
 		$language_updates = wp_get_translation_updates();
 		if ( $language_updates ) {
 			foreach ( $language_updates as $update ) {
-				self::upgrade( 'language', $update );
+				$this->upgrade( 'language', $update );
 			}
+
 			// Clear existing caches
 			wp_clean_plugins_cache();
 			wp_clean_themes_cache();
@@ -1823,33 +1826,20 @@ class WP_Automatic_Upgrader {
 			wp_update_plugins(); // Check for Plugin updates
 		}
 
-		/**
-		 * Filter whether to email an update summary to the site administrator.
-		 *
-		 * @since 3.7.0
-		 *
-		 * @param bool                         Whether or not email should be sent to administrator. Default true.
-		 * @param bool|array $core_update      An array of core update data, false otherwise.
-		 * @param object     $theme_updates    Object containing theme update properties.
-		 * @param object     $plugin_updates   Object containing plugin update properties.
-		 * @param array      $language_updates Array containing the Language updates available.
-		 * @param array      $upgrade_results  Array of the upgrade results keyed by upgrade type, and plugin/theme slug.
-		 */
-		if ( apply_filters( 'enable_auto_upgrade_email', true, $core_update, $theme_updates, $plugin_updates, $language_updates, self::$upgrade_results ) )
-			self::send_email();
+		$this->send_debug_email();
 
 		// Clear the lock
 		delete_site_option( $lock_name );
 
 	}
 
-	static function send_email() {
+	function send_debug_email() {
 
-		if ( empty( self::$upgrade_results ) )
+		if ( empty( $this->update_results ) )
 			return;
 
 		$upgrade_count = 0;
-		foreach ( self::$upgrade_results as $type => $upgrades )
+		foreach ( $this->update_results as $type => $upgrades )
 			$upgrade_count += count( $upgrades );
 
 		$body = array();
@@ -1858,8 +1848,8 @@ class WP_Automatic_Upgrader {
 		$body[] = 'WordPress site: ' . network_home_url( '/' );
 
 		// Core
-		if ( isset( self::$upgrade_results['core'] ) ) {
-			$result = self::$upgrade_results['core'][0];
+		if ( isset( $this->update_results['core'] ) ) {
+			$result = $this->update_results['core'][0];
 			if ( $result->result && ! is_wp_error( $result->result ) ) {
 				$body[] = sprintf( 'SUCCESS: WordPress was successfully updated to %s', $result->name );
 			} else {
@@ -1871,18 +1861,18 @@ class WP_Automatic_Upgrader {
 
 		// Plugins, Themes, Languages
 		foreach ( array( 'plugin', 'theme', 'language' ) as $type ) {
-			if ( ! isset( self::$upgrade_results[ $type ] ) )
+			if ( ! isset( $this->update_results[ $type ] ) )
 				continue;
-			$success_items = wp_list_filter( self::$upgrade_results[ $type ], array( 'result' => true ) );
+			$success_items = wp_list_filter( $this->update_results[ $type ], array( 'result' => true ) );
 			if ( $success_items ) {
 				$body[] = "The following {$type}s were successfully updated:";
 				foreach ( wp_list_pluck( $success_items, 'name' ) as $name )
 					$body[] = ' * SUCCESS: ' . $name;
 			}
-			if ( $success_items != self::$upgrade_results[ $type ] ) {
+			if ( $success_items != $this->update_results[ $type ] ) {
 				// Failed updates
 				$body[] = "The following {$type}s failed to update:";
-				foreach ( self::$upgrade_results[ $type ] as $item ) {
+				foreach ( $this->update_results[ $type ] as $item ) {
 					if ( ! $item->result || is_wp_error( $item->result ) ) {
 						$body[] = ' * FAILED: ' . $item->name;
 						$failures++;
@@ -1913,9 +1903,9 @@ class WP_Automatic_Upgrader {
 		$body[] = '';
 
 		foreach ( array( 'core', 'plugin', 'theme', 'language' ) as $type ) {
-			if ( ! isset( self::$upgrade_results[ $type ] ) )
+			if ( ! isset( $this->update_results[ $type ] ) )
 				continue;
-			foreach ( self::$upgrade_results[ $type ] as $upgrade ) {
+			foreach ( $this->update_results[ $type ] as $upgrade ) {
 				$body[] = $upgrade->name;
 				$body[] = str_repeat( '-', strlen( $upgrade->name ) );
 				foreach ( $upgrade->messages as $message )

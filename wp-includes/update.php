@@ -406,18 +406,19 @@ function wp_update_themes() {
 }
 
 /**
- * Cron entry which runs the WordPress Automatic Updates
+ * Performs WordPress automatic background updates.
  *
  * @since 3.7.0
  */
-function wp_auto_updates_maybe_update() {
+function wp_maybe_auto_update() {
 	include_once ABSPATH . '/wp-admin/includes/admin.php';
 	include_once ABSPATH . '/wp-admin/includes/class-wp-upgrader.php';
 
-	if ( WP_Automatic_Upgrader::upgrader_disabled() )
+	$upgrader = new WP_Automatic_Upgrader;
+	if ( $upgrader->is_disabled() )
 		return;
 
-	WP_Automatic_Upgrader::perform_auto_updates();
+	$upgrader->run();
 }
 
 /**
@@ -565,9 +566,8 @@ function wp_schedule_update_checks() {
 	if ( !wp_next_scheduled('wp_update_themes') && !defined('WP_INSTALLING') )
 		wp_schedule_event(time(), 'twicedaily', 'wp_update_themes');
 
-	if ( !wp_next_scheduled( 'wp_auto_updates_maybe_update' ) && ! defined( 'WP_INSTALLING' ) )
-		wp_schedule_event( time(), 'twicedaily', 'wp_auto_updates_maybe_update' );
-
+	if ( !wp_next_scheduled( 'wp_maybe_auto_update' ) && ! defined( 'WP_INSTALLING' ) )
+		wp_schedule_event( time(), 'twicedaily', 'wp_maybe_auto_update' );
 }
 
 if ( ( ! is_main_site() && ! is_network_admin() ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) )
@@ -591,7 +591,6 @@ add_action( 'admin_init', '_maybe_update_themes' );
 add_action( 'wp_update_themes', 'wp_update_themes' );
 add_action( 'upgrader_process_complete', 'wp_update_themes' );
 
-// Automatic Updates - Cron callback
-add_action( 'wp_auto_updates_maybe_update', 'wp_auto_updates_maybe_update' );
+add_action( 'wp_maybe_auto_update', 'wp_maybe_auto_update' );
 
 add_action('init', 'wp_schedule_update_checks');
