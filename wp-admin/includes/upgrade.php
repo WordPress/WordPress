@@ -402,6 +402,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 22422 )
 		upgrade_350();
 
+	if ( $wp_current_db_version < 25824 )
+		upgrade_370();
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1206,6 +1209,17 @@ function upgrade_350() {
 
 	if ( $wp_current_db_version < 22422 && $term = get_term_by( 'slug', 'post-format-standard', 'post_format' ) )
 		wp_delete_term( $term->term_id, 'post_format' );
+}
+
+/**
+ * Execute changes made in WordPress 3.7.
+ *
+ * @since 3.7.0
+ */
+function upgrade_370() {
+	global $wp_current_db_version;
+	if ( $wp_current_db_version < 25824 )
+		wp_clear_scheduled_hook( 'wp_auto_updates_maybe_update' );
 }
 
 /**
