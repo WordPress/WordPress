@@ -599,7 +599,6 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 		// TODO: fix up request_filesystem_credentials(), or split it, to allow us to request a no-output version
 		// This will output a credentials form in event of failure, We don't want that, so just hide with a buffer
 		ob_start();
-		set_current_screen( 'tools' ); // Only here to avoid PHP Notices from screen_icon() which is used within that HTML
 		$result = parent::request_filesystem_credentials( $error );
 		ob_end_clean();
 		return $result;
