@@ -773,7 +773,7 @@ function update_core($from, $to) {
 
 		// If we don't have enough free space, it isn't worth trying again.
 		// Unlikely to be hit due to the check in unzip_file().
-		$available_space = disk_free_space( ABSPATH );
+		$available_space = @disk_free_space( ABSPATH );
 		if ( $available_space && $total_size >= $available_space ) {
 			$result = new WP_Error( 'disk_full', __( 'There is not enough free disk space to complete the update.' ) );
 		} else {
