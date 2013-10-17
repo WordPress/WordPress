@@ -44,14 +44,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			$can_auto_update = wp_http_supports( 'ssl' );
 			if ( $can_auto_update ) {
 				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-				$upgrader = new WP_Automatic_Upgrader;
+				$upgrader = new WP_Automatic_Updater;
 				$future_minor_update = (object) array(
 					'current'       => $wp_version . '.1-about.php',
 					'version'       => $wp_version . '.1-about.php',
 					'php_version'   => $required_php_version,
 					'mysql_version' => $required_mysql_version,
 				);
-				$can_auto_update = $upgrader->should_upgrade( 'core', $future_minor_update, ABSPATH );
+				$can_auto_update = $upgrader->should_update( 'core', $future_minor_update, ABSPATH );
 			}
 			if ( $can_auto_update ) : ?>
 				<p><?php _e( '&rarr; This site <strong>is</strong> able to apply these updates automatically. Cool!' ); ?></p>
