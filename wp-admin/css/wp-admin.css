@@ -5961,7 +5961,9 @@ h2 .nav-tab {
 	display: block !important;
 	font-size: 150%;
 	font-weight: normal !important;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 	width: 100%;
 	padding: 17px 0;
 	margin-bottom: 15px;
