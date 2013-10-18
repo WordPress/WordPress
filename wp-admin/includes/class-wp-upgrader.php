@@ -1444,7 +1444,7 @@ class Core_Upgrader extends WP_Upgrader {
 				return false;
 
 			// Don't claim we can update on update-core.php if we have a non-critical failure logged.
-			if ( $wp_version == $failure_data['current'] && false !== strpos( $wp_version, '.1.next.minor' ) )
+			if ( $wp_version == $failure_data['current'] && false !== strpos( $offered_ver, '.1.next.minor' ) )
 				return false;
 
 			// Cannot update if we're retrying the same A to B update that caused a non-critical failure.
