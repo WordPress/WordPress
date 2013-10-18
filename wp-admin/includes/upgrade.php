@@ -1229,6 +1229,20 @@ function upgrade_370() {
  */
 function upgrade_network() {
 	global $wp_current_db_version, $wpdb;
+
+	// Always
+	if ( is_main_network() ) {
+		// Deletes all expired transients.
+		// The multi-table delete syntax is used to delete the transient record from table a,
+		// and the corresponding transient_timeout record from table b.
+		$time = time();
+		$wpdb->query("DELETE a, b FROM $wpdb->sitemeta a, $wpdb->sitemeta b WHERE
+			a.meta_key LIKE '\_site\_transient\_%' AND
+			a.meta_key NOT LIKE '\_site\_transient\_timeout\_%' AND
+			b.meta_key = CONCAT( '_site_transient_timeout_', SUBSTRING( a.meta_key, 17 ) )
+			AND b.meta_value < $time");
+	}
+
 	// 2.8
 	if ( $wp_current_db_version < 11549 ) {
 		$wpmu_sitewide_plugins = get_site_option( 'wpmu_sitewide_plugins' );
