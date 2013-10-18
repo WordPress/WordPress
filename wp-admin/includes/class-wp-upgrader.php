@@ -1585,9 +1585,9 @@ class WP_Automatic_Updater {
 			return true;
 
 		// More fine grained control can be done through the WP_AUTO_UPDATE_CORE constant and filters.
-		$disabled = defined( 'AUTOMATIC_UPDATES_DISABLED' ) && AUTOMATIC_UPDATES_DISABLED;
+		$disabled = defined( 'AUTOMATIC_UPDATER_DISABLED' ) && AUTOMATIC_UPDATER_DISABLED;
 
-		return apply_filters( 'automatic_updates_disabled', $disabled );
+		return apply_filters( 'automatic_updater_disabled', $disabled );
 	}
 
 	/**
