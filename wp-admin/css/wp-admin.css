@@ -5766,6 +5766,51 @@ h2 .nav-tab {
 	display: none !important;
 }
 
+.about-wrap p.about-notice {
+	background-color: #ffffe0;
+	border: 1px solid #e6db55;
+	margin: 5px 0 15px;
+	padding: 0.4em 0.8em;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.about-wrap .about-passwords {
+	margin: 20px 0;
+	padding: 1px 20px 10px;
+	background-color: #f9f9f9;
+}
+
+.about-wrap .about-password-meter input {
+	font-size: 250%;
+	width: 100%;
+    display: block;
+    width: 100%;
+    padding: 5px;
+}
+
+.about-wrap .about-password-meter #pass-strength-result {
+	font-weight: normal !important;
+    display:block !important;
+	font-size: 150%;
+    width: 100%;
+    padding: 17px 0;
+    margin-bottom: 15px;
+}
+
+.about-wrap .feature-section img {
+	border: 0;
+	background: transparent;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	max-width: 20%;
+}
+
+.about-wrap .feature-section div p img {
+	float: right;
+	margin-left: 10px;
+}
+
 /* Typography */
 
 .about-wrap p {
@@ -5807,6 +5852,8 @@ h2 .nav-tab {
 .about-wrap .feature-section {
 	padding-bottom: 20px;
 }
+
+.about-wrap .feature-section 
 
 .about-wrap .feature-section h4 {
 	margin-bottom: 0.6em;
@@ -5958,6 +6005,21 @@ h2 .nav-tab {
 	width: 30%;
 	margin-right: 4.999999999%;
 	float: left;
+}
+
+.about-wrap .three-col.about-updates div:nth-of-type(1),
+.about-wrap .three-col.about-updates div:nth-of-type(3) {
+	width: 37%;
+	margin: 0;
+}
+
+.about-wrap .three-col.about-updates div:nth-of-type(2) {
+	width: 16%;
+	margin: 0 5%;
+}
+
+.about-wrap .three-col.about-updates img {
+	margin: 0;
 }
 
 .about-wrap .three-col-images {
