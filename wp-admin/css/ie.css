@@ -503,6 +503,10 @@ table.ie-fixed {
 	width: 15%;
 }
 
+.about-wrap .about-password-meter input {
+	width: 98%;
+}
+
 .revisions-tickmarks,
 .revisions-tooltip {
 	display: none !important;
