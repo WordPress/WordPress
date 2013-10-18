@@ -63,9 +63,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				$can_auto_update = $upgrader->should_update( 'core', $future_minor_update, ABSPATH );
 			}
 			if ( $can_auto_update ) : ?>
-				<p><?php _e( '&rarr; This site <strong>is</strong> able to apply these updates automatically. Cool!' ); ?></p>
+				<p class="about-auto-update cool"><?php _e( 'This site <strong>is</strong> able to apply these updates automatically. Cool!' ); ?></p>
 			<?php else : ?>
-				<p><?php printf( __( '&rarr; This site <strong>is not</strong> able to apply these updates automatically. But we&#8217;ll email %s when there is a new security release.' ), esc_html( get_site_option( 'admin_email' ) ) ); ?></p>
+				<p class="about-auto-update"><?php printf( __( 'This site <strong>is not</strong> able to apply these updates automatically. But we&#8217;ll email %s when there is a new security release.' ), esc_html( get_site_option( 'admin_email' ) ) ); ?></p>
 		<?php endif; ?>
 	</div>
 </div>
