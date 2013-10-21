@@ -340,7 +340,7 @@ class Featured_Content {
 				<input class="small-text" type="number" step="1" min="1" max="<?php echo esc_attr( self::$max_posts ); ?>" id="featured-content-quantity" name="featured-content[quantity]" value="<?php echo esc_attr( $settings['quantity'] ); ?>">
 			</p>
 			<p>
-				<input type="checkbox" id="featured-content-hide-tag" name="featured-content[hide-tag]" <?php checked( $settings['hide-tag'], 1 ); ?>">
+				<input type="checkbox" id="featured-content-hide-tag" name="featured-content[hide-tag]" <?php checked( $settings['hide-tag'], 1 ); ?>>
 				<label for="featured-content-hide-tag"><?php _e( 'Hide tag from displaying in post meta and tag clouds.', 'twentyfourteen' ); ?></label>
 			</p>
 		</div>
