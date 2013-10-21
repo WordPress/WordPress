@@ -2451,6 +2451,7 @@ span + .edit-link:before,
 }
 
 /* Ephemera widget*/
+
 .content-sidebar .widget_twentyfourteen_ephemera .widget-title {
 	line-height: 1.2857142857;
 	padding-top: 1px;
@@ -2548,7 +2549,7 @@ span + .edit-link:before,
 	-moz-box-sizing:    border-box;
 	box-sizing:         border-box;
 	float: left;
-	padding: 0 27px;
+	padding: 0 30px;
 	width: 315px;
 }
 
@@ -2606,7 +2607,13 @@ span + .edit-link:before,
 
 .featured-content .entry-wrap {
 	background-color: #000;
-	border: 12px solid #000;
+	border-color: #000;
+	border-style: solid;
+	border-width: 12px 10px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
+	min-height: 96px;
 	overflow: hidden;
 }
 
@@ -2899,10 +2906,6 @@ span + .edit-link:before,
 		width: 33.33333333%;
 	}
 
-	.attachment-featured-featured {
-		height: 240px;
-	}
-
 	.featured-content .hentry {
 		float: left;
 		width: 50%;
@@ -2915,6 +2918,10 @@ span + .edit-link:before,
 	.featured-content .entry-wrap {
 		height: 96px;
 	}
+
+	.attachment-featured-featured {
+		height: 186px;
+	}
 }
 
 @media screen and (min-width: 770px) {
@@ -2924,6 +2931,10 @@ span + .edit-link:before,
 
 	.primary-navigation {
 		display: block;
+	}
+
+	.attachment-featured-featured {
+		height: 213px;
 	}
 }
 
@@ -2967,6 +2978,10 @@ span + .edit-link:before,
 
 	.contributor-summary {
 		float: left;
+	}
+
+	.attachment-featured-featured {
+		height: 224px;
 	}
 }
 
@@ -3018,25 +3033,13 @@ span + .edit-link:before,
 	}
 
 	.attachment-featured-featured {
-		height: 192px;
-	}
-
-	.featured-content .hentry {
-		width: 33.3333333%;
-	}
-
-	.featured-content .hentry:nth-child( 2n+1 ) {
-		clear: none;
-	}
-
-	.featured-content .hentry:nth-child( 3n+1 ) {
-		clear: both;
+		height: 241px;
 	}
 }
 
 @media screen and (min-width: 1008px) {
 	.header-main {
-		padding-left: 27px;
+		padding-left: 30px;
 	}
 
 	.search-box-wrapper {
@@ -3083,13 +3086,13 @@ span + .edit-link:before,
 		line-height: 1.6363636363;
 		margin: 0 0 0 -100%;
 		min-height: 100vh;
-		padding: 0 27px;
-		width: 128px;
+		width: 122px;
 	}
 
 	.primary-sidebar {
 		padding-top: 0;
 	}
+
 	.footer-sidebar .widget_archive li,
 	.footer-sidebar .widget_categories li,
 	.footer-sidebar .widget_links li,
@@ -3141,8 +3144,8 @@ span + .edit-link:before,
 		display: none;
 		position: absolute;
 		top: -1px;
-		left: 128px;
-		width: 128px;
+		left: 122px;
+		width: 122px;
 		z-index: 9999;
 	}
 
@@ -3169,7 +3172,7 @@ span + .edit-link:before,
 	}
 
 	.site-info {
-		padding-left: 27px;
+		padding: 15px 30px;
 	}
 
 	.front-page-content-wrapper {
@@ -3178,6 +3181,26 @@ span + .edit-link:before,
 
 	.featured-content {
 		padding-left: 182px;
+	}
+
+	.featured-content .hentry {
+		width: 33.3333333%;
+	}
+
+	.featured-content .hentry:nth-child( 2n+1 ) {
+		clear: none;
+	}
+
+	.featured-content .hentry:nth-child( 3n+1 ) {
+		clear: both;
+	}
+
+	.featured-content .entry-wrap {
+		height: 120px;
+	}
+
+	.attachment-featured-featured {
+		height: 152px;
 	}
 }
 
@@ -3218,6 +3241,10 @@ span + .edit-link:before,
 		padding-right: 30px;
 		padding-left: 30px;
 	}
+
+	.attachment-featured-featured {
+		height: 158px;
+	}
 }
 
 @media screen and (min-width: 1080px) {
@@ -3236,10 +3263,11 @@ span + .edit-link:before,
 
 	#secondary,
 	.secondary-navigation ul ul {
-		width: 168px;
+		width: 162px;
 	}
+
 	.secondary-navigation ul ul {
-		left: 168px;
+		left: 162px;
 	}
 }
 
@@ -3256,6 +3284,10 @@ span + .edit-link:before,
 	.site-content footer.entry-meta {
 		padding-right: 30px;
 		padding-left: 30px;
+	}
+
+	.attachment-featured-featured {
+		height: 164px;
 	}
 }
 
@@ -3285,6 +3317,10 @@ span + .edit-link:before,
 	.full-width .site-content footer.entry-meta {
 		margin-right: auto;
 	}
+
+	.attachment-featured-featured {
+		height: 184px;
+	}
 }
 
 @media screen and (min-width: 1260px) {
@@ -3293,10 +3329,16 @@ span + .edit-link:before,
 		width: -webkit-calc(50% + 18px);
 		width:         calc(50% + 18px);
 	}
+
 	.site-content blockquote.alignleft {
 		margin-left: -18%;
 	}
+
 	.site-content blockquote.alignright {
 		margin-right: -18%;
+	}
+
+	.attachment-featured-featured {
+		height: 192px;
 	}
 }
