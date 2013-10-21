@@ -1732,6 +1732,10 @@ span + .edit-link:before,
  * -----------------------------------------------------------------------------
  */
 
+.attachment .content-sidebar {
+	display: none;
+}
+
 .attachment .entry-content {
 	padding-top: 0;
 }
@@ -1739,6 +1743,7 @@ span + .edit-link:before,
 .attachment footer.entry-meta {
 	text-transform: none;
 }
+
 .entry-attachment .attachment {
 	margin-bottom: 24px;
 }
@@ -2961,7 +2966,7 @@ span + .edit-link:before,
 		margin-right: -168px;
 	}
 
-	.attachment .entry-content .attachment {
+	.attachment .entry-attachment .attachment {
 		margin-right: -168px;
 		margin-left: -168px;
 		max-width: 810px;

@@ -118,14 +118,14 @@ endif; // twentyfourteen_setup
 add_action( 'after_setup_theme', 'twentyfourteen_setup' );
 
 /**
- * Adjust content_width value for full-width and attachment templates.
+ * Adjust content_width value for image attachment template.
  *
  * @since Twenty Fourteen 1.0
  *
  * @return void
  */
 function twentyfourteen_content_width() {
-	if ( is_attachment() )
+	if ( is_attachment() && wp_attachment_is_image() )
 		$GLOBALS['content_width'] = 810;
 }
 add_action( 'template_redirect', 'twentyfourteen_content_width' );
