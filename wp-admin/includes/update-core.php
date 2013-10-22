@@ -891,9 +891,6 @@ function update_core($from, $to) {
 	// Remove maintenance file, we're done.
 	$wp_filesystem->delete($maintenance_file);
 
-	// Has to be in here, rather than the Upgrader as the filter below will override and kill the process before themes get updated on major updates
-	do_action( 'upgrader_process_complete', null, array( 'action' => 'update', 'type' => 'core' ) );
-
 	// If we made it this far:
 	do_action( '_core_updated_successfully', $wp_version );
 

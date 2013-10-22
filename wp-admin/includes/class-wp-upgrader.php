@@ -1406,6 +1406,8 @@ class Core_Upgrader extends WP_Upgrader {
 			}
 		}
 
+		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'core' ) );
+
 		return $result;
 	}
 
