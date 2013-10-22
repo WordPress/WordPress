@@ -239,7 +239,7 @@ function twentyfourteen_scripts() {
 	if ( is_active_sidebar( 'sidebar-3' ) )
 		wp_enqueue_script( 'jquery-masonry' );
 
-	wp_enqueue_script( 'twentyfourteen-theme', get_template_directory_uri() . '/js/theme.js', array( 'jquery' ), '20130820', true );
+	wp_enqueue_script( 'twentyfourteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20131011', true );
 
 	// Add Lato font used in the main stylesheet.
 	wp_enqueue_style( 'twentyfourteen-lato', twentyfourteen_font_url(), array(), null );
@@ -373,6 +373,11 @@ endif;
 function twentyfourteen_body_classes( $classes ) {
 	if ( is_multi_author() )
 		$classes[] = 'group-blog';
+
+	if ( get_header_image() )
+		$classes[] = 'header-image';
+	else
+		$classes[] = 'masthead-fixed';
 
 	if ( is_archive() || is_search() || is_home() )
 		$classes[] = 'list-view';

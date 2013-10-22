@@ -126,13 +126,17 @@ function twentyfourteen_customizer_styles() {
 		input[type="button"],
 		input[type="reset"],
 		input[type="submit"],
-		.header-extra,
 		.search-toggle,
-		.primary-navigation ul ul,
-		.primary-navigation li:hover > a,
 		.hentry .mejs-controls .mejs-time-rail .mejs-time-current,
 		.widget_calendar tbody a {
 			background-color: ' . $accent_color . ';
+		}
+
+		@media screen and (min-width: 782px) {
+			.primary-navigation ul ul,
+			.primary-navigation li:hover > a {
+				background-color: ' . $accent_color . ';
+			}
 		}
 
 		::-moz-selection {
@@ -160,6 +164,7 @@ function twentyfourteen_customizer_styles() {
 		.search-toggle:hover,
 		.search-toggle.active,
 		.search-box,
+		.primary-navigation ul ul a:hover,
 		.widget_calendar tbody a:hover {
 			background-color: ' . $accent_lighter . ';
 		}
@@ -178,7 +183,9 @@ function twentyfourteen_customizer_styles() {
 		a:focus,
 		a:active,
 		.site-navigation .current_page_item > a,
+		.site-navigation .current_page_ancestor > a,
 		.site-navigation .current-menu-item > a,
+		.site-navigation .current-menu-ancestor > a,
 		.secondary-navigation a:hover,
 		.entry-title a:hover,
 		.cat-links a:hover,
