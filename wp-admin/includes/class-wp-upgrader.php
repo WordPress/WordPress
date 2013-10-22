@@ -1652,6 +1652,8 @@ class WP_Automatic_Updater {
 		 * There are more fine-grained filters and controls for selective disabling.
 		 * This filter parallels the AUTOMATIC_UPDATER_DISABLED constant in name.
 		 *
+		 * This also disables update notification emails. That may change in the future.
+		 *
 		 * @since 3.7.0
 		 * @param bool $disabled Whether the updater should be disabled.
 		 */
@@ -1728,16 +1730,18 @@ class WP_Automatic_Updater {
 	 *                        should be checked.
 	 */
 	public function should_update( $type, $item, $context ) {
+		// Used to see if WP_Filesystem is set up to allow unattended updates.
+		$skin = new Automatic_Upgrader_Skin;
+
 		if ( $this->is_disabled() )
 			return false;
 
-		// Checks to see if WP_Filesystem is set up to allow unattended updates.
-		$skin = new Automatic_Upgrader_Skin;
-		if ( ! $skin->request_filesystem_credentials( false, $context ) )
+		// If we can't do an auto core update, we may still be able to email the user.
+		if ( ! $skin->request_filesystem_credentials( false, $context ) || $this->is_vcs_checkout( $context ) ) {
+			if ( 'core' == $type )
+				$this->notify_core_update( $item );
 			return false;
-
-		if ( $this->is_vcs_checkout( $context ) )
-			return false;
+		}
 
 		// Next up, is this an item we can update?
 		if ( 'core' == $type )
@@ -1765,19 +1769,8 @@ class WP_Automatic_Updater {
 		$update = apply_filters( 'auto_update_' . $type, $update, $item );
 
 		if ( ! $update ) {
-
-			// See if we need to notify users of a core update.
-			if ( 'core' == $type && ! empty( $item->notify_email ) ) {
-				$notify      = true;
-				$notified    = get_site_option( 'auto_core_update_notified' );
-
-				// Don't notify if we've already notified the same email address of the same version.
-				if ( $notified && $notified['email'] == get_site_option( 'admin_email' ) && $notified['version'] == $item->current )
-					return false;
-
-				$this->send_email( 'manual', $item );
-			}
-
+			if ( 'core' == $type )
+				$this->notify_core_update( $item );
 			return false;
 		}
 
@@ -1795,6 +1788,29 @@ class WP_Automatic_Updater {
 				return false;
 		}
 
+		return true;
+	}
+
+	/**
+	 * Notifies an administrator of a core update.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param object $item The update offer.
+	 */
+	protected function notify_core_update( $item ) {
+		// See if we need to notify users of a core update.
+		if ( empty( $item->notify_email ) )
+			return false;
+
+		$notify   = true;
+		$notified = get_site_option( 'auto_core_update_notified' );
+
+		// Don't notify if we've already notified the same email address of the same version.
+		if ( $notified && $notified['email'] == get_site_option( 'admin_email' ) && $notified['version'] == $item->current )
+			return false;
+
+		$this->send_email( 'manual', $item );
 		return true;
 	}
 
@@ -1889,6 +1905,9 @@ class WP_Automatic_Updater {
 	 */
 	public function run() {
 		global $wpdb, $wp_version;
+
+		if ( $this->is_disabled() )
+			return;
 
 		if ( ! is_main_network() || ! is_main_site() )
 			return;
@@ -2082,7 +2101,7 @@ class WP_Automatic_Updater {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param string $type        The type of update being checked: 'core', 'theme', 'plugin', 'translation'.
+	 * @param string $type        The type of email to send. Can be one of 'success', 'fail', 'manual', 'critical'.
 	 * @param object $core_update The update offer that was attempted.
 	 * @param mixed  $result      Optional. The result for the core update. Can be WP_Error.
 	 */
@@ -2094,6 +2113,14 @@ class WP_Automatic_Updater {
 			'timestamp' => time(),
 		) );
 
+		$next_user_core_update = get_preferred_from_update_core();
+		// If the update transient is empty, use the update we just performed
+		if ( ! $next_user_core_update )
+			$next_user_core_update = $core_update;
+		$newer_version_available = ( 'upgrade' == $next_user_core_update->response && version_compare( $next_user_core_update->version, $core_update, '>' ) );
+
+		$newer_version_available = true;
+		$next_user_core_update->version = $next_user_core_update->current = '3.8.1';
 		/**
 		 * Filter whether to send an email following an automatic background core update.
 		 *
@@ -2128,34 +2155,52 @@ class WP_Automatic_Updater {
 				return;
 		}
 
-		$subject = sprintf( $subject, wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ), $core_update->current );
+		// If the auto update is not to the latest version, say that the current version of WP is available instead.
+		$version = 'success' === $type ? $core_update->current : $next_user_core_update->current;
+		$subject = sprintf( $subject, wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ), $version );
 
 		$body = '';
 
 		switch ( $type ) {
 			case 'success' :
 				$body .= sprintf( __( 'Howdy! Your site at %1$s has been updated automatically to WordPress %2$s.' ), home_url(), $core_update->current );
-				$body .= "\n\n" . __( 'No further action is needed on your part.' );
+				$body .= "\n\n";
+				if ( ! $newer_version_available )
+					$body .= __( 'No further action is needed on your part.' ) . ' ';
 
 				// Can only reference the About screen if their update was successful.
 				list( $about_version ) = explode( '-', $core_update->current, 2 );
-				$body .= ' ' . sprintf( __( "For more on version %s, see the About WordPress screen:" ), $about_version );
+				$body .= sprintf( __( "For more on version %s, see the About WordPress screen:" ), $about_version );
 				$body .= "\n" . admin_url( 'about.php' );
+
+				if ( $newer_version_available ) {
+					$body .= "\n\n" . sprintf( __( 'WordPress %s is also now available.' ), $next_user_core_update->current ) . ' ';
+					$body .= __( 'Updating is easy and only takes a few moments:' );
+					$body .= "\n" . network_admin_url( 'update-core.php' );
+				}
+
 				break;
 
 			case 'fail' :
 			case 'manual' :
-				$body .= sprintf( __( 'Please update your site at %1$s to WordPress %2$s.' ), home_url(), $core_update->current );
+				$body .= sprintf( __( 'Please update your site at %1$s to WordPress %2$s.' ), home_url(), $next_user_core_update->current );
 
 				$body .= "\n\n";
-				if ( 'fail' == $type )
+
+				// Don't show this message if there is a newer version available.
+				// Potential for confusion, and also not useful for them to know at this point.
+				if ( 'fail' == $type && ! $newer_version_available )
 					$body .= __( 'We tried but were unable to update your site automatically.' ) . ' ';
+
 				$body .= __( 'Updating is easy and only takes a few moments:' );
 				$body .= "\n" . network_admin_url( 'update-core.php' );
 				break;
 
 			case 'critical' :
-				$body .= sprintf( __( 'Your site at %1$s experienced a critical failure while trying to update to the latest version of WordPress, %2$s.' ), home_url(), $core_update->current );
+				if ( $newer_version_available )
+					$body .= sprintf( __( 'Your site at %1$s experienced a critical failure while trying to update WordPress to version %2$s.' ), home_url(), $core_update->current );
+				else
+					$body .= sprintf( __( 'Your site at %1$s experienced a critical failure while trying to update to the latest version of WordPress, %2$s.' ), home_url(), $core_update->current );
 
 				$body .= "\n\n" . __( "This means your site may be offline or broken. Don't panic; this can be fixed." );
 
@@ -2165,15 +2210,15 @@ class WP_Automatic_Updater {
 		}
 
 		// Updates are important!
-		if ( $type != 'success' )
+		if ( $type != 'success' || $newer_version_available )
 			$body .= "\n\n" . __( 'Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers.' );
 
 		// Add a note about the support forums to all emails.
 		$body .= "\n\n" . __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.' );
 		$body .= "\n" . __( 'http://wordpress.org/support/' );
 
-		// If things are successful, mention plugins and themes if any are out of date.
-		if ( $type == 'success' && ( get_plugin_updates() || get_theme_updates() ) ) {
+		// If things are successful and we're now on the latest, mention plugins and themes if any are out of date.
+		if ( $type == 'success' && ! $newer_version_available && ( get_plugin_updates() || get_theme_updates() ) ) {
 			$body .= "\n\n" . __( 'You also have some plugins or themes with updates available. Update them now:' );
 			$body .= "\n" . network_admin_url();
 		}
@@ -2182,7 +2227,8 @@ class WP_Automatic_Updater {
 
 		if ( 'critical' == $type && is_wp_error( $result ) ) {
 			$body .= "\n***\n\n";
-			$body .= __( 'We have some data that describes the error your site encountered.' );
+			$body .= sprintf( __( 'Your site was running version %s.' ), $GLOBALS['wp_version'] );
+			$body .= ' ' . __( 'We have some data that describes the error your site encountered.' );
 			$body .= ' ' . __( 'Your hosting company, support forum volunteers, or a friendly developer may be able to use this information to help you:' );
 
 			// If we had a rollback and we're still critical, then the rollback failed too.

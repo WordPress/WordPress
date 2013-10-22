@@ -415,9 +415,6 @@ function wp_maybe_auto_update() {
 	include_once ABSPATH . '/wp-admin/includes/class-wp-upgrader.php';
 
 	$upgrader = new WP_Automatic_Updater;
-	if ( $upgrader->is_disabled() )
-		return;
-
 	$upgrader->run();
 }
 
