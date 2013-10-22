@@ -45,7 +45,7 @@ window.wp = window.wp || {};
 			userActiveEvents,
 			winBlurTimeout,
 			frameBlurTimeout = -1,
-			hasConnectionError = false;
+			hasConnectionError = null;
 
 		/**
 		 * Returns a boolean that's indicative of whether or not there is a connection error
@@ -53,7 +53,7 @@ window.wp = window.wp || {};
 		 * @returns boolean
 		 */
 		this.hasConnectionError = function() {
-			return hasConnectionError;
+			return !! hasConnectionError;
 		};
 
 		if ( typeof( window.heartbeatSettings ) == 'object' ) {
@@ -108,7 +108,7 @@ window.wp = window.wp || {};
 		}
 
 		// Set error state and fire an event on XHR errors or timeout
-		function errorstate( error ) {
+		function errorstate( error, status ) {
 			var trigger;
 
 			if ( error ) {
@@ -132,14 +132,20 @@ window.wp = window.wp || {};
 						break;
 				}
 
+				if ( 503 == status && false === hasConnectionError ) {
+					trigger = true;
+				}
+
 				if ( trigger && ! self.hasConnectionError() ) {
 					hasConnectionError = true;
-					$(document).trigger( 'heartbeat-connection-lost', [error] );
+					$(document).trigger( 'heartbeat-connection-lost', [error, status] );
 				}
 			} else if ( self.hasConnectionError() ) {
 				errorcount = 0;
 				hasConnectionError = false;
 				$(document).trigger( 'heartbeat-connection-restored' );
+			} else if ( null === hasConnectionError ) {
+				hasConnectionError = false;
 			}
 		}
 
@@ -213,7 +219,7 @@ window.wp = window.wp || {};
 				connecting = false;
 				next();
 			}).fail( function( jqXHR, textStatus, error ) {
-				errorstate( textStatus || 'unknown' );
+				errorstate( textStatus || 'unknown', jqXHR.status );
 				self.error( jqXHR, textStatus, error );
 			});
 		}
