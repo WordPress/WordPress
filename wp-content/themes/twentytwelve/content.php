@@ -50,13 +50,7 @@
 				<div class="author-info">
 					<div class="author-avatar">
 						<?php
-						/**
-						 * Filter the author bio avatar size.
-						 *
-						 * @since Twenty Twelve 1.0
-						 *
-						 * @param int $size The height and width of the avatar in pixels.
-						 */
+						/** This filter is documented in author.php */
 						$author_bio_avatar_size = apply_filters( 'twentytwelve_author_bio_avatar_size', 68 );
 						echo get_avatar( get_the_author_meta( 'user_email' ), $author_bio_avatar_size );
 						?>

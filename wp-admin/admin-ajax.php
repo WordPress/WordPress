@@ -38,7 +38,7 @@ require_once( ABSPATH . 'wp-admin/includes/ajax-actions.php' );
 send_nosniff_header();
 nocache_headers();
 
-//duplicate_hook
+/** This action is documented in wp-admin/admin.php */
 do_action( 'admin_init' );
 
 $core_actions_get = array(

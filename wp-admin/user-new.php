@@ -335,7 +335,7 @@ if ( current_user_can( 'create_users') ) {
 ?>
 <p><?php _e('Create a brand new user and add them to this site.'); ?></p>
 <?php
-//duplicate_hook
+/** This action is documented in wp-admin/user-new.php */
 ?>
 <form action="" method="post" name="createuser" id="createuser" class="validate"<?php do_action('user_new_form_tag');?>>
 <input name="action" type="hidden" value="createuser" />
@@ -427,7 +427,7 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 </table>
 
 <?php
-//duplicate_hook
+/** This action is documented in wp-admin/user-new.php */
 do_action( 'user_new_form', 'add-new-user' );
 ?>
 

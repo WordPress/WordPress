@@ -677,13 +677,7 @@ function choose_primary_blog() {
 			<th scope="row" colspan="2" class="th-full">
 				<?php
 				$signup_url = network_site_url( 'wp-signup.php' );
-				/**
-				 * Filter the site signup URL.
-				 *
-				 * @since MU
-				 *
-				 * @param string $signup_url The site signup URL.
-				 */
+				/** This filter is documented in wp-login.php */
 				?>
 				<a href="<?php echo apply_filters( 'wp_signup_location', $signup_url ); ?>"><?php _e( 'Create a New Site' ); ?></a>
 			</th>

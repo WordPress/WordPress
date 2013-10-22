@@ -1744,6 +1744,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 
 	if ( $meta && 'image' === $type ) {
 		$sizes = array();
+		/** This filter is documented in wp-admin/includes/media.php */
 		$possible_sizes = apply_filters( 'image_size_names_choose', array(
 			'thumbnail' => __('Thumbnail'),
 			'medium'    => __('Medium'),

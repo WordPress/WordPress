@@ -55,7 +55,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		ob_start();
 		extract( $args, EXTR_SKIP );
 
-		//duplicate_hook
+		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Ephemera', 'twentyeleven' ) : $instance['title'], $instance, $this->id_base);
 
 		if ( ! isset( $instance['number'] ) )
