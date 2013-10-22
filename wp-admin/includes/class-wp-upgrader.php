@@ -1316,6 +1316,8 @@ class Core_Upgrader extends WP_Upgrader {
 	function upgrade( $current, $args = array() ) {
 		global $wp_filesystem, $wp_version;
 
+		$start_time = time();
+
 		$defaults = array(
 			'pre_check_md5'    => true,
 			'attempt_rollback' => false,
@@ -1402,11 +1404,46 @@ class Core_Upgrader extends WP_Upgrader {
 
 				$rollback_result = $this->upgrade( $current, array_merge( $parsed_args, array( 'do_rollback' => true ) ) );
 
-				$result = new WP_Error( 'rollback_was_required', $this->strings['rollback_was_required'], array( 'rollback' => $rollback_result, 'update' => $result ) );
+				$original_result = $result;
+				$result = new WP_Error( 'rollback_was_required', $this->strings['rollback_was_required'], (object) array( 'update' => $original_result, 'rollback' => $rollback_result ) );
 			}
 		}
 
 		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'core' ) );
+
+		// Clear the current updates
+		delete_site_transient( 'update_core' );
+
+		if ( ! $parsed_args['do_rollback'] ) {
+			$stats = array(
+				'update_type'      => $current->response,
+				'success'          => true,
+				'fs_method'        => $wp_filesystem->method,
+				'fs_method_forced' => defined( 'FS_METHOD' ) || has_filter( 'filesystem_method' ),
+				'time_taken'       => time() - $start_time,
+				'attempted'        => $current->version,
+			);
+
+			if ( is_wp_error( $result ) ) {
+				$stats['success'] = false;
+				// Did a rollback occur?
+				if ( ! empty( $try_rollback ) ) {
+					$stats['error_code'] = $original_result->get_error_code();
+					$stats['error_data'] = $original_result->get_error_data();
+					// Was the rollback successful? If not, collect its error too.
+					$stats['rollback'] = ! is_wp_error( $rollback_result );
+					if ( is_wp_error( $rollback_result ) ) {
+						$stats['rollback_code'] = $rollback_result->get_error_code();
+						$stats['rollback_data'] = $rollback_result->get_error_data();
+					}
+				} else {
+					$stats['error_code'] = $result->get_error_code();
+					$stats['error_data'] = $result->get_error_data();
+				}
+			}
+
+			wp_version_check( $stats );
+		}
 
 		return $result;
 	}
@@ -1906,34 +1943,13 @@ class WP_Automatic_Updater {
 
 		// Next, Process any core update
 		wp_version_check(); // Check for Core updates
-		$extra_update_stats = array();
 		$core_update = find_core_auto_update();
 
-		if ( $core_update ) {
-			$start_time = time();
+		if ( $core_update )
+			$this->update( 'core', $core_update );
 
-			$core_update_result = $this->update( 'core', $core_update );
-			delete_site_transient( 'update_core' );
-
-			$extra_update_stats['success'] = is_wp_error( $core_update_result ) ? $core_update_result->get_error_code() : true;
-			$extra_update_stats['error_data'] = is_wp_error( $core_update_result ) ? $core_update_result->get_error_data() : '';
-
-			if ( is_wp_error( $core_update_result ) && 'rollback_was_required' == $core_update_result->get_error_code() ) {
-				$rollback_data = $core_update_result->get_error_data();
-				$extra_update_stats['success'] = is_wp_error( $rollback_data['update'] ) ? $rollback_data['update']->get_error_code() : $rollback_data['update'];
-				$extra_update_stats['error_data'] = is_wp_error( $rollback_data['update'] ) ? $rollback_data['update']->get_error_data() : '';
-				$extra_update_stats['rollback'] = is_wp_error( $rollback_data['rollback'] ) ? $rollback_data['rollback']->get_error_code() : true; // If it's not a WP_Error, the rollback was successful.
-				$extra_update_stats['rollback_data'] = is_wp_error( $rollback_data['rollback'] ) ? $rollback_data['rollback']->get_error_data() : '';
-			}
-
-			$extra_update_stats['fs_method'] = $GLOBALS['wp_filesystem']->method;
-			$extra_update_stats['fs_method_forced'] = defined( 'FS_METHOD' ) || has_filter( 'filesystem_method' );
-			$extra_update_stats['time_taken'] = ( time() - $start_time );
-			$extra_update_stats['attempted'] = $core_update->version;
-		}
-
-		// Cleanup, and check for any pending translations
-		wp_version_check( $extra_update_stats );  // check for Core updates
+		// Clean up, and check for any pending translations
+		// (Core_Upgrader checks for core updates)
 		wp_update_themes();  // Check for Theme updates
 		wp_update_plugins(); // Check for Plugin updates
 
@@ -1999,23 +2015,28 @@ class WP_Automatic_Updater {
 		$critical = false;
 		if ( $error_code === 'disk_full' || false !== strpos( $error_code, '__copy_dir' ) ) {
 			$critical = true;
-		} elseif ( $error_code === 'rollback_was_required' ) {
-			$error_data = $result->get_error_data();
-			if ( is_wp_error( $error_data['rollback'] ) )
-				$critical = true;
+		} elseif ( $error_code === 'rollback_was_required' && is_wp_error( $result->get_error_data()->rollback ) ) {
+			// A rollback is only critical if it failed too.
+			$critical = true;
+			$rollback_result = $result->get_error_data()->rollback;
 		} elseif ( false !== strpos( $error_code, 'do_rollback' ) ) {
 			$critical = true;
 		}
 
 		if ( $critical ) {
-			update_site_option( 'auto_core_update_failed', array(
+			$critical_data = array(
 				'attempted'  => $core_update->current,
 				'current'    => $wp_version,
 				'error_code' => $error_code,
 				'error_data' => $result->get_error_data(),
 				'timestamp'  => time(),
 				'critical'   => true,
-			) );
+			);
+			if ( isset( $rollback_result ) ) {
+				$critical_data['rollback_code'] = $rollback_result->get_error_code();
+				$critical_data['rollback_data'] = $rollback_result->get_error_data();
+			}
+			update_site_option( 'auto_core_update_failed', $critical_data );
 			$this->send_email( 'critical', $core_update, $result );
 			return;
 		}
@@ -2163,11 +2184,27 @@ class WP_Automatic_Updater {
 			$body .= "\n***\n\n";
 			$body .= __( 'We have some data that describes the error your site encountered.' );
 			$body .= ' ' . __( 'Your hosting company, support forum volunteers, or a friendly developer may be able to use this information to help you:' );
-			$body .= "\n\n" . sprintf( __( "Error code: %s" ), $result->get_error_code() );
-			if ( $result->get_error_message() )
-				$body .= "\n" . $result->get_error_message();
-			if ( $result->get_error_data() )
-				$body .= "\n" . implode( ', ', (array) $result->get_error_data() );
+
+			// If we had a rollback and we're still critical, then the rollback failed too.
+			// Loop through all errors (the main WP_Error, the update result, the rollback result) for code, data, etc.
+			if ( 'rollback_was_required' == $result->get_error_code() )
+				$errors = array( $result, $result->get_error_data()->update, $result->get_error_data()->rollback );
+			else
+				$errors = array( $result );
+
+			foreach ( $errors as $error ) {
+				if ( ! is_wp_error( $error ) )
+					continue;
+				$error_code = $error->get_error_code();
+				$body .= "\n\n" . sprintf( __( "Error code: %s" ), $error_code );
+				if ( 'rollback_was_required' == $error_code )
+					continue;
+				if ( $error->get_error_message() )
+					$body .= "\n" . $error->get_error_message();
+				$error_data = $error->get_error_data();
+				if ( $error_data )
+					$body .= "\n" . implode( ', ', (array) $error_data );
+			}
 			$body .= "\n";
 		}
 
@@ -2278,9 +2315,17 @@ class WP_Automatic_Updater {
 				foreach ( $update->messages as $message )
 					$body[] = "  " . html_entity_decode( str_replace( '&#8230;', '...', $message ) );
 				if ( is_wp_error( $update->result ) ) {
-					$body[] = '  Error: [' . $update->result->get_error_code() . '] ' . $update->result->get_error_message();
-					if ( $update->result->get_error_data() )
-						$body[] = '         ' . implode( ', ', (array) $update->result->get_error_data() );
+					$results = array( 'update' => $update->result );
+					// If we rolled back, we want to know an error that occurred then too.
+					if ( 'rollback_was_required' === $update->result->get_error_code() )
+						$results = (array) $update->result->get_error_data();
+					foreach ( $results as $result_type => $result ) {
+						if ( ! is_wp_error( $result ) )
+							continue;
+						$body[] = '  ' . ( 'rollback' === $result_type ? 'Rollback ' : '' ) . 'Error: [' . $result->get_error_code() . '] ' . $result->get_error_message();
+						if ( $result->get_error_data() )
+							$body[] = '         ' . implode( ', ', (array) $result->get_error_data() );
+					}
 				}
 				$body[] = '';
 			}
