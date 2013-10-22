@@ -806,6 +806,10 @@ function update_core($from, $to) {
 		}
 	}
 
+	apply_filters( 'update_feedback', __( 'Disabling Maintenance mode&#8230;' ) );
+	// Remove maintenance file, we're done with potential site-breaking changes
+	$wp_filesystem->delete( $maintenance_file );
+
 	// 3.5 -> 3.5+ - an empty twentytwelve directory was created upon upgrade to 3.5 for some users, preventing installation of Twenty Twelve.
 	if ( '3.5' == $old_wp_version ) {
 		if ( is_dir( WP_CONTENT_DIR . '/themes/twentytwelve' ) && ! file_exists( WP_CONTENT_DIR . '/themes/twentytwelve/style.css' )  ) {
@@ -860,7 +864,6 @@ function update_core($from, $to) {
 
 	// Handle $result error from the above blocks
 	if ( is_wp_error($result) ) {
-		$wp_filesystem->delete($maintenance_file);
 		$wp_filesystem->delete($from, true);
 		return $result;
 	}
@@ -886,10 +889,6 @@ function update_core($from, $to) {
 		delete_site_transient('update_core');
 	else
 		delete_option('update_core');
-
-	apply_filters( 'update_feedback', __( 'Disabling Maintenance mode&#8230;' ) );
-	// Remove maintenance file, we're done.
-	$wp_filesystem->delete($maintenance_file);
 
 	// If we made it this far:
 	do_action( '_core_updated_successfully', $wp_version );
