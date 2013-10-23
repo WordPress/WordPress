@@ -116,13 +116,13 @@ Please click the following link to confirm the invite:
 		if ( is_wp_error( $user_details[ 'errors' ] ) && !empty( $user_details[ 'errors' ]->errors ) ) {
 			$add_user_errors = $user_details[ 'errors' ];
 		} else {
-			/** 
+			/**
 			 * Filter the user_login, aka the username, before it is added to the site.
-			 * 
+			 *
 			 * @since 3.0.0
-			 * 
-			 * @param string $_REQUEST['user_login'] The sanitized username. 
-			 */ 
+			 *
+			 * @param string $_REQUEST['user_login'] The sanitized username.
+			 */
 			$new_user_login = apply_filters( 'pre_user_login', sanitize_user( wp_unslash( $_REQUEST['user_login'] ), true ) );
 			if ( isset( $_POST[ 'noconfirmation' ] ) && is_super_admin() ) {
 				add_filter( 'wpmu_signup_user_notification', '__return_false' ); // Disable confirmation email
@@ -188,13 +188,13 @@ get_current_screen()->set_help_sidebar(
 wp_enqueue_script('wp-ajax-response');
 wp_enqueue_script('user-profile');
 
-/** 
+/**
  * Allows you to enable user auto-complete for non-super admins in multisite.
- * 
+ *
  * @since 3.4.0
- * 
+ *
  * @param bool True or false, based on if you enable auto-complete for non-super admins. Default is false.
- */ 
+ */
 if ( is_multisite() && current_user_can( 'promote_users' ) && ! wp_is_large_network( 'users' )
 	&& ( is_super_admin() || apply_filters( 'autocomplete_users_for_site_admins', false ) )
 ) {
@@ -281,11 +281,11 @@ if ( is_multisite() ) {
 	}
 ?>
 <?php
-/** 
+/**
  * Fires inside the adduser form tag.
- * 
+ *
  * @since 3.0.0
- */ 
+ */
 ?>
 <form action="" method="post" name="adduser" id="adduser" class="validate"<?php do_action('user_new_form_tag');?>>
 <input name="action" type="hidden" value="adduser" />
@@ -376,14 +376,14 @@ foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_nam
 		<th scope="row"><label for="url"><?php _e('Website') ?></label></th>
 		<td><input name="url" type="text" id="url" class="code" value="<?php echo esc_attr($new_user_uri); ?>" /></td>
 	</tr>
-<?php 
-/** 
+<?php
+/**
  * Filter the display of the password fields.
- * 
+ *
  * @since 1.5.1
- * 
+ *
  * @param bool True or false, based on if you want to show the password fields. Default is true.
- */ 
+ */
 if ( apply_filters( 'show_password_fields', true ) ) : ?>
 	<tr class="form-field form-required">
 		<th scope="row"><label for="pass1"><?php _e('Password'); ?> <span class="description"><?php /* translators: password input field */_e('(required)'); ?></span></label></th>

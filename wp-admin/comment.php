@@ -279,7 +279,7 @@ case 'editedcomment' :
 	edit_comment();
 
 	$location = ( empty( $_POST['referredby'] ) ? "edit-comments.php?p=$comment_post_id" : $_POST['referredby'] ) . '#comment-' . $comment_id;
-	
+
 	/**
 	 * Filter the URI the user is redirected to after editing a comment in the admin.
 	 *

@@ -17,7 +17,7 @@
  * @since 2.3.0
  * @uses $wp_version Used to check against the newest WordPress version.
  *
- * @param array $extra_stats Extra statistics to report to the WordPress.org API. 
+ * @param array $extra_stats Extra statistics to report to the WordPress.org API.
  * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
  */
 function wp_version_check( $extra_stats = array() ) {

@@ -42,14 +42,14 @@ header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
       <api name="Movable Type" blogID="1" preferred="false" apiLink="<?php echo site_url('xmlrpc.php', 'rpc') ?>" />
       <api name="MetaWeblog" blogID="1" preferred="false" apiLink="<?php echo site_url('xmlrpc.php', 'rpc') ?>" />
       <api name="Blogger" blogID="1" preferred="false" apiLink="<?php echo site_url('xmlrpc.php', 'rpc') ?>" />
-      <?php 
-      /** 
+      <?php
+      /**
        * Add additional APIs to the Really Simple Discovery (RSD) endpoint.
        *
        * @see http://cyber.law.harvard.edu/blogs/gems/tech/rsd.html
        * @since 3.5.0
-       */ 
-      do_action( 'xmlrpc_rsd_apis' ); 
+       */
+      do_action( 'xmlrpc_rsd_apis' );
       ?>
     </apis>
   </service>
@@ -69,12 +69,12 @@ include_once(ABSPATH . WPINC . '/class-wp-xmlrpc-server.php');
  */
 $post_default_title = "";
 
-/** 
+/**
  * Filter the class used for handling XML-RPC requests.
- * 
+ *
  * @since 3.1.0
  * @param string The name of the XML-RPC server class.
- */ 
+ */
 $wp_xmlrpc_server_class = apply_filters( 'wp_xmlrpc_server_class', 'wp_xmlrpc_server' );
 $wp_xmlrpc_server = new $wp_xmlrpc_server_class;
 

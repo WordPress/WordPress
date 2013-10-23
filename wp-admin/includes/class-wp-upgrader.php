@@ -1933,10 +1933,10 @@ class WP_Automatic_Updater {
 		update_option( $lock_name, time() );
 
 		// Don't automatically run these thins, as we'll handle it ourselves
-		remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 ); 
-		remove_action( 'upgrader_process_complete', 'wp_version_check' ); 
-		remove_action( 'upgrader_process_complete', 'wp_update_plugins' ); 
-		remove_action( 'upgrader_process_complete', 'wp_update_themes' ); 
+		remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
+		remove_action( 'upgrader_process_complete', 'wp_version_check' );
+		remove_action( 'upgrader_process_complete', 'wp_update_plugins' );
+		remove_action( 'upgrader_process_complete', 'wp_update_themes' );
 
 		// Next, Plugins
 		wp_update_plugins(); // Check for Plugin updates
@@ -2270,7 +2270,7 @@ class WP_Automatic_Updater {
 		 *     @type string $subject The email's subject.
 		 *     @type string $body    The email message body.
 		 *     @type string $headers Any email headers, defaults to no headers.
-		 * }   
+		 * }
 		 * @param string $type        The type of email being sent. Can be one of 'success', 'fail', 'manual', 'critical'.
 		 * @param object $core_update The update offer that was attempted.
 		 * @param mixed  $result      The result for the core update. Can be WP_Error.
