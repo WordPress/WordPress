@@ -52,23 +52,36 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p><?php _e( 'You&#8217;ll still need to click &#8220;Update Now&#8221; once WordPress 3.8 is released, but we&#8217;ve never had more confidence in that beautiful blue button.' ); ?></p>
 		</div>
 		<?php
-			$can_auto_update = wp_http_supports( 'ssl' );
+		if ( current_user_can( 'update_core' ) ) {
+			$future_minor_update = (object) array(
+				'current'       => $wp_version . '.1.next.minor',
+				'version'       => $wp_version . '.1.next.minor',
+				'php_version'   => $required_php_version,
+				'mysql_version' => $required_mysql_version,
+			);
+			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+			$updater = new WP_Automatic_Updater;
+			$can_auto_update = wp_http_supports( 'ssl' ) && $updater->should_update( 'core', $future_minor_update, ABSPATH );
+
 			if ( $can_auto_update ) {
-				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-				$upgrader = new WP_Automatic_Updater;
-				$future_minor_update = (object) array(
-					'current'       => $wp_version . '.1.next.minor',
-					'version'       => $wp_version . '.1.next.minor',
-					'php_version'   => $required_php_version,
-					'mysql_version' => $required_mysql_version,
-				);
-				$can_auto_update = $upgrader->should_update( 'core', $future_minor_update, ABSPATH );
+				echo '<p class="about-auto-update cool">' . __( 'This site <strong>is</strong> able to apply these updates automatically. Cool!' ). '</p>';
+
+			// If the updater is disabled entirely, don't show them anything.
+			} elseif ( ! $updater->is_disabled() ) {
+				echo '<p class="about-auto-update">';
+				// If this is is filtered to false, they won't get emails, so don't claim we will.
+				// Assumption: If the user can update core, they can see what the admin email is.
+
+				/** This filter is documented in wp-admin/includes/class-wp-upgrader.php */
+				if ( apply_filters( 'send_core_update_notification_email', true, $future_minor_update ) ) {
+					printf( __( 'This site <strong>is not</strong> able to apply these updates automatically. But we&#8217;ll email %s when there is a new security release.' ), esc_html( get_site_option( 'admin_email' ) ) );
+				} else {
+					_e( 'This site <strong>is not</strong> able to apply these updates automatically.' );
+				}
+				echo '</p>';
 			}
-			if ( $can_auto_update ) : ?>
-				<p class="about-auto-update cool"><?php _e( 'This site <strong>is</strong> able to apply these updates automatically. Cool!' ); ?></p>
-			<?php else : ?>
-				<p class="about-auto-update"><?php printf( __( 'This site <strong>is not</strong> able to apply these updates automatically. But we&#8217;ll email %s when there is a new security release.' ), esc_html( get_site_option( 'admin_email' ) ) ); ?></p>
-		<?php endif; ?>
+		}
+		?>
 	</div>
 </div>
 
