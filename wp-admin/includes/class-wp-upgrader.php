@@ -1739,7 +1739,7 @@ class WP_Automatic_Updater {
 		// If we can't do an auto core update, we may still be able to email the user.
 		if ( ! $skin->request_filesystem_credentials( false, $context ) || $this->is_vcs_checkout( $context ) ) {
 			if ( 'core' == $type )
-				$this->notify_core_update( $item );
+				$this->send_core_update_notification_email( $item );
 			return false;
 		}
 
@@ -1770,7 +1770,7 @@ class WP_Automatic_Updater {
 
 		if ( ! $update ) {
 			if ( 'core' == $type )
-				$this->notify_core_update( $item );
+				$this->send_core_update_notification_email( $item );
 			return false;
 		}
 
@@ -1798,16 +1798,34 @@ class WP_Automatic_Updater {
 	 *
 	 * @param object $item The update offer.
 	 */
-	protected function notify_core_update( $item ) {
-		// See if we need to notify users of a core update.
-		if ( empty( $item->notify_email ) )
-			return false;
-
+	protected function send_core_update_notification_email( $item ) {
 		$notify   = true;
 		$notified = get_site_option( 'auto_core_update_notified' );
 
 		// Don't notify if we've already notified the same email address of the same version.
 		if ( $notified && $notified['email'] == get_site_option( 'admin_email' ) && $notified['version'] == $item->current )
+			return false;
+
+		// See if we need to notify users of a core update.
+		$notify = ! empty( $item->notify_email );
+
+		/**
+		 * Whether to notify the site administrator of a new core update.
+		 *
+		 * By default, administrators are notified when the update offer received from WordPress.org
+		 * sets a particular flag. This allows for discretion in if and when to notify.
+		 *
+		 * This filter only fires once per release -- if the same email address was already
+		 * notified of the same new version, we won't repeatedly email the administrator.
+		 *
+		 * This filter is also used on about.php to check if a plugin has disabled these notifications.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param bool $notify Whether the site administrator is notified.
+		 * @param object $item The update offer.
+		 */
+		if ( ! apply_filters( 'send_core_update_notification_email', $notify, $item ) )
 			return false;
 
 		$this->send_email( 'manual', $item );
@@ -2127,11 +2145,11 @@ class WP_Automatic_Updater {
 		 * @since 3.7.0
 		 *
 		 * @param bool   $send        Whether to send the email. Default true.
-		 * @param string $type        The type of email to send. Can be one of 'success', 'fail', 'manual', 'critical'.
+		 * @param string $type        The type of email to send. Can be one of 'success', 'fail', 'critical'.
 		 * @param object $core_update The update offer that was attempted.
 		 * @param mixed  $result      The result for the core update. Can be WP_Error.
 		 */
-		if ( ! apply_filters( 'auto_core_update_send_email', true, $type, $core_update, $result ) )
+		if ( 'manual' !== $type && ! apply_filters( 'auto_core_update_send_email', true, $type, $core_update, $result ) )
 			return;
 
 		switch ( $type ) {
