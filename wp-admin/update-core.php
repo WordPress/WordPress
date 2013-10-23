@@ -24,7 +24,7 @@ if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_themes' 
 function list_core_update( $update ) {
  	global $wp_local_package, $wpdb, $wp_version;
   	static $first_pass = true;
-  
+
  	if ( 'en_US' == $update->locale && 'en_US' == get_locale() )
  		$version_string = $update->current;
  	// If the only available update is a partial builds, it doesn't need a language-specific version string.
@@ -32,7 +32,7 @@ function list_core_update( $update ) {
  		$version_string = $update->current;
  	else
  		$version_string = sprintf( "%s&ndash;<strong>%s</strong>", $update->current, $update->locale );
-  
+
 	$current = false;
 	if ( !isset($update->response) || 'latest' == $update->response )
 		$current = true;

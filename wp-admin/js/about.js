@@ -40,22 +40,22 @@
         // Look like real typing by changing the speed new letters are added each time
         setTimeout(animate, 220 + Math.floor(Math.random() * ( 800 - 220)) );
     }
-    // 
+    //
     function begin(){
-        // we async load zxcvbn, so we need to make sure it's loaded before starting 
+        // we async load zxcvbn, so we need to make sure it's loaded before starting
         if (typeof(zxcvbn) !== 'undefined')
             animate();
         else
             setTimeout(begin,800);
     }
-    
+
     // Turn off the animation on focus
     $input.on('focus', function(){
         shouldAnimate = false;
         resetMeter();
     });
 
-    // Act like a normal password strength meter 
+    // Act like a normal password strength meter
     $input.on('keyup', function(){
         updateResult();
     });

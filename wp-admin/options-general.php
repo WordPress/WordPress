@@ -265,7 +265,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 <?php
 	/**
 	* Filter the default time formats.
-	* 
+	*
 	* @since 2.7.0
 	*
 	* @param array $default_time_formats Array of default time formats.

@@ -320,7 +320,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 <div id="message" class="error"><p><?php echo $errors[$_GET['error']]; ?></p></div>
 <?php } ?>
 
-<?php 
+<?php
 /**
  * Fires before the Widgets administration page content loads.
  *
