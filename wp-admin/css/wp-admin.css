@@ -5781,6 +5781,17 @@ h2 .nav-tab {
 	background-color: #f9f9f9;
 }
 
+.about-wrap .about-auto-update {
+	text-align: center;
+	background-color: #f9f9ef;
+	clear: both;
+	padding: 10px;
+}
+
+.about-wrap .about-auto-update.cool {
+	background-color: #eff9ef;
+}
+
 .about-wrap .about-password-meter input {
 	font-size: 250%;
 	width: 100%;
