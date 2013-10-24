@@ -1736,17 +1736,30 @@ class WP_Automatic_Upgrader {
 	 * Kicks off a upgrade request for each item in the upgrade "queue"
 	 */
 	function run() {
+		global $wpdb;
+
+		if ( ! is_main_network() || ! is_main_site() )
+			return;
+
 		$lock_name = 'auto_upgrader.lock';
-		if ( get_site_option( $lock_name ) ) {
-			// Test to see if it was set more than an hour ago, if so, cleanup.
-			if ( get_site_option( $lock_name ) < ( time() - HOUR_IN_SECONDS ) )
-				delete_site_option( $lock_name );
-			else // The process is already locked
+
+		// Try to lock
+		$lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_name, time() ) );
+
+		if ( ! $lock_result ) {
+			$lock_result = get_option( $lock_name );
+
+			// If we couldn't create a lock, and there isn't a lock, bail
+			if ( ! $lock_result )
+				return;
+
+			// Check to see if the lock is still valid
+			if ( $lock_result > ( time() - HOUR_IN_SECONDS ) )
 				return;
 		}
-		// Lock upgrades for us for half an hour
-		if ( ! add_site_option( $lock_name, microtime( true ), HOUR_IN_SECONDS / 2 ) )
-			return;
+
+		// Update the lock, as by this point we've definately got a lock, just need to fire the actions
+		update_option( $lock_name, time() );
 
 		// Don't automatically run these thins, as we'll handle it ourselves
 		remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 ); 
@@ -1829,8 +1842,7 @@ class WP_Automatic_Upgrader {
 		$this->send_debug_email();
 
 		// Clear the lock
-		delete_site_option( $lock_name );
-
+		delete_option( $lock_name );
 	}
 
 	function send_debug_email() {
