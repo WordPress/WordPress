@@ -2,35 +2,7 @@
 /**
  * WP_Date_Query will generate a MySQL WHERE clause for the specified date-based parameters.
  *
- * Initialize the class by passing an array of arrays of parameters. Example:
- *
- * $date_query = new WP_Date_Query( array(
- * 		'column' => 'optional, column to query against, default is post_date',
- * 		'compare' => 'optional, see WP_Date_Query::get_compare()',
- * 		'relation' => 'optional, OR or AND, how the sub-arrays should be compared, default is AND',
- * 		array(
- * 			'column' => 'see above',
- * 			'compare' => 'see above',
- * 			'after' => 'string or array, see WP_Date_Query::build_mysql_datetime()',
- * 			'before' => 'string or array, see WP_Date_Query::build_mysql_datetime()',
- * 			'inclusive' => 'boolean, for after/before, whether exact value should be matched or not',
- * 			'year' => '4 digit int',
- * 			'month' => 'int, 1-12',
- * 			'week' => 'int, 0-53',
- * 			'day' => 'int, 1-31',
- * 			'hour' => 'int, 0-23',
- * 			'minute' => 'int, 0-60',
- * 			'second' => 'int, 0-60',
- * 		),
- *		array(
- *			...
- *		),
- *		...
- * ) );
- *
- * Then call the get_sql() method to get the MySQL WHERE string:
- *
- * $where .= $date_query->get_sql();
+ * Initialize the class by passing an array of arrays of parameters.
  *
  * @link http://codex.wordpress.org/Function_Reference/WP_Query Codex page.
  *
@@ -74,10 +46,62 @@ class WP_Date_Query {
 	public $compare = '=';
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @param array $date_query A date query parameter array, see class descriptor for further details.
-	 * @param array (optional) $default_column What column name to query against. Defaults to "post_date".
+	 * @param array $date_query {
+	 *     One or more associative arrays of date query parameters.
+	 *
+	 *     @type array {
+	 *         @type string $column   Optional. The column to query against. If undefined, inherits the value of
+	 *                                the $default_column parameter. Default 'post_date'. Accepts 'post_date',
+	 *                                'post_date_gmt', 'post_modified','post_modified_gmt', 'comment_date',
+	 *                                'comment_date_gmt'.
+	 *         @type string $compare  Optional. The comparison operator.
+	 *                                Default '='. Accepts '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN',
+	 *                                'BETWEEN', 'NOT BETWEEN'.
+	 *         @type string $relation Optional. The boolean relationship between the date queryies.
+	 *                                Default 'OR'. Accepts 'OR', 'AND'.
+	 *         @type array {
+	 *             @type string|array $before Optional. Date to retrieve posts before. Accepts strtotime()-compatible
+	 *                                        string, or array of 'year', 'month', 'day' values. {
+	 *
+	 *                 @type string $year  The four-digit year. Default empty. Accepts any four-digit year.
+	 *                 @type string $month Optional when passing array.The month of the year.
+	 *                                     Default (string:empty)|(array:1). Accepts numbers 1-12.
+	 *                 @type string $day   Optional when passing array.The day of the month.
+	 *                                     Default (string:empty)|(array:1). Accepts numbers 1-31.
+	 *             }
+	 *             @type string|array $after Optional. Date to retrieve posts before. Accepts strtotime()-compatible
+	 *                                       string, or array of 'year', 'month', 'day' values. {
+	 *
+	 *                 @type string $year  The four-digit year. Default empty. Accepts any four-digit year.
+	 *                 @type string $month Optional when passing array.The month of the year.
+	 *                                     Default (string:empty)|(array:12). Accepts numbers 1-12.
+	 *                 @type string $day   Optional when passing array.The day of the month.
+	 *                                     Default (string:empty)|(array:last day of month). Accepts numbers 1-31.
+	 *             }
+	 *             @type string       $column    Optional. Used to add a clause comparing a column other than the column
+	 *                                           specified in the top-level $column paramater.  Default is the value
+	 *                                           of top-level $column. Accepts 'post_date', 'post_date_gmt',
+	 *                                           'post_modified', 'post_modified_gmt', 'comment_date', 'comment_date_gmt'.
+	 *             @type string       $compare   Optional. The comparison operator. Default '='. Accepts '=', '!=',
+	 *                                           '>', '>=', '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'.
+	 *             @type bool         $inclusive Optional. Include results from dates specified in 'before' or 'after'.
+	 *                                           Default. Accepts.
+	 *             @type int          $year      Optional. The four-digit near number. Default empty. Accepts any
+	 *                                           four-digit year.
+	 *             @type int          $month     Optional. The two-digit month number. Default empty. Accepts numbers 1-12.
+	 *             @type int          $week      Optional. The week number of the year. Default empty. Accepts numbers 0-53.
+	 *             @type int          $day       Optional. The day of the month. Default empty. Accepts numbers 1-31.
+	 *             @type int          $hour      Optional. The hour of the day. Default empty. Accepts numbers 0-23.
+	 *             @type int          $minute    Optional. The minute of the hour. Default empty. Accepts numbers 0-60.
+	 *             @type int          $second    Optional. The second of the minute. Default empty. Accepts numbers 0-60.
+	 *         }
+	 *     }
+	 * }
+	 * @param array $default_column Optional. Default column to query against. Default 'post_date'.
+	 *                              Accepts 'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt',
+	 *                              'comment_date', 'comment_date_gmt'.
 	 */
 	function __construct( $date_query, $default_column = 'post_date' ) {
 		if ( empty( $date_query ) || ! is_array( $date_query ) )
@@ -136,7 +160,19 @@ class WP_Date_Query {
 	 * @return string A validated column name value.
 	 */
 	public function validate_column( $column ) {
-		if ( ! in_array( $column, apply_filters( 'date_query_valid_columns', array( 'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt', 'comment_date', 'comment_date_gmt' ) ) ) )
+		$valid_columns = array(
+			'post_date', 'post_date_gmt', 'post_modified',
+			'post_modified_gmt', 'comment_date', 'comment_date_gmt'
+		);
+		/**
+		 * Filter the list of valid date query columns.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param array $valid_columns An array of valid date query columns. Defaults are 'post_date', 'post_date_gmt',
+		 *                             'post_modified', 'post_modified_gmt', 'comment_date', 'comment_date_gmt'
+		 */
+		if ( ! in_array( $column, apply_filters( 'date_query_valid_columns', $valid_columns ) ) )
 			$column = 'post_date';
 
 		return $column;
@@ -168,6 +204,14 @@ class WP_Date_Query {
 		else
 			$where = '';
 
+		/**
+		 * Filter the date query WHERE clause.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param string        $where WHERE clause of the date query.
+		 * @param WP_Date_Query $this  The WP_Date_Query instance.
+		 */
 		return apply_filters( 'get_date_sql', $where, $this );
 	}
 
