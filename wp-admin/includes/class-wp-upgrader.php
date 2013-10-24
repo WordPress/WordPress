@@ -1402,7 +1402,7 @@ class Core_Upgrader extends WP_Upgrader {
 	}
 
 	// Determines if this WordPress Core version should update to $offered_ver or not
-	static function should_upgrade_to_version( $offered_ver /* x.y.z */ ) {
+	static function should_update_to_version( $offered_ver /* x.y.z */ ) {
 		include ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
 
 		$current_branch = implode( '.', array_slice( preg_split( '/[.-]/', $wp_version  ), 0, 2 ) ); // x.y
@@ -1551,11 +1551,11 @@ class File_Upload_Upgrader {
 }
 
 /**
- * WordPress automatic background upgrader.
+ * WordPress automatic background updater.
  *
  * @since 3.7.0
  */
-class WP_Automatic_Upgrader {
+class WP_Automatic_Updater {
 
 	protected $update_results = array();
 
@@ -1570,7 +1570,7 @@ class WP_Automatic_Upgrader {
 		// More fine grained control can be done through the WP_AUTO_UPDATE_CORE constant and filters.
 		$disabled = defined( 'AUTOMATIC_UPDATES_DISABLED' ) && AUTOMATIC_UPDATES_DISABLED;
 
-		return apply_filters( 'auto_upgrader_disabled', $disabled );
+		return apply_filters( 'automatic_updates_disabled', $disabled );
 	}
 
 	/**
@@ -1600,17 +1600,17 @@ class WP_Automatic_Upgrader {
 					break 2;
 			}
 		}
-		return apply_filters( 'auto_upgrade_is_vcs_checkout', $checkout, $context );
+		return apply_filters( 'automatic_updates_is_vcs_checkout', $checkout, $context );
 	}
 
 	/**
-	 * Tests to see if we can and should upgrade a specific item.
+	 * Tests to see if we can and should update a specific item.
 	 */
-	function should_upgrade( $type, $item, $context ) {
+	function should_update( $type, $item, $context ) {
 		if ( $this->is_disabled() )
 			return false;
 
-		// Checks to see if WP_Filesystem is set up to allow unattended upgrades.
+		// Checks to see if WP_Filesystem is set up to allow unattended updates.
 		$skin = new Automatic_Upgrader_Skin;
 		if ( ! $skin->request_filesystem_credentials( false, $context ) )
 			return false;
@@ -1618,24 +1618,15 @@ class WP_Automatic_Upgrader {
 		if ( $this->is_vcs_checkout( $context ) )
 			return false;
 
-		// Next up, do we actually have it enabled for this type of update?
-		switch ( $type ) {
-			case 'language':
-				$upgrade = ! empty( $item->autoupdate );
-				break;
-			case 'core':
-				$upgrade = Core_Upgrader::should_upgrade_to_version( $item->current );
-				break;
-			default:
-			case 'plugin':
-			case 'theme':
-				$upgrade = false;
-				break;
-		}
+		// Next up, is this an item we can update?
+		if ( 'core' == $type )
+			$update = Core_Upgrader::should_update_to_version( $item->current );
+		else
+			$update = ! empty( $item->autoupdate );
 
 		// And does the user / plugins want it?
-		// Plugins may filter on 'auto_upgrade_plugin', and check the 2nd param, $item, to only enable it for certain Plugins/Themes
-		if ( ! apply_filters( 'auto_upgrade_' . $type, $upgrade, $item ) )
+		// Plugins may filter on 'auto_update_plugin', and check the 2nd param, $item, to only enable it for certain Plugins/Themes
+		if ( ! apply_filters( 'auto_update_' . $type, $update, $item ) )
 			return false;
 
 		// If it's a core update, are we actually compatible with its requirements?
@@ -1655,13 +1646,13 @@ class WP_Automatic_Upgrader {
 		return true;
 	}
 
-	function upgrade( $type, $item ) {
+	function update( $type, $item ) {
 
-		$skin = new Automatic_Upgrader_Skin();
+		$skin = new Automatic_Upgrader_Skin;
 
 		switch ( $type ) {
 			case 'core':
-				// The Core upgrader doesn't use the Upgrader's skin during the actual main part of the upgrade, instead, firing a filter
+				// The Core upgrader doesn't use the Upgrader's skin during the actual main part of the upgrade, instead, firing a filter.
 				add_filter( 'update_feedback', array( $skin, 'feedback' ) );
 				$upgrader = new Core_Upgrader( $skin );
 				$context  = ABSPATH;
@@ -1680,8 +1671,8 @@ class WP_Automatic_Upgrader {
 				break;
 		}
 
-		// Determine whether we can and should perform this upgrade.
-		if ( ! $this->should_upgrade( $type, $item, $context ) )
+		// Determine whether we can and should perform this update.
+		if ( ! $this->should_update( $type, $item, $context ) )
 			return false;
 
 		switch ( $type ) {
@@ -1733,7 +1724,7 @@ class WP_Automatic_Upgrader {
 	}
 
 	/**
-	 * Kicks off a upgrade request for each item in the upgrade "queue"
+	 * Kicks off a update request for each item in the update "queue".
 	 */
 	function run() {
 		global $wpdb;
@@ -1741,7 +1732,7 @@ class WP_Automatic_Upgrader {
 		if ( ! is_main_network() || ! is_main_site() )
 			return;
 
-		$lock_name = 'auto_upgrader.lock';
+		$lock_name = 'auto_updater.lock';
 
 		// Try to lock
 		$lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_name, time() ) );
@@ -1772,7 +1763,7 @@ class WP_Automatic_Upgrader {
 		$plugin_updates = get_site_transient( 'update_plugins' );
 		if ( $plugin_updates && !empty( $plugin_updates->response ) ) {
 			foreach ( array_keys( $plugin_updates->response ) as $plugin ) {
-				$this->upgrade( 'plugin', $plugin );
+				$this->update( 'plugin', $plugin );
 			}
 			// Force refresh of plugin update information
 			wp_clean_plugins_cache();
@@ -1783,13 +1774,13 @@ class WP_Automatic_Upgrader {
 		$theme_updates = get_site_transient( 'update_themes' );
 		if ( $theme_updates && !empty( $theme_updates->response ) ) {
 			foreach ( array_keys( $theme_updates->response ) as $theme ) {
-				$this->upgrade( 'theme', $theme );
+				$this->update( 'theme', $theme );
 			}
 			// Force refresh of theme update information
 			wp_clean_themes_cache();
 		}
 
-		// Next, Process any core upgrade
+		// Next, Process any core update
 		wp_version_check(); // Check for Core updates
 		$extra_update_stats = array();
 		$core_update = find_core_auto_update();
@@ -1797,7 +1788,7 @@ class WP_Automatic_Upgrader {
 		if ( $core_update ) {
 			$start_time = time();
 
-			$core_update_result = $this->upgrade( 'core', $core_update );
+			$core_update_result = $this->update( 'core', $core_update );
 			delete_site_transient( 'update_core' );
 
 			$extra_update_stats['success'] = is_wp_error( $core_update_result ) ? $core_update_result->get_error_code() : true;
@@ -1826,7 +1817,7 @@ class WP_Automatic_Upgrader {
 		$language_updates = wp_get_translation_updates();
 		if ( $language_updates ) {
 			foreach ( $language_updates as $update ) {
-				$this->upgrade( 'language', $update );
+				$this->update( 'language', $update );
 			}
 
 			// Clear existing caches
@@ -1850,9 +1841,9 @@ class WP_Automatic_Upgrader {
 		if ( empty( $this->update_results ) )
 			return;
 
-		$upgrade_count = 0;
-		foreach ( $this->update_results as $type => $upgrades )
-			$upgrade_count += count( $upgrades );
+		$update_count = 0;
+		foreach ( $this->update_results as $type => $updates )
+			$update_count += count( $updates );
 
 		$body = array();
 		$failures = 0;
@@ -1910,20 +1901,20 @@ class WP_Automatic_Upgrader {
 			$subject = sprintf( '[%s] Background updates have finished', get_bloginfo( 'name' ) );
 		}
 
-		$body[] = 'UPGRADE LOG';
-		$body[] = '===========';
+		$body[] = 'UPDATE LOG';
+		$body[] = '==========';
 		$body[] = '';
 
 		foreach ( array( 'core', 'plugin', 'theme', 'language' ) as $type ) {
 			if ( ! isset( $this->update_results[ $type ] ) )
 				continue;
-			foreach ( $this->update_results[ $type ] as $upgrade ) {
-				$body[] = $upgrade->name;
-				$body[] = str_repeat( '-', strlen( $upgrade->name ) );
-				foreach ( $upgrade->messages as $message )
+			foreach ( $this->update_results[ $type ] as $update ) {
+				$body[] = $update->name;
+				$body[] = str_repeat( '-', strlen( $update->name ) );
+				foreach ( $update->messages as $message )
 					$body[] = "  " . html_entity_decode( str_replace( '&#8230;', '...', $message ) );
-				if ( is_wp_error( $upgrade->result ) )
-					$body[] = '  Error: [' . $upgrade->result->get_error_code() . '] ' . $upgrade->result->get_error_message();
+				if ( is_wp_error( $update->result ) )
+					$body[] = '  Error: [' . $update->result->get_error_code() . '] ' . $update->result->get_error_message();
 				$body[] = '';
 			}
 		}
