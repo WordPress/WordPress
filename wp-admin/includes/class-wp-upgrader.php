@@ -1836,8 +1836,103 @@ class WP_Automatic_Updater {
 		delete_option( $lock_name );
 	}
 
-	function send_debug_email() {
+	protected function send_email( $type, $core_update, $result = null ) {
+		if ( ! apply_filters( 'automatic_updates_send_email', true, $type, $core_update, $result ) )
+			return;
 
+		switch ( $type ) {
+			case 'success' : // We updated.
+				/* translators: 1: Site name, 2: WordPress version number. */
+				$subject = __( '[%1$s] Your site has updated to WordPress %2$s' );
+				break;
+
+			case 'fail' :   // We tried to update but couldn't.
+			case 'manual' : // We can't update (and made no attempt).
+				/* translators: 1: Site name, 2: WordPress version number. */
+				$subject = __( '[%1$s] WordPress %2$s is available. Please update!' );
+				break;
+
+			case 'critical' : // We tried to update, started to copy files, then things went wrong.
+				/* translators: 1: Site name. */
+				$subject = __( '[%1$s] URGENT: Your site may be down due to a failed update' );
+				break;
+
+			default :
+				return;
+		}
+
+		$subject = sprintf( $subject, wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ), $core_update->current );
+
+		$body = '';
+
+		switch ( $type ) {
+			case 'success' :
+				$body .= sprintf( __( 'Howdy! Your site at %1$s has been updated automatically to WordPress %2$s.' ), home_url(), $core_update->current );
+				$body .= "\n\n" . __( 'No further action is needed on your part.' );
+
+				// Can only reference the About screen if their update was successful.
+				list( $about_version ) = explode( '-', $core_update->current, 2 );
+				$body .= ' ' . sprintf( __( "For more on version %s, see the About WordPress screen:" ), $about_version );
+				$body .= "\n" . admin_url( 'about.php' );
+				break;
+
+			case 'fail' :
+			case 'manual' :
+				$body .= sprintf( __( 'Please update your site at %1$s to WordPress %2$s.' ), home_url(), $core_update->current );
+
+				$body .= "\n\n";
+				if ( 'fail' == $type )
+					$body .= __( 'We tried but were unable to update your site automatically.' ) . ' ';
+				$body .= __( 'Updating is easy and only takes a few moments:' );
+				$body .= "\n" . network_admin_url( 'update-core.php' );
+				break;
+
+			case 'critical' :
+				$body .= sprintf( __( 'Your site at %1$s experienced a critical failure while trying to update to the latest version of WordPress, %2$s.' ), home_url(), $core_update->current );
+
+				$body .= "\n\n" . __( "This means your site may be offline or broken. Don't panic; this can be fixed." );
+
+				$body .= "\n\n" . __( "Please check out your site now. It's possible that everything is working. If it says you need to update, you should do so:" );
+				$body .= "\n" . network_admin_url( 'update-core.php' );
+				break;
+		}
+
+		// Updates are important!
+		if ( $type != 'success' )
+			$body .= "\n\n" . __( 'Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers.' );
+
+		// Add a note about the support forums to all emails.
+		$body .= "\n\n" . __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.' );
+		$body .= "\n" . __( 'http://wordpress.org/support/' );
+
+		// If things are successful, mention plugins and themes if any are out of date.
+		if ( $type == 'success' && ( get_plugin_updates() || get_theme_updates() ) ) {
+			$body .= "\n\n" . __( 'You also have some plugins or themes with updates available. Update them now:' );
+			$body .= "\n" . network_admin_url();
+		}
+
+		$body .= "\n\n" . __( 'The WordPress Team' ) . "\n";
+
+		if ( 'critical' == $type && is_wp_error( $result ) ) {
+			$body .= "\n***\n\n";
+			$body .= __( 'We have some data that describes the error your site encountered.' );
+			$body .= ' ' . __( 'Your hosting company, support forum volunteers, or a friendly developer may be able to use this information to help you:' );
+			$body .= "\n" . sprintf( __( "Error code: %s" ), $result->get_error_code() );
+			$body .= "\n" . $result->get_error_message();
+			$body .= "\n" . implode( ', ', (array) $result->get_error_data() );
+			$body .= "\n";
+		}
+
+		$to  = get_site_option( 'admin_email' );
+		$headers = '';
+
+		$email = compact( 'to', 'body', 'subject', 'headers' );
+		$email = apply_filters( 'automatic_update_send_email', $email, $type, $core_update, $result );
+
+		wp_mail( $email['to'], $email['subject'], $email['body'], $email['headers'] );
+	}
+
+	protected function send_debug_email() {
 		if ( empty( $this->update_results ) )
 			return;
 
@@ -1913,8 +2008,11 @@ class WP_Automatic_Updater {
 				$body[] = str_repeat( '-', strlen( $update->name ) );
 				foreach ( $update->messages as $message )
 					$body[] = "  " . html_entity_decode( str_replace( '&#8230;', '...', $message ) );
-				if ( is_wp_error( $update->result ) )
+				if ( is_wp_error( $update->result ) ) {
 					$body[] = '  Error: [' . $update->result->get_error_code() . '] ' . $update->result->get_error_message();
+					if ( $update->result->get_error_data() )
+						$body[] = '         ' . implode( ', ', (array) $update->result->get_error_data() );
+				}
 				$body[] = '';
 			}
 		}
