@@ -40,8 +40,27 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div>
 			<h4><?php _e( 'Updates While You Sleep' ); ?></h4>
 			<p><?php _e( 'With WordPress 3.7, you don&#8217;t have to lift a finger to apply maintenance and security updates. Most sites are now able to automatically apply these updates in the background, though some configurations may not allow it.' ); ?></p>
-			<p><?php _e( '&rarr; This site <strong>is</strong> able to apply these updates automatically. Cool!' ); ?></p>
-			<p><?php printf( __( '&rarr; This site <strong>is not</strong> able to apply these updates automatically. But we&#8217;ll email %s when there is a new security release.' ), esc_html( get_site_option( 'admin_email' ) ) ); ?></p>
+			<?php
+			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+			$upgrader = new WP_Automatic_Upgrader;
+
+			$can_auto_update = wp_http_supports( 'ssl' );
+			if ( $can_auto_update ) {
+				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+				$upgrader = new WP_Automatic_Upgrader;
+				$future_minor_update = (object) array(
+					'current'       => $wp_version . '.1-about.php',
+					'version'       => $wp_version . '.1-about.php',
+					'php_version'   => $required_php_version,
+					'mysql_version' => $required_mysql_version,
+				);
+				$can_auto_update = $upgrader->should_upgrade( 'core', $future_minor_update, ABSPATH );
+			}
+			if ( $can_auto_update ) : ?>
+				<p><?php _e( '&rarr; This site <strong>is</strong> able to apply these updates automatically. Cool!' ); ?></p>
+			<?php else : ?>
+				<p><?php printf( __( '&rarr; This site <strong>is not</strong> able to apply these updates automatically. But we&#8217;ll email %s when there is a new security release.' ), esc_html( get_site_option( 'admin_email' ) ) ); ?></p>
+			<?php endif; ?>
 		</div>
 		<div class="last-feature">
 			<h4><?php _e( 'More Reliable Than Ever' ); ?></h4>
