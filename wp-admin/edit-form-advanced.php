@@ -239,9 +239,9 @@ do_action( 'add_meta_boxes_' . $post_type, $post );
  * @param WP_Post $post      Post object.
  */
 do_action( 'do_meta_boxes', $post_type, 'normal', $post );
-//duplicate_hook
+/** This action is documented in wp-admin/edit-form-advanced.php */
 do_action( 'do_meta_boxes', $post_type, 'advanced', $post );
-//duplicate_hook
+/** This action is documented in wp-admin/edit-form-advanced.php */
 do_action( 'do_meta_boxes', $post_type, 'side', $post );
 
 add_screen_option('layout_columns', array('max' => 2, 'default' => 2) );

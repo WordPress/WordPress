@@ -23,7 +23,7 @@ require_once(ABSPATH . 'wp-admin/includes/admin.php');
 
 nocache_headers();
 
-//duplicate_hook
+/** This action is documented in wp-admin/admin.php */
 do_action( 'admin_init' );
 
 $action = 'admin_post';

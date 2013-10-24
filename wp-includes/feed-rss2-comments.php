@@ -15,7 +15,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 	xmlns:atom="http://www.w3.org/2005/Atom"
 	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
 	<?php 
-	//duplicate_hook 
+	/** This action is documented in wp-includes/feed-rss2.php */
 	do_action( 'rss2_ns' );
 	?>
 
@@ -41,9 +41,9 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 	<link><?php (is_single()) ? the_permalink_rss() : bloginfo_rss("url") ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
 	<lastBuildDate><?php echo mysql2date('r', get_lastcommentmodified('GMT')); ?></lastBuildDate>
-	<?php //duplicate_hook ?>
+	<?php /** This filter is documented in wp-includes/feed-rss2.php */ ?>
 	<sy:updatePeriod><?php echo apply_filters( 'rss_update_period', 'hourly' ); ?></sy:updatePeriod>
-	<?php //duplicate_hook ?>
+	<?php /** This filter is documented in wp-includes/feed-rss2.php */ ?>
 	<sy:updateFrequency><?php echo apply_filters( 'rss_update_frequency', '1' ); ?></sy:updateFrequency>
 	<?php 
 	/**
@@ -60,8 +60,8 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 		<title><?php
 			if ( !is_singular() ) {
 				$title = get_the_title($comment_post->ID);
-				//duplicate_hook
-				$title = apply_filters('the_title_rss', $title);
+				/** This filter is documented in wp-includes/feed.php */
+				$title = apply_filters( 'the_title_rss', $title );
 				printf(ent2ncr(__('Comment on %1$s by %2$s')), $title, get_comment_author_rss());
 			} else {
 				printf(ent2ncr(__('By: %s')), get_comment_author_rss());

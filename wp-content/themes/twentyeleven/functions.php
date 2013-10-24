@@ -528,7 +528,7 @@ function twentyeleven_get_first_url() {
 	if ( ! $has_url )
 		$has_url = twentyeleven_url_grabber();
 
-	//duplicate_hook
+	/** This filter is documented in wp-includes/link-template.php */
 	return ( $has_url ) ? $has_url : apply_filters( 'the_permalink', get_permalink() );
 }
 

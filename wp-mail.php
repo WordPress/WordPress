@@ -10,6 +10,7 @@
 /** Make sure that the WordPress bootstrap has run before continuing. */
 require(dirname(__FILE__) . '/wp-load.php');
 
+/** This filter is documented in wp-admin/options.php */
 if ( ! apply_filters( 'enable_post_by_email_configuration', true ) )
 	wp_die( __( 'This action has been disabled by the administrator.' ) );
 

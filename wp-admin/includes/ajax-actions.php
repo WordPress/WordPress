@@ -190,7 +190,7 @@ function wp_ajax_autocomplete_user() {
 	if ( ! is_multisite() || ! current_user_can( 'promote_users' ) || wp_is_large_network( 'users' ) )
 		wp_die( -1 );
 
-	//duplicate_hook
+	/** This filter is documented in wp-admin/user-new.php */
 	if ( ! is_super_admin() && ! apply_filters( 'autocomplete_users_for_site_admins', false ) )
 		wp_die( -1 );
 
@@ -2002,7 +2002,7 @@ function wp_ajax_save_attachment_compat() {
 	if ( 'attachment' != $post['post_type'] )
 		wp_send_json_error();
 
-	//duplicate_hook
+	/** This filter is documented in wp-admin/includes/media.php */
 	$post = apply_filters( 'attachment_fields_to_save', $post, $attachment_data );
 
 	if ( isset( $post['errors'] ) ) {
@@ -2105,7 +2105,7 @@ function wp_ajax_send_attachment_to_editor() {
 		$html = stripslashes_deep( $_POST['html'] );
 	}
 
-	//duplicate_hook
+	/** This filter is documented in wp-admin/includes/media.php */
 	$html = apply_filters( 'media_send_to_editor', $html, $id, $attachment );
 
 	wp_send_json_success( $html );
@@ -2146,7 +2146,7 @@ function wp_ajax_send_link_to_editor() {
 		&& ( 'audio' == $ext_type || 'video' == $ext_type ) )
 			$type = $ext_type;
 
-	//duplicate_hook
+	/** This filter is documented in wp-admin/includes/media.php */
 	$html = apply_filters( $type . '_send_to_editor_url', $html, $src, $title );
 
 	wp_send_json_success( $html );

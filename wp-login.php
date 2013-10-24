@@ -619,7 +619,7 @@ case 'rp' :
 <?php
 if ( get_option( 'users_can_register' ) ) :
 	$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
-	//duplicate_hook
+	/** This filter is documented in wp-login.php */
 	echo ' | ' . apply_filters( 'register', $registration_url );
 endif;
 ?>
@@ -765,7 +765,7 @@ default:
 			login_header( '', $message ); ?>
 			</div>
 			<?php
-			//duplicate_hook
+			/** This action is documented in wp-login.php */
 			do_action( 'login_footer' ); ?>
 			<?php if ( $customize_login ) : ?>
 				<script type="text/javascript">setTimeout( function(){ new wp.customize.Messenger({ url: '<?php echo wp_customize_url(); ?>', channel: 'login' }).send('login') }, 1000 );</script>
@@ -869,7 +869,7 @@ default:
 <?php if ( ! isset( $_GET['checkemail'] ) || ! in_array( $_GET['checkemail'], array( 'confirm', 'newpass' ) ) ) :
 	if ( get_option( 'users_can_register' ) ) :
 		$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
-		//duplicate_hook
+		/** This filter is documented in wp-login.php */
 		echo apply_filters( 'register', $registration_url ) . ' | ';
 	endif;
 	?>
