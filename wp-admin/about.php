@@ -39,12 +39,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<h3><?php _e( 'Background Updates' ); ?></h3>
 
 	<div class="feature-section col three-col about-updates">
-		<div>
+		<div class="col-1">
 			<h4><?php _e( 'Updates While You Sleep' ); ?></h4>
 			<p><?php _e( 'With WordPress 3.7, you don&#8217;t have to lift a finger to apply maintenance and security updates. Most sites are now able to automatically apply these updates in the background, though some configurations may not allow it.' ); ?></p>
 		</div>
-		<div><img alt="" src="<?php echo admin_url( 'images/about-updates-2x.png' ); ?>" /></div>
-		<div class="last-feature">
+		<div class="col-2">
+			<img alt="" src="<?php echo admin_url( 'images/about-updates-2x.png' ); ?>" />
+		</div>
+		<div class="col-3 last-feature">
 			<h4><?php _e( 'More Reliable Than Ever' ); ?></h4>
 			<p><?php _e( 'The update process has been made even more reliable and secure, with dozens of new checks and safeguards.' ); ?></p>
 			<p><?php _e( 'You&#8217;ll still need to click &#8220;Update Now&#8221; once WordPress 3.8 is released, but we&#8217;ve never had more confidence in that beautiful blue button.' ); ?></p>
