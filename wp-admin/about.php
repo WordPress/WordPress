@@ -13,6 +13,8 @@ $title = __( 'About' );
 
 list( $display_version ) = explode( '-', $wp_version );
 
+wp_enqueue_script( 'about' );
+
 include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 <div class="wrap about-wrap">
@@ -36,11 +38,18 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="changelog">
 	<h3><?php _e( 'Background Updates' ); ?></h3>
 
-	<div class="feature-section col two-col">
+	<div class="feature-section col three-col about-updates">
 		<div>
 			<h4><?php _e( 'Updates While You Sleep' ); ?></h4>
 			<p><?php _e( 'With WordPress 3.7, you don&#8217;t have to lift a finger to apply maintenance and security updates. Most sites are now able to automatically apply these updates in the background, though some configurations may not allow it.' ); ?></p>
-			<?php
+		</div>
+		<div><img alt="" src="images/about-updates-2x.png" /></div>
+		<div class="last-feature">
+			<h4><?php _e( 'More Reliable Than Ever' ); ?></h4>
+			<p><?php _e( 'The update process has been made even more reliable and secure, with dozens of new checks and safeguards.' ); ?></p>
+			<p><?php _e( 'You&#8217;ll still need to click &#8220;Update Now&#8221; once WordPress 3.8 is released, but we&#8217;ve never had more confidence in that beautiful blue button.' ); ?></p>
+		</div>
+		<?php
 			$can_auto_update = wp_http_supports( 'ssl' );
 			if ( $can_auto_update ) {
 				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -57,25 +66,22 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<p><?php _e( '&rarr; This site <strong>is</strong> able to apply these updates automatically. Cool!' ); ?></p>
 			<?php else : ?>
 				<p><?php printf( __( '&rarr; This site <strong>is not</strong> able to apply these updates automatically. But we&#8217;ll email %s when there is a new security release.' ), esc_html( get_site_option( 'admin_email' ) ) ); ?></p>
-			<?php endif; ?>
-		</div>
-		<div class="last-feature">
-			<h4><?php _e( 'More Reliable Than Ever' ); ?></h4>
-			<p><?php _e( 'The update process has been made even more reliable and secure, with dozens of new checks and safeguards.' ); ?></p>
-			<p><?php _e( 'You&#8217;ll still need to click &#8220;Update Now&#8221; once WordPress 3.8 is released, but we&#8217;ve never had more confidence in that beautiful blue button.' ); ?></p>
-		</div>
+		<?php endif; ?>
 	</div>
 </div>
 
-<div class="changelog">
+<div class="changelog about-passwords">
 	<h3><?php _e( 'Create Stronger Passwords' ); ?></h3>
 
 	<div class="feature-section col two-col">
 		<div>
-			<p><?php _e( 'Your password is your site&#8217;s first line of defense. It&#8217;s best to create passwords that are complex, long, and unique. To that end, our password meter has been updated in WordPress 3.7 to recognize common mistakes that can weaken your password: dates, names, keyboard patterns (123456789), and even pop culture references.' ); ?> <?php _e( 'Try it out on the right.' ); ?></p>
+			<p><?php _e( 'Your password is your site&#8217;s first line of defense. It&#8217;s best to create passwords that are complex, long, and unique. To that end, our password meter has been updated in WordPress 3.7 to recognize common mistakes that can weaken your password: dates, names, keyboard patterns (123456789), and even pop culture references.' ); ?></p>
+			<p><strong><?php _e( 'Try it out on the right.' ); ?></strong></p>
 		</div>
-		<div class="last-feature">
-			(Actual password meter demo)
+		<div class="last-feature about-password-meter">
+			<input type="password" id="pass" size="25" value="" />
+			<p id="pass-strength-result" ><?php _e( 'Strength indicator' ); ?></p>
+			<?php printf( __( 'Getting the urge to <a href="%s">change your password</a>?' ), esc_url( self_admin_url( 'profile.php' ) ) ); ?>
 		</div>
 	</div>
 </div>
@@ -84,11 +90,11 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="feature-section col two-col">
 		<div>
 			<h3><?php _e( 'Improved Search Results' ); ?></h3>
-			<p><?php _e( 'Search results are now ordered by how well the search query matches a post, instead of ordered only by date. For example, when your search terms match a post title, that result will be pushed to the top.' ); ?></p>
+			<p><img alt="" src="images/about-search-2x.png" /><?php _e( 'Search results are now ordered by how well the search query matches a post, instead of ordered only by date. For example, when your search terms match a post title, that result will be pushed to the top.' ); ?></p>
 		</div>
 		<div class="last-feature">
 			<h3><?php _e( 'Better Global Support' ); ?></h3>
-			<p><?php _e( 'Localized versions of WordPress will receive faster and more complete translations. WordPress 3.7 adds support for automatically installing the right language files and keeping them up to date.' ); ?></p>
+			<p><img alt="" src="images/about-globe-2x.png" /><?php _e( 'Localized versions of WordPress will receive faster and more complete translations. WordPress 3.7 adds support for automatically installing the right language files and keeping them up to date.' ); ?></p>
 		</div>
 	</div>
 </div>
