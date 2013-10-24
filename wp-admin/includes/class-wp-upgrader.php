@@ -2137,8 +2137,6 @@ class WP_Automatic_Updater {
 			$next_user_core_update = $core_update;
 		$newer_version_available = ( 'upgrade' == $next_user_core_update->response && version_compare( $next_user_core_update->version, $core_update, '>' ) );
 
-		$newer_version_available = true;
-		$next_user_core_update->version = $next_user_core_update->current = '3.8.1';
 		/**
 		 * Filter whether to send an email following an automatic background core update.
 		 *
