@@ -22,6 +22,11 @@
                 $('#pass-strength-result').addClass('short').html( pwsL10n['short'] );
         }
     }
+    function resetMeter(){
+        $input.val('');
+        $('#pass-strength-result').text(indicatorString);
+        $('#pass-strength-result').removeClass('short bad good strong');
+    }
 
     function animate(){
         if (shouldAnimate === false)
@@ -30,8 +35,7 @@
             $input.val( password.substr(0, $input.val().length + 1) );
             updateResult();
         } else {
-            $input.val('');
-		    $('#pass-strength-result').removeClass('short bad good strong');
+            resetMeter();
         }
         // Look like real typing by changing the speed new letters are added each time
         setTimeout(animate, 220 + Math.floor(Math.random() * ( 800 - 220)) );
@@ -48,9 +52,7 @@
     // Turn off the animation on focus
     $input.on('focus', function(){
         shouldAnimate = false;
-        $('#pass-strength-result').removeClass('short bad good strong');
-        $('#pass-strength-result').text(indicatorString);
-        $input.val('')
+        resetMeter();
     });
 
     // Act like a normal password strength meter 
