@@ -561,6 +561,7 @@ $_old_files = array(
 // 3.7
 'wp-admin/js/cat.js',
 'wp-admin/js/cat.min.js',
+'wp-includes/js/tinymce/plugins/wpeditimage/js/editimage.min.js',
 );
 
 /**
