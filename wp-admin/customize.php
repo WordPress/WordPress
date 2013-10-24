@@ -44,7 +44,7 @@ wp_enqueue_style( 'customize-controls' );
 wp_enqueue_script( 'accordion' );
 
 /**
- * Fires when additional Customizer controls scripts are enqueued.
+ * Enqueue Customizer control scripts.
  *
  * @since 3.4.0
  */
@@ -77,14 +77,14 @@ $admin_title = sprintf( __( '%1$s &#8212; WordPress' ), strip_tags( sprintf( __(
 ?><title><?php echo $admin_title; ?></title><?php
 
 /**
- * Fires when Customizer controls styles are printed.
+ * Print Customizer control styles.
  *
  * @since 3.4.0
  */
 do_action( 'customize_controls_print_styles' );
 
 /**
- * Fires when Customizer controls scripts are printed.
+ * Print Customizer control scripts.
  *
  * @since 3.4.0
  */
@@ -151,7 +151,7 @@ do_action( 'customize_controls_print_scripts' );
 	<?php
 
 	/**
-	 * Fires when Customizer controls footer scripts are printed.
+	 * Print Customizer control scripts in the footer.
 	 *
 	 * @since 3.4.0
 	 */
@@ -172,6 +172,13 @@ do_action( 'customize_controls_print_scripts' );
 	if ( is_ssl() && ! $cross_domain )
 		$allowed_urls[] = home_url( '/', 'https' );
 
+	/**
+	 * Filter the list of URLs allowed to be clicked and followed in the Customizer preview.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param array $allowed_urls An array of allowed URLs.
+	 */
 	$allowed_urls = array_unique( apply_filters( 'customize_allowed_urls', $allowed_urls ) );
 
 	$fallback_url = add_query_arg( array(
