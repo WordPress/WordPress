@@ -5954,13 +5954,13 @@ h2 .nav-tab {
 	line-height: 1;
 	width: 100%;
 	display: block;
-	width: 100%;
 	padding: 5px;
 }
 
 .about-wrap .about-password-meter #pass-strength-result {
 	display: block !important;
 	font-size: 150%;
+	box-sizing: border-box;
 	width: 100%;
 	padding: 17px 0;
 	margin-bottom: 15px;
