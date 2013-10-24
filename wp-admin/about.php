@@ -55,8 +55,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 				$upgrader = new WP_Automatic_Updater;
 				$future_minor_update = (object) array(
-					'current'       => $wp_version . '.1-about.php',
-					'version'       => $wp_version . '.1-about.php',
+					'current'       => $wp_version . '.1.next.minor',
+					'version'       => $wp_version . '.1.next.minor',
 					'php_version'   => $required_php_version,
 					'mysql_version' => $required_mysql_version,
 				);

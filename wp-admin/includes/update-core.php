@@ -897,6 +897,9 @@ function update_core($from, $to) {
 	// If we made it this far:
 	do_action( '_core_updated_successfully', $wp_version );
 
+	// Clear the option that blocks auto updates after failures, now that we've been successful.
+	delete_site_option( 'auto_core_update_failed' );
+
 	return $wp_version;
 }
 

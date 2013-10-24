@@ -1437,6 +1437,23 @@ class Core_Upgrader extends WP_Upgrader {
 		if ( version_compare( $wp_version, $offered_ver, '>' ) )
 			return false;
 
+		$failure_data = get_site_option( 'auto_core_update_failed' );
+		if ( $failure_data ) {
+			// If this was a critical update failure, cannot update.
+			if ( ! empty( $failure_data['critical'] ) )
+				return false;
+
+			// Don't claim we can update on update-core.php if we have a non-critical failure logged.
+			if ( $wp_version == $failure_data['current'] && false !== strpos( $wp_version, '.1.next.minor' ) )
+				return false;
+
+			// Cannot update if we're retrying the same A to B update that caused a non-critical failure.
+			// Some non-critical failures do allow retries, like download_failed.
+			// 3.7.1 => 3.7.2 resulted in files_not_writable, if we are still on 3.7.1 and still trying to update to 3.7.2.
+			if ( empty( $failure_data['retry'] ) && $wp_version == $failure_data['current'] && $offered_ver == $failure_data['attempted'] )
+				return false;
+		}
+
 		// 3: 3.7-alpha-25000 -> 3.7-alpha-25678 -> 3.7-beta1 -> 3.7-beta2
 		if ( $current_is_development_version ) {
 			if ( ! apply_filters( 'allow_dev_auto_core_updates', $upgrade_dev ) )
@@ -1626,8 +1643,24 @@ class WP_Automatic_Updater {
 
 		// And does the user / plugins want it?
 		// Plugins may filter on 'auto_update_plugin', and check the 2nd param, $item, to only enable it for certain Plugins/Themes
-		if ( ! apply_filters( 'auto_update_' . $type, $update, $item ) )
+		$update = apply_filters( 'auto_update_' . $type, $update, $item );
+
+		if ( ! $update ) {
+
+			// See if we need to notify users of a core update.
+			if ( 'core' == $type && ! empty( $item->notify_email ) ) {
+				$notify      = true;
+				$notified    = get_site_option( 'auto_core_update_notified' );
+
+				// Don't notify if we've already notified the same email address of the same version.
+				if ( $notified && $notified['email'] == get_site_option( 'admin_email' ) && $notified['version'] == $item->current )
+					return false;
+
+				$this->send_email( 'manual', $item );
+			}
+
 			return false;
+		}
 
 		// If it's a core update, are we actually compatible with its requirements?
 		if ( 'core' == $type ) {
@@ -1727,7 +1760,7 @@ class WP_Automatic_Updater {
 	 * Kicks off a update request for each item in the update "queue".
 	 */
 	function run() {
-		global $wpdb;
+		global $wpdb, $wp_version;
 
 		if ( ! is_main_network() || ! is_main_site() )
 			return;
@@ -1830,13 +1863,107 @@ class WP_Automatic_Updater {
 			wp_update_plugins(); // Check for Plugin updates
 		}
 
-		$this->send_debug_email();
+		// Send debugging email to all development installs.
+		if ( ! empty( $this->update_results ) ) {
+			$development_version = false !== strpos( $wp_version, '-' );
+			if ( apply_filters( 'automatic_updates_send_debug_email', $development_version ) )
+				$this->send_debug_email();
+
+			if ( ! empty( $this->update_results['core'] ) )
+				$this->after_core_update( $this->update_results['core'][0] );
+		}
 
 		// Clear the lock
 		delete_option( $lock_name );
 	}
 
+	/**
+	 * If we tried to perform a core update, check if we should send an email,
+	 * and if we need to avoid processing future updates.
+	 */
+	protected function after_core_update( $update_result ) {
+		global $wp_version;
+
+		$core_update = $update_result->item;
+		$result      = $update_result->result;
+
+		if ( ! is_wp_error( $result ) ) {
+			$this->send_email( 'success', $core_update );
+			return;
+		}
+
+		$error_code = $result->get_error_code();
+
+		// Any of these WP_Error codes are critical failures, as in they occurred after we started to copy core files.
+		// We should not try to perform a background update again until there is a successful one-click update performed by the user.
+		$critical = false;
+		if ( $error_code === 'disk_full' || false !== strpos( $error_code, '__copy_dir' ) ) {
+			$critical = true;
+		} elseif ( $error_code === 'rollback_was_required' ) {
+			$error_data = $result->get_error_data();
+			if ( is_wp_error( $error_data['rollback'] ) )
+				$critical = true;
+		} elseif ( false !== strpos( $error_code, 'do_rollback' ) ) {
+			$critical = true;
+		}
+
+		if ( $critical ) {
+			update_site_option( 'auto_core_update_failed', array(
+				'attempted'  => $core_update->current,
+				'current'    => $wp_version,
+				'error_code' => $error_code,
+				'error_data' => $result->get_error_data(),
+				'timestamp'  => time(),
+				'critical'   => true,
+			) );
+			$this->send_email( 'critical', $core_update, $result );
+			return;
+		}
+
+		/*
+		 * Any other WP_Error code (like download_failed or files_not_writable) occurs before
+		 * we tried to copy over core files. Thus, the failures are early and graceful.
+		 *
+		 * We should avoid trying to perform a background update again for the same version.
+		 * But we can try again if another version is released.
+		 *
+		 * For certain 'transient' failures, like download_failed, we should allow retries.
+		 * In fact, let's schedule a special update for an hour from now. (It's possible
+		 * the issue could actually be on WordPress.org's side.) If that one fails, then email.
+		 */
+		$send = true;
+  		$transient_failures = array( 'incompatible_archive', 'download_failed', 'insane_distro' );
+  		if ( in_array( $error_code, $transient_failures ) && ! get_site_option( 'auto_core_update_failed' ) ) {
+  			wp_schedule_single_event( time() + HOUR_IN_SECONDS, 'wp_maybe_auto_update' );
+  			$send = false;
+  		}
+
+  		$n = get_site_option( 'auto_core_update_notified' );
+		// Don't notify if we've already notified the same email address of the same version of the same notification type.
+		if ( $n && 'fail' == $n['type'] && $n['email'] == get_site_option( 'admin_email' ) && $n['version'] == $core_update->current )
+			$send = false;
+
+		update_site_option( 'auto_core_update_failed', array(
+			'attempted'  => $core_update->current,
+			'current'    => $wp_version,
+			'error_code' => $error_code,
+			'error_data' => $result->get_error_data(),
+			'timestamp'  => time(),
+			'retry'      => in_array( $error_code, $transient_failures ),
+		) );
+
+		if ( $send )
+			$this->send_email( 'fail', $core_update, $result );
+	}
+
 	protected function send_email( $type, $core_update, $result = null ) {
+		update_site_option( 'auto_core_update_notified', array(
+			'type'      => $type,
+			'email'     => get_site_option( 'admin_email' ),
+			'version'   => $core_update->current,
+			'timestamp' => time(),
+		) );
+
 		if ( ! apply_filters( 'automatic_updates_send_email', true, $type, $core_update, $result ) )
 			return;
 
@@ -1917,9 +2044,11 @@ class WP_Automatic_Updater {
 			$body .= "\n***\n\n";
 			$body .= __( 'We have some data that describes the error your site encountered.' );
 			$body .= ' ' . __( 'Your hosting company, support forum volunteers, or a friendly developer may be able to use this information to help you:' );
-			$body .= "\n" . sprintf( __( "Error code: %s" ), $result->get_error_code() );
-			$body .= "\n" . $result->get_error_message();
-			$body .= "\n" . implode( ', ', (array) $result->get_error_data() );
+			$body .= "\n\n" . sprintf( __( "Error code: %s" ), $result->get_error_code() );
+			if ( $result->get_error_message() )
+				$body .= "\n" . $result->get_error_message();
+			if ( $result->get_error_data() )
+				$body .= "\n" . implode( ', ', (array) $result->get_error_data() );
 			$body .= "\n";
 		}
 
@@ -1933,9 +2062,6 @@ class WP_Automatic_Updater {
 	}
 
 	protected function send_debug_email() {
-		if ( empty( $this->update_results ) )
-			return;
-
 		$update_count = 0;
 		foreach ( $this->update_results as $type => $updates )
 			$update_count += count( $updates );
@@ -1985,7 +2111,9 @@ class WP_Automatic_Updater {
 			$body[] = 'BETA TESTING?';
 			$body[] = '=============';
 			$body[] = '';
-			$body[] = 'If you think these failures might be due to a bug in WordPress 3.7, could you report it?';
+			$body[] = 'This debugging email is sent when you are using a development version of WordPress.';
+			$body[] = '';
+			$body[] = 'If you think these failures might be due to a bug in WordPress, could you report it?';
 			$body[] = ' * Open a thread in the support forums: http://wordpress.org/support/forum/alphabeta';
 			$body[] = " * Or, if you're comfortable writing a bug report: http://core.trac.wordpress.org/";
 			$body[] = '';
