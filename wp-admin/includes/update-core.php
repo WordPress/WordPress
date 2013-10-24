@@ -661,7 +661,7 @@ function update_core($from, $to) {
 	$versions_file = trailingslashit( $wp_filesystem->wp_content_dir() ) . 'upgrade/version-current.php';
 	if ( ! $wp_filesystem->copy( $from . $distro . 'wp-includes/version.php', $versions_file ) ) {
 		 $wp_filesystem->delete( $from, true );
-		 return new WP_Error( 'copy_failed_for_version_file', __( 'The update cannot be installed because we will be unable to copy certain files. This is usually due to inconsistent file permissions.' ), 'wp-includes/version.php' );
+		 return new WP_Error( 'copy_failed_for_version_file', __( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' ), 'wp-includes/version.php' );
 	}
 
 	$wp_filesystem->chmod( $versions_file, FS_CHMOD_FILE );
@@ -729,7 +729,7 @@ function update_core($from, $to) {
 			$error_data = version_compare( $old_wp_version, '3.7-beta2', '>' ) ? array_keys( $files_not_writable ) : '';
 
 			if ( $files_not_writable )
-				return new WP_Error( 'files_not_writable', __( 'The update cannot be installed because we will be unable to copy certain files. This is usually due to inconsistent file permissions.' ), implode( ', ', $error_data ) );
+				return new WP_Error( 'files_not_writable', __( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' ), implode( ', ', $error_data ) );
 		}
 	}
 
