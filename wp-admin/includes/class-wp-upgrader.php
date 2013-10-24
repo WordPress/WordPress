@@ -1097,6 +1097,14 @@ class Theme_Upgrader extends WP_Upgrader {
 }
 
 add_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
+
+/**
+ * Language pack upgrader, for updating translations of plugins, themes, and core.
+ *
+ * @package WordPress
+ * @subpackage Upgrader
+ * @since 3.7.0
+ */
 class Language_Pack_Upgrader extends WP_Upgrader {
 
 	var $result;
@@ -1568,15 +1576,27 @@ class File_Upload_Upgrader {
 }
 
 /**
- * WordPress automatic background updater.
+ * The WordPress automatic background updater.
  *
+ * @package WordPress
+ * @subpackage Upgrader
  * @since 3.7.0
  */
 class WP_Automatic_Updater {
 
+	/**
+	 * Tracks update results during processing.
+	 *
+	 * @var array
+	 */
 	protected $update_results = array();
 
-	function is_disabled() {
+	/**
+	 * Whether the entire automatic updater is disabled.
+	 *
+	 * @since 3.7.0
+	 */
+	public function is_disabled() {
 		// Background updates are disabled if you don't want file changes.
 		if ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS )
 			return true;
@@ -1587,13 +1607,35 @@ class WP_Automatic_Updater {
 		// More fine grained control can be done through the WP_AUTO_UPDATE_CORE constant and filters.
 		$disabled = defined( 'AUTOMATIC_UPDATER_DISABLED' ) && AUTOMATIC_UPDATER_DISABLED;
 
+		/**
+		 * Filter whether to entirely disable background updates.
+		 *
+		 * There are more fine-grained filters and controls for selective disabling.
+		 * This filter parallels the AUTOMATIC_UPDATER_DISABLED constant in name.
+		 *
+		 * @since 3.7.0
+		 * @param bool $disabled Whether the updater should be disabled.
+		 */
 		return apply_filters( 'automatic_updater_disabled', $disabled );
 	}
 
 	/**
-	 * Check for GIT/SVN checkouts.
+	 * Check for version control checkouts.
+	 *
+	 * Checks for Subversion, Git, Mercurial, and Bazaar. It recursively looks up the
+	 * filesystem to the top of the drive, erring on the side of detecting a VCS
+	 * checkout somewhere.
+	 *
+	 * ABSPATH is always checked in addition to whatever $context is (which may be the
+	 * wp-content directory, for example). The underlying assumption is that if you are
+	 * using version control *anywhere*, then you should be making decisions for
+	 * how things get updated.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $context The filesystem path to check, in addition to ABSPATH.
 	 */
-	function is_vcs_checkout( $context ) {
+	public function is_vcs_checkout( $context ) {
 		$context_dirs = array( untrailingslashit( $context ) );
 		if ( $context !== ABSPATH )
 			$context_dirs[] = untrailingslashit( ABSPATH );
@@ -1605,7 +1647,13 @@ class WP_Automatic_Updater {
 			// Walk up from $context_dir to the root.
 			do {
 				$check_dirs[] = $context_dir;
-			} while ( $context_dir != dirname( $context_dir ) && $context_dir = dirname( $context_dir ) );
+
+				// Once we've hit '/' or 'C:\', we need to stop. dirname will keep returning the input here.
+				if ( $context_dir == dirname( $context_dir ) )
+					break;
+
+			// Continue one level at a time.
+			} while ( $context_dir = dirname( $context_dir ) );
 		}
 
 		$check_dirs = array_unique( $check_dirs );
@@ -1617,13 +1665,30 @@ class WP_Automatic_Updater {
 					break 2;
 			}
 		}
+
+		/**
+		 * Filter whether the automatic updater should consider a filesystem location to be potentially
+		 * managed by a version control system.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param bool $checkout  Whether a VCS checkout was discovered at $context or ABSPATH, or anywhere higher.
+		 * @param string $context The filesystem context (a path) against which filesystem status should be checked.
+		 */
 		return apply_filters( 'automatic_updates_is_vcs_checkout', $checkout, $context );
 	}
 
 	/**
 	 * Tests to see if we can and should update a specific item.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $type    The type of update being checked: 'core', 'theme', 'plugin', 'translation'.
+	 * @param object $item    The update offer.
+	 * @param string $context The filesystem context (a path) against which filesystem access and status
+	 *                        should be checked.
 	 */
-	function should_update( $type, $item, $context ) {
+	public function should_update( $type, $item, $context ) {
 		if ( $this->is_disabled() )
 			return false;
 
@@ -1641,8 +1706,23 @@ class WP_Automatic_Updater {
 		else
 			$update = ! empty( $item->autoupdate );
 
-		// And does the user / plugins want it?
-		// Plugins may filter on 'auto_update_plugin', and check the 2nd param, $item, to only enable it for certain Plugins/Themes
+		/**
+		 * Filter whether to automatically update core, a plugin, a theme, or a language.
+		 *
+		 * The dynamic portion of the hook name, $type, refers to the type of update
+		 * being checked. Can be 'core', 'theme', 'plugin', or 'translation'.
+		 *
+		 * Generally speaking, plugins, themes, and major core versions are not updated by default,
+		 * while translations and minor and development versions for core are updated by default.
+		 *
+		 * See the filters allow_dev_auto_core_updates, allow_minor_auto_core_updates, and
+		 * allow_major_auto_core_updates more straightforward filters to adjust core updates.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param bool   $update Whether to update.
+		 * @param object $item   The update offer.
+		 */
 		$update = apply_filters( 'auto_update_' . $type, $update, $item );
 
 		if ( ! $update ) {
@@ -1679,8 +1759,15 @@ class WP_Automatic_Updater {
 		return true;
 	}
 
-	function update( $type, $item ) {
-
+	/**
+	 * Update an item, if appropriate.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $type The type of update being checked: 'core', 'theme', 'plugin', 'translation'.
+	 * @param object $item The update offer.
+	 */
+	public function update( $type, $item ) {
 		$skin = new Automatic_Upgrader_Skin;
 
 		switch ( $type ) {
@@ -1698,7 +1785,7 @@ class WP_Automatic_Updater {
 				$upgrader = new Theme_Upgrader( $skin );
 				$context  = get_theme_root( $item );
 				break;
-			case 'language':
+			case 'translation':
 				$upgrader = new Language_Pack_Upgrader( $skin );
 				$context  = WP_CONTENT_DIR; // WP_LANG_DIR;
 				break;
@@ -1723,7 +1810,7 @@ class WP_Automatic_Updater {
 				$item_name = $plugin_data['Name'];
 				$skin->feedback( __( 'Updating plugin: %s' ), $item_name );
 				break;
-			case 'language':
+			case 'translation':
 				$language_item_name = $upgrader->get_name_for_update( $item );
 				$item_name = sprintf( __( 'Translations for %s' ), $language_item_name );
 				$skin->feedback( sprintf( __( 'Updating translations for %1$s (%2$s)&#8230;' ), $language_item_name, $item->language ) );
@@ -1757,9 +1844,11 @@ class WP_Automatic_Updater {
 	}
 
 	/**
-	 * Kicks off a update request for each item in the update "queue".
+	 * Kicks off the background update process, looping through all pending updates.
+	 *
+	 * @since 3.7.0
 	 */
-	function run() {
+	public function run() {
 		global $wpdb, $wp_version;
 
 		if ( ! is_main_network() || ! is_main_site() )
@@ -1850,7 +1939,7 @@ class WP_Automatic_Updater {
 		$language_updates = wp_get_translation_updates();
 		if ( $language_updates ) {
 			foreach ( $language_updates as $update ) {
-				$this->update( 'language', $update );
+				$this->update( 'translation', $update );
 			}
 
 			// Clear existing caches
@@ -1866,6 +1955,13 @@ class WP_Automatic_Updater {
 		// Send debugging email to all development installs.
 		if ( ! empty( $this->update_results ) ) {
 			$development_version = false !== strpos( $wp_version, '-' );
+			/**
+			 * Filter whether to send a debugging email for each automatic background update.
+			 *
+			 * @since 3.7.0
+			 * @param bool $development_version By default, emails are sent if the install is a development version.
+			 *                                  Return false to avoid the email.
+			 */
 			if ( apply_filters( 'automatic_updates_send_debug_email', $development_version ) )
 				$this->send_debug_email();
 
@@ -1880,6 +1976,8 @@ class WP_Automatic_Updater {
 	/**
 	 * If we tried to perform a core update, check if we should send an email,
 	 * and if we need to avoid processing future updates.
+	 *
+	 * @param object $update_result The result of the core update. Includes the update offer and result.
 	 */
 	protected function after_core_update( $update_result ) {
 		global $wp_version;
@@ -1956,6 +2054,15 @@ class WP_Automatic_Updater {
 			$this->send_email( 'fail', $core_update, $result );
 	}
 
+	/**
+	 * Sends an email upon the completion or failure of a background core update.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $type        The type of update being checked: 'core', 'theme', 'plugin', 'translation'.
+	 * @param object $core_update The update offer that was attempted.
+	 * @param mixed  $result      Optional. The result for the core update. Can be WP_Error.
+	 */
 	protected function send_email( $type, $core_update, $result = null ) {
 		update_site_option( 'auto_core_update_notified', array(
 			'type'      => $type,
@@ -1964,7 +2071,17 @@ class WP_Automatic_Updater {
 			'timestamp' => time(),
 		) );
 
-		if ( ! apply_filters( 'automatic_updates_send_email', true, $type, $core_update, $result ) )
+		/**
+		 * Filter whether to send an email following an automatic background core update.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param bool   $send        Whether to send the email. Default true.
+		 * @param string $type        The type of email to send. Can be one of 'success', 'fail', 'manual', 'critical'.
+		 * @param object $core_update The update offer that was attempted.
+		 * @param mixed  $result      The result for the core update. Can be WP_Error.
+		 */
+		if ( ! apply_filters( 'auto_core_update_send_email', true, $type, $core_update, $result ) )
 			return;
 
 		switch ( $type ) {
@@ -2055,12 +2172,34 @@ class WP_Automatic_Updater {
 		$to  = get_site_option( 'admin_email' );
 		$headers = '';
 
-		$email = compact( 'to', 'body', 'subject', 'headers' );
-		$email = apply_filters( 'automatic_update_send_email', $email, $type, $core_update, $result );
+		$email = compact( 'to', 'subject', 'body', 'headers' );
+		/**
+		 * Filter the email sent following an automatic background core update.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param array $email {
+		 *     Array of email arguments that will be passed to wp_mail().
+		 *
+		 *     @type string $to      The email recipient. An array of emails can be returned, as handled by wp_mail().
+		 *     @type string $subject The email's subject.
+		 *     @type string $body    The email message body.
+		 *     @type string $headers Any email headers, defaults to no headers.
+		 * }   
+		 * @param string $type        The type of email being sent. Can be one of 'success', 'fail', 'manual', 'critical'.
+		 * @param object $core_update The update offer that was attempted.
+		 * @param mixed  $result      The result for the core update. Can be WP_Error.
+		 */
+		$email = apply_filters( 'auto_core_update_email', $email, $type, $core_update, $result );
 
 		wp_mail( $email['to'], $email['subject'], $email['body'], $email['headers'] );
 	}
 
+	/**
+	 * Prepares and sends an email of a full log of background update results, useful for debugging and geekery.
+	 *
+	 * @since 3.7.0
+	 */
 	protected function send_debug_email() {
 		$update_count = 0;
 		foreach ( $this->update_results as $type => $updates )
@@ -2083,8 +2222,8 @@ class WP_Automatic_Updater {
 			$body[] = '';
 		}
 
-		// Plugins, Themes, Languages
-		foreach ( array( 'plugin', 'theme', 'language' ) as $type ) {
+		// Plugins, Themes, Translations
+		foreach ( array( 'plugin', 'theme', 'translation' ) as $type ) {
 			if ( ! isset( $this->update_results[ $type ] ) )
 				continue;
 			$success_items = wp_list_filter( $this->update_results[ $type ], array( 'result' => true ) );
@@ -2128,7 +2267,7 @@ class WP_Automatic_Updater {
 		$body[] = '==========';
 		$body[] = '';
 
-		foreach ( array( 'core', 'plugin', 'theme', 'language' ) as $type ) {
+		foreach ( array( 'core', 'plugin', 'theme', 'translation' ) as $type ) {
 			if ( ! isset( $this->update_results[ $type ] ) )
 				continue;
 			foreach ( $this->update_results[ $type ] as $update ) {

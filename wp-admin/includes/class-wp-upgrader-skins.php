@@ -591,7 +591,7 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
  * @since 3.7.0
  */
 class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
-	private $messages = array();
+	protected $messages = array();
 
 	function request_filesystem_credentials( $error = false, $context = '' ) {
 		if ( $context )
