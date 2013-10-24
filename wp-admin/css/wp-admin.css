@@ -5960,6 +5960,7 @@ h2 .nav-tab {
 .about-wrap .about-password-meter #pass-strength-result {
 	display: block !important;
 	font-size: 150%;
+	font-weight: normal !important;
 	box-sizing: border-box;
 	width: 100%;
 	padding: 17px 0;
