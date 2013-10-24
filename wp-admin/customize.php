@@ -31,6 +31,11 @@ add_action( 'customize_controls_print_scripts',        'print_head_scripts', 20 
 add_action( 'customize_controls_print_footer_scripts', '_wp_footer_scripts'     );
 add_action( 'customize_controls_print_styles',         'print_admin_styles', 20 );
 
+/**
+ * Fires when Customizer controls are initialized, before scripts are enqueued.
+ *
+ * @since 3.4.0
+ */
 do_action( 'customize_controls_init' );
 
 wp_enqueue_script( 'customize-controls' );
@@ -38,6 +43,11 @@ wp_enqueue_style( 'customize-controls' );
 
 wp_enqueue_script( 'accordion' );
 
+/**
+ * Fires when additional Customizer controls scripts are enqueued.
+ *
+ * @since 3.4.0
+ */
 do_action( 'customize_controls_enqueue_scripts' );
 
 // Let's roll.
@@ -66,7 +76,18 @@ $body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '
 $admin_title = sprintf( __( '%1$s &#8212; WordPress' ), strip_tags( sprintf( __( 'Customize %s' ), $wp_customize->theme()->display('Name') ) ) );
 ?><title><?php echo $admin_title; ?></title><?php
 
+/**
+ * Fires when Customizer controls styles are printed.
+ *
+ * @since 3.4.0
+ */
 do_action( 'customize_controls_print_styles' );
+
+/**
+ * Fires when Customizer controls scripts are printed.
+ *
+ * @since 3.4.0
+ */
 do_action( 'customize_controls_print_scripts' );
 ?>
 </head>
@@ -129,6 +150,11 @@ do_action( 'customize_controls_print_scripts' );
 	<div id="customize-preview" class="wp-full-overlay-main"></div>
 	<?php
 
+	/**
+	 * Fires when Customizer controls footer scripts are printed.
+	 *
+	 * @since 3.4.0
+	 */
 	do_action( 'customize_controls_print_footer_scripts' );
 
 	// If the frontend and the admin are served from the same domain, load the
