@@ -1004,10 +1004,7 @@ span + .edit-link:before,
  */
 
  .featured-thumbnail {
-	background: #767676;
-	background-attachment: fixed;
-	background-image: -webkit-linear-gradient(135deg, #767676 12.5%, #fff 12.5%, #fff 50%, #767676 50%, #767676 62.5%, #fff 62.5%);
-	background-size: 4px 4px;
+	background: url(images/pattern-light.svg) #767676 repeat fixed;
 	display: none;
 	float: none;
 	height: auto;
@@ -1018,11 +1015,8 @@ span + .edit-link:before,
 	z-index: 0;
 }
 
-.featured-thumbnail:hover {
-	background: #919191;
-	background-attachment: fixed;
-	background-image: -webkit-linear-gradient(135deg, #919191 12.5%, #fff 12.5%, #fff 50%, #919191 50%, #919191 62.5%, #fff 62.5%);
-	background-size: 4px 4px;
+a.featured-thumbnail:hover {
+	background: url(images/pattern-light.svg) #919191 repeat fixed;
 }
 
 .featured-thumbnail img {
@@ -2467,11 +2461,7 @@ span + .edit-link:before,
  */
 
 .featured-content {
-	background: #000;
-	background-attachment: fixed;
-	background-image: -webkit-linear-gradient(135deg, #4d4d4d 12.5%, #000 12.5%, #000 50%, #4d4d4d 50%, #4d4d4d 62.5%, #000 62.5%);
-	background-image:         linear-gradient(135deg, #4d4d4d 12.5%, #000 12.5%, #000 50%, #4d4d4d 50%, #4d4d4d 62.5%, #000 62.5%);
-	background-size: 4px 4px;
+	background: url(images/pattern-dark.svg) #4d4d4d repeat fixed;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing:    border-box;
 	box-sizing:         border-box;
