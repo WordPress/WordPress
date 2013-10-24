@@ -636,7 +636,7 @@ class WP_Http {
 			}
 		}
 
-		return wp_remote_request( $redirect_location, $args );
+		return wp_remote_request( $redirect_location, $args );	
 	}
 
 	/**
@@ -944,7 +944,7 @@ class WP_Http_Streams {
 
 	/**
 	 * Verifies the received SSL certificate against it's Common Names and subjectAltName fields
-	 *
+	 * 
 	 * PHP's SSL verifications only verify that it's a valid Certificate, it doesn't verify if
 	 * the certificate is valid for the hostname which was requested.
 	 * This function verifies the requested hostname against certificate's subjectAltName field,

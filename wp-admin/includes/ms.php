@@ -62,7 +62,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 
 	$blog = get_blog_details( $blog_id );
 	/**
-	 * Fires before a blog is deleted.
+	 * Fires before a blog is deleted. 
 	 *
 	 * @since MU
 	 *
@@ -295,7 +295,7 @@ function send_confirmation_on_profile_email() {
 				'newemail' => $_POST['email']
 				);
 		update_option( $current_user->ID . '_new_email', $new_user_email );
-
+		
 		$email_text = __( 'Dear user,
 
 You recently requested to have the email address on your account changed.
@@ -315,10 +315,10 @@ All at ###SITENAME###
 		 * Filter the email text sent when a user changes emails.
 		 *
 		 * The following strings have a special meaning and will get replaced dynamically:
-		 * ###ADMIN_URL### The link to click on to confirm the email change. Required otherwise this functunalty is will break.
-		 * ###EMAIL### The new email.
+		 * ###ADMIN_URL### The link to click on to confirm the email change. Required otherwise this functunalty is will break. 
+		 * ###EMAIL### The new email. 
 		 * ###SITENAME### The name of the site.
-		 * ###SITEURL### The URL to the site.
+		 * ###SITEURL### The URL to the site. 
 		 *
 		 * @since MU
 		 *
@@ -448,9 +448,9 @@ function update_user_status( $id, $pref, $value, $deprecated = null ) {
 		if ( $value == 1 ) {
 			/**
 			 * Fires after the user is marked as a SPAM user.
-			 *
+			 * 
 			 * @since 3.0.0
-			 *
+			 * 
 			 * @param int $id ID of the user marked as SPAM.
 			 */
 			do_action( 'make_spam_user', $id );
@@ -459,7 +459,7 @@ function update_user_status( $id, $pref, $value, $deprecated = null ) {
 			 * Fires after the user is marked as a HAM user. Opposite of SPAM.
 			 *
 			 * @since 3.0.0
-			 *
+			 * 
 			 * @param int $id ID of the user marked as HAM.
 			 */
 			do_action( 'make_ham_user', $id );
@@ -494,10 +494,10 @@ function format_code_lang( $code = '' ) {
 		'sg' => 'Sango', 'sa' => 'Sanskrit', 'sr' => 'Serbian', 'hr' => 'Croatian', 'si' => 'Sinhala; Sinhalese', 'sk' => 'Slovak', 'sl' => 'Slovenian', 'se' => 'Northern Sami', 'sm' => 'Samoan', 'sn' => 'Shona', 'sd' => 'Sindhi', 'so' => 'Somali', 'st' => 'Sotho, Southern', 'es' => 'Spanish; Castilian', 'sc' => 'Sardinian', 'ss' => 'Swati', 'su' => 'Sundanese', 'sw' => 'Swahili',
 		'sv' => 'Swedish', 'ty' => 'Tahitian', 'ta' => 'Tamil', 'tt' => 'Tatar', 'te' => 'Telugu', 'tg' => 'Tajik', 'tl' => 'Tagalog', 'th' => 'Thai', 'bo' => 'Tibetan', 'ti' => 'Tigrinya', 'to' => 'Tonga (Tonga Islands)', 'tn' => 'Tswana', 'ts' => 'Tsonga', 'tk' => 'Turkmen', 'tr' => 'Turkish', 'tw' => 'Twi', 'ug' => 'Uighur; Uyghur', 'uk' => 'Ukrainian', 'ur' => 'Urdu', 'uz' => 'Uzbek',
 		've' => 'Venda', 'vi' => 'Vietnamese', 'vo' => 'Volapük', 'cy' => 'Welsh','wa' => 'Walloon','wo' => 'Wolof', 'xh' => 'Xhosa', 'yi' => 'Yiddish', 'yo' => 'Yoruba', 'za' => 'Zhuang; Chuang', 'zu' => 'Zulu' );
-
+	
 	/**
 	 * Filter the language codes.
-	 *
+	 * 
 	 * @since MU
 	 *
 	 * @param array  $lang_codes Key/value pair of language codes where key is the short version.
@@ -677,7 +677,13 @@ function choose_primary_blog() {
 			<th scope="row" colspan="2" class="th-full">
 				<?php
 				$signup_url = network_site_url( 'wp-signup.php' );
-				/** This filter is documented in wp-login.php */
+				/**
+				 * Filter the site signup URL.
+				 *
+				 * @since MU
+				 *
+				 * @param string $signup_url The site signup URL.
+				 */
 				?>
 				<a href="<?php echo apply_filters( 'wp_signup_location', $signup_url ); ?>"><?php _e( 'Create a New Site' ); ?></a>
 			</th>
@@ -699,7 +705,7 @@ function grant_super_admin( $user_id ) {
 	// If global super_admins override is defined, there is nothing to do here.
 	if ( isset( $super_admins ) )
 		return false;
-
+	
 	/**
 	 * Fires before the user is granted Super Admin privileges.
 	 *
@@ -716,7 +722,7 @@ function grant_super_admin( $user_id ) {
 	if ( $user && ! in_array( $user->user_login, $super_admins ) ) {
 		$super_admins[] = $user->user_login;
 		update_site_option( 'site_admins' , $super_admins );
-
+		
 		/**
 		 * Fires after the user is granted Super Admin privileges.
 		 *
@@ -760,7 +766,7 @@ function revoke_super_admin( $user_id ) {
 		if ( false !== ( $key = array_search( $user->user_login, $super_admins ) ) ) {
 			unset( $super_admins[$key] );
 			update_site_option( 'site_admins', $super_admins );
-
+			
 			/**
 			 * Fires after the user's Super Admin privileges are revoked.
 			 *

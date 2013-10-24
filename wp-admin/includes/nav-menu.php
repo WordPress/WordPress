@@ -308,7 +308,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		if ( ! empty( $item->label ) ) {
 			$title = $item->label;
 		} elseif ( isset( $item->post_type ) ) {
-			/** This filter is documented in wp-includes/post-template.php */
+			//duplicate_hook
 			$title = apply_filters( 'the_title', $item->post_title, $item->ID );
 			if ( ! empty( $item->front_or_home ) && _x( 'Home', 'nav menu home label' ) !== $title )
 				$title = sprintf( _x( 'Home: %s', 'nav menu front page title' ), $title );

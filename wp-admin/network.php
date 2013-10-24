@@ -67,9 +67,9 @@ function allow_subdirectory_install() {
 	global $wpdb;
         /**
          * Filter whether to enable the subdirectory install feature in Multisite.
-         *
+         * 
          * @since 3.0.0
-         *
+         * 
          * @param bool true Whether to enable the subdirectory install feature in Multisite. Default is false.
          */
 	if ( apply_filters( 'allow_subdirectory_install', false ) )

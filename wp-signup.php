@@ -433,7 +433,7 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 	<form id="setupform" method="post" action="wp-signup.php">
 		<input type="hidden" name="stage" value="validate-user-signup" />
 		<?php
-		/** This action is documented in wp-signup.php */
+		//duplicate_hook
 		do_action( 'signup_hidden_fields', 'validate-user' );
 		?>
 		<?php show_user_form($user_name, $user_email, $errors); ?>
@@ -481,7 +481,7 @@ function validate_user_signup() {
 		return false;
 	}
 
-	/** This filter is documented in wp-signup.php */
+	//duplicate_hook
 	wpmu_signup_user( $user_name, $user_email, apply_filters( 'add_signup_meta', array() ) );
 
 	confirm_user_signup($user_name, $user_email);
@@ -503,7 +503,7 @@ function confirm_user_signup($user_name, $user_email) {
 	<p><?php printf( __( 'Check your inbox at <strong>%s</strong> and click the link given.' ), $user_email ); ?></p>
 	<p><?php _e( 'If you do not activate your username within two days, you will have to sign up again.' ); ?></p>
 	<?php
-	/** This action is documented in wp-signup.php */
+	//duplicate_hook
 	do_action( 'signup_finished' );
 }
 
@@ -563,7 +563,7 @@ function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_ti
 		<input type="hidden" name="user_name" value="<?php echo esc_attr($user_name) ?>" />
 		<input type="hidden" name="user_email" value="<?php echo esc_attr($user_email) ?>" />
 		<?php
-		/** This action is documented in wp-signup.php */
+		//duplicate_hook
 		do_action( 'signup_hidden_fields', 'validate-site' );
 		?>
 		<?php show_blog_form($blogname, $blog_title, $errors); ?>
@@ -605,7 +605,7 @@ function validate_blog_signup() {
 	$public = (int) $_POST['blog_public'];
 	$meta = array ('lang_id' => 1, 'public' => $public);
 
-	/** This filter is documented in wp-signup.php */
+	//duplicate_hook
 	$meta = apply_filters( 'add_signup_meta', $meta );
 
 	wpmu_signup_blog($domain, $path, $blog_title, $user_name, $user_email, $meta);
@@ -642,7 +642,7 @@ function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $use
 		</ul>
 	</p>
 	<?php
-	/** This action is documented in wp-signup.php */
+	//duplicate_hook
 	do_action( 'signup_finished' );
 }
 

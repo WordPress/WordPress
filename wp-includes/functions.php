@@ -3349,10 +3349,10 @@ function is_main_site( $site_id = null ) {
 function is_main_network( $network_id = null ) {
 	global $current_site, $wpdb;
 
+	$current_network_id = (int) $current_site->id;
+
 	if ( ! is_multisite() )
 		return true;
-
-	$current_network_id = (int) $current_site->id;
 
 	if ( ! $network_id )
 		$network_id = $current_network_id;

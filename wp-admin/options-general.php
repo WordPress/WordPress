@@ -229,14 +229,13 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 <td>
 	<fieldset><legend class="screen-reader-text"><span><?php _e('Date Format') ?></span></legend>
 <?php
-	/**
-	* Filter the default date formats.
-	*
-	* @since 2.7.0
-	*
-	* @param array $default_date_formats Array of default date formats.
-	*/
-	$date_formats = array_unique( apply_filters( 'date_formats', array( __( 'F j, Y' ), 'Y/m/d', 'm/d/Y', 'd/m/Y' ) ) );
+
+	$date_formats = array_unique( apply_filters( 'date_formats', array(
+		__('F j, Y'),
+		'Y/m/d',
+		'm/d/Y',
+		'd/m/Y',
+	) ) );
 
 	$custom = true;
 
@@ -263,14 +262,12 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 <td>
 	<fieldset><legend class="screen-reader-text"><span><?php _e('Time Format') ?></span></legend>
 <?php
-	/**
-	* Filter the default time formats.
-	*
-	* @since 2.7.0
-	*
-	* @param array $default_time_formats Array of default time formats.
-	*/
-	$time_formats = array_unique( apply_filters( 'time_formats', array( __( 'g:i a' ), 'g:i A', 'H:i' ) ) );
+
+	$time_formats = array_unique( apply_filters( 'time_formats', array(
+		__('g:i a'),
+		'g:i A',
+		'H:i',
+	) ) );
 
 	$custom = true;
 

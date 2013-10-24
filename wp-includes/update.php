@@ -17,7 +17,7 @@
  * @since 2.3.0
  * @uses $wp_version Used to check against the newest WordPress version.
  *
- * @param array $extra_stats Extra statistics to report to the WordPress.org API.
+ * @param array $extra_stats Extra statistics to report to the WordPress.org API. 
  * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
  */
 function wp_version_check( $extra_stats = array() ) {
@@ -131,7 +131,7 @@ function wp_version_check( $extra_stats = array() ) {
 				$offer[ $offer_key ] = esc_html( $value );
 		}
 		$offer = (object) array_intersect_key( $offer, array_fill_keys( array( 'response', 'download', 'locale',
-			'packages', 'current', 'version', 'php_version', 'mysql_version', 'new_bundled', 'partial_version', 'notify_email' ), '' ) );
+			'packages', 'current', 'version', 'php_version', 'mysql_version', 'new_bundled', 'partial_version' ), '' ) );
 	}
 
 	$updates = new stdClass();
@@ -414,7 +414,10 @@ function wp_maybe_auto_update() {
 	include_once ABSPATH . '/wp-admin/includes/admin.php';
 	include_once ABSPATH . '/wp-admin/includes/class-wp-upgrader.php';
 
-	$upgrader = new WP_Automatic_Updater;
+	$upgrader = new WP_Automatic_Upgrader;
+	if ( $upgrader->is_disabled() )
+		return;
+
 	$upgrader->run();
 }
 

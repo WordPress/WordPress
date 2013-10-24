@@ -48,8 +48,7 @@ if ( have_comments() ) : while ( have_comments() ) : the_comment();
 		<title><?php
 			if ( !is_singular() ) {
 				$title = get_the_title($comment_post->ID);
-				/** This filter is documented in wp-includes/feed.php */
-				$title = apply_filters( 'the_title_rss', $title );
+				$title = apply_filters('the_title_rss', $title);
 				printf(ent2ncr(__('Comment on %1$s by %2$s')), $title, get_comment_author_rss());
 			} else {
 				printf(ent2ncr(__('By: %s')), get_comment_author_rss());

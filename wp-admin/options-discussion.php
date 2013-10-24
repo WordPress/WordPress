@@ -5,6 +5,7 @@
  * @package WordPress
  * @subpackage Administration
  */
+
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
@@ -76,13 +77,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <label for="thread_comments">
 <input name="thread_comments" type="checkbox" id="thread_comments" value="1" <?php checked('1', get_option('thread_comments')); ?> />
 <?php
-/**
- * Filter the maximum depth of threaded/nested comments.
- *
- * @since 2.7.0.
- *
- * @param int $10 The maximum depth of threaded comments. Default 10.
- */
+
 $maxdeep = (int) apply_filters( 'thread_comments_depth_max', 10 );
 
 $thread_comments_depth = '</label><label for="thread_comments_depth"><select name="thread_comments_depth" id="thread_comments_depth">';
@@ -224,17 +219,7 @@ $avatar_defaults = array(
 	'monsterid' => __('MonsterID (Generated)'),
 	'retro' => __('Retro (Generated)')
 );
-/**
- * Filter the default avatars.
- *
- * Avatars are stored in key/value pairs, where the key is option value,
- * and the name is the displayed avatar name.
- *
- * @since 2.6.0
- *
- * @param array $avatar_defaults Array of default avatars.
- */
-$avatar_defaults = apply_filters( 'avatar_defaults', $avatar_defaults );
+$avatar_defaults = apply_filters('avatar_defaults', $avatar_defaults);
 $default = get_option('avatar_default');
 if ( empty($default) )
 	$default = 'mystery';
@@ -250,14 +235,7 @@ foreach ( $avatar_defaults as $default_key => $default_name ) {
 	$avatar_list .= ' ' . $default_name . '</label>';
 	$avatar_list .= '<br />';
 }
-/**
- * Filter the HTML output of the default avatar list.
- *
- * @since 2.6.0
- *
- * @param string $avatar_list HTML markup of the avatar list.
- */
-echo apply_filters( 'default_avatar_select', $avatar_list );
+echo apply_filters('default_avatar_select', $avatar_list);
 ?>
 
 </fieldset></td>

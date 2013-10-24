@@ -21,17 +21,17 @@ if ( !defined('ABSPATH') )
 	 * Fires after the opening tag for the admin footer.
 	 *
 	 * @since 2.5.0
-	 */
-	do_action( 'in_admin_footer' );
+	 */ 
+	do_action( 'in_admin_footer' ); 
 	?>
 	<p id="footer-left" class="alignleft">
 		<?php
 		/**
 		 * Filter the "Thank you" text displayed in the admin footer.
-		 *
+		 * 
 		 * @since 2.8.0
 		 * @param string The content that will be printed.
-		 */
+		 */	
 		echo apply_filters( 'admin_footer_text', '<span id="footer-thankyou">' . __( 'Thank you for creating with <a href="http://wordpress.org/">WordPress</a>.' ) . '</span>' );
 		?>
 	</p>
@@ -42,11 +42,11 @@ if ( !defined('ABSPATH') )
 		 *
 		 * @see core_update_footer() WordPress prints the current version and update information,
 		 *	using core_update_footer() at priority 10.
-		 *
+		 * 
 		 * @since 2.3.0
 		 * @param string The content that will be printed.
 		 */
-		echo apply_filters( 'update_footer', '' );
+		echo apply_filters( 'update_footer', '' ); 
 		?>
 	</p>
 	<div class="clear"></div>
@@ -54,7 +54,7 @@ if ( !defined('ABSPATH') )
 <?php
 /**
  * Print scripts or data before the default footer scripts.
- *
+ * 
  * @since 1.2.0
  * @param string The data to print.
  */
@@ -62,16 +62,16 @@ do_action('admin_footer', '');
 
 /**
  * Prints any scripts and data queued for the footer.
- *
+ * 
  * @since 2.8.0
  */
 do_action('admin_print_footer_scripts');
 
 /**
  * Print scripts or data after the default footer scripts.
- *
+ * 
  * @since 2.8.0
- *
+ * 
  * @param string $GLOBALS['hook_suffix'] The current admin page.
  */
 do_action("admin_footer-" . $GLOBALS['hook_suffix']);

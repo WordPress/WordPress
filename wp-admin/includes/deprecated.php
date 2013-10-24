@@ -1121,8 +1121,8 @@ function wp_update_theme($theme, $feedback = '') {
  * This was once used to display attachment links. Now it is deprecated and stubbed.
  *
  * {@internal Missing Short Description}}
- *
- * @since 2.0.0
+ * 
+ * @since 2.0.0 
  * @deprecated 3.7.0
  *
  * @param unknown_type $id

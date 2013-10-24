@@ -1958,7 +1958,15 @@ class WP_Query {
 				$search .= " AND ($wpdb->posts.post_password = '') ";
 		}
 
-		return $search;
+		/**
+		 * Filter the search SQL that is used in the WHERE clause of WP_Query.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string   $search Search SQL for WHERE clause.
+		 * @param WP_Query $this   The current WP_Query object.
+		 */
+		return apply_filters_ref_array( 'posts_search', array( $search, &$this ) );
 	}
 
 	/**
@@ -2420,16 +2428,6 @@ class WP_Query {
 		if ( ! empty( $q['s'] ) )
 			$search = $this->parse_search( $q );
 
-		/**
-		 * Filter the search SQL that is used in the WHERE clause of WP_Query.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param string   $search Search SQL for WHERE clause.
-		 * @param WP_Query $this   The current WP_Query object.
-		 */
-		$search = apply_filters_ref_array( 'posts_search', array( $search, &$this ) );
-
 		// Taxonomies
 		if ( !$this->is_singular ) {
 			$this->parse_tax_query( $q );
@@ -2629,7 +2627,7 @@ class WP_Query {
 		// Order search results by relevance only when another "orderby" is not specified in the query.
 		if ( ! empty( $q['s'] ) ) {
 			$search_orderby = '';
-			if ( ! empty( $q['search_orderby_title'] ) && ( empty( $q['orderby'] ) && ! $this->is_feed ) || ( isset( $q['orderby'] ) && 'relevance' === $q['orderby'] ) )
+			if ( ! empty( $q['search_orderby_title'] ) && ( empty( $q['orderby'] ) && ! $this->is_feed ) || 'relevance' === $q['orderby'] )
 				$search_orderby = $this->parse_search_order( $q );
 
 			/**

@@ -1,16 +1,16 @@
 <?php
 /**
  * Revisions administration panel
- *
+ * 
  * Requires wp-admin/includes/revision.php.
  *
  * @package WordPress
  * @subpackage Administration
  * @since 2.6.0
- *
+ * 
  * @param int    revision Optional. The revision ID.
  * @param string action   The action to take.
- *                        Accepts 'restore', 'view' or 'edit'.
+ *                        Accepts 'restore', 'view' or 'edit'. 
  * @param int    from     The revision to compare from.
  * @param int    to       Optional, required if revision missing. The revision to compare to.
  */

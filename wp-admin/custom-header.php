@@ -712,7 +712,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			if ( ! $image || is_wp_error( $image ) )
 				wp_die( __( 'Image could not be processed. Please go back and try again.' ), __( 'Image Processing Error' ) );
 
-			/** This filter is documented in wp-admin/custom-header.php */
+			//duplicate_hook
 			$image = apply_filters( 'wp_create_file_in_uploads', $image, $attachment_id ); // For replication
 
 			$url = str_replace(basename($url), basename($image), $url);
@@ -854,7 +854,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		if ( ! $cropped || is_wp_error( $cropped ) )
 			wp_die( __( 'Image could not be processed. Please go back and try again.' ), __( 'Image Processing Error' ) );
 
-		/** This filter is documented in wp-admin/custom-header.php */
+		//duplicate_hook
 		$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication
 
 		$parent = get_post($attachment_id);
@@ -887,18 +887,12 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		// cleanup
 		$medium = str_replace( basename( $original ), 'midsize-' . basename( $original ), $original );
 		if ( file_exists( $medium ) ) {
-			/**
-			 * Filter the path of the file to delete.
-			 *
-			 * @since 2.1.0
-			 *
-			 * @param string $medium Path to the file to delete.
-			 */
+			//duplicate_hook
 			@unlink( apply_filters( 'wp_delete_file', $medium ) );
 		}
 
 		if ( empty( $_POST['create-new-attachment'] ) && empty( $_POST['skip-cropping'] ) ) {
-			/** This filter is documented in wp-admin/custom-header.php */
+			//duplicate_hook
 			@unlink( apply_filters( 'wp_delete_file', $original ) );
 		}
 

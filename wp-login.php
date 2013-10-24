@@ -424,7 +424,7 @@ if ( SITECOOKIEPATH != COOKIEPATH )
 
 /**
  * Fires when the login form is initialized.
- *
+ * 
  * @since 3.2.0
  */
 do_action( 'login_init' );
@@ -434,7 +434,7 @@ do_action( 'login_init' );
  * The dynamic portion of the hook name, $action, refers to the action
  * that brought the visitor to the login form. Actions include 'postpass',
  * 'logout', 'lostpassword', etc.
- *
+ * 
  * @since 2.8.0
  */
 do_action( 'login_form_' . $action );
@@ -574,7 +574,7 @@ case 'rp' :
 
 	/**
 	 * Fires before the password reset procedure is validated.
-	 *
+	 * 
 	 * @since 3.5.0
 	 *
 	 * @param object           $errors WP Error object.
@@ -619,7 +619,7 @@ case 'rp' :
 <?php
 if ( get_option( 'users_can_register' ) ) :
 	$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
-	/** This filter is documented in wp-login.php */
+	//duplicate_hook
 	echo ' | ' . apply_filters( 'register', $registration_url );
 endif;
 ?>
@@ -765,7 +765,7 @@ default:
 			login_header( '', $message ); ?>
 			</div>
 			<?php
-			/** This action is documented in wp-login.php */
+			//duplicate_hook
 			do_action( 'login_footer' ); ?>
 			<?php if ( $customize_login ) : ?>
 				<script type="text/javascript">setTimeout( function(){ new wp.customize.Messenger({ url: '<?php echo wp_customize_url(); ?>', channel: 'login' }).send('login') }, 1000 );</script>
@@ -869,7 +869,7 @@ default:
 <?php if ( ! isset( $_GET['checkemail'] ) || ! in_array( $_GET['checkemail'], array( 'confirm', 'newpass' ) ) ) :
 	if ( get_option( 'users_can_register' ) ) :
 		$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
-		/** This filter is documented in wp-login.php */
+		//duplicate_hook
 		echo apply_filters( 'register', $registration_url ) . ' | ';
 	endif;
 	?>

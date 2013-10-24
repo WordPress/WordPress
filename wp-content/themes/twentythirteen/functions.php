@@ -121,13 +121,15 @@ add_action( 'after_setup_theme', 'twentythirteen_setup' );
 function twentythirteen_fonts_url() {
 	$fonts_url = '';
 
-	/* Translators: If there are characters in your language that are not
+	/*
+	 * Translators: If there are characters in your language that are not
 	 * supported by Source Sans Pro, translate this to 'off'. Do not translate
 	 * into your own language.
 	 */
 	$source_sans_pro = _x( 'on', 'Source Sans Pro font: on or off', 'twentythirteen' );
 
-	/* Translators: If there are characters in your language that are not
+	/*
+	 * Translators: If there are characters in your language that are not
 	 * supported by Bitter, translate this to 'off'. Do not translate into your
 	 * own language.
 	 */

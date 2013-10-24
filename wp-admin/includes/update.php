@@ -77,12 +77,12 @@ function find_core_auto_update() {
 	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
 	$auto_update = false;
-	$upgrader = new WP_Automatic_Updater;
+	$upgrader = new WP_Automatic_Upgrader;
 	foreach ( $updates->updates as $update ) {
 		if ( 'autoupdate' != $update->response )
 			continue;
 
-		if ( ! $upgrader->should_update( 'core', $update, ABSPATH ) )
+		if ( ! $upgrader->should_upgrade( 'core', $update, ABSPATH ) )
 			continue;
 
 		if ( ! $auto_update || version_compare( $update->current, $auto_update->current, '>' ) )
@@ -344,27 +344,8 @@ function wp_theme_update_row( $theme_key, $theme ) {
 }
 
 function maintenance_nag() {
-	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
 	global $upgrading;
-	$nag = isset( $upgrading );
-	if ( ! $nag ) {
-		$failed = get_site_option( 'auto_core_update_failed' );
-		/*
-		 * If an update failed critically, we may have copied over version.php but not other files.
-		 * In that case, if the install claims we're running the version we attempted, nag.
-		 * This is serious enough to err on the side of nagging.
-		 *
-		 * If we simply failed to update before we tried to copy any files, then assume things are
-		 * OK if they are now running the latest.
-		 *
-		 * This flag is cleared whenever a successful update occurs using Core_Upgrader.
-		 */
-		$comparison = ! empty( $failed['critical'] ) ? '>=' : '>';
-		if ( version_compare( $failed['attempted'], $wp_version, '>=' ) )
-			$nag = true;
-	}
-
-	if ( ! $nag )
+	if ( ! isset( $upgrading ) )
 		return false;
 
 	if ( current_user_can('update_core') )
@@ -375,4 +356,3 @@ function maintenance_nag() {
 	echo "<div class='update-nag'>$msg</div>";
 }
 add_action( 'admin_notices', 'maintenance_nag' );
-add_action( 'network_admin_notices', 'maintenance_nag' );

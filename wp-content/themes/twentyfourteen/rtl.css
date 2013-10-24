@@ -59,17 +59,22 @@ li > ol {
 /* =Header
 ----------------------------------------------- */
 
-.search-toggle {
-	float: left;
-	margin-left: 38px;
+.header-main {
+	margin-left: 48px;
+	padding-right: 10px;
+	padding-left: 0;
 	margin-right: auto;
+}
+
+.header-extra {
+	float: left;
 }
 
 .site-title {
 	float: right;
 }
 
-.menu-toggle {
+#nav-toggle {
 	left: 0;
 	right: auto;
 }
@@ -88,17 +93,18 @@ li > ol {
 ----------------------------------------------- */
 
 /* Primary Navigation */
+.primary-navigation {
+	float: left;
+	margin: 0 -10px 0 10px;
+}
+
 .primary-navigation ul {
 	padding-right: 0;
 	padding-left: 0;
 }
 
-.primary-navigation ul ul li {
-	margin-left: auto;
-	margin-right: 15px;
-}
-
 .primary-navigation ul ul {
+	float: right;
 	right: -999em;
 	left: auto;
 }
@@ -487,13 +493,10 @@ blockquote.alignleft {
 	}
 }
 
-@media screen and (min-width: 782px) {
+@media screen and (min-width: 770px) {
 	.header-main {
-		padding: 0 27px 0 0;
-	}
-
-	.search-toggle {
 		margin-left: 0;
+		margin-right: auto;
 	}
 }
 

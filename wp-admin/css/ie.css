@@ -486,6 +486,20 @@ table.ie-fixed {
 	min-width: 400px;
 }
 
+.about-wrap img.element-screenshot {
+	padding: 2px;
+}
+
+.about-wrap .feature-section img,
+.about-wrap .feature-section .image-mask {
+	border-width: 1px;
+	border-style: solid;
+}
+
+.about-wrap .feature-section.three-col img {
+	margin-left: 0;
+}
+
 .available-theme {
 	display: inline;
 }
@@ -499,21 +513,13 @@ table.ie-fixed {
 	margin-right: 7px;
 }
 
-.about-wrap .three-col.about-updates .col-2 {
-	width: 15%;
+.about-wrap .three-col-images img {
+	margin: 0 0.6% 10px;
 }
 
-.about-wrap .about-password-meter input {
-	width: 98%;
-}
-
-.revisions-tickmarks,
-.revisions-tooltip {
-	display: none !important;
-}
-
-.revisions.pinned .revisions-controls {
-	position: relative;
+.about-wrap .three-col-images .last-feature,
+.about-wrap .three-col-images .first-feature {
+	float: none;
 }
 
 /* IE6 leftovers */
@@ -620,3 +626,13 @@ table.ie-fixed {
 * html #adminmenu div.wp-menu-image {
 	height: 29px;
 }
+
+.revisions-tickmarks,
+.revisions-tooltip {
+	display: none !important;
+}
+
+.revisions.pinned .revisions-controls {
+    position: relative;
+}
+

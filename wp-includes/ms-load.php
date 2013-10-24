@@ -75,9 +75,9 @@ function ms_site_check() {
 
 	/**
 	 * Filter checking the status of the current blog.
-	 *
+	 * 
 	 * @since 1.2.1
-	 *
+	 * 
 	 * @param bool null Whether to skip the blog status check. Default null.
 	*/
 	$check = apply_filters( 'ms_site_check', null );

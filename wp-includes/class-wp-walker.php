@@ -7,7 +7,7 @@
  * only needs to implement the methods that are needed.
  *
  * @since 2.1.0
- *
+ * 
  * @package WordPress
  * @abstract
  */

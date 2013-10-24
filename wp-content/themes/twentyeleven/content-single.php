@@ -55,7 +55,7 @@
 		<div id="author-info">
 			<div id="author-avatar">
 				<?php
-				/** This filter is documented in author.php */
+				//duplicate_hook
 				echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentyeleven_author_bio_avatar_size', 68 ) );
 				?>
 			</div><!-- #author-avatar -->

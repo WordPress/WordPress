@@ -28,7 +28,7 @@ get_current_screen()->add_help_tab( array(
 	'content' => '<p>' . __('Press This is a bookmarklet that makes it easy to blog about something you come across on the web. You can use it to just grab a link, or to post an excerpt. Press This will even allow you to choose from images included on the page and use them in your post. Just drag the Press This link on this screen to your bookmarks bar in your browser, and you&#8217;ll be on your way to easier content creation. Clicking on it while on another website opens a popup window with all these options.') . '</p>',
 ) );
 
-/** This filter is documented in wp-admin/options.php */
+//duplicate_hook
 if ( apply_filters( 'enable_post_by_email_configuration', true ) ) {
 	get_current_screen()->add_help_tab( array(
 		'id'      => 'options-postemail',
@@ -131,7 +131,7 @@ do_settings_fields('writing', 'remote_publishing'); // A deprecated section.
 </div>
 
 <?php
-/** This filter is documented in wp-admin/options.php */
+//duplicate_hook
 if ( apply_filters( 'enable_post_by_email_configuration', true ) ) {
 ?>
 <h3 class="title"><?php _e('Post via e-mail') ?></h3>
@@ -168,7 +168,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 <?php } ?>
 
 <?php
-/** This filter is documented in wp-admin/options-writing.php */
+//duplicate_hook
 if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 ?>
 <h3 class="title"><?php _e('Update Services') ?></h3>

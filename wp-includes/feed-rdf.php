@@ -16,13 +16,13 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
 	xmlns:admin="http://webns.net/mvcb/"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
-	<?php
+	<?php 
 	/**
 	 * Fires at the end of the feed root to add namespaces.
 	 *
 	 * @since 2.0.0
 	 */
-	do_action( 'rdf_ns' );
+	do_action( 'rdf_ns' ); 
 	?>
 >
 <channel rdf:about="<?php bloginfo_rss("url") ?>">
@@ -30,18 +30,17 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss('description') ?></description>
 	<dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false); ?></dc:date>
-	<?php /** This filter is documented in wp-includes/feed-rss2.php */ ?>
 	<sy:updatePeriod><?php echo apply_filters( 'rss_update_period', 'hourly' ); ?></sy:updatePeriod>
-	<?php /** This filter is documented in wp-includes/feed-rss2.php */ ?>
+	<?php //duplicate_hook ?>
 	<sy:updateFrequency><?php echo apply_filters( 'rss_update_frequency', '1' ); ?></sy:updateFrequency>
 	<sy:updateBase>2000-01-01T12:00+00:00</sy:updateBase>
-	<?php
+	<?php 
 	/**
 	 * Fires at the end of the RDF feed header.
 	 *
 	 * @since 2.0.0
 	 */
-	do_action( 'rdf_header' );
+	do_action( 'rdf_header' ); 
 	?>
 	<items>
 		<rdf:Seq>
@@ -64,13 +63,13 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 	<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 	<content:encoded><![CDATA[<?php the_content_feed('rdf') ?>]]></content:encoded>
 <?php endif; ?>
-	<?php
+	<?php 
 	/**
 	 * Fires at the end of each RDF feed item.
 	 *
 	 * @since 2.0.0
 	 */
-	do_action( 'rdf_item' );
+	do_action( 'rdf_item' ); 
 	?>
 </item>
 <?php endwhile;  ?>

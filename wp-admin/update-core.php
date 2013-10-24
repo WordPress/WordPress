@@ -24,7 +24,7 @@ if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_themes' 
 function list_core_update( $update ) {
  	global $wp_local_package, $wpdb, $wp_version;
   	static $first_pass = true;
-
+  
  	if ( 'en_US' == $update->locale && 'en_US' == get_locale() )
  		$version_string = $update->current;
  	// If the only available update is a partial builds, it doesn't need a language-specific version string.
@@ -32,7 +32,7 @@ function list_core_update( $update ) {
  		$version_string = $update->current;
  	else
  		$version_string = sprintf( "%s&ndash;<strong>%s</strong>", $update->current, $update->locale );
-
+  
 	$current = false;
 	if ( !isset($update->response) || 'latest' == $update->response )
 		$current = true;
@@ -148,14 +148,14 @@ function core_upgrade_preamble() {
 
 		if ( wp_http_supports( 'ssl' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-			$upgrader = new WP_Automatic_Updater;
+			$upgrader = new WP_Automatic_Upgrader;
 			$future_minor_update = (object) array(
-				'current'       => $wp_version . '.1.next.minor',
-				'version'       => $wp_version . '.1.next.minor',
+				'current'       => $wp_version . '.1-update-core.php',
+				'version'       => $wp_version . '.1-update-core.php',
 				'php_version'   => $required_php_version,
 				'mysql_version' => $required_mysql_version,
 			);
-			$should_auto_update = $upgrader->should_update( 'core', $future_minor_update, ABSPATH );
+			$should_auto_update = $upgrader->should_upgrade( 'core', $future_minor_update, ABSPATH );
 			if ( $should_auto_update )
 				echo ' ' . __( 'Future security updates will be applied automatically.' );
 		}
@@ -172,8 +172,8 @@ function core_upgrade_preamble() {
 
 	if ( isset( $updates[0] ) && $updates[0]->response == 'development' ) {
 		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-		$upgrader = new WP_Automatic_Updater;
-		if ( wp_http_supports( 'ssl' ) && $upgrader->should_update( 'core', $updates[0], ABSPATH ) )
+		$upgrader = new WP_Automatic_Upgrader;
+		if ( wp_http_supports( 'ssl' ) && $upgrader->should_upgrade( 'core', $updates[0], ABSPATH ) )
 			echo '<div class="updated inline"><p><strong>BETA TESTERS:</strong> This site is set up to install updates of future beta versions automatically.</p></div>';
 	}
 
