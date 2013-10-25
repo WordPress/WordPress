@@ -750,7 +750,7 @@ function update_core($from, $to) {
 	// Check to make sure everything copied correctly, ignoring the contents of wp-content
 	$skip = array( 'wp-content' );
 	$failed = array();
-	if ( is_array( $checksums ) ) {
+	if ( isset( $checksums ) && is_array( $checksums ) ) {
 		foreach ( $checksums as $file => $checksum ) {
 			if ( 0 === strpos( $file, 'wp-content' ) )
 				continue;
