@@ -14,12 +14,12 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
 	xmlns:atom="http://www.w3.org/2005/Atom"
 	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
-	<?php 
+	<?php
 	/** This action is documented in wp-includes/feed-rss2.php */
 	do_action( 'rss2_ns' );
 	?>
 
-	<?php 
+	<?php
 	/**
 	 * Fires at the end of the RSS root to add namespaces.
 	 *
@@ -45,7 +45,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 	<sy:updatePeriod><?php echo apply_filters( 'rss_update_period', 'hourly' ); ?></sy:updatePeriod>
 	<?php /** This filter is documented in wp-includes/feed-rss2.php */ ?>
 	<sy:updateFrequency><?php echo apply_filters( 'rss_update_frequency', '1' ); ?></sy:updateFrequency>
-	<?php 
+	<?php
 	/**
 	 * Fires at the end of the RSS2 comment feed header.
 	 *

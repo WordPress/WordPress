@@ -123,13 +123,13 @@ $today = current_time('mysql', 1);
 		<?php
 		/**
 		 * Add content to the welcome panel on the admin dashboard.
-		 * 
+		 *
 		 * To remove the default welcome panel, use remove_action():
 		 * <code>remove_action( 'welcome_panel', 'wp_welcome_panel' );</code>
-		 * 
+		 *
 		 * @since 3.5.0
 		 */
-		do_action( 'welcome_panel' ); 
+		do_action( 'welcome_panel' );
 		?>
 	</div>
 <?php endif; ?>
