@@ -232,6 +232,9 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
  * @return bool True if the current post is in any of the given categories.
  */
 function in_category( $category, $post = null ) {
+	if ( empty( $category ) )
+		return false;
+
 	return has_category( $category, $post );
 }
 
