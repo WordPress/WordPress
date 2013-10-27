@@ -245,7 +245,6 @@ class WP {
 			}
 		}
 
-		$this->public_query_vars;
 		/**
 		 * Filter the query variables whitelist before processing.
 		 *
@@ -257,7 +256,7 @@ class WP {
 		 *
 		 * @param array $public_query_vars The array of whitelisted query variables.
 		 */
-		$this->public_query_vars = apply_filters( 'query_vars', $public_query_vars );
+		$this->public_query_vars = apply_filters( 'query_vars', $this->public_query_vars );
 
 		foreach ( get_post_types( array(), 'objects' ) as $post_type => $t )
 			if ( $t->query_var )
