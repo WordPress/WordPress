@@ -147,7 +147,7 @@ if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post_type,
 // all taxonomies
 foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 	$taxonomy = get_taxonomy( $tax_name );
-	if ( ! $taxonomy->show_ui )
+	if ( ! $taxonomy->show_ui || false === $taxonomy->meta_box_cb )
 		continue;
 
 	$label = $taxonomy->labels->name;
@@ -157,8 +157,7 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 	else
 		$tax_meta_box_id = $tax_name . 'div';
 
-	if ( false !== $taxonomy->meta_box_cb )
-		add_meta_box( $tax_meta_box_id, $label, $taxonomy->meta_box_cb, null, 'side', 'core', array( 'taxonomy' => $tax_name ) );
+	add_meta_box( $tax_meta_box_id, $label, $taxonomy->meta_box_cb, null, 'side', 'core', array( 'taxonomy' => $tax_name ) );
 }
 
 if ( post_type_supports($post_type, 'page-attributes') )
