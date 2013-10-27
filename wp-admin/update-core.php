@@ -146,7 +146,7 @@ function core_upgrade_preamble() {
 		echo '<h3>';
 		_e('You have the latest version of WordPress.');
 
-		if ( wp_http_supports( 'ssl' ) ) {
+		if ( wp_http_supports( array( 'ssl' ) ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 			$upgrader = new WP_Automatic_Updater;
 			$future_minor_update = (object) array(

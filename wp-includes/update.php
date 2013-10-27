@@ -93,8 +93,8 @@ function wp_version_check( $extra_stats = array() ) {
 	if ( $extra_stats )
 		$post_body = array_merge( $post_body, $extra_stats );
 
-	$url = 'http://api.wordpress.org/core/version-check/1.7/?' . http_build_query( $query, null, '&' );
-	if ( wp_http_supports( array( 'ssl' ) ) )
+	$url = $http_url = 'http://api.wordpress.org/core/version-check/1.7/?' . http_build_query( $query, null, '&' );
+	if ( $ssl = wp_http_supports( array( 'ssl' ) ) )
 		$url = set_url_scheme( $url, 'https' );
 
 	$options = array(
@@ -108,6 +108,10 @@ function wp_version_check( $extra_stats = array() ) {
 	);
 
 	$response = wp_remote_post( $url, $options );
+	if ( $ssl && is_wp_error( $response ) ) {
+		trigger_error( __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="http://wordpress.org/support/">support forums</a>.' ) . ' ' . '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)', headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE );
+		$response = wp_remote_post( $http_url, $options );
+	}
 
 	if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )
 		return false;
@@ -246,11 +250,15 @@ function wp_update_plugins() {
 		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
-	$url = 'http://api.wordpress.org/plugins/update-check/1.1/';
-	if ( wp_http_supports( array( 'ssl' ) ) )
+	$url = $http_url = 'http://api.wordpress.org/plugins/update-check/1.1/';
+	if ( $ssl = wp_http_supports( array( 'ssl' ) ) )
 		$url = set_url_scheme( $url, 'https' );
 
 	$raw_response = wp_remote_post( $url, $options );
+	if ( $ssl && is_wp_error( $raw_response ) ) {
+		trigger_error( __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="http://wordpress.org/support/">support forums</a>.' ) . ' ' . '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)', headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE );
+		$raw_response = wp_remote_post( $http_url, $options );
+	}
 
 	if ( is_wp_error( $raw_response ) || 200 != wp_remote_retrieve_response_code( $raw_response ) )
 		return false;
@@ -382,11 +390,15 @@ function wp_update_themes() {
 		'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
-	$url = 'http://api.wordpress.org/themes/update-check/1.1/';
-	if ( wp_http_supports( array( 'ssl' ) ) )
+	$url = $http_url = 'http://api.wordpress.org/themes/update-check/1.1/';
+	if ( $ssl = wp_http_supports( array( 'ssl' ) ) )
 		$url = set_url_scheme( $url, 'https' );
 
 	$raw_response = wp_remote_post( $url, $options );
+	if ( $ssl && is_wp_error( $raw_response ) ) {
+		trigger_error( __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="http://wordpress.org/support/">support forums</a>.' ) . ' ' . '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)', headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE );
+		$raw_response = wp_remote_post( $http_url, $options );
+	}
 
 	if ( is_wp_error( $raw_response ) || 200 != wp_remote_retrieve_response_code( $raw_response ) )
 		return false;
