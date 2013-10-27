@@ -282,16 +282,22 @@ function themes_api($action, $args = null) {
 	$res = apply_filters('themes_api', false, $action, $args); //NOTE: Allows a theme to completely override the builtin WordPress.org API.
 
 	if ( ! $res ) {
-		$url = 'http://api.wordpress.org/themes/info/1.0/';
-		if ( wp_http_supports( array( 'ssl' ) ) )
+		$url = $http_url = 'http://api.wordpress.org/themes/info/1.0/';
+		if ( $ssl = wp_http_supports( array( 'ssl' ) ) )
 			$url = set_url_scheme( $url, 'https' );
 
-		$request = wp_remote_post( $url, array(
+		$args = array(
 			'body' => array(
 				'action' => $action,
 				'request' => serialize( $args )
 			)
-		) );
+		);
+		$request = wp_remote_post( $url, $args );
+
+		if ( $ssl && is_wp_error( $request ) ) {
+			trigger_error( __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="http://wordpress.org/support/">support forums</a>.' ) . ' ' . '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)', headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE );
+			$request = wp_remote_post( $http_url, $args );
+		}
 
 		if ( is_wp_error($request) ) {
 			$res = new WP_Error('themes_api_failed', __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="http://wordpress.org/support/">support forums</a>.' ), $request->get_error_message() );

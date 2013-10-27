@@ -69,7 +69,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			);
 			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 			$updater = new WP_Automatic_Updater;
-			$can_auto_update = wp_http_supports( 'ssl' ) && $updater->should_update( 'core', $future_minor_update, ABSPATH );
+			$can_auto_update = wp_http_supports( array( 'ssl' ) ) && $updater->should_update( 'core', $future_minor_update, ABSPATH );
 
 			if ( $can_auto_update ) {
 				echo '<p class="about-auto-update cool">' . __( 'This site <strong>is</strong> able to apply these updates automatically. Cool!' ). '</p>';
