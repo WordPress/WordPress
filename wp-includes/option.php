@@ -236,6 +236,7 @@ function update_option( $option, $value ) {
 
 	$serialized_value = maybe_serialize( $value );
 
+	do_action( 'update_option', $option, $old_value, $value );
 	$result = $wpdb->update( $wpdb->options, array( 'option_value' => $serialized_value ), array( 'option_name' => $option ) );
 	if ( ! $result )
 		return false;
@@ -246,7 +247,6 @@ function update_option( $option, $value ) {
 		wp_cache_set( 'notoptions', $notoptions, 'options' );
 	}
 
-	do_action( 'update_option', $option, $old_value, $value );
 	if ( ! defined( 'WP_INSTALLING' ) ) {
 		$alloptions = wp_load_alloptions();
 		if ( isset( $alloptions[$option] ) ) {

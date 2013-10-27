@@ -528,7 +528,7 @@ function twentyeleven_get_first_url() {
 	if ( ! $has_url )
 		$has_url = twentyeleven_url_grabber();
 
-	//duplicate_hook
+	/** This filter is documented in wp-includes/link-template.php */
 	return ( $has_url ) ? $has_url : apply_filters( 'the_permalink', get_permalink() );
 }
 
@@ -704,7 +704,7 @@ add_filter( 'body_class', 'twentyeleven_body_classes' );
  * @uses get_post_galleries() First, if available. Falls back to shortcode parsing,
  *                            then as last option uses a get_posts() call.
  *
- * @since Twenty Eleven 1.6.
+ * @since Twenty Eleven 1.6
  *
  * @return array List of image IDs from the post gallery.
  */

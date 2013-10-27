@@ -596,10 +596,11 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 
 	$z = new ZipArchive();
 
-	// PHP4-compat - php4 classes can't contain constants
-	$zopen = $z->open($file, /* ZIPARCHIVE::CHECKCONS */ 4);
+	$zopen = $z->open( $file, ZIPARCHIVE::CHECKCONS );
 	if ( true !== $zopen )
-		return new WP_Error('incompatible_archive', __('Incompatible Archive.'));
+		return new WP_Error( 'incompatible_archive', __( 'Incompatible Archive.' ), array( 'ziparchive_error' => $zopen ) );
+
+	$uncompressed_size = 0;
 
 	for ( $i = 0; $i < $z->numFiles; $i++ ) {
 		if ( ! $info = $z->statIndex($i) )
@@ -608,10 +609,23 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 		if ( '__MACOSX/' === substr($info['name'], 0, 9) ) // Skip the OS X-created __MACOSX directory
 			continue;
 
+		$uncompressed_size += $info['size'];
+
 		if ( '/' == substr($info['name'], -1) ) // directory
 			$needed_dirs[] = $to . untrailingslashit($info['name']);
 		else
 			$needed_dirs[] = $to . untrailingslashit(dirname($info['name']));
+	}
+
+	/*
+	 * disk_free_space() could return false. Assume that any falsey value is an error.
+	 * A disk that has zero free bytes has bigger problems.
+	 * Require we have enough space to unzip the file and copy its contents, with a 10% buffer.
+	 */
+	if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+		$available_space = @disk_free_space( WP_CONTENT_DIR );
+		if ( $available_space && ( $uncompressed_size * 2.1 ) > $available_space )
+			return new WP_Error( 'disk_full_unzip_file', __( 'Could not copy files. You may have run out of disk space.' ), compact( 'uncompressed_size', 'available_space' ) );
 	}
 
 	$needed_dirs = array_unique($needed_dirs);
@@ -633,7 +647,7 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 	// Create those directories if need be:
 	foreach ( $needed_dirs as $_dir ) {
 		if ( ! $wp_filesystem->mkdir($_dir, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($_dir) ) // Only check to see if the Dir exists upon creation failure. Less I/O this way.
-			return new WP_Error( 'mkdir_failed_ziparchive', __( 'Could not create directory.' ), $_dir );
+			return new WP_Error( 'mkdir_failed_ziparchive', __( 'Could not create directory.' ), substr( $_dir, strlen( $to ) ) );
 	}
 	unset($needed_dirs);
 
@@ -652,7 +666,7 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 			return new WP_Error( 'extract_failed_ziparchive', __( 'Could not extract file from archive.' ), $info['name'] );
 
 		if ( ! $wp_filesystem->put_contents( $to . $info['name'], $contents, FS_CHMOD_FILE) )
-			return new WP_Error( 'copy_failed_ziparchive', __( 'Could not copy file.' ), $to . $info['name'] );
+			return new WP_Error( 'copy_failed_ziparchive', __( 'Could not copy file.' ), $info['name'] );
 	}
 
 	$z->close();
@@ -693,12 +707,27 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 	if ( 0 == count($archive_files) )
 		return new WP_Error( 'empty_archive_pclzip', __( 'Empty archive.' ) );
 
+	$uncompressed_size = 0;
+
 	// Determine any children directories needed (From within the archive)
 	foreach ( $archive_files as $file ) {
 		if ( '__MACOSX/' === substr($file['filename'], 0, 9) ) // Skip the OS X-created __MACOSX directory
 			continue;
 
+		$uncompressed_size += $file['size'];
+
 		$needed_dirs[] = $to . untrailingslashit( $file['folder'] ? $file['filename'] : dirname($file['filename']) );
+	}
+
+	/*
+	 * disk_free_space() could return false. Assume that any falsey value is an error.
+	 * A disk that has zero free bytes has bigger problems.
+	 * Require we have enough space to unzip the file and copy its contents, with a 10% buffer.
+	 */
+	if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+		$available_space = @disk_free_space( WP_CONTENT_DIR );
+		if ( $available_space && ( $uncompressed_size * 2.1 ) > $available_space )
+			return new WP_Error( 'disk_full_unzip_file', __( 'Could not copy files. You may have run out of disk space.' ), compact( 'uncompressed_size', 'available_space' ) );
 	}
 
 	$needed_dirs = array_unique($needed_dirs);
@@ -719,8 +748,9 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 
 	// Create those directories if need be:
 	foreach ( $needed_dirs as $_dir ) {
-		if ( ! $wp_filesystem->mkdir($_dir, FS_CHMOD_DIR) && ! $wp_filesystem->is_dir($_dir) ) // Only check to see if the dir exists upon creation failure. Less I/O this way.
-			return new WP_Error( 'mkdir_failed_pclzip', __( 'Could not create directory.' ), $_dir );
+		// Only check to see if the dir exists upon creation failure. Less I/O this way.
+		if ( ! $wp_filesystem->mkdir( $_dir, FS_CHMOD_DIR ) && ! $wp_filesystem->is_dir( $_dir ) )
+			return new WP_Error( 'mkdir_failed_pclzip', __( 'Could not create directory.' ), substr( $_dir, strlen( $to ) ) );
 	}
 	unset($needed_dirs);
 
@@ -733,7 +763,7 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 			continue;
 
 		if ( ! $wp_filesystem->put_contents( $to . $file['filename'], $file['content'], FS_CHMOD_FILE) )
-			return new WP_Error( 'copy_failed_pclzip', __( 'Could not copy file.' ), $to . $file['filename'] );
+			return new WP_Error( 'copy_failed_pclzip', __( 'Could not copy file.' ), $file['filename'] );
 	}
 	return true;
 }
@@ -764,7 +794,7 @@ function copy_dir($from, $to, $skip_list = array() ) {
 		if ( 'f' == $fileinfo['type'] ) {
 			if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true, FS_CHMOD_FILE) ) {
 				// If copy failed, chmod file to 0644 and try again.
-				$wp_filesystem->chmod($to . $filename, 0644);
+				$wp_filesystem->chmod( $to . $filename, FS_CHMOD_FILE );
 				if ( ! $wp_filesystem->copy($from . $filename, $to . $filename, true, FS_CHMOD_FILE) )
 					return new WP_Error( 'copy_failed_copy_dir', __( 'Could not copy file.' ), $to . $filename );
 			}
@@ -865,6 +895,11 @@ function get_filesystem_method($args = array(), $context = false) {
 	if ( ! $method && function_exists('getmyuid') && function_exists('fileowner') ){
 		if ( !$context )
 			$context = WP_CONTENT_DIR;
+
+		// If the directory doesn't exist (wp-content/languages) then use the parent directory as we'll create it.
+		if ( WP_LANG_DIR == $context && ! is_dir( $context ) )
+			$context = dirname( $context );
+
 		$context = trailingslashit($context);
 		$temp_file_name = $context . 'temp-write-test-' . time();
 		$temp_handle = @fopen($temp_file_name, 'w');
@@ -995,9 +1030,8 @@ jQuery(function($){
 -->
 </script>
 <form action="<?php echo esc_url( $form_post ) ?>" method="post">
-<div class="wrap">
-<?php screen_icon(); ?>
-<h2><?php _e('Connection Information') ?></h2>
+<div>
+<h3><?php _e('Connection Information') ?></h3>
 <p><?php
 	$label_user = __('Username');
 	$label_pass = __('Password');

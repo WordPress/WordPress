@@ -14,7 +14,7 @@ var passwordStrength;
 			if ( ! $.isArray( blacklist ) )
 				blacklist = [ blacklist.toString() ];
 
-			if (password1 != password2 && password2.length > 0)
+			if (password1 != password2 && password2 && password2.length > 0)
 				return 5;
 
 			var result = zxcvbn( password1, blacklist );

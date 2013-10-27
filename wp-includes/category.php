@@ -271,7 +271,7 @@ function get_tags( $args = '' ) {
 		$return = array();
 		return $return;
 	}
-	
+
 	/**
 	 * Filter the array of term objects returned for the 'post_tag' taxonomy.
 	 *

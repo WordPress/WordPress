@@ -402,6 +402,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 22422 )
 		upgrade_350();
 
+	if ( $wp_current_db_version < 25824 )
+		upgrade_370();
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1209,12 +1212,37 @@ function upgrade_350() {
 }
 
 /**
+ * Execute changes made in WordPress 3.7.
+ *
+ * @since 3.7.0
+ */
+function upgrade_370() {
+	global $wp_current_db_version;
+	if ( $wp_current_db_version < 25824 )
+		wp_clear_scheduled_hook( 'wp_auto_updates_maybe_update' );
+}
+
+/**
  * Execute network level changes
  *
  * @since 3.0.0
  */
 function upgrade_network() {
 	global $wp_current_db_version, $wpdb;
+
+	// Always
+	if ( is_main_network() ) {
+		// Deletes all expired transients.
+		// The multi-table delete syntax is used to delete the transient record from table a,
+		// and the corresponding transient_timeout record from table b.
+		$time = time();
+		$wpdb->query("DELETE a, b FROM $wpdb->sitemeta a, $wpdb->sitemeta b WHERE
+			a.meta_key LIKE '\_site\_transient\_%' AND
+			a.meta_key NOT LIKE '\_site\_transient\_timeout\_%' AND
+			b.meta_key = CONCAT( '_site_transient_timeout_', SUBSTRING( a.meta_key, 17 ) )
+			AND b.meta_value < $time");
+	}
+
 	// 2.8
 	if ( $wp_current_db_version < 11549 ) {
 		$wpmu_sitewide_plugins = get_site_option( 'wpmu_sitewide_plugins' );

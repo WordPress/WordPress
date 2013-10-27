@@ -1362,7 +1362,7 @@ function get_terms($taxonomies, $args = '') {
 	$exclusions = '';
 	if ( ! empty( $exclude_tree ) ) {
 		$exclude_tree = wp_parse_id_list( $exclude_tree );
-		$excluded_children = array();
+		$excluded_children = $exclude_tree;
 		foreach ( $exclude_tree as $extrunk ) {
 			$excluded_children = array_merge(
 				$excluded_children,

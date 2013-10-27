@@ -33,8 +33,11 @@ add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', null, 
 do_action('add_meta_boxes', 'link', $link);
 do_action('add_meta_boxes_link', $link);
 
+/** This action is documented in wp-admin/edit-form-advanced.php */
 do_action('do_meta_boxes', 'link', 'normal', $link);
+/** This action is documented in wp-admin/edit-form-advanced.php */
 do_action('do_meta_boxes', 'link', 'advanced', $link);
+/** This action is documented in wp-admin/edit-form-advanced.php */
 do_action('do_meta_boxes', 'link', 'side', $link);
 
 add_screen_option('layout_columns', array('max' => 2, 'default' => 2) );

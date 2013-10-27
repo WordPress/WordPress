@@ -65,7 +65,7 @@ class WP_Upgrader_Skin {
 			$this->feedback($errors);
 		} elseif ( is_wp_error($errors) && $errors->get_error_code() ) {
 			foreach ( $errors->get_error_messages() as $message ) {
-				if ( $errors->get_error_data() )
+				if ( $errors->get_error_data() && is_string( $errors->get_error_data() ) )
 					$this->feedback($message . ' ' . esc_html( $errors->get_error_data() ) );
 				else
 					$this->feedback($message);
@@ -205,7 +205,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 
 		if ( is_wp_error($error) ) {
 			foreach ( $error->get_error_messages() as $emessage ) {
-				if ( $error->get_error_data() )
+				if ( $error->get_error_data() && is_string( $error->get_error_data() ) )
 					$messages[] = $emessage . ' ' . esc_html( $error->get_error_data() );
 				else
 					$messages[] = $emessage;
@@ -529,9 +529,61 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 }
 
 /**
+ * Translation Upgrader Skin for WordPress Translation Upgrades.
+ *
+ * @package WordPress
+ * @subpackage Upgrader
+ * @since 3.7.0
+ */
+class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
+	var $language_update = null;
+	var $done_header = false;
+	var $display_footer_actions = true;
+
+	function __construct( $args = array() ) {
+		$defaults = array( 'url' => '', 'nonce' => '', 'title' => __( 'Update Translations' ), 'skip_header_footer' => false );
+		$args = wp_parse_args( $args, $defaults );
+		if ( $args['skip_header_footer'] ) {
+			$this->done_header = true;
+			$this->display_footer_actions = false;
+		}
+		parent::__construct( $args );
+	}
+
+	function before() {
+		$name = $this->upgrader->get_name_for_update( $this->language_update );
+
+		echo '<div class="update-messages lp-show-latest">';
+
+		printf( '<h4>' . __( 'Updating translations for %1$s (%2$s)&#8230;' ) . '</h4>', $name, $this->language_update->language );
+	}
+
+	function error( $error ) {
+		echo '<div class="lp-error">';
+		parent::error( $error );
+		echo '</div>';
+	}
+
+	function after() {
+		echo '</div>';
+	}
+
+	function bulk_footer() {
+		$update_actions = array();
+		$update_actions['updates_page'] = '<a href="' . self_admin_url( 'update-core.php' ) . '" title="' . esc_attr__( 'Go to WordPress Updates page' ) . '" target="_parent">' . __( 'Return to WordPress Updates' ) . '</a>';
+		$update_actions = apply_filters( 'update_translations_complete_actions', $update_actions );
+
+		if ( $update_actions && $this->display_footer_actions )
+			$this->feedback( implode( ' | ', $update_actions ) );
+
+		parent::footer();
+	}
+}
+
+/**
  * Upgrader Skin for Automatic WordPress Upgrades
  *
- * This skin is designed to be used when no output is intended, all output 
+ * This skin is designed to be used when no output is intended, all output
  * is captured and stored for the caller to process and log/email/discard.
  *
  * @package WordPress
@@ -539,7 +591,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
  * @since 3.7.0
  */
 class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
-	private $messages = array();
+	protected $messages = array();
 
 	function request_filesystem_credentials( $error = false, $context = '' ) {
 		if ( $context )
@@ -547,7 +599,6 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 		// TODO: fix up request_filesystem_credentials(), or split it, to allow us to request a no-output version
 		// This will output a credentials form in event of failure, We don't want that, so just hide with a buffer
 		ob_start();
-		set_current_screen( 'tools' ); // Only here to avoid PHP Notices from screen_icon() which is used within that HTML
 		$result = parent::request_filesystem_credentials( $error );
 		ob_end_clean();
 		return $result;
@@ -608,18 +659,4 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	function bulk_footer() {}
 	function before() {}
 	function after() {}
-}
-
-/**
- * A basic Upgrader skin which doesn't have any headers or footers.
- *
- * @package WordPress
- * @subpackage Upgrader
- * @since 3.7.0
- */
-class Headerless_Upgrader_Skin extends WP_Upgrader_Skin {
-	function before() {}
-	function after() {}
-	function header() {}
-	function footer() {}
 }

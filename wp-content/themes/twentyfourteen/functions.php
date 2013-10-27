@@ -69,7 +69,7 @@ function twentyfourteen_setup() {
 
 	// Add several sizes for Post Thumbnails.
 	add_image_size( 'featured-thumbnail-large', 672, 0 );
-	add_image_size( 'featured-thumbnail-featured', 672, 336, true );
+	add_image_size( 'featured-thumbnail-featured', 672, 372, true );
 	add_image_size( 'featured-thumbnail-formatted', 306, 0 );
 
 	// This theme uses wp_nav_menu() in two locations.
@@ -100,19 +100,32 @@ function twentyfourteen_setup() {
 	add_theme_support( 'custom-background', apply_filters( 'twentyfourteen_custom_background_args', array(
 		'default-color' => 'f5f5f5',
 	) ) );
+
+	/*
+	 * Add support for featured content.
+	 */
+	add_theme_support( 'featured-content', array(
+		'featured_content_filter' => 'twentyfourteen_get_featured_posts',
+		'max_posts' => 6,
+	) );
+
+	/*
+	 * This theme uses its own gallery styles.
+	 */
+	add_filter( 'use_default_gallery_style', '__return_false' );
 }
 endif; // twentyfourteen_setup
 add_action( 'after_setup_theme', 'twentyfourteen_setup' );
 
 /**
- * Adjust content_width value for full-width and attachment templates.
+ * Adjust content_width value for image attachment template.
  *
  * @since Twenty Fourteen 1.0
  *
  * @return void
  */
 function twentyfourteen_content_width() {
-	if ( is_page_template( 'full-width-page.php' ) || is_attachment() )
+	if ( is_attachment() && wp_attachment_is_image() )
 		$GLOBALS['content_width'] = 810;
 }
 add_action( 'template_redirect', 'twentyfourteen_content_width' );
@@ -121,25 +134,22 @@ add_action( 'template_redirect', 'twentyfourteen_content_width' );
  * Getter function for Featured Content Plugin.
  *
  * @since Twenty Fourteen 1.0
+ *
+ * @return array An array of WP_Post objects.
  */
 function twentyfourteen_get_featured_posts() {
-	return apply_filters( 'twentyfourteen_get_featured_posts', false );
+	return apply_filters( 'twentyfourteen_get_featured_posts', array() );
 }
 
 /**
- * A helper conditional function that returns a boolean value
- * So that we can use a condition like
- * if ( twentyfourteen_has_featured_posts( 1 ) )
+ * A helper conditional function that returns a boolean value.
  *
  * @since Twenty Fourteen 1.0
+ *
+ * @return bool Whether there are featured posts.
  */
-function twentyfourteen_has_featured_posts( $minimum = 1 ) {
-	if ( is_paged() )
-		return false;
-
-		$featured_posts = apply_filters( 'twentyfourteen_get_featured_posts', array() );
-
-	return is_array( $featured_posts ) && count( $featured_posts ) > absint( $minimum );
+function twentyfourteen_has_featured_posts() {
+	return ! is_paged() && (bool) apply_filters( 'twentyfourteen_get_featured_posts', false );
 }
 
 /**
@@ -229,7 +239,7 @@ function twentyfourteen_scripts() {
 	if ( is_active_sidebar( 'sidebar-3' ) )
 		wp_enqueue_script( 'jquery-masonry' );
 
-	wp_enqueue_script( 'twentyfourteen-theme', get_template_directory_uri() . '/js/theme.js', array( 'jquery' ), '20130820', true );
+	wp_enqueue_script( 'twentyfourteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20131011', true );
 
 	// Add Lato font used in the main stylesheet.
 	wp_enqueue_style( 'twentyfourteen-lato', twentyfourteen_font_url(), array(), null );
@@ -247,63 +257,6 @@ function twentyfourteen_admin_fonts() {
 	wp_enqueue_style( 'twentyfourteen-lato' );
 }
 add_action( 'admin_print_scripts-appearance_page_custom-header', 'twentyfourteen_admin_fonts' );
-
-/**
- * Set the post excerpt length to 20 words.
- *
- * @since Twenty Fourteen 1.0
- *
- * @param int $length
- * @return int
- */
-function twentyfourteen_excerpt_length( $length ) {
-	return 20;
-}
-add_filter( 'excerpt_length', 'twentyfourteen_excerpt_length' );
-
-/**
- * Return a "Continue Reading" link for excerpts.
- *
- * @since Twenty Fourteen 1.0
- *
- * @return string
- */
-function twentyfourteen_continue_reading_link() {
-	return ' <a href="'. esc_url( get_permalink() ) . '" class="more-link">' . __( 'Read More <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ) . '</a>';
-}
-
-/**
- * Replace "[...]" (appended to automatically generated excerpts) with an
- * ellipsis and twentyeleven_continue_reading_link().
- *
- * @since Twenty Fourteen 1.0
- *
- * @param string $more
- * @return string
- */
-function twentyfourteen_auto_excerpt_more( $more ) {
-	return ' &hellip;' . twentyfourteen_continue_reading_link();
-}
-add_filter( 'excerpt_more', 'twentyfourteen_auto_excerpt_more' );
-
-/**
- * Add a pretty "Continue Reading" link to custom post excerpts.
- *
- * To override this link in a child theme, remove the filter and add your own
- * function tied to the get_the_excerpt filter hook.
- *
- * @since Twenty Fourteen 1.0
- *
- * @param string $output
- * @return string
- */
-function twentyfourteen_custom_excerpt_more( $output ) {
-	if ( has_excerpt() && ! is_attachment() ) {
-		$output .= twentyfourteen_continue_reading_link();
-	}
-	return $output;
-}
-add_filter( 'get_the_excerpt', 'twentyfourteen_custom_excerpt_more' );
 
 if ( ! function_exists( 'twentyfourteen_the_attached_image' ) ) :
 /**
@@ -404,83 +357,6 @@ function twentyfourteen_list_authors() {
 endif;
 
 /**
- * Get recent formatted posts that are not featured in FC plugin.
- *
- * @since Twenty Fourteen 1.0
- *
- * @return object WP_Query
- */
-function twentyfourteen_get_recent( $post_format ) {
-	$args = array(
-		'order' => 'DESC',
-		'ignore_sticky_posts' => 1,
-		'posts_per_page' => 2,
-		'tax_query' => array(
-			array(
-				'taxonomy' => 'post_format',
-				'terms' => array( $post_format ),
-				'field' => 'slug',
-				'operator' => 'IN',
-			),
-		),
-		'no_found_rows' => true,
-	);
-
-	$featured_posts = twentyfourteen_get_featured_posts();
-
-	if ( is_array( $featured_posts ) && ! empty( $featured_posts ) )
-		$args['post__not_in'] = wp_list_pluck( $featured_posts, 'ID' );
-
-	return new WP_Query( $args );
-}
-
-/**
- * Filter the home page posts, and remove formatted posts visible in the sidebar from it
- *
- * @since Twenty Fourteen 1.0
- *
- * @return void
- */
-function twentyfourteen_pre_get_posts( $query ) {
-	// Bail if not home, not a query, not main query.
-	if ( ! $query->is_main_query() || is_admin() )
-		return;
-
-	// Only on the home page
-	if ( $query->is_home() ) {
-		$exclude_ids = array();
-
-		$videos = twentyfourteen_get_recent( 'post-format-video' );
-		$images = twentyfourteen_get_recent( 'post-format-image' );
-		$galleries = twentyfourteen_get_recent( 'post-format-gallery' );
-		$asides = twentyfourteen_get_recent( 'post-format-aside' );
-		$links = twentyfourteen_get_recent( 'post-format-link' );
-		$quotes = twentyfourteen_get_recent( 'post-format-quote' );
-
-		foreach ( $videos->posts as $post )
-			$exclude_ids[] = $post->ID;
-
-		foreach ( $images->posts as $post )
-			$exclude_ids[] = $post->ID;
-
-		foreach ( $galleries->posts as $post )
-			$exclude_ids[] = $post->ID;
-
-		foreach ( $asides->posts as $post )
-			$exclude_ids[] = $post->ID;
-
-		foreach ( $links->posts as $post )
-			$exclude_ids[] = $post->ID;
-
-		foreach ( $quotes->posts as $post )
-			$exclude_ids[] = $post->ID;
-
-		$query->set( 'post__not_in', $exclude_ids );
-	}
-}
-add_action( 'pre_get_posts', 'twentyfourteen_pre_get_posts' );
-
-/**
  * Extend the default WordPress body classes.
  *
  * Adds body classes to denote:
@@ -497,6 +373,11 @@ add_action( 'pre_get_posts', 'twentyfourteen_pre_get_posts' );
 function twentyfourteen_body_classes( $classes ) {
 	if ( is_multi_author() )
 		$classes[] = 'group-blog';
+
+	if ( get_header_image() )
+		$classes[] = 'header-image';
+	else
+		$classes[] = 'masthead-fixed';
 
 	if ( is_archive() || is_search() || is_home() )
 		$classes[] = 'list-view';
@@ -573,3 +454,12 @@ require get_template_directory() . '/inc/template-tags.php';
 
 // Add Theme Customizer functionality.
 require get_template_directory() . '/inc/customizer.php';
+
+/*
+ * Add Featured Content functionality.
+ *
+ * To overwrite in a plugin, define your own Featured_Content class on or
+ * before the 'setup_theme' hook.
+ */
+if ( ! class_exists( 'Featured_Content' ) && 'plugins.php' !== $GLOBALS['pagenow'] )
+	require get_template_directory() . '/inc/featured-content.php';

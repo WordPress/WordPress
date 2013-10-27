@@ -142,7 +142,9 @@ function wp_dashboard_setup() {
 	if ( $update )
 		update_option( 'dashboard_widget_options', $widget_options );
 
+	/** This action is documented in wp-admin/edit-form-advanced.php */
 	do_action('do_meta_boxes', $screen->id, 'normal', '');
+	/** This action is documented in wp-admin/edit-form-advanced.php */
 	do_action('do_meta_boxes', $screen->id, 'side', '');
 }
 

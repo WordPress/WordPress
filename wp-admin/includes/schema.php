@@ -330,8 +330,12 @@ function populate_options() {
 	global $wpdb, $wp_db_version, $current_site, $wp_current_db_version;
 
 	$guessurl = wp_guess_url();
-
-	do_action('populate_options');
+	/**
+	 * Fires before creating WordPress options and populating their default values.
+	 *
+	 * @since 2.6.0
+	 */
+	do_action( 'populate_options' );
 
 	if ( ini_get('safe_mode') ) {
 		// Safe mode can break mkdir() so use a flat structure by default.
@@ -546,8 +550,24 @@ function populate_options() {
 
 	// delete obsolete magpie stuff
 	$wpdb->query("DELETE FROM $wpdb->options WHERE option_name REGEXP '^rss_[0-9a-f]{32}(_ts)?$'");
-	// clear transient data
-	$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '\_transient\_%' OR option_name LIKE '\_site\_transient\_%'" );
+
+	// Deletes all expired transients.
+	// The multi-table delete syntax is used to delete the transient record from table a,
+	// and the corresponding transient_timeout record from table b.
+	$time = time();
+	$wpdb->query("DELETE a, b FROM $wpdb->options a, $wpdb->options b WHERE
+	        a.option_name LIKE '\_transient\_%' AND
+	        a.option_name NOT LIKE '\_transient\_timeout\_%' AND
+	        b.option_name = CONCAT( '_transient_timeout_', SUBSTRING( a.option_name, 12 ) )
+	        AND b.option_value < $time");
+
+	if ( is_main_site() && is_main_network() ) {
+		$wpdb->query("DELETE a, b FROM $wpdb->options a, $wpdb->options b WHERE
+			a.option_name LIKE '\_site\_transient\_%' AND
+			a.option_name NOT LIKE '\_site\_transient\_timeout\_%' AND
+			b.option_name = CONCAT( '_site_transient_timeout_', SUBSTRING( a.option_name, 17 ) )
+			AND b.option_value < $time");
+    }
 }
 
 /**
@@ -825,13 +845,13 @@ function install_network() {
 endif;
 
 /**
- * populate network settings
+ * Populate network settings.
  *
  * @since 3.0.0
  *
- * @param int $network_id id of network to populate
+ * @param int $network_id ID of network to populate.
  * @return bool|WP_Error True on success, or WP_Error on warning (with the install otherwise successful,
- * 	so the error code must be checked) or failure.
+ *                       so the error code must be checked) or failure.
  */
 function populate_network( $network_id = 1, $domain = '', $email = '', $site_name = '', $path = '/', $subdomain_install = false ) {
 	global $wpdb, $current_site, $wp_db_version, $wp_rewrite;
@@ -929,8 +949,8 @@ We hope you enjoy your new site. Thanks!
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param array $sitemeta Associative of meta keys and values to be inserted.
-	 * @param int $network_id Network ID being created.
+	 * @param array $sitemeta   Associative array of network meta keys and values to be inserted.
+	 * @param int   $network_id ID of network to populate.
 	 */
 	$sitemeta = apply_filters( 'populate_network_meta', $sitemeta, $network_id );
 

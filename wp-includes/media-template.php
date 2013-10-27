@@ -341,6 +341,7 @@ function wp_print_media_templates() {
 					<# } #>>
 					<?php
 
+					/** This filter is documented in wp-admin/includes/media.php */
 					$sizes = apply_filters( 'image_size_names_choose', array(
 						'thumbnail' => __('Thumbnail'),
 						'medium'    => __('Medium'),

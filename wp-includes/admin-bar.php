@@ -25,6 +25,14 @@ function _wp_admin_bar_init() {
 	require( ABSPATH . WPINC . '/class-wp-admin-bar.php' );
 
 	/* Instantiate the admin bar */
+
+	/**
+	 * Filter the admin bar class to instantiate.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string $wp_admin_bar_class Admin bar class to use. Default 'WP_Admin_Bar'.
+	 */
 	$admin_bar_class = apply_filters( 'wp_admin_bar_class', 'WP_Admin_Bar' );
 	if ( class_exists( $admin_bar_class ) )
 		$wp_admin_bar = new $admin_bar_class;
@@ -57,12 +65,31 @@ function wp_admin_bar_render() {
 	if ( ! is_admin_bar_showing() || ! is_object( $wp_admin_bar ) )
 		return false;
 
+	/**
+	 * Load all necessary admin bar items.
+	 *
+	 * This is the hook used to add, remove, or manipulate admin bar items.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance, passed by reference
+	 */
 	do_action_ref_array( 'admin_bar_menu', array( &$wp_admin_bar ) );
 
+	/**
+	 * Fires before the admin bar is rendered.
+	 *
+	 * @since 3.1.0
+	 */
 	do_action( 'wp_before_admin_bar_render' );
 
 	$wp_admin_bar->render();
 
+	/**
+	 * Fires after the admin bar is rendered.
+	 *
+	 * @since 3.1.0
+	 */
 	do_action( 'wp_after_admin_bar_render' );
 }
 add_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
@@ -621,7 +648,7 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 	if ( current_theme_supports( 'widgets' )  )
 		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'widgets', 'title' => __('Widgets'), 'href' => admin_url('widgets.php') ) );
 
-	 if ( current_theme_supports( 'menus' ) || current_theme_supports( 'widgets' ) )
+	if ( current_theme_supports( 'menus' ) || current_theme_supports( 'widgets' ) )
 		$wp_admin_bar->add_menu( array( 'parent' => 'appearance', 'id' => 'menus', 'title' => __('Menus'), 'href' => admin_url('nav-menus.php') ) );
 
 	if ( current_theme_supports( 'custom-background' ) )
@@ -773,6 +800,16 @@ function is_admin_bar_showing() {
 		}
 	}
 
+	/**
+	 * Filter whether to show the admin bar.
+	 *
+	 * Returning false to this hook is the recommended way to hide the admin bar.
+	 * The user's display preference is used for logged in users.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param bool $show_admin_bar Whether the admin bar should be shown. Default false.
+	 */
 	$show_admin_bar = apply_filters( 'show_admin_bar', $show_admin_bar );
 
 	return $show_admin_bar;

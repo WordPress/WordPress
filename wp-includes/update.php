@@ -17,7 +17,7 @@
  * @since 2.3.0
  * @uses $wp_version Used to check against the newest WordPress version.
  *
- * @param array $extra_stats Extra statistics to report to the WordPress.org API. 
+ * @param array $extra_stats Extra statistics to report to the WordPress.org API.
  * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
  */
 function wp_version_check( $extra_stats = array() ) {
@@ -86,8 +86,12 @@ function wp_version_check( $extra_stats = array() ) {
 		'multisite_enabled' => $multisite_enabled,
 	);
 
+	$post_body = array(
+		'translations' => json_encode( $translations ),
+	);
+
 	if ( $extra_stats )
-		$query = array_merge( $query, $extra_stats );
+		$post_body = array_merge( $post_body, $extra_stats );
 
 	$url = 'http://api.wordpress.org/core/version-check/1.7/?' . http_build_query( $query, null, '&' );
 	if ( wp_http_supports( array( 'ssl' ) ) )
@@ -100,9 +104,7 @@ function wp_version_check( $extra_stats = array() ) {
 			'wp_install' => $wp_install,
 			'wp_blog' => home_url( '/' )
 		),
-		'body' => array(
-			'translations' => json_encode( $translations ),
-		),
+		'body' => $post_body,
 	);
 
 	$response = wp_remote_post( $url, $options );
@@ -129,7 +131,7 @@ function wp_version_check( $extra_stats = array() ) {
 				$offer[ $offer_key ] = esc_html( $value );
 		}
 		$offer = (object) array_intersect_key( $offer, array_fill_keys( array( 'response', 'download', 'locale',
-			'packages', 'current', 'version', 'php_version', 'mysql_version', 'new_bundled', 'partial_version' ), '' ) );
+			'packages', 'current', 'version', 'php_version', 'mysql_version', 'new_bundled', 'partial_version', 'notify_email' ), '' ) );
 	}
 
 	$updates = new stdClass();
@@ -404,18 +406,38 @@ function wp_update_themes() {
 }
 
 /**
- * Cron entry which runs the WordPress Automatic Updates
+ * Performs WordPress automatic background updates.
  *
  * @since 3.7.0
  */
-function wp_auto_updates_maybe_update() {
+function wp_maybe_auto_update() {
 	include_once ABSPATH . '/wp-admin/includes/admin.php';
 	include_once ABSPATH . '/wp-admin/includes/class-wp-upgrader.php';
 
-	if ( WP_Automatic_Upgrader::upgrader_disabled() )
-		return;
+	$upgrader = new WP_Automatic_Updater;
+	$upgrader->run();
+}
 
-	WP_Automatic_Upgrader::perform_auto_updates();
+/**
+ * Retrieves a list of all language updates available.
+ *
+ * @since 3.7.0
+ */
+function wp_get_translation_updates() {
+	$updates = array();
+	$transients = array( 'update_core' => 'core', 'update_plugins' => 'plugin', 'update_themes' => 'theme' );
+	foreach ( $transients as $transient => $type ) {
+
+		$transient = get_site_transient( $transient );
+		if ( empty( $transient->translations ) )
+			continue;
+
+		foreach ( $transient->translations as $translation ) {
+			$updates[] = (object) $translation;
+		}
+	}
+
+	return $updates;
 }
 
 /*
@@ -426,27 +448,30 @@ function wp_auto_updates_maybe_update() {
  * @return array
  */
 function wp_get_update_data() {
-	$counts = array( 'plugins' => 0, 'themes' => 0, 'wordpress' => 0 );
+	$counts = array( 'plugins' => 0, 'themes' => 0, 'wordpress' => 0, 'translations' => 0 );
 
-	if ( current_user_can( 'update_plugins' ) ) {
+	if ( $plugins = current_user_can( 'update_plugins' ) ) {
 		$update_plugins = get_site_transient( 'update_plugins' );
 		if ( ! empty( $update_plugins->response ) )
 			$counts['plugins'] = count( $update_plugins->response );
 	}
 
-	if ( current_user_can( 'update_themes' ) ) {
+	if ( $themes = current_user_can( 'update_themes' ) ) {
 		$update_themes = get_site_transient( 'update_themes' );
 		if ( ! empty( $update_themes->response ) )
 			$counts['themes'] = count( $update_themes->response );
 	}
 
-	if ( function_exists( 'get_core_updates' ) && current_user_can( 'update_core' ) ) {
+	if ( ( $core = current_user_can( 'update_core' ) ) && function_exists( 'get_core_updates' ) ) {
 		$update_wordpress = get_core_updates( array('dismissed' => false) );
 		if ( ! empty( $update_wordpress ) && ! in_array( $update_wordpress[0]->response, array('development', 'latest') ) && current_user_can('update_core') )
 			$counts['wordpress'] = 1;
 	}
 
-	$counts['total'] = $counts['plugins'] + $counts['themes'] + $counts['wordpress'];
+	if ( ( $core || $plugins || $themes ) && wp_get_translation_updates() )
+		$counts['translations'] = 1;
+
+	$counts['total'] = $counts['plugins'] + $counts['themes'] + $counts['wordpress'] + $counts['translations'];
 	$titles = array();
 	if ( $counts['wordpress'] )
 		$titles['wordpress'] = sprintf( __( '%d WordPress Update'), $counts['wordpress'] );
@@ -454,6 +479,8 @@ function wp_get_update_data() {
 		$titles['plugins'] = sprintf( _n( '%d Plugin Update', '%d Plugin Updates', $counts['plugins'] ), $counts['plugins'] );
 	if ( $counts['themes'] )
 		$titles['themes'] = sprintf( _n( '%d Theme Update', '%d Theme Updates', $counts['themes'] ), $counts['themes'] );
+	if ( $counts['translations'] )
+		$titles['translations'] = __( 'Translation Updates' );
 
 	$update_title = $titles ? esc_attr( implode( ', ', $titles ) ) : '';
 
@@ -536,9 +563,17 @@ function wp_schedule_update_checks() {
 	if ( !wp_next_scheduled('wp_update_themes') && !defined('WP_INSTALLING') )
 		wp_schedule_event(time(), 'twicedaily', 'wp_update_themes');
 
-	if ( !wp_next_scheduled( 'wp_auto_updates_maybe_update' ) && ! defined( 'WP_INSTALLING' ) )
-		wp_schedule_event( time(), 'twicedaily', 'wp_auto_updates_maybe_update' );
-
+	if ( ! wp_next_scheduled( 'wp_maybe_auto_update' ) && ! defined( 'WP_INSTALLING' ) ) {
+		// Schedule auto updates for 7 a.m. and 7 p.m. in the timezone of the site.
+		$next = strtotime( 'today 7am' );
+		$now = time();
+		// Find the next instance of 7 a.m. or 7 p.m., but skip it if it is within 3 hours from now.
+		while ( ( $now + 3 * HOUR_IN_SECONDS ) > $next ) {
+			$next += 12 * HOUR_IN_SECONDS;
+		}
+		$next = $next - get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
+		wp_schedule_event( $next, 'twicedaily', 'wp_maybe_auto_update' );
+	}
 }
 
 if ( ( ! is_main_site() && ! is_network_admin() ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) )
@@ -562,7 +597,6 @@ add_action( 'admin_init', '_maybe_update_themes' );
 add_action( 'wp_update_themes', 'wp_update_themes' );
 add_action( 'upgrader_process_complete', 'wp_update_themes' );
 
-// Automatic Updates - Cron callback
-add_action( 'wp_auto_updates_maybe_update', 'wp_auto_updates_maybe_update' );
+add_action( 'wp_maybe_auto_update', 'wp_maybe_auto_update' );
 
 add_action('init', 'wp_schedule_update_checks');

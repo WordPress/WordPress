@@ -1078,10 +1078,12 @@ function wp_get_archives($args = '') {
 			foreach ( (array) $results as $result ) {
 				if ( $result->post_date != '0000-00-00 00:00:00' ) {
 					$url  = get_permalink( $result );
-					if ( $result->post_title )
+					if ( $result->post_title ) {
+						/** This filter is documented in wp-includes/post-template.php */
 						$text = strip_tags( apply_filters( 'the_title', $result->post_title, $result->ID ) );
-					else
+					} else {
 						$text = $result->ID;
+					}
 					$output .= get_archives_link($url, $text, $format, $before, $after);
 				}
 			}
@@ -1266,6 +1268,7 @@ function get_calendar($initial = true, $echo = true) {
 	if ( $ak_post_titles ) {
 		foreach ( (array) $ak_post_titles as $ak_post_title ) {
 
+				/** This filter is documented in wp-includes/post-template.php */
 				$post_title = esc_attr( apply_filters( 'the_title', $ak_post_title->post_title, $ak_post_title->ID ) );
 
 				if ( empty($ak_titles_for_day['day_'.$ak_post_title->dom]) )

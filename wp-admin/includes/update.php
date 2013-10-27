@@ -42,6 +42,9 @@ function get_core_updates( $options = array() ) {
 	$updates = $from_api->updates;
 	$result = array();
 	foreach ( $updates as $update ) {
+		if ( $update->response == 'autoupdate' )
+			continue;
+
 		if ( array_key_exists( $update->current . '|' . $update->locale, $dismissed ) ) {
 			if ( $options['dismissed'] ) {
 				$update->dismissed = true;
@@ -74,11 +77,12 @@ function find_core_auto_update() {
 	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
 	$auto_update = false;
+	$upgrader = new WP_Automatic_Updater;
 	foreach ( $updates->updates as $update ) {
 		if ( 'autoupdate' != $update->response )
 			continue;
 
-		if ( ! WP_Automatic_Upgrader::should_auto_update( 'core', $update, ABSPATH ) )
+		if ( ! $upgrader->should_update( 'core', $update, ABSPATH ) )
 			continue;
 
 		if ( ! $auto_update || version_compare( $update->current, $auto_update->current, '>' ) )
@@ -88,33 +92,18 @@ function find_core_auto_update() {
 }
 
 /**
- * Gets and caches the checksums for the given versions of WordPress
+ * Gets and caches the checksums for the given version of WordPress.
  *
  * @since 3.7.0
  *
- * @param $version string|array A single version, or an array of versions to fetch
- *
- * @return bool|array False on failure, otherwise the array of checksums, keyed by version
+ * @param string $version Version string to query.
+ * @param string $locale  Locale to query.
+ * @return bool|array False on failure. An array of checksums on success.
  */
-function get_core_checksums( $version ) {
-	if ( ! is_array( $version ) )
-		$version = array( $version );
-
+function get_core_checksums( $version, $locale ) {
 	$return = array();
 
-	// Check to see if we have cached copies available, if we do, no need to request them
-	foreach ( $version as $i => $v ) {
-		if ( $checksums = get_site_transient( "core_checksums_$v" ) ) {
-			unset( $version[ $i ] );
-			$return[ $v ] = $checksums;
-		}
-	}
-
-	// We had cached copies for all of the versions!
-	if ( empty( $version ) )
-		return $return;
-
-	$url = 'http://api.wordpress.org/core/checksums/1.0/?' . http_build_query( array( 'version' => $version ), null, '&' );
+	$url = 'http://api.wordpress.org/core/checksums/1.0/?' . http_build_query( compact( 'version', 'locale' ), null, '&' );
 
 	if ( wp_http_supports( array( 'ssl' ) ) )
 		$url = set_url_scheme( $url, 'https' );
@@ -134,21 +123,7 @@ function get_core_checksums( $version ) {
 	if ( ! is_array( $body ) || ! isset( $body['checksums'] ) || ! is_array( $body['checksums'] ) )
 		return false;
 
-	// Cache the checksums for later
-	foreach ( $version as $v ) {
-		if ( ! isset( $body['checksums'][ $v ] ) )
-			$body['checksums'][ $v ] = false;
-		set_site_transient( "core_checksums_$v", $body['checksums'][ $v ], HOUR_IN_SECONDS );
-		$return[ $v ] = $body['checksums'][ $v ];
-	}
-
-	// If the API didn't return anything for a version, explicitly set it's return value to false
-	foreach ( $return as $v => $r ) {
-		if ( empty( $r ) )
-			$return[ $v ] = false;
-	}
-
-	return $return;
+	return $body['checksums'];
 }
 
 function dismiss_core_update( $update ) {
@@ -369,8 +344,27 @@ function wp_theme_update_row( $theme_key, $theme ) {
 }
 
 function maintenance_nag() {
+	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
 	global $upgrading;
-	if ( ! isset( $upgrading ) )
+	$nag = isset( $upgrading );
+	if ( ! $nag ) {
+		$failed = get_site_option( 'auto_core_update_failed' );
+		/*
+		 * If an update failed critically, we may have copied over version.php but not other files.
+		 * In that case, if the install claims we're running the version we attempted, nag.
+		 * This is serious enough to err on the side of nagging.
+		 *
+		 * If we simply failed to update before we tried to copy any files, then assume things are
+		 * OK if they are now running the latest.
+		 *
+		 * This flag is cleared whenever a successful update occurs using Core_Upgrader.
+		 */
+		$comparison = ! empty( $failed['critical'] ) ? '>=' : '>';
+		if ( version_compare( $failed['attempted'], $wp_version, '>=' ) )
+			$nag = true;
+	}
+
+	if ( ! $nag )
 		return false;
 
 	if ( current_user_can('update_core') )
@@ -381,25 +375,4 @@ function maintenance_nag() {
 	echo "<div class='update-nag'>$msg</div>";
 }
 add_action( 'admin_notices', 'maintenance_nag' );
-
-/**
- * Retrieves a list of all language updates available.
- *
- * @since 3.7.0
- */
-function wp_get_translation_updates() {
-	$updates = array();
-	$transients = array( 'update_core' => 'core', 'update_plugins' => 'plugin', 'update_themes' => 'theme' );
-	foreach ( $transients as $transient => $type ) {
-
-		$transient = get_site_transient( $transient );
-		if ( empty( $transient->translations ) )
-			continue;
-
-		foreach ( $transient->translations as $translation ) {
-			$updates[] = (object) $translation;
-		}
-	}
-
-	return $updates;
-}
+add_action( 'network_admin_notices', 'maintenance_nag' );

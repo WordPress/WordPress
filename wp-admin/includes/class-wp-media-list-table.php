@@ -308,7 +308,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 
 		if ( $parent ) {
 			$title = _draft_or_post_title( $post->post_parent );
-			$parent_type = get_post_type_object( $parent->post_type ); 
+			$parent_type = get_post_type_object( $parent->post_type );
 ?>
 			<td <?php echo $attributes ?>><strong>
 				<?php if ( current_user_can( 'edit_post', $post->post_parent ) && $parent_type->show_ui ) { ?>
