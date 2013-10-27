@@ -157,7 +157,8 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 	else
 		$tax_meta_box_id = $tax_name . 'div';
 
-	add_meta_box( $tax_meta_box_id, $label, $taxonomy->meta_box_cb, null, 'side', 'core', array( 'taxonomy' => $tax_name ) );
+	if ( false !== $taxonomy->meta_box_cb )
+		add_meta_box( $tax_meta_box_id, $label, $taxonomy->meta_box_cb, null, 'side', 'core', array( 'taxonomy' => $tax_name ) );
 }
 
 if ( post_type_supports($post_type, 'page-attributes') )
