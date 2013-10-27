@@ -314,7 +314,6 @@ class WP {
 		if ( isset($error) )
 			$this->query_vars['error'] = $error;
 
-		$query_vars = $this->query_vars;
 		/**
 		 * Filter the array of parsed query variables.
 		 *
@@ -322,7 +321,7 @@ class WP {
 		 *
 		 * @param array $query_vars The array of requested query variables.
 		 */
-		$this->query_vars = apply_filters( 'request', $query_vars );
+		$this->query_vars = apply_filters( 'request', $this->query_vars );
 
 		/**
 		 * Fires once all query variables for the current request have been parsed.
