@@ -1986,8 +1986,8 @@ class WP_Query {
 			else
 				$term = trim( $term, "\"' " );
 
-			// \p{L} matches a single letter that is not a Chinese, Japanese, etc. char
-			if ( ! $term || preg_match( '/^\p{L}$/u', $term ) )
+			// Avoid single A-Z.
+			if ( ! $term || ( 1 === strlen( $term ) && preg_match( '/^[a-z]$/i', $term ) ) )
 				continue;
 
 			if ( in_array( call_user_func( $strtolower, $term ), $stopwords, true ) )
