@@ -2135,7 +2135,7 @@ class WP_Automatic_Updater {
 		// If the update transient is empty, use the update we just performed
 		if ( ! $next_user_core_update )
 			$next_user_core_update = $core_update;
-		$newer_version_available = ( 'upgrade' == $next_user_core_update->response && version_compare( $next_user_core_update->version, $core_update, '>' ) );
+		$newer_version_available = ( 'upgrade' == $next_user_core_update->response && version_compare( $next_user_core_update->version, $core_update->version, '>' ) );
 
 		/**
 		 * Filter whether to send an email following an automatic background core update.
