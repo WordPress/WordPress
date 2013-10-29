@@ -3706,7 +3706,7 @@ function get_pages( $args = array() ) {
 	if ( !in_array( $post_type, $hierarchical_post_types ) )
 		return $pages;
 
-	if ( $parent && ! $child_of )
+	if ( $parent > 0 && ! $child_of )
 		$hierarchical = false;
 
 	// Make sure we have a valid post status
