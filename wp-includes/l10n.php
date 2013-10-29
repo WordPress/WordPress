@@ -797,9 +797,9 @@ function wp_get_pomo_file_data( $po_file ) {
 		'Project-Id-Version' => '"Project-Id-Version',
 		'X-Generator'        => '"X-Generator',
 	) );
-	foreach ( $headers as &$header ) {
+	foreach ( $headers as $header => $value ) {
 		// Remove possible contextual '\n' and closing double quote.
-		$header = preg_replace( '~(\\\n)?"$~', '', $header );
+		$headers[ $header ] = preg_replace( '~(\\\n)?"$~', '', $value );
 	}
 	return $headers;
 }

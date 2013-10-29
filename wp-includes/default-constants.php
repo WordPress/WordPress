@@ -42,10 +42,10 @@ function wp_initial_constants() {
 	if ( function_exists( 'memory_get_usage' ) ) {
 		$current_limit = @ini_get( 'memory_limit' );
 		$current_limit_int = intval( $current_limit );
-		if ( false !== stripos( $current_limit, 'G' ) )
+		if ( false !== strpos( $current_limit, 'G' ) )
 			$current_limit_int *= 1024;
 		$wp_limit_int = intval( WP_MEMORY_LIMIT );
-		if ( false !== stripos( WP_MEMORY_LIMIT, 'G' ) )
+		if ( false !== strpos( WP_MEMORY_LIMIT, 'G' ) )
 			$wp_limit_int *= 1024;
 
 		if ( -1 != $current_limit && ( -1 == WP_MEMORY_LIMIT || $current_limit_int < $wp_limit_int ) )
