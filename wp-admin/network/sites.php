@@ -49,7 +49,8 @@ get_current_screen()->set_help_sidebar(
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
 if ( isset( $_GET['action'] ) ) {
-	do_action( 'wpmuadminedit' , '' );
+	/** This action is documented in wp-admin/network/edit.php */
+	do_action( 'wpmuadminedit' );
 
 	if ( 'confirm' === $_GET['action'] ) {
 		check_admin_referer( 'confirm' );

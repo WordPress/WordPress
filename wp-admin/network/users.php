@@ -87,7 +87,8 @@ function confirm_delete_users( $users ) {
 }
 
 if ( isset( $_GET['action'] ) ) {
-	do_action( 'wpmuadminedit' , '' );
+	/** This action is documented in wp-admin/network/edit.php */
+	do_action( 'wpmuadminedit' );
 
 	switch ( $_GET['action'] ) {
 		case 'deleteuser':
