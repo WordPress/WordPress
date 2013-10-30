@@ -894,27 +894,24 @@ function get_status_header_desc( $code ) {
  * Set HTTP status header.
  *
  * @since 2.0.0
- * @uses apply_filters() Calls 'status_header' on status header string, HTTP
- *		HTTP code, HTTP code description, and protocol string as separate
- *		parameters.
+ * @see get_status_header_desc()
  *
- * @param int $header HTTP status code
- * @return unknown
+ * @param int $code HTTP status code.
  */
-function status_header( $header ) {
-	$text = get_status_header_desc( $header );
+function status_header( $code ) {
+	$description = get_status_header_desc( $code );
 
-	if ( empty( $text ) )
-		return false;
+	if ( empty( $description ) )
+		return;
 
-	$protocol = $_SERVER["SERVER_PROTOCOL"];
+	$protocol = $_SERVER['SERVER_PROTOCOL'];
 	if ( 'HTTP/1.1' != $protocol && 'HTTP/1.0' != $protocol )
 		$protocol = 'HTTP/1.0';
-	$status_header = "$protocol $header $text";
+	$status_header = "$protocol $code $description";
 	if ( function_exists( 'apply_filters' ) )
-		$status_header = apply_filters( 'status_header', $status_header, $header, $text, $protocol );
+		$status_header = apply_filters( 'status_header', $status_header, $code, $description, $protocol );
 
-	return @header( $status_header, true, $header );
+	@header( $status_header, true, $code );
 }
 
 /**
@@ -925,7 +922,6 @@ function status_header( $header ) {
  *
  * @since 2.8.0
  *
- * @uses apply_filters()
  * @return array The associative array of header names and field values.
  */
 function wp_get_nocache_headers() {
@@ -949,7 +945,7 @@ function wp_get_nocache_headers() {
  * be sent so that all of them get the point that no caching should occur.
  *
  * @since 2.0.0
- * @uses wp_get_nocache_headers()
+ * @see wp_get_nocache_headers()
  */
 function nocache_headers() {
 	$headers = wp_get_nocache_headers();

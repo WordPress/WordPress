@@ -11,7 +11,7 @@
 ?>
 
 <div id="featured-content" class="featured-content">
-
+	<div class="featured-content-inner">
 	<?php
 		do_action( 'twentyfourteen_featured_posts_before' );
 
@@ -26,5 +26,5 @@
 
 		wp_reset_postdata();
 	?>
-
+	</div><!-- .featured-content-inner -->
 </div><!-- #featured-content .featured-content -->

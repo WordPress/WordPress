@@ -9397,10 +9397,20 @@ a.widget-control-edit {
 /* zh_CN: Enlarge font-size. */
 .locale-zh-cn #sort-buttons { font-size: 1em !important; }
 
+/* de_DE: Text needs more space for translation */
+.locale-de-de .inline-edit-row fieldset label span.title {
+	width: 7em; /* default 5em */
+}
+.locale-de-de .inline-edit-row fieldset label span.input-text-wrap {
+	margin-left: 7em; /* default 5em */
+}
+
 /* ru_RU: Text needs more room to breathe. */
 .locale-ru-ru .inline-edit-row fieldset label span.title {
-	width: auto; /* default 5em */
-	min-width: 5em;
+	width: 8em; /* default 5em */
+}
+.locale-ru-ru .inline-edit-row fieldset label span.input-text-wrap {
+	margin-left: 8em; /* default 5em */
 }
 .locale-ru-ru.press-this .posting {
 	margin-right: 257px; /* default 212px + 45px */

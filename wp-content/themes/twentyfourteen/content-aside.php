@@ -18,6 +18,14 @@
 		</div><!-- .entry-meta -->
 		<?php endif; ?>
 
+		<?php
+			if ( is_single() ) :
+				the_title( '<h1 class="entry-title">', '</h1>' );
+			else :
+				the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' );
+			endif;
+		?>
+
 		<div class="entry-meta">
 			<span class="post-format">
 				<a class="entry-format" href="<?php echo esc_url( get_post_format_link( 'aside' ) ); ?>"><?php echo get_post_format_string( 'aside' ); ?></a>
@@ -46,16 +54,6 @@
 	</div><!-- .entry-content -->
 
 	<footer class="entry-meta">
-		<div class="entry-meta">
-			<?php
-				if ( is_single() ) :
-					the_title( '<h1 class="entry-title">', '</h1>' );
-				else :
-					the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' );
-				endif;
-			?>
-		</div>
-
 		<?php if ( has_tag() ) : ?>
 		<span class="tag-links"><?php echo get_the_tag_list(); ?></span>
 		<?php endif; ?>

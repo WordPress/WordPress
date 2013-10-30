@@ -59,7 +59,7 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] && is_ar
 	}
 
 /**
- * Fires after network options are updated.
+ * Fires after the site options are updated.
  * 
  * @since 3.0.0
  */

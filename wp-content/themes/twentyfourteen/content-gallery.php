@@ -6,34 +6,10 @@
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */
-
-if ( has_post_thumbnail() ) :
-	$image = get_post_thumbnail_id();
-else :
-	$images = get_posts( array(
-		'post_parent'    => get_the_ID(),
-		'fields'         => 'ids',
-		'numberposts'    => 1,
-		'post_status'    => 'inherit',
-		'post_type'      => 'attachment',
-		'post_mime_type' => 'image',
-		'order'          => 'ASC',
-		'orderby'        => 'menu_order ID',
-	) );
-	$image = array_shift( $images );
-endif;
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<?php if ( is_single() && $image ) : ?>
-	<div class="featured-thumbnail">
-		<?php echo wp_get_attachment_image( $image, 'featured-thumbnail-large' ); ?>
-	</div>
-	<?php elseif ( $image ) : ?>
-	<a class="featured-thumbnail" href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>">
-		<?php echo wp_get_attachment_image( $image, 'featured-thumbnail-large' ); ?>
-	</a>
-	<?php endif; ?>
+	<?php twentyfourteen_post_thumbnail(); ?>
 
 	<header class="entry-header">
 		<?php if ( in_array( 'category', get_object_taxonomies( get_post_type() ) ) && twentyfourteen_categorized_blog() ) : ?>

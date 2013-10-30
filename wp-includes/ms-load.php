@@ -66,6 +66,8 @@ function wp_get_active_network_plugins() {
  * use the wp-content/blog-deleted.php, blog-inactive.php and
  * blog-suspended.php drop-ins.
  *
+ * @since 3.0.0
+ *
  * @return bool|string Returns true on success, or drop-in file to include.
  */
 function ms_site_check() {
@@ -76,7 +78,7 @@ function ms_site_check() {
 	/**
 	 * Filter checking the status of the current blog.
 	 *
-	 * @since 1.2.1
+	 * @since 3.0.0
 	 *
 	 * @param bool null Whether to skip the blog status check. Default null.
 	*/

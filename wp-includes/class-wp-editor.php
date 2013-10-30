@@ -786,8 +786,6 @@ final class _WP_Editors {
 			'update_post_term_cache' => false,
 			'update_post_meta_cache' => false,
 			'post_status' => 'publish',
-			'order' => 'DESC',
-			'orderby' => 'post_date',
 			'posts_per_page' => 20,
 		);
 

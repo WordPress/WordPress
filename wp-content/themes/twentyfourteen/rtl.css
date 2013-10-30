@@ -361,7 +361,7 @@ blockquote.alignleft {
 
 /* Mobile list style */
 @media screen and (max-width: 400px) {
-	.list-view .featured-thumbnail img {
+	.list-view .post-thumbnail img {
 		float: right;
 		margin: 0 0 3px 10px;
 	}

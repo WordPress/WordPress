@@ -120,39 +120,66 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 
 				<?php while ( $ephemera->have_posts() ) : $ephemera->the_post(); ?>
 				<li>
-				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+				<article <?php post_class(); ?>>
 					<div class="entry-content">
 						<?php
 							if ( has_post_format( 'gallery' ) ) :
-								$images = get_posts( array(
-									'post_parent'    => get_post()->post_parent,
-									'fields'         => 'ids',
-									'numberposts'    => -1,
-									'post_status'    => 'inherit',
-									'post_type'      => 'attachment',
-									'post_mime_type' => 'image',
-									'order'          => 'ASC',
-									'orderby'        => 'menu_order ID'
-								) );
-								$total_images = count( $images );
 
-								if ( has_post_thumbnail() ) :
-									$featured_image = get_the_post_thumbnail( get_the_ID(), 'featured-thumbnail-formatted' );
-								elseif ( $total_images > 0 ) :
-									$image          = array_shift( $images );
-									$featured_image = wp_get_attachment_image( $image, 'featured-thumbnail-formatted' );
-								endif;
+								if ( post_password_required() ) :
+									the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ) );
+								else :
+									$images = array();
+
+									if ( function_exists( 'get_post_galleries' ) ) {
+										$galleries = get_post_galleries( get_the_ID(), false );
+										if ( isset( $galleries[0]['ids'] ) )
+										 	$images = explode( ',', $galleries[0]['ids'] );
+									} else {
+										$pattern = get_shortcode_regex();
+										preg_match( "/$pattern/s", get_the_content(), $match );
+										$atts = shortcode_parse_atts( $match[3] );
+										if ( isset( $atts['ids'] ) )
+											$images = explode( ',', $atts['ids'] );
+									}
+
+									if ( ! $images ) :
+										$images = get_posts( array(
+											'fields'         => 'ids',
+											'numberposts'    => 999,
+											'order'          => 'ASC',
+											'orderby'        => 'menu_order',
+											'post_mime_type' => 'image',
+											'post_parent'    => get_the_ID(),
+											'post_type'      => 'attachment',
+										) );
+									endif;
+
+									$total_images = count( $images );
+
+									if ( has_post_thumbnail() ) :
+										$post_thumbnail = get_the_post_thumbnail( get_the_ID(), 'post-thumbnail' );
+									elseif ( $total_images > 0 ) :
+										$image          = array_shift( $images );
+										$post_thumbnail = wp_get_attachment_image( $image, 'post-thumbnail' );
+									endif;
+
+									if ( ! empty ( $post_thumbnail ) ) :
 						?>
-						<a href="<?php the_permalink(); ?>"><?php echo $featured_image; ?></a>
-						<p class="wp-caption-text">
+									<a href="<?php the_permalink(); ?>"><?php echo $post_thumbnail; ?></a>
+								<?php
+									endif;
+								?>
+									<p class="wp-caption-text">
+									<?php
+										printf( _n( 'This gallery contains <a href="%1$s" rel="bookmark">%2$s photo</a>.', 'This gallery contains <a href="%1$s" rel="bookmark">%2$s photos</a>.', $total_images, 'twentyfourteen' ),
+											esc_url( get_permalink() ),
+											number_format_i18n( $total_images )
+										);
+									?>
+									</p>
 							<?php
-								printf( _n( 'This gallery contains <a href="%1$s" rel="bookmark">%2$s photo</a>.', 'This gallery contains <a href="%1$s" rel="bookmark">%2$s photos</a>.', $total_images, 'twentyfourteen' ),
-									esc_url( get_permalink() ),
-									number_format_i18n( $total_images )
-								);
-							?>
-						</p>
-						<?php
+								endif;
+
 							else :
 								the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ) );
 							endif;

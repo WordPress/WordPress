@@ -219,7 +219,7 @@ if ( WP_CACHE && function_exists( 'wp_cache_postload' ) )
  *
  * Pluggable functions are also available at this point in the loading order.
  *
- * @since 1.5.2
+ * @since 1.5.0
  */
 do_action( 'plugins_loaded' );
 
@@ -335,7 +335,7 @@ $wp->init();
  *
  * If you wish to plug an action once WP is loaded, use the wp_loaded hook below.
  *
- * @since 1.5.2
+ * @since 1.5.0
  */
 do_action( 'init' );
 

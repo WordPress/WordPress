@@ -1378,7 +1378,7 @@ function get_previous_post_link( $format = '&laquo; %link', $link = '%title', $i
  * Display previous post link that is adjacent to the current post.
  *
  * @since 1.5.0
- * @uses get_previous_post_link()
+ * @see get_previous_post_link()
  *
  * @param string       $format         Optional. Link anchor format.
  * @param string       $link           Optional. Link permalink format.
@@ -1391,10 +1391,9 @@ function previous_post_link( $format = '&laquo; %link', $link = '%title', $in_sa
 }
 
 /**
- * Get previous post link that is adjacent to the current post.
+ * Get next post link that is adjacent to the current post.
  *
  * @since 3.7.0
- * @uses get_next_post_link()
  *
  * @param string       $format         Optional. Link anchor format.
  * @param string       $link           Optional. Link permalink format.
@@ -1403,7 +1402,7 @@ function previous_post_link( $format = '&laquo; %link', $link = '%title', $in_sa
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string
  */
-function get_next_post_link( $format = '&laquo; %link', $link = '%title', $in_same_cat = false, $excluded_terms = '', $taxonomy = 'category' ) {
+function get_next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_cat = false, $excluded_terms = '', $taxonomy = 'category' ) {
 	return get_adjacent_post_link( $format, $link, $in_same_cat, $excluded_terms, false, $taxonomy );
 }
 
@@ -1411,6 +1410,7 @@ function get_next_post_link( $format = '&laquo; %link', $link = '%title', $in_sa
  * Display next post link that is adjacent to the current post.
  *
  * @since 1.5.0
+ * @see get_next_post_link()
  *
  * @param string       $format         Optional. Link anchor format.
  * @param string       $link           Optional. Link permalink format.

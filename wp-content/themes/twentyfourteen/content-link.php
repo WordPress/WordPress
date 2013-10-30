@@ -18,6 +18,14 @@
 		</div><!-- .entry-meta -->
 		<?php endif; ?>
 
+		<?php
+			if ( is_single() ) :
+				the_title( '<h1 class="entry-title">', '</h1>' );
+			else :
+				the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' );
+			endif;
+		?>
+
 		<div class="entry-meta">
 			<span class="post-format">
 				<a class="entry-format" href="<?php echo esc_url( get_post_format_link( 'link' ) ); ?>"><?php echo get_post_format_string( 'link' ); ?></a>

@@ -1258,12 +1258,6 @@ function validate_username( $username ) {
 /**
  * Insert an user into the database.
  *
- * Can update a current user or insert a new user based on whether the user's ID
- * is present.
- *
- * Can be used to update the user's info (see below), set the user's role, and
- * set the user's preference on whether they want the rich editor on.
- *
  * Most of the $userdata array fields have filters associated with the values.
  * The exceptions are 'rich_editing', 'role', 'jabber', 'aim', 'yim',
  * 'user_registered', and 'ID'. The filters have the prefix 'pre_user_' followed
@@ -1456,7 +1450,6 @@ function wp_insert_user( $userdata ) {
  *
  * @since 2.0.0
  * @see wp_insert_user() For what fields can be set in $userdata
- * @uses wp_insert_user() Used to update existing user or add new one if user doesn't exist already
  *
  * @param mixed $userdata An array of user data or a user object of type stdClass or WP_User.
  * @return int|WP_Error The updated user's ID or a WP_Error object if the user could not be updated.

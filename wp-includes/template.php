@@ -34,7 +34,7 @@ function get_query_template( $type, $templates = array() ) {
 	 * -- minus the extension -- of the file to load. This hook also applies
 	 * to various types of files loaded as part of the Template Hierarchy.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string $template Path to the template. @see locate_template()
 	 */

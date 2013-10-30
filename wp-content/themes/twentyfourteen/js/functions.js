@@ -2,9 +2,7 @@
 	var body    = $( 'body' ),
 	    _window = $( window );
 
-	/**
-	 * Enables menu toggle for small screens.
-	 */
+	// Enable menu toggle for small screens.
 	( function() {
 		var nav = $( '#primary-navigation' ), button, menu;
 		if ( ! nav )
@@ -26,7 +24,7 @@
 		} );
 	} )();
 
-	/**
+	/*
 	 * Makes "skip to content" link work correctly in IE9 and Chrome for better
 	 * accessibility.
 	 *
@@ -44,9 +42,7 @@
 	} );
 
 	$( function() {
-		/**
- 		* Search toggle.
-		*/
+		// Search toggle.
 		$( '.search-toggle' ).on( 'click.twentyfourteen', function() {
 			var that    = $( this ),
 			    wrapper = $( '.search-box-wrapper' );
@@ -58,7 +54,7 @@
 				wrapper.find( '.search-field' ).focus();
 		} );
 
-		/**
+		/*
 		 * Fixed navbar.
 		 *
 		 * The callback on the scroll event is only added if there is a header
@@ -76,17 +72,13 @@
 			} );
 		}
 
-		/**
-		 * Focus styles for primary menu.
-		 */
+		// Focus styles for primary menu.
 		$( '.primary-navigation' ).find( 'a' ).on( 'focus.twentyfourteen blur.twentyfourteen', function() {
 			$( this ).parents().toggleClass( 'focus' );
 		} );
 	} );
 
-	/**
-	 * Arranges footer widgets vertically.
-	 */
+	// Arrange footer widgets vertically.
 	if ( $.isFunction( $.fn.masonry ) ) {
 		$( '#footer-sidebar' ).masonry( {
 			itemSelector: '.widget',
@@ -97,5 +89,15 @@
 			isResizable: true,
 			isRTL: $( 'body' ).is( '.rtl' )
 		} );
-	}
+	};
+
+	// Initialize Featured Content slider.
+	_window.load( function() {
+		if ( body.is( '.slider' ) ) {
+			$( '.featured-content' ).featuredslider( {
+				selector:  '.featured-content-inner > article',
+				controlsContainer: '.featured-content'
+			} );
+		}
+	} );
 } )( jQuery );

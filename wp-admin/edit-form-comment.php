@@ -49,7 +49,8 @@ if ( !defined('ABSPATH') )
 	<?php
 		if ( ! empty( $comment->comment_author_url ) && 'http://' != $comment->comment_author_url ) {
 			$link = '<a href="' . $comment->comment_author_url . '" rel="external nofollow" target="_blank">' . __('visit site') . '</a>';
-			printf( __( 'URL (%s):' ), apply_filters('get_comment_author_link', $link ) );
+			/** This filter is documented in wp-includes/comment-template.php */
+			printf( __( 'URL (%s):' ), apply_filters( 'get_comment_author_link', $link ) );
 		} else {
 			_e( 'URL:' );
 		} ?></td>
@@ -127,9 +128,17 @@ $date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 
 <div id="postbox-container-2" class="postbox-container">
 <?php
+/** This action is documented in wp-admin/edit-form-advanced.php */
+do_action( 'add_meta_boxes', 'comment', $comment );
 
-do_action('add_meta_boxes', 'comment', $comment);
-do_action('add_meta_boxes_comment', $comment);
+/**
+ * Fires when comment-specific meta boxes are added.
+ *
+ * @since 3.0.0
+ *
+ * @param object $comment Comment object.
+ */
+do_action( 'add_meta_boxes_comment', $comment );
 
 do_meta_boxes(null, 'normal', $comment);
 

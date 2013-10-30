@@ -30,6 +30,29 @@ function twentyfourteen_customize_register( $wp_customize ) {
 		'section'  => 'colors',
 		'settings' => 'accent_color',
 	) ) );
+
+	// Add the featured content section.
+	$wp_customize->add_section( 'featured_content', array(
+		'title'    => __( 'Featured Content', 'twentyfourteen' ),
+		'priority' => 120,
+	) );
+
+	// Add the featured content layout setting and control.
+	$wp_customize->add_setting( 'featured_content_layout', array(
+		'default'    => 'grid',
+		'type'       => 'theme_mod',
+		'capability' => 'edit_theme_options',
+	) );
+
+	$wp_customize->add_control( 'featured_content_layout', array(
+		'label'   => __( 'Layout', 'twentyfourteen' ),
+		'section' => 'featured_content',
+		'type'    => 'select',
+		'choices' => array(
+			'grid'   => __( 'Grid', 'twentyfourteen' ),
+			'slider' => __( 'Slider', 'twentyfourteen' ),
+		),
+	) );
 }
 add_action( 'customize_register', 'twentyfourteen_customize_register' );
 

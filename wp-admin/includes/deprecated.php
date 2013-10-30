@@ -1062,6 +1062,7 @@ function wp_nav_menu_locations_meta_box() {
  *
  * @since 2.7.0
  * @deprecated 3.7.0
+ * @see Core_Upgrader
  */
 function wp_update_core($current, $feedback = '') {
 	_deprecated_function( __FUNCTION__, '3.7', 'new Core_Upgrader();' );
@@ -1084,6 +1085,7 @@ function wp_update_core($current, $feedback = '') {
  *
  * @since 2.5.0
  * @deprecated 3.7.0
+ * @see Plugin_Upgrader
  */
 function wp_update_plugin($plugin, $feedback = '') {
 	_deprecated_function( __FUNCTION__, '3.7', 'new Plugin_Upgrader();' );
@@ -1097,14 +1099,15 @@ function wp_update_plugin($plugin, $feedback = '') {
 }
 
 /**
- * This was once used to kick-off the Plugin Updater.
+ * This was once used to kick-off the Theme Updater.
  *
- * Deprecated in favor of instantating a Plugin_Upgrader instance directly,
+ * Deprecated in favor of instantating a Theme_Upgrader instance directly,
  * and calling the 'upgrade' method.
  * Unused since 2.8.0.
  *
  * @since 2.7.0
  * @deprecated 3.7.0
+ * @see Theme_Upgrader
  */
 function wp_update_theme($theme, $feedback = '') {
 	_deprecated_function( __FUNCTION__, '3.7', 'new Theme_Upgrader();' );

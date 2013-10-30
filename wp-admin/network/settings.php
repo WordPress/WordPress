@@ -39,7 +39,8 @@ get_current_screen()->set_help_sidebar(
 );
 
 if ( $_POST ) {
-	do_action( 'wpmuadminedit' , '' );
+	/** This action is documented in wp-admin/network/edit.php */
+	do_action( 'wpmuadminedit' );
 
 	check_admin_referer( 'siteoptions' );
 
@@ -64,7 +65,11 @@ if ( $_POST ) {
 		update_site_option( $option_name, $value );
 	}
 
-	// Update more options here
+	/**
+	 * Fires after the network options are updated.
+	 * 
+	 * @since MU
+	 */
 	do_action( 'update_wpmu_options' );
 
 	wp_redirect( add_query_arg( 'updated', 'true', network_admin_url( 'settings.php' ) ) );
@@ -285,6 +290,21 @@ if ( isset( $_GET['updated'] ) ) {
 				<td>
 			<?php
 			$menu_perms = get_site_option( 'menu_items' );
+			/**
+			 * Filter available network-wide administration menu options.
+			 *
+			 * Options returned to this filter are output as individual checkboxes that, when selected,
+			 * enable site administrator access to the specified administration menu in certain contexts.
+			 *
+			 * Adding options for specific menus here hinges on the appropriate checks and capabilities
+			 * being in place in the site dashboard on the other side. For instance, when the single
+			 * default option, 'plugins' is enabled, site administrators are granted access to the Plugins
+			 * screen in their individual sites' dashboards.
+			 *
+			 * @since MU
+			 * 
+			 * @param array $admin_menus The menu items available.
+			 */
 			$menu_items = apply_filters( 'mu_menu_items', array( 'plugins' => __( 'Plugins' ) ) );
 			foreach ( (array) $menu_items as $key => $val ) {
 				echo "<label><input type='checkbox' name='menu_items[" . $key . "]' value='1'" . ( isset( $menu_perms[$key] ) ? checked( $menu_perms[$key], '1', false ) : '' ) . " /> " . esc_html( $val ) . "</label><br/>";
@@ -294,8 +314,13 @@ if ( isset( $_GET['updated'] ) ) {
 			</tr>
 		</table>
 
-		<?php do_action( 'wpmu_options' ); // Add more options here ?>
-
+		<?php 
+		/**
+		 * Fires at the end of the Network Settings form, before the submit button.
+		 *
+		 * @since MU
+		 */
+		do_action( 'wpmu_options' ); ?>
 		<?php submit_button(); ?>
 	</form>
 </div>

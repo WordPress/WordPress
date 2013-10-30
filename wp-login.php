@@ -299,8 +299,8 @@ function retrieve_password() {
 	/**
 	 * Fires before a new password is retrieved.
 	 *
-	 * @since 1.5.2
-	 * @deprecated 1.5.2 Misspelled. Use 'retrieve_password' hook instead.
+	 * @since 1.5.0
+	 * @deprecated 1.5.1 Misspelled. Use 'retrieve_password' hook instead.
 	 *
 	 * @param string $user_login The user login name.
 	 */
@@ -308,7 +308,7 @@ function retrieve_password() {
 	/**
 	 * Fires before a new password is retrieved.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.1
 	 *
 	 * @param string $user_login The user login name.
 	 */
@@ -508,7 +508,7 @@ case 'retrievepassword' :
 	/**
 	 * Fires before the lost password form.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.1
 	 */
 	do_action( 'lost_password' );
 
@@ -542,7 +542,7 @@ if ( get_option( 'users_can_register' ) ) :
 	/**
 	 * Filter the registration URL below the login form.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string $registration_url Registration URL.
 	 */

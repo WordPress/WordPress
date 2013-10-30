@@ -159,7 +159,7 @@ add_action( 'edit_category', 'twentyfourteen_category_transient_flusher' );
 add_action( 'save_post',     'twentyfourteen_category_transient_flusher' );
 
 /**
- * Displays an optional featured image, with an anchor element
+ * Displays an optional post thumbnail, with an anchor element
  * when on index views, and a div element when on a single view.
  *
  * @return void
@@ -171,15 +171,15 @@ function twentyfourteen_post_thumbnail() {
 	if ( is_singular() ) :
 	?>
 
-	<div class="featured-thumbnail">
-		<?php the_post_thumbnail( 'featured-thumbnail-large' ); ?>
+	<div class="post-thumbnail">
+		<?php the_post_thumbnail( 'post-thumbnail' ); ?>
 	</div>
 
 	<?php else : ?>
 
-	<a class="featured-thumbnail" href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>">
+	<a class="post-thumbnail" href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>">
 	<?php if ( has_post_thumbnail() ) :
-		the_post_thumbnail( 'featured-thumbnail-large' );
+		the_post_thumbnail( 'post-thumbnail' );
 	else : ?>
 		<p class="screen-reader-text"><?php _e( 'No featured image.', 'twentyfourteen' ); ?></p>
 	<?php endif; ?>

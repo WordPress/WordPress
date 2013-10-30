@@ -252,7 +252,7 @@ class WP {
 		 * to executing the query. Needed to allow custom rewrite rules using your own arguments
 		 * to work, or any other custom query variables you want to be publicly available.
 		 *
-		 * @since 1.5.2
+		 * @since 1.5.0
 		 *
 		 * @param array $public_query_vars The array of whitelisted query variables.
 		 */
@@ -471,7 +471,7 @@ class WP {
 			/**
 			 * Filter the query string before parsing.
 			 *
-			 * @since 1.5.2
+			 * @since 1.5.0
 			 * @deprecated 2.1.0 Use 'query_vars' or 'request' filters instead.
 			 *
 			 * @param string $query_string The query string to modify.
