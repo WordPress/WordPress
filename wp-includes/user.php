@@ -812,7 +812,7 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
  * @uses add_metadata()
  * @link http://codex.wordpress.org/Function_Reference/add_user_meta
  *
- * @param int $user_id Post ID.
+ * @param int $user_id User ID.
  * @param string $meta_key Metadata name.
  * @param mixed $meta_value Metadata value.
  * @param bool $unique Optional, default is false. Whether the same key should not be added.
@@ -849,7 +849,7 @@ function delete_user_meta($user_id, $meta_key, $meta_value = '') {
  * @uses get_metadata()
  * @link http://codex.wordpress.org/Function_Reference/get_user_meta
  *
- * @param int $user_id Post ID.
+ * @param int $user_id User ID.
  * @param string $key Optional. The meta key to retrieve. By default, returns data for all keys.
  * @param bool $single Whether to return a single value.
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
@@ -871,7 +871,7 @@ function get_user_meta($user_id, $key = '', $single = false) {
  * @uses update_metadata
  * @link http://codex.wordpress.org/Function_Reference/update_user_meta
  *
- * @param int $user_id Post ID.
+ * @param int $user_id User ID.
  * @param string $meta_key Metadata key.
  * @param mixed $meta_value Metadata value.
  * @param mixed $prev_value Optional. Previous value to check before removing.
