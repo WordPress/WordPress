@@ -15,12 +15,11 @@
 
 		var namespace = slider.vars.namespace,
 			msGesture = window.navigator && window.navigator.msPointerEnabled && window.MSGesture,
-			touch = ( ( 'ontouchstart' in window ) || msGesture || window.DocumentTouch && document instanceof DocumentTouch ),
+			touch = ( ( 'ontouchstart' in window ) || msGesture || window.DocumentTouch && document instanceof DocumentTouch ), // MSFT specific.
 			eventType = 'click touchend MSPointerUp',
 			watchedEvent = '',
 			watchedEventClearTimer,
-			methods = {},
-			focused = true;
+			methods = {};
 
 		// Store a reference to the slider object.
 		$.data( el, 'featuredslider', slider );
@@ -52,8 +51,9 @@
 					return false;
 				}() );
 				// CONTROLSCONTAINER
-				if ( slider.vars.controlsContainer !== '' )
+				if ( slider.vars.controlsContainer !== '' ) {
 					slider.controlsContainer = $( slider.vars.controlsContainer ).length > 0 && $( slider.vars.controlsContainer );
+				}
 
 				slider.doMath();
 
@@ -78,8 +78,9 @@
 				}
 
 				// TOUCH
-				if ( touch )
+				if ( touch ) {
 					methods.touch();
+				}
 
 				$( window ).bind( 'resize orientationchange focus', methods.resize );
 
@@ -127,8 +128,9 @@
 						}
 
 						// Set up flags to prevent event duplication.
-						if ( watchedEvent === '' )
+						if ( watchedEvent === '' ) {
 							watchedEvent = event.type;
+						}
 
 						methods.setToClearWatchedEvent();
 					} );
@@ -178,8 +180,9 @@
 						}
 
 						// Set up flags to prevent event duplication.
-						if ( watchedEvent === '' )
+						if ( watchedEvent === '' ) {
 							watchedEvent = event.type;
+						}
 
 						methods.setToClearWatchedEvent();
 					} );
@@ -208,134 +211,136 @@
 
 				if ( ! msGesture ) {
 					el.addEventListener( 'touchstart', onTouchStart, false );
-
-					function onTouchStart( e ) {
-						if ( slider.animating ) {
-							e.preventDefault();
-						} else if ( ( window.navigator.msPointerEnabled ) || e.touches.length === 1 ) {
-							cwidth = slider.w;
-							startT = Number( new Date() );
-
-							// Local vars for X and Y points.
-							localX = e.touches[0].pageX;
-							localY = e.touches[0].pageY;
-
-							offset = ( slider.animatingTo === slider.last ) ? 0 :
-									 ( slider.currentSlide === slider.last ) ? slider.limit : ( slider.currentSlide + slider.cloneOffset ) * cwidth;
-							startX = localX;
-							startY = localY;
-
-							el.addEventListener( 'touchmove', onTouchMove, false );
-							el.addEventListener( 'touchend', onTouchEnd, false );
-						}
-					}
-
-					function onTouchMove( e ) {
-						// Local vars for X and Y points.
-						localX = e.touches[0].pageX;
-						localY = e.touches[0].pageY;
-
-						dx = startX - localX;
-						scrolling = Math.abs( dx ) < Math.abs( localY - startY );
-
-						var fxms = 500;
-
-						if ( ! scrolling || Number( new Date() ) - startT > fxms ) {
-							e.preventDefault();
-							if ( slider.transitions ) {
-								slider.setProps( offset + dx, 'setTouch' );
-							}
-						}
-					}
-
-					function onTouchEnd( e ) {
-						// Finish the touch by undoing the touch session.
-						el.removeEventListener( 'touchmove', onTouchMove, false );
-
-						if ( slider.animatingTo === slider.currentSlide && ! scrolling && ! ( dx === null ) ) {
-							var updateDx = dx,
-								target = ( updateDx > 0 ) ? slider.getTarget( 'next' ) : slider.getTarget( 'prev' );
-
-							slider.featureAnimate( target );
-						}
-						el.removeEventListener( 'touchend', onTouchEnd, false );
-
-						startX = null;
-						startY = null;
-						dx = null;
-						offset = null;
-					}
 				} else {
 					el.style.msTouchAction = 'none';
-					el._gesture = new MSGesture();
+					el._gesture = new MSGesture(); // MSFT specific.
 					el._gesture.target = el;
 					el.addEventListener( 'MSPointerDown', onMSPointerDown, false );
 					el._slider = slider;
 					el.addEventListener( 'MSGestureChange', onMSGestureChange, false );
 					el.addEventListener( 'MSGestureEnd', onMSGestureEnd, false );
+				}
 
-					function onMSPointerDown( e ) {
-						e.stopPropagation();
-						if ( slider.animating ) {
-							e.preventDefault();
-						} else {
-							el._gesture.addPointer( e.pointerId );
-							accDx = 0;
-							cwidth = slider.w;
-							startT = Number( new Date() );
-							offset = ( slider.animatingTo === slider.last ) ? 0 : ( slider.currentSlide === slider.last ) ? slider.limit : ( slider.currentSlide + slider.cloneOffset ) * cwidth;
+				function onTouchStart( e ) {
+					if ( slider.animating ) {
+						e.preventDefault();
+					} else if ( ( window.navigator.msPointerEnabled ) || e.touches.length === 1 ) {
+						cwidth = slider.w;
+						startT = Number( new Date() );
+
+						// Local vars for X and Y points.
+						localX = e.touches[0].pageX;
+						localY = e.touches[0].pageY;
+
+						offset = ( slider.animatingTo === slider.last ) ? 0 :
+								 ( slider.currentSlide === slider.last ) ? slider.limit : ( slider.currentSlide + slider.cloneOffset ) * cwidth;
+						startX = localX;
+						startY = localY;
+
+						el.addEventListener( 'touchmove', onTouchMove, false );
+						el.addEventListener( 'touchend', onTouchEnd, false );
+					}
+				}
+
+				function onTouchMove( e ) {
+					// Local vars for X and Y points.
+					localX = e.touches[0].pageX;
+					localY = e.touches[0].pageY;
+
+					dx = startX - localX;
+					scrolling = Math.abs( dx ) < Math.abs( localY - startY );
+
+					var fxms = 500;
+
+					if ( ! scrolling || Number( new Date() ) - startT > fxms ) {
+						e.preventDefault();
+						if ( slider.transitions ) {
+							slider.setProps( offset + dx, 'setTouch' );
 						}
 					}
+				}
 
-					function onMSGestureChange( e ) {
-						e.stopPropagation();
-						var slider = e.target._slider;
-						if ( ! slider )
-							return;
+				function onTouchEnd() {
+					// Finish the touch by undoing the touch session.
+					el.removeEventListener( 'touchmove', onTouchMove, false );
 
-						var transX = -e.translationX,
-							transY = -e.translationY;
+					if ( slider.animatingTo === slider.currentSlide && ! scrolling && dx !== null ) {
+						var updateDx = dx,
+							target = ( updateDx > 0 ) ? slider.getTarget( 'next' ) : slider.getTarget( 'prev' );
 
-						// Accumulate translations.
-						accDx = accDx + transX;
-						dx = accDx;
-						scrolling = Math.abs( accDx ) < Math.abs( -transY );
-
-						if ( e.detail === e.MSGESTURE_FLAG_INERTIA ) {
-							setImmediate( function () {
-								el._gesture.stop();
-							} );
-
-							return;
-						}
-
-						if ( ! scrolling || Number( new Date() ) - startT > 500 ) {
-							e.preventDefault();
-							if ( slider.transitions ) {
-								slider.setProps( offset + dx, 'setTouch' );
-							}
-						}
+						slider.featureAnimate( target );
 					}
+					el.removeEventListener( 'touchend', onTouchEnd, false );
 
-					function onMSGestureEnd( e ) {
-						e.stopPropagation();
-						var slider = e.target._slider;
-						if ( ! slider )
-							return;
+					startX = null;
+					startY = null;
+					dx = null;
+					offset = null;
+				}
 
-						if ( slider.animatingTo === slider.currentSlide && ! scrolling && ! ( dx === null ) ) {
-							var updateDx = dx,
-							    target = ( updateDx > 0 ) ? slider.getTarget( 'next' ) : slider.getTarget( 'prev' );
-
-							slider.featureAnimate( target );
-						}
-
-						startX = null;
-						startY = null;
-						dx = null;
-						offset = null;
+				function onMSPointerDown( e ) {
+					e.stopPropagation();
+					if ( slider.animating ) {
+						e.preventDefault();
+					} else {
+						el._gesture.addPointer( e.pointerId );
 						accDx = 0;
+						cwidth = slider.w;
+						startT = Number( new Date() );
+						offset = ( slider.animatingTo === slider.last ) ? 0 : ( slider.currentSlide === slider.last ) ? slider.limit : ( slider.currentSlide + slider.cloneOffset ) * cwidth;
 					}
+				}
+
+				function onMSGestureChange( e ) {
+					e.stopPropagation();
+					var slider = e.target._slider;
+					if ( ! slider ) {
+						return;
+					}
+
+					var transX = -e.translationX,
+						transY = -e.translationY;
+
+					// Accumulate translations.
+					accDx = accDx + transX;
+					dx = accDx;
+					scrolling = Math.abs( accDx ) < Math.abs( -transY );
+
+					if ( e.detail === e.MSGESTURE_FLAG_INERTIA ) {
+						setImmediate( function () {  // MSFT specific.
+							el._gesture.stop();
+						} );
+
+						return;
+					}
+
+					if ( ! scrolling || Number( new Date() ) - startT > 500 ) {
+						e.preventDefault();
+						if ( slider.transitions ) {
+							slider.setProps( offset + dx, 'setTouch' );
+						}
+					}
+				}
+
+				function onMSGestureEnd( e ) {
+					e.stopPropagation();
+					var slider = e.target._slider;
+					if ( ! slider ) {
+						return;
+					}
+
+					if ( slider.animatingTo === slider.currentSlide && ! scrolling && dx !== null ) {
+						var updateDx = dx,
+						    target = ( updateDx > 0 ) ? slider.getTarget( 'next' ) : slider.getTarget( 'prev' );
+
+						slider.featureAnimate( target );
+					}
+
+					startX = null;
+					startY = null;
+					dx = null;
+					offset = null;
+					accDx = 0;
 				}
 			},
 
@@ -365,8 +370,9 @@
 
 		// Public methods.
 		slider.featureAnimate = function( target ) {
-			if ( target !== slider.currentSlide )
+			if ( target !== slider.currentSlide ) {
 				slider.direction = ( target > slider.currentSlide ) ? 'next' : 'prev';
+			}
 
 			if ( ! slider.animating && slider.is( ':visible' ) ) {
 				slider.animating = true;
@@ -383,7 +389,7 @@
 				methods.directionNav.update();
 
 				var dimension = slider.computedW,
-					margin, slideString, calcNext;
+					slideString;
 
 				if ( slider.currentSlide === 0 && target === slider.count - 1 && slider.direction !== 'next' ) {
 					slideString = 0;
@@ -455,12 +461,13 @@
 			}
 
 			slider.args[slider.prop] = target;
-			if ( slider.transitions || dur === undefined )
+			if ( slider.transitions || dur === undefined ) {
 				slider.container.css( slider.args );
+			}
 		};
 
 		slider.setup = function( type ) {
-			var sliderOffset, arr;
+			var sliderOffset;
 
 			if ( type === 'init' ) {
 				slider.viewport = $( '<div class="' + namespace + 'viewport"></div>' ).css( { 'overflow': 'hidden', 'position': 'relative' } ).appendTo( slider ).append( slider.container );
@@ -470,8 +477,9 @@
 			slider.cloneCount = 2;
 			slider.cloneOffset = 1;
 			// Clear out old clones.
-			if ( type !== 'init' )
+			if ( type !== 'init' ) {
 				slider.container.find( '.clone' ).remove();
+			}
 
 			slider.container.append( slider.slides.first().clone().addClass( 'clone' ).attr( 'aria-hidden', 'true' ) ).prepend( slider.slides.last().clone().addClass( 'clone' ).attr( 'aria-hidden', 'true' ) );
 			slider.newSlides = $( slider.vars.selector, slider );
@@ -531,13 +539,6 @@
 		methods.init();
 	};
 
-	// Ensure the slider isn't focused if the window loses focus.
-	$( window ).blur( function ( e ) {
-		focused = false;
-	} ).focus( function ( e ) {
-		focused = true;
-	} );
-
 	// Default settings.
 	$.featuredslider.defaults = {
 		namespace: 'slider-',     // String: prefix string attached to the class of every element generated by the plugin.
@@ -552,8 +553,9 @@
 
 	// FeaturedSlider: plugin function.
 	$.fn.featuredslider = function( options ) {
-		if ( options === undefined )
+		if ( options === undefined ) {
 			options = {};
+		}
 
 		if ( typeof options === 'object' ) {
 			return this.each( function() {

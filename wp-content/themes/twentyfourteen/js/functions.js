@@ -5,12 +5,14 @@
 	// Enable menu toggle for small screens.
 	( function() {
 		var nav = $( '#primary-navigation' ), button, menu;
-		if ( ! nav )
+		if ( ! nav ) {
 			return;
+		}
 
 		button = nav.find( '.menu-toggle' );
-		if ( ! button )
+		if ( ! button ) {
 			return;
+		}
 
 		// Hide button if menu is missing or empty.
 		menu = nav.find( '.nav-menu' );
@@ -34,11 +36,12 @@
 		var element = document.getElementById( location.hash.substring( 1 ) );
 
 		if ( element ) {
-			if ( ! /^(?:a|select|input|button|textarea)$/i.test( element.tagName ) )
+			if ( ! /^(?:a|select|input|button|textarea)$/i.test( element.tagName ) ) {
 				element.tabIndex = -1;
+			}
 
 			element.focus();
-		};
+		}
 	} );
 
 	$( function() {
@@ -50,8 +53,9 @@
 			that.toggleClass( 'active' );
 			wrapper.toggleClass( 'hide' );
 
-			if ( that.is( '.active' ) )
+			if ( that.is( '.active' ) ) {
 				wrapper.find( '.search-field' ).focus();
+			}
 		} );
 
 		/*
@@ -65,10 +69,11 @@
 			    mastheadOffset = $( '#masthead' ).offset().top - toolbarOffset;
 
 			_window.on( 'scroll.twentyfourteen', function() {
-				if ( window.scrollY > mastheadOffset )
+				if ( window.scrollY > mastheadOffset ) {
 					body.addClass( 'masthead-fixed' );
-				else
+				} else {
 					body.removeClass( 'masthead-fixed' );
+				}
 			} );
 		}
 
@@ -89,7 +94,7 @@
 			isResizable: true,
 			isRTL: $( 'body' ).is( '.rtl' )
 		} );
-	};
+	}
 
 	// Initialize Featured Content slider.
 	_window.load( function() {
