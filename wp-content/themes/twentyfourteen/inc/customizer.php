@@ -140,7 +140,7 @@ function twentyfourteen_customizer_styles() {
 	$css = '/* Custom accent color. */
 		a,
 		.paging-navigation .page-numbers.current,
-		.content-sidebar .widget_twentyfourteen_ephemera .post-format-archive-link {
+		.content-sidebar .widget a {
 			color: ' . $accent_color . ';
 		}
 
@@ -151,15 +151,10 @@ function twentyfourteen_customizer_styles() {
 		input[type="submit"],
 		.search-toggle,
 		.hentry .mejs-controls .mejs-time-rail .mejs-time-current,
-		.widget_calendar tbody a {
+		.widget_calendar tbody a,
+		.slider-control-paging a:hover:before,
+		.slider-direction-nav a:hover {
 			background-color: ' . $accent_color . ';
-		}
-
-		@media screen and (min-width: 782px) {
-			.primary-navigation ul ul,
-			.primary-navigation li:hover > a {
-				background-color: ' . $accent_color . ';
-			}
 		}
 
 		::-moz-selection {
@@ -172,6 +167,20 @@ function twentyfourteen_customizer_styles() {
 
 		.paging-navigation .page-numbers.current {
 			border-color: ' .  $accent_color . ';
+		}
+
+		@media screen and (min-width: 782px) {
+			.primary-navigation ul ul,
+			.primary-navigation li:hover > a {
+				background-color: ' . $accent_color . ';
+			}
+		}
+
+		@media screen and (min-width: 1008px) {
+			.secondary-navigation li:hover > a,
+			.secondary-navigation ul ul {
+				background-color: ' . $accent_color . ';
+			}
 		}
 
 		/* Generated variant of custom accent color: slightly lighter. */
@@ -187,9 +196,16 @@ function twentyfourteen_customizer_styles() {
 		.search-toggle:hover,
 		.search-toggle.active,
 		.search-box,
-		.primary-navigation ul ul a:hover,
-		.widget_calendar tbody a:hover {
+		.widget_calendar tbody a:hover,
+		.slider-control-paging .slider-active:before {
 			background-color: ' . $accent_lighter . ';
+		}
+
+		@media screen and (min-width: 782px) {
+			.primary-navigation ul ul a:hover,
+			.secondary-navigation ul ul a:hover {
+				background-color: ' . $accent_lighter . ';
+			}
 		}
 
 		/* Generated variant of custom accent color: much lighter. */
@@ -209,8 +225,8 @@ function twentyfourteen_customizer_styles() {
 		.site-navigation .current_page_ancestor > a,
 		.site-navigation .current-menu-item > a,
 		.site-navigation .current-menu-ancestor > a,
-		.secondary-navigation a:hover,
 		.entry-title a:hover,
+		.entry-meta a:hover,
 		.cat-links a:hover,
 		.post-navigation a:hover,
 		.image-navigation a:hover,
@@ -218,9 +234,13 @@ function twentyfourteen_customizer_styles() {
 		.comment-list .pingback a:hover,
 		.comment-list .trackback a:hover,
 		.comment-metadata a:hover,
-		.footer-sidebar a:hover,
-		.primary-sidebar a:hover,
-		.content-sidebar .widget_twentyfourteen_ephemera .post-format-archive-link:hover,
+		.widget a:hover,
+		.widget a:focus,
+		.widget a:active,
+		.content-sidebar .widget a:hover,
+		.content-sidebar .widget a:focus,
+		.content-sidebar .widget a:active,
+		.content-sidebar .widget_twentyfourteen_ephemera .entry-meta a:hover,
 		.featured-content a:hover {
 			color: ' . $accent_much_lighter . ';
 		}
