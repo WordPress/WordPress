@@ -77,8 +77,8 @@
 			} );
 		}
 
-		// Focus styles for primary menu.
-		$( '.primary-navigation' ).find( 'a' ).on( 'focus.twentyfourteen blur.twentyfourteen', function() {
+		// Focus styles for menus.
+		$( '.primary-navigation, .secondary-navigation' ).find( 'a' ).on( 'focus.twentyfourteen blur.twentyfourteen', function() {
 			$( this ).parents().toggleClass( 'focus' );
 		} );
 	} );

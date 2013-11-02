@@ -23,19 +23,19 @@ Use it to make something cool, have fun, and share what you've learned with othe
  * 5.0 - Navigations
  * 6.0 - Content
  *   6.1 - Post Thumbnail
- *   6.1 - Entry Header
- *   6.2 - Entry Meta
- *   6.3 - Entry Content
- *   6.4 - Galleries
- *   6.5 - Post Formats
- *   6.6 - Post/Paging Navigation
- *   6.7 - Attachments
- *   6.8 - Archives
- *   6.9 - Contributor Page
- *   6.10 - 404 Page
- *   6.11 - Full-width
- *   6.12 - Singular
- *   6.13 - Comments
+ *   6.2 - Entry Header
+ *   6.3 - Entry Meta
+ *   6.4 - Entry Content
+ *   6.5 - Galleries
+ *   6.6 - Post Formats
+ *   6.7 - Post/Paging Navigation
+ *   6.8 - Attachments
+ *   6.9 - Archives
+ *   6.10 - Contributor Page
+ *   6.11 - 404 Page
+ *   6.12 - Full-width
+ *   6.13 - Singular
+ *   6.14 - Comments
  * 7.0 - Sidebar
  *   7.1 - Widgets
  *   7.2 - Content Sidebar Widgets
@@ -761,6 +761,7 @@ img.wp-smiley {
 .comment-edit-link:before,
 .comment-reply-link:before,
 .comment-reply-login:before,
+.comment-reply-title small a:before,
 .contributor-posts-link:before,
 .menu-toggle:before,
 .search-toggle:before,
@@ -1017,7 +1018,7 @@ span + .edit-link:before,
 	display: none;
 	height: auto;
 	margin: 0;
-	min-height: 216px;
+	min-height: 192px;
 	position: relative;
 	width: 100%;
 	z-index: 0;
@@ -1160,8 +1161,8 @@ a.post-thumbnail:hover {
 	text-transform: uppercase;
 }
 
-.tag-links a:hover,
-.tag-links a:focus {
+.entry-meta .tag-links a:hover,
+.entry-meta .tag-links a:focus {
 	background-color: #2b2b2b;
 	color: #fff;
 	text-decoration: none;
@@ -1197,7 +1198,7 @@ a.post-thumbnail:hover {
 
 
 /**
- * 6.3 Entry Content
+ * 6.4 Entry Content
  * -----------------------------------------------------------------------------
  */
 
@@ -1266,6 +1267,10 @@ a.post-thumbnail:hover {
 .entry-content .edit-link a {
 	color: #767676;
 	text-decoration: none;
+}
+
+.entry-content .edit-link a:hover {
+	color: #55d737;
 }
 
 /* Mediaelements */
@@ -1371,7 +1376,7 @@ a.post-thumbnail:hover {
 
 
 /**
- * 6.4 Gallery
+ * 6.5 Gallery
  * -----------------------------------------------------------------------------
  */
 
@@ -1499,7 +1504,7 @@ a.post-thumbnail:hover {
 
 
 /**
- * 6.5 Post Formats
+ * 6.6 Post Formats
  * -----------------------------------------------------------------------------
  */
 
@@ -1520,7 +1525,7 @@ a.post-thumbnail:hover {
 
 
 /**
- * 6.6 Post/Image/Paging Navigation
+ * 6.7 Post/Image/Paging Navigation
  * -----------------------------------------------------------------------------
  */
 
@@ -1606,7 +1611,7 @@ a.post-thumbnail:hover {
 
 
 /**
- * 6.7 Attachments
+ * 6.8 Attachments
  * -----------------------------------------------------------------------------
  */
 
@@ -1628,7 +1633,7 @@ a.post-thumbnail:hover {
 
 
 /**
- * 6.8 Archives
+ * 6.9 Archives
  * -----------------------------------------------------------------------------
  */
 
@@ -1655,7 +1660,7 @@ a.post-thumbnail:hover {
 
 
 /**
- * 6.9 Contributor Page
+ * 6.10 Contributor Page
  * -----------------------------------------------------------------------------
  */
 
@@ -1711,7 +1716,7 @@ a.post-thumbnail:hover {
 
 
 /**
- * 6.10 404 Page
+ * 6.11 404 Page
  * -----------------------------------------------------------------------------
  */
 
@@ -1725,7 +1730,7 @@ a.post-thumbnail:hover {
 
 
 /**
- * 6.11 Full-width
+ * 6.12 Full-width
  * -----------------------------------------------------------------------------
  */
 
@@ -1735,7 +1740,7 @@ a.post-thumbnail:hover {
 
 
 /**
- * 6.12 Singular
+ * 6.13 Singular
  * -----------------------------------------------------------------------------
  */
 
@@ -1750,7 +1755,7 @@ a.post-thumbnail:hover {
 
 
 /**
- * 6.13 Comments
+ * 6.14 Comments
  * -----------------------------------------------------------------------------
  */
 
@@ -1896,7 +1901,7 @@ a.post-thumbnail:hover {
 }
 
 .comment .comment-respond {
-	margin-left: 36px;
+	margin-top: 24px;
 }
 
 .comment-respond h3 {
@@ -1927,6 +1932,24 @@ a.post-thumbnail:hover {
 .form-allowed-tags code {
 	font-size: 12px;
 	line-height: 1.5;
+}
+
+.comment-reply-title small a {
+	color: #2b2b2b;
+	float: right;
+	height: 24px;
+	overflow: hidden;
+	width: 24px;
+}
+
+.comment-reply-title small a:hover {
+	color: #55d737;
+}
+
+.comment-reply-title small a:before {
+	content: "\f405";
+	font-size: 32px;
+	margin-top: -2px;
 }
 
 .comment-navigation {
@@ -2169,6 +2192,8 @@ a.post-thumbnail:hover {
 .widget input[type="button"],
 .widget input[type="reset"],
 .widget input[type="submit"] {
+	background-color: #24890d;
+	font-size: 12px;
 	padding: 5px 15px 4px;
 }
 
@@ -2325,7 +2350,7 @@ a.post-thumbnail:hover {
 .widget_pages li:first-child,
 .widget_recent_comments li:first-child,
 .widget_recent_entries li:first-child {
-	border-top: none;
+	border-top: 0;
 }
 
 .widget_archive li li,
@@ -2336,7 +2361,7 @@ a.post-thumbnail:hover {
 .widget_pages li li,
 .widget_recent_comments li li,
 .widget_recent_entries li li {
-	border-top: none;
+	border-top: 0;
 	padding-bottom: 0;
 }
 
@@ -2453,10 +2478,10 @@ a.post-thumbnail:hover {
 	text-transform: uppercase;
 }
 
-.content-sidebar .widget-title a,
-.content-sidebar .widget-title a:hover,
-.content-sidebar .widget-title a:focus,
-.content-sidebar .widget-title a:active {
+.content-sidebar .widget .widget-title a,
+.content-sidebar .widget .widget-title a:hover,
+.content-sidebar .widget .widget-title a:focus,
+.content-sidebar .widget .widget-title a:active {
 	color: #2b2b2b;
 }
 
@@ -2932,11 +2957,11 @@ a.post-thumbnail:hover {
 
 	.site-content .featured-post:before {
 		content: "\f308";
-		margin: -1px 3px 0 0;
+		margin: 0 3px 0 0;
 	}
 
 	.site-content .entry-date a:before,
-	.attachment span.entry-date:before {
+	.attachment .site-content span.entry-date:before {
 		content: "\f303";
 		margin: 0 1px 0 0;
 	}
@@ -2957,6 +2982,10 @@ a.post-thumbnail:hover {
 		margin: -1px 2px 0 0;
 	}
 
+	.entry-content .edit-link a:before {
+		margin: 5px 2px 0 0;
+	}
+
 	.site-content .full-size-link a:before {
 		content: "\f402";
 		margin: -1px 2px 0 0;
@@ -2965,10 +2994,6 @@ a.post-thumbnail:hover {
 	.site-content .parent-post-link a:before {
 		content: "\f301";
 		margin: -1px 2px 0 0;
-	}
-
-	.entry-content .edit-link a:before {
-		margin: 1px 2px 0 0;
 	}
 
 	.list-view .site-content .has-post-thumbnail .post-thumbnail,
@@ -3056,6 +3081,10 @@ a.post-thumbnail:hover {
 		margin-top: -48px;
 	}
 
+	.full-width .site-content .format-standard.post-password-required .entry-header {
+		margin-top: 0
+	}
+
 	.full-width.singular .hentry.format-standard,
 	.full-width.singular .hentry.has-post-thumbnail {
 		margin-top: -36px;
@@ -3101,10 +3130,11 @@ a.post-thumbnail:hover {
 	}
 
 	.slider .featured-content .entry-header {
-		bottom: 0;
 		min-height: inherit;
 		padding: 24px 30px 48px;
 		position: absolute;
+		left: 0;
+		bottom: 0;
 		width: 50%;
 		z-index: 3;
 	}
@@ -3251,13 +3281,15 @@ a.post-thumbnail:hover {
 		width: 176px;
 	}
 
-	.primary-navigation li:hover > a {
+	.primary-navigation li:hover > a,
+	.primary-navigation li.focus > a {
 		background-color: #24890d;
 		color: #fff;
 		opacity: 1.0;
 	}
 
-	.primary-navigation ul ul a:hover {
+	.primary-navigation ul ul a:hover,
+	.primary-navigation ul ul li.focus > a {
 		background-color: #41a62a;
 	}
 
@@ -3270,8 +3302,6 @@ a.post-thumbnail:hover {
 	.primary-navigation ul ul li.focus > ul {
 		left: 100%;
 	}
-
-
 }
 
 @media screen and (min-width: 810px) {
@@ -3349,15 +3379,11 @@ a.post-thumbnail:hover {
 	.comment-content,
 	.comment-list .reply,
 	.comment-metadata {
-		padding-left: 54px;
+		padding-left: 55px;
 	}
 
 	.comment-list .children {
-		margin-left: 37px;
-	}
-
-	.comment .comment-respond {
-		margin-left: 60px;
+		margin-left: 35px;
 	}
 
 	.full-width.singular .hentry.format-standard,
@@ -3384,7 +3410,8 @@ a.post-thumbnail:hover {
 	}
 
 	.site-content {
-		margin: 0 29.04761904% 0 182px;
+		margin-right: 29.04761904%;
+		margin-left: 182px;
 	}
 
 	.site-content .entry-header {
@@ -3438,43 +3465,42 @@ a.post-thumbnail:hover {
 		width: 182px;
 	}
 
-	.secondary-navigation li {
-		position: relative;
-	}
-
 	.secondary-navigation  li {
 		border-top: 1px solid rgba(255, 255, 255, 0.2);
-	}
-
-	.secondary-navigation  li li {
-		border-top: none;
+		position: relative;
 	}
 
 	.secondary-navigation a {
 		padding: 10px 30px;
 	}
 
-	.secondary-navigation li:hover > a {
+	.secondary-navigation ul ul {
+		background-color: #24890d;
+		position: absolute;
+		top: 0;
+		left: -999em;
+		width: 182px;
+		z-index: 99999;
+	}
+
+	.secondary-navigation  li li {
+		border-top: 0;
+	}
+
+	.secondary-navigation li:hover > a,
+	.secondary-navigation li.focus > a {
 		background-color: #24890d;
 		color: #fff;
 	}
 
-	.secondary-navigation ul ul {
-		background-color: #24890d;
-		display: none;
-		position: absolute;
-		top: 0;
-		left: 162px;
-		width: 182px;
-		z-index: 9999;
-	}
-
-	.secondary-navigation ul ul a:hover {
+	.secondary-navigation ul ul a:hover,
+	.secondary-navigation ul ul li.focus > a {
 		background-color: #41a62a;
 	}
 
-	.secondary-navigation ul li:hover > ul {
-		display: block;
+	.secondary-navigation ul li:hover > ul,
+	.secondary-navigation ul li.focus > ul {
+		left: 162px;
 	}
 
 	.footer-sidebar .widget,
@@ -3596,7 +3622,7 @@ a.post-thumbnail:hover {
 	.primary-sidebar .widget_pages li,
 	.primary-sidebar .widget_recent_comments li,
 	.primary-sidebar .widget_recent_entries li {
-		border-top: none;
+		border-top: 0;
 		padding: 0;
 	}
 
@@ -3692,7 +3718,8 @@ a.post-thumbnail:hover {
 		width: 222px;
 	}
 
-	.secondary-navigation ul ul {
+	.secondary-navigation ul li:hover > ul,
+	.secondary-navigation ul li.focus > ul {
 		left: 202px;
 	}
 
@@ -3752,6 +3779,17 @@ a.post-thumbnail:hover {
 	.site-content .entry-summary,
 	.site-content footer.entry-meta {
 		margin-right: 54px;
+	}
+
+	.comment-author .avatar {
+		left: -55px;
+	}
+
+	.comment-author,
+	.comment-content,
+	.comment-list .reply,
+	.comment-metadata {
+		padding-left: 0;
 	}
 
 	.full-width .archive-header,
