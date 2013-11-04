@@ -3248,20 +3248,25 @@ class WP_Query {
 		$this->queried_object_id = 0;
 
 		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
-			$tax_query_in_and = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'NOT IN' ), 'NOT' );
+			if ( $this->is_category ) {
+				$term = get_term( $this->get( 'cat' ), 'category' );
+			} elseif ( $this->is_tag ) {
+				$term = get_term( $this->get( 'tag_id' ), 'post_tag' );
+			} else {
+				$tax_query_in_and = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'NOT IN' ), 'NOT' );
+				$query = reset( $tax_query_in_and );
 
-			$query = reset( $tax_query_in_and );
-
-			if ( 'term_id' == $query['field'] )
-				$term = get_term( reset( $query['terms'] ), $query['taxonomy'] );
-			elseif ( $query['terms'] )
-				$term = get_term_by( $query['field'], reset( $query['terms'] ), $query['taxonomy'] );
+				if ( 'term_id' == $query['field'] )
+					$term = get_term( reset( $query['terms'] ), $query['taxonomy'] );
+				else
+					$term = get_term_by( $query['field'], reset( $query['terms'] ), $query['taxonomy'] );
+			}
 
 			if ( ! empty( $term ) && ! is_wp_error( $term ) )  {
 				$this->queried_object = $term;
 				$this->queried_object_id = (int) $term->term_id;
 
-				if ( $this->is_category )
+				if ( $this->is_category && 'category' === $this->queried_object->taxonomy )
 					_make_cat_compat( $this->queried_object );
 			}
 		} elseif ( $this->is_post_type_archive ) {
