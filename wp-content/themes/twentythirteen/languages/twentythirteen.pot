@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
 #: 404.php:16
-msgid "Not found"
+msgid "Not Found"
 msgstr ""
 
 #: 404.php:21
