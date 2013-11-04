@@ -605,7 +605,7 @@ class WP {
 		$this->query_posts();
 		$this->handle_404();
 		$this->register_globals();
-		
+
 		/**
 		 * Fires once the WordPress environment has been set up.
 		 *
