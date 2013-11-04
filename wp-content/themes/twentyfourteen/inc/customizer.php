@@ -139,7 +139,6 @@ function twentyfourteen_customizer_styles() {
 
 	$css = '/* Custom accent color. */
 		a,
-		.paging-navigation .page-numbers.current,
 		.content-sidebar .widget a {
 			color: ' . $accent_color . ';
 		}
@@ -156,7 +155,11 @@ function twentyfourteen_customizer_styles() {
 		.widget input[type="reset"],
 		.widget input[type="submit"],
 		.widget_calendar tbody a,
-		.slider-control-paging a:hover:before,
+		.content-sidebar .widget input[type="button"],
+		.content-sidebar .widget input[type="reset"],
+		.content-sidebar .widget input[type="submit"],
+		.slider-control-paging .slider-active:before,
+		.slider-control-paging .slider-active:hover:before,
 		.slider-direction-nav a:hover {
 			background-color: ' . $accent_color . ';
 		}
@@ -174,14 +177,16 @@ function twentyfourteen_customizer_styles() {
 		}
 
 		@media screen and (min-width: 782px) {
-			.primary-navigation ul ul,
-			.primary-navigation li:hover > a {
+			.primary-navigation li:hover > a,
+			.primary-navigation li.focus > a,
+			.primary-navigation ul ul {
 				background-color: ' . $accent_color . ';
 			}
 		}
 
 		@media screen and (min-width: 1008px) {
 			.secondary-navigation li:hover > a,
+			.secondary-navigation li.focus > a,
 			.secondary-navigation ul ul {
 				background-color: ' . $accent_color . ';
 			}
@@ -200,14 +205,68 @@ function twentyfourteen_customizer_styles() {
 		.search-toggle:hover,
 		.search-toggle.active,
 		.search-box,
+		.entry-meta .tag-links a:hover,
+		.widget input[type="button"]:hover,
+		.widget input[type="button"]:focus,
+		.widget input[type="reset"]:hover,
+		.widget input[type="reset"]:focus,
+		.widget input[type="submit"]:hover,
+		.widget input[type="submit"]:focus,
 		.widget_calendar tbody a:hover,
-		.slider-control-paging .slider-active:before {
+		.content-sidebar .widget input[type="button"]:hover,
+		.content-sidebar .widget input[type="button"]:focus,
+		.content-sidebar .widget input[type="reset"]:hover,
+		.content-sidebar .widget input[type="reset"]:focus,
+		.content-sidebar .widget input[type="submit"]:hover,
+		.content-sidebar .widget input[type="submit"]:focus,
+		.slider-control-paging a:hover:before {
 			background-color: ' . $accent_lighter . ';
+		}
+
+		a:active,
+		a:hover,
+		.site-navigation a:hover,
+		.entry-title a:hover,
+		.entry-meta a:hover,
+		.cat-links a:hover,
+		.entry-content .edit-link a:hover,
+		.page-links a:hover,
+		.post-navigation a:hover,
+		.image-navigation a:hover,
+		.comment-author a:hover,
+		.comment-list .pingback a:hover,
+		.comment-list .trackback a:hover,
+		.comment-metadata a:hover,
+		.comment-reply-title small a:hover,
+		.widget a:hover,
+		.widget-title a:hover,
+		.content-sidebar .widget a:hover,
+		.content-sidebar .widget .widget-title a:hover,
+		.content-sidebar .widget_twentyfourteen_ephemera .entry-meta a:hover,
+		.site-info a:hover,
+		.featured-content a:hover {
+			color: ' . $accent_lighter . ';
+		}
+
+		.page-links a:hover,
+		.paging-navigation a:hover {
+			border-color: ' . $accent_lighter . ';
+		}
+
+		.tag-links a:hover:before {
+			border-right-color: ' . $accent_lighter . ';
 		}
 
 		@media screen and (min-width: 782px) {
 			.primary-navigation ul ul a:hover,
-			.secondary-navigation ul ul a:hover {
+			.primary-navigation ul ul li.focus > a {
+				background-color: ' . $accent_lighter . ';
+			}
+		}
+
+		@media screen and (min-width: 1008px) {
+			.secondary-navigation ul ul a:hover,
+			.secondary-navigation ul ul li.focus > a {
 				background-color: ' . $accent_lighter . ';
 			}
 		}
@@ -218,46 +277,22 @@ function twentyfourteen_customizer_styles() {
 		input[type="button"]:active,
 		input[type="reset"]:active,
 		input[type="submit"]:active,
-		.page-links a:hover {
+		.widget input[type="button"]:active,
+		.widget input[type="reset"]:active,
+		.widget input[type="submit"]:active,
+		.content-sidebar .widget input[type="button"]:active,
+		.content-sidebar .widget input[type="reset"]:active,
+		.content-sidebar .widget input[type="submit"]:active {
 			background-color: ' . $accent_much_lighter . ';
 		}
 
-		a:hover,
-		a:focus,
-		a:active,
 		.site-navigation .current_page_item > a,
 		.site-navigation .current_page_ancestor > a,
 		.site-navigation .current-menu-item > a,
-		.site-navigation .current-menu-ancestor > a,
-		.entry-title a:hover,
-		.entry-meta a:hover,
-		.cat-links a:hover,
-		.entry-content .edit-link a:hover,
-		.post-navigation a:hover,
-		.image-navigation a:hover,
-		.comment-author a:hover,
-		.comment-list .pingback a:hover,
-		.comment-list .trackback a:hover,
-		.comment-metadata a:hover,
-		.comment-reply-title small a:hover,
-		.widget a:hover,
-		.widget a:focus,
-		.widget a:active,
-		.content-sidebar .widget a:hover,
-		.content-sidebar .widget a:focus,
-		.content-sidebar .widget a:active,
-		.content-sidebar .widget .widget-title a:hover,
-		.content-sidebar .widget .widget-title a:focus,
-		.content-sidebar .widget .widget-title a:active,
-		.content-sidebar .widget_twentyfourteen_ephemera .entry-meta a:hover,
-		.featured-content a:hover {
+		.site-navigation .current-menu-ancestor > a {
 			color: ' . $accent_much_lighter . ';
-		}
-
-		.page-links a:hover,
-		.paging-navigation a:hover {
-			border-color: ' . $accent_much_lighter . ';
 		}';
+
 
 	wp_add_inline_style( 'twentyfourteen-style', $css );
 }

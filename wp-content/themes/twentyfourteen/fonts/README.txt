@@ -52,16 +52,47 @@ _  _ ____ ___ ____ ____
 | \| |__|  |  |___ ___]
 
 
+Photoshop mockups:
+
 Genericons-Regular.otf found in the root directory of this zip has not been web-font-ified. So you can drop it in your system fonts folder and use the font in Photoshop if you like.
+
+For those of you using Genericons in your Photoshop mockup, remember to delete the old version of the font from Font Book, and grab the new one from the zip file. This also affects using it in your webdesigns: if you have an old version of the font installed locally, that's the font that'll be used in your website as well, so if you're missing icons, check for old versions of the font on your system.
+
+Pixel grid:
 
 Note that Genericons has been designed for a 16x16 pixel grid. That means it'll look sharp at font-size: 16px exactly. It'll also be crisp at multiples thereof, such as 32px or 64px. It'll also look reasonably crisp at in-between font sizes such as 24px or 48px, but not quite as crisp as 16 or 32. Please don't set the font-size to 17px, though, that'll just look terrible.
 
 Also note the CSS property "-webkit-font-smoothing: antialiased". That makes the icons look great in WebKit browsers. Please see http://noscope.com/2012/font-smoothing for more info.
 
+Updates:
+
+We don't often update icons, but do very carefully when we get good feedback suggesting improvements. Please be mindful if you upgrade, and check that the updated icons behave as you intended.
+
+
 
 ____ _  _ ____ _  _ ____ ____ _    ____ ____ 
 |    |__| |__| |\ | | __ |___ |    |  | | __ 
 |___ |  | |  | | \| |__] |___ |___ |__| |__] 
+
+V3.0.2: 
+A slew of new stuff and updates.
+- Social icons: Skype, Digg, Reddit, Stumbleupon, Pocket.
+- New generic icons: heart, lock and print.
+- New editing icons: code, bold, italic, image
+- New interaction icons: subscribe, unsubscribe, subscribed, reply all, reply, flag.
+- The hyperlink icon has been updated to be clearer, chunkier.
+- The "home" icon has been updated for style, size and clarity.
+- The email icon has been updated for style and clarity, and to fit with the new subscribe icons.
+- The document icon has been updated for style.
+- The "pin" icon has been updated for style and clarity.
+- The Twitter icon has been scaled down to fit with the other social icons.
+
+V3.0.1: 
+Mostly maintenance. 
+- Fixed an issue with the example page that showed an old "top" icon instead of the actual NEW "refresh" icon.
+- Added inverse Google+ and Path.
+- Replaced tabs with spaces in the helper CSS.
+- Changed the Genericons.com copy/paste tool to serve span's instead of div's for casual icon insertion. It's being converted to "inline-block" anyway.
 
 V3.0:
 Mainly maintenance and a few new icons.

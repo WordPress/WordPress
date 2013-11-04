@@ -255,6 +255,10 @@ td {
 	left: auto;
 }
 
+.bypostauthor > article .fn:before {
+	margin: 3px -2px 0 2px;
+}
+
 .comment-content,
 .comment-list .reply,
 .comment-metadata {
