@@ -42,6 +42,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
  * 8.0 - Footer
  * 9.0 - Featured Content
  * 10.0 - Media Queries
+ * 11.0 - Print
  * -----------------------------------------------------------------------------
  */
 
@@ -3882,5 +3883,167 @@ a.post-thumbnail:hover {
 
 	.site-content blockquote.alignright {
 		margin-right: -18%;
+	}
+}
+
+
+/**
+ * 11.0 Print
+ * -----------------------------------------------------------------------------
+ */
+
+@media print {
+	body {
+		background: none !important;
+		color: #2b2b2b;
+		font-size: 12pt;
+	}
+
+	.site,
+	.site-header,
+	.hentry,
+	.site-content .entry-header,
+	.site-content .entry-content,
+	.site-content .entry-summary,
+	.site-content .entry-meta,
+	.page-content,
+	.archive-header,
+	.page-header,
+	.contributor-info,
+	.comments-area,
+	.attachment .entry-attachment .attachment {
+		max-width: 100%;
+	}
+
+	#site-header img,
+	.search-toggle,
+	.site-navigation,
+	.site-content nav,
+	.edit-link,
+	.page-links,
+	.widget-area,
+	.more-link,
+	.post-format-archive-link,
+	.comment-respond,
+	.comment-list .reply,
+	.comment-reply-login,
+	#secondary,
+	.site-footer,
+	.slider-control-paging,
+	.slider-direction-nav {
+		display: none;
+	}
+
+	.site-title a,
+	.entry-meta,
+	.entry-meta a,
+	.featured-content .hentry,
+	.featured-content a {
+		color: #2b2b2b;
+	}
+
+	.entry-content a,
+	.entry-summary a,
+	.page-content a,
+	.comment-content a {
+		text-decoration: none;
+	}
+
+	.site-header,
+	.post-thumbnail,
+	a.post-thumbnail:hover,
+	.site-content .entry-header,
+	.site-footer,
+	.featured-content,
+	.featured-content .entry-header {
+		background: transparent;
+	}
+
+	.header-main {
+		padding: 48px 10px;
+	}
+
+	.site-title {
+		float: none;
+		font-size: 19pt;
+	}
+
+	.content-area {
+		padding-top: 0;
+	}
+
+	.list-view .site-content .hentry {
+		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+		margin-bottom: 48px;
+		padding-bottom: 24px;
+	}
+
+	.post-thumbnail {
+		min-height: 0;
+	}
+
+	.post-thumbnail img {
+		margin: 0 10px 24px;
+	}
+
+	.site-content .has-post-thumbnail .entry-header,
+	.site-content .format-standard .entry-header {
+		padding-top: 0;
+	}
+
+	.site-content footer.entry-meta {
+		margin: 24px auto;
+	}
+
+	.tag-links a {
+		color: #fff;
+	}
+
+	.singular .hentry.format-standard,
+	.singular .hentry.has-post-thumbnail {
+		margin-top: 0;
+	}
+
+	.gallery-columns-1.gallery-size-medium,
+	.gallery-columns-1.gallery-size-thumbnail,
+	.gallery-columns-2.gallery-size-thumbnail,
+	.gallery-columns-3.gallery-size-thumbnail {
+		display: block;
+	}
+
+	.archive-title,
+	.page-title {
+		margin: 0 10px 48px;
+	}
+
+	.featured-content .hentry {
+		margin-bottom: 48px;
+	}
+
+	.featured-content .post-thumbnail,
+	.slider .featured-content .post-thumbnail {
+		padding-top: 0
+	}
+
+	.featured-content .post-thumbnail img {
+		position: relative;
+	}
+
+	.featured-content .entry-header {
+		padding: 0 10px 24px;
+	}
+
+	.featured-content .entry-meta {
+		font-size: 9pt;
+		margin-bottom: 11px;
+	}
+
+	.featured-content .cat-links {
+		font-weight: 900;
+	}
+
+	.featured-content .entry-title {
+		font-size: 25pt;
+		line-height: 36px;
 	}
 }
