@@ -1,6 +1,4 @@
 <?php
-global $wp_version, $wp_db_version, $tinymce_version, $required_php_version, $required_mysql_version;
-
 /**
  * The WordPress version string
  *
