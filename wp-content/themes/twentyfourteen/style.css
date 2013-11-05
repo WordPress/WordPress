@@ -2575,6 +2575,10 @@ a.post-thumbnail:hover {
 	content: "\f104";
 }
 
+.content-sidebar .widget_twentyfourteen_ephemera .audio.widget-title:before {
+	content: "\f109";
+}
+
 .content-sidebar .widget_twentyfourteen_ephemera .image.widget-title:before {
 	content: "\f473";
 }
@@ -2968,6 +2972,11 @@ a.post-thumbnail:hover {
 
 	.site-content .format-video .post-format a:before {
 		content: "\f104";
+		margin: -1px 2px 0 0;
+	}
+
+	.site-content .format-audio .post-format a:before {
+		content: "\f109";
 		margin: -1px 2px 0 0;
 	}
 

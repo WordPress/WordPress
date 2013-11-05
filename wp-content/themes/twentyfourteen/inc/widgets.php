@@ -2,7 +2,7 @@
 /**
  * Custom Widget for displaying specific post formats
  *
- * Displays posts from Aside, Quote, Video, Image, Gallery, and Link formats.
+ * Displays posts from Aside, Quote, Video, Audio, Image, Gallery, and Link formats.
  *
  * @link http://codex.wordpress.org/Widgets_API#Developing_Widgets
  *
@@ -20,7 +20,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	 *
 	 * @var array
 	 */
-	private $formats = array( 'aside', 'image', 'video', 'quote', 'link', 'gallery' );
+	private $formats = array( 'aside', 'image', 'video', 'audio', 'quote', 'link', 'gallery' );
 
 	/**
 	 * Pluralized post format strings.
@@ -41,16 +41,17 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct( 'widget_twentyfourteen_ephemera', __( 'Twenty Fourteen Ephemera', 'twentyfourteen' ), array(
 			'classname'   => 'widget_twentyfourteen_ephemera',
-			'description' => __( 'Use this widget to list your recent Aside, Quote, Video, Image, Gallery, and Link posts', 'twentyfourteen' ),
+			'description' => __( 'Use this widget to list your recent Aside, Quote, Video, Audio, Image, Gallery, and Link posts', 'twentyfourteen' ),
 		) );
 
 		/*
-		 * @todo http://core.trac.wordpress.org/ticket/23257
+		 * @todo http://core.trac.wordpress.org/ticket/23257: Add plural versions of Post Format strings
 		 */
 		$this->format_strings = array(
 			'aside'   => __( 'Asides',    'twentyfourteen' ),
 			'image'   => __( 'Images',    'twentyfourteen' ),
 			'video'   => __( 'Videos',    'twentyfourteen' ),
+			'audio'   => __( 'Audio',     'twentyfourteen' ),
 			'quote'   => __( 'Quotes',    'twentyfourteen' ),
 			'link'    => __( 'Links',     'twentyfourteen' ),
 			'gallery' => __( 'Galleries', 'twentyfourteen' ),

@@ -442,6 +442,10 @@ td {
 		margin: -1px 0 0 2px;
 	}
 
+	.site-content .format-audio .post-format a:before {
+		margin: -1px 0 0 2px;
+	}
+
 	.site-content .format-image .post-format a:before {
 		margin: -1px 0 0 3px;
 	}

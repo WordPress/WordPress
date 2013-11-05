@@ -33,6 +33,9 @@ get_header(); ?>
 						elseif ( is_tax( 'post_format', 'post-format-video' ) ) :
 							_e( 'Videos', 'twentyfourteen' );
 
+						elseif ( is_tax( 'post_format', 'post-format-audio' ) ) :
+							_e( 'Audio', 'twentyfourteen' );
+
 						elseif ( is_tax( 'post_format', 'post-format-quote' ) ) :
 							_e( 'Quotes', 'twentyfourteen' );
 
