@@ -408,7 +408,6 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 	var $result;
 	var $bulk = false;
-	var $show_before = '';
 
 	function upgrade_strings() {
 		$this->strings['up_to_date'] = __('The plugin is at the latest version.');

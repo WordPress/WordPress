@@ -136,13 +136,6 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 		if ( ! empty($update_actions) )
 			$this->feedback(implode(' | ', (array)$update_actions));
 	}
-
-	function before() {
-		if ( $this->upgrader->show_before ) {
-			echo $this->upgrader->show_before;
-			$this->upgrader->show_before = '';
-		}
-	}
 }
 
 /**
