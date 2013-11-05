@@ -2393,9 +2393,31 @@ class WP_Automatic_Updater {
 			}
 		}
 
-		//echo "<h1>\n$subject\n</h1>\n";
-		//echo "<pre>\n" . implode( "\n", $body ) . "\n</pre>";
+		$email = array(
+			'to'      => get_site_option( 'admin_email' ),
+			'subject' => $subject,
+			'body'    => implode( "\n", $body ),
+			'headers' => ''
+		);
 
-		wp_mail( get_site_option( 'admin_email' ), $subject, implode( "\n", $body ) );
+		/**
+		 * Filter the debug email that can be sent following an automatic background core update.
+		 *
+		 * @since 3.8.0
+		 *
+		 * @param array $email {
+		 *     Array of email arguments that will be passed to wp_mail().
+		 *
+		 *     @type string $to      The email recipient. An array of emails can be returned, as handled by wp_mail().
+		 *     @type string $subject The email's subject.
+		 *     @type string $body    The email message body.
+		 *     @type string $headers Any email headers, defaults to no headers.
+		 * }
+		 * @param int   $failures The number of failures encountered while upgrading
+		 * @param mixed $results  The results of all updates attempted
+		 */
+		$email = apply_filters( 'automatic_updates_debug_email', $email, $failures, $this->update_results );
+
+		wp_mail( $email['to'], $email['subject'], $email['body'], $email['headers'] );
 	}
 }
