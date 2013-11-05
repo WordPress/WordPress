@@ -1313,7 +1313,9 @@ class Core_Upgrader extends WP_Upgrader {
 	}
 
 	function upgrade( $current, $args = array() ) {
-		global $wp_filesystem, $wp_version;
+		global $wp_filesystem;
+
+		include ABSPATH . WPINC . '/version.php'; // $wp_version;
 
 		$start_time = time();
 
