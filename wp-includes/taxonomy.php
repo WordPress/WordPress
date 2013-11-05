@@ -1658,14 +1658,9 @@ function term_is_ancestor_of( $term1, $term2, $taxonomy ) {
  */
 function sanitize_term($term, $taxonomy, $context = 'display') {
 
-	if ( 'raw' == $context )
-		return $term;
+	$fields = array( 'term_id', 'name', 'description', 'slug', 'count', 'parent', 'term_group', 'term_taxonomy_id', 'object_id' );
 
-	$fields = array('term_id', 'name', 'description', 'slug', 'count', 'parent', 'term_group');
-
-	$do_object = false;
-	if ( is_object($term) )
-		$do_object = true;
+	$do_object = is_object( $term );
 
 	$term_id = $do_object ? $term->term_id : (isset($term['term_id']) ? $term['term_id'] : 0);
 
@@ -1714,11 +1709,9 @@ function sanitize_term($term, $taxonomy, $context = 'display') {
  * @return mixed sanitized field
  */
 function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
-	if ( 'parent' == $field  || 'term_id' == $field || 'count' == $field || 'term_group' == $field ) {
-		$value = (int) $value;
-		if ( $value < 0 )
-			$value = 0;
-	}
+	$int_fields = array( 'parent', 'term_id', 'count', 'term_group', 'term_taxonomy_id', 'object_id' );
+	if ( in_array( $field, $int_fields ) )
+		$value = absint( $value );
 
 	if ( 'raw' == $context )
 		return $value;
@@ -2049,12 +2042,21 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids) $orderby $order";
 
 	if ( 'all' == $fields || 'all_with_object_id' == $fields ) {
-		$terms = array_merge($terms, $wpdb->get_results($query));
-		update_term_cache($terms);
+		$_terms = $wpdb->get_results( $query );
+		foreach ( $_terms as &$term )
+			$term = sanitize_term( $term, $taxonomy, 'raw' );
+		$terms = array_merge( $terms, $_terms );
+		update_term_cache( $terms );
 	} else if ( 'ids' == $fields || 'names' == $fields || 'slugs' == $fields ) {
-		$terms = array_merge($terms, $wpdb->get_col($query));
+		$_terms = $wpdb->get_col( $query );
+		$_field = ( 'ids' == $fields ) ? 'term_id' : 'name';
+		foreach ( $_terms as &$term )
+			$term = sanitize_term_field( $_field, $term, $term, $taxonomy, 'raw' );
+		$terms = array_merge( $terms, $_terms );
 	} else if ( 'tt_ids' == $fields ) {
 		$terms = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.object_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) $orderby $order");
+		foreach ( $terms as &$tt_id )
+			$tt_id = sanitize_term_field( 'term_taxonomy_id', $tt_id, 0, $taxonomy, 'raw' ); // 0 should be the term id, however is not needed when using raw context.
 	}
 
 	if ( ! $terms )
