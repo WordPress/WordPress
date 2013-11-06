@@ -69,6 +69,7 @@ function twentyfourteen_setup() {
 
 	// Add several sizes for Post Thumbnails.
 	add_image_size( 'post-thumbnail-slider', 1038, 576, true );
+	add_image_size( 'post-thumbnail-full-width', 1038, 0 );
 	add_image_size( 'post-thumbnail-grid', 672, 372, true );
 	add_image_size( 'post-thumbnail', 672, 0 );
 

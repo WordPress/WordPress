@@ -172,14 +172,21 @@ function twentyfourteen_post_thumbnail() {
 	?>
 
 	<div class="post-thumbnail">
-		<?php the_post_thumbnail( 'post-thumbnail' ); ?>
+		<?php
+			if ( is_active_sidebar( 'sidebar-2' ) || wp_is_mobile() )
+				the_post_thumbnail( 'post-thumbnail' );
+			else
+				the_post_thumbnail( 'post-thumbnail-full-width' );
+		?>
 	</div>
 
 	<?php else : ?>
 
 	<a class="post-thumbnail" href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>">
-	<?php if ( has_post_thumbnail() ) :
+	<?php if ( has_post_thumbnail() && ( is_active_sidebar( 'sidebar-2' ) || wp_is_mobile() ) ) :
 		the_post_thumbnail( 'post-thumbnail' );
+	elseif ( has_post_thumbnail() ) :
+		the_post_thumbnail( 'post-thumbnail-full-width' );
 	else : ?>
 		<p class="screen-reader-text"><?php _e( 'No featured image.', 'twentyfourteen' ); ?></p>
 	<?php endif; ?>
