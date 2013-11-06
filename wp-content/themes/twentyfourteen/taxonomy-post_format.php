@@ -28,7 +28,7 @@ get_header(); ?>
 							_e( 'Asides', 'twentyfourteen' );
 
 						elseif ( is_tax( 'post_format', 'post-format-image' ) ) :
-							_e( 'Images', 'twentyfourteen');
+							_e( 'Images', 'twentyfourteen' );
 
 						elseif ( is_tax( 'post_format', 'post-format-video' ) ) :
 							_e( 'Videos', 'twentyfourteen' );
