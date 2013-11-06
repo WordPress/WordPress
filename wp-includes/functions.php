@@ -3730,7 +3730,6 @@ function __return_false() {
  * Useful for returning 0 to filters easily.
  *
  * @since 3.0.0
- * @see __return_zero()
  * @return int 0
  */
 function __return_zero() {
@@ -3743,7 +3742,6 @@ function __return_zero() {
  * Useful for returning an empty array to filters easily.
  *
  * @since 3.0.0
- * @see __return_zero()
  * @return array Empty array
  */
 function __return_empty_array() {
@@ -3914,7 +3912,7 @@ function wp_allowed_protocols() {
  * Return a comma separated string of functions that have been called to get to the current point in code.
  *
  * @link http://core.trac.wordpress.org/ticket/19589
- * @since 3.4
+ * @since 3.4.0
  *
  * @param string $ignore_class A class to ignore all function calls within - useful when you want to just give info about the callee
  * @param int $skip_frames A number of stack frames to skip - useful for unwinding back to the source of the issue
