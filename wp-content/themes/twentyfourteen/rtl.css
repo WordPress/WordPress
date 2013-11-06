@@ -493,7 +493,7 @@ td {
 	}
 }
 
-@media screen and (min-width: 642px) {
+@media screen and (min-width: 594px) {
 	.site-content .entry-header {
 		padding-right: 30px;
 		padding-left: 30px;
@@ -639,7 +639,7 @@ td {
 	}
 }
 
-@media screen and (min-width: 870px) {
+@media screen and (min-width: 846px) {
 	.comment-author,
 	.comment-content,
 	.comment-list .reply,

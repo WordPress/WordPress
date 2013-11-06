@@ -998,7 +998,7 @@ span + .edit-link:before,
 }
 
 .hentry {
-	margin-bottom: 24px;
+	margin-bottom: 36px;
 	max-width: 672px;
 }
 
@@ -1139,7 +1139,7 @@ a.post-thumbnail:hover {
 }
 
 .site-content footer.entry-meta {
-	margin: 12px auto;
+	margin: 24px auto;
 	padding: 0 10px;
 }
 
@@ -1615,7 +1615,8 @@ a.post-thumbnail:hover {
  * -----------------------------------------------------------------------------
  */
 
-.attachment .content-sidebar {
+.attachment .content-sidebar,
+.attachment .post-thumbnail {
 	display: none;
 }
 
@@ -2884,14 +2885,14 @@ a.post-thumbnail:hover {
 	}
 
 	.list-view .content-area {
-		padding: 12px 10px;
+		padding: 0 10px;
 	}
 
 	.list-view .site-content .hentry {
 		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-		margin-bottom: 12px;
+		margin: 0;
 		min-height: 60px;
-		padding-bottom: 9px;
+		padding: 12px 0 9px;
 	}
 
 	.list-view .site-content .cat-links,
@@ -3062,7 +3063,7 @@ a.post-thumbnail:hover {
 	}
 }
 
-@media screen and (min-width: 642px) {
+@media screen and (min-width: 594px) {
 	.site-content .entry-header {
 		padding-right: 30px;
 		padding-left: 30px;
@@ -3399,7 +3400,7 @@ a.post-thumbnail:hover {
 	}
 }
 
-@media screen and (min-width: 870px) {
+@media screen and (min-width: 846px) {
 	.content-area,
 	.content-sidebar {
 		padding-top: 72px;
