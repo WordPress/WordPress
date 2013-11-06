@@ -1710,8 +1710,11 @@ function sanitize_term($term, $taxonomy, $context = 'display') {
  */
 function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 	$int_fields = array( 'parent', 'term_id', 'count', 'term_group', 'term_taxonomy_id', 'object_id' );
-	if ( in_array( $field, $int_fields ) )
-		$value = absint( $value );
+	if ( in_array( $field, $int_fields ) ) {
+		$value = (int) $value;
+		if ( $value < 0 )
+			$value = 0;
+	}
 
 	if ( 'raw' == $context )
 		return $value;
