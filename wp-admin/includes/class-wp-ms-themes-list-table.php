@@ -317,7 +317,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 				case 'description':
 					echo "<td class='column-description desc'$style>";
 					if ( $theme->errors() ) {
-						$pre = $status == 'broken' ? '' : __( 'Broken Theme:' ) . ' ';
+						$pre = $status == 'broken' ? __( 'Broken Theme:' ) . ' ' : '';
 						echo '<p><strong class="attention">' . $pre . $theme->errors()->get_error_message() . '</strong></p>';
 					}
 					echo "<div class='theme-description'><p>" . $theme->display( 'Description' ) . "</p></div>
