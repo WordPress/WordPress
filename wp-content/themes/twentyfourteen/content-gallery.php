@@ -33,7 +33,7 @@
 
 			<?php twentyfourteen_posted_on(); ?>
 
-			<?php if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
+			<?php if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) : ?>
 			<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyfourteen' ), __( '1 Comment', 'twentyfourteen' ), __( '% Comments', 'twentyfourteen' ) ); ?></span>
 			<?php endif; ?>
 
@@ -55,7 +55,9 @@
 
 	<?php if ( has_tag() ) : ?>
 	<footer class="entry-meta">
-		<span class="tag-links"><?php echo get_the_tag_list(); ?></span>
+		<span class="tag-links">
+			<?php echo get_the_tag_list(); ?>
+		</span>
 	</footer><!-- .entry-meta -->
 	<?php endif; ?>
 </article><!-- #post-## -->
