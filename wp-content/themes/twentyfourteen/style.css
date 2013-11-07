@@ -998,7 +998,7 @@ span + .edit-link:before,
 }
 
 .hentry {
-	margin-bottom: 36px;
+	margin-bottom: 48px;
 	max-width: 672px;
 }
 
@@ -1011,35 +1011,35 @@ span + .edit-link:before,
 	max-width: 474px;
 }
 
+.page-content {
+	margin-bottom: 48px;
+}
+
+.hentry > :last-child {
+	margin-bottom: 0
+}
+
 
 /**
  * 6.1 Post Thumbnail
  * -----------------------------------------------------------------------------
  */
 
- .post-thumbnail {
-	background: #767676 url(images/pattern-light.svg) repeat fixed;
-	display: none;
-	height: auto;
-	margin: 0;
-	min-height: 192px;
+.post-thumbnail {
+	background: #b2b2b2 url(images/pattern-light.svg) repeat fixed;
+	display: block;
 	position: relative;
 	width: 100%;
 	z-index: 0;
 }
 
 a.post-thumbnail:hover {
-	background-color: #919191;
+	background-color: #999;
 }
 
-.post-thumbnail img {
+.full-width .post-thumbnail img {
 	display: block;
 	margin: 0 auto;
-}
-
-.has-post-thumbnail .post-thumbnail,
-.format-standard .post-thumbnail {
-	display: block;
 }
 
 
@@ -1075,13 +1075,8 @@ a.post-thumbnail:hover {
 	padding: 0 10px 12px;
 }
 
-.site-content .has-post-thumbnail .entry-header,
-.site-content .format-standard .entry-header {
+.site-content .has-post-thumbnail .entry-header {
 	padding-top: 24px;
-}
-
-.site-content .format-standard.post-password-required .entry-header {
-	padding-top: 0;
 }
 
 
@@ -1144,8 +1139,7 @@ a.post-thumbnail:hover {
 }
 
 .site-content footer.entry-meta:empty {
-	margin-top: 0;
-	margin-bottom: 0;
+	margin: 0;
 }
 
 
@@ -1159,7 +1153,7 @@ a.post-thumbnail:hover {
 	font-size: 11px;
 	font-weight: 700;
 	line-height: 1.2727272727;
-	margin: 0 4px 4px 10px;
+	margin: 2px 4px 2px 10px;
 	padding: 3px 7px;
 	position: relative;
 	text-transform: uppercase;
@@ -1320,7 +1314,7 @@ a.post-thumbnail:hover {
 	font-size: 12px;
 	font-weight: 900;
 	line-height: 2;
-	margin-bottom: 24px;
+	margin: 24px 0;
 	text-transform: uppercase;
 }
 
@@ -1578,7 +1572,7 @@ a.post-thumbnail:hover {
 
 .paging-navigation {
 	border-top: 5px solid #000;
-	margin: 36px 0;
+	margin: 48px 0;
 }
 
 .paging-navigation .loop-pagination {
@@ -1640,7 +1634,7 @@ a.post-thumbnail:hover {
 
 .archive-header,
 .page-header {
-	margin: 0 auto 12px;
+	margin: 24px auto;
 	max-width: 474px;
 }
 
@@ -1656,7 +1650,14 @@ a.post-thumbnail:hover {
 	color: #767676;
 	font-size: 14px;
 	line-height: 1.2857142857;
+}
+
+.taxonomy-description p {
 	margin-bottom: 18px;
+}
+
+.taxonomy-description p:last-child {
+	margin-bottom: 0;
 }
 
 
@@ -1745,13 +1746,8 @@ a.post-thumbnail:hover {
  * -----------------------------------------------------------------------------
  */
 
-.singular .hentry.format-standard,
 .singular .hentry.has-post-thumbnail {
 	margin-top: -24px;
-}
-
-.singular .hentry.format-standard.post-password-required {
-	margin-top: 0
 }
 
 
@@ -2697,7 +2693,6 @@ a.post-thumbnail:hover {
 
 .featured-content .post-thumbnail {
 	display: block;
-	min-height: 0;
 	position: relative;
 	padding-top: 55.357142857%;
 }
@@ -2868,7 +2863,6 @@ a.post-thumbnail:hover {
 @media screen and (max-width: 400px) {
 	.list-view .site-content .post-thumbnail {
 		background: none;
-		min-height: 0;
 		width: auto;
 		z-index: 2;
 	}
@@ -2927,11 +2921,13 @@ a.post-thumbnail:hover {
 	.archive-header,
 	.page-header {
 		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-		padding-top: 12px;
+		margin: 24px auto 0;
+		padding-bottom: 24px;
 	}
 
 	.error404 .page-header {
 		border-bottom: 0;
+		margin: 0 auto 24px;
 		padding: 0 10px;
 	}
 }
@@ -3046,20 +3042,30 @@ a.post-thumbnail:hover {
 		margin: -1px 2px 0 0;
 	}
 
-	.list-view .site-content .has-post-thumbnail .post-thumbnail,
-	.list-view .site-content .format-standard .post-thumbnail {
-		margin-top: -49px;
-	}
-
 	.list-view .site-content .hentry {
 		border-top: 1px solid rgba(0, 0, 0, 0.1);
-		padding-top: 48px;
+		padding-top: 60px;
+	}
+
+	.list-view .site-content .hentry:first-child,
+	.list-view .site-content .hentry:first-of-type,
+	.list-view .site-content .hentry.has-post-thumbnail {
+		border-top: 0;
+		padding-top: 0;
 	}
 
 	.archive-header,
 	.page-header {
-		margin-bottom: 24px;
+		margin: 0 auto 60px;
 		padding: 0 10px;
+	}
+
+	.error404 .page-header {
+		margin-bottom: 24px;
+	}
+
+	.featured-content {
+		margin-bottom: 48px;
 	}
 }
 
@@ -3069,13 +3075,8 @@ a.post-thumbnail:hover {
 		padding-left: 30px;
 	}
 
-	.site-content .has-post-thumbnail .entry-header,
-	.site-content .format-standard .entry-header {
+	.site-content .has-post-thumbnail .entry-header {
 		margin-top: -48px;
-	}
-
-	.site-content .format-standard.post-password-required .entry-header {
-		margin-top: 0;
 	}
 }
 
@@ -3094,7 +3095,7 @@ a.post-thumbnail:hover {
 
 	.content-area {
 		float: left;
-		padding-top: 36px;
+		padding-top: 48px;
 		width: 100%;
 	}
 
@@ -3102,8 +3103,7 @@ a.post-thumbnail:hover {
 		margin-right: 33.33333333%;
 	}
 
-	.site-content .has-post-thumbnail .entry-header,
-	.site-content .format-standard .entry-header {
+	.site-content .has-post-thumbnail .entry-header {
 		margin-top: 0;
 	}
 
@@ -3120,9 +3120,7 @@ a.post-thumbnail:hover {
 		padding-left: 30px;
 	}
 
-	.singular .hentry.format-standard,
-	.singular .hentry.has-post-thumbnail,
-	.singular .hentry.format-standard.post-password-required {
+	.singular .hentry.has-post-thumbnail {
 		margin-top: 0
 	}
 
@@ -3130,22 +3128,12 @@ a.post-thumbnail:hover {
 		margin-right: 0;
 	}
 
-	.full-width .site-content .has-post-thumbnail .entry-header,
-	.full-width .site-content .format-standard .entry-header {
+	.full-width .site-content .has-post-thumbnail .entry-header {
 		margin-top: -48px;
 	}
 
-	.full-width .site-content .format-standard.post-password-required .entry-header {
-		margin-top: 0
-	}
-
-	.full-width.singular .hentry.format-standard,
 	.full-width.singular .hentry.has-post-thumbnail {
-		margin-top: -36px;
-	}
-
-	.full-width.singular .hentry.format-standard.post-password-required {
-		margin-top: 0
+		margin-top: -48px;
 	}
 
 	#secondary,
@@ -3157,8 +3145,12 @@ a.post-thumbnail:hover {
 		border: 0;
 		float: right;
 		margin-left: -33.33333333%;
-		padding: 36px 30px 24px;
+		padding: 48px 30px 24px;
 		width: 33.33333333%;
+	}
+
+	.featured-content {
+		margin-bottom: 24px;
 	}
 
 	.grid .featured-content .hentry {
@@ -3406,13 +3398,8 @@ a.post-thumbnail:hover {
 		padding-top: 72px;
 	}
 
-	.site-content .has-post-thumbnail .entry-header,
-	.site-content .format-standard .entry-header {
+	.site-content .has-post-thumbnail .entry-header {
 		margin-top: -48px;
-	}
-
-	.site-content .format-standard.post-password-required .entry-header {
-		margin-top: 0;
 	}
 
 	.comment-list .trackback,
@@ -3439,17 +3426,12 @@ a.post-thumbnail:hover {
 		margin-left: 35px;
 	}
 
-	.full-width.singular .hentry.format-standard,
 	.full-width.singular .hentry.has-post-thumbnail {
 		margin-top: -72px;
 	}
 
-	.full-width.singular .hentry.format-standard.post-password-required {
-		margin-top: 0
-	}
-
 	.featured-content {
-		margin-bottom: -24px;
+		margin-bottom: 0
 	}
 }
 
@@ -3471,8 +3453,7 @@ a.post-thumbnail:hover {
 		margin-top: 0;
 	}
 
-	.site-content .has-post-thumbnail .entry-header,
-	.site-content .format-standard .entry-header {
+	.site-content .has-post-thumbnail .entry-header {
 		margin-top: 0;
 	}
 
@@ -3727,13 +3708,8 @@ a.post-thumbnail:hover {
 }
 
 @media screen and (min-width: 1040px) {
-	.site-content .has-post-thumbnail .entry-header,
-	.site-content .format-standard .entry-header {
+	.site-content .has-post-thumbnail .entry-header {
 		margin-top: -48px;
-	}
-
-	.site-content .format-standard.post-password-required .entry-header {
-		margin-top: 0;
 	}
 
 	.archive-header,
@@ -3988,16 +3964,11 @@ a.post-thumbnail:hover {
 		padding-bottom: 24px;
 	}
 
-	.post-thumbnail {
-		min-height: 0;
-	}
-
 	.post-thumbnail img {
 		margin: 0 10px 24px;
 	}
 
-	.site-content .has-post-thumbnail .entry-header,
-	.site-content .format-standard .entry-header {
+	.site-content .has-post-thumbnail .entry-header {
 		padding-top: 0;
 	}
 
@@ -4009,7 +3980,6 @@ a.post-thumbnail:hover {
 		color: #fff;
 	}
 
-	.singular .hentry.format-standard,
 	.singular .hentry.has-post-thumbnail {
 		margin-top: 0;
 	}
