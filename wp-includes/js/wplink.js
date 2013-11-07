@@ -404,7 +404,7 @@ var wpLink;
 			});
 			event.preventDefault();
 		}
-	}
+	};
 
 	River = function( element, search ) {
 		var self = this;
