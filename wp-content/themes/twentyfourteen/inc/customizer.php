@@ -19,20 +19,9 @@ function twentyfourteen_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
-	// Add custom description to colors section.
-	$wp_customize->add_section( 'colors', array(
-		'title'          => __( 'Colors',  'twentyfourteen' ),
-		'description'	 => __( 'Background may only be visible on wide screens.', 'twentyfourteen' ),
-		'priority'       => 40,
-	) );
-
-	// Add custom description to background image section.
-	$wp_customize->add_section( 'background_image', array(
-		'title'          => __( 'Background Image', 'twentyfourteen' ),
-		'description'	 => __( 'Background may only be visible on wide screens.', 'twentyfourteen' ),
-		'theme_supports' => 'custom-background',
-		'priority'       => 80,
-	) );
+	// Add custom description to Colors and Background sections.
+ 	$wp_customize->get_section( 'colors' )->description     = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
+ 	$wp_customize->get_section( 'background_image' )->description = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
 
 	// Add the custom accent color setting and control.
 	$wp_customize->add_setting( 'accent_color', array(
