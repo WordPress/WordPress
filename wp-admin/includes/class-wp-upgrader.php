@@ -978,7 +978,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		do_action( 'upgrader_process_complete', $this, array(
 			'action' => 'update',
-			'type' => 'plugin',
+			'type' => 'theme',
 			'bulk' => true,
 			'themes' => $themes,
 		) );
