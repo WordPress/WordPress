@@ -53,11 +53,8 @@
 		?>
 	</div><!-- .entry-content -->
 
-	<?php if ( has_tag() ) : ?>
-	<footer class="entry-meta">
-		<span class="tag-links">
-			<?php echo get_the_tag_list(); ?>
-		</span>
-	</footer><!-- .entry-meta -->
-	<?php endif; ?>
+	<?php
+		if ( has_tag() )
+			echo get_the_tag_list( '<footer class="entry-meta"><span class="tag-links">', '', '</span></footer>' );
+	?>
 </article><!-- #post-## -->

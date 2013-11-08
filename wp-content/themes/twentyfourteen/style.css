@@ -1138,11 +1138,6 @@ a.post-thumbnail:hover {
 	padding: 0 10px;
 }
 
-.site-content footer.entry-meta:empty {
-	margin: 0;
-}
-
-
 /* Tag links style */
 
 .tag-links a {
