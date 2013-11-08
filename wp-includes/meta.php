@@ -707,7 +707,7 @@ class WP_Meta_Query {
 
 		$meta_type = strtoupper( $type );
 
-		if ( ! in_array( $meta_type, array( 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED', 'NUMERIC' ) ) )
+		if ( ! preg_match( '/^(?:BINARY|CHAR|DATE|DATETIME|SIGNED|UNSIGNED|TIME|NUMERIC(?:\(\d+(?:,\s?\d+)?\))?|DECIMAL(?:\(\d+(?:,\s?\d+)?\))?)$/', $meta_type ) )
 			return 'CHAR';
 
 		if ( 'NUMERIC' == $meta_type )
