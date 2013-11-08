@@ -135,7 +135,7 @@ function get_bookmarks($args = '') {
 	$cache = array();
 	$key = md5( serialize( $r ) );
 	if ( $cache = wp_cache_get( 'get_bookmarks', 'bookmark' ) ) {
-		if ( is_array($cache) && isset( $cache[ $key ] ) )
+		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
 			$bookmarks = $cache[ $key ];
 			/**
 			 * Filter the returned list of bookmarks.
@@ -153,6 +153,7 @@ function get_bookmarks($args = '') {
 			 * @param array $r         An array of bookmark query arguments.
 			 */
 			return apply_filters( 'get_bookmarks', $bookmarks, $r );
+		}
 	}
 
 	if ( !is_array($cache) )
