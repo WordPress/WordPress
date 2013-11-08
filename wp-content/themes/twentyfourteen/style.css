@@ -1989,7 +1989,7 @@ a.post-thumbnail:hover {
 	border-top: 1px solid #000;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 	clear: both;
-	color: rgba(255, 255, 255, 0.55);
+	color: rgba(255, 255, 255, 0.7);
 	margin-top: -1px;
 	padding: 0 10px;
 	position: relative;
@@ -1998,9 +1998,9 @@ a.post-thumbnail:hover {
 
 .site-description {
 	display: none;
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: 400;
-	line-height: 1.6363636363;
+	line-height: 1.5;
 }
 
 /* Primary Sidebar */
@@ -2046,7 +2046,7 @@ a.post-thumbnail:hover {
 }
 
 .widget a {
-	color: rgba(255, 255, 255, 0.75);
+	color: #fff;
 }
 
 .widget a:hover {
@@ -2098,7 +2098,7 @@ a.post-thumbnail:hover {
 
 .widget abbr,
 .widget acronym {
-	border-color: rgba(255, 255, 255, 0.75);
+	border-color: rgba(255, 255, 255, 0.7);
 }
 
 .widget mark,
@@ -2125,14 +2125,14 @@ a.post-thumbnail:hover {
 }
 
 .widget blockquote {
-	color: rgba(255, 255, 255, 0.55);
+	color: rgba(255, 255, 255, 0.7);
 	font-size: 18px;
 	line-height: 1.5;
 	margin-bottom: 18px;
 }
 
 .widget blockquote cite {
-	color: rgba(255, 255, 255, 0.8);
+	color: #fff;
 	font-size: 14px;
 	line-height: 1.2857142857;
 }
@@ -2316,6 +2316,10 @@ a.post-thumbnail:hover {
 	margin-bottom: 18px;
 }
 
+.widget_twentyfourteen_ephemera .entry-meta a {
+	color: rgba(255, 255, 255, 0.7);
+}
+
 .widget_twentyfourteen_ephemera .entry-content ul,
 .widget_twentyfourteen_ephemera .entry-content ol {
 	margin: 0 0 18px 20px;
@@ -2390,6 +2394,10 @@ a.post-thumbnail:hover {
 
 .widget_rss .rsswidget img {
 	margin-top: -4px;
+}
+
+.widget_rss .rss-date {
+	display: block;
 }
 
 .widget_rss li {
@@ -2633,7 +2641,7 @@ a.post-thumbnail:hover {
 
 .site-footer {
 	background-color: #000;
-	color: #949a92;
+	color: rgba(255, 255, 255, 0.7);
 	font-size: 12px;
 	position: relative;
 	z-index: 3;
@@ -2644,7 +2652,7 @@ a.post-thumbnail:hover {
 }
 
 .site-info {
-	color: rgba(255, 255, 255, 0.75);
+	color: rgba(255, 255, 255, 0.7);
 	padding: 15px 10px;
 }
 
@@ -2653,7 +2661,7 @@ a.post-thumbnail:hover {
 }
 
 .site-info a {
-	color: rgba(255, 255, 255, 0.75);
+	color: rgba(255, 255, 255, 0.7);
 }
 
 .site-info a:hover {
@@ -2722,6 +2730,7 @@ a.post-thumbnail:hover {
 }
 
 .featured-content .entry-meta {
+	color: #fff;
 	font-size: 11px;
 	font-weight: 700;
 	line-height: 1.0909090909;
@@ -3600,8 +3609,8 @@ a.post-thumbnail:hover {
 	.primary-sidebar .widget var,
 	.primary-sidebar .widget samp,
 	.primary-sidebar .widget pre {
-		font-size: 10px;
-		line-height: 1.8;
+		font-size: 11px;
+		line-height: 1.6363636363;
 	}
 
 	.footer-sidebar .widget blockquote,
@@ -3612,8 +3621,8 @@ a.post-thumbnail:hover {
 
 	.footer-sidebar .widget blockquote cite,
 	.primary-sidebar .widget blockquote cite {
-		font-size: 11px;
-		line-height: 1.6363636363;
+		font-size: 12px;
+		line-height: 1.5;
 	}
 
 	.footer-sidebar .widget input,
@@ -3644,17 +3653,21 @@ a.post-thumbnail:hover {
 	.footer-sidebar .widget_twentyfourteen_ephemera .entry-title,
 	.footer-sidebar .widget_twentyfourteen_ephemera .entry-meta,
 	.footer-sidebar .widget_twentyfourteen_ephemera .wp-caption-text,
-	.footer-sidebar .widget_twentyfourteen_ephemera .more-link,
-	.footer-sidebar .widget_twentyfourteen_ephemera .post-format-archive-link,
 	.footer-sidebar .widget_twentyfourteen_ephemera .entry-content table,
 	.primary-sidebar .widget_twentyfourteen_ephemera .entry-title,
 	.primary-sidebar .widget_twentyfourteen_ephemera .entry-meta,
 	.primary-sidebar .widget_twentyfourteen_ephemera .wp-caption-text,
-	.primary-sidebar .widget_twentyfourteen_ephemera .more-link,
-	.primary-sidebar .widget_twentyfourteen_ephemera .post-format-archive-link,
 	.primary-sidebar .widget_twentyfourteen_ephemera .entry-content table {
-		font-size: 11px;
-		line-height: 1.6363636363;
+		font-size: 12px;
+		line-height: 1.5;
+	}
+
+	.footer-sidebar .widget_twentyfourteen_ephemera .more-link,
+	.footer-sidebar .widget_twentyfourteen_ephemera .post-format-archive-link,
+	.primary-sidebar .widget_twentyfourteen_ephemera .more-link,
+	.primary-sidebar .widget_twentyfourteen_ephemera .post-format-archive-link {
+		font-size: 10px;
+		line-height: 1.8;
 	}
 
 	.footer-sidebar .widget_archive li,
@@ -3682,8 +3695,8 @@ a.post-thumbnail:hover {
 	}
 
 	.footer-sidebar {
-		font-size: 11px;
-		line-height: 1.6363636363;
+		font-size: 12px;
+		line-height: 1.5;
 	}
 
 	.featured-content {
