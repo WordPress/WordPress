@@ -64,14 +64,10 @@ function twentyfourteen_setup() {
 	// Add RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
 
-	// Enable support for Post Thumbnails.
+	// Enable support for Post Thumbnails, and declare two sizes.
 	add_theme_support( 'post-thumbnails' );
-
-	// Add several sizes for Post Thumbnails.
-	add_image_size( 'post-thumbnail-slider', 1038, 576, true );
-	add_image_size( 'post-thumbnail-full-width', 1038, 0 );
-	add_image_size( 'post-thumbnail-grid', 672, 372, true );
-	add_image_size( 'post-thumbnail', 672, 0 );
+	add_image_size( 'post-thumbnail-full-width', 1038, 576, true );
+	add_image_size( 'post-thumbnail', 672, 372, true );
 
 	// This theme uses wp_nav_menu() in two locations.
 	register_nav_menus( array(
