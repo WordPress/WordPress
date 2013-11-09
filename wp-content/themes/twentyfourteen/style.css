@@ -453,6 +453,21 @@ hr {
 	margin-bottom: 23px;
 }
 
+/* Support a widely-adopted but non-standard selector for text selection styles
+ * to achieve a better experience. See http://core.trac.wordpress.org/ticket/25898.
+ */
+::selection {
+	background: #24890d;
+	color: #fff;
+	text-shadow: none;
+}
+
+::-moz-selection {
+	background: #24890d;
+	color: #fff;
+	text-shadow: none;
+}
+
 
 /**
  * 2.0 Repeatable Patterns
@@ -2843,6 +2858,19 @@ a.post-thumbnail:hover {
  * 10.0 Media Queries
  * -----------------------------------------------------------------------------
  */
+
+/* Does the same thing as <meta name="viewport" content="width=device-width">,
+ * but in the future W3C standard way. -ms- prefix is required for IE10+ to 
+ * render responsive styling in Windows 8 "snapped" views; IE10+ does not honor 
+ * the meta tag. See http://core.trac.wordpress.org/ticket/25888.
+ */
+@-ms-viewport {
+	width: device-width;
+}
+
+@viewport {
+	width: device-width;
+}
 
 @media screen and (max-width: 400px) {
 	.list-view .site-content .post-thumbnail {
