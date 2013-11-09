@@ -59,22 +59,31 @@
 		} );
 
 		/*
-		 * Fixed navbar.
+		 * Fixed header for large screen.
+		 * If the header becomes more than 48px tall, unfix the header.
 		 *
 		 * The callback on the scroll event is only added if there is a header
 		 * image and we are not on mobile.
 		 */
-		if ( body.is( '.header-image' ) && _window.width() > 781 ) {
-			var toolbarOffset  = body.is( '.admin-bar' ) ? $( '#wpadminbar' ).height() : 0,
-			    mastheadOffset = $( '#masthead' ).offset().top - toolbarOffset;
+		 if ( _window.width() > 781 ) {
+			var mastheadHeight = $( '#masthead' ).height();
 
-			_window.on( 'scroll.twentyfourteen', function() {
-				if ( window.scrollY > mastheadOffset ) {
-					body.addClass( 'masthead-fixed' );
-				} else {
-					body.removeClass( 'masthead-fixed' );
-				}
-			} );
+			if ( mastheadHeight > 48 ) {
+				body.removeClass( 'masthead-fixed' );
+			}
+
+			if ( body.is( '.header-image' ) ) {
+				var toolbarOffset  = body.is( '.admin-bar' ) ? $( '#wpadminbar' ).height() : 0,
+				    mastheadOffset = $( '#masthead' ).offset().top - toolbarOffset;
+
+				_window.on( 'scroll.twentyfourteen', function() {
+					if ( ( window.scrollY > mastheadOffset ) && ( mastheadHeight < 49 ) ) {
+						body.addClass( 'masthead-fixed' );
+					} else {
+						body.removeClass( 'masthead-fixed' );
+					}
+				} );
+			}
 		}
 
 		// Focus styles for menus.
