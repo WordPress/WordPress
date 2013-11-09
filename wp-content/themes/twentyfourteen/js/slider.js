@@ -546,9 +546,9 @@
 		animationSpeed: 600,      // Integer: Set the speed of animations, in milliseconds.
 		controlsContainer: '',    // jQuery Object/Selector: container navigation to append elements.
 
-		// Text labels: @todo allow translation
-		prevText: 'Previous',     // String: Set the text for the "previous" directionNav item.
-		nextText: 'Next'          // String: Set the text for the "next" directionNav item.
+		// Text labels.
+		prevText: featuredSliderDefaults.prevText, // String: Set the text for the "previous" directionNav item.
+		nextText: featuredSliderDefaults.nextText  // String: Set the text for the "next" directionNav item.
 	};
 
 	// FeaturedSlider: plugin function.
