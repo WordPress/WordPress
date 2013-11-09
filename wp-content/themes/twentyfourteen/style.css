@@ -1381,14 +1381,6 @@ a.post-thumbnail:hover {
 	position: relative;
 }
 
-.gallery-columns-1.gallery-size-medium,
-.gallery-columns-1.gallery-size-thumbnail,
-.gallery-columns-2.gallery-size-thumbnail,
-.gallery-columns-3.gallery-size-thumbnail {
-	display: table;
-	margin: 0 auto 20px;
-}
-
 .gallery-columns-1 .gallery-item {
 	max-width: 100%;
 }
