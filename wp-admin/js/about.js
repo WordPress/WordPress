@@ -1,3 +1,4 @@
+/* global pwsL10n:true */
 (function($){
 	var password = 'Gosh, WordPress is grand.',
 		$input = $('#pass'),
@@ -19,13 +20,13 @@
 		$('#pass-strength-result').removeClass('short bad good strong');
 		switch ( strength ) {
 			case 2:
-				$('#pass-strength-result').addClass('bad').html( pwsL10n['bad'] );
+				$('#pass-strength-result').addClass('bad').html( pwsL10n.bad );
 				break;
 			case 3:
-				$('#pass-strength-result').addClass('good').html( pwsL10n['good'] );
+				$('#pass-strength-result').addClass('good').html( pwsL10n.good );
 				break;
 			case 4:
-				$('#pass-strength-result').addClass('strong').html( pwsL10n['strong'] );
+				$('#pass-strength-result').addClass('strong').html( pwsL10n.strong );
 				break;
 			default:
 				$('#pass-strength-result').addClass('short').html( pwsL10n['short'] );
