@@ -1911,8 +1911,9 @@ class WP_Query {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @global type $wpdb
+	 * @global wpdb $wpdb
 	 * @param array $q Query variables.
+	 * @return string WHERE clause.
 	 */
 	protected function parse_search( &$q ) {
 		global $wpdb;
