@@ -1,13 +1,15 @@
 /* global wpColorPickerL10n:true */
 ( function( $, undef ){
 
-	// html stuff
-	var _before = '<a tabindex="0" class="wp-color-result" />',
+	var ColorPicker,
+		// html stuff
+		_before = '<a tabindex="0" class="wp-color-result" />',
 		_after = '<div class="wp-picker-holder" />',
 		_wrap = '<div class="wp-picker-container" />',
-		_button = '<input type="button" class="button button-small hidden" />',
+		_button = '<input type="button" class="button button-small hidden" />';
+
 	// jQuery UI Widget constructor
-	    ColorPicker = {
+	ColorPicker = {
 		options: {
 			defaultColor: false,
 			change: false,
@@ -20,7 +22,7 @@
 			if ( ! $.support.iris )
 				return;
 			var self = this,
-			    el = self.element;
+				el = self.element;
 
 			$.extend( self.options, el.data() );
 
