@@ -129,6 +129,10 @@ input[type=password] {
 	direction: ltr;
 }
 
+input[type=checkbox]:checked:before {
+	margin-left: 1px;
+}
+
 input[type="text"].ui-autocomplete-loading {
 	background: transparent url('../images/loading.gif') no-repeat left center;
 }
@@ -246,12 +250,11 @@ form.upgrade .hint {
 
 #screen-meta-links {
 	margin-right: 0;
-	margin-left: 24px;
+	margin-left: 5px;
 }
 
 #screen-meta {
-	margin-right: 5px;
-	margin-left: 15px;
+	margin: 0 0 -2px 20px;
 }
 
 #screen-options-link-wrap,
@@ -261,9 +264,18 @@ form.upgrade .hint {
 	margin-right: 6px;
 }
 
+#screen-meta-links a {
+	left: 20px;
+}
+
 #screen-meta-links a.show-settings {
+	background-position: left -33px;
 	padding-right: 6px;
 	padding-left: 16px;
+}
+
+#wpbody-content #screen-meta-links a.show-settings {
+	padding: 1px 10px 0 0;
 }
 
 .toggle-arrow {
@@ -311,6 +323,8 @@ form.upgrade .hint {
 
 .contextual-help-tabs {
 	float: right;
+	margin-right: 4px;
+	width: 146px;
 }
 
 .contextual-help-tabs a {
@@ -326,7 +340,7 @@ form.upgrade .hint {
 .contextual-help-tabs .active,
 .contextual-help-tabs-wrap {
 	border-left: 0;
-	border-right-width: 1px;
+	border-right-width: 2px;
 }
 
 .help-tab-content {
@@ -350,12 +364,12 @@ form.upgrade .hint {
 ------------------------------------------------------------------------------*/
 
 .folded #wpcontent {
-	margin-left: 0;
+	margin-left: inherit;
 	margin-right: 52px;
 }
 
 .folded.wp-admin #wpfooter {
-	margin-left: 15px;
+	margin-left: inherit;
 	margin-right: 52px;
 }
 
@@ -369,11 +383,24 @@ form.upgrade .hint {
 	left: 0;
 }
 
-#adminmenu li .wp-submenu {
+ul#adminmenu .wp-submenu {
 	left: auto;
-	right: 146px;
+	right: 150px;
 }
 
+ul#adminmenu .wp-has-current-submenu .wp-submenu {
+	right: auto;
+}
+
+ul#adminmenu .wp-has-current-submenu ul > li > a {
+	padding-right: 12px;
+}
+
+ul#adminmenu a.wp-has-current-submenu:after,
+ul#adminmenu > li.current > a.current:after {
+	right: auto;
+	left: 0;
+}
 
 .folded #adminmenu .wp-submenu.sub-open,
 .folded #adminmenu .opensub .wp-submenu,
@@ -383,23 +410,23 @@ form.upgrade .hint {
 .folded #adminmenu .wp-has-current-submenu a.menu-top:focus + .wp-submenu,
 .no-js.folded #adminmenu .wp-has-submenu:hover .wp-submenu  {
 	left: auto;
-	right: 32px;
+	right: 36px;
 }
 
-#adminmenu div.wp-menu-image,
+ul#adminmenu div.wp-menu-image,
 .folded #adminmenu div.wp-menu-image {
 	float: right;
 	width: 30px;
 }
 
-#adminmenu .wp-submenu a,
-#adminmenu li li a,
+ul#adminmenu .wp-submenu a,
+ul#adminmenu li li a,
 .folded #adminmenu .wp-not-current-submenu li a {
 	padding-left: 0;
 	padding-right: 12px;
 }
 
-#adminmenu .wp-not-current-submenu li a {
+ul#adminmenu .wp-not-current-submenu li a {
 	padding-left: 0;
 	padding-right: 18px;
 }
@@ -407,8 +434,8 @@ form.upgrade .hint {
 .wp-menu-arrow {
 	right: 0;
 
-	-moz-transform:    translate( -139px );
 	-webkit-transform: translate( -139px );
+	-moz-transform:    translate( -139px );
 	-o-transform:      translate( -139px );
 	-ms-transform:     translate( -139px );
 	transform:         translate( -139px );
@@ -418,42 +445,40 @@ form.upgrade .hint {
 	right: -20px;
 }
 
-#adminmenu .wp-menu-arrow div {
+ul#adminmenu .wp-menu-arrow div {
 	left: -8px;
 	width: 16px;
 }
 
-#adminmenu li.wp-not-current-submenu .wp-menu-arrow {
-	-moz-transform:    translate( -138px );
+ul#adminmenu li.wp-not-current-submenu .wp-menu-arrow {
 	-webkit-transform: translate( -138px );
+	-moz-transform:    translate( -138px );
 	-o-transform:      translate( -138px );
 	-ms-transform:     translate( -138px );
 	transform:         translate( -138px );
 }
 
 .folded #adminmenu li .wp-menu-arrow {
-	-moz-transform:    translate( -26px );
 	-webkit-transform: translate( -26px );
+	-moz-transform:    translate( -26px );
 	-o-transform:      translate( -26px );
 	-ms-transform:     translate( -26px );
 	transform:         translate( -26px );
 }
 
-#adminmenu .wp-not-current-submenu .wp-menu-arrow div {
+ul#adminmenu .wp-not-current-submenu .wp-menu-arrow div {
     border-style: solid solid none none;
     border-width: 1px 1px 0 0;
 }
 
-#adminmenu .wp-menu-image img {
+ul#adminmenu .wp-menu-image img {
 	padding: 7px 7px 0 0;
 }
 
-#adminmenu .wp-submenu .wp-submenu-head {
+ul#adminmenu .wp-submenu .wp-submenu-head {
 	padding: 5px 10px 5px 4px;
 	-webkit-border-top-right-radius: 0;
-	-webkit-border-top-left-radius: 3px;
 	border-top-right-radius: 0;
-	border-top-left-radius: 3px;
 }
 
 .folded #adminmenu li.wp-has-current-submenu .wp-submenu {
@@ -469,8 +494,13 @@ form.upgrade .hint {
 	border-top-left-radius: 3px;
 }
 
-#adminmenu .awaiting-mod,
-#adminmenu span.update-plugins,
+ul#adminmenu li.wp-has-submenu.wp-not-current-submenu:hover:after {
+	right: auto;
+	left: 0;
+}
+
+ul#adminmenu .awaiting-mod,
+ul#adminmenu span.update-plugins,
 #sidemenu li a span.update-plugins {
 	font-family: Tahoma, Arial, sans-serif;
 	margin-left: 0;
@@ -479,6 +509,19 @@ form.upgrade .hint {
 
 #collapse-button {
 	float: right;
+}
+
+#collapse-button div:after {
+	left: 3px;
+	-webkit-transform: rotate(180deg);
+	-ms-transform:     rotate(180deg);
+	transform:         rotate(180deg);
+}
+
+.folded #collapse-button div:after {
+	-webkit-transform: rotate(0deg);
+	-ms-transform:     rotate(0deg);
+	transform:         rotate(0deg);
 }
 
 /* Auto-folding of the admin menu */
@@ -506,7 +549,7 @@ form.upgrade .hint {
 	.auto-fold #adminmenu .wp-has-current-submenu a.menu-top:focus + .wp-submenu,
 	.no-js.auto-fold #adminmenu .wp-has-submenu:hover .wp-submenu  {
 		left: auto;
-		right: 32px;
+		right: 36px;
 	}
 
 	.auto-fold #adminmenu .wp-not-current-submenu li a {
@@ -515,8 +558,8 @@ form.upgrade .hint {
 	}
 
 	.auto-fold #adminmenu li .wp-menu-arrow {
-		-moz-transform:    translate( -27px );
 		-webkit-transform: translate( -27px );
+		-moz-transform:    translate( -27px );
 		-o-transform:      translate( -27px );
 		-ms-transform:     translate( -27px );
 		transform:         translate( -27px );
@@ -534,15 +577,23 @@ form.upgrade .hint {
 		border-top-right-radius: 0;
 		border-top-left-radius: 3px;
 	}
+
+	.auto-fold #collapse-button div:after {
+		-webkit-transform: rotate(0deg);
+		-ms-transform:     rotate(0deg);
+		transform:         rotate(0deg);
+	}
+
+	.auto-fold #adminmenu a.wp-has-current-submenu:focus + .wp-submenu,
+	.auto-fold #adminmenu .wp-has-current-submenu .wp-submenu {
+		-webkit-box-shadow: -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+		box-shadow:         -2px 2px 5px rgba( 0, 0, 0, 0.4 );
+	}
 }
 
 /* List table styles */
 .post-com-count-wrapper {
 	font-family: Tahoma, Arial, sans-serif;
-}
-
-.post-com-count {
-	background-image: url('../images/bubble_bg-rtl.gif');
 }
 
 .column-response .post-com-count {
@@ -762,6 +813,19 @@ th.sorted a span {
 
 .view-switch {
 	float: left;
+	margin-left: 16px;
+	margin-right: 8px;
+}
+
+.view-switch>a:before {
+	float: right !important;
+	margin-left: 5px;
+	margin-right: 0;
+}
+
+.view-switch>a+a:before {
+	margin-left: none;
+	margin-right: 5px;
 }
 
 .filter {
@@ -889,6 +953,7 @@ th.sorted a span {
 	float: right;
 }
 
+p.submit,
 .submitbox .submit {
 	text-align: right;
 }
@@ -902,12 +967,27 @@ th.sorted a span {
 	margin-left: 4px;
 }
 
+#post-body #visibility:before,
+.curtime #timestamp:before {
+	padding-right: 0;
+	padding-left: 4px;
+}
+
+#misc-publishing-actions label[for="post_status"]:before {
+	padding-right: 0;
+	padding-left: 8px;
+}
+
 #normal-sortables .postbox .submit {
 	float: left;
 }
 
 .taxonomy div.tabs-panel {
 	margin: 0 125px 0 5px;
+}
+
+.category-tabs {
+	margin-bottom: 3px;
 }
 
 #side-sortables .comments-box thead th,
@@ -946,7 +1026,6 @@ th.sorted a span {
 .curtime #timestamp {
 	background-position: right top;
 	padding-left: 0;
-	padding-right: 18px;
 }
 
 .compat-attachment-fields th {
@@ -1108,49 +1187,14 @@ a.post-state-format {
 
 label.post-format-icon {
 	margin-left: 0;
-	margin-right: 5px;
-	padding-left: 0px;
-	padding-right: 21px;
+	margin-right: 0;
+	padding-left: 0;
+	padding-right: 0;
 }
 
-.post-format-icon.post-format-standard  {
-	background-position: 100% 0;
-}
-
-.post-format-icon.post-format-image  {
-	background-position: 100% -32px;
-}
-
-.post-format-icon.post-format-gallery {
-	background-position: 100% -64px;
-}
-
-.post-format-icon.post-format-audio {
-	background-position: 100% -96px;
-}
-
-.post-format-icon.post-format-video {
-	background-position: 100% -128px;
-}
-
-.post-format-icon.post-format-chat {
-	background-position: 100% -160px;
-}
-
-.post-format-icon.post-format-status {
-	background-position: 100% -192px;
-}
-
-.post-format-icon.post-format-aside {
-	background-position: 100% -224px;
-}
-
-.post-format-icon.post-format-quote {
-	background-position: 100% -256px;
-}
-
-.post-format-icon.post-format-link {
-	background-position: 100% -288px;
+.post-format-icon:before {
+	margin-left: 7px;
+	margin-right: 0;
 }
 
 /*------------------------------------------------------------------------------
@@ -1426,6 +1470,29 @@ form.upgrade .hint {
 	margin: 2px 0 5px 3px;
 }
 
+#submitcomment #timestamp:before {
+	left: 1px;
+}
+
+.post-com-count:after {	/* draw bubble connector using CSS! */
+	margin-left: auto;
+	margin-right: 8px;
+	border-right: none !important;
+	border-left: 5px solid transparent;
+}
+
+th .comment-grey-bubble:before {
+	content: '\f101'; /* todo: should be changed to a rtl variant - mitcho */
+	left: auto;
+	right: -4px;
+}
+
+#the-comment-list .unapproved th.check-column input {
+	margin-left: 0;
+	margin-right: 4px;
+}
+
+
 /*------------------------------------------------------------------------------
   16.0 - Themes
 ------------------------------------------------------------------------------*/
@@ -1563,6 +1630,12 @@ h3.available-themes {
 	margin: 0 0 -1px 6px;
 }
 
+.wrap h2.nav-tab-wrapper,
+.wrap h3.nav-tab-wrapper {
+	padding-left: 0;
+	padding-right: 10px;
+}
+
 h2 .nav-tab {
 	font-family: Tahoma, Arial, sans-serif;
 }
@@ -1578,8 +1651,12 @@ h2 .nav-tab {
 }
 
 #wpbody-content .plugins .plugin-title, #wpbody-content .plugins .theme-title {
-	padding-right: 0;
+	padding-right: 9px;
 	padding-left: 12px;
+}
+
+.plugin-update-tr .update-message:before {
+	margin: 0 -2px 0 8px;
 }
 
 
@@ -1606,9 +1683,34 @@ h2 .nav-tab {
   19.0 - Tools
 ------------------------------------------------------------------------------*/
 
+.press-this .posting {
+	margin-right: 0;
+	margin-left: 252px;
+}
+
+.press-this #publish,
+.press-this-sidebar {
+	float: left;
+}
+
+.press-this #header-logo,
+.press-this #wphead h1 {
+	float: right;
+}
+
+.press-this .wp_themeSkin .mceStatusbar a.mceResize {
+	background: transparent url('../images/resize-rtl.gif') no-repeat scroll right bottom;
+	width: 12px;
+	position: relative;
+	top: -1px;
+}
+
+.pressthis a span:before {
+	padding-left: 8px;
+}
+
 .pressthis a span {
-	background-position: right 5px;
-	padding: 8px 27px 8px 11px;
+	padding: 0px 3px 8px 12px;
 }
 
 .pressthis a:after {
@@ -1660,7 +1762,8 @@ h2 .nav-tab {
 
 #wpcontent,
 #wpfooter {
-	margin-right: 165px;
+	padding-left: inherit;
+	margin-right: 170px;
 }
 
 /*------------------------------------------------------------------------------
@@ -1706,21 +1809,37 @@ h2 .nav-tab {
 	float: right;
 }
 
-.about-wrap .feature-section.two-col div,
 .about-wrap .feature-section.three-col div {
 	margin-right: 0;
 	margin-left: 4.999999999%;
 	float: right;
 }
 
-.about-wrap .feature-section.col .last-feature {
+.about-wrap .feature-section.three-col h4 {
+	text-align: right;
+}
+
+.about-wrap .feature-section.three-col img {
+	margin-right: 5px;
 	margin-left: 0;
 }
 
-.about-wrap .feature-section div p img {
-	float: left;
+.about-wrap .feature-section.three-col .last-feature {
 	margin-left: 0;
-	margin-right: 10px;
+}
+
+.about-wrap .feature-section img {
+	margin: 0 0 10px 0.7%;
+}
+
+.about-wrap .feature-section.images-stagger-right img {
+	float: left;
+	margin: 0 2em 12px 5px;
+}
+
+.about-wrap .feature-section.images-stagger-left img {
+	float: right;
+	margin: 0 5px 12px 2em;
 }
 
 .about-wrap li.wp-person,
@@ -1730,6 +1849,19 @@ h2 .nav-tab {
 	margin-left: 10px;
 }
 
+@media only screen and (max-width: 768px) {
+	.about-wrap .feature-section img.image-66 {
+		float: none;
+	}
+
+	.about-wrap .feature-section.images-stagger-right img.image-66 {
+		margin-right: 3px;
+	}
+
+	.about-wrap .feature-section.images-stagger-left img.image-66 {
+		margin-left: 3px;
+	}
+}
 
 /*------------------------------------------------------------------------------
   23.0 - Misc
@@ -1763,7 +1895,7 @@ h2 .nav-tab {
 
 }
 .tagchecklist span a {
-	margin: 4px -10px 0 0;
+	margin: 0 -17px 0 0;
 	float: right;
 }
 
@@ -1871,7 +2003,8 @@ table .column-rating {
 .wp-full-overlay-sidebar:after {
 	right: auto;
 	left: 0;
-	box-shadow: inset 5px 0 4px -4px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: inset 5px 0 4px -4px rgba(0, 0, 0, 0.1);
+	box-shadow:         inset 5px 0 4px -4px rgba(0, 0, 0, 0.1);
 }
 
 .wp-full-overlay.collapsed,
@@ -1944,7 +2077,7 @@ table .column-rating {
 	float: right;
 }
 
-#adminmenu {
+ul#adminmenu {
 	clear: right;
 }
 
@@ -2047,7 +2180,7 @@ ol.ol-decimal {
 
 .wrap {
 	margin-right: 0;
-	margin-left: 15px;
+	margin: 10px 2px 0 20px;
 }
 
 .wrap h2,
@@ -2153,13 +2286,13 @@ a.rsswidget,
 
 /* Recent Comments */
 #the-comment-list .comment-item {
-	padding: 1em 70px 1em 10px;
+	padding: 1em 10px 1em 10px;
 }
 
 #the-comment-list .comment-item .avatar {
 	float: right;
-	margin-left: 0;
-	margin-right: -60px;
+	margin-left: 10px;
+	margin-right: 0;
 }
 
 /* Feeds */
@@ -2188,6 +2321,17 @@ a.rsswidget,
 
 #dashboard-widgets #dashboard_quick_press form p.submit .spinner {
 	margin: 4px 0 0 6px;
+}
+
+#dashboard_quick_press .input-text-wrap {
+	margin-right: 0;
+	margin-left: 1px;
+}
+
+#dashboard_quick_press .wp-media-buttons,
+#dashboard_quick_press .textarea-wrap {
+	margin-left: 0;
+	margin-right: 1px;
 }
 
 /* Recent Drafts */
@@ -2646,6 +2790,11 @@ h3.tb {
 	float: left;
 }
 
+.plugin-editor-php #submit,
+.theme-editor-php #submit {
+	float: right;
+}
+
 #template textarea,
 #docs-list {
 	direction: ltr;
@@ -2667,6 +2816,17 @@ h3.tb {
 .feature-filter .feature-group li {
 	padding-right: 0;
 	padding-left: 25px;
+}
+
+/* Meta/post boxes */
+
+.js .meta-box-sortables .postbox:hover .handlediv:before {
+	left: 12px;
+	right: auto;
+}
+.js #dashboard-widgets h3 .postbox-title-action {
+	left: 33px;
+	right: auto;
 }
 
 /* widgets */
@@ -2716,14 +2876,8 @@ div.sidebar-name h3 {
 	float: left;
 }
 
-/* Press This */
-.press-this-sidebar {
-	float: left;
-}
-
-.press-this #header-logo,
-.press-this #wphead h1 {
-	float: right;
+.widgets-holder-wrap .sidebar-name-arrow {
+	margin: -1px 0 0 26px;
 }
 
 /* RTL */
@@ -2793,12 +2947,9 @@ div.sidebar-name h3 {
   (-o-min-device-pixel-ratio: 5/4),
   (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
-	.post-com-count {
-		background-image: url('../images/bubble_bg-rtl-2x.gif');
-		background-size: 18px 100px;
-	}
 
-	#content-resize-handle, #post-body .wp_themeSkin .mceStatusbar a.mceResize {
+	#content-resize-handle, #post-body .wp_themeSkin .mceStatusbar a.mceResize,
+	.press-this .wp_themeSkin .mceStatusbar a.mceResize {
 		background: transparent url('../images/resize-rtl-2x.gif') no-repeat scroll right bottom;
 		background-size: 11px 11px;
 	}
@@ -2821,11 +2972,6 @@ div.sidebar-name h3 {
 	#post-body .wp_themeSkin .mceStatusbar a.mceResize,
 	#content-resize-handle {
 		background: transparent url('../images/resize-rtl-2x.gif') no-repeat scroll left bottom;
-	}
-
-	.wp-slider .ui-slider-handle:before {
-		background-image: url(../images/arrows-pr-2x.png);
-		background-size: 16px 102px;
 	}
 
 }

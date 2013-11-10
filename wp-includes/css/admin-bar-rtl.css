@@ -17,32 +17,12 @@
 	float: right;
 }
 
-#wpadminbar .quicklinks > ul > li {
-	border-right: 0;
-	border-left: 1px solid #555;
-}
-
-#wpadminbar .quicklinks > ul > li > a,
-#wpadminbar .quicklinks > ul > li > .ab-empty-item {
-	border-right: 0;
-	border-left: 1px solid #333;
-}
-
 #wpadminbar .quicklinks .ab-top-secondary > li {
-	border-left: 0;
-	border-right: 1px solid #333;
 	float: left;
 }
 
 #wpadminbar .quicklinks .ab-top-secondary > li > a,
 #wpadminbar .quicklinks .ab-top-secondary > li > .ab-empty-item {
-	border-right: 1px solid #555;
-	border-left: 0;
-}
-
-#wpadminbar .menupop .ab-sub-wrapper,
-#wpadminbar .shortlink-input {
-	margin: 0 -1px 0 0;
 }
 
 #wpadminbar.ie7 .menupop .ab-sub-wrapper,
@@ -54,7 +34,6 @@
 #wpadminbar .ab-top-secondary .menupop .ab-sub-wrapper {
 	right: auto;
 	left: 0;
-	margin: 0 0 0 -1px;
 }
 
 #wpadminbar .menupop li:hover > .ab-sub-wrapper,
@@ -72,15 +51,25 @@
 }
 
 #wpadminbar .menupop .menupop > .ab-item {
-	background-position: 5% -46px;
 	padding-left: 2em;
 	padding-right: 1em;
 }
 
+#wpadminbar .menupop .menupop > .ab-item:before {
+	content: '\f141';
+	right: auto;
+	left: 3px;
+}
+
 #wpadminbar .ab-top-secondary .menupop .menupop > .ab-item {
-	background-position: 95% -20px;
 	padding-left: 1em;
 	padding-right: 2em;
+}
+
+#wpadminbar .ab-top-secondary .menupop .menupop > .ab-item:before {
+	content: '\f139';
+	left: auto;
+	right: 3px;
 }
 
 #wpadminbar .quicklinks .menupop ul.ab-sub-secondary {
@@ -131,23 +120,22 @@
  * My Sites
  */
 #wpadminbar .quicklinks li .blavatar {
-	margin-right: 0px;
-	margin-left: 4px;
+	float: right;
+	margin-right: -10px;
+	margin-left: 7px;
 }
 
 /*
  * Search
  */
-#wpadminbar #adminbarsearch .adminbar-input {
-	font-family: Tahoma, Arial, Helvetica, sans-serif;
-	padding: 0 24px 0 3px;
-	margin: 0;
-	background-position: 50% 2px;
+#wpadminbar #adminbarsearch:before {
+	left: auto;
+	right: 5px;
 }
 
-#wpadminbar #adminbarsearch .adminbar-input:focus,
-#wpadminbar.ie7 #adminbarsearch .adminbar-input {
-	background-position: 99% 2px;
+#wpadminbar #adminbarsearch .adminbar-input {
+	padding: 0 24px 0 3px;
+	margin: 0;
 }
 
 /**
@@ -155,6 +143,7 @@
  */
 #wpadminbar .ab-icon {
 	float: right;
+	margin-right: auto;
 }
 
 .ie7 #wp-admin-bar-wp-logo > .ab-item .ab-icon {

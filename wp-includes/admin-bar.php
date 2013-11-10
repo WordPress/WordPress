@@ -753,8 +753,12 @@ function wp_admin_bar_header() { ?>
  */
 function _admin_bar_bump_cb() { ?>
 <style type="text/css" media="screen">
-	html { margin-top: 28px !important; }
-	* html body { margin-top: 28px !important; }
+	html { margin-top: 32px !important; }
+	* html body { margin-top: 32px !important; }
+	@media screen and ( max-width: 782px ) {
+		html { margin-top: 46px !important; }
+		* html body { margin-top: 46px !important; }
+	}
 </style>
 <?php
 }

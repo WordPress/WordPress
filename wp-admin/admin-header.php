@@ -53,6 +53,7 @@ _wp_admin_html_begin();
 wp_enqueue_style( 'colors' );
 wp_enqueue_style( 'ie' );
 wp_enqueue_script('utils');
+wp_enqueue_script( 'svg-painter' );
 
 $admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
 ?>
@@ -145,7 +146,13 @@ $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( 
 if ( wp_is_mobile() )
 	$admin_body_class .= ' mobile';
 
-$admin_body_class .= ' no-customize-support';
+if ( is_multisite() )
+	$admin_body_class .= ' multisite';
+
+if ( is_network_admin() )
+	$admin_body_class .= ' network-admin';
+
+$admin_body_class .= ' no-customize-support no-svg';
 
 ?>
 </head>

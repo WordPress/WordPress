@@ -39,9 +39,9 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-secondary {
 	display: inline-block;
 	text-decoration: none;
-	font-size: 12px;
-	line-height: 23px;
-	height: 24px;
+	font-size: 13px;
+	line-height: 26px;
+	height: 28px;
 	margin: 0;
 	padding: 0 10px 1px;
 	cursor: pointer;
@@ -97,21 +97,35 @@ TABLE OF CONTENTS:
 	display: none;
 }
 
+/* Style Reset buttons as simple text links */
+
+.wp-core-ui input[type="reset"],
+.wp-core-ui input[type="reset"]:hover,
+.wp-core-ui input[type="reset"]:active,
+.wp-core-ui input[type="reset"]:focus {
+	background: none;
+	border: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	padding-left: 2px;
+	padding-right: 2px;
+	width: auto;
+}
+
 /* ----------------------------------------------------------------------------
   2.0 - Default Button Style
 ---------------------------------------------------------------------------- */
 
 .wp-core-ui .button,
 .wp-core-ui .button-secondary {
-	background: #f3f3f3;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#f4f4f4));
-	background-image: -webkit-linear-gradient(top, #fefefe, #f4f4f4);
-	background-image:    -moz-linear-gradient(top, #fefefe, #f4f4f4);
-	background-image:      -o-linear-gradient(top, #fefefe, #f4f4f4);
-	background-image:   linear-gradient(to bottom, #fefefe, #f4f4f4);
-	border-color: #bbb;
- 	color: #333;
-	text-shadow: 0 1px 0 #fff;
+	color: #555;
+	border-color: #cccccc;
+	background: #f7f7f7;
+
+	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+ 	vertical-align: top;
 }
 
 .wp-core-ui .button.hover,
@@ -120,13 +134,7 @@ TABLE OF CONTENTS:
 .wp-core-ui .button.focus,
 .wp-core-ui .button:focus,
 .wp-core-ui .button-secondary:focus {
-	background: #f3f3f3;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f3f3f3));
-	background-image: -webkit-linear-gradient(top, #fff, #f3f3f3);
-	background-image:    -moz-linear-gradient(top, #fff, #f3f3f3);
-	background-image:     -ms-linear-gradient(top, #fff, #f3f3f3);
-	background-image:      -o-linear-gradient(top, #fff, #f3f3f3);
-	background-image:   linear-gradient(to bottom, #fff, #f3f3f3);
+	background: #fafafa;
 	border-color: #999;
 	color: #222;
 }
@@ -144,17 +152,15 @@ TABLE OF CONTENTS:
 .wp-core-ui .button:active,
 .wp-core-ui .button-secondary:active {
 	background: #eee;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#fefefe));
-	background-image: -webkit-linear-gradient(top, #f4f4f4, #fefefe);
-	background-image:    -moz-linear-gradient(top, #f4f4f4, #fefefe);
-	background-image:     -ms-linear-gradient(top, #f4f4f4, #fefefe);
-	background-image:      -o-linear-gradient(top, #f4f4f4, #fefefe);
-	background-image:   linear-gradient(to bottom, #f4f4f4, #fefefe);
 	border-color: #999;
 	color: #333;
-	text-shadow: 0 -1px 0 #fff;
 	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
  	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+}
+
+/* this creates an inset effect on the text */
+.wp-core-ui .button:active {
+	padding-top: 1px;
 }
 
 .wp-core-ui .button[disabled],
@@ -164,12 +170,6 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-disabled {
 	color: #aaa !important;
 	border-color: #ddd !important;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#f4f4f4)) !important;
-	background-image: -webkit-linear-gradient(top, #f9f9f9, #f4f4f4) !important;
-	background-image:    -moz-linear-gradient(top, #f9f9f9, #f4f4f4) !important;
-	background-image:     -ms-linear-gradient(top, #f9f9f9, #f4f4f4) !important;
-	background-image:      -o-linear-gradient(top, #f9f9f9, #f4f4f4) !important;
-	background-image:   linear-gradient(to bottom, #f9f9f9, #f4f4f4) !important;
 	-webkit-box-shadow: none !important;
 	box-shadow:         none !important;
 	text-shadow: 0 1px 0 #fff !important;
@@ -181,38 +181,23 @@ TABLE OF CONTENTS:
 ---------------------------------------------------------------------------- */
 
 .wp-core-ui .button-primary {
-	background-color: #21759b;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#2a95c5), to(#21759b));
-	background-image: -webkit-linear-gradient(top, #2a95c5, #21759b);
-	background-image:    -moz-linear-gradient(top, #2a95c5, #21759b);
-	background-image:     -ms-linear-gradient(top, #2a95c5, #21759b);
-	background-image:      -o-linear-gradient(top, #2a95c5, #21759b);
-	background-image:   linear-gradient(to bottom, #2a95c5, #21759b);
-	border-color: #21759b;
-	border-bottom-color: #1e6a8d;
-	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
- 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.5);
+	background: #2ea2cc;
+	border-color: #0074a2; 
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5), 0 1px 0 rgba(0,0,0,.15);
+ 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.5), 0 1px 0 rgba(0,0,0,.15);
  	color: #fff;
 	text-decoration: none;
-	text-shadow: 0 1px 0 rgba(0,0,0,0.1);
 }
 
 .wp-core-ui .button-primary.hover,
 .wp-core-ui .button-primary:hover,
 .wp-core-ui .button-primary.focus,
 .wp-core-ui .button-primary:focus {
-	background-color: #278ab7;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#2e9fd2), to(#21759b));
-	background-image: -webkit-linear-gradient(top, #2e9fd2, #21759b);
-	background-image:    -moz-linear-gradient(top, #2e9fd2, #21759b);
-	background-image:     -ms-linear-gradient(top, #2e9fd2, #21759b);
-	background-image:      -o-linear-gradient(top, #2e9fd2, #21759b);
-	background-image:   linear-gradient(to bottom, #2e9fd2, #21759b);
-	border-color: #1b607f;
+	background: #1e8cbe;
+	border-color: #0074a2;
 	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
  	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
 	color: #fff;
-	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
 }
 
 .wp-core-ui .button-primary.focus,
@@ -226,18 +211,17 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-primary.active:hover,
 .wp-core-ui .button-primary.active:focus,
 .wp-core-ui .button-primary:active {
-	background: #1b607f;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#21759b), to(#278ab7));
-	background-image: -webkit-linear-gradient(top, #21759b, #278ab7);
-	background-image:    -moz-linear-gradient(top, #21759b, #278ab7);
-	background-image:     -ms-linear-gradient(top, #21759b, #278ab7);
-	background-image:      -o-linear-gradient(top, #21759b, #278ab7);
-	background-image:   linear-gradient(to bottom, #21759b, #278ab7);
-	border-color: #124560 #2382ae #2382ae #2382ae;
+	background: #1e8cbe;
+	border-color: #005684;
 	color: rgba(255,255,255,0.95);
 	-webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
  	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
-	text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+ 	vertical-align: top;
+}
+
+/* this creates an inset effect on the text */
+.wp-core-ui .button-primary:active {
+	padding-top: 1px;
 }
 
 .wp-core-ui .button-primary[disabled],

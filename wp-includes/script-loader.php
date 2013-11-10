@@ -393,6 +393,8 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'media-editor', "/wp-includes/js/media-editor$suffix.js", array( 'shortcode', 'media-views' ), false, 1 );
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'media-models' ), false, 1 );
 
+	$scripts->add( 'svg-painter', '/wp-includes/js/svg-painter.js' );
+
 	if ( is_admin() ) {
 		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array('jquery', 'wp-ajax-response'), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'admin-tags', 'tagsl10n', array(
@@ -553,17 +555,22 @@ function wp_default_styles( &$styles ) {
 	// Any rtl stylesheets that don't have a .min version
 	$no_suffix = array( 'farbtastic' );
 
-	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css" );
+	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array( 'open-sans', 'dashicons' ) );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css" );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
+	// Hotlink Open Sans, for now
+	$styles->add( 'open-sans', '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&subset=latin-ext,latin' );
+
+	// Dashicons
+	$styles->add( 'dashicons', '/wp-includes/css/dashicons.css' );
+
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
-	$styles->add( 'colors', true, array('wp-admin', 'buttons') );
+	$styles->add( 'colors', true, array( 'wp-admin', 'buttons', 'open-sans', 'dashicons' ) );
 
 	// do not refer to these directly, the right one is queued by the above "meta" colors handle
-	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array('wp-admin', 'buttons') );
-	$styles->add( 'colors-classic', "/wp-admin/css/colors-classic$suffix.css", array('wp-admin', 'buttons') );
+	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array( 'wp-admin', 'buttons' ) );
 
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css" );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array('buttons') );
@@ -572,7 +579,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'wp-color-picker', "/wp-admin/css/color-picker$suffix.css" );
 	$styles->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop.min.css", array(), '0.9.12' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.8' );
-	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css" );
+	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array( 'open-sans', 'dashicons' ) );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css" );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor$suffix.css" );
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css" );
