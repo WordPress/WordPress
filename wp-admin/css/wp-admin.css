@@ -6552,7 +6552,7 @@ body.press-this {
 /* WordPress Version Badge */
 
 .wp-badge {
-	background: url('../images/wordpress-logo.svg?ver=20131107') #000 no-repeat;
+	background: url('../images/wordpress-logo-white.svg?ver=20131110') no-repeat;
 	background-position: center 30px;
 	background-size: 110px 110px;
 	font-size: 14px;
