@@ -2,22 +2,20 @@
 /**
  * Twenty Fourteen Featured Content
  *
- * This module allows you to define a subset of posts to be
- * displayed in the theme's Featured Content area.
+ * This module allows you to define a subset of posts to be displayed in the
+ * theme's Featured Content area.
  *
- * For maximum compatibility with different methods of posting
- * users will designate a featured post tag to associate posts
- * with. Since this tag now has special meaning beyond that of a
- * normal tags, users will have the ability to hide it from the
- * front-end of their site.
+ * For maximum compatibility with different methods of posting users will
+ * designate a featured post tag to associate posts with. Since this tag now
+ * has special meaning beyond that of a normal tags, users will have the
+ * ability to hide it from the front-end of their site.
  */
 class Featured_Content {
 
 	/**
-	 * The maximum number of posts that a Featured Content
-	 * area can contain. We define a default value here but
-	 * themes can override this by defining a "max_posts"
-	 * entry in the second parameter passed in the call to
+	 * The maximum number of posts that a Featured Content area can contain. We
+	 * define a default value here but themes can override this by defining a
+	 * "max_posts" entry in the second parameter passed in the call to
 	 * add_theme_support( 'featured-content' ).
 	 *
 	 * @see Featured_Content::init()
@@ -39,8 +37,8 @@ class Featured_Content {
 	 * Theme must declare that they support this module by adding
 	 * add_theme_support( 'featured-content' ); during after_setup_theme.
 	 *
-	 * If no theme support is found there is no need to hook into
-	 * WordPress. We'll just return early instead.
+	 * If no theme support is found there is no need to hook into WordPress.
+	 * We'll just return early instead.
 	 *
 	 * @uses Featured_Content::$max_posts
 	 */
@@ -52,8 +50,8 @@ class Featured_Content {
 			return;
 
 		/*
-		 * An array of named arguments must be passed as
-		 * the second parameter of add_theme_support().
+		 * An array of named arguments must be passed as the second parameter
+		 * of add_theme_support().
 		 */
 		if ( ! isset( $theme_support[0] ) )
 			return;
@@ -75,8 +73,16 @@ class Featured_Content {
 		add_action( 'delete_post_tag',                    array( __CLASS__, 'delete_post_tag'    )    );
 		add_action( 'customize_controls_enqueue_scripts', array( __CLASS__, 'enqueue_scripts'    )    );
 		add_action( 'pre_get_posts',                      array( __CLASS__, 'pre_get_posts'      )    );
+		add_action( 'wp_loaded',                          array( __CLASS__, 'wp_loaded'          )    );
+	}
 
-		// Hide "featured" tag from the front-end.
+	/**
+	 * Hide "featured" tag from the front-end.
+	 *
+	 * Has to run on wp_loaded so that the preview filters of the customizer
+	 * have a chance to alter the value.
+	 */
+	public static function wp_loaded() {
 		if ( self::get_setting( 'hide-tag' ) ) {
 			add_filter( 'get_terms',     array( __CLASS__, 'hide_featured_term'     ), 10, 2 );
 			add_filter( 'get_the_terms', array( __CLASS__, 'hide_the_featured_term' ), 10, 3 );
@@ -116,22 +122,19 @@ class Featured_Content {
 	 * @return array Array of post IDs
 	 */
 	public static function get_featured_post_ids() {
-		$settings = self::get_setting();
-
-		// Return false if the user has disabled this feature.
-		$tag = $settings['tag-id'];
-		if ( empty( $tag ) ) {
-			$term = get_term_by( 'name', 'featured', 'post_tag' );
-			if ( $term )
-				$tag = $term->term_id;
-			else
-				return self::get_sticky_posts();
-		}
-
 		// Return array of cached results if they exist.
 		$featured_ids = get_transient( 'featured_content_ids' );
 		if ( ! empty( $featured_ids ) )
 			return array_map( 'absint', (array) $featured_ids );
+
+		$settings = self::get_setting();
+
+		// Return sticky post ids if no tag name is set.
+		$term = get_term_by( 'name', $settings['tag-name'], 'post_tag' );
+		if ( $term )
+			$tag = $term->term_id;
+		else
+			return self::get_sticky_posts();
 
 		// Query for featured posts.
 		$featured = get_posts( array(
@@ -228,7 +231,7 @@ class Featured_Content {
 	 * Hooks in the "delete_post_tag" action.
 	 * @see Featured_Content::validate_settings().
 	 *
-	 * @param int $tag_id the term_id of the tag that has been deleted.
+	 * @param int $tag_id The term_id of the tag that has been deleted.
 	 * @return void
 	 */
 	public static function delete_post_tag( $tag_id ) {
@@ -329,22 +332,21 @@ class Featured_Content {
 	public static function customize_register( $wp_customize ) {
 		$wp_customize->add_section( 'featured_content', array(
 			'title'          => __( 'Featured Content', 'twentyfourteen' ),
+			'description'    => __( 'Easily feature all posts with the "featured" tag or a tag of your choice; if no posts match the tag, "sticky" posts will be displayed instead.', 'twentyfourteen' ),
 			'priority'       => 130,
 			'theme_supports' => 'featured-content',
 		) );
 
 		// Add Featured Content settings.
 		$wp_customize->add_setting( 'featured-content[tag-name]', array(
-			'default' => 'featured',
-			'type'    => 'option',
+			'default'              => 'featured',
+			'type'                 => 'option',
+			'sanitize_js_callback' => array( __CLASS__, 'delete_transient' ),
 		) );
 		$wp_customize->add_setting( 'featured-content[hide-tag]', array(
-			'default' => true,
-			'type'    => 'option',
-		) );
-		$wp_customize->add_setting( 'featured-content[tag-id]', array(
-			'default' => 0,
-			'type'    => 'option',
+			'default'              => true,
+			'type'                 => 'option',
+			'sanitize_js_callback' => array( __CLASS__, 'delete_transient' ),
 		) );
 
 		// Add Featured Content controls.
@@ -359,10 +361,6 @@ class Featured_Content {
 			'type'     => 'checkbox',
 			'priority' => 30,
 		) );
-		$wp_customize->add_control( new Featured_Content_Customize_Hidden_Control( $wp_customize, 'featured-content[tag-id]', array(
-			'section'  => 'featured_content',
-			'priority' => 999,
-		) ) );
 	}
 
 	/**
@@ -375,8 +373,12 @@ class Featured_Content {
 		wp_localize_script( 'featured-content-suggest', 'featuredContent', array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		) );
+		wp_add_inline_style( 'customize-controls', "
+			.ac_results {
+				z-index: 500000;
+			}
+		" );
 	}
-
 
 	/**
 	 * Get settings
@@ -400,6 +402,7 @@ class Featured_Content {
 			'hide-tag' => 1,
 			'quantity' => 6,
 			'tag-id'   => 0,
+			'tag-name' => 'featured',
 		);
 
 		$options = wp_parse_args( $saved, $defaults );
@@ -429,22 +432,17 @@ class Featured_Content {
 	public static function validate_settings( $input ) {
 		$output = array();
 
-		if ( isset( $input['tag-id'] ) )
-			$output['tag-id'] = absint( $input['tag-id'] );
-
-		if ( isset( $input['tag-name'] ) ) {
-			if ( empty( $input['tag-name'] ) ) {
-				$output['tag-id'] = 0;
+		if ( empty( $input['tag-name'] ) ) {
+			$output['tag-id'] = 0;
+		} else {
+			$new_tag = wp_create_tag( $input['tag-name'] );
+			if ( ! is_wp_error( $new_tag ) && isset( $new_tag['term_id'] ) ) {
+				$output['tag-id'] = $new_tag['term_id'];
 			} else {
-				$new_tag = wp_create_tag( $input['tag-name'] );
-				if ( ! is_wp_error( $new_tag ) && isset( $new_tag['term_id'] ) )
-					$tag = get_term( $new_tag['term_id'], 'post_tag' );
-				if ( isset( $tag->term_id ) )
-					$output['tag-id'] = $tag->term_id;
-				if ( is_int( $new_tag ) )
-					$output['tag-id'] = $new_tag;
-				$output['tag-name'] = get_term( $output['tag-id'], 'post_tag' )->name;
+				$term = get_term_by( 'name', $input['tag-name'], 'post_tag' );
+				$output['tag-id'] = $term ? $term->term_id : 0;
 			}
+			$output['tag-name'] = $input['tag-name'];
 		}
 
 		if ( isset( $input['quantity'] ) )
@@ -474,16 +472,6 @@ class Featured_Content {
 			$quantity = 1;
 
 		return $quantity;
-	}
-}
-
-if ( class_exists( 'WP_Customize_Control' ) ) {
-	class Featured_Content_Customize_Hidden_Control extends WP_Customize_Control {
-		public function render_content() {
-			?>
-			<input type="hidden" <?php $this->link(); ?> value="<?php echo esc_attr( $this->value() ); ?>">
-			<?php
-		}
 	}
 }
 

@@ -20,7 +20,7 @@ function twentyfourteen_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
 	// Add custom description to Colors and Background sections.
- 	$wp_customize->get_section( 'colors' )->description     = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
+ 	$wp_customize->get_section( 'colors' )->description           = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
  	$wp_customize->get_section( 'background_image' )->description = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
 
 	// Add the custom accent color setting and control.
