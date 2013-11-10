@@ -9728,7 +9728,7 @@ div.sidebar-name {
 	border-width: 1px;
 	border-style: dashed;
 	margin: 0 auto 20px;
-	height: 27px;
+	height: 34px;
 	width: 250px;
 }
 
@@ -9949,7 +9949,7 @@ a.widget-control-edit {
 
 .sidebar-name .spinner {
 	float: none;
-	margin: 0 3px -3px;
+	margin: -4px 3px;
 }
 
 .sidebar-name-arrow {
