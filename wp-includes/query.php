@@ -1767,26 +1767,39 @@ class WP_Query {
 		}
 
 		// Category stuff
-		if ( !empty($q['cat']) && '0' != $q['cat'] && !$this->is_singular && $this->query_vars_changed ) {
-			$q['cat'] = ''.urldecode($q['cat']).'';
-			$q['cat'] = addslashes_gpc($q['cat']);
-			$cat_array = preg_split('/[,\s]+/', $q['cat']);
-			$q['cat'] = '';
-			$req_cats = array();
-			foreach ( (array) $cat_array as $cat ) {
-				$cat = intval($cat);
-				$req_cats[] = $cat;
-				$in = ($cat > 0);
-				$cat = abs($cat);
-				if ( $in ) {
-					$q['category__in'][] = $cat;
-					$q['category__in'] = array_merge( $q['category__in'], get_term_children($cat, 'category') );
-				} else {
-					$q['category__not_in'][] = $cat;
-					$q['category__not_in'] = array_merge( $q['category__not_in'], get_term_children($cat, 'category') );
-				}
+		if ( ! empty( $q['cat'] ) && ! $this->is_singular ) {
+			$cat_in = $cat_not_in = array();
+
+			$cat_array = preg_split( '/[,\s]+/', urldecode( $q['cat'] ) );
+			$cat_array = array_map( 'intval', $cat_array );
+			$q['cat'] = implode( ',', $cat_array );
+
+			foreach ( $cat_array as $cat ) {
+				if ( $cat > 0 )
+					$cat_in[] = $cat;
+				elseif ( $cat < 0 )
+					$cat_not_in[] = abs( $cat );
 			}
-			$q['cat'] = implode(',', $req_cats);
+
+			if ( ! empty( $cat_in ) ) {
+				$tax_query[] = array(
+					'taxonomy' => 'category',
+					'terms' => $cat_in,
+					'field' => 'term_id',
+					'include_children' => true
+				);
+			}
+
+			if ( ! empty( $cat_not_in ) ) {
+				$tax_query[] = array(
+					'taxonomy' => 'category',
+					'terms' => $cat_not_in,
+					'field' => 'term_id',
+					'operator' => 'NOT IN',
+					'include_children' => true
+				);
+			}
+			unset( $cat_array, $cat_in, $cat_not_in );
 		}
 
 		if ( ! empty( $q['category__and'] ) && 1 === count( (array) $q['category__and'] ) ) {
