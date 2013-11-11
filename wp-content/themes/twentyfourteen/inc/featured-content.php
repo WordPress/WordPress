@@ -370,9 +370,6 @@ class Featured_Content {
 	 */
 	public static function enqueue_scripts() {
 		wp_enqueue_script( 'featured-content-suggest', get_template_directory_uri() . '/js/featured-content-admin.js', array( 'jquery', 'suggest' ), '20131022', true );
-		wp_localize_script( 'featured-content-suggest', 'featuredContent', array(
-			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-		) );
 		wp_add_inline_style( 'customize-controls', "
 			.ac_results {
 				z-index: 500000;
