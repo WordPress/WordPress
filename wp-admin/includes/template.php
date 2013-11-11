@@ -1688,6 +1688,10 @@ function _wp_admin_html_begin() {
 	global $is_IE;
 
 	$admin_html_class = ( is_admin_bar_showing() ) ? 'wp-toolbar' : '';
+
+	if ( $is_IE )
+		@header('X-UA-Compatible: IE=edge');
+
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]>
@@ -1697,14 +1701,6 @@ function _wp_admin_html_begin() {
 <html xmlns="http://www.w3.org/1999/xhtml" class="<?php echo $admin_html_class; ?>" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
 <!--<![endif]-->
 <head>
-<?php
-	if ( $is_IE ) {
-		// Lock the IE compatibility mode to the highest supported document mode by the browser.
-		?>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<?php
-	}
-?>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <?php
 }
