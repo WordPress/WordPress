@@ -74,8 +74,13 @@ if ( is_rtl() )
 $body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 
 $admin_title = sprintf( __( '%1$s &#8212; WordPress' ), strip_tags( sprintf( __( 'Customize %s' ), $wp_customize->theme()->display('Name') ) ) );
-?><title><?php echo $admin_title; ?></title><?php
+?><title><?php echo $admin_title; ?></title>
 
+<script type="text/javascript">
+var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>';
+</script>
+
+<?php
 /**
  * Print Customizer control styles.
  *
