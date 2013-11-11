@@ -1785,7 +1785,7 @@ function noindex() {
  * @since 3.3.0
  */
 function wp_no_robots() {
-	echo "<meta name='robots' content='noindex,nofollow' />\n";
+	echo "<meta name='robots' content='noindex,follow' />\n";
 }
 
 /**
