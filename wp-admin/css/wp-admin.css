@@ -4901,6 +4901,10 @@ p.popular-tags a {
 	border-style: solid;
 }
 
+.wp-customizer .ac_results {
+	z-index: 500000;
+}
+
 .ac_results li {
 	padding: 2px 5px;
 	white-space: nowrap;
