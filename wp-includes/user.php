@@ -618,7 +618,7 @@ class WP_User_Query {
 		$this->query_vars[$query_var] = $value;
 	}
 
-	/*
+	/**
 	 * Used internally to generate an SQL string for searching across multiple columns
 	 *
 	 * @access protected

@@ -160,7 +160,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$this->theme_installer();
 	}
 
-	/*
+	/**
 	 * Prints a theme from the WordPress.org API.
 	 *
 	 * @param object $theme An object that contains theme data returned by the WordPress.org API.
@@ -247,7 +247,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$this->install_theme_info( $theme );
 	}
 
-	/*
+	/**
 	 * Prints the wrapper for the theme installer.
 	 */
 	function theme_installer() {
@@ -272,7 +272,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		<?php
 	}
 
-	/*
+	/**
 	 * Prints the wrapper for the theme installer with a provided theme's data.
 	 * Used to make the theme installer work for no-js.
 	 *
@@ -291,7 +291,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		<?php
 	}
 
-	/*
+	/**
 	 * Prints the info for a theme (to be used in the theme installer modal).
 	 *
 	 * @param object $theme - A WordPress.org Theme API object.

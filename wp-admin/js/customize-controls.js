@@ -1,7 +1,7 @@
 (function( exports, $ ){
 	var api = wp.customize;
 
-	/*
+	/**
 	 * @param options
 	 * - previewer - The Previewer instance to sync with.
 	 * - transport - The transport to use for previewing. Supports 'refresh' and 'postMessage'.

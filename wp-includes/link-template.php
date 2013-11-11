@@ -736,12 +736,13 @@ function edit_term_link( $link = '', $before = '', $after = '', $term = null, $e
 }
 
 /**
-* Retrieve permalink for search.
-*
-* @since  3.0.0
-* @param string $query Optional. The query string to use. If empty the current query is used.
-* @return string
-*/
+ * Retrieve permalink for search.
+ *
+ * @since  3.0.0
+ *
+ * @param string $query Optional. The query string to use. If empty the current query is used.
+ * @return string
+ */
 function get_search_link( $query = '' ) {
 	global $wp_rewrite;
 

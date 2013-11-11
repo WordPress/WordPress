@@ -396,7 +396,7 @@ class WP_Comment_Query {
 		return $comments;
 	}
 
-	/*
+	/**
 	 * Used internally to generate an SQL string for searching across multiple columns
 	 *
 	 * @access protected

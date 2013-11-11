@@ -34,12 +34,12 @@ add_meta_box('linkadvanceddiv', __('Advanced'), 'link_advanced_meta_box', null, 
 do_action( 'add_meta_boxes', 'link', $link );
 
 /**
-* Fires when link-specific meta boxes are added.
-*
-* @since 3.0.0
-*
-* @param object $link Link object.
-*/
+ * Fires when link-specific meta boxes are added.
+ *
+ * @since 3.0.0
+ *
+ * @param object $link Link object.
+ */
 do_action( 'add_meta_boxes_link', $link );
 
 /** This action is documented in wp-admin/edit-form-advanced.php */

@@ -1712,7 +1712,7 @@ class WP_Query {
 		do_action_ref_array('parse_query', array(&$this));
 	}
 
-	/*
+	/**
 	 * Parses various taxonomy related query vars.
 	 *
 	 * @access protected

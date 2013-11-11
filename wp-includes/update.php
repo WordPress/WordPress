@@ -452,7 +452,7 @@ function wp_get_translation_updates() {
 	return $updates;
 }
 
-/*
+/**
  * Collect counts and UI strings for available updates
  *
  * @since 3.3.0

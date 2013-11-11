@@ -684,7 +684,7 @@ class WP_User {
 		return $this->__isset( $key );
 	}
 
-	/*
+	/**
 	 * Return an array representation.
 	 *
 	 * @since 3.5.0

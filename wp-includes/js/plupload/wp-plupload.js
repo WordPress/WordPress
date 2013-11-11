@@ -6,7 +6,7 @@ window.wp = window.wp || {};
 	if ( typeof _wpPluploadSettings === 'undefined' )
 		return;
 
-	/*
+	/**
 	 * An object that helps create a WordPress uploader using plupload.
 	 *
 	 * @param options - object - The options passed to the new plupload instance.
