@@ -1170,7 +1170,7 @@ function convert_chars($content, $deprecated = '') {
  */
 function balanceTags( $text, $force = false ) {
 	if ( $force || get_option('use_balanceTags') == 1 ) {
-		$balance_tags_delimiters = apply_filters( 'balance_tags_delimiters', array( '<!--more.*?-->', '<!--nextpage-->' ) ); 
+		$balance_tags_delimiters = apply_filters( 'balance_tags_delimiters', array( '<!--more.*?-->', '<!--nextpage-->' ) );
 		// Capture lets PREG_SPLIT_DELIM_CAPTURE return the delimiters
 		$delimiters_regex = '/(' . implode( '|', $balance_tags_delimiters ) . ')/';
 		$parts = preg_split( $delimiters_regex, $text, -1, PREG_SPLIT_DELIM_CAPTURE );
@@ -1609,9 +1609,9 @@ function make_clickable( $text ) {
 	$nested_code_pre = 0; // Keep track of how many levels link is nested inside <pre> or <code>
 	foreach ( $textarr as $piece ) {
 
-		if ( preg_match( '|^<code[\s>]|', $piece ) || preg_match( '|^<pre[\s>]|', $piece ) )
+		if ( preg_match( '|^<code[\s>]|i', $piece ) || preg_match( '|^<pre[\s>]|i', $piece ) )
 			$nested_code_pre++;
-		elseif ( ( '</code>' === $piece || '</pre>' === $piece ) && $nested_code_pre )
+		elseif ( ( '</code>' === strtolower( $piece ) || '</pre>' === strtolower( $piece ) ) && $nested_code_pre )
 			$nested_code_pre--;
 
 		if ( $nested_code_pre || empty( $piece ) || ( $piece[0] === '<' && ! preg_match( '|^<\s*[\w]{1,20}+://|', $piece ) ) ) {
