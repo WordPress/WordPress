@@ -66,15 +66,16 @@
 		 * image and we are not on mobile.
 		 */
 		 if ( _window.width() > 781 ) {
-			var mastheadHeight = $( '#masthead' ).height();
+			var mastheadHeight = $( '#masthead' ).height(),
+				toolbarOffset, mastheadOffset;
 
 			if ( mastheadHeight > 48 ) {
 				body.removeClass( 'masthead-fixed' );
 			}
 
 			if ( body.is( '.header-image' ) ) {
-				var toolbarOffset  = body.is( '.admin-bar' ) ? $( '#wpadminbar' ).height() : 0,
-				    mastheadOffset = $( '#masthead' ).offset().top - toolbarOffset;
+				toolbarOffset  = body.is( '.admin-bar' ) ? $( '#wpadminbar' ).height() : 0;
+				mastheadOffset = $( '#masthead' ).offset().top - toolbarOffset;
 
 				_window.on( 'scroll.twentyfourteen', function() {
 					if ( ( window.scrollY > mastheadOffset ) && ( mastheadHeight < 49 ) ) {
