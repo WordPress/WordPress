@@ -263,6 +263,7 @@ function twentyfourteen_customizer_styles() {
 		.comment-reply-title small a:hover,
 		.widget a:hover,
 		.widget-title a:hover,
+		.widget_twentyfourteen_ephemera .entry-meta a:hover,
 		.content-sidebar .widget a:hover,
 		.content-sidebar .widget .widget-title a:hover,
 		.content-sidebar .widget_twentyfourteen_ephemera .entry-meta a:hover,
