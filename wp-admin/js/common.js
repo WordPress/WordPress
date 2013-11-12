@@ -1,3 +1,4 @@
+/* global setUserSetting, ajaxurl, commonL10n, alert, confirm, toggleWithKeyboard, pagenow */
 var showNotice, adminMenu, columns, validateForm, screenMeta;
 (function($){
 // Removed in 3.3.
@@ -65,13 +66,19 @@ columns = {
 		n = parseInt( $t.attr('colspan'), 10 ) + diff;
 		$t.attr('colspan', n.toString());
 	}
-}
+};
 
 $(document).ready(function(){columns.init();});
 
 validateForm = function( form ) {
-	return !$( form ).find('.form-required').filter( function() { return $('input:visible', this).val() == ''; } ).addClass( 'form-invalid' ).find('input:visible').change( function() { $(this).closest('.form-invalid').removeClass( 'form-invalid' ); } ).size();
-}
+	return !$( form )
+		.find( '.form-required' )
+		.filter( function() { return $( 'input:visible', this ).val() === ''; } )
+		.addClass( 'form-invalid' )
+		.find( 'input:visible' )
+		.change( function() { $( this ).closest( '.form-invalid' ).removeClass( 'form-invalid' ); } )
+		.size();
+};
 
 // stub for doing better warnings
 showNotice = {
@@ -160,15 +167,18 @@ $('.contextual-help-tabs').delegate('a', 'click focus', function(e) {
 });
 
 $(document).ready( function() {
-	var lastClicked = false, checks, first, last, checked, sliced, menu = $('#adminmenu'), mobileEvent,
-		pageInput = $('input.current-page'), currentPage = pageInput.val();
+	var checks, first, last, checked, sliced, mobileEvent, transitionTimeout, focusedRowActions,
+		lastClicked = false,
+		menu = $('#adminmenu'),
+		pageInput = $('input.current-page'),
+		currentPage = pageInput.val();
 
 	// when the menu is folded, make the fly-out submenu header clickable
 	menu.on('click.wp-submenu-head', '.wp-submenu-head', function(e){
 		$(e.target).parent().siblings('a').get(0).click();
 	});
 
-	$('#collapse-menu').on('click.collapse-menu', function(e){
+	$('#collapse-menu').on('click.collapse-menu', function() {
 		var body = $( document.body ), respWidth;
 
 		// reset any compensation for submenus near the bottom of the screen
@@ -226,7 +236,7 @@ $(document).ready( function() {
 	}
 
 	menu.find('li.wp-has-submenu').hoverIntent({
-		over: function(e){
+		over: function() {
 			var b, h, o, f, m = $(this).find('.wp-submenu'), menutop, wintop, maxtop, top = parseInt( m.css('top'), 10 );
 
 			if ( isNaN(top) || top > -5 ) // meaning the submenu is visible
@@ -300,7 +310,7 @@ $(document).ready( function() {
 		// toggle "check all" checkboxes
 		var unchecked = $(this).closest('tbody').find(':checkbox').filter(':visible').not(':checked');
 		$(this).closest('table').children('thead, tfoot').find(':checkbox').prop('checked', function() {
-			return ( 0 == unchecked.length );
+			return ( 0 === unchecked.length );
 		});
 
 		return true;
@@ -335,7 +345,6 @@ $(document).ready( function() {
 	});
 
 	// Show row actions on keyboard focus of its parent container element or any other elements contained within
-	var transitionTimeout, focusedRowActions;
 	$( 'td.post-title, td.title, td.comment, .bookmarks td.column-name, td.blogname, td.username, .dashboard-comment-wrap' ).focusin(function(){
 		clearTimeout( transitionTimeout );
 		focusedRowActions = $(this).find( '.row-actions' );
@@ -396,13 +405,13 @@ $(document).ready( function() {
 			e.preventDefault();
 	});
 
-	$('#newcontent').bind('blur.wpevent_InsertTab', function(e) {
+	$('#newcontent').bind('blur.wpevent_InsertTab', function() {
 		if ( this.lastKey && 9 == this.lastKey )
 			this.focus();
 	});
 
 	if ( pageInput.length ) {
-		pageInput.closest('form').submit( function(e){
+		pageInput.closest('form').submit( function() {
 
 			// Reset paging var for new filters/searches but not for bulk actions. See #17685.
 			if ( $('select[name="action"]').val() == -1 && $('select[name="action2"]').val() == -1 && pageInput.val() == currentPage )
