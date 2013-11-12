@@ -173,10 +173,10 @@ function twentyfourteen_post_thumbnail() {
 
 	<div class="post-thumbnail">
 	<?php
-		if ( is_active_sidebar( 'sidebar-2' ) || wp_is_mobile() )
-			the_post_thumbnail( 'post-thumbnail' );
-		else
+		if ( ( ! is_active_sidebar( 'sidebar-2' ) || is_page_template( 'full-width-page.php' ) ) && ! wp_is_mobile() )
 			the_post_thumbnail( 'post-thumbnail-full-width' );
+		else
+			the_post_thumbnail( 'post-thumbnail' );
 	?>
 	</div>
 
@@ -184,10 +184,10 @@ function twentyfourteen_post_thumbnail() {
 
 	<a class="post-thumbnail" href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>">
 	<?php
-		if ( is_active_sidebar( 'sidebar-2' ) || wp_is_mobile() )
-			the_post_thumbnail( 'post-thumbnail' );
-		else
+		if ( ( ! is_active_sidebar( 'sidebar-2' ) || is_page_template( 'full-width-page.php' ) ) && ! wp_is_mobile() )
 			the_post_thumbnail( 'post-thumbnail-full-width' );
+		else
+			the_post_thumbnail( 'post-thumbnail' );
 	?>
 	</a>
 
