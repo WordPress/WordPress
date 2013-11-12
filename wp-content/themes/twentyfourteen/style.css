@@ -588,7 +588,7 @@ img[class*="attachment-"],
 
 img.size-full,
 img.size-large,
-img.wp-post-image,
+.wp-post-image,
 .post-thumbnail img {
 	height: auto;
 	max-width: 100%;
@@ -691,7 +691,7 @@ img.aligncenter,
 	padding-right: 10px;
 }
 
-img.wp-smiley {
+.wp-smiley {
 	border: 0;
 	margin-bottom: 0;
 	margin-top: 0;
