@@ -3510,11 +3510,6 @@ ul.cat-checklist {
 	margin: 0 5px 0 0;
 }
 
-.rtl #lost-connection-notice .spinner {
-	float: right;
-	margin: 0 0 0 5px;
-}
-
 #titlediv {
 	position: relative;
 	margin-bottom: 10px;
@@ -8179,11 +8174,6 @@ body.interim-login {
 	padding: 15px 5px 10px;
 	border-top: 1px solid #ececec;
 	position: static;
-}
-
-.rtl #dashboard_right_now p.musub {
-	padding-left: 0;
-	padding-right: 16px;
 }
 
 #dashboard_right_now td.b a.musublink {

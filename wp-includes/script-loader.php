@@ -552,8 +552,6 @@ function wp_default_styles( &$styles ) {
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
 	$rtl_styles = array( 'wp-admin', 'ie', 'media', 'admin-bar', 'customize-controls', 'media-views', 'wp-color-picker' );
-	// Any rtl stylesheets that don't have a .min version
-	$no_suffix = array( 'farbtastic' );
 
 	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array( 'open-sans', 'dashicons' ) );
 
@@ -592,9 +590,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'wp-mediaelement', "/wp-includes/js/mediaelement/wp-mediaelement.css", array( 'mediaelement' ) );
 
 	foreach ( $rtl_styles as $rtl_style ) {
-		$styles->add_data( $rtl_style, 'rtl', true );
-		if ( $suffix && ! in_array( $rtl_style, $no_suffix ) )
-			$styles->add_data( $rtl_style, 'suffix', $suffix );
+		$styles->add_data( $rtl_style, 'rtl', 'replace' );
 	}
 }
 
