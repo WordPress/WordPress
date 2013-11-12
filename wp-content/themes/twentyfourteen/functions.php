@@ -59,7 +59,7 @@ function twentyfourteen_setup() {
 	load_theme_textdomain( 'twentyfourteen', get_template_directory() . '/languages' );
 
 	// This theme styles the visual editor to resemble the theme style.
-	add_editor_style( array( 'editor-style.css', twentyfourteen_font_url() ) );
+	add_editor_style( array( 'css/editor-style.css', twentyfourteen_font_url() ) );
 
 	// Add RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
@@ -227,7 +227,7 @@ function twentyfourteen_scripts() {
 	wp_enqueue_style( 'twentyfourteen-style', get_stylesheet_uri() );
 
 	// Load the Internet Explorer specific stylesheet.
-	wp_enqueue_style( 'twentyfourteen-ie', get_template_directory_uri() . '/ie.css', array( 'twentyfourteen-style' ), '20131110' );
+	wp_enqueue_style( 'twentyfourteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyfourteen-style' ), '20131110' );
 	wp_style_add_data( 'twentyfourteen-ie', 'conditional', 'lt IE 9' );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
