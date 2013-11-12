@@ -391,8 +391,8 @@ function twentyfourteen_body_classes( $classes ) {
 		$classes[] = 'list-view';
 
 	if ( ( ! is_active_sidebar( 'sidebar-2' ) )
-		|| is_page_template( 'full-width-page.php' )
-		|| is_page_template( 'contributor-page.php' )
+		|| is_page_template( 'page-templates/full-width.php' )
+		|| is_page_template( 'page-templates/contributors.php' )
 		|| is_attachment() )
 		$classes[] = 'full-width';
 
