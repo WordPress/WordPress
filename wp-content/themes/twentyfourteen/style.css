@@ -41,8 +41,9 @@ Use it to make something cool, have fun, and share what you've learned with othe
  *   7.2 - Content Sidebar Widgets
  * 8.0 - Footer
  * 9.0 - Featured Content
- * 10.0 - Media Queries
- * 11.0 - Print
+ * 10.0 - Multisite
+ * 11.0 - Media Queries
+ * 12.0 - Print
  * -----------------------------------------------------------------------------
  */
 
@@ -2883,7 +2884,39 @@ a.post-thumbnail:hover {
 
 
 /**
- * 10.0 Media Queries
+ * 10.0 Multisite
+ * -----------------------------------------------------------------------------
+ */
+
+.site-main .widecolumn {
+	padding-top: 72px;
+	width: auto;
+}
+.site-main .mu_register,
+.widecolumn > h2,
+.widecolumn > form {
+	margin: 0 auto 48px;
+	max-width: 474px;
+	padding: 0 30px;
+}
+
+.site-main .mu_register #blog_title,
+.site-main .mu_register #user_email,
+.site-main .mu_register #blogname,
+.site-main .mu_register #user_name {
+	font-size: inherit;
+	width: 90%;
+}
+
+.site-main .mu_register input[type="submit"],
+.widecolumn #submit {
+	font-size: inherit;
+	width: auto;
+}
+
+
+/**
+ * 11.0 Media Queries
  * -----------------------------------------------------------------------------
  */
 
@@ -3776,7 +3809,8 @@ a.post-thumbnail:hover {
 		width: 324px;
 	}
 
-	.site-content {
+	.site-content,
+	.site-main .widecolumn {
 		margin-left: 222px;
 	}
 
@@ -3893,7 +3927,7 @@ a.post-thumbnail:hover {
 
 
 /**
- * 11.0 Print
+ * 12.0 Print
  * -----------------------------------------------------------------------------
  */
 
