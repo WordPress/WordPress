@@ -545,19 +545,20 @@ input[type="submit"]:active {
 /* Placeholder text color -- selectors need to be separate to work. */
 
 ::-webkit-input-placeholder {
-	color: #767676;
+	color: #939393;
 }
 
 :-moz-placeholder {
-	color: #767676;
+	color: #939393;
 }
 
 ::-moz-placeholder {
-	color: #767676;
+	color: #939393;
+	opacity: 1; /* Since FF19 lowers the opacity of the placeholder by default */
 }
 
 :-ms-input-placeholder {
-	color: #767676;
+	color: #939393;
 }
 
 /* Responsive images. Fluid images for posts, comments, and widgets */
@@ -2195,7 +2196,7 @@ a.post-thumbnail:hover {
 .widget input,
 .widget textarea {
 	background-color: rgba(255, 255, 255, 0.1);
-	border-color: rgba(255, 255, 255, 0.15);
+	border-color: rgba(255, 255, 255, 0.2);
 	color: #fff;
 	font-size: 16px;
 	padding: 1px 2px 2px 4px;
@@ -2203,7 +2204,7 @@ a.post-thumbnail:hover {
 
 .widget input:focus,
 .widget textarea:focus {
-	border-color: rgba(255, 255, 255, 0.2);
+	border-color: rgba(255, 255, 255, 0.3);
 }
 
 .widget button,
