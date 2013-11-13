@@ -251,6 +251,7 @@ td {
 }
 
 .comment-author,
+.comment-awaiting-moderation,
 .comment-content,
 .comment-list .reply,
 .comment-metadata {
@@ -612,6 +613,7 @@ td {
 
 @media screen and (min-width: 846px) {
 	.comment-author,
+	.comment-awaiting-moderation,
 	.comment-content,
 	.comment-list .reply,
 	.comment-metadata {

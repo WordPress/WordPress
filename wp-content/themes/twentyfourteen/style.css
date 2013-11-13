@@ -1867,6 +1867,7 @@ a.post-thumbnail:hover {
 }
 
 .comment-author,
+.comment-awaiting-moderation,
 .comment-content,
 .comment-list .reply,
 .comment-metadata {
@@ -1929,6 +1930,7 @@ a.post-thumbnail:hover {
 }
 
 .comment-notes,
+.comment-awaiting-moderation,
 .logged-in-as,
 .no-comments,
 .form-allowed-tags,
@@ -1958,6 +1960,10 @@ a.post-thumbnail:hover {
 .form-allowed-tags code {
 	font-size: 12px;
 	line-height: 1.5;
+}
+
+.required {
+	color: #c0392b;
 }
 
 .comment-reply-title small a {
@@ -3449,6 +3455,7 @@ a.post-thumbnail:hover {
 	}
 
 	.comment-author,
+	.comment-awaiting-moderation,
 	.comment-content,
 	.comment-list .reply,
 	.comment-metadata {
