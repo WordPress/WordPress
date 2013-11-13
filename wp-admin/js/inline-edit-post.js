@@ -233,7 +233,7 @@ inlineEditPost = {
 			post_status: page
 		};
 
-		fields = $('#edit-'+id+' :input').serialize();
+		fields = $('#edit-'+id).find(':input').serialize();
 		params = fields + '&' + $.param(params);
 
 		// make ajax request
