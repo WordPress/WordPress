@@ -1141,9 +1141,11 @@ function wp_notify_moderator($comment_id) {
 	$post = get_post($comment->comment_post_ID);
 	$user = get_userdata( $post->post_author );
 	// Send to the administration and to the post author if the author can modify the comment.
-	$emails = array( get_option('admin_email') );
-	if ( user_can($user->ID, 'edit_comment', $comment_id) && !empty($user->user_email) && ( get_option('admin_email') != $user->user_email) )
-		$emails[] = $user->user_email;
+	$emails = array( get_option( 'admin_email' ) );
+	if ( user_can( $user->ID, 'edit_comment', $comment_id ) && ! empty( $user->user_email ) ) {
+		if ( 0 !== strcasecmp( $user->user_email, get_option( 'admin_email' ) ) )
+			$emails[] = $user->user_email;
+	}
 
 	$comment_author_domain = @gethostbyaddr($comment->comment_author_IP);
 	$comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $wpdb->comments WHERE comment_approved = '0'");
@@ -1216,7 +1218,7 @@ if ( !function_exists('wp_password_change_notification') ) :
 function wp_password_change_notification(&$user) {
 	// send a copy of password change notification to the admin
 	// but check to see if it's the admin whose password we're changing, and skip this
-	if ( $user->user_email != get_option('admin_email') ) {
+	if ( 0 !== strcasecmp( $user->user_email, get_option( 'admin_email' ) ) ) {
 		$message = sprintf(__('Password Lost and Changed for user: %s'), $user->user_login) . "\r\n";
 		// The blogname option is escaped with esc_html on the way into the database in sanitize_option
 		// we want to reverse this for the plain text arena of emails.
