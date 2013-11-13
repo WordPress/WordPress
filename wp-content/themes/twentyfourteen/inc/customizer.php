@@ -40,7 +40,7 @@ function twentyfourteen_customize_register( $wp_customize ) {
 	// Add the featured content section in case it's not already there.
 	$wp_customize->add_section( 'featured_content', array(
 		'title'       => __( 'Featured Content', 'twentyfourteen' ),
-		'description' => sprintf( __( 'Easily feature all posts with the <a href="%s">"featured" tag</a> or a tag of your choice; if no posts match the tag, <a href="%s">"sticky" posts</a> will be displayed instead.', 'twentyfourteen' ), admin_url( '/edit.php?tag=featured' ), admin_url( '/edit.php?show_sticky=1' ) ),
+		'description' => sprintf( __( 'Easily feature all posts with the <a href="%1$s">"featured" tag</a> or a tag of your choice; if no posts match the tag, <a href="%2$s">"sticky" posts</a> will be displayed instead.', 'twentyfourteen' ), admin_url( '/edit.php?tag=featured' ), admin_url( '/edit.php?show_sticky=1' ) ),
 		'priority'    => 130,
 	) );
 
