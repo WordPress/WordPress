@@ -448,10 +448,6 @@ function do_undismiss_core_update() {
 	exit;
 }
 
-function no_update_actions($actions) {
-	return '';
-}
-
 $action = isset($_GET['action']) ? $_GET['action'] : 'upgrade-core';
 
 $upgrade_error = false;
