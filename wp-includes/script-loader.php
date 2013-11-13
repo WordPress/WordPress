@@ -451,7 +451,8 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable' ), false, 1 );
 
-		$scripts->add( 'theme', "/wp-admin/js/theme$suffix.js", array( 'jquery' ), false, 1 );
+		$scripts->add( 'theme', "/wp-admin/js/theme$suffix.js", array( 'wp-backbone' ), false, 1 );
+		$scripts->add( 'theme-install', "/wp-admin/js/theme-install$suffix.js", array( 'jquery' ), false, 1 );
 
 		// @todo: Core no longer uses theme-preview.js. Remove?
 		$scripts->add( 'theme-preview', "/wp-admin/js/theme-preview$suffix.js", array( 'thickbox', 'jquery' ), false, 1 );
@@ -570,6 +571,7 @@ function wp_default_styles( &$styles ) {
 	// do not refer to these directly, the right one is queued by the above "meta" colors handle
 	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array( 'wp-admin', 'buttons' ) );
 
+	$styles->add( 'theme', "/wp-admin/css/theme.css" );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css" );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array('buttons') );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array(), '20121105' );

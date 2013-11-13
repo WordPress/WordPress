@@ -345,3 +345,60 @@ function themes_api( $action, $args = null ) {
 	 */
 	return apply_filters( 'themes_api_result', $res, $action, $args );
 }
+
+/**
+ * Prepare themes for JavaScript.
+ *
+ * @since 3.8.0
+ *
+ * @param array $themes Optional. Array of WP_Theme objects to prepare.
+ *                      Defaults to all allowed themes.
+ *
+ * @return array An associative array of theme data.
+ */
+function wp_prepare_themes_for_js( $themes = null ) {
+	if ( null === $themes ) {
+		$themes = wp_get_themes( array( 'allowed' => true ) );
+	}
+
+	$prepared_themes = array();
+	$current_theme = get_stylesheet();
+
+	$updates = array();
+	if ( current_user_can( 'update_themes' ) ) {
+		$updates = get_site_transient( 'update_themes' );
+		$updates = $updates->response;
+	}
+
+	foreach( $themes as $slug => $theme ) {
+		$parent = false;
+		if ( $theme->parent() ) {
+			$parent = $theme->parent()->display( 'Name' );
+		}
+
+		$encoded_slug = urlencode( $slug );
+
+		$prepared_themes[] = array(
+			'id'           => $slug,
+			'name'         => $theme->display( 'Name' ),
+			'screenshot'   => array( $theme->get_screenshot() ), // @todo multiple
+			'description'  => $theme->display( 'Description' ),
+			'author'       => $theme->get( 'Author' ),
+			'authorURI'    => $theme->get( 'AuthorURI' ),
+			'version'      => $theme->get( 'Version' ),
+			'tags'         => $theme->get( 'Tags' ),
+			'parent'       => $parent,
+			'active'       => $slug === $current_theme,
+			'hasUpdate'    => isset( $updates[ $slug ] ),
+			'update'       => 'New version available', // @todo complete this
+			'actions'      => array(
+				'activate' => wp_nonce_url( 'themes.php?action=activate&amp;stylesheet=' . $encoded_slug, 'switch-theme_' . $slug ),
+				'customize'=> admin_url( 'customize.php?theme=' . $encoded_slug ),
+				'delete'   => wp_nonce_url( 'themes.php?action=delete&amp;stylesheet=' . $encoded_slug, 'delete-theme_' . $slug ),
+			),
+		);
+	}
+	// var_dump( $prepared_themes );
+
+	return $prepared_themes;
+}

@@ -12,10 +12,6 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( !current_user_can('switch_themes') && !current_user_can('edit_theme_options') )
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
 
-$wp_list_table = _get_list_table('WP_Themes_List_Table');
-
-$_SERVER['REQUEST_URI'] = remove_query_arg( array( 's', 'features', '_ajax_fetch_list_nonce', '_wp_http_referer', 'paged' ), $_SERVER['REQUEST_URI'] );
-
 if ( current_user_can( 'switch_themes' ) && isset($_GET['action'] ) ) {
 	if ( 'activate' == $_GET['action'] ) {
 		check_admin_referer('switch-theme_' . $_GET['stylesheet']);
@@ -35,8 +31,6 @@ if ( current_user_can( 'switch_themes' ) && isset($_GET['action'] ) ) {
 		exit;
 	}
 }
-
-$wp_list_table->prepare_items();
 
 $title = __('Manage Themes');
 $parent_file = 'themes.php';
@@ -66,8 +60,6 @@ if ( current_user_can( 'install_themes' ) ) {
 	) );
 }
 
-add_thickbox();
-
 endif; // switch_themes
 
 if ( current_user_can( 'edit_theme_options' ) ) {
@@ -90,21 +82,42 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
+if ( current_user_can( 'switch_themes' ) ) {
+	$themes = wp_prepare_themes_for_js();
+} else {
+	$themes = wp_prepare_themes_for_js( array( wp_get_theme() ) );
+}
+
+wp_localize_script( 'theme', '_wpThemeSettings', array(
+	'themes'   => $themes,
+	'settings' => array(
+		'install_uri'   => admin_url( 'theme-install.php' ),
+		'customizeURI'  => ( current_user_can( 'edit_theme_options' ) ) ? wp_customize_url() : null,
+		'confirmDelete' => __( "Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete." ),
+		'root'          => '/wp-admin/themes.php',
+		'container'     => '#appearance',
+		'extraRoutes'   => '',
+	),
+	'i18n' => array(
+		'add_new'         => __( 'Add New Theme' ),
+	),
+) );
+
+wp_enqueue_style( 'theme' );
 wp_enqueue_script( 'theme' );
 wp_enqueue_script( 'customize-loader' );
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
-<div class="wrap"><?php
-screen_icon();
-if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
-<h2 class="nav-tab-wrapper">
-<a href="themes.php" class="nav-tab nav-tab-active"><?php echo esc_html( $title ); ?></a><a href="<?php echo admin_url( 'theme-install.php'); ?>" class="nav-tab"><?php echo esc_html_x('Install Themes', 'theme'); ?></a>
-<?php else : ?>
-<h2><?php echo esc_html( $title ); ?>
-<?php endif; ?>
-</h2>
+<div id="appearance" class="wrap">
+	<h2><?php esc_html_e( 'Themes' ); ?>
+		<span id="theme-count" class="theme-count"></span>
+	<?php if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
+		<a href="<?php echo admin_url( 'theme-install.php' ); ?>" class="add-new-h2"><?php echo esc_html( _x( 'Add New', 'Add new theme' ) ); ?></a>
+	<?php endif; ?>
+	</h2>
+
 <?php
 if ( ! validate_current_theme() || isset( $_GET['broken'] ) ) : ?>
 <div id="message1" class="updated"><p><?php _e('The active theme is broken. Reverting to the default theme.'); ?></p></div>
@@ -120,49 +133,15 @@ if ( ! validate_current_theme() || isset( $_GET['broken'] ) ) : ?>
 endif;
 
 $ct = wp_get_theme();
-$screenshot = $ct->get_screenshot();
-$class = $screenshot ? 'has-screenshot' : '';
 
-$customize_title = sprintf( __( 'Customize &#8220;%s&#8221;' ), $ct->display('Name') );
-
-?>
-<div id="current-theme" class="<?php echo esc_attr( $class ); ?>">
-	<?php if ( $screenshot ) : ?>
-		<?php if ( current_user_can( 'edit_theme_options' ) ) : ?>
-		<a href="<?php echo wp_customize_url(); ?>" class="load-customize hide-if-no-customize" title="<?php echo esc_attr( $customize_title ); ?>">
-			<img src="<?php echo esc_url( $screenshot ); ?>" alt="<?php esc_attr_e( 'Current theme preview' ); ?>" />
-		</a>
-		<?php endif; ?>
-		<img class="hide-if-customize" src="<?php echo esc_url( $screenshot ); ?>" alt="<?php esc_attr_e( 'Current theme preview' ); ?>" />
-	<?php endif; ?>
-
-	<h3><?php _e('Current Theme'); ?></h3>
-	<h4>
-		<?php echo $ct->display('Name'); ?>
-	</h4>
-
-<?php
 if ( $ct->errors() && ( ! is_multisite() || current_user_can( 'manage_network_themes' ) ) ) {
 	echo '<p class="error-message">' . sprintf( __( 'ERROR: %s' ), $ct->errors()->get_error_message() ) . '</p>';
 }
 
+/*
 // Certain error codes are less fatal than others. We can still display theme information in most cases.
 if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 	&& in_array( $ct->errors()->get_error_code(), array( 'theme_no_parent', 'theme_parent_invalid', 'theme_no_index' ) ) ) ) : ?>
-
-	<div>
-		<ul class="theme-info">
-			<li><?php printf( __('By %s'), $ct->display('Author') ); ?></li>
-			<li><?php printf( __('Version %s'), $ct->display('Version') ); ?></li>
-		</ul>
-		<p class="theme-description"><?php echo $ct->display('Description'); ?></p>
-		<?php if ( $ct->parent() ) {
-			printf( ' <p class="howto">' . __( 'This <a href="%1$s">child theme</a> requires its parent theme, %2$s.' ) . '</p>',
-				__( 'http://codex.wordpress.org/Child_Themes' ),
-				$ct->parent()->display( 'Name' ) );
-		} ?>
-		<?php theme_update_available( $ct ); ?>
-	</div>
 
 	<?php
 	// Pretend you didn't see this.
@@ -194,102 +173,8 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 			}
 		}
 	}
-
-	if ( $options || current_user_can( 'edit_theme_options' ) ) :
-	?>
-	<div class="theme-options">
-		<?php if ( current_user_can( 'edit_theme_options' ) ) : ?>
-		<a id="customize-current-theme-link" href="<?php echo wp_customize_url(); ?>" class="load-customize hide-if-no-customize" title="<?php echo esc_attr( $customize_title ); ?>"><?php _e( 'Customize' ); ?></a>
-		<?php
-		endif; // edit_theme_options
-		if ( $options ) :
-		?>
-		<span><?php _e( 'Options:' )?></span>
-		<ul>
-			<?php foreach ( $options as $option ) : ?>
-				<li><?php echo $option; ?></li>
-			<?php endforeach; ?>
-		</ul>
-		<?php
-		endif; // options
-		?>
-	</div>
-	<?php
-	endif; // options || edit_theme_options
-	?>
-
-<?php endif; // theme errors ?>
-
-</div>
-
-<br class="clear" />
-<?php
-if ( ! current_user_can( 'switch_themes' ) ) {
-	echo '</div>';
-	require( ABSPATH . 'wp-admin/admin-footer.php' );
-	exit;
-}
+*/
 ?>
-
-<form class="search-form filter-form" action="" method="get">
-
-<h3 class="available-themes"><?php _e('Available Themes'); ?></h3>
-
-<?php if ( !empty( $_REQUEST['s'] ) || !empty( $_REQUEST['features'] ) || $wp_list_table->has_items() ) : ?>
-
-<p class="search-box">
-	<label class="screen-reader-text" for="theme-search-input"><?php _e('Search Installed Themes'); ?>:</label>
-	<input type="search" id="theme-search-input" name="s" value="<?php _admin_search_query(); ?>" />
-	<?php submit_button( __( 'Search Installed Themes' ), 'button', false, false, array( 'id' => 'search-submit' ) ); ?>
-	<a id="filter-click" href="?filter=1"><?php _e( 'Feature Filter' ); ?></a>
-</p>
-
-<div id="filter-box" style="<?php if ( empty($_REQUEST['filter']) ) echo 'display: none;'; ?>">
-<?php $feature_list = get_theme_feature_list(); ?>
-	<div class="feature-filter">
-		<p class="install-help"><?php _e('Theme filters') ?></p>
-	<?php if ( !empty( $_REQUEST['filter'] ) ) : ?>
-		<input type="hidden" name="filter" value="1" />
-	<?php endif; ?>
-	<?php foreach ( $feature_list as $feature_name => $features ) :
-			$feature_name = esc_html( $feature_name ); ?>
-
-		<div class="feature-container">
-			<div class="feature-name"><?php echo $feature_name ?></div>
-
-			<ol class="feature-group">
-				<?php foreach ( $features as $key => $feature ) :
-						$feature_name = $feature;
-						$feature_name = esc_html( $feature_name );
-						$feature = esc_attr( $feature );
-						?>
-				<li>
-					<input type="checkbox" name="features[]" id="feature-id-<?php echo $key; ?>" value="<?php echo $key; ?>" <?php checked( in_array( $key, $wp_list_table->features ) ); ?>/>
-					<label for="feature-id-<?php echo $key; ?>"><?php echo $feature_name; ?></label>
-				</li>
-				<?php endforeach; ?>
-			</ol>
-		</div>
-	<?php endforeach; ?>
-
-	<div class="feature-container">
-		<?php submit_button( __( 'Apply Filters' ), 'button-secondary submitter', false, false, array( 'id' => 'filter-submit' ) ); ?>
-		&nbsp;
-		<a id="mini-filter-click" href="<?php echo esc_url( remove_query_arg( array('filter', 'features', 'submit') ) ); ?>"><?php _e( 'Close filters' )?></a>
-	</div>
-	<br/>
-	</div>
-	<br class="clear"/>
-</div>
-
-<?php endif; ?>
-
-<br class="clear" />
-
-<?php $wp_list_table->display(); ?>
-
-</form>
-<br class="clear" />
 
 <?php
 // List broken themes, if any.
@@ -317,6 +202,106 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 <?php
 }
 ?>
-</div>
+</div><!-- .wrap -->
+
+<script id="tmpl-theme" type="text/template">
+	<div class="theme-screenshot">
+		<img src="{{ data.screenshot[0] }}" alt="" />
+	</div>
+	<div class="theme-author"><?php printf( __( 'By %s' ), '{{ data.author }}' ); ?></div>
+	<h3 class="theme-name">{{ data.name }}</h3>
+	<div class="theme-actions">
+
+	<# if ( data.active ) { #>
+		<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
+		<# if ( wp.themes.data.settings['customizeURI'] ) { #>
+			<a class="button button-primary hide-if-no-customize" href="{{ wp.themes.data.settings['customizeURI'] }}"><?php _e( 'Customize' ); ?></a>
+		<# } #>
+	<# } else { #>
+		<a class="button button-primary activate" href="{{{ data.actions['activate'] }}}"><?php _e( 'Activate' ); ?></a>
+		<a class="button button-secondary preview" href="{{{ data.actions['customize'] }}}"><?php _e( 'Live Preview' ); ?></a>
+	<# } #>
+
+	</div>
+
+	<# if ( data.hasUpdate ) { #>
+		<a class="theme-update"><?php _e( 'Update Available' ); ?></a>
+	<# } #>
+
+	<# if ( ! data.active ) { #>
+		<a href="{{{ data.actions.delete }}}" class="delete-theme"><?php _e( 'Delete' ); ?></a>
+	<# } #>
+</script>
+
+<script id="tmpl-theme-search" type="text/template">
+	<input type="text" name="theme-search" id="theme-search" placeholder="<?php esc_attr_e( 'Search...' ); ?>" />
+</script>
+
+<script id="tmpl-theme-single" type="text/template">
+	<div class="theme-backdrop"></div>
+	<div class="theme-wrap">
+		<div class="theme-utility">
+			<div alt="<?php _e( 'Close overlay' ); ?>" class="back dashicons dashicons-no"></div>
+			<div alt="<?php _e( 'Show previous theme' ); ?>" class="left dashicons dashicons-no"></div>
+			<div alt="<?php _e( 'Show next theme' ); ?>" class="right dashicons dashicons-no"></div>
+		</div>
+
+		<div class="theme-screenshots" id="theme-screenshots">
+			<div class="screenshot first"><img src="{{ data.screenshot[0] }}" alt="" /></div>
+		<#
+			if ( _.size( data.screenshot ) > 1 ) {
+				_.each ( data.screenshot, function( image ) {
+		#>
+				<div class="screenshot thumb"><img src="{{ image }}" alt="" /></div>
+		<#
+				});
+			}
+		#>
+		</div>
+
+		<div class="theme-info">
+			<# if ( data.active ) { #>
+				<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
+			<# } #>
+			<h3 class="theme-name">{{ data.name }}<span class="theme-version"><?php _e('Version: '); ?> {{ data.version }}</span></h3>
+			<h4 class="theme-author"><?php printf( __( 'By %s' ), '<a href="{{ data.authorURI }}">{{ data.author }}</a>' ); ?></h4>
+
+			<# if ( data.hasUpdate ) { #>
+			<div class="theme-update-message">
+				<a class="theme-update"><?php _e( 'Update Available' ); ?></a>
+				<p>{{{ data.update }}}</p>
+			</div>
+			<# } #>
+			<p class="theme-description">{{{ data.description }}}</p>
+
+			<# if ( data.parent ) { #>
+				<p class="parent-theme"><?php printf( __( 'This is a child theme of <strong>%s</strong>.' ), '{{ data.parent }}' ); ?></p>
+			<# } #>
+
+			<# if ( data.tags.length !== 0 ) { #>
+				<p class="theme-tags">
+					<span><?php _e( 'Tags:' ); ?></span>
+					{{{ data.tags.join( ', ' ).replace( /-/g, ' ' ) }}}
+				</p>
+			<# } #>
+		</div>
+	</div>
+
+	<div class="theme-actions">
+		<div class="active-theme">
+			<a href="{{{ wp.themes.data.settings.customizeURI }}}" class="button button-primary hide-if-no-customize"><?php _e( 'Customize' ); ?></a>
+			<a class="button button-secondary" href="<?php echo admin_url( 'nav-menus.php' ); ?>"><?php _e( 'Menus' ); ?></a>
+			<a class="button button-secondary" href="<?php echo admin_url( 'widgets.php' ); ?>"><?php _e( 'Widgets' ); ?></a>
+		</div>
+		<div class="inactive-theme">
+			<a href="{{{ data.actions.activate }}}" class="button button-primary"><?php _e( 'Activate' ); ?></a>
+			<a href="{{{ data.actions.customize }}}" class="button button-secondary"><?php _e( 'Live Preview' ); ?></a>
+		</div>
+
+		<# if ( ! data.active ) { #>
+			<a href="{{{ data.actions.delete }}}" class="delete-theme"><?php _e( 'Delete' ); ?></a>
+		<# } #>
+	</div>
+</script>
 
 <?php require( ABSPATH . 'wp-admin/admin-footer.php' ); ?>
