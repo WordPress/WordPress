@@ -141,10 +141,6 @@ table.fixed td {
 	overflow: visible;
 }
 
-#dashboard-widgets #dashboard_quick_press form p.submit #publish {
-	float: none;
-}
-
 #dashboard-widgets h3 a {
 	height: 14px;
 	line-height: 14px;

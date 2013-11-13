@@ -126,13 +126,7 @@ ul#adminmenu > li.current > a.current:after {
 	border-right-color: #eee;
 }
 
-#dashboard_right_now .t,
-#dashboard_right_now .b {
-	color: #777;
-}
-
 #the-comment-list .comment-item p.row-actions,
-#dashboard_recent_comments .subsubsub,
 .plugins .row-actions-visible,
 .row-actions {
 	color: #ddd;
@@ -552,8 +546,7 @@ div.dashboard-widget-submit input:hover,
 	color: #2ea2cc;
 }
 
-#the-comment-list .comment-item,
-#dashboard-widgets #dashboard_quick_press form p.submit {
+#the-comment-list .comment-item {
 	border: none;
 }
 
@@ -580,9 +573,6 @@ p.submit {
 table.widefat span.delete a,
 table.widefat span.trash a,
 table.widefat span.spam a,
-#dashboard_recent_comments .delete a,
-#dashboard_recent_comments .trash a,
-#dashboard_recent_comments .spam a,
 .plugins a.delete,
 #all-plugins-table .plugins a.delete,
 #search-plugins-table .plugins a.delete,
@@ -596,9 +586,6 @@ table.widefat span.spam a,
 table.widefat span.delete a:hover,
 table.widefat span.trash a:hover,
 table.widefat span.spam a:hover,
-#dashboard_recent_comments .delete a:hover,
-#dashboard_recent_comments .trash a:hover,
-#dashboard_recent_comments .spam a:hover,
 .plugins a.delete:hover,
 #all-plugins-table .plugins a.delete:hover,
 #search-plugins-table .plugins a.delete:hover,
@@ -771,10 +758,6 @@ div#plugin-information-header {
 	border-color: #666;
 }
 
-#dashboard_secondary div.dashboard-widget-content ul li a {
-	background-color: #f9f9f9;
-}
-
 input.readonly, textarea.readonly {
 	background-color: #ddd;
 }
@@ -929,18 +912,12 @@ a.post-format-icon:hover:before {
 }
 
 #the-comment-list .unapproved th,
-#the-comment-list .unapproved td,
-#dashboard_recent_comments #the-comment-list .unapproved {
+#the-comment-list .unapproved td {
 	background-color: #fefaf7;
 }
 
-#the-comment-list .unapproved th.check-column,
-#dashboard_recent_comments #the-comment-list .unapproved {
+#the-comment-list .unapproved th.check-column {
 	border-left: 4px solid #d54e21;
-}
-
-#dashboard_recent_comments #the-comment-list .unapproved .avatar {
-	margin-left: -4px;
 }
 
 #the-comment-list .approve a {
@@ -1038,8 +1015,7 @@ p.popular-tags,
 
 .postbox h3,
 #namediv h3,
-#submitdiv h3,
-#dashboard_recent_comments .comment {
+#submitdiv h3 {
 	color: #555;
 	border-bottom: 1px solid #eeeeee;
 }
@@ -1144,11 +1120,11 @@ span.wp-media-buttons-icon:before {
 	color: #333;
 }
 
-#screen-meta-links a:focus { 
-	border-color: #aaa; 
-	color: #333; 
-	-webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.15); 
-	box-shadow: 0 2px 3px rgba(0,0,0,0.15); 
+#screen-meta-links a:focus {
+	border-color: #aaa;
+	color: #333;
+	-webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.15);
+	box-shadow: 0 2px 3px rgba(0,0,0,0.15);
 }
 /* end screen options and help tabs */
 
@@ -1165,10 +1141,7 @@ abbr.required,
 .widget-control-remove:hover,
 table.widefat .delete a:hover,
 table.widefat .trash a:hover,
-table.widefat .spam a:hover,
-#dashboard_recent_comments .delete a:hover,
-#dashboard_recent_comments .trash a:hover
-#dashboard_recent_comments .spam a:hover {
+table.widefat .spam a:hover {
 	color: #f00;
 }
 
@@ -2197,13 +2170,7 @@ body.login {
 	border-right: 4px solid #d54e21;
 }
 
-.rtl #the-comment-list .unapproved th.check-column,
-.rtl #dashboard_recent_comments #the-comment-list .unapproved {
+.rtl #the-comment-list .unapproved th.check-column {
     border-left: none;
     border-right: 4px solid #d54e21;
-}
-
-.rtl #dashboard_recent_comments #the-comment-list .unapproved .avatar {
-	margin-left: 10px;
-    margin-right: -4px;
 }

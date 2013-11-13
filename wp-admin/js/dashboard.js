@@ -29,10 +29,7 @@ jQuery(document).ready( function($) {
 
 	// These widgets are sometimes populated via ajax
 	ajaxWidgets = [
-		'dashboard_incoming_links',
-		'dashboard_primary',
-		'dashboard_secondary',
-		'dashboard_plugins'
+		'dashboard_rss'
 	];
 
 	ajaxPopulateWidgets = function(el) {
@@ -66,28 +63,32 @@ jQuery(document).ready( function($) {
 	quickPressLoad = function() {
 		var act = $('#quickpost-action'), t;
 		t = $('#quick-press').submit( function() {
-			$('#dashboard_quick_press #publishing-action .spinner').show();
+			$('#dashboard_quick_draft #publishing-action .spinner').show();
 			$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').prop('disabled', true);
 
-			if ( 'post' == act.val() ) {
-				act.val( 'post-quickpress-publish' );
+			$.post( t.attr( 'action' ), t.serializeArray(), function( data ) {
+				// Replace the form, and prepend the published post.
+				$('#dashboard_quick_draft .inside').html( data );
+				$('#quick-press').removeClass('initial-form');
+				quickPressLoad();
+				highlightLatestPost();
+				$('#title').focus();
+			});
+
+			function highlightLatestPost () {
+				var latestPost = $('#draft-list li').first();
+				latestPost.css('background', '#fffbe5');
+				setTimeout(function () {
+					latestPost.css('background', 'none');
+				}, 1000);
 			}
 
-			$('#dashboard_quick_press div.inside').load( t.attr( 'action' ), t.serializeArray(), function() {
-				$('#dashboard_quick_press #publishing-action .spinner').hide();
-				$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').prop('disabled', false);
-				$('#dashboard_quick_press ul').next('p').remove();
-				$('#dashboard_quick_press ul').find('li').each( function() {
-					$('#dashboard_recent_drafts ul').prepend( this );
-				} ).end().remove();
-				quickPressLoad();
-			} );
 			return false;
 		} );
 
 		$('#publish').click( function() { act.val( 'post-quickpress-publish' ); } );
 
-		$('#title, #tags-input').each( function() {
+		$('#title, #tags-input, #content').each( function() {
 			var input = $(this), prompt = $('#' + this.id + '-prompt-text');
 
 			if ( '' === this.value )
@@ -109,9 +110,39 @@ jQuery(document).ready( function($) {
 		});
 
 		$('#quick-press').on( 'click focusin', function() {
+			$(this).addClass("quickpress-open");
+			$("#description-wrap, p.submit").slideDown(200);
 			wpActiveEditor = 'content';
 		});
 	};
 	quickPressLoad();
+
+	// Activity Widget
+	$( '.show-more a' ).on( 'click', function(e) {
+		$( this ).fadeOut().closest('.activity-block').find( 'li.hidden' ).fadeIn().removeClass( 'hidden' );
+		e.preventDefault();
+	})
+
+	// Dashboard columns
+	jQuery(document).ready(function ($) {
+		// Update main column count on load
+		updateColumnCount();
+	});
+
+	jQuery(window).resize( _.debounce( function(){
+		updateColumnCount();
+	}, 30) );
+
+	function updateColumnCount() {
+		var cols = 1,
+			windowWidth = parseInt(jQuery(window).width());
+		if (799 < windowWidth && 1299 > windowWidth)
+			cols = 2;
+		if (1300 < windowWidth && 1799 > windowWidth)
+			cols = 3;
+		if (1800 < windowWidth)
+			cols = 4;
+		jQuery('.metabox-holder').attr('class', jQuery('.metabox-holder').attr('class').replace(/columns-\d+/, 'columns-' + cols));
+	}
 
 } );

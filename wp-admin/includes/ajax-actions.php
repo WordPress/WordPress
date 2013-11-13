@@ -234,17 +234,8 @@ function wp_ajax_dashboard_widgets() {
 	require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 
 	switch ( $_GET['widget'] ) {
-		case 'dashboard_incoming_links' :
-			wp_dashboard_incoming_links();
-			break;
-		case 'dashboard_primary' :
-			wp_dashboard_primary();
-			break;
-		case 'dashboard_secondary' :
-			wp_dashboard_secondary();
-			break;
-		case 'dashboard_plugins' :
-			wp_dashboard_plugins();
+		case 'dashboard_rss' :
+			wp_dashboard_rss();
 			break;
 	}
 	wp_die();
