@@ -1007,14 +1007,6 @@ span + .edit-link:before,
 	max-width: 672px;
 }
 
-.entry-header,
-.entry-content,
-.entry-summary,
-.entry-meta,
-.page-content {
-	width: 100%;
-}
-
 .site-content .entry-header,
 .site-content .entry-content,
 .site-content .entry-summary,
