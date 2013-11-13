@@ -1,4 +1,5 @@
-;var svgPainter = ( function( $, window, document, undefined ) {
+/* global mp6_color_scheme:true */
+var svgPainter = ( function( $, window, document, undefined ) {
 
 	'use strict';
 
@@ -30,7 +31,7 @@
 		setColors : function( colors ) {
 
 			if ( typeof colors === 'undefined' && typeof mp6_color_scheme !== 'undefined' ) {
-				var colors = mp6_color_scheme;
+				colors = mp6_color_scheme;
 			}
 
 			this.colorscheme = colors;
@@ -86,19 +87,20 @@
 			if ( ! color.match( /^(#[0-9a-f]{3}|#[0-9a-f]{6})$/i ) )
 				return;
 
-			var xml = $element.data( 'mp6-svg-' + color );
+			var xml = $element.data( 'mp6-svg-' + color ),
+				base64;
 
 			if ( ! xml ) {
 
-				var base64 = $element.css( 'background-image' ).match( /.+data:image\/svg\+xml;base64,(.+)\)/ );
+				base64 = $element.css( 'background-image' ).match( /.+data:image\/svg\+xml;base64,(.+)\)/ );
 
 				if ( ! base64 )
 					return;
 
 				try {
-					var xml = window.atob( base64[1] );
+					xml = window.atob( base64[1] );
 				} catch ( e ) {
-					var xml = $.base64.atob( base64[1] );
+					xml = $.base64.atob( base64[1] );
 				}
 
 				// replace `fill` attributes
@@ -120,7 +122,7 @@
 
 			}
 
-			$element.attr( 'style', "background-image: url('data:image/svg+xml;base64," + xml + "') !important;" );
+			$element.attr( 'style', 'background-image: url("data:image/svg+xml;base64,' + xml + '") !important;' );
 
 		}
 
@@ -141,14 +143,15 @@
  **/
 ;(function($) {
 
-    var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
+    var b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
         a256 = '',
         r64 = [256],
         r256 = [256],
-        i = 0;
+        i = 0,
+		c, Plugin;
 
     while(i < 256) {
-        var c = String.fromCharCode(i);
+        c = String.fromCharCode(i);
         a256 += c;
         r256[i] = i;
         r64[i] = b64.indexOf(c);
@@ -161,10 +164,11 @@
             i = 0,
             length = s.length,
             result = '',
-            bitsInBuffer = 0;
+            bitsInBuffer = 0,
+			tmp;
 
         while(i < length) {
-            var c = s.charCodeAt(i);
+            c = s.charCodeAt(i);
             c = c < 256 ? alpha[c] : -1;
 
             buffer = (buffer << w1) + c;
@@ -172,7 +176,7 @@
 
             while(bitsInBuffer >= w2) {
                 bitsInBuffer -= w2;
-                var tmp = buffer >> bitsInBuffer;
+                tmp = buffer >> bitsInBuffer;
                 result += beta.charAt(tmp);
                 buffer ^= tmp << bitsInBuffer;
             }
@@ -182,7 +186,7 @@
         return result;
     }
 
-    var Plugin = $.base64 = function(dir, input, encode) {
+    Plugin = $.base64 = function(dir, input, encode) {
             return input ? Plugin[dir](input, encode) : dir ? null : this;
         };
 
@@ -191,8 +195,8 @@
         return plain + '===='.slice((plain.length % 4) || 4);
     };
 
-    $.base64.atob = function(coded, utf8decode) {
-        coded = coded.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+    $.base64.atob = function(coded) {
+        coded = coded.replace(/[^A-Za-z0-9\+\/\=]/g, '');
         coded = String(coded).split('=');
         var i = coded.length;
         do {--i;
