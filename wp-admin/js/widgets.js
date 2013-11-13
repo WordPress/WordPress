@@ -363,9 +363,7 @@ wpWidgets = {
 		sidebar.closest( '.widgets-holder-wrap' ).removeClass('closed');
 		sidebar.sortable('refresh');
 
-		// Change for MP6
-		// widget.prependTo( sidebar );
-		sidebar.find( '.sidebar-description' ).after( widget );
+		widget.prependTo( sidebar );
 
 		wpWidgets.save( widget, 0, 0, 1 );
 		// No longer "new" widget
