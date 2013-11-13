@@ -591,6 +591,9 @@ function wp_default_styles( &$styles ) {
 
 	foreach ( $rtl_styles as $rtl_style ) {
 		$styles->add_data( $rtl_style, 'rtl', 'replace' );
+		if ( $suffix ) {
+			$styles->add_data( $rtl_style, 'suffix', $suffix );
+		}
 	}
 }
 
