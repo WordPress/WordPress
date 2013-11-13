@@ -2244,3 +2244,27 @@ function wp_ajax_get_revision_diffs() {
 	}
 	wp_send_json_success( $return );
 }
+
+/**
+ * Auto-save the selected color scheme for a user's own profile.
+ *
+ * @since  3.8.0
+ */
+function wp_ajax_save_user_color_scheme() {
+	global $_wp_admin_css_colors;
+
+	$user_id = intval( $_POST['user_id'] );
+	$color_scheme = sanitize_key( $_POST['color_scheme'] );
+
+	if ( get_current_user_id() !== $user_id )
+		wp_send_json_error();
+
+	if ( ! get_user_by( 'id', $user_id ) )
+		wp_send_json_error();
+
+	if ( ! isset( $_wp_admin_css_colors[ $color_scheme ] ) )
+		wp_send_json_error();
+
+	update_user_option( $user_id, 'admin_color', $color_scheme, true );
+	wp_send_json_success();
+}

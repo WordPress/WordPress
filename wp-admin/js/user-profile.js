@@ -73,6 +73,50 @@
 				});
 			});
 		}
+
+		var $colorpicker = $( '#color-picker' ),
+			$stylesheet = $( '#colors-css' ),
+			user_id = $( 'input#user_id' ).val(),
+			current_user_id = $( 'input[name="checkuser_id"]' ).val();
+
+		// dropdown toggle
+		$colorpicker.on( 'click', '.dropdown-current', function() {
+			$colorpicker.toggleClass( 'picker-expanded' );
+		});
+
+		$colorpicker.on( 'click', '.color-option', function() {
+
+			var color_scheme = $( this ).children( 'input[name="admin_color"]' ).val();
+
+			// update selected
+			$( this ).siblings( '.selected' ).removeClass( 'selected' )
+			$( this ).addClass( 'selected' );
+			$( this ).find( 'input' ).prop( 'checked', true );
+
+			// update current
+			$colorpicker.find( '.dropdown-current label' ).html( $( this ).children( 'label' ).html() );
+			$colorpicker.find( '.dropdown-current table' ).html( $( this ).children( 'table' ).html() );
+			$colorpicker.toggleClass( 'picker-expanded' );
+
+			// preview/save color scheme
+			if ( user_id == current_user_id ) {
+
+				// repaint icons
+				$stylesheet.attr( 'href', $( this ).children( '.css_url' ).val() );
+				svgPainter.setColors( $.parseJSON( $( this ).children( '.icon_colors' ).val() ) );
+				svgPainter.paint();
+
+				// update user option
+				$.post( ajaxurl, {
+					action: 'save-user-color-scheme',
+					color_scheme: color_scheme,
+					user_id: user_id
+				});
+
+			}
+
+		});
+
 	});
 
 })(jQuery);
