@@ -1,5 +1,5 @@
 /* global setUserSetting, ajaxurl, commonL10n, alert, confirm, toggleWithKeyboard, pagenow */
-var showNotice, adminMenu, columns, validateForm, screenMeta;
+var showNotice, adminMenu, columns, validateForm, screenMeta, stickyMenu;
 (function($){
 // Removed in 3.3.
 // (perhaps) needed for back-compat
@@ -446,6 +446,89 @@ $(document).ready( function() {
 		input.on('change', toggleUploadButton);
 	})();
 });
+
+stickyMenu = {
+	active: false,
+
+	init: function () {
+		this.$window = $( window );
+		this.$body = $( document.body );
+		this.$adminMenuWrap = $( '#adminmenuwrap' );
+		this.$collapseMenu = $( '#collapse-menu' );
+		this.bodyMinWidth = parseInt( this.$body.css( 'min-width' ), 10 );
+		this.enable();
+	},
+
+	enable: function () {
+		if ( ! this.active ) {
+			this.$window.on( 'resize.stickyMenu scroll.stickyMenu', this.debounce(
+				$.proxy( this.update, this ), 200
+			) );
+			this.$collapseMenu.on( 'click.stickyMenu', $.proxy( this.update, this ) );
+			this.update();
+			this.active = true;
+		}
+	},
+
+	disable: function () {
+		if ( this.active ) {
+			this.$window.off( 'resize.stickyMenu scroll.stickyMenu' );
+			this.$collapseMenu.off( 'click.stickyMenu' );
+			this.$body.removeClass( 'sticky-menu' );
+			this.active = false;
+		}
+	},
+
+	update: function () {
+		// Make the admin menu sticky if both of the following:
+		// 1. The viewport is taller than the admin menu
+		// 2. The viewport is wider than the min-width of the <body>
+		if ( this.$window.height() > this.$adminMenuWrap.height() + 32 && this.$window.width() > this.bodyMinWidth) {
+			if ( ! this.$body.hasClass( 'sticky-menu' ) ) {
+				this.$body.addClass( 'sticky-menu' );
+			}
+		} else {
+			if ( this.$body.hasClass( 'sticky-menu' ) ) {
+				this.$body.removeClass( 'sticky-menu' );
+			}
+		}
+	},
+
+	// Borrowed from Underscore.js
+	debounce: function( func, wait, immediate ) {
+		var timeout, args, context, timestamp, result;
+		return function() {
+			var later, callNow;
+			context = this;
+			args = arguments;
+			timestamp = new Date().getTime();
+			later = function() {
+				var last = new Date().getTime() - timestamp;
+				if ( last < wait ) {
+					timeout = setTimeout( later, wait - last );
+				} else {
+					timeout = null;
+					if ( ! immediate ) {
+						result = func.apply( context, args );
+						context = args = null;
+					}
+				}
+			};
+			callNow = immediate && !timeout;
+			if ( ! timeout ) {
+				timeout = setTimeout( later, wait );
+			}
+			if ( callNow ) {
+				result = func.apply( context, args );
+				context = args = null;
+			}
+
+			return result;
+		};
+	}
+};
+
+stickyMenu.init();
 
 // internal use
 $(document).bind( 'wp_CloseOnEscape', function( e, data ) {

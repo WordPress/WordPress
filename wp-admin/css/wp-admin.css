@@ -1919,6 +1919,19 @@ div.wp-menu-image:before {
 	height: 34px;
 }
 
+/* Sticky admin menu */
+
+.sticky-menu #wpwrap {
+	z-index: 1; /* prevent flyouts from going behind content in Webkit */
+}
+
+.sticky-menu #adminmenuwrap {
+	position: fixed;
+	top: 32px;
+	left: 0;
+	z-index: 2; /* needs to be above .sticky-menu #wpwrap */
+}
+
 /* A new arrow */
 
 .wp-menu-arrow {
