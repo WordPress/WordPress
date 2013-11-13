@@ -30,8 +30,8 @@ if ( force_ssl_admin() && ! is_ssl() ) {
  * @param string $wp_error Optional. The error to pass. Default empty.
  * @param WP_Error $wp_error Optional. WordPress Error Object
  */
-function login_header($title = 'Log In', $message = '', $wp_error = '') {
-	global $error, $interim_login, $current_site, $action;
+function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
+	global $error, $interim_login, $action;
 
 	// Don't index any of these forms
 	add_action( 'login_head', 'wp_no_robots' );
@@ -90,7 +90,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 
 	if ( is_multisite() ) {
 		$login_header_url   = network_home_url();
-		$login_header_title = $current_site->site_name;
+		$login_header_title = get_current_site()->site_name;
 	} else {
 		$login_header_url   = __( 'http://wordpress.org/' );
 		$login_header_title = __( 'Powered by WordPress' );
@@ -262,7 +262,7 @@ function wp_login_viewport_meta() {
  * @return bool|WP_Error True: when finish. WP_Error on error
  */
 function retrieve_password() {
-	global $wpdb, $current_site, $wp_hasher;
+	global $wpdb, $wp_hasher;
 
 	$errors = new WP_Error();
 

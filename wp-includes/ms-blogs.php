@@ -64,8 +64,9 @@ function get_blogaddress_by_name( $blogname ) {
  * @return int A blog id
  */
 function get_id_from_blogname( $slug ) {
-	global $wpdb, $current_site;
+	global $wpdb;
 
+	$current_site = get_current_site();
 	$slug = trim( $slug, '/' );
 
 	$blog_id = wp_cache_get( 'get_id_from_blogname_' . $slug, 'blog-details' );

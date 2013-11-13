@@ -71,8 +71,6 @@ function wp_get_active_network_plugins() {
  * @return bool|string Returns true on success, or drop-in file to include.
  */
 function ms_site_check() {
-	global $wpdb, $current_site;
-
 	$blog = get_blog_details();
 
 	/**
@@ -101,7 +99,7 @@ function ms_site_check() {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-inactive.php' ) )
 			return WP_CONTENT_DIR . '/blog-inactive.php';
 		else
-			wp_die( sprintf( __( 'This site has not been activated yet. If you are having problems activating your site, please contact <a href="mailto:%1$s">%1$s</a>.' ), str_replace( '@', ' AT ', get_site_option( 'admin_email', "support@{$current_site->domain}" ) ) ) );
+			wp_die( sprintf( __( 'This site has not been activated yet. If you are having problems activating your site, please contact <a href="mailto:%1$s">%1$s</a>.' ), str_replace( '@', ' AT ', get_site_option( 'admin_email', 'support@' . get_current_site()->domain ) ) ) );
 	}
 
 	if ( $blog->archived == '1' || $blog->spam == '1' ) {

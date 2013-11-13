@@ -21,7 +21,9 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	function prepare_items() {
-		global $s, $mode, $wpdb, $current_site;
+		global $s, $mode, $wpdb;
+
+		$current_site = get_current_site();
 
 		$mode = ( empty( $_REQUEST['mode'] ) ) ? 'list' : $_REQUEST['mode'];
 
@@ -168,7 +170,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	function display_rows() {
-		global $current_site, $mode;
+		global $mode;
 
 		$status_list = array(
 			'archived' => array( 'site-archived', __( 'Archived' ) ),
@@ -202,7 +204,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			}
 			echo "<tr class='$class'>";
 
-			$blogname = ( is_subdomain_install() ) ? str_replace( '.'.$current_site->domain, '', $blog['domain'] ) : $blog['path'];
+			$blogname = ( is_subdomain_install() ) ? str_replace( '.' . get_current_site()->domain, '', $blog['domain'] ) : $blog['path'];
 
 			list( $columns, $hidden ) = $this->get_column_info();
 
@@ -251,7 +253,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 							$actions['edit']	= '<span class="edit"><a href="' . esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ) . '">' . __( 'Edit' ) . '</a></span>';
 							$actions['backend']	= "<span class='backend'><a href='" . esc_url( get_admin_url( $blog['blog_id'] ) ) . "' class='edit'>" . __( 'Dashboard' ) . '</a></span>';
-							if ( $current_site->blog_id != $blog['blog_id'] ) {
+							if ( get_current_site()->blog_id != $blog['blog_id'] ) {
 								if ( get_blog_status( $blog['blog_id'], 'deleted' ) == '1' )
 									$actions['activate']	= '<span class="activate"><a href="' . esc_url( wp_nonce_url( network_admin_url( 'sites.php?action=confirm&amp;action2=activateblog&amp;id=' . $blog['blog_id'] . '&amp;msg=' . urlencode( sprintf( __( 'You are about to activate the site %s' ), $blogname ) ) ), 'confirm' ) ) . '">' . __( 'Activate' ) . '</a></span>';
 								else

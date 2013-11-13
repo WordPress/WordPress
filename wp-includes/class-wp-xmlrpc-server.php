@@ -459,7 +459,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - 'xmlrpc' - url of xmlrpc endpoint
 	 */
 	function wp_getUsersBlogs( $args ) {
-		global $current_site;
 		// If this isn't on WPMU then just use blogger_getUsersBlogs
 		if ( !is_multisite() ) {
 			array_unshift( $args, 1 );
@@ -481,7 +480,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		foreach ( $blogs as $blog ) {
 			// Don't include blogs that aren't hosted at this site
-			if ( $blog->site_id != $current_site->id )
+			if ( $blog->site_id != get_current_site()->id )
 				continue;
 
 			$blog_id = $blog->userblog_id;

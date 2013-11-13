@@ -535,9 +535,10 @@ function wpmu_validate_user_signup($user_name, $user_email) {
  * @param string $blog_title The blog title provided by the user.
  * @return array Contains the new site data and error messages.
  */
-function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
-	global $wpdb, $domain, $current_site;
+function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
+	global $wpdb, $domain;
 
+	$current_site = get_current_site();
 	$base = $current_site->path;
 
 	$blog_title = strip_tags( $blog_title );
@@ -709,13 +710,11 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
  * @return bool
  */
 function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_email, $key, $meta = array() ) {
-	global $current_site;
-
 	if ( !apply_filters('wpmu_signup_blog_notification', $domain, $path, $title, $user, $user_email, $key, $meta) )
 		return false;
 
 	// Send email with activation link.
-	if ( !is_subdomain_install() || $current_site->id != 1 )
+	if ( !is_subdomain_install() || get_current_site()->id != 1 )
 		$activate_url = network_site_url("wp-activate.php?key=$key");
 	else
 		$activate_url = "http://{$domain}{$path}wp-activate.php?key=$key"; // @todo use *_url() API
@@ -1122,8 +1121,8 @@ function insert_blog($domain, $path, $site_id) {
  * @param int $blog_id The value returned by insert_blog().
  * @param string $blog_title The title of the new site.
  */
-function install_blog($blog_id, $blog_title = '') {
-	global $wpdb, $wp_roles, $current_site;
+function install_blog( $blog_id, $blog_title = '' ) {
+	global $wpdb, $wp_roles;
 
 	// Cast for security
 	$blog_id = (int) $blog_id;
@@ -1151,7 +1150,7 @@ function install_blog($blog_id, $blog_title = '') {
 	if ( get_site_option( 'ms_files_rewriting' ) )
 		update_option( 'upload_path', UPLOADBLOGSDIR . "/$blog_id/files" );
 	else
-		update_option( 'upload_path', get_blog_option( $current_site->blog_id, 'upload_path' ) );
+		update_option( 'upload_path', get_blog_option( get_current_site()->blog_id, 'upload_path' ) );
 
 	update_option( 'blogname', wp_unslash( $blog_title ) );
 	update_option( 'admin_email', '' );
@@ -1205,7 +1204,7 @@ function install_blog_defaults($blog_id, $user_id) {
  * @return bool
  */
 function wpmu_welcome_notification( $blog_id, $user_id, $password, $title, $meta = array() ) {
-	global $current_site;
+	$current_site = get_current_site();
 
 	if ( !apply_filters('wpmu_welcome_notification', $blog_id, $user_id, $password, $title, $meta) )
 		return false;
@@ -1269,7 +1268,7 @@ We hope you enjoy your new site. Thanks!
  * @return bool
  */
 function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) {
-	global $current_site;
+	$current_site = get_current_site();
 
 	if ( !apply_filters('wpmu_welcome_user_notification', $user_id, $password, $meta) )
 		return false;
@@ -1560,8 +1559,7 @@ function global_terms( $term_id, $deprecated = '' ) {
  * @return array The current site's domain
  */
 function redirect_this_site( $deprecated = '' ) {
-	global $current_site;
-	return array( $current_site->domain );
+	return array( get_current_site()->domain );
 }
 
 /**
@@ -1689,11 +1687,10 @@ function add_existing_user_to_blog( $details = false ) {
  * @param array $meta
  */
 function add_new_user_to_blog( $user_id, $password, $meta ) {
-	global $current_site;
 	if ( !empty( $meta[ 'add_to_blog' ] ) ) {
 		$blog_id = $meta[ 'add_to_blog' ];
 		$role = $meta[ 'new_role' ];
-		remove_user_from_blog($user_id, $current_site->blog_id); // remove user from main blog.
+		remove_user_from_blog($user_id, get_current_site()->blog_id); // remove user from main blog.
 		add_user_to_blog( $blog_id, $user_id, $role );
 		update_user_meta( $user_id, 'primary_blog', $blog_id );
 	}
@@ -1705,8 +1702,7 @@ function add_new_user_to_blog( $user_id, $password, $meta ) {
  * @since MU
  */
 function fix_phpmailer_messageid( $phpmailer ) {
-	global $current_site;
-	$phpmailer->Hostname = $current_site->domain;
+	$phpmailer->Hostname = get_current_site()->domain;
 }
 
 /**

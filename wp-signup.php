@@ -87,8 +87,8 @@ do_action( 'before_signup_form' );
  * @param string $blog_title The new site title
  * @param array $errors
  */
-function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
-	global $current_site;
+function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
+	$current_site = get_current_site();
 	// Blog name
 	if ( !is_subdomain_install() )
 		echo '<label for="blogname">' . __('Site Name:') . '</label>';
@@ -225,8 +225,7 @@ function validate_user_form() {
  * @param string $blog_title The new blog title
  * @param array $errors
  */
-function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
-	global $current_site;
+function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
 	$current_user = wp_get_current_user();
 
 	if ( ! is_wp_error($errors) ) {
@@ -258,7 +257,7 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 	$blog_title = $filtered_results['blog_title'];
 	$errors = $filtered_results['errors'];
 
-	echo '<h2>' . sprintf( __( 'Get <em>another</em> %s site in seconds' ), $current_site->site_name ) . '</h2>';
+	echo '<h2>' . sprintf( __( 'Get <em>another</em> %s site in seconds' ), get_current_site()->site_name ) . '</h2>';
 
 	if ( $errors->get_error_code() ) {
 		echo '<p>' . __( 'There was a problem, please correct the form below and try again.' ) . '</p>';
@@ -395,8 +394,8 @@ function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $
  * @param string $user_email The user's email
  * @param array $errors
  */
-function signup_user($user_name = '', $user_email = '', $errors = '') {
-	global $current_site, $active_signup;
+function signup_user( $user_name = '', $user_email = '', $errors = '' ) {
+	global $active_signup;
 
 	if ( !is_wp_error($errors) )
 		$errors = new WP_Error();
@@ -429,7 +428,7 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 
 	?>
 
-	<h2><?php printf( __( 'Get your own %s account in seconds' ), $current_site->site_name ) ?></h2>
+	<h2><?php printf( __( 'Get your own %s account in seconds' ), get_current_site()->site_name ) ?></h2>
 	<form id="setupform" method="post" action="wp-signup.php">
 		<input type="hidden" name="stage" value="validate-user-signup" />
 		<?php

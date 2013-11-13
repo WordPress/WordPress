@@ -327,7 +327,7 @@ $wp_queries = wp_get_db_schema( 'all' );
  * @uses $wp_db_version
  */
 function populate_options() {
-	global $wpdb, $wp_db_version, $current_site, $wp_current_db_version;
+	global $wpdb, $wp_db_version, $wp_current_db_version;
 
 	$guessurl = wp_guess_url();
 	/**
@@ -495,7 +495,7 @@ function populate_options() {
 	// 3.0 multisite
 	if ( is_multisite() ) {
 		/* translators: blog tagline */
-		$options[ 'blogdescription' ] = sprintf(__('Just another %s site'), $current_site->site_name );
+		$options[ 'blogdescription' ] = sprintf(__('Just another %s site'), get_current_site()->site_name );
 		$options[ 'permalink_structure' ] = '/%year%/%monthnum%/%day%/%postname%/';
 	}
 

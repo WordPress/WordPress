@@ -100,8 +100,8 @@ if ( !function_exists('wp_install_defaults') ) :
  *
  * @param int $user_id User ID.
  */
-function wp_install_defaults($user_id) {
-	global $wpdb, $wp_rewrite, $current_site, $table_prefix;
+function wp_install_defaults( $user_id ) {
+	global $wpdb, $wp_rewrite, $table_prefix;
 
 	// Default category
 	$cat_name = __('Uncategorized');
@@ -135,7 +135,7 @@ function wp_install_defaults($user_id) {
 			$first_post = __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' );
 
 		$first_post = str_replace( "SITE_URL", esc_url( network_home_url() ), $first_post );
-		$first_post = str_replace( "SITE_NAME", $current_site->site_name, $first_post );
+		$first_post = str_replace( "SITE_NAME", get_current_site()->site_name, $first_post );
 	} else {
 		$first_post = __('Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!');
 	}

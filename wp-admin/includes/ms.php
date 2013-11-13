@@ -52,7 +52,7 @@ add_filter( 'wp_handle_upload_prefilter', 'check_upload_size' );
  * @return void
  */
 function wpmu_delete_blog( $blog_id, $drop = false ) {
-	global $wpdb, $current_site;
+	global $wpdb;
 
 	$switch = false;
 	if ( get_current_blog_id() != $blog_id ) {
@@ -81,6 +81,8 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 	}
 
 	update_blog_status( $blog_id, 'deleted', 1 );
+
+	$current_site = get_current_site();
 
 	// Don't destroy the initial, main, or root blog.
 	if ( $drop && ( 1 == $blog_id || is_main_site( $blog_id ) || ( $blog->path == $current_site->path && $blog->domain == $current_site->domain ) ) )

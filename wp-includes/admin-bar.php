@@ -243,8 +243,6 @@ function wp_admin_bar_my_account_menu( $wp_admin_bar ) {
  * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_site_menu( $wp_admin_bar ) {
-	global $current_site;
-
 	// Don't show for logged out users.
 	if ( ! is_user_logged_in() )
 		return;
@@ -259,9 +257,9 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 		$blogname = preg_replace( '#^(https?://)?(www.)?#', '', get_home_url() );
 
 	if ( is_network_admin() ) {
-		$blogname = sprintf( __('Network Admin: %s'), esc_html( $current_site->site_name ) );
+		$blogname = sprintf( __('Network Admin: %s'), esc_html( get_current_site()->site_name ) );
 	} elseif ( is_user_admin() ) {
-		$blogname = sprintf( __('Global Dashboard: %s'), esc_html( $current_site->site_name ) );
+		$blogname = sprintf( __('Global Dashboard: %s'), esc_html( get_current_site()->site_name ) );
 	}
 
 	$title = wp_html_excerpt( $blogname, 40, '&hellip;' );

@@ -12,7 +12,9 @@ if ( ! defined( 'WP_ADMIN' ) )
 
 // In case admin-header.php is included in a function.
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
-	$current_site, $update_title, $total_update_count, $parent_file;
+	$update_title, $total_update_count, $parent_file;
+
+$current_site = get_current_site();
 
 // Catch plugins that include admin-header.php before admin.php completes.
 if ( empty( $current_screen ) )
