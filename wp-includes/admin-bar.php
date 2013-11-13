@@ -156,6 +156,26 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 }
 
 /**
+ * Add the sidebar toggle button.
+ *
+ * @since 3.8.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
+ */
+function wp_admin_bar_sidebar_toggle( $wp_admin_bar ) {
+	if ( is_admin() ) {
+		$wp_admin_bar->add_menu( array(
+			'id'    => 'toggle-button',
+			'title' => '<span class="ab-icon"></span>',
+			'href'  => '#',
+			'meta'  => array(
+				'title' => __( 'Menu' ),
+			),
+		) );
+	}
+}
+
+/**
  * Add the "My Account" item.
  *
  * @since 3.3.0
