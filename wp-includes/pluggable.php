@@ -306,11 +306,8 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	}
 
 	// Empty out the values that may be set
-	$phpmailer->ClearAddresses();
 	$phpmailer->ClearAllRecipients();
 	$phpmailer->ClearAttachments();
-	$phpmailer->ClearBCCs();
-	$phpmailer->ClearCCs();
 	$phpmailer->ClearCustomHeaders();
 	$phpmailer->ClearReplyTos();
 
