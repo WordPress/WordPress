@@ -2032,6 +2032,19 @@ class WP_Automatic_Updater {
 				$this->after_core_update( $this->update_results['core'][0] );
 		}
 
+		/**
+		 * Action triggered after any automatic updates have run.
+		 *
+		 * This action is triggered after all automatic updates have run,
+		 * but doesn't guarantee that any updates were performed, you should
+		 * check the $update_results array to determine if any updates ran.
+		 *
+		 * @since 3.8.0
+		 *
+		 * @param array $update_results The results of all updates attempted
+		 */
+		do_action( 'automatic_updates_complete', $this->update_results );
+
 		// Clear the lock
 		delete_option( $lock_name );
 	}
