@@ -134,7 +134,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 									if ( function_exists( 'get_post_galleries' ) ) {
 										$galleries = get_post_galleries( get_the_ID(), false );
 										if ( isset( $galleries[0]['ids'] ) )
-										 	$images = explode( ',', $galleries[0]['ids'] );
+											$images = explode( ',', $galleries[0]['ids'] );
 									} else {
 										$pattern = get_shortcode_regex();
 										preg_match( "/$pattern/s", get_the_content(), $match );
