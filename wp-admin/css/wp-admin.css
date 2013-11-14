@@ -11735,6 +11735,76 @@ li#wp-admin-bar-toggle-button {
 		word-wrap: normal;
 	}
 
+	/* Quick Edit and Bulk Edit */
+	#wpbody-content .quick-edit-row-post .inline-edit-col-left,
+	#wpbody-content .quick-edit-row-post .inline-edit-col-right,
+	#wpbody-content .inline-edit-row-post .inline-edit-col-center,
+	#wpbody-content .quick-edit-row-page .inline-edit-col-left,
+	#wpbody-content .quick-edit-row-page .inline-edit-col-right,
+	#wpbody-content .bulk-edit-row-post .inline-edit-col-right,
+	#wpbody-content .bulk-edit-row .inline-edit-col-left,
+	#wpbody-content .bulk-edit-row-page .inline-edit-col-right,
+	#wpbody-content .bulk-edit-row .inline-edit-col-bottom {
+		float: none;
+		width: 100%;
+	}
+
+	#wpbody-content .quick-edit-row fieldset .inline-edit-col label,
+	#wpbody-content .quick-edit-row fieldset .inline-edit-group label,
+	#wpbody-content .bulk-edit-row fieldset .inline-edit-col label,
+	#wpbody-content .bulk-edit-row fieldset .inline-edit-group label {
+		max-width: none;
+		float: none;
+		margin-bottom: 5px;
+	}
+
+	#wpbody .bulk-edit-row fieldset select {
+		display: block;
+		width: 100%;
+		max-width: none;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	
+	.inline-edit-row fieldset ul.cat-checklist label,
+	.inline-edit-row #bulk-titles div {
+		font-size: 16px;
+	}
+
+	.inline-edit-row fieldset label span.title {
+		float: none;
+	}
+
+	.inline-edit-row fieldset label.inline-edit-tags {
+		padding: 0 0.5em;
+	}
+
+	.inline-edit-row fieldset .inline-edit-col label.inline-edit-tags {
+		padding: 0;
+	}
+
+	.inline-edit-row fieldset label span.input-text-wrap {
+		margin-left: 0;
+	}
+
+	.inline-edit-row fieldset input[name=jj],
+	.inline-edit-row fieldset input[name=hh],
+	.inline-edit-row fieldset input[name=mn] {
+		width: 3em;
+	}
+
+	.inline-edit-row fieldset input[name=aa] {
+		width: 4.5em;
+	}
+	
+	#bulk-titles div {
+		margin: 0.8em 0.3em;
+	}
+	
+	#bulk-titles div a {
+		height: 22px;
+	}
+	
 	/* Categories */
 	.fixed .column-description {
 		display: none;
