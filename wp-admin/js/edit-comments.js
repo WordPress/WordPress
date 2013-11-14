@@ -1,9 +1,9 @@
-/* global adminCommentsL10n, thousandsSeparator, list_args, QTags, ajaxurl, wpAjax */
+/* global adminCommentsL10n, thousandsSeparator, list_args, QTags, ajaxurl, wpAjax, commentReply */
 var setCommentsList, theList, theExtraList,
 	toggleWithKeyboard = false;
 
 (function($) {
-var commentReply, getCount, updateCount, updatePending, dashboardTotals;
+var getCount, updateCount, updatePending, dashboardTotals;
 
 setCommentsList = function() {
 	var totalInput, perPageInput, pageInput, dimAfter, delBefore, updateTotalCount, delAfter, refillTheExtraList, diff,
