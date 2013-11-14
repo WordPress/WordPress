@@ -1732,15 +1732,6 @@ form.upgrade .hint {
 	float: right;
 }
 
-#adminmenushadow {
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	width: 6px;
-	z-index: 20;
-}
-
 /* side admin menu */
 #adminmenu * {
 	-webkit-user-select: none;
