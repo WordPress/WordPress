@@ -212,7 +212,7 @@ body {
 
 .wp-full-overlay-sidebar {
 	background: #eeeeee;
-	border: none;
+	border-right: 1px solid #ddd;
 }
 
 .collapse-sidebar {

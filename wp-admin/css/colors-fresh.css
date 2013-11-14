@@ -1732,18 +1732,6 @@ div.widgets-sortables,
 	color: #888;
 }
 
-.nav-menus-php .control-section .accordion-section-title {
-	background: #fff;
-}
-
-.nav-menus-php .control-section:hover .accordion-section-title,
-.nav-menus-php .control-section .accordion-section-title:hover,
-.nav-menus-php .control-section.open .accordion-section-title,
-.nav-menus-php .control-section .accordion-section-title:focus{
-	color: #555;
-	background: #f5f5f5;
-}
-
 /* Menu editing */
 
 .link-to-original {
