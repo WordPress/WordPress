@@ -19,13 +19,20 @@
 }
 
 .wp-pointer-content h3:before {
+	background: #fff;
+	border-radius: 50%;
+	color: #2ea2cc;
+	content: '\f227';
+	font: normal 20px/1.6 'dashicons';
 	position: absolute;
-	top: 0;
+	top: 8px;
 	left: 15px;
-	content: ' ';
-	width: 36px;
-	height: 100%;
-	background: url('../images/icon-pointer-flag.png') 0 50% no-repeat;
+	speak: none;
+	text-align: center;
+	width: 32px;
+	height: 32px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 .wp-pointer-content p {
