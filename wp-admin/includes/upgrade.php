@@ -405,6 +405,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 25824 )
 		upgrade_370();
 
+	if ( $wp_current_db_version < 26148 )
+		upgrade_372();
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1220,6 +1223,18 @@ function upgrade_370() {
 	global $wp_current_db_version;
 	if ( $wp_current_db_version < 25824 )
 		wp_clear_scheduled_hook( 'wp_auto_updates_maybe_update' );
+}
+
+/**
+ * Execute changes made in WordPress 3.7.2.
+ *
+ * @since 3.7.2
+ * @since 3.8.0
+ */
+function upgrade_372() {
+	global $wp_current_db_version;
+	if ( $wp_current_db_version < 26148 )
+		wp_clear_scheduled_hook( 'wp_maybe_auto_update' );
 }
 
 /**
