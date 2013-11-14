@@ -220,7 +220,6 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	background-image: none !important;
-	color: #999;
 	margin-right: 6px;
 }
 
@@ -230,6 +229,7 @@
 }
 
 #wpadminbar .ab-icon:before {
+	color: #999;
 	position: relative;
 	-moz-transition: all .1s ease-in-out;
 	-webkit-transition: all .1s ease-in-out;

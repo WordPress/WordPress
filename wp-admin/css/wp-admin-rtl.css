@@ -12536,7 +12536,6 @@ li#wp-admin-bar-toggle-button {
 	}
 
 	#wpadminbar #wp-admin-bar-toggle-button .ab-icon:before {
-		color: #888;
 		content: '\f228';
 		display: inline-block;
 		float: right;
