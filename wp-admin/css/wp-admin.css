@@ -11034,6 +11034,10 @@ li#wp-admin-bar-toggle-button {
 }
 
 @media screen and ( max-width: 782px ) {
+	html.wp-toolbar {
+		padding-top: 46px;
+	}
+
 	body {
 		min-width: 240px;
 		overflow-x: hidden;

@@ -665,10 +665,6 @@
 
 @media screen and ( max-width: 782px ) {
 	/* Toolbar Touchification*/
-	html.wp-toolbar {
-		padding-top: 46px;
-	}
-
 	html #wpadminbar {
 		right: 0 !important;
 		z-index: 500 !important;
