@@ -11237,24 +11237,24 @@ li#wp-admin-bar-toggle-button {
 	.auto-fold #adminmenu,
 	.auto-fold #adminmenuback,
 	.auto-fold #adminmenuwrap {
-		-moz-transition: right .2s ease-in-out;
-		-webkit-transition: right .2s ease-in-out;
-		transition: right .2s ease-in-out;
+		-moz-transition: right .05s ease-in-out;
+		-webkit-transition: right .05s ease-in-out;
+		transition: right .05s ease-in-out;
 	}
 
 	#wpbody {
-		-moz-transition: left .2s ease-in-out;
-		-webkit-transition: left .2s ease-in-out;
-		transition: left .2s ease-in-out;
+		-moz-transition: left .05s ease-in-out;
+		-webkit-transition: left .05s ease-in-out;
+		transition: left .05s ease-in-out;
 	}
 
 	.auto-fold #adminmenu {
 		-webkit-opacity: .10;
 		-moz-opacity: .10;
 		opacity: .10;
-		-moz-transition: right .2s ease-in-out, -moz-opacity .3s ease-in;
-		-webkit-transition: right .2s ease-in-out, -webkit-opacity .3s ease-in;
-		transition: right .2s ease-in-out, opacity .3s ease-in;
+		-moz-transition: right .05s ease-in-out, -moz-opacity .3s ease-in;
+		-webkit-transition: right .05s ease-in-out, -webkit-opacity .3s ease-in;
+		transition: right .05s ease-in-out, opacity .3s ease-in;
 	}
 
 	.auto-fold .moby6-open #adminmenu {
