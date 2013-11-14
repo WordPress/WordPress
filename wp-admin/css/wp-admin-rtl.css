@@ -3273,55 +3273,56 @@ form.initial-form.quickpress-open input#title {
 
 /* Dashboard activity widget - Comments */
 
-#the-comment-list tr.undo, #the-comment-list div.undo {
+#activity-widget #the-comment-list tr.undo,
+#activity-widget #the-comment-list div.undo {
 	background: none;
 	padding: 6px 0;
 }
 
-#the-comment-list .alternate,
-#the-comment-list .alt {
+#activity-widget #the-comment-list .alternate,
+#activity-widget #the-comment-list .alt {
 	background: none;
 }
 
-#the-comment-list .comment {
+#activity-widget #the-comment-list .comment {
 	background: #f5f5f5;
 	padding: 12px;
 	position: relative;
 	border-top: 1px solid #eeeeee;
 }
 
-#the-comment-list img {
+#activity-widget #the-comment-list img {
 	position: absolute;
 	right: 13px;
 	top: 13px;
 }
 
-#the-comment-list .dashboard-comment-wrap {
+#activity-widget #the-comment-list .dashboard-comment-wrap {
 	padding-right: 63px;
 }
 
-#the-comment-list .dashboard-comment-wrap blockquote {
+#activity-widget #the-comment-list .dashboard-comment-wrap blockquote {
 	margin: 1em 0;
 }
 
-#the-comment-list .comment-item h4 {
+#activity-widget #the-comment-list .comment-item h4 {
 	font-size: 13px;
 	color: #999;
 }
 
-#the-comment-list .comment-item p.row-actions {
+#activity-widget #the-comment-list .comment-item p.row-actions {
 	margin: 4px 0 0 0;
 }
 
-#the-comment-list .comment-item:first-child {
+#activity-widget #the-comment-list .comment-item:first-child {
 	border-top: 1px solid #eeeeee;
 }
 
-#the-comment-list .unapproved {
+#activity-widget #the-comment-list .unapproved {
 	background: #f7fcfe;
 }
 
-#the-comment-list .unapproved:before {
+#activity-widget #the-comment-list .unapproved:before {
 	content: "";
 	display: block;
 	position: absolute;
@@ -3330,6 +3331,13 @@ form.initial-form.quickpress-open input#title {
 	bottom: 0;
 	background: #d54e21;
 	width: 4px;
+}
+
+#activity-widget #the-comment-list .spam-undo-inside .avatar,
+#activity-widget #the-comment-list .trash-undo-inside .avatar {
+	margin-left: 20px;
+	position: relative;
+	top: 0;
 }
 
 /* Browse happy box */

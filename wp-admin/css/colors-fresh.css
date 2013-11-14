@@ -952,7 +952,7 @@ a.post-format-icon:hover:before {
     border-top: 1px solid rgba(0, 0, 0, 0.03);
 }
 
-.comments #the-comment-list .alt {
+#activity-widget .comments #the-comment-list .alt {
 	background-color: transparent;
 }
 
