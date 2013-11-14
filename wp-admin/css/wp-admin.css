@@ -8612,6 +8612,7 @@ body.interim-login {
 
 #dashboard_right_now td.b a.musublink {
 	font-size: 16px;
+	white-space: nowrap;
 }
 
 #dashboard_right_now div.musubtable {
