@@ -321,3 +321,24 @@ function twentyfourteen_customizer_styles() {
 	wp_add_inline_style( 'twentyfourteen-style', $css );
 }
 add_action( 'wp_enqueue_scripts', 'twentyfourteen_customizer_styles' );
+
+/**
+ * Adds contextual help to the Themes and Post edit screens.
+ *
+ * @since Twenty Fourteen 1.0
+ *
+ * @return void
+ */
+function twentyfourteen_contextual_help() {
+	get_current_screen()->add_help_tab( array(
+		'id'      => 'twentyfourteen',
+		'title'   => __( 'Twenty Fourteen', 'twentyfourteen' ),
+		'content' =>
+			'<ul>' .
+				'<li>' . sprintf( _x( 'The home page features your choice of up to 6 posts prominently displayed in a grid or slider, controlled by the <a href="%1$s">"featured" tag</a>; you can change the tag and layout in <a href="%2$s">Appearance > Customize</a>. If no posts match the tag, <a href="%3$s">"sticky" posts</a> will be displayed instead.', '1: Link to posts with "featured" tag; 2: Link to Customizer; 3: Link to sticky posts.', 'twentyfourteen' ), admin_url( '/edit.php?tag=featured' ), admin_url( 'customize.php' ), admin_url( '/edit.php?show_sticky=1' ) ). '</li>' .
+				'<li>' . sprintf( _x( 'Enhance your site design by using <a href="%s">Featured Images</a> for posts you&rsquo;d like to stand out (also known as post thumbnails). This allows you to associate an image with your post without inserting it. Twenty Fourteen uses featured images for posts and pages&mdash;above the title&mdash;and in the Featured Content area on the home page.', 'Link to How-to article.', 'twentyfourteen' ), 'http://codex.wordpress.org/Post_Thumbnails#Setting_a_Post_Thumbnail' ) . '</li>' .
+			'</ul>',
+	) );
+}
+add_action( 'admin_head-themes.php', 'twentyfourteen_contextual_help' );
+add_action( 'admin_head-edit.php',   'twentyfourteen_contextual_help' );
