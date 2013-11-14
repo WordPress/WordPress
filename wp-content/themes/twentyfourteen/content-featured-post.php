@@ -13,9 +13,9 @@
 	<?php
 		if ( has_post_thumbnail() ) :
 			if ( 'grid' == get_theme_mod( 'featured_content_layout' ) )
-				the_post_thumbnail( 'post-thumbnail' );
+				the_post_thumbnail();
 			else
-				the_post_thumbnail( 'post-thumbnail-full-width' );
+				the_post_thumbnail( 'twentyfourteen-full-width' );
 		endif;
 	?>
 	</a>
