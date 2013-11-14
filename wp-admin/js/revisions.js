@@ -1,4 +1,4 @@
-/*global _, Backbone, _wpRevisionsSettings, isRtl */
+/* global _wpRevisionsSettings, isRtl */
 window.wp = window.wp || {};
 
 (function($) {
@@ -954,15 +954,15 @@ window.wp = window.wp || {};
 			// Track the mouse position to enable smooth dragging,
 			// overrides default jQuery UI step behavior.
 			$( window ).on( 'mousemove.wp.revisions', { view: this }, function( e ) {
-				var view              = e.data.view,
-				    leftDragBoundary  = view.$el.offset().left,
-				    sliderOffset      = leftDragBoundary,
-				    sliderRightEdge   = leftDragBoundary + view.$el.width(),
-				    rightDragBoundary = sliderRightEdge,
-				    leftDragReset     = '0',
-				    rightDragReset    = '100%',
-				    handles,
-				    handle            = $( ui.handle );
+				var handles,
+					view              = e.data.view,
+					leftDragBoundary  = view.$el.offset().left,
+					sliderOffset      = leftDragBoundary,
+					sliderRightEdge   = leftDragBoundary + view.$el.width(),
+					rightDragBoundary = sliderRightEdge,
+					leftDragReset     = '0',
+					rightDragReset    = '100%',
+					handle            = $( ui.handle );
 
 				// In two handle mode, ensure handles can't be dragged past each other.
 				// Adjust left/right boundaries and reset points.
