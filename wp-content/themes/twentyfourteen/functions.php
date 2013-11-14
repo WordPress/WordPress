@@ -425,8 +425,6 @@ add_filter( 'body_class', 'twentyfourteen_body_classes' );
 function twentyfourteen_post_classes( $classes ) {
 	if ( ! post_password_required() && has_post_thumbnail() )
 		$classes[] = 'has-post-thumbnail';
-	else
-		$classes[] = 'no-post-thumbnail';
 
 	return $classes;
 }
