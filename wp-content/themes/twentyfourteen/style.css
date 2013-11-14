@@ -3200,7 +3200,7 @@ a.post-thumbnail:hover {
 		margin-top: -48px;
 	}
 
-	.full-width.singular .hentry.has-post-thumbnail {
+	.full-width.singular .site-content .hentry.has-post-thumbnail {
 		margin-top: -48px;
 	}
 
@@ -3491,7 +3491,7 @@ a.post-thumbnail:hover {
 		margin-left: 20px;
 	}
 
-	.full-width.singular .hentry.has-post-thumbnail {
+	.full-width.singular .site-content .hentry.has-post-thumbnail {
 		margin-top: -72px;
 	}
 
