@@ -10842,6 +10842,12 @@ li#wp-admin-bar-toggle-button {
 		max-width: 400px;
 		width: auto;
 	}
+
+	/* menu locations */
+	#menu-locations-wrap .widefat {
+		width: 100%;
+	}
+
 }
 @media only screen and (min-width: 1250px) {
 	#widgets-left #available-widgets .widget {
