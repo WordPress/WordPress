@@ -1,3 +1,4 @@
+/* global isRtl */
 (function($) {
 	var frame;
 

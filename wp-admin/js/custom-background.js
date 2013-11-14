@@ -1,7 +1,8 @@
+/* global ajaxurl */
 (function($) {
 	$(document).ready(function() {
-		var bgImage = $("#custom-background-image"),
-			frame;
+		var frame,
+			bgImage = $( '#custom-background-image' );
 
 		$('#background-color').wpColorPicker({
 			change: function( event, ui ) {
