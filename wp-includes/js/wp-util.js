@@ -1,3 +1,4 @@
+/* global _wpUtilSettings */
 window.wp = window.wp || {};
 
 (function ($) {
