@@ -1534,7 +1534,7 @@
 	}
 
 	.media-menu > a {
-		padding: 4px 10px;
+		padding: 4px 5px;
 	}
 
 	.media-frame-title,
@@ -1609,7 +1609,19 @@
 	}
 
 	.media-modal-close {
-		left: 20px;
+		left: 10px;
+	}
+	
+	/* Text inputs need to be 16px, or they force zooming on iOS */
+	.media-frame input[type="text"],
+	.media-frame input[type="password"],
+	.media-frame input[type="number"],
+	.media-frame input[type="search"],
+	.media-frame input[type="email"],
+	.media-frame input[type="url"],
+	.media-frame textarea,
+	.media-frame select {
+		font-size: 16px;
 	}
 }
 
