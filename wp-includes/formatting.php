@@ -1793,18 +1793,36 @@ function translate_smiley( $matches ) {
  * @param string $text Content to convert smilies from text.
  * @return string Converted content with text smilies replaced with images.
  */
-function convert_smilies($text) {
+function convert_smilies( $text ) {
 	global $wp_smiliessearch;
 	$output = '';
-	if ( get_option('use_smilies') && !empty($wp_smiliessearch) ) {
+	if ( get_option( 'use_smilies' ) && ! empty( $wp_smiliessearch ) ) {
 		// HTML loop taken from texturize function, could possible be consolidated
-		$textarr = preg_split("/(<.*>)/U", $text, -1, PREG_SPLIT_DELIM_CAPTURE); // capture the tags as well as in between
-		$stop = count($textarr);// loop stuff
-		for ($i = 0; $i < $stop; $i++) {
+		$textarr = preg_split( '/(<.*>)/U', $text, -1, PREG_SPLIT_DELIM_CAPTURE ); // capture the tags as well as in between
+		$stop = count( $textarr );// loop stuff
+
+		// Ignore proessing of specific tags
+		$tags_to_ignore = 'code|pre|style|script|textarea';
+		$ignore_block_element = '';
+
+		for ( $i = 0; $i < $stop; $i++ ) {
 			$content = $textarr[$i];
-			if ((strlen($content) > 0) && ('<' != $content[0])) { // If it's not a tag
-				$content = preg_replace_callback($wp_smiliessearch, 'translate_smiley', $content);
+
+			// If we're in an ignore block, wait until we find its closing tag
+			if ( '' == $ignore_block_element && preg_match( '/^<(' . $tags_to_ignore . ')>/', $content, $matches ) )  {
+				$ignore_block_element = $matches[1];
 			}
+
+			// If it's not a tag and not in ignore block
+			if ( '' ==  $ignore_block_element && strlen( $content ) > 0 && '<' != $content[0] ) {
+				$content = preg_replace_callback( $wp_smiliessearch, 'translate_smiley', $content );
+			}
+
+			// did we exit ignore block
+			if ( '' != $ignore_block_element && '</' . $ignore_block_element . '>' == $content )  {
+				$ignore_block_element = '';
+			}
+
 			$output .= $content;
 		}
 	} else {

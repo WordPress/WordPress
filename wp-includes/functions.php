@@ -2477,6 +2477,7 @@ function _mce_set_direction( $input ) {
 	return $input;
 }
 
+
 /**
  * Convert smiley code to the icon graphic file equivalent.
  *
@@ -2566,7 +2567,7 @@ function smilies_init() {
 	 */
 	krsort($wpsmiliestrans);
 
-	$wp_smiliessearch = '/(?:\s|^)';
+	$wp_smiliessearch = '/((?:\s|^)';
 
 	$subchar = '';
 	foreach ( (array) $wpsmiliestrans as $smiley => $img ) {
@@ -2576,7 +2577,7 @@ function smilies_init() {
 		// new subpattern?
 		if ($firstchar != $subchar) {
 			if ($subchar != '') {
-				$wp_smiliessearch .= ')|(?:\s|^)';
+				$wp_smiliessearch .= ')(?=\s|$))|((?:\s|^)'; ;
 			}
 			$subchar = $firstchar;
 			$wp_smiliessearch .= preg_quote($firstchar, '/') . '(?:';
@@ -2586,7 +2587,8 @@ function smilies_init() {
 		$wp_smiliessearch .= preg_quote($rest, '/');
 	}
 
-	$wp_smiliessearch .= ')(?:\s|$)/m';
+	$wp_smiliessearch .= ')(?=\s|$))/m';
+
 }
 
 /**
