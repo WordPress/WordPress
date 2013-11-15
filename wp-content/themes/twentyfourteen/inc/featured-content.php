@@ -195,7 +195,7 @@ class Featured_Content {
 	public static function pre_get_posts( $query = false ) {
 
 		// Bail if not home, not a query, not main query.
-		if ( ! is_home() || ! is_a( $query, 'WP_Query' ) || ! $query->is_main_query() )
+		if ( ! is_a( $query, 'WP_Query' ) || ! $query->is_main_query() || ! is_home() )
 			return;
 
 		$page_on_front = get_option( 'page_on_front' );
