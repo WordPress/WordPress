@@ -1625,9 +1625,96 @@
 	}
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 782px) {
 	.media-frame-content .media-toolbar .instructions {
 		display: none;
+	}
+
+	.media-frame-menu {
+		width: auto;
+		bottom: auto;
+		right: 0;
+		height: 60px;
+	}
+
+	.media-menu {
+		border-right: none;
+		position: relative;
+		border-bottom: 1px solid #dddddd;
+		overflow: hidden;
+		padding: 10px 0 10px 10px;
+	}
+
+	.media-menu a {
+		float: left;
+		width: 42%;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+	
+	/* Shorten right-side links so they don't overlap the close button */
+	.media-menu a:nth-child(2),
+	.media-menu a:last-child {
+		width: 40%;
+	}
+
+	.media-menu .separator {
+		display: none;
+	}
+
+	.media-frame-title {
+		top: 72px;
+		left: auto;
+		height: auto;
+	}
+
+	.media-frame-title h1 {
+		line-height: 3;
+		font-size: 18px;
+	}
+
+	.media-frame-router {
+		top: 84px;
+		left: 0;
+	}
+	
+	.media-frame-content {
+		left: 0;
+		top: 118px;
+	}
+
+	.media-frame .attachments-browser {
+		padding-bottom: 300px;
+	}
+	
+	.media-sidebar {
+		border-bottom: 1px solid #dddddd;
+	}
+	
+	.media-modal {
+		width: auto;
+	}
+
+	.media-toolbar-primary, .media-toolbar-secondary {
+		height: auto;
+	}
+
+	.uploader-inline h3 {
+		margin: 0 0 .8em 0;
+	}
+
+	.uploader-inline-content {
+		top: auto;
+	}
+
+	.uploader-inline-content .upload-ui {
+		margin: 0;
+	}
+
+	.attachments-browser .attachments, .attachments-browser .uploader-inline {
+		position: relative;
+		margin-right: 180px;
 	}
 }
 
@@ -1638,16 +1725,82 @@
 	}
 }
 
-/* Use the same min-width as in the admin */
-@media only screen and (max-width: 600px) {
+/* Tiny screens [ = smaller than 500 wide] */
+@media screen and (max-width: 500px) {
 	.media-modal {
-		width: 540px;
-		position: absolute;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
 	}
 
 	.media-modal-backdrop {
-		width: 600px;
+		position: fixed;
+	}
+
+	.attachments-browser .attachment,
+	.attachments-browser .attachment-preview {
+		max-width: 100%;
+	}
+
+	.attachments-browser .media-toolbar-primary input.search {
+		max-width: 150px;
+	}
+
+	.uploader-inline-content {
+		position: relative;
+	}
+
+	.media-sidebar .setting input[type="checkbox"],
+	.media-sidebar .field input[type="checkbox"] {
+		width: 25px;
+	}
+
+	/* Don't bother with title for phone-size */
+	.media-frame-title {
+		display: none;
+	}
+	
+	.media-frame-toolbar {
 		position: absolute;
+		bottom: 0px;
+		left: 0;
+		right: 0;
+		background: #FFF;
+		border-top: 1px solid #DEDEDE;
+	}
+
+	.media-toolbar {
+		position: relative;
+	}
+
+	.media-frame {
+		overflow: hidden;
+	}
+
+	.attachments-browser .attachments {
+		top: 42px;
+	}
+
+	.attachment-details h3 {
+		margin-top: 45px;
+	}
+
+	/* Image From Link */
+	.embed-link-settings,
+	.embed-image-settings {
+		padding-bottom: 52px;
+	}
+
+	/* Gallery */
+	.media-frame.hide-router .media-frame-content {
+		top: 73px;
+		border-top: none;
+	}
+
+	.gallery-settings h3 {
+		margin-top: 45px;
 	}
 }
 
