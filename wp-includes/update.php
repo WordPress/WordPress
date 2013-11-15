@@ -31,6 +31,10 @@ function wp_version_check( $extra_stats = array() ) {
 	$current = get_site_transient( 'update_core' );
 	$translations = wp_get_installed_translations( 'core' );
 
+	// Invalidate the transient when $wp_version changes
+	if ( is_object( $current ) && $wp_version != $current->version_checked )
+		$current = false;
+
 	if ( ! is_object($current) ) {
 		$current = new stdClass;
 		$current->updates = array();
