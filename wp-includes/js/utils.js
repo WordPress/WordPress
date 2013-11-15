@@ -1,3 +1,5 @@
+/* global userSettings */
+/* exported getUserSetting, setUserSetting, deleteUserSetting */
 // utility functions
 
 var wpCookies = {
@@ -64,24 +66,26 @@ var wpCookies = {
 	 * Get a cookie.
 	 */
 	get : function(name) {
-		var cookie = document.cookie, e, p = name + "=", b;
+		var e, b,
+			cookie = document.cookie,
+			p = name + '=';
 
 		if ( !cookie )
 			return;
 
-		b = cookie.indexOf("; " + p);
+		b = cookie.indexOf('; ' + p);
 
 		if ( b == -1 ) {
 			b = cookie.indexOf(p);
 
-			if ( b != 0 )
+			if ( b !== 0 )
 				return null;
 
 		} else {
 			b += 2;
 		}
 
-		e = cookie.indexOf(";", b);
+		e = cookie.indexOf( ';', b );
 
 		if ( e == -1 )
 			e = cookie.length;
@@ -107,11 +111,11 @@ var wpCookies = {
 			expires = '';
 		}
 
-		document.cookie = name + "=" + encodeURIComponent(value) +
-			((expires) ? "; expires=" + expires : "") +
-			((path) ? "; path=" + path : "") +
-			((domain) ? "; domain=" + domain : "") +
-			((secure) ? "; secure" : "");
+		document.cookie = name + '=' + encodeURIComponent( value ) +
+			( expires ? '; expires=' + expires : '' ) +
+			( path    ? '; path=' + path       : '' ) +
+			( domain  ? '; domain=' + domain   : '' ) +
+			( secure  ? '; secure'             : '' );
 	},
 
 	/**
