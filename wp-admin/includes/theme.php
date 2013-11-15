@@ -354,7 +354,7 @@ function themes_api( $action, $args = null ) {
  * @param array $themes Optional. Array of WP_Theme objects to prepare.
  *                      Defaults to all allowed themes.
  *
- * @return array An associative array of theme data.
+ * @return array An associative array of theme data, sorted by name.
  */
 function wp_prepare_themes_for_js( $themes = null ) {
 	if ( null === $themes ) {
@@ -370,6 +370,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 		$updates = $updates->response;
 	}
 
+	WP_Theme::sort_by_name( $themes );
 	foreach( $themes as $slug => $theme ) {
 		$parent = false;
 		if ( $theme->parent() ) {
