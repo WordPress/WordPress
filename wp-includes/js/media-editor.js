@@ -1,3 +1,5 @@
+/* global getUserSetting, tinymce, QTags, wpActiveEditor */
+
 // WordPress, TinyMCE, and Media
 // -----------------------------
 (function($){
@@ -524,7 +526,7 @@
 					var display = state.display( attachment ).toJSON();
 					return this.send.attachment( display, attachment.toJSON() );
 				}, this ) ).done( function() {
-					wp.media.editor.insert( _.toArray( arguments ).join("\n\n") );
+					wp.media.editor.insert( _.toArray( arguments ).join('\n\n') );
 				});
 			}, this );
 

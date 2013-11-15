@@ -1,3 +1,4 @@
+/* global ajaxurl, wpAjax */
 
 var findPosts;
 (function($){
@@ -6,7 +7,7 @@ var findPosts;
 			var st = document.documentElement.scrollTop || $(document).scrollTop(),
 				overlay = $( '.ui-find-overlay' );
 
-			if ( overlay.length == 0 ) {
+			if ( overlay.length === 0 ) {
 				$( 'body' ).append( '<div class="ui-find-overlay"></div>' );
 				findPosts.overlay();
 			}
@@ -98,7 +99,7 @@ var findPosts;
 
 	$(document).ready(function() {
 		$('#find-posts-submit').click(function(e) {
-			if ( '' == $('#find-posts-response').html() )
+			if ( '' === $('#find-posts-response').html() )
 				e.preventDefault();
 		});
 		$( '#find-posts .find-box-search :input' ).keypress( function( event ) {
