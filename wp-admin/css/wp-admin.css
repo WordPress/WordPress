@@ -827,7 +827,6 @@ div.error {
 .wrap .add-new-h2,
 .wrap .add-new-h2:active,
 #add-new-comment a {
-	font-family: "Open Sans", sans-serif;
 	margin-left: 4px;
 	padding: 4px 8px;
 	position: relative;
@@ -902,25 +901,6 @@ input[readonly] {
   1.0 - Text Styles
 ------------------------------------------------------------------------------*/
 
-div.sidebar-name h3,
-#menu-management .nav-tab,
-a.rsswidget,
-#dashboard_right_now td.b,
-#dashboard-widgets h4,
-.tool-box .title,
-#poststuff h3,
-.metabox-holder h3,
-.pressthis a,
-#your-profile legend,
-.inline-edit-row fieldset span.title,
-.inline-edit-row fieldset span.checkbox-title,
-.tablenav .displaying-num,
-.widefat th,
-.quicktags,
-.search {
-	font-family: "Open Sans", sans-serif;
-}
-
 .widget .widget-top,
 .postbox h3,
 .stuffbox h3,
@@ -938,13 +918,6 @@ h3.dashboard-widget-title small,
 .widefat thead th,
 .widefat tfoot th {
 	line-height: 1.4em;
-}
-
-h2 .nav-tab,
-.wrap h2,
-.subtitle,
-.login form .input {
-	font-family: "Open Sans", sans-serif;
 }
 
 .quicktags,
@@ -1094,7 +1067,6 @@ strong, b {
 .howto {
 	font-style: italic;
 	display: block;
-	font-family: "Open Sans", sans-serif;
 }
 
 p.install-help {
@@ -1547,7 +1519,6 @@ form.upgrade .hint {
 	float: right;
 	height: 28px;
 	margin: 0 0 0 6px;
-	font-family: "Open Sans", sans-serif;
 }
 
 #screen-meta-links .screen-meta-toggle {
@@ -2022,7 +1993,6 @@ ul#adminmenu > li.current > a.current:after {
 #adminmenu span.update-plugins,
 #sidemenu li a span.update-plugins {
 	position: absolute;
-	font-family: "Open Sans", sans-serif;
 	font-size: 9px;
 	line-height: 17px;
 	font-weight: 600;
@@ -2222,7 +2192,6 @@ ul#adminmenu > li.current > a.current:after {
 /* List table styles */
 .post-com-count-wrapper {
 	min-width: 22px;
-	font-family: "Open Sans", sans-serif;
 }
 
 .post-com-count {
@@ -2691,7 +2660,6 @@ html.wp-toolbar {
 
 .welcome-panel h3 {
 	margin: 0;
-	font-family: "Open Sans", sans-serif;
 	font-size: 21px;
 	font-weight: normal;
 	line-height: 1.2;
@@ -3958,7 +3926,6 @@ ul.cat-checklist {
 
 .inline-edit-row fieldset ul.cat-checklist label,
 .inline-edit-row #bulk-titles div {
-	font-family: "Open Sans", sans-serif;
 	font-style: normal;
 	font-size: 11px;
 }
@@ -5313,7 +5280,6 @@ span.description,
 .form-wrap p {
 	font-size: 13px;
 	font-style: italic;
-	font-family: "Open Sans", sans-serif;
 }
 
 .form-wrap .form-field {
@@ -7008,7 +6974,6 @@ body.press-this {
 #utc-time, #local-time {
 	padding-left: 25px;
 	font-style: italic;
-	font-family: "Open Sans", sans-serif;
 }
 
 .defaultavatarpicker .avatar {
