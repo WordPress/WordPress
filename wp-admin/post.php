@@ -105,14 +105,14 @@ case 'post-quickdraft-save':
 		$error_msg = "Oops, you don't have access to add new drafts.";
 
 	if ( $error_msg )
-		return wp_dashboard_quick_draft( $error_msg );
+		return wp_dashboard_quick_press( $error_msg );
 
 	$post = get_post( $_REQUEST['post_ID'] );
 	check_admin_referer( 'add-' . $post->post_type );
 	edit_post();
 	// output the quickdraft dashboard widget
 	require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
-	wp_dashboard_quick_draft();
+	wp_dashboard_quick_press();
 	exit;
 	break;
 

@@ -904,7 +904,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		if ( $link == '' ) {
 			echo "<li>$title{$date}{$summary}{$author}</li>";
 		} else {
-			echo "<li><div class='rss-title-row'><a class='rsswidget' href='$link' title='$desc'>$title</a>{$date}</div>{$summary}{$author}</li>";
+			echo "<li><a class='rsswidget' href='$link' title='$desc'>$title</a>{$date}{$summary}{$author}</li>";
 		}
 	}
 	echo '</ul>';

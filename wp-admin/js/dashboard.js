@@ -62,12 +62,12 @@ jQuery(document).ready( function($) {
 	quickPressLoad = function() {
 		var act = $('#quickpost-action'), t;
 		t = $('#quick-press').submit( function() {
-			$('#dashboard_quick_draft #publishing-action .spinner').show();
+			$('#dashboard_quick_press #publishing-action .spinner').show();
 			$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').prop('disabled', true);
 
 			$.post( t.attr( 'action' ), t.serializeArray(), function( data ) {
 				// Replace the form, and prepend the published post.
-				$('#dashboard_quick_draft .inside').html( data );
+				$('#dashboard_quick_press .inside').html( data );
 				$('#quick-press').removeClass('initial-form');
 				quickPressLoad();
 				highlightLatestPost();
@@ -75,7 +75,7 @@ jQuery(document).ready( function($) {
 			});
 
 			function highlightLatestPost () {
-				var latestPost = $('#draft-list li').first();
+				var latestPost = $('.drafts ul li').first();
 				latestPost.css('background', '#fffbe5');
 				setTimeout(function () {
 					latestPost.css('background', 'none');

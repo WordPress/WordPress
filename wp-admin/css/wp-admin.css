@@ -2578,7 +2578,7 @@ html.wp-toolbar {
 }
 
 .postbox .inside {
-	margin: 12px 0;
+	margin: 11px 0;
 	position: relative;
 }
 
@@ -2653,7 +2653,7 @@ html.wp-toolbar {
 	position: relative;
 	overflow: auto;
 	margin: 16px 0;
-	padding: 23px 10px 12px;
+	padding: 23px 10px 0;
 	font-size: 13px;
 	line-height: 2.1em;
 }
@@ -2683,7 +2683,7 @@ html.wp-toolbar {
 	position: absolute;
 	top: 5px;
 	right: 10px;
-	padding: 8px 3px;
+	padding: 20px 15px 0 3px;
 	font-size: 13px;
 	text-decoration: none;
 	line-height: 1;
@@ -2814,13 +2814,13 @@ html.wp-toolbar {
 
 /* Dashboard WordPress news */
 
-#dashboard_rss .inside {
+#dashboard_primary .inside {
 	margin: 0;
 	padding: 0;
 }
 
-#dashboard_rss .widget-loading,
-#dashboard_rss .dashboard-widget-control-form {
+#dashboard_primary .widget-loading,
+#dashboard_primary .dashboard-widget-control-form {
 	padding: 12px 12px 0;
 }
 
@@ -2841,31 +2841,31 @@ body #dashboard-widgets .postbox form .submit {
 	margin-top: 4px;
 }
 
-.rss-widget {
+#dashboard_primary .rss-widget {
 	border-bottom: 1px solid #eee;
 	font-size: 13px;
-	padding: 8px 12px 12px;
+	padding: 8px 12px 10px;
 }
 
-.rss-widget:last-child {
+#dashboard_primary .rss-widget:last-child {
 	border-bottom: none;
-	padding-bottom: 0;
+	padding-bottom: 8px;
 }
 
-.rss-widget a {
+#dashboard_primary .rss-widget a {
 	font-weight: normal;
 }
 
-.rss-widget span,
-.rss-widget span.rss-date {
+#dashboard_primary .rss-widget span,
+#dashboard_primary .rss-widget span.rss-date {
 	color: #bbb;
 }
 
-.rss-widget span.rss-date {
+#dashboard_primary .rss-widget span.rss-date {
 	margin-left: 12px;
 }
 
-.rss-widget ul li {
+#dashboard_primary .rss-widget ul li {
 	margin-bottom: 8px;
 }
 
@@ -2889,7 +2889,7 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #dash-right-now .main {
-	padding: 0 12px;
+	padding: 0 12px 11px;
 }
 
 #dash-right-now .main p {
@@ -2909,9 +2909,8 @@ body #dashboard-widgets .postbox form .submit {
 #dash-right-now .sub {
 	color: #bfbbbb;
 	background: #f5f5f5;
-	border-top-color: #dedede;
-	padding: 12px 12px 6px 12px;
-	border-top: 1px solid;
+	border-top: 1px solid #eee;
+	padding: 10px 12px 6px 12px;
 }
 
 #dash-right-now .sub h4 {
@@ -2969,6 +2968,11 @@ body #dashboard-widgets .postbox form .submit {
 
 /* Dashboard Quick Draft */
 
+#dashboard_quick_press .inside {
+	margin: 0;
+	padding: 0;
+}
+
 #dashboard_quick_press div.updated {
 	margin-bottom: 10px;
 	border: 1px solid #eee;
@@ -2976,18 +2980,13 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #dashboard_quick_press form {
-	padding: 0 12px 1px 12px;
 	overflow: hidden;
+	margin: 12px 12px 0;
 }
 
 #dashboard_quick_press .drafts,
 #dashboard_quick_press .easy-blogging {
-	padding: 8px 12px 0;
-}
-
-#dashboard-widgets .postbox .inside {
-	margin: 10px 0;
-	padding: 0;
+	padding: 10px 0 0;
 }
 
 /* Dashboard Quick Draft - Form styling */
@@ -3080,21 +3079,21 @@ form.initial-form.quickpress-open input#title {
 }
 
 #dashboard_quick_press .drafts h4 {
-	margin: 0 0 8px 0;
+	margin: 0 12px 8px;
 	font-weight: normal;
 }
 
 #dashboard_quick_press .drafts .view-all {
 	float: right;
-	margin-top: 0;
+	margin: 0 12px 0 0;
 }
 
-#dashboard_rss a.rsswidget {
+#dashboard_primary a.rsswidget {
 	font-weight: normal;
 }
 
 #dashboard_quick_press .drafts ul {
-	margin: 0;
+	margin: 0 12px;
 }
 
 #dashboard_quick_press .drafts li {
@@ -3188,12 +3187,13 @@ form.initial-form.quickpress-open input#title {
 	float: none;
 	border-top: 1px solid #eeeeee;
 	margin-top: 0;
-	padding: 8px 12px 0 12px;
+	padding: 8px 12px 4px;
 }
 
 #future-posts .show-more,
 #published-posts .show-more {
 	float: right;
+	margin-right: 12px;
 }
 
 #future-posts ul,
@@ -3219,7 +3219,7 @@ form.initial-form.quickpress-open input#title {
 .activity-block {
 	border-bottom: 1px solid #eee;
 	overflow: hidden;
-	padding: 8px 0 0;
+	padding: 8px 0 4px;
 }
 
 .activity-block:last-child {
@@ -7832,7 +7832,7 @@ table.form-table td .updated {
 #poststuff h3,
 .metabox-holder h3 {
 	font-size: 14px;
-	padding: 7px 12px;
+	padding: 8px 12px;
 	margin: 0;
 	line-height: 1.4;
 }
@@ -8276,7 +8276,7 @@ h3:hover .edit-box {
 }
 
 #title-wrap #title-prompt-text {
-	font-size: 1em;
+	font-size: 1.1em;
 	padding: 5px 8px;
 }
 
