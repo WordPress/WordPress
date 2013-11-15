@@ -37,20 +37,20 @@ function wp_dashboard_setup() {
 
 	// Right Now
 	if ( is_blog_admin() && current_user_can('edit_posts') )
-		add_meta_box( 'dash-right-now', 'Site Content', 'dashboard_new_right_now', 'dashboard', 'normal', 'high' );
+		wp_add_dashboard_widget( 'dash-right-now', __( 'Site Content' ), 'wp_dashboard_right_now' );
 
 	if ( is_network_admin() )
 		wp_add_dashboard_widget( 'network_dashboard_right_now', __( 'Right Now' ), 'wp_network_dashboard_right_now' );
 
 	// Activity Widget
-	add_meta_box( 'dashboard_activity', __( 'Activity' ), 'wp_dashboard_activity', 'dashboard', 'normal', 'high' );
+	wp_add_dashboard_widget( 'dashboard_activity', __( 'Activity' ), 'wp_dashboard_activity' );
 
 	// QuickPress Widget
 	if ( is_blog_admin() && current_user_can( 'edit_posts' ) )
-		add_meta_box( 'dashboard_quick_draft', __( 'Quick Draft' ), 'wp_dashboard_quick_draft', 'dashboard', 'side', 'high' );
+		wp_add_dashboard_widget( 'dashboard_quick_press', __( 'Quick Draft' ), 'wp_dashboard_quick_press' );
 
 	// WordPress News
-	add_meta_box( 'dashboard_rss', __( 'WordPress News' ), 'wp_dashboard_rss', 'dashboard', 'side', 'low' );
+	wp_add_dashboard_widget( 'dashboard_primary', __( 'WordPress News' ), 'wp_dashboard_primary' );
 
 	// Hook to register new widgets
 	// Filter widget order
@@ -104,12 +104,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 		}
 	}
 
-	if ( is_blog_admin () )
-		$side_widgets = array('dashboard_quick_draft');
-	else if (is_network_admin() )
-		$side_widgets = array();
-	else
-		$side_widgets = array();
+	$side_widgets = array( 'dashboard_quick_press', 'dashboard_primary' );
 
 	$location = 'normal';
 	if ( in_array($widget_id, $side_widgets) )
@@ -118,6 +113,8 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 	$priority = 'core';
 	if ( 'dashboard_browser_nag' === $widget_id )
 		$priority = 'high';
+	elseif ( 'dashboard_primary' === $widget_id )
+		$priority = 'low';
 
 	add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority, $callback_args );
 }
@@ -164,7 +161,14 @@ function wp_dashboard() {
 
 /* Dashboard Widgets */
 
-function dashboard_new_right_now() {
+/**
+ * Dashboard widget that displays some basic stats about the site.
+ *
+ * Formerly 'Right Now'. A streamlined 'Site Content' as of 3.8.
+ *
+ * @since 2.7.0
+ */
+function wp_dashboard_right_now() {
 	$theme = wp_get_theme();
 	if ( current_user_can( 'switch_themes' ) )
 		$theme_name = sprintf( '<a href="themes.php">%1$s</a>', $theme->display('Name') );
@@ -283,7 +287,7 @@ function wp_network_dashboard_right_now() {
  * @since 3.8.0
  *
  */
-function wp_dashboard_quick_draft( $error_msg=false ) {
+function wp_dashboard_quick_press( $error_msg=false ) {
 	global $post_ID;
 
 	/* Check if a new auto-draft (= no new post_ID) is needed or if the old can be used */
@@ -305,8 +309,6 @@ function wp_dashboard_quick_draft( $error_msg=false ) {
 	}
 
 	$post_ID = (int) $post->ID;
-
-	do_action( 'dashboard_quickdraft_beginning', $post );
 ?>
 
 	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press" class="initial-form">
@@ -338,8 +340,6 @@ function wp_dashboard_quick_draft( $error_msg=false ) {
 
 <?php
 	wp_dashboard_recent_quickdrafts();
-
-	do_action( 'dashboard_quickdraft_end' );
 }
 
 /**
@@ -677,6 +677,20 @@ function dashboard_relative_date( $time ) {
 }
 
 /**
+ * Display generic dashboard RSS widget feed.
+ *
+ * @since 2.5.0
+ *
+ * @param string $widget_id
+ */
+function wp_dashboard_rss_output( $widget_id ) {
+	$widgets = get_option( 'dashboard_widget_options' );
+	echo '<div class="rss-widget">';
+	wp_widget_rss_output( $widgets[ $widget_id ] );
+	echo "</div>";
+}
+
+/**
  * Checks to see if all of the feed url in $check_urls are cached.
  *
  * If $check_urls is empty, look for the rss feed url found in the dashboard
@@ -745,15 +759,12 @@ function wp_dashboard_trigger_widget_control( $widget_control_id = false ) {
 }
 
 /**
- * Returns default WordPress News feeds
+ * WordPress News dashboard widget.
  *
- *
- *
- * @since 3.8.0
- *
+ * @since 2.7.0
  */
-function wp_dashboard_default_feeds() {
-	return array(
+function wp_dashboard_primary() {
+	$feeds = array(
 		'news'   => array(
 			'link'         => apply_filters( 'dashboard_primary_link', __( 'http://wordpress.org/news/' ) ),
 			'url'          => apply_filters( 'dashboard_primary_feed', __( 'http://wordpress.org/news/feed/' ) ),
@@ -771,161 +782,120 @@ function wp_dashboard_default_feeds() {
 			'show_summary' => 0,
 			'show_author'  => 0,
 			'show_date'    => 0,
-		),
-		'plugins' => array(
+		)
+	);
+
+	if ( ( ! is_multisite() && is_blog_admin() && current_user_can( 'install_plugins' ) ) || ( is_network_admin() && current_user_can( 'manage_network_plugins' ) && current_user_can( 'install_plugins' ) ) ) {
+		$feeds['plugins'] = array(
 			'link'         => '',
 			'url'          => array(
-					'popular' => 'http://wordpress.org/plugins/rss/browse/popular/'
+				'popular' => 'http://wordpress.org/plugins/rss/browse/popular/',
 			),
 			'title'        => '',
 			'items'        => 1,
 			'show_summary' => 0,
 			'show_author'  => 0,
 			'show_date'    => 0,
-		)
-	);
-}
-
-/**
- * Check for cached feeds
- *
- *
- *
- * @since 3.8.0
- *
- */
-function wp_dashboard_rss() {
-	$default_feeds = wp_dashboard_default_feeds();
-
-	$widget_options = get_option( 'dashboard_widget_options' );
-
-	if ( !$widget_options || !is_array($widget_options) )
-		$widget_options = array();
-
-	//if ( ! isset( $widget_options['dashboard_rss'] ) ) {
-		$widget_options['dashboard_rss'] = $default_feeds;
-		update_option( 'dashboard_widget_options', $widget_options );
-	//}
-
-	foreach( $default_feeds as $key => $value ) {
-		$default_urls[] = $value['url'];
+		);
 	}
 
-	$cache_key = 'dash_' . md5( 'dashboard_rss' );
-	delete_transient( $cache_key );
-
-	do_action( 'dashboard_news_beginning' );
-
-	wp_dashboard_cached_rss_widget( 'dashboard_rss', 'wp_dashboard_news_output', $default_urls );
-
-	do_action( 'dashboard_news_end' );
+	wp_dashboard_cached_rss_widget( 'dashboard_primary', 'wp_dashboard_primary_output', $feeds );
 }
 
 /**
- * Display news feeds
- *
- *
+ * Display the WordPress news feeds.
  *
  * @since 3.8.0
- *
  */
-function wp_dashboard_news_output() {
-	$widgets = get_option( 'dashboard_widget_options' );
-
-	foreach( $widgets['dashboard_rss'] as $type => $args ) {
+function wp_dashboard_primary_output( $widget_id, $feeds ) {
+	foreach( $feeds as $type => $args ) {
 		$args['type'] = $type;
 		echo '<div class="rss-widget">';
-		wp_widget_news_output( $args['url'], $args );
+		if ( $type === 'plugins' ) {
+			wp_dashboard_plugins_output( $args['url'], $args );
+		} else {
+			wp_widget_rss_output( $args['url'], $args );
+		}
 		echo "</div>";
 	}
 }
 
 /**
- * Generate code for each news feed
+ * Display plugins text for the WordPress news widget.
  *
- *
- *
- * @since 3.8.0
- *
+ * @since 2.5.0
  */
-function wp_widget_news_output( $rss, $args = array() ) {
-
-	// Regular RSS feeds
-	if ( isset( $args['type'] ) && 'plugins' != $args['type'] )
-		return wp_widget_rss_output( $rss, $args );
-
+function wp_dashboard_plugins_output( $rss, $args = array() ) {
 	// Plugin feeds plus link to install them
-	if ( ! is_multisite() && current_user_can( 'install_plugins' ) ) {
-		$popular = fetch_feed( $args['url']['popular'] );
+	$popular = fetch_feed( $args['url']['popular'] );
 
-		if ( false === $plugin_slugs = get_transient( 'plugin_slugs' ) ) {
-			$plugin_slugs = array_keys( get_plugins() );
-			set_transient( 'plugin_slugs', $plugin_slugs, DAY_IN_SECONDS );
-		}
+	if ( false === $plugin_slugs = get_transient( 'plugin_slugs' ) ) {
+		$plugin_slugs = array_keys( get_plugins() );
+		set_transient( 'plugin_slugs', $plugin_slugs, DAY_IN_SECONDS );
+	}
 
-		echo '<ul>';
+	echo '<ul>';
 
-		foreach ( array(
-			'popular' => __( 'Popular Plugin' )
-		) as $feed => $label ) {
-			if ( is_wp_error($$feed) || !$$feed->get_item_quantity() )
+	foreach ( array(
+		'popular' => __( 'Popular Plugin' )
+	) as $feed => $label ) {
+		if ( is_wp_error($$feed) || !$$feed->get_item_quantity() )
+			continue;
+
+		$items = $$feed->get_items(0, 5);
+
+		// Pick a random, non-installed plugin
+		while ( true ) {
+			// Abort this foreach loop iteration if there's no plugins left of this type
+			if ( 0 == count($items) )
+				continue 2;
+
+			$item_key = array_rand($items);
+			$item = $items[$item_key];
+
+			list($link, $frag) = explode( '#', $item->get_link() );
+
+			$link = esc_url($link);
+			if ( preg_match( '|/([^/]+?)/?$|', $link, $matches ) )
+				$slug = $matches[1];
+			else {
+				unset( $items[$item_key] );
 				continue;
-
-			$items = $$feed->get_items(0, 5);
-
-			// Pick a random, non-installed plugin
-			while ( true ) {
-				// Abort this foreach loop iteration if there's no plugins left of this type
-				if ( 0 == count($items) )
-					continue 2;
-
-				$item_key = array_rand($items);
-				$item = $items[$item_key];
-
-				list($link, $frag) = explode( '#', $item->get_link() );
-
-				$link = esc_url($link);
-				if ( preg_match( '|/([^/]+?)/?$|', $link, $matches ) )
-					$slug = $matches[1];
-				else {
-					unset( $items[$item_key] );
-					continue;
-				}
-
-				// Is this random plugin's slug already installed? If so, try again.
-				reset( $plugin_slugs );
-				foreach ( $plugin_slugs as $plugin_slug ) {
-					if ( $slug == substr( $plugin_slug, 0, strlen( $slug ) ) ) {
-						unset( $items[$item_key] );
-						continue 2;
-					}
-				}
-
-				// If we get to this point, then the random plugin isn't installed and we can stop the while().
-				break;
 			}
 
-			// Eliminate some common badly formed plugin descriptions
-			while ( ( null !== $item_key = array_rand($items) ) && false !== strpos( $items[$item_key]->get_description(), 'Plugin Name:' ) )
-				unset($items[$item_key]);
+			// Is this random plugin's slug already installed? If so, try again.
+			reset( $plugin_slugs );
+			foreach ( $plugin_slugs as $plugin_slug ) {
+				if ( $slug == substr( $plugin_slug, 0, strlen( $slug ) ) ) {
+					unset( $items[$item_key] );
+					continue 2;
+				}
+			}
 
-			if ( !isset($items[$item_key]) )
-				continue;
-
-			$title = esc_html( $item->get_title() );
-
-			$description = esc_html( strip_tags( @html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) ) ) );
-
-			$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) . '&amp;TB_iframe=true&amp;width=600&amp;height=800';
-
-			echo "<li class='dashboard-news-plugin'><span>$label:</span> <a href='$link' class='dashboard-news-plugin-link'>$title</a></h5>&nbsp;<span>(<a href='$ilink' class='thickbox' title='$title'>" . __( 'Install' ) . "</a>)</span></li>";
-
-			$$feed->__destruct();
-			unset( $$feed );
+			// If we get to this point, then the random plugin isn't installed and we can stop the while().
+			break;
 		}
 
-		echo '</ul>';
+		// Eliminate some common badly formed plugin descriptions
+		while ( ( null !== $item_key = array_rand($items) ) && false !== strpos( $items[$item_key]->get_description(), 'Plugin Name:' ) )
+			unset($items[$item_key]);
+
+		if ( !isset($items[$item_key]) )
+			continue;
+
+		$title = esc_html( $item->get_title() );
+
+		$description = esc_html( strip_tags( @html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) ) ) );
+
+		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) . '&amp;TB_iframe=true&amp;width=600&amp;height=800';
+
+		echo "<li class='dashboard-news-plugin'><span>$label:</span> <a href='$link' class='dashboard-news-plugin-link'>$title</a></h5>&nbsp;<span>(<a href='$ilink' class='thickbox' title='$title'>" . __( 'Install' ) . "</a>)</span></li>";
+
+		$$feed->__destruct();
+		unset( $$feed );
 	}
+
+	echo '</ul>';
 }
 
 /**

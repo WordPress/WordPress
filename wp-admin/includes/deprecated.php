@@ -730,7 +730,7 @@ function get_others_pending($user_id) {
  */
 function wp_dashboard_quick_press_output() {
 	_deprecated_function( __FUNCTION__, '3.2', 'wp_dashboard_quick_press()' );
-	wp_dashboard_quick_draft();
+	wp_dashboard_quick_press();
 }
 
 /**

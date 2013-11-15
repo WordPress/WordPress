@@ -233,9 +233,14 @@ function wp_ajax_autocomplete_user() {
 function wp_ajax_dashboard_widgets() {
 	require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 
+	$pagenow = $_GET['pagenow'];
+	if ( $pagenow === 'dashboard-user' || $pagenow === 'dashboard-network' || $pagenow === 'dashboard' ) {
+		set_current_screen( $pagenow );
+	}
+
 	switch ( $_GET['widget'] ) {
-		case 'dashboard_rss' :
-			wp_dashboard_rss();
+		case 'dashboard_primary' :
+			wp_dashboard_primary();
 			break;
 	}
 	wp_die();

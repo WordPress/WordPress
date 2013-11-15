@@ -2969,19 +2969,19 @@ body #dashboard-widgets .postbox form .submit {
 
 /* Dashboard Quick Draft */
 
-#dashboard_quick_draft div.updated {
+#dashboard_quick_press div.updated {
 	margin-bottom: 10px;
 	border: 1px solid #eee;
 	border-width: 1px 0 1px 1px;
 }
 
-#dashboard_quick_draft form {
+#dashboard_quick_press form {
 	padding: 0 12px 1px 12px;
 	overflow: hidden;
 }
 
-#dashboard_quick_draft .drafts,
-#dashboard_quick_draft .easy-blogging {
+#dashboard_quick_press .drafts,
+#dashboard_quick_press .easy-blogging {
 	padding: 8px 12px 0;
 }
 
@@ -3012,15 +3012,15 @@ form.initial-form.quickpress-open input#title {
 	height: auto;
 }
 
-#dashboard_quick_draft input,
-#dashboard_quick_draft textarea {
+#dashboard_quick_press input,
+#dashboard_quick_press textarea {
 	box-sizing: border-box;
 	-moz-box-sizing:border-box;
 	-webkit-box-sizing:border-box;
 	margin: 0;
 }
 
-#dashboard_quick_draft textarea {
+#dashboard_quick_press textarea {
 	resize: vertical;
 }
 
@@ -3070,21 +3070,21 @@ form.initial-form.quickpress-open input#title {
 
 /* Dashboard Quick Draft - Drafts list */
 
-#dashboard_quick_draft .drafts {
+#dashboard_quick_press .drafts {
 	border-top: 1px solid #eee;
 	margin-top: 12px;
 }
 
-#dashboard_quick_draft .drafts abbr {
+#dashboard_quick_press .drafts abbr {
 	border: none;
 }
 
-#dashboard_quick_draft .drafts h4 {
+#dashboard_quick_press .drafts h4 {
 	margin: 0 0 8px 0;
 	font-weight: normal;
 }
 
-#dashboard_quick_draft .drafts .view-all {
+#dashboard_quick_press .drafts .view-all {
 	float: left;
 	margin-top: 0;
 }

@@ -1,3 +1,4 @@
+/* global pagenow */
 var ajaxWidgets, ajaxPopulateWidgets, quickPressLoad;
 
 jQuery(document).ready( function($) {
@@ -28,9 +29,7 @@ jQuery(document).ready( function($) {
 	});
 
 	// These widgets are sometimes populated via ajax
-	ajaxWidgets = [
-		'dashboard_rss'
-	];
+	ajaxWidgets = ['dashboard_primary'];
 
 	ajaxPopulateWidgets = function(el) {
 		function show(i, id) {
@@ -38,7 +37,7 @@ jQuery(document).ready( function($) {
 			if ( e.length ) {
 				p = e.parent();
 				setTimeout( function(){
-					p.load( ajaxurl + '?action=dashboard-widgets&widget=' + id, '', function() {
+					p.load( ajaxurl + '?action=dashboard-widgets&widget=' + id + '&pagenow=' + pagenow, '', function() {
 						p.hide().slideDown('normal', function(){
 							$(this).css('display', '');
 						});
