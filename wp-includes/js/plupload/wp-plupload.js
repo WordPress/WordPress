@@ -1,3 +1,5 @@
+/* global pluploadL10n, plupload, _wpPluploadSettings */
+
 window.wp = window.wp || {};
 
 (function( exports, $ ) {
