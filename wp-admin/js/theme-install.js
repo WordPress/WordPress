@@ -1,3 +1,7 @@
+/* global ajaxurl, list_args, theme_list_args */
+
+var theme_viewer;
+
 /**
  * Theme Browsing
  *
@@ -28,16 +32,18 @@ jQuery(document).ready( function($) {
 	tb_position = function() {
 		var tbWindow = $('#TB_window'), width = $(window).width(), H = $(window).height(), W = ( 1040 < width ) ? 1040 : width, adminbar_height = 0;
 
-		if ( $('body.admin-bar').length )
+		if ( $('body.admin-bar').length ) {
 			adminbar_height = 28;
+		}
 
 		if ( tbWindow.size() ) {
 			tbWindow.width( W - 50 ).height( H - 45 - adminbar_height );
 			$('#TB_iframeContent').width( W - 50 ).height( H - 75 - adminbar_height );
 			tbWindow.css({'margin-left': '-' + parseInt( ( ( W - 50 ) / 2 ), 10 ) + 'px'});
-			if ( typeof document.body.style.maxWidth != 'undefined' )
+			if ( typeof document.body.style.maxWidth !== 'undefined' ) {
 				tbWindow.css({'top': 20 + adminbar_height + 'px','margin-top':'0'});
-		};
+			}
+		}
 	};
 
 	$(window).resize(function(){ tb_position(); });
@@ -49,8 +55,9 @@ jQuery(document).ready( function($) {
  * Displays theme previews on theme install pages.
  */
 jQuery( function($) {
-	if( ! window.postMessage )
+	if ( ! window.postMessage ) {
 		return;
+	}
 
 	var preview = $('#theme-installer'),
 		info    = preview.find('.install-theme-info'),
@@ -86,7 +93,7 @@ jQuery( function($) {
 var ThemeViewer;
 
 (function($){
-	ThemeViewer = function( args ) {
+	ThemeViewer = function() {
 
 		function init() {
 			$( '#filter-click, #mini-filter-click' ).unbind( 'click' ).click( function() {
@@ -100,13 +107,15 @@ var ThemeViewer;
 				var count = $( '#filter-box :checked' ).length,
 					text  = $( '#filter-click' ).text();
 
-				if ( text.indexOf( '(' ) != -1 )
+				if ( text.indexOf( '(' ) !== -1 ) {
 					text = text.substr( 0, text.indexOf( '(' ) );
+				}
 
-				if ( count == 0 )
+				if ( count === 0 ) {
 					$( '#filter-click' ).text( text );
-				else
+				} else {
 					$( '#filter-click' ).text( text + ' (' + count + ')' );
+				}
 			});
 
 			/* $('#filter-box :submit').unbind( 'click' ).click(function() {
@@ -130,11 +139,11 @@ var ThemeViewer;
 			init: init
 		};
 
-	return api;
-	}
+		return api;
+	};
 })(jQuery);
 
-jQuery( document ).ready( function($) {
+jQuery( document ).ready( function() {
 	theme_viewer = new ThemeViewer();
 	theme_viewer.init();
 });
@@ -169,9 +178,10 @@ var ThemeScroller;
 
 			// Get out early if we don't have the required arguments.
 			if ( typeof ajaxurl === 'undefined' ||
-				 typeof list_args === 'undefined' ||
-				 typeof theme_list_args === 'undefined' ) {
-					$('.pagination-links').show();
+				typeof list_args === 'undefined' ||
+				typeof theme_list_args === 'undefined' ) {
+
+				$('.pagination-links').show();
 					return;
 			}
 
@@ -189,11 +199,11 @@ var ThemeScroller;
 			 * If there are more pages to query, then start polling to track
 			 * when user hits the bottom of the current page
 			 */
-			if ( theme_list_args.total_pages >= this.nextPage )
-				this.pollInterval =
-					setInterval( function() {
-						return self.poll();
-					}, this.scrollPollingDelay );
+			if ( theme_list_args.total_pages >= this.nextPage ) {
+				this.pollInterval = setInterval( function() {
+					return self.poll();
+				}, this.scrollPollingDelay );
+			}
 		},
 
 		/**
@@ -207,8 +217,9 @@ var ThemeScroller;
 			var bottom = this.$document.scrollTop() + this.$window.innerHeight();
 
 			if ( this.querying ||
-				( bottom < this.$outList.height() - this.outListBottomThreshold ) )
+				( bottom < this.$outList.height() - this.outListBottomThreshold ) ) {
 				return;
+			}
 
 			this.ajax();
 		},
@@ -227,11 +238,13 @@ var ThemeScroller;
 				return;
 			}
 
-			if ( this.nextPage > theme_list_args.total_pages )
+			if ( this.nextPage > theme_list_args.total_pages ) {
 				clearInterval( this.pollInterval );
+			}
 
-			if ( this.nextPage <= ( theme_list_args.total_pages + 1 ) )
+			if ( this.nextPage <= ( theme_list_args.total_pages + 1 ) ) {
 				this.$outList.append( results.rows );
+			}
 		},
 
 		/**
@@ -241,11 +254,8 @@ var ThemeScroller;
 		 * @access private
 		 */
 		ajax: function() {
-			var self = this;
-
-			this.querying = true;
-
-			var query = {
+			var self = this,
+				query = {
 				action: 'fetch-list',
 				paged: this.nextPage,
 				s: theme_list_args.search,
@@ -255,6 +265,8 @@ var ThemeScroller;
 				'features[]': theme_list_args.features,
 				'list_args': list_args
 			};
+
+			this.querying = true;
 
 			this.$spinner.show();
 			$.getJSON( ajaxurl, query )
@@ -270,9 +282,9 @@ var ThemeScroller;
 					setTimeout( function() { self.ajax(); }, self.failedRetryDelay );
 				});
 		}
-	}
+	};
 
-	$(document).ready( function($) {
+	$(document).ready( function() {
 		ThemeScroller.init();
 	});
 
