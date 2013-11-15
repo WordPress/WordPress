@@ -1,5 +1,5 @@
-/* global adminCommentsL10n, thousandsSeparator, list_args, QTags, ajaxurl, wpAjax, commentReply */
-var setCommentsList, theList, theExtraList,
+/* global adminCommentsL10n, thousandsSeparator, list_args, QTags, ajaxurl, wpAjax */
+var setCommentsList, theList, theExtraList, commentReply,
 	toggleWithKeyboard = false;
 
 (function($) {

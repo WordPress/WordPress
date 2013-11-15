@@ -691,13 +691,15 @@ var moby6 = {
 $( document ).ready( $.proxy( moby6.init, moby6 ) );
 
 // make Windows 8 devices playing along nicely
-if ( '-ms-user-select' in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/) ) {
-	var msViewportStyle = document.createElement( 'style' );
-	msViewportStyle.appendChild(
-		document.createTextNode( '@-ms-viewport{width:auto!important}' )
-	);
-	document.getElementsByTagName( 'head' )[0].appendChild( msViewportStyle );
-}
+(function(){
+	if ( '-ms-user-select' in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/) ) {
+		var msViewportStyle = document.createElement( 'style' );
+		msViewportStyle.appendChild(
+			document.createTextNode( '@-ms-viewport{width:auto!important}' )
+		);
+		document.getElementsByTagName( 'head' )[0].appendChild( msViewportStyle );
+	}
+})();
 
 // internal use
 $(document).bind( 'wp_CloseOnEscape', function( e, data ) {
