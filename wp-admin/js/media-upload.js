@@ -1,8 +1,9 @@
+/* global tinymce, QTags, tb_remove */
 // send html to the post editor
 
-var wpActiveEditor;
+var wpActiveEditor, send_to_editor;
 
-function send_to_editor(h) {
+send_to_editor = function(h) {
 	var ed, mce = typeof(tinymce) != 'undefined', qt = typeof(QTags) != 'undefined';
 
 	if ( !wpActiveEditor ) {
@@ -42,8 +43,8 @@ function send_to_editor(h) {
 		document.getElementById(wpActiveEditor).value += h;
 	}
 
-	try{tb_remove();}catch(e){};
-}
+	try{tb_remove();}catch(e){}
+};
 
 // thickbox settings
 var tb_position;
@@ -60,7 +61,7 @@ var tb_position;
 			tbWindow.css({'margin-left': '-' + parseInt((( W - 50 ) / 2),10) + 'px'});
 			if ( typeof document.body.style.maxWidth != 'undefined' )
 				tbWindow.css({'top': 20 + adminbar_height + 'px','margin-top':'0'});
-		};
+		}
 
 		return $('a.thickbox').each( function() {
 			var href = $(this).attr('href');
