@@ -1,3 +1,4 @@
+/* global _wpCustomizeLoaderSettings */
 window.wp = window.wp || {};
 
 (function( exports, $ ){
@@ -52,7 +53,7 @@ window.wp = window.wp || {};
 				Loader.close();
 		},
 
-		hashchange: function( e ) {
+		hashchange: function() {
 			var hash = window.location.toString().split('#')[1];
 
 			if ( hash && 0 === hash.indexOf( 'wp_customize=on' ) )
