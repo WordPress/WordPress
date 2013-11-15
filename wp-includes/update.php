@@ -18,9 +18,10 @@
  * @uses $wp_version Used to check against the newest WordPress version.
  *
  * @param array $extra_stats Extra statistics to report to the WordPress.org API.
+ * @param bool $force_check Whether to bypass the transient cache and force a fresh update check. Defaults to false, true if $extra_stats is set.
  * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
  */
-function wp_version_check( $extra_stats = array() ) {
+function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	if ( defined('WP_INSTALLING') )
 		return;
 
@@ -41,10 +42,13 @@ function wp_version_check( $extra_stats = array() ) {
 		$current->version_checked = $wp_version;
 	}
 
+	if ( ! empty( $extra_stats ) )
+		$force_check = true;
+
 	// Wait 60 seconds between multiple version check requests
 	$timeout = 60;
 	$time_not_changed = isset( $current->last_checked ) && $timeout > ( time() - $current->last_checked );
-	if ( $time_not_changed && empty( $extra_stats ) )
+	if ( ! $force_check && $time_not_changed )
 		return false;
 
 	$locale = get_locale();
@@ -94,7 +98,7 @@ function wp_version_check( $extra_stats = array() ) {
 		'translations' => json_encode( $translations ),
 	);
 
-	if ( $extra_stats )
+	if ( is_array( $extra_stats ) )
 		$post_body = array_merge( $post_body, $extra_stats );
 
 	$url = $http_url = 'http://api.wordpress.org/core/version-check/1.7/?' . http_build_query( $query, null, '&' );

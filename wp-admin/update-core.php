@@ -483,8 +483,10 @@ get_current_screen()->set_help_sidebar(
 );
 
 if ( 'upgrade-core' == $action ) {
+	// Force a update check when requested
+	$force_check = ! empty( $_GET['force-check'] );
+	wp_version_check( array(), $force_check ); 
 
-	wp_version_check();
 	require_once(ABSPATH . 'wp-admin/admin-header.php');
 	?>
 	<div class="wrap">
@@ -503,7 +505,7 @@ if ( 'upgrade-core' == $action ) {
 	echo '<p>';
 	/* translators: %1 date, %2 time. */
 	printf( __('Last checked on %1$s at %2$s.'), date_i18n( get_option( 'date_format' ) ), date_i18n( get_option( 'time_format' ) ) );
-	echo ' &nbsp; <a class="button" href="' . esc_url( self_admin_url('update-core.php') ) . '">' . __( 'Check Again' ) . '</a>';
+	echo ' &nbsp; <a class="button" href="' . esc_url( self_admin_url('update-core.php?force-check=1') ) . '">' . __( 'Check Again' ) . '</a>';
 	echo '</p>';
 
 	if ( $core = current_user_can( 'update_core' ) )
