@@ -118,18 +118,9 @@ case 'post-quickdraft-save':
 
 case 'postajaxpost':
 case 'post':
-	// Check nonce and capabilities
-	$nonce = $_REQUEST['_wpnonce'];
-	$error_msg = false;
-	if ( ! wp_verify_nonce( $nonce, 'add-post' ) )
-		$error_msg = 'Unable to submit this form, please refresh and try again.';
-
-	if ( ! current_user_can( 'edit_posts' ) )
-		$error_msg = "Oops, you don't have access to add new drafts.";
-
+	check_admin_referer( 'add-' . $post_type );
 	$post_id = 'postajaxpost' == $action ? edit_post() : write_post();
-
-	redirect_post($post_id);
+	redirect_post( $post_id );
 	exit();
 	break;
 
