@@ -1,3 +1,4 @@
+/* global tinymce, getUserSetting, setUserSetting, switchEditors, autosave */
 /**
  * WordPress plugin.
  */
@@ -142,7 +143,7 @@
 				}
 			});
 
-			ed.onExecCommand.add( function( ed, cmd, ui, val ) {
+			ed.onExecCommand.add( function( ed, cmd ) {
 				if ( tinymce.isWebKit && style && ( 'InsertUnorderedList' == cmd || 'InsertOrderedList' == cmd ) )
 					ed.dom.remove( style );
 			});
@@ -221,7 +222,7 @@
 
 					last = k;
 				});
-			};
+			}
 
 			// keep empty paragraphs :(
 			ed.onSaveContent.addToTop(function(ed, o) {
@@ -291,19 +292,19 @@
 
 			// popup buttons for images and the gallery
 			ed.onInit.add(function(ed) {
-				tinymce.dom.Event.add(ed.getWin(), 'scroll', function(e) {
+				tinymce.dom.Event.add(ed.getWin(), 'scroll', function() {
 					ed.plugins.wordpress._hideButtons();
 				});
-				tinymce.dom.Event.add(ed.getBody(), 'dragstart', function(e) {
+				tinymce.dom.Event.add(ed.getBody(), 'dragstart', function() {
 					ed.plugins.wordpress._hideButtons();
 				});
 			});
 
-			ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {
+			ed.onBeforeExecCommand.add( function( ed ) {
 				ed.plugins.wordpress._hideButtons();
 			});
 
-			ed.onSaveContent.add(function(ed, o) {
+			ed.onSaveContent.add( function( ed ) {
 				ed.plugins.wordpress._hideButtons();
 			});
 
@@ -325,7 +326,7 @@
 						ed.windowManager.close(null, id);
 					}
 				}
-			}
+			};
 
 			// close popups when clicking on the background
 			tinymce.dom.Event.remove(document.body, 'click', closeOnClick);
@@ -361,7 +362,7 @@
 		},
 
 		_showButtons : function(n, id) {
-			var ed = tinyMCE.activeEditor, p1, p2, vp, DOM = tinymce.DOM, X, Y;
+			var ed = tinymce.activeEditor, p1, p2, vp, DOM = tinymce.DOM, X, Y;
 
 			vp = ed.dom.getViewPort(ed.getWin());
 			p1 = DOM.getPos(ed.getContentAreaContainer());
