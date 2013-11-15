@@ -1,3 +1,4 @@
+/* global tinyMCEPreInit, tinymce */
 (function(){
 	if ( typeof tinyMCEPreInit === 'undefined' )
 		return;
@@ -14,7 +15,7 @@
 		if ( plugin && plugin.charAt(0) != '-' ) {
 			markDone( baseurl+'/plugins/'+plugin+'/editor_plugin'+suffix+'.js' );
 			markDone( baseurl+'/plugins/'+plugin+'/langs/'+lang+'.js' );
-			markDone( baseurl+'/plugins/'+plugin+'/langs/'+lang+'_dlg.js' )
+			markDone( baseurl+'/plugins/'+plugin+'/langs/'+lang+'_dlg.js' );
 		}
 	});
 })();
