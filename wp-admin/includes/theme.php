@@ -398,7 +398,6 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			),
 		);
 	}
-	// var_dump( $prepared_themes );
 
 	return $prepared_themes;
 }
