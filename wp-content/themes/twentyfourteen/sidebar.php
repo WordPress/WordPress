@@ -23,10 +23,7 @@
 
 	<?php if ( is_active_sidebar( 'sidebar-1' ) ) : ?>
 	<div id="primary-sidebar" class="primary-sidebar widget-area" role="complementary">
-		<?php
-			do_action( 'before_sidebar' );
-			dynamic_sidebar( 'sidebar-1' );
-		?>
-	</div><!-- #primary-sidebar .primary-sidebar -->
+		<?php dynamic_sidebar( 'sidebar-1' ); ?>
+	</div><!-- #primary-sidebar -->
 	<?php endif; ?>
 </div><!-- #secondary -->

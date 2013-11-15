@@ -73,8 +73,8 @@ get_header();
 
 			<nav id="image-navigation" class="navigation image-navigation">
 				<div class="nav-links">
-				<?php previous_image_link( false, __( '<div class="previous-image">Previous Image</div>', 'twentyfourteen' ) ); ?>
-				<?php next_image_link( false, __( '<div class="next-image">Next Image</div>', 'twentyfourteen' ) ); ?>
+				<div class="previous-image"><?php previous_image_link( false, __( 'Previous Image', 'twentyfourteen' ) ); ?></div>
+				<div class="next-image"><?php next_image_link( false, __( 'Next Image', 'twentyfourteen' ) ); ?></div>
 				</div><!-- .nav-links -->
 			</nav><!-- #image-navigation -->
 

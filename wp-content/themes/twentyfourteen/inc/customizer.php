@@ -34,7 +34,7 @@ function twentyfourteen_customize_register( $wp_customize ) {
 		'section'  => 'colors',
 	) ) );
 
-	add_filter( 'theme_mod_accent_mid',  'twentyfourteen_accent_mid'  );
+	add_filter( 'theme_mod_accent_mid',   'twentyfourteen_accent_mid'   );
 	add_filter( 'theme_mod_accent_light', 'twentyfourteen_accent_light' );
 
 	// Add the featured content section in case it's not already there.
@@ -138,7 +138,7 @@ function twentyfourteen_accent_light() {
  * @return void
  */
 function twentyfourteen_rebuild_accent_colors() {
-	set_theme_mod( 'accent_mid',  twentyfourteen_accent_mid()  );
+	set_theme_mod( 'accent_mid',   twentyfourteen_accent_mid()   );
 	set_theme_mod( 'accent_light', twentyfourteen_accent_light() );
 }
 add_action( 'update_option_theme_mods_twentyfourteen', 'twentyfourteen_rebuild_accent_colors' );
@@ -157,7 +157,7 @@ function twentyfourteen_customizer_styles() {
 	if ( '#24890d' === $accent_color )
 		return;
 
-	$accent_mid = get_theme_mod( 'accent_mid' );
+	$accent_mid   = get_theme_mod( 'accent_mid'   );
 	$accent_light = get_theme_mod( 'accent_light' );
 
 	$css = '/* Custom accent color. */
@@ -316,7 +316,6 @@ function twentyfourteen_customizer_styles() {
 		.site-navigation .current-menu-ancestor > a {
 			color: ' . $accent_light . ';
 		}';
-
 
 	wp_add_inline_style( 'twentyfourteen-style', $css );
 }

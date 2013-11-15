@@ -97,24 +97,18 @@ function twentyfourteen_setup() {
 		'aside', 'image', 'video', 'audio', 'quote', 'link', 'gallery',
 	) );
 
-	/*
-	 * This theme allows users to set a custom background.
-	 */
+	// This theme allows users to set a custom background.
 	add_theme_support( 'custom-background', apply_filters( 'twentyfourteen_custom_background_args', array(
 		'default-color' => 'f5f5f5',
 	) ) );
 
-	/*
-	 * Add support for featured content.
-	 */
+	// Add support for featured content.
 	add_theme_support( 'featured-content', array(
 		'featured_content_filter' => 'twentyfourteen_get_featured_posts',
 		'max_posts' => 6,
 	) );
 
-	/*
-	 * This theme uses its own gallery styles.
-	 */
+	// This theme uses its own gallery styles.
 	add_filter( 'use_default_gallery_style', '__return_false' );
 }
 endif; // twentyfourteen_setup

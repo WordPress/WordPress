@@ -162,6 +162,8 @@ add_action( 'save_post',     'twentyfourteen_category_transient_flusher' );
  * Displays an optional post thumbnail, with an anchor element
  * when on index views, and a div element when on a single view.
  *
+ * @since Twenty Fourteen 1.0
+ *
  * @return void
 */
 function twentyfourteen_post_thumbnail() {

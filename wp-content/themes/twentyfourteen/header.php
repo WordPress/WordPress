@@ -32,8 +32,6 @@
 
 <body <?php body_class(); ?>>
 <div id="page" class="hfeed site">
-	<?php do_action( 'before' ); ?>
-
 	<?php if ( get_header_image() ) : ?>
 	<div id="site-header">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">

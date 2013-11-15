@@ -110,7 +110,7 @@
 	_window.load( function() {
 		if ( body.is( '.slider' ) ) {
 			$( '.featured-content' ).featuredslider( {
-				selector:  '.featured-content-inner > article',
+				selector: '.featured-content-inner > article',
 				controlsContainer: '.featured-content'
 			} );
 		}
