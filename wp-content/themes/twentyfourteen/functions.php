@@ -34,6 +34,12 @@
 if ( ! isset( $content_width ) )
 	$content_width = 474;
 
+/**
+ * Twenty Fourteen only works in WordPress 3.6 or later.
+ */
+if ( version_compare( $GLOBALS['wp_version'], '3.6', '<' ) )
+	require get_template_directory() . '/inc/back-compat.php';
+
 if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 /**
  * Twenty Fourteen setup.
@@ -217,8 +223,6 @@ function twentyfourteen_font_url() {
  * @return void
  */
 function twentyfourteen_scripts() {
-	global $wp_styles;
-
 	// Add Lato font, used in the main stylesheet.
 	wp_enqueue_style( 'twentyfourteen-lato', twentyfourteen_font_url(), array(), null );
 
@@ -230,7 +234,7 @@ function twentyfourteen_scripts() {
 
 	// Load the Internet Explorer specific stylesheet.
 	wp_enqueue_style( 'twentyfourteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyfourteen-style' ), '20131110' );
-	$wp_styles->add_data( 'twentyfourteen-ie', 'conditional', 'lt IE 9' );
+	wp_style_add_data( 'twentyfourteen-ie', 'conditional', 'lt IE 9' );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
 		wp_enqueue_script( 'comment-reply' );
