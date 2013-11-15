@@ -169,14 +169,14 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 #wpadminbar .ab-item, #wpadminbar a.ab-item, #wpadminbar > #wp-toolbar > #wp-admin-bar-root-default span.ab-label, #wpadminbar > #wp-toolbar > #wp-admin-bar-top-secondary span.ab-label, #wpadminbar > #wp-toolbar > #wp-admin-bar-top-secondary span.noticon {
   color: white; }
 
-#wpadminbar .ab-icon, #wpadminbar .ab-icon:before {
+#wpadminbar .ab-icon, #wpadminbar .ab-icon:before, #wpadminbar .ab-item:before {
   color: #e5f8ff; }
 
 #wpadminbar .ab-top-menu > li:hover > .ab-item, #wpadminbar .ab-top-menu > li.hover > .ab-item, #wpadminbar > #wp-toolbar > #wp-admin-bar-root-default li:hover span.ab-label, #wpadminbar > #wp-toolbar > #wp-admin-bar-top-secondary li.hover span.ab-label, #wpadminbar .ab-top-menu > li > .ab-item:focus, #wpadminbar.nojq .quicklinks .ab-top-menu > li > .ab-item:focus, #wpadminbar-nojs .ab-top-menu > li.menupop:hover > .ab-item, #wpadminbar .ab-top-menu > li.menupop.hover > .ab-item {
   color: white;
   background: #4796b3; }
 
-#wpadminbar li:hover .ab-icon, #wpadminbar li:hover > .ab-item:before {
+#wpadminbar li:hover .ab-icon:before, #wpadminbar li:hover .ab-item:before, #wpadminbar li:hover #adminbarsearch:before {
   color: white; }
 
 /* Admin Bar: submenu */

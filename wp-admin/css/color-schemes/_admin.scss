@@ -259,7 +259,8 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 #wpadminbar .ab-icon,
-#wpadminbar .ab-icon:before {
+#wpadminbar .ab-icon:before,
+#wpadminbar .ab-item:before {
 	color: $menu-icon;
 }
 
@@ -275,8 +276,9 @@ ul#adminmenu > li.current > a.current:after {
 	background: $menu-submenu-background;
 }
 
-#wpadminbar li:hover .ab-icon,
-#wpadminbar li:hover > .ab-item:before {
+#wpadminbar li:hover .ab-icon:before,
+#wpadminbar li:hover .ab-item:before,
+#wpadminbar li:hover #adminbarsearch:before {
 	color: $menu-highlight-icon;
 }
 
