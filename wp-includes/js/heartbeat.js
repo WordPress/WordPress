@@ -224,7 +224,7 @@
 							trigger = true;
 							break;
 						}
-						// Pass through other error statuses
+						/* falls through */
 					case 'parsererror':
 					case 'empty':
 					case 'unknown':
@@ -594,7 +594,6 @@
 						// Allow long polling, (experimental)
 						settings.mainInterval = 0;
 						return 0;
-						break;
 					default:
 						interval = settings.originalInterval;
 				}
