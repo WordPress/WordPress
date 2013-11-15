@@ -337,63 +337,39 @@ function wp_dashboard_quick_press( $error_msg=false ) {
 		</p>
 
 	</form>
-
-<?php
-	wp_dashboard_recent_quickdrafts();
-}
-
-/**
- * Show `Recent Drafts` below Quick Draft form
- *
- *
- *
- * @since 3.8.0
- *
- */
-function wp_dashboard_recent_quickdrafts() {
-
+	<?php
 	$query_args = array(
 		'post_type'      => 'post',
 		'post_status'    => 'draft',
-		'author'         => $GLOBALS['current_user']->ID,
+		'author'         => get_current_user_id(),
 		'posts_per_page' => 4,
 		'orderby'        => 'modified',
 		'order'          => 'DESC'
 	);
-	$query_args = apply_filters( 'dash_recent_quickdrafts_query_args', $query_args );
-	$drafts_query = new WP_Query( $query_args );
-	$drafts =& $drafts_query->posts;
-
-
-	if ( $drafts && is_array( $drafts ) ) {
-		$list = array();
-		$draft_count = 0;
-		foreach ( $drafts as $draft ) {
-			if ( 3 == $draft_count )
-				break;
-
-			$draft_count++;
-
-			$url = get_edit_post_link( $draft->ID );
-			$title = _draft_or_post_title( $draft->ID );
-			$item = '<div class="draft-title"><a href="' . $url . '" title="' . sprintf( __( 'Edit &#8220;%s&#8221;' ), esc_attr( $title ) ) . '">' . esc_html( $title ) . '</a> <time datetime="' . get_the_time( 'c', $draft) . '">' . get_the_time( get_option( 'date_format' ), $draft ) . '</time></div>';
-			if ( $the_content = wp_trim_words( $draft->post_content, 10 ) )
-				$item .= '<p>' . $the_content . '</p>';
-			$list[] = $item;
-		}
-
-		do_action( 'dashboard_quickdraft_drafts_list', $drafts );
-?>
-	<div class="drafts">
-		<?php if ( 3 < count($drafts) ) { ?>
-		<p class="view-all"><a href="edit.php?post_status=draft" ><?php _e( 'View all' ); ?></a></p>
-		<?php } ?>
-		<h4><?php _e('Drafts'); ?></h4>
-		<ul id="draft-list">
-			<li><?php echo join( "</li>\n<li>", $list ); ?></li>
-		</ul>
-	</div>
-<?php }
+	$drafts = get_posts( $query_args );
+	if ( ! $drafts ) {
+		return;
+ 	}
+ 
+	echo '<div class="drafts">';
+	if ( count( $drafts ) > 3 ) {
+		echo '<p class="view-all"><a href="' . esc_url( admin_url( 'edit.php?post_status=draft' ) ) . '">' . _x( 'View all', 'drafts' ) . "</a></p>\n";
+ 	}
+	echo '<h4>' . __( 'Drafts' ) . "</h4>\n<ul>";
+ 
+	$drafts = array_slice( $drafts, 0, 3 );
+	foreach ( $drafts as $draft ) {
+		$url = get_edit_post_link( $draft->ID );
+		$title = _draft_or_post_title( $draft->ID );
+		echo "<li>\n";
+		echo '<div class="draft-title"><a href="' . esc_url( $url ) . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ) . '">' . esc_html( $title ) . '</a>';
+		echo '<time datetime="' . get_the_time( 'c', $draft ) . '">' . get_the_time( get_option( 'date_format' ), $draft ) . '</time></div>';
+		if ( $the_content = wp_trim_words( $draft->post_content, 10 ) ) {
+			echo '<p>' . $the_content . '</p>';
+ 		}
+		echo "</li>\n";
+ 	}
+	echo "</ul>\n</div>";
 }
 
 function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {

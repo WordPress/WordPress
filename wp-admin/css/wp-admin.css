@@ -3093,27 +3093,27 @@ form.initial-form.quickpress-open input#title {
 	font-weight: normal;
 }
 
-#draft-list {
+#dashboard_quick_press .drafts ul {
 	margin: 0;
 }
 
-#draft-list li {
+#dashboard_quick_press .drafts li {
 	margin-bottom: 1em;
 }
-#draft-list li time {
+#dashboard_quick_press .drafts li time {
 	color: #bbb;
 }
 
-#draft-list p {
+#dashboard_quick_press .drafts p {
 	margin: 0;
 }
 
-#draft-list .draft-title {
+#dashboard_quick_press .draft-title {
 	overflow: hidden;
 }
 
-#draft-list .draft-title a,
-#draft-list .draft-title time {
+#dashboard_quick_press .draft-title a,
+#dashboard_quick_press .draft-title time {
 	float: left;
 	margin: 0 5px 0 0;
 }
