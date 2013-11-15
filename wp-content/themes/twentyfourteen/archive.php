@@ -19,7 +19,6 @@
 
 get_header(); ?>
 
-<div id="main-content" class="main-content">
 	<section id="primary" class="content-area">
 		<div id="content" class="site-content" role="main">
 
@@ -60,9 +59,8 @@ get_header(); ?>
 			?>
 		</div><!-- #content -->
 	</section><!-- #primary -->
-	<?php get_sidebar( 'content' ); ?>
-</div><!-- #main-content -->
 
 <?php
+get_sidebar( 'content' );
 get_sidebar();
 get_footer();
