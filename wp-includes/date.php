@@ -88,11 +88,13 @@ class WP_Date_Query {
 	 *                                           '>', '>=', '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'.
 	 *             @type bool         $inclusive Optional. Include results from dates specified in 'before' or 'after'.
 	 *                                           Default. Accepts.
-	 *             @type int          $year      Optional. The four-digit near number. Default empty. Accepts any
+	 *             @type int          $year      Optional. The four-digit year number. Default empty. Accepts any
 	 *                                           four-digit year.
 	 *             @type int          $month     Optional. The two-digit month number. Default empty. Accepts numbers 1-12.
 	 *             @type int          $week      Optional. The week number of the year. Default empty. Accepts numbers 0-53.
+	 *             @type int          $dayofyear Optional. The day number of the year. Default empty. Accepts numbers 1-366.
 	 *             @type int          $day       Optional. The day of the month. Default empty. Accepts numbers 1-31.
+	 *             @type int          $dayofweek Optional. The day number of the week. Default empty. Accepts numbers 1-7.
 	 *             @type int          $hour      Optional. The hour of the day. Default empty. Accepts numbers 0-23.
 	 *             @type int          $minute    Optional. The minute of the hour. Default empty. Accepts numbers 0-60.
 	 *             @type int          $second    Optional. The second of the minute. Default empty. Accepts numbers 0-60.
