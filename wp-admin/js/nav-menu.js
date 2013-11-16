@@ -166,7 +166,7 @@ var wpNavMenu;
 					return this.each(function() {
 						var t = $(this), menuItems = {},
 							checkboxes = ( menus.oneThemeLocationNoMenus && 0 === t.find( '.tabs-panel-active .categorychecklist li input:checked' ).length ) ? t.find( '#page-all li input[type="checkbox"]' ) : t.find( '.tabs-panel-active .categorychecklist li input:checked' ),
-							re = /menu-item\[([^]\]*)/;
+							re = /menu-item\[([^\]]*)/;
 
 						processMethod = processMethod || api.addMenuItemToBottom;
 
