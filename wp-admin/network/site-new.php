@@ -33,11 +33,9 @@ get_current_screen()->set_help_sidebar(
 if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 	check_admin_referer( 'add-blog', '_wpnonce_add-blog' );
 
-	if ( ! current_user_can( 'manage_sites' ) )
-		wp_die( __( 'You do not have permission to access this page.' ) );
-
 	if ( ! is_array( $_POST['blog'] ) )
 		wp_die( __( 'Can&#8217;t create an empty site.' ) );
+
 	$blog = $_POST['blog'];
 	$domain = '';
 	if ( preg_match( '|^([a-zA-Z0-9-])+$|', $blog['domain'] ) )
