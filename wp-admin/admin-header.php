@@ -12,7 +12,7 @@ if ( ! defined( 'WP_ADMIN' ) )
 
 // In case admin-header.php is included in a function.
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
-	$current_site, $update_title, $total_update_count, $parent_file;
+	$update_title, $total_update_count, $parent_file;
 
 // Catch plugins that include admin-header.php before admin.php completes.
 if ( empty( $current_screen ) )
@@ -22,9 +22,9 @@ get_admin_page_title();
 $title = esc_html( strip_tags( $title ) );
 
 if ( is_network_admin() )
-	$admin_title = sprintf( __('Network Admin: %s'), esc_html( $current_site->site_name ) );
+	$admin_title = sprintf( __( 'Network Admin: %s' ), esc_html( get_current_site()->site_name ) );
 elseif ( is_user_admin() )
-	$admin_title = sprintf( __('Global Dashboard: %s'), esc_html( $current_site->site_name ) );
+	$admin_title = sprintf( __( 'Global Dashboard: %s' ), esc_html( get_current_site()->site_name ) );
 else
 	$admin_title = get_bloginfo( 'name' );
 

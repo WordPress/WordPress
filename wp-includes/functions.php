@@ -3345,12 +3345,12 @@ function is_main_site( $site_id = null ) {
  * @return bool True if $network_id is the main network, or if not running multisite.
  */
 function is_main_network( $network_id = null ) {
-	global $current_site, $wpdb;
+	global $wpdb;
 
 	if ( ! is_multisite() )
 		return true;
 
-	$current_network_id = (int) $current_site->id;
+	$current_network_id = (int) get_current_site()->id;
 
 	if ( ! $network_id )
 		$network_id = $current_network_id;
