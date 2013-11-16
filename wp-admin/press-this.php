@@ -309,12 +309,31 @@ var photostorage = false;
 </script>
 
 <?php
+	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_enqueue_scripts', 'press-this.php' );
+	/**
+	 * Print styles for the Press This admin page.
+	 *
+	 * @since 3.7.0
+	 */
 	do_action( 'admin_print_styles-press-this.php' );
+	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_print_styles' );
+	/**
+	 * Print scripts for the Press This admin page.
+	 *
+	 * @since 3.7.0
+	 */
 	do_action( 'admin_print_scripts-press-this.php' );
+	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_print_scripts' );
+	/**
+	 * Fires in the head tag on the Press This admin page.
+	 *
+	 * @since 3.7.0
+	 */
 	do_action( 'admin_head-press-this.php' );
+	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_head' );
 ?>
 	<script type="text/javascript">
@@ -649,8 +668,10 @@ $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( 
 	</tr></table>
 </div>
 <?php
-do_action('admin_footer');
-do_action('admin_print_footer_scripts');
+/** This action is documented in wp-admin/admin-footer.php */
+do_action( 'admin_footer' );
+/** This action is documented in wp-admin/admin-footer.php */
+do_action( 'admin_print_footer_scripts' );
 ?>
 <script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>
 </body>
