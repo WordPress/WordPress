@@ -280,14 +280,13 @@ function wp_network_dashboard_right_now() {
 }
 
 /**
- * The Quick Draft widget display and creation of drafts
- *
- *
+ * The Quick Draft widget display and creation of drafts.
  *
  * @since 3.8.0
  *
+ * @param string $error_msg Error message.
  */
-function wp_dashboard_quick_press( $error_msg=false ) {
+function wp_dashboard_quick_press( $error_msg = false ) {
 	global $post_ID;
 
 	/* Check if a new auto-draft (= no new post_ID) is needed or if the old can be used */
@@ -313,12 +312,12 @@ function wp_dashboard_quick_press( $error_msg=false ) {
 
 	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press" class="initial-form">
 
-		<?php if ($error_msg) : ?>
-		<div class="error"><?php _e( $error_msg ); ?></div>
+		<?php if ( $error_msg ) : ?>
+		<div class="error"><?php echo $error_msg; ?></div>
 		<?php endif; ?>
 
 		<div class="input-text-wrap" id="title-wrap">
-			<label class="screen-reader-text prompt" for="title" id="title-prompt-text"><?php _e( "What's on your mind?" ); ?></label>
+			<label class="screen-reader-text prompt" for="title" id="title-prompt-text"><?php _e( 'What&#8217;s on your mind?' ); ?></label>
 			<input type="text" name="post_title" id="title" autocomplete="off" />
 		</div>
 
@@ -466,12 +465,9 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 }
 
 /**
- * callback function for `Activity` widget
- *
- *
+ * Callback function for Activity widget.
  *
  * @since 3.8.0
- *
  */
 function wp_dashboard_activity() {
 
@@ -513,12 +509,11 @@ function wp_dashboard_activity() {
 }
 
 /**
- * Generates `Publishing Soon` and `Recently Published` sections
- *
- *
+ * Generates Publishing Soon and Recently Published sections.
  *
  * @since 3.8.0
  *
+ * @param array $args
  */
 function dashboard_show_published_posts( $args ) {
 
@@ -573,12 +568,11 @@ function dashboard_show_published_posts( $args ) {
 }
 
 /**
- * Show `Comments` section
- *
- *
+ * Show Comments section.
  *
  * @since 3.8.0
  *
+ * @param int $total_items
  */
 function dashboard_comments( $total_items = 5 ) {
 	global $wpdb;
@@ -631,12 +625,11 @@ function dashboard_comments( $total_items = 5 ) {
 }
 
 /**
- * return relative date for given timestamp
- *
- *
+ * Return relative date for given timestamp.
  *
  * @since 3.8.0
  *
+ * @param int $time Unix $timestamp.
  */
 function dashboard_relative_date( $time ) {
 
