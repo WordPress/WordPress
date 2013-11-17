@@ -130,7 +130,7 @@ input[type=radio]:checked:before {
 
 ul#adminmenu a.wp-has-current-submenu:after,
 ul#adminmenu > li.current > a.current:after {
-	border-right-color: #eee;
+	border-left-color: #eee;
 }
 
 #the-comment-list .comment-item p.row-actions,
@@ -343,8 +343,8 @@ h3.dashboard-widget-title small,
 */
 
 .accordion-section-content {
-	border-left: none;
 	border-right: none;
+	border-left: none;
 }
 
 /*
@@ -393,7 +393,7 @@ strong .post-com-count span {
 
 .post-com-count:after {		/* draw bubble connector using CSS! */
 	border-top: 5px solid #bbbbbb;
-	border-right: 5px solid transparent;
+	border-left: 5px solid transparent;
 }
 
 strong .post-com-count:after {
@@ -462,7 +462,7 @@ strong .post-com-count:after {
 
 .bar {
 	background-color: #e8e8e8;
-	border-right-color: #99d;
+	border-left-color: #99d;
 }
 
 .form-invalid {
@@ -629,7 +629,7 @@ div.updated,
 .login .message,
 .press-this #message {
 	background-color: #fff;
-	border-left: 4px solid #7ad03a;
+	border-right: 4px solid #7ad03a;
 
 	-webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
 	box-shadow:         0px 1px 1px 0px rgba(0,0,0,0.1);
@@ -638,7 +638,7 @@ div.updated,
 #update-nag,
 .update-nag {
 	background-color: #fff;
-	border-left: 4px solid #ffba00;
+	border-right: 4px solid #ffba00;
 
 	-webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
 	box-shadow:         0px 1px 1px 0px rgba(0,0,0,0.1);
@@ -647,7 +647,7 @@ div.updated,
 div.error,
 .login #login_error {
 	background: #fff;
-	border-left: 4px solid #dd3d36;
+	border-right: 4px solid #dd3d36;
 
 	-webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
 	box-shadow:         0px 1px 1px 0px rgba(0,0,0,0.1);
@@ -881,12 +881,12 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 }
 
 .plugins .active th.check-column {
-	border-left: 4px solid #2ea2cc;
+	border-right: 4px solid #2ea2cc;
 }
 
 .plugins .active.update th.check-column,
 .plugins .active.update + .plugin-update-tr .plugin-update {
-	border-left: 4px solid #d54e21;
+	border-right: 4px solid #d54e21;
 }
 
 .post-state-format:before,
@@ -924,7 +924,7 @@ a.post-format-icon:hover:before {
 }
 
 #the-comment-list .unapproved th.check-column {
-	border-left: 4px solid #d54e21;
+	border-right: 4px solid #d54e21;
 }
 
 #the-comment-list .approve a {
@@ -1235,7 +1235,7 @@ table.widefat .spam a:hover {
 
 /* flyout menu arrow */
 #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after {
-	border-right-color: #333;
+	border-left-color: #333;
 }
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
@@ -1408,7 +1408,7 @@ table.diff .diff-addedline ins {
 .wp-slider .ui-slider-handle.ui-state-hover,
 .wp-slider .ui-slider-handle.focus {
 	background: #2ea2cc;
-	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#2ea2cc), color-stop(100%,#1e8cbe));
+	background: -webkit-gradient(linear, right top, left bottom, color-stop(0%,#2ea2cc), color-stop(100%,#1e8cbe));
 	background: -webkit-linear-gradient(-45deg, #2ea2cc 0%,#1e8cbe 100%);
 	background: linear-gradient(135deg, #2ea2cc 0%,#1e8cbe 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2ea2cc', endColorstr='#1e8cbe',GradientType=1 );
@@ -1422,7 +1422,7 @@ table.diff .diff-addedline ins {
 
 .wp-slider .ui-slider-handle.ui-state-active {
 	background: #0074a2;
-	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#0074a2), color-stop(100%,#005684));
+	background: -webkit-gradient(linear, right top, left bottom, color-stop(0%,#0074a2), color-stop(100%,#005684));
 	background: -webkit-linear-gradient(-45deg,  #0074a2 0%,#005684 100%);
 	background: linear-gradient(135deg,  #0074a2 0%,#005684 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0074a2', endColorstr='#005684',GradientType=1 );
@@ -1913,7 +1913,7 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 
 .media-menu {
 	background: #f3f3f3;
-	border-right-color: #ccc;
+	border-left-color: #ccc;
 }
 
 .media-menu > a {

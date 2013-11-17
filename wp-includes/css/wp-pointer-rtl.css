@@ -11,7 +11,7 @@
 .wp-pointer-content h3 {
 	position: relative;
 	margin: 0 0 5px;
-	padding: 15px 18px 14px 60px;
+	padding: 15px 60px 14px 18px;
 	line-height: 1.4em;
 	font-size: 14px;
 	color: #fff;
@@ -26,7 +26,7 @@
 	font: normal 20px/1.6 'dashicons';
 	position: absolute;
 	top: 8px;
-	left: 15px;
+	right: 15px;
 	speak: none;
 	text-align: center;
 	width: 32px;
@@ -46,13 +46,13 @@
 }
 
 .wp-pointer-buttons a {
-	float: right;
+	float: left;
 	display: inline-block;
 	text-decoration: none;
 }
 
 .wp-pointer-buttons a.close {
-	padding-left: 3px;
+	padding-right: 3px;
 	position: relative;
 }
 
@@ -61,12 +61,12 @@
 	width: 10px;
 	height: 100%;
 	position: absolute;
-	left: -12px;
+	right: -12px;
 	top: 1px;
 }
 
 .wp-pointer-buttons a.close:hover:before {
-	background-position:100% 50%;
+	background-position:0% 50%;
 }
 
 /* The arrow base class must take up no space, even with transparent borders. */
@@ -111,7 +111,7 @@
 .wp-pointer-top .wp-pointer-arrow,
 .wp-pointer-bottom .wp-pointer-arrow,
 .wp-pointer-undefined .wp-pointer-arrow {
-	left: 50px;
+	right: 50px;
 }
 
 .wp-pointer-left .wp-pointer-arrow,

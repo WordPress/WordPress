@@ -129,46 +129,52 @@
 	bottom: -5px;
 	right: 0;
 }
+/* @noflip */
 .ui-resizable-e {
-	cursor: w-resize;
-	width: 7px;
-	left: -5px;
-	top: 0;
-	height: 100%;
-}
-.ui-resizable-w {
 	cursor: e-resize;
 	width: 7px;
 	right: -5px;
 	top: 0;
 	height: 100%;
 }
+/* @noflip */
+.ui-resizable-w {
+	cursor: w-resize;
+	width: 7px;
+	left: -5px;
+	top: 0;
+	height: 100%;
+}
+/* @noflip */
 .ui-resizable-se {
-	cursor: sw-resize;
+	cursor: se-resize;
 	width: 12px;
 	height: 12px;
-	left: 1px;
+	right: 1px;
 	bottom: 1px;
 }
+/* @noflip */
 .ui-resizable-sw {
-	cursor: se-resize;
+	cursor: sw-resize;
 	width: 9px;
 	height: 9px;
-	right: -5px;
+	left: -5px;
 	bottom: -5px;
 }
+/* @noflip */
 .ui-resizable-nw {
-	cursor: ne-resize;
-	width: 9px;
-	height: 9px;
-	right: -5px;
-	top: -5px;
-}
-.ui-resizable-ne {
 	cursor: nw-resize;
 	width: 9px;
 	height: 9px;
 	left: -5px;
+	top: -5px;
+}
+/* @noflip */
+.ui-resizable-ne {
+	cursor: ne-resize;
+	width: 9px;
+	height: 9px;
+	right: -5px;
 	top: -5px;
 }
 
@@ -185,7 +191,8 @@
 .ui-dialog {
 	position: absolute;
 	top: 0;
-	right: 0;
+	/* @noflip */
+	left: 0;
 	padding: .2em;
 	outline: 0;
 }

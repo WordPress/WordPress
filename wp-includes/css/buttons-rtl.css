@@ -108,8 +108,7 @@ TABLE OF CONTENTS:
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-	padding-right: 2px;
-	padding-left: 2px;
+	padding: 0 2px 1px;
 	width: auto;
 }
 

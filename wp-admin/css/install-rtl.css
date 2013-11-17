@@ -48,7 +48,7 @@ code, .code {
 }
 
 ul, ol, dl {
-	padding: 5px 5px 5px 22px;
+	padding: 5px 22px 5px 5px;
 }
 
 a img {
@@ -87,7 +87,7 @@ abbr {
 	margin: 20px 0 15px;
 }
 .step, th {
-	text-align: left;
+	text-align: right;
 	padding: 0;
 }
 .step .button-large {
@@ -109,7 +109,7 @@ textarea {
 
 .form-table td {
 	margin-bottom: 9px;
-	padding: 10px 20px 10px 0;
+	padding: 10px 0 10px 20px;
 	border-bottom: 8px solid #fff;
 	font-size: 14px;
 	vertical-align: top
@@ -117,8 +117,8 @@ textarea {
 
 .form-table th {
 	font-size: 14px;
-	text-align: left;
-	padding: 16px 20px 10px 0;
+	text-align: right;
+	padding: 16px 0 10px 20px;
 	border-bottom: 8px solid #fff;
 	width: 140px;
 	vertical-align: top;
@@ -155,7 +155,7 @@ textarea {
 
 .form-table.install-success td {
 	vertical-align: middle;
-	padding: 16px 20px 10px 0;
+	padding: 16px 0 10px 20px;
 }
 
 .form-table.install-success td p {
@@ -187,7 +187,7 @@ textarea {
 	border-color: #ddd !important;
 	border-style: solid;
 	border-width: 1px;
-	margin: 5px 5px 5px 0;
+	margin: 5px 0 5px 5px;
 	padding: 5px;
 	text-align: center;
 	width: 200px;
