@@ -633,12 +633,13 @@ function dashboard_comments( $total_items = 5 ) {
  */
 function dashboard_relative_date( $time ) {
 
-	$diff = floor( ( $time - time() ) / DAY_IN_SECONDS );
+	$today    = date( 'Y-m-d', current_time( 'timestamp' ) );
+	$tomorrow = date( 'Y-m-d', strtotime( '+1 day', current_time( 'timestamp' ) ) );
 
-	if ( $diff == 0 )
+	if ( date( 'Y-m-d', $time ) == $today )
 		return __( 'Today' );
 
-	if ( $diff == 1 )
+	if ( date( 'Y-m-d', $time ) == $tomorrow )
 		return __( 'Tomorrow' );
 
 	return date( 'M jS', $time);
