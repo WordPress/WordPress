@@ -2981,7 +2981,7 @@ body #dashboard-widgets .postbox form .submit {
 
 #dashboard_quick_press form {
 	overflow: hidden;
-	margin: 12px 12px 0;
+	margin: 12px;
 }
 
 #dashboard_quick_press .drafts,
@@ -3071,7 +3071,6 @@ form.initial-form.quickpress-open input#title {
 
 #dashboard_quick_press .drafts {
 	border-top: 1px solid #eee;
-	margin-top: 12px;
 }
 
 #dashboard_quick_press .drafts abbr {
