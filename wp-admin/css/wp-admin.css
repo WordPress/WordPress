@@ -2883,7 +2883,6 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #dash-right-now .inside {
-	margin-bottom: 0;
 	overflow: hidden;
 	padding: 0;
 }
@@ -12193,7 +12192,7 @@ li#wp-admin-bar-toggle-button {
 		font-size: 1.4em;
 		line-height: 1.6em;
 	}
-	
+
 	/* Add New plugins page */
 	table.plugin-install .column-name,
 	table.plugin-install .column-version,
@@ -12202,16 +12201,19 @@ li#wp-admin-bar-toggle-button {
 		display: block;
 		width: auto;
 	}
-	
-	table.plugin-install th.column-name, table.plugin-install th.column-version, table.plugin-install th.column-rating, table.plugin-install th.column-description {
+
+	table.plugin-install th.column-name,
+	table.plugin-install th.column-version,
+	table.plugin-install th.column-rating,
+	table.plugin-install th.column-description {
 		display: none;
 	}
-	
+
 	table.plugin-install td.column-name strong {
 		font-size: 1.4em;
 		line-height: 1.6em;
 	}
-	
+
 	table.plugin-install #the-list td {
 		-webkit-box-shadow: none;
 		box-shadow: none;
@@ -12222,7 +12224,7 @@ li#wp-admin-bar-toggle-button {
 		-webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
 		box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
 	}
-	
+
 	/*  Dashboard */
 	#dashboard_recent_comments #the-comment-list .comment-item .avatar {
 		height: 30px;
