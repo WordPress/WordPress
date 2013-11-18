@@ -1729,7 +1729,7 @@ div.widgets-sortables,
 	color: #ddd;
 }
 
-.nav-menus-php .item-edit:after,
+.nav-menus-php .item-edit:before,
 #wp_inactive_widgets .widget .widget-top a.widget-action:after {
 	color: #888;
 }

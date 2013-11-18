@@ -9081,7 +9081,7 @@ body.interim-login {
 	padding-left: 2px;
 	height: auto;
 	width: 400px;
-	line-height: 35px;
+	line-height: 30px;
 	overflow: hidden;
 	word-wrap: break-word;
 }
@@ -9183,7 +9183,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .item-type {
 	font-size: 12px;
 	padding: 7px 10px;
-	line-height: 22px;
+	line-height: 18px;
 	display: block;
 }
 
@@ -9209,12 +9209,14 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .nav-menus-php .item-edit {
 	position: absolute;
 	left: -20px;
-	top: -24px;
+	top: 0;
 	display: block;
-	width: 40px;
+	width: 30px;
 	height: 36px;
-	text-indent:-999em;
 	margin-left: 0 !important;
+	text-indent: 100%;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 /* Menu editing */
@@ -10406,10 +10408,10 @@ div#widgets-right .widgets-sortables:before {
 .js .closed br.clear {
 	display: none;
 }
-.nav-menus-php .item-edit:after,
+.nav-menus-php .item-edit:before,
 .widget-top a.widget-action:after,
-.control-section .accordion-section-title::after,
-.accordion-section-title::after {
+.control-section .accordion-section-title:after,
+.accordion-section-title:after {
 	left: 0;
 	content: '\f141';
 	border: none;
@@ -10425,20 +10427,19 @@ div#widgets-right .widgets-sortables:before {
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none !important;
 }
-.control-section .accordion-section-title::after,
-.accordion-section-title::after {
+.nav-menus-php .item-edit:before {
+	line-height: 1.5;
+}
+.control-section .accordion-section-title:after,
+.accordion-section-title:after {
 	float: left;
 	left: 20px;
 	top: -2px;
 }
-.control-section.open .accordion-section-title::after,
-#customize-info.open .accordion-section-title::after,
-.nav-menus-php .menu-item-edit-active .item-edit:after {
+.control-section.open .accordion-section-title:after,
+#customize-info.open .accordion-section-title:after,
+.nav-menus-php .menu-item-edit-active .item-edit:before {
 	content: '\f140';
-}
-.nav-menus-php .item-controls .item-type {
-	padding: 11px;
-	margin-left: 10px;
 }
 
 /* Hide Widget Settings by Default */
