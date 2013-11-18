@@ -13,7 +13,7 @@ See http://codex.wordpress.org/Right_to_Left_Language_Support
  * 1.0 - Reset
  * 2.0 - Repeatable Patterns
  * 4.0 - Header
- * 5.0 - Navigations
+ * 5.0 - Navigation
  * 6.0 - Content
  *   6.4 - Entry Content
  *   6.5 - Galleries
@@ -103,7 +103,7 @@ td {
 
 
 /**
- * 5.0 Navigations
+ * 5.0 Navigation
  * -----------------------------------------------------------------------------
  */
 
@@ -162,19 +162,7 @@ td {
 
 .page-links > .page-links-title {
 	padding-right: 0;
-	padding-left: 9px;
-}
-
-.more-link .meta-nav,
-.post-format-archive-link .meta-nav {
-	right: 0;
-	left: auto;
-}
-
-.more-link:hover .meta-nav,
-.post-format-archive-link:hover .meta-nav {
-	right: 5px;
-	left: auto;
+	padding-left: 7px;
 }
 
 

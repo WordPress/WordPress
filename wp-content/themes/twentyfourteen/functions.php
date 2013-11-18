@@ -399,7 +399,7 @@ function twentyfourteen_body_classes( $classes ) {
 	if ( is_active_sidebar( 'sidebar-3' ) )
 		$classes[] = 'footer-widgets';
 
-	if ( is_singular() )
+	if ( is_singular() && ! is_front_page() )
 		$classes[] = 'singular';
 
 	if ( is_front_page() && 'slider' == get_theme_mod( 'featured_content_layout' ) )

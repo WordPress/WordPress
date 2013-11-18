@@ -20,7 +20,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
  * 2.0 - Repeatable Patterns
  * 3.0 - Basic Structure
  * 4.0 - Header
- * 5.0 - Navigations
+ * 5.0 - Navigation
  * 6.0 - Content
  *   6.1 - Post Thumbnail
  *   6.2 - Entry Header
@@ -901,7 +901,7 @@ span + .edit-link:before,
 
 
 /**
- * 5.0 Navigations
+ * 5.0 Navigation
  * -----------------------------------------------------------------------------
  */
 
@@ -1000,7 +1000,7 @@ span + .edit-link:before,
  */
 
 .content-area {
-	padding-top: 24px;
+	padding-top: 48px;
 }
 
 .hentry {
@@ -1363,27 +1363,8 @@ a.post-thumbnail:hover {
 .page-links > .page-links-title {
 	height: auto;
 	margin: 0;
-	padding-right: 9px;
+	padding-right: 7px;
 	width: auto;
-}
-
-/* More link */
-
-.post-format-archive-link {
-	font-size: 14px;
-	text-transform: uppercase;
-	white-space: pre;
-}
-
-.more-link .meta-nav,
-.post-format-archive-link .meta-nav {
-	position: relative;
-	left: 0;
-}
-
-.more-link:hover .meta-nav,
-.post-format-archive-link:hover .meta-nav {
-	left: 5px;
 }
 
 
@@ -1753,8 +1734,8 @@ a.post-thumbnail:hover {
  * -----------------------------------------------------------------------------
  */
 
-.singular .hentry.has-post-thumbnail {
-	margin-top: -24px;
+.singular .site-content .hentry.has-post-thumbnail {
+	margin-top: -48px;
 }
 
 
@@ -1771,9 +1752,7 @@ a.post-thumbnail:hover {
 
 .comment-reply-title,
 .comments-title {
-	font-size: 16px;
-	font-weight: 900;
-	line-height: 1.5;
+	font: 900 16px/1.5 Lato, sans-serif;
 	margin: 0;
 	text-transform: uppercase;
 }
@@ -1829,8 +1808,8 @@ a.post-thumbnail:hover {
 }
 
 .comment-list > li:first-child > article,
-.comment-list > li:first-child > .pingback,
-.comment-list > li:first-child > .trackback {
+.comment-list > .pingback:first-child,
+.comment-list > .trackback:first-child {
 	border-top: 0
 }
 
@@ -1961,6 +1940,7 @@ a.post-thumbnail:hover {
 
 .comment-reply-title small a {
 	color: #2b2b2b;
+	display: inline-block;
 	float: right;
 	height: 24px;
 	overflow: hidden;
@@ -2365,6 +2345,7 @@ a.post-thumbnail:hover {
 
 .widget_twentyfourteen_ephemera .post-format-archive-link {
 	font-weight: 700;
+	text-transform: uppercase;
 }
 
 /* List Style Widgets*/
@@ -2412,11 +2393,15 @@ a.post-thumbnail:hover {
 
 /* RSS Widget */
 
-.widget_rss .rsswidget img {
+.rsswidget img {
 	margin-top: -4px;
 }
 
-.widget_rss .rss-date {
+.rssSummary {
+	margin: 9px 0;
+}
+
+.rss-date {
 	display: block;
 }
 
@@ -3131,10 +3116,6 @@ a.post-thumbnail:hover {
 	.error404 .page-header {
 		margin-bottom: 24px;
 	}
-
-	.featured-content {
-		margin-bottom: 48px;
-	}
 }
 
 @media screen and (min-width: 594px) {
@@ -3163,7 +3144,6 @@ a.post-thumbnail:hover {
 
 	.content-area {
 		float: left;
-		padding-top: 48px;
 		width: 100%;
 	}
 
@@ -3188,7 +3168,7 @@ a.post-thumbnail:hover {
 		padding-left: 30px;
 	}
 
-	.singular .hentry.has-post-thumbnail {
+	.singular .site-content .hentry.has-post-thumbnail {
 		margin-top: 0
 	}
 
@@ -3196,10 +3176,7 @@ a.post-thumbnail:hover {
 		margin-right: 0;
 	}
 
-	.full-width .site-content .has-post-thumbnail .entry-header {
-		margin-top: -48px;
-	}
-
+	.full-width .site-content .has-post-thumbnail .entry-header,
 	.full-width.singular .site-content .hentry.has-post-thumbnail {
 		margin-top: -48px;
 	}
@@ -3215,10 +3192,6 @@ a.post-thumbnail:hover {
 		margin-left: -33.33333333%;
 		padding: 48px 30px 24px;
 		width: 33.33333333%;
-	}
-
-	.featured-content {
-		margin-bottom: 24px;
 	}
 
 	.grid .featured-content .hentry {
@@ -3701,7 +3674,7 @@ a.post-thumbnail:hover {
 	.footer-sidebar .widget .widget-title,
 	.primary-sidebar .widget .widget-title {
 		font-size: 11px;
-		font-weight: 700;
+		font-weight: 900;
 		line-height: 1.6363636363;
 		margin-bottom: 18px;
 	}
@@ -3738,6 +3711,11 @@ a.post-thumbnail:hover {
 	.primary-sidebar .widget_recent_entries li {
 		border-top: 0;
 		padding: 0;
+	}
+
+	.footer-sidebar .widget_recent_entries li,
+	.primary-sidebar .widget_recent_entries li {
+		margin-bottom: 18px;
 	}
 
 	#supplementary {
@@ -4033,7 +4011,7 @@ a.post-thumbnail:hover {
 		color: #fff;
 	}
 
-	.singular .hentry.has-post-thumbnail {
+	.singular .site-content .hentry.has-post-thumbnail {
 		margin-top: 0;
 	}
 
