@@ -190,7 +190,7 @@ class Featured_Content {
 	 *
 	 * @uses Featured_Content::get_featured_post_ids();
 	 * @param WP_Query $query
-	 * @return WP_Query Possibly modified WP_query
+	 * @return WP_Query Possibly modified WP_Query
 	 */
 	public static function pre_get_posts( $query ) {
 
