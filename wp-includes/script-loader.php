@@ -559,8 +559,22 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css" );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
+	$subsets = 'latin,latin-ext';
+
+	/* translators: To add an additional Open Sans character subset specific to your language,
+	 * translate this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate into your own language.
+	 */
+	$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)' );
+
+	if ( 'cyrillic' == $subset )
+		$subsets .= ',cyrillic,cyrillic-ext';
+	elseif ( 'greek' == $subset )
+		$subsets .= ',greek,greek-ext';
+	elseif ( 'vietnamese' == $subset )
+		$subsets .= ',vietnamese';
+
 	// Hotlink Open Sans, for now
-	$styles->add( 'open-sans', '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&subset=latin-ext,latin' );
+	$styles->add( 'open-sans', "//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&subset=$subsets" );
 
 	// Dashicons
 	$styles->add( 'dashicons', '/wp-includes/css/dashicons.css' );
