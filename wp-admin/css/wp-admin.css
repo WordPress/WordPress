@@ -2998,7 +2998,7 @@ body #dashboard-widgets .postbox form .submit {
 /* Dashboard Quick Draft - Form styling */
 
 input#save-post {
-	float: right;
+	float: left;
 }
 
 form.initial-form label.prompt {
