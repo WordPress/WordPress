@@ -10571,31 +10571,6 @@ div#widgets-right .widgets-sortables:before {
 	border-bottom: 1px solid #ccc;
 }
 
-#widgets-chooser select {
-	width: 100%;
-	margin-bottom: 20px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-#widgets-chooser .sidebar-radios {
-	text-align: right;
-	margin: 0 20px 20px 20px;
-}
-
-#widgets-chooser .sidebar-radios li {
-	margin-top: 15px;
-}
-
-#widgets-chooser .sidebar-radios label {
-	font-size: 15px;
-}
-
-#widgets-chooser .sidebar-radios input {
-	margin-left: 10px;
-}
-
 #widgets-chooser .widgets-chooser-actions {
 	clear: both;
 	text-align: center;
