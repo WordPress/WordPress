@@ -31,14 +31,16 @@
  *
  * @since Twenty Fourteen 1.0
  */
-if ( ! isset( $content_width ) )
+if ( ! isset( $content_width ) ) {
 	$content_width = 474;
+}
 
 /**
  * Twenty Fourteen only works in WordPress 3.6 or later.
  */
-if ( version_compare( $GLOBALS['wp_version'], '3.6', '<' ) )
+if ( version_compare( $GLOBALS['wp_version'], '3.6', '<' ) ) {
 	require get_template_directory() . '/inc/back-compat.php';
+}
 
 if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 /**
@@ -122,8 +124,9 @@ add_action( 'after_setup_theme', 'twentyfourteen_setup' );
  * @return void
  */
 function twentyfourteen_content_width() {
-	if ( is_attachment() && wp_attachment_is_image() )
+	if ( is_attachment() && wp_attachment_is_image() ) {
 		$GLOBALS['content_width'] = 810;
+	}
 }
 add_action( 'template_redirect', 'twentyfourteen_content_width' );
 
@@ -203,8 +206,9 @@ function twentyfourteen_font_url() {
 	 * Translators: If there are characters in your language that are not supported
 	 * by Lato, translate this to 'off'. Do not translate into your own language.
 	 */
-	if ( 'off' !== _x( 'on', 'Lato font: on or off', 'twentyfourteen' ) )
+	if ( 'off' !== _x( 'on', 'Lato font: on or off', 'twentyfourteen' ) ) {
 		$font_url = add_query_arg( 'family', urlencode( 'Lato:300,400,700,900,300italic,400italic,700italic' ), "//fonts.googleapis.com/css" );
+	}
 
 	return $font_url;
 }
@@ -230,14 +234,17 @@ function twentyfourteen_scripts() {
 	wp_enqueue_style( 'twentyfourteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyfourteen-style' ), '20131110' );
 	wp_style_add_data( 'twentyfourteen-ie', 'conditional', 'lt IE 9' );
 
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
+	}
 
-	if ( is_singular() && wp_attachment_is_image() )
+	if ( is_singular() && wp_attachment_is_image() ) {
 		wp_enqueue_script( 'twentyfourteen-keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20130402' );
+	}
 
-	if ( is_active_sidebar( 'sidebar-3' ) )
+	if ( is_active_sidebar( 'sidebar-3' ) ) {
 		wp_enqueue_script( 'jquery-masonry' );
+	}
 
 	if ( is_front_page() && 'slider' == get_theme_mod( 'featured_content_layout' ) ) {
 		wp_enqueue_script( 'twentyfourteen-slider', get_template_directory_uri() . '/js/slider.js', array( 'jquery' ), '20131109', true );
@@ -303,12 +310,14 @@ function twentyfourteen_the_attached_image() {
 		}
 
 		// get the URL of the next image attachment...
-		if ( $next_id )
+		if ( $next_id ) {
 			$next_attachment_url = get_attachment_link( $next_id );
+		}
 
 		// or get the URL of the first image attachment.
-		else
+		else {
 			$next_attachment_url = get_attachment_link( array_shift( $attachment_ids ) );
+		}
 	}
 
 	printf( '<a href="%1$s" rel="attachment">%2$s</a>',
@@ -337,8 +346,9 @@ function twentyfourteen_list_authors() {
 		$post_count = count_user_posts( $contributor_id );
 
 		// Move on if user has not published a post (yet).
-		if ( ! $post_count )
+		if ( ! $post_count ) {
 			continue;
+		}
 	?>
 
 	<div class="contributor">
@@ -379,33 +389,40 @@ endif;
  * @return array The filtered body class list.
  */
 function twentyfourteen_body_classes( $classes ) {
-	if ( is_multi_author() )
+	if ( is_multi_author() ) {
 		$classes[] = 'group-blog';
+	}
 
-	if ( get_header_image() )
+	if ( get_header_image() ) {
 		$classes[] = 'header-image';
-	else
+	} else {
 		$classes[] = 'masthead-fixed';
+	}
 
-	if ( is_archive() || is_search() || is_home() )
+	if ( is_archive() || is_search() || is_home() ) {
 		$classes[] = 'list-view';
+	}
 
 	if ( ( ! is_active_sidebar( 'sidebar-2' ) )
 		|| is_page_template( 'page-templates/full-width.php' )
 		|| is_page_template( 'page-templates/contributors.php' )
-		|| is_attachment() )
+		|| is_attachment() ) {
 		$classes[] = 'full-width';
+	}
 
-	if ( is_active_sidebar( 'sidebar-3' ) )
+	if ( is_active_sidebar( 'sidebar-3' ) ) {
 		$classes[] = 'footer-widgets';
+	}
 
-	if ( is_singular() && ! is_front_page() )
+	if ( is_singular() && ! is_front_page() ) {
 		$classes[] = 'singular';
+	}
 
-	if ( is_front_page() && 'slider' == get_theme_mod( 'featured_content_layout' ) )
+	if ( is_front_page() && 'slider' == get_theme_mod( 'featured_content_layout' ) ) {
 		$classes[] = 'slider';
-	elseif ( is_front_page() )
+	} elseif ( is_front_page() ) {
 		$classes[] = 'grid';
+	}
 
 	return $classes;
 }
@@ -423,8 +440,9 @@ add_filter( 'body_class', 'twentyfourteen_body_classes' );
  * @return array The filtered post class list.
  */
 function twentyfourteen_post_classes( $classes ) {
-	if ( ! post_password_required() && has_post_thumbnail() )
+	if ( ! post_password_required() && has_post_thumbnail() ) {
 		$classes[] = 'has-post-thumbnail';
+	}
 
 	return $classes;
 }
@@ -443,20 +461,23 @@ add_filter( 'post_class', 'twentyfourteen_post_classes' );
 function twentyfourteen_wp_title( $title, $sep ) {
 	global $paged, $page;
 
-	if ( is_feed() )
+	if ( is_feed() ) {
 		return $title;
+	}
 
 	// Add the site name.
 	$title .= get_bloginfo( 'name' );
 
 	// Add the site description for the home/front page.
 	$site_description = get_bloginfo( 'description', 'display' );
-	if ( $site_description && ( is_home() || is_front_page() ) )
+	if ( $site_description && ( is_home() || is_front_page() ) ) {
 		$title = "$title $sep $site_description";
+	}
 
 	// Add a page number if necessary.
-	if ( $paged >= 2 || $page >= 2 )
+	if ( $paged >= 2 || $page >= 2 ) {
 		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentyfourteen' ), max( $paged, $page ) );
+	}
 
 	return $title;
 }
@@ -477,5 +498,6 @@ require get_template_directory() . '/inc/customizer.php';
  * To overwrite in a plugin, define your own Featured_Content class on or
  * before the 'setup_theme' hook.
  */
-if ( ! class_exists( 'Featured_Content' ) && 'plugins.php' !== $GLOBALS['pagenow'] )
+if ( ! class_exists( 'Featured_Content' ) && 'plugins.php' !== $GLOBALS['pagenow'] ) {
 	require get_template_directory() . '/inc/featured-content.php';
+}

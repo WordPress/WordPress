@@ -46,25 +46,29 @@ class Featured_Content {
 		$theme_support = get_theme_support( 'featured-content' );
 
 		// Return early if theme does not support Featured Content.
-		if ( ! $theme_support )
+		if ( ! $theme_support ) {
 			return;
+		}
 
 		/*
 		 * An array of named arguments must be passed as the second parameter
 		 * of add_theme_support().
 		 */
-		if ( ! isset( $theme_support[0] ) )
+		if ( ! isset( $theme_support[0] ) ) {
 			return;
+		}
 
 		// Return early if "featured_content_filter" has not been defined.
-		if ( ! isset( $theme_support[0]['featured_content_filter'] ) )
+		if ( ! isset( $theme_support[0]['featured_content_filter'] ) ) {
 			return;
+		}
 
 		$filter = $theme_support[0]['featured_content_filter'];
 
 		// Theme can override the number of max posts.
-		if ( isset( $theme_support[0]['max_posts'] ) )
+		if ( isset( $theme_support[0]['max_posts'] ) ) {
 			self::$max_posts = absint( $theme_support[0]['max_posts'] );
+		}
 
 		add_filter( $filter,                              array( __CLASS__, 'get_featured_posts' )    );
 		add_action( 'customize_register',                 array( __CLASS__, 'customize_register' ), 9 );
@@ -100,8 +104,9 @@ class Featured_Content {
 		$post_ids = self::get_featured_post_ids();
 
 		// No need to query if there is are no featured posts.
-		if ( empty( $post_ids ) )
+		if ( empty( $post_ids ) ) {
 			return array();
+		}
 
 		$featured_posts = get_posts( array(
 			'include'        => $post_ids,
@@ -124,17 +129,19 @@ class Featured_Content {
 	public static function get_featured_post_ids() {
 		// Return array of cached results if they exist.
 		$featured_ids = get_transient( 'featured_content_ids' );
-		if ( ! empty( $featured_ids ) )
+		if ( ! empty( $featured_ids ) ) {
 			return array_map( 'absint', (array) $featured_ids );
+		}
 
 		$settings = self::get_setting();
 
 		// Return sticky post ids if no tag name is set.
 		$term = get_term_by( 'name', $settings['tag-name'], 'post_tag' );
-		if ( $term )
+		if ( $term ) {
 			$tag = $term->term_id;
-		else
+		} else {
 			return self::get_sticky_posts();
+		}
 
 		// Query for featured posts.
 		$featured = get_posts( array(
@@ -149,8 +156,9 @@ class Featured_Content {
 		) );
 
 		// Return array with sticky posts if no Featured Content exists.
-		if ( ! $featured )
+		if ( ! $featured ) {
 			return self::get_sticky_posts();
+		}
 
 		// Ensure correct format before save/return.
 		$featured_ids = wp_list_pluck( (array) $featured, 'ID' );
@@ -195,20 +203,23 @@ class Featured_Content {
 	public static function pre_get_posts( $query ) {
 
 		// Bail if not home or not main query.
-		if ( ! $query->is_home() || ! $query->is_main_query() )
+		if ( ! $query->is_home() || ! $query->is_main_query() ) {
 			return;
+		}
 
 		$page_on_front = get_option( 'page_on_front' );
 
 		// Bail if the blog page is not the front page.
-		if ( ! empty( $page_on_front ) )
+		if ( ! empty( $page_on_front ) ) {
 			return;
+		}
 
 		$featured = self::get_featured_post_ids();
 
 		// Bail if no featured posts.
-		if ( ! $featured )
+		if ( ! $featured ) {
 			return;
+		}
 
 		// We need to respect post ids already in the blacklist.
 		$post__not_in = $query->get( 'post__not_in' );
@@ -237,8 +248,9 @@ class Featured_Content {
 	public static function delete_post_tag( $tag_id ) {
 		$settings = self::get_setting();
 
-		if ( empty( $settings['tag-id'] ) || $tag_id != $settings['tag-id'] )
+		if ( empty( $settings['tag-id'] ) || $tag_id != $settings['tag-id'] ) {
 			return;
+		}
 
 		$settings['tag-id'] = 0;
 		$settings = self::validate_settings( $settings );
@@ -259,20 +271,24 @@ class Featured_Content {
 	public static function hide_featured_term( $terms, $taxonomies ) {
 
 		// This filter is only appropriate on the front-end.
-		if ( is_admin() )
+		if ( is_admin() ) {
 			return $terms;
+		}
 
 		// We only want to hide the featured tag.
-		if ( ! in_array( 'post_tag', $taxonomies ) )
+		if ( ! in_array( 'post_tag', $taxonomies ) ) {
 			return $terms;
+		}
 
 		// Bail if no terms were returned.
-		if ( empty( $terms ) )
+		if ( empty( $terms ) ) {
 			return $terms;
+		}
 
 		foreach( $terms as $order => $term ) {
-			if ( self::get_setting( 'tag-id' ) == $term->term_id && 'post_tag' == $term->taxonomy )
+			if ( self::get_setting( 'tag-id' ) == $term->term_id && 'post_tag' == $term->taxonomy ) {
 				unset( $terms[ $order ] );
+			}
 		}
 
 		return $terms;
@@ -293,20 +309,24 @@ class Featured_Content {
 	public static function hide_the_featured_term( $terms, $id, $taxonomy ) {
 
 		// This filter is only appropriate on the front-end.
-		if ( is_admin() )
+		if ( is_admin() ) {
 			return $terms;
+		}
 
 		// Make sure we are in the correct taxonomy.
-		if ( 'post_tag' != $taxonomy )
+		if ( 'post_tag' != $taxonomy ) {
 			return $terms;
+		}
 
 		// No terms? Return early!
-		if ( empty( $terms ) )
+		if ( empty( $terms ) ) {
 			return $terms;
+		}
 
 		foreach( $terms as $order => $term ) {
-			if ( self::get_setting( 'tag-id' ) == $term->term_id )
+			if ( self::get_setting( 'tag-id' ) == $term->term_id ) {
 				unset( $terms[ $term->term_id ] );
+			}
 		}
 
 		return $terms;
@@ -401,8 +421,9 @@ class Featured_Content {
 		$options = array_intersect_key( $options, $defaults );
 		$options['quantity'] = self::sanitize_quantity( $options['quantity'] );
 
-		if ( 'all' != $key )
+		if ( 'all' != $key ) {
 			return isset( $options[ $key ] ) ? $options[ $key ] : false;
+		}
 
 		return $options;
 	}
@@ -437,8 +458,9 @@ class Featured_Content {
 			$output['tag-name'] = $input['tag-name'];
 		}
 
-		if ( isset( $input['quantity'] ) )
+		if ( isset( $input['quantity'] ) ) {
 			$output['quantity'] = self::sanitize_quantity( $input['quantity'] );
+		}
 
 		$output['hide-tag'] = isset( $input['hide-tag'] ) && $input['hide-tag'] ? 1 : 0;
 
@@ -458,10 +480,11 @@ class Featured_Content {
 	public static function sanitize_quantity( $input ) {
 		$quantity = absint( $input );
 
-		if ( $quantity > self::$max_posts )
+		if ( $quantity > self::$max_posts ) {
 			$quantity = self::$max_posts;
-		else if ( 1 > $quantity )
+		} else if ( 1 > $quantity ) {
 			$quantity = 1;
+		}
 
 		return $quantity;
 	}

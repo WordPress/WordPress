@@ -17,16 +17,18 @@ if ( ! function_exists( 'twentyfourteen_paging_nav' ) ) :
  */
 function twentyfourteen_paging_nav() {
 	// Don't print empty markup if there's only one page.
-	if ( $GLOBALS['wp_query']->max_num_pages < 2 )
+	if ( $GLOBALS['wp_query']->max_num_pages < 2 ) {
 		return;
+	}
 
 	$paged        = get_query_var( 'paged' ) ? intval( get_query_var( 'paged' ) ) : 1;
 	$pagenum_link = html_entity_decode( get_pagenum_link() );
 	$query_args   = array();
 	$url_parts    = explode( '?', $pagenum_link );
 
-	if ( isset( $url_parts[1] ) )
+	if ( isset( $url_parts[1] ) ) {
 		wp_parse_str( $url_parts[1], $query_args );
+	}
 
 	$pagenum_link = remove_query_arg( array_keys( $query_args ), $pagenum_link );
 	$pagenum_link = trailingslashit( $pagenum_link ) . '%_%';
@@ -72,8 +74,9 @@ function twentyfourteen_post_nav() {
 	$previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
 	$next     = get_adjacent_post( false, '', false );
 
-	if ( ! $next && ! $previous )
+	if ( ! $next && ! $previous ) {
 		return;
+	}
 
 	?>
 	<nav class="navigation post-navigation" role="navigation">
@@ -102,8 +105,9 @@ if ( ! function_exists( 'twentyfourteen_posted_on' ) ) :
  * @return void
  */
 function twentyfourteen_posted_on() {
-	if ( is_sticky() && is_home() && ! is_paged() )
+	if ( is_sticky() && is_home() && ! is_paged() ) {
 		echo '<span class="featured-post">' . __( 'Sticky', 'twentyfourteen' ) . '</span>';
+	}
 
 	printf( __( '<span class="entry-date"><a href="%1$s" rel="bookmark"><time class="entry-date" datetime="%2$s">%3$s</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="%4$s" rel="author">%5$s</a></span></span>', 'twentyfourteen' ),
 		esc_url( get_permalink() ),
@@ -167,18 +171,20 @@ add_action( 'save_post',     'twentyfourteen_category_transient_flusher' );
  * @return void
 */
 function twentyfourteen_post_thumbnail() {
-	if ( post_password_required() || ! has_post_thumbnail() )
+	if ( post_password_required() || ! has_post_thumbnail() ) {
 		return;
+	}
 
 	if ( is_singular() ) :
 	?>
 
 	<div class="post-thumbnail">
 	<?php
-		if ( ( ! is_active_sidebar( 'sidebar-2' ) || is_page_template( 'page-templates/full-width.php' ) ) && ! wp_is_mobile() )
+		if ( ( ! is_active_sidebar( 'sidebar-2' ) || is_page_template( 'page-templates/full-width.php' ) ) && ! wp_is_mobile() ) {
 			the_post_thumbnail( 'twentyfourteen-full-width' );
-		else
+		} else {
 			the_post_thumbnail();
+		}
 	?>
 	</div>
 
@@ -186,10 +192,11 @@ function twentyfourteen_post_thumbnail() {
 
 	<a class="post-thumbnail" href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>">
 	<?php
-		if ( ( ! is_active_sidebar( 'sidebar-2' ) || is_page_template( 'page-templates/full-width.php' ) ) && ! wp_is_mobile() )
+		if ( ( ! is_active_sidebar( 'sidebar-2' ) || is_page_template( 'page-templates/full-width.php' ) ) && ! wp_is_mobile() ) {
 			the_post_thumbnail( 'twentyfourteen-full-width' );
-		else
+		} else {
 			the_post_thumbnail();
+		}
 	?>
 	</a>
 

@@ -97,10 +97,11 @@ function twentyfourteen_adjust_color( $color, $steps ) {
 	$hex = '#';
 	foreach ( $rgb as $value ) {
 		$value += $steps;
-		if ( $value > 255 )
+		if ( $value > 255 ) {
 			$value = 255;
-		elseif ( $value < 0 )
+		} elseif ( $value < 0 ) {
 			$value = 0;
+		}
 		$hex .= str_pad( dechex( $value ), 2, '0', STR_PAD_LEFT);
 	}
 
@@ -154,8 +155,9 @@ function twentyfourteen_customizer_styles() {
 	$accent_color = get_theme_mod( 'accent_color', '#24890d' );
 
 	// Don't do anything if the current color is the default.
-	if ( '#24890d' === $accent_color )
+	if ( '#24890d' === $accent_color ) {
 		return;
+	}
 
 	$accent_mid   = get_theme_mod( 'accent_mid'   );
 	$accent_light = get_theme_mod( 'accent_light' );

@@ -12,10 +12,11 @@
 	<a class="post-thumbnail" href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>">
 	<?php
 		if ( has_post_thumbnail() ) :
-			if ( 'grid' == get_theme_mod( 'featured_content_layout' ) )
+			if ( 'grid' == get_theme_mod( 'featured_content_layout' ) ) {
 				the_post_thumbnail();
-			else
+			} else {
 				the_post_thumbnail( 'twentyfourteen-full-width' );
+			}
 		endif;
 	?>
 	</a>
