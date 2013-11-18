@@ -492,7 +492,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$lock_holder = get_userdata( $lock_holder );
 		}
 
-		if ( false && $post->post_parent ) {
+		if ( $post->post_parent ) {
 		    $count = count( get_post_ancestors( $post->ID ) );
 		    $classes .= ' level-'. $count;
 		} else {
