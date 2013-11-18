@@ -1625,7 +1625,10 @@
 	}
 }
 
-@media only screen and (max-width: 782px) {
+/* Responsive on portrait and landscape */
+@media only screen and (max-width: 640px), screen and (max-height: 400px) {
+
+	/* Media tabs on the top */
 	.media-frame-content .media-toolbar .instructions {
 		display: none;
 	}
@@ -1652,7 +1655,36 @@
 		text-overflow: ellipsis;
 		overflow: hidden;
 	}
+
+	.media-frame-title {
+		display: none;
+	}
 	
+	.media-frame-toolbar {
+		position: absolute;
+		bottom: 0px;
+		left: 0;
+		right: 0;
+		background: #FFF;
+		border-top: 1px solid #DEDEDE;
+	}
+
+	.media-toolbar {
+		position: relative;
+	}
+
+	.media-frame {
+		overflow: hidden;
+	}
+
+	.attachments-browser .attachments {
+		top: 42px;
+	}
+
+	.attachment-details h3 {
+		margin-top: 45px;
+	}
+		
 	/* Shorten right-side links so they don't overlap the close button */
 	.media-menu a:nth-child(2),
 	.media-menu a:last-child {
@@ -1716,17 +1748,8 @@
 		position: relative;
 		margin-right: 180px;
 	}
-}
 
-@media only screen and (max-width: 680px) {
-	.media-frame-content .media-toolbar .search,
-	.media-frame-content .media-toolbar .attachment-filters {
-		max-width: 85px;
-	}
-}
-
-/* Tiny screens [ = smaller than 500 wide] */
-@media screen and (max-width: 500px) {
+	/* Full-bleed modal */
 	.media-modal {
 		position: fixed;
 		top: 0;
@@ -1757,36 +1780,6 @@
 		width: 25px;
 	}
 
-	/* Don't bother with title for phone-size */
-	.media-frame-title {
-		display: none;
-	}
-	
-	.media-frame-toolbar {
-		position: absolute;
-		bottom: 0px;
-		left: 0;
-		right: 0;
-		background: #FFF;
-		border-top: 1px solid #DEDEDE;
-	}
-
-	.media-toolbar {
-		position: relative;
-	}
-
-	.media-frame {
-		overflow: hidden;
-	}
-
-	.attachments-browser .attachments {
-		top: 42px;
-	}
-
-	.attachment-details h3 {
-		margin-top: 45px;
-	}
-
 	/* Image From Link */
 	.embed-link-settings,
 	.embed-image-settings {
@@ -1801,6 +1794,56 @@
 
 	.gallery-settings h3 {
 		margin-top: 45px;
+	}
+
+}
+
+/* Landscape specific header override */
+@media screen and (max-height: 400px) {
+	.media-menu {
+		padding: 0 0 0 10px;
+	}
+
+	.media-menu a {
+		float: left;
+		width: 21%;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		padding: 10px inherit;
+	}
+
+	.media-menu a:nth-child(2),
+	.media-menu a:last-child {
+		width: 21%;
+	}
+
+	.media-modal-close {
+		top: 2px;
+	}
+
+	.media-frame-router {
+		top: 44px;
+	}
+
+	.media-frame-content {
+		top: 78px;
+	}
+	
+	.attachments-browser .attachments {
+		top: 2px;
+	}
+
+	/* Prevent unnecessary scrolling on title input */
+	.embed-link-settings {
+		overflow: visible;
+	}
+}
+
+@media only screen and (max-width: 680px) {
+	.media-frame-content .media-toolbar .search,
+	.media-frame-content .media-toolbar .attachment-filters {
+		max-width: 85px;
 	}
 }
 
