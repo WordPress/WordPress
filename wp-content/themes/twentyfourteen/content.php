@@ -62,8 +62,5 @@
 	</div><!-- .entry-content -->
 	<?php endif; ?>
 
-	<?php
-		if ( has_tag() )
-			echo get_the_tag_list( '<footer class="entry-meta"><span class="tag-links">', '', '</span></footer>' );
-	?>
+	<?php the_tags( '<footer class="entry-meta"><span class="tag-links">', '', '</span></footer>' ); ?>
 </article><!-- #post-## -->
