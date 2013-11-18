@@ -192,10 +192,10 @@ class Featured_Content {
 	 * @param WP_Query $query
 	 * @return WP_Query Possibly modified WP_query
 	 */
-	public static function pre_get_posts( $query = false ) {
+	public static function pre_get_posts( $query ) {
 
-		// Bail if not home, not a query, not main query.
-		if ( ! is_a( $query, 'WP_Query' ) || ! $query->is_main_query() || ! is_home() )
+		// Bail if not home or not main query.
+		if ( ! $query->is_home() || ! $query->is_main_query() )
 			return;
 
 		$page_on_front = get_option( 'page_on_front' );
