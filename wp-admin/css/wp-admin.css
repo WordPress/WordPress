@@ -1087,6 +1087,13 @@ p.install-help {
 	padding: 2px;
 	line-height: 28px;
 	height: 28px;
+	color: #555;
+	vertical-align: top;
+}
+
+.wp-admin .button-cancel {
+	padding: 0 5px;
+	line-height: 2;
 }
 
 .meta-box-sortables select {
@@ -4099,7 +4106,6 @@ input#link_url {
 }
 
 #post-status-select {
-	line-height: 2.5em;
 	margin-top: 3px;
 }
 
@@ -4313,10 +4319,11 @@ td.plugin-title p {
 }
 
 #timestampdiv select {
-	height: 20px;
+	height: 21px;
 	line-height: 14px;
 	padding: 0;
 	vertical-align: top;
+	font-size: 12px;
 }
 
 #aa, #jj, #hh, #mn {
@@ -11093,8 +11100,14 @@ li#wp-admin-bar-toggle-button {
 		height: 36px;
 		font-size: 16px;
 	}
+	
+	.wp-admin .button-cancel {
+		padding: 0;
+		font-size: 14px;
+	}
 
 	.wp-core-ui .button,
+	.wp-core-ui .button:active, /* Override non-responsive active styles in buttons.css */
 	input#publish,
 	input#save-post,
 	a.preview {
@@ -11368,9 +11381,8 @@ li#wp-admin-bar-toggle-button {
 	}
 
 	.wp-core-ui .save-post-status.button {
-		top: 16px;
 		position: relative;
-		margin: 0 10px;
+		margin: 0 14px 0 10px; /* 14px right margin to match all other buttons */
 	}
 
 	.wp-core-ui .save-post-visibility,
