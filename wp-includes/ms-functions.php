@@ -1129,10 +1129,10 @@ function install_blog( $blog_id, $blog_title = '' ) {
 
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-	$wpdb->suppress_errors();
+	$suppress = $wpdb->suppress_errors();
 	if ( $wpdb->get_results( "DESCRIBE {$wpdb->posts}" ) )
 		die( '<h1>' . __( 'Already Installed' ) . '</h1><p>' . __( 'You appear to have already installed WordPress. To reinstall please clear your old database tables first.' ) . '</p></body></html>' );
-	$wpdb->suppress_errors( false );
+	$wpdb->suppress_errors( $suppress );
 
 	$url = get_blogaddress_by_id( $blog_id );
 
@@ -1179,11 +1179,11 @@ function install_blog_defaults($blog_id, $user_id) {
 
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-	$wpdb->suppress_errors();
+	$suppress = $wpdb->suppress_errors();
 
 	wp_install_defaults($user_id);
 
-	$wpdb->suppress_errors( false );
+	$wpdb->suppress_errors( $suppress );
 }
 
 /**

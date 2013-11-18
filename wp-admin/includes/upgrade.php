@@ -1553,9 +1553,9 @@ function dbDelta( $queries = '', $execute = true ) {
 			continue;
 
 		// Fetch the table column structure from the database
-		$wpdb->suppress_errors();
+		$suppress = $wpdb->suppress_errors();
 		$tablefields = $wpdb->get_results("DESCRIBE {$table};");
-		$wpdb->suppress_errors( false );
+		$wpdb->suppress_errors( $suppress );
 
 		if ( ! $tablefields )
 			continue;
