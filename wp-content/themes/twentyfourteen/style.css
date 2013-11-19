@@ -7,7 +7,7 @@ Description: The default theme for 2014 is a magazine theme with a sleek, modern
 Version: 0.1
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: black, green, white, light, dark, two-columns, three-columns, fixed-width, responsive-width, custom-background, custom-header, custom-menu, featured-images, flexible-header, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
+Tags: black, green, white, light, dark, two-columns, three-columns, left-sidebar, right-sidebar, fixed-width, responsive-width, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-images, flexible-header, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
 
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
@@ -933,6 +933,7 @@ span + .edit-link:before,
 .site-navigation .current-menu-item > a,
 .site-navigation .current-menu-ancestor > a {
 	color: #55d737;
+	font-weight: 900;
 }
 
 /* Primary Navigation */
@@ -2679,7 +2680,7 @@ a.post-thumbnail:hover {
  */
 
 .featured-content {
-	background: #4d4d4d url(images/pattern-dark.svg) repeat fixed;
+	background: #000 url(images/pattern-dark.svg) repeat fixed;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing:    border-box;
 	box-sizing:         border-box;
@@ -3293,7 +3294,7 @@ a.post-thumbnail:hover {
 	.site-navigation li .current_page_ancestor > a,
 	.site-navigation li .current-menu-item > a,
 	.site-navigation li .current-menu-ancestor > a {
-		background-color: #000;
+		color: #fff;
 	}
 
 	/* Primary Navigation */
