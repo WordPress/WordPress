@@ -531,10 +531,24 @@ class WP_Widget_Categories extends WP_Widget {
  * @since 2.8.0
  */
 class WP_Widget_Recent_Posts extends WP_Widget {
+	var $tpl;
 
-	function __construct() {
-		$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "The most recent posts on your site") );
-		parent::__construct('recent-posts', __('Recent Posts'), $widget_ops);
+	function __construct( $id_base = 'recent-posts', $name = false, $opts = array ( ) ) {
+		// name
+		if ($name == false) {
+			$name = __('Recent Posts');
+		}
+
+		// Options - Defaults
+		$widget_options = array (
+			'classname' => 'widget_recent_entries_plus',
+			'description' => __("The most recent posts on your site")
+		);
+
+		// mixing widget options
+		$widget_options = array_merge($widget_options, $opts);
+
+		parent::__construct($id_base, __("$name"), $widget_options);
 		$this->alt_option_name = 'widget_recent_entries';
 
 		add_action( 'save_post', array($this, 'flush_widget_cache') );
