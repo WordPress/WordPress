@@ -17,14 +17,18 @@ if ( empty($tag_ID) ) { ?>
 }
 
 // Back compat hooks
-if ( 'category' == $taxonomy )
-	do_action('edit_category_form_pre', $tag );
-elseif ( 'link_category' == $taxonomy )
-	do_action('edit_link_category_form_pre', $tag );
-else
-	do_action('edit_tag_form_pre', $tag);
-
-do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy); ?>
+if ( 'category' == $taxonomy ) {
+	/** This action is documented in wp-admin/edit-tags.php */
+	do_action( 'edit_category_form_pre', $tag );
+} elseif ( 'link_category' == $taxonomy ) {
+	/** This action is documented in wp-admin/edit-tags.php */
+	do_action( 'edit_link_category_form_pre', $tag );
+} else {
+	/** This action is documented in wp-admin/edit-tags.php */
+	do_action( 'edit_tag_form_pre', $tag );
+}
+/** This action is documented in wp-admin/edit-tags.php */
+do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
