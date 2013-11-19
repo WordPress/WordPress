@@ -1,6 +1,6 @@
 ( function( $ ) {
 	var body    = $( 'body' ),
-	    _window = $( window );
+		_window = $( window );
 
 	// Enable menu toggle for small screens.
 	( function() {
@@ -48,7 +48,7 @@
 		// Search toggle.
 		$( '.search-toggle' ).on( 'click.twentyfourteen', function() {
 			var that    = $( this ),
-			    wrapper = $( '.search-box-wrapper' );
+				wrapper = $( '.search-box-wrapper' );
 
 			that.toggleClass( 'active' );
 			wrapper.toggleClass( 'hide' );
@@ -65,7 +65,7 @@
 		 * The callback on the scroll event is only added if there is a header
 		 * image and we are not on mobile.
 		 */
-		 if ( _window.width() > 781 ) {
+		if ( _window.width() > 781 ) {
 			var mastheadHeight = $( '#masthead' ).height(),
 				toolbarOffset, mastheadOffset;
 

@@ -244,7 +244,7 @@
 						localY = e.touches[0].pageY;
 
 						offset = ( slider.animatingTo === slider.last ) ? 0 :
-								 ( slider.currentSlide === slider.last ) ? slider.limit : ( slider.currentSlide + slider.cloneOffset ) * cwidth;
+								( slider.currentSlide === slider.last ) ? slider.limit : ( slider.currentSlide + slider.cloneOffset ) * cwidth;
 						startX = localX;
 						startY = localY;
 
