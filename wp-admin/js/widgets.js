@@ -46,7 +46,6 @@ wpWidgets = {
 
 				if ( inside.is(':hidden') ) {
 					if ( w > 250 && inside.closest('div.widgets-sortables').length ) {
-						css.width = w + 30 + 'px';
 						if ( inside.closest('div.widget-liquid-right').length )
 							css[margin] = 235 - w + 'px';
 						widget.css(css);

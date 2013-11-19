@@ -10289,9 +10289,7 @@ div#widgets-right .widgets-holder-wrap {
 div#widgets-right .widget {
 	margin: 0 auto;
 	border: 1px solid #dedede !important; /* ln 991 in colors-fresh.css */
-	border-bottom: none !important; /* ln 991 in colors-fresh.css */
-	margin-right: 0 !important; /* Wide format widgets are the devil */
-	width: 100% !important; /* Wide format widgets are the devil */
+	margin-bottom: -1px;
 }
 
 div#widgets-right .sidebar-description {
@@ -10311,7 +10309,6 @@ div#widgets-right .sidebar-name .sidebar-name-arrow:before {
 	top: 4px;
 }
 div#widgets-right .widget-top {
-	border-bottom: none;
 	padding: 0;
 	background: #f7f7f7;
 }
@@ -10327,11 +10324,6 @@ div#widgets-right a.widget-action:after {
 }
 div#widgets-right .widget-inside {
 	border-top: 1px solid #dedede;
-}
-
-/* The last widget has some additional borders */
-div#widgets-right .widget:last-child {
-	border-bottom: 1px solid #dedede !important; /* ln 991 in colors-fresh.css */
 }
 
 div#widgets-right .widgets-sortables {
