@@ -803,14 +803,20 @@ function delete_plugins($plugins, $redirect = '' ) {
 			$errors[] = $plugin_file;
 	}
 
+	// Remove deleted plugins from the plugin updates list.
+	if ( $current = get_site_transient('update_plugins') ) {
+		// Don't remove the plugins that weren't deleted.
+		$deleted = array_diff( $plugins, $errors );
+		
+		foreach ( $deleted as $plugin_file ) {
+			unset( $current->response[ $plugin_file ] );
+		}
+
+		set_site_transient( 'update_plugins', $current );
+	}
+
 	if ( ! empty($errors) )
 		return new WP_Error('could_not_remove_plugin', sprintf(__('Could not fully remove the plugin(s) %s.'), implode(', ', $errors)) );
-
-	// Force refresh of plugin update information
-	if ( $current = get_site_transient('update_plugins') ) {
-		unset( $current->response[ $plugin_file ] );
-		set_site_transient('update_plugins', $current);
-	}
 
 	return true;
 }
