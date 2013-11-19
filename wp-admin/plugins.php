@@ -385,8 +385,9 @@ if ( !empty($invalid) )
 	?>
 	</div>
 <?php elseif ( isset($_GET['deleted']) ) :
-		$delete_result = get_transient('plugins_delete_result_'.$user_ID);
-		delete_transient('plugins_delete_result'); //Delete it once we're done.
+		$delete_result = get_transient( 'plugins_delete_result_' . $user_ID );
+		// Delete it once we're done.
+		delete_transient( 'plugins_delete_result_' . $user_ID );
 
 		if ( is_wp_error($delete_result) ) : ?>
 		<div id="message" class="updated"><p><?php printf( __('Plugin could not be deleted due to an error: %s'), $delete_result->get_error_message() ); ?></p></div>
