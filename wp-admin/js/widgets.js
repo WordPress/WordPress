@@ -204,10 +204,15 @@ wpWidgets = {
 				$( '#widgets-left' ).addClass( 'chooser' );
 				widget.addClass( 'widget-in-question' );
 
-				widget.after( chooser );
-				chooser.slideDown( 200, function() {
+				widget.find( '.widget-description' ).after( chooser );
+				chooser.slideDown( 300, function() {
 					selectSidebar.find('.widgets-chooser-selected').focus();
 				});
+
+				selectSidebar.find( 'li' ).on( 'focusin.widgets-chooser', function() {
+					selectSidebar.find('.widgets-chooser-selected').removeClass( 'widgets-chooser-selected' );
+					$(this).addClass( 'widgets-chooser-selected' );
+				} )
 			}
 		});
 
@@ -220,9 +225,18 @@ wpWidgets = {
 				self.closeChooser();
 			} else if ( $target.hasClass('button-secondary') ) {
 				self.closeChooser();
-			} else if ( $target.is('.widgets-chooser-sidebars li') ) {
-				chooser.find('.widgets-chooser-selected').removeClass( 'widgets-chooser-selected' );
-				$target.addClass( 'widgets-chooser-selected' );
+			}
+		}).on( 'keyup.widgets-chooser', function( event ) {
+			if ( event.which === $.ui.keyCode.ENTER ) {
+				if ( $( event.target ).hasClass('button-secondary') ) {
+					// Close instead of adding when pressing Enter on the Cancel button
+					self.closeChooser();
+				} else {
+					self.addWidget( chooser );
+					self.closeChooser();
+				}
+			} else if ( event.which === $.ui.keyCode.ESCAPE ) {
+				self.closeChooser();
 			}
 		});
 	},
@@ -337,12 +351,17 @@ wpWidgets = {
 	},
 
 	addWidget: function( chooser ) {
-		var widget = $('#available-widgets').find('.widget-in-question').clone(),
-			widgetId = widget.attr('id'),
-			add = widget.find( 'input.add_new' ).val(),
-			n = widget.find( 'input.multi_number' ).val(),
+		var widget, widgetId, add, n,
 			sidebarId = chooser.find( '.widgets-chooser-selected' ).data('sidebarId'),
 			sidebar = $( '#' + sidebarId );
+
+		// Move the chooser out of the widget
+		$('#wpbody-content').append( chooser );
+
+		widget = $('#available-widgets').find('.widget-in-question').clone();
+		widgetId = widget.attr('id');
+		add = widget.find( 'input.add_new' ).val();
+		n = widget.find( 'input.multi_number' ).val();
 
 		if ( 'multi' === add ) {
 			widget.html(
@@ -391,7 +410,7 @@ wpWidgets = {
 
 	clearWidgetSelection: function() {
 		$( '#widgets-left' ).removeClass( 'chooser' );
-		$( '#available-widgets' ).find( '.widget-in-question' ).removeClass( 'widget-in-question' );
+		$( '.widget-in-question' ).removeClass( 'widget-in-question' );
 	}
 };
 

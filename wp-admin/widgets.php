@@ -407,11 +407,11 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 </div>
 
 <div id="widgets-chooser">
-	<h3><?php _e( 'Choose an area to place this widget&hellip;' ); ?></h3>
+	<h3><?php _e( 'Choose a sidebar:' ); ?></h3>
 	<ul class="widgets-chooser-sidebars"></ul>
 	<div class="widgets-chooser-actions">
-		<button class="button-primary"><?php _e( 'Add Widget' ); ?></button>
 		<button class="button-secondary"><?php _e( 'Cancel' ); ?></button>
+		<button class="button-primary"><?php _e( 'Add Widget' ); ?></button>
 	</div>
 </div>
 
