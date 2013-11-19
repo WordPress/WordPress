@@ -239,7 +239,7 @@
 
 				if ( trigger && ! hasConnectionError() ) {
 					settings.connectionError = true;
-					$(document).trigger( 'heartbeat-connection-lost', [error, status] );
+					$document.trigger( 'heartbeat-connection-lost', [error, status] );
 				}
 			}
 		}
