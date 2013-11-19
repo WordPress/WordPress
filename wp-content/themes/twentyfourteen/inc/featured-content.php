@@ -448,13 +448,18 @@ class Featured_Content {
 		if ( empty( $input['tag-name'] ) ) {
 			$output['tag-id'] = 0;
 		} else {
-			$new_tag = wp_create_tag( $input['tag-name'] );
-			if ( ! is_wp_error( $new_tag ) && isset( $new_tag['term_id'] ) ) {
-				$output['tag-id'] = $new_tag['term_id'];
+			$term = get_term_by( 'name', $input['tag-name'], 'post_tag' );
+
+			if ( $term ) {
+				$output['tag-id'] = $term->term_id;
 			} else {
-				$term = get_term_by( 'name', $input['tag-name'], 'post_tag' );
-				$output['tag-id'] = $term ? $term->term_id : 0;
+				$new_tag = wp_create_tag( $input['tag-name'] );
+
+				if ( ! is_wp_error( $new_tag ) && isset( $new_tag['term_id'] ) ) {
+					$output['tag-id'] = $new_tag['term_id'];
+				}
 			}
+
 			$output['tag-name'] = $input['tag-name'];
 		}
 
