@@ -542,11 +542,15 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		// Options - Defaults
 		$widget_options = array (
 			'classname' => 'widget_recent_entries_plus',
-			'description' => __("The most recent posts on your site")
+			'description' => __("The most recent posts on your site"),
+			'tpl' => 'default-widgets-tpls/recent_posts.tpl.php'
 		);
 
 		// mixing widget options
 		$widget_options = array_merge($widget_options, $opts);
+
+		// set widget template
+		$this->tpl = $widget_options['tpl'];
 
 		parent::__construct($id_base, __("$name"), $widget_options);
 		$this->alt_option_name = 'widget_recent_entries';
@@ -581,26 +585,16 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		$show_date = isset( $instance['show_date'] ) ? $instance['show_date'] : false;
 
 		$r = new WP_Query( apply_filters( 'widget_posts_args', array( 'posts_per_page' => $number, 'no_found_rows' => true, 'post_status' => 'publish', 'ignore_sticky_posts' => true ) ) );
-		if ($r->have_posts()) :
-?>
-		<?php echo $before_widget; ?>
-		<?php if ( $title ) echo $before_title . $title . $after_title; ?>
-		<ul>
-		<?php while ( $r->have_posts() ) : $r->the_post(); ?>
-			<li>
-				<a href="<?php the_permalink(); ?>"><?php get_the_title() ? the_title() : the_ID(); ?></a>
-			<?php if ( $show_date ) : ?>
-				<span class="post-date"><?php echo get_the_date(); ?></span>
-			<?php endif; ?>
-			</li>
-		<?php endwhile; ?>
-		</ul>
-		<?php echo $after_widget; ?>
-<?php
+
+		if ($r->have_posts()) {
+			include($this->tpl);
+
+			// Reset the global $the_post as this query will have stomped on it
+			wp_reset_postdata();
+		}
+
 		// Reset the global $the_post as this query will have stomped on it
 		wp_reset_postdata();
-
-		endif;
 
 		$cache[$args['widget_id']] = ob_get_flush();
 		wp_cache_set('widget_recent_posts', $cache, 'widget');
