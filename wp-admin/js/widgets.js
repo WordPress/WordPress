@@ -10,8 +10,7 @@ wpWidgets = {
 			chooser = $('#widgets-chooser'),
 			selectSidebar = chooser.find('.widgets-chooser-sidebars'),
 			sidebars = $('div.widgets-sortables'),
-			isRTL = !! ( 'undefined' !== typeof isRtl && isRtl ),
-			margin = ( isRTL ? 'marginRight' : 'marginLeft' );
+			isRTL = !! ( 'undefined' !== typeof isRtl && isRtl );
 
 		$('#widgets-right').children('.widgets-holder-wrap').children('.sidebar-name').click( function() {
 			var $this = $(this), parent = $this.parent();
@@ -27,34 +26,30 @@ wpWidgets = {
 			$(this).parent().toggleClass('closed');
 		});
 
-		sidebars.each(function(){
-			if ( $(this).parent().hasClass('inactive') )
-				return true;
-
-			var h = 50, H = $(this).children('.widget').length;
-			h = h + parseInt(H * 48, 10);
-			$(this).css( 'minHeight', h + 'px' );
-		});
-
 		$(document.body).bind('click.widgets-toggle', function(e){
-			var target = $(e.target), css = {}, widget, inside, w;
+			var target = $(e.target), css = { 'z-index': 100 }, widget, inside, w;
 
 			if ( target.parents('.widget-top').length && ! target.parents('#available-widgets').length ) {
 				widget = target.closest('div.widget');
 				inside = widget.children('.widget-inside');
-				w = parseInt( widget.find('input.widget-width').val(), 10 );
+				targetWidth = parseInt( widget.find('input.widget-width').val(), 10 ),
+				widgetWidth = widget.width();
 
 				if ( inside.is(':hidden') ) {
-					if ( w > 250 && inside.closest('div.widgets-sortables').length ) {
-						if ( inside.closest('div.widget-liquid-right').length )
-							css[margin] = 235 - w + 'px';
-						widget.css(css);
+					if ( targetWidth > 250 && ( targetWidth + 30 > widgetWidth ) && widget.closest('div.widgets-sortables').length ) {
+						if ( widget.closest('div.widget-liquid-right').length ) {
+							margin = isRTL ? 'margin-right' : 'margin-left';
+						} else {
+							margin = isRTL ? 'margin-left' : 'margin-right';
+						}
+
+						css[ margin ] = widgetWidth - ( targetWidth + 30 ) + 'px';
+						widget.css( css );
 					}
-					wpWidgets.fixLabels(widget);
 					inside.slideDown('fast');
 				} else {
 					inside.slideUp('fast', function() {
-						widget.css({'width':'', margin:''});
+						widget.attr( 'style', '' );
 					});
 				}
 				e.preventDefault();
@@ -104,7 +99,6 @@ wpWidgets = {
 			containment: 'document',
 			start: function(e,ui) {
 				ui.item.children('.widget-inside').hide();
-				ui.item.css({margin:'', 'width':''});
 			},
 			stop: function(e,ui) {
 				if ( ui.item.hasClass('ui-draggable') && ui.item.data('draggable') )
@@ -121,7 +115,7 @@ wpWidgets = {
 					id = the_id,
 					sb = $(this).attr('id');
 
-				ui.item.css({margin:'', 'width':''});
+				ui.item.attr( 'style', '' );
 				the_id = '';
 
 				if ( add ) {
@@ -258,8 +252,6 @@ wpWidgets = {
 		$.post( ajaxurl, a, function() {
 			$('.spinner').hide();
 		});
-
-		this.resize();
 	},
 
 	save : function(widget, del, animate, order) {
@@ -298,14 +290,12 @@ wpWidgets = {
 					});
 				} else {
 					widget.remove();
-					wpWidgets.resize();
 				}
 			} else {
 				$('.spinner').hide();
 				if ( r && r.length > 2 ) {
 					$('div.widget-content', widget).html(r);
 					wpWidgets.appendTitle(widget);
-					wpWidgets.fixLabels(widget);
 				}
 			}
 			if ( order )
@@ -324,28 +314,9 @@ wpWidgets = {
 
 	},
 
-	resize : function() {
-		$('div.widgets-sortables').each(function(){
-			if ( $(this).parent().hasClass('inactive') )
-				return true;
-
-			var h = 50, H = $(this).children('.widget').length;
-			h = h + parseInt(H * 48, 10);
-			$(this).css( 'minHeight', h + 'px' );
-		});
-	},
-
-	fixLabels : function(widget) {
-		widget.children('.widget-inside').find('label').each(function(){
-			var f = $(this).attr('for');
-			if ( f && f === $('input', this).attr('id') )
-				$(this).removeAttr('for');
-		});
-	},
-
 	close : function(widget) {
-		widget.children('.widget-inside').slideUp('fast', function(){
-			widget.css({'width':'', margin:''});
+		widget.children('.widget-inside').slideUp('fast', function() {
+			widget.attr( 'style', '' );
 		});
 	},
 

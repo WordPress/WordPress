@@ -10304,34 +10304,39 @@ div#widgets-right .closed .sidebar-description {
 div#widgets-right .sidebar-name h3 {
 	padding: 15px 15px;
 }
+
 div#widgets-right .sidebar-name .sidebar-name-arrow:before {
 	left: 0;
 	top: 4px;
 }
+
 div#widgets-right .widget-top {
 	padding: 0;
 	background: #f7f7f7;
 }
+
 div#widgets-right .widget-title-action {
 	float: left;
 	position: relative;
 	top: 14px;
 	left: 10px;
 }
+
 div#widgets-right a.widget-action:after {
 	content: '\f111';
 	color: #888;
 }
+
 div#widgets-right .widget-inside {
 	border-top: 1px solid #dedede;
 }
 
 div#widgets-right .widgets-sortables {
-	min-height: 42px !important; /* Inline styles */
 	padding: 0 8px;
 	margin-bottom: 8px;
 	position: relative;
 }
+
 div#widgets-right .widgets-sortables:before {
 	display: block;
 	content: "";
@@ -10346,6 +10351,11 @@ div#widgets-right .widgets-sortables:before {
 	line-height: 40px;
 	font-weight: 600;
 	color: #aaa;
+}
+
+.sidebar-name .spinner {
+	margin: -5px 5px;
+	float: none;
 }
 
 /* Accessibility Mode */
