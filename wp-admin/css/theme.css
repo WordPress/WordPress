@@ -134,7 +134,6 @@
 	padding: 9px 10px 0 10px;
 	background: rgba(244, 244, 244, 0.7);
 	border-left: 1px solid rgba(0,0,0,0.05);
-	z-index: 10;
 }
 .theme:hover .theme-actions {
 	opacity: 1;
@@ -298,10 +297,6 @@ body.edit-mode .theme.add-new {
 	opacity: 1;
 	line-height: 48px;
 	padding: 0 10px;
-}
-/* Moves z-index back */
-.theme-overlay .theme.active .theme-actions {
-	z-index: 0;
 }
 .theme.active .theme-actions .button {
 	float: right;
