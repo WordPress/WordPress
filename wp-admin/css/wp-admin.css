@@ -250,8 +250,6 @@ textarea {
 	-webkit-box-sizing: border-box;
 	-ms-box-sizing: border-box; /* ie8 only */
 	box-sizing: border-box;
-	-webkit-border-radius: 0;
-	border-radius: 0;
 }
 
 input[type="checkbox"],
@@ -287,10 +285,6 @@ td > input[type="checkbox"],
 
 .wp-admin p label input[type=radio] {
 	margin-top: -2px;
-}
-
-input[type="checkbox"] {
-	border-radius: 0;
 }
 
 input[type=radio] {
@@ -492,6 +486,7 @@ h1 {
 h2 {
 	font-size: 1.5em;
 	margin: .83em 0;
+	font-weight: 400;
 }
 
 h3 {
@@ -884,7 +879,11 @@ input[type="tel"]:focus,
 input[type="url"]:focus,
 input[type="checkbox"]:focus,
 input[type="radio"]:focus,
-select:focus {
+select:focus,
+#widgets-chooser ul,
+#widgets-left .widget-in-question .widget-top,
+#available-widgets .widget-top:hover,
+div#widgets-right .widget-top:hover {
 	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
@@ -1088,7 +1087,7 @@ p.install-help {
 	padding: 2px;
 	line-height: 28px;
 	height: 28px;
-	color: #555;
+	color: #333;
 	vertical-align: top;
 }
 
@@ -1321,7 +1320,7 @@ ul#add-to-blog-users {
 #major-publishing-actions {
 	padding: 10px;
 	clear: both;
-	border-top: 1px solid #dedede;
+	border-top: 1px solid #ddd;
 	background: #f5f5f5;
 }
 
@@ -2360,7 +2359,7 @@ html.wp-toolbar {
 }
 
 .metabox-holder .postbox-container .empty-container {
-	border: 3px dashed #CCCCCC;
+	border: 3px dashed #bbb;
 	height: 250px;
 }
 
@@ -5788,7 +5787,7 @@ form.upgrade .hint {
 }
 
 .drag-drop #drag-drop-area {
-	border: 4px dashed #DDDDDD;
+	border: 4px dashed #bbb;
 	height: 200px;
 }
 
@@ -6081,7 +6080,7 @@ span.imgedit-scale-warn {
 
 .form-table td {
 	margin-bottom: 9px;
-	padding: 18px 10px;
+	padding: 15px 10px;
 	line-height: 1.3;
 	font-size: 14px;
 	vertical-align: middle;
@@ -6787,7 +6786,7 @@ h2 .nav-tab {
 
 .picker-dropdown {
 	background: #fcfcfc;
-	border: 1px solid #dedede;
+	border: 1px solid #ddd;
 	margin-right: 12%;
 	max-width: 270px;
 	position: relative;
@@ -6833,7 +6832,7 @@ h2 .nav-tab {
 .picker-dropdown.dropdown-container:before {
 	top: -11px;
 	z-index: 1;
-	border-bottom-color: #dedede;
+	border-bottom-color: #ddd;
 }
 
 .picker-dropdown-arrow {
@@ -6845,7 +6844,7 @@ h2 .nav-tab {
 	height: 100%;
 	background: white;
 	text-align: center;
-	border: 1px solid #dedede;
+	border: 1px solid #ddd;
 	border-left-width: 0;
 	cursor: pointer;
 }
@@ -6862,7 +6861,7 @@ h2 .nav-tab {
 .color-option {
 	display: block;
 	padding: 20px;
-	border-top: 1px solid #dedede;
+	border-top: 1px solid #ddd;
 }
 
 .color-option:hover,
@@ -7504,7 +7503,7 @@ body.full-overlay-active {
 	left: 0;
 	right: 0;
 	height: 45px;
-	padding: 0 20px;
+	padding: 0 15px;
 	line-height: 45px;
 	z-index: 10;
 	margin: 0;
@@ -7514,7 +7513,7 @@ body.full-overlay-active {
 }
 
 .wp-full-overlay-sidebar .wp-full-overlay-header a.back {
-	margin-top: 10px;
+	margin-top: 9px;
 }
 
 .wp-full-overlay-sidebar .wp-full-overlay-footer {
@@ -9074,10 +9073,9 @@ body.interim-login {
 .menu-item-bar .menu-item-handle {
 	border: 1px solid #dfdfdf;
 	position: relative;
-	padding-left: 10px;
-	padding-right: 2px;
+	padding: 10px 15px;
 	height: auto;
-	width: 400px;
+	width: 382px;
 	line-height: 30px;
 	overflow: hidden;
 	word-wrap: break-word;
@@ -9090,14 +9088,6 @@ body.interim-login {
 	background-image:    -moz-linear-gradient(bottom, #f6c9cc, #fdf8ff);
 	background-image:      -o-linear-gradient(bottom, #f6c9cc, #fdf8ff);
 	background-image: linear-gradient(to top, #f6c9cc, #fdf8ff);
-}
-
-.menu-item-edit-active .menu-item-handle {
-	-webkit-border-bottom-right-radius: 0;
-	-webkit-border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
-	border-bottom: none;
 }
 
 .no-js .menu-item-edit-active .item-edit {
@@ -9115,7 +9105,6 @@ body.interim-login {
 .menu-item-handle .item-title {
 	font-size: 13px;
 	font-weight: 600;
-	padding: 5px 0;
 	line-height: 20px;
 	display: block;
 	margin-right: 13em;
@@ -9179,7 +9168,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 /* Menu item controls */
 .item-type {
 	font-size: 12px;
-	padding: 7px 10px;
+	padding: 12px 10px;
 	line-height: 18px;
 	display: block;
 }
@@ -9209,7 +9198,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	top: 0;
 	display: block;
 	width: 30px;
-	height: 36px;
+	height: 40px;
 	margin-right: 0 !important;
 	text-indent: 100%;
 	overflow: hidden;
@@ -9225,6 +9214,8 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	display: block;
 	width: 402px;
 	padding: 10px 0 10px 10px;
+	position: relative;
+	z-index: 10; /* Keep .item-title's shadow from appearing on top of .menu-item-settings */
 }
 
 .menu-item-settings .field-move a {
@@ -9234,12 +9225,10 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 .menu-item-edit-active .menu-item-settings {
 	display: block;
-	border-top: none;
 }
 
 .menu-item-edit-inactive .menu-item-settings {
 	display: none;
-	border-top: none;
 }
 
 .add-menu-item-pagelinks {
@@ -9682,26 +9671,14 @@ h3.tb {
 	text-decoration: none !important;
 }
 
-/* Make the tiny arrow visible on the widgets page at all times */
-.js .widgets-holder-wrap .sidebar-name .sidebar-name-arrow:before {
-	color: rgba(136,136,136,.4);
-}
-.js .widgets-holder-wrap .sidebar-name .sidebar-name-arrow:before {
-	content: '\f142';
-}
-.js .widgets-holder-wrap.closed .sidebar-name .sidebar-name-arrow:before {
-	content: '\f140';
-}
-
 /* Show the arrow only on hover */
-.js .sidebar-name:hover .sidebar-name-arrow:before,
-.js .meta-box-sortables .postbox:hover .handlediv:before {
+.js .sidebar-name .sidebar-name-arrow:before,
+.js .meta-box-sortables .postbox .handlediv:before {
 	content: '\f142';
-	color: #888;
 }
 
-.js .widgets-holder-wrap.closed:hover .sidebar-name-arrow:before,
-.js .meta-box-sortables .postbox.closed:hover .handlediv:before {
+.js .widgets-holder-wrap.closed .sidebar-name-arrow:before,
+.js .meta-box-sortables .postbox.closed .handlediv:before {
 	content: '\f140';
 }
 
@@ -10002,14 +9979,13 @@ input.newtag:focus ~ div.taghint {
 	margin: 10px auto;
 	/* min-width: 50%; Not sure if this is needed */
 	position: relative;
-	border: none !important; /* ln 991 in colors-fresh.css */
 	box-sizing: border-box;
 	-moz-box-sizing:border-box;
 	-webkit-box-sizing:border-box;
 }
 
 .widget-top {
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: 600;
 	background: #f7f7f7;
 }
@@ -10021,15 +9997,15 @@ input.newtag:focus ~ div.taghint {
 
 .widget-title h4 {
 	margin: 0;
-	padding: 18px 15px;
+	padding: 15px;
 	line-height: 1;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
 
-.widget-inside {
-	background: #fff !important; /* ln 1204 in colors.fresh.css */
+.widgets-holder-wrap .widget-inside {
+	border-top: none;
 	padding: 1px 15px 15px 15px;
 	line-height: 16px;
 }
@@ -10042,20 +10018,15 @@ input.newtag:focus ~ div.taghint {
 }
 
 .widget.ui-sortable-helper {
-	border: 1px solid #DEDEDE;
-	border-radius: 3px;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 	opacity: 0.8;
 	z-index: 2000;
 }
 
 .widget-placeholder {
-	border: 1px solid #dedede;
-	margin: auto auto -1px;
+	border: 1px dashed #bbb;
+	margin: 10px 0;
 	height: 50px;
 	width: 100%;
-	background: #eee;
-	box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -10072,9 +10043,9 @@ input.newtag:focus ~ div.taghint {
 
 .sidebar-name-arrow {
 	position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
 }
 
 .js .sidebar-name {
@@ -10082,8 +10053,6 @@ input.newtag:focus ~ div.taghint {
 }
 
 .sidebar-name h3 {
-	font-weight: normal;
-	font-size: 15px;
 	margin: 0;
 	padding: 8px 10px;
 	overflow: hidden;
@@ -10094,8 +10063,11 @@ input.newtag:focus ~ div.taghint {
 	padding: 0;
 	margin: 0;
 	font-style: normal;
-	font-size: 12px;
 	color: #777;
+}
+
+#available-widgets.widgets-holder-wrap .description {
+	padding-bottom: 10px;
 }
 
 /* Widgets 2-col Layout */
@@ -10103,7 +10075,6 @@ div.widget-liquid-left {
 	margin: 0;
 	width: 38%;
 	float: left;
-	border-right: 2px solid #ccc;
 }
 
 div.widget-liquid-right {
@@ -10114,8 +10085,7 @@ div.widget-liquid-right {
 /* Widgets Left - Available Widgets */
 
 div#widgets-left {
-	margin: 0;
-	padding: 12px 5% 0 0;
+	padding-top: 12px;
 }
 
 div#widgets-left .closed .sidebar-name,
@@ -10128,36 +10098,14 @@ div#widgets-left .sidebar-name h3 {
 	margin: 0 10px 0 0;
 }
 
-div#widgets-left .sidebar-name:hover h3 {
-	color: #464646;
-}
-
 div#widgets-left .sidebar-name .sidebar-name-arrow:before {
 	right: 0;
 	top: 4px;
 	padding: 4px 6px 4px 4px;
-	border-radius: 20px;
-}
-
-div#widgets-left .sidebar-name:hover .sidebar-name-arrow:before {
-	background: #ccc;
-}
-
-div#widgets-left .closed .sidebar-name .sidebar-name-arrow:before {
-	background: #999;
-	color: #fff;
 }
 
 div#widgets-left .widget-holder {
 	background: transparent;
-	border: none;
-}
-
-#available-widgets {
-	background: transparent !important; /* ln 1620 colors-fresh.css */
-	margin: 0;
-	border-radius: none;
-	box-shadow: none;
 	border: none;
 }
 
@@ -10166,28 +10114,16 @@ div#widgets-left .widget-holder {
 }
 
 #available-widgets .widget {
-	margin: 10px 0 0 0;
-	background: #ddd;
-	border-radius: 3px;
+	margin: 0;
 }
+
 #available-widgets .widget:nth-child(odd) {
 	clear: both;
 }
 
-#available-widgets .widget-top {
-	border-radius: 3px;
-	background: #ffffff; /* ln 1047 in colors-fresh.css */
-	border: 1px solid #bbb !important; /* ln 991 in colors-fresh.css */
-}
-
-#available-widgets .widget-top:hover {
-	border-color: #999 !important; /* ln 991 in colors-fresh.css */
-	box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-
 #available-widgets .widget .widget-description {
 	display: block;
-	padding: 10px 16px;
+	padding: 10px 15px;
 	font-size: 12px;
 }
 
@@ -10206,46 +10142,21 @@ div#widgets-left .widget-holder {
 	margin-top: 40px;
 }
 
-#widgets-left .inactive-sidebar .widget {
-	margin: 10px 0 0 0;
-}
-
-#widgets-left .inactive-sidebar .widget-inside {
-	-webkit-border-bottom-right-radius: 3px;
-	-webkit-border-bottom-left-radius: 3px;
-	-moz-border-radius-bottomright: 3px;
-	-moz-border-radius-bottomleft: 3px;
-	border-bottom-right-radius: 3px;
-	border-bottom-left-radius: 3px;
-	background: #dfdfdf;
-}
-
-#widgets-left .inactive-sidebar .widget-top {
-	background: #fff !important; /* ln 991 in colors-fresh.css */
-	border: 1px solid #bbb !important; /* ln 991 in colors-fresh.css */
-	border-radius: 3px;
-}
-
-#widgets-left .inactive-sidebar .widget-top:hover {
-	border-color: #999 !important; /* ln 991 in colors-fresh.css */
-	box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-
 /* Not sure what this is for... */
 div#widgets-left .inactive-sidebar .widget.expanded {
 	left: auto;
 }
 
-#widgets-left .inactive-sidebar .widget-title-action {
+.widget-title-action {
 	float: right;
 	position: relative;
-	top: 13px;
+	top: 11px;
 	right: 10px;
 }
 
+div#widgets-right a.widget-action:after,
 div#widgets-left .inactive-sidebar .widget-action:after {
-	content: '\f111';
-	color: #888;
+	content: '\f140';
 }
 
 div#widgets-left .inactive-sidebar .widgets-sortables {
@@ -10254,19 +10165,6 @@ div#widgets-left .inactive-sidebar .widgets-sortables {
 	background: transparent;
 	margin: 0;
 	position: relative;
-}
-
-div#widgets-left .inactive-sidebar .widget-placeholder {
-	border: 1px solid #ccc;
-	margin: 10px 0 0;
-	height: 50px;
-	width: 100%;
-	border-radius: 3px;
-	background: #e7e7e7;
-	box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
 }
 
 /* Widgets Right */
@@ -10285,13 +10183,12 @@ div#widgets-right .widgets-holder-wrap {
 
 div#widgets-right .widget {
 	margin: 0 auto;
-	border: 1px solid #dedede !important; /* ln 991 in colors-fresh.css */
-	margin-bottom: -1px;
+	margin-bottom: 10px;
 }
 
 div#widgets-right .sidebar-description {
 	border-top: 1px solid #eeeeee;
-	padding: 10px 15px 15px 15px;
+	padding: 10px 15px;
 }
 
 div#widgets-right .closed .sidebar-description {
@@ -10309,23 +10206,6 @@ div#widgets-right .sidebar-name .sidebar-name-arrow:before {
 
 div#widgets-right .widget-top {
 	padding: 0;
-	background: #f7f7f7;
-}
-
-div#widgets-right .widget-title-action {
-	float: right;
-	position: relative;
-	top: 14px;
-	right: 10px;
-}
-
-div#widgets-right a.widget-action:after {
-	content: '\f111';
-	color: #888;
-}
-
-div#widgets-right .widget-inside {
-	border-top: 1px solid #dedede;
 }
 
 div#widgets-right .widgets-sortables {
@@ -10333,21 +10213,6 @@ div#widgets-right .widgets-sortables {
 	margin-bottom: 9px;
 	position: relative;
 	min-height: 50px;
-}
-
-div#widgets-right .widgets-sortables:before {
-	display: block;
-	content: "";
-	text-align: center;
-	position: absolute;
-	left: 8px;
-	right: 8px;
-	bottom: 0;
-	height: 47px;
-	border: 1px dashed #dedede;
-	line-height: 40px;
-	font-weight: 600;
-	color: #aaa;
 }
 
 .sidebar-name .spinner {
@@ -10362,10 +10227,10 @@ div#widgets-right .widgets-sortables:before {
 #available-widgets .widget-control-edit .add {
 	display: block;
 	position: absolute;
-		top: 0;
-		right: 50px;
-		bottom: 0;
-		left: 0;
+	top: 0;
+	right: 50px;
+	bottom: 0;
+	left: 0;
 	z-index: 40;
 	text-align: center;
 	text-indent: -5000px;
@@ -10412,7 +10277,7 @@ div#widgets-right .widgets-sortables:before {
 .control-section .accordion-section-title:after,
 .accordion-section-title:after {
 	right: 0;
-	content: '\f141';
+	content: '\f140';
 	border: none;
 	background: none;
 	font: normal 20px/1 'dashicons';
@@ -10427,7 +10292,7 @@ div#widgets-right .widgets-sortables:before {
 	text-decoration: none !important;
 }
 .nav-menus-php .item-edit:before {
-	line-height: 1.5;
+	line-height: 2.1;
 }
 .control-section .accordion-section-title:after,
 .accordion-section-title:after {
@@ -10438,7 +10303,7 @@ div#widgets-right .widgets-sortables:before {
 .control-section.open .accordion-section-title:after,
 #customize-info.open .accordion-section-title:after,
 .nav-menus-php .menu-item-edit-active .item-edit:before {
-	content: '\f140';
+	content: '\f142';
 }
 
 /* Hide Widget Settings by Default */
@@ -10513,27 +10378,6 @@ div#widgets-right .widgets-sortables:before {
 	pointer-events: auto;
 }
 
-.widget-liquid-left #widgets-left.chooser #available-widgets .widget-in-question .widget-top {
-	background: #fff;
-	border: 1px solid #bbb;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-
-#widgets-chooser {
-	clear: both;
-	display: none;
-	max-width: 400px;
-}
-
-#widgets-chooser h3 {
-	font-size: 12px;
-	padding: 15px 0 12px 35px;
-	margin: 0;
-	border-top: 1px solid #ccc;
-	background: rgba(0,0,0,0.6);
-	color: #fff;
-}
-
 #widgets-chooser ul.widgets-chooser-sidebars {
 	margin: 0;
 	list-style-type: none;
@@ -10541,10 +10385,18 @@ div#widgets-right .widgets-sortables:before {
 	overflow: auto;
 }
 
+#widgets-chooser {
+	display: none;
+}
+
+#widgets-chooser ul {
+	border: 1px solid #ccc;
+}
+
 #widgets-chooser li {
 	padding: 10px 15px 10px 35px;
-	background: #fff;
 	border-bottom: 1px solid #ccc;
+	background: #fff;
 	margin: 0;
 	cursor: pointer;
 	outline: none;
@@ -10568,8 +10420,12 @@ div#widgets-right .widgets-sortables:before {
 	left: 5px;
 }
 
+#widgets-chooser li:last-child {
+	border: none;
+}
+
 #widgets-chooser li.widgets-chooser-selected {
-	background: #1075a0;
+	background: #2ea2cc;
 	color: #fff;
 }
 
@@ -10632,7 +10488,7 @@ div#widgets-right .widgets-sortables:before {
 
 .accordion-section-title {
 	margin: 0;
-	padding: 15px 20px;
+	padding: 12px 15px 15px;
 	position: relative;
 	border-left: 1px solid #dfdfdf;
 	border-right: 1px solid #dfdfdf;
@@ -10686,7 +10542,7 @@ div#widgets-right .widgets-sortables:before {
 .js .control-section .accordion-section-title:hover,
 .js .control-section.open .accordion-section-title,
 .js .control-section .accordion-section-title:focus {
-	color: #555;
+	color: #222;
 	background: #f5f5f5;
 }
 
