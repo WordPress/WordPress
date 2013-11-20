@@ -28,7 +28,9 @@ wpWidgets = {
 		});
 
 		$(document.body).bind('click.widgets-toggle', function(e){
-			var target = $(e.target), css = { 'z-index': 100 }, widget, inside, w;
+			var target = $(e.target),
+				css = { 'z-index': 100 },
+				widget, inside, targetWidth, widgetWidth, margin;
 
 			if ( target.parents('.widget-top').length && ! target.parents('#available-widgets').length ) {
 				widget = target.closest('div.widget');
@@ -68,8 +70,9 @@ wpWidgets = {
 
 		sidebars.children('.widget').each(function() {
 			wpWidgets.appendTitle(this);
-			if ( $('p.widget-error', this).length )
+			if ( $('p.widget-error', this).length ) {
 				$('a.widget-action', this).click();
+			}
 		});
 
 		$('#widget-list').children('.widget').draggable({
@@ -84,8 +87,9 @@ wpWidgets = {
 				the_id = this.id;
 			},
 			stop: function() {
-				if ( rem )
+				if ( rem ) {
 					$(rem).hide();
+				}
 
 				rem = '';
 			}
@@ -102,8 +106,9 @@ wpWidgets = {
 				ui.item.children('.widget-inside').hide();
 			},
 			stop: function(e,ui) {
-				if ( ui.item.hasClass('ui-draggable') && ui.item.data('draggable') )
+				if ( ui.item.hasClass('ui-draggable') && ui.item.data('draggable') ) {
 					ui.item.draggable('destroy');
+				}
 
 				if ( ui.item.hasClass('deleting') ) {
 					wpWidgets.save( ui.item, 1, 0, 1 ); // delete widget
@@ -139,8 +144,9 @@ wpWidgets = {
 			receive: function(e, ui) {
 				var sender = $(ui.sender);
 
-				if ( !$(this).is(':visible') || this.id.indexOf('orphaned_widgets') > -1 )
+				if ( ! $(this).is(':visible') || this.id.indexOf('orphaned_widgets') > -1 ) {
 					sender.sortable('cancel');
+				}
 
 				if ( sender.attr('id').indexOf('orphaned_widgets') > -1 && !sender.children('.widget').length ) {
 					sender.parents('.orphan-sidebar').slideUp(400, function(){ $(this).remove(); });
@@ -161,9 +167,10 @@ wpWidgets = {
 				ui.draggable.addClass('deleting');
 				$('div.widget-placeholder').hide();
 
-				if ( ui.draggable.hasClass('ui-sortable-helper') )
+				if ( ui.draggable.hasClass('ui-sortable-helper') ) {
 					$('#removing-widget').show().children('span')
 					.html( ui.draggable.find('div.widget-title').children('h4').html() );
+				}
 			},
 			out: function(e,ui) {
 				ui.draggable.removeClass('deleting');
@@ -206,7 +213,7 @@ wpWidgets = {
 				selectSidebar.find( 'li' ).on( 'focusin.widgets-chooser', function() {
 					selectSidebar.find('.widgets-chooser-selected').removeClass( 'widgets-chooser-selected' );
 					$(this).addClass( 'widgets-chooser-selected' );
-				} )
+				} );
 			}
 		});
 
@@ -236,8 +243,9 @@ wpWidgets = {
 	},
 
 	saveOrder : function(sb) {
-		if ( sb )
+		if ( sb ) {
 			$('#' + sb).closest('div.widgets-holder-wrap').find('.spinner').css('display', 'inline-block');
+		}
 
 		var a = {
 			action: 'widgets-order',
@@ -246,8 +254,9 @@ wpWidgets = {
 		};
 
 		$('div.widgets-sortables').each( function() {
-			if ( $(this).sortable )
+			if ( $(this).sortable ) {
 				a['sidebars[' + $(this).attr('id') + ']'] = $(this).sortable('toArray').join(',');
+			}
 		});
 
 		$.post( ajaxurl, a, function() {
@@ -266,8 +275,9 @@ wpWidgets = {
 			sidebar: sb
 		};
 
-		if ( del )
+		if ( del ) {
 			a.delete_widget = 1;
+		}
 
 		data += '&' + $.param(a);
 
@@ -275,11 +285,12 @@ wpWidgets = {
 			var id;
 
 			if ( del ) {
-				if ( !$('input.widget_number', widget).val() ) {
+				if ( ! $('input.widget_number', widget).val() ) {
 					id = $('input.widget-id', widget).val();
 					$('#available-widgets').find('input.widget-id').each(function(){
-						if ( $(this).val() === id )
+						if ( $(this).val() === id ) {
 							$(this).closest('div.widget').show();
+						}
 					});
 				}
 
@@ -299,16 +310,18 @@ wpWidgets = {
 					wpWidgets.appendTitle(widget);
 				}
 			}
-			if ( order )
+			if ( order ) {
 				wpWidgets.saveOrder();
+			}
 		});
 	},
 
 	appendTitle : function(widget) {
 		var title = $('input[id*="-title"]', widget).val() || '';
 
-		if ( title )
+		if ( title ) {
 			title = ': ' + title.replace(/<[^<>]+>/g, '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		}
 
 		$(widget).children('.widget-top').children('.widget-title').children()
 				.children('.in-widget-title').html(title);
