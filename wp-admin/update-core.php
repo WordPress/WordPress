@@ -268,7 +268,7 @@ function list_plugin_updates() {
 		$details = sprintf('<a href="%1$s" class="thickbox" title="%2$s">%3$s</a>.', esc_url($details_url), esc_attr($plugin_data->Name), $details_text);
 
 		echo "
-	<tr class='active'>
+	<tr>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr($plugin_file) . "' /></th>
 		<td><p><strong>{$plugin_data->Name}</strong><br />" . sprintf(__('You have version %1$s installed. Update to %2$s.'), $plugin_data->Version, $plugin_data->update->new_version) . ' ' . $details . $compat . $upgrade_notice . "</p></td>
 	</tr>";
@@ -316,7 +316,7 @@ function list_theme_updates() {
 <?php
 	foreach ( $themes as $stylesheet => $theme ) {
 		echo "
-	<tr class='active'>
+	<tr>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr( $stylesheet ) . "' /></th>
 		<td class='plugin-title'><img src='" . esc_url( $theme->get_screenshot() ) . "' width='85' height='64' style='float:left; padding: 0 5px 5px' /><strong>" . $theme->display('Name') . '</strong> ' . sprintf( __( 'You have version %1$s installed. Update to %2$s.' ), $theme->display('Version'), $theme->update['new_version'] ) . "</td>
 	</tr>";
