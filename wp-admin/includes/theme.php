@@ -366,12 +366,14 @@ function wp_prepare_themes_for_js( $themes = null ) {
 
 	$updates = array();
 	if ( current_user_can( 'update_themes' ) ) {
-		$updates = get_site_transient( 'update_themes' );
-		$updates = $updates->response;
+		$updates_transient = get_site_transient( 'update_themes' );
+		if ( isset( $updates_transient->response ) ) {
+			$updates = $updates_transient->response;
+		}
 	}
 
 	WP_Theme::sort_by_name( $themes );
-	foreach( $themes as $slug => $theme ) {
+	foreach ( $themes as $slug => $theme ) {
 		$parent = false;
 		if ( $theme->parent() ) {
 			$parent = $theme->parent()->display( 'Name' );
