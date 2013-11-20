@@ -2326,15 +2326,15 @@ class WP_Automatic_Updater {
 		$body = array();
 		$failures = 0;
 
-		$body[] = 'WordPress site: ' . network_home_url( '/' );
+		$body[] = sprintf( __( 'WordPress site: %s' ), network_home_url( '/' ) );
 
 		// Core
 		if ( isset( $this->update_results['core'] ) ) {
 			$result = $this->update_results['core'][0];
 			if ( $result->result && ! is_wp_error( $result->result ) ) {
-				$body[] = sprintf( 'SUCCESS: WordPress was successfully updated to %s', $result->name );
+				$body[] = sprintf( __( 'SUCCESS: WordPress was successfully updated to %s' ), $result->name );
 			} else {
-				$body[] = sprintf( 'FAILED: WordPress failed to update to %s', $result->name );
+				$body[] = sprintf( __( 'FAILED: WordPress failed to update to %s' ), $result->name );
 				$failures++;
 			}
 			$body[] = '';
@@ -2346,16 +2346,19 @@ class WP_Automatic_Updater {
 				continue;
 			$success_items = wp_list_filter( $this->update_results[ $type ], array( 'result' => true ) );
 			if ( $success_items ) {
-				$body[] = "The following {$type}s were successfully updated:";
-				foreach ( wp_list_pluck( $success_items, 'name' ) as $name )
-					$body[] = ' * SUCCESS: ' . $name;
+				/* translators: %s singular/plural form of 'plugin', 'theme', or, 'translation' */
+				$body[] = sprintf( __( 'The following %ss were successfully updated:' ), $type );
+				foreach ( wp_list_pluck( $success_items, 'name' ) as $name ) {
+					$body[] = ' * ' . sprintf( __( 'SUCCESS: %s' ), $name );
+				}
 			}
 			if ( $success_items != $this->update_results[ $type ] ) {
 				// Failed updates
-				$body[] = "The following {$type}s failed to update:";
+				/* translators: %s generic singular/plural form of 'plugin', 'theme', or, 'translation' */
+				$body[] = sprintf( __( 'The following %ss failed to update:' ), $type );
 				foreach ( $this->update_results[ $type ] as $item ) {
 					if ( ! $item->result || is_wp_error( $item->result ) ) {
-						$body[] = ' * FAILED: ' . $item->name;
+						$body[] = ' * ' . sprintf( __( 'FAILED: %s' ), $item->name );
 						$failures++;
 					}
 				}
@@ -2364,24 +2367,24 @@ class WP_Automatic_Updater {
 		}
 
 		if ( $failures ) {
-			$body[] = '';
-			$body[] = 'BETA TESTING?';
-			$body[] = '=============';
-			$body[] = '';
-			$body[] = 'This debugging email is sent when you are using a development version of WordPress.';
-			$body[] = '';
-			$body[] = 'If you think these failures might be due to a bug in WordPress, could you report it?';
-			$body[] = ' * Open a thread in the support forums: http://wordpress.org/support/forum/alphabeta';
-			$body[] = " * Or, if you're comfortable writing a bug report: http://core.trac.wordpress.org/";
-			$body[] = '';
-			$body[] = 'Thanks! -- The WordPress Team';
-			$body[] = '';
-			$subject = sprintf( '[%s] There were failures during background updates', get_bloginfo( 'name' ) );
+			$body[] = __( "
+BETA TESTING?
+=============
+
+This debugging email is sent when you are using a development version of WordPress.
+
+If you think these failures might be due to a bug in WordPress, could you report it?
+ * Open a thread in the support forums: http://wordpress.org/support/forum/alphabeta
+ * Or, if you're comfortable writing a bug report: http://core.trac.wordpress.org/
+
+Thanks! -- The WordPress Team" );
+
+			$subject = sprintf( __( '[%s] There were failures during background updates' ), get_bloginfo( 'name' ) );
 		} else {
-			$subject = sprintf( '[%s] Background updates have finished', get_bloginfo( 'name' ) );
+			$subject = sprintf( __( '[%s] Background updates have finished' ), get_bloginfo( 'name' ) );
 		}
 
-		$body[] = 'UPDATE LOG';
+		$body[] = __( 'UPDATE LOG' );
 		$body[] = '==========';
 		$body[] = '';
 
@@ -2401,7 +2404,13 @@ class WP_Automatic_Updater {
 					foreach ( $results as $result_type => $result ) {
 						if ( ! is_wp_error( $result ) )
 							continue;
-						$body[] = '  ' . ( 'rollback' === $result_type ? 'Rollback ' : '' ) . 'Error: [' . $result->get_error_code() . '] ' . $result->get_error_message();
+
+						if ( 'rollback' === $result_type ) {
+							$body[] = '  ' . sprintf( __( 'Rollback Error: [%s] %s' ), $result->get_error_code(), $result->get_error_message() );
+						} else {
+							$body[] = '  ' . sprintf( __( 'Error: [%s] %s' ), $result->get_error_code(), $result->get_error_message() );
+						}
+
 						if ( $result->get_error_data() )
 							$body[] = '         ' . implode( ', ', (array) $result->get_error_data() );
 					}
