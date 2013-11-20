@@ -857,7 +857,8 @@ tr.active + tr.plugin-update-tr .plugin-update {
 
 .plugins .active.update td,
 .plugins .active.update th,
-tr.active.update + tr.plugin-update-tr .plugin-update {
+tr.active.update + tr.plugin-update-tr .plugin-update,
+#activity-widget #the-comment-list .unapproved {
 	background-color: #fefaf7;
 }
 
@@ -936,6 +937,11 @@ a.post-format-icon:hover:before {
 #the-comment-list td {
 	-webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 	box-shadow:         inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+#activity-widget #the-comment-list .comment {
+	-webkit-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.06);
+	box-shadow:         inset 0 1px 0 rgba(0, 0, 0, 0.06);
 }
 
 #the-comment-list tr:last-child th,

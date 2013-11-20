@@ -3252,7 +3252,6 @@ form.initial-form.quickpress-open input#title {
 	background: #f5f5f5;
 	padding: 12px;
 	position: relative;
-	border-top: 1px solid #eeeeee;
 }
 
 #activity-widget #the-comment-list img {
@@ -3280,10 +3279,6 @@ form.initial-form.quickpress-open input#title {
 
 #activity-widget #the-comment-list .comment-item:first-child {
 	border-top: 1px solid #eeeeee;
-}
-
-#activity-widget #the-comment-list .unapproved {
-	background: #f7fcfe;
 }
 
 #activity-widget #the-comment-list .unapproved:before {
@@ -8236,7 +8231,6 @@ h3:hover .edit-box {
 
 #activity-widget #latest-comments #the-comment-list .comment-item {
 	padding: 1em 12px;
-	border-top: 1px solid #eee;
 }
 
 #latest-comments #the-comment-list .pingback {
