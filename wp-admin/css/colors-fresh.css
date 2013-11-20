@@ -30,7 +30,7 @@ html {
 input[type=checkbox],
 input[type=radio] {
 	background: #fff;
-	border-color: #bbb !important;
+	border-color: #bbb;
 	color: #555;
 
 	-webkit-box-shadow: inset 0px 1px 2px rgba(0,0,0,0.1);
@@ -50,10 +50,6 @@ input[type=checkbox]:checked:before {
 
 input[type=radio]:checked:before {
 	background-color: #1e8cbe;
-}
-
-#wpbody select {
-	border-color: #bbb;
 }
 
 .wp-core-ui input[type="reset"]:hover,
@@ -299,8 +295,10 @@ input[type="number"]:focus,
 input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="url"]:focus,
+input[type="checkbox"]:focus,
+input[type="radio"]:focus,
 select:focus {
-	border-color: #aaa;
+	border-color: #999;
 }
 
 input:disabled,
@@ -2016,13 +2014,7 @@ a .mceIcon:hover {
 .login form .input,
 .login input[type="text"],
 .login form input[type="checkbox"] {
-	border-color: #ddd !important; /* Override !important in checkbox style */
-	-webkit-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.08);
-	box-shadow:         inset 1px 1px 2px rgba(0,0,0,0.08);
-}
-
-.login form input[type="checkbox"] {
-	background-color: #fbfbfb;
+	background: #fbfbfb;
 }
 
 .login form {
