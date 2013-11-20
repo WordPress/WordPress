@@ -104,23 +104,39 @@ function _get_template_edit_filename($fullpath, $containingfolder) {
  * Will display link, if there is an update available.
  *
  * @since 2.7.0
+ * @see get_theme_update_available()
  *
  * @param object $theme Theme data object.
- * @return bool False if no valid info was passed.
  */
 function theme_update_available( $theme ) {
+	echo get_theme_update_available( $theme );
+}
+
+/**
+ * Retrieve the update link if there is an update for a theme available.
+ *
+ * Will return a link, if there is an update available.
+ *
+ * @since 3.8.0
+ *
+ * @param object $theme Theme data object.
+ * @return string|bool HTML for the update link, or False if no valid info was passed.
+ */
+function get_theme_update_available( $theme ) {
 	static $themes_update;
 
 	if ( !current_user_can('update_themes' ) )
-		return;
+		return false;
 
 	if ( !isset($themes_update) )
 		$themes_update = get_site_transient('update_themes');
 
 	if ( ! is_a( $theme, 'WP_Theme' ) )
-		return;
+		return false;
 
 	$stylesheet = $theme->get_stylesheet();
+
+	$html = '';
 
 	if ( isset($themes_update->response[ $stylesheet ]) ) {
 		$update = $themes_update->response[ $stylesheet ];
@@ -130,14 +146,17 @@ function theme_update_available( $theme ) {
 		$update_onclick = 'onclick="if ( confirm(\'' . esc_js( __("Updating this theme will lose any customizations you have made. 'Cancel' to stop, 'OK' to update.") ) . '\') ) {return true;}return false;"';
 
 		if ( !is_multisite() ) {
-			if ( ! current_user_can('update_themes') )
-				printf( '<p><strong>' . __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s details</a>.') . '</strong></p>', $theme_name, $details_url, $update['new_version']);
-			else if ( empty($update['package']) )
-				printf( '<p><strong>' . __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s details</a>. <em>Automatic update is unavailable for this theme.</em>') . '</strong></p>', $theme_name, $details_url, $update['new_version']);
-			else
-				printf( '<p><strong>' . __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s details</a> or <a href="%4$s" %5$s>update now</a>.') . '</strong></p>', $theme_name, $details_url, $update['new_version'], $update_url, $update_onclick );
+			if ( ! current_user_can('update_themes') ) {
+				$html = sprintf( '<p><strong>' . __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s details</a>.') . '</strong></p>', $theme_name, $details_url, $update['new_version']);
+			} else if ( empty( $update['package'] ) ) {
+				$html = sprintf( '<p><strong>' . __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s details</a>. <em>Automatic update is unavailable for this theme.</em>') . '</strong></p>', $theme_name, $details_url, $update['new_version']);
+			} else {
+				$html = sprintf( '<p><strong>' . __('There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s details</a> or <a href="%4$s" %5$s>update now</a>.') . '</strong></p>', $theme_name, $details_url, $update['new_version'], $update_url, $update_onclick );
+			}
 		}
 	}
+
+	return $html;
 }
 
 /**
@@ -393,7 +412,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			'parent'       => $parent,
 			'active'       => $slug === $current_theme,
 			'hasUpdate'    => isset( $updates[ $slug ] ),
-			'update'       => 'New version available', // @todo complete this
+			'update'       => get_theme_update_available( $theme ),
 			'actions'      => array(
 				'activate' => wp_nonce_url( 'themes.php?action=activate&amp;stylesheet=' . $encoded_slug, 'switch-theme_' . $slug ),
 				'customize'=> admin_url( 'customize.php?theme=' . $encoded_slug ),
