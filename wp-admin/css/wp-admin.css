@@ -10025,11 +10025,15 @@ input.newtag:focus ~ div.taghint {
 .widget-placeholder {
 	border: 1px dashed #bbb;
 	margin: 10px 0;
-	height: 50px;
+	height: 45px;
 	width: 100%;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+}
+
+#widgets-right .widget-placeholder {
+	margin-top: 0;
 }
 
 /* Widget Sidebars */
