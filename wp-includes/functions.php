@@ -1083,6 +1083,21 @@ function do_feed_atom( $for_comments ) {
 }
 
 /**
+ * Load either rssjs comment feed or rssjs posts feed.
+ *
+ * @since 3.8.0
+ *
+ * @param bool $for_comments True for the comment feed, false for normal feed.
+ */
+function do_feed_rssjs( $for_comments ) {
+	if ( $for_comments ) {
+		load_template( ABSPATH . WPINC . '/feed-rssjs-comments.php' );
+	} else {
+		load_template( ABSPATH . WPINC . '/feed-rssjs.php' );
+	}
+}
+
+/**
  * Display the robots.txt file content.
  *
  * The echo content should be with usage of the permalinks or for creating the

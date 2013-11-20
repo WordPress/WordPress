@@ -743,7 +743,7 @@ class WP_Rewrite {
 	 * @access private
 	 * @var array
 	 */
-	var $feeds = array( 'feed', 'rdf', 'rss', 'rss2', 'atom' );
+	var $feeds = array( 'feed', 'rdf', 'rss', 'rss2', 'atom', 'rssjs' );
 
 	/**
 	 * Whether permalinks are being used.
