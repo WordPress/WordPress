@@ -345,27 +345,28 @@ do_action( 'widgets_admin_page' ); ?>
 	</div>
 
 <?php
+
+$theme_sidebars = array();
 foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 	if ( false !== strpos( $registered_sidebar['class'], 'inactive-sidebar' ) || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) ) {
 		$wrap_class = 'widgets-holder-wrap';
 		if ( !empty( $registered_sidebar['class'] ) )
 			$wrap_class .= ' ' . $registered_sidebar['class'];
 
-?>
-
+		?>
 		<div class="<?php echo esc_attr( $wrap_class ); ?>">
 			<div class="sidebar-name">
 				<div class="sidebar-name-arrow"><br /></div>
-				<h3><?php echo esc_html( $registered_sidebar['name'] ); ?>
-					<span class="spinner"></span>
-				</h3>
+				<h3><?php echo esc_html( $registered_sidebar['name'] ); ?> <span class="spinner"></span></h3>
 			</div>
 			<div class="widget-holder inactive">
 				<?php wp_list_widget_controls( $registered_sidebar['id'] ); ?>
 				<div class="clear"></div>
 			</div>
 		</div>
-<?php
+		<?php
+	} else {
+		$theme_sidebars[$sidebar] = $registered_sidebar;
 	}
 }
 ?>
@@ -375,29 +376,44 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 
 <div class="widget-liquid-right">
 <div id="widgets-right">
+<div class="sidebars-column-1">
 <?php
-$i = 0;
-foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
-	if ( false !== strpos( $registered_sidebar['class'], 'inactive-sidebar' ) || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) )
-		continue;
 
+$i = $split = 0;
+$sidebars_count = count( $theme_sidebars );
+
+if ( $sidebars_count > 2 )
+	$split = ceil( $sidebars_count / 2 );
+
+foreach ( $theme_sidebars as $sidebar => $registered_sidebar ) {
 	$wrap_class = 'widgets-holder-wrap';
 	if ( !empty( $registered_sidebar['class'] ) )
 		$wrap_class .= ' sidebar-' . $registered_sidebar['class'];
 
-	if ( $i )
-		$wrap_class .= ' closed'; ?>
+	if ( $i > 0 )
+		$wrap_class .= ' closed';
 
+	if ( $split && $i == $split ) {
+		?>
+		</div><div class="sidebars-column-2">
+		<?php
+	}
+
+	?>
 	<div class="<?php echo esc_attr( $wrap_class ); ?>">
-	<div class="sidebar-name">
-	<div class="sidebar-name-arrow"><br /></div>
-	<h3><?php echo esc_html( $registered_sidebar['name'] ); ?>
-	<span class="spinner"></span></h3></div>
-	<?php wp_list_widget_controls( $sidebar ); // Show the control forms for each of the widgets in this sidebar ?>
+		<div class="sidebar-name">
+			<div class="sidebar-name-arrow"><br /></div>
+			<h3><?php echo esc_html( $registered_sidebar['name'] ); ?>	<span class="spinner"></span></h3>
+		</div>
+		<?php wp_list_widget_controls( $sidebar ); // Show the control forms for each of the widgets in this sidebar ?>
 	</div>
-<?php
+	<?php
+
 	$i++;
-} ?>
+}
+
+?>
+</div>
 </div>
 </div>
 <form action="" method="post">

@@ -12,13 +12,14 @@ wpWidgets = {
 			sidebars = $('div.widgets-sortables'),
 			isRTL = !! ( 'undefined' !== typeof isRtl && isRtl );
 
-		$('#widgets-right').children('.widgets-holder-wrap').children('.sidebar-name').click( function() {
-			var $this = $(this), parent = $this.parent();
-			if ( parent.hasClass('closed') ) {
-				parent.removeClass('closed');
+		$('#widgets-right .sidebar-name').click( function() {
+			var $this = $(this), wrap = $this.closest('.widgets-holder-wrap');
+
+			if ( wrap.hasClass('closed') ) {
+				wrap.removeClass('closed');
 				$this.siblings('.widgets-sortables').sortable('refresh');
 			} else {
-				parent.addClass('closed');
+				wrap.addClass('closed');
 			}
 		});
 
