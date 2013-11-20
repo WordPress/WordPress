@@ -369,21 +369,27 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 		$theme_sidebars[$sidebar] = $registered_sidebar;
 	}
 }
+
 ?>
-
 </div>
 </div>
-
-<div class="widget-liquid-right">
-<div id="widgets-right">
-<div class="sidebars-column-1">
 <?php
 
 $i = $split = 0;
+$single_sidebar_class = '';
 $sidebars_count = count( $theme_sidebars );
 
-if ( $sidebars_count > 2 )
+if ( $sidebars_count > 1 ) {
 	$split = ceil( $sidebars_count / 2 );
+} else {
+	$single_sidebar_class = ' class="single-sidebar"';
+}
+
+?>
+<div class="widget-liquid-right">
+<div id="widgets-right"<?php echo $single_sidebar_class; ?>>
+<div class="sidebars-column-1">
+<?php
 
 foreach ( $theme_sidebars as $sidebar => $registered_sidebar ) {
 	$wrap_class = 'widgets-holder-wrap';
