@@ -91,7 +91,8 @@ if ( current_user_can( 'switch_themes' ) ) {
 wp_localize_script( 'theme', '_wpThemeSettings', array(
 	'themes'   => $themes,
 	'settings' => array(
-		'install_uri'   => admin_url( 'theme-install.php' ),
+		'canInstall'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ),
+		'installURI'    => admin_url( 'theme-install.php' ),
 		'customizeURI'  => ( current_user_can( 'edit_theme_options' ) ) ? wp_customize_url() : null,
 		'confirmDelete' => __( "Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete." ),
 		'root'          => '/wp-admin/themes.php',
@@ -99,7 +100,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		'extraRoutes'   => '',
 	),
 	'i18n' => array(
-		'add_new'         => __( 'Add New Theme' ),
+		'addNew'        => __( 'Add New Theme' ),
 	),
 ) );
 

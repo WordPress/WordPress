@@ -465,7 +465,9 @@ themes.view.Themes = wp.Backbone.View.extend({
 		});
 
 		// 'Add new theme' element shown at the end of the grid
-		this.$el.append( '<div id="add-new" class="theme add-new"><a href="' + themes.data.settings.install_uri + '"><div class="theme-screenshot"><span></span></div><h3 class="theme-name">' + themes.data.i18n.add_new + '</h3></a></div>' );
+		if ( themes.data.settings.canInstall ) {
+			this.$el.append( '<div id="add-new" class="theme add-new"><a href="' + themes.data.settings.installURI + '"><div class="theme-screenshot"><span></span></div><h3 class="theme-name">' + themes.data.i18n.addNew + '</h3></a></div>' );
+		}
 
 		this.parent.page++;
 	},
