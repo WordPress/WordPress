@@ -96,12 +96,12 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		'customizeURI'  => ( current_user_can( 'edit_theme_options' ) ) ? wp_customize_url() : null,
 		'confirmDelete' => __( "Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete." ),
 		'root'          => '/wp-admin/themes.php',
-		'container'     => '#appearance',
 		'extraRoutes'   => '',
 	),
-	'i18n' => array(
-		'addNew'        => __( 'Add New Theme' ),
-	),
+ 	'l10n' => array(
+ 		'addNew' => __( 'Add New Theme' ),
+ 		'search'  => __( 'Search...' ),
+  	),
 ) );
 
 add_thickbox();
@@ -112,13 +112,15 @@ wp_enqueue_script( 'customize-loader' );
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
-<div id="appearance" class="wrap">
+<div class="wrap">
 	<h2><?php esc_html_e( 'Themes' ); ?>
-		<span id="theme-count" class="theme-count"></span>
+		<span class="theme-count"></span>
 	<?php if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 		<a href="<?php echo admin_url( 'theme-install.php' ); ?>" class="add-new-h2"><?php echo esc_html( _x( 'Add New', 'Add new theme' ) ); ?></a>
 	<?php endif; ?>
 	</h2>
+
+	<div class="theme-browser"></div>
 
 <?php
 if ( ! validate_current_theme() || isset( $_GET['broken'] ) ) : ?>
@@ -183,10 +185,11 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_get_themes( array( 'errors' => true ) ) ) {
 ?>
 
+<div class="broken-themes">
 <h3><?php _e('Broken Themes'); ?></h3>
 <p><?php _e('The following themes are installed but incomplete. Themes must have a stylesheet and a template.'); ?></p>
 
-<table id="broken-themes">
+<table>
 	<tr>
 		<th><?php _ex('Name', 'theme name'); ?></th>
 		<th><?php _e('Description'); ?></th>
@@ -195,12 +198,14 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	foreach ( $broken_themes as $broken_theme ) {
 		echo "
 		<tr>
-			 <td>" . $broken_theme->get('Name') ."</td>
+			 <td>" . ( $broken_theme->get( 'Name' ) ? $broken_theme->get( 'Name' ) : $broken_theme->get_stylesheet() ) . "</td>
 			 <td>" . $broken_theme->errors()->get_error_message() . "</td>
 		</tr>";
 	}
 ?>
 </table>
+</div>
+
 <?php
 }
 ?>
@@ -235,10 +240,6 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	<# } #>
 </script>
 
-<script id="tmpl-theme-search" type="text/template">
-	<input type="text" name="theme-search" id="theme-search" placeholder="<?php esc_attr_e( 'Search...' ); ?>" />
-</script>
-
 <script id="tmpl-theme-single" type="text/template">
 	<div class="theme-backdrop"></div>
 	<div class="theme-wrap">
@@ -248,7 +249,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 			<div alt="<?php _e( 'Show next theme' ); ?>" class="right dashicons dashicons-no"></div>
 		</div>
 
-		<div class="theme-screenshots" id="theme-screenshots">
+		<div class="theme-screenshots">
 			<div class="screenshot first"><img src="{{ data.screenshot[0] }}" alt="" /></div>
 		<#
 			if ( _.size( data.screenshot ) > 1 ) {

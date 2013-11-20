@@ -1,20 +1,15 @@
-/**
- * THX38 styles...
- *
- * Note: it expects mp6 plugin to be active as this is based on that design of the admin.
- */
-#themes {
+.theme-browser .themes {
 	clear: both;
 	padding: 0 0 100px;
 }
-#appearance h2 {
+.themes-php .wrap h2 {
 	float: left;
 	margin-bottom: 15px;
 }
-#appearance h2 .button {
+.themes-php .wrap h2 .button {
 	margin-left: 20px;
 }
-.theme-count {
+.themes-php .theme-count {
 	color: #fff;
 	border-radius: 30px;
 	background: #777;
@@ -27,58 +22,12 @@
 		top: -3px;
 }
 /* Position admin messages */
-#appearance div.updated {
+.themes-php div.updated {
 	margin: 0 0 20px 0;
 	clear: both;
 }
-#appearance div.updated a {
+.themes-php div.updated a {
 	text-decoration: underline;
-}
-/* Add new theme */
-.add-new-h2 {
-	background: #e0e0e0;
-	color: #555;
-	margin-left: 20px;
-}
-.add-new-icon:hover {
-	background: #2ea2cc;
-}
-/* Edit mode toggle */
-.themes-bulk-edit {
-	color: #555;
-	cursor: pointer;
-	font-size: 14px;
-	margin-left: 20px;
-	padding: 4px 8px;
-	border: 1px solid #ddd;
-	display: none;
-}
-.themes-bulk-edit:before {
-	content: '\f111';
-	display: inline-block;
-	font: normal 20px/1 'dashicons';
-	margin: 0 6px 0 0;
-	opacity: 0.8;
-	position: relative;
-		top: 4px;
-	speak: none;
-	-webkit-font-smoothing: antialiased;
-}
-.themes-bulk-edit:hover {
-	border-color: #2ea2cc;
-	color: #2ea2cc;
-}
-.edit-mode .themes-bulk-edit {
-	background: #555;
-	color: #fff;
-}
-.edit-mode .themes-bulk-edit .edit,
-.themes-bulk-edit .done {
-	display: none;
-}
-.edit-mode .themes-bulk-edit .done,
-.themes-bulk-edit .edit {
-	display: inline;
 }
 
 /**
@@ -172,20 +121,6 @@
 .theme .delete-theme:hover:before {
 	background: #d54e21;
 }
-body.edit-mode .theme .delete-theme {
-	display: inline-block;
-}
-body.edit-mode .theme:hover .theme-screenshot img {
-	opacity: 1;
-}
-body.edit-mode .theme:hover:after {
-	opacity: 0;
-}
-body.edit-mode .theme:hover .theme-actions,
-body.edit-mode .theme.add-new {
-	display: none;
-}
-
 
 /*
  * Theme Screenshot
@@ -350,17 +285,17 @@ body.edit-mode .theme.add-new {
 /*
  * Add new theme
  */
-.add-new {
+.theme-browser .add-new-theme {
 	border: none;
 	box-shadow: none;
 }
-.add-new a {
+.theme-browser .add-new-theme a {
 	color: #999;
 	text-decoration: none;
 	display: block;
 	position: relative;
 }
-.theme.add-new:after {
+.theme-browser .add-new-theme:after {
 	display: block;
 	content: '';
 	opacity: 1;
@@ -376,7 +311,7 @@ body.edit-mode .theme.add-new {
 	border: 5px dashed rgba(0, 0, 0, 0.1);
 	box-sizing: border-box;
 }
-.theme.add-new span:after {
+.theme-browser .add-new-theme span:after {
 	background: rgba(153, 153, 153, 0.1);
 	border-radius: 50%;
 	display: inline-block;
@@ -397,22 +332,22 @@ body.edit-mode .theme.add-new {
 	text-shadow: none;
 	z-index:4;
 }
-.theme.add-new:hover .theme-screenshot {
+.theme-browser .add-new-theme:hover .theme-screenshot {
 	background: none;
 }
-.theme.add-new:hover span:after {
+.theme-browser .add-new-theme:hover span:after {
 	background: #fff;
 	color: rgb(16, 116, 162);
 	box-shadow: 0 2px 1px rgba(0,0,0,0.3);
 }
 
-.theme.add-new:hover:after {
+.theme-browser .add-new-theme:hover:after {
 	border-color: transparent;
 	color: #fff;
 	background: rgb(16, 116, 162);
 }
 
-.add-new .theme-name {
+.theme-browser .add-new-theme .theme-name {
 	background: none;
 	text-align: center;
 	box-shadow: none;
@@ -420,35 +355,29 @@ body.edit-mode .theme.add-new {
 	position: relative;
 	top: -70px;
 }
-.add-new:hover .theme-name {
+.theme-browser .add-new-theme:hover .theme-name {
 	color: #fff;
 	z-index: 2;
 }
 
-
 /*
  * The search form
  */
-.search-form {
+.theme-browser .theme-search {
 	float: left;
 	position: relative;
 		top: 7px;
 		left: 10px;
-}
-#theme-search {
 	font-size: 16px;
 	font-weight: 300;
 	line-height: 1.5;
 }
 
-
 /*
  * Theme Overlay
  * Shown when clicking a theme
  */
-#theme-overlay {
-}
-#theme-overlay .theme-backdrop {
+.theme-overlay .theme-backdrop {
 	position: absolute;
 		left: -20px;
 		right: 0;
@@ -458,18 +387,18 @@ body.edit-mode .theme.add-new {
 	/* background: rgba(0,0,0,0.7); */
 	z-index: 10;
 }
-body.theme-overlay {
+body.theme-overlay-open {
 	overflow: hidden;
 }
 
-#theme-overlay .theme-utility {
+.theme-overlay .theme-utility {
 	position: absolute;
 		top: 0;
 		left: 0;
 		right: 0;
 	border-bottom: 1px solid #eee;
 }
-#theme-overlay .back {
+.theme-overlay .back {
 	cursor: pointer;
 	height: 48px;
 	width: 50px;
@@ -477,13 +406,13 @@ body.theme-overlay {
 	float: right;
 	border-left: 1px solid #eee;
 }
-#theme-overlay .back:hover {
+.theme-overlay .back:hover {
 	background: #333;
 }
-#theme-overlay .back:hover:before {
+.theme-overlay .back:hover:before {
 	color: #fff;
 }
-#theme-overlay .back:before {
+.theme-overlay .back:before {
 	font: normal 30px/48px 'dashicons' !important;
 	color: #bbb;
 	display: inline-block;
@@ -491,8 +420,8 @@ body.theme-overlay {
 	font-weight: 300;
 }
 /* Left and right navigation */
-#theme-overlay .right,
-#theme-overlay .left {
+.theme-overlay .right,
+.theme-overlay .left {
 	cursor: pointer;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -504,29 +433,29 @@ body.theme-overlay {
 	text-align: center;
 	border-right: 1px solid #eee;
 }
-#theme-overlay .right:hover,
-#theme-overlay .left:hover {
+.theme-overlay .right:hover,
+.theme-overlay .left:hover {
 	background: #333;
 }
-	#theme-overlay .right:hover:before,
-	#theme-overlay .left:hover:before {
+	.theme-overlay .right:hover:before,
+	.theme-overlay .left:hover:before {
 		color: #fff;
 	}
-#theme-overlay .left:before {
+.theme-overlay .left:before {
 	content: '\f341';
 }
-#theme-overlay .right:before {
+.theme-overlay .right:before {
 	content: '\f345';
 }
-#theme-overlay .right:before,
-#theme-overlay .left:before {
+.theme-overlay .right:before,
+.theme-overlay .left:before {
 	font: normal 16px/54px 'dashicons' !important;
 	display: inline;
 	font-weight: 300;
 }
-#theme-overlay .left:before {}
+.theme-overlay .left:before {}
 
-#theme-overlay .theme-wrap {
+.theme-overlay .theme-wrap {
 	clear: both;
 	position: fixed;
 		top: 120px;
@@ -539,7 +468,7 @@ body.theme-overlay {
 	box-shadow: 0 1px 20px 5px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0,0,0,0.1);
 	z-index: 20;
 }
-#theme-overlay .theme-wrap:after {
+.theme-overlay .theme-wrap:after {
 	content: ".";
 	display: block;
 	height: 0;
@@ -547,7 +476,7 @@ body.theme-overlay {
 	visibility: hidden;
 }
 
-#theme-overlay .theme-actions {
+.theme-overlay .theme-actions {
 	position: fixed;
 	text-align: center;
 	bottom: 80px;
@@ -558,10 +487,10 @@ body.theme-overlay {
 	border-top: 1px solid rgba(0,0,0,0.1);
 	z-index: 30;
 }
-#theme-overlay.active .theme-actions {
+.theme-overlay.active .theme-actions {
 
 }
-#theme-overlay .theme-actions a {
+.theme-overlay .theme-actions a {
 	margin-right: 5px;
 	margin-bottom: 0;
 	font-size: 16px;
@@ -569,7 +498,7 @@ body.theme-overlay {
 	height: 37px;
 	padding: 0 20px 1px 20px;
 }
-#theme-overlay .theme-actions .delete-theme {
+.theme-overlay .theme-actions .delete-theme {
 	border-radius: 2px;
 	color: #a00;
 	font-size: 14px;
@@ -579,30 +508,30 @@ body.theme-overlay {
 		bottom: 20px;
 	text-decoration: none;
 }
-#theme-overlay .theme-actions .delete-theme:hover {
+.theme-overlay .theme-actions .delete-theme:hover {
 	background: #d54e21;
 	color: #fff;
 }
 
-#theme-overlay .theme-actions .active-theme,
-#theme-overlay.active .theme-actions .inactive-theme {
+.theme-overlay .theme-actions .active-theme,
+.theme-overlay.active .theme-actions .inactive-theme {
 	display: none;
 }
-#theme-overlay .theme-actions .inactive-theme,
-#theme-overlay.active .theme-actions .active-theme {
+.theme-overlay .theme-actions .inactive-theme,
+.theme-overlay.active .theme-actions .active-theme {
 	display: block;
 }
 /*
  * Theme Screenshots gallery
  */
-#theme-overlay .theme-screenshots {
+.theme-overlay .theme-screenshots {
 	float: left;
 	margin: 0 30px 0 0;
 	width: 55%;
 	text-align: center;
 }
 /* First screenshot, shown big */
-#theme-overlay .screenshot {
+.theme-overlay .screenshot {
 	background: #000;
 	border: 1px solid #fff;
 	-moz-box-sizing: border-box;
@@ -612,12 +541,12 @@ body.theme-overlay {
 	position: relative;
 	box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
 }
-#theme-overlay .screenshot:after {
+.theme-overlay .screenshot:after {
 	content: '';
 	display: block;
 	padding-top: 66.66666%; /* using a 3/2 aspect ratio */
 }
-#theme-overlay .screenshot img {
+.theme-overlay .screenshot img {
 	cursor: pointer;
 	height: auto;
 	position: absolute;
@@ -626,7 +555,7 @@ body.theme-overlay {
 	width: 100%;
 }
 /* Other screenshots, shown small and square */
-#theme-overlay .screenshot.thumb {
+.theme-overlay .screenshot.thumb {
 	background: #ccc;
 	border: 1px solid #eee;
 	float: none;
@@ -635,12 +564,12 @@ body.theme-overlay {
 	width: 140px;
 	height: 80px;
 }
-#theme-overlay .screenshot.thumb:after {
+.theme-overlay .screenshot.thumb:after {
 	content: '';
 	display: block;
 	padding-top: 100%; /* using a 1/1 aspect ratio */
 }
-#theme-overlay .screenshot.thumb img {
+.theme-overlay .screenshot.thumb img {
 	cursor: pointer;
 	height: auto;
 	position: absolute;
@@ -649,21 +578,21 @@ body.theme-overlay {
 	width: 100%;
 	height: auto;
 }
-#theme-overlay .screenshot.selected {
+.theme-overlay .screenshot.selected {
 	background: transparent;
 	border: 2px solid #2ea2cc;
 }
-#theme-overlay .screenshot.selected img {
+.theme-overlay .screenshot.selected img {
 	opacity: 0.8;
 }
 /*
  * Theme heading information
  */
-#theme-overlay .theme-info {
+.theme-overlay .theme-info {
 	width: 40%;
 	float: left;
 }
-#theme-overlay .current-label {
+.theme-overlay .current-label {
 	background: #333;
 	color: #fff;
 	font-size: 11px;
@@ -674,14 +603,14 @@ body.theme-overlay {
 	-webkit-user-select: none;
 	user-select: none;
 }
-#theme-overlay .theme-name {
+.theme-overlay .theme-name {
 	color: #222;
 	font-size: 32px;
 	font-weight: 100;
 	margin: 10px 0 0;
 	line-height: 1.3;
 }
-#theme-overlay .theme-version {
+.theme-overlay .theme-version {
 	color: #999;
 	font-size: 13px;
 	font-weight: 400;
@@ -691,23 +620,23 @@ body.theme-overlay {
 	-webkit-user-select: none;
 	user-select: none;
 }
-#theme-overlay .theme-author {
+.theme-overlay .theme-author {
 	color: #686868;
 	font-size: 16px;
 	font-weight: 400;
 	margin: 15px 0 25px;
 }
-#theme-overlay .theme-author a {
+.theme-overlay .theme-author a {
 	text-decoration: none;
 }
-#theme-overlay .theme-description {
+.theme-overlay .theme-description {
 	color: #555;
 	font-size: 15px;
 	font-weight: 400;
 	line-height: 1.5;
 	margin: 30px 0 0 0;
 }
-#theme-overlay .theme-tags {
+.theme-overlay .theme-tags {
 	border-top: 3px solid #eee;
 	color: #888;
 	font-size: 13px;
@@ -716,29 +645,29 @@ body.theme-overlay {
 	padding-top: 20px;
 	text-transform: capitalize;
 }
-#theme-overlay .theme-tags span {
+.theme-overlay .theme-tags span {
 	color: #444;
 	font-weight: bold;
 	margin-right: 5px;
 }
-#theme-overlay .theme-actions {
+.theme-overlay .theme-actions {
 }
 /* Theme Updates info */
-#theme-overlay .theme-update-message {
+.theme-overlay .theme-update-message {
 	background: #fefaf7;
 	border: 1px solid #eee;
 	border-left: 4px solid #d54e21;
 	border-radius: 3px;
 	padding: 5px 20px 10px;
 }
-#theme-overlay .theme-update {
+.theme-overlay .theme-update {
 	color: #222;
 	font-size: 18px;
 	display: inline-block;
 	line-height: 40px;
 	margin: 0;
 }
-#theme-overlay .parent-theme {
+.theme-overlay .parent-theme {
 	background: #f7fcfe;
 	border: 1px solid #eee;
 	border-left: 4px solid #2ea2cc;
@@ -747,7 +676,7 @@ body.theme-overlay {
 	margin-top: 30px;
 	padding: 10px 10px 10px 20px;
 }
-#theme-overlay .parent-theme strong {
+.theme-overlay .parent-theme strong {
 	font-weight: 700;
 }
 
@@ -828,8 +757,8 @@ body.theme-overlay {
 	.theme.add-new:after {
 		font-size: 23vw;
 	}
-	#theme-overlay .theme-wrap,
-	#theme-overlay .theme-actions {
+	.theme-overlay .theme-wrap,
+	.theme-overlay .theme-actions {
 		right: 15%;
 		left: 22%;
 	}
@@ -851,8 +780,8 @@ body.theme-overlay {
 }
 /* Mini-sidebar in MP6 */
 @media ( max-width: 900px ) {
-	#theme-overlay .theme-wrap,
-	#theme-overlay .theme-actions {
+	.theme-overlay .theme-wrap,
+	.theme-overlay .theme-actions {
 		left: 76px;
 	}
 }
@@ -861,30 +790,30 @@ body.theme-overlay {
 		margin-top: 6px;
 		margin-right: -3px
 	}
-	#theme-overlay .theme-wrap {
+	.theme-overlay .theme-wrap {
 		top: 45px;
 		right: 0px;
 		bottom: 0px;
 		left: 0px;
 		padding: 70px 20px 100px;
 	}
-	#theme-overlay .theme-actions {
+	.theme-overlay .theme-actions {
 		right: 0px;
 		bottom: 0px;
 		left: 0px;
 		text-align: left;
 		padding: 10px;
 	}
-	#theme-overlay .theme-screenshots {
+	.theme-overlay .theme-screenshots {
 		width: 40%;
 	}
-	#theme-overlay .theme-info {
+	.theme-overlay .theme-info {
 		width: 50%;
 	}
-	#theme-overlay .theme-actions .delete-theme {
+	.theme-overlay .theme-actions .delete-theme {
 		bottom: 10px;
 	}
-	.search-form {
+	.theme-browser .theme-search {
 		top: 3px;
 	}
 }
@@ -903,46 +832,44 @@ body.theme-overlay {
 	.theme.add-new:after {
 		font-size: 53vw;
 	}
-	#theme-overlay .theme-update,
-	#theme-overlay .theme-description {
+	.theme-overlay .theme-update,
+	.theme-overlay .theme-description {
 		margin-left: 0;
 	}
-	#theme-overlay.active .theme-actions .active-theme .button:nth-child(3n) {
+	.theme-overlay.active .theme-actions .active-theme .button:nth-child(3n) {
 		display: none;
 	}
 	.theme.active .theme-actions .button {
 		margin-top: 6px;
 		margin-right: 0;
 	}
-	#theme-overlay .theme-screenshots {
+	.theme-overlay .theme-screenshots {
 		width: 100%;
 		float: none;
 	}
-	#theme-overlay .theme-info {
+	.theme-overlay .theme-info {
 		width: 100%;
 	}
-	#theme-overlay .theme-author {
+	.theme-overlay .theme-author {
 		margin: 5px 0 15px 0;
 	}
-	#theme-overlay .theme-version {
+	.theme-overlay .theme-version {
 		margin-left: 0;
 		position: absolute;
 			top: 18px;
 			left: 130px;
 	}
-	#theme-overlay .current-label {
+	.theme-overlay .current-label {
 		margin-top: 10px;
 		font-size: 13px;
 	}
 	/*
 	 * Search form
 	 */
-	.search-form {
+	.theme-browser .theme-search {
 		float: none;
 		clear: both;
 		left: 0;
-	}
-	#theme-search {
 		margin: 10px 0;
 		width: 100%;
 	}

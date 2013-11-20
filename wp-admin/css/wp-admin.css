@@ -6540,7 +6540,11 @@ h3.available-themes {
 	color: #cfcfcf;
 }
 
-#broken-themes {
+.broken-themes {
+	clear: both;
+}
+
+.broken-themes table {
 	text-align: left;
 	width: 50%;
 	border-spacing: 3px;
