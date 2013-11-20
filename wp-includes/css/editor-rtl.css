@@ -1203,10 +1203,6 @@ span.mce_ltr:before {
 	content: '\f104';
 }
 
-.wp-media-buttons #insert-jetpack-contact-form span.jetpack-contact-form-icon:before {
-	content: '\f175';
-}
-
 .quicktags-toolbar {
 	border-bottom-style: solid;
 	border-bottom-width: 1px;
