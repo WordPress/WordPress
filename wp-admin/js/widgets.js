@@ -203,7 +203,7 @@ wpWidgets = {
 				// Open the chooser
 				self.clearWidgetSelection();
 				$( '#widgets-left' ).addClass( 'chooser' );
-				widget.addClass( 'widget-in-question' );
+				widget.addClass( 'widget-in-question' ).draggable('disable');
 
 				widget.find( '.widget-description' ).after( chooser );
 				chooser.slideDown( 300, function() {
@@ -244,7 +244,7 @@ wpWidgets = {
 
 	saveOrder : function(sb) {
 		if ( sb ) {
-			$('#' + sb).closest('div.widgets-holder-wrap').find('.spinner').css('display', 'inline-block');
+			$('#' + sb).closest('div.widgets-holder-wrap').find('.spinner:first').css('display', 'inline-block');
 		}
 
 		var a = {
@@ -387,7 +387,8 @@ wpWidgets = {
 		var self = this;
 
 		$( '#widgets-chooser' ).slideUp( 200, function() {
-			$('#wpbody-content').append( this );
+			$( '#wpbody-content' ).append( this );
+			$( '#widgets-left .widget-in-question' ).draggable('enable');
 			self.clearWidgetSelection();
 		});
 	},

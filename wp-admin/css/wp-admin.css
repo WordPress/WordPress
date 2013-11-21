@@ -9996,6 +9996,9 @@ input.newtag:focus ~ div.taghint {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
 }
 
 .widgets-holder-wrap .widget-inside {
