@@ -52,7 +52,7 @@ function wp_credits() {
  * @since 3.2.0
  *
  * @param string &$display_name The contributor's display name, passed by reference.
- * @param string $user_name     The contributor's username.
+ * @param string $username      The contributor's username.
  * @param string $profiles      URL to the contributor's WordPress.org profile page.
  * @return string A contributor's display name, hyperlinked to a WordPress.org profile page.
  */
