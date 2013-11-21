@@ -393,10 +393,7 @@ select {
 	font-size: 14px;
 	padding: 3px 5px;
 	line-height: 15px;
-}
-
-textarea {
-	padding: 2px 6px;
+	border-radius: 0 /* Reset mobile webkit's default element styling */ } textarea { padding: 2px 6px;
 	line-height: 1.4;
 }
 
@@ -408,7 +405,8 @@ input[type="search"],
 input[type="email"],
 input[type="url"],
 textarea,
-div {
+div,
+select {
 	outline: 0;
 }
 

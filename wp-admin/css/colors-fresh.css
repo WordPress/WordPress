@@ -259,32 +259,10 @@ input[type="number"],
 input[type="search"],
 input[type="tel"],
 input[type="url"],
-.titlewrap input {
-	box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
-}
-
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="number"],
-input[type="search"],
-input[type="tel"],
-input[type="url"],
 .titlewrap input,
 select {
 	border-color: #ddd;
-}
-
-.inside textarea,
-.inside input[type="text"],
-.inside input[type="password"],
-.inside input[type="email"],
-.inside input[type="number"],
-.inside input[type="search"],
-.inside input[type="tel"],
-.inside input[type="url"] {
-	border-color: #ddd;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
 }
 
 textarea:focus,
