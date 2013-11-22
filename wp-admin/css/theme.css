@@ -754,9 +754,6 @@ body.theme-overlay-open {
 	.theme:nth-child(4n) {
 		margin-right: 0;
 	}
-	.theme.add-new:after {
-		font-size: 23vw;
-	}
 	.theme-overlay .theme-wrap,
 	.theme-overlay .theme-actions {
 		right: 15%;
@@ -773,9 +770,6 @@ body.theme-overlay-open {
 	}
 	.theme:nth-child(odd) {
 		margin-right: 5%;
-	}
-	.theme.add-new:after {
-		font-size: 23vw;
 	}
 }
 /* Mini-sidebar in MP6 */
@@ -828,9 +822,6 @@ body.theme-overlay-open {
 	.theme:nth-child(2n),
 	.theme:nth-child(3n) {
 		margin-right: 0;
-	}
-	.theme.add-new:after {
-		font-size: 53vw;
 	}
 	.theme-overlay .theme-update,
 	.theme-overlay .theme-description {
