@@ -1,4 +1,7 @@
-jQuery( function( $ ) {
+/**
+ * Twenty Fourteen keyboard support for image navigation.
+ */
+( function( $ ) {
 	$( document ).on( 'keydown.twentyfourteen', function( e ) {
 		var url = false;
 
@@ -15,4 +18,4 @@ jQuery( function( $ ) {
 			window.location = url;
 		}
 	} );
-} );
+} )( jQuery );

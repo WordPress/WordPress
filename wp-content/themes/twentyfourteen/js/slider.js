@@ -1,11 +1,10 @@
-/* global DocumentTouch:true,setImmediate:true,featuredSliderDefaults:true,MSGesture:true */
 /*
  * Twenty Fourteen Featured Content Slider
  *
  * Adapted from FlexSlider v2.2.0, copyright 2012 WooThemes
  * @link http://www.woothemes.com/flexslider/
  */
-
+/* global DocumentTouch:true,setImmediate:true,featuredSliderDefaults:true,MSGesture:true */
 ( function( $ ) {
 	// FeaturedSlider: object instance.
 	$.featuredslider = function( el, options ) {

@@ -1,3 +1,10 @@
+/**
+ * Theme functions file
+ *
+ * Contains handlers for navigation, accessibility, header sizing
+ * footer widgets and Featured Content slider
+ *
+ */
 ( function( $ ) {
 	var body    = $( 'body' ),
 		_window = $( window );
