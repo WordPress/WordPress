@@ -60,6 +60,7 @@ jQuery( function($) {
 	}
 
 	var preview = $('#theme-installer'),
+		header  = preview.find('.wp-full-overlay-header'),
 		info    = preview.find('.install-theme-info'),
 		panel   = preview.find('.wp-full-overlay-main'),
 		body    = $( document.body );
@@ -81,6 +82,9 @@ jQuery( function($) {
 		var src;
 
 		info.html( $(this).closest('.installable-theme').find('.install-theme-info').html() );
+
+		header.find( '.theme-install' ).replaceWith( info.find( '.theme-install' ) );
+
 		src = info.find( '.theme-preview-url' ).val();
 		panel.html( '<iframe src="' + src + '" />');
 		preview.fadeIn( 200, function() {

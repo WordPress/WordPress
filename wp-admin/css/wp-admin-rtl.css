@@ -7685,6 +7685,7 @@ body.full-overlay-active {
 	font-size: 16px;
 	line-height: 24px;
 	margin-bottom: 0;
+	margin-top: 0;
 }
 
 .install-theme-info .theme-screenshot {
@@ -7711,6 +7712,26 @@ body.full-overlay-active {
 	float: right;
 	color: #777;
 	line-height: 20px;
+}
+
+#theme-installer .wp-full-overlay-header {
+	margin-top: 9px;
+}
+
+#theme-installer .wp-full-overlay-header .theme-install {
+	float: left;
+	/* For when .theme-install is a span rather than a.button-primary (already installed theme) */
+	line-height: 26px;
+}
+
+#theme-installer .wp-full-overlay-sidebar { 
+	background: #EEE;
+	border-left: 1px solid #DDD;
+}
+
+#theme-installer .wp-full-overlay-main {
+	background: #fff url('../images/spinner.gif') no-repeat fixed center center;
+	background-size: 20px 20px;
 }
 
 /*------------------------------------------------------------------------------
@@ -10716,7 +10737,8 @@ li#wp-admin-bar-toggle-button {
 	.spinner,
 	.imgedit-wait,
 	.customize-loading #customize-container,
-	.revision-tick.completed-false {
+	.revision-tick.completed-false,
+	#theme-installer .wp-full-overlay-main {
 		background-image: url('../images/spinner-2x.gif');
 	}
 

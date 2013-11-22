@@ -255,7 +255,8 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		<div id="theme-installer" class="wp-full-overlay expanded">
 			<div class="wp-full-overlay-sidebar">
 				<div class="wp-full-overlay-header">
-					<a href="#" class="close-full-overlay"><?php _e( '&larr; Close' ); ?></a>
+					<a href="#" class="close-full-overlay button-secondary"><?php _e( 'Close' ); ?></a>
+					<span class="theme-install"></span>
 				</div>
 				<div class="wp-full-overlay-sidebar-content">
 					<div class="install-theme-info"></div>
