@@ -240,6 +240,17 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 .wp-pointer.wp-pointer-top .wp-pointer-arrow, .wp-pointer.wp-pointer-undefined .wp-pointer-arrow {
   border-bottom-color: #04a4cc; }
 
+/* Media Uploader */
+.media-item .bar, .media-progress-bar div {
+  background-color: #04a4cc; }
+
+.details.attachment {
+  box-shadow: 0 0 0 1px white, 0 0 0 5px #04a4cc; }
+
+.attachment.details .check {
+  background-color: #04a4cc;
+  box-shadow: 0 0 0 1px #04a4cc; }
+
 /* Responsive Component */
 div#moby6-toggle a:before {
   color: #999999; }

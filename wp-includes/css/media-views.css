@@ -768,12 +768,9 @@
 	height: 24px;
 	width: 24px;
 	position: absolute;
-	top: -7px;
-	right: -7px;
+	top: -6px;
+	right: -6px;
 	outline: none;
-
-	border: 1px solid #fff;
-	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.4 );
 }
 
 .attachment .check div {
@@ -789,17 +786,6 @@
 
 .attachment.selected .check {
 	display: block;
-}
-
-.attachment.details .check {
-	box-shadow: 0 0 0 1px #1e8cbe;
-
-	background: #1e8cbe;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#1e8cbe), to(#0074a2));
-	background-image: -webkit-linear-gradient(top, #1e8cbe, #0074a2);
-	background-image:    -moz-linear-gradient(top, #1e8cbe, #0074a2);
-	background-image:      -o-linear-gradient(top, #1e8cbe, #0074a2);
-	background-image:   linear-gradient(to bottom, #1e8cbe, #0074a2);
 }
 
 .attachment.details .check div {
@@ -877,8 +863,7 @@
 	height: 10px;
 	min-width: 20px;
 	width: 0;
-	background: #aaa;
-	background: rgba( 0, 0, 0, 0.2 );
+	background: #1e8cbe;
 	border-radius: 10px;
 	-webkit-transition: width 300ms;
 	-moz-transition:    width 300ms;
