@@ -249,7 +249,7 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 
 .attachment.details .check {
   background-color: #04a4cc;
-  box-shadow: 0 0 0 1px #04a4cc; }
+  box-shadow: 0 0 0 1px white, 0 0 0 2px #04a4cc; }
 
 /* Responsive Component */
 div#moby6-toggle a:before {

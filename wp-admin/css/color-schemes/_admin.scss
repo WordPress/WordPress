@@ -377,7 +377,7 @@ ul#adminmenu > li.current > a.current:after {
 
 .attachment.details .check {
 	background-color: $highlight-color;
-	box-shadow: 0 0 0 1px $highlight-color;
+	box-shadow: 0 0 0 1px #fff, 0 0 0 2px $highlight-color;
 }
 
 
