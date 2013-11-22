@@ -1652,7 +1652,7 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
  *     'numberposts' - Default is 5. Total number of posts to retrieve.
  *     'offset' - Default is 0. See {@link WP_Query::query()} for more.
  *     'category' - What category to pull the posts from.
- *     'orderby' - Default is 'post_date'. How to order the posts.
+ *     'orderby' - Default is 'date', which orders based on post_date. How to order the posts.
  *     'order' - Default is 'DESC'. The order to retrieve the posts.
  *     'include' - See {@link WP_Query::query()} for more.
  *     'exclude' - See {@link WP_Query::query()} for more.
@@ -1672,7 +1672,7 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
 function get_posts($args = null) {
 	$defaults = array(
 		'numberposts' => 5, 'offset' => 0,
-		'category' => 0, 'orderby' => 'post_date',
+		'category' => 0, 'orderby' => 'date',
 		'order' => 'DESC', 'include' => array(),
 		'exclude' => array(), 'meta_key' => '',
 		'meta_value' =>'', 'post_type' => 'post',
