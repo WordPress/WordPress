@@ -215,7 +215,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	<div class="theme-screenshot">
 		<img src="{{ data.screenshot[0] }}" alt="" />
 	</div>
-	<div class="theme-author"><?php printf( __( 'By %s' ), '{{ data.author }}' ); ?></div>
+	<div class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></div>
 	<h3 class="theme-name">{{ data.name }}</h3>
 	<div class="theme-actions">
 
@@ -266,12 +266,8 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 			<# if ( data.active ) { #>
 				<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
 			<# } #>
-			<h3 class="theme-name">{{ data.name }}<span class="theme-version"><?php _e('Version: '); ?> {{ data.version }}</span></h3>
-			<# if ( data.authorURI ) { #>
-				<h4 class="theme-author"><?php printf( __( 'By %s' ), '<a href="{{ data.authorURI }}">{{ data.author }}</a>' ); ?></h4>
-			<# } else { #>
-				<h4 class="theme-author"><?php printf( __( 'By %s' ), '{{ data.author }}' ); ?></h4>
-			<# } #>
+			<h3 class="theme-name">{{{ data.name }}}<span class="theme-version"><?php printf( __( 'Version: %s' ), '{{{ data.version }}}' ); ?></span></h3>
+			<h4 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></h4>
 
 			<# if ( data.hasUpdate ) { #>
 			<div class="theme-update-message">
@@ -282,13 +278,13 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 			<p class="theme-description">{{{ data.description }}}</p>
 
 			<# if ( data.parent ) { #>
-				<p class="parent-theme"><?php printf( __( 'This is a child theme of <strong>%s</strong>.' ), '{{ data.parent }}' ); ?></p>
+				<p class="parent-theme"><?php printf( __( 'This is a child theme of <strong>%s</strong>.' ), '{{{ data.parent }}}' ); ?></p>
 			<# } #>
 
-			<# if ( data.tags.length !== 0 ) { #>
+			<# if ( data.tags ) { #>
 				<p class="theme-tags">
 					<span><?php _e( 'Tags:' ); ?></span>
-					{{{ data.tags.join( ', ' ).replace( /-/g, ' ' ) }}}
+					{{{ data.tags.replace( /-/g, ' ' ) }}}
 				</p>
 			<# } #>
 		</div>

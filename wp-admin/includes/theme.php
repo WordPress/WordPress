@@ -405,10 +405,9 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			'name'         => $theme->display( 'Name' ),
 			'screenshot'   => array( $theme->get_screenshot() ), // @todo multiple
 			'description'  => $theme->display( 'Description' ),
-			'author'       => $theme->get( 'Author' ),
-			'authorURI'    => $theme->get( 'AuthorURI' ),
-			'version'      => $theme->get( 'Version' ),
-			'tags'         => $theme->get( 'Tags' ),
+			'author'       => $theme->display( 'Author' ),
+			'version'      => $theme->display( 'Version' ),
+			'tags'         => $theme->display( 'Tags' ),
 			'parent'       => $parent,
 			'active'       => $slug === $current_theme,
 			'hasUpdate'    => isset( $updates[ $slug ] ),
