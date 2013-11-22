@@ -9084,11 +9084,7 @@ body.interim-login {
 
 #menu-to-edit .menu-item-invalid .menu-item-handle {
 	background: #f6c9cc;
-	background-image: -webkit-gradient(linear, right bottom, right top, from(#f6c9cc), to(#fdf8ff));
-	background-image: -webkit-linear-gradient(bottom, #f6c9cc, #fdf8ff);
-	background-image:    -moz-linear-gradient(bottom, #f6c9cc, #fdf8ff);
-	background-image:      -o-linear-gradient(bottom, #f6c9cc, #fdf8ff);
-	background-image: linear-gradient(to top, #f6c9cc, #fdf8ff);
+	border-color: #f1acb1;
 }
 
 .no-js .menu-item-edit-active .item-edit {
