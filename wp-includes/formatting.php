@@ -3243,7 +3243,7 @@ function links_add_target( $content, $target = '_blank', $tags = array('a') ) {
 	global $_links_add_target;
 	$_links_add_target = $target;
 	$tags = implode('|', (array)$tags);
-	return preg_replace_callback( "!<($tags)(.+?)>!i", '_links_add_target', $content );
+	return preg_replace_callback( "!<($tags)([^>]*)>!i", '_links_add_target', $content );
 }
 
 /**
@@ -3258,7 +3258,7 @@ function links_add_target( $content, $target = '_blank', $tags = array('a') ) {
 function _links_add_target( $m ) {
 	global $_links_add_target;
 	$tag = $m[1];
-	$link = preg_replace('|(target=([\'"])(.*?)\2)|i', '', $m[2]);
+	$link = preg_replace('|( target=([\'"])(.*?)\2)|i', '', $m[2]);
 	return '<' . $tag . $link . ' target="' . esc_attr( $_links_add_target ) . '">';
 }
 
