@@ -129,8 +129,6 @@ ul#adminmenu > li.current > a.current:after {
 	border-right-color: #eee;
 }
 
-#the-comment-list .comment-item p.row-actions,
-.plugins .row-actions-visible,
 .row-actions {
 	color: #ddd;
 }

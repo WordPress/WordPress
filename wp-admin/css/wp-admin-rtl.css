@@ -6670,7 +6670,7 @@ h2 .nav-tab {
 	list-style-type: disc;
 }
 
-.plugins .row-actions-visible {
+.plugins .row-actions {
 	font-size: 13px;
 	padding: 0;
 }
@@ -6701,12 +6701,12 @@ h2 .nav-tab {
 }
 
 .plugins .second,
-.plugins .row-actions-visible {
+.plugins .row-actions {
 	padding: 0 0 5px;
 }
 
 .plugins .update .second,
-.plugins .update .row-actions-visible {
+.plugins .update .row-actions {
 	padding-bottom: 0;
 }
 
@@ -7776,15 +7776,14 @@ p.pagenav {
 	padding: 2px 0 0;
 }
 
-.mobile .row-actions {
-	visibility: visible;
-}
-
 tr:hover .row-actions,
+.mobile .row-actions,
+.row-actions.visible,
 div.comment-item:hover .row-actions {
 	visibility: visible;
 }
 
+/* deprecated */
 .row-actions-visible {
 	padding: 2px 0 0;
 }
