@@ -1114,6 +1114,10 @@ span.mce_ltr:before {
 	background: #f5f5f5;
 }
 
+.wp-editor-tabs {
+	float: right;
+}
+
 .wp-switch-editor {
 	background: #ebebeb;
 	border: 1px solid #dedede;
@@ -1149,6 +1153,10 @@ span.mce_ltr:before {
 	color: #555;
 	height: 20px;
 	border-bottom: none;
+}
+
+.wp-media-buttons {
+	float: left;
 }
 
 .wp-media-buttons .button {
