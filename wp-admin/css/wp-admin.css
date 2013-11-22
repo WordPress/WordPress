@@ -293,6 +293,13 @@ input[type=radio] {
 	line-height: 10px;
 }
 
+input[type=checkbox]:disabled,
+input[type=radio]:disabled,
+input[type=checkbox]:disabled:checked:before,
+input[type=radio]:disabled:checked:before {
+	opacity: 0.7;
+}
+
 input[type=checkbox]:checked:before,
 input[type=radio]:checked:before {
 	float: left;
