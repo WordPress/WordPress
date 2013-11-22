@@ -2346,16 +2346,26 @@ class WP_Automatic_Updater {
 				continue;
 			$success_items = wp_list_filter( $this->update_results[ $type ], array( 'result' => true ) );
 			if ( $success_items ) {
-				/* translators: %s singular/plural form of 'plugin', 'theme', or, 'translation' */
-				$body[] = sprintf( __( 'The following %ss were successfully updated:' ), $type );
+				$messages = array(
+					'plugin'      => __( 'The following plugins were successfully updated:' ),
+					'theme'       => __( 'The following themes were successfully updated:' ),
+					'translation' => __( 'The following translations were successfully updated:' ),
+				);
+
+				$body[] = $messages[ $type ];
 				foreach ( wp_list_pluck( $success_items, 'name' ) as $name ) {
 					$body[] = ' * ' . sprintf( __( 'SUCCESS: %s' ), $name );
 				}
 			}
 			if ( $success_items != $this->update_results[ $type ] ) {
 				// Failed updates
-				/* translators: %s generic singular/plural form of 'plugin', 'theme', or, 'translation' */
-				$body[] = sprintf( __( 'The following %ss failed to update:' ), $type );
+				$messages = array(
+					'plugin'      => __( 'The following plugins failed to update:' ),
+					'theme'       => __( 'The following themes failed to update:' ),
+					'translation' => __( 'The following translations failed to update:' ),
+				);
+
+				$body[] = $messages[ $type ];
 				foreach ( $this->update_results[ $type ] as $item ) {
 					if ( ! $item->result || is_wp_error( $item->result ) ) {
 						$body[] = ' * ' . sprintf( __( 'FAILED: %s' ), $item->name );
