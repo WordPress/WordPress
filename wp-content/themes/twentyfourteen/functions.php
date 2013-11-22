@@ -198,7 +198,7 @@ add_action( 'widgets_init', 'twentyfourteen_widgets_init' );
  *
  * @since Twenty Fourteen 1.0
  *
- * @return void
+ * @return string
  */
 function twentyfourteen_font_url() {
 	$font_url = '';
@@ -376,7 +376,7 @@ endif;
  *
  * Adds body classes to denote:
  * 1. Single or multiple authors.
- * 2. Presense of header image.
+ * 2. Presence of header image.
  * 3. Index views.
  * 4. Full-width content layout.
  * 5. Presence of footer widgets.
