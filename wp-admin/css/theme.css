@@ -294,6 +294,7 @@
 	text-decoration: none;
 	display: block;
 	position: relative;
+	z-index: 1;
 }
 .theme-browser .add-new-theme:after {
 	display: block;
