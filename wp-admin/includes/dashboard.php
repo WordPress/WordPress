@@ -349,13 +349,13 @@ function wp_dashboard_quick_press( $error_msg = false ) {
 	if ( ! $drafts ) {
 		return;
  	}
- 
+
 	echo '<div class="drafts">';
 	if ( count( $drafts ) > 3 ) {
 		echo '<p class="view-all"><a href="' . esc_url( admin_url( 'edit.php?post_status=draft' ) ) . '">' . _x( 'View all', 'drafts' ) . "</a></p>\n";
  	}
 	echo '<h4>' . __( 'Drafts' ) . "</h4>\n<ul>";
- 
+
 	$drafts = array_slice( $drafts, 0, 3 );
 	foreach ( $drafts as $draft ) {
 		$url = get_edit_post_link( $draft->ID );
@@ -550,7 +550,7 @@ function dashboard_show_published_posts( $args ) {
 				dashboard_relative_date( get_the_time( 'U' ) ),
 				get_the_time(),
 				get_edit_post_link(),
-				get_the_title()
+				_draft_or_post_title()
 			);
 			$i++;
 		}
