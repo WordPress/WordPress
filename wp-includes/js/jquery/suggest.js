@@ -250,6 +250,7 @@
 					$input.val($currentResult.text());
 				}
 				$results.hide();
+				$input.trigger('change');
 
 				if (options.onSelect)
 					options.onSelect.apply($input[0]);
