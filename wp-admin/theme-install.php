@@ -34,7 +34,16 @@ wp_enqueue_script( 'theme' );
 
 $body_id = $tab;
 
-do_action('install_themes_pre_' . $tab); //Used to override the general interface, Eg, install or theme information.
+/**
+ * Fires before each of the tabs are rendered on the Install Themes page.
+ *
+ * The dynamic portion of the hook name, $tab, refers to the current
+ * theme install tab. Possible values are 'dashboard', 'search', 'upload',
+ * 'featured', 'new', or 'updated'.
+ *
+ * @since 2.8.0
+ */
+do_action( "install_themes_pre_{$tab}" );
 
 $help_overview =
 	'<p>' . sprintf(__('You can find additional themes for your site by using the Theme Browser/Installer on this screen, which will display themes from the <a href="%s" target="_blank">WordPress.org Theme Directory</a>. These themes are designed and developed by third parties, are available free of charge, and are compatible with the license WordPress uses.'), 'http://wordpress.org/themes/') . '</p>' .
@@ -80,7 +89,20 @@ endif;
 $wp_list_table->views(); ?>
 
 <br class="clear" />
-<?php do_action('install_themes_' . $tab, $paged); ?>
+<?php
+/**
+ * Fires at the top of each of the tabs on the Install Themes page.
+ *
+ * The dynamic portion of the hook name, $tab, refers to the current
+ * theme install tab. Possible values are 'dashboard', 'search', 'upload',
+ * 'featured', 'new', or 'updated'.
+ *
+ * @since 2.8.0
+ *
+ * @param int $paged Number of the current page of results being viewed.
+ */
+do_action( "install_themes_{$tab}", $paged );
+?>
 </div>
 <?php
 include(ABSPATH . 'wp-admin/admin-footer.php');
