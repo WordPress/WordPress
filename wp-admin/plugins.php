@@ -147,7 +147,8 @@ if ( $action ) {
 				include( WP_PLUGIN_DIR . '/' . $plugin );
 			}
 			plugin_sandbox_scrape( $plugin );
-			do_action('activate_' . $plugin);
+			/** This action is documented in wp-admin/includes/plugins.php */
+			do_action( "activate_{$plugin}" );
 			exit;
 			break;
 		case 'deactivate':
@@ -416,7 +417,21 @@ if ( $s )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $s ) ); ?>
 </h2>
 
-<?php do_action( 'pre_current_active_plugins', $plugins['all'] ) ?>
+<?php
+/**
+ * Fires before the plugins list table is rendered.
+ *
+ * This hook also fires before the plugins list table is rendered in the Network Admin.
+ *
+ * Please note: The 'active' portion of the hook name does not refer to whether the current
+ * view is for active plugins, but rather all plugins actively-installed.
+ *
+ * @since 3.0.0
+ *
+ * @param array $plugins_all An array containing all installed plugins.
+ */
+do_action( 'pre_current_active_plugins', $plugins['all'] );
+?>
 
 <?php $wp_list_table->views(); ?>
 
