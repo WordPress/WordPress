@@ -337,6 +337,7 @@ endif; ?>
 
 <?php if ( 'category' == $taxonomy ) : ?>
 <div class="form-wrap">
+<?php /** This filter is documented in wp-includes/category-template.php */ ?>
 <p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), apply_filters('the_category', get_cat_name(get_option('default_category')))) ?></p>
 <?php if ( current_user_can( 'import' ) ) : ?>
 <p><?php printf(__('Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.'), 'import.php') ?></p>
@@ -437,7 +438,7 @@ if ( current_user_can($tax->cap->edit_terms) ) {
  *
  * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
  *
- * @since 3.0.0
+ * @since 3.7.0
  */
 ?>
 <form id="addtag" method="post" action="edit-tags.php" class="validate"<?php do_action( "{$taxonomy}_term_new_form_tag" ); ?>>
