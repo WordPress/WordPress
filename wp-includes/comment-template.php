@@ -1517,11 +1517,11 @@ class Walker_Comment extends Walker {
 			case 'div':
 				break;
 			case 'ol':
-				echo '<ol class="children">' . "\n";
+				$output .= '<ol class="children">' . "\n";
 				break;
 			default:
 			case 'ul':
-				echo '<ul class="children">' . "\n";
+				$output .= '<ul class="children">' . "\n";
 				break;
 		}
 	}
@@ -1544,11 +1544,11 @@ class Walker_Comment extends Walker {
 			case 'div':
 				break;
 			case 'ol':
-				echo "</ol><!-- .children -->\n";
+				$output .= "</ol><!-- .children -->\n";
 				break;
 			default:
 			case 'ul':
-				echo "</ul><!-- .children -->\n";
+				$output .= "</ul><!-- .children -->\n";
 				break;
 		}
 	}
@@ -1623,16 +1623,24 @@ class Walker_Comment extends Walker {
 		$GLOBALS['comment'] = $comment;
 
 		if ( !empty( $args['callback'] ) ) {
+			ob_start();
 			call_user_func( $args['callback'], $comment, $args, $depth );
+			$output .= ob_get_clean();
 			return;
 		}
 
 		if ( ( 'pingback' == $comment->comment_type || 'trackback' == $comment->comment_type ) && $args['short_ping'] ) {
+			ob_start();
 			$this->ping( $comment, $depth, $args );
+			$output .= ob_get_clean();
 		} elseif ( 'html5' === $args['format'] ) {
+			ob_start();
 			$this->html5_comment( $comment, $depth, $args );
+			$output .= ob_get_clean();
 		} else {
+			ob_start();
 			$this->comment( $comment, $depth, $args );
+			$output .= ob_get_clean();
 		}
 	}
 
@@ -1650,13 +1658,15 @@ class Walker_Comment extends Walker {
 	 */
 	function end_el( &$output, $comment, $depth = 0, $args = array() ) {
 		if ( !empty( $args['end-callback'] ) ) {
+			ob_start();
 			call_user_func( $args['end-callback'], $comment, $args, $depth );
+			$output .= ob_get_clean();
 			return;
 		}
 		if ( 'div' == $args['style'] )
-			echo "</div><!-- #comment-## -->\n";
+			$output .= "</div><!-- #comment-## -->\n";
 		else
-			echo "</li><!-- #comment-## -->\n";
+			$output .= "</li><!-- #comment-## -->\n";
 	}
 
 	/**
@@ -1801,6 +1811,7 @@ class Walker_Comment extends Walker {
  *     @type string 'format'            How to format the comments list.
  *                                      Default 'html5' if the theme supports it. Accepts 'html5', 'xhtml'.
  *     @type bool   'short_ping'        Whether to output short pings. Default false.
+ *     @type bool   'echo'              Whether to echo the output or return it. Default true.
  * }
  * @param array $comments Optional. Array of comment objects. @see WP_Query->comments
  */
@@ -1826,6 +1837,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
 		'reverse_children'  => '',
 		'format'            => current_theme_supports( 'html5', 'comment-list' ) ? 'html5' : 'xhtml',
 		'short_ping'        => false,
+		'echo'              => true,
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -1894,10 +1906,15 @@ function wp_list_comments( $args = array(), $comments = null ) {
 	if ( empty($walker) )
 		$walker = new Walker_Comment;
 
-	$walker->paged_walk($_comments, $max_depth, $page, $per_page, $r);
+	$output = $walker->paged_walk($_comments, $max_depth, $page, $per_page, $r);
 	$wp_query->max_num_comment_pages = $walker->max_pages;
 
 	$in_comment_loop = false;
+
+	if ( $r['echo'] )
+		echo $output;
+	else
+		return $output;
 }
 
 /**
