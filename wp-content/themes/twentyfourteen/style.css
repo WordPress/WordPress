@@ -1273,6 +1273,7 @@ a.post-thumbnail:hover {
 
 .entry-content .edit-link {
 	clear: both;
+	display: block;
 	font-size: 12px;
 	font-weight: 400;
 	line-height: 1.3333333333;
