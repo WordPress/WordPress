@@ -884,7 +884,7 @@ span + .edit-link:before,
 
 .search-box {
 	background-color: #41a62a;
-	padding: 12px 10px;
+	padding: 12px;
 }
 
 .search-box .search-field {
