@@ -2416,9 +2416,11 @@ Thanks! -- The WordPress Team" );
 							continue;
 
 						if ( 'rollback' === $result_type ) {
-							$body[] = '  ' . sprintf( __( 'Rollback Error: [%s] %s' ), $result->get_error_code(), $result->get_error_message() );
+							/* translators: 1: Error code, 2: Error message. */
+							$body[] = '  ' . sprintf( __( 'Rollback Error: [%1$s] %2$s' ), $result->get_error_code(), $result->get_error_message() );
 						} else {
-							$body[] = '  ' . sprintf( __( 'Error: [%s] %s' ), $result->get_error_code(), $result->get_error_message() );
+							/* translators: 1: Error code, 2: Error message. */
+							$body[] = '  ' . sprintf( __( 'Error: [%1$s] %2$s' ), $result->get_error_code(), $result->get_error_message() );
 						}
 
 						if ( $result->get_error_data() )
