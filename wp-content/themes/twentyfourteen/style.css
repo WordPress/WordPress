@@ -2709,6 +2709,7 @@ a.post-thumbnail:hover {
 	display: block;
 	position: relative;
 	padding-top: 55.357142857%;
+	overflow: hidden;
 }
 
 .featured-content .post-thumbnail img {
