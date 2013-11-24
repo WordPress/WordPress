@@ -3,7 +3,7 @@ Theme Name: Twenty Fourteen
 Theme URI: http://wordpress.org/themes/
 Author: the WordPress team
 Author URI: http://wordpress.org/
-Description: In 2014, our default theme lets you create a responsive magazine website with a sleek, modern design. Feature your favorite homepage content in either a grid or a slider. Use the three widget areas to customize your website, and change your content's layout with a full width page template and a contributor page to show of your authors. Creating a magazine website with WordPress has never been easier.  
+Description: In 2014, our default theme lets you create a responsive magazine website with a sleek, modern design. Feature your favorite homepage content in either a grid or a slider. Use the three widget areas to customize your website, and change your content's layout with a full width page template and a contributor page to show of your authors. Creating a magazine website with WordPress has never been easier.
 Version: 0.1
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -3424,12 +3424,20 @@ a.post-thumbnail:hover {
 		margin-left: -168px;
 	}
 
+	.full-width .site-content .alignleft {
+		clear: left;
+	}
+
 	.full-width .site-content blockquote.alignright,
 	.full-width .site-content img.size-full.alignright,
 	.full-width .site-content img.size-large.alignright,
 	.full-width .site-content img.size-medium.alignright,
 	.full-width .site-content .wp-caption.alignright {
 		margin-right: -168px;
+	}
+
+	.full-width .site-content .alignright {
+		clear: right;
 	}
 }
 
