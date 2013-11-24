@@ -1071,12 +1071,12 @@ span.mce_ltr:before {
 	position: relative;
 }
 
-#wp-content-editor-tools {
+.wp-editor-tools {
 	position: relative;
 	z-index: 1;
 }
 
-#wp-content-editor-container {
+.wp-editor-container {
 	clear: both;
 	position: relative;
 	top: -1px;
