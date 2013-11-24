@@ -272,7 +272,7 @@ function spawn_cron( $gmt_time = 0 ) {
 	 * }
 	 */
 	$cron_request = apply_filters( 'cron_request', array(
-		'url'  => add_query_arg( array( 'doing_wp_cron', $doing_wp_cron ), site_url( 'wp-cron.php' ) ),
+		'url'  => add_query_arg( 'doing_wp_cron', $doing_wp_cron, site_url( 'wp-cron.php' ) ),
 		'key'  => $doing_wp_cron,
 		'args' => array(
 			'timeout'   => 0.01,
