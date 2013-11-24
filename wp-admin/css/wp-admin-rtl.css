@@ -889,7 +889,7 @@ input[type="url"]:focus,
 input[type="checkbox"]:focus,
 input[type="radio"]:focus,
 select:focus,
-#widgets-chooser ul,
+.widgets-chooser ul,
 #widgets-left .widget-in-question .widget-top,
 #available-widgets .widget-top:hover,
 div#widgets-right .widget-top:hover {
@@ -10392,22 +10392,22 @@ div#widgets-right .widgets-sortables {
 	pointer-events: auto;
 }
 
-#widgets-chooser ul.widgets-chooser-sidebars {
+.widgets-chooser ul.widgets-chooser-sidebars {
 	margin: 0;
 	list-style-type: none;
 	max-height: 300px;
 	overflow: auto;
 }
 
-#widgets-chooser {
+.widgets-chooser {
 	display: none;
 }
 
-#widgets-chooser ul {
+.widgets-chooser ul {
 	border: 1px solid #ccc;
 }
 
-#widgets-chooser li {
+.widgets-chooser li {
 	padding: 10px 35px 10px 15px;
 	border-bottom: 1px solid #ccc;
 	background: #fff;
@@ -10418,12 +10418,12 @@ div#widgets-right .widgets-sortables {
 	transition: background: 0.2s ease-in-out;
 }
 
-#widgets-chooser li:hover,
-#widgets-chooser li:focus {
+.widgets-chooser li:hover,
+.widgets-chooser li:focus {
 	background: rgba(255,255,255,0.7);
 }
 
-#widgets-chooser li:focus:before {
+.widgets-chooser li:focus:before {
 	content: '\f147';
 	display: block;
 	-webkit-font-smoothing: antialiased;
@@ -10434,17 +10434,17 @@ div#widgets-right .widgets-sortables {
 	right: 5px;
 }
 
-#widgets-chooser li:last-child {
+.widgets-chooser li:last-child {
 	border: none;
 }
 
-#widgets-chooser li.widgets-chooser-selected {
+.widgets-chooser li.widgets-chooser-selected {
 	background: #2ea2cc;
 	color: #fff;
 }
 
-#widgets-chooser li.widgets-chooser-selected:before,
-#widgets-chooser li.widgets-chooser-selected:focus:before {
+.widgets-chooser li.widgets-chooser-selected:before,
+.widgets-chooser li.widgets-chooser-selected:focus:before {
 	content: '\f147';
 	display: block;
 	-webkit-font-smoothing: antialiased;
@@ -10455,12 +10455,12 @@ div#widgets-right .widgets-sortables {
 	right: 5px;
 }
 
-#widgets-chooser .widgets-chooser-actions {
+.widgets-chooser .widgets-chooser-actions {
 	padding: 10px 0 12px 0;
 	text-align: center;
 }
 
-#widgets-chooser button {
+.widgets-chooser button {
 	margin-left: 5px;
 }
 

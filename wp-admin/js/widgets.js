@@ -7,7 +7,7 @@ wpWidgets = {
 	init : function() {
 		var rem, the_id,
 			self = this,
-			chooser = $('#widgets-chooser'),
+			chooser = $('.widgets-chooser'),
 			selectSidebar = chooser.find('.widgets-chooser-sidebars'),
 			sidebars = $('div.widgets-sortables'),
 			isRTL = !! ( 'undefined' !== typeof isRtl && isRtl );
@@ -82,9 +82,19 @@ wpWidgets = {
 			helper: 'clone',
 			zIndex: 100,
 			containment: 'document',
-			start: function(e,ui) {
+			start: function( event, ui ) {
+				var chooser = $(this).find('.widgets-chooser');
+
 				ui.helper.find('div.widget-description').hide();
 				the_id = this.id;
+
+				if ( chooser.length ) {
+					// Hide the chooser and move it out of the widget
+					$( '#wpbody-content' ).append( chooser.hide() );
+					// Delete the cloned chooser from the drag helper
+					ui.helper.find('.widgets-chooser').remove();
+					self.clearWidgetSelection();
+				}
 			},
 			stop: function() {
 				if ( rem ) {
@@ -103,7 +113,12 @@ wpWidgets = {
 			distance: 2,
 			containment: 'document',
 			start: function(e,ui) {
-				ui.item.children('.widget-inside').hide();
+				var inside = ui.item.children('.widget-inside');
+
+				if ( inside.css('display') === 'block' ) {
+					inside.hide();
+					$(this).sortable('refreshPositions');
+				}
 			},
 			stop: function(e,ui) {
 				if ( ui.item.hasClass('ui-draggable') && ui.item.data('draggable') ) {
@@ -203,7 +218,7 @@ wpWidgets = {
 				// Open the chooser
 				self.clearWidgetSelection();
 				$( '#widgets-left' ).addClass( 'chooser' );
-				widget.addClass( 'widget-in-question' ).draggable('disable');
+				widget.addClass( 'widget-in-question' );
 
 				widget.find( '.widget-description' ).after( chooser );
 				chooser.slideDown( 300, function() {
@@ -386,9 +401,8 @@ wpWidgets = {
 	closeChooser: function() {
 		var self = this;
 
-		$( '#widgets-chooser' ).slideUp( 200, function() {
+		$( '.widgets-chooser' ).slideUp( 200, function() {
 			$( '#wpbody-content' ).append( this );
-			$( '#widgets-left .widget-in-question' ).draggable('enable');
 			self.clearWidgetSelection();
 		});
 	},

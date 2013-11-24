@@ -428,7 +428,7 @@ foreach ( $theme_sidebars as $sidebar => $registered_sidebar ) {
 <br class="clear" />
 </div>
 
-<div id="widgets-chooser">
+<div class="widgets-chooser">
 	<ul class="widgets-chooser-sidebars"></ul>
 	<div class="widgets-chooser-actions">
 		<button class="button-secondary"><?php _e( 'Cancel' ); ?></button>
