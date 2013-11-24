@@ -274,7 +274,7 @@
 }
 
 #wpadminbar .menupop .menupop > .ab-item:before {
-	top: 0px;
+	top: 1px;
 	left: 4px;
 	content: '\f139';
 }
@@ -449,7 +449,7 @@
 	height: 16px;
 	width: 16px;
 	display: inline-block;
-	margin: 8px -2px 0 8px;
+	margin: 6px -2px 0 8px;
 }
 
 #wpadminbar #wp-admin-bar-appearance {
