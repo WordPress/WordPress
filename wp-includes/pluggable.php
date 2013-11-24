@@ -1005,10 +1005,14 @@ if ( ! function_exists('wp_notify_postauthor') ) :
  * @since 1.0.0
  *
  * @param int $comment_id Comment ID
- * @param string $comment_type Optional. The comment type either 'comment' (default), 'trackback', or 'pingback'
+ * @param string $deprecated Not used
  * @return bool False if user email does not exist. True on completion.
  */
-function wp_notify_postauthor( $comment_id, $comment_type = '' ) {
+function wp_notify_postauthor( $comment_id, $deprecated = null ) {
+	if ( null !== $deprecated ) {
+		_deprecated_argument( __FUNCTION__, '3.8' );
+	}
+
 	$comment = get_comment( $comment_id );
 	if ( empty( $comment ) )
 		return false;
@@ -1038,7 +1042,7 @@ function wp_notify_postauthor( $comment_id, $comment_type = '' ) {
 	// we want to reverse this for the plain text arena of emails.
 	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 
-	if ( empty( $comment_type ) ) $comment_type = 'comment';
+	$comment_type = $comment->comment_type ? $comment->comment_type : 'comment'; 
 
 	switch ( $comment_type ) {
 		case 'trackback':

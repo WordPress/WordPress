@@ -1414,13 +1414,17 @@ function wp_new_comment( $commentdata ) {
 	do_action('comment_post', $comment_ID, $commentdata['comment_approved']);
 
 	if ( 'spam' !== $commentdata['comment_approved'] ) { // If it's spam save it silently for later crunching
-		if ( '0' == $commentdata['comment_approved'] )
-			wp_notify_moderator($comment_ID);
+		if ( '0' == $commentdata['comment_approved'] ) {
+			wp_notify_moderator( $comment_ID );
+		}
 
-		$post = get_post($commentdata['comment_post_ID']); // Don't notify if it's your own comment
-
-		if ( get_option('comments_notify') && $commentdata['comment_approved'] && ( ! isset( $commentdata['user_id'] ) || $post->post_author != $commentdata['user_id'] ) )
-			wp_notify_postauthor($comment_ID, isset( $commentdata['comment_type'] ) ? $commentdata['comment_type'] : '' );
+		if ( get_option('comments_notify') && $commentdata['comment_approved'] ) {
+			$post = get_post( $commentdata['comment_post_ID'] );
+			// Don't notify if it's your own comment
+			if ( ! isset( $commentdata['user_id'] ) || $post->post_author != $commentdata['user_id'] ) {
+				wp_notify_postauthor( $comment_ID );
+			}
+		}
 	}
 
 	return $comment_ID;
@@ -1453,8 +1457,7 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 		case '1':
 			$status = '1';
 			if ( get_option('comments_notify') ) {
-				$comment = get_comment($comment_id);
-				wp_notify_postauthor($comment_id, $comment->comment_type);
+				wp_notify_postauthor( $comment_id ); 
 			}
 			break;
 		case 'spam':
