@@ -120,7 +120,7 @@ if ( !is_multisite() ) {
 	if ( $user->user_login && isset( $_POST[ 'email' ] ) && is_email( $_POST[ 'email' ] ) && $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $user->user_login ) ) )
 		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $_POST[ 'email' ], $user_login ) );
 
-	// WPMU must delete the user from the current blog if WP added him after editing.
+	// We must delete the user from the current blog if WP added them after editing.
 	$delete_role = false;
 	$blog_prefix = $wpdb->get_blog_prefix();
 	if ( $user_id != $current_user->ID ) {

@@ -51,7 +51,7 @@ function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
 /**
  * Get one of a user's active blogs
  *
- * Returns the user's primary blog, if she has one and
+ * Returns the user's primary blog, if they have one and
  * it is active. If it's inactive, function returns another
  * active blog of the user. If none are found, the user
  * is added as a Subscriber to the Dashboard Blog and that blog
@@ -1187,7 +1187,7 @@ function install_blog_defaults($blog_id, $user_id) {
 }
 
 /**
- * Notify a user that her blog activation has been successful.
+ * Notify a user that their blog activation has been successful.
  *
  * Filter 'wpmu_welcome_notification' to disable or bypass.
  *
@@ -1253,7 +1253,7 @@ We hope you enjoy your new site. Thanks!
 }
 
 /**
- * Notify a user that her account activation has been successful.
+ * Notify a user that their account activation has been successful.
  *
  * Filter 'wpmu_welcome_user_notification' to disable or bypass.
  *
