@@ -1000,13 +1000,23 @@ endif;
 
 if ( ! function_exists('wp_notify_postauthor') ) :
 /**
- * Notify an author of a comment/trackback/pingback to one of their posts.
+ * Notify an author (and/or others) of a comment/trackback/pingback on a post.
  *
  * @since 1.0.0
  *
  * @param int $comment_id Comment ID
  * @param string $deprecated Not used
- * @return bool False if user email does not exist. True on completion.
+ * @uses get_comment()
+ * @uses get_post()
+ * @uses get_userdata()
+ * @uses apply_filters()
+ * @uses wp_specialchars_decode()
+ * @uses get_option()
+ * @uses __()
+ * @uses get_permalink()
+ * @uses admin_url()
+ * @uses wp_mail()
+ * @return bool True on completion. False if no email addresses were specified.
  */
 function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	if ( null !== $deprecated ) {
@@ -1020,21 +1030,43 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	$post    = get_post( $comment->comment_post_ID );
 	$author  = get_userdata( $post->post_author );
 
-	// The comment was left by the author
-	if ( $comment->user_id == $post->post_author )
-		return false;
+	// Who to notify? By default, just the post author, but others can be added.
+	$emails = array( $author->user_email );
+	$emails = apply_filters( 'comment_notification_recipients', $emails, $comment_id );
+	$emails = array_filter( $emails );
 
-	// The author moderated a comment on his own post
-	if ( $post->post_author == get_current_user_id() )
+	// If there are no addresses to send the comment to, bail.
+	if ( ! count( $emails ) ) {
 		return false;
+	}
+
+	// Facilitate unsetting below without knowing the keys.
+	$emails = array_flip( $emails );
+
+	// Post author may want to receive notifications for their own comments
+	$notify_author = apply_filters( 'comment_notification_notify_author', false, $comment_id );
+
+	// The comment was left by the author
+	if ( ! $notify_author && $comment->user_id == $post->post_author ) {
+		unset( $emails[ $author->user_email ] );
+	}
+
+	// The author moderated a comment on their own post
+	if ( ! $notify_author && $post->post_author == get_current_user_id() ) {
+		unset( $emails[ $author->user_email ] );
+	}
 
 	// The post author is no longer a member of the blog
-	if ( ! user_can( $post->post_author, 'read_post', $post->ID ) )
-		return false;
+	if ( ! $notify_author && ! user_can( $post->post_author, 'read_post', $post->ID ) ) {
+		unset( $emails[ $author->user_email ] );
+	}
 
-	// If there's no email to send the comment to
-	if ( '' == $author->user_email )
+	// If there's no email to send the comment to, bail, otherwise flip array back around for use below
+	if ( ! count( $emails ) ) {
 		return false;
+	} else {
+		$emails = array_flip( $emails );
+	}
 
 	$comment_author_domain = @gethostbyaddr($comment->comment_author_IP);
 
@@ -1042,9 +1074,7 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	// we want to reverse this for the plain text arena of emails.
 	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 
-	$comment_type = $comment->comment_type ? $comment->comment_type : 'comment'; 
-
-	switch ( $comment_type ) {
+	switch ( $comment->comment_type ) {
 		case 'trackback':
 			$notify_message  = sprintf( __( 'New trackback on your post "%s"' ), $post->post_title ) . "\r\n";
 			/* translators: 1: website name, 2: author IP, 3: author domain */
@@ -1107,9 +1137,6 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	if ( isset($reply_to) )
 		$message_headers .= $reply_to . "\n";
 
-	$emails = array( $author->user_email );
-
-	$emails          = apply_filters( 'comment_notification_recipients', $emails,          $comment_id );
 	$notify_message  = apply_filters( 'comment_notification_text',       $notify_message,  $comment_id );
 	$subject         = apply_filters( 'comment_notification_subject',    $subject,         $comment_id );
 	$message_headers = apply_filters( 'comment_notification_headers',    $message_headers, $comment_id );

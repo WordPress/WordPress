@@ -1377,13 +1377,16 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  * See {@link http://core.trac.wordpress.org/ticket/9235}
  *
  * @since 1.5.0
- * @uses apply_filters() Calls 'preprocess_comment' hook on $commentdata parameter array before processing
- * @uses do_action() Calls 'comment_post' hook on $comment_ID returned from adding the comment and if the comment was approved.
- * @uses wp_filter_comment() Used to filter comment before adding comment.
- * @uses wp_allow_comment() checks to see if comment is approved.
- * @uses wp_insert_comment() Does the actual comment insertion to the database.
- *
  * @param array $commentdata Contains information on the comment.
+ * @uses apply_filters()
+ * @uses wp_get_comment_status()
+ * @uses wp_filter_comment()
+ * @uses wp_allow_comment()
+ * @uses wp_insert_comment()
+ * @uses do_action()
+ * @uses wp_notify_moderator()
+ * @uses get_option()
+ * @uses wp_notify_postauthor()
  * @return int The ID of the comment after adding.
  */
 function wp_new_comment( $commentdata ) {
@@ -1418,12 +1421,10 @@ function wp_new_comment( $commentdata ) {
 			wp_notify_moderator( $comment_ID );
 		}
 
-		if ( get_option('comments_notify') && $commentdata['comment_approved'] ) {
-			$post = get_post( $commentdata['comment_post_ID'] );
-			// Don't notify if it's your own comment
-			if ( ! isset( $commentdata['user_id'] ) || $post->post_author != $commentdata['user_id'] ) {
-				wp_notify_postauthor( $comment_ID );
-			}
+		// wp_notify_postauthor() checks if notifying the author of their own comment.
+		// By default, it won't, but filters can override this.
+		if ( get_option( 'comments_notify' ) && $commentdata['comment_approved'] ) {
+			wp_notify_postauthor( $comment_ID );
 		}
 	}
 
@@ -1457,7 +1458,7 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 		case '1':
 			$status = '1';
 			if ( get_option('comments_notify') ) {
-				wp_notify_postauthor( $comment_id ); 
+				wp_notify_postauthor( $comment_id );
 			}
 			break;
 		case 'spam':
