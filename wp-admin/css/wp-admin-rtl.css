@@ -2853,7 +2853,7 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 .rssSummary {
-	color: #999;
+	color: #777;
 	margin-top: 4px;
 }
 
@@ -2874,7 +2874,7 @@ body #dashboard-widgets .postbox form .submit {
 
 #dashboard_primary .rss-widget span,
 #dashboard_primary .rss-widget span.rss-date {
-	color: #bbb;
+	color: #777;
 }
 
 #dashboard_primary .rss-widget span.rss-date {
@@ -3049,7 +3049,7 @@ form.initial-form.quickpress-open input#title {
 
 #title-wrap #title-prompt-text,
 .textarea-wrap #content-prompt-text {
-	color: #BBB;
+	color: #777;
 }
 
 #title-wrap #title-prompt-text {
@@ -3114,7 +3114,7 @@ form.initial-form.quickpress-open input#title {
 	margin-bottom: 1em;
 }
 #dashboard_quick_press .drafts li time {
-	color: #bbb;
+	color: #777;
 }
 
 #dashboard_quick_press .drafts p {
@@ -3224,7 +3224,7 @@ form.initial-form.quickpress-open input#title {
 
 #future-posts ul span,
 #published-posts ul span {
-	color: #bbb;
+	color: #777;
 	float: right;
 	margin-left: 8px;
 	min-width: 150px;
@@ -4025,7 +4025,7 @@ ul.cat-checklist {
 
 #titlediv #title-prompt-text,
 #wp-fullscreen-title-prompt-text {
-	color: #bbb;
+	color: #777;
 	position: absolute;
 	font-size: 1.7em;
 	padding: 11px 10px;
@@ -8261,7 +8261,7 @@ h3:hover .edit-box {
 #latest-comments #the-comment-list .comment-item h4 {
 	line-height: 1.5em;
 	margin-top: 0;
-	color: #999;
+	color: #666;
 }
 
 #latest-comments #the-comment-list .comment-item h4 cite {

@@ -167,6 +167,10 @@ div.dashboard-widget,
 	border-color: #ccc;
 }
 
+#dashboard-widgets h4 {
+	color: #222;	
+}
+
 #poststuff .inside label.spam,
 #poststuff .inside label.deleted {
 	color: red;
