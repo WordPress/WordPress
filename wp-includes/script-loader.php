@@ -204,7 +204,6 @@ function wp_default_scripts( &$scripts ) {
 			'close' => __('Close'),
 			'noiframes' => __('This feature requires inline frames. You have iframes disabled or your browser does not support them.'),
 			'loadingAnimation' => includes_url('js/thickbox/loadingAnimation.gif'),
-			'closeImage' => includes_url('js/thickbox/tb-close.png')
 	) );
 
 	$scripts->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop.min.js", array('jquery'), '0.9.12');
