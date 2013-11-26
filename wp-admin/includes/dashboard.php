@@ -43,7 +43,9 @@ function wp_dashboard_setup() {
 		wp_add_dashboard_widget( 'network_dashboard_right_now', __( 'Right Now' ), 'wp_network_dashboard_right_now' );
 
 	// Activity Widget
-	wp_add_dashboard_widget( 'dashboard_activity', __( 'Activity' ), 'wp_dashboard_activity' );
+	if ( is_blog_admin() ) {
+		wp_add_dashboard_widget( 'dashboard_activity', __( 'Activity' ), 'wp_dashboard_activity' );
+	}
 
 	// QuickPress Widget
 	if ( is_blog_admin() && current_user_can( 'edit_posts' ) )
