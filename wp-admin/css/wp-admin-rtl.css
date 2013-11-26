@@ -12204,6 +12204,10 @@ li#wp-admin-bar-toggle-button {
 	html.wp-toolbar {
 		padding-top: 0;
 	}
+	
+	#wpbody {
+		padding-top: 46px;
+	}
 
 	.auto-fold #adminmenu {
 		top: 46px;
