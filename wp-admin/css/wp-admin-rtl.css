@@ -4294,13 +4294,13 @@ td.plugin-title p {
 }
 
 #post-body .wp_themeSkin .mceStatusbar a.mceResize {
-	bottom: 2px;
+	bottom: 3px;
 	position: absolute;
-	left: 2px;
+	left: 3px;
 }
 
 #post-body .postarea .wp_themeSkin .mceStatusbar a.mceResize {
-	bottom: -21px;
+	bottom: -20px;
 }
 
 #content-resize-handle {
