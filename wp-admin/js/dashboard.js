@@ -2,16 +2,20 @@
 var ajaxWidgets, ajaxPopulateWidgets, quickPressLoad;
 
 jQuery(document).ready( function($) {
-	/* Dashboard Welcome Panel */
-	var welcomePanel = $('#welcome-panel'),
+	var $window = $( window ),
+		welcomePanel = $( '#welcome-panel' ),
 		welcomePanelHide = $('#wp_welcome_panel-hide'),
-		updateWelcomePanel = function( visible ) {
-			$.post( ajaxurl, {
-				action: 'update-welcome-panel',
-				visible: visible,
-				welcomepanelnonce: $('#welcomepanelnonce').val()
-			});
-		};
+		updateWelcomePanel,
+		metaboxHolder = $( '.metabox-holder' ),
+		updateColumnCount;
+
+	updateWelcomePanel = function( visible ) {
+		$.post( ajaxurl, {
+			action: 'update-welcome-panel',
+			visible: visible,
+			welcomepanelnonce: $( '#welcomepanelnonce' ).val()
+		});
+	};
 
 	if ( welcomePanel.hasClass('hidden') && welcomePanelHide.prop('checked') ) {
 		welcomePanel.removeClass('hidden');
@@ -128,19 +132,9 @@ jQuery(document).ready( function($) {
 		e.preventDefault();
 	});
 
-	// Dashboard columns
-	jQuery(document).ready(function () {
-		// Update main column count on load
-		updateColumnCount();
-	});
-
-	jQuery(window).resize( _.debounce( function(){
-		updateColumnCount();
-	}, 30) );
-
-	function updateColumnCount() {
+	updateColumnCount = function( $window, $holder ) {
 		var cols = 1,
-			windowWidth = parseInt(jQuery(window).width(), 10);
+			windowWidth = parseInt( $window.width(), 10 );
 
 		if (799 < windowWidth && 1299 > windowWidth) {
 			cols = 2;
@@ -153,7 +147,15 @@ jQuery(document).ready( function($) {
 		if (1800 < windowWidth) {
 			cols = 4;
 		}
-		jQuery('.metabox-holder').attr('class', jQuery('.metabox-holder').attr('class').replace(/columns-\d+/, 'columns-' + cols));
-	}
+
+		$holder.attr( 'class', $holder.attr( 'class' ).replace( /columns-\d+/, 'columns-' + cols ) );
+	};
+
+	// Update main column count on load
+	updateColumnCount( $window, metaboxHolder );
+
+	$window.on( 'resize', _.debounce(function() {
+		updateColumnCount( $window, metaboxHolder );
+	}, 30 ) );
 
 } );
