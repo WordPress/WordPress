@@ -10906,7 +10906,6 @@ li#wp-admin-bar-toggle-button {
 
 	#wpwrap {
 		background: #f0f0f0;
-		overflow-x: hidden;
 	}
 
 	#wpcontent, .auto-fold #wpcontent {
@@ -10916,7 +10915,7 @@ li#wp-admin-bar-toggle-button {
 	}
 
 	.wrap {
-		margin-left: 10px;
+		margin-left: 12px;
 		margin-right: 0;
 	}
 
@@ -12256,5 +12255,10 @@ li#wp-admin-bar-toggle-button {
 		width: 100%;
 		height: 100%;
 		z-index: 400;
+	}
+	
+	/* Keep full-width boxes on Edit Post page from causing horizontal scroll */
+	div#post-body.metabox-holder.columns-1 {
+		overflow-x: hidden;
 	}
 }

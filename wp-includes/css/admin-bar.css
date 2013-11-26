@@ -838,6 +838,7 @@
 		text-indent: 100%;
 		width: 28px;
 		padding: 0 10px;
+		overflow: hidden; /* Prevent link text from forcing horizontal scrolling on mobile */
 	}
 
 	#wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
