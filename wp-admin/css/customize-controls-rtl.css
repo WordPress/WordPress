@@ -222,18 +222,6 @@ body {
 	border-radius: !important 0;
 }
 
-.collapse-sidebar .collapse-sidebar-label {
-	color: #ccc;
-}
-
-.collapse-sidebar .collapse-sidebar-arrow:before {
-	color: #aaa;
-}
-
-.collapse-sidebar:hover .collapse-sidebar-label,
-.collapse-sidebar:hover .collapse-sidebar-arrow:before {
-	color: #0074a2;
-}
 
 .collapse-sidebar:active,
 .collapse-sidebar:active .collapse-sidebar-label,

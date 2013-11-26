@@ -7561,6 +7561,7 @@ body.full-overlay-active {
 }
 
 .wp-full-overlay .collapse-sidebar-arrow:before {
+	border-radius: 50%;
 	float: right;
 	content: "\f148";
 	font: normal 20px/1 'dashicons';

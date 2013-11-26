@@ -1312,6 +1312,20 @@ table.widefat .spam a:hover {
 	color: #fff;
 }
 
+/* Collapse button in theme preview */
+
+.wp-full-overlay a.collapse-sidebar {
+	color: #777;
+}
+
+.wp-full-overlay a.collapse-sidebar:hover {
+	color: #0074a2;
+}
+
+.wp-full-overlay .collapse-sidebar-arrow:before {
+	background: #eee;
+}
+
 /* Diff */
 
 table.diff .diff-deletedline del {
