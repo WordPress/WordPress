@@ -559,22 +559,36 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css" );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
 
-	$subsets = 'latin,latin-ext';
+	$open_sans_font_url = '';
 
-	/* translators: To add an additional Open Sans character subset specific to your language,
-	 * translate this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate into your own language.
+	/* translators: If there are characters in your language that are not supported
+	 * by Open Sans, translate this to 'off'. Do not translate into your own language.
 	 */
-	$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)' );
+	if ( 'off' !== _x( 'on', 'Open Sans font: on or off' ) ) {
+		$subsets = 'latin,latin-ext';
 
-	if ( 'cyrillic' == $subset )
-		$subsets .= ',cyrillic,cyrillic-ext';
-	elseif ( 'greek' == $subset )
-		$subsets .= ',greek,greek-ext';
-	elseif ( 'vietnamese' == $subset )
-		$subsets .= ',vietnamese';
+		/* translators: To add an additional Open Sans character subset specific to your language,
+		 * translate this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate into your own language.
+		 */
+		$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)' );
 
-	// Hotlink Open Sans, for now
-	$styles->add( 'open-sans', "//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&subset=$subsets" );
+		if ( 'cyrillic' == $subset ) {
+			$subsets .= ',cyrillic,cyrillic-ext';
+		} elseif ( 'greek' == $subset ) {
+			$subsets .= ',greek,greek-ext';
+		} elseif ( 'vietnamese' == $subset ) {
+			$subsets .= ',vietnamese';
+		}
+
+		$query_args = array(
+			'family' => 'Open+Sans:300italic,400italic,600italic,300,400,600',
+			'subset' => $subsets,
+		);
+		// Hotlink Open Sans, for now
+		$open_sans_font_url = add_query_arg( $query_args, '//fonts.googleapis.com/css' );
+	}
+
+	$styles->add( 'open-sans', $open_sans_font_url );
 
 	// Dashicons
 	$styles->add( 'dashicons', '/wp-includes/css/dashicons.css' );
