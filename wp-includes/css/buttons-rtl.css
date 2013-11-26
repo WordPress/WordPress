@@ -27,6 +27,7 @@ TABLE OF CONTENTS:
  2.0 - Default Button Style
  3.0 - Primary Button Style
  4.0 - Button Groups
+ 5.0 - Responsive Button Styles
 
 ---------------------------------------------------------------------------- */
 
@@ -268,4 +269,39 @@ TABLE OF CONTENTS:
 
 .wp-core-ui .button-group > .button:last-child {
 	border-radius: 3px 0 0 3px;
+}
+
+/* ----------------------------------------------------------------------------
+  5.0 - Responsive Button Styles
+---------------------------------------------------------------------------- */
+
+@media screen and ( max-width: 782px ) {
+
+	.wp-core-ui .button,
+	.wp-core-ui .button:active, /* Override non-responsive active styles in buttons.css */
+	input#publish,
+	input#save-post,
+	a.preview {
+		padding: 10px 14px;
+		line-height: 1;
+		font-size: 14px;
+		vertical-align: middle;
+		height: auto;
+		margin-bottom: 4px;
+	}
+
+	#media-upload.wp-core-ui .button {
+		padding: 0 10px 1px;
+		height: 24px;
+		line-height: 22px;
+		font-size: 13px;
+	}
+	
+	/* Publish Metabox Options */
+	.wp-core-ui .save-post-status.button {
+		position: relative;
+		margin: 0 10px 0 14px; /* 14px right margin to match all other buttons */
+	}
+	
+
 }

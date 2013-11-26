@@ -10996,26 +10996,6 @@ li#wp-admin-bar-toggle-button {
 		font-size: 14px;
 	}
 
-	.wp-core-ui .button,
-	.wp-core-ui .button:active, /* Override non-responsive active styles in buttons.css */
-	input#publish,
-	input#save-post,
-	a.preview {
-		padding: 10px 14px;
-		line-height: 1;
-		font-size: 14px;
-		vertical-align: middle;
-		height: auto;
-		margin-bottom: 4px;
-	}
-
-	#media-upload.wp-core-ui .button {
-		padding: 0 10px 1px;
-		height: 24px;
-		line-height: 22px;
-		font-size: 13px;
-	}
-
 	.wrap .add-new-h2, .wrap .add-new-h2:active {
 		padding: 10px 15px;
 		font-size: 14px;
@@ -11226,11 +11206,6 @@ li#wp-admin-bar-toggle-button {
 	/* Publish Metabox Options */
 	#post-visibility-select {
 		line-height: 280%;
-	}
-
-	.wp-core-ui .save-post-status.button {
-		position: relative;
-		margin: 0 14px 0 10px; /* 14px right margin to match all other buttons */
 	}
 
 	.wp-core-ui .save-post-visibility,
