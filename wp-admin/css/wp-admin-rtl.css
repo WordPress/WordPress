@@ -10257,7 +10257,27 @@ div#widgets-right .widgets-sortables {
 	padding: 0 8px;
 	margin-bottom: 9px;
 	position: relative;
-	min-height: 50px;
+	min-height: 45px;
+}
+
+div#widgets-right .widgets-sortables:after {
+	display: block;
+	content: '';
+	position: absolute;
+		bottom: -10px;
+		right: 8px;
+		left: 8px;
+	z-index: 1; /* Required so that widgets hide the default dropzone indicator (.widgets-sortables:after) */
+	border: 1px dashed #bbb;
+	margin: 10px 0;
+	height: 45px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+div#widgets-right .widgets-sortables .widget {
+	z-index: 2; /* Required so that widgets hide the default dropzone indicator (.widgets-sortables:after) */
 }
 
 .sidebar-name .spinner {
