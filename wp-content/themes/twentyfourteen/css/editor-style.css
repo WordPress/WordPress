@@ -354,6 +354,7 @@ img {
 	margin: 0 0 24px 0;
 	padding: 0;
 	text-align: left;
+	max-width: 474px;
 }
 
 .wp-caption.alignleft {
