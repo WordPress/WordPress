@@ -8717,11 +8717,7 @@ body.interim-login {
 }
 
 .menu-edit #post-body-content h3 {
-	margin: 0 0 10px;
-}
-
-#post-body #post-body-content h3 {
-	margin-top: 1em;
+	margin: 1em 0 10px;
 }
 
 .menu-settings {
