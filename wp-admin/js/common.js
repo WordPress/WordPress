@@ -564,14 +564,12 @@ $(document).ready( function() {
 
 			$adminmenu.data( 'wp-responsive', 1 );
 			this.disableSortables();
-			this.movePostSearch();
 		},
 
 		deactivate: function() {
 			window.stickyMenu.enable();
 			$adminmenu.removeData('wp-responsive');
 			this.enableSortables();
-			this.restorePostSearch();
 		},
 
 		trigger: function() {
@@ -630,30 +628,6 @@ $(document).ready( function() {
 				try {
 					$sortables.sortable('enable');
 				} catch(e) {}
-			}
-		},
-
-		movePostSearch: function() {
-			this.searchBox = $( 'p.search-box' );
-
-			if ( this.searchBox.length ) {
-				this.searchBox.hide();
-
-				if ( this.searchBoxClone === undefined ) {
-					this.searchBoxClone = this.searchBox.first().clone().insertAfter( 'div.tablenav.bottom' );
-				}
-
-				this.searchBoxClone.show();
-			}
-		},
-
-		restorePostSearch: function() {
-			if ( this.searchBox !== undefined ) {
-				this.searchBox.show();
-
-				if ( this.searchBoxClone !== undefined ) {
-					this.searchBoxClone.hide();
-				}
 			}
 		}
 	};

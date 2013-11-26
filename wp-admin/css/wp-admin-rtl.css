@@ -11396,10 +11396,17 @@ li#wp-admin-bar-menu-toggle {
 		display: block;
 	}
 
+	#wpbody-content {
+		padding-bottom: 100px;
+	}
+
 	p.search-box {
 		float: none;
-		clear: both;
-		margin-top: 35px;
+		position: absolute;
+		bottom: 0;
+		width: 98%;
+		height: 90px;
+		margin-bottom: 20px;
 	}
 
 	p.search-box input[name="s"] {
@@ -11407,7 +11414,12 @@ li#wp-admin-bar-menu-toggle {
 		float: none;
 		width: 100%;
 		margin-bottom: 10px;
+		vertical-align: middle;
 		-webkit-appearance: none;
+	}
+
+	p.search-box input[type="submit"] {
+		margin-bottom: 10px;
 	}
 
 	.tablenav.top .actions, .view-switch {
