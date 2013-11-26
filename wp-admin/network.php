@@ -292,14 +292,18 @@ function network_step1( $errors = false ) {
 				<th scope='row'><?php esc_html_e( 'Network Title' ); ?></th>
 				<td>
 					<input name='sitename' type='text' size='45' value='<?php echo esc_attr( $site_name ); ?>' />
-					<br /><?php _e( 'What would you like to call your network?' ); ?>
+					<p class="description">
+						<?php _e( 'What would you like to call your network?' ); ?>
+					</p>
 				</td>
 			</tr>
 			<tr>
 				<th scope='row'><?php esc_html_e( 'Admin E-mail Address' ); ?></th>
 				<td>
 					<input name='email' type='text' size='45' value='<?php echo esc_attr( $admin_email ); ?>' />
-					<br /><?php _e( 'Your email address.' ); ?>
+					<p class="description">
+						<?php _e( 'Your email address.' ); ?>
+					</p>
 				</td>
 			</tr>
 		</table>
