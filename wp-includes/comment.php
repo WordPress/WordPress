@@ -1378,15 +1378,6 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  *
  * @since 1.5.0
  * @param array $commentdata Contains information on the comment.
- * @uses apply_filters()
- * @uses wp_get_comment_status()
- * @uses wp_filter_comment()
- * @uses wp_allow_comment()
- * @uses wp_insert_comment()
- * @uses do_action()
- * @uses wp_notify_moderator()
- * @uses get_option()
- * @uses wp_notify_postauthor()
  * @return int The ID of the comment after adding.
  */
 function wp_new_comment( $commentdata ) {

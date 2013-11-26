@@ -1006,16 +1006,6 @@ if ( ! function_exists('wp_notify_postauthor') ) :
  *
  * @param int $comment_id Comment ID
  * @param string $deprecated Not used
- * @uses get_comment()
- * @uses get_post()
- * @uses get_userdata()
- * @uses apply_filters()
- * @uses wp_specialchars_decode()
- * @uses get_option()
- * @uses __()
- * @uses get_permalink()
- * @uses admin_url()
- * @uses wp_mail()
  * @return bool True on completion. False if no email addresses were specified.
  */
 function wp_notify_postauthor( $comment_id, $deprecated = null ) {
@@ -1032,6 +1022,18 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 
 	// Who to notify? By default, just the post author, but others can be added.
 	$emails = array( $author->user_email );
+
+	/**
+	 * Filter the list of emails to receive a comment notification.
+	 *
+	 * Normally just post authors are notified of emails.
+	 * This filter lets you add others.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param array $emails     Array of email addresses to receive a comment notification.
+	 * @param int   $comment_id The comment ID.
+	 */
 	$emails = apply_filters( 'comment_notification_recipients', $emails, $comment_id );
 	$emails = array_filter( $emails );
 
@@ -1043,7 +1045,17 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	// Facilitate unsetting below without knowing the keys.
 	$emails = array_flip( $emails );
 
-	// Post author may want to receive notifications for their own comments
+	/**
+	 * Filter whether to notify comment authors of their comments on their own posts.
+	 *
+	 * By default, comment authors don't get notified of their comments
+	 * on their own post. This lets you override that.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @param bool $notify     Whether to notify the post author of their own comment. Default false.
+	 * @param int  $comment_id The comment ID.
+	 */
 	$notify_author = apply_filters( 'comment_notification_notify_author', false, $comment_id );
 
 	// The comment was left by the author
