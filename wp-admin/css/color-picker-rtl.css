@@ -7,9 +7,9 @@
 }
 
 .wp-color-result {
-	background-color: #f9f9f9;
-	border: 1px solid #bbb;
-	border-radius: 2px;
+	background-color: #f7f7f7;
+	border: 1px solid #ccc;
+	border-radius: 3px;
 	cursor: pointer;
 	display: inline-block;
 	height: 22px;
@@ -23,19 +23,16 @@
 	vertical-align: bottom;
 	display: inline-block;
 	padding-right: 30px;
+
+	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,.08);
+	box-shadow: 0 1px 0 rgba(0,0,0,.08);
 }
 
 .wp-color-result:after {
-	background: #f3f3f3;
-	background-image: -webkit-gradient(linear, right top, right bottom, from(#fefefe), to(#f4f4f4));
-	background-image: -webkit-linear-gradient(top, #fefefe, #f4f4f4);
-	background-image:    -moz-linear-gradient(top, #fefefe, #f4f4f4);
-	background-image:      -o-linear-gradient(top, #fefefe, #f4f4f4);
-	background-image:   linear-gradient(to bottom, #fefefe, #f4f4f4);
- 	color: #333;
-	text-shadow: 0 1px 0 #fff;
-	border-radius: 1px 0 0 1px;
-	border-right: 1px solid #bbb;
+	background: #f7f7f7;	
+	border-radius: 2px 0 0 2px;
+	border-right: 1px solid #ccc;
+	color: #555;
 	content: attr( title );
 	display: block;
 	font-size: 11px;
@@ -45,12 +42,15 @@
 	left: 0;
 	text-align: center;
 	top: 0;
+
+	-webkit-box-shadow: inset 0 1px 0 #fff;
+	box-shadow: inset 0 1px 0 #fff;
 }
 
 .wp-color-result:hover {
-	border-color: #aaa;
-	-webkit-box-shadow: 0 1px 2px rgba( 0, 0, 0, 0.2 );
-	box-shadow: 0 1px 1px rgba( 0, 0, 0, 0.1 );
+	background: #fafafa;
+	border-color: #999;
+	color: #222;
 }
 
 .wp-color-result:hover:after {
@@ -85,6 +85,13 @@
 .wp-picker-open + .wp-picker-input-wrap {
 	display: inline-block;
 	vertical-align: top;
+}
+
+/* Match the style of the color picker button */
+.wp-picker-input-wrap .button.button-small {
+	line-height: 22px;
+	height: 24px;
+	font-size: 11px;
 }
 
 .wp-picker-container .button {
