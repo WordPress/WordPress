@@ -1097,7 +1097,7 @@ p.install-help {
 	line-height: 28px;
 	height: 28px;
 	color: #333;
-	vertical-align: top;
+	vertical-align: middle;
 }
 
 .wp-admin .button-cancel {
