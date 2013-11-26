@@ -54,7 +54,7 @@ if ( preg_match( '/\W/', $callback ) ) {
 }
 
 /*
- * Action triggerd prior to the JSON feed being created and sent to the client
+ * Action triggered prior to the JSON feed being created and sent to the client
  *
  * @since 3.8.0
  */
@@ -102,7 +102,7 @@ if ( ! empty( $callback ) ) {
 }
 
 /*
- * Action triggerd after the JSON feed has been created and sent to the client
+ * Action triggered after the JSON feed has been created and sent to the client
  *
  * @since 3.8.0
  */
