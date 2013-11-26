@@ -11124,7 +11124,7 @@ li#wp-admin-bar-menu-toggle {
 	}
 
 	.wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle a {
-		background: #000;
+		background: #333;
 	}
 
 	.wp-responsive-open #wpbody {

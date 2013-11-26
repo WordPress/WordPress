@@ -267,3 +267,6 @@ div#wp-responsive-toggle a:before {
 
 .star-rating .star {
   color: #e14d43; }
+
+.wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle a {
+  background: #26292c; }
