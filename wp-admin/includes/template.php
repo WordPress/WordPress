@@ -1966,3 +1966,55 @@ function _local_storage_notice() {
 	</div>
 	<?php
 }
+
+/**
+ * Output a HTML element with a star rating for a given rating.
+ *
+ * Outputs a HTML element with the star rating exposed on a 0..5 scale in
+ * half star increments (ie. 1, 1.5, 2 stars). Optionally, if specified, the
+ * number of ratings may also be displayed by passing the $number parameter.
+ *
+ * @since 3.8.0
+ * @param array $args {
+ *     @type int    $rating The Rating to display, Expressed in a 0.5 rating increment, or a percentage.
+ *     @type string $type   The format that the $rating is in. Valid values are 'rating' (default), or, 'percent'.
+ *     @type int    $number The number of ratings which makes up this rating.
+ * }
+ */
+function wp_star_rating( $args = array() ) {
+	$defaults = array(
+		'rating' => 0,
+		'type' => 'rating',
+		'number' => 0,
+	);
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r, EXTR_SKIP );
+
+	// Non-english decimal places when the $rating is coming from a string
+	$rating = str_replace( ',', '.', $rating );
+
+	// Convert Percentage to star rating, 0..5 in .5 increments
+	if ( 'percent' == $type ) {
+		$rating = round( $rating / 10, 0 ) / 2;
+	}
+
+	// Calculate the number of each type of star needed
+	$full_stars = floor( $rating );
+	$half_stars = ceil( $rating - $full_stars );
+	$empty_stars = 5 - $full_stars - $half_stars;
+
+	if ( $number ) {
+		/* translators: 1: The rating, 2: The number of ratings */
+		$title = _n( '%1$s rating based on %2$s rating', '%1$s rating based on %2$s ratings', $number );
+		$title = sprintf( $title, number_format_i18n( $rating, 1 ), number_format_i18n( $number ) );
+	} else {
+		/* translators: 1: The rating */
+		$title = sprintf( __( '%s rating' ), number_format_i18n( $rating, 1 ) );
+	}
+
+	echo '<div class="star-rating" title="' . esc_attr( $title ) . '">';
+	echo str_repeat( '<div class="star star-full"></div>', $full_stars );
+	echo str_repeat( '<div class="star star-half"></div>', $half_stars );
+	echo str_repeat( '<div class="star star-empty"></div>', $empty_stars);
+	echo '</div>';
+}

@@ -7714,8 +7714,8 @@ body.full-overlay-active {
 	float: left;
 }
 
-.theme-details .star-holder {
-	margin: 14px 0;
+.theme-details .star-rating {
+	margin: 7px 0;
 	float: right;
 }
 
@@ -9341,7 +9341,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	display: block;
 }
 
-/* Star ratings */
+/* Star Ratings - Back-compat for pre-3.8 */
 div.star-holder {
 	position: relative;
 	height: 17px;
@@ -9353,6 +9353,40 @@ div.star-holder .star-rating {
 	background: url('../images/stars.png?ver=20121108') repeat-x top left;
 	height: 17px;
 	float: left;
+}
+
+/* Star Ratings */
+.star-rating {
+	white-space: nowrap;
+}
+.star-rating .star {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	-webkit-font-smoothing: antialiased;
+	font-size: 25px;
+	line-height: 1;
+	font-family: 'dashicons';
+	text-decoration: inherit;
+	font-weight: normal;
+	font-style: normal;
+	vertical-align: top;
+	-moz-transition: color .1s ease-in 0;
+	-webkit-transition: color .1s ease-in 0;
+	text-align: center;
+	color: #0074a2;
+}
+
+.star-rating .star-full:before {
+	content:'\f155';
+}
+
+.star-rating .star-half:before {
+	content:'\f459';
+}
+
+.star-rating .star-empty:before {
+	content:'\f154';
 }
 
 div.action-links {
@@ -10725,11 +10759,13 @@ li#wp-admin-bar-toggle-button {
 		background-size: 11px 11px;
 	}
 
+	/* Back-compat for pre-3.8 */
 	div.star-holder {
 		background: url('../images/stars-2x.png?ver=20121108') repeat-x bottom left;
 		background-size: 21px 37px;
 	}
 
+	/* Back-compat for pre-3.8 */
 	div.star-holder .star-rating {
 		background: url('../images/stars-2x.png?ver=20121108') repeat-x top left;
 		background-size: 21px 37px;

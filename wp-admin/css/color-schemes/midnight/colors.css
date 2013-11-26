@@ -258,3 +258,6 @@ div#moby6-toggle a:before {
 .moby6-open div#moby6-toggle a {
   border-color: transparent;
   background: #e14d43; }
+
+.star-rating .star {
+  color: #e14d43; }
