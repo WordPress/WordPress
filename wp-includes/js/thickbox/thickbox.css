@@ -3,12 +3,12 @@
 /* ---------->>> thickbox specific link and font settings <<<------------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------------------*/
 #TB_window {
-	font: 12px sans-serif;
+	font: 12px "Open Sans", sans-serif;
 	color: #333333;
 }
 
 #TB_secondLine {
-	font: 10px sans-serif;
+	font: 10px "Open Sans", sans-serif;
 	color:#666666;
 }
 
@@ -92,6 +92,10 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
 	float:right;
 }
 
+#TB_closeAjaxWindow a {
+	text-decoration: none;
+}
+
 #TB_ajaxWindowTitle{
 	float:left;
 	padding:6px 10px 0;
@@ -162,17 +166,21 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
 }
 
 .tb-close-icon {
-	background: url('tb-close.png') no-repeat;
-	height: 15px;
-	width: 15px;
+	height: 16px;
+	margin: -3px -3px 0 0;
+	width: 16px;
 }
 
-@media print,
-  (-o-min-device-pixel-ratio: 5/4),
-  (-webkit-min-device-pixel-ratio: 1.25),
-  (min-resolution: 120dpi) {
-	.tb-close-icon {
-		background: url('tb-close-2x.png') no-repeat;
-		background-size: 15px;
-	}
+.tb-close-icon:before {
+	content: '\f158';
+	color: #ccc;
+	font: normal 20px/1 'dashicons';
+	speak: none;
+	vertical-align: middle;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.tb-close-icon:hover:before {
+	color: #fff;
 }
