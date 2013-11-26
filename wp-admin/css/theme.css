@@ -339,14 +339,13 @@
 }
 .theme-browser .add-new-theme:hover span:after {
 	background: #fff;
-	color: rgb(16, 116, 162);
-	box-shadow: 0 2px 1px rgba(0,0,0,0.3);
+	color: #0074a2;
 }
 
 .theme-browser .add-new-theme:hover:after {
 	border-color: transparent;
 	color: #fff;
-	background: rgb(16, 116, 162);
+	background: #0074a2;
 }
 
 .theme-browser .add-new-theme .theme-name {
@@ -355,7 +354,7 @@
 	box-shadow: none;
 	font-weight: 400;
 	position: relative;
-	top: -70px;
+	top: -50px;
 }
 .theme-browser .add-new-theme:hover .theme-name {
 	color: #fff;

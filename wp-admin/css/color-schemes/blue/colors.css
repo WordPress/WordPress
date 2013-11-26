@@ -257,6 +257,13 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
   background-color: #096484;
   box-shadow: 0 0 0 1px white, 0 0 0 2px #096484; }
 
+/* Themes */
+.theme.active .theme-name, .theme-browser .add-new-theme:hover:after {
+  background: #096484; }
+
+.theme-browser .add-new-theme:hover span:after {
+  color: #096484; }
+
 /* jQuery UI Slider */
 .wp-slider .ui-slider-handle, .wp-slider .ui-slider-handle.ui-state-hover, .wp-slider .ui-slider-handle.focus {
   background: #e1a948;

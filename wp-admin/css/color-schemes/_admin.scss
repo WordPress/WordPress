@@ -399,6 +399,17 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 
+/* Themes */
+
+.theme.active .theme-name,
+.theme-browser .add-new-theme:hover:after {
+	background: $highlight-color;
+}
+
+.theme-browser .add-new-theme:hover span:after {
+	color: $highlight-color;
+}
+
 /* jQuery UI Slider */
 
 .wp-slider .ui-slider-handle,
