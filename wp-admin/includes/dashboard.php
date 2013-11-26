@@ -135,10 +135,9 @@ function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
  */
 function wp_dashboard() {
 	$screen = get_current_screen();
-	$class = 'columns-' . get_current_screen()->get_columns();
 
 ?>
-<div id="dashboard-widgets" class="metabox-holder <?php echo $class; ?>">
+<div id="dashboard-widgets" class="metabox-holder">
 	<div id='postbox-container-1' class='postbox-container'>
 	<?php do_meta_boxes( $screen->id, 'normal', '' ); ?>
 	</div>

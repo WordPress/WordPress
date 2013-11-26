@@ -6,8 +6,7 @@ jQuery(document).ready( function($) {
 		welcomePanel = $( '#welcome-panel' ),
 		welcomePanelHide = $('#wp_welcome_panel-hide'),
 		updateWelcomePanel,
-		metaboxHolder = $( '.metabox-holder' ),
-		updateColumnCount;
+		metaboxHolder = $( '.metabox-holder' );
 
 	updateWelcomePanel = function( visible ) {
 		$.post( ajaxurl, {
@@ -131,31 +130,5 @@ jQuery(document).ready( function($) {
 		$( this ).fadeOut().closest('.activity-block').find( 'li.hidden' ).fadeIn().removeClass( 'hidden' );
 		e.preventDefault();
 	});
-
-	updateColumnCount = function( $window, $holder ) {
-		var cols = 1,
-			windowWidth = parseInt( $window.width(), 10 );
-
-		if (799 < windowWidth && 1299 > windowWidth) {
-			cols = 2;
-		}
-
-		if (1300 < windowWidth && 1799 > windowWidth) {
-			cols = 3;
-		}
-
-		if (1800 < windowWidth) {
-			cols = 4;
-		}
-
-		$holder.attr( 'class', $holder.attr( 'class' ).replace( /columns-\d+/, 'columns-' + cols ) );
-	};
-
-	// Update main column count on load
-	updateColumnCount( $window, metaboxHolder );
-
-	$window.on( 'resize', _.debounce(function() {
-		updateColumnCount( $window, metaboxHolder );
-	}, 30 ) );
 
 } );
