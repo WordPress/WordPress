@@ -198,7 +198,7 @@ var wpLink;
 				html        = html + selection + '</a>';
 				cursor      = begin + html.length;
 
-				// If no next is selected, place the cursor inside the closing tag.
+				// If no text is selected, place the cursor inside the closing tag.
 				if ( begin == end )
 					cursor -= '</a>'.length;
 
