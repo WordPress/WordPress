@@ -1,6 +1,6 @@
 /* global setUserSetting, ajaxurl, commonL10n, alert, confirm, toggleWithKeyboard, pagenow */
-var showNotice, adminMenu, columns, validateForm, screenMeta, stickyMenu;
-(function($){
+var showNotice, adminMenu, columns, validateForm, screenMeta;
+( function( $, window, undefined ) {
 // Removed in 3.3.
 // (perhaps) needed for back-compat
 adminMenu = {
@@ -217,12 +217,21 @@ $(document).ready( function() {
 
 		// close any open submenus when touch/click is not on the menu
 		$(document.body).on( mobileEvent+'.wp-mobile-hover', function(e) {
-			if ( !$(e.target).closest('#adminmenu').length )
+			if ( menu.data('wp-responsive') ) {
+				return;
+			}
+
+			if ( ! $(e.target).closest('#adminmenu').length ) {
 				menu.find('li.wp-has-submenu.opensub').removeClass('opensub');
+			}
 		});
 
 		menu.find('a.wp-has-submenu').on( mobileEvent+'.wp-mobile-hover', function(e) {
 			var el = $(this), parent = el.parent();
+
+			if ( menu.data('wp-responsive') ) {
+				return;
+			}
 
 			// Show the sub instead of following the link if:
 			//	- the submenu is not open
@@ -447,248 +456,211 @@ $(document).ready( function() {
 	})();
 });
 
-stickyMenu = {
-	active: false,
+// Fire a custom jQuery event at the end of window resize
+( function() {
+	var timeout;
 
-	init: function () {
-		this.$window = $( window );
-		this.$body = $( document.body );
-		this.$adminMenuWrap = $( '#adminmenuwrap' );
-		this.$collapseMenu = $( '#collapse-menu' );
-		this.bodyMinWidth = parseInt( this.$body.css( 'min-width' ), 10 );
-		this.enable();
-	},
+	function triggerEvent() {
+		$(document).trigger( 'wp-window-resized' );
+	}
 
-	enable: function () {
-		if ( ! this.active ) {
-			this.$window.on( 'resize.stickyMenu scroll.stickyMenu', this.debounce(
-				$.proxy( this.update, this ), 200
-			) );
-			this.$collapseMenu.on( 'click.stickyMenu', $.proxy( this.update, this ) );
-			this.update();
-			this.active = true;
-		}
-	},
+	function fireOnce() {
+		window.clearTimeout( timeout );
+		timeout = window.setTimeout( triggerEvent, 200 );
+	}
 
-	disable: function () {
-		if ( this.active ) {
-			this.$window.off( 'resize.stickyMenu scroll.stickyMenu' );
-			this.$collapseMenu.off( 'click.stickyMenu' );
-			this.$body.removeClass( 'sticky-menu' );
-			this.active = false;
-		}
-	},
+	$(window).on( 'resize.wp-fire-once', fireOnce );
+}());
 
-	update: function () {
-		// Make the admin menu sticky if both of the following:
-		// 1. The viewport is taller than the admin menu
-		// 2. The viewport is wider than the min-width of the <body>
-		if ( this.$window.height() > this.$adminMenuWrap.height() + 32 && this.$window.width() > this.bodyMinWidth) {
-			if ( ! this.$body.hasClass( 'sticky-menu' ) ) {
-				this.$body.addClass( 'sticky-menu' );
+$(document).ready( function() {
+	var $document = $( document ),
+		$window = $( window ),
+		$body = $( document.body ),
+		$adminMenuWrap = $( '#adminmenuwrap' ),
+		$collapseMenu = $( '#collapse-menu' ),
+		$wpwrap = $( '#wpwrap' ),
+		$adminmenu = $( '#adminmenu' ),
+		$overlay = $( '#wp-responsive-overlay' ),
+		$toolbar = $( '#wp-toolbar' ),
+		$toolbarPopups = $toolbar.find( 'a[aria-haspopup="true"]' ),
+		$sortables = $('.meta-box-sortables'),
+		stickyMenuActive = false,
+		wpResponsiveActive = false;
+
+	window.stickyMenu = {
+		enable: function() {
+			if ( ! stickyMenuActive ) {
+				$document.on( 'wp-window-resized.sticky-menu', $.proxy( this.update, this ) );
+				$collapseMenu.on( 'click.sticky-menu', $.proxy( this.update, this ) );
+				this.update();
+				stickyMenuActive = true;
 			}
-		} else {
-			if ( this.$body.hasClass( 'sticky-menu' ) ) {
-				this.$body.removeClass( 'sticky-menu' );
-			}
-		}
-	},
+		},
 
-	// Borrowed from Underscore.js
-	debounce: function( func, wait, immediate ) {
-		var timeout, args, context, timestamp, result;
-		return function() {
-			var later, callNow;
-			context = this;
-			args = arguments;
-			timestamp = new Date().getTime();
-			later = function() {
-				var last = new Date().getTime() - timestamp;
-				if ( last < wait ) {
-					timeout = setTimeout( later, wait - last );
-				} else {
-					timeout = null;
-					if ( ! immediate ) {
-						result = func.apply( context, args );
-						context = args = null;
-					}
+		disable: function() {
+			if ( stickyMenuActive ) {
+				$window.off( 'resize.sticky-menu' );
+				$collapseMenu.off( 'click.sticky-menu' );
+				$body.removeClass( 'sticky-menu' );
+				stickyMenuActive = false;
+			}
+		},
+
+		update: function() {
+			// Make the admin menu sticky if the viewport is taller than it
+			if ( $window.height() > $adminMenuWrap.height() + 32 ) {
+				if ( ! $body.hasClass( 'sticky-menu' ) ) {
+					$body.addClass( 'sticky-menu' );
 				}
-			};
-			callNow = immediate && !timeout;
-			if ( ! timeout ) {
-				timeout = setTimeout( later, wait );
-			}
-			if ( callNow ) {
-				result = func.apply( context, args );
-				context = args = null;
-			}
-
-			return result;
-		};
-	}
-};
-
-stickyMenu.init();
-
-var moby6 = {
-
-	init: function() {
-		// cached selectors
-		this.$html = $( document.documentElement );
-		this.$body = $( document.body );
-		this.$wpwrap = $( '#wpwrap' );
-		this.$wpbody = $( '#wpbody' );
-		this.$adminmenu = $( '#adminmenu' );
-		this.$overlay = $( '#moby6-overlay' );
-		this.$toolbar = $( '#wp-toolbar' );
-		this.$toolbarPopups = this.$toolbar.find( 'a[aria-haspopup="true"]' );
-
-		// Modify functionality based on custom activate/deactivate event
-		this.$html
-			.on( 'activate.moby6', function() { moby6.activate(); } )
-			.on( 'deactivate.moby6', function() { moby6.deactivate(); } );
-
-		// Toggle sidebar when toggle is clicked
-		$( '#wp-admin-bar-toggle-button' ).on( 'click', function(evt) {
-			evt.preventDefault();
-			moby6.$wpwrap.toggleClass( 'moby6-open' );
-		} );
-
-		// Trigger custom events based on active media query.
-		this.matchMedia();
-		$( window ).on( 'resize', $.proxy( this.matchMedia, this ) );
-	},
-
-	activate: function() {
-
-		window.stickymenu && window.stickymenu.disable();
-
-		if ( ! moby6.$body.hasClass( 'auto-fold' ) )
-			moby6.$body.addClass( 'auto-fold' );
-
-		this.modifySidebarEvents();
-		this.disableDraggables();
-		this.movePostSearch();
-
-	},
-
-	deactivate: function() {
-
-		window.stickymenu && window.stickymenu.enable();
-
-		this.enableDraggables();
-		this.removeHamburgerButton();
-		this.restorePostSearch();
-
-	},
-
-	matchMedia: function() {
-		clearTimeout( this.resizeTimeout );
-		this.resizeTimeout = setTimeout( function() {
-
-			if ( ! window.matchMedia )
-				return;
-
-			if ( window.matchMedia( '(max-width: 782px)' ).matches ) {
-				if ( moby6.$html.hasClass( 'touch' ) )
-					return;
-				moby6.$html.addClass( 'touch' ).trigger( 'activate.moby6' );
 			} else {
-				if ( ! moby6.$html.hasClass( 'touch' ) )
+				if ( $body.hasClass( 'sticky-menu' ) ) {
+					$body.removeClass( 'sticky-menu' );
+				}
+			}
+		}
+	};
+
+	window.wpResponsive = {
+		init: function() {
+			var self = this,
+				scrollStart = 0;
+
+			// Modify functionality based on custom activate/deactivate event
+			$document.on( 'wp-responsive-activate.wp-responsive', function() {
+				self.activate();
+			}).on( 'wp-responsive-deactivate.wp-responsive', function() {
+				self.deactivate();
+			});
+
+			// Toggle sidebar when toggle is clicked
+			$( '#wp-admin-bar-menu-toggle' ).on( 'click.wp-responsive', function( event ) {
+				event.preventDefault();
+				$wpwrap.toggleClass( 'wp-responsive-open' );
+			} );
+
+			// Add menu events
+			$adminmenu.on( 'touchstart.wp-responsive', 'li.wp-has-submenu > a', function() {
+				scrollStart = $window.scrollTop();
+			}).on( 'touchend.wp-responsive', 'li.wp-has-submenu > a', function( event ) {
+				if ( ! $adminmenu.data('wp-responsive') || $window.scrollTop() !== scrollStart ) {
 					return;
-				moby6.$html.removeClass( 'touch' ).trigger( 'deactivate.moby6' );
+				}
+
+				$( this ).find( 'li.wp-has-submenu' ).removeClass( 'selected' );
+				$( this ).parent( 'li' ).addClass( 'selected' );
+				event.preventDefault();
+			});
+
+			self.trigger();
+			$document.on( 'wp-window-resized.wp-responsive', $.proxy( this.trigger, this ) );
+		},
+
+		activate: function() {
+			window.stickyMenu.disable();
+
+			if ( ! $body.hasClass( 'auto-fold' ) ) {
+				$body.addClass( 'auto-fold' );
 			}
 
-			if ( window.matchMedia( '(max-width: 480px)' ).matches ) {
-				moby6.enableOverlay();
+			$adminmenu.data( 'wp-responsive', 1 );
+			this.disableSortables();
+			this.movePostSearch();
+		},
+
+		deactivate: function() {
+			window.stickyMenu.enable();
+			$adminmenu.removeData('wp-responsive');
+			this.enableSortables();
+			this.restorePostSearch();
+		},
+
+		trigger: function() {
+			var width = navigator.userAgent.indexOf('AppleWebKit/') > -1 ? $window.width() : window.innerWidth;
+
+			if ( width <= 782 ) {
+				if ( ! wpResponsiveActive ) {
+					$document.trigger( 'wp-responsive-activate' );
+					wpResponsiveActive = true;
+				}
 			} else {
-				moby6.disableOverlay();
+				if ( wpResponsiveActive ) {
+					$document.trigger( 'wp-responsive-deactivate' );
+					wpResponsiveActive = false;
+				}
 			}
 
-		}, 150 );
-	},
-
-	enableOverlay: function() {
-		if ( this.$overlay.length === 0 ) {
-			this.$overlay = $( '<div id="moby6-overlay"></div>' )
-				.insertAfter( '#wpcontent' )
-				.hide()
-				.on( 'click.moby6', function() {
-					moby6.$toolbar.find( '.menupop.hover' ).removeClass( 'hover' );
-					$( this ).hide();
-				});
-		}
-		this.$toolbarPopups.on( 'click.moby6', function() {
-			moby6.$overlay.show();
-		});
-	},
-
-	disableOverlay: function() {
-		this.$toolbarPopups.off( 'click.moby6' );
-		this.$overlay.hide();
-	},
-
-	modifySidebarEvents: function() {
-		this.$body.off( '.wp-mobile-hover' );
-		this.$adminmenu.find( 'a.wp-has-submenu' ).off( '.wp-mobile-hover' );
-
-		var scrollStart = 0;
-		this.$adminmenu.on( 'touchstart.moby6', 'li.wp-has-submenu > a', function() {
-			scrollStart = $( window ).scrollTop();
-		});
-
-		this.$adminmenu.on( 'touchend.moby6', 'li.wp-has-submenu > a', function( e ) {
-			e.preventDefault();
-
-			if ( $( window ).scrollTop() !== scrollStart )
-				return false;
-
-			$( this ).find( 'li.wp-has-submenu' ).removeClass( 'selected' );
-			$( this ).parent( 'li' ).addClass( 'selected' );
-		});
-	},
-
-	disableDraggables: function() {
-		this.$wpbody
-			.find( '.hndle' )
-			.removeClass( 'hndle' )
-			.addClass( 'hndle-disabled' );
-	},
-
-	enableDraggables: function() {
-		this.$wpbody
-			.find( '.hndle-disabled' )
-			.removeClass( 'hndle-disabled' )
-			.addClass( 'hndle' );
-	},
-
-	removeHamburgerButton: function() {
-		if ( this.hamburgerButtonView !== undefined )
-			this.hamburgerButtonView.destroy();
-	},
-
-	movePostSearch: function() {
-		this.searchBox = this.$wpbody.find( 'p.search-box' );
-		if ( this.searchBox.length ) {
-			this.searchBox.hide();
-			if ( this.searchBoxClone === undefined ) {
-				this.searchBoxClone = this.searchBox.first().clone().insertAfter( 'div.tablenav.bottom' );
+			if ( width <= 480 ) {
+				this.enableOverlay();
+			} else {
+				this.disableOverlay();
 			}
-			this.searchBoxClone.show();
-		}
-	},
+		},
 
-	restorePostSearch: function() {
-		if ( this.searchBox !== undefined ) {
-			this.searchBox.show();
-			if ( this.searchBoxClone !== undefined )
-				this.searchBoxClone.hide();
-		}
-	}
-};
+		enableOverlay: function() {
+			if ( $overlay.length === 0 ) {
+				$overlay = $( '<div id="wp-responsive-overlay"></div>' )
+					.insertAfter( '#wpcontent' )
+					.hide()
+					.on( 'click.wp-responsive', function() {
+						$toolbar.find( '.menupop.hover' ).removeClass( 'hover' );
+						$( this ).hide();
+					});
+			}
 
-// Fire moby6.init when document is ready
-$( document ).ready( $.proxy( moby6.init, moby6 ) );
+			$toolbarPopups.on( 'click.wp-responsive', function() {
+				$overlay.show();
+			});
+		},
+
+		disableOverlay: function() {
+			$toolbarPopups.off( 'click.wp-responsive' );
+			$overlay.hide();
+		},
+
+		disableSortables: function() {
+			if ( $sortables.length ) {
+				try {
+					$sortables.sortable('disable');
+				} catch(e) {}
+			}
+		},
+
+		enableSortables: function() {
+			if ( $sortables.length ) {
+				try {
+					$sortables.sortable('enable');
+				} catch(e) {}
+			}
+		},
+
+		movePostSearch: function() {
+			this.searchBox = $( 'p.search-box' );
+
+			if ( this.searchBox.length ) {
+				this.searchBox.hide();
+
+				if ( this.searchBoxClone === undefined ) {
+					this.searchBoxClone = this.searchBox.first().clone().insertAfter( 'div.tablenav.bottom' );
+				}
+
+				this.searchBoxClone.show();
+			}
+		},
+
+		restorePostSearch: function() {
+			if ( this.searchBox !== undefined ) {
+				this.searchBox.show();
+
+				if ( this.searchBoxClone !== undefined ) {
+					this.searchBoxClone.hide();
+				}
+			}
+		}
+	};
+
+	window.stickyMenu.enable();
+	window.wpResponsive.init();
+});
 
 // make Windows 8 devices playing along nicely
 (function(){
@@ -712,4 +684,4 @@ $(document).bind( 'wp_CloseOnEscape', function( e, data ) {
 	return true;
 });
 
-})(jQuery);
+}( jQuery, window ));

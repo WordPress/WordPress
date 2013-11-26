@@ -252,10 +252,10 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
   box-shadow: 0 0 0 1px white, 0 0 0 2px #096484; }
 
 /* Responsive Component */
-div#moby6-toggle a:before {
+div#wp-responsive-toggle a:before {
   color: #e5f8ff; }
 
-.moby6-open div#moby6-toggle a {
+.wp-responsive-open div#wp-responsive-toggle a {
   border-color: transparent;
   background: #096484; }
 

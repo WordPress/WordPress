@@ -384,11 +384,11 @@ ul#adminmenu > li.current > a.current:after {
 
 /* Responsive Component */
 
-div#moby6-toggle a:before {
+div#wp-responsive-toggle a:before {
 	color: $menu-icon;
 }
 
-.moby6-open div#moby6-toggle a {
+.wp-responsive-open div#wp-responsive-toggle a {
 	// ToDo: make inset border
 	border-color: transparent;
 	background: $menu-highlight-background;

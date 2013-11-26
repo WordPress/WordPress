@@ -165,7 +165,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 function wp_admin_bar_sidebar_toggle( $wp_admin_bar ) {
 	if ( is_admin() ) {
 		$wp_admin_bar->add_menu( array(
-			'id'    => 'toggle-button',
+			'id'    => 'menu-toggle',
 			'title' => '<span class="ab-icon"></span>',
 			'href'  => '#',
 			'meta'  => array(

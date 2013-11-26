@@ -10600,7 +10600,7 @@ div#widgets-right .widgets-sortables {
 	margin: 16px 0 0;
 }
 
-li#wp-admin-bar-toggle-button {
+li#wp-admin-bar-menu-toggle {
 	display: none;
 }
 
@@ -11098,7 +11098,7 @@ li#wp-admin-bar-toggle-button {
 	}
 
 	/*  Sidebar Toggle */
-	#moby6-toggle {
+	#wp-responsive-toggle {
 		position: fixed;
 		top: 5px;
 		left: 4px;
@@ -11113,16 +11113,16 @@ li#wp-admin-bar-toggle-button {
 		margin-top: -2px;
 	}
 
-	.moby6-open #wpadminbar #wp-admin-bar-toggle-button a {
+	.wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle a {
 		background: #000;
 	}
 
-	.moby6-open #wpbody {
+	.wp-responsive-open #wpbody {
 		right: -190px;
 	}
 
-	.auto-fold .moby6-open #adminmenuback,
-	.auto-fold .moby6-open #adminmenuwrap {
+	.auto-fold .wp-responsive-open #adminmenuback,
+	.auto-fold .wp-responsive-open #adminmenuwrap {
 		left: 0;
 	}
 
@@ -12138,7 +12138,7 @@ li#wp-admin-bar-toggle-button {
 }
 
 @media screen and ( max-width: 782px ) {
-	#wpadminbar #wp-admin-bar-toggle-button a {
+	#wpadminbar #wp-admin-bar-menu-toggle a {
 		display: block;
 		padding: 0;
 		overflow: hidden;
@@ -12150,15 +12150,15 @@ li#wp-admin-bar-toggle-button {
 		margin-left: -1px;
 	}
 
-	li#wp-admin-bar-toggle-button {
+	li#wp-admin-bar-menu-toggle {
 		display: block;
 	}
 
-	#wpadminbar #wp-admin-bar-toggle-button a:hover {
+	#wpadminbar #wp-admin-bar-menu-toggle a:hover {
 		border: 1px solid transparent;
 	}
 
-	#wpadminbar #wp-admin-bar-toggle-button .ab-icon:before {
+	#wpadminbar #wp-admin-bar-menu-toggle .ab-icon:before {
 		content: '\f228';
 		display: inline-block;
 		float: left;
@@ -12193,7 +12193,7 @@ li#wp-admin-bar-toggle-button {
 		top: 46px;
 	}
 	
-	#moby6-overlay {
+	#wp-responsive-overlay {
 		position: fixed;
 		top: 0;
 		left: 0;
