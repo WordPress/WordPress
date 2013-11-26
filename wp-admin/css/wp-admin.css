@@ -11602,6 +11602,15 @@ li#wp-admin-bar-menu-toggle {
 		width: 30%;
 	}
 
+	/* Network admin sites */
+	.sites .column-registered, .sites .column-users {
+		display: none;
+	}
+
+	.sites .column-blogname {
+		width: 55%;
+	}
+
 	/* Updates */
 	#wpbody-content #update-themes-table .plugin-title {
 		width: auto;
