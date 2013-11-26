@@ -182,7 +182,7 @@ var imageEdit = window.imageEdit = {
 					callback();
 				}
 
-				if ( $('#imgedit-history-' + postid).val() && $('#imgedit-undone-' + postid).val() === 0 ) {
+				if ( $('#imgedit-history-' + postid).val() && $('#imgedit-undone-' + postid).val() === '0' ) {
 					$('input.imgedit-submit-btn', '#imgedit-panel-' + postid).removeAttr('disabled');
 				} else {
 					$('input.imgedit-submit-btn', '#imgedit-panel-' + postid).prop('disabled', true);
