@@ -257,6 +257,13 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
   background-color: #04a4cc;
   box-shadow: 0 0 0 1px white, 0 0 0 2px #04a4cc; }
 
+/* jQuery UI Slider */
+.wp-slider .ui-slider-handle, .wp-slider .ui-slider-handle.ui-state-hover, .wp-slider .ui-slider-handle.focus {
+  background: #04a4cc;
+  border-color: #037c9a;
+  -webkit-box-shadow: inset 0 1px 0 #22cffb, 0 1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 1px 0 #22cffb, 0 1px 0 rgba(0, 0, 0, 0.15); }
+
 /* Responsive Component */
 div#wp-responsive-toggle a:before {
   color: #999999; }

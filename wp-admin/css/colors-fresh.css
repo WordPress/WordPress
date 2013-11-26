@@ -1392,24 +1392,13 @@ table.diff .diff-addedline ins {
 .wp-slider .ui-slider-handle.ui-state-hover,
 .wp-slider .ui-slider-handle.focus {
 	background: #2ea2cc;
-	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#2ea2cc), color-stop(100%,#1e8cbe));
-	background: -webkit-linear-gradient(-45deg, #2ea2cc 0%,#1e8cbe 100%);
-	background: linear-gradient(135deg, #2ea2cc 0%,#1e8cbe 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2ea2cc', endColorstr='#1e8cbe',GradientType=1 );
-	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	border: 1px solid #0074a2;
+	-webkit-box-shadow: inset 0 1px 0 #78c8e6, 0 1px 0 rgba(0,0,0,.15);
+	box-shadow: inset 0 1px 0 #78c8e6, 0 1px 0 rgba(0,0,0,.15);
 }
 
 .wp-slider .ui-slider-handle:before {
 	color: #fff;
-	text-shadow: 0 1px 1px rgba(0,116,162,1);
-}
-
-.wp-slider .ui-slider-handle.ui-state-active {
-	background: #0074a2;
-	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#0074a2), color-stop(100%,#005684));
-	background: -webkit-linear-gradient(-45deg,  #0074a2 0%,#005684 100%);
-	background: linear-gradient(135deg,  #0074a2 0%,#005684 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0074a2', endColorstr='#005684',GradientType=1 );
 }
 
 /* edit image */

@@ -4961,19 +4961,17 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 
 .wp-slider .ui-slider-handle {
 	border-radius: 50%;
-	height: 20px;
-	margin-top: -2px;
+	height: 18px;
+	margin-top: -3px;
 	outline: none;
 	position: absolute;
-	width: 20px;
+	width: 18px;
 	z-index: 2;
 }
 
 .wp-slider .ui-slider-handle:before {
 	background: none;
 	position: absolute;
-	margin-top: 1px;
-	margin-right: 1px;
 	top: 0;
 	right: 0;
 	content: "\f229";
