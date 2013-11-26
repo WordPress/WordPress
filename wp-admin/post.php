@@ -70,6 +70,14 @@ function redirect_post($post_id = '') {
 		$location = add_query_arg( 'message', 4, get_edit_post_link( $post_id, 'url' ) );
 	}
 
+	/**
+	 * Filter the post redirect destination URL.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param string $location The destination URL.
+	 * @param int    $post_id  The post ID.
+	 */
 	wp_redirect( apply_filters( 'redirect_post_location', $location, $post_id ) );
 	exit;
 }
