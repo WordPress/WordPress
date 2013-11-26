@@ -11041,16 +11041,6 @@ li#wp-admin-bar-menu-toggle {
 	.auto-fold #adminmenu li.menu-top {
 		width: 100%;
 	}
-	
-	/* Experimental animations for sidebar */
-	.auto-fold #adminmenu,
-	.auto-fold #adminmenuback,
-	.auto-fold #adminmenuwrap {
-		-moz-transition: right .05s ease-in-out;
-		-webkit-transition: right .05s ease-in-out;
-		transition: right .05s ease-in-out;
-	}
-
 
 	/* Resize the admin menu items to a comfortable touch size */
 	.auto-fold #adminmenu li a {
@@ -12205,6 +12195,16 @@ li#wp-admin-bar-menu-toggle {
 
 /* Smartphone */
 @media screen and (max-width: 600px) {
+	#adminmenuwrap,
+	#adminmenuback {
+		display: none;
+	}
+	
+	.wp-responsive-open #adminmenuwrap,
+	.wp-responsive-open #adminmenuback {
+		display: block;
+	}
+	
 	html.wp-toolbar {
 		padding-top: 0;
 	}
