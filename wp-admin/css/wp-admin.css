@@ -10856,33 +10856,6 @@ li#wp-admin-bar-toggle-button {
 }
 
 
-/* Thickbox styles */
-
-.tb-close-icon {
-	background: none;
-	height: 16px;
-	margin: -2px -3px 0 0;
-	width: 16px;
-}
-
-.tb-close-icon:before {
-	content: '\f158';
-	color: #ccc;
-	font: normal 20px/1 'dashicons';
-	speak: none;
-	vertical-align: middle;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-.tb-close-icon:hover:before {
-	color: #fff;
-}
-
-#TB_closeAjaxWindow a {
-	text-decoration: none;
-}
-
 @-ms-viewport {
 	width: device-width;
 }
