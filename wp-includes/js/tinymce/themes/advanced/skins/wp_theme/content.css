@@ -115,18 +115,20 @@ img.mce-wp-more {
 	border-top: 1px dotted #cccccc;
 	display: block;
 	height: 12px;
+	width: 100%;
 	margin: 1.2em auto 0;
 }
 
 img.mce-wp-more {
-	background: transparent url("img/more_bug.gif") no-repeat right top;
+	background: transparent url("img/mce-more.png") no-repeat right top;
 	background-size: 52px 11px;
 }
 
 img.mce-wp-nextpage {
-    background: transparent url("img/page_bug.gif") no-repeat right top;
-    background-size: 76px 11px;
+	background: transparent url("img/mce-nextpage.png") no-repeat right top;
+	background-size: 76px 11px;
 }
+
 
 img.wp-gallery {
 	border: 1px dashed #888;
@@ -150,14 +152,14 @@ img.wp-oembed {
 	(min-resolution: 120dpi) {
 
 	img.mce-wp-more {
-		background-image: url('../images/mce-more-2x.png');
+		background-image: url("img/mce-more-2x.png");
 	}
 
 	img.mce-wp-nextpage {
-		background-image: url('../images/mce-nextpage-2x.png');
+		background-image: url("img/mce-nextpage-2x.png");
 	}
 
 	img.wp-gallery {
-		background-image: url('../images/gallery-2x.png');
+		background-image: url("img/gallery-2x.png");
 	}
 }
