@@ -1078,8 +1078,6 @@ span.mce_ltr:before {
 
 .wp-editor-container {
 	clear: both;
-	position: relative;
-	top: -1px;
 }
 
 .wp-editor-area {
@@ -1128,6 +1126,8 @@ span.mce_ltr:before {
 	height: 19px;
 	margin: 5px 0 0 5px;
 	padding: 3px 8px 4px;
+	position: relative;
+	top: 1px;
 }
 
 .wp-switch-editor:active {

@@ -11303,9 +11303,13 @@ li#wp-admin-bar-menu-toggle {
 	}
 
 	#wp-content-editor-tools {
-		padding-top: 20px;
-		padding-right: 15px;
 		overflow: hidden;
+		padding: 20px 15px 1px 0;
+		top: 1px;
+	}
+
+	.press-this #wp-content-editor-tools {
+		top: 4px;
 	}
 
 	a.wp-switch-editor {
