@@ -12227,6 +12227,12 @@ li#wp-admin-bar-menu-toggle {
 		display: block;
 	}
 	
+	/* Disable horizontal scroll when responsive menu is open
+	   since we push the main content off to the right. */
+	#wpwrap.wp-responsive-open {
+		overflow-x: hidden;
+	}
+	
 	html.wp-toolbar {
 		padding-top: 0;
 	}
