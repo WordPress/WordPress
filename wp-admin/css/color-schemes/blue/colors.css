@@ -92,7 +92,7 @@ strong .post-com-count span {
   background-color: #e1a948; }
 
 /* Admin Menu */
-#adminmenuback, #adminmenuwrap {
+#adminmenuback, #adminmenuwrap, #adminmenu {
   background: #52accc; }
 
 #adminmenu a {

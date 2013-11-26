@@ -1170,7 +1170,8 @@ table.widefat .spam a:hover {
 
 /* menu */
 #adminmenuback,
-#adminmenuwrap {
+#adminmenuwrap,
+#adminmenu {
 	background-color: #222;
 }
 
