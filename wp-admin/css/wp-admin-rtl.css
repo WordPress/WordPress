@@ -4289,24 +4289,24 @@ td.plugin-title p {
 #post-body .wp_themeSkin .mceStatusbar a.mceResize {
 	background: transparent url('../images/resize.gif') no-repeat scroll left bottom;
 	width: 12px;
+	height: 12px;
 	cursor: sw-resize;
 }
 
 #post-body .wp_themeSkin .mceStatusbar a.mceResize {
-	display: block;
-	margin: 0 1px;
-	position: relative;
-	top: -2px;
+	bottom: 2px;
+	position: absolute;
+	left: 2px;
 }
 
 #post-body .postarea .wp_themeSkin .mceStatusbar a.mceResize {
-	top: 22px;
+	bottom: -21px;
 }
 
 #content-resize-handle {
 	position: absolute;
-	left: 2px;
-	height: 19px;
+	left: 3px;
+	bottom: -20px;
 }
 
 .press-this #content-resize-handle {
