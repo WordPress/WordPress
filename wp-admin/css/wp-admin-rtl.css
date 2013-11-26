@@ -9358,10 +9358,10 @@ div.star-holder .star-rating {
 }
 .star-rating .star {
 	display: inline-block;
-	width: 25px;
-	height: 25px;
+	width: 20px;
+	height: 20px;
 	-webkit-font-smoothing: antialiased;
-	font-size: 25px;
+	font-size: 20px;
 	line-height: 1;
 	font-family: 'dashicons';
 	text-decoration: inherit;
