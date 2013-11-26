@@ -591,7 +591,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'open-sans', $open_sans_font_url );
 
 	// Dashicons
-	$styles->add( 'dashicons', '/wp-includes/css/dashicons.css' );
+	$styles->add( 'dashicons', "/wp-includes/css/dashicons$suffix.css" );
 
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array( 'wp-admin', 'buttons', 'open-sans', 'dashicons' ) );
