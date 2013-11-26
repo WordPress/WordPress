@@ -1,4 +1,4 @@
-/* global mp6_color_scheme:true */
+/* global wp_color_scheme:true */
 var svgPainter = ( function( $, window, document, undefined ) {
 
 	'use strict';
@@ -30,8 +30,8 @@ var svgPainter = ( function( $, window, document, undefined ) {
 
 		setColors : function( colors ) {
 
-			if ( typeof colors === 'undefined' && typeof mp6_color_scheme !== 'undefined' ) {
-				colors = mp6_color_scheme;
+			if ( typeof colors === 'undefined' && typeof wp_color_scheme !== 'undefined' ) {
+				colors = wp_color_scheme;
 			}
 
 			this.colorscheme = colors;

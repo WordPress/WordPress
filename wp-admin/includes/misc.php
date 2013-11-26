@@ -621,7 +621,7 @@ function set_color_scheme_json() {
 	$color_scheme = get_user_option( 'admin_color' );
 
 	if ( isset( $_wp_admin_css_colors[ $color_scheme ]->icon_colors ) ) {
-		echo '<script type="text/javascript">var mp6_color_scheme = ' . json_encode( array( 'icons' => $_wp_admin_css_colors[ $color_scheme ]->icon_colors ) ) . ";</script>\n";
+		echo '<script type="text/javascript">var wp_color_scheme = ' . json_encode( array( 'icons' => $_wp_admin_css_colors[ $color_scheme ]->icon_colors ) ) . ";</script>\n";
 	}
 }
 add_action( 'admin_head', 'set_color_scheme_json' );
