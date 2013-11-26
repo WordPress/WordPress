@@ -3542,7 +3542,7 @@ th.sortable a,
 th.sorted a {
 	display: block;
 	overflow: hidden;
-	padding: 7px 7px 8px;
+	padding: 7px 10px 8px 7px;
 }
 
 .fixed .column-comments.sortable a,
