@@ -147,3 +147,10 @@
 	border-width: 17px 0 17px 15px;
 	border-left-color: #fff;
 }
+
+/* Disable pointers at responsive sizes */
+@media screen and ( max-width: 782px ) {
+	.wp-pointer {
+		display: none;
+	}
+}
