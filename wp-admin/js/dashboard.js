@@ -120,6 +120,8 @@ jQuery(document).ready( function($) {
 	};
 	quickPressLoad();
 
+	$( '.meta-box-sortables' ).sortable( 'option', 'containment', '#dashboard-widgets-wrap' );
+
 	// Activity Widget
 	$( '.show-more a' ).on( 'click', function(e) {
 		$( this ).fadeOut().closest('.activity-block').find( 'li.hidden' ).fadeIn().removeClass( 'hidden' );
