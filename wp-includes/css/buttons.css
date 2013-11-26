@@ -77,9 +77,10 @@ TABLE OF CONTENTS:
 
 .wp-core-ui .button.button-small,
 .wp-core-ui .button-group.button-small .button {
-	height: 21px;
-	line-height: 20px;
+	height: 24px;
+	line-height: 22px;
 	padding: 0 8px 1px;
+	font-size: 11px;
 }
 
 .wp-core-ui .button.button-hero,

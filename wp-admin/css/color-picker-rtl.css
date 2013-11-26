@@ -87,13 +87,6 @@
 	vertical-align: top;
 }
 
-/* Match the style of the color picker button */
-.wp-picker-input-wrap .button.button-small {
-	line-height: 22px;
-	height: 24px;
-	font-size: 11px;
-}
-
 .wp-picker-container .button {
 	margin-right: 6px;
 }
