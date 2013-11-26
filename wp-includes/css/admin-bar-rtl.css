@@ -938,15 +938,12 @@
 	}
 }
 
-/* Horizontal */
-@media screen and (max-width: 480px) and (orientation: landscape) {
+/* Smartphone */
+@media screen and (max-width: 600px) {
 	#wpadminbar {
 		position: absolute;
 	}
-}
-
-/* Smartphone */
-@media screen and (max-width: 480px) {
+	
 	#moby6-overlay {
 		position: fixed;
 		top: 0;

@@ -10852,8 +10852,6 @@ li#wp-admin-bar-toggle-button {
 
 @-ms-viewport {
 	width: device-width;
-	zoom: 1;
-	user-zoom: fixed;
 }
 
 @media screen and ( max-width: 782px ) {
@@ -11020,7 +11018,6 @@ li#wp-admin-bar-toggle-button {
 	.auto-fold #adminmenuback,
 	.auto-fold #adminmenuwrap {
 		position: absolute;
-		top: 0;
 		right: 0;
 		z-index: 100;
 	}
@@ -11039,28 +11036,7 @@ li#wp-admin-bar-toggle-button {
 	.auto-fold #adminmenu li.menu-top {
 		width: 100%;
 	}
-
-	/* Let the menubar scroll independently of the main column */
-	.auto-fold #adminmenuwrap {
-		height: 100%;
-		position: fixed;
-		overflow: hidden;
-		overflow-y: scroll;
-		top: 46px;
-
-		height: -webkit-calc(100% - 46px);
-		height: calc(100% - 46px);
-
-		-webkit-box-shadow: inset 2px 0 0 rgba(0, 0, 0, .1);
-		box-shadow: inset 2px 0 0 rgba(0, 0, 0, .1);
-
-		-moz-box-sizing: border-box;
-		-webkit-box-sizing: border-box;
-		box-sizing: border-box;
-
-		-webkit-overflow-scrolling: touch;
-	}
-
+	
 	/* Experimental animations for sidebar */
 	.auto-fold #adminmenu,
 	.auto-fold #adminmenuback,
@@ -11070,26 +11046,6 @@ li#wp-admin-bar-toggle-button {
 		transition: right .05s ease-in-out;
 	}
 
-	#wpbody {
-		-moz-transition: left .05s ease-in-out;
-		-webkit-transition: left .05s ease-in-out;
-		transition: left .05s ease-in-out;
-	}
-
-	.auto-fold #adminmenu {
-		-webkit-opacity: .10;
-		-moz-opacity: .10;
-		opacity: .10;
-		-moz-transition: right .05s ease-in-out, -moz-opacity .3s ease-in;
-		-webkit-transition: right .05s ease-in-out, -webkit-opacity .3s ease-in;
-		transition: right .05s ease-in-out, opacity .3s ease-in;
-	}
-
-	.auto-fold .moby6-open #adminmenu {
-		-moz-opacity: 1;
-		-webkit-opacity: 1;
-		opacity: 1;
-	}
 
 	/* Resize the admin menu items to a comfortable touch size */
 	.auto-fold #adminmenu li a {
@@ -12244,7 +12200,15 @@ li#wp-admin-bar-toggle-button {
 }
 
 /* Smartphone */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 600px) {
+	html.wp-toolbar {
+		padding-top: 0;
+	}
+
+	.auto-fold #adminmenu {
+		top: 46px;
+	}
+	
 	#moby6-overlay {
 		position: fixed;
 		top: 0;
