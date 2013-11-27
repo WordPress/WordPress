@@ -8760,19 +8760,21 @@ body.interim-login {
 .menu-settings dl {
 	margin: 0 0 10px;
 	overflow: hidden;
+	padding-right: 18%;
 }
 
 .menu-settings dd {
 	float: right;
 	margin: 0;
-	width: 60%;
+	width: 100%;
 }
 
 .menu-settings dt {
 	float: right;
 	clear: both;
-	width: 18%;
-	padding: 3px 1px 0;
+	width: 21.951%;
+	padding: 3px 0 0;
+	margin-right: -21.951%;
 }
 
 .menu-settings label {
@@ -11877,6 +11879,21 @@ li#wp-admin-bar-menu-toggle {
 
 	.menu-item-settings input {
 		width: 100%;
+	}
+
+	.menu-settings dl {
+		padding-right: 0;
+	}
+
+	.menu-settings dd {
+		float: none;
+		width: 100%;
+	}
+
+	.menu-settings dt {
+		float: none;
+		width: auto;
+		margin-right: 0;
 	}
 
 	/* Theme Management Page */
