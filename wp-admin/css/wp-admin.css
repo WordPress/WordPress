@@ -6072,17 +6072,23 @@ span.imgedit-scale-warn {
 
 .form-table {
 	border-collapse: collapse;
-	font-size: 14px;
 	margin-top: 0.5em;
 	width: 100%;
 	clear: both;
+}
+
+.form-table,
+.form-table td,
+.form-table th,
+.form-table td p,
+.form-wrap label {
+	font-size: 14px;
 }
 
 .form-table td {
 	margin-bottom: 9px;
 	padding: 15px 10px;
 	line-height: 1.3;
-	font-size: 14px;
 	vertical-align: middle;
 }
 
@@ -6090,7 +6096,6 @@ span.imgedit-scale-warn {
 .form-wrap label {
 	font-weight: normal;
 	text-shadow: none;
-	font-size: 14px;
 	vertical-align: baseline;
 }
 
