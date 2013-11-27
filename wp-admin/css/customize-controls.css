@@ -313,26 +313,6 @@ body {
 	border-color: rgba(0, 0, 0, 0.25);
 }
 
-.customize-control-color .iris-picker {
-	border-radius: 0 !important;
-}
-
-.accordion-section input[type="text"].color-picker-hex {
-	width: 65px;
-	font-family: monospace;
-	text-align: center;
-	line-height: 16px;
-}
-
-/* The centered cursor overlaps the placeholder in webkit. Hide it when selected. */
-.accordion-section input[type="text"].color-picker-hex:focus::-webkit-input-placeholder {
-	color: transparent;
-}
-
-.accordion-section input[type="text"].color-picker-hex:-moz-placeholder {
-	color: #999;
-}
-
 /*
  * Image Picker
  */

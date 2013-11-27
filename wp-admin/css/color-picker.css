@@ -59,7 +59,7 @@
 	border-left: 1px solid #999;
 }
 
-.wp-color-result.wp-picker-open {
+.wp-color-result {
 	top: 0;
 }
 
@@ -96,11 +96,29 @@
 }
 
 .wp-picker-container .iris-picker {
+	border-radius: 0;
 	border-color: #dfdfdf;
 	margin-top: 6px;
 }
 
-input[type="text"].iris-error {
+.wp-picker-container input[type="text"].wp-color-picker {
+	width: 65px;
+	font-size: 12px;
+	font-family: monospace;
+	text-align: center;
+	line-height: 16px;
+	margin: 0;
+}
+
+.wp-picker-container input[type="text"].wp-color-picker:focus::-webkit-input-placeholder {
+	color: transparent;
+}
+
+.wp-picker-container input[type="text"].wp-color-picker:-moz-placeholder {
+	color: #999;
+}
+
+.wp-picker-container input[type="text"].iris-error {
 	background-color: #ffebe8;
 	border-color: #c00;
 	color: #000;
