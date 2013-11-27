@@ -123,7 +123,7 @@ jQuery(document).ready( function($) {
 	};
 	quickPressLoad();
 
-	$( '.meta-box-sortables' ).sortable( 'option', 'containment', '#dashboard-widgets-wrap' );
+	$( '.meta-box-sortables' ).sortable( 'option', 'containment', 'document' );
 
 	// Activity Widget
 	$( '.show-more a' ).on( 'click', function(e) {

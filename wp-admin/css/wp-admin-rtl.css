@@ -2640,6 +2640,7 @@ html.wp-toolbar {
 
 #dashboard-widgets .meta-box-sortables {
 	margin: 0 8px;
+	min-height: 100px;
 }
 
 #the-comment-list td.comment p.comment-author {
