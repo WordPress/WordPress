@@ -13,21 +13,22 @@ wpWidgets = {
 			isRTL = !! ( 'undefined' !== typeof isRtl && isRtl );
 
 		$('#widgets-right .sidebar-name').click( function() {
-			var $this = $(this), wrap = $this.closest('.widgets-holder-wrap');
+			var $this = $(this),
+				$wrap = $this.closest('.widgets-holder-wrap');
 
-			if ( wrap.hasClass('closed') ) {
-				wrap.removeClass('closed');
-				$this.siblings('.widgets-sortables').sortable('refresh');
+			if ( $wrap.hasClass('closed') ) {
+				$wrap.removeClass('closed');
+				$this.parent().sortable('refresh');
 			} else {
-				wrap.addClass('closed');
+				$wrap.addClass('closed');
 			}
 		});
 
-		$('#widgets-left').children('.widgets-holder-wrap').children('.sidebar-name').click(function() {
-			$(this).parent().toggleClass('closed');
+		$('#widgets-left .sidebar-name').click( function() {
+			$(this).closest('.widgets-holder-wrap').toggleClass('closed');
 		});
 
-		$(document.body).bind('click.widgets-toggle', function(e){
+		$(document.body).bind('click.widgets-toggle', function(e) {
 			var target = $(e.target),
 				css = { 'z-index': 100 },
 				widget, inside, targetWidth, widgetWidth, margin;
@@ -36,7 +37,7 @@ wpWidgets = {
 				widget = target.closest('div.widget');
 				inside = widget.children('.widget-inside');
 				targetWidth = parseInt( widget.find('input.widget-width').val(), 10 ),
-				widgetWidth = widget.width();
+				widgetWidth = widget.parent().width();
 
 				if ( inside.is(':hidden') ) {
 					if ( targetWidth > 250 && ( targetWidth + 30 > widgetWidth ) && widget.closest('div.widgets-sortables').length ) {
@@ -68,10 +69,13 @@ wpWidgets = {
 			}
 		});
 
-		sidebars.children('.widget').each(function() {
-			wpWidgets.appendTitle(this);
-			if ( $('p.widget-error', this).length ) {
-				$('a.widget-action', this).click();
+		sidebars.children('.widget').each( function() {
+			var $this = $(this);
+
+			wpWidgets.appendTitle( this );
+
+			if ( $this.find( 'p.widget-error' ).length ) {
+				$this.find( 'a.widget-action' ).trigger('click');
 			}
 		});
 
@@ -112,62 +116,131 @@ wpWidgets = {
 			cursor: 'move',
 			distance: 2,
 			containment: 'document',
-			start: function(e,ui) {
-				var inside = ui.item.children('.widget-inside');
+			start: function( event, ui ) {
+				var $this = $(this),
+					$wrap = $this.parent(),
+					inside = ui.item.children('.widget-inside');
+					
 
+
+
+
+//console.log(this);console.log(ui);
+				
+				
+				
+				
 				if ( inside.css('display') === 'block' ) {
 					inside.hide();
 					$(this).sortable('refreshPositions');
 				}
-			},
-			stop: function(e,ui) {
-				if ( ui.item.hasClass('ui-draggable') && ui.item.data('draggable') ) {
-					ui.item.draggable('destroy');
-				}
 
-				if ( ui.item.hasClass('deleting') ) {
-					wpWidgets.save( ui.item, 1, 0, 1 ); // delete widget
-					ui.item.remove();
+				if ( $wrap.hasClass('closed') ) {
+					// There is a bug in UI Sortable that prevents firing of "over" when dragging a connected Draggable.
+					// This won't be needed when the bug is fixed.
+					$wrap.addClass('widget-hover');
+				} else {
+					// Lock all open sidebars min-height when starting to drag.
+					// Prevents jumping when dragging a widget from an open sidebar to a closed sidebar below.
+					$wrap.css( 'min-height', $wrap.height() + 'px' );
+					$this.css( 'min-height', $this.height() - 2 + 'px' );
+				}
+			},
+
+			stop: function( event, ui ) {
+				var addNew, widgetNumber, $sidebar, $children, child, item,
+					$widget = ui.item,
+					id = the_id;
+
+				if ( $widget.hasClass('deleting') ) {
+					wpWidgets.save( $widget, 1, 0, 1 ); // delete widget
+					$widget.remove();
 					return;
 				}
 
-				var add = ui.item.find('input.add_new').val(),
-					n = ui.item.find('input.multi_number').val(),
-					id = the_id,
-					sb = $(this).attr('id');
+				addNew = $widget.find('input.add_new').val();
+				widgetNumber = $widget.find('input.multi_number').val();
 
-				ui.item.attr( 'style', '' );
+				$widget.attr( 'style', '' );
 				the_id = '';
 
-				if ( add ) {
-					if ( 'multi' === add ) {
-						ui.item.html( ui.item.html().replace(/<[^<>]+>/g, function(m){ return m.replace(/__i__|%i%/g, n); }) );
-						ui.item.attr( 'id', id.replace('__i__', n) );
-						n++;
-						$('div#' + id).find('input.multi_number').val(n);
-					} else if ( 'single' === add ) {
-						ui.item.attr( 'id', 'new-' + id );
+				if ( addNew ) {
+					if ( 'multi' === addNew ) {
+						$widget.html(
+							$widget.html().replace( /<[^<>]+>/g, function( tag ) {
+								return tag.replace( /__i__|%i%/g, widgetNumber ); 
+							})
+						);
+
+						$widget.attr( 'id', id.replace( '__i__', widgetNumber ) );
+						widgetNumber++;
+
+						$( 'div#' + id ).find( 'input.multi_number' ).val( widgetNumber );
+					} else if ( 'single' === addNew ) {
+						$widget.attr( 'id', 'new-' + id );
 						rem = 'div#' + id;
 					}
-					wpWidgets.save( ui.item, 0, 0, 1 );
-					ui.item.find('input.add_new').val('');
-					ui.item.find('a.widget-action').click();
+
+					wpWidgets.save( $widget, 0, 0, 1 );
+					$widget.find('input.add_new').val('');
+				}
+
+				$sidebar = $widget.parent();
+
+				if ( $sidebar.parent().hasClass('closed') ) {
+					$sidebar.parent().removeClass('widget-hover closed jump-open');
+					$children = $sidebar.children('.widget');
+
+					// Make sure the dropped widget is at the top
+					if ( $children.length > 1 ) {
+						child = $children.get(0);
+						item = $widget.get(0);
+
+						if ( child.id && item.id && child.id !== item.id ) {
+							$( child ).before( $widget );
+						}
+					}
+				}
+
+				if ( addNew ) {
+					$widget.find( 'a.widget-action' ).trigger('click');
+				} else {
+					wpWidgets.saveOrder( $sidebar.attr('id') );
+				}
+			},
+
+			over: function( event, ui ) {
+				var $wrap = $(this).parent();
+
+				if ( $wrap.hasClass('closed') ) {
+					$wrap.addClass('widget-hover');
+				}
+			},
+
+			out: function( event, ui ) {
+				$(this).parent().removeClass('widget-hover');
+			},
+
+			deactivate: function( event, ui ) {
+				// Remove all min-height added on "start"
+				$(this).css( 'min-height', '' ).parent().css( 'min-height', '' );
+			},
+
+			receive: function( event, ui ) {
+				var $sender = $( ui.sender );
+
+				// Don't add more widgets to orphaned sidebars
+				if ( this.id.indexOf('orphaned_widgets') > -1 ) {
+					$sender.sortable('cancel');
 					return;
 				}
-				wpWidgets.saveOrder(sb);
-			},
-			receive: function(e, ui) {
-				var sender = $(ui.sender);
 
-				if ( ! $(this).is(':visible') || this.id.indexOf('orphaned_widgets') > -1 ) {
-					sender.sortable('cancel');
-				}
-
-				if ( sender.attr('id').indexOf('orphaned_widgets') > -1 && !sender.children('.widget').length ) {
-					sender.parents('.orphan-sidebar').slideUp(400, function(){ $(this).remove(); });
+				// If the last widget was moved out of an orphaned sidebar, close and remove it.
+				if ( $sender.attr('id').indexOf('orphaned_widgets') > -1 && ! $sender.children('.widget').length ) {
+					$sender.parents('.orphan-sidebar').slideUp( 400, function(){ $(this).remove(); } );
 				}
 			}
-		}).sortable('option', 'connectWith', 'div.widgets-sortables');
+		}).sortable( 'option', 'connectWith', 'div.widgets-sortables' );
 
 		$('#available-widgets').droppable({
 			tolerance: 'pointer',
@@ -210,17 +283,16 @@ wpWidgets = {
 		});
 
 		$( '#available-widgets .widget .widget-title' ).on( 'click.widgets-chooser', function() {
-			var widget = $(this).closest( '.widget' );
+			var $widget = $(this).closest( '.widget' );
 
-			if ( widget.hasClass( 'widget-in-question' ) || ( $( '#widgets-left' ).hasClass( 'chooser' ) ) ) {
+			if ( $widget.hasClass( 'widget-in-question' ) || $( '#widgets-left' ).hasClass( 'chooser' ) ) {
 				self.closeChooser();
 			} else {
 				// Open the chooser
 				self.clearWidgetSelection();
 				$( '#widgets-left' ).addClass( 'chooser' );
-				widget.addClass( 'widget-in-question' );
+				$widget.addClass( 'widget-in-question' ).children( '.widget-description' ).after( chooser );
 
-				widget.find( '.widget-description' ).after( chooser );
 				chooser.slideDown( 300, function() {
 					selectSidebar.find('.widgets-chooser-selected').focus();
 				});
@@ -257,37 +329,39 @@ wpWidgets = {
 		});
 	},
 
-	saveOrder : function(sb) {
-		if ( sb ) {
-			$('#' + sb).closest('div.widgets-holder-wrap').find('.spinner:first').css('display', 'inline-block');
-		}
-
-		var a = {
+	saveOrder : function( sidebarId ) {
+		var data = {
 			action: 'widgets-order',
 			savewidgets: $('#_wpnonce_widgets').val(),
 			sidebars: []
 		};
 
+		if ( sidebarId ) {
+			$( '#' + sidebarId ).find('.spinner:first').css('display', 'inline-block');
+		}
+
 		$('div.widgets-sortables').each( function() {
 			if ( $(this).sortable ) {
-				a['sidebars[' + $(this).attr('id') + ']'] = $(this).sortable('toArray').join(',');
+				data['sidebars[' + $(this).attr('id') + ']'] = $(this).sortable('toArray').join(',');
 			}
 		});
 
-		$.post( ajaxurl, a, function() {
+		$.post( ajaxurl, data, function() {
 			$('.spinner').hide();
 		});
 	},
 
-	save : function(widget, del, animate, order) {
-		var sb = widget.closest('div.widgets-sortables').attr('id'), data = widget.find('form').serialize(), a;
+	save : function( widget, del, animate, order ) {
+		var sidebarId = widget.closest('div.widgets-sortables').attr('id'),
+			data = widget.find('form').serialize(), a;
+		
 		widget = $(widget);
 		$('.spinner', widget).show();
 
 		a = {
 			action: 'save-widget',
 			savewidgets: $('#_wpnonce_widgets').val(),
-			sidebar: sb
+			sidebar: sidebarId
 		};
 
 		if ( del ) {
@@ -296,7 +370,7 @@ wpWidgets = {
 
 		data += '&' + $.param(a);
 
-		$.post( ajaxurl, data, function(r){
+		$.post( ajaxurl, data, function(r) {
 			var id;
 
 			if ( del ) {
@@ -321,8 +395,8 @@ wpWidgets = {
 			} else {
 				$('.spinner').hide();
 				if ( r && r.length > 2 ) {
-					$('div.widget-content', widget).html(r);
-					wpWidgets.appendTitle(widget);
+					$( 'div.widget-content', widget ).html(r);
+					wpWidgets.appendTitle( widget );
 				}
 			}
 			if ( order ) {
@@ -379,9 +453,9 @@ wpWidgets = {
 
 		// Open the widgets container
 		sidebar.closest( '.widgets-holder-wrap' ).removeClass('closed');
-		sidebar.sortable('refresh');
 
-		widget.prependTo( sidebar );
+		sidebar.find('.sidebar-description').after( widget );
+		sidebar.sortable('refresh');
 
 		wpWidgets.save( widget, 0, 0, 1 );
 		// No longer "new" widget

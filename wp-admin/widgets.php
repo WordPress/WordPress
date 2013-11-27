@@ -332,14 +332,17 @@ do_action( 'widgets_admin_page' ); ?>
 <div id="widgets-left">
 	<div id="available-widgets" class="widgets-holder-wrap">
 		<div class="sidebar-name">
-		<div class="sidebar-name-arrow"><br /></div>
-		<h3><?php _e('Available Widgets'); ?> <span id="removing-widget"><?php _ex('Deactivate', 'removing-widget'); ?> <span></span></span></h3></div>
-		<div class="widget-holder">
-		<p class="description"><?php _e('Drag widgets from here to a sidebar on the right to activate them. Drag widgets back here to deactivate them and delete their settings.'); ?></p>
-		<div id="widget-list">
-		<?php wp_list_widgets(); ?>
+			<div class="sidebar-name-arrow"><br /></div>
+			<h3><?php _e('Available Widgets'); ?> <span id="removing-widget"><?php _ex('Deactivate', 'removing-widget'); ?> <span></span></span></h3>
 		</div>
-		<br class='clear' />
+		<div class="widget-holder">
+			<div class="sidebar-description">
+				<p class="description"><?php _e('Drag widgets from here to a sidebar on the right to activate them. Drag widgets back here to deactivate them and delete their settings.'); ?></p>
+			</div>
+			<div id="widget-list">
+				<?php wp_list_widgets(); ?>
+			</div>
+			<br class='clear' />
 		</div>
 		<br class="clear" />
 	</div>
@@ -355,16 +358,13 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 
 		?>
 		<div class="<?php echo esc_attr( $wrap_class ); ?>">
-			<div class="sidebar-name">
-				<div class="sidebar-name-arrow"><br /></div>
-				<h3><?php echo esc_html( $registered_sidebar['name'] ); ?> <span class="spinner"></span></h3>
-			</div>
 			<div class="widget-holder inactive">
-				<?php wp_list_widget_controls( $registered_sidebar['id'] ); ?>
+				<?php wp_list_widget_controls( $registered_sidebar['id'], $registered_sidebar['name'] ); ?>
 				<div class="clear"></div>
 			</div>
 		</div>
 		<?php
+
 	} else {
 		$theme_sidebars[$sidebar] = $registered_sidebar;
 	}
@@ -407,11 +407,7 @@ foreach ( $theme_sidebars as $sidebar => $registered_sidebar ) {
 
 	?>
 	<div class="<?php echo esc_attr( $wrap_class ); ?>">
-		<div class="sidebar-name">
-			<div class="sidebar-name-arrow"><br /></div>
-			<h3><?php echo esc_html( $registered_sidebar['name'] ); ?>	<span class="spinner"></span></h3>
-		</div>
-		<?php wp_list_widget_controls( $sidebar ); // Show the control forms for each of the widgets in this sidebar ?>
+		<?php wp_list_widget_controls( $sidebar, $registered_sidebar['name'] ); // Show the control forms for each of the widgets in this sidebar ?>
 	</div>
 	<?php
 

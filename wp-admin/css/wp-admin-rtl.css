@@ -10012,15 +10012,14 @@ input.newtag:focus ~ div.taghint {
 }
 
 
-/* General Widget Styles */
+/* General Widgets Styles */
 
 .widget {
-	margin: 10px auto;
-	/* min-width: 50%; Not sure if this is needed */
+	margin: 0 auto 10px;
 	position: relative;
 	box-sizing: border-box;
-	-moz-box-sizing:border-box;
-	-webkit-box-sizing:border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
 
 .widget-top {
@@ -10053,10 +10052,8 @@ input.newtag:focus ~ div.taghint {
 }
 
 /* Widget Dragging Helpers */
-
 .widget.ui-draggable-dragging {
-	width: 280px !important;
-	min-width: 280px !important;
+	min-width: 100%;
 }
 
 .widget.ui-sortable-helper {
@@ -10066,7 +10063,7 @@ input.newtag:focus ~ div.taghint {
 
 .widget-placeholder {
 	border: 1px dashed #bbb;
-	margin: 10px 0;
+	margin: 0 auto 10px;
 	height: 45px;
 	width: 100%;
 	-webkit-box-sizing: border-box;
@@ -10076,6 +10073,12 @@ input.newtag:focus ~ div.taghint {
 
 #widgets-right .widget-placeholder {
 	margin-top: 0;
+}
+
+#widgets-right .closed .widget-placeholder {
+	height: 0;
+	border: 0;
+	margin-top: -10px;
 }
 
 /* Widget Sidebars */
@@ -10106,14 +10109,15 @@ input.newtag:focus ~ div.taghint {
 }
 
 .widgets-holder-wrap .description {
-	padding: 0;
+	padding: 0 0 15px;
 	margin: 0;
 	font-style: normal;
 	color: #777;
 }
 
-#available-widgets.widgets-holder-wrap .description {
-	padding-bottom: 10px;
+#widgets-right .widgets-holder-wrap .description {
+	padding-right: 7px;
+	padding-left: 7px;
 }
 
 /* Widgets 2-col Layout */
@@ -10173,6 +10177,10 @@ div#widgets-left .widget-holder {
 	font-size: 12px;
 }
 
+#available-widgets #widget-list {
+	position: relative;
+}
+
 /* Inactive Sidebars */
 #widgets-left .inactive-sidebar {
 	clear: both;
@@ -10227,22 +10235,13 @@ div#widgets-right .widgets-holder-wrap {
 	margin: 10px 0 0 0;
 }
 
-div#widgets-right .widget {
-	margin: 0 auto;
-	margin-bottom: 10px;
-}
-
 div#widgets-right .sidebar-description {
-	border-top: 1px solid #eeeeee;
-	padding: 10px 15px;
-}
-
-div#widgets-right .closed .sidebar-description {
-	display: none;
+	min-height: 20px;
+	margin-top: -5px;
 }
 
 div#widgets-right .sidebar-name h3 {
-	padding: 15px 15px;
+	padding: 15px 7px;
 }
 
 div#widgets-right .sidebar-name .sidebar-name-arrow:before {
@@ -10258,27 +10257,12 @@ div#widgets-right .widgets-sortables {
 	padding: 0 8px;
 	margin-bottom: 9px;
 	position: relative;
-	min-height: 45px;
+	min-height: 123px;
 }
 
-div#widgets-right .widgets-sortables:after {
-	display: block;
-	content: '';
-	position: absolute;
-		bottom: -10px;
-		right: 8px;
-		left: 8px;
-	z-index: 1; /* Required so that widgets hide the default dropzone indicator (.widgets-sortables:after) */
-	border: 1px dashed #bbb;
-	margin: 10px 0;
-	height: 45px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-div#widgets-right .widgets-sortables .widget {
-	z-index: 2; /* Required so that widgets hide the default dropzone indicator (.widgets-sortables:after) */
+div#widgets-right .closed .widgets-sortables {
+	min-height: 0;
+	margin-bottom: 0;
 }
 
 .sidebar-name .spinner {
@@ -10286,10 +10270,18 @@ div#widgets-right .widgets-sortables .widget {
 	float: none;
 }
 
+/* Dragging a widget over a closed sidebar */ 
+#widgets-right .widgets-holder-wrap.closed.widget-hover { 
+	border-color: #777;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+	opacity: 0.6;
+} 
+
 /* Accessibility Mode */
 #available-widgets .widget-control-edit .edit {
 	display :none;
 }
+
 #available-widgets .widget-control-edit .add {
 	display: block;
 	position: absolute;
@@ -10308,12 +10300,15 @@ div#widgets-right .widgets-sortables .widget {
 	padding: 16px 15px;
 	border-right: 1px solid #DDD;
 }
+
 #widgets-right .widget-control-edit .add {
 	display: none;
 }
+
 #widgets-right .widget-control-edit:hover {
 	background: #444;
 }
+
 #widgets-right .widget-control-edit:before {
 	content: '\f111';
 	display: inline-block;
@@ -10326,6 +10321,13 @@ div#widgets-right .widgets-sortables .widget {
 	padding-left: 4px;
 }
 
+.widgets-holder-wrap .sidebar-name,
+.widgets-holder-wrap .sidebar-description {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
 .editwidget {
 	margin: 0 auto;
 }
@@ -10333,11 +10335,12 @@ div#widgets-right .widgets-sortables .widget {
 	margin-top: 20px;
 }
 
-.js .closed .widgets-sortables,
-.js .closed .widget-holder,
+.js .widgets-holder-wrap.closed .widget,
+.js .widgets-holder-wrap.closed .sidebar-description,
 .js .closed br.clear {
 	display: none;
 }
+
 .nav-menus-php .item-edit:before,
 .widget-top a.widget-action:after,
 .control-section .accordion-section-title:after,
@@ -10735,6 +10738,10 @@ li#wp-admin-bar-menu-toggle {
 	#widgets-left #available-widgets .widget {
 		width: 49%;
 		float: right;
+	}
+
+	.widget.ui-draggable-dragging {
+		min-width: 49%;
 	}
 
 	#widgets-right #available-widgets .widget:nth-child(even) {
