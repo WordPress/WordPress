@@ -285,6 +285,7 @@
 	top: 1px;
 	right: 4px;
 	content: '\f139';
+	color: inherit;
 }
 
 #wpadminbar .ab-top-secondary .menupop .menupop > .ab-item {
