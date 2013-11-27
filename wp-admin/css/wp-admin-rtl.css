@@ -4149,6 +4149,12 @@ input#link_url {
 .category-add select {
 	width: 100%;
 	max-width: 260px;
+	vertical-align: baseline;
+}
+
+#side-sortables .category-add input[type="text"],
+#side-sortables .category-add select {
+	margin: 0 0 1em;
 }
 
 .press-this #side-sortables .category-tabs li,
