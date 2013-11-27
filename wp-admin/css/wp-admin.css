@@ -1907,7 +1907,7 @@ div.wp-menu-image:before {
 	position: fixed;
 	top: 32px;
 	left: 0;
-	z-index: 2; /* needs to be above .sticky-menu #wpwrap */
+	z-index: 9999; /* Match the z-index of .wp-submenu to ensure flyout menus don't appear underneath main column elements */
 }
 
 /* A new arrow */
