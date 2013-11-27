@@ -6904,6 +6904,22 @@ body.press-this {
 	min-height: 400px;
 }
 
+.press-this #titlediv #title {
+	font-size: 1.4em;
+}
+
+.press-this #site-heading:before {
+    top: 3px;
+    position: relative;
+    display: inline-block;
+    font: normal 18px/1 'dashicons';
+    speak: none;
+    color: #727272;
+    content: '\f120';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 .pressthis {
 	margin: 20px 0;
 }
@@ -9825,8 +9841,7 @@ h3.tb {
 #img_container a:active {
 	border-color: #000;
 	z-index: 1000;
-	border-width: 2px;
-	margin: -1px;
+	border-width: 1px;
 }
 
 /* Video */
@@ -10989,7 +11004,7 @@ li#wp-admin-bar-menu-toggle {
 		margin: 7px;
 		line-height: 16px;
 	}
-
+	
 	.wp-upload-form input[type=submit] {
 		margin-top: 10px;
 	}
@@ -11237,6 +11252,10 @@ li#wp-admin-bar-menu-toggle {
 	ul.category-tabs li.tabs {
 		padding: 15px;
 	}
+	
+	.press-this ul.category-tabs li.tabs {
+		padding: 3px 5px 5px; /* Reset tabs in Press This to standard size */
+	}
 
 	ul#categorychecklist li {
 		margin-bottom: 15px;
@@ -11332,15 +11351,11 @@ li#wp-admin-bar-menu-toggle {
 		top: 1px;
 	}
 
-	.press-this #wp-content-editor-tools {
-		top: 4px;
-	}
-
 	a.wp-switch-editor {
 		font-size: 16px;
 		line-height: 1em;
 		margin: 3px 0 0 7px;
-		padding: 12px 15px !important;
+		padding: 12px 15px;
 	}
 
 	#wp-content-media-buttons a {
@@ -12135,6 +12150,93 @@ li#wp-admin-bar-menu-toggle {
 
 	#comments-form .checkforspam {
 		display: none;
+	}
+	
+	/* Reset responsive styles in Press This */
+	
+	.press-this a.wp-switch-editor {
+		font: 13px/19px "Open Sans", sans-serif;
+		margin: 5px 0 0 5px;
+		padding: 3px 8px 4px;
+	}
+	
+	.press-this #wp-content-media-buttons a {
+		padding: 0;
+		line-height: normal;
+		height: auto;
+	}
+	
+	.press-this #wp-content-editor-tools {
+		padding: 0;
+		top: 3px;
+	}
+	
+	.press-this .category-tabs {
+		margin-top: 0;
+	}
+	
+	.press-this .tagsdiv .newtag {
+		width: 120px;
+		padding: 3px 5px;
+		margin-bottom: 0;
+	}
+	
+	.press-this .tagchecklist {
+		padding: 0;
+		margin-bottom: 0;
+	}
+	
+	.press-this .wp_themeSkin a.mceButton {
+		width: 20px;
+		height: 20px;
+	}
+	
+	.press-this .wp_themeSkin .mceButton .mceIcon {
+		margin: 0;
+	}
+	
+	.press-this #poststuff h3,
+	.press-this .metabox-holder h3 {
+		padding: 7px 12px;
+	}
+	
+	.press-this input[type=checkbox],
+	.press-this input[type=radio] {
+		height: 16px;
+		width: 16px;
+	}
+	
+	.press-this input[type=checkbox]:checked:before {
+		width: 16px;
+		font: normal 21px/1 'dashicons';
+		margin: -3px 0 0 -4px;
+	}
+	
+	.press-this input[type=radio]:checked:before {
+		font: normal 21px/1 'dashicons';
+		width: 6px;
+		height: 6px;
+		margin: 4px;
+	}
+	
+	.press-this ul#categorychecklist ul,
+	.press-this ul#categorychecklist li {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+	
+	.press-this div.quicktags-toolbar input {
+		padding: 2px 4px;
+	}
+	
+	.press-this textarea,
+	.press-this input {
+		font-size: 14px;
+	}
+	
+	.press-this .tagchecklist span {
+		font-size: 13px;
+		line-height: 1.8em;
 	}
 }
 
