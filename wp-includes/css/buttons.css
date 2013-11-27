@@ -279,7 +279,6 @@ TABLE OF CONTENTS:
 @media screen and ( max-width: 782px ) {
 
 	.wp-core-ui .button,
-	.wp-core-ui .button:active, /* Override non-responsive active styles in buttons.css */
 	input#publish,
 	input#save-post,
 	a.preview {

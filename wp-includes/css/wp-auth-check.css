@@ -28,10 +28,10 @@
 	width: 380px;
 	margin: 0 0 0 -190px;
 	padding: 30px 0 0;
-	background-color: #fbfbfb;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+	background-color: #eee;
 	z-index: 1000001;
+	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+	box-shadow:         0 3px 6px rgba(0,0,0,0.3);
 }
 
 #wp-auth-check-wrap.fallback #wp-auth-check {
@@ -55,12 +55,26 @@
 	position: absolute;
 	top: 8px;
 	right: 8px;
-	height: 14px;
-	width: 14px;
+	height: 22px;
+	width: 22px;
 	cursor: pointer;
-	background-image: url(../images/uploader-icons.png);
-	background-repeat: no-repeat;
-	background-position: -100px 0;
+}
+
+#wp-auth-check-wrap .wp-auth-check-close:before {
+	content: '\f158';
+	display: block !important;
+	font: normal 20px/1 'dashicons';
+	speak: none;
+	height: 22px;
+	margin: 2px 0;
+	text-align: center;
+	width: 22px;
+	color: #777;
+	-webkit-font-smoothing: antialiased !important;
+}
+
+#wp-auth-check-wrap .wp-auth-check-close:hover:before {
+	color: #0074a2;
 }
 
 #wp-auth-check-wrap .wp-auth-check-close:focus {
@@ -81,14 +95,4 @@
 #wp-auth-check-wrap.fallback .wp-auth-fallback,
 #wp-auth-check-wrap.fallback .wp-auth-check-close {
 	display: block;
-}
-
-@media print,
-  (-o-min-device-pixel-ratio: 5/4),
-  (-webkit-min-device-pixel-ratio: 1.25),
-  (min-resolution: 120dpi) {
-	#wp-auth-check-wrap .wp-auth-check-close {
-		background-image: url(../images/uploader-icons-2x.png);
-  		background-size: 134px 15px;
-	}
 }
