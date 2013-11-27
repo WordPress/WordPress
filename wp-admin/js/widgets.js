@@ -120,16 +120,7 @@ wpWidgets = {
 				var $this = $(this),
 					$wrap = $this.parent(),
 					inside = ui.item.children('.widget-inside');
-					
 
-
-
-
-//console.log(this);console.log(ui);
-				
-				
-				
-				
 				if ( inside.css('display') === 'block' ) {
 					inside.hide();
 					$(this).sortable('refreshPositions');
@@ -168,7 +159,7 @@ wpWidgets = {
 					if ( 'multi' === addNew ) {
 						$widget.html(
 							$widget.html().replace( /<[^<>]+>/g, function( tag ) {
-								return tag.replace( /__i__|%i%/g, widgetNumber ); 
+								return tag.replace( /__i__|%i%/g, widgetNumber );
 							})
 						);
 
@@ -209,7 +200,7 @@ wpWidgets = {
 				}
 			},
 
-			over: function( event, ui ) {
+			over: function() {
 				var $wrap = $(this).parent();
 
 				if ( $wrap.hasClass('closed') ) {
@@ -217,11 +208,11 @@ wpWidgets = {
 				}
 			},
 
-			out: function( event, ui ) {
+			out: function() {
 				$(this).parent().removeClass('widget-hover');
 			},
 
-			deactivate: function( event, ui ) {
+			deactivate: function() {
 				// Remove all min-height added on "start"
 				$(this).css( 'min-height', '' ).parent().css( 'min-height', '' );
 			},
@@ -354,7 +345,7 @@ wpWidgets = {
 	save : function( widget, del, animate, order ) {
 		var sidebarId = widget.closest('div.widgets-sortables').attr('id'),
 			data = widget.find('form').serialize(), a;
-		
+
 		widget = $(widget);
 		$('.spinner', widget).show();
 
