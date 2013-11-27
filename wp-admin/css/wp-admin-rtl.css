@@ -6105,6 +6105,7 @@ span.imgedit-scale-warn {
 
 .form-table th.th-full {
 	width: auto;
+	font-weight: 400;
 }
 
 .form-table input.tog {
