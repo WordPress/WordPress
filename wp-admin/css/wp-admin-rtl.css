@@ -10130,7 +10130,7 @@ div.widget-liquid-left {
 
 div.widget-liquid-right {
 	float: left;
-	width: 60%;
+	width: 58%;
 }
 
 /* Widgets Left - Available Widgets */
@@ -10230,6 +10230,11 @@ div#widgets-right:after {
 	height: 0;
 	clear: both;
 	visibility: hidden;
+}
+
+div#widgets-right .sidebars-column-1,
+div#widgets-right .sidebars-column-2 {
+	max-width: 450px;
 }
 
 div#widgets-right .widgets-holder-wrap {
