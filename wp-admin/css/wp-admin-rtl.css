@@ -10189,7 +10189,7 @@ div#widgets-left .widget-holder {
 	border: none;
 }
 
-#available-widgets .widget-title-action {
+#available-widgets .widget-action {
 	display: none;
 }
 
@@ -10234,13 +10234,6 @@ div#widgets-left .inactive-sidebar .widget.expanded {
 .widget-title-action {
 	float: left;
 	position: relative;
-	top: 11px;
-	left: 10px;
-}
-
-div#widgets-right a.widget-action:after,
-div#widgets-left .inactive-sidebar .widget-action:after {
-	content: '\f140';
 }
 
 div#widgets-left .inactive-sidebar .widgets-sortables {
@@ -10313,47 +10306,42 @@ div#widgets-right .closed .widgets-sortables {
 } 
 
 /* Accessibility Mode */
-#available-widgets .widget-control-edit .edit {
-	display :none;
+.widgets_access #widgets-left .widget .widget-top {
+	cursor: auto;
 }
 
-#available-widgets .widget-control-edit .add {
+.widgets_access #wpwrap .widgets-holder-wrap.closed .sidebar-description,
+.widgets_access #wpwrap .widgets-holder-wrap.closed .widget,
+.widgets_access #wpwrap .widget-control-edit {
 	display: block;
-	position: absolute;
-	top: 0;
-	left: 50px;
-	bottom: 0;
-	right: 0;
-	z-index: 40;
-	text-align: center;
-	text-indent: -5000px;
 }
 
-#widgets-right .widget-control-edit {
-	background: #EEE;
-	margin: -14px 0 0 -10px;
-	padding: 16px 15px;
-	border-right: 1px solid #DDD;
+.widgets_access #widgets-left .widget .widget-top:hover,
+.widgets_access #widgets-right .widget .widget-top:hover {
+	border-color: #ddd;
 }
 
+#available-widgets .widget-control-edit .edit,
+#widgets-left .inactive-sidebar .widget-control-edit .add,
 #widgets-right .widget-control-edit .add {
 	display: none;
 }
 
-#widgets-right .widget-control-edit:hover {
-	background: #444;
+.widget-control-edit {
+	display: block;
+	color: #666;
+	background: #EEE;
+	padding: 0 15px;
+	line-height: 43px;
+	border-right: 1px solid #DDD;
 }
 
-#widgets-right .widget-control-edit:before {
-	content: '\f111';
-	display: inline-block;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	font: normal 16px/1 'dashicons';
-	vertical-align: top;
-	position: relative;
-		top: -1px;
-	padding-left: 4px;
+#widgets-left .widget-control-edit:hover,
+#widgets-right .widget-control-edit:hover {
+	color: #fff;
+	background: #444;
+	border-right: 0;
+	outline: 1px solid #444;
 }
 
 .widgets-holder-wrap .sidebar-name,
@@ -10366,6 +10354,12 @@ div#widgets-right .closed .widgets-sortables {
 .editwidget {
 	margin: 0 auto;
 }
+
+.editwidget .widget-inside {
+	display: block;
+	padding: 0 15px;
+}
+
 .editwidget .widget-control-actions {
 	margin-top: 20px;
 }
@@ -10395,15 +10389,22 @@ div#widgets-right .closed .widgets-sortables {
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none !important;
 }
+
+.widget-top a.widget-action:after {
+	padding: 12px 12px 0;
+}
+
 .nav-menus-php .item-edit:before {
 	line-height: 2.1;
 }
+
 .control-section .accordion-section-title:after,
 .accordion-section-title:after {
 	float: left;
 	left: 20px;
 	top: -2px;
 }
+
 .control-section.open .accordion-section-title:after,
 #customize-info.open .accordion-section-title:after,
 .nav-menus-php .menu-item-edit-active .item-edit:before {
@@ -10430,7 +10431,8 @@ div#widgets-right .closed .widgets-sortables {
 .widgets_access .widget-action,
 .widgets_access .sidebar-name-arrow,
 .widgets_access #access-on,
-.widgets_access .widget-holder .description {
+.widgets_access .widget-holder .description,
+.no-js .widget-holder .description {
 	display: none;
 }
 
@@ -10441,20 +10443,6 @@ div#widgets-right .closed .widgets-sortables {
 
 .widgets_access #access-off {
 	display: inline;
-}
-
-.widgets_access #wpbody-content .widget-title-action,
-.widgets_access #wpbody-content .widget-control-edit,
-.widgets_access .closed .widgets-sortables,
-.widgets_access .closed .widget-holder {
-	display: block;
-}
-
-.widgets_access .closed .sidebar-name {
-	-webkit-border-bottom-left-radius: 0;
-	-webkit-border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
 }
 
 .widgets_access .sidebar-name,
@@ -10557,7 +10545,6 @@ div#widgets-right .closed .widgets-sortables {
 #available-widgets .widget .widget-top {
 	cursor: pointer;
 }
-/* End Widgets Area Chooser merge */
 
 /* Enable draggable on IE10 touch events until it's rolled into jQuery UI core */
 .ui-sortable,
