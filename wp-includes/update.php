@@ -584,6 +584,8 @@ function wp_schedule_update_checks() {
 			$next += 12 * HOUR_IN_SECONDS;
 		}
 		$next = $next - get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
+		// Add a random number of minutes, so we don't have all sites trying to update exactly on the hour
+		$next = $next + rand( 0, 59 ) * MINUTE_IN_SECONDS;
 		wp_schedule_event( $next, 'twicedaily', 'wp_maybe_auto_update' );
 	}
 }
