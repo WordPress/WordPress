@@ -11511,6 +11511,20 @@ li#wp-admin-bar-menu-toggle {
 		font-size: 14px;
 	}
 
+	/* Columns to hide */
+	.fixed .column-date,
+	.fixed .column-author,
+	.column-categories,
+	.column-tags,
+	.tags .column-description,
+	.media .column-parent,
+	.users .column-email,
+	.users .column-name,
+	.sites .column-registered,
+	.sites .column-users {
+		display: none;
+	}
+
 	/* Posts */
 	.column-title {
 		width: 85%;
@@ -11518,11 +11532,6 @@ li#wp-admin-bar-menu-toggle {
 
 	.fixed .column-comments, .widefat .check-column {
 		width: 35px
-	}
-
-	.fixed .column-date, .fixed .column-author,
-	.column-categories, .column-tags {
-		display: none;
 	}
 
 	.widefat thead .check-column, .widefat tfoot .check-column {
@@ -11604,15 +11613,11 @@ li#wp-admin-bar-menu-toggle {
 	}
 
 	/* Taxonomies */
-	.fixed .column-description {
-		display: none;
-	}
-
-	.fixed .column-posts {
+	.tags .column-posts {
 		width: 50px;
 	}
 
-	.fixed .column-slug {
+	.tags .column-slug {
 		width: 30%;
 	}
 
@@ -11621,25 +11626,12 @@ li#wp-admin-bar-menu-toggle {
 		width: 35%;
 	}
 
-	/* Media */
-	.media .column-parent {
-		display: none;
-	}
-
 	/* Users */
-	.users .column-email, .users .column-name {
-		display: none;
-	}
-
 	.users .column-role {
 		width: 35%;
 	}
 
 	/* Network admin sites */
-	.sites .column-registered, .sites .column-users {
-		display: none;
-	}
-
 	.sites .column-blogname {
 		width: 55%;
 	}
