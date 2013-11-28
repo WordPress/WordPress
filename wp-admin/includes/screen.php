@@ -619,6 +619,37 @@ final class WP_Screen {
 	}
 
 	/**
+	 * Remove an option from the screen.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @param string $option Option ID.
+	 */
+	public function remove_option( $option ) {
+		unset( $this->_options[ $option ] );
+	}
+
+	/**
+	 * Remove all options from the screen.
+	 *
+	 * @since 3.8.0
+	 */
+	public function remove_options() {
+		$this->_options = array();
+	}
+
+	/**
+	 * Get the options registered for the screen.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return array Options with arguments.
+	 */
+	public function get_options() {
+		return $this->_options;
+	}
+
+	/**
 	 * Gets the arguments for an option for the screen.
 	 *
 	 * @since 3.3.0
