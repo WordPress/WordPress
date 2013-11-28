@@ -1531,7 +1531,6 @@ form.upgrade .hint {
 /* screen options and help tabs revert */
 #screen-meta {
 	display: none;
-	font-size: 14px;
 	margin: 0 20px -1px 0px;
 	position: relative;
 }
