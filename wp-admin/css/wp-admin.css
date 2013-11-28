@@ -2014,19 +2014,15 @@ ul#adminmenu > li.current > a.current:after {
 #adminmenu .awaiting-mod,
 #adminmenu span.update-plugins,
 #sidemenu li a span.update-plugins {
-	position: absolute;
+	display: inline-block;
 	font-size: 9px;
 	line-height: 17px;
 	font-weight: 600;
-	margin-top: 1px;
-	margin-left: 7px;
+	margin: -2px 0 -2px 2px;
+	vertical-align: middle;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 	z-index: 26;
-}
-
-#adminmenu .wp-submenu .update-plugins {
-	margin-top: 0;
 }
 
 #adminmenu li .awaiting-mod span,
