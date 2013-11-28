@@ -11603,7 +11603,7 @@ li#wp-admin-bar-menu-toggle {
 		height: 22px;
 	}
 
-	/* Categories */
+	/* Taxonomies */
 	.fixed .column-description {
 		display: none;
 	}
@@ -11617,32 +11617,22 @@ li#wp-admin-bar-menu-toggle {
 	}
 
 	/* Comments */
-	.fixed .column-response {
+	.comments .column-response {
 		width: 35%;
 	}
 
 	/* Media */
-	.fixed .column-parent {
+	.media .column-parent {
 		display: none;
 	}
 
-	/* Comments */
-	.fixed .column-email, .fixed .column-name {
+	/* Users */
+	.users .column-email, .users .column-name {
 		display: none;
 	}
 
-	.fixed .column-role {
+	.users .column-role {
 		width: 35%;
-	}
-
-	/* Plugins */
-	.plugins .column-description {
-		width: 70%;
-	}
-
-	#wpbody-content .plugins .plugin-title {
-		white-space: normal;
-		width: 30%;
 	}
 
 	/* Network admin sites */
