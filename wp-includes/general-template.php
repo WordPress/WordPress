@@ -714,7 +714,15 @@ function post_type_archive_title( $prefix = '', $display = true ) {
 		$post_type = reset( $post_type );
 
 	$post_type_obj = get_post_type_object( $post_type );
-	$title = apply_filters('post_type_archive_title', $post_type_obj->labels->name );
+	/**
+	 * Filter the post type archive title.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string $post_type_name Post type 'name' label.
+	 * @param string $post_type      Post type.
+	 */
+	$title = apply_filters( 'post_type_archive_title', $post_type_obj->labels->name, $post_type );
 
 	if ( $display )
 		echo $prefix . $title;
