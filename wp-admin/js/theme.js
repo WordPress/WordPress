@@ -561,7 +561,8 @@ themes.view.Search = wp.Backbone.View.extend({
 	className: 'theme-search',
 
 	attributes: {
-		placeholder: l10n.search
+		placeholder: l10n.search,
+		type: 'search'
 	},
 
 	events: {
