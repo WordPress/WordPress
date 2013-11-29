@@ -202,7 +202,6 @@ themes.view.Theme = wp.Backbone.View.extend({
 	activeTheme: function() {
 		if ( this.model.get( 'active' ) ) {
 			this.$el.addClass( 'active' );
-			this.$el.find( '.theme-name' ).addClass( 'mp6-primary' );
 			$( '.theme-overlay' ).addClass( 'active' );
 		}
 	},
