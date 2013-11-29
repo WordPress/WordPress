@@ -392,12 +392,13 @@ function wp_prepare_themes_for_js( $themes = null ) {
 	}
 
 	WP_Theme::sort_by_name( $themes );
-	foreach ( $themes as $slug => $theme ) {
+	foreach ( $themes as $theme ) {
 		$parent = false;
 		if ( $theme->parent() ) {
 			$parent = $theme->parent()->display( 'Name' );
 		}
 
+		$slug = $theme->get_stylesheet();
 		$encoded_slug = urlencode( $slug );
 
 		$prepared_themes[] = array(
