@@ -273,7 +273,10 @@
 .theme.display-author .theme-author {
 	display: block;
 }
-
+.theme.display-author .theme-author a {
+	color: inherit;
+	text-decoration: none;
+}
 
 /*
  * Experiment: allows to scroll through the whole theme
@@ -628,6 +631,7 @@ body.theme-overlay-open {
 	margin: 15px 0 25px;
 }
 .theme-overlay .theme-author a {
+	color: inherit;
 	text-decoration: none;
 }
 .theme-overlay .theme-description {
