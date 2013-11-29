@@ -223,6 +223,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	<div class="theme-actions">
 
 	<# if ( data.active ) { #>
+		<span class="current-label"><?php _e( 'Current Theme' ); ?></span> 
 		<# if ( data.actions['customize'] ) { #>
 			<a class="button button-primary hide-if-no-customize" href="{{ data.actions['customize'] }}"><?php _e( 'Customize' ); ?></a>
 		<# } #>
