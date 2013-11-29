@@ -508,7 +508,6 @@ body.theme-overlay-open {
 }
 /* First screenshot, shown big */
 .theme-overlay .screenshot {
-	background: #000;
 	border: 1px solid #fff;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -561,6 +560,13 @@ body.theme-overlay-open {
 .theme-overlay .screenshot.selected img {
 	opacity: 0.8;
 }
+
+/* No screenshot placeholder */
+.theme .theme-screenshot.blank,
+.theme-overlay .screenshot.blank { 
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAALElEQVQYGWO8d+/efwYkoKioiMRjYGBC4WHhUK6A8T8QIJt8//59ZC493AAAQssKpBK4F5AAAAAASUVORK5CYII=); 
+}
+
 /*
  * Theme heading information
  */

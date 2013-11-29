@@ -211,8 +211,12 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 </div><!-- .wrap -->
 
 <script id="tmpl-theme" type="text/template">
+	<# if ( data.screenshot[0] ) { #>
 	<div class="theme-screenshot">
 		<img src="{{ data.screenshot[0] }}" alt="" />
+	<# } else { #>
+		<div class="theme-screenshot blank">
+	<# } #>
 	</div>
 	<div class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></div>
 	<h3 class="theme-name">{{ data.name }}</h3>
@@ -245,16 +249,16 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 		</div>
 
 		<div class="theme-screenshots">
+		<# if ( data.screenshot[0] ) { #>
 			<div class="screenshot first"><img src="{{ data.screenshot[0] }}" alt="" /></div>
-		<#
-			if ( _.size( data.screenshot ) > 1 ) {
-				_.each ( data.screenshot, function( image ) {
-		#>
-				<div class="screenshot thumb"><img src="{{ image }}" alt="" /></div>
-		<#
-				});
-			}
-		#>
+			<# if ( _.size( data.screenshot ) > 1 ) {
+					_.each ( data.screenshot, function( image ) {
+						#><div class="screenshot thumb"><img src="{{ image }}" alt="" /></div><#
+					});
+			} #>
+		<# } else { #> 
+			<div class="screenshot first blank"></div> 
+		<# } #> 
 		</div>
 
 		<div class="theme-info">
