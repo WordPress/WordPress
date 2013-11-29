@@ -11250,11 +11250,11 @@ li#wp-admin-bar-menu-toggle {
 		padding: 3px 5px 5px; /* Reset tabs in Press This to standard size */
 	}
 
-	ul#categorychecklist li {
+	ul.categorychecklist li {
 		margin-bottom: 15px;
 	}
 
-	ul#categorychecklist ul {
+	ul.categorychecklist ul {
 		margin-top: 15px;
 	}
 
@@ -12209,8 +12209,8 @@ li#wp-admin-bar-menu-toggle {
 		margin: 4px;
 	}
 
-	.press-this ul#categorychecklist ul,
-	.press-this ul#categorychecklist li {
+	.press-this ul.categorychecklist ul,
+	.press-this ul.categorychecklist li {
 		margin-top: 0;
 		margin-bottom: 0;
 	}
