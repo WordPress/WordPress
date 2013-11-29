@@ -11849,12 +11849,14 @@ li#wp-admin-bar-menu-toggle {
 	.menu-settings dd {
 		float: none;
 		width: 100%;
+		margin-bottom: 15px; 
 	}
 
 	.menu-settings dt {
 		float: none;
 		width: auto;
 		margin-left: 0;
+		margin-bottom: 15px; 
 	}
 
 	/* Theme Management Page */
