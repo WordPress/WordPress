@@ -52,6 +52,7 @@ themes.view.Appearance = wp.Backbone.View.extend({
 		// Render and append
 		this.view.render();
 		this.$el.append( this.view.el );
+		this.$el.append( '<br class="clear"/>' );
 	},
 
 	// Search input and view
