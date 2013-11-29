@@ -10036,13 +10036,6 @@ input.newtag:focus ~ div.taghint {
 	width: 150px;
 }
 
-.feature-container {
-	width: 100%;
-	overflow: auto;
-	margin-bottom: 10px;
-}
-
-
 /* General Widgets Styles */
 
 .widget {
