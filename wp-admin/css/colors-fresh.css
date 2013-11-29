@@ -1,24 +1,19 @@
 /*------------------------------------------------------------------------------
 
-This is MP6 as of r800130
-
 Howdy! This is the CSS file that controls the
 fresh color style on the WordPress Dashboard.
-
-This file contains both LTR and RTL styles.
 
 
 TABLE OF CONTENTS:
 ------------------
- 1.0 - Left to Right Styles
- 2.0 - Right to Left Styles
+ 1.0 - General
 
 
 ------------------------------------------------------------------------------*/
 
 
 /*------------------------------------------------------------------------------
-  1.0 - Left to Right Styles
+  1.0 - General
 ------------------------------------------------------------------------------*/
 
 html {
