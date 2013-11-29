@@ -214,7 +214,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	<div class="theme-screenshot">
 		<img src="{{ data.screenshot[0] }}" alt="" />
 	<# } else { #>
-		<div class="theme-screenshot blank">
+		<div class="theme-screenshot blank"></div>
 	<# } #>
 	</div>
 	<div class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></div>
@@ -223,7 +223,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	<div class="theme-actions">
 
 	<# if ( data.active ) { #>
-		<span class="current-label"><?php _e( 'Current Theme' ); ?></span> 
+		<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
 		<# if ( data.actions['customize'] ) { #>
 			<a class="button button-primary hide-if-no-customize" href="{{ data.actions['customize'] }}"><?php _e( 'Customize' ); ?></a>
 		<# } #>
@@ -256,9 +256,9 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 						#><div class="screenshot thumb"><img src="{{ image }}" alt="" /></div><#
 					});
 			} #>
-		<# } else { #> 
-			<div class="screenshot first blank"></div> 
-		<# } #> 
+		<# } else { #>
+			<div class="screenshot first blank"></div>
+		<# } #>
 		</div>
 
 		<div class="theme-info">
