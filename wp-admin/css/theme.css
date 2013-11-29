@@ -733,9 +733,6 @@ body.theme-overlay-open {
 	.theme-overlay .theme-actions .delete-theme {
 		bottom: 10px;
 	}
-	.theme-browser .theme-search {
-		top: 3px;
-	}
 }
 @media ( max-width: 650px ) {
 	.theme {
@@ -783,10 +780,15 @@ body.theme-overlay-open {
 	/*
 	 * Search form
 	 */
-	.theme-browser .theme-search {
+	.themes-php .wrap h2 {
+		width: 100%;
+	}
+	.themes-php .theme-search {
 		float: none;
 		clear: both;
 		left: 0;
+		top: 0;
+		right: 0;
 		margin: 10px 0;
 		width: 100%;
 	}
