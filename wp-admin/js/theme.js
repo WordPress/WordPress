@@ -29,21 +29,12 @@ themes.view.Appearance = wp.Backbone.View.extend({
 
 	// Sets up a throttler for binding to 'scroll'
 	initialize: function() {
-		var self = this;
+		// Scroller checks how far the scroll position is
+		_.bindAll( this, 'scroller' );
 
-		// Keep a boolean check so that we don't run
-		// too much code on every event trigger
-		this.window.bind( 'scroll.themes', function() {
-			this.throttle = true;
-		});
-
-		setInterval( function() {
-			if ( this.throttle ) {
-				// Once the case is the case, the action occurs and the fact is no more
-				this.throttle = false;
-				self.scroller();
-			}
-		}, 300 );
+		// Bind to the scroll event and throttle
+		// the results from this.scroller
+		this.window.bind( 'scroll', _.throttle( this.scroller, 300 ) );
 	},
 
 	// Main render control
