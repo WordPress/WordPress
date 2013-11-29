@@ -92,10 +92,9 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 	'themes'   => $themes,
 	'settings' => array(
 		'canInstall'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ),
-		'installURI'    => admin_url( 'theme-install.php' ),
-		'customizeURI'  => ( current_user_can( 'edit_theme_options' ) ) ? wp_customize_url() : null,
+		'installURI'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ) ? admin_url( 'theme-install.php' ) : null,
 		'confirmDelete' => __( "Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete." ),
-		'root'          => '/wp-admin/themes.php',
+		'root'          => admin_url( 'themes.php' ),
 		'extraRoutes'   => '',
 	),
  	'l10n' => array(
@@ -220,12 +219,12 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	</div>
 	<div class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></div>
 	<h3 class="theme-name">{{ data.name }}</h3>
+
 	<div class="theme-actions">
 
 	<# if ( data.active ) { #>
-		<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
-		<# if ( wp.themes.data.settings['customizeURI'] ) { #>
-			<a class="button button-primary hide-if-no-customize" href="{{ wp.themes.data.settings['customizeURI'] }}"><?php _e( 'Customize' ); ?></a>
+		<# if ( data.actions['customize'] ) { #>
+			<a class="button button-primary hide-if-no-customize" href="{{ data.actions['customize'] }}"><?php _e( 'Customize' ); ?></a>
 		<# } #>
 	<# } else { #>
 		<a class="button button-primary activate" href="{{{ data.actions['activate'] }}}"><?php _e( 'Activate' ); ?></a>
@@ -292,7 +291,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	<div class="theme-actions">
 		<div class="active-theme">
 			<a href="{{{ wp.themes.data.settings.customizeURI }}}" class="button button-primary hide-if-no-customize"><?php _e( 'Customize' ); ?></a>
-			<?php if( current_theme_supports( 'menus' ) ) { ?>
+			<?php if ( current_theme_supports( 'menus' ) ) { ?>
 			<a class="button button-secondary" href="<?php echo admin_url( 'nav-menus.php' ); ?>"><?php _e( 'Menus' ); ?></a>
 			<?php } ?>
 			<?php if( current_theme_supports( 'widgets' ) ) { ?>
@@ -300,11 +299,13 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 			<?php } ?>
 		</div>
 		<div class="inactive-theme">
-			<a href="{{{ data.actions.activate }}}" class="button button-primary"><?php _e( 'Activate' ); ?></a>
+			<# if ( data.actions.activate ) { #>
+				<a href="{{{ data.actions.activate }}}" class="button button-primary"><?php _e( 'Activate' ); ?></a>
+			<# } #>
 			<a href="{{{ data.actions.customize }}}" class="button button-secondary"><?php _e( 'Live Preview' ); ?></a>
 		</div>
 
-		<# if ( ! data.active ) { #>
+		<# if ( ! data.active && data.actions.delete ) { #>
 			<a href="{{{ data.actions.delete }}}" class="delete-theme"><?php _e( 'Delete' ); ?></a>
 		<# } #>
 	</div>
