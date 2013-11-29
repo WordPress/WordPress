@@ -340,11 +340,10 @@
 /*
  * The search form
  */
-.theme-browser .theme-search {
-	float: left;
+.themes-php .theme-search {
 	position: relative;
-		top: 7px;
-		left: 10px;
+		top: -2px;
+		left: 20px;
 	font-size: 16px;
 	font-weight: 300;
 	line-height: 1.5;

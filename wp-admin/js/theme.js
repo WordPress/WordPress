@@ -73,7 +73,7 @@ themes.view.Appearance = wp.Backbone.View.extend({
 
 		// Render and append after screen title
 		view.render();
-		self.$el.append( view.el );
+		$('#wpbody h2:first').append( view.el );
 	},
 
 	// Checks when the user gets close to the bottom

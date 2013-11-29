@@ -119,9 +119,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<a href="<?php echo admin_url( 'theme-install.php' ); ?>" class="add-new-h2"><?php echo esc_html( _x( 'Add New', 'Add new theme' ) ); ?></a>
 	<?php endif; ?>
 	</h2>
-
-	<div class="theme-browser"></div>
-
 <?php
 if ( ! validate_current_theme() || isset( $_GET['broken'] ) ) : ?>
 <div id="message1" class="updated"><p><?php _e('The active theme is broken. Reverting to the default theme.'); ?></p></div>
@@ -179,6 +176,8 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 	}
 */
 ?>
+
+<div class="theme-browser"></div>
 
 <?php
 // List broken themes, if any.
