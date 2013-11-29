@@ -94,33 +94,6 @@
 	float: none;
 	margin-right: 3px;
 }
-/* Delete theme crosses */
-.theme .delete-theme {
-	display: none;
-	margin-right: -18px;
-	position: absolute;
-		top: 0px;
-		left: 0px;
-	z-index: 5;
-}
-.theme .delete-theme:before {
-	background: #222;
-	border: 1px solid #dedede;
-	border-width: 0 1px 1px 0;
-	color: #fff;
-	width: 36px;
-	height: 36px;
-	padding: 4px;
-	content: '\f158';
-	display: inline-block;
-	font: normal 36px/1 'dashicons';
-	opacity: 1;
-	speak: none;
-	-webkit-font-smoothing: antialiased;
-}
-.theme .delete-theme:hover:before {
-	background: #d54e21;
-}
 
 /*
  * Theme Screenshot

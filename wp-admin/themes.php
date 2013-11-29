@@ -234,10 +234,6 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	<# if ( data.hasUpdate ) { #>
 		<a class="theme-update"><?php _e( 'Update Available' ); ?></a>
 	<# } #>
-
-	<# if ( ! data.active ) { #>
-		<a href="{{{ data.actions.delete }}}" class="delete-theme"><?php _e( 'Delete' ); ?></a>
-	<# } #>
 </script>
 
 <script id="tmpl-theme-single" type="text/template">
