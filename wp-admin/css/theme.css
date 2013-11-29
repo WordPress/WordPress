@@ -663,63 +663,6 @@ body.theme-overlay-open {
 	font-weight: 700;
 }
 
-
-/**
- * Theme Browser...
- *
- *
- */
-.theme-categories {
-	background: #fbfbfb;
-	border: 1px solid #dedede;
-	box-shadow: 0px 1px 1px -1px rgba(0,0,0,0.1);
-	color: #999;
-	display: inline-block;
-	font-size: 13px;
-	margin: 20px 0 30px;
-	padding: 15px 20px;
-}
-.theme-categories a {
-	color: #999;
-	margin: 0 5px;
-	text-decoration: none;
-}
-.theme-categories a.current {
-	border-bottom: 2px solid #555;
-	color: #555;
-	font-weight: 800;
-}
-.theme-linear-grid {
-	border-bottom: 3px solid #ddd;
-	margin: 0 0 30px;
-	overflow-x: hidden;
-	padding-bottom: 20px;
-	position: relative;
-}
-.theme-linear-grid .theme-section {
-	margin: 0 0 20px;
-}
-.theme-linear-grid .themes {
-	position: relative;
-	white-space: nowrap;
-}
-.theme-linear-grid .theme {
-	float: none;
-	display: inline-block;
-	margin: 0 2.4% 0 0;
-}
-.theme-linear-grid .show-more-themes {
-	background: rgba(0,0,0,0.8);
-	color: #eee;
-	display: none;
-	width: 80px;
-	height: 100%;
-	position: absolute;
-		right: 0;
-		top: 0;
-}
-
-
 /**
  * Basic Responsive structure...
  *
