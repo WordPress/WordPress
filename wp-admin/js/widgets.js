@@ -117,7 +117,7 @@ wpWidgets = {
 			distance: 2,
 			containment: 'document',
 			start: function( event, ui ) {
-				var $this = $(this),
+				var height, $this = $(this),
 					$wrap = $this.parent(),
 					inside = ui.item.children('.widget-inside');
 
@@ -126,15 +126,11 @@ wpWidgets = {
 					$(this).sortable('refreshPositions');
 				}
 
-				if ( $wrap.hasClass('closed') ) {
-					// There is a bug in UI Sortable that prevents firing of "over" when dragging a connected Draggable.
-					// This won't be needed when the bug is fixed.
-					$wrap.addClass('widget-hover');
-				} else {
+				if ( ! $wrap.hasClass('closed') ) {
 					// Lock all open sidebars min-height when starting to drag.
 					// Prevents jumping when dragging a widget from an open sidebar to a closed sidebar below.
-					$wrap.css( 'min-height', $wrap.height() + 'px' );
-					$this.css( 'min-height', $this.height() - 2 + 'px' );
+					height = ui.item.hasClass('ui-draggable') ? $this.height() : 1 + $this.height();
+					$this.css( 'min-height', height + 'px' );
 				}
 			},
 
@@ -152,7 +148,7 @@ wpWidgets = {
 				addNew = $widget.find('input.add_new').val();
 				widgetNumber = $widget.find('input.multi_number').val();
 
-				$widget.attr( 'style', '' );
+				$widget.attr( 'style', '' ).removeClass('ui-draggable');
 				the_id = '';
 
 				if ( addNew ) {
@@ -179,7 +175,7 @@ wpWidgets = {
 				$sidebar = $widget.parent();
 
 				if ( $sidebar.parent().hasClass('closed') ) {
-					$sidebar.parent().removeClass('widget-hover closed jump-open');
+					$sidebar.parent().removeClass('closed');
 					$children = $sidebar.children('.widget');
 
 					// Make sure the dropped widget is at the top
@@ -200,21 +196,13 @@ wpWidgets = {
 				}
 			},
 
-			over: function() {
-				var $wrap = $(this).parent();
-
-				if ( $wrap.hasClass('closed') ) {
-					$wrap.addClass('widget-hover');
-				}
-			},
-
-			out: function() {
-				$(this).parent().removeClass('widget-hover');
+			activate: function() {
+				$(this).parent().addClass( 'widget-hover' );
 			},
 
 			deactivate: function() {
 				// Remove all min-height added on "start"
-				$(this).css( 'min-height', '' ).parent().css( 'min-height', '' );
+				$(this).css( 'min-height', '' ).parent().removeClass( 'widget-hover' );
 			},
 
 			receive: function( event, ui ) {

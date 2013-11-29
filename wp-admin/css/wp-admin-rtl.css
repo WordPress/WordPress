@@ -10082,7 +10082,6 @@ input.newtag:focus ~ div.taghint {
 
 .widget.ui-sortable-helper {
 	opacity: 0.8;
-	z-index: 2000;
 }
 
 .widget-placeholder {
@@ -10293,11 +10292,10 @@ div#widgets-right .closed .widgets-sortables {
 }
 
 /* Dragging a widget over a closed sidebar */ 
-#widgets-right .widgets-holder-wrap.closed.widget-hover { 
+#widgets-right .widgets-holder-wrap.widget-hover { 
 	border-color: #777;
 	box-shadow: 0 1px 2px rgba(0,0,0,0.3);
-	opacity: 0.6;
-} 
+}
 
 /* Accessibility Mode */
 .widgets_access #widgets-left .widget .widget-top {
