@@ -133,7 +133,7 @@ themes.Collection = Backbone.Collection.extend({
 		// Find results
 		// _.filter and .test
 		results = self.filter( function( data ) {
-			haystack = _.union( data.get( 'name' ), data.get( 'author' ), data.get( 'tags' ) );
+			haystack = _.union( data.get( 'name' ), data.get( 'description' ), data.get( 'author' ), data.get( 'tags' ) );
 
 			if ( match.test( data.get( 'author' ) ) ) {
 				data.set( 'displayAuthor', true );
