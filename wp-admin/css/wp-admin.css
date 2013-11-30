@@ -32,9 +32,10 @@ TABLE OF CONTENTS:
 	14.2 - Image Editor
 15.0 - Comments Screen
 16.0 - Themes
-	16.1 - Custom Header
-	16.2 - Custom Background
-	16.3 - Tabbed Admin Screen Interface
+	16.1 - Manage Themes
+	16.2 - Install Themes
+	16.3 - Custom Header
+	16.4 - Custom Background
 17.0 - Plugins
 18.0 - Users
 19.0 - Tools
@@ -43,7 +44,8 @@ TABLE OF CONTENTS:
 22.0 - About Pages
 23.0 - Full Overlay w/ Sidebar
 24.0 - Customize Loader
-25.0 - Misc
+25.0 - Tabbed Admin Screen Interface
+26.0 - Misc
 
 ------------------------------------------------------------------------*/
 
@@ -957,7 +959,6 @@ h3.dashboard-widget-title small,
 	display: inline-block;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	-moz-transition: all .1s ease-in-out;
 	-webkit-transition: all .1s ease-in-out;
 	-moz-transition:    all .1s ease-in-out;
 	transition:         all .1s ease-in-out;
@@ -6277,9 +6278,35 @@ span.imgedit-scale-warn {
 	margin-left: 4px;
 }
 
+
 /*------------------------------------------------------------------------------
   16.0 - Themes
 ------------------------------------------------------------------------------*/
+
+
+/*------------------------------------------------------------------------------
+  16.1 - Manage Themes
+------------------------------------------------------------------------------*/
+
+.broken-themes {
+	clear: both;
+}
+
+.broken-themes table {
+	text-align: left;
+	width: 50%;
+	border-spacing: 3px;
+	padding: 3px;
+}
+
+
+/*------------------------------------------------------------------------------
+  16.2 - Install Themes
+------------------------------------------------------------------------------*/
+
+.theme-install-php h4 {
+	margin: 2.5em 0 8px;
+}
 
 .theme-install-php .tablenav {
 	height: auto;
@@ -6287,11 +6314,6 @@ span.imgedit-scale-warn {
 
 .theme-install-php .spinner {
 	margin-top: 9px;
-}
-
-h3.available-themes {
-	margin: 0.3em 0 1em;
-	float: left;
 }
 
 .available-theme {
@@ -6334,8 +6356,6 @@ h3.available-themes {
 	border-color: #777;
 }
 
-#current-theme .theme-info li,
-.theme-options li,
 .available-theme .action-links li {
 	float: left;
 	padding-right: 10px;
@@ -6353,8 +6373,6 @@ h3.available-themes {
 	margin-right: 7px;
 }
 
-#current-theme .theme-info li:last-child,
-.theme-options li:last-child,
 .available-theme .action-links li:last-child {
 	padding-right: 0;
 	margin-right: 0;
@@ -6382,85 +6400,6 @@ h3.available-themes {
 	float: left;
 }
 
-#current-theme {
-	margin: 20px 0 10px;
-	padding: 0 0 20px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	overflow: hidden;
-}
-
-#current-theme.has-screenshot {
-	padding-left: 330px;
-}
-
-#current-theme h3 {
-	margin: 0;
-	font-size: 12px;
-	font-weight: normal;
-	color: #999;
-}
-
-#current-theme h4 {
-	margin: 3px 0 16px;
-	font-size: 20px;
-}
-
-#current-theme h4 span {
-	margin-left: 20px;
-	font-size: 12px;
-	font-weight: normal;
-}
-
-#current-theme a {
-	border-bottom: none;
-}
-
-#current-theme .theme-info {
-	margin: 1em 0;
-	overflow: hidden;
-}
-
-#current-theme .theme-description {
-	margin-top: 5px;
-	max-width: 600px;
-	line-height: 1.6em;
-}
-
-#current-theme img {
-	float: left;
-	width: 300px;
-	margin-left: -330px;
-
-	border-width: 1px;
-	border-style: solid;
-}
-
-.theme-options {
-	overflow: hidden;
-	font-size: 14px;
-	padding-bottom: 10px;
-}
-
-.theme-options .load-customize {
-	margin-right: 30px;
-	float: left;
-}
-
-.theme-options span {
-	float: left;
-	margin-right: 10px;
-	text-transform: uppercase;
-	font-size: 11px;
-	line-height: 22px;
-	color: #999;
-}
-
-.theme-options ul {
-	float: left;
-	margin: 0;
-}
-
 /* Allow for three-up in small windows when sidebar is collapsed */
 @media only screen and (max-width: 1200px) {
 	.folded .available-theme,
@@ -6470,18 +6409,6 @@ h3.available-themes {
 
 	.folded .available-theme .screenshot {
 		height: 225px;
-	}
-
-	.folded #current-theme img {
-		width: 300px;
-	}
-
-	.folded #current-theme.has-screenshot {
-		padding-left: 330px;
-	}
-
-	.folded #current-theme img {
-		margin-left: -330px;
 	}
 }
 
@@ -6495,25 +6422,12 @@ h3.available-themes {
 	.folded .available-theme .screenshot {
 		height: 203px;
 	}
-
-	.folded #current-theme img {
-		width: 270px;
-	}
-
-	.folded #current-theme.has-screenshot {
-		padding-left: 300px;
-	}
-
-	.folded #current-theme img {
-		margin-left: -300px;
-	}
 }
 
 /* Allow for three-up on 1024px wide screens, e.g. tablets */
 @media only screen and (max-width: 1200px) {
 	.available-theme,
-	.available-theme .screenshot,
-	#current-theme img {
+	.available-theme .screenshot {
 		width: 240px;
 	}
 
@@ -6523,14 +6437,6 @@ h3.available-themes {
 
 	.available-theme img {
 		width: 100%;
-	}
-
-	#current-theme.has-screenshot {
-		padding-left: 270px;
-	}
-
-	#current-theme img {
-		margin-left: -270px;
 	}
 }
 
@@ -6546,24 +6452,9 @@ h3.available-themes {
 	color: #cfcfcf;
 }
 
-.broken-themes {
-	clear: both;
-}
-
-.broken-themes table {
-	text-align: left;
-	width: 50%;
-	border-spacing: 3px;
-	padding: 3px;
-}
-
-.theme-install-php h4 {
-	margin: 2.5em 0 8px;
-}
-
 
 /*------------------------------------------------------------------------------
-  16.1 - Custom Header Screen
+  16.3 - Custom Header Screen
 ------------------------------------------------------------------------------*/
 
 .appearance_page_custom-header #headimg {
@@ -6598,7 +6489,7 @@ h3.available-themes {
 
 
 /*------------------------------------------------------------------------------
-  16.2 - Custom Background Screen
+  16.4 - Custom Background Screen
 ------------------------------------------------------------------------------*/
 
 div#custom-background-image {
@@ -6609,48 +6500,6 @@ div#custom-background-image {
 div#custom-background-image img {
 	max-width: 400px;
 	max-height: 300px;
-}
-
-
-/*------------------------------------------------------------------------------
-  16.3 - Tabbed Admin Screen Interface (Experimental)
-------------------------------------------------------------------------------*/
-
-.nav-tab {
-	border-style: solid;
-	border-width: 1px 1px 0;
-	font-size: 12px;
-	line-height: 16px;
-	display: inline-block;
-	padding: 4px 14px 6px;
-	text-decoration: none;
-	margin: -4px 4px -1px 0;
-}
-
-.nav-tab-active {
-	border-width: 1px;
-}
-
-.nav-tab-active,
-.nav-tab-active:hover {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
-
-h2.nav-tab-wrapper,
-h3.nav-tab-wrapper {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	padding-bottom: 0;
-	padding-left: 10px;
-}
-
-h2 .nav-tab {
-	padding: 6px 10px;
-	font-weight: bold;
-	font-size: 15px;
-	line-height: 24px;
-
 }
 
 
@@ -7777,8 +7626,50 @@ body.full-overlay-active {
 	background-size: 20px 20px;
 }
 
+
 /*------------------------------------------------------------------------------
-  25.0 - Misc
+  25.0 - Tabbed Admin Screen Interface (Experimental)
+------------------------------------------------------------------------------*/
+
+.nav-tab {
+	border-style: solid;
+	border-width: 1px 1px 0;
+	font-size: 12px;
+	line-height: 16px;
+	display: inline-block;
+	padding: 4px 14px 6px;
+	text-decoration: none;
+	margin: -4px 4px -1px 0;
+}
+
+.nav-tab-active {
+	border-width: 1px;
+}
+
+.nav-tab-active,
+.nav-tab-active:hover {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h2.nav-tab-wrapper,
+h3.nav-tab-wrapper {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	padding-bottom: 0;
+	padding-left: 10px;
+}
+
+h2 .nav-tab {
+	padding: 6px 10px;
+	font-weight: bold;
+	font-size: 15px;
+	line-height: 24px;
+}
+
+
+/*------------------------------------------------------------------------------
+  26.0 - Misc
 ------------------------------------------------------------------------------*/
 
 #excerpt,
@@ -10015,10 +9906,6 @@ input.newtag:focus ~ div.taghint {
 	line-height: 180%;
 }
 
-#filter-box {
-	clear: both;
-}
-
 .feature-filter {
 	padding: 8px 12px 0;
 }
@@ -11849,30 +11736,14 @@ li#wp-admin-bar-menu-toggle {
 	.menu-settings dd {
 		float: none;
 		width: 100%;
-		margin-bottom: 15px; 
+		margin-bottom: 15px;
 	}
 
 	.menu-settings dt {
 		float: none;
 		width: auto;
 		margin-left: 0;
-		margin-bottom: 15px; 
-	}
-
-	/* Theme Management Page */
-	#current-theme.has-screenshot {
-		padding: 0;
-		clear: both;
-	}
-
-	#current-theme img {
-		float: none;
-		margin-left: 0;
 		margin-bottom: 15px;
-	}
-
-	#current-theme.has-screenshot img.hide-if-no-customize {
-		display: block;
 	}
 
 	.available-theme .action-links .delete-theme {
