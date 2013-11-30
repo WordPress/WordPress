@@ -948,7 +948,7 @@ function sanitize_user( $username, $strict = false ) {
 	/**
 	 * Filter a sanitized username string.
 	 *
-	 * @since 2.0.11
+	 * @since 2.0.1
 	 *
 	 * @param string $username     Sanitized username.
 	 * @param string $raw_username The username prior to sanitization.
@@ -1006,7 +1006,7 @@ function sanitize_title( $title, $fallback_title = '', $context = 'save' ) {
 	/**
 	 * Filter a sanitized title string.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param string $title     Sanitized title.
 	 * @param string $raw_title The title prior to sanitization.
@@ -1402,7 +1402,7 @@ function format_to_edit( $content, $richedit = false ) {
 	/**
 	 * Filter the text to be formatted for editing.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param string $content The text, prior to formatting for editing.
 	 */
@@ -1424,7 +1424,7 @@ function format_to_post($content) {
 	/**
 	 * Filter the string returned by format_to_post().
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param string $content The string to format.
 	 */
@@ -2954,7 +2954,7 @@ function esc_js( $text ) {
 	 * Text passed to esc_js() is stripped of invalid or special characters,
 	 * and properly slashed for output.
 	 *
-	 * @since 2.0.11
+	 * @since 2.0.6
 	 *
 	 * @param string $safe_text The text after it has been escaped.
  	 * @param string $text      The text prior to being escaped.
@@ -3004,7 +3004,7 @@ function esc_attr( $text ) {
 	 * Text passed to esc_attr() is stripped of invalid or special characters
 	 * before output.
 	 *
-	 * @since 2.0.11
+	 * @since 2.0.6
 	 *
 	 * @param string $safe_text The text after it has been escaped.
  	 * @param string $text      The text prior to being escaped.
