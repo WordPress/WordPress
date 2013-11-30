@@ -594,7 +594,6 @@ function wp_default_styles( &$styles ) {
 	// do not refer to these directly, the right one is queued by the above "meta" colors handle
 	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array( 'wp-admin', 'buttons' ) );
 
-	$styles->add( 'theme', "/wp-admin/css/theme.css" );
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css" );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array('buttons') );
 	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array( 'dashicons' ), '20121105' );

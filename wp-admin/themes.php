@@ -104,7 +104,6 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 ) );
 
 add_thickbox();
-wp_enqueue_style( 'theme' );
 wp_enqueue_script( 'theme' );
 wp_enqueue_script( 'customize-loader' );
 
