@@ -1862,7 +1862,6 @@ function translate_smiley( $matches ) {
 
 	$smiley = trim( reset( $matches ) );
 	$img = $wpsmiliestrans[ $smiley ];
-	$smiley_masked = esc_attr( $smiley );
 
 	/**
 	 * Filter the Smiley image URL before it's used in the image element.
@@ -1875,7 +1874,7 @@ function translate_smiley( $matches ) {
 	 */	
 	$src_url = apply_filters( 'smilies_src', includes_url( "images/smilies/$img" ), $img, site_url() );
 
-	return " <img src='$src_url' alt='$smiley_masked' class='wp-smiley' /> ";
+	return sprintf( ' <img src="%s" alt="%s" class="wp-smiley" /> ', esc_url( $src_url ), esc_attr( $smiley ) );
 }
 
 /**
