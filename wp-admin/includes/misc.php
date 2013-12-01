@@ -563,35 +563,28 @@ function saveDomDocument($doc, $filename) {
  */
 function admin_color_scheme_picker() {
 	global $_wp_admin_css_colors, $user_id;
-	ksort($_wp_admin_css_colors);
+
+	ksort( $_wp_admin_css_colors );
+
+	if ( isset( $_wp_admin_css_colors['fresh'] ) ) {
+		// Set 'fresh' (the default option) to be the first array element
+		$_wp_admin_css_colors = array_merge( array( 'fresh' => '' ), $_wp_admin_css_colors );
+	}
 
 	$current_color = get_user_option( 'admin_color', $user_id );
 
-	if ( empty( $current_color ) || ! isset( $_wp_admin_css_colors[ $current_color ] ) )
+	if ( empty( $current_color ) || ! isset( $_wp_admin_css_colors[ $current_color ] ) ) {
 		$current_color = 'fresh';
+	}
 
-	$color_info = $_wp_admin_css_colors[ $current_color ];
-?>
-
-	<fieldset id="color-picker">
+	?>
+	<fieldset id="color-picker" class="scheme-list">
 		<legend class="screen-reader-text"><span><?php _e( 'Admin Color Scheme' ); ?></span></legend>
+		<?php
 
-		<div class="picker-dropdown dropdown-current">
-			<div class="picker-dropdown-arrow"></div>
-			<label for="admin_color_<?php echo esc_attr( $current_color ); ?>"><?php echo esc_html( $color_info->name ); ?></label>
-			<table class="color-palette">
-				<tr>
-				<?php foreach ( $color_info->colors as $html_color ): ?>
-					<td style="background-color: <?php echo esc_attr( $html_color ); ?>" title="<?php echo esc_attr( $current_color ); ?>">&nbsp;</td>
-				<?php endforeach; ?>
-				</tr>
-			</table>
-		</div>
+		foreach ( $_wp_admin_css_colors as $color => $color_info ) :
 
-		<div class="picker-dropdown dropdown-container">
-
-		<?php foreach ( $_wp_admin_css_colors as $color => $color_info ) : ?>
-
+			?>
 			<div class="color-option <?php echo ( $color == $current_color ) ? 'selected' : ''; ?>">
 				<input name="admin_color" id="admin_color_<?php echo esc_attr( $color ); ?>" type="radio" value="<?php echo esc_attr( $color ); ?>" class="tog" <?php checked( $color, $current_color ); ?> />
 				<input type="hidden" class="css_url" value="<?php echo esc_url( $color_info->url ); ?>" />
@@ -599,20 +592,25 @@ function admin_color_scheme_picker() {
 				<label for="admin_color_<?php echo esc_attr( $color ); ?>"><?php echo esc_html( $color_info->name ); ?></label>
 				<table class="color-palette">
 					<tr>
-					<?php foreach ( $color_info->colors as $html_color ): ?>
+					<?php
+
+					foreach ( $color_info->colors as $html_color ) {
+						?>
 						<td style="background-color: <?php echo esc_attr( $html_color ); ?>" title="<?php echo esc_attr( $color ); ?>">&nbsp;</td>
-					<?php endforeach; ?>
+						<?php
+					}
+
+					?>
 					</tr>
 				</table>
 			</div>
+			<?php
 
-		<?php endforeach; ?>
+		endforeach;
 
-		</div>
-
+	?>
 	</fieldset>
-
-<?php
+	<?php
 }
 
 function set_color_scheme_json() {

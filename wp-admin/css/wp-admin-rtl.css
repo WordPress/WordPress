@@ -7519,89 +7519,21 @@ div#custom-background-image img {
 	width: 25em;
 }
 
-.picker-dropdown {
-	background: #fcfcfc;
-	border: 1px solid #ddd;
-	margin-left: 12%;
-	max-width: 270px;
-	position: relative;
-	width: auto;
-}
-
-.picker-dropdown.dropdown-current {
-	padding: 20px;
-	margin-bottom: 15px;
-	cursor: pointer;
-}
-
-.picker-dropdown.dropdown-container {
-	display: none;
-	position: absolute;
-	width: 340px;
-	border-top: none;
-	-webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-	z-index: 1;
-}
-
-.picker-expanded .picker-dropdown.dropdown-container {
-	display: block;
-}
-
-.picker-dropdown.dropdown-container:before,
-.picker-dropdown.dropdown-container:after {
-	content: "\0020";
-	display: block;
-	position: absolute;
-	top: -10px;
-	right: 150px;
-	z-index: 2;
-	width: 0;
-	height: 0;
-	overflow: hidden;
-	border: solid 11px transparent;
-	border-top: 0;
-	border-bottom-color: #fefefe;
-}
-
-.picker-dropdown.dropdown-container:before {
-	top: -11px;
-	z-index: 1;
-	border-bottom-color: #ddd;
-}
-
-.picker-dropdown-arrow {
-	position: absolute;
-	top: -1px;
-	left: -42px;
-	display: block;
-	width: 40px;
-	height: 100%;
-	background: white;
-	text-align: center;
-	border: 1px solid #ddd;
-	border-right-width: 0;
-	cursor: pointer;
-}
-
-.picker-dropdown-arrow:before {
-	font: 20px/91px dashicons;
-	content: '\f140';
-}
-
-.picker-expanded .picker-dropdown-arrow:before {
-	content: '\f142';
+.scheme-list {
+	
 }
 
 .color-option {
-	display: block;
-	padding: 20px;
-	border-top: 1px solid #ddd;
+	display: inline-block;
+	width: 32%;
+	padding: 5px 15px 15px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .color-option:hover,
 .color-option.selected {
-	background: #f2f8fa;
+	background: #ddd;
 }
 
 .color-palette {
@@ -7617,20 +7549,6 @@ div#custom-background-image img {
 
 .color-option {
 	cursor: pointer;
-}
-
-.no-js .dropdown-current {
-	display: none;
-}
-
-.no-js .dropdown-container {
-	display: block;
-	position: static;
-}
-
-.no-js .dropdown-container:before,
-.no-js .dropdown-container:after {
-	display: none;
 }
 
 /*------------------------------------------------------------------------------
@@ -13129,4 +13047,9 @@ li#wp-admin-bar-menu-toggle {
 	div#post-body.metabox-holder.columns-1 {
 		overflow-x: hidden;
 	}
+
+	/* Color Picker Options */ 
+	.color-option { 
+		width: 49%; 
+	} 
 }

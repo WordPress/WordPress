@@ -82,32 +82,27 @@
 		user_id = $( 'input#user_id' ).val();
 		current_user_id = $( 'input[name="checkuser_id"]' ).val();
 
-		// dropdown toggle
-		$colorpicker.on( 'click', '.dropdown-current', function() {
-			$colorpicker.toggleClass( 'picker-expanded' );
-		});
+		$colorpicker.on( 'click.colorpicker', '.color-option', function() {
+			var $this = $(this),
+				color_scheme = $this.children( 'input[name="admin_color"]' ).val();
 
-		$colorpicker.on( 'click', '.color-option', function() {
+			if ( $this.hasClass( 'selected' ) ) {
+				return;
+			}
 
-			var color_scheme = $( this ).children( 'input[name="admin_color"]' ).val();
+			$this.siblings( '.selected' ).removeClass( 'selected' );
+			$this.addClass( 'selected' ).find( 'input[type="radio"]' ).prop( 'checked', true );
 
-			// update selected
-			$( this ).siblings( '.selected' ).removeClass( 'selected' );
-			$( this ).addClass( 'selected' );
-			$( this ).find( 'input' ).prop( 'checked', true );
-
-			// update current
-			$colorpicker.find( '.dropdown-current label' ).html( $( this ).children( 'label' ).html() );
-			$colorpicker.find( '.dropdown-current table' ).html( $( this ).children( 'table' ).html() );
-			$colorpicker.toggleClass( 'picker-expanded' );
-
-			// preview/save color scheme
+			// Set color scheme
 			if ( user_id === current_user_id ) {
+				// Load the colors stylesheet
+				$stylesheet.attr( 'href', $this.children( '.css_url' ).val() );
 
 				// repaint icons
-				$stylesheet.attr( 'href', $( this ).children( '.css_url' ).val() );
-				svgPainter.setColors( $.parseJSON( $( this ).children( '.icon_colors' ).val() ) );
-				svgPainter.paint();
+				if ( typeof window.svgPainter !== 'undefined' ) {
+					svgPainter.setColors( $.parseJSON( $this.children( '.icon_colors' ).val() ) );
+					svgPainter.paint();
+				}
 
 				// update user option
 				$.post( ajaxurl, {
@@ -115,11 +110,8 @@
 					color_scheme: color_scheme,
 					user_id: user_id
 				});
-
 			}
-
 		});
-
 	});
 
 })(jQuery);
