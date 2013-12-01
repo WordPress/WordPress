@@ -337,7 +337,7 @@ do_action( 'widgets_admin_page' ); ?>
 		</div>
 		<div class="widget-holder">
 			<div class="sidebar-description">
-				<p class="description"><?php _e('Drag widgets from here to a sidebar on the right to activate them. Drag widgets back here to deactivate them and delete their settings.'); ?></p>
+				<p class="description"><?php _e('To activate a widget drag it to a sidebar or click on it. To deactivate a widget and delete its settings, drag it back.'); ?></p>
 			</div>
 			<div id="widget-list">
 				<?php wp_list_widgets(); ?>
