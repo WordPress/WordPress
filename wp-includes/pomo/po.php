@@ -274,7 +274,7 @@ class PO extends Gettext_Translations {
 					return false;
 				}
 				// add comment
-				$this->add_comment_to_entry($entry, $line);;
+				$this->add_comment_to_entry($entry, $line);
 			} elseif (preg_match('/^msgctxt\s+(".*")/', $line, $m)) {
 				if ($is_final($context)) {
 					PO::read_line($f, 'put-back');
