@@ -290,6 +290,11 @@ TABLE OF CONTENTS:
 		margin-bottom: 4px;
 	}
 
+	/* this creates an inset effect on the text */
+	.wp-core-ui .button:active {
+		padding-top: 11px;
+	}
+
 	#media-upload.wp-core-ui .button {
 		padding: 0 10px 1px;
 		height: 24px;
