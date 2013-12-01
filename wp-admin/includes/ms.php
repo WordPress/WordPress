@@ -204,13 +204,7 @@ function wpmu_delete_user( $id ) {
 
 	clean_user_cache( $user );
 
-	/**
-	 * Fires after the user is deleted from the network.
-	 *
-	 * @since 2.8.0
-	 *
-	 * @param int $id ID of the user that was deleted from the network.
-	 */
+	/** This action is documented in wp-admin/includes/user.php */
 	do_action( 'deleted_user', $id );
 
 	return true;
