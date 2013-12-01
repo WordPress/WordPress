@@ -6342,7 +6342,7 @@ span.imgedit-scale-warn {
  * Main theme element
  * (has flexible margins)
  */
-.theme {
+.theme-browser .theme {
 	cursor: pointer;
 	float: left;
 	margin: 0 5% 4% 0;
@@ -6356,16 +6356,16 @@ span.imgedit-scale-warn {
 	box-sizing:         border-box;
 }
 
-.theme:nth-child(3n) {
+.theme-browser .theme:nth-child(3n) {
 	margin-right: 0;
 }
 
-.theme:hover,
-.theme:focus {
+.theme-browser .theme:hover,
+.theme-browser .theme:focus {
 	cursor: pointer;
 }
 
-.theme .theme-name {
+.theme-browser .theme .theme-name {
 	font-size: 15px;
 	font-weight: 600;
 	margin: 0;
@@ -6375,15 +6375,12 @@ span.imgedit-scale-warn {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-}
-
-.theme-name {
 	background: #fff;
 	background: rgba(255,255,255,0.65);
 }
 
 /* Activate and Customize buttons, shown on hover */
-.theme .theme-actions {
+.theme-browser .theme .theme-actions {
 	opacity: 0;
 	-webkit-transition: opacity 0.1s ease-in-out;
 	transition:         opacity 0.1s ease-in-out;
@@ -6396,15 +6393,15 @@ span.imgedit-scale-warn {
 	border-left: 1px solid rgba(0,0,0,0.05);
 }
 
-.theme:hover .theme-actions {
+.theme-browser .theme:hover .theme-actions {
 	opacity: 1;
 }
 
-.theme .theme-actions .button-primary {
+.theme-browser .theme .theme-actions .button-primary {
 	margin-right: 3px;
 }
 
-.theme .theme-actions .button-secondary {
+.theme-browser .theme .theme-actions .button-secondary {
 	float: none;
 	margin-left: 3px;
 }
@@ -6415,7 +6412,7 @@ span.imgedit-scale-warn {
  * Has a fixed aspect ratio of 1.5 to 1 regardless of screenshot size
  * It is also responsive.
  */
-.theme .theme-screenshot {
+.theme-browser .theme .theme-screenshot {
 	display: block;
 	overflow: hidden;
 	position: relative;
@@ -6423,13 +6420,13 @@ span.imgedit-scale-warn {
 	transition:         opacity 0.2s ease-in-out;
 }
 
-.theme .theme-screenshot:after {
+.theme-browser .theme .theme-screenshot:after {
 	content: '';
 	display: block;
 	padding-top: 66%; /* using a 3/2 aspect ratio */
 }
 
-.theme .theme-screenshot img {
+.theme-browser .theme .theme-screenshot img {
 	height: auto;
 	position: absolute;
 	left: 0;
@@ -6440,7 +6437,7 @@ span.imgedit-scale-warn {
 	transition:         opacity 0.2s ease-in-out;
 }
 
-.theme:after {
+.theme-browser .theme:after {
 	display: block;
 	opacity: 0;
 	content: '\f348';
@@ -6459,15 +6456,15 @@ span.imgedit-scale-warn {
 	transition:         opacity 0.2s ease-in-out;
 }
 
-.theme:hover:after {
+.theme-browser .theme:hover:after {
 	opacity: 0.6;
 }
 
-.theme:hover .theme-screenshot {
+.theme-browser .theme:hover .theme-screenshot {
 	background: #fff;
 }
 
-.theme:hover .theme-screenshot img {
+.theme-browser .theme:hover .theme-screenshot img {
 	opacity: 0.4;
 }
 
@@ -6475,7 +6472,7 @@ span.imgedit-scale-warn {
  * Displays a theme update notice
  * when an update is available.
  */
-.theme .theme-update {
+.theme-browser .theme .theme-update {
 	background: #d54e21;
 	background: rgba(213, 78, 33, 0.95);
 	color: #fff;
@@ -6493,7 +6490,7 @@ span.imgedit-scale-warn {
 	overflow: hidden;
 }
 
-.theme .theme-update:before {
+.theme-browser .theme .theme-update:before {
 	content: '\f113';
 	display: inline-block;
 	font: normal 20px/1 'dashicons';
@@ -6509,20 +6506,14 @@ span.imgedit-scale-warn {
 /**
  * The currently active theme
  */
-.theme.active {
-}
-
-.theme.active .theme-screenshot {
-}
-
-.theme.active .theme-name {
+.theme-browser .theme.active .theme-name {
 	background: #0074a2;
 	color: #fff;
 	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.5);
 	box-shadow:         inset 0 1px 1px rgba(0,0,0,0.5);
 }
 
-.theme.active .theme-actions {
+.theme-browser .theme.active .theme-actions {
 	top: 0;
 	left: 0;
 	background: #2f2f2f;
@@ -6533,23 +6524,23 @@ span.imgedit-scale-warn {
 	z-index: 1;
 }
 
-.theme.active .theme-actions .button {
+.theme-browser .theme.active .theme-actions .button {
 	float: right;
 	margin-top: 10px;
 }
 
-.theme.active .current-label {
+.theme-browser .theme.active .current-label {
 	font-size: 13px;
 	font-weight: 400;
 	color: #ccc;
 	margin-left: 5px;
 }
 
-.theme.active .theme-update {
+.theme-browser .theme.active .theme-update {
 	top: 48px;
 }
 
-.theme .theme-author {
+.theme-browser .theme .theme-author {
 	background: #222;
 	color: #eee;
 	display: none;
@@ -6560,11 +6551,11 @@ span.imgedit-scale-warn {
 	bottom: 56px;
 }
 
-.theme.display-author .theme-author {
+.theme-browser .theme.display-author .theme-author {
 	display: block;
 }
 
-.theme.display-author .theme-author a {
+.theme-browser .theme.display-author .theme-author a {
 	color: inherit;
 	text-decoration: none;
 }
@@ -6572,12 +6563,12 @@ span.imgedit-scale-warn {
 /**
  * Add new theme
  */
-.theme-browser .add-new-theme {
+.theme-browser .theme.add-new-theme {
 	border: none;
 	box-shadow: none;
 }
 
-.theme-browser .add-new-theme a {
+.theme-browser .theme.add-new-theme a {
 	color: #999;
 	text-decoration: none;
 	display: block;
@@ -6585,7 +6576,7 @@ span.imgedit-scale-warn {
 	z-index: 1;
 }
 
-.theme-browser .add-new-theme:after {
+.theme-browser .theme.add-new-theme:after {
 	display: block;
 	content: '';
 	opacity: 1;
@@ -6605,7 +6596,7 @@ span.imgedit-scale-warn {
 	box-sizing:         border-box;
 }
 
-.theme-browser .add-new-theme span:after {
+.theme-browser .theme.add-new-theme span:after {
 	background: rgba(153, 153, 153, 0.1);
 	border-radius: 50%;
 	display: inline-block;
@@ -6627,22 +6618,22 @@ span.imgedit-scale-warn {
 	z-index:4;
 }
 
-.theme-browser .add-new-theme:hover .theme-screenshot {
+.theme-browser .theme.add-new-theme:hover .theme-screenshot {
 	background: none;
 }
 
-.theme-browser .add-new-theme:hover span:after {
+.theme-browser .theme.add-new-theme:hover span:after {
 	background: #fff;
 	color: #0074a2;
 }
 
-.theme-browser .add-new-theme:hover:after {
+.theme-browser .theme.add-new-theme:hover:after {
 	border-color: transparent;
 	color: #fff;
 	background: #0074a2;
 }
 
-.theme-browser .add-new-theme .theme-name {
+.theme-browser .theme.add-new-theme .theme-name {
 	background: none;
 	text-align: center;
 	box-shadow: none;
@@ -6651,7 +6642,7 @@ span.imgedit-scale-warn {
 	top: -50px;
 }
 
-.theme-browser .add-new-theme:hover .theme-name {
+.theme-browser .theme.add-new-theme:hover .theme-name {
 	color: #fff;
 	z-index: 2;
 }
@@ -6767,7 +6758,6 @@ body.theme-overlay-open {
 	content: '\f341';
 }
 
-
 .theme-overlay .theme-wrap {
 	clear: both;
 	position: fixed;
@@ -6801,9 +6791,6 @@ body.theme-overlay-open {
 	background: rgba(243, 243, 243 ,0.9);
 	border-top: 1px solid rgba(0,0,0,0.1);
 	z-index: 30;
-}
-
-.theme-overlay.active .theme-actions {
 }
 
 .theme-overlay .theme-actions a {
@@ -6915,7 +6902,7 @@ body.theme-overlay-open {
 }
 
 /* No screenshot placeholder */
-.theme .theme-screenshot.blank,
+.theme-browser .theme .theme-screenshot.blank,
 .theme-overlay .screenshot.blank {
 	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAALElEQVQYGWO8d+/efwYkoKioiMRjYGBC4WHhUK6A8T8QIJt8//59ZC493AAAQssKpBK4F5AAAAAASUVORK5CYII=);
 }
@@ -6999,9 +6986,6 @@ body.theme-overlay-open {
 	margin-right: 5px;
 }
 
-.theme-overlay .theme-actions {
-}
-
 /* Theme Updates info */
 .theme-overlay .theme-update-message {
 	background: #fefaf7;
@@ -7040,16 +7024,16 @@ body.theme-overlay-open {
  */
 
 @media only screen and (min-width: 1700px) {
-	.theme {
+	.theme-browser .theme {
 		width: 22.7%;
 		margin: 0 3% 3% 0;
 	}
 
-	.theme:nth-child(3n) {
+	.theme-browser .theme:nth-child(3n) {
 		margin-right: 3%;
 	}
 
-	.theme:nth-child(4n) {
+	.theme-browser .theme:nth-child(4n) {
 		margin-right: 0;
 	}
 
@@ -7061,16 +7045,16 @@ body.theme-overlay-open {
 }
 
 @media only screen and (max-width: 1200px) {
-	.theme {
+	.theme-browser .theme {
 		width: 47.5%;
 		margin-right: 0;
 	}
 
-	.theme:nth-child(even) {
+	.theme-browser .theme:nth-child(even) {
 		margin-right: 0;
 	}
 
-	.theme:nth-child(odd) {
+	.theme-browser .theme:nth-child(odd) {
 		margin-right: 5%;
 	}
 }
@@ -7084,7 +7068,7 @@ body.theme-overlay-open {
 }
 
 @media only screen and (max-width: 780px) {
-	.theme.active .theme-actions .button {
+	.theme-browser .theme.active .theme-actions .button {
 		margin-top: 6px;
 		margin-right: -3px
 	}
@@ -7119,17 +7103,17 @@ body.theme-overlay-open {
 }
 
 @media only screen and (max-width: 650px) {
-	.theme {
+	.theme-browser .theme {
 		width: 100%;
 		margin-right: 0;
 	}
 
-	.theme:hover .theme-actions {
+	.theme-browser .theme:hover .theme-actions {
 		display: none;
 	}
 
-	.theme:nth-child(2n),
-	.theme:nth-child(3n) {
+	.theme-browser .theme:nth-child(2n),
+	.theme-browser .theme:nth-child(3n) {
 		margin-right: 0;
 	}
 
