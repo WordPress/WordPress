@@ -7085,7 +7085,6 @@ body.theme-overlay-open {
 		left: 0;
 		bottom: 0;
 		right: 0;
-		text-align: right;
 		padding: 10px;
 	}
 
@@ -7108,10 +7107,6 @@ body.theme-overlay-open {
 		margin-left: 0;
 	}
 
-	.theme-browser .theme:hover .theme-actions {
-		display: none;
-	}
-
 	.theme-browser .theme:nth-child(2n),
 	.theme-browser .theme:nth-child(3n) {
 		margin-left: 0;
@@ -7120,10 +7115,6 @@ body.theme-overlay-open {
 	.theme-overlay .theme-update,
 	.theme-overlay .theme-description {
 		margin-right: 0;
-	}
-
-	.theme-overlay.active .theme-actions .active-theme .button:nth-child(3n) {
-		display: none;
 	}
 
 	.theme.active .theme-actions .button {
