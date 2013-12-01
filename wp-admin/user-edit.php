@@ -74,9 +74,26 @@ function use_ssl_preference($user) {
 <?php
 }
 
-// Only allow super admins on multisite to edit every user.
-if ( is_multisite() && ! current_user_can( 'manage_network_users' ) && $user_id != $current_user->ID && ! apply_filters( 'enable_edit_any_user_configuration', true ) )
+/**
+ * Filter whether to allow administrators on Multisite to edit every user.
+ *
+ * Enabling the user editing form via this filter also hinges on the user holding
+ * the 'manage_network_users' cap, and the logged-in user not matching the user
+ * profile open for editing.
+ *
+ * The filter was introduced to replace the EDIT_ANY_USER constant.
+ *
+ * @since 3.0.0
+ *
+ * @param bool $allow Whether to allow editing of any user. Default true.
+ */
+if ( is_multisite()
+	&& ! current_user_can( 'manage_network_users' )
+	&& $user_id != $current_user->ID
+	&& ! apply_filters( 'enable_edit_any_user_configuration', true )
+) {
 	wp_die( __( 'You do not have permission to edit this user.' ) );
+}
 
 // Execute confirmed email change. See send_confirmation_on_profile_email().
 if ( is_multisite() && IS_PROFILE_PAGE && isset( $_GET[ 'newuseremail' ] ) && $current_user->ID ) {
@@ -106,10 +123,27 @@ check_admin_referer('update-user_' . $user_id);
 if ( !current_user_can('edit_user', $user_id) )
 	wp_die(__('You do not have permission to edit this user.'));
 
-if ( IS_PROFILE_PAGE )
-	do_action('personal_options_update', $user_id);
-else
-	do_action('edit_user_profile_update', $user_id);
+if ( IS_PROFILE_PAGE ) {
+	/**
+	 * Fires before the page loads on the 'Your Profile' editing screen.
+	 *
+	 * The action only fires if the current user is editing their own profile.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param int $user_id The user ID.
+	 */
+	do_action( 'personal_options_update', $user_id );
+} else {
+	/**
+	 * Fires before the page loads on the 'Edit User' screen.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param int $user_id The user ID.
+	 */
+	do_action( 'edit_user_profile_update', $user_id );
+}
 
 if ( !is_multisite() ) {
 	$errors = edit_user($user_id);
@@ -188,8 +222,14 @@ if ( ! IS_PROFILE_PAGE ) {
 	<?php }
 } ?>
 </h2>
-
-<form id="your-profile" action="<?php echo esc_url( self_admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) ); ?>" method="post"<?php do_action('user_edit_form_tag'); ?>>
+<?php
+/**
+ * Fires inside the your-profile form tag on the user editing screen.
+ *
+ * @since 3.0.0
+ */
+?>
+<form id="your-profile" action="<?php echo esc_url( self_admin_url( IS_PROFILE_PAGE ? 'profile.php' : 'user-edit.php' ) ); ?>" method="post"<?php do_action( 'user_edit_form_tag' ); ?>>
 <?php wp_nonce_field('update-user_' . $user_id) ?>
 <?php if ( $wp_http_referer ) : ?>
 	<input type="hidden" name="wp_http_referer" value="<?php echo esc_url($wp_http_referer); ?>" />
@@ -211,6 +251,16 @@ if ( ! IS_PROFILE_PAGE ) {
 <?php if ( count($_wp_admin_css_colors) > 1 && has_action('admin_color_scheme_picker') ) : ?>
 <tr>
 <th scope="row"><?php _e('Admin Color Scheme')?></th>
+<?php
+/**
+ * Fires in the 'Admin Color Scheme' section of the user editing screen.
+ *
+ * The section is only enabled if a callback is hooked to the action,
+ * and if there is more than one defined color scheme for the admin.
+ *
+ * @since 3.0.0
+ */
+?>
 <td><?php do_action( 'admin_color_scheme_picker' ); ?></td>
 </tr>
 <?php
@@ -230,11 +280,30 @@ if ( !( IS_PROFILE_PAGE && !$user_can_edit ) ) : ?>
 </fieldset>
 </td>
 </tr>
-<?php do_action('personal_options', $profileuser); ?>
+<?php
+/**
+ * Fires at the end of the 'Personal Options' settings table on the user editing screen.
+ *
+ * @since 2.7.0
+ *
+ * @param WP_User $profileuser The current WP_User object.
+ */
+do_action( 'personal_options', $profileuser );
+?>
 </table>
 <?php
-	if ( IS_PROFILE_PAGE )
-		do_action('profile_personal_options', $profileuser);
+	if ( IS_PROFILE_PAGE ) {
+		/**
+		 * Fires after the 'Personal Options' settings table on the 'Your Profile' editing screen.
+		 *
+		 * The action only fires if the current user is editing their own profile.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param WP_User $profileuser The current WP_User object.
+		 */
+		do_action( 'profile_personal_options', $profileuser );
+	}
 ?>
 
 <h3><?php _e('Name') ?></h3>
@@ -353,7 +422,19 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 	foreach ( wp_get_user_contact_methods( $profileuser ) as $name => $desc ) {
 ?>
 <tr>
-	<th><label for="<?php echo $name; ?>"><?php echo apply_filters('user_'.$name.'_label', $desc); ?></label></th>
+	<?php
+	/**
+	 * Filter a user contactmethod label.
+	 *
+	 * The dynamic portion of the filter hook, $name, refers to
+	 * each of the keys in the contactmethods array.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param string $desc The translatable label for the contactmethod.
+	 */
+	?>
+	<th><label for="<?php echo $name; ?>"><?php echo apply_filters( "user_{$name}_label", $desc ); ?></label></th>
 	<td><input type="text" name="<?php echo $name; ?>" id="<?php echo $name; ?>" value="<?php echo esc_attr($profileuser->$name) ?>" class="regular-text" /></td>
 </tr>
 <?php
@@ -371,7 +452,8 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 </tr>
 
 <?php
-$show_password_fields = apply_filters('show_password_fields', true, $profileuser);
+/** This filter is documented in wp-admin/user-new.php */
+$show_password_fields = apply_filters( 'show_password_fields', true, $profileuser );
 if ( $show_password_fields ) :
 ?>
 <tr id="password">
@@ -396,13 +478,45 @@ if ( $show_password_fields ) :
 </table>
 
 <?php
-	if ( IS_PROFILE_PAGE )
+	if ( IS_PROFILE_PAGE ) {
+		/**
+		 * Fires after the 'About the User' settings table on the 'Your Profile' editing screen.
+		 *
+		 * The action only fires if the current user is editing their own profile.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param WP_User $profileuser The current WP_User object.
+		 */
 		do_action( 'show_user_profile', $profileuser );
-	else
+	} else {
+		/**
+		 * Fires after the 'About the User' settings table on the 'Edit User' screen.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param WP_User $profileuser The current WP_User object.
+		 */
 		do_action( 'edit_user_profile', $profileuser );
+	}
 ?>
 
-<?php if ( count( $profileuser->caps ) > count( $profileuser->roles ) && apply_filters( 'additional_capabilities_display', true, $profileuser ) ) : ?>
+<?php
+/**
+ * Filter whether to display additional capabilities for the user.
+ *
+ * The 'Additional Capabilities' section will only be enabled if
+ * the number of the user's capabilities exceeds their number of
+ * of roles.
+ *
+ * @since 2.8.0
+ *
+ * @param bool    $enable      Whether to display the capabilities. Default true.
+ * @param WP_User $profileuser The current WP_User object.
+ */
+if ( count( $profileuser->caps ) > count( $profileuser->roles )
+	&& apply_filters( 'additional_capabilities_display', true, $profileuser )
+) : ?>
 <h3><?php _e( 'Additional Capabilities' ); ?></h3>
 <table class="form-table">
 <tr>
