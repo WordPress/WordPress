@@ -2088,12 +2088,18 @@ ul#adminmenu > li.current > a.current:after {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.folded #collapse-button div:after {
+.folded #collapse-button div:after,
+.rtl #collapse-button div:after {
 	-ms-transform: rotate(180deg);
 	-webkit-transform: rotate(180deg);
 	transform: rotate(180deg);
 }
 
+.rtl.folded #collapse-button div:after {
+	-ms-transform: none;
+	-webkit-transform: none;
+	transform: none;
+}
 
 /* Auto-folding of the admin menu */
 @media only screen and (max-width: 900px) {
@@ -2205,6 +2211,13 @@ ul#adminmenu > li.current > a.current:after {
 		-webkit-transform: rotate(180deg);
 		transform: rotate(180deg);
 	}
+
+	.rtl.auto-fold #collapse-button div:after {
+		-ms-transform: none;
+		-webkit-transform: none;
+		transform: none;
+	}
+
 }
 
 /* List table styles */
@@ -6731,6 +6744,13 @@ body.theme-overlay-open {
 	color: #fff;
 }
 
+.theme-overlay .right:before,
+.theme-overlay .left:before {
+	font: normal 16px/54px 'dashicons' !important;
+	display: inline;
+	font-weight: 300;
+}
+
 .theme-overlay .left:before {
 	content: '\f341';
 }
@@ -6739,12 +6759,14 @@ body.theme-overlay-open {
 	content: '\f345';
 }
 
-.theme-overlay .right:before,
-.theme-overlay .left:before {
-	font: normal 16px/54px 'dashicons' !important;
-	display: inline;
-	font-weight: 300;
+.rtl .theme-overlay .left:before {
+	content: '\f345';
 }
+
+.rtl .theme-overlay .right:before {
+	content: '\f341';
+}
+
 
 .theme-overlay .theme-wrap {
 	clear: both;
@@ -8333,6 +8355,19 @@ body.full-overlay-active {
 	text-decoration: none !important;
 }
 
+.wp-full-overlay.collapsed .collapse-sidebar-arrow:before,
+.rtl .wp-full-overlay .collapse-sidebar-arrow:before {
+	-ms-transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+
+.rtl .wp-full-overlay.collapsed .collapse-sidebar-arrow:before {
+	-ms-transform: none;
+	-webkit-transform: none;
+	transform: none;
+}
+
 .wp-full-overlay.collapsed .collapse-sidebar-arrow {
 	background-position: -1px -109px;
 }
@@ -8347,6 +8382,7 @@ body.full-overlay-active {
 .wp-full-overlay.collapsed .collapse-sidebar-label {
 	display: none;
 }
+
 /* Animations */
 .wp-full-overlay,
 .wp-full-overlay-sidebar,
