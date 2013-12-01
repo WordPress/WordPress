@@ -6728,11 +6728,16 @@ body.theme-overlay-open {
 .theme-overlay .right:hover,
 .theme-overlay .left:hover {
 	background: #333;
+	color: #fff;
 }
 
-.theme-overlay .right:hover:before,
-.theme-overlay .left:hover:before {
-	color: #fff;
+.theme-overlay .left.disabled,
+.theme-overlay .right.disabled,
+.theme-overlay .left.disabled:hover,
+.theme-overlay .right.disabled:hover {
+	color: #ccc;
+	background: inherit;
+	cursor: inherit;
 }
 
 .theme-overlay .right:before,

@@ -305,6 +305,14 @@ themes.view.Details = wp.Backbone.View.extend({
 				self.collapse();
 			}
 		});
+
+		// Disable Left/Right when at the start or end of the collection
+		if ( this.model.cid === this.model.collection.at(0).cid ) {
+			this.$el.find( '.left' ).addClass( 'disabled' );
+		}
+		if ( this.model.cid === this.model.collection.at( this.model.collection.length - 1 ).cid ) {
+			this.$el.find( '.right' ).addClass( 'disabled' );
+		}
 	},
 
 	// Performs the actions to effectively close
