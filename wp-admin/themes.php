@@ -210,12 +210,12 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 
 <script id="tmpl-theme" type="text/template">
 	<# if ( data.screenshot[0] ) { #>
-	<div class="theme-screenshot">
-		<img src="{{ data.screenshot[0] }}" alt="" />
+		<div class="theme-screenshot">
+			<img src="{{ data.screenshot[0] }}" alt="" />
+		</div>
 	<# } else { #>
 		<div class="theme-screenshot blank"></div>
 	<# } #>
-	</div>
 	<div class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></div>
 	<h3 class="theme-name">{{ data.name }}</h3>
 
