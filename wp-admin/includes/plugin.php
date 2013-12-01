@@ -623,7 +623,7 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 
 		$network_deactivating = false !== $network_wide && is_plugin_active_for_network( $plugin );
 
-		if ( ! $silent )
+		if ( ! $silent ) {
 			/**
 			 * Fires for each plugin being deactivated in deactivate_plugins(), before deactivation
 			 * and when the $silent parameter is false.
@@ -635,6 +635,7 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			 *                                     or just the current site. Multisite only. Default is false.
 			 */
 			do_action( 'deactivate_plugin', $plugin, $network_deactivating );
+		}
 
 		if ( false !== $network_wide ) {
 			if ( is_plugin_active_for_network( $plugin ) ) {
