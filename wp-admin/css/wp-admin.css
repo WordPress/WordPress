@@ -6329,7 +6329,8 @@ span.imgedit-scale-warn {
 }
 
 /* Position admin messages */
-.themes-php div.updated {
+.themes-php div.updated,
+.themes-php div.error {
 	margin: 0 0 20px 0;
 	clear: both;
 }
@@ -7520,7 +7521,7 @@ div#custom-background-image img {
 }
 
 .scheme-list {
-	
+
 }
 
 .color-option {
@@ -13048,8 +13049,8 @@ li#wp-admin-bar-menu-toggle {
 		overflow-x: hidden;
 	}
 
-	/* Color Picker Options */ 
-	.color-option { 
-		width: 49%; 
-	} 
+	/* Color Picker Options */
+	.color-option {
+		width: 49%;
+	}
 }
