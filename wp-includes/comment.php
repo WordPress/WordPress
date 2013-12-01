@@ -697,7 +697,7 @@ function sanitize_comment_cookies() {
 		 * When this filter hook is evaluated in wp_filter_comment(),
 		 * the comment author's name string is passed.
 		 *
-		 * @since 1.5.2
+		 * @since 1.5.0
 		 *
 		 * @param string $author_cookie The comment author name cookie.
 		 */
@@ -714,7 +714,7 @@ function sanitize_comment_cookies() {
 		 * When this filter hook is evaluated in wp_filter_comment(),
 		 * the comment author's email string is passed.
 		 *
-		 * @since 1.5.2
+		 * @since 1.5.0
 		 *
 		 * @param string $author_email_cookie The comment author email cookie.
 		 */
@@ -731,7 +731,7 @@ function sanitize_comment_cookies() {
 		 * When this filter hook is evaluated in wp_filter_comment(),
 		 * the comment author's URL string is passed.
 		 *
-		 * @since 1.5.2
+		 * @since 1.5.0
 		 *
 		 * @param string $author_url_cookie The comment author URL cookie.
 		 */
@@ -860,7 +860,7 @@ function check_comment_flood_db( $ip, $email, $date ) {
 			/**
 			 * Fires before the comment flood message is triggered.
 			 *
-			 * @since 1.5.2
+			 * @since 1.5.0
 			 *
 			 * @param int $time_lastcomment Timestamp of when the last comment was posted.
 			 * @param int $time_newcomment  Timestamp of when the new comment was posted.
@@ -1024,7 +1024,7 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 	/**
 	 * Fires before the comment is tested for blacklisted characters or words.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string $author     Comment author.
 	 * @param string $email      Comment author's email.
@@ -1161,7 +1161,7 @@ function wp_delete_comment($comment_id, $force_delete = false) {
 	/**
 	 * Fires immediately before a comment is deleted from the database.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param int $comment_id The comment ID.
 	 */
@@ -1200,7 +1200,7 @@ function wp_delete_comment($comment_id, $force_delete = false) {
 	/**
 	 * Fires immediately before changing the comment's status to 'delete'.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param int    $comment_id The comment ID.
 	 * @param string $status     The new 'delete' comment status.
@@ -1605,7 +1605,7 @@ function wp_filter_comment($commentdata) {
 		 * The first time this filter is evaluated, 'user_ID' is checked
 		 * (for back-compat), followed by the standard 'user_id' value.
 		 *
-		 * @since 1.5.2
+		 * @since 1.5.0
 		 *
 		 * @param int $user_ID The comment author's user ID.
 		 */
@@ -1618,7 +1618,7 @@ function wp_filter_comment($commentdata) {
 	/**
 	 * Filter the comment author's browser user agent before it is set.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param int $comment_agent The comment author's browser user agent.
 	 */
@@ -1628,7 +1628,7 @@ function wp_filter_comment($commentdata) {
 	/**
 	 * Filter the comment content before it is set.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param int $comment_content The comment content.
 	 */
@@ -1636,7 +1636,7 @@ function wp_filter_comment($commentdata) {
 	/**
 	 * Filter the comment author's IP before it is set.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param int $comment_author_ip The comment author's IP.
 	 */
@@ -1687,7 +1687,7 @@ function wp_new_comment( $commentdata ) {
 	/**
 	 * Filter a comment's data before it is sanitized and inserted into the database.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param array $commentdata Comment data.
 	 */
@@ -1718,7 +1718,7 @@ function wp_new_comment( $commentdata ) {
 	/**
 	 * Fires immediately after a comment is inserted into the database.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param int $comment_ID       The comment ID.
 	 * @param int $comment_approved 1 (true) if the comment is approved, 0 (false) if not.
@@ -1798,7 +1798,7 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
 	 *
 	 * The hook also fires immediately before comment status transition hooks are fired.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param int         $comment_id     The comment ID.
 	 * @param string|bool $comment_status The comment status. Possible values include 'hold',
@@ -1848,7 +1848,7 @@ function wp_update_comment($commentarr) {
 	/**
 	 * Filter the comment content before it is updated in the database.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string $comment_content The comment data.
 	 */
@@ -1873,7 +1873,7 @@ function wp_update_comment($commentarr) {
 	 *
 	 * The hook also fires immediately before comment status transition hooks are fired.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param int $comment_ID The comment ID.
 	 */
