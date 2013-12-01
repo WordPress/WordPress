@@ -290,7 +290,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 
 	<div class="theme-actions">
 		<div class="active-theme">
-			<a href="{{{ wp.themes.data.settings.customizeURI }}}" class="button button-primary hide-if-no-customize"><?php _e( 'Customize' ); ?></a>
+			<a href="{{{ data.actions.customize }}}" class="button button-primary hide-if-no-customize"><?php _e( 'Customize' ); ?></a>
 			<?php if ( current_theme_supports( 'menus' ) ) { ?>
 			<a class="button button-secondary" href="<?php echo admin_url( 'nav-menus.php' ); ?>"><?php _e( 'Menus' ); ?></a>
 			<?php } ?>
