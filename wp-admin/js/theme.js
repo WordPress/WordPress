@@ -591,10 +591,11 @@ themes.view.Search = wp.Backbone.View.extend({
 		this.collection.doSearch( event.target.value );
 
 		// Update the URL hash
-		if ( event.target.value )
-			themes.router.navigate( 'search/' + event.target.value );
-		else
+		if ( event.target.value ) {
+			themes.router.navigate( 'search/' + event.target.value, { replace: true } );
+		} else {
 			themes.router.navigate( '' );
+		}
 	}
 });
 
