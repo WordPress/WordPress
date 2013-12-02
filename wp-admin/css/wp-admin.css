@@ -2931,6 +2931,10 @@ body #dashboard-widgets .postbox form .submit {
 	overflow: hidden;
 }
 
+#dashboard-widgets h4.mu-storage {
+	margin-bottom: 10px;
+}
+
 /* Dashboard right now - Colors */
 
 #dash-right-now li a:before {
@@ -2938,7 +2942,7 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #dash-right-now .sub {
-	color: #bfbbbb;
+	color: #777;
 	background: #f5f5f5;
 	border-top: 1px solid #eee;
 	padding: 10px 12px 6px 12px;
@@ -2949,8 +2953,7 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #dash-right-now .sub p {
-	margin: 0 0 .5em;
-	font-size: 11px;
+	margin: 0 0 1em;
 }
 
 #dash-right-now .warning a:before {
