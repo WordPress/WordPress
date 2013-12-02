@@ -251,6 +251,11 @@ $(document).ready( function() {
 			if ( isNaN(top) || top > -5 ) // meaning the submenu is visible
 				return;
 
+			if ( menu.data('wp-responsive') ) {
+				// The menu is in responsive mode, bail
+				return;
+			}
+
 			menutop = $(this).offset().top;
 			wintop = $(window).scrollTop();
 			maxtop = menutop - wintop - 30; // max = make the top of the sub almost touch admin bar
@@ -275,6 +280,11 @@ $(document).ready( function() {
 			$(this).addClass('opensub');
 		},
 		out: function(){
+			if ( menu.data('wp-responsive') ) {
+				// The menu is in responsive mode, bail
+				return;
+			}
+
 			$(this).removeClass('opensub').find('.wp-submenu').css('margin-top', '');
 		},
 		timeout: 200,
@@ -283,8 +293,18 @@ $(document).ready( function() {
 	});
 
 	menu.on('focus.adminmenu', '.wp-submenu a', function(e){
+		if ( menu.data('wp-responsive') ) {
+			// The menu is in responsive mode, bail
+			return;
+		}
+
 		$(e.target).closest('li.menu-top').addClass('opensub');
 	}).on('blur.adminmenu', '.wp-submenu a', function(e){
+		if ( menu.data('wp-responsive') ) {
+			// The menu is in responsive mode, bail
+			return;
+		}
+
 		$(e.target).closest('li.menu-top').removeClass('opensub');
 	});
 
@@ -541,18 +561,28 @@ $(document).ready( function() {
 			// Add menu events
 			$adminmenu.on( 'touchstart.wp-responsive', 'li.wp-has-submenu > a', function() {
 				scrollStart = $window.scrollTop();
-			}).on( 'touchend.wp-responsive', 'li.wp-has-submenu > a', function( event ) {
-				if ( ! $adminmenu.data('wp-responsive') || $window.scrollTop() !== scrollStart ) {
+			}).on( 'touchend.wp-responsive click.wp-responsive', 'li.wp-has-submenu > a', function( event ) {
+				if ( ! $adminmenu.data('wp-responsive') || 
+					( event.type === 'touchend' && $window.scrollTop() !== scrollStart ) ) {
+
 					return;
 				}
 
-				$( this ).find( 'li.wp-has-submenu' ).removeClass( 'selected' );
-				$( this ).parent( 'li' ).addClass( 'selected' );
+				$( this ).parent( 'li' ).toggleClass( 'selected' );
 				event.preventDefault();
 			});
 
 			self.trigger();
 			$document.on( 'wp-window-resized.wp-responsive', $.proxy( this.trigger, this ) );
+
+			// This needs to run later as UI Sortable may be initialized later on $(document).ready()
+			$window.on( 'load.wp-responsive', function() {
+				var width = navigator.userAgent.indexOf('AppleWebKit/') > -1 ? $window.width() : window.innerWidth;
+
+				if ( width <= 782 ) {
+					self.disableSortables();
+				}
+			});
 		},
 
 		activate: function() {

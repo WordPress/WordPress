@@ -11823,6 +11823,14 @@ li#wp-admin-bar-menu-toggle {
 		display: block;
 	}
 
+	.auto-fold #adminmenu a.menu-top:focus + .wp-submenu,
+	.auto-fold #adminmenu .wp-has-current-submenu a.menu-top:focus + .wp-submenu {
+		position: relative;
+		left: -1px;
+		right: 0;
+		top: 0;
+	}
+
 	/* Remove submenu headers and adjust sub meu*/
 	#adminmenu .wp-submenu .wp-submenu-head {
 		display: none;
