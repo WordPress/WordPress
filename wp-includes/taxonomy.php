@@ -2143,8 +2143,10 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	$name = wp_unslash($name);
 	$description = wp_unslash($description);
 
-	if ( empty($slug) )
+	$slug_provided = ! empty( $slug );
+	if ( ! $slug_provided ) {
 		$slug = sanitize_title($name);
+	}
 
 	$term_group = 0;
 	if ( $alias_of ) {
@@ -2168,7 +2170,11 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 			// Hierarchical, and it matches an existing term, Do not allow same "name" in the same level.
 			$siblings = get_terms($taxonomy, array('fields' => 'names', 'get' => 'all', 'parent' => (int)$parent) );
 			if ( in_array($name, $siblings) ) {
-				return new WP_Error('term_exists', __('A term with the name provided already exists with this parent.'), $exists['term_id']);
+				if ( $slug_provided ) {
+					return new WP_Error( 'term_exists', __( 'A term with the name and slug provided already exists with this parent.' ), $exists['term_id'] );
+				} else {
+					return new WP_Error( 'term_exists', __( 'A term with the name provided already exists with this parent.' ), $exists['term_id'] );
+				}
 			} else {
 				$slug = wp_unique_term_slug($slug, (object) $args);
 				if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) )
@@ -2183,7 +2189,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 			$term_id = (int) $wpdb->insert_id;
 		} elseif ( $exists = term_exists( (int) $term_id, $taxonomy ) )  {
 			// Same name, same slug.
-			return new WP_Error('term_exists', __('A term with the name provided already exists.'), $exists['term_id']);
+			return new WP_Error( 'term_exists', __( 'A term with the name and slug provided already exists.' ), $exists['term_id'] );
 		}
 	} else {
 		// This term does not exist at all in the database, Create it.
