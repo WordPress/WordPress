@@ -7798,7 +7798,8 @@ body.press-this {
 /* WordPress Version Badge */
 
 .wp-badge {
-	background: url('../images/wordpress-logo-white.svg?ver=20131110') no-repeat;
+	background: url('../images/w-logo-white.png?ver=20131202') no-repeat;
+	background: none, url('../images/wordpress-logo-white.svg?ver=20131110') no-repeat;
 	background-position: center 30px;
 	background-size: 110px 110px;
 	font-size: 14px;
@@ -9200,7 +9201,8 @@ a.rsswidget {
 }
 
 .login h1 a {
-	background-image: url('../images/wordpress-logo.svg?ver=20131107');
+	background-image: url('../images/w-logo-blue.png?ver=20131202');
+	background-image: none, url('../images/wordpress-logo.svg?ver=20131107');
 	background-size: 80px 80px;
 	background-position: center top;
 	background-repeat: no-repeat;
