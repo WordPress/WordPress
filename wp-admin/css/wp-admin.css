@@ -12886,12 +12886,14 @@ li#wp-admin-bar-menu-toggle {
 		padding: 7px 12px;
 	}
 
+	.interim-login input[type=checkbox],
 	.press-this input[type=checkbox],
 	.press-this input[type=radio] {
 		height: 16px;
 		width: 16px;
 	}
 
+	.interim-login input[type=checkbox]:checked:before,
 	.press-this input[type=checkbox]:checked:before {
 		width: 16px;
 		font: normal 21px/1 'dashicons';
