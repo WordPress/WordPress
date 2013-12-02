@@ -2335,7 +2335,10 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 		delete_metadata_by_mid( 'post', $mid );
 
 	do_action( 'delete_post', $postid );
-	$wpdb->delete( $wpdb->posts, array( 'ID' => $postid ) );
+	$result = $wpdb->delete( $wpdb->posts, array( 'ID' => $postid ) );
+	if ( ! $result ) {
+		return false;
+	}
 	do_action( 'deleted_post', $postid );
 
 	clean_post_cache( $post );
@@ -4181,7 +4184,10 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 		delete_metadata_by_mid( 'post', $mid );
 
 	do_action( 'delete_post', $post_id );
-	$wpdb->delete( $wpdb->posts, array( 'ID' => $post_id ) );
+	$result = $wpdb->delete( $wpdb->posts, array( 'ID' => $post_id ) );
+	if ( ! $result ) {
+		return false;
+	}
 	do_action( 'deleted_post', $post_id );
 
 	$uploadpath = wp_upload_dir();
