@@ -1148,7 +1148,7 @@ function wp_video_shortcode( $attr, $content = '' ) {
 		$html .= wp_mediaelement_fallback( $fileurl );
 	$html .= '</video>';
 
-	$html = sprintf( '<div style="width: %dpx; max-width: 100%%;">%s</div>', $width, $html );
+	$html = sprintf( '<div style="width: %dpx; max-width: 100%%;" class="wp-video">%s</div>', $width, $html );
 	return apply_filters( 'wp_video_shortcode', $html, $atts, $video, $post_id, $library );
 }
 add_shortcode( 'video', 'wp_video_shortcode' );
