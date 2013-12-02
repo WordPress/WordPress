@@ -114,6 +114,7 @@ themes.Collection = Backbone.Collection.extend({
 		// Trigger an 'update' event
 		this.trigger( 'update' );
 	},
+
 	// Performs a search within the collection
 	// @uses RegExp
 	search: function( term ) {
@@ -207,7 +208,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 
 		// Prevent the modal from showing when the user clicks
 		// one of the direct action buttons
-		if ( $( event.target ).is( '.theme-actions a, .delete-theme' ) ) {
+		if ( $( event.target ).is( '.theme-actions a' ) ) {
 			return;
 		}
 
