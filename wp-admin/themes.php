@@ -245,12 +245,12 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 <script id="tmpl-theme-single" type="text/template">
 	<div class="theme-backdrop"></div>
 	<div class="theme-wrap">
-		<div class="theme-utility">
-			<div alt="<?php _e( 'Close overlay' ); ?>" class="back dashicons dashicons-no"></div>
+		<div class="theme-header">
+			<div alt="<?php _e( 'Close overlay' ); ?>" class="close dashicons dashicons-no"></div>
 			<div alt="<?php _e( 'Show previous theme' ); ?>" class="left dashicons dashicons-no"></div>
 			<div alt="<?php _e( 'Show next theme' ); ?>" class="right dashicons dashicons-no"></div>
 		</div>
-
+	<div class="theme-about">
 		<div class="theme-screenshots">
 		<# if ( data.screenshot[0] ) { #>
 			<div class="screenshot first"><img src="{{ data.screenshot[0] }}" alt="" /></div>
@@ -310,8 +310,9 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 		</div>
 
 		<# if ( ! data.active && data.actions.delete ) { #>
-			<a href="{{{ data.actions.delete }}}" class="delete-theme"><?php _e( 'Delete' ); ?></a>
+			<a href="{{{ data.actions.delete }}}" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a>
 		<# } #>
+	</div>
 	</div>
 </script>
 

@@ -260,7 +260,7 @@ themes.view.Details = wp.Backbone.View.extend({
 		// Detect if the click is inside the overlay
 		// and don't close it unless the target was
 		// the div.back button
-		if ( $( event.target ).is( '.theme-backdrop' ) || $( event.target ).is( 'div.back' ) || event.keyCode === 27 ) {
+		if ( $( event.target ).is( '.theme-backdrop' ) || $( event.target ).is( 'div.close' ) || event.keyCode === 27 ) {
 
 			// Add a temporary closing class while overlay fades out
 			$( 'body' ).addClass( 'closing-overlay' );
