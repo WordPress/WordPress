@@ -218,7 +218,6 @@ case 'delete':
 <?php echo $referer; ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2><?php _e('Delete Users'); ?></h2>
 <?php if ( isset( $_REQUEST['error'] ) ) : ?>
 <div class="error">
@@ -323,7 +322,6 @@ case 'remove':
 <?php echo $referer; ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2><?php _e('Remove Users from Site'); ?></h2>
 <p><?php _e('You have specified these users for removal:'); ?></p>
 <ul>
@@ -425,7 +423,6 @@ if ( ! empty($messages) ) {
 } ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2>
 <?php
 echo esc_html( $title );

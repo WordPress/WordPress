@@ -13,7 +13,6 @@ if ( !defined('ABSPATH') )
 <form name="post" action="comment.php" method="post" id="post">
 <?php wp_nonce_field('update-comment_' . $comment->comment_ID) ?>
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2><?php _e('Edit Comment'); ?></h2>
 
 <div id="poststuff">

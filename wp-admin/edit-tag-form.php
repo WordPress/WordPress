@@ -27,7 +27,6 @@ if ( 'category' == $taxonomy ) {
 do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2><?php echo $tax->labels->edit_item; ?></h2>
 <div id="ajax-response"></div>
 <form name="edittag" id="edittag" method="post" action="edit-tags.php" class="validate"<?php do_action( $taxonomy . '_term_edit_form_tag' ); ?>>

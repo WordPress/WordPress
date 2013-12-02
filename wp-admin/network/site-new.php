@@ -111,7 +111,6 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<?php screen_icon('ms-admin'); ?>
 <h2 id="add-new-site"><?php _e('Add New Site') ?></h2>
 <?php
 if ( ! empty( $messages ) ) {

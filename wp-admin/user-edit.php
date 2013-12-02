@@ -210,7 +210,6 @@ include (ABSPATH . 'wp-admin/admin-header.php');
 <?php endif; ?>
 
 <div class="wrap" id="profile-page">
-<?php screen_icon(); ?>
 <h2>
 <?php
 echo esc_html( $title );

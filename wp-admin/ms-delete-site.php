@@ -32,7 +32,6 @@ $parent_file = 'tools.php';
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 echo '<div class="wrap">';
-screen_icon();
 echo '<h2>' . esc_html( $title ) . '</h2>';
 
 if ( isset( $_POST['action'] ) && $_POST['action'] == 'deleteblog' && isset( $_POST['confirmdelete'] ) && $_POST['confirmdelete'] == '1' ) {

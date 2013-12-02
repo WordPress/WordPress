@@ -115,7 +115,6 @@ case 'spam'    :
 
 <div class="narrow">
 
-<?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <?php

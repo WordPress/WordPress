@@ -84,7 +84,6 @@ if ( isset( $_GET['updated'] ) ) {
 ?>
 
 <div class="wrap">
-	<?php screen_icon('options-general'); ?>
 	<h2><?php echo esc_html( $title ); ?></h2>
 	<form method="post" action="settings.php">
 		<?php wp_nonce_field( 'siteoptions' ); ?>

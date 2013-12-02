@@ -233,7 +233,6 @@ if ( isset($_GET['update']) ) {
 }
 ?>
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2 id="add-new-user"> <?php
 if ( current_user_can( 'create_users' ) ) {
 	echo _x( 'Add New User', 'user' );

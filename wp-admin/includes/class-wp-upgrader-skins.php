@@ -51,7 +51,6 @@ class WP_Upgrader_Skin {
 			return;
 		$this->done_header = true;
 		echo '<div class="wrap">';
-		screen_icon();
 		echo '<h2>' . $this->options['title'] . '</h2>';
 	}
 	function footer() {

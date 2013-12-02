@@ -231,7 +231,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<?php screen_icon( 'ms-admin' ); ?>
 <h2><?php _e( 'Sites' ) ?>
 
 <?php if ( current_user_can( 'create_sites') ) : ?>

@@ -301,7 +301,6 @@ if ( isset( $_REQUEST['message'] ) && ( $msg = (int) $_REQUEST['message'] ) ) {
 ?>
 
 <div class="wrap nosubsub">
-<?php screen_icon(); ?>
 <h2><?php echo esc_html( $title );
 if ( !empty($_REQUEST['s']) )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( wp_unslash($_REQUEST['s']) ) ); ?>

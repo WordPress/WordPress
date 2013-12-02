@@ -179,7 +179,6 @@ class Custom_Background {
 	function admin_page() {
 ?>
 <div class="wrap" id="custom-background">
-<?php screen_icon(); ?>
 <h2><?php _e('Custom Background'); ?></h2>
 <?php if ( !empty($this->updated) ) { ?>
 <div id="message" class="updated">

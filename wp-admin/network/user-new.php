@@ -69,7 +69,6 @@ $parent_file = 'users.php';
 require( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2 id="add-new-user"><?php _e('Add New User') ?></h2>
 <?php
 if ( ! empty( $messages ) ) {

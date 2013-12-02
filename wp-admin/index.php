@@ -93,7 +93,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-	<?php screen_icon(); ?>
 	<h2><?php echo esc_html( $title ); ?></h2>
 
 <?php if ( has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) ) :

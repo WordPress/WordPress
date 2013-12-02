@@ -56,7 +56,6 @@ if ( $updated ) { ?>
 <?php } ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 <?php
 if ( empty( $blogs ) ) :

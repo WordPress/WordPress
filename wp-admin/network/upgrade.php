@@ -39,7 +39,6 @@ if ( ! current_user_can( 'manage_network' ) )
 	wp_die( __( 'You do not have permission to access this page.' ) );
 
 echo '<div class="wrap">';
-screen_icon('tools');
 echo '<h2>' . __( 'Upgrade Network' ) . '</h2>';
 
 $action = isset($_GET['action']) ? $_GET['action'] : 'show';

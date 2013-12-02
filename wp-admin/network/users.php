@@ -20,8 +20,6 @@ function confirm_delete_users( $users ) {
 	$current_user = wp_get_current_user();
 	if ( !is_array( $users ) )
 		return false;
-
-	screen_icon();
 	?>
 	<h2><?php esc_html_e( 'Users' ); ?></h2>
 	<p><?php _e( 'Transfer or delete posts before deleting users.' ); ?></p>
@@ -275,7 +273,6 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 }
 	?>
 <div class="wrap">
-	<?php screen_icon(); ?>
 	<h2><?php esc_html_e( 'Users' );
 	if ( current_user_can( 'create_users') ) : ?>
 		<a href="<?php echo network_admin_url('user-new.php'); ?>" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'user' ); ?></a><?php
