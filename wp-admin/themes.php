@@ -238,7 +238,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	</div>
 
 	<# if ( data.hasUpdate ) { #>
-		<a class="theme-update"><?php _e( 'Update Available' ); ?></a>
+		<div class="theme-update"><?php _e( 'Update Available' ); ?></div>
 	<# } #>
 </script>
 
@@ -273,8 +273,8 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	
 				<# if ( data.hasUpdate ) { #>
 				<div class="theme-update-message">
-					<a class="theme-update"><?php _e( 'Update Available' ); ?></a>
-					<p>{{{ data.update }}}</p>
+					<h4 class="theme-update"><?php _e( 'Update Available' ); ?></h4>
+					{{{ data.update }}}
 				</div>
 				<# } #>
 				<p class="theme-description">{{{ data.description }}}</p>
