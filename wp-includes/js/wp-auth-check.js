@@ -4,7 +4,10 @@
 	var wrap, next;
 
 	function show() {
-		var parent = $('#wp-auth-check'), form = $('#wp-auth-check-form'), noframe = wrap.find('.wp-auth-fallback-expired'), frame, loaded = false;
+		var parent = $('#wp-auth-check'),
+			form = $('#wp-auth-check-form'),
+			noframe = wrap.find('.wp-auth-fallback-expired'),
+			frame, loaded = false;
 
 		if ( form.length ) {
 			// Add unload confirmation to counter (frame-busting) JS redirects
@@ -68,10 +71,10 @@
 		$(window).off( 'beforeunload.wp-auth-check' );
 
 		// When on the Edit Post screen, speed up heartbeat after the user logs in to quickly refresh nonces
-		if ( typeof adminpage != 'undefined' && ( adminpage == 'post-php' || adminpage == 'post-new-php' ) &&
-			typeof wp != 'undefined' && wp.heartbeat ) {
+		if ( typeof adminpage !== 'undefined' && ( adminpage === 'post-php' || adminpage === 'post-new-php' ) &&
+			typeof wp !== 'undefined' && wp.heartbeat ) {
 
-			wp.heartbeat.interval( 'fast', 1 );
+			wp.heartbeat.connectNow();
 		}
 
 		wrap.fadeOut( 200, function() {
@@ -88,14 +91,16 @@
 	$( document ).on( 'heartbeat-tick.wp-auth-check', function( e, data ) {
 		if ( 'wp-auth-check' in data ) {
 			schedule();
-			if ( ! data['wp-auth-check'] && wrap.hasClass('hidden') )
+			if ( ! data['wp-auth-check'] && wrap.hasClass('hidden') ) {
 				show();
-			else if ( data['wp-auth-check'] && ! wrap.hasClass('hidden') )
+			} else if ( data['wp-auth-check'] && ! wrap.hasClass('hidden') ) {
 				hide();
+			}
 		}
 	}).on( 'heartbeat-send.wp-auth-check', function( e, data ) {
-		if ( ( new Date() ).getTime() > next )
+		if ( ( new Date() ).getTime() > next ) {
 			data['wp-auth-check'] = true;
+		}
 	}).ready( function() {
 		schedule();
 		wrap = $('#wp-auth-check-wrap');
