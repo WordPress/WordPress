@@ -97,6 +97,12 @@ themes.Collection = Backbone.Collection.extend({
 	// and triggers an update event
 	doSearch: function( value ) {
 
+		// Don't do anything if we've already done this search
+		// Useful because the Search handler fires multiple times per keystroke
+		if ( this.terms === value ) {
+			return;
+		}
+
 		// Updates terms with the value passed
 		this.terms = value;
 
