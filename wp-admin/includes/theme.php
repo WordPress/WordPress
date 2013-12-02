@@ -376,12 +376,15 @@ function themes_api( $action, $args = null ) {
  * @return array An associative array of theme data, sorted by name.
  */
 function wp_prepare_themes_for_js( $themes = null ) {
-	if ( null === $themes ) {
-		$themes = wp_get_themes( array( 'allowed' => true ) );
-	}
-
 	$prepared_themes = array();
 	$current_theme = get_stylesheet();
+
+	if ( null === $themes ) {
+		$themes = wp_get_themes( array( 'allowed' => true ) );
+		if ( ! isset( $themes[ $current_theme ] ) ) {
+			$themes[ $current_theme ] = wp_get_theme();
+		}
+	}
 
 	$updates = array();
 	if ( current_user_can( 'update_themes' ) ) {
@@ -415,7 +418,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			'update'       => get_theme_update_available( $theme ),
 			'actions'      => array(
 				'activate' => current_user_can( 'switch_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=activate&amp;stylesheet=' . $encoded_slug ), 'switch-theme_' . $slug ) : null,
-				'customize'=> current_user_can( 'edit_theme_options' ) ? admin_url( 'customize.php?theme=' . $encoded_slug ) : null,
+				'customize'=> current_user_can( 'edit_theme_options' ) ? wp_customize_url( $slug ) : null,
 				'delete'   => current_user_can( 'delete_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=delete&amp;stylesheet=' . $encoded_slug ), 'delete-theme_' . $slug ) : null,
 			),
 		);
