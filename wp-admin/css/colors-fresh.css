@@ -163,7 +163,7 @@ div.dashboard-widget,
 }
 
 #dashboard-widgets h4 {
-	color: #222;	
+	color: #222;
 }
 
 #poststuff .inside label.spam,
@@ -1936,19 +1936,15 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	background-color: #fcfcfc;
 }
 
-.clearlooks2 .mceFocus .mceTop .mceLeft,
-.clearlooks2 .mceFocus .mceTop .mceRight {
-	background-color: #f3f3f3;
-}
-
 .clearlooks2 .mceTop span,
 .clearlooks2 .mceFocus .mceTop span {
 	color: #222;
 }
 
 .clearlooks2 .mceClose:before {
-	color: #666;
+	color: #999;
 }
+
 .clearlooks2 .mceClose:hover:before {
 	color: #2ea2cc;
 }
