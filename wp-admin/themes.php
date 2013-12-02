@@ -280,7 +280,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 				<p class="theme-description">{{{ data.description }}}</p>
 	
 				<# if ( data.parent ) { #>
-					<p class="parent-theme"><?php printf( __( 'This is a child theme of <strong>%s</strong>.' ), '{{{ data.parent }}}' ); ?></p>
+					<p class="parent-theme"><?php printf( __( 'This is a child theme of %s.' ), '<strong>{{{ data.parent }}}</strong>' ); ?></p>
 				<# } #>
 	
 				<# if ( data.tags ) { #>
