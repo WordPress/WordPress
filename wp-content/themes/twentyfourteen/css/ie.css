@@ -936,7 +936,7 @@ a.post-thumbnail:hover {
 	margin: 0 auto;
 }
 
-.ie7 .tag-links a {
+.ie7 .entry-meta .tag-links a {
 	margin-left: 0;
 }
 
@@ -1159,7 +1159,7 @@ a.post-thumbnail:hover {
 	left: auto;
 }
 
-.ie8 .rtl .tag-links a:before {
+.ie8 .rtl .entry-meta .tag-links a:before {
 	right: -8px;
 }
 
@@ -1303,7 +1303,7 @@ a.post-thumbnail:hover {
 	margin: -24px auto 0;
 }
 
-.ie7 .rtl .tag-links a {
+.ie7 .rtl .entry-meta .tag-links a {
 	margin-right: 0;
 	margin-left: auto;
 }

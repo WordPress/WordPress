@@ -1144,7 +1144,7 @@ a.post-thumbnail:hover {
 
 /* Tag links style */
 
-.tag-links a {
+.entry-meta .tag-links a {
 	background-color: #767676;
 	border-radius: 0 2px 2px 0;
 	color: #fff;
@@ -1163,7 +1163,7 @@ a.post-thumbnail:hover {
 	color: #fff;
 }
 
-.tag-links a:before {
+.entry-meta .tag-links a:before {
 	border-top: 10px solid transparent;
 	border-right: 8px solid #767676;
 	border-bottom: 10px solid transparent;
@@ -1175,11 +1175,11 @@ a.post-thumbnail:hover {
 	width: 0;
 }
 
-.tag-links a:hover:before {
+.entry-meta .tag-links a:hover:before {
 	border-right-color: #41a62a;
 }
 
-.tag-links a:after {
+.entry-meta .tag-links a:after {
 	background-color: #fff;
 	border-radius: 50%;
 	content: "";
@@ -4019,7 +4019,7 @@ a.post-thumbnail:hover {
 		margin: 24px auto;
 	}
 
-	.tag-links a {
+	.entry-meta .tag-links a {
 		color: #fff;
 	}
 

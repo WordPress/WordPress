@@ -279,7 +279,7 @@ function twentyfourteen_customizer_styles() {
 			border-color: ' . $accent_mid . ';
 		}
 
-		.tag-links a:hover:before {
+		.entry-meta .tag-links a:hover:before {
 			border-right-color: ' . $accent_mid . ';
 		}
 

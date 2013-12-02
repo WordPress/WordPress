@@ -128,23 +128,23 @@ td {
  * -----------------------------------------------------------------------------
  */
 
-.tag-links a {
+.entry-meta .tag-links a {
 	margin: 0 10px 4px 4px;
 }
 
-.tag-links a:before {
+.entry-meta .tag-links a:before {
 	border-right: 0;
 	border-left: 8px solid #767676;
 	right: -7px;
 	left: auto;
 }
 
-.tag-links a:hover:before,
-.tag-links a:focus:before {
+.entry-meta .tag-links a:hover:before,
+.entry-meta .tag-links a:focus:before {
 	border-left-color: #41a62a;
 }
 
-.tag-links a:after {
+.entry-meta .tag-links a:after {
 	right: -2px;
 	left: auto;
 }
