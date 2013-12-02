@@ -586,7 +586,14 @@ themes.view.Search = wp.Backbone.View.extend({
 		if ( event.type === 'keyup' && event.which === 27 ) {
 			event.target.value = '';
 		}
+
 		this.collection.doSearch( event.target.value );
+
+		// Update the URL hash
+		if ( event.target.value )
+			themes.router.navigate( 'search/' + event.target.value );
+		else
+			themes.router.navigate( '' );
 	}
 });
 
@@ -595,8 +602,8 @@ themes.view.Search = wp.Backbone.View.extend({
 themes.routes = Backbone.Router.extend({
 
 	routes: {
-		'search/:query': 'search',
-		'theme/:slug': 'theme'
+		'search/*query': 'search',
+		'theme/*slug': 'theme'
 	},
 
 	// Set the search input value based on url
