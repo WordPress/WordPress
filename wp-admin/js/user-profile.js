@@ -83,8 +83,7 @@
 		current_user_id = $( 'input[name="checkuser_id"]' ).val();
 
 		$colorpicker.on( 'click.colorpicker', '.color-option', function() {
-			var $this = $(this),
-				color_scheme = $this.children( 'input[name="admin_color"]' ).val();
+			var $this = $(this);
 
 			if ( $this.hasClass( 'selected' ) ) {
 				return;
@@ -106,9 +105,9 @@
 
 				// update user option
 				$.post( ajaxurl, {
-					action: 'save-user-color-scheme',
-					color_scheme: color_scheme,
-					user_id: user_id
+					action:       'save-user-color-scheme',
+					color_scheme: $this.children( 'input[name="admin_color"]' ).val(),
+					nonce:        $('#_wpnonce').val()
 				});
 			}
 		});

@@ -2249,18 +2249,15 @@ function wp_ajax_get_revision_diffs() {
 function wp_ajax_save_user_color_scheme() {
 	global $_wp_admin_css_colors;
 
-	$user_id = intval( $_POST['user_id'] );
+	$user_id = get_current_user_id();
+	check_ajax_referer( 'update-user_' . $user_id, 'nonce' );
+
 	$color_scheme = sanitize_key( $_POST['color_scheme'] );
 
-	if ( get_current_user_id() !== $user_id )
+	if ( ! isset( $_wp_admin_css_colors[ $color_scheme ] ) ) {
 		wp_send_json_error();
+	}
 
-	if ( ! get_user_by( 'id', $user_id ) )
-		wp_send_json_error();
-
-	if ( ! isset( $_wp_admin_css_colors[ $color_scheme ] ) )
-		wp_send_json_error();
-
-	update_user_option( $user_id, 'admin_color', $color_scheme, true );
+	update_user_meta( $user_id, 'admin_color', $color_scheme );
 	wp_send_json_success();
 }
