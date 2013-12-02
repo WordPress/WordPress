@@ -533,6 +533,11 @@ window.wp = window.wp || {};
 			if ( this.origin() && event.origin !== this.origin() )
 				return;
 
+			// Ensure we have a string that's JSON.parse-able
+			if ( typeof event.data !== 'string' || event.data[0] !== '{' ) {
+				return;
+			}
+
 			message = JSON.parse( event.data );
 
 			// Check required message properties.
