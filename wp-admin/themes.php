@@ -227,12 +227,12 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 
 	<# if ( data.active ) { #>
 		<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
-		<# if ( data.actions['customize'] ) { #>
-			<a class="button button-primary hide-if-no-customize" href="{{ data.actions['customize'] }}"><?php _e( 'Customize' ); ?></a>
+		<# if ( data.actions.customize ) { #>
+			<a class="button button-primary hide-if-no-customize" href="{{ data.actions.customize }}"><?php _e( 'Customize' ); ?></a>
 		<# } #>
 	<# } else { #>
-		<a class="button button-primary activate" href="{{{ data.actions['activate'] }}}"><?php _e( 'Activate' ); ?></a>
-		<a class="button button-secondary preview" href="{{{ data.actions['customize'] }}}"><?php _e( 'Live Preview' ); ?></a>
+		<a class="button button-primary activate" href="{{{ data.actions.activate }}}"><?php _e( 'Activate' ); ?></a>
+		<a class="button button-secondary preview" href="{{{ data.actions.customize }}}"><?php _e( 'Live Preview' ); ?></a>
 	<# } #>
 
 	</div>
@@ -298,7 +298,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 				<?php if ( current_theme_supports( 'menus' ) ) { ?>
 				<a class="button button-secondary" href="<?php echo admin_url( 'nav-menus.php' ); ?>"><?php _e( 'Menus' ); ?></a>
 				<?php } ?>
-				<?php if( current_theme_supports( 'widgets' ) ) { ?>
+				<?php if ( current_theme_supports( 'widgets' ) ) { ?>
 				<a class="button button-secondary" href="<?php echo admin_url( 'widgets.php' ); ?>"><?php _e( 'Widgets' ); ?></a>
 				<?php } ?>
 			</div>
