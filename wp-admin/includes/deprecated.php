@@ -1138,7 +1138,6 @@ function the_attachment_links( $id = false ) {
 /**#@+
  * Displays a screen icon.
  *
- * @uses get_screen_icon()
  * @since 2.7.0
  * @since 3.8.0 Screen icons are no longer used in WordPress. This function no longer produces output.
  * @deprecated 3.8.0
