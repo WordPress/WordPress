@@ -250,69 +250,69 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 			<div alt="<?php _e( 'Show previous theme' ); ?>" class="left dashicons dashicons-no"></div>
 			<div alt="<?php _e( 'Show next theme' ); ?>" class="right dashicons dashicons-no"></div>
 		</div>
-	<div class="theme-about">
-		<div class="theme-screenshots">
-		<# if ( data.screenshot[0] ) { #>
-			<div class="screenshot first"><img src="{{ data.screenshot[0] }}" alt="" /></div>
-			<# if ( _.size( data.screenshot ) > 1 ) {
-					_.each ( data.screenshot, function( image ) {
-						#><div class="screenshot thumb"><img src="{{ image }}" alt="" /></div><#
-					});
-			} #>
-		<# } else { #>
-			<div class="screenshot first blank"></div>
-		<# } #>
-		</div>
-
-		<div class="theme-info">
-			<# if ( data.active ) { #>
-				<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
+		<div class="theme-about">
+			<div class="theme-screenshots">
+			<# if ( data.screenshot[0] ) { #>
+				<div class="screenshot first"><img src="{{ data.screenshot[0] }}" alt="" /></div>
+				<# if ( _.size( data.screenshot ) > 1 ) {
+						_.each ( data.screenshot, function( image ) {
+							#><div class="screenshot thumb"><img src="{{ image }}" alt="" /></div><#
+						});
+				} #>
+			<# } else { #>
+				<div class="screenshot first blank"></div>
 			<# } #>
-			<h3 class="theme-name">{{{ data.name }}}<span class="theme-version"><?php printf( __( 'Version: %s' ), '{{{ data.version }}}' ); ?></span></h3>
-			<h4 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></h4>
-
-			<# if ( data.hasUpdate ) { #>
-			<div class="theme-update-message">
-				<a class="theme-update"><?php _e( 'Update Available' ); ?></a>
-				<p>{{{ data.update }}}</p>
 			</div>
-			<# } #>
-			<p class="theme-description">{{{ data.description }}}</p>
 
-			<# if ( data.parent ) { #>
-				<p class="parent-theme"><?php printf( __( 'This is a child theme of <strong>%s</strong>.' ), '{{{ data.parent }}}' ); ?></p>
-			<# } #>
-
-			<# if ( data.tags ) { #>
-				<p class="theme-tags">
-					<span><?php _e( 'Tags:' ); ?></span>
-					{{{ data.tags.replace( /-/g, ' ' ) }}}
-				</p>
-			<# } #>
-		</div>
-	</div>
-
-	<div class="theme-actions">
-		<div class="active-theme">
-			<a href="{{{ data.actions.customize }}}" class="button button-primary hide-if-no-customize"><?php _e( 'Customize' ); ?></a>
-			<?php if ( current_theme_supports( 'menus' ) ) { ?>
-			<a class="button button-secondary" href="<?php echo admin_url( 'nav-menus.php' ); ?>"><?php _e( 'Menus' ); ?></a>
-			<?php } ?>
-			<?php if( current_theme_supports( 'widgets' ) ) { ?>
-			<a class="button button-secondary" href="<?php echo admin_url( 'widgets.php' ); ?>"><?php _e( 'Widgets' ); ?></a>
-			<?php } ?>
-		</div>
-		<div class="inactive-theme">
-			<# if ( data.actions.activate ) { #>
-				<a href="{{{ data.actions.activate }}}" class="button button-primary"><?php _e( 'Activate' ); ?></a>
-			<# } #>
-			<a href="{{{ data.actions.customize }}}" class="button button-secondary"><?php _e( 'Live Preview' ); ?></a>
+			<div class="theme-info">
+				<# if ( data.active ) { #>
+					<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
+				<# } #>
+				<h3 class="theme-name">{{{ data.name }}}<span class="theme-version"><?php printf( __( 'Version: %s' ), '{{{ data.version }}}' ); ?></span></h3>
+				<h4 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></h4>
+	
+				<# if ( data.hasUpdate ) { #>
+				<div class="theme-update-message">
+					<a class="theme-update"><?php _e( 'Update Available' ); ?></a>
+					<p>{{{ data.update }}}</p>
+				</div>
+				<# } #>
+				<p class="theme-description">{{{ data.description }}}</p>
+	
+				<# if ( data.parent ) { #>
+					<p class="parent-theme"><?php printf( __( 'This is a child theme of <strong>%s</strong>.' ), '{{{ data.parent }}}' ); ?></p>
+				<# } #>
+	
+				<# if ( data.tags ) { #>
+					<p class="theme-tags">
+						<span><?php _e( 'Tags:' ); ?></span>
+						{{{ data.tags.replace( /-/g, ' ' ) }}}
+					</p>
+				<# } #>
+			</div>
 		</div>
 
-		<# if ( ! data.active && data.actions.delete ) { #>
-			<a href="{{{ data.actions.delete }}}" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a>
-		<# } #>
-	</div>
+		<div class="theme-actions">
+			<div class="active-theme">
+				<a href="{{{ data.actions.customize }}}" class="button button-primary hide-if-no-customize"><?php _e( 'Customize' ); ?></a>
+				<?php if ( current_theme_supports( 'menus' ) ) { ?>
+				<a class="button button-secondary" href="<?php echo admin_url( 'nav-menus.php' ); ?>"><?php _e( 'Menus' ); ?></a>
+				<?php } ?>
+				<?php if( current_theme_supports( 'widgets' ) ) { ?>
+				<a class="button button-secondary" href="<?php echo admin_url( 'widgets.php' ); ?>"><?php _e( 'Widgets' ); ?></a>
+				<?php } ?>
+			</div>
+			<div class="inactive-theme">
+				<# if ( data.actions.activate ) { #>
+					<a href="{{{ data.actions.activate }}}" class="button button-primary"><?php _e( 'Activate' ); ?></a>
+				<# } #>
+				<a href="{{{ data.actions.customize }}}" class="button button-secondary"><?php _e( 'Live Preview' ); ?></a>
+			</div>
+	
+			<# if ( ! data.active && data.actions.delete ) { #>
+				<a href="{{{ data.actions.delete }}}" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a>
+			<# } #>
+		</div>
 	</div>
 </script>
 
