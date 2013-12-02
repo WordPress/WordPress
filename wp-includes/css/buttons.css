@@ -279,6 +279,8 @@ TABLE OF CONTENTS:
 @media screen and ( max-width: 782px ) {
 
 	.wp-core-ui .button,
+	.wp-core-ui .button.button-large,
+	.wp-core-ui .button.button-small,
 	input#publish,
 	input#save-post,
 	a.preview {
@@ -289,19 +291,25 @@ TABLE OF CONTENTS:
 		height: auto;
 		margin-bottom: 4px;
 	}
-
-	/* this creates an inset effect on the text */
-	.wp-core-ui .button:active {
+	
+	/* Adjust the padding that makes active button text looks inset to account for larger responsive buttons */
+	.wp-core-ui .button:active,
+	.wp-core-ui .button-large:active,
+	.wp-core-ui .button-small:active,
+	input#publish:active,
+	input#save-post:active,
+	a.preview:active {
 		padding-top: 11px;
+		padding-bottom: 9px;
 	}
-
+	
 	#media-upload.wp-core-ui .button {
 		padding: 0 10px 1px;
 		height: 24px;
 		line-height: 22px;
 		font-size: 13px;
 	}
-	
+
 	/* Publish Metabox Options */
 	.wp-core-ui .save-post-status.button {
 		position: relative;
@@ -319,5 +327,17 @@ TABLE OF CONTENTS:
 		line-height: 26px;
 		height: 28px;
 		margin: 0;
+	}
+	
+	/* Reset responsive styles on Log in button on iframed login form */
+	
+	.interim-login .button.button-large {
+		height: 30px;
+		line-height: 28px;
+		padding: 0 12px 2px;
+	}
+	
+	.interim-login .button.button-large:active {
+		padding-top: 1px;
 	}
 }
