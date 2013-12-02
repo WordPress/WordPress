@@ -2046,20 +2046,23 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 
 	if ( 'all' == $fields || 'all_with_object_id' == $fields ) {
 		$_terms = $wpdb->get_results( $query );
-		foreach ( $_terms as &$term )
-			$term = sanitize_term( $term, $taxonomy, 'raw' );
+		foreach ( $_terms as $key => $term ) {
+			$_terms[$key] = sanitize_term( $term, $taxonomy, 'raw' );
+		}
 		$terms = array_merge( $terms, $_terms );
 		update_term_cache( $terms );
 	} else if ( 'ids' == $fields || 'names' == $fields || 'slugs' == $fields ) {
 		$_terms = $wpdb->get_col( $query );
 		$_field = ( 'ids' == $fields ) ? 'term_id' : 'name';
-		foreach ( $_terms as &$term )
-			$term = sanitize_term_field( $_field, $term, $term, $taxonomy, 'raw' );
+		foreach ( $_terms as $key => $term ) {
+			$_terms[$key] = sanitize_term_field( $_field, $term, $term, $taxonomy, 'raw' );
+		}
 		$terms = array_merge( $terms, $_terms );
 	} else if ( 'tt_ids' == $fields ) {
 		$terms = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.object_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) $orderby $order");
-		foreach ( $terms as &$tt_id )
-			$tt_id = sanitize_term_field( 'term_taxonomy_id', $tt_id, 0, $taxonomy, 'raw' ); // 0 should be the term id, however is not needed when using raw context.
+		foreach ( $terms as $key => $tt_id ) {
+			$terms[$key] = sanitize_term_field( 'term_taxonomy_id', $tt_id, 0, $taxonomy, 'raw' ); // 0 should be the term id, however is not needed when using raw context.
+		}
 	}
 
 	if ( ! $terms )
