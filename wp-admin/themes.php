@@ -81,9 +81,9 @@ if ( current_user_can( 'edit_theme_options' ) ) {
 } // edit_theme_options
 
 get_current_screen()->set_help_sidebar(
-	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' . 
-	'<p>' . __( '<a href="http://codex.wordpress.org/Using_Themes" target="_blank">Documentation on Using Themes</a>' ) . '</p>' . 
-	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>' 
+	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
+	'<p>' . __( '<a href="http://codex.wordpress.org/Using_Themes" target="_blank">Documentation on Using Themes</a>' ) . '</p>' .
+	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
 );
 
 if ( current_user_can( 'switch_themes' ) ) {
@@ -145,10 +145,10 @@ if ( $ct->errors() && ( ! is_multisite() || current_user_can( 'manage_network_th
 // Certain error codes are less fatal than others. We can still display theme information in most cases.
 if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 	&& in_array( $ct->errors()->get_error_code(), array( 'theme_no_parent', 'theme_parent_invalid', 'theme_no_index' ) ) ) ) : ?>
+*/
 
-	<?php
 	// Pretend you didn't see this.
-	$options = array();
+	$current_theme_actions = array();
 	if ( is_array( $submenu ) && isset( $submenu['themes.php'] ) ) {
 		foreach ( (array) $submenu['themes.php'] as $item) {
 			$class = '';
@@ -161,22 +161,22 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 				$submenu[$item[2]] = array_values($submenu[$item[2]]); // Re-index.
 				$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
 				if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
-					$options[] = "<a href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
+					$current_theme_actions[] = "<a class='button button-secondary' href='admin.php?page={$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
 				else
-					$options[] = "<a href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
+					$current_theme_actions[] = "<a class='button button-secondary' href='{$submenu[$item[2]][0][2]}'$class>{$item[0]}</a>";
 			} else if ( current_user_can($item[1]) ) {
 				$menu_file = $item[2];
 				if ( false !== ( $pos = strpos( $menu_file, '?' ) ) )
 					$menu_file = substr( $menu_file, 0, $pos );
 				if ( file_exists( ABSPATH . "wp-admin/$menu_file" ) ) {
-					$options[] = "<a href='{$item[2]}'$class>{$item[0]}</a>";
+					$current_theme_actions[] = "<a class='button button-secondary' href='{$item[2]}'$class>{$item[0]}</a>";
 				} else {
-					$options[] = "<a href='themes.php?page={$item[2]}'$class>{$item[0]}</a>";
+					$current_theme_actions[] = "<a class='button button-secondary' href='themes.php?page={$item[2]}'$class>{$item[0]}</a>";
 				}
 			}
 		}
 	}
-*/
+
 ?>
 
 <div class="theme-browser"></div>
@@ -270,7 +270,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 				<# } #>
 				<h3 class="theme-name">{{{ data.name }}}<span class="theme-version"><?php printf( __( 'Version: %s' ), '{{{ data.version }}}' ); ?></span></h3>
 				<h4 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></h4>
-	
+
 				<# if ( data.hasUpdate ) { #>
 				<div class="theme-update-message">
 					<h4 class="theme-update"><?php _e( 'Update Available' ); ?></h4>
@@ -278,11 +278,11 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 				</div>
 				<# } #>
 				<p class="theme-description">{{{ data.description }}}</p>
-	
+
 				<# if ( data.parent ) { #>
 					<p class="parent-theme"><?php printf( __( 'This is a child theme of %s.' ), '<strong>{{{ data.parent }}}</strong>' ); ?></p>
 				<# } #>
-	
+
 				<# if ( data.tags ) { #>
 					<p class="theme-tags">
 						<span><?php _e( 'Tags:' ); ?></span>
@@ -295,12 +295,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 		<div class="theme-actions">
 			<div class="active-theme">
 				<a href="{{{ data.actions.customize }}}" class="button button-primary hide-if-no-customize"><?php _e( 'Customize' ); ?></a>
-				<?php if ( current_theme_supports( 'menus' ) ) { ?>
-				<a class="button button-secondary" href="<?php echo admin_url( 'nav-menus.php' ); ?>"><?php _e( 'Menus' ); ?></a>
-				<?php } ?>
-				<?php if ( current_theme_supports( 'widgets' ) ) { ?>
-				<a class="button button-secondary" href="<?php echo admin_url( 'widgets.php' ); ?>"><?php _e( 'Widgets' ); ?></a>
-				<?php } ?>
+				<?php echo implode( ' ', $current_theme_actions ); ?>
 			</div>
 			<div class="inactive-theme">
 				<# if ( data.actions.activate ) { #>
@@ -308,7 +303,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 				<# } #>
 				<a href="{{{ data.actions.customize }}}" class="button button-secondary"><?php _e( 'Live Preview' ); ?></a>
 			</div>
-	
+
 			<# if ( ! data.active && data.actions.delete ) { #>
 				<a href="{{{ data.actions.delete }}}" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a>
 			<# } #>
