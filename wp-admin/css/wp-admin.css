@@ -4237,6 +4237,7 @@ ul.add-menu-item-tabs li.tabs,
 
 ul.add-menu-item-tabs li.tabs {
 	padding-bottom: 3px;
+	position: relative;
 }
 
 #post-body .add-menu-item-tabs li.tabs {
@@ -12494,11 +12495,11 @@ li#wp-admin-bar-menu-toggle {
 	}
 
 	#side-sortables .add-menu-item-tabs {
-		margin: 15px 0;
+		margin: 15px 0 14px;
 	}
 
 	ul.add-menu-item-tabs li.tabs {
-		padding: 15px;
+		padding: 13px 15px 14px;
 	}
 
 	.nav-menus-php .item-controls .item-type {
