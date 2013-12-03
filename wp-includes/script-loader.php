@@ -591,8 +591,8 @@ function wp_default_styles( &$styles ) {
 	// Register "meta" stylesheet for admin colors. All colors-* style sheets should have the same version string.
 	$styles->add( 'colors', true, array( 'wp-admin', 'buttons', 'open-sans', 'dashicons' ) );
 
-	// do not refer to these directly, the right one is queued by the above "meta" colors handle
-	$styles->add( 'colors-fresh', "/wp-admin/css/colors-fresh$suffix.css", array( 'wp-admin', 'buttons' ) );
+	// do not refer to this directly, the right one is queued by the above "meta" colors handle
+	$styles->add( 'colors-fresh', "/wp-admin/css/colors$suffix.css", array( 'wp-admin', 'buttons' ) );
 
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css" );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array('buttons') );
