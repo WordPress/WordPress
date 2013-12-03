@@ -329,8 +329,7 @@ do_action( 'widgets_admin_page' ); ?>
 <div class="widget-liquid-left">
 <div id="widgets-left">
 	<div id="available-widgets" class="widgets-holder-wrap">
-		<div class="sidebar-name">
-			<div class="sidebar-name-arrow"><br /></div>
+		<div>
 			<h3><?php _e('Available Widgets'); ?> <span id="removing-widget"><?php _ex('Deactivate', 'removing-widget'); ?> <span></span></span></h3>
 		</div>
 		<div class="widget-holder">
@@ -350,7 +349,7 @@ do_action( 'widgets_admin_page' ); ?>
 $theme_sidebars = array();
 foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 	if ( false !== strpos( $registered_sidebar['class'], 'inactive-sidebar' ) || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) ) {
-		$wrap_class = 'widgets-holder-wrap';
+		$wrap_class = ( $registered_sidebar['id'] == 'wp_inactive_widgets' ) ? '' : 'widgets-holder-wrap';
 		if ( !empty( $registered_sidebar['class'] ) )
 			$wrap_class .= ' ' . $registered_sidebar['class'];
 

@@ -71,14 +71,21 @@ function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
 	$description = wp_sidebar_description( $sidebar );
 
 	echo '<div id="' . esc_attr( $sidebar ) . '" class="widgets-sortables">';
-
 	if ( $sidebar_name ) {
+		if( 'Inactive Widgets' != $sidebar_name ) {
 		?>
 		<div class="sidebar-name">
 			<div class="sidebar-name-arrow"><br /></div>
 			<h3><?php echo esc_html( $sidebar_name ); ?> <span class="spinner"></span></h3>
 		</div>
 		<?php
+		} else {
+		?>
+		<div>
+			<h3><?php echo esc_html( $sidebar_name ); ?> <span class="spinner"></span></h3>
+		</div>
+		<?php
+		}
 	}
 
 	echo '<div class="sidebar-description">';
