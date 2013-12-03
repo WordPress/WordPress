@@ -1280,17 +1280,17 @@ function _custom_background_cb() {
 	if ( $background ) {
 		$image = " background-image: url('$background');";
 
-		$repeat = get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'background-repeat' ) );
+		$repeat = get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) );
 		if ( ! in_array( $repeat, array( 'no-repeat', 'repeat-x', 'repeat-y', 'repeat' ) ) )
 			$repeat = 'repeat';
 		$repeat = " background-repeat: $repeat;";
 
-		$position = get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'background-position' ) );
+		$position = get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'default-position-x' ) );
 		if ( ! in_array( $position, array( 'center', 'right', 'left' ) ) )
 			$position = 'left';
 		$position = " background-position: top $position;";
 
-		$attachment = get_theme_mod( 'background_attachment', get_theme_support( 'custom-background', 'background-attachment' ) );
+		$attachment = get_theme_mod( 'background_attachment', get_theme_support( 'custom-background', 'default-attachment' ) );
 		if ( ! in_array( $attachment, array( 'fixed', 'scroll' ) ) )
 			$attachment = 'scroll';
 		$attachment = " background-attachment: $attachment;";
@@ -1483,9 +1483,9 @@ function add_theme_support( $feature ) {
 
 			$defaults = array(
 				'default-image'          => '',
-				'background-repeat'      => 'repeat',
-				'background-position'    => 'left',
-				'background-attachment'  => 'scroll',
+				'default-repeat'         => 'repeat',
+				'default-position-x'     => 'left',
+				'default-attachment'     => 'scroll',
 				'default-color'          => '',
 				'wp-head-callback'       => '_custom_background_cb',
 				'admin-head-callback'    => '',
