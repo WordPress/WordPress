@@ -743,13 +743,13 @@ add_filter( 'heartbeat_received', 'wp_refresh_post_nonces', 10, 3 );
  *
  * @since 3.8
  */
-function wp_disable_heartbeat_suspend( $settings ) {
+function wp_heartbeat_set_suspension( $settings ) {
 	global $pagenow;
 
 	if ( 'post.php' === $pagenow || 'post-new.php' === $pagenow ) {
-		$settings['suspend'] = 'disable';
+		$settings['suspension'] = 'disable';
 	}
 
 	return $settings;
 }
-add_filter( 'heartbeat_settings', 'wp_disable_heartbeat_suspend' );
+add_filter( 'heartbeat_settings', 'wp_heartbeat_set_suspension' );

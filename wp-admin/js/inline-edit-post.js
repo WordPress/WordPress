@@ -352,7 +352,7 @@ $( document ).on( 'heartbeat-tick.wp-check-locked-posts', function( e, data ) {
 }).ready( function() {
 	// Set the heartbeat interval to 15 sec.
 	if ( typeof wp !== 'undefined' && wp.heartbeat ) {
-		wp.heartbeat.setInterval( 15 );
+		wp.heartbeat.interval( 15 );
 	}
 });
 

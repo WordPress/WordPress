@@ -132,7 +132,7 @@
 					settings.screenId = options.screenId || 'front';
 				}
 
-				if ( options.suspend === 'disable' ) {
+				if ( options.suspension === 'disable' ) {
 					settings.suspendEnabled = false;
 				}
 			}
@@ -342,7 +342,7 @@
 
 				// Do this last, can trigger the next XHR if connection time > 5 sec. and newInterval == 'fast'
 				if ( newInterval ) {
-					setInterval( newInterval );
+					interval( newInterval );
 				}
 			}).fail( function( jqXHR, textStatus, error ) {
 				setErrorState( textStatus || 'unknown', jqXHR.status );
@@ -605,7 +605,7 @@
 		 * @param string ticks Used with speed = 'fast' or 5, how many ticks before the interval reverts back
 		 * @return int Current interval in seconds
 		 */
-		function setInterval( speed, ticks ) {
+		function interval( speed, ticks ) {
 			var interval, oldInerval = settings.tempInterval ? settings.tempInterval : settings.mainInterval;
 
 			if ( speed ) {
@@ -725,7 +725,7 @@
 			hasFocus: hasFocus,
 			connectNow: connectNow,
 			disableSuspend: disableSuspend,
-			setInterval: setInterval,
+			interval: interval,
 			hasConnectionError: hasConnectionError,
 			enqueue: enqueue,
 			dequeue: dequeue,

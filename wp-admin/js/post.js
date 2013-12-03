@@ -377,7 +377,7 @@ jQuery(document).ready( function($) {
 	
 	// Set the heartbeat interval to 15 sec. if post lock dialogs are enabled
 	if ( typeof wp !== 'undefined' && wp.heartbeat && $('#post-lock-dialog').length ) {
-		wp.heartbeat.setInterval( 15 );
+		wp.heartbeat.interval( 15 );
 	}
 
 	// multi-taxonomies
