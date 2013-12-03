@@ -7,6 +7,7 @@
  * @since Twenty Fourteen 1.0
  */
 
+// Retrieve attachment metadata.
 $metadata = wp_get_attachment_metadata();
 
 get_header();
@@ -15,8 +16,10 @@ get_header();
 	<section id="primary" class="content-area image-attachment">
 		<div id="content" class="site-content" role="main">
 
-		<?php while ( have_posts() ) : the_post(); ?>
-
+	<?php
+		// Start the Loop.
+		while ( have_posts() ) : the_post();
+	?>
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<header class="entry-header">
 					<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>

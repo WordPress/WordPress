@@ -16,6 +16,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	/**
 	 * The supported post formats.
 	 *
+	 * @access private
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @var array
@@ -25,6 +26,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	/**
 	 * Pluralized post format strings.
 	 *
+	 * @access private
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @var array
@@ -65,9 +67,10 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	/**
 	 * Output the HTML for this widget.
 	 *
+	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
-	 * @param array $args An array of standard parameters for widgets in this theme.
+	 * @param array $args     An array of standard parameters for widgets in this theme.
 	 * @param array $instance An array of settings for this widget instance.
 	 * @return void Echoes its output.
 	 */
@@ -219,14 +222,15 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Deal with the settings when they are saved by the admin. Here is where
-	 * any validation should happen.
+	 * Deal with the settings when they are saved by the admin.
+	 *
+	 * Here is where any validation should happen.
 	 *
 	 * @since Twenty Fourteen 1.0
 	 *
-	 * @param array $new_instance
-	 * @param array $instance
-	 * @return array
+	 * @param array $new_instance New widget instance.
+	 * @param array $instance     Original widget instance.
+	 * @return array Updated widget instance.
 	 */
 	function update( $new_instance, $instance ) {
 		$instance['title']  = strip_tags( $new_instance['title'] );

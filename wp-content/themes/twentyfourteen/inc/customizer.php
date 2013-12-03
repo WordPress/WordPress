@@ -72,16 +72,19 @@ function twentyfourteen_customize_preview_js() {
 add_action( 'customize_preview_init', 'twentyfourteen_customize_preview_js' );
 
 /**
- * Tweak the brightness of a color by adjusting the RGB values by the given interval.
+ * Tweak the brightness of a color by adjusting the RGB
+ * values by the given interval.
  *
- * Use positive values of $steps to brighten the color and negative values to darken the color.
- * All three RGB values are modified by the specified steps, within the range of 0-255. The hue
- * is generally maintained unless the number of steps causes one value to be capped at 0 or 255.
+ * Use positive values of $steps to brighten the color and negative
+ * values to darken the color. All three RGB values are modified by
+ * the specified steps, within the range of 0-255. The hue is generally
+ * maintained unless the number of steps causes one value to be capped
+ * at 0 or 255.
  *
  * @since Twenty Fourteen 1.0
  *
  * @param string $color The original color, in 3- or 6-digit hexadecimal form.
- * @param int $steps The number of steps to adjust the color by, in RGB units.
+ * @param int    $steps The number of steps to adjust the color by, in RGB units.
  * @return string $color The new color, in 6-digit hexadecimal form.
  */
 function twentyfourteen_adjust_color( $color, $steps ) {
@@ -109,30 +112,30 @@ function twentyfourteen_adjust_color( $color, $steps ) {
 }
 
  /**
- * Returns a slightly lighter color than what is set as the theme's
+ * Return a slightly lighter color than what is set as the theme's
  * accent color.
  *
  * @since Twenty Fourteen 1.0
  *
- * @return string
+ * @return string Hex color.
  */
 function twentyfourteen_accent_mid() {
 	return twentyfourteen_adjust_color( get_theme_mod( 'accent_color' ), 29 );
 }
 
 /**
- * Returns a lighter color than what is set as the theme's accent color.
+ * Return a lighter color than what is set as the theme's accent color.
  *
  * @since Twenty Fourteen 1.0
  *
- * @return string
+ * @return string Hex color.
  */
 function twentyfourteen_accent_light() {
 	return twentyfourteen_adjust_color( get_theme_mod( 'accent_color' ), 49 );
 }
 
 /**
- * Caches the generated variants of the theme's accent color.
+ * Cache the generated variants of the theme's accent color.
  *
  * @since Twenty Fourteen 1.0
  *
@@ -324,7 +327,7 @@ function twentyfourteen_customizer_styles() {
 add_action( 'wp_enqueue_scripts', 'twentyfourteen_customizer_styles' );
 
 /**
- * Adds contextual help to the Themes and Post edit screens.
+ * Add contextual help to the Themes and Post edit screens.
  *
  * @since Twenty Fourteen 1.0
  *

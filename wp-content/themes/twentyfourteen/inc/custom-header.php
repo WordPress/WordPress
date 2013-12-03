@@ -17,6 +17,24 @@
  * @uses twentyfourteen_admin_header_image()
  */
 function twentyfourteen_custom_header_setup() {
+	/**
+	 * Filter Twenty Fourteen custom-header support arguments.
+	 *
+	 * @since Twenty Fourteen 1.0
+	 *
+	 * @param array $args {
+	 *     An array of custom-header support arguments.
+	 *
+	 *     @type bool   $header_text            Whether to display custom header text. Default false.
+	 *     @type int    $width                  Width in pixels of the custom header image. Default 1260.
+	 *     @type int    $height                 Height in pixels of the custom header image. Default 240.
+	 *     @type bool   $flex_height            Whether to allow flexible-height header images. Default true.
+	 *     @type string $admin_head_callback    Callback function used to style the image displayed in
+	 *                                          the Appearance > Header screen.
+	 *     @type string $admin_preview_callback Callback function used to create the custom header markup in
+	 *                                          the Appearance > Header screen.
+	 * }
+	 */
 	add_theme_support( 'custom-header', apply_filters( 'twentyfourteen_custom_header_args', array(
 		'header-text'            => false,
 		'width'                  => 1260,
@@ -30,9 +48,9 @@ add_action( 'after_setup_theme', 'twentyfourteen_custom_header_setup' );
 
 if ( ! function_exists( 'twentyfourteen_admin_header_style' ) ) :
 /**
- * Style the header image displayed on the Appearance > Header admin panel.
+ * Style the header image displayed on the Appearance > Header screen.
  *
- * @link twentyfourteen_custom_header_setup().
+ * @see twentyfourteen_custom_header_setup()
  *
  * @since Twenty Fourteen 1.0
  */
@@ -65,9 +83,9 @@ endif; // twentyfourteen_admin_header_style
 
 if ( ! function_exists( 'twentyfourteen_admin_header_image' ) ) :
 /**
- * Create the custom header image markup displayed on the Appearance > Header admin panel.
+ * Create the custom header image markup displayed on the Appearance > Header screen.
  *
- * @link twentyfourteen_custom_header_setup().
+ * @see twentyfourteen_custom_header_setup()
  *
  * @since Twenty Fourteen 1.0
  */

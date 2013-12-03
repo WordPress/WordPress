@@ -2,37 +2,48 @@
 /**
  * Twenty Fourteen Featured Content
  *
- * This module allows you to define a subset of posts to be displayed in the
- * theme's Featured Content area.
+ * This module allows you to define a subset of posts to be displayed
+ * in the theme's Featured Content area.
  *
- * For maximum compatibility with different methods of posting users will
- * designate a featured post tag to associate posts with. Since this tag now
- * has special meaning beyond that of a normal tags, users will have the
- * ability to hide it from the front-end of their site.
+ * For maximum compatibility with different methods of posting users
+ * will designate a featured post tag to associate posts with. Since
+ * this tag now has special meaning beyond that of a normal tags, users
+ * will have the ability to hide it from the front-end of their site.
  */
 class Featured_Content {
 
 	/**
-	 * The maximum number of posts that a Featured Content area can contain. We
-	 * define a default value here but themes can override this by defining a
-	 * "max_posts" entry in the second parameter passed in the call to
-	 * add_theme_support( 'featured-content' ).
+	 * The maximum number of posts a Featured Content area can contain.
+	 *
+	 * We define a default value here but themes can override
+	 * this by defining a "max_posts" entry in the second parameter
+	 * passed in the call to add_theme_support( 'featured-content' ).
 	 *
 	 * @see Featured_Content::init()
+	 *
+	 * @since Twenty Fourteen 1.0
+	 *
+	 * @static
+	 * @access public
+	 * @var int
 	 */
 	public static $max_posts = 15;
 
 	/**
-	 * Instantiate
+	 * Instantiate.
 	 *
 	 * All custom functionality will be hooked into the "init" action.
+	 *
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
 	 */
 	public static function setup() {
 		add_action( 'init', array( __CLASS__, 'init' ), 30 );
 	}
 
 	/**
-	 * Conditionally hook into WordPress
+	 * Conditionally hook into WordPress.
 	 *
 	 * Theme must declare that they support this module by adding
 	 * add_theme_support( 'featured-content' ); during after_setup_theme.
@@ -40,7 +51,9 @@ class Featured_Content {
 	 * If no theme support is found there is no need to hook into WordPress.
 	 * We'll just return early instead.
 	 *
-	 * @uses Featured_Content::$max_posts
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
 	 */
 	public static function init() {
 		$theme_support = get_theme_support( 'featured-content' );
@@ -85,6 +98,10 @@ class Featured_Content {
 	 *
 	 * Has to run on wp_loaded so that the preview filters of the customizer
 	 * have a chance to alter the value.
+	 *
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
 	 */
 	public static function wp_loaded() {
 		if ( self::get_setting( 'hide-tag' ) ) {
@@ -94,11 +111,13 @@ class Featured_Content {
 	}
 
 	/**
-	 * Get featured posts
+	 * Get featured posts.
 	 *
-	 * @uses Featured_Content::get_featured_post_ids()
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
 	 *
-	 * @return array
+	 * @return array Array of featured posts.
 	 */
 	public static function get_featured_posts() {
 		$post_ids = self::get_featured_post_ids();
@@ -124,7 +143,11 @@ class Featured_Content {
 	 *
 	 * Sets the "featured_content_ids" transient.
 	 *
-	 * @return array Array of post IDs
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
+	 *
+	 * @return array Array of post IDs.
 	 */
 	public static function get_featured_post_ids() {
 		// Return array of cached results if they exist.
@@ -170,9 +193,13 @@ class Featured_Content {
 	}
 
 	/**
-	 * Returns an array with IDs of posts maked as sticky.
+	 * Return an array with IDs of posts maked as sticky.
 	 *
-	 * @return array
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
+	 *
+	 * @return array Array of sticky posts.
 	 */
 	public static function get_sticky_posts() {
 		$settings = self::get_setting();
@@ -180,25 +207,33 @@ class Featured_Content {
 	}
 
 	/**
-	 * Delete transient
+	 * Delete featured content ids transient.
 	 *
 	 * Hooks in the "save_post" action.
+	 *
 	 * @see Featured_Content::validate_settings().
+	 *
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
 	 */
 	public static function delete_transient() {
 		delete_transient( 'featured_content_ids' );
 	}
 
 	/**
-	 * Exclude featured posts from the home page blog query
+	 * Exclude featured posts from the home page blog query.
 	 *
-	 * Filter the home page posts, and remove any featured post ID's from it. Hooked
-	 * onto the 'pre_get_posts' action, this changes the parameters of the query
-	 * before it gets any posts.
+	 * Filter the home page posts, and remove any featured post ID's from it.
+	 * Hooked onto the 'pre_get_posts' action, this changes the parameters of
+	 * the query before it gets any posts.
 	 *
-	 * @uses Featured_Content::get_featured_post_ids();
-	 * @param WP_Query $query
-	 * @return WP_Query Possibly modified WP_Query
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
+	 *
+	 * @param WP_Query $query WP_Query object.
+	 * @return WP_Query Possibly-modified WP_Query.
 	 */
 	public static function pre_get_posts( $query ) {
 
@@ -233,14 +268,19 @@ class Featured_Content {
 	}
 
 	/**
-	 * Reset tag option when the saved tag is deleted
+	 * Reset tag option when the saved tag is deleted.
 	 *
-	 * It's important to mention that the transient needs to be deleted, too.
-	 * While it may not be obvious by looking at the function alone, the transient
-	 * is deleted by Featured_Content::validate_settings().
+	 * It's important to mention that the transient needs to be deleted,
+	 * too. While it may not be obvious by looking at the function alone,
+	 * the transient is deleted by Featured_Content::validate_settings().
 	 *
 	 * Hooks in the "delete_post_tag" action.
+	 *
 	 * @see Featured_Content::validate_settings().
+	 *
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param int $tag_id The term_id of the tag that has been deleted.
 	 * @return void
@@ -258,13 +298,17 @@ class Featured_Content {
 	}
 
 	/**
-	 * Hide featured tag from displaying when global terms are queried from the front-end
+	 * Hide featured tag from displaying when global terms are queried from the front-end.
 	 *
 	 * Hooks into the "get_terms" filter.
 	 *
-	 * @param array $terms A list of term objects. This is the return value of get_terms().
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
+	 *
+	 * @param array $terms      List of term objects. This is the return value of get_terms().
 	 * @param array $taxonomies An array of taxonomy slugs.
-	 * @return array $terms
+	 * @return array A filtered array of terms.
 	 *
 	 * @uses Featured_Content::get_setting()
 	 */
@@ -295,14 +339,19 @@ class Featured_Content {
 	}
 
 	/**
-	 * Hide featured tag from display when terms associated with a post object are queried from the front-end
+	 * Hide featured tag from display when terms associated with a post object
+	 * are queried from the front-end.
 	 *
 	 * Hooks into the "get_the_terms" filter.
 	 *
-	 * @param array $terms A list of term objects. This is the return value of get_the_terms().
-	 * @param int $id The ID field for the post object that terms are associated with.
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
+	 *
+	 * @param array $terms    A list of term objects. This is the return value of get_the_terms().
+	 * @param int   $id       The ID field for the post object that terms are associated with.
 	 * @param array $taxonomy An array of taxonomy slugs.
-	 * @return array $terms
+	 * @return array Filtered array of terms.
 	 *
 	 * @uses Featured_Content::get_setting()
 	 */
@@ -333,10 +382,11 @@ class Featured_Content {
 	}
 
 	/**
-	 * Register custom setting on the Settings -> Reading screen
+	 * Register custom setting on the Settings -> Reading screen.
 	 *
-	 * @uses Featured_Content::render_form()
-	 * @uses Featured_Content::validate_settings()
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
 	 *
 	 * @return void
 	 */
@@ -346,6 +396,10 @@ class Featured_Content {
 
 	/**
 	 * Add settings to the Customizer.
+	 *
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param WP_Customize_Manager $wp_customize Theme Customizer object.
 	 */
@@ -386,6 +440,8 @@ class Featured_Content {
 	/**
 	 * Enqueue the tag suggestion script.
 	 *
+	 * @static
+	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 */
 	public static function enqueue_scripts() {
@@ -393,16 +449,20 @@ class Featured_Content {
 	}
 
 	/**
-	 * Get settings
+	 * Get featured content settings.
 	 *
-	 * Get all settings recognized by this module. This function will return
-	 * all settings whether or not they have been stored in the database yet.
-	 * This ensures that all keys are available at all times.
+	 * Get all settings recognized by this module. This function
+	 * will return all settings whether or not they have been stored
+	 * in the database yet. This ensures that all keys are available
+	 * at all times.
 	 *
-	 * In the event that you only require one setting, you may pass its name
-	 * as the first parameter to the function and only that value will be returned.
+	 * In the event that you only require one setting, you may pass
+	 * its name as the first parameter to the function and only that
+	 * value will be returned.
 	 *
-	 * @uses Featured_Content::sanitize_quantity()
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param string $key The key of a recognized setting.
 	 * @return mixed Array of all settings by default. A single value if passed as first parameter.
@@ -429,18 +489,18 @@ class Featured_Content {
 	}
 
 	/**
-	 * Validate settings
+	 * Validate featured content settings.
 	 *
-	 * Make sure that all user supplied content is in an
-	 * expected format before saving to the database. This
-	 * function will also delete the transient set in
-	 * Featured_Content::get_featured_content().
+	 * Make sure that all user supplied content is in an expected
+	 * format before saving to the database. This function will also
+	 * delete the transient set in Featured_Content::get_featured_content().
 	 *
-	 * @uses Featured_Content::self::sanitize_quantity()
-	 * @uses Featured_Content::self::delete_transient()
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
 	 *
-	 * @param array $input
-	 * @return array $output
+	 * @param array $input Array of settings input.
+	 * @return array Validated settings output.
 	 */
 	public static function validate_settings( $input ) {
 		$output = array();
@@ -469,18 +529,21 @@ class Featured_Content {
 
 		$output['hide-tag'] = isset( $input['hide-tag'] ) && $input['hide-tag'] ? 1 : 0;
 
+		// Delete the featured post ids transient.
 		self::delete_transient();
 
 		return $output;
 	}
 
 	/**
-	 * Sanitize quantity
+	 * Sanitize quantity of featured posts.
+	 *
+	 * @static
+	 * @access public
+	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param int $input The value to sanitize.
 	 * @return int A number between 1 and FeaturedContent::$max_posts.
-	 *
-	 * @uses Featured_Content::$max_posts
 	 */
 	public static function sanitize_quantity( $input ) {
 		$quantity = absint( $input );
@@ -493,6 +556,7 @@ class Featured_Content {
 
 		return $quantity;
 	}
-}
+
+} // Featured_Content
 
 Featured_Content::setup();
