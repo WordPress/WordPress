@@ -839,7 +839,7 @@ function validate_active_plugins() {
 		$plugins = array();
 	}
 
-	if ( is_multisite() && is_super_admin() ) {
+	if ( is_multisite() && current_user_can( 'manage_network_plugins' ) ) {
 		$network_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
 		$plugins = array_merge( $plugins, array_keys( $network_plugins ) );
 	}
