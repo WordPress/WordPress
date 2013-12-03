@@ -48,8 +48,10 @@ function wp_dashboard_setup() {
 	}
 
 	// QuickPress Widget
-	if ( is_blog_admin() && current_user_can( 'edit_posts' ) )
-		wp_add_dashboard_widget( 'dashboard_quick_press', __( 'Quick Draft' ), 'wp_dashboard_quick_press' );
+	if ( is_blog_admin() && current_user_can( 'edit_posts' ) ) {
+		$quick_draft_title = sprintf( '<span class="hide-if-no-js">%1$s</span> <span class="hide-if-js">%2$s</span>', __( 'Quick Draft' ), __( 'Drafts' ) );
+		wp_add_dashboard_widget( 'dashboard_quick_press', $quick_draft_title, 'wp_dashboard_quick_press' );
+	}
 
 	// WordPress News
 	wp_add_dashboard_widget( 'dashboard_primary', __( 'WordPress News' ), 'wp_dashboard_primary' );
@@ -311,7 +313,7 @@ function wp_dashboard_quick_press( $error_msg = false ) {
 	$post_ID = (int) $post->ID;
 ?>
 
-	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press" class="initial-form">
+	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press" class="initial-form hide-if-no-js">
 
 		<?php if ( $error_msg ) : ?>
 		<div class="error"><?php echo $error_msg; ?></div>
@@ -355,7 +357,7 @@ function wp_dashboard_quick_press( $error_msg = false ) {
 	if ( count( $drafts ) > 3 ) {
 		echo '<p class="view-all"><a href="' . esc_url( admin_url( 'edit.php?post_status=draft' ) ) . '">' . _x( 'View all', 'drafts' ) . "</a></p>\n";
  	}
-	echo '<h4>' . __( 'Drafts' ) . "</h4>\n<ul>";
+	echo '<h4 class="hide-if-no-js">' . __( 'Drafts' ) . "</h4>\n<ul>";
 
 	$drafts = array_slice( $drafts, 0, 3 );
 	foreach ( $drafts as $draft ) {
@@ -535,7 +537,7 @@ function dashboard_show_published_posts( $args ) {
 		echo '<div id="' . $args['id'] . '" class="activity-block">';
 
 		if ( $posts->post_count > $args['display'] ) {
-			echo '<small class="show-more"><a href="#">' . sprintf( __( 'See %s more&hellip;'), $posts->post_count - intval( $args['display'] ) ) . '</a></small>';
+			echo '<small class="show-more hide-if-no-js"><a href="#">' . sprintf( __( 'See %s more&hellip;'), $posts->post_count - intval( $args['display'] ) ) . '</a></small>';
 		}
 
 		echo '<h4>' . $args['title'] . '</h4>';

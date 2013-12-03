@@ -3103,7 +3103,7 @@ form.initial-form.quickpress-open input#title {
 
 /* Dashboard Quick Draft - Drafts list */
 
-#dashboard_quick_press .drafts {
+.js #dashboard_quick_press .drafts {
 	border-top: 1px solid #eee;
 }
 
