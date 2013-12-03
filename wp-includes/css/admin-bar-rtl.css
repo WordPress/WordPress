@@ -984,15 +984,9 @@
 		margin-right: 0;
 	}
 
-	#wpadminbar #wp-admin-bar-updates,
-	#wpadminbar #wp-admin-bar-view,
-	#wpadminbar #wp-admin-bar-edit {
-		display: none;
-	}
-}
-
-@media screen and (max-width: 350px) {
-	#wpadminbar #wp-admin-bar-wp-logo {
+	#wp-admin-bar-root-default li#wp-admin-bar-wp-logo,
+	#wp-admin-bar-root-default li#wp-admin-bar-updates,
+	#wp-admin-bar-root-default li#wp-admin-bar-view {
 		display: none;
 	}
 }
