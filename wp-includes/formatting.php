@@ -1237,21 +1237,10 @@ function convert_chars($content, $deprecated = '') {
  */
 function balanceTags( $text, $force = false ) {
 	if ( $force || get_option('use_balanceTags') == 1 ) {
-		/**
-		 * Filter the list of delimiters to be used before tags are balanced.
-		 *
-		 * @since 3.8.0
-		 *
-		 * @param array $delimiters An array of delimiters, e.g '<!--more.*?-->', '<!--nextpage-->'.
-		 */
-		$balance_tags_delimiters = apply_filters( 'balance_tags_delimiters', array( '<!--more.*?-->', '<!--nextpage-->' ) );
-		// Capture lets PREG_SPLIT_DELIM_CAPTURE return the delimiters
-		$delimiters_regex = '/(' . implode( '|', $balance_tags_delimiters ) . ')/';
-		$parts = preg_split( $delimiters_regex, $text, -1, PREG_SPLIT_DELIM_CAPTURE );
-		return implode( '', array_map( 'force_balance_tags', $parts ) );
+		return force_balance_tags( $text );
+	} else {
+		return $text;
 	}
-
-	return $text;
 }
 
 /**
