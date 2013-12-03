@@ -80,7 +80,7 @@ class GoogleSpell extends SpellChecker {
 			curl_setopt($ch, CURLOPT_URL,$url);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $header);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			$xml = curl_exec($ch);
 			curl_close($ch);
 		} else {

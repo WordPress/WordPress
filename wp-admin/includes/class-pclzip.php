@@ -277,7 +277,7 @@
 
     // ----- Set default values
     $v_options = array();
-    $v_options[PCLZIP_OPT_NO_COMPRESSION] = FALSE;
+    $v_options[PCLZIP_OPT_NO_COMPRESSION] = false;
 
     // ----- Look for variable options arguments
     $v_size = func_num_args();
@@ -460,7 +460,7 @@
 
     // ----- Set default values
     $v_options = array();
-    $v_options[PCLZIP_OPT_NO_COMPRESSION] = FALSE;
+    $v_options[PCLZIP_OPT_NO_COMPRESSION] = false;
 
     // ----- Look for variable options arguments
     $v_size = func_num_args();
@@ -720,7 +720,7 @@
     $v_size = func_num_args();
 
     // ----- Default values for option
-    $v_options[PCLZIP_OPT_EXTRACT_AS_STRING] = FALSE;
+    $v_options[PCLZIP_OPT_EXTRACT_AS_STRING] = false;
 
     // ----- Look for arguments
     if ($v_size > 0) {
@@ -877,7 +877,7 @@
     $v_size = func_num_args();
 
     // ----- Default values for option
-    $v_options[PCLZIP_OPT_EXTRACT_AS_STRING] = FALSE;
+    $v_options[PCLZIP_OPT_EXTRACT_AS_STRING] = false;
 
     // ----- Look for arguments
     if ($v_size > 1) {
@@ -930,7 +930,7 @@
           $v_path .= $v_options[PCLZIP_OPT_ADD_PATH];
         }
         if (!isset($v_options[PCLZIP_OPT_EXTRACT_AS_STRING])) {
-          $v_options[PCLZIP_OPT_EXTRACT_AS_STRING] = FALSE;
+          $v_options[PCLZIP_OPT_EXTRACT_AS_STRING] = false;
         }
         else {
         }
@@ -1456,7 +1456,7 @@
           }
 
           // ----- Get the value
-          $v_result_list[$p_options_list[$i]] = PclZipUtilTranslateWinPath($p_options_list[$i+1], FALSE);
+          $v_result_list[$p_options_list[$i]] = PclZipUtilTranslateWinPath($p_options_list[$i+1], false);
           $i++;
         break;
 
@@ -1523,7 +1523,7 @@
           // ----- Get the value
           if (   is_string($p_options_list[$i+1])
               && ($p_options_list[$i+1] != '')) {
-            $v_result_list[$p_options_list[$i]] = PclZipUtilTranslateWinPath($p_options_list[$i+1], FALSE);
+            $v_result_list[$p_options_list[$i]] = PclZipUtilTranslateWinPath($p_options_list[$i+1], false);
             $i++;
           }
           else {
@@ -3884,7 +3884,7 @@
             // ----- Decompress the file
             $v_file_content = @gzinflate($v_buffer);
             unset($v_buffer);
-            if ($v_file_content === FALSE) {
+            if ($v_file_content === false) {
 
               // ----- Change the file status
               // TBC
@@ -4212,7 +4212,7 @@
           $v_data = @fread($this->zip_fd, $p_entry['compressed_size']);
 
           // ----- Decompress the file
-          if (($p_string = @gzinflate($v_data)) === FALSE) {
+          if (($p_string = @gzinflate($v_data)) === false) {
               // TBC
           }
         }
@@ -5474,11 +5474,11 @@
     // ----- Look for path beginning by ./
     if (   ($p_dir == '.')
         || ((strlen($p_dir) >=2) && (substr($p_dir, 0, 2) == './'))) {
-      $p_dir = PclZipUtilTranslateWinPath(getcwd(), FALSE).'/'.substr($p_dir, 1);
+      $p_dir = PclZipUtilTranslateWinPath(getcwd(), false).'/'.substr($p_dir, 1);
     }
     if (   ($p_path == '.')
         || ((strlen($p_path) >=2) && (substr($p_path, 0, 2) == './'))) {
-      $p_path = PclZipUtilTranslateWinPath(getcwd(), FALSE).'/'.substr($p_path, 1);
+      $p_path = PclZipUtilTranslateWinPath(getcwd(), false).'/'.substr($p_path, 1);
     }
 
     // ----- Explode dir and path by directory separator

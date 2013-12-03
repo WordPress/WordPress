@@ -33,14 +33,14 @@ class POP3 {
 
     var $MAILSERVER = '';       // Set this to hard code the server name
 
-    var $DEBUG      = FALSE;    // set to true to echo pop3
+    var $DEBUG      = false;    // set to true to echo pop3
                                 // commands and responses to error_log
                                 // this WILL log passwords!
 
     var $BANNER     = '';       //  Holds the banner returned by the
                                 //  pop server - used for apop()
 
-    var $ALLOWAPOP  = FALSE;    //  Allow or disallow apop()
+    var $ALLOWAPOP  = false;    //  Allow or disallow apop()
                                 //  This must be set to true
                                 //  manually
 
