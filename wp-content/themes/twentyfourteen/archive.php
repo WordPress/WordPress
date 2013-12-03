@@ -31,10 +31,10 @@ get_header(); ?>
 							printf( __( 'Day: %s', 'twentyfourteen' ), get_the_date() );
 
 						elseif ( is_month() ) :
-							printf( __( 'Month: %s', 'twentyfourteen' ), get_the_date( 'F Y' ) );
+							printf( __( 'Month: %s', 'twentyfourteen' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'twentyfourteen' ) ) );
 
 						elseif ( is_year() ) :
-							printf( __( 'Year: %s', 'twentyfourteen' ), get_the_date( 'Y' ) );
+							printf( __( 'Year: %s', 'twentyfourteen' ), get_the_date( _x( 'Y', 'yearly archives date format', 'twentyfourteen' ) ) );
 
 						else :
 							_e( 'Archives', 'twentyfourteen' );
