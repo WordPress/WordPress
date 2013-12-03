@@ -6652,7 +6652,9 @@ span.imgedit-scale-warn {
 	box-shadow: none;
 	font-weight: 400;
 	position: relative;
-	top: -50px;
+	top: 0;
+	margin-top: -10%;
+	margin-bottom: 10%;
 }
 
 .theme-browser .theme.add-new-theme:hover .theme-name {
@@ -7181,6 +7183,16 @@ body.folded .theme-overlay .theme-wrap {
 		left: 0;
 		margin: 10px 0;
 		width: 100%;
+	}
+	
+	.theme-browser .theme.add-new-theme span:after {
+		font: normal 60px/90px 'dashicons';
+		width: 80px;
+		height: 80px;
+		top: 30%;
+		right: 50%;
+		text-indent: 0;
+		margin-right: -40px;
 	}
 }
 
