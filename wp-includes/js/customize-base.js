@@ -176,7 +176,7 @@ window.wp = window.wp || {};
 			to = this.validate( to );
 
 			// Bail if the sanitized value is null or unchanged.
-			if ( null === to || this._value === to )
+			if ( null === to || this.isEqual( to ) )
 				return this;
 
 			this._value = to;
@@ -251,7 +251,78 @@ window.wp = window.wp || {};
 				this.unlink( that );
 			});
 			return this;
+		},
+
+		isEqual: function( to ) {
+			return this._eq( this._value, to, [], [] );
+		},
+
+		/**
+		 * Internal recursive comparison function for `isEqual`.
+		 * Copied from Underscore.js.
+		 */
+		/* jshint ignore:start */
+		_eq: function(a, b, aStack, bStack) {
+			if (a === b) return a !== 0 || 1 / a == 1 / b;
+			if (a == null || b == null) return a === b;
+
+			var className = toString.call(a);
+			if (className != toString.call(b)) return false;
+			switch (className) {
+				case '[object String]':
+					return a == String(b);
+				case '[object Number]':
+					return a != +a ? b != +b : (a == 0 ? 1 / a == 1 / b : a == +b);
+				case '[object Date]':
+				case '[object Boolean]':
+					return +a == +b;
+				case '[object RegExp]':
+					return a.source == b.source &&
+								a.global == b.global &&
+								a.multiline == b.multiline &&
+								a.ignoreCase == b.ignoreCase;
+			}
+			if (typeof a != 'object' || typeof b != 'object') return false;
+			var length = aStack.length;
+			while (length--) {
+				if (aStack[length] == a) return bStack[length] == b;
+			}
+			var aCtor = a.constructor, bCtor = b.constructor;
+			if (aCtor !== bCtor && !((typeof aCtor === 'function') && (aCtor instanceof aCtor) &&
+									(typeof bCtor === 'function') && (bCtor instanceof bCtor))) {
+				return false;
+			}
+			aStack.push(a);
+			bStack.push(b);
+			var size = 0, result = true;
+
+			if (className == '[object Array]') {
+				size = a.length;
+				result = size == b.length;
+				if (result) {
+					while (size--) {
+						if (!(result = this._eq(a[size], b[size], aStack, bStack))) break;
+					}
+				}
+			} else {
+				for (var key in a) {
+					if (hasOwnProperty.call(a, key)) {
+						size++;
+						if (!(result = hasOwnProperty.call(b, key) && this._eq(a[key], b[key], aStack, bStack))) break;
+					}
+				}
+				if (result) {
+					for (key in b) {
+						if (hasOwnProperty.call(b, key) && !(size--)) break;
+					}
+					result = !size;
+				}
+			}
+			aStack.pop();
+			bStack.pop();
+			return result;
 		}
+		/* jshint ignore:end */
 	});
 
 	/* =====================================================================
