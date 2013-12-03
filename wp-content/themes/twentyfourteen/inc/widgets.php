@@ -58,10 +58,6 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 			'link'    => __( 'Links',     'twentyfourteen' ),
 			'gallery' => __( 'Galleries', 'twentyfourteen' ),
 		);
-
-		add_action( 'save_post',    array( $this, 'flush_widget_cache' ) );
-		add_action( 'deleted_post', array( $this, 'flush_widget_cache' ) );
-		add_action( 'switch_theme', array( $this, 'flush_widget_cache' ) );
 	}
 
 	/**
@@ -221,20 +217,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 			$instance['format'] = $new_instance['format'];
 		}
 
-		$this->flush_widget_cache();
-
 		return $instance;
-	}
-
-	/**
-	 * Delete the transient.
-	 *
-	 * @since Twenty Fourteen 1.0
-	 *
-	 * @return void
-	 */
-	function flush_widget_cache() {
-		delete_transient( $this->id );
 	}
 
 	/**
