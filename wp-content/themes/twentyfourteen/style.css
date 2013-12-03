@@ -946,7 +946,6 @@ span + .edit-link:before,
 /* Primary Navigation */
 
 .primary-navigation {
-	background-color: #000;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing:    border-box;
 	box-sizing:         border-box;
@@ -1319,7 +1318,7 @@ a.post-thumbnail:hover {
 
 .hentry .mejs-controls .mejs-time-rail .mejs-time-total,
 .hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total {
-	background: #595959;
+	background: rgba(255,255,255,.33);
 }
 
 .hentry .mejs-container .mejs-controls .mejs-time {
@@ -3291,7 +3290,6 @@ a.post-thumbnail:hover {
 	/* Fixed Header */
 
 	.masthead-fixed .site-header {
-		box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
 		position: fixed;
 		top: 0;
 	}
