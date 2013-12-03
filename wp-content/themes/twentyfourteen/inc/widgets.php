@@ -75,22 +75,6 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	 * @return void Echoes its output.
 	 */
 	public function widget( $args, $instance ) {
-		// If called directly, assign an unique index for caching.
-		if ( -1 == $this->number ) {
-			static $num = -1;
-			$this->_set( --$num );
-		}
-
-		$content = get_transient( $this->id );
-
-		if ( false !== $content ) {
-			echo $content;
-			return;
-		}
-
-		ob_start();
-		extract( $args, EXTR_SKIP );
-
 		$format = $instance['format'];
 		$number = empty( $instance['number'] ) ? 2 : absint( $instance['number'] );
 		$title  = apply_filters( 'widget_title', empty( $instance['title'] ) ? $this->format_strings[ $format ] : $instance['title'], $instance, $this->id_base );
@@ -115,7 +99,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 			$tmp_content_width = $GLOBALS['content_width'];
 			$GLOBALS['content_width'] = 306;
 
-			echo $before_widget;
+			echo $args['before_widget'];
 			?>
 			<h1 class="widget-title <?php echo esc_attr( $format ); ?>">
 				<a class="entry-format" href="<?php echo esc_url( get_post_format_link( $format ) ); ?>"><?php echo $title; ?></a>
@@ -209,7 +193,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 			<a class="post-format-archive-link" href="<?php echo esc_url( get_post_format_link( $format ) ); ?>"><?php printf( __( 'More %s <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ), $this->format_strings[ $format ] ); ?></a>
 			<?php
 
-			echo $after_widget;
+			echo $args['after_widget'];
 
 			// Reset the post globals as this query will have stomped on it.
 			wp_reset_postdata();
@@ -217,8 +201,6 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 			$GLOBALS['content_width'] = $tmp_content_width;
 
 		endif; // End check for ephemeral posts.
-
-		set_transient( $this->id, ob_get_flush() );
 	}
 
 	/**
