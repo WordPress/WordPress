@@ -3729,12 +3729,26 @@ a.post-thumbnail:hover {
 	.primary-sidebar .widget_recent_comments li,
 	.primary-sidebar .widget_recent_entries li {
 		border-top: 0;
-		padding: 0;
+		padding: 0 0 6px;
 	}
 
-	.footer-sidebar .widget_recent_entries li,
-	.primary-sidebar .widget_recent_entries li {
-		margin-bottom: 18px;
+	.footer-sidebar .widget_archive li:last-child,
+	.footer-sidebar .widget_categories li:last-child,
+	.footer-sidebar .widget_links li:last-child,
+	.footer-sidebar .widget_meta li:last-child,
+	.footer-sidebar .widget_nav_menu li:last-child,
+	.footer-sidebar .widget_pages li:last-child,
+	.footer-sidebar .widget_recent_comments li:last-child,
+	.footer-sidebar .widget_recent_entries li:last-child,
+	.primary-sidebar .widget_archive li:last-child,
+	.primary-sidebar .widget_categories li:last-child,
+	.primary-sidebar .widget_links li:last-child,
+	.primary-sidebar .widget_meta li:last-child,
+	.primary-sidebar .widget_nav_menu li:last-child,
+	.primary-sidebar .widget_pages li:last-child,
+	.primary-sidebar .widget_recent_comments li:last-child,
+	.primary-sidebar .widget_recent_entries li:last-child {
+		padding: 0;
 	}
 
 	#supplementary {
