@@ -1549,8 +1549,10 @@ function dbDelta( $queries = '', $execute = true ) {
 	$global_tables = $wpdb->tables( 'global' );
 	foreach ( $cqueries as $table => $qry ) {
 		// Upgrade global tables only for the main site. Don't upgrade at all if DO_NOT_UPGRADE_GLOBAL_TABLES is defined.
-		if ( in_array( $table, $global_tables ) && ( !is_main_site() || defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) )
+		if ( in_array( $table, $global_tables ) && ( !is_main_site() || defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) ) {
+			unset( $cqueries[ $table ], $for_update[ $table ] );
 			continue;
+		}
 
 		// Fetch the table column structure from the database
 		$suppress = $wpdb->suppress_errors();
