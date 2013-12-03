@@ -382,7 +382,10 @@ commentReply = {
 	},
 
 	open : function(comment_id, post_id, action) {
-		var t = this, editRow, rowData, act, c = $('#comment-' + comment_id), h = c.height(), replyButton;
+		var editRow, rowData, act, replyButton, editHeight,
+			t = this,
+			c = $('#comment-' + comment_id),
+			h = c.height();
 
 		t.close();
 		t.cid = comment_id;
@@ -397,9 +400,6 @@ commentReply = {
 		$('#comment_post_ID', editRow).val(post_id);
 		$('#comment_ID', editRow).val(comment_id);
 
-		if ( h > 120 )
-			$('#replycontent', editRow).css('height', (35+h) + 'px');
-
 		if ( action == 'edit' ) {
 			$('#author', editRow).val( $('div.author', rowData).text() );
 			$('#author-email', editRow).val( $('div.author-email', rowData).text() );
@@ -408,6 +408,13 @@ commentReply = {
 			$('#replycontent', editRow).val( $('textarea.comment', rowData).val() );
 			$('#edithead, #savebtn', editRow).show();
 			$('#replyhead, #replybtn, #addhead, #addbtn', editRow).hide();
+
+			if ( h > 120 ) {
+				// Limit the maximum height when editing very long comments to make it more manageable.
+				// The textarea is resizable in most browsers, so the user can adjust it if needed.
+				editHeight = h > 500 ? 500 : h;
+				$('#replycontent', editRow).css('height', editHeight + 'px');
+			}
 
 			c.after( editRow ).fadeOut('fast', function(){
 				$('#replyrow').fadeIn(300, function(){ $(this).show(); });
