@@ -401,12 +401,12 @@ ul#adminmenu > li.current > a.current:after {
 
 /* Themes */
 
-.theme.active .theme-name,
-.theme-browser .add-new-theme:hover:after {
+.theme-browser .theme.active .theme-name,
+.theme-browser .theme.add-new-theme:hover:after {
 	background: $highlight-color;
 }
 
-.theme-browser .add-new-theme:hover span:after {
+.theme-browser .theme.add-new-theme:hover span:after {
 	color: $highlight-color;
 }
 

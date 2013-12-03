@@ -258,10 +258,10 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
   box-shadow: 0 0 0 1px white, 0 0 0 2px #e14d43; }
 
 /* Themes */
-.theme.active .theme-name, .theme-browser .add-new-theme:hover:after {
+.theme-browser .theme.active .theme-name, .theme-browser .theme.add-new-theme:hover:after {
   background: #e14d43; }
 
-.theme-browser .add-new-theme:hover span:after {
+.theme-browser .theme.add-new-theme:hover span:after {
   color: #e14d43; }
 
 /* jQuery UI Slider */
