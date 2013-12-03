@@ -157,7 +157,6 @@ function twentyfourteen_get_featured_posts() {
  * @return bool Whether there are featured posts.
  */
 function twentyfourteen_has_featured_posts() {
-	/** This filter is documented in functions.php */
 	return ! is_paged() && (bool) twentyfourteen_get_featured_posts();
 }
 
