@@ -6698,7 +6698,7 @@ body.theme-overlay-open {
 	right: 0;
 	left: 0;
 	height: 48px;
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #ddd;
 }
 
 .theme-overlay .theme-header .close {
@@ -6707,11 +6707,7 @@ body.theme-overlay-open {
 	width: 50px;
 	text-align: center;
 	float: left;
-	border-right: 1px solid #eee;
-}
-
-.theme-overlay .theme-header .close:hover {
-	background: #333;
+	border-right: 1px solid #ddd;
 }
 
 .theme-overlay .theme-header .close:hover:before {
@@ -6719,8 +6715,8 @@ body.theme-overlay-open {
 }
 
 .theme-overlay .theme-header .close:before {
-	font: normal 30px/48px 'dashicons' !important;
-	color: #bbb;
+	font: normal 30px/50px 'dashicons' !important;
+	color: #777;
 	display: inline-block;
 	content: '\f335';
 	font-weight: 300;
@@ -6730,20 +6726,22 @@ body.theme-overlay-open {
 .theme-overlay .theme-header .right,
 .theme-overlay .theme-header .left {
 	cursor: pointer;
+	color: #777;
 	height: 48px;
 	width: 54px;
 	float: right;
 	text-align: center;
-	border-left: 1px solid #eee;
+	border-left: 1px solid #ddd;
 	-webkit-user-select: none;
 	-moz-user-select:    none;
 	-ms-user-select:     none;
 	user-select:         none;
 }
 
+.theme-overlay .theme-header .close:hover,
 .theme-overlay .theme-header .right:hover,
 .theme-overlay .theme-header .left:hover {
-	background: #333;
+	background: #0074a2;
 	color: #fff;
 }
 
@@ -6758,17 +6756,17 @@ body.theme-overlay-open {
 
 .theme-overlay .theme-header .right:before,
 .theme-overlay .theme-header .left:before {
-	font: normal 16px/54px 'dashicons' !important;
+	font: normal 20px/50px 'dashicons' !important;
 	display: inline;
 	font-weight: 300;
 }
 
 .theme-overlay .theme-header .left:before {
-	content: '\f341';
+	content: '\f340';
 }
 
 .theme-overlay .theme-header .right:before {
-	content: '\f345';
+	content: '\f344';
 }
 
 .rtl .theme-overlay .theme-header .left:before {
@@ -6808,7 +6806,7 @@ body.folded .theme-overlay .theme-wrap {
 .theme-overlay .theme-about {
 	position: absolute;
 	top: 49px;
-	bottom: 69px;
+	bottom: 57px;
 	right: 0;
 	left: 0;
 	overflow: auto;
@@ -6828,7 +6826,7 @@ body.folded .theme-overlay .theme-wrap {
 	bottom: 0;
 	right: 0;
 	left: 0;
-	padding: 20px 25px;
+	padding: 10px 25px 5px;
 	background: #f3f3f3;
 	z-index: 30;
 	box-sizing: border-box;
@@ -6837,14 +6835,14 @@ body.folded .theme-overlay .theme-wrap {
 
 .theme-overlay .theme-actions a {
 	margin-left: 5px;
-	margin-bottom: 0;
+	margin-bottom: 5px;
 }
 
 .theme-overlay .theme-actions .delete-theme {
 	color: #a00;
 	position: absolute;
 	left: 10px;
-	bottom: 20px;
+	bottom: 5px;
 	text-decoration: none;
 	border-color: transparent;
 	box-shadow: none;
@@ -7112,12 +7110,14 @@ body.folded .theme-overlay .theme-wrap {
 
 	body.folded .theme-overlay .theme-wrap,
 	.theme-overlay .theme-wrap {
-		top: 45px;
+		top: 0; /* The adminmenu isn't fixed on mobile, so this can use the full viewport height */
 		left: 0;
 		bottom: 0;
 		right: 0;
 		padding: 70px 20px 20px;
 		border: none;
+		z-index: 999999999;
+		position: fixed;
 	}
 
 	.theme-overlay .theme-screenshots {
@@ -7151,6 +7151,16 @@ body.folded .theme-overlay .theme-wrap {
 	.theme.active .theme-actions .button {
 		margin-top: 6px;
 		margin-left: 0;
+	}
+	
+	.theme-overlay .theme-actions .delete-theme {
+		position: relative;
+		left: auto;
+		bottom: auto;
+	}
+	
+	.theme-overlay .theme-actions .inactive-theme {
+		display: inline;
 	}
 
 	.theme-overlay .theme-screenshots {

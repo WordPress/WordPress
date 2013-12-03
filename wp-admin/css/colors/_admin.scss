@@ -410,6 +410,12 @@ ul#adminmenu > li.current > a.current:after {
 	color: $highlight-color;
 }
 
+.theme-overlay .theme-header .close:hover,
+.theme-overlay .theme-header .right:hover,
+.theme-overlay .theme-header .left:hover {
+	background: $highlight-color;
+}
+
 /* jQuery UI Slider */
 
 .wp-slider .ui-slider-handle,
