@@ -373,7 +373,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 			sel = document.selection.createRange();
 			sel.text = content;
 			canvas.focus();
-		} else if ( canvas.selectionStart || canvas.selectionStart === '0' ) { // FF, WebKit, Opera
+		} else if ( canvas.selectionStart || canvas.selectionStart === 0 ) { // FF, WebKit, Opera
 			text = canvas.value;
 			startPos = canvas.selectionStart;
 			endPos = canvas.selectionEnd;
@@ -472,7 +472,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 				}
 			}
 			canvas.focus();
-		} else if ( canvas.selectionStart || canvas.selectionStart === '0' ) { // FF, WebKit, Opera
+		} else if ( canvas.selectionStart || canvas.selectionStart === 0 ) { // FF, WebKit, Opera
 			startPos = canvas.selectionStart;
 			endPos = canvas.selectionEnd;
 			cursorPos = endPos;
