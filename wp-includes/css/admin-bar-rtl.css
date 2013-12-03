@@ -468,6 +468,11 @@
 	top: 2px;
 }
 
+#wpadminbar #wp-admin-bar-edit > .ab-item:before {
+	content: '\f327';
+	top: 2px;
+}
+
 #wpadminbar #wp-admin-bar-site-name > .ab-item:before {
 	content: '\f319';
 }
@@ -763,9 +768,11 @@
 
 	/* My Sites and "Site Title" menu */
 	#wpadminbar #wp-admin-bar-my-sites > .ab-item,
-	#wpadminbar #wp-admin-bar-site-name > .ab-item {
+	#wpadminbar #wp-admin-bar-site-name > .ab-item,
+	#wpadminbar #wp-admin-bar-edit > .ab-item {
 		text-indent: 100%;
-		text-overflow: clip !important;
+		white-space: nowrap;
+		overflow: hidden;
 		width: 50px;
 		padding: 0;
 		color: #999;
@@ -778,7 +785,8 @@
 		padding: 0;
 		margin-left: 0;
 	}
-
+	
+	#wpadminbar #wp-admin-bar-edit > .ab-item:before,
 	#wpadminbar #wp-admin-bar-my-sites > .ab-item:before,
 	#wpadminbar #wp-admin-bar-site-name > .ab-item:before {
 		display: block;
@@ -892,6 +900,7 @@
 	#wp-admin-bar-root-default li#wp-admin-bar-my-sites,
 	#wp-admin-bar-root-default li#wp-admin-bar-site-name,
 	#wp-admin-bar-root-default li#wp-admin-bar-new-content,
+	#wp-admin-bar-root-default li#wp-admin-bar-edit,
 	#wp-admin-bar-root-default li#wp-admin-bar-comments,
 	#wp-admin-bar-root-default li#wp-admin-bar-new-content,
 	#wp-admin-bar-top-secondary li#wp-admin-bar-my-account {
@@ -911,6 +920,7 @@
 	#wpadminbar #wp-admin-bar-updates,
 	#wpadminbar #wp-admin-bar-comments,
 	#wpadminbar #wp-admin-bar-new-content,
+	#wpadminbar #wp-admin-bar-edit,
 	#wpadminbar #wp-admin-bar-my-account {
 		position: static;
 	}
