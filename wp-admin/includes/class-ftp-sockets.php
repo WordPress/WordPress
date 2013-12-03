@@ -27,11 +27,11 @@
  */
 class ftp extends ftp_base {
 
-	function ftp($verb=FALSE, $le=FALSE) {
+	function ftp($verb=false, $le=false) {
 		$this->__construct($verb, $le);
 	}
 
-	function __construct($verb=FALSE, $le=FALSE) {
+	function __construct($verb=false, $le=false) {
 		parent::__construct(true, $verb, $le);
 	}
 
@@ -43,12 +43,12 @@ class ftp extends ftp_base {
 		if(!@socket_set_option($sock, SOL_SOCKET, SO_RCVTIMEO, array("sec"=>$this->_timeout, "usec"=>0))) {
 			$this->PushError('_connect','socket set receive timeout',socket_strerror(socket_last_error($sock)));
 			@socket_close($sock);
-			return FALSE;
+			return false;
 		}
 		if(!@socket_set_option($sock, SOL_SOCKET , SO_SNDTIMEO, array("sec"=>$this->_timeout, "usec"=>0))) {
 			$this->PushError('_connect','socket set send timeout',socket_strerror(socket_last_error($sock)));
 			@socket_close($sock);
-			return FALSE;
+			return false;
 		}
 		return true;
 	}
@@ -57,14 +57,14 @@ class ftp extends ftp_base {
 		$this->SendMSG("Creating socket");
 		if(!($sock = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP))) {
 			$this->PushError('_connect','socket create failed',socket_strerror(socket_last_error($sock)));
-			return FALSE;
+			return false;
 		}
-		if(!$this->_settimeout($sock)) return FALSE;
+		if(!$this->_settimeout($sock)) return false;
 		$this->SendMSG("Connecting to \"".$host.":".$port."\"");
 		if (!($res = @socket_connect($sock, $host, $port))) {
 			$this->PushError('_connect','socket connect failed',socket_strerror(socket_last_error($sock)));
 			@socket_close($sock);
-			return FALSE;
+			return false;
 		}
 		$this->_connected=true;
 		return $sock;
@@ -73,7 +73,7 @@ class ftp extends ftp_base {
 	function _readmsg($fnction="_readmsg"){
 		if(!$this->_connected) {
 			$this->PushError($fnction,'Connect first');
-			return FALSE;
+			return false;
 		}
 		$result=true;
 		$this->_message="";
@@ -97,39 +97,39 @@ class ftp extends ftp_base {
 	function _exec($cmd, $fnction="_exec") {
 		if(!$this->_ready) {
 			$this->PushError($fnction,'Connect first');
-			return FALSE;
+			return false;
 		}
 		if($this->LocalEcho) echo "PUT > ",$cmd,CRLF;
 		$status=@socket_write($this->_ftp_control_sock, $cmd.CRLF);
 		if($status===false) {
 			$this->PushError($fnction,'socket write failed', socket_strerror(socket_last_error($this->stream)));
-			return FALSE;
+			return false;
 		}
 		$this->_lastaction=time();
-		if(!$this->_readmsg($fnction)) return FALSE;
-		return TRUE;
+		if(!$this->_readmsg($fnction)) return false;
+		return true;
 	}
 
 	function _data_prepare($mode=FTP_ASCII) {
-		if(!$this->_settype($mode)) return FALSE;
+		if(!$this->_settype($mode)) return false;
 		$this->SendMSG("Creating data socket");
 		$this->_ftp_data_sock = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 		if ($this->_ftp_data_sock < 0) {
 			$this->PushError('_data_prepare','socket create failed',socket_strerror(socket_last_error($this->_ftp_data_sock)));
-			return FALSE;
+			return false;
 		}
 		if(!$this->_settimeout($this->_ftp_data_sock)) {
 			$this->_data_close();
-			return FALSE;
+			return false;
 		}
 		if($this->_passive) {
 			if(!$this->_exec("PASV", "pasv")) {
 				$this->_data_close();
-				return FALSE;
+				return false;
 			}
 			if(!$this->_checkCode()) {
 				$this->_data_close();
-				return FALSE;
+				return false;
 			}
 			$ip_port = explode(",", ereg_replace("^.+ \\(?([0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]+,[0-9]+)\\)?.*".CRLF."$", "\\1", $this->_message));
 			$this->_datahost=$ip_port[0].".".$ip_port[1].".".$ip_port[2].".".$ip_port[3];
@@ -138,53 +138,53 @@ class ftp extends ftp_base {
 			if(!@socket_connect($this->_ftp_data_sock, $this->_datahost, $this->_dataport)) {
 				$this->PushError("_data_prepare","socket_connect", socket_strerror(socket_last_error($this->_ftp_data_sock)));
 				$this->_data_close();
-				return FALSE;
+				return false;
 			}
 			else $this->_ftp_temp_sock=$this->_ftp_data_sock;
 		} else {
 			if(!@socket_getsockname($this->_ftp_control_sock, $addr, $port)) {
 				$this->PushError("_data_prepare","can't get control socket information", socket_strerror(socket_last_error($this->_ftp_control_sock)));
 				$this->_data_close();
-				return FALSE;
+				return false;
 			}
 			if(!@socket_bind($this->_ftp_data_sock,$addr)){
 				$this->PushError("_data_prepare","can't bind data socket", socket_strerror(socket_last_error($this->_ftp_data_sock)));
 				$this->_data_close();
-				return FALSE;
+				return false;
 			}
 			if(!@socket_listen($this->_ftp_data_sock)) {
 				$this->PushError("_data_prepare","can't listen data socket", socket_strerror(socket_last_error($this->_ftp_data_sock)));
 				$this->_data_close();
-				return FALSE;
+				return false;
 			}
 			if(!@socket_getsockname($this->_ftp_data_sock, $this->_datahost, $this->_dataport)) {
 				$this->PushError("_data_prepare","can't get data socket information", socket_strerror(socket_last_error($this->_ftp_data_sock)));
 				$this->_data_close();
-				return FALSE;
+				return false;
 			}
 			if(!$this->_exec('PORT '.str_replace('.',',',$this->_datahost.'.'.($this->_dataport>>8).'.'.($this->_dataport&0x00FF)), "_port")) {
 				$this->_data_close();
-				return FALSE;
+				return false;
 			}
 			if(!$this->_checkCode()) {
 				$this->_data_close();
-				return FALSE;
+				return false;
 			}
 		}
-		return TRUE;
+		return true;
 	}
 
-	function _data_read($mode=FTP_ASCII, $fp=NULL) {
+	function _data_read($mode=FTP_ASCII, $fp=null) {
 		$NewLine=$this->_eol_code[$this->OS_local];
 		if(is_resource($fp)) $out=0;
 		else $out="";
 		if(!$this->_passive) {
 			$this->SendMSG("Connecting to ".$this->_datahost.":".$this->_dataport);
 			$this->_ftp_temp_sock=socket_accept($this->_ftp_data_sock);
-			if($this->_ftp_temp_sock===FALSE) {
+			if($this->_ftp_temp_sock===false) {
 				$this->PushError("_data_read","socket_accept", socket_strerror(socket_last_error($this->_ftp_temp_sock)));
 				$this->_data_close();
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -197,14 +197,14 @@ class ftp extends ftp_base {
 		return $out;
 	}
 
-	function _data_write($mode=FTP_ASCII, $fp=NULL) {
+	function _data_write($mode=FTP_ASCII, $fp=null) {
 		$NewLine=$this->_eol_code[$this->OS_local];
 		if(is_resource($fp)) $out=0;
 		else $out="";
 		if(!$this->_passive) {
 			$this->SendMSG("Connecting to ".$this->_datahost.":".$this->_dataport);
 			$this->_ftp_temp_sock=socket_accept($this->_ftp_data_sock);
-			if($this->_ftp_temp_sock===FALSE) {
+			if($this->_ftp_temp_sock===false) {
 				$this->PushError("_data_write","socket_accept", socket_strerror(socket_last_error($this->_ftp_temp_sock)));
 				$this->_data_close();
 				return false;
@@ -222,10 +222,10 @@ class ftp extends ftp_base {
 	function _data_write_block($mode, $block) {
 		if($mode!=FTP_BINARY) $block=preg_replace("/\r\n|\r|\n/", $this->_eol_code[$this->OS_remote], $block);
 		do {
-			if(($t=@socket_write($this->_ftp_temp_sock, $block))===FALSE) {
+			if(($t=@socket_write($this->_ftp_temp_sock, $block))===false) {
 				$this->PushError("_data_write","socket_write", socket_strerror(socket_last_error($this->_ftp_temp_sock)));
 				$this->_data_close();
-				return FALSE;
+				return false;
 			}
 			$block=substr($block, $t);
 		} while(!empty($block));
@@ -236,7 +236,7 @@ class ftp extends ftp_base {
 		@socket_close($this->_ftp_temp_sock);
 		@socket_close($this->_ftp_data_sock);
 		$this->SendMSG("Disconnected data from remote host");
-		return TRUE;
+		return true;
 	}
 
 	function _quit() {

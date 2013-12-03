@@ -49,7 +49,7 @@ class PasswordHash {
 
 		$this->portable_hashes = $portable_hashes;
 
-		$this->random_state = microtime() . uniqid(rand(), TRUE); // removed getmypid() for compatibility reasons
+		$this->random_state = microtime() . uniqid(rand(), true); // removed getmypid() for compatibility reasons
 	}
 
 	function get_random_bytes($count)
@@ -136,9 +136,9 @@ class PasswordHash {
 		# consequently in lower iteration counts and hashes that are
 		# quicker to crack (by non-PHP code).
 		if (PHP_VERSION >= '5') {
-			$hash = md5($salt . $password, TRUE);
+			$hash = md5($salt . $password, true);
 			do {
-				$hash = md5($hash . $password, TRUE);
+				$hash = md5($hash . $password, true);
 			} while (--$count);
 		} else {
 			$hash = pack('H*', md5($salt . $password));
