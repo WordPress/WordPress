@@ -158,7 +158,7 @@ function twentyfourteen_get_featured_posts() {
  */
 function twentyfourteen_has_featured_posts() {
 	/** This filter is documented in functions.php */
-	return ! is_paged() && (bool) apply_filters( 'twentyfourteen_get_featured_posts', false );
+	return ! is_paged() && (bool) twentyfourteen_get_featured_posts();
 }
 
 /**
@@ -237,10 +237,10 @@ function twentyfourteen_scripts() {
 	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.0.2' );
 
 	// Load our main stylesheet.
-	wp_enqueue_style( 'twentyfourteen-style', get_stylesheet_uri() );
+	wp_enqueue_style( 'twentyfourteen-style', get_stylesheet_uri(), array( 'twentyfourteen-genericons' ) );
 
 	// Load the Internet Explorer specific stylesheet.
-	wp_enqueue_style( 'twentyfourteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyfourteen-style' ), '20131110' );
+	wp_enqueue_style( 'twentyfourteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyfourteen-style', 'twentyfourteen-genericons' ), '20131110' );
 	wp_style_add_data( 'twentyfourteen-ie', 'conditional', 'lt IE 9' );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -275,7 +275,7 @@ add_action( 'wp_enqueue_scripts', 'twentyfourteen_scripts' );
  * @return void
  */
 function twentyfourteen_admin_fonts() {
-	wp_enqueue_style( 'twentyfourteen-lato' );
+	wp_enqueue_style( 'twentyfourteen-lato', twentyfourteen_font_url(), array(), null );
 }
 add_action( 'admin_print_scripts-appearance_page_custom-header', 'twentyfourteen_admin_fonts' );
 
