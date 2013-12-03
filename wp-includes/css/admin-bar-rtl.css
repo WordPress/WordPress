@@ -693,7 +693,8 @@
 		font: normal 14px/32px "Open Sans", sans-serif;
 	}
 
-	#wpadminbar .quicklinks li > a {
+	#wpadminbar .quicklinks li > a,
+	#wpadminbar .quicklinks .ab-empty-item {
 		padding: 0;
 		height: 46px;
 		line-height: 46px;
@@ -706,6 +707,7 @@
 		padding: 0;
 		width: 50px;
 		height: 46px;
+		text-align: center;
 	}
 
 	#wpadminbar .ab-icon:before {
@@ -714,6 +716,12 @@
 
 	#wpadminbar .ab-submenu {
 		padding: 0;
+	}
+
+	#wpadminbar #wp-admin-bar-site-name a.ab-item,
+	#wpadminbar #wp-admin-bar-my-sites a.ab-item,
+	#wpadminbar #wp-admin-bar-my-account a.ab-item {
+		text-overflow: clip;
 	}
 
 	#wpadminbar .ab-label {
@@ -849,7 +857,7 @@
 	#wpadminbar #wp-admin-bar-my-account > a {
 		position: relative;
 		white-space: nowrap;
-		text-indent: 100%;
+		text-indent: 150%; /* More than 100% indention is needed since this element has padding */
 		width: 28px;
 		padding: 0 10px;
 		overflow: hidden; /* Prevent link text from forcing horizontal scrolling on mobile */
