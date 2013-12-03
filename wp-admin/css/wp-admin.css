@@ -347,6 +347,11 @@ input[type="search"]::-webkit-search-decoration {
 	display: none;
 }
 
+.ie8 input[type="password"],
+.ie8 .login form .input {
+	font-family: sans-serif;
+}
+
 /* general */
 html,
 body {

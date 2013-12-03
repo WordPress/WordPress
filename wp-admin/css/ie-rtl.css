@@ -508,6 +508,11 @@ table.ie-fixed {
 	position: relative;
 }
 
+input[type="password"],
+.login form .input {
+	font-family: sans-serif;
+}
+
 /* IE6 leftovers */
 * html .row-actions {
 	visibility: visible;

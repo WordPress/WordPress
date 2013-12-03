@@ -57,7 +57,12 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 		add_action( 'login_head', 'wp_shake_js', 12 );
 
 	?><!DOCTYPE html>
-	<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
+	<!--[if IE 8]>
+		<html xmlns="http://www.w3.org/1999/xhtml" class="ie8" <?php language_attributes(); ?>>
+	<![endif]-->
+	<!--[if !(IE 8) ]><!-->
+		<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
+	<!--<![endif]-->
 	<head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 	<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?></title>
@@ -65,6 +70,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 
 	wp_admin_css( 'wp-admin', true );
 	wp_admin_css( 'colors-fresh', true );
+	wp_admin_css( 'ie', true );
 
 	// Remove all stored post data on logging out.
 	// This could be added by add_action('login_head'...) like wp_shake_js()
