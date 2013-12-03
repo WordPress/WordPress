@@ -812,6 +812,13 @@ function remove_accents($string) {
 			$chars[ chr(195).chr(156) ] = 'Ue';
 			$chars[ chr(195).chr(188) ] = 'ue';
 			$chars[ chr(195).chr(159) ] = 'ss';
+		} elseif ( 'da_DK' === $locale ) {
+			$chars[ chr(195).chr(134) ] = 'Ae';
+ 			$chars[ chr(195).chr(166) ] = 'ae';
+			$chars[ chr(195).chr(152) ] = 'Oe';
+			$chars[ chr(195).chr(184) ] = 'oe';
+			$chars[ chr(195).chr(133) ] = 'Aa';
+			$chars[ chr(195).chr(165) ] = 'aa';
 		}
 
 		$string = strtr($string, $chars);
