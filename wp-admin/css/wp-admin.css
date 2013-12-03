@@ -3101,6 +3101,12 @@ form.initial-form.quickpress-open input#title {
 	padding: 6px 7px;
 }
 
+#quick-press textarea#content {
+	min-height: 90px;
+	max-height: 1300px;
+	resize: none;
+}
+
 /* Dashboard Quick Draft - Drafts list */
 
 .js #dashboard_quick_press .drafts {
