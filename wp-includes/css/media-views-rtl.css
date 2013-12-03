@@ -98,6 +98,10 @@
 	z-index: 160000;
 }
 
+.wp-customizer .media-modal {
+	z-index: 560000;
+}
+
 .media-modal-backdrop {
 	position: fixed;
 	top: 0;
@@ -108,6 +112,10 @@
 	background: #000;
 	opacity: 0.7;
 	z-index: 159900;
+}
+
+.wp-customizer .media-modal-backdrop {
+	z-index: 559900;
 }
 
 .media-modal-close {

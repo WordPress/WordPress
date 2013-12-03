@@ -1942,6 +1942,7 @@ function wp_enqueue_media( $args = array() ) {
 	require_once ABSPATH . WPINC . '/media-template.php';
 	add_action( 'admin_footer', 'wp_print_media_templates' );
 	add_action( 'wp_footer', 'wp_print_media_templates' );
+	add_action( 'customize_controls_print_footer_scripts', 'wp_print_media_templates' );
 
 	do_action( 'wp_enqueue_media' );
 }
