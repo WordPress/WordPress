@@ -48,6 +48,9 @@
 			}
 
 			element.focus();
+
+			// Repositions the window on jump-to-anchor to account for header height.
+			window.scrollBy( 0, -80 );
 		}
 	} );
 
