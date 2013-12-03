@@ -3316,7 +3316,7 @@ a.post-thumbnail:hover {
 	.primary-navigation {
 		float: right;
 		font-size: 11px;
-		margin: 0 1px 0 -10px;
+		margin: 0 1px 0 -12px;
 		padding: 0;
 		text-transform: uppercase;
 	}
@@ -3347,7 +3347,7 @@ a.post-thumbnail:hover {
 
 	.primary-navigation a {
 		display: inline-block;
-		padding: 0 10px;
+		padding: 0 12px;
 		white-space: nowrap;
 	}
 
@@ -3398,6 +3398,36 @@ a.post-thumbnail:hover {
 	.primary-navigation ul ul li:hover > ul,
 	.primary-navigation ul ul li.focus > ul {
 		left: 100%;
+	}
+
+	.primary-navigation .menu-item-has-children > a,
+	.primary-navigation .page_item_has_children > a {
+		padding-right: 26px;
+	}
+
+	.primary-navigation .menu-item-has-children > a:after,
+	.primary-navigation .page_item_has_children > a:after {
+		border: 4px solid transparent;
+		border-top-color: #fff;
+		content: "";
+		margin-top: -2px;
+		position: absolute;
+		top: 50%;
+		right: 12px;
+	}
+
+	.primary-navigation li .menu-item-has-children > a,
+	.primary-navigation li .page_item_has_children > a {
+		padding-right: 20px;
+		width: 168px;
+	}
+
+	.primary-navigation .menu-item-has-children li > a:after,
+	.primary-navigation .page_item_has_children li > a:after {
+		border-top-color: transparent;
+		border-left-color: #fff;
+		margin-top: -4px;
+		right: 8px;
 	}
 }
 
@@ -3600,6 +3630,20 @@ a.post-thumbnail:hover {
 	.secondary-navigation ul li:hover > ul,
 	.secondary-navigation ul li.focus > ul {
 		left: 162px;
+	}
+
+	.secondary-navigation .menu-item-has-children > a {
+		padding-right: 38px;
+	}
+
+	.secondary-navigation .menu-item-has-children > a:after {
+		border: 4px solid transparent;
+		border-left-color: #fff;
+		content: "";
+		margin-top: -4px;
+		position: absolute;
+		top: 50%;
+		right: 26px;
 	}
 
 	.footer-sidebar .widget,
