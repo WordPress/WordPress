@@ -3557,6 +3557,10 @@ a.post-thumbnail:hover {
 		margin: -3px 0 21px;
 	}
 
+	.site-description:empty {
+		margin: 0;
+	}
+
 	.secondary-navigation {
 		margin: 0 -30px 48px;
 		width: 182px;

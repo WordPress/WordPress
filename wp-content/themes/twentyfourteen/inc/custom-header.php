@@ -36,15 +36,56 @@ function twentyfourteen_custom_header_setup() {
 	 * }
 	 */
 	add_theme_support( 'custom-header', apply_filters( 'twentyfourteen_custom_header_args', array(
-		'header-text'            => false,
+		'default-text-color'     => 'fff',
 		'width'                  => 1260,
 		'height'                 => 240,
 		'flex-height'            => true,
+		'wp-head-callback'       => 'twentyfourteen_header_style',
 		'admin-head-callback'    => 'twentyfourteen_admin_header_style',
 		'admin-preview-callback' => 'twentyfourteen_admin_header_image',
 	) ) );
 }
 add_action( 'after_setup_theme', 'twentyfourteen_custom_header_setup' );
+
+if ( ! function_exists( 'twentyfourteen_header_style' ) ) :
+/**
+ * Styles the header image and text displayed on the blog
+ *
+ * @see twentyfourteen_custom_header_setup().
+ *
+ */
+function twentyfourteen_header_style() {
+	$header_text_color = get_header_textcolor();
+
+	// If no custom options for text are set, let's bail
+	// $header_text_color options: HEADER_TEXTCOLOR is default, hide text (returns 'blank') or any hex value
+	if ( HEADER_TEXTCOLOR == $header_text_color )
+		return;
+	// If we get this far, we have custom styles. Let's do this.
+	?>
+	<style type="text/css">
+	<?php
+		// Has the text been hidden?
+		if ( 'blank' == $header_text_color ) :
+	?>
+		.site-title {
+			position: absolute !important;
+			clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+			clip: rect(1px, 1px, 1px, 1px);
+		}
+	<?php
+		// If the user has set a custom color for the text use that
+		else :
+	?>
+		.site-title a {
+			color: #<?php echo $header_text_color; ?> !important;
+		}
+	<?php endif; ?>
+	</style>
+	<?php
+}
+endif; // twentyfourteen_header_style
+
 
 if ( ! function_exists( 'twentyfourteen_admin_header_style' ) ) :
 /**
@@ -60,14 +101,14 @@ function twentyfourteen_admin_header_style() {
 	.appearance_page_custom-header #headimg {
 		background-color: #000;
 		border: none;
-		max-width: 1230px;
+		max-width: 1260px;
 		min-height: 48px;
 	}
 	#headimg h1 {
-		font-family: lato, sans-serif;
+		font-family: Lato, sans-serif;
 		font-size: 18px;
-		line-height: 1.3333333333;
-		margin: 12px 0 12px 27px;
+		line-height: 48px;
+		margin: 0 0 0 30px;
 	}
 	#headimg h1 a {
 		color: #fff;
@@ -95,7 +136,7 @@ function twentyfourteen_admin_header_image() {
 		<?php if ( get_header_image() ) : ?>
 		<img src="<?php header_image(); ?>" alt="">
 		<?php endif; ?>
-		<h1><a id="name" onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+		<h1 class="displaying-header-text"><a id="name"<?php echo sprintf( ' style="color:#%s;"', get_header_textcolor() ); ?> onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 	</div>
 <?php
 }

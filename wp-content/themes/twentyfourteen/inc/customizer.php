@@ -16,8 +16,23 @@
  */
 function twentyfourteen_customize_register( $wp_customize ) {
 	// Add postMessage support for site title and description.
-	$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
-	$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
+	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
+	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
+	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
+
+	// Rename the label to "Display Site Title & Tagline" in order to make this option extra clear.
+	$wp_customize->add_control( 'display_header_text', array(
+		'settings' => 'header_textcolor',
+		'label'    => __( 'Display Site Title & Tagline', 'twentyfourteen' ),
+		'section'  => 'title_tagline',
+		'type'     => 'checkbox',
+	) );
+
+	// Rename the label to "Site Title Color" because this only effects the site title in this theme.
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'header_textcolor', array(
+		'label'   => __( 'Site Title Color', 'twentyfourteen' ),
+		'section' => 'colors',
+	) ) );
 
 	// Add custom description to Colors and Background sections.
 	$wp_customize->get_section( 'colors' )->description           = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
@@ -53,7 +68,7 @@ add_action( 'customize_register', 'twentyfourteen_customize_register' );
  * @since Twenty Fourteen 1.0
  */
 function twentyfourteen_customize_preview_js() {
-	wp_enqueue_script( 'twentyfourteen_customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), '20120827', true );
+	wp_enqueue_script( 'twentyfourteen_customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), '20131130', true );
 }
 add_action( 'customize_preview_init', 'twentyfourteen_customize_preview_js' );
 
