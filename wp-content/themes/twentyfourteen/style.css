@@ -816,6 +816,12 @@ span + .edit-link:before,
  * -----------------------------------------------------------------------------
  */
 
+/* Ensure that there is no gap between the header and 
+   the admin bar for WordPress versions before 3.8. */
+#wpadminbar {
+	min-height: 32px;
+}
+
 #site-header {
 	position: relative;
 	z-index: 3;
