@@ -928,6 +928,7 @@ a.post-thumbnail:hover {
 	font-size: 16px;
 	line-height: 45px;
 	text-transform: uppercase;
+	visibility: visible;
 	width: 200px;
 }
 

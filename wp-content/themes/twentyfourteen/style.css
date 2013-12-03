@@ -979,20 +979,22 @@ span + .edit-link:before,
 
 .menu-toggle {
 	cursor: pointer;
-	font-size: 0;
 	height: 48px;
 	margin: 0;
 	position: absolute;
 	top: 0;
 	right: 0;
 	text-align: center;
+	visibility: hidden;
 	width: 48px;
 }
 
 .menu-toggle:before {
 	color: #fff;
 	content: "\f419";
-	margin-top: 16px;
+	position: relative;
+	top: -1px;
+	visibility: visible;
 }
 
 
@@ -1518,7 +1520,12 @@ a.post-thumbnail:hover {
  */
 
 .nav-links {
+	-webkit-hyphens: auto;
+	-moz-hyphens:    auto;
+	-ms-hyphens:     auto;
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	hyphens:         auto;
+	word-wrap: break-word;
 }
 
 .post-navigation,
