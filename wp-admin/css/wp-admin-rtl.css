@@ -7138,6 +7138,9 @@ body.folded .theme-overlay .theme-wrap {
 		margin-right: 0;
 	}
 
+	.theme .theme-actions .button {
+		margin-top: -4px;
+	}
 	.theme.active .theme-actions .button {
 		margin-top: 6px;
 		margin-left: 0;
