@@ -606,47 +606,48 @@
 		 * @return int Current interval in seconds
 		 */
 		function interval( speed, ticks ) {
-			var interval, oldInerval = settings.tempInterval ? settings.tempInterval : settings.mainInterval;
+			var newInterval,
+				oldInterval = settings.tempInterval ? settings.tempInterval : settings.mainInterval;
 
 			if ( speed ) {
 				switch ( speed ) {
 					case 'fast':
 					case 5:
-						interval = 5000;
+						newInterval = 5000;
 						break;
 					case 15:
-						interval = 15000;
+						newInterval = 15000;
 						break;
 					case 30:
-						interval = 30000;
+						newInterval = 30000;
 						break;
 					case 60:
-						interval = 60000;
+						newInterval = 60000;
 						break;
 					case 'long-polling':
 						// Allow long polling, (experimental)
 						settings.mainInterval = 0;
 						return 0;
 					default:
-						interval = settings.originalInterval;
+						newInterval = settings.originalInterval;
 				}
 
-				if ( 5000 === interval ) {
+				if ( 5000 === newInterval ) {
 					ticks = parseInt( ticks, 10 ) || 30;
 					ticks = ticks < 1 || ticks > 30 ? 30 : ticks;
 
 					settings.countdown = ticks;
-					settings.tempInterval = interval;
+					settings.tempInterval = newInterval;
 				} else {
 					settings.countdown = 0;
 					settings.tempInterval = 0;
-					settings.mainInterval = interval;
+					settings.mainInterval = newInterval;
 				}
 
 				// Change the next connection time if new interval has been set.
 				// Will connect immediately if the time since the last connection
 				// is greater than the new interval.
-				if ( interval !== oldInerval ) {
+				if ( newInterval !== oldInterval ) {
 					scheduleNextTick();
 				}
 			}
