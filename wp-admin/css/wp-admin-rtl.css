@@ -10813,7 +10813,7 @@ input.newtag:focus ~ div.taghint {
 	user-select: none;
 }
 
-.widget-inside {
+.widgets-holder-wrap .widget-inside {
 	border-top: none;
 	padding: 1px 15px 15px 15px;
 	line-height: 16px;
