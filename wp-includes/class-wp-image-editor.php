@@ -217,7 +217,8 @@ abstract class WP_Image_Editor {
 		 *
 		 * @since 3.5.0
 		 *
-		 * @param int $quality Quality level between 1 (low) and 100 (high).
+		 * @param int    $quality   Quality level between 1 (low) and 100 (high).
+		 * @param string $mime_type Image mime type.
 		 */
 		$quality = apply_filters( 'wp_editor_set_quality', $quality, $this->mime_type );
 

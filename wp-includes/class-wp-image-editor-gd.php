@@ -91,8 +91,8 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		 *
 		 * @since 3.5.0
 		 *
-		 * @param string $limit Maximum memory limit to allocate for images. Default value
-		 *                      of WP_MAX_MEMORY_LIMIT is '256M'.
+		 * @param int|string $limit Maximum memory limit to allocate for images. Default WP_MAX_MEMORY_LIMIT.
+		 *                          Accepts an integer (bytes), or a shorthand string notation, such as '256M'.
 		 */
 		// Set artificially high because GD uses uncompressed images in memory
 		@ini_set( 'memory_limit', apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT ) );
