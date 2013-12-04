@@ -6360,7 +6360,7 @@ span.imgedit-scale-warn {
 .theme-browser .theme {
 	cursor: pointer;
 	float: right;
-	margin: 0 0 96% 5%;
+	margin: 0 0 4% 5%;
 	position: relative;
 	width: 30%;
 	border: 1px solid #dedede;
@@ -6601,7 +6601,7 @@ span.imgedit-scale-warn {
 	right: 0;
 	left: 0;
 	bottom: 0;
-	padding: 90% 0 0 0;
+	padding: 10% 0 0 0;
 	text-shadow: none;
 	border: 5px dashed rgba(0, 0, 0, 0.1);
 	-webkit-transition: opacity 0.2s ease-in-out;
@@ -6812,7 +6812,7 @@ body.folded .theme-overlay .theme-wrap {
 	right: 0;
 	left: 0;
 	overflow: auto;
-	padding: 98% 4%;
+	padding: 2% 4%;
 }
 .theme-overlay .theme-about:after {
 	content: ".";
@@ -9262,7 +9262,7 @@ a.rsswidget {
 
 #login {
 	width: 320px;
-	padding: 92% 0 0;
+	padding: 8% 0 0;
 	margin: auto;
 }
 
@@ -11508,7 +11508,7 @@ li#wp-admin-bar-menu-toggle {
 		min-width: 49%;
 	}
 
-	#widgets-right #available-widgets .widget:nth-child(even) {
+	#widgets-left #available-widgets .widget:nth-child(even) {
 		float: left;
 	}
 
