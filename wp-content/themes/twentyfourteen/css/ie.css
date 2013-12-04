@@ -825,7 +825,7 @@ a.post-thumbnail:hover {
 	width: 98px;
 }
 
-.ie8 .slider-direction-nav li:first-chile {
+.ie8 .slider-direction-nav li:first-child {
 	padding: 0 1px 0 0;
 }
 
