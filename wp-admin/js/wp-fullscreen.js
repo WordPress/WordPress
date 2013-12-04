@@ -558,16 +558,20 @@ PubSub.prototype.publish = function( topic, args ) {
 						fullscreen.off();
 				}
 
-				if ( a && (61 == c || 107 == c || 187 == c) ) // +
+				if ( a && (61 == c || 107 == c || 187 == c) ) { // +
 					api.dfw_width(25);
+					e.preventDefault();
+				}
 
-				if ( a && (45 == c || 109 == c || 189 == c) ) // -
+				if ( a && (45 == c || 109 == c || 189 == c) ) { // -
 					api.dfw_width(-25);
+					e.preventDefault();
+				}
 
-				if ( a && 48 == c ) // 0
+				if ( a && 48 == c ) { // 0
 					api.dfw_width(0);
-
-				return false;
+					e.preventDefault();
+				}
 			});
 
 			// word count in Text mode
