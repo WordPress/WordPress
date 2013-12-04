@@ -424,5 +424,14 @@ function wp_prepare_themes_for_js( $themes = null ) {
 		);
 	}
 
-	return $prepared_themes;
+	/**
+	 * Filter the themes prepared for JavaScript, for themes.php.
+	 *
+	 * Could be useful for changing the order, which is by name by default.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @param array $prepared_themes Array of themes.
+	 */
+	return apply_filters( 'wp_prepare_themes_for_js', $prepared_themes );
 }
