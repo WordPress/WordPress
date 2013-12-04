@@ -137,7 +137,10 @@ a.post-thumbnail:hover {
 .widget_nav_menu li,
 .widget_pages li,
 .widget_recent_comments li,
-.widget_recent_entries li {
+.widget_recent_entries li,
+.widget_categories li ul,
+.widget_nav_menu li ul,
+.widget_pages li ul {
 	border-top: 1px solid #4d4d4d;
 }
 
@@ -155,7 +158,10 @@ a.post-thumbnail:hover {
 .content-sidebar .widget_nav_menu li,
 .content-sidebar .widget_pages li,
 .content-sidebar .widget_recent_comments li,
-.content-sidebar .widget_recent_entries li {
+.content-sidebar .widget_recent_entries li,
+.content-sidebar .widget_categories li ul,
+.content-sidebar .widget_nav_menu li ul,
+.content-sidebar .widget_pages li ul {
 	border-color: #e5e5e5;
 }
 
@@ -560,6 +566,7 @@ a.post-thumbnail:hover {
 }
 
 .ie8 .secondary-navigation {
+	font-size: 11px;
 	margin: 0 -30px 48px;
 	width: calc(100% + 60px);
 }
@@ -754,7 +761,17 @@ a.post-thumbnail:hover {
 .ie8 .primary-sidebar .widget_recent_comments li,
 .ie8 .primary-sidebar .widget_recent_entries li {
 	border-top: 0;
-	padding: 0;
+	padding: 0 0 6px;
+}
+
+.ie8 .footer-sidebar .widget_categories li ul,
+.ie8 .footer-sidebar .widget_nav_menu li ul,
+.ie8 .footer-sidebar .widget_pages li ul,
+.ie8 .primary-sidebar .widget_categories li ul,
+.ie8 .primary-sidebar .widget_nav_menu li ul,
+.ie8 .primary-sidebar .widget_pages li ul {
+	border-top: 0;
+	margin-top: 0;
 }
 
 .ie8 .grid .featured-content .entry-header {

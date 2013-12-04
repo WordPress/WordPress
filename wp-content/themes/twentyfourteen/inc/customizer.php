@@ -15,28 +15,20 @@
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
 function twentyfourteen_customize_register( $wp_customize ) {
+	// Add custom description to Colors and Background sections.
+	$wp_customize->get_section( 'colors' )->description           = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
+	$wp_customize->get_section( 'background_image' )->description = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
+
 	// Add postMessage support for site title and description.
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 
-	// Rename the label to "Display Site Title & Tagline" in order to make this option extra clear.
-	$wp_customize->add_control( 'display_header_text', array(
-		'settings' => 'header_textcolor',
-		'label'    => __( 'Display Site Title & Tagline', 'twentyfourteen' ),
-		'section'  => 'title_tagline',
-		'type'     => 'checkbox',
-	) );
-
 	// Rename the label to "Site Title Color" because this only effects the site title in this theme.
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'header_textcolor', array(
-		'label'   => __( 'Site Title Color', 'twentyfourteen' ),
-		'section' => 'colors',
-	) ) );
+	$wp_customize->get_control( 'header_textcolor' )->label = __( 'Site Title Color', 'twentyfourteen' );
 
-	// Add custom description to Colors and Background sections.
-	$wp_customize->get_section( 'colors' )->description           = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
-	$wp_customize->get_section( 'background_image' )->description = __( 'Background may only be visible on wide screens.', 'twentyfourteen' );
+	// Rename the label to "Display Site Title & Tagline" in order to make this option extra clear.
+	$wp_customize->get_control( 'display_header_text' )->label = __( 'Display Site Title &amp; Tagline', 'twentyfourteen' );
 
 	// Add the featured content section in case it's not already there.
 	$wp_customize->add_section( 'featured_content', array(
@@ -72,8 +64,9 @@ add_action( 'customize_register', 'twentyfourteen_customize_register' );
  * @return string Filtered layout type (grid|slider).
  */
 function twentyfourteen_sanitize_layout( $layout ) {
-	if ( ! in_array( $layout, array( 'grid', 'slider' ) ) )
+	if ( ! in_array( $layout, array( 'grid', 'slider' ) ) ) {
 		$layout = 'grid';
+	}
 
 	return $layout;
 }
