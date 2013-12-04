@@ -7059,6 +7059,22 @@ body.folded .theme-overlay .theme-wrap {
  * Shuffles theme columns around based on screen width
  */
 
+@media only screen and (min-width: 2000px) {
+	#wpwrap .theme-browser .theme {
+		width: 17.6%;
+		margin: 0 3% 3% 0;
+	}
+
+	#wpwrap .theme-browser .theme:nth-child(3n),
+	#wpwrap .theme-browser .theme:nth-child(4n) {
+		margin-right: 3%;
+	}
+
+	#wpwrap .theme-browser .theme:nth-child(5n) {
+		margin-right: 0;
+	}
+}
+
 @media only screen and (min-width: 1700px) {
 	.theme-browser .theme {
 		width: 22.7%;
@@ -7079,7 +7095,7 @@ body.folded .theme-overlay .theme-wrap {
 	}
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1150px) {
 	.theme-browser .theme {
 		width: 47.5%;
 		margin-right: 0;
@@ -7128,7 +7144,7 @@ body.folded .theme-overlay .theme-wrap {
 	}
 }
 
-@media only screen and (max-width: 650px) {
+@media only screen and (max-width: 480px) {
 	.theme-browser .theme {
 		width: 100%;
 		margin-right: 0;
@@ -7138,7 +7154,9 @@ body.folded .theme-overlay .theme-wrap {
 	.theme-browser .theme:nth-child(3n) {
 		margin-right: 0;
 	}
+}
 
+@media only screen and (max-width: 650px) {
 	.theme-overlay .theme-update,
 	.theme-overlay .theme-description {
 		margin-left: 0;
