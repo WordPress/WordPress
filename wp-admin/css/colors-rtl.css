@@ -697,9 +697,6 @@ a,
 
 #adminmenu a {
 	color: #eee;
-	-webkit-transition: all .1s ease-in-out;
-	-moz-transition:    all .1s ease-in-out;
-	transition:         all .1s ease-in-out;
 }
 
 #adminmenu .awaiting-mod,
@@ -1181,14 +1178,6 @@ table.widefat .spam a:hover {
 
 #adminmenu li.wp-menu-open {
 	border-color: #dfdfdf;
-}
-
-#adminmenu li.menu-top,
-#adminmenu li.opensub > a.menu-top,
-#adminmenu li > a.menu-top {
-	-webkit-transition: all .1s ease-in-out;
-	-moz-transition:    all .1s ease-in-out;
-	transition:         all .1s ease-in-out;
 }
 
 #adminmenu li.menu-top:hover,
