@@ -221,7 +221,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 		<div class="theme-screenshot blank"></div>
 	<# } #>
 	<div class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></div>
-	<h3 class="theme-name">{{ data.name }}</h3>
+	<h3 class="theme-name">{{{ data.name }}}</h3>
 
 	<div class="theme-actions">
 
