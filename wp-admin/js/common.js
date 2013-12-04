@@ -562,7 +562,7 @@ $(document).ready( function() {
 			$adminmenu.on( 'touchstart.wp-responsive', 'li.wp-has-submenu > a', function() {
 				scrollStart = $window.scrollTop();
 			}).on( 'touchend.wp-responsive click.wp-responsive', 'li.wp-has-submenu > a', function( event ) {
-				if ( ! $adminmenu.data('wp-responsive') || 
+				if ( ! $adminmenu.data('wp-responsive') ||
 					( event.type === 'touchend' && $window.scrollTop() !== scrollStart ) ) {
 
 					return;
