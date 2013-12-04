@@ -258,6 +258,16 @@ td {
 	margin-right: 2px;
 }
 
+.comment-reply-link:before,
+.comment-reply-login:before,
+.comment-edit-link:before {
+	-webkit-transform: scaleX(-1);
+	-moz-transform:    scaleX(-1);
+	-ms-transform:     scaleX(-1);
+	-o-transform:      scaleX(-1);
+	transform:         scaleX(-1);
+}
+
 .comment-content ul,
 .comment-content ol {
 	margin: 0 22px 24px 0;
@@ -450,6 +460,15 @@ td {
 	.site-content .full-size-link a:before {
 		margin-right: auto;
 		margin-left: 1px;
+	}
+
+	.entry-content .edit-link a:before,
+	.entry-meta .edit-link a:before {
+		-webkit-transform: scaleX(-1);
+		-moz-transform:    scaleX(-1);
+		-ms-transform:     scaleX(-1);
+		-o-transform:      scaleX(-1);
+		transform:         scaleX(-1);
 	}
 }
 
