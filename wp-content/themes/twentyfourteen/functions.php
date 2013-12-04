@@ -296,11 +296,11 @@ function twentyfourteen_the_attached_image() {
 	 * @param array $dimensions {
 	 *     An array of height and width dimensions.
 	 *
-	 *     @type int $height Height of the image in pixels. Default 1200.
-	 *     @type int $width  Width of the image in pixels. Default 1200.
+	 *     @type int $height Height of the image in pixels. Default 810.
+	 *     @type int $width  Width of the image in pixels. Default 810.
 	 * }
 	 */
-	$attachment_size     = apply_filters( 'twentyfourteen_attachment_size', array( 1200, 1200 ) );
+	$attachment_size     = apply_filters( 'twentyfourteen_attachment_size', array( 810, 810 ) );
 	$next_attachment_url = wp_get_attachment_url();
 
 	/*
