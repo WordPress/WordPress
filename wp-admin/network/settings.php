@@ -67,7 +67,7 @@ if ( $_POST ) {
 
 	/**
 	 * Fires after the network options are updated.
-	 * 
+	 *
 	 * @since MU
 	 */
 	do_action( 'update_wpmu_options' );
@@ -312,7 +312,7 @@ if ( isset( $_GET['updated'] ) ) {
 			 * screen in their individual sites' dashboards.
 			 *
 			 * @since MU
-			 * 
+			 *
 			 * @param array $admin_menus The menu items available.
 			 */
 			$menu_items = apply_filters( 'mu_menu_items', array( 'plugins' => __( 'Plugins' ) ) );

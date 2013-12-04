@@ -3042,7 +3042,7 @@ function tag_escape($tag_name) {
 	 * Filter a string cleaned and escaped for output as an HTML tag.
 	 *
 	 * @since 2.8.0
-	 * 
+	 *
 	 * @param string $safe_tag The tag name after it has been escaped.
  	 * @param string $tag_name The text before it was escaped.
 	 */
