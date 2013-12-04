@@ -165,10 +165,10 @@ add_action( 'edit_category', 'twentyfourteen_category_transient_flusher' );
 add_action( 'save_post',     'twentyfourteen_category_transient_flusher' );
 
 /**
- * Display an optional post thumbnail on a single view.
+ * Display an optional post thumbnail.
  *
- * Adds an anchor element to the post thumbnail, when on
- * index views, and a div element when on a single view.
+ * Wraps the post thumbnail in an anchor element on index
+ * views, or a div element when on single views.
  *
  * @since Twenty Fourteen 1.0
  *
@@ -184,7 +184,7 @@ function twentyfourteen_post_thumbnail() {
 
 	<div class="post-thumbnail">
 	<?php
-		if ( ( ! is_active_sidebar( 'sidebar-2' ) || is_page_template( 'page-templates/full-width.php' ) ) && ! wp_is_mobile() ) {
+		if ( ( ! is_active_sidebar( 'sidebar-2' ) || is_page_template( 'page-templates/full-width.php' ) ) ) {
 			the_post_thumbnail( 'twentyfourteen-full-width' );
 		} else {
 			the_post_thumbnail();
@@ -196,7 +196,7 @@ function twentyfourteen_post_thumbnail() {
 
 	<a class="post-thumbnail" href="<?php the_permalink(); ?>" rel="<?php the_ID(); ?>">
 	<?php
-		if ( ( ! is_active_sidebar( 'sidebar-2' ) || is_page_template( 'page-templates/full-width.php' ) ) && ! wp_is_mobile() ) {
+		if ( ( ! is_active_sidebar( 'sidebar-2' ) || is_page_template( 'page-templates/full-width.php' ) ) ) {
 			the_post_thumbnail( 'twentyfourteen-full-width' );
 		} else {
 			the_post_thumbnail();
