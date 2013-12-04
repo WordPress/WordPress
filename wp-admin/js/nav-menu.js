@@ -388,15 +388,15 @@ var wpNavMenu;
 			menu.on( 'click', '.menus-move-up', function ( e ) {
 				api.moveMenuItem( $( this ).parents( 'li.menu-item' ).find( 'a.item-edit' ), 'up' );
 				e.preventDefault();
-			})
+			});
 			menu.on( 'click', '.menus-move-down', function ( e ) {
 				api.moveMenuItem( $( this ).parents( 'li.menu-item' ).find( 'a.item-edit' ), 'down' );
 				e.preventDefault();
-			})
+			});
 			menu.on( 'click', '.menus-move-top', function ( e ) {
 				api.moveMenuItem( $( this ).parents( 'li.menu-item' ).find( 'a.item-edit' ), 'top' );
 				e.preventDefault();
-			})
+			});
 			menu.on( 'click', '.menus-move-left', function ( e ) {
 				api.moveMenuItem( $( this ).parents( 'li.menu-item' ).find( 'a.item-edit' ), 'left' );
 				e.preventDefault();
