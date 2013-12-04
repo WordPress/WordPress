@@ -604,9 +604,9 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array( 'open-sans', 'dashicons' ) );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css" );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor$suffix.css", array( 'dashicons' ) );
-	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css" );
+	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'customize-controls', "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie' ) );
-	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css", array( 'buttons' ) );
+	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css", array( 'buttons', 'dashicons' ) );
 	$styles->add( 'buttons', "/wp-includes/css/buttons$suffix.css" );
 	$styles->add( 'wp-auth-check', "/wp-includes/css/wp-auth-check$suffix.css" );
 
