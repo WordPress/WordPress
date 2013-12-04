@@ -7149,13 +7149,13 @@ body.folded .theme-overlay .theme-wrap {
 		margin-top: 6px;
 		margin-left: 0;
 	}
-	
+
 	.theme-overlay .theme-actions .delete-theme {
 		position: relative;
 		left: auto;
 		bottom: auto;
 	}
-	
+
 	.theme-overlay .theme-actions .inactive-theme {
 		display: inline;
 	}
@@ -7191,7 +7191,7 @@ body.folded .theme-overlay .theme-wrap {
 		margin: 10px 0;
 		width: 100%;
 	}
-	
+
 	.theme-browser .theme.add-new-theme span:after {
 		font: normal 60px/90px 'dashicons';
 		width: 80px;
@@ -10815,7 +10815,7 @@ input.newtag:focus ~ div.taghint {
 	user-select: none;
 }
 
-.widgets-holder-wrap .widget-inside {
+.widget-inside {
 	border-top: none;
 	padding: 1px 15px 15px 15px;
 	line-height: 16px;
