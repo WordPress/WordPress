@@ -47,7 +47,8 @@ function twentyfourteen_customize_register( $wp_customize ) {
 
 	// Add the featured content layout setting and control.
 	$wp_customize->add_setting( 'featured_content_layout', array(
-		'default' => 'grid',
+		'default'           => 'grid',
+		'sanitize_callback' => 'twentyfourteen_sanitize_layout',
 	) );
 
 	$wp_customize->add_control( 'featured_content_layout', array(
@@ -61,6 +62,21 @@ function twentyfourteen_customize_register( $wp_customize ) {
 	) );
 }
 add_action( 'customize_register', 'twentyfourteen_customize_register' );
+
+/**
+ * Sanitize the Featured Content layout value.
+ *
+ * @since Twenty Fourteen 1.0
+ *
+ * @param string $layout Layout type.
+ * @return string Filtered layout type (grid|slider).
+ */
+function twentyfourteen_sanitize_layout( $layout ) {
+	if ( ! in_array( $layout, array( 'grid', 'slider' ) ) )
+		$layout = 'grid';
+
+	return $layout;
+}
 
 /**
  * Bind JS handlers to make Theme Customizer preview reload changes asynchronously.
