@@ -205,19 +205,45 @@ abstract class WP_Image_Editor {
 	 * @access public
 	 *
 	 * @param int $quality Compression Quality. Range: [1,100]
-	 * @return boolean
+	 * @return boolean|WP_Error True if set successfully; WP_Error on failure.
 	 */
-	public function set_quality( $quality ) {
+	public function set_quality( $quality = null ) {
+		if ( $quality == null ) {
+			$quality = $this->quality;
+		}
+
 		/**
 		 * Filter the default quality setting.
 		 *
 		 * @since 3.5.0
 		 *
-		 * @param int $quality Quality level between 0 (low) and 100 (high).
+		 * @param int $quality Quality level between 1 (low) and 100 (high).
 		 */
-		$this->quality = apply_filters( 'wp_editor_set_quality', $quality );
+		$quality = apply_filters( 'wp_editor_set_quality', $quality, $this->mime_type );
 
-		return ( (bool) $this->quality );
+		/**
+		 * Filter the JPEG quality for backwards compatibilty.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param int $quality Quality level between 0 (low) and 100 (high) of the JPEG.
+		 * @param string The context of the filter.
+		 */
+		if ( 'image/jpeg' == $this->mime_type ) {
+			$quality = apply_filters( 'jpeg_quality', $quality, 'image_resize' );
+
+			// Allow 0, but squash to 1 due to identical images in GD, and for backwards compatibility.
+			if ( $quality == 0 ) {
+				$quality = 1;
+			}
+		}
+
+		if ( ( $quality >= 1 ) && ( $quality <= 100 ) ){
+			$this->quality = $quality;
+			return true;
+		} else {
+			return new WP_Error( 'invalid_image_quality', __('Attempted to set image quality outside of the range [1,100].') );
+		}
 	}
 
 	/**
