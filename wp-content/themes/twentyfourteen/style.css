@@ -986,6 +986,7 @@ span + .edit-link:before,
 	cursor: pointer;
 	height: 48px;
 	margin: 0;
+	overflow: hidden;
 	position: absolute;
 	top: 0;
 	right: 0;
