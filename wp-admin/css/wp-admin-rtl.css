@@ -6626,6 +6626,10 @@ span.imgedit-scale-warn {
 	z-index:4;
 }
 
+.rtl .theme-browser .theme.add-new-theme span:after {
+	text-indent: 4px;
+}
+
 .theme-browser .theme.add-new-theme:hover .theme-screenshot {
 	background: none;
 }
