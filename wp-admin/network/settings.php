@@ -101,7 +101,7 @@ if ( isset( $_GET['updated'] ) ) {
 				<td>
 					<input name="admin_email" type="text" id="admin_email" class="regular-text" value="<?php echo esc_attr( get_site_option('admin_email') ) ?>" />
 					<p class="description">
-						<?php _e( 'This email address will send update notifcations, and also receive site creation and new user registration notifications.' ); ?> 
+						<?php _e( 'This email address will receive notifications. Registration and support emails will also come from this address'); ?>
 					</p>	
 				</td>
 			</tr>
