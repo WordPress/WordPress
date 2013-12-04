@@ -10487,6 +10487,15 @@ h3.tb {
 	text-decoration: none !important;
 }
 
+.js #widgets-left .sidebar-name .sidebar-name-arrow {
+	display: none;
+}
+
+.js #widgets-left .widgets-holder-wrap.closed .sidebar-name .sidebar-name-arrow,
+.js #widgets-left .sidebar-name:hover .sidebar-name-arrow {
+	display: block;
+}
+
 /* Show the arrow only on hover */
 .js .sidebar-name .sidebar-name-arrow:before,
 .js .meta-box-sortables .postbox .handlediv:before {
