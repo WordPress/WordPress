@@ -595,20 +595,20 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors-fresh', "/wp-admin/css/colors$suffix.css", array( 'wp-admin', 'buttons' ) );
 
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css" );
-	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array('buttons') );
-	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array( 'dashicons' ), '20121105' );
+	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array( 'buttons', 'open-sans' ) );
+	$styles->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.css', array( 'dashicons' ), '20131201' );
 	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u1' );
 	$styles->add( 'wp-color-picker', "/wp-admin/css/color-picker$suffix.css" );
 	$styles->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop.min.css", array(), '0.9.12' );
 	$styles->add( 'imgareaselect', '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.8' );
 	$styles->add( 'admin-bar', "/wp-includes/css/admin-bar$suffix.css", array( 'open-sans', 'dashicons' ) );
-	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css" );
+	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'editor-buttons', "/wp-includes/css/editor$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'wp-pointer', "/wp-includes/css/wp-pointer$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'customize-controls', "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie' ) );
 	$styles->add( 'media-views', "/wp-includes/css/media-views$suffix.css", array( 'buttons', 'dashicons' ) );
 	$styles->add( 'buttons', "/wp-includes/css/buttons$suffix.css" );
-	$styles->add( 'wp-auth-check', "/wp-includes/css/wp-auth-check$suffix.css" );
+	$styles->add( 'wp-auth-check', "/wp-includes/css/wp-auth-check$suffix.css", array( 'dashicons' ) );
 
 	$styles->add( 'mediaelement', "/wp-includes/js/mediaelement/mediaelementplayer.min.css", array(), '2.13.0' );
 	$styles->add( 'wp-mediaelement', "/wp-includes/js/mediaelement/wp-mediaelement.css", array( 'mediaelement' ) );
