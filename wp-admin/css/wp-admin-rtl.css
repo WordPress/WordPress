@@ -431,9 +431,7 @@ select {
 }
 
 .wp-admin input[type="file"] {
-	border: none;
-	background: none;
-	padding: 8px 0 0;
+	padding: 3px 0;
 }
 
 a:focus,
@@ -621,7 +619,6 @@ code {
 textarea,
 input[type="text"],
 input[type="password"],
-input[type="file"],
 input[type="email"],
 input[type="number"],
 input[type="search"],
@@ -863,7 +860,6 @@ html,
 textarea,
 input[type="text"],
 input[type="password"],
-input[type="file"],
 input[type="email"],
 input[type="number"],
 input[type="search"],
@@ -889,7 +885,6 @@ select:focus {
 textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
-input[type="file"]:focus,
 input[type="email"]:focus,
 input[type="number"]:focus,
 input[type="search"]:focus,
