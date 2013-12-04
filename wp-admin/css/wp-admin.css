@@ -9983,6 +9983,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	height: 40px;
 	margin-right: 0 !important;
 	text-indent: 100%;
+	outline: none;
 	overflow: hidden;
 	white-space: nowrap;
 }
