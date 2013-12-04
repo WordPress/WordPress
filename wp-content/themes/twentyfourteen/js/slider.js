@@ -37,6 +37,7 @@
 				slider.container = $( slider.containerSelector, slider );
 				slider.count = slider.slides.length;
 				slider.prop = 'marginLeft';
+				slider.isRtl = $( 'body' ).hasClass( 'rtl' );
 				slider.args = {};
 				// TOUCH
 				slider.transitions = ( function() {
@@ -445,6 +446,12 @@
 
 		slider.getTarget = function( dir ) {
 			slider.direction = dir;
+
+			// Swap for RTL.
+			if ( slider.isRtl ) {
+				dir = 'next' === dir ? 'prev' : 'next';
+			}
+
 			if ( dir === 'next' ) {
 				return ( slider.currentSlide === slider.last ) ? 0 : slider.currentSlide + 1;
 			} else {
