@@ -11616,6 +11616,12 @@ li#wp-admin-bar-menu-toggle {
 .locale-de-de .inline-edit-row fieldset label span.input-text-wrap {
 	margin-left: 7em; /* default 5em */
 }
+.locale-de-de #customize-header-actions .button {
+	padding: 0 5px 1px; /* default 0 10px 1px */
+}
+.locale-de-de #customize-header-actions .spinner {
+	margin: 16px 3px 0; /* default 16px 4px 0 5px */
+}
 
 /* ru_RU: Text needs more room to breathe. */
 .locale-ru-ru .inline-edit-row fieldset label span.title {
@@ -11634,7 +11640,10 @@ li#wp-admin-bar-menu-toggle {
 	width: 245px; /* default 200px + 45px */
 }
 .locale-ru-ru #customize-header-actions .button {
-	padding: 0 8px 1px; /* default 0 10px 1px; */
+	padding: 0 5px 1px; /* default 0 10px 1px */
+}
+.locale-ru-ru #customize-header-actions .spinner {
+	margin: 16px 3px 0; /* default 16px 4px 0 5px */
 }
 
 /* lt_LT: QuickEdit */
