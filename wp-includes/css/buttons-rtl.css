@@ -316,8 +316,9 @@ TABLE OF CONTENTS:
 		margin: 0 10px 0 14px; /* 14px right margin to match all other buttons */
 	}
 	
-	/* Reset responsive styles in Press This */
+	/* Reset responsive styles in Press This, Customizer */
 
+	.wp-core-ui.wp-customizer .button,
 	.press-this.wp-core-ui .button,
 	.press-this input#publish,
 	.press-this input#save-post,
@@ -327,6 +328,7 @@ TABLE OF CONTENTS:
 		line-height: 26px;
 		height: 28px;
 		margin: 0;
+		vertical-align: inherit;
 	}
 	
 	/* Reset responsive styles on Log in button on iframed login form */
