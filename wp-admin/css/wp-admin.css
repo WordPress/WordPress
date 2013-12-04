@@ -12752,7 +12752,6 @@ li#wp-admin-bar-menu-toggle {
 		padding: 1px 0 0;
 	}
 
-	/* Set drop shadow again per original mp6 plugin settings at line 1265 of colors-mp6.css in r687296, remove when original styles have been corrected */
 	.plugins tr.active + tr.inactive td.column-description {
 		-webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 		-moz-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);

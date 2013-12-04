@@ -49,7 +49,7 @@
 	color: #555;
 }
 
-/* These are part of TinyMCE, used in TinyMCE Advanced, but not WordPress. These are not MP6-ified.  */
+/* These are part of TinyMCE, used in TinyMCE Advanced, but not WordPress. These are not updated for 3.8's design. */
 .wp_themeSkin span.mce_sup,
 .wp_themeSkin span.mce_sub,
 .wp_themeSkin span.mce_media,

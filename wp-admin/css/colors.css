@@ -46,33 +46,33 @@ input[type=radio]:checked:before {
 }
 
 
-/* Helper classes for pulling MP6 colors */
+/* Helper classes for plugins to leverage the active WordPress color scheme */
 
-.mp6-primary {
+.wp-ui-primary {
 	color: #fff;
 	background-color: #333;
 }
-.mp6-text-primary {
+.wp-ui-text-primary {
 	color: #333;
 }
 
-.mp6-highlight {
+.wp-ui-highlight {
 	color: white;
 	background-color: #1e8cbe;
 }
-.mp6-text-highlight {
+.wp-ui-text-highlight {
 	color: #1e8cbe;
 }
 
-.mp6-notification {
+.wp-ui-notification {
 	color: #fff;
 	background-color: #D54E21;
 }
-.mp6-text-notification {
+.wp-ui-text-notification {
 	color: #D54E21;
 }
 
-.mp6-text-icon {
+.wp-ui-text-icon {
 	color: #999;
 }
 

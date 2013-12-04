@@ -49,22 +49,22 @@ input[type=radio]:checked:before {
     background: #d92c23 !important;
     border-color: #ba251e !important;
     text-shadow: none !important; }
-.wp-core-ui .mp6-primary {
+.wp-core-ui .wp-ui-primary {
   color: white;
   background-color: #363b3f; }
-.wp-core-ui .mp6-text-primary {
+.wp-core-ui .wp-ui-text-primary {
   color: #363b3f; }
-.wp-core-ui .mp6-highlight {
+.wp-core-ui .wp-ui-highlight {
   color: white;
   background-color: #e14d43; }
-.wp-core-ui .mp6-text-highlight {
+.wp-core-ui .wp-ui-text-highlight {
   color: #e14d43; }
-.wp-core-ui .mp6-notification {
+.wp-core-ui .wp-ui-notification {
   color: white;
   background-color: #69a8bb; }
-.wp-core-ui .mp6-text-notification {
+.wp-core-ui .wp-ui-text-notification {
   color: #69a8bb; }
-.wp-core-ui .mp6-text-icon {
+.wp-core-ui .wp-ui-text-icon {
   color: #f1f2f3; }
 
 /* List tables */

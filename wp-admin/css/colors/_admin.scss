@@ -53,31 +53,31 @@ input[type=radio]:checked:before {
 		@include button( $button-color );
 	}
 
-	.mp6-primary {
+	.wp-ui-primary {
 		color: $text-color;
 		background-color: $base-color;
 	}
-	.mp6-text-primary {
+	.wp-ui-text-primary {
 		color: $base-color;
 	}
 
-	.mp6-highlight {
+	.wp-ui-highlight {
 		color: $menu-highlight-text;
 		background-color: $menu-highlight-background;
 	}
-	.mp6-text-highlight {
+	.wp-ui-text-highlight {
 		color: $menu-highlight-background;
 	}
 
-	.mp6-notification {
+	.wp-ui-notification {
 		color: $menu-bubble-text;
 		background-color: $menu-bubble-background;
 	}
-	.mp6-text-notification {
+	.wp-ui-text-notification {
 		color: $menu-bubble-background;
 	}
 
-	.mp6-text-icon {
+	.wp-ui-text-icon {
 		color: $menu-icon;
 	}
 }
