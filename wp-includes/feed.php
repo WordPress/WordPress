@@ -507,8 +507,7 @@ function feed_content_type( $type = '' ) {
 		'rss2' => 'application/rss+xml',
 		'rss-http'  => 'text/xml',
 		'atom' => 'application/atom+xml',
-		'rdf'  => 'application/rdf+xml',
-		'rssjs' => 'application/json',
+		'rdf'  => 'application/rdf+xml'
 	);
 
 	$content_type = ( !empty($types[$type]) ) ? $types[$type] : 'application/octet-stream';
