@@ -83,7 +83,8 @@
 		current_user_id = $( 'input[name="checkuser_id"]' ).val();
 
 		$colorpicker.on( 'click.colorpicker', '.color-option', function() {
-			var $this = $(this);
+			var colors,
+				$this = $(this);
 
 			if ( $this.hasClass( 'selected' ) ) {
 				return;
@@ -99,8 +100,14 @@
 
 				// repaint icons
 				if ( typeof window.svgPainter !== 'undefined' ) {
-					svgPainter.setColors( $.parseJSON( $this.children( '.icon_colors' ).val() ) );
-					svgPainter.paint();
+					try {
+						colors = $.parseJSON( $this.children( '.icon_colors' ).val() );
+					} catch ( error ) {}
+
+					if ( colors ) {
+						svgPainter.setColors( colors );
+						svgPainter.paint();
+					}
 				}
 
 				// update user option

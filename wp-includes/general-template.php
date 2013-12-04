@@ -2117,7 +2117,8 @@ function wp_admin_css_color( $key, $name, $url, $colors = array(), $icons = arra
 function register_admin_color_schemes() {
 	wp_admin_css_color( 'fresh', _x( 'Default', 'admin color scheme' ),
 		admin_url( 'css/colors.min.css' ),
-		array( '#222', '#333', '#0074a2', '#2ea2cc' )
+		array( '#222', '#333', '#0074a2', '#2ea2cc' ),
+		array( 'base' => '#999', 'focus' => '#2ea2cc', 'current' => '#fff' )
 	);
 
 	// Other color schemes are not available when running out of src

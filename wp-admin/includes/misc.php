@@ -613,16 +613,16 @@ function admin_color_scheme_picker() {
 	<?php
 }
 
-function set_color_scheme_json() {
+function wp_color_scheme_settings() {
 	global $_wp_admin_css_colors;
 
 	$color_scheme = get_user_option( 'admin_color' );
 
-	if ( isset( $_wp_admin_css_colors[ $color_scheme ]->icon_colors ) ) {
-		echo '<script type="text/javascript">var wp_color_scheme = ' . json_encode( array( 'icons' => $_wp_admin_css_colors[ $color_scheme ]->icon_colors ) ) . ";</script>\n";
+	if ( ! empty( $_wp_admin_css_colors[ $color_scheme ]->icon_colors ) ) {
+		echo '<script type="text/javascript">var _wpColorScheme = ' . json_encode( array( 'icons' => $_wp_admin_css_colors[ $color_scheme ]->icon_colors ) ) . ";</script>\n";
 	}
 }
-add_action( 'admin_head', 'set_color_scheme_json' );
+add_action( 'admin_head', 'wp_color_scheme_settings' );
 
 function _ipad_meta() {
 	if ( wp_is_mobile() ) {

@@ -392,8 +392,6 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'media-editor', "/wp-includes/js/media-editor$suffix.js", array( 'shortcode', 'media-views' ), false, 1 );
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'media-models' ), false, 1 );
 
-	$scripts->add( 'svg-painter', '/wp-includes/js/svg-painter.js' );
-
 	if ( is_admin() ) {
 		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array('jquery', 'wp-ajax-response'), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'admin-tags', 'tagsl10n', array(
@@ -516,6 +514,8 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'custom-header', "/wp-admin/js/custom-header.js", array( 'jquery-masonry' ), false, 1 );
 		$scripts->add( 'custom-background', "/wp-admin/js/custom-background$suffix.js", array( 'wp-color-picker', 'media-views' ), false, 1 );
 		$scripts->add( 'media-gallery', "/wp-admin/js/media-gallery$suffix.js", array('jquery'), false, 1 );
+
+		$scripts->add( 'svg-painter', '/wp-includes/js/svg-painter.js', array( 'jquery' ), false, 1 );
 	}
 }
 
