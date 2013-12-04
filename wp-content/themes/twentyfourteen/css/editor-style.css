@@ -128,6 +128,8 @@ i {
 mark,
 ins {
 	background: #fff9c0;
+	border: 0;
+	color: inherit;
 	text-decoration: none;
 }
 
