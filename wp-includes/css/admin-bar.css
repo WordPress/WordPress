@@ -142,6 +142,10 @@
 	left: 0;
 }
 
+#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper {
+	min-width: 100%;
+}
+
 #wpadminbar .ab-top-secondary .menupop .ab-sub-wrapper {
 	right: 0;
 	left: auto;
