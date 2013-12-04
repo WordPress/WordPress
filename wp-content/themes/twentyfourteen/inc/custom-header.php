@@ -78,7 +78,7 @@ function twentyfourteen_header_style() {
 		else :
 	?>
 		.site-title a {
-			color: #<?php echo $header_text_color; ?> !important;
+			color: #<?php echo $header_text_color; ?>;
 		}
 	<?php endif; ?>
 	</style>
