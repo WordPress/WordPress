@@ -24,7 +24,7 @@ function twentyfourteen_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 
-	// Rename the label to "Site Title Color" because this only effects the site title in this theme.
+	// Rename the label to "Site Title Color" because this only affects the site title in this theme.
 	$wp_customize->get_control( 'header_textcolor' )->label = __( 'Site Title Color', 'twentyfourteen' );
 
 	// Rename the label to "Display Site Title & Tagline" in order to make this option extra clear.
