@@ -1,8 +1,11 @@
-/* global wp_color_scheme:true */
+/**
+ * Attempt to re-color SVG icons used in the admin menu or the toolbar
+ *
+ */
 var svgPainter = ( function( $, window, document, undefined ) {
 	'use strict';
 	var selector, base64,
-		colorscheme = {}, 
+		colorscheme = {},
 		elements = [];
 
 	$(document).ready( function() {
