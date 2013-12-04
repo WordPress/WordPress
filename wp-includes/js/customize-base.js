@@ -253,10 +253,6 @@ window.wp = window.wp || {};
 			return this;
 		},
 
-		isEqual: function( to ) {
-			return this._eq( this._value, to, [], [] );
-		},
-
 		/**
 		 * Internal recursive comparison function for `isEqual`.
 		 * Copied from Underscore.js.
@@ -321,8 +317,12 @@ window.wp = window.wp || {};
 			aStack.pop();
 			bStack.pop();
 			return result;
-		}
+		},
 		/* jshint ignore:end */
+
+		isEqual: function( to ) {
+			return this._eq( this._value, to, [], [] );
+		}
 	});
 
 	/* =====================================================================
