@@ -1913,7 +1913,7 @@ div.wp-menu-image:before {
 
 .sticky-menu #adminmenuwrap {
 	position: fixed;
-	z-index: 9999; /* Match the z-index of .wp-submenu to ensure flyout menus don't appear underneath main column elements */
+	z-index: 99; /* Match the z-index of .wp-submenu to ensure flyout menus don't appear underneath main column elements */
 }
 
 /* A new arrow */
@@ -7129,7 +7129,7 @@ body.folded .theme-overlay .theme-wrap {
 		left: 0;
 		padding: 70px 20px 20px;
 		border: none;
-		z-index: 999999999;
+		z-index: 500; /* should overlap #wpadminbar, which is 500 on mobile. */
 		position: fixed;
 	}
 

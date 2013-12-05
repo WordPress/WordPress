@@ -23,7 +23,7 @@
 /* ----------------------------------------------------------------------------------------------------------------*/
 #TB_overlay {
 	position: fixed;
-	z-index:100;
+	z-index:510; /* should overlap theme modal, which is 500 on mobile. */
 	top: 0px;
 	left: 0px;
 	height:100%;
@@ -47,7 +47,7 @@
 #TB_window {
 	position: fixed;
 	background: #ffffff;
-	z-index: 102;
+	z-index: 510; /* should overlap theme modal, which is 500 on mobile. */
 	color:#000000;
 	visibility: hidden;
 	text-align:left;
