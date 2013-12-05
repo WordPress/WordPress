@@ -3431,13 +3431,14 @@ a.post-thumbnail:hover {
 
 	.primary-navigation .menu-item-has-children > a:after,
 	.primary-navigation .page_item_has_children > a:after {
-		border: 4px solid transparent;
-		border-top-color: #fff;
-		content: "";
-		margin-top: -2px;
+		-webkit-font-smoothing: antialiased;
+		content: "\f502";
+		display: inline-block;
+		font: normal 8px/1 Genericons;
 		position: absolute;
-		top: 50%;
 		right: 12px;
+		top: 22px;
+		vertical-align: text-bottom;
 	}
 
 	.primary-navigation li .menu-item-has-children > a,
@@ -3446,12 +3447,13 @@ a.post-thumbnail:hover {
 		width: 168px;
 	}
 
-	.primary-navigation .menu-item-has-children li > a:after,
-	.primary-navigation .page_item_has_children li > a:after {
-		border-top-color: transparent;
-		border-left-color: #fff;
-		margin-top: -4px;
+	.primary-navigation .menu-item-has-children li.menu-item-has-children > a:after,
+	.primary-navigation .menu-item-has-children li.page_item_has_children > a:after,
+	.primary-navigation .page_item_has_children li.menu-item-has-children > a:after,
+	.primary-navigation .page_item_has_children li.page_item_has_children > a:after {
+		content: "\f501";
 		right: 8px;
+		top: 20px;
 	}
 }
 
@@ -3662,13 +3664,14 @@ a.post-thumbnail:hover {
 	}
 
 	.secondary-navigation .menu-item-has-children > a:after {
-		border: 4px solid transparent;
-		border-left-color: #fff;
-		content: "";
-		margin-top: -4px;
+		-webkit-font-smoothing: antialiased;
+		content: "\f501";
+		display: inline-block;
+		font: normal 8px/1 Genericons;
 		position: absolute;
-		top: 50%;
 		right: 26px;
+		top: 14px;
+		vertical-align: text-bottom;
 	}
 
 	.footer-sidebar .widget,
