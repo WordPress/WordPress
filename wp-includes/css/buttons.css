@@ -129,6 +129,10 @@ TABLE OF CONTENTS:
  	vertical-align: top;
 }
 
+.wp-core-ui p .button {
+	vertical-align: baseline;
+}
+
 .wp-core-ui .button.hover,
 .wp-core-ui .button:hover,
 .wp-core-ui .button-secondary:hover,
