@@ -309,13 +309,16 @@
 	position: relative;
 	left: auto;
 	margin: 0;
-	background: #4b4b4b;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
-#wpadminbar .quicklinks .menupop .ab-sub-secondary > li:hover > a,
-#wpadminbar .quicklinks .menupop .ab-sub-secondary > li.hover > a,
+#wpadminbar .quicklinks .menupop ul.ab-sub-secondary,
+#wpadminbar .quicklinks .menupop ul.ab-sub-secondary .ab-submenu {
+	background: #4b4b4b;
+}
+
+#wpadminbar .quicklinks .menupop .ab-sub-secondary > li > a:hover,
 #wpadminbar .quicklinks .menupop .ab-sub-secondary > li .ab-item:focus a {
 	color: #2ea2cc;
 }
@@ -909,7 +912,8 @@
 	}
 	
 	/* Allow dropdown list items to appear normally */
-	#wpadminbar li:hover ul li {
+	#wpadminbar li:hover ul li,
+	#wpadminbar li:hover ul li:hover ul li {
 		display: list-item;
 	}
 	
@@ -1007,6 +1011,24 @@
 
 	#wpadminbar #wp-admin-bar-wp-logo.menupop .ab-sub-wrapper {
 		margin-right: 0;
+	}
+	
+	#wpadminbar .ab-top-menu > .menupop li > .ab-sub-wrapper {
+		display: inline-block;
+		margin: 0;
+		width: 100%;
+		top: auto;
+		right: auto;
+		position: relative;
+	}
+	
+	#wpadminbar .ab-top-menu > .menupop li > .ab-sub-wrapper .ab-item {
+		font-size: 16px;
+		padding: 6px 30px 19px 15px;
+	}
+	
+	#wpadminbar li:hover ul li ul li {
+		display: list-item;
 	}
 
 	#wpadminbar li#wp-admin-bar-wp-logo,

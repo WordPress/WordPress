@@ -293,7 +293,8 @@ ul#adminmenu > li.current > a.current:after {
 	background: $menu-submenu-background;
 }
 
-#wpadminbar .quicklinks .menupop ul.ab-sub-secondary {
+#wpadminbar .quicklinks .menupop ul.ab-sub-secondary,
+#wpadminbar .quicklinks .menupop ul.ab-sub-secondary .ab-submenu {
 	background: $menu-submenu-background-alt;
 }
 
