@@ -61,6 +61,11 @@ themes.view.Appearance = wp.Backbone.View.extend({
 		var view,
 			self = this;
 
+		// Don't render the search if there is only one theme
+		if ( themes.data.themes.length === 1 ) {
+			return;
+		}
+
 		view = new themes.view.Search({ collection: self.collection });
 
 		// Render and append after screen title
@@ -407,6 +412,22 @@ themes.view.Themes = wp.Backbone.View.extend({
 	render: function() {
 		// Clear the DOM, please
 		this.$el.html( '' );
+
+		// If the user doesn't have switch capabilities
+		// or there is only one theme in the collection
+		// render the detailed view of the active theme
+		if ( themes.data.themes.length === 1 ) {
+
+			// Constructs the view
+			this.singleTheme = new themes.view.Details({
+				model: this.collection.models[0]
+			});
+
+			// Render and apply a 'single-theme' class to our container
+			this.singleTheme.render();
+			this.$el.addClass( 'single-theme' );
+			this.$el.append( this.singleTheme.el );
+		}
 
 		// Generate the themes
 		// Using page instance

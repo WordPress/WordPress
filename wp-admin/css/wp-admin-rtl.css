@@ -7052,6 +7052,26 @@ body.folded .theme-overlay .theme-wrap {
 .theme-overlay .parent-theme strong {
 	font-weight: 700;
 }
+/**
+ * Single Theme Mode
+ * Displays detailed view inline when a user has no switch capabilities
+ */
+.single-theme .theme-overlay .theme-backdrop,
+.single-theme .theme-overlay .theme-header,
+.single-theme .theme {
+	display: none;
+}
+.single-theme .theme-overlay .theme-wrap {
+	clear: both;
+	position: static;
+}
+.single-theme .theme-overlay .theme-about {
+	padding: 30px;
+	position: static;
+}
+.single-theme .theme-overlay .theme-actions {
+	position: static;
+}
 
 /**
  * Basic Responsive structure...
