@@ -1871,7 +1871,7 @@ form.upgrade .hint {
 
 #adminmenu div.wp-menu-image {
 	float: right;
-	width: 34px;
+	width: 36px;
 	height: 30px;
 	margin: 0;
 	text-align: center;
@@ -1888,7 +1888,7 @@ div.wp-menu-image:before {
 	speak: none;
 	color: #999;
 	padding: 8px 0;
-	height: 34px;
+	height: 36px;
 	width: 20px;
 	display: inline-block;
 	-webkit-font-smoothing: antialiased;
@@ -1899,7 +1899,7 @@ div.wp-menu-image:before {
 }
 
 .folded #adminmenu div.wp-menu-image {
-	width: 34px;
+	width: 36px;
 	height: 30px;
 	position: absolute;
 	z-index: 25;

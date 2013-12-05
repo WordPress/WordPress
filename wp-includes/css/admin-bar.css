@@ -120,7 +120,7 @@
 #wpadminbar .shortlink-input {
 	height: 32px;
 	display: block;
-	padding: 0 10px;
+	padding: 0 8px 0 7px;
 	margin: 0;
 }
 
@@ -430,7 +430,7 @@
 }
 
 #wpadminbar #wp-admin-bar-wp-logo > .ab-item {
-	padding: 0 8px 0 8px;
+	padding: 0 7px;
 }
 
 #wpadminbar #wp-admin-bar-wp-logo > .ab-item .ab-icon:before {
