@@ -77,7 +77,7 @@ function twentyfourteen_sanitize_layout( $layout ) {
  * @since Twenty Fourteen 1.0
  */
 function twentyfourteen_customize_preview_js() {
-	wp_enqueue_script( 'twentyfourteen_customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), '20131130', true );
+	wp_enqueue_script( 'twentyfourteen_customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), '20131205', true );
 }
 add_action( 'customize_preview_init', 'twentyfourteen_customize_preview_js' );
 
