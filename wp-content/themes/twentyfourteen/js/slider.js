@@ -39,6 +39,7 @@
 				slider.prop = 'marginLeft';
 				slider.isRtl = $( 'body' ).hasClass( 'rtl' );
 				slider.args = {};
+				slider.limit = 0;
 				// TOUCH
 				slider.transitions = ( function() {
 					var obj = document.createElement( 'div' ),
@@ -76,9 +77,9 @@
 						var keycode = event.keyCode,
 							target = false;
 						if ( ! slider.animating && ( keycode === 39 || keycode === 37 ) ) {
-							if (keycode === 39){
+							if ( keycode === 39 ) {
 								target = slider.getTarget( 'next' );
-							} else if (keycode === 37) {
+							} else if ( keycode === 37 ) {
 								target = slider.getTarget( 'prev' );
 							}
 
@@ -243,8 +244,11 @@
 						localX = e.touches[0].pageX;
 						localY = e.touches[0].pageY;
 
-						offset = ( slider.animatingTo === slider.last ) ? 0 :
-								( slider.currentSlide === slider.last ) ? slider.limit : ( slider.currentSlide + slider.cloneOffset ) * cwidth;
+						offset = ( slider.currentSlide + slider.cloneOffset ) * cwidth;
+						if ( slider.animatingTo === slider.last && slider.direction !== 'next' ) {
+							offset = 0;
+						}
+
 						startX = localX;
 						startY = localY;
 
@@ -261,9 +265,7 @@
 					dx = startX - localX;
 					scrolling = Math.abs( dx ) < Math.abs( localY - startY );
 
-					var fxms = 500;
-
-					if ( ! scrolling || Number( new Date() ) - startT > fxms ) {
+					if ( ! scrolling ) {
 						e.preventDefault();
 						if ( slider.transitions ) {
 							slider.setProps( offset + dx, 'setTouch' );
@@ -298,7 +300,10 @@
 						accDx = 0;
 						cwidth = slider.w;
 						startT = Number( new Date() );
-						offset = ( slider.animatingTo === slider.last ) ? 0 : ( slider.currentSlide === slider.last ) ? slider.limit : ( slider.currentSlide + slider.cloneOffset ) * cwidth;
+						offset = ( slider.currentSlide + slider.cloneOffset ) * cwidth;
+						if ( slider.animatingTo === slider.last && slider.direction !== 'next' ) {
+							offset = 0;
+						}
 					}
 				}
 
