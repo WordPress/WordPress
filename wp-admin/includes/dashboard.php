@@ -221,8 +221,33 @@ function wp_dashboard_right_now() {
 	?>
 	</ul>
 	<p><?php printf( __( 'WordPress %1$s running %2$s theme.' ), get_bloginfo( 'version', 'display' ), $theme_name ); ?></p>
-	</div>
+	<?php
 
+	// Check if search engines are asked not to index this site.
+	if ( ! is_network_admin() && ! is_user_admin() && current_user_can( 'manage_options' ) && '1' != get_option( 'blog_public' ) ) {
+
+		/**
+		 * Filter the title attribute for the link displayed in Site Content metabox when search engines are discouraged from indexing the site.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string Default attribute text.
+		 */
+		$title = apply_filters( 'privacy_on_link_title', __( 'Your site is asking search engines not to index its content' ) );
+
+		/**
+		 * Filter the text for the link displayed in Site Content metabox when search engines are discouraged from indexing the site.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string Default text.
+		 */
+		$content = apply_filters( 'privacy_on_link_text' , __( 'Search Engines Discouraged' ) );
+
+		echo "<p><a href='options-reading.php' title='$title'>$content</a></p>";
+	}
+	?>
+	</div>
 	<?php
 	// activity_box_end has a core action, but only prints content when multisite.
 	// Using an output buffer is the only way to really check if anything's displayed here.
