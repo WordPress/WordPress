@@ -17,7 +17,7 @@ get_header(); ?>
 			<?php if ( have_posts() ) : ?>
 
 			<header class="archive-header">
-				<h1 class="archive-title"><?php single_cat_title(); ?></h1>
+				<h1 class="archive-title"><?php printf( __( 'Category Archives: %s', 'twentyfourteen' ), single_cat_title( '', false ) ); ?></h1>
 
 				<?php
 					// Show an optional term description.

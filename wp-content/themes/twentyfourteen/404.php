@@ -14,7 +14,7 @@ get_header(); ?>
 		<div id="content" class="site-content" role="main">
 
 			<header class="page-header">
-				<h1 class="page-title"><?php _e( "Oops! That page can't be found.", 'twentyfourteen' ); ?></h1>
+				<h1 class="page-title"><?php _e( 'Not Found', 'twentyfourteen' ); ?></h1>
 			</header>
 
 			<div class="page-content">
