@@ -1926,6 +1926,13 @@ a.post-thumbnail:hover {
 	color: #767676;
 }
 
+.comment-notes,
+.comment-awaiting-moderation,
+.logged-in-as {
+	font-size: 14px;
+	line-height: 1.7142857142;
+}
+
 .no-comments {
 	font-size: 16px;
 	font-weight: 900;
