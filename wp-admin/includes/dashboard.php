@@ -37,7 +37,7 @@ function wp_dashboard_setup() {
 
 	// Right Now
 	if ( is_blog_admin() && current_user_can('edit_posts') )
-		wp_add_dashboard_widget( 'dashboard_right_now', __( 'Site Content' ), 'wp_dashboard_right_now' );
+		wp_add_dashboard_widget( 'dashboard_right_now', __( 'At a Glance' ), 'wp_dashboard_right_now' );
 
 	if ( is_network_admin() )
 		wp_add_dashboard_widget( 'network_dashboard_right_now', __( 'Right Now' ), 'wp_network_dashboard_right_now' );
@@ -170,7 +170,7 @@ function wp_dashboard() {
 /**
  * Dashboard widget that displays some basic stats about the site.
  *
- * Formerly 'Right Now'. A streamlined 'Site Content' as of 3.8.
+ * Formerly 'Right Now'. A streamlined 'At a Glance' as of 3.8.
  *
  * @since 2.7.0
  */
