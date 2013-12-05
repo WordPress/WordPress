@@ -146,7 +146,7 @@ themes.Collection = Backbone.Collection.extend({
 		results = this.filter( function( data ) {
 			haystack = _.union( data.get( 'name' ), data.get( 'description' ), data.get( 'author' ), data.get( 'tags' ) );
 
-			if ( match.test( data.get( 'author' ) ) ) {
+			if ( match.test( data.get( 'author' ) ) && term.length > 2 ) {
 				data.set( 'displayAuthor', true );
 			}
 
