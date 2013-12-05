@@ -170,7 +170,7 @@ var svgPainter = ( function( $, window, document, undefined ) {
 			xml = $element.data( 'wp-ui-svg-' + color );
 
 			if ( ! xml ) {
-				encoded = $element.css( 'background-image' ).match( /.+data:image\/svg\+xml;base64,(.+?)['"] ?\)/ );
+				encoded = $element.css( 'background-image' ).match( /.+data:image\/svg\+xml;base64,(.+?)['"]? ?\)/ );
 
 				if ( ! encoded || ! encoded[1] ) {
 					return;
