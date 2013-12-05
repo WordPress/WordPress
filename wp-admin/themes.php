@@ -273,7 +273,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 					<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
 				<# } #>
 				<h3 class="theme-name">{{{ data.name }}}<span class="theme-version"><?php printf( __( 'Version: %s' ), '{{{ data.version }}}' ); ?></span></h3>
-				<h4 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></h4>
+				<h4 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.authorAndUri }}}' ); ?></h4>
 
 				<# if ( data.hasUpdate ) { #>
 				<div class="theme-update-message">
