@@ -2024,8 +2024,8 @@ ul#adminmenu > li.current > a.current:after {
 	font-size: 9px;
 	line-height: 17px;
 	font-weight: 600;
-	margin: -2px 0 -2px 2px;
-	vertical-align: middle;
+	margin: 1px 0 0 2px;
+	vertical-align: top;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 	z-index: 26;
