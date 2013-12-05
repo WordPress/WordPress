@@ -107,8 +107,14 @@ foreach ( (array) get_post_types( array('show_ui' => true, '_builtin' => false, 
 		continue;
 	$ptype_menu_position = is_int( $ptype_obj->menu_position ) ? $ptype_obj->menu_position : ++$_wp_last_object_menu; // If we're to use $_wp_last_object_menu, increment it first.
 	$ptype_for_id = sanitize_html_class( $ptype );
+
 	if ( is_string( $ptype_obj->menu_icon ) ) {
-		$menu_icon   = esc_url( $ptype_obj->menu_icon );
+		// Special handling for data:image/svg+xml and Dashicons.
+		if ( 0 === strpos( $ptype_obj->menu_icon, 'data:image/svg+xml;base64,' ) || 0 === strpos( $ptype_obj->menu_icon, 'dashicons-' ) ) {
+			$menu_icon = $ptype_obj->menu_icon;
+		} else {
+			$menu_icon = esc_url( $ptype_obj->menu_icon );
+		}
 		$ptype_class = $ptype_for_id;
 	} else {
 		$menu_icon   = 'none';

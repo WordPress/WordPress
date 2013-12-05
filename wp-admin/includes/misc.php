@@ -618,9 +618,21 @@ function wp_color_scheme_settings() {
 
 	$color_scheme = get_user_option( 'admin_color' );
 
-	if ( ! empty( $_wp_admin_css_colors[ $color_scheme ]->icon_colors ) ) {
-		echo '<script type="text/javascript">var _wpColorScheme = ' . json_encode( array( 'icons' => $_wp_admin_css_colors[ $color_scheme ]->icon_colors ) ) . ";</script>\n";
+	// It's possible to have a color scheme set that is no longer registered.
+	if ( empty( $_wp_admin_css_colors[ $color_scheme ] ) ) {
+		$color_scheme = 'fresh';
 	}
+
+	if ( ! empty( $_wp_admin_css_colors[ $color_scheme ]->icon_colors ) ) {
+		$icon_colors = $_wp_admin_css_colors[ $color_scheme ]->icon_colors;
+	} elseif ( ! empty( $_wp_admin_css_colors['fresh']->icon_colors ) ) {
+		$icon_colors = $_wp_admin_css_colors['fresh']->icon_colors;
+	} else {
+		// Fall back to the default set of icon colors if the default scheme is missing.
+		$icon_colors = array( 'base' => '#999', 'focus' => '#2ea2cc', 'current' => '#fff' );
+	}
+
+	echo '<script type="text/javascript">var _wpColorScheme = ' . json_encode( array( 'icons' => $icon_colors ) ) . ";</script>\n";
 }
 add_action( 'admin_head', 'wp_color_scheme_settings' );
 

@@ -200,7 +200,7 @@ var svgPainter = ( function( $, window, document, undefined ) {
 				$element.data( 'wp-ui-svg-' + color, xml );
 			}
 
-			$element.attr( 'style', 'background-image: url("data:image/svg+xml;base64,' + xml + '") !important;' );
+			$element.css( 'background-image', 'url("data:image/svg+xml;base64,' + xml + '")' );
 		}
 	};
 

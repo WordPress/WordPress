@@ -1874,6 +1874,8 @@ form.upgrade .hint {
 	width: 34px;
 	height: 30px;
 	margin: 0;
+	background-repeat: no-repeat;
+	background-position: center;
 	text-align: center;
 }
 
