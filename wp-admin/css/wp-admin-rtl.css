@@ -1874,9 +1874,13 @@ form.upgrade .hint {
 	width: 34px;
 	height: 30px;
 	margin: 0;
+	text-align: center;
+}
+
+#adminmenu div.wp-menu-image.svg {
 	background-repeat: no-repeat;
 	background-position: center;
-	text-align: center;
+	background-size: 20px auto;
 }
 
 div.wp-menu-image:before {
