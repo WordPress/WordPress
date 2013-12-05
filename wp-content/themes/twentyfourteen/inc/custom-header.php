@@ -55,30 +55,31 @@ if ( ! function_exists( 'twentyfourteen_header_style' ) ) :
  *
  */
 function twentyfourteen_header_style() {
-	$header_text_color = get_header_textcolor();
+	$text_color = get_header_textcolor();
 
-	// If no custom options for text are set, let's bail
-	// $header_text_color options: HEADER_TEXTCOLOR is default, hide text (returns 'blank') or any hex value
-	if ( HEADER_TEXTCOLOR == $header_text_color )
+	// If no custom color for text is set, let's bail.
+	if ( display_header_text() && $text_color === get_theme_support( 'custom-header', 'default-text-color' ) )
 		return;
-	// If we get this far, we have custom styles. Let's do this.
+
+	// If we get this far, we have custom styles.
 	?>
-	<style type="text/css">
+	<style type="text/css" id="twentyfourteen-header-css">
 	<?php
 		// Has the text been hidden?
-		if ( 'blank' == $header_text_color ) :
+		if ( ! display_header_text() ) :
 	?>
-		.site-title {
-			position: absolute !important;
-			clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+		.site-title,
+		.site-description {
+			position: absolute;
+			clip: rect(1px 1px 1px 1px); /* IE7 */
 			clip: rect(1px, 1px, 1px, 1px);
 		}
 	<?php
-		// If the user has set a custom color for the text use that
-		else :
+		// If the user has set a custom color for the text, use that.
+		elseif ( $text_color != get_theme_support( 'custom-header', 'default-text-color' ) ) :
 	?>
 		.site-title a {
-			color: #<?php echo $header_text_color; ?>;
+			color: #<?php echo esc_attr( $text_color ); ?>;
 		}
 	<?php endif; ?>
 	</style>
@@ -97,7 +98,7 @@ if ( ! function_exists( 'twentyfourteen_admin_header_style' ) ) :
  */
 function twentyfourteen_admin_header_style() {
 ?>
-	<style type="text/css">
+	<style type="text/css" id="twentyfourteen-admin-header-css">
 	.appearance_page_custom-header #headimg {
 		background-color: #000;
 		border: none;
