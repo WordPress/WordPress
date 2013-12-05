@@ -433,7 +433,7 @@ wpWidgets = {
 		// Open the widgets container
 		sidebar.closest( '.widgets-holder-wrap' ).removeClass('closed');
 
-		sidebar.find('.sidebar-description').after( widget );
+		sidebar.append( widget );
 		sidebar.sortable('refresh');
 
 		wpWidgets.save( widget, 0, 0, 1 );
