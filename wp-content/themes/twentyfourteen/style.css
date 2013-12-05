@@ -903,10 +903,6 @@ span + .edit-link:before,
 	width: 100%;
 }
 
-.search-toggle .screen-reader-text {
-	right: 0; /* This makes sure a horizontal scrollbar won't appear */
-}
-
 
 /**
  * 5.0 Navigation

@@ -56,14 +56,14 @@
 
 	$( function() {
 		// Search toggle.
-		$( '.search-toggle' ).on( 'click.twentyfourteen', function() {
+		$( '.search-toggle' ).on( 'click.twentyfourteen', function( event ) {
 			var that    = $( this ),
 				wrapper = $( '.search-box-wrapper' );
 
 			that.toggleClass( 'active' );
 			wrapper.toggleClass( 'hide' );
 
-			if ( that.is( '.active' ) ) {
+			if ( that.is( '.active' ) || $( '.screen-reader-text' ) === event.target ) {
 				wrapper.find( '.search-field' ).focus();
 			}
 		} );
