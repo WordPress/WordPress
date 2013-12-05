@@ -8,7 +8,7 @@
  *
  * @todo http://core.trac.wordpress.org/ticket/23257: Add plural versions of Post Format strings
  * and remove plurals below.
- * 
+ *
  * @link http://codex.wordpress.org/Template_Hierarchy
  *
  * @package WordPress
