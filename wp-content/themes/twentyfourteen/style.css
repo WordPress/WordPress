@@ -985,6 +985,7 @@ span + .edit-link:before,
 
 .menu-toggle {
 	cursor: pointer;
+	font-size: 0;
 	height: 48px;
 	margin: 0;
 	overflow: hidden;
@@ -992,16 +993,13 @@ span + .edit-link:before,
 	top: 0;
 	right: 0;
 	text-align: center;
-	visibility: hidden;
 	width: 48px;
 }
 
 .menu-toggle:before {
 	color: #fff;
 	content: "\f419";
-	position: relative;
-	top: -1px;
-	visibility: visible;
+	margin-top: 16px;
 }
 
 
