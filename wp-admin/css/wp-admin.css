@@ -6510,37 +6510,26 @@ span.imgedit-scale-warn {
  * The currently active theme
  */
 .theme-browser .theme.active .theme-name {
-	background: #0074a2;
+	background: #2f2f2f;
 	color: #fff;
+	padding-right: 110px;
+	font-weight: 300;
 	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.5);
 	box-shadow:         inset 0 1px 1px rgba(0,0,0,0.5);
 }
 
+.theme-browser .theme.active .theme-name span {
+	font-weight: 600;
+}
+
 .theme-browser .theme.active .theme-actions {
-	top: 0;
-	left: 0;
-	background: #2f2f2f;
-	height: 48px;
+	background: rgba(49,49,49,0.7);
+	border-left: none;
 	opacity: 1;
-	line-height: 48px;
-	padding: 0 10px;
-	z-index: 1;
 }
 
-.theme-browser .theme.active .theme-actions .button {
-	float: right;
-	margin-top: 10px;
-}
-
-.theme-browser .theme.active .current-label {
-	font-size: 13px;
-	font-weight: 400;
-	color: #ccc;
-	margin-left: 5px;
-}
-
-.theme-browser .theme.active .theme-update {
-	top: 48px;
+.theme-browser .theme.active .theme-actions .button-primary {
+	margin-right: 0;
 }
 
 .theme-browser .theme .theme-author {
@@ -7133,11 +7122,6 @@ body.folded .theme-overlay .theme-wrap {
 }
 
 @media only screen and (max-width: 780px) {
-	.theme-browser .theme.active .theme-actions .button {
-		margin-top: 6px;
-		margin-right: -3px
-	}
-
 	body.folded .theme-overlay .theme-wrap,
 	.theme-overlay .theme-wrap {
 		top: 0; /* The adminmenu isn't fixed on mobile, so this can use the full viewport height */
@@ -7150,6 +7134,11 @@ body.folded .theme-overlay .theme-wrap {
 		position: fixed;
 	}
 
+	.theme-browser .theme.active .theme-name span {
+		/* Hide the "Active: " label on smaller screens. */
+		display: none;
+	}
+
 	.theme-overlay .theme-screenshots {
 		width: 40%;
 	}
@@ -7159,6 +7148,10 @@ body.folded .theme-overlay .theme-wrap {
 	}
 	.single-theme .theme-wrap {
 		padding: 10px;
+	}
+
+	.theme-browser .theme .theme-actions {
+		padding: 5px 10px 4px 10px;
 	}
 }
 
@@ -7178,14 +7171,6 @@ body.folded .theme-overlay .theme-wrap {
 	.theme-overlay .theme-update,
 	.theme-overlay .theme-description {
 		margin-left: 0;
-	}
-
-	.theme .theme-actions .button {
-		margin-top: -4px;
-	}
-	.theme.active .theme-actions .button {
-		margin-top: 6px;
-		margin-right: 0;
 	}
 
 	.theme-overlay .theme-actions .delete-theme {

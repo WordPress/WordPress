@@ -221,12 +221,16 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 		<div class="theme-screenshot blank"></div>
 	<# } #>
 	<div class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></div>
-	<h3 class="theme-name">{{{ data.name }}}</h3>
+	
+	<# if ( data.active ) { #>
+		<h3 class="theme-name"><span><?php _ex( 'Active:', 'theme' ); ?></span> {{{ data.name }}}</h3>
+	<# } else { #>
+		<h3 class="theme-name">{{{ data.name }}}</h3>
+	<# } #>
 
 	<div class="theme-actions">
 
 	<# if ( data.active ) { #>
-		<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
 		<# if ( data.actions.customize ) { #>
 			<a class="button button-primary hide-if-no-customize" href="{{ data.actions.customize }}"><?php _e( 'Customize' ); ?></a>
 		<# } #>
