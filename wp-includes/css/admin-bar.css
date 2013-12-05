@@ -904,18 +904,20 @@
 	}
 
 	/* Hide all third party items */
-	#wp-admin-bar-top-secondary > li {
+	#wpadminbar li {
 		display: none;
 	}
 
-	#wp-admin-bar-root-default li#wp-admin-bar-wp-logo,
-	#wp-admin-bar-root-default li#wp-admin-bar-my-sites,
-	#wp-admin-bar-root-default li#wp-admin-bar-site-name,
-	#wp-admin-bar-root-default li#wp-admin-bar-new-content,
-	#wp-admin-bar-root-default li#wp-admin-bar-edit,
-	#wp-admin-bar-root-default li#wp-admin-bar-comments,
-	#wp-admin-bar-root-default li#wp-admin-bar-new-content,
-	#wp-admin-bar-top-secondary li#wp-admin-bar-my-account {
+	#wpadminbar li#wp-admin-bar-menu-toggle,
+	#wpadminbar li#wp-admin-bar-wp-logo,
+	#wpadminbar li#wp-admin-bar-my-sites,
+	#wpadminbar li#wp-admin-bar-updates,
+	#wpadminbar li#wp-admin-bar-site-name,
+	#wpadminbar li#wp-admin-bar-new-content,
+	#wpadminbar li#wp-admin-bar-edit,
+	#wpadminbar li#wp-admin-bar-comments,
+	#wpadminbar li#wp-admin-bar-new-content,
+	#wpadminbar li#wp-admin-bar-my-account {
 		display: block;
 	}
 
@@ -996,9 +998,8 @@
 		margin-left: 0;
 	}
 
-	#wp-admin-bar-root-default li#wp-admin-bar-wp-logo,
-	#wp-admin-bar-root-default li#wp-admin-bar-updates,
-	#wp-admin-bar-root-default li#wp-admin-bar-view {
+	#wpadminbar li#wp-admin-bar-wp-logo,
+	#wpadminbar li#wp-admin-bar-updates {
 		display: none;
 	}
 }
