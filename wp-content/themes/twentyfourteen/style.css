@@ -89,6 +89,7 @@ audio,
 canvas,
 video {
 	display: inline-block;
+	max-width: 100%;
 }
 
 html {
