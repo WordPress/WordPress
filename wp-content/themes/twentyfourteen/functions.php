@@ -359,6 +359,7 @@ function twentyfourteen_list_authors() {
 	$contributor_ids = get_users( array(
 		'fields'  => 'ID',
 		'orderby' => 'post_count',
+		'order'   => 'DESC',
 		'who'     => 'authors',
 	) );
 
