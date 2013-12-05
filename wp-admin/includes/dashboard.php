@@ -44,7 +44,7 @@ function wp_dashboard_setup() {
 
 	// Activity Widget
 	if ( is_blog_admin() ) {
-		wp_add_dashboard_widget( 'dashboard_activity', __( 'Activity' ), 'wp_dashboard_activity' );
+		wp_add_dashboard_widget( 'dashboard_activity', __( 'Activity' ), 'wp_dashboard_site_activity' );
 	}
 
 	// QuickPress Widget
@@ -343,17 +343,28 @@ function wp_dashboard_quick_press( $error_msg = false ) {
 
 	</form>
 	<?php
-	$query_args = array(
-		'post_type'      => 'post',
-		'post_status'    => 'draft',
-		'author'         => get_current_user_id(),
-		'posts_per_page' => 4,
-		'orderby'        => 'modified',
-		'order'          => 'DESC'
-	);
-	$drafts = get_posts( $query_args );
+	wp_dashboard_recent_drafts();
+}
+
+/**
+ * Show recent drafts of the user on the dashboard.
+ *
+ * @since 2.7.0
+ */
+function wp_dashboard_recent_drafts( $drafts = false ) {
 	if ( ! $drafts ) {
-		return;
+		$query_args = array(
+			'post_type'      => 'post',
+			'post_status'    => 'draft',
+			'author'         => get_current_user_id(),
+			'posts_per_page' => 4,
+			'orderby'        => 'modified',
+			'order'          => 'DESC'
+		);
+		$drafts = get_posts( $query_args );
+		if ( ! $drafts ) {
+			return;
+ 		}
  	}
 
 	echo '<div class="drafts">';
@@ -475,13 +486,11 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
  *
  * @since 3.8.0
  */
-function wp_dashboard_activity() {
+function wp_dashboard_site_activity() {
 
 	echo '<div id="activity-widget">';
 
-	do_action( 'dashboard_activity_beginning' );
-
-	$future_posts = dashboard_show_published_posts( array(
+	$future_posts = wp_dashboard_recent_posts( array(
 		'display' => 2,
 		'max'     => 5,
 		'status'  => 'future',
@@ -489,7 +498,7 @@ function wp_dashboard_activity() {
 		'title'   => __( 'Publishing Soon' ),
 		'id'      => 'future-posts',
 	) );
-	$recent_posts = dashboard_show_published_posts( array(
+	$recent_posts = wp_dashboard_recent_posts( array(
 		'display' => 2,
 		'max'     => 5,
 		'status'  => 'publish',
@@ -498,9 +507,7 @@ function wp_dashboard_activity() {
 		'id'      => 'published-posts',
 	) );
 
-	do_action( 'dashboard_activity_middle' );
-
-	$recent_comments = dashboard_comments();
+	$recent_comments = wp_dashboard_recent_comments();
 
 	if ( !$future_posts && !$recent_posts && !$recent_comments ) {
 		echo '<div class="no-activity">';
@@ -508,8 +515,6 @@ function wp_dashboard_activity() {
 		echo '<p>' . __( 'No activity yet!' ) . '</p>';
 		echo '</div>';
 	}
-
-	do_action( 'dashboard_activity_end' );
 
 	echo '</div>';
 }
@@ -521,8 +526,7 @@ function wp_dashboard_activity() {
  *
  * @param array $args
  */
-function dashboard_show_published_posts( $args ) {
-
+function wp_dashboard_recent_posts( $args ) {
 	$query_args = array(
 		'post_type'      => 'post',
 		'post_status'    => $args['status'],
@@ -532,7 +536,6 @@ function dashboard_show_published_posts( $args ) {
 		'no_found_rows'  => true,
 		'cache_results'  => false
 	);
-	$query_args = apply_filters( 'dash_show_published_posts_query_args', $query_args );
 	$posts = new WP_Query( $query_args );
 
 	if ( $posts->have_posts() ) {
@@ -548,12 +551,25 @@ function dashboard_show_published_posts( $args ) {
 		echo '<ul>';
 
 		$i = 0;
+		$today    = date( 'Y-m-d', current_time( 'timestamp' ) );
+		$tomorrow = date( 'Y-m-d', strtotime( '+1 day', current_time( 'timestamp' ) ) );
+
 		while ( $posts->have_posts() ) {
 			$posts->the_post();
+
+			$time = get_the_time( 'U' );
+			if ( date( 'Y-m-d', $time ) == $today ) {
+				$relative = __( 'Today' );
+			} elseif ( date( 'Y-m-d', $time ) == $tomorrow ) {
+				$relative = __( 'Tomorrow' );
+			} else {
+				$relative = date( 'M jS', $time );
+			}
+
 			printf(
 				'<li%s><span>%s, %s</span> <a href="%s">%s</a></li>',
 				( $i >= intval ( $args['display'] ) ? ' class="hidden"' : '' ),
-				dashboard_relative_date( get_the_time( 'U' ) ),
+				$relative,
 				get_the_time(),
 				get_edit_post_link(),
 				_draft_or_post_title()
@@ -580,7 +596,7 @@ function dashboard_show_published_posts( $args ) {
  *
  * @param int $total_items
  */
-function dashboard_comments( $total_items = 5 ) {
+function wp_dashboard_recent_comments( $total_items = 5 ) {
 	global $wpdb;
 
 	// Select all comment types and filter out spam later for better query performance.
@@ -628,28 +644,6 @@ function dashboard_comments( $total_items = 5 ) {
 		return false;
 	}
 	return true;
-}
-
-/**
- * Return relative date for given timestamp.
- *
- * @since 3.8.0
- *
- * @param int $time Unix $timestamp.
- */
-function dashboard_relative_date( $time ) {
-
-	$today    = date( 'Y-m-d', current_time( 'timestamp' ) );
-	$tomorrow = date( 'Y-m-d', strtotime( '+1 day', current_time( 'timestamp' ) ) );
-
-	if ( date( 'Y-m-d', $time ) == $today )
-		return __( 'Today' );
-
-	if ( date( 'Y-m-d', $time ) == $tomorrow )
-		return __( 'Tomorrow' );
-
-	return date( 'M jS', $time);
-
 }
 
 /**
@@ -735,6 +729,50 @@ function wp_dashboard_trigger_widget_control( $widget_control_id = false ) {
 }
 
 /**
+ * The RSS dashboard widget control.
+ *
+ * Sets up $args to be used as input to wp_widget_rss_form(). Handles POST data
+ * from RSS-type widgets.
+ *
+ * @since 2.5.0
+ *
+ * @param string $widget_id
+ * @param array $form_inputs
+ */
+function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
+	if ( !$widget_options = get_option( 'dashboard_widget_options' ) )
+		$widget_options = array();
+
+	if ( !isset($widget_options[$widget_id]) )
+		$widget_options[$widget_id] = array();
+
+	$number = 1; // Hack to use wp_widget_rss_form()
+	$widget_options[$widget_id]['number'] = $number;
+
+	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['widget-rss'][$number]) ) {
+		$_POST['widget-rss'][$number] = wp_unslash( $_POST['widget-rss'][$number] );
+		$widget_options[$widget_id] = wp_widget_rss_process( $_POST['widget-rss'][$number] );
+		$widget_options[$widget_id]['number'] = $number;
+		// title is optional. If black, fill it if possible
+		if ( !$widget_options[$widget_id]['title'] && isset($_POST['widget-rss'][$number]['title']) ) {
+			$rss = fetch_feed($widget_options[$widget_id]['url']);
+			if ( is_wp_error($rss) ) {
+				$widget_options[$widget_id]['title'] = htmlentities(__('Unknown Feed'));
+			} else {
+				$widget_options[$widget_id]['title'] = htmlentities(strip_tags($rss->get_title()));
+				$rss->__destruct();
+				unset($rss);
+			}
+		}
+		update_option( 'dashboard_widget_options', $widget_options );
+		$cache_key = 'dash_' . md5( $widget_id );
+		delete_transient( $cache_key );
+	}
+
+	wp_widget_rss_form( $widget_options[$widget_id], $form_inputs );
+}
+
+/**
  * WordPress News dashboard widget.
  *
  * @since 2.7.0
@@ -744,7 +782,7 @@ function wp_dashboard_primary() {
 		'news'   => array(
 			'link'         => apply_filters( 'dashboard_primary_link', __( 'http://wordpress.org/news/' ) ),
 			'url'          => apply_filters( 'dashboard_primary_feed', __( 'http://wordpress.org/news/feed/' ) ),
-			'title'        => '',
+			'title'        => apply_filters( 'dashboard_primary_title', __( 'WordPress Blog' ) ),
 			'items'        => 1,
 			'show_summary' => 1,
 			'show_author'  => 0,
@@ -753,7 +791,7 @@ function wp_dashboard_primary() {
 		'planet' => array(
 			'link'         => apply_filters( 'dashboard_secondary_link', __( 'http://planet.wordpress.org/' ) ),
 			'url'          => apply_filters( 'dashboard_secondary_feed', __( 'http://planet.wordpress.org/feed/' ) ),
-			'title'        => '',
+			'title'        => apply_filters( 'dashboard_secondary_title', __( 'Other WordPress News' ) ),
 			'items'        => 3,
 			'show_summary' => 0,
 			'show_author'  => 0,

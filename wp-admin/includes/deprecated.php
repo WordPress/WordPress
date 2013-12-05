@@ -1149,3 +1149,28 @@ function get_screen_icon() {
 	return '<!-- Screen icons are no longer used as of WordPress 3.8. -->';
 }
 /**#@-*/
+
+/**#@+
+ * Deprecated dashboard widget controls.
+ *
+ * @since 2.5.0
+ * @deprecated 3.8.0
+ */
+function wp_dashboard_incoming_links_output() {}
+function wp_dashboard_secondary_output() {}
+/**#@-*/
+
+/**#@+
+ * Deprecated dashboard widget controls.
+ *
+ * @since 2.7.0
+ * @deprecated 3.8.0
+ */
+function wp_dashboard_incoming_links() {}
+function wp_dashboard_incoming_links_control() {}
+function wp_dashboard_plugins() {}
+function wp_dashboard_primary_control() {}
+function wp_dashboard_recent_comments_control() {}
+function wp_dashboard_secondary() {}
+function wp_dashboard_secondary_control() {}
+/**#@-*/
