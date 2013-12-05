@@ -185,36 +185,32 @@ function wp_dashboard_right_now() {
 	<ul>
 	<?php
 	do_action( 'rightnow_list_start' );
-	// Using show_in_nav_menus as my arg for grabbing what post types should show, is there better?
-	$post_types = get_post_types( array( 'show_in_nav_menus' => true ), 'objects' );
-	$post_types = (array) apply_filters( 'rightnow_post_types', $post_types );
-	foreach ( $post_types as $post_type => $post_type_obj ){
+	// Posts and Pages
+	foreach ( array( 'post', 'page' ) as $post_type ) {
 		$num_posts = wp_count_posts( $post_type );
 		if ( $num_posts && $num_posts->publish ) {
-			printf(
-				'<li class="%1$s-count"><a href="edit.php?post_type=%1$s">%2$s %3$s</a></li>',
-				$post_type,
-				number_format_i18n( $num_posts->publish ),
-				$post_type_obj->label
-			);
+			if ( 'post' == $post_type ) {
+				$text = _n( '%s Post', '%s Posts', $num_posts->publish );
+			} else {
+				$text = _n( '%s Page', '%s Pages', $num_posts->publish );
+			}
+			$text = sprintf( $text, number_format_i18n( $num_posts->publish ) );
+			printf( '<li class="%1$s-count"><a href="edit.php?post_type=%1$s">%2$s</a></li>', $post_type, $text );
 		}
 	}
 	// Comments
 	$num_comm = wp_count_comments();
 	if ( $num_comm && $num_comm->total_comments ) {
-		$text = _n( 'comment', 'comments', $num_comm->total_comments );
-		printf(
-			'<li class="comment-count"><a href="edit-comments.php">%1$s %2$s</a></li>',
-			number_format_i18n( $num_comm->total_comments ),
-			$text
-		);
+		$text = sprintf( _n( '%s Comment', '%s Comments', $num_comm->total_comments ), number_format_i18n( $num_comm->total_comments ) );
+		?>
+		<li class="comment-count"><a href="edit-comments.php"><?php echo $text; ?></a></li>
+		<?php
 		if ( $num_comm->moderated ) {
-			$text = _n( 'in moderation', 'in moderation', $num_comm->total_comments );
-			printf(
-				'<li class="comment-mod-count"><a href="edit-comments.php?comment_status=moderated">%1$s %2$s</a></li>',
-				number_format_i18n( $num_comm->moderated ),
-				$text
-			);
+			/* translators: Number of comments in moderation */
+			$text = sprintf( _nx( '%s in moderation', '%s in moderation', $num_comm->moderated, 'comments' ), number_format_i18n( $num_comm->moderated ) );
+			?>
+			<li class="comment-mod-count"><a href="edit-comments.php?comment_status=moderated"><?php echo $text; ?></a></li>
+			<?php
 		}
 	}
 	do_action( 'rightnow_list_end' );
@@ -588,17 +584,19 @@ function wp_dashboard_recent_posts( $args ) {
 			} elseif ( date( 'Y-m-d', $time ) == $tomorrow ) {
 				$relative = __( 'Tomorrow' );
 			} else {
-				$relative = date( 'M jS', $time );
+				$relative = date_i18n( __( 'M jS' ), $time );
 			}
 
-			printf(
-				'<li%s><span>%s, %s</span> <a href="%s">%s</a></li>',
-				( $i >= intval ( $args['display'] ) ? ' class="hidden"' : '' ),
-				$relative,
-				get_the_time(),
-				get_edit_post_link(),
-				_draft_or_post_title()
-			);
+ 			$text = sprintf(
+				/* translators: 1: relative date, 2: time, 4: post title */
+ 				__( '<span>%1$s, %2$s</span> <a href="%3$s">%4$s</a>' ),
+  				$relative,
+  				get_the_time(),
+  				get_edit_post_link(),
+  				_draft_or_post_title()
+  			);
+
+ 			$hidden = $i > $args['display'] ? ' class="hidden"' : '';
 			$i++;
 		}
 
@@ -966,21 +964,29 @@ function wp_dashboard_quota() {
 	<div class="mu-storage">
 	<ul>
 		<li class="storage-count">
-			<?php printf(
-				'<a href="%1$s" title="%3$s">%2$sMB %4$s</a>',
+			<?php $text = sprintf(
+				/* translators: number of megabytes */
+				__( '%s MB Space Allowed' ),
+				number_format_i18n( $quota )
+			);
+			printf(
+				'<a href="%1$s" title="%2$s">%3$s</a>',
 				esc_url( admin_url( 'upload.php' ) ),
-				number_format_i18n( $quota ),
 				__( 'Manage Uploads' ),
-				__( 'Space Allowed' )
+				$text
 			); ?>
 		</li><li class="storage-count <?php echo $used_class; ?>">
-			<?php printf(
-				'<a href="%1$s" title="%4$s" class="musublink">%2$sMB (%3$s%%) %5$s</a>',
-				esc_url( admin_url( 'upload.php' ) ),
+			<?php $text = sprintf(
+				/* translators: 1: number of megabytes, 2: percentage */
+				__( '%1$s MB (%2$s%%) Space Used' ),
 				number_format_i18n( $used, 2 ),
-				$percentused,
+				$percentused
+			);
+			printf(
+				'<a href="%1$s" title="%2$s" class="musublink">%3$s</a>',
+				esc_url( admin_url( 'upload.php' ) ),
 				__( 'Manage Uploads' ),
-				__( 'Space Used' )
+				$text
 			); ?>
 		</li>
 	</ul>
