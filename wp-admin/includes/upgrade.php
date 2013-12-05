@@ -408,6 +408,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 26148 )
 		upgrade_372();
 
+	if ( $wp_current_db_version < 26691 )
+		upgrade_380();
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1237,6 +1240,17 @@ function upgrade_372() {
 		wp_clear_scheduled_hook( 'wp_maybe_auto_update' );
 }
 
+/**
+ * Execute changes made in WordPress 3.8.0.
+ *
+ * @since 3.8.0
+ */
+function upgrade_380() {
+	global $wp_current_db_version;
+	if ( $wp_current_db_version < 26691 ) {
+		deactivate_plugins( array( 'mp6/mp6.php' ), true );
+	}
+}
 /**
  * Execute network level changes
  *
