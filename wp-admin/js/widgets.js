@@ -407,13 +407,13 @@ wpWidgets = {
 			sidebarId = chooser.find( '.widgets-chooser-selected' ).data('sidebarId'),
 			sidebar = $( '#' + sidebarId );
 
-		// Move the chooser out of the widget
-		$('#wpbody-content').append( chooser );
-
 		widget = $('#available-widgets').find('.widget-in-question').clone();
 		widgetId = widget.attr('id');
 		add = widget.find( 'input.add_new' ).val();
 		n = widget.find( 'input.multi_number' ).val();
+
+		// Remove the cloned chooser from the widget
+		widget.find('.widgets-chooser').remove();
 
 		if ( 'multi' === add ) {
 			widget.html(
