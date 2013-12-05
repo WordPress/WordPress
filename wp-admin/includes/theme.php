@@ -203,6 +203,7 @@ function get_theme_feature_list( $api = true ) {
 		),
 
 		__( 'Features' ) => array(
+			'accessibility-ready'   => __( 'Accessibility Ready' ),
 			'blavatar'              => __( 'Blavatar' ),
 			'buddypress'            => __( 'BuddyPress' ),
 			'custom-background'     => __( 'Custom Background' ),
