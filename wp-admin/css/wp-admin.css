@@ -213,7 +213,7 @@ TABLE OF CONTENTS:
 
 .screen-reader-shortcut:focus {
 	left: 6px;
-	top: -21px;
+	top: -25px;
 	height: auto;
 	width: auto;
 	display: block;
@@ -227,6 +227,7 @@ TABLE OF CONTENTS:
 	-webkit-box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
 	box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
 	text-decoration: none;
+	outline: none;
 }
 
 .hidden,
@@ -6078,8 +6079,6 @@ span.imgedit-scale-warn {
 }
 
 .imgedit-group {
-	border-width: 1px;
-	border-style: solid;
 	margin-bottom: 8px;
 	padding: 2px 10px;
 }

@@ -956,7 +956,8 @@ p.popular-tags,
 .wp-editor-container,
 #post-status-info,
 .popular-tags,
-.feature-filter {
+.feature-filter,
+.imgedit-group {
 	border: 1px solid #ddd;
 	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
@@ -979,7 +980,8 @@ table.widefat,
 p.popular-tags,
 .widgets-holder-wrap,
 .popular-tags,
-.feature-filter {
+.feature-filter,
+.imgedit-group {
 	background: #fff;
 }
 
