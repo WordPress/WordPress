@@ -403,7 +403,7 @@ wpWidgets = {
 	},
 
 	addWidget: function( chooser ) {
-		var widget, widgetId, add, n,
+		var widget, widgetId, add, n, viewportTop, viewportBottom, sidebarBounds,
 			sidebarId = chooser.find( '.widgets-chooser-selected' ).data('sidebarId'),
 			sidebar = $( '#' + sidebarId );
 
@@ -447,15 +447,15 @@ wpWidgets = {
 		 * We do this by comparing the top and bottom, of the sidebar so see if they are within
 		 * the bounds of the viewport.
 		 */
-		var viewport_top = $(window).scrollTop(),
-			viewport_bottom = viewport_top + $(window).height(),
-			sidebar_bounds = sidebar.offset();
+		viewportTop = $(window).scrollTop();
+		viewportBottom = viewportTop + $(window).height();
+		sidebarBounds = sidebar.offset();
 		
-		sidebar_bounds.bottom = sidebar_bounds.top + sidebar.outerHeight();
+		sidebarBounds.bottom = sidebarBounds.top + sidebar.outerHeight();
 
-		if ( viewport_top > sidebar_bounds.bottom || viewport_bottom < sidebar_bounds.top ) {
+		if ( viewportTop > sidebarBounds.bottom || viewportBottom < sidebarBounds.top ) {
 			$( 'html, body' ).animate({
-				scrollTop: sidebar.offset().top - 130
+				scrollTop: sidebarBounds.top - 130
 			}, 200 );
 		}
 
