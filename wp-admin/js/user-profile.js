@@ -1,4 +1,4 @@
-/* global ajaxurl, pwsL10n, svgPainter */
+/* global ajaxurl, pwsL10n */
 (function($){
 
 	function check_pass_strength() {
@@ -99,14 +99,14 @@
 				$stylesheet.attr( 'href', $this.children( '.css_url' ).val() );
 
 				// repaint icons
-				if ( typeof window.svgPainter !== 'undefined' ) {
+				if ( typeof wp !== 'undefined' && wp.svgPainter ) {
 					try {
 						colors = $.parseJSON( $this.children( '.icon_colors' ).val() );
 					} catch ( error ) {}
 
 					if ( colors ) {
-						svgPainter.setColors( colors );
-						svgPainter.paint();
+						wp.svgPainter.setColors( colors );
+						wp.svgPainter.paint();
 					}
 				}
 
