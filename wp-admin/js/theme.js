@@ -268,6 +268,11 @@ themes.view.Details = wp.Backbone.View.extend({
 
 		event = event || window.event;
 
+		// Prevent collapsing detailed view when there is only one theme available
+		if ( themes.data.themes.length === 1 ) {
+			return;
+		}
+
 		// Detect if the click is inside the overlay
 		// and don't close it unless the target was
 		// the div.back button

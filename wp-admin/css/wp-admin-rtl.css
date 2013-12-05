@@ -7162,6 +7162,9 @@ body.folded .theme-overlay .theme-wrap {
 	.theme-overlay .theme-info {
 		width: 50%;
 	}
+	.single-theme .theme-wrap {
+		padding: 10px;
+	}
 }
 
 @media only screen and (max-width: 480px) {
@@ -7240,6 +7243,18 @@ body.folded .theme-overlay .theme-wrap {
 		right: 50%;
 		text-indent: 0;
 		margin-right: -40px;
+	}
+
+	.single-theme .theme-wrap {
+		margin: 0 -10px 0 -12px;
+		padding: 10px;
+	}
+	.single-theme .theme-overlay .theme-about {
+		padding: 10px;
+		overflow: visible;
+	}
+	.single-theme .current-label {
+		display: none;
 	}
 }
 
