@@ -886,7 +886,7 @@ a.post-thumbnail:hover {
 }
 
 .ie7 .screen-reader-text {
-	clip: rect(1px 1px 1px 1px); /* IE7 */
+	clip: rect(1px 1px 1px 1px);
 }
 
 .ie7 .site,
@@ -904,7 +904,7 @@ a.post-thumbnail:hover {
 
 .ie7 .search-toggle .screen-reader-text {
 	color: #fff;
-	position: relative !important;
+	position: relative; /* Override inherited `absolute` value set in style.css. */
 }
 
 .ie7 .search-box {

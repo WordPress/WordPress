@@ -706,14 +706,14 @@ img.aligncenter,
 
 .screen-reader-text {
 	clip: rect(1px, 1px, 1px, 1px);
-	position: absolute !important;
+	position: absolute;
 }
 
 .screen-reader-text:focus {
 	background-color: #f1f1f1;
 	border-radius: 3px;
 	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-	clip: auto !important;
+	clip: auto;
 	color: #21759b;
 	display: block;
 	font-size: 14px;
@@ -4034,7 +4034,7 @@ a.post-thumbnail:hover {
 
 @media print {
 	body {
-		background: none !important;
+		background: none !important; /* Brute force since user agents all print differently. */
 		color: #2b2b2b;
 		font-size: 12pt;
 	}
