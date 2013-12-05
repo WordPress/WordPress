@@ -2903,27 +2903,27 @@ body #dashboard-widgets .postbox form .submit {
 
 /* Dashboard right now */
 
-#dash-right-now ul {
+#dashboard_right_now ul {
 	margin: 0;
 	overflow: hidden;
 }
 
-#dash-right-now li {
+#dashboard_right_now li {
 	width: 50%;
 	float: left;
 	margin-bottom: 10px;
 }
 
-#dash-right-now .inside {
+#dashboard_right_now .inside {
 	overflow: hidden;
 	padding: 0;
 }
 
-#dash-right-now .main {
+#dashboard_right_now .main {
 	padding: 0 12px 11px;
 }
 
-#dash-right-now .main p {
+#dashboard_right_now .main p {
 	margin: 0;
 }
 
@@ -2937,31 +2937,31 @@ body #dashboard-widgets .postbox form .submit {
 
 /* Dashboard right now - Colors */
 
-#dash-right-now li a:before {
+#dashboard_right_now li a:before {
 	color: #888;
 }
 
-#dash-right-now .sub {
+#dashboard_right_now .sub {
 	color: #777;
 	background: #f5f5f5;
 	border-top: 1px solid #eee;
 	padding: 10px 12px 6px 12px;
 }
 
-#dash-right-now .sub h4 {
+#dashboard_right_now .sub h4 {
 	color: #555;
 }
 
-#dash-right-now .sub p {
+#dashboard_right_now .sub p {
 	margin: 0 0 1em;
 }
 
-#dash-right-now .warning a:before {
+#dashboard_right_now .warning a:before {
 	color: #d54e21;
 }
 
 /* Dashboard right now - Icons */
-#dash-right-now li a:before {
+#dashboard_right_now li a:before {
 	content: '\f159';
 	font: normal 20px/1 'dashicons';
 	speak: none;
@@ -2976,27 +2976,27 @@ body #dashboard-widgets .postbox form .submit {
 	text-decoration: none !important;
 }
 
-#dash-right-now .page-count a:before {
+#dashboard_right_now .page-count a:before {
 	content: '\f105';
 }
 
-#dash-right-now .post-count a:before {
+#dashboard_right_now .post-count a:before {
 	content: '\f109';
 }
 
-#dash-right-now .comment-count a:before {
+#dashboard_right_now .comment-count a:before {
 	content: '\f101';
 }
 
-#dash-right-now .comment-mod-count a:before {
+#dashboard_right_now .comment-mod-count a:before {
 	content: '\f125';
 }
 
-#dash-right-now .storage-count a:before {
+#dashboard_right_now .storage-count a:before {
 	content: '\f104';
 }
 
-#dash-right-now .storage-count.warning a:before {
+#dashboard_right_now .storage-count.warning a:before {
 	content: '\f153';
 }
 
@@ -8951,106 +8951,6 @@ h3:hover .edit-box {
 	font-size: 14px;
 }
 
-/* Right Now */
-#dashboard_right_now p.sub,
-#dashboard_right_now .table, #dashboard_right_now .versions {
-	margin: -12px;
-}
-
-#dashboard_right_now .inside {
-	font-size: 13px;
-	padding-top: 20px;
-}
-
-#dashboard_right_now p.sub {
-	padding: 5px 0 15px;
-	font-size: 11px;
-	font-weight: 600;
-	left: 14px;
-	letter-spacing: 1px;
-	position: absolute;
-	text-transform: uppercase;
-	top: -17px;
-}
-
-#dashboard_right_now .table {
-	margin: 0;
-	padding: 0;
-	position: relative;
-}
-
-#dashboard_right_now .table_content {
-	float: left;
-	width: 48%;
-}
-
-#dashboard_right_now .table_discussion {
-	float: right;
-	width: 45%;
-}
-
-#dashboard_right_now table td {
-	padding: 3px 0;
-	white-space: nowrap;
-}
-
-#dashboard_right_now table tr.first td {
-	border-top: none;
-}
-
-#dashboard_right_now td.b {
-	padding-right: 6px;
-	text-align: right;
-	font-size: 14px;
-	width: 1%;
-}
-
-#dashboard_right_now td.b a {
-	font-size: 18px;
-}
-
-#dashboard_right_now td.b a:hover {
-	color: #d54e21;
-}
-
-#dashboard_right_now .t {
-	padding-right: 12px;
-}
-
-#dashboard_right_now .t,
-#dashboard_right_now .b {
-	font-size: 14px;
-	padding-top: 4px;
-}
-
-#dashboard_right_now .t a {
-	white-space: nowrap;
-}
-
-#dashboard_right_now .spam {
-	color: red;
-}
-
-#dashboard_right_now .waiting {
-	color: #e66f00;
-}
-
-#dashboard_right_now .approved {
-	color: green;
-}
-
-#dashboard_right_now .versions {
-	padding: 6px 10px 12px;
-	clear: both;
-}
-
-#dashboard_right_now a.button {
-	float: right;
-	clear: right;
-	position: relative;
-	top: -5px;
-}
-
 /* Recent Comments */
 
 #latest-comments #the-comment-list {
@@ -9382,34 +9282,6 @@ body.interim-login {
 }
 
 /* ms */
-/* Dashboard: MS Specific Data */
-#dashboard_right_now p.musub {
-	margin: 20px -2px 0;
-	padding: 15px 5px 10px;
-	border-top: 1px solid #ececec;
-	position: static;
-}
-
-#dashboard_right_now td.b a.musublink {
-	font-size: 16px;
-	white-space: nowrap;
-}
-
-#dashboard_right_now div.musubtable {
-	border-top: none;
-}
-
-#dashboard_right_now div.musubtable .t,
-#dashboard_right_now div.musubtable .b {
-	vertical-align: top;
-	padding: 0;
-	white-space: normal;
-}
-
-#dashboard_right_now div.musubtable .b {
-	padding-right: 3px;
-}
-
 /* Background Color for Site Status */
 .wp-list-table .site-deleted {
 	background: #ff8573;
