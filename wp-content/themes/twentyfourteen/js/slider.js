@@ -39,7 +39,6 @@
 				slider.prop = 'marginLeft';
 				slider.isRtl = $( 'body' ).hasClass( 'rtl' );
 				slider.args = {};
-				slider.limit = 0;
 				// TOUCH
 				slider.transitions = ( function() {
 					var obj = document.createElement( 'div' ),
