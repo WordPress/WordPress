@@ -184,12 +184,13 @@ $(document).ready( function() {
 		// reset any compensation for submenus near the bottom of the screen
 		$('#adminmenu div.wp-submenu').css('margin-top', '');
 
-		// WebKit excludes the width of the vertical scrollbar when applying the CSS "@media screen and (max-width: ...)"
-		// and matches $(window).width().
-		// Firefox and IE > 8 include the scrollbar width, so after the jQuery normalization
-		// $(window).width() is 884px but window.innerWidth is 900px.
-		// (using window.innerWidth also excludes IE < 9)
-		respWidth = navigator.userAgent.indexOf('AppleWebKit/') > -1 ? $(window).width() : window.innerWidth;
+		if ( window.innerWidth ) {
+			// window.innerWidth is affected by zooming on phones
+			respWidth = Math.max( window.innerWidth, document.documentElement.clientWidth );
+		} else {
+			// Exclude IE < 9, it doesn't support @media CSS rules
+			return;
+		}
 
 		if ( respWidth && respWidth < 900 ) {
 			if ( body.hasClass('auto-fold') ) {
@@ -603,7 +604,15 @@ $(document).ready( function() {
 		},
 
 		trigger: function() {
-			var width = navigator.userAgent.indexOf('AppleWebKit/') > -1 ? $window.width() : window.innerWidth;
+			var width;
+
+			if ( window.innerWidth ) {
+				// window.innerWidth is affected by zooming on phones
+				width = Math.max( window.innerWidth, document.documentElement.clientWidth );
+			} else {
+				// Exclude IE < 9, it doesn't support @media CSS rules
+				return;
+			}
 
 			if ( width <= 782 ) {
 				if ( ! wpResponsiveActive ) {
