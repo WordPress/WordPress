@@ -7833,9 +7833,10 @@ body.press-this {
 }
 
 .about-wrap .changelog h2.about-headline-callout {
-	margin: 1.4em 0 0;
+	margin: 1em 0 0;
+	font-size: 2.2em;
+	font-weight: 300;
 	line-height: 1.3;
-	font-weight: 600;
 	text-align: center;
 }
 
