@@ -606,7 +606,8 @@ function wp_dashboard_recent_posts( $args ) {
   				_draft_or_post_title()
   			);
 
- 			$hidden = $i > $args['display'] ? ' class="hidden"' : '';
+ 			$hidden = $i >= $args['display'] ? ' class="hidden"' : '';
+ 			echo "<li{$hidden}>$text</li>";
 			$i++;
 		}
 
