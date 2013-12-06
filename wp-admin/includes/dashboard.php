@@ -311,7 +311,7 @@ function wp_network_dashboard_right_now() {
  *
  * @since 3.8.0
  *
- * @param string $error_msg Error message.
+ * @param string $error_msg Optional. Error message. Default false.
  */
 function wp_dashboard_quick_press( $error_msg = false ) {
 	global $post_ID;
@@ -545,7 +545,17 @@ function wp_dashboard_site_activity() {
  *
  * @since 3.8.0
  *
- * @param array $args
+ * @param array $args {
+ *     An array of query and display arguments.
+ *
+ *     @type int    $display Number of posts to display.
+ *     @type int    $max     Maximum number of posts to query.
+ *     @type string $status  Post status.
+ *     @type string $order   Designates ascending ('ASC') or descending ('DESC') order.
+ *     @type string $title   Section title.
+ *     @type string $id      The container id.
+ * }
+ * @return bool False if no posts were found. True otherwise.
  */
 function wp_dashboard_recent_posts( $args ) {
 	$query_args = array(
@@ -617,7 +627,8 @@ function wp_dashboard_recent_posts( $args ) {
  *
  * @since 3.8.0
  *
- * @param int $total_items
+ * @param int $total_items Optional. Number of comments to query. Default 5.
+ * @return bool False if no comments were found. True otherwise.
  */
 function wp_dashboard_recent_comments( $total_items = 5 ) {
 	global $wpdb;
@@ -843,6 +854,9 @@ function wp_dashboard_primary() {
  * Display the WordPress news feeds.
  *
  * @since 3.8.0
+ *
+ * @param string $widget_id Widget ID.
+ * @param array  $feeds     Array of RSS feeds.
  */
 function wp_dashboard_primary_output( $widget_id, $feeds ) {
 	foreach( $feeds as $type => $args ) {

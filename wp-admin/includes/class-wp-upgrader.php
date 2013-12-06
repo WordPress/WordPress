@@ -2036,7 +2036,7 @@ class WP_Automatic_Updater {
 		 	 *
 		 	 * @since 3.8.0
 		 	 *
-		 	 * @param array $update_results The results of all updates attempted
+		 	 * @param array $update_results The results of all attempted updates.
 		 	 */
 			do_action( 'automatic_updates_complete', $this->update_results );
 		}
@@ -2446,13 +2446,14 @@ Thanks! -- The WordPress Team" );
 		 * @param array $email {
 		 *     Array of email arguments that will be passed to wp_mail().
 		 *
-		 *     @type string $to      The email recipient. An array of emails can be returned, as handled by wp_mail().
-		 *     @type string $subject The email's subject.
-		 *     @type string $body    The email message body.
-		 *     @type string $headers Any email headers, defaults to no headers.
+		 *     @type string $to      The email recipient. An array of emails can be returned,
+		 *                           as handled by wp_mail().
+		 *     @type string $subject Email subject.
+		 *     @type string $body    Email message body.
+		 *     @type string $headers Any email headers. Default empty.
 		 * }
-		 * @param int   $failures The number of failures encountered while upgrading
-		 * @param mixed $results  The results of all updates attempted
+		 * @param int   $failures The number of failures encountered while upgrading.
+		 * @param mixed $results  The results of all attempted updates.
 		 */
 		$email = apply_filters( 'automatic_updates_debug_email', $email, $failures, $this->update_results );
 

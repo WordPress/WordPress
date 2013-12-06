@@ -1976,9 +1976,13 @@ function _local_storage_notice() {
  *
  * @since 3.8.0
  * @param array $args {
- *     @type int    $rating The Rating to display, Expressed in a 0.5 rating increment, or a percentage.
- *     @type string $type   The format that the $rating is in. Valid values are 'rating' (default), or, 'percent'.
- *     @type int    $number The number of ratings which makes up this rating.
+ *     Optional. Array of star ratings arguments.
+ *
+ *     @type int    $rating The rating to display, expressed in either a 0.5 rating increment,
+ *                          or percentage. Default 0.
+ *     @type string $type   Format that the $rating is in. Valid values are 'rating' (default),
+ *                          or, 'percent'. Default 'rating'.
+ *     @type int    $number The number of ratings that makes up this rating. Default 0.
  * }
  */
 function wp_star_rating( $args = array() ) {

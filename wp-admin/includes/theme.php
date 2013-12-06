@@ -113,14 +113,14 @@ function theme_update_available( $theme ) {
 }
 
 /**
- * Retrieve the update link if there is an update for a theme available.
+ * Retrieve the update link if there is a theme update available.
  *
- * Will return a link, if there is an update available.
+ * Will return a link if there is an update available.
  *
  * @since 3.8.0
  *
- * @param object $theme Theme data object.
- * @return string|bool HTML for the update link, or False if no valid info was passed.
+ * @param WP_Theme $theme WP_Theme object.
+ * @return string|bool HTML for the update link, or false if invalid info was passed.
  */
 function get_theme_update_available( $theme ) {
 	static $themes_update;
