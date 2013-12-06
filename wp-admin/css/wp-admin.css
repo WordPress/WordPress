@@ -6358,9 +6358,9 @@ span.imgedit-scale-warn {
 .theme-browser .theme {
 	cursor: pointer;
 	float: left;
-	margin: 0 5% 4% 0;
+	margin: 0 4% 4% 0;
 	position: relative;
-	width: 30%;
+	width: 30.6%;
 	border: 1px solid #dedede;
 	-webkit-box-shadow: 0 1px 1px -1px rgba(0,0,0,0.1);
 	box-shadow:         0 1px 1px -1px rgba(0,0,0,0.1);
@@ -7096,11 +7096,14 @@ body.folded .theme-overlay .theme-wrap {
 		margin-right: 0;
 	}
 }
-
-@media only screen and (min-width: 1700px) {
+/* Maximum screenshot width reaches 440px */
+@media only screen and (min-width: 1640px) {
 	.theme-browser .theme {
 		width: 22.7%;
 		margin: 0 3% 3% 0;
+	}
+	.theme-browser .theme .theme-screenshot:after {
+		padding-top: 75%; /* using a 4/3 aspect ratio */
 	}
 
 	.theme-browser .theme:nth-child(3n) {
@@ -7116,13 +7119,8 @@ body.folded .theme-overlay .theme-wrap {
 		left: 22%;
 	}
 }
-
-@media only screen and (min-width:1400px) {
-	.theme-browser .theme .theme-screenshot:after {
-		padding-top: 75%; /* using a 4/3 aspect ratio */
-	}
-}
-@media only screen and (max-width: 1150px) {
+/* Maximum screenshot width reaches 440px */
+@media only screen and (max-width: 1120px) {
 	.theme-browser .theme {
 		width: 47.5%;
 		margin-right: 0;
