@@ -1,4 +1,4 @@
-/* global isRtl */
+/* global ajaxurl */
 (function($){
 
 	$(document).ready( function() {
@@ -10,9 +10,6 @@
 	
 		$colorpicker = $( '#color-picker' );
 		$stylesheet = $( '#colors-css' );
-		if ( isRtl ){
-			$stylesheet = $( '#colors-rtl-css' );
-		}
 	
 		$colorpicker.on( 'click.colorpicker', '.color-option', function() {
 			var colors, css_url,
@@ -28,10 +25,6 @@
 			// Set color scheme
 			// Load the colors stylesheet
 			css_url = $this.children( '.css_url' ).val();
-			if ( isRtl ){
-				css_url = css_url.replace('.min', '-rtl.min');
-			}
-
 			$stylesheet.attr( 'href', css_url );
 
 			// repaint icons
@@ -45,6 +38,13 @@
 					wp.svgPainter.paint();
 				}
 			}
+			
+			// update user option
+			$.post( ajaxurl, {
+				action:       'save-user-color-scheme',
+				color_scheme: $this.children( 'input[name="admin_color"]' ).val(),
+				nonce:        $('#_wpnonce').val()
+			});
 		});
 	});
 

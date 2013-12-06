@@ -81,15 +81,17 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div>
 			<h3><?php echo ( 'Pick a color' ); ?></h3>
 			<p><?php echo ( 'We&#8217;ve included four color schemes so that you can choose your favorite. Don&#8217;t like this striking new admin? Choose from any of the schemes below to change it in an instant.' ); ?></p>
+			<?php $user_id = get_current_user_id(); ?>
 			<?php if ( count($_wp_admin_css_colors) > 1 && has_action('admin_color_scheme_picker') ) :?>
 				<?php 
+				wp_nonce_field('update-user_' . $user_id);
 				/** This action is documented in wp-admin/user-edit.php */
 				do_action( 'admin_color_scheme_picker' ); 
 				?>
 			<?php else : ?>
 				<img src="<?php echo admin_url( 'images/about-color-schemes.png' ); ?>" />
 			<?php endif; ?>
-			<p><?php printf( ( 'To change your color scheme later, just <a href="%1$s">visit your profile settings</a>.' ), get_edit_profile_url( get_current_user_id() ) ); ?></p>
+			<p><?php printf( ( 'To change your color scheme later, just <a href="%1$s">visit your profile settings</a>.' ), get_edit_profile_url( $user_id ) ); ?></p>
 		</div>
 	</div>
 </div>
