@@ -6436,7 +6436,7 @@ span.imgedit-scale-warn {
 .theme-browser .theme .theme-screenshot:after {
 	content: '';
 	display: block;
-	padding-top: 66%; /* using a 3/2 aspect ratio */
+	padding-top: 66.66666%; /* using a 3/2 aspect ratio */
 }
 
 .theme-browser .theme .theme-screenshot img {
@@ -6884,7 +6884,7 @@ body.folded .theme-overlay .theme-wrap {
 .theme-overlay .screenshot:after {
 	content: '';
 	display: block;
-	padding-top: 66.66666%; /* using a 3/2 aspect ratio */
+	padding-top: 75%; /* using a 4/3 aspect ratio */
 }
 
 .theme-overlay .screenshot img {
@@ -7117,6 +7117,11 @@ body.folded .theme-overlay .theme-wrap {
 	}
 }
 
+@media only screen and (min-width:1400px) {
+	.theme-browser .theme .theme-screenshot:after {
+		padding-top: 75%; /* using a 4/3 aspect ratio */
+	}
+}
 @media only screen and (max-width: 1150px) {
 	.theme-browser .theme {
 		width: 47.5%;
@@ -7996,12 +8001,12 @@ body.press-this {
 	margin-right: 0;
 }
 
-.about-wrap .about-updates img { 
-	margin: 2em 0 0 0; 
-	border: 1px solid #ddd; 
-	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); 
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); 
-} 
+.about-wrap .about-updates img {
+	margin: 2em 0 0 0;
+	border: 1px solid #ddd;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
 
 .about-wrap .changelog .feature-section {
 	overflow: hidden;
