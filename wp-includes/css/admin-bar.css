@@ -765,7 +765,7 @@
 
 	#wpadminbar #wp-admin-bar-wp-logo > .ab-item .ab-icon {
 		padding: 0;
-		width: 50px;
+		width: 55px;
 		height: 46px;
 		text-align: center;
 		vertical-align: top;
@@ -788,7 +788,7 @@
 		text-indent: 100%;
 		white-space: nowrap;
 		overflow: hidden;
-		width: 50px;
+		width: 55px;
 		padding: 0;
 		color: #999;
 		position: relative;
@@ -954,30 +954,16 @@
 		position: static;
 	}
 
-	#wpadminbar #wp-admin-bar-comments,
-	#wpadminbar #wp-admin-bar-new-content,
 	#wpadminbar #wp-admin-bar-my-account {
 		float: right;
 	}
 
-	#wpadminbar #wp-admin-bar-comments .ab-sub-wrapper,
-	#wpadminbar #wp-admin-bar-new-content .ab-sub-wrapper,
 	#wpadminbar #wp-admin-bar-my-account .ab-sub-wrapper {
 		right: 0;
 		left: auto;
 	}
 
-	#wpadminbar ul#wp-admin-bar-root-default > li#wp-admin-bar-comments {
-		margin-right: 100px;
-	}
 
-	#wpadminbar ul#wp-admin-bar-root-default > li#wp-admin-bar-new-content {
-		margin-right: -98px;
-	}
-
-	#wpadminbar ul#wp-admin-bar-top-secondary > li#wp-admin-bar-my-account {
-		margin-right: -150px;
-	}
 
 	.network-admin #wpadminbar ul#wp-admin-bar-top-secondary > li#wp-admin-bar-my-account {
 		margin-right: 0;
