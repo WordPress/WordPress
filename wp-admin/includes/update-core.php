@@ -894,6 +894,8 @@ function update_core($from, $to) {
 
 	// Clear the cache to prevent an update_option() from saving a stale db_version to the cache
 	wp_cache_flush();
+	// (Not all cache backends listen to 'flush')
+	wp_cache_delete( 'alloptions', 'options' );
 
 	// Remove working directory
 	$wp_filesystem->delete($from, true);
