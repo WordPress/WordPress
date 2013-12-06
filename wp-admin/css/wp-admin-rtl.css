@@ -870,10 +870,6 @@ select {
 	color: #333;
 }
 
-select {
-	color: #000;
-}
-
 select[disabled] {
 	color: #7f7f7f;
 }
@@ -1105,7 +1101,6 @@ hr {
 	padding: 2px;
 	line-height: 28px;
 	height: 28px;
-	color: #333;
 	vertical-align: middle;
 }
 
