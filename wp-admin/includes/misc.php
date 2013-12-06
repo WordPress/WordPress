@@ -751,9 +751,12 @@ function wp_refresh_post_nonces( $response, $data, $screen_id ) {
 add_filter( 'heartbeat_received', 'wp_refresh_post_nonces', 10, 3 );
 
 /**
- * Disable suspending of Heartbeat on the Add/Edit Post screens
+ * Disable suspension of Heartbeat on the Add/Edit Post screens.
  *
- * @since 3.8
+ * @since 3.8.0
+ *
+ * @param array $settings An array of Heartbeat settings.
+ * @return array Filtered Heartbeat settings.
  */
 function wp_heartbeat_set_suspension( $settings ) {
 	global $pagenow;
