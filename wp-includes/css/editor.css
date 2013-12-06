@@ -743,6 +743,7 @@ span.mce_redo:before {
 	content: '\f172';
 }
 
+span.mce_help:before,
 span.mce_wp_help:before {
 	content: '\f223';
 }
