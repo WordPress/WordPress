@@ -47,7 +47,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="col-2">
 			<img src="images/about-typography.png" />
 			<h3><?php echo ( 'Clean typography' ); ?></h3>
-			<p><?php echo ( 'Open Sans meets open source. WordPress&#8217;s new typography is upright, friendly, and optimized for web and mobile interfaces.' ); ?></p>
+			<p><?php echo ( 'Open Sans meets Open Source. WordPress&#8217;s new typography is upright, friendly, and optimized for web and mobile interfaces.' ); ?></p>
 		</div>
 		<div class="col-3 last-feature">
 			<img src="images/about-contrast.png" />
