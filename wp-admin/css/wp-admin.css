@@ -7054,6 +7054,7 @@ body.folded .theme-overlay .theme-wrap {
 .theme-overlay .parent-theme strong {
 	font-weight: 700;
 }
+
 /**
  * Single Theme Mode
  * Displays detailed view inline when a user has no switch capabilities
@@ -7063,16 +7064,24 @@ body.folded .theme-overlay .theme-wrap {
 .single-theme .theme {
 	display: none;
 }
+
 .single-theme .theme-overlay .theme-wrap {
 	clear: both;
-	position: static;
+	min-height: 330px;
+	position: relative;
+	left: auto;
+	right: auto;
+	top: auto;
+	bottom: auto;
 }
+
 .single-theme .theme-overlay .theme-about {
-	padding: 30px;
+	padding: 30px 30px 70px;
 	position: static;
 }
+
 .single-theme .theme-overlay .theme-actions {
-	position: static;
+	position: absolute;
 }
 
 /**
@@ -7265,6 +7274,9 @@ body.folded .theme-overlay .theme-wrap {
 	}
 	.single-theme .current-label {
 		display: none;
+	}
+	.single-theme .theme-overlay .theme-actions {
+		position: static;
 	}
 }
 
