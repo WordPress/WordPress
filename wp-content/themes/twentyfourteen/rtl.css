@@ -15,9 +15,10 @@ See http://codex.wordpress.org/Right_to_Left_Language_Support
  * 4.0 - Header
  * 5.0 - Navigation
  * 6.0 - Content
+ *   6.3 - Entry Meta
  *   6.4 - Entry Content
  *   6.5 - Galleries
- *   6.7 - Post/Paging Navigation
+ *   6.7 - Post/Image/Paging Navigation
  *   6.10 - Contributor Page
  *   6.14 - Comments
  * 7.0 - Sidebar
@@ -167,7 +168,7 @@ td {
 
 
 /**
- * 6.5 Gallery
+ * 6.5 Galleries
  * -----------------------------------------------------------------------------
  */
 
