@@ -311,14 +311,9 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 		<div class="theme-about">
 			<div class="theme-screenshots">
 			<# if ( data.screenshot[0] ) { #>
-				<div class="screenshot first"><img src="{{ data.screenshot[0] }}" alt="" /></div>
-				<# if ( _.size( data.screenshot ) > 1 ) {
-						_.each ( data.screenshot, function( image ) {
-							#><div class="screenshot thumb"><img src="{{ image }}" alt="" /></div><#
-						});
-				} #>
+				<div class="screenshot"><img src="{{ data.screenshot[0] }}" alt="" /></div>
 			<# } else { #>
-				<div class="screenshot first blank"></div>
+				<div class="screenshot blank"></div>
 			<# } #>
 			</div>
 

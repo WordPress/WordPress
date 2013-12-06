@@ -339,25 +339,6 @@ themes.view.Details = wp.Backbone.View.extend({
 		this.trigger( 'theme:collapse' );
 	},
 
-	// Setups an image gallery using the theme screenshots supplied by a theme
-	screenshotGallery: function() {
-		var screenshots = $( '#theme-screenshots' ),
-			current, img;
-
-		screenshots.find( 'div.first' ).next().addClass( 'selected' );
-
-		// Clicking on a screenshot thumbnail drops it
-		// at the top of the stack in a larger size
-		screenshots.on( 'click', 'div.thumb', function() {
-			current = $( this );
-			img = $( this ).find( 'img' ).clone();
-
-			current.siblings( '.first' ).html( img );
-			current.siblings( '.selected' ).removeClass( 'selected' );
-			current.addClass( 'selected' );
-		});
-	},
-
 	// Confirmation dialoge for deleting a theme
 	deleteTheme: function() {
 		return confirm( themes.data.settings.confirmDelete );
@@ -524,8 +505,6 @@ themes.view.Themes = wp.Backbone.View.extend({
 		this.overlay.render();
 		this.$el.append( this.overlay.el );
 
-		this.overlay.screenshotGallery();
-
 		// Bind to theme:next and theme:previous
 		// triggered by the arrow keys
 		//
@@ -534,13 +513,11 @@ themes.view.Themes = wp.Backbone.View.extend({
 		this.listenTo( this.overlay, 'theme:next', function() {
 			// Renders the next theme on the overlay
 			self.next( [ self.model.cid ] );
-			self.overlay.screenshotGallery();
 
 		})
 		.listenTo( this.overlay, 'theme:previous', function() {
 			// Renders the previous theme on the overlay
 			self.previous( [ self.model.cid ] );
-			self.overlay.screenshotGallery();
 		});
 	},
 
