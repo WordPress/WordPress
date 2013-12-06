@@ -7848,13 +7848,13 @@ body.press-this {
 }
 
 .about-text {
-	margin: 1em 200px 0em 0;
+	margin: 1em 200px 1em 0;
 	min-height: 60px;
 	font-size: 24px;
 }
 
 .about-wrap .changelog h2.about-headline-callout {
-	margin: 1.5em 0 0;
+	margin: 1.25em 0 0.25em;
 	font-size: 2.2em;
 	font-weight: 300;
 	line-height: 1.3;
@@ -7888,15 +7888,17 @@ body.press-this {
 }
 
 .about-wrap .about-themes-img {
-	bottom: -32px;
+	bottom: -38px;
 }
 
 .about-wrap .about-overview-img {
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #ccc;
+	margin: 0;
 }
 
-.about-wrap hr.flushtopdivider {
+.about-wrap hr.flush-top {
 	margin-top: 0;
+	border-top: 1px solid #ccc;
 }
 
 .about-colors-img img,

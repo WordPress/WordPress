@@ -38,7 +38,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="changelog">
 	<h2 class="about-headline-callout"><?php echo ( 'Introducing a modern new design' ); ?></h2>
 	<img class="about-overview-img" src="<?php echo admin_url( 'images/about-overview.png' ); ?>" />
-
 	<div class="feature-section col three-col about-updates">
 		<div class="col-1">
 			<img src="images/about-modern-aesthetics.png" />
@@ -58,7 +57,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	</div>
 </div>
 
-<hr>
+<hr class="flush-top">
 
 <div class="changelog">
 	<div class="feature-section col two-col">
@@ -74,7 +73,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	</div>
 </div>
 
-<hr class="flushtopdivider">
+<hr class="flush-top">
 
 <div class="changelog about-colors">
 	<div class="feature-section col one-col">
@@ -96,7 +95,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	</div>
 </div>
 
-<hr>
+<hr class="flush-top">
 
 <div class="changelog">
 	<div class="feature-section col two-col">
@@ -116,7 +115,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	</div>
 </div>
 
-<hr class="flushtopdivider">
+<hr class="flush-top">
 
 <div class="changelog">
 	<h2 class="about-headline-callout"><?php echo ( 'Twenty Fourteen, a sleek new magazine theme' ); ?></h2>
@@ -131,7 +130,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	</div>
 </div>
 
-<hr>
+<hr class="flush-top">
 
 <div class="return-to-dashboard">
 	<?php if ( current_user_can( 'update_core' ) && isset( $_GET['updated'] ) ) : ?>
