@@ -289,10 +289,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 				<# } #>
 
 				<# if ( data.tags ) { #>
-					<p class="theme-tags">
-						<span><?php _e( 'Tags:' ); ?></span>
-						{{{ data.tags.replace( /-/g, ' ' ) }}}
-					</p>
+					<p class="theme-tags"><span><?php _e( 'Tags:' ); ?></span> {{{ data.tags }}}</p>
 				<# } #>
 			</div>
 		</div>
