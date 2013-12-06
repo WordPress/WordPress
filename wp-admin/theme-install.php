@@ -30,7 +30,7 @@ if ( !is_network_admin() )
 	$submenu_file = 'themes.php';
 
 wp_enqueue_script( 'theme-install' );
-wp_enqueue_script( 'theme' );
+wp_enqueue_script( 'theme-preview' );
 
 $body_id = $tab;
 

@@ -6454,7 +6454,7 @@ span.imgedit-scale-warn {
 	background: #fff;
 }
 
-.theme-browser .theme:hover .theme-screenshot img {
+.theme-browser.rendered .theme:hover .theme-screenshot img {
 	opacity: 0.4;
 }
 
@@ -6477,7 +6477,7 @@ span.imgedit-scale-warn {
 	transition:         opacity 0.1s ease-in-out;
 }
 
-.theme-browser .theme:hover .more-details {
+.theme-browser.rendered .theme:hover .more-details {
 	opacity: 1;
 }
 

@@ -116,7 +116,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 <div class="wrap">
 	<h2><?php esc_html_e( 'Themes' ); ?>
-		<span class="theme-count"></span>
+		<span class="theme-count"><?php echo count( $themes ); ?></span>
 	<?php if ( ! is_multisite() && current_user_can( 'install_themes' ) ) : ?>
 		<a href="<?php echo admin_url( 'theme-install.php' ); ?>" class="add-new-h2"><?php echo esc_html( _x( 'Add New', 'Add new theme' ) ); ?></a>
 	<?php endif; ?>
@@ -179,7 +179,54 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 
 ?>
 
-<div class="theme-browser"></div>
+<div class="theme-browser">
+	<div class="themes">
+
+<?php
+/*
+ * This PHP is synchronized with the tmpl-theme template below!
+ */
+
+foreach ( $themes as $theme ) : ?>
+<div class="theme<?php if ( $theme['active'] ) echo ' active'; ?>">
+	<?php if ( ! empty( $theme['screenshot'][0] ) ) { ?>
+		<div class="theme-screenshot">
+			<img src="<?php echo $theme['screenshot'][0]; ?>" alt="" />
+		</div>
+	<?php } else { ?>
+		<div class="theme-screenshot blank"></div>
+	<?php } ?>
+	<span class="more-details"><?php _e( 'Theme Details' ); ?></span>
+	<div class="theme-author"><?php printf( __( 'By %s' ), $theme['author'] ); ?></div>
+
+	<?php if ( $theme['active'] ) { ?>
+		<h3 class="theme-name"><span><?php _ex( 'Active:', 'theme' ); ?></span> <?php echo $theme['name']; ?></h3>
+	<?php } else { ?>
+		<h3 class="theme-name"><?php echo $theme['name']; ?></h3>
+	<?php } ?>
+
+	<div class="theme-actions">
+
+	<?php if ( $theme['active'] ) { ?>
+		<?php if ( $theme['actions']['customize'] ) { ?>
+			<a class="button button-primary customize load-customize hide-if-no-customize" href="<?php echo $theme['actions']['customize']; ?>"><?php _e( 'Customize' ); ?></a>
+		<?php } ?>
+	<?php } else { ?>
+		<a class="button button-primary activate" href="<?php echo $theme['actions']['activate']; ?>"><?php _e( 'Activate' ); ?></a>
+		<a class="button button-secondary load-customize hide-if-no-customize" href="<?php echo $theme['actions']['customize']; ?>"><?php _e( 'Live Preview' ); ?></a>
+		<a class="button button-secondary hide-if-customize" href="<?php echo $theme['actions']['preview']; ?>"><?php _e( 'Preview' ); ?></a>
+	<?php } ?>
+
+	</div>
+
+	<?php if ( $theme['hasUpdate'] ) { ?>
+		<div class="theme-update"><?php _e( 'Update Available' ); ?></div>
+	<?php } ?>
+</div>
+<?php endforeach; ?>
+	<br class="clear" />
+	</div>
+</div>
 
 <?php
 // List broken themes, if any.
@@ -212,6 +259,11 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 ?>
 </div><!-- .wrap -->
 
+<?php
+/*
+ * The tmpl-theme template is synchronized with PHP above!
+ */
+?>
 <script id="tmpl-theme" type="text/template">
 	<# if ( data.screenshot[0] ) { #>
 		<div class="theme-screenshot">
@@ -233,11 +285,12 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 
 	<# if ( data.active ) { #>
 		<# if ( data.actions.customize ) { #>
-			<a class="button button-primary hide-if-no-customize" href="{{ data.actions.customize }}"><?php _e( 'Customize' ); ?></a>
+			<a class="button button-primary customize load-customize hide-if-no-customize" href="{{ data.actions.customize }}"><?php _e( 'Customize' ); ?></a>
 		<# } #>
 	<# } else { #>
 		<a class="button button-primary activate" href="{{{ data.actions.activate }}}"><?php _e( 'Activate' ); ?></a>
-		<a class="button button-secondary preview" href="{{{ data.actions.customize }}}"><?php _e( 'Live Preview' ); ?></a>
+		<a class="button button-secondary load-customize hide-if-no-customize" href="{{{ data.actions.customize }}}"><?php _e( 'Live Preview' ); ?></a>
+		<a class="button button-secondary hide-if-customize" href="{{{ data.actions.preview }}}"><?php _e( 'Preview' ); ?></a>
 	<# } #>
 
 	</div>
@@ -296,14 +349,15 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 
 		<div class="theme-actions">
 			<div class="active-theme">
-				<a href="{{{ data.actions.customize }}}" class="button button-primary hide-if-no-customize"><?php _e( 'Customize' ); ?></a>
+				<a href="{{{ data.actions.customize }}}" class="button button-primary customize load-customize hide-if-no-customize"><?php _e( 'Customize' ); ?></a>
 				<?php echo implode( ' ', $current_theme_actions ); ?>
 			</div>
 			<div class="inactive-theme">
 				<# if ( data.actions.activate ) { #>
-					<a href="{{{ data.actions.activate }}}" class="button button-primary"><?php _e( 'Activate' ); ?></a>
+					<a href="{{{ data.actions.activate }}}" class="button button-primary activate"><?php _e( 'Activate' ); ?></a>
 				<# } #>
-				<a href="{{{ data.actions.customize }}}" class="button button-secondary"><?php _e( 'Live Preview' ); ?></a>
+				<a href="{{{ data.actions.customize }}}" class="button button-secondary load-customize hide-if-no-customize"><?php _e( 'Live Preview' ); ?></a>
+				<a href="{{{ data.actions.preview }}}" class="button button-secondary hide-if-customize"><?php _e( 'Preview' ); ?></a>
 			</div>
 
 			<# if ( ! data.active && data.actions.delete ) { #>

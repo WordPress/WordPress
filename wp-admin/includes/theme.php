@@ -378,8 +378,10 @@ function themes_api( $action, $args = null ) {
  * @return array An associative array of theme data, sorted by name.
  */
 function wp_prepare_themes_for_js( $themes = null ) {
-	$prepared_themes = array();
 	$current_theme = get_stylesheet();
+
+	// Make sure the current theme is listed first.
+	$prepared_themes = array( $current_theme => array() );
 
 	if ( null === $themes ) {
 		$themes = wp_get_themes( array( 'allowed' => true ) );
@@ -406,7 +408,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 		$slug = $theme->get_stylesheet();
 		$encoded_slug = urlencode( $slug );
 
-		$prepared_themes[] = array(
+		$prepared_themes[ $slug ] = array(
 			'id'           => $slug,
 			'name'         => $theme->display( 'Name' ),
 			'screenshot'   => array( $theme->get_screenshot() ), // @todo multiple
@@ -422,6 +424,13 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			'actions'      => array(
 				'activate' => current_user_can( 'switch_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=activate&amp;stylesheet=' . $encoded_slug ), 'switch-theme_' . $slug ) : null,
 				'customize'=> current_user_can( 'edit_theme_options' ) ? wp_customize_url( $slug ) : null,
+				'preview'   => add_query_arg( array(
+					'preview'        => 1,
+					'template'       => urlencode( $theme->get_template() ),
+					'stylesheet'     => urlencode( $slug ),
+					'preview_iframe' => true,
+					'TB_iframe'      => true,
+				), home_url( '/' ) ),
 				'delete'   => current_user_can( 'delete_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=delete&amp;stylesheet=' . $encoded_slug ), 'delete-theme_' . $slug ) : null,
 			),
 		);
@@ -436,5 +445,6 @@ function wp_prepare_themes_for_js( $themes = null ) {
 	 *
 	 * @param array $prepared_themes Array of themes.
 	 */
-	return apply_filters( 'wp_prepare_themes_for_js', $prepared_themes );
+	$prepared_themes = apply_filters( 'wp_prepare_themes_for_js', $prepared_themes );
+	return array_values( $prepared_themes );
 }
