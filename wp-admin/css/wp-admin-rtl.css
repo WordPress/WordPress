@@ -2344,35 +2344,35 @@ html.wp-toolbar {
 	float: right;
 }
 
-#dashboard-widgets.columns-1 .postbox-container {
+#wpbody-content #dashboard-widgets.columns-1 .postbox-container {
 	width: 100%;
 }
 
-#dashboard-widgets.columns-2 .postbox-container {
+#wpbody-content #dashboard-widgets.columns-2 .postbox-container {
 	width: 49.5%;
 }
 
-#dashboard-widgets.columns-2 #postbox-container-2,
-#dashboard-widgets.columns-2 #postbox-container-3,
-#dashboard-widgets.columns-2 #postbox-container-4 {
+#wpbody-content #dashboard-widgets.columns-2 #postbox-container-2,
+#wpbody-content #dashboard-widgets.columns-2 #postbox-container-3,
+#wpbody-content #dashboard-widgets.columns-2 #postbox-container-4 {
 	float: left;
 	width: 50.5%;
 }
 
-#dashboard-widgets.columns-3 .postbox-container {
+#wpbody-content #dashboard-widgets.columns-3 .postbox-container {
 	width: 33.5%;
 }
 
-#dashboard-widgets.columns-3 #postbox-container-1 {
+#wpbody-content #dashboard-widgets.columns-3 #postbox-container-1 {
 	width: 33%;
 }
 
-#dashboard-widgets.columns-3 #postbox-container-3,
-#dashboard-widgets.columns-3 #postbox-container-4 {
+#wpbody-content #dashboard-widgets.columns-3 #postbox-container-3,
+#wpbody-content #dashboard-widgets.columns-3 #postbox-container-4 {
 	float: left;
 }
 
-#dashboard-widgets.columns-4 .postbox-container {
+#wpbody-content #dashboard-widgets.columns-4 .postbox-container {
 	width: 25%;
 }
 
