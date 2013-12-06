@@ -114,7 +114,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <hr class="flushtopdivider">
 
 <div class="changelog">
-	<h2 class="about-headline-callout"><?php _e( 'Twenty Fourteen, A Sleek New Magazine Theme' ); ?></h2>
+	<h2 class="about-headline-callout"><?php _e( 'Twenty Fourteen, a sleek new magazine theme' ); ?></h2>
 	<img src="<?php echo admin_url( 'images/about-twentyfourteen.png' ); ?>" />
 
 	<div class="feature-section col one-col">
