@@ -124,7 +124,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="feature-section col one-col center-col">
 		<div>
 			<h3><?php echo ( 'Turn your blog into a magazine' ); ?></h3>
-			<p><?php echo ( 'With a striking design that does not comprise on our trademark simplicity, Twenty Fourteen is our boldest default theme. Choose a grid or a slider to display featured content on your homepage. Customize your homepage with three widget areas or change your layout with two page templates.' ); ?></p>
+			<p><?php echo ( 'With a striking design that does not compromise on our trademark simplicity, Twenty Fourteen is our boldest default theme. Choose a grid or a slider to display featured content on your homepage. Customize your homepage with three widget areas or change your layout with two page templates.' ); ?></p>
 			<p><?php echo ( 'Creating a magazine website with WordPress has never been easier.' ); ?></p>
 		</div>
 	</div>
