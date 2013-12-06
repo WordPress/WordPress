@@ -1792,12 +1792,10 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	border-bottom-color: #eee;
 }
 
-.about-wrap h3 {
-	color: #333;
-}
-
-.about-wrap .feature-section h4 {
-	color: #464646;
+.about-wrap h2,
+.about-wrap h3,
+.about-wrap h4 {
+	color: #222;
 }
 
 .about-wrap .feature-section .col-2:before,

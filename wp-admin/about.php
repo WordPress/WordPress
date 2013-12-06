@@ -36,8 +36,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="changelog">
-	<h2><?php _e( 'Introducing a new, modern admin design' ); ?></h2>
-	<img src="<?php echo admin_url( 'images/about-overview.png' ); ?>" />
+	<h2 class="about-headline-callout"><?php _e( 'Introducing a new, modern admin design' ); ?></h2>
+	<img class="about-overview-img" src="<?php echo admin_url( 'images/about-overview.png' ); ?>" />
 
 	<div class="feature-section col three-col about-updates">
 		<div class="col-1">
@@ -58,7 +58,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	</div>
 </div>
 
-<hr />
+<hr>
 
 <!-- Image example -->
 <!-- <img alt="" src="<?php echo admin_url( 'images/about-search-2x.png' ); ?>" /> --> 
@@ -69,21 +69,21 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<h3><?php _e( 'Take WordPress with you anywhere with our responsive design' ); ?></h3>
 			<p><?php _e( 'The WordPress admin is now completely responsive: you can work on your website easily from your smartphone or tablet. The full power of WordPress is at your fingertips, even when you’re on the go.' ); ?></p>
 			<h4><?php _e( 'Naturally HiDPI' ); ?></h4>
-			<p><?php _e( 'No more blurry edges — with the inclusion of vector icons and graphics, the admin is now entirely HiDPI, so you get the best viewing experience no matter what kind of computer or mobile device you use.' ); ?></p>
+			<p><?php _e( 'No more blurry edges &#8212; with the inclusion of vector icons and graphics, the admin is now entirely HiDPI, so you get the best viewing experience no matter what kind of computer or mobile device you use.' ); ?></p>
 		</div>
-		<div class="last-feature">
+		<div class="last-feature about-colors-img">
 			<img src="<?php echo admin_url( 'images/about-colors.png' ); ?>" />
 		</div>
 	</div>
 </div>
 
-<hr />
+<hr class="flushtopdivider">
 
 <div class="changelog about-colors">
 	<div class="feature-section col one-col">
 		<div>
-			<h3>Now with more color</h3>
-			<p><?php _e( 'Your admin is not longer monochromatic — we&rsquo;ve brought some more color to keep it looking fresh. You now have the option of four different default color schemes.' ); ?></p>
+			<h3><?php _e( 'Now with more color' ); ?></h3>
+			<p><?php _e( 'Your admin is not longer monochromatic &#8212; we&#8217;ve brought some more color to keep it looking fresh. You now have the option of four different default color schemes.' ); ?></p>
 			<p><?php _e( 'Try them out below:' ); ?></p>
 			<img src="https://i.cloudup.com/NBlGusRk0H.png" style="border: 2px solid red; max-width: 99%; margin: 0;" />
 			<p><?php _e( 'You can change your color scheme at any time from your profile page.' ); ?></p>
@@ -91,7 +91,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	</div>
 </div>
 
-<hr />
+<hr>
 
 <div class="changelog">
 	<div class="feature-section col two-col">
@@ -105,28 +105,28 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<h4><?php _e( 'Easier updates' ); ?></h4>
 			<p><?php _e( 'Identify immediately when a theme update is available.' ); ?></p>				
 		</div>
-		<div class="last-feature">
+		<div class="last-feature about-themes-img">
 			<img src="<?php echo admin_url( 'images/about-themes.png' ); ?>" />
 		</div>
 	</div>
 </div>
 
-<hr />
+<hr class="flushtopdivider">
 
 <div class="changelog">
-	<h2><?php _e( 'Sleek New Magazine Theme' ); ?></h2>
+	<h2 class="about-headline-callout"><?php _e( 'Twenty Fourteen, A Sleek New Magazine Theme' ); ?></h2>
 	<img src="<?php echo admin_url( 'images/about-twentyfourteen.png' ); ?>" />
 
 	<div class="feature-section col one-col">
 		<div>
 			<h3><?php _e( 'Our new default theme lets you create a responsive magazine website with an elegant, modern design.' ); ?></h3>
-			<p><?php _e( 'Feature your favorite homepage content in either a grid or a slider. Use the three widget areas to customize your website, and change your content&rsquo;s layout with a full width page template and a contributor page to show of your authors.' ); ?></p>
+			<p><?php _e( 'Feature your favorite homepage content in either a grid or a slider. Use the three widget areas to customize your website, and change your content&#8217;s layout with a full width page template and a contributor page to show of your authors.' ); ?></p>
 			<p><?php _e( 'Creating a magazine website with WordPress has never been easier.' ); ?></p>
 		</div>
 	</div>
 </div>
 
-<hr />
+<hr>
 
 <div class="changelog">
 	<h3><?php _e( 'Under the Hood' ); ?></h3>

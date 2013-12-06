@@ -7804,6 +7804,7 @@ body.press-this {
 
 .about-wrap p {
 	line-height: 1.6em;
+	font-size: 14px;
 }
 
 .about-wrap h1 {
@@ -7831,10 +7832,10 @@ body.press-this {
 	font-size: 24px;
 }
 
-.about-wrap .changelog h2 {
+.about-wrap .changelog h2.about-headline-callout {
 	margin: 1.4em 0 0;
-	font-size: 2.1em;
 	line-height: 1.3;
+	font-weight: 600;
 	text-align: center;
 }
 
@@ -7846,6 +7847,7 @@ body.press-this {
 
 .about-wrap .feature-section h4 {
 	margin: 1.4em 0 0.6em 0;
+	font-size: 1.2em;
 }
 
 .about-wrap .feature-section p {
@@ -7857,6 +7859,27 @@ body.press-this {
 	font-size: 14px;
 }
 
+/* 3.8 Images */
+
+.about-wrap .about-colors-img,
+.about-wrap .about-themes-img {
+	bottom: -25px;
+}
+
+.about-wrap .about-overview-img {
+	border-bottom: 1px solid #ddd;
+}
+
+.about-wrap hr.flushtopdivider {
+	margin-top: 0;
+}
+
+.about-colors-img img,
+.about-themes-img img {
+	margin: 0 0;
+	padding: 0;
+	line-height: 1;
+}
 
 /* Point Releases */
 
@@ -7936,9 +7959,12 @@ body.press-this {
 
 .about-wrap .feature-section.two-col div {
 	position: relative;
-	width: 47%;
-	margin-left: 4.999999999%;
+	width: 50%;
 	float: right;
+}
+
+.about-wrap .feature-section.two-col div p {
+	margin-left: 3%;
 }
 
 .about-wrap .feature-section.three-col div {
