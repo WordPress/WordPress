@@ -700,11 +700,13 @@
 	overflow: hidden;
 }
 
+/* @noflip */
 .attachment .thumbnail img {
 	top: 0;
 	left: 0;
 }
 
+/* @noflip */
 .attachment .thumbnail .centered {
 	position: absolute;
 	top: 0;
