@@ -7789,9 +7789,15 @@ body.press-this {
 	font-size: 15px;
 }
 
-.about-wrap div.updated,
-.about-wrap div.error {
-	display: none !important;
+.about-wrap hr {
+	border: 0;
+	height: 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.about-wrap img {
+	margin: 0.5em 0 0.5em 5px;
+	max-width: 100%;
 }
 
 /* Typography */
@@ -7825,18 +7831,21 @@ body.press-this {
 	font-size: 24px;
 }
 
-.about-wrap h3 {
-	font-size: 1.5em;
-	line-height: 1.5em;
-	padding-top: 20px;
+.about-wrap .changelog h2 {
+	margin: 1.4em 0 0;
+	font-size: 2.1em;
+	line-height: 1.3;
+	text-align: center;
 }
 
-.about-wrap .feature-section {
-	padding-bottom: 20px;
+.about-wrap h3 {
+	margin: 1em 0 .6em;
+	font-size: 1.5em;
+	line-height: 1.5em;
 }
 
 .about-wrap .feature-section h4 {
-	margin-bottom: 0.6em;
+	margin: 1.4em 0 0.6em 0;
 }
 
 .about-wrap .feature-section p {
@@ -7908,18 +7917,21 @@ body.press-this {
 
 /* Changelog / Update screen */
 
-.about-wrap .feature-section.three-col img {
-	margin: 0.5em 0 0.5em 5px;
-	max-width: 100%;
-	float: none;
+.about-wrap .feature-section {
+	padding-bottom: 20px;
 }
 
 .about-wrap .feature-section.col {
 	margin-bottom: 0;
 }
 
-.about-wrap .feature-section.col h4 {
-	margin: 0 0 0.6em 0;
+.about-wrap .feature-section.one-col div {
+	margin: auto;
+	width: 60%;
+}
+
+.about-wrap .about-colors .one-col div {
+	width: 100%;
 }
 
 .about-wrap .feature-section.two-col div {
@@ -7934,29 +7946,6 @@ body.press-this {
 	width: 30%;
 	margin-right: 4.999999999%;
 	float: left;
-}
-
-.about-wrap .three-col.about-updates .col-1,
-.about-wrap .three-col.about-updates .col-3 {
-	width: 50%;
-	margin: 0;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-.about-wrap .three-col.about-updates .col-1 {
-	z-index: 1;
-	padding-right: 100px;
-}
-
-.about-wrap .three-col.about-updates .col-2 {
-	position: absolute;
-	width: 100%;
-	text-align: center;
-}
-
-.about-wrap .three-col.about-updates .col-3 {
-	padding-left: 100px;
 }
 
 .about-wrap .feature-section.col .last-feature {
@@ -8017,57 +8006,6 @@ body.press-this {
 .about-wrap .changelog li {
 	list-style-type: disc;
 	margin-left: 3em;
-}
-
-/* Icons to replace images. */
-
-.about-wrap .feature-section .col-2 img,
-.about-wrap .feature-section.two-col p img {
-	display: none;
-}
-
-.about-wrap .feature-section .col-2:before,
-.about-wrap .feature-section .col-2:after,
-.about-wrap .feature-section.two-col p:before {
-	display: inline-block;
-	position: relative;
-	font: normal 50px/125px 'dashicons';
-	speak: none;
-	content: '\f147';
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-.about-wrap .feature-section .col-2:before {
-	width: 100%;
-}
-
-.about-wrap .feature-section .col-2:after {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	font-size: 170px;
-	line-height: 125px;
-	content: '\f113';
-}
-
-.about-wrap .feature-section.two-col p:before {
-	float: right;
-	top: -25px;
-	font-size: 130px;
-	line-height: 1;
-	content: '\f179';
-}
-
-.about-wrap .feature-section.two-col .last-feature p:before {
-	top: -15px;
-	font-size: 110px;
-	content: '\f319';
-}
-
-.about-wrap .about-passwords .feature-section.two-col p:before {
-	content: '';
 }
 
 /* Return to Dashboard Home link */

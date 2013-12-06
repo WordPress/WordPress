@@ -1800,11 +1800,6 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 	color: #464646;
 }
 
-.about-wrap .feature-section img {
-	background: #fff;
-	border-color: #ccc;
-}
-
 .about-wrap .feature-section .col-2:before,
 .about-wrap .feature-section .col-2:after,
 .about-wrap .feature-section.two-col p:before {

@@ -21,7 +21,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <h1><?php printf( __( 'Welcome to WordPress %s' ), $display_version ); ?></h1>
 
-<div class="about-text"><?php printf( __( 'Thank you for updating to WordPress 3.7! You might not notice a thing, and we&#8217;re okay with that.' ), $display_version ); ?></div>
+<div class="about-text"><?php printf( __( 'Thank you for updating to WordPress 3.8! We&rsquo;re happy to bring you the most beautiful WordPress yet.' ), $display_version ); ?></div>
 
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
@@ -36,99 +36,113 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="changelog">
-	<h3><?php _e( 'Background Updates' ); ?></h3>
+	<h2><?php _e( 'Introducing a new, modern admin design' ); ?></h2>
+	<img src="<?php echo admin_url( 'images/about-overview.png' ); ?>" />
 
 	<div class="feature-section col three-col about-updates">
 		<div class="col-1">
-			<h4><?php _e( 'Updates While You Sleep' ); ?></h4>
-			<p><?php _e( 'With WordPress 3.7, you don&#8217;t have to lift a finger to apply maintenance and security updates. Most sites are now able to automatically apply these updates in the background, though some configurations may not allow it.' ); ?></p>
+			<p style="margin-top: 20px; background-color: grey; padding: 1em; color: white; min-height: 150px;">Image</p>
+			<h3><?php _e( 'Modern aesthetics' ); ?></h3>
+			<p><?php _e( 'Goodbye decoration, hello simplicity. We removed extraneous details, focusing on a cleaner, more streamlined admin design.' ); ?></p>
 		</div>
 		<div class="col-2">
-			<img alt="" src="<?php echo admin_url( 'images/about-updates-2x.png' ); ?>" />
+			<p style="margin-top: 20px; background-color: grey; padding: 1em; color: white; min-height: 150px;">Image</p>
+			<h3><?php _e( 'Improved typography' ); ?></h3>
+			<p><?php _e( 'You might notice the type is a little bit bigger. We improved the typography, crafting a better reading experience.' ); ?></p>
 		</div>
 		<div class="col-3 last-feature">
-			<h4><?php _e( 'More Reliable Than Ever' ); ?></h4>
-			<p><?php _e( 'The update process has been made even more reliable and secure, with dozens of new checks and safeguards.' ); ?></p>
-			<p><?php _e( 'You&#8217;ll still need to click &#8220;Update Now&#8221; once WordPress 3.8 is released, but we&#8217;ve never had more confidence in that beautiful blue button.' ); ?></p>
-		</div>
-		<?php
-		if ( current_user_can( 'update_core' ) ) {
-			$future_minor_update = (object) array(
-				'current'       => $wp_version . '.1.next.minor',
-				'version'       => $wp_version . '.1.next.minor',
-				'php_version'   => $required_php_version,
-				'mysql_version' => $required_mysql_version,
-			);
-			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-			$updater = new WP_Automatic_Updater;
-			$can_auto_update = wp_http_supports( array( 'ssl' ) ) && $updater->should_update( 'core', $future_minor_update, ABSPATH );
-
-			if ( $can_auto_update ) {
-				echo '<p class="about-auto-update cool">' . __( 'This site <strong>is</strong> able to apply these updates automatically. Cool!' ). '</p>';
-
-			// If the updater is disabled entirely, don't show them anything.
-			} elseif ( ! $updater->is_disabled() ) {
-				echo '<p class="about-auto-update">';
-				// If this is is filtered to false, they won't get emails, so don't claim we will.
-				// Assumption: If the user can update core, they can see what the admin email is.
-
-				/** This filter is documented in wp-admin/includes/class-wp-upgrader.php */
-				if ( apply_filters( 'send_core_update_notification_email', true, $future_minor_update ) ) {
-					printf( __( 'This site <strong>is not</strong> able to apply these updates automatically. But we&#8217;ll email %s when there is a new security release.' ), esc_html( get_site_option( 'admin_email' ) ) );
-				} else {
-					_e( 'This site <strong>is not</strong> able to apply these updates automatically.' );
-				}
-				echo '</p>';
-			}
-		}
-		?>
-	</div>
-</div>
-
-<div class="changelog about-passwords">
-	<h3><?php _e( 'Create Stronger Passwords' ); ?></h3>
-
-	<div class="feature-section col two-col">
-		<div>
-			<p><?php _e( 'Your password is your site&#8217;s first line of defense. It&#8217;s best to create passwords that are complex, long, and unique. To that end, our password meter has been updated in WordPress 3.7 to recognize common mistakes that can weaken your password: dates, names, keyboard patterns (123456789), and even pop culture references.' ); ?></p>
-			<p><strong><?php _e( 'Try it out on the right.' ); ?></strong></p>
-		</div>
-		<div class="last-feature about-password-meter">
-			<input type="password" id="pass" size="25" value="" />
-			<p id="pass-strength-result" ><?php _e( 'Strength indicator' ); ?></p>
-			<?php printf( __( 'Getting the urge to <a href="%s">change your password</a>?' ), esc_url( self_admin_url( 'profile.php' ) ) ); ?>
+			<p style="margin-top: 20px; background-color: grey; padding: 1em; color: white; min-height: 150px;">Image</p>
+			<h3><?php _e( 'Higher contrast' ); ?></h3>
+			<p><?php _e( 'With bigger typography and both high and low contrast color schemes, our new admin design is great for users of all ages.' ); ?></p>
 		</div>
 	</div>
 </div>
+
+<hr />
+
+<!-- Image example -->
+<!-- <img alt="" src="<?php echo admin_url( 'images/about-search-2x.png' ); ?>" /> --> 
 
 <div class="changelog">
 	<div class="feature-section col two-col">
 		<div>
-			<h3><?php _e( 'Improved Search Results' ); ?></h3>
-			<p><img alt="" src="<?php echo admin_url( 'images/about-search-2x.png' ); ?>" /><?php _e( 'Search results are now ordered by how well the search query matches a post, instead of ordered only by date. For example, when your search terms match a post title, that result will be pushed to the top.' ); ?></p>
+			<h3><?php _e( 'Take WordPress with you anywhere with our responsive design' ); ?></h3>
+			<p><?php _e( 'The WordPress admin is now completely responsive: you can work on your website easily from your smartphone or tablet. The full power of WordPress is at your fingertips, even when you’re on the go.' ); ?></p>
+			<h4><?php _e( 'Naturally HiDPI' ); ?></h4>
+			<p><?php _e( 'No more blurry edges — with the inclusion of vector icons and graphics, the admin is now entirely HiDPI, so you get the best viewing experience no matter what kind of computer or mobile device you use.' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h3><?php _e( 'Better Global Support' ); ?></h3>
-			<p><img alt="" src="<?php echo admin_url( 'images/about-globe-2x.png' ); ?>" /><?php _e( 'Localized versions of WordPress will receive faster and more complete translations. WordPress 3.7 adds support for automatically installing the right language files and keeping them up to date.' ); ?></p>
+			<img src="<?php echo admin_url( 'images/about-colors.png' ); ?>" />
 		</div>
 	</div>
 </div>
+
+<hr />
+
+<div class="changelog about-colors">
+	<div class="feature-section col one-col">
+		<div>
+			<h3>Now with more color</h3>
+			<p><?php _e( 'Your admin is not longer monochromatic — we&rsquo;ve brought some more color to keep it looking fresh. You now have the option of four different default color schemes.' ); ?></p>
+			<p><?php _e( 'Try them out below:' ); ?></p>
+			<img src="https://i.cloudup.com/NBlGusRk0H.png" style="border: 2px solid red; max-width: 99%; margin: 0;" />
+			<p><?php _e( 'You can change your color scheme at any time from your profile page.' ); ?></p>
+		</div>
+	</div>
+</div>
+
+<hr />
+
+<div class="changelog">
+	<div class="feature-section col two-col">
+		<div>
+			<h3><?php _e( 'A new theme experience' ); ?></h3>
+			<p><?php _e( 'A sleeker, faster, and more visual organization of your themes that is responsive.' ); ?></p>
+			<h4><?php _e( 'Browse better' ); ?></h4>
+			<p><?php _e( 'Enjoy a focused experience with theme screenshots at the center. Quickly search through your themes or add new ones.' ); ?></p>
+			<h4><?php _e( 'Dive into the details' ); ?></h4>
+			<p><?php _e( 'Expand a theme to see more information and preview it. Use the arrow navigation to quickly swift through your themes.' ); ?></p>
+			<h4><?php _e( 'Easier updates' ); ?></h4>
+			<p><?php _e( 'Identify immediately when a theme update is available.' ); ?></p>				
+		</div>
+		<div class="last-feature">
+			<img src="<?php echo admin_url( 'images/about-themes.png' ); ?>" />
+		</div>
+	</div>
+</div>
+
+<hr />
+
+<div class="changelog">
+	<h2><?php _e( 'Sleek New Magazine Theme' ); ?></h2>
+	<img src="<?php echo admin_url( 'images/about-twentyfourteen.png' ); ?>" />
+
+	<div class="feature-section col one-col">
+		<div>
+			<h3><?php _e( 'Our new default theme lets you create a responsive magazine website with an elegant, modern design.' ); ?></h3>
+			<p><?php _e( 'Feature your favorite homepage content in either a grid or a slider. Use the three widget areas to customize your website, and change your content&rsquo;s layout with a full width page template and a contributor page to show of your authors.' ); ?></p>
+			<p><?php _e( 'Creating a magazine website with WordPress has never been easier.' ); ?></p>
+		</div>
+	</div>
+</div>
+
+<hr />
 
 <div class="changelog">
 	<h3><?php _e( 'Under the Hood' ); ?></h3>
 
 	<div class="feature-section col three-col">
 		<div>
-			<h4><?php _e( 'More Background Updates (Experimental)' ); ?></h4>
-			<p><?php _e( 'Want WordPress to always update automatically, even for major feature releases? Want to always keep a certain plugin up to date in the background? WordPress 3.7 comes with fine-grained update controls for developers and systems administrators.' ); ?></p>
+			<h4><?php _e( 'Meta query fixes' ); ?></h4>
+			<p><?php _e( 'Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Vestibulum id ligula porta felis.' ); ?></p>
 		</div>
 		<div>
-			<h4><?php _e( 'Advanced Date Queries' ); ?></h4>
-			<p><?php _e( 'Developers can now query for posts within a date range, or that are older than or newer than a specific point in time. Or get really fancy: all posts written on Friday afternoons? Not&nbsp;a&nbsp;problem.' ); ?></p>
+			<h4><?php _e( 'Automated RTL styles' ); ?></h4>
+			<p><?php _e( 'Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Vestibulum id ligula porta felis.' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php _e( 'Multisite Improvements' ); ?></h4>
-			<p><?php _e( '<code>wp_get_sites()</code> allows developers to easily get an array of all the sites on your network without resorting to a direct database query &mdash; just one of many improvements to multisite in WordPress 3.7.' ); ?></p>
+			<h4><?php _e( 'Improved customizer' ); ?></h4>
+			<p><?php _e( 'Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Vestibulum id ligula porta felis.' ); ?></p>
 		</div>
 </div>
 
