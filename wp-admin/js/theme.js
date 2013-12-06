@@ -250,6 +250,8 @@ themes.view.Details = wp.Backbone.View.extend({
 		this.activeTheme();
 		// Set up navigation events
 		this.navigation();
+		// Checks screenshot size
+		this.screenshotCheck( this.$el );
 	},
 
 	// Adds a class to the currently active theme
@@ -352,6 +354,21 @@ themes.view.Details = wp.Backbone.View.extend({
 	previousTheme: function() {
 		var self = this;
 		self.trigger( 'theme:previous', self.model.cid );
+	},
+
+	// Checks if the theme screenshot is the old 300px width version
+	// and adds a corresponding class if it's true
+	screenshotCheck: function( el ) {
+		var screenshot, image, width;
+
+		screenshot = el.find( '.screenshot img' );
+		image = new Image();
+		image.src = screenshot.attr( 'src' );
+
+		// Width check
+		if ( image.width <= 300 ) {
+		 	el.addClass( 'small-screenshot' );
+		}
 	}
 });
 

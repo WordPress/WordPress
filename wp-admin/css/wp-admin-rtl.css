@@ -6894,6 +6894,15 @@ body.folded .theme-overlay .theme-wrap {
 	top: 0;
 	width: 100%;
 }
+/* Handles old 300px screenshots */
+.theme-overlay.small-screenshot .theme-screenshots {
+	position: absolute;
+	width: 302px;
+}
+.theme-overlay.small-screenshot .theme-info {
+	margin-right: 350px;
+	width: auto;
+}
 
 /* Other screenshots, shown small and square */
 .theme-overlay .screenshot.thumb {
@@ -7161,6 +7170,15 @@ body.folded .theme-overlay .theme-wrap {
 
 	.theme-browser .theme .theme-actions {
 		padding: 5px 10px 4px 10px;
+	}
+	.theme-overlay.small-screenshot .theme-screenshots {
+		position: static;
+		float: none;
+		max-width: 302px;
+	}
+	.theme-overlay.small-screenshot .theme-info {
+		margin-right: 0;
+		width: auto;
 	}
 }
 
