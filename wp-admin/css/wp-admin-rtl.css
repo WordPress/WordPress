@@ -4981,6 +4981,10 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	margin-right: -10px;
 }
 
+.rtl div.revisions-controls > .wp-slider > .ui-slider-handle {
+	margin-left: -10px;
+}
+
  /* jQuery UI Slider */
 .wp-slider.ui-slider {
 	position: relative;
@@ -5024,6 +5028,15 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 
 .wp-slider .ui-slider-handle.to-handle:before {
 	content: '\f141';
+}
+
+.rtl .wp-slider .ui-slider-handle.from-handle:before {
+	content: '\f141';
+}
+
+.rtl .wp-slider .ui-slider-handle.to-handle:before {
+	content: '\f139';
+	left: -1px;
 }
 
 .wp-slider .ui-slider-range {
@@ -13014,7 +13027,7 @@ li#wp-admin-bar-menu-toggle {
 		height: 100%;
 		z-index: 400;
 	}
-	
+
 	/* Keep the close icon from overlapping the Welcome text. */
 	.welcome-panel .welcome-panel-close {
 		overflow: hidden;
