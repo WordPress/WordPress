@@ -232,6 +232,11 @@
 #wpadminbar .ab-item:before,
 #wpadminbar #adminbarsearch:before {
 	color: #999;
+}
+
+#wpadminbar .ab-icon:before,
+#wpadminbar .ab-item:before,
+#wpadminbar #adminbarsearch:before {
 	position: relative;
 	-moz-transition: all .1s ease-in-out;
 	-webkit-transition: all .1s ease-in-out;
@@ -354,6 +359,19 @@
  */
 #wp-admin-bar-my-account > ul {
 	min-width: 198px;
+}
+
+#wp-admin-bar-my-account > .ab-item:before {
+	content: "\f110";
+	top: 2px;
+	float: right;
+	margin-left: 6px;
+	margin-right: 0;
+}
+
+#wp-admin-bar-my-account.with-avatar > .ab-item:before {
+	display: none;
+	content: none;
 }
 
 #wp-admin-bar-my-account.with-avatar > ul {
@@ -784,7 +802,8 @@
 	/* My Sites and "Site Title" menu */
 	#wpadminbar #wp-admin-bar-my-sites > .ab-item,
 	#wpadminbar #wp-admin-bar-site-name > .ab-item,
-	#wpadminbar #wp-admin-bar-edit > .ab-item {
+	#wpadminbar #wp-admin-bar-edit > .ab-item,
+	#wpadminbar #wp-admin-bar-my-account > .ab-item {
 		text-indent: 100%;
 		white-space: nowrap;
 		overflow: hidden;
@@ -803,13 +822,14 @@
 	
 	#wpadminbar #wp-admin-bar-edit > .ab-item:before,
 	#wpadminbar #wp-admin-bar-my-sites > .ab-item:before,
-	#wpadminbar #wp-admin-bar-site-name > .ab-item:before {
+	#wpadminbar #wp-admin-bar-site-name > .ab-item:before,
+	#wpadminbar #wp-admin-bar-my-account > .ab-item:before {
 		display: block;
 		text-indent: 0;
 		font: normal 32px/1 'dashicons';
 		speak: none;
 		top: 7px;
-		width: 50px;
+		width: 55px;
 		text-align: center;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;

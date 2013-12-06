@@ -260,7 +260,8 @@ ul#adminmenu > li.current > a.current:after {
 
 #wpadminbar .ab-icon,
 #wpadminbar .ab-icon:before,
-#wpadminbar .ab-item:before {
+#wpadminbar .ab-item:before,
+#wpadminbar .ab-item:after {
 	color: $menu-icon;
 }
 
@@ -282,6 +283,7 @@ ul#adminmenu > li.current > a.current:after {
 
 #wpadminbar li:hover .ab-icon:before,
 #wpadminbar li:hover .ab-item:before,
+#wpadminbar li:hover .ab-item:after,
 #wpadminbar li:hover #adminbarsearch:before {
 	color: $menu-highlight-icon;
 }
@@ -324,6 +326,8 @@ ul#adminmenu > li.current > a.current:after {
 #wpadminbar li .ab-item:focus:before,
 #wpadminbar li.hover .ab-icon:before,
 #wpadminbar li.hover .ab-item:before,
+#wpadminbar li:hover .ab-item:after,
+#wpadminbar li.hover .ab-item:after,
 #wpadminbar li:hover #adminbarsearch:before {
 	color: $menu-submenu-focus-text;
 }
