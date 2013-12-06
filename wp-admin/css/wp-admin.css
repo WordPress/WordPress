@@ -11181,6 +11181,19 @@ div#widgets-right .closed .widgets-sortables {
 .ui-sortable,
 .ui-draggable {
 	-ms-touch-action: none;
+	touch-action:     none;
+}
+
+.meta-box-sortables.ui-sortable,
+.menu.ui-sortable {
+	-ms-touch-action: auto;
+	touch-action:     auto;
+}
+
+.meta-box-sortables.ui-sortable .hndle,
+.menu.ui-sortable .menu-item-handle {
+	-ms-touch-action: none;
+	touch-action:     none;
 }
 
 /* Accordion */
