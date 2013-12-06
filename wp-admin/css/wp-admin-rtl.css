@@ -5015,9 +5015,7 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 .wp-slider .ui-slider-handle.from-handle:before,
 .wp-slider .ui-slider-handle.to-handle:before {
 	font-size: 20px !important;
-	height: 8px;
-	width: 7px;
-	margin-right: 0;
+	margin: -1px -1px 0 0;
 }
 
 .wp-slider .ui-slider-handle.from-handle:before {
@@ -5026,7 +5024,6 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 
 .wp-slider .ui-slider-handle.to-handle:before {
 	content: '\f141';
-
 }
 
 .wp-slider .ui-slider-range {
