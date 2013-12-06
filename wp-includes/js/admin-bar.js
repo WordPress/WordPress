@@ -20,9 +20,13 @@ if ( typeof(jQuery) != 'undefined' ) {
 			adminbar.find('li.menupop').on('click.wp-mobile-hover', function(e) {
 				var el = $(this);
 
-				if ( !el.hasClass('hover') ) {
+				if ( el.parent().is('#wp-admin-bar-root-default') && !el.hasClass('hover') ) {
 					e.preventDefault();
 					adminbar.find('li.menupop.hover').removeClass('hover');
+					el.addClass('hover');
+				} else if ( !el.hasClass('hover') ) {
+					e.stopPropagation();
+					e.preventDefault();
 					el.addClass('hover');
 				}
 
