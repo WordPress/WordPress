@@ -7827,13 +7827,13 @@ body.press-this {
 }
 
 .about-text {
-	margin: 1em 0 1.4em 200px;
+	margin: 1em 0 0em 200px;
 	min-height: 60px;
 	font-size: 24px;
 }
 
 .about-wrap .changelog h2.about-headline-callout {
-	margin: 1em 0 0;
+	margin: 1.5em 0 0;
 	font-size: 2.2em;
 	font-weight: 300;
 	line-height: 1.3;
@@ -7862,9 +7862,12 @@ body.press-this {
 
 /* 3.8 Images */
 
-.about-wrap .about-colors-img,
-.about-wrap .about-themes-img {
+.about-wrap .about-colors-img {
 	bottom: -25px;
+}
+
+.about-wrap .about-themes-img {
+	bottom: -32px;
 }
 
 .about-wrap .about-overview-img {
@@ -7901,16 +7904,16 @@ body.press-this {
 .wp-badge {
 	background: url('../images/w-logo-white.png?ver=20131202') no-repeat;
 	background: none, url('../images/wordpress-logo-white.svg?ver=20131110') no-repeat;
-	background-position: center 30px;
-	background-size: 110px 110px;
+	background-position: center 24px;
+	background-size: 85px 85px;
 	font-size: 14px;
 	text-align: center;
 	font-weight: 600;
 	margin: 5px 0 0;
-	padding-top: 155px;
-	height: 45px;
+	padding-top: 120px;
+	height: 40px;
 	display: inline-block;
-	width: 165px;
+	width: 150px;
 	text-rendering: optimizeLegibility;
 }
 
@@ -7949,28 +7952,24 @@ body.press-this {
 	margin-bottom: 0;
 }
 
-.about-wrap .feature-section.one-col div {
+.about-wrap .feature-section.center-col > div {
 	margin: auto;
 	width: 60%;
 }
 
-.about-wrap .about-colors .one-col div {
+.about-wrap .about-colors .one-col > div {
 	width: 100%;
 }
 
-.about-wrap .feature-section.two-col div {
+.about-wrap .feature-section.two-col > div {
 	position: relative;
 	width: 50%;
 	float: right;
 }
 
-.about-wrap .feature-section.two-col div p {
-	margin-left: 3%;
-}
-
-.about-wrap .feature-section.three-col div {
+.about-wrap .feature-section.three-col > div {
 	position: relative;
-	width: 30%;
+	width: 29.95%;
 	margin-left: 4.999999999%;
 	float: right;
 }
@@ -7979,49 +7978,32 @@ body.press-this {
 	margin-left: 0;
 }
 
-.about-wrap .three-col.about-updates img {
-	margin: 0;
-}
+.about-wrap .about-updates img { 
+	margin: 2em 0 0 0; 
+	border: 1px solid #ddd; 
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); 
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); 
+} 
 
 .about-wrap .changelog .feature-section {
 	overflow: hidden;
 }
 
-.about-wrap .about-passwords {
-	margin: 20px 0;
-	padding: 1px 20px 10px;
-	background-color: #fff;
+.about-wrap .about-colors .scheme-list {
+	margin-bottom: 1em;
 }
 
-.about-wrap .about-auto-update {
-	text-align: center;
-	background-color: #f9f9ef;
-	clear: both;
-	padding: 10px;
+.about-wrap .about-colors .color-option {
+	width: 24%;
+	padding-top: 10px;
+}
+.about-wrap .about-colors .color-option label {
+	display: inline-block;
+	margin: 0.25em 0 0.5em;
 }
 
-.about-wrap .about-auto-update.cool {
-	background-color: #eff9ef;
-}
-
-.about-wrap .about-password-meter input {
-	font-size: 250%;
-	line-height: 1;
-	width: 100%;
-	display: block;
-	padding: 5px;
-}
-
-.about-wrap .about-password-meter #pass-strength-result {
-	display: block !important;
-	font-size: 150%;
-	font-weight: normal !important;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
-	width: 100%;
-	padding: 17px 0;
-	margin-bottom: 15px;
+.about-wrap .feature-section.two-col div p {
+	margin-left: 3%;
 }
 
 .about-wrap .feature-section div p img {
@@ -12733,37 +12715,16 @@ li#wp-admin-bar-menu-toggle {
 	}
 
 	/*  About Page */
-	.about-wrap .feature-section.two-col div {
+	.about-wrap .feature-section.one-col > div,
+	.about-wrap .feature-section.two-col > div,
+	.about-wrap .three-col.about-updates > div  {
 		width: 100%;
 		margin: 0;
 		float: none;
 	}
 
-	.about-wrap .three-col.about-updates .col-1,
-		/*.about-wrap .three-col.about-updates .col-2,*/
-	.about-wrap .three-col.about-updates .col-3 {
-		padding: 0;
-	}
-
-	.about-wrap .three-col.about-updates .col-1 {
-		width: 100%;
-		padding-left: 210px;
-	}
-
-	.about-wrap .three-col.about-updates .col-2 {
-		position: relative;
-		float: left;
-		width: 180px;
-		margin-right: -100%;
-	}
-
-	.about-wrap .three-col.about-updates .col-3 {
-		width: 100%;
-	}
-
-	.about-wrap .about-password-meter input,
-	.about-wrap .about-password-meter #pass-strength-result {
-		width: 99%;
+	.about-wrap .about-colors .color-option {
+		width: 49%;
 	}
 
 	/* Moderate Comment */
@@ -12904,10 +12865,6 @@ li#wp-admin-bar-menu-toggle {
 		margin: 0 0 20px;
 		width: 100%;
 		float: none;
-	}
-
-	.about-wrap .about-passwords {
-		margin: 20px -20px;
 	}
 
 	/* Align Add Media + Visual + Text tabs */

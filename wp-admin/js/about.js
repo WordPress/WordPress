@@ -1,81 +1,51 @@
-/* global pwsL10n:true */
+/* global isRtl */
 (function($){
-	var password = 'Gosh, WordPress is grand.',
-		$input = $('#pass'),
-		shouldAnimate = true,
-		timesForAnimation = [280, 300, 305, 310, 315, 325, 330, 345, 360, 370, 380, 400, 450, 500, 600],
-		resultsCache = {},
-		indicatorString = $('#pass-strength-result').text();
 
-	function updateResult(){
-		var strength;
-
-		if ( typeof( resultsCache[ $input.val() ]) === 'undefined') {
-			strength = wp.passwordStrength.meter($input.val(), [], $input.val());
-			resultsCache[ $input.val() ] = strength;
-		} else {
-			strength = resultsCache[ $input.val() ];
+	$(document).ready( function() {
+		var $colorpicker, $stylesheet;
+	
+		$('.color-palette').click( function() {
+			$(this).siblings('input[name="admin_color"]').prop('checked', true);
+		});
+	
+		$colorpicker = $( '#color-picker' );
+		$stylesheet = $( '#colors-css' );
+		if ( isRtl ){
+			$stylesheet = $( '#colors-rtl-css' );
 		}
+	
+		$colorpicker.on( 'click.colorpicker', '.color-option', function() {
+			var colors, css_url,
+				$this = $(this);
+	
+			if ( $this.hasClass( 'selected' ) ) {
+				return;
+			}
+	
+			$this.siblings( '.selected' ).removeClass( 'selected' );
+			$this.addClass( 'selected' ).find( 'input[type="radio"]' ).prop( 'checked', true );
+	
+			// Set color scheme
+			// Load the colors stylesheet
+			css_url = $this.children( '.css_url' ).val();
+			if ( isRtl ){
+				css_url = css_url.replace('.min', '-rtl.min');
+			}
 
-		$('#pass-strength-result').removeClass('short bad good strong');
-		switch ( strength ) {
-			case 2:
-				$('#pass-strength-result').addClass('bad').html( pwsL10n.bad );
-				break;
-			case 3:
-				$('#pass-strength-result').addClass('good').html( pwsL10n.good );
-				break;
-			case 4:
-				$('#pass-strength-result').addClass('strong').html( pwsL10n.strong );
-				break;
-			default:
-				$('#pass-strength-result').addClass('short').html( pwsL10n['short'] );
-		}
-	}
-	function resetMeter(){
-		$input.val('');
-		$('#pass-strength-result').text(indicatorString);
-		$('#pass-strength-result').removeClass('short bad good strong');
-	}
+			$stylesheet.attr( 'href', css_url );
 
-	function animate(){
-		if (shouldAnimate === false)
-			return;
-		if ($input.val().length < password.length){
-			$input.val( password.substr(0, $input.val().length + 1) );
-			updateResult();
+			// repaint icons
+			if ( typeof wp !== 'undefined' && wp.svgPainter ) {
+				try {
+					colors = $.parseJSON( $this.children( '.icon_colors' ).val() );
+				} catch ( error ) {}
 
-			// Look like real typing by changing the speed new letters are added each time
-			setTimeout( animate, ( timesForAnimation[ Math.floor( Math.random() * timesForAnimation.length ) ] ) );
-		} else {
-			resetMeter();
-
-			// When we reset, let's wait a bit longer than normal to start again
-			setTimeout(animate, 700);
-		}
-
-	}
-
-	function begin(){
-		// we async load zxcvbn, so we need to make sure it's loaded before starting
-		if (typeof(zxcvbn) !== 'undefined')
-			animate();
-		else
-			setTimeout(begin,800);
-	}
-
-	// Turn off the animation on focus
-	$input.on('focus', function(){
-		shouldAnimate = false;
-		resetMeter();
+				if ( colors ) {
+					wp.svgPainter.setColors( colors );
+					wp.svgPainter.paint();
+				}
+			}
+		});
 	});
-
-	// Act like a normal password strength meter
-	$input.on('keyup', function(){
-		updateResult();
-	});
-
-	// Start the animation
-	begin();
 
 })(jQuery);
