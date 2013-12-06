@@ -197,9 +197,10 @@ function get_theme_feature_list( $api = true ) {
 			'right-sidebar' => __( 'Right Sidebar' ),
 		),
 
-		__( 'Width' ) => array(
-			'fixed-width'    => __( 'Fixed Width' ),
-			'flexible-width' => __( 'Flexible Width' ),
+		__( 'Layout' ) => array(
+			'fixed-layout'      => __( 'Fixed Layout' ),
+			'fluid-layout'      => __( 'Fluid Layout' ),
+			'responsive-layout' => __( 'Responsive Layout' ),
 		),
 
 		__( 'Features' ) => array(
