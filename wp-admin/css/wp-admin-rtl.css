@@ -6865,6 +6865,7 @@ body.folded .theme-overlay .theme-wrap {
 	float: right;
 	margin: 0 0 0 30px;
 	width: 55%;
+	max-width: 880px;
 	text-align: center;
 }
 
