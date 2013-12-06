@@ -13001,6 +13001,23 @@ li#wp-admin-bar-menu-toggle {
 		height: 100%;
 		z-index: 400;
 	}
+	
+	/* Keep the close icon from overlapping the Welcome text. */
+	.welcome-panel .welcome-panel-close {
+		overflow: hidden;
+		text-indent: 100%;
+		white-space: nowrap;
+		width: 20px;
+		height: 20px;
+		right: 0;
+		padding: 5px;
+	}
+
+	/* Make the close icon larger for tappability. */
+	#welcome-panel.welcome-panel .welcome-panel-close::before {
+		font-size: 20px;
+		margin: 0;
+	}
 
 	/* Keep full-width boxes on Edit Post page from causing horizontal scroll */
 	div#post-body.metabox-holder.columns-1 {
