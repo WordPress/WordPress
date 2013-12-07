@@ -1861,7 +1861,7 @@ form.upgrade .hint {
 }
 
 #adminmenu div.wp-menu-name {
-	padding: 8px 0 8px 10px;
+	padding: 8px 0;
 }
 
 #adminmenu div.wp-menu-image {
