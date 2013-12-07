@@ -7848,12 +7848,12 @@ body.press-this {
 	font-weight: 400;
 }
 
-.about-text,
-.about-description,
+.about-wrap .about-text,
+.about-wrap p.about-description,
 .about-wrap li.wp-person a.web {
 	font-weight: normal;
 	line-height: 1.6em;
-	font-size: 20px;
+	font-size: 19px;
 }
 
 .about-description {
