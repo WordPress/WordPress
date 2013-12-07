@@ -42,12 +42,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="col-1">
 			<img src="images/about-modern-aesthetics.png" />
 			<h3><?php echo ( 'Modern aesthetic' ); ?></h3>
-			<p><?php echo ( 'The new admin has a fresh, simple design that puts clarity and simplicity ahead of web design flourishes.' ); ?></p>
+			<p><?php echo ( 'The new admin has a fresh, uncluttered design that puts clarity and simplicity ahead of visual flourishes.' ); ?></p>
 		</div>
 		<div class="col-2">
 			<img src="images/about-typography.png" />
 			<h3><?php echo ( 'Clean typography' ); ?></h3>
-			<p><?php echo ( 'Open Sans meets Open Source. WordPress&#8217;s new typography is upright, friendly, and optimized for web and mobile interfaces.' ); ?></p>
+			<p><?php echo ( 'Open Sans is Open Source. Our new typography is simple, friendly, and optimized for web and mobile interfaces.' ); ?></p>
 		</div>
 		<div class="col-3 last-feature">
 			<img src="images/about-contrast.png" />
@@ -63,9 +63,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="feature-section col two-col">
 		<div>
 			<h3><?php echo ( 'WordPress on every&#160;device' ); ?></h3>
-			<p><?php echo ( 'Whether you&#8217;re on your smartphone or tablet, your notebook or desktop, WordPress looks beautiful on every device. Now you can update your website wherever you are.' ); ?></p>
+			<p><?php echo ( 'Whether you&#8217;re on your smartphone or tablet, your notebook or desktop, WordPress looks great on every device. Now you can update your website wherever you are.' ); ?></p>
 			<h4><?php echo ( 'High definition is here' ); ?></h4>
-			<p><?php echo ( 'WordPress is sharper than ever; vector icons and graphics mean no more blurry edges. You get the best viewing experience no matter what type of device you use.' ); ?></p>
+			<p><?php echo ( 'WordPress is sharper than ever; vector icons mean no more blurry edges. You get the best viewing experience no matter what type of device you use.' ); ?></p>
 		</div>
 		<div class="last-feature about-colors-img">
 			<img src="<?php echo admin_url( 'images/about-colors.png' ); ?>" />
@@ -79,7 +79,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="feature-section col one-col">
 		<div>
 			<h3><?php echo ( 'Pick a color' ); ?></h3>
-			<p><?php echo ( 'We&#8217;ve included four color schemes so that you can choose your favorite. Don&#8217;t like this striking new admin? Choose from any of the schemes below to change it in an instant.' ); ?></p>
+			<p><?php echo ( 'We&#8217;ve included four color schemes so that you can pick your favorite. Choose from any of the schemes below to change it in an instant.' ); ?></p>
 			<?php $user_id = get_current_user_id(); ?>
 			<?php if ( count($_wp_admin_css_colors) > 1 && has_action('admin_color_scheme_picker') ) :?>
 				<?php 
