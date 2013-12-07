@@ -2116,7 +2116,7 @@ function wp_admin_css_color( $key, $name, $url, $colors = array(), $icons = arra
  */
 function register_admin_color_schemes() {
 	$suffix = is_rtl() ? '-rtl' : '';
-	$suffix .= SCRIPT_DEBUG ? '' : '.min';
+	$suffix .= defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 	wp_admin_css_color( 'fresh', _x( 'Default', 'admin color scheme' ),
 		admin_url( "css/colors$suffix.css" ),
