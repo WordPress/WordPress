@@ -2376,6 +2376,7 @@ class WP_Automatic_Updater {
 			$body[] = '';
 		}
 
+		$site_title = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
 		if ( $failures ) {
 			$body[] = __( "
 BETA TESTING?
@@ -2389,9 +2390,9 @@ If you think these failures might be due to a bug in WordPress, could you report
 
 Thanks! -- The WordPress Team" );
 
-			$subject = sprintf( __( '[%s] There were failures during background updates' ), get_bloginfo( 'name' ) );
+			$subject = sprintf( __( '[%s] There were failures during background updates' ), $site_title );
 		} else {
-			$subject = sprintf( __( '[%s] Background updates have finished' ), get_bloginfo( 'name' ) );
+			$subject = sprintf( __( '[%s] Background updates have finished' ), $site_title );
 		}
 
 		$body[] = __( 'UPDATE LOG' );
