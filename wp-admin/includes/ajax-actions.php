@@ -2250,7 +2250,8 @@ function wp_ajax_save_user_color_scheme() {
 	global $_wp_admin_css_colors;
 
 	$user_id = get_current_user_id();
-	check_ajax_referer( 'update-user_' . $user_id, 'nonce' );
+
+	check_ajax_referer( 'save-color-scheme_' . $user_id, 'nonce' );
 
 	$color_scheme = sanitize_key( $_POST['color_scheme'] );
 

@@ -7638,10 +7638,11 @@ div#custom-background-image img {
 
 .color-option {
 	display: inline-block;
-	width: 32%;
+	width: 24%;
 	padding: 5px 15px 15px;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	margin-bottom: 3px;
 }
 
 .color-option:hover,
@@ -8029,7 +8030,6 @@ body.press-this {
 }
 
 .about-wrap .about-colors .color-option {
-	width: 24%;
 	padding-top: 10px;
 }
 .about-wrap .about-colors .color-option label {

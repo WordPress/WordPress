@@ -114,7 +114,7 @@
 				$.post( ajaxurl, {
 					action:       'save-user-color-scheme',
 					color_scheme: $this.children( 'input[name="admin_color"]' ).val(),
-					nonce:        $('#_wpnonce').val()
+					nonce:        $('#color-nonce').val()
 				});
 			}
 		});

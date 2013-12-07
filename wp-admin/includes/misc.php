@@ -567,8 +567,8 @@ function admin_color_scheme_picker() {
 	ksort( $_wp_admin_css_colors );
 
 	if ( isset( $_wp_admin_css_colors['fresh'] ) ) {
-		// Set 'fresh' (the default option) to be the first array element
-		$_wp_admin_css_colors = array_merge( array( 'fresh' => '' ), $_wp_admin_css_colors );
+		// Set Default ('fresh') and Light should go first.
+		$_wp_admin_css_colors = array_merge( array( 'fresh' => '', 'light' => '' ), $_wp_admin_css_colors );
 	}
 
 	$current_color = get_user_option( 'admin_color', $user_id );
@@ -581,7 +581,7 @@ function admin_color_scheme_picker() {
 	<fieldset id="color-picker" class="scheme-list">
 		<legend class="screen-reader-text"><span><?php _e( 'Admin Color Scheme' ); ?></span></legend>
 		<?php
-
+		wp_nonce_field( 'save-color-scheme_' . $user_id, 'color-nonce', false );
 		foreach ( $_wp_admin_css_colors as $color => $color_info ) :
 
 			?>
@@ -596,7 +596,7 @@ function admin_color_scheme_picker() {
 
 					foreach ( $color_info->colors as $html_color ) {
 						?>
-						<td style="background-color: <?php echo esc_attr( $html_color ); ?>" title="<?php echo esc_attr( $color ); ?>">&nbsp;</td>
+						<td style="background-color: <?php echo esc_attr( $html_color ); ?>">&nbsp;</td>
 						<?php
 					}
 
