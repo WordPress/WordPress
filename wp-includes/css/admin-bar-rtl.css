@@ -706,12 +706,14 @@
 		height: 46px;
 		min-width: 300px;
 
+	/*	These rules break dropdown tappability on Chrome/Android.
 		-webkit-transform: translate3d(0, 0, 0);
 		-webkit-backface-visibility: hidden;
 		-webkit-transition: 0;
 		transform: translate3d(0, 0, 0);
 		backface-visibility: hidden;
 		transition: 0;
+	*/
 	}
 
 	#wpadminbar * {
