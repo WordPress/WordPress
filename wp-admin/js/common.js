@@ -188,8 +188,8 @@ $(document).ready( function() {
 			// window.innerWidth is affected by zooming on phones
 			respWidth = Math.max( window.innerWidth, document.documentElement.clientWidth );
 		} else {
-			// Exclude IE < 9, it doesn't support @media CSS rules
-			return;
+			// IE < 9 doesn't support @media CSS rules
+			respWidth = 901;
 		}
 
 		if ( respWidth && respWidth < 900 ) {
