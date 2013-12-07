@@ -1,0 +1,7 @@
+$base-color: #cf4944;
+$highlight-color: #dd823b;
+$notification-color: #ccaf0b;
+$menu-submenu-focus-text: lighten( $highlight-color, 35% );
+
+@import "../../colors.css";
+@import "../_admin.scss";

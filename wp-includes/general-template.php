@@ -2142,6 +2142,31 @@ function register_admin_color_schemes() {
 		array( '#25282b', '#363b3f', '#69a8bb', '#e14d43' ),
 		array( 'base' => '#f1f2f3', 'focus' => '#fff', 'current' => '#fff' )
 	);
+
+	wp_admin_css_color( 'sunrise', _x( 'Sunrise', 'admin color scheme' ),
+		admin_url( 'css/colors/sunrise/colors.min.css' ),
+		array( '#b43c38', '#cf4944', '#dd823b', '#ccaf0b' ), 
+		array( 'base' => '#f3f1f1', 'focus' => '#fff', 'current' => '#fff' )
+	);
+
+	wp_admin_css_color( 'ectoplasm', _x( 'Ectoplasm', 'admin color scheme' ),
+		admin_url( 'css/colors/ectoplasm/colors.min.css' ),
+		array( '#413256', '#523f6d', '#a3b745', '#d46f15' ),
+		array( 'base' => '#ece6f6', 'focus' => '#fff', 'current' => '#fff' )
+	);
+	
+	wp_admin_css_color( 'ocean', _x( 'Ocean', 'admin color scheme' ),
+		admin_url( 'css/colors/ocean/colors.min.css' ),
+		array( '#627c83', '#738e96', '#9ebaa0', '#aa9d88' ),
+		array( 'base' => '#f2fcff', 'focus' => '#fff', 'current' => '#fff' )
+	);
+
+	wp_admin_css_color( 'coffee', _x( 'Coffee', 'admin color scheme' ),
+		admin_url( 'css/colors/coffee/colors.min.css' ),
+		array( '#46403c', '#59524c', '#c7a589', '#9ea476' ),
+		array( 'base' => '#f3f2f1', 'focus' => '#fff', 'current' => '#fff' )
+	);
+
 }
 
 /**
