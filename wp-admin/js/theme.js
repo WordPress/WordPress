@@ -293,7 +293,7 @@ themes.view.Details = wp.Backbone.View.extend({
 				scroll = document.body.scrollTop;
 
 				// Clean the url structure
-				themes.router.navigate( '' );
+				themes.router.navigate( themes.router.baseUrl( '' ), { replace: true } );
 
 				// Restore scroll position
 				document.body.scrollTop = scroll;
@@ -301,28 +301,8 @@ themes.view.Details = wp.Backbone.View.extend({
 		}
 	},
 
-	// Handles arrow keys navigation for the overlay
-	// Triggers theme:next and theme:previous events
+	// Handles .disabled classes for next/previous buttons
 	navigation: function() {
-		var self = this;
-
-		$( 'body' ).on( 'keyup', function( event ) {
-
-			// Pressing the right arrow key fires a theme:next event
-			if ( event.keyCode === 39 ) {
-				self.trigger( 'theme:next', self.model.cid );
-			}
-
-			// Pressing the left arrow key fires a theme:previous event
-			if ( event.keyCode === 37 ) {
-				self.trigger( 'theme:previous', self.model.cid );
-			}
-
-			// Pressing the escape key closes the theme details panel
-			if ( event.keyCode === 27 ) {
-				self.collapse();
-			}
-		});
 
 		// Disable Left/Right when at the start or end of the collection
 		if ( this.model.cid === this.model.collection.at(0).cid ) {
@@ -377,6 +357,7 @@ themes.view.Details = wp.Backbone.View.extend({
 themes.view.Themes = wp.Backbone.View.extend({
 
 	className: 'themes',
+	$overlay: $( 'div.theme-overlay' ),
 
 	// Number to keep track of scroll position
 	// while in theme-overlay mode
@@ -406,6 +387,24 @@ themes.view.Themes = wp.Backbone.View.extend({
 
 		this.listenTo( this.parent, 'theme:scroll', function() {
 			self.renderThemes( self.parent.page );
+		});
+
+		// Bind keyboard events.
+		$('body').on( 'keyup', function( event ) {
+			// Pressing the right arrow key fires a theme:next event
+			if ( event.keyCode === 39 ) {
+				self.overlay.nextTheme();
+			}
+
+			// Pressing the left arrow key fires a theme:previous event
+			if ( event.keyCode === 37 ) {
+				self.overlay.previousTheme();
+			}
+
+			// Pressing the escape key fires a theme:collapse event
+			if ( event.keyCode === 27 ) {
+				self.overlay.collapse( event );
+			}
 		});
 	},
 
@@ -508,7 +507,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 		this.model = self.collection.get( id );
 
 		// Trigger a route update for the current model
-		themes.router.navigate( 'theme/' + this.model.id );
+		themes.router.navigate( themes.router.baseUrl( '?theme=' + this.model.id ), { replace: true } );
 
 		// Sets this.view to 'detail'
 		this.setView( 'detail' );
@@ -520,7 +519,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 		});
 
 		this.overlay.render();
-		this.$el.append( this.overlay.el );
+		this.$overlay.html( this.overlay.el );
 
 		// Bind to theme:next and theme:previous
 		// triggered by the arrow keys
@@ -558,8 +557,8 @@ themes.view.Themes = wp.Backbone.View.extend({
 			this.overlay.closeOverlay();
 
 			// Trigger a route update for the current model
-			// that renders the new theme's overlay
-			themes.router.navigate( 'theme/' + nextModel.id, { trigger: true } );
+			self.theme.trigger( 'theme:expand', nextModel.cid );
+
 		}
 	},
 
@@ -582,8 +581,8 @@ themes.view.Themes = wp.Backbone.View.extend({
 			this.overlay.closeOverlay();
 
 			// Trigger a route update for the current model
-			// that renders the new theme's overlay
-			themes.router.navigate( 'theme/' + previousModel.id, { trigger: true } );
+			self.theme.trigger( 'theme:expand', previousModel.cid );
+
 		}
 	}
 });
@@ -617,9 +616,9 @@ themes.view.Search = wp.Backbone.View.extend({
 
 		// Update the URL hash
 		if ( event.target.value ) {
-			themes.router.navigate( 'search/' + event.target.value, { replace: true } );
+			themes.router.navigate( themes.router.baseUrl( '?search=' + event.target.value ), { replace: true } );
 		} else {
-			themes.router.navigate( '' );
+			themes.router.navigate( themes.router.baseUrl( '' ), { replace: true } );
 		}
 	}
 });
@@ -628,19 +627,21 @@ themes.view.Search = wp.Backbone.View.extend({
 // Listens to [theme] and [search] params
 themes.routes = Backbone.Router.extend({
 
-	routes: {
-		'search/*query': 'search',
-		'theme/*slug': 'theme'
+	initialize: function() {
+		this.routes = _.object([
+		]);
+	},
+
+	baseUrl: function( url ) {
+		return themes.data.settings.root + url;
 	},
 
 	// Set the search input value based on url
 	search: function( query ) {
 		$( '.theme-search' ).val( query );
+		self.themes.doSearch( query );
 	}
 });
-
-// Make routes easily extendable
-_.extend( themes.routes, themes.data.settings.extraRoutes );
 
 // Execute and setup the application
 themes.Run = {
@@ -660,12 +661,24 @@ themes.Run = {
 	render: function() {
 		// Render results
 		this.view.render();
-
-		// Calls the routes functionality
 		this.routes();
 
-		// Set ups history with pushState and our root
-		Backbone.history.start({ root: themes.data.settings.root });
+		// Set the initial theme
+		if ( 'undefined' !== typeof themes.data.settings.theme && '' !== themes.data.settings.theme ){
+			this.view.view.theme.trigger( 'theme:expand', this.view.collection.findWhere( { id: themes.data.settings.theme } ) );
+		}
+
+		// Set the initial search
+		if ( 'undefined' !== typeof themes.data.settings.search && '' !== themes.data.settings.search ){
+			$( '.theme-search' ).val( themes.data.settings.search );
+			this.themes.doSearch( themes.data.settings.search );
+		}
+
+		// Start the router if browser supports History API
+		if ( window.history && window.history.pushState ) {
+			// Calls the routes functionality
+			Backbone.history.start({ pushState: true, silent: true });
+		}
 	},
 
 	routes: function() {
@@ -673,16 +686,6 @@ themes.Run = {
 		// Bind to our global thx object
 		// so that the object is available to sub-views
 		themes.router = new themes.routes();
-
-		// Handles theme details route event
-		themes.router.on( 'route:theme', function( slug ) {
-			self.view.view.expand( slug );
-		});
-
-		// Handles search route event
-		themes.router.on( 'route:search', function( query ) {
-			self.themes.doSearch( query );
-		});
 	}
 };
 

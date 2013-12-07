@@ -91,6 +91,7 @@ if ( current_user_can( 'switch_themes' ) ) {
 } else {
 	$themes = wp_prepare_themes_for_js( array( wp_get_theme() ) );
 }
+wp_reset_vars( array( 'theme', 'search' ) );
 
 wp_localize_script( 'theme', '_wpThemeSettings', array(
 	'themes'   => $themes,
@@ -98,8 +99,10 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		'canInstall'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ),
 		'installURI'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ) ? admin_url( 'theme-install.php' ) : null,
 		'confirmDelete' => __( "Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete." ),
-		'root'          => admin_url( 'themes.php' ),
-		'extraRoutes'   => '',
+		'root'          => parse_url( admin_url( 'themes.php' ), PHP_URL_PATH ),
+		'theme'         => esc_html( $theme ),
+		'search'        => esc_html( $search ),
+
 	),
  	'l10n' => array(
  		'addNew' => __( 'Add New Theme' ),
@@ -227,6 +230,7 @@ foreach ( $themes as $theme ) : ?>
 	<br class="clear" />
 	</div>
 </div>
+<div class="theme-overlay"></div>
 
 <?php
 // List broken themes, if any.
