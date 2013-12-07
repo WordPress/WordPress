@@ -19,9 +19,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 <div class="wrap about-wrap">
 
-<h1><?php printf( __( 'Welcome to WordPress&#160;%s' ), $display_version ); ?></h1>
+<h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
 
-<div class="about-text"><?php printf( __( 'Thank you for updating to WordPress %s, the most beautiful WordPress&#160;yet.' ), $display_version ); ?></div>
+<div class="about-text"><?php printf( __( 'Thank you for updating to WordPress %s, the most beautiful WordPress&nbsp;yet.' ), $display_version ); ?></div>
 
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
@@ -36,7 +36,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="changelog">
-	<h2 class="about-headline-callout"><?php echo ( 'Introducing a modern new&#160;design' ); ?></h2>
+	<h2 class="about-headline-callout"><?php echo ( 'Introducing a modern new&nbsp;design' ); ?></h2>
 	<img class="about-overview-img" src="<?php echo admin_url( 'images/about-overview.png' ); ?>" />
 	<div class="feature-section col three-col about-updates">
 		<div class="col-1">
@@ -62,7 +62,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="changelog">
 	<div class="feature-section col two-col">
 		<div>
-			<h3><?php echo ( 'WordPress on every&#160;device' ); ?></h3>
+			<h3><?php echo ( 'WordPress on every&nbsp;device' ); ?></h3>
 			<p><?php echo ( 'Whether you&#8217;re on your smartphone or tablet, your notebook or desktop, WordPress looks great on every device. Now you can update your website wherever you are.' ); ?></p>
 			<h4><?php echo ( 'High definition is here' ); ?></h4>
 			<p><?php echo ( 'WordPress is sharper than ever; vector icons mean no more blurry edges. You get the best viewing experience no matter what type of device you use.' ); ?></p>
@@ -82,10 +82,10 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p><?php echo ( 'We&#8217;ve included four color schemes so that you can pick your favorite. Choose from any of the schemes below to change it in an instant.' ); ?></p>
 			<?php $user_id = get_current_user_id(); ?>
 			<?php if ( count($_wp_admin_css_colors) > 1 && has_action('admin_color_scheme_picker') ) :?>
-				<?php 
+				<?php
 				wp_nonce_field('update-user_' . $user_id);
 				/** This action is documented in wp-admin/user-edit.php */
-				do_action( 'admin_color_scheme_picker' ); 
+				do_action( 'admin_color_scheme_picker' );
 				?>
 			<?php else : ?>
 				<img src="<?php echo admin_url( 'images/about-color-schemes.png' ); ?>" />
@@ -118,12 +118,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <hr class="flush-top">
 
 <div class="changelog">
-	<h2 class="about-headline-callout"><?php echo ( 'Twenty Fourteen, a sleek new magazine&#160;theme' ); ?></h2>
+	<h2 class="about-headline-callout"><?php echo ( 'Twenty Fourteen, a sleek new magazine&nbsp;theme' ); ?></h2>
 	<img src="<?php echo admin_url( 'images/about-twentyfourteen.png' ); ?>" />
 
 	<div class="feature-section col one-col center-col">
 		<div>
-			<h3><?php echo ( 'Turn your blog into a&#160;magazine' ); ?></h3>
+			<h3><?php echo ( 'Turn your blog into a&nbsp;magazine' ); ?></h3>
 			<p><?php echo ( 'With a striking design that does not compromise on our trademark simplicity, Twenty Fourteen is our boldest default theme. Choose a grid or a slider to display featured content on your homepage. Customize your homepage with three widget areas or change your layout with two page templates.' ); ?></p>
 			<p><?php echo ( 'Creating a magazine website with WordPress has never been easier.' ); ?></p>
 		</div>
