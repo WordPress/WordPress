@@ -339,7 +339,7 @@ themes.view.Details = wp.Backbone.View.extend({
 	// Checks if the theme screenshot is the old 300px width version
 	// and adds a corresponding class if it's true
 	screenshotCheck: function( el ) {
-		var screenshot, image, width;
+		var screenshot, image;
 
 		screenshot = el.find( '.screenshot img' );
 		image = new Image();
@@ -347,7 +347,7 @@ themes.view.Details = wp.Backbone.View.extend({
 
 		// Width check
 		if ( image.width && image.width <= 300 ) {
-		 	el.addClass( 'small-screenshot' );
+			el.addClass( 'small-screenshot' );
 		}
 	}
 });
@@ -634,12 +634,6 @@ themes.routes = Backbone.Router.extend({
 
 	baseUrl: function( url ) {
 		return themes.data.settings.root + url;
-	},
-
-	// Set the search input value based on url
-	search: function( query ) {
-		$( '.theme-search' ).val( query );
-		self.themes.doSearch( query );
 	}
 });
 
@@ -682,7 +676,6 @@ themes.Run = {
 	},
 
 	routes: function() {
-		var self = this;
 		// Bind to our global thx object
 		// so that the object is available to sub-views
 		themes.router = new themes.routes();
