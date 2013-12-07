@@ -1861,7 +1861,7 @@ form.upgrade .hint {
 }
 
 #adminmenu div.wp-menu-name {
-	padding: 8px 12px 8px 0;
+	padding: 8px 10px 8px 0;
 }
 
 #adminmenu div.wp-menu-image {
@@ -1894,7 +1894,7 @@ div.wp-menu-image:before {
 }
 
 .folded #adminmenu div.wp-menu-image {
-	width: 36px;
+	width: 35px;
 	height: 30px;
 	position: absolute;
 	z-index: 25;
