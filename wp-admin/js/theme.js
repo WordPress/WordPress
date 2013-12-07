@@ -366,7 +366,7 @@ themes.view.Details = wp.Backbone.View.extend({
 		image.src = screenshot.attr( 'src' );
 
 		// Width check
-		if ( image.width <= 300 ) {
+		if ( image.width && image.width <= 300 ) {
 		 	el.addClass( 'small-screenshot' );
 		}
 	}
