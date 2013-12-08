@@ -107,11 +107,11 @@ if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picke
 			<h3><?php echo ( 'A new theme experience' ); ?></h3>
 			<p><?php echo ( 'Finding and installing the right theme has never been easier.' ); ?></p>
 			<h4><?php echo ( 'Better browsing' ); ?></h4>
-			<p><?php echo ( 'Focus is placed on what&#8217;s important - your theme&#8217;s design. Search through your themes at a glance and add new ones with a click.' ); ?></p>
+			<p><?php echo ( 'Focus is placed on what&#8217;s important &mdash; your theme&#8217;s design. Search through your themes at a glance and add new ones with a click.' ); ?></p>
 			<h4><?php echo ( 'Dive into the details' ); ?></h4>
-			<p><?php echo ( 'If you need information about any of your themes just click to discover more. Sit back and use your keyboard&#8217;s navigation arrows to flip through every theme you&#8217;ve got.' ); ?></p>
+			<p><?php echo ( 'If you need information about any of your themes, just click to discover more. Sit back and use your keyboard&#8217;s navigation arrows to flip through every theme you&#8217;ve got.' ); ?></p>
 			<h4><?php echo ( 'Stay updated' ); ?></h4>
-			<p><?php echo ( 'You can tell in an instant if a theme needs updated and, like so many things in WordPress, updating it takes just a second.' ); ?></p>
+			<p><?php echo ( 'You can tell in an instant if a theme needs updated, and like so many things in WordPress, updating it takes just a second.' ); ?></p>
 		</div>
 		<div class="last-feature about-themes-img">
 			<img src="<?php echo admin_url( 'images/about-themes.png' ); ?>" />
