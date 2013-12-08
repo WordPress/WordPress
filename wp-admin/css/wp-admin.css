@@ -2738,8 +2738,7 @@ html.wp-toolbar {
 
 #welcome-panel.welcome-panel .welcome-panel-close::before,
 .tagchecklist span a:before,
-#bulk-titles div a:before,
-.wp-pointer-buttons a.close:before {
+#bulk-titles div a:before {
 	content: '\f153';
 	display: block !important;
 	font: normal 16px/1 'dashicons';
