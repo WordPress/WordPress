@@ -120,8 +120,12 @@
 #wpadminbar .shortlink-input {
 	height: 32px;
 	display: block;
-	padding: 0 7px 0 8px;
+	padding: 0 10px;
 	margin: 0;
+}
+
+#wpadminbar .quicklinks > ul > li > a {
+	padding: 0 7px 0 8px;
 }
 
 #wpadminbar .menupop .ab-sub-wrapper,
