@@ -2249,9 +2249,7 @@ function wp_ajax_get_revision_diffs() {
 function wp_ajax_save_user_color_scheme() {
 	global $_wp_admin_css_colors;
 
-	$user_id = get_current_user_id();
-
-	check_ajax_referer( 'save-color-scheme_' . $user_id, 'nonce' );
+	check_ajax_referer( 'save-color-scheme', 'nonce' );
 
 	$color_scheme = sanitize_key( $_POST['color_scheme'] );
 
@@ -2259,6 +2257,6 @@ function wp_ajax_save_user_color_scheme() {
 		wp_send_json_error();
 	}
 
-	update_user_meta( $user_id, 'admin_color', $color_scheme );
+	update_user_meta( get_current_user_id(), 'admin_color', $color_scheme );
 	wp_send_json_success();
 }

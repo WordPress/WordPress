@@ -562,7 +562,7 @@ function saveDomDocument($doc, $filename) {
  * @since 3.0.0
  */
 function admin_color_scheme_picker() {
-	global $_wp_admin_css_colors, $user_id;
+	global $_wp_admin_css_colors;
 
 	ksort( $_wp_admin_css_colors );
 
@@ -571,7 +571,7 @@ function admin_color_scheme_picker() {
 		$_wp_admin_css_colors = array_merge( array( 'fresh' => '', 'light' => '' ), $_wp_admin_css_colors );
 	}
 
-	$current_color = get_user_option( 'admin_color', $user_id );
+	$current_color = get_user_option( 'admin_color' );
 
 	if ( empty( $current_color ) || ! isset( $_wp_admin_css_colors[ $current_color ] ) ) {
 		$current_color = 'fresh';
@@ -581,7 +581,7 @@ function admin_color_scheme_picker() {
 	<fieldset id="color-picker" class="scheme-list">
 		<legend class="screen-reader-text"><span><?php _e( 'Admin Color Scheme' ); ?></span></legend>
 		<?php
-		wp_nonce_field( 'save-color-scheme_' . $user_id, 'color-nonce', false );
+		wp_nonce_field( 'save-color-scheme', 'color-nonce', false );
 		foreach ( $_wp_admin_css_colors as $color => $color_info ) :
 
 			?>
