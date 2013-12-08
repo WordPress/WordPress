@@ -7886,8 +7886,8 @@ body.press-this {
 }
 
 .about-wrap .changelog h2.about-headline-callout {
-	margin: 1.25em 0 0.25em;
-	font-size: 2.2em;
+	margin: 1.1em 0 0.2em;
+	font-size: 2.4em;
 	font-weight: 300;
 	line-height: 1.3;
 	text-align: center;
@@ -8028,11 +8028,16 @@ body.press-this {
 	margin-left: 0;
 }
 
-.about-wrap .about-updates img {
+.about-wrap .about-updates img,
+.about-wrap .about-twentyfourteen img {
 	margin: 2em 0 0 0;
 	border: 1px solid #ddd;
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.about-wrap .about-twentyfourteen img {
+	margin-top: 1em;
 }
 
 .about-wrap .changelog .feature-section {

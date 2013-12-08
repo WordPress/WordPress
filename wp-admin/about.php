@@ -121,9 +121,9 @@ if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picke
 
 <hr>
 
-<div class="changelog">
+<div class="changelog about-twentyfourteen">
 	<h2 class="about-headline-callout"><?php echo ( 'Twenty Fourteen, a sleek new magazine&nbsp;theme' ); ?></h2>
-	<img src="<?php echo admin_url( 'images/about-twentyfourteen.png' ); ?>" />
+	<img src="<?php echo admin_url( 'images/about-twentyfourteen.jpg' ); ?>" />
 
 	<div class="feature-section col one-col center-col">
 		<div>
