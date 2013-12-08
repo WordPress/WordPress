@@ -928,24 +928,9 @@
 		margin-bottom: -2px;
 	}
 
-	/* Hide all third party items */
-	#wpadminbar li {
+	/* Show only default top level items */
+	#wp-toolbar > ul > li {
 		display: none;
-	}
-	
-	/* Allow dropdown list items to appear normally */
-	#wpadminbar li:hover ul li,
-	#wpadminbar li:hover ul li:hover ul li {
-		display: list-item;
-	}
-	
-	/* Override default min-width so dropdown lists aren't stretched
-		to 100% viewport width at responsive sizes. */
-	#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper {
-		min-width: intrinsic;
-		min-width: -webkit-fit-content;
-		min-width: -moz-fit-content;
-		min-width: fit-content;
 	}
 
 	#wpadminbar li#wp-admin-bar-menu-toggle,
@@ -959,6 +944,22 @@
 	#wpadminbar li#wp-admin-bar-new-content,
 	#wpadminbar li#wp-admin-bar-my-account {
 		display: block;
+	}
+
+	/* Allow dropdown list items to appear normally */
+	#wpadminbar li:hover ul li,
+	#wpadminbar li.hover ul li,
+	#wpadminbar li:hover ul li:hover ul li {
+		display: list-item;
+	}
+	
+	/* Override default min-width so dropdown lists aren't stretched
+		to 100% viewport width at responsive sizes. */
+	#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper {
+		min-width: intrinsic;
+		min-width: -webkit-fit-content;
+		min-width: -moz-fit-content;
+		min-width: fit-content;
 	}
 
 	#wpadminbar ul#wp-admin-bar-root-default > li {
