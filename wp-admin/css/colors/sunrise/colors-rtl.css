@@ -281,6 +281,11 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
   -webkit-box-shadow: inset 0 1px 0 #e8ab7c, 0 1px 0 rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 1px 0 #e8ab7c, 0 1px 0 rgba(0, 0, 0, 0.15); }
 
+/* Thickbox: Install Plugins */
+#sidemenu a.current {
+  background: #f3f3f3;
+  border-bottom-color: #f3f3f3; }
+
 /* Responsive Component */
 div#wp-responsive-toggle a:before {
   color: #f3f1f1; }
