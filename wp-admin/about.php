@@ -75,26 +75,28 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <hr>
 
+<?php
+global $_wp_admin_css_colors;
+$new_colors = array( 'fresh', 'light', 'blue', 'midnight', 'sunrise', 'ectoplasm', 'ocean', 'coffee' );
+$_wp_admin_css_colors = array_intersect_key( $_wp_admin_css_colors, array_fill_keys( $new_colors, true ) );
+
+if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picker' ) ) : ?>
 <div class="changelog about-colors">
 	<div class="feature-section col one-col">
 		<div>
 			<h3><?php echo ( 'Pick a color' ); ?></h3>
-			<p><?php echo ( 'We&#8217;ve included eight color schemes so you can pick your favorite. Choose from any of them below to change it in an instant.' ); ?></p>
-			<?php $user_id = get_current_user_id(); ?>
-			<?php if ( count($_wp_admin_css_colors) > 1 && has_action('admin_color_scheme_picker') ) :?>
+			<p><?php echo ( 'We&#8217;ve included eight color schemes so you can pick your favorite. Choose from any of them below to change it in an instant.' ); ?>
 				<?php
 				/** This action is documented in wp-admin/user-edit.php */
 				do_action( 'admin_color_scheme_picker' );
 				?>
-			<?php else : ?>
-				<img src="<?php echo admin_url( 'images/about-color-schemes.png' ); ?>" />
-			<?php endif; ?>
-			<p><?php printf( ( 'To change your color scheme later, just <a href="%1$s">visit your profile</a>.' ), get_edit_profile_url( $user_id ) ); ?></p>
+			<p><?php printf( ( 'To change your color scheme later, just <a href="%1$s">visit your profile</a>.' ), get_edit_profile_url( get_current_user_id() ) ); ?></p>
 		</div>
 	</div>
 </div>
 
 <hr>
+<?php endif; ?>
 
 <div class="changelog">
 	<div class="feature-section col two-col">
