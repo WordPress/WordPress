@@ -324,7 +324,7 @@
 					scrolling = Math.abs( accDx ) < Math.abs( -transY );
 
 					if ( e.detail === e.MSGESTURE_FLAG_INERTIA ) {
-						setImmediate( function () {  // MSFT specific.
+						setImmediate( function () { // MSFT specific.
 							el._gesture.stop();
 						} );
 

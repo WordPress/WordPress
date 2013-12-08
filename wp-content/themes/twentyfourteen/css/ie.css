@@ -571,7 +571,7 @@ a.post-thumbnail:hover {
 	width: calc(100% + 60px);
 }
 
-.ie8 .secondary-navigation  li {
+.ie8 .secondary-navigation li {
 	border-top: 1px solid #4d4d4d;
 	position: relative;
 }
@@ -589,7 +589,7 @@ a.post-thumbnail:hover {
 	z-index: 99999;
 }
 
-.ie8 .secondary-navigation  li li {
+.ie8 .secondary-navigation li li {
 	border-top: 0;
 }
 
@@ -822,7 +822,7 @@ a.post-thumbnail:hover {
 }
 
 .ie8 .slider-control-paging li {
-	margin: 12px 12px 12px 0
+	margin: 12px 12px 12px 0;
 }
 
 .ie8 .slider-control-paging a {
