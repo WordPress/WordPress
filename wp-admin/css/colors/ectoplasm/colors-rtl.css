@@ -281,10 +281,13 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
   -webkit-box-shadow: inset 0 1px 0 #c0cd7b, 0 1px 0 rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 1px 0 #c0cd7b, 0 1px 0 rgba(0, 0, 0, 0.15); }
 
-/* Thickbox: Install Plugins */
+/* Thickbox: Plugin information */
 #sidemenu a.current {
   background: #f3f3f3;
   border-bottom-color: #f3f3f3; }
+
+#plugin-information .action-button {
+  background: #a3b745; }
 
 /* Responsive Component */
 div#wp-responsive-toggle a:before {
