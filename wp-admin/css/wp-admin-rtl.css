@@ -3298,7 +3298,7 @@ form.initial-form.quickpress-open input#title {
 }
 
 #activity-widget #the-comment-list .comment {
-	background: #f5f5f5;
+	background: #fafafa;
 	padding: 12px;
 	position: relative;
 }
@@ -7845,7 +7845,8 @@ body.press-this {
 .about-wrap hr {
 	border: 0;
 	height: 0;
-	border-top: 1px solid rgba(0, 0, 0, 0.05);
+	margin: 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .about-wrap img {
@@ -7924,13 +7925,8 @@ body.press-this {
 }
 
 .about-wrap .about-overview-img {
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	margin: 0;
-}
-
-.about-wrap hr.flush-top {
-	margin-top: 0;
-	border-top: 1px solid #ccc;
 }
 
 .about-colors-img img,

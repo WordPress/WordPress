@@ -4,7 +4,7 @@
  * highlights/shadows, based on a base color.
  */
 html {
-  background: #eeeeee; }
+  background: #f3f3f3; }
 
 /* Links */
 a {
@@ -108,6 +108,10 @@ strong .post-com-count span {
 #adminmenu li.menu-top:hover div.wp-menu-image:before, #adminmenu li.opensub > a.menu-top div.wp-menu-image:before {
   color: white; }
 
+/* Active tabs use a bottom border color that matches the page background color. */
+.about-wrap h2 .nav-tab-active, .nav-tab-active, .nav-tab-active:hover {
+  border-bottom-color: #f3f3f3; }
+
 /* Admin Menu: submenu */
 #adminmenu .wp-submenu, #adminmenu .wp-has-current-submenu .wp-submenu, #adminmenu .wp-has-current-submenu.opensub .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu, #adminmenu a.wp-has-current-submenu:focus + .wp-submenu {
   background: #be3631; }
@@ -130,7 +134,7 @@ strong .post-com-count span {
     color: #f7e3d3; }
 
 ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.current:after {
-  border-right-color: #eeeeee; }
+  border-right-color: #f3f3f3; }
 
 #adminmenu li.current a.menu-top, #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu, #adminmenu li.wp-has-current-submenu .wp-submenu .wp-submenu-head, .folded #adminmenu li.current.menu-top {
   color: white;

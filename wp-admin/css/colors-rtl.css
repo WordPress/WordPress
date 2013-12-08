@@ -17,7 +17,7 @@ TABLE OF CONTENTS:
 ------------------------------------------------------------------------------*/
 
 html {
-	background: #eee;
+	background: #f3f3f3;
 }
 
 /* Checkbooms */
@@ -114,7 +114,7 @@ input[type=radio]:checked:before {
 
 ul#adminmenu a.wp-has-current-submenu:after,
 ul#adminmenu > li.current > a.current:after {
-	border-left-color: #eee;
+	border-left-color: #f3f3f3;
 }
 
 .row-actions {
@@ -1760,7 +1760,7 @@ div.widgets-sortables,
 	color: #000;
 	background: none;
 	border-color: #ccc;
-	border-bottom-color: #eee;
+	border-bottom-color: #f3f3f3;
 }
 
 h2.nav-tab-wrapper, h3.nav-tab-wrapper {
@@ -1789,7 +1789,7 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 
 .about-wrap h2 .nav-tab-active {
 	border-color: #ccc;
-	border-bottom-color: #eee;
+	border-bottom-color: #f3f3f3;
 }
 
 .about-wrap h2,
@@ -1964,7 +1964,7 @@ a .mceIcon:hover {
 }
 
 body.login {
-	background: #eee;
+	background: #f3f3f3;
 }
 
 .login #nav a,

@@ -108,6 +108,10 @@ strong .post-com-count span {
 #adminmenu li.menu-top:hover div.wp-menu-image:before, #adminmenu li.opensub > a.menu-top div.wp-menu-image:before {
   color: #cccccc; }
 
+/* Active tabs use a bottom border color that matches the page background color. */
+.about-wrap h2 .nav-tab-active, .nav-tab-active, .nav-tab-active:hover {
+  border-bottom-color: whitesmoke; }
+
 /* Admin Menu: submenu */
 #adminmenu .wp-submenu, #adminmenu .wp-has-current-submenu .wp-submenu, #adminmenu .wp-has-current-submenu.opensub .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu, #adminmenu a.wp-has-current-submenu:focus + .wp-submenu {
   background: white; }
