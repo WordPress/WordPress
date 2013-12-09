@@ -390,6 +390,10 @@ themes.view.Themes = wp.Backbone.View.extend({
 
 		// Bind keyboard events.
 		$('body').on( 'keyup', function( event ) {
+			if ( ! self.overlay ) {
+				return;
+			}
+
 			// Pressing the right arrow key fires a theme:next event
 			if ( event.keyCode === 39 ) {
 				self.overlay.nextTheme();
