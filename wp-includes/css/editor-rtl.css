@@ -99,6 +99,180 @@
 	background: url("../js/tinymce/themes/advanced/img/icons.gif") no-repeat 20px 20px;
 }
 
+/* No @font-face support */
+.no-font-face .wp_themeSkin span.mce_undo,
+.no-font-face .wp_themeSkin span.mce_redo,
+.no-font-face .wp_themeSkin span.mce_bullist,
+.no-font-face .wp_themeSkin span.mce_numlist,
+.no-font-face .wp_themeSkin span.mce_blockquote,
+.no-font-face .wp_themeSkin span.mce_charmap,
+.no-font-face .wp_themeSkin span.mce_bold,
+.no-font-face .wp_themeSkin span.mce_italic,
+.no-font-face .wp_themeSkin span.mce_underline,
+.no-font-face .wp_themeSkin span.mce_justifyleft,
+.no-font-face .wp_themeSkin span.mce_justifyright,
+.no-font-face .wp_themeSkin span.mce_justifycenter,
+.no-font-face .wp_themeSkin span.mce_justifyfull,
+.no-font-face .wp_themeSkin span.mce_indent,
+.no-font-face .wp_themeSkin span.mce_outdent,
+.no-font-face .wp_themeSkin span.mce_link,
+.no-font-face .wp_themeSkin span.mce_unlink,
+.no-font-face .wp_themeSkin span.mce_help,
+.no-font-face .wp_themeSkin span.mce_removeformat,
+.no-font-face .wp_themeSkin span.mce_fullscreen,
+.no-font-face .wp_themeSkin span.mce_wp_fullscreen,
+.no-font-face .wp_themeSkin span.mce_media,
+.no-font-face .wp_themeSkin span.mce_pastetext,
+.no-font-face .wp_themeSkin span.mce_pasteword,
+.no-font-face .wp_themeSkin span.mce_wp_help,
+.no-font-face .wp_themeSkin span.mce_wp_adv,
+.no-font-face .wp_themeSkin span.mce_wp_more,
+.no-font-face .wp_themeSkin span.mce_strikethrough,
+.no-font-face .wp_themeSkin span.mce_spellchecker,
+.no-font-face .wp_themeSkin span.mce_forecolor,
+.no-font-face .wp_themeSkin .mce_forecolorpicker,
+.no-font-face .wp_themeSkin .mceSplitButton .mce_spellchecker span.mce_spellchecker,
+.no-font-face .wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor,
+.no-font-face .wp_themeSkin .mceSplitButton span.mce_numlist,
+.no-font-face .wp_themeSkin .mceSplitButton span.mce_bullist {
+	-moz-transition: none;
+	-webkit-transition: none;
+	transition: none;
+	background-image: url('../images/wpicons.png?ver=20120720');
+}
+
+/* Theme */
+.no-font-face .wp_themeSkin span.mce_undo {background-position:-500px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_undo,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_undo {background-position:-500px 0}
+
+.no-font-face .wp_themeSkin span.mce_redo {background-position:-480px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_redo,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_redo {background-position:-480px 0}
+
+.no-font-face .wp_themeSkin span.mce_bullist {background-position:-40px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_bullist,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_bullist,
+.no-font-face .wp_themeSkin .mceSplitButton:hover span.mce_bullist {background-position:-40px 0}
+
+.no-font-face .wp_themeSkin span.mce_numlist {background-position:-60px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_numlist,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_numlist,
+.no-font-face .wp_themeSkin .mceSplitButton:hover span.mce_numlist {background-position:-60px 0}
+
+.no-font-face .wp_themeSkin span.mce_blockquote {background-position:-80px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_blockquote,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_blockquote {background-position:-80px 0}
+
+.no-font-face .wp_themeSkin span.mce_charmap {background-position:-420px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_charmap,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_charmap {background-position:-420px 0}
+
+.no-font-face .wp_themeSkin span.mce_bold {background-position:0 -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_bold,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_bold {background-position:0 0}
+
+.no-font-face .wp_themeSkin span.mce_italic {background-position:-20px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_italic,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_italic {background-position:-20px 0}
+
+.no-font-face .wp_themeSkin span.mce_underline {background-position:-280px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_underline,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_underline {background-position:-280px 0}
+
+.no-font-face .wp_themeSkin span.mce_justifyleft {background-position:-100px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_justifyleft,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_justifyleft {background-position:-100px 0}
+
+.no-font-face .wp_themeSkin span.mce_justifyright {background-position:-140px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_justifyright,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_justifyright {background-position:-140px 0}
+
+.no-font-face .wp_themeSkin span.mce_justifycenter {background-position:-120px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_justifycenter,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_justifycenter {background-position:-120px 0}
+
+.no-font-face .wp_themeSkin span.mce_justifyfull {background-position:-300px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_justifyfull,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_justifyfull {background-position:-300px 0}
+
+.no-font-face .wp_themeSkin span.mce_indent {background-position:-460px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_indent,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_indent {background-position:-460px 0}
+
+.no-font-face .wp_themeSkin span.mce_outdent {background-position:-440px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_outdent,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_outdent {background-position:-440px 0}
+
+.no-font-face .wp_themeSkin span.mce_link {background-position:-160px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_link,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_link {background-position:-160px 0}
+
+.no-font-face .wp_themeSkin span.mce_unlink {background-position:-180px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_unlink,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_unlink {background-position:-180px 0}
+
+.no-font-face .wp_themeSkin span.mce_help {background-position:-520px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_help,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_help {background-position:-520px 0}
+
+.no-font-face .wp_themeSkin span.mce_removeformat {background-position:-380px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_removeformat,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_removeformat {background-position:-380px 0}
+
+.no-font-face .wp_themeSkin span.mce_strikethrough {background-position:-540px -20px;}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_strikethrough,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_strikethrough {background-position:-540px 0}
+
+.no-font-face .wp_themeSkin .mceSplitButton .mce_forecolor span.mce_forecolor {background-position:-320px -20px}
+.no-font-face .wp_themeSkin .mceSplitButtonEnabled:hover span.mce_forecolor,
+.no-font-face .wp_themeSkin .mceSplitButtonSelected span.mce_forecolor {background-position:-320px 0}
+
+.no-font-face .wp_themeSkin .mce_forecolorpicker {background-position:-320px -20px}
+
+/* Plugins in WP */
+.no-font-face .wp_themeSkin span.mce_fullscreen {background-position:-240px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_fullscreen,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_fullscreen {background-position:-240px 0}
+
+.no-font-face .wp_themeSkin span.mce_wp_fullscreen {background-position:-240px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_wp_fullscreen,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_wp_fullscreen {background-position:-240px 0}
+
+.no-font-face .wp_themeSkin span.mce_media {background-position:-400px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_media,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_media {background-position:-400px 0}
+
+.no-font-face .wp_themeSkin span.mce_pastetext {background-position:-340px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_pastetext,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_pastetext {background-position:-340px 0}
+
+.no-font-face .wp_themeSkin span.mce_pasteword {background-position:-360px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_pasteword,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_pasteword {background-position:-360px 0}
+
+.no-font-face .wp_themeSkin span.mce_spellchecker {background-position:-220px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_spellchecker,
+.no-font-face .wp_themeSkin .mceSplitButtonEnabled:hover span.mce_spellchecker,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_spellchecker,
+.no-font-face .wp_themeSkin .mceSplitButtonSelected span.mce_spellchecker {background-position:-220px 0}
+
+.no-font-face .wp_themeSkin span.mce_wp_help {background-position:-520px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_wp_help,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_wp_help {background-position:-520px 0}
+
+.no-font-face .wp_themeSkin span.mce_wp_adv {background-position:-260px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_wp_adv,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_wp_adv {background-position:-260px 0}
+
+.no-font-face .wp_themeSkin span.mce_wp_more {background-position:-200px -20px}
+.no-font-face .wp_themeSkin .mceButtonEnabled:hover span.mce_wp_more,
+.no-font-face .wp_themeSkin .mceButtonActive span.mce_wp_more {background-position:-200px 0}
+
+.no-font-face .mceIcon:before {
+	display: none !important;
+}
+/* End no @font-face */
 
 /* Containers */
 .wp_themeSkin table {}
