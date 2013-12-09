@@ -153,6 +153,15 @@ class WP_Embed {
 			foreach ( $handlers as $id => $handler ) {
 				if ( preg_match( $handler['regex'], $url, $matches ) && is_callable( $handler['callback'] ) ) {
 					if ( false !== $return = call_user_func( $handler['callback'], $matches, $attr, $url, $rawattr ) )
+						/**
+						 * Filter the returned embed handler.
+						 *
+						 * @since 2.9.0
+						 *
+						 * @param mixed  $return The shortcode callback function to call.
+						 * @param string $url    The attempted embed URL.
+						 * @param array  $attr   An array of shortcode attributes.
+						 */
 						return apply_filters( 'embed_handler_html', $return, $url, $attr );
 				}
 			}
@@ -175,11 +184,29 @@ class WP_Embed {
 					return $this->maybe_make_link( $url );
 
 				if ( ! empty( $cache ) )
+					/**
+					 * Filter the cached oEmbed HTML.
+					 *
+					 * @since 2.9.0
+					 *
+					 * @param mixed  $cache   The cached HTML result, stored in post meta.
+					 * @param string $url     The attempted embed URL.
+					 * @param array  $attr    An array of shortcode attributes.
+					 * @param int    $post_ID Post ID.
+					 */
 					return apply_filters( 'embed_oembed_html', $cache, $url, $attr, $post_ID );
 			}
 
+			/**
+			 * Filter whether to inspect the given URL for discoverable <link> tags.
+			 *
+			 * @see WP_oEmbed::discover()
+			 *
+			 * @param bool false Whether to enable <link> tag discovery. Default false.
+			 */
+			$attr['discover'] = ( apply_filters( 'embed_oembed_discover', false ) && author_can( $post_ID, 'unfiltered_html' ) );
+
 			// Use oEmbed to get the HTML
-			$attr['discover'] = ( apply_filters('embed_oembed_discover', false) && author_can( $post_ID, 'unfiltered_html' ) );
 			$html = wp_oembed_get( $url, $attr );
 
 			// Cache the result
@@ -187,8 +214,10 @@ class WP_Embed {
 			update_post_meta( $post_ID, $cachekey, $cache );
 
 			// If there was a result, return it
-			if ( $html )
+			if ( $html ) {
+				/** This filter is documented in wp-includes/class-wp-embed.php */
 				return apply_filters( 'embed_oembed_html', $html, $url, $attr, $post_ID );
+			}
 		}
 
 		// Still unknown
@@ -219,7 +248,15 @@ class WP_Embed {
 	function cache_oembed( $post_ID ) {
 		$post = get_post( $post_ID );
 
-		if ( empty($post->ID) || !in_array( $post->post_type, apply_filters( 'embed_cache_oembed_types', array( 'post', 'page' ) ) ) )
+		$post_types = array( 'post', 'page' );
+		/**
+		 * Filter the array of post types to cache oEmbed results for.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array $post_types Array of post types to cache oEmbed results for. Default 'post', 'page'.
+		 */
+		if ( empty($post->ID) || !in_array( $post->post_type, apply_filters( 'embed_cache_oembed_types', $post_types ) ) )
 			return;
 
 		// Trigger a caching
@@ -271,6 +308,15 @@ class WP_Embed {
 	 */
 	function maybe_make_link( $url ) {
 		$output = ( $this->linkifunknown ) ? '<a href="' . esc_url($url) . '">' . esc_html($url) . '</a>' : $url;
+
+		/**
+		 * Filter the returned, maybe-linked embed URL.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $output The linked or original URL.
+		 * @param string $url    The original URL.
+		 */
 		return apply_filters( 'embed_maybe_make_link', $output, $url );
 	}
 }

@@ -114,6 +114,16 @@ class WP_Themes_List_Table extends WP_List_Table {
 		return array();
 	}
 
+	function display_rows_or_placeholder() {
+		if ( $this->has_items() ) {
+			$this->display_rows();
+		} else {
+			echo '<div class="no-items">';
+			$this->no_items();
+			echo '</div>';
+		}
+	}
+
 	function display_rows() {
 		$themes = $this->items;
 
@@ -149,6 +159,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 					. "' );" . '">' . __( 'Delete' ) . '</a>';
 
 			$actions       = apply_filters( 'theme_action_links', $actions, $theme );
+			$actions       = apply_filters( "theme_action_links_$stylesheet", $actions, $theme );
 			$delete_action = isset( $actions['delete'] ) ? '<div class="delete-theme">' . $actions['delete'] . '</div>' : '';
 			unset( $actions['delete'] );
 

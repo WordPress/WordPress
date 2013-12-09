@@ -338,7 +338,18 @@ function shortcode_atts( $pairs, $atts, $shortcode = '' ) {
 		else
 			$out[$name] = $default;
 	}
-
+	/**
+	 * Filter a shortcode's default attributes.
+	 *
+	 * If the third parameter of the shortcode_atts() function is present then this filter is available.
+	 * The third parameter, $shortcode, is the name of the shortcode.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param array $out The output array of shortcode attributes.
+	 * @param array $pairs The supported attributes and their defaults.
+	 * @param array $atts The user defined shortcode attributes.
+	 */
 	if ( $shortcode )
 		$out = apply_filters( "shortcode_atts_{$shortcode}", $out, $pairs, $atts );
 

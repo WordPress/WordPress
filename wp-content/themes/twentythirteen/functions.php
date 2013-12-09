@@ -1,6 +1,6 @@
 <?php
 /**
- * Twenty Thirteen functions and definitions.
+ * Twenty Thirteen functions and definitions
  *
  * Sets up the theme and provides some helper functions, which are used in the
  * theme as custom template tags. Others are attached to action and filter
@@ -16,23 +16,23 @@
  * Functions that are not pluggable (not wrapped in function_exists()) are
  * instead attached to a filter or action hook.
  *
- * For more information on hooks, actions, and filters,
- * see http://codex.wordpress.org/Plugin_API
+ * For more information on hooks, actions, and filters, @link http://codex.wordpress.org/Plugin_API
  *
  * @package WordPress
  * @subpackage Twenty_Thirteen
  * @since Twenty Thirteen 1.0
  */
 
-/**
- * Sets up the content width value based on the theme's design.
+/*
+ * Set up the content width value based on the theme's design.
+ *
  * @see twentythirteen_content_width() for template-specific adjustments.
  */
 if ( ! isset( $content_width ) )
 	$content_width = 604;
 
 /**
- * Adds support for a custom header image.
+ * Add support for a custom header image.
  */
 require get_template_directory() . '/inc/custom-header.php';
 
@@ -43,6 +43,8 @@ if ( version_compare( $GLOBALS['wp_version'], '3.6-alpha', '<' ) )
 	require get_template_directory() . '/inc/back-compat.php';
 
 /**
+ * Twenty Thirteen setup.
+ *
  * Sets up theme defaults and registers the various WordPress features that
  * Twenty Thirteen supports.
  *
@@ -77,8 +79,10 @@ function twentythirteen_setup() {
 	// Adds RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
 
-	// Switches default core markup for search form, comment form, and comments
-	// to output valid HTML5.
+	/*
+	 * Switches default core markup for search form, comment form,
+	 * and comments to output valid HTML5.
+	 */
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list' ) );
 
 	/*
@@ -105,7 +109,7 @@ function twentythirteen_setup() {
 add_action( 'after_setup_theme', 'twentythirteen_setup' );
 
 /**
- * Returns the Google font stylesheet URL, if available.
+ * Return the Google font stylesheet URL, if available.
  *
  * The use of Source Sans Pro and Bitter by default is localized. For languages
  * that use characters not supported by the font, the font can be disabled.
@@ -149,15 +153,17 @@ function twentythirteen_fonts_url() {
 }
 
 /**
- * Enqueues scripts and styles for front end.
+ * Enqueue scripts and styles for the front end.
  *
  * @since Twenty Thirteen 1.0
  *
  * @return void
  */
 function twentythirteen_scripts_styles() {
-	// Adds JavaScript to pages with the comment form to support sites with
-	// threaded comments (when in use).
+	/*
+	 * Adds JavaScript to pages with the comment form to support
+	 * sites with threaded comments (when in use).
+	 */
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
 		wp_enqueue_script( 'comment-reply' );
 
@@ -168,7 +174,7 @@ function twentythirteen_scripts_styles() {
 	// Loads JavaScript file with functionality specific to Twenty Thirteen.
 	wp_enqueue_script( 'twentythirteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '2013-07-18', true );
 
-	// Add Open Sans and Bitter fonts, used in the main stylesheet.
+	// Add Source Sans Pro and Bitter fonts, used in the main stylesheet.
 	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), null );
 
 	// Add Genericons font, used in the main stylesheet.
@@ -184,13 +190,15 @@ function twentythirteen_scripts_styles() {
 add_action( 'wp_enqueue_scripts', 'twentythirteen_scripts_styles' );
 
 /**
+ * Filter the page title.
+ *
  * Creates a nicely formatted and more specific title element text for output
  * in head of document, based on current view.
  *
  * @since Twenty Thirteen 1.0
  *
  * @param string $title Default title text for current view.
- * @param string $sep Optional separator.
+ * @param string $sep   Optional separator.
  * @return string The filtered title.
  */
 function twentythirteen_wp_title( $title, $sep ) {
@@ -216,7 +224,7 @@ function twentythirteen_wp_title( $title, $sep ) {
 add_filter( 'wp_title', 'twentythirteen_wp_title', 10, 2 );
 
 /**
- * Registers two widget areas.
+ * Register two widget areas.
  *
  * @since Twenty Thirteen 1.0
  *
@@ -247,7 +255,7 @@ add_action( 'widgets_init', 'twentythirteen_widgets_init' );
 
 if ( ! function_exists( 'twentythirteen_paging_nav' ) ) :
 /**
- * Displays navigation to next/previous set of posts when applicable.
+ * Display navigation to next/previous set of posts when applicable.
  *
  * @since Twenty Thirteen 1.0
  *
@@ -280,7 +288,7 @@ endif;
 
 if ( ! function_exists( 'twentythirteen_post_nav' ) ) :
 /**
- * Displays navigation to next/previous post when applicable.
+ * Display navigation to next/previous post when applicable.
 *
 * @since Twenty Thirteen 1.0
 *
@@ -311,7 +319,7 @@ endif;
 
 if ( ! function_exists( 'twentythirteen_entry_meta' ) ) :
 /**
- * Prints HTML with meta information for current post: categories, tags, permalink, author, and date.
+ * Print HTML with meta information for current post: categories, tags, permalink, author, and date.
  *
  * Create your own twentythirteen_entry_meta() to override in a child theme.
  *
@@ -351,13 +359,13 @@ endif;
 
 if ( ! function_exists( 'twentythirteen_entry_date' ) ) :
 /**
- * Prints HTML with date information for current post.
+ * Print HTML with date information for current post.
  *
  * Create your own twentythirteen_entry_date() to override in a child theme.
  *
  * @since Twenty Thirteen 1.0
  *
- * @param boolean $echo Whether to echo the date. Default true.
+ * @param boolean $echo (optional) Whether to echo the date. Default true.
  * @return string The HTML-formatted post date.
  */
 function twentythirteen_entry_date( $echo = true ) {
@@ -382,18 +390,28 @@ endif;
 
 if ( ! function_exists( 'twentythirteen_the_attached_image' ) ) :
 /**
- * Prints the attached image with a link to the next attached image.
+ * Print the attached image with a link to the next attached image.
  *
  * @since Twenty Thirteen 1.0
  *
  * @return void
  */
 function twentythirteen_the_attached_image() {
-	$post                = get_post();
+	/**
+	 * Filter the image attachment size to use.
+	 *
+	 * @since Twenty thirteen 1.0
+	 *
+	 * @param array $size {
+	 *     @type int The attachment height in pixels.
+	 *     @type int The attachment width in pixels.
+	 * }
+	 */
 	$attachment_size     = apply_filters( 'twentythirteen_attachment_size', array( 724, 724 ) );
 	$next_attachment_url = wp_get_attachment_url();
+	$post                = get_post();
 
-	/**
+	/*
 	 * Grab the IDs of all the image attachments in a gallery so we can get the URL
 	 * of the next adjacent image in a gallery, or the first image (if we're
 	 * looking at the last image in a gallery), or, in a gallery of one, just the
@@ -437,7 +455,7 @@ function twentythirteen_the_attached_image() {
 endif;
 
 /**
- * Returns the URL from the post.
+ * Return the post URL.
  *
  * @uses get_url_in_content() to get the URL in the post meta (if it exists) or
  * the first link found in the post content.
@@ -456,7 +474,7 @@ function twentythirteen_get_link_url() {
 }
 
 /**
- * Extends the default WordPress body classes.
+ * Extend the default WordPress body classes.
  *
  * Adds body classes to denote:
  * 1. Single or multiple authors.
@@ -483,7 +501,7 @@ function twentythirteen_body_class( $classes ) {
 add_filter( 'body_class', 'twentythirteen_body_class' );
 
 /**
- * Adjusts content_width value for video post formats and attachment templates.
+ * Adjust content_width value for video post formats and attachment templates.
  *
  * @since Twenty Thirteen 1.0
  *
@@ -515,10 +533,14 @@ function twentythirteen_customize_register( $wp_customize ) {
 add_action( 'customize_register', 'twentythirteen_customize_register' );
 
 /**
- * Binds JavaScript handlers to make Customizer preview reload changes
- * asynchronously.
+ * Enqueue Javascript postMessage handlers for the Customizer.
+ *
+ * Binds JavaScript handlers to make the Customizer preview
+ * reload changes asynchronously.
  *
  * @since Twenty Thirteen 1.0
+ *
+ * @return void
  */
 function twentythirteen_customize_preview_js() {
 	wp_enqueue_script( 'twentythirteen-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20130226', true );

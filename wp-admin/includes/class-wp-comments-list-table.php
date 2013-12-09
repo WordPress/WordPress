@@ -52,6 +52,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		$search = ( isset( $_REQUEST['s'] ) ) ? $_REQUEST['s'] : '';
 
+		$post_type = ( isset( $_REQUEST['post_type'] ) ) ? sanitize_key( $_REQUEST['post_type'] ) : '';
+
 		$user_id = ( isset( $_REQUEST['user_id'] ) ) ? $_REQUEST['user_id'] : '';
 
 		$orderby = ( isset( $_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : '';
@@ -96,6 +98,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			'type' => $comment_type,
 			'orderby' => $orderby,
 			'order' => $order,
+			'post_type' => $post_type,
 		);
 
 		$_comments = get_comments( $args );

@@ -101,6 +101,20 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			}
 		}
 
+		if ( get_query_var( 'day' ) && get_query_var( 'monthnum' ) && get_query_var( 'year' ) ) {
+			$year  = get_query_var( 'year' );
+			$month = get_query_var( 'monthnum' );
+			$day   = get_query_var( 'day' );
+			$date  = sprintf( '%04d-%02d-%02d', $year, $month, $day );
+			if ( ! wp_checkdate( $month, $day, $year, $date ) ) {
+				$redirect_url = get_month_link( $year, $month );
+				$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'year', 'monthnum', 'day' ), $redirect_url );
+			}
+		} elseif ( get_query_var( 'monthnum' ) && get_query_var( 'year' ) && 12 < get_query_var( 'monthnum' ) ) {
+			$redirect_url = get_year_link( get_query_var( 'year' ) );
+			$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'year', 'monthnum' ), $redirect_url );
+		}
+
 		if ( ! $redirect_url ) {
 			if ( $redirect_url = redirect_guess_404_permalink() ) {
 				$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'page', 'feed', 'p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type' ), $redirect_url );
@@ -282,6 +296,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 		if ( 'wp-register.php' == basename( $redirect['path'] ) ) {
 			if ( is_multisite() )
+				/** This filter is documented in wp-login.php */
 				$redirect_url = apply_filters( 'wp_signup_location', network_site_url( 'wp-signup.php' ) );
 			else
 				$redirect_url = site_url( 'wp-login.php?action=register' );
@@ -418,8 +433,17 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		$requested_url = preg_replace_callback('|%[a-fA-F0-9][a-fA-F0-9]|', 'lowercase_octets', $requested_url);
 	}
 
-	// Note that you can use the "redirect_canonical" filter to cancel a canonical redirect for whatever reason by returning false
-	$redirect_url = apply_filters('redirect_canonical', $redirect_url, $requested_url);
+	/**
+	 * Filter the canonical redirect URL.
+	 *
+	 * Returning false to this filter will cancel the redirect.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param string $redirect_url  The redirect URL.
+	 * @param string $requested_url The requested URL.
+	 */
+	$redirect_url = apply_filters( 'redirect_canonical', $redirect_url, $requested_url );
 
 	if ( !$redirect_url || $redirect_url == $requested_url ) // yes, again -- in case the filter aborted the request
 		return false;

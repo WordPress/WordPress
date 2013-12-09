@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'manage_options' ) )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
@@ -72,7 +72,7 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-include( './admin-header.php' );
+include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
@@ -150,7 +150,22 @@ else :
 	<input id="blog-norobots" type="radio" name="blog_public" value="0" <?php checked('0', get_option('blog_public')); ?> />
 	<label for="blog-norobots"><?php _e( 'Discourage search engines from indexing this site' ); ?></label>
 	<p class="description"><?php _e( 'Note: Neither of these options blocks access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>
-	<?php do_action('blog_privacy_selector'); ?>
+	<?php
+	/**
+	 * Enable the legacy 'Site Visibility' privacy options.
+	 *
+	 * By default the privacy options form displays a single checkbox to 'discourage' search
+	 * engines from indexing the site. Hooking to this action serves a dual purpose:
+	 * 1. Disable the single checkbox in favor of a multiple-choice list of radio buttons.
+	 * 2. Open the door to adding additional radio button choices to the list.
+	 *
+	 * Hooking to this action also converts the 'Search Engine Visibility' heading to the more
+	 * open-ended 'Site Visibility' heading.
+	 *
+	 * @since 2.1.0
+	 */
+	do_action( 'blog_privacy_selector' );
+	?>
 <?php else : ?>
 	<label for="blog_public"><input name="blog_public" type="checkbox" id="blog_public" value="0" <?php checked( '0', get_option( 'blog_public' ) ); ?> />
 	<?php _e( 'Discourage search engines from indexing this site' ); ?></label>
@@ -167,4 +182,4 @@ else :
 <?php submit_button(); ?>
 </form>
 </div>
-<?php include( './admin-footer.php' ); ?>
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

@@ -142,11 +142,13 @@ function wp_dashboard_setup() {
 	if ( $update )
 		update_option( 'dashboard_widget_options', $widget_options );
 
+	/** This action is documented in wp-admin/edit-form-advanced.php */
 	do_action('do_meta_boxes', $screen->id, 'normal', '');
+	/** This action is documented in wp-admin/edit-form-advanced.php */
 	do_action('do_meta_boxes', $screen->id, 'side', '');
 }
 
-function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null ) {
+function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null, $callback_args = null ) {
 	$screen = get_current_screen();
 	global $wp_dashboard_control_callbacks;
 
@@ -177,7 +179,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 	if ( 'dashboard_browser_nag' === $widget_id )
 		$priority = 'high';
 
-	add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority );
+	add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority, $callback_args );
 }
 
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
@@ -366,7 +368,7 @@ function wp_dashboard_right_now() {
 
 	if ( $theme->errors() ) {
 		if ( ! is_multisite() || is_super_admin() )
-			echo '<span class="error-message">' . __('ERROR: The themes directory is either empty or doesn&#8217;t exist. Please check your installation.') . '</span>';
+			echo '<span class="error-message">' . sprintf( __( 'ERROR: %s' ), $theme->errors()->get_error_message() ) . '</span>';
 	} elseif ( ! empty($wp_registered_sidebars) ) {
 		$sidebars_widgets = wp_get_sidebars_widgets();
 		$num_widgets = 0;
@@ -710,7 +712,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		<div id="comment-<?php echo $comment->comment_ID; ?>" <?php comment_class( array( 'comment-item', wp_get_comment_status($comment->comment_ID) ) ); ?>>
 			<?php if ( !$comment->comment_type || 'comment' == $comment->comment_type ) : ?>
 
-			<?php echo get_avatar( $comment, 50 ); ?>
+			<?php echo get_avatar( $comment, 50, 'mystery' ); ?>
 
 			<div class="dashboard-comment-wrap">
 			<h4 class="comment-meta">
@@ -1095,6 +1097,7 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['widget-rss'][$number]) ) {
 		$_POST['widget-rss'][$number] = wp_unslash( $_POST['widget-rss'][$number] );
 		$widget_options[$widget_id] = wp_widget_rss_process( $_POST['widget-rss'][$number] );
+		$widget_options[$widget_id]['number'] = $number;
 		// title is optional. If black, fill it if possible
 		if ( !$widget_options[$widget_id]['title'] && isset($_POST['widget-rss'][$number]['title']) ) {
 			$rss = fetch_feed($widget_options[$widget_id]['url']);
@@ -1225,7 +1228,7 @@ function wp_check_browser_version() {
 			'user-agent'	=> 'WordPress/' . $wp_version . '; ' . home_url()
 		);
 
-		$response = wp_remote_post( 'http://api.wordpress.org/core/browse-happy/1.0/', $options );
+		$response = wp_remote_post( 'http://api.wordpress.org/core/browse-happy/1.1/', $options );
 
 		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )
 			return false;
@@ -1241,7 +1244,7 @@ function wp_check_browser_version() {
 		 *  'img_src' - string - An image representing the browser
 		 *  'img_src_ssl' - string - An image (over SSL) representing the browser
 		 */
-		$response = maybe_unserialize( wp_remote_retrieve_body( $response ) );
+		$response = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		if ( ! is_array( $response ) )
 			return false;

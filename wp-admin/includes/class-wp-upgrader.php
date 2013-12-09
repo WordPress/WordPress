@@ -11,10 +11,10 @@
  * @since 2.8.0
  */
 
+require ABSPATH . 'wp-admin/includes/class-wp-upgrader-skins.php';
+
 /**
  * WordPress Upgrader class for Upgrading/Installing a local set of files via the Filesystem Abstraction classes from a Zip file.
- *
- * @TODO More Detailed docs, for methods as well.
  *
  * @package WordPress
  * @subpackage Upgrader
@@ -93,8 +93,8 @@ class WP_Upgrader {
 					if ( ! $wp_filesystem->wp_plugins_dir() )
 						return new WP_Error('fs_no_plugins_dir', $this->strings['fs_no_plugins_dir']);
 					break;
-				case WP_CONTENT_DIR . '/themes':
-					if ( ! $wp_filesystem->find_folder(WP_CONTENT_DIR . '/themes') )
+				case get_theme_root():
+					if ( ! $wp_filesystem->wp_themes_dir() )
 						return new WP_Error('fs_no_themes_dir', $this->strings['fs_no_themes_dir']);
 					break;
 				default:
@@ -107,6 +107,19 @@ class WP_Upgrader {
 	} //end fs_connect();
 
 	function download_package($package) {
+
+		/**
+		 * Filter whether to return the package.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param bool    $reply   Whether to bail without returning the package. Default is false.
+		 * @param string  $package The package file name.
+		 * @param object  $this    The WP_Upgrader instance.
+		 */
+		$reply = apply_filters( 'upgrader_pre_download', false, $package, $this );
+		if ( false !== $reply )
+			return $reply;
 
 		if ( ! preg_match('!^(http|https|ftp)://!i', $package) && file_exists($package) ) //Local file or remote?
 			return $package; //must be a local file..
@@ -146,7 +159,7 @@ class WP_Upgrader {
 			$wp_filesystem->delete($working_dir, true);
 
 		// Unzip package to working directory
-		$result = unzip_file($package, $working_dir); //TODO optimizations, Copy when Move/Rename would suffice?
+		$result = unzip_file( $package, $working_dir );
 
 		// Once extracted, delete the package if required.
 		if ( $delete_package )
@@ -163,12 +176,17 @@ class WP_Upgrader {
 		return $working_dir;
 	}
 
-	function install_package($args = array()) {
-		global $wp_filesystem;
-		$defaults = array( 'source' => '', 'destination' => '', //Please always pass these
-						'clear_destination' => false, 'clear_working' => false,
-						'abort_if_destination_exists' => true,
-						'hook_extra' => array());
+	function install_package( $args = array() ) {
+		global $wp_filesystem, $wp_theme_directories;
+
+		$defaults = array(
+			'source' => '', // Please always pass this
+			'destination' => '', // and this
+			'clear_destination' => false,
+			'clear_working' => false,
+			'abort_if_destination_exists' => true,
+			'hook_extra' => array()
+		);
 
 		$args = wp_parse_args($args, $defaults);
 		extract($args);
@@ -195,7 +213,7 @@ class WP_Upgrader {
 		if ( 1 == count($source_files) && $wp_filesystem->is_dir( trailingslashit($source) . $source_files[0] . '/') ) //Only one folder? Then we want its contents.
 			$source = trailingslashit($source) . trailingslashit($source_files[0]);
 		elseif ( count($source_files) == 0 )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], $this->strings['no_files'] ); //There are no files?
+			return new WP_Error( 'incompatible_archive_empty', $this->strings['incompatible_archive'], $this->strings['no_files'] ); // There are no files?
 		else //It's only a single file, the upgrader will use the foldername of this file as the destination folder. foldername is based on zip filename.
 			$source = trailingslashit($source);
 
@@ -208,8 +226,13 @@ class WP_Upgrader {
 		if ( $source !== $remote_source )
 			$source_files = array_keys( $wp_filesystem->dirlist($source) );
 
-		//Protection against deleting files in any important base directories.
-		if ( in_array( $destination, array(ABSPATH, WP_CONTENT_DIR, WP_PLUGIN_DIR, WP_CONTENT_DIR . '/themes') ) ) {
+		// Protection against deleting files in any important base directories.
+		// Theme_Upgrader & Plugin_Upgrader also trigger this, as they pass the destination directory (WP_PLUGIN_DIR / wp-content/themes)
+		// intending to copy the directory into the directory, whilst they pass the source as the actual files to copy.
+		$protected_directories = array( ABSPATH, WP_CONTENT_DIR, WP_PLUGIN_DIR, WP_CONTENT_DIR . '/themes' );
+		if ( is_array( $wp_theme_directories ) )
+			$protected_directories = array_merge( $protected_directories, $wp_theme_directories );
+		if ( in_array( $destination, $protected_directories ) ) {
 			$remote_destination = trailingslashit($remote_destination) . trailingslashit(basename($source));
 			$destination = trailingslashit($destination) . trailingslashit(basename($source));
 		}
@@ -239,7 +262,7 @@ class WP_Upgrader {
 		//Create destination if needed
 		if ( !$wp_filesystem->exists($remote_destination) )
 			if ( !$wp_filesystem->mkdir($remote_destination, FS_CHMOD_DIR) )
-				return new WP_Error('mkdir_failed', $this->strings['mkdir_failed'], $remote_destination);
+				return new WP_Error( 'mkdir_failed_destination', $this->strings['mkdir_failed'], $remote_destination );
 
 		// Copy new version of item into place.
 		$result = copy_dir($source, $remote_destination);
@@ -271,38 +294,48 @@ class WP_Upgrader {
 
 	function run($options) {
 
-		$defaults = array( 	'package' => '', //Please always pass this.
-							'destination' => '', //And this
-							'clear_destination' => false,
-							'abort_if_destination_exists' => true, // Abort if the Destination directory exists, Pass clear_destination as false please
-							'clear_working' => true,
-							'is_multi' => false,
-							'hook_extra' => array() //Pass any extra $hook_extra args here, this will be passed to any hooked filters.
-						);
+		$defaults = array(
+			'package' => '', // Please always pass this.
+			'destination' => '', // And this
+			'clear_destination' => false,
+			'abort_if_destination_exists' => true, // Abort if the Destination directory exists, Pass clear_destination as false please
+			'clear_working' => true,
+			'is_multi' => false,
+			'hook_extra' => array() // Pass any extra $hook_extra args here, this will be passed to any hooked filters.
+		);
 
 		$options = wp_parse_args($options, $defaults);
 		extract($options);
 
-		//Connect to the Filesystem first.
+		if ( ! $is_multi ) // call $this->header separately if running multiple times
+			$this->skin->header();
+
+		// Connect to the Filesystem first.
 		$res = $this->fs_connect( array(WP_CONTENT_DIR, $destination) );
-		if ( ! $res ) //Mainly for non-connected filesystem.
+		// Mainly for non-connected filesystem.
+		if ( ! $res ) {
+			if ( ! $is_multi )
+				$this->skin->footer();
 			return false;
+		}
+
+		$this->skin->before();
 
 		if ( is_wp_error($res) ) {
 			$this->skin->error($res);
+			$this->skin->after();
+			if ( ! $is_multi )
+				$this->skin->footer();
 			return $res;
 		}
-
-		if ( !$is_multi ) // call $this->header separately if running multiple times
-			$this->skin->header();
-
-		$this->skin->before();
 
 		//Download the package (Note, This just returns the filename of the file if the package is a local file)
 		$download = $this->download_package( $package );
 		if ( is_wp_error($download) ) {
 			$this->skin->error($download);
 			$this->skin->after();
+			if ( ! $is_multi )
+				$this->skin->footer();
 			return $download;
 		}
 
@@ -313,18 +346,21 @@ class WP_Upgrader {
 		if ( is_wp_error($working_dir) ) {
 			$this->skin->error($working_dir);
 			$this->skin->after();
+			if ( ! $is_multi )
+				$this->skin->footer();
 			return $working_dir;
 		}
 
 		//With the given options, this installs it to the destination directory.
 		$result = $this->install_package( array(
-											'source' => $working_dir,
-											'destination' => $destination,
-											'clear_destination' => $clear_destination,
-											'abort_if_destination_exists' => $abort_if_destination_exists,
-											'clear_working' => $clear_working,
-											'hook_extra' => $hook_extra
-										) );
+			'source' => $working_dir,
+			'destination' => $destination,
+			'clear_destination' => $clear_destination,
+			'abort_if_destination_exists' => $abort_if_destination_exists,
+			'clear_working' => $clear_working,
+			'hook_extra' => $hook_extra
+		) );
+
 		$this->skin->set_result($result);
 		if ( is_wp_error($result) ) {
 			$this->skin->error($result);
@@ -333,10 +369,13 @@ class WP_Upgrader {
 			//Install Succeeded
 			$this->skin->feedback('process_success');
 		}
+
 		$this->skin->after();
 
-		if ( !$is_multi )
+		if ( ! $is_multi ) {
+			do_action( 'upgrader_process_complete', $this, $hook_extra );
 			$this->skin->footer();
+		}
 
 		return $result;
 	}
@@ -360,8 +399,6 @@ class WP_Upgrader {
 
 /**
  * Plugin Upgrader class for WordPress Plugins, It is designed to upgrade/install plugins from a local zip, remote zip URL, or uploaded zip file.
- *
- * @TODO More Detailed docs, for methods as well.
  *
  * @package WordPress
  * @subpackage Upgrader
@@ -394,35 +431,46 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->strings['process_success'] = __('Plugin installed successfully.');
 	}
 
-	function install($package) {
+	function install( $package, $args = array() ) {
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->install_strings();
 
-		add_filter('upgrader_source_selection', array(&$this, 'check_package') );
+		add_filter('upgrader_source_selection', array($this, 'check_package') );
 
-		$this->run(array(
-					'package' => $package,
-					'destination' => WP_PLUGIN_DIR,
-					'clear_destination' => false, //Do not overwrite files.
-					'clear_working' => true,
-					'hook_extra' => array()
-					));
+		$this->run( array(
+			'package' => $package,
+			'destination' => WP_PLUGIN_DIR,
+			'clear_destination' => false, // Do not overwrite files.
+			'clear_working' => true,
+			'hook_extra' => array(
+				'type' => 'plugin',
+				'action' => 'install',
+			)
+		) );
 
-		remove_filter('upgrader_source_selection', array(&$this, 'check_package') );
+		remove_filter('upgrader_source_selection', array($this, 'check_package') );
 
 		if ( ! $this->result || is_wp_error($this->result) )
 			return $this->result;
 
 		// Force refresh of plugin update information
-		delete_site_transient('update_plugins');
-		wp_cache_delete( 'plugins', 'plugins' );
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'install', 'type' => 'plugin' ), $package );
+		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
 
 		return true;
 	}
 
-	function upgrade($plugin) {
+	function upgrade( $plugin, $args = array() ) {
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->upgrade_strings();
@@ -439,34 +487,41 @@ class Plugin_Upgrader extends WP_Upgrader {
 		// Get the URL to the zip file
 		$r = $current->response[ $plugin ];
 
-		add_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'), 10, 2);
-		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'), 10, 4);
-		//'source_selection' => array(&$this, 'source_selection'), //there's a trac ticket to move up the directory for zip's which are made a bit differently, useful for non-.org plugins.
+		add_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'), 10, 2);
+		add_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'), 10, 4);
+		//'source_selection' => array($this, 'source_selection'), //there's a trac ticket to move up the directory for zip's which are made a bit differently, useful for non-.org plugins.
 
-		$this->run(array(
-					'package' => $r->package,
-					'destination' => WP_PLUGIN_DIR,
-					'clear_destination' => true,
-					'clear_working' => true,
-					'hook_extra' => array(
-								'plugin' => $plugin
-					)
-				));
+		$this->run( array(
+			'package' => $r->package,
+			'destination' => WP_PLUGIN_DIR,
+			'clear_destination' => true,
+			'clear_working' => true,
+			'hook_extra' => array(
+				'plugin' => $plugin,
+				'type' => 'plugin',
+				'action' => 'update',
+			),
+		) );
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter('upgrader_pre_install', array(&$this, 'deactivate_plugin_before_upgrade'));
-		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'));
+		remove_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'));
+		remove_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'));
 
 		if ( ! $this->result || is_wp_error($this->result) )
 			return $this->result;
 
 		// Force refresh of plugin update information
-		delete_site_transient('update_plugins');
-		wp_cache_delete( 'plugins', 'plugins' );
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'plugin' ), $plugin );
+		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
+
+		return true;
 	}
 
-	function bulk_upgrade($plugins) {
+	function bulk_upgrade( $plugins, $args = array() ) {
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->bulk = true;
@@ -474,7 +529,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$current = get_site_transient( 'update_plugins' );
 
-		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'), 10, 4);
+		add_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'), 10, 4);
 
 		$this->skin->header();
 
@@ -487,10 +542,13 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$this->skin->bulk_header();
 
-		// Only start maintenance mode if running in Multisite OR the plugin is in use
-		$maintenance = is_multisite(); // @TODO: This should only kick in for individual sites if at all possible.
+		// Only start maintenance mode if:
+		// - running Multisite and there are one or more plugins specified, OR
+		// - a plugin with an update available is currently active.
+		// @TODO: For multisite, maintenance mode should only kick in for individual sites if at all possible.
+		$maintenance = ( is_multisite() && ! empty( $plugins ) );
 		foreach ( $plugins as $plugin )
-			$maintenance = $maintenance || (is_plugin_active($plugin) && isset($current->response[ $plugin ]) ); // Only activate Maintenance mode if a plugin is active AND has an update available
+			$maintenance = $maintenance || ( is_plugin_active( $plugin ) && isset( $current->response[ $plugin] ) );
 		if ( $maintenance )
 			$this->maintenance_mode(true);
 
@@ -516,16 +574,16 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 			$this->skin->plugin_active = is_plugin_active($plugin);
 
-			$result = $this->run(array(
-						'package' => $r->package,
-						'destination' => WP_PLUGIN_DIR,
-						'clear_destination' => true,
-						'clear_working' => true,
-						'is_multi' => true,
-						'hook_extra' => array(
-									'plugin' => $plugin
-						)
-					));
+			$result = $this->run( array(
+				'package' => $r->package,
+				'destination' => WP_PLUGIN_DIR,
+				'clear_destination' => true,
+				'clear_working' => true,
+				'is_multi' => true,
+				'hook_extra' => array(
+					'plugin' => $plugin
+				)
+			) );
 
 			$results[$plugin] = $this->result;
 
@@ -536,17 +594,22 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$this->maintenance_mode(false);
 
+		do_action( 'upgrader_process_complete', $this, array(
+			'action' => 'update',
+			'type' => 'plugin',
+			'bulk' => true,
+			'plugins' => $plugins,
+		) );
+
 		$this->skin->bulk_footer();
 
 		$this->skin->footer();
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_plugin'));
+		remove_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'));
 
 		// Force refresh of plugin update information
-		delete_site_transient('update_plugins');
-		wp_cache_delete( 'plugins', 'plugins' );
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'plugin', 'bulk' => true ), $plugins );
+		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
 
 		return $results;
 	}
@@ -572,7 +635,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		}
 
 		if ( ! $plugins_found )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __('No valid plugins were found.') );
+			return new WP_Error( 'incompatible_archive_no_plugins', $this->strings['incompatible_archive'], __( 'No valid plugins were found.' ) );
 
 		return $source;
 	}
@@ -597,6 +660,10 @@ class Plugin_Upgrader extends WP_Upgrader {
 	function deactivate_plugin_before_upgrade($return, $plugin) {
 
 		if ( is_wp_error($return) ) //Bypass.
+			return $return;
+
+		// When in cron (background updates) don't deactivate the plugin, as we require a browser to reactivate it
+		if ( defined( 'DOING_CRON' ) && DOING_CRON )
 			return $return;
 
 		$plugin = isset($plugin['plugin']) ? $plugin['plugin'] : '';
@@ -641,8 +708,6 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 /**
  * Theme Upgrader class for WordPress Themes, It is designed to upgrade/install themes from a local zip, remote zip URL, or uploaded zip file.
- *
- * @TODO More Detailed docs, for methods as well.
  *
  * @package WordPress
  * @subpackage Upgrader
@@ -705,7 +770,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		if ( ! $api || is_wp_error($api) ) {
 			$this->skin->feedback( 'parent_theme_not_found', $theme_info->get('Template') );
 			// Don't show activate or preview actions after install
-			add_filter('install_theme_complete_actions', array(&$this, 'hide_activate_preview_actions') );
+			add_filter('install_theme_complete_actions', array($this, 'hide_activate_preview_actions') );
 			return $install_result;
 		}
 
@@ -724,13 +789,13 @@ class Theme_Upgrader extends WP_Upgrader {
 		// Install the parent theme
 		$parent_result = $this->run( array(
 			'package' => $api->download_link,
-			'destination' => WP_CONTENT_DIR . '/themes',
+			'destination' => get_theme_root(),
 			'clear_destination' => false, //Do not overwrite files.
 			'clear_working' => true
 		) );
 
 		if ( is_wp_error($parent_result) )
-			add_filter('install_theme_complete_actions', array(&$this, 'hide_activate_preview_actions') );
+			add_filter('install_theme_complete_actions', array($this, 'hide_activate_preview_actions') );
 
 		// Start cleaning up after the parents installation
 		remove_filter('install_theme_complete_actions', '__return_false', 999);
@@ -748,37 +813,48 @@ class Theme_Upgrader extends WP_Upgrader {
 		return $actions;
 	}
 
-	function install($package) {
+	function install( $package, $args = array() ) {
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->install_strings();
 
-		add_filter('upgrader_source_selection', array(&$this, 'check_package') );
-		add_filter('upgrader_post_install', array(&$this, 'check_parent_theme_filter'), 10, 3);
+		add_filter('upgrader_source_selection', array($this, 'check_package') );
+		add_filter('upgrader_post_install', array($this, 'check_parent_theme_filter'), 10, 3);
 
-		$options = array(
-						'package' => $package,
-						'destination' => WP_CONTENT_DIR . '/themes',
-						'clear_destination' => false, //Do not overwrite files.
-						'clear_working' => true
-						);
+		$this->run( array(
+			'package' => $package,
+			'destination' => get_theme_root(),
+			'clear_destination' => false, //Do not overwrite files.
+			'clear_working' => true,
+			'hook_extra' => array(
+				'type' => 'theme',
+				'action' => 'install',
+			),
+		) );
 
-		$this->run($options);
-
-		remove_filter('upgrader_source_selection', array(&$this, 'check_package') );
-		remove_filter('upgrader_post_install', array(&$this, 'check_parent_theme_filter'));
+		remove_filter('upgrader_source_selection', array($this, 'check_package') );
+		remove_filter('upgrader_post_install', array($this, 'check_parent_theme_filter'));
 
 		if ( ! $this->result || is_wp_error($this->result) )
 			return $this->result;
 
-		// Force refresh of theme update information
-		wp_clean_themes_cache();
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'install', 'type' => 'theme' ), $package );
+		// Refresh the Theme Update information
+		wp_clean_themes_cache( $parsed_args['clear_update_cache'] );
 
 		return true;
 	}
 
-	function upgrade($theme) {
+	function upgrade( $theme, $args = array() ) {
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->upgrade_strings();
@@ -795,37 +871,40 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$r = $current->response[ $theme ];
 
-		add_filter('upgrader_pre_install', array(&$this, 'current_before'), 10, 2);
-		add_filter('upgrader_post_install', array(&$this, 'current_after'), 10, 2);
-		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_theme'), 10, 4);
+		add_filter('upgrader_pre_install', array($this, 'current_before'), 10, 2);
+		add_filter('upgrader_post_install', array($this, 'current_after'), 10, 2);
+		add_filter('upgrader_clear_destination', array($this, 'delete_old_theme'), 10, 4);
 
-		$options = array(
-						'package' => $r['package'],
-						'destination' => WP_CONTENT_DIR . '/themes',
-						'clear_destination' => true,
-						'clear_working' => true,
-						'hook_extra' => array(
-											'theme' => $theme
-											)
-						);
+		$this->run( array(
+			'package' => $r['package'],
+			'destination' => get_theme_root( $theme ),
+			'clear_destination' => true,
+			'clear_working' => true,
+			'hook_extra' => array(
+				'theme' => $theme,
+				'type' => 'theme',
+				'action' => 'update',
+			),
+		) );
 
-		$this->run($options);
-
-		remove_filter('upgrader_pre_install', array(&$this, 'current_before'));
-		remove_filter('upgrader_post_install', array(&$this, 'current_after'));
-		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_theme'));
+		remove_filter('upgrader_pre_install', array($this, 'current_before'));
+		remove_filter('upgrader_post_install', array($this, 'current_after'));
+		remove_filter('upgrader_clear_destination', array($this, 'delete_old_theme'));
 
 		if ( ! $this->result || is_wp_error($this->result) )
 			return $this->result;
 
-		// Force refresh of theme update information
-		wp_clean_themes_cache();
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'theme' ), $theme );
+		wp_clean_themes_cache( $parsed_args['clear_update_cache'] );
 
 		return true;
 	}
 
-	function bulk_upgrade($themes) {
+	function bulk_upgrade( $themes, $args = array() ) {
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->bulk = true;
@@ -833,9 +912,9 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$current = get_site_transient( 'update_themes' );
 
-		add_filter('upgrader_pre_install', array(&$this, 'current_before'), 10, 2);
-		add_filter('upgrader_post_install', array(&$this, 'current_after'), 10, 2);
-		add_filter('upgrader_clear_destination', array(&$this, 'delete_old_theme'), 10, 4);
+		add_filter('upgrader_pre_install', array($this, 'current_before'), 10, 2);
+		add_filter('upgrader_post_install', array($this, 'current_after'), 10, 2);
+		add_filter('upgrader_clear_destination', array($this, 'delete_old_theme'), 10, 4);
 
 		$this->skin->header();
 
@@ -848,8 +927,11 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$this->skin->bulk_header();
 
-		// Only start maintenance mode if running in Multisite OR the theme is in use
-		$maintenance = is_multisite(); // @TODO: This should only kick in for individual sites if at all possible.
+		// Only start maintenance mode if:
+		// - running Multisite and there are one or more themes specified, OR
+		// - a theme with an update available is currently in use.
+		// @TODO: For multisite, maintenance mode should only kick in for individual sites if at all possible.
+		$maintenance = ( is_multisite() && ! empty( $themes ) );
 		foreach ( $themes as $theme )
 			$maintenance = $maintenance || $theme == get_stylesheet() || $theme == get_template();
 		if ( $maintenance )
@@ -876,17 +958,15 @@ class Theme_Upgrader extends WP_Upgrader {
 			// Get the URL to the zip file
 			$r = $current->response[ $theme ];
 
-			$options = array(
-							'package' => $r['package'],
-							'destination' => WP_CONTENT_DIR . '/themes',
-							'clear_destination' => true,
-							'clear_working' => true,
-							'hook_extra' => array(
-												'theme' => $theme
-												)
-							);
-
-			$result = $this->run($options);
+			$result = $this->run( array(
+				'package' => $r['package'],
+				'destination' => get_theme_root( $theme ),
+				'clear_destination' => true,
+				'clear_working' => true,
+				'hook_extra' => array(
+					'theme' => $theme
+				),
+			) );
 
 			$results[$theme] = $this->result;
 
@@ -897,18 +977,24 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$this->maintenance_mode(false);
 
+		do_action( 'upgrader_process_complete', $this, array(
+			'action' => 'update',
+			'type' => 'plugin',
+			'bulk' => true,
+			'themes' => $themes,
+		) );
+
 		$this->skin->bulk_footer();
 
 		$this->skin->footer();
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter('upgrader_pre_install', array(&$this, 'current_before'));
-		remove_filter('upgrader_post_install', array(&$this, 'current_after'));
-		remove_filter('upgrader_clear_destination', array(&$this, 'delete_old_theme'));
+		remove_filter('upgrader_pre_install', array($this, 'current_before'));
+		remove_filter('upgrader_post_install', array($this, 'current_after'));
+		remove_filter('upgrader_clear_destination', array($this, 'delete_old_theme'));
 
-		// Force refresh of theme update information
-		wp_clean_themes_cache();
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'theme', 'bulk' => true ), $themes );
+		// Refresh the Theme Update information
+		wp_clean_themes_cache( $parsed_args['clear_update_cache'] );
 
 		return $results;
 	}
@@ -926,16 +1012,16 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// A proper archive should have a style.css file in the single subdirectory
 		if ( ! file_exists( $working_directory . 'style.css' ) )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __('The theme is missing the <code>style.css</code> stylesheet.') );
+			return new WP_Error( 'incompatible_archive_theme_no_style', $this->strings['incompatible_archive'], __( 'The theme is missing the <code>style.css</code> stylesheet.' ) );
 
 		$info = get_file_data( $working_directory . 'style.css', array( 'Name' => 'Theme Name', 'Template' => 'Template' ) );
 
 		if ( empty( $info['Name'] ) )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __("The <code>style.css</code> stylesheet doesn't contain a valid theme header.") );
+			return new WP_Error( 'incompatible_archive_theme_no_name', $this->strings['incompatible_archive'], __( "The <code>style.css</code> stylesheet doesn't contain a valid theme header." ) );
 
 		// If it's not a child theme, it must have at least an index.php to be legit.
 		if ( empty( $info['Template'] ) && ! file_exists( $working_directory . 'index.php' ) )
-			return new WP_Error( 'incompatible_archive', $this->strings['incompatible_archive'], __('The theme is missing the <code>index.php</code> file.') );
+			return new WP_Error( 'incompatible_archive_theme_no_index', $this->strings['incompatible_archive'], __( 'The theme is missing the <code>index.php</code> file.' ) );
 
 		return $source;
 	}
@@ -978,18 +1064,22 @@ class Theme_Upgrader extends WP_Upgrader {
 		return $return;
 	}
 
-	function delete_old_theme($removed, $local_destination, $remote_destination, $theme) {
+	function delete_old_theme( $removed, $local_destination, $remote_destination, $theme ) {
 		global $wp_filesystem;
 
-		$theme = isset($theme['theme']) ? $theme['theme'] : '';
+		if ( is_wp_error( $removed ) )
+			return $removed; // Pass errors through.
 
-		if ( is_wp_error($removed) || empty($theme) )
-			return $removed; //Pass errors through.
+		if ( ! isset( $theme['theme'] ) )
+			return $removed;
 
-		$themes_dir = $wp_filesystem->wp_themes_dir();
-		if ( $wp_filesystem->exists( trailingslashit($themes_dir) . $theme ) )
-			if ( ! $wp_filesystem->delete( trailingslashit($themes_dir) . $theme, true ) )
+		$theme = $theme['theme'];
+		$themes_dir = trailingslashit( $wp_filesystem->wp_themes_dir( $theme ) );
+		if ( $wp_filesystem->exists( $themes_dir . $theme ) ) {
+			if ( ! $wp_filesystem->delete( $themes_dir . $theme, true ) )
 				return false;
+		}
+
 		return true;
 	}
 
@@ -1001,15 +1091,210 @@ class Theme_Upgrader extends WP_Upgrader {
 			else
 				return false;
 		}
-		return wp_get_theme( $theme, WP_CONTENT_DIR . '/themes/' );
+		return wp_get_theme( $theme );
+	}
+
+}
+
+add_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
+
+/**
+ * Language pack upgrader, for updating translations of plugins, themes, and core.
+ *
+ * @package WordPress
+ * @subpackage Upgrader
+ * @since 3.7.0
+ */
+class Language_Pack_Upgrader extends WP_Upgrader {
+
+	var $result;
+	var $bulk = true;
+
+	static function async_upgrade( $upgrader = false ) {
+		// Avoid recursion.
+		if ( $upgrader && $upgrader instanceof Language_Pack_Upgrader )
+			return;
+
+		// Nothing to do?
+		$language_updates = wp_get_translation_updates();
+		if ( ! $language_updates )
+			return;
+
+		$skin = new Language_Pack_Upgrader_Skin( array(
+			'skip_header_footer' => true,
+		) );
+
+		$lp_upgrader = new Language_Pack_Upgrader( $skin );
+		$lp_upgrader->upgrade();
+	}
+
+	function upgrade_strings() {
+		$this->strings['starting_upgrade'] = __( 'Some of your translations need updating. Sit tight for a few more seconds while we update them as well.' );
+		$this->strings['up_to_date'] = __( 'The translation is up to date.' ); // We need to silently skip this case
+		$this->strings['no_package'] = __( 'Update package not available.' );
+		$this->strings['downloading_package'] = __( 'Downloading translation from <span class="code">%s</span>&#8230;' );
+		$this->strings['unpack_package'] = __( 'Unpacking the update&#8230;' );
+		$this->strings['process_failed'] = __( 'Translation update failed.' );
+		$this->strings['process_success'] = __( 'Translation updated successfully.' );
+	}
+
+	function upgrade( $update = false, $args = array() ) {
+		if ( $update )
+			$update = array( $update );
+		$results = $this->bulk_upgrade( $update, $args );
+		return $results[0];
+	}
+
+	function bulk_upgrade( $language_updates = array(), $args = array() ) {
+		global $wp_filesystem;
+
+		$defaults = array(
+			'clear_update_cache' => true,
+		);
+		$parsed_args = wp_parse_args( $args, $defaults );
+
+		$this->init();
+		$this->upgrade_strings();
+
+		if ( ! $language_updates )
+			$language_updates = wp_get_translation_updates();
+
+		if ( empty( $language_updates ) ) {
+			$this->skin->header();
+			$this->skin->before();
+			$this->skin->set_result( true );
+			$this->skin->feedback( 'up_to_date' );
+			$this->skin->after();
+			$this->skin->bulk_footer();
+			$this->skin->footer();
+			return true;
+		}
+
+		if ( 'upgrader_process_complete' == current_filter() )
+			$this->skin->feedback( 'starting_upgrade' );
+
+		add_filter( 'upgrader_source_selection', array( &$this, 'check_package' ), 10, 3 );
+
+		$this->skin->header();
+
+		// Connect to the Filesystem first.
+		$res = $this->fs_connect( array( WP_CONTENT_DIR, WP_LANG_DIR ) );
+		if ( ! $res ) {
+			$this->skin->footer();
+			return false;
+		}
+
+		$results = array();
+
+		$this->update_count = count( $language_updates );
+		$this->update_current = 0;
+
+		// The filesystem's mkdir() is not recursive. Make sure WP_LANG_DIR exists,
+		// as we then may need to create a /plugins or /themes directory inside of it.
+		$remote_destination = $wp_filesystem->find_folder( WP_LANG_DIR );
+		if ( ! $wp_filesystem->exists( $remote_destination ) )
+			if ( ! $wp_filesystem->mkdir( $remote_destination, FS_CHMOD_DIR ) )
+				return new WP_Error( 'mkdir_failed_lang_dir', $this->strings['mkdir_failed'], $remote_destination );
+
+		foreach ( $language_updates as $language_update ) {
+
+			$this->skin->language_update = $language_update;
+
+			$destination = WP_LANG_DIR;
+			if ( 'plugin' == $language_update->type )
+				$destination .= '/plugins';
+			elseif ( 'theme' == $language_update->type )
+				$destination .= '/themes';
+
+			$this->update_current++;
+
+			$options = array(
+				'package' => $language_update->package,
+				'destination' => $destination,
+				'clear_destination' => false,
+				'abort_if_destination_exists' => false, // We expect the destination to exist.
+				'clear_working' => true,
+				'is_multi' => true,
+				'hook_extra' => array(
+					'language_update_type' => $language_update->type,
+					'language_update' => $language_update,
+				)
+			);
+
+			$result = $this->run( $options );
+
+			$results[] = $this->result;
+
+			// Prevent credentials auth screen from displaying multiple times.
+			if ( false === $result )
+				break;
+		}
+
+		$this->skin->bulk_footer();
+
+		$this->skin->footer();
+
+		// Clean up our hooks, in case something else does an upgrade on this connection.
+		remove_filter( 'upgrader_source_selection', array( &$this, 'check_package' ), 10, 2 );
+
+		if ( $parsed_args['clear_update_cache'] ) {
+			wp_clean_themes_cache( true );
+			wp_clean_plugins_cache( true );
+			delete_site_transient( 'update_core' );
+		}
+
+		return $results;
+	}
+
+	function check_package( $source, $remote_source ) {
+		global $wp_filesystem;
+
+		if ( is_wp_error( $source ) )
+			return $source;
+
+		// Check that the folder contains a valid language.
+		$files = $wp_filesystem->dirlist( $remote_source );
+
+		// Check to see if a .po and .mo exist in the folder.
+		$po = $mo = false;
+		foreach ( (array) $files as $file => $filedata ) {
+			if ( '.po' == substr( $file, -3 ) )
+				$po = true;
+			elseif ( '.mo' == substr( $file, -3 ) )
+				$mo = true;
+		}
+
+		if ( ! $mo || ! $po )
+			return new WP_Error( 'incompatible_archive_pomo', $this->strings['incompatible_archive'],
+				__( 'The language pack is missing either the <code>.po</code> or <code>.mo</code> files.' ) );
+
+		return $source;
+	}
+
+	function get_name_for_update( $update ) {
+		switch ( $update->type ) {
+			case 'core':
+				return 'WordPress'; // Not translated
+				break;
+			case 'theme':
+				$theme = wp_get_theme( $update->slug );
+				if ( $theme->exists() )
+					return $theme->Get( 'Name' );
+				break;
+			case 'plugin':
+				$plugin_data = get_plugins( '/' . $update->slug );
+				$plugin_data = array_shift( $plugin_data );
+				if ( $plugin_data )
+					return $plugin_data['Name'];
+				break;
+		}
+		return '';
 	}
 
 }
 
 /**
  * Core Upgrader class for WordPress. It allows for WordPress to upgrade itself in combination with the wp-admin/includes/update-core.php file
- *
- * @TODO More Detailed docs, for methods as well.
  *
  * @package WordPress
  * @subpackage Upgrader
@@ -1024,10 +1309,21 @@ class Core_Upgrader extends WP_Upgrader {
 		$this->strings['unpack_package'] = __('Unpacking the update&#8230;');
 		$this->strings['copy_failed'] = __('Could not copy files.');
 		$this->strings['copy_failed_space'] = __('Could not copy files. You may have run out of disk space.' );
+		$this->strings['start_rollback'] = __( 'Attempting to roll back to previous version.' );
+		$this->strings['rollback_was_required'] = __( 'Due to an error during updating, WordPress has rolled back to your previous version.' );
 	}
 
-	function upgrade($current) {
+	function upgrade( $current, $args = array() ) {
 		global $wp_filesystem, $wp_version;
+
+		$start_time = time();
+
+		$defaults = array(
+			'pre_check_md5'    => true,
+			'attempt_rollback' => false,
+			'do_rollback'      => false,
+		);
+		$parsed_args = wp_parse_args( $args, $defaults );
 
 		$this->init();
 		$this->upgrade_strings();
@@ -1042,11 +1338,19 @@ class Core_Upgrader extends WP_Upgrader {
 
 		$wp_dir = trailingslashit($wp_filesystem->abspath());
 
+		$partial = true;
+		if ( $parsed_args['do_rollback'] )
+			$partial = false;
+		elseif ( $parsed_args['pre_check_md5'] && ! $this->check_files() )
+			$partial = false;
+
 		// If partial update is returned from the API, use that, unless we're doing a reinstall.
 		// If we cross the new_bundled version number, then use the new_bundled zip.
 		// Don't though if the constant is set to skip bundled items.
 		// If the API returns a no_content zip, go with it. Finally, default to the full zip.
-		if ( $current->packages->partial && 'reinstall' != $current->response && $wp_version == $current->partial_version )
+		if ( $parsed_args['do_rollback'] && $current->packages->rollback )
+			$to_download = 'rollback';
+		elseif ( $current->packages->partial && 'reinstall' != $current->response && $wp_version == $current->partial_version && $partial )
 			$to_download = 'partial';
 		elseif ( $current->packages->new_bundled && version_compare( $wp_version, $current->new_bundled, '<' )
 			&& ( ! defined( 'CORE_UPGRADE_SKIP_NEW_BUNDLED' ) || ! CORE_UPGRADE_SKIP_NEW_BUNDLED ) )
@@ -1067,557 +1371,177 @@ class Core_Upgrader extends WP_Upgrader {
 		// Copy update-core.php from the new version into place.
 		if ( !$wp_filesystem->copy($working_dir . '/wordpress/wp-admin/includes/update-core.php', $wp_dir . 'wp-admin/includes/update-core.php', true) ) {
 			$wp_filesystem->delete($working_dir, true);
-			return new WP_Error('copy_failed', $this->strings['copy_failed']);
+			return new WP_Error( 'copy_failed_for_update_core_file', __( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' ), 'wp-admin/includes/update-core.php' );
 		}
 		$wp_filesystem->chmod($wp_dir . 'wp-admin/includes/update-core.php', FS_CHMOD_FILE);
 
-		require(ABSPATH . 'wp-admin/includes/update-core.php');
+		require_once( ABSPATH . 'wp-admin/includes/update-core.php' );
 
 		if ( ! function_exists( 'update_core' ) )
 			return new WP_Error( 'copy_failed_space', $this->strings['copy_failed_space'] );
 
 		$result = update_core( $working_dir, $wp_dir );
-		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'core' ), $result );
+
+		// In the event of an issue, we may be able to roll back.
+		if ( $parsed_args['attempt_rollback'] && $current->packages->rollback && ! $parsed_args['do_rollback'] ) {
+			$try_rollback = false;
+			if ( is_wp_error( $result ) ) {
+				$error_code = $result->get_error_code();
+				// Not all errors are equal. These codes are critical: copy_failed__copy_dir,
+				// mkdir_failed__copy_dir, copy_failed__copy_dir_retry, and disk_full.
+				// do_rollback allows for update_core() to trigger a rollback if needed.
+				if ( false !== strpos( $error_code, 'do_rollback' ) )
+					$try_rollback = true;
+				elseif ( false !== strpos( $error_code, '__copy_dir' ) )
+					$try_rollback = true;
+				elseif ( 'disk_full' === $error_code )
+					$try_rollback = true;
+			}
+
+			if ( $try_rollback ) {
+				apply_filters( 'update_feedback', $result );
+				apply_filters( 'update_feedback', $this->strings['start_rollback'] );
+
+				$rollback_result = $this->upgrade( $current, array_merge( $parsed_args, array( 'do_rollback' => true ) ) );
+
+				$original_result = $result;
+				$result = new WP_Error( 'rollback_was_required', $this->strings['rollback_was_required'], (object) array( 'update' => $original_result, 'rollback' => $rollback_result ) );
+			}
+		}
+
+		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'core' ) );
+
+		// Clear the current updates
+		delete_site_transient( 'update_core' );
+
+		if ( ! $parsed_args['do_rollback'] ) {
+			$stats = array(
+				'update_type'      => $current->response,
+				'success'          => true,
+				'fs_method'        => $wp_filesystem->method,
+				'fs_method_forced' => defined( 'FS_METHOD' ) || has_filter( 'filesystem_method' ),
+				'time_taken'       => time() - $start_time,
+				'attempted'        => $current->version,
+			);
+
+			if ( is_wp_error( $result ) ) {
+				$stats['success'] = false;
+				// Did a rollback occur?
+				if ( ! empty( $try_rollback ) ) {
+					$stats['error_code'] = $original_result->get_error_code();
+					$stats['error_data'] = $original_result->get_error_data();
+					// Was the rollback successful? If not, collect its error too.
+					$stats['rollback'] = ! is_wp_error( $rollback_result );
+					if ( is_wp_error( $rollback_result ) ) {
+						$stats['rollback_code'] = $rollback_result->get_error_code();
+						$stats['rollback_data'] = $rollback_result->get_error_data();
+					}
+				} else {
+					$stats['error_code'] = $result->get_error_code();
+					$stats['error_data'] = $result->get_error_data();
+				}
+			}
+
+			wp_version_check( $stats );
+		}
+
 		return $result;
 	}
 
-}
+	// Determines if this WordPress Core version should update to $offered_ver or not
+	static function should_update_to_version( $offered_ver /* x.y.z */ ) {
+		include ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
 
-/**
- * Generic Skin for the WordPress Upgrader classes. This skin is designed to be extended for specific purposes.
- *
- * @TODO More Detailed docs, for methods as well.
- *
- * @package WordPress
- * @subpackage Upgrader
- * @since 2.8.0
- */
-class WP_Upgrader_Skin {
+		$current_branch = implode( '.', array_slice( preg_split( '/[.-]/', $wp_version  ), 0, 2 ) ); // x.y
+		$new_branch     = implode( '.', array_slice( preg_split( '/[.-]/', $offered_ver ), 0, 2 ) ); // x.y
+		$current_is_development_version = (bool) strpos( $wp_version, '-' );
 
-	var $upgrader;
-	var $done_header = false;
-	var $result = false;
+		// Defaults:
+		$upgrade_dev   = true;
+		$upgrade_minor = true;
+		$upgrade_major = false;
 
-	function __construct($args = array()) {
-		$defaults = array( 'url' => '', 'nonce' => '', 'title' => '', 'context' => false );
-		$this->options = wp_parse_args($args, $defaults);
-	}
-
-	function set_upgrader(&$upgrader) {
-		if ( is_object($upgrader) )
-			$this->upgrader =& $upgrader;
-		$this->add_strings();
-	}
-
-	function add_strings() {
-	}
-
-	function set_result($result) {
-		$this->result = $result;
-	}
-
-	function request_filesystem_credentials($error = false) {
-		$url = $this->options['url'];
-		$context = $this->options['context'];
-		if ( !empty($this->options['nonce']) )
-			$url = wp_nonce_url($url, $this->options['nonce']);
-		return request_filesystem_credentials($url, '', $error, $context); //Possible to bring inline, Leaving as is for now.
-	}
-
-	function header() {
-		if ( $this->done_header )
-			return;
-		$this->done_header = true;
-		echo '<div class="wrap">';
-		screen_icon();
-		echo '<h2>' . $this->options['title'] . '</h2>';
-	}
-	function footer() {
-		echo '</div>';
-	}
-
-	function error($errors) {
-		if ( ! $this->done_header )
-			$this->header();
-		if ( is_string($errors) ) {
-			$this->feedback($errors);
-		} elseif ( is_wp_error($errors) && $errors->get_error_code() ) {
-			foreach ( $errors->get_error_messages() as $message ) {
-				if ( $errors->get_error_data() )
-					$this->feedback($message . ' ' . esc_html( $errors->get_error_data() ) );
-				else
-					$this->feedback($message);
+		// WP_AUTO_UPDATE_CORE = true (all), 'minor', false.
+		if ( defined( 'WP_AUTO_UPDATE_CORE' ) ) {
+			if ( false === WP_AUTO_UPDATE_CORE ) {
+				// Defaults to turned off, unless a filter allows it
+				$upgrade_dev = $upgrade_minor = $upgrade_major = false;
+			} elseif ( true === WP_AUTO_UPDATE_CORE ) {
+				// ALL updates for core
+				$upgrade_dev = $upgrade_minor = $upgrade_major = true;
+			} elseif ( 'minor' === WP_AUTO_UPDATE_CORE ) {
+				// Only minor updates for core
+				$upgrade_dev = $upgrade_major = false;
+				$upgrade_minor = true;
 			}
 		}
-	}
 
-	function feedback($string) {
-		if ( isset( $this->upgrader->strings[$string] ) )
-			$string = $this->upgrader->strings[$string];
+		// 1: If we're already on that version, not much point in updating?
+		if ( $offered_ver == $wp_version )
+			return false;
 
-		if ( strpos($string, '%') !== false ) {
-			$args = func_get_args();
-			$args = array_splice($args, 1);
-			if ( $args ) {
-				$args = array_map( 'strip_tags', $args );
-				$args = array_map( 'esc_html', $args );
-				$string = vsprintf($string, $args);
-			}
-		}
-		if ( empty($string) )
-			return;
-		show_message($string);
-	}
-	function before() {}
-	function after() {}
+		// 2: If we're running a newer version, that's a nope
+		if ( version_compare( $wp_version, $offered_ver, '>' ) )
+			return false;
 
-}
+		$failure_data = get_site_option( 'auto_core_update_failed' );
+		if ( $failure_data ) {
+			// If this was a critical update failure, cannot update.
+			if ( ! empty( $failure_data['critical'] ) )
+				return false;
 
-/**
- * Plugin Upgrader Skin for WordPress Plugin Upgrades.
- *
- * @TODO More Detailed docs, for methods as well.
- *
- * @package WordPress
- * @subpackage Upgrader
- * @since 2.8.0
- */
-class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
-	var $plugin = '';
-	var $plugin_active = false;
-	var $plugin_network_active = false;
+			// Don't claim we can update on update-core.php if we have a non-critical failure logged.
+			if ( $wp_version == $failure_data['current'] && false !== strpos( $offered_ver, '.1.next.minor' ) )
+				return false;
 
-	function __construct($args = array()) {
-		$defaults = array( 'url' => '', 'plugin' => '', 'nonce' => '', 'title' => __('Update Plugin') );
-		$args = wp_parse_args($args, $defaults);
-
-		$this->plugin = $args['plugin'];
-
-		$this->plugin_active = is_plugin_active( $this->plugin );
-		$this->plugin_network_active = is_plugin_active_for_network( $this->plugin );
-
-		parent::__construct($args);
-	}
-
-	function after() {
-		$this->plugin = $this->upgrader->plugin_info();
-		if ( !empty($this->plugin) && !is_wp_error($this->result) && $this->plugin_active ){
-			echo '<iframe style="border:0;overflow:hidden" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&networkwide=' . $this->plugin_network_active . '&plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin) .'"></iframe>';
+			// Cannot update if we're retrying the same A to B update that caused a non-critical failure.
+			// Some non-critical failures do allow retries, like download_failed.
+			// 3.7.1 => 3.7.2 resulted in files_not_writable, if we are still on 3.7.1 and still trying to update to 3.7.2.
+			if ( empty( $failure_data['retry'] ) && $wp_version == $failure_data['current'] && $offered_ver == $failure_data['attempted'] )
+				return false;
 		}
 
-		$update_actions =  array(
-			'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>',
-			'plugins_page' => '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Go to plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>'
-		);
-		if ( $this->plugin_active || ! $this->result || is_wp_error( $this->result ) || ! current_user_can( 'activate_plugins' ) )
-			unset( $update_actions['activate_plugin'] );
-
-		$update_actions = apply_filters('update_plugin_complete_actions', $update_actions, $this->plugin);
-		if ( ! empty($update_actions) )
-			$this->feedback(implode(' | ', (array)$update_actions));
-	}
-
-	function before() {
-		if ( $this->upgrader->show_before ) {
-			echo $this->upgrader->show_before;
-			$this->upgrader->show_before = '';
-		}
-	}
-}
-
-/**
- * Plugin Upgrader Skin for WordPress Plugin Upgrades.
- *
- * @package WordPress
- * @subpackage Upgrader
- * @since 3.0.0
- */
-class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
-	var $in_loop = false;
-	var $error = false;
-
-	function __construct($args = array()) {
-		$defaults = array( 'url' => '', 'nonce' => '' );
-		$args = wp_parse_args($args, $defaults);
-
-		parent::__construct($args);
-	}
-
-	function add_strings() {
-		$this->upgrader->strings['skin_upgrade_start'] = __('The update process is starting. This process may take a while on some hosts, so please be patient.');
-		$this->upgrader->strings['skin_update_failed_error'] = __('An error occurred while updating %1$s: <strong>%2$s</strong>');
-		$this->upgrader->strings['skin_update_failed'] = __('The update of %1$s failed.');
-		$this->upgrader->strings['skin_update_successful'] = __('%1$s updated successfully.').' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>'.__('Show Details').'</span><span class="hidden">'.__('Hide Details').'</span>.</a>';
-		$this->upgrader->strings['skin_upgrade_end'] = __('All updates have been completed.');
-	}
-
-	function feedback($string) {
-		if ( isset( $this->upgrader->strings[$string] ) )
-			$string = $this->upgrader->strings[$string];
-
-		if ( strpos($string, '%') !== false ) {
-			$args = func_get_args();
-			$args = array_splice($args, 1);
-			if ( $args ) {
-				$args = array_map( 'strip_tags', $args );
-				$args = array_map( 'esc_html', $args );
-				$string = vsprintf($string, $args);
-			}
-		}
-		if ( empty($string) )
-			return;
-		if ( $this->in_loop )
-			echo "$string<br />\n";
-		else
-			echo "<p>$string</p>\n";
-	}
-
-	function header() {
-		// Nothing, This will be displayed within a iframe.
-	}
-
-	function footer() {
-		// Nothing, This will be displayed within a iframe.
-	}
-	function error($error) {
-		if ( is_string($error) && isset( $this->upgrader->strings[$error] ) )
-			$this->error = $this->upgrader->strings[$error];
-
-		if ( is_wp_error($error) ) {
-			foreach ( $error->get_error_messages() as $emessage ) {
-				if ( $error->get_error_data() )
-					$messages[] = $emessage . ' ' . esc_html( $error->get_error_data() );
-				else
-					$messages[] = $emessage;
-			}
-			$this->error = implode(', ', $messages);
-		}
-		echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js($this->upgrader->update_current) . '\').hide();</script>';
-	}
-
-	function bulk_header() {
-		$this->feedback('skin_upgrade_start');
-	}
-
-	function bulk_footer() {
-		$this->feedback('skin_upgrade_end');
-	}
-
-	function before($title = '') {
-		$this->in_loop = true;
-		printf( '<h4>' . $this->upgrader->strings['skin_before_update_header'] . ' <span class="spinner waiting-' . $this->upgrader->update_current . '"></span></h4>',  $title, $this->upgrader->update_current, $this->upgrader->update_count);
-		echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js($this->upgrader->update_current) . '\').css("display", "inline-block");</script>';
-		echo '<div class="update-messages hide-if-js" id="progress-' . esc_attr($this->upgrader->update_current) . '"><p>';
-		$this->flush_output();
-	}
-
-	function after($title = '') {
-		echo '</p></div>';
-		if ( $this->error || ! $this->result ) {
-			if ( $this->error )
-				echo '<div class="error"><p>' . sprintf($this->upgrader->strings['skin_update_failed_error'], $title, $this->error) . '</p></div>';
-			else
-				echo '<div class="error"><p>' . sprintf($this->upgrader->strings['skin_update_failed'], $title) . '</p></div>';
-
-			echo '<script type="text/javascript">jQuery(\'#progress-' . esc_js($this->upgrader->update_current) . '\').show();</script>';
-		}
-		if ( $this->result && ! is_wp_error( $this->result ) ) {
-			if ( ! $this->error )
-				echo '<div class="updated"><p>' . sprintf($this->upgrader->strings['skin_update_successful'], $title, 'jQuery(\'#progress-' . esc_js($this->upgrader->update_current) . '\').toggle();jQuery(\'span\', this).toggle(); return false;') . '</p></div>';
-			echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js($this->upgrader->update_current) . '\').hide();</script>';
+		// 3: 3.7-alpha-25000 -> 3.7-alpha-25678 -> 3.7-beta1 -> 3.7-beta2
+		if ( $current_is_development_version ) {
+			if ( ! apply_filters( 'allow_dev_auto_core_updates', $upgrade_dev ) )
+				return false;
+			// else fall through to minor + major branches below
 		}
 
-		$this->reset();
-		$this->flush_output();
+		// 4: Minor In-branch updates (3.7.0 -> 3.7.1 -> 3.7.2 -> 3.7.4)
+		if ( $current_branch == $new_branch )
+			return apply_filters( 'allow_minor_auto_core_updates', $upgrade_minor );
+
+		// 5: Major version updates (3.7.0 -> 3.8.0 -> 3.9.1)
+		if ( version_compare( $new_branch, $current_branch, '>' ) )
+			return apply_filters( 'allow_major_auto_core_updates', $upgrade_major );
+
+		// If we're not sure, we don't want it
+		return false;
 	}
 
-	function reset() {
-		$this->in_loop = false;
-		$this->error = false;
-	}
+	function check_files() {
+		global $wp_version, $wp_local_package;
 
-	function flush_output() {
-		wp_ob_end_flush_all();
-		flush();
-	}
-}
+		$checksums = get_core_checksums( $wp_version, isset( $wp_local_package ) ? $wp_local_package : 'en_US' );
 
-class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
-	var $plugin_info = array(); // Plugin_Upgrader::bulk() will fill this in.
+		if ( ! is_array( $checksums ) )
+			return false;
 
-	function __construct($args = array()) {
-		parent::__construct($args);
-	}
-
-	function add_strings() {
-		parent::add_strings();
-		$this->upgrader->strings['skin_before_update_header'] = __('Updating Plugin %1$s (%2$d/%3$d)');
-	}
-
-	function before($title = '') {
-		parent::before($this->plugin_info['Title']);
-	}
-
-	function after($title = '') {
-		parent::after($this->plugin_info['Title']);
-	}
-	function bulk_footer() {
-		parent::bulk_footer();
-		$update_actions =  array(
-			'plugins_page' => '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Go to plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>',
-			'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates') . '</a>'
-		);
-		if ( ! current_user_can( 'activate_plugins' ) )
-			unset( $update_actions['plugins_page'] );
-
-		$update_actions = apply_filters('update_bulk_plugins_complete_actions', $update_actions, $this->plugin_info);
-		if ( ! empty($update_actions) )
-			$this->feedback(implode(' | ', (array)$update_actions));
-	}
-}
-
-class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
-	var $theme_info = array(); // Theme_Upgrader::bulk() will fill this in.
-
-	function __construct($args = array()) {
-		parent::__construct($args);
-	}
-
-	function add_strings() {
-		parent::add_strings();
-		$this->upgrader->strings['skin_before_update_header'] = __('Updating Theme %1$s (%2$d/%3$d)');
-	}
-
-	function before($title = '') {
-		parent::before( $this->theme_info->display('Name') );
-	}
-
-	function after($title = '') {
-		parent::after( $this->theme_info->display('Name') );
-	}
-
-	function bulk_footer() {
-		parent::bulk_footer();
-		$update_actions =  array(
-			'themes_page' => '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Go to themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>',
-			'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates') . '</a>'
-		);
-		if ( ! current_user_can( 'switch_themes' ) && ! current_user_can( 'edit_theme_options' ) )
-			unset( $update_actions['themes_page'] );
-
-		$update_actions = apply_filters('update_bulk_theme_complete_actions', $update_actions, $this->theme_info );
-		if ( ! empty($update_actions) )
-			$this->feedback(implode(' | ', (array)$update_actions));
-	}
-}
-
-/**
- * Plugin Installer Skin for WordPress Plugin Installer.
- *
- * @TODO More Detailed docs, for methods as well.
- *
- * @package WordPress
- * @subpackage Upgrader
- * @since 2.8.0
- */
-class Plugin_Installer_Skin extends WP_Upgrader_Skin {
-	var $api;
-	var $type;
-
-	function __construct($args = array()) {
-		$defaults = array( 'type' => 'web', 'url' => '', 'plugin' => '', 'nonce' => '', 'title' => '' );
-		$args = wp_parse_args($args, $defaults);
-
-		$this->type = $args['type'];
-		$this->api = isset($args['api']) ? $args['api'] : array();
-
-		parent::__construct($args);
-	}
-
-	function before() {
-		if ( !empty($this->api) )
-			$this->upgrader->strings['process_success'] = sprintf( __('Successfully installed the plugin <strong>%s %s</strong>.'), $this->api->name, $this->api->version);
-	}
-
-	function after() {
-
-		$plugin_file = $this->upgrader->plugin_info();
-
-		$install_actions = array();
-
-		$from = isset($_GET['from']) ? wp_unslash( $_GET['from'] ) : 'plugins';
-
-		if ( 'import' == $from )
-			$install_actions['activate_plugin'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;from=import&amp;plugin=' . urlencode( $plugin_file ), 'activate-plugin_' . $plugin_file) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin &amp; Run Importer') . '</a>';
-		else
-			$install_actions['activate_plugin'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . urlencode( $plugin_file ), 'activate-plugin_' . $plugin_file) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>';
-
-		if ( is_multisite() && current_user_can( 'manage_network_plugins' ) ) {
-			$install_actions['network_activate'] = '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;networkwide=1&amp;plugin=' . urlencode( $plugin_file ), 'activate-plugin_' . $plugin_file) . '" title="' . esc_attr__('Activate this plugin for all sites in this network') . '" target="_parent">' . __('Network Activate') . '</a>';
-			unset( $install_actions['activate_plugin'] );
+		foreach ( $checksums as $file => $checksum ) {
+			// Skip files which get updated
+			if ( 'wp-content' == substr( $file, 0, 10 ) )
+				continue;
+			if ( ! file_exists( ABSPATH . $file ) || md5_file( ABSPATH . $file ) !== $checksum )
+				return false;
 		}
 
-		if ( 'import' == $from )
-			$install_actions['importers_page'] = '<a href="' . admin_url('import.php') . '" title="' . esc_attr__('Return to Importers') . '" target="_parent">' . __('Return to Importers') . '</a>';
-		else if ( $this->type == 'web' )
-			$install_actions['plugins_page'] = '<a href="' . self_admin_url('plugin-install.php') . '" title="' . esc_attr__('Return to Plugin Installer') . '" target="_parent">' . __('Return to Plugin Installer') . '</a>';
-		else
-			$install_actions['plugins_page'] = '<a href="' . self_admin_url('plugins.php') . '" title="' . esc_attr__('Return to Plugins page') . '" target="_parent">' . __('Return to Plugins page') . '</a>';
-
-		if ( ! $this->result || is_wp_error($this->result) ) {
-			unset( $install_actions['activate_plugin'], $install_actions['network_activate'] );
-		} elseif ( ! current_user_can( 'activate_plugins' ) ) {
-			unset( $install_actions['activate_plugin'] );
-		}
-
-		$install_actions = apply_filters('install_plugin_complete_actions', $install_actions, $this->api, $plugin_file);
-		if ( ! empty($install_actions) )
-			$this->feedback(implode(' | ', (array)$install_actions));
-	}
-}
-
-/**
- * Theme Installer Skin for the WordPress Theme Installer.
- *
- * @TODO More Detailed docs, for methods as well.
- *
- * @package WordPress
- * @subpackage Upgrader
- * @since 2.8.0
- */
-class Theme_Installer_Skin extends WP_Upgrader_Skin {
-	var $api;
-	var $type;
-
-	function __construct($args = array()) {
-		$defaults = array( 'type' => 'web', 'url' => '', 'theme' => '', 'nonce' => '', 'title' => '' );
-		$args = wp_parse_args($args, $defaults);
-
-		$this->type = $args['type'];
-		$this->api = isset($args['api']) ? $args['api'] : array();
-
-		parent::__construct($args);
-	}
-
-	function before() {
-		if ( !empty($this->api) )
-			$this->upgrader->strings['process_success'] = sprintf( $this->upgrader->strings['process_success_specific'], $this->api->name, $this->api->version);
-	}
-
-	function after() {
-		if ( empty($this->upgrader->result['destination_name']) )
-			return;
-
-		$theme_info = $this->upgrader->theme_info();
-		if ( empty( $theme_info ) )
-			return;
-
-		$name       = $theme_info->display('Name');
-		$stylesheet = $this->upgrader->result['destination_name'];
-		$template   = $theme_info->get_template();
-
-		$preview_link = add_query_arg( array(
-			'preview'    => 1,
-			'template'   => urlencode( $template ),
-			'stylesheet' => urlencode( $stylesheet ),
-		), trailingslashit( home_url() ) );
-
-		$activate_link = add_query_arg( array(
-			'action'     => 'activate',
-			'template'   => urlencode( $template ),
-			'stylesheet' => urlencode( $stylesheet ),
-		), admin_url('themes.php') );
-		$activate_link = wp_nonce_url( $activate_link, 'switch-theme_' . $stylesheet );
-
-		$install_actions = array();
-		$install_actions['preview']  = '<a href="' . esc_url( $preview_link ) . '" class="hide-if-customize" title="' . esc_attr( sprintf( __('Preview &#8220;%s&#8221;'), $name ) ) . '">' . __('Preview') . '</a>';
-		$install_actions['preview'] .= '<a href="' . wp_customize_url( $stylesheet ) . '" class="hide-if-no-customize load-customize" title="' . esc_attr( sprintf( __('Preview &#8220;%s&#8221;'), $name ) ) . '">' . __('Live Preview') . '</a>';
-		$install_actions['activate'] = '<a href="' . esc_url( $activate_link ) . '" class="activatelink" title="' . esc_attr( sprintf( __('Activate &#8220;%s&#8221;'), $name ) ) . '">' . __('Activate') . '</a>';
-
-		if ( is_network_admin() && current_user_can( 'manage_network_themes' ) )
-			$install_actions['network_enable'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=enable&amp;theme=' . urlencode( $stylesheet ), 'enable-theme_' . $stylesheet ) ) . '" title="' . esc_attr__( 'Enable this theme for all sites in this network' ) . '" target="_parent">' . __( 'Network Enable' ) . '</a>';
-
-		if ( $this->type == 'web' )
-			$install_actions['themes_page'] = '<a href="' . self_admin_url('theme-install.php') . '" title="' . esc_attr__('Return to Theme Installer') . '" target="_parent">' . __('Return to Theme Installer') . '</a>';
-		elseif ( current_user_can( 'switch_themes' ) || current_user_can( 'edit_theme_options' ) )
-			$install_actions['themes_page'] = '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>';
-
-		if ( ! $this->result || is_wp_error($this->result) || is_network_admin() || ! current_user_can( 'switch_themes' ) )
-			unset( $install_actions['activate'], $install_actions['preview'] );
-
-		$install_actions = apply_filters('install_theme_complete_actions', $install_actions, $this->api, $stylesheet, $theme_info);
-		if ( ! empty($install_actions) )
-			$this->feedback(implode(' | ', (array)$install_actions));
-	}
-}
-
-/**
- * Theme Upgrader Skin for WordPress Theme Upgrades.
- *
- * @TODO More Detailed docs, for methods as well.
- *
- * @package WordPress
- * @subpackage Upgrader
- * @since 2.8.0
- */
-class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
-	var $theme = '';
-
-	function __construct($args = array()) {
-		$defaults = array( 'url' => '', 'theme' => '', 'nonce' => '', 'title' => __('Update Theme') );
-		$args = wp_parse_args($args, $defaults);
-
-		$this->theme = $args['theme'];
-
-		parent::__construct($args);
-	}
-
-	function after() {
-
-		$update_actions = array();
-		if ( ! empty( $this->upgrader->result['destination_name'] ) && $theme_info = $this->upgrader->theme_info() ) {
-			$name       = $theme_info->display('Name');
-			$stylesheet = $this->upgrader->result['destination_name'];
-			$template   = $theme_info->get_template();
-
-			$preview_link = add_query_arg( array(
-				'preview'    => 1,
-				'template'   => urlencode( $template ),
-				'stylesheet' => urlencode( $stylesheet ),
-			), trailingslashit( home_url() ) );
-
-			$activate_link = add_query_arg( array(
-				'action'     => 'activate',
-				'template'   => urlencode( $template ),
-				'stylesheet' => urlencode( $stylesheet ),
-			), admin_url('themes.php') );
-			$activate_link = wp_nonce_url( $activate_link, 'switch-theme_' . $stylesheet );
-
-			if ( get_stylesheet() == $stylesheet ) {
-				if ( current_user_can( 'edit_theme_options' ) )
-					$update_actions['preview']  = '<a href="' . wp_customize_url( $stylesheet ) . '" class="hide-if-no-customize load-customize" title="' . esc_attr( sprintf( __('Customize &#8220;%s&#8221;'), $name ) ) . '">' . __('Customize') . '</a>';
-			} elseif ( current_user_can( 'switch_themes' ) ) {
-				$update_actions['preview']  = '<a href="' . esc_url( $preview_link ) . '" class="hide-if-customize" title="' . esc_attr( sprintf( __('Preview &#8220;%s&#8221;'), $name ) ) . '">' . __('Preview') . '</a>';
-				$update_actions['preview'] .= '<a href="' . wp_customize_url( $stylesheet ) . '" class="hide-if-no-customize load-customize" title="' . esc_attr( sprintf( __('Preview &#8220;%s&#8221;'), $name ) ) . '">' . __('Live Preview') . '</a>';
-				$update_actions['activate'] = '<a href="' . esc_url( $activate_link ) . '" class="activatelink" title="' . esc_attr( sprintf( __('Activate &#8220;%s&#8221;'), $name ) ) . '">' . __('Activate') . '</a>';
-			}
-
-			if ( ! $this->result || is_wp_error( $this->result ) || is_network_admin() )
-				unset( $update_actions['preview'], $update_actions['activate'] );
-		}
-
-		$update_actions['themes_page'] = '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Return to Themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>';
-
-		$update_actions = apply_filters('update_theme_complete_actions', $update_actions, $this->theme);
-		if ( ! empty($update_actions) )
-			$this->feedback(implode(' | ', (array)$update_actions));
+		return true;
 	}
 }
 
 /**
  * Upgrade Skin helper for File uploads. This class handles the upload process and passes it as if it's a local file to the Upgrade/Installer functions.
- *
- * @TODO More Detailed docs, for methods as well.
  *
  * @package WordPress
  * @subpackage Upgrader
@@ -1687,5 +1611,791 @@ class File_Upload_Upgrader {
 			return @unlink( $this->package );
 
 		return true;
+	}
+}
+
+/**
+ * The WordPress automatic background updater.
+ *
+ * @package WordPress
+ * @subpackage Upgrader
+ * @since 3.7.0
+ */
+class WP_Automatic_Updater {
+
+	/**
+	 * Tracks update results during processing.
+	 *
+	 * @var array
+	 */
+	protected $update_results = array();
+
+	/**
+	 * Whether the entire automatic updater is disabled.
+	 *
+	 * @since 3.7.0
+	 */
+	public function is_disabled() {
+		// Background updates are disabled if you don't want file changes.
+		if ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS )
+			return true;
+
+		if ( defined( 'WP_INSTALLING' ) )
+			return true;
+
+		// More fine grained control can be done through the WP_AUTO_UPDATE_CORE constant and filters.
+		$disabled = defined( 'AUTOMATIC_UPDATER_DISABLED' ) && AUTOMATIC_UPDATER_DISABLED;
+
+		/**
+		 * Filter whether to entirely disable background updates.
+		 *
+		 * There are more fine-grained filters and controls for selective disabling.
+		 * This filter parallels the AUTOMATIC_UPDATER_DISABLED constant in name.
+		 *
+		 * This also disables update notification emails. That may change in the future.
+		 *
+		 * @since 3.7.0
+		 * @param bool $disabled Whether the updater should be disabled.
+		 */
+		return apply_filters( 'automatic_updater_disabled', $disabled );
+	}
+
+	/**
+	 * Check for version control checkouts.
+	 *
+	 * Checks for Subversion, Git, Mercurial, and Bazaar. It recursively looks up the
+	 * filesystem to the top of the drive, erring on the side of detecting a VCS
+	 * checkout somewhere.
+	 *
+	 * ABSPATH is always checked in addition to whatever $context is (which may be the
+	 * wp-content directory, for example). The underlying assumption is that if you are
+	 * using version control *anywhere*, then you should be making decisions for
+	 * how things get updated.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $context The filesystem path to check, in addition to ABSPATH.
+	 */
+	public function is_vcs_checkout( $context ) {
+		$context_dirs = array( untrailingslashit( $context ) );
+		if ( $context !== ABSPATH )
+			$context_dirs[] = untrailingslashit( ABSPATH );
+
+		$vcs_dirs = array( '.svn', '.git', '.hg', '.bzr' );
+		$check_dirs = array();
+
+		foreach ( $context_dirs as $context_dir ) {
+			// Walk up from $context_dir to the root.
+			do {
+				$check_dirs[] = $context_dir;
+
+				// Once we've hit '/' or 'C:\', we need to stop. dirname will keep returning the input here.
+				if ( $context_dir == dirname( $context_dir ) )
+					break;
+
+			// Continue one level at a time.
+			} while ( $context_dir = dirname( $context_dir ) );
+		}
+
+		$check_dirs = array_unique( $check_dirs );
+
+		// Search all directories we've found for evidence of version control.
+		foreach ( $vcs_dirs as $vcs_dir ) {
+			foreach ( $check_dirs as $check_dir ) {
+				if ( $checkout = @is_dir( rtrim( $check_dir, '\\/' ) . "/$vcs_dir" ) )
+					break 2;
+			}
+		}
+
+		/**
+		 * Filter whether the automatic updater should consider a filesystem location to be potentially
+		 * managed by a version control system.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param bool $checkout  Whether a VCS checkout was discovered at $context or ABSPATH, or anywhere higher.
+		 * @param string $context The filesystem context (a path) against which filesystem status should be checked.
+		 */
+		return apply_filters( 'automatic_updates_is_vcs_checkout', $checkout, $context );
+	}
+
+	/**
+	 * Tests to see if we can and should update a specific item.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $type    The type of update being checked: 'core', 'theme', 'plugin', 'translation'.
+	 * @param object $item    The update offer.
+	 * @param string $context The filesystem context (a path) against which filesystem access and status
+	 *                        should be checked.
+	 */
+	public function should_update( $type, $item, $context ) {
+		// Used to see if WP_Filesystem is set up to allow unattended updates.
+		$skin = new Automatic_Upgrader_Skin;
+
+		if ( $this->is_disabled() )
+			return false;
+
+		// If we can't do an auto core update, we may still be able to email the user.
+		if ( ! $skin->request_filesystem_credentials( false, $context ) || $this->is_vcs_checkout( $context ) ) {
+			if ( 'core' == $type )
+				$this->send_core_update_notification_email( $item );
+			return false;
+		}
+
+		// Next up, is this an item we can update?
+		if ( 'core' == $type )
+			$update = Core_Upgrader::should_update_to_version( $item->current );
+		else
+			$update = ! empty( $item->autoupdate );
+
+		/**
+		 * Filter whether to automatically update core, a plugin, a theme, or a language.
+		 *
+		 * The dynamic portion of the hook name, $type, refers to the type of update
+		 * being checked. Can be 'core', 'theme', 'plugin', or 'translation'.
+		 *
+		 * Generally speaking, plugins, themes, and major core versions are not updated by default,
+		 * while translations and minor and development versions for core are updated by default.
+		 *
+		 * See the filters allow_dev_auto_core_updates, allow_minor_auto_core_updates, and
+		 * allow_major_auto_core_updates more straightforward filters to adjust core updates.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param bool   $update Whether to update.
+		 * @param object $item   The update offer.
+		 */
+		$update = apply_filters( 'auto_update_' . $type, $update, $item );
+
+		if ( ! $update ) {
+			if ( 'core' == $type )
+				$this->send_core_update_notification_email( $item );
+			return false;
+		}
+
+		// If it's a core update, are we actually compatible with its requirements?
+		if ( 'core' == $type ) {
+			global $wpdb;
+
+			$php_compat = version_compare( phpversion(), $item->php_version, '>=' );
+			if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) )
+				$mysql_compat = true;
+			else
+				$mysql_compat = version_compare( $wpdb->db_version(), $item->mysql_version, '>=' );
+
+			if ( ! $php_compat || ! $mysql_compat )
+				return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Notifies an administrator of a core update.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param object $item The update offer.
+	 */
+	protected function send_core_update_notification_email( $item ) {
+		$notify   = true;
+		$notified = get_site_option( 'auto_core_update_notified' );
+
+		// Don't notify if we've already notified the same email address of the same version.
+		if ( $notified && $notified['email'] == get_site_option( 'admin_email' ) && $notified['version'] == $item->current )
+			return false;
+
+		// See if we need to notify users of a core update.
+		$notify = ! empty( $item->notify_email );
+
+		/**
+		 * Whether to notify the site administrator of a new core update.
+		 *
+		 * By default, administrators are notified when the update offer received from WordPress.org
+		 * sets a particular flag. This allows for discretion in if and when to notify.
+		 *
+		 * This filter only fires once per release -- if the same email address was already
+		 * notified of the same new version, we won't repeatedly email the administrator.
+		 *
+		 * This filter is also used on about.php to check if a plugin has disabled these notifications.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param bool $notify Whether the site administrator is notified.
+		 * @param object $item The update offer.
+		 */
+		if ( ! apply_filters( 'send_core_update_notification_email', $notify, $item ) )
+			return false;
+
+		$this->send_email( 'manual', $item );
+		return true;
+	}
+
+	/**
+	 * Update an item, if appropriate.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $type The type of update being checked: 'core', 'theme', 'plugin', 'translation'.
+	 * @param object $item The update offer.
+	 */
+	public function update( $type, $item ) {
+		$skin = new Automatic_Upgrader_Skin;
+
+		switch ( $type ) {
+			case 'core':
+				// The Core upgrader doesn't use the Upgrader's skin during the actual main part of the upgrade, instead, firing a filter.
+				add_filter( 'update_feedback', array( $skin, 'feedback' ) );
+				$upgrader = new Core_Upgrader( $skin );
+				$context  = ABSPATH;
+				break;
+			case 'plugin':
+				$upgrader = new Plugin_Upgrader( $skin );
+				$context  = WP_PLUGIN_DIR; // We don't support custom Plugin directories, or updates for WPMU_PLUGIN_DIR
+				break;
+			case 'theme':
+				$upgrader = new Theme_Upgrader( $skin );
+				$context  = get_theme_root( $item );
+				break;
+			case 'translation':
+				$upgrader = new Language_Pack_Upgrader( $skin );
+				$context  = WP_CONTENT_DIR; // WP_LANG_DIR;
+				break;
+		}
+
+		// Determine whether we can and should perform this update.
+		if ( ! $this->should_update( $type, $item, $context ) )
+			return false;
+
+		switch ( $type ) {
+			case 'core':
+				$skin->feedback( __( 'Updating to WordPress %s' ), $item->version );
+				$item_name = sprintf( __( 'WordPress %s' ), $item->version );
+				break;
+			case 'theme':
+				$theme = wp_get_theme( $item );
+				$item_name = $theme->Get( 'Name' );
+				$skin->feedback( __( 'Updating theme: %s' ), $item_name );
+				break;
+			case 'plugin':
+				$plugin_data = get_plugin_data( $context . '/' . $item );
+				$item_name = $plugin_data['Name'];
+				$skin->feedback( __( 'Updating plugin: %s' ), $item_name );
+				break;
+			case 'translation':
+				$language_item_name = $upgrader->get_name_for_update( $item );
+				$item_name = sprintf( __( 'Translations for %s' ), $language_item_name );
+				$skin->feedback( sprintf( __( 'Updating translations for %1$s (%2$s)&#8230;' ), $language_item_name, $item->language ) );
+				break;
+		}
+
+		// Boom, This sites about to get a whole new splash of paint!
+		$upgrade_result = $upgrader->upgrade( $item, array(
+			'clear_update_cache' => false,
+			'pre_check_md5'      => false, /* always use partial builds if possible for core updates */
+			'attempt_rollback'   => true, /* only available for core updates */
+		) );
+
+		// Core doesn't output this, so lets append it so we don't get confused
+		if ( 'core' == $type ) {
+			if ( is_wp_error( $upgrade_result ) ) {
+				$skin->error( __( 'Installation Failed' ), $upgrade_result );
+			} else {
+				$skin->feedback( __( 'WordPress updated successfully' ) );
+			}
+		}
+
+		$this->update_results[ $type ][] = (object) array(
+			'item'     => $item,
+			'result'   => $upgrade_result,
+			'name'     => $item_name,
+			'messages' => $skin->get_upgrade_messages()
+		);
+
+		return $upgrade_result;
+	}
+
+	/**
+	 * Kicks off the background update process, looping through all pending updates.
+	 *
+	 * @since 3.7.0
+	 */
+	public function run() {
+		global $wpdb, $wp_version;
+
+		if ( $this->is_disabled() )
+			return;
+
+		if ( ! is_main_network() || ! is_main_site() )
+			return;
+
+		$lock_name = 'auto_updater.lock';
+
+		// Try to lock
+		$lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_name, time() ) );
+
+		if ( ! $lock_result ) {
+			$lock_result = get_option( $lock_name );
+
+			// If we couldn't create a lock, and there isn't a lock, bail
+			if ( ! $lock_result )
+				return;
+
+			// Check to see if the lock is still valid
+			if ( $lock_result > ( time() - HOUR_IN_SECONDS ) )
+				return;
+		}
+
+		// Update the lock, as by this point we've definately got a lock, just need to fire the actions
+		update_option( $lock_name, time() );
+
+		// Don't automatically run these thins, as we'll handle it ourselves
+		remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
+		remove_action( 'upgrader_process_complete', 'wp_version_check' );
+		remove_action( 'upgrader_process_complete', 'wp_update_plugins' );
+		remove_action( 'upgrader_process_complete', 'wp_update_themes' );
+
+		// Next, Plugins
+		wp_update_plugins(); // Check for Plugin updates
+		$plugin_updates = get_site_transient( 'update_plugins' );
+		if ( $plugin_updates && !empty( $plugin_updates->response ) ) {
+			foreach ( array_keys( $plugin_updates->response ) as $plugin ) {
+				$this->update( 'plugin', $plugin );
+			}
+			// Force refresh of plugin update information
+			wp_clean_plugins_cache();
+		}
+
+		// Next, those themes we all love
+		wp_update_themes();  // Check for Theme updates
+		$theme_updates = get_site_transient( 'update_themes' );
+		if ( $theme_updates && !empty( $theme_updates->response ) ) {
+			foreach ( array_keys( $theme_updates->response ) as $theme ) {
+				$this->update( 'theme', $theme );
+			}
+			// Force refresh of theme update information
+			wp_clean_themes_cache();
+		}
+
+		// Next, Process any core update
+		wp_version_check(); // Check for Core updates
+		$core_update = find_core_auto_update();
+
+		if ( $core_update )
+			$this->update( 'core', $core_update );
+
+		// Clean up, and check for any pending translations
+		// (Core_Upgrader checks for core updates)
+		wp_update_themes();  // Check for Theme updates
+		wp_update_plugins(); // Check for Plugin updates
+
+		// Finally, Process any new translations
+		$language_updates = wp_get_translation_updates();
+		if ( $language_updates ) {
+			foreach ( $language_updates as $update ) {
+				$this->update( 'translation', $update );
+			}
+
+			// Clear existing caches
+			wp_clean_plugins_cache();
+			wp_clean_themes_cache();
+			delete_site_transient( 'update_core' );
+
+			wp_version_check();  // check for Core updates
+			wp_update_themes();  // Check for Theme updates
+			wp_update_plugins(); // Check for Plugin updates
+		}
+
+		// Send debugging email to all development installs.
+		if ( ! empty( $this->update_results ) ) {
+			$development_version = false !== strpos( $wp_version, '-' );
+			/**
+			 * Filter whether to send a debugging email for each automatic background update.
+			 *
+			 * @since 3.7.0
+			 * @param bool $development_version By default, emails are sent if the install is a development version.
+			 *                                  Return false to avoid the email.
+			 */
+			if ( apply_filters( 'automatic_updates_send_debug_email', $development_version ) )
+				$this->send_debug_email();
+
+			if ( ! empty( $this->update_results['core'] ) )
+				$this->after_core_update( $this->update_results['core'][0] );
+		}
+
+		// Clear the lock
+		delete_option( $lock_name );
+	}
+
+	/**
+	 * If we tried to perform a core update, check if we should send an email,
+	 * and if we need to avoid processing future updates.
+	 *
+	 * @param object $update_result The result of the core update. Includes the update offer and result.
+	 */
+	protected function after_core_update( $update_result ) {
+		global $wp_version;
+
+		$core_update = $update_result->item;
+		$result      = $update_result->result;
+
+		if ( ! is_wp_error( $result ) ) {
+			$this->send_email( 'success', $core_update );
+			return;
+		}
+
+		$error_code = $result->get_error_code();
+
+		// Any of these WP_Error codes are critical failures, as in they occurred after we started to copy core files.
+		// We should not try to perform a background update again until there is a successful one-click update performed by the user.
+		$critical = false;
+		if ( $error_code === 'disk_full' || false !== strpos( $error_code, '__copy_dir' ) ) {
+			$critical = true;
+		} elseif ( $error_code === 'rollback_was_required' && is_wp_error( $result->get_error_data()->rollback ) ) {
+			// A rollback is only critical if it failed too.
+			$critical = true;
+			$rollback_result = $result->get_error_data()->rollback;
+		} elseif ( false !== strpos( $error_code, 'do_rollback' ) ) {
+			$critical = true;
+		}
+
+		if ( $critical ) {
+			$critical_data = array(
+				'attempted'  => $core_update->current,
+				'current'    => $wp_version,
+				'error_code' => $error_code,
+				'error_data' => $result->get_error_data(),
+				'timestamp'  => time(),
+				'critical'   => true,
+			);
+			if ( isset( $rollback_result ) ) {
+				$critical_data['rollback_code'] = $rollback_result->get_error_code();
+				$critical_data['rollback_data'] = $rollback_result->get_error_data();
+			}
+			update_site_option( 'auto_core_update_failed', $critical_data );
+			$this->send_email( 'critical', $core_update, $result );
+			return;
+		}
+
+		/*
+		 * Any other WP_Error code (like download_failed or files_not_writable) occurs before
+		 * we tried to copy over core files. Thus, the failures are early and graceful.
+		 *
+		 * We should avoid trying to perform a background update again for the same version.
+		 * But we can try again if another version is released.
+		 *
+		 * For certain 'transient' failures, like download_failed, we should allow retries.
+		 * In fact, let's schedule a special update for an hour from now. (It's possible
+		 * the issue could actually be on WordPress.org's side.) If that one fails, then email.
+		 */
+		$send = true;
+  		$transient_failures = array( 'incompatible_archive', 'download_failed', 'insane_distro' );
+  		if ( in_array( $error_code, $transient_failures ) && ! get_site_option( 'auto_core_update_failed' ) ) {
+  			wp_schedule_single_event( time() + HOUR_IN_SECONDS, 'wp_maybe_auto_update' );
+  			$send = false;
+  		}
+
+  		$n = get_site_option( 'auto_core_update_notified' );
+		// Don't notify if we've already notified the same email address of the same version of the same notification type.
+		if ( $n && 'fail' == $n['type'] && $n['email'] == get_site_option( 'admin_email' ) && $n['version'] == $core_update->current )
+			$send = false;
+
+		update_site_option( 'auto_core_update_failed', array(
+			'attempted'  => $core_update->current,
+			'current'    => $wp_version,
+			'error_code' => $error_code,
+			'error_data' => $result->get_error_data(),
+			'timestamp'  => time(),
+			'retry'      => in_array( $error_code, $transient_failures ),
+		) );
+
+		if ( $send )
+			$this->send_email( 'fail', $core_update, $result );
+	}
+
+	/**
+	 * Sends an email upon the completion or failure of a background core update.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param string $type        The type of email to send. Can be one of 'success', 'fail', 'manual', 'critical'.
+	 * @param object $core_update The update offer that was attempted.
+	 * @param mixed  $result      Optional. The result for the core update. Can be WP_Error.
+	 */
+	protected function send_email( $type, $core_update, $result = null ) {
+		update_site_option( 'auto_core_update_notified', array(
+			'type'      => $type,
+			'email'     => get_site_option( 'admin_email' ),
+			'version'   => $core_update->current,
+			'timestamp' => time(),
+		) );
+
+		$next_user_core_update = get_preferred_from_update_core();
+		// If the update transient is empty, use the update we just performed
+		if ( ! $next_user_core_update )
+			$next_user_core_update = $core_update;
+		$newer_version_available = ( 'upgrade' == $next_user_core_update->response && version_compare( $next_user_core_update->version, $core_update->version, '>' ) );
+
+		/**
+		 * Filter whether to send an email following an automatic background core update.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param bool   $send        Whether to send the email. Default true.
+		 * @param string $type        The type of email to send. Can be one of 'success', 'fail', 'critical'.
+		 * @param object $core_update The update offer that was attempted.
+		 * @param mixed  $result      The result for the core update. Can be WP_Error.
+		 */
+		if ( 'manual' !== $type && ! apply_filters( 'auto_core_update_send_email', true, $type, $core_update, $result ) )
+			return;
+
+		switch ( $type ) {
+			case 'success' : // We updated.
+				/* translators: 1: Site name, 2: WordPress version number. */
+				$subject = __( '[%1$s] Your site has updated to WordPress %2$s' );
+				break;
+
+			case 'fail' :   // We tried to update but couldn't.
+			case 'manual' : // We can't update (and made no attempt).
+				/* translators: 1: Site name, 2: WordPress version number. */
+				$subject = __( '[%1$s] WordPress %2$s is available. Please update!' );
+				break;
+
+			case 'critical' : // We tried to update, started to copy files, then things went wrong.
+				/* translators: 1: Site name. */
+				$subject = __( '[%1$s] URGENT: Your site may be down due to a failed update' );
+				break;
+
+			default :
+				return;
+		}
+
+		// If the auto update is not to the latest version, say that the current version of WP is available instead.
+		$version = 'success' === $type ? $core_update->current : $next_user_core_update->current;
+		$subject = sprintf( $subject, wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ), $version );
+
+		$body = '';
+
+		switch ( $type ) {
+			case 'success' :
+				$body .= sprintf( __( 'Howdy! Your site at %1$s has been updated automatically to WordPress %2$s.' ), home_url(), $core_update->current );
+				$body .= "\n\n";
+				if ( ! $newer_version_available )
+					$body .= __( 'No further action is needed on your part.' ) . ' ';
+
+				// Can only reference the About screen if their update was successful.
+				list( $about_version ) = explode( '-', $core_update->current, 2 );
+				$body .= sprintf( __( "For more on version %s, see the About WordPress screen:" ), $about_version );
+				$body .= "\n" . admin_url( 'about.php' );
+
+				if ( $newer_version_available ) {
+					$body .= "\n\n" . sprintf( __( 'WordPress %s is also now available.' ), $next_user_core_update->current ) . ' ';
+					$body .= __( 'Updating is easy and only takes a few moments:' );
+					$body .= "\n" . network_admin_url( 'update-core.php' );
+				}
+
+				break;
+
+			case 'fail' :
+			case 'manual' :
+				$body .= sprintf( __( 'Please update your site at %1$s to WordPress %2$s.' ), home_url(), $next_user_core_update->current );
+
+				$body .= "\n\n";
+
+				// Don't show this message if there is a newer version available.
+				// Potential for confusion, and also not useful for them to know at this point.
+				if ( 'fail' == $type && ! $newer_version_available )
+					$body .= __( 'We tried but were unable to update your site automatically.' ) . ' ';
+
+				$body .= __( 'Updating is easy and only takes a few moments:' );
+				$body .= "\n" . network_admin_url( 'update-core.php' );
+				break;
+
+			case 'critical' :
+				if ( $newer_version_available )
+					$body .= sprintf( __( 'Your site at %1$s experienced a critical failure while trying to update WordPress to version %2$s.' ), home_url(), $core_update->current );
+				else
+					$body .= sprintf( __( 'Your site at %1$s experienced a critical failure while trying to update to the latest version of WordPress, %2$s.' ), home_url(), $core_update->current );
+
+				$body .= "\n\n" . __( "This means your site may be offline or broken. Don't panic; this can be fixed." );
+
+				$body .= "\n\n" . __( "Please check out your site now. It's possible that everything is working. If it says you need to update, you should do so:" );
+				$body .= "\n" . network_admin_url( 'update-core.php' );
+				break;
+		}
+
+		// Updates are important!
+		if ( $type != 'success' || $newer_version_available )
+			$body .= "\n\n" . __( 'Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers.' );
+
+		// Add a note about the support forums to all emails.
+		$body .= "\n\n" . __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.' );
+		$body .= "\n" . __( 'http://wordpress.org/support/' );
+
+		// If things are successful and we're now on the latest, mention plugins and themes if any are out of date.
+		if ( $type == 'success' && ! $newer_version_available && ( get_plugin_updates() || get_theme_updates() ) ) {
+			$body .= "\n\n" . __( 'You also have some plugins or themes with updates available. Update them now:' );
+			$body .= "\n" . network_admin_url();
+		}
+
+		$body .= "\n\n" . __( 'The WordPress Team' ) . "\n";
+
+		if ( 'critical' == $type && is_wp_error( $result ) ) {
+			$body .= "\n***\n\n";
+			$body .= sprintf( __( 'Your site was running version %s.' ), $GLOBALS['wp_version'] );
+			$body .= ' ' . __( 'We have some data that describes the error your site encountered.' );
+			$body .= ' ' . __( 'Your hosting company, support forum volunteers, or a friendly developer may be able to use this information to help you:' );
+
+			// If we had a rollback and we're still critical, then the rollback failed too.
+			// Loop through all errors (the main WP_Error, the update result, the rollback result) for code, data, etc.
+			if ( 'rollback_was_required' == $result->get_error_code() )
+				$errors = array( $result, $result->get_error_data()->update, $result->get_error_data()->rollback );
+			else
+				$errors = array( $result );
+
+			foreach ( $errors as $error ) {
+				if ( ! is_wp_error( $error ) )
+					continue;
+				$error_code = $error->get_error_code();
+				$body .= "\n\n" . sprintf( __( "Error code: %s" ), $error_code );
+				if ( 'rollback_was_required' == $error_code )
+					continue;
+				if ( $error->get_error_message() )
+					$body .= "\n" . $error->get_error_message();
+				$error_data = $error->get_error_data();
+				if ( $error_data )
+					$body .= "\n" . implode( ', ', (array) $error_data );
+			}
+			$body .= "\n";
+		}
+
+		$to  = get_site_option( 'admin_email' );
+		$headers = '';
+
+		$email = compact( 'to', 'subject', 'body', 'headers' );
+		/**
+		 * Filter the email sent following an automatic background core update.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param array $email {
+		 *     Array of email arguments that will be passed to wp_mail().
+		 *
+		 *     @type string $to      The email recipient. An array of emails can be returned, as handled by wp_mail().
+		 *     @type string $subject The email's subject.
+		 *     @type string $body    The email message body.
+		 *     @type string $headers Any email headers, defaults to no headers.
+		 * }
+		 * @param string $type        The type of email being sent. Can be one of 'success', 'fail', 'manual', 'critical'.
+		 * @param object $core_update The update offer that was attempted.
+		 * @param mixed  $result      The result for the core update. Can be WP_Error.
+		 */
+		$email = apply_filters( 'auto_core_update_email', $email, $type, $core_update, $result );
+
+		wp_mail( $email['to'], $email['subject'], $email['body'], $email['headers'] );
+	}
+
+	/**
+	 * Prepares and sends an email of a full log of background update results, useful for debugging and geekery.
+	 *
+	 * @since 3.7.0
+	 */
+	protected function send_debug_email() {
+		$update_count = 0;
+		foreach ( $this->update_results as $type => $updates )
+			$update_count += count( $updates );
+
+		$body = array();
+		$failures = 0;
+
+		$body[] = 'WordPress site: ' . network_home_url( '/' );
+
+		// Core
+		if ( isset( $this->update_results['core'] ) ) {
+			$result = $this->update_results['core'][0];
+			if ( $result->result && ! is_wp_error( $result->result ) ) {
+				$body[] = sprintf( 'SUCCESS: WordPress was successfully updated to %s', $result->name );
+			} else {
+				$body[] = sprintf( 'FAILED: WordPress failed to update to %s', $result->name );
+				$failures++;
+			}
+			$body[] = '';
+		}
+
+		// Plugins, Themes, Translations
+		foreach ( array( 'plugin', 'theme', 'translation' ) as $type ) {
+			if ( ! isset( $this->update_results[ $type ] ) )
+				continue;
+			$success_items = wp_list_filter( $this->update_results[ $type ], array( 'result' => true ) );
+			if ( $success_items ) {
+				$body[] = "The following {$type}s were successfully updated:";
+				foreach ( wp_list_pluck( $success_items, 'name' ) as $name )
+					$body[] = ' * SUCCESS: ' . $name;
+			}
+			if ( $success_items != $this->update_results[ $type ] ) {
+				// Failed updates
+				$body[] = "The following {$type}s failed to update:";
+				foreach ( $this->update_results[ $type ] as $item ) {
+					if ( ! $item->result || is_wp_error( $item->result ) ) {
+						$body[] = ' * FAILED: ' . $item->name;
+						$failures++;
+					}
+				}
+			}
+			$body[] = '';
+		}
+
+		if ( $failures ) {
+			$body[] = '';
+			$body[] = 'BETA TESTING?';
+			$body[] = '=============';
+			$body[] = '';
+			$body[] = 'This debugging email is sent when you are using a development version of WordPress.';
+			$body[] = '';
+			$body[] = 'If you think these failures might be due to a bug in WordPress, could you report it?';
+			$body[] = ' * Open a thread in the support forums: http://wordpress.org/support/forum/alphabeta';
+			$body[] = " * Or, if you're comfortable writing a bug report: http://core.trac.wordpress.org/";
+			$body[] = '';
+			$body[] = 'Thanks! -- The WordPress Team';
+			$body[] = '';
+			$subject = sprintf( '[%s] There were failures during background updates', get_bloginfo( 'name' ) );
+		} else {
+			$subject = sprintf( '[%s] Background updates have finished', get_bloginfo( 'name' ) );
+		}
+
+		$body[] = 'UPDATE LOG';
+		$body[] = '==========';
+		$body[] = '';
+
+		foreach ( array( 'core', 'plugin', 'theme', 'translation' ) as $type ) {
+			if ( ! isset( $this->update_results[ $type ] ) )
+				continue;
+			foreach ( $this->update_results[ $type ] as $update ) {
+				$body[] = $update->name;
+				$body[] = str_repeat( '-', strlen( $update->name ) );
+				foreach ( $update->messages as $message )
+					$body[] = "  " . html_entity_decode( str_replace( '&#8230;', '...', $message ) );
+				if ( is_wp_error( $update->result ) ) {
+					$results = array( 'update' => $update->result );
+					// If we rolled back, we want to know an error that occurred then too.
+					if ( 'rollback_was_required' === $update->result->get_error_code() )
+						$results = (array) $update->result->get_error_data();
+					foreach ( $results as $result_type => $result ) {
+						if ( ! is_wp_error( $result ) )
+							continue;
+						$body[] = '  ' . ( 'rollback' === $result_type ? 'Rollback ' : '' ) . 'Error: [' . $result->get_error_code() . '] ' . $result->get_error_message();
+						if ( $result->get_error_data() )
+							$body[] = '         ' . implode( ', ', (array) $result->get_error_data() );
+					}
+				}
+				$body[] = '';
+			}
+		}
+
+		//echo "<h1>\n$subject\n</h1>\n";
+		//echo "<pre>\n" . implode( "\n", $body ) . "\n</pre>";
+
+		wp_mail( get_site_option( 'admin_email' ), $subject, implode( "\n", $body ) );
 	}
 }

@@ -52,7 +52,15 @@ if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
 		$is_lynx = true;
 	} elseif ( stripos($_SERVER['HTTP_USER_AGENT'], 'chrome') !== false ) {
 		if ( stripos( $_SERVER['HTTP_USER_AGENT'], 'chromeframe' ) !== false ) {
-			if ( $is_chrome = apply_filters( 'use_google_chrome_frame', is_admin() ) )
+			$is_admin = is_admin();
+			/**
+			 * Filter whether Google Chrome Frame should be used, if available.
+			 *
+			 * @since 3.2.0
+			 *
+			 * @param bool $is_admin Whether to use the Google Chrome Frame. Default is the value of is_admin().
+			 */
+			if ( $is_chrome = apply_filters( 'use_google_chrome_frame', $is_admin ) )
 				header( 'X-UA-Compatible: chrome=1' );
 			$is_winIE = ! $is_chrome;
 		} else {
@@ -60,12 +68,12 @@ if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
 		}
 	} elseif ( stripos($_SERVER['HTTP_USER_AGENT'], 'safari') !== false ) {
 		$is_safari = true;
-	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Gecko') !== false ) {
-		$is_gecko = true;
-	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Win') !== false ) {
+	} elseif ( ( strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false || strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false ) && strpos($_SERVER['HTTP_USER_AGENT'], 'Win') !== false ) {
 		$is_winIE = true;
 	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Mac') !== false ) {
 		$is_macIE = true;
+	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Gecko') !== false ) {
+		$is_gecko = true;
 	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') !== false ) {
 		$is_opera = true;
 	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Nav') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla/4.') !== false ) {
@@ -85,6 +93,12 @@ $is_IE = ( $is_macIE || $is_winIE );
  * @global bool $is_apache
  */
 $is_apache = (strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false || strpos($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed') !== false);
+
+/**
+ * Whether the server software is Nginx or something else
+ * @global bool $is_nginx
+ */
+$is_nginx = (strpos($_SERVER['SERVER_SOFTWARE'], 'nginx') !== false);
 
 /**
  * Whether the server software is IIS or something else

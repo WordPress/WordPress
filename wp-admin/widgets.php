@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 /** WordPress Administration Widgets API */
 require_once(ABSPATH . 'wp-admin/includes/widgets.php');
@@ -34,6 +34,11 @@ if ( 'on' == $widgets_access ) {
 		wp_enqueue_script( 'jquery-touch-punch' );
 }
 
+/**
+ * Fires early before the Widgets administration screen loads, after scripts are enqueued.
+ *
+ * @since 2.2.0
+ */
 do_action( 'sidebar_admin_setup' );
 
 $title = __( 'Widgets' );
@@ -182,7 +187,8 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 
 	if ( isset($_GET['addnew']) ) {
 		// Default to the first sidebar
-		$sidebar = array_shift( $keys = array_keys($wp_registered_sidebars) );
+		$keys = array_keys( $wp_registered_sidebars );
+		$sidebar = array_shift( $keys );
 
 		if ( isset($_GET['base']) && isset($_GET['num']) ) { // multi-widget
 			// Copy minimal info from an existing instance of this widget to a new instance
@@ -221,7 +227,7 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 	$width = ' style="width:' . max($control['width'], 350) . 'px"';
 	$key = isset($_GET['key']) ? (int) $_GET['key'] : 0;
 
-	require_once( './admin-header.php' ); ?>
+	require_once( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 	<div class="wrap">
 	<?php screen_icon(); ?>
 	<h2><?php echo esc_html( $title ); ?></h2>
@@ -288,7 +294,7 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 	</div>
 	</div>
 <?php
-	require_once( './admin-footer.php' );
+	require_once( ABSPATH . 'wp-admin/admin-footer.php' );
 	exit;
 }
 
@@ -301,7 +307,7 @@ $errors = array(
 	__('Error in displaying the widget settings form.')
 );
 
-require_once( './admin-header.php' ); ?>
+require_once( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 
 <div class="wrap">
 <?php screen_icon(); ?>
@@ -314,7 +320,13 @@ require_once( './admin-header.php' ); ?>
 <div id="message" class="error"><p><?php echo $errors[$_GET['error']]; ?></p></div>
 <?php } ?>
 
-<?php do_action( 'widgets_admin_page' ); ?>
+<?php
+/**
+ * Fires before the Widgets administration page content loads.
+ *
+ * @since 3.0.0
+ */
+do_action( 'widgets_admin_page' ); ?>
 
 <div class="widget-liquid-left">
 <div id="widgets-left">
@@ -395,5 +407,11 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 </div>
 
 <?php
+
+/**
+ * Fires after the available widgets and sidebars have loaded, before the admin footer.
+ *
+ * @since 2.2.0
+ */
 do_action( 'sidebar_admin_page' );
-require_once( './admin-footer.php' );
+require_once( ABSPATH . 'wp-admin/admin-footer.php' );

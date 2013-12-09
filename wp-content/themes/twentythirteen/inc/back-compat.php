@@ -1,9 +1,9 @@
 <?php
 /**
- * Twenty Thirteen back compat functionality.
+ * Twenty Thirteen back compat functionality
  *
  * Prevents Twenty Thirteen from running on WordPress versions prior to 3.6,
- * since this theme is not meant to be backwards compatible and relies on
+ * since this theme is not meant to be backward compatible and relies on
  * many new functions and markup changes introduced in 3.6.
  *
  * @package WordPress
@@ -12,8 +12,9 @@
  */
 
 /**
- * Prevent switching to Twenty Thirteen on old versions of WordPress. Switches
- * to the default theme.
+ * Prevent switching to Twenty Thirteen on old versions of WordPress.
+ *
+ * Switches to the default theme.
  *
  * @since Twenty Thirteen 1.0
  *
@@ -27,6 +28,8 @@ function twentythirteen_switch_theme() {
 add_action( 'after_switch_theme', 'twentythirteen_switch_theme' );
 
 /**
+ * Add message for unsuccessful theme switch.
+ *
  * Prints an update nag after an unsuccessful attempt to switch to
  * Twenty Thirteen on WordPress versions prior to 3.6.
  *
@@ -40,7 +43,7 @@ function twentythirteen_upgrade_notice() {
 }
 
 /**
- * Prevents the Customizer from being loaded on WordPress versions prior to 3.6.
+ * Prevent the Theme Customizer from being loaded on WordPress versions prior to 3.6.
  *
  * @since Twenty Thirteen 1.0
  *
@@ -54,7 +57,7 @@ function twentythirteen_customize() {
 add_action( 'load-customize.php', 'twentythirteen_customize' );
 
 /**
- * Prevents the Theme Preview from being loaded on WordPress versions prior to 3.4.
+ * Prevent the Theme Preview from being loaded on WordPress versions prior to 3.4.
  *
  * @since Twenty Thirteen 1.0
  *

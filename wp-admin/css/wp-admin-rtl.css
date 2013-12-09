@@ -1706,38 +1706,21 @@ h2 .nav-tab {
 	float: right;
 }
 
+.about-wrap .feature-section.two-col div,
 .about-wrap .feature-section.three-col div {
 	margin-right: 0;
 	margin-left: 4.999999999%;
 	float: right;
 }
 
-.about-wrap .feature-section.three-col h4 {
-	text-align: right;
-}
-
-.about-wrap .feature-section.three-col img {
-	margin-right: 5px;
+.about-wrap .feature-section.col .last-feature {
 	margin-left: 0;
 }
 
-.about-wrap .feature-section.three-col .last-feature {
-	margin-left: 0;
-}
-
-.about-wrap .feature-section img {
-	margin: 0 0 10px 0.7%;
-}
-
-.about-wrap .feature-section.images-stagger-right img,
-.about-wrap .feature-section.images-stagger-right .video {
+.about-wrap .feature-section div p img {
 	float: left;
-	margin: 0 2em 12px 5px;
-}
-
-.about-wrap .feature-section.images-stagger-left img {
-	float: right;
-	margin: 0 5px 12px 2em;
+	margin-left: 0;
+	margin-right: 10px;
 }
 
 .about-wrap li.wp-person,
@@ -1747,25 +1730,6 @@ h2 .nav-tab {
 	margin-left: 10px;
 }
 
-@media only screen and (max-width: 900px) {
-	.about-wrap .feature-section.images-stagger-right .video.image-66 {
-		margin-right: 3px;
-	}
-}
-
-@media only screen and (max-width: 768px) {
-	.about-wrap .feature-section .image-66 {
-		float: none;
-	}
-
-	.about-wrap .feature-section.images-stagger-right .image-66 {
-		margin-right: 3px;
-	}
-
-	.about-wrap .feature-section.images-stagger-left .image-66 {
-		margin-left: 3px;
-	}
-}
 
 /*------------------------------------------------------------------------------
   23.0 - Misc
@@ -1799,7 +1763,7 @@ h2 .nav-tab {
 
 }
 .tagchecklist span a {
-	margin: 6px -9px 0pt 0pt;
+	margin: 4px -10px 0 0;
 	float: right;
 }
 

@@ -547,6 +547,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( in_array( 'cap', $fields ) )
 			$_taxonomy['cap'] = (array) $taxonomy->cap;
 
+		if ( in_array( 'menu', $fields ) )
+			$_taxonomy['show_in_menu'] = (bool) $_taxonomy->show_in_menu;
+
 		if ( in_array( 'object_type', $fields ) )
 			$_taxonomy['object_type'] = array_unique( (array) $taxonomy->object_type );
 

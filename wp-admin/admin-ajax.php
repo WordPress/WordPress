@@ -38,6 +38,7 @@ require_once( ABSPATH . 'wp-admin/includes/ajax-actions.php' );
 send_nosniff_header();
 nocache_headers();
 
+/** This action is documented in wp-admin/admin.php */
 do_action( 'admin_init' );
 
 $core_actions_get = array(
@@ -68,10 +69,26 @@ if ( ! empty( $_POST['action'] ) && in_array( $_POST['action'], $core_actions_po
 
 add_action( 'wp_ajax_nopriv_heartbeat', 'wp_ajax_nopriv_heartbeat', 1 );
 
-if ( is_user_logged_in() )
-	do_action( 'wp_ajax_' . $_REQUEST['action'] ); // Authenticated actions
-else
-	do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] ); // Non-admin actions
-
+if ( is_user_logged_in() ) {
+	/**
+	 * Fires authenticated AJAX actions for logged-in users.
+	 *
+	 * The dynamic portion of the hook name, $_REQUEST['action'],
+	 * refers to the name of the AJAX action callback being fired.
+	 *
+	 * @since 2.1.0
+	 */
+	do_action( 'wp_ajax_' . $_REQUEST['action'] );
+} else {
+	/**
+	 * Fires non-authenticated AJAX actions for logged-out users.
+	 *
+	 * The dynamic portion of the hook name, $_REQUEST['action'],
+	 * refers to the name of the AJAX action callback being fired.
+	 *
+	 * @since 2.8.0
+	 */
+	do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] );
+}
 // Default status
 die( '0' );

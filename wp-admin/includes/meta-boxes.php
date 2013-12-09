@@ -55,7 +55,7 @@ if ( 'publish' == $post->post_status ) {
 
 <div id="misc-publishing-actions">
 
-<div class="misc-pub-section"><label for="post_status"><?php _e('Status:') ?></label>
+<div class="misc-pub-section misc-pub-post-status"><label for="post_status"><?php _e('Status:') ?></label>
 <span id="post-status-display">
 <?php
 switch ( $post->post_status ) {
@@ -105,7 +105,7 @@ switch ( $post->post_status ) {
 <?php } ?>
 </div><!-- .misc-pub-section -->
 
-<div class="misc-pub-section" id="visibility">
+<div class="misc-pub-section misc-pub-visibility" id="visibility">
 <?php _e('Visibility:'); ?> <span id="post-visibility-display"><?php
 
 if ( 'private' == $post->post_status ) {
@@ -138,7 +138,7 @@ echo esc_html( $visibility_trans ); ?></span>
 <span id="sticky-span"><input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked( is_sticky( $post->ID ) ); ?> /> <label for="sticky" class="selectit"><?php _e( 'Stick this post to the front page' ); ?></label><br /></span>
 <?php endif; ?>
 <input type="radio" name="visibility" id="visibility-radio-password" value="password" <?php checked( $visibility, 'password' ); ?> /> <label for="visibility-radio-password" class="selectit"><?php _e('Password protected'); ?></label><br />
-<span id="password-span"><label for="post_password"><?php _e('Password:'); ?></label> <input type="text" name="post_password" id="post_password" value="<?php echo esc_attr($post->post_password); ?>" /><br /></span>
+<span id="password-span"><label for="post_password"><?php _e('Password:'); ?></label> <input type="text" name="post_password" id="post_password" value="<?php echo esc_attr($post->post_password); ?>"  maxlength="20" /><br /></span>
 <input type="radio" name="visibility" id="visibility-radio-private" value="private" <?php checked( $visibility, 'private' ); ?> /> <label for="visibility-radio-private" class="selectit"><?php _e('Private'); ?></label><br />
 
 <p>
@@ -174,7 +174,7 @@ if ( 0 != $post->ID ) {
 if ( ! empty( $args['args']['revisions_count'] ) ) :
 	$revisions_to_keep = wp_revisions_to_keep( $post );
 ?>
-<div class="misc-pub-section num-revisions">
+<div class="misc-pub-section misc-pub-revisions">
 <?php
 	if ( $revisions_to_keep > 0 && $revisions_to_keep <= $args['args']['revisions_count'] ) {
 		echo '<span title="' . esc_attr( sprintf( __( 'Your site is configured to keep only the last %s revisions.' ),
@@ -190,7 +190,7 @@ if ( ! empty( $args['args']['revisions_count'] ) ) :
 <?php endif;
 
 if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
-<div class="misc-pub-section curtime">
+<div class="misc-pub-section curtime misc-pub-curtime">
 	<span id="timestamp">
 	<?php printf($stamp, $date); ?></span>
 	<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><?php _e('Edit') ?></a>
@@ -278,7 +278,7 @@ function attachment_submit_meta_box( $post ) {
 	$stamp = __('Uploaded on: <b>%1$s</b>');
 	$date = date_i18n( $datef, strtotime( $post->post_date ) );
 	?>
-	<div class="misc-pub-section curtime">
+	<div class="misc-pub-section curtime misc-pub-curtime">
 		<span id="timestamp"><?php printf($stamp, $date); ?></span>
 	</div><!-- .misc-pub-section -->
 
@@ -506,7 +506,7 @@ foreach ( $metadata as $key => $value ) {
 		unset( $metadata[ $key ] );
 }
 list_meta( $metadata );
-meta_form(); ?>
+meta_form( $post ); ?>
 </div>
 <p><?php _e('Custom fields can be used to add extra metadata to a post that you can <a href="http://codex.wordpress.org/Using_Custom_Fields" target="_blank">use in your theme</a>.'); ?></p>
 <?php
@@ -702,7 +702,7 @@ function link_submit_meta_box($link) {
 </div>
 
 <div id="misc-publishing-actions">
-<div class="misc-pub-section">
+<div class="misc-pub-section misc-pub-private">
 	<label for="link_private" class="selectit"><input id="link_private" name="link_visible" type="checkbox" value="N" <?php checked($link->link_visible, 'N'); ?> /> <?php _e('Keep this link private') ?></label>
 </div>
 </div>
@@ -962,11 +962,11 @@ function link_advanced_meta_box($link) {
 <table class="links-table" cellpadding="0">
 	<tr>
 		<th scope="row"><label for="link_image"><?php _e('Image Address') ?></label></th>
-		<td><input type="text" name="link_image" class="code" id="link_image" value="<?php echo ( isset( $link->link_image ) ? esc_attr($link->link_image) : ''); ?>" /></td>
+		<td><input type="text" name="link_image" class="code" id="link_image" maxlength="255" value="<?php echo ( isset( $link->link_image ) ? esc_attr($link->link_image) : ''); ?>" /></td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="rss_uri"><?php _e('RSS Address') ?></label></th>
-		<td><input name="link_rss" class="code" type="text" id="rss_uri" value="<?php echo ( isset( $link->link_rss ) ? esc_attr($link->link_rss) : ''); ?>" /></td>
+		<td><input name="link_rss" class="code" type="text" id="rss_uri" maxlength="255" value="<?php echo ( isset( $link->link_rss ) ? esc_attr($link->link_rss) : ''); ?>" /></td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="link_notes"><?php _e('Notes') ?></label></th>

@@ -2084,6 +2084,12 @@ RTL
 	background-image: linear-gradient(to top, #ececec, #f9f9f9);
 }
 
+#mce_fullscreen_container {
+	background: #fff;
+	/* Fix for the default fullscreen plugin for the media modal */
+	z-index: 110000 !important;
+}
+
 /* =CSS 3 transitions
 -------------------------------------------------------------- */
 

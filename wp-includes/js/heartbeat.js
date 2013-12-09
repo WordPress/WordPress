@@ -45,7 +45,7 @@ window.wp = window.wp || {};
 			userActiveEvents,
 			winBlurTimeout,
 			frameBlurTimeout = -1,
-			hasConnectionError = false;
+			hasConnectionError = null;
 
 		/**
 		 * Returns a boolean that's indicative of whether or not there is a connection error
@@ -53,7 +53,7 @@ window.wp = window.wp || {};
 		 * @returns boolean
 		 */
 		this.hasConnectionError = function() {
-			return hasConnectionError;
+			return !! hasConnectionError;
 		};
 
 		if ( typeof( window.heartbeatSettings ) == 'object' ) {
@@ -108,7 +108,7 @@ window.wp = window.wp || {};
 		}
 
 		// Set error state and fire an event on XHR errors or timeout
-		function errorstate( error ) {
+		function errorstate( error, status ) {
 			var trigger;
 
 			if ( error ) {
@@ -132,14 +132,20 @@ window.wp = window.wp || {};
 						break;
 				}
 
+				if ( 503 == status && false === hasConnectionError ) {
+					trigger = true;
+				}
+
 				if ( trigger && ! self.hasConnectionError() ) {
 					hasConnectionError = true;
-					$(document).trigger( 'heartbeat-connection-lost', [error] );
+					$(document).trigger( 'heartbeat-connection-lost', [error, status] );
 				}
 			} else if ( self.hasConnectionError() ) {
 				errorcount = 0;
 				hasConnectionError = false;
 				$(document).trigger( 'heartbeat-connection-restored' );
+			} else if ( null === hasConnectionError ) {
+				hasConnectionError = false;
 			}
 		}
 
@@ -213,7 +219,7 @@ window.wp = window.wp || {};
 				connecting = false;
 				next();
 			}).fail( function( jqXHR, textStatus, error ) {
-				errorstate( textStatus || 'unknown' );
+				errorstate( textStatus || 'unknown', jqXHR.status );
 				self.error( jqXHR, textStatus, error );
 			});
 		}
@@ -427,7 +433,7 @@ window.wp = window.wp || {};
 		 */
 		this.enqueue = function( handle, data, dont_overwrite ) {
 			if ( handle ) {
-				if ( queue.hasOwnProperty( handle ) && dont_overwrite )
+				if ( dont_overwrite && this.isQueued( handle ) )
 					return false;
 
 				queue[handle] = data;
@@ -440,10 +446,33 @@ window.wp = window.wp || {};
 		 * Check if data with a particular handle is queued
 		 *
 		 * $param string handle The handle for the data
-		 * $return mixed The data queued with that handle or null
+		 * $return bool Whether some data is queued with this handle
 		 */
 		this.isQueued = function( handle ) {
-			return queue[handle];
+			if ( handle )
+				return queue.hasOwnProperty( handle );
+		};
+
+		/**
+		 * Remove data with a particular handle from the queue
+		 *
+		 * $param string handle The handle for the data
+		 * $return void
+		 */
+		this.dequeue = function( handle ) {
+			if ( handle )
+				delete queue[handle];
+		};
+
+		/**
+		 * Get data that was enqueued with a particular handle
+		 *
+		 * $param string handle The handle for the data
+		 * $return mixed The data or undefined
+		 */
+		this.getQueuedItem = function( handle ) {
+			if ( handle )
+				return this.isQueued( handle ) ? queue[handle] : undefined;
 		};
 	};
 

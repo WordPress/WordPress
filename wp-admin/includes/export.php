@@ -367,10 +367,11 @@ function export_wp( $args = array() ) {
 		$is_sticky = is_sticky( $post->ID ) ? 1 : 0;
 ?>
 	<item>
+		<?php /** This filter is documented in wp-includes/feed.php */ ?>
 		<title><?php echo apply_filters( 'the_title_rss', $post->post_title ); ?></title>
 		<link><?php the_permalink_rss() ?></link>
 		<pubDate><?php echo mysql2date( 'D, d M Y H:i:s +0000', get_post_time( 'Y-m-d H:i:s', true ), false ); ?></pubDate>
-		<dc:creator><?php echo get_the_author_meta( 'login' ); ?></dc:creator>
+		<dc:creator><?php echo wxr_cdata( get_the_author_meta( 'login' ) ); ?></dc:creator>
 		<guid isPermaLink="false"><?php the_guid(); ?></guid>
 		<description></description>
 		<content:encoded><?php echo wxr_cdata( apply_filters( 'the_content_export', $post->post_content ) ); ?></content:encoded>

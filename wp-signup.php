@@ -5,7 +5,7 @@ require( dirname(__FILE__) . '/wp-load.php' );
 
 add_action( 'wp_head', 'wp_no_robots' );
 
-require( './wp-blog-header.php' );
+require( dirname( __FILE__ ) . '/wp-blog-header.php' );
 
 if ( is_array( get_site_option( 'illegal_names' )) && isset( $_GET[ 'new' ] ) && in_array( $_GET[ 'new' ], get_site_option( 'illegal_names' ) ) == true ) {
 	wp_redirect( network_home_url() );
@@ -18,6 +18,11 @@ if ( is_array( get_site_option( 'illegal_names' )) && isset( $_GET[ 'new' ] ) &&
  * @since MU
  */
 function do_signup_header() {
+	/**
+	 * Fires within the <head> section of the site sign-up screen.
+	 *
+	 * @since 3.0.0
+	 */
 	do_action( 'signup_header' );
 }
 add_action( 'wp_head', 'do_signup_header' );
@@ -63,6 +68,11 @@ function wpmu_signup_stylesheet() {
 add_action( 'wp_head', 'wpmu_signup_stylesheet' );
 get_header();
 
+/**
+ * Fires before the site sign-up form.
+ *
+ * @since 3.0.0
+ */
 do_action( 'before_signup_form' );
 ?>
 <div id="content" class="widecolumn">
@@ -128,7 +138,14 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 	</div>
 
 	<?php
-	do_action('signup_blogform', $errors);
+	/**
+	 * Fires after the site sign-up form.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $errors An array possibly containing 'blogname' or 'blog_title' errors.
+	 */
+	do_action( 'signup_blogform', $errors );
 }
 
 /**
@@ -176,6 +193,13 @@ function show_user_form($user_name = '', $user_email = '', $errors = '') {
 	if ( $errmsg = $errors->get_error_message('generic') ) {
 		echo '<p class="error">' . $errmsg . '</p>';
 	}
+	/**
+	 * Fires at the end of the user registration form on the site sign-up form.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $errors An array possibly containing 'user_name' or 'user_email' errors.
+	 */
 	do_action( 'signup_extra_fields', $errors );
 }
 
@@ -209,8 +233,27 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 		$errors = new WP_Error();
 	}
 
-	// allow definition of default variables
-	$filtered_results = apply_filters('signup_another_blog_init', array('blogname' => $blogname, 'blog_title' => $blog_title, 'errors' => $errors ));
+	$signup_defaults = array(
+		'blogname'   => $blogname,
+		'blog_title' => $blog_title,
+		'errors'     => $errors
+	);
+
+	/**
+	 * Filter the default site sign-up variables.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $signup_defaults {
+	 *     An array of default site sign-up variables.
+	 *
+	 *     @type string $blogname   The site blogname.
+	 *     @type string $blog_title The site title.
+	 *     @type array  $errors     An array possibly containing 'blogname' or 'blog_title' errors.
+	 * }
+	 */
+	$filtered_results = apply_filters( 'signup_another_blog_init', $signup_defaults );
+
 	$blogname = $filtered_results['blogname'];
 	$blog_title = $filtered_results['blog_title'];
 	$errors = $filtered_results['errors'];
@@ -239,7 +282,17 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
 	<p><?php _e( 'If you&#8217;re not going to use a great site domain, leave it for a new user. Now have at it!' ) ?></p>
 	<form id="setupform" method="post" action="wp-signup.php">
 		<input type="hidden" name="stage" value="gimmeanotherblog" />
-		<?php do_action( 'signup_hidden_fields' ); ?>
+		<?php
+		/**
+		 * Hidden sign-up form fields output when creating another site or user.
+		 *
+		 * @since MU
+		 *
+		 * @param string $context A string describing the steps of the sign-up process. The value can be
+		 *                        'create-another-site', 'validate-user', or 'validate-site'.
+		 */
+		do_action( 'signup_hidden_fields', 'create-another-site' );
+		?>
 		<?php show_blog_form($blogname, $blog_title, $errors); ?>
 		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php esc_attr_e( 'Create Site' ) ?>" /></p>
 	</form>
@@ -271,7 +324,33 @@ function validate_another_blog_signup() {
 	}
 
 	$public = (int) $_POST['blog_public'];
-	$meta = apply_filters( 'signup_create_blog_meta', array( 'lang_id' => 1, 'public' => $public ) ); // deprecated
+
+	$blog_meta_defaults = array(
+		'lang_id' => 1,
+		'public'  => $public
+	);
+
+	/**
+	 * Filter the new site meta variables.
+	 *
+	 * @since MU
+	 * @deprecated 3.0.0 Use the 'add_signup_meta' filter instead.
+	 *
+	 * @param array $blog_meta_defaults An array of default blog meta variables.
+	 */
+	$meta = apply_filters( 'signup_create_blog_meta', $blog_meta_defaults );
+	/**
+	 * Filter the new default site meta variables.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $meta {
+	 *     An array of default site meta variables.
+	 *
+	 *     @type int $lang_id     The language ID.
+	 *     @type int $blog_public Whether search engines should be discouraged from indexing the site. 1 for true, 0 for false.
+	 * }
+	 */
 	$meta = apply_filters( 'add_signup_meta', $meta );
 
 	wpmu_create_blog( $domain, $path, $blog_title, $current_user->ID, $meta, $wpdb->siteid );
@@ -297,6 +376,11 @@ function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $
 		<?php printf( __( '<a href="http://%1$s">http://%2$s</a> is your new site. <a href="%3$s">Log in</a> as &#8220;%4$s&#8221; using your existing password.' ), $domain.$path, $domain.$path, "http://" . $domain.$path . "wp-login.php", $user_name ) ?>
 	</p>
 	<?php
+	/**
+	 * Fires when the site or user sign-up process is complete.
+	 *
+	 * @since 3.0.0
+	 */
 	do_action( 'signup_finished' );
 }
 
@@ -319,8 +403,26 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 
 	$signup_for = isset( $_POST[ 'signup_for' ] ) ? esc_html( $_POST[ 'signup_for' ] ) : 'blog';
 
-	// allow definition of default variables
-	$filtered_results = apply_filters('signup_user_init', array('user_name' => $user_name, 'user_email' => $user_email, 'errors' => $errors ));
+	$signup_user_defaults = array(
+		'user_name'  => $user_name,
+		'user_email' => $user_email,
+		'errors'     => $errors,
+	);
+
+	/**
+	 * Filter the default user variables used on the user sign-up form.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $signup_user_defaults {
+	 *     An array of default user variables.
+	 *
+	 *     @type string $user_name  The user username.
+	 *     @type string $user_email The user email address.
+	 *     @type array  $errors     An array of possible errors relevant to the sign-up user.
+	 * }
+	 */
+	$filtered_results = apply_filters( 'signup_user_init', $signup_user_defaults );
 	$user_name = $filtered_results['user_name'];
 	$user_email = $filtered_results['user_email'];
 	$errors = $filtered_results['errors'];
@@ -330,7 +432,10 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 	<h2><?php printf( __( 'Get your own %s account in seconds' ), $current_site->site_name ) ?></h2>
 	<form id="setupform" method="post" action="wp-signup.php">
 		<input type="hidden" name="stage" value="validate-user-signup" />
-		<?php do_action( 'signup_hidden_fields' ); ?>
+		<?php
+		/** This action is documented in wp-signup.php */
+		do_action( 'signup_hidden_fields', 'validate-user' );
+		?>
 		<?php show_user_form($user_name, $user_email, $errors); ?>
 
 		<p>
@@ -376,7 +481,8 @@ function validate_user_signup() {
 		return false;
 	}
 
-	wpmu_signup_user($user_name, $user_email, apply_filters( 'add_signup_meta', array() ) );
+	/** This filter is documented in wp-signup.php */
+	wpmu_signup_user( $user_name, $user_email, apply_filters( 'add_signup_meta', array() ) );
 
 	confirm_user_signup($user_name, $user_email);
 	return true;
@@ -397,6 +503,7 @@ function confirm_user_signup($user_name, $user_email) {
 	<p><?php printf( __( 'Check your inbox at <strong>%s</strong> and click the link given.' ), $user_email ); ?></p>
 	<p><?php _e( 'If you do not activate your username within two days, you will have to sign up again.' ); ?></p>
 	<?php
+	/** This action is documented in wp-signup.php */
 	do_action( 'signup_finished' );
 }
 
@@ -417,8 +524,31 @@ function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_ti
 	if ( !is_wp_error($errors) )
 		$errors = new WP_Error();
 
-	// allow definition of default variables
-	$filtered_results = apply_filters('signup_blog_init', array('user_name' => $user_name, 'user_email' => $user_email, 'blogname' => $blogname, 'blog_title' => $blog_title, 'errors' => $errors ));
+	$signup_blog_defaults = array(
+		'user_name'  => $user_name,
+		'user_email' => $user_email,
+		'blogname'   => $blogname,
+		'blog_title' => $blog_title,
+		'errors'     => $errors
+	);
+
+	/**
+	 * Filter the default site creation variables for the site sign-up form.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $signup_blog_defaults {
+	 *     An array of default site creation variables.
+	 *
+	 *     @type string $user_name  The user username.
+	 *     @type string $user_email The user email address.
+	 *     @type string $blogname   The blogname.
+	 *     @type string $blog_title The title of the site.
+	 *     @type array  $errors     An array of possible errors relevant to new site creation variables.
+	 * }
+	 */
+	$filtered_results = apply_filters( 'signup_blog_init', $signup_blog_defaults );
+
 	$user_name = $filtered_results['user_name'];
 	$user_email = $filtered_results['user_email'];
 	$blogname = $filtered_results['blogname'];
@@ -432,7 +562,10 @@ function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_ti
 		<input type="hidden" name="stage" value="validate-blog-signup" />
 		<input type="hidden" name="user_name" value="<?php echo esc_attr($user_name) ?>" />
 		<input type="hidden" name="user_email" value="<?php echo esc_attr($user_email) ?>" />
-		<?php do_action( 'signup_hidden_fields' ); ?>
+		<?php
+		/** This action is documented in wp-signup.php */
+		do_action( 'signup_hidden_fields', 'validate-site' );
+		?>
 		<?php show_blog_form($blogname, $blog_title, $errors); ?>
 		<p class="submit"><input type="submit" name="submit" class="submit" value="<?php esc_attr_e('Signup') ?>" /></p>
 	</form>
@@ -471,6 +604,8 @@ function validate_blog_signup() {
 
 	$public = (int) $_POST['blog_public'];
 	$meta = array ('lang_id' => 1, 'public' => $public);
+
+	/** This filter is documented in wp-signup.php */
 	$meta = apply_filters( 'add_signup_meta', $meta );
 
 	wpmu_signup_blog($domain, $path, $blog_title, $user_name, $user_email, $meta);
@@ -507,15 +642,21 @@ function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $use
 		</ul>
 	</p>
 	<?php
+	/** This action is documented in wp-signup.php */
 	do_action( 'signup_finished' );
 }
 
 // Main
-$active_signup = get_site_option( 'registration' );
-if ( !$active_signup )
-	$active_signup = 'all';
-
-$active_signup = apply_filters( 'wpmu_active_signup', $active_signup ); // return "all", "none", "blog" or "user"
+$active_signup = get_site_option( 'registration', 'none' );
+/**
+ * Filter the type of site sign-up.
+ *
+ * @since 3.0.0
+ *
+ * @param string $active_signup String that returns registration type. The value can be
+ *                              'all', 'none', 'blog', or 'user'.
+ */
+$active_signup = apply_filters( 'wpmu_active_signup', $active_signup );
 
 // Make the signup type translatable.
 $i18n_signup['all'] = _x('all', 'Multisite active signup type');
@@ -555,7 +696,12 @@ if ( $active_signup == 'none' ) {
 		case 'default':
 		default :
 			$user_email = isset( $_POST[ 'user_email' ] ) ? $_POST[ 'user_email' ] : '';
-			do_action( 'preprocess_signup_form' ); // populate the form from invites, elsewhere?
+			/**
+			 * Fires when the site sign-up form is sent.
+			 *
+			 * @since 3.0.0
+			 */
+			do_action( 'preprocess_signup_form' );
 			if ( is_user_logged_in() && ( $active_signup == 'all' || $active_signup == 'blog' ) )
 				signup_another_blog($newblogname);
 			elseif ( is_user_logged_in() == false && ( $active_signup == 'all' || $active_signup == 'user' ) )
@@ -579,6 +725,12 @@ if ( $active_signup == 'none' ) {
 ?>
 </div>
 </div>
-<?php do_action( 'after_signup_form' ); ?>
+<?php
+/**
+ * Fires after the sign-up forms, before wp_footer.
+ *
+ * @since 3.0.0
+ */
+do_action( 'after_signup_form' ); ?>
 
 <?php get_footer(); ?>

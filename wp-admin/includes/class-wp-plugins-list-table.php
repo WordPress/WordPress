@@ -99,7 +99,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		if ( $s ) {
 			$status = 'search';
-			$plugins['search'] = array_filter( $plugins['all'], array( &$this, '_search_callback' ) );
+			$plugins['search'] = array_filter( $plugins['all'], array( $this, '_search_callback' ) );
 		}
 
 		$totals = array();
@@ -121,7 +121,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$orderby = ucfirst( $orderby );
 			$order = strtoupper( $order );
 
-			uasort( $this->items, array( &$this, '_order_callback' ) );
+			uasort( $this->items, array( $this, '_order_callback' ) );
 		}
 
 		$plugins_per_page = $this->get_items_per_page( str_replace( '-', '_', $screen->id . '_per_page' ), 999 );
@@ -321,7 +321,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			if ( true === ( $dropins[ $plugin_file ][1] ) ) { // Doesn't require a constant
 				$is_active = true;
 				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
-			} elseif ( constant( $dropins[ $plugin_file ][1] ) ) { // Constant is true
+			} elseif ( defined( $dropins[ $plugin_file ][1] ) && constant( $dropins[ $plugin_file ][1] ) ) { // Constant is true
 				$is_active = true;
 				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
 			} else {

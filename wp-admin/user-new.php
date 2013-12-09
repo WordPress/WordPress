@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( is_multisite() ) {
 	if ( ! current_user_can( 'create_users' ) && ! current_user_can( 'promote_users' ) )
@@ -111,12 +111,19 @@ Please click the following link to confirm the invite:
 			die();
 		}
 	} else {
-		// Adding a new user to this blog
+		// Adding a new user to this site
 		$user_details = wpmu_validate_user_signup( $_REQUEST[ 'user_login' ], $_REQUEST[ 'email' ] );
 		if ( is_wp_error( $user_details[ 'errors' ] ) && !empty( $user_details[ 'errors' ]->errors ) ) {
 			$add_user_errors = $user_details[ 'errors' ];
 		} else {
-			$new_user_login = apply_filters('pre_user_login', sanitize_user(wp_unslash($_REQUEST['user_login']), true));
+			/**
+			 * Filter the user_login, aka the username, before it is added to the site.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param string $_REQUEST['user_login'] The sanitized username.
+			 */
+			$new_user_login = apply_filters( 'pre_user_login', sanitize_user( wp_unslash( $_REQUEST['user_login'] ), true ) );
 			if ( isset( $_POST[ 'noconfirmation' ] ) && is_super_admin() ) {
 				add_filter( 'wpmu_signup_user_notification', '__return_false' ); // Disable confirmation email
 			}
@@ -181,13 +188,20 @@ get_current_screen()->set_help_sidebar(
 wp_enqueue_script('wp-ajax-response');
 wp_enqueue_script('user-profile');
 
+/**
+ * Allows you to enable user auto-complete for non-super admins in multisite.
+ *
+ * @since 3.4.0
+ *
+ * @param bool True or false, based on if you enable auto-complete for non-super admins. Default is false.
+ */
 if ( is_multisite() && current_user_can( 'promote_users' ) && ! wp_is_large_network( 'users' )
 	&& ( is_super_admin() || apply_filters( 'autocomplete_users_for_site_admins', false ) )
 ) {
 	wp_enqueue_script( 'user-suggest' );
 }
 
-require_once( 'admin-header.php' );
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 if ( isset($_GET['update']) ) {
 	$messages = array();
@@ -266,6 +280,13 @@ if ( is_multisite() ) {
 		$label = __('E-mail or Username');
 	}
 ?>
+<?php
+/**
+ * Fires inside the adduser form tag.
+ *
+ * @since 3.0.0
+ */
+?>
 <form action="" method="post" name="adduser" id="adduser" class="validate"<?php do_action('user_new_form_tag');?>>
 <input name="action" type="hidden" value="adduser" />
 <?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
@@ -289,6 +310,20 @@ if ( is_multisite() ) {
 	</tr>
 <?php } ?>
 </table>
+<?php
+/**
+ * Fires at the end of the new user form.
+ *
+ * Passes a contextual string to make both types of new user forms
+ * uniquely targetable. Contexts are 'add-existing-user' (Multisite),
+ * and 'add-new-user' (single site and network admin).
+ *
+ * @since 3.7.0
+ *
+ * @param string A contextual string specifying which type of new user form the hook follows.
+ */
+do_action( 'user_new_form', 'add-existing-user' );
+?>
 <?php submit_button( __( 'Add Existing User '), 'primary', 'adduser', true, array( 'id' => 'addusersub' ) ); ?>
 </form>
 <?php
@@ -298,10 +333,13 @@ if ( current_user_can( 'create_users') ) {
 	if ( $do_both )
 		echo '<h3 id="create-new-user">' . __( 'Add New User' ) . '</h3>';
 ?>
-<p><?php _e('Create a brand new user and add it to this site.'); ?></p>
+<p><?php _e('Create a brand new user and add them to this site.'); ?></p>
+<?php
+/** This action is documented in wp-admin/user-new.php */
+?>
 <form action="" method="post" name="createuser" id="createuser" class="validate"<?php do_action('user_new_form_tag');?>>
 <input name="action" type="hidden" value="createuser" />
-<?php wp_nonce_field( 'create-user', '_wpnonce_create-user' ) ?>
+<?php wp_nonce_field( 'create-user', '_wpnonce_create-user' ); ?>
 <?php
 // Load up the passed data, else set to a default.
 foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_name' => 'lastname',
@@ -338,7 +376,15 @@ foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_nam
 		<th scope="row"><label for="url"><?php _e('Website') ?></label></th>
 		<td><input name="url" type="text" id="url" class="code" value="<?php echo esc_attr($new_user_uri); ?>" /></td>
 	</tr>
-<?php if ( apply_filters('show_password_fields', true) ) : ?>
+<?php
+/**
+ * Filter the display of the password fields.
+ *
+ * @since 1.5.1
+ *
+ * @param bool True or false, based on if you want to show the password fields. Default is true.
+ */
+if ( apply_filters( 'show_password_fields', true ) ) : ?>
 	<tr class="form-field form-required">
 		<th scope="row"><label for="pass1"><?php _e('Password'); ?> <span class="description"><?php /* translators: password input field */_e('(required)'); ?></span></label></th>
 		<td>
@@ -380,10 +426,15 @@ foreach ( array( 'user_login' => 'login', 'first_name' => 'firstname', 'last_nam
 	<?php } ?>
 </table>
 
+<?php
+/** This action is documented in wp-admin/user-new.php */
+do_action( 'user_new_form', 'add-new-user' );
+?>
+
 <?php submit_button( __( 'Add New User '), 'primary', 'createuser', true, array( 'id' => 'createusersub' ) ); ?>
 
 </form>
 <?php } // current_user_can('create_users') ?>
 </div>
 <?php
-include('./admin-footer.php');
+include( ABSPATH . 'wp-admin/admin-footer.php' );

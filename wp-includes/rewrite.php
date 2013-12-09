@@ -207,11 +207,18 @@ define('EP_AUTHORS', 2048);
 define('EP_PAGES', 4096);
 
 /**
+ * Endpoint Mask for all archive views.
+ *
+ * @since 3.7.0
+ */
+define( 'EP_ALL_ARCHIVES', EP_DATE | EP_YEAR | EP_MONTH | EP_DAY | EP_CATEGORIES | EP_TAGS | EP_AUTHORS );
+
+/**
  * Endpoint Mask for everything.
  *
  * @since 2.1.0
  */
-define('EP_ALL', 8191);
+define( 'EP_ALL', EP_PERMALINK | EP_ATTACHMENT | EP_ROOT | EP_COMMENTS | EP_SEARCH | EP_PAGES | EP_ALL_ARCHIVES );
 
 /**
  * Add an endpoint, like /trackback/.
@@ -317,20 +324,26 @@ function url_to_postid($url) {
 	if ( !$wp_rewrite->using_index_permalinks() )
 		$url = str_replace( $wp_rewrite->index . '/', '', $url );
 
-	if ( false !== strpos($url, home_url()) ) {
-		// Chop off http://domain.com
+	if ( false !== strpos( trailingslashit( $url ), home_url( '/' ) ) ) {
+		// Chop off http://domain.com/[path]
 		$url = str_replace(home_url(), '', $url);
 	} else {
 		// Chop off /path/to/blog
-		$home_path = parse_url(home_url());
+		$home_path = parse_url( home_url( '/' ) );
 		$home_path = isset( $home_path['path'] ) ? $home_path['path'] : '' ;
-		$url = str_replace($home_path, '', $url);
+		$url = preg_replace( sprintf( '#^%s#', preg_quote( $home_path ) ), '', trailingslashit( $url ) );
 	}
 
 	// Trim leading and lagging slashes
 	$url = trim($url, '/');
 
 	$request = $url;
+	$post_type_query_vars = array();
+
+	foreach ( get_post_types( array() , 'objects' ) as $post_type => $t ) {
+		if ( ! empty( $t->query_var ) )
+			$post_type_query_vars[ $t->query_var ] = $post_type;
+	}
 
 	// Look for matches.
 	$request_match = $request;
@@ -358,16 +371,21 @@ function url_to_postid($url) {
 
 			// Filter out non-public query vars
 			global $wp;
-			parse_str($query, $query_vars);
+			parse_str( $query, $query_vars );
 			$query = array();
 			foreach ( (array) $query_vars as $key => $value ) {
-				if ( in_array($key, $wp->public_query_vars) )
+				if ( in_array( $key, $wp->public_query_vars ) ){
 					$query[$key] = $value;
+					if ( isset( $post_type_query_vars[$key] ) ) {
+						$query['post_type'] = $post_type_query_vars[$key];
+						$query['name'] = $value;
+					}
+				}
 			}
 
 			// Do the query
-			$query = new WP_Query($query);
-			if ( !empty($query->posts) && $query->is_singular )
+			$query = new WP_Query( $query );
+			if ( ! empty( $query->posts ) && $query->is_singular )
 				return $query->post->ID;
 			else
 				return 0;
@@ -822,7 +840,8 @@ class WP_Rewrite {
 		global $wpdb;
 
 		//get pages in order of hierarchy, i.e. children after parents
-		$posts = get_page_hierarchy( $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'page' AND post_status != 'auto-draft'") );
+		$pages = $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'page' AND post_status != 'auto-draft'");
+		$posts = get_page_hierarchy( $pages );
 
 		// If we have no pages get out quick
 		if ( !$posts )
@@ -1435,8 +1454,8 @@ class WP_Rewrite {
 					if ( !empty($endpoints) ) {
 						foreach ( (array) $ep_query_append as $regex => $ep ) {
 							if ( $ep[0] & EP_ATTACHMENT ) {
-								$rewrite[$sub1 . $regex] = $subquery . $ep[1] . $this->preg_index(2);
-								$rewrite[$sub2 . $regex] = $subquery . $ep[1] . $this->preg_index(2);
+								$rewrite[$sub1 . $regex] = $subquery . $ep[1] . $this->preg_index(3);
+								$rewrite[$sub2 . $regex] = $subquery . $ep[1] . $this->preg_index(3);
 							}
 						}
 					}
@@ -1885,9 +1904,19 @@ class WP_Rewrite {
 	function flush_rules($hard = true) {
 		delete_option('rewrite_rules');
 		$this->wp_rewrite_rules();
-		if ( $hard && function_exists('save_mod_rewrite_rules') )
+		/**
+		 * Filter whether a "hard" rewrite rule flush should be performed when requested.
+		 *
+		 * A "hard" flush updates .htaccess (Apache) or web.config (IIS).
+		 *
+		 * @since 3.7.0
+		 * @param bool $hard Defaults to true.
+		 */
+		if ( ! $hard || ! apply_filters( 'flush_rewrite_rules_hard', true ) )
+			return;
+		if ( function_exists( 'save_mod_rewrite_rules' ) )
 			save_mod_rewrite_rules();
-		if ( $hard && function_exists('iis7_save_url_rewrite_rules') )
+		if ( function_exists( 'iis7_save_url_rewrite_rules' ) )
 			iis7_save_url_rewrite_rules();
 	}
 

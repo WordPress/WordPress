@@ -114,6 +114,9 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
  */
 function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup = true, $translate = true ) {
 
+	// Sanitize the plugin filename to a WP_PLUGIN_DIR relative path
+	$plugin_file = plugin_basename( $plugin_file );
+
 	// Translate fields
 	if ( $translate ) {
 		if ( $textdomain = $plugin_data['TextDomain'] ) {
@@ -537,7 +540,28 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 		include_once(WP_PLUGIN_DIR . '/' . $plugin);
 
 		if ( ! $silent ) {
+			/**
+			 * Fires before a plugin is activated in activate_plugin() when the $silent parameter is false.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param string $plugin       Plugin path to main plugin file with plugin data.
+			 * @param bool   $network_wide Whether to enable the plugin for all sites in the network
+			 *                             or just the current site. Multisite only. Default is false.
+			 */
 			do_action( 'activate_plugin', $plugin, $network_wide );
+
+			/**
+			 * Fires before a plugin is activated in activate_plugin() when the $silent parameter is false.
+			 *
+			 * The action concatenates the 'activate_' prefix with the $plugin value passed to
+			 * activate_plugin() to create a dynamically-named action.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param bool $network_wide Whether to enable the plugin for all sites in the network
+			 *                           or just the current site. Multisite only. Default is false.
+			 */
 			do_action( 'activate_' . $plugin, $network_wide );
 		}
 
@@ -551,6 +575,15 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 		}
 
 		if ( ! $silent ) {
+			/**
+			 * Fires after a plugin has been activated in activate_plugin() when the $silent parameter is false.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param string $plugin       Plugin path to main plugin file with plugin data.
+			 * @param bool   $network_wide Whether to enable the plugin for all sites in the network
+			 *                             or just the current site. Multisite only. Default is false.
+			 */
 			do_action( 'activated_plugin', $plugin, $network_wide );
 		}
 
@@ -591,6 +624,16 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 		$network_deactivating = false !== $network_wide && is_plugin_active_for_network( $plugin );
 
 		if ( ! $silent )
+			/**
+			 * Fires for each plugin being deactivated in deactivate_plugins(), before deactivation
+			 * and when the $silent parameter is false.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param string $plugin               Plugin path to main plugin file with plugin data.
+			 * @param bool   $network_deactivating Whether the plugin is deactivated for all sites in the network
+			 *                                     or just the current site. Multisite only. Default is false.
+			 */
 			do_action( 'deactivate_plugin', $plugin, $network_deactivating );
 
 		if ( false !== $network_wide ) {
@@ -611,7 +654,30 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 		}
 
 		if ( ! $silent ) {
+			/**
+			 * Fires for each plugin being deactivated in deactivate_plugins(), after deactivation
+			 * and when the $silent parameter is false.
+			 *
+			 * The action concatenates the 'deactivate_' prefix with the plugin's basename
+			 * to create a dynamically-named action.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param bool $network_deactivating Whether the plugin is deactivated for all sites in the network
+			 *                                   or just the current site. Multisite only. Default is false.
+			 */
 			do_action( 'deactivate_' . $plugin, $network_deactivating );
+
+			/**
+			 * Fires for each plugin being deactivated in deactivate_plugins(), after deactivation
+			 * and when the $silent parameter is false.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param string $plugin               Plugin path to main plugin file with plugin data.
+			 * @param bool   $network_deactivating Whether the plugin is deactivated for all sites in the network
+			 *                                     or just the current site. Multisite only. Default is false.
+			 */
 			do_action( 'deactivated_plugin', $plugin, $network_deactivating );
 		}
 	}
@@ -862,6 +928,15 @@ function uninstall_plugin($plugin) {
 		include WP_PLUGIN_DIR . '/' . $file;
 
 		add_action( 'uninstall_' . $file, $callable );
+
+		/**
+		 * Fires in uninstall_plugin() once the plugin has been uninstalled.
+		 *
+		 * The action concatenates the 'uninstall_' prefix with the basename of the
+		 * plugin passed to {@see uninstall_plugin()} to create a dynamically-named action.
+		 *
+		 * @since 2.7.0
+		 */
 		do_action( 'uninstall_' . $file );
 	}
 }
@@ -1760,4 +1835,17 @@ function settings_fields($option_group) {
 	echo "<input type='hidden' name='option_page' value='" . esc_attr($option_group) . "' />";
 	echo '<input type="hidden" name="action" value="update" />';
 	wp_nonce_field("$option_group-options");
+}
+
+/**
+ * Clears the Plugins cache used by get_plugins() and by default, the Plugin Update cache.
+ *
+ * @since 3.7.0
+ *
+ * @param bool $clear_update_cache Whether to clear the Plugin updates cache
+ */
+function wp_clean_plugins_cache( $clear_update_cache = true ) {
+	if ( $clear_update_cache )
+		delete_site_transient( 'update_plugins' );
+	wp_cache_delete( 'plugins', 'plugins' );
 }

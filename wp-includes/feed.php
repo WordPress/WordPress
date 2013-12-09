@@ -83,7 +83,7 @@ function get_wp_title_rss($sep = '&#187;') {
 	$title = wp_title($sep, false);
 	if ( is_wp_error( $title ) )
 		return $title->get_error_message();
-	$title = apply_filters('get_wp_title_rss', $title);
+	$title = apply_filters( 'get_wp_title_rss', $title, $sep );
 	return $title;
 }
 
@@ -98,8 +98,8 @@ function get_wp_title_rss($sep = '&#187;') {
  *
  * @param string $sep Optional.
  */
-function wp_title_rss($sep = '&#187;') {
-	echo apply_filters('wp_title_rss', get_wp_title_rss($sep));
+function wp_title_rss( $sep = '&#187;' ) {
+	echo apply_filters( 'wp_title_rss', get_wp_title_rss( $sep ), $sep );
 }
 
 /**
@@ -527,7 +527,7 @@ function feed_content_type( $type = '' ) {
  * @return WP_Error|SimplePie WP_Error object on failure or SimplePie object on success
  */
 function fetch_feed( $url ) {
-	require_once ( ABSPATH . WPINC . '/class-feed.php' );
+	require_once( ABSPATH . WPINC . '/class-feed.php' );
 
 	$feed = new SimplePie();
 

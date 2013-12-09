@@ -107,6 +107,7 @@ require( ABSPATH . WPINC . '/class-wp-ajax-response.php' );
 require( ABSPATH . WPINC . '/formatting.php' );
 require( ABSPATH . WPINC . '/capabilities.php' );
 require( ABSPATH . WPINC . '/query.php' );
+require( ABSPATH . WPINC . '/date.php' );
 require( ABSPATH . WPINC . '/theme.php' );
 require( ABSPATH . WPINC . '/class-wp-theme.php' );
 require( ABSPATH . WPINC . '/template.php' );
@@ -170,6 +171,11 @@ if ( is_multisite() ) {
 	unset( $network_plugin );
 }
 
+/**
+ * Fires once all must-use and network-activated plugins have loaded.
+ *
+ * @since 2.8.0
+ */
 do_action( 'muplugins_loaded' );
 
 if ( is_multisite() )
@@ -208,6 +214,13 @@ wp_set_internal_encoding();
 if ( WP_CACHE && function_exists( 'wp_cache_postload' ) )
 	wp_cache_postload();
 
+/**
+ * Fires once activated plugins have loaded.
+ *
+ * Pluggable functions are also available at this point in the loading order.
+ *
+ * @since 1.5.2
+ */
 do_action( 'plugins_loaded' );
 
 // Define constants which affect functionality if not already defined.
@@ -216,6 +229,11 @@ wp_functionality_constants();
 // Add magic quotes and set up $_REQUEST ( $_GET + $_POST )
 wp_magic_quotes();
 
+/**
+ * Fires when comment cookies are sanitized.
+ *
+ * @since 2.0.11
+ */
 do_action( 'sanitize_comment_cookies' );
 
 /**
@@ -261,6 +279,11 @@ $GLOBALS['wp_widget_factory'] = new WP_Widget_Factory();
  */
 $GLOBALS['wp_roles'] = new WP_Roles();
 
+/**
+ * Fires before the theme is loaded.
+ *
+ * @since 2.6.0
+ */
 do_action( 'setup_theme' );
 
 // Define the template related constants.
@@ -293,17 +316,26 @@ if ( ! defined( 'WP_INSTALLING' ) || 'wp-activate.php' === $pagenow ) {
 		include( TEMPLATEPATH . '/functions.php' );
 }
 
+/**
+ * Fires after the theme is loaded.
+ *
+ * @since 3.0.0
+ */
 do_action( 'after_setup_theme' );
 
 // Set up current user.
 $wp->init();
 
 /**
+ * Fires after WordPress has finished loading but before any headers are sent.
+ *
  * Most of WP is loaded at this stage, and the user is authenticated. WP continues
  * to load on the init hook that follows (e.g. widgets), and many plugins instantiate
  * themselves on it for all sorts of reasons (e.g. they need a user, a taxonomy, etc.).
  *
  * If you wish to plug an action once WP is loaded, use the wp_loaded hook below.
+ *
+ * @since 1.5.2
  */
 do_action( 'init' );
 
@@ -326,4 +358,4 @@ if ( is_multisite() ) {
  *
  * @since 3.0.0
  */
-do_action('wp_loaded');
+do_action( 'wp_loaded' );

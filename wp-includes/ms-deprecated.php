@@ -14,6 +14,23 @@
  */
 
 /**
+ * Get the "dashboard blog", the blog where users without a blog edit their profile data.
+ * Dashboard blog functionality was removed in WordPress 3.1, replaced by the user admin.
+ *
+ * @since MU
+ * @deprecated 3.1.0
+ * @see get_blog_details()
+ * @return int
+ */
+function get_dashboard_blog() {
+    _deprecated_function( __FUNCTION__, '3.1' );
+    if ( $blog = get_site_option( 'dashboard_blog' ) )
+        return get_blog_details( $blog );
+
+    return get_blog_details( $GLOBALS['current_site']->blog_id );
+}
+
+/**
  * @since MU
  * @deprecated 3.0.0
  * @deprecated Use wp_generate_password()
@@ -144,7 +161,7 @@ function validate_email( $email, $check_domain = true) {
  * @deprecated No alternative available. For performance reasons this function is not recommended.
  */
 function get_blog_list( $start = 0, $num = 10, $deprecated = '' ) {
-	_deprecated_function( __FUNCTION__, '3.0' );
+	_deprecated_function( __FUNCTION__, '3.0', 'wp_get_sites()' );
 
 	global $wpdb;
 	$blogs = $wpdb->get_results( $wpdb->prepare("SELECT blog_id, domain, path FROM $wpdb->blogs WHERE site_id = %d AND public = '1' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' ORDER BY registered DESC", $wpdb->siteid), ARRAY_A );
@@ -298,4 +315,33 @@ function get_user_id_from_string( $string ) {
 	if ( $user )
 		return $user->ID;
 	return 0;
+}
+
+/**
+ * Get a full blog URL, given a domain and a path.
+ *
+ * @since MU
+ * @deprecated 3.7.0
+ *
+ * @param string $domain
+ * @param string $path
+ * @return string
+ */
+function get_blogaddress_by_domain( $domain, $path ) {
+	_deprecated_function( __FUNCTION__, '3.7' );
+
+	if ( is_subdomain_install() ) {
+		$url = "http://" . $domain.$path;
+	} else {
+		if ( $domain != $_SERVER['HTTP_HOST'] ) {
+			$blogname = substr( $domain, 0, strpos( $domain, '.' ) );
+			$url = 'http://' . substr( $domain, strpos( $domain, '.' ) + 1 ) . $path;
+			// we're not installing the main blog
+			if ( $blogname != 'www.' )
+				$url .= $blogname . '/';
+		} else { // main blog
+			$url = 'http://' . $domain . $path;
+		}
+	}
+	return esc_url_raw( $url );
 }

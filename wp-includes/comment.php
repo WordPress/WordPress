@@ -117,9 +117,6 @@ function get_approved_comments($post_id) {
  * after being passed through a filter. If the comment is empty, then the global
  * comment variable will be used, if it is set.
  *
- * If the comment is empty, then the global comment variable will be used, if it
- * is set.
- *
  * @since 2.0.0
  * @uses $wpdb
  *
@@ -200,6 +197,15 @@ class WP_Comment_Query {
 	var $meta_query = false;
 
 	/**
+	 * Date query container
+	 *
+	 * @since 3.7.0
+	 * @access public
+	 * @var object WP_Date_Query
+	 */
+	var $date_query = false;
+
+	/**
 	 * Execute the query
 	 *
 	 * @since 3.1.0
@@ -234,6 +240,7 @@ class WP_Comment_Query {
 			'meta_key' => '',
 			'meta_value' => '',
 			'meta_query' => '',
+			'date_query' => null, // See WP_Date_Query
 		);
 
 		$groupby = '';
@@ -361,6 +368,11 @@ class WP_Comment_Query {
 			$join .= $clauses['join'];
 			$where .= $clauses['where'];
 			$groupby = "{$wpdb->comments}.comment_ID";
+		}
+
+		if ( ! empty( $date_query ) && is_array( $date_query ) ) {
+			$date_query_object = new WP_Date_Query( $date_query, 'comment_date' );
+			$where .= $date_query_object->get_sql();
 		}
 
 		$pieces = array( 'fields', 'join', 'where', 'orderby', 'order', 'limits', 'groupby' );
@@ -791,6 +803,9 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
 
 	if ( empty($comments) )
 		return 0;
+
+	if ( ! get_option( 'page_comments' ) )
+		return 1;
 
 	if ( !isset($per_page) )
 		$per_page = (int) get_query_var('comments_per_page');
@@ -1490,6 +1505,8 @@ function wp_update_comment($commentarr) {
 
 	// First, get all of the original fields
 	$comment = get_comment($commentarr['comment_ID'], ARRAY_A);
+	if ( empty( $comment ) )
+		return 0;
 
 	// Escape data pulled from DB.
 	$comment = wp_slash($comment);
@@ -1755,6 +1772,7 @@ function do_trackbacks($post_id) {
 	$excerpt = str_replace(']]>', ']]&gt;', $excerpt);
 	$excerpt = wp_html_excerpt($excerpt, 252, '&#8230;');
 
+	/** This filter is documented in wp-includes/post-template.php */
 	$post_title = apply_filters('the_title', $post->post_title, $post->ID);
 	$post_title = strip_tags($post_title);
 
@@ -1812,17 +1830,9 @@ function pingback($content, $post_ID) {
 
 	$pung = get_pung($post_ID);
 
-	// Variables
-	$ltrs = '\w';
-	$gunk = '/#~:.?+=&%@!\-';
-	$punc = '.:?\-';
-	$any = $ltrs . $gunk . $punc;
-
 	// Step 1
 	// Parsing the post, external links (if any) are stored in the $post_links array
-	// This regexp comes straight from phpfreaks.com
-	// http://www.phpfreaks.com/quickcode/Extract_All_URLs_on_a_Page/15.php
-	preg_match_all("{\b http : [$any] +? (?= [$punc] * [^$any] | $)}x", $content, $post_links_temp);
+	$post_links_temp = wp_extract_urls( $content );
 
 	// Step 2.
 	// Walking thru the links array
@@ -1833,7 +1843,7 @@ function pingback($content, $post_ID) {
 	// http://dummy-weblog.org/post.php
 	// We don't wanna ping first and second types, even if they have a valid <link/>
 
-	foreach ( (array) $post_links_temp[0] as $link_test ) :
+	foreach ( (array) $post_links_temp as $link_test ) :
 		if ( !in_array($link_test, $pung) && (url_to_postid($link_test) != $post_ID) // If we haven't pung it already and it isn't a link to itself
 				&& !is_local_attachment($link_test) ) : // Also, let's never ping local attachments.
 			if ( $test = @parse_url($link_test) ) {

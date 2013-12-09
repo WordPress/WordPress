@@ -85,13 +85,19 @@ if ( !defined('ABSPATH') )
 
 <div id="misc-publishing-actions">
 
-<div class="misc-pub-section" id="comment-status-radio">
+<div class="misc-pub-section misc-pub-comment-status" id="comment-status-radio">
 <label class="approved"><input type="radio"<?php checked( $comment->comment_approved, '1' ); ?> name="comment_status" value="1" /><?php /* translators: comment type radio button */ _ex('Approved', 'adjective') ?></label><br />
 <label class="waiting"><input type="radio"<?php checked( $comment->comment_approved, '0' ); ?> name="comment_status" value="0" /><?php /* translators: comment type radio button */ _ex('Pending', 'adjective') ?></label><br />
 <label class="spam"><input type="radio"<?php checked( $comment->comment_approved, 'spam' ); ?> name="comment_status" value="spam" /><?php /* translators: comment type radio button */ _ex('Spam', 'adjective'); ?></label>
 </div>
 
-<div class="misc-pub-section curtime">
+<?php if ( $ip = get_comment_author_IP() ) : ?>
+<div class="misc-pub-section misc-pub-comment-author-ip">
+	<?php _e( 'IP address:' ); ?> <strong><a href="<?php echo esc_url( sprintf( 'http://whois.arin.net/rest/ip/%s', $ip ) ); ?>"><?php echo esc_html( $ip ); ?></a></strong>
+</div>
+<?php endif; ?>
+
+<div class="misc-pub-section curtime misc-pub-curtime">
 <?php
 // translators: Publish box date format, see http://php.net/date
 $datef = __( 'M j, Y @ G:i' );

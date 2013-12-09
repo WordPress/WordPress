@@ -179,7 +179,7 @@ class WP_Importer {
 	 */
 	function get_page( $url, $username = '', $password = '', $head = false ) {
 		// Increase the timeout
-		add_filter( 'http_request_timeout', array( &$this, 'bump_request_timeout' ) );
+		add_filter( 'http_request_timeout', array( $this, 'bump_request_timeout' ) );
 
 		$headers = array();
 		$args = array();

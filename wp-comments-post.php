@@ -21,8 +21,14 @@ $comment_post_ID = isset($_POST['comment_post_ID']) ? (int) $_POST['comment_post
 
 $post = get_post($comment_post_ID);
 
-if ( empty($post->comment_status) ) {
-	do_action('comment_id_not_found', $comment_post_ID);
+if ( empty( $post->comment_status ) ) {
+	/**
+	 * Fires when a comment is attempted on a post that does not exist.
+	 *
+	 * @since unknown
+	 * @param int $comment_post_ID Post ID.
+	 */
+	do_action( 'comment_id_not_found', $comment_post_ID );
 	exit;
 }
 
@@ -31,20 +37,50 @@ $status = get_post_status($post);
 
 $status_obj = get_post_status_object($status);
 
-if ( !comments_open($comment_post_ID) ) {
-	do_action('comment_closed', $comment_post_ID);
+if ( ! comments_open( $comment_post_ID ) ) {
+	/**
+	 * Fires when a comment is attempted on a post that has comments closed.
+	 *
+	 * @since unknown
+	 * @param int $comment_post_ID Post ID.
+	 */
+	do_action( 'comment_closed', $comment_post_ID );
 	wp_die( __('Sorry, comments are closed for this item.') );
 } elseif ( 'trash' == $status ) {
-	do_action('comment_on_trash', $comment_post_ID);
+	/**
+	 * Fires when a comment is attempted on a trashed post.
+	 *
+	 * @since 2.9.0
+	 * @param int $comment_post_ID Post ID.
+	 */
+	do_action( 'comment_on_trash', $comment_post_ID );
 	exit;
-} elseif ( !$status_obj->public && !$status_obj->private ) {
-	do_action('comment_on_draft', $comment_post_ID);
+} elseif ( ! $status_obj->public && ! $status_obj->private ) {
+	/**
+	 * Fires when a comment is attempted on a post in draft mode.
+	 *
+	 * @since unknown
+	 * @param int $comment_post_ID Post ID.
+	 */
+	do_action( 'comment_on_draft', $comment_post_ID );
 	exit;
-} elseif ( post_password_required($comment_post_ID) ) {
-	do_action('comment_on_password_protected', $comment_post_ID);
+} elseif ( post_password_required( $comment_post_ID ) ) {
+	/**
+	 * Fires when a comment is attempted on a password-protected post.
+	 *
+	 * @since unknown
+	 * @param int $comment_post_ID Post ID.
+	 */
+	do_action( 'comment_on_password_protected', $comment_post_ID );
 	exit;
 } else {
-	do_action('pre_comment_on_post', $comment_post_ID);
+	/**
+	 * Fires before a comment is posted.
+	 *
+	 * @since unknown
+	 * @param int $comment_post_ID Post ID.
+	 */
+	do_action( 'pre_comment_on_post', $comment_post_ID );
 }
 
 $comment_author       = ( isset($_POST['author']) )  ? trim(strip_tags($_POST['author'])) : null;
@@ -60,8 +96,10 @@ if ( $user->exists() ) {
 	$comment_author       = wp_slash( $user->display_name );
 	$comment_author_email = wp_slash( $user->user_email );
 	$comment_author_url   = wp_slash( $user->user_url );
-	if ( current_user_can('unfiltered_html') ) {
-		if ( wp_create_nonce('unfiltered-html-comment_' . $comment_post_ID) != $_POST['_wp_unfiltered_html_comment'] ) {
+	if ( current_user_can( 'unfiltered_html' ) ) {
+		if ( ! isset( $_POST['_wp_unfiltered_html_comment'] )
+			|| ! wp_verify_nonce( $_POST['_wp_unfiltered_html_comment'], 'unfiltered-html-comment_' . $comment_post_ID )
+		) {
 			kses_remove_filters(); // start with a clean slate
 			kses_init_filters(); // set up the filters
 		}
@@ -88,12 +126,29 @@ $comment_parent = isset($_POST['comment_parent']) ? absint($_POST['comment_paren
 $commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID');
 
 $comment_id = wp_new_comment( $commentdata );
-
 $comment = get_comment($comment_id);
-do_action('set_comment_cookies', $comment, $user);
+
+/**
+ * Perform other actions when comment cookies are set.
+ *
+ * @since 3.4.0
+ *
+ * @param object $comment Comment object.
+ * @param WP_User $user   User object. The user may not exist.
+ */
+do_action( 'set_comment_cookies', $comment, $user );
 
 $location = empty($_POST['redirect_to']) ? get_comment_link($comment_id) : $_POST['redirect_to'] . '#comment-' . $comment_id;
-$location = apply_filters('comment_post_redirect', $location, $comment);
+
+/**
+ * The location URI to send commenter after posting.
+ *
+ * @since unknown
+ *
+ * @param string $location The 'redirect_to' URI sent via $_POST.
+ * @param object $comment  Comment object.
+ */
+$location = apply_filters( 'comment_post_redirect', $location, $comment );
 
 wp_safe_redirect( $location );
 exit;

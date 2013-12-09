@@ -7,7 +7,7 @@
  */
 
 /** Load WordPress Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 /** Load WordPress dashboard API */
 require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
@@ -120,7 +120,17 @@ $today = current_time('mysql', 1);
  	<div id="welcome-panel" class="<?php echo esc_attr( $classes ); ?>">
  		<?php wp_nonce_field( 'welcome-panel-nonce', 'welcomepanelnonce', false ); ?>
 		<a class="welcome-panel-close" href="<?php echo esc_url( admin_url( '?welcome=0' ) ); ?>"><?php _e( 'Dismiss' ); ?></a>
-		<?php do_action( 'welcome_panel' ); ?>
+		<?php
+		/**
+		 * Add content to the welcome panel on the admin dashboard.
+		 *
+		 * To remove the default welcome panel, use remove_action():
+		 * <code>remove_action( 'welcome_panel', 'wp_welcome_panel' );</code>
+		 *
+		 * @since 3.5.0
+		 */
+		do_action( 'welcome_panel' );
+		?>
 	</div>
 <?php endif; ?>
 

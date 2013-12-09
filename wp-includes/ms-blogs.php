@@ -56,32 +56,6 @@ function get_blogaddress_by_name( $blogname ) {
 }
 
 /**
- * Get a full blog URL, given a domain and a path.
- *
- * @since MU
- *
- * @param string $domain
- * @param string $path
- * @return string
- */
-function get_blogaddress_by_domain( $domain, $path ) {
-	if ( is_subdomain_install() ) {
-		$url = "http://" . $domain.$path;
-	} else {
-		if ( $domain != $_SERVER['HTTP_HOST'] ) {
-			$blogname = substr( $domain, 0, strpos( $domain, '.' ) );
-			$url = 'http://' . substr( $domain, strpos( $domain, '.' ) + 1 ) . $path;
-			// we're not installing the main blog
-			if ( $blogname != 'www.' )
-				$url .= $blogname . '/';
-		} else { // main blog
-			$url = 'http://' . $domain . $path;
-		}
-	}
-	return esc_url( $url );
-}
-
-/**
  * Given a blog's (subdomain or directory) slug, retrieve its id.
  *
  * @since MU
@@ -524,7 +498,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 	}
 
 	$wpdb->set_blog_id( $new_blog );
-	$GLOBALS['table_prefix'] = $wpdb->prefix;
+	$GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();
 	$prev_blog_id = $GLOBALS['blog_id'];
 	$GLOBALS['blog_id'] = $new_blog;
 
@@ -587,7 +561,7 @@ function restore_current_blog() {
 	$wpdb->set_blog_id( $blog );
 	$prev_blog_id = $GLOBALS['blog_id'];
 	$GLOBALS['blog_id'] = $blog;
-	$GLOBALS['table_prefix'] = $wpdb->prefix;
+	$GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();
 
 	if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
 		wp_cache_switch_to_blog( $blog );

@@ -13,8 +13,8 @@
  */
 
 /**
- * @since 2.1
- * @deprecated 2.1
+ * @since 2.1.0
+ * @deprecated 2.1.0
  * @deprecated Use wp_editor().
  * @see wp_editor()
  */
@@ -27,8 +27,8 @@ function tinymce_include() {
 /**
  * Unused Admin function.
  *
- * @since 2.0
- * @deprecated 2.5
+ * @since 2.0.0
+ * @deprecated 2.5.0
  *
  */
 function documentation_link() {
@@ -104,6 +104,22 @@ function dropdown_link_categories( $default = 0 ) {
 	_deprecated_function( __FUNCTION__, '2.6', 'wp_link_category_checklist()' );
 	global $link_id;
 	wp_link_category_checklist( $link_id );
+}
+
+/**
+ * Get the real filesystem path to a file to edit within the admin.
+ *
+ * @since 1.5.0
+ * @deprecated 2.9.0
+ * @uses WP_CONTENT_DIR Full filesystem path to the wp-content directory.
+ *
+ * @param string $file Filesystem path relative to the wp-content directory.
+ * @return string Full filesystem path to edit.
+ */
+function get_real_file_to_edit( $file ) {
+	_deprecated_function( __FUNCTION__, '2.9' );
+
+	return WP_CONTENT_DIR . $file;
 }
 
 /**
@@ -207,7 +223,7 @@ function codepress_footer_js() {
 /**
  * Determine whether to use CodePress.
  *
- * @since 2.8
+ * @since 2.8.0
  * @deprecated 3.0.0
 **/
 function use_codepress() {
@@ -719,7 +735,7 @@ function wp_dashboard_quick_press_output() {
 
 /**
  * @since 2.7.0
- * @deprecated 3.3
+ * @deprecated 3.3.0
  * @deprecated Use wp_editor()
  * @see wp_editor()
  */
@@ -924,6 +940,7 @@ function get_allowed_themes() {
  * {@internal Missing Short Description}}
  *
  * @since 1.5.0
+ * @deprecated 3.4.0
  *
  * @return unknown
  */
@@ -947,6 +964,7 @@ function get_broken_themes() {
  * {@internal Missing Short Description}}
  *
  * @since 2.0.0
+ * @deprecated 3.4.0
  *
  * @return unknown
  */
@@ -1022,4 +1040,94 @@ function get_default_page_to_edit() {
 function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
 	_deprecated_function( __FUNCTION__, '3.5', 'image_resize()' );
 	return apply_filters( 'wp_create_thumbnail', image_resize( $file, $max_side, $max_side ) );
+}
+
+/**
+ * This was once used to display a metabox for the nav menu theme locations.
+ *
+ * Deprecated in favor of a 'Manage Locations' tab added to nav menus management screen.
+ *
+ * @since 3.0.0
+ * @deprecated 3.6.0
+ */
+function wp_nav_menu_locations_meta_box() {
+	_deprecated_function( __FUNCTION__, '3.6' );
+}
+
+/**
+ * This was once used to kick-off the Core Updater.
+ *
+ * Deprecated in favor of instantating a Core_Upgrader instance directly,
+ * and calling the 'upgrade' method.
+ *
+ * @since 2.7.0
+ * @deprecated 3.7.0
+ */
+function wp_update_core($current, $feedback = '') {
+	_deprecated_function( __FUNCTION__, '3.7', 'new Core_Upgrader();' );
+
+	if ( !empty($feedback) )
+		add_filter('update_feedback', $feedback);
+
+	include ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	$upgrader = new Core_Upgrader();
+	return $upgrader->upgrade($current);
+
+}
+
+/**
+ * This was once used to kick-off the Plugin Updater.
+ *
+ * Deprecated in favor of instantating a Plugin_Upgrader instance directly,
+ * and calling the 'upgrade' method.
+ * Unused since 2.8.0.
+ *
+ * @since 2.5.0
+ * @deprecated 3.7.0
+ */
+function wp_update_plugin($plugin, $feedback = '') {
+	_deprecated_function( __FUNCTION__, '3.7', 'new Plugin_Upgrader();' );
+
+	if ( !empty($feedback) )
+		add_filter('update_feedback', $feedback);
+
+	include ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	$upgrader = new Plugin_Upgrader();
+	return $upgrader->upgrade($plugin);
+}
+
+/**
+ * This was once used to kick-off the Plugin Updater.
+ *
+ * Deprecated in favor of instantating a Plugin_Upgrader instance directly,
+ * and calling the 'upgrade' method.
+ * Unused since 2.8.0.
+ *
+ * @since 2.7.0
+ * @deprecated 3.7.0
+ */
+function wp_update_theme($theme, $feedback = '') {
+	_deprecated_function( __FUNCTION__, '3.7', 'new Theme_Upgrader();' );
+
+	if ( !empty($feedback) )
+		add_filter('update_feedback', $feedback);
+
+	include ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	$upgrader = new Theme_Upgrader();
+	return $upgrader->upgrade($theme);
+}
+
+/**
+ * This was once used to display attachment links. Now it is deprecated and stubbed.
+ *
+ * {@internal Missing Short Description}}
+ *
+ * @since 2.0.0
+ * @deprecated 3.7.0
+ *
+ * @param unknown_type $id
+ * @return unknown
+ */
+function the_attachment_links( $id = false ) {
+	_deprecated_function( __FUNCTION__, '3.7' );
 }

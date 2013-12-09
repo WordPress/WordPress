@@ -160,7 +160,7 @@ $('.contextual-help-tabs').delegate('a', 'click focus', function(e) {
 });
 
 $(document).ready( function() {
-	var lastClicked = false, checks, first, last, checked, menu = $('#adminmenu'), mobileEvent,
+	var lastClicked = false, checks, first, last, checked, sliced, menu = $('#adminmenu'), mobileEvent,
 		pageInput = $('input.current-page'), currentPage = pageInput.val();
 
 	// when the menu is folded, make the fly-out submenu header clickable
@@ -286,7 +286,8 @@ $(document).ready( function() {
 			last = checks.index( this );
 			checked = $(this).prop('checked');
 			if ( 0 < first && 0 < last && first != last ) {
-				checks.slice( first, last ).prop( 'checked', function(){
+				sliced = ( last > first ) ? checks.slice( first, last ) : checks.slice( last, first );
+				sliced.prop( 'checked', function() {
 					if ( $(this).closest('tr').is(':visible') )
 						return checked;
 
@@ -331,6 +332,20 @@ $(document).ready( function() {
 				return true;
 			return false;
 		});
+	});
+
+	// Show row actions on keyboard focus of its parent container element or any other elements contained within
+	var transitionTimeout, focusedRowActions;
+	$( 'td.post-title, td.title, td.comment, .bookmarks td.column-name, td.blogname, td.username, .dashboard-comment-wrap' ).focusin(function(){
+		clearTimeout( transitionTimeout );
+		focusedRowActions = $(this).find( '.row-actions' );
+		focusedRowActions.addClass( 'visible' );
+	}).focusout(function(){
+		// Tabbing between post title and .row-actions links needs a brief pause, otherwise
+		// the .row-actions div gets hidden in transit in some browsers (ahem, Firefox).
+		transitionTimeout = setTimeout(function(){
+			focusedRowActions.removeClass( 'visible' );
+		}, 30);
 	});
 
 	$('#default-password-nag-no').click( function() {
@@ -394,6 +409,10 @@ $(document).ready( function() {
 				pageInput.val('1');
 		});
 	}
+
+	$('.search-box input[type="search"], .search-box input[type="submit"]').mousedown(function () {
+		$('select[name^="action"]').val('-1');
+	});
 
 	// Scroll into view when focused
 	$('#contextual-help-link, #show-settings-link').on( 'focus.scroll-into-view', function(e){

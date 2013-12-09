@@ -61,7 +61,14 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 	}
 
 	$blog = get_blog_details( $blog_id );
-
+	/**
+	 * Fires before a blog is deleted.
+	 *
+	 * @since MU
+	 *
+	 * @param int  $blog_id The blog ID.
+	 * @param bool $drop    True if blog's table should be dropped. Default is false.
+	 */
 	do_action( 'delete_blog', $blog_id, $drop );
 
 	$users = get_users( array( 'blog_id' => $blog_id, 'fields' => 'ids' ) );
@@ -80,7 +87,16 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 		$drop = false;
 
 	if ( $drop ) {
-		$drop_tables = apply_filters( 'wpmu_drop_tables', $wpdb->tables( 'blog' ), $blog_id );
+		$tables = $wpdb->tables( 'blog' );
+		/**
+		 * Filter the tables to drop when the blog is deleted.
+		 *
+		 * @since MU
+		 *
+		 * @param array $tables  The blog tables to be dropped.
+		 * @param int   $blog_id The ID of the blog to drop tables for.
+		 */
+		$drop_tables = apply_filters( 'wpmu_drop_tables', $tables, $blog_id );
 
 		foreach ( (array) $drop_tables as $table ) {
 			$wpdb->query( "DROP TABLE IF EXISTS `$table`" );
@@ -89,6 +105,14 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 		$wpdb->delete( $wpdb->blogs, array( 'blog_id' => $blog_id ) );
 
 		$uploads = wp_upload_dir();
+		/**
+		 * Filter the upload base directory to delete when the blog is deleted.
+		 *
+		 * @since MU
+		 *
+		 * @param string $uploads['basedir'] Uploads path without subdirectory. @see wp_upload_dir()
+		 * @param int    $blog_id            The blog ID.
+		 */
 		$dir = apply_filters( 'wpmu_delete_blog_upload_dir', $uploads['basedir'], $blog_id );
 		$dir = rtrim( $dir, DIRECTORY_SEPARATOR );
 		$top_dir = $dir;
@@ -137,7 +161,13 @@ function wpmu_delete_user( $id ) {
 
 	if ( !$user->exists() )
 		return false;
-
+	/**
+	 * Fires before a user is deleted from the network.
+	 *
+	 * @since MU
+	 *
+	 * @param int $id ID of the user about to be deleted from the network.
+	 */
 	do_action( 'wpmu_delete_user', $id );
 
 	$blogs = get_blogs_of_user( $id );
@@ -172,7 +202,13 @@ function wpmu_delete_user( $id ) {
 
 	clean_user_cache( $user );
 
-	// allow for commit transaction
+	/**
+	 * Fires after the user is deleted from the network.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param int $id ID of the user that was deleted from the network.
+	 */
 	do_action( 'deleted_user', $id );
 
 	return true;
@@ -190,7 +226,7 @@ function update_option_new_admin_email( $old_value, $value ) {
 	);
 	update_option( 'adminhash', $new_admin_email );
 
-	$content = apply_filters( 'new_admin_email_content', __( "Dear user,
+	$email_text = __( 'Dear user,
 
 You recently requested to have the administration email address on
 your site changed.
@@ -204,7 +240,23 @@ This email has been sent to ###EMAIL###
 
 Regards,
 All at ###SITENAME###
-###SITEURL### "), $new_admin_email );
+###SITEURL###' );
+
+	/**
+	 * Filter the email text sent when the site admin email is changed.
+	 *
+	 * The following strings have a special meaning and will get replaced dynamically:
+	 * ###ADMIN_URL### The link to click on to confirm the email change. Required otherwise this functunalty is will break.
+	 * ###EMAIL###     The new email.
+	 * ###SITENAME###  The name of the site.
+	 * ###SITEURL###   The URL to the site.
+	 *
+	 * @since MU
+	 *
+	 * @param string $email_text      Text in the email.
+	 * @param string $new_admin_email New admin email that the current administration email was changed to.
+	 */
+	$content = apply_filters( 'new_admin_email_content', $email_text, $new_admin_email );
 
 	$content = str_replace( '###ADMIN_URL###', esc_url( admin_url( 'options.php?adminhash='.$hash ) ), $content );
 	$content = str_replace( '###EMAIL###', $value, $content );
@@ -244,7 +296,7 @@ function send_confirmation_on_profile_email() {
 				);
 		update_option( $current_user->ID . '_new_email', $new_user_email );
 
-		$content = apply_filters( 'new_user_email_content', __( "Dear user,
+		$email_text = __( 'Dear user,
 
 You recently requested to have the email address on your account changed.
 If this is correct, please click on the following link to change it:
@@ -257,7 +309,23 @@ This email has been sent to ###EMAIL###
 
 Regards,
 All at ###SITENAME###
-###SITEURL###" ), $new_user_email );
+###SITEURL###' );
+
+		/**
+		 * Filter the email text sent when a user changes emails.
+		 *
+		 * The following strings have a special meaning and will get replaced dynamically:
+		 * ###ADMIN_URL### The link to click on to confirm the email change. Required otherwise this functunalty is will break.
+		 * ###EMAIL### The new email.
+		 * ###SITENAME### The name of the site.
+		 * ###SITEURL### The URL to the site.
+		 *
+		 * @since MU
+		 *
+		 * @param string $email_text     Text in the email.
+		 * @param string $new_user_email New user email that the current user has changed to.
+		 */
+		$content = apply_filters( 'new_user_email_content', $email_text, $new_user_email );
 
 		$content = str_replace( '###ADMIN_URL###', esc_url( admin_url( 'profile.php?newuseremail='.$hash ) ), $content );
 		$content = str_replace( '###EMAIL###', $_POST['email'], $content);
@@ -377,10 +445,25 @@ function update_user_status( $id, $pref, $value, $deprecated = null ) {
 	clean_user_cache( $user );
 
 	if ( $pref == 'spam' ) {
-		if ( $value == 1 )
+		if ( $value == 1 ) {
+			/**
+			 * Fires after the user is marked as a SPAM user.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param int $id ID of the user marked as SPAM.
+			 */
 			do_action( 'make_spam_user', $id );
-		else
+		} else {
+			/**
+			 * Fires after the user is marked as a HAM user. Opposite of SPAM.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param int $id ID of the user marked as HAM.
+			 */
 			do_action( 'make_ham_user', $id );
+		}
 	}
 
 	return $value;
@@ -411,6 +494,15 @@ function format_code_lang( $code = '' ) {
 		'sg' => 'Sango', 'sa' => 'Sanskrit', 'sr' => 'Serbian', 'hr' => 'Croatian', 'si' => 'Sinhala; Sinhalese', 'sk' => 'Slovak', 'sl' => 'Slovenian', 'se' => 'Northern Sami', 'sm' => 'Samoan', 'sn' => 'Shona', 'sd' => 'Sindhi', 'so' => 'Somali', 'st' => 'Sotho, Southern', 'es' => 'Spanish; Castilian', 'sc' => 'Sardinian', 'ss' => 'Swati', 'su' => 'Sundanese', 'sw' => 'Swahili',
 		'sv' => 'Swedish', 'ty' => 'Tahitian', 'ta' => 'Tamil', 'tt' => 'Tatar', 'te' => 'Telugu', 'tg' => 'Tajik', 'tl' => 'Tagalog', 'th' => 'Thai', 'bo' => 'Tibetan', 'ti' => 'Tigrinya', 'to' => 'Tonga (Tonga Islands)', 'tn' => 'Tswana', 'ts' => 'Tsonga', 'tk' => 'Turkmen', 'tr' => 'Turkish', 'tw' => 'Twi', 'ug' => 'Uighur; Uyghur', 'uk' => 'Ukrainian', 'ur' => 'Urdu', 'uz' => 'Uzbek',
 		've' => 'Venda', 'vi' => 'Vietnamese', 'vo' => 'Volapük', 'cy' => 'Welsh','wa' => 'Walloon','wo' => 'Wolof', 'xh' => 'Xhosa', 'yi' => 'Yiddish', 'yo' => 'Yoruba', 'za' => 'Zhuang; Chuang', 'zu' => 'Zulu' );
+
+	/**
+	 * Filter the language codes.
+	 *
+	 * @since MU
+	 *
+	 * @param array  $lang_codes Key/value pair of language codes where key is the short version.
+	 * @param string $code       A two-letter designation of the language.
+	 */
 	$lang_codes = apply_filters( 'lang_codes', $lang_codes, $code );
 	return strtr( $code, $lang_codes );
 }
@@ -498,30 +590,18 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 
 	// Order by name
 	uksort( $output, 'strnatcasecmp' );
-
+	/**
+	 * Filter the languages available in the dropdown.
+	 *
+	 * @since MU
+	 *
+	 * @param array $output     HTML output of the dropdown.
+	 * @param array $lang_files Available language files.
+	 * @param string $current   The current language code.
+	 */
 	$output = apply_filters( 'mu_dropdown_languages', $output, $lang_files, $current );
 	echo implode( "\n\t", $output );
 }
-
-/* Warn the admin if SECRET SALT information is missing from wp-config.php */
-function secret_salt_warning() {
-	if ( !is_super_admin() )
-		return;
-	$secret_keys = array( 'AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT' );
-	$out = '';
-	foreach( $secret_keys as $key ) {
-		if ( ! defined( $key ) )
-			$out .= "define( '$key', '" . esc_html( wp_generate_password( 64, true, true ) ) . "' );<br />";
-	}
-	if ( $out != '' ) {
-		$msg  = __( 'Warning! WordPress encrypts user cookies, but you must add the following lines to <strong>wp-config.php</strong> for it to be more secure.' );
-		$msg .= '<br/>' . __( "Before the line <code>/* That's all, stop editing! Happy blogging. */</code> please add this code:" );
-		$msg .= "<br/><br/><code>$out</code>";
-
-		echo "<div class='update-nag'>$msg</div>";
-	}
-}
-add_action( 'network_admin_notices', 'secret_salt_warning' );
 
 function site_admin_notice() {
 	global $wp_db_version;
@@ -595,7 +675,11 @@ function choose_primary_blog() {
 	<?php if ( in_array( get_site_option( 'registration' ), array( 'all', 'blog' ) ) ) : ?>
 		<tr>
 			<th scope="row" colspan="2" class="th-full">
-				<a href="<?php echo apply_filters( 'wp_signup_location', network_site_url( 'wp-signup.php' ) ); ?>"><?php _e( 'Create a New Site' ); ?></a>
+				<?php
+				$signup_url = network_site_url( 'wp-signup.php' );
+				/** This filter is documented in wp-login.php */
+				?>
+				<a href="<?php echo apply_filters( 'wp_signup_location', $signup_url ); ?>"><?php _e( 'Create a New Site' ); ?></a>
 			</th>
 		</tr>
 	<?php endif; ?>
@@ -604,18 +688,25 @@ function choose_primary_blog() {
 }
 
 /**
- * Grants super admin privileges.
+ * Grants Super Admin privileges.
  *
  * @since 3.0.0
- * @param int $user_id
+ * @param int $user_id ID of the user to be granted Super Admin privileges.
  */
 function grant_super_admin( $user_id ) {
 	global $super_admins;
 
 	// If global super_admins override is defined, there is nothing to do here.
-	if ( isset($super_admins) )
+	if ( isset( $super_admins ) )
 		return false;
 
+	/**
+	 * Fires before the user is granted Super Admin privileges.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int $user_id ID of the user that is about to be granted Super Admin privileges.
+	 */
 	do_action( 'grant_super_admin', $user_id );
 
 	// Directly fetch site_admins instead of using get_super_admins()
@@ -625,6 +716,14 @@ function grant_super_admin( $user_id ) {
 	if ( $user && ! in_array( $user->user_login, $super_admins ) ) {
 		$super_admins[] = $user->user_login;
 		update_site_option( 'site_admins' , $super_admins );
+
+		/**
+		 * Fires after the user is granted Super Admin privileges.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param int $user_id ID of the user that was granted Super Admin privileges.
+		 */
 		do_action( 'granted_super_admin', $user_id );
 		return true;
 	}
@@ -632,18 +731,25 @@ function grant_super_admin( $user_id ) {
 }
 
 /**
- * Revokes super admin privileges.
+ * Revokes Super Admin privileges.
  *
  * @since 3.0.0
- * @param int $user_id
+ * @param int $user_id ID of the user Super Admin privileges to be revoked from.
  */
 function revoke_super_admin( $user_id ) {
 	global $super_admins;
 
 	// If global super_admins override is defined, there is nothing to do here.
-	if ( isset($super_admins) )
+	if ( isset( $super_admins ) )
 		return false;
 
+	/**
+	 * Fires before the user's Super Admin privileges are revoked.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int $user_id ID of the user Super Admin privileges are being revoked from.
+	 */
 	do_action( 'revoke_super_admin', $user_id );
 
 	// Directly fetch site_admins instead of using get_super_admins()
@@ -654,6 +760,14 @@ function revoke_super_admin( $user_id ) {
 		if ( false !== ( $key = array_search( $user->user_login, $super_admins ) ) ) {
 			unset( $super_admins[$key] );
 			update_site_option( 'site_admins', $super_admins );
+
+			/**
+			 * Fires after the user's Super Admin privileges are revoked.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param int $user_id ID of the user Super Admin privileges were revoked from.
+			 */
 			do_action( 'revoked_super_admin', $user_id );
 			return true;
 		}
@@ -667,16 +781,24 @@ function revoke_super_admin( $user_id ) {
  * By default editing of network is restricted to the Network Admin for that site_id this allows for this to be overridden
  *
  * @since 3.1.0
- * @param integer $site_id The network/site id to check.
+ * @param integer $site_id The network/site ID to check.
  */
 function can_edit_network( $site_id ) {
 	global $wpdb;
 
-	if ($site_id == $wpdb->siteid )
+	if ( $site_id == $wpdb->siteid )
 		$result = true;
 	else
 		$result = false;
 
+	/**
+	 * Filter whether this network can be edited from this page.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param bool $result  Whether the network can be edited from this page.
+	 * @param int  $site_id The network/site ID to check.
+	 */
 	return apply_filters( 'can_edit_network', $result, $site_id );
 }
 

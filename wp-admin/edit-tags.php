@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! $taxnow )
 	wp_die( __( 'Invalid taxonomy' ) );
@@ -126,8 +126,8 @@ case 'edit':
 	$tag = get_term( $tag_ID, $taxonomy, OBJECT, 'edit' );
 	if ( ! $tag )
 		wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
-	require_once ( 'admin-header.php' );
-	include( './edit-tag-form.php' );
+	require_once( ABSPATH . 'wp-admin/admin-header.php' );
+	include( ABSPATH . 'wp-admin/edit-tag-form.php' );
 
 break;
 
@@ -247,17 +247,49 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 	unset( $help );
 }
 
-require_once ('admin-header.php');
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 if ( !current_user_can($tax->cap->edit_terms) )
 	wp_die( __('You are not allowed to edit this item.') );
 
-$messages[1] = __('Item added.');
-$messages[2] = __('Item deleted.');
-$messages[3] = __('Item updated.');
-$messages[4] = __('Item not added.');
-$messages[5] = __('Item not updated.');
-$messages[6] = __('Items deleted.');
+$messages = array();
+$messages['_item'] = array(
+	0 => '', // Unused. Messages start at index 1.
+	1 => __( 'Item added.' ),
+	2 => __( 'Item deleted.' ),
+	3 => __( 'Item updated.' ),
+	4 => __( 'Item not added.' ),
+	5 => __( 'Item not updated.' ),
+	6 => __( 'Items deleted.' )
+);
+$messages['category'] = array(
+	0 => '', // Unused. Messages start at index 1.
+	1 => __( 'Category added.' ),
+	2 => __( 'Category deleted.' ),
+	3 => __( 'Category updated.' ),
+	4 => __( 'Category not added.' ),
+	5 => __( 'Category not updated.' ),
+	6 => __( 'Categories deleted.' )
+);
+$messages['post_tag'] = array(
+	0 => '', // Unused. Messages start at index 1.
+	1 => __( 'Tag added.' ),
+	2 => __( 'Tag deleted.' ),
+	3 => __( 'Tag updated.' ),
+	4 => __( 'Tag not added.' ),
+	5 => __( 'Tag not updated.' ),
+	6 => __( 'Tags deleted.' )
+);
+
+$messages = apply_filters( 'term_updated_messages', $messages );
+
+$message = false;
+if ( isset( $_REQUEST['message'] ) && ( $msg = (int) $_REQUEST['message'] ) ) {
+	if ( isset( $messages[ $taxonomy ][ $msg ] ) )
+		$message = $messages[ $taxonomy ][ $msg ];
+	elseif ( ! isset( $messages[ $taxonomy ] ) && isset( $messages['_item'][ $msg ] ) )
+		$message = $messages['_item'][ $msg ];
+}
 
 ?>
 
@@ -268,8 +300,8 @@ if ( !empty($_REQUEST['s']) )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( wp_unslash($_REQUEST['s']) ) ); ?>
 </h2>
 
-<?php if ( isset($_REQUEST['message']) && ( $msg = (int) $_REQUEST['message'] ) ) : ?>
-<div id="message" class="updated"><p><?php echo $messages[$msg]; ?></p></div>
+<?php if ( $message ) : ?>
+<div id="message" class="updated"><p><?php echo $message; ?></p></div>
 <?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
 endif; ?>
 <div id="ajax-response"></div>
@@ -349,7 +381,7 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 
 <div class="form-wrap">
 <h3><?php echo $tax->labels->add_new_item; ?></h3>
-<form id="addtag" method="post" action="edit-tags.php" class="validate">
+<form id="addtag" method="post" action="edit-tags.php" class="validate"<?php do_action( $taxonomy . '_term_new_form_tag' ); ?>>
 <input type="hidden" name="action" value="add-tag" />
 <input type="hidden" name="screen" value="<?php echo esc_attr($current_screen->id); ?>" />
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
@@ -371,7 +403,20 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 <?php if ( is_taxonomy_hierarchical($taxonomy) ) : ?>
 <div class="form-field">
 	<label for="parent"><?php _ex('Parent', 'Taxonomy Parent'); ?></label>
-	<?php wp_dropdown_categories(array('hide_empty' => 0, 'hide_if_empty' => false, 'taxonomy' => $taxonomy, 'name' => 'parent', 'orderby' => 'name', 'hierarchical' => true, 'show_option_none' => __('None'))); ?>
+	<?php
+	$dropdown_args = array(
+		'hide_empty'       => 0,
+		'hide_if_empty'    => false,
+		'taxonomy'         => $taxonomy,
+		'name'             => 'parent',
+		'orderby'          => 'name',
+		'hierarchical'     => true,
+		'show_option_none' => __( 'None' ),
+	);
+
+	$dropdown_args = apply_filters( 'taxonomy_parent_dropdown_args', $dropdown_args, $taxonomy );
+	wp_dropdown_categories( $dropdown_args );
+	?>
 	<?php if ( 'category' == $taxonomy ) : // @todo: Generic text for hierarchical taxonomies ?>
 		<p><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></p>
 	<?php endif; ?>
@@ -417,4 +462,4 @@ try{document.forms.addtag['tag-name'].focus();}catch(e){}
 break;
 }
 
-include('./admin-footer.php');
+include( ABSPATH . 'wp-admin/admin-footer.php' );

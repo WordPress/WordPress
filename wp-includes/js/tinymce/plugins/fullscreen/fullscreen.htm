@@ -3,7 +3,7 @@
 <head>
 	<title></title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<script type="text/javascript" src="../../tiny_mce.js?ver=358-20121205"></script>
+	<script type="text/javascript" src="../../tiny_mce.js?ver=359-20131010"></script>
 	<script type="text/javascript">
 		function patchCallback(settings, key) {
 			if (settings[key])
@@ -46,7 +46,7 @@
 		settings['strict_loading_mode'] = true;
 
 		settings.save_onsavecallback = function() {
-			window.opener.tinyMCE.get(oeID).setContent(tinyMCE.get('fullscreenarea').getContent({format : 'raw'}), {format : 'raw'});
+			moveContent();
 			window.opener.tinyMCE.get(oeID).execCommand('mceSave');
 			window.close();
 		};
@@ -56,11 +56,15 @@
 		}
 
 		function moveContent() {
-			window.opener.tinyMCE.get(oeID).setContent(tinyMCE.activeEditor.getContent());
+			// find the original editor, execute restore state in it's plugin instance
+			window.opener.tinyMCE.get(oeID).plugins.fullscreen.saveState(tinyMCE.activeEditor);
+
+			// prevent moveContent from being called twice - e.g. if the unloadHandler runs after moveContent()
+			tinymce.dom.Event.remove(window, "beforeunload", unloadHandler);
 		}
 
 		function closeFullscreen() {
-			moveContent();
+			// moveContent() will be called by the unload handler
 			window.close();
 		}
 
@@ -78,17 +82,20 @@
 		function render() {
 			var e = document.getElementById('fullscreenarea'), vp, ed, ow, oh, dom = tinymce.DOM;
 
-			e.value = window.opener.tinyMCE.get(oeID).getContent();
-
 			vp = dom.getViewPort();
 			settings.width = vp.w;
 			settings.height = vp.h - 15;
 
-			tinymce.dom.Event.add(window, 'resize', function() {
-				var vp = dom.getViewPort();
+			settings.oninit = function() {
+				var ed = tinyMCE.activeEditor;
+				window.opener.tinyMCE.get(oeID).plugins.fullscreen.loadState(ed);
 
-				tinyMCE.activeEditor.theme.resizeTo(vp.w, vp.h);
-			});
+				tinymce.dom.Event.add(window, 'resize', function() {
+					var vp = dom.getViewPort();
+
+					tinyMCE.activeEditor.theme.resizeTo(vp.w, vp.h);
+				});
+			}
 
 			tinyMCE.init(settings);
 		}

@@ -30,7 +30,7 @@ do_action($taxonomy . '_pre_edit_form', $tag, $taxonomy); ?>
 <?php screen_icon(); ?>
 <h2><?php echo $tax->labels->edit_item; ?></h2>
 <div id="ajax-response"></div>
-<form name="edittag" id="edittag" method="post" action="edit-tags.php" class="validate">
+<form name="edittag" id="edittag" method="post" action="edit-tags.php" class="validate"<?php do_action( $taxonomy . '_term_edit_form_tag' ); ?>>
 <input type="hidden" name="action" value="editedtag" />
 <input type="hidden" name="tag_ID" value="<?php echo esc_attr($tag->term_id) ?>" />
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy) ?>" />

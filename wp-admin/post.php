@@ -9,7 +9,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 $parent_file = 'edit.php';
 $submenu_file = 'edit.php';
@@ -195,7 +195,7 @@ case 'edit':
 		enqueue_comment_hotkeys_js();
 	}
 
-	include('./edit-form-advanced.php');
+	include( ABSPATH . 'wp-admin/edit-form-advanced.php' );
 
 	break;
 
@@ -309,4 +309,4 @@ default:
 	exit();
 	break;
 } // end switch
-include('./admin-footer.php');
+include( ABSPATH . 'wp-admin/admin-footer.php' );

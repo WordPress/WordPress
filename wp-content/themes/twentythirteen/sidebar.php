@@ -1,8 +1,10 @@
 <?php
 /**
- * The sidebar containing the secondary widget area, displays on posts and pages.
+ * The sidebar containing the secondary widget area
  *
- * If no active widgets in this sidebar, it will be hidden completely.
+ * Displays on posts and pages.
+ *
+ * If no active widgets are in this sidebar, hide it completely.
  *
  * @package WordPress
  * @subpackage Twenty_Thirteen

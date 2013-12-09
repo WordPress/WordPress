@@ -36,12 +36,18 @@ function edit_comment() {
 	if ( ! current_user_can( 'edit_comment', (int) $_POST['comment_ID'] ) )
 		wp_die ( __( 'You are not allowed to edit comments on this post.' ) );
 
-	$_POST['comment_author'] = $_POST['newcomment_author'];
-	$_POST['comment_author_email'] = $_POST['newcomment_author_email'];
-	$_POST['comment_author_url'] = $_POST['newcomment_author_url'];
-	$_POST['comment_approved'] = $_POST['comment_status'];
-	$_POST['comment_content'] = $_POST['content'];
-	$_POST['comment_ID'] = (int) $_POST['comment_ID'];
+	if ( isset( $_POST['newcomment_author'] ) )
+		$_POST['comment_author'] = $_POST['newcomment_author'];
+	if ( isset( $_POST['newcomment_author_email'] ) )
+		$_POST['comment_author_email'] = $_POST['newcomment_author_email'];
+	if ( isset( $_POST['newcomment_author_url'] ) )
+		$_POST['comment_author_url'] = $_POST['newcomment_author_url'];
+	if ( isset( $_POST['comment_status'] ) )
+		$_POST['comment_approved'] = $_POST['comment_status'];
+	if ( isset( $_POST['content'] ) )
+		$_POST['comment_content'] = $_POST['content'];
+	if ( isset( $_POST['comment_ID'] ) )
+		$_POST['comment_ID'] = (int) $_POST['comment_ID'];
 
 	foreach ( array ('aa', 'mm', 'jj', 'hh', 'mn') as $timeunit ) {
 		if ( !empty( $_POST['hidden_' . $timeunit] ) && $_POST['hidden_' . $timeunit] != $_POST[$timeunit] ) {
@@ -83,7 +89,14 @@ function get_comment_to_edit( $id ) {
 	$comment->comment_post_ID = (int) $comment->comment_post_ID;
 
 	$comment->comment_content = format_to_edit( $comment->comment_content );
-	$comment->comment_content = apply_filters( 'comment_edit_pre', $comment->comment_content);
+	/**
+	 * Filter the comment content before editing.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $comment->comment_content Comment content.
+	 */
+	$comment->comment_content = apply_filters( 'comment_edit_pre', $comment->comment_content );
 
 	$comment->comment_author = format_to_edit( $comment->comment_author );
 	$comment->comment_author_email = format_to_edit( $comment->comment_author_email );
@@ -148,7 +161,7 @@ function get_pending_comments_num( $post_id ) {
  */
 function floated_admin_avatar( $name ) {
 	global $comment;
-	$avatar = get_avatar( $comment, 32 );
+	$avatar = get_avatar( $comment, 32, 'mystery' );
 	return "$avatar $name";
 }
 

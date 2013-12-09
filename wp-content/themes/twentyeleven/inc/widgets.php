@@ -1,8 +1,10 @@
 <?php
 /**
- * Makes a custom Widget for displaying Aside, Link, Status, and Quote Posts available with Twenty Eleven
+ * Widget For displaying post format posts
  *
- * Learn more: http://codex.wordpress.org/Widgets_API#Developing_Widgets
+ * Handles displaying Aside, Link, Status, and Quote Posts available with Twenty Eleven.
+ *
+ * @link http://codex.wordpress.org/Widgets_API#Developing_Widgets
  *
  * @package WordPress
  * @subpackage Twenty_Eleven
@@ -12,6 +14,8 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 
 	/**
 	 * Constructor
+	 *
+	 * @since Twenty Eleven 1.0
 	 *
 	 * @return void
 	 **/
@@ -28,9 +32,11 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	/**
 	 * Outputs the HTML for this widget.
 	 *
-	 * @param array An array of standard parameters for widgets in this theme
-	 * @param array An array of settings for this widget instance
-	 * @return void Echoes its output
+	 * @since Twenty Eleven 1.0
+	 *
+	 * @param array $args     An array of standard parameters for widgets in this theme.
+	 * @param array $instance An array of settings for this widget instance.
+	 * @return void
 	 **/
 	function widget( $args, $instance ) {
 		$cache = wp_cache_get( 'widget_twentyeleven_ephemera', 'widget' );
@@ -49,6 +55,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		ob_start();
 		extract( $args, EXTR_SKIP );
 
+		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Ephemera', 'twentyeleven' ) : $instance['title'], $instance, $this->id_base);
 
 		if ( ! isset( $instance['number'] ) )
@@ -120,8 +127,12 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	}
 
 	/**
+	 * Update widget settings.
+	 *
 	 * Deals with the settings when they are saved by the admin. Here is
 	 * where any validation should be dealt with.
+	 *
+	 * @since Twenty Eleven 1.0
 	 **/
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
@@ -136,12 +147,21 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * Flush widget cache.
+	 *
+	 * @since Twenty Eleven 1.0
+	 */
 	function flush_widget_cache() {
 		wp_cache_delete( 'widget_twentyeleven_ephemera', 'widget' );
 	}
 
 	/**
+	 * Set up the widget form.
+	 *
 	 * Displays the form for this widget on the Widgets page of the WP Admin area.
+	 *
+	 * @since Twenty Eleven 1.0
 	 **/
 	function form( $instance ) {
 		$title = isset( $instance['title']) ? esc_attr( $instance['title'] ) : '';

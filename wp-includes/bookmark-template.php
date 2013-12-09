@@ -228,7 +228,15 @@ function wp_list_bookmarks($args = '') {
 			if ( empty($bookmarks) )
 				continue;
 			$output .= str_replace(array('%id', '%class'), array("linkcat-$cat->term_id", $class), $category_before);
-			$catname = apply_filters( "link_category", $cat->name );
+			/**
+			 * Filter the bookmarks category name.
+			 *
+			 * @since 2.2.0
+			 *
+			 * @param string $cat->name The category name of bookmarks.
+			 */
+			$catname = apply_filters( 'link_category', $cat->name );
+
 			$output .= "$title_before$catname$title_after\n\t<ul class='xoxo blogroll'>\n";
 			$output .= _walk_bookmarks($bookmarks, $r);
 			$output .= "\n\t</ul>\n$category_after\n";
@@ -249,6 +257,13 @@ function wp_list_bookmarks($args = '') {
 		}
 	}
 
+	/**
+	 * Filter the bookmarks list before it is echoed or returned.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $output The HTML list of bookmarks.
+	 */
 	$output = apply_filters( 'wp_list_bookmarks', $output );
 
 	if ( !$echo )

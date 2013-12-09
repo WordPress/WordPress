@@ -1,8 +1,8 @@
 <?php
 /**
- * The template for displaying Author archive pages.
+ * The template for displaying Author archive pages
  *
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ * @link http://codex.wordpress.org/Template_Hierarchy
  *
  * @package WordPress
  * @subpackage Twenty_Thirteen
@@ -17,8 +17,9 @@ get_header(); ?>
 		<?php if ( have_posts() ) : ?>
 
 			<?php
-				/* Queue the first post, that way we know
-				 * what author we're dealing with (if that is the case).
+				/*
+				 * Queue the first post, that way we know what author
+				 * we're dealing with (if that is the case).
 				 *
 				 * We reset this later so we can run the loop
 				 * properly with a call to rewind_posts().
@@ -31,7 +32,8 @@ get_header(); ?>
 			</header><!-- .archive-header -->
 
 			<?php
-				/* Since we called the_post() above, we need to
+				/*
+				 * Since we called the_post() above, we need to
 				 * rewind the loop back to the beginning that way
 				 * we can run the loop properly, in full.
 				 */

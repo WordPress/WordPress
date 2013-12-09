@@ -26,7 +26,19 @@ function get_query_template( $type, $templates = array() ) {
 	if ( empty( $templates ) )
 		$templates = array("{$type}.php");
 
-	return apply_filters( "{$type}_template", locate_template( $templates ) );
+	$template = locate_template( $templates );
+	/**
+	 * Filter the path of the queried template by type.
+	 *
+	 * The dynamic portion of the hook name, $type, refers to the filename
+	 * -- minus the extension -- of the file to load. This hook also applies
+	 * to various types of files loaded as part of the Template Hierarchy.
+	 *
+	 * @since 1.5.2
+	 *
+	 * @param string $template Path to the template. @see locate_template()
+	 */
+	return apply_filters( "{$type}_template", $template );
 }
 
 /**
@@ -73,6 +85,25 @@ function get_archive_template() {
 }
 
 /**
+ * Retrieve path of post type archive template in current or parent template.
+ *
+ * @since 3.7.0
+ *
+ * @return string
+ */
+function get_post_type_archive_template() {
+	$post_type = get_query_var( 'post_type' );
+	if ( is_array( $post_type ) )
+		$post_type = reset( $post_type );
+
+	$obj = get_post_type_object( $post_type );
+	if ( ! $obj->has_archive )
+		return '';
+
+	return get_archive_template();
+}
+
+/**
  * Retrieve path of author template in current or parent template.
  *
  * @since 1.5.0
@@ -84,7 +115,7 @@ function get_author_template() {
 
 	$templates = array();
 
-	if ( $author ) {
+	if ( is_a( $author, 'WP_User' ) ) {
 		$templates[] = "author-{$author->user_nicename}.php";
 		$templates[] = "author-{$author->ID}.php";
 	}
@@ -110,7 +141,7 @@ function get_category_template() {
 
 	$templates = array();
 
-	if ( $category ) {
+	if ( ! empty( $category->slug ) ) {
 		$templates[] = "category-{$category->slug}.php";
 		$templates[] = "category-{$category->term_id}.php";
 	}
@@ -136,7 +167,7 @@ function get_tag_template() {
 
 	$templates = array();
 
-	if ( $tag ) {
+	if ( ! empty( $tag->slug ) ) {
 		$templates[] = "tag-{$tag->slug}.php";
 		$templates[] = "tag-{$tag->term_id}.php";
 	}
@@ -167,7 +198,7 @@ function get_taxonomy_template() {
 
 	$templates = array();
 
-	if ( $term ) {
+	if ( ! empty( $term->slug ) ) {
 		$taxonomy = $term->taxonomy;
 		$templates[] = "taxonomy-$taxonomy-{$term->slug}.php";
 		$templates[] = "taxonomy-$taxonomy.php";
@@ -241,7 +272,8 @@ function get_page_template() {
 	if ( ! $pagename && $id ) {
 		// If a static page is set as the front page, $pagename will not be set. Retrieve it from the queried object
 		$post = get_queried_object();
-		$pagename = $post->post_name;
+		if ( $post )
+			$pagename = $post->post_name;
 	}
 
 	$templates = array();
@@ -290,7 +322,7 @@ function get_single_template() {
 
 	$templates = array();
 
-	if ( $object )
+	if ( ! empty( $object->post_type ) )
 		$templates[] = "single-{$object->post_type}.php";
 	$templates[] = "single.php";
 
@@ -321,10 +353,12 @@ function get_attachment_template() {
 		if ( ! empty( $type ) ) {
 			if ( $template = get_query_template( $type[0] ) )
 				return $template;
-			elseif ( $template = get_query_template( $type[1] ) )
-				return $template;
-			elseif ( $template = get_query_template( "$type[0]_$type[1]" ) )
-				return $template;
+			elseif ( ! empty( $type[1] ) ) {
+				if ( $template = get_query_template( $type[1] ) )
+					return $template;
+				elseif ( $template = get_query_template( "$type[0]_$type[1]" ) )
+					return $template;
+			}
 		}
 	}
 

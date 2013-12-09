@@ -7,10 +7,19 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 $title = __( 'Credits' );
 
+/**
+ * Retrieve the contributor credits.
+ *
+ * @global string $wp_version The current WordPress version.
+ *
+ * @since 3.2.0
+ *
+ * @return array A list of all of the contributors.
+*/
 function wp_credits() {
 	global $wp_version;
 	$locale = get_locale();
@@ -20,12 +29,12 @@ function wp_credits() {
 	if ( ! is_array( $results )
 		|| ( isset( $results['data']['version'] ) && strpos( $wp_version, $results['data']['version'] ) !== 0 )
 	) {
-		$response = wp_remote_get( "http://api.wordpress.org/core/credits/1.0/?version=$wp_version&locale=$locale" );
+		$response = wp_remote_get( "http://api.wordpress.org/core/credits/1.1/?version=$wp_version&locale=$locale" );
 
 		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )
 			return false;
 
-		$results = maybe_unserialize( wp_remote_retrieve_body( $response ) );
+		$results = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		if ( ! is_array( $results ) )
 			return false;
@@ -36,10 +45,30 @@ function wp_credits() {
 	return $results;
 }
 
+/**
+ * Retrieve the link to a contributor's WordPress.org profile page.
+ *
+ * @access private
+ * @since 3.2.0
+ *
+ * @param string &$display_name The contributor's display name, passed by reference.
+ * @param string $user_name     The contributor's username.
+ * @param string $profiles      URL to the contributor's WordPress.org profile page.
+ * @return string A contributor's display name, hyperlinked to a WordPress.org profile page.
+ */
 function _wp_credits_add_profile_link( &$display_name, $username, $profiles ) {
 	$display_name = '<a href="' . esc_url( sprintf( $profiles, $username ) ) . '">' . esc_html( $display_name ) . '</a>';
 }
 
+/**
+ * Retrieve the link to an external library used in WordPress.
+ *
+ * @access private
+ * @since 3.2.0
+ *
+ * @param string &$data External library data, passed by reference.
+ * @return string Link to the external library.
+ */
 function _wp_credits_build_object_link( &$data ) {
 	$data = '<a href="' . esc_url( $data[1] ) . '">' . $data[0] . '</a>';
 }
@@ -52,7 +81,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <h1><?php printf( __( 'Welcome to WordPress %s' ), $display_version ); ?></h1>
 
-<div class="about-text"><?php printf( __( 'Thank you for updating to the latest version. WordPress %s makes your writing experience even better.' ), $display_version ); ?></div>
+<div class="about-text"><?php echo str_replace( '3.7', $display_version, __( 'Thank you for updating to WordPress 3.7! You might not notice a thing, and we&#8217;re okay with that.' ) ); ?></div>
 
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 

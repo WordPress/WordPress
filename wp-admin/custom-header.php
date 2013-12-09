@@ -84,13 +84,13 @@ class Custom_Image_Header {
 		if ( ! current_user_can('edit_theme_options') )
 			return;
 
-		$this->page = $page = add_theme_page(__('Header'), __('Header'), 'edit_theme_options', 'custom-header', array(&$this, 'admin_page'));
+		$this->page = $page = add_theme_page(__('Header'), __('Header'), 'edit_theme_options', 'custom-header', array($this, 'admin_page'));
 
-		add_action("admin_print_scripts-$page", array(&$this, 'js_includes'));
-		add_action("admin_print_styles-$page", array(&$this, 'css_includes'));
-		add_action("admin_head-$page", array(&$this, 'help') );
-		add_action("admin_head-$page", array(&$this, 'take_action'), 50);
-		add_action("admin_head-$page", array(&$this, 'js'), 50);
+		add_action("admin_print_scripts-$page", array($this, 'js_includes'));
+		add_action("admin_print_styles-$page", array($this, 'css_includes'));
+		add_action("admin_head-$page", array($this, 'help') );
+		add_action("admin_head-$page", array($this, 'take_action'), 50);
+		add_action("admin_head-$page", array($this, 'js'), 50);
 		if ( $this->admin_header_callback )
 			add_action("admin_head-$page", $this->admin_header_callback, 51);
 	}
@@ -464,6 +464,7 @@ class Custom_Image_Header {
 <table class="form-table">
 <tbody>
 
+<?php if ( get_custom_header() || display_header_text() ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e( 'Preview' ); ?></th>
 <td>
@@ -490,6 +491,8 @@ class Custom_Image_Header {
 	<?php } ?>
 </td>
 </tr>
+<?php endif; ?>
+
 <?php if ( current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
 <tr valign="top">
 <th scope="row"><?php _e( 'Select Image' ); ?></th>
@@ -630,6 +633,11 @@ if ( current_theme_supports( 'custom-header', 'default-text-color' ) ) {
 </table>
 <?php endif;
 
+/**
+ * Fires just before the submit button in the custom header options form.
+ *
+ * @since 3.1.0
+ */
 do_action( 'custom_header_options' );
 
 wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
@@ -687,7 +695,16 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 
 			$this->set_header_image( compact( 'url', 'attachment_id', 'width', 'height' ) );
 
-			do_action('wp_create_file_in_uploads', $file, $attachment_id); // For replication
+			/**
+			 * Fires after the header image is set or an error is returned.
+			 *
+			 * @since 2.1.0
+			 *
+			 * @param string $file          Path to the file.
+			 * @param int    $attachment_id Attachment ID.
+			 */
+			do_action( 'wp_create_file_in_uploads', $file, $attachment_id ); // For replication
+
 			return $this->finished();
 		} elseif ( $width > $max_width ) {
 			$oitar = $width / $max_width;
@@ -695,7 +712,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			if ( ! $image || is_wp_error( $image ) )
 				wp_die( __( 'Image could not be processed. Please go back and try again.' ), __( 'Image Processing Error' ) );
 
-			$image = apply_filters('wp_create_file_in_uploads', $image, $attachment_id); // For replication
+			/** This filter is documented in wp-admin/custom-header.php */
+			$image = apply_filters( 'wp_create_file_in_uploads', $image, $attachment_id ); // For replication
 
 			$url = str_replace(basename($url), basename($image), $url);
 			$width = $width / $oitar;
@@ -836,7 +854,8 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		if ( ! $cropped || is_wp_error( $cropped ) )
 			wp_die( __( 'Image could not be processed. Please go back and try again.' ), __( 'Image Processing Error' ) );
 
-		$cropped = apply_filters('wp_create_file_in_uploads', $cropped, $attachment_id); // For replication
+		/** This filter is documented in wp-admin/custom-header.php */
+		$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication
 
 		$parent = get_post($attachment_id);
 		$parent_url = $parent->guid;
@@ -867,10 +886,21 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 
 		// cleanup
 		$medium = str_replace( basename( $original ), 'midsize-' . basename( $original ), $original );
-		if ( file_exists( $medium ) )
+		if ( file_exists( $medium ) ) {
+			/**
+			 * Filter the path of the file to delete.
+			 *
+			 * @since 2.1.0
+			 *
+			 * @param string $medium Path to the file to delete.
+			 */
 			@unlink( apply_filters( 'wp_delete_file', $medium ) );
-		if ( empty( $_POST['create-new-attachment'] ) && empty( $_POST['skip-cropping'] ) )
+		}
+
+		if ( empty( $_POST['create-new-attachment'] ) && empty( $_POST['skip-cropping'] ) ) {
+			/** This filter is documented in wp-admin/custom-header.php */
 			@unlink( apply_filters( 'wp_delete_file', $original ) );
+		}
 
 		return $this->finished();
 	}

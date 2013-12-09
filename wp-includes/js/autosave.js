@@ -141,8 +141,8 @@ jQuery(document).ready( function($) {
 	}
 
 	// When connection is lost, keep user from submitting changes.
-	$(document).on('heartbeat-connection-lost.autosave', function( e, error ) {
-		if ( 'timeout' === error ) {
+	$(document).on('heartbeat-connection-lost.autosave', function( e, error, status ) {
+		if ( 'timeout' === error || 503 == status ) {
 			var notice = $('#lost-connection-notice');
 			if ( ! wp.autosave.local.hasStorage ) {
 				notice.find('.hide-if-no-sessionstorage').hide();

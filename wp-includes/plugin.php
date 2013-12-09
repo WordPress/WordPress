@@ -19,50 +19,67 @@
  * @since 1.5
  */
 
+// Initialize the filter globals.
+global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
+
+if ( ! isset( $wp_filter ) )
+	$wp_filter = array();
+
+if ( ! isset( $wp_actions ) )
+	$wp_actions = array();
+
+if ( ! isset( $merged_filters ) )
+	$merged_filters = array();
+
+if ( ! isset( $wp_current_filter ) )
+	$wp_current_filter = array();
+
 /**
  * Hooks a function or method to a specific filter action.
  *
- * Filters are the hooks that WordPress launches to modify text of various types
- * before adding it to the database or sending it to the browser screen. Plugins
- * can specify that one or more of its PHP functions is executed to
- * modify specific types of text at these times, using the Filter API.
+ * WordPress offers filter hooks to allow plugins to modify
+ * various types of internal data at runtime.
  *
- * To use the API, the following code should be used to bind a callback to the
- * filter.
+ * A plugin can modify data by binding a callback to a filter hook. When the filter
+ * is later applied, each bound callback is run in order of priority, and given
+ * the opportunity to modify a value by returning a new value.
+ *
+ * The following example shows how a callback function is bound to a filter hook.
+ * Note that $example is passed to the callback, (maybe) modified, then returned:
  *
  * <code>
- * function example_hook($example) { echo $example; }
- * add_filter('example_filter', 'example_hook');
+ * function example_callback( $example ) {
+ * 	// Maybe modify $example in some way
+ * 	return $example;
+ * }
+ * add_filter( 'example_filter', 'example_callback' );
  * </code>
  *
- * In WordPress 1.5.1+, hooked functions can take extra arguments that are set
- * when the matching do_action() or apply_filters() call is run. The
- * $accepted_args allow for calling functions only when the number of args
- * match. Hooked functions can take extra arguments that are set when the
- * matching do_action() or apply_filters() call is run. For example, the action
- * comment_id_not_found will pass any functions that hook onto it the ID of the
- * requested comment.
+ * Since WordPress 1.5.1, bound callbacks can take as many arguments as are
+ * passed as parameters in the corresponding apply_filters() call. The $accepted_args
+ * parameter allows for calling functions only when the number of args match.
  *
- * <strong>Note:</strong> the function will return true no matter if the
- * function was hooked fails or not. There are no checks for whether the
- * function exists beforehand and no checks to whether the <tt>$function_to_add</tt>
- * is even a string. It is up to you to take care and this is done for
- * optimization purposes, so everything is as quick as possible.
+ * <strong>Note:</strong> the function will return true whether or not the callback
+ * is valid. It is up to you to take care. This is done for optimization purposes,
+ * so everything is as quick as possible.
  *
  * @package WordPress
  * @subpackage Plugin
- * @since 0.71
- * @global array $wp_filter Stores all of the filters added in the form of
- *	wp_filter['tag']['array of priorities']['array of functions serialized']['array of ['array (functions, accepted_args)']']
+ *
+ * @global array $wp_filter      A multidimensional array of all hooks and the callbacks hooked to them.
  * @global array $merged_filters Tracks the tags that need to be merged for later. If the hook is added, it doesn't need to run through that process.
  *
- * @param string $tag The name of the filter to hook the $function_to_add to.
- * @param callback $function_to_add The name of the function to be called when the filter is applied.
- * @param int $priority optional. Used to specify the order in which the functions associated with a particular action are executed (default: 10). Lower numbers correspond with earlier execution, and functions with the same priority are executed in the order in which they were added to the action.
- * @param int $accepted_args optional. The number of arguments the function accept (default 1).
+ * @since 0.71
+ *
+ * @param string   $tag             The name of the filter to hook the $function_to_add callback to.
+ * @param callback $function_to_add The callback to be run when the filter is applied.
+ * @param int      $priority        (optional) The order in which the functions associated with a particular action are executed. Lower numbers correspond with earlier execution, and functions with the same priority are executed in the order in which they were added to the action.
+ *                                  Default 10.
+ * @param int      $accepted_args   (optional) The number of arguments the function accepts.
+ *                                  Default 1.
  * @return boolean true
  */
-function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1) {
+function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 ) {
 	global $wp_filter, $merged_filters;
 
 	$idx = _wp_filter_build_unique_id($tag, $function_to_add, $priority);
@@ -114,27 +131,36 @@ function has_filter($tag, $function_to_check = false) {
  *
  * The function allows for additional arguments to be added and passed to hooks.
  * <code>
- * function example_hook($string, $arg1, $arg2)
- * {
- *		//Do stuff
- *		return $string;
+ * // Our filter callback function
+ * function example_callback( $string, $arg1, $arg2 ) {
+ *	// (maybe) modify $string
+ *	return $string;
  * }
- * $value = apply_filters('example_filter', 'filter me', 'arg1', 'arg2');
+ * add_filter( 'example_filter', 'example_callback', 10, 3 );
+ *
+ * // Apply the filters by calling the 'example_callback' function we
+ * // "hooked" to 'example_filter' using the add_filter() function above.
+ * // - 'example_filter' is the filter hook $tag
+ * // - 'filter me' is the value being filtered
+ * // - $arg1 and $arg2 are the additional arguments passed to the callback.
+ * $value = apply_filters( 'example_filter', 'filter me', $arg1, $arg2 );
  * </code>
  *
  * @package WordPress
  * @subpackage Plugin
- * @since 0.71
- * @global array $wp_filter Stores all of the filters
- * @global array $merged_filters Merges the filter hooks using this function.
+ *
+ * @global array $wp_filter         Stores all of the filters
+ * @global array $merged_filters    Merges the filter hooks using this function.
  * @global array $wp_current_filter stores the list of current filters with the current one last
  *
- * @param string $tag The name of the filter hook.
+ * @since 0.71
+ *
+ * @param string $tag  The name of the filter hook.
  * @param mixed $value The value on which the filters hooked to <tt>$tag</tt> are applied on.
- * @param mixed $var,... Additional variables passed to the functions hooked to <tt>$tag</tt>.
+ * @param mixed $var   Additional variables passed to the functions hooked to <tt>$tag</tt>.
  * @return mixed The filtered value after all hooked functions are applied to it.
  */
-function apply_filters($tag, $value) {
+function apply_filters( $tag, $value ) {
 	global $wp_filter, $merged_filters, $wp_current_filter;
 
 	$args = array();
@@ -360,9 +386,6 @@ function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 function do_action($tag, $arg = '') {
 	global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
 
-	if ( ! isset($wp_actions) )
-		$wp_actions = array();
-
 	if ( ! isset($wp_actions[$tag]) )
 		$wp_actions[$tag] = 1;
 	else
@@ -424,7 +447,7 @@ function do_action($tag, $arg = '') {
 function did_action($tag) {
 	global $wp_actions;
 
-	if ( ! isset( $wp_actions ) || ! isset( $wp_actions[$tag] ) )
+	if ( ! isset( $wp_actions[ $tag ] ) )
 		return 0;
 
 	return $wp_actions[$tag];
@@ -448,9 +471,6 @@ function did_action($tag) {
  */
 function do_action_ref_array($tag, $args) {
 	global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
-
-	if ( ! isset($wp_actions) )
-		$wp_actions = array();
 
 	if ( ! isset($wp_actions[$tag]) )
 		$wp_actions[$tag] = 1;
@@ -708,7 +728,6 @@ function register_uninstall_hook( $file, $callback ) {
  * @uses $wp_filter Used to process all of the functions in the 'all' hook
  *
  * @param array $args The collected parameters from the hook that was called.
- * @param string $hook Optional. The hook name that was used to call the 'all' hook.
  */
 function _wp_call_all_hook($args) {
 	global $wp_filter;

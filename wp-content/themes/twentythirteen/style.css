@@ -4,7 +4,7 @@ Theme URI: http://wordpress.org/themes/twentythirteen
 Author: the WordPress team
 Author URI: http://wordpress.org/
 Description: The 2013 theme for WordPress takes us back to the blog, featuring a full range of post formats, each displayed beautifully in their own unique way. Design details abound, starting with a vibrant color scheme and matching header images, beautiful typography and icons, and a flexible layout that looks great on any device, big or small.
-Version: 1.0
+Version: 1.1
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: black, brown, orange, tan, white, yellow, light, one-column, two-columns, right-sidebar, flexible-width, custom-header, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, translation-ready
@@ -1738,8 +1738,7 @@ footer.entry-meta {
 	max-width: 104px;
 }
 
-.attachment footer.entry-meta,
-.single-attachment .site-main .sidebar-container {
+.attachment footer.entry-meta {
 	display: none;
 }
 
@@ -1798,7 +1797,7 @@ footer.entry-meta {
 }
 
 .attachment .entry-attachment,
-.attachment p.attachment {
+.attachment .type-attachment p {
 	margin: 0 auto;
 	max-width: 724px;
 	text-align: center;
@@ -1820,6 +1819,10 @@ footer.entry-meta {
 .attachment .entry-caption p:last-child,
 .attachment .entry-description p:last-child {
 	margin: 0;
+}
+
+.attachment .site-main .sidebar-container {
+	display: none;
 }
 
 
@@ -2191,6 +2194,7 @@ footer.entry-meta {
 	width: 79%;
 	width: -webkit-calc(100% - 124px);
 	width:         calc(100% - 124px);
+	word-wrap: break-word;
 }
 
 .comment-meta,

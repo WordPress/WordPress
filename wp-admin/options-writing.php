@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'manage_options' ) )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
@@ -28,6 +28,7 @@ get_current_screen()->add_help_tab( array(
 	'content' => '<p>' . __('Press This is a bookmarklet that makes it easy to blog about something you come across on the web. You can use it to just grab a link, or to post an excerpt. Press This will even allow you to choose from images included on the page and use them in your post. Just drag the Press This link on this screen to your bookmarks bar in your browser, and you&#8217;ll be on your way to easier content creation. Clicking on it while on another website opens a popup window with all these options.') . '</p>',
 ) );
 
+/** This filter is documented in wp-admin/options.php */
 if ( apply_filters( 'enable_post_by_email_configuration', true ) ) {
 	get_current_screen()->add_help_tab( array(
 		'id'      => 'options-postemail',
@@ -36,6 +37,13 @@ if ( apply_filters( 'enable_post_by_email_configuration', true ) ) {
 	) );
 }
 
+/**
+* Toggle site update services configuration functionality.
+*
+* @since 3.0.0
+*
+* @param bool True or false, based on whether update services configuration is enabled or not.
+*/
 if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 	get_current_screen()->add_help_tab( array(
 		'id'      => 'options-services',
@@ -50,7 +58,7 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-include('./admin-header.php');
+include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
@@ -122,7 +130,10 @@ do_settings_fields('writing', 'remote_publishing'); // A deprecated section.
 	<p><textarea rows="5" cols="120" readonly="readonly"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
 </div>
 
-<?php if ( apply_filters( 'enable_post_by_email_configuration', true ) ) { ?>
+<?php
+/** This filter is documented in wp-admin/options.php */
+if ( apply_filters( 'enable_post_by_email_configuration', true ) ) {
+?>
 <h3 class="title"><?php _e('Post via e-mail') ?></h3>
 <p><?php printf(__('To post to WordPress by e-mail you must set up a secret e-mail account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <kbd>%s</kbd>, <kbd>%s</kbd>, <kbd>%s</kbd>.'), wp_generate_password(8, false), wp_generate_password(8, false), wp_generate_password(8, false)) ?></p>
 
@@ -156,7 +167,10 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 </table>
 <?php } ?>
 
-<?php if ( apply_filters( 'enable_update_services_configuration', true ) ) { ?>
+<?php
+/** This filter is documented in wp-admin/options-writing.php */
+if ( apply_filters( 'enable_update_services_configuration', true ) ) {
+?>
 <h3 class="title"><?php _e('Update Services') ?></h3>
 
 <?php if ( 1 == get_option('blog_public') ) : ?>
@@ -178,4 +192,4 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 </form>
 </div>
 
-<?php include('./admin-footer.php') ?>
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

@@ -178,6 +178,7 @@ var wpNavMenu;
 							var t = $(this),
 								listItemDBIDMatch = re.exec( t.attr('name') ),
 								listItemDBID = 'undefined' == typeof listItemDBIDMatch[1] ? 0 : parseInt(listItemDBIDMatch[1], 10);
+
 							if ( this.className && -1 != this.className.indexOf('add-to-top') )
 								processMethod = api.addMenuItemToTop;
 							menuItems[listItemDBID] = t.closest('li').getItemData( 'add-menu-item', listItemDBID );
@@ -402,16 +403,16 @@ var wpNavMenu;
 		refreshAdvancedAccessibility : function() {
 
 			// Hide all links by default
-			$( '.menu-item-settings .field-move a' ).hide();
+			$( '.menu-item-settings .field-move a' ).css( 'display', 'none' );
 
 			$( '.item-edit' ).each( function() {
 				var $this = $(this),
 					movement = [],
 					availableMovement = '',
-					menuItem = $this.parents( 'li.menu-item' ).first(),
+					menuItem = $this.closest( 'li.menu-item' ).first(),
 					depth = menuItem.menuItemDepth(),
 					isPrimaryMenuItem = ( 0 === depth ),
-					itemName = $this.parents( '.menu-item-handle' ).find( '.menu-item-title' ).text(),
+					itemName = $this.closest( '.menu-item-handle' ).find( '.menu-item-title' ).text(),
 					position = parseInt( menuItem.index() ),
 					prevItemDepth = ( isPrimaryMenuItem ) ? depth : parseInt( depth - 1 ),
 					prevItemNameLeft = menuItem.prevAll('.menu-item-depth-' + prevItemDepth).first().find( '.menu-item-title' ).text(),
@@ -422,35 +423,35 @@ var wpNavMenu;
 				// Where can they move this menu item?
 				if ( 0 !== position ) {
 					var thisLink = menuItem.find( '.menus-move-up' );
-					thisLink.prop( 'title', menus.moveUp ).show();
+					thisLink.prop( 'title', menus.moveUp ).css( 'display', 'inline' );
 				}
 
 				if ( 0 !== position && isPrimaryMenuItem ) {
 					var thisLink = menuItem.find( '.menus-move-top' );
-					thisLink.prop( 'title', menus.moveToTop ).show();
+					thisLink.prop( 'title', menus.moveToTop ).css( 'display', 'inline' );
 				}
 
 				if ( position + 1 !== totalMenuItems && 0 !== position ) {
 					var thisLink = menuItem.find( '.menus-move-down' );
-					thisLink.prop( 'title', menus.moveDown ).show();
+					thisLink.prop( 'title', menus.moveDown ).css( 'display', 'inline' );
 				}
 
 				if ( 0 === position && 0 !== hasSameDepthSibling ) {
 					var thisLink = menuItem.find( '.menus-move-down' );
-					thisLink.prop( 'title', menus.moveDown ).show();
+					thisLink.prop( 'title', menus.moveDown ).css( 'display', 'inline' );
 				}
 
 				if ( ! isPrimaryMenuItem ) {
 					var thisLink = menuItem.find( '.menus-move-left' ),
 						thisLinkText = menus.outFrom.replace( '%s', prevItemNameLeft );
-					thisLink.prop( 'title', menus.moveOutFrom.replace( '%s', prevItemNameLeft ) ).html( thisLinkText ).show();
+					thisLink.prop( 'title', menus.moveOutFrom.replace( '%s', prevItemNameLeft ) ).html( thisLinkText ).css( 'display', 'inline' );
 				}
 
 				if ( 0 !== position ) {
 					if ( menuItem.find( '.menu-item-data-parent-id' ).val() !== menuItem.prev().find( '.menu-item-data-db-id' ).val() ) {
 						var thisLink = menuItem.find( '.menus-move-right' ),
 							thisLinkText = menus.under.replace( '%s', prevItemNameRight );
-						thisLink.prop( 'title', menus.moveUnder.replace( '%s', prevItemNameRight ) ).html( thisLinkText ).show();
+						thisLink.prop( 'title', menus.moveUnder.replace( '%s', prevItemNameRight ) ).html( thisLinkText ).css( 'display', 'inline' );
 					}
 				}
 
@@ -902,12 +903,16 @@ var wpNavMenu;
 
 			$.post( ajaxurl, params, function(menuMarkup) {
 				var ins = $('#menu-instructions');
+
+				menuMarkup = $.trim( menuMarkup ); // Trim leading whitespaces
 				processMethod(menuMarkup, params);
+
 				// Make it stand out a bit more visually, by adding a fadeIn
 				$( 'li.pending' ).hide().fadeIn('slow');
 				$( '.drag-instructions' ).show();
 				if( ! ins.hasClass( 'menu-instructions-inactive' ) && ins.siblings().length )
 					ins.addClass( 'menu-instructions-inactive' );
+
 				callback();
 			});
 		},

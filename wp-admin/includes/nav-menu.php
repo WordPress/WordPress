@@ -9,35 +9,46 @@
  */
 class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	/**
+	 * Starts the list before the elements are added.
+	 *
 	 * @see Walker_Nav_Menu::start_lvl()
+	 *
 	 * @since 3.0.0
 	 *
 	 * @param string $output Passed by reference.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   Not used.
 	 */
 	function start_lvl( &$output, $depth = 0, $args = array() ) {}
 
 	/**
+	 * Ends the list of after the elements are added.
+	 *
 	 * @see Walker_Nav_Menu::end_lvl()
+	 *
 	 * @since 3.0.0
 	 *
 	 * @param string $output Passed by reference.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   Not used.
 	 */
 	function end_lvl( &$output, $depth = 0, $args = array() ) {}
 
 	/**
-	 * @see Walker::start_el()
+	 * Start the element output.
+	 *
+	 * @see Walker_Nav_Menu::start_el()
 	 * @since 3.0.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param object $item Menu item data object.
-	 * @param int $depth Depth of menu item. Used for padding.
-	 * @param object $args
+	 * @param object $item   Menu item data object.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   Not used.
+	 * @param int    $id     Not used.
 	 */
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		global $_wp_nav_menu_max_depth;
 		$_wp_nav_menu_max_depth = $depth > $_wp_nav_menu_max_depth ? $depth : $_wp_nav_menu_max_depth;
-
-		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
 		ob_start();
 		$item_id = esc_attr( $item->ID );
@@ -57,7 +68,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 				$original_title = false;
 		} elseif ( 'post_type' == $item->type ) {
 			$original_object = get_post( $item->object_id );
-			$original_title = $original_object->post_title;
+			$original_title = get_the_title( $original_object->ID );
 		}
 
 		$classes = array(
@@ -214,7 +225,8 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<?php
 		$output .= ob_get_clean();
 	}
-}
+
+} // Walker_Nav_Menu_Edit
 
 /**
  * Create HTML list of nav menu input items.
@@ -230,24 +242,50 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		}
 	}
 
+	/**
+	 * Starts the list before the elements are added.
+	 *
+	 * @see Walker_Nav_Menu::start_lvl()
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int    $depth  Depth of page. Used for padding.
+	 * @param array  $args   Not used.
+	 */
 	function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat( "\t", $depth );
 		$output .= "\n$indent<ul class='children'>\n";
 	}
 
+	/**
+	 * Ends the list of after the elements are added.
+	 *
+	 * @see Walker_Nav_Menu::end_lvl()
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int    $depth  Depth of page. Used for padding.
+	 * @param array  $args   Not used.
+	 */
 	function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat( "\t", $depth );
 		$output .= "\n$indent</ul>";
 	}
 
 	/**
-	 * @see Walker::start_el()
+	 * Start the element output.
+	 *
+	 * @see Walker_Nav_Menu::start_el()
+	 *
 	 * @since 3.0.0
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param object $item Menu item data object.
-	 * @param int $depth Depth of menu item. Used for padding.
-	 * @param object $args
+	 * @param object $item   Menu item data object.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   Not used.
+	 * @param int    $id     Not used.
 	 */
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		global $_nav_menu_placeholder;
@@ -261,15 +299,23 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		$output .= $indent . '<li>';
 		$output .= '<label class="menu-item-title">';
 		$output .= '<input type="checkbox" class="menu-item-checkbox';
-		if ( property_exists( $item, 'front_or_home' ) && $item->front_or_home ) {
-			$title = sprintf( _x( 'Home: %s', 'nav menu front page title' ), $item->post_title );
+
+		if ( ! empty( $item->front_or_home ) )
 			$output .= ' add-to-top';
-		} elseif ( property_exists( $item, 'label' ) ) {
-			$title = $item->label;
-		}
+
 		$output .= '" name="menu-item[' . $possible_object_id . '][menu-item-object-id]" value="'. esc_attr( $item->object_id ) .'" /> ';
+
+		if ( ! empty( $item->label ) ) {
+			$title = $item->label;
+		} elseif ( isset( $item->post_type ) ) {
+			/** This filter is documented in wp-includes/post-template.php */
+			$title = apply_filters( 'the_title', $item->post_title, $item->ID );
+			if ( ! empty( $item->front_or_home ) && _x( 'Home', 'nav menu home label' ) !== $title )
+				$title = sprintf( _x( 'Home: %s', 'nav menu front page title' ), $title );
+		}
+
 		$output .= isset( $title ) ? esc_html( $title ) : esc_html( $item->title );
-		$output .= '</label>';
+ 		$output .= '</label>';
 
 		// Menu item hidden fields
 		$output .= '<input type="hidden" class="menu-item-db-id" name="menu-item[' . $possible_object_id . '][menu-item-db-id]" value="' . $possible_db_id . '" />';
@@ -283,7 +329,8 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 		$output .= '<input type="hidden" class="menu-item-classes" name="menu-item[' . $possible_object_id . '][menu-item-classes]" value="'. esc_attr( implode( ' ', $item->classes ) ) .'" />';
 		$output .= '<input type="hidden" class="menu-item-xfn" name="menu-item[' . $possible_object_id . '][menu-item-xfn]" value="'. esc_attr( $item->xfn ) .'" />';
 	}
-}
+
+} // Walker_Nav_Menu_Checklist
 
 /**
  * Prints the appropriate response to a menu quick search.
@@ -484,51 +531,6 @@ function wp_nav_menu_taxonomy_meta_boxes() {
 			add_meta_box( "add-{$id}", $tax->labels->name, 'wp_nav_menu_item_taxonomy_meta_box', 'nav-menus', 'side', 'default', $tax );
 		}
 	}
-}
-
-/**
- * Displays a metabox for the nav menu theme locations.
- *
- * @since 3.0.0
- */
-function wp_nav_menu_locations_meta_box() {
-	global $nav_menu_selected_id;
-
-	if ( ! current_theme_supports( 'menus' ) ) {
-		// We must only support widgets. Leave a message and bail.
-		echo '<p class="howto">' . __('The current theme does not natively support menus, but you can use the &#8220;Custom Menu&#8221; widget to add any menus you create here to the theme&#8217;s sidebar.') . '</p>';
-		return;
-	}
-
-	$locations = get_registered_nav_menus();
-	$menus = wp_get_nav_menus();
-	$menu_locations = get_nav_menu_locations();
-	$num_locations = count( array_keys($locations) );
-
-	echo '<p class="howto">' . _n( 'Select a menu to use within your theme.', 'Select the menus you will use in your theme.', $num_locations ) . '</p>';
-
-	foreach ( $locations as $location => $description ) {
-		?>
-		<p>
-			<label class="howto" for="locations-<?php echo $location; ?>">
-				<span><?php echo $description; ?></span>
-				<select name="menu-locations[<?php echo $location; ?>]" id="locations-<?php echo $location; ?>">
-					<option value="0"></option>
-					<?php foreach ( $menus as $menu ) : ?>
-					<option<?php selected( isset( $menu_locations[ $location ] ) && $menu_locations[ $location ] == $menu->term_id ); ?>
-						value="<?php echo $menu->term_id; ?>"><?php echo wp_html_excerpt( $menu->name, 40, '&hellip;' ); ?></option>
-					<?php endforeach; ?>
-				</select>
-			</label>
-		</p>
-	<?php
-	}
-	?>
-	<p class="button-controls">
-		<?php submit_button( __( 'Save' ), 'primary right', 'nav-menu-locations', false, wp_nav_menu_disabled_check( $nav_menu_selected_id ) ); ?>
-		<span class="spinner"></span>
-	</p>
-	<?php
 }
 
 /**

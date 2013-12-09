@@ -1,8 +1,8 @@
 <?php
 /**
- * The sidebar containing the footer widget area.
+ * The sidebar containing the footer widget area
  *
- * If no active widgets in this sidebar, it will be hidden completely.
+ * If no active widgets in this sidebar, hide it completely.
  *
  * @package WordPress
  * @subpackage Twenty_Thirteen

@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying Comments.
+ * Template for displaying Comments
  *
  * The area of the page that contains both current comments
  * and the comment form. The actual display of comments is
@@ -17,7 +17,8 @@
 		<p class="nopassword"><?php _e( 'This post is password protected. Enter the password to view any comments.', 'twentyeleven' ); ?></p>
 	</div><!-- #comments -->
 	<?php
-			/* Stop the rest of comments.php from being processed,
+			/*
+			 * Stop the rest of comments.php from being processed,
 			 * but don't kill the script entirely -- we still have
 			 * to fully load the template.
 			 */
@@ -45,7 +46,8 @@
 
 		<ol class="commentlist">
 			<?php
-				/* Loop through and list the comments. Tell wp_list_comments()
+				/*
+				 * Loop through and list the comments. Tell wp_list_comments()
 				 * to use twentyeleven_comment() to format the comments.
 				 * If you want to overload this in a child theme then you can
 				 * define twentyeleven_comment() and that will be used instead.
@@ -64,7 +66,8 @@
 		<?php endif; // check for comment navigation ?>
 
 		<?php
-		/* If there are no comments and comments are closed, let's leave a little note, shall we?
+		/*
+		 * If there are no comments and comments are closed, let's leave a little note, shall we?
 		 * But we only want the note on posts and pages that had comments in the first place.
 		 */
 		if ( ! comments_open() && get_comments_number() ) : ?>

@@ -8,7 +8,7 @@
 
 @header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 if ( ! defined( 'WP_ADMIN' ) )
-	require_once( './admin.php' );
+	require_once( dirname( __FILE__ ) . '/admin.php' );
 
 // In case admin-header.php is included in a function.
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
@@ -22,9 +22,9 @@ get_admin_page_title();
 $title = esc_html( strip_tags( $title ) );
 
 if ( is_network_admin() )
-	$admin_title = __( 'Network Admin' );
+	$admin_title = sprintf( __('Network Admin: %s'), esc_html( $current_site->site_name ) );
 elseif ( is_user_admin() )
-	$admin_title = __( 'Global Dashboard' );
+	$admin_title = sprintf( __('Global Dashboard: %s'), esc_html( $current_site->site_name ) );
 else
 	$admin_title = get_bloginfo( 'name' );
 
@@ -33,6 +33,14 @@ if ( $admin_title == $title )
 else
 	$admin_title = sprintf( __( '%1$s &lsaquo; %2$s &#8212; WordPress' ), $title, $admin_title );
 
+/**
+ * Filter the <title> content for an admin page.
+ *
+ * @since 3.1.0
+ *
+ * @param string $admin_title The page title, with extra context added.
+ * @param string $title       The original page title.
+ */
 $admin_title = apply_filters( 'admin_title', $admin_title, $title );
 
 wp_user_settings();
@@ -60,13 +68,56 @@ var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
 </script>
 <?php
 
-do_action('admin_enqueue_scripts', $hook_suffix);
-do_action("admin_print_styles-$hook_suffix");
-do_action('admin_print_styles');
-do_action("admin_print_scripts-$hook_suffix");
-do_action('admin_print_scripts');
-do_action("admin_head-$hook_suffix");
-do_action('admin_head');
+/**
+ * Enqueue scripts for all admin pages.
+ *
+ * @since 2.8.0
+ *
+ * @param string $hook_suffix The current admin page.
+ */
+do_action( 'admin_enqueue_scripts', $hook_suffix );
+
+/**
+ * Print styles for a specific admin page based on $hook_suffix.
+ *
+ * @since 2.6.0
+ */
+do_action( "admin_print_styles-$hook_suffix" );
+
+/**
+ * Print styles for all admin pages.
+ *
+ * @since 2.6.0
+ */
+do_action( 'admin_print_styles' );
+
+/**
+ * Print scripts for a specific admin page based on $hook_suffix.
+ *
+ * @since 2.1.0
+ */
+do_action( "admin_print_scripts-$hook_suffix" );
+
+/**
+ * Print scripts for all admin pages.
+ *
+ * @since 2.1.0
+ */
+do_action( 'admin_print_scripts' );
+
+/**
+ * Fires in <head> for a specific admin page based on $hook_suffix.
+ *
+ * @since 2.1.0
+ */
+do_action( "admin_head-$hook_suffix" );
+
+/**
+ * Fires in <head> for all admin pages.
+ *
+ * @since 2.1.0
+ */
+do_action( 'admin_head' );
 
 if ( get_user_setting('mfold') == 'f' )
 	$admin_body_class .= ' folded';
@@ -80,6 +131,12 @@ if ( is_admin_bar_showing() )
 if ( is_rtl() )
 	$admin_body_class .= ' rtl';
 
+if ( $current_screen->post_type )
+	$admin_body_class .= ' post-type-' . $current_screen->post_type;
+
+if ( $current_screen->taxonomy )
+	$admin_body_class .= ' taxonomy-' . $current_screen->taxonomy;
+
 $admin_body_class .= ' branch-' . str_replace( array( '.', ',' ), '-', floatval( $wp_version ) );
 $admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-9]+).*/', '$1', $wp_version ) );
 $admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
@@ -92,6 +149,19 @@ $admin_body_class .= ' no-customize-support';
 
 ?>
 </head>
+<?php
+/**
+ * Filter the admin <body> CSS classes.
+ *
+ * This filter differs from the post_class or body_class filters in two important ways:
+ * 1. $classes is a space-separated string of class names instead of an array.
+ * 2. Not all core admin classes are filterable, notably: wp-admin, wp-core-ui, and no-js cannot be removed.
+ *
+ * @since 2.3.0
+ *
+ * @param string $classes Space-separated string of CSS classes.
+ */
+?>
 <body class="wp-admin wp-core-ui no-js <?php echo apply_filters( 'admin_body_class', '' ) . " $admin_body_class"; ?>">
 <script type="text/javascript">
 	document.body.className = document.body.className.replace('no-js','js');
@@ -109,7 +179,12 @@ if ( current_user_can( 'edit_theme_options' ) )
 <div id="wpcontent">
 
 <?php
-do_action('in_admin_header');
+/**
+ * Fires at the beginning of the content section in an admin page.
+ *
+ * @since 3.0.0
+ */
+do_action( 'in_admin_header' );
 ?>
 
 <div id="wpbody">
@@ -125,14 +200,35 @@ $current_screen->set_parentage( $parent_file );
 
 $current_screen->render_screen_meta();
 
-if ( is_network_admin() )
-	do_action('network_admin_notices');
-elseif ( is_user_admin() )
-	do_action('user_admin_notices');
-else
-	do_action('admin_notices');
+if ( is_network_admin() ) {
+	/**
+	 * Print network admin screen notices.
+	 *
+	 * @since 3.1.0
+	 */
+	do_action( 'network_admin_notices' );
+} elseif ( is_user_admin() ) {
+	/**
+	 * Print user admin screen notices.
+	 *
+	 * @since 3.1.0
+	 */
+	do_action( 'user_admin_notices' );
+} else {
+	/**
+	 * Print admin screen notices.
+	 *
+	 * @since 3.1.0
+	 */
+	do_action( 'admin_notices' );
+}
 
-do_action('all_admin_notices');
+/**
+ * Print generic admin screen notices.
+ *
+ * @since 3.1.0
+ */
+do_action( 'all_admin_notices' );
 
 if ( $parent_file == 'options-general.php' )
 	require(ABSPATH . 'wp-admin/options-head.php');

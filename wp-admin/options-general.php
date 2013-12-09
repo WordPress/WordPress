@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once('./admin.php');
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'manage_options' ) )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
@@ -80,7 +80,7 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-include('./admin-header.php');
+include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
@@ -229,13 +229,14 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 <td>
 	<fieldset><legend class="screen-reader-text"><span><?php _e('Date Format') ?></span></legend>
 <?php
-
-	$date_formats = array_unique( apply_filters( 'date_formats', array(
-		__('F j, Y'),
-		'Y/m/d',
-		'm/d/Y',
-		'd/m/Y',
-	) ) );
+	/**
+	* Filter the default date formats.
+	*
+	* @since 2.7.0
+	*
+	* @param array $default_date_formats Array of default date formats.
+	*/
+	$date_formats = array_unique( apply_filters( 'date_formats', array( __( 'F j, Y' ), 'Y/m/d', 'm/d/Y', 'd/m/Y' ) ) );
 
 	$custom = true;
 
@@ -262,12 +263,14 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 <td>
 	<fieldset><legend class="screen-reader-text"><span><?php _e('Time Format') ?></span></legend>
 <?php
-
-	$time_formats = array_unique( apply_filters( 'time_formats', array(
-		__('g:i a'),
-		'g:i A',
-		'H:i',
-	) ) );
+	/**
+	* Filter the default time formats.
+	*
+	* @since 2.7.0
+	*
+	* @param array $default_time_formats Array of default time formats.
+	*/
+	$time_formats = array_unique( apply_filters( 'time_formats', array( __( 'g:i a' ), 'g:i A', 'H:i' ) ) );
 
 	$custom = true;
 
@@ -324,4 +327,4 @@ endfor;
 
 </div>
 
-<?php include('./admin-footer.php') ?>
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

@@ -1,7 +1,7 @@
 <?php
 
 if ( !class_exists('SimplePie') )
-	require_once (ABSPATH . WPINC . '/class-simplepie.php');
+	require_once( ABSPATH . WPINC . '/class-simplepie.php' );
 
 class WP_Feed_Cache extends SimplePie_Cache {
 	/**
@@ -23,7 +23,17 @@ class WP_Feed_Cache_Transient {
 	function __construct($location, $filename, $extension) {
 		$this->name = 'feed_' . $filename;
 		$this->mod_name = 'feed_mod_' . $filename;
-		$this->lifetime = apply_filters('wp_feed_cache_transient_lifetime', $this->lifetime, $filename);
+
+		$lifetime = $this->lifetime;
+		/**
+		 * Filter the transient lifetime of the feed cache.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param int    $lifetime Cache duration in seconds. Default is 43200 seconds (12 hours).
+		 * @param string $filename Unique identifier for the cache object.
+		 */
+		$this->lifetime = apply_filters( 'wp_feed_cache_transient_lifetime', $lifetime, $filename);
 	}
 
 	function save($data) {

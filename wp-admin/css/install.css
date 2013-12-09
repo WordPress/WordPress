@@ -215,10 +215,12 @@ textarea {
 }
 
 .message {
-	border: 1px solid #e6db55;
-	padding: 0.3em 0.6em;
+	border: 1px solid #c00;
+	-webkit-border-radius: 3px;
+	border-radius:         3px;
+	padding: 0.5em 0.7em;
 	margin: 5px 0 15px;
-	background-color: #ffffe0;
+	background-color: #ffebe8;
 }
 
 /* install-rtl */

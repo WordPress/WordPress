@@ -7,6 +7,6 @@
  * @since 3.1.0
  */
 
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
-require( '../user-edit.php' );
+require( ABSPATH . 'wp-admin/user-edit.php' );

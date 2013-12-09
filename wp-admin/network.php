@@ -13,7 +13,7 @@
 define( 'WP_INSTALLING_NETWORK', true );
 
 /** WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! is_super_admin() )
 	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
@@ -58,13 +58,20 @@ function allow_subdomain_install() {
 	return true;
 }
 /**
- * Allow subdirectory install
+ * Allow subdirectory install.
  *
  * @since 3.0.0
  * @return bool Whether subdirectory install is allowed
  */
 function allow_subdirectory_install() {
 	global $wpdb;
+        /**
+         * Filter whether to enable the subdirectory install feature in Multisite.
+         *
+         * @since 3.0.0
+         *
+         * @param bool true Whether to enable the subdirectory install feature in Multisite. Default is false.
+         */
 	if ( apply_filters( 'allow_subdirectory_install', false ) )
 		return true;
 

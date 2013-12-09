@@ -1,6 +1,6 @@
 <?php
 /**
- * The Template for displaying all single posts.
+ * Template for displaying all single posts
  *
  * @package WordPress
  * @subpackage Twenty_Ten
@@ -13,7 +13,8 @@ get_header(); ?>
 			<div id="content" role="main">
 
 			<?php
-			/* Run the loop to output the post.
+			/*
+			 * Run the loop to output the post.
 			 * If you want to overload this in a child theme then include a file
 			 * called loop-single.php and that will be used instead.
 			 */

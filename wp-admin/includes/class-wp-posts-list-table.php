@@ -57,9 +57,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$post_type_object = get_post_type_object( $post_type );
 
 		if ( !current_user_can( $post_type_object->cap->edit_others_posts ) ) {
+			$exclude_states = get_post_stati( array( 'show_in_admin_all_list' => false ) );
 			$this->user_posts_count = $wpdb->get_var( $wpdb->prepare( "
 				SELECT COUNT( 1 ) FROM $wpdb->posts
-				WHERE post_type = %s AND post_status NOT IN ( 'trash', 'auto-draft' )
+				WHERE post_type = %s AND post_status NOT IN ( '" . implode( "','", $exclude_states ) . "' )
 				AND post_author = %d
 			", $post_type, get_current_user_id() ) );
 
@@ -69,7 +70,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		if ( 'post' == $post_type && $sticky_posts = get_option( 'sticky_posts' ) ) {
 			$sticky_posts = implode( ', ', array_map( 'absint', (array) $sticky_posts ) );
-			$this->sticky_posts_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( 1 ) FROM $wpdb->posts WHERE post_type = %s AND post_status != 'trash' AND ID IN ($sticky_posts)", $post_type ) );
+			$this->sticky_posts_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( 1 ) FROM $wpdb->posts WHERE post_type = %s AND post_status NOT IN ('trash', 'auto-draft') AND ID IN ($sticky_posts)", $post_type ) );
 		}
 	}
 
@@ -417,12 +418,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 *
 	 * @since 3.1.0 (Standalone function exists since 2.6.0)
 	 *
-	 * @param unknown_type $children_pages
-	 * @param unknown_type $count
-	 * @param unknown_type $parent
-	 * @param unknown_type $level
-	 * @param unknown_type $pagenum
-	 * @param unknown_type $per_page
+	 * @param array $children_pages
+	 * @param int $count
+	 * @param int $parent
+	 * @param int $level
+	 * @param int $pagenum
+	 * @param int $per_page
 	 */
 	function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_page ) {
 
@@ -539,8 +540,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 							$level++;
 							$find_main_page = (int) $parent->post_parent;
 
-							if ( !isset( $parent_name ) )
+							if ( !isset( $parent_name ) ) {
+								/** This filter is documented in wp-includes/post-template.php */
 								$parent_name = apply_filters( 'the_title', $parent->post_title, $parent->ID );
+							}
 						}
 					}
 				}
@@ -1034,6 +1037,33 @@ class WP_Posts_List_Table extends WP_List_Table {
 	<?php endif; // 'post' && $can_publish && current_user_can( 'edit_others_cap' ) ?>
 
 			</div>
+
+	<?php
+
+	if ( $bulk && post_type_supports( $screen->post_type, 'post-formats' ) ) {
+		$all_post_formats = get_post_format_strings();
+
+		?>
+		<label class="alignleft" for="post_format">
+		<span class="title"><?php _ex( 'Format', 'post format' ); ?></span>
+		<select name="post_format">
+			<option value="-1"><?php _e( '&mdash; No Change &mdash;' ); ?></option>
+			<?php
+
+			foreach ( $all_post_formats as $slug => $format ) {
+				?>
+				<option value="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $format ); ?></option>
+				<?php
+			}
+
+			?>
+		</select></label>
+	<?php
+
+	}
+
+	?>
+
 		</div></fieldset>
 
 	<?php
@@ -1057,6 +1087,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 			} ?>
 			<input type="hidden" name="post_view" value="<?php echo esc_attr( $m ); ?>" />
 			<input type="hidden" name="screen" value="<?php echo esc_attr( $screen->id ); ?>" />
+			<?php if ( ! $bulk && ! post_type_supports( $screen->post_type, 'author' ) ) { ?>
+				<input type="hidden" name="post_author" value="<?php echo esc_attr( $post->post_author ); ?>" />
+			<?php } ?>
 			<span class="error" style="display:none"></span>
 			<br class="clear" />
 		</p>

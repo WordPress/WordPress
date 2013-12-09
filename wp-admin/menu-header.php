@@ -34,7 +34,7 @@ get_admin_page_parent();
  * @param bool $submenu_as_parent
  */
 function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
-	global $self, $parent_file, $submenu_file, $plugin_page, $pagenow, $typenow;
+	global $self, $parent_file, $submenu_file, $plugin_page, $typenow;
 
 	$first = true;
 	// 0 = name, 1 = capability, 2 = file, 3 = class, 4 = id, 5 = icon src
@@ -75,7 +75,6 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		$arrow = '<div class="wp-menu-arrow"><div></div></div>';
 
 		$title = wptexturize( $item[0] );
-		$aria_label = esc_attr( strip_tags( $item[0] ) ); // strip the comment/plugins/updates bubbles spans but keep the pending number if any
 
 		echo "\n\t<li$class$id>";
 
