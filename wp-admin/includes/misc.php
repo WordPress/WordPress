@@ -568,7 +568,7 @@ function admin_color_scheme_picker() {
 
 	if ( isset( $_wp_admin_css_colors['fresh'] ) ) {
 		// Set Default ('fresh') and Light should go first.
-		$_wp_admin_css_colors = array_merge( array( 'fresh' => '', 'light' => '' ), $_wp_admin_css_colors );
+		$_wp_admin_css_colors = array_filter( array_merge( array( 'fresh' => '', 'light' => '' ), $_wp_admin_css_colors ) );
 	}
 
 	$current_color = get_user_option( 'admin_color' );
