@@ -3042,14 +3042,6 @@ input#save-post {
 	float: right;
 }
 
-form.initial-form label.prompt {
-	font-style: italic;
-}
-
-form.initial-form input#title {
-	height: 3em;
-}
-
 form.initial-form.quickpress-open label.prompt {
 	font-style: normal;
 }
@@ -3087,11 +3079,6 @@ form.initial-form.quickpress-open input#title {
 #title-wrap #title-prompt-text {
 	font-size: 1.1em;
 	padding: 7px 8px;
-}
-
-.initial-form #description-wrap,
-.initial-form p.submit {
-	display: none;
 }
 
 .input-text-wrap,

@@ -114,8 +114,6 @@ jQuery(document).ready( function($) {
 		});
 
 		$('#quick-press').on( 'click focusin', function() {
-			$(this).addClass('quickpress-open');
-			$('#description-wrap, p.submit').slideDown(200);
 			wpActiveEditor = 'content';
 		});
 

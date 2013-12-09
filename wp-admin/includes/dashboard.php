@@ -344,12 +344,12 @@ function wp_dashboard_quick_press( $error_msg = false ) {
 		<?php endif; ?>
 
 		<div class="input-text-wrap" id="title-wrap">
-			<label class="screen-reader-text prompt" for="title" id="title-prompt-text"><?php _e( 'What&#8217;s on your mind?' ); ?></label>
+			<label class="screen-reader-text prompt" for="title" id="title-prompt-text"><?php echo apply_filters( 'enter_title_here', __( 'Title' ), $post ); ?></label>
 			<input type="text" name="post_title" id="title" autocomplete="off" />
 		</div>
 
 		<div class="textarea-wrap" id="description-wrap">
-			<label class="screen-reader-text prompt" for="content" id="content-prompt-text"><?php _e( 'Enter a description' ); ?></label>
+			<label class="screen-reader-text prompt" for="content" id="content-prompt-text"><?php _e( 'What&#8217;s on your mind?' ); ?></label>
 			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15"></textarea>
 		</div>
 
