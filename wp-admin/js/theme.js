@@ -70,7 +70,9 @@ themes.view.Appearance = wp.Backbone.View.extend({
 
 		// Render and append after screen title
 		view.render();
-		$('#wpbody h2:first').append( view.el );
+		$('#wpbody h2:first')
+			.append( $.parseHTML( '<label class="screen-reader-text" for="theme-search-input">' + l10n.search + '</label>' ) )
+			.append( view.el );
 	},
 
 	// Checks when the user gets close to the bottom
@@ -597,7 +599,7 @@ themes.view.Search = wp.Backbone.View.extend({
 	className: 'theme-search',
 
 	attributes: {
-		placeholder: l10n.search,
+		placeholder: l10n.searchPlaceholder,
 		type: 'search'
 	},
 
