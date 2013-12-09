@@ -4,7 +4,7 @@
  * highlights/shadows, based on a base color.
  */
 html {
-  background: #f3f3f3; }
+  background: #f1f1f1; }
 
 /* Links */
 a {
@@ -110,7 +110,7 @@ strong .post-com-count span {
 
 /* Active tabs use a bottom border color that matches the page background color. */
 .about-wrap h2 .nav-tab-active, .nav-tab-active, .nav-tab-active:hover {
-  border-bottom-color: #f3f3f3; }
+  border-bottom-color: #f1f1f1; }
 
 /* Admin Menu: submenu */
 #adminmenu .wp-submenu, #adminmenu .wp-has-current-submenu .wp-submenu, #adminmenu .wp-has-current-submenu.opensub .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu, #adminmenu a.wp-has-current-submenu:focus + .wp-submenu {
@@ -134,7 +134,7 @@ strong .post-com-count span {
     color: #a3b745; }
 
 ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.current:after {
-  border-right-color: #f3f3f3; }
+  border-right-color: #f1f1f1; }
 
 #adminmenu li.current a.menu-top, #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu, #adminmenu li.wp-has-current-submenu .wp-submenu .wp-submenu-head, .folded #adminmenu li.current.menu-top {
   color: white;
@@ -283,8 +283,8 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 
 /* Thickbox: Plugin information */
 #sidemenu a.current {
-  background: #f3f3f3;
-  border-bottom-color: #f3f3f3; }
+  background: #f1f1f1;
+  border-bottom-color: #f1f1f1; }
 
 #plugin-information .action-button {
   background: #a3b745; }
