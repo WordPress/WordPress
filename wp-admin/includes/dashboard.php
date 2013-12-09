@@ -184,7 +184,6 @@ function wp_dashboard_right_now() {
 	<div class="main">
 	<ul>
 	<?php
-	do_action( 'rightnow_list_start' );
 	// Posts and Pages
 	foreach ( array( 'post', 'page' ) as $post_type ) {
 		$num_posts = wp_count_posts( $post_type );
@@ -213,7 +212,19 @@ function wp_dashboard_right_now() {
 			<?php
 		}
 	}
-	do_action( 'rightnow_list_end' );
+
+	/**
+	 * Include additional elements in the 'At a Glance' dashboard widget.
+	 * This widget was previously 'Right Now'.
+	 *
+	 * @since 3.8.0
+	 * @param array $items Array of items.
+	 */
+	$elements = apply_filters( 'dashboard_glance_items', array() );
+	if ( $elements ) {
+		echo '<li>' . implode( "</li>\n<li>", $elements ) . "</li>\n";
+	}
+
 	?>
 	</ul>
 	<p><?php printf( __( 'WordPress %1$s running %2$s theme.' ), get_bloginfo( 'version', 'display' ), $theme_name ); ?></p>
