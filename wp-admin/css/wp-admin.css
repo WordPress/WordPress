@@ -12004,6 +12004,11 @@ li#wp-admin-bar-menu-toggle {
 		word-wrap: break-word;
 	}
 
+	/* Discussion */
+	#commentstatusdiv p {
+		line-height: 2.8;
+	}
+
 	/* TinyMCE Adjustments */
 	.mceToolbar * {
 		white-space: normal !important;
