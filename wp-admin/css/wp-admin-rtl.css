@@ -7116,6 +7116,14 @@ body.folded .theme-overlay .theme-wrap {
 		margin-left: 0;
 	}
 }
+
+@media only screen and (min-width: 1680px) {
+	.theme-overlay .theme-wrap {
+		width: 1450px;
+		margin: 0 auto;
+	}
+}
+
 /* Maximum screenshot width reaches 440px */
 @media only screen and (min-width: 1640px) {
 	.theme-browser .theme {
@@ -7132,11 +7140,6 @@ body.folded .theme-overlay .theme-wrap {
 
 	.theme-browser .theme:nth-child(4n) {
 		margin-left: 0;
-	}
-
-	body.folded .theme-overlay .theme-wrap {
-		left: 15%;
-		right: 22%;
 	}
 }
 /* Maximum screenshot width reaches 440px */
