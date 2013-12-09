@@ -11221,6 +11221,8 @@ div#widgets-right .closed .widgets-sortables {
 }
 
 .meta-box-sortables.ui-sortable,
+.widgets-holder-wrap .ui-draggable,
+.widgets-holder-wrap .ui-sortable,
 .menu.ui-sortable {
 	-ms-touch-action: auto;
 	touch-action:     auto;
