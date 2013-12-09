@@ -11879,10 +11879,6 @@ li#wp-admin-bar-menu-toggle {
 		min-width: 0;
 	}
 
-	#titlediv #title {
-		padding: 8px;
-	}
-
 	#titlediv #title-prompt-text,
 	#wp-fullscreen-title-prompt-text {
 		padding: 10px 10px;
