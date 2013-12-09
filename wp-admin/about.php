@@ -39,23 +39,23 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="changelog">
-	<h2 class="about-headline-callout"><?php echo ( 'Introducing a modern new&nbsp;design' ); ?></h2>
-	<img class="about-overview-img" src="<?php echo admin_url( 'images/about-overview.png' ); ?>" />
+	<h2 class="about-headline-callout"><?php _e( 'Introducing a modern new&nbsp;design' ); ?></h2>
+	<img class="about-overview-img" src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/overview.png" />
 	<div class="feature-section col three-col about-updates">
 		<div class="col-1">
-			<img src="images/about-modern-aesthetics.png" />
-			<h3><?php echo ( 'Modern aesthetic' ); ?></h3>
-			<p><?php echo ( 'The new admin has a fresh, uncluttered design that puts clarity and simplicity ahead of visual flourishes.' ); ?></p>
+			<img src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/aesthetics.png" />
+			<h3><?php _e( 'Modern aesthetic' ); ?></h3>
+			<p><?php _e( 'The new WordPress dashboard has a fresh, uncluttered design that embraces clarity and simplicity.' ); ?></p>
 		</div>
 		<div class="col-2">
-			<img src="images/about-typography.png" />
-			<h3><?php echo ( 'Clean typography' ); ?></h3>
-			<p><?php echo ( 'Open Sans is Open Source. Our new typography is simple, friendly, and optimized for web and mobile interfaces.' ); ?></p>
+			<img src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/typography.png" />
+			<h3><?php _e( 'Clean typography' ); ?></h3>
+			<p><?php _e( 'The Open Sans typeface provides simple, friendly text that is optimized for both desktop and mobile viewing. It&#8217;s even open source, just like WordPress.' ); ?></p>
 		</div>
 		<div class="col-3 last-feature">
-			<img src="images/about-contrast.png" />
-			<h3><?php echo ( 'Refined contrast' ); ?></h3>
-			<p><?php echo ( 'What good is beautiful design if you can&#8217;t see it? Improved contrast gives you a better reading experience.' ); ?></p>
+			<img src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/contrast.png" />
+			<h3><?php _e( 'Refined contrast' ); ?></h3>
+			<p><?php _e( 'We think beautiful design should never sacrifice legibility. With superior contrast and large, comfortable type, the new design is easy to read and a pleasure to navigate.' ); ?></p>
 		</div>
 	</div>
 </div>
@@ -65,13 +65,13 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="changelog">
 	<div class="feature-section col two-col">
 		<div>
-			<h3><?php echo ( 'WordPress on every&nbsp;device' ); ?></h3>
-			<p><?php echo ( 'Whether you&#8217;re on your smartphone or tablet, your notebook or desktop, WordPress looks great on every device. Now you can update your website wherever you are.' ); ?></p>
-			<h4><?php echo ( 'High definition is here' ); ?></h4>
-			<p><?php echo ( 'WordPress is sharper than ever; vector icons mean no more blurry edges. You get the best viewing experience no matter what type of device you use.' ); ?></p>
+			<h3><?php _e( 'WordPress on every&nbsp;device' ); ?></h3>
+			<p><?php _e( 'We all access the internet in different ways. Smartphone, tablet, notebook, desktop &mdash; no matter what you use, WordPress will adapt and you&#8217;ll feel right at home.' ); ?></p>
+			<h4><?php _e( 'High definition at high&nbsp;speed' ); ?></h4>
+			<p><?php _e( 'WordPress is sharper than ever with new vector-based icons that scale to your screen. By ditching pixels, pages load significantly faster, too.' ); ?></p>
 		</div>
 		<div class="last-feature about-colors-img">
-			<img src="<?php echo admin_url( 'images/about-colors.png' ); ?>" />
+			<img src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/colors.png" />
 		</div>
 	</div>
 </div>
@@ -87,13 +87,13 @@ if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picke
 <div class="changelog about-colors">
 	<div class="feature-section col one-col">
 		<div>
-			<h3><?php echo ( 'Pick a color' ); ?></h3>
-			<p><?php echo ( 'We&#8217;ve included eight color schemes so you can pick your favorite. Choose from any of them below to change it in an instant.' ); ?>
+			<h3><?php _e( 'Pick a color' ); ?></h3>
+			<p><?php _e( 'We&#8217;ve included eight color schemes so you can pick your favorite. Choose from any of them below to change it instantly.' ); ?>
 				<?php
 				/** This action is documented in wp-admin/user-edit.php */
 				do_action( 'admin_color_scheme_picker' );
 				?>
-			<p><?php printf( ( 'To change your color scheme later, just <a href="%1$s">visit your profile</a>.' ), get_edit_profile_url( get_current_user_id() ) ); ?></p>
+			<p><?php printf( __( 'To change your color scheme later, just <a href="%1$s">visit your profile</a>.' ), get_edit_profile_url( get_current_user_id() ) ); ?></p>
 		</div>
 	</div>
 </div>
@@ -104,17 +104,14 @@ if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picke
 <div class="changelog">
 	<div class="feature-section col two-col">
 		<div>
-			<h3><?php echo ( 'A new theme experience' ); ?></h3>
-			<p><?php echo ( 'Finding and installing the right theme has never been easier.' ); ?></p>
-			<h4><?php echo ( 'Better browsing' ); ?></h4>
-			<p><?php echo ( 'Focus is placed on what&#8217;s important &mdash; your theme&#8217;s design. Search through your themes at a glance and add new ones with a click.' ); ?></p>
-			<h4><?php echo ( 'Dive into the details' ); ?></h4>
-			<p><?php echo ( 'If you need information about any of your themes, just click to discover more. Sit back and use your keyboard&#8217;s navigation arrows to flip through every theme you&#8217;ve got.' ); ?></p>
-			<h4><?php echo ( 'Stay updated' ); ?></h4>
-			<p><?php echo ( 'You can tell in an instant if a theme needs updated, and like so many things in WordPress, updating it takes just a second.' ); ?></p>
+			<h3><?php _e( 'Refined theme management' ); ?></h3>
+			<p><?php _e( 'The new themes screen lets you survey your themes at a glance. Or want more information? Click to discover more. Then sit back and use your keyboard&#8217;s navigation arrows to flip through every theme you&#8217;ve got.' ); ?></p>
+			<h4><?php _e( 'Smoother widget experience' ); ?></h4>
+			<p><?php _e( 'Drag-drag-drag. Scroll-scroll-scroll. Widget management can be complicated. With the new design, we&#8217;ve worked to streamline the widgets&nbsp;screen.' ); ?></p>
+			<p><?php _e( 'Have a large monitor? Multiple widget areas stack side-by-side to use the available space. Using a tablet? Just tap a widget to add it.' ); ?></p>
 		</div>
 		<div class="last-feature about-themes-img">
-			<img src="<?php echo admin_url( 'images/about-themes.png' ); ?>" />
+			<img src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/themes.png" />
 		</div>
 	</div>
 </div>
@@ -122,14 +119,14 @@ if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picke
 <hr>
 
 <div class="changelog about-twentyfourteen">
-	<h2 class="about-headline-callout"><?php echo ( 'Twenty Fourteen, a sleek new magazine&nbsp;theme' ); ?></h2>
-	<img src="<?php echo admin_url( 'images/about-twentyfourteen.jpg' ); ?>" />
+	<h2 class="about-headline-callout"><?php _e( 'Twenty Fourteen, a sleek new magazine&nbsp;theme' ); ?></h2>
+	<img src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/twentyfourteen.jpg" />
 
 	<div class="feature-section col one-col center-col">
 		<div>
-			<h3><?php echo ( 'Turn your blog into a&nbsp;magazine' ); ?></h3>
-			<p><?php echo ( 'With a striking design that does not compromise on our trademark simplicity, Twenty Fourteen is our boldest default theme. Choose a grid or a slider to display featured content on your homepage. Customize your homepage with three widget areas or change your layout with two page templates.' ); ?></p>
-			<p><?php echo ( 'Creating a magazine website with WordPress has never been easier.' ); ?></p>
+			<h3><?php _e( 'Turn your blog into a&nbsp;magazine' ); ?></h3>
+			<p><?php _e( 'Create a beautiful magazine-style site with WordPress and Twenty Fourteen. Choose a grid or a slider to display featured content on your homepage. Customize your site with three widget areas or change your layout with two page templates.' ); ?></p>
+			<p><?php _e( 'With a striking design that does not compromise our trademark simplicity, Twenty Fourteen is our most intrepid default theme yet.' ); ?></p>
 		</div>
 	</div>
 </div>
