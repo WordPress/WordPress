@@ -1524,6 +1524,40 @@
 	float: left;
 }
 
+/**
+ * Localization
+ */
+.rtl .media-modal,
+.rtl .media-frame,
+.rtl .media-frame .search,
+.rtl .media-frame input[type="text"],
+.rtl .media-frame input[type="password"],
+.rtl .media-frame input[type="number"],
+.rtl .media-frame input[type="search"],
+.rtl .media-frame input[type="email"],
+.rtl .media-frame input[type="url"],
+.rtl .media-frame textarea,
+.rtl .media-frame select {
+	font-family: Tahoma, sans-serif;
+}
+
+:lang(he-il) .rtl .media-modal,
+:lang(he-il) .rtl .media-frame,
+:lang(he-il) .rtl .media-frame .search,
+:lang(he-il) .rtl .media-frame input[type="text"],
+:lang(he-il) .rtl .media-frame input[type="password"],
+:lang(he-il) .rtl .media-frame input[type="number"],
+:lang(he-il) .rtl .media-frame input[type="search"],
+:lang(he-il) .rtl .media-frame input[type="email"],
+:lang(he-il) .rtl .media-frame input[type="url"],
+:lang(he-il) .rtl .media-frame textarea,
+:lang(he-il) .rtl .media-frame select {
+	font-family: Arial, sans-serif;
+}
+
+
+
+
 @media only screen and (max-width: 960px) {
 	.media-frame-content .media-toolbar-primary .search,
 	.media-frame-content .media-toolbar-secondary .attachment-filters {

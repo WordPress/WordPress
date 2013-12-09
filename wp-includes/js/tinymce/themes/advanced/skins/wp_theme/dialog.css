@@ -200,3 +200,14 @@ h3 {font-size:14px;}
 #colorpicker #namedcolors a {display:block; float:left; width:10px; height:10px; margin:1px 1px 0 0; overflow:hidden;}
 #colorpicker #colornamecontainer {margin-top:5px;}
 #colorpicker #picker_panel fieldset {margin:auto;width:325px;}
+
+
+/* Localization */ 
+
+body[dir="rtl"],
+body[dir="rtl"] fieldset,
+body[dir="rtl"] input, body[dir="rtl"] select, body[dir="rtl"]  textarea,
+body[dir="rtl"]  #charmap #codeN,
+body[dir="rtl"] .tabs a {
+	font-family: Tahoma, sans-serif;
+}

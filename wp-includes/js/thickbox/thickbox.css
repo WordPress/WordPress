@@ -12,6 +12,16 @@
 	color:#666666;
 }
 
+.rtl #TB_window,
+.rtl #TB_secondLine {
+	font-family: Tahoma, sans-serif;
+}
+
+:lang(he-il) .rtl #TB_window,
+:lang(he-il) .rtl #TB_secondLine {
+	font-family: Arial, sans-serif;
+}
+
 #TB_window a:link {color: #666666;}
 #TB_window a:visited {color: #666666;}
 #TB_window a:hover {color: #000;}

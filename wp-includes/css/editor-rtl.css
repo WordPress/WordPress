@@ -2086,6 +2086,27 @@ span.mce_ltr:before {
 	opacity: 1;
 }
 
+/* =Localization
+-------------------------------------------------------------- */
+.rtl .wp_themeSkin .mceColorSplitMenu a.mceMoreColors,
+.rtl .wp_themeSkin .mceMenu .mceText,
+.rtl .wp-switch-editor,
+.rtl .quicktags-toolbar input,
+.rtl .clearlooks2 .mceTop span,
+.rtl .wp_themeSkin .mceColorSplitMenu a.mceMoreColors {
+	font-family: Tahoma, sans-serif;
+}
+
+html:lang(he-il) .rtl .wp_themeSkin .mceColorSplitMenu a.mceMoreColors,
+html:lang(he-il) .rtl .wp_themeSkin .mceMenu .mceText,
+html:lang(he-il) .rtl .wp-switch-editor,
+html:lang(he-il) .rtl .quicktags-toolbar input,
+html:lang(he-il) .rtl .clearlooks2 .mceTop span,
+html:lang(he-il) .rtl .wp_themeSkin .mceColorSplitMenu a.mceMoreColors  {
+ 	font-family: Arial, sans-serif;
+}
+
+
 /* HiDPI */
 @media print,
   (-o-min-device-pixel-ratio: 5/4),

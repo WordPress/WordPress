@@ -19,6 +19,14 @@
 	-webkit-font-smoothing: subpixel-antialiased; /* Prevent Safari from switching to standard antialiasing on hover */
 }
 
+.rtl #wpadminbar * {
+	font-family: Tahoma, sans-serif;
+}
+
+html:lang(he-il) .rtl #wpadminbar *  {
+ 	font-family: Arial, sans-serif;
+}
+
 #wpadminbar a.ab-item,
 #wpadminbar > #wp-toolbar span.ab-label,
 #wpadminbar > #wp-toolbar span.noticon {

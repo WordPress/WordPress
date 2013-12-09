@@ -239,6 +239,22 @@ submit {
 	direction: ltr;
 }
 
+
+/* localization */
+body.rtl,
+.rtl textarea,
+.rtl input,
+.rtl submit {
+	font-family: Tahoma, sans-serif;
+}
+
+:lang(he-il) body.rtl,
+:lang(he-il) .rtl textarea,
+:lang(he-il) .rtl input,
+:lang(he-il) .rtl submit {
+	font-family: Arial, sans-serif;
+}
+
 @media only screen and (max-width: 799px) {
 	body {
 		margin-top: 115px;
