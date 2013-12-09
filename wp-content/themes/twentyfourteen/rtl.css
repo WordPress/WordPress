@@ -98,8 +98,8 @@ td {
 }
 
 .search-toggle .screen-reader-text {
-	right: auto;
-	left: 0;
+	right: 5px; /* Avoid a horizontal scrollbar when the site has a long menu */
+	left: auto;
 }
 
 

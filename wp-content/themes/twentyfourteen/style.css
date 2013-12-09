@@ -878,6 +878,10 @@ span + .edit-link:before,
 	margin-top: 14px;
 }
 
+.search-toggle .screen-reader-text {
+	left: 5px; /* Avoid a horizontal scrollbar when the site has a long menu */
+}
+
 .search-box-wrapper {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing:    border-box;

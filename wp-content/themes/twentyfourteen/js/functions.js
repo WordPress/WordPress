@@ -63,7 +63,7 @@
 			that.toggleClass( 'active' );
 			wrapper.toggleClass( 'hide' );
 
-			if ( that.is( '.active' ) || $( '.screen-reader-text' ) === event.target ) {
+			if ( that.is( '.active' ) || $( '.search-toggle .screen-reader-text' )[0] === event.target ) {
 				wrapper.find( '.search-field' ).focus();
 			}
 		} );
