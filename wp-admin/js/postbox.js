@@ -155,7 +155,10 @@ var postboxes;
 
 		_pb_edit : function(n) {
 			var el = $('.metabox-holder').get(0);
-			el.className = el.className.replace(/columns-\d+/, 'columns-' + n);
+
+			if ( el ) {
+				el.className = el.className.replace(/columns-\d+/, 'columns-' + n);
+			}
 		},
 
 		_pb_change : function() {
