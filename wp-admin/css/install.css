@@ -66,7 +66,8 @@ abbr {
 	text-align:center
 }
 #logo a {
-	background-image: url('../images/wordpress-logo.svg?ver=20131107');
+	background-image: url('../images/w-logo-blue.png?ver=20131202');
+	background-image: none, url('../images/wordpress-logo.svg?ver=20131107');
 	background-size: 80px 80px;
 	background-position: center top;
 	background-repeat: no-repeat;
