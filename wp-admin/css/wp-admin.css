@@ -11575,13 +11575,10 @@ li#wp-admin-bar-menu-toggle {
 	margin-left: 8em; /* default 5em */
 }
 .locale-ru-ru.press-this .posting {
-	margin-right: 257px; /* default 212px + 45px */
+	margin-right: 277px; /* default 252px + 25px */
 }
-.locale-ru-ru.press-this #photo-add-url-div input[type="text"]  {
-	width: 255px; /* default 300px - 45px */
-}
-.locale-ru-ru.press-this #side-sortables {
-	width: 245px; /* default 200px + 45px */
+.locale-ru-ru .press-this-sidebar {
+	width: 265px; /* default 240px + 25px */
 }
 .locale-ru-ru #customize-header-actions .button {
 	padding: 0 5px 1px; /* default 0 10px 1px */

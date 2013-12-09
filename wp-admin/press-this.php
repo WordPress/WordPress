@@ -436,7 +436,7 @@ var photostorage = false;
 	}
 	jQuery(document).ready(function($) {
 		//resize screen
-		window.resizeTo(740,580);
+		window.resizeTo(760,580);
 		// set button actions
 		jQuery('#photo_button').click(function() { show('photo'); return false; });
 		jQuery('#video_button').click(function() { show('video'); return false; });
