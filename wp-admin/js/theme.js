@@ -187,8 +187,12 @@ themes.view.Theme = wp.Backbone.View.extend({
 	html: themes.template( 'theme' ),
 
 	events: {
-		'click': 'expand'
+		'click': 'expand',
+		'touchend': 'expand',
+		'touchmove': 'preventExpand'
 	},
+
+	touchDrag: false,
 
 	render: function() {
 		var data = this.model.toJSON();
@@ -215,6 +219,11 @@ themes.view.Theme = wp.Backbone.View.extend({
 	expand: function( event ) {
 		var self = this;
 
+		// Bail if the user scrolled on a touch device
+		if ( this.touchDrag === true ) {
+			return this.touchDrag = false;
+		}
+
 		event = event || window.event;
 
 		// Prevent the modal from showing when the user clicks
@@ -224,6 +233,10 @@ themes.view.Theme = wp.Backbone.View.extend({
 		}
 
 		this.trigger( 'theme:expand', self.model.cid );
+	},
+
+	preventExpand: function() {
+		this.touchDrag = true;
 	}
 });
 

@@ -7194,14 +7194,25 @@ body.folded .theme-overlay .theme-wrap {
 	.theme-browser .theme .theme-actions {
 		padding: 5px 10px 4px 10px;
 	}
+
 	.theme-overlay.small-screenshot .theme-screenshots {
 		position: static;
 		float: none;
 		max-width: 302px;
 	}
+
 	.theme-overlay.small-screenshot .theme-info {
 		margin-left: 0;
 		width: auto;
+	}
+
+	.theme:not(.active):hover .theme-actions,
+	.theme:hover .more-details {
+		display: none;
+	}
+
+	.theme-browser.rendered .theme:hover .theme-screenshot img {
+		opacity: 1.0;
 	}
 }
 
