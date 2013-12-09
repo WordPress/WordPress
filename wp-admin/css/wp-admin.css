@@ -834,8 +834,7 @@ div.error {
 }
 
 .wrap .add-new-h2,
-.wrap .add-new-h2:active,
-#add-new-comment a {
+.wrap .add-new-h2:active {
 	margin-left: 4px;
 	padding: 4px 8px;
 	position: relative;
@@ -3456,12 +3455,6 @@ table.fixed {
 #commentsdiv p {
 	padding: 8px 10px;
 	margin: 0;
-}
-
-#commentsdiv #add-new-comment {
-	border-width: 0 0 1px;
-	border-style: none none solid;
-	margin-top: 6px;
 }
 
 #commentsdiv .comments-box {

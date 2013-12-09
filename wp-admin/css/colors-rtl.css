@@ -383,13 +383,11 @@ h3 {
 }
 
 .wrap .add-new-h2,
-.wrap .add-new-h2:active,
-#add-new-comment a {
+.wrap .add-new-h2:active {
 	background: #e0e0e0;
 }
 
-.wrap .add-new-h2:hover,
-#add-new-comment a:hover {
+.wrap .add-new-h2:hover {
 	background: #2ea2cc;
 	color: #fff;
 }
@@ -439,8 +437,7 @@ h3 {
 	border-color: #c00 !important;
 }
 
-.submit,
-#commentsdiv #add-new-comment {
+.submit {
 	border: none;
 }
 
