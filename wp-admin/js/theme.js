@@ -205,7 +205,6 @@ themes.view.Theme = wp.Backbone.View.extend({
 	activeTheme: function() {
 		if ( this.model.get( 'active' ) ) {
 			this.$el.addClass( 'active' );
-			$( '.theme-overlay' ).addClass( 'active' );
 		}
 	},
 
