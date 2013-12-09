@@ -8727,6 +8727,9 @@ table.form-table td .updated {
 	border-top-style: solid;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
+	-webkit-transition: none;
+	-moz-transition: none;
+	transition: none;
 }
 
 #sidemenu li {
