@@ -955,9 +955,9 @@ p.popular-tags,
 .popular-tags,
 .feature-filter,
 .imgedit-group {
-	border: 1px solid #ddd;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+	border: 1px solid #e5e5e5;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.04);
 }
 
 #post-status-info {
