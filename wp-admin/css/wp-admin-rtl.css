@@ -727,8 +727,7 @@ select,
 
 #update-plugins-table tbody th.check-column,
 .plugins tbody th.check-column,
-.plugins tbody,
-.plugins .inactive.update th.check-column {
+.plugins tbody {
 	padding: 8px 2px 0 0;
 }
 
