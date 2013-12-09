@@ -65,7 +65,7 @@ TABLE OF CONTENTS:
 
 #wpcontent,
 #wpfooter {
-	margin-right: 170px;
+	margin-right: 180px;
 }
 
 .folded #wpcontent,
@@ -84,7 +84,7 @@ TABLE OF CONTENTS:
 #adminmenuwrap,
 #adminmenu,
 #adminmenu .wp-submenu {
-	width: 150px;
+	width: 160px;
 }
 
 #adminmenuback {
@@ -1751,7 +1751,7 @@ form.upgrade .hint {
 	list-style: none;
 	position: absolute;
 	top: -1000em;
-	right: 150px;
+	right: 160px;
 	overflow: visible;
 	word-wrap: break-word;
 }
@@ -1806,7 +1806,7 @@ form.upgrade .hint {
 
 #adminmenu .wp-not-current-submenu .wp-submenu,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu {
-	min-width: 150px;
+	min-width: 160px;
 	width: auto;
 }
 
@@ -6778,7 +6778,7 @@ body.theme-overlay-open {
 	clear: both;
 	position: fixed;
 	top: 9%;
-	right: 180px;
+	right: 190px;
 	left: 30px;
 	bottom: 3%;
 	background: #fff;
