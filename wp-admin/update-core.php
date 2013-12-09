@@ -460,7 +460,7 @@ $title = __('WordPress Updates');
 $parent_file = 'tools.php';
 
 $updates_overview  = '<p>' . __( 'On this screen, you can update to the latest version of WordPress, as well as update your themes and plugins from the WordPress.org repositories.' ) . '</p>';
-$updates_overview .= '<p>' . __( 'For security reasons, it is important to keep your WordPress installation up to date whenever possible. If you see an update notification appear in the Toolbar or navigation menu, make sure to take the time to update.' ) . '</p>';
+$updates_overview .= '<p>' . __( 'If an update is available, you&#8127;ll see a notification appear in the Toolbar and navigation menu.' ) . ' ' . __( 'Keeping your site up to date is an important for your site&#8217;s security, and makes the internet a safer place for you and your readers.' ) . '</p>';
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',
@@ -468,8 +468,12 @@ get_current_screen()->add_help_tab( array(
 	'content' => $updates_overview
 ) );
 
-$updates_howto  = '<p>' . __( '<strong>WordPress</strong> &mdash; Updating your WordPress installation is a simple one-click procedure; just <strong>click on the &#8220;Update Now&#8221; button</strong> when you are notified that a new version is available. In most cases, WordPress can <a href="http://codex.wordpress.org/Updating_WordPress#Automatic_Background_Updates" target="_blank">automatically apply</a> maintenance and security updates in the background for you. A message at the top of this screen shows whether or not automatic updates will work with your site.' ) . '</p>';
+$updates_howto  = '<p>' . __( '<strong>WordPress</strong> &mdash; Updating your WordPress installation is a simple one-click procedure: just <strong>click on the &#8220;Update Now&#8221; button</strong> when you are notified that a new version is available.' ) . ' ' . __( 'In most cases, WordPress will automatically apply maintenance and security updates in the background for you.' ) . '</p>';
 $updates_howto .= '<p>' . __( '<strong>Themes and Plugins</strong> &mdash; To update individual themes or plugins from this screen, use the checkboxes to make your selection, then <strong>click on the appropriate &#8220;Update&#8221; button</strong>. To update all of your themes or plugins at once, you can check the box at the top of the section to select all before clicking the update button.' ) . '</p>';
+
+if ( 'en_US' != get_locale() ) {
+	$updates_howto .= '<p>' . __( '<strong>Translations</strong> &mdash; The files translating WordPress into your language are updated for you whenever any other updates occur. But if these files are out of date, you can <strong>click the &#8220;Update Translations&#8221;</strong> button.' ) . '</p>';
+}
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'how-to-update',
@@ -480,7 +484,6 @@ get_current_screen()->add_help_tab( array(
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __( '<a href="http://codex.wordpress.org/Dashboard_Updates_Screen" target="_blank">Documentation on Updating WordPress</a>' ) . '</p>' .
-	'<p>' . __( '<a href="http://codex.wordpress.org/Configuring_Automatic_Background_Updates" target="_blank">Configuring Automatic Background Updates</a>' ) . '</p>' .
 	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
 );
 
