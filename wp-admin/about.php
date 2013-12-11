@@ -40,20 +40,20 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <div class="changelog">
 	<h2 class="about-headline-callout"><?php _e( 'Introducing a modern new&nbsp;design' ); ?></h2>
-	<img class="about-overview-img" src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/overview.png" />
+	<img class="about-overview-img" src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/overview.png?1" />
 	<div class="feature-section col three-col about-updates">
 		<div class="col-1">
-			<img src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/aesthetics.png" />
+			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/aesthetics.png?1" />
 			<h3><?php _e( 'Modern aesthetic' ); ?></h3>
 			<p><?php _e( 'The new WordPress dashboard has a fresh, uncluttered design that embraces clarity and simplicity.' ); ?></p>
 		</div>
 		<div class="col-2">
-			<img src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/typography.png" />
+			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/typography.png?1" />
 			<h3><?php _e( 'Clean typography' ); ?></h3>
 			<p><?php _e( 'The Open Sans typeface provides simple, friendly text that is optimized for both desktop and mobile viewing. It&#8217;s even open source, just like WordPress.' ); ?></p>
 		</div>
 		<div class="col-3 last-feature">
-			<img src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/contrast.png" />
+			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/contrast.png?1" />
 			<h3><?php _e( 'Refined contrast' ); ?></h3>
 			<p><?php _e( 'We think beautiful design should never sacrifice legibility. With superior contrast and large, comfortable type, the new design is easy to read and a pleasure to navigate.' ); ?></p>
 		</div>
@@ -71,7 +71,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p><?php _e( 'WordPress is sharper than ever with new vector-based icons that scale to your screen. By ditching pixels, pages load significantly faster, too.' ); ?></p>
 		</div>
 		<div class="last-feature about-colors-img">
-			<img src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/colors.png" />
+			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/colors.png?1" />
 		</div>
 	</div>
 </div>
@@ -111,7 +111,7 @@ if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picke
 			<p><?php _e( 'Have a large monitor? Multiple widget areas stack side-by-side to use the available space. Using a tablet? Just tap a widget to add it.' ); ?></p>
 		</div>
 		<div class="last-feature about-themes-img">
-			<img src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/themes.png" />
+			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/themes.png?1" />
 		</div>
 	</div>
 </div>
@@ -120,7 +120,7 @@ if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picke
 
 <div class="changelog about-twentyfourteen">
 	<h2 class="about-headline-callout"><?php _e( 'Twenty Fourteen, a sleek new magazine&nbsp;theme' ); ?></h2>
-	<img src="<?php echo is_ssl() ? 'https://' : '//'; ?>wordpress.org/images/core/3.8/twentyfourteen.jpg" />
+	<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/twentyfourteen.jpg?1" />
 
 	<div class="feature-section col one-col center-col">
 		<div>
