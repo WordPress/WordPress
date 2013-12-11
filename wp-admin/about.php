@@ -15,7 +15,7 @@ list( $display_version ) = explode( '-', $wp_version );
 
 // Temporary 3.8 hack: We want to use user-profile for the color schemes but don't need the heavy zxcvbn.
 wp_deregister_script( 'zxcvbn-async' );
-wp_register_script( 'zxcvbn-async', true );
+wp_register_script( 'zxcvbn-async', false );
 wp_enqueue_script( 'user-profile' );
 
 include( ABSPATH . 'wp-admin/admin-header.php' );
