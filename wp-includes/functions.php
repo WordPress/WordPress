@@ -2250,7 +2250,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			-webkit-box-sizing: border-box;
 			-moz-box-sizing:    border-box;
 			box-sizing:         border-box;
-		
+
 			-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
 			box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
 		 	vertical-align: top;

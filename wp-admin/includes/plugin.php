@@ -808,7 +808,7 @@ function delete_plugins($plugins, $redirect = '' ) {
 	if ( $current = get_site_transient('update_plugins') ) {
 		// Don't remove the plugins that weren't deleted.
 		$deleted = array_diff( $plugins, $errors );
-		
+
 		foreach ( $deleted as $plugin_file ) {
 			unset( $current->response[ $plugin_file ] );
 		}

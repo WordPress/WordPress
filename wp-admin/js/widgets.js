@@ -440,7 +440,7 @@ wpWidgets = {
 		// No longer "new" widget
 		widget.find( 'input.add_new' ).val('');
 
-		/* 
+		/*
 		 * Check if any part of the sidebar is visible in the viewport. If it is, don't scroll.
 		 * Otherwise, scroll up to so the sidebar is in view.
 		 *
@@ -450,7 +450,7 @@ wpWidgets = {
 		viewportTop = $(window).scrollTop();
 		viewportBottom = viewportTop + $(window).height();
 		sidebarBounds = sidebar.offset();
-		
+
 		sidebarBounds.bottom = sidebarBounds.top + sidebar.outerHeight();
 
 		if ( viewportTop > sidebarBounds.bottom || viewportBottom < sidebarBounds.top ) {

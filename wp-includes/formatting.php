@@ -1867,7 +1867,7 @@ function translate_smiley( $matches ) {
 	 * @param string $smiley_url URL for the smiley image.
 	 * @param string $img        Filename for the smiley image.
 	 * @param string $site_url   Site URL, as returned by site_url().
-	 */	
+	 */
 	$src_url = apply_filters( 'smilies_src', includes_url( "images/smilies/$img" ), $img, site_url() );
 
 	return sprintf( ' <img src="%s" alt="%s" class="wp-smiley" /> ', esc_url( $src_url ), esc_attr( $smiley ) );

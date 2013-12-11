@@ -311,7 +311,7 @@ function themes_api( $action, $args = null ) {
 	 *                       'feature_list', or 'query_themes'.
  	*/
 	$args = apply_filters( 'themes_api_args', $args, $action );
-	
+
 	/**
 	 * Filter whether to override the WordPress.org Themes API.
 	 *

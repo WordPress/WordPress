@@ -1902,7 +1902,7 @@ class WP_Automatic_Updater {
 
 		// if the filesystem is unavailable, false is returned.
 		if ( false === $upgrade_result ) {
-			$upgrade_result = new WP_Error( 'fs_unavailable', __( 'Could not access filesystem.' ) );			
+			$upgrade_result = new WP_Error( 'fs_unavailable', __( 'Could not access filesystem.' ) );
 		}
 
 		// Core doesn't output this, so lets append it so we don't get confused

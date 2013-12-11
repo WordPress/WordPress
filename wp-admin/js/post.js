@@ -374,7 +374,7 @@ jQuery(document).ready( function($) {
 			e.preventDefault();
 		}
 	}).filter(':visible').find('.wp-tab-first').focus();
-	
+
 	// Set the heartbeat interval to 15 sec. if post lock dialogs are enabled
 	if ( typeof wp !== 'undefined' && wp.heartbeat && $('#post-lock-dialog').length ) {
 		wp.heartbeat.interval( 15 );

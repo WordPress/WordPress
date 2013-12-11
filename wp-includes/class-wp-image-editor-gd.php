@@ -370,7 +370,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 				return new WP_Error( 'image_save_error', __('Image Editor Save Failed') );
 		}
 		elseif ( 'image/jpeg' == $mime_type ) {
-			if ( ! $this->make_image( $filename, 'imagejpeg', array( $image, $filename, $this->quality ) ) ) 
+			if ( ! $this->make_image( $filename, 'imagejpeg', array( $image, $filename, $this->quality ) ) )
 				return new WP_Error( 'image_save_error', __('Image Editor Save Failed') );
 		}
 		else {
