@@ -7848,6 +7848,11 @@ body.press-this {
 	font-size: 15px;
 }
 
+.about-wrap div.updated,
+.about-wrap div.error {
+	display: none !important;
+}
+
 .about-wrap hr {
 	border: 0;
 	height: 0;
