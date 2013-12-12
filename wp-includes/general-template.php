@@ -26,9 +26,7 @@ function get_header( $name = null ) {
 
 	$templates = array();
 	$name = (string) $name;
-	if ( '' !== $name )
-		$templates[] = "header-{$name}.php";
-
+	
 	$templates[] = 'header.php';
 
 	// Backward compat code will be removed in a future release
@@ -56,8 +54,6 @@ function get_footer( $name = null ) {
 
 	$templates = array();
 	$name = (string) $name;
-	if ( '' !== $name )
-		$templates[] = "footer-{$name}.php";
 
 	$templates[] = 'footer.php';
 
@@ -86,8 +82,6 @@ function get_sidebar( $name = null ) {
 
 	$templates = array();
 	$name = (string) $name;
-	if ( '' !== $name )
-		$templates[] = "sidebar-{$name}.php";
 
 	$templates[] = 'sidebar.php';
 
@@ -124,8 +118,6 @@ function get_template_part( $slug, $name = null ) {
 
 	$templates = array();
 	$name = (string) $name;
-	if ( '' !== $name )
-		$templates[] = "{$slug}-{$name}.php";
 
 	$templates[] = "{$slug}.php";
 
