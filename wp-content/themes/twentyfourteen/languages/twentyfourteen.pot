@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fourteen 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyfourteen\n"
-"POT-Creation-Date: 2013-12-06 16:25:07+00:00\n"
+"POT-Creation-Date: 2013-12-12 05:25:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -250,7 +250,7 @@ msgstr ""
 
 #: inc/customizer.php:36
 msgid ""
-"Use a <a href=\"%1$s\"> tag</a> to feature your posts. If no posts match the "
+"Use a <a href=\"%1$s\">tag</a> to feature your posts. If no posts match the "
 "tag, <a href=\"%2$s\">sticky posts</a> will be displayed instead."
 msgstr ""
 
@@ -413,7 +413,7 @@ msgid "Tag Archives: %s"
 msgstr ""
 
 #. Theme URI of the plugin/theme
-msgid "http://wordpress.org/themes/"
+msgid "http://wordpress.org/themes/twentyfourteen"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -421,8 +421,8 @@ msgid ""
 "In 2014, our default theme lets you create a responsive magazine website "
 "with a sleek, modern design. Feature your favorite homepage content in "
 "either a grid or a slider. Use the three widget areas to customize your "
-"website, and change your content's layout with a full width page template "
-"and a contributor page to show of your authors. Creating a magazine website "
+"website, and change your content's layout with a full-width page template "
+"and a contributor page to show off your authors. Creating a magazine website "
 "with WordPress has never been easier."
 msgstr ""
 
