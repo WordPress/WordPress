@@ -3264,10 +3264,14 @@ class WP_Query {
 
 		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
 			if ( $this->is_category ) {
-				$term = get_term( $this->get( 'cat' ), 'category' );
+				if ( $this->get( 'cat' ) ) {
+					$term = get_term( $this->get( 'cat' ), 'category' );
+				} elseif ( $this->get( 'category_name' ) ) {
+					$term = get_term_by( 'slug', $this->get( 'category_name' ), 'category' );
+				}
 			} elseif ( $this->is_tag ) {
 				$term = get_term( $this->get( 'tag_id' ), 'post_tag' );
-			} else {
+			} elseif ( $query['terms'] ) {
 				$tax_query_in_and = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'NOT IN' ), 'NOT' );
 				$query = reset( $tax_query_in_and );
 
