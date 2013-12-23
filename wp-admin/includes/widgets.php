@@ -188,6 +188,8 @@ function wp_widget_control( $sidebar_args ) {
 	$widget_title = esc_html( strip_tags( $sidebar_args['widget_name'] ) );
 	$has_form = 'noform';
 
+	do_action( 'temp_wp_widget_control_before', $sidebar_args );
+
 	echo $sidebar_args['before_widget']; ?>
 	<div class="widget-top">
 	<div class="widget-title-action">
@@ -237,5 +239,8 @@ function wp_widget_control( $sidebar_args ) {
 	</div>
 <?php
 	echo $sidebar_args['after_widget'];
+
+	do_action( 'temp_wp_widget_control_after', $sidebar_args, 'noform' !== $has_form );
+
 	return $sidebar_args;
 }
