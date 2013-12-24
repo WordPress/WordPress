@@ -259,7 +259,7 @@ function wp_ajax_logged_in() {
  *
  * Contrary to normal success AJAX response ("1"), die with time() on success.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param int $comment_id
  * @return die

@@ -358,7 +358,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	/**
 	 * Send required variables to JavaScript land
 	 *
-	 * @since 3.4
+	 * @since 3.4.0
 	 * @access private
 	 *
 	 * @uses $tab Global; current tab within Themes->Install screen
@@ -372,7 +372,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	/**
 	 * Check to see if the theme is already installed.
 	 *
-	 * @since 3.4
+	 * @since 3.4.0
 	 * @access private
 	 *
 	 * @param object $theme - A WordPress.org Theme API object.

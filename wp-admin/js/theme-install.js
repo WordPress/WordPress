@@ -129,7 +129,7 @@ jQuery( document ).ready( function() {
 /**
  * Class that provides infinite scroll for Themes admin screens
  *
- * @since 3.4
+ * @since 3.4.0
  *
  * @uses ajaxurl
  * @uses list_args
@@ -147,7 +147,7 @@ var ThemeScroller;
 		/**
 		 * Initializer
 		 *
-		 * @since 3.4
+		 * @since 3.4.0
 		 * @access private
 		 */
 		init: function() {
@@ -187,7 +187,7 @@ var ThemeScroller;
 		 * Checks to see if user has scrolled to bottom of page.
 		 * If so, requests another page of content from self.ajax().
 		 *
-		 * @since 3.4
+		 * @since 3.4.0
 		 * @access private
 		 */
 		poll: function() {
@@ -204,7 +204,7 @@ var ThemeScroller;
 		/**
 		 * Applies results passed from this.ajax() to $outList
 		 *
-		 * @since 3.4
+		 * @since 3.4.0
 		 * @access private
 		 *
 		 * @param results Array with results from this.ajax() query.
@@ -227,7 +227,7 @@ var ThemeScroller;
 		/**
 		 * Queries next page of themes
 		 *
-		 * @since 3.4
+		 * @since 3.4.0
 		 * @access private
 		 */
 		ajax: function() {

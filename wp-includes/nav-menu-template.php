@@ -385,7 +385,7 @@ function wp_nav_menu( $args = array() ) {
  * Add the class property classes for the current context, if applicable.
  *
  * @access private
- * @since 3.0
+ * @since 3.0.0
  *
  * @param array $menu_items The current menu item objects to which to add the class property information.
  */

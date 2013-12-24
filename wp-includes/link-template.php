@@ -578,7 +578,7 @@ function get_category_feed_link($cat_id, $feed = '') {
  * Returns a link to the feed for all posts in a given term. A specific feed
  * can be requested or left blank to get the default feed.
  *
- * @since 3.0
+ * @since 3.0.0
  *
  * @param int $term_id ID of a category.
  * @param string $taxonomy Optional. Taxonomy of $term_id
@@ -1711,7 +1711,7 @@ function previous_posts_link( $label = null ) {
 /**
  * Return post pages link navigation for previous and next pages.
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @param string|array $args Optional args.
  * @return string The posts link navigation.

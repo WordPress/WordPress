@@ -714,7 +714,7 @@ function wp_style_loader_src( $src, $handle ) {
  * Postpones the scripts that were queued for the footer.
  * print_footer_scripts() is called in the footer to print these scripts.
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @see wp_print_scripts()
  */
@@ -743,7 +743,7 @@ function print_head_scripts() {
 /**
  * Prints the scripts that were queued for the footer or too late for the HTML head.
  *
- * @since 2.8
+ * @since 2.8.0
  */
 function print_footer_scripts() {
 	global $wp_scripts, $concatenate_scripts;
@@ -799,7 +799,7 @@ function _print_scripts() {
  * Postpones the scripts that were queued for the footer.
  * wp_print_footer_scripts() is called in the footer to print these scripts.
  *
- * @since 2.8
+ * @since 2.8.0
  */
 function wp_print_head_scripts() {
 	if ( ! did_action('wp_print_scripts') ) {
@@ -828,7 +828,7 @@ function _wp_footer_scripts() {
 /**
  * Hooks to print the scripts and styles in the footer.
  *
- * @since 2.8
+ * @since 2.8.0
  */
 function wp_print_footer_scripts() {
 	do_action('wp_print_footer_scripts');
@@ -840,7 +840,7 @@ function wp_print_footer_scripts() {
  * Allows plugins to queue scripts for the front end using wp_enqueue_script().
  * Runs first in wp_head() where all is_home(), is_page(), etc. functions are available.
  *
- * @since 2.8
+ * @since 2.8.0
  */
 function wp_enqueue_scripts() {
 	do_action('wp_enqueue_scripts');
@@ -849,7 +849,7 @@ function wp_enqueue_scripts() {
 /**
  * Prints the styles queue in the HTML head on admin pages.
  *
- * @since 2.8
+ * @since 2.8.0
  */
 function print_admin_styles() {
 	global $wp_styles, $concatenate_scripts, $compress_css;
@@ -923,7 +923,7 @@ function _print_styles() {
 /**
  * Determine the concatenation and compression settings for scripts and styles.
  *
- * @since 2.8
+ * @since 2.8.0
  */
 function script_concat_settings() {
 	global $concatenate_scripts, $compress_scripts, $compress_css;

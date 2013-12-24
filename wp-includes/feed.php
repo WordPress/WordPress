@@ -57,7 +57,7 @@ function bloginfo_rss($show = '') {
  *
  * @package WordPress
  * @subpackage Feed
- * @since 2.5
+ * @since 2.5.0
  * @uses apply_filters() Calls 'default_feed' hook on the default feed string.
  *
  * @return string Default feed, or for example 'rss2', 'atom', etc.
@@ -446,7 +446,7 @@ function atom_enclosure() {
  *
  * @package WordPress
  * @subpackage Feed
- * @since 2.5
+ * @since 2.5.0
  *
  * @param string $data Input string
  * @return array array(type, value)
@@ -484,7 +484,7 @@ function prep_atom_text_construct($data) {
  *
  * @package WordPress
  * @subpackage Feed
- * @since 2.5
+ * @since 2.5.0
  */
 function self_link() {
 	$host = @parse_url(home_url());
@@ -518,7 +518,7 @@ function feed_content_type( $type = '' ) {
 /**
  * Build SimplePie object based on RSS or Atom feed from URL.
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @param mixed $url URL of feed to retrieve. If an array of URLs, the feeds are merged
  * using SimplePie's multifeed feature.

@@ -1042,7 +1042,7 @@ function the_tags( $before = null, $sep = ', ', $after = '' ) {
 /**
  * Retrieve tag description.
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @param int $tag Optional. Tag ID. Will use global tag ID by default.
  * @return string Tag description, available.
@@ -1054,7 +1054,7 @@ function tag_description( $tag = 0 ) {
 /**
  * Retrieve term description.
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @param int $term Optional. Term ID. Will use global term ID by default.
  * @param string $taxonomy Optional taxonomy name. Defaults to 'post_tag'.

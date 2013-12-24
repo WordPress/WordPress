@@ -53,7 +53,7 @@ function get_postdata($postid) {
  * Sets up the WordPress Loop.
  *
  * @since 1.0.1
- * @deprecated 1.5
+ * @deprecated 1.5.0
  * @deprecated Use The Loop - {@link http://codex.wordpress.org/The_Loop Use new WordPress Loop}
  */
 function start_wp() {
@@ -121,8 +121,8 @@ function the_category_head($before='', $after='') {
 /**
  * Prints link to the previous post.
  *
- * @since 1.5
- * @deprecated 2.0
+ * @since 1.5.0
+ * @deprecated 2.0.0
  * @deprecated Use previous_post_link()
  * @see previous_post_link()
  *
@@ -159,7 +159,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
  * Prints link to the next post.
  *
  * @since 0.71
- * @deprecated 2.0
+ * @deprecated 2.0.0
  * @deprecated Use next_post_link()
  * @see next_post_link()
  *
@@ -194,8 +194,8 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 /**
  * Whether user can create a post.
  *
- * @since 1.5
- * @deprecated 2.0
+ * @since 1.5.0
+ * @deprecated 2.0.0
  * @deprecated Use current_user_can()
  * @see current_user_can()
  *
@@ -214,8 +214,8 @@ function user_can_create_post($user_id, $blog_id = 1, $category_id = 'None') {
 /**
  * Whether user can create a post.
  *
- * @since 1.5
- * @deprecated 2.0
+ * @since 1.5.0
+ * @deprecated 2.0.0
  * @deprecated Use current_user_can()
  * @see current_user_can()
  *
@@ -234,8 +234,8 @@ function user_can_create_draft($user_id, $blog_id = 1, $category_id = 'None') {
 /**
  * Whether user can edit a post.
  *
- * @since 1.5
- * @deprecated 2.0
+ * @since 1.5.0
+ * @deprecated 2.0.0
  * @deprecated Use current_user_can()
  * @see current_user_can()
  *
@@ -263,8 +263,8 @@ function user_can_edit_post($user_id, $post_id, $blog_id = 1) {
 /**
  * Whether user can delete a post.
  *
- * @since 1.5
- * @deprecated 2.0
+ * @since 1.5.0
+ * @deprecated 2.0.0
  * @deprecated Use current_user_can()
  * @see current_user_can()
  *
@@ -283,8 +283,8 @@ function user_can_delete_post($user_id, $post_id, $blog_id = 1) {
 /**
  * Whether user can set new posts' dates.
  *
- * @since 1.5
- * @deprecated 2.0
+ * @since 1.5.0
+ * @deprecated 2.0.0
  * @deprecated Use current_user_can()
  * @see current_user_can()
  *
@@ -303,8 +303,8 @@ function user_can_set_post_date($user_id, $blog_id = 1, $category_id = 'None') {
 /**
  * Whether user can delete a post.
  *
- * @since 1.5
- * @deprecated 2.0
+ * @since 1.5.0
+ * @deprecated 2.0.0
  * @deprecated Use current_user_can()
  * @see current_user_can()
  *
@@ -323,8 +323,8 @@ function user_can_edit_post_date($user_id, $post_id, $blog_id = 1) {
 /**
  * Whether user can delete a post.
  *
- * @since 1.5
- * @deprecated 2.0
+ * @since 1.5.0
+ * @deprecated 2.0.0
  * @deprecated Use current_user_can()
  * @see current_user_can()
  *
@@ -343,8 +343,8 @@ function user_can_edit_post_comments($user_id, $post_id, $blog_id = 1) {
 /**
  * Whether user can delete a post.
  *
- * @since 1.5
- * @deprecated 2.0
+ * @since 1.5.0
+ * @deprecated 2.0.0
  * @deprecated Use current_user_can()
  * @see current_user_can()
  *
@@ -363,8 +363,8 @@ function user_can_delete_post_comments($user_id, $post_id, $blog_id = 1) {
 /**
  * Can user can edit other user.
  *
- * @since 1.5
- * @deprecated 2.0
+ * @since 1.5.0
+ * @deprecated 2.0.0
  * @deprecated Use current_user_can()
  * @see current_user_can()
  *
@@ -387,7 +387,7 @@ function user_can_edit_user($user_id, $other_user) {
  * Gets the links associated with category $cat_name.
  *
  * @since 0.71
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use get_bookmarks()
  * @see get_bookmarks()
  *
@@ -421,7 +421,7 @@ function get_linksbyname($cat_name = "noname", $before = '', $after = '<br />', 
  * Gets the links associated with the named category.
  *
  * @since 1.0.1
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use wp_list_bookmarks()
  * @see wp_list_bookmarks()
  *
@@ -459,7 +459,7 @@ function wp_get_linksbyname($category, $args = '') {
  * </code>
  *
  * @since 1.0.1
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use get_bookmarks()
  * @see get_bookmarks()
  *
@@ -512,7 +512,7 @@ function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit 
  * </ol>
  *
  * @since 1.0.1
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use get_bookmarks()
  * @see get_bookmarks()
  *
@@ -540,7 +540,7 @@ function get_linkobjects($category = 0, $orderby = 'name', $limit = 0) {
  * Gets the links associated with category 'cat_name' and display rating stars/chars.
  *
  * @since 0.71
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use get_bookmarks()
  * @see get_bookmarks()
  *
@@ -568,7 +568,7 @@ function get_linksbyname_withrating($cat_name = "noname", $before = '', $after =
  * Gets the links associated with category n and display rating stars/chars.
  *
  * @since 0.71
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use get_bookmarks()
  * @see get_bookmarks()
  *
@@ -596,7 +596,7 @@ function get_links_withrating($category = -1, $before = '', $after = '<br />', $
  * Gets the auto_toggle setting.
  *
  * @since 0.71
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated No alternative function available
  *
  * @param int $id The category to get. If no category supplied uses 0
@@ -609,7 +609,7 @@ function get_autotoggle($id = 0) {
 
 /**
  * @since 0.71
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use wp_list_categories()
  * @see wp_list_categories()
  *
@@ -644,8 +644,8 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 }
 
 /**
- * @since 1.2
- * @deprecated 2.1
+ * @since 1.2.0
+ * @deprecated 2.1.0
  * @deprecated Use wp_list_categories()
  * @see wp_list_categories()
  *
@@ -677,7 +677,7 @@ function wp_list_cats($args = '') {
 
 /**
  * @since 0.71
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use wp_dropdown_categories()
  * @see wp_dropdown_categories()
  *
@@ -713,8 +713,10 @@ function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = '
 }
 
 /**
- * @since 1.2
- * @deprecated 2.1
+ * List authors.
+ *
+ * @since 1.2.0
+ * @deprecated 2.1.0
  * @deprecated Use wp_list_authors()
  * @see wp_list_authors()
  *
@@ -735,7 +737,7 @@ function list_authors($optioncount = false, $exclude_admin = true, $show_fullnam
 
 /**
  * @since 1.0.1
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use wp_get_post_categories()
  * @see wp_get_post_categories()
  *
@@ -752,7 +754,7 @@ function wp_get_post_cats($blogid = '1', $post_ID = 0) {
  * Sets the categories that the post id belongs to.
  *
  * @since 1.0.1
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use wp_set_post_categories()
  * @see wp_set_post_categories()
  *
@@ -768,7 +770,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 
 /**
  * @since 0.71
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use wp_get_archives()
  * @see wp_get_archives()
  *
@@ -789,8 +791,8 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
 /**
  * Returns or Prints link to the author's posts.
  *
- * @since 1.2
- * @deprecated 2.1
+ * @since 1.2.0
+ * @deprecated 2.1.0
  * @deprecated Use get_author_posts_url()
  * @see get_author_posts_url()
  *
@@ -813,7 +815,7 @@ function get_author_link($echo, $author_id, $author_nicename = '') {
  * Print list of pages based on arguments.
  *
  * @since 0.71
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use wp_link_pages()
  * @see wp_link_pages()
  *
@@ -838,7 +840,7 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
  * Get value based on option.
  *
  * @since 0.71
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use get_option()
  * @see get_option()
  *
@@ -855,7 +857,7 @@ function get_settings($option) {
  * Print the permalink of the current post in the loop.
  *
  * @since 0.71
- * @deprecated 1.2
+ * @deprecated 1.2.0
  * @deprecated Use the_permalink()
  * @see the_permalink()
  */
@@ -868,7 +870,7 @@ function permalink_link() {
  * Print the permalink to the RSS feed.
  *
  * @since 0.71
- * @deprecated 2.3
+ * @deprecated 2.3.0
  * @deprecated Use the_permalink_rss()
  * @see the_permalink_rss()
  *
@@ -884,7 +886,7 @@ function permalink_single_rss($deprecated = '') {
  *
  * @see get_links() for argument information that can be used in $args
  * @since 1.0.1
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use wp_list_bookmarks()
  * @see wp_list_bookmarks()
  *
@@ -924,7 +926,7 @@ function wp_get_links($args = '') {
  * Gets the links associated with category by id.
  *
  * @since 0.71
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use get_bookmarks()
  * @see get_bookmarks()
  *
@@ -1033,7 +1035,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
  * $wpdb->linkcategories and output it as a nested HTML unordered list.
  *
  * @since 1.0.1
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use wp_list_bookmarks()
  * @see wp_list_bookmarks()
  *
@@ -1076,7 +1078,7 @@ function get_links_list($order = 'name') {
  * Show the link to the links popup and the number of links.
  *
  * @since 0.71
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated {@internal Use function instead is unknown}}
  *
  * @param string $text the text of the link
@@ -1091,7 +1093,7 @@ function links_popup_script($text = 'Links', $width=400, $height=400, $file='lin
 
 /**
  * @since 1.0.1
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use sanitize_bookmark_field()
  * @see sanitize_bookmark_field()
  *
@@ -1107,7 +1109,7 @@ function get_linkrating($link) {
  * Gets the name of category by id.
  *
  * @since 0.71
- * @deprecated 2.1
+ * @deprecated 2.1.0
  * @deprecated Use get_category()
  * @see get_category()
  *
@@ -1137,7 +1139,7 @@ function get_linkcatname($id = 0) {
  * Print RSS comment feed link.
  *
  * @since 1.0.1
- * @deprecated 2.5
+ * @deprecated 2.5.0
  * @deprecated Use post_comments_feed_link()
  * @see post_comments_feed_link()
  *
@@ -1151,8 +1153,8 @@ function comments_rss_link($link_text = 'Comments RSS') {
 /**
  * Print/Return link to category RSS2 feed.
  *
- * @since 1.2
- * @deprecated 2.5
+ * @since 1.2.0
+ * @deprecated 2.5.0
  * @deprecated Use get_category_feed_link()
  * @see get_category_feed_link()
  *
@@ -1173,8 +1175,8 @@ function get_category_rss_link($echo = false, $cat_ID = 1) {
 /**
  * Print/Return link to author RSS feed.
  *
- * @since 1.2
- * @deprecated 2.5
+ * @since 1.2.0
+ * @deprecated 2.5.0
  * @deprecated Use get_author_feed_link()
  * @see get_author_feed_link()
  *
@@ -1194,8 +1196,8 @@ function get_author_rss_link($echo = false, $author_id = 1) {
 /**
  * Return link to the post RSS feed.
  *
- * @since 1.5
- * @deprecated 2.2
+ * @since 1.5.0
+ * @deprecated 2.2.0
  * @deprecated Use get_post_comments_feed_link()
  * @see get_post_comments_feed_link()
  *
@@ -1209,8 +1211,8 @@ function comments_rss() {
 /**
  * An alias of wp_create_user().
  *
- * @since 2.0
- * @deprecated 2.0
+ * @since 2.0.0
+ * @deprecated 2.0.0
  * @deprecated Use wp_create_user()
  * @see wp_create_user()
  *
@@ -1227,7 +1229,7 @@ function create_user($username, $password, $email) {
 /**
  * Unused function.
  *
- * @deprecated 2.5
+ * @deprecated 2.5.0
 */
 function gzip_compression() {
 	_deprecated_function( __FUNCTION__, '2.5' );
@@ -1238,7 +1240,7 @@ function gzip_compression() {
  * Retrieve an array of comment data about comment $comment_ID.
  *
  * @since 0.71
- * @deprecated 2.7
+ * @deprecated 2.7.0
  * @deprecated Use get_comment()
  * @see get_comment()
  *
@@ -1256,7 +1258,7 @@ function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = fals
  * Retrieve the category name by the category ID.
  *
  * @since 0.71
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use get_cat_name()
  * @see get_cat_name()
  *
@@ -1272,7 +1274,7 @@ function get_catname( $cat_ID ) {
  * Retrieve category children list separated before and after the term IDs.
  *
  * @since 1.2.0
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use get_term_children()
  * @see get_term_children()
  *
@@ -1309,8 +1311,8 @@ function get_category_children( $id, $before = '/', $after = '', $visited = arra
 /**
  * Retrieve the description of the author of the current post.
  *
- * @since 1.5
- * @deprecated 2.8
+ * @since 1.5.0
+ * @deprecated 2.8.0
  * @deprecated Use get_the_author_meta('description')
  * @see get_the_author_meta()
  *
@@ -1325,7 +1327,7 @@ function get_the_author_description() {
  * Display the description of the author of the current post.
  *
  * @since 1.0.0
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use the_author_meta('description')
  * @see the_author_meta()
  */
@@ -1337,8 +1339,8 @@ function the_author_description() {
 /**
  * Retrieve the login name of the author of the current post.
  *
- * @since 1.5
- * @deprecated 2.8
+ * @since 1.5.0
+ * @deprecated 2.8.0
  * @deprecated Use get_the_author_meta('login')
  * @see get_the_author_meta()
  *
@@ -1353,7 +1355,7 @@ function get_the_author_login() {
  * Display the login name of the author of the current post.
  *
  * @since 0.71
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use the_author_meta('login')
  * @see the_author_meta()
  */
@@ -1365,8 +1367,8 @@ function the_author_login() {
 /**
  * Retrieve the first name of the author of the current post.
  *
- * @since 1.5
- * @deprecated 2.8
+ * @since 1.5.0
+ * @deprecated 2.8.0
  * @deprecated Use get_the_author_meta('first_name')
  * @see get_the_author_meta()
  *
@@ -1381,7 +1383,7 @@ function get_the_author_firstname() {
  * Display the first name of the author of the current post.
  *
  * @since 0.71
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use the_author_meta('first_name')
  * @see the_author_meta()
  */
@@ -1393,8 +1395,8 @@ function the_author_firstname() {
 /**
  * Retrieve the last name of the author of the current post.
  *
- * @since 1.5
- * @deprecated 2.8
+ * @since 1.5.0
+ * @deprecated 2.8.0
  * @deprecated Use get_the_author_meta('last_name')
  * @see get_the_author_meta()
  *
@@ -1409,7 +1411,7 @@ function get_the_author_lastname() {
  * Display the last name of the author of the current post.
  *
  * @since 0.71
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use the_author_meta('last_name')
  * @see the_author_meta()
  */
@@ -1421,8 +1423,8 @@ function the_author_lastname() {
 /**
  * Retrieve the nickname of the author of the current post.
  *
- * @since 1.5
- * @deprecated 2.8
+ * @since 1.5.0
+ * @deprecated 2.8.0
  * @deprecated Use get_the_author_meta('nickname')
  * @see get_the_author_meta()
  *
@@ -1437,7 +1439,7 @@ function get_the_author_nickname() {
  * Display the nickname of the author of the current post.
  *
  * @since 0.71
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use the_author_meta('nickname')
  * @see the_author_meta()
  */
@@ -1449,8 +1451,8 @@ function the_author_nickname() {
 /**
  * Retrieve the email of the author of the current post.
  *
- * @since 1.5
- * @deprecated 2.8
+ * @since 1.5.0
+ * @deprecated 2.8.0
  * @deprecated Use get_the_author_meta('email')
  * @see get_the_author_meta()
  *
@@ -1465,7 +1467,7 @@ function get_the_author_email() {
  * Display the email of the author of the current post.
  *
  * @since 0.71
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use the_author_meta('email')
  * @see the_author_meta()
  */
@@ -1477,8 +1479,8 @@ function the_author_email() {
 /**
  * Retrieve the ICQ number of the author of the current post.
  *
- * @since 1.5
- * @deprecated 2.8
+ * @since 1.5.0
+ * @deprecated 2.8.0
  * @deprecated Use get_the_author_meta('icq')
  * @see get_the_author_meta()
  *
@@ -1493,7 +1495,7 @@ function get_the_author_icq() {
  * Display the ICQ number of the author of the current post.
  *
  * @since 0.71
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use the_author_meta('icq')
  * @see the_author_meta()
  */
@@ -1505,8 +1507,8 @@ function the_author_icq() {
 /**
  * Retrieve the Yahoo! IM name of the author of the current post.
  *
- * @since 1.5
- * @deprecated 2.8
+ * @since 1.5.0
+ * @deprecated 2.8.0
  * @deprecated Use get_the_author_meta('yim')
  * @see get_the_author_meta()
  *
@@ -1521,7 +1523,7 @@ function get_the_author_yim() {
  * Display the Yahoo! IM name of the author of the current post.
  *
  * @since 0.71
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use the_author_meta('yim')
  * @see the_author_meta()
  */
@@ -1533,8 +1535,8 @@ function the_author_yim() {
 /**
  * Retrieve the MSN address of the author of the current post.
  *
- * @since 1.5
- * @deprecated 2.8
+ * @since 1.5.0
+ * @deprecated 2.8.0
  * @deprecated Use get_the_author_meta('msn')
  * @see get_the_author_meta()
  *
@@ -1549,7 +1551,7 @@ function get_the_author_msn() {
  * Display the MSN address of the author of the current post.
  *
  * @since 0.71
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use the_author_meta('msn')
  * @see the_author_meta()
  */
@@ -1561,8 +1563,8 @@ function the_author_msn() {
 /**
  * Retrieve the AIM address of the author of the current post.
  *
- * @since 1.5
- * @deprecated 2.8
+ * @since 1.5.0
+ * @deprecated 2.8.0
  * @deprecated Use get_the_author_meta('aim')
  * @see get_the_author_meta()
  *
@@ -1578,7 +1580,7 @@ function get_the_author_aim() {
  *
  * @since 0.71
  * @see the_author_meta()
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use the_author_meta('aim')
  */
 function the_author_aim() {
@@ -1590,7 +1592,7 @@ function the_author_aim() {
  * Retrieve the specified author's preferred display name.
  *
  * @since 1.0.0
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use get_the_author_meta('display_name')
  * @see get_the_author_meta()
  *
@@ -1605,8 +1607,8 @@ function get_author_name( $auth_id = false ) {
 /**
  * Retrieve the URL to the home page of the author of the current post.
  *
- * @since 1.5
- * @deprecated 2.8
+ * @since 1.5.0
+ * @deprecated 2.8.0
  * @deprecated Use get_the_author_meta('url')
  * @see get_the_author_meta()
  *
@@ -1621,7 +1623,7 @@ function get_the_author_url() {
  * Display the URL to the home page of the author of the current post.
  *
  * @since 0.71
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use the_author_meta('url')
  * @see the_author_meta()
  */
@@ -1633,8 +1635,8 @@ function the_author_url() {
 /**
  * Retrieve the ID of the author of the current post.
  *
- * @since 1.5
- * @deprecated 2.8
+ * @since 1.5.0
+ * @deprecated 2.8.0
  * @deprecated Use get_the_author_meta('ID')
  * @see get_the_author_meta()
  *
@@ -1649,7 +1651,7 @@ function get_the_author_ID() {
  * Display the ID of the author of the current post.
  *
  * @since 0.71
- * @deprecated 2.8
+ * @deprecated 2.8.0
  * @deprecated Use the_author_meta('ID')
  * @see the_author_meta()
 */
@@ -1785,7 +1787,7 @@ function _c( $text, $domain = 'default' ) {
  * Translates $text like translate(), but assumes that the text
  * contains a context after its last vertical bar.
  *
- * @since 2.5
+ * @since 2.5.0
  * @uses translate()
  * @deprecated 3.0.0
  * @deprecated Use _x()
@@ -1834,7 +1836,7 @@ function __ngettext() {
 /**
  * Register plural strings in POT file, but don't translate them.
  *
- * @since 2.5
+ * @since 2.5.0
  * @deprecated 2.8.0
  * @deprecated Use _n_noop()
  * @see _n_noop()

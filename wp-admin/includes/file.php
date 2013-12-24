@@ -191,7 +191,7 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
  * Handle PHP uploads in WordPress, sanitizing file names, checking extensions for mime type,
  * and moving the file to the appropriate directory within the uploads directory.
  *
- * @since 2.0
+ * @since 2.0.0
  *
  * @uses wp_handle_upload_error
  * @uses apply_filters

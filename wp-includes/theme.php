@@ -1559,7 +1559,8 @@ add_action( 'wp_loaded', '_custom_header_background_just_in_time' );
 /**
  * Gets the theme support arguments passed when registering that support
  *
- * @since 3.1
+ * @since 3.1.0
+ *
  * @param string $feature the feature to check
  * @return array The array of extra arguments
  */

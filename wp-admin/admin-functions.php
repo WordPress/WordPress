@@ -4,7 +4,7 @@
  *
  * This file is deprecated, use 'wp-admin/includes/admin.php' instead.
  *
- * @deprecated 2.5
+ * @deprecated 2.5.0
  * @package WordPress
  * @subpackage Administration
  */

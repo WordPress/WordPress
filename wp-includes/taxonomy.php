@@ -2337,7 +2337,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
  *
  * @package WordPress
  * @subpackage Taxonomy
- * @since 3.6
+ * @since 3.6.0
  * @uses wp_set_object_terms()
  *
  * @param int $object_id The ID of the object to which the terms will be added.
@@ -2354,7 +2354,7 @@ function wp_add_object_terms( $object_id, $terms, $taxonomy ) {
  *
  * @package WordPress
  * @subpackage Taxonomy
- * @since 3.6
+ * @since 3.6.0
  * @uses $wpdb
  *
  * @uses apply_filters() Calls 'delete_term_relationships' hook with object_id and tt_ids as parameters.

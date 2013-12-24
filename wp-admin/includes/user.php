@@ -9,7 +9,7 @@
 /**
  * Creates a new user from the "Users" form using $_POST information.
  *
- * @since 2.0
+ * @since 2.0.0
  *
  * @return null|WP_Error|int Null when adding user, WP_Error or User ID integer when no parameters.
  */
@@ -22,7 +22,7 @@ function add_user() {
  *
  * Used on user-edit.php and profile.php to manage and process user options, passwords etc.
  *
- * @since 2.0
+ * @since 2.0.0
  *
  * @param int $user_id Optional. User ID.
  * @return int user id of the updated user
@@ -193,7 +193,7 @@ function edit_user( $user_id = 0 ) {
  * only editors or authors. This filter allows admins to delegate
  * user management.
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @return unknown
  */

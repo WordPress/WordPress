@@ -49,7 +49,7 @@ function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
 /**
  * Update cache for thumbnails in the current loop
  *
- * @since 3.2
+ * @since 3.2.0
  *
  * @param object $wp_query Optional. A WP_Query instance. Defaults to the $wp_query global.
  */

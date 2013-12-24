@@ -1949,7 +1949,7 @@ function convert_to_screen( $hook_name ) {
 /**
  * Output the HTML for restoring the post data from DOM storage
  *
- * @since 3.6
+ * @since 3.6.0
  * @access private
  */
 function _local_storage_notice() {

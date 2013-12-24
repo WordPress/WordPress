@@ -177,7 +177,7 @@ class Custom_Image_Header {
 	/**
 	 * Set up the enqueue for the CSS files
 	 *
-	 * @since 2.7
+	 * @since 2.7.0
 	 */
 	function css_includes() {
 		$step = $this->step();

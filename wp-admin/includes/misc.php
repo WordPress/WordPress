@@ -346,7 +346,7 @@ function wp_doc_link_parse( $content ) {
 /**
  * Saves option for number of rows when listing posts, pages, comments, etc.
  *
- * @since 2.8
+ * @since 2.8.0
 **/
 function set_screen_options() {
 
@@ -648,7 +648,7 @@ add_action('admin_head', '_ipad_meta');
 /**
  * Check lock status for posts displayed on the Posts screen
  *
- * @since 3.6
+ * @since 3.6.0
  */
 function wp_check_locked_posts( $response, $data, $screen_id ) {
 	$checked = array();
@@ -679,7 +679,7 @@ add_filter( 'heartbeat_received', 'wp_check_locked_posts', 10, 3 );
 /**
  * Check lock status on the New/Edit Post screen and refresh the lock
  *
- * @since 3.6
+ * @since 3.6.0
  */
 function wp_refresh_post_lock( $response, $data, $screen_id ) {
 	if ( array_key_exists( 'wp-refresh-post-lock', $data ) ) {
@@ -718,7 +718,7 @@ add_filter( 'heartbeat_received', 'wp_refresh_post_lock', 10, 3 );
 /**
  * Check nonce expiration on the New/Edit Post screen and refresh if needed
  *
- * @since 3.6
+ * @since 3.6.0
  */
 function wp_refresh_post_nonces( $response, $data, $screen_id ) {
 	if ( array_key_exists( 'wp-refresh-post-nonces', $data ) ) {
