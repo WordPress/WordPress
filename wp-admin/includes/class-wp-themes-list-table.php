@@ -238,7 +238,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 	/**
 	 * Send required variables to JavaScript land
 	 *
-	 * @since 3.4
+	 * @since 3.4.0
 	 * @access private
 	 *
 	 * @uses $this->features Array of all feature search terms.
