@@ -3271,14 +3271,17 @@ class WP_Query {
 				}
 			} elseif ( $this->is_tag ) {
 				$term = get_term( $this->get( 'tag_id' ), 'post_tag' );
-			} elseif ( $query['terms'] ) {
+			} else {
 				$tax_query_in_and = wp_list_filter( $this->tax_query->queries, array( 'operator' => 'NOT IN' ), 'NOT' );
 				$query = reset( $tax_query_in_and );
 
-				if ( 'term_id' == $query['field'] )
-					$term = get_term( reset( $query['terms'] ), $query['taxonomy'] );
-				else
-					$term = get_term_by( $query['field'], reset( $query['terms'] ), $query['taxonomy'] );
+				if ( $query['terms'] ) {
+					if ( 'term_id' == $query['field'] ) {
+						$term = get_term( reset( $query['terms'] ), $query['taxonomy'] );
+					} else {
+						$term = get_term_by( $query['field'], reset( $query['terms'] ), $query['taxonomy'] );
+					}
+				}
 			}
 
 			if ( ! empty( $term ) && ! is_wp_error( $term ) )  {
