@@ -1,4 +1,4 @@
-/* global ajaxurl, tinymce, wpLinkL10n, tinyMCEPopup, setUserSetting, wpActiveEditor */
+/* global ajaxurl, tinymce, wpLinkL10n, setUserSetting, wpActiveEditor */
 var wpLink;
 
 (function($){
@@ -59,13 +59,26 @@ var wpLink;
 			}
 		},
 
-		open : function() {
-			if ( !wpActiveEditor )
+		open : function( editorId ) {
+			if ( editorId ) {
+				window.wpActiveEditor = editorId;
+			}
+
+			if ( ! window.wpActiveEditor ) {
 				return;
+			}
 
-			this.textarea = $('#'+wpActiveEditor).get(0);
+			this.textarea = $( '#' + wpActiveEditor ).get(0);
 
-			// Initialize the dialog if necessary (html mode).
+			if ( typeof tinymce !== 'undefined' ) {
+				ed = tinymce.get( wpActiveEditor );
+
+				if ( ed && tinymce.isIE ) {
+					ed.windowManager.bookmark = ed.selection.getBookmark();
+				}
+			}
+
+			// Initialize the dialog
 			if ( ! inputs.dialog.data('wpdialog') ) {
 				inputs.dialog.wpdialog({
 					title: wpLinkL10n.title,
@@ -80,7 +93,7 @@ var wpLink;
 		},
 
 		isMCE : function() {
-			return tinyMCEPopup && ( ed = tinyMCEPopup.editor ) && ! ed.isHidden();
+			return ed && ! ed.isHidden();
 		},
 
 		refresh : function() {
@@ -102,19 +115,16 @@ var wpLink;
 				rivers.recent.ajax();
 		},
 
-		mceRefresh : function() {
+		mceRefresh: function() {
 			var e;
-			ed = tinyMCEPopup.editor;
-
-			tinyMCEPopup.restoreSelection();
 
 			// If link exists, select proper values.
-			if ( e = ed.dom.getParent(ed.selection.getNode(), 'A') ) {
+			if ( e = ed.dom.getParent( ed.selection.getNode(), 'A' ) ) {
 				// Set URL and description.
-				inputs.url.val( ed.dom.getAttrib(e, 'href') );
-				inputs.title.val( ed.dom.getAttrib(e, 'title') );
+				inputs.url.val( ed.dom.getAttrib( e, 'href' ) );
+				inputs.title.val( ed.dom.getAttrib( e, 'title' ) );
 				// Set open in new tab.
-				inputs.openInNewTab.prop('checked', ( '_blank' == ed.dom.getAttrib( e, 'target' ) ) );
+				inputs.openInNewTab.prop( 'checked', ( '_blank' === ed.dom.getAttrib( e, 'target' ) ) );
 				// Update save prompt.
 				inputs.submit.val( wpLinkL10n.update );
 
@@ -124,16 +134,14 @@ var wpLink;
 			}
 		},
 
-		close : function() {
-			if ( wpLink.isMCE() )
-				tinyMCEPopup.close();
-			else
-				inputs.dialog.wpdialog('close');
+		close: function() {
+			inputs.dialog.wpdialog('close');
 		},
 
 		onClose: function() {
 			if ( ! wpLink.isMCE() ) {
 				wpLink.textarea.focus();
+
 				if ( wpLink.range ) {
 					wpLink.range.moveToBookmark( wpLink.range.getBookmark() );
 					wpLink.range.select();
@@ -141,7 +149,7 @@ var wpLink;
 			}
 		},
 
-		getAttrs : function() {
+		getAttrs: function() {
 			return {
 				href : inputs.url.val(),
 				title : inputs.title.val(),
@@ -149,15 +157,15 @@ var wpLink;
 			};
 		},
 
-		update : function() {
+		update: function() {
 			if ( wpLink.isMCE() )
 				wpLink.mceUpdate();
 			else
 				wpLink.htmlUpdate();
 		},
 
-		htmlUpdate : function() {
-			var attrs, html, begin, end, cursor, selection,
+		htmlUpdate: function() {
+			var attrs, html, begin, end, cursor,
 				textarea = wpLink.textarea;
 
 			if ( ! textarea )
@@ -213,67 +221,43 @@ var wpLink;
 			textarea.focus();
 		},
 
-		mceUpdate : function() {
-			var ed = tinyMCEPopup.editor,
-				attrs = wpLink.getAttrs(),
-				e, b;
+		mceUpdate: function() {
+			var link,
+				attrs = wpLink.getAttrs();
 
-			tinyMCEPopup.restoreSelection();
-			e = ed.dom.getParent(ed.selection.getNode(), 'A');
+			wpLink.close();
+			ed.focus();
+
+			if ( tinymce.isIE ) {
+				ed.selection.moveToBookmark( ed.windowManager.bookmark );
+			}
+
+			link = ed.dom.getParent( ed.selection.getNode(), 'a[href]' );
 
 			// If the values are empty, unlink and return
 			if ( ! attrs.href || attrs.href == 'http://' ) {
-				if ( e ) {
-					b = ed.selection.getBookmark();
-					ed.dom.remove(e, 1);
-					ed.selection.moveToBookmark(b);
-					tinyMCEPopup.execCommand('mceEndUndoLevel');
-					wpLink.close();
-				}
+				ed.execCommand('unlink');
 				return;
 			}
 
-			if (e == null) {
-				ed.getDoc().execCommand('unlink', false, null);
-				tinyMCEPopup.execCommand('mceInsertLink', false, '#mce_temp_url#', {skip_undo : 1});
-
-				tinymce.each(ed.dom.select('a'), function(n) {
-					if (ed.dom.getAttrib(n, 'href') == '#mce_temp_url#') {
-						e = n;
-						ed.dom.setAttribs(e, attrs);
-					}
-				});
-
-				// Sometimes WebKit lets a user create a link where
-				// they shouldn't be able to. In this case, CreateLink
-				// injects "#mce_temp_url#" into their content. Fix it.
-				if ( tinymce.isWebKit && $(e).text() == '#mce_temp_url#' ) {
-					ed.dom.remove(e);
-					e = null;
-				}
+			if ( link ) {
+				ed.dom.setAttribs( link, attrs );
 			} else {
-				ed.dom.setAttribs(e, attrs);
+				ed.execCommand( 'mceInsertLink', false, attrs );
 			}
 
-			// Move the caret if selection was not an image.
-			if ( e && (e.childNodes.length != 1 || e.firstChild.nodeName != 'IMG') ) {
-				ed.selection.select(e);
-				ed.selection.collapse(0);
-				tinyMCEPopup.storeSelection();
-			}
-
-			ed.execCommand('mceEndUndoLevel');
-			wpLink.close();
-			ed.focus();
+			// Move the cursor to the end of the selection
+			ed.selection.collapse();
 		},
 
-		updateFields : function( e, li, originalEvent ) {
+		updateFields: function( e, li, originalEvent ) {
 			inputs.url.val( li.children('.item-permalink').val() );
 			inputs.title.val( li.hasClass('no-title') ? '' : li.children('.item-title').text() );
 			if ( originalEvent && originalEvent.type == 'click' )
 				inputs.url.focus();
 		},
-		setDefaultValues : function() {
+
+		setDefaultValues: function() {
 			// Set URL and description to defaults.
 			// Leave the new tab setting as-is.
 			inputs.url.val('http://');
@@ -283,7 +267,7 @@ var wpLink;
 			inputs.submit.val( wpLinkL10n.save );
 		},
 
-		searchInternalLinks : function() {
+		searchInternalLinks: function() {
 			var t = $(this), waiting,
 				search = t.val();
 
@@ -306,16 +290,17 @@ var wpLink;
 			}
 		},
 
-		next : function() {
+		next: function() {
 			rivers.search.next();
 			rivers.recent.next();
 		},
-		prev : function() {
+
+		prev: function() {
 			rivers.search.prev();
 			rivers.recent.prev();
 		},
 
-		keydown : function( event ) {
+		keydown: function( event ) {
 			var fn, key = $.ui.keyCode;
 
 			if ( event.which !== key.UP && event.which !== key.DOWN ) {
@@ -345,7 +330,7 @@ var wpLink;
 			}
 		},
 
-		delayedCallback : function( func, delay ) {
+		delayedCallback: function( func, delay ) {
 			var timeoutTriggered, funcTriggered, funcArgs, funcContext;
 
 			if ( ! delay )
@@ -368,7 +353,7 @@ var wpLink;
 			};
 		},
 
-		toggleInternalLinking : function( event ) {
+		toggleInternalLinking: function( event ) {
 			var panel = $('#search-panel'),
 				widget = inputs.dialog.wpdialog('widget'),
 				// We're about to toggle visibility; it's currently the opposite

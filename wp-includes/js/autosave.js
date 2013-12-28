@@ -43,23 +43,13 @@ jQuery(document).ready( function($) {
 	});
 
 	window.onbeforeunload = function(){
-		var editor = typeof(tinymce) != 'undefined' ? tinymce.activeEditor : false, compareString;
+		var editor = typeof(tinymce) != 'undefined' ? tinymce.activeEditor : false;
 
 		if ( editor && ! editor.isHidden() ) {
 			if ( editor.isDirty() )
 				return autosaveL10n.saveAlert;
 		} else {
-			if ( fullscreen && fullscreen.settings.visible ) {
-				compareString = wp.autosave.getCompareString({
-					post_title: $('#wp-fullscreen-title').val() || '',
-					content: $('#wp_mce_fullscreen').val() || '',
-					excerpt: $('#excerpt').val() || ''
-				});
-			} else {
-				compareString = wp.autosave.getCompareString();
-			}
-
-			if ( compareString != autosaveLast )
+			if ( wp.autosave.getCompareString() != autosaveLast )
 				return autosaveL10n.saveAlert;
 		}
 	};
@@ -115,25 +105,23 @@ jQuery(document).ready( function($) {
 	};
 
 	// This code is meant to allow tabbing from Title to Post content.
-	$('#title').on('keydown.editor-focus', function(e) {
-		var ed;
+	$('#title').on( 'keydown.editor-focus', function( event ) {
+		var editor;
 
-		if ( e.which != 9 )
-			return;
+		if ( event.which === 9 && ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) {
+			if ( typeof tinymce !== 'undefined' ) {
+				editor = tinymce.get('content');
+			}
 
-		if ( !e.ctrlKey && !e.altKey && !e.shiftKey ) {
-			if ( typeof(tinymce) != 'undefined' )
-				ed = tinymce.get('content');
-
-			if ( ed && !ed.isHidden() ) {
-				$(this).one('keyup', function(){
-					$('#content_tbl td.mceToolbar > a').focus();
+			if ( editor && ! editor.isHidden() ) {
+				$(this).one( 'keyup', function() {
+					editor.focus();
 				});
 			} else {
 				$('#content').focus();
 			}
 
-			e.preventDefault();
+			event.preventDefault();
 		}
 	});
 
@@ -345,20 +333,12 @@ wp.autosave.getPostData = function() {
 			data.autosave = false;
 			return data;
 		} else {
-			if ( 'mce_fullscreen' == ed.id )
-				tinymce.get('content').setContent(ed.getContent({format : 'raw'}), {format : 'raw'});
-
 			tinymce.triggerSave();
 		}
 	}
 
-	if ( typeof fullscreen != 'undefined' && fullscreen.settings.visible ) {
-		data.post_title = $('#wp-fullscreen-title').val() || '';
-		data.content = $('#wp_mce_fullscreen').val() || '';
-	} else {
-		data.post_title = $('#title').val() || '';
-		data.content = $('#content').val() || '';
-	}
+	data.post_title = $('#title').val() || '';
+	data.content = $('#content').val() || '';
 
 	/*
 	// We haven't been saving tags with autosave since 2.8... Start again?

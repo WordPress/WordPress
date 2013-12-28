@@ -466,16 +466,13 @@
 					return false;
 				}
 			} else if ( mce ) {
-				if ( tinymce.activeEditor && (tinymce.activeEditor.id == 'mce_fullscreen' || tinymce.activeEditor.id == 'wp_mce_fullscreen') )
-					ed = tinymce.activeEditor;
-				else
-					ed = tinymce.get(wpActiveEditor);
+				ed = tinymce.get( wpActiveEditor );
 			}
 
-			if ( ed && !ed.isHidden() ) {
+			if ( ed && ! ed.isHidden() ) {
 				// restore caret position on IE
-				if ( tinymce.isIE && ed.windowManager.insertimagebookmark )
-					ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark);
+	//			if ( tinymce.isIE && ed.windowManager.insertimagebookmark )
+	//				ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark);
 
 				if ( h.indexOf('[caption') !== -1 ) {
 					if ( ed.wpSetImgCaption )
@@ -664,7 +661,7 @@
 			options = options || {};
 
 			id = this.id( id );
-
+/*
 			// Save a bookmark of the caret position in IE.
 			if ( typeof tinymce !== 'undefined' ) {
 				editor = tinymce.get( id );
@@ -674,7 +671,7 @@
 					editor.windowManager.insertimagebookmark = editor.selection.getBookmark();
 				}
 			}
-
+*/
 			workflow = this.get( id );
 
 			// Redo workflow if state has changed

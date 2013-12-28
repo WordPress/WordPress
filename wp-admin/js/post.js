@@ -812,114 +812,72 @@ jQuery(document).ready( function($) {
 
 	wptitlehint();
 
-	// resizable textarea#content
-	(function() {
-		var textarea = $('textarea#content'), offset = null, el;
+	// Resize the visual and text editors
+	( function() {
+		var editor, offset, mce,
+			$document = $( document ),
+			$textarea = $('textarea#content'),
+			$handle = $('#post-status-info');
+		
 		// No point for touch devices
-		if ( !textarea.length || 'ontouchstart' in window )
+		if ( ! $textarea.length || 'ontouchstart' in window ) {
 			return;
+		}
 
-		function dragging(e) {
-			textarea.height( Math.max(50, offset + e.pageY) + 'px' );
-			return false;
+		function dragging( event ) {
+			if ( mce ) {
+				editor.theme.resizeTo( null, offset + event.pageY );
+			} else {
+				$textarea.height( Math.max( 50, offset + event.pageY ) );
+			}
+
+			event.preventDefault();
 		}
 
 		function endDrag() {
-			var height;
+			var height, toolbarHeight;
 
-			textarea.focus();
-			$(document).unbind('mousemove', dragging).unbind('mouseup', endDrag);
+			if ( mce ) {
+				editor.focus();
+				toolbarHeight = $( '#wp-content-editor-container .mce-toolbar-grp' ).height();
+				height = parseInt( $('#content_ifr').css('height'), 10 ) + toolbarHeight - 28;
+			} else {
+				$textarea.focus();
+				height = parseInt( $textarea.css('height'), 10 );
+			}
 
-			height = parseInt( textarea.css('height'), 10 );
+			$document.off( 'mousemove.wp-editor-resize mouseup.wp-editor-resize' );
 
 			// sanity check
-			if ( height && height > 50 && height < 5000 )
+			if ( height && height > 50 && height < 5000 ) {
 				setUserSetting( 'ed_size', height );
+			}
 		}
 
-		textarea.css('resize', 'none');
-		el = $('<div id="content-resize-handle"><br></div>');
-		$('#wp-content-wrap').append(el);
-		el.on('mousedown', function(e) {
-			offset = textarea.height() - e.pageY;
-			textarea.blur();
-			$(document).mousemove(dragging).mouseup(endDrag);
-			return false;
+		$textarea.css( 'resize', 'none' );
+
+		$handle.on( 'mousedown.wp-editor-resize', function( event ) {
+			if ( typeof tinymce !== 'undefined' ) {
+				editor = tinymce.get('content');
+			}
+
+			if ( editor && ! editor.isHidden() ) {
+				mce = true;
+				offset = $('#content_ifr').height() - event.pageY;
+			} else {
+				mce = false;
+				offset = $textarea.height() - event.pageY;
+				$textarea.blur();
+			}
+
+			$document.on( 'mousemove.wp-editor-resize', dragging )
+				.on( 'mouseup.wp-editor-resize', endDrag );
+
+			event.preventDefault();
 		});
 	})();
 
-	if ( typeof(tinymce) != 'undefined' ) {
-		tinymce.onAddEditor.add(function(mce, ed){
-			// iOS expands the iframe to full height and the user cannot adjust it.
-			if ( ed.id != 'content' || tinymce.isIOS5 )
-				return;
-
-			function getHeight() {
-				var height, node = document.getElementById('content_ifr'),
-					ifr_height = node ? parseInt( node.style.height, 10 ) : 0,
-					tb_height = $('#content_tbl tr.mceFirst').height();
-
-				if ( !ifr_height || !tb_height )
-					return false;
-
-				// total height including toolbar and statusbar
-				height = ifr_height + tb_height + 21;
-				// textarea height = total height - 33px toolbar
-				height -= 33;
-
-				return height;
-			}
-
-			// resize TinyMCE to match the textarea height when switching Text -> Visual
-			ed.onLoadContent.add( function() {
-				var ifr_height, node = document.getElementById('content'),
-					height = node ? parseInt( node.style.height, 10 ) : 0,
-					tb_height = $('#content_tbl tr.mceFirst').height() || 33;
-
-				// height cannot be under 50 or over 5000
-				if ( !height || height < 50 || height > 5000 )
-					height = 360; // default height for the main editor
-
-				if ( getUserSetting( 'ed_size' ) > 5000  )
-					setUserSetting( 'ed_size', 360 );
-
-				// compensate for padding and toolbars
-				ifr_height = ( height - tb_height ) + 12;
-
-				// sanity check
-				if ( ifr_height > 50 && ifr_height < 5000 ) {
-					$('#content_tbl').css('height', '' );
-					$('#content_ifr').css('height', ifr_height + 'px' );
-				}
-			});
-
-			// resize the textarea to match TinyMCE's height when switching Visual -> Text
-			ed.onSaveContent.add( function() {
-				var height = getHeight();
-
-				if ( !height || height < 50 || height > 5000 )
-					return;
-
-				$('textarea#content').css( 'height', height + 'px' );
-			});
-
-			// save on resizing TinyMCE
-			ed.onPostRender.add(function() {
-				$( '#content_resize' ).on( 'mousedown.wp-mce-resize', function() {
-					$( document ).on( 'mouseup.wp-mce-resize', function() {
-						var height;
-
-						$(document).off('mouseup.wp-mce-resize');
-
-						height = getHeight();
-						// sanity check
-						if ( height && height > 50 && height < 5000 )
-							setUserSetting( 'ed_size', height );
-					});
-				});
-			});
-		});
-
+	if ( typeof tinymce !== 'undefined' ) {
 		// When changing post formats, change the editor body class
 		$( '#post-formats-select input.post-format' ).on( 'change.set-editor-class', function() {
 			var editor, body, format = this.id;

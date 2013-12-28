@@ -1787,16 +1787,8 @@ function wp_ajax_wp_fullscreen_save_post() {
 
 	$post_id = edit_post();
 
-	if ( is_wp_error($post_id) ) {
-		if ( $post_id->get_error_message() )
-			$message = $post_id->get_error_message();
-		else
-			$message = __('Save failed');
-
-		echo json_encode( array( 'message' => $message, 'last_edited' => '' ) );
-		wp_die();
-	} else {
-		$message = __('Saved.');
+	if ( is_wp_error( $post_id ) ) {
+		wp_send_json_error();
 	}
 
 	if ( $post ) {
@@ -1807,15 +1799,14 @@ function wp_ajax_wp_fullscreen_save_post() {
 		$last_time = date_i18n( get_option('time_format') );
 	}
 
-	if ( $last_id = get_post_meta($post_id, '_edit_last', true) ) {
-		$last_user = get_userdata($last_id);
+	if ( $last_id = get_post_meta( $post_id, '_edit_last', true ) ) {
+		$last_user = get_userdata( $last_id );
 		$last_edited = sprintf( __('Last edited by %1$s on %2$s at %3$s'), esc_html( $last_user->display_name ), $last_date, $last_time );
 	} else {
 		$last_edited = sprintf( __('Last edited on %1$s at %2$s'), $last_date, $last_time );
 	}
 
-	echo json_encode( array( 'message' => $message, 'last_edited' => $last_edited ) );
-	wp_die();
+	wp_send_json_success( array( 'last_edited' => $last_edited ) );
 }
 
 function wp_ajax_wp_remove_post_lock() {
@@ -1839,9 +1830,9 @@ function wp_ajax_wp_remove_post_lock() {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param int $interval The interval in seconds the post lock duration should last, plus 5 seconds. Default 120.
+	 * @param int $interval The interval in seconds the post lock duration should last, plus 5 seconds. Default 150.
 	 */
-	$new_lock = ( time() - apply_filters( 'wp_check_post_lock_window', 120 ) + 5 ) . ':' . $active_lock[1];
+	$new_lock = ( time() - apply_filters( 'wp_check_post_lock_window', 150 ) + 5 ) . ':' . $active_lock[1];
 	update_post_meta( $post_id, '_edit_lock', $new_lock, implode( ':', $active_lock ) );
 	wp_die( 1 );
 }

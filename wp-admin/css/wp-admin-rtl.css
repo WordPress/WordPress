@@ -4315,7 +4315,7 @@ td.plugin-title p {
 }
 
 .autosave-info {
-	padding: 2px 15px;
+	padding: 2px;
 	text-align: left;
 }
 
@@ -4323,41 +4323,18 @@ td.plugin-title p {
 	border: none;
 }
 
-#content-resize-handle,
-#post-body .wp_themeSkin .mceStatusbar a.mceResize {
+#content-resize-handle {
 	background: transparent url('../images/resize.gif') no-repeat scroll left bottom;
 	width: 12px;
-	height: 12px;
-	cursor: sw-resize;
+	cursor: n-resize;
 }
 
-.rtl #content-resize-handle,
-.rtl #post-body .wp_themeSkin .mceStatusbar a.mceResize {
-	background: transparent url('../images/resize-rtl.gif') no-repeat scroll left bottom;
-}
-
-#post-body .wp_themeSkin .mceStatusbar a.mceResize {
-	bottom: 3px;
-	position: absolute;
-	left: 3px;
-}
-
-#post-body .postarea .wp_themeSkin .mceStatusbar a.mceResize {
-	bottom: -20px;
-}
-
-#content-resize-handle {
-	position: absolute;
-	left: 3px;
-	bottom: -20px;
+.rtl #content-resize-handle {
+	background: transparent url('../images/resize-rtl.gif') no-repeat scroll right bottom;
 }
 
 .press-this #content-resize-handle {
 	bottom: 2px;
-}
-
-.tmce-active #content-resize-handle {
-	display: none;
 }
 
 #wp-word-count {

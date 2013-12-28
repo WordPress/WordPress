@@ -185,6 +185,9 @@ function edButton(id, display, tagStart, tagEnd, access) {
 		tb = document.createElement('div');
 		tb.id = toolbar_id;
 		tb.className = 'quicktags-toolbar';
+		tb.onclick = function() {
+			window.wpActiveEditor = id;
+		};
 
 		canvas.parentNode.insertBefore(tb, canvas);
 		t.toolbar = tb;
@@ -563,8 +566,8 @@ function edButton(id, display, tagStart, tagEnd, access) {
 	qt.LinkButton.prototype.callback = function(e, c, ed, defaultValue) {
 		var URL, t = this;
 
-		if ( typeof(wpLink) !== 'undefined' ) {
-			wpLink.open();
+		if ( typeof wpLink !== 'undefined' ) {
+			wpLink.open( ed.id );
 			return;
 		}
 
@@ -605,11 +608,11 @@ function edButton(id, display, tagStart, tagEnd, access) {
 	};
 	qt.FullscreenButton.prototype = new qt.Button();
 	qt.FullscreenButton.prototype.callback = function(e, c) {
-		if ( !c.id || typeof(fullscreen) === 'undefined' ) {
+		if ( ! c.id || typeof wp === 'undefined' || ! wp.editor || ! wp.editor.fullscreen ) {
 			return;
 		}
 
-		fullscreen.on();
+		wp.editor.fullscreen.on();
 	};
 
 	qt.TextDirectionButton = function() {

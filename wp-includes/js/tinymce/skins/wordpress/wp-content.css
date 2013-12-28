@@ -1,0 +1,132 @@
+/* Additional default styles for the editor */
+body {
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-size: 13px;
+	line-height: 19px;
+	color: #333;
+	margin: 10px;
+}
+
+/* DFW mode */
+html.wp-fullscreen,
+html.wp-fullscreen body {
+	background: transparent;
+	width: auto;
+	max-width: none;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.aligncenter,
+dl.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.alignleft {
+	float: left;
+}
+
+.alignright {
+	float: right;
+}
+
+.wp-caption {
+	border: 1px solid #ddd;
+	text-align: center;
+	background-color: #f3f3f3;
+	padding-top: 4px;
+	margin: 10px 0;
+}
+
+.mceIEcenter {
+	text-align: center;
+}
+
+.wp-caption img {
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+}
+
+.wp-caption img,
+.wp-caption a {
+	-webkit-user-drag: none;
+}
+
+.wp-caption-dd {
+	font-size: 11px;
+	line-height: 17px;
+	padding: 0 4px 5px;
+	margin: 0;
+}
+
+pre {
+	font: 12px/18px Consolas, Monaco, monospace;
+}
+
+td {
+	color: #000;
+	font-size: 11px;
+	margin: 8px;
+}
+
+/* Styles for the WordPress plugins */
+.mce-content-body img.mce-wp-nextpage,
+.mce-content-body img.mce-wp-more {
+	border: 0;
+	width: 95%;
+	height: 10px;
+	display: block;
+	margin: 15px auto 0;
+	outline: 0;
+	cursor: default;
+}
+
+/* Remove blue highlighting of selected images in WebKit */
+img::selection {
+	background-color: transparent;
+}
+
+.mce-content-body img.mce-wp-nextpage[data-mce-selected],
+.mce-content-body img.mce-wp-more[data-mce-selected] {
+	background-color: rgba(128,128,128,0.2);
+	outline: 1px dotted #888;
+	border-color: transparent;
+}
+
+.mce-content-body img.mce-wp-more {
+	border-top: 2px dashed #bbb;
+}
+
+.mce-content-body img.mce-wp-nextpage {
+    border-top: 3px dotted #bbb;
+}
+
+.mce-content-body img.wp-gallery {
+	border: 1px dashed #888;
+	background: #f2f2f2 url("images/gallery.png") no-repeat scroll center center;
+	width: 99%;
+	height: 250px;
+	outline: 0;
+	cursor: pointer;
+}
+
+.mce-content-body img.wp-gallery:hover {
+	background-color: #ededed;
+	border-style: solid;
+}
+
+.mce-content-body img.wp-gallery.wp-gallery-selected {
+	background-color: #d8d8d8;
+	border-style: solid;
+}
+
+img.wp-oembed {
+	border: 1px dashed #888;
+	background: #f7f5f2 url("images/embedded.png") no-repeat scroll center center;
+	width: 300px;
+	height: 250px;
+	outline: 0;
+}
