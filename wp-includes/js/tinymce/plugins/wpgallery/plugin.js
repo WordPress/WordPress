@@ -1,5 +1,5 @@
 /* global tinymce */
-tinymce.PluginManager.add('wpgallery', function( editor, url ) {
+tinymce.PluginManager.add('wpgallery', function( editor ) {
 
 	function parseGallery( content ) {
 		return content.replace( /\[gallery([^\]]*)\]/g, function( match, attr ) {
@@ -69,7 +69,7 @@ tinymce.PluginManager.add('wpgallery', function( editor, url ) {
 	});
 */
 	editor.on( 'mouseup', function( e ) {
-		if ( e.target.nodeName == 'IMG' && editor.dom.hasClass( e.target, 'wp-gallery' ) ) {
+		if ( e.target.nodeName === 'IMG' && editor.dom.hasClass( e.target, 'wp-gallery' ) ) {
 			// Don't trigger on right-click
 			if ( e.button !== 2 ) {
 				if ( editor.dom.hasClass( e.target, 'wp-gallery-selected' ) ) {

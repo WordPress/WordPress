@@ -50,8 +50,12 @@ dl.aligncenter {
 	border: 0 none;
 }
 
-.wp-caption img,
-.wp-caption a {
+div.mceTemp {
+	-ms-user-select: element;
+}
+
+dl.wp-caption,
+dl.wp-caption * {
 	-webkit-user-drag: none;
 }
 

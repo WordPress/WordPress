@@ -10,11 +10,10 @@ tinymce.PluginManager.add( 'wpfullscreen', function( editor ) {
 		var deltaSize, myHeight,
 			d = editor.getDoc(),
 			body = d.body,
-			de = d.documentElement,
-			DOM = tinymce.DOM
+			DOM = tinymce.DOM,
 			resizeHeight = 250;
 
-		if ( ( e && e.type == 'setcontent' && e.initial ) || editor.settings.inline ) {
+		if ( ( e && e.type === 'setcontent' && e.initial ) || editor.settings.inline ) {
 			return;
 		}
 

@@ -4,10 +4,14 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		last = 0;
 
 	function toggleToolbars( state ) {
-		var iframe,
-			pixels = 0,
-			initial = state === 'hide',
-			toolbars = editor.theme.panel && editor.theme.panel.find('.toolbar');
+		var iframe, initial, toolbars,
+			pixels = 0;
+
+		initial = ( state === 'hide' );
+
+		if ( editor.theme.panel ) {
+			toolbars = editor.theme.panel.find('.toolbar');
+		}
 
 		if ( ! toolbars || toolbars.length < 2 || ( state === 'hide' && ! toolbars[1].visible() ) ) {
 			return;

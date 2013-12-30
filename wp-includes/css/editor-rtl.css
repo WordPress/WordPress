@@ -2,12 +2,13 @@
  TinyMCE and Quicklinks toolbars
 ------------------------------------------------------------------------------*/
 
-.mce-panel {
+div.mce-panel {
 	border: 0;
 	background: #fff;
+	filter: none;
 }
 
-.mce-toolbar-grp {
+div.mce-toolbar-grp {
 	border-bottom: 1px solid #dedede;
 	background: #f5f5f5;
 }
@@ -40,6 +41,7 @@
 	margin: 0 1px;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
+	filter: none;
 }
 
 #wp-fullscreen-buttons .mce-btn:hover,
@@ -107,37 +109,37 @@
 	color: #333;
 }
 
-.mce-i-bold,
-.mce-i-italic,
-.mce-i-bullist,
-.mce-i-numlist,
-.mce-i-blockquote,
-.mce-i-alignleft,
-.mce-i-aligncenter,
-.mce-i-alignright,
-.mce-i-link,
-.mce-i-unlink,
-.mce-i-wp_more,
-.mce-i-strikethrough,
-.mce-i-spellchecker,
-.mce-i-fullscreen,
-.mce-i-wp_fullscreen,
-.mce-i-wp_adv,
-.mce-i-underline,
-.mce-i-alignjustify,
-.mce-i-forecolor,
-.mce-i-pastetext,
-.mce-i-pasteword,
-.mce-i-removeformat,
-.mce-i-charmap,
-.mce-i-outdent,
-.mce-i-indent,
-.mce-i-undo,
-.mce-i-redo,
-.mce-i-help,
-.mce-i-wp_help,
-.mce-i-wp-media-library,
-.mce-i-ltr {
+i.mce-i-bold,
+i.mce-i-italic,
+i.mce-i-bullist,
+i.mce-i-numlist,
+i.mce-i-blockquote,
+i.mce-i-alignleft,
+i.mce-i-aligncenter,
+i.mce-i-alignright,
+i.mce-i-link,
+i.mce-i-unlink,
+i.mce-i-wp_more,
+i.mce-i-strikethrough,
+i.mce-i-spellchecker,
+i.mce-i-fullscreen,
+i.mce-i-wp_fullscreen,
+i.mce-i-wp_adv,
+i.mce-i-underline,
+i.mce-i-alignjustify,
+i.mce-i-forecolor,
+i.mce-i-pastetext,
+i.mce-i-pasteword,
+i.mce-i-removeformat,
+i.mce-i-charmap,
+i.mce-i-outdent,
+i.mce-i-indent,
+i.mce-i-undo,
+i.mce-i-redo,
+i.mce-i-help,
+i.mce-i-wp_help,
+i.mce-i-wp-media-library,
+i.mce-i-ltr {
 	font: normal 20px/1 'dashicons';
 	padding: 0;
 	vertical-align: top;
@@ -146,116 +148,117 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.mce-i-bold:before {
+i.mce-i-bold:before {
 	content: '\f200';
 }
 
-.mce-i-italic:before {
+i.mce-i-italic:before {
 	content: '\f201';
 }
 
-.mce-i-bullist:before {
+i.mce-i-bullist:before {
 	content: '\f203';
 }
 
-.mce-i-numlist:before {
+i.mce-i-numlist:before {
 	content: '\f204';
 }
 
-.mce-i-blockquote:before {
+i.mce-i-blockquote:before {
 	content: '\f205';
 }
 
-.mce-i-alignleft:before {
+i.mce-i-alignleft:before {
 	content: '\f206';
 }
 
-.mce-i-aligncenter:before {
+i.mce-i-aligncenter:before {
 	content: '\f207';
 }
 
-.mce-i-alignright:before {
+i.mce-i-alignright:before {
 	content: '\f208';
 }
 
-.mce-i-link:before {
+i.mce-i-link:before {
 	content: '\f103';
 }
 
-.mce-i-unlink:before {
+i.mce-i-unlink:before {
 	content: '\f225';
 }
 
-.mce-i-wp_more:before {
+i.mce-i-wp_more:before {
 	content: '\f209';
 }
 
-.mce-i-strikethrough:before {
+i.mce-i-strikethrough:before {
 	content: '\f224';
 }
 
-.mce-i-spellchecker:before {
+i.mce-i-spellchecker:before {
 	content: '\f210';
 }
 
-.mce-i-fullscreen:before,
-.mce-i-wp_fullscreen:before {
+i.mce-i-fullscreen:before,
+i.mce-i-wp_fullscreen:before {
 	content: '\f211';
 }
 
-.mce-i-wp_adv:before {
+i.mce-i-wp_adv:before {
 	content: '\f212';
 }
-.mce-i-underline:before {
+
+i.mce-i-underline:before {
 	content: '\f213';
 }
 
-.mce-i-alignjustify:before {
+i.mce-i-alignjustify:before {
 	content: '\f214';
 }
 
-.mce-i-forecolor:before {
+i.mce-i-forecolor:before {
 	content: '\f215';
 }
 
-.mce-i-pastetext:before {
+i.mce-i-pastetext:before {
 	content: '\f217';
 }
 
-.mce-i-removeformat:before {
+i.mce-i-removeformat:before {
 	content: '\f218';
 }
 
-.mce-i-charmap:before {
+i.mce-i-charmap:before {
 	content: '\f220';
 }
 
-.mce-i-outdent:before {
+i.mce-i-outdent:before {
 	content: '\f221';
 }
 
-.mce-i-indent:before {
+i.mce-i-indent:before {
 	content: '\f222';
 }
 
-.mce-i-undo:before {
+i.mce-i-undo:before {
 	content: '\f171';
 }
 
-.mce-i-redo:before {
+i.mce-i-redo:before {
 	content: '\f172';
 }
 
-.mce-i-help:before,
-.mce-i-wp_help:before {
+i.mce-i-help:before,
+i.mce-i-wp_help:before {
 	content: '\f223';
 }
 
-.mce-i-wp-media-library:before {
+i.mce-i-wp-media-library:before {
 	content: '\f104';
 }
 
-.mce-i-ltr:before {
+i.mce-i-ltr:before {
 	content: '\f320';
 }
 
@@ -299,8 +302,7 @@
 	box-shadow: none;
 }
 
-.quicktags-toolbar,
-.wp_themeSkin tr.mceFirst td.mceToolbar {
+.quicktags-toolbar {
 	border-bottom: 1px solid #dedede;
 	background: #f5f5f5;
 }
