@@ -305,7 +305,7 @@ body.rtl,
 		display: block;
 		max-width: none;
 		box-sizing: border-box;
-		-mox-box-sizing: border-box;
+		-moz-box-sizing: border-box;
 	}
 
 }
