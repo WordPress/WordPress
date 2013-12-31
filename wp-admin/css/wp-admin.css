@@ -564,9 +564,11 @@ ol.ol-decimal > li {
 	margin: 0 0 0.5em;
 }
 
+/* @noflip */
 .code,
 code {
 	font-family: Consolas, Monaco, monospace;
+	direction: ltr;
 }
 
 input.code {
@@ -10619,6 +10621,12 @@ input.newtag:focus ~ div.taghint {
 	width: 97%;
 	background: #f9f9f9;
 	outline: none;
+}
+
+/* @noflip */
+#template textarea,
+#docs-list {
+	direction: ltr;
 }
 
 #template p {
