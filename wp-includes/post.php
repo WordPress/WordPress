@@ -1131,7 +1131,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
  *     * Pass a base64-encoded SVG using a data URI, which will be colored to match the color scheme.
  *      This should begin with 'data:image/svg+xml;base64,'.
- *     * Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-piechart'.
+ *     * Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-chart-pie'.
  *     * Pass 'none' to leave div.wp-menu-image empty so an icon can be added via CSS.
  * - capability_type - The string to use to build the read, edit, and delete capabilities. Defaults to 'post'.
  *     * May be passed as an array to allow for alternative plurals when using this argument as a base to construct the

@@ -969,7 +969,7 @@ function uninstall_plugin($plugin) {
  * @param string $icon_url The url to the icon to be used for this menu.
  *     * Pass a base64-encoded SVG using a data URI, which will be colored to match the color scheme.
  *       This should begin with 'data:image/svg+xml;base64,'.
- *     * Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-piechart'.
+ *     * Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-chart-pie'.
  *     * Pass 'none' to leave div.wp-menu-image empty so an icon can be added via CSS.
  * @param int $position The position in the menu order this one should appear
  *
