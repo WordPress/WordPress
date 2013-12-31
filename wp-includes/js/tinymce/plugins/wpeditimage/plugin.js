@@ -49,12 +49,21 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 	function getShortcode( content ) {
 		return content.replace( /<div (?:id="attachment_|class="mceTemp)[^>]*>([\s\S]+?)<\/div>/g, function( a, b ) {
+			var out = '';
+
 			if ( b.indexOf('<img ') === -1 ) {
-				// Broken caption. The user dragged the image out?
+				// Broken caption. The user managed to drag the image out?
+				// Try to return the caption text as a paragraph.
+				out = b.match( /<dd [^>]+>([\s\S]+?)<\/dd>/i );
+
+				if ( out && out[1] ) {
+					return '<p>' + out[1] + '</p>'
+				}
+
 				return '';
 			}
 
-			var ret = b.replace( /<dl ([^>]+)>\s*<dt [^>]+>([\s\S]+?)<\/dt>\s*<dd [^>]+>([\s\S]*?)<\/dd>\s*<\/dl>/gi, function( a, b, c, cap ) {
+			out = b.replace( /<dl ([^>]+)>\s*<dt [^>]+>([\s\S]+?)<\/dt>\s*<dd [^>]+>([\s\S]*?)<\/dd>\s*<\/dl>/gi, function( a, b, c, cap ) {
 				var id, cls, w;
 
 				w = c.match( /width="([0-9]*)"/ );
@@ -82,13 +91,13 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				return '[caption id="'+ id +'" align="'+ cls +'" width="'+ w +'"]'+ c +' '+ cap +'[/caption]';
 			});
 
-			if ( ret.indexOf('[caption') !== 0 ) {
+			if ( out.indexOf('[caption') !== 0 ) {
 				// the caption html seems brocken, try to find the image that may be wrapped in a link
 				// and may be followed by <p> with the caption text.
-				ret = b.replace( /[\s\S]*?((?:<a [^>]+>)?<img [^>]+>(?:<\/a>)?)(<p>[\s\S]*<\/p>)?[\s\S]*/gi, '<p>$1</p>$2' );
+				out = b.replace( /[\s\S]*?((?:<a [^>]+>)?<img [^>]+>(?:<\/a>)?)(<p>[\s\S]*<\/p>)?[\s\S]*/gi, '<p>$1</p>$2' );
 			}
 
-			return ret;
+			return out;
 		});
 	}
 
@@ -159,6 +168,16 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 					editor.nodeChanged();
 				}
 				return;
+			}
+
+			if ( caption ) {
+				caption = caption.replace( /\r\n|\r/g, '\n' ).replace( /<\/?[a-zA-Z0-9]+( [^<>]+)?>/g, function( a ) {
+					// No line breaks inside HTML tags
+					return a.replace( /[\r\n\t]+/, ' ' );
+				});
+
+				// Convert remaining line breaks to <br>
+				caption = caption.replace( /(<br[^>]*>)\s*\n\s*/g, '$1' ).replace( /\s*\n\s*/g, '<br />' );
 			}
 
 			if ( ! imgNode ) {
@@ -294,7 +313,11 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 			if ( parent = dom.getParent( imgNode, 'dl.wp-caption' ) ) {
 				parent = dom.select( 'dd.wp-caption-dd', parent )[0];
-				data.caption = parent ? parent.innerHTML : '';
+
+				if ( parent ) {
+					data.caption = editor.serializer.serialize( parent )
+						.replace( /<br[^>]*>/g, '$&\n' ).replace( /^<p>/, '' ).replace( /<\/p>$/, '' );
+				}
 			}
 		});
 
