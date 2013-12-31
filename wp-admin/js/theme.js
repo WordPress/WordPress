@@ -610,6 +610,7 @@ themes.view.Search = wp.Backbone.View.extend({
 
 	tagName: 'input',
 	className: 'theme-search',
+	id: 'theme-search-input',
 
 	attributes: {
 		placeholder: l10n.searchPlaceholder,
