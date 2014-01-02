@@ -127,6 +127,25 @@
 			return;
 		}
 
+		function cmNoop() {
+			var obj = {}, methods = 'add addMenu addSeparator collapse createMenu destroy displayColor expand focus ' +
+				'getLength hasMenus hideMenu isActive isCollapsed isDisabled isRendered isSelected mark ' +
+				'postRender remove removeAll renderHTML renderMenu renderNode renderTo select selectByIndex ' +
+				'setActive setAriaProperty setColor setDisabled setSelected setState showMenu update';
+
+			log('editor.controlManager.*');
+
+			function _noop() {
+				return cmNoop();
+			}
+
+			tinymce.each( methods.split(' '), function( method ) {
+				obj[method] = _noop;
+			});
+
+			return obj;
+		}
+
 		editor.controlManager = {
 			buttons: {},
 
@@ -144,7 +163,25 @@
 				if (this.buttons[name]) {
 					this.buttons[name].active(state);
 				}
-			}
+			},
+
+			onAdd: new Dispatcher(),
+			onPostRender: new Dispatcher(),
+
+			add: function(obj) { return obj; },
+			createButton: cmNoop,
+			createColorSplitButton: cmNoop,
+			createControl: cmNoop,
+			createDropMenu: cmNoop,
+			createListBox: cmNoop,
+			createMenuButton: cmNoop,
+			createSeparator: cmNoop,
+			createSplitButton: cmNoop,
+			createToolbar: cmNoop,
+			createToolbarGroup: cmNoop,
+			destroy: noop,
+			get: noop,
+			setControlType: cmNoop
 		};
 
 		patchEditorEvents("PreInit BeforeRenderUI PostRender Load Init Remove Activate Deactivate", "editor");
