@@ -1,4 +1,4 @@
-/* global setUserSetting, ajaxurl, commonL10n, alert, confirm, toggleWithKeyboard, pagenow */
+/* global setUserSetting, ajaxurl, commonL10n, alert, confirm, pagenow */
 var showNotice, adminMenu, columns, validateForm, screenMeta;
 ( function( $, window, undefined ) {
 // Removed in 3.3.
@@ -346,32 +346,39 @@ $(document).ready( function() {
 		return true;
 	});
 
-	$('thead, tfoot').find('.check-column :checkbox').click( function(e) {
-		var c = $(this).prop('checked'),
-			kbtoggle = 'undefined' == typeof toggleWithKeyboard ? false : toggleWithKeyboard,
-			toggle = e.shiftKey || kbtoggle;
+	$('thead, tfoot').find('.check-column :checkbox').on( 'click.wp-toggle-checkboxes', function( event ) {
+		var $this = $(this),
+			$table = $this.closest( 'table' ),
+			controlChecked = $this.prop('checked'),
+			toggle = event.shiftKey || $this.data('wp-toggle');
 
-		$(this).closest( 'table' ).children( 'tbody' ).filter(':visible')
-		.children().children('.check-column').find(':checkbox')
-		.prop('checked', function() {
-			if ( $(this).is(':hidden') )
-				return false;
-			if ( toggle )
-				return $(this).prop( 'checked' );
-			else if (c)
-				return true;
-			return false;
-		});
+		$table.children( 'tbody' ).filter(':visible')
+			.children().children('.check-column').find(':checkbox')
+			.prop('checked', function() {
+				if ( $(this).is(':hidden') ) {
+					return false;
+				}
 
-		$(this).closest('table').children('thead,  tfoot').filter(':visible')
-		.children().children('.check-column').find(':checkbox')
-		.prop('checked', function() {
-			if ( toggle )
+				if ( toggle ) {
+					return ! $(this).prop( 'checked' );
+				} else if ( controlChecked ) {
+					return true;
+				}
+
 				return false;
-			else if (c)
-				return true;
-			return false;
-		});
+			});
+
+		$table.children('thead,  tfoot').filter(':visible')
+			.children().children('.check-column').find(':checkbox')
+			.prop('checked', function() {
+				if ( toggle ) {
+					return false;
+				} else if ( controlChecked ) {
+					return true;
+				}
+
+				return false;
+			});
 	});
 
 	// Show row actions on keyboard focus of its parent container element or any other elements contained within
