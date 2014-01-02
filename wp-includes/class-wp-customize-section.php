@@ -66,8 +66,23 @@ class WP_Customize_Section {
 		if ( ! $this->check_capabilities() )
 			return;
 
+		/**
+		 * Fires before rendering a Customizer section.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param WP_Customize_Section $this The WP_Customize_Section instance.
+		 */
 		do_action( 'customize_render_section', $this );
-		do_action( 'customize_render_section_' . $this->id );
+		/**
+		 * Fires before rendering a specific Customizer section.
+		 *
+		 * The dynamic portion of the hook name, $this->id, refers to the ID
+		 * of the specific Customizer section to be rendered.
+		 *
+		 * @since 3.4.0
+		 */
+		do_action( "customize_render_section_{$this->id}" );
 
 		$this->render();
 	}
