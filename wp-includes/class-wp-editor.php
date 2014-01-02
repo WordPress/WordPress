@@ -487,7 +487,7 @@ final class _WP_Editors {
 			wp_enqueue_script('wp-fullscreen');
 
 		if ( self::$has_medialib ) {
-	//		add_thickbox(); // ?
+			add_thickbox();
 			wp_enqueue_script('media-upload');
 		}
 	}
