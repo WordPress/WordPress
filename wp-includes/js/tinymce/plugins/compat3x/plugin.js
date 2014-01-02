@@ -31,6 +31,11 @@
 	function Dispatcher(target, newEventName, argsMap, defaultScope) {
 		target = target || this;
 
+		if ( ! newEventName ) {
+			this.add = this.addToTop = this.remove = this.dispatch = function(){};
+			return;
+		}
+		
 		this.add = function(callback, scope) {
 			log('<target>.on' + newEventName + ".add(..)");
 
@@ -85,9 +90,16 @@
 		};
 	}
 
+	tinymce.util.Dispatcher = Dispatcher;
 	tinymce.onBeforeUnload = new Dispatcher(tinymce, "BeforeUnload");
 	tinymce.onAddEditor = new Dispatcher(tinymce, "AddEditor", "editor");
 	tinymce.onRemoveEditor = new Dispatcher(tinymce, "RemoveEditor", "editor");
+
+	function noop(){}
+
+	tinymce.util.Cookie = {
+		get: noop, getHash: noop, remove: noop, set: noop, setHash: noop
+	};
 
 	function patchEditor(editor) {
 		function patchEditorEvents(oldEventNames, argsMap) {
@@ -132,7 +144,7 @@
 				if (this.buttons[name]) {
 					this.buttons[name].active(state);
 				}
-			},
+			}
 		};
 
 		patchEditorEvents("PreInit BeforeRenderUI PostRender Load Init Remove Activate Deactivate", "editor");
@@ -193,8 +205,14 @@
 			selection.onGetContent = new Dispatcher(editor, "GetContent", filterSelectionEvents(true), selection);
 			selection.onBeforeSetContent = new Dispatcher(editor, "BeforeSetContent", filterSelectionEvents(true), selection);
 			selection.onSetContent = new Dispatcher(editor, "SetContent", filterSelectionEvents(true), selection);
+		});
 
-			editor.windowManager.createInstance = function(className, a, b, c, d, e) {
+		editor.on('BeforeRenderUI', function() {
+			var windowManager = editor.windowManager;
+
+			windowManager.onOpen = new Dispatcher();
+			windowManager.onClose = new Dispatcher();
+			windowManager.createInstance = function(className, a, b, c, d, e) {
 				log("windowManager.createInstance(..)");
 
 				var constr = tinymce.resolve(className);
