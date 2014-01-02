@@ -915,7 +915,7 @@ final class _WP_Editors {
 	</div>
 
 	<div class="fullscreen-overlay" id="fullscreen-overlay"></div>
-	<div class="fullscreen-overlay fullscreen-fader fade-600" id="fullscreen-fader"></div>
+	<div class="fullscreen-overlay fullscreen-fader fade-300" id="fullscreen-fader"></div>
 	<?php
 	}
 

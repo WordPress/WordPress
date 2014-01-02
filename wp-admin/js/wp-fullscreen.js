@@ -402,7 +402,7 @@
 		$( '#wp-fullscreen-body' ).append( $('#wp-fullscreen-status') );
 
 		if ( s.$dfwTitle ) {
-			$( '#wp-fullscreen-title-placeholder' ).before( s.$dfwTitle.removeClass('wp-fullscreen-title') ).remove();
+			$( '#wp-fullscreen-title-placeholder' ).before( s.$dfwTitle.removeClass('wp-fullscreen-title').css( 'width', '' ) ).remove();
 		}
 
 		s.$dfwWrap.removeClass( 'wp-fullscreen-wrap' )
@@ -517,8 +517,8 @@
 			});
 
 			// Bind buttons
-			$('#wp-fullscreen-buttons').on( 'click.wp-fullscreen', function( event ) {
-				var command = event.target.id && event.target.id.substr(6);
+			$('#wp-fullscreen-buttons').on( 'click.wp-fullscreen', 'button', function( event ) {
+				var command = event.currentTarget.id ? event.currentTarget.id.substr(6) : null;
 
 				if ( s.editor && 'tinymce' === s.mode ) {
 					switch( command ) {
