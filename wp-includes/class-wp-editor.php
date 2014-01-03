@@ -234,6 +234,7 @@ final class _WP_Editors {
 						'wpeditimage',
 						'wpgallery',
 						'wplink',
+						'wpdialogs',
 					) ) );
 
 					if ( ! empty( $mce_external_plugins ) ) {

@@ -1,36 +1,48 @@
 /* global tinymce */
-
-tinymce.WPWindowManager = function( editor ) {
-	var element;
+/**
+ * Included for back-compat.
+ * The default WindowManager in TinyMCE 4.0 supports three types of dialogs:
+ *	- With HTML created from JS.
+ *	- With inline HTML (like WPWindowManager).
+ *	- Old type iframe based dialogs.
+ * For examples see the default plugins: https://github.com/tinymce/tinymce/tree/master/js/tinymce/plugins
+ */
+tinymce.WPWindowManager = tinymce.InlineWindowManager = function( editor ) {
 
 	this.parent = editor.windowManager;
 	this.editor = editor;
 
-	tinymce.extend( this, this.parent )
+	tinymce.extend( this, this.parent );
 
 	this.open = function( args, params ) {
-		var self = this, element;
+		var self = this, $element;
 
-		if ( ! args.wpDialog )
+		if ( ! args.wpDialog ) {
 			return this.parent.open( args, params );
-		else if ( ! args.id )
+		} else if ( ! args.id ) {
 			return;
+		}
 
-		self.element = element = jQuery('#' + args.id);
-		if ( ! element.length )
+		self.element = $element = jQuery( '#' + args.id );
+
+		if ( ! $element.length ) {
 			return;
+		}
+
+		if ( window && window.console ) {
+			window.console.log('tinymce.WPWindowManager is deprecated. Use the default editor.windowManager to open dialogs with inline HTML.');
+		}
 
 		self.features = args;
 		self.params = params;
-		self.onOpen.dispatch( self, args, params );
-		self.windows.push( element );
+		self.windows.push( $element );
 
-		// Store selection
-	//	self.bookmark = self.editor.selection.getBookmark(1);
+		// Store selection. Takes a snapshot in the FocusManager of the selection before focus is moved to the dialog.
+		editor.nodeChanged();
 
 		// Create the dialog if necessary
-		if ( ! element.data('wpdialog') ) {
-			element.wpdialog({
+		if ( ! $element.data('wpdialog') ) {
+			$element.wpdialog({
 				title: args.title,
 				width: args.width,
 				height: args.height,
@@ -40,12 +52,23 @@ tinymce.WPWindowManager = function( editor ) {
 			});
 		}
 
-		element.wpdialog('open');
+		$element.wpdialog('open');
+
+		$element.on( 'wpdialogclose', function() {
+			var i = self.windows.length;
+
+			while ( i-- && i > -1 ) {
+				if ( self.windows[i] === self.element ) {
+					self.windows.splice( i, 1 );
+				}
+			}
+		});
 	};
 
 	this.close = function() {
-		if ( ! this.features.wpDialog )
+		if ( ! this.features.wpDialog ) {
 			return this.parent.close.apply( this, arguments );
+		}
 
 		this.element.wpdialog('close');
 	};
