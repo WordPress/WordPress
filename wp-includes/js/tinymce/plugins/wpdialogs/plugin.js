@@ -8,22 +8,28 @@
  * For examples see the default plugins: https://github.com/tinymce/tinymce/tree/master/js/tinymce/plugins
  */
 tinymce.WPWindowManager = tinymce.InlineWindowManager = function( editor ) {
+	if ( this.wp ) {
+		return this;
+	}
 
+	this.wp = {};
 	this.parent = editor.windowManager;
 	this.editor = editor;
 
 	tinymce.extend( this, this.parent );
 
 	this.open = function( args, params ) {
-		var self = this, $element;
+		var $element,
+			self = this,
+			wp = this.wp;
 
 		if ( ! args.wpDialog ) {
-			return this.parent.open( args, params );
+			return this.parent.open.apply( this, arguments );
 		} else if ( ! args.id ) {
 			return;
 		}
 
-		self.element = $element = jQuery( '#' + args.id );
+		wp.$element = $element = jQuery( '#' + args.id );
 
 		if ( ! $element.length ) {
 			return;
@@ -33,9 +39,8 @@ tinymce.WPWindowManager = tinymce.InlineWindowManager = function( editor ) {
 			window.console.log('tinymce.WPWindowManager is deprecated. Use the default editor.windowManager to open dialogs with inline HTML.');
 		}
 
-		self.features = args;
-		self.params = params;
-		self.windows.push( $element );
+		wp.features = args;
+		wp.params = params;
 
 		// Store selection. Takes a snapshot in the FocusManager of the selection before focus is moved to the dialog.
 		editor.nodeChanged();
@@ -55,24 +60,20 @@ tinymce.WPWindowManager = tinymce.InlineWindowManager = function( editor ) {
 		$element.wpdialog('open');
 
 		$element.on( 'wpdialogclose', function() {
-			var i = self.windows.length;
-
-			while ( i-- && i > -1 ) {
-				if ( self.windows[i] === self.element ) {
-					self.windows.splice( i, 1 );
-				}
+			if ( self.wp.$element ) {
+				self.wp = {};
 			}
 		});
 	};
 
 	this.close = function() {
-		if ( ! this.features.wpDialog ) {
+		if ( ! this.wp.features || ! this.wp.features.wpDialog ) {
 			return this.parent.close.apply( this, arguments );
 		}
 
-		this.element.wpdialog('close');
+		this.wp.$element.wpdialog('close');
 	};
-}
+};
 
 tinymce.PluginManager.add( 'wpdialogs', function( editor ) {
 	// Replace window manager

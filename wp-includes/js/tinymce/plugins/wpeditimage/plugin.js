@@ -57,7 +57,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				out = b.match( /<dd [^>]+>([\s\S]+?)<\/dd>/i );
 
 				if ( out && out[1] ) {
-					return '<p>' + out[1] + '</p>'
+					return '<p>' + out[1] + '</p>';
 				}
 
 				return '';
