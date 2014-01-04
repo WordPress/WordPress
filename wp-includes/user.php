@@ -663,13 +663,13 @@ class WP_User_Query {
 		}
 
 		/**
-		 * Filter SELECT_FOUND_ROWS value for the current WP_User_Query instance.
+		 * Filter SELECT FOUND_ROWS() query for the current WP_User_Query instance.
 		 *
 		 * @since 3.2.0
 		 *
 		 * @global wpdb $wpdb WordPress database object.
 		 *
-		 * @param string $sql The SELECT_FOUND_ROWS() value for the current WP_User_Query.
+		 * @param string $sql The SELECT FOUND_ROWS() query for the current WP_User_Query.
 		 */
 		if ( isset( $qv['count_total'] ) && $qv['count_total'] )
 			$this->total_users = $wpdb->get_var( apply_filters( 'found_users_query', 'SELECT FOUND_ROWS()' ) );
