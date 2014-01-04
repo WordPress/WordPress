@@ -158,7 +158,7 @@ function get_the_title_rss() {
 	/**
 	 * Filter the post title for use in a feed.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param string $title The current post title.
 	 */
@@ -235,7 +235,7 @@ function the_excerpt_rss() {
 	/**
 	 * Filter the post excerpt for a feed.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param string $output The current post excerpt.
 	 */
@@ -432,7 +432,7 @@ function get_the_category_rss($type = null) {
 	/**
 	 * Filter all of the post categories for display in a feed.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param string $the_list All of the RSS post categories.
 	 * @param string $type     Type of feed. Possible values include 'rss2', 'atom'.
