@@ -479,7 +479,7 @@ if ( $show_password_fields ) :
 <?php
 	if ( IS_PROFILE_PAGE ) {
 		/**
-		 * Fires after the 'About the User' settings table on the 'Your Profile' editing screen.
+		 * Fires after the 'About Yourself' settings table on the 'Your Profile' editing screen.
 		 *
 		 * The action only fires if the current user is editing their own profile.
 		 *
