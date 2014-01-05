@@ -250,8 +250,13 @@ function get_theme_feature_list( $api = true ) {
 
 	set_site_transient( 'wporg_theme_feature_list', $feature_list, 10800 );
 
-	$category_translations = array( 'Colors' => __('Colors'), 'Columns' => __('Columns'), 'Width' => __('Width'),
-								   'Features' => __('Features'), 'Subject' => __('Subject') );
+	$category_translations = array(
+		'Colors'   => __( 'Colors' ),
+		'Columns'  => __( 'Columns' ),
+		'Layout'   => __( 'Layout' ),
+		'Features' => __( 'Features' ),
+		'Subject'  => __( 'Subject' )
+	);
 
 	// Loop over the wporg canonical list and apply translations
 	$wporg_features = array();
