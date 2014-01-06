@@ -44,10 +44,18 @@ if ( isset($action) && $action == 'edit' && !$ID )
 		$type = apply_filters('media_upload_default_type', 'file');
 
 	// tab: gallery, library, or type-specific
-	if ( isset($_GET['tab']) )
+	if ( isset($_GET['tab']) ) {
 		$tab = strval($_GET['tab']);
-	else
-		$tab = apply_filters('media_upload_default_tab', 'type');
+	} else {
+		/**
+		 * Filter the default tab in the legacy (pre-3.5.0) media popup.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $type The default media popup tab.
+		 */
+		$tab = apply_filters( 'media_upload_default_tab', 'type' );
+	}
 
 	$body_id = 'media-upload';
 
