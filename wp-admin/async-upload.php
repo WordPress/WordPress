@@ -94,5 +94,16 @@ if ( $_REQUEST['short'] ) {
 } else {
 	// long form response - big chunk o html
 	$type = $_REQUEST['type'];
-	echo apply_filters("async_upload_{$type}", $id);
+
+	/**
+	 * Filter the returned ID of an uploaded attachment.
+	 *
+	 * The dynamic portion of the hook name, $type, refers to the attachment type,
+	 * such as 'iamge', 'audio', 'video', 'file', etc.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param int $id Uploaded attachment ID.
+	 */
+	echo apply_filters( "async_upload_{$type}", $id );
 }

@@ -19,12 +19,14 @@ window.wp = window.wp || {};
 			re.lastIndex = index || 0;
 			match = re.exec( text );
 
-			if ( ! match )
+			if ( ! match ) {
 				return;
+			}
 
 			// If we matched an escaped shortcode, try again.
-			if ( match[1] === '[' && match[7] === ']' )
+			if ( '[' === match[1] && ']' === match[7] ) {
 				return wp.shortcode.next( tag, text, re.lastIndex );
+			}
 
 			result = {
 				index:     match.index,
@@ -40,8 +42,9 @@ window.wp = window.wp || {};
 			}
 
 			// If we matched a trailing `]`, strip it from the match.
-			if ( match[7] )
+			if ( match[7] ) {
 				result.match = result.match.slice( 0, -1 );
+			}
 
 			return result;
 		},
@@ -56,11 +59,12 @@ window.wp = window.wp || {};
 		// a shortcode `attrs` object, the `content` between shortcode tags,
 		// and a boolean flag to indicate if the match was a `single` tag.
 		replace: function( tag, text, callback ) {
-			return text.replace( wp.shortcode.regexp( tag ), function( match, left, tag, attrs, slash, content, closing, right, offset ) {
+			return text.replace( wp.shortcode.regexp( tag ), function( match, left, tag, attrs, slash, content, closing, right ) {
 				// If both extra brackets exist, the shortcode has been
 				// properly escaped.
-				if ( left === '[' && right === ']' )
+				if ( left === '[' && right === ']' ) {
 					return match;
+				}
 
 				// Create the match object and pass it through the callback.
 				var result = callback( wp.shortcode.fromMatch( arguments ) );
@@ -164,12 +168,13 @@ window.wp = window.wp || {};
 		fromMatch: function( match ) {
 			var type;
 
-			if ( match[4] )
+			if ( match[4] ) {
 				type = 'self-closing';
-			else if ( match[6] )
+			} else if ( match[6] ) {
 				type = 'closed';
-			else
+			} else {
 				type = 'single';
+			}
 
 			return new wp.shortcode({
 				tag:     match[2],
@@ -202,8 +207,9 @@ window.wp = window.wp || {};
 			numeric: []
 		};
 
-		if ( ! attrs )
+		if ( ! attrs ) {
 			return;
+		}
 
 		// Parse a string of attributes.
 		if ( _.isString( attrs ) ) {
@@ -244,10 +250,11 @@ window.wp = window.wp || {};
 			var text    = '[' + this.tag;
 
 			_.each( this.attrs.numeric, function( value ) {
-				if ( /\s/.test( value ) )
+				if ( /\s/.test( value ) ) {
 					text += ' "' + value + '"';
-				else
+				} else {
 					text += ' ' + value;
+				}
 			});
 
 			_.each( this.attrs.named, function( value, name ) {
@@ -256,16 +263,18 @@ window.wp = window.wp || {};
 
 			// If the tag is marked as `single` or `self-closing`, close the
 			// tag and ignore any additional content.
-			if ( 'single' === this.type )
+			if ( 'single' === this.type ) {
 				return text + ']';
-			else if ( 'self-closing' === this.type )
+			} else if ( 'self-closing' === this.type ) {
 				return text + ' /]';
+			}
 
 			// Complete the opening tag.
 			text += ']';
 
-			if ( this.content )
+			if ( this.content ) {
 				text += this.content;
+			}
 
 			// Add the closing tag.
 			return text + '[/' + this.tag + ']';
@@ -291,15 +300,17 @@ window.wp = window.wp || {};
 			var result, attrs;
 
 			// If `content` ends in a slash, strip it.
-			if ( '/' === content[ content.length - 1 ] )
+			if ( '/' === content[ content.length - 1 ] ) {
 				content = content.slice( 0, -1 );
+			}
 
 			result = wp.shortcode.attrs( content );
 			attrs  = result.named;
 
 			_.each( result.numeric, function( key ) {
-				if ( /\s/.test( key ) )
+				if ( /\s/.test( key ) ) {
 					return;
+				}
 
 				attrs[ key ] = '';
 			});
@@ -316,19 +327,22 @@ window.wp = window.wp || {};
 				text += ' ' + attr;
 
 				// Use empty attribute notation where possible.
-				if ( '' === value )
+				if ( '' === value ) {
 					return;
+				}
 
 				// Convert boolean values to strings.
-				if ( _.isBoolean( value ) )
+				if ( _.isBoolean( value ) ) {
 					value = value ? 'true' : 'false';
+				}
 
 				text += '="' + value + '"';
 			});
 
 			// Return the result if it is a self-closing tag.
-			if ( options.single )
+			if ( options.single ) {
 				return text + ' />';
+			}
 
 			// Complete the opening tag.
 			text += '>';

@@ -31,7 +31,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <form method="post" action="options.php">
@@ -53,7 +52,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <input name="default_comment_status" type="checkbox" id="default_comment_status" value="open" <?php checked('open', get_option('default_comment_status')); ?> />
 <?php _e('Allow people to post comments on new articles'); ?></label>
 <br />
-<small><em><?php echo '(' . __('These settings may be overridden for individual articles.') . ')'; ?></em></small>
+<p class="description"><?php echo '(' . __( 'These settings may be overridden for individual articles.' ) . ')'; ?></p>
 </fieldset></td>
 </tr>
 <tr valign="top">

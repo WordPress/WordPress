@@ -562,6 +562,47 @@ $_old_files = array(
 'wp-admin/js/cat.js',
 'wp-admin/js/cat.min.js',
 'wp-includes/js/tinymce/plugins/wpeditimage/js/editimage.min.js',
+// 3.8
+'wp-includes/js/tinymce/themes/advanced/skins/wp_theme/img/page_bug.gif',
+'wp-includes/js/tinymce/themes/advanced/skins/wp_theme/img/more_bug.gif',
+'wp-includes/js/thickbox/tb-close-2x.png',
+'wp-includes/js/thickbox/tb-close.png',
+'wp-includes/images/wpmini-blue-2x.png',
+'wp-includes/images/wpmini-blue.png',
+'wp-admin/css/colors-fresh.css',
+'wp-admin/css/colors-classic.css',
+'wp-admin/css/colors-fresh.min.css',
+'wp-admin/css/colors-classic.min.css',
+'wp-admin/js/about.min.js',
+'wp-admin/js/about.js',
+'wp-admin/images/arrows-dark-vs-2x.png',
+'wp-admin/images/wp-logo-vs.png',
+'wp-admin/images/arrows-dark-vs.png',
+'wp-admin/images/wp-logo.png',
+'wp-admin/images/arrows-pr.png',
+'wp-admin/images/arrows-dark.png',
+'wp-admin/images/press-this.png',
+'wp-admin/images/press-this-2x.png',
+'wp-admin/images/arrows-vs-2x.png',
+'wp-admin/images/welcome-icons.png',
+'wp-admin/images/wp-logo-2x.png',
+'wp-admin/images/stars-rtl-2x.png',
+'wp-admin/images/arrows-dark-2x.png',
+'wp-admin/images/arrows-pr-2x.png',
+'wp-admin/images/menu-shadow-rtl.png',
+'wp-admin/images/arrows-vs.png',
+'wp-admin/images/about-search-2x.png',
+'wp-admin/images/bubble_bg-rtl-2x.gif',
+'wp-admin/images/wp-badge-2x.png',
+'wp-admin/images/wordpress-logo-2x.png',
+'wp-admin/images/bubble_bg-rtl.gif',
+'wp-admin/images/wp-badge.png',
+'wp-admin/images/menu-shadow.png',
+'wp-admin/images/about-globe-2x.png',
+'wp-admin/images/welcome-icons-2x.png',
+'wp-admin/images/stars-rtl.png',
+'wp-admin/images/wp-logo-vs-2x.png',
+'wp-admin/images/about-updates-2x.png',
 );
 
 /**
@@ -589,6 +630,7 @@ $_new_bundled_files = array(
 	'themes/twentyeleven/'   => '3.2',
 	'themes/twentytwelve/'   => '3.5',
 	'themes/twentythirteen/' => '3.6',
+	'themes/twentyfourteen/' => '3.8',
 );
 
 /**
@@ -697,6 +739,9 @@ function update_core($from, $to) {
 
 	// Check to see which files don't really need updating - only available for 3.7 and higher
 	if ( function_exists( 'get_core_checksums' ) ) {
+		// Find the local version of the working directory
+		$working_dir_local = WP_CONTENT_DIR . '/upgrade/' . basename( $from ) . $distro;
+
 		$checksums = get_core_checksums( $wp_version, isset( $wp_local_package ) ? $wp_local_package : 'en_US' );
 		if ( is_array( $checksums ) && isset( $checksums[ $wp_version ] ) )
 			$checksums = $checksums[ $wp_version ]; // Compat code for 3.7-beta2
@@ -705,6 +750,8 @@ function update_core($from, $to) {
 				if ( 'wp-content' == substr( $file, 0, 10 ) )
 					continue;
 				if ( ! file_exists( ABSPATH . $file ) )
+					continue;
+				if ( ! file_exists( $working_dir_local . $file ) )
 					continue;
 				if ( md5_file( ABSPATH . $file ) === $checksum )
 					$skip[] = $file;
@@ -752,9 +799,10 @@ function update_core($from, $to) {
 	$failed = array();
 	if ( isset( $checksums ) && is_array( $checksums ) ) {
 		foreach ( $checksums as $file => $checksum ) {
-			if ( 0 === strpos( $file, 'wp-content' ) )
+			if ( 'wp-content' == substr( $file, 0, 10 ) )
 				continue;
-
+			if ( ! file_exists( $working_dir_local . $file ) )
+				continue;
 			if ( file_exists( ABSPATH . $file ) && md5_file( ABSPATH . $file ) == $checksum )
 				$skip[] = $file;
 			else
@@ -765,8 +813,6 @@ function update_core($from, $to) {
 	// Some files didn't copy properly
 	if ( ! empty( $failed ) ) {
 		$total_size = 0;
-		// Find the local version of the working directory
-		$working_dir_local = WP_CONTENT_DIR . '/upgrade/' . basename( $from ) . $distro;
 		foreach ( $failed as $file ) {
 			if ( file_exists( $working_dir_local . $file ) )
 				$total_size += filesize( $working_dir_local . $file );
@@ -881,6 +927,11 @@ function update_core($from, $to) {
 	apply_filters('update_feedback', __('Upgrading database&#8230;'));
 	$db_upgrade_url = admin_url('upgrade.php?step=upgrade_db');
 	wp_remote_post($db_upgrade_url, array('timeout' => 60));
+
+	// Clear the cache to prevent an update_option() from saving a stale db_version to the cache
+	wp_cache_flush();
+	// (Not all cache backends listen to 'flush')
+	wp_cache_delete( 'alloptions', 'options' );
 
 	// Remove working directory
 	$wp_filesystem->delete($from, true);

@@ -32,7 +32,7 @@ function options_general_add_js() {
 				$("input[name='date_format_custom']").val( $(this).val() ).siblings('.example').text( $(this).siblings('span').text() );
 		});
 		$("input[name='date_format_custom']").focus(function(){
-			$("#date_format_custom_radio").attr("checked", "checked");
+			$( '#date_format_custom_radio' ).prop( 'checked', true );
 		});
 
 		$("input[name='time_format']").click(function(){
@@ -40,7 +40,7 @@ function options_general_add_js() {
 				$("input[name='time_format_custom']").val( $(this).val() ).siblings('.example').text( $(this).siblings('span').text() );
 		});
 		$("input[name='time_format_custom']").focus(function(){
-			$("#time_format_custom_radio").attr("checked", "checked");
+			$( '#time_format_custom_radio' ).prop( 'checked', true );
 		});
 		$("input[name='date_format_custom'], input[name='time_format_custom']").change( function() {
 			var format = $(this);
@@ -84,7 +84,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <form method="post" action="options.php">

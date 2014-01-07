@@ -1,13 +1,15 @@
+/* global wpColorPickerL10n:true */
 ( function( $, undef ){
 
-	// html stuff
-	var _before = '<a tabindex="0" class="wp-color-result" />',
+	var ColorPicker,
+		// html stuff
+		_before = '<a tabindex="0" class="wp-color-result" />',
 		_after = '<div class="wp-picker-holder" />',
 		_wrap = '<div class="wp-picker-container" />',
 		_button = '<input type="button" class="button button-small hidden" />';
 
 	// jQuery UI Widget constructor
-	var ColorPicker = {
+	ColorPicker = {
 		options: {
 			defaultColor: false,
 			change: false,
@@ -19,8 +21,8 @@
 			// bail early for unsupported Iris.
 			if ( ! $.support.iris )
 				return;
-			var self = this;
-			var el = self.element;
+			var self = this,
+				el = self.element;
 
 			$.extend( self.options, el.data() );
 
@@ -29,7 +31,7 @@
 			// Set up HTML structure, hide things
 			el.addClass( 'wp-color-picker' ).hide().wrap( _wrap );
 			self.wrap = el.parent();
-			self.toggler = $( _before ).insertBefore( el ).css( { backgroundColor: self.initialValue } ).attr( "title", wpColorPickerL10n.pick ).attr( "data-current", wpColorPickerL10n.current );
+			self.toggler = $( _before ).insertBefore( el ).css( { backgroundColor: self.initialValue } ).attr( 'title', wpColorPickerL10n.pick ).attr( 'data-current', wpColorPickerL10n.current );
 			self.pickerContainer = $( _after ).insertAfter( el );
 			self.button = $( _button );
 
@@ -69,9 +71,9 @@
 
 				// close picker when you click outside it
 				if ( self.toggler.hasClass( 'wp-picker-open' ) )
-					$( "body" ).on( 'click', { wrap: self.wrap, toggler: self.toggler }, self._bodyListener );
+					$( 'body' ).on( 'click', { wrap: self.wrap, toggler: self.toggler }, self._bodyListener );
 				else
-					$( "body" ).off( 'click', self._bodyListener );
+					$( 'body' ).off( 'click', self._bodyListener );
 			});
 
 			self.element.change(function( event ) {
@@ -114,9 +116,9 @@
 		// $("#input").wpColorPicker('color', '#bada55') to set
 		color: function( newColor ) {
 			if ( newColor === undef )
-				return this.element.iris( "option", "color" );
+				return this.element.iris( 'option', 'color' );
 
-			this.element.iris( "option", "color", newColor );
+			this.element.iris( 'option', 'color', newColor );
 		},
 		//$("#input").wpColorPicker('defaultColor') returns the current default color
 		//$("#input").wpColorPicker('defaultColor', newDefaultColor) to set
@@ -126,7 +128,7 @@
 
 			this.options.defaultColor = newDefaultColor;
 		}
-	}
+	};
 
 	$.widget( 'wp.wpColorPicker', ColorPicker );
 }( jQuery ) );

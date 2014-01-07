@@ -12,7 +12,7 @@ if ( ! defined( 'WP_ADMIN' ) )
 
 // In case admin-header.php is included in a function.
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
-	$current_site, $update_title, $total_update_count, $parent_file;
+	$update_title, $total_update_count, $parent_file;
 
 // Catch plugins that include admin-header.php before admin.php completes.
 if ( empty( $current_screen ) )
@@ -22,9 +22,9 @@ get_admin_page_title();
 $title = esc_html( strip_tags( $title ) );
 
 if ( is_network_admin() )
-	$admin_title = sprintf( __('Network Admin: %s'), esc_html( $current_site->site_name ) );
+	$admin_title = sprintf( __( 'Network Admin: %s' ), esc_html( get_current_site()->site_name ) );
 elseif ( is_user_admin() )
-	$admin_title = sprintf( __('Global Dashboard: %s'), esc_html( $current_site->site_name ) );
+	$admin_title = sprintf( __( 'Global Dashboard: %s' ), esc_html( get_current_site()->site_name ) );
 else
 	$admin_title = get_bloginfo( 'name' );
 
@@ -53,6 +53,7 @@ _wp_admin_html_begin();
 wp_enqueue_style( 'colors' );
 wp_enqueue_style( 'ie' );
 wp_enqueue_script('utils');
+wp_enqueue_script( 'svg-painter' );
 
 $admin_body_class = preg_replace('/[^a-z0-9_-]+/i', '-', $hook_suffix);
 ?>
@@ -66,6 +67,7 @@ var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
 	decimalPoint = '<?php echo addslashes( $wp_locale->number_format['decimal_point'] ); ?>',
 	isRtl = <?php echo (int) is_rtl(); ?>;
 </script>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <?php
 
 /**
@@ -145,7 +147,13 @@ $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( 
 if ( wp_is_mobile() )
 	$admin_body_class .= ' mobile';
 
-$admin_body_class .= ' no-customize-support';
+if ( is_multisite() )
+	$admin_body_class .= ' multisite';
+
+if ( is_network_admin() )
+	$admin_body_class .= ' network-admin';
+
+$admin_body_class .= ' no-customize-support no-svg';
 
 ?>
 </head>

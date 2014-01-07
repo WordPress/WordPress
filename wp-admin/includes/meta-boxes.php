@@ -99,7 +99,7 @@ switch ( $post->post_status ) {
 <?php endif; ?>
 </select>
  <a href="#post_status" class="save-post-status hide-if-no-js button"><?php _e('OK'); ?></a>
- <a href="#post_status" class="cancel-post-status hide-if-no-js"><?php _e('Cancel'); ?></a>
+ <a href="#post_status" class="cancel-post-status hide-if-no-js button-cancel"><?php _e('Cancel'); ?></a>
 </div>
 
 <?php } ?>
@@ -143,7 +143,7 @@ echo esc_html( $visibility_trans ); ?></span>
 
 <p>
  <a href="#visibility" class="save-post-visibility hide-if-no-js button"><?php _e('OK'); ?></a>
- <a href="#visibility" class="cancel-post-visibility hide-if-no-js"><?php _e('Cancel'); ?></a>
+ <a href="#visibility" class="cancel-post-visibility hide-if-no-js button-cancel"><?php _e('Cancel'); ?></a>
 </p>
 </div>
 <?php } ?>
@@ -555,7 +555,7 @@ function post_comment_meta_box( $post ) {
 
 	wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 	?>
-	<p class="hide-if-no-js" id="add-new-comment"><a href="#commentstatusdiv" onclick="commentReply.addcomment(<?php echo $post->ID; ?>);return false;"><?php _e('Add comment'); ?></a></p>
+	<p class="hide-if-no-js" id="add-new-comment"><a class="button" href="#commentstatusdiv" onclick="commentReply.addcomment(<?php echo $post->ID; ?>);return false;"><?php _e('Add comment'); ?></a></p>
 	<?php
 
 	$total = get_comments( array( 'post_id' => $post->ID, 'number' => 1, 'count' => true ) );

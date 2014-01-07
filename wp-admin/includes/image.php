@@ -150,8 +150,10 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 			update_post_meta( $attachment_id, '_thumbnail_id', $sub_attachment_id );
 		}
 	}
+
 	// remove the blob of binary data from the array
-	unset( $metadata['image']['data'] );
+	if ( isset( $metadata['image']['data'] ) )
+		unset( $metadata['image']['data'] );
 
 	return apply_filters( 'wp_generate_attachment_metadata', $metadata, $attachment_id );
 }

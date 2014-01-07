@@ -73,7 +73,6 @@ get_current_screen()->set_help_sidebar(
 include(ABSPATH . 'wp-admin/admin-header.php');
 ?>
 <div class="wrap">
-<?php screen_icon( 'plugins' ); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <?php $wp_list_table->views(); ?>

@@ -63,22 +63,35 @@ function _sort_name_callback( $a, $b ) {
  * @since 2.5.0
  *
  * @param string $sidebar id slug of the sidebar
+ * @param string optional $sidebar_name Include the HTML for the sidebar name
  */
-function wp_list_widget_controls( $sidebar ) {
+function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
 	add_filter( 'dynamic_sidebar_params', 'wp_list_widget_controls_dynamic_sidebar' );
-
-	echo "<div id='$sidebar' class='widgets-sortables'>\n";
 
 	$description = wp_sidebar_description( $sidebar );
 
-	if ( !empty( $description ) ) {
-		echo "<div class='sidebar-description'>\n";
-		echo "\t<p class='description'>$description</p>";
-		echo "</div>\n";
+	echo '<div id="' . esc_attr( $sidebar ) . '" class="widgets-sortables">';
+
+	if ( $sidebar_name ) {
+		?>
+		<div class="sidebar-name">
+			<div class="sidebar-name-arrow"><br /></div>
+			<h3><?php echo esc_html( $sidebar_name ); ?> <span class="spinner"></span></h3>
+		</div>
+		<?php
 	}
 
+	echo '<div class="sidebar-description">';
+
+	if ( ! empty( $description ) ) {
+		echo '<p class="description">' . $description . '</p>';
+	}
+
+	echo '</div>';
+
 	dynamic_sidebar( $sidebar );
-	echo "</div>\n";
+
+	echo '</div>';
 }
 
 /**

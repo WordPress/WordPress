@@ -1,4 +1,4 @@
-
+/* global tinymce */
 (function() {
 	tinymce.create('tinymce.plugins.wpGallery', {
 
@@ -78,7 +78,7 @@
 			function getAttr(s, n) {
 				n = new RegExp(n + '=\"([^\"]+)\"', 'g').exec(s);
 				return n ? tinymce.DOM.decode(n[1]) : '';
-			};
+			}
 
 			return co.replace(/(?:<p[^>]*>)*(<img[^>]+>)(?:<\/p>)*/g, function(a,im) {
 				var cls = getAttr(im, 'class');
@@ -112,10 +112,10 @@
 				title : ed.getLang('wordpress.editgallery')
 			});
 
-			tinymce.dom.Event.add(editButton, 'mousedown', function(e) {
+			tinymce.dom.Event.add( editButton, 'mousedown', function() {
 				var ed = tinymce.activeEditor;
 				ed.wpGalleryBookmark = ed.selection.getBookmark('simple');
-				ed.execCommand("WP_Gallery");
+				ed.execCommand('WP_Gallery');
 				ed.plugins.wordpress._hideButtons();
 			});
 
@@ -147,7 +147,7 @@
 				author : 'WordPress',
 				authorurl : 'http://wordpress.org',
 				infourl : '',
-				version : "1.0"
+				version : '1.0'
 			};
 		}
 	});

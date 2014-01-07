@@ -30,7 +30,7 @@ function get_locale() {
 		/**
 		 * Filter WordPress install's locale ID.
 		 *
-		 * @since 1.5.2
+		 * @since 1.5.0
 		 *
 		 * @param string $locale The locale ID.
 		 */

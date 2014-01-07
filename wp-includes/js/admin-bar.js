@@ -1,8 +1,11 @@
+/* jshint loopfunc: true */
 // use jQuery and hoverIntent if loaded
 if ( typeof(jQuery) != 'undefined' ) {
 	if ( typeof(jQuery.fn.hoverIntent) == 'undefined' ) {
+		/* jshint ignore:start */
 		// hoverIntent r6 - Copy of wp-includes/js/hoverIntent.min.js
 		(function(a){a.fn.hoverIntent=function(m,d,h){var j={interval:100,sensitivity:7,timeout:0};if(typeof m==="object"){j=a.extend(j,m)}else{if(a.isFunction(d)){j=a.extend(j,{over:m,out:d,selector:h})}else{j=a.extend(j,{over:m,out:m,selector:d})}}var l,k,g,f;var e=function(n){l=n.pageX;k=n.pageY};var c=function(o,n){n.hoverIntent_t=clearTimeout(n.hoverIntent_t);if((Math.abs(g-l)+Math.abs(f-k))<j.sensitivity){a(n).off("mousemove.hoverIntent",e);n.hoverIntent_s=1;return j.over.apply(n,[o])}else{g=l;f=k;n.hoverIntent_t=setTimeout(function(){c(o,n)},j.interval)}};var i=function(o,n){n.hoverIntent_t=clearTimeout(n.hoverIntent_t);n.hoverIntent_s=0;return j.out.apply(n,[o])};var b=function(p){var o=jQuery.extend({},p);var n=this;if(n.hoverIntent_t){n.hoverIntent_t=clearTimeout(n.hoverIntent_t)}if(p.type=="mouseenter"){g=o.pageX;f=o.pageY;a(n).on("mousemove.hoverIntent",e);if(n.hoverIntent_s!=1){n.hoverIntent_t=setTimeout(function(){c(o,n)},j.interval)}}else{a(n).off("mousemove.hoverIntent",e);if(n.hoverIntent_s==1){n.hoverIntent_t=setTimeout(function(){i(o,n)},j.timeout)}}};return this.on({"mouseenter.hoverIntent":b,"mouseleave.hoverIntent":b},j.selector)}})(jQuery);
+		/* jshint ignore:end */
 	}
 	jQuery(document).ready(function($){
 		var adminbar = $('#wpadminbar'), refresh, touchOpen, touchClose, disableHoverIntent = false;
@@ -17,9 +20,13 @@ if ( typeof(jQuery) != 'undefined' ) {
 			adminbar.find('li.menupop').on('click.wp-mobile-hover', function(e) {
 				var el = $(this);
 
-				if ( !el.hasClass('hover') ) {
+				if ( el.parent().is('#wp-admin-bar-root-default') && !el.hasClass('hover') ) {
 					e.preventDefault();
 					adminbar.find('li.menupop.hover').removeClass('hover');
+					el.addClass('hover');
+				} else if ( !el.hasClass('hover') ) {
+					e.stopPropagation();
+					e.preventDefault();
 					el.addClass('hover');
 				}
 
@@ -53,13 +60,13 @@ if ( typeof(jQuery) != 'undefined' ) {
 		}
 
 		adminbar.find('li.menupop').hoverIntent({
-			over: function(e){
+			over: function() {
 				if ( disableHoverIntent )
 					return;
 
 				$(this).addClass('hover');
 			},
-			out: function(e){
+			out: function() {
 				if ( disableHoverIntent )
 					return;
 
@@ -120,12 +127,15 @@ if ( typeof(jQuery) != 'undefined' ) {
 
 		// fix focus bug in WebKit
 		$('.screen-reader-shortcut').keydown( function(e) {
+			var id, ua;
+
 			if ( 13 != e.which )
 				return;
 
-			var id = $(this).attr('href');
+			id = $( this ).attr( 'href' );
 
-			var ua = navigator.userAgent.toLowerCase();
+			ua = navigator.userAgent.toLowerCase();
+
 			if ( ua.indexOf('applewebkit') != -1 && id && id.charAt(0) == '#' ) {
 				setTimeout(function () {
 					$(id).focus();
@@ -143,6 +153,12 @@ if ( typeof(jQuery) != 'undefined' ) {
 					}
 				} catch(e) {}
 			});
+		}
+
+		if ( navigator.userAgent && document.body.className.indexOf( 'no-font-face' ) === -1 &&
+			/Android (1.0|1.1|1.5|1.6|2.0|2.1)|Nokia|Opera Mini|w(eb)?OSBrowser|webOS|UCWEB|Windows Phone OS 7|XBLWP7|ZuneWP7|MSIE 7/.test( navigator.userAgent ) ) {
+
+			document.body.className += ' no-font-face';
 		}
 	});
 } else {
@@ -337,6 +353,12 @@ if ( typeof(jQuery) != 'undefined' ) {
 
 			if ( w.location.hash )
 				w.scrollBy(0,-32);
+
+			if ( navigator.userAgent && document.body.className.indexOf( 'no-font-face' ) === -1 &&
+				/Android (1.0|1.1|1.5|1.6|2.0|2.1)|Nokia|Opera Mini|w(eb)?OSBrowser|webOS|UCWEB|Windows Phone OS 7|XBLWP7|ZuneWP7|MSIE 7/.test( navigator.userAgent ) ) {
+
+				document.body.className += ' no-font-face';
+			}
 		});
 	})(document, window);
 

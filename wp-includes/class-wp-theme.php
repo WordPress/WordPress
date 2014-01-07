@@ -43,6 +43,15 @@ final class WP_Theme implements ArrayAccess {
 		'twentyeleven'   => 'Twenty Eleven',
 		'twentytwelve'   => 'Twenty Twelve',
 		'twentythirteen' => 'Twenty Thirteen',
+		'twentyfourteen' => 'Twenty Fourteen',
+	);
+
+	/**
+	 * Renamed theme tags.
+	 */
+	private static $tag_map = array(
+		'fixed-width'    => 'fixed-layout',
+		'flexible-width' => 'fluid-layout',
 	);
 
 	/**
@@ -705,8 +714,11 @@ final class WP_Theme implements ArrayAccess {
 				}
 
 				foreach ( $value as &$tag ) {
-					if ( isset( $tags_list[ $tag ] ) )
+					if ( isset( $tags_list[ $tag ] ) ) {
 						$tag = $tags_list[ $tag ];
+					} elseif ( isset( self::$tag_map[ $tag ] ) ) {
+						$tag = $tags_list[ self::$tag_map[ $tag ] ];
+					}
 				}
 
 				return $value;

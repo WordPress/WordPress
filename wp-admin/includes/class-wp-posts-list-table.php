@@ -491,6 +491,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$classes .= ' wp-locked';
 			$lock_holder = get_userdata( $lock_holder );
 		}
+
+		if ( $post->post_parent ) {
+		    $count = count( get_post_ancestors( $post->ID ) );
+		    $classes .= ' level-'. $count;
+		} else {
+		    $classes .= ' level-0';
+		}
 	?>
 		<tr id="post-<?php echo $post->ID; ?>" class="<?php echo implode( ' ', get_post_class( $classes, $post->ID ) ); ?>" valign="top">
 	<?php

@@ -1,15 +1,13 @@
 (function( exports, $ ){
 	var api = wp.customize;
 
-	/*
+	/**
 	 * @param options
 	 * - previewer - The Previewer instance to sync with.
 	 * - transport - The transport to use for previewing. Supports 'refresh' and 'postMessage'.
 	 */
 	api.Setting = api.Value.extend({
 		initialize: function( id, value, options ) {
-			var element;
-
 			api.Value.prototype.initialize.call( this, value, options );
 
 			this.id = id;
@@ -85,17 +83,16 @@
 		ready: function() {},
 
 		dropdownInit: function() {
-			var control  = this,
-				statuses = this.container.find('.dropdown-status'),
-				params   = this.params,
-				update   = function( to ) {
-					if ( typeof	to === 'string' && params.statuses && params.statuses[ to ] )
+			var control      = this,
+				statuses     = this.container.find('.dropdown-status'),
+				params       = this.params,
+				toggleFreeze = false,
+				update       = function( to ) {
+					if ( typeof to === 'string' && params.statuses && params.statuses[ to ] )
 						statuses.html( params.statuses[ to ] ).show();
 					else
 						statuses.hide();
 				};
-
-			var toggleFreeze = false;
 
 			// Support the .dropdown class to open/close complex elements
 			this.container.on( 'click keydown', '.dropdown', function( event ) {
@@ -128,12 +125,12 @@
 				picker = this.container.find('.color-picker-hex');
 
 			picker.val( control.setting() ).wpColorPicker({
-				change: function( event, options ) {
+				change: function() {
 					control.setting.set( picker.wpColorPicker('color') );
- 				},
- 				clear: function() {
- 					control.setting.set( false );
- 				}
+				},
+				clear: function() {
+					control.setting.set( false );
+				}
 			});
 		}
 	});
@@ -197,7 +194,7 @@
 				panels;
 
 			this.uploader = {
-				init: function( up ) {
+				init: function() {
 					var fallback, button;
 
 					if ( this.supports.dragdrop )
@@ -319,8 +316,7 @@
 		sensitivity: 2000,
 
 		initialize: function( params, options ) {
-			var deferred = $.Deferred(),
-				self     = this;
+			var deferred = $.Deferred();
 
 			// This is the promise object.
 			deferred.promise( this );
@@ -488,8 +484,7 @@
 		 */
 		initialize: function( params, options ) {
 			var self = this,
-				rscheme = /^https?/,
-				url;
+				rscheme = /^https?/;
 
 			$.extend( this, options || {} );
 
@@ -706,9 +701,9 @@
 		if ( ! $.support.postMessage || ( ! $.support.cors && api.settings.isCrossDomain ) )
 			return window.location = api.settings.url.fallback;
 
-		var body = $( document.body ),
-			overlay = body.children('.wp-full-overlay'),
-			query, previewer, parent;
+		var previewer, parent, topFocus,
+			body = $( document.body ),
+			overlay = body.children('.wp-full-overlay');
 
 		// Prevent the form from saving when enter is pressed.
 		$('#customize-controls').on( 'keydown', function( e ) {
@@ -733,9 +728,9 @@
 			query: function() {
 				return {
 					wp_customize: 'on',
-					theme:        api.settings.theme.stylesheet,
-					customized:   JSON.stringify( api.get() ),
-					nonce:        this.nonce.preview
+					theme:      api.settings.theme.stylesheet,
+					customized: JSON.stringify( api.get() ),
+					nonce:      this.nonce.preview
 				};
 			},
 
@@ -778,9 +773,9 @@
 		});
 
 		// Refresh the nonces if the preview sends updated nonces over.
- 		previewer.bind( 'nonce', function( nonce ) {
- 			$.extend( this.nonce, nonce );
- 		});
+		previewer.bind( 'nonce', function( nonce ) {
+			$.extend( this.nonce, nonce );
+		});
 
 		$.each( api.settings.settings, function( id, data ) {
 			api.create( id, id, data.value, {
@@ -920,15 +915,15 @@
 		$.each({
 			'background_image': {
 				controls: [ 'background_repeat', 'background_position_x', 'background_attachment' ],
-				callback: function( to ) { return !! to }
+				callback: function( to ) { return !! to; }
 			},
 			'show_on_front': {
 				controls: [ 'page_on_front', 'page_for_posts' ],
-				callback: function( to ) { return 'page' === to }
+				callback: function( to ) { return 'page' === to; }
 			},
 			'header_textcolor': {
 				controls: [ 'header_textcolor' ],
-				callback: function( to ) { return 'blank' !== to }
+				callback: function( to ) { return 'blank' !== to; }
 			}
 		}, function( settingId, o ) {
 			api( settingId, function( setting ) {
@@ -973,7 +968,7 @@
 					control.settings.data.set( false );
 			});
 
-			control.library.on( 'click', 'a', function( event ) {
+			control.library.on( 'click', 'a', function() {
 				control.settings.data.set( $(this).data('customizeHeaderImageData') );
 			});
 
@@ -998,7 +993,7 @@
 		api.trigger( 'ready' );
 
 		// Make sure left column gets focus
-		var topFocus = $('.back');
+		topFocus = $('.back');
 		topFocus.focus();
 		setTimeout(function () {
 			topFocus.focus();

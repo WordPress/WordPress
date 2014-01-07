@@ -101,8 +101,22 @@ function wptexturize($text) {
 
 	// Transform into regexp sub-expression used in _wptexturize_pushpop_element
 	// Must do this every time in case plugins use these filters in a context sensitive manner
-	$no_texturize_tags = '(' . implode('|', apply_filters('no_texturize_tags', $default_no_texturize_tags) ) . ')';
-	$no_texturize_shortcodes = '(' . implode('|', apply_filters('no_texturize_shortcodes', $default_no_texturize_shortcodes) ) . ')';
+	/**
+	 * Filter the list of HTML elements not to texturize.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param array $default_no_texturize_tags An array of HTML element names.
+	 */
+	$no_texturize_tags = '(' . implode( '|', apply_filters( 'no_texturize_tags', $default_no_texturize_tags ) ) . ')';
+	/**
+	 * Filter the list of shortcodes not to texturize.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param array $default_no_texturize_shortcodes An array of shortcode names.
+	 */
+	$no_texturize_shortcodes = '(' . implode( '|', apply_filters( 'no_texturize_shortcodes', $default_no_texturize_shortcodes ) ) . ')';
 
 	$no_texturize_tags_stack = array();
 	$no_texturize_shortcodes_stack = array();
@@ -798,6 +812,13 @@ function remove_accents($string) {
 			$chars[ chr(195).chr(156) ] = 'Ue';
 			$chars[ chr(195).chr(188) ] = 'ue';
 			$chars[ chr(195).chr(159) ] = 'ss';
+		} elseif ( 'da_DK' === $locale ) {
+			$chars[ chr(195).chr(134) ] = 'Ae';
+ 			$chars[ chr(195).chr(166) ] = 'ae';
+			$chars[ chr(195).chr(152) ] = 'Oe';
+			$chars[ chr(195).chr(184) ] = 'oe';
+			$chars[ chr(195).chr(133) ] = 'Aa';
+			$chars[ chr(195).chr(165) ] = 'aa';
 		}
 
 		$string = strtr($string, $chars);
@@ -842,7 +863,15 @@ function remove_accents($string) {
 function sanitize_file_name( $filename ) {
 	$filename_raw = $filename;
 	$special_chars = array("?", "[", "]", "/", "\\", "=", "<", ">", ":", ";", ",", "'", "\"", "&", "$", "#", "*", "(", ")", "|", "~", "`", "!", "{", "}", chr(0));
-	$special_chars = apply_filters('sanitize_file_name_chars', $special_chars, $filename_raw);
+	/**
+	 * Filter the list of characters to remove from a filename.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param array  $special_chars Characters to remove.
+	 * @param string $filename_raw  Filename as it was passed into sanitize_file_name().
+	 */
+	$special_chars = apply_filters( 'sanitize_file_name_chars', $special_chars, $filename_raw );
 	$filename = str_replace($special_chars, '', $filename);
 	$filename = preg_replace('/[\s-]+/', '-', $filename);
 	$filename = trim($filename, '.-_');
@@ -851,16 +880,27 @@ function sanitize_file_name( $filename ) {
 	$parts = explode('.', $filename);
 
 	// Return if only one extension
-	if ( count($parts) <= 2 )
-		return apply_filters('sanitize_file_name', $filename, $filename_raw);
+	if ( count( $parts ) <= 2 ) {
+		/**
+		 * Filter a sanitized filename string.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param string $filename     Sanitized filename.
+		 * @param string $filename_raw The filename prior to sanitization.
+		 */
+		return apply_filters( 'sanitize_file_name', $filename, $filename_raw );
+	}
 
 	// Process multiple extensions
 	$filename = array_shift($parts);
 	$extension = array_pop($parts);
 	$mimes = get_allowed_mime_types();
 
-	// Loop over any intermediate extensions. Munge them with a trailing underscore if they are a 2 - 5 character
-	// long alpha string not in the extension whitelist.
+	/*
+	 * Loop over any intermediate extensions. Postfix them with a trailing underscore
+	 * if they are a 2 - 5 character long alpha string not in the extension whitelist.
+	 */
 	foreach ( (array) $parts as $part) {
 		$filename .= '.' . $part;
 
@@ -878,7 +918,7 @@ function sanitize_file_name( $filename ) {
 		}
 	}
 	$filename .= '.' . $extension;
-
+	/** This filter is documented in wp-includes/formatting.php */
 	return apply_filters('sanitize_file_name', $filename, $filename_raw);
 }
 
@@ -891,8 +931,6 @@ function sanitize_file_name( $filename ) {
  * parameters for the 'sanitize_user' filter.
  *
  * @since 2.0.0
- * @uses apply_filters() Calls 'sanitize_user' hook on username, raw username,
- *		and $strict parameter.
  *
  * @param string $username The username to be sanitized.
  * @param bool $strict If set limits $username to specific characters. Default false.
@@ -914,6 +952,15 @@ function sanitize_user( $username, $strict = false ) {
 	// Consolidate contiguous whitespace
 	$username = preg_replace( '|\s+|', ' ', $username );
 
+	/**
+	 * Filter a sanitized username string.
+	 *
+	 * @since 2.0.1
+	 *
+	 * @param string $username     Sanitized username.
+	 * @param string $raw_username The username prior to sanitization.
+	 * @param bool   $strict       Whether to limit the sanitization to specific characters. Default false.
+	 */
 	return apply_filters( 'sanitize_user', $username, $raw_username, $strict );
 }
 
@@ -931,6 +978,15 @@ function sanitize_key( $key ) {
 	$raw_key = $key;
 	$key = strtolower( $key );
 	$key = preg_replace( '/[^a-z0-9_\-]/', '', $key );
+
+	/**
+	 * Filter a sanitized key string.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $key     Sanitized key.
+	 * @param string $raw_key The key prior to sanitization.
+	 */
 	return apply_filters( 'sanitize_key', $key, $raw_key );
 }
 
@@ -954,7 +1010,16 @@ function sanitize_title( $title, $fallback_title = '', $context = 'save' ) {
 	if ( 'save' == $context )
 		$title = remove_accents($title);
 
-	$title = apply_filters('sanitize_title', $title, $raw_title, $context);
+	/**
+	 * Filter a sanitized title string.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $title     Sanitized title.
+	 * @param string $raw_title The title prior to sanitization.
+	 * @param string $context   The context for which the title is being sanitized.
+	 */
+	$title = apply_filters( 'sanitize_title', $title, $raw_title, $context );
 
 	if ( '' === $title || false === $title )
 		$title = $fallback_title;
@@ -1086,6 +1151,15 @@ function sanitize_html_class( $class, $fallback = '' ) {
 	if ( '' == $sanitized )
 		$sanitized = $fallback;
 
+	/**
+	 * Filter a sanitized HTML class string.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $sanitized The sanitized HTML class.
+	 * @param string $class     HTML class before sanitization.
+	 * @param string $fallback  The fallback string.
+	 */
 	return apply_filters( 'sanitize_html_class', $sanitized, $class, $fallback );
 }
 
@@ -1169,10 +1243,11 @@ function convert_chars($content, $deprecated = '') {
  * @return string Balanced text
  */
 function balanceTags( $text, $force = false ) {
-	if ( $force || get_option('use_balanceTags') == 1 )
+	if ( $force || get_option('use_balanceTags') == 1 ) {
 		return force_balance_tags( $text );
-	else
+	} else {
 		return $text;
+	}
 }
 
 /**
@@ -1320,6 +1395,13 @@ function force_balance_tags( $text ) {
  * @return string The text after the filter (and possibly htmlspecialchars()) has been run.
  */
 function format_to_edit( $content, $richedit = false ) {
+	/**
+	 * Filter the text to be formatted for editing.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $content The text, prior to formatting for editing.
+	 */
 	$content = apply_filters( 'format_to_edit', $content );
 	if ( ! $richedit )
 		$content = esc_textarea( $content );
@@ -1335,7 +1417,14 @@ function format_to_edit( $content, $richedit = false ) {
  * @return string Text returned from the 'format_to_post' filter.
  */
 function format_to_post($content) {
-	$content = apply_filters('format_to_post', $content);
+	/**
+	 * Filter the string returned by format_to_post().
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $content The string to format.
+	 */
+	$content = apply_filters( 'format_to_post', $content );
 	return $content;
 }
 
@@ -1601,8 +1690,15 @@ function _make_email_clickable_cb($matches) {
 function make_clickable( $text ) {
 	$r = '';
 	$textarr = preg_split( '/(<[^<>]+>)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE ); // split out HTML tags
+	$nested_code_pre = 0; // Keep track of how many levels link is nested inside <pre> or <code>
 	foreach ( $textarr as $piece ) {
-		if ( empty( $piece ) || ( $piece[0] == '<' && ! preg_match('|^<\s*[\w]{1,20}+://|', $piece) ) ) {
+
+		if ( preg_match( '|^<code[\s>]|i', $piece ) || preg_match( '|^<pre[\s>]|i', $piece ) )
+			$nested_code_pre++;
+		elseif ( ( '</code>' === strtolower( $piece ) || '</pre>' === strtolower( $piece ) ) && $nested_code_pre )
+			$nested_code_pre--;
+
+		if ( $nested_code_pre || empty( $piece ) || ( $piece[0] === '<' && ! preg_match( '|^<\s*[\w]{1,20}+://|', $piece ) ) ) {
 			$r .= $piece;
 			continue;
 		}
@@ -1762,11 +1858,19 @@ function translate_smiley( $matches ) {
 
 	$smiley = trim( reset( $matches ) );
 	$img = $wpsmiliestrans[ $smiley ];
-	$smiley_masked = esc_attr( $smiley );
 
+	/**
+	 * Filter the Smiley image URL before it's used in the image element.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param string $smiley_url URL for the smiley image.
+	 * @param string $img        Filename for the smiley image.
+	 * @param string $site_url   Site URL, as returned by site_url().
+	 */
 	$src_url = apply_filters( 'smilies_src', includes_url( "images/smilies/$img" ), $img, site_url() );
 
-	return " <img src='$src_url' alt='$smiley_masked' class='wp-smiley' /> ";
+	return sprintf( ' <img src="%s" alt="%s" class="wp-smiley" /> ', esc_url( $src_url ), esc_attr( $smiley ) );
 }
 
 /**
@@ -1781,18 +1885,36 @@ function translate_smiley( $matches ) {
  * @param string $text Content to convert smilies from text.
  * @return string Converted content with text smilies replaced with images.
  */
-function convert_smilies($text) {
+function convert_smilies( $text ) {
 	global $wp_smiliessearch;
 	$output = '';
-	if ( get_option('use_smilies') && !empty($wp_smiliessearch) ) {
+	if ( get_option( 'use_smilies' ) && ! empty( $wp_smiliessearch ) ) {
 		// HTML loop taken from texturize function, could possible be consolidated
-		$textarr = preg_split("/(<.*>)/U", $text, -1, PREG_SPLIT_DELIM_CAPTURE); // capture the tags as well as in between
-		$stop = count($textarr);// loop stuff
-		for ($i = 0; $i < $stop; $i++) {
+		$textarr = preg_split( '/(<.*>)/U', $text, -1, PREG_SPLIT_DELIM_CAPTURE ); // capture the tags as well as in between
+		$stop = count( $textarr );// loop stuff
+
+		// Ignore proessing of specific tags
+		$tags_to_ignore = 'code|pre|style|script|textarea';
+		$ignore_block_element = '';
+
+		for ( $i = 0; $i < $stop; $i++ ) {
 			$content = $textarr[$i];
-			if ((strlen($content) > 0) && ('<' != $content[0])) { // If it's not a tag
-				$content = preg_replace_callback($wp_smiliessearch, 'translate_smiley', $content);
+
+			// If we're in an ignore block, wait until we find its closing tag
+			if ( '' == $ignore_block_element && preg_match( '/^<(' . $tags_to_ignore . ')>/', $content, $matches ) )  {
+				$ignore_block_element = $matches[1];
 			}
+
+			// If it's not a tag and not in ignore block
+			if ( '' ==  $ignore_block_element && strlen( $content ) > 0 && '<' != $content[0] ) {
+				$content = preg_replace_callback( $wp_smiliessearch, 'translate_smiley', $content );
+			}
+
+			// did we exit ignore block
+			if ( '' != $ignore_block_element && '</' . $ignore_block_element . '>' == $content )  {
+				$ignore_block_element = '';
+			}
+
 			$output .= $content;
 		}
 	} else {
@@ -1819,11 +1941,26 @@ function is_email( $email, $deprecated = false ) {
 
 	// Test for the minimum length the email can be
 	if ( strlen( $email ) < 3 ) {
+		/**
+		 * Filter whether an email address is valid.
+		 *
+		 * This filter is evaluated under several different contexts, such as 'email_too_short',
+		 * 'email_no_at', 'local_invalid_chars', 'domain_period_sequence', 'domain_period_limits',
+		 * 'domain_no_periods', 'sub_hyphen_limits', 'sub_invalid_chars', or no specific context.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param bool   $is_email Whether the email address has passed the is_email() checks. Default false.
+		 * @param string $email    The email address being checked.
+		 * @param string $message  An explanatory message to the user.
+		 * @param string $context  Context under which the email was tested.
+		 */
 		return apply_filters( 'is_email', false, $email, 'email_too_short' );
 	}
 
 	// Test for an @ character after the first position
 	if ( strpos( $email, '@', 1 ) === false ) {
+		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'is_email', false, $email, 'email_no_at' );
 	}
 
@@ -1833,17 +1970,20 @@ function is_email( $email, $deprecated = false ) {
 	// LOCAL PART
 	// Test for invalid characters
 	if ( !preg_match( '/^[a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~\.-]+$/', $local ) ) {
+		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'is_email', false, $email, 'local_invalid_chars' );
 	}
 
 	// DOMAIN PART
 	// Test for sequences of periods
 	if ( preg_match( '/\.{2,}/', $domain ) ) {
+		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'is_email', false, $email, 'domain_period_sequence' );
 	}
 
 	// Test for leading and trailing periods and whitespace
 	if ( trim( $domain, " \t\n\r\0\x0B." ) !== $domain ) {
+		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'is_email', false, $email, 'domain_period_limits' );
 	}
 
@@ -1852,6 +1992,7 @@ function is_email( $email, $deprecated = false ) {
 
 	// Assume the domain will have at least two subs
 	if ( 2 > count( $subs ) ) {
+		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'is_email', false, $email, 'domain_no_periods' );
 	}
 
@@ -1859,16 +2000,19 @@ function is_email( $email, $deprecated = false ) {
 	foreach ( $subs as $sub ) {
 		// Test for leading and trailing hyphens and whitespace
 		if ( trim( $sub, " \t\n\r\0\x0B-" ) !== $sub ) {
+			/** This filter is documented in wp-includes/formatting.php */
 			return apply_filters( 'is_email', false, $email, 'sub_hyphen_limits' );
 		}
 
 		// Test for invalid characters
 		if ( !preg_match('/^[a-z0-9-]+$/i', $sub ) ) {
+			/** This filter is documented in wp-includes/formatting.php */
 			return apply_filters( 'is_email', false, $email, 'sub_invalid_chars' );
 		}
 	}
 
 	// Congratulations your email made it!
+	/** This filter is documented in wp-includes/formatting.php */
 	return apply_filters( 'is_email', $email, $email, null );
 }
 
@@ -2048,11 +2192,25 @@ function popuplinks($text) {
 function sanitize_email( $email ) {
 	// Test for the minimum length the email can be
 	if ( strlen( $email ) < 3 ) {
+		/**
+		 * Filter a sanitized email address.
+		 *
+		 * This filter is evaluated under several contexts, including 'email_too_short',
+		 * 'email_no_at', 'local_invalid_chars', 'domain_period_sequence', 'domain_period_limits',
+		 * 'domain_no_periods', 'domain_no_valid_subs', or no context.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param string $email   The sanitized email address.
+		 * @param string $email   The email address, as provided to sanitize_email().
+		 * @param string $message A message to pass to the user.
+		 */
 		return apply_filters( 'sanitize_email', '', $email, 'email_too_short' );
 	}
 
 	// Test for an @ character after the first position
 	if ( strpos( $email, '@', 1 ) === false ) {
+		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'sanitize_email', '', $email, 'email_no_at' );
 	}
 
@@ -2063,6 +2221,7 @@ function sanitize_email( $email ) {
 	// Test for invalid characters
 	$local = preg_replace( '/[^a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~\.-]/', '', $local );
 	if ( '' === $local ) {
+		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'sanitize_email', '', $email, 'local_invalid_chars' );
 	}
 
@@ -2070,12 +2229,14 @@ function sanitize_email( $email ) {
 	// Test for sequences of periods
 	$domain = preg_replace( '/\.{2,}/', '', $domain );
 	if ( '' === $domain ) {
+		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'sanitize_email', '', $email, 'domain_period_sequence' );
 	}
 
 	// Test for leading and trailing periods and whitespace
 	$domain = trim( $domain, " \t\n\r\0\x0B." );
 	if ( '' === $domain ) {
+		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'sanitize_email', '', $email, 'domain_period_limits' );
 	}
 
@@ -2084,6 +2245,7 @@ function sanitize_email( $email ) {
 
 	// Assume the domain will have at least two subs
 	if ( 2 > count( $subs ) ) {
+		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'sanitize_email', '', $email, 'domain_no_periods' );
 	}
 
@@ -2106,6 +2268,7 @@ function sanitize_email( $email ) {
 
 	// If there aren't 2 or more valid subs
 	if ( 2 > count( $new_subs ) ) {
+		/** This filter is documented in wp-includes/formatting.php */
 		return apply_filters( 'sanitize_email', '', $email, 'domain_no_valid_subs' );
 	}
 
@@ -2116,6 +2279,7 @@ function sanitize_email( $email ) {
 	$email = $local . '@' . $domain;
 
 	// Congratulations your email made it!
+	/** This filter is documented in wp-includes/formatting.php */
 	return apply_filters( 'sanitize_email', $email, $email, null );
 }
 
@@ -2195,13 +2359,37 @@ function wp_trim_excerpt($text = '') {
 
 		$text = strip_shortcodes( $text );
 
-		$text = apply_filters('the_content', $text);
+		/** This filter is documented in wp-includes/post-template.php */
+		$text = apply_filters( 'the_content', $text );
 		$text = str_replace(']]>', ']]&gt;', $text);
-		$excerpt_length = apply_filters('excerpt_length', 55);
-		$excerpt_more = apply_filters('excerpt_more', ' ' . '[&hellip;]');
+
+		/**
+		 * Filter the number of words in an excerpt.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param int $number The number of words. Default 55.
+		 */
+		$excerpt_length = apply_filters( 'excerpt_length', 55 );
+		/**
+		 * Filter the string in the "more" link displayed after a trimmed excerpt.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string $more_string The string shown within the more link.
+		 */
+		$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
 		$text = wp_trim_words( $text, $excerpt_length, $excerpt_more );
 	}
-	return apply_filters('wp_trim_excerpt', $text, $raw_excerpt);
+	/**
+	 * Filter the trimmed excerpt string.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $text        The trimmed text.
+	 * @param string $raw_excerpt The text prior to trimming.
+	 */
+	return apply_filters( 'wp_trim_excerpt', $text, $raw_excerpt );
 }
 
 /**
@@ -2241,6 +2429,16 @@ function wp_trim_words( $text, $num_words = 55, $more = null ) {
 	} else {
 		$text = implode( $sep, $words_array );
 	}
+	/**
+	 * Filter the text content after words have been trimmed.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param string $text          The trimmed text.
+	 * @param int    $num_words     The number of words to trim the text to. Default 5.
+	 * @param string $more          An optional string to append to the end of the trimmed text, e.g. &hellip;.
+	 * @param string $original_text The text before it was trimmed.
+	 */
 	return apply_filters( 'wp_trim_words', $text, $num_words, $more, $original_text );
 }
 
@@ -2254,7 +2452,16 @@ function wp_trim_words( $text, $num_words = 55, $more = null ) {
  */
 function ent2ncr($text) {
 
-	// Allow a plugin to short-circuit and override the mappings.
+	/**
+	 * Filter text before named entities are converted into numbered entities.
+	 *
+	 * A non-null string must be returned for the filter to be evaluated.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param null   $converted_text The text to be converted. Default null.
+	 * @param string $text           The text prior to entity conversion.
+	 */
 	$filtered = apply_filters( 'pre_ent2ncr', null, $text );
 	if( null !== $filtered )
 		return $filtered;
@@ -2533,14 +2740,30 @@ function ent2ncr($text) {
  * @return string The formatted text after filter is applied.
  */
 function wp_richedit_pre($text) {
-	// Filtering a blank results in an annoying <br />\n
-	if ( empty($text) ) return apply_filters('richedit_pre', '');
+	if ( empty( $text ) ) {
+		/**
+		 * Filter text returned for the rich text editor.
+		 *
+		 * This filter is first evaluated, and the value returned, if an empty string
+		 * is passed to wp_richedit_pre(). If an empty string is passed, it results
+		 * in a break tag and line feed.
+		 *
+		 * If a non-empty string is passed, the filter is evaluated on the wp_richedit_pre()
+		 * return after being formatted.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param string $output Text for the rich text editor.
+		 */
+		return apply_filters( 'richedit_pre', '' );
+	}
 
 	$output = convert_chars($text);
 	$output = wpautop($output);
 	$output = htmlspecialchars($output, ENT_NOQUOTES, get_option( 'blog_charset' ) );
 
-	return apply_filters('richedit_pre', $output);
+	/** This filter is documented in wp-includes/formatting.php */
+	return apply_filters( 'richedit_pre', $output );
 }
 
 /**
@@ -2558,7 +2781,14 @@ function wp_htmledit_pre($output) {
 	if ( !empty($output) )
 		$output = htmlspecialchars($output, ENT_NOQUOTES, get_option( 'blog_charset' ) ); // convert only < > &
 
-	return apply_filters('htmledit_pre', $output);
+	/**
+	 * Filter the text before it is formatted for the HTML editor.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $output The HTML-formatted text.
+	 */
+	return apply_filters( 'htmledit_pre', $output );
 }
 
 /**
@@ -2653,7 +2883,16 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 			return '';
 	}
 
-	return apply_filters('clean_url', $good_protocol_url, $original_url, $_context);
+	/**
+	 * Filter a string cleaned and escaped for output as a URL.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param string $good_protocol_url The cleaned URL to be returned.
+	 * @param string $original_url      The URL prior to cleaning.
+	 * @param string $_context          If 'display', replace ampersands and single quotes only.
+	 */
+	return apply_filters( 'clean_url', $good_protocol_url, $original_url, $_context );
 }
 
 /**
@@ -2704,6 +2943,17 @@ function esc_js( $text ) {
 	$safe_text = preg_replace( '/&#(x)?0*(?(1)27|39);?/i', "'", stripslashes( $safe_text ) );
 	$safe_text = str_replace( "\r", '', $safe_text );
 	$safe_text = str_replace( "\n", '\\n', addslashes( $safe_text ) );
+	/**
+	 * Filter a string cleaned and escaped for output in JavaScript.
+	 *
+	 * Text passed to esc_js() is stripped of invalid or special characters,
+	 * and properly slashed for output.
+	 *
+	 * @since 2.0.6
+	 *
+	 * @param string $safe_text The text after it has been escaped.
+ 	 * @param string $text      The text prior to being escaped.
+	 */
 	return apply_filters( 'js_escape', $safe_text, $text );
 }
 
@@ -2718,6 +2968,17 @@ function esc_js( $text ) {
 function esc_html( $text ) {
 	$safe_text = wp_check_invalid_utf8( $text );
 	$safe_text = _wp_specialchars( $safe_text, ENT_QUOTES );
+	/**
+	 * Filter a string cleaned and escaped for output in HTML.
+	 *
+	 * Text passed to esc_html() is stripped of invalid or special characters
+	 * before output.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $safe_text The text after it has been escaped.
+ 	 * @param string $text      The text prior to being escaped.
+	 */
 	return apply_filters( 'esc_html', $safe_text, $text );
 }
 
@@ -2732,6 +2993,17 @@ function esc_html( $text ) {
 function esc_attr( $text ) {
 	$safe_text = wp_check_invalid_utf8( $text );
 	$safe_text = _wp_specialchars( $safe_text, ENT_QUOTES );
+	/**
+	 * Filter a string cleaned and escaped for output in an HTML attribute.
+	 *
+	 * Text passed to esc_attr() is stripped of invalid or special characters
+	 * before output.
+	 *
+	 * @since 2.0.6
+	 *
+	 * @param string $safe_text The text after it has been escaped.
+ 	 * @param string $text      The text prior to being escaped.
+	 */
 	return apply_filters( 'attribute_escape', $safe_text, $text );
 }
 
@@ -2745,6 +3017,14 @@ function esc_attr( $text ) {
  */
 function esc_textarea( $text ) {
 	$safe_text = htmlspecialchars( $text, ENT_QUOTES, get_option( 'blog_charset' ) );
+	/**
+	 * Filter a string cleaned and escaped for output in a textarea element.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string $safe_text The text after it has been escaped.
+ 	 * @param string $text      The text prior to being escaped.
+	 */
 	return apply_filters( 'esc_textarea', $safe_text, $text );
 }
 
@@ -2758,7 +3038,15 @@ function esc_textarea( $text ) {
  */
 function tag_escape($tag_name) {
 	$safe_tag = strtolower( preg_replace('/[^a-zA-Z0-9_:]/', '', $tag_name) );
-	return apply_filters('tag_escape', $safe_tag, $tag_name);
+	/**
+	 * Filter a string cleaned and escaped for output as an HTML tag.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $safe_tag The tag name after it has been escaped.
+ 	 * @param string $tag_name The text before it was escaped.
+	 */
+	return apply_filters( 'tag_escape', $safe_tag, $tag_name );
 }
 
 /**
@@ -2964,7 +3252,15 @@ function sanitize_option($option, $value) {
 			break;
 	}
 
-	$value = apply_filters("sanitize_option_{$option}", $value, $option);
+	/**
+	 * Filter an option value following sanitization.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param string $value  The sanitized option value.
+	 * @param string $option The option name.
+	 */
+	$value = apply_filters( "sanitize_option_{$option}", $value, $option );
 
 	return $value;
 }
@@ -2976,7 +3272,6 @@ function sanitize_option($option, $value) {
  * {@link http://www.php.net/magic_quotes magic_quotes_gpc} is on.
  *
  * @since 2.2.1
- * @uses apply_filters() for the 'wp_parse_str' filter.
  *
  * @param string $string The string to be parsed.
  * @param array $array Variables will be stored in this array.
@@ -2985,6 +3280,13 @@ function wp_parse_str( $string, &$array ) {
 	parse_str( $string, $array );
 	if ( get_magic_quotes_gpc() )
 		$array = stripslashes_deep( $array );
+	/**
+	 * Filter the array of variables derived from a parsed string.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param array $array The array populated with variables.
+	 */
 	$array = apply_filters( 'wp_parse_str', $array );
 }
 
@@ -3065,7 +3367,16 @@ function wp_sprintf( $pattern ) {
 				$arg = isset($args[$arg_index]) ? $args[$arg_index] : '';
 			}
 
-			// Apply filters OR sprintf
+			/**
+			 * Filter a fragment from the pattern passed to wp_sprintf().
+			 *
+			 * If the fragment is unchanged, then sprintf() will be run on the fragment.
+			 *
+			 * @since 2.5.0
+			 *
+			 * @param string $fragment A fragment from the pattern.
+			 * @param string $arg      The argument.
+			 */
 			$_fragment = apply_filters( 'wp_sprintf', $fragment, $arg );
 			if ( $_fragment != $fragment )
 				$fragment = $_fragment;
@@ -3102,15 +3413,23 @@ function wp_sprintf_l($pattern, $args) {
 	if ( empty($args) )
 		return '';
 
-	// Translate and filter the delimiter set (avoid ampersands and entities here)
-	$l = apply_filters('wp_sprintf_l', array(
+	/**
+	 * Filter the translated delimiters used by wp_sprintf_l().
+	 *
+	 * Please note: Ampersands and entities should be avoided here.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param array $delimiters An array of translated delimiters.
+	 */
+	$l = apply_filters( 'wp_sprintf_l', array(
 		/* translators: used between list items, there is a space after the comma */
 		'between'          => __(', '),
 		/* translators: used between list items, there is a space after the and */
 		'between_last_two' => __(', and '),
 		/* translators: used between only two list items, there is a space after the and */
 		'between_only_two' => __(' and '),
-		));
+	) );
 
 	$args = (array) $args;
 	$result = array_shift($args);
@@ -3213,7 +3532,7 @@ function links_add_target( $content, $target = '_blank', $tags = array('a') ) {
 	global $_links_add_target;
 	$_links_add_target = $target;
 	$tags = implode('|', (array)$tags);
-	return preg_replace_callback( "!<($tags)(.+?)>!i", '_links_add_target', $content );
+	return preg_replace_callback( "!<($tags)([^>]*)>!i", '_links_add_target', $content );
 }
 
 /**
@@ -3228,7 +3547,7 @@ function links_add_target( $content, $target = '_blank', $tags = array('a') ) {
 function _links_add_target( $m ) {
 	global $_links_add_target;
 	$tag = $m[1];
-	$link = preg_replace('|(target=([\'"])(.*?)\2)|i', '', $m[2]);
+	$link = preg_replace('|( target=([\'"])(.*?)\2)|i', '', $m[2]);
 	return '<' . $tag . $link . ' target="' . esc_attr( $_links_add_target ) . '">';
 }
 
@@ -3302,7 +3621,15 @@ function sanitize_text_field($str) {
 		$filtered = trim( preg_replace('/ +/', ' ', $filtered) );
 	}
 
-	return apply_filters('sanitize_text_field', $filtered, $str);
+	/**
+	 * Filter a sanitized text field string.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param string $filtered The sanitized string.
+	 * @param string $str      The string prior to being sanitized.
+	 */
+	return apply_filters( 'sanitize_text_field', $filtered, $str );
 }
 
 /**
@@ -3327,7 +3654,8 @@ function wp_basename( $path, $suffix = '' ) {
  */
 function capital_P_dangit( $text ) {
 	// Simple replacement for titles
-	if ( 'the_title' === current_filter() )
+	$current_filter = current_filter();
+	if ( 'the_title' === $current_filter || 'wp_title' === $current_filter )
 		return str_replace( 'Wordpress', 'WordPress', $text );
 	// Still here? Use the more judicious replacement
 	static $dblq = false;
@@ -3350,6 +3678,14 @@ function capital_P_dangit( $text ) {
  */
 function sanitize_mime_type( $mime_type ) {
 	$sani_mime_type = preg_replace( '/[^-+*.a-zA-Z0-9\/]/', '', $mime_type );
+	/**
+	 * Filter a mime type following sanitization.
+	 *
+	 * @since 3.1.3
+	 *
+	 * @param string $sani_mime_type The sanitized mime type.
+	 * @param string $mime_type      The mime type prior to sanitization.
+	 */
 	return apply_filters( 'sanitize_mime_type', $sani_mime_type, $mime_type );
 }
 
@@ -3369,6 +3705,17 @@ function sanitize_trackback_urls( $to_ping ) {
 	}
 	$urls_to_ping = array_map( 'esc_url_raw', $urls_to_ping );
 	$urls_to_ping = implode( "\n", $urls_to_ping );
+	/**
+	 * Filter a list of trackback URLs following sanitization.
+	 *
+	 * The string returned here consists of a space or carriage return-delimited list
+	 * of trackback URLs.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param string $urls_to_ping Sanitized space or carriage return separated URLs.
+	 * @param string $to_ping      Space or carriage return separated URLs before sanitization.
+	 */
 	return apply_filters( 'sanitize_trackback_urls', $urls_to_ping, $to_ping );
 }
 

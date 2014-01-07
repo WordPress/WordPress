@@ -135,7 +135,6 @@ $submenu_file = 'sites.php';
 require( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 
 <div class="wrap">
-<?php screen_icon('ms-admin'); ?>
 <h2 id="edit-site"><?php echo $title_site_url_linked ?></h2>
 <h3 class="nav-tab-wrapper">
 <?php

@@ -52,7 +52,7 @@ add_filter( 'wp_handle_upload_prefilter', 'check_upload_size' );
  * @return void
  */
 function wpmu_delete_blog( $blog_id, $drop = false ) {
-	global $wpdb, $current_site;
+	global $wpdb;
 
 	$switch = false;
 	if ( get_current_blog_id() != $blog_id ) {
@@ -81,6 +81,8 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 	}
 
 	update_blog_status( $blog_id, 'deleted', 1 );
+
+	$current_site = get_current_site();
 
 	// Don't destroy the initial, main, or root blog.
 	if ( $drop && ( 1 == $blog_id || is_main_site( $blog_id ) || ( $blog->path == $current_site->path && $blog->domain == $current_site->domain ) ) )
@@ -202,13 +204,7 @@ function wpmu_delete_user( $id ) {
 
 	clean_user_cache( $user );
 
-	/**
-	 * Fires after the user is deleted from the network.
-	 *
-	 * @since 2.8.0
-	 *
-	 * @param int $id ID of the user that was deleted from the network.
-	 */
+	/** This action is documented in wp-admin/includes/user.php */
 	do_action( 'deleted_user', $id );
 
 	return true;
@@ -756,7 +752,7 @@ function revoke_super_admin( $user_id ) {
 	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
 
 	$user = get_userdata( $user_id );
-	if ( $user && $user->user_email != get_site_option( 'admin_email' ) ) {
+	if ( $user && 0 !== strcasecmp( $user->user_email, get_site_option( 'admin_email' ) ) ) {
 		if ( false !== ( $key = array_search( $user->user_login, $super_admins ) ) ) {
 			unset( $super_admins[$key] );
 			update_site_option( 'site_admins', $super_admins );

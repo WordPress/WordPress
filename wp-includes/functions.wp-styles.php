@@ -15,7 +15,6 @@
  * passing an array with one string prints that style,
  * and passing an array of strings prints those styles.
  *
- * @see do_action() Calls 'wp_print_styles' hook.
  * @global WP_Styles $wp_styles The WP_Styles object for printing styles.
  *
  * @since 2.6.0
@@ -26,7 +25,11 @@
 function wp_print_styles( $handles = false ) {
 	if ( '' === $handles ) // for wp_head
 		$handles = false;
-
+	/**
+	 * Fires before styles in the $handles queue are printed.
+	 *
+	 * @since 2.6.0
+	 */
 	if ( ! $handles )
 		do_action( 'wp_print_styles' );
 

@@ -289,8 +289,10 @@ function is_taxonomy_hierarchical($taxonomy) {
  *     * If not set, the default is inherited from public.
  * - show_tagcloud - Whether to list the taxonomy in the Tag Cloud Widget.
  *     * If not set, the default is inherited from show_ui.
- * - meta_box_cb - Provide a callback function for the meta box display. Defaults to
- *     post_categories_meta_box for hierarchical taxonomies and post_tags_meta_box for non-hierarchical.
+ * - meta_box_cb - Provide a callback function for the meta box display.
+ *     * If not set, defaults to post_categories_meta_box for hierarchical taxonomies
+ *     and post_tags_meta_box for non-hierarchical.
+ *     * If false, no meta box is shown.
  * - capabilities - Array of capabilities for this taxonomy.
  *     * You can see accepted values in this function.
  * - rewrite - Triggers the handling of rewrites for this taxonomy. Defaults to true, using $taxonomy as slug.
@@ -1656,14 +1658,9 @@ function term_is_ancestor_of( $term1, $term2, $taxonomy ) {
  */
 function sanitize_term($term, $taxonomy, $context = 'display') {
 
-	if ( 'raw' == $context )
-		return $term;
+	$fields = array( 'term_id', 'name', 'description', 'slug', 'count', 'parent', 'term_group', 'term_taxonomy_id', 'object_id' );
 
-	$fields = array('term_id', 'name', 'description', 'slug', 'count', 'parent', 'term_group');
-
-	$do_object = false;
-	if ( is_object($term) )
-		$do_object = true;
+	$do_object = is_object( $term );
 
 	$term_id = $do_object ? $term->term_id : (isset($term['term_id']) ? $term['term_id'] : 0);
 
@@ -1712,7 +1709,8 @@ function sanitize_term($term, $taxonomy, $context = 'display') {
  * @return mixed sanitized field
  */
 function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
-	if ( 'parent' == $field  || 'term_id' == $field || 'count' == $field || 'term_group' == $field ) {
+	$int_fields = array( 'parent', 'term_id', 'count', 'term_group', 'term_taxonomy_id', 'object_id' );
+	if ( in_array( $field, $int_fields ) ) {
 		$value = (int) $value;
 		if ( $value < 0 )
 			$value = 0;
@@ -2047,12 +2045,24 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids) $orderby $order";
 
 	if ( 'all' == $fields || 'all_with_object_id' == $fields ) {
-		$terms = array_merge($terms, $wpdb->get_results($query));
-		update_term_cache($terms);
+		$_terms = $wpdb->get_results( $query );
+		foreach ( $_terms as $key => $term ) {
+			$_terms[$key] = sanitize_term( $term, $taxonomy, 'raw' );
+		}
+		$terms = array_merge( $terms, $_terms );
+		update_term_cache( $terms );
 	} else if ( 'ids' == $fields || 'names' == $fields || 'slugs' == $fields ) {
-		$terms = array_merge($terms, $wpdb->get_col($query));
+		$_terms = $wpdb->get_col( $query );
+		$_field = ( 'ids' == $fields ) ? 'term_id' : 'name';
+		foreach ( $_terms as $key => $term ) {
+			$_terms[$key] = sanitize_term_field( $_field, $term, $term, $taxonomy, 'raw' );
+		}
+		$terms = array_merge( $terms, $_terms );
 	} else if ( 'tt_ids' == $fields ) {
 		$terms = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.object_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) $orderby $order");
+		foreach ( $terms as $key => $tt_id ) {
+			$terms[$key] = sanitize_term_field( 'term_taxonomy_id', $tt_id, 0, $taxonomy, 'raw' ); // 0 should be the term id, however is not needed when using raw context.
+		}
 	}
 
 	if ( ! $terms )
@@ -2133,8 +2143,10 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	$name = wp_unslash($name);
 	$description = wp_unslash($description);
 
-	if ( empty($slug) )
+	$slug_provided = ! empty( $slug );
+	if ( ! $slug_provided ) {
 		$slug = sanitize_title($name);
+	}
 
 	$term_group = 0;
 	if ( $alias_of ) {
@@ -2158,7 +2170,11 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 			// Hierarchical, and it matches an existing term, Do not allow same "name" in the same level.
 			$siblings = get_terms($taxonomy, array('fields' => 'names', 'get' => 'all', 'parent' => (int)$parent) );
 			if ( in_array($name, $siblings) ) {
-				return new WP_Error('term_exists', __('A term with the name provided already exists with this parent.'), $exists['term_id']);
+				if ( $slug_provided ) {
+					return new WP_Error( 'term_exists', __( 'A term with the name and slug provided already exists with this parent.' ), $exists['term_id'] );
+				} else {
+					return new WP_Error( 'term_exists', __( 'A term with the name provided already exists with this parent.' ), $exists['term_id'] );
+				}
 			} else {
 				$slug = wp_unique_term_slug($slug, (object) $args);
 				if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) )
@@ -2173,7 +2189,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 			$term_id = (int) $wpdb->insert_id;
 		} elseif ( $exists = term_exists( (int) $term_id, $taxonomy ) )  {
 			// Same name, same slug.
-			return new WP_Error('term_exists', __('A term with the name provided already exists.'), $exists['term_id']);
+			return new WP_Error( 'term_exists', __( 'A term with the name and slug provided already exists.' ), $exists['term_id'] );
 		}
 	} else {
 		// This term does not exist at all in the database, Create it.

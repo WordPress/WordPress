@@ -51,7 +51,6 @@ class WP_Upgrader_Skin {
 			return;
 		$this->done_header = true;
 		echo '<div class="wrap">';
-		screen_icon();
 		echo '<h2>' . $this->options['title'] . '</h2>';
 	}
 	function footer() {
@@ -135,13 +134,6 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 		$update_actions = apply_filters('update_plugin_complete_actions', $update_actions, $this->plugin);
 		if ( ! empty($update_actions) )
 			$this->feedback(implode(' | ', (array)$update_actions));
-	}
-
-	function before() {
-		if ( $this->upgrader->show_before ) {
-			echo $this->upgrader->show_before;
-			$this->upgrader->show_before = '';
-		}
 	}
 }
 

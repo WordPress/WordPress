@@ -233,18 +233,14 @@ function wp_ajax_autocomplete_user() {
 function wp_ajax_dashboard_widgets() {
 	require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 
+	$pagenow = $_GET['pagenow'];
+	if ( $pagenow === 'dashboard-user' || $pagenow === 'dashboard-network' || $pagenow === 'dashboard' ) {
+		set_current_screen( $pagenow );
+	}
+
 	switch ( $_GET['widget'] ) {
-		case 'dashboard_incoming_links' :
-			wp_dashboard_incoming_links();
-			break;
 		case 'dashboard_primary' :
 			wp_dashboard_primary();
-			break;
-		case 'dashboard_secondary' :
-			wp_dashboard_secondary();
-			break;
-		case 'dashboard_plugins' :
-			wp_dashboard_plugins();
 			break;
 	}
 	wp_die();
@@ -2243,4 +2239,24 @@ function wp_ajax_get_revision_diffs() {
 		);
 	}
 	wp_send_json_success( $return );
+}
+
+/**
+ * Auto-save the selected color scheme for a user's own profile.
+ *
+ * @since  3.8.0
+ */
+function wp_ajax_save_user_color_scheme() {
+	global $_wp_admin_css_colors;
+
+	check_ajax_referer( 'save-color-scheme', 'nonce' );
+
+	$color_scheme = sanitize_key( $_POST['color_scheme'] );
+
+	if ( ! isset( $_wp_admin_css_colors[ $color_scheme ] ) ) {
+		wp_send_json_error();
+	}
+
+	update_user_meta( get_current_user_id(), 'admin_color', $color_scheme );
+	wp_send_json_success();
 }

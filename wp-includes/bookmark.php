@@ -135,8 +135,25 @@ function get_bookmarks($args = '') {
 	$cache = array();
 	$key = md5( serialize( $r ) );
 	if ( $cache = wp_cache_get( 'get_bookmarks', 'bookmark' ) ) {
-		if ( is_array($cache) && isset( $cache[ $key ] ) )
-			return apply_filters('get_bookmarks', $cache[ $key ], $r );
+		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
+			$bookmarks = $cache[ $key ];
+			/**
+			 * Filter the returned list of bookmarks.
+			 *
+			 * The first time the hook is evaluated in this file, it returns the cached
+			 * bookmarks list. The second evaluation returns a cached bookmarks list if the
+			 * link category is passed but does not exist. The third evaluation returns
+			 * the full cached results.
+			 *
+			 * @since 2.1.0
+			 *
+			 * @see get_bookmarks()
+			 *
+			 * @param array $bookmarks List of the cached bookmarks.
+			 * @param array $r         An array of bookmark query arguments.
+			 */
+			return apply_filters( 'get_bookmarks', $bookmarks, $r );
+		}
 	}
 
 	if ( !is_array($cache) )
@@ -181,6 +198,7 @@ function get_bookmarks($args = '') {
 		} else {
 			$cache[ $key ] = array();
 			wp_cache_set( 'get_bookmarks', $cache, 'bookmark' );
+			/** This filter is documented in wp-includes/bookmark.php */
 			return apply_filters( 'get_bookmarks', array(), $r );
 		}
 	}
@@ -263,7 +281,8 @@ function get_bookmarks($args = '') {
 	$cache[ $key ] = $results;
 	wp_cache_set( 'get_bookmarks', $cache, 'bookmark' );
 
-	return apply_filters('get_bookmarks', $results, $r);
+	/** This filter is documented in wp-includes/bookmark.php */
+	return apply_filters( 'get_bookmarks', $results, $r );
 }
 
 /**
@@ -352,7 +371,8 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 		return $value;
 
 	if ( 'edit' == $context ) {
-		$value = apply_filters("edit_$field", $value, $bookmark_id);
+		/** This filter is documented in wp-includes/post.php */
+		$value = apply_filters( "edit_$field", $value, $bookmark_id );
 
 		if ( 'link_notes' == $field ) {
 			$value = esc_html( $value ); // textarea_escaped
@@ -360,10 +380,11 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 			$value = esc_attr($value);
 		}
 	} else if ( 'db' == $context ) {
-		$value = apply_filters("pre_$field", $value);
+		/** This filter is documented in wp-includes/post.php */
+		$value = apply_filters( "pre_$field", $value );
 	} else {
-		// Use display filters by default.
-		$value = apply_filters($field, $value, $bookmark_id, $context);
+		/** This filter is documented in wp-includes/post.php */
+		$value = apply_filters( $field, $value, $bookmark_id, $context );
 
 		if ( 'attribute' == $context )
 			$value = esc_attr($value);

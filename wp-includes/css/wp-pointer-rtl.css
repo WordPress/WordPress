@@ -1,0 +1,158 @@
+.wp-pointer-content {
+	padding: 0 0 10px;
+	position: relative;
+	font-size: 13px;
+	background: #fff;
+	border: none;
+	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.075);
+	box-shadow:         0 3px 6px rgba(0,0,0,0.075);
+}
+
+.wp-pointer-content h3 {
+	position: relative;
+	margin: 0 0 5px;
+	padding: 15px 60px 14px 18px;
+	line-height: 1.4em;
+	font-size: 14px;
+	color: #fff;
+	background: #2ea2cc;
+}
+
+.wp-pointer-content h3:before {
+	background: #fff;
+	border-radius: 50%;
+	color: #2ea2cc;
+	content: '\f227';
+	font: normal 20px/1.6 'dashicons';
+	position: absolute;
+	top: 8px;
+	right: 15px;
+	speak: none;
+	text-align: center;
+	width: 32px;
+	height: 32px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.wp-pointer-content p {
+	padding: 0 15px;
+}
+
+.wp-pointer-buttons {
+	margin: 0;
+	padding: 5px 15px;
+	overflow: auto;
+}
+
+.wp-pointer-buttons a {
+	float: left;
+	display: inline-block;
+	text-decoration: none;
+}
+
+.wp-pointer-buttons a.close {
+	padding-right: 3px;
+	position: relative;
+}
+
+.wp-pointer-buttons a.close:before {
+	content: '\f153';
+	display: block !important;
+	font: normal 13px/1 'dashicons';
+	speak: none;
+	margin: 2px 0;
+	text-align: center;
+	-webkit-font-smoothing: antialiased !important;
+	width: 10px;
+	height: 100%;
+	position: absolute;
+	right: -12px;
+	top: 1px;
+}
+
+/* The arrow base class must take up no space, even with transparent borders. */
+.wp-pointer-arrow,
+.wp-pointer-arrow-inner {
+	position: absolute;
+	width: 0;
+	height: 0;
+}
+
+.wp-pointer-arrow {
+	z-index: 10;
+	width: 0;
+	height: 0;
+	border: 0 solid transparent;
+}
+
+.wp-pointer-arrow-inner {
+	z-index: 20;
+}
+
+/* Make Room for the Arrow! */
+.wp-pointer-top,
+.wp-pointer-undefined {
+	padding-top: 13px;
+}
+
+.wp-pointer-bottom {
+	padding-bottom: 13px;
+}
+
+/* @noflip */
+.wp-pointer-left {
+	padding-left: 13px;
+}
+/* @noflip */
+.wp-pointer-right {
+	padding-right: 13px;
+}
+
+/* Base Size & Positioning */
+.wp-pointer-top .wp-pointer-arrow,
+.wp-pointer-bottom .wp-pointer-arrow,
+.wp-pointer-undefined .wp-pointer-arrow {
+	right: 50px;
+}
+
+.wp-pointer-left .wp-pointer-arrow,
+.wp-pointer-right .wp-pointer-arrow {
+	top: 50%;
+	margin-top: -15px;
+}
+
+/* Arrow Sprite */
+.wp-pointer-top .wp-pointer-arrow,
+.wp-pointer-undefined .wp-pointer-arrow {
+	top: 0;
+	border-width: 0 17px 15px 17px;
+	border-bottom-color: #2ea2cc;
+}
+
+.wp-pointer-bottom .wp-pointer-arrow {
+	bottom: 0;
+	border-width: 15px 17px 0 17px;
+	border-top-color: #fff;
+}
+
+/* @noflip */
+.wp-pointer-left .wp-pointer-arrow {
+	left: 0;
+	border-width: 17px 15px 17px 0;
+	border-right-color: #fff;
+}
+
+/* @noflip */
+.wp-pointer-right .wp-pointer-arrow {
+	right:0;
+	border-width: 17px 0 17px 15px;
+	border-left-color: #fff;
+}
+
+/* Disable pointers at responsive sizes */
+@media screen and ( max-width: 782px ) {
+	.wp-pointer {
+		display: none;
+	}
+}

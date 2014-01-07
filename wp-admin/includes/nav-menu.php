@@ -503,6 +503,16 @@ function wp_nav_menu_post_type_meta_boxes() {
 		return;
 
 	foreach ( $post_types as $post_type ) {
+		/**
+		 * Filter whether a menu items meta box will be added for the current post type.
+		 *
+		 * If a falsey value is returned instead of a post type object,
+		 * the post type menu items meta box will not be added.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param object $post_type The post type object to be used as a meta box.
+		 */
 		$post_type = apply_filters( 'nav_menu_meta_box_object', $post_type );
 		if ( $post_type ) {
 			$id = $post_type->name;
@@ -525,6 +535,16 @@ function wp_nav_menu_taxonomy_meta_boxes() {
 		return;
 
 	foreach ( $taxonomies as $tax ) {
+		/**
+		 * Filter whether a menu items meta box will be added for the current taxonomy.
+		 *
+		 * If a falsey value is returned instead of a taxonomy object,
+		 * the taxonomy menu items meta box will not be added.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param object $tax The taxonomy object to be used as a meta box.
+		 */
 		$tax = apply_filters( 'nav_menu_meta_box_object', $tax );
 		if ( $tax ) {
 			$id = $tax->name;
@@ -780,7 +800,22 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 					}
 				}
 
-				$posts = apply_filters( 'nav_menu_items_'.$post_type_name, $posts, $args, $post_type );
+				/**
+				 * Filter the posts displayed in the 'View All' tab of the current
+				 * post type's menu items meta box.
+				 *
+				 * The dynamic portion of the hook name, $post_type_name,
+				 * refers to the slug of the current post type.
+				 *
+				 * @since 3.2.0
+				 *
+				 * @see WP_Query::query()
+				 *
+				 * @param array  $posts     The posts for the current post type.
+				 * @param array  $args      An array of WP_Query arguments.
+				 * @param object $post_type The current post type object for this menu item meta box.
+				 */
+				$posts = apply_filters( "nav_menu_items_{$post_type_name}", $posts, $args, $post_type );
 				$checkbox_items = walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $posts), 0, (object) $args );
 
 				if ( 'all' == $current_tab && ! empty( $_REQUEST['selectall'] ) ) {
@@ -812,7 +847,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			</span>
 
 			<span class="add-to-menu">
-				<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( __( 'Add to Menu' ) ); ?>" name="add-post-type-menu-item" id="<?php esc_attr_e( 'submit-posttype-' . $post_type_name ); ?>" />
+				<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="add-post-type-menu-item" id="<?php echo esc_attr( 'submit-posttype-' . $post_type_name ); ?>" />
 				<span class="spinner"></span>
 			</span>
 		</p>
@@ -1000,7 +1035,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 			</span>
 
 			<span class="add-to-menu">
-				<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( __( 'Add to Menu' ) ); ?>" name="add-taxonomy-menu-item" id="<?php esc_attr_e( 'submit-taxonomy-' . $taxonomy_name ); ?>" />
+				<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="add-taxonomy-menu-item" id="<?php echo esc_attr( 'submit-taxonomy-' . $taxonomy_name ); ?>" />
 				<span class="spinner"></span>
 			</span>
 		</p>
@@ -1137,6 +1172,14 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		if( empty($menu_items) )
 			return $result . ' <ul class="menu" id="menu-to-edit"> </ul>';
 
+		/**
+		 * Filter the Walker class used to render a menu formatted for editing.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $walker_class_name The Walker class used to render a menu formatted for editing.
+		 * @param int    $menu_id           The ID of the menu being rendered.
+		 */
 		$walker_class_name = apply_filters( 'wp_edit_nav_menu_walker', 'Walker_Nav_Menu_Edit', $menu_id );
 
 		if ( class_exists( $walker_class_name ) )
@@ -1281,6 +1324,7 @@ function wp_nav_menu_update_menu_items ( $nav_menu_selected_id, $nav_menu_select
 
 	wp_defer_term_counting( false );
 
+	/** This action is documented in wp-includes/nav-menu.php */
 	do_action( 'wp_update_nav_menu', $nav_menu_selected_id );
 
 	$messages[] = '<div id="message" class="updated"><p>' . sprintf( __( '<strong>%1$s</strong> has been updated.' ), $nav_menu_selected_title ) . '</p></div>';

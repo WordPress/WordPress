@@ -618,7 +618,7 @@ class WP_User_Query {
 		$this->query_vars[$query_var] = $value;
 	}
 
-	/*
+	/**
 	 * Used internally to generate an SQL string for searching across multiple columns
 	 *
 	 * @access protected
@@ -812,7 +812,7 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
  * @uses add_metadata()
  * @link http://codex.wordpress.org/Function_Reference/add_user_meta
  *
- * @param int $user_id Post ID.
+ * @param int $user_id User ID.
  * @param string $meta_key Metadata name.
  * @param mixed $meta_value Metadata value.
  * @param bool $unique Optional, default is false. Whether the same key should not be added.
@@ -849,7 +849,7 @@ function delete_user_meta($user_id, $meta_key, $meta_value = '') {
  * @uses get_metadata()
  * @link http://codex.wordpress.org/Function_Reference/get_user_meta
  *
- * @param int $user_id Post ID.
+ * @param int $user_id User ID.
  * @param string $key Optional. The meta key to retrieve. By default, returns data for all keys.
  * @param bool $single Whether to return a single value.
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
@@ -871,7 +871,7 @@ function get_user_meta($user_id, $key = '', $single = false) {
  * @uses update_metadata
  * @link http://codex.wordpress.org/Function_Reference/update_user_meta
  *
- * @param int $user_id Post ID.
+ * @param int $user_id User ID.
  * @param string $meta_key Metadata key.
  * @param mixed $meta_value Metadata value.
  * @param mixed $prev_value Optional. Previous value to check before removing.
@@ -1258,12 +1258,6 @@ function validate_username( $username ) {
 /**
  * Insert an user into the database.
  *
- * Can update a current user or insert a new user based on whether the user's ID
- * is present.
- *
- * Can be used to update the user's info (see below), set the user's role, and
- * set the user's preference on whether they want the rich editor on.
- *
  * Most of the $userdata array fields have filters associated with the values.
  * The exceptions are 'rich_editing', 'role', 'jabber', 'aim', 'yim',
  * 'user_registered', and 'ID'. The filters have the prefix 'pre_user_' followed
@@ -1456,7 +1450,6 @@ function wp_insert_user( $userdata ) {
  *
  * @since 2.0.0
  * @see wp_insert_user() For what fields can be set in $userdata
- * @uses wp_insert_user() Used to update existing user or add new one if user doesn't exist already
  *
  * @param mixed $userdata An array of user data or a user object of type stdClass or WP_User.
  * @return int|WP_Error The updated user's ID or a WP_Error object if the user could not be updated.
@@ -1571,7 +1564,7 @@ function wp_get_user_contact_methods( $user = null ) {
 	 * @since 2.9.0
 	 *
 	 * @param array   $methods Array of contact methods and their labels.
- 	 * @param WP_User $user    Optional. WP_User object.
+ 	 * @param WP_User $user    WP_User object.
 	 */
 	return apply_filters( 'user_contactmethods', $methods, $user );
 }

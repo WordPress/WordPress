@@ -18,7 +18,7 @@ $title = __( 'Credits' );
  *
  * @since 3.2.0
  *
- * @return array A list of all of the contributors.
+ * @return array|bool A list of all of the contributors, or false on error.
 */
 function wp_credits() {
 	global $wp_version;
@@ -52,7 +52,7 @@ function wp_credits() {
  * @since 3.2.0
  *
  * @param string &$display_name The contributor's display name, passed by reference.
- * @param string $user_name     The contributor's username.
+ * @param string $username      The contributor's username.
  * @param string $profiles      URL to the contributor's WordPress.org profile page.
  * @return string A contributor's display name, hyperlinked to a WordPress.org profile page.
  */
@@ -81,7 +81,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <h1><?php printf( __( 'Welcome to WordPress %s' ), $display_version ); ?></h1>
 
-<div class="about-text"><?php echo str_replace( '3.7', $display_version, __( 'Thank you for updating to WordPress 3.7! You might not notice a thing, and we&#8217;re okay with that.' ) ); ?></div>
+<div class="about-text"><?php printf( __( 'Thank you for updating to WordPress %s, the most beautiful WordPress&nbsp;yet.' ), $display_version ); ?></div>
 
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
@@ -159,8 +159,8 @@ foreach ( $credits['groups'] as $group_slug => $group_data ) {
 
 ?>
 <p class="clear"><?php printf( __( 'Want to see your name in lights on this page? <a href="%s">Get involved in WordPress</a>.' ),
-	/* translators: Url to the codex documentation on contributing to WordPress used on the credits page */
-	__( 'http://codex.wordpress.org/Contributing_to_WordPress' ) ); ?></p>
+	/* translators: URL to the Make WordPress 'Get Involved' landing page used on the credits page */
+	__( 'http://make.wordpress.org/' ) ); ?></p>
 
 </div>
 <?php

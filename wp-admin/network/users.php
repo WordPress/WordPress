@@ -20,8 +20,6 @@ function confirm_delete_users( $users ) {
 	$current_user = wp_get_current_user();
 	if ( !is_array( $users ) )
 		return false;
-
-	screen_icon();
 	?>
 	<h2><?php esc_html_e( 'Users' ); ?></h2>
 	<p><?php _e( 'Transfer or delete posts before deleting users.' ); ?></p>
@@ -50,7 +48,7 @@ function confirm_delete_users( $users ) {
 				<br /><fieldset><p><legend><?php printf( __( "What should be done with posts owned by <em>%s</em>?" ), $delete_user->user_login ); ?></legend></p>
 				<?php
 				foreach ( (array) $blogs as $key => $details ) {
-					$blog_users = get_users( array( 'blog_id' => $details->userblog_id ) );
+					$blog_users = get_users( array( 'blog_id' => $details->userblog_id, 'fields' => array( 'ID', 'user_login' ) ) );
 					if ( is_array( $blog_users ) && !empty( $blog_users ) ) {
 						$user_site = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
 						$user_dropdown = "<select name='blog[$val][{$key}]'>";
@@ -87,7 +85,8 @@ function confirm_delete_users( $users ) {
 }
 
 if ( isset( $_GET['action'] ) ) {
-	do_action( 'wpmuadminedit' , '' );
+	/** This action is documented in wp-admin/network/edit.php */
+	do_action( 'wpmuadminedit' );
 
 	switch ( $_GET['action'] ) {
 		case 'deleteuser':
@@ -232,7 +231,7 @@ get_current_screen()->add_help_tab( array(
 	'title'   => __('Overview'),
 	'content' =>
 		'<p>' . __('This table shows all users across the network and the sites to which they are assigned.') . '</p>' .
-		'<p>' . __('Hover over any user on the list to make the edit links appear. The Edit link on the left will take you to his or her Edit User profile page; the Edit link on the right by any site name goes to an Edit Site screen for that site.') . '</p>' .
+		'<p>' . __('Hover over any user on the list to make the edit links appear. The Edit link on the left will take you to their Edit User profile page; the Edit link on the right by any site name goes to an Edit Site screen for that site.') . '</p>' .
 		'<p>' . __('You can also go to the user&#8217;s profile page by clicking on the individual username.') . '</p>' .
 		'<p>' . __('You can sort the table by clicking on any of the bold headings and switch between list and excerpt views by using the icons in the upper right.') . '</p>' .
 		'<p>' . __('The bulk action will permanently delete selected users, or mark/unmark those selected as spam. Spam users will have posts removed and will be unable to sign up again with the same email addresses.') . '</p>' .
@@ -274,7 +273,6 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 }
 	?>
 <div class="wrap">
-	<?php screen_icon(); ?>
 	<h2><?php esc_html_e( 'Users' );
 	if ( current_user_can( 'create_users') ) : ?>
 		<a href="<?php echo network_admin_url('user-new.php'); ?>" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'user' ); ?></a><?php

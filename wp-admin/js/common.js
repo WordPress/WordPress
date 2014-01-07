@@ -1,5 +1,6 @@
+/* global setUserSetting, ajaxurl, commonL10n, alert, confirm, toggleWithKeyboard, pagenow */
 var showNotice, adminMenu, columns, validateForm, screenMeta;
-(function($){
+( function( $, window, undefined ) {
 // Removed in 3.3.
 // (perhaps) needed for back-compat
 adminMenu = {
@@ -65,13 +66,19 @@ columns = {
 		n = parseInt( $t.attr('colspan'), 10 ) + diff;
 		$t.attr('colspan', n.toString());
 	}
-}
+};
 
 $(document).ready(function(){columns.init();});
 
 validateForm = function( form ) {
-	return !$( form ).find('.form-required').filter( function() { return $('input:visible', this).val() == ''; } ).addClass( 'form-invalid' ).find('input:visible').change( function() { $(this).closest('.form-invalid').removeClass( 'form-invalid' ); } ).size();
-}
+	return !$( form )
+		.find( '.form-required' )
+		.filter( function() { return $( 'input:visible', this ).val() === ''; } )
+		.addClass( 'form-invalid' )
+		.find( 'input:visible' )
+		.change( function() { $( this ).closest( '.form-invalid' ).removeClass( 'form-invalid' ); } )
+		.size();
+};
 
 // stub for doing better warnings
 showNotice = {
@@ -160,26 +167,30 @@ $('.contextual-help-tabs').delegate('a', 'click focus', function(e) {
 });
 
 $(document).ready( function() {
-	var lastClicked = false, checks, first, last, checked, sliced, menu = $('#adminmenu'), mobileEvent,
-		pageInput = $('input.current-page'), currentPage = pageInput.val();
+	var checks, first, last, checked, sliced, mobileEvent, transitionTimeout, focusedRowActions,
+		lastClicked = false,
+		menu = $('#adminmenu'),
+		pageInput = $('input.current-page'),
+		currentPage = pageInput.val();
 
 	// when the menu is folded, make the fly-out submenu header clickable
 	menu.on('click.wp-submenu-head', '.wp-submenu-head', function(e){
 		$(e.target).parent().siblings('a').get(0).click();
 	});
 
-	$('#collapse-menu').on('click.collapse-menu', function(e){
+	$('#collapse-menu').on('click.collapse-menu', function() {
 		var body = $( document.body ), respWidth;
 
 		// reset any compensation for submenus near the bottom of the screen
 		$('#adminmenu div.wp-submenu').css('margin-top', '');
 
-		// WebKit excludes the width of the vertical scrollbar when applying the CSS "@media screen and (max-width: ...)"
-		// and matches $(window).width().
-		// Firefox and IE > 8 include the scrollbar width, so after the jQuery normalization
-		// $(window).width() is 884px but window.innerWidth is 900px.
-		// (using window.innerWidth also excludes IE < 9)
-		respWidth = navigator.userAgent.indexOf('AppleWebKit/') > -1 ? $(window).width() : window.innerWidth;
+		if ( window.innerWidth ) {
+			// window.innerWidth is affected by zooming on phones
+			respWidth = Math.max( window.innerWidth, document.documentElement.clientWidth );
+		} else {
+			// IE < 9 doesn't support @media CSS rules
+			respWidth = 901;
+		}
 
 		if ( respWidth && respWidth < 900 ) {
 			if ( body.hasClass('auto-fold') ) {
@@ -207,12 +218,21 @@ $(document).ready( function() {
 
 		// close any open submenus when touch/click is not on the menu
 		$(document.body).on( mobileEvent+'.wp-mobile-hover', function(e) {
-			if ( !$(e.target).closest('#adminmenu').length )
+			if ( menu.data('wp-responsive') ) {
+				return;
+			}
+
+			if ( ! $(e.target).closest('#adminmenu').length ) {
 				menu.find('li.wp-has-submenu.opensub').removeClass('opensub');
+			}
 		});
 
 		menu.find('a.wp-has-submenu').on( mobileEvent+'.wp-mobile-hover', function(e) {
 			var el = $(this), parent = el.parent();
+
+			if ( menu.data('wp-responsive') ) {
+				return;
+			}
 
 			// Show the sub instead of following the link if:
 			//	- the submenu is not open
@@ -226,11 +246,16 @@ $(document).ready( function() {
 	}
 
 	menu.find('li.wp-has-submenu').hoverIntent({
-		over: function(e){
+		over: function() {
 			var b, h, o, f, m = $(this).find('.wp-submenu'), menutop, wintop, maxtop, top = parseInt( m.css('top'), 10 );
 
 			if ( isNaN(top) || top > -5 ) // meaning the submenu is visible
 				return;
+
+			if ( menu.data('wp-responsive') ) {
+				// The menu is in responsive mode, bail
+				return;
+			}
 
 			menutop = $(this).offset().top;
 			wintop = $(window).scrollTop();
@@ -256,6 +281,11 @@ $(document).ready( function() {
 			$(this).addClass('opensub');
 		},
 		out: function(){
+			if ( menu.data('wp-responsive') ) {
+				// The menu is in responsive mode, bail
+				return;
+			}
+
 			$(this).removeClass('opensub').find('.wp-submenu').css('margin-top', '');
 		},
 		timeout: 200,
@@ -264,8 +294,18 @@ $(document).ready( function() {
 	});
 
 	menu.on('focus.adminmenu', '.wp-submenu a', function(e){
+		if ( menu.data('wp-responsive') ) {
+			// The menu is in responsive mode, bail
+			return;
+		}
+
 		$(e.target).closest('li.menu-top').addClass('opensub');
 	}).on('blur.adminmenu', '.wp-submenu a', function(e){
+		if ( menu.data('wp-responsive') ) {
+			// The menu is in responsive mode, bail
+			return;
+		}
+
 		$(e.target).closest('li.menu-top').removeClass('opensub');
 	});
 
@@ -300,7 +340,7 @@ $(document).ready( function() {
 		// toggle "check all" checkboxes
 		var unchecked = $(this).closest('tbody').find(':checkbox').filter(':visible').not(':checked');
 		$(this).closest('table').children('thead, tfoot').find(':checkbox').prop('checked', function() {
-			return ( 0 == unchecked.length );
+			return ( 0 === unchecked.length );
 		});
 
 		return true;
@@ -335,7 +375,6 @@ $(document).ready( function() {
 	});
 
 	// Show row actions on keyboard focus of its parent container element or any other elements contained within
-	var transitionTimeout, focusedRowActions;
 	$( 'td.post-title, td.title, td.comment, .bookmarks td.column-name, td.blogname, td.username, .dashboard-comment-wrap' ).focusin(function(){
 		clearTimeout( transitionTimeout );
 		focusedRowActions = $(this).find( '.row-actions' );
@@ -396,13 +435,13 @@ $(document).ready( function() {
 			e.preventDefault();
 	});
 
-	$('#newcontent').bind('blur.wpevent_InsertTab', function(e) {
+	$('#newcontent').bind('blur.wpevent_InsertTab', function() {
 		if ( this.lastKey && 9 == this.lastKey )
 			this.focus();
 	});
 
 	if ( pageInput.length ) {
-		pageInput.closest('form').submit( function(e){
+		pageInput.closest('form').submit( function() {
 
 			// Reset paging var for new filters/searches but not for bulk actions. See #17685.
 			if ( $('select[name="action"]').val() == -1 && $('select[name="action2"]').val() == -1 && pageInput.val() == currentPage )
@@ -438,6 +477,215 @@ $(document).ready( function() {
 	})();
 });
 
+// Fire a custom jQuery event at the end of window resize
+( function() {
+	var timeout;
+
+	function triggerEvent() {
+		$(document).trigger( 'wp-window-resized' );
+	}
+
+	function fireOnce() {
+		window.clearTimeout( timeout );
+		timeout = window.setTimeout( triggerEvent, 200 );
+	}
+
+	$(window).on( 'resize.wp-fire-once', fireOnce );
+}());
+
+$(document).ready( function() {
+	var $document = $( document ),
+		$window = $( window ),
+		$body = $( document.body ),
+		$adminMenuWrap = $( '#adminmenuwrap' ),
+		$collapseMenu = $( '#collapse-menu' ),
+		$wpwrap = $( '#wpwrap' ),
+		$adminmenu = $( '#adminmenu' ),
+		$overlay = $( '#wp-responsive-overlay' ),
+		$toolbar = $( '#wp-toolbar' ),
+		$toolbarPopups = $toolbar.find( 'a[aria-haspopup="true"]' ),
+		$sortables = $('.meta-box-sortables'),
+		stickyMenuActive = false,
+		wpResponsiveActive = false;
+
+	window.stickyMenu = {
+		enable: function() {
+			if ( ! stickyMenuActive ) {
+				$document.on( 'wp-window-resized.sticky-menu', $.proxy( this.update, this ) );
+				$collapseMenu.on( 'click.sticky-menu', $.proxy( this.update, this ) );
+				this.update();
+				stickyMenuActive = true;
+			}
+		},
+
+		disable: function() {
+			if ( stickyMenuActive ) {
+				$window.off( 'resize.sticky-menu' );
+				$collapseMenu.off( 'click.sticky-menu' );
+				$body.removeClass( 'sticky-menu' );
+				stickyMenuActive = false;
+			}
+		},
+
+		update: function() {
+			// Make the admin menu sticky if the viewport is taller than it
+			if ( $window.height() > $adminMenuWrap.height() + 32 ) {
+				if ( ! $body.hasClass( 'sticky-menu' ) ) {
+					$body.addClass( 'sticky-menu' );
+				}
+			} else {
+				if ( $body.hasClass( 'sticky-menu' ) ) {
+					$body.removeClass( 'sticky-menu' );
+				}
+			}
+		}
+	};
+
+	window.wpResponsive = {
+		init: function() {
+			var self = this,
+				scrollStart = 0;
+
+			// Modify functionality based on custom activate/deactivate event
+			$document.on( 'wp-responsive-activate.wp-responsive', function() {
+				self.activate();
+			}).on( 'wp-responsive-deactivate.wp-responsive', function() {
+				self.deactivate();
+			});
+
+			// Toggle sidebar when toggle is clicked
+			$( '#wp-admin-bar-menu-toggle' ).on( 'click.wp-responsive', function( event ) {
+				event.preventDefault();
+				$wpwrap.toggleClass( 'wp-responsive-open' );
+			} );
+
+			// Add menu events
+			$adminmenu.on( 'touchstart.wp-responsive', 'li.wp-has-submenu > a', function() {
+				scrollStart = $window.scrollTop();
+			}).on( 'touchend.wp-responsive click.wp-responsive', 'li.wp-has-submenu > a', function( event ) {
+				if ( ! $adminmenu.data('wp-responsive') ||
+					( event.type === 'touchend' && $window.scrollTop() !== scrollStart ) ) {
+
+					return;
+				}
+
+				$( this ).parent( 'li' ).toggleClass( 'selected' );
+				event.preventDefault();
+			});
+
+			self.trigger();
+			$document.on( 'wp-window-resized.wp-responsive', $.proxy( this.trigger, this ) );
+
+			// This needs to run later as UI Sortable may be initialized later on $(document).ready()
+			$window.on( 'load.wp-responsive', function() {
+				var width = navigator.userAgent.indexOf('AppleWebKit/') > -1 ? $window.width() : window.innerWidth;
+
+				if ( width <= 782 ) {
+					self.disableSortables();
+				}
+			});
+		},
+
+		activate: function() {
+			window.stickyMenu.disable();
+
+			if ( ! $body.hasClass( 'auto-fold' ) ) {
+				$body.addClass( 'auto-fold' );
+			}
+
+			$adminmenu.data( 'wp-responsive', 1 );
+			this.disableSortables();
+		},
+
+		deactivate: function() {
+			window.stickyMenu.enable();
+			$adminmenu.removeData('wp-responsive');
+			this.enableSortables();
+		},
+
+		trigger: function() {
+			var width;
+
+			if ( window.innerWidth ) {
+				// window.innerWidth is affected by zooming on phones
+				width = Math.max( window.innerWidth, document.documentElement.clientWidth );
+			} else {
+				// Exclude IE < 9, it doesn't support @media CSS rules
+				return;
+			}
+
+			if ( width <= 782 ) {
+				if ( ! wpResponsiveActive ) {
+					$document.trigger( 'wp-responsive-activate' );
+					wpResponsiveActive = true;
+				}
+			} else {
+				if ( wpResponsiveActive ) {
+					$document.trigger( 'wp-responsive-deactivate' );
+					wpResponsiveActive = false;
+				}
+			}
+
+			if ( width <= 480 ) {
+				this.enableOverlay();
+			} else {
+				this.disableOverlay();
+			}
+		},
+
+		enableOverlay: function() {
+			if ( $overlay.length === 0 ) {
+				$overlay = $( '<div id="wp-responsive-overlay"></div>' )
+					.insertAfter( '#wpcontent' )
+					.hide()
+					.on( 'click.wp-responsive', function() {
+						$toolbar.find( '.menupop.hover' ).removeClass( 'hover' );
+						$( this ).hide();
+					});
+			}
+
+			$toolbarPopups.on( 'click.wp-responsive', function() {
+				$overlay.show();
+			});
+		},
+
+		disableOverlay: function() {
+			$toolbarPopups.off( 'click.wp-responsive' );
+			$overlay.hide();
+		},
+
+		disableSortables: function() {
+			if ( $sortables.length ) {
+				try {
+					$sortables.sortable('disable');
+				} catch(e) {}
+			}
+		},
+
+		enableSortables: function() {
+			if ( $sortables.length ) {
+				try {
+					$sortables.sortable('enable');
+				} catch(e) {}
+			}
+		}
+	};
+
+	window.stickyMenu.enable();
+	window.wpResponsive.init();
+});
+
+// make Windows 8 devices playing along nicely
+(function(){
+	if ( '-ms-user-select' in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/) ) {
+		var msViewportStyle = document.createElement( 'style' );
+		msViewportStyle.appendChild(
+			document.createTextNode( '@-ms-viewport{width:auto!important}' )
+		);
+		document.getElementsByTagName( 'head' )[0].appendChild( msViewportStyle );
+	}
+})();
+
 // internal use
 $(document).bind( 'wp_CloseOnEscape', function( e, data ) {
 	if ( typeof(data.cb) != 'function' )
@@ -449,4 +697,4 @@ $(document).bind( 'wp_CloseOnEscape', function( e, data ) {
 	return true;
 });
 
-})(jQuery);
+}( jQuery, window ));

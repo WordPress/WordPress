@@ -125,53 +125,6 @@ function add_screen_option( $option, $args = array() ) {
 }
 
 /**
- * Displays a screen icon.
- *
- * @uses get_screen_icon()
- * @since 2.7.0
- *
- * @param string|WP_Screen $screen Optional. Accepts a screen object (and defaults to the current screen object)
- * 	which it uses to determine an icon HTML ID. Or, if a string is provided, it is used to form the icon HTML ID.
- */
-function screen_icon( $screen = '' ) {
-	echo get_screen_icon( $screen );
-}
-
-/**
- * Gets a screen icon.
- *
- * @since 3.2.0
- *
- * @global $post_ID
- * @param string|WP_Screen $screen Optional. Accepts a screen object (and defaults to the current screen object)
- * 	which it uses to determine an icon HTML ID. Or, if a string is provided, it is used to form the icon HTML ID.
- * @return string HTML for the screen icon.
- */
-function get_screen_icon( $screen = '' ) {
-	if ( empty( $screen ) )
-		$screen = get_current_screen();
-	elseif ( is_string( $screen ) )
-		$icon_id = $screen;
-
-	$class = 'icon32';
-
-	if ( empty( $icon_id ) ) {
-		if ( ! empty( $screen->parent_base ) )
-			$icon_id = $screen->parent_base;
-		else
-			$icon_id = $screen->base;
-
-		if ( 'page' == $screen->post_type )
-			$icon_id = 'edit-pages';
-
-		if ( $screen->post_type )
-			$class .= ' ' . sanitize_html_class( 'icon32-posts-' . $screen->post_type );
-	}
-
-	return '<div id="icon-' . esc_attr( $icon_id ) . '" class="' . $class . '"><br /></div>';
-}
-
-/**
  * Get the current screen object
  *
  * @since 3.1.0
@@ -616,6 +569,37 @@ final class WP_Screen {
 	 */
 	public function add_option( $option, $args = array() ) {
 		$this->_options[ $option ] = $args;
+	}
+
+	/**
+	 * Remove an option from the screen.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @param string $option Option ID.
+	 */
+	public function remove_option( $option ) {
+		unset( $this->_options[ $option ] );
+	}
+
+	/**
+	 * Remove all options from the screen.
+	 *
+	 * @since 3.8.0
+	 */
+	public function remove_options() {
+		$this->_options = array();
+	}
+
+	/**
+	 * Get the options registered for the screen.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return array Options with arguments.
+	 */
+	public function get_options() {
+		return $this->_options;
 	}
 
 	/**

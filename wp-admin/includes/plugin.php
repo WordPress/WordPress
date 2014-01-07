@@ -623,7 +623,7 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 
 		$network_deactivating = false !== $network_wide && is_plugin_active_for_network( $plugin );
 
-		if ( ! $silent )
+		if ( ! $silent ) {
 			/**
 			 * Fires for each plugin being deactivated in deactivate_plugins(), before deactivation
 			 * and when the $silent parameter is false.
@@ -635,6 +635,7 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			 *                                     or just the current site. Multisite only. Default is false.
 			 */
 			do_action( 'deactivate_plugin', $plugin, $network_deactivating );
+		}
 
 		if ( false !== $network_wide ) {
 			if ( is_plugin_active_for_network( $plugin ) ) {
@@ -803,14 +804,20 @@ function delete_plugins($plugins, $redirect = '' ) {
 			$errors[] = $plugin_file;
 	}
 
+	// Remove deleted plugins from the plugin updates list.
+	if ( $current = get_site_transient('update_plugins') ) {
+		// Don't remove the plugins that weren't deleted.
+		$deleted = array_diff( $plugins, $errors );
+
+		foreach ( $deleted as $plugin_file ) {
+			unset( $current->response[ $plugin_file ] );
+		}
+
+		set_site_transient( 'update_plugins', $current );
+	}
+
 	if ( ! empty($errors) )
 		return new WP_Error('could_not_remove_plugin', sprintf(__('Could not fully remove the plugin(s) %s.'), implode(', ', $errors)) );
-
-	// Force refresh of plugin update information
-	if ( $current = get_site_transient('update_plugins') ) {
-		unset( $current->response[ $plugin_file ] );
-		set_site_transient('update_plugins', $current);
-	}
 
 	return true;
 }
@@ -832,7 +839,7 @@ function validate_active_plugins() {
 		$plugins = array();
 	}
 
-	if ( is_multisite() && is_super_admin() ) {
+	if ( is_multisite() && current_user_can( 'manage_network_plugins' ) ) {
 		$network_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
 		$plugins = array_merge( $plugins, array_keys( $network_plugins ) );
 	}
@@ -959,8 +966,11 @@ function uninstall_plugin($plugin) {
  * @param string $capability The capability required for this menu to be displayed to the user.
  * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
  * @param callback $function The function to be called to output the content for this page.
- * @param string $icon_url The url to the icon to be used for this menu. Using 'none' would leave div.wp-menu-image empty
- *                         so an icon can be added as background with CSS.
+ * @param string $icon_url The url to the icon to be used for this menu.
+ *     * Pass a base64-encoded SVG using a data URI, which will be colored to match the color scheme.
+ *       This should begin with 'data:image/svg+xml;base64,'.
+ *     * Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-piechart'.
+ *     * Pass 'none' to leave div.wp-menu-image empty so an icon can be added via CSS.
  * @param int $position The position in the menu order this one should appear
  *
  * @return string The resulting page's hook_suffix

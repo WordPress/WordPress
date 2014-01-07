@@ -99,6 +99,7 @@ function setup_config_display_header() {
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"<?php if ( is_rtl() ) echo ' dir="rtl"'; ?>>
 <head>
+<meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php _e( 'WordPress &rsaquo; Setup Configuration File' ); ?></title>
 <link rel="stylesheet" href="css/install.css?ver=<?php echo preg_replace( '/[^0-9a-z\.-]/i', '', $wp_version ); ?>" type="text/css" />

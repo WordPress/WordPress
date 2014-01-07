@@ -177,7 +177,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2>
 <?php
 echo esc_html( $title );

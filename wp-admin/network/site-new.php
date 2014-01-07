@@ -33,11 +33,9 @@ get_current_screen()->set_help_sidebar(
 if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 	check_admin_referer( 'add-blog', '_wpnonce_add-blog' );
 
-	if ( ! current_user_can( 'manage_sites' ) )
-		wp_die( __( 'You do not have permission to access this page.' ) );
-
 	if ( ! is_array( $_POST['blog'] ) )
 		wp_die( __( 'Can&#8217;t create an empty site.' ) );
+
 	$blog = $_POST['blog'];
 	$domain = '';
 	if ( preg_match( '|^([a-zA-Z0-9-])+$|', $blog['domain'] ) )
@@ -45,6 +43,7 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 
 	// If not a subdomain install, make sure the domain isn't a reserved word
 	if ( ! is_subdomain_install() ) {
+		/** This filter is documented in wp-includes/ms-functions.php */
 		$subdirectory_reserved_names = apply_filters( 'subdirectory_reserved_names', array( 'page', 'comments', 'blog', 'files', 'feed' ) );
 		if ( in_array( $domain, $subdirectory_reserved_names ) )
 			wp_die( sprintf( __('The following words are reserved for use by WordPress functions and cannot be used as blog names: <code>%s</code>' ), implode( '</code>, <code>', $subdirectory_reserved_names ) ) );
@@ -112,7 +111,6 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<?php screen_icon('ms-admin'); ?>
 <h2 id="add-new-site"><?php _e('Add New Site') ?></h2>
 <?php
 if ( ! empty( $messages ) ) {

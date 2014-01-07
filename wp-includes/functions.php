@@ -894,27 +894,24 @@ function get_status_header_desc( $code ) {
  * Set HTTP status header.
  *
  * @since 2.0.0
- * @uses apply_filters() Calls 'status_header' on status header string, HTTP
- *		HTTP code, HTTP code description, and protocol string as separate
- *		parameters.
+ * @see get_status_header_desc()
  *
- * @param int $header HTTP status code
- * @return unknown
+ * @param int $code HTTP status code.
  */
-function status_header( $header ) {
-	$text = get_status_header_desc( $header );
+function status_header( $code ) {
+	$description = get_status_header_desc( $code );
 
-	if ( empty( $text ) )
-		return false;
+	if ( empty( $description ) )
+		return;
 
-	$protocol = $_SERVER["SERVER_PROTOCOL"];
+	$protocol = $_SERVER['SERVER_PROTOCOL'];
 	if ( 'HTTP/1.1' != $protocol && 'HTTP/1.0' != $protocol )
 		$protocol = 'HTTP/1.0';
-	$status_header = "$protocol $header $text";
+	$status_header = "$protocol $code $description";
 	if ( function_exists( 'apply_filters' ) )
-		$status_header = apply_filters( 'status_header', $status_header, $header, $text, $protocol );
+		$status_header = apply_filters( 'status_header', $status_header, $code, $description, $protocol );
 
-	return @header( $status_header, true, $header );
+	@header( $status_header, true, $code );
 }
 
 /**
@@ -925,7 +922,6 @@ function status_header( $header ) {
  *
  * @since 2.8.0
  *
- * @uses apply_filters()
  * @return array The associative array of header names and field values.
  */
 function wp_get_nocache_headers() {
@@ -949,7 +945,7 @@ function wp_get_nocache_headers() {
  * be sent so that all of them get the point that no caching should occur.
  *
  * @since 2.0.0
- * @uses wp_get_nocache_headers()
+ * @see wp_get_nocache_headers()
  */
 function nocache_headers() {
 	$headers = wp_get_nocache_headers();
@@ -1372,14 +1368,23 @@ function wp_mkdir_p( $target ) {
 	}
 
 	// Get the permission bits.
-	if ( $target_parent && '.' != $target_parent ) {
-		$stat = @stat( $target_parent );
+	$dir_perms = false;
+	if ( $stat = @stat( $target_parent ) ) {
 		$dir_perms = $stat['mode'] & 0007777;
 	} else {
 		$dir_perms = 0777;
 	}
 
 	if ( @mkdir( $target, $dir_perms, true ) ) {
+
+		// If a umask is set that modifies $dir_perms, we'll have to re-set the $dir_perms correctly with chmod()
+		if ( $dir_perms != $dir_perms & ~umask() ) {
+			$folder_parts = explode( '/', substr( $target, strlen( $target_parent ) + 1 ) );
+			for ( $i = 1; $i <= count( $folder_parts ); $i++ ) {
+				@chmod( $target_parent . '/' . implode( '/', array_slice( $folder_parts, 0, $i ) ), $dir_perms );
+			}
+		}
+
 		return true;
 	}
 
@@ -2183,24 +2188,23 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 	<title><?php echo $title ?></title>
 	<style type="text/css">
 		html {
-			background: #f9f9f9;
+			background: #eee;
 		}
 		body {
 			background: #fff;
 			color: #333;
-			font-family: sans-serif;
+			font-family: "Open Sans", sans-serif;
 			margin: 2em auto;
 			padding: 1em 2em;
-			-webkit-border-radius: 3px;
-			border-radius: 3px;
-			border: 1px solid #dfdfdf;
 			max-width: 700px;
+			-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+			box-shadow: 0 1px 3px rgba(0,0,0,0.13);
 		}
 		h1 {
 			border-bottom: 1px solid #dadada;
 			clear: both;
 			color: #666;
-			font: 24px Georgia, "Times New Roman", Times, serif;
+			font: 24px "Open Sans", sans-serif;
 			margin: 30px 0 0 0;
 			padding: 0;
 			padding-bottom: 7px;
@@ -2228,31 +2232,28 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			color: #D54E21;
 		}
 		.button {
+			background: #f7f7f7;
+			border: 1px solid #cccccc;
+			color: #555;
 			display: inline-block;
 			text-decoration: none;
-			font-size: 14px;
-			line-height: 23px;
-			height: 24px;
+			font-size: 13px;
+			line-height: 26px;
+			height: 28px;
 			margin: 0;
 			padding: 0 10px 1px;
 			cursor: pointer;
-			border-width: 1px;
-			border-style: solid;
 			-webkit-border-radius: 3px;
+			-webkit-appearance: none;
 			border-radius: 3px;
 			white-space: nowrap;
 			-webkit-box-sizing: border-box;
 			-moz-box-sizing:    border-box;
 			box-sizing:         border-box;
-			background: #f3f3f3;
-			background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#f4f4f4));
-			background-image: -webkit-linear-gradient(top, #fefefe, #f4f4f4);
-			background-image:    -moz-linear-gradient(top, #fefefe, #f4f4f4);
-			background-image:      -o-linear-gradient(top, #fefefe, #f4f4f4);
-			background-image:   linear-gradient(to bottom, #fefefe, #f4f4f4);
-			border-color: #bbb;
-		 	color: #333;
-			text-shadow: 0 1px 0 #fff;
+
+			-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+			box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+		 	vertical-align: top;
 		}
 
 		.button.button-large {
@@ -2263,13 +2264,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 
 		.button:hover,
 		.button:focus {
-			background: #f3f3f3;
-			background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f3f3f3));
-			background-image: -webkit-linear-gradient(top, #fff, #f3f3f3);
-			background-image:    -moz-linear-gradient(top, #fff, #f3f3f3);
-			background-image:     -ms-linear-gradient(top, #fff, #f3f3f3);
-			background-image:      -o-linear-gradient(top, #fff, #f3f3f3);
-			background-image:   linear-gradient(to bottom, #fff, #f3f3f3);
+			background: #fafafa;
 			border-color: #999;
 			color: #222;
 		}
@@ -2280,17 +2275,9 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		}
 
 		.button:active {
-			outline: none;
 			background: #eee;
-			background-image: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#fefefe));
-			background-image: -webkit-linear-gradient(top, #f4f4f4, #fefefe);
-			background-image:    -moz-linear-gradient(top, #f4f4f4, #fefefe);
-			background-image:     -ms-linear-gradient(top, #f4f4f4, #fefefe);
-			background-image:      -o-linear-gradient(top, #f4f4f4, #fefefe);
-			background-image:   linear-gradient(to bottom, #f4f4f4, #fefefe);
 			border-color: #999;
 			color: #333;
-			text-shadow: 0 -1px 0 #fff;
 			-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 		 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 		}
@@ -2481,6 +2468,7 @@ function _mce_set_direction( $input ) {
 	return $input;
 }
 
+
 /**
  * Convert smiley code to the icon graphic file equivalent.
  *
@@ -2570,7 +2558,7 @@ function smilies_init() {
 	 */
 	krsort($wpsmiliestrans);
 
-	$wp_smiliessearch = '/(?:\s|^)';
+	$wp_smiliessearch = '/((?:\s|^)';
 
 	$subchar = '';
 	foreach ( (array) $wpsmiliestrans as $smiley => $img ) {
@@ -2580,7 +2568,7 @@ function smilies_init() {
 		// new subpattern?
 		if ($firstchar != $subchar) {
 			if ($subchar != '') {
-				$wp_smiliessearch .= ')|(?:\s|^)';
+				$wp_smiliessearch .= ')(?=\s|$))|((?:\s|^)'; ;
 			}
 			$subchar = $firstchar;
 			$wp_smiliessearch .= preg_quote($firstchar, '/') . '(?:';
@@ -2590,7 +2578,8 @@ function smilies_init() {
 		$wp_smiliessearch .= preg_quote($rest, '/');
 	}
 
-	$wp_smiliessearch .= ')(?:\s|$)/m';
+	$wp_smiliessearch .= ')(?=\s|$))/m';
+
 }
 
 /**
@@ -3258,7 +3247,7 @@ function wp_guess_url() {
 				$path = preg_replace( '#/' . preg_quote( $directory, '#' ) . '/[^/]*$#i', '' , $_SERVER['REQUEST_URI'] );
 			} elseif ( false !== strpos( $abspath_fix, $script_filename_dir ) ) {
 				// Request is hitting a file above ABSPATH
-				$subdirectory = str_replace( $script_filename_dir, '', $abspath_fix );
+				$subdirectory = substr( $abspath_fix, strpos( $abspath_fix, $script_filename_dir ) + strlen( $script_filename_dir ) );
 				// Strip off any file/query params from the path, appending the sub directory to the install
 				$path = preg_replace( '#/[^/]*$#i', '' , $_SERVER['REQUEST_URI'] ) . $subdirectory;
 			} else {
@@ -3347,12 +3336,12 @@ function is_main_site( $site_id = null ) {
  * @return bool True if $network_id is the main network, or if not running multisite.
  */
 function is_main_network( $network_id = null ) {
-	global $current_site, $wpdb;
+	global $wpdb;
 
 	if ( ! is_multisite() )
 		return true;
 
-	$current_network_id = (int) $current_site->id;
+	$current_network_id = (int) get_current_site()->id;
 
 	if ( ! $network_id )
 		$network_id = $current_network_id;
@@ -3734,7 +3723,6 @@ function __return_false() {
  * Useful for returning 0 to filters easily.
  *
  * @since 3.0.0
- * @see __return_zero()
  * @return int 0
  */
 function __return_zero() {
@@ -3747,7 +3735,6 @@ function __return_zero() {
  * Useful for returning an empty array to filters easily.
  *
  * @since 3.0.0
- * @see __return_zero()
  * @return array Empty array
  */
 function __return_empty_array() {
@@ -3918,7 +3905,7 @@ function wp_allowed_protocols() {
  * Return a comma separated string of functions that have been called to get to the current point in code.
  *
  * @link http://core.trac.wordpress.org/ticket/19589
- * @since 3.4
+ * @since 3.4.0
  *
  * @param string $ignore_class A class to ignore all function calls within - useful when you want to just give info about the callee
  * @param int $skip_frames A number of stack frames to skip - useful for unwinding back to the source of the issue

@@ -327,11 +327,15 @@ $wp_queries = wp_get_db_schema( 'all' );
  * @uses $wp_db_version
  */
 function populate_options() {
-	global $wpdb, $wp_db_version, $current_site, $wp_current_db_version;
+	global $wpdb, $wp_db_version, $wp_current_db_version;
 
 	$guessurl = wp_guess_url();
-
-	do_action('populate_options');
+	/**
+	 * Fires before creating WordPress options and populating their default values.
+	 *
+	 * @since 2.6.0
+	 */
+	do_action( 'populate_options' );
 
 	if ( ini_get('safe_mode') ) {
 		// Safe mode can break mkdir() so use a flat structure by default.
@@ -491,7 +495,7 @@ function populate_options() {
 	// 3.0 multisite
 	if ( is_multisite() ) {
 		/* translators: blog tagline */
-		$options[ 'blogdescription' ] = sprintf(__('Just another %s site'), $current_site->site_name );
+		$options[ 'blogdescription' ] = sprintf(__('Just another %s site'), get_current_site()->site_name );
 		$options[ 'permalink_structure' ] = '/%year%/%monthnum%/%day%/%postname%/';
 	}
 
@@ -841,13 +845,13 @@ function install_network() {
 endif;
 
 /**
- * populate network settings
+ * Populate network settings.
  *
  * @since 3.0.0
  *
- * @param int $network_id id of network to populate
+ * @param int $network_id ID of network to populate.
  * @return bool|WP_Error True on success, or WP_Error on warning (with the install otherwise successful,
- * 	so the error code must be checked) or failure.
+ *                       so the error code must be checked) or failure.
  */
 function populate_network( $network_id = 1, $domain = '', $email = '', $site_name = '', $path = '/', $subdomain_install = false ) {
 	global $wpdb, $current_site, $wp_db_version, $wp_rewrite;
@@ -945,8 +949,8 @@ We hope you enjoy your new site. Thanks!
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param array $sitemeta Associative of meta keys and values to be inserted.
-	 * @param int $network_id Network ID being created.
+	 * @param array $sitemeta   Associative array of network meta keys and values to be inserted.
+	 * @param int   $network_id ID of network to populate.
 	 */
 	$sitemeta = apply_filters( 'populate_network_meta', $sitemeta, $network_id );
 

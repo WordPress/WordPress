@@ -160,7 +160,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$this->theme_installer();
 	}
 
-	/*
+	/**
 	 * Prints a theme from the WordPress.org API.
 	 *
 	 * @param object $theme An object that contains theme data returned by the WordPress.org API.
@@ -247,7 +247,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$this->install_theme_info( $theme );
 	}
 
-	/*
+	/**
 	 * Prints the wrapper for the theme installer.
 	 */
 	function theme_installer() {
@@ -255,13 +255,14 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		<div id="theme-installer" class="wp-full-overlay expanded">
 			<div class="wp-full-overlay-sidebar">
 				<div class="wp-full-overlay-header">
-					<a href="#" class="close-full-overlay"><?php _e( '&larr; Close' ); ?></a>
+					<a href="#" class="close-full-overlay button-secondary"><?php _e( 'Close' ); ?></a>
+					<span class="theme-install"></span>
 				</div>
 				<div class="wp-full-overlay-sidebar-content">
 					<div class="install-theme-info"></div>
 				</div>
 				<div class="wp-full-overlay-footer">
-					<a href="#" class="collapse-sidebar button-secondary" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
+					<a href="#" class="collapse-sidebar" title="<?php esc_attr_e('Collapse Sidebar'); ?>">
 						<span class="collapse-sidebar-label"><?php _e('Collapse'); ?></span>
 						<span class="collapse-sidebar-arrow"></span>
 					</a>
@@ -272,7 +273,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		<?php
 	}
 
-	/*
+	/**
 	 * Prints the wrapper for the theme installer with a provided theme's data.
 	 * Used to make the theme installer work for no-js.
 	 *
@@ -291,7 +292,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		<?php
 	}
 
-	/*
+	/**
 	 * Prints the info for a theme (to be used in the theme installer modal).
 	 *
 	 * @param object $theme - A WordPress.org Theme API object.
@@ -340,9 +341,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 				<img class="theme-screenshot" src="<?php echo esc_url( $theme->screenshot_url ); ?>" />
 			<?php endif; ?>
 			<div class="theme-details">
-				<div class="star-holder" title="<?php echo esc_attr( $num_ratings ); ?>">
-					<div class="star-rating" style="width:<?php echo esc_attr( intval( $theme->rating ) . 'px' ); ?>;"></div>
-				</div>
+				<?php wp_star_rating( array( 'rating' => $theme->rating, 'type' => 'percent', 'number' => $theme->num_ratings ) ); ?>
 				<div class="theme-version">
 					<strong><?php _e('Version:') ?> </strong>
 					<?php echo wp_kses( $theme->version, $themes_allowedtags ); ?>

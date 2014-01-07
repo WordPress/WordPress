@@ -1,3 +1,4 @@
+/* global _wpMediaModelsL10n:false */
 window.wp = window.wp || {};
 
 (function($){
@@ -151,12 +152,12 @@ window.wp = window.wp || {};
 	 * ========================================================================
 	 */
 
-	 /**
-	  * wp.media.attachment
-	  */
-	 media.attachment = function( id ) {
+	/**
+	 * wp.media.attachment
+	 */
+	media.attachment = function( id ) {
 		return Attachment.get( id );
-	 };
+	};
 
 	/**
 	 * wp.media.model.Attachment
@@ -233,7 +234,7 @@ window.wp = window.wp || {};
 			}
 		},
 
-		parse: function( resp, xhr ) {
+		parse: function( resp ) {
 			if ( ! resp )
 				return resp;
 
@@ -296,7 +297,7 @@ window.wp = window.wp || {};
 		},
 
 		// Automatically sort the collection when the order changes.
-		_changeOrder: function( model, order ) {
+		_changeOrder: function() {
 			if ( this.comparator )
 				this.sort();
 		},
@@ -324,7 +325,7 @@ window.wp = window.wp || {};
 			}
 		},
 
-		_changeFilteredProps: function( model, options ) {
+		_changeFilteredProps: function( model ) {
 			// If this is a query, updating the collection will be handled by
 			// `this._requery()`.
 			if ( this.props.get('query') )
@@ -365,7 +366,7 @@ window.wp = window.wp || {};
 		validator: function( attachment ) {
 			if ( ! this.validateDestroyed && attachment.destroyed )
 				return false;
-			return _.all( this.filters, function( filter, key ) {
+			return _.all( this.filters, function( filter ) {
 				return !! filter.call( this, attachment );
 			}, this );
 		},

@@ -24,7 +24,7 @@ var wpAjax = jQuery.extend( {
 				response.supplemental = {};
 				if ( !jQuery( 'supplemental', child ).children().each( function() {
 					response.supplemental[this.nodeName] = jQuery(this).text();
-				} ).size() ) { response.supplemental = false }
+				} ).size() ) { response.supplemental = false; }
 				response.errors = [];
 				if ( !jQuery('wp_error', child).each( function() {
 					var code = jQuery(this).attr('code'), anError, errorData, formField;
@@ -54,7 +54,7 @@ var wpAjax = jQuery.extend( {
 	},
 	validateForm: function( selector ) {
 		selector = jQuery( selector );
-		return !wpAjax.invalidateForm( selector.find('.form-required').filter( function() { return jQuery('input:visible', this).val() == ''; } ) ).size();
+		return !wpAjax.invalidateForm( selector.find('.form-required').filter( function() { return jQuery('input:visible', this).val() === ''; } ) ).size();
 	}
 }, wpAjax || { noPerm: 'You do not have permission to do that.', broken: 'An unidentified error has occurred.' } );
 

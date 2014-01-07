@@ -34,7 +34,7 @@ function get_comment_author( $comment_ID = 0 ) {
 	/**
 	 * Filter the returned comment author name.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string $author The comment author's username.
 	 */
@@ -53,7 +53,7 @@ function comment_author( $comment_ID = 0 ) {
 	/**
 	 * Filter the comment author's name for display.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param string $author The comment author's username.
 	 */
@@ -74,7 +74,7 @@ function get_comment_author_email( $comment_ID = 0 ) {
 	/**
 	 * Filter the comment author's returned email address.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string $comment->comment_author_email The comment author's email address.
 	 */
@@ -99,7 +99,7 @@ function comment_author_email( $comment_ID = 0 ) {
 	/**
 	 * Filter the comment author's email for display.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param string $author_email The comment author's email address.
 	 */
@@ -153,7 +153,7 @@ function get_comment_author_email_link( $linktext = '', $before = '', $after = '
 	 * Care should be taken to protect the email address and assure that email
 	 * harvesters do not capture your commentors' email address.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param string $comment->comment_author_email The comment author's email address.
 	 */
@@ -192,7 +192,7 @@ function get_comment_author_link( $comment_ID = 0 ) {
 	/**
 	 * Filter the comment author's link for display.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string $return The HTML-formatted comment author link. Empty for an invalid URL.
 	 */
@@ -225,7 +225,7 @@ function get_comment_author_IP( $comment_ID = 0 ) {
 	/**
 	 * Filter the comment author's returned IP address.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string $comment->comment_author_IP The comment author's IP address.
 	 */
@@ -255,7 +255,14 @@ function get_comment_author_url( $comment_ID = 0 ) {
 	$comment = get_comment( $comment_ID );
 	$url = ('http://' == $comment->comment_author_url) ? '' : $comment->comment_author_url;
 	$url = esc_url( $url, array('http', 'https') );
-	return apply_filters('get_comment_author_url', $url);
+	/**
+	 * Filter the comment author's URL.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string $url The comment author's URL.
+	 */
+	return apply_filters( 'get_comment_author_url', $url );
 }
 
 /**
@@ -270,7 +277,7 @@ function comment_author_url( $comment_ID = 0 ) {
 	/**
 	 * Filter the comment author's URL for display.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param string $author_url The comment author's URL.
 	 */
@@ -306,7 +313,7 @@ function get_comment_author_url_link( $linktext = '', $before = '', $after = '' 
 	/**
 	 * Filter the comment author's returned URL link.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string $return The HTML-formatted comment author URL link.
 	 */
@@ -445,7 +452,7 @@ function get_comment_date( $d = '', $comment_ID = 0 ) {
 	/**
 	 * Filter the returned comment date.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string|int $date Formatted date string or Unix timestamp.
 	 * @param string     $d    The format of the date.
@@ -508,7 +515,7 @@ function comment_excerpt( $comment_ID = 0 ) {
 	/**
 	 * Filter the comment excerpt for display.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param string $comment_excerpt The comment excerpt text.
 	 */
@@ -527,7 +534,7 @@ function get_comment_ID() {
 	/**
 	 * Filter the returned comment ID.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param int $comment->comment_ID The current comment ID.
 	 */
@@ -660,7 +667,7 @@ function get_comments_number( $post_id = 0 ) {
 	/**
 	 * Filter the returned comment count for a post.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param int         $count   The number of comments a post has.
 	 * @param int|WP_Post $post_id The post ID or WP_Post object.
@@ -694,7 +701,7 @@ function comments_number( $zero = false, $one = false, $more = false, $deprecate
 	/**
 	 * Filter the comments count for display.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string $output A translatable string formatted based on whether the count is equal to 0, 1, or 1+. @see _n()
 	 * @param int    $number The number of post comments.
@@ -717,7 +724,7 @@ function get_comment_text( $comment_ID = 0, $args = array() ) {
 	/**
 	 * Filter the text of a comment.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string $comment->comment_content The text of the comment.
 	 * @param object $comment                  The comment object.
@@ -743,7 +750,7 @@ function comment_text( $comment_ID = 0, $args = array() ) {
 	/**
 	 * Filter the text of a comment to be displayed.
 	 *
-	 * @since 1.2.1
+	 * @since 1.2.0
 	 *
 	 * @param string $comment_text The text of the current comment.
 	 * @param object $comment      The comment object.
@@ -773,7 +780,7 @@ function get_comment_time( $d = '', $gmt = false, $translate = true ) {
 	/**
 	 * Filter the returned comment time.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string|int $date      The comment time, formatted as a date string or Unix timestamp.
 	 * @param string     $d         The date format.
@@ -810,7 +817,7 @@ function get_comment_type( $comment_ID = 0 ) {
 	/**
 	 * Filter the returned comment type.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string $comment->comment_type The type of comment, such as 'comment', 'pingback', or 'trackback'.
 	 */
@@ -1081,7 +1088,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	/**
 	 * Filter the path to the theme template file used for the comments template.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.1
 	 *
 	 * @param string $theme_template The path to the theme template file.
 	 */
@@ -1510,11 +1517,11 @@ class Walker_Comment extends Walker {
 			case 'div':
 				break;
 			case 'ol':
-				echo '<ol class="children">' . "\n";
+				$output .= '<ol class="children">' . "\n";
 				break;
 			default:
 			case 'ul':
-				echo '<ul class="children">' . "\n";
+				$output .= '<ul class="children">' . "\n";
 				break;
 		}
 	}
@@ -1537,11 +1544,11 @@ class Walker_Comment extends Walker {
 			case 'div':
 				break;
 			case 'ol':
-				echo "</ol><!-- .children -->\n";
+				$output .= "</ol><!-- .children -->\n";
 				break;
 			default:
 			case 'ul':
-				echo "</ul><!-- .children -->\n";
+				$output .= "</ul><!-- .children -->\n";
 				break;
 		}
 	}
@@ -1616,16 +1623,24 @@ class Walker_Comment extends Walker {
 		$GLOBALS['comment'] = $comment;
 
 		if ( !empty( $args['callback'] ) ) {
+			ob_start();
 			call_user_func( $args['callback'], $comment, $args, $depth );
+			$output .= ob_get_clean();
 			return;
 		}
 
 		if ( ( 'pingback' == $comment->comment_type || 'trackback' == $comment->comment_type ) && $args['short_ping'] ) {
+			ob_start();
 			$this->ping( $comment, $depth, $args );
+			$output .= ob_get_clean();
 		} elseif ( 'html5' === $args['format'] ) {
+			ob_start();
 			$this->html5_comment( $comment, $depth, $args );
+			$output .= ob_get_clean();
 		} else {
+			ob_start();
 			$this->comment( $comment, $depth, $args );
+			$output .= ob_get_clean();
 		}
 	}
 
@@ -1643,13 +1658,15 @@ class Walker_Comment extends Walker {
 	 */
 	function end_el( &$output, $comment, $depth = 0, $args = array() ) {
 		if ( !empty( $args['end-callback'] ) ) {
+			ob_start();
 			call_user_func( $args['end-callback'], $comment, $args, $depth );
+			$output .= ob_get_clean();
 			return;
 		}
 		if ( 'div' == $args['style'] )
-			echo "</div><!-- #comment-## -->\n";
+			$output .= "</div><!-- #comment-## -->\n";
 		else
-			echo "</li><!-- #comment-## -->\n";
+			$output .= "</li><!-- #comment-## -->\n";
 	}
 
 	/**
@@ -1794,6 +1811,7 @@ class Walker_Comment extends Walker {
  *     @type string 'format'            How to format the comments list.
  *                                      Default 'html5' if the theme supports it. Accepts 'html5', 'xhtml'.
  *     @type bool   'short_ping'        Whether to output short pings. Default false.
+ *     @type bool   'echo'              Whether to echo the output or return it. Default true.
  * }
  * @param array $comments Optional. Array of comment objects. @see WP_Query->comments
  */
@@ -1819,6 +1837,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
 		'reverse_children'  => '',
 		'format'            => current_theme_supports( 'html5', 'comment-list' ) ? 'html5' : 'xhtml',
 		'short_ping'        => false,
+		'echo'              => true,
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -1887,10 +1906,15 @@ function wp_list_comments( $args = array(), $comments = null ) {
 	if ( empty($walker) )
 		$walker = new Walker_Comment;
 
-	$walker->paged_walk($_comments, $max_depth, $page, $per_page, $r);
+	$output = $walker->paged_walk($_comments, $max_depth, $page, $per_page, $r);
 	$wp_query->max_num_comment_pages = $walker->max_pages;
 
 	$in_comment_loop = false;
+
+	if ( $r['echo'] )
+		echo $output;
+	else
+		return $output;
 }
 
 /**
@@ -2101,7 +2125,7 @@ function comment_form( $args = array(), $post_id = null ) {
 						/**
 						 * Fires at the bottom of the comment form, inside the closing </form> tag.
 						 *
-						 * @since 1.5.2
+						 * @since 1.5.0
 						 *
 						 * @param int $post_id The post ID.
 						 */

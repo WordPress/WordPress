@@ -38,12 +38,12 @@ if ( apply_filters( 'enable_post_by_email_configuration', true ) ) {
 }
 
 /**
-* Toggle site update services configuration functionality.
-*
-* @since 3.0.0
-*
-* @param bool True or false, based on whether update services configuration is enabled or not.
-*/
+ * Toggle site update services configuration functionality.
+ *
+ * @since 3.0.0
+ *
+ * @param bool True or false, based on whether update services configuration is enabled or not.
+ */
 if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 	get_current_screen()->add_help_tab( array(
 		'id'      => 'options-services',
@@ -62,7 +62,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 
 <form method="post" action="options.php">

@@ -164,6 +164,13 @@ $title = sprintf( __('Edit Site: %s'), $site_url_no_http );
 $parent_file = 'sites.php';
 $submenu_file = 'sites.php';
 
+/**
+ * Filter whether to show the Add Existing User form on the Multisite Users screen.
+ *
+ * @since 3.1.0
+ *
+ * @param bool $bool Whether to show the Add Existing User form. Default true.
+ */
 if ( ! wp_is_large_network( 'users' ) && apply_filters( 'show_network_site_users_add_existing_form', true ) )
 	wp_enqueue_script( 'user-suggest' );
 
@@ -177,7 +184,6 @@ var current_site_id = <?php echo $id; ?>;
 
 
 <div class="wrap">
-<?php screen_icon('ms-admin'); ?>
 <h2 id="edit-site"><?php echo $title_site_url_linked ?></h2>
 <h3 class="nav-tab-wrapper">
 <?php
@@ -243,9 +249,16 @@ endif; ?>
 
 </form>
 
-<?php do_action( 'network_site_users_after_list_table', '' );?>
+<?php
+/**
+ * Fires after the list table on the Users screen in the Multisite Network Admin.
+ *
+ * @since 3.1.0
+ */
+do_action( 'network_site_users_after_list_table' );
 
-<?php if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_users_add_existing_form', true ) ) : ?>
+/** This filter is documented in wp-admin/network/site-users.php */
+if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_users_add_existing_form', true ) ) : ?>
 <h3 id="add-existing-user"><?php _e( 'Add Existing User' ); ?></h3>
 <form action="site-users.php?action=adduser" id="adduser" method="post">
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
@@ -272,7 +285,15 @@ endif; ?>
 </form>
 <?php endif; ?>
 
-<?php if ( current_user_can( 'create_users' ) && apply_filters( 'show_network_site_users_add_new_form', true ) ) : ?>
+<?php
+/**
+ * Filter whether to show the Add New User form on the Multisite Users screen.
+ *
+ * @since 3.1.0
+ *
+ * @param bool $bool Whether to show the Add New User form. Default true.
+ */
+if ( current_user_can( 'create_users' ) && apply_filters( 'show_network_site_users_add_new_form', true ) ) : ?>
 <h3 id="add-new-user"><?php _e( 'Add New User' ); ?></h3>
 <form action="<?php echo network_admin_url('site-users.php?action=newuser'); ?>" id="newuser" method="post">
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />

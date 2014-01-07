@@ -18,6 +18,25 @@ body#media-upload ul#sidemenu {
 	overflow: hidden;
 }
 
+#media-upload:after { /* clearfix */
+	content: "";
+	display: table;
+	clear: both;
+}
+
+#media-upload,
+#media-upload .media-item .slidetoggle {
+	background: #fff;
+}
+
+#media-upload .slidetoggle {
+	border-top-color: #dfdfdf;
+}
+
+#media-upload input[type="radio"] {
+	padding: 0;
+}
+
 form {
 	margin: 1em;
 }

@@ -116,7 +116,6 @@ if ( $action ) {
 			require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 			echo '<div class="wrap">';
-			screen_icon();
 			echo '<h2>' . esc_html( $title ) . '</h2>';
 
 			$url = self_admin_url('update.php?action=update-selected&amp;plugins=' . urlencode( join(',', $plugins) ));
@@ -147,7 +146,8 @@ if ( $action ) {
 				include( WP_PLUGIN_DIR . '/' . $plugin );
 			}
 			plugin_sandbox_scrape( $plugin );
-			do_action('activate_' . $plugin);
+			/** This action is documented in wp-admin/includes/plugins.php */
+			do_action( "activate_{$plugin}" );
 			exit;
 			break;
 		case 'deactivate':
@@ -258,7 +258,6 @@ if ( $action ) {
 							}
 						}
 					}
-					screen_icon();
 					$plugins_to_delete = count( $plugin_info );
 					echo '<h2>' . _n( 'Delete Plugin', 'Delete Plugins', $plugins_to_delete ) . '</h2>';
 				?>
@@ -385,8 +384,9 @@ if ( !empty($invalid) )
 	?>
 	</div>
 <?php elseif ( isset($_GET['deleted']) ) :
-		$delete_result = get_transient('plugins_delete_result_'.$user_ID);
-		delete_transient('plugins_delete_result'); //Delete it once we're done.
+		$delete_result = get_transient( 'plugins_delete_result_' . $user_ID );
+		// Delete it once we're done.
+		delete_transient( 'plugins_delete_result_' . $user_ID );
 
 		if ( is_wp_error($delete_result) ) : ?>
 		<div id="message" class="updated"><p><?php printf( __('Plugin could not be deleted due to an error: %s'), $delete_result->get_error_message() ); ?></p></div>
@@ -406,7 +406,6 @@ if ( !empty($invalid) )
 <?php endif; ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2><?php echo esc_html( $title );
 if ( ( ! is_multisite() || is_network_admin() ) && current_user_can('install_plugins') ) { ?>
  <a href="<?php echo self_admin_url( 'plugin-install.php' ); ?>" class="add-new-h2"><?php echo esc_html_x('Add New', 'plugin'); ?></a>
@@ -415,7 +414,21 @@ if ( $s )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $s ) ); ?>
 </h2>
 
-<?php do_action( 'pre_current_active_plugins', $plugins['all'] ) ?>
+<?php
+/**
+ * Fires before the plugins list table is rendered.
+ *
+ * This hook also fires before the plugins list table is rendered in the Network Admin.
+ *
+ * Please note: The 'active' portion of the hook name does not refer to whether the current
+ * view is for active plugins, but rather all plugins actively-installed.
+ *
+ * @since 3.0.0
+ *
+ * @param array $plugins_all An array containing all installed plugins.
+ */
+do_action( 'pre_current_active_plugins', $plugins['all'] );
+?>
 
 <?php $wp_list_table->views(); ?>
 

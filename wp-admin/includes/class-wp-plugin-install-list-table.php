@@ -270,9 +270,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			</td>
 			<td class="vers column-version"<?php echo $style['version']; ?>><?php echo $version; ?></td>
 			<td class="vers column-rating"<?php echo $style['rating']; ?>>
-				<div class="star-holder" title="<?php printf( _n( '(based on %s rating)', '(based on %s ratings)', $plugin['num_ratings'] ), number_format_i18n( $plugin['num_ratings'] ) ) ?>">
-					<div class="star star-rating" style="width: <?php echo esc_attr( str_replace( ',', '.', $plugin['rating'] ) ); ?>px"></div>
-				</div>
+				<?php wp_star_rating( array( 'rating' => $plugin['rating'], 'type' => 'percent', 'number' => $plugin['num_ratings'] ) ); ?>
 			</td>
 			<td class="desc column-description"<?php echo $style['description']; ?>><?php echo $description, $author; ?></td>
 		</tr>

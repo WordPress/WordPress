@@ -259,6 +259,7 @@ function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 
 		switch ( $mime_type ) {
 			case 'image/jpeg':
+				/** This filter is documented in wp-includes/class-wp-image-editor.php */
 				return imagejpeg( $image, $filename, apply_filters( 'jpeg_quality', 90, 'edit_image' ) );
 			case 'image/png':
 				return imagepng( $image, $filename );

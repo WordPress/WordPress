@@ -58,6 +58,11 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] && is_ar
 		update_option( $key, $val );
 	}
 
+/**
+ * Fires after the site options are updated.
+ *
+ * @since 3.0.0
+ */
 	do_action( 'wpmu_update_blog_options' );
 	restore_current_blog();
 	wp_redirect( add_query_arg( array( 'update' => 'updated', 'id' => $id ), 'site-settings.php') );
@@ -82,7 +87,6 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<?php screen_icon('ms-admin'); ?>
 <h2 id="edit-site"><?php echo $title_site_url_linked ?></h2>
 <h3 class="nav-tab-wrapper">
 <?php
@@ -144,6 +148,13 @@ if ( ! empty( $messages ) ) {
 			<?php
 			}
 		} // End foreach
+		/**
+		 * Fires at the end of the Edit Site form, before the submit button.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param int $id Site ID.
+		 */
 		do_action( 'wpmueditblogaction', $id );
 		?>
 	</table>

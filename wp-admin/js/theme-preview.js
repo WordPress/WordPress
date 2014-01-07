@@ -1,4 +1,4 @@
-
+/* global tb_click */
 var thickDims, tbWidth, tbHeight;
 jQuery(document).ready(function($) {
 
@@ -12,28 +12,31 @@ jQuery(document).ready(function($) {
 			tbWindow.width(w).height(h);
 			$('#TB_iframeContent').width(w).height(h - 27);
 			tbWindow.css({'margin-left': '-' + parseInt((w / 2),10) + 'px'});
-			if ( typeof document.body.style.maxWidth != 'undefined' )
+			if ( typeof document.body.style.maxWidth !== 'undefined' ) {
 				tbWindow.css({'top':'30px','margin-top':'0'});
+			}
 		}
 	};
 
 	thickDims();
-	$(window).resize( function() { thickDims() } );
+	$(window).resize( function() { thickDims(); } );
 
 	$('a.thickbox-preview').click( function() {
 		tb_click.call(this);
 
 		var alink = $(this).parents('.available-theme').find('.activatelink'), link = '', href = $(this).attr('href'), url, text;
 
-		if ( tbWidth = href.match(/&tbWidth=[0-9]+/) )
+		if ( tbWidth = href.match(/&tbWidth=[0-9]+/) ) {
 			tbWidth = parseInt(tbWidth[0].replace(/[^0-9]+/g, ''), 10);
-		else
+		} else {
 			tbWidth = $(window).width() - 90;
+		}
 
-		if ( tbHeight = href.match(/&tbHeight=[0-9]+/) )
+		if ( tbHeight = href.match(/&tbHeight=[0-9]+/) ) {
 			tbHeight = parseInt(tbHeight[0].replace(/[^0-9]+/g, ''), 10);
-		else
+		} else {
 			tbHeight = $(window).height() - 60;
+		}
 
 		if ( alink.length ) {
 			url = alink.attr('href') || '';

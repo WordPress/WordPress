@@ -39,7 +39,7 @@ get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',
 	'title'   => __('Overview'),
 	'content' =>
-		'<p>' . __('This screen shows an individual user all of their sites in this network, and also allows that user to set a primary site. He or she can use the links under each site to visit either the frontend or the dashboard for that site.') . '</p>' .
+		'<p>' . __('This screen shows an individual user all of their sites in this network, and also allows that user to set a primary site. They can use the links under each site to visit either the frontend or the dashboard for that site.') . '</p>' .
 		'<p>' . __('Up until WordPress version 3.0, what is now called a Multisite Network had to be installed separately as WordPress MU (multi-user).') . '</p>'
 ) );
 
@@ -56,7 +56,6 @@ if ( $updated ) { ?>
 <?php } ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2><?php echo esc_html( $title ); ?></h2>
 <?php
 if ( empty( $blogs ) ) :
@@ -68,11 +67,28 @@ else :
 <form id="myblogs" action="" method="post">
 	<?php
 	choose_primary_blog();
+	/**
+	 * Fires before the sites table on the My Sites screen.
+	 *
+	 * @since 3.0.0
+	 */
 	do_action( 'myblogs_allblogs_options' );
 	?>
 	<br clear="all" />
 	<table class="widefat fixed">
 	<?php
+	/**
+	 * Enable the Global Settings section on the My Sites screen.
+	 *
+	 * By default, the Global Settings section is hidden. Passing a non-empty
+	 * string to this filter will enable the section, and allow new settings
+	 * to be added, either globally or for specific sites.
+	 *
+	 * @since MU
+	 *
+	 * @param string $settings_html The settings HTML markup. Default empty.
+	 * @param object $context       Context of the setting (global or site-specific). Default 'global'.
+	 */
 	$settings_html = apply_filters( 'myblogs_options', '', 'global' );
 	if ( $settings_html != '' ) {
 		echo '<tr><td valign="top"><h3>' . __( 'Global Settings' ) . '</h3></td><td>';
@@ -102,7 +118,16 @@ else :
 			$s = $i == 3 ? '' : 'border-right: 1px solid #ccc;';
 			echo "<td valign='top' style='$s'>";
 			echo "<h3>{$user_blog->blogname}</h3>";
+			/**
+			 * Filter the row links displayed for each site on the My Sites screen.
+			 *
+			 * @since MU
+			 *
+			 * @param string $string    The HTML site link markup.
+			 * @param object $user_blog An object containing the site data.
+			 */
 			echo "<p>" . apply_filters( 'myblogs_blog_actions', "<a href='" . esc_url( get_home_url( $user_blog->userblog_id ) ). "'>" . __( 'Visit' ) . "</a> | <a href='" . esc_url( get_admin_url( $user_blog->userblog_id ) ) . "'>" . __( 'Dashboard' ) . "</a>", $user_blog ) . "</p>";
+			/** This filter is documented in wp-admin/my-sites.php */
 			echo apply_filters( 'myblogs_options', '', $user_blog );
 			echo "</td>";
 			$i++;

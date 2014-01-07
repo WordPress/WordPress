@@ -1,8 +1,8 @@
+/* global _wpMediaViewsL10n, confirm, getUserSetting, setUserSetting */
 (function($){
 	var media       = wp.media,
 		Attachment  = media.model.Attachment,
 		Attachments = media.model.Attachments,
-		Query       = media.model.Query,
 		l10n;
 
 	// Link any localized strings.
@@ -118,11 +118,12 @@
 		},
 
 		trigger: function( event ) {
-			var base;
+			var base, args;
+
 			if ( ! this._mode )
 				return;
 
-			var args = _.toArray( arguments );
+			args = _.toArray( arguments );
 			base = this.id + ':' + event;
 
 			// Trigger `region:action:mode` event.
@@ -455,7 +456,7 @@
 		},
 
 		defaultDisplaySettings: function( attachment ) {
-			settings = this._defaultDisplaySettings;
+			var settings = this._defaultDisplaySettings;
 			if ( settings.canEmbed = this.canEmbed( attachment ) )
 				settings.link = 'embed';
 			return settings;
@@ -495,8 +496,7 @@
 
 		recordSelection: function() {
 			var selection = this.get('selection'),
-				manager = this.frame._selection,
-				filtered;
+				manager = this.frame._selection;
 
 			if ( ! this.get('syncSelection') || ! manager || ! selection )
 				return;
@@ -1059,7 +1059,7 @@
 
 			// Generate the tab states.
 			_.each( tabs, function( title, id ) {
-				var frame = this.state( 'iframe:' + id ).set( _.defaults({
+				this.state( 'iframe:' + id ).set( _.defaults({
 					tab:     id,
 					src:     tabUrl + '&tab=' + id,
 					title:   title,
@@ -1123,7 +1123,7 @@
 
 	// Map some of the modal's methods to the frame.
 	_.each(['open','close','attach','detach','escape'], function( method ) {
-		media.view.MediaFrame.prototype[ method ] = function( view ) {
+		media.view.MediaFrame.prototype[ method ] = function() {
 			if ( this.modal )
 				this.modal[ method ].apply( this.modal, arguments );
 			return this;
@@ -1150,8 +1150,7 @@
 		},
 
 		createSelection: function() {
-			var controller = this,
-				selection = this.options.selection;
+			var selection = this.options.selection;
 
 			if ( ! (selection instanceof media.model.Selection) ) {
 				this.options.selection = new media.model.Selection( selection, {
@@ -1931,8 +1930,7 @@
 
 		progress: function() {
 			var queue = this.queue,
-				$bar = this.$bar,
-				memo = 0;
+				$bar = this.$bar;
 
 			if ( ! $bar || ! queue.length )
 				return;
@@ -2111,9 +2109,7 @@
 	// ----------------------------
 	media.view.Toolbar.Select = media.view.Toolbar.extend({
 		initialize: function() {
-			var options = this.options,
-				controller = options.controller,
-				selection = controller.state().get('selection');
+			var options = this.options;
 
 			_.bindAll( this, 'clickSelect' );
 
@@ -2618,7 +2614,7 @@
 				selection = this.options.selection,
 				model = this.model,
 				method = options && options.method,
-				single, between, models, singleIndex, modelIndex;
+				single, models, singleIndex, modelIndex;
 
 			if ( ! selection )
 				return;
@@ -2899,13 +2895,13 @@
 
 			this._viewsByCid = {};
 
-			this.collection.on( 'add', function( attachment, attachments, options ) {
+			this.collection.on( 'add', function( attachment ) {
 				this.views.add( this.createAttachmentView( attachment ), {
 					at: this.collection.indexOf( attachment )
 				});
 			}, this );
 
-			this.collection.on( 'remove', function( attachment, attachments, options ) {
+			this.collection.on( 'remove', function( attachment ) {
 				var view = this._viewsByCid[ attachment.cid ];
 				delete this._viewsByCid[ attachment.cid ];
 
@@ -3066,7 +3062,7 @@
 			this.scroll();
 		},
 
-		scroll: function( event ) {
+		scroll: function() {
 			// @todo: is this still necessary?
 			if ( ! this.$el.is(':visible') )
 				return;
@@ -3149,7 +3145,7 @@
 			this.filters = {};
 		},
 
-		change: function( event ) {
+		change: function() {
 			var filter = this.filters[ this.el.value ];
 
 			if ( filter )
@@ -3396,8 +3392,7 @@
 
 		createSingle: function() {
 			var sidebar = this.sidebar,
-				single = this.options.selection.single(),
-				views = {};
+				single = this.options.selection.single();
 
 			sidebar.set( 'details', new media.view.Attachment.Details({
 				controller: this.controller,
@@ -3630,7 +3625,7 @@
 				setUserSetting( userSetting, value );
 		},
 
-		updateChanges: function( model, options ) {
+		updateChanges: function( model ) {
 			if ( model.hasChanged() )
 				_( model.changed ).chain().keys().each( this.update, this );
 		}
@@ -3756,7 +3751,7 @@
 				this.model.destroy();
 		},
 
-		editAttachment: function( event ) {
+		editAttachment: function() {
 			this.$el.addClass('needs-refresh');
 		},
 

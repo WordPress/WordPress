@@ -1,3 +1,4 @@
+/* global _zxcvbnSettings */
 (function() {
   var async_load = function() {
     var first, s;

@@ -20,6 +20,13 @@ define( 'WPINC', 'wp-includes' );
 // Include files required for initialization.
 require( ABSPATH . WPINC . '/load.php' );
 require( ABSPATH . WPINC . '/default-constants.php' );
+
+/*
+ * These can't be directly globalized in version.php. When updating,
+ * we're including version.php from another install and don't want
+ * these values to be overridden if already set.
+ */
+global $wp_version, $wp_db_version, $tinymce_version, $required_php_version, $required_mysql_version;
 require( ABSPATH . WPINC . '/version.php' );
 
 // Set initial default constants including WP_MEMORY_LIMIT, WP_MAX_MEMORY_LIMIT, WP_DEBUG, WP_CONTENT_DIR and WP_CACHE.
@@ -219,7 +226,7 @@ if ( WP_CACHE && function_exists( 'wp_cache_postload' ) )
  *
  * Pluggable functions are also available at this point in the loading order.
  *
- * @since 1.5.2
+ * @since 1.5.0
  */
 do_action( 'plugins_loaded' );
 
@@ -335,7 +342,7 @@ $wp->init();
  *
  * If you wish to plug an action once WP is loaded, use the wp_loaded hook below.
  *
- * @since 1.5.2
+ * @since 1.5.0
  */
 do_action( 'init' );
 

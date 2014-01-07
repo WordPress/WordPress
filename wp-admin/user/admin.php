@@ -17,6 +17,16 @@ if ( ! is_multisite() ) {
 }
 
 $redirect_user_admin_request = ( ( $current_blog->domain != $current_site->domain ) || ( $current_blog->path != $current_site->path ) );
+/**
+ * Filter whether a user should be redirected to the Global Dashboard in Multisite.
+ *
+ * Users not assigned to any sites in the network will be redirected to the Global
+ * Dashboard after logging in.
+ *
+ * @since 3.2.0
+ *
+ * @param bool $redirect_user_admin_request Whether the request should be redirected.
+ */
 $redirect_user_admin_request = apply_filters( 'redirect_user_admin_request', $redirect_user_admin_request );
 if ( $redirect_user_admin_request ) {
 	wp_redirect( user_admin_url() );

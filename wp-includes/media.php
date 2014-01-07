@@ -1148,7 +1148,7 @@ function wp_video_shortcode( $attr, $content = '' ) {
 		$html .= wp_mediaelement_fallback( $fileurl );
 	$html .= '</video>';
 
-	$html = sprintf( '<div style="width: %dpx; max-width: 100%%;">%s</div>', $width, $html );
+	$html = sprintf( '<div style="width: %dpx; max-width: 100%%;" class="wp-video">%s</div>', $width, $html );
 	return apply_filters( 'wp_video_shortcode', $html, $atts, $video, $post_id, $library );
 }
 add_shortcode( 'video', 'wp_video_shortcode' );
@@ -1942,6 +1942,7 @@ function wp_enqueue_media( $args = array() ) {
 	require_once ABSPATH . WPINC . '/media-template.php';
 	add_action( 'admin_footer', 'wp_print_media_templates' );
 	add_action( 'wp_footer', 'wp_print_media_templates' );
+	add_action( 'customize_controls_print_footer_scripts', 'wp_print_media_templates' );
 
 	do_action( 'wp_enqueue_media' );
 }

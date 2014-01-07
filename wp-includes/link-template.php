@@ -736,12 +736,13 @@ function edit_term_link( $link = '', $before = '', $after = '', $term = null, $e
 }
 
 /**
-* Retrieve permalink for search.
-*
-* @since  3.0.0
-* @param string $query Optional. The query string to use. If empty the current query is used.
-* @return string
-*/
+ * Retrieve permalink for search.
+ *
+ * @since  3.0.0
+ *
+ * @param string $query Optional. The query string to use. If empty the current query is used.
+ * @return string
+ */
 function get_search_link( $query = '' ) {
 	global $wp_rewrite;
 
@@ -1091,12 +1092,13 @@ function get_edit_user_link( $user_id = null ) {
  *
  * @since 1.5.0
  *
- * @param bool $in_same_cat Optional. Whether post should be in a same category.
- * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
- * @return mixed Post object if successful. Null if global $post is not set. Empty string if no corresponding post exists.
+ * @param bool         $in_same_term   Optional. Whether post should be in a same taxonomy term.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
+ * @return mixed       Post object if successful. Null if global $post is not set. Empty string if no corresponding post exists.
  */
-function get_previous_post($in_same_cat = false, $excluded_categories = '') {
-	return get_adjacent_post($in_same_cat, $excluded_categories);
+function get_previous_post( $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
+	return get_adjacent_post( $in_same_term, $excluded_terms, true, $taxonomy );
 }
 
 /**
@@ -1104,12 +1106,13 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
  *
  * @since 1.5.0
  *
- * @param bool $in_same_cat Optional. Whether post should be in a same category.
- * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
- * @return mixed Post object if successful. Null if global $post is not set. Empty string if no corresponding post exists.
+ * @param bool         $in_same_term   Optional. Whether post should be in a same taxonomy term.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
+ * @return mixed       Post object if successful. Null if global $post is not set. Empty string if no corresponding post exists.
  */
-function get_next_post($in_same_cat = false, $excluded_categories = '') {
-	return get_adjacent_post($in_same_cat, $excluded_categories, false);
+function get_next_post( $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
+	return get_adjacent_post( $in_same_term, $excluded_terms, false, $taxonomy );
 }
 
 /**
@@ -1119,54 +1122,55 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
  *
  * @since 2.5.0
  *
- * @param bool $in_same_cat Optional. Whether post should be in a same category.
- * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
- * @param bool $previous Optional. Whether to retrieve previous post.
- * @return mixed Post object if successful. Null if global $post is not set. Empty string if no corresponding post exists.
+ * @param bool         $in_same_term   Optional. Whether post should be in a same taxonomy term.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param bool         $previous       Optional. Whether to retrieve previous post.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
+ * @return mixed       Post object if successful. Null if global $post is not set. Empty string if no corresponding post exists.
  */
-function get_adjacent_post( $in_same_cat = false, $excluded_categories = '', $previous = true ) {
+function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category' ) {
 	global $wpdb;
 
-	if ( ! $post = get_post() )
+	if ( ( ! $post = get_post() ) || ! taxonomy_exists( $taxonomy ) )
 		return null;
 
 	$current_post_date = $post->post_date;
 
 	$join = '';
-	$posts_in_ex_cats_sql = '';
-	if ( $in_same_cat || ! empty( $excluded_categories ) ) {
+	$posts_in_ex_terms_sql = '';
+	if ( $in_same_term || ! empty( $excluded_terms ) ) {
 		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id INNER JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id";
 
-		if ( $in_same_cat ) {
-			if ( ! is_object_in_taxonomy( $post->post_type, 'category' ) )
+		if ( $in_same_term ) {
+			if ( ! is_object_in_taxonomy( $post->post_type, $taxonomy ) )
 				return '';
-			$cat_array = wp_get_object_terms($post->ID, 'category', array('fields' => 'ids'));
-			if ( ! $cat_array || is_wp_error( $cat_array ) )
+			$term_array = wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'ids' ) );
+			if ( ! $term_array || is_wp_error( $term_array ) )
 				return '';
-			$join .= " AND tt.taxonomy = 'category' AND tt.term_id IN (" . implode(',', $cat_array) . ")";
+			$join .= $wpdb->prepare( " AND tt.taxonomy = %s AND tt.term_id IN (" . implode( ',', array_map( 'intval', $term_array ) ) . ")", $taxonomy );
 		}
 
-		$posts_in_ex_cats_sql = "AND tt.taxonomy = 'category'";
-		if ( ! empty( $excluded_categories ) ) {
-			if ( ! is_array( $excluded_categories ) ) {
-				// back-compat, $excluded_categories used to be IDs separated by " and "
-				if ( strpos( $excluded_categories, ' and ' ) !== false ) {
-					_deprecated_argument( __FUNCTION__, '3.3', sprintf( __( 'Use commas instead of %s to separate excluded categories.' ), "'and'" ) );
-					$excluded_categories = explode( ' and ', $excluded_categories );
+		$posts_in_ex_terms_sql = $wpdb->prepare( "AND tt.taxonomy = %s", $taxonomy );
+		if ( ! empty( $excluded_terms ) ) {
+			if ( ! is_array( $excluded_terms ) ) {
+				// back-compat, $excluded_terms used to be $excluded_terms with IDs separated by " and "
+				if ( false !== strpos( $excluded_terms, ' and ' ) ) {
+					_deprecated_argument( __FUNCTION__, '3.3', sprintf( __( 'Use commas instead of %s to separate excluded terms.' ), "'and'" ) );
+					$excluded_terms = explode( ' and ', $excluded_terms );
 				} else {
-					$excluded_categories = explode( ',', $excluded_categories );
+					$excluded_terms = explode( ',', $excluded_terms );
 				}
 			}
 
-			$excluded_categories = array_map( 'intval', $excluded_categories );
+			$excluded_terms = array_map( 'intval', $excluded_terms );
 
-			if ( ! empty( $cat_array ) ) {
-				$excluded_categories = array_diff($excluded_categories, $cat_array);
-				$posts_in_ex_cats_sql = '';
+			if ( ! empty( $term_array ) ) {
+				$excluded_terms = array_diff( $excluded_terms, $term_array );
+				$posts_in_ex_terms_sql = '';
 			}
 
-			if ( !empty($excluded_categories) ) {
-				$posts_in_ex_cats_sql = " AND tt.taxonomy = 'category' AND tt.term_id NOT IN (" . implode($excluded_categories, ',') . ')';
+			if ( ! empty( $excluded_terms ) ) {
+				$posts_in_ex_terms_sql = $wpdb->prepare( " AND tt.taxonomy = %s AND tt.term_id NOT IN (" . implode( $excluded_terms, ',' ) . ')', $taxonomy );
 			}
 		}
 	}
@@ -1175,13 +1179,13 @@ function get_adjacent_post( $in_same_cat = false, $excluded_categories = '', $pr
 	$op = $previous ? '<' : '>';
 	$order = $previous ? 'DESC' : 'ASC';
 
-	$join  = apply_filters( "get_{$adjacent}_post_join", $join, $in_same_cat, $excluded_categories );
-	$where = apply_filters( "get_{$adjacent}_post_where", $wpdb->prepare("WHERE p.post_date $op %s AND p.post_type = %s AND p.post_status = 'publish' $posts_in_ex_cats_sql", $current_post_date, $post->post_type), $in_same_cat, $excluded_categories );
+	$join  = apply_filters( "get_{$adjacent}_post_join", $join, $in_same_term, $excluded_terms );
+	$where = apply_filters( "get_{$adjacent}_post_where", $wpdb->prepare( "WHERE p.post_date $op %s AND p.post_type = %s AND p.post_status = 'publish' $posts_in_ex_terms_sql", $current_post_date, $post->post_type), $in_same_term, $excluded_terms );
 	$sort  = apply_filters( "get_{$adjacent}_post_sort", "ORDER BY p.post_date $order LIMIT 1" );
 
 	$query = "SELECT p.ID FROM $wpdb->posts AS p $join $where $sort";
-	$query_key = 'adjacent_post_' . md5($query);
-	$result = wp_cache_get($query_key, 'counts');
+	$query_key = 'adjacent_post_' . md5( $query );
+	$result = wp_cache_get( $query_key, 'counts' );
 	if ( false !== $result ) {
 		if ( $result )
 			$result = get_post( $result );
@@ -1192,7 +1196,7 @@ function get_adjacent_post( $in_same_cat = false, $excluded_categories = '', $pr
 	if ( null === $result )
 		$result = '';
 
-	wp_cache_set($query_key, $result, 'counts');
+	wp_cache_set( $query_key, $result, 'counts' );
 
 	if ( $result )
 		$result = get_post( $result );
@@ -1207,34 +1211,35 @@ function get_adjacent_post( $in_same_cat = false, $excluded_categories = '', $pr
  *
  * @since 2.8.0
  *
- * @param string $title Optional. Link title format.
- * @param bool $in_same_cat Optional. Whether link should be in a same category.
- * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
- * @param bool $previous Optional, default is true. Whether to display link to previous or next post.
+ * @param string       $title          Optional. Link title format.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param bool         $previous       Optional. Whether to display link to previous or next post. Default true.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string
  */
-function get_adjacent_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '', $previous = true) {
+function get_adjacent_post_rel_link( $title = '%title', $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category' ) {
 	if ( $previous && is_attachment() && $post = get_post() )
 		$post = get_post( $post->post_parent );
 	else
-		$post = get_adjacent_post( $in_same_cat, $excluded_categories, $previous );
+		$post = get_adjacent_post( $in_same_term, $excluded_terms, $previous, $taxonomy );
 
-	if ( empty($post) )
+	if ( empty( $post ) )
 		return;
 
 	$post_title = the_title_attribute( array( 'echo' => false, 'post' => $post ) );
 
 	if ( empty( $post_title ) )
-		$post_title = $previous ? __('Previous Post') : __('Next Post');
+		$post_title = $previous ? __( 'Previous Post' ) : __( 'Next Post' );
 
-	$date = mysql2date(get_option('date_format'), $post->post_date);
+	$date = mysql2date( get_option( 'date_format' ), $post->post_date );
 
-	$title = str_replace('%title', $post_title, $title);
-	$title = str_replace('%date', $date, $title);
+	$title = str_replace( '%title', $post_title, $title );
+	$title = str_replace( '%date', $date, $title );
 
 	$link = $previous ? "<link rel='prev' title='" : "<link rel='next' title='";
 	$link .= esc_attr( $title );
-	$link .= "' href='" . get_permalink($post) . "' />\n";
+	$link .= "' href='" . get_permalink( $post ) . "' />\n";
 
 	$adjacent = $previous ? 'previous' : 'next';
 	return apply_filters( "{$adjacent}_post_rel_link", $link );
@@ -1245,13 +1250,14 @@ function get_adjacent_post_rel_link($title = '%title', $in_same_cat = false, $ex
  *
  * @since 2.8.0
  *
- * @param string $title Optional. Link title format.
- * @param bool $in_same_cat Optional. Whether link should be in a same category.
- * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
+ * @param string       $title          Optional. Link title format.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
-function adjacent_posts_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '') {
-	echo get_adjacent_post_rel_link($title, $in_same_cat, $excluded_categories = '', true);
-	echo get_adjacent_post_rel_link($title, $in_same_cat, $excluded_categories = '', false);
+function adjacent_posts_rel_link( $title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
+	echo get_adjacent_post_rel_link( $title, $in_same_term, $excluded_terms = '', true, $taxonomy );
+	echo get_adjacent_post_rel_link( $title, $in_same_term, $excluded_terms = '', false, $taxonomy );
 }
 
 /**
@@ -1272,12 +1278,13 @@ function adjacent_posts_rel_link_wp_head() {
  *
  * @since 2.8.0
  *
- * @param string $title Optional. Link title format.
- * @param bool $in_same_cat Optional. Whether link should be in a same category.
- * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
+ * @param string       $title          Optional. Link title format.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
-function next_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '') {
-	echo get_adjacent_post_rel_link($title, $in_same_cat, $excluded_categories = '', false);
+function next_post_rel_link( $title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
+	echo get_adjacent_post_rel_link( $title, $in_same_term, $excluded_terms = '', false, $taxonomy );
 }
 
 /**
@@ -1285,56 +1292,71 @@ function next_post_rel_link($title = '%title', $in_same_cat = false, $excluded_c
  *
  * @since 2.8.0
  *
- * @param string $title Optional. Link title format.
- * @param bool $in_same_cat Optional. Whether link should be in a same category.
- * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
+ * @param string       $title          Optional. Link title format.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs. Default true.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
-function prev_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '') {
-	echo get_adjacent_post_rel_link($title, $in_same_cat, $excluded_categories = '', true);
+function prev_post_rel_link( $title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
+	echo get_adjacent_post_rel_link( $title, $in_same_term, $excluded_terms = '', true, $taxonomy );
 }
 
 /**
  * Retrieve boundary post.
  *
  * Boundary being either the first or last post by publish date within the constraints specified
- * by $in_same_cat or $excluded_categories.
+ * by $in_same_term or $excluded_terms.
  *
  * @since 2.8.0
  *
- * @param bool $in_same_cat Optional. Whether returned post should be in a same category.
- * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
- * @param bool $start Optional. Whether to retrieve first or last post.
+ * @param bool         $in_same_term   Optional. Whether returned post should be in a same taxonomy term.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param bool         $start          Optional. Whether to retrieve first or last post.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return object
  */
-function get_boundary_post( $in_same_cat = false, $excluded_categories = '', $start = true ) {
+function get_boundary_post( $in_same_term = false, $excluded_terms = '', $start = true, $taxonomy = 'category' ) {
 	$post = get_post();
-	if ( ! $post || ! is_single() || is_attachment() )
+	if ( ! $post || ! is_single() || is_attachment() || ! taxonomy_exists( $taxonomy ) )
 		return null;
 
-	$cat_array = array();
-	if( ! is_array( $excluded_categories ) )
-		$excluded_categories = explode( ',', $excluded_categories );
+	$query_args = array(
+		'posts_per_page' => 1,
+		'order' => $start ? 'ASC' : 'DESC',
+		'update_post_term_cache' => false,
+		'update_post_meta_cache' => false
+	);
 
-	if ( $in_same_cat || ! empty( $excluded_categories ) ) {
-		if ( $in_same_cat )
-			$cat_array = wp_get_object_terms( $post->ID, 'category', array( 'fields' => 'ids' ) );
+	$term_array = array();
 
-		if ( ! empty( $excluded_categories ) ) {
-			$excluded_categories = array_map( 'intval', $excluded_categories );
-			$excluded_categories = array_diff( $excluded_categories, $cat_array );
-
-			$inverse_cats = array();
-			foreach ( $excluded_categories as $excluded_category )
-				$inverse_cats[] = $excluded_category * -1;
-			$excluded_categories = $inverse_cats;
-		}
+	if ( ! is_array( $excluded_terms ) ) {
+		if ( ! empty( $excluded_terms ) )
+			$excluded_terms = explode( ',', $excluded_terms );
+		else
+			$excluded_terms = array();
 	}
 
-	$categories = implode( ',', array_merge( $cat_array, $excluded_categories ) );
+	if ( $in_same_term || ! empty( $excluded_terms ) ) {
+		if ( $in_same_term )
+			$term_array = wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'ids' ) );
 
-	$order = $start ? 'ASC' : 'DESC';
+		if ( ! empty( $excluded_terms ) ) {
+			$excluded_terms = array_map( 'intval', $excluded_terms );
+			$excluded_terms = array_diff( $excluded_terms, $term_array );
 
-	return get_posts( array('numberposts' => 1, 'category' => $categories, 'order' => $order, 'update_post_term_cache' => false, 'update_post_meta_cache' => false) );
+			$inverse_terms = array();
+			foreach ( $excluded_terms as $excluded_term )
+				$inverse_terms[] = $excluded_term * -1;
+			$excluded_terms = $inverse_terms;
+		}
+
+		$query_args[ 'tax_query' ] = array( array(
+			'taxonomy' => $taxonomy,
+			'terms' => array_merge( $term_array, $excluded_terms )
+		) );
+	}
+
+	return get_posts( $query_args );
 }
 
 /*
@@ -1342,59 +1364,63 @@ function get_boundary_post( $in_same_cat = false, $excluded_categories = '', $st
  *
  * @since 3.7.0
  *
- * @param string $format Optional. Link anchor format.
- * @param string $link Optional. Link permalink format.
- * @param bool $in_same_cat Optional. Whether link should be in same category.
- * @param string $excluded_categories Optional. Excluded categories IDs.
+ * @param string       $format         Optional. Link anchor format.
+ * @param string       $link           Optional. Link permalink format.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string
  */
-function get_previous_post_link( $format = '&laquo; %link', $link = '%title', $in_same_cat = false, $excluded_categories = '' ) {
-	return get_adjacent_post_link( $format, $link, $in_same_cat, $excluded_categories, true );
+function get_previous_post_link( $format = '&laquo; %link', $link = '%title', $in_same_cat = false, $excluded_terms = '', $taxonomy = 'category' ) {
+	return get_adjacent_post_link( $format, $link, $in_same_cat, $excluded_terms, true, $taxonomy );
 }
 
 /**
  * Display previous post link that is adjacent to the current post.
  *
  * @since 1.5.0
- * @uses get_previous_post_link()
+ * @see get_previous_post_link()
  *
- * @param string $format Optional. Link anchor format.
- * @param string $link Optional. Link permalink format.
- * @param bool $in_same_cat Optional. Whether link should be in a same category.
- * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
+ * @param string       $format         Optional. Link anchor format.
+ * @param string       $link           Optional. Link permalink format.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
-function previous_post_link( $format = '&laquo; %link', $link = '%title', $in_same_cat = false, $excluded_categories = '' ) {
-	echo get_previous_post_link( $format, $link, $in_same_cat, $excluded_categories );
+function previous_post_link( $format = '&laquo; %link', $link = '%title', $in_same_cat = false, $excluded_terms = '', $taxonomy = 'category' ) {
+	echo get_previous_post_link( $format, $link, $in_same_cat, $excluded_terms, $taxonomy );
 }
 
 /**
- * Get previous post link that is adjacent to the current post.
+ * Get next post link that is adjacent to the current post.
  *
  * @since 3.7.0
- * @uses get_next_post_link()
  *
- * @param string $format Optional. Link anchor format.
- * @param string $link Optional. Link permalink format.
- * @param bool $in_same_cat Optional. Whether link should be in same category.
- * @param string $excluded_categories Optional. Excluded categories IDs.
+ * @param string       $format         Optional. Link anchor format.
+ * @param string       $link           Optional. Link permalink format.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string
  */
-function get_next_post_link( $format = '&laquo; %link', $link = '%title', $in_same_cat = false, $excluded_categories = '' ) {
-	return get_adjacent_post_link( $format, $link, $in_same_cat, $excluded_categories, false );
+function get_next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_cat = false, $excluded_terms = '', $taxonomy = 'category' ) {
+	return get_adjacent_post_link( $format, $link, $in_same_cat, $excluded_terms, false, $taxonomy );
 }
 
 /**
  * Display next post link that is adjacent to the current post.
  *
  * @since 1.5.0
+ * @see get_next_post_link()
  *
- * @param string $format Optional. Link anchor format.
- * @param string $link Optional. Link permalink format.
- * @param bool $in_same_cat Optional. Whether link should be in a same category.
- * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
+ * @param string       $format         Optional. Link anchor format.
+ * @param string       $link           Optional. Link permalink format.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
-function next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_cat = false, $excluded_categories = '' ) {
-	 echo get_next_post_link( $format, $link, $in_same_cat, $excluded_categories );
+function next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_cat = false, $excluded_terms = '', $taxonomy = 'category' ) {
+	 echo get_next_post_link( $format, $link, $in_same_cat, $excluded_terms, $taxonomy );
 }
 
 /**
@@ -1404,18 +1430,19 @@ function next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_c
  *
  * @since 3.7.0
  *
- * @param string $format Link anchor format.
- * @param string $link Link permalink format.
- * @param bool $in_same_cat Optional. Whether link should be in a same category.
- * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
- * @param bool $previous Optional, default is true. Whether to display link to previous or next post.
+ * @param string       $format         Link anchor format.
+ * @param string       $link           Link permalink format.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded terms IDs.
+ * @param bool         $previous       Optional. Whether to display link to previous or next post. Default true.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string
  */
-function get_adjacent_post_link( $format, $link, $in_same_cat = false, $excluded_categories = '', $previous = true ) {
+function get_adjacent_post_link( $format, $link, $in_same_cat = false, $excluded_terms = '', $previous = true, $taxonomy = 'category' ) {
 	if ( $previous && is_attachment() )
 		$post = get_post( get_post()->post_parent );
 	else
-		$post = get_adjacent_post( $in_same_cat, $excluded_categories, $previous );
+		$post = get_adjacent_post( $in_same_cat, $excluded_terms, $previous, $taxonomy );
 
 	if ( ! $post ) {
 		$output = '';
@@ -1451,15 +1478,16 @@ function get_adjacent_post_link( $format, $link, $in_same_cat = false, $excluded
  * @since 2.5.0
  * @uses get_adjacent_post_link()
  *
- * @param string $format Link anchor format.
- * @param string $link Link permalink format.
- * @param bool $in_same_cat Optional. Whether link should be in a same category.
- * @param array|string $excluded_categories Optional. Array or comma-separated list of excluded category IDs.
- * @param bool $previous Optional, default is true. Whether to display link to previous or next post.
+ * @param string       $format         Link anchor format.
+ * @param string       $link           Link permalink format.
+ * @param bool         $in_same_cat    Optional. Whether link should be in a same category.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded category IDs.
+ * @param bool         $previous       Optional. Whether to display link to previous or next post. Default true.
+ * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string
  */
-function adjacent_post_link( $format, $link, $in_same_cat = false, $excluded_categories = '', $previous = true ) {
-	echo get_adjacent_post_link( $format, $link, $in_same_cat, $excluded_categories, $previous );
+function adjacent_post_link( $format, $link, $in_same_cat = false, $excluded_terms = '', $previous = true, $taxonomy = 'category' ) {
+	echo get_adjacent_post_link( $format, $link, $in_same_cat, $excluded_terms, $previous, $taxonomy );
 }
 
 /**
@@ -2159,10 +2187,10 @@ function plugins_url($path = '', $plugin = '') {
  * @return string Site url link with optional path appended.
 */
 function network_site_url( $path = '', $scheme = null ) {
-	global $current_site;
-
 	if ( ! is_multisite() )
 		return site_url($path, $scheme);
+
+	$current_site = get_current_site();
 
 	if ( 'relative' == $scheme )
 		$url = $current_site->path;
@@ -2190,11 +2218,10 @@ function network_site_url( $path = '', $scheme = null ) {
  * @return string Home url link with optional path appended.
 */
 function network_home_url( $path = '', $scheme = null ) {
-	global $current_site;
-
 	if ( ! is_multisite() )
 		return home_url($path, $scheme);
 
+	$current_site = get_current_site();
 	$orig_scheme = $scheme;
 
 	if ( ! in_array( $scheme, array( 'http', 'https', 'relative' ) ) )

@@ -1,3 +1,4 @@
+/* global ajaxurl, deleteUserSetting, setUserSetting, switchEditors, tinymce, tinyMCEPreInit, wp_fullscreen_settings, wpActiveEditor:true, wpLink */
 /**
  * PubSub
  *
@@ -63,7 +64,7 @@ PubSub.prototype.publish = function( topic, args ) {
  */
 
 (function($){
-	var api, ps, bounder, s;
+	var api, ps, bounder, s, timer, block, set_title_hint;
 
 	// Initialize the fullscreen/api object
 	fullscreen = api = {};
@@ -80,7 +81,7 @@ PubSub.prototype.publish = function( topic, args ) {
 		title_id : '',
 		timer : 0,
 		toolbar_shown : false
-	}
+	};
 
 	/**
 	 * Bounder
@@ -156,7 +157,7 @@ PubSub.prototype.publish = function( topic, args ) {
 		if ( ! s.element )
 			api.ui.init();
 
-		s.is_mce_on = s.has_tinymce && typeof( tinyMCE.get(s.editor_id) ) != 'undefined';
+		s.is_mce_on = s.has_tinymce && typeof( tinymce.get(s.editor_id) ) != 'undefined';
 
 		api.ui.fade( 'show', 'showing', 'shown' );
 	};
@@ -227,7 +228,7 @@ PubSub.prototype.publish = function( topic, args ) {
 		}, 'json');
 
 		hidden.val(old);
-	}
+	};
 
 	api.savecontent = function() {
 		var ed, content;
@@ -235,7 +236,7 @@ PubSub.prototype.publish = function( topic, args ) {
 		if ( s.title_id )
 			$('#' + s.title_id).val( $('#wp-fullscreen-title').val() );
 
-		if ( s.mode === 'tinymce' && (ed = tinyMCE.get('wp_mce_fullscreen')) ) {
+		if ( s.mode === 'tinymce' && (ed = tinymce.get('wp_mce_fullscreen')) ) {
 			content = ed.save();
 		} else {
 			content = $('#wp_mce_fullscreen').val();
@@ -243,14 +244,14 @@ PubSub.prototype.publish = function( topic, args ) {
 
 		$('#' + s.editor_id).val( content );
 		$(document).triggerHandler('wpcountwords', [ content ]);
-	}
+	};
 
 	set_title_hint = function( title ) {
 		if ( ! title.val().length )
 			title.siblings('label').css( 'visibility', '' );
 		else
 			title.siblings('label').css( 'visibility', 'hidden' );
-	}
+	};
 
 	api.dfw_width = function(n) {
 		var el = $('#wp-fullscreen-wrap'), w = el.width();
@@ -268,7 +269,7 @@ PubSub.prototype.publish = function( topic, args ) {
 
 		el.width( w );
 		setUserSetting('dfw_width', w);
-	}
+	};
 
 	ps.subscribe( 'showToolbar', function() {
 		s.toolbars.removeClass('fade-1000').addClass('fade-300');
@@ -305,7 +306,7 @@ PubSub.prototype.publish = function( topic, args ) {
 		s.textarea_obj.value = s.qt_canvas.value;
 
 		if ( s.has_tinymce && s.mode === 'tinymce' )
-			tinyMCE.execCommand('wpFullScreenInit');
+			tinymce.execCommand('wpFullScreenInit');
 
 		s.orig_y = $(window).scrollTop();
 	});
@@ -349,7 +350,7 @@ PubSub.prototype.publish = function( topic, args ) {
 			};
 
 			tinymce.onAddEditor.add(interim_init);
-			tinyMCE.init(tinyMCEPreInit.mceInit[s.editor_id]);
+			tinymce.init(tinyMCEPreInit.mceInit[s.editor_id]);
 
 			s.is_mce_on = true;
 		}
@@ -373,7 +374,7 @@ PubSub.prototype.publish = function( topic, args ) {
 		$(s.textarea_obj).unbind('.grow');
 
 		if ( s.has_tinymce && s.mode === 'tinymce' )
-			tinyMCE.execCommand('wpFullScreenSave');
+			tinymce.execCommand('wpFullScreenSave');
 
 		if ( s.title_id )
 			set_title_hint( $('#' + s.title_id) );
@@ -393,7 +394,7 @@ PubSub.prototype.publish = function( topic, args ) {
 		$('#wp_mce_fullscreen, #wp-fullscreen-title').removeAttr('style');
 
 		if ( s.has_tinymce && s.is_mce_on )
-			tinyMCE.execCommand('wpFullScreenClose');
+			tinymce.execCommand('wpFullScreenClose');
 
 		s.textarea_obj.value = '';
 		api.oldheight = 0;
@@ -406,15 +407,15 @@ PubSub.prototype.publish = function( topic, args ) {
 		if ( !s.has_tinymce || !s.is_mce_on )
 			return;
 
-		ed = tinyMCE.get('wp_mce_fullscreen');
+		ed = tinymce.get('wp_mce_fullscreen');
 
 		if ( from === 'html' && to === 'tinymce' ) {
 
-			if ( tinyMCE.get(s.editor_id).getParam('wpautop') && typeof(switchEditors) != 'undefined' )
+			if ( tinymce.get(s.editor_id).getParam('wpautop') && typeof(switchEditors) != 'undefined' )
 				s.textarea_obj.value = switchEditors.wpautop( s.textarea_obj.value );
 
 			if ( 'undefined' == typeof(ed) )
-				tinyMCE.execCommand('wpFullScreenInit');
+				tinymce.execCommand('wpFullScreenInit');
 			else
 				ed.show();
 
@@ -436,55 +437,55 @@ PubSub.prototype.publish = function( topic, args ) {
 	 */
 	api.b = function() {
 		if ( s.has_tinymce && 'tinymce' === s.mode )
-			tinyMCE.execCommand('Bold');
-	}
+			tinymce.execCommand('Bold');
+	};
 
 	api.i = function() {
 		if ( s.has_tinymce && 'tinymce' === s.mode )
-			tinyMCE.execCommand('Italic');
-	}
+			tinymce.execCommand('Italic');
+	};
 
 	api.ul = function() {
 		if ( s.has_tinymce && 'tinymce' === s.mode )
-			tinyMCE.execCommand('InsertUnorderedList');
-	}
+			tinymce.execCommand('InsertUnorderedList');
+	};
 
 	api.ol = function() {
 		if ( s.has_tinymce && 'tinymce' === s.mode )
-			tinyMCE.execCommand('InsertOrderedList');
-	}
+			tinymce.execCommand('InsertOrderedList');
+	};
 
 	api.link = function() {
 		if ( s.has_tinymce && 'tinymce' === s.mode )
-			tinyMCE.execCommand('WP_Link');
+			tinymce.execCommand('WP_Link');
 		else
 			wpLink.open();
-	}
+	};
 
 	api.unlink = function() {
 		if ( s.has_tinymce && 'tinymce' === s.mode )
-			tinyMCE.execCommand('unlink');
-	}
+			tinymce.execCommand('unlink');
+	};
 
 	api.atd = function() {
 		if ( s.has_tinymce && 'tinymce' === s.mode )
-			tinyMCE.execCommand('mceWritingImprovementTool');
-	}
+			tinymce.execCommand('mceWritingImprovementTool');
+	};
 
 	api.help = function() {
 		if ( s.has_tinymce && 'tinymce' === s.mode )
-			tinyMCE.execCommand('WP_Help');
-	}
+			tinymce.execCommand('WP_Help');
+	};
 
 	api.blockquote = function() {
 		if ( s.has_tinymce && 'tinymce' === s.mode )
-			tinyMCE.execCommand('mceBlockQuote');
-	}
+			tinymce.execCommand('mceBlockQuote');
+	};
 
 	api.medialib = function() {
 		if ( typeof wp !== 'undefined' && wp.media && wp.media.editor )
 			wp.media.editor.open(s.editor_id);
-	}
+	};
 
 	api.refresh_buttons = function( fade ) {
 		fade = fade || false;
@@ -509,7 +510,7 @@ PubSub.prototype.publish = function( topic, args ) {
 			else
 				$('#wp-fullscreen-button-bar').removeClass('wp-html-mode');
 		}
-	}
+	};
 
 	/**
 	 * UI Elements
@@ -558,16 +559,20 @@ PubSub.prototype.publish = function( topic, args ) {
 						fullscreen.off();
 				}
 
-				if ( a && (61 == c || 107 == c || 187 == c) ) // +
+				if ( a && (61 == c || 107 == c || 187 == c) ) { // +
 					api.dfw_width(25);
+					e.preventDefault();
+				}
 
-				if ( a && (45 == c || 109 == c || 189 == c) ) // -
+				if ( a && (45 == c || 109 == c || 189 == c) ) { // -
 					api.dfw_width(-25);
+					e.preventDefault();
+				}
 
-				if ( a && 48 == c ) // 0
+				if ( a && 48 == c ) { // 0
 					api.dfw_width(0);
-
-				return false;
+					e.preventDefault();
+				}
 			});
 
 			// word count in Text mode
@@ -587,12 +592,12 @@ PubSub.prototype.publish = function( topic, args ) {
 				});
 			}
 
-			topbar.mouseenter(function(e){
+			topbar.mouseenter(function(){
 				s.toolbars.addClass('fullscreen-make-sticky');
 				$( document ).unbind( '.fullscreen' );
 				clearTimeout( s.timer );
 				s.timer = 0;
-			}).mouseleave(function(e){
+			}).mouseleave(function(){
 				s.toolbars.removeClass('fullscreen-make-sticky');
 
 				if ( s.visible )
@@ -615,7 +620,7 @@ PubSub.prototype.publish = function( topic, args ) {
 				api.fade.Out( s.element, 600, function() {
 					if ( after )
 						ps.publish( after );
-				})
+				});
 			});
 		}
 	};
@@ -708,7 +713,7 @@ PubSub.prototype.publish = function( topic, args ) {
 		$(s.textarea_obj).bind('keypress.grow click.grow paste.grow', function(){
 			setTimeout( api.resize_textarea, 200 );
 		});
-	}
+	};
 
 	api.oldheight = 0;
 	api.resize_textarea = function() {

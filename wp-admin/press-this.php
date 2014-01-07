@@ -309,12 +309,31 @@ var photostorage = false;
 </script>
 
 <?php
+	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_enqueue_scripts', 'press-this.php' );
+	/**
+	 * Print styles for the Press This admin page.
+	 *
+	 * @since 3.7.0
+	 */
 	do_action( 'admin_print_styles-press-this.php' );
+	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_print_styles' );
+	/**
+	 * Print scripts for the Press This admin page.
+	 *
+	 * @since 3.7.0
+	 */
 	do_action( 'admin_print_scripts-press-this.php' );
+	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_print_scripts' );
+	/**
+	 * Fires in the head tag on the Press This admin page.
+	 *
+	 * @since 3.7.0
+	 */
 	do_action( 'admin_head-press-this.php' );
+	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_head' );
 ?>
 	<script type="text/javascript">
@@ -417,7 +436,7 @@ var photostorage = false;
 	}
 	jQuery(document).ready(function($) {
 		//resize screen
-		window.resizeTo(740,580);
+		window.resizeTo(760,580);
 		// set button actions
 		jQuery('#photo_button').click(function() { show('photo'); return false; });
 		jQuery('#video_button').click(function() { show('video'); return false; });
@@ -564,7 +583,6 @@ $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( 
 	<div class="posting">
 
 		<div id="wphead">
-			<img id="header-logo" src="<?php echo esc_url( includes_url( 'images/blank.gif' ) ); ?>" alt="" width="16" height="16" />
 			<h1 id="site-heading">
 				<a href="<?php echo get_option('home'); ?>/" target="_blank">
 					<span id="site-title"><?php bloginfo('name'); ?></span>
@@ -649,8 +667,10 @@ $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( 
 	</tr></table>
 </div>
 <?php
-do_action('admin_footer');
-do_action('admin_print_footer_scripts');
+/** This action is documented in wp-admin/admin-footer.php */
+do_action( 'admin_footer' );
+/** This action is documented in wp-admin/admin-footer.php */
+do_action( 'admin_print_footer_scripts' );
 ?>
 <script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>
 </body>

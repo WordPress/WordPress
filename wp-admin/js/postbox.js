@@ -1,3 +1,5 @@
+/* global ajaxurl */
+
 var postboxes;
 
 (function($) {
@@ -30,7 +32,7 @@ var postboxes;
 				e.stopPropagation();
 			});
 
-			$('.postbox a.dismiss').bind('click.postboxes', function(e) {
+			$( '.postbox a.dismiss' ).bind( 'click.postboxes', function() {
 				var hide_id = $(this).parents('.postbox').attr('id') + '-hide';
 				$( '#' + hide_id ).prop('checked', false).triggerHandler('click');
 				return false;
@@ -79,7 +81,7 @@ var postboxes;
 				forcePlaceholderSize: true,
 				helper: 'clone',
 				opacity: 0.65,
-				stop: function(e,ui) {
+				stop: function() {
 					if ( $(this).find('#dashboard_browser_nag').is(':visible') && 'dashboard_browser_nag' != this.firstChild.id ) {
 						$(this).sortable('cancel');
 						return;
@@ -124,9 +126,9 @@ var postboxes;
 				_ajax_nonce: $('#meta-box-order-nonce').val(),
 				page_columns: page_columns,
 				page: page
-			}
+			};
 			$('.meta-box-sortables').each( function() {
-				postVars["order[" + this.id.split('-')[0] + "]"] = $(this).sortable( 'toArray' ).join(',');
+				postVars[ 'order[' + this.id.split( '-' )[0] + ']' ] = $( this ).sortable( 'toArray' ).join( ',' );
 			} );
 			$.post( ajaxurl, postVars );
 		},
@@ -134,7 +136,7 @@ var postboxes;
 		_mark_area : function() {
 			var visible = $('div.postbox:visible').length, side = $('#post-body #side-sortables');
 
-			$('#dashboard-widgets .meta-box-sortables:visible').each(function(n, el){
+			$( '#dashboard-widgets .meta-box-sortables:visible' ).each( function() {
 				var t = $(this);
 
 				if ( visible == 1 || t.children('.postbox:visible').length )
@@ -153,7 +155,10 @@ var postboxes;
 
 		_pb_edit : function(n) {
 			var el = $('.metabox-holder').get(0);
-			el.className = el.className.replace(/columns-\d+/, 'columns-' + n);
+
+			if ( el ) {
+				el.className = el.className.replace(/columns-\d+/, 'columns-' + n);
+			}
 		},
 
 		_pb_change : function() {

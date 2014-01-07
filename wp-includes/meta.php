@@ -558,9 +558,9 @@ function update_meta_cache($meta_type, $object_ids) {
 		return $cache;
 
 	// Get meta info
-	$id_list = join(',', $ids);
-	$meta_list = $wpdb->get_results( $wpdb->prepare("SELECT $column, meta_key, meta_value FROM $table WHERE $column IN ($id_list)",
-		$meta_type), ARRAY_A );
+	$id_list = join( ',', $ids );
+	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
+	$meta_list = $wpdb->get_results( "SELECT $column, meta_key, meta_value FROM $table WHERE $column IN ($id_list) ORDER BY $id_column ASC", ARRAY_A );
 
 	if ( !empty($meta_list) ) {
 		foreach ( $meta_list as $metarow) {
@@ -707,7 +707,7 @@ class WP_Meta_Query {
 
 		$meta_type = strtoupper( $type );
 
-		if ( ! in_array( $meta_type, array( 'BINARY', 'CHAR', 'DATE', 'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', 'UNSIGNED', 'NUMERIC' ) ) )
+		if ( ! preg_match( '/^(?:BINARY|CHAR|DATE|DATETIME|SIGNED|UNSIGNED|TIME|NUMERIC(?:\(\d+(?:,\s?\d+)?\))?|DECIMAL(?:\(\d+(?:,\s?\d+)?\))?)$/', $meta_type ) )
 			return 'CHAR';
 
 		if ( 'NUMERIC' == $meta_type )
@@ -753,7 +753,7 @@ class WP_Meta_Query {
 		// Split out the meta_key only queries (we can only do this for OR)
 		if ( 'OR' == $this->relation ) {
 			foreach ( $this->queries as $k => $q ) {
-				if ( ! isset( $q['value'] ) && ! empty( $q['key'] ) )
+				if ( ! array_key_exists( 'value', $q ) && ! empty( $q['key'] ) )
 					$key_only_queries[$k] = $q;
 				else
 					$queries[$k] = $q;
@@ -773,6 +773,9 @@ class WP_Meta_Query {
 		foreach ( $queries as $k => $q ) {
 			$meta_key = isset( $q['key'] ) ? trim( $q['key'] ) : '';
 			$meta_type = $this->get_cast_for_type( isset( $q['type'] ) ? $q['type'] : '' );
+
+			if ( array_key_exists( 'value', $q ) && is_null( $q['value'] ) )
+				$q['value'] = '';
 
 			$meta_value = isset( $q['value'] ) ? $q['value'] : null;
 

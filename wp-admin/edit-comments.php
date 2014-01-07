@@ -140,7 +140,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2><?php
 if ( $post_id )
 	echo sprintf( __( 'Comments on &#8220;%s&#8221;' ),

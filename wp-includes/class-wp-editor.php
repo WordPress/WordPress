@@ -127,7 +127,6 @@ final class _WP_Editors {
 
 		if ( !empty($buttons) || $set['media_buttons'] ) {
 			echo '<div id="wp-' . $editor_id . '-editor-tools" class="wp-editor-tools hide-if-no-js">';
-			echo $buttons;
 
 			if ( $set['media_buttons'] ) {
 				self::$has_medialib = true;
@@ -139,6 +138,8 @@ final class _WP_Editors {
 				do_action('media_buttons', $editor_id);
 				echo "</div>\n";
 			}
+
+			echo '<div class="wp-editor-tabs">' . $buttons . "</div>\n";
 			echo "</div>\n";
 		}
 
@@ -786,8 +787,6 @@ final class _WP_Editors {
 			'update_post_term_cache' => false,
 			'update_post_meta_cache' => false,
 			'post_status' => 'publish',
-			'order' => 'DESC',
-			'orderby' => 'post_date',
 			'posts_per_page' => 20,
 		);
 

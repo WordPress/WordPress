@@ -129,6 +129,7 @@
 	bottom: -5px;
 	left: 0;
 }
+/* @noflip */
 .ui-resizable-e {
 	cursor: e-resize;
 	width: 7px;
@@ -136,6 +137,7 @@
 	top: 0;
 	height: 100%;
 }
+/* @noflip */
 .ui-resizable-w {
 	cursor: w-resize;
 	width: 7px;
@@ -143,6 +145,7 @@
 	top: 0;
 	height: 100%;
 }
+/* @noflip */
 .ui-resizable-se {
 	cursor: se-resize;
 	width: 12px;
@@ -150,6 +153,7 @@
 	right: 1px;
 	bottom: 1px;
 }
+/* @noflip */
 .ui-resizable-sw {
 	cursor: sw-resize;
 	width: 9px;
@@ -157,6 +161,7 @@
 	left: -5px;
 	bottom: -5px;
 }
+/* @noflip */
 .ui-resizable-nw {
 	cursor: nw-resize;
 	width: 9px;
@@ -164,6 +169,7 @@
 	left: -5px;
 	top: -5px;
 }
+/* @noflip */
 .ui-resizable-ne {
 	cursor: ne-resize;
 	width: 9px;
@@ -185,6 +191,7 @@
 .ui-dialog {
 	position: absolute;
 	top: 0;
+	/* @noflip */
 	left: 0;
 	padding: .2em;
 	outline: 0;
@@ -246,33 +253,24 @@
 .wp-dialog {
 	padding: 0;
 	z-index: 300002;
-	border: 1px solid #999;
-	-webkit-box-shadow: 0px 0px 16px rgba( 0,0,0,0.3 );
-	box-shadow: 0px 0px 16px rgba( 0,0,0,0.3 );
+	border: 0;
+	-webkit-box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+	box-shadow:         0 5px 15px rgba(0,0,0,0.7);
 	background-color: #f5f5f5;
-	-webkit-border-top-left-radius: 4px;
-	border-top-left-radius: 4px;
-	-webkit-border-top-right-radius: 4px;
-	border-top-right-radius: 4px;
 }
 
 .wp-dialog .ui-dialog-title {
 	display: block;
 	text-align: center;
-	padding: 1px 0 2px;
+	padding: 0;
 }
 
 .wp-dialog .ui-dialog-titlebar {
 	padding: 0 1em;
 	background-color: #444;
-	font-weight: bold;
-	font-size: 11px;
-	line-height: 18px;
-	color: #e5e5e5;
-	-webkit-border-top-left-radius: 3px;
-	border-top-left-radius: 3px;
-	-webkit-border-top-right-radius: 3px;
-	border-top-right-radius: 3px;
+	font-size: 13px;
+	line-height: 24px;
+	color: #fff;
 }
 
 .wp-dialog .ui-dialog-content {
@@ -283,11 +281,25 @@
 	cursor: pointer;
 	-webkit-appearance: none;
 	border: 0;
-	width: 29px;
-	height: 16px;
+	width: 30px;
+	height: 20px;
 	top: 13px;
 	right: 6px;
-	background: url('../js/tinymce/plugins/inlinepopups/skins/clearlooks2/img/buttons.gif') no-repeat -87px -16px;
+	background: none;
+}
+
+.wp-dialog .ui-dialog-titlebar-close:before {
+	content: '\f158';
+	font: normal 20px/1 'dashicons';
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: #999;
+	padding-left: 12px;
+}
+
+.wp-dialog .ui-dialog-titlebar-close:hover:before {
+	color: #2ea2cc;
 }
 
 .wp-dialog .ui-dialog-titlebar-close .ui-button-text {

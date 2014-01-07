@@ -1,0 +1,439 @@
+# Copyright (C) 2013 the WordPress team
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Twenty Fourteen 1.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyfourteen\n"
+"POT-Creation-Date: 2013-12-12 05:25:07+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: 404.php:17
+msgid "Not Found"
+msgstr ""
+
+#: 404.php:21
+msgid "It looks like nothing was found at this location. Maybe try a search?"
+msgstr ""
+
+#: archive.php:31
+msgid "Daily Archives: %s"
+msgstr ""
+
+#: archive.php:34
+msgid "Monthly Archives: %s"
+msgstr ""
+
+#: archive.php:34
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr ""
+
+#: archive.php:37
+msgid "Yearly Archives: %s"
+msgstr ""
+
+#: archive.php:37
+msgctxt "yearly archives date format"
+msgid "Y"
+msgstr ""
+
+#: archive.php:40 taxonomy-post_format.php:51
+msgid "Archives"
+msgstr ""
+
+#: author.php:31
+msgid "All posts by %s"
+msgstr ""
+
+#: category.php:20
+msgid "Category Archives: %s"
+msgstr ""
+
+#: comments.php:27
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:34 comments.php:52
+msgid "Comment navigation"
+msgstr ""
+
+#: comments.php:35 comments.php:53
+msgid "&larr; Older Comments"
+msgstr ""
+
+#: comments.php:36 comments.php:54
+msgid "Newer Comments &rarr;"
+msgstr ""
+
+#: comments.php:59
+msgid "Comments are closed."
+msgstr ""
+
+#: content-aside.php:17 content-audio.php:17 content-featured-post.php:28
+#: content-gallery.php:17 content-image.php:17 content-link.php:17
+#: content-quote.php:17 content-video.php:17 content.php:19
+msgctxt "Used between list items, there is a space after the comma."
+msgid ", "
+msgstr ""
+
+#: content-aside.php:37 content-audio.php:37 content-gallery.php:37
+#: content-image.php:37 content-link.php:37 content-quote.php:37
+#: content-video.php:37 content.php:38 inc/widgets.php:180
+msgid "Leave a comment"
+msgstr ""
+
+#: content-aside.php:37 content-audio.php:37 content-gallery.php:37
+#: content-image.php:37 content-link.php:37 content-quote.php:37
+#: content-video.php:37 content.php:38 inc/widgets.php:180
+msgid "1 Comment"
+msgstr ""
+
+#: content-aside.php:37 content-audio.php:37 content-gallery.php:37
+#: content-image.php:37 content-link.php:37 content-quote.php:37
+#: content-video.php:37 content.php:38 inc/widgets.php:180
+msgid "% Comments"
+msgstr ""
+
+#: content-aside.php:40 content-audio.php:40 content-gallery.php:40
+#: content-image.php:40 content-link.php:40 content-page.php:28
+#: content-quote.php:40 content-video.php:40 content.php:42 image.php:34
+#: page-templates/contributors.php:35
+msgid "Edit"
+msgstr ""
+
+#: content-aside.php:46 content-audio.php:46 content-gallery.php:46
+#: content-image.php:46 content-link.php:46 content-quote.php:46
+#: content-video.php:46 content.php:54 inc/widgets.php:113 inc/widgets.php:158
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: content-aside.php:48 content-audio.php:48 content-gallery.php:48
+#: content-image.php:48 content-link.php:48 content-page.php:22
+#: content-quote.php:48 content-video.php:48 content.php:56 image.php:54
+msgid "Pages:"
+msgstr ""
+
+#: content-none.php:12
+msgid "Nothing Found"
+msgstr ""
+
+#: content-none.php:18
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+
+#: content-none.php:22
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+
+#: content-none.php:27
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
+#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.0)  #-#-#-#-#
+#. Author URI of the plugin/theme
+#: footer.php:21
+msgid "http://wordpress.org/"
+msgstr ""
+
+#: footer.php:21
+msgid "Proudly powered by %s"
+msgstr ""
+
+#: functions.php:83
+msgid "Top primary menu"
+msgstr ""
+
+#: functions.php:84
+msgid "Secondary menu in left sidebar"
+msgstr ""
+
+#: functions.php:175
+msgid "Primary Sidebar"
+msgstr ""
+
+#: functions.php:177
+msgid "Main sidebar that appears on the left."
+msgstr ""
+
+#: functions.php:184
+msgid "Content Sidebar"
+msgstr ""
+
+#: functions.php:186
+msgid "Additional sidebar that appears on the right."
+msgstr ""
+
+#: functions.php:193
+msgid "Footer Widget Area"
+msgstr ""
+
+#: functions.php:195
+msgid "Appears in the footer section of the site."
+msgstr ""
+
+#: functions.php:217
+msgctxt "Lato font: on or off"
+msgid "on"
+msgstr ""
+
+#: functions.php:260
+msgid "Previous"
+msgstr ""
+
+#: functions.php:261
+msgid "Next"
+msgstr ""
+
+#: functions.php:384
+msgid "%d Article"
+msgid_plural "%d Articles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: functions.php:500
+msgid "Page %s"
+msgstr ""
+
+#: header.php:48
+msgid "Search"
+msgstr ""
+
+#: header.php:52
+msgid "Primary Menu"
+msgstr ""
+
+#: header.php:53
+msgid "Skip to content"
+msgstr ""
+
+#: image.php:65
+msgid "Previous Image"
+msgstr ""
+
+#: image.php:66
+msgid "Next Image"
+msgstr ""
+
+#: inc/back-compat.php:41 inc/back-compat.php:53 inc/back-compat.php:68
+msgid ""
+"Twenty Fourteen requires at least WordPress version 3.6. You are running "
+"version %s. Please upgrade and try again."
+msgstr ""
+
+#: inc/customizer.php:19 inc/customizer.php:20
+msgid "Background may only be visible on wide screens."
+msgstr ""
+
+#: inc/customizer.php:28
+msgid "Site Title Color"
+msgstr ""
+
+#: inc/customizer.php:31
+msgid "Display Site Title &amp; Tagline"
+msgstr ""
+
+#: inc/customizer.php:35 inc/featured-content.php:408
+msgid "Featured Content"
+msgstr ""
+
+#: inc/customizer.php:36
+msgid ""
+"Use a <a href=\"%1$s\">tag</a> to feature your posts. If no posts match the "
+"tag, <a href=\"%2$s\">sticky posts</a> will be displayed instead."
+msgstr ""
+
+#: inc/customizer.php:47
+msgid "Layout"
+msgstr ""
+
+#: inc/customizer.php:51
+msgid "Grid"
+msgstr ""
+
+#: inc/customizer.php:52
+msgid "Slider"
+msgstr ""
+
+#. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.0)  #-#-#-#-#
+#. Theme Name of the plugin/theme
+#: inc/customizer.php:98
+msgid "Twenty Fourteen"
+msgstr ""
+
+#: inc/customizer.php:101
+msgid ""
+"The home page features your choice of up to 6 posts prominently displayed in "
+"a grid or slider, controlled by the <a href=\"%1$s\">featured</a> tag; you "
+"can change the tag and layout in <a href=\"%2$s\">Appearance &rarr; "
+"Customize</a>. If no posts match the tag, <a href=\"%3$s\">sticky posts</a> "
+"will be displayed instead."
+msgstr ""
+
+#: inc/customizer.php:102
+msgid ""
+"Enhance your site design by using <a href=\"%s\">Featured Images</a> for "
+"posts you&rsquo;d like to stand out (also known as post thumbnails). This "
+"allows you to associate an image with your post without inserting it. Twenty "
+"Fourteen uses featured images for posts and pages&mdash;above the "
+"title&mdash;and in the Featured Content area on the home page."
+msgstr ""
+
+#: inc/customizer.php:103
+msgid ""
+"For an in-depth tutorial, and more tips and tricks, visit the <a href=\"%s"
+"\">Twenty Fourteen documentation</a>."
+msgstr ""
+
+#: inc/featured-content.php:409
+msgid ""
+"Use the <a href=\"%1$s\">\"featured\" tag</a> to feature your posts. You can "
+"change this to a tag of your choice; if no posts match the tag, <a href="
+"\"%2$s\">sticky posts</a> will be displayed instead."
+msgstr ""
+
+#: inc/featured-content.php:428
+msgid "Tag Name"
+msgstr ""
+
+#: inc/featured-content.php:433
+msgid "Don&rsquo;t display tag on front end."
+msgstr ""
+
+#: inc/template-tags.php:47
+msgid "&larr; Previous"
+msgstr ""
+
+#: inc/template-tags.php:48
+msgid "Next &rarr;"
+msgstr ""
+
+#: inc/template-tags.php:55
+msgid "Posts navigation"
+msgstr ""
+
+#: inc/template-tags.php:84
+msgid "Post navigation"
+msgstr ""
+
+#: inc/template-tags.php:88
+msgid "<span class=\"meta-nav\">Published In</span>%title"
+msgstr ""
+
+#: inc/template-tags.php:90
+msgid "<span class=\"meta-nav\">Previous Post</span>%title"
+msgstr ""
+
+#: inc/template-tags.php:91
+msgid "<span class=\"meta-nav\">Next Post</span>%title"
+msgstr ""
+
+#: inc/template-tags.php:110
+msgid "Sticky"
+msgstr ""
+
+#: inc/widgets.php:44
+msgid "Twenty Fourteen Ephemera"
+msgstr ""
+
+#: inc/widgets.php:46
+msgid ""
+"Use this widget to list your recent Aside, Quote, Video, Audio, Image, "
+"Gallery, and Link posts"
+msgstr ""
+
+#: inc/widgets.php:53 taxonomy-post_format.php:30
+msgid "Asides"
+msgstr ""
+
+#: inc/widgets.php:54 taxonomy-post_format.php:33
+msgid "Images"
+msgstr ""
+
+#: inc/widgets.php:55 taxonomy-post_format.php:36
+msgid "Videos"
+msgstr ""
+
+#: inc/widgets.php:56 taxonomy-post_format.php:39
+msgid "Audio"
+msgstr ""
+
+#: inc/widgets.php:57 taxonomy-post_format.php:42
+msgid "Quotes"
+msgstr ""
+
+#: inc/widgets.php:58 taxonomy-post_format.php:45
+msgid "Links"
+msgstr ""
+
+#: inc/widgets.php:59 taxonomy-post_format.php:48
+msgid "Galleries"
+msgstr ""
+
+#: inc/widgets.php:148
+msgid "This gallery contains <a href=\"%1$s\" rel=\"bookmark\">%2$s photo</a>."
+msgid_plural ""
+"This gallery contains <a href=\"%1$s\" rel=\"bookmark\">%2$s photos</a>."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/widgets.php:189
+msgid "More %s <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: inc/widgets.php:236
+msgid "Title:"
+msgstr ""
+
+#: inc/widgets.php:239
+msgid "Number of posts to show:"
+msgstr ""
+
+#: inc/widgets.php:242
+msgid "Post format to show:"
+msgstr ""
+
+#: search.php:18
+msgid "Search Results for: %s"
+msgstr ""
+
+#: tag.php:22
+msgid "Tag Archives: %s"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://wordpress.org/themes/twentyfourteen"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"In 2014, our default theme lets you create a responsive magazine website "
+"with a sleek, modern design. Feature your favorite homepage content in "
+"either a grid or a slider. Use the three widget areas to customize your "
+"website, and change your content's layout with a full-width page template "
+"and a contributor page to show off your authors. Creating a magazine website "
+"with WordPress has never been easier."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "the WordPress team"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Contributor Page"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Full Width Page"
+msgstr ""

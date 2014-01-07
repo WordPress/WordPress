@@ -183,6 +183,15 @@ class WP_Locale {
 		/* translators: 'rtl' or 'ltr'. This sets the text direction for WordPress. */
 		elseif ( 'rtl' == _x( 'ltr', 'text direction' ) )
 			$this->text_direction = 'rtl';
+
+		if ( 'rtl' === $this->text_direction && strpos( $GLOBALS['wp_version'], '-src' ) ) {
+			$this->text_direction = 'ltr';
+			add_action( 'all_admin_notices', array( $this, 'rtl_src_admin_notice' ) );
+		}
+	}
+
+	function rtl_src_admin_notice() {
+		echo '<div class="error"><p>' . 'The <code>build</code> directory of the develop repository must be used for RTL.' . '</p></div>';
 	}
 
 	/**
@@ -329,8 +338,11 @@ class WP_Locale {
 	}
 
 	/**
-	 * Private, unused function to add some date/time formats translated
-	 * on wp-admin/options-general.php to the general POT.
+	 * Register date/time format strings for general POT.
+	 *
+	 * Private, unused method to add some date/time formats translated
+	 * on wp-admin/options-general.php to the general POT that would
+	 * otherwise be added to the admin POT.
 	 *
 	 * @since 3.6.0
 	 */

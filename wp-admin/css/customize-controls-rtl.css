@@ -1,77 +1,474 @@
+body {
+	overflow: hidden;
+}
+
+#customize-controls a {
+	text-decoration: none;
+}
+
+#customize-controls h3 {
+	font-size: 14px;
+}
+
+#customize-controls .submit {
+	text-align: center;
+}
+
+#customize-controls .description {
+	color: #666666;
+}
+
 #customize-header-actions .button-primary {
 	float: left;
+	margin-top: 9px;
 }
 
 #customize-header-actions .spinner {
-	float: left;
-	margin-right: 0;
+	margin-top: 16px;
 	margin-left: 4px;
 }
 
-.customize-control {
-	float: right;
+.saving #customize-header-actions .spinner {
+	display: block;
 }
 
-.customize-control-radio input,
+#customize-info {
+	border: none;
+	border-top: 1px solid #ddd;
+}
+
+#customize-info .accordion-section-title {
+	background-color: #fff;
+	color: #666666;
+	border-right: none;
+	border-left: none;
+	border-bottom: 1px solid #eeeeee;
+}
+
+#customize-info.open .accordion-section-title,
+#customize-info .accordion-section-title:hover,
+#customize-info .accordion-section-title:focus {
+	color: #555555;
+}
+
+#customize-info.open .accordion-section-title:after,
+#customize-info .accordion-section-title:hover:after,
+#customize-info .accordion-section-title:focus:after {
+	color: #555555;
+}
+
+#customize-info.open .accordion-section-title {
+	border-color: transparent;
+}
+
+#customize-info .preview-notice {
+	font-size: 13px;
+	line-height: 24px;
+}
+
+#customize-info .theme-name {
+	font-size: 20px;
+	font-weight: 200;
+	line-height: 24px;
+	display: block;
+}
+
+#customize-info .theme-screenshot {
+	width: 258px;
+}
+
+#customize-info .theme-description {
+	margin-top: 1em;
+	color: #666666;
+	line-height: 20px;
+}
+
+#customize-theme-controls {
+	-webkit-box-shadow: 0px 1px 1px -1px rgba(0, 0, 0, 0.1);
+	box-shadow:         0px 1px 1px -1px rgba(0, 0, 0, 0.1);
+}
+
+#customize-theme-controls .control-section {
+	border: none;
+}
+
+#customize-theme-controls .accordion-section-title {
+	color: #555555;
+	background-color: #fff;
+	border-bottom: 1px solid #eeeeee;
+}
+
+#customize-theme-controls .accordion-section-content {
+	color: #555555;
+	background: white;
+}
+
+#customize-theme-controls .control-section:hover .accordion-section-title,
+#customize-theme-controls .control-section .accordion-section-title:hover,
+#customize-theme-controls .control-section.open .accordion-section-title,
+#customize-theme-controls .control-section .accordion-section-title:focus {
+	color: #555555;
+	background: #f5f5f5;
+}
+
+.js .control-section:hover .accordion-section-title,
+.js .control-section .accordion-section-title:hover,
+.js .control-section.open .accordion-section-title,
+.js .control-section .accordion-section-title:focus {
+	background: #f5f5f5;
+}
+
+#customize-theme-controls .control-section:hover .accordion-section-title::after,
+#customize-theme-controls .control-section .accordion-section-title:hover::after,
+#customize-theme-controls .control-section.open .accordion-section-title::after,
+#customize-theme-controls .control-section .accordion-section-title:focus::after {
+	color: #555555;
+}
+
+#customize-theme-controls .control-section.open {
+	border-bottom: 1px solid #eeeeee;
+}
+
+#customize-theme-controls .control-section.open .accordion-section-title {
+	border-bottom-color: #eeeeee !important;
+}
+
+#customize-theme-controls .control-section:last-of-type.open,
+#customize-theme-controls .control-section:last-of-type .accordion-section-title {
+	border-bottom-color: #ddd;
+}
+
+#customize-theme-controls > ul,
+#customize-theme-controls .accordion-section-content {
+	margin: 0;
+}
+
+.customize-control {
+	width: 100%;
+	float: right;
+	clear: both;
+	margin-bottom: 8px;
+}
+
+.customize-control select,
+.customize-control input[type="text"],
+.customize-control input[type="radio"],
+.customize-control input[type="checkbox"] {
+	line-height: 28px;
+}
+
+.customize-control input[type="text"] {
+	width: 98%;
+	line-height: 18px;
+	margin: 0;
+}
+
+.customize-control select {
+	min-width: 50%;
+	max-width: 100%;
+	height: 28px;
+	line-height: 28px;
+}
+
+.customize-control-title {
+	display: block;
+	font-size: 14px;
+	line-height: 24px;
+	font-weight: 600;
+	margin-bottom: 5px;
+}
+
+.customize-control-color .color-picker,
+.customize-control-checkbox label,
+.customize-control-upload div {
+	line-height: 28px;
+}
+
 .customize-control-checkbox input {
-	margin-right: 0;
 	margin-left: 5px;
 }
+
+.customize-control-radio {
+	padding: 5px 0 10px;
+}
+
+.customize-control-radio .customize-control-title {
+	margin-bottom: 0;
+	line-height: 22px;
+}
+
+.customize-control-radio label {
+	line-height: 32px;
+}
+
+.customize-control-radio input {
+	margin-left: 5px;
+}
+
+#customize-preview iframe {
+	width: 100%;
+	height: 100%;
+}
+
+.wp-full-overlay-sidebar {
+	background: #eeeeee;
+	border-left: 1px solid #ddd;
+}
+
+.collapse-sidebar {
+	background-color: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	border-radius: !important 0;
+}
+
+
+.collapse-sidebar:active,
+.collapse-sidebar:active .collapse-sidebar-label,
+.collapse-sidebar:active .collapse-sidebar-arrow:before {
+	text-shadow: none;
+}
+
+.collapsed .collapse-sidebar-arrow:before {
+	color: #888;
+}
+
+/* Style for custom settings */
 
 /*
  * Dropdowns
  */
 .accordion-section .dropdown {
 	float: right;
+	display: block;
+	position: relative;
+	cursor: pointer;
 }
 
 .accordion-section .dropdown-content {
+	overflow: hidden;
 	float: right;
-	margin-right: 0px;
+	min-width: 30px;
+	height: 16px;
+	line-height: 16px;
 	margin-left: 16px;
-	-webkit-border-radius: 0 3px 3px 0;
-	border-radius: 0 3px 3px 0;
+	padding: 4px 5px;
+	border: 2px solid #eeeeee;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
 }
 
 .customize-control .dropdown-arrow {
-	right: auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
 	left: 0;
-
-	border-color: #ccc;
-	border-style: solid;
-	border-width: 1px 0 1px 1px;
-	-webkit-border-radius: 3px 0 0 3px;
-	border-radius: 3px 0 0 3px;
+	width: 20px;
+	background: #eeeeee;
 }
 
 .customize-control .dropdown-arrow:after {
-	right: auto;
-	left: 4px;
+	content: "\f140";
+	font: normal 20px/1 'dashicons';
+	speak: none;
+	display: block;
+	padding: 0;
+	text-indent: 0;
+	text-align: center;
+	position: relative;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+	color: #333;
 }
 
-/*
- * Color Picker
- */
+.customize-control .dropdown-status {
+	color: #333;
+	background: #eeeeee;
+	display: none;
+	max-width: 112px;
+}
+
+/* Color Picker */
+.customize-control-color .color-picker-hex {
+	display: none;
+}
+
+.customize-control-color.open .color-picker-hex {
+	display: block;
+}
+
 .customize-control-color .dropdown {
-	margin-right: 0;
 	margin-left: 5px;
+	margin-bottom: 5px;
 }
 
-.accordion-section input[type="text"].color-picker-hex {
-	direction: ltr;
+.customize-control-color .dropdown .dropdown-content {
+	background-color: #555555;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.customize-control-color .dropdown:hover .dropdown-content {
+	border-color: rgba(0, 0, 0, 0.25);
 }
 
 /*
  * Image Picker
  */
+.customize-control-image .library,
+.customize-control-image .actions {
+	display: none;
+	float: right;
+	width: 100%;
+}
+
+.customize-control-image.open .library,
+.customize-control-image.open .actions {
+	display: block;
+}
+
+.accordion-section .customize-control-image .dropdown-content {
+	height: auto;
+	min-height: 24px;
+	min-width: 40px;
+	padding: 0;
+}
+
+.accordion-section .customize-control-image .dropdown-status {
+	padding: 4px 5px;
+}
+
+.accordion-section .customize-control-image .preview-thumbnail img {
+	display: block;
+	width: 100%;
+	max-width: 122px;
+	max-height: 98px;
+	margin: 0 auto;
+}
+
 .accordion-section .customize-control-image .actions {
 	text-align: left;
 }
 
-.customize-control-image .library,
-.customize-control-image .actions,
-.accordion-section .customize-control-image .library ul,
-.accordion-section .customize-control-image .library li,
-.accordion-section .customize-control-image .library-content {
+.accordion-section .customize-control-image .library ul {
+	border-bottom: 1px solid #ddd;
 	float: right;
+	width: 100%;
+	margin: 10px 0 0;
+}
+
+.accordion-section .customize-control-image .library li {
+	color: #ccc;
+	float: right;
+	padding: 3px 15px;
+	margin: 0;
+	border: 1px solid transparent;
+}
+
+.accordion-section .customize-control-image .library li.library-selected {
+	margin-bottom: -1px;
+	padding-bottom: 4px;
+	color: #666666;
+	border-color: #ddd;
+	border-bottom-color: #fff;
+}
+
+.accordion-section .customize-control-image .library .thumbnail {
+	display: block;
+	width: 100%;
+}
+
+.accordion-section .customize-control-image .library .thumbnail img {
+	display: block;
+	max-width: 90%;
+	max-height: 80px;
+	margin: 5px auto;
+	padding: 2px;
+	background: #666666;
+}
+
+.accordion-section .customize-control-image .library .thumbnail:hover img {
+	background-color: #2ea2cc;
+}
+
+.accordion-section .customize-control-image .library-content {
+	display: none;
+	width: 100%;
+	float: right;
+	padding: 10px 0;
+}
+
+.accordion-section .customize-control-image .library-content.library-selected {
+	display: block;
+}
+
+.accordion-section .customize-control-upload .upload-fallback,
+.accordion-section .customize-control-image .upload-fallback {
+	display: none;
+}
+
+.accordion-section .customize-control-upload .upload-dropzone,
+.accordion-section .customize-control-image .upload-dropzone {
+	display: none;
+	padding: 15px 10px;
+	border: 3px dashed #dfdfdf;
+	margin: 5px auto;
+	text-align: center;
+	position: relative;
+	cursor: default;
+}
+
+.accordion-section .customize-control-upload .upload-dropzone.supports-drag-drop,
+.accordion-section .customize-control-image .upload-dropzone.supports-drag-drop {
+	display: block;
+	-webkit-transition: border-color 0.1s;
+	-moz-transition:    border-color 0.1s;
+	-ms-transition:     border-color 0.1s;
+	-o-transition:      border-color 0.1s;
+	transition:         border-color 0.1s;
+}
+
+.accordion-section .customize-control-upload .library ul li,
+.accordion-section .customize-control-image .library ul li {
+	cursor: pointer;
+}
+
+.accordion-section .customize-control-upload .upload-dropzone.supports-drag-drop.drag-over,
+.accordion-section .customize-control-image .upload-dropzone.supports-drag-drop.drag-over {
+	border-color: #83b4d8;
+}
+
+/**
+ * iOS can't scroll iframes,
+ * instead it expands the iframe size to match the size of the content
+ */
+.ios .wp-full-overlay {
+	position: relative;
+}
+
+.ios #customize-preview {
+	position: relative;
+}
+
+.ios #customize-controls .wp-full-overlay-sidebar-content {
+	-webkit-overflow-scrolling: touch;
+}
+
+/** Handle cheaters. */
+body.cheatin {
+	min-width: 0;
+	background: #f9f9f9;
+	padding: 50px;
+}
+
+body.cheatin p {
+	max-width: 700px;
+	margin: 0 auto;
+	padding: 2em;
+	font-size: 14px;
+	background: #555555;
+	border: 1px solid #dfdfdf;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }

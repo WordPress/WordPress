@@ -1,17 +1,21 @@
-var theList, theExtraList, toggleWithKeyboard = false;
+/* global adminCommentsL10n, thousandsSeparator, list_args, QTags, ajaxurl, wpAjax */
+var setCommentsList, theList, theExtraList, commentReply,
+	toggleWithKeyboard = false;
 
 (function($) {
 var getCount, updateCount, updatePending, dashboardTotals;
 
 setCommentsList = function() {
-	var totalInput, perPageInput, pageInput, lastConfidentTime = 0, dimAfter, delBefore, updateTotalCount, delAfter, refillTheExtraList;
+	var totalInput, perPageInput, pageInput, dimAfter, delBefore, updateTotalCount, delAfter, refillTheExtraList, diff,
+		lastConfidentTime = 0;
 
 	totalInput = $('input[name="_total"]', '#comments-form');
 	perPageInput = $('input[name="_per_page"]', '#comments-form');
 	pageInput = $('input[name="_page"]', '#comments-form');
 
 	dimAfter = function( r, settings ) {
-		var c = $('#' + settings.element), editRow, replyID, replyButton;
+		var editRow, replyID, replyButton,
+			c = $( '#' + settings.element );
 
 		editRow = $('#replyrow');
 		replyID = $('#comment_ID', editRow).val();
@@ -29,13 +33,15 @@ setCommentsList = function() {
 			c.find('div.comment_status').html('1');
 		}
 
-		var diff = $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1;
+		diff = $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1;
 		updatePending( diff );
 	};
 
 	// Send current total, page, per_page and url
 	delBefore = function( settings, list ) {
-		var wpListsData = $(settings.target).attr('data-wp-lists'), id, el, n, h, a, author, action = false;
+		var note, id, el, n, h, a, author,
+			action = false,
+			wpListsData = $( settings.target ).attr( 'data-wp-lists' );
 
 		settings.data._total = totalInput.val() || 0;
 		settings.data._per_page = perPageInput.val() || 0;
@@ -80,7 +86,7 @@ setCommentsList = function() {
 				list.wpList.del(this);
 				$('#undo-' + id).css( {backgroundColor:'#ceb'} ).fadeOut(350, function(){
 					$(this).remove();
-					$('#comment-' + id).css('backgroundColor', '').fadeIn(300, function(){ $(this).show() });
+					$('#comment-' + id).css('backgroundColor', '').fadeIn(300, function(){ $(this).show(); });
 				});
 				return false;
 			});
@@ -101,7 +107,8 @@ setCommentsList = function() {
 	};
 
 	dashboardTotals = function(n) {
-		var dash = $('#dashboard_right_now'), total, appr, totalN, apprN;
+		var total, appr, totalN, apprN,
+			dash = $('#dashboard_right_now');
 
 		n = n || 0;
 		if ( isNaN(n) || !dash.length )
@@ -144,7 +151,7 @@ setCommentsList = function() {
 			var a = $(this), n = getCount(a) + diff;
 			if ( n < 1 )
 				n = 0;
-			a.closest('.awaiting-mod')[ 0 == n ? 'addClass' : 'removeClass' ]('count-0');
+			a.closest('.awaiting-mod')[ 0 === n ? 'addClass' : 'removeClass' ]('count-0');
 			updateCount( a, n );
 		});
 
@@ -153,7 +160,7 @@ setCommentsList = function() {
 
 	// In admin-ajax.php, we send back the unix time stamp instead of 1 on success
 	delAfter = function( r, settings ) {
-		var total, N, spam, trash, pending,
+		var total_items_i18n, total, N, spam, trash, pending,
 			untrash = $(settings.target).parent().is('span.untrash'),
 			unspam = $(settings.target).parent().is('span.unspam'),
 			unapproved = $('#' + settings.element).is('.unapproved');
@@ -225,7 +232,7 @@ setCommentsList = function() {
 			}
 		}
 
-		if ( ! theExtraList || theExtraList.size() == 0 || theExtraList.children().size() == 0 || untrash || unspam ) {
+		if ( ! theExtraList || theExtraList.size() === 0 || theExtraList.children().size() === 0 || untrash || unspam ) {
 			return;
 		}
 
@@ -283,7 +290,7 @@ setCommentsList = function() {
 			var wpListsData = $(s.target).attr('data-wp-lists'), id = s.element.replace(/[^0-9]+/g, '');
 
 			if ( wpListsData.indexOf(':trash=1') != -1 || wpListsData.indexOf(':spam=1') != -1 )
-				$('#undo-' + id).fadeIn(300, function(){ $(this).show() });
+				$('#undo-' + id).fadeIn(300, function(){ $(this).show(); });
 		});
 };
 
@@ -309,7 +316,7 @@ commentReply = {
 			commentReply.toggle($(this).parent());
 		});
 
-		$('#doaction, #doaction2, #post-query-submit').click(function(e){
+		$('#doaction, #doaction2, #post-query-submit').click(function(){
 			if ( $('#the-comment-list #replyrow').length > 0 )
 				commentReply.close();
 		});
@@ -355,7 +362,7 @@ commentReply = {
 
 		if ( this.cid && this.act == 'edit-comment' ) {
 			c = $('#comment-' + this.cid);
-			c.fadeIn(300, function(){ c.show() }).css('backgroundColor', '');
+			c.fadeIn(300, function(){ c.show(); }).css('backgroundColor', '');
 		}
 
 		// reset the Quicktags buttons
@@ -375,7 +382,10 @@ commentReply = {
 	},
 
 	open : function(comment_id, post_id, action) {
-		var t = this, editRow, rowData, act, c = $('#comment-' + comment_id), h = c.height(), replyButton;
+		var editRow, rowData, act, replyButton, editHeight,
+			t = this,
+			c = $('#comment-' + comment_id),
+			h = c.height();
 
 		t.close();
 		t.cid = comment_id;
@@ -390,9 +400,6 @@ commentReply = {
 		$('#comment_post_ID', editRow).val(post_id);
 		$('#comment_ID', editRow).val(comment_id);
 
-		if ( h > 120 )
-			$('#replycontent', editRow).css('height', (35+h) + 'px');
-
 		if ( action == 'edit' ) {
 			$('#author', editRow).val( $('div.author', rowData).text() );
 			$('#author-email', editRow).val( $('div.author-email', rowData).text() );
@@ -402,16 +409,23 @@ commentReply = {
 			$('#edithead, #savebtn', editRow).show();
 			$('#replyhead, #replybtn, #addhead, #addbtn', editRow).hide();
 
+			if ( h > 120 ) {
+				// Limit the maximum height when editing very long comments to make it more manageable.
+				// The textarea is resizable in most browsers, so the user can adjust it if needed.
+				editHeight = h > 500 ? 500 : h;
+				$('#replycontent', editRow).css('height', editHeight + 'px');
+			}
+
 			c.after( editRow ).fadeOut('fast', function(){
-				$('#replyrow').fadeIn(300, function(){ $(this).show() });
+				$('#replyrow').fadeIn(300, function(){ $(this).show(); });
 			});
 		} else if ( action == 'add' ) {
 			$('#addhead, #addbtn', editRow).show();
 			$('#replyhead, #replybtn, #edithead, #editbtn', editRow).hide();
 			$('#the-comment-list').prepend(editRow);
 			$('#replyrow').fadeIn(300);
- 		} else {
- 			replyButton = $('#replybtn', editRow);
+		} else {
+			replyButton = $('#replybtn', editRow);
 			$('#edithead, #savebtn, #addhead, #addbtn', editRow).hide();
 			$('#replyhead, #replybtn', editRow).show();
 			c.after(editRow);
@@ -422,7 +436,7 @@ commentReply = {
 				replyButton.text(adminCommentsL10n.reply);
 			}
 
-			$('#replyrow').fadeIn(300, function(){ $(this).show() });
+			$('#replyrow').fadeIn(300, function(){ $(this).show(); });
 		}
 
 		setTimeout(function() {
@@ -431,7 +445,7 @@ commentReply = {
 			rtop = $('#replyrow').offset().top;
 			rbottom = rtop + $('#replyrow').height();
 			scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-			vp = document.documentElement.clientHeight || self.innerHeight || 0;
+			vp = document.documentElement.clientHeight || window.innerHeight || 0;
 			scrollBottom = scrollTop + vp;
 
 			if ( scrollBottom - 20 < rbottom )
@@ -513,7 +527,7 @@ commentReply = {
 		}
 
 		c = $.trim(r.data); // Trim leading whitespaces
-		$(c).hide()
+		$(c).hide();
 		$('#replyrow').after(c);
 
 		id = $(id);
@@ -572,7 +586,7 @@ $(document).ready(function(){
 				l = $('.tablenav-pages .'+which+'-page:not(.disabled)');
 				if (l.length)
 					window.location = l[0].href.replace(/\&hotkeys_highlight_(first|last)=1/g, '')+'&hotkeys_highlight_'+first_last+'=1';
-			}
+			};
 		};
 
 		edit_comment = function(event, current_row) {
@@ -590,7 +604,7 @@ $(document).ready(function(){
 				var scope = $('select[name="action"]');
 				$('option[value="' + value + '"]', scope).prop('selected', true);
 				$('#doaction').click();
-			}
+			};
 		};
 
 		$.table_hotkeys(

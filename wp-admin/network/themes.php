@@ -90,7 +90,6 @@ if ( $action ) {
 			require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 			echo '<div class="wrap">';
-			screen_icon();
 			echo '<h2>' . esc_html( $title ) . '</h2>';
 
 			$url = self_admin_url('update.php?action=update-selected-themes&amp;themes=' . urlencode( join(',', $themes) ));
@@ -137,7 +136,6 @@ if ( $action ) {
 			<div class="wrap">
 				<?php
 					$themes_to_delete = count( $themes );
-					screen_icon();
 					echo '<h2>' . _n( 'Delete Theme', 'Delete Themes', $themes_to_delete ) . '</h2>';
 				?>
 				<div class="error"><p><strong><?php _e( 'Caution:' ); ?></strong> <?php echo _n( 'This theme may be active on other sites in the network.', 'These themes may be active on other sites in the network.', $themes_to_delete ); ?></p></div>
@@ -220,14 +218,13 @@ get_current_screen()->set_help_sidebar(
 $title = __('Themes');
 $parent_file = 'themes.php';
 
-wp_enqueue_script( 'theme' );
+wp_enqueue_script( 'theme-preview' );
 
 require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 ?>
 
 <div class="wrap">
-<?php screen_icon('themes'); ?>
 <h2><?php echo esc_html( $title ); if ( current_user_can('install_themes') ) { ?> <a href="theme-install.php" class="add-new-h2"><?php echo esc_html_x('Add New', 'theme'); ?></a><?php }
 if ( $s )
 	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $s ) ); ?>

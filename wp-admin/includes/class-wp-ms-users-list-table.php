@@ -118,6 +118,14 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			'registered' => _x( 'Registered', 'user' ),
 			'blogs'      => __( 'Sites' )
 		);
+		/**
+		 * Filter the columns displayed in the Network Admin Users list table.
+		 *
+		 * @since MU
+		 *
+		 * @param array $users_columns An array of user columns. Default 'cb', 'username',
+		 *                             'name', 'email', 'registered', 'blogs'.
+		 */
 		$users_columns = apply_filters( 'wpmu_users_columns', $users_columns );
 
 		return $users_columns;
@@ -133,7 +141,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	function display_rows() {
-		global $current_site, $mode;
+		global $mode;
 
 		$alt = '';
 		$super_admins = get_super_admins();
@@ -189,6 +197,16 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 									$actions['delete'] = '<a href="' . $delete = esc_url( network_admin_url( add_query_arg( '_wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'users.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user->ID ) ) ) . '" class="delete">' . __( 'Delete' ) . '</a>';
 								}
 
+								/**
+								 * Filter the action links displayed under each user
+								 * in the Network Admin Users list table.
+								 *
+								 * @since 3.2.0
+								 *
+								 * @param array   $actions An array of action links to be displayed.
+								 *                         Default 'Edit', 'Delete'.
+								 * @param WP_User $user    WP_User object.
+								 */
 								$actions = apply_filters( 'ms_user_row_actions', $actions, $user );
 								echo $this->row_actions( $actions );
 							?>
@@ -223,7 +241,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 									$path	= ( $val->path == '/' ) ? '' : $val->path;
 									echo '<span class="site-' . $val->site_id . '" >';
-									echo '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . str_replace( '.' . $current_site->domain, '', $val->domain . $path ) . '</a>';
+									echo '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . str_replace( '.' . get_current_site()->domain, '', $val->domain . $path ) . '</a>';
 									echo ' <small class="row-actions">';
 									$actions = array();
 									$actions['edit'] = '<a href="'. esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) .'">' . __( 'Edit' ) . '</a>';
@@ -240,7 +258,17 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 									$actions['view'] = '<a class="' . $class . '" href="' . esc_url( get_home_url( $val->userblog_id ) ) . '">' . __( 'View' ) . '</a>';
 
-									$actions = apply_filters('ms_user_list_site_actions', $actions, $val->userblog_id);
+									/**
+									 * Filter the action links displayed next the sites a user belongs to
+									 * in the Network Admin Users list table.
+									 *
+									 * @since 3.1.0
+									 *
+									 * @param array $actions     An array of action links to be displayed.
+									 *                           Default 'Edit', 'View'.
+									 * @param int   $userblog_id The site ID.
+									 */
+									$actions = apply_filters( 'ms_user_list_site_actions', $actions, $val->userblog_id );
 
 									$i=0;
 									$action_count = count( $actions );
@@ -259,6 +287,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 					default:
 						echo "<td $attributes>";
+						/** This filter is documented in wp-admin/includes/class-wp-users-list-table.php */
 						echo apply_filters( 'manage_users_custom_column', '', $column_name, $user->ID );
 						echo "</td>";
 					break;
