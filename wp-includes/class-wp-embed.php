@@ -130,7 +130,12 @@ class WP_Embed {
 	 * @uses get_post_meta()
 	 * @uses update_post_meta()
 	 *
-	 * @param array $attr Shortcode attributes.
+	 * @param array $attr {
+	 *     Shortcode attributes. Optional.
+	 *
+	 *     @type int $width  Width of the embed in pixels.
+	 *     @type int $height Height of the embed in pixels.
+	 * }
 	 * @param string $url The URL attempting to be embedded.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
@@ -157,6 +162,8 @@ class WP_Embed {
 						 * Filter the returned embed handler.
 						 *
 						 * @since 2.9.0
+						 *
+						 * @see WP_Embed::shortcode()
 						 *
 						 * @param mixed  $return The shortcode callback function to call.
 						 * @param string $url    The attempted embed URL.
@@ -188,6 +195,8 @@ class WP_Embed {
 					 * Filter the cached oEmbed HTML.
 					 *
 					 * @since 2.9.0
+					 *
+					 * @see WP_Embed::shortcode()
 					 *
 					 * @param mixed  $cache   The cached HTML result, stored in post meta.
 					 * @param string $url     The attempted embed URL.

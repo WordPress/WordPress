@@ -623,11 +623,19 @@ add_shortcode('caption', 'img_caption_shortcode');
  *
  * @since 2.6.0
  *
- * @param array $attr Attributes attributed to the shortcode.
+ * @param array $attr {
+ *     Attributes of the caption shortcode.
+ *
+ *     @type string $id      ID of the div element for the caption.
+ *     @type string $align   Class name that aligns the caption. Default 'alignnone'. Accepts 'alignleft',
+ *                           'aligncenter', alignright', 'alignnone'.
+ *     @type int    $width   The width of the caption, in pixels.
+ *     @type string $caption The caption text.
+ * }
  * @param string $content Optional. Shortcode content.
- * @return string
+ * @return string HTML content to display the caption.
  */
-function img_caption_shortcode($attr, $content = null) {
+function img_caption_shortcode( $attr, $content = null ) {
 	// New-style shortcode with the caption inside the shortcode with the link and image tags.
 	if ( ! isset( $attr['caption'] ) ) {
 		if ( preg_match( '#((?:<a [^>]+>\s*)?<img [^>]+>(?:\s*</a>)?)(.*)#is', $content, $matches ) ) {
@@ -636,8 +644,21 @@ function img_caption_shortcode($attr, $content = null) {
 		}
 	}
 
-	// Allow plugins/themes to override the default caption template.
-	$output = apply_filters('img_caption_shortcode', '', $attr, $content);
+	/**
+	 * Filter the default caption shortcode output.
+	 *
+	 * If the filtered output isn't empty, it will be used instead of generating
+	 * the default caption template.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @see img_caption_shortcode()
+	 *
+	 * @param string $output  The caption output. Default empty.
+	 * @param array  $attr    Attributes of the caption shortcode.
+	 * @param string $content The image element, possibly wrapped in a hyperlink.
+	 */
+	$output = apply_filters( 'img_caption_shortcode', '', $attr, $content );
 	if ( $output != '' )
 		return $output;
 
@@ -665,16 +686,12 @@ function img_caption_shortcode($attr, $content = null) {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param int $caption_width Width in pixels. To remove this inline style, return zero.
-	 * @param array $atts {
-	 *     The attributes of the caption shortcode.
+	 * @see img_caption_shortcode()
 	 *
-	 *     @type string 'id'      The ID of the div element for the caption.
-	 *     @type string 'align'   The class name that aligns the caption. Default 'alignnone'.
-	 *     @type int    'width'   The width of the image being captioned.
-	 *     @type string 'caption' The image's caption.
-	 * }
-	 * @param string $content The image element, possibly wrapped in a hyperlink.
+	 * @param int    $caption_width Width of the caption in pixels. To remove this inline style,
+	 *                              return zero.
+	 * @param array  $atts          Attributes of the caption shortcode.
+	 * @param string $content       The image element, possibly wrapped in a hyperlink.
 	 */
 	$caption_width = apply_filters( 'img_caption_shortcode_width', $caption_width, $atts, $content );
 
@@ -696,10 +713,27 @@ add_shortcode('gallery', 'gallery_shortcode');
  *
  * @since 2.5.0
  *
- * @param array $attr Attributes of the shortcode.
+ * @param array $attr {
+ *     Attributes of the gallery shortcode.
+ *
+ *     @type string $order      Order of the images in the gallery. Default 'ASC'. Accepts 'ASC', 'DESC'.
+ *     @type string $orderby    The field to use when ordering the images. Default 'menu_order ID'.
+ *                              Accepts any valid SQL ORDERBY statement.
+ *     @type int    $id         Post ID.
+ *     @type string $itemtag    HTML tag to use for each image in the gallery. Default 'dl'.
+ *     @type string $icontag    HTML tag to use for each image's icon. Default 'dt'.
+ *     @type string $captiontag HTML tag to use for each image's caption. Default 'dd'.
+ *     @type int    $columns    Number of columns of images to display. Default 3.
+ *     @type string $size       Size of the images to display. Default 'thumbnail'.
+ *     @type string $ids        A comma-separated list of IDs of attachments to display. Default empty.
+ *     @type string $include    A comma-separated list of IDs of attachments to include. Default empty.
+ *     @type string $exclude    A comma-separated list of IDs of attachments to exclude. Default empty.
+ *     @type string $link       What to link each image to. Default empty (links to the attachment page).
+ *                              Accepts 'file', 'none'.
+ * }
  * @return string HTML content to display gallery.
  */
-function gallery_shortcode($attr) {
+function gallery_shortcode( $attr ) {
 	$post = get_post();
 
 	static $instance = 0;
@@ -712,8 +746,20 @@ function gallery_shortcode($attr) {
 		$attr['include'] = $attr['ids'];
 	}
 
-	// Allow plugins/themes to override the default gallery template.
-	$output = apply_filters('post_gallery', '', $attr);
+	/**
+	 * Filter the default gallery shortcode output.
+	 *
+	 * If the filtered output isn't empty, it will be used instead of generating
+	 * the default gallery template.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @see gallery_shortcode()
+	 *
+	 * @param string $output The gallery output. Default empty.
+	 * @param array  $attr   Attributes of the gallery shortcode.
+	 */
+	$output = apply_filters( 'post_gallery', '', $attr );
 	if ( $output != '' )
 		return $output;
 
@@ -875,7 +921,17 @@ function wp_get_audio_extensions() {
  *
  * @since 3.6.0
  *
- * @param array  $attr    Attributes of the shortcode.
+ * @param array $attr {
+ *     Attributes of the audio shortcode.
+ *
+ *     @type string $src      URL to the source of the audio file. Default empty.
+ *     @type string $loop     The 'loop' attribute for the `<audio>` element. Default empty.
+ *     @type string $autoplay The 'autoplay' attribute for the `<audio>` element. Default empty.
+ *     @type string $preload  The 'preload' attribute for the `<audio>` element. Default empty.
+ *     @type string $class    The 'class' attribute for the `<audio>` element. Default 'wp-audio-shortcode'.
+ *     @type string $id       The 'id' attribute for the `<audio>` element. Default 'audio-{$post_id}-{$instances}'.
+ *     @type string $style    The 'style' attribute for the `<audio>` element. Default 'width: 100%'.
+ * }
  * @param string $content Optional. Shortcode content.
  * @return string HTML content to display audio.
  */
@@ -886,16 +942,19 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	$instances++;
 
 	/**
-	 * Override the default audio shortcode.
+	 * Filter the default audio shortcode output.
 	 *
-	 * @since 3.7.0
+	 * If the filtered output isn't empty, it will be used instead of generating the default audio template.
 	 *
-	 * @param null              Empty variable to be replaced with shortcode markup.
-	 * @param array  $attr      Attributes of the shortcode.
+	 * @since 3.6.0
+	 *
+	 * @param string $html      Empty variable to be replaced with shortcode markup.
+	 * @param array  $attr      Attributes of the shortcode. @see wp_audio_shortcode()
 	 * @param string $content   Shortcode content.
 	 * @param int    $instances Unique numeric ID of this audio shortcode instance.
 	 */
-	$html = apply_filters( 'wp_audio_shortcode_override', '', $attr, $content, $instances );
+	$html = '';
+	$html = apply_filters( 'wp_audio_shortcode_override', $html, $attr, $content, $instances );
 	if ( '' !== $html )
 		return $html;
 
@@ -1012,7 +1071,22 @@ function wp_get_video_extensions() {
  *
  * @since 3.6.0
  *
- * @param array  $attr    Attributes of the shortcode.
+ * @param array $attr {
+ *     Attributes of the shortcode.
+ *
+ *     @type string $src      URL to the source of the video file. Default empty.
+ *     @type int    $height   Height of the video embed in pixels. Default 360.
+ *     @type int    $width    Width of the video embed in pixels. Default $content_width or 640.
+ *     @type string $poster   The 'poster' attribute for the `<video>` element. Default empty.
+ *     @type string $loop     The 'loop' attribute for the `<video>` element. Default empty.
+ *     @type string $autoplay The 'autoplay' attribute for the `<video>` element. Default empty.
+ *     @type string $preload  The 'preload' attribute for the `<video>` element.
+ *                            Default 'metadata'.
+ *     @type string $class    The 'class' attribute for the `<video>` element.
+ *                            Default 'wp-video-shortcode'.
+ *     @type string $id       The 'id' attribute for the `<video>` element.
+ *                            Default 'video-{$post_id}-{$instances}'.
+ * }
  * @param string $content Optional. Shortcode content.
  * @return string HTML content to display video.
  */
@@ -1024,13 +1098,18 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	$instances++;
 
 	/**
-	 * Override the default video shortcode.
+	 * Filter the default video shortcode output.
 	 *
-	 * @since 3.7.0
+	 * If the filtered output isn't empty, it will be used instead of generating
+	 * the default video template.
 	 *
-	 * @param null              Empty variable to be replaced with shortcode markup.
-	 * @param array  $attr      Attributes of the shortcode.
-	 * @param string $content   Shortcode content.
+	 * @since 3.6.0
+	 *
+	 * @see wp_video_shortcode()
+	 *
+	 * @param string $html      Empty variable to be replaced with shortcode markup.
+	 * @param array  $attr      Attributes of the video shortcode.
+	 * @param string $content   Video shortcode content.
 	 * @param int    $instances Unique numeric ID of this video shortcode instance.
 	 */
 	$html = apply_filters( 'wp_video_shortcode_override', '', $attr, $content, $instances );
