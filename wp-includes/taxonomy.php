@@ -289,6 +289,8 @@ function is_taxonomy_hierarchical($taxonomy) {
  *     * If not set, the default is inherited from public.
  * - show_tagcloud - Whether to list the taxonomy in the Tag Cloud Widget.
  *     * If not set, the default is inherited from show_ui.
+ * - show_admin_column - Whether to display a column for the taxonomy on its post type listing screens.
+ *     * Defaults to false.
  * - meta_box_cb - Provide a callback function for the meta box display.
  *     * If not set, defaults to post_categories_meta_box for hierarchical taxonomies
  *     and post_tags_meta_box for non-hierarchical.
@@ -336,6 +338,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		'show_in_menu'          => null,
 		'show_in_nav_menus'     => null,
 		'show_tagcloud'         => null,
+		'show_admin_column'     => false,
 		'meta_box_cb'           => null,
 		'capabilities'          => array(),
 		'rewrite'               => true,
