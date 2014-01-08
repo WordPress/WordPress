@@ -1378,7 +1378,7 @@ function wp_mkdir_p( $target ) {
 	if ( @mkdir( $target, $dir_perms, true ) ) {
 
 		// If a umask is set that modifies $dir_perms, we'll have to re-set the $dir_perms correctly with chmod()
-		if ( $dir_perms != $dir_perms & ~umask() ) {
+		if ( $dir_perms != ( $dir_perms & ~umask() ) ) {
 			$folder_parts = explode( '/', substr( $target, strlen( $target_parent ) + 1 ) );
 			for ( $i = 1; $i <= count( $folder_parts ); $i++ ) {
 				@chmod( $target_parent . '/' . implode( '/', array_slice( $folder_parts, 0, $i ) ), $dir_perms );
