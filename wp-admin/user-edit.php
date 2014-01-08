@@ -260,7 +260,7 @@ if ( ! IS_PROFILE_PAGE ) {
  * @since 3.0.0
  */
 ?>
-<td><?php do_action( 'admin_color_scheme_picker' ); ?></td>
+<td><?php do_action( 'admin_color_scheme_picker', $user_id ); ?></td>
 </tr>
 <?php
 endif; // $_wp_admin_css_colors
