@@ -188,6 +188,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 
 	events: {
 		'click': 'expand',
+		'keydown': 'expand',
 		'touchend': 'expand',
 		'touchmove': 'preventExpand'
 	},
@@ -197,7 +198,8 @@ themes.view.Theme = wp.Backbone.View.extend({
 	render: function() {
 		var data = this.model.toJSON();
 		// Render themes using the html template
-		this.$el.html( this.html( data ) );
+		this.$el.html( this.html( data ) ).attr( 'tabindex', 0 );
+
 		// Renders active theme styles
 		this.activeTheme();
 
@@ -219,18 +221,26 @@ themes.view.Theme = wp.Backbone.View.extend({
 	expand: function( event ) {
 		var self = this;
 
+		event = event || window.event;
+
+		// 'enter' and 'space' keys expand the details view when a theme is :focused
+		if ( event.type === 'keydown' && ( event.which !== 13 && event.which !== 32 ) ) {
+			return;
+		}
+
 		// Bail if the user scrolled on a touch device
 		if ( this.touchDrag === true ) {
 			return this.touchDrag = false;
 		}
-
-		event = event || window.event;
 
 		// Prevent the modal from showing when the user clicks
 		// one of the direct action buttons
 		if ( $( event.target ).is( '.theme-actions a' ) ) {
 			return;
 		}
+
+		// Set focused theme to current element
+		themes.focusedTheme = this.$el;
 
 		this.trigger( 'theme:expand', self.model.cid );
 	},
@@ -266,6 +276,8 @@ themes.view.Details = wp.Backbone.View.extend({
 		this.navigation();
 		// Checks screenshot size
 		this.screenshotCheck( this.$el );
+		// Contain "tabbing" inside the overlay
+		this.containFocus( this.$el );
 	},
 
 	// Adds a class to the currently active theme
@@ -273,6 +285,34 @@ themes.view.Details = wp.Backbone.View.extend({
 	activeTheme: function() {
 		// Check the model has the active property
 		this.$el.toggleClass( 'active', this.model.get( 'active' ) );
+	},
+
+	// Keeps :focus within the theme details elements
+	containFocus: function( $el ) {
+		var $target;
+
+		// Move focus to the primary action
+		_.delay( function() {
+			$( '.theme-wrap a.button-primary:visible' ).focus();
+		}, 500 );
+
+		$el.on( 'keydown.wp-themes', function( event ) {
+
+			// Tab key
+			if ( event.which === 9 ) {
+				$target = $( event.target );
+
+				// Keep focus within the overlay by making the last link on theme actions
+				// switch focus to button.left on tabbing and vice versa
+				if ( $target.is( 'button.left' ) && event.shiftKey ) {
+					$el.find( '.theme-actions a:last-child' ).focus();
+					event.preventDefault();
+				} else if ( $target.is( '.theme-actions a:last-child' ) ) {
+					$el.find( 'button.left' ).focus();
+					event.preventDefault();
+				}
+			}
+		});
 	},
 
 	// Single theme overlay screen
@@ -291,7 +331,7 @@ themes.view.Details = wp.Backbone.View.extend({
 		// Detect if the click is inside the overlay
 		// and don't close it unless the target was
 		// the div.back button
-		if ( $( event.target ).is( '.theme-backdrop' ) || $( event.target ).is( 'div.close' ) || event.keyCode === 27 ) {
+		if ( $( event.target ).is( '.theme-backdrop' ) || $( event.target ).is( '.close' ) || event.keyCode === 27 ) {
 
 			// Add a temporary closing class while overlay fades out
 			$( 'body' ).addClass( 'closing-overlay' );
@@ -311,6 +351,11 @@ themes.view.Details = wp.Backbone.View.extend({
 
 				// Restore scroll position
 				document.body.scrollTop = scroll;
+
+				// Return focus to the theme div
+				if ( themes.focusedTheme ) {
+					themes.focusedTheme.focus();
+				}
 			});
 		}
 	},

@@ -192,7 +192,7 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
  */
 
 foreach ( $themes as $theme ) : ?>
-<div class="theme<?php if ( $theme['active'] ) echo ' active'; ?>">
+<div class="theme<?php if ( $theme['active'] ) echo ' active'; ?>" tabindex="0">
 	<?php if ( ! empty( $theme['screenshot'][0] ) ) { ?>
 		<div class="theme-screenshot">
 			<img src="<?php echo $theme['screenshot'][0]; ?>" alt="" />
@@ -309,9 +309,9 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	<div class="theme-backdrop"></div>
 	<div class="theme-wrap">
 		<div class="theme-header">
-			<div alt="<?php _e( 'Close overlay' ); ?>" class="close dashicons dashicons-no"></div>
-			<div alt="<?php _e( 'Show previous theme' ); ?>" class="left dashicons dashicons-no"></div>
-			<div alt="<?php _e( 'Show next theme' ); ?>" class="right dashicons dashicons-no"></div>
+			<button alt="<?php _e( 'Show previous theme' ); ?>" class="left dashicons dashicons-no"></button>
+			<button alt="<?php _e( 'Show next theme' ); ?>" class="right dashicons dashicons-no"></button>
+			<button alt="<?php _e( 'Close overlay' ); ?>" class="close dashicons dashicons-no"></button>
 		</div>
 		<div class="theme-about">
 			<div class="theme-screenshots">
