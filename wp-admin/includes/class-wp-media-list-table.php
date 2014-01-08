@@ -90,6 +90,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		if ( 'top' == $which && !is_singular() && !$this->detached && !$this->is_trash ) {
 			$this->months_dropdown( 'attachment' );
 
+			/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
 			do_action( 'restrict_manage_posts' );
 			submit_button( __( 'Filter' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 		}
@@ -137,6 +138,14 @@ class WP_Media_List_Table extends WP_List_Table {
 		$taxonomies = get_taxonomies_for_attachments( 'objects' );
 		$taxonomies = wp_filter_object_list( $taxonomies, array( 'show_admin_column' => true ), 'and', 'name' );
 
+		/**
+		 * Filter the taxonomy columns for attachments in the Media list table.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param array  $taxonomies An array of registered taxonomies to show for attachments.
+		 * @param string $post_type  The post type. Default 'attachment'.
+		 */
 		$taxonomies = apply_filters( 'manage_taxonomies_for_attachment_columns', $taxonomies, 'attachment' );
 		$taxonomies = array_filter( $taxonomies, 'taxonomy_exists' );
 
@@ -159,6 +168,15 @@ class WP_Media_List_Table extends WP_List_Table {
 		}
 		/* translators: column name */
 		$posts_columns['date'] = _x( 'Date', 'column name' );
+		/**
+		 * Filter the Media list table columns.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param array $posts_columns An array of columns displayed in the Media list table.
+		 * @param bool  $detached      Whether the list table contains media not attached
+		 *                             to any posts. Default true.
+		 */
 		$posts_columns = apply_filters( 'manage_media_columns', $posts_columns, $this->detached );
 
 		return $posts_columns;
@@ -383,6 +401,18 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		}
 ?>
 		<td <?php echo $attributes ?>>
+			<?php
+				/**
+				 * Fires for each custom column in the Media list table.
+				 *
+				 * Custom columns are registered using the 'manage_media_columns' filter.
+				 *
+				 * @since 2.5.0
+				 *
+				 * @param string $column_name Name of the custom column.
+				 * @param int    $post_id     Attachment ID.
+				 */
+			?>
 			<?php do_action( 'manage_media_custom_column', $column_name, $post->ID ); ?>
 		</td>
 <?php
@@ -430,6 +460,17 @@ foreach ( $columns as $column_name => $column_display_name ) {
 			}
 		}
 
+		/**
+		 * Filter the action links for each attachment in the Media list table.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array   $actions  An array of action links for each attachment.
+		 *                          Default 'Edit', 'Delete Permanently', 'View'.
+		 * @param WP_Post $post     WP_Post object for the current attachment.
+		 * @param bool    $detached Whether the list table contains media not attached
+		 *                          to any posts. Default true.
+		 */
 		$actions = apply_filters( 'media_row_actions', $actions, $post, $this->detached );
 
 		return $actions;
