@@ -6519,7 +6519,7 @@ span.imgedit-scale-warn {
 }
 
 .theme-browser .theme .theme-update:before {
-	content: '\f113';
+	content: '\f463';
 	display: inline-block;
 	font: normal 20px/1 'dashicons';
 	margin: 0 0 0 6px;
@@ -7627,7 +7627,7 @@ div#custom-background-image img {
 }
 
 .plugin-update-tr .update-message:before {
-	content: '\f113';
+	content: '\f463';
 	display: inline-block;
 	font: normal 20px/1 'dashicons';
 	speak: none;
