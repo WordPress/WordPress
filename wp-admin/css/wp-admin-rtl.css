@@ -1277,6 +1277,10 @@ p.search-box {
 	margin: 0;
 }
 
+.network-admin.themes-php p.search-box {
+	clear: right;
+}
+
 .search-box input[name="s"],
 #search-plugins input[name="s"],
 .tagsdiv .newtag {
@@ -6310,6 +6314,10 @@ span.imgedit-scale-warn {
 .themes-php .wrap h2 {
 	float: right;
 	margin-bottom: 15px;
+}
+
+.network-admin.themes-php .wrap h2 {
+	margin-bottom: 0;
 }
 
 .themes-php .wrap h2 .button {
