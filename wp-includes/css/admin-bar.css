@@ -773,7 +773,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 		font: normal 14px/32px "Open Sans", sans-serif;
 	}
 
-	#wpadminbar .quicklinks li > a,
+	#wpadminbar .quicklinks > ul > li > a,
 	#wpadminbar .quicklinks .ab-empty-item {
 		padding: 0;
 		height: 46px;
@@ -785,7 +785,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 		font: 40px/1 dashicons !important;
 		margin: 0;
 		padding: 0;
-		width: 50px;
+		width: 52px;
 		height: 46px;
 		text-align: center;
 	}
@@ -838,7 +838,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 
 	#wpadminbar #wp-admin-bar-wp-logo > .ab-item .ab-icon {
 		padding: 0;
-		width: 55px;
+		width: 52px;
 		height: 46px;
 		text-align: center;
 		vertical-align: top;
@@ -862,7 +862,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 		text-indent: 100%;
 		white-space: nowrap;
 		overflow: hidden;
-		width: 55px;
+		width: 52px;
 		padding: 0;
 		color: #999;
 		position: relative;
@@ -884,7 +884,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 		font: normal 32px/1 'dashicons';
 		speak: none;
 		top: 7px;
-		width: 55px;
+		width: 52px;
 		text-align: center;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
@@ -909,7 +909,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 		line-height: 53px;
 		height: 46px !important;
 		text-align: center;
-		width: 50px;
+		width: 52px;
 		display: block;
 	}
 
