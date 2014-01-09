@@ -3162,6 +3162,7 @@ form.initial-form.quickpress-open input#title {
 
 #dashboard_quick_press .drafts p {
 	margin: 0;
+	word-wrap: break-word;
 }
 
 #dashboard_quick_press .draft-title {
