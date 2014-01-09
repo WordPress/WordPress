@@ -1843,64 +1843,6 @@ h2.nav-tab-wrapper, h3.nav-tab-wrapper {
 
 /* End Press This and Image editing icons */
 
-/* Media Manager */
-
-.media-modal-content {
-	background: #fcfcfc;
-	box-shadow: 0 5px 15px rgba(0,0,0,0.7);
-}
-
-.media-menu {
-	background: #f3f3f3;
-	border-left-color: #ccc;
-}
-
-.media-menu > a {
-	color: #0074a2;
-}
-
-.media-menu .active,
-.media-menu .active:hover {
-	color: #222;
-}
-
-.media-frame-content {
-	background: #fff;
-	border-top-color: #ddd;
-	border-bottom-color: #ddd;
-}
-
-.media-menu .separator {
-	border-top-color: #ddd;
-	border-bottom: none;
-}
-
-.media-sidebar {
-	background: #f3f3f3;
-	border-color: #ddd;
-}
-
-.media-router .active,
-.media-router > a.active:last-child {
-	background: #fff;
-	border: 1px solid #ddd;
-	border-bottom: none;
-}
-
-.details.attachment {
-	box-shadow: 0 0 0 1px #fff, 0 0 0 5px #1e8cbe;
-}
-
-.attachment .check {
-	background: #eee;
-	box-shadow: 0 0 0 1px #fff, 0 0 0 2px rgba( 0, 0, 0, 0.4 );
-}
-
-.attachment.details .check {
-	background-color: #1e8cbe;
-	box-shadow: 0 0 0 1px #fff, 0 0 0 2px #1e8cbe;
-}
-
 /* TinyMCE modal */
 
 .clearlooks2 {
