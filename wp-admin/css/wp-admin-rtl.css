@@ -727,7 +727,6 @@ select,
 	padding-top: 10px;
 }
 
-#update-plugins-table tbody th.check-column,
 .plugins tbody th.check-column,
 .plugins tbody {
 	padding: 8px 2px 0 0;
@@ -747,9 +746,7 @@ select,
 
 .plugins thead th.check-column,
 .plugins tfoot th.check-column,
-.plugins .inactive th.check-column,
-#update-plugins-table thead th.check-column,
-#update-plugins-table tfoot th.check-column {
+.plugins .inactive th.check-column {
 	padding-right: 6px;
 }
 
@@ -12761,12 +12758,12 @@ li#wp-admin-bar-menu-toggle {
 
 	.widefat tbody th.check-column input[type="checkbox"] {
 		margin-top: -3px;
-		margin-right: 9px;
+		margin-right: 8px;
 	}
 
 	.wp-list-table.plugins .active .check-column input,
 	.wp-list-table.plugins .update .check-column input {
-		margin-right: 6px;
+		margin-right: 5px;
 	}
 
 	.wp-list-table.plugins thead .check-column input,
