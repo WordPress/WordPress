@@ -312,7 +312,6 @@ final class _WP_Editors {
 					'entities' => '38,amp,60,lt,62,gt',
 					'entity_encoding' => 'raw',
 					'menubar' => false,
-					'object_resizing' => false,
 					'keep_styles' => false,
 					'paste_remove_styles' => true,
 

@@ -331,6 +331,15 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		});
 	});
 
+	editor.on( 'ObjectResized', function( event ) {
+        var parent,
+			node = event.target;
+
+		if ( node.nodeName === 'IMG' && ( parent = editor.dom.getParent( node, '.wp-caption' ) ) ) {
+			editor.dom.setStyle( parent, 'width', 10 + event.width + 'px' );
+		}
+    });
+
 	editor.on( 'BeforeExecCommand', function( e ) {
 		var node, p, DL, align,
 			cmd = e.command,
