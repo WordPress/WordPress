@@ -3392,3 +3392,24 @@ function _search_terms_tidy( $t ) {
 	_deprecated_function( __FUNCTION__, '3.7' );
 	return trim( $t, "\"'\n\r " );
 }
+
+/**
+ * Determine if TinyMCE is available.
+ *
+ * Checks to see if the user has deleted the tinymce files to slim down their WordPress install.
+ *
+ * @since 2.1.0
+ * @deprecated 3.9.0
+ *
+ * @return bool Whether TinyMCE exists.
+ */
+function rich_edit_exists() {
+	global $wp_rich_edit_exists;
+	_deprecated_function( __FUNCTION__, '3.9' );
+
+	if ( ! isset( $wp_rich_edit_exists ) )
+		$wp_rich_edit_exists = file_exists( ABSPATH . WPINC . '/js/tinymce/tinymce.js' );
+
+	return $wp_rich_edit_exists;
+}
+
