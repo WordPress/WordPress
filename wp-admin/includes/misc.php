@@ -561,7 +561,7 @@ function saveDomDocument($doc, $filename) {
  *
  * @since 3.0.0
  */
-function admin_color_scheme_picker() {
+function admin_color_scheme_picker( $user_id ) {
 	global $_wp_admin_css_colors;
 
 	ksort( $_wp_admin_css_colors );
@@ -571,7 +571,7 @@ function admin_color_scheme_picker() {
 		$_wp_admin_css_colors = array_filter( array_merge( array( 'fresh' => '', 'light' => '' ), $_wp_admin_css_colors ) );
 	}
 
-	$current_color = get_user_option( 'admin_color' );
+	$current_color = get_user_option( 'admin_color', $user_id );
 
 	if ( empty( $current_color ) || ! isset( $_wp_admin_css_colors[ $current_color ] ) ) {
 		$current_color = 'fresh';
