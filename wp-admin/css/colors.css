@@ -800,13 +800,17 @@ tr.active.update + tr.plugin-update-tr .plugin-update .update-message {
 .plugins .inactive th,
 .plugins .active td,
 .plugins .active th,
-.plugin-install #the-list td {
+.plugin-install #the-list td,
+.upgrade .plugins td,
+.upgrade .plugins th {
 	-webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
 	box-shadow:         inset 0 -1px 0 rgba(0,0,0,0.1);
 }
 
 .plugins .update td,
-.plugins .update th {
+.plugins .update th,
+.upgrade .plugins tr:last-of-type td,
+.upgrade .plugins tr:last-of-type th {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
