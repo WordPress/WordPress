@@ -446,56 +446,43 @@
 	$( wp.media.featuredImage.init );
 
 	wp.media.editor = {
-		insert: function( h ) {
-			var mce = typeof(tinymce) != 'undefined',
-				qt = typeof(QTags) != 'undefined',
-				wpActiveEditor = window.wpActiveEditor,
-				ed;
+		insert: function( html ) {
+			var editor,
+				hasTinymce = typeof tinymce !== 'undefined',
+				hasQuicktags = typeof QTags !== 'undefined',
+				wpActiveEditor = window.wpActiveEditor;
 
 			// Delegate to the global `send_to_editor` if it exists.
 			// This attempts to play nice with any themes/plugins that have
 			// overridden the insert functionality.
-			if ( window.send_to_editor )
+			if ( window.send_to_editor ) {
 				return window.send_to_editor.apply( this, arguments );
-
-			if ( ! wpActiveEditor ) {
-				if ( mce && tinymce.activeEditor ) {
-					ed = tinymce.activeEditor;
-					wpActiveEditor = window.wpActiveEditor = ed.id;
-				} else if ( !qt ) {
-					return false;
-				}
-			} else if ( mce ) {
-				ed = tinymce.get( wpActiveEditor );
 			}
 
-			if ( ed && ! ed.isHidden() ) {
-				// restore caret position on IE
-	//			if ( tinymce.isIE && ed.windowManager.insertimagebookmark )
-	//				ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark);
-
-				if ( h.indexOf('[caption') !== -1 ) {
-					if ( ed.wpSetImgCaption )
-						h = ed.wpSetImgCaption(h);
-				} else if ( h.indexOf('[gallery') !== -1 ) {
-					if ( ed.plugins.wpgallery )
-						h = ed.plugins.wpgallery._do_gallery(h);
-				} else if ( h.indexOf('[embed') === 0 ) {
-					if ( ed.plugins.wordpress )
-						h = ed.plugins.wordpress._setEmbed(h);
+			if ( ! wpActiveEditor ) {
+				if ( hasTinymce && tinymce.activeEditor ) {
+					editor = tinymce.activeEditor;
+					wpActiveEditor = window.wpActiveEditor = editor.id;
+				} else if ( ! hasQuicktags ) {
+					return false;
 				}
+			} else if ( hasTinymce ) {
+				editor = tinymce.get( wpActiveEditor );
+			}
 
-				ed.execCommand('mceInsertContent', false, h);
-			} else if ( qt ) {
-				QTags.insertContent(h);
+			if ( editor && ! editor.isHidden() ) {
+				editor.execCommand( 'mceInsertContent', false, html );
+			} else if ( hasQuicktags ) {
+				QTags.insertContent( html );
 			} else {
-				document.getElementById(wpActiveEditor).value += h;
+				document.getElementById( wpActiveEditor ).value += html;
 			}
 
 			// If the old thickbox remove function exists, call it in case
 			// a theme/plugin overloaded it.
-			if ( window.tb_remove )
+			if ( window.tb_remove ) {
 				try { window.tb_remove(); } catch( e ) {}
+			}
 		},
 
 		add: function( id, options ) {
