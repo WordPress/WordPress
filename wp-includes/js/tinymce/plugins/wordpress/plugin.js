@@ -126,20 +126,43 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		}
 	});
 
+	// Make sure the "more" tag is in a separate paragraph
+	editor.on( 'PreProcess', function( event ) { 
+		var more; 
+
+		if ( event.save ) { 
+			more = editor.dom.select( 'img.wp-more-tag', event.node ); 
+
+			if ( more.length ) { 
+				tinymce.each( more, function( node ) { 
+					var parent = node.parentNode, p; 
+
+					if ( parent.nodeName === 'P' && parent.childNodes.length > 1 ) { 
+						p = editor.dom.create('p'); 
+						parent.parentNode.insertBefore( p, parent ); 
+						p.appendChild( node ); 
+					} 
+				}); 
+			} 
+		} 
+	}); 
+
 	// Register commands
 	editor.addCommand( 'WP_More', function( tag ) {
-		var parent, html, title,
+		var parent, html, title, p1, p2,
 			classname = 'wp-more-tag',
+			spacer = tinymce.Env.ie ? '' : '<br data-mce-bogus="1" />',
 			dom = editor.dom,
 			node = editor.selection.getNode();
 
 		tag = tag || 'more';
 		classname += ' mce-wp-' + tag;
 		title = tag === 'more' ? 'More...' : 'Next Page';
-		html = '<img src="' + tinymce.Env.transparentSrc + '" title="' + title + '" class="' + classname + '" data-mce-resize="false" data-mce-placeholder="1" />';
+		html = '<img src="' + tinymce.Env.transparentSrc + '" title="' + title + '" class="' + classname + '" ' +
+			'data-mce-resize="false" data-mce-placeholder="1" />';
 
 		if ( node.nodeName === 'BODY' ) {
-			editor.insertContent( '<p>' + html + '</p>' );
+			editor.insertContent( '<p>' + html + '</p><p></p>' );
 			return;
 		}
 
@@ -153,7 +176,16 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		}, editor.getBody() );
 
 		if ( parent ) {
-			dom.insertAfter( dom.create( 'p', null, html ), parent );
+			p1 = dom.create( 'p', null, html );
+			dom.insertAfter( p1, parent );
+
+			if ( ! ( p2 = p1.nextSibling ) ) {
+				p2 = dom.create( 'p', null, spacer );
+				dom.insertAfter( p2, p1 );
+			}
+
+			editor.nodeChanged();
+			editor.selection.setCursorLocation( p2, 0 );
 		}
 	});
 

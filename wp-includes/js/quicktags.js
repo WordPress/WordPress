@@ -643,7 +643,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 	edButtons[90] = new qt.TagButton('ol','ol','<ol>\n','</ol>\n\n','o'),
 	edButtons[100] = new qt.TagButton('li','li','\t<li>','</li>\n','l'),
 	edButtons[110] = new qt.TagButton('code','code','<code>','</code>','c'),
-	edButtons[120] = new qt.TagButton('more','more','<!--more-->','','t'),
+	edButtons[120] = new qt.TagButton('more','more','\n\n<!--more-->\n\n','','t'),
 	edButtons[140] = new qt.CloseButton();
 
 })();
