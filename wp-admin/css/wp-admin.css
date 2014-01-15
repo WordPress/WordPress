@@ -10109,6 +10109,12 @@ div.star-holder .star-rating {
 	content:'\f459';
 }
 
+.rtl .star-rating .star-half {
+	-webkit-transform: rotateY(180deg);
+	-ms-transform:     rotateY(180deg);
+	transform:         rotateY(180deg);
+}
+
 .star-rating .star-empty:before {
 	content:'\f154';
 }
