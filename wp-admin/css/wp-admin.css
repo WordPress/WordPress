@@ -12395,7 +12395,7 @@ li#wp-admin-bar-menu-toggle {
 		display: block;
 		max-width: none;
 		box-sizing: border-box;
-		-mox-box-sizing: border-box;
+		-moz-box-sizing: border-box;
 	}
 
 	input[type=text].small-text,
@@ -12414,7 +12414,7 @@ li#wp-admin-bar-menu-toggle {
 	#pass-strength-result {
 		width: 100%;
 		box-sizing: border-box;
-		-mox-box-sizing: border-box;
+		-moz-box-sizing: border-box;
 		padding: 8px;
 	}
 
