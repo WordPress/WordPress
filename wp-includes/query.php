@@ -115,7 +115,10 @@ function wp_reset_query() {
  */
 function wp_reset_postdata() {
 	global $wp_query;
-	$wp_query->reset_postdata();
+
+	if ( isset( $wp_query ) ) {
+		$wp_query->reset_postdata();
+	}
 }
 
 /*
