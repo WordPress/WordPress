@@ -11405,6 +11405,17 @@ li#wp-admin-bar-menu-toggle {
 		width: 100%;
 		float: none;
 	}
+
+	div.widget {
+		margin: 0 auto 10px !important;
+		max-width: 480px;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	div.widget {
+		max-width: 320px;
+	}
 }
 
 @media only screen and (max-width: 768px) {
