@@ -3396,6 +3396,10 @@ table.fixed {
 	width: 10%;
 }
 
+.fixed .column-comment .comment-author {
+	display: none;
+}
+
 .fixed .column-response,
 .fixed .column-categories,
 .fixed .column-tags,
@@ -8601,7 +8605,13 @@ p.pagenav {
 	font-weight: 600;
 }
 
-.column-author img, .column-username img {
+.column-comment .comment-author {
+	margin-bottom: 0.6em;
+}
+
+.column-author img,
+.column-username img,
+.column-comment .comment-author img {
 	float: left;
 	margin-right: 10px;
 	margin-top: 1px;
@@ -12260,6 +12270,10 @@ li#wp-admin-bar-menu-toggle {
 	.sites .column-registered,
 	.sites .column-users {
 		display: none;
+	}
+
+	.fixed .column-comment .comment-author {
+		display: block;
 	}
 
 	/* Posts */
