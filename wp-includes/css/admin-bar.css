@@ -506,7 +506,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 }
 
 #wpadminbar #wp-admin-bar-edit > .ab-item:before {
-	content: '\f327';
+	content: '\f464';
 	top: 2px;
 }
 
@@ -544,7 +544,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
  * Updates
  */
 #wpadminbar #wp-admin-bar-updates .ab-icon:before {
-	content: '\f113';
+	content: '\f463';
 	top: 2px;
 }
 
