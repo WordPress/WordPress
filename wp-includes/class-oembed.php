@@ -27,8 +27,10 @@ class WP_oEmbed {
 	 */
 	function __construct() {
 		$providers = array(
-			'#https?://(www\.)?youtube\.com/watch.*#i'            => array( 'http://www.youtube.com/oembed',                      true  ),
-			'http://youtu.be/*'                                   => array( 'http://www.youtube.com/oembed',                      false ),
+			'#http://(www\.)?youtube\.com/watch.*#i'              => array( 'http://www.youtube.com/oembed',                      true  ),
+			'#https://(www\.)?youtube\.com/watch.*#i'             => array( 'http://www.youtube.com/oembed?scheme=https',         true  ),
+			'#http://youtu\.be/.*#i'                              => array( 'http://www.youtube.com/oembed',                      true  ),
+			'#https://youtu\.be/.*#i'                             => array( 'http://www.youtube.com/oembed?scheme=https',         true  ),
 			'http://blip.tv/*'                                    => array( 'http://blip.tv/oembed/',                             false ),
 			'#https?://(www\.)?vimeo\.com/.*#i'                   => array( 'http://vimeo.com/api/oembed.{format}',               true  ),
 			'#https?://(www\.)?dailymotion\.com/.*#i'             => array( 'http://www.dailymotion.com/services/oembed',         true  ),
@@ -54,6 +56,7 @@ class WP_oEmbed {
 			'#https?://rd\.io/x/.*#i'                             => array( 'http://www.rdio.com/api/oembed/',                    true  ),
 			'#https?://(open|play)\.spotify\.com/.*#i'            => array( 'https://embed.spotify.com/oembed/',                  true  ),
 		);
+
 		/**
 		 * Filter the list of oEmbed providers.
 		 *
