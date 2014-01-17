@@ -3770,11 +3770,13 @@ function wp_unslash( $value ) {
  * @return string The found URL.
  */
 function get_url_in_content( $content ) {
-	if ( empty( $content ) )
-		return '';
+	if ( empty( $content ) ) {
+		return false;
+	}
 
-	if ( preg_match( '/<a\s[^>]*?href=([\'"])(.+?)\1/is', $content, $matches ) )
+	if ( preg_match( '/<a\s[^>]*?href=([\'"])(.+?)\1/is', $content, $matches ) ) {
 		return esc_url_raw( $matches[2] );
+	}
 
 	return false;
 }
