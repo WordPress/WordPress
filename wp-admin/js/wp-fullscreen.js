@@ -481,7 +481,7 @@
 					data = {
 						event: e,
 						what: 'dfw',
-						cb: fullscreen.off,
+						cb: api.off,
 						condition: function(){
 							if ( $('#TB_window').is(':visible') || $('.wp-dialog').is(':visible') )
 								return false;
@@ -490,7 +490,7 @@
 					};
 
 					if ( ! $(document).triggerHandler( 'wp_CloseOnEscape', [data] ) ) {
-						fullscreen.off();
+						api.off();
 					}
 				}
 
