@@ -485,6 +485,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 	'editor_height' => 360,
 	'tinymce' => array(
 		'resize' => false,
+		'add_unload_trigger' => false,
 	),
 ) ); ?>
 <table id="post-status-info" cellspacing="0"><tbody><tr>
