@@ -233,7 +233,7 @@ function wp_list_bookmarks($args = '') {
 			 *
 			 * @since 2.2.0
 			 *
-			 * @param string $cat->name The category name of bookmarks.
+			 * @param string $cat_name The category name of bookmarks.
 			 */
 			$catname = apply_filters( 'link_category', $cat->name );
 
