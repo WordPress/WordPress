@@ -447,6 +447,12 @@ final class _WP_Editors {
 				$mceInit['toolbar4'] = '';
 			}
 
+			// Fix 3.x callbacks added with init.setup
+			if ( ! empty( $mceInit['setup'] ) ) {
+				$func = $mceInit['setup'];
+				$mceInit['setup'] = "function( editor ) { editor.on( 'PreInit', function(){ ($func).call( this, editor ); }); }";
+			}
+
 			self::$mce_settings[$editor_id] = $mceInit;
 		} // end if self::$this_tinymce
 	}
