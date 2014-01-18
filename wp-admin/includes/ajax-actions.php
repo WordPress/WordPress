@@ -1230,7 +1230,8 @@ function wp_ajax_menu_get_metabox() {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param object $menus_meta_box_object A nav menu meta box object, such as Page, Post, Category, Tag, etc.
+		 * @param object $menus_meta_box_object A nav menu meta box object, such as Page,
+		 *                                      Post, Category, Tag, etc.
 		 */
 		$item = apply_filters( 'nav_menu_meta_box_object', $menus_meta_box_object );
 		ob_start();
@@ -1830,7 +1831,8 @@ function wp_ajax_wp_remove_post_lock() {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param int $interval The interval in seconds the post lock duration should last, plus 5 seconds. Default 150.
+	 * @param int $interval The interval in seconds the post lock duration
+	 *                      should last, plus 5 seconds. Default 150.
 	 */
 	$new_lock = ( time() - apply_filters( 'wp_check_post_lock_window', 150 ) + 5 ) . ':' . $active_lock[1];
 	update_post_meta( $post_id, '_edit_lock', $new_lock, implode( ':', $active_lock ) );
@@ -1904,11 +1906,14 @@ function wp_ajax_query_attachments() {
 		$query['post_status'] .= ',private';
 
 	/**
-	 * Filter the arguments passed to WP_Query during an AJAX call for querying attachments.
+	 * Filter the arguments passed to WP_Query during an AJAX
+	 * call for querying attachments.
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param array $query An array of query variables. @see WP_Query::parse_query()
+	 * @see WP_Query::parse_query()
+	 *
+	 * @param array $query An array of query variables.
 	 */
 	$query = apply_filters( 'ajax_query_attachments_args', $query );
 	$query = new WP_Query( $query );
