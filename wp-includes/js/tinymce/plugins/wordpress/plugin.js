@@ -310,10 +310,14 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				e.content = e.content.replace(/<\/(p|div|ul|ol|dl|table|blockquote|h[1-6]|fieldset|pre|address)>\s*<\/p>/gi, '</$1>');
 			}
 		});
+
+		if ( typeof window.jQuery !== 'undefined' ) {
+			window.jQuery( document ).triggerHandler( 'tinymce-editor-init', [editor] );
+		}
 	});
 
 	// Word count
-	if ( typeof jQuery !== 'undefined' ) {
+	if ( typeof window.jQuery !== 'undefined' ) {
 		editor.on( 'keyup', function( e ) {
 			var key = e.keyCode || e.charCode;
 
@@ -322,7 +326,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			}
 
 			if ( 13 === key || 8 === last || 46 === last ) {
-				jQuery(document).triggerHandler( 'wpcountwords', [ editor.getContent({ format : 'raw' }) ] );
+				window.jQuery( document ).triggerHandler( 'wpcountwords', [ editor.getContent({ format : 'raw' }) ] );
 			}
 
 			last = key;
