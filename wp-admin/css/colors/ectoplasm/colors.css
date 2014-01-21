@@ -33,13 +33,13 @@ input[type=radio]:checked:before {
   -webkit-box-shadow: inset 0 1px 0 #c0cd7b, 0 1px 0 rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 1px 0 #c0cd7b, 0 1px 0 rgba(0, 0, 0, 0.15); }
   .wp-core-ui .button-primary:hover, .wp-core-ui .button-primary:focus {
-    background: #89993a;
+    background: #93a43e;
     border-color: #727f30;
     color: white;
     -webkit-box-shadow: inset 0 1px 0 #b7c669, 0 1px 0 rgba(0, 0, 0, 0.15);
     box-shadow: inset 0 1px 0 #b7c669, 0 1px 0 rgba(0, 0, 0, 0.15); }
   .wp-core-ui .button-primary:active {
-    background: #89993a;
+    background: #839237;
     border-color: #727f30;
     color: white;
     -webkit-box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
