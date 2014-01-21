@@ -21,8 +21,8 @@
 		 *
 		 * @global wp.media.view.settings.defaultProps
 		 *
-		 * @param {Object} props
-		 * @param {Object} attachment
+		 * @param {Object} props Attachment details (align, link, size, etc).
+		 * @param {Object} attachment The attachment object, media version of Post.
 		 * @returns {Object} Joined props
 		 */
 		props: function( props, attachment ) {
@@ -102,8 +102,8 @@
 		 *
 		 * @global wp.html.string
 		 *
-		 * @param {Object} props
-		 * @param {Object} attachment
+		 * @param {Object} props Attachment details (align, link, size, etc).
+		 * @param {Object} attachment The attachment object, media version of Post.
 		 * @returns {string} The link markup
 		 */
 		link: function( props, attachment ) {
@@ -128,8 +128,8 @@
 		/**
 		 * Create an Audio shortcode
 		 *
-		 * @param {Object} props
-		 * @param {Object} attachment
+		 * @param {Object} props Attachment details (align, link, size, etc).
+		 * @param {Object} attachment The attachment object, media version of Post.
 		 * @returns {string} The audio shortcode
 		 */
 		audio: function( props, attachment ) {
@@ -138,8 +138,8 @@
 		/**
 		 * Create a Video shortcode
 		 *
-		 * @param {Object} props
-		 * @param {Object} attachment
+		 * @param {Object} props Attachment details (align, link, size, etc).
+		 * @param {Object} attachment The attachment object, media version of Post.
 		 * @returns {string} The video shortcode
 		 */
 		video: function( props, attachment ) {
@@ -154,8 +154,8 @@
 		 * @global wp.media.view.settings
 		 *
 		 * @param {string} type The shortcode tag name: 'audio' or 'video'.
-		 * @param {Object} props
-		 * @param {Object} attachment
+		 * @param {Object} props Attachment details (align, link, size, etc).
+		 * @param {Object} attachment The attachment object, media version of Post.
 		 * @returns {string} The media shortcode
 		 */
 		_audioVideo: function( type, props, attachment ) {
@@ -199,8 +199,8 @@
 		 * @global wp.html
 		 * @global wp.shortcode
 		 *
-		 * @param {Object} props
-		 * @param {Object} attachment
+		 * @param {Object} props Attachment details (align, link, size, etc).
+		 * @param {Object} attachment The attachment object, media version of Post.
 		 * @returns {string}
 		 */
 		image: function( props, attachment ) {
@@ -304,8 +304,10 @@
 			/**
 			 * @global wp.media.query
 			 *
-			 * @param {Object} shortcode
-			 * @returns {Object}
+			 * @param {wp.shortcode} shortcode
+			 * @returns {wp.media.model.Attachments} A Backbone.Collection containing
+			 *	the images belonging to a gallery. The 'gallery' prop is a Backbone.Model
+			 *	containing the 'props' for the gallery.
 			 */
 			attachments: function( shortcode ) {
 				var shortcodeString = shortcode.string(),
@@ -363,10 +365,14 @@
 			},
 
 			/**
+			 * Triggered when clicking 'Insert Gallery' pr 'Update Gallery'
+			 *
 			 * @global wp.shortcode
 			 * @global wp.media.model.Attachments
 			 *
-			 * @param {Object} attachments
+			 * @param {wp.media.model.Attachments} attachments A Backbone.Collection containing
+			 *	the images belonging to a gallery. The 'gallery' prop is a Backbone.Model
+			 *	containing the 'props' for the gallery.
 			 * @returns {wp.shortcode}
 			 */
 			shortcode: function( attachments ) {
@@ -428,12 +434,15 @@
 				return shortcode;
 			},
 			/**
+			 * Triggered when double-clicking a Gallery shortcode placeholder
+			 *   in the editor
+			 *
 			 * @global wp.shortcode
 			 * @global wp.media.model.Selection
 			 * @global wp.media.view.l10n
 			 *
 			 * @param {string} content
-			 * @returns {wp.media.view.MediaFrame} A media workflow.
+			 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
 			 */
 			edit: function( content ) {
 				var shortcode = wp.shortcode.next( 'gallery', content ),
@@ -499,7 +508,7 @@
 		 *
 		 * @global wp.media.view.settings
 		 *
-		 * @returns {wp.media.view.settings.post.featuredImageId|Number}
+		 * @returns {wp.media.view.settings.post.featuredImageId|number}
 		 */
 		get: function() {
 			return wp.media.view.settings.post.featuredImageId;
@@ -534,7 +543,7 @@
 		 * @global wp.media.controller.FeaturedImage
 		 * @global wp.media.view.l10n
 		 *
-		 * @returns {wp.media.view.MediaFrame} A media workflow.
+		 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
 		 */
 		frame: function() {
 			if ( this._frame ) {
@@ -599,6 +608,7 @@
 		/**
 		 * @global tinymce
 		 * @global QTags
+		 * @global wpActiveEditor
 		 *
 		 * @param {string} html
 		 */
@@ -647,7 +657,7 @@
 		 * @param {string} id A slug used to identify the workflow.
 		 * @param {Object} [options={}]
 		 *
-		 * @returns {wp.media.view.MediaFrame} A media workflow.
+		 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
 		 */
 		add: function( id, options ) {
 			var workflow = this.get( id );
@@ -730,8 +740,8 @@
 		 * @global wpActiveEditor
 		 * @global tinymce
 		 *
-		 * @param {string} id
-		 * @returns {wpActiveEditor|String|tinymce.activeEditor.id}
+		 * @param {string} [id='']
+		 * @returns {wpActiveEditor|string|tinymce.activeEditor.id}
 		 */
 		id: function( id ) {
 			if ( id ) {
@@ -772,11 +782,14 @@
 
 		send: {
 			/**
+			 * Called when sending an attachment to the editor
+			 *   from the medial modal.
+			 *
 			 * @global wp.media.view.settings
 			 * @global wp.media.post
 			 *
-			 * @param {Object} props
-			 * @param {Object} attachment
+			 * @param {Object} props Attachment details (align, link, size, etc).
+			 * @param {Object} attachment The attachment object, media version of Post.
 			 * @returns {Promise}
 			 */
 			attachment: function( props, attachment ) {
@@ -828,6 +841,8 @@
 				});
 			},
 			/**
+			 * Called when 'Insert From URL' source is not an image. Example: YouTube url.
+			 *
 			 * @global wp.media.view.settings
 			 *
 			 * @param {Object} embed
