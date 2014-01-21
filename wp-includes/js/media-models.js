@@ -184,9 +184,12 @@ window.wp = window.wp || {};
 	 */
 	Attachment = media.model.Attachment = Backbone.Model.extend({
 		/**
+		 * Triggered when attachment details change
+		 *
 		 * @param {string} method
-		 * @param {Backbone.Model} model
+		 * @param {wp.media.model.Attachment} model
 		 * @param {Object} [options={}]
+		 *
 		 * @returns {Promise}
 		 */
 		sync: function( method, model, options ) {
@@ -266,6 +269,8 @@ window.wp = window.wp || {};
 			}
 		},
 		/**
+		 * Convert date strings into Date objects.
+		 *
 		 * @param {Object} resp
 		 * @returns {Object}
 		 */
@@ -274,7 +279,6 @@ window.wp = window.wp || {};
 				return resp;
 			}
 
-			// Convert date strings into Date objects.
 			resp.date = new Date( resp.date );
 			resp.modified = new Date( resp.modified );
 			return resp;
@@ -282,6 +286,9 @@ window.wp = window.wp || {};
 		/**
 		 * @param {Object} data
 		 * @param {Object} options
+		 *
+		 * @this Backbone.Model
+		 *
 		 * @returns {Promise}
 		 */
 		saveCompat: function( data, options ) {
@@ -310,7 +317,7 @@ window.wp = window.wp || {};
 		},
 		/**
 		 * @param {string} id
-		 * @param {Backbone.Model} attachment
+		 * @param {Backbone.Model|undefined} attachment
 		 * @returns {wp.media.model.Attachment}
 		 */
 		get: _.memoize( function( id, attachment ) {
@@ -479,7 +486,7 @@ window.wp = window.wp || {};
 		},
 
 		/**
-		 * @param {Backbone.Collection} attachments
+		 * @param {wp.media.model.Attachments} attachments
 		 * @param {object} [options={}]
 		 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
 		 */
@@ -496,7 +503,7 @@ window.wp = window.wp || {};
 			return this;
 		},
 		/**
-		 * @param {Backbone.Collection} attachments
+		 * @param {wp.media.model.Attachments} attachments
 		 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
 		 */
 		observe: function( attachments ) {
@@ -509,7 +516,7 @@ window.wp = window.wp || {};
 			return this;
 		},
 		/**
-		 * @param {Backbone.Collection} attachments
+		 * @param {wp.media.model.Attachments} attachments
 		 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
 		 */
 		unobserve: function( attachments ) {
@@ -529,9 +536,10 @@ window.wp = window.wp || {};
 		/**
 		 * @access private
 		 *
-		 * @param {Backbone.Model} attachment
-		 * @param {Backbone.Collction} attachments
+		 * @param {wp.media.model.Attachments} attachment
+		 * @param {wp.media.model.Attachments} attachments
 		 * @param {Object} options
+		 *
 		 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
 		 */
 		_validateHandler: function( attachment, attachments, options ) {
@@ -546,7 +554,7 @@ window.wp = window.wp || {};
 		/**
 		 * @access private
 		 *
-		 * @param {Backbone.Collction} attachments
+		 * @param {wp.media.model.Attachments} attachments
 		 * @param {Object} options
 		 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
 		 */
@@ -554,7 +562,7 @@ window.wp = window.wp || {};
 			return this.validateAll( attachments, options );
 		},
 		/**
-		 * @param {Backbone.Collction} attachments
+		 * @param {wp.media.model.Attachments} attachments
 		 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
 		 */
 		mirror: function( attachments ) {
@@ -759,7 +767,7 @@ window.wp = window.wp || {};
 	 * wp.media.query
 	 *
 	 * @static
-	 * @returns {Attachments}
+	 * @returns {wp.media.model.Attachments}
 	 */
 	media.query = function( props ) {
 		return new Attachments( null, {
@@ -1054,8 +1062,9 @@ window.wp = window.wp || {};
 		},
 
 		/**
+		 * Triggered when toggling (clicking on) an attachment in the modal
 		 *
-		 * @param {Backbone.Model} model
+		 * @param {undefined|boolean|wp.media.model.Attachment} model
 		 *
 		 * @fires wp.media.model.Selection#selection:single
 		 * @fires wp.media.model.Selection#selection:unsingle
