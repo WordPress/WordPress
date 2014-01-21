@@ -503,6 +503,7 @@
 	 * wp.media.featuredImage
 	 */
 	wp.media.featuredImage = {
+		scott: 'yes',
 		/**
 		 * Get the featured image post ID
 		 *
@@ -543,6 +544,8 @@
 		 * @global wp.media.controller.FeaturedImage
 		 * @global wp.media.view.l10n
 		 *
+		 * @this wp.media.featuredImage
+		 *
 		 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
 		 */
 		frame: function() {
@@ -556,6 +559,9 @@
 			});
 
 			this._frame.on( 'toolbar:create:featured-image', function( toolbar ) {
+				/**
+				 * @this wp.media.view.MediaFrame.Select
+				 */
 				this.createSelectToolbar( toolbar, {
 					text: wp.media.view.l10n.setFeaturedImage
 				});
@@ -566,6 +572,8 @@
 		},
 		/**
 		 * @global wp.media.view.settings
+		 *
+		 * @this wp.media.controller.FeaturedImage
 		 */
 		select: function() {
 			var settings = wp.media.view.settings,
@@ -657,6 +665,8 @@
 		 * @param {string} id A slug used to identify the workflow.
 		 * @param {Object} [options={}]
 		 *
+		 * @this wp.media.editor
+		 *
 		 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
 		 */
 		add: function( id, options ) {
@@ -684,6 +694,9 @@
 
 				$.when.apply( $, selection.map( function( attachment ) {
 					var display = state.display( attachment ).toJSON();
+					/**
+					 * @this wp.media.editor
+					 */
 					return this.send.attachment( display, attachment.toJSON() );
 				}, this ) ).done( function() {
 					wp.media.editor.insert( _.toArray( arguments ).join('\n\n') );
@@ -691,10 +704,16 @@
 			}, this );
 
 			workflow.state('gallery-edit').on( 'update', function( selection ) {
+				/**
+				 * @this wp.media.editor
+				 */
 				this.insert( wp.media.gallery.shortcode( selection ).string() );
 			}, this );
 
 			workflow.state('embed').on( 'select', function() {
+				/**
+				 * @this wp.media.editor
+				 */
 				var state = workflow.state(),
 					type = state.get('type'),
 					embed = state.props.toJSON();
@@ -764,6 +783,9 @@
 		 * Return the workflow specified by id
 		 *
 		 * @param {string} id
+		 *
+		 * @this wp.media.editor
+		 *
 		 * @returns {wp.media.view.MediaFrame} A media workflow.
 		 */
 		get: function( id ) {
@@ -774,6 +796,8 @@
 		 * Remove the workflow represented by id from the workflow cache
 		 *
 		 * @param {string} id
+		 *
+		 * @this wp.media.editor
 		 */
 		remove: function( id ) {
 			id = this.id( id );
@@ -861,6 +885,9 @@
 		/**
 		 * @param {string} id
 		 * @param {Object} options
+		 *
+		 * @this wp.media.editor
+		 *
 		 * @returns {wp.media.view.MediaFrame}
 		 */
 		open: function( id, options ) {
@@ -897,8 +924,8 @@
 		 */
 		init: function() {
 			$(document.body).on( 'click', '.insert-media', function( event ) {
-				var $this = $(this),
-					editor = $this.data('editor'),
+				var elem = $( event.currentTarget ),
+					editor = elem.data('editor'),
 					options = {
 						frame:    'post',
 						state:    'insert',
@@ -913,9 +940,9 @@
 				// above the modal.
 				//
 				// See: http://core.trac.wordpress.org/ticket/22445
-				$this.blur();
+				elem.blur();
 
-				if ( $this.hasClass( 'gallery' ) ) {
+				if ( elem.hasClass( 'gallery' ) ) {
 					options.state = 'gallery';
 					options.title = wp.media.view.l10n.createGalleryTitle;
 				}
