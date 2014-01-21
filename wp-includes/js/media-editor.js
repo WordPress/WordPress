@@ -503,7 +503,6 @@
 	 * wp.media.featuredImage
 	 */
 	wp.media.featuredImage = {
-		scott: 'yes',
 		/**
 		 * Get the featured image post ID
 		 *
