@@ -365,7 +365,7 @@
 			},
 
 			/**
-			 * Triggered when clicking 'Insert Gallery' pr 'Update Gallery'
+			 * Triggered when clicking 'Insert Gallery' or 'Update Gallery'
 			 *
 			 * @global wp.shortcode
 			 * @global wp.media.model.Attachments
