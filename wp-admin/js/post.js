@@ -401,7 +401,7 @@ jQuery(document).ready( function($) {
 	}
 
 	// The form is being submitted by the user
-	$submitButtons = $submitpost.find( ':button, :submit, a.submitdelete, #post-preview' ).on( 'click.autosave', function( event ) {
+	$submitButtons = $submitpost.find( ':button, :submit, a.submitdelete, #post-preview' ).on( 'click.edit-post', function( event ) {
 		var $button = $(this);
 
 		if ( $button.prop('disabled') ) {
@@ -409,7 +409,7 @@ jQuery(document).ready( function($) {
 			return;
 		}
 
-		if ( $button.hasClass('submitdelete') ) {
+		if ( $button.hasClass('submitdelete') || $button.is( '#post-preview' ) ) {
 			return;
 		}
 
@@ -420,7 +420,10 @@ jQuery(document).ready( function($) {
 				return;
 			}
 
-			wp.autosave.server.disable();
+			if ( typeof wp != 'undefined' && wp.autosave ) {
+				wp.autosave.server.disable();
+			}
+
 			releaseLock = false;
 			$(window).off( 'beforeunload.edit-post' );
 
