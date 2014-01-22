@@ -166,11 +166,8 @@ function wp_admin_bar_sidebar_toggle( $wp_admin_bar ) {
 	if ( is_admin() ) {
 		$wp_admin_bar->add_menu( array(
 			'id'    => 'menu-toggle',
-			'title' => '<span class="ab-icon"></span>',
+			'title' => '<span class="ab-icon"></span><span class="screen-reader-text">' . __( 'Menu' ) . '</span>',
 			'href'  => '#',
-			'meta'  => array(
-				'title' => __( 'Menu' ),
-			),
 		) );
 	}
 }
