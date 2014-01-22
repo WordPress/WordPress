@@ -1037,13 +1037,15 @@ html:lang(he-il) .rtl #wpadminbar *  {
 		float: right;
 	}
 
-	#wpadminbar #wp-admin-bar-my-account .ab-sub-wrapper {
-		right: 0;
-		left: auto;
-	}
-
 	.network-admin #wpadminbar ul#wp-admin-bar-top-secondary > li#wp-admin-bar-my-account {
 		margin-right: 0;
+	}
+	
+	/* Realign arrows on taller responsive submenus */
+	
+	#wpadminbar .ab-top-secondary .menupop .menupop > .ab-item:before {
+		top: 10px;
+		left: 0;
 	}
 }
 
@@ -1096,5 +1098,13 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	#wpadminbar li#wp-admin-bar-wp-logo,
 	#wpadminbar li#wp-admin-bar-updates {
 		display: none;
+	}
+	
+	/* Make submenus full-width at this size */
+	
+	#wpadminbar .ab-top-menu > .menupop li > .ab-sub-wrapper {
+		position: static;
+		-webkit-box-shadow: none;
+		box-shadow: none;
 	}
 }
