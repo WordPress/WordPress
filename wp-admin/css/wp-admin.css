@@ -6373,6 +6373,11 @@ span.imgedit-scale-warn {
 	box-sizing:         border-box;
 }
 
+.ie8 .theme-browser .theme {
+	width: 30%;
+	margin: 0 3% 4% 0;
+}
+
 .theme-browser .theme:nth-child(3n) {
 	margin-right: 0;
 }
@@ -6398,6 +6403,7 @@ span.imgedit-scale-warn {
 
 /* Activate and Customize buttons, shown on hover */
 .theme-browser .theme .theme-actions {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	opacity: 0;
 	-webkit-transition: opacity 0.1s ease-in-out;
 	transition:         opacity 0.1s ease-in-out;
@@ -6411,6 +6417,7 @@ span.imgedit-scale-warn {
 }
 
 .theme-browser .theme:hover .theme-actions {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
 }
 
@@ -6463,11 +6470,13 @@ span.imgedit-scale-warn {
 }
 
 .theme-browser .theme .more-details {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	opacity: 0;
 	position: absolute;
 		top: 35%;
 		right: 25%;
 		left: 25%;
+	background: #222;
 	background: rgba(0,0,0,0.7);
 	color: #fff;
 	font-size: 15px;
@@ -6500,6 +6509,7 @@ span.imgedit-scale-warn {
 }
 
 .theme-browser.rendered .theme:hover .more-details {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
 }
 
@@ -6603,7 +6613,9 @@ span.imgedit-scale-warn {
 .theme-browser .theme.add-new-theme:after {
 	display: block;
 	content: '';
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
+	background: transparent;
 	background: rgba(0, 0, 0, 0);
 	position: absolute;
 	top: 0;
@@ -6612,6 +6624,7 @@ span.imgedit-scale-warn {
 	bottom: 0;
 	padding: 10% 0 0 0;
 	text-shadow: none;
+	border: 5px dashed #d5d2ca;
 	border: 5px dashed rgba(0, 0, 0, 0.1);
 	-webkit-transition: opacity 0.2s ease-in-out;
 	transition:         opacity 0.2s ease-in-out;
@@ -6621,6 +6634,7 @@ span.imgedit-scale-warn {
 }
 
 .theme-browser .theme.add-new-theme span:after {
+	background: #e5e5e5;
 	background: rgba(153, 153, 153, 0.1);
 	border-radius: 50%;
 	display: inline-block;
@@ -6659,6 +6673,7 @@ span.imgedit-scale-warn {
 	border-color: transparent;
 	color: #fff;
 	background: #0074a2;
+	content: '';
 }
 
 .theme-browser .theme.add-new-theme .theme-name {
@@ -6700,6 +6715,7 @@ span.imgedit-scale-warn {
 	right: 0;
 	top: 0;
 	bottom: 0;
+	background: #f1f1f1;
 	background: rgba( 238, 238, 238, 0.9 );
 	z-index: 10;
 }
@@ -6851,6 +6867,10 @@ body.folded .theme-overlay .theme-wrap {
 	z-index: 30;
 	box-sizing: border-box;
 	border-top: 1px solid #eee;
+}
+
+.ie8 .theme-overlay .theme-actions {
+	border: 1px solid #eee;
 }
 
 .theme-overlay .theme-actions a {
