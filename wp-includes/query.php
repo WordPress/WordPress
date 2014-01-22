@@ -3387,7 +3387,7 @@ class WP_Query {
 	 * Is the query for an existing attachment page?
 	 *
 	 * @since 3.1.0
-	 * 
+	 *
 	 * @param mixed $attachment Attachment ID, title, slug, or array of such.
 	 * @return bool
 	 */
