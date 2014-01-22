@@ -21,6 +21,7 @@
 		 * attachment's type.
 		 *
 		 * @global wp.media.view.settings
+		 * @global getUserSetting()
 		 *
 		 * @param {Object} [props={}] Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
@@ -97,9 +98,8 @@
 
 			return fallbacks( props );
 		},
-
 		/**
-		 * Create the markup for a link
+		 * Create link markup that is suitable for passing to the editor
 		 *
 		 * @global wp.html.string
 		 *
@@ -127,7 +127,7 @@
 			return wp.html.string( options );
 		},
 		/**
-		 * Create an Audio shortcode
+		 * Create an Audio shortcode string that is suitable for passing to the editor
 		 *
 		 * @param {Object} props Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
@@ -137,7 +137,7 @@
 			return wp.media.string._audioVideo( 'audio', props, attachment );
 		},
 		/**
-		 * Create a Video shortcode
+		 * Create a Video shortcode string that is suitable for passing to the editor
 		 *
 		 * @param {Object} props Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
@@ -147,7 +147,7 @@
 			return wp.media.string._audioVideo( 'video', props, attachment );
 		},
 		/**
-		 * Helper function to create a media shortcode
+		 * Helper function to create a media shortcode string
 		 *
 		 * @access private
 		 *
@@ -195,7 +195,8 @@
 			return html;
 		},
 		/**
-		 * Create image markup, optionally with a link and/or wrapped in a caption shortcode
+		 * Create image markup, optionally with a link and/or wrapped in a caption shortcode,
+		 *  that is suitable for passing to the editor
 		 *
 		 * @global wp.html
 		 * @global wp.shortcode
@@ -287,7 +288,10 @@
 
 		return {
 			/**
+			 * Default gallery properties
+			 *
 			 * @global wp.media.view.settings
+			 * @readonly
 			 */
 			defaults: {
 				order:      'ASC',
@@ -300,11 +304,12 @@
 				size:       'thumbnail',
 				orderby:    'menu_order ID'
 			},
-
 			/**
+			 * Retrieve attachments based on the properties of the passed shortcode
+			 *
 			 * @global wp.media.query
 			 *
-			 * @param {wp.shortcode} shortcode
+			 * @param {wp.shortcode} shortcode An instance of wp.shortcode().
 			 * @returns {wp.media.model.Attachments} A Backbone.Collection containing
 			 *	the images belonging to a gallery. The 'gallery' prop is a Backbone.Model
 			 *	containing the 'props' for the gallery.
@@ -363,7 +368,6 @@
 				query.gallery = new Backbone.Model( others );
 				return query;
 			},
-
 			/**
 			 * Triggered when clicking 'Insert Gallery' or 'Update Gallery'
 			 *
@@ -441,7 +445,8 @@
 			 * @global wp.media.model.Selection
 			 * @global wp.media.view.l10n
 			 *
-			 * @param {string} content
+			 * @param {string} content Content that is searched for possible
+			 *    shortcode markup matching the passed tag name,
 			 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
 			 */
 			edit: function( content ) {
@@ -514,7 +519,6 @@
 		get: function() {
 			return wp.media.view.settings.post.featuredImageId;
 		},
-
 		/**
 		 * Set the featured image id, save the post thumbnail data and
 		 * set the HTML in the post meta box to the new featured image.
@@ -522,7 +526,7 @@
 		 * @global wp.media.view.settings
 		 * @global wp.media.post
 		 *
-		 * @param {number} id
+		 * @param {number} id The post ID of the featured image, or -1 to unset it.
 		 */
 		set: function( id ) {
 			var settings = wp.media.view.settings;
@@ -571,21 +575,22 @@
 			return this._frame;
 		},
 		/**
+		 * 'select' callback for Featured Image workflow, triggered when
+		 *  the 'Set Featured Image' button is clicked in the media modal.
+		 *
 		 * @global wp.media.view.settings
 		 *
 		 * @this wp.media.controller.FeaturedImage
 		 */
 		select: function() {
-			var settings = wp.media.view.settings,
-				selection = this.get('selection').single();
+			var selection = this.get('selection').single();
 
-			if ( ! settings.post.featuredImageId ) {
+			if ( ! wp.media.view.settings.post.featuredImageId ) {
 				return;
 			}
 
 			wp.media.featuredImage.set( selection ? selection.id : -1 );
 		},
-
 		/**
 		 * Open the content media manager to the 'featured image' tab when
 		 * the post thumbnail is clicked.
@@ -615,11 +620,14 @@
 	 */
 	wp.media.editor = {
 		/**
+		 * Send content to the editor
+		 *
 		 * @global tinymce
 		 * @global QTags
 		 * @global wpActiveEditor
+		 * @global tb_remove() - Possibly overloaded by legacy plugins
 		 *
-		 * @param {string} html
+		 * @param {string} html Content to send to the editor
 		 */
 		insert: function( html ) {
 			var editor,
@@ -661,6 +669,9 @@
 		},
 
 		/**
+		 * Setup 'workflow' and add to the 'workflows' cache. 'open' can
+		 *  subsequently be called upon it.
+		 *
 		 * @global wp.media.view.l10n
 		 *
 		 * @param {string} id A slug used to identify the workflow.
@@ -753,14 +764,14 @@
 			workflow.setState( workflow.options.state );
 			return workflow;
 		},
-
 		/**
 		 * Determines the proper current workflow id
 		 *
 		 * @global wpActiveEditor
 		 * @global tinymce
 		 *
-		 * @param {string} [id='']
+		 * @param {string} [id=''] A slug used to identify the workflow.
+		 *
 		 * @returns {wpActiveEditor|string|tinymce.activeEditor.id}
 		 */
 		id: function( id ) {
@@ -783,7 +794,7 @@
 		/**
 		 * Return the workflow specified by id
 		 *
-		 * @param {string} id
+		 * @param {string} id A slug used to identify the workflow.
 		 *
 		 * @this wp.media.editor
 		 *
@@ -796,7 +807,7 @@
 		/**
 		 * Remove the workflow represented by id from the workflow cache
 		 *
-		 * @param {string} id
+		 * @param {string} id A slug used to identify the workflow.
 		 *
 		 * @this wp.media.editor
 		 */
@@ -804,7 +815,9 @@
 			id = this.id( id );
 			delete workflows[ id ];
 		},
-
+		/**
+		 * @namespace
+		 */
 		send: {
 			/**
 			 * Called when sending an attachment to the editor
@@ -884,7 +897,9 @@
 			}
 		},
 		/**
-		 * @param {string} id
+		 * Open a workflow
+		 *
+		 * @param {string} [id=undefined] Optional. A slug used to identify the workflow.
 		 * @param {Object} [options={}]
 		 *
 		 * @this wp.media.editor
