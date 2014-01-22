@@ -12,6 +12,7 @@
 
 	/**
 	 * wp.media.string
+	 * @namespace
 	 */
 	wp.media.string = {
 		/**
@@ -19,9 +20,9 @@
 		 * outputting the proper object format based on the
 		 * attachment's type.
 		 *
-		 * @global wp.media.view.settings.defaultProps
+		 * @global wp.media.view.settings
 		 *
-		 * @param {Object} props Attachment details (align, link, size, etc).
+		 * @param {Object} [props={}] Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
 		 * @returns {Object} Joined props
 		 */
@@ -274,8 +275,7 @@
 
 	/**
 	 * wp.media.gallery
-	 *
-	 * @type {Object}
+	 * @namespace
 	 */
 	wp.media.gallery = (function() {
 		/**
@@ -501,6 +501,7 @@
 
 	/**
 	 * wp.media.featuredImage
+	 * @namespace
 	 */
 	wp.media.featuredImage = {
 		/**
@@ -610,6 +611,7 @@
 
 	/**
 	 * wp.media.editor
+	 * @namespace
 	 */
 	wp.media.editor = {
 		/**
@@ -883,7 +885,7 @@
 		},
 		/**
 		 * @param {string} id
-		 * @param {Object} options
+		 * @param {Object} [options={}]
 		 *
 		 * @this wp.media.editor
 		 *
