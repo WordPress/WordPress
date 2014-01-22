@@ -553,10 +553,18 @@ $(document).ready( function() {
 				self.deactivate();
 			});
 
+			$( '#wp-admin-bar-menu-toggle a' ).attr( 'aria-expanded', 'false' );
+
 			// Toggle sidebar when toggle is clicked
 			$( '#wp-admin-bar-menu-toggle' ).on( 'click.wp-responsive', function( event ) {
 				event.preventDefault();
 				$wpwrap.toggleClass( 'wp-responsive-open' );
+				if ( $wpwrap.hasClass( 'wp-responsive-open' ) ) {
+					$(this).find('a').attr( 'aria-expanded', 'true' );
+					$( '#adminmenu a:first' ).focus();
+				} else {
+					$(this).find('a').attr( 'aria-expanded', 'false' );
+				}
 			} );
 
 			// Add menu events

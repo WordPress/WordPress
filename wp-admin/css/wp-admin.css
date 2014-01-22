@@ -11851,19 +11851,13 @@ li#wp-admin-bar-menu-toggle {
 	.auto-fold #adminmenuback,
 	.auto-fold #adminmenuwrap {
 		position: absolute;
-		left: 0;
+		width: 190px;
 		z-index: 100;
 	}
 
 	.auto-fold #adminmenuback,
 	.auto-fold #adminmenuwrap {
-		left: -200px;
-	}
-
-	.auto-fold #adminmenuwrap,
-	.auto-fold #adminmenu,
-	.auto-fold #adminmenuback {
-		width: 190px;
+		display: none;
 	}
 
 	.auto-fold #adminmenu li.menu-top {
@@ -11969,7 +11963,7 @@ li#wp-admin-bar-menu-toggle {
 
 	.auto-fold .wp-responsive-open #adminmenuback,
 	.auto-fold .wp-responsive-open #adminmenuwrap {
-		left: 0;
+		display: block;
 	}
 
 	/* General New Post Form */
