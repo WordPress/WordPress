@@ -331,7 +331,7 @@ if ( ! defined( 'WP_INSTALLING' ) || 'wp-activate.php' === $pagenow ) {
 do_action( 'after_setup_theme' );
 
 // Set up current user.
-$wp->init();
+$GLOBALS['wp']->init();
 
 /**
  * Fires after WordPress has finished loading but before any headers are sent.
