@@ -1,7 +1,9 @@
 /* global postL10n, ajaxurl, wpAjax, setPostThumbnailL10n, postboxes, pagenow, tinymce, alert, deleteUserSetting, getUserSetting, setUserSetting */
 /* global theList:true, theExtraList:true, autosave:true */
 
-var tagBox, commentsBox, editPermalink, makeSlugeditClickable, WPSetThumbnailHTML, WPSetThumbnailID, WPRemoveThumbnail, wptitlehint;
+var tagBox, commentsBox, WPSetThumbnailHTML, WPSetThumbnailID, WPRemoveThumbnail, wptitlehint;
+// Back-compat: prevent fatal errors
+makeSlugeditClickable = editPermalink = function(){};
 
 // return an array with any duplicate, whitespace or values removed
 function array_unique_noempty(a) {
@@ -268,10 +270,9 @@ $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
 		send.lock = lock;
 
 	data['wp-refresh-post-lock'] = send;
-});
 
-// Post locks: update the lock string or show the dialog if somebody has taken over editing
-$(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
+}).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
+	// Post locks: update the lock string or show the dialog if somebody has taken over editing
 	var received, wrap, avatar;
 
 	if ( data['wp-refresh-post-lock'] ) {
@@ -282,19 +283,16 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 			wrap = $('#post-lock-dialog');
 
 			if ( wrap.length && ! wrap.is(':visible') ) {
-				if ( typeof autosave == 'function' ) {
-					$(document).on('autosave-disable-buttons.post-lock', function() {
-						wrap.addClass('saving');
-					}).on('autosave-enable-buttons.post-lock', function() {
+				if ( typeof wp != 'undefined' && wp.autosave ) {
+					// Save the latest changes and disable
+					$(document).one( 'heartbeat-tick', function() {
+						wp.autosave.server.disable();
 						wrap.removeClass('saving').addClass('saved');
-						window.onbeforeunload = null;
+						$(window).off( 'beforeunload.edit-post' );
 					});
 
-					// Save the latest changes and disable
-					if ( ! autosave() )
-						window.onbeforeunload = null;
-
-					autosave = function(){};
+					wrap.addClass('saving');
+					wp.autosave.server.triggerSave();
 				}
 
 				if ( received.lock_error.avatar_src ) {
@@ -308,6 +306,22 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 		} else if ( received.new_lock ) {
 			$('#active_post_lock').val( received.new_lock );
 		}
+	}
+}).on( 'after-autosave.update-post-slug', function() {
+	// create slug area only if not already there
+	if ( ! $('#edit-slug-box > *').length ) {
+		$.post( ajaxurl, {
+				action: 'sample-permalink',
+				post_id: $('#post_ID').val(),
+				new_title: typeof fullscreen != 'undefined' && fullscreen.settings.visible ? $('#wp-fullscreen-title').val() : $('#title').val(),
+				samplepermalinknonce: $('#samplepermalinknonce').val()
+			},
+			function( data ) {
+				if ( data != '-1' ) {
+					$('#edit-slug-box').html(data);
+				}
+			}
+		);
 	}
 });
 
@@ -354,8 +368,14 @@ $(document).on( 'heartbeat-tick.refresh-lock', function( e, data ) {
 }(jQuery));
 
 jQuery(document).ready( function($) {
-	var stamp, visibility, updateVisibility, updateText,
-		sticky = '', last = 0, co = $('#content');
+	var stamp, visibility, $submitButtons,
+		sticky = '',
+		last = 0,
+		co = $('#content'),
+		$editSlugWrap = $('#edit-slug-box'),
+		postId = $('#post_ID').val() || 0,
+		$submitpost = $('#submitpost'),
+		releaseLock = true;
 
 	postboxes.add_postbox_toggles(pagenow);
 
@@ -379,6 +399,142 @@ jQuery(document).ready( function($) {
 	if ( typeof wp !== 'undefined' && wp.heartbeat && $('#post-lock-dialog').length ) {
 		wp.heartbeat.interval( 15 );
 	}
+
+	// The form is being submitted by the user
+	$submitButtons = $submitpost.find( ':button, :submit, a.submitdelete, #post-preview' ).on( 'click.autosave', function( event ) {
+		var $button = $(this);
+
+		if ( $button.prop('disabled') ) {
+			event.preventDefault();
+			return;
+		}
+
+		if ( $button.hasClass('submitdelete') ) {
+			return;
+		}
+
+		// The form submission can be blocked from JS or by using HTML 5.0 validation on some fields.
+		// Run this only on an actual 'submit'.
+		$('form#post').off( 'submit.edit-post' ).on( 'submit.edit-post', function( event ) {
+			if ( event.isDefaultPrevented() ) {
+				return;
+			}
+
+			wp.autosave.server.disable();
+			releaseLock = false;
+			$(window).off( 'beforeunload.edit-post' );
+
+			$submitButtons.prop( 'disabled', true ).addClass( 'button-disabled' );
+
+			if ( $button.attr('id') === 'publish' ) {
+				$submitpost.find('#major-publishing-actions .spinner').show();
+			} else {
+				$submitpost.find('#minor-publishing .spinner').show();
+			}
+		});
+	});
+
+	// Submit the form saving a draft or an autosave, and show a preview in a new tab
+	$('#post-preview').on( 'click.post-preview', function( event ) {
+		var $this = $(this),
+			$form = $('form#post'),
+			$previewField = $('input#wp-preview'),
+			target = $this.attr('target') || 'wp-preview',
+			ua = navigator.userAgent.toLowerCase();
+		
+		event.preventDefault();
+
+		if ( $this.prop('disabled') ) {
+			return;
+		}
+
+		if ( typeof wp != 'undefined' && wp.autosave ) {
+			wp.autosave.server.tempBlockSave();
+		}
+
+		$previewField.val('dopreview');
+		$form.attr( 'target', target ).submit().attr( 'target', '' );
+
+		// Workaround for WebKit bug preventing a form submitting twice to the same action.
+		// https://bugs.webkit.org/show_bug.cgi?id=28633
+		if ( ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1 ) {
+			$form.attr( 'action', function( index, value ) {
+				return value + '?t=' + ( new Date() ).getTime();
+			});
+		}
+
+		$previewField.val('');
+	});
+
+	// This code is meant to allow tabbing from Title to Post content.
+	$('#title').on( 'keydown.editor-focus', function( event ) {
+		var editor;
+
+		if ( event.keyCode === 9 && ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) {
+			editor = typeof tinymce != 'undefined' && tinymce.get('content');
+
+			if ( editor && ! editor.isHidden() ) {
+				editor.focus();
+			} else {
+				$('#content').focus();
+			}
+
+			event.preventDefault();
+		}
+	});
+
+	// Autosave new posts after a title is typed
+	if ( $( '#auto_draft' ).val() ) {
+		$( '#title' ).blur( function() {
+			if ( ! this.value || $( '#auto_draft' ).val() !== '1' ) {
+				return;
+			}
+
+			if ( typeof wp != 'undefined' && wp.autosave ) {
+				wp.autosave.server.triggerSave();
+			}
+		});
+	}
+
+	$(document).on( 'autosave-disable-buttons.edit-post', function() {
+		$submitButtons.prop( 'disabled', true ).addClass( 'button-disabled' );
+	}).on( 'autosave-enable-buttons.edit-post', function() {
+		if ( ! window.wp || ! window.wp.heartbeat || ! window.wp.heartbeat.hasConnectionError() ) {
+			$submitButtons.prop( 'disabled', false ).removeClass( 'button-disabled' );
+		}
+	});
+
+	$(window).on( 'beforeunload.edit-post', function() {
+		var editor = typeof tinymce !== 'undefined' && tinymce.get('content');
+
+		if ( ( editor && ! editor.isHidden() && editor.isDirty() ) || 
+			( typeof wp !== 'undefined' && wp.autosave && wp.autosave.server.postChanged() ) ) {
+
+			return autosaveL10n.saveAlert;
+		}
+	}).on( 'unload.edit-post', function( event ) {
+		if ( ! releaseLock ) {
+			return;
+		}
+
+		// Unload is triggered (by hand) on removing the Thickbox iframe.
+		// Make sure we process only the main document unload.
+		if ( event.target && event.target.nodeName != '#document' ) {
+			return;
+		}
+
+		$.ajax({
+			type: 'POST',
+			url: ajaxurl,
+			async: false,
+			data: {
+				action: 'wp-remove-post-lock',
+				_wpnonce: $('#_wpnonce').val(),
+				post_ID: $('#post_ID').val(),
+				active_post_lock: $('#active_post_lock').val()
+			}
+		});
+	});
 
 	// multi-taxonomies
 	if ( $('#tagsdiv-post_tag').length ) {
@@ -689,28 +845,22 @@ jQuery(document).ready( function($) {
 	} // end submitdiv
 
 	// permalink
-	if ( $('#edit-slug-box').length ) {
-		editPermalink = function(post_id) {
-			var slug_value, i,
-				c = 0,
-				e = $( '#editable-post-name' ),
-				revert_e = e.html(),
-				real_slug = $( '#post_name' ),
-				revert_slug = real_slug.val(),
-				b = $( '#edit-slug-buttons' ),
-				revert_b = b.html(),
-				full = $( '#editable-post-name-full' ).html();
+	if ( $editSlugWrap.length ) {
+		function editPermalink() {
+			var i, c = 0, e = $('#editable-post-name'), revert_e = e.html(), real_slug = $('#post_name'),
+				revert_slug = real_slug.val(), b = $('#edit-slug-buttons'), revert_b = b.html(),
+				full = $('#editable-post-name-full').html();
 
 			$('#view-post-btn').hide();
 			b.html('<a href="#" class="save button button-small">'+postL10n.ok+'</a> <a class="cancel" href="#">'+postL10n.cancel+'</a>');
 			b.children('.save').click(function() {
 				var new_slug = e.children('input').val();
 				if ( new_slug == $('#editable-post-name-full').text() ) {
-					return $('.cancel', '#edit-slug-buttons').click();
+					return $('#edit-slug-buttons .cancel').click();
 				}
 				$.post(ajaxurl, {
 					action: 'sample-permalink',
-					post_id: post_id,
+					post_id: postId,
 					new_slug: new_slug,
 					new_title: $('#title').val(),
 					samplepermalinknonce: $('#samplepermalinknonce').val()
@@ -724,13 +874,12 @@ jQuery(document).ready( function($) {
 					}
 					b.html(revert_b);
 					real_slug.val(new_slug);
-					makeSlugeditClickable();
 					$('#view-post-btn').show();
 				});
 				return false;
 			});
 
-			$('.cancel', '#edit-slug-buttons').click(function() {
+			$('#edit-slug-buttons .cancel').click(function() {
 				$('#view-post-btn').show();
 				e.html(revert_e);
 				b.html(revert_b);
@@ -760,12 +909,13 @@ jQuery(document).ready( function($) {
 			}).focus();
 		};
 
-		makeSlugeditClickable = function() {
-			$('#editable-post-name').click(function() {
-				$('#edit-slug-buttons').children('.edit-slug').click();
-			});
-		};
-		makeSlugeditClickable();
+		$editSlugWrap.on( 'click', function( event ) {
+			var $target = $( event.target );
+
+			if ( $target.is('#editable-post-name') || $target.hasClass('edit-slug') ) {
+				editPermalink();
+			}
+		});
 	}
 
 	// word count

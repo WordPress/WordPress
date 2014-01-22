@@ -79,8 +79,13 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 		}
 	}
 
-	if ( ! empty( $post_data['post_status'] ) )
+	if ( ! empty( $post_data['post_status'] ) ) {
 		$post_data['post_status'] = sanitize_key( $post_data['post_status'] );
+
+		// No longer an auto-draft
+		if ( 'auto-draft' == $post_data['post_status'] )
+			$post_data['post_status'] = 'draft';
+	}
 
 	// What to do based on which button they pressed
 	if ( isset($post_data['saveasdraft']) && '' != $post_data['saveasdraft'] )
@@ -190,9 +195,6 @@ function edit_post( $post_data = null ) {
 	$post_data = _wp_translate_postdata( true, $post_data );
 	if ( is_wp_error($post_data) )
 		wp_die( $post_data->get_error_message() );
-	if ( ( empty( $post_data['action'] ) || 'autosave' != $post_data['action'] ) && 'auto-draft' == $post_data['post_status'] ) {
-		$post_data['post_status'] = 'draft';
-	}
 
 	if ( isset($post_data['visibility']) ) {
 		switch ( $post_data['visibility'] ) {
@@ -1335,22 +1337,30 @@ function _admin_notice_post_locked() {
  * @uses _wp_translate_postdata()
  * @uses _wp_post_revision_fields()
  *
- * @return unknown
+ * @param mixed $post_data Associative array containing the post data or int post ID.
+ * @return mixed The autosave revision ID. WP_Error or 0 on error.
  */
-function wp_create_post_autosave( $post_id ) {
-	$translated = _wp_translate_postdata( true );
-	if ( is_wp_error( $translated ) )
-		return $translated;
+function wp_create_post_autosave( $post_data ) {
+	if ( is_numeric( $post_data ) ) {
+		$post_id = $post_data;
+		$post_data = &$_POST;
+	} else {
+		$post_id = (int) $post_data['post_ID'];
+	}
+
+	$post_data = _wp_translate_postdata( true, $post_data );
+	if ( is_wp_error( $post_data ) )
+		return $post_data;
 
 	$post_author = get_current_user_id();
 
 	// Store one autosave per author. If there is already an autosave, overwrite it.
 	if ( $old_autosave = wp_get_post_autosave( $post_id, $post_author ) ) {
-		$new_autosave = _wp_post_revision_fields( $_POST, true );
+		$new_autosave = _wp_post_revision_fields( $post_data, true );
 		$new_autosave['ID'] = $old_autosave->ID;
 		$new_autosave['post_author'] = $post_author;
 
-		// If the new autosave is the same content as the post, delete the old autosave.
+		// If the new autosave has the same content as the post, delete the autosave.
 		$post = get_post( $post_id );
 		$autosave_is_different = false;
 		foreach ( array_keys( _wp_post_revision_fields() ) as $field ) {
@@ -1362,14 +1372,14 @@ function wp_create_post_autosave( $post_id ) {
 
 		if ( ! $autosave_is_different ) {
 			wp_delete_post_revision( $old_autosave->ID );
-			return;
+			return 0;
 		}
 
 		return wp_update_post( $new_autosave );
 	}
 
 	// _wp_put_post_revision() expects unescaped.
-	$post_data = wp_unslash( $_POST );
+	$post_data = wp_unslash( $post_data );
 
 	// Otherwise create the new autosave as a special post revision
 	return _wp_put_post_revision( $post_data, true );
@@ -1395,58 +1405,82 @@ function wp_create_post_autosave( $post_id ) {
 function post_preview() {
 
 	$post_ID = (int) $_POST['post_ID'];
-	$status = get_post_status( $post_ID );
-	if ( 'auto-draft' == $status )
-		wp_die( __('Preview not available. Please save as a draft first.') );
-
-	if ( isset($_POST['catslist']) )
-		$_POST['post_category'] = explode(",", $_POST['catslist']);
-
-	if ( isset($_POST['tags_input']) )
-		$_POST['tags_input'] = explode(",", $_POST['tags_input']);
-
-	if ( $_POST['post_type'] == 'page' || empty($_POST['post_category']) )
-		unset($_POST['post_category']);
-
 	$_POST['ID'] = $post_ID;
-	$post = get_post($post_ID);
 
-	if ( 'page' == $post->post_type ) {
-		if ( ! current_user_can('edit_page', $post_ID) )
-			wp_die( __('You are not allowed to edit this page.') );
+	if ( ! $post = get_post( $post_ID ) )
+		wp_die( __('You attempted to preview a non existing item.') );
+
+	if ( ! current_user_can( 'edit_post', $post->ID ) )
+		wp_die( __('You are not allowed to preview this item.') );
+
+	$is_autosave = false;
+
+	if ( ! wp_check_post_lock( $post->ID ) && get_current_user_id() == $post->post_author && ( 'draft' == $post->post_status || 'auto-draft' == $post->post_status ) ) {
+		$saved_post_id = edit_post();
 	} else {
-		if ( ! current_user_can('edit_post', $post_ID) )
-			wp_die( __('You are not allowed to edit this post.') );
+		$is_autosave = true;
+
+		if ( 'auto-draft' == $_POST['post_status'] )
+			$_POST['post_status'] = 'draft';
+
+		$saved_post_id = wp_create_post_autosave( $post->ID );
 	}
 
-	$user_id = get_current_user_id();
-	$locked = wp_check_post_lock( $post->ID );
-	if ( ! $locked && 'draft' == $post->post_status && $user_id == $post->post_author ) {
-		$id = edit_post();
-	} else { // Non drafts are not overwritten. The autosave is stored in a special post revision.
-		$id = wp_create_post_autosave( $post->ID );
-		if ( ! is_wp_error($id) )
-			$id = $post->ID;
-	}
+	if ( is_wp_error( $saved_post_id ) )
+		wp_die( $saved_post_id->get_error_message() );
 
-	if ( is_wp_error($id) )
-		wp_die( $id->get_error_message() );
+	$query_args = array( 'preview' => 'true' );
 
-	if ( ! $locked && $_POST['post_status'] == 'draft' && $user_id == $post->post_author ) {
-		$url = add_query_arg( 'preview', 'true', get_permalink($id) );
-	} else {
-		$nonce = wp_create_nonce('post_preview_' . $id);
-		$args = array(
-			'preview' => 'true',
-			'preview_id' => $id,
-			'preview_nonce' => $nonce,
-		);
+	if ( $is_autosave && $saved_post_id ) {
+		$query_args['preview_id'] = $post->ID;
+		$query_args['preview_nonce'] = wp_create_nonce( 'post_preview_' . $post->ID );
 
 		if ( isset( $_POST['post_format'] ) )
-			$args['post_format'] = empty( $_POST['post_format'] ) ? 'standard' : sanitize_key( $_POST['post_format'] );
-
-		$url = add_query_arg( $args, get_permalink($id) );
+			$query_args['post_format'] = empty( $_POST['post_format'] ) ? 'standard' : sanitize_key( $_POST['post_format'] );
 	}
 
+	$url = add_query_arg( $query_args, get_permalink( $post->ID ) );
 	return apply_filters( 'preview_post_link', $url );
+}
+
+/**
+ * Save a post submitted with XHR
+ *
+ * Intended for use with heartbeat and autosave.js
+ *
+ * @since 3.9
+ *
+ * @param $post_data Associative array of the submitted post data.
+ * @return mixed The value 0 or WP_Error on failure. The saved post ID on success.
+ *               Te ID can be the draft post_id or the autosave revision post_id.
+ */
+function wp_autosave( $post_data ) {
+	// Back-compat
+	if ( ! defined( 'DOING_AUTOSAVE' ) )
+		define( 'DOING_AUTOSAVE', true );
+
+	$post_id = (int) $post_data['post_id'];
+	$post_data['ID'] = $post_data['post_ID'] = $post_id;
+
+	if ( false === wp_verify_nonce( $post_data['_wpnonce'], 'update-post_' . $post_id ) )
+		return new WP_Error( 'invalid_nonce', __('ERROR: invalid post data.') );
+
+	$post = get_post( $post_id );
+
+	if ( ! current_user_can( 'edit_post', $post->ID ) )
+		return new WP_Error( 'edit_post', __('You are not allowed to edit this item.') );
+
+	if ( 'auto-draft' == $post->post_status )
+		$post_data['post_status'] = 'draft';
+
+	if ( $post_data['post_type'] != 'page' && ! empty( $post_data['catslist'] ) )
+		$post_data['post_category'] = explode( ',', $post_data['catslist'] );
+
+	if ( ! wp_check_post_lock( $post->ID ) && get_current_user_id() == $post->post_author && ( 'auto-draft' == $post->post_status || 'draft' == $post->post_status ) ) {
+		// Drafts and auto-drafts are just overwritten by autosave for the same user if the post is not locked
+		return edit_post( $post_data );
+	} else {
+		// Non drafts or other users drafts are not overwritten. The autosave is stored in a special post revision for each user.
+		return wp_create_post_autosave( $post_data );
+	}
 }

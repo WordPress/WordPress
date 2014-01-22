@@ -734,7 +734,6 @@ function wp_refresh_post_nonces( $response, $data, $screen_id ) {
 		if ( 2 === wp_verify_nonce( $received['post_nonce'], 'update-post_' . $post_id ) ) {
 			$response['wp-refresh-post-nonces'] = array(
 				'replace' => array(
-					'autosavenonce' => wp_create_nonce('autosave'),
 					'getpermalinknonce' => wp_create_nonce('getpermalink'),
 					'samplepermalinknonce' => wp_create_nonce('samplepermalink'),
 					'closedpostboxesnonce' => wp_create_nonce('closedpostboxes'),
@@ -768,3 +767,29 @@ function wp_heartbeat_set_suspension( $settings ) {
 	return $settings;
 }
 add_filter( 'heartbeat_settings', 'wp_heartbeat_set_suspension' );
+
+/**
+ * Autosave with heartbeat
+ *
+ * @since 3.9
+ */
+function heartbeat_autosave( $response, $data ) {
+	if ( ! empty( $data['wp_autosave'] ) ) {
+		$saved = wp_autosave( $data['wp_autosave'] );
+
+		if ( is_wp_error( $saved ) ) {
+			$response['wp_autosave'] = array( 'success' => false, 'message' => $saved->get_error_message() );
+		} elseif ( empty( $saved ) ) {
+			$response['wp_autosave'] = array( 'success' => false, 'message' => __( 'Error while saving.' ) );
+		} else {
+			/* translators: draft saved date format, see http://php.net/date */
+			$draft_saved_date_format = __( 'g:i:s a' );
+			/* translators: %s: date and time */
+			$response['wp_autosave'] = array( 'success' => true, 'message' => sprintf( __( 'Draft saved at %s.' ), date_i18n( $draft_saved_date_format ) ) );
+		}
+	}
+
+	return $response;
+}
+// Run later as we have to set DOING_AUTOSAVE for back-compat
+add_filter( 'heartbeat_received', 'heartbeat_autosave', 500, 2 );

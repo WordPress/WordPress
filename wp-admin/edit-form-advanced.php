@@ -402,7 +402,6 @@ if ( 'draft' != get_post_status( $post ) )
 
 echo $form_extra;
 
-wp_nonce_field( 'autosave', 'autosavenonce', false );
 wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 ?>

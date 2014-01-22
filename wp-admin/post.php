@@ -307,7 +307,7 @@ case 'delete':
 	break;
 
 case 'preview':
-	check_admin_referer( 'autosave', 'autosavenonce' );
+	check_admin_referer( 'update-post_' . $post_id );
 
 	$url = post_preview();
 
