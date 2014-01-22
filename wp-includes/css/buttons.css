@@ -163,11 +163,6 @@ TABLE OF CONTENTS:
  	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 }
 
-/* this creates an inset effect on the text */
-.wp-core-ui .button:active {
-	padding-top: 1px;
-}
-
 .wp-core-ui .button[disabled],
 .wp-core-ui .button:disabled,
 .wp-core-ui .button-secondary[disabled],
@@ -222,11 +217,6 @@ TABLE OF CONTENTS:
 	-webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
  	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
  	vertical-align: top;
-}
-
-/* this creates an inset effect on the text */
-.wp-core-ui .button-primary:active {
-	padding-top: 1px;
 }
 
 .wp-core-ui .button-primary[disabled],
@@ -296,17 +286,6 @@ TABLE OF CONTENTS:
 		margin-bottom: 4px;
 	}
 	
-	/* Adjust the padding that makes active button text looks inset to account for larger responsive buttons */
-	.wp-core-ui .button:active,
-	.wp-core-ui .button-large:active,
-	.wp-core-ui .button-small:active,
-	input#publish:active,
-	input#save-post:active,
-	a.preview:active {
-		padding-top: 11px;
-		padding-bottom: 9px;
-	}
-	
 	#media-upload.wp-core-ui .button {
 		padding: 0 10px 1px;
 		height: 24px;
@@ -343,7 +322,4 @@ TABLE OF CONTENTS:
 		padding: 0 12px 2px;
 	}
 	
-	.interim-login .button.button-large:active {
-		padding-top: 1px;
-	}
 }
