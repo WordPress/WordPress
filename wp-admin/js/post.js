@@ -404,7 +404,7 @@ jQuery(document).ready( function($) {
 	$submitButtons = $submitpost.find( ':button, :submit, a.submitdelete, #post-preview' ).on( 'click.edit-post', function( event ) {
 		var $button = $(this);
 
-		if ( $button.prop('disabled') ) {
+		if ( $button.hasClass('button-disabled') ) {
 			event.preventDefault();
 			return;
 		}
@@ -427,7 +427,7 @@ jQuery(document).ready( function($) {
 			releaseLock = false;
 			$(window).off( 'beforeunload.edit-post' );
 
-			$submitButtons.prop( 'disabled', true ).addClass( 'button-disabled' );
+			$submitButtons.addClass( 'button-disabled' );
 
 			if ( $button.attr('id') === 'publish' ) {
 				$submitpost.find('#major-publishing-actions .spinner').show();
@@ -500,10 +500,10 @@ jQuery(document).ready( function($) {
 	}
 
 	$(document).on( 'autosave-disable-buttons.edit-post', function() {
-		$submitButtons.prop( 'disabled', true ).addClass( 'button-disabled' );
+		$submitButtons.addClass( 'button-disabled' );
 	}).on( 'autosave-enable-buttons.edit-post', function() {
 		if ( ! window.wp || ! window.wp.heartbeat || ! window.wp.heartbeat.hasConnectionError() ) {
-			$submitButtons.prop( 'disabled', false ).removeClass( 'button-disabled' );
+			$submitButtons.removeClass( 'button-disabled' );
 		}
 	});
 
