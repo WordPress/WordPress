@@ -225,7 +225,9 @@
 				settings.onPostRender = patchedPostRender;
 			}
 
-			settings.title = tinymce.i18n.translate((editor.settings.language || "en") + "." + settings.title);
+			if ( settings.title ) {
+				settings.title = tinymce.i18n.translate((editor.settings.language || "en") + "." + settings.title);
+			}
 
 			return originalAddButton.call(this, name, settings);
 		};
