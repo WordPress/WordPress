@@ -198,7 +198,10 @@ themes.view.Theme = wp.Backbone.View.extend({
 	render: function() {
 		var data = this.model.toJSON();
 		// Render themes using the html template
-		this.$el.html( this.html( data ) ).attr( 'tabindex', 0 );
+		this.$el.html( this.html( data ) ).attr({
+			tabindex: 0,
+			'aria-describedby' : data.id + '-action ' + data.id + '-name'
+		});
 
 		// Renders active theme styles
 		this.activeTheme();

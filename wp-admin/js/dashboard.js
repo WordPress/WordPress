@@ -161,7 +161,7 @@ jQuery(document).ready( function($) {
 				// &nbsp; is to ensure that the height of a final trailing newline is included.
 				textareaContent = $this.val().replace(/\n/g, '<br>') + '&nbsp;',
 				// 2px is for border-top & border-bottom
-				cloneHeight = clone.css('width', $this.css('width')).html(textareaContent).outerHeight() + 2;
+				cloneHeight = clone.css('width', $this.css('width')).text(textareaContent).outerHeight() + 2;
 
 			// Default to having scrollbars
 			editor.css('overflow-y', 'auto');
