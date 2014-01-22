@@ -175,9 +175,10 @@ function is_post_type_archive( $post_types = '' ) {
  * @since 2.0.0
  * @uses $wp_query
  *
+ * @param mixed $attachment Attachment ID, title, slug, or array of such.
  * @return bool
  */
-function is_attachment() {
+function is_attachment( $attachment = '' ) {
 	global $wp_query;
 
 	if ( ! isset( $wp_query ) ) {
@@ -185,7 +186,7 @@ function is_attachment() {
 		return false;
 	}
 
-	return $wp_query->is_attachment();
+	return $wp_query->is_attachment( $attachment );
 }
 
 /**
@@ -3387,10 +3388,30 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
+         * @param mixed $attachment Attachment ID, title, slug, or array of such.
 	 * @return bool
 	 */
-	function is_attachment() {
-		return (bool) $this->is_attachment;
+	function is_attachment( $attachment = '' ) {
+		if ( ! $this->is_attachment ) {
+			return false;
+		}
+
+		if ( empty( $attachment ) ) {
+			return true;
+		}
+
+		$attachment = (array) $attachment;
+
+		$post_obj = $this->get_queried_object();
+
+		if ( in_array( $post_obj->ID, $attachment ) ) {
+			return true;
+		} elseif ( in_array( $post_obj->post_title, $attachment ) ) {
+			return true;
+		} elseif ( in_array( $post_obj->post_name, $attachment ) ) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
