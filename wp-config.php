@@ -20,13 +20,17 @@ if (isset($_SERVER['PANTHEON_ENVIRONMENT'])) {
 
   // Tweak #2
   // Sneak in wordpress cookies as Drupal cookies (change prefix from wordpress_ to SESS)
-  $salt = md5($_SERVER['PRESSFLOW_SETTINGS']);
-  define('USER_COOKIE', 'SESSuser' . $salt);
-  define('PASS_COOKIE', 'SESSpass' . $salt);
-  define('AUTH_COOKIE', 'SESSauth' . $salt);
-  define('SECURE_AUTH_COOKIE', 'SESSsecure' . $salt);
-  define('LOGGED_IN_COOKIE', 'SESSloggedin' . $salt);
-  define('TEST_COOKIE', 'SESStest' . $salt);
+  // But continue to use WP's siteurl-based cookie hash, unless it is for some reason not defined.
+
+  if ( !defined( 'COOKIEHASH' ) ) {
+    define( 'COOKIEHASH', '1f7246e65e25c67c745b1eed4b6d7d7b' );
+  }
+  define('USER_COOKIE', 'SESSuser' . COOKIEHASH);
+  define('PASS_COOKIE', 'SESSpass' . COOKIEHASH);
+  define('AUTH_COOKIE', 'SESSauth' . COOKIEHASH);
+  define('SECURE_AUTH_COOKIE', 'SESSsecure' . COOKIEHASH);
+  define('LOGGED_IN_COOKIE', 'SESSloggedin' . COOKIEHASH);
+  define('TEST_COOKIE', 'SESStest' . COOKIEHASH);
   
   // Tweak #3
   // Other constants that need to be dynamic for pantheon */
