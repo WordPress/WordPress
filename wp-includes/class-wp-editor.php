@@ -796,7 +796,7 @@ final class _WP_Editors {
 		?>
 
 		( function() {
-			var init, edId, qtId, firstInit,
+			var init, edId, qtId, firstInit, override,
 				loadMCE = typeof getUserSetting !== 'undefined' ? getUserSetting( 'editor' ) === 'tinymce' : true;
 
 			if ( typeof quicktags !== 'undefined' ) {
@@ -813,7 +813,10 @@ final class _WP_Editors {
 						init = firstInit = tinyMCEPreInit.mceInit[edId];
 					}
 
-					if ( ( loadMCE || ! tinyMCEPreInit.qtInit.hasOwnProperty( edId ) ) && ! init.wp_skip_init ) {
+					override = tinymce.DOM.hasClass( tinymce.DOM.select( '#wp-' + edId + '-wrap' )[0], 'tmce-active' );
+					override = override || ! tinyMCEPreInit.qtInit.hasOwnProperty( edId );
+
+					if ( ( loadMCE || override ) && ! init.wp_skip_init ) {
 						try { tinymce.init( init ); } catch(e){}
 					}
 				}
