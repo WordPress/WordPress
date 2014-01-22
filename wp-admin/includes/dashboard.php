@@ -194,7 +194,13 @@ function wp_dashboard_right_now() {
 				$text = _n( '%s Page', '%s Pages', $num_posts->publish );
 			}
 			$text = sprintf( $text, number_format_i18n( $num_posts->publish ) );
-			printf( '<li class="%1$s-count"><a href="edit.php?post_type=%1$s">%2$s</a></li>', $post_type, $text );
+			$post_type_object = get_post_type_object( $post_type );
+			if ( $post_type_object && current_user_can( $post_type_object->cap->edit_posts ) ) {
+				printf( '<li class="%1$s-count"><a href="edit.php?post_type=%1$s">%2$s</a></li>', $post_type, $text );
+			} else {
+				printf( '<li class="%1$s-count"><span>%2$s</span></li>', $post_type, $text );
+			}
+
 		}
 	}
 	// Comments
