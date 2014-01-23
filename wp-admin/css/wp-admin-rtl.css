@@ -11231,7 +11231,7 @@ div#widgets-right .closed .widgets-sortables {
 	cursor: pointer;
 	outline: none;
 	position: relative;
-	transition: background: 0.2s ease-in-out;
+	transition: background 0.2s ease-in-out;
 }
 
 .widgets-chooser li:hover,
