@@ -750,6 +750,18 @@ select,
 	padding-left: 6px;
 }
 
+.upgrade .plugins td,
+.upgrade .plugins th {
+	-webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+	box-shadow:         inset 0 -1px 0 rgba(0,0,0,0.1);
+}
+
+.upgrade .plugins tr:last-of-type td,
+.upgrade .plugins tr:last-of-type th {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
 #update-plugins-table thead th.check-column,
 #update-plugins-table tfoot th.check-column {
 	padding-top: 11px;
