@@ -159,7 +159,7 @@ jQuery(document).ready( function($) {
 		editor.on('focus input propertychange', function() {
 			var $this = $(this),
 				// &nbsp; is to ensure that the height of a final trailing newline is included.
-				textareaContent = $this.val().replace(/\n/g, '<br>') + '&nbsp;',
+				textareaContent = $this.val() + '&nbsp;',
 				// 2px is for border-top & border-bottom
 				cloneHeight = clone.css('width', $this.css('width')).text(textareaContent).outerHeight() + 2;
 
