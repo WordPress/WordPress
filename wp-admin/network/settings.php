@@ -89,14 +89,14 @@ if ( isset( $_GET['updated'] ) ) {
 		<?php wp_nonce_field( 'siteoptions' ); ?>
 		<h3><?php _e( 'Operational Settings' ); ?></h3>
 		<table class="form-table">
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="site_name"><?php _e( 'Network Title' ) ?></label></th>
 				<td>
 					<input name="site_name" type="text" id="site_name" class="regular-text" value="<?php echo esc_attr( $current_site->site_name ) ?>" />
 				</td>
 			</tr>
 
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="admin_email"><?php _e( 'Network Admin Email' ) ?></label></th>
 				<td>
 					<input name="admin_email" type="text" id="admin_email" class="regular-text" value="<?php echo esc_attr( get_site_option('admin_email') ) ?>" />
@@ -108,7 +108,7 @@ if ( isset( $_GET['updated'] ) ) {
 		</table>
 		<h3><?php _e( 'Registration Settings' ); ?></h3>
 		<table class="form-table">
-			<tr valign="top">
+			<tr>
 				<th scope="row"><?php _e( 'Allow new registrations' ) ?></th>
 				<?php
 				if ( !get_site_option( 'registration' ) )
@@ -128,7 +128,7 @@ if ( isset( $_GET['updated'] ) ) {
 				</td>
 			</tr>
 
-			<tr valign="top">
+			<tr>
 				<th scope="row"><?php _e( 'Registration notification' ) ?></th>
 				<?php
 				if ( !get_site_option( 'registrationnotification' ) )
@@ -139,14 +139,14 @@ if ( isset( $_GET['updated'] ) ) {
 				</td>
 			</tr>
 
-			<tr valign="top" id="addnewusers">
+			<tr id="addnewusers">
 				<th scope="row"><?php _e( 'Add New Users' ) ?></th>
 				<td>
 					<label><input name="add_new_users" type="checkbox" id="add_new_users" value="1"<?php checked( get_site_option( 'add_new_users' ) ) ?> /> <?php _e( 'Allow site administrators to add new users to their site via the "Users &rarr; Add New" page.' ); ?></label>
 				</td>
 			</tr>
 
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="illegal_names"><?php _e( 'Banned Names' ) ?></label></th>
 				<td>
 					<input name="illegal_names" type="text" id="illegal_names" class="large-text" value="<?php echo esc_attr( implode( " ", (array) get_site_option( 'illegal_names' ) ) ); ?>" size="45" />
@@ -156,7 +156,7 @@ if ( isset( $_GET['updated'] ) ) {
 				</td>
 			</tr>
 
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="limited_email_domains"><?php _e( 'Limited Email Registrations' ) ?></label></th>
 				<td>
 					<?php $limited_email_domains = get_site_option( 'limited_email_domains' );
@@ -169,7 +169,7 @@ if ( isset( $_GET['updated'] ) ) {
 				</td>
 			</tr>
 
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="banned_email_domains"><?php _e('Banned Email Domains') ?></label></th>
 				<td>
 					<textarea name="banned_email_domains" id="banned_email_domains" cols="45" rows="5">
@@ -184,7 +184,7 @@ if ( isset( $_GET['updated'] ) ) {
 		<h3><?php _e('New Site Settings'); ?></h3>
 		<table class="form-table">
 
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="welcome_email"><?php _e( 'Welcome Email' ) ?></label></th>
 				<td>
 					<textarea name="welcome_email" id="welcome_email" rows="5" cols="45" class="large-text">
@@ -194,7 +194,7 @@ if ( isset( $_GET['updated'] ) ) {
 					</p>
 				</td>
 			</tr>
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="welcome_user_email"><?php _e( 'Welcome User Email' ) ?></label></th>
 				<td>
 					<textarea name="welcome_user_email" id="welcome_user_email" rows="5" cols="45" class="large-text">
@@ -204,7 +204,7 @@ if ( isset( $_GET['updated'] ) ) {
 					</p>
 				</td>
 			</tr>
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="first_post"><?php _e( 'First Post' ) ?></label></th>
 				<td>
 					<textarea name="first_post" id="first_post" rows="5" cols="45" class="large-text">
@@ -214,7 +214,7 @@ if ( isset( $_GET['updated'] ) ) {
 					</p>
 				</td>
 			</tr>
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="first_page"><?php _e( 'First Page' ) ?></label></th>
 				<td>
 					<textarea name="first_page" id="first_page" rows="5" cols="45" class="large-text">
@@ -224,7 +224,7 @@ if ( isset( $_GET['updated'] ) ) {
 					</p>
 				</td>
 			</tr>
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="first_comment"><?php _e( 'First Comment' ) ?></label></th>
 				<td>
 					<textarea name="first_comment" id="first_comment" rows="5" cols="45" class="large-text">
@@ -234,7 +234,7 @@ if ( isset( $_GET['updated'] ) ) {
 					</p>	
 				</td>
 			</tr>
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="first_comment_author"><?php _e( 'First Comment Author' ) ?></label></th>
 				<td>
 					<input type="text" size="40" name="first_comment_author" id="first_comment_author" value="<?php echo get_site_option('first_comment_author') ?>" />
@@ -243,7 +243,7 @@ if ( isset( $_GET['updated'] ) ) {
 					</p>
 				</td>
 			</tr>
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="first_comment_url"><?php _e( 'First Comment URL' ) ?></label></th>
 				<td>
 					<input type="text" size="40" name="first_comment_url" id="first_comment_url" value="<?php echo esc_attr( get_site_option( 'first_comment_url' ) ) ?>" />
@@ -255,19 +255,19 @@ if ( isset( $_GET['updated'] ) ) {
 		</table>
 		<h3><?php _e( 'Upload Settings' ); ?></h3>
 		<table class="form-table">
-			<tr valign="top">
+			<tr>
 				<th scope="row"><?php _e( 'Site upload space' ) ?></th>
 				<td>
 				<label><input type="checkbox" id="upload_space_check_disabled" name="upload_space_check_disabled" value="0"<?php checked( get_site_option( 'upload_space_check_disabled' ), 0 ) ?>/> <?php printf( __( 'Limit total size of files uploaded to %s MB' ), '</label><label><input name="blog_upload_space" type="number" min="0" style="width: 100px" id="blog_upload_space" value="' . esc_attr( get_site_option('blog_upload_space', 100) ) . '" />' ); ?></label><br />
 				</td>
 			</tr>
 
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="upload_filetypes"><?php _e( 'Upload file types' ) ?></label></th>
 				<td><input name="upload_filetypes" type="text" id="upload_filetypes" class="large-text" value="<?php echo esc_attr( get_site_option('upload_filetypes', 'jpg jpeg png gif') ) ?>" size="45" /></td>
 			</tr>
 
-			<tr valign="top">
+			<tr>
 				<th scope="row"><label for="fileupload_maxk"><?php _e( 'Max upload file size' ) ?></label></th>
 				<td><?php printf( _x( '%s KB', 'File size in kilobytes' ), '<input name="fileupload_maxk" type="number" min="0" style="width: 100px" id="fileupload_maxk" value="' . esc_attr( get_site_option( 'fileupload_maxk', 300 ) ) . '" />' ); ?></td>
 			</tr>
@@ -280,7 +280,7 @@ if ( isset( $_GET['updated'] ) ) {
 ?>
 		<h3><?php _e( 'Language Settings' ); ?></h3>
 		<table class="form-table">
-				<tr valign="top">
+				<tr>
 					<th><label for="WPLANG"><?php _e( 'Default Language' ); ?></label></th>
 					<td>
 						<select name="WPLANG" id="WPLANG">
@@ -295,7 +295,7 @@ if ( isset( $_GET['updated'] ) ) {
 
 		<h3><?php _e( 'Menu Settings' ); ?></h3>
 		<table id="menu" class="form-table">
-			<tr valign="top">
+			<tr>
 				<th scope="row"><?php _e( 'Enable administration menus' ); ?></th>
 				<td>
 			<?php

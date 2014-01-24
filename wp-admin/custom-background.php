@@ -191,7 +191,7 @@ class Custom_Background {
 
 <table class="form-table">
 <tbody>
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e( 'Preview' ); ?></th>
 <td>
 	<?php
@@ -221,7 +221,7 @@ class Custom_Background {
 </tr>
 
 <?php if ( get_background_image() ) : ?>
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e('Remove Image'); ?></th>
 <td>
 <form method="post" action="">
@@ -235,7 +235,7 @@ class Custom_Background {
 
 <?php $default_image = get_theme_support( 'custom-background', 'default-image' ); ?>
 <?php if ( $default_image && get_background_image() != $default_image ) : ?>
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e('Restore Original Image'); ?></th>
 <td>
 <form method="post" action="">
@@ -247,7 +247,7 @@ class Custom_Background {
 </tr>
 <?php endif; ?>
 
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e('Select Image'); ?></th>
 <td><form enctype="multipart/form-data" id="upload-form" class="wp-upload-form" method="post" action="">
 	<p>
@@ -274,7 +274,7 @@ class Custom_Background {
 <table class="form-table">
 <tbody>
 <?php if ( get_background_image() ) : ?>
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e( 'Position' ); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Position' ); ?></span></legend>
 <label>
@@ -292,7 +292,7 @@ class Custom_Background {
 </fieldset></td>
 </tr>
 
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e( 'Repeat' ); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Repeat' ); ?></span></legend>
 <label><input type="radio" name="background-repeat" value="no-repeat"<?php checked( 'no-repeat', get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) ) ); ?> /> <?php _e('No Repeat'); ?></label>
@@ -302,7 +302,7 @@ class Custom_Background {
 </fieldset></td>
 </tr>
 
-<tr valign="top">
+<tr>
 <th scope="row"><?php _ex( 'Attachment', 'Background Attachment' ); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Attachment' ); ?></span></legend>
 <label>
@@ -316,7 +316,7 @@ class Custom_Background {
 </fieldset></td>
 </tr>
 <?php endif; // get_background_image() ?>
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e( 'Background Color' ); ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Color' ); ?></span></legend>
 <?php

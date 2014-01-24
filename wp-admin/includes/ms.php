@@ -536,15 +536,13 @@ function _access_denied_splash() {
 	$output .= '<table>';
 
 	foreach ( $blogs as $blog ) {
-		$output .= "<tr>";
-		$output .= "<td valign='top'>";
-		$output .= "{$blog->blogname}";
-		$output .= "</td>";
-		$output .= "<td valign='top'>";
-		$output .= "<a href='" . esc_url( get_admin_url( $blog->userblog_id ) ) . "'>" . __( 'Visit Dashboard' ) . "</a> | <a href='" . esc_url( get_home_url( $blog->userblog_id ) ). "'>" . __( 'View Site' ) . "</a>" ;
-		$output .= "</td>";
-		$output .= "</tr>";
+		$output .= '<tr>';
+		$output .= "<td>{$blog->blogname}</td>";
+		$output .= '<td><a href="' . esc_url( get_admin_url( $blog->userblog_id ) ) . '">' . __( 'Visit Dashboard' ) . '</a> | ' .
+			'<a href="' . esc_url( get_home_url( $blog->userblog_id ) ). '">' . __( 'View Site' ) . '</a></td>';
+		$output .= '</tr>';
 	}
+
 	$output .= '</table>';
 
 	wp_die( $output );

@@ -1377,7 +1377,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	$display_title
 	<table class='slidetoggle describe $class'>
 		<thead class='media-item-info' id='media-head-$post->ID'>
-		<tr valign='top'>
+		<tr>
 			<td class='A1B1' id='thumbnail-head-$post->ID'>
 			<p><a href='$attachment_url' target='_blank'><img class='thumbnail' src='$thumb_url' alt='' /></a></p>
 			<p>$image_edit_button</p>
@@ -1462,7 +1462,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		$class  = $id;
 		$class .= $field['required'] ? ' form-required' : '';
 
-		$item .= "\t\t<tr class='$class'>\n\t\t\t<th valign='top' scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}</span>$required<br class='clear' /></label></th>\n\t\t\t<td class='field'>";
+		$item .= "\t\t<tr class='$class'>\n\t\t\t<th scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}</span>$required<br class='clear' /></label></th>\n\t\t\t<td class='field'>";
 		if ( !empty( $field[ $field['input'] ] ) )
 			$item .= $field[ $field['input'] ];
 		elseif ( $field['input'] == 'textarea' ) {
@@ -1609,7 +1609,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 		$class .= $field['required'] ? ' form-required' : '';
 
 		$item .= "\t\t<tr class='$class'>";
-		$item .= "\t\t\t<th valign='top' scope='row' class='label'><label for='$id_attr'><span class='alignleft'>{$field['label']}</span>$required<br class='clear' /></label>";
+		$item .= "\t\t\t<th scope='row' class='label'><label for='$id_attr'><span class='alignleft'>{$field['label']}</span>$required<br class='clear' /></label>";
 		$item .= "</th>\n\t\t\t<td class='field'>";
 
 		if ( !empty( $field[ $field['input'] ] ) )
@@ -2429,7 +2429,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 	if ( ! apply_filters( 'disable_captions', '' ) ) {
 		$caption = '
 		<tr class="image-only">
-			<th valign="top" scope="row" class="label">
+			<th scope="row" class="label">
 				<label for="caption"><span class="alignleft">' . __('Image Caption') . '</span></label>
 			</th>
 			<td class="field"><textarea id="caption" name="caption"></textarea></td>
@@ -2454,7 +2454,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 	<p class="media-types"><label><input type="radio" name="media_type" value="image" id="image-only"' . checked( 'image-only', $view, false ) . ' /> ' . __( 'Image' ) . '</label> &nbsp; &nbsp; <label><input type="radio" name="media_type" value="generic" id="not-image"' . checked( 'not-image', $view, false ) . ' /> ' . __( 'Audio, Video, or Other File' ) . '</label></p>
 	<table class="describe ' . $table_class . '"><tbody>
 		<tr>
-			<th valign="top" scope="row" class="label" style="width:130px;">
+			<th scope="row" class="label" style="width:130px;">
 				<label for="src"><span class="alignleft">' . __('URL') . '</span></label>
 				<span class="alignright"><abbr id="status_img" title="required" class="required">*</abbr></span>
 			</th>
@@ -2462,7 +2462,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 		</tr>
 
 		<tr>
-			<th valign="top" scope="row" class="label">
+			<th scope="row" class="label">
 				<label for="title"><span class="alignleft">' . __('Title') . '</span></label>
 				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
 			</th>
@@ -2472,7 +2472,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 		<tr class="not-image"><td></td><td><p class="help">' . __('Link text, e.g. &#8220;Ransom Demands (PDF)&#8221;') . '</p></td></tr>
 
 		<tr class="image-only">
-			<th valign="top" scope="row" class="label">
+			<th scope="row" class="label">
 				<label for="alt"><span class="alignleft">' . __('Alternative Text') . '</span></label>
 			</th>
 			<td class="field"><input id="alt" name="alt" value="" type="text" aria-required="true" />
@@ -2480,7 +2480,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 		</tr>
 		' . $caption . '
 		<tr class="align image-only">
-			<th valign="top" scope="row" class="label"><p><label for="align">' . __('Alignment') . '</label></p></th>
+			<th scope="row" class="label"><p><label for="align">' . __('Alignment') . '</label></p></th>
 			<td class="field">
 				<input name="align" id="align-none" value="none" onclick="addExtImage.align=\'align\'+this.value" type="radio"' . ($default_align == 'none' ? ' checked="checked"' : '').' />
 				<label for="align-none" class="align image-align-none-label">' . __('None') . '</label>
@@ -2494,7 +2494,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 		</tr>
 
 		<tr class="image-only">
-			<th valign="top" scope="row" class="label">
+			<th scope="row" class="label">
 				<label for="url"><span class="alignleft">' . __('Link Image To:') . '</span></label>
 			</th>
 			<td class="field"><input id="url" name="url" value="" type="text" /><br />

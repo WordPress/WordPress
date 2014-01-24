@@ -49,7 +49,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <p><?php _e( 'The sizes listed below determine the maximum dimensions in pixels to use when adding an image to the Media Library.' ); ?></p>
 
 <table class="form-table">
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e('Thumbnail size') ?></th>
 <td>
 <label for="thumbnail_size_w"><?php _e('Width'); ?></label>
@@ -61,7 +61,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </td>
 </tr>
 
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e('Medium size') ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e('Medium size'); ?></span></legend>
 <label for="medium_size_w"><?php _e('Max Width'); ?></label>
@@ -71,7 +71,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </fieldset></td>
 </tr>
 
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e('Large size') ?></th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e('Large size'); ?></span></legend>
 <label for="large_size_w"><?php _e('Max Width'); ?></label>
@@ -98,14 +98,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 // If upload_url_path is not the default (empty), and upload_path is not the default ('wp-content/uploads' or empty)
 if ( get_option('upload_url_path') || ( get_option('upload_path') != 'wp-content/uploads' && get_option('upload_path') ) ) :
 ?>
-<tr valign="top">
+<tr>
 <th scope="row"><label for="upload_path"><?php _e('Store uploads in this folder'); ?></label></th>
 <td><input name="upload_path" type="text" id="upload_path" value="<?php echo esc_attr(get_option('upload_path')); ?>" class="regular-text code" />
 <p class="description"><?php _e('Default is <code>wp-content/uploads</code>'); ?></p>
 </td>
 </tr>
 
-<tr valign="top">
+<tr>
 <th scope="row"><label for="upload_url_path"><?php _e('Full URL path to files'); ?></label></th>
 <td><input name="upload_url_path" type="text" id="upload_url_path" value="<?php echo esc_attr( get_option('upload_url_path')); ?>" class="regular-text code" />
 <p class="description"><?php _e('Configuring this is optional. By default, it should be blank.'); ?></p>

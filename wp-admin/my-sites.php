@@ -91,7 +91,7 @@ else :
 	 */
 	$settings_html = apply_filters( 'myblogs_options', '', 'global' );
 	if ( $settings_html != '' ) {
-		echo '<tr><td valign="top"><h3>' . __( 'Global Settings' ) . '</h3></td><td>';
+		echo '<tr><td><h3>' . __( 'Global Settings' ) . '</h3></td><td>';
 		echo $settings_html;
 		echo '</td></tr>';
 	}
@@ -116,7 +116,7 @@ else :
 		$i = 0;
 		foreach ( $row as $user_blog ) {
 			$s = $i == 3 ? '' : 'border-right: 1px solid #ccc;';
-			echo "<td valign='top' style='$s'>";
+			echo "<td style='$s'>";
 			echo "<h3>{$user_blog->blogname}</h3>";
 			/**
 			 * Filter the row links displayed for each site on the My Sites screen.

@@ -28,11 +28,11 @@ if ( !defined('ABSPATH') )
 <div class="inside">
 <table class="form-table editcomment">
 <tbody>
-<tr valign="top">
+<tr>
 	<td class="first"><?php _e( 'Name:' ); ?></td>
 	<td><input type="text" name="newcomment_author" size="30" value="<?php echo esc_attr( $comment->comment_author ); ?>" id="name" /></td>
 </tr>
-<tr valign="top">
+<tr>
 	<td class="first">
 	<?php
 		if ( $comment->comment_author_email ) {
@@ -43,7 +43,7 @@ if ( !defined('ABSPATH') )
 ?></td>
 	<td><input type="text" name="newcomment_author_email" size="30" value="<?php echo $comment->comment_author_email; ?>" id="email" /></td>
 </tr>
-<tr valign="top">
+<tr>
 	<td class="first">
 	<?php
 		if ( ! empty( $comment->comment_author_url ) && 'http://' != $comment->comment_author_url ) {
