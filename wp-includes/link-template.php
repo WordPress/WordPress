@@ -994,14 +994,13 @@ function get_edit_comment_link( $comment_id = 0 ) {
 }
 
 /**
- * Display or retrieve edit comment link with formatting.
+ * Display edit comment link with formatting.
  *
  * @since 1.0.0
  *
  * @param string $link Optional. Anchor text.
  * @param string $before Optional. Display before edit link.
  * @param string $after Optional. Display after edit link.
- * @return string|null HTML content, if $echo is set to false.
  */
 function edit_comment_link( $link = null, $before = '', $after = '' ) {
 	global $comment;
