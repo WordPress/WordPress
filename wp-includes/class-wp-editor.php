@@ -691,7 +691,7 @@ final class _WP_Editors {
 
 		foreach ( $mce_translation as $key => $value ) {
 			if ( strpos( $value, '&' ) !== false )
-				$mce_translation[$key] = html_entity_decode( $value, ENT_QUOTES );
+				$mce_translation[$key] = html_entity_decode( $value, ENT_QUOTES, 'UTF-8' );
 		}
 
 		return "tinymce.addI18n( '$mce_locale', " . json_encode( $mce_translation ) . ");\n" .

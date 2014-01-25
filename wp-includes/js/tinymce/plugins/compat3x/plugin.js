@@ -204,7 +204,7 @@
 
 		var originalAddButton = editor.addButton;
 		editor.addButton = function(name, settings) {
-			var originalOnPostRender;
+			var originalOnPostRender, string, translated;
 
 			function patchedPostRender() {
 				editor.controlManager.buttons[name] = this;
@@ -226,7 +226,12 @@
 			}
 
 			if ( settings.title ) {
-				settings.title = tinymce.i18n.translate((editor.settings.language || "en") + "." + settings.title);
+				string = (editor.settings.language || "en") + "." + settings.title;
+				translated = tinymce.i18n.translate(string);
+
+				if ( string !== translated ) {
+					settings.title = translated;
+				}
 			}
 
 			return originalAddButton.call(this, name, settings);
