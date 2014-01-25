@@ -152,7 +152,7 @@ window.wp = window.wp || {};
 		 * @param {String} string
 		 * @param {Number} [length=30]
 		 * @param {String} [replacement=&hellip;]
-		 * @returns {String}
+		 * @returns {String} The string, unless length is greater than string.length.
 		 */
 		truncate: function( string, length, replacement ) {
 			length = length || 30;
@@ -175,7 +175,7 @@ window.wp = window.wp || {};
 	 * wp.media.attachment
 	 *
 	 * @static
-	 * @param {String} id
+	 * @param {String} id A string used to identify a model.
 	 * @returns {wp.media.model.Attachment}
 	 */
 	media.attachment = function( id ) {
@@ -317,6 +317,8 @@ window.wp = window.wp || {};
 		}
 	}, {
 		/**
+		 * Add a model to the end of the static 'all' collection and return it.
+		 *
 		 * @static
 		 * @param {Object} attrs
 		 * @returns {wp.media.model.Attachment}
@@ -325,8 +327,10 @@ window.wp = window.wp || {};
 			return Attachments.all.push( attrs );
 		},
 		/**
+		 * Retrieve a model, or add it to the end of the static 'all' collection before returning it.
+		 *
 		 * @static
-		 * @param {string} id
+		 * @param {string} id A string used to identify a model.
 		 * @param {Backbone.Model|undefined} attachment
 		 * @returns {wp.media.model.Attachment}
 		 */
@@ -347,7 +351,7 @@ window.wp = window.wp || {};
 		 */
 		model: Attachment,
 		/**
-		 * @param {Array|Object} models
+		 * @param {Array} [models=[]] Array of models used to populate the collection.
 		 * @param {Object} [options={}]
 		 */
 		initialize: function( models, options ) {
@@ -498,6 +502,9 @@ window.wp = window.wp || {};
 		/**
 		 * @param {wp.media.model.Attachments} attachments
 		 * @param {object} [options={}]
+		 *
+		 * @fires wp.media.model.Attachments#reset
+		 *
 		 * @returns {wp.media.model.Attachments} Returns itself to allow chaining
 		 */
 		validateAll: function( attachments, options ) {
@@ -703,10 +710,14 @@ window.wp = window.wp || {};
 	}, {
 		/**
 		 * @static
+		 * Overrides Backbone.Collection.comparator
+		 *
 		 * @param {Backbone.Model} a
 		 * @param {Backbone.Model} b
 		 * @param {Object} options
-		 * @returns {Number}
+		 * @returns {Number} -1 if the first model should come before the second,
+		 *    0 if they are of the same rank and
+		 *    1 if the first model should come after.
 		 */
 		comparator: function( a, b, options ) {
 			var key   = this.props.get('orderby'),
@@ -820,7 +831,7 @@ window.wp = window.wp || {};
 		/**
 		 * @global wp.Uploader
 		 *
-		 * @param {Array} models
+		 * @param {Array} [models=[]] Array of models used to populate the collection.
 		 * @param {Object} [options={}]
 		 */
 		initialize: function( models, options ) {
@@ -982,6 +993,9 @@ window.wp = window.wp || {};
 		},
 		/**
 		 * @static
+		 * @method
+		 *
+		 * @returns {wp.media.model.Query} A new query.
 		 */
 		// Caches query objects so queries can be easily reused.
 		get: (function(){
@@ -1071,8 +1085,8 @@ window.wp = window.wp || {};
 		 * Binds `single` instead of using the context argument to ensure
 		 * it receives no parameters.
 		 *
-		 * @param {Array} models
-		 * @param {Object} options
+		 * @param {Array} [models=[]] Array of models used to populate the collection.
+		 * @param {Object} [options={}]
 		 */
 		initialize: function( models, options ) {
 			/**
