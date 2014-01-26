@@ -487,7 +487,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 		'add_unload_trigger' => false,
 	),
 ) ); ?>
-<table id="post-status-info" cellspacing="0"><tbody><tr>
+<table id="post-status-info"><tbody><tr>
 	<td id="wp-word-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></td>
 	<td class="autosave-info">
 	<span class="autosave-message">&nbsp;</span>

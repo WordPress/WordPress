@@ -550,7 +550,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	?>
 	<div id="menu-locations-wrap">
 		<form method="post" action="<?php echo esc_url( add_query_arg( array( 'action' => 'locations' ), admin_url( 'nav-menus.php' ) ) ); ?>">
-			<table class="widefat fixed" cellspacing="0" id="menu-locations-table">
+			<table class="widefat fixed" id="menu-locations-table">
 				<thead>
 				<tr>
 					<th scope="col" class="manage-column column-locations"><?php _e( 'Theme Location' ); ?></th>

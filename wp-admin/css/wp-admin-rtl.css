@@ -4321,6 +4321,7 @@ td.plugin-title p {
 
 #post-status-info {
 	width: 100%;
+	border-spacing: 0;
 }
 
 #post-status-info td {
@@ -5440,6 +5441,7 @@ p.popular-tags a {
 /* links tables */
 table.links-table {
 	width: 100%;
+	border-spacing: 0;
 }
 
 .links-table th {

@@ -900,7 +900,7 @@ function xfn_check( $class, $value = '', $deprecated = '' ) {
  */
 function link_xfn_meta_box($link) {
 ?>
-<table class="links-table" cellspacing="0">
+<table class="links-table">
 	<tr>
 		<th scope="row"><label for="link_rel"><?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('rel:') ?></label></th>
 		<td><input type="text" name="link_rel" id="link_rel" value="<?php echo ( isset( $link->link_rel ) ? esc_attr($link->link_rel) : ''); ?>" /></td>

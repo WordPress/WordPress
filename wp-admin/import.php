@@ -76,7 +76,7 @@ if ( empty( $importers ) ) {
 } else {
 	uasort($importers, create_function('$a, $b', 'return strnatcasecmp($a[0], $b[0]);'));
 ?>
-<table class="widefat importers" cellspacing="0">
+<table class="widefat importers">
 
 <?php
 	$alt = '';
