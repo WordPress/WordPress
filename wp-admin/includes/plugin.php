@@ -1461,15 +1461,6 @@ function get_admin_page_parent( $parent = '' ) {
 		return $parent;
 	}
 
-	/*
-	if ( !empty ( $parent_file ) ) {
-		if ( isset( $_wp_real_parent_file[$parent_file] ) )
-			$parent_file = $_wp_real_parent_file[$parent_file];
-
-		return $parent_file;
-	}
-	*/
-
 	if ( $pagenow == 'admin.php' && isset( $plugin_page ) ) {
 		foreach ( (array)$menu as $parent_menu ) {
 			if ( $parent_menu[2] == $plugin_page ) {
