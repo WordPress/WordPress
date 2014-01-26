@@ -14,13 +14,17 @@ tinymce.PluginManager.add('tabfocus', function(editor) {
 	var DOM = tinymce.DOM, each = tinymce.each, explode = tinymce.explode;
 
 	function tabCancel(e) {
-		if (e.keyCode === 9) {
+		if (e.keyCode === 9 && !e.ctrlKey && !e.altKey && !e.metaKey) {
 			e.preventDefault();
 		}
 	}
 
 	function tabHandler(e) {
 		var x, el, v, i;
+
+		if (e.keyCode !== 9 || e.ctrlKey || e.altKey || e.metaKey) {
+			return;
+		}
 
 		function find(direction) {
 			el = DOM.select(':input:enabled,*[tabindex]:not(iframe)');
@@ -62,46 +66,44 @@ tinymce.PluginManager.add('tabfocus', function(editor) {
 			return null;
 		}
 
-		if (e.keyCode === 9) {
-			v = explode(editor.getParam('tab_focus', editor.getParam('tabfocus_elements', ':prev,:next')));
+		v = explode(editor.getParam('tab_focus', editor.getParam('tabfocus_elements', ':prev,:next')));
 
-			if (v.length == 1) {
-				v[1] = v[0];
-				v[0] = ':prev';
-			}
+		if (v.length == 1) {
+			v[1] = v[0];
+			v[0] = ':prev';
+		}
 
-			// Find element to focus
-			if (e.shiftKey) {
-				if (v[0] == ':prev') {
-					el = find(-1);
-				} else {
-					el = DOM.get(v[0]);
-				}
+		// Find element to focus
+		if (e.shiftKey) {
+			if (v[0] == ':prev') {
+				el = find(-1);
 			} else {
-				if (v[1] == ':next') {
-					el = find(1);
-				} else {
-					el = DOM.get(v[1]);
-				}
+				el = DOM.get(v[0]);
+			}
+		} else {
+			if (v[1] == ':next') {
+				el = find(1);
+			} else {
+				el = DOM.get(v[1]);
+			}
+		}
+
+		if (el) {
+			var focusEditor = tinymce.get(el.id || el.name);
+
+			if (el.id && focusEditor) {
+				focusEditor.focus();
+			} else {
+				window.setTimeout(function() {
+					if (!tinymce.Env.webkit) {
+						window.focus();
+					}
+
+					el.focus();
+				}, 10);
 			}
 
-			if (el) {
-				var focusEditor = tinymce.get(el.id || el.name);
-
-				if (el.id && focusEditor) {
-					focusEditor.focus();
-				} else {
-					window.setTimeout(function() {
-						if (!tinymce.Env.webkit) {
-							window.focus();
-						}
-
-						el.focus();
-					}, 10);
-				}
-
-				e.preventDefault();
-			}
+			e.preventDefault();
 		}
 	}
 
