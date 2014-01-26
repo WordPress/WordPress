@@ -375,7 +375,10 @@ jQuery(document).ready( function($) {
 		$editSlugWrap = $('#edit-slug-box'),
 		postId = $('#post_ID').val() || 0,
 		$submitpost = $('#submitpost'),
-		releaseLock = true;
+		releaseLock = true,
+		$postVisibilitySelect = $('#post-visibility-select'),
+		$timestampdiv = $('#timestampdiv'),
+		$postStatusSelect = $('#post-status-select');
 
 	postboxes.add_postbox_toggles(pagenow);
 
@@ -646,14 +649,13 @@ jQuery(document).ready( function($) {
 		visibility = $('#post-visibility-display').html();
 
 		updateVisibility = function() {
-			var pvSelect = $('#post-visibility-select');
-			if ( $('input:radio:checked', pvSelect).val() != 'public' ) {
+			if ( $postVisibilitySelect.find('input:radio:checked').val() != 'public' ) {
 				$('#sticky').prop('checked', false);
 				$('#sticky-span').hide();
 			} else {
 				$('#sticky-span').show();
 			}
-			if ( $('input:radio:checked', pvSelect).val() != 'password' ) {
+			if ( $postVisibilitySelect.find('input:radio:checked').val() != 'password' ) {
 				$('#password-span').hide();
 			} else {
 				$('#password-span').show();
@@ -662,7 +664,7 @@ jQuery(document).ready( function($) {
 
 		updateText = function() {
 
-			if ( ! $('#timestampdiv').length )
+			if ( ! $timestampdiv.length )
 				return true;
 
 			var attemptedDate, originalDate, currentDate, publishOn, postStatus = $('#post_status'),
@@ -674,10 +676,10 @@ jQuery(document).ready( function($) {
 			currentDate = new Date( $('#cur_aa').val(), $('#cur_mm').val() -1, $('#cur_jj').val(), $('#cur_hh').val(), $('#cur_mn').val() );
 
 			if ( attemptedDate.getFullYear() != aa || (1 + attemptedDate.getMonth()) != mm || attemptedDate.getDate() != jj || attemptedDate.getMinutes() != mn ) {
-				$('.timestamp-wrap', '#timestampdiv').addClass('form-invalid');
+				$timestampdiv.find('.timestamp-wrap').addClass('form-invalid');
 				return false;
 			} else {
-				$('.timestamp-wrap', '#timestampdiv').removeClass('form-invalid');
+				$timestampdiv.find('.timestamp-wrap').removeClass('form-invalid');
 			}
 
 			if ( attemptedDate > currentDate && $('#original_post_status').val() != 'future' ) {
@@ -704,7 +706,7 @@ jQuery(document).ready( function($) {
 				);
 			}
 
-			if ( $('input:radio:checked', '#post-visibility-select').val() == 'private' ) {
+			if ( $postVisibilitySelect.find('input:radio:checked').val() == 'private' ) {
 				$('#publish').val( postL10n.update );
 				if ( 0 === optPublish.length ) {
 					postStatus.append('<option value="publish">' + postL10n.privatelyPublished + '</option>');
@@ -712,7 +714,7 @@ jQuery(document).ready( function($) {
 					optPublish.html( postL10n.privatelyPublished );
 				}
 				$('option[value="publish"]', postStatus).prop('selected', true);
-				$('.edit-post-status', '#misc-publishing-actions').hide();
+				$('#misc-publishing-actions .edit-post-status').hide();
 			} else {
 				if ( $('#original_post_status').val() == 'future' || $('#original_post_status').val() == 'draft' ) {
 					if ( optPublish.length ) {
@@ -723,7 +725,7 @@ jQuery(document).ready( function($) {
 					optPublish.html( postL10n.published );
 				}
 				if ( postStatus.is(':hidden') )
-					$('.edit-post-status', '#misc-publishing-actions').show();
+					$('#misc-publishing-actions .edit-post-status').show();
 			}
 			$('#post-status-display').html($('option:selected', postStatus).text());
 			if ( $('option:selected', postStatus).val() == 'private' || $('option:selected', postStatus).val() == 'publish' ) {
@@ -739,34 +741,32 @@ jQuery(document).ready( function($) {
 			return true;
 		};
 
-		$('.edit-visibility', '#visibility').click(function () {
-			if ( $( '#post-visibility-select' ).is( ':hidden' ) ) {
+		$( '#visibility .edit-visibility').click( function () {
+			if ( $postVisibilitySelect.is(':hidden') ) {
 				updateVisibility();
-				$('#post-visibility-select').slideDown('fast');
+				$postVisibilitySelect.slideDown('fast').find('input[type="radio"]').first().focus();
 				$(this).hide();
 			}
 			return false;
 		});
 
-		$('.cancel-post-visibility', '#post-visibility-select').click(function () {
-			$('#post-visibility-select').slideUp('fast');
+		$postVisibilitySelect.find('.cancel-post-visibility').click( function( event ) {
+			$postVisibilitySelect.slideUp('fast');
 			$('#visibility-radio-' + $('#hidden-post-visibility').val()).prop('checked', true);
 			$('#post_password').val($('#hidden-post-password').val());
 			$('#sticky').prop('checked', $('#hidden-post-sticky').prop('checked'));
 			$('#post-visibility-display').html(visibility);
-			$('.edit-visibility', '#visibility').show();
+			$('#visibility .edit-visibility').show().focus();
 			updateText();
-			return false;
+			event.preventDefault();
 		});
 
-		$('.save-post-visibility', '#post-visibility-select').click(function () { // crazyhorse - multiple ok cancels
-			var pvSelect = $('#post-visibility-select');
-
-			pvSelect.slideUp('fast');
-			$('.edit-visibility', '#visibility').show();
+		$postVisibilitySelect.find('.save-post-visibility').click( function( event ) { // crazyhorse - multiple ok cancels
+			$postVisibilitySelect.slideUp('fast');
+			$('#visibility .edit-visibility').show();
 			updateText();
 
-			if ( $('input:radio:checked', pvSelect).val() != 'public' ) {
+			if ( $postVisibilitySelect.find('input:radio:checked').val() != 'public' ) {
 				$('#sticky').prop('checked', false);
 			} // WEAPON LOCKED
 
@@ -776,74 +776,74 @@ jQuery(document).ready( function($) {
 				sticky = '';
 			}
 
-			$('#post-visibility-display').html(	postL10n[$('input:radio:checked', pvSelect).val() + sticky]	);
-			return false;
+			$('#post-visibility-display').html(	postL10n[ $postVisibilitySelect.find('input:radio:checked').val() + sticky ]	);
+			event.preventDefault();
 		});
 
-		$('input:radio', '#post-visibility-select').change(function() {
+		$postVisibilitySelect.find('input:radio').change( function() {
 			updateVisibility();
 		});
 
-		$('#timestampdiv').siblings('a.edit-timestamp').click(function() {
-			if ( $( '#timestampdiv' ).is( ':hidden' ) ) {
-				$('#timestampdiv').slideDown('fast');
+		$timestampdiv.siblings('a.edit-timestamp').click( function( event ) {
+			if ( $timestampdiv.is( ':hidden' ) ) {
+				$timestampdiv.slideDown('fast');
 				$('#mm').focus();
 				$(this).hide();
 			}
-			return false;
+			event.preventDefault();
 		});
 
-		$('.cancel-timestamp', '#timestampdiv').click(function() {
-			$('#timestampdiv').slideUp('fast');
+		$timestampdiv.find('.cancel-timestamp').click( function( event ) {
+			$timestampdiv.slideUp('fast').siblings('a.edit-timestamp').show().focus();
 			$('#mm').val($('#hidden_mm').val());
 			$('#jj').val($('#hidden_jj').val());
 			$('#aa').val($('#hidden_aa').val());
 			$('#hh').val($('#hidden_hh').val());
 			$('#mn').val($('#hidden_mn').val());
-			$('#timestampdiv').siblings('a.edit-timestamp').show();
 			updateText();
-			return false;
+			event.preventDefault();
 		});
 
-		$('.save-timestamp', '#timestampdiv').click(function () { // crazyhorse - multiple ok cancels
+		$timestampdiv.find('.save-timestamp').click( function( event ) { // crazyhorse - multiple ok cancels
 			if ( updateText() ) {
-				$('#timestampdiv').slideUp('fast');
-				$('#timestampdiv').siblings('a.edit-timestamp').show();
+				$timestampdiv.slideUp('fast');
+				$timestampdiv.siblings('a.edit-timestamp').show();
 			}
-			return false;
+			event.preventDefault();
 		});
 
-		$('#post').on( 'submit', function(e){
+		$('#post').on( 'submit', function( event ) {
 			if ( ! updateText() ) {
-				e.preventDefault();
-				$('#timestampdiv').show();
+				event.preventDefault();
+				$timestampdiv.show();
+
+				if ( typeof wp !== 'undefined' && wp.autosave ) {
+					wp.autosave.enableButtons();
+				}
+
 				$('#publishing-action .spinner').hide();
-				$('#publish').prop('disabled', false).removeClass('button-primary-disabled');
-				return false;
 			}
 		});
 
-		$('#post-status-select').siblings('a.edit-post-status').click(function() {
-			if ( $( '#post-status-select' ).is( ':hidden' ) ) {
-				$('#post-status-select').slideDown('fast');
+		$postStatusSelect.siblings('a.edit-post-status').click( function( event ) {
+			if ( $postStatusSelect.is( ':hidden' ) ) {
+				$postStatusSelect.slideDown('fast').find('select').focus();
 				$(this).hide();
 			}
-			return false;
+			event.preventDefault();
 		});
 
-		$('.save-post-status', '#post-status-select').click(function() {
-			$('#post-status-select').slideUp('fast');
-			$('#post-status-select').siblings('a.edit-post-status').show();
+		$postStatusSelect.find('.save-post-status').click( function( event ) {
+			$postStatusSelect.slideUp('fast').siblings('a.edit-post-status').show();
 			updateText();
-			return false;
+			event.preventDefault();
 		});
 
-		$('.cancel-post-status', '#post-status-select').click(function() {
-			$('#post-status-select').slideUp('fast');
-			$('#post_status').val($('#hidden_post_status').val());
-			$('#post-status-select').siblings('a.edit-post-status').show();
+		$postStatusSelect.find('.cancel-post-status').click( function( event ) {
+			$('#post-status-select').slideUp('fast').siblings( 'a.edit-post-status' ).show().focus();
+			$('#post_status').val( $('#hidden_post_status').val() );
 			updateText();
-			return false;
+			event.preventDefault();
 		});
 	} // end submitdiv
 
