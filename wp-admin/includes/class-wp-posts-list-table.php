@@ -499,7 +499,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		    $classes .= ' level-0';
 		}
 	?>
-		<tr id="post-<?php echo $post->ID; ?>" class="<?php echo implode( ' ', get_post_class( $classes, $post->ID ) ); ?>" valign="top">
+		<tr id="post-<?php echo $post->ID; ?>" class="<?php echo implode( ' ', get_post_class( $classes, $post->ID ) ); ?>">
 	<?php
 
 		list( $columns, $hidden ) = $this->get_column_info();
