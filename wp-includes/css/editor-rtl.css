@@ -139,7 +139,8 @@ i.mce-i-redo,
 i.mce-i-help,
 i.mce-i-wp_help,
 i.mce-i-wp-media-library,
-i.mce-i-ltr {
+i.mce-i-ltr,
+i.mce-i-wp_page {
 	font: normal 20px/1 'dashicons';
 	padding: 0;
 	vertical-align: top;
@@ -260,6 +261,10 @@ i.mce-i-wp-media-library:before {
 
 i.mce-i-ltr:before {
 	content: '\f320';
+}
+
+i.mce-i-wp_page:before {
+	content: '\f105';
 }
 
 /* Editors */
