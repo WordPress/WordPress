@@ -3568,6 +3568,10 @@ function normalize_whitespace( $str ) {
 
 /**
  * Properly strip all HTML tags including script and style
+ * 
+ * This differs from strip_tags() because it removes the contents of 
+ * the <script> and <style> tags. E.g. strip_tags( '<script>something</script>' )
+ * will return 'something'. wp_strip_all_tags will return ''
  *
  * @since 2.9.0
  *
