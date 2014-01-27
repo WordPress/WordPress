@@ -219,7 +219,7 @@ body {
 	background-color: transparent !important;
 	border: none !important;
 	box-shadow: none !important;
-	border-radius: !important 0;
+	border-radius: 0 !important;
 }
 
 
