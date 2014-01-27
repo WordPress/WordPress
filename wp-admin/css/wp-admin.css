@@ -4064,8 +4064,7 @@ ul.cat-checklist {
 	margin: 0;
 }
 
-#titlediv #title-prompt-text,
-#wp-fullscreen-title-prompt-text {
+#titlediv #title-prompt-text {
 	color: #777;
 	position: absolute;
 	font-size: 1.7em;
@@ -4076,10 +4075,6 @@ ul.cat-checklist {
 	color: #999;
 	float: right;
 	margin-top: 4px;
-}
-
-#wp-fullscreen-title-prompt-text {
-	padding: 11px;
 }
 
 #poststuff .inside-submitbox,
@@ -11950,8 +11945,7 @@ li#wp-admin-bar-menu-toggle {
 		min-width: 0;
 	}
 
-	#titlediv #title-prompt-text,
-	#wp-fullscreen-title-prompt-text {
+	#titlediv #title-prompt-text {
 		padding: 10px 10px;
 	}
 
