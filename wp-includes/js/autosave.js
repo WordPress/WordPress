@@ -6,7 +6,6 @@ window.autosave = function(){};
 	function autosave() {
 		var initialCompareString,
 		lastTriggerSave = 0,
-		isSuspended = false,
 		$document = $(document);
 
 		/**
@@ -87,18 +86,11 @@ window.autosave = function(){};
 			$document.trigger( 'autosave-enable-buttons' );
 		}
 
-		function suspend() {
-			isSuspended = true;
-		}
-
-		function resume() {
-			isSuspended = false;
-		}
-
 		// Autosave in localStorage
 		function autosaveLocal() {
 			var restorePostData, undoPostData, blog_id, post_id, hasStorage, intervalTimer,
-				lastCompareString;
+				lastCompareString,
+				isSuspended = false;
 
 			// Check if the browser supports sessionStorage and it's not disabled
 			function checkStorage() {
@@ -194,6 +186,14 @@ window.autosave = function(){};
 				}
 
 				return setStorage( stored );
+			}
+
+			function suspend() {
+				isSuspended = true;
+			}
+
+			function resume() {
+				isSuspended = false;
 			}
 
 			/**
@@ -415,14 +415,17 @@ window.autosave = function(){};
 			return {
 				hasStorage: hasStorage,
 				getSavedPostData: getSavedPostData,
-				save: save
+				save: save,
+				suspend: suspend,
+				resume: resume
 			};
 		}
 
 		// Autosave on the server
 		function autosaveServer() {
-			var _disabled, _blockSave, _blockSaveTimer, previousCompareString, lastCompareString,
-				nextRun = 0;
+			var _blockSave, _blockSaveTimer, previousCompareString, lastCompareString,
+				nextRun = 0,
+				isSuspended = false;
 
 			// Block saving for the next 10 sec.
 			function tempBlockSave() {
@@ -434,6 +437,14 @@ window.autosave = function(){};
 				}, 10000 );
 			}
 
+			function suspend() {
+				isSuspended = true;
+			}
+
+			function resume() {
+				isSuspended = false;
+			}
+
 			// Runs on heartbeat-response
 			function response( data ) {
 				_schedule();
@@ -442,22 +453,12 @@ window.autosave = function(){};
 				previousCompareString = '';
 
 				$document.trigger( 'after-autosave', [data] );
-				$( '.autosave-message' ).text( data.message );
 				enableButtons();
 
 				if ( data.success ) {
 					// No longer an auto-draft
 					$( '#auto_draft' ).val('');
 				}
-			}
-
-			/**
-			 * Disable autosave
-			 *
-			 * Intended to run on form.submit
-			 */
-			function disable() {
-				_disabled = true;
 			}
 
 			/**
@@ -488,7 +489,7 @@ window.autosave = function(){};
 			function save() {
 				var postData, compareString;
 
-				if ( isSuspended || _disabled || _blockSave ) {
+				if ( isSuspended || _blockSave ) {
 					return false;
 				}
 
@@ -516,7 +517,6 @@ window.autosave = function(){};
 				$document.trigger( 'wpcountwords', [ postData.content ] )
 					.trigger( 'before-autosave', [ postData ] );
 
-				$( '.autosave-message' ).text( autosaveL10n.savingText );
 				postData._wpnonce = $( '#_wpnonce' ).val() || '';
 
 				return postData;
@@ -556,10 +556,11 @@ window.autosave = function(){};
 			});
 
 			return {
-				disable: disable,
 				tempBlockSave: tempBlockSave,
 				triggerSave: triggerSave,
-				postChanged: postChanged
+				postChanged: postChanged,
+				suspend: suspend,
+				resume: resume
 			};
 		}
 
@@ -584,8 +585,6 @@ window.autosave = function(){};
 			getCompareString: getCompareString,
 			disableButtons: disableButtons,
 			enableButtons: enableButtons,
-			suspend: suspend,
-			resume: resume,
 			local: autosaveLocal(),
 			server: autosaveServer()
 		};

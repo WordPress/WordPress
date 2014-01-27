@@ -165,8 +165,10 @@ TABLE OF CONTENTS:
 
 .wp-core-ui .button[disabled],
 .wp-core-ui .button:disabled,
+.wp-core-ui .button.disabled,
 .wp-core-ui .button-secondary[disabled],
 .wp-core-ui .button-secondary:disabled,
+.wp-core-ui .button-secondary.disabled,
 .wp-core-ui .button-disabled {
 	color: #aaa !important;
 	border-color: #ddd !important;
@@ -221,7 +223,8 @@ TABLE OF CONTENTS:
 
 .wp-core-ui .button-primary[disabled],
 .wp-core-ui .button-primary:disabled,
-.wp-core-ui .button-primary-disabled {
+.wp-core-ui .button-primary-disabled,
+.wp-core-ui .button-primary.disabled {
 	color: #94cde7 !important;
 	background: #298cba !important;
 	border-color: #1b607f !important;
