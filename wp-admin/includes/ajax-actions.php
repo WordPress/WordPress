@@ -197,16 +197,27 @@ function wp_ajax_autocomplete_user() {
 	$return = array();
 
 	// Check the type of request
-	if ( isset( $_REQUEST['autocomplete_type'] ) )
+	// Current allowed values are `add` and `search`
+	if ( isset( $_REQUEST['autocomplete_type'] ) && 'search' === $_REQUEST['autocomplete_type'] ) {
 		$type = $_REQUEST['autocomplete_type'];
-	else
+	} else {
 		$type = 'add';
+	}
+
+	// Check the desired field for value
+	// Current allowed values are `user_email` and `user_login`
+	if ( isset( $_REQUEST['autocomplete_field'] ) && 'user_email' === $_REQUEST['autocomplete_field'] ) {
+		$field = $_REQUEST['autocomplete_field'];
+	} else {
+		$field = 'user_login';
+	}
 
 	// Exclude current users of this blog
-	if ( isset( $_REQUEST['site_id'] ) )
+	if ( isset( $_REQUEST['site_id'] ) ) {
 		$id = absint( $_REQUEST['site_id'] );
-	else
+	} else {
 		$id = get_current_blog_id();
+	}
 
 	$include_blog_users = ( $type == 'search' ? get_users( array( 'blog_id' => $id, 'fields' => 'ID' ) ) : array() );
 	$exclude_blog_users = ( $type == 'add' ? get_users( array( 'blog_id' => $id, 'fields' => 'ID' ) ) : array() );
@@ -223,7 +234,7 @@ function wp_ajax_autocomplete_user() {
 		$return[] = array(
 			/* translators: 1: user_login, 2: user_email */
 			'label' => sprintf( __( '%1$s (%2$s)' ), $user->user_login, $user->user_email ),
-			'value' => $user->user_login,
+			'value' => $user->$field,
 		);
 	}
 
