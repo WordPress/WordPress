@@ -447,6 +447,9 @@
 			 *
 			 * @param {string} content Content that is searched for possible
 			 *    shortcode markup matching the passed tag name,
+			 *
+			 * @this wp.media.gallery
+			 *
 			 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
 			 */
 			edit: function( content ) {

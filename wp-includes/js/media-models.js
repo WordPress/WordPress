@@ -342,11 +342,10 @@ window.wp = window.wp || {};
 	});
 
 	/**
-	 * wp.media.model.Attachment
+	 * wp.media.model.PostImage
 	 *
 	 * @constructor
 	 * @augments Backbone.Model
-	 *
 	 **/
 	PostImage = media.model.PostImage = Backbone.Model.extend({
 
@@ -354,7 +353,7 @@ window.wp = window.wp || {};
 			this.attachment = false;
 
 			if ( attributes.attachment_id ) {
-				this.attachment = media.model.Attachment.get( attributes.attachment_id );
+				this.attachment = Attachment.get( attributes.attachment_id );
 				this.dfd = this.attachment.fetch();
 				this.bindAttachmentListeners();
 			}
@@ -364,7 +363,6 @@ window.wp = window.wp || {};
 			this.on( 'change:size', this.updateSize, this );
 
 			this.setLinkTypeFromUrl();
-
 		},
 
 		bindAttachmentListeners: function() {
@@ -411,9 +409,7 @@ window.wp = window.wp || {};
 			}
 
 			this.set( 'link', type );
-
 		},
-
 
 		updateLinkUrl: function() {
 			var link = this.get( 'link' ),
@@ -434,9 +430,7 @@ window.wp = window.wp || {};
 				case 'none':
 					this.set( 'linkUrl', '' );
 					break;
-
 			}
-
 		},
 
 		updateSize: function() {
@@ -450,10 +444,7 @@ window.wp = window.wp || {};
 			this.set( 'url', size.url );
 			this.set( 'width', size.width );
 			this.set( 'height', size.height );
-
 		}
-
-
 	});
 
 	/**

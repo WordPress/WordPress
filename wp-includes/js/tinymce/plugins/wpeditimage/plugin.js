@@ -143,7 +143,6 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			}
 		} );
 
-
 		// extract caption
 		captionBlock = editor.dom.getParents( imageNode, '.wp-caption' );
 
@@ -172,7 +171,6 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		}
 
 		return metadata;
-
 	}
 
 	function updateImage( imageNode, imageData ) {
@@ -223,7 +221,6 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			editor.selection.select( editor.dom.select( 'img', node )[0] );
 		}
 		editor.nodeChanged();
-
 	}
 
 	function createImageAndLink( imageData, mode ) {
@@ -231,7 +228,6 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			props;
 
 		mode = mode ? mode : 'node';
-
 
 		if ( ! imageData.caption ) {
 			classes.push( 'align' + imageData.align );
@@ -261,13 +257,10 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			} else if ( mode === 'html' ) {
 				return editor.dom.createHTML( 'a', { href: imageData.linkUrl }, editor.dom.createHTML( 'img', props ) );
 			}
-		} else {
-			if ( mode === 'node' ) {
-				return editor.dom.create( 'img', props );
-			} else if ( mode === 'html' ) {
-				return editor.dom.createHTML( 'img', props );
-			}
-
+		} else if ( mode === 'node' ) {
+			return editor.dom.create( 'img', props );
+		} else if ( mode === 'html' ) {
+			return editor.dom.createHTML( 'img', props );
 		}
 	}
 
@@ -650,8 +643,6 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				frame.state('replace-image').on( 'replace', callback );
 
 				frame.open();
-
-
 			}
 		}
 	} );

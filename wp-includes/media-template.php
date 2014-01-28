@@ -546,30 +546,20 @@ function wp_print_media_templates() {
 					</div>
 				</div>
 				<div class="setting link-to">
-				<span><?php _e('Link To'); ?></span>
-
-				<# if ( data.attachment ) { #>
+					<span><?php _e('Link To'); ?></span>
 					<div class="button-group button-large" data-setting="link">
+					<# if ( data.attachment ) { #>
 						<button class="button" value="file">
 							<?php esc_attr_e('Media File'); ?>
 						</button>
 						<button class="button" value="post">
 							<?php esc_attr_e('Attachment Page'); ?>
 						</button>
-						<button class="button" value="custom">
-							<?php esc_attr_e('Custom URL'); ?>
-						</button>
-						<button class="button active" value="none">
-							<?php esc_attr_e('None'); ?>
-						</button>
-					</div>
-					<input type="text" class="link-to-custom" data-setting="linkUrl" />
-
-				<# } else { #>
-					<div class="button-group button-large" data-setting="link">
+					<# } else { #>
 						<button class="button" value="file">
 							<?php esc_attr_e('Image URL'); ?>
 						</button>
+					<# } #>
 						<button class="button" value="custom">
 							<?php esc_attr_e('Custom URL'); ?>
 						</button>
@@ -578,8 +568,6 @@ function wp_print_media_templates() {
 						</button>
 					</div>
 					<input type="text" class="link-to-custom" data-setting="linkUrl" />
-
-				<# } #>
 				</div>
 
 				<# if ( data.attachment ) { #>
@@ -596,8 +584,7 @@ function wp_print_media_templates() {
 							) );
 
 							foreach ( $sizes as $value => $name ) : ?>
-								<#
-								var size = data.attachment.sizes['<?php echo esc_js( $value ); ?>'];
+								<# var size = data.attachment.sizes['<?php echo esc_js( $value ); ?>'];
 								if ( size ) { #>
 									<button class="button" value="<?php echo esc_attr( $value ); ?>">
 										<?php echo esc_html( $name ); ?>

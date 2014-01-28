@@ -726,6 +726,32 @@
 	});
 
 	/**
+	 * wp.media.controller.ImageDetails
+	 *
+	 * @constructor
+	 * @augments wp.media.controller.State
+	 * @augments Backbone.Model
+	 */
+	media.controller.ImageDetails = media.controller.State.extend({
+		defaults: _.defaults({
+			id: 'image-details',
+			toolbar: 'image-details',
+			title: l10n.imageDetailsTitle,
+			content: 'image-details',
+			menu: 'image-details',
+			router: false,
+			attachment: false,
+			priority: 60,
+			editing: false
+		}, media.controller.Library.prototype.defaults ),
+
+		initialize: function( options ) {
+			this.image = options.image;
+			media.controller.State.prototype.initialize.apply( this, arguments );
+		}
+	});
+
+	/**
 	 * wp.media.controller.GalleryEdit
 	 *
 	 * @constructor
@@ -910,7 +936,6 @@
 			toolbar:    'featured-image',
 			title:      l10n.setFeaturedImageTitle,
 			priority:   60,
-
 			syncSelection: false
 		}, media.controller.Library.prototype.defaults ),
 
@@ -980,33 +1005,16 @@
 		}
 	});
 
-
-	media.controller.ImageDetails = media.controller.State.extend({
-
-		defaults: _.defaults({
-			id: 'image-details',
-			toolbar: 'image-details',
-			title: l10n.imageDetailsTitle,
-			content: 'image-details',
-			menu: 'image-details',
-			router: false,
-			attachment: false,
-			priority: 60,
-			editing: false
-		}, media.controller.Library.prototype.defaults ),
-
-		initialize: function( options ) {
-			this.image = options.image;
-			media.controller.State.prototype.initialize.apply( this, arguments );
-		}
-	});
-
 	/**
 	 * wp.media.controller.ReplaceImage
 	 *
 	 * Replace a selected single image
 	 *
-	 **/
+	 * @constructor
+	 * @augments wp.media.controller.Library
+	 * @augments wp.media.controller.State
+	 * @augments Backbone.Model
+	 */
 	media.controller.ReplaceImage = media.controller.Library.extend({
 		defaults: _.defaults({
 			id:         'replace-image',
@@ -1022,7 +1030,6 @@
 			var library, comparator;
 
 			this.image = options.image;
-
 			// If we haven't been provided a `library`, create a `Selection`.
 			if ( ! this.get('library') ) {
 				this.set( 'library', media.query({ type: 'image' }) );
@@ -1075,10 +1082,7 @@
 				attachment = this.image.attachment;
 
 			selection.reset( attachment ? [ attachment ] : [] );
-
 		}
-
-
 	});
 
 	/**

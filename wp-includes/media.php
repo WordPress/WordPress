@@ -2008,7 +2008,6 @@ function wp_enqueue_media( $args = array() ) {
 		'addToGalleryTitle'  => __( 'Add to Gallery' ),
 		'reverseOrder'       => __( 'Reverse order' ),
 
-
 		// Edit Image
 		'imageDetailsTitle'     => __( 'Image Details' ),
 		'imageReplaceTitle'     => __( 'Replace Image' ),
