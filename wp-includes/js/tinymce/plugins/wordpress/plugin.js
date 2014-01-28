@@ -368,8 +368,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	editor.addShortcut( modKey + '+h', '', 'WP_Help' );
 	editor.addShortcut( modKey + '+p', '', 'WP_Page' );
 	editor.addShortcut( 'ctrl+s', '', function() {
-		if ( typeof autosave === 'function' ) {
-			autosave();
+		if ( typeof wp !== 'undefined' && wp.autosave ) {
+			wp.autosave.server.triggerSave();
 		}
 	});
 
