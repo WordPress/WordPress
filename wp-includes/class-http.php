@@ -69,10 +69,48 @@ class WP_Http {
 
 		$defaults = array(
 			'method' => 'GET',
-			'timeout' => apply_filters( 'http_request_timeout', 5),
-			'redirection' => apply_filters( 'http_request_redirection_count', 5),
-			'httpversion' => apply_filters( 'http_request_version', '1.0'),
+			/**
+			 * Filter the timeout value for an HTTP request.
+			 *
+			 * @since 2.7.0
+			 *
+			 * @param int $timeout_value Time in seconds until a request times out.
+			 *                           Default 5.
+			 */
+			'timeout' => apply_filters( 'http_request_timeout', 5 ),
+			/**
+			 * Filter the number of redirects allowed during an HTTP request.
+			 *
+			 * @since 2.7.0
+			 *
+			 * @param int $redirect_count Number of redirects allowed. Default 5.
+			 */
+			'redirection' => apply_filters( 'http_request_redirection_count', 5 ),
+			/**
+			 * Filter the version of the HTTP protocol used in a request.
+			 *
+			 * @since 2.7.0
+			 *
+			 * @param string $version Version of HTTP used. Accepts '1.0' and '1.1'.
+			 *                        Default '1.0'.
+			 */
+			'httpversion' => apply_filters( 'http_request_version', '1.0' ),
+			/**
+			 * Filter the user agent value sent with an HTTP request.
+			 *
+			 * @since 2.7.0
+			 *
+			 * @param string $user_agent WordPress user agent string.
+			 */
 			'user-agent' => apply_filters( 'http_headers_useragent', 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' ) ),
+			/**
+			 * Filter whether to pass URLs through wp_http_validate_url() in an HTTP request.
+			 *
+			 * @since 3.6.0
+			 *
+			 * @param bool $pass_url Whether to pass URLs through wp_http_validate_url().
+			 *                       Default false.
+			 */
 			'reject_unsafe_urls' => apply_filters( 'http_request_reject_unsafe_urls', false ),
 			'blocking' => true,
 			'headers' => array(),
@@ -95,13 +133,32 @@ class WP_Http {
 			$defaults['redirection'] = 0;
 
 		$r = wp_parse_args( $args, $defaults );
+		/**
+		 * Filter the arguments used in an HTTP request.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param array  $r   An array of HTTP request arguments.
+		 * @param string $url The request URI resource.
+		 */
 		$r = apply_filters( 'http_request_args', $r, $url );
 
 		// The transports decrement this, store a copy of the original value for loop purposes.
 		if ( ! isset( $r['_redirection'] ) )
 			$r['_redirection'] = $r['redirection'];
 
-		// Allow plugins to short-circuit the request
+		/**
+		 * Filter whether to preempt an HTTP request's return.
+		 *
+		 * Returning a truthy value to the filter will short-circuit
+		 * the HTTP request and return early with that value.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param bool   $preempt Whether to preempt an HTTP request return. Default false.
+		 * @param array  $r       HTTP request arguments.
+		 * @param string $url     The request URI resource.
+		 */
 		$pre = apply_filters( 'pre_http_request', false, $r, $url );
 		if ( false !== $pre )
 			return $pre;
@@ -221,6 +278,16 @@ class WP_Http {
 	 * @return string|bool Class name for the first transport that claims to support the request. False if no transport claims to support the request.
 	 */
 	public function _get_first_available_transport( $args, $url = null ) {
+		/**
+		 * Filter which HTTP transports are available and in what order.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param array  $value Array of HTTP transports to check. Default array contains
+		 *                      'curl', and 'streams', in that order.
+		 * @param array  $args  HTTP request arguments.
+		 * @param string $url   The URL to request.
+		 */
 		$request_order = apply_filters( 'http_api_transports', array( 'curl', 'streams' ), $args, $url );
 
 		// Loop over each transport on each HTTP request looking for one which will serve this request's needs
@@ -265,11 +332,31 @@ class WP_Http {
 
 		$response = $transports[$class]->request( $url, $args );
 
+		/**
+		 * Fires after an HTTP API response is received and before the response is returned.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param mixed  $response HTTP Response or WP_Error object.
+		 * @param string $context  Context under which the hook is fired.
+		 * @param string $class    HTTP transport used.
+		 * @param array  $args     HTTP request arguments.
+		 * @param string $url      The request URL.
+		 */
 		do_action( 'http_api_debug', $response, 'response', $class, $args, $url );
 
 		if ( is_wp_error( $response ) )
 			return $response;
 
+		/**
+		 * Filter the HTTP API response immediately before the response is returned.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array|obj $response HTTP Response.
+		 * @param array     $args     HTTP request arguments.
+		 * @param string    $url      The request URL.
+		 */
 		return apply_filters( 'http_response', $response, $args, $url );
 	}
 
@@ -281,8 +368,8 @@ class WP_Http {
 	 * @access public
 	 * @since 2.7.0
 	 *
-	 * @param string $url URI resource.
-	 * @param str|array $args Optional. Override the defaults.
+	 * @param string       $url  URI resource.
+	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|object Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	function post($url, $args = array()) {
@@ -516,8 +603,17 @@ class WP_Http {
 		$home = parse_url( get_option('siteurl') );
 
 		// Don't block requests back to ourselves by default
-		if ( $check['host'] == 'localhost' || $check['host'] == $home['host'] )
-			return apply_filters('block_local_requests', false);
+		if ( $check['host'] == 'localhost' || $check['host'] == $home['host'] ) {
+			/**
+			 * Filter whether to block local requests through the proxy.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param bool $block Whether to block local requests through proxy.
+			 *                    Default false.
+			 */
+			return apply_filters( 'block_local_requests', false );
+		}
 
 		if ( !defined('WP_ACCESSIBLE_HOSTS') )
 			return true;
@@ -742,10 +838,25 @@ class WP_Http_Streams {
 
 		$is_local = isset( $r['local'] ) && $r['local'];
 		$ssl_verify = isset( $r['sslverify'] ) && $r['sslverify'];
-		if ( $is_local )
+		if ( $is_local ) {
+			/**
+			 * Filter whether SSL should be verified for local requests.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param bool $ssl_verify Whether to verify the SSL connection. Default true.
+			 */
 			$ssl_verify = apply_filters( 'https_local_ssl_verify', $ssl_verify );
-		elseif ( ! $is_local )
+		} elseif ( ! $is_local ) {
+			/**
+			 * Filter whether SSL should be verified for non-local requests.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param bool $ssl_verify Whether to verify the SSL connection. Default true.
+			 */
 			$ssl_verify = apply_filters( 'https_ssl_verify', $ssl_verify );
+		}
 
 		$proxy = new WP_HTTP_Proxy();
 
@@ -1004,7 +1115,7 @@ class WP_Http_Streams {
 	}
 
 	/**
-	 * Whether this class can be used for retrieving an URL.
+	 * Whether this class can be used for retrieving a URL.
 	 *
 	 * @static
 	 * @access public
@@ -1026,6 +1137,14 @@ class WP_Http_Streams {
 				return false;
 		}
 
+		/**
+		 * Filter whether streams can be used as a transport for retrieving a URL.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param bool  $use_class Whether the class can be used. Default true.
+		 * @param array $args      Request arguments.
+		 */
 		return apply_filters( 'use_streams_transport', true, $args );
 	}
 }
@@ -1145,10 +1264,13 @@ class WP_Http_Curl {
 
 		$is_local = isset($r['local']) && $r['local'];
 		$ssl_verify = isset($r['sslverify']) && $r['sslverify'];
-		if ( $is_local )
-			$ssl_verify = apply_filters('https_local_ssl_verify', $ssl_verify);
-		elseif ( ! $is_local )
-			$ssl_verify = apply_filters('https_ssl_verify', $ssl_verify);
+		if ( $is_local ) {
+			/** This filter is documented in wp-includes/class-http.php */
+			$ssl_verify = apply_filters( 'https_local_ssl_verify', $ssl_verify );
+		} elseif ( ! $is_local ) {
+			/** This filter is documented in wp-includes/class-http.php */
+			$ssl_verify = apply_filters( 'https_ssl_verify', $ssl_verify );
+		}
 
 		// CURLOPT_TIMEOUT and CURLOPT_CONNECTTIMEOUT expect integers. Have to use ceil since
 		// a value of 0 will allow an unlimited timeout.
@@ -1225,8 +1347,16 @@ class WP_Http_Curl {
 		else
 			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
 
-		// Cookies are not handled by the HTTP API currently. Allow for plugin authors to handle it
-		// themselves... Although, it is somewhat pointless without some reference.
+		/**
+		 * Fires before the cURL request is executed.
+		 *
+		 * Cookies are not currently handled by the HTTP API. This action allows
+		 * plugins to handle cookies themselves.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array $handle cURL options set using curl_setopt().
+		 */
 		do_action_ref_array( 'http_api_curl', array(&$handle) );
 
 		// We don't need to return the body, so don't. Just execute request and return.
@@ -1361,6 +1491,14 @@ class WP_Http_Curl {
 				return false;
 		}
 
+		/**
+		 * Filter whether cURL can be used as a transport for retrieving a URL.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param bool  $use_class Whether the class can be used. Default true.
+		 * @param array $args      An array of request arguments.
+		 */
 		return apply_filters( 'use_curl_transport', true, $args );
 	}
 }
@@ -1529,6 +1667,19 @@ class WP_HTTP_Proxy {
 
 		$home = parse_url( get_option('siteurl') );
 
+		/**
+		 * Filter whether to preempt sending the request through the proxy server.
+		 *
+		 * Returning false will bypass the proxy; returning true will send
+		 * the request through the proxy. Returning null bypasses the filter.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param null   $override Whether to override the request result. Default null.
+		 * @param string $uri      URL to check.
+		 * @param array  $check    Associative array result of parsing the URI.
+		 * @param array  $home     Associative array result of parsing the site URL.
+		 */
 		$result = apply_filters( 'pre_http_send_through_proxy', null, $uri, $check, $home );
 		if ( ! is_null( $result ) )
 			return $result;
@@ -1743,6 +1894,14 @@ class WP_Http_Cookie {
 		if ( ! isset( $this->name ) || ! isset( $this->value ) )
 			return '';
 
+		/**
+		 * Filter the header-encoded cookie value.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param string $value The cookie value.
+		 * @param string $name  The cookie name.
+		 */
 		return $this->name . '=' . apply_filters( 'wp_http_cookie_value', $this->value, $this->name );
 	}
 
@@ -1904,6 +2063,16 @@ class WP_Http_Encoding {
 				$type[] = 'gzip;q=0.5';
 		}
 
+		/**
+		 * Filter the allowed encoding types.
+		 *
+		 * @since 3.6.0
+		 *
+		 * @param array  $type Encoding types allowed. Accepts 'gzinflate',
+		 *                     'gzuncompress', 'gzdecode'.
+		 * @param string $url  URL of the HTTP request.
+		 * @param array  $args HTTP request arguments.
+		 */
 		$type = apply_filters( 'wp_http_accept_encoding', $type, $url, $args );
 
 		return implode(', ', $type);
