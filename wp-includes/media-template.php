@@ -500,6 +500,117 @@ function wp_print_media_templates() {
 			}
 		</style>
 	</script>
+
+	<script type="text/html" id="tmpl-image-details">
+		<?php // reusing .media-embed to pick up the styles for now ?>
+		<div class="media-embed">
+			<div class="embed-image-settings">
+				<div class="thumbnail">
+					<img src="{{ data.model.url }}" draggable="false" />
+				</div>
+
+				<div class="setting url">
+					<?php // might want to make the url editable if it isn't an attachment ?>
+					<input type="text" disabled="disabled" value="{{ data.model.url }}" />
+				</div>
+
+				<?php
+				/** This filter is documented in wp-admin/includes/media.php */
+				if ( ! apply_filters( 'disable_captions', '' ) ) : ?>
+					<label class="setting caption">
+						<span><?php _e('Caption'); ?></span>
+						<textarea data-setting="caption">{{ data.model.caption }}</textarea>
+					</label>
+				<?php endif; ?>
+
+				<label class="setting alt-text">
+					<span><?php _e('Alt Text'); ?></span>
+					<input type="text" data-setting="alt" value="{{ data.model.alt }}" />
+				</label>
+
+				<div class="setting align">
+					<span><?php _e('Align'); ?></span>
+					<div class="button-group button-large" data-setting="align">
+						<button class="button" value="left">
+							<?php esc_attr_e('Left'); ?>
+						</button>
+						<button class="button" value="center">
+							<?php esc_attr_e('Center'); ?>
+						</button>
+						<button class="button" value="right">
+							<?php esc_attr_e('Right'); ?>
+						</button>
+						<button class="button active" value="none">
+							<?php esc_attr_e('None'); ?>
+						</button>
+					</div>
+				</div>
+				<div class="setting link-to">
+				<span><?php _e('Link To'); ?></span>
+
+				<# if ( data.attachment ) { #>
+					<div class="button-group button-large" data-setting="link">
+						<button class="button" value="file">
+							<?php esc_attr_e('Media File'); ?>
+						</button>
+						<button class="button" value="post">
+							<?php esc_attr_e('Attachment Page'); ?>
+						</button>
+						<button class="button" value="custom">
+							<?php esc_attr_e('Custom URL'); ?>
+						</button>
+						<button class="button active" value="none">
+							<?php esc_attr_e('None'); ?>
+						</button>
+					</div>
+					<input type="text" class="link-to-custom" data-setting="linkUrl" />
+
+				<# } else { #>
+					<div class="button-group button-large" data-setting="link">
+						<button class="button" value="file">
+							<?php esc_attr_e('Image URL'); ?>
+						</button>
+						<button class="button" value="custom">
+							<?php esc_attr_e('Custom URL'); ?>
+						</button>
+						<button class="button active" value="none">
+							<?php esc_attr_e('None'); ?>
+						</button>
+					</div>
+					<input type="text" class="link-to-custom" data-setting="linkUrl" />
+
+				<# } #>
+				</div>
+
+				<# if ( data.attachment ) { #>
+					<div class="setting size">
+						<span><?php _e('Size'); ?></span>
+						<div class="button-group button-large" data-setting="size">
+						<?php
+							/** This filter is documented in wp-admin/includes/media.php */
+							$sizes = apply_filters( 'image_size_names_choose', array(
+								'thumbnail' => __('Thumbnail'),
+								'medium'    => __('Medium'),
+								'large'     => __('Large'),
+								'full'      => __('Full Size'),
+							) );
+
+							foreach ( $sizes as $value => $name ) : ?>
+								<#
+								var size = data.attachment.sizes['<?php echo esc_js( $value ); ?>'];
+								if ( size ) { #>
+									<button class="button" value="<?php echo esc_attr( $value ); ?>">
+										<?php echo esc_html( $name ); ?>
+										</button>
+								<# } #>
+							<?php endforeach; ?>
+						</div>
+					</div>
+				<# } #>
+				</div>
+			</div>
+		</div>
+	</script>
 	<?php
 
 	/**

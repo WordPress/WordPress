@@ -86,6 +86,10 @@
    color: #a9a9a9;
 }
 
+.media-frame .hidden {
+	display: none;
+}
+
 /* Enable draggable on IE10 touch events until it's rolled into jQuery UI core */
 .ui-sortable,
 .ui-draggable {
@@ -1411,7 +1415,7 @@
 }
 
 /**
- * Embed from URL
+ * Embed from URL and Image Details
  */
 .embed-url {
 	display: block;
@@ -1452,6 +1456,10 @@
 	overflow: auto;
 }
 
+.image-details .embed-image-settings {
+	top: 0;
+}
+
 .media-embed .thumbnail {
 	max-width: 100%;
 	max-height: 200px;
@@ -1482,6 +1490,10 @@
 	float: left;
 	display: block;
 	clear: both;
+}
+
+.media-embed .setting .hidden {
+	display: none;
 }
 
 .media-embed .setting span {

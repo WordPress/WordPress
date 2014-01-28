@@ -1967,6 +1967,8 @@ function wp_enqueue_media( $args = array() ) {
 		'search'      => __( 'Search' ),
 		'select'      => __( 'Select' ),
 		'cancel'      => __( 'Cancel' ),
+		'update'      => __( 'Update' ),
+		'replace'     => __( 'Replace' ),
 		/* translators: This is a would-be plural string used in the media manager.
 		   If there is not a word you can use in your language to avoid issues with the
 		   lack of plural support here, turn it into "selected: %d" then translate it.
@@ -2005,6 +2007,12 @@ function wp_enqueue_media( $args = array() ) {
 		'addToGallery'       => __( 'Add to gallery' ),
 		'addToGalleryTitle'  => __( 'Add to Gallery' ),
 		'reverseOrder'       => __( 'Reverse order' ),
+
+
+		// Edit Image
+		'imageDetailsTitle'     => __( 'Image Details' ),
+		'imageReplaceTitle'     => __( 'Replace Image' ),
+		'imageDetailsCancel'     => __( 'Cancel Edit' )
 	);
 
 	$settings = apply_filters( 'media_view_settings', $settings, $post );

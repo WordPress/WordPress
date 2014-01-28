@@ -2,7 +2,7 @@
 window.wp = window.wp || {};
 
 (function($){
-	var Attachment, Attachments, Query, compare, l10n, media;
+	var Attachment, Attachments, Query, PostImage, compare, l10n, media;
 
 	/**
 	 * wp.media( attributes )
@@ -30,6 +30,8 @@ window.wp = window.wp || {};
 			frame = new MediaFrame.Select( attributes );
 		} else if ( 'post' === attributes.frame && MediaFrame.Post ) {
 			frame = new MediaFrame.Post( attributes );
+		} else if ( 'image' === attributes.frame && MediaFrame.ImageDetails ) {
+			frame = new MediaFrame.ImageDetails( attributes );
 		}
 
 		delete attributes.frame;
@@ -337,6 +339,121 @@ window.wp = window.wp || {};
 		get: _.memoize( function( id, attachment ) {
 			return Attachments.all.push( attachment || { id: id } );
 		})
+	});
+
+	/**
+	 * wp.media.model.Attachment
+	 *
+	 * @constructor
+	 * @augments Backbone.Model
+	 *
+	 **/
+	PostImage = media.model.PostImage = Backbone.Model.extend({
+
+		initialize: function( attributes ) {
+			this.attachment = false;
+
+			if ( attributes.attachment_id ) {
+				this.attachment = media.model.Attachment.get( attributes.attachment_id );
+				this.dfd = this.attachment.fetch();
+				this.bindAttachmentListeners();
+			}
+
+			// keep url in sync with changes to the type of link
+			this.on( 'change:link', this.updateLinkUrl, this );
+			this.on( 'change:size', this.updateSize, this );
+
+			this.setLinkTypeFromUrl();
+
+		},
+
+		bindAttachmentListeners: function() {
+			this.listenTo( this.attachment, 'sync', this.setLinkTypeFromUrl );
+		},
+
+		changeAttachment: function( attachment, props ) {
+			this.stopListening( this.attachment );
+			this.attachment = attachment;
+			this.bindAttachmentListeners();
+
+			this.set( 'attachment_id', this.attachment.get( 'id' ) );
+			this.set( 'caption', this.attachment.get( 'caption' ) );
+			this.set( 'alt', this.attachment.get( 'alt' ) );
+			this.set( 'size', props.get( 'size' ) );
+			this.set( 'align', props.get( 'align' ) );
+			this.set( 'link', props.get( 'link' ) );
+			this.updateLinkUrl();
+			this.updateSize();
+		},
+
+		setLinkTypeFromUrl: function() {
+			var linkUrl = this.get( 'linkUrl' ),
+				type;
+
+			if ( ! linkUrl ) {
+				this.set( 'link', 'none' );
+				return;
+			}
+
+			// default to custom if there is a linkUrl
+			type = 'custom';
+
+			if ( this.attachment ) {
+				if ( this.attachment.get( 'url' ) === linkUrl ) {
+					type = 'file';
+				} else if ( this.attachment.get( 'link' ) === linkUrl ) {
+					type = 'post';
+				}
+			} else {
+				if ( this.get( 'url' ) === linkUrl ) {
+					type = 'file';
+				}
+			}
+
+			this.set( 'link', type );
+
+		},
+
+
+		updateLinkUrl: function() {
+			var link = this.get( 'link' ),
+				url;
+
+			switch( link ) {
+				case 'file':
+					if ( this.attachment ) {
+						url = this.attachment.get( 'url' );
+					} else {
+						url = this.get( 'url' );
+					}
+					this.set( 'linkUrl', url );
+					break;
+				case 'post':
+					this.set( 'linkUrl', this.attachment.get( 'link' ) );
+					break;
+				case 'none':
+					this.set( 'linkUrl', '' );
+					break;
+
+			}
+
+		},
+
+		updateSize: function() {
+			var size;
+
+			if ( ! this.attachment ) {
+				return;
+			}
+
+			size = this.attachment.get( 'sizes' )[ this.get( 'size' ) ];
+			this.set( 'url', size.url );
+			this.set( 'width', size.width );
+			this.set( 'height', size.height );
+
+		}
+
+
 	});
 
 	/**

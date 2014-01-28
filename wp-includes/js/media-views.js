@@ -980,6 +980,107 @@
 		}
 	});
 
+
+	media.controller.ImageDetails = media.controller.State.extend({
+
+		defaults: _.defaults({
+			id: 'image-details',
+			toolbar: 'image-details',
+			title: l10n.imageDetailsTitle,
+			content: 'image-details',
+			menu: 'image-details',
+			router: false,
+			attachment: false,
+			priority: 60,
+			editing: false
+		}, media.controller.Library.prototype.defaults ),
+
+		initialize: function( options ) {
+			this.image = options.image;
+			media.controller.State.prototype.initialize.apply( this, arguments );
+		}
+	});
+
+	/**
+	 * wp.media.controller.ReplaceImage
+	 *
+	 * Replace a selected single image
+	 *
+	 **/
+	media.controller.ReplaceImage = media.controller.Library.extend({
+		defaults: _.defaults({
+			id:         'replace-image',
+			filterable: 'uploaded',
+			multiple:   false,
+			toolbar:    'replace',
+			title:      l10n.replaceImageTitle,
+			priority:   60,
+			syncSelection: false
+		}, media.controller.Library.prototype.defaults ),
+
+		initialize: function( options ) {
+			var library, comparator;
+
+			this.image = options.image;
+
+			// If we haven't been provided a `library`, create a `Selection`.
+			if ( ! this.get('library') ) {
+				this.set( 'library', media.query({ type: 'image' }) );
+			}
+			/**
+			 * call 'initialize' directly on the parent class
+			 */
+			media.controller.Library.prototype.initialize.apply( this, arguments );
+
+			library    = this.get('library');
+			comparator = library.comparator;
+
+			// Overload the library's comparator to push items that are not in
+			// the mirrored query to the front of the aggregate collection.
+			library.comparator = function( a, b ) {
+				var aInQuery = !! this.mirroring.get( a.cid ),
+					bInQuery = !! this.mirroring.get( b.cid );
+
+				if ( ! aInQuery && bInQuery ) {
+					return -1;
+				} else if ( aInQuery && ! bInQuery ) {
+					return 1;
+				} else {
+					return comparator.apply( this, arguments );
+				}
+			};
+
+			// Add all items in the selection to the library, so any featured
+			// images that are not initially loaded still appear.
+			library.observe( this.get('selection') );
+		},
+
+		activate: function() {
+			this.updateSelection();
+			/**
+			 * call 'activate' directly on the parent class
+			 */
+			media.controller.Library.prototype.activate.apply( this, arguments );
+		},
+
+		deactivate: function() {
+			/**
+			 * call 'deactivate' directly on the parent class
+			 */
+			media.controller.Library.prototype.deactivate.apply( this, arguments );
+		},
+
+		updateSelection: function() {
+			var selection = this.get('selection'),
+				attachment = this.image.attachment;
+
+			selection.reset( attachment ? [ attachment ] : [] );
+
+		}
+
+
+	});
+
 	/**
 	 * wp.media.controller.Embed
 	 *
@@ -1924,7 +2025,156 @@
 				}
 			}) );
 		}
+
 	});
+
+	media.view.MediaFrame.ImageDetails = media.view.MediaFrame.Select.extend({
+		defaults: {
+			id:      'image',
+			url:     '',
+			menu:    'image-details',
+			content: 'image-details',
+			toolbar: 'image-details',
+			type:    'link',
+			title:    l10n.imageDetailsTitle,
+			priority: 120
+		},
+
+		initialize: function( options ) {
+			this.image = new media.model.PostImage( options.metadata );
+			this.options.selection = new media.model.Selection( this.image.attachment, { multiple: false } );
+			media.view.MediaFrame.Select.prototype.initialize.apply( this, arguments );
+		},
+
+		bindHandlers: function() {
+			media.view.MediaFrame.Select.prototype.bindHandlers.apply( this, arguments );
+			this.on( 'menu:create:image-details', this.createMenu, this );
+			this.on( 'content:render:image-details', this.renderImageDetailsContent, this );
+			this.on( 'menu:render:image-details', this.renderMenu, this );
+			this.on( 'toolbar:render:image-details', this.renderImageDetailsToolbar, this );
+			// override the select toolbar
+			this.on( 'toolbar:render:replace', this.renderReplaceImageToolbar, this );
+		},
+
+		createStates: function() {
+			this.states.add([
+				new media.controller.ImageDetails({
+					image: this.image,
+					editable: false,
+					menu: 'image-details'
+				}),
+				new media.controller.ReplaceImage({
+					id: 'replace-image',
+					library:   media.query( { type: 'image' } ),
+					image: this.image,
+					multiple:  false,
+					title:     l10n.imageReplaceTitle,
+					menu: 'image-details',
+					toolbar: 'replace',
+					priority:  80,
+					displaySettings: true
+				})
+			]);
+		},
+
+		renderImageDetailsContent: function() {
+			var view = new media.view.ImageDetails({
+				controller: this,
+				model: this.state().image,
+				attachment: this.state().image.attachment
+			}).render();
+
+			this.content.set( view );
+
+		},
+
+		renderMenu: function( view ) {
+			var lastState = this.lastState(),
+				previous = lastState && lastState.id,
+				frame = this;
+
+			view.set({
+				cancel: {
+					text:     l10n.imageDetailsCancel,
+					priority: 20,
+					click:    function() {
+						if ( previous ) {
+							frame.setState( previous );
+						} else {
+							frame.close();
+						}
+					}
+				},
+				separateCancel: new media.View({
+					className: 'separator',
+					priority: 40
+				})
+			});
+
+		},
+
+		renderImageDetailsToolbar: function() {
+			this.toolbar.set( new media.view.Toolbar({
+				controller: this,
+				items: {
+					select: {
+						style:    'primary',
+						text:     l10n.update,
+						priority: 80,
+
+						click: function() {
+							var controller = this.controller,
+								state = controller.state();
+
+							controller.close();
+
+							// not sure if we want to use wp.media.string.image which will create a shortcode or
+							// perhaps wp.html.string to at least to build the <img />
+							state.trigger( 'update', controller.image.toJSON() );
+
+							// Restore and reset the default state.
+							controller.setState( controller.options.state );
+							controller.reset();
+						}
+					}
+				}
+			}) );
+		},
+
+		renderReplaceImageToolbar: function() {
+			this.toolbar.set( new media.view.Toolbar({
+				controller: this,
+				items: {
+					replace: {
+						style:    'primary',
+						text:     l10n.replace,
+						priority: 80,
+
+						click: function() {
+							var controller = this.controller,
+								state = controller.state(),
+								selection = state.get( 'selection' ),
+								attachment = selection.single();
+
+							controller.close();
+
+							controller.image.changeAttachment( attachment, state.display( attachment ) );
+
+							// not sure if we want to use wp.media.string.image which will create a shortcode or
+							// perhaps wp.html.string to at least to build the <img />
+							state.trigger( 'replace', controller.image.toJSON() );
+
+							// Restore and reset the default state.
+							controller.setState( controller.options.state );
+							controller.reset();
+						}
+					}
+				}
+			}) );
+		}
+
+	});
+
 
 	/**
 	 * wp.media.view.Modal
@@ -4555,7 +4805,7 @@
 				attachment = this.options.attachment;
 
 			if ( 'none' === linkTo || 'embed' === linkTo || ( ! attachment && 'custom' !== linkTo ) ) {
-				$input.hide();
+				$input.addClass( 'hidden' );
 				return;
 			}
 
@@ -4571,7 +4821,7 @@
 				$input.prop( 'readonly', 'custom' !== linkTo );
 			}
 
-			$input.show();
+			$input.removeClass( 'hidden' );
 
 			// If the input is visible, focus and select its contents.
 			if ( $input.is(':visible') ) {
@@ -4930,6 +5180,52 @@
 
 		updateImage: function() {
 			this.$('img').attr( 'src', this.model.get('url') );
+		}
+	});
+
+	media.view.ImageDetails = media.view.Settings.AttachmentDisplay.extend({
+		className: 'image-details',
+		template:  media.template('image-details'),
+
+		initialize: function() {
+			// used in AttachmentDisplay.prototype.updateLinkTo
+			this.options.attachment = this.model.attachment;
+			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
+		},
+
+		prepare: function() {
+			var attachment = false;
+
+			if ( this.model.attachment ) {
+				attachment = this.model.attachment.toJSON();
+			}
+			return _.defaults({
+				model: this.model.toJSON(),
+				attachment: attachment
+			}, this.options );
+		},
+
+
+		render: function() {
+			var self = this,
+				args = arguments;
+			if ( this.model.attachment && 'pending' === this.model.dfd.state() ) {
+				// should instead show a spinner when the attachment is new and then add a listener that updates on change
+				this.model.dfd.done( function() {
+					media.view.Settings.AttachmentDisplay.prototype.render.apply( self, args );
+					self.resetFocus();
+				} );
+			} else {
+				media.view.Settings.AttachmentDisplay.prototype.render.apply( this, arguments );
+				setTimeout( function() { self.resetFocus(); }, 10 );
+			}
+
+			return this;
+		},
+
+		resetFocus: function() {
+			this.$( '.caption textarea' ).focus();
+			this.$( '.embed-image-settings' ).scrollTop( 0 );
 		}
 	});
 }(jQuery));

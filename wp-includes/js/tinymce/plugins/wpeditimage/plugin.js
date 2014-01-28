@@ -101,6 +101,176 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		});
 	}
 
+	function extractImageData( imageNode ) {
+		var classes, metadata, captionBlock, caption;
+
+		// default attributes
+		metadata = {
+			attachment_id: false,
+			url: false,
+			height: '',
+			width: '',
+			size: 'none',
+			caption: '',
+			alt: '',
+			align: 'none',
+			link: false,
+			linkUrl: ''
+		};
+
+		metadata.url = editor.dom.getAttrib( imageNode, 'src' );
+		metadata.alt = editor.dom.getAttrib( imageNode, 'alt' );
+		metadata.width = parseInt( editor.dom.getAttrib( imageNode, 'width' ), 10 );
+		metadata.height = parseInt( editor.dom.getAttrib( imageNode, 'height' ), 10 );
+
+		//TODO: probably should capture attributes on both the <img /> and the <a /> so that they can be restored when the image and/or caption are updated
+		// maybe use getAttribs()
+
+		// extract meta data from classes (candidate for turning into a method)
+		classes = imageNode.className.split( ' ' );
+		tinymce.each( classes, function( name ) {
+
+			if ( /^wp-image/.test( name ) ) {
+				metadata.attachment_id = parseInt( name.replace( 'wp-image-', '' ), 10 );
+			}
+
+			if ( /^align/.test( name ) ) {
+				metadata.align = name.replace( 'align', '' );
+			}
+
+			if ( /^size/.test( name ) ) {
+				metadata.size = name.replace( 'size-', '' );
+			}
+		} );
+
+
+		// extract caption
+		captionBlock = editor.dom.getParents( imageNode, '.wp-caption' );
+
+		if ( captionBlock.length ) {
+			captionBlock = captionBlock[0];
+
+			classes = captionBlock.className.split( ' ' );
+			tinymce.each( classes, function( name ) {
+				if ( /^align/.test( name ) ) {
+					metadata.align = name.replace( 'align', '' );
+				}
+			} );
+			caption = editor.dom.select( 'dd.wp-caption-dd', captionBlock );
+			if ( caption.length ) {
+				caption = caption[0];
+				// need to do some more thinking about this
+				metadata.caption = editor.serializer.serialize( caption )
+					.replace( /<br[^>]*>/g, '$&\n' ).replace( /^<p>/, '' ).replace( /<\/p>$/, '' );
+
+			}
+		}
+
+		// extract linkTo
+		if ( imageNode.parentNode.nodeName === 'A' ) {
+			metadata.linkUrl = editor.dom.getAttrib( imageNode.parentNode, 'href' );
+		}
+
+		return metadata;
+
+	}
+
+	function updateImage( imageNode, imageData ) {
+		var className, width, node, html, captionNode, nodeToReplace, uid;
+
+		if ( imageData.caption ) {
+
+			html = createImageAndLink( imageData, 'html' );
+
+			width = imageData.width + 10;
+			className = 'align' + imageData.align;
+
+			//TODO: shouldn't add the id attribute if it isn't an attachment
+
+			// should create a new function for genrating the caption markup
+			html =  '<dl id="'+ imageData.attachment_id +'" class="wp-caption '+ className +'" style="width: '+ width +'px">' +
+				'<dt class="wp-caption-dt">'+ html + '</dt><dd class="wp-caption-dd">'+ imageData.caption +'</dd></dl>';
+
+			node = editor.dom.create( 'div', { 'class': 'mceTemp', draggable: 'true' }, html );
+		} else {
+			node = createImageAndLink( imageData, 'node' );
+		}
+
+		nodeToReplace = imageNode;
+
+		captionNode = editor.dom.getParent( imageNode, '.mceTemp' );
+
+		if ( captionNode ) {
+			nodeToReplace = captionNode;
+		} else {
+			if ( imageNode.parentNode.nodeName === 'A' ) {
+				nodeToReplace = imageNode.parentNode;
+			}
+		}
+		// uniqueId isn't super exciting, so maybe we want to use something else
+		uid = editor.dom.uniqueId( 'wp_' );
+		editor.dom.setAttrib( node, 'data-wp-replace-id', uid );
+		editor.dom.replace( node, nodeToReplace );
+
+		// find the updated node
+		node = editor.dom.select( '[data-wp-replace-id="' + uid + '"]' )[0];
+
+		editor.dom.setAttrib( node, 'data-wp-replace-id', '' );
+
+		if ( node.nodeName === 'IMG' ) {
+			editor.selection.select( node );
+		} else {
+			editor.selection.select( editor.dom.select( 'img', node )[0] );
+		}
+		editor.nodeChanged();
+
+	}
+
+	function createImageAndLink( imageData, mode ) {
+		var classes = [],
+			props;
+
+		mode = mode ? mode : 'node';
+
+
+		if ( ! imageData.caption ) {
+			classes.push( 'align' + imageData.align );
+		}
+
+		if ( imageData.attachment_id ) {
+			classes.push( 'wp-image-' + imageData.attachment_id );
+			if ( imageData.size ) {
+				classes.push( 'size-' + imageData.size );
+			}
+		}
+
+		props = {
+			src: imageData.url,
+			width: imageData.width,
+			height: imageData.height,
+			alt: imageData.alt
+		};
+
+		if ( classes.length ) {
+			props['class'] = classes.join( ' ' );
+		}
+
+		if ( imageData.linkUrl ) {
+			if ( mode === 'node' ) {
+				return editor.dom.create( 'a', { href: imageData.linkUrl }, editor.dom.createHTML( 'img', props ) );
+			} else if ( mode === 'html' ) {
+				return editor.dom.createHTML( 'a', { href: imageData.linkUrl }, editor.dom.createHTML( 'img', props ) );
+			}
+		} else {
+			if ( mode === 'node' ) {
+				return editor.dom.create( 'img', props );
+			} else if ( mode === 'html' ) {
+				return editor.dom.createHTML( 'img', props );
+			}
+
+		}
+	}
+
 	editor.on( 'init', function() {
 		var dom = editor.dom;
 
@@ -451,6 +621,40 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			}
 		}
 	});
+
+	editor.on( 'mousedown', function( e ) {
+		var imageNode, frame, callback;
+		if ( e.target.nodeName === 'IMG' && editor.selection.getNode() === e.target ) {
+			// Don't trigger on right-click
+			if ( e.button !== 2 ) {
+
+				// Don't attempt to edit placeholders
+				if ( editor.dom.hasClass( e.target, 'mceItem' ) || '1' === editor.dom.getAttrib( e.target, 'data-mce-placeholder' ) ) {
+					return;
+				}
+
+				imageNode = e.target;
+
+				frame = wp.media({
+					frame: 'image',
+					state: 'image-details',
+					metadata: extractImageData( imageNode )
+				} );
+
+				callback = function( imageData ) {
+					updateImage( imageNode, imageData );
+					editor.focus();
+				};
+
+				frame.state('image-details').on( 'update', callback );
+				frame.state('replace-image').on( 'replace', callback );
+
+				frame.open();
+
+
+			}
+		}
+	} );
 
 	editor.wpSetImgCaption = function( content ) {
 		return parseShortcode( content );

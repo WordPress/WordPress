@@ -228,7 +228,6 @@ final class _WP_Editors {
 						'paste',
 						'tabfocus',
 						'textcolor',
-						'image',
 						'fullscreen',
 						'wordpress',
 						'wpeditimage',
