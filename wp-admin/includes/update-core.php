@@ -684,8 +684,26 @@ function update_core($from, $to) {
 
 	@set_time_limit( 300 );
 
-	// Sanity check the unzipped distribution
-	apply_filters( 'update_feedback', __('Verifying the unpacked files&#8230;') );
+	/**
+	 * Filter feedback messages displayed during the core update process.
+	 *
+	 * The filter is first evaluated after the zip file for the latest version
+	 * has been downloaded and unzipped. It is evaluated five more times during
+	 * the process:
+	 *
+	 * 1. Before WordPress begins the core upgrade process.
+	 * 2. Before Maintenance Mode is enabled.
+	 * 3. Before WordPress begins copying over the necessary files.
+	 * 4. Before Maintenance Mode is disabled.
+	 * 5. Before the database is upgraded.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $feedback The core update feedback messages.
+	 */
+	apply_filters( 'update_feedback', __( 'Verifying the unpacked files&#8230;' ) );
+
+	// Sanity check the unzipped distribution.
 	$distro = '';
 	$roots = array( '/wordpress/', '/wordpress-mu/' );
 	foreach ( $roots as $root ) {
@@ -731,6 +749,7 @@ function update_core($from, $to) {
 	elseif ( !$mysql_compat )
 		return new WP_Error( 'mysql_not_compatible', sprintf( __('The update cannot be installed because WordPress %1$s requires MySQL version %2$s or higher. You are running version %3$s.'), $wp_version, $required_mysql_version, $mysql_version ) );
 
+	/** This filter is documented in wp-admin/includes/update-core.php */
 	apply_filters( 'update_feedback', __( 'Preparing to install the latest version&#8230;' ) );
 
 	// Don't copy wp-content, we'll deal with that below
@@ -781,6 +800,7 @@ function update_core($from, $to) {
 		}
 	}
 
+	/** This filter is documented in wp-admin/includes/update-core.php */
 	apply_filters( 'update_feedback', __( 'Enabling Maintenance mode&#8230;' ) );
 	// Create maintenance file to signal that we are upgrading
 	$maintenance_string = '<?php $upgrading = ' . time() . '; ?>';
@@ -788,6 +808,7 @@ function update_core($from, $to) {
 	$wp_filesystem->delete($maintenance_file);
 	$wp_filesystem->put_contents($maintenance_file, $maintenance_string, FS_CHMOD_FILE);
 
+	/** This filter is documented in wp-admin/includes/update-core.php */
 	apply_filters( 'update_feedback', __( 'Copying the required files&#8230;' ) );
 	// Copy new versions of WP files into place.
 	$result = _copy_dir( $from . $distro, $to, $skip );
@@ -853,6 +874,7 @@ function update_core($from, $to) {
 		}
 	}
 
+	/** This filter is documented in wp-admin/includes/update-core.php */
 	apply_filters( 'update_feedback', __( 'Disabling Maintenance mode&#8230;' ) );
 	// Remove maintenance file, we're done with potential site-breaking changes
 	$wp_filesystem->delete( $maintenance_file );
@@ -924,7 +946,8 @@ function update_core($from, $to) {
 	}
 
 	// Upgrade DB with separate request
-	apply_filters('update_feedback', __('Upgrading database&#8230;'));
+	/** This filter is documented in wp-admin/includes/update-core.php */
+	apply_filters( 'update_feedback', __( 'Upgrading database&#8230;' ) );
 	$db_upgrade_url = admin_url('upgrade.php?step=upgrade_db');
 	wp_remote_post($db_upgrade_url, array('timeout' => 60));
 
@@ -942,7 +965,13 @@ function update_core($from, $to) {
 	else
 		delete_option('update_core');
 
-	// If we made it this far:
+	/**
+	 * Fires after WordPress core has been successfully updated.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param string $wp_version The current WordPress version.
+	 */
 	do_action( '_core_updated_successfully', $wp_version );
 
 	// Clear the option that blocks auto updates after failures, now that we've been successful.
