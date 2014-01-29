@@ -909,7 +909,7 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
 	if ( null === $comments && null === $per_page && null === $threaded && !empty($wp_query->max_num_comment_pages) )
 		return $wp_query->max_num_comment_pages;
 
-	if ( !$comments || !is_array($comments) )
+	if ( ( ! $comments || ! is_array( $comments ) ) && ! empty( $wp_query->comments )  )
 		$comments = $wp_query->comments;
 
 	if ( empty($comments) )
