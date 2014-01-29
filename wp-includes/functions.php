@@ -2793,6 +2793,8 @@ function wp_ob_end_flush_all() {
 function dead_db() {
 	global $wpdb;
 
+	wp_load_translations_early();
+
 	// Load custom DB error template, if present.
 	if ( file_exists( WP_CONTENT_DIR . '/db-error.php' ) ) {
 		require_once( WP_CONTENT_DIR . '/db-error.php' );
@@ -2807,8 +2809,6 @@ function dead_db() {
 	status_header( 500 );
 	nocache_headers();
 	header( 'Content-Type: text/html; charset=utf-8' );
-
-	wp_load_translations_early();
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"<?php if ( is_rtl() ) echo ' dir="rtl"'; ?>>
