@@ -935,7 +935,6 @@ class WP_Tax_Query {
  */
 function get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
-	$null = null;
 
 	if ( empty($term) ) {
 		$error = new WP_Error('invalid_term', __('Empty Term'));
@@ -954,11 +953,11 @@ function get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 		if ( is_object($term) )
 			$term = $term->term_id;
 		if ( !$term = (int) $term )
-			return $null;
+			return null;
 		if ( ! $_term = wp_cache_get($term, $taxonomy) ) {
 			$_term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = %s AND t.term_id = %d LIMIT 1", $taxonomy, $term) );
 			if ( ! $_term )
-				return $null;
+				return null;
 			wp_cache_add($term, $_term, $taxonomy);
 		}
 	}

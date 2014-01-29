@@ -256,11 +256,10 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
  * @return mixed Null if error or post object if success.
  */
 function wp_get_post_revision(&$post, $output = OBJECT, $filter = 'raw') {
-	$null = null;
 	if ( !$revision = get_post( $post, OBJECT, $filter ) )
 		return $revision;
 	if ( 'revision' !== $revision->post_type )
-		return $null;
+		return null;
 
 	if ( $output == OBJECT ) {
 		return $revision;
