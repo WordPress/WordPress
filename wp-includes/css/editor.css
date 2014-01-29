@@ -74,6 +74,10 @@ div.mce-statusbar {
 	text-shadow: 0;
 }
 
+.mce-toolbar .mce-btn:focus {
+	outline: 1px solid #888;
+}
+
 .mce-toolbar .mce-btn-group .mce-btn.mce-listbox {
 	border-radius: 0;
 	direction: ltr;
