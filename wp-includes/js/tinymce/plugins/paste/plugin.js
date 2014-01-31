@@ -295,10 +295,17 @@ define("tinymce/pasteplugin/Clipboard", [
 		 */
 		function createPasteBin() {
 			var dom = editor.dom, body = editor.getBody();
-			var viewport = editor.dom.getViewPort(editor.getWin()), scrollTop, top = 20;
+			var viewport = editor.dom.getViewPort(editor.getWin()), scrollTop = viewport.y, top = 20;
 
 			lastRng = editor.selection.getRng();
-			scrollTop = editor.inline ? editor.selection.getScrollContainer().scrollTop : viewport.y;
+
+			if (editor.inline) {
+				var scrollContainer = editor.selection.getScrollContainer();
+
+				if (scrollContainer) {
+					scrollTop = scrollContainer.scrollTop;
+				}
+			}
 
 			// Calculate top cordinate this is needed to avoid scrolling to top of document
 			// We want the paste bin to be as close to the caret as possible to avoid scrolling
