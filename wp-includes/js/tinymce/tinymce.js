@@ -1,4 +1,4 @@
-// 4.0.12 (2013-12-18)
+// 4.0.14 (2014-01-30)
 
 /**
  * Compiled inline version. (Library mode)
@@ -232,7 +232,7 @@ define("tinymce/dom/EventUtils", [], function() {
 		}
 
 		function waitForDomLoaded() {
-			if (doc.readyState === "complete") {
+			if (doc.readyState === "complete" || doc.readyState === "interactive") {
 				removeEvent(doc, "readystatechange", waitForDomLoaded);
 				readyHandler();
 			}
@@ -253,7 +253,7 @@ define("tinymce/dom/EventUtils", [], function() {
 
 		// Use W3C method
 		if (doc.addEventListener) {
-			if (doc.readyState === "complete") {
+			if (doc.readyState === "complete" || doc.readyState === "interactive") {
 				readyHandler();
 			} else {
 				addEvent(win, 'DOMContentLoaded', readyHandler);
@@ -263,7 +263,7 @@ define("tinymce/dom/EventUtils", [], function() {
 			addEvent(doc, "readystatechange", waitForDomLoaded);
 
 			// Wait until we can scroll, when we can the DOM is initialized
-			if (doc.documentElement.doScroll && win === win.top) {
+			if (doc.documentElement.doScroll && win.self === win.top) {
 				tryScroll();
 			}
 		}
@@ -5390,6 +5390,194 @@ define("tinymce/Env", [], function() {
 	};
 });
 
+// Included from: js/tinymce/classes/dom/StyleSheetLoader.js
+
+/**
+ * StyleSheetLoader.js
+ *
+ * Copyright, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * This class handles loading of external stylesheets and fires events when these are loaded.
+ *
+ * @class tinymce.dom.StyleSheetLoader
+ * @private
+ */
+define("tinymce/dom/StyleSheetLoader", [], function() {
+	"use strict";
+
+	return function(document, settings) {
+		var idCount = 0, loadedStates = {}, maxLoadTime;
+
+		settings = settings || {};
+		maxLoadTime = settings.maxLoadTime || 5000;
+
+		function appendToHead(node) {
+			document.getElementsByTagName('head')[0].appendChild(node);
+		}
+
+		/**
+		 * Loads the specified css style sheet file and call the loadedCallback once it's finished loading.
+		 *
+		 * @method load
+		 * @param {String} url Url to be loaded.
+		 * @param {Function} loadedCallback Callback to be executed when loaded.
+		 * @param {Function} errorCallback Callback to be executed when failed loading.
+		 */
+		function load(url, loadedCallback, errorCallback) {
+			var link, style, startTime, state;
+
+			function passed() {
+				var callbacks = state.passed, i = callbacks.length;
+
+				while (i--) {
+					callbacks[i]();
+				}
+
+				state.status = 2;
+				state.passed = [];
+				state.failed = [];
+			}
+
+			function failed() {
+				var callbacks = state.failed, i = callbacks.length;
+
+				while (i--) {
+					callbacks[i]();
+				}
+
+				state.status = 3;
+				state.passed = [];
+				state.failed = [];
+			}
+
+			// Sniffs for older WebKit versions that have the link.onload but a broken one
+			function isOldWebKit() {
+				var webKitChunks = navigator.userAgent.match(/WebKit\/(\d*)/);
+				return !!(webKitChunks && webKitChunks[1] < 536);
+			}
+
+			// Calls the waitCallback until the test returns true or the timeout occurs
+			function wait(testCallback, waitCallback) {
+				if (!testCallback()) {
+					// Wait for timeout
+					if ((new Date().getTime()) - startTime < maxLoadTime) {
+						window.setTimeout(waitCallback, 0);
+					} else {
+						failed();
+					}
+				}
+			}
+
+			// Workaround for WebKit that doesn't properly support the onload event for link elements
+			// Or WebKit that fires the onload event before the StyleSheet is added to the document
+			function waitForWebKitLinkLoaded() {
+				wait(function() {
+					var styleSheets = document.styleSheets, styleSheet, i = styleSheets.length, owner;
+
+					while (i--) {
+						styleSheet = styleSheets[i];
+						owner = styleSheet.ownerNode ? styleSheet.ownerNode : styleSheet.owningElement;
+						if (owner && owner.id === link.id) {
+							passed();
+							return true;
+						}
+					}
+				}, waitForWebKitLinkLoaded);
+			}
+
+			// Workaround for older Geckos that doesn't have any onload event for StyleSheets
+			function waitForGeckoLinkLoaded() {
+				wait(function() {
+					try {
+						// Accessing the cssRules will throw an exception until the CSS file is loaded
+						var cssRules = style.sheet.cssRules;
+						passed();
+						return !!cssRules;
+					} catch (ex) {
+						// Ignore
+					}
+				}, waitForGeckoLinkLoaded);
+			}
+
+			if (!loadedStates[url]) {
+				state = {
+					passed: [],
+					failed: []
+				};
+
+				loadedStates[url] = state;
+			} else {
+				state = loadedStates[url];
+			}
+
+			if (loadedCallback) {
+				state.passed.push(loadedCallback);
+			}
+
+			if (errorCallback) {
+				state.failed.push(errorCallback);
+			}
+
+			// Is loading wait for it to pass
+			if (state.status == 1) {
+				return;
+			}
+
+			// Has finished loading and was success
+			if (state.status == 2) {
+				passed();
+				return;
+			}
+
+			// Has finished loading and was a failure
+			if (state.status == 3) {
+				failed();
+				return;
+			}
+
+			// Start loading
+			state.status = 1;
+			link = document.createElement('link');
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.id = 'u' + (idCount++);
+			link.async = false;
+			link.defer = false;
+			startTime = new Date().getTime();
+
+			// Feature detect onload on link element and sniff older webkits since it has an broken onload event
+			if ("onload" in link && !isOldWebKit()) {
+				link.onload = waitForWebKitLinkLoaded;
+				link.onerror = failed;
+			} else {
+				// Sniff for old Firefox that doesn't support the onload event on link elements
+				// TODO: Remove this in the future when everyone uses modern browsers
+				if (navigator.userAgent.indexOf("Firefox") > 0) {
+					style = document.createElement('style');
+					style.textContent = '@import "' + url + '"';
+					waitForGeckoLinkLoaded();
+					appendToHead(style);
+					return;
+				} else {
+					// Use the id owner on older webkits
+					waitForWebKitLinkLoaded();
+				}
+			}
+
+			appendToHead(link);
+			link.href = url;
+		}
+
+		this.load = load;
+	};
+});
+
 // Included from: js/tinymce/classes/dom/DOMUtils.js
 
 /**
@@ -5421,8 +5609,9 @@ define("tinymce/dom/DOMUtils", [
 	"tinymce/dom/Range",
 	"tinymce/html/Entities",
 	"tinymce/Env",
-	"tinymce/util/Tools"
-], function(Sizzle, Styles, EventUtils, TreeWalker, Range, Entities, Env, Tools) {
+	"tinymce/util/Tools",
+	"tinymce/dom/StyleSheetLoader"
+], function(Sizzle, Styles, EventUtils, TreeWalker, Range, Entities, Env, Tools, StyleSheetLoader) {
 	// Shorten names
 	var each = Tools.each, is = Tools.is, grep = Tools.grep, trim = Tools.trim, extend = Tools.extend;
 	var isWebKit = Env.webkit, isIE = Env.ie;
@@ -5448,6 +5637,7 @@ define("tinymce/dom/DOMUtils", [
 		self.stdMode = !isIE || doc.documentMode >= 8;
 		self.boxModel = !isIE || doc.compatMode == "CSS1Compat" || self.stdMode;
 		self.hasOuterHTML = "outerHTML" in doc.createElement("a");
+		self.styleSheetLoader = new StyleSheetLoader(doc);
 		this.boundEvents = [];
 
 		self.settings = settings = extend({
@@ -6395,8 +6585,8 @@ define("tinymce/dom/DOMUtils", [
 
 					// Add scroll offsets from documentElement or body since IE with the wrong box model will use d.body and so do WebKit
 					// Also remove the body/documentelement clientTop/clientLeft on IE 6, 7 since they offset the position
-					x = pos.left + (doc.documentElement.scrollLeft || doc.body.scrollLeft) - rootElm.clientTop;
-					y = pos.top + (doc.documentElement.scrollTop || doc.body.scrollTop) - rootElm.clientLeft;
+					x = pos.left + (doc.documentElement.scrollLeft || doc.body.scrollLeft) - rootElm.clientLeft;
+					y = pos.top + (doc.documentElement.scrollTop || doc.body.scrollTop) - rootElm.clientTop;
 
 					return {x: x, y: y};
 				}
@@ -12189,11 +12379,13 @@ define("tinymce/dom/ControlSelection", [
 			var controlElm;
 
 			function isChildOrEqual(node, parent) {
-				do {
-					if (node === parent) {
-						return true;
-					}
-				} while ((node = node.parentNode));
+				if (node) {
+					do {
+						if (node === parent) {
+							return true;
+						}
+					} while ((node = node.parentNode));
+				}
 			}
 
 			// Remove data-mce-selected from all elements since they might have been copied using Ctrl+c/v
@@ -12204,7 +12396,7 @@ define("tinymce/dom/ControlSelection", [
 			controlElm = e.type == 'mousedown' ? e.target : selection.getNode();
 			controlElm = dom.getParent(controlElm, isIE ? 'table' : 'table,img,hr');
 
-			if (controlElm) {
+			if (isChildOrEqual(controlElm, editor.getBody())) {
 				disableGeckoResize();
 
 				if (isChildOrEqual(selection.getStart(), controlElm) && isChildOrEqual(selection.getEnd(), controlElm)) {
@@ -12366,6 +12558,10 @@ define("tinymce/dom/ControlSelection", [
 		}
 
 		return {
+			isResizable: isResizable,
+			showResizeRect: showResizeRect,
+			hideResizeRect: hideResizeRect,
+			updateResizeRect: updateResizeRect,
 			controlSelect: controlSelect,
 			destroy: destroy
 		};
@@ -12800,7 +12996,7 @@ define("tinymce/dom/Selection", [
 
 			if (type == 2) {
 				element = t.getNode();
-				name = element.nodeName;
+				name = element ? element.nodeName : null;
 
 				if (name == 'IMG') {
 					return {name: name, index: findIndex(name, element)};
@@ -13184,7 +13380,8 @@ define("tinymce/dom/Selection", [
 			}
 
 			// We have W3C ranges and it's IE then fake control selection since IE9 doesn't handle that correctly yet
-			if (isIE && rng && rng.setStart) {
+			// IE 11 doesn't support the selection object so we check for that as well
+			if (isIE && rng && rng.setStart && doc.selection) {
 				try {
 					// IE will sometimes throw an exception here
 					ieRng = doc.selection.createRange();
@@ -15969,7 +16166,7 @@ define("tinymce/Formatter", [
 				next = next ? 'nextSibling' : 'previousSibling';
 
 				for (node = inc ? node : node[next]; node; node = node[next]) {
-					if (node.nodeType == 1 || !isWhiteSpaceNode(node)) {
+					if (node.nodeType == 1 && !isWhiteSpaceNode(node)) {
 						return node;
 					}
 				}
@@ -16027,7 +16224,7 @@ define("tinymce/Formatter", [
 						var name = attr.nodeName.toLowerCase();
 
 						// Don't compare internal attributes or style
-						if (name.indexOf('_') !== 0 && name !== 'style') {
+						if (name.indexOf('_') !== 0 && name !== 'style' && name !== 'data-mce-style') {
 							attribs[name] = dom.getAttrib(node, name);
 						}
 					});
@@ -18166,10 +18363,10 @@ define("tinymce/EditorCommands", [
 					}
 
 					each(selection.getSelectedBlocks(), function(element) {
-						var indentStyleName;
-
 						if (element.nodeName != "LI") {
-							indentStyleName = dom.getStyle(element, 'direction', true) == 'rtl' ? 'paddingRight' : 'paddingLeft';
+							var indentStyleName = editor.getParam('indent_use_margin', false) ? 'margin' : 'padding';
+
+							indentStyleName += dom.getStyle(element, 'direction', true) == 'rtl' ? 'Right' : 'Left';
 
 							if (command == 'outdent') {
 								value = Math.max(0, parseInt(element.style[indentStyleName] || 0, 10) - intentValue);
@@ -19835,7 +20032,6 @@ define("tinymce/ui/Control", [
 
 	var Control = Class.extend({
 		Statics: {
-			controlIdLookup: {},
 			elementIdCache: elementIdCache
 		},
 
@@ -19957,10 +20153,10 @@ define("tinymce/ui/Control", [
 		 * @return {tinymce.ui.Control} Control instance or undefined.
 		 */
 		getParentCtrl: function(elm) {
-			var ctrl;
+			var ctrl, lookup = this.getRoot().controlIdLookup;
 
-			while (elm) {
-				ctrl = Control.controlIdLookup[elm.id];
+			while (elm && lookup) {
+				ctrl = lookup[elm.id];
 				if (ctrl) {
 					break;
 				}
@@ -20840,7 +21036,7 @@ define("tinymce/ui/Control", [
 
 			if (self._rendered) {
 				if (name == 'label') {
-					elm.setAttribute('aria-labeledby', self._id);
+					elm.setAttribute('aria-labelledby', self._id);
 				}
 
 				elm.setAttribute(name == 'role' ? name : 'aria-' + name, value);
@@ -20936,7 +21132,11 @@ define("tinymce/ui/Control", [
 				DomUtils.off(elm);
 			}
 
-			delete Control.controlIdLookup[self._id];
+			var lookup = self.getRoot().controlIdLookup;
+			if (lookup) {
+				delete lookup[self._id];
+			}
+
 			delete elementIdCache[self._id];
 
 			if (elm && elm.parentNode) {
@@ -20949,6 +21149,8 @@ define("tinymce/ui/Control", [
 
 				elm.parentNode.removeChild(elm);
 			}
+
+			self._rendered = false;
 
 			return self;
 		},
@@ -21039,7 +21241,12 @@ define("tinymce/ui/Control", [
 			}
 
 			// Add instance to lookup
-			Control.controlIdLookup[self._id] = self;
+			var root = self.getRoot();
+			if (!root.controlIdLookup) {
+				root.controlIdLookup = {};
+			}
+
+			root.controlIdLookup[self._id] = self;
 
 			for (var key in self._aria) {
 				self.aria(key, self._aria[key]);
@@ -21233,6 +21440,32 @@ define("tinymce/ui/Control", [
 					nativeEvents[name] = false;
 				}
 			}
+		},
+
+		getRoot: function() {
+			var ctrl = this, rootControl, parents = [];
+
+			while (ctrl) {
+				if (ctrl.rootControl) {
+					rootControl = ctrl.rootControl;
+					break;
+				}
+
+				parents.push(ctrl);
+				rootControl = ctrl;
+				ctrl = ctrl.parent();
+			}
+
+			if (!rootControl) {
+				rootControl = this;
+			}
+
+			var i = parents.length;
+			while (i--) {
+				parents[i].rootControl = rootControl;
+			}
+
+			return rootControl;
 		},
 
 		/**
@@ -21783,13 +22016,13 @@ define("tinymce/ui/Container", [
 		 * @return {String} HTML representing the control.
 		 */
 		renderHtml: function() {
-			var self = this, layout = self._layout;
+			var self = this, layout = self._layout, role = this.settings.role;
 
 			self.preRender();
 			layout.preRender(self);
 
 			return (
-				'<div id="' + self._id + '" class="' + self.classes() + '" role="' + this.settings.role + '">' +
+				'<div id="' + self._id + '" class="' + self.classes() + '"' + (role ? ' role="' + this.settings.role + '"' : '') + '>' +
 					'<div id="' + self._id + '-body" class="' + self.classes('body') + '">'+
 						(self.settings.html || '') + layout.renderHtml(self) +
 					'</div>' +
@@ -22668,13 +22901,11 @@ define("tinymce/ui/FloatPanel", [
 			if (settings.autohide) {
 				if (!documentClickHandler) {
 					documentClickHandler = function(e) {
-						var i, clickCtrl = self.getParentCtrl(e.target);
-
 						// Hide any float panel when a click is out side that float panel and the
 						// float panels direct parent for example a click on a menu button
-						i = visiblePanels.length;
+						var i = visiblePanels.length;
 						while (i--) {
-							var panel = visiblePanels[i];
+							var panel = visiblePanels[i], clickCtrl = panel.getParentCtrl(e.target);
 
 							if (panel.settings.autohide) {
 								if (clickCtrl) {
@@ -23561,7 +23792,7 @@ define("tinymce/ui/Window", [
 					focusCtrl = focusCtrl || ctrl;
 
 					// TODO: Figure out a better way
-					if (ctrl.type == 'filepicker') {
+					if (ctrl.subinput) {
 						items.push(ctrl.getEl('inp'));
 
 						if (ctrl.getEl('open')) {
@@ -24264,7 +24495,7 @@ define("tinymce/util/Quirks", [
 			});
 
 			editor.on('keypress', function(e) {
-				if (!isDefaultPrevented(e) && !selection.isCollapsed() && e.charCode) {
+				if (!isDefaultPrevented(e) && !selection.isCollapsed() && e.charCode && !VK.metaKeyPressed(e)) {
 					e.preventDefault();
 					customDelete(true);
 					editor.selection.setContent(String.fromCharCode(e.charCode));
@@ -24415,7 +24646,7 @@ define("tinymce/util/Quirks", [
 				// Case 2 IME doesn't initialize if you click the documentElement it also doesn't properly fire the focusin event
 				dom.bind(editor.getDoc(), 'mousedown', function(e) {
 					if (e.target == editor.getDoc().documentElement) {
-						editor.getWin().focus();
+						editor.getBody().focus();
 						selection.setRng(selection.getRng());
 					}
 				});
@@ -25064,6 +25295,13 @@ define("tinymce/util/Quirks", [
 			}
 		}
 
+		/**
+		 * Disables the autolinking in IE 9+ this is then re-enabled by the autolink plugin.
+		 */
+		function disableAutoUrlDetect() {
+			setEditorCommandState("AutoUrlDetect", false);
+		}
+
 		// All browsers
 		disableBackspaceIntoATable();
 		removeBlockQuoteOnBackSpace();
@@ -25105,6 +25343,7 @@ define("tinymce/util/Quirks", [
 
 		if (Env.ie) {
 			selectAll();
+			disableAutoUrlDetect();
 		}
 
 		// Gecko
@@ -25560,13 +25799,13 @@ define("tinymce/Editor", [
 	var isGecko = Env.gecko, ie = Env.ie;
 
 	function getEventTarget(editor, eventName) {
-		if (eventName == 'selectionchange' || eventName == 'drop') {
+		if (eventName == 'selectionchange') {
 			return editor.getDoc();
 		}
 
 		// Need to bind mousedown/mouseup etc to document not body in iframe mode
 		// Since the user might click on the HTML element not the BODY
-		if (!editor.inline && /^mouse|click|contextmenu/.test(eventName)) {
+		if (!editor.inline && /^mouse|click|contextmenu|drop/.test(eventName)) {
 			return editor.getDoc();
 		}
 
@@ -25745,8 +25984,8 @@ define("tinymce/Editor", [
 		self.inline = settings.inline;
 
 		// Call setup
-		self.execCallback('setup', self);
 		editorManager.fire('SetupEditor', self);
+		self.execCallback('setup', self);
 	}
 
 	Editor.prototype = {
@@ -25872,7 +26111,7 @@ define("tinymce/Editor", [
 			function loadScripts() {
 				var scriptLoader = ScriptLoader.ScriptLoader;
 
-				if (settings.language && settings.language != 'en') {
+				if (settings.language && settings.language != 'en' && !settings.language_url) {
 					settings.language_url = self.editorManager.baseURL + '/langs/' + settings.language + '.js';
 				}
 
@@ -27917,7 +28156,11 @@ define("tinymce/FocusManager", [
 					if (!isUIElement(getActiveElement()) && focusedEditor == editor) {
 						editor.fire('blur', {focusedEditor: null});
 						editorManager.focusedEditor = null;
-						editor.selection.lastFocusBookmark = null;
+
+						// Make sure selection is valid could be invalid if the editor is blured and removed before the timeout occurs
+						if (editor.selection) {
+							editor.selection.lastFocusBookmark = null;
+						}
 					}
 				}, 0);
 			});
@@ -27929,7 +28172,11 @@ define("tinymce/FocusManager", [
 			var activeEditor = editorManager.activeEditor;
 
 			if (activeEditor && e.target.ownerDocument == document) {
-				activeEditor.selection.lastFocusBookmark = createBookmark(activeEditor.lastRng);
+
+				// Check to make sure we have a valid selection
+				if (activeEditor.selection) {
+					activeEditor.selection.lastFocusBookmark = createBookmark(activeEditor.lastRng);
+				}
 
 				// Fire a blur event if the element isn't a UI element
 				if (!isUIElement(e.target) && editorManager.focusedEditor == activeEditor) {
@@ -28007,7 +28254,7 @@ define("tinymce/EditorManager", [
 		 * @property minorVersion
 		 * @type String
 		 */
-		minorVersion : '0.12',
+		minorVersion : '0.14',
 
 		/**
 		 * Release date of TinyMCE build.
@@ -28015,7 +28262,7 @@ define("tinymce/EditorManager", [
 		 * @property releaseDate
 		 * @type String
 		 */
-		releaseDate: '2013-12-18',
+		releaseDate: '2014-01-30',
 
 		/**
 		 * Collection of editor instances.
@@ -30023,7 +30270,7 @@ define("tinymce/ui/Checkbox", [
 			var self = this, id = self._id, prefix = self.classPrefix;
 
 			return (
-				'<div id="' + id + '" class="' + self.classes() + '" unselectable="on" aria-labeledby="' + id + '-al" tabindex="-1">' +
+				'<div id="' + id + '" class="' + self.classes() + '" unselectable="on" aria-labelledby="' + id + '-al" tabindex="-1">' +
 					'<i class="' + prefix + 'ico ' + prefix + 'i-checkbox"></i>' +
 					'<span id="' + id +'-al" class="' + prefix + 'label">' + self.encode(self._text) + '</span>' +
 				'</div>'
@@ -30258,8 +30505,9 @@ define("tinymce/ui/ColorButton", [
  */
 define("tinymce/ui/ComboBox", [
 	"tinymce/ui/Widget",
+	"tinymce/ui/Factory",
 	"tinymce/ui/DomUtils"
-], function(Widget, DomUtils) {
+], function(Widget, Factory, DomUtils) {
 	"use strict";
 
 	return Widget.extend({
@@ -30275,6 +30523,14 @@ define("tinymce/ui/ComboBox", [
 
 			self._super(settings);
 			self.addClass('combobox');
+			self.subinput = true;
+
+			settings = self.settings;
+			settings.menu = settings.menu || settings.values;
+
+			if (settings.menu) {
+				settings.icon = 'caret';
+			}
 
 			self.on('click', function(e) {
 				var elm = e.target;
@@ -30282,6 +30538,14 @@ define("tinymce/ui/ComboBox", [
 				while (elm) {
 					if (elm.id && elm.id.indexOf('-open') != -1) {
 						self.fire('action');
+
+						if (settings.menu) {
+							self.showMenu();
+
+							if (e.keyboard) {
+								self.menu.items()[0].focus();
+							}
+						}
 					}
 
 					elm = elm.parentNode;
@@ -30328,6 +30592,55 @@ define("tinymce/ui/ComboBox", [
 					}
 				});
 			}
+		},
+
+		showMenu: function() {
+			var self = this, settings = self.settings, menu;
+
+			if (!self.menu) {
+				menu = settings.menu || [];
+
+				// Is menu array then auto constuct menu control
+				if (menu.length) {
+					menu = {
+						type: 'menu',
+						items: menu
+					};
+				} else {
+					menu.type = menu.type || 'menu';
+				}
+
+				self.menu = Factory.create(menu).parent(self).renderTo(self.getContainerElm());
+				self.fire('createmenu');
+				self.menu.reflow();
+				self.menu.on('cancel', function(e) {
+					if (e.control === self.menu) {
+						self.focus();
+					}
+				});
+
+				self.menu.on('show hide', function(e) {
+					e.control.items().each(function(ctrl) {
+						ctrl.active(ctrl.value() == self.value());
+					});
+				}).fire('show');
+
+				self.menu.on('select', function(e) {
+					self.value(e.control.value());
+				});
+
+				self.on('focusin', function(e) {
+					if (e.target.tagName == 'INPUT') {
+						self.menu.hide();
+					}
+				});
+
+				self.aria('expanded', true);
+			}
+
+			self.menu.show();
+			self.menu.layoutRect({w: self.layoutRect().w});
+			self.menu.moveRel(self.getEl(), self.isRtl() ? ['br-tr', 'tr-br'] : ['bl-tl', 'tl-bl']);
 		},
 
 		/**
@@ -30451,16 +30764,40 @@ define("tinymce/ui/ComboBox", [
 		renderHtml: function() {
 			var self = this, id = self._id, settings = self.settings, prefix = self.classPrefix;
 			var value = settings.value || settings.placeholder || '';
-			var icon, text, openBtnHtml = '';
+			var icon, text, openBtnHtml = '', extraAttrs = '';
 
-			icon = settings.icon ? prefix + 'ico ' + prefix + 'i-' + settings.icon : '';
+			if ("spellcheck" in settings) {
+				extraAttrs += ' spellcheck="' + settings.spellcheck + '"';
+			}
+
+			if (settings.maxLength) {
+				extraAttrs += ' maxlength="' + settings.maxLength + '"';
+			}
+
+			if (settings.size) {
+				extraAttrs += ' size="' + settings.size + '"';
+			}
+
+			if (settings.subtype) {
+				extraAttrs += ' type="' + settings.subtype + '"';
+			}
+
+			if (self.disabled()) {
+				extraAttrs += ' disabled="disabled"';
+			}
+
+			icon = settings.icon;
+			if (icon && icon != 'caret') {
+				icon = prefix + 'ico ' + prefix + 'i-' + settings.icon;
+			}
+
 			text = self._text;
 
 			if (icon || text) {
 				openBtnHtml = (
 					'<div id="' + id + '-open" class="' + prefix + 'btn ' + prefix + 'open" tabIndex="-1">' +
 						'<button id="' + id + '-action" type="button" hidefocus tabindex="-1">' +
-							(icon ? '<i class="' + icon + '"></i>' : '<i class="' + prefix + 'caret"></i>') +
+							(icon != 'caret' ? '<i class="' + icon + '"></i>' : '<i class="' + prefix + 'caret"></i>') +
 							(text ? (icon ? ' ' : '') + text : '') +
 						'</button>' +
 					'</div>'
@@ -30472,7 +30809,7 @@ define("tinymce/ui/ComboBox", [
 			return (
 				'<div id="' + id + '" class="' + self.classes() + '">' +
 					'<input id="' + id + '-inp" class="' + prefix + 'textbox ' + prefix + 'placeholder" value="' +
-					value + '" hidefocus="true"' + (self.disabled() ? ' disabled="disabled"' : '') + '>' +
+					value + '" hidefocus="true"' + extraAttrs + '>' +
 					openBtnHtml +
 				'</div>'
 			);
@@ -30844,7 +31181,7 @@ define("tinymce/ui/Form", [
 						autoResize: "overflow",
 						defaults: {flex: 1},
 						items: [
-							{type: 'label', text: label, flex: 0, forId: ctrl._id}
+							{type: 'label', text: label, flex: 0, forId: ctrl._id, disabled: ctrl.disabled()}
 						]
 					});
 
@@ -31457,7 +31794,7 @@ define("tinymce/ui/FormatControls", [
 			// Default preview
 			if (!previewStyles) {
 				previewStyles = 'font-family font-size font-weight font-style text-decoration ' +
-					'text-transform color background-color border border-radius';
+					'text-transform color background-color border border-radius outline text-shadow';
 			}
 
 			// Removes any variables since these can't be previewed
@@ -31679,17 +32016,31 @@ define("tinymce/ui/FormatControls", [
 				return menu;
 			}
 
+			function createStylesMenu() {
+				var menu;
+
+				if (editor.settings.style_formats_merge) {
+					if (editor.settings.style_formats) {
+						menu = createMenu(defaultStyleFormats.concat(editor.settings.style_formats));
+					} else {
+						menu = createMenu(defaultStyleFormats);
+					}
+				} else {
+					menu = createMenu(editor.settings.style_formats || defaultStyleFormats);
+				}
+
+				return menu;
+			}
+
 			editor.on('init', function() {
 				each(newFormats, function(format) {
 					editor.formatter.register(format.name, format);
 				});
 			});
 
-			var menu = createMenu(editor.settings.style_formats || defaultStyleFormats);
-
-			menu = {
+			return {
 				type: 'menu',
-				items: menu,
+				items: createStylesMenu(),
 				onPostRender: function(e) {
 					editor.fire('renderFormatsMenu', {control: e.control});
 				},
@@ -31720,8 +32071,6 @@ define("tinymce/ui/FormatControls", [
 					}
 				}
 			};
-
-			return menu;
 		}
 
 		formatMenu = createFormatMenu();
@@ -31781,7 +32130,7 @@ define("tinymce/ui/FormatControls", [
 
 		// Simple command controls with format state
 		each({
-			blockquote: ['Toggle blockquote', 'mceBlockQuote'],
+			blockquote: ['Blockquote', 'mceBlockQuote'],
 			numlist: ['Numbered list', 'InsertOrderedList'],
 			bullist: ['Bullet list', 'InsertUnorderedList'],
 			subscript: ['Subscript', 'Subscript'],
@@ -32476,7 +32825,7 @@ define("tinymce/ui/Label", [
 			var self = this, forId = self.settings.forId;
 
 			return (
-				'<label id="' + self._id + '" class="' + self.classes() + '"' + (forId ? ' for="' + forId : '') + '">' +
+				'<label id="' + self._id + '" class="' + self.classes() + '"' + (forId ? ' for="' + forId +'"' : '') + '>' +
 					self.encode(self._text) +
 				'</label>'
 			);
@@ -33478,7 +33827,7 @@ define("tinymce/ui/ResizeHandle", [
 					self.fire('Resize', e);
 				},
 
-				end: function() {
+				stop: function() {
 					self.fire('ResizeEnd');
 				}
 			});
@@ -34152,5 +34501,5 @@ define("tinymce/ui/Throbber", [
 	};
 });
 
-expose(["tinymce/dom/EventUtils","tinymce/dom/Sizzle","tinymce/dom/DomQuery","tinymce/html/Styles","tinymce/dom/TreeWalker","tinymce/util/Tools","tinymce/dom/Range","tinymce/html/Entities","tinymce/Env","tinymce/dom/DOMUtils","tinymce/dom/ScriptLoader","tinymce/AddOnManager","tinymce/html/Node","tinymce/html/Schema","tinymce/html/SaxParser","tinymce/html/DomParser","tinymce/html/Writer","tinymce/html/Serializer","tinymce/dom/Serializer","tinymce/dom/TridentSelection","tinymce/util/VK","tinymce/dom/ControlSelection","tinymce/dom/Selection","tinymce/dom/RangeUtils","tinymce/Formatter","tinymce/UndoManager","tinymce/EnterKey","tinymce/ForceBlocks","tinymce/EditorCommands","tinymce/util/URI","tinymce/util/Class","tinymce/ui/Selector","tinymce/ui/Collection","tinymce/ui/DomUtils","tinymce/ui/Control","tinymce/ui/Factory","tinymce/ui/Container","tinymce/ui/DragHelper","tinymce/ui/Scrollable","tinymce/ui/Panel","tinymce/ui/Movable","tinymce/ui/Resizable","tinymce/ui/FloatPanel","tinymce/ui/KeyboardNavigation","tinymce/ui/Window","tinymce/ui/MessageBox","tinymce/WindowManager","tinymce/util/Quirks","tinymce/util/Observable","tinymce/Shortcuts","tinymce/Editor","tinymce/util/I18n","tinymce/FocusManager","tinymce/EditorManager","tinymce/LegacyInput","tinymce/util/XHR","tinymce/util/JSON","tinymce/util/JSONRequest","tinymce/util/JSONP","tinymce/util/LocalStorage","tinymce/Compat","tinymce/ui/Layout","tinymce/ui/AbsoluteLayout","tinymce/ui/Tooltip","tinymce/ui/Widget","tinymce/ui/Button","tinymce/ui/ButtonGroup","tinymce/ui/Checkbox","tinymce/ui/PanelButton","tinymce/ui/ColorButton","tinymce/ui/ComboBox","tinymce/ui/Path","tinymce/ui/ElementPath","tinymce/ui/FormItem","tinymce/ui/Form","tinymce/ui/FieldSet","tinymce/ui/FilePicker","tinymce/ui/FitLayout","tinymce/ui/FlexLayout","tinymce/ui/FlowLayout","tinymce/ui/FormatControls","tinymce/ui/GridLayout","tinymce/ui/Iframe","tinymce/ui/Label","tinymce/ui/Toolbar","tinymce/ui/MenuBar","tinymce/ui/MenuButton","tinymce/ui/ListBox","tinymce/ui/MenuItem","tinymce/ui/Menu","tinymce/ui/Radio","tinymce/ui/ResizeHandle","tinymce/ui/Spacer","tinymce/ui/SplitButton","tinymce/ui/StackLayout","tinymce/ui/TabPanel","tinymce/ui/TextBox","tinymce/ui/Throbber"]);
+expose(["tinymce/dom/EventUtils","tinymce/dom/Sizzle","tinymce/dom/DomQuery","tinymce/html/Styles","tinymce/dom/TreeWalker","tinymce/util/Tools","tinymce/dom/Range","tinymce/html/Entities","tinymce/Env","tinymce/dom/StyleSheetLoader","tinymce/dom/DOMUtils","tinymce/dom/ScriptLoader","tinymce/AddOnManager","tinymce/html/Node","tinymce/html/Schema","tinymce/html/SaxParser","tinymce/html/DomParser","tinymce/html/Writer","tinymce/html/Serializer","tinymce/dom/Serializer","tinymce/dom/TridentSelection","tinymce/util/VK","tinymce/dom/ControlSelection","tinymce/dom/Selection","tinymce/dom/RangeUtils","tinymce/Formatter","tinymce/UndoManager","tinymce/EnterKey","tinymce/ForceBlocks","tinymce/EditorCommands","tinymce/util/URI","tinymce/util/Class","tinymce/ui/Selector","tinymce/ui/Collection","tinymce/ui/DomUtils","tinymce/ui/Control","tinymce/ui/Factory","tinymce/ui/Container","tinymce/ui/DragHelper","tinymce/ui/Scrollable","tinymce/ui/Panel","tinymce/ui/Movable","tinymce/ui/Resizable","tinymce/ui/FloatPanel","tinymce/ui/KeyboardNavigation","tinymce/ui/Window","tinymce/ui/MessageBox","tinymce/WindowManager","tinymce/util/Quirks","tinymce/util/Observable","tinymce/Shortcuts","tinymce/Editor","tinymce/util/I18n","tinymce/FocusManager","tinymce/EditorManager","tinymce/LegacyInput","tinymce/util/XHR","tinymce/util/JSON","tinymce/util/JSONRequest","tinymce/util/JSONP","tinymce/util/LocalStorage","tinymce/Compat","tinymce/ui/Layout","tinymce/ui/AbsoluteLayout","tinymce/ui/Tooltip","tinymce/ui/Widget","tinymce/ui/Button","tinymce/ui/ButtonGroup","tinymce/ui/Checkbox","tinymce/ui/PanelButton","tinymce/ui/ColorButton","tinymce/ui/ComboBox","tinymce/ui/Path","tinymce/ui/ElementPath","tinymce/ui/FormItem","tinymce/ui/Form","tinymce/ui/FieldSet","tinymce/ui/FilePicker","tinymce/ui/FitLayout","tinymce/ui/FlexLayout","tinymce/ui/FlowLayout","tinymce/ui/FormatControls","tinymce/ui/GridLayout","tinymce/ui/Iframe","tinymce/ui/Label","tinymce/ui/Toolbar","tinymce/ui/MenuBar","tinymce/ui/MenuButton","tinymce/ui/ListBox","tinymce/ui/MenuItem","tinymce/ui/Menu","tinymce/ui/Radio","tinymce/ui/ResizeHandle","tinymce/ui/Spacer","tinymce/ui/SplitButton","tinymce/ui/StackLayout","tinymce/ui/TabPanel","tinymce/ui/TextBox","tinymce/ui/Throbber"]);
 })(this);

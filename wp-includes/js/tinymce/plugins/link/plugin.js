@@ -30,7 +30,7 @@ tinymce.PluginManager.add('link', function(editor) {
 
 	function showDialog(linkList) {
 		var data = {}, selection = editor.selection, dom = editor.dom, selectedElm, anchorElm, initialText;
-		var win, linkListCtrl, relListCtrl, targetListCtrl;
+		var win, textListCtrl, linkListCtrl, relListCtrl, targetListCtrl;
 
 		function linkListChangeHandler(e) {
 			var textCtrl = win.find('#text');
@@ -71,9 +71,10 @@ tinymce.PluginManager.add('link', function(editor) {
 		}
 
 		function buildTargetList(targetValue) {
-			var targetListItems = [{text: 'None', value: ''}];
+			var targetListItems = [];
 
 			if (!editor.settings.target_list) {
+				targetListItems.push({text: 'None', value: ''});
 				targetListItems.push({text: 'New window', value: '_blank'});
 			}
 
@@ -121,7 +122,7 @@ tinymce.PluginManager.add('link', function(editor) {
 				linkListCtrl.value(editor.convertURL(this.value(), 'href'));
 			}
 
-			if (!initialText && data.text.length === 0) {
+			if (!initialText && data.text.length === 0 && onlyText) {
 				this.parent().parent().find('#text')[0].value(this.value());
 			}
 		}
@@ -129,13 +130,38 @@ tinymce.PluginManager.add('link', function(editor) {
 		selectedElm = selection.getNode();
 		anchorElm = dom.getParent(selectedElm, 'a[href]');
 
+		var onlyText = true;
+		if (/</.test(selection.getContent())) {
+			onlyText = false;
+		} else if (anchorElm) {
+			var nodes = anchorElm.childNodes, i;
+			if (nodes.length === 0) {
+				onlyText = false;
+			} else {
+				for (i = nodes.length - 1; i >= 0; i--) {
+					if (nodes[i].nodeType != 3) {
+						onlyText = false;
+						break;
+					}
+				}
+			}
+		}
+
 		data.text = initialText = anchorElm ? (anchorElm.innerText || anchorElm.textContent) : selection.getContent({format: 'text'});
 		data.href = anchorElm ? dom.getAttrib(anchorElm, 'href') : '';
-		data.target = anchorElm ? dom.getAttrib(anchorElm, 'target') : '';
+		data.target = anchorElm ? dom.getAttrib(anchorElm, 'target') : (editor.settings.default_link_target || '');
 		data.rel = anchorElm ? dom.getAttrib(anchorElm, 'rel') : '';
 
-		if (selectedElm.nodeName == "IMG") {
-			data.text = initialText = " ";
+		if (onlyText) {
+			textListCtrl = {
+				name: 'text',
+				type: 'textbox',
+				size: 40,
+				label: 'Text to display',
+				onchange: function() {
+					data.text = this.value();
+				}
+			};
 		}
 
 		if (linkList) {
@@ -183,9 +209,7 @@ tinymce.PluginManager.add('link', function(editor) {
 					onchange: urlChange,
 					onkeyup: urlChange
 				},
-				{name: 'text', type: 'textbox', size: 40, label: 'Text to display', onchange: function() {
-					data.text = this.value();
-				}},
+				textListCtrl,
 				buildAnchorListControl(data.href),
 				linkListCtrl,
 				relListCtrl,
@@ -207,31 +231,35 @@ tinymce.PluginManager.add('link', function(editor) {
 				}
 
 				function insertLink() {
-					if (data.text != initialText) {
-						if (anchorElm) {
-							editor.focus();
-							anchorElm.innerHTML = data.text;
+					if (anchorElm) {
+						editor.focus();
 
-							dom.setAttribs(anchorElm, {
-								href: href,
-								target: data.target ? data.target : null,
-								rel: data.rel ? data.rel : null
-							});
+						if (onlyText && data.text != initialText) {
+							anchorElm.innerText = data.text;
+						}
 
-							selection.select(anchorElm);
-						} else {
+						dom.setAttribs(anchorElm, {
+							href: href,
+							target: data.target ? data.target : null,
+							rel: data.rel ? data.rel : null
+						});
+
+						selection.select(anchorElm);
+						editor.undoManager.add();
+					} else {
+						if (onlyText) {
 							editor.insertContent(dom.createHTML('a', {
 								href: href,
 								target: data.target ? data.target : null,
 								rel: data.rel ? data.rel : null
-							}, data.text));
+							}, dom.encode(data.text)));
+						} else {
+							editor.execCommand('mceInsertLink', false, {
+								href: href,
+								target: data.target,
+								rel: data.rel ? data.rel : null
+							});
 						}
-					} else {
-						editor.execCommand('mceInsertLink', false, {
-							href: href,
-							target: data.target,
-							rel: data.rel ? data.rel : null
-						});
 					}
 				}
 

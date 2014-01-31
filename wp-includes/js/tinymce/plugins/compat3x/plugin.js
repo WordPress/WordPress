@@ -21,6 +21,8 @@
 (function(tinymce) {
 	var reported;
 
+	function noop() {}
+
 	function log(apiCall) {
 		if (!reported && window && window.console) {
 			reported = true;
@@ -31,11 +33,11 @@
 	function Dispatcher(target, newEventName, argsMap, defaultScope) {
 		target = target || this;
 
-		if ( ! newEventName ) {
-			this.add = this.addToTop = this.remove = this.dispatch = function(){};
+		if (!newEventName) {
+			this.add = this.addToTop = this.remove = this.dispatch = noop;
 			return;
 		}
-		
+
 		this.add = function(callback, scope) {
 			log('<target>.on' + newEventName + ".add(..)");
 
@@ -95,8 +97,6 @@
 	tinymce.onAddEditor = new Dispatcher(tinymce, "AddEditor", "editor");
 	tinymce.onRemoveEditor = new Dispatcher(tinymce, "RemoveEditor", "editor");
 
-	function noop(){}
-
 	tinymce.util.Cookie = {
 		get: noop, getHash: noop, remove: noop, set: noop, setHash: noop
 	};
@@ -139,7 +139,7 @@
 				return cmNoop();
 			}
 
-			tinymce.each( methods.split(' '), function( method ) {
+			tinymce.each(methods.split(' '), function(method) {
 				obj[method] = _noop;
 			});
 

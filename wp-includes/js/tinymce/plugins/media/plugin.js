@@ -112,9 +112,9 @@ tinymce.PluginManager.add('media', function(editor, url) {
 							align: 'center',
 							spacing: 5,
 							items: [
-								{name: 'width', type: 'textbox', maxLength: 3, size: 3, onchange: recalcSize},
+								{name: 'width', type: 'textbox', maxLength: 5, size: 3, onchange: recalcSize},
 								{type: 'label', text: 'x'},
-								{name: 'height', type: 'textbox', maxLength: 3, size: 3, onchange: recalcSize},
+								{name: 'height', type: 'textbox', maxLength: 5, size: 3, onchange: recalcSize},
 								{name: 'constrain', type: 'checkbox', checked: true, text: 'Constrain proportions'}
 							]
 						}
@@ -197,8 +197,8 @@ tinymce.PluginManager.add('media', function(editor, url) {
 
 					data.source1 = url;
 					data.type = pattern.type;
-					data.width = pattern.w;
-					data.height = pattern.h;
+					data.width = data.width || pattern.w;
+					data.height = data.height || pattern.h;
 				}
 			});
 

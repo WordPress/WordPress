@@ -340,7 +340,7 @@ tinymce.ThemeManager.add('modern', function(editor) {
 	 *
 	 * @return {Object} Name/value object with theme data.
 	 */
-	function renderInlineUI() {
+	function renderInlineUI(args) {
 		var panel, inlineToolbarContainer;
 
 		if (settings.fixed_toolbar_container) {
@@ -423,11 +423,21 @@ tinymce.ThemeManager.add('modern', function(editor) {
 			editor.on('nodeChange', reposition);
 			editor.on('activate', show);
 			editor.on('deactivate', hide);
+
+			editor.nodeChanged();
 		}
 
 		settings.content_editable = true;
 
-		editor.on('focus', render);
+		editor.on('focus', function() {
+			// Render only when the CSS file has been loaded
+			if (args.skinUiCss) {
+				tinymce.DOM.styleSheetLoader.load(args.skinUiCss, render, render);
+			} else {
+				render();
+			}
+		});
+
 		editor.on('blur', hide);
 
 		// Remove the panel when the editor is removed
@@ -437,6 +447,11 @@ tinymce.ThemeManager.add('modern', function(editor) {
 				panel = null;
 			}
 		});
+
+		// Preload skin css
+		if (args.skinUiCss) {
+			tinymce.DOM.styleSheetLoader.load(args.skinUiCss);
+		}
 
 		return {};
 	}
@@ -449,6 +464,10 @@ tinymce.ThemeManager.add('modern', function(editor) {
 	 */
 	function renderIframeUI(args) {
 		var panel, resizeHandleCtrl, startSize;
+
+		if (args.skinUiCss) {
+			tinymce.DOM.loadCSS(args.skinUiCss);
+		}
 
 		// Basic UI layout
 		panel = self.panel = Factory.create({
@@ -543,9 +562,9 @@ tinymce.ThemeManager.add('modern', function(editor) {
 			// Load special skin for IE7
 			// TODO: Remove this when we drop IE7 support
 			if (tinymce.Env.documentMode <= 7) {
-				tinymce.DOM.loadCSS(skinUrl + '/skin.ie7.min.css');
+				args.skinUiCss = skinUrl + '/skin.ie7.min.css';
 			} else {
-				tinymce.DOM.loadCSS(skinUrl + '/skin.min.css');
+				args.skinUiCss = skinUrl + '/skin.min.css';
 			}
 
 			// Load content.min.css or content.inline.min.css
@@ -563,12 +582,10 @@ tinymce.ThemeManager.add('modern', function(editor) {
 			}
 		});
 
-		// Render inline UI
 		if (settings.inline) {
 			return renderInlineUI(args);
 		}
 
-		// Render iframe UI
 		return renderIframeUI(args);
 	};
 
