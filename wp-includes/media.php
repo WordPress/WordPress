@@ -1147,11 +1147,16 @@ function wp_video_shortcode( $attr, $content = '' ) {
 
 	$width = $w;
 
+	$yt_pattern = '#^https?://(:?www\.)?(:?youtube\.com/watch|youtu\.be/)#';
+
 	$primary = false;
 	if ( ! empty( $src ) ) {
-		$type = wp_check_filetype( $src, wp_get_mime_types() );
-		if ( ! in_array( strtolower( $type['ext'] ), $default_types ) )
-			return sprintf( '<a class="wp-embedded-video" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
+		if ( ! preg_match( $yt_pattern, $src ) ) {
+			$type = wp_check_filetype( $src, wp_get_mime_types() );
+			if ( ! in_array( strtolower( $type['ext'] ), $default_types ) ) {
+				return sprintf( '<a class="wp-embedded-video" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
+			}
+		}
 		$primary = true;
 		array_unshift( $default_types, 'src' );
 	} else {
@@ -1216,10 +1221,15 @@ function wp_video_shortcode( $attr, $content = '' ) {
 		if ( ! empty( $$fallback ) ) {
 			if ( empty( $fileurl ) )
 				$fileurl = $$fallback;
-			$type = wp_check_filetype( $$fallback, wp_get_mime_types() );
-			// m4v sometimes shows up as video/mpeg which collides with mp4
-			if ( 'm4v' === $type['ext'] )
-				$type['type'] = 'video/m4v';
+
+			if ( 'src' === $fallback && preg_match( $yt_pattern, $src ) ) {
+				$type = array( 'type' => 'video/youtube' );
+			} else {
+				$type = wp_check_filetype( $$fallback, wp_get_mime_types() );
+				// m4v sometimes shows up as video/mpeg which collides with mp4
+				if ( 'm4v' === $type['ext'] )
+					$type['type'] = 'video/m4v';
+			}
 			$html .= sprintf( $source, $type['type'], esc_url( $$fallback ) );
 		}
 	}
