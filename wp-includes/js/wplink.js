@@ -165,7 +165,7 @@ var wpLink;
 		},
 
 		htmlUpdate: function() {
-			var attrs, html, begin, end, cursor,
+			var attrs, html, begin, end, cursor, title,
 				textarea = wpLink.textarea;
 
 			if ( ! textarea )
@@ -181,7 +181,8 @@ var wpLink;
 			html = '<a href="' + attrs.href + '"';
 
 			if ( attrs.title )
-				html += ' title="' + attrs.title + '"';
+				title = attrs.title.replace( /</g, '&lt;' ).replace( />/g, '&gt;' ).replace( /"/g, '&quot;' );
+				html += ' title="' + title + '"';
 			if ( attrs.target )
 				html += ' target="' + attrs.target + '"';
 
