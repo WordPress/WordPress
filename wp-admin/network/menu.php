@@ -58,6 +58,6 @@ unset($update_data);
 $submenu[ 'upgrade.php' ][10] = array( __( 'Available Updates' ), 'update_core', 'update-core.php' );
 $submenu[ 'upgrade.php' ][15] = array( __( 'Upgrade Network' ), 'manage_network', 'upgrade.php' );
 
-$menu[99] = array( '', 'read', 'separator-last', '', 'wp-menu-separator-last' );
+$menu[99] = array( '', 'exist', 'separator-last', '', 'wp-menu-separator' );
 
 require_once(ABSPATH . 'wp-admin/includes/menu.php');
