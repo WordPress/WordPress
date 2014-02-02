@@ -455,6 +455,15 @@ i.mce-i-wp_page:before {
 	background: #ddd;
 }
 
+.quicktags-toolbar input:focus {
+	border-color: #777;
+	outline: 0;
+}
+
+.quicktags-toolbar input:active {
+	border-color: #aaa;
+}
+
 .quicktags-toolbar input[value="link"] {
 	text-decoration: underline;
 }
