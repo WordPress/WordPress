@@ -1194,7 +1194,7 @@ function is_blog_installed() {
  * @param string $actionurl URL to add nonce action.
  * @param string $action Optional. Nonce action name.
  * @param string $name Optional. Nonce name.
- * @return string URL with nonce action added.
+ * @return string Escaped URL with nonce action added.
  */
 function wp_nonce_url( $actionurl, $action = -1, $name = '_wpnonce' ) {
 	$actionurl = str_replace( '&amp;', '&', $actionurl );
