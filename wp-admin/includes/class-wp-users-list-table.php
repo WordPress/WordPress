@@ -35,7 +35,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	function prepare_items() {
 		global $role, $usersearch;
 
-		$usersearch = isset( $_REQUEST['s'] ) ? trim( $_REQUEST['s'] ) : '';
+		$usersearch = isset( $_REQUEST['s'] ) ? wp_unslash( trim( $_REQUEST['s'] ) ) : '';
 
 		$role = isset( $_REQUEST['role'] ) ? $_REQUEST['role'] : '';
 
