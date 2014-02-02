@@ -235,7 +235,7 @@ if ( ! IS_PROFILE_PAGE ) {
 <?php endif; ?>
 <p>
 <input type="hidden" name="from" value="profile" />
-<input type="hidden" name="checkuser_id" value="<?php echo $user_ID ?>" />
+<input type="hidden" name="checkuser_id" value="<?php echo get_current_user_id(); ?>" />
 </p>
 
 <h3><?php _e('Personal Options'); ?></h3>
