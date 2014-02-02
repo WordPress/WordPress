@@ -384,6 +384,10 @@ jQuery(document).ready( function($) {
 
 	postboxes.add_postbox_toggles(pagenow);
 
+	// Clear the window name. Otherwise if this is a former preview window where the user navigated to edit another post,
+	// and the first post is still being edited, clicking Preview there will use this window to show the preview.
+	window.name = '';
+
 	// Post locks: contain focus inside the dialog. If the dialog is shown, focus the first item.
 	$('#post-lock-dialog .notification-dialog').on( 'keydown', function(e) {
 		if ( e.which != 9 )
