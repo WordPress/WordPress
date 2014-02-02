@@ -510,6 +510,16 @@ class wpdb {
 	public $is_mysql = null;
 
 	/**
+	 * A list of incompatible SQL modes.
+	 *
+	 * @since 3.9.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $incompatible_modes = array( 'NO_ZERO_DATE', 'ONLY_FULL_GROUP_BY',
+		'STRICT_TRANS_TABLES', 'STRICT_ALL_TABLES', 'TRADITIONAL' );
+
+	/**
 	 * Connects to the database server and selects a database
 	 *
 	 * PHP5 style constructor for compatibility with PHP5. Does
@@ -646,6 +656,56 @@ class wpdb {
 				mysql_query( $query, $dbh );
 			}
 		}
+	}
+
+	/**
+	 * Change the current SQL mode, and ensure its WordPress compatibility.
+	 *
+	 * If no modes are passed, it will ensure the current MySQL server
+	 * modes are compatible.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param array $modes Optional. A list of SQL modes to set.
+	 */
+	function set_sql_mode( $modes = array() ) {
+		if ( empty( $modes ) ) {
+			$res = mysql_query( 'SELECT @@SESSION.sql_mode;', $this->dbh );
+			if ( empty( $res ) ) {
+				return;
+			}
+
+			$modes_str = mysql_result( $res, 0 );
+
+			if ( empty( $modes_str ) ) {
+				return;
+			}
+
+			$modes = explode( ',', $modes_str );
+		}
+
+		$modes = array_change_key_case( $modes, CASE_UPPER );
+
+		/**
+		 * Filter the list of incompatible SQL modes to exclude.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @see wpdb::$incompatible_modes
+		 *
+		 * @param array $incompatible_modes An array of incompatible modes
+		 */
+		$incompatible_modes = (array) apply_filters( 'incompatible_sql_modes', $this->incompatible_modes );
+
+		foreach( $modes as $i => $mode ) {
+			if ( in_array( $mode, $incompatible_modes ) ) {
+				unset( $modes[ $i ] );
+			}
+		}
+
+		$modes_str = implode( ',', $modes );
+
+		mysql_query( "SET SESSION sql_mode='$modes_str';", $this->dbh );
 	}
 
 	/**
@@ -1176,6 +1236,8 @@ class wpdb {
 		}
 
 		$this->set_charset( $this->dbh );
+
+		$this->set_sql_mode();
 
 		$this->ready = true;
 
