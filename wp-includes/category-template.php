@@ -371,7 +371,15 @@ function wp_dropdown_categories( $args = '' ) {
 	if ( ! $r['hide_if_empty'] || ! empty($categories) )
 		$output .= "</select>\n";
 
-	$output = apply_filters( 'wp_dropdown_cats', $output );
+	/**
+	 * Filter the result of wp_dropdown_categories().
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param $output HTML content.
+	 * @param $r      Arguments used to build the dropdown.
+	 */
+	$output = apply_filters( 'wp_dropdown_cats', $output, $r );
 
 	if ( $echo )
 		echo $output;
