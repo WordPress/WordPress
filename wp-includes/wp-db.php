@@ -1053,6 +1053,10 @@ class wpdb {
 		if ( is_null( $query ) )
 			return;
 
+		if ( strpos( $query, '%' ) === false ) {
+			_doing_it_wrong( 'wpdb::prepare', sprintf( __( 'The query argument of %s must have a placeholder.' ), 'wpdb::prepare()' ), '3.9' );
+		}
+
 		$args = func_get_args();
 		array_shift( $args );
 		// If args were passed as an array (as in vsprintf), move them up
