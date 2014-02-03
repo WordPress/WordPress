@@ -180,11 +180,14 @@ var wpLink;
 			// Build HTML
 			html = '<a href="' + attrs.href + '"';
 
-			if ( attrs.title )
+			if ( attrs.title ) {
 				title = attrs.title.replace( /</g, '&lt;' ).replace( />/g, '&gt;' ).replace( /"/g, '&quot;' );
 				html += ' title="' + title + '"';
-			if ( attrs.target )
+			}
+
+			if ( attrs.target ) {
 				html += ' target="' + attrs.target + '"';
+			}
 
 			html += '>';
 
