@@ -2347,10 +2347,9 @@
 		 */
 		keydown: function( event ) {
 			// Close the modal when escape is pressed.
-			if ( 27 === event.which ) {
-				event.preventDefault();
+			if ( 27 === event.which && this.$el.is(':visible') ) {
 				this.escape();
-				return;
+				event.stopImmediatePropagation();
 			}
 		}
 	});

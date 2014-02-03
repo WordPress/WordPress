@@ -304,6 +304,11 @@ var wpLink;
 		keydown: function( event ) {
 			var fn, key = $.ui.keyCode;
 
+			if ( key.ESCAPE === event.which ) {
+				wpLink.close();
+				event.stopImmediatePropagation();
+			}
+
 			if ( event.which !== key.UP && event.which !== key.DOWN ) {
 				return;
 			}
@@ -317,13 +322,6 @@ var wpLink;
 
 		keyup: function( event ) {
 			var key = $.ui.keyCode;
-
-			if ( event.which === key.ESCAPE ) {
-				event.stopImmediatePropagation();
-				if ( ! $(document).triggerHandler( 'wp_CloseOnEscape', [{ event: event, what: 'wplink', cb: wpLink.close }] ) )
-					wpLink.close();
-				return false;
-			}
 
 			if ( event.which === key.UP || event.which === key.DOWN ) {
 				clearInterval( wpLink.keyInterval );

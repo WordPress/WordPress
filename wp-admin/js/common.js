@@ -701,15 +701,4 @@ $(document).ready( function() {
 	}
 })();
 
-// internal use
-$(document).bind( 'wp_CloseOnEscape', function( e, data ) {
-	if ( typeof(data.cb) != 'function' )
-		return;
-
-	if ( typeof(data.condition) != 'function' || data.condition() )
-		data.cb();
-
-	return true;
-});
-
 }( jQuery, window ));

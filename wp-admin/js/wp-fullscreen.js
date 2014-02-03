@@ -477,23 +477,6 @@
 					a = e.altKey; // Alt key for Win & Linux
 				}
 
-				if ( 27 == c ) { // Esc
-					data = {
-						event: e,
-						what: 'dfw',
-						cb: api.off,
-						condition: function(){
-							if ( $('#TB_window').is(':visible') || $('.wp-dialog').is(':visible') )
-								return false;
-							return true;
-						}
-					};
-
-					if ( ! $(document).triggerHandler( 'wp_CloseOnEscape', [data] ) ) {
-						api.off();
-					}
-				}
-
 				if ( a && (61 == c || 107 == c || 187 == c) ) { // +
 					api.dfwWidth( 25 );
 					e.preventDefault();
@@ -507,6 +490,13 @@
 				if ( a && 48 == c ) { // 0
 					api.dfwWidth( 0 );
 					e.preventDefault();
+				}
+			});
+
+			$document.on( 'keydown.wp-fullscreen', function( event ) {
+				if ( 27 === event.which && s.visible ) { // Esc
+					api.off();
+					event.stopImmediatePropagation();
 				}
 			});
 
