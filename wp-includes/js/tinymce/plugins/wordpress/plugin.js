@@ -348,6 +348,11 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		}
 	});
 
+	editor.on( 'preInit', function() {
+		// Don't replace <i> with <em> and <b> with <strong> and don't remove them when empty
+		editor.schema.addValidElements( '@[id|accesskey|class|dir|lang|style|tabindex|title|contenteditable|draggable|dropzone|hidden|spellcheck|translate],i,b' );
+	});
+
 	// Add custom shortcuts
 	modKey = 'alt+shift';
 
