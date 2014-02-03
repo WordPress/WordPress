@@ -1,4 +1,4 @@
-/* global ajaxurl, deleteUserSetting, setUserSetting, switchEditors, tinymce, tinyMCEPreInit, wp_fullscreen_settings, wpActiveEditor:true, wpLink */
+/* global deleteUserSetting, setUserSetting, switchEditors, tinymce, tinyMCEPreInit */
 /**
  * Distraction Free Writing
  * (wp-fullscreen)
@@ -7,7 +7,6 @@
  */
 ( function( $, window ) {
 	var api, ps, s, toggleUI, uiTimer, PubSub,
-		oldheight = 0,
 		uiScrollTop = 0,
 		transitionend = 'transitionend webkitTransitionEnd',
 		$body = $( document.body ),
@@ -86,7 +85,6 @@
 
 	function _hideUI() {
 		$body.removeClass('wp-dfw-show-ui');
-		uiShown = false;
 	}
 
 	/**
@@ -136,7 +134,7 @@
 	 * @param string mode Optional. Switch to the given mode before opening.
 	 */
 	api.on = function() {
-		var id, $dfwWrap, editor, titleId;
+		var id, $dfwWrap, titleId;
 
 		if ( s.visible ) {
 			return;
@@ -264,7 +262,7 @@
 		var $hidden = $('#hiddenaction'),
 			oldVal = $hidden.val(),
 			$spinner = $('#wp-fullscreen-save .spinner'),
-			$saveMessage = $('#wp-fullscreen-save .wp-fullscreen-saved-message')
+			$saveMessage = $('#wp-fullscreen-save .wp-fullscreen-saved-message'),
 			$errorMessage = $('#wp-fullscreen-save .wp-fullscreen-error-message');
 
 		$spinner.show();
@@ -405,7 +403,7 @@
 			$( '#wp-fullscreen-title-placeholder' ).before( s.$dfwTitle.removeClass('wp-fullscreen-title').css( 'width', '' ) ).remove();
 		}
 
-		s.$dfwWrap.removeClass( 'wp-fullscreen-wrap' )
+		s.$dfwWrap.removeClass( 'wp-fullscreen-wrap' );
 		s.$editorContainer.css( 'width', '' );
 		s.$dfwTextarea.add( '#' + s.id + '_ifr' ).height( s.origHeight );
 
@@ -455,7 +453,7 @@
 	 */
 	api.ui = {
 		init: function() {
-			var toolbar, last = 0;
+			var toolbar;
 
 			s.toolbar = toolbar = $('#fullscreen-topbar');
 			s.$fullscreenFader = $('#fullscreen-fader');
@@ -465,29 +463,29 @@
 				$('#wp-fullscreen-mode-bar').hide();
 
 			$document.keyup( function(e) {
-				var c = e.keyCode || e.charCode, a, data;
+				var c = e.keyCode || e.charCode, modKey;
 
 				if ( ! s.visible ) {
 					return;
 				}
 
 				if ( navigator.platform && navigator.platform.indexOf('Mac') !== -1 ) {
-					a = e.ctrlKey; // Ctrl key for Mac
+					modKey = e.ctrlKey; // Ctrl key for Mac
 				} else {
-					a = e.altKey; // Alt key for Win & Linux
+					modKey = e.altKey; // Alt key for Win & Linux
 				}
 
-				if ( a && (61 == c || 107 == c || 187 == c) ) { // +
+				if ( modKey && ( 61 === c || 107 === c || 187 === c ) ) { // +
 					api.dfwWidth( 25 );
 					e.preventDefault();
 				}
 
-				if ( a && (45 == c || 109 == c || 189 == c) ) { // -
+				if ( modKey && ( 45 === c || 109 === c || 189 === c ) ) { // -
 					api.dfwWidth( -25 );
 					e.preventDefault();
 				}
 
-				if ( a && 48 == c ) { // 0
+				if ( modKey && 48 === c ) { // 0
 					api.dfwWidth( 0 );
 					e.preventDefault();
 				}
@@ -664,12 +662,12 @@
 	 * Automatically updates textarea height.
 	 */
 	api.bind_resize = function() {
-		s.$dfwTextarea.on( 'keydown.wp-dfw-resize click.wp-dfw-resize paste.wp-dfw-resize', function(e) {
-			api.resizeTextarea(e);
+		s.$dfwTextarea.on( 'keydown.wp-dfw-resize click.wp-dfw-resize paste.wp-dfw-resize', function() {
+			api.resizeTextarea();
 		});
 	};
 
-	api.resizeTextarea = function( event ) {
+	api.resizeTextarea = function() {
 		var node = s.$dfwTextarea[0];
 
 		if ( node.scrollHeight > node.clientHeight ) {

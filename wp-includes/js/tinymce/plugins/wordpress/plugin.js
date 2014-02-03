@@ -1,4 +1,4 @@
-/* global tinymce, autosave, getUserSetting, setUserSetting, switchEditors */
+/* global tinymce, getUserSetting, setUserSetting, switchEditors */
 tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	var DOM = tinymce.DOM, wpAdvButton, modKey, style,
 		last = 0;
@@ -127,25 +127,25 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	});
 
 	// Make sure the "more" tag is in a separate paragraph
-	editor.on( 'PreProcess', function( event ) { 
-		var more; 
+	editor.on( 'PreProcess', function( event ) {
+		var more;
 
-		if ( event.save ) { 
-			more = editor.dom.select( 'img.wp-more-tag', event.node ); 
+		if ( event.save ) {
+			more = editor.dom.select( 'img.wp-more-tag', event.node );
 
-			if ( more.length ) { 
-				tinymce.each( more, function( node ) { 
-					var parent = node.parentNode, p; 
+			if ( more.length ) {
+				tinymce.each( more, function( node ) {
+					var parent = node.parentNode, p;
 
-					if ( parent.nodeName === 'P' && parent.childNodes.length > 1 ) { 
-						p = editor.dom.create('p'); 
-						parent.parentNode.insertBefore( p, parent ); 
-						p.appendChild( node ); 
-					} 
-				}); 
-			} 
-		} 
-	}); 
+					if ( parent.nodeName === 'P' && parent.childNodes.length > 1 ) {
+						p = editor.dom.create('p');
+						parent.parentNode.insertBefore( p, parent );
+						p.appendChild( node );
+					}
+				});
+			}
+		}
+	});
 
 	// Register commands
 	editor.addCommand( 'WP_More', function( tag ) {
