@@ -165,7 +165,7 @@ var wpLink;
 		},
 
 		htmlUpdate: function() {
-			var attrs, html, begin, end, cursor, title,
+			var attrs, html, begin, end, cursor, title, selection,
 				textarea = wpLink.textarea;
 
 			if ( ! textarea )
