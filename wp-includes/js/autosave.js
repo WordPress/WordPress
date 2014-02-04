@@ -349,7 +349,7 @@ window.autosave = function(){};
 				$notice = $( '#local-storage-notice' );
 				$('.wrap h2').first().after( $notice.addClass( 'updated' ).show() );
 
-				$notice.on( 'click.autosae-local', function( event ) {
+				$notice.on( 'click.autosave-local', function( event ) {
 					var $target = $( event.target );
 
 					if ( $target.hasClass( 'restore-backup' ) ) {
