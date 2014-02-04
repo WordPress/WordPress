@@ -277,6 +277,9 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
 		$reassign = (int) $reassign;
 		$wpdb->query( $wpdb->prepare("UPDATE $wpdb->posts SET post_author = %d WHERE post_author = %d", $reassign, $user_id) );
 		$wpdb->query( $wpdb->prepare("UPDATE $wpdb->links SET link_owner = %d WHERE link_owner = %d", $reassign, $user_id) );
+
+		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_author = %d", $reassign ) );
+		array_map( 'clean_post_cache', $post_ids ); 
 	}
 
 	restore_current_blog();
