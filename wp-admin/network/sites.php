@@ -152,10 +152,25 @@ if ( isset( $_GET['action'] ) ) {
 
 		case 'activateblog':
 			update_blog_status( $id, 'deleted', '0' );
+
+			/**
+			 * Fires after a network site is activated.
+			 *
+			 * @since MU
+			 *
+			 * @param string $id The ID of the activated site.
+			 */
 			do_action( 'activate_blog', $id );
 		break;
 
 		case 'deactivateblog':
+			/**
+			 * Fires before a network site is deactivated.
+			 *
+			 * @since MU
+			 *
+			 * @param string $id The ID of the site being deactivated.
+			 */
 			do_action( 'deactivate_blog', $id );
 			update_blog_status( $id, 'deleted', '1' );
 		break;
@@ -217,6 +232,16 @@ if ( isset( $_GET['updated'] ) ) {
 			$msg = __( 'Site marked as spam.' );
 		break;
 		default:
+			/**
+			 * Filter a specific, non-default site-updated message in the Network admin.
+			 *
+			 * The dynamic portion of the hook name, $_GET['updated'], refers to the non-default
+			 * site update action.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param string $msg The update message. Default 'Settings saved'.
+			 */
 			$msg = apply_filters( 'network_sites_updated_message_' . $_GET['updated'], __( 'Settings saved.' ) );
 		break;
 	}
