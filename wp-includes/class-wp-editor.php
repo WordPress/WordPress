@@ -31,6 +31,7 @@ final class _WP_Editors {
 		$set = wp_parse_args( $settings,  array(
 			'wpautop' => true, // use wpautop?
 			'media_buttons' => true, // show insert/upload button(s)
+			'default_editor' => '', // When both TinyMCE and Quicktags are used, set which editor is shown on loading the page
 			'textarea_name' => $editor_id, // set the textarea name to something different, square brackets [] can be used here
 			'textarea_rows' => 20,
 			'tabindex' => '',
@@ -100,12 +101,15 @@ final class _WP_Editors {
 		if ( !current_user_can( 'upload_files' ) )
 			$set['media_buttons'] = false;
 
-		if ( self::$this_quicktags && self::$this_tinymce ) {
-			$switch_class = 'html-active';
+		if ( ! self::$this_quicktags && self::$this_tinymce ) {
+			$switch_class = 'tmce-active';
+		} elseif ( self::$this_quicktags && self::$this_tinymce ) {
+			$default_editor = $set['default_editor'] ? $set['default_editor'] : wp_default_editor();
 
-			// 'html' and 'switch-html' are used for the "Text" editor tab.
-			if ( 'html' == wp_default_editor() ) {
+			// 'html' is used for the "Text" editor tab.
+			if ( 'html' === $default_editor ) {
 				add_filter('the_editor_content', 'wp_htmledit_pre');
+				$switch_class = 'html-active';
 			} else {
 				add_filter('the_editor_content', 'wp_richedit_pre');
 				$switch_class = 'tmce-active';
