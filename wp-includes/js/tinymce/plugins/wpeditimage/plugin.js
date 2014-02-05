@@ -495,11 +495,16 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	});
 
 	editor.on( 'ObjectResized', function( event ) {
-        var parent,
+        var parent, width,
 			node = event.target;
 
 		if ( node.nodeName === 'IMG' && ( parent = editor.dom.getParent( node, '.wp-caption' ) ) ) {
-			editor.dom.setStyle( parent, 'width', 10 + event.width + 'px' );
+			width = event.width || editor.dom.getAttrib( node, 'width' );
+
+			if ( width ) {
+				width = parseInt( width, 10 ) + 10;
+				editor.dom.setStyle( parent, 'width', width + 'px' );
+			}
 		}
     });
 
