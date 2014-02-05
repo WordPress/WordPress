@@ -1233,6 +1233,14 @@ function wp_video_shortcode( $attr, $content = '' ) {
 			$html .= sprintf( $source, $type['type'], esc_url( $$fallback ) );
 		}
 	}
+
+	if ( ! empty( $content ) ) {
+		if ( false !== strpos( $content, "\n" ) )
+			$content = str_replace( array( "\r\n", "\n", "\t" ), '', $content );
+
+		$html .= trim( $content );
+	}
+
 	if ( 'mediaelement' === $library )
 		$html .= wp_mediaelement_fallback( $fileurl );
 	$html .= '</video>';
