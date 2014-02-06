@@ -1279,7 +1279,7 @@ function get_terms($taxonomies, $args = '') {
 	$args['number'] = absint( $args['number'] );
 	$args['offset'] = absint( $args['offset'] );
 	if ( !$single_taxonomy || ! is_taxonomy_hierarchical( reset( $taxonomies ) ) ||
-		'' !== $args['parent'] ) {
+		( '' !== $args['parent'] && 0 !== $args['parent'] ) ) {
 		$args['child_of'] = 0;
 		$args['hierarchical'] = false;
 		$args['pad_counts'] = false;
@@ -3002,8 +3002,18 @@ function _get_term_children($term_id, $terms, $taxonomy) {
 			$use_id = true;
 		}
 
-		if ( $term->term_id == $term_id )
+		if ( $term->term_id == $term_id ) {
+			if ( isset( $has_children[$term_id] ) ) {
+				foreach ( $has_children[$term_id] as $t_id ) {
+					if ( $use_id ) {
+						$term_list[] = $t_id;
+					} else {
+						$term_list[] = get_term( $t_id, $taxonomy );
+					}
+				}
+			}
 			continue;
+		}
 
 		if ( $term->parent == $term_id ) {
 			if ( $use_id )
@@ -3524,7 +3534,7 @@ function set_taxonomy_last_changed( $taxonomy ) {
 /**
  * Determine if a post's cache for the passed taxonomy
  *  is in sync.
- * 
+ *
  * @since 3.9.0
  *
  * @param int $id
