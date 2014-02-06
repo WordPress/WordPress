@@ -243,7 +243,7 @@ TABLE OF CONTENTS:
 	display: none;
 }
 
-/* Large chunks of shared color, from the colors.css merge */
+/* @todo: Take a second look. Large chunks of shared color, from the colors.css merge */
 .widget-top,
 .menu-item-handle,
 .widget-inside,
@@ -4147,7 +4147,7 @@ th.asc:hover span.sorting-indicator {
 	margin-right: 20px;
 }
 
-/* unclear if the following tablenav rules are actually used.
+/* @todo: unclear if the following tablenav rules are actually used.
 classes exist in paginate_links() but not seen in list table output. */
 .tablenav .dots {
 	border-color: transparent;
@@ -4624,7 +4624,8 @@ input#link_url {
 	padding: 1px 2px;
 }
 
-/* @todo: do we really need this? */
+/* @todo: do we really need this? word on the street is we don't and this
+stray rule may actually be compensated for elsewhere. */
 #normal-sortables .submitbox .submitdelete:hover {
 	color: #000;
 	background-color: #f00;
@@ -8726,7 +8727,6 @@ body.press-this {
 	padding-top: 35px;
 }
 
-/* @todo: what is this for? */
 .about-wrap .changelog.point-releases h3:first-child {
 	padding-top: 7px;
 }
@@ -8735,7 +8735,7 @@ body.press-this {
 
 .wp-badge {
 	background: #0074a2 url('../images/w-logo-white.png?ver=20131202') no-repeat;
-	background: #0074a2 url('../images/wordpress-logo-white.svg?ver=20131110') no-repeat;
+	background: #0074a2, url('../images/wordpress-logo-white.svg?ver=20131110') no-repeat; /* multiple backgrounds are ignored by browsers that don't support SVGs */
 	background-position: center 24px;
 	background-size: 85px 85px;
 	color: #78c8e6;
