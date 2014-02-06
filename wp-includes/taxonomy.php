@@ -2948,7 +2948,10 @@ function update_term_cache($terms, $taxonomy = '') {
 function _get_term_hierarchy($taxonomy) {
 	if ( !is_taxonomy_hierarchical($taxonomy) )
 		return array();
-	$children = get_option("{$taxonomy}_children");
+	$children = false;
+	if ( taxonomy_hierarchy_is_fresh( $taxonomy ) ) {
+		$children = get_option("{$taxonomy}_children");
+	}
 
 	if ( is_array($children) )
 		return $children;
@@ -3521,6 +3524,7 @@ function set_taxonomy_last_changed( $taxonomy ) {
 /**
  * Determine if a post's cache for the passed taxonomy
  *  is in sync.
+ * 
  * @since 3.9.0
  *
  * @param int $id
@@ -3532,6 +3536,26 @@ function post_taxonomy_is_fresh( $id, $taxonomy ) {
 	$post_last_changed = wp_cache_get( $id, $taxonomy . '_last_changed' );
 	if ( ! $post_last_changed || $last_changed !== $post_last_changed ) {
 		wp_cache_set( $id, $last_changed, $taxonomy . '_last_changed' );
+		return false;
+	}
+	return true;
+}
+
+/**
+ * Determine if a hierarchy's cache for the passed taxonomy
+ *  is in sync.
+ *
+ * @since 3.9.0
+ *
+ * @param int $id
+ * @param string $taxonomy
+ * @return boolean
+ */
+function taxonomy_hierarchy_is_fresh( $taxonomy ) {
+	$last_changed = get_taxonomy_last_changed( $taxonomy );
+	$hierarchy_last_changed = wp_cache_get( 'hierarchy_last_changed', $taxonomy );
+	if ( ! $hierarchy_last_changed || $last_changed !== $hierarchy_last_changed ) {
+		wp_cache_set( 'hierarchy_last_changed', $last_changed, $taxonomy );
 		return false;
 	}
 	return true;
