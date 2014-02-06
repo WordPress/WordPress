@@ -329,9 +329,11 @@ function network_step2( $errors = false ) {
 	$rewrite_base      = ! empty( $wp_siteurl_subdir ) ? ltrim( trailingslashit( $wp_siteurl_subdir ), '/' ) : '';
 
 
-	$location_of_wp_config = ABSPATH;
-	if ( ! file_exists( ABSPATH . 'wp-config.php' ) && file_exists( dirname( ABSPATH ) . '/wp-config.php' ) )
-		$location_of_wp_config = trailingslashit( dirname( ABSPATH ) );
+	$location_of_wp_config = $abspath_fix;
+	if ( ! file_exists( ABSPATH . 'wp-config.php' ) && file_exists( dirname( ABSPATH ) . '/wp-config.php' ) ) {
+		$location_of_wp_config = dirname( $abspath_fix );
+	}
+	$location_of_wp_config = trailingslashit( $location_of_wp_config );
 
 	// Wildcard DNS message.
 	if ( is_wp_error( $errors ) )
