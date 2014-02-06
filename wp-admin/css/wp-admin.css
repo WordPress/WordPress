@@ -2007,7 +2007,8 @@ form.upgrade .hint {
 
 #adminmenu a:hover,
 #adminmenu li.menu-top > a:focus,
-#adminmenu .wp-submenu a:hover {
+#adminmenu .wp-submenu a:hover,
+#adminmenu .wp-submenu a:focus {
 	color: #2ea2cc;
 }
 
@@ -2041,6 +2042,11 @@ form.upgrade .hint {
 .folded #adminmenu a.wp-has-current-submenu:focus + .wp-submenu a,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu a {
 	color: #bbb;
+}
+
+#adminmenu .wp-submenu a:hover,
+#adminmenu .wp-submenu a:focus {
+	background: none;
 }
 
 .js #adminmenu .sub-open,
@@ -2379,7 +2385,7 @@ ul#adminmenu > li.current > a.current:after {
 	display: none;
 }
 
-#adminmenu #collapse-menu {
+#collapse-menu {
 	font-size: 13px;
 	line-height: 34px;
 	margin-top: 10px;
@@ -2389,7 +2395,7 @@ ul#adminmenu > li.current > a.current:after {
 	transition:         all .1s ease-in-out;
 }
 
-#adminmenu #collapse-menu:hover,
+#collapse-menu:hover,
 #collapse-menu:hover #collapse-button div:after {
 	color: #2ea2cc;
 }
