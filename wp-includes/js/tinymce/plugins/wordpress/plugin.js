@@ -315,43 +315,34 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			window.jQuery( document ).triggerHandler( 'tinymce-editor-init', [editor] );
 		}
 
-		// When scrolling with mouse wheel or trackpad inside the editor, don't scroll the parent window
-		editor.dom.bind( doc, 'onwheel' in doc ? 'wheel' : 'mousewheel', function( event ) {
-			var delta, docElement = doc.documentElement;
+		if ( ! ( 'ontouchstart' in window ) ) {
+			// When scrolling with mouse wheel or trackpad inside the editor, don't scroll the parent window
+			editor.dom.bind( doc, 'onwheel' in doc ? 'wheel' : 'mousewheel', function( event ) {
+				var delta, docElement = doc.documentElement;
 
-			if ( editor.settings.wp_fullscreen || 'ontouchstart' in window ) {
-				return;
-			}
-
-			if ( typeof event.deltaY !== 'undefined' ) {
-				delta = event.deltaY;
-
-				if ( typeof event.deltaMode !== 'undefined' && event.deltaMode === event.DOM_DELTA_LINE ) {
-					delta *= 20;
+				if ( editor.settings.wp_fullscreen ) {
+					return;
 				}
-			} else {
-				delta = -event.wheelDelta;
-			}
 
-			// Reverse direction for MacOS
-			if ( env.mac ) {
-				delta *= -1;
-			}
+				if ( typeof event.deltaY !== 'undefined' ) {
+					delta = event.deltaY;
 
-			event.preventDefault();
+					if ( typeof event.deltaMode !== 'undefined' && event.deltaMode === event.DOM_DELTA_LINE ) {
+						delta *= 20;
+					}
+				} else {
+					delta = -event.wheelDelta;
+				}
 
-			if ( ( docElement.scrollTop === 0 && delta < 0 ) ||
-				( docElement.clientHeight + docElement.scrollTop === docElement.scrollHeight && delta > 0 ) ) {
+				event.preventDefault();
 
-				return;
-			}
-
-			if ( env.webkit ) {
-				doc.body.scrollTop += delta;
-			} else {
-				docElement.scrollTop += delta;
-			}
-		});
+				if ( env.webkit ) {
+					doc.body.scrollTop += delta;
+				} else {
+					docElement.scrollTop += delta;
+				}
+			});
+		}
 	});
 
 	// Word count

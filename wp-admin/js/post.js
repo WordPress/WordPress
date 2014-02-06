@@ -374,6 +374,7 @@ jQuery(document).ready( function($) {
 		sticky = '',
 		last = 0,
 		co = $('#content'),
+		$document = $(document),
 		$editSlugWrap = $('#edit-slug-box'),
 		postId = $('#post_ID').val() || 0,
 		$submitpost = $('#submitpost'),
@@ -509,7 +510,7 @@ jQuery(document).ready( function($) {
 		});
 	}
 
-	$(document).on( 'autosave-disable-buttons.edit-post', function() {
+	$document.on( 'autosave-disable-buttons.edit-post', function() {
 		$submitButtons.addClass( 'disabled' );
 	}).on( 'autosave-enable-buttons.edit-post', function() {
 		if ( ! wp.heartbeat || ! wp.heartbeat.hasConnectionError() ) {
@@ -940,7 +941,7 @@ jQuery(document).ready( function($) {
 
 	// word count
 	if ( typeof(wpWordCount) != 'undefined' ) {
-		$(document).triggerHandler('wpcountwords', [ co.val() ]);
+		$document.triggerHandler('wpcountwords', [ co.val() ]);
 
 		co.keyup( function(e) {
 			var k = e.keyCode || e.charCode;
@@ -949,7 +950,7 @@ jQuery(document).ready( function($) {
 				return true;
 
 			if ( 13 == k || 8 == last || 46 == last )
-				$(document).triggerHandler('wpcountwords', [ co.val() ]);
+				$document.triggerHandler('wpcountwords', [ co.val() ]);
 
 			last = k;
 			return true;
@@ -985,7 +986,6 @@ jQuery(document).ready( function($) {
 	// Resize the visual and text editors
 	( function() {
 		var editor, offset, mce,
-			$document = $( document ),
 			$textarea = $('textarea#content'),
 			$handle = $('#post-status-info');
 
@@ -1061,6 +1061,30 @@ jQuery(document).ready( function($) {
 					editor.dom.addClass( body, format == 'post-format-0' ? 'post-format-standard' : format );
 				}
 			}
+		});
+	}
+
+	if ( ! ( 'ontouchstart' in window ) ) {
+		// When scrolling with mouse wheel or trackpad inside the Text editor, don't scroll the whole window
+		var $content = $('#content').on( 'onwheel' in $document[0] ? 'wheel.text-editor-scroll' : 'mousewheel.text-editor-scroll', function( event ) {
+			var delta, origEvent = event.originalEvent;
+
+			if ( wp.editor && wp.editor.fullscreen.settings.visible ) {
+				return;
+			}
+
+			if ( typeof origEvent.deltaY !== 'undefined' ) {
+				delta = origEvent.deltaY;
+
+				if ( typeof origEvent.deltaMode !== 'undefined' && origEvent.deltaMode === origEvent.DOM_DELTA_LINE ) {
+					delta *= 20;
+				}
+			} else {
+				delta = -origEvent.wheelDelta;
+			}
+
+			$content.scrollTop( $content.scrollTop() + delta );
+			event.preventDefault();
 		});
 	}
 });
