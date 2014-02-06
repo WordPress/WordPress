@@ -1070,9 +1070,9 @@ window.wp = window.wp || {};
 			var from = this.model.has('from') ? this.model.get('from').id : 0,
 				to   = this.model.get('to').id;
 			if ( this.model.get('compareTwoMode' ) ) {
-				this.navigate( this.baseUrl( '?from=' + from + '&to=' + to ) );
+				this.navigate( this.baseUrl( '?from=' + from + '&to=' + to ), { replace: true } );
 			} else {
-				this.navigate( this.baseUrl( '?revision=' + to ) );
+				this.navigate( this.baseUrl( '?revision=' + to ), { replace: true } );
 			}
 		},
 
