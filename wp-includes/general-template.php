@@ -2103,7 +2103,7 @@ function register_admin_color_schemes() {
 	$suffix .= defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 	wp_admin_css_color( 'fresh', _x( 'Default', 'admin color scheme' ),
-		admin_url( "css/colors$suffix.css" ),
+		false,
 		array( '#222', '#333', '#0074a2', '#2ea2cc' ),
 		array( 'base' => '#999', 'focus' => '#2ea2cc', 'current' => '#fff' )
 	);
