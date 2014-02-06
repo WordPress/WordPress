@@ -1087,6 +1087,34 @@ i.mce-i-wp_page:before {
 	color: #999;
 	padding-left: 12px;
 }
+
+/* from colors.css
+.clearlooks2 {
+	box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+}
+
+.clearlooks2 .mceMiddle span,
+.clearlooks2 .mceMiddle .mceLeft,
+.clearlooks2 .mceMiddle .mceRight,
+.clearlooks2 .mceBottom,
+.clearlooks2 .mceBottom .mceLeft,
+.clearlooks2 .mceBottom .mceCenter,
+.clearlooks2 .mceBottom .mceRight {
+	background-color: #fcfcfc;
+}
+
+.clearlooks2 .mceTop span,
+.clearlooks2 .mceFocus .mceTop span {
+	color: #222;
+}
+
+.clearlooks2 .mceClose:before {
+	color: #999;
+}
+
+.clearlooks2 .mceClose:hover:before {
+	color: #2ea2cc;
+}
 */
 /* Distraction Free Writing mode
  * =Overlay Styles

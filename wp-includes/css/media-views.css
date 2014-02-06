@@ -457,6 +457,12 @@
 	user-select: none;
 }
 
+.media-router a {
+	-moz-transition:    none;
+	-webkit-transition: none;
+	transition:         none;
+}
+
 .media-router > a {
 	position: relative;
 	float: left;

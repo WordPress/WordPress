@@ -549,7 +549,7 @@ function wp_default_styles( &$styles ) {
 
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
-	$rtl_styles = array( 'wp-admin', 'ie', 'media', 'admin-bar', 'customize-controls', 'media-views', 'wp-color-picker', 'wp-pointer', 'editor-buttons', 'farbtastic', 'wp-auth-check', 'wp-jquery-ui-dialog', 'media-views', 'buttons', 'install', 'colors-fresh' );
+	$rtl_styles = array( 'wp-admin', 'ie', 'media', 'admin-bar', 'customize-controls', 'media-views', 'wp-color-picker', 'wp-pointer', 'editor-buttons', 'farbtastic', 'wp-auth-check', 'wp-jquery-ui-dialog', 'media-views', 'buttons', 'install' );
 
 	$styles->add( 'wp-admin', "/wp-admin/css/wp-admin$suffix.css", array( 'open-sans', 'dashicons' ) );
 
@@ -590,7 +590,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'colors', true, array( 'wp-admin', 'buttons', 'open-sans', 'dashicons' ) );
 
 	// do not refer to this directly, the right one is queued by the above "meta" colors handle
-	$styles->add( 'colors-fresh', "/wp-admin/css/colors$suffix.css", array( 'wp-admin', 'buttons' ) );
+	$styles->add( 'colors-fresh', false, array( 'wp-admin', 'buttons' ) );
 
 	$styles->add( 'media', "/wp-admin/css/media$suffix.css" );
 	$styles->add( 'install', "/wp-admin/css/install$suffix.css", array( 'buttons', 'open-sans' ) );

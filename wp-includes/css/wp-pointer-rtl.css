@@ -59,6 +59,8 @@
 }
 
 .wp-pointer-buttons a.close:before {
+	background: none;
+	color: #bbb;
 	content: '\f153';
 	display: block !important;
 	font: normal 13px/1 'dashicons';
@@ -71,6 +73,10 @@
 	position: absolute;
 	right: -12px;
 	top: 1px;
+}
+
+.wp-pointer-buttons a.close:hover:before {
+	color: #c00;
 }
 
 /* The arrow base class must take up no space, even with transparent borders. */

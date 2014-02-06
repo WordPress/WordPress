@@ -1,4 +1,3 @@
-@import url("../../colors.css");
 /*
  * Button mixin- creates 3d-ish button effect with correct 
  * highlights/shadows, based on a base color.
@@ -12,7 +11,7 @@ a {
   a:hover, a:active, a:focus {
     color: #0099d5; }
 
-#rightnow a:hover, #media-upload a.del-link:hover, div.dashboard-widget-submit input:hover, .subsubsub a:hover, .subsubsub a.current:hover, .ui-tabs-nav a:hover {
+#media-upload a.del-link:hover, div.dashboard-widget-submit input:hover, .subsubsub a:hover, .subsubsub a.current:hover {
   color: #0099d5; }
 
 /* Forms */
