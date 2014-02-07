@@ -2194,3 +2194,26 @@ function get_post_gallery_images( $post = 0 ) {
 	$gallery = get_post_gallery( $post, false );
 	return empty( $gallery['src'] ) ? array() : $gallery['src'];
 }
+
+/**
+ * If an attachment is missing its metadata, try to regenerate it
+ *
+ * @param post $attachment Post object.
+ */
+function maybe_regenerate_attachment_metadata( $attachment ) {
+	if ( empty( $attachment ) || ( empty( $attachment->ID ) || ! $attachment_id = (int) $attachment->ID ) ) {
+		return;
+	}
+
+	$file = get_attached_file( $attachment_id );
+	$meta = wp_get_attachment_metadata( $attachment_id );
+	if ( empty( $meta ) && file_exists( $file ) ) {
+		$_meta = get_post_meta( $attachment_id );
+		$regeneration_lock = 'wp_regenerating_' . $attachment_id;
+		if ( ! array_key_exists( '_wp_attachment_metadata', $_meta ) && ! get_transient( $regeneration_lock ) ) {
+			set_transient( $regeneration_lock, $file );
+			wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $file ) );
+			delete_transient( $regeneration_lock );
+		}
+	}
+}
