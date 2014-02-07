@@ -86,6 +86,7 @@ class Featured_Content {
 		add_filter( $filter,                              array( __CLASS__, 'get_featured_posts' )    );
 		add_action( 'customize_register',                 array( __CLASS__, 'customize_register' ), 9 );
 		add_action( 'admin_init',                         array( __CLASS__, 'register_setting'   )    );
+		add_action( 'switch_theme',                       array( __CLASS__, 'delete_transient'   )    );
 		add_action( 'save_post',                          array( __CLASS__, 'delete_transient'   )    );
 		add_action( 'delete_post_tag',                    array( __CLASS__, 'delete_post_tag'    )    );
 		add_action( 'customize_controls_enqueue_scripts', array( __CLASS__, 'enqueue_scripts'    )    );
@@ -168,7 +169,7 @@ class Featured_Content {
 
 		// Query for featured posts.
 		$featured = get_posts( array(
-			'numberposts' => $settings['quantity'],
+			'numberposts' => self::$max_posts,
 			'tax_query'   => array(
 				array(
 					'field'    => 'term_id',
@@ -203,7 +204,7 @@ class Featured_Content {
 	 */
 	public static function get_sticky_posts() {
 		$settings = self::get_setting();
-		return array_slice( get_option( 'sticky_posts', array() ), 0, $settings['quantity'] );
+		return array_slice( get_option( 'sticky_posts', array() ), 0, self::$max_posts );
 	}
 
 	/**
@@ -474,14 +475,12 @@ class Featured_Content {
 
 		$defaults = array(
 			'hide-tag' => 1,
-			'quantity' => 6,
 			'tag-id'   => 0,
 			'tag-name' => 'featured',
 		);
 
 		$options = wp_parse_args( $saved, $defaults );
 		$options = array_intersect_key( $options, $defaults );
-		$options['quantity'] = self::sanitize_quantity( $options['quantity'] );
 
 		if ( 'all' != $key ) {
 			return isset( $options[ $key ] ) ? $options[ $key ] : false;
@@ -525,10 +524,6 @@ class Featured_Content {
 			$output['tag-name'] = $input['tag-name'];
 		}
 
-		if ( isset( $input['quantity'] ) ) {
-			$output['quantity'] = self::sanitize_quantity( $input['quantity'] );
-		}
-
 		$output['hide-tag'] = isset( $input['hide-tag'] ) && $input['hide-tag'] ? 1 : 0;
 
 		// Delete the featured post ids transient.
@@ -536,29 +531,6 @@ class Featured_Content {
 
 		return $output;
 	}
-
-	/**
-	 * Sanitize quantity of featured posts.
-	 *
-	 * @static
-	 * @access public
-	 * @since Twenty Fourteen 1.0
-	 *
-	 * @param int $input The value to sanitize.
-	 * @return int A number between 1 and FeaturedContent::$max_posts.
-	 */
-	public static function sanitize_quantity( $input ) {
-		$quantity = absint( $input );
-
-		if ( $quantity > self::$max_posts ) {
-			$quantity = self::$max_posts;
-		} else if ( 1 > $quantity ) {
-			$quantity = 1;
-		}
-
-		return $quantity;
-	}
-
 } // Featured_Content
 
 Featured_Content::setup();
