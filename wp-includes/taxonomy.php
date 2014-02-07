@@ -3004,12 +3004,17 @@ function _get_term_children($term_id, $terms, $taxonomy) {
 
 		if ( $term->term_id == $term_id ) {
 			if ( isset( $has_children[$term_id] ) ) {
-				foreach ( $has_children[$term_id] as $t_id ) {
-					if ( $use_id ) {
-						$term_list[] = $t_id;
-					} else {
-						$term_list[] = get_term( $t_id, $taxonomy );
+				$current_id = $term_id;
+				while ( $current_id > 0 ) {
+					foreach ( $has_children[$current_id] as $t_id ) {
+						if ( $use_id ) {
+							$term_list[] = $t_id;
+						} else {
+							$term_list[] = get_term( $t_id, $taxonomy );
+						}
 					}
+
+					$current_id = isset( $has_children[$t_id] ) ? $t_id : 0;
 				}
 			}
 			continue;
