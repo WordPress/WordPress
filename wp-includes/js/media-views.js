@@ -297,6 +297,11 @@
 	/**
 	 * wp.media.controller.State
 	 *
+	 * A state is a step in a workflow that when set will trigger
+	 * the controllers for the regions to be updated as specified. This
+	 * class is the base class that the various states used in the media
+	 * modals extend.
+	 *
 	 * @constructor
 	 * @augments Backbone.Model
 	 */
@@ -792,9 +797,7 @@
 			if ( ! this.get('AttachmentView') ) {
 				this.set( 'AttachmentView', media.view.Attachment.EditLibrary );
 			}
-			/**
-			 * call 'initialize' directly on the parent class
-			 */
+
 			media.controller.Library.prototype.initialize.apply( this, arguments );
 		},
 
@@ -808,9 +811,7 @@
 			this.get('library').observe( wp.Uploader.queue );
 
 			this.frame.on( 'content:render:browse', this.gallerySettings, this );
-			/**
-			 * call 'activate' directly on the parent class
-			 */
+
 			media.controller.Library.prototype.activate.apply( this, arguments );
 		},
 
@@ -819,9 +820,7 @@
 			this.get('library').unobserve( wp.Uploader.queue );
 
 			this.frame.off( 'content:render:browse', this.gallerySettings, this );
-			/**
-			 * call 'deactivate' directly on the parent class
-			 */
+
 			media.controller.Library.prototype.deactivate.apply( this, arguments );
 		},
 
@@ -886,9 +885,6 @@
 			if ( ! this.get('library') ) {
 				this.set( 'library', media.query({ type: 'image' }) );
 			}
-			/**
-			 * call 'initialize' directly on the parent class
-			 */
 			media.controller.Library.prototype.initialize.apply( this, arguments );
 		},
 
@@ -903,12 +899,8 @@
 			// Accepts attachments that exist in the original library and
 			// that do not exist in gallery's library.
 			library.validator = function( attachment ) {
-				return !! this.mirroring.get( attachment.cid )
-					&& ! edit.get( attachment.cid )
-					/**
-					 * call 'validator' directly on wp.media.model.Selection
-					 */
-					&& media.model.Selection.prototype.validator.apply( this, arguments );
+				return !! this.mirroring.get( attachment.cid ) && ! edit.get( attachment.cid ) &&
+					media.model.Selection.prototype.validator.apply( this, arguments );
 			};
 
 			// Reset the library to ensure that all attachments are re-added
@@ -917,9 +909,7 @@
 			library.reset( library.mirroring.models, { silent: true });
 			library.observe( edit );
 			this.editLibrary = edit;
-			/**
-			 * call 'activate' directly on the parent class
-			 */
+
 			media.controller.Library.prototype.activate.apply( this, arguments );
 		}
 	});
@@ -950,9 +940,7 @@
 			if ( ! this.get('library') ) {
 				this.set( 'library', media.query({ type: 'image' }) );
 			}
-			/**
-			 * call 'initialize' directly on the parent class
-			 */
+
 			media.controller.Library.prototype.initialize.apply( this, arguments );
 
 			library    = this.get('library');
@@ -981,17 +969,13 @@
 		activate: function() {
 			this.updateSelection();
 			this.frame.on( 'open', this.updateSelection, this );
-			/**
-			 * call 'activate' directly on the parent class
-			 */
+
 			media.controller.Library.prototype.activate.apply( this, arguments );
 		},
 
 		deactivate: function() {
 			this.frame.off( 'open', this.updateSelection, this );
-			/**
-			 * call 'deactivate' directly on the parent class
-			 */
+
 			media.controller.Library.prototype.deactivate.apply( this, arguments );
 		},
 
@@ -1038,9 +1022,7 @@
 			if ( ! this.get('library') ) {
 				this.set( 'library', media.query({ type: 'image' }) );
 			}
-			/**
-			 * call 'initialize' directly on the parent class
-			 */
+
 			media.controller.Library.prototype.initialize.apply( this, arguments );
 
 			library    = this.get('library');
@@ -1068,17 +1050,7 @@
 
 		activate: function() {
 			this.updateSelection();
-			/**
-			 * call 'activate' directly on the parent class
-			 */
 			media.controller.Library.prototype.activate.apply( this, arguments );
-		},
-
-		deactivate: function() {
-			/**
-			 * call 'deactivate' directly on the parent class
-			 */
-			media.controller.Library.prototype.deactivate.apply( this, arguments );
 		},
 
 		updateSelection: function() {
@@ -1268,6 +1240,9 @@
 	/**
 	 * wp.media.view.Frame
 	 *
+	 * A frame is a composite view consisting of one or more regions and one or more
+	 * states. Only one state can be active at any given moment.
+	 *
 	 * @constructor
 	 * @augments wp.media.View
 	 * @augments wp.Backbone.View
@@ -1327,6 +1302,8 @@
 	/**
 	 * wp.media.view.MediaFrame
 	 *
+	 * Type of frame used to create the media modal.
+	 *
 	 * @constructor
 	 * @augments wp.media.view.Frame
 	 * @augments wp.media.View
@@ -1343,9 +1320,7 @@
 		 * @global wp.Uploader
 		 */
 		initialize: function() {
-			/**
-			 * call 'initialize' directly on the parent class
-			 */
+
 			media.view.Frame.prototype.initialize.apply( this, arguments );
 
 			_.defaults( this.options, {
@@ -1549,6 +1524,8 @@
 
 	/**
 	 * wp.media.view.MediaFrame.Select
+	 *
+	 * Type of media frame that is used to select an item or items from the media library
 	 *
 	 * @constructor
 	 * @augments wp.media.view.MediaFrame
