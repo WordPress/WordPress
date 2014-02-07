@@ -634,7 +634,7 @@ endif;
 
 if ( !function_exists('wp_set_auth_cookie') ) :
 /**
- * Sets the authentication cookies based User ID.
+ * Sets the authentication cookies based on user ID.
  *
  * The $remember parameter increases the time that the cookie will be kept. The
  * default the cookie is kept without remembering is two days. When $remember is
