@@ -1313,7 +1313,7 @@ function get_terms($taxonomies, $args = '') {
 	$key = md5( serialize( compact(array_keys($defaults)) ) . serialize( $taxonomies ) . $filter_key );
 	$last_changed = wp_cache_get( 'last_changed', 'terms' );
 	if ( ! $last_changed ) {
-		$last_changed = microtime();
+		$last_changed = microtime( true );
 		wp_cache_set( 'last_changed', $last_changed, 'terms' );
 	}
 	$cache_key = "get_terms:$key:$last_changed";
@@ -2814,7 +2814,7 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 		set_taxonomy_last_changed( $taxonomy );
 	}
 
-	wp_cache_set( 'last_changed', microtime(), 'terms' );
+	wp_cache_set( 'last_changed', microtime( true ), 'terms' );
 }
 
 /**
