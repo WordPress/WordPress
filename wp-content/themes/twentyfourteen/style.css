@@ -3233,6 +3233,7 @@ a.post-thumbnail:hover {
 		float: right;
 		margin-left: -33.33333333%;
 		padding: 48px 30px 24px;
+		position: relative;
 		width: 33.33333333%;
 	}
 
