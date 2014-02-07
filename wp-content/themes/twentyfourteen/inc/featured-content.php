@@ -329,8 +329,9 @@ class Featured_Content {
 			return $terms;
 		}
 
+		$settings = self::get_setting();
 		foreach( $terms as $order => $term ) {
-			if ( self::get_setting( 'tag-id' ) == $term->term_id && 'post_tag' == $term->taxonomy ) {
+			if ( ( $settings['tag-id'] === $term->term_id || $settings['tag-name'] === $term->name ) && 'post_tag' === $term->taxonomy ) {
 				unset( $terms[ $order ] );
 			}
 		}
@@ -372,8 +373,9 @@ class Featured_Content {
 			return $terms;
 		}
 
+		$settings = self::get_setting();
 		foreach( $terms as $order => $term ) {
-			if ( self::get_setting( 'tag-id' ) == $term->term_id ) {
+			if ( ( $settings['tag-id'] === $term->term_id || $settings['tag-name'] === $term->name ) && 'post_tag' === $term->taxonomy ) {
 				unset( $terms[ $term->term_id ] );
 			}
 		}
