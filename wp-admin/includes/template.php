@@ -1618,7 +1618,8 @@ function compression_test() {
  * @since 3.1.0
  *
  * @param string $text The text of the button (defaults to 'Save Changes')
- * @param string $type The type of button. One of: primary, secondary, delete
+ * @param string $type Optional. The type and CSS class(es) of the button. Core values
+ *                     include 'primary', 'secondary', 'delete'. Default 'primary'
  * @param string $name The HTML name of the submit button. Defaults to "submit". If no id attribute
  *               is given in $other_attributes below, $name will be used as the button's id.
  * @param bool $wrap True if the output button should be wrapped in a paragraph tag,
