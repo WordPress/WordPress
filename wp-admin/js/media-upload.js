@@ -1,4 +1,4 @@
-/* global tinymce, QTags, tb_remove */
+/* global tinymce, QTags */
 // send html to the post editor
 
 var wpActiveEditor, send_to_editor;

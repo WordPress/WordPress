@@ -370,7 +370,7 @@ $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
 }(jQuery));
 
 jQuery(document).ready( function($) {
-	var stamp, visibility, $submitButtons, updateVisibility, updateText,
+	var stamp, visibility, $submitButtons, updateVisibility, updateText, $content,
 		sticky = '',
 		last = 0,
 		co = $('#content'),
@@ -1066,7 +1066,7 @@ jQuery(document).ready( function($) {
 
 	if ( ! ( 'ontouchstart' in window ) ) {
 		// When scrolling with mouse wheel or trackpad inside the Text editor, don't scroll the whole window
-		var $content = $('#content').on( 'onwheel' in $document[0] ? 'wheel.text-editor-scroll' : 'mousewheel.text-editor-scroll', function( event ) {
+		$content = $('#content').on( 'onwheel' in $document[0] ? 'wheel.text-editor-scroll' : 'mousewheel.text-editor-scroll', function( event ) {
 			var delta, origEvent = event.originalEvent;
 
 			if ( wp.editor && wp.editor.fullscreen.settings.visible ) {

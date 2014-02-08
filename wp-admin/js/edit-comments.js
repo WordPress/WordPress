@@ -621,7 +621,7 @@ $(document).ready(function(){
 				highlight_first: adminCommentsL10n.hotkeys_highlight_first,
 				highlight_last: adminCommentsL10n.hotkeys_highlight_last,
 				prev_page_link_cb: make_hotkeys_redirect('prev'),
-				next_page_link_cb: make_hotkeys_redirect('next'), 
+				next_page_link_cb: make_hotkeys_redirect('next'),
 				hotkeys_opts: {
 					disableInInput: true,
 					type: 'keypress',

@@ -910,7 +910,7 @@
 		 * @returns {wp.media.view.MediaFrame}
 		 */
 		open: function( id, options ) {
-			var workflow, editor;
+			var workflow;
 
 			options = options || {};
 

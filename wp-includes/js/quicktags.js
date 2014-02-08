@@ -1,4 +1,4 @@
-/* global adminpage, wpActiveEditor, quicktagsL10n, wpLink, fullscreen, prompt */
+/* global adminpage, wpActiveEditor, quicktagsL10n, wpLink, prompt */
 /*
  * Quicktags
  *
