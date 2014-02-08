@@ -204,8 +204,8 @@ function add_image_size( $name, $width = 0, $height = 0, $crop = false ) {
  *
  * @since 3.9.0
  *
- * @param string $name The image size to check.
- * @return bool True if it exists, false if not.
+ * @param string $name Optional. The image size to check. Default empty.
+ * @return bool True if the image size exists, false if not.
  */
 function has_image_size( $name = '' ) {
 	global $_wp_additional_image_sizes;
@@ -219,7 +219,7 @@ function has_image_size( $name = '' ) {
  * @since 3.9.0
  *
  * @param string $name The image size to remove.
- * @return bool True on success, false on failure.
+ * @return bool True if the image size was successfully removed, false on failure.
  */
 function remove_image_size( $name ) {
 	global $_wp_additional_image_sizes;
