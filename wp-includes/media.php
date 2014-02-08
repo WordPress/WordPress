@@ -181,27 +181,55 @@ function image_downsize($id, $size = 'medium') {
 }
 
 /**
- * Registers a new image size
+ * Register a new image size.
  *
  * @since 2.9.0
+ *
+ * @param string $name   The image size name.
+ * @param int    $width  The image's width.
+ * @param int    $height The image's width.
+ * @param bool   $width  Whether to crop the image to fit the dimensions. Default false.
  */
 function add_image_size( $name, $width = 0, $height = 0, $crop = false ) {
 	global $_wp_additional_image_sizes;
-	$_wp_additional_image_sizes[$name] = array( 'width' => absint( $width ), 'height' => absint( $height ), 'crop' => (bool) $crop );
+	$_wp_additional_image_sizes[ $name ] = array(
+		'width'  => absint( $width ),
+		'height' => absint( $height ),
+		'crop'   => (bool) $crop,
+	);
 }
 
 /**
- * Check if an image size exists
+ * Check if an image size exists.
  *
  * @since 3.9.0
  *
- * @param string $name The image size name.
+ * @param string $name The image size to check.
  * @return bool True if it exists, false if not.
  */
 function has_image_size( $name = '' ) {
 	global $_wp_additional_image_sizes;
 
-	return isset( $_wp_additional_image_sizes[$name] );
+	return isset( $_wp_additional_image_sizes[ $name ] );
+}
+
+/**
+ * Remove a new image size.
+ *
+ * @since 3.9.0
+ *
+ * @param string $name The image size to remove.
+ * @return bool True on success, false on failure.
+ */
+function remove_image_size( $name ) {
+	global $_wp_additional_image_sizes;
+
+	if ( isset( $_wp_additional_image_sizes[ $name ] ) ) {
+		unset( $_wp_additional_image_sizes[ $name ] );
+		return true;
+	}
+
+	return false;
 }
 
 /**
