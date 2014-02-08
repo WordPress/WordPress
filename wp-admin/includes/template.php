@@ -1620,8 +1620,8 @@ function compression_test() {
  * @see get_submit_button()
  *
  * @param string       $text             The text of the button (defaults to 'Save Changes')
- * @param string $type Optional. The type and CSS class(es) of the button. Core values
- *                     include 'primary', 'secondary', 'delete'. Default 'primary'
+ * @param string       $type             Optional. The type and CSS class(es) of the button. Core values
+ *                                       include 'primary', 'secondary', 'delete'. Default 'primary'
  * @param string       $name             The HTML name of the submit button. Defaults to "submit". If no
  *                                       id attribute is given in $other_attributes below, $name will be
  *                                       used as the button's id.
