@@ -191,6 +191,20 @@ function add_image_size( $name, $width = 0, $height = 0, $crop = false ) {
 }
 
 /**
+ * Check if an image size exists
+ *
+ * @since 3.9.0
+ *
+ * @param string $name The image size name.
+ * @return bool True if it exists, false if not.
+ */
+function has_image_size( $name = '' ) {
+	global $_wp_additional_image_sizes;
+
+	return isset( $_wp_additional_image_sizes[$name] );
+}
+
+/**
  * Registers an image size for the post thumbnail
  *
  * @since 2.9.0
