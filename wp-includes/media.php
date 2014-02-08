@@ -204,10 +204,10 @@ function add_image_size( $name, $width = 0, $height = 0, $crop = false ) {
  *
  * @since 3.9.0
  *
- * @param string $name Optional. The image size to check. Default empty.
+ * @param string $name The image size to check.
  * @return bool True if the image size exists, false if not.
  */
-function has_image_size( $name = '' ) {
+function has_image_size( $name ) {
 	global $_wp_additional_image_sizes;
 
 	return isset( $_wp_additional_image_sizes[ $name ] );
