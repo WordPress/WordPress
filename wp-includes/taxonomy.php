@@ -3506,13 +3506,14 @@ function wp_check_term_hierarchy_for_loops( $parent, $term_id, $taxonomy ) {
 }
 
 /**
- * Retrieve the 'last_changed' value for the passed taxonomy. Retrieves
- *  from cache, if present
+ * Retrieve the 'last_changed' value for the passed taxonomy.
+ *
+ * Retrieves from cache, if present.
  *
  * @since 3.9.0
  *
- * @param string $taxonomy
- * @return int
+ * @param string $taxonomy Taxonomy slug.
+ * @return int Unix timestamp with microseconds of the last taxonomy change.
  */
 function get_taxonomy_last_changed( $taxonomy ) {
 	$last_changed = wp_cache_get( 'last_changed', $taxonomy );
@@ -3524,12 +3525,12 @@ function get_taxonomy_last_changed( $taxonomy ) {
 }
 
 /**
- * Reset 'last_changed' for the passed taxonomy
+ * Reset 'last_changed' time for the passed taxonomy.
  *
  * @since 3.9.0
  *
- * @param string $taxonomy
- * @return int
+ * @param string $taxonomy Taxonomy slug.
+ * @return int Unix timestamp with microseconds of the last taxonomy change.
  */
 function set_taxonomy_last_changed( $taxonomy ) {
 	wp_cache_delete( 'last_changed', $taxonomy );
@@ -3537,14 +3538,18 @@ function set_taxonomy_last_changed( $taxonomy ) {
 }
 
 /**
- * Determine if a post's cache for the passed taxonomy
- *  is in sync.
+ * Determine if a post's cache for the passed taxonomy is in sync.
+ *
+ * 'Fresh'-ness is determined based on whether the 'last_changed'
+ * times of the passed post and taxonomy are in sync. Times are
+ * stored as Unix timestamps with microseconds.
  *
  * @since 3.9.0
  *
- * @param int $id
- * @param string $taxonomy
- * @return boolean
+ * @param int    $id       Post ID.
+ * @param string $taxonomy Taxonomy slug.
+ * @return bool True if the 'last_changed' times are in sync, or 'fresh'.
+ *              False if they are out of sync, or not cached.
  */
 function post_taxonomy_is_fresh( $id, $taxonomy ) {
 	$last_changed = get_taxonomy_last_changed( $taxonomy );
@@ -3557,14 +3562,18 @@ function post_taxonomy_is_fresh( $id, $taxonomy ) {
 }
 
 /**
- * Determine if a hierarchy's cache for the passed taxonomy
- *  is in sync.
+ * Determine if a hierarchy's cache for the passed taxonomy is in sync.
+ *
+ * 'Fresh'-ness is determined based on whether the 'last_changed' times
+ * of the passed taxonomy and its hierarchy are in sync. Times are
+ * stored as Unix timestamps with microseconds.
  *
  * @since 3.9.0
  *
- * @param int $id
- * @param string $taxonomy
- * @return boolean
+ * @param int    $id       Post ID.
+ * @param string $taxonomy Taxonomy slug.
+ * @return bool True if the 'last_changed' times are in sync, or 'fresh'.
+ *              False if they are out of sync, or not cached.
  */
 function taxonomy_hierarchy_is_fresh( $taxonomy ) {
 	$last_changed = get_taxonomy_last_changed( $taxonomy );
