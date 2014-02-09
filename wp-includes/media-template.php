@@ -594,7 +594,6 @@ function wp_print_media_templates() {
 						</div>
 					</div>
 				<# } #>
-				</div>
 			</div>
 		</div>
 	</script>
