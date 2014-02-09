@@ -1273,12 +1273,14 @@ endif;
 
 if ( !function_exists('wp_new_user_notification') ) :
 /**
- * Notify the blog admin of a new user, normally via email.
+ * Email login credentials to a newly-registered user.
+ *
+ * A new user registration notification is also sent to admin email.
  *
  * @since 2.0.0
  *
- * @param int $user_id User ID
- * @param string $plaintext_pass Optional. The user's plaintext password
+ * @param int    $user_id        User ID.
+ * @param string $plaintext_pass Optional. The user's plaintext password. Default empty.
  */
 function wp_new_user_notification($user_id, $plaintext_pass = '') {
 	$user = get_userdata( $user_id );
