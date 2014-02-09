@@ -3516,10 +3516,11 @@ function wp_check_term_hierarchy_for_loops( $parent, $term_id, $taxonomy ) {
  * @return int Unix timestamp with microseconds of the last taxonomy change.
  */
 function get_taxonomy_last_changed( $taxonomy ) {
-	$last_changed = wp_cache_get( 'last_changed', $taxonomy );
+	$key = $taxonomy . '_last_changed';
+	$last_changed = wp_cache_get( $key, 'terms' );
 	if ( ! $last_changed ) {
 		$last_changed = microtime();
-		wp_cache_set( 'last_changed', $last_changed, $taxonomy );
+		wp_cache_set( $key, $last_changed, 'terms' );
 	}
 	return $last_changed;
 }
@@ -3533,7 +3534,7 @@ function get_taxonomy_last_changed( $taxonomy ) {
  * @return int Unix timestamp with microseconds of the last taxonomy change.
  */
 function set_taxonomy_last_changed( $taxonomy ) {
-	wp_cache_delete( 'last_changed', $taxonomy );
+	wp_cache_delete( $taxonomy . '_last_changed', 'terms' );
 	return get_taxonomy_last_changed( $taxonomy );
 }
 
@@ -3553,9 +3554,10 @@ function set_taxonomy_last_changed( $taxonomy ) {
  */
 function post_taxonomy_is_fresh( $id, $taxonomy ) {
 	$last_changed = get_taxonomy_last_changed( $taxonomy );
-	$post_last_changed = wp_cache_get( $id, $taxonomy . '_last_changed' );
+	$key = $id . '_' . $taxonomy . '_last_changed';
+	$post_last_changed = wp_cache_get( $key, 'terms' );
 	if ( ! $post_last_changed || $last_changed !== $post_last_changed ) {
-		wp_cache_set( $id, $last_changed, $taxonomy . '_last_changed' );
+		wp_cache_set( $key, $last_changed, 'terms' );
 		return false;
 	}
 	return true;
@@ -3577,9 +3579,10 @@ function post_taxonomy_is_fresh( $id, $taxonomy ) {
  */
 function taxonomy_hierarchy_is_fresh( $taxonomy ) {
 	$last_changed = get_taxonomy_last_changed( $taxonomy );
-	$hierarchy_last_changed = wp_cache_get( 'hierarchy_last_changed', $taxonomy );
+	$key = $taxonomy . '_hierarchy_last_changed';
+	$hierarchy_last_changed = wp_cache_get( $key, 'terms' );
 	if ( ! $hierarchy_last_changed || $last_changed !== $hierarchy_last_changed ) {
-		wp_cache_set( 'hierarchy_last_changed', $last_changed, $taxonomy );
+		wp_cache_set( $key, $last_changed, 'terms' );
 		return false;
 	}
 	return true;
