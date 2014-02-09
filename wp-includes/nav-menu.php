@@ -702,11 +702,19 @@ function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_
 	);
 	foreach( (array) $menu_items as $menu_item ) {
 		if ( isset( $menu_item->ID ) && is_nav_menu_item( $menu_item->ID ) ) {
-			if ( get_post_meta( $menu_item->ID, '_menu_item_type', true ) !== $object_type ||
-				get_post_meta( $menu_item->ID, '_menu_item_object', true ) !== $taxonomy )
-				continue;
-
-			$menu_item_ids[] = (int) $menu_item->ID;
+			$menu_item_type = get_post_meta( $menu_item->ID, '_menu_item_type', true );
+			if (
+				'post_type' == $object_type &&
+				'post_type' == $menu_item_type
+			) {
+				$menu_item_ids[] = (int) $menu_item->ID;
+			} else if (
+				'taxonomy' == $object_type &&
+				'taxonomy' == $menu_item_type &&
+				get_post_meta( $menu_item->ID, '_menu_item_object', true ) == $taxonomy
+			) {
+				$menu_item_ids[] = (int) $menu_item->ID;
+			}
 		}
 	}
 
