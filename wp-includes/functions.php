@@ -4095,7 +4095,7 @@ function wp_auth_check_html() {
  *
  * @since 3.6.0
  */
-function wp_auth_check( $response, $data ) {
+function wp_auth_check( $response ) {
 	$response['wp-auth-check'] = is_user_logged_in() && empty( $GLOBALS['login_grace_period'] );
 	return $response;
 }
