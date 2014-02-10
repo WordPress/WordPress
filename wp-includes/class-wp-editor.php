@@ -207,7 +207,7 @@ final class _WP_Editors {
 				$ext_plugins = '';
 
 				if ( $set['teeny'] ) {
-					self::$plugins = $plugins = apply_filters( 'teeny_mce_plugins', array( 'fullscreen', 'link', 'image', 'wordpress', 'wplink' ), $editor_id );
+					self::$plugins = $plugins = apply_filters( 'teeny_mce_plugins', array( 'fullscreen', 'link', 'image', 'wordpress', 'wpeditimage', 'wplink' ), $editor_id );
 				} else {
 					/**
 					 * TinyMCE external plugins filter
@@ -335,8 +335,12 @@ final class _WP_Editors {
 					self::$first_init['external_plugins'] = json_encode( $mce_external_plugins );
 				}
 
-				// WordPress default stylesheet
-				$mce_css = array( self::$baseurl . '/skins/wordpress/wp-content.css' );
+				$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+				$version = 'ver=' . $GLOBALS['wp_version'];
+				$dashicons = includes_url( "css/dashicons$suffix.css?$version" );
+
+				// WordPress default stylesheet and dashicons
+				$mce_css = array( $dashicons, self::$baseurl . '/skins/wordpress/wp-content.css' );
 
 				// load editor_style.css if the current theme supports it
 				if ( ! empty( $GLOBALS['editor_styles'] ) && is_array( $GLOBALS['editor_styles'] ) ) {

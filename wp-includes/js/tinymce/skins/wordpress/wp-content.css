@@ -117,6 +117,46 @@ img::selection {
 	cursor: pointer;
 }
 
+#wp-image-toolbar {
+	position: absolute;
+}
+
+#wp-image-toolbar .wrapper {
+	position: relative;
+	height: 33px;
+	background-color: rgba(0,0,0,0.3);
+}
+
+#wp-image-toolbar .dashicons {
+	position: absolute;
+	color: white;
+	width: 36px;
+	height: 32px;
+	line-height: 32px;
+	cursor: pointer;
+}
+
+#wp-image-toolbar div.dashicons-no-alt {
+	top: 0;
+	right: 0;
+}
+
+#wp-image-toolbar div.dashicons-format-image {
+	top: 0;
+	left: 0;
+}
+
+/* Image resize handles */
+.mce-content-body div.mce-resizehandle {
+	border-color: #777;
+	width: 7px;
+	height: 7px;
+}
+
+.mce-content-body img[data-mce-selected] {
+	outline: 1px solid #777;
+}
+
 .mce-content-body img.wp-gallery:hover {
 	background-color: #ededed;
 	border-style: solid;
