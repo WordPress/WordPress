@@ -121,7 +121,7 @@ function comment_author_email( $comment_ID = 0 ) {
  *
  * @param string $linktext Optional. Text to display instead of the comment author's email address.
  *                         Default empty.
- * @param string $before   Optional. Text or HTML to display before the email link.Default empty.
+ * @param string $before   Optional. Text or HTML to display before the email link. Default empty.
  * @param string $after    Optional. Text or HTML to display after the email link. Default empty.
  */
 function comment_author_email_link( $linktext = '', $before = '', $after = '' ) {
