@@ -537,7 +537,8 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 		if ( !empty($redirect) )
 			wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect)); // we'll override this later if the plugin can be included without fatal error
 		ob_start();
-		include_once(WP_PLUGIN_DIR . '/' . $plugin);
+		wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $plugin );
+		include_once( WP_PLUGIN_DIR . '/' . $plugin );
 
 		if ( ! $silent ) {
 			/**
@@ -921,6 +922,7 @@ function uninstall_plugin($plugin) {
 		unset($uninstallable_plugins);
 
 		define('WP_UNINSTALL_PLUGIN', $file);
+		wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . dirname( $file ) );
 		include WP_PLUGIN_DIR . '/' . dirname($file) . '/uninstall.php';
 
 		return true;
@@ -932,6 +934,7 @@ function uninstall_plugin($plugin) {
 		update_option('uninstall_plugins', $uninstallable_plugins);
 		unset($uninstallable_plugins);
 
+		wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $file );
 		include WP_PLUGIN_DIR . '/' . $file;
 
 		add_action( 'uninstall_' . $file, $callable );

@@ -164,8 +164,11 @@ if ( is_multisite() ) {
 // Define must-use plugin directory constants, which may be overridden in the sunrise.php drop-in.
 wp_plugin_directory_constants();
 
+$GLOBALS['wp_plugin_paths'] = array();
+
 // Load must-use plugins.
 foreach ( wp_get_mu_plugins() as $mu_plugin ) {
+	wp_register_plugin_realpath( $mu_plugin );
 	include_once( $mu_plugin );
 }
 unset( $mu_plugin );
@@ -173,6 +176,7 @@ unset( $mu_plugin );
 // Load network activated plugins.
 if ( is_multisite() ) {
 	foreach( wp_get_active_network_plugins() as $network_plugin ) {
+		wp_register_plugin_realpath( $network_plugin );
 		include_once( $network_plugin );
 	}
 	unset( $network_plugin );
@@ -206,8 +210,10 @@ create_initial_post_types();
 register_theme_directory( get_theme_root() );
 
 // Load active plugins.
-foreach ( wp_get_active_and_valid_plugins() as $plugin )
+foreach ( wp_get_active_and_valid_plugins() as $plugin ) {
+	wp_register_plugin_realpath( $plugin );
 	include_once( $plugin );
+}
 unset( $plugin );
 
 // Load pluggable functions.

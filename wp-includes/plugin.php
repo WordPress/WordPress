@@ -592,16 +592,40 @@ function remove_all_actions($tag, $priority = false) {
  * @return string The name of a plugin.
  * @uses WP_PLUGIN_DIR
  */
-function plugin_basename($file) {
-	$file = str_replace('\\','/',$file); // sanitize for Win32 installs
-	$file = preg_replace('|/+|','/', $file); // remove any duplicate slash
-	$plugin_dir = str_replace('\\','/',WP_PLUGIN_DIR); // sanitize for Win32 installs
-	$plugin_dir = preg_replace('|/+|','/', $plugin_dir); // remove any duplicate slash
-	$mu_plugin_dir = str_replace('\\','/',WPMU_PLUGIN_DIR); // sanitize for Win32 installs
-	$mu_plugin_dir = preg_replace('|/+|','/', $mu_plugin_dir); // remove any duplicate slash
+function plugin_basename( $file ) {
+	global $wp_plugin_paths;
+
+	foreach ( $wp_plugin_paths as $dir => $realdir ) {
+		if ( strpos( $file, $realdir ) === 0 ) {
+			$file = $dir . substr( $file, strlen( $realdir ) );
+		}
+	}
+
+	$file = wp_normalize_path( $file );
+	$plugin_dir = wp_normalize_path( WP_PLUGIN_DIR );
+	$mu_plugin_dir = wp_normalize_path( WPMU_PLUGIN_DIR );
+
 	$file = preg_replace('#^' . preg_quote($plugin_dir, '#') . '/|^' . preg_quote($mu_plugin_dir, '#') . '/#','',$file); // get relative path from plugins dir
 	$file = trim($file, '/');
 	return $file;
+}
+
+/**
+ * Register a plugin's real path.
+ *
+ * This is used in {@see plugin_basename()} to resolve symlinked paths.
+ *
+ * @param string $file Known path to the file.
+ */
+function wp_register_plugin_realpath( $file ) {
+	global $wp_plugin_paths;
+
+	$plugin_path = wp_normalize_path( dirname( $file ) );
+	$plugin_realpath = wp_normalize_path( dirname( realpath( $file ) ) );
+
+	if ( $plugin_path !== $plugin_realpath ) {
+		$wp_plugin_paths[ $plugin_path ] = $plugin_realpath;
+	}
 }
 
 /**
