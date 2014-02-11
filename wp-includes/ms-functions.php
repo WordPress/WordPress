@@ -279,12 +279,12 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
 		$link_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->links WHERE link_owner = %d", $user_id ) );
 
 		if ( ! empty( $post_ids ) ) {
-			$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_author = %d WHERE ID IN (" . implode( ',', $post_ids ) . ")", $reassign ) );
+			$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_author = %d WHERE post_author = %d", $reassign, $user_id ) );
 			array_walk( $post_ids, 'clean_post_cache' );
 		}
 
 		if ( ! empty( $link_ids ) ) {
-			$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->links SET link_owner = %d WHERE ID IN (" . implode( ',', $link_ids ) . ")", $reassign ) );
+			$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->links SET link_owner = %d WHERE link_owner = %d", $reassign, $user_id ) );
 			array_walk( $link_ids, 'clean_bookmark_cache' );
 		}
 	}
