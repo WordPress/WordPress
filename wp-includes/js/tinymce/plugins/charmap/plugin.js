@@ -312,6 +312,8 @@ tinymce.PluginManager.add('charmap', function(editor) {
 				var target = e.target;
 				if (target.nodeName == 'DIV') {
 					editor.execCommand('mceInsertContent', false, target.firstChild.nodeValue);
+					// WP, see #27107
+					win.close();
 				}
 			},
 			onmouseover: function(e) {
@@ -340,9 +342,10 @@ tinymce.PluginManager.add('charmap', function(editor) {
 				}
 			],
 			buttons: [
+				/* WP, see #27107
 				{text: "Close", onclick: function() {
 					win.close();
-				}}
+				}} */
 			]
 		});
 	}

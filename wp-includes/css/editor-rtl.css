@@ -100,6 +100,17 @@ div.mce-statusbar {
 	margin-right: -16px;
 }
 
+/* Charmap modal */
+.mce-charmap td {
+	padding: 0;
+}
+
+.mce-charmap td div {
+	width: 18px;
+	height: 22px;
+	line-height: 22px;
+}
+
 /* Icons */
 .mce-toolbar .mce-ico {
 	color: #777;
