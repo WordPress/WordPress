@@ -1876,7 +1876,6 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 		do_action( 'edit_term_taxonomies', $edit_tt_ids );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'parent' ), array( 'parent' => $term_obj->term_id) + compact( 'taxonomy' ) );
 		do_action( 'edited_term_taxonomies', $edit_tt_ids );
-		set_taxonomy_last_changed( $taxonomy );
 	}
 
 	$objects = $wpdb->get_col( $wpdb->prepare( "SELECT object_id FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $tt_id ) );
@@ -1911,7 +1910,6 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 		$wpdb->delete( $wpdb->terms, array( 'term_id' => $term ) );
 
 	clean_term_cache($term, $taxonomy);
-	set_taxonomy_last_changed( $taxonomy );
 
 	do_action( 'delete_term', $term, $tt_id, $taxonomy, $deleted_term );
 	do_action( "delete_$taxonomy", $term, $tt_id, $deleted_term );
@@ -2164,7 +2162,6 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 			do_action( 'edit_terms', $alias->term_id, $taxonomy );
 			$wpdb->update($wpdb->terms, compact('term_group'), array('term_id' => $alias->term_id) );
 			do_action( 'edited_terms', $alias->term_id, $taxonomy );
-			set_taxonomy_last_changed( $taxonomy );
 		}
 	}
 
@@ -2226,7 +2223,6 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	$term_id = apply_filters('term_id_filter', $term_id, $tt_id);
 
 	clean_term_cache($term_id, $taxonomy);
-	set_taxonomy_last_changed( $taxonomy );
 
 	do_action("created_term", $term_id, $tt_id, $taxonomy);
 	do_action("created_$taxonomy", $term_id, $tt_id);
@@ -2333,7 +2329,6 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 	}
 
 	wp_cache_delete( $object_id, $taxonomy . '_relationships' );
-	set_taxonomy_last_changed( $taxonomy );
 
 	do_action('set_object_terms', $object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids);
 	return $tt_ids;
@@ -2412,7 +2407,6 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
 		$deleted = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_tt_ids)", $object_id ) );
 		do_action( 'deleted_term_relationships', $object_id, $tt_ids );
 		wp_update_term_count( $tt_ids, $taxonomy );
-		set_taxonomy_last_changed( $taxonomy );
 
 		return (bool) $deleted;
 	}
@@ -2571,7 +2565,6 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 			do_action( 'edit_terms', $alias->term_id, $taxonomy );
 			$wpdb->update( $wpdb->terms, compact('term_group'), array( 'term_id' => $alias->term_id ) );
 			do_action( 'edited_terms', $alias->term_id, $taxonomy );
-			set_taxonomy_last_changed( $taxonomy );
 		}
 	}
 
@@ -2601,13 +2594,18 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	$wpdb->update( $wpdb->term_taxonomy, compact( 'term_id', 'taxonomy', 'description', 'parent' ), array( 'term_taxonomy_id' => $tt_id ) );
 	do_action( 'edited_term_taxonomy', $tt_id, $taxonomy );
 
+	// Clean the relationship caches for all object types using this term
+	$objects = $wpdb->get_col( $wpdb->prepare( "SELECT object_id FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $tt_id ) );
+	$tax_object = get_taxonomy( $taxonomy );
+	foreach ( $tax_object->object_type as $object_type )
+		clean_object_term_cache( $objects, $object_type );
+
 	do_action("edit_term", $term_id, $tt_id, $taxonomy);
 	do_action("edit_$taxonomy", $term_id, $tt_id);
 
 	$term_id = apply_filters('term_id_filter', $term_id, $tt_id);
 
 	clean_term_cache($term_id, $taxonomy);
-	set_taxonomy_last_changed( $taxonomy );
 
 	do_action("edited_term", $term_id, $tt_id, $taxonomy);
 	do_action("edited_$taxonomy", $term_id, $tt_id);
@@ -2749,7 +2747,6 @@ function clean_object_term_cache($object_ids, $object_type) {
 	foreach ( $object_ids as $id ) {
 		foreach ( $taxonomies as $taxonomy ) {
 			wp_cache_delete($id, "{$taxonomy}_relationships");
-			set_taxonomy_last_changed( $taxonomy );
 		}
 	}
 
@@ -2770,7 +2767,6 @@ function clean_object_term_cache($object_ids, $object_type) {
  */
 function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 	global $wpdb;
-	static $cleaned = array();
 
 	if ( !is_array($ids) )
 		$ids = array($ids);
@@ -2798,10 +2794,6 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 	}
 
 	foreach ( $taxonomies as $taxonomy ) {
-		if ( isset($cleaned[$taxonomy]) )
-			continue;
-		$cleaned[$taxonomy] = true;
-
 		if ( $clean_taxonomy ) {
 			wp_cache_delete('all_ids', $taxonomy);
 			wp_cache_delete('get', $taxonomy);
@@ -2811,7 +2803,6 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 		}
 
 		do_action('clean_term_cache', $ids, $taxonomy);
-		set_taxonomy_last_changed( $taxonomy );
 	}
 
 	wp_cache_set( 'last_changed', microtime( true ), 'terms' );
@@ -2831,9 +2822,6 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
  * @return bool|array Empty array if $terms found, but not $taxonomy. False if nothing is in cache for $taxonomy and $id.
  */
 function get_object_term_cache($id, $taxonomy) {
-	if ( ! post_taxonomy_is_fresh( $id, $taxonomy ) ) {
-		return false;
-	}
 	$cache = wp_cache_get($id, "{$taxonomy}_relationships");
 	return $cache;
 }
@@ -2948,10 +2936,7 @@ function update_term_cache($terms, $taxonomy = '') {
 function _get_term_hierarchy($taxonomy) {
 	if ( !is_taxonomy_hierarchical($taxonomy) )
 		return array();
-	$children = false;
-	if ( taxonomy_hierarchy_is_fresh( $taxonomy ) ) {
-		$children = get_option("{$taxonomy}_children");
-	}
+	$children = get_option("{$taxonomy}_children");
 
 	if ( is_array($children) )
 		return $children;
@@ -3150,7 +3135,6 @@ function _update_post_term_count( $terms, $taxonomy ) {
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 		do_action( 'edited_term_taxonomy', $term, $taxonomy );
 	}
-	set_taxonomy_last_changed( $taxonomy->name );
 }
 
 /**
@@ -3176,7 +3160,6 @@ function _update_generic_term_count( $terms, $taxonomy ) {
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 		do_action( 'edited_term_taxonomy', $term, $taxonomy );
 	}
-	set_taxonomy_last_changed( $taxonomy->name );
 }
 
 /**
@@ -3503,87 +3486,4 @@ function wp_check_term_hierarchy_for_loops( $parent, $term_id, $taxonomy ) {
 		wp_update_term( $loop_member, $taxonomy, array( 'parent' => 0 ) );
 
 	return $parent;
-}
-
-/**
- * Retrieve the 'last_changed' value for the passed taxonomy.
- *
- * Retrieves from cache, if present.
- *
- * @since 3.9.0
- *
- * @param string $taxonomy Taxonomy slug.
- * @return int Unix timestamp with microseconds of the last taxonomy change.
- */
-function get_taxonomy_last_changed( $taxonomy ) {
-	$key = $taxonomy . '_last_changed';
-	$last_changed = wp_cache_get( $key, 'terms' );
-	if ( ! $last_changed ) {
-		$last_changed = microtime();
-		wp_cache_set( $key, $last_changed, 'terms' );
-	}
-	return $last_changed;
-}
-
-/**
- * Reset 'last_changed' time for the passed taxonomy.
- *
- * @since 3.9.0
- *
- * @param string $taxonomy Taxonomy slug.
- * @return int Unix timestamp with microseconds of the last taxonomy change.
- */
-function set_taxonomy_last_changed( $taxonomy ) {
-	wp_cache_delete( $taxonomy . '_last_changed', 'terms' );
-	return get_taxonomy_last_changed( $taxonomy );
-}
-
-/**
- * Determine if a post's cache for the passed taxonomy is in sync.
- *
- * 'Fresh'-ness is determined based on whether the 'last_changed'
- * times of the passed post and taxonomy are in sync. Times are
- * stored as Unix timestamps with microseconds.
- *
- * @since 3.9.0
- *
- * @param int    $id       Post ID.
- * @param string $taxonomy Taxonomy slug.
- * @return bool True if the 'last_changed' times are in sync, or 'fresh'.
- *              False if they are out of sync, or not cached.
- */
-function post_taxonomy_is_fresh( $id, $taxonomy ) {
-	$last_changed = get_taxonomy_last_changed( $taxonomy );
-	$key = $id . '_' . $taxonomy . '_last_changed';
-	$post_last_changed = wp_cache_get( $key, 'terms' );
-	if ( ! $post_last_changed || $last_changed !== $post_last_changed ) {
-		wp_cache_set( $key, $last_changed, 'terms' );
-		return false;
-	}
-	return true;
-}
-
-/**
- * Determine if a hierarchy's cache for the passed taxonomy is in sync.
- *
- * 'Fresh'-ness is determined based on whether the 'last_changed' times
- * of the passed taxonomy and its hierarchy are in sync. Times are
- * stored as Unix timestamps with microseconds.
- *
- * @since 3.9.0
- *
- * @param int    $id       Post ID.
- * @param string $taxonomy Taxonomy slug.
- * @return bool True if the 'last_changed' times are in sync, or 'fresh'.
- *              False if they are out of sync, or not cached.
- */
-function taxonomy_hierarchy_is_fresh( $taxonomy ) {
-	$last_changed = get_taxonomy_last_changed( $taxonomy );
-	$key = $taxonomy . '_hierarchy_last_changed';
-	$hierarchy_last_changed = wp_cache_get( $key, 'terms' );
-	if ( ! $hierarchy_last_changed || $last_changed !== $hierarchy_last_changed ) {
-		wp_cache_set( $key, $last_changed, 'terms' );
-		return false;
-	}
-	return true;
 }
