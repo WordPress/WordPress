@@ -3,21 +3,36 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 
 	function replaceGalleryShortcodes( content ) {
 		return content.replace( /\[gallery([^\]]*)\]/g, function( match ) {
-			var data = window.encodeURIComponent( match );
-
-			return '<img src="' + tinymce.Env.transparentSrc + '" class="wp-media wp-gallery mceItem" ' +
-				'data-wp-media="' + data + '" data-mce-resize="false" data-mce-placeholder="1" />';
+			return html( 'wp-gallery', match );
 		});
 	}
 
-	function replaceAVShortcodes( content ) {
-		return content.replace( /\[(audio|video)[^\]]*\][\s\S]*?\[\/\1\]/g, function( match, type ) {
-			var data = window.encodeURIComponent( match ),
-				cls = 'wp-media mceItem wp-' + type;
+	function html( cls, data ) {
+		data = window.encodeURIComponent( data );
+		return '<img src="' + tinymce.Env.transparentSrc + '" class="wp-media mceItem ' + cls + '" ' +
+			'data-wp-media="' + data + '" data-mce-resize="false" data-mce-placeholder="1" />';
+	}
 
-			return '<img src="' + tinymce.Env.transparentSrc + '" class="' + cls + '" ' +
-				'data-wp-media="' + data + '" data-mce-resize="false" data-mce-placeholder="1" />';
-		});
+	function replaceCallback( match, type, close ) {
+		var index;
+
+		if ( close && close.indexOf( '[' + type ) > -1 ) {
+			index = match.length - close.length;
+			return html( 'wp-' + type, match.substring( 0, index ) ) + match.substring( index );
+		}
+
+		return html( 'wp-' + type, match );
+	}
+
+	function replaceAVShortcodes( content ) {
+		var testRegex = /\[(audio|video)[^\]]*\]/,
+			replaceRegex = /\[(audio|video)[^\]]*\]([\s\S]*?\[\/\1\])?/;
+
+		while ( testRegex.test( content ) ) {
+			content = content.replace( replaceRegex, replaceCallback );
+		}
+
+		return content;
 	}
 
 	function restoreMediaShortcodes( content ) {
@@ -61,7 +76,7 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 			});
 		} else {
 			// temp
-			window.console && console.log( 'Edit AV shortcode ' + window.decodeURIComponent( editor.dom.getAttrib( node, 'data-wp-media' ) ) );
+			window.console && window.console.log( 'Edit AV shortcode ' + window.decodeURIComponent( editor.dom.getAttrib( node, 'data-wp-media' ) ) );
 		}
 	}
 
@@ -92,18 +107,22 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 		var dom = editor.dom,
 			node = event.target;
 
+		function unselect() {
+			dom.removeClass( dom.select( 'img.wp-media-selected' ), 'wp-media-selected' );
+		}
+
 		if ( node.nodeName === 'IMG' && dom.getAttrib( node, 'data-wp-media' ) ) {
 			// Don't trigger on right-click
 			if ( event.button !== 2 ) {
 				if ( dom.hasClass( node, 'wp-media-selected' ) ) {
 					editMedia( node );
-					dom.removeClass( node, 'wp-media-selected' );
 				} else {
+					unselect();
 					dom.addClass( node, 'wp-media-selected' );
 				}
 			}
 		} else {
-			dom.removeClass( dom.select( 'img.wp-media-selected' ), 'wp-media-selected' );
+			unselect();
 		}
 	});
 

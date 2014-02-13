@@ -183,6 +183,10 @@ img::selection {
 	outline: 1px solid #777;
 }
 
+.mce-content-body img[data-mce-resize="false"] {
+	outline: 0;
+}
+
 img.wp-oembed {
 	border: 1px dashed #888;
 	background: #f7f5f2 url("images/embedded.png") no-repeat scroll center center;
