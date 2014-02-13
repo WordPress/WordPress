@@ -50,8 +50,11 @@ require( ABSPATH . WPINC . '/functions.wp-styles.php' );
 function wp_default_scripts( &$scripts ) {
 	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
 
-	if ( ! defined( 'SCRIPT_DEBUG' ) )
-		define( 'SCRIPT_DEBUG', false !== strpos( $wp_version, '-src' ) );
+	$develop_src = false !== strpos( $wp_version, '-src' );
+
+	if ( ! defined( 'SCRIPT_DEBUG' ) ) {
+		define( 'SCRIPT_DEBUG', $develop_src );
+	}
 
 	if ( ! $guessurl = site_url() ) {
 		$guessed_url = true;
@@ -64,6 +67,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->default_dirs = array('/wp-admin/js/', '/wp-includes/js/');
 
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
+	$dev_suffix = $develop_src ? '' : '.min';
 
 	$scripts->add( 'utils', "/wp-includes/js/utils$suffix.js" );
 	did_action( 'init' ) && $scripts->localize( 'utils', 'userSettings', array(
@@ -270,8 +274,8 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'json2', "/wp-includes/js/json2$suffix.js", array(), '2011-02-23');
 
-	$scripts->add( 'underscore', '/wp-includes/js/underscore.min.js', array(), '1.4.4', 1 );
-	$scripts->add( 'backbone', '/wp-includes/js/backbone.min.js', array('underscore','jquery'), '1.0.0', 1 );
+	$scripts->add( 'underscore', "/wp-includes/js/underscore$dev_suffix.js", array(), '1.6.0', 1 );
+	$scripts->add( 'backbone', "/wp-includes/js/backbone$dev_suffix.js", array( 'underscore','jquery' ), '1.1.0', 1 );
 
 	$scripts->add( 'wp-util', "/wp-includes/js/wp-util$suffix.js", array('underscore', 'jquery'), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'wp-util', '_wpUtilSettings', array(
