@@ -37,15 +37,17 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 	}
 
 	$domain = rtrim( $domain, '.' );
-	$cookie_domain = $domain;
-	if ( substr( $cookie_domain, 0, 4 ) == 'www.' )
-		$cookie_domain = substr( $cookie_domain, 4 );
 
 	$path = preg_replace( '|([a-z0-9-]+.php.*)|', '', $_SERVER['REQUEST_URI'] );
 	$path = str_replace ( '/wp-admin/', '/', $path );
 	$path = preg_replace( '|(/[a-z0-9-]+?/).*|', '$1', $path );
 
 	$current_site = wpmu_current_site();
+	$current_site->cookie_domain = $current_site->domain;
+	if ( 'www.' === substr( $current_site->cookie_domain, 0, 4 ) ) {
+		$current_site->cookie_domain = substr( $current_site->cookie_domain, 4 );
+	}
+
 	if ( ! isset( $current_site->blog_id ) )
 		$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $current_site->domain, $current_site->path ) );
 

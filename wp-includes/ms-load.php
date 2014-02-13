@@ -134,6 +134,93 @@ function get_current_site_name( $current_site ) {
 }
 
 /**
+ * Retrieve a network object by its domain and path.
+ *
+ * @since 3.9.0
+ *
+ * @param string $domain Domain to check.
+ * @param string $path   Path to check.
+ * @return object|bool Network object if successful. False when no network is found.
+ */
+function get_network_by_path( $domain, $path ) {
+	global $wpdb;
+
+	$network_id = false;
+
+	$domains = $exact_domains = array( $domain );
+	$pieces = explode( '.', $domain );
+
+	// It's possible one domain to search is 'com', but it might as well
+	// be 'localhost' or some other locally mapped domain.
+	while ( array_shift( $pieces ) ) {
+		if ( $pieces ) {
+			$domains[] = implode( '.', $pieces );
+		}
+	}
+
+	if ( '/' !== $path ) {
+		$paths = array( '/', $path );
+	} else {
+		$paths = array( '/' );
+	}
+
+	$search_domains = "'" . implode( "', '", $wpdb->_escape( $domains ) ) . "'";
+	$paths = "'" . implode( "', '", $wpdb->_escape( $paths ) ) . "'";
+
+	$networks = $wpdb->get_results( "SELECT id, domain, path FROM $wpdb->site
+		WHERE domain IN ($search_domains) AND path IN ($paths)
+		ORDER BY CHAR_LENGTH(domain) DESC, CHAR_LENGTH(path) DESC" );
+
+	/*
+	 * Domains are sorted by length of domain, then by length of path.
+	 * The domain must match for the path to be considered. Otherwise,
+	 * a network with the path of / will suffice.
+	 */
+	$found = false;
+	foreach ( $networks as $network ) {
+		if ( $network->domain === $domain || "www.$network->domain" === $domain ) {
+			if ( $network->path === $path ) {
+				$found = true;
+				break;
+			}
+		}
+		if ( $network->path === '/' ) {
+			$found = true;
+			break;
+		}
+	}
+
+	if ( $found ) {
+		$network = wp_get_network( $network );
+
+		return $network;
+	}
+
+	return false;
+}
+
+/**
+ * Retrieve an object containing information about the requested network.
+ *
+ * @since 3.9.0
+ *
+ * @param int $network_id The network's DB row or ID.
+ * @return mixed Object containing network information if found, false if not.
+ */
+function wp_get_network( $network ) {
+	global $wpdb;
+
+	if ( ! is_object( $network ) ) {
+		$network = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->site WHERE id = %d", $network ) );
+		if ( ! $network ) {
+			return false;
+		}
+	}
+
+	return $network;
+}
+
+/**
  * Sets current_site object.
  *
  * @access private
@@ -141,11 +228,12 @@ function get_current_site_name( $current_site ) {
  * @return object $current_site object
  */
 function wpmu_current_site() {
-	global $wpdb, $current_site, $domain, $path, $sites, $cookie_domain;
+	global $wpdb, $current_site, $domain, $path;
 
 	if ( empty( $current_site ) )
 		$current_site = new stdClass;
 
+	// 1. If constants are defined, that's our network.
 	if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
 		$current_site->id = defined( 'SITE_ID_CURRENT_SITE' ) ? SITE_ID_CURRENT_SITE : 1;
 		$current_site->domain = DOMAIN_CURRENT_SITE;
@@ -154,77 +242,40 @@ function wpmu_current_site() {
 			$current_site->blog_id = BLOG_ID_CURRENT_SITE;
 		elseif ( defined( 'BLOGID_CURRENT_SITE' ) ) // deprecated.
 			$current_site->blog_id = BLOGID_CURRENT_SITE;
-		if ( DOMAIN_CURRENT_SITE == $domain )
-			$current_site->cookie_domain = $cookie_domain;
-		elseif ( substr( $current_site->domain, 0, 4 ) == 'www.' )
-			$current_site->cookie_domain = substr( $current_site->domain, 4 );
-		else
-			$current_site->cookie_domain = $current_site->domain;
 
-		wp_load_core_site_options( $current_site->id );
+	// 2. Pull the network from cache, if possible.
+	} elseif ( ! $current_site = wp_cache_get( 'current_site', 'site-options' ) ) {
 
-		return $current_site;
-	}
+		// 3. See if they have only one network.
+		$networks = $wpdb->get_col( "SELECT id FROM $wpdb->site LIMIT 2" );
 
-	$current_site = wp_cache_get( 'current_site', 'site-options' );
-	if ( $current_site )
-		return $current_site;
+		if ( count( $networks ) <= 1 ) {
+			$current_site = wp_get_network( $networks[0]->id );
 
-	$sites = $wpdb->get_results( "SELECT * FROM $wpdb->site" ); // usually only one site
-	if ( 1 == count( $sites ) ) {
-		$current_site = $sites[0];
-		wp_load_core_site_options( $current_site->id );
-		$path = $current_site->path;
-		$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $current_site->domain, $current_site->path ) );
-		$current_site = get_current_site_name( $current_site );
-		if ( substr( $current_site->domain, 0, 4 ) == 'www.' )
-			$current_site->cookie_domain = substr( $current_site->domain, 4 );
-		wp_cache_set( 'current_site', $current_site, 'site-options' );
-		return $current_site;
-	}
-	$path = substr( $_SERVER[ 'REQUEST_URI' ], 0, 1 + strpos( $_SERVER[ 'REQUEST_URI' ], '/', 1 ) );
+			$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id
+				FROM $wpdb->blogs WHERE domain = %s AND path = %s",
+				$current_site->domain, $current_site->path ) );
 
-	if ( $domain == $cookie_domain )
-		$current_site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->site WHERE domain = %s AND path = %s", $domain, $path ) );
-	else
-		$current_site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->site WHERE domain IN ( %s, %s ) AND path = %s ORDER BY CHAR_LENGTH( domain ) DESC LIMIT 1", $domain, $cookie_domain, $path ) );
+			wp_cache_set( 'current_site', 'site-options' );
 
-	if ( ! $current_site ) {
-		if ( $domain == $cookie_domain )
-			$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path='/'", $domain ) );
-		else
-			$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain IN ( %s, %s ) AND path = '/' ORDER BY CHAR_LENGTH( domain ) DESC LIMIT 1", $domain, $cookie_domain ) );
-	}
+		// 4. Multiple networks are in play. Determine which via domain and path.
+		} else {
+			// Find the first path segment.
+			$path = substr( $_SERVER['REQUEST_URI'], 0, 1 + strpos( $_SERVER['REQUEST_URI'], '/', 1 ) );
+			$current_site = get_network_by_path( $domain, $path );
 
-	if ( $current_site ) {
-		$path = $current_site->path;
-		$current_site->cookie_domain = $cookie_domain;
-		return $current_site;
-	}
-
-	if ( is_subdomain_install() ) {
-		$sitedomain = substr( $domain, 1 + strpos( $domain, '.' ) );
-		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path = %s", $sitedomain, $path) );
-		if ( $current_site ) {
-			$current_site->cookie_domain = $current_site->domain;
-			return $current_site;
+			// Option 1. We did not find anything.
+			if ( ! $current_site ) {
+				wp_load_translations_early();
+				wp_die( __( 'No site defined on this host. If you are the owner of this site, please check <a href="http://codex.wordpress.org/Debugging_a_WordPress_Network">Debugging a WordPress Network</a> for help.' ) );
+			}
 		}
-
-		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path='/'", $sitedomain) );
 	}
 
-	if ( $current_site || defined( 'WP_INSTALLING' ) ) {
-		$path = '/';
-		return $current_site;
-	}
-
-	// Still no dice.
-	wp_load_translations_early();
-
-	if ( 1 == count( $sites ) )
-		wp_die( sprintf( __( 'That site does not exist. Please try <a href="%s">%s</a>.' ), 'http://' . $sites[0]->domain . $sites[0]->path ) );
-	else
-		wp_die( __( 'No site defined on this host. If you are the owner of this site, please check <a href="http://codex.wordpress.org/Debugging_a_WordPress_Network">Debugging a WordPress Network</a> for help.' ) );
+	// Option 2. We found something. Load up site meta and return.
+	wp_load_core_site_options();
+	$current_site = get_current_site_name( $current_site );
+	return $current_site;
 }
 
 /**
