@@ -3566,13 +3566,15 @@
 					models = collection.models.slice( modelIndex, singleIndex + 1 );
 				}
 
-				selection.add( models ).single( model );
+				selection.add( models );
+				selection.single( model );
 				return;
 
 			// If the `method` is set to `toggle`, just flip the selection
 			// status, regardless of whether the model is the single model.
 			} else if ( 'toggle' === method ) {
-				selection[ this.selected() ? 'remove' : 'add' ]( model ).single( model );
+				selection[ this.selected() ? 'remove' : 'add' ]( model );
+				selection.single( model );
 				return;
 			}
 
@@ -3589,7 +3591,8 @@
 				// If the model is not selected, run the `method` on the
 				// selection. By default, we `reset` the selection, but the
 				// `method` can be set to `add` the model to the selection.
-				selection[ method ]( model ).single( model );
+				selection[ method ]( model );
+				selection.single( model );
 			}
 		},
 
@@ -3994,7 +3997,8 @@
 					// Silently shift the model to its new index.
 					collection.remove( model, {
 						silent: true
-					}).add( model, {
+					});
+					collection.add( model, {
 						silent: true,
 						at:     ui.item.index()
 					});
