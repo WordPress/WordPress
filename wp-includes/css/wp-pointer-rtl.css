@@ -5,7 +5,7 @@
 	background: #fff;
 	border: 1px solid #dfdfdf;
 	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.075);
-	box-shadow:         0 3px 6px rgba(0,0,0,0.075);
+	box-shadow: 0 3px 6px rgba(0,0,0,0.075);
 }
 
 .wp-pointer-content h3 {
@@ -22,6 +22,7 @@
 
 .wp-pointer-content h3:before {
 	background: #fff;
+	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	color: #2ea2cc;
 	content: '\f227';

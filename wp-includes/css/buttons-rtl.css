@@ -48,13 +48,13 @@ TABLE OF CONTENTS:
 	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;
-	-webkit-border-radius: 3px;
 	-webkit-appearance: none;
+	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	white-space: nowrap;
 	-webkit-box-sizing: border-box;
-	-moz-box-sizing:    border-box;
-	box-sizing:         border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 /* Remove the dotted border on :focus and the extra padding in Firefox */
@@ -107,7 +107,6 @@ TABLE OF CONTENTS:
 .wp-core-ui input[type="reset"]:focus {
 	background: none;
 	border: none;
-	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	padding: 0 2px 1px;
@@ -123,7 +122,6 @@ TABLE OF CONTENTS:
 	color: #555;
 	border-color: #cccccc;
 	background: #f7f7f7;
-
 	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
 	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
  	vertical-align: top;
@@ -159,7 +157,7 @@ TABLE OF CONTENTS:
 	background: #eee;
 	border-color: #999;
 	color: #333;
-	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+ 	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
  	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 }
 
@@ -173,7 +171,7 @@ TABLE OF CONTENTS:
 	color: #aaa !important;
 	border-color: #ddd !important;
 	-webkit-box-shadow: none !important;
-	box-shadow:         none !important;
+	box-shadow: none !important;
 	text-shadow: 0 1px 0 #fff !important;
 	cursor: default;
 }
@@ -184,8 +182,8 @@ TABLE OF CONTENTS:
 
 .wp-core-ui .button-primary {
 	background: #2ea2cc;
-	border-color: #0074a2; 
-	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5), 0 1px 0 rgba(0,0,0,.15);
+	border-color: #0074a2;
+ 	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5), 0 1px 0 rgba(0,0,0,.15);
  	box-shadow: inset 0 1px 0 rgba(120,200,230,0.5), 0 1px 0 rgba(0,0,0,.15);
  	color: #fff;
 	text-decoration: none;
@@ -197,7 +195,7 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-primary:focus {
 	background: #1e8cbe;
 	border-color: #0074a2;
-	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+ 	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
  	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
 	color: #fff;
 }
@@ -216,7 +214,7 @@ TABLE OF CONTENTS:
 	background: #1b7aa6;
 	border-color: #005684;
 	color: rgba(255,255,255,0.95);
-	-webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+ 	-webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
  	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
  	vertical-align: top;
 }
@@ -229,7 +227,7 @@ TABLE OF CONTENTS:
 	background: #298cba !important;
 	border-color: #1b607f !important;
 	-webkit-box-shadow: none !important;
-	box-shadow:         none !important;
+	box-shadow: none !important;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.1) !important;
 	cursor: default;
 }
@@ -248,6 +246,7 @@ TABLE OF CONTENTS:
 
 .wp-core-ui .button-group > .button {
 	display: inline-block;
+	-webkit-border-radius: 0;
 	border-radius: 0;
 	margin-left: -1px;
 	z-index: 10;
@@ -262,10 +261,12 @@ TABLE OF CONTENTS:
 }
 
 .wp-core-ui .button-group > .button:first-child {
+	-webkit-border-radius: 0 3px 3px 0;
 	border-radius: 0 3px 3px 0;
 }
 
 .wp-core-ui .button-group > .button:last-child {
+	-webkit-border-radius: 3px 0 0 3px;
 	border-radius: 3px 0 0 3px;
 }
 
@@ -288,7 +289,7 @@ TABLE OF CONTENTS:
 		height: auto;
 		margin-bottom: 4px;
 	}
-	
+
 	#media-upload.wp-core-ui .button {
 		padding: 0 10px 1px;
 		height: 24px;
@@ -301,7 +302,7 @@ TABLE OF CONTENTS:
 		position: relative;
 		margin: 0 10px 0 14px; /* 14px right margin to match all other buttons */
 	}
-	
+
 	/* Reset responsive styles in Press This, Customizer */
 
 	.wp-core-ui.wp-customizer .button,
@@ -316,13 +317,13 @@ TABLE OF CONTENTS:
 		margin: 0;
 		vertical-align: inherit;
 	}
-	
+
 	/* Reset responsive styles on Log in button on iframed login form */
-	
+
 	.interim-login .button.button-large {
 		height: 30px;
 		line-height: 28px;
 		padding: 0 12px 2px;
 	}
-	
+
 }

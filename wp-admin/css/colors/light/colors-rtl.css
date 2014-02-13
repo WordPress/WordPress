@@ -1,5 +1,5 @@
 /*
- * Button mixin- creates 3d-ish button effect with correct 
+ * Button mixin- creates 3d-ish button effect with correct
  * highlights/shadows, based on a base color.
  */
 html {
@@ -257,10 +257,12 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
   background-color: #04a4cc; }
 
 .details.attachment {
+  -webkit-box-shadow: 0 0 0 1px #fff, 0 0 0 5px #04a4cc;
   box-shadow: 0 0 0 1px #fff, 0 0 0 5px #04a4cc; }
 
 .attachment.details .check {
   background-color: #04a4cc;
+  -webkit-box-shadow: 0 0 0 1px #fff, 0 0 0 2px #04a4cc;
   box-shadow: 0 0 0 1px #fff, 0 0 0 2px #04a4cc; }
 
 /* Themes */

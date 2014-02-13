@@ -439,7 +439,6 @@ ul#adminmenu > li.current > a.current:after {
 .wp-slider .ui-slider-handle.focus {
 	background: $button-color;
 	border-color: darken( $button-color, 10% );
-	-webkit-box-shadow: inset 0 1px 0 lighten( $button-color, 15% ), 0 1px 0 rgba(0,0,0,.15);
 	box-shadow: inset 0 1px 0 lighten( $button-color, 15% ), 0 1px 0 rgba(0,0,0,.15);
 }
 

@@ -84,8 +84,8 @@ body {
 }
 
 #customize-theme-controls {
-	-webkit-box-shadow: 0px 1px 1px -1px rgba(0, 0, 0, 0.1);
-	box-shadow:         0px 1px 1px -1px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.1);
 }
 
 #customize-theme-controls .control-section {
@@ -218,7 +218,9 @@ body {
 .collapse-sidebar {
 	background-color: transparent !important;
 	border: none !important;
+	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
+	-webkit-border-radius: 0 !important;
 	border-radius: 0 !important;
 }
 
@@ -256,6 +258,7 @@ body {
 	border: 2px solid #eeeeee;
 	-webkit-user-select: none;
 	-moz-user-select: none;
+	-ms-user-select: none;
 	user-select: none;
 }
 
@@ -423,10 +426,7 @@ body {
 .accordion-section .customize-control-image .upload-dropzone.supports-drag-drop {
 	display: block;
 	-webkit-transition: border-color 0.1s;
-	-moz-transition:    border-color 0.1s;
-	-ms-transition:     border-color 0.1s;
-	-o-transition:      border-color 0.1s;
-	transition:         border-color 0.1s;
+	transition: border-color 0.1s;
 }
 
 .accordion-section .customize-control-upload .library ul li,
