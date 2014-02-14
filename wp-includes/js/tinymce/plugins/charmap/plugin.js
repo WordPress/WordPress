@@ -313,7 +313,9 @@ tinymce.PluginManager.add('charmap', function(editor) {
 				if (target.nodeName == 'DIV') {
 					editor.execCommand('mceInsertContent', false, target.firstChild.nodeValue);
 					// WP, see #27107
-					win.close();
+					if ( ! e.ctrlKey ) {
+						win.close();
+					}
 				}
 			},
 			onmouseover: function(e) {
