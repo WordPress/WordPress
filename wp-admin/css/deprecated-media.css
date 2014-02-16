@@ -5,14 +5,14 @@ div#media-upload-header {
 	padding: 5px 5px 0;
 	font-weight: bold;
 	position: relative;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
+	border-bottom: 1px solid #dfdfdf;
+	background: #f9f9f9;
 }
 
 body#media-upload ul#sidemenu {
 	font-weight: normal;
 	margin: 0 5px;
-	right: 0;
+	left: 0;
 	bottom: -1px;
 	float: none;
 	overflow: hidden;
@@ -42,7 +42,7 @@ form {
 }
 
 #search-filter {
-	text-align: left;
+	text-align: right;
 }
 
 th {
@@ -71,19 +71,19 @@ th {
 /* specific to the image upload form */
 
 .image-align-none-label {
-	background: url(../images/align-none.png) no-repeat center right;
+	background: url(../images/align-none.png) no-repeat center left;
 }
 
 .image-align-left-label {
-	background: url(../images/align-left.png) no-repeat center right;
+	background: url(../images/align-left.png) no-repeat center left;
 }
 
 .image-align-center-label {
-	background: url(../images/align-center.png) no-repeat center right;
+	background: url(../images/align-center.png) no-repeat center left;
 }
 
 .image-align-right-label {
-	background: url(../images/align-right.png) no-repeat center right;
+	background: url(../images/align-right.png) no-repeat center left;
 }
 
 tr.image-size td {
@@ -183,7 +183,7 @@ abbr.required {
 }
 
 .menu_order {
-	float: left;
+	float: right;
 	font-size: 11px;
 	margin: 10px 10px 0;
 }
@@ -232,7 +232,7 @@ abbr.required {
 }
 
 #gallery-settings #basic th.label {
-	padding: 5px 0 5px 5px;
+	padding: 5px 5px 5px 0;
 }
 
 #gallery-settings .title {
@@ -268,7 +268,7 @@ h4.media-sub-title {
 
 #gallery-settings .describe th.label {
 	padding-top: .5em;
-	text-align: right;
+	text-align: left;
 }
 
 #gallery-settings .describe {
@@ -291,11 +291,11 @@ h4.media-sub-title {
 #gallery-settings legend {
 	font-size: 13px;
 	color: #464646;
-	margin-left: 15px;
+	margin-right: 15px;
 }
 
 #gallery-settings .align .field label {
-	margin: 0 3px 0 1em;
+	margin: 0 1em 0 3px;
 }
 
 #gallery-settings p.ml-submit {
@@ -308,8 +308,8 @@ h4.media-sub-title {
 
 #sort-buttons {
 	font-size: 0.8em;
-	margin: 3px 0 -8px 25px;
-	text-align: left;
+	margin: 3px 25px -8px 0;
+	text-align: right;
 	max-width: 625px;
 }
 
@@ -319,11 +319,11 @@ h4.media-sub-title {
 
 #sort-buttons #asc,
 #sort-buttons #showall {
-	padding-right: 5px;
+	padding-left: 5px;
 }
 
 #sort-buttons span {
-	margin-left: 25px;
+	margin-right: 25px;
 }
 
 p.media-types {
