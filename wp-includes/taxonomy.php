@@ -1972,7 +1972,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	if ( !is_array($taxonomies) )
 		$taxonomies = array($taxonomies);
 
-	foreach ( (array) $taxonomies as $taxonomy ) {
+	foreach ( $taxonomies as $taxonomy ) {
 		if ( ! taxonomy_exists($taxonomy) )
 			return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 	}
