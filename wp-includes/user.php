@@ -431,7 +431,24 @@ class WP_User_Query {
 	 * @return WP_User_Query
 	 */
 	function __construct( $query = null ) {
-		if ( !empty( $query ) ) {
+		if ( ! empty( $query ) ) {
+			$this->prepare_query( $query );
+			$this->query();
+		}
+	}
+
+	/**
+	 * Prepare the query variables
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string|array $args The query variables
+	 */
+	function prepare_query( $query = array() ) {
+		global $wpdb;
+
+		if ( empty( $this->query_vars ) || ! empty( $query ) ) {
+			$this->query_limit = null;
 			$this->query_vars = wp_parse_args( $query, array(
 				'blog_id' => $GLOBALS['blog_id'],
 				'role' => '',
@@ -450,20 +467,7 @@ class WP_User_Query {
 				'fields' => 'all',
 				'who' => ''
 			) );
-
-			$this->prepare_query();
-			$this->query();
 		}
-	}
-
-	/**
-	 * Prepare the query variables
-	 *
-	 * @since 3.1.0
-	 * @access private
-	 */
-	function prepare_query() {
-		global $wpdb;
 
 		$qv =& $this->query_vars;
 
@@ -649,17 +653,18 @@ class WP_User_Query {
 	 * Execute the query, with the current variables
 	 *
 	 * @since 3.1.0
-	 * @access private
 	 */
 	function query() {
 		global $wpdb;
 
 		$qv =& $this->query_vars;
 
+		$query = "SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit";
+
 		if ( is_array( $qv['fields'] ) || 'all' == $qv['fields'] ) {
-			$this->results = $wpdb->get_results("SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit");
+			$this->results = $wpdb->get_results( $query );
 		} else {
-			$this->results = $wpdb->get_col("SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit");
+			$this->results = $wpdb->get_col( $query );
 		}
 
 		/**
