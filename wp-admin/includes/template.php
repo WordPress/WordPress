@@ -615,14 +615,15 @@ function meta_form( $post = null ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Print out HTML form date elements for editing post or comment publish date.
  *
  * @since 0.71
  *
- * @param unknown_type $edit
- * @param unknown_type $for_post
- * @param unknown_type $tab_index
- * @param unknown_type $multi
+ * @param int|bool $edit      Accepts 1|true for editing the date, 0|false for adding the date.
+ * @param int|bool $for_post  Accepts 1|true for applying the date to a post, 0|false for a comment.
+ * @param int|bool $tab_index The tabindex attribute to add. Default 0.
+ * @param int|bool $multi     Optional. Whether the additional fields and buttons should be added.
+ *                            Default 0|false.
  */
 function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 	global $wp_locale, $comment;
@@ -655,11 +656,9 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 	$month = "<select " . ( $multi ? '' : 'id="mm" ' ) . "name=\"mm\"$tab_index_attribute>\n";
 	for ( $i = 1; $i < 13; $i = $i +1 ) {
 		$monthnum = zeroise($i, 2);
-		$month .= "\t\t\t" . '<option value="' . $monthnum . '"';
-		if ( $i == $mm )
-			$month .= ' selected="selected"';
+		$month .= "\t\t\t" . '<option value="' . $monthnum . '" ' . selected( $i, $mm, false ) . '>';
 		/* translators: 1: month number (01, 02, etc.), 2: month abbreviation */
-		$month .= '>' . sprintf( __( '%1$s-%2$s' ), $monthnum, $wp_locale->get_month_abbrev( $wp_locale->get_month( $i ) ) ) . "</option>\n";
+		$month .= sprintf( __( '%1$s-%2$s' ), $monthnum, $wp_locale->get_month_abbrev( $wp_locale->get_month( $i ) ) ) . "</option>\n";
 	}
 	$month .= '</select>';
 
@@ -680,7 +679,7 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 	foreach ( array('mm', 'jj', 'aa', 'hh', 'mn') as $timeunit ) {
 		echo '<input type="hidden" id="hidden_' . $timeunit . '" name="hidden_' . $timeunit . '" value="' . $$timeunit . '" />' . "\n";
 		$cur_timeunit = 'cur_' . $timeunit;
-		echo '<input type="hidden" id="'. $cur_timeunit . '" name="'. $cur_timeunit . '" value="' . $$cur_timeunit . '" />' . "\n";
+		echo '<input type="hidden" id="' . $cur_timeunit . '" name="' . $cur_timeunit . '" value="' . $$cur_timeunit . '" />' . "\n";
 	}
 ?>
 
@@ -692,33 +691,31 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Print out <option> HTML elements for the page templates drop-down.
  *
  * @since 1.5.0
  *
- * @param unknown_type $default
+ * @param string $default Optional. The template file name. Default empty.
  */
 function page_template_dropdown( $default = '' ) {
 	$templates = get_page_templates();
 	ksort( $templates );
-	foreach (array_keys( $templates ) as $template )
-		: if ( $default == $templates[$template] )
-			$selected = " selected='selected'";
-		else
-			$selected = '';
-	echo "\n\t<option value='".$templates[$template]."' $selected>$template</option>";
-	endforeach;
+	foreach ( array_keys( $templates ) as $template ) {
+		$selected = selected( $default, $templates[ $template ], false );
+		echo "\n\t<option value='" . $templates[ $template ] . "' $selected>$template</option>";
+	}
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Print out <option> HTML elements for the page parents drop-down.
  *
  * @since 1.5.0
  *
- * @param unknown_type $default
- * @param unknown_type $parent
- * @param unknown_type $level
- * @return unknown
+ * @param int $default Optional. The default page ID to be pre-selected. Default 0.
+ * @param int $parent  Optional. The parent page ID. Default 0.
+ * @param int $level   Optional. Page depth level. Default 0.
+ *
+ * @return void|bool Boolean False if page has no children, otherwise print out html elements
  */
 function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 	global $wpdb;
@@ -732,12 +729,9 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 				continue;
 
 			$pad = str_repeat( '&nbsp;', $level * 3 );
-			if ( $item->ID == $default)
-				$current = ' selected="selected"';
-			else
-				$current = '';
+			$selected = selected( $default, $item->ID, false );
 
-			echo "\n\t<option class='level-$level' value='$item->ID'$current>$pad " . esc_html($item->post_title) . "</option>";
+			echo "\n\t<option class='level-$level' value='$item->ID' $selected>$pad " . esc_html($item->post_title) . "</option>";
 			parent_dropdown( $default, $item->ID, $level +1 );
 		}
 	} else {
