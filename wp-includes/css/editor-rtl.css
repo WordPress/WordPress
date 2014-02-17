@@ -82,6 +82,10 @@ div.mce-statusbar {
 	outline: 1px solid #888;
 }
 
+.mce-toolbar .mce-btn-group > div {
+	white-space: normal;
+}
+
 .mce-toolbar .mce-btn-group .mce-btn.mce-listbox {
 	-webkit-border-radius: 0;
 	border-radius: 0;
