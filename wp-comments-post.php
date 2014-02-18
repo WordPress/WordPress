@@ -62,7 +62,7 @@ if ( ! comments_open( $comment_post_ID ) ) {
 	/**
 	 * Fires when a comment is attempted on a post in draft mode.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.1
 	 *
 	 * @param int $comment_post_ID Post ID.
 	 */
