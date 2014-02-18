@@ -1789,7 +1789,7 @@ function get_post_meta($post_id, $key = '', $single = false) {
  * @param string $meta_key Metadata key.
  * @param mixed $meta_value Metadata value. Must be serializable if non-scalar.
  * @param mixed $prev_value Optional. Previous value to check before removing.
- * @return bool True on success, false on failure.
+ * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
  */
 function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 	// make sure meta is added to the post, not a revision

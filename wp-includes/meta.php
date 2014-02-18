@@ -26,7 +26,7 @@
  * @param bool $unique Optional, default is false. Whether the specified metadata key should be
  * 		unique for the object. If true, and the object already has a value for the specified
  * 		metadata key, no change will be made
- * @return int|bool The meta ID on successful update, false on failure.
+ * @return int|bool The meta ID on success, false on failure.
  */
 function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = false) {
 	if ( !$meta_type || !$meta_key )
@@ -96,7 +96,7 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
  * @param mixed $meta_value Metadata value. Must be serializable if non-scalar.
  * @param mixed $prev_value Optional. If specified, only update existing metadata entries with
  * 		the specified value. Otherwise, update all entries.
- * @return bool True on successful update, false on failure.
+ * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
  */
 function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_value = '') {
 	if ( !$meta_type || !$meta_key )
