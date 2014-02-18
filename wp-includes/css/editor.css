@@ -2,6 +2,119 @@
  TinyMCE and Quicklinks toolbars
 ------------------------------------------------------------------------------*/
 
+/* TinyMCE widgets/containers */
+
+.mce-container,
+.mce-widget {
+	color: inherit;
+	font-family: inherit;
+}
+
+/* TinyMCE windows */
+#mce-modal-block.mce-in {
+	opacity: 0.7;
+	z-index: 159900 !important; /* Overwrite inline style added by TinyMCE. */
+}
+
+.mce-window {
+	border-radius: 0;
+	box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+	z-index: 160000 !important; /* Overwrite inline style added by TinyMCE. */
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+
+.mce-window .mce-container-body.mce-abs-layout {
+	overflow: visible;
+}
+
+.mce-window .mce-window-head {
+	background: #fcfcfc;
+	border-bottom: 1px solid #dfdfdf;
+	padding: 0;
+	min-height: 40px;
+}
+
+.mce-window .mce-window-head .mce-title {
+	font-size: 22px;
+	font-weight: 600;
+	line-height: 40px;
+	margin: 0;
+	padding: 0 40px 0 16px;
+}
+
+.mce-window .mce-window-head .mce-close {
+	color: transparent;
+	top: 0;
+	right: 0;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+}
+
+.mce-window .mce-window-head .mce-close:before {
+	font: normal 20px/2 'dashicons';
+	text-align: center;
+	color: #888;
+	width: 40px;
+	height: 40px;
+	display: block;
+}
+
+.mce-window .mce-window-head .mce-close:hover:before {
+	color: #555;
+}
+
+.mce-window .mce-window-head .mce-dragh {
+	width: calc( 100% - 40px );
+}
+
+.mce-textbox {
+	border: 1px solid #ddd;
+	border-radius: 0;
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
+	-webkit-transition: none;
+	transition: none;
+}
+
+.mce-textbox:focus,
+.mce-textbox.mce-focus {
+	border-color: #999;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* TinyMCE menus */
+.mce-menu,
+.mce-floatpanel.mce-popover {
+	border-color: rgba(0,0,0,0.15);
+	border-radius: 0;
+	box-shadow: 0 3px 5px rgba( 0, 0, 0, 0.2 );
+}
+
+.mce-floatpanel.mce-popover.mce-bottom {
+	margin-top: 2px;
+}
+
+.mce-floatpanel .mce-arrow {
+	display: none;
+}
+
+.mce-menu .mce-container-body {
+	min-width: 160px;
+}
+
+.mce-menu-item {
+	border: none;
+	margin-bottom: 2px;
+}
+
+.mce-menu-has-icons i.mce-ico {
+	line-height: 16px;
+}
+
+/* TinyMCE panel */
 div.mce-panel {
 	border: 0;
 	background: #fff;
@@ -9,6 +122,11 @@ div.mce-panel {
 	filter: none;
 }
 
+.mce-panel.mce-menu {
+	border: 1px solid #ddd;
+}
+
+/* TinyMCE toolbars */
 div.mce-toolbar-grp {
 	border-bottom: 1px solid #dedede;
 	background: #f5f5f5;
@@ -75,7 +193,7 @@ div.mce-statusbar {
 }
 
 .mce-toolbar .mce-btn i {
-	text-shadow: 0;
+	text-shadow: none;
 }
 
 .mce-toolbar .mce-btn:focus {
@@ -86,32 +204,128 @@ div.mce-statusbar {
 	white-space: normal;
 }
 
-.mce-toolbar .mce-btn-group .mce-btn.mce-listbox {
-	-webkit-border-radius: 0;
-	border-radius: 0;
-	direction: ltr;
-	background: #fff;
-	border: 1px solid #ddd;
-	-webkit-box-shadow: inset 0 1px 1px -1px rgba(0, 0, 0, .2);
-	box-shadow: inset 0 1px 1px -1px rgba(0, 0, 0, .2);
-}
-
-.mce-toolbar .mce-btn-group .mce-btn.mce-listbox:hover {
-	background-image: none;
-	border-color: #bbb;
-}
-
 .mce-toolbar .mce-colorbutton .mce-open {
 	border-right: 0;
 }
 
 .mce-toolbar .mce-colorbutton .mce-preview {
-	margin-left: -16px;
+	margin-left: -18px;
+	padding: 0;
+	width: 18px;
+}
+
+.mce-menubar {
+	border-color: #e5e5e5;
+}
+
+.mce-menubar .mce-btn:focus {
+	outline: 0;
+}
+
+div.mce-menu .mce-menu-item-sep,
+.mce-menu-item-sep:hover {
+	margin: 5px 0 4px;
+}
+
+/* Buttons in modals */
+.mce-window .mce-btn {
+	color: #555;
+	background: #f7f7f7;
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 26px;
+	height: 28px;
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+	border: 1px solid #ccc;
+	-webkit-appearance: none;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	white-space: nowrap;
+	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+	background-image: none;
+}
+
+.mce-window .mce-btn:hover {
+	background: #fafafa;
+	border-color: #999;
+	color: #222;
+}
+
+.mce-window .mce-btn:focus {
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+	box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+}
+
+.mce-window .mce-btn:active {
+	background: #eee;
+	border-color: #999;
+	color: #333;
+ 	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+ 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+}
+
+.mce-window .mce-btn.mce-disabled {
+	color: #aaa;
+	border-color: #ddd;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	text-shadow: 0 1px 0 #fff;
+	cursor: default;
+}
+
+.mce-window .mce-btn.mce-primary {
+	background: #2ea2cc;
+	border-color: #0074a2;
+ 	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5), 0 1px 0 rgba(0,0,0,.15);
+ 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.5), 0 1px 0 rgba(0,0,0,.15);
+ 	color: #fff;
+}
+
+.mce-window .mce-btn.mce-primary:hover {
+	background: #1e8cbe;
+	border-color: #0074a2;
+ 	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+ 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+	color: #fff;
+}
+
+.mce-window .mce-btn.mce-primary:focus {
+	border-color: #0e3950;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,0.4);
+	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+.mce-window .mce-btn.mce-primary:active {
+	background: #1b7aa6;
+	border-color: #005684;
+	color: rgba(255,255,255,0.95);
+ 	-webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+ 	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+}
+
+.mce-window .mce-btn.mce-primary.mce-disabled {
+	color: #94cde7;
+	background: #298cba;
+	border-color: #1b607f;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.1);
 }
 
 /* Charmap modal */
+.mce-charmap {
+	margin: 3px;
+}
+
 .mce-charmap td {
 	padding: 0;
+	border-color: #dfdfdf;
+	cursor: pointer;
+}
+
+.mce-charmap td:hover {
+	background: #f3f3f3;
 }
 
 .mce-charmap td div {
@@ -120,17 +334,38 @@ div.mce-statusbar {
 	line-height: 22px;
 }
 
-/* Icons */
-.mce-toolbar .mce-ico {
+/* TinyMCE tooltips */
+
+.mce-tooltip {
+	margin-top: 2px;
+}
+
+.mce-tooltip-inner {
+	box-shadow: 0 3px 5px rgba( 0, 0, 0, 0.2 );
+	color: #fff;
+	font-size: 12px;
+}
+
+/* TinyMCE icons */
+.mce-toolbar .mce-ico,
+.mce-toolbar .mce-caret {
 	color: #777;
 	line-height: 20px;
 	width: 20px;
 	height: 20px;
 	text-align: center;
+	text-shadow: none;
 }
 
-.mce-toolbar .mce-btn:hover .mce-ico {
+.mce-toolbar .mce-btn:hover .mce-ico,
+.mce-toolbar .mce-btn.mce-active .mce-ico,
+.mce-toolbar .mce-btn:hover .mce-caret,
+.mce-toolbar .mce-btn.mce-active .mce-caret {
 	color: #333;
+}
+
+.mce-toolbar .mce-btn.mce-active .mce-open {
+	border-left-color: #bdbdbd;
 }
 
 i.mce-i-bold,
@@ -164,7 +399,9 @@ i.mce-i-help,
 i.mce-i-wp_help,
 i.mce-i-wp-media-library,
 i.mce-i-ltr,
-i.mce-i-wp_page {
+i.mce-i-wp_page,
+i.mce-caret,
+.mce-close {
 	font: normal 20px/1 'dashicons';
 	padding: 0;
 	vertical-align: top;
@@ -289,6 +526,55 @@ i.mce-i-ltr:before {
 
 i.mce-i-wp_page:before {
 	content: '\f105';
+}
+
+i.mce-caret:before {
+	content: '\f140';
+}
+
+.mce-active i.mce-caret:before {
+	content: '\f142';
+}
+
+.mce-close:before {
+	content: '\f158';
+}
+
+.mce-toolbar .mce-btn .mce-caret {
+	border: none;
+	margin: 0 0 0 -5px;
+	width: 16px;
+}
+
+.mce-menubtn span {
+	margin-right: 0;
+	padding-left: 3px;
+}
+
+.mce-toolbar .mce-listbox .mce-caret {
+	margin-top: 0;
+	padding: 2px 3px;
+	right: 0;
+	top: 0;
+	width: 10px;
+}
+
+.mce-toolbar .mce-listbox:hover .mce-caret,
+.mce-toolbar .mce-listbox.mce-active .mce-caret {
+	border-left: 1px solid #bdbdbd;
+}
+
+.mce-toolbar .mce-listbox .mce-caret:before {
+	margin-left: -6px;
+}
+
+.mce-toolbar .mce-splitbtn:hover .mce-open {
+	border-right-color: transparent;
+}
+
+.mce-toolbar .mce-splitbtn .mce-open.mce-active{
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 /* Editors */
@@ -439,10 +725,6 @@ i.mce-i-wp_page:before {
 .quicktags-toolbar {
 	border-bottom-style: solid;
 	border-bottom-width: 1px;
-	-webkit-border-top-right-radius: 3px;
-	border-top-right-radius: 3px;
-	-webkit-border-top-left-radius: 3px;
-	border-top-left-radius: 3px;
 	padding: 2px 8px 0;
 	min-height: 29px;
 }

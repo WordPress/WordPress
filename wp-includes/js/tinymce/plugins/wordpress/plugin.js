@@ -10,7 +10,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		initial = ( state === 'hide' );
 
 		if ( editor.theme.panel ) {
-			toolbars = editor.theme.panel.find('.toolbar');
+			toolbars = editor.theme.panel.find('.toolbar:not(.menubar)');
 		}
 
 		if ( ! toolbars || toolbars.length < 2 || ( state === 'hide' && ! toolbars[1].visible() ) ) {

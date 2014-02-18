@@ -15,140 +15,133 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php _e('Rich Editor Help'); ?></title>
 <script type="text/javascript" src="tiny_mce_popup.js?ver=358-20121205"></script>
-<?php
-wp_admin_css( 'wp-admin', true );
-?>
+<?php wp_admin_css( 'wp-admin', true ); ?>
 <style type="text/css">
+
+	html {
+		background: #fcfcfc;
+		overflow: hidden;
+	}
+
 	body {
 		min-width: 0;
 	}
-	#wphead {
-		font-size: 80%;
-		border-top: 0;
-		color: #555;
-		background-color: #f1f1f1;
+
+	#tabs-wrap {
+		position: absolute;
+		top: 0;
 	}
-	#wphead h1 {
-		font-size: 24px;
-		color: #555;
-		margin: 0;
-		padding: 10px;
-	}
+
 	#tabs {
-		padding: 15px 15px 3px;
-		background-color: #f1f1f1;
-		border-bottom: 1px solid #dfdfdf;
+		box-shadow: 0 3px 5px rgba( 255, 255, 255, 0.2 );
 		margin: 0;
-	}
-	#tabs li {
-		display: inline;
-	}
-	#tabs a.current {
-		background-color: #fff;
-		border-color: #dfdfdf;
-		border-bottom-color: #fff;
-		color: #d54e21;
-	}
-	#tabs a {
-		color: #2583AD;
-		padding: 6px;
-		border-width: 1px 1px 0;
-		border-style: solid solid none;
-		border-color: #f1f1f1;
-		text-decoration: none;
-	}
-	#tabs a:hover {
-		color: #d54e21;
-	}
-	.wrap h2 {
-		border-bottom-color: #dfdfdf;
-		color: #555;
-		margin: 5px 0;
 		padding: 0;
-		font-size: 18px;
+		position: relative;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
 	}
-	#user_info {
-		right: 5%;
-		top: 5px;
+
+	#tabs a {
+		-webkit-transition: none;
+		transition: none;
 	}
-	h3 {
-		font-size: 1.1em;
-		margin-top: 10px;
-		margin-bottom: 0px;
-	}
-	#flipper {
+	
+	#tabs-wrap #tabs > a {
+		float: left;
+		font-size: 14px;
+		height: 18px;
+		line-height: 18px;
 		margin: 0;
-		padding: 5px 20px 10px;
+		padding: 7px 10px;
+		position: relative;
+		text-decoration: none;
+		border-right: 1px solid #ddd;
+		background-color: #eee;
+		color: inherit;
+	}
+
+	#tabs > a:active,
+	#tabs > a:focus {
+		outline: none;
+	}
+
+	#tabs-wrap #tabs .active,
+	#tabs-wrap #tabs .active:hover {
+		color: #333;
+		background: #fff;
+		border-bottom: 1px solid #fff;
+	}
+
+	#tabs .active:after {
+		display: none;
+	}
+
+	#flipper {
 		background-color: #fff;
-		border-left: 1px solid #dfdfdf;
-		border-bottom: 1px solid #dfdfdf;
+		border-top: 1px solid #ddd;
+		height: 360px;
+		margin: 0;
+		margin-top: 32px;
+		overflow-y: scroll;
+		padding: 10px 16px;
 	}
-	* html {
-        overflow-x: hidden;
-        overflow-y: scroll;
-    }
-	#flipper div p {
-		margin-top: 0.4em;
-		margin-bottom: 0.8em;
-		text-align: justify;
-	}
+
 	th {
 		text-align: center;
 	}
+
 	.top th {
 		text-decoration: underline;
 	}
+
 	.top .key {
 		text-align: center;
 		width: 5em;
 	}
-	.top .action {
-		text-align: left;
-	}
-	.align {
-		border-left: 3px double #333;
-		border-right: 3px double #333;
-	}
+
 	.keys {
+		border: 0 none;
 		margin-bottom: 15px;
 		width: 100%;
-		border: 0 none;
 	}
+
 	.keys p {
 		display: inline-block;
 		margin: 0px;
 		padding: 0px;
 	}
-	.keys .left { text-align: left; }
-	.keys .center { text-align: center; }
-	.keys .right { text-align: right; }
-	td b {
-		font-family: "Times New Roman" Times serif;
+
+	.keys .left {
+		text-align: left;
 	}
-	#buttoncontainer {
+
+	.keys .center {
 		text-align: center;
-		margin-bottom: 20px;
 	}
-	#buttoncontainer a, #buttoncontainer a:hover {
-		border-bottom: 0px;
+
+	.keys .right {
+		text-align: right;
 	}
+
 	.macos .win,
 	.windows .mac {
 		display: none;
 	}
+
 </style>
 <?php if ( is_rtl() ) : ?>
 <style type="text/css">
-	#wphead, #tabs {
-		padding-left: auto;
-		padding-right: 15px;
+
+	.keys .left {
+		text-align: right;
 	}
-	#flipper {
-		margin: 5px 0 3px 10px;
+
+	.keys .right {
+		text-align: left;
 	}
-	.keys .left, .top, .action { text-align: right; }
-	.keys .right { text-align: left; }
-	td b { font-family: Tahoma, "Times New Roman", Times, serif }
+
 </style>
 <?php endif; ?>
 </head>
@@ -158,12 +151,14 @@ if ( tinymce.isMac )
 	document.body.className = document.body.className.replace(/windows/, 'macos');
 </script>
 
-<ul id="tabs">
-	<li><a id="tab1" href="javascript:flipTab(1)" title="<?php esc_attr_e('Basics of Rich Editing'); ?>" accesskey="1" class="current"><?php _e('Basics'); ?></a></li>
-	<li><a id="tab2" href="javascript:flipTab(2)" title="<?php esc_attr_e('Advanced use of the Rich Editor'); ?>" accesskey="2"><?php _e('Advanced'); ?></a></li>
-	<li><a id="tab3" href="javascript:flipTab(3)" title="<?php esc_attr_e('Hotkeys'); ?>" accesskey="3"><?php _e('Hotkeys'); ?></a></li>
-	<li><a id="tab4" href="javascript:flipTab(4)" title="<?php esc_attr_e('About the software'); ?>" accesskey="4"><?php _e('About'); ?></a></li>
-</ul>
+<div id="tabs-wrap">
+	<div id="tabs">
+		<a id="tab1" href="javascript:flipTab(1)" title="<?php esc_attr_e('Basics of Rich Editing'); ?>" accesskey="1" class="active"><?php _e('Basics'); ?></a>
+		<a id="tab2" href="javascript:flipTab(2)" title="<?php esc_attr_e('Advanced use of the Rich Editor'); ?>" accesskey="2"><?php _e('Advanced'); ?></a>
+		<a id="tab3" href="javascript:flipTab(3)" title="<?php esc_attr_e('Hotkeys'); ?>" accesskey="3"><?php _e('Hotkeys'); ?></a>
+		<a id="tab4" href="javascript:flipTab(4)" title="<?php esc_attr_e('About the software'); ?>" accesskey="4"><?php _e('About'); ?></a>
+	</div>
+</div>
 
 <div id="flipper" class="wrap">
 
@@ -172,7 +167,7 @@ if ( tinymce.isMac )
 	<p><?php _e('<em>Rich editing</em>, also called WYSIWYG for What You See Is What You Get, means your text is formatted as you type. The rich editor creates HTML code behind the scenes while you concentrate on writing. Font styles, links and images all appear approximately as they will on the internet.'); ?></p>
 	<p><?php _e('WordPress includes a rich HTML editor that works well in all major web browsers used today. However editing HTML is not the same as typing text. Each web page has two major components: the structure, which is the actual HTML code and is produced by the editor as you type, and the display, that is applied to it by the currently selected WordPress theme and is defined in style.css. WordPress is producing valid XHTML 1.0 which means that inserting multiple line breaks (BR tags) after a paragraph would not produce white space on the web page. The BR tags will be removed as invalid by the internal HTML correcting functions.'); ?></p>
 	<p><?php _e('While using the editor, most basic keyboard shortcuts work like in any other text editor. For example: Shift+Enter inserts line break, Ctrl+C = copy, Ctrl+X = cut, Ctrl+Z = undo, Ctrl+Y = redo, Ctrl+A = select all, etc. (on Mac use the Command key instead of Ctrl). See the Hotkeys tab for all available keyboard shortcuts.'); ?></p>
-    <p><?php _e('If you do not like the way the rich editor works, you may turn it off from Your Profile submenu, under Users in the admin menu.'); ?></p>
+	<p><?php _e('If you do not like the way the rich editor works, you may turn it off from Your Profile submenu, under Users in the admin menu.'); ?></p>
 </div>
 
 <div id="content2" class="hidden">
@@ -189,7 +184,7 @@ if ( tinymce.isMac )
 
 <div id="content3" class="hidden">
 	<h2><?php _e('Writing at Full Speed'); ?></h2>
-    <p><?php _e('Rather than reaching for your mouse to click on the toolbar, use these access keys. Windows and Linux use Ctrl + letter. Macintosh uses Command + letter.'); ?></p>
+	<p><?php _e('Rather than reaching for your mouse to click on the toolbar, use these access keys. Windows and Linux use Ctrl + letter. Macintosh uses Command + letter.'); ?></p>
 
 	<table class="keys">
 		<tr class="top"><th class="key center"><?php _e('Letter'); ?></th><th class="left"><?php _e('Action'); ?></th><th class="key center"><?php _e('Letter'); ?></th><th class="left"><?php _e('Action'); ?></th></tr>
@@ -228,18 +223,12 @@ if ( tinymce.isMac )
 <div id="content4" class="hidden">
 	<h2><?php _e('About TinyMCE'); ?></h2>
 
-    <p><?php _e('Version:'); ?> <span id="version"></span> (<span id="date"></span>)</p>
+	<p><?php _e('Version:'); ?> <span id="version"></span> (<span id="date"></span>)</p>
 	<p><?php printf(__('TinyMCE is a platform independent web based Javascript HTML WYSIWYG editor released as Open Source under %sLGPL</a>	by Moxiecode Systems AB. It has the ability to convert HTML TEXTAREA fields or other HTML elements to editor instances.'), '<a href="'.home_url('/wp-includes/js/tinymce/license.txt').'" target="_blank" title="'.esc_attr__('GNU Library General Public License').'">'); ?></p>
 	<p><?php _e('Copyright &copy; 2003-2014, <a href="http://www.moxiecode.com" target="_blank">Moxiecode Systems AB</a>, All rights reserved.'); ?></p>
 	<p><?php _e('For more information about this software visit the <a href="http://tinymce.com" target="_blank">TinyMCE website</a>.'); ?></p>
 </div>
 
-</div>
-
-<div class="mceActionPanel">
-	<div style="margin: 8px auto; text-align: center;padding-bottom: 10px;">
-		<input type="button" id="cancel" name="cancel" value="<?php esc_attr_e('Close'); ?>" title="<?php esc_attr_e('Close'); ?>" onclick="tinyMCEPopup.close();" />
-	</div>
 </div>
 <script type="text/javascript">
 	function d(id) { return document.getElementById(id); }
@@ -252,7 +241,7 @@ if ( tinymce.isMac )
 			t = d('tab'+i.toString());
 			if ( n == i ) {
 				c.className = '';
-				t.className = 'current';
+				t.className = 'active';
 			} else {
 				c.className = 'hidden';
 				t.className = '';
@@ -260,18 +249,18 @@ if ( tinymce.isMac )
 		}
 	}
 
-    tinyMCEPopup.onInit.add(function() {
-        var win = tinyMCEPopup.getWin();
+	tinyMCEPopup.onInit.add(function() {
+		var win = tinyMCEPopup.getWin();
 
 		d('version').innerHTML = tinymce.majorVersion + "." + tinymce.minorVersion;
-        d('date').innerHTML = tinymce.releaseDate;
+		d('date').innerHTML = tinymce.releaseDate;
 
 		if ( win.fullscreen && win.fullscreen.settings.visible ) {
 			d('content1').className = 'hidden';
 			d('tabs').className = 'hidden';
 			d('content3').className = 'dfw';
 		}
-    });
+	});
 </script>
 </body>
 </html>

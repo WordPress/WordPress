@@ -58,7 +58,7 @@ var tinyMCEPopup = {
 			proxy: tinyMCEPopup._eventProxy
 		});
 
-		self.dom.bind(window, 'ready', self._onDOMLoaded, self);
+		self.dom.bind(window, 'load', self._onDOMLoaded, self);
 
 		// Enables you to skip loading the default css
 		if (self.features.popup_css !== false) {
@@ -385,11 +385,15 @@ var tinyMCEPopup = {
 		document.body.style.display = '';
 
 		// Restore selection in IE when focus is placed on a non textarea or input element of the type text
-		if (tinymce.isIE) {
-			document.attachEvent('onmouseup', tinyMCEPopup._restoreSelection);
+		if (tinymce.Env.ie) {
+			if ( tinymce.Env.ie < 11 ) {
+				document.attachEvent('onmouseup', tinyMCEPopup._restoreSelection);
 
-			// Add base target element for it since it would fail with modal dialogs
-			t.dom.add(t.dom.select('head')[0], 'base', {target : '_self'});
+				// Add base target element for it since it would fail with modal dialogs
+				t.dom.add(t.dom.select('head')[0], 'base', {target : '_self'});
+			} else {
+				document.addEventListener('mouseup', tinyMCEPopup._restoreSelection, false);
+			}
 		}
 
 		t.restoreSelection();
@@ -436,7 +440,11 @@ var tinyMCEPopup = {
 
 		document.onkeyup = tinyMCEPopup._closeWinKeyHandler;
 
-		t.uiWindow.getEl('head').firstChild.firstChild.data = document.title;
+		if ( 'textContent' in document ) {
+			t.uiWindow.getEl('head').firstChild.textContent = document.title;
+		} else {
+			t.uiWindow.getEl('head').firstChild.innerText = document.title;
+		}
 	},
 
 	_accessHandler : function(e) {
