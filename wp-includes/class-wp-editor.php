@@ -324,8 +324,8 @@ final class _WP_Editors {
 					'keep_styles' => false,
 					'paste_remove_styles' => true,
 
-					// limit the preview styles in the menu/toolbar
-			//		'preview_styles' => 'font-family font-weight font-style text-decoration text-transform color background-color border',
+					// Limit the preview styles in the menu/toolbar
+					'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform',
 
 					'wpeditimage_disable_captions' => $no_captions,
 					'plugins' => implode( ',', $plugins ),
