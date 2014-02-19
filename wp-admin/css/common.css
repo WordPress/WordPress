@@ -1,0 +1,2522 @@
+/* 2 column liquid layout */
+#wpwrap {
+	height: auto;
+	min-height: 100%;
+	width: 100%;
+	position: relative;
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+
+#wpcontent {
+	height: 100%;
+}
+
+#wpcontent,
+#wpfooter {
+	margin-left: 180px;
+}
+
+.folded #wpcontent,
+.folded #wpfooter {
+	margin-left: 56px;
+}
+
+#wpbody-content {
+	padding-bottom: 65px;
+	float: left;
+	width: 100%;
+	overflow: visible !important;
+}
+
+/* inner 2 column liquid layout */
+
+.inner-sidebar {
+	float: right;
+	clear: right;
+	display: none;
+	width: 281px;
+	position: relative;
+}
+
+.columns-2 .inner-sidebar {
+	margin-right: auto;
+	width: 286px;
+	display: block;
+}
+
+.inner-sidebar #side-sortables,
+.columns-2 .inner-sidebar #side-sortables {
+	min-height: 300px;
+	width: 280px;
+	padding: 0;
+}
+
+.has-right-sidebar .inner-sidebar {
+	display: block;
+}
+
+.has-right-sidebar #post-body {
+	float: left;
+	clear: left;
+	width: 100%;
+	margin-right: -2000px;
+}
+
+.has-right-sidebar #post-body-content {
+	margin-right: 300px;
+	float: none;
+	width: auto;
+}
+
+/* 2 columns main area */
+
+#col-container,
+#col-left,
+#col-right {
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+
+#col-left {
+	width: 35%;
+}
+
+#col-right {
+	float: right;
+	clear: right;
+	width: 65%;
+}
+
+.col-wrap {
+	padding: 0 7px;
+}
+
+/* utility classes */
+.alignleft {
+	float: left;
+}
+
+.alignright {
+	float: right;
+}
+
+.textleft {
+	text-align: left;
+}
+
+.textright {
+	text-align: right;
+}
+
+.clear {
+	clear: both;
+}
+
+/* Hide visually but not from screen readers */
+.screen-reader-text,
+.screen-reader-text span,
+.ui-helper-hidden-accessible {
+	position: absolute;
+	margin: -1px;
+	padding: 0;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	border: 0;
+}
+
+.screen-reader-shortcut {
+	position: absolute;
+	top: -1000em;
+}
+
+.screen-reader-shortcut:focus {
+	left: 6px;
+	top: -25px;
+	height: auto;
+	width: auto;
+	display: block;
+	font-size: 14px;
+	font-weight: 600;
+	padding: 15px 23px 14px;
+	background: #f1f1f1;
+	color: #21759b;
+	z-index: 100000;
+	line-height: normal;
+	-webkit-box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
+	box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
+	text-decoration: none;
+	outline: none;
+}
+
+.hidden,
+.js .closed .inside,
+.js .hide-if-js,
+.no-js .hide-if-no-js,
+.js.wp-core-ui .hide-if-js,
+.js .wp-core-ui .hide-if-js,
+.no-js.wp-core-ui .hide-if-no-js,
+.no-js .wp-core-ui .hide-if-no-js {
+	display: none;
+}
+
+/* @todo: Take a second look. Large chunks of shared color, from the colors.css merge */
+.widget-top,
+.menu-item-handle,
+.widget-inside,
+#menu-settings-column .accordion-container,
+#menu-management .menu-edit,
+.manage-menus,
+table.widefat,
+.stuffbox,
+p.popular-tags,
+.widgets-holder-wrap,
+.wp-editor-container,
+.popular-tags,
+.feature-filter,
+.imgedit-group {
+	border: 1px solid #e5e5e5;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+}
+
+table.widefat,
+.wp-editor-container,
+.stuffbox,
+p.popular-tags,
+.widgets-holder-wrap,
+.popular-tags,
+.feature-filter,
+.imgedit-group {
+	background: #fff;
+}
+
+/* general */
+html,
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	background: #f1f1f1;
+}
+
+body {
+	color: #444;
+	font-family: "Open Sans", sans-serif;
+	font-size: 13px;
+	line-height: 1.4em;
+	min-width: 600px;
+}
+
+body.iframe {
+	min-width: 0;
+	padding-top: 1px;
+}
+
+iframe,
+img {
+	border: 0;
+}
+
+td {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+}
+
+a {
+	color: #0074a2;
+	-webkit-transition-property: border, background, color;
+	transition-property: border, background, color;
+	-webkit-transition-duration: .05s;
+	transition-duration: .05s;
+	-webkit-transition-timing-function: ease-in-out;
+	transition-timing-function: ease-in-out;
+}
+
+a,
+div {
+	outline: 0;
+}
+
+a:hover,
+a:active {
+	color: #2ea2cc;
+}
+
+a:focus {
+	color: #124964;
+}
+
+a:focus,
+a:active {
+	outline: thin dotted;
+}
+
+#adminmenu a:focus,
+#adminmenu a:active,
+.screen-reader-text:focus {
+	outline: none;
+}
+
+blockquote,
+q {
+	quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: '';
+	content: none;
+}
+
+p {
+	font-size: 13px;
+	line-height: 1.5;
+	margin: 1em 0;
+}
+
+blockquote {
+	margin: 1em;
+}
+
+li,
+dd {
+	margin-bottom: 6px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	display: block;
+	font-weight: 600;
+}
+
+h1 {
+	font-size: 2em;
+	margin: .67em 0;
+}
+
+h2 {
+	color: #222;
+	font-size: 1.5em;
+	margin: .83em 0;
+	font-weight: 400;
+}
+
+h3 {
+	color: #222;
+	font-size: 1.3em;
+	margin: 1em 0;
+}
+
+h4 {
+	font-size: 1em;
+	margin: 1.33em 0;
+}
+
+h5 {
+	font-size: 0.83em;
+	margin: 1.67em 0;
+}
+
+h6 {
+	font-size: 0.67em;
+	margin: 2.33em 0;
+}
+
+ul,
+ol {
+	padding: 0;
+}
+
+ul {
+	list-style: none;
+}
+
+ol {
+	list-style-type: decimal;
+	margin-left: 2em;
+}
+
+ul.ul-disc {
+	list-style: disc outside;
+}
+
+ul.ul-square {
+	list-style: square outside;
+}
+
+ol.ol-decimal {
+	list-style: decimal outside;
+}
+
+ul.ul-disc,
+ul.ul-square,
+ol.ol-decimal {
+	margin-left: 1.8em;
+}
+
+ul.ul-disc > li,
+ul.ul-square > li,
+ol.ol-decimal > li {
+	margin: 0 0 0.5em;
+}
+
+/* @noflip */
+.code,
+code {
+	font-family: Consolas, Monaco, monospace;
+	direction: ltr;
+}
+
+kbd,
+code {
+	padding: 3px 5px 2px 5px;
+	margin: 0 1px;
+	background: #eaeaea;
+	background: rgba(0,0,0,0.07);
+	font-size: 13px;
+}
+
+.subsubsub {
+	list-style: none;
+	margin: 8px 0 0;
+	padding: 0;
+	font-size: 13px;
+	float: left;
+	color: #666;
+}
+
+.subsubsub a {
+	line-height: 2;
+	padding: .2em;
+	text-decoration: none;
+}
+
+.subsubsub a .count,
+.subsubsub a.current .count {
+	color: #999;
+	font-weight: normal;
+}
+
+.subsubsub a.current {
+	font-weight: 600;
+	border: none;
+}
+
+.subsubsub li {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	white-space: nowrap;
+}
+
+/* .widefat - main style for tables */
+.widefat {
+	border-spacing: 0;
+	width: 100%;
+	clear: both;
+	margin: 0;
+}
+
+.widefat * {
+	word-wrap: break-word;
+}
+
+.widefat a {
+	text-decoration: none;
+}
+
+.widefat td,
+.widefat th {
+	padding: 8px 10px;
+}
+
+.widefat thead th {
+	border-bottom: 1px solid #e1e1e1;
+}
+
+.widefat tfoot th {
+	border-top: 1px solid #e1e1e1;
+	border-bottom: none;
+}
+
+.widefat .no-items td {
+	border-bottom-width: 0;
+}
+
+.widefat td {
+	vertical-align: top;
+}
+
+.widefat td,
+.widefat td p,
+.widefat td ol,
+.widefat td ul {
+	font-size: 13px;
+	line-height: 1.5em;
+}
+
+.widefat th {
+	text-align: left;
+	line-height: 1.3em;
+	font-size: 14px;
+}
+
+.widefat th input {
+	margin: 0 0 0 8px;
+	padding: 0;
+	vertical-align: text-top;
+}
+
+.widefat .check-column {
+	width: 2.2em;
+	padding: 6px 0 25px;
+	vertical-align: top;
+}
+
+.widefat th input[type=checkbox] {
+	margin-top: -1px;
+}
+
+.widefat tbody th.check-column {
+	padding: 9px 0 22px;
+}
+
+.widefat.media .check-column {
+	padding-top: 8px;
+}
+
+.widefat thead th.check-column,
+.widefat tbody th.check-column,
+.widefat tfoot th.check-column {
+	padding: 11px 0 0 3px;
+}
+
+.widefat thead th.check-column {
+	padding-top: 10px;
+}
+
+.update-php div.updated,
+.update-php div.error {
+	margin-left: 0;
+}
+
+.no-js .widefat thead .check-column input,
+.no-js .widefat tfoot .check-column input {
+	display: none;
+}
+
+.widefat .num,
+.column-comments,
+.column-links,
+.column-posts {
+	text-align: center;
+}
+
+.widefat th#comments {
+	vertical-align: middle;
+}
+
+.wrap {
+	margin: 10px 20px 0 2px;
+}
+
+div.updated,
+div.error {
+	padding: 0 0.6em;
+	margin: 5px 15px 2px;
+}
+
+div.updated p,
+div.error p {
+	margin: 0.5em 0;
+	padding: 2px;
+}
+
+.wrap div.updated,
+.wrap div.error,
+.media-upload-form div.error {
+	margin: 5px 0 15px;
+}
+
+div.updated {
+	border-left: 4px solid #7ad03a;
+	padding: 1px 12px;
+	background-color: #fff;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+}
+
+div.error {
+	border-left: 4px solid #dd3d36;
+	background: #fff;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	padding: 1px 12px;
+}
+
+.attention {
+	color: #2ea2cc;
+}
+
+.wrap h2,
+.subtitle {
+	font-weight: normal;
+	margin: 0;
+}
+
+.wrap h2 {
+	font-size: 23px;
+	font-weight: 400;
+	padding: 9px 15px 4px 0;
+	line-height: 29px;
+}
+
+.subtitle {
+	color: #777;
+	font-size: 14px;
+	padding-left: 25px;
+}
+
+.wrap .add-new-h2,
+.wrap .add-new-h2:active {
+	margin-left: 4px;
+	padding: 4px 8px;
+	position: relative;
+	top: -3px;
+	text-decoration: none;
+	border: none;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	background: #e0e0e0;
+	text-shadow: none;
+	font-weight: 600;
+	font-size: 13px;
+}
+
+.wrap .add-new-h2:hover {
+	background: #2ea2cc;
+	color: #fff;
+}
+
+.wrap h2.long-header {
+	padding-right: 0;
+}
+
+.wp-dialog {
+	background-color: #fff;
+}
+
+.widgets-chooser ul,
+#widgets-left .widget-in-question .widget-top,
+#available-widgets .widget-top:hover,
+div#widgets-right .widget-top:hover,
+#widgets-left .widget-top:hover {
+	border-color: #999;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.sorthelper {
+	background-color: #ccf3fa;
+}
+
+.ac_match,
+.subsubsub a.current {
+	color: #000;
+}
+
+.alternate,
+.alt {
+	background-color: #f9f9f9;
+}
+
+.bar {
+	background-color: #e8e8e8;
+	border-right-color: #99d;
+}
+
+.media-upload-form label.form-help,
+td.help {
+	color: #9a9a9a;
+}
+
+/* Helper classes for plugins to leverage the active WordPress color scheme */
+
+.highlight {
+	background-color: #e4f2fd;
+	color: #000;
+}
+
+.wp-ui-primary {
+	color: #fff;
+	background-color: #333;
+}
+.wp-ui-text-primary {
+	color: #333;
+}
+
+.wp-ui-highlight {
+	color: white;
+	background-color: #1e8cbe;
+}
+.wp-ui-text-highlight {
+	color: #1e8cbe;
+}
+
+.wp-ui-notification {
+	color: #fff;
+	background-color: #d54e21;
+}
+.wp-ui-text-notification {
+	color: #d54e21;
+}
+
+.wp-ui-text-icon {
+	color: #999;
+}
+
+/*------------------------------------------------------------------------------
+  1.0 - Text Styles
+------------------------------------------------------------------------------*/
+
+.widget .widget-top,
+.postbox h3,
+.stuffbox h3,
+.control-section .accordion-section-title,
+h3.dashboard-widget-title,
+h3.dashboard-widget-title span,
+h3.dashboard-widget-title small,
+.sidebar-name,
+#nav-menu-header,
+#nav-menu-footer,
+.menu-item-handle,
+.checkbox,
+.side-info,
+#your-profile #rich_editing,
+.widefat thead th,
+.widefat tfoot th {
+	line-height: 1.4em;
+}
+
+.widget .widget-top,
+.menu-item-handle {
+	background: #fafafa;
+	color: #222;
+}
+
+.postbox h3,
+#namediv h3,
+#submitdiv h3 {
+	border-bottom: 1px solid #eee;
+}
+
+.quicktags,
+.search {
+	background-color: #ccc;
+	color: #000;
+	font-size: 12px;
+}
+
+.icon32 {
+	display: none;
+}
+
+/* @todo can we combine these into a class or use an existing dashicon one? */
+#welcome-panel.welcome-panel .welcome-panel-close::before,
+.tagchecklist span a:before,
+#bulk-titles div a:before {
+	background: none;
+	color: #bbb;
+	content: '\f153';
+	display: block !important;
+	font: normal 16px/1 'dashicons';
+	speak: none;
+	height: 20px;
+	margin: 2px 0;
+	text-align: center;
+	width: 20px;
+	-webkit-font-smoothing: antialiased !important;
+}
+
+#welcome-panel.welcome-panel .welcome-panel-close:hover:before,
+.tagchecklist span a:hover:before,
+#bulk-titles div a:hover:before {
+	color: #c00;
+}
+
+.key-labels label {
+	line-height: 24px;
+}
+
+strong, b {
+	font-weight: 600;
+}
+
+.pre {
+	/* https://developer.mozilla.org/en-US/docs/CSS/white-space */
+	white-space: pre-wrap; /* css-3 */
+	word-wrap: break-word; /* IE 5.5 - 7 */
+}
+
+.howto {
+	color: #666;
+	font-style: italic;
+	display: block;
+}
+
+p.install-help {
+	margin: 8px 0;
+	font-style: italic;
+}
+
+.no-break {
+	white-space: nowrap;
+}
+
+hr {
+	border: 0;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #fafafa;
+}
+
+table.widefat span.delete a,
+table.widefat span.trash a,
+table.widefat span.spam a,
+.plugins a.delete,
+#all-plugins-table .plugins a.delete,
+#search-plugins-table .plugins a.delete,
+.submitbox .submitdelete,
+#media-items a.delete,
+#media-items a.delete-permanently,
+#nav-menu-footer .menu-delete {
+	color: #a00;
+}
+
+abbr.required,
+.file-error,
+.widget-control-remove:hover,
+table.widefat .delete a:hover,
+table.widefat .trash a:hover,
+table.widefat .spam a:hover,
+.plugins a.delete:hover,
+#all-plugins-table .plugins a.delete:hover,
+#search-plugins-table .plugins a.delete:hover,
+.submitbox .submitdelete:hover,
+#media-items a.delete:hover,
+#media-items a.delete-permanently:hover,
+#nav-menu-footer .menu-delete:hover {
+	color: #f00;
+	text-decoration: none;
+	border: none;
+}
+
+/*------------------------------------------------------------------------------
+  3.0 - Actions
+------------------------------------------------------------------------------*/
+
+#major-publishing-actions {
+	padding: 10px;
+	clear: both;
+	border-top: 1px solid #ddd;
+	background: #f5f5f5;
+}
+
+#delete-action {
+	line-height: 28px;
+	vertical-align: middle;
+	text-align: left;
+	float: left;
+}
+
+#publishing-action {
+	text-align: right;
+	float: right;
+	line-height: 23px;
+}
+
+#publishing-action .spinner {
+	float: left;
+}
+
+#misc-publishing-actions {
+	padding: 6px 0 0;
+}
+
+.misc-pub-section {
+	padding: 6px 10px 8px;
+}
+
+#minor-publishing-actions {
+	padding: 10px 10px 0 10px;
+	text-align: right;
+}
+
+#save-post {
+	float: left;
+}
+
+.preview {
+	float: right;
+}
+
+#sticky-span {
+	margin-left: 18px;
+}
+
+.side-info {
+	margin: 0;
+	padding: 4px;
+	font-size: 11px;
+}
+
+.side-info h5 {
+	padding-bottom: 7px;
+	font-size: 14px;
+	margin: 12px 2px 5px;
+	border-bottom: 1px solid #dadada;
+}
+
+.side-info ul {
+	margin: 0;
+	padding-left: 18px;
+	list-style: square;
+	color: #666;
+}
+
+.approve,
+.unapproved .unapprove {
+	display: none;
+}
+
+.unapproved .approve,
+.spam .approve,
+.trash .approve {
+	display: inline;
+}
+
+td.action-links,
+th.action-links {
+	text-align: right;
+}
+
+
+/*------------------------------------------------------------------------------
+  4.0 - Notifications
+------------------------------------------------------------------------------*/
+
+#update-nag,
+.update-nag {
+	display: inline-block;
+	line-height: 19px;
+	padding: 11px 15px;
+	font-size: 14px;
+	text-align: left;
+	margin: 25px 20px 0 2px;
+	background-color: #fff;
+	border-left: 4px solid #ffba00;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+}
+
+.update-message {
+	color: #000;
+}
+
+ul#dismissed-updates {
+	display: none;
+}
+
+form.upgrade {
+	margin-top: 8px;
+}
+
+form.upgrade .hint {
+	font-style: italic;
+	font-size: 85%;
+	margin: -0.5em 0 2em 0;
+}
+
+.update-php .spinner {
+	float: none;
+	margin: -4px 0;
+}
+
+#ajax-loading,
+.ajax-loading,
+.ajax-feedback,
+.imgedit-wait-spin,
+.list-ajax-loading { /* deprecated */
+	visibility: hidden;
+}
+
+#ajax-response.alignleft {
+	margin-left: 2em;
+}
+
+/* @todo: this does not need its own section anymore */
+/*------------------------------------------------------------------------------
+  6.0 - Admin Header
+------------------------------------------------------------------------------*/
+#adminmenu a,
+#sidemenu a,
+#taglist a,
+#catlist a {
+	text-decoration: none;
+}
+
+/*------------------------------------------------------------------------------
+  6.1 - Screen Options Tabs
+------------------------------------------------------------------------------*/
+
+#screen-options-wrap,
+#contextual-help-wrap {
+	margin: 0;
+	padding: 8px 20px 12px;
+	position: relative;
+}
+
+#contextual-help-wrap {
+	overflow: auto;
+	margin-left: 0 !important;
+}
+
+#screen-meta .screen-reader-text {
+	visibility: hidden;
+}
+
+#screen-meta-links {
+	margin: 0 20px 0 0;
+}
+
+#screen-meta-links a {
+	padding: 3px 6px 3px 16px;
+}
+
+#screen-meta-links a:focus {
+	outline: none;
+}
+
+/* screen options and help tabs revert */
+#screen-meta {
+	display: none;
+	margin: 0 20px -1px 0px;
+	position: relative;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-top: none;
+	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,.025);
+	box-shadow: 0 1px 0 rgba(0,0,0,.025);
+}
+
+#screen-options-link-wrap,
+#contextual-help-link-wrap {
+	float: right;
+	height: 28px;
+	margin: 0 0 0 6px;
+	border: 1px solid #ddd;
+	border-top: none;
+	background: #fff;
+	-webkit-box-shadow: 0 1px 1px -1px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px -1px rgba(0,0,0,0.1);
+}
+
+#screen-meta-links .screen-meta-toggle {
+	position: relative;
+	top: 0;
+}
+
+#screen-meta-links a {
+	color: #777;
+}
+
+#screen-meta-links a:hover,
+#screen-meta-links a:active,
+#screen-meta-links a:focus {
+	color: #333;
+}
+
+#screen-meta-links a:focus {
+	border-color: #aaa;
+	-webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.15);
+	box-shadow: 0 2px 3px rgba(0,0,0,0.15);
+}
+
+#screen-meta-links a.show-settings {
+	display: block;
+	font-size: 13px;
+	height: 22px;
+	line-height: 22px;
+	text-decoration: none;
+	z-index: 1;
+}
+
+#screen-meta-links a:after {
+	right: 0;
+	content: '\f140';
+	font: normal 20px/1 'dashicons';
+	speak: none;
+	display: inline-block;
+	padding: 0 5px 0 0;
+	bottom: 2px;
+	position: relative;
+	vertical-align: bottom;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+	color: #bbb;
+}
+
+#screen-meta-links a.screen-meta-active:after {
+	content: '\f142';
+}
+
+#screen-meta-links a.show-settings:hover {
+	text-decoration: none;
+}
+/* end screen options and help tabs */
+
+.toggle-arrow {
+	background-repeat: no-repeat;
+	background-position: top left;
+	background-color: transparent;
+	height: 22px;
+	line-height: 22px;
+	display: block;
+}
+
+.toggle-arrow-active {
+	background-position: bottom left;
+}
+
+#screen-options-wrap h5,
+#contextual-help-wrap h5 {
+	margin: 8px 0;
+	font-size: 13px;
+}
+
+.metabox-prefs label {
+	display: inline-block;
+	padding-right: 15px;
+	line-height: 30px;
+}
+
+.metabox-prefs label input[type=checkbox] {
+	margin-top: -4px;
+	margin-right: 6px;
+}
+
+.metabox-prefs label input {
+	margin: 0 5px 0 2px;
+}
+
+.metabox-prefs .columns-prefs label input {
+	margin: 0 2px;
+}
+
+.metabox-prefs label a {
+	display: none;
+}
+
+/*------------------------------------------------------------------------------
+  6.2 - Help Menu
+------------------------------------------------------------------------------*/
+
+#contextual-help-wrap {
+	padding: 0;
+}
+
+#contextual-help-columns {
+	position: relative;
+}
+
+#contextual-help-back {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 150px;
+	right: 170px;
+	border: 1px solid #e1e1e1;
+	border-top: none;
+	border-bottom: none;
+	background: #f6fbfd;
+}
+
+#contextual-help-wrap.no-sidebar #contextual-help-back {
+	right: 0;
+	border-right-width: 0;
+	-webkit-border-bottom-right-radius: 2px;
+	border-bottom-right-radius: 2px;
+}
+
+.contextual-help-tabs {
+	float: left;
+	width: 150px;
+	margin: 0;
+}
+
+.contextual-help-tabs ul {
+	margin: 1em 0;
+}
+
+.contextual-help-tabs li {
+	margin-bottom: 0;
+	list-style-type: none;
+	border-style: solid;
+	border-width: 0 0 0 2px;
+	border-color: transparent;
+}
+
+.contextual-help-tabs a {
+	display: block;
+	padding: 5px 5px 5px 12px;
+	line-height: 18px;
+	text-decoration: none;
+	border: 1px solid transparent;
+	border-right: none;
+	border-left: none;
+}
+
+.contextual-help-tabs a:hover {
+	color: #333;
+}
+
+.contextual-help-tabs .active {
+	padding: 0;
+	margin: 0 -1px 0 0;
+	border-left: 2px solid #2ea2cc;
+	background: #f6fbfd;
+	-webkit-box-shadow: 0 2px 0 rgba(0,0,0,0.02), 0 1px 0 rgba(0,0,0,0.02);
+	box-shadow: 0 2px 0 rgba(0,0,0,0.02), 0 1px 0 rgba(0,0,0,0.02);
+}
+
+.contextual-help-tabs .active a {
+	border-color: #e1e1e1;
+	color: #333;
+}
+
+.contextual-help-tabs-wrap {
+	padding: 0 20px;
+	overflow: auto;
+}
+
+.help-tab-content {
+	display: none;
+	margin: 0 22px 12px 0;
+	line-height: 1.6em;
+}
+
+.help-tab-content.active {
+	display: block;
+}
+
+.help-tab-content ul li {
+	list-style-type: disc;
+	margin-left: 18px;
+}
+
+.contextual-help-sidebar {
+	width: 150px;
+	float: right;
+	padding: 0 8px 0 12px;
+	overflow: auto;
+}
+
+/*------------------------------------------------------------------------------
+  8.0 - Layout Blocks
+------------------------------------------------------------------------------*/
+
+html.wp-toolbar {
+	padding-top: 32px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.narrow {
+	width: 70%;
+	margin-bottom: 40px;
+}
+
+.narrow p {
+	line-height: 150%;
+}
+
+.widefat th,
+.widefat td {
+	overflow: hidden;
+	color: #555;
+}
+
+.widefat th {
+	font-weight: normal;
+}
+
+.widefat thead tr th,
+.widefat tfoot tr th {
+	color: #333;
+}
+
+.widefat td p {
+	margin: 2px 0 0.8em;
+}
+
+.widefat p,
+.widefat ol,
+.widefat ul {
+	color: #333;
+}
+
+.widefat .column-comment p {
+	margin: 0.6em 0;
+}
+
+/* Screens with postboxes */
+.postbox-container {
+	float: left;
+}
+
+.postbox-container .meta-box-sortables {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#wpbody-content .metabox-holder {
+	padding-top: 10px;
+}
+
+.metabox-holder .postbox-container .empty-container {
+	border: 3px dashed #bbb;
+	height: 250px;
+}
+
+.metabox-holder.columns-1 .postbox-container .empty-container,
+.columns-2 #postbox-container-3 .empty-container,
+.columns-2 #postbox-container-4 .empty-container,
+.columns-3 #postbox-container-4 .empty-container {
+	border: 0 none;
+	height: 0;
+	min-height: 0;
+}
+
+#post-body-content {
+	width: 100%;
+	min-width: 463px;
+	float: left;
+}
+
+#post-body.columns-2 #postbox-container-1 {
+	float: right;
+	margin-right: -300px;
+	width: 280px;
+}
+
+#post-body.columns-2 #side-sortables {
+	min-height: 250px;
+}
+
+/* one column on the dash */
+@media only screen and (max-width: 799px) {
+	#wpbody-content .metabox-holder .postbox-container .empty-container {
+		border: 0 none;
+		height: 0;
+		min-height: 0;
+	}
+}
+
+.js .postbox .hndle {
+	cursor: move;
+}
+
+.hndle a {
+	font-size: 11px;
+	font-weight: normal;
+}
+
+.postbox .handlediv {
+	float: right;
+	width: 27px;
+	height: 30px;
+}
+
+.js .postbox .handlediv {
+	cursor: pointer;
+}
+
+.sortable-placeholder {
+	border: 1px dashed #bbb;
+	margin-bottom: 20px;
+}
+
+.postbox,
+.stuffbox {
+	margin-bottom: 20px;
+	padding: 0;
+	line-height: 1;
+}
+
+.postbox h3,
+.stuffbox h3 {
+	margin-top: 1px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.js .widget .widget-top,
+.js .postbox h3 {
+	cursor: move;
+}
+
+.postbox .inside,
+.stuffbox .inside {
+	padding: 0 12px 12px;
+	line-height: 1.4em;
+	font-size: 13px;
+}
+
+.postbox .inside {
+	margin: 11px 0;
+	position: relative;
+}
+
+.postbox .inside > p:last-child,
+.rss-widget ul li:last-child {
+	margin-bottom: 1px !important;
+}
+
+.postbox.closed h3 {
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.postbox table.form-table {
+	margin-bottom: 0;
+}
+
+.postbox table.widefat {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.temp-border {
+	border: 1px dotted #ccc;
+}
+
+.columns-prefs label {
+	padding: 0 5px;
+}
+
+#TB_window {
+	border: 1px solid #333;
+}
+
+#TB_window #TB_title {
+	background-color: #222;
+	color: #cfcfcf;
+}
+
+#TB_window #TB_title a.tb-theme-preview-link,
+#TB_window #TB_title a.tb-theme-preview-link:visited {
+	color: #999;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+#TB_window #TB_title a.tb-theme-preview-link:hover,
+#TB_window #TB_title a.tb-theme-preview-link:focus {
+	color: #ccc;
+}
+
+/* @todo: what is this doing here */
+#dashboard_right_now .versions .b,
+#post-status-display,
+#post-visibility-display,
+#adminmenu .wp-submenu li.current,
+#adminmenu .wp-submenu li.current a,
+#adminmenu .wp-submenu li.current a:hover,
+.media-item .percent,
+.plugins .name,
+#pass-strength-result.strong,
+#pass-strength-result.short,
+#ed_reply_toolbar #ed_reply_strong,
+.item-controls .item-order a,
+.feature-filter .feature-name {
+	font-weight: 600;
+}
+
+/*------------------------------------------------------------------------------
+  21.0 - Admin Footer
+------------------------------------------------------------------------------*/
+
+#wpfooter {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 10px 0;
+	margin-right: 20px;
+	color: #777;
+}
+
+#wpfooter p {
+	font-size: 13px;
+	margin: 0;
+	line-height: 20px;
+}
+
+#footer-thankyou {
+	font-style: italic;
+}
+
+#wpfooter a {
+	text-decoration: none;
+}
+
+#wpfooter a:hover {
+	text-decoration: underline;
+}
+
+/*------------------------------------------------------------------------------
+  25.0 - Tabbed Admin Screen Interface (Experimental)
+------------------------------------------------------------------------------*/
+
+.nav-tab {
+	border: 1px solid #ccc;
+	border-bottom: none;
+	background: #e4e4e4;
+	color: #555;
+	font-size: 12px;
+	line-height: 16px;
+	display: inline-block;
+	padding: 4px 14px 6px;
+	text-decoration: none;
+	margin: -4px 4px -1px 0;
+}
+
+.nav-tab:hover {
+	background-color: #fff;
+	color: #464646;
+}
+
+.nav-tab-active {
+	color: #464646;
+}
+
+.nav-tab-active,
+.nav-tab-active:hover {
+	border-bottom: 1px solid #f1f1f1;
+	background: none;
+	color: #000;
+}
+
+h2.nav-tab-wrapper,
+h3.nav-tab-wrapper {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 0;
+	padding-left: 10px;
+}
+
+h2 .nav-tab {
+	padding: 6px 10px;
+	font-weight: bold;
+	font-size: 15px;
+	line-height: 24px;
+}
+
+
+/*------------------------------------------------------------------------------
+  26.0 - Misc
+------------------------------------------------------------------------------*/
+
+#template div {
+	margin-right: 190px;
+}
+
+.metabox-holder h3 {
+	font-size: 14px;
+	padding: 8px 12px;
+	margin: 0;
+	line-height: 1.4;
+}
+
+#templateside ul li a {
+	text-decoration: none;
+}
+
+#sidemenu {
+	margin: -30px 15px 0 315px;
+	list-style: none;
+	position: relative;
+	float: right;
+	padding-left: 10px;
+	font-size: 12px;
+}
+
+#sidemenu a {
+	padding: 0 7px;
+	display: block;
+	float: left;
+	line-height: 28px;
+	border-top: 1px solid #f9f9f9;
+	border-bottom: 1px solid #dfdfdf;
+	background-color: #f9f9f9;
+	-webkit-transition: none;
+	transition: none;
+}
+
+#sidemenu li {
+	display: inline;
+	line-height: 200%;
+	list-style: none;
+	text-align: center;
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+}
+
+/* @todo: remove border radius */
+#sidemenu a.current {
+	font-weight: normal;
+	padding-left: 6px;
+	padding-right: 6px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+	border: 1px solid #dfdfdf;
+	border-bottom-color: #f1f1f1;
+	background-color: #f1f1f1;
+	color: #000;
+}
+
+#sidemenu li a .count-0 {
+	display: none;
+}
+
+.plugin-install #description,
+.plugin-install-network #description {
+	width: 60%;
+}
+
+table .vers,
+table .column-visible,
+table .column-rating {
+	text-align: left;
+}
+
+.error-message {
+	color: red;
+	font-weight: 600;
+}
+
+/* Scrollbar fix for bulk upgrade iframe */
+body.iframe {
+	height: 98%;
+}
+
+/* Upgrader styles, Specific to Language Packs */
+.lp-show-latest p {
+	display: none;
+}
+.lp-show-latest p:last-child,
+.lp-show-latest .lp-error p {
+	display: block;
+}
+
+/* - Only used once or twice in all of WP - deprecate for global style
+------------------------------------------------------------------------------*/
+td.media-icon {
+	text-align: center;
+	width: 80px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+td.media-icon img {
+	max-width: 80px;
+	max-height: 60px;
+}
+
+#howto {
+	font-size: 11px;
+	margin: 0 5px;
+	display: block;
+}
+
+.importers td {
+	padding-right: 14px;
+}
+
+.importers {
+	font-size: 16px;
+	width: auto;
+}
+
+#post-body #post-body-content #namediv h3 {
+	margin-top: 0;
+}
+
+#namediv h3 label {
+	vertical-align: baseline;
+}
+
+#namediv table {
+	width: 100%;
+}
+
+#namediv td.first {
+	width: 10px;
+	white-space: nowrap;
+}
+
+#namediv input {
+	width: 98%;
+}
+
+#namediv p {
+	margin: 10px 0;
+}
+
+#submitdiv h3 {
+	margin-bottom: 0 !important;
+}
+
+/* - Used - but could/should be deprecated with a CSS reset
+------------------------------------------------------------------------------*/
+.zerosize {
+	height: 0;
+	width: 0;
+	margin: 0;
+	border: 0;
+	padding: 0;
+	overflow: hidden;
+	position: absolute;
+}
+
+br.clear {
+	height: 2px;
+	line-height: 2px;
+}
+
+.checkbox {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+fieldset {
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+.post-categories {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+.post-categories li {
+	display: inline;
+}
+
+/* Star Ratings - Back-compat for pre-3.8 */
+div.star-holder {
+	position: relative;
+	height: 17px;
+	width: 100px;
+	background: url('../images/stars.png?ver=20121108') repeat-x bottom left;
+}
+
+div.star-holder .star-rating {
+	background: url('../images/stars.png?ver=20121108') repeat-x top left;
+	height: 17px;
+	float: left;
+}
+
+/* Star Ratings */
+.star-rating {
+	white-space: nowrap;
+}
+.star-rating .star {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	-webkit-font-smoothing: antialiased;
+	font-size: 20px;
+	line-height: 1;
+	font-family: 'dashicons';
+	text-decoration: inherit;
+	font-weight: normal;
+	font-style: normal;
+	vertical-align: top;
+	-webkit-transition: color .1s ease-in 0;
+	transition: color .1s ease-in 0;
+	text-align: center;
+	color: #0074a2;
+}
+
+.star-rating .star-full:before {
+	content:'\f155';
+}
+
+.star-rating .star-half:before {
+	content:'\f459';
+}
+
+.rtl .star-rating .star-half {
+	-webkit-transform: rotateY(180deg);
+	-ms-transform: rotateY(180deg);
+	transform: rotateY(180deg);
+}
+
+.star-rating .star-empty:before {
+	content:'\f154';
+}
+
+div.action-links {
+	font-weight: normal;
+	margin: 6px 0 0;
+}
+
+/* Header on thickbox */
+#plugin-information-header {
+	margin: 0;
+	padding: 0 5px;
+	font-weight: 600;
+	position: relative;
+	border-bottom: 1px solid #dfdfdf;
+	height: 2.5em;
+	background-color: #f9f9f9;
+}
+#plugin-information ul#sidemenu {
+	font-weight: normal;
+	margin: 0 5px;
+	position: absolute;
+	left: 0;
+	bottom: -1px;
+}
+
+/* Install sidemenu */
+#plugin-information {
+	height: auto;
+}
+
+#plugin-information p.action-button {
+	width: 100%;
+	padding-bottom: 0;
+	margin-bottom: 0;
+	margin-top: 10px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+#plugin-information .action-button a {
+	background-color: #2ea2cc;
+	color: #fff;
+	text-align: center;
+	font-weight: 600;
+	text-decoration: none;
+	display: block;
+	line-height: 2em;
+}
+
+#plugin-information h2 {
+	clear: none !important;
+	margin-right: 200px;
+}
+
+#plugin-information .fyi {
+	margin: 0 10px 50px;
+	width: 210px;
+}
+
+#plugin-information .fyi h2 {
+	font-size: 0.9em;
+	margin-bottom: 0;
+	margin-right: 0;
+}
+
+#plugin-information .fyi h2.mainheader {
+	padding: 5px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	background-color: #cee1ef;
+}
+
+#plugin-information .fyi ul {
+	padding: 10px 5px 10px 7px;
+	margin: 0;
+	list-style: none;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	background-color: #eaf3fa;
+}
+
+#plugin-information .fyi li {
+	margin-right: 0;
+}
+
+#plugin-information #section-holder {
+	padding: 10px;
+}
+
+#plugin-information .section ul,
+#plugin-information .section ol {
+	margin-left: 16px;
+	list-style-type: square;
+	list-style-image: none;
+}
+
+#plugin-information #section-screenshots ol {
+	list-style: none;
+	margin: 0;
+}
+
+#plugin-information #section-screenshots li img {
+	vertical-align: text-top;
+	max-width: 100%;
+	width: auto;
+	height: auto;
+}
+
+#plugin-information #section-screenshots li p {
+	font-style: italic;
+	padding-left: 20px;
+	padding-bottom: 2em;
+}
+
+#plugin-information #section-screenshots ol,
+#plugin-information .updated,
+#plugin-information pre {
+	margin-right: 215px;
+}
+
+#plugin-information pre {
+	padding: 7px;
+	overflow: auto;
+	border: 1px solid #ccc;
+}
+
+#plugin-information pre,
+#plugin-information code {
+	background-color: #ededff;
+}
+
+.plugin-version-author-uri {
+	font-size: 13px;
+}
+
+/* @todo: move this. */
+img {
+	border: none;
+}
+
+/* Header */
+/* @todo: are these also specific to Press This? */
+#wphead {
+	border-bottom: 1px solid #dfdfdf;
+}
+
+#wphead h1 a {
+	color: #464646;
+}
+
+/* @todo: these seem misplaced */
+.js .meta-box-sortables .postbox:hover .handlediv {
+	margin-right: 0 !important;
+}
+
+/* Metabox collapse arrow indicators */
+.js .sidebar-name .sidebar-name-arrow:before,
+.js .meta-box-sortables .postbox .handlediv:before {
+	right: 12px;
+	font: normal 20px/1 'dashicons';
+	speak: none;
+	display: inline-block;
+	padding: 8px 10px;
+	top: 0;
+	position: relative;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+}
+
+.js #widgets-left .sidebar-name .sidebar-name-arrow {
+	display: none;
+}
+
+.js #widgets-left .widgets-holder-wrap.closed .sidebar-name .sidebar-name-arrow,
+.js #widgets-left .sidebar-name:hover .sidebar-name-arrow {
+	display: block;
+}
+
+/* Show the arrow only on hover */
+.js .sidebar-name .sidebar-name-arrow:before,
+.js .meta-box-sortables .postbox .handlediv:before {
+	content: '\f142';
+}
+
+.js .widgets-holder-wrap.closed .sidebar-name-arrow:before,
+.js .meta-box-sortables .postbox.closed .handlediv:before {
+	content: '\f140';
+}
+
+#TB_ajaxContent #options {
+	position: absolute;
+	top: 20px;
+	right: 25px;
+	padding: 5px;
+}
+
+#TB_ajaxContent h3 {
+	margin-bottom: .25em;
+}
+
+.error a {
+	text-decoration: underline;
+}
+
+.updated a {
+	text-decoration: none;
+	padding-bottom: 2px;
+}
+
+/* @todo: appears to be Press This only and overridden */
+#photo-add-url-div input[type="text"] {
+	width: 300px;
+}
+
+/* Theme/Plugin Editor */
+.alignleft h3 {
+	margin: 0;
+}
+
+#template textarea {
+	font-family: Consolas, Monaco, monospace;
+	font-size: 13px;
+	width: 97%;
+	background: #f9f9f9;
+	outline: none;
+}
+
+/* @noflip */
+#template textarea,
+#docs-list {
+	direction: ltr;
+}
+
+#template p {
+	width: 97%;
+}
+
+#templateside {
+	float: right;
+	width: 190px;
+	word-wrap: break-word;
+}
+
+#templateside h3,
+#postcustomstuff p.submit {
+	margin: 0;
+}
+
+#templateside h4 {
+	margin: 1em 0 0;
+}
+
+#templateside ol,
+#templateside ul {
+	margin: .5em 0;
+	padding: 0;
+}
+
+#templateside li {
+	margin: 4px 0;
+}
+
+#templateside a,
+.theme-editor-php .highlight {
+	display: block;
+	padding: 3px 3px 3px 12px;
+	text-decoration: none;
+}
+
+.theme-editor-php .highlight {
+	margin: -3px 3px -3px -12px;
+}
+
+#templateside .highlight {
+	border: none;
+	font-weight: bold;
+}
+
+.nonessential {
+	color: #666;
+	font-size: 11px;
+	font-style: italic;
+	padding-left: 12px;
+}
+
+#documentation {
+	margin-top: 10px;
+}
+
+#documentation label {
+	line-height: 22px;
+	vertical-align: baseline;
+	font-weight: 600;
+}
+
+.fileedit-sub {
+	padding: 10px 0 8px;
+	line-height: 180%;
+}
+
+/* @todo: can we use a common class for these? */
+.nav-menus-php .item-edit:before,
+.widget-top a.widget-action:after,
+.control-section .accordion-section-title:after,
+.accordion-section-title:after {
+	right: 0;
+	content: '\f140';
+	border: none;
+	background: none;
+	font: normal 20px/1 'dashicons';
+	speak: none;
+	display: block;
+	padding: 0;
+	text-indent: 0;
+	text-align: center;
+	position: relative;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none !important;
+}
+
+.widget-action,
+.handlediv,
+.item-edit,
+.sidebar-name-arrow,
+.accordion-section-title:after {
+	color: #aaa;
+}
+
+.widget-action:hover,
+.handlediv:hover,
+.item-edit:hover,
+.sidebar-name:hover .sidebar-name-arrow,
+.accordion-section-title:hover:after {
+	color: #777;
+}
+
+.widget-top a.widget-action:after {
+	padding: 12px 12px 0;
+}
+
+.nav-menus-php .item-edit:before {
+	line-height: 2.1;
+}
+
+.control-section .accordion-section-title:after,
+.accordion-section-title:after {
+	float: right;
+	right: 20px;
+	top: -2px;
+}
+
+.control-section.open .accordion-section-title:after,
+#customize-info.open .accordion-section-title:after,
+.nav-menus-php .menu-item-edit-active .item-edit:before {
+	content: '\f142';
+}
+
+/* Enable draggable on IE10 touch events until it's rolled into jQuery UI core */
+.ui-sortable,
+.ui-draggable {
+	-ms-touch-action: none;
+	touch-action:     none;
+}
+
+.meta-box-sortables.ui-sortable,
+.widgets-holder-wrap .ui-draggable,
+.widgets-holder-wrap .ui-sortable,
+.menu.ui-sortable {
+	-ms-touch-action: auto;
+	touch-action:     auto;
+}
+
+.meta-box-sortables.ui-sortable .hndle,
+.menu.ui-sortable .menu-item-handle {
+	-ms-touch-action: none;
+	touch-action:     none;
+}
+
+/* Accordion */
+
+.accordion-section {
+	border-bottom: 1px solid #dfdfdf;
+	margin: 0;
+}
+
+.accordion-section.open .accordion-section-content,
+.no-js .accordion-section .accordion-section-content {
+	display: block;
+}
+
+.accordion-section.open:hover {
+	border-bottom-color: #dfdfdf;
+}
+
+.accordion-section-content {
+	display: none;
+	padding: 10px 20px 15px;
+	overflow: hidden;
+	background: #fff;
+}
+
+.accordion-section-title {
+	margin: 0;
+	padding: 12px 15px 15px;
+	position: relative;
+	border-left: 1px solid #dfdfdf;
+	border-right: 1px solid #dfdfdf;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.js .accordion-section-title {
+	cursor: pointer;
+}
+
+.js .accordion-section-title:after {
+	position: absolute;
+	top: 12px;
+	right: 10px;
+	z-index: 1;
+}
+
+.accordion-section-title:focus {
+	outline: none;
+}
+
+.accordion-section-title:hover:after,
+.accordion-section-title:focus:after {
+	border-color: #aaa transparent;
+}
+
+.cannot-expand .accordion-section-title {
+	cursor: auto;
+}
+
+.cannot-expand .accordion-section-title:after {
+	display: none;
+}
+
+.control-section .accordion-section-title {
+	border-left: none;
+	border-right: none;
+	padding: 10px 10px 11px 14px;
+	line-height: 21px;
+	background: #fff;
+}
+
+.control-section .accordion-section-title:after {
+	top: 11px;
+}
+
+.js .control-section:hover .accordion-section-title,
+.js .control-section .accordion-section-title:hover,
+.js .control-section.open .accordion-section-title,
+.js .control-section .accordion-section-title:focus {
+	color: #222;
+	background: #f5f5f5;
+}
+
+.control-section.open .accordion-section-title {
+	/* When expanded */
+	border-bottom: 1px solid #dfdfdf;
+}
+
+/* @todo: these seem misplaced */
+.sticky-menu #TB_window {
+	background: #f1f1f1;
+}
+
+.sticky-menu #TB_window .updated {
+	margin: 16px 0 0;
+}
+
+/* =Media Queries
+-------------------------------------------------------------- */
+
+/* @todo: de-duplication */
+@media only screen and (min-width: 769px) {
+	/* categories */
+	#col-left {
+		width: 35%;
+	}
+
+	#col-right {
+		width: 65%;
+	}
+}
+
+@media only screen and (max-width: 860px) {
+
+	/* categories */
+	#col-left {
+		width: 35%;
+	}
+
+	#col-right {
+		width: 65%;
+	}
+}
+
+@media only screen and (min-width: 980px) {
+
+	/* categories */
+	#col-left {
+		width: 35%;
+	}
+
+	#col-right {
+		width: 65%;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	/* categories */
+	#col-left {
+		width: 100%;
+	}
+
+	#col-right {
+		width: 100%;
+	}
+}
+
+/**
+ * HiDPI Displays
+ */
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
+	/* Back-compat for pre-3.8 */
+	div.star-holder,
+	div.star-holder .star-rating {
+		background: url('../images/stars-2x.png?ver=20121108') repeat-x bottom left;
+		-webkit-background-size: 21px 37px;
+		background-size: 21px 37px;
+	}
+
+	.spinner {
+		background-image: url('../images/spinner-2x.gif');
+	}
+
+	/* @todo: evaluate - most of these were likely replaced by dashicons */
+	.curtime #timestamp,
+	#screen-meta-links a.show-settings,
+	.widget-top a.widget-action,
+	.widget-top a.widget-action:hover,
+	.sidebar-name-arrow,
+	.sidebar-name:hover .sidebar-name-arrow,
+	.meta-box-sortables .postbox:hover .handlediv,
+	.tagchecklist span a,
+	#bulk-titles div a,
+	.tagchecklist span a:hover,
+	#bulk-titles div a:hover {
+		background: none !important;
+	}
+
+}
+
+@-ms-viewport {
+	width: device-width;
+}
+
+@media screen and ( max-width: 782px ) {
+	html.wp-toolbar {
+		padding-top: 46px;
+	}
+
+	body {
+		min-width: 240px;
+		overflow-x: hidden;
+	}
+
+	body * {
+		-webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+	}
+
+	#wpwrap {
+		background: #f0f0f0;
+	}
+
+	#wpcontent {
+		position: relative;
+		margin-left: 0;
+		padding-left: 10px;
+	}
+
+	#wpbody-content {
+		padding-bottom: 100px;
+	}
+
+	.wrap {
+		margin-right: 12px;
+		margin-left: 0;
+	}
+
+	.col-wrap {
+		padding: 0;
+	}
+
+	/* Hidden Elements */
+	#screen-meta,
+	#screen-meta-links,
+	#collapse-menu,
+	.post-format-select {
+		display: none !important;
+	}
+
+	.wrap .add-new-h2, .wrap .add-new-h2:active {
+		padding: 10px 15px;
+		font-size: 14px;
+	}
+
+	.wp-color-result {
+		height: auto;
+		padding-left: 45px;
+	}
+
+	.wp-color-result:after {
+		font-size: 14px;
+		height: auto;
+		padding: 6px 14px;
+	}
+
+	/* Feedback Messages */
+	.wrap div.updated, .wrap div.error, .media-upload-form div.error {
+		margin: 20px 0 10px 0;
+		padding: 5px 10px;
+		font-size: 14px;
+		line-height: 175%;
+	}
+
+	.wrap .icon32 + h2 {
+		margin-top: -2px;
+	}
+
+	.wp-responsive-open #wpbody {
+		right: -190px;
+	}
+
+	/* General Metabox */
+	.postbox {
+		font-size: 14px;
+	}
+
+	.metabox-holder h3 {
+		padding: 12px;
+	}
+
+	.postbox .handlediv {
+		margin-top: 3px;
+	}
+
+	/* Subsubsub Nav */
+	.subsubsub {
+		font-size: 16px;
+		text-align: center;
+		margin-bottom: 15px;
+	}
+
+	/* Theme/Plugin File Editor */
+	#templateside {
+		float: none;
+		width: auto;
+	}
+
+	#templateside li {
+		margin: 0;
+	}
+
+	#templateside li a {
+		display: block;
+		padding: 5px;
+	}
+
+	#templateside .highlight {
+		padding: 5px;
+		margin-left: -5px;
+		margin-top: -5px;
+	}
+
+	#template div {
+		float: none;
+		margin: 0;
+		width: auto;
+	}
+
+	#template textarea {
+		width: 100%;
+	}
+
+	.fileedit-sub .alignright {
+		margin-top: 15px;
+	}
+
+	#wpfooter {
+		display: none;
+	}
+
+	#comments-form .checkforspam {
+		display: none;
+	}
+}
+
+/* Smartphone */
+@media screen and (max-width: 600px) {
+	/* Disable horizontal scroll when responsive menu is open
+	   since we push the main content off to the right. */
+	#wpwrap.wp-responsive-open {
+		overflow-x: hidden;
+	}
+
+	html.wp-toolbar {
+		padding-top: 0;
+	}
+
+	#wpbody {
+		padding-top: 46px;
+	}
+
+	/* Keep full-width boxes on Edit Post page from causing horizontal scroll */
+	div#post-body.metabox-holder.columns-1 {
+		overflow-x: hidden;
+	}
+}

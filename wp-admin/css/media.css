@@ -1,0 +1,663 @@
+/*------------------------------------------------------------------------------
+  14.0 - Media Screen
+------------------------------------------------------------------------------*/
+
+.media-item .describe {
+	border-collapse: collapse;
+	width: 100%;
+	border-top: 1px solid #dfdfdf;
+	clear: both;
+	cursor: default;
+}
+
+.media-item.media-blank .describe {
+	border: 0;
+}
+
+.media-item .describe th {
+	vertical-align: top;
+	text-align: left;
+	padding: 5px 10px 10px;
+	width: 140px;
+}
+
+.media-item .describe .align th {
+	padding-top: 0;
+}
+
+.media-item .media-item-info tr {
+	background-color: transparent;
+}
+
+.media-item .describe td {
+	padding: 0 8px 8px 0;
+	vertical-align: top;
+}
+
+.media-item thead.media-item-info td {
+	padding: 4px 10px 0;
+}
+
+.media-item .media-item-info .A1B1 {
+	padding: 0 0 0 10px;
+}
+
+.media-item td.savesend {
+	padding-bottom: 15px;
+}
+
+.media-item .thumbnail {
+	max-height: 128px;
+	max-width: 128px;
+}
+
+#wpbody-content #async-upload-wrap a {
+	display: none;
+}
+
+.media-upload-form {
+	margin-top: 20px;
+}
+
+.media-upload-form td label {
+	margin-right: 6px;
+	margin-left: 2px;
+}
+
+.media-upload-form .align .field label {
+	display: inline;
+	padding: 0 0 0 23px;
+	margin: 0 1em 0 3px;
+	font-weight: 600;
+}
+
+.media-upload-form tr.image-size label {
+	margin: 0 0 0 5px;
+	font-weight: 600;
+}
+
+.media-upload-form th.label label {
+	font-weight: 600;
+	margin: 0.5em;
+	font-size: 13px;
+}
+
+.media-upload-form th.label label span {
+	padding: 0 5px;
+}
+
+.media-item .describe input[type="text"],
+.media-item .describe textarea {
+	width: 460px;
+}
+
+.media-item .describe p.help {
+	margin: 0;
+	padding: 0 0 0 5px;
+}
+
+.media-item .edit-attachment,
+.describe-toggle-on,
+.describe-toggle-off {
+	display: block;
+	line-height: 36px;
+	float: right;
+}
+
+.media-item .describe-toggle-off,
+.media-item.open .describe-toggle-on {
+	display: none;
+}
+
+.media-item.open .describe-toggle-off {
+	display: block;
+}
+
+#media-items .media-item {
+	border-bottom: 1px solid #dfdfdf;
+	min-height: 36px;
+	position: relative;
+	width: 100%;
+}
+
+#media-items {
+	width: 623px;
+}
+
+.media-new-php #media-items {
+	margin: 1em 0;
+}
+
+#media-items:empty {
+	border: 0 none;
+}
+
+.media-item .filename {
+	line-height: 36px;
+	overflow: hidden;
+}
+
+.media-item .error-div {
+	padding-left: 10px;
+}
+
+.media-item .pinkynail {
+	float: left;
+	margin: 2px 10px 0 0;
+	max-width: 40px;
+	max-height: 32px;
+}
+
+.media-item .startopen,
+.media-item .startclosed {
+	display: none;
+}
+
+.media-item .original {
+	position: relative;
+	height: 34px;
+}
+
+.media-item .progress {
+	float: right;
+	height: 22px;
+	margin: 7px 0 0;
+	width: 200px;
+	line-height: 2em;
+	padding: 0;
+	overflow: hidden;
+	margin-bottom: 2px;
+	-webkit-border-radius: 22px;
+	border-radius: 22px;
+	background: #ddd;
+	-webkit-box-shadow: inset 0px 1px 2px rgba(0,0,0,0.1);
+	box-shadow: inset 0px 1px 2px rgba(0,0,0,0.1);
+}
+
+.media-item .bar {
+	z-index: 9;
+	width: 0;
+	height: 100%;
+	margin-top: -22px;
+	-webkit-border-radius: 22px;
+	border-radius: 22px;
+	background-color: #0074a2;
+	-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+	box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+}
+
+.media-item .progress .percent {
+	z-index: 10;
+	position: relative;
+	width: 200px;
+	padding: 0;
+	color: #fff;
+	text-align: center;
+	line-height: 22px;
+	font-weight: 400;
+	text-shadow: 0px 1px 2px rgba(0,0,0,0.2);
+}
+
+.upload-php .fixed .column-parent {
+	width: 15%;
+}
+
+.js .html-uploader #plupload-upload-ui {
+	display: none;
+}
+
+.js .html-uploader #html-upload-ui {
+	display: block;
+}
+
+.media-upload-form .media-item.error {
+	margin: 0;
+	padding: 0;
+}
+
+.media-upload-form .media-item.error p,
+.media-item .error-div {
+	line-height: 16px;
+	margin: 5px 10px;
+	padding: 0;
+}
+
+.media-item .error-div a.dismiss {
+	display: block;
+	float: right;
+	margin: 5px 4px 0 15px;
+}
+
+/*------------------------------------------------------------------------------
+  14.1 - Media Library
+------------------------------------------------------------------------------*/
+
+.find-box {
+	width: 600px;
+	height: 300px;
+	overflow: hidden;
+	padding: 33px 0 51px;
+	position: absolute;
+	z-index: 1000;
+	background-color: #444;
+}
+
+.find-box-head {
+	cursor: move;
+	color: #eee;
+	font-weight: 600;
+	height: 2em;
+	line-height: 2em;
+	padding: 1px 12px;
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.find-box-inside {
+	overflow: auto;
+	padding: 6px;
+	height: 100%;
+	background-color: #fff;
+}
+
+.find-box-search,
+.find-box-buttons {
+	overflow: hidden;
+	padding: 8px;
+	position: relative;
+	background-color: #f7f7f7;
+	border-top: 1px solid #dfdfdf;
+}
+
+.find-box-search .spinner {
+	float: none;
+	left: 125px;
+	position: absolute;
+	top: 9px;
+}
+
+#find-posts-input {
+	float: left;
+	width: 140px;
+	height: 24px;
+}
+
+#find-posts-search {
+	float: left;
+	margin: 1px 4px 0 3px;
+}
+
+#find-posts-response {
+	margin: 8px 0;
+	padding: 0 1px 6px;
+}
+
+#find-posts-response table {
+	width: 100%;
+}
+
+#find-posts-response .found-radio {
+	padding: 3px 0 0 8px;
+	width: 15px;
+}
+
+.find-box #resize-se {
+	position: absolute;
+	right: 1px;
+	bottom: 1px;
+}
+
+.ui-find-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #000;
+	opacity: 0.6;
+	filter: alpha(opacity=60);
+}
+
+ul#dismissed-updates {
+	display: none;
+}
+
+form.upgrade {
+	margin-top: 8px;
+}
+
+form.upgrade .hint {
+	font-style: italic;
+	font-size: 85%;
+	margin: -0.5em 0 2em 0;
+}
+
+#poststuff .inside .the-tagcloud {
+	margin: 5px 0 10px;
+	padding: 8px;
+	border: 1px solid #ddd;
+	line-height: 1.8em;
+	word-spacing: 3px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+}
+
+.drag-drop #drag-drop-area {
+	border: 4px dashed #bbb;
+	height: 200px;
+}
+
+.drag-drop .drag-drop-inside {
+	margin: 70px auto 0;
+	width: 250px;
+}
+
+.drag-drop-inside p {
+	color: #aaa;
+	font-size: 14px;
+	margin: 5px 0;
+	display: none;
+}
+
+.drag-drop .drag-drop-inside p {
+	text-align: center;
+}
+
+.drag-drop-inside p.drag-drop-info {
+	font-size: 20px;
+}
+
+.drag-drop .drag-drop-inside p,
+.drag-drop-inside p.drag-drop-buttons {
+	display: block;
+}
+
+/*
+#drag-drop-area:-moz-drag-over {
+	border-color: #83b4d8;
+}
+border color while dragging a file over the uploader drop area */
+.drag-drop.drag-over #drag-drop-area {
+	border-color: #83b4d8;
+}
+
+#plupload-upload-ui {
+	position: relative;
+}
+
+
+/*------------------------------------------------------------------------------
+  14.2 - Image Editor
+------------------------------------------------------------------------------*/
+
+.wp_attachment_details label[for="content"] {
+	font-size: 13px;
+	line-height: 1.5;
+	margin: 1em 0;
+}
+
+.wp_attachment_details #attachment_caption {
+	height: 4em;
+}
+
+.describe .image-editor {
+	vertical-align: top;
+}
+
+.imgedit-wrap {
+	position: relative;
+}
+
+.imgedit-settings p {
+	margin: 8px 0;
+}
+
+.post-php .imgedit-wrap table {
+	width: 100%;
+}
+
+.describe .imgedit-wrap table td,
+.wp_attachment_holder .imgedit-wrap table td {
+	vertical-align: top;
+	padding-top: 0;
+}
+
+.describe .imgedit-wrap table td.imgedit-settings {
+	padding: 0 5px;
+}
+
+.wp_attachment_holder .imgedit-wrap table td.imgedit-settings {
+	width: 250px;
+}
+
+td.imgedit-settings input {
+	margin-top: 0;
+	vertical-align: middle;
+}
+
+.imgedit-wait {
+	position: absolute;
+	top: 0;
+	background: #fff url('../images/spinner.gif') no-repeat scroll 22px 10px;
+	-webkit-background-size: 20px 20px;
+	background-size: 20px 20px;
+	opacity: 0.7;
+	filter: alpha(opacity=70);
+	width: 100%;
+	height: 500px;
+	display: none;
+}
+
+.spinner {
+	background: url('../images/spinner.gif') no-repeat;
+	-webkit-background-size: 20px 20px;
+	background-size: 20px 20px;
+	display: none;
+	float: right;
+	opacity: 0.7;
+	filter: alpha(opacity=70);
+	width: 20px;
+	height: 20px;
+	margin: 2px 5px 0;
+}
+
+.no-float {
+	float: none;
+}
+
+.media-disabled,
+.imgedit-settings .disabled  {
+	color: grey;
+}
+
+.wp_attachment_image,
+.A1B1 {
+	overflow: hidden;
+}
+
+.wp_attachment_image .button,
+.A1B1 .button {
+	float: left;
+}
+
+.no-js .wp_attachment_image .button {
+	display: none;
+}
+
+.wp_attachment_image .spinner,
+.A1B1 .spinner {
+	float: left;
+	padding: 0 0 4px 0;
+	vertical-align: bottom;
+}
+
+.imgedit-menu {
+	margin: 0 0 12px;
+	min-width: 300px;
+}
+
+.imgedit-menu div {
+	float: left;
+	width: 32px;
+	border: 1px solid #d5d5d5;
+	background: #f1f1f1;
+	margin: 0 8px 0 0;
+	height: 32px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: center;
+	line-height: 28px;
+	color: #777;
+}
+
+.imgedit-menu div:before {
+	font: normal 20px/1 'dashicons';
+	speak: none;
+	vertical-align: middle;
+}
+
+.imgedit-menu div:hover {
+	border-color: #c1c1c1;
+	background-color: #eaeaea;
+	color: #333;
+}
+
+.imgedit-menu div.disabled {
+	border-color: #ccc;
+	background-color: #ddd;
+	filter: alpha(opacity=50);
+	opacity: 0.5;
+}
+
+.imgedit-crop:before {
+	content:'\f165';
+}
+
+.imgedit-rleft:before {
+	content:'\f166';
+}
+
+.imgedit-rright:before {
+	content:'\f167';
+}
+
+.imgedit-flipv:before {
+	content:'\f168';
+}
+
+.imgedit-fliph:before {
+	content:'\f169';
+}
+
+.imgedit-undo:before {
+	content:'\f171';
+}
+
+.imgedit-redo:before {
+	content:'\f172';
+}
+
+.imgedit-crop-wrap {
+	position: relative;
+}
+
+.imgedit-crop {
+	margin: 0 8px 0 0;
+}
+
+.imgedit-rleft {
+	margin: 0 3px;
+}
+
+.imgedit-rright {
+	margin: 0 8px 0 3px;
+}
+
+.imgedit-flipv {
+	margin: 0 3px;
+}
+
+.imgedit-fliph {
+	margin: 0 8px 0 3px;
+}
+
+.imgedit-undo {
+	margin: 0 3px;
+}
+
+.imgedit-redo {
+	margin: 0 8px 0 3px;
+}
+
+.imgedit-applyto img {
+	margin: 0 8px 0 0;
+}
+
+.imgedit-group-top {
+	margin: 5px 0;
+}
+
+.imgedit-applyto .imgedit-label {
+	padding: 2px 0 0;
+	display: block;
+}
+
+.imgedit-help {
+	display: none;
+	font-style: italic;
+	margin-bottom: 8px;
+}
+
+a.imgedit-help-toggle {
+	text-decoration: none;
+}
+
+.form-table td.imgedit-response {
+	padding: 0;
+}
+
+.imgedit-submit {
+	margin: 8px 0;
+}
+
+.imgedit-submit-btn {
+	margin-left: 20px;
+}
+
+.imgedit-wrap .nowrap {
+	white-space: nowrap;
+}
+
+span.imgedit-scale-warn {
+	color: red;
+	font-size: 20px;
+	font-style: normal;
+	visibility: hidden;
+	vertical-align: middle;
+}
+
+.imgedit-group {
+	margin-bottom: 8px;
+	padding: 2px 10px;
+}
+
+/* =Media Queries
+-------------------------------------------------------------- */
+
+/**
+ * HiDPI Displays
+ */
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
+	.imgedit-wait {
+		background-image: url('../images/spinner-2x.gif');
+	}
+}
+
+@media screen and ( max-width: 782px ) {
+	.wp_attachment_details label[for="content"] {
+		font-size: 14px;
+		line-height: 1.5em;
+	}
+}
