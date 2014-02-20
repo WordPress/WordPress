@@ -8,7 +8,7 @@
 	 *
 	 * @static
 	 */
-	var workflows = {};
+	var workflows = {}, cache = {};
 
 	/**
 	 * wp.media.string
@@ -537,238 +537,26 @@
  		}
 	};
 
-	/**
-	 * wp.media.gallery
-	 * @namespace
-	 */
-	wp.media.gallery = (function() {
-		/**
-		 *
-		 * @static
-		 * @type object
-		 */
-		var galleries = {};
-
-		return {
-			/**
-			 * Default gallery properties
-			 *
-			 * @global wp.media.view.settings
-			 * @readonly
-			 */
-			defaults: {
-				order:      'ASC',
-				id:         wp.media.view.settings.post.id,
-				itemtag:    'dl',
-				icontag:    'dt',
+ 	wp.media.gallery = (function() {
+ 		var gallery = {
+ 			defaults : {
+				itemtag: 'dl',
+				icontag: 'dt',
 				captiontag: 'dd',
-				columns:    '3',
-				link:       'post',
-				size:       'thumbnail',
-				orderby:    'menu_order ID'
-			},
-			/**
-			 * Retrieve attachments based on the properties of the passed shortcode
-			 *
-			 * @global wp.media.query
-			 *
-			 * @param {wp.shortcode} shortcode An instance of wp.shortcode().
-			 * @returns {wp.media.model.Attachments} A Backbone.Collection containing
-			 *	the images belonging to a gallery. The 'gallery' prop is a Backbone.Model
-			 *	containing the 'props' for the gallery.
-			 */
-			attachments: function( shortcode ) {
-				var shortcodeString = shortcode.string(),
-					result = galleries[ shortcodeString ],
-					attrs, args, query, others;
+ 				columns: '3',
+				link: 'post',
+				size: 'thumbnail',
+ 				order: 'ASC',
+ 				id: wp.media.view.settings.post.id,
+ 				orderby : 'menu_order ID'
+  			}
+  		};
 
-				delete galleries[ shortcodeString ];
-
-				if ( result ) {
-					return result;
-				}
-
-				// Fill the default shortcode attributes.
-				attrs = _.defaults( shortcode.attrs.named, wp.media.gallery.defaults );
-				args  = _.pick( attrs, 'orderby', 'order' );
-
-				args.type    = 'image';
-				args.perPage = -1;
-
-				// Mark the `orderby` override attribute.
-				if( undefined !== attrs.orderby ) {
-					attrs._orderByField = attrs.orderby;
-				}
-				if ( 'rand' === attrs.orderby ) {
-					attrs._orderbyRandom = true;
-				}
-
-				// Map the `orderby` attribute to the corresponding model property.
-				if ( ! attrs.orderby || /^menu_order(?: ID)?$/i.test( attrs.orderby ) ) {
-					args.orderby = 'menuOrder';
-				}
-
-				// Map the `ids` param to the correct query args.
-				if ( attrs.ids ) {
-					args.post__in = attrs.ids.split(',');
-					args.orderby  = 'post__in';
-				} else if ( attrs.include ) {
-					args.post__in = attrs.include.split(',');
-				}
-
-				if ( attrs.exclude ) {
-					args.post__not_in = attrs.exclude.split(',');
-				}
-
-				if ( ! args.post__in ) {
-					args.uploadedTo = attrs.id;
-				}
-
-				// Collect the attributes that were not included in `args`.
-				others = _.omit( attrs, 'id', 'ids', 'include', 'exclude', 'orderby', 'order' );
-
-				query = wp.media.query( args );
-				query.gallery = new Backbone.Model( others );
-				return query;
-			},
-			/**
-			 * Triggered when clicking 'Insert Gallery' or 'Update Gallery'
-			 *
-			 * @global wp.shortcode
-			 * @global wp.media.model.Attachments
-			 *
-			 * @param {wp.media.model.Attachments} attachments A Backbone.Collection containing
-			 *	the images belonging to a gallery. The 'gallery' prop is a Backbone.Model
-			 *	containing the 'props' for the gallery.
-			 * @returns {wp.shortcode}
-			 */
-			shortcode: function( attachments ) {
-				var props = attachments.props.toJSON(),
-					attrs = _.pick( props, 'orderby', 'order' ),
-					shortcode, clone;
-
-				if ( attachments.gallery ) {
-					_.extend( attrs, attachments.gallery.toJSON() );
-				}
-
-				// Convert all gallery shortcodes to use the `ids` property.
-				// Ignore `post__in` and `post__not_in`; the attachments in
-				// the collection will already reflect those properties.
-				attrs.ids = attachments.pluck('id');
-
-				// Copy the `uploadedTo` post ID.
-				if ( props.uploadedTo ) {
-					attrs.id = props.uploadedTo;
-				}
-
-				// Check if the gallery is randomly ordered.
-				delete attrs.orderby;
-
-				if ( attrs._orderbyRandom ) {
-					attrs.orderby = 'rand';
-				} else if ( attrs._orderByField && attrs._orderByField != 'rand' ) {
-					attrs.orderby = attrs._orderByField;
-				}
-
-				delete attrs._orderbyRandom;
-				delete attrs._orderByField;
-
-				// If the `ids` attribute is set and `orderby` attribute
-				// is the default value, clear it for cleaner output.
-				if ( attrs.ids && 'post__in' === attrs.orderby ) {
-					delete attrs.orderby;
-				}
-
-				// Remove default attributes from the shortcode.
-				_.each( wp.media.gallery.defaults, function( value, key ) {
-					if ( value === attrs[ key ] )
-						delete attrs[ key ];
-				});
-
-				shortcode = new wp.shortcode({
-					tag:    'gallery',
-					attrs:  attrs,
-					type:   'single'
-				});
-
-				// Use a cloned version of the gallery.
-				clone = new wp.media.model.Attachments( attachments.models, {
-					props: props
-				});
-				clone.gallery = attachments.gallery;
-				galleries[ shortcode.string() ] = clone;
-
-				return shortcode;
-			},
-			/**
-			 * Triggered when double-clicking a Gallery shortcode placeholder
-			 *   in the editor
-			 *
-			 * @global wp.shortcode
-			 * @global wp.media.model.Selection
-			 * @global wp.media.view.l10n
-			 *
-			 * @param {string} content Content that is searched for possible
-			 *    shortcode markup matching the passed tag name,
-			 *
-			 * @this wp.media.gallery
-			 *
-			 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
-			 */
-			edit: function( content ) {
-				var shortcode = wp.shortcode.next( 'gallery', content ),
-					defaultPostId = wp.media.gallery.defaults.id,
-					attachments, selection;
-
-				// Bail if we didn't match the shortcode or all of the content.
-				if ( ! shortcode || shortcode.content !== content ) {
-					return;
-				}
-
-				// Ignore the rest of the match object.
-				shortcode = shortcode.shortcode;
-
-				if ( _.isUndefined( shortcode.get('id') ) && ! _.isUndefined( defaultPostId ) ) {
-					shortcode.set( 'id', defaultPostId );
-				}
-
-				attachments = wp.media.gallery.attachments( shortcode );
-
-				selection = new wp.media.model.Selection( attachments.models, {
-					props:    attachments.props.toJSON(),
-					multiple: true
-				});
-
-				selection.gallery = attachments.gallery;
-
-				// Fetch the query's attachments, and then break ties from the
-				// query to allow for sorting.
-				selection.more().done( function() {
-					// Break ties with the query.
-					selection.props.set({ query: false });
-					selection.unmirror();
-					selection.props.unset('orderby');
-				});
-
-				// Destroy the previous gallery frame.
-				if ( this.frame ) {
-					this.frame.dispose();
-				}
-
-				// Store the current gallery frame.
-				this.frame = wp.media({
-					frame:     'post',
-					state:     'gallery-edit',
-					title:     wp.media.view.l10n.editGalleryTitle,
-					editing:   true,
-					multiple:  true,
-					selection: selection
-				}).open();
-
-				return this.frame;
-			}
-		};
-	}());
+ 		return _.extend(gallery, wp.media.collection.instance( 'gallery', {
+ 			type : 'image',
+ 			title : wp.media.view.l10n.editGalleryTitle
+ 		}));
+  	}());
 
 	/**
 	 * wp.media.featuredImage
