@@ -2012,7 +2012,7 @@ function wp_enqueue_media( $args = array() ) {
 			'nonce' => wp_create_nonce( 'update-post_' . $post->ID ),
 		);
 
-		if ( current_theme_supports( 'post-thumbnails', $post->post_type ) && post_type_supports( $post->post_type, 'thumbnail' ) ) {
+		if ( theme_supports_thumbnails( $post ) && post_supports_thumbnails( $post ) ) {
 			$featured_image_id = get_post_meta( $post->ID, '_thumbnail_id', true );
 			$settings['post']['featuredImageId'] = $featured_image_id ? $featured_image_id : -1;
 		}
@@ -2240,6 +2240,8 @@ function get_post_gallery_images( $post = 0 ) {
 /**
  * If an attachment is missing its metadata, try to regenerate it
  *
+ * @since 3.9.0
+ *
  * @param post $attachment Post object.
  */
 function maybe_regenerate_attachment_metadata( $attachment ) {
@@ -2258,4 +2260,46 @@ function maybe_regenerate_attachment_metadata( $attachment ) {
 			delete_transient( $regeneration_lock );
 		}
 	}
+}
+
+/**
+ * Determine if a post supports thumbnails based on the passed $post
+ *
+ * @since 3.9.0
+ *
+ * @param WP_Post $post
+ *
+ * @return boolean
+ */
+function post_supports_thumbnails( $post ) {
+	if ( 'attachment' === $post->post_type ) {
+		if ( 0 === strpos( $post->post_mime_type, 'audio' ) ) {
+			return post_type_supports( 'attachment:audio', 'thumbnail' );
+		} elseif ( 0 === strpos( $post->post_mime_type, 'video' ) ) {
+			return post_type_supports( 'attachment:video', 'thumbnail' );
+		}
+	}
+
+	return post_type_supports( $post->post_type, 'thumbnail' );
+}
+
+/**
+ * Determine if a theme supports thumbnails based on the passed $post
+ *
+ * @since 3.9.0
+ *
+ * @param WP_Post $post
+ *
+ * @return boolean
+ */
+function theme_supports_thumbnails( $post ) {
+	if ( 'attachment' === $post->post_type ) {
+		if ( 0 === strpos( $post->post_mime_type, 'audio' ) ) {
+			return current_theme_supports( 'post-thumbnails', 'attachment:audio' );
+		} elseif ( 0 === strpos( $post->post_mime_type, 'video' ) ) {
+			return current_theme_supports( 'post-thumbnails', 'attachment:video' );
+		}
+	}
+
+	return current_theme_supports( 'post-thumbnails', $post->post_type );
 }
