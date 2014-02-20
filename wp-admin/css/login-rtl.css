@@ -1,10 +1,28 @@
-.ie8 .login form .input {
-	font-family: sans-serif;
+@import url(common.css);
+@import url(forms.css);
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	background: #f1f1f1;
 }
 
 body.login {
 	background: #f1f1f1;
 	min-width: 0;
+	color: #444;
+	font-family: "Open Sans", sans-serif;
+	font-size: 13px;
+	line-height: 1.4em;
+}
+
+p {
+	line-height: 1.5;
 }
 
 .login .message {
@@ -152,6 +170,11 @@ body.login {
 	background: #fbfbfb;
 }
 
+.ie7 .login form .input,
+.ie8 .login form .input {
+	font-family: sans-serif;
+}
+
 .login #pass-strength-result {
 	width: 250px;
 	font-weight: 600;
@@ -199,6 +222,10 @@ body.interim-login {
 
 .interim-login.login form {
 	margin: 0;
+}
+
+@-ms-viewport {
+	width: device-width;
 }
 
 @media screen and ( max-width: 782px ) {

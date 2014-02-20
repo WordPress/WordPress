@@ -68,9 +68,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?></title>
 	<?php
 
-	wp_admin_css( 'wp-admin', true );
-	wp_admin_css( 'colors-fresh', true );
-	wp_admin_css( 'ie', true );
+	wp_admin_css( 'login', true );
 
 	// Remove all stored post data on logging out.
 	// This could be added by add_action('login_head'...) like wp_shake_js()
