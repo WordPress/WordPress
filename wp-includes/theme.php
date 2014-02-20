@@ -1724,12 +1724,17 @@ function current_theme_supports( $feature ) {
  * Checks a theme's support for a given feature before loading the functions which implement it.
  *
  * @since 2.9.0
- * @param string $feature the feature being checked
- * @param string $include the file containing the functions that implement the feature
+ *
+ * @param string $feature The feature being checked.
+ * @param string $include Path to the file.
+ * @return bool True if the current theme supports the supplied feature, false otherwise.
  */
-function require_if_theme_supports( $feature, $include) {
-	if ( current_theme_supports( $feature ) )
+function require_if_theme_supports( $feature, $include ) {
+	if ( current_theme_supports( $feature ) ) {
 		require ( $include );
+		return true;
+	}
+	return false;
 }
 
 /**
