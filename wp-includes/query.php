@@ -1713,7 +1713,14 @@ class WP_Query {
 		$this->query_vars_hash = md5( serialize( $this->query_vars ) );
 		$this->query_vars_changed = false;
 
-		do_action_ref_array('parse_query', array(&$this));
+		/**
+		 * Fires after the main query vars have been parsed.
+		 *
+		 * @since 1.5.0
+		 *
+		 * @param WP_Query &$this The WP_Query instance (passed by reference).
+		 */
+		do_action_ref_array( 'parse_query', array( &$this ) );
 	}
 
 	/**
@@ -1920,6 +1927,13 @@ class WP_Query {
 
 		$this->tax_query = new WP_Tax_Query( $tax_query );
 
+		/**
+		 * Fires after taxonomy-related query vars have been parsed.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param WP_Query $this The WP_Query instance.
+		 */
 		do_action( 'parse_tax_query', $this );
 	}
 
@@ -2155,7 +2169,18 @@ class WP_Query {
 
 		$this->parse_query();
 
-		do_action_ref_array('pre_get_posts', array(&$this));
+		/**
+		 * Fires after the query variable object is created, but before the actual query is run.
+		 *
+		 * Note: If using conditional tags, use the method versions within the passed instance
+		 * (e.g. $this->is_main_query() instead of is_main_query()). This is because the functions
+		 * like is_main_query() test against the global $wp_query instance, not the passed one.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param WP_Query &$this The WP_Query instance (passed by reference).
+		 */
+		do_action_ref_array( 'pre_get_posts', array( &$this ) );
 
 		// Shorthand.
 		$q = &$this->query_vars;
@@ -3146,6 +3171,14 @@ class WP_Query {
 		$this->request = $old_request = "SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
 
 		if ( !$q['suppress_filters'] ) {
+			/**
+			 * Filter the completed SQL query before sending.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param array    $request The complete SQL query.
+			 * @param WP_Query &$this   The WP_Query instance (passed by reference).
+			 */
 			$this->request = apply_filters_ref_array( 'posts_request', array( $this->request, &$this ) );
 		}
 
@@ -3170,6 +3203,19 @@ class WP_Query {
 		}
 
 		$split_the_query = ( $old_request == $this->request && "$wpdb->posts.*" == $fields && !empty( $limits ) && $q['posts_per_page'] < 500 );
+
+		/**
+		 * Filter whether to split the query.
+		 *
+		 * Splitting the query will cause it to fetch just the IDs of the found posts
+		 * (and then individually fetch each post by ID), rather than fetching every
+		 * complete row at once. One massive result vs. many small results.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param bool     $split_the_query Whether or not to split the query.
+		 * @param WP_Query $this            The WP_Query instance.
+		 */
 		$split_the_query = apply_filters( 'split_the_query', $split_the_query, $this );
 
 		if ( $split_the_query ) {
@@ -3177,6 +3223,14 @@ class WP_Query {
 
 			$this->request = "SELECT $found_rows $distinct $wpdb->posts.ID FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
 
+			/**
+			 * Filter the Post IDs SQL request before sending.
+			 *
+			 * @since 3.4.0
+			 *
+			 * @param string   $request The post ID request.
+			 * @param WP_Query $this    The WP_Query instance.
+			 */
 			$this->request = apply_filters( 'posts_request_ids', $this->request, $this );
 
 			$ids = $wpdb->get_col( $this->request );
@@ -3197,9 +3251,17 @@ class WP_Query {
 		if ( $this->posts )
 			$this->posts = array_map( 'get_post', $this->posts );
 
-		// Raw results filter. Prior to status checks.
-		if ( !$q['suppress_filters'] )
-			$this->posts = apply_filters_ref_array('posts_results', array( $this->posts, &$this ) );
+		if ( ! $q['suppress_filters'] ) {
+			/**
+			 * Filter the raw post results array, prior to status checks.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param array    $posts The post results array.
+			 * @param WP_Query &$this The WP_Query instance (passed by reference).
+			 */
+			$this->posts = apply_filters_ref_array( 'posts_results', array( $this->posts, &$this ) );
+		}
 
 		if ( !empty($this->posts) && $this->is_comment_feed && $this->is_singular ) {
 			/** This filter is documented in wp-includes/query.php */
@@ -3252,8 +3314,17 @@ class WP_Query {
 				}
 			}
 
-			if ( $this->is_preview && $this->posts && current_user_can( $edit_cap, $this->posts[0]->ID ) )
+			if ( $this->is_preview && $this->posts && current_user_can( $edit_cap, $this->posts[0]->ID ) ) {
+				/**
+				 * Filter the single post for preview mode.
+				 *
+				 * @since 2.7.0
+				 *
+				 * @param WP_Post  $post_preview  The Post object.
+				 * @param WP_Query &$this         The WP_Query instance (passed by reference).
+				 */
 				$this->posts[0] = get_post( apply_filters_ref_array( 'the_preview', array( $this->posts[0], &$this ) ) );
+			}
 		}
 
 		// Put sticky posts at the top of the posts array
@@ -3297,8 +3368,18 @@ class WP_Query {
 			}
 		}
 
-		if ( !$q['suppress_filters'] )
-			$this->posts = apply_filters_ref_array('the_posts', array( $this->posts, &$this ) );
+		if ( ! $q['suppress_filters'] ) {
+			/**
+			 * Filter the array of retrieved posts after they've been fetched and
+			 * internally processed.
+			 *
+			 * @since 1.5.0
+			 *
+			 * @param array    $posts The array of retrieved posts.
+			 * @param WP_Query &$this The WP_Query instance (passed by reference).
+			 */
+			$this->posts = apply_filters_ref_array( 'the_posts', array( $this->posts, &$this ) );
+		}
 
 		// Ensure that any posts added/modified via one of the filters above are
 		// of the type WP_Post and are filtered.
@@ -3334,11 +3415,28 @@ class WP_Query {
 		if ( $q['no_found_rows'] || ( is_array( $this->posts ) && ! $this->posts ) )
 			return;
 
-		if ( ! empty( $limits ) )
+		if ( ! empty( $limits ) ) {
+			/**
+			 * Filter the query to run for retrieving the found posts.
+			 *
+			 * @since 2.1.0
+			 *
+			 * @param string   $found_posts The query to run to find the found posts.
+			 * @param WP_Query &$this       The WP_Query instance (passed by reference).
+			 */
 			$this->found_posts = $wpdb->get_var( apply_filters_ref_array( 'found_posts_query', array( 'SELECT FOUND_ROWS()', &$this ) ) );
-		else
+		} else {
 			$this->found_posts = count( $this->posts );
+		}
 
+		/**
+		 * Filter the number of found posts for the query.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param int      $found_posts The number of posts found.
+		 * @param WP_Query &$this       The WP_Query instance (passed by reference).
+		 */
 		$this->found_posts = apply_filters_ref_array( 'found_posts', array( $this->found_posts, &$this ) );
 
 		if ( ! empty( $limits ) )
@@ -3377,7 +3475,14 @@ class WP_Query {
 		$this->in_the_loop = true;
 
 		if ( $this->current_post == -1 ) // loop has just started
-			do_action_ref_array('loop_start', array(&$this));
+			/**
+			 * Fires once the loop is started.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param WP_Query &$this The WP_Query instance (passed by reference).
+			 */
+			do_action_ref_array( 'loop_start', array( &$this ) );
 
 		$post = $this->next_post();
 		setup_postdata($post);
@@ -3398,7 +3503,14 @@ class WP_Query {
 		if ( $this->current_post + 1 < $this->post_count ) {
 			return true;
 		} elseif ( $this->current_post + 1 == $this->post_count && $this->post_count > 0 ) {
-			do_action_ref_array('loop_end', array(&$this));
+			/**
+			 * Fires once the loop has ended.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param WP_Query &$this The WP_Query instance (passed by reference).
+			 */
+			do_action_ref_array( 'loop_end', array( &$this ) );
 			// Do some cleaning up after the loop
 			$this->rewind_posts();
 		}
@@ -3449,7 +3561,12 @@ class WP_Query {
 		$comment = $this->next_comment();
 
 		if ( $this->current_comment == 0 ) {
-			do_action('comment_loop_start');
+			/**
+			 * Fires once the comment loop is started.
+			 *
+			 * @since 2.2.0
+			 */
+			do_action( 'comment_loop_start' );
 		}
 	}
 
@@ -4242,7 +4359,14 @@ function setup_postdata( $post ) {
 		$pages = array( $post->post_content );
 	}
 
-	do_action_ref_array('the_post', array(&$post));
+	/**
+	 * Fires once the post data has been setup.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param WP_Post &$post The Post object (passed by reference).
+	 */
+	do_action_ref_array( 'the_post', array( &$post ) );
 
 	return true;
 }
