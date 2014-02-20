@@ -2959,7 +2959,7 @@ class WP_Query {
 			 * @param string   $where The WHERE clause of the query.
 			 * @param WP_Query &$this The WP_Query instance (passed by reference).
 			 */
-			$where		= apply_filters_ref_array( 'posts_where_paged',	array( $where, &$this ) );
+			$where = apply_filters_ref_array( 'posts_where_paged', array( $where, &$this ) );
 
 			/**
 			 * Filter the GROUP BY clause of the query.
@@ -2969,7 +2969,7 @@ class WP_Query {
 			 * @param string   $groupby The GROUP BY clause of the query.
 			 * @param WP_Query &$this   The WP_Query instance (passed by reference).
 			 */
-			$groupby	= apply_filters_ref_array( 'posts_groupby',		array( $groupby, &$this ) );
+			$groupby = apply_filters_ref_array( 'posts_groupby', array( $groupby, &$this ) );
 
 			/**
 			 * Filter the JOIN clause of the query.
@@ -2981,7 +2981,7 @@ class WP_Query {
 			 * @param string   $join  The JOIN clause of the query.
 			 * @param WP_Query &$this The WP_Query instance (passed by reference).
 			 */
-			$join		= apply_filters_ref_array( 'posts_join_paged',	array( $join, &$this ) );
+			$join = apply_filters_ref_array( 'posts_join_paged', array( $join, &$this ) );
 
 			/**
 			 * Filter the ORDER BY clause of the query.
@@ -2991,7 +2991,7 @@ class WP_Query {
 			 * @param string   $orderby The ORDER BY clause of the query.
 			 * @param WP_Query &$this   The WP_Query instance (passed by reference).
 			 */
-			$orderby	= apply_filters_ref_array( 'posts_orderby',		array( $orderby, &$this ) );
+			$orderby = apply_filters_ref_array( 'posts_orderby', array( $orderby, &$this ) );
 
 			/**
 			 * Filter the DISTINCT clause of the query.
@@ -3001,7 +3001,7 @@ class WP_Query {
 			 * @param string   $distinct The DISTINCT clause of the query.
 			 * @param WP_Query &$this    The WP_Query instance (passed by reference).
 			 */
-			$distinct	= apply_filters_ref_array( 'posts_distinct',	array( $distinct, &$this ) );
+			$distinct = apply_filters_ref_array( 'posts_distinct', array( $distinct, &$this ) );
 
 			/**
 			 * Filter the LIMIT clause of the query.
@@ -3011,7 +3011,7 @@ class WP_Query {
 			 * @param string   $limits The LIMIT clause of the query.
 			 * @param WP_Query &$this  The WP_Query instance (passed by reference).
 			 */
-			$limits		= apply_filters_ref_array( 'post_limits',		array( $limits, &$this ) );
+			$limits = apply_filters_ref_array( 'post_limits', array( $limits, &$this ) );
 
 			/**
 			 * Filter the SELECT clause of the query.
@@ -3021,7 +3021,7 @@ class WP_Query {
 			 * @param string   $fields The SELECT clause of the query.
 			 * @param WP_Query &$this  The WP_Query instance (passed by reference).
 			 */
-			$fields		= apply_filters_ref_array( 'posts_fields',		array( $fields, &$this ) );
+			$fields = apply_filters_ref_array( 'posts_fields', array( $fields, &$this ) );
 
 			/**
 			 * Filter all query clauses at once, for convenience.
@@ -3067,7 +3067,7 @@ class WP_Query {
 			 * @param string   $where The WHERE clause of the query.
 			 * @param WP_Query &$this The WP_Query instance (passed by reference).
 			 */
-			$where		= apply_filters_ref_array( 'posts_where_request',		array( $where, &$this ) );
+			$where = apply_filters_ref_array( 'posts_where_request', array( $where, &$this ) );
 
 			/**
 			 * Filter the GROUP BY clause of the query.
@@ -3079,7 +3079,7 @@ class WP_Query {
 			 * @param string   $groupby The GROUP BY clause of the query.
 			 * @param WP_Query &$this   The WP_Query instance (passed by reference).
 			 */
-			$groupby	= apply_filters_ref_array( 'posts_groupby_request',		array( $groupby, &$this ) );
+			$groupby = apply_filters_ref_array( 'posts_groupby_request', array( $groupby, &$this ) );
 
 			/**
 			 * Filter the JOIN clause of the query.
@@ -3091,7 +3091,7 @@ class WP_Query {
 			 * @param string   $join  The JOIN clause of the query.
 			 * @param WP_Query &$this The WP_Query instance (passed by reference).
 			 */
-			$join		= apply_filters_ref_array( 'posts_join_request',		array( $join, &$this ) );
+			$join = apply_filters_ref_array( 'posts_join_request', array( $join, &$this ) );
 
 			/**
 			 * Filter the ORDER BY clause of the query.
@@ -3103,7 +3103,7 @@ class WP_Query {
 			 * @param string   $orderby The ORDER BY clause of the query.
 			 * @param WP_Query &$this   The WP_Query instance (passed by reference).
 			 */
-			$orderby	= apply_filters_ref_array( 'posts_orderby_request',		array( $orderby, &$this ) );
+			$orderby = apply_filters_ref_array( 'posts_orderby_request', array( $orderby, &$this ) );
 
 			/**
 			 * Filter the DISTINCT clause of the query.
@@ -3115,7 +3115,7 @@ class WP_Query {
 			 * @param string   $distinct The DISTINCT clause of the query.
 			 * @param WP_Query &$this    The WP_Query instance (passed by reference).
 			 */
-			$distinct	= apply_filters_ref_array( 'posts_distinct_request',	array( $distinct, &$this ) );
+			$distinct = apply_filters_ref_array( 'posts_distinct_request', array( $distinct, &$this ) );
 
 			/**
 			 * Filter the SELECT clause of the query.
@@ -3127,7 +3127,7 @@ class WP_Query {
 			 * @param string   $fields The SELECT clause of the query.
 			 * @param WP_Query &$this  The WP_Query instance (passed by reference).
 			 */
-			$fields		= apply_filters_ref_array( 'posts_fields_request',		array( $fields, &$this ) );
+			$fields = apply_filters_ref_array( 'posts_fields_request', array( $fields, &$this ) );
 
 			/**
 			 * Filter the LIMIT clause of the query.
@@ -3139,7 +3139,7 @@ class WP_Query {
 			 * @param string   $limits The LIMIT clause of the query.
 			 * @param WP_Query &$this  The WP_Query instance (passed by reference).
 			 */
-			$limits		= apply_filters_ref_array( 'post_limits_request',		array( $limits, &$this ) );
+			$limits = apply_filters_ref_array( 'post_limits_request', array( $limits, &$this ) );
 
 			/**
 			 * Filter all query clauses at once, for convenience.
