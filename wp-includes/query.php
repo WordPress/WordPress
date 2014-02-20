@@ -2848,11 +2848,55 @@ class WP_Query {
 			}
 
 			if ( !$q['suppress_filters'] ) {
-				$cjoin = apply_filters_ref_array('comment_feed_join', array( $cjoin, &$this ) );
-				$cwhere = apply_filters_ref_array('comment_feed_where', array( $cwhere, &$this ) );
-				$cgroupby = apply_filters_ref_array('comment_feed_groupby', array( $cgroupby, &$this ) );
-				$corderby = apply_filters_ref_array('comment_feed_orderby', array( 'comment_date_gmt DESC', &$this ) );
-				$climits = apply_filters_ref_array('comment_feed_limits', array( 'LIMIT ' . get_option('posts_per_rss'), &$this ) );
+				/**
+				 * Filter the JOIN clause of the comments feed query before sending.
+				 *
+				 * @since 2.2.0
+				 *
+				 * @param string   $cjoin The JOIN clause of the query.
+				 * @param WP_Query &$this The WP_Query instance (passed by reference).
+				 */
+				$cjoin = apply_filters_ref_array( 'comment_feed_join', array( $cjoin, &$this ) );
+
+				/**
+				 * Filter the WHERE clause of the comments feed query before sending.
+				 *
+				 * @since 2.2.0
+				 *
+				 * @param string   $cwhere The WHERE clause of the query.
+				 * @param WP_Query &$this  The WP_Query instance (passed by reference).
+				 */
+				$cwhere = apply_filters_ref_array( 'comment_feed_where', array( $cwhere, &$this ) );
+
+				/**
+				 * Filter the GROUP BY clause of the comments feed query before sending.
+				 *
+				 * @since 2.2.0
+				 *
+				 * @param string   $cgroupby The GROUP BY clause of the query.
+				 * @param WP_Query &$this    The WP_Query instance (passed by reference).
+				 */
+				$cgroupby = apply_filters_ref_array( 'comment_feed_groupby', array( $cgroupby, &$this ) );
+
+				/**
+				 * Filter the ORDER BY clause of the comments feed query before sending.
+				 *
+				 * @since 2.8.0
+				 *
+				 * @param string   $corderby The ORDER BY clause of the query.
+				 * @param WP_Query &$this    The WP_Query instance (passed by reference).
+				 */
+				$corderby = apply_filters_ref_array( 'comment_feed_orderby', array( 'comment_date_gmt DESC', &$this ) );
+
+				/**
+				 * Filter the LIMIT clause of the comments feed query before sending.
+				 *
+				 * @since 2.8.0
+				 *
+				 * @param string   $climits The JOIN clause of the query.
+				 * @param WP_Query &$this   The WP_Query instance (passed by reference).
+				 */
+				$climits = apply_filters_ref_array( 'comment_feed_limits', array( 'LIMIT ' . get_option('posts_per_rss'), &$this ) );
 			}
 			$cgroupby = ( ! empty( $cgroupby ) ) ? 'GROUP BY ' . $cgroupby : '';
 			$corderby = ( ! empty( $corderby ) ) ? 'ORDER BY ' . $corderby : '';
@@ -3158,13 +3202,23 @@ class WP_Query {
 			$this->posts = apply_filters_ref_array('posts_results', array( $this->posts, &$this ) );
 
 		if ( !empty($this->posts) && $this->is_comment_feed && $this->is_singular ) {
-			$cjoin = apply_filters_ref_array('comment_feed_join', array( '', &$this ) );
-			$cwhere = apply_filters_ref_array('comment_feed_where', array( "WHERE comment_post_ID = '{$this->posts[0]->ID}' AND comment_approved = '1'", &$this ) );
-			$cgroupby = apply_filters_ref_array('comment_feed_groupby', array( '', &$this ) );
+			/** This filter is documented in wp-includes/query.php */
+			$cjoin = apply_filters_ref_array( 'comment_feed_join', array( '', &$this ) );
+
+			/** This filter is documented in wp-includes/query.php */
+			$cwhere = apply_filters_ref_array( 'comment_feed_where', array( "WHERE comment_post_ID = '{$this->posts[0]->ID}' AND comment_approved = '1'", &$this ) );
+
+			/** This filter is documented in wp-includes/query.php */
+			$cgroupby = apply_filters_ref_array( 'comment_feed_groupby', array( '', &$this ) );
 			$cgroupby = ( ! empty( $cgroupby ) ) ? 'GROUP BY ' . $cgroupby : '';
-			$corderby = apply_filters_ref_array('comment_feed_orderby', array( 'comment_date_gmt DESC', &$this ) );
+
+			/** This filter is documented in wp-includes/query.php */
+			$corderby = apply_filters_ref_array( 'comment_feed_orderby', array( 'comment_date_gmt DESC', &$this ) );
 			$corderby = ( ! empty( $corderby ) ) ? 'ORDER BY ' . $corderby : '';
-			$climits = apply_filters_ref_array('comment_feed_limits', array( 'LIMIT ' . get_option('posts_per_rss'), &$this ) );
+
+			/** This filter is documented in wp-includes/query.php */
+			$climits = apply_filters_ref_array( 'comment_feed_limits', array( 'LIMIT ' . get_option('posts_per_rss'), &$this ) );
+
 			$comments_request = "SELECT $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere $cgroupby $corderby $climits";
 			$this->comments = $wpdb->get_results($comments_request);
 			$this->comment_count = count($this->comments);
