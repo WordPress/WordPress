@@ -25,7 +25,7 @@ $user_ID = isset($user_ID) ? (int) $user_ID : 0;
 $action = isset($action) ? $action : '';
 
 $media_type = false;
-if ( 'attachment' && $post_ID ) {
+if ( 'attachment' === $post_type && $post_ID ) {
 	$post = get_post( $post_ID );
 	$media_type = post_supports_thumbnails( $post );
 }
