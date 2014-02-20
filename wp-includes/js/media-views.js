@@ -760,6 +760,170 @@
 	});
 
 	/**
+	 * wp.media.controller.CollectionEdit
+	 *
+	 * @static
+	 * @param {string} prop The shortcode slug
+	 * @param {object} args
+	 * @returns {wp.media.controller.Library}
+	 */
+ 	media.controller.CollectionEdit = function ( prop, args ) {
+		/**
+		 * @constructor
+		 * @augments wp.media.controller.Library
+		 * @augments wp.media.controller.State
+		 * @augments Backbone.Model
+		 */
+ 		return media.controller.Library.extend({
+ 			defaults : _.defaults(args.defaults || {}, {
+ 				id:         prop + '-edit',
+ 				toolbar:    prop + '-edit',
+ 				multiple:   false,
+ 				describe:   true,
+ 				edge:       199,
+ 				editing:    false,
+ 				sortable:   true,
+ 				searchable: false,
+ 				content:    'browse',
+ 				priority:   60,
+ 				dragInfo:   true,
+
+ 				// Don't sync the selection, as the Edit {Collection} library
+ 				// *is* the selection.
+ 				syncSelection: false
+ 			}),
+
+ 			initialize: function() {
+ 				// If we haven't been provided a `library`, create a `Selection`.
+ 				if ( ! this.get('library') ) {
+ 					this.set( 'library', new media.model.Selection() );
+				}
+ 				// The single `Attachment` view to be used in the `Attachments` view.
+ 				if ( ! this.get('AttachmentView') ) {
+ 					this.set( 'AttachmentView', media.view.Attachment.EditLibrary );
+				}
+ 				media.controller.Library.prototype.initialize.apply( this, arguments );
+ 			},
+
+ 			activate: function() {
+ 				var library = this.get('library');
+
+ 				// Limit the library to images only.
+ 				library.props.set( 'type', args.type );
+
+ 				// Watch for uploaded attachments.
+ 				this.get('library').observe( wp.Uploader.queue );
+
+ 				this.frame.on( 'content:render:browse', this.settings, this );
+
+ 				media.controller.Library.prototype.activate.apply( this, arguments );
+ 			},
+
+ 			deactivate: function() {
+ 				// Stop watching for uploaded attachments.
+ 				this.get('library').unobserve( wp.Uploader.queue );
+
+ 				this.frame.off( 'content:render:browse', this.settings, this );
+
+ 				media.controller.Library.prototype.deactivate.apply( this, arguments );
+ 			},
+
+ 			settings: function( browser ) {
+ 				var library = this.get('library'), obj = {};
+
+ 				if ( ! library || ! browser ) {
+ 					return;
+				}
+
+ 				library[ prop ] = library[ prop ] || new Backbone.Model();
+
+ 				obj[ prop ] = new media.view.Settings[ args.settings ]({
+ 					controller: this,
+ 					model:      library[ prop ],
+  					priority:   40
+ 				});
+
+ 				browser.sidebar.set( obj );
+
+ 				if ( args.dragInfoText ) {
+ 					browser.toolbar.set( 'dragInfo', new media.View({
+ 						el: $( '<div class="instructions">' + args.dragInfoText + '</div>' )[0],
+ 						priority: -40
+ 					}) );
+  				}
+
+ 				browser.toolbar.set( 'reverse', {
+ 					text:     l10n.reverseOrder,
+ 					priority: 80,
+
+ 					click: function() {
+ 						library.reset( library.toArray().reverse() );
+ 					}
+ 				});
+ 			}
+ 		});
+ 	};
+
+	/**
+	 * wp.media.controller.CollectionAdd
+	 *
+	 * @static
+	 * @param {string} prop The shortcode slug
+	 * @param {object} args
+	 * @returns {wp.media.controller.Library}
+	 */
+ 	media.controller.CollectionAdd = function ( prop, args ) {
+		/**
+		 * @constructor
+		 * @augments wp.media.controller.Library
+		 * @augments wp.media.controller.State
+		 * @augments Backbone.Model
+		 */
+ 		return media.controller.Library.extend({
+ 			defaults: _.defaults({
+ 				id:           prop + '-library',
+ 				filterable:   'uploaded',
+ 				multiple:     'add',
+ 				menu:         prop,
+ 				toolbar:      prop + '-add',
+ 				priority:     100,
+ 				syncSelection: false
+ 			}, args.defaults || {}, media.controller.Library.prototype.defaults ),
+ 			initialize: function() {
+ 				// If we haven't been provided a `library`, create a `Selection`.
+ 				if ( ! this.get('library') ) {
+ 					this.set( 'library', media.query({ type: args.type }) );
+				}
+ 				media.controller.Library.prototype.initialize.apply( this, arguments );
+ 			},
+
+			activate: function() {
+ 				var library = this.get('library'),
+ 					edit    = this.frame.state(prop + '-edit').get('library');
+
+ 				if ( this.editLibrary && this.editLibrary !== edit ) {
+ 					library.unobserve( this.editLibrary );
+				}
+
+ 				// Accepts attachments that exist in the original library and
+ 				// that do not exist in gallery's library.
+ 				library.validator = function( attachment ) {
+ 					return !! this.mirroring.get( attachment.cid ) && ! edit.get( attachment.cid ) && media.model.Selection.prototype.validator.apply( this, arguments );
+ 				};
+
+ 				// Reset the library to ensure that all attachments are re-added
+ 				// to the collection. Do so silently, as calling `observe` will
+ 				// trigger the `reset` event.
+ 				library.reset( library.mirroring.models, { silent: true });
+ 				library.observe( edit );
+ 				this.editLibrary = edit;
+
+ 				media.controller.Library.prototype.activate.apply( this, arguments );
+ 			}
+ 		});
+ 	};
+
+	/**
 	 * wp.media.controller.GalleryEdit
 	 *
 	 * @constructor
