@@ -90,6 +90,9 @@ function unregister_nav_menu( $location ) {
 
 	if ( is_array( $_wp_registered_nav_menus ) && isset( $_wp_registered_nav_menus[$location] ) ) {
 		unset( $_wp_registered_nav_menus[$location] );
+		if ( empty( $_wp_registered_nav_menus ) ) {
+			_remove_theme_support( 'menus' );
+		}
 		return true;
 	}
 	return false;
