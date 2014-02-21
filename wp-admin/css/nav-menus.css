@@ -5,9 +5,8 @@
 	display: block;
 }
 
-#post-body ul.add-menu-item-tabs li.tabs a {
-	font-weight: 600;
-	text-decoration: none;
+ul.add-menu-item-tabs li {
+	padding: 3px 5px 3px 8px;
 }
 
 .accordion-section ul.category-tabs,
@@ -31,10 +30,6 @@
 #nav-menus-frame {
 	margin-left: 300px;
 	margin-top: 23px;
-}
-
-#nav-menus-frame .accordion-section-content .inside {
-	font-size: 14px;
 }
 
 #wpbody-content #menu-settings-column {

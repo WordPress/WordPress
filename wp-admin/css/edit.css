@@ -261,38 +261,25 @@ ul.category-tabs li,
 	margin: 11px 0;
 }
 
+/* @todo: make this a more generic class */
 ul.category-tabs,
 ul.add-menu-item-tabs,
 ul.wp-tab-bar {
 	margin-top: 12px;
 }
 
-ul.category-tabs li {
+ul.category-tabs li,
+ul.add-menu-item-tabs li {
 	border: solid 1px transparent;
 	position: relative;
 }
 
-ul.category-tabs li.tabs {
-	border-color: #dfdfdf #dfdfdf #fdfdfd;
-	background-color: #fdfdfd;
-}
-
+ul.category-tabs li.tabs,
 ul.add-menu-item-tabs li.tabs,
 .wp-tab-active {
 	border: 1px solid #dfdfdf;
-	border-bottom: none;
+	border-bottom-color: #fdfdfd;
 	background-color: #fdfdfd;
-}
-
-ul.add-menu-item-tabs li.tabs {
-	padding-bottom: 3px;
-	position: relative;
-}
-
-#post-body .add-menu-item-tabs li.tabs {
-	border-style: solid none solid solid;
-	border-width: 1px 0 1px 1px;
-	margin-right: -1px;
 }
 
 ul.category-tabs li,
@@ -869,26 +856,6 @@ a.post-state-format.format-link:before {
 
 #side-sortables .category-adder {
 	margin: 0;
-}
-
-#post-body ul.add-menu-item-tabs {
-	float: left;
-	width: 120px;
-	text-align: right;
-	/* Negative margin for the sake of those without JS: all tabs display */
-	margin: 0 -120px 0 5px;
-	padding: 0;
-}
-
-ul.add-menu-item-tabs li {
-	padding: 3px 5px 3px 8px;
-}
-
-#post-body ul.add-menu-item-tabs li.tabs {
-	-webkit-border-top-left-radius: 3px;
-	border-top-left-radius: 3px;
-	-webkit-border-bottom-left-radius: 3px;
-	border-bottom-left-radius: 3px;
 }
 
 .wp-tab-panel,
