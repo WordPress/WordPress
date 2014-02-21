@@ -129,7 +129,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		$this->set_pagination_args( array(
 			'total_items' => $api->info['results'],
-			'per_page' => $per_page,
+			'per_page' => $args['per_page'],
 		) );
 	}
 
