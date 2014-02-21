@@ -470,7 +470,7 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
 </configuration>';
 
 	?>
-		<li><p><?php printf( __( 'Add the following to your <code>web.config</code> file in <code>%s</code>, replacing other WordPress rules:' ), $home_path ); ?></p>
+		<li><p><?php printf( __( 'Add the following to your <code>web.config</code> file in <code>%s</code>, <strong>replacing</strong> other WordPress rules:' ), $home_path ); ?></p>
 		<?php
 		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' )
 			echo '<p><strong>' . __('Warning:') . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
@@ -504,7 +504,7 @@ RewriteRule . index.php [L]
 EOF;
 
 		?>
-		<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, replacing other WordPress rules:' ), $home_path ); ?></p>
+		<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, <strong>replacing</strong> other WordPress rules:' ), $home_path ); ?></p>
 		<?php
 		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' )
 			echo '<p><strong>' . __('Warning:') . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
