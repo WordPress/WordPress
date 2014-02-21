@@ -1403,14 +1403,12 @@ function the_date_xml() {
  */
 function the_date( $d = '', $before = '', $after = '', $echo = true ) {
 	global $currentday, $previousday;
-	$the_date = '';
+
 	if ( $currentday != $previousday ) {
-		$the_date .= $before;
-		$the_date .= get_the_date( $d );
-		$the_date .= $after;
+		$the_date = $before . get_the_date( $d ) . $after;
 		$previousday = $currentday;
 
-		$the_date = apply_filters('the_date', $the_date, $d, $before, $after);
+		$the_date = apply_filters( 'the_date', $the_date, $d, $before, $after );
 
 		if ( $echo )
 			echo $the_date;
@@ -1434,14 +1432,13 @@ function the_date( $d = '', $before = '', $after = '', $echo = true ) {
  */
 function get_the_date( $d = '' ) {
 	$post = get_post();
-	$the_date = '';
 
 	if ( '' == $d )
-		$the_date .= mysql2date(get_option('date_format'), $post->post_date);
+		$the_date = mysql2date( get_option( 'date_format' ), $post->post_date );
 	else
-		$the_date .= mysql2date($d, $post->post_date);
+		$the_date = mysql2date( $d, $post->post_date );
 
-	return apply_filters('get_the_date', $the_date, $d);
+	return apply_filters( 'get_the_date', $the_date, $d );
 }
 
 /**
