@@ -32,7 +32,7 @@ class WP_oEmbed {
 			'#http://youtu\.be/.*#i'                              => array( 'http://www.youtube.com/oembed',                      true  ),
 			'#https://youtu\.be/.*#i'                             => array( 'http://www.youtube.com/oembed?scheme=https',         true  ),
 			'http://blip.tv/*'                                    => array( 'http://blip.tv/oembed/',                             false ),
-			'#https?://(www\.)?vimeo\.com/.*#i'                   => array( 'http://vimeo.com/api/oembed.{format}',               true  ),
+			'#https?://(.+\.)?vimeo\.com/.*#i'                    => array( 'http://vimeo.com/api/oembed.{format}',               true  ),
 			'#https?://(www\.)?dailymotion\.com/.*#i'             => array( 'http://www.dailymotion.com/services/oembed',         true  ),
 			'http://dai.ly/*'                                     => array( 'http://www.dailymotion.com/services/oembed',         false ),
 			'#https?://(www\.)?flickr\.com/.*#i'                  => array( 'http://www.flickr.com/services/oembed/',             true  ),
