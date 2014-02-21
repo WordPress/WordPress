@@ -183,15 +183,16 @@ class WP_Widget {
 		}
 	}
 
-	/** Deal with changed settings.
-	 *	Do NOT over-ride this function. */
-	function update_callback( $widget_args = 1 ) {
+	/**
+	 * Deal with changed settings.
+	 *
+	 * Do NOT over-ride this function.
+	 *
+	 * @param mixed $deprecated Not used.
+	 */
+	function update_callback( $deprecated = 1 ) {
 		global $wp_registered_widgets;
 
-		if ( is_numeric($widget_args) )
-			$widget_args = array( 'number' => $widget_args );
-
-		$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
 		$all_instances = $this->get_settings();
 
 		// We need to update the data
