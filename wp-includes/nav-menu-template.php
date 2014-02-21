@@ -224,7 +224,7 @@ class Walker_Nav_Menu extends Walker {
  *     @type string        $items_wrap      How the list items should be wrapped. Default is a ul with an id and class.
  *                                          Uses printf() format with numbered placeholders.
  * }
- * @return mixed Menu output if $echo is true, false if there are no items or no menu was found.
+ * @return mixed Menu output if $echo is false, false if there are no items or no menu was found.
  */
 function wp_nav_menu( $args = array() ) {
 	static $menu_id_slugs = array();
