@@ -1382,7 +1382,7 @@ function the_date_xml() {
 }
 
 /**
- * Display or Retrieve the date the current $post was written (once per date)
+ * Display or Retrieve the date the current post was written (once per date)
  *
  * Will only output the date if the current post's date is different from the
  * previous one output.
@@ -1420,7 +1420,7 @@ function the_date( $d = '', $before = '', $after = '', $echo = true ) {
 }
 
 /**
- * Retrieve the date the current $post was written.
+ * Retrieve the date the current post was written.
  *
  * Unlike the_date() this function will always return the date.
  * Modify output with 'get_the_date' filter.
@@ -1428,7 +1428,7 @@ function the_date( $d = '', $before = '', $after = '', $echo = true ) {
  * @since 3.0.0
  *
  * @param string $d Optional. PHP date format defaults to the date_format option if not specified.
- * @return string|null Null if displaying, string if retrieving.
+ * @return string Date the current post was written.
  */
 function get_the_date( $d = '' ) {
 	$post = get_post();
