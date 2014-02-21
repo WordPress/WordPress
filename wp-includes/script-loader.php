@@ -578,6 +578,11 @@ function wp_default_styles( &$styles ) {
 
 	// Register a stylesheet for the selected admin color scheme.
 	$colors_url = false;
+	// It's possible this is run before admin_init, so we need to make sure color schemes are registered.
+	if ( is_admin() && empty( $GLOBALS['_wp_admin_css_colors'] ) && ! did_action( 'admin_init' ) && has_action( 'admin_init', 'register_admin_color_schemes' ) ) {
+		register_admin_color_schemes();
+		remove_action( 'admin_init', 'register_admin_color_schemes', 1 );
+	}
 	if ( ! empty( $GLOBALS['_wp_admin_css_colors'] ) ) {
 		$color = get_user_option( 'admin_color' );
 		if ( ! $color || ! isset( $GLOBALS['_wp_admin_css_colors'][ $color ] ) ) {
