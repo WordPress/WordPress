@@ -1312,7 +1312,7 @@ function prev_post_rel_link( $title = '%title', $in_same_term = false, $excluded
  * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
  * @param bool         $start          Optional. Whether to retrieve first or last post.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
- * @return object
+ * @return mixed Array containing the boundary post object if successful, null otherwise.
  */
 function get_boundary_post( $in_same_term = false, $excluded_terms = '', $start = true, $taxonomy = 'category' ) {
 	$post = get_post();
