@@ -92,14 +92,17 @@
 /* Enable draggable on IE10 touch events until it's rolled into jQuery UI core */
 .ui-sortable,
 .ui-draggable {
+	-ms-touch-action: none;
 	touch-action: none;
 }
 
 .meta-box-sortables.ui-sortable {
+	-ms-touch-action: auto;
 	touch-action: auto;
 }
 
 .meta-box-sortables.ui-sortable .hndle {
+	-ms-touch-action: none;
 	touch-action: none;
 }
 
