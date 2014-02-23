@@ -80,7 +80,9 @@ class Walker_Category_Checklist extends Walker {
 			$name = 'tax_input['.$taxonomy.']';
 
 		$class = in_array( $category->term_id, $popular_cats ) ? ' class="popular-category"' : '';
-		$output .= "\n<li id='{$taxonomy}-{$category->term_id}'$class>" . '<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="'.$name.'[]" id="in-'.$taxonomy.'-' . $category->term_id . '"' . checked( in_array( $category->term_id, $selected_cats ), true, false ) . disabled( empty( $args['disabled'] ), false, false ) . ' /> ' . esc_html( apply_filters('the_category', $category->name )) . '</label>';
+
+		/** This filter is documented in wp-includes/category-template.php */
+		$output .= "\n<li id='{$taxonomy}-{$category->term_id}'$class>" . '<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="'.$name.'[]" id="in-'.$taxonomy.'-' . $category->term_id . '"' . checked( in_array( $category->term_id, $selected_cats ), true, false ) . disabled( empty( $args['disabled'] ), false, false ) . ' /> ' . esc_html( apply_filters( 'the_category', $category->name ) ) . '</label>';
 	}
 
 	/**
@@ -143,6 +145,17 @@ function wp_terms_checklist($post_id = 0, $args = array()) {
 		'taxonomy' => 'category',
 		'checked_ontop' => true
 	);
+
+	/**
+	 * Filter the taxonomy terms checklist arguments.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @see wp_terms_checklist()
+	 *
+	 * @param array $args    An array of arguments.
+	 * @param int   $post_id The post ID.
+	 */
 	$args = apply_filters( 'wp_terms_checklist_args', $args, $post_id );
 
 	extract( wp_parse_args($args, $defaults), EXTR_SKIP );
@@ -235,8 +248,11 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 
 		<li id="<?php echo $id; ?>" class="popular-category">
 			<label class="selectit">
-			<input id="in-<?php echo $id; ?>" type="checkbox" <?php echo $checked; ?> value="<?php echo (int) $term->term_id; ?>" <?php disabled( ! current_user_can( $tax->cap->assign_terms ) ); ?> />
-				<?php echo esc_html( apply_filters( 'the_category', $term->name ) ); ?>
+				<input id="in-<?php echo $id; ?>" type="checkbox" <?php echo $checked; ?> value="<?php echo (int) $term->term_id; ?>" <?php disabled( ! current_user_can( $tax->cap->assign_terms ) ); ?> />
+				<?php
+				/** This filter is documented in wp-includes/category-template.php */
+				echo esc_html( apply_filters( 'the_category', $term->name ) );
+				?>
 			</label>
 		</li>
 
@@ -271,6 +287,8 @@ function wp_link_category_checklist( $link_id = 0 ) {
 
 	foreach ( $categories as $category ) {
 		$cat_id = $category->term_id;
+
+		/** This filter is documented in wp-includes/category-template.php */
 		$name = esc_html( apply_filters( 'the_category', $category->name ) );
 		$checked = in_array( $cat_id, $checked_categories ) ? ' checked="checked"' : '';
 		echo '<li id="link-category-', $cat_id, '"><label for="in-link-category-', $cat_id, '" class="selectit"><input value="', $cat_id, '" type="checkbox" name="link_category[]" id="in-link-category-', $cat_id, '"', $checked, '/> ', $name, "</label></li>";
@@ -292,10 +310,11 @@ function get_inline_data($post) {
 
 	$title = esc_textarea( trim( $post->post_title ) );
 
+	/** This filter is documented in wp-admin/edit-tag-form.php */
 	echo '
 <div class="hidden" id="inline_' . $post->ID . '">
 	<div class="post_title">' . $title . '</div>
-	<div class="post_name">' . apply_filters('editable_slug', $post->post_name) . '</div>
+	<div class="post_name">' . apply_filters( 'editable_slug', $post->post_name ) . '</div>
 	<div class="post_author">' . $post->post_author . '</div>
 	<div class="comment_status">' . esc_html( $post->comment_status ) . '</div>
 	<div class="ping_status">' . esc_html( $post->ping_status ) . '</div>
@@ -349,8 +368,23 @@ function get_inline_data($post) {
  * @param unknown_type $mode
  */
 function wp_comment_reply($position = '1', $checkbox = false, $mode = 'single', $table_row = true) {
-	// allow plugin to replace the popup content
-	$content = apply_filters( 'wp_comment_reply', '', array('position' => $position, 'checkbox' => $checkbox, 'mode' => $mode) );
+
+	/**
+	 * Filter the in-line comment reply-to form output in the Comments
+	 * list table.
+	 *
+	 * Returning a non-empty value here will short-circuit display
+	 * of the in-line comment-reply form in the Comments list table,
+	 * echoing the returned value instead.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @see wp_comment_reply()
+	 *
+	 * @param string $content The reply-to form content.
+	 * @param array  $args    An array of default args.
+	 */
+	$content = apply_filters( 'wp_comment_reply', '', array( 'position' => $position, 'checkbox' => $checkbox, 'mode' => $mode ) );
 
 	if ( ! empty($content) ) {
 		echo $content;
@@ -556,6 +590,15 @@ function _list_meta_row( $entry, &$count ) {
 function meta_form( $post = null ) {
 	global $wpdb;
 	$post = get_post( $post );
+
+	/**
+	 * Filter the number of custom fields to retrieve for the drop-down
+	 * in the Custom Fields meta box.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param int $limit Number of custom fields to retrieve. Default 30.
+	 */
 	$limit = (int) apply_filters( 'postmeta_form_limit', 30 );
 	$keys = $wpdb->get_col( "
 		SELECT meta_key
@@ -770,6 +813,16 @@ function wp_dropdown_roles( $selected = false ) {
  * @param string $action The action attribute for the form.
  */
 function wp_import_upload_form( $action ) {
+
+	/**
+	 * Filter the maximum allowed upload size for import files.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @see wp_max_upload_size()
+	 *
+	 * @param int $max_upload_size Allowed upload size. Default 1 MB.
+	 */
 	$bytes = apply_filters( 'import_upload_size_limit', wp_max_upload_size() );
 	$size = size_format( $bytes );
 	$upload_dir = wp_upload_dir();
@@ -1430,13 +1483,26 @@ var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
 //]]>
 </script>
 <?php
-do_action('admin_enqueue_scripts', $hook_suffix);
-do_action("admin_print_styles-$hook_suffix");
-do_action('admin_print_styles');
-do_action("admin_print_scripts-$hook_suffix");
-do_action('admin_print_scripts');
-do_action("admin_head-$hook_suffix");
-do_action('admin_head');
+/** This action is documented in wp-admin/admin-header.php */
+do_action( 'admin_enqueue_scripts', $hook_suffix );
+
+/** This action is documented in wp-admin/admin-header.php */
+do_action( "admin_print_styles-$hook_suffix" );
+
+/** This action is documented in wp-admin/admin-header.php */
+do_action( 'admin_print_styles' );
+
+/** This action is documented in wp-admin/admin-header.php */
+do_action( "admin_print_scripts-$hook_suffix" );
+
+/** This action is documented in wp-admin/admin-header.php */
+do_action( 'admin_print_scripts' );
+
+/** This action is documented in wp-admin/admin-header.php */
+do_action( "admin_head-$hook_suffix" );
+
+/** This action is documented in wp-admin/admin-header.php */
+do_action( 'admin_head' );
 
 $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 
@@ -1445,6 +1511,9 @@ if ( is_rtl() )
 
 ?>
 </head>
+<?php
+/** This filter is documented in wp-admin/admin-header.php */
+?>
 <body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?> class="wp-admin wp-core-ui no-js iframe <?php echo apply_filters( 'admin_body_class', '' ) . ' ' . $admin_body_class; ?>">
 <script type="text/javascript">
 //<![CDATA[
@@ -1465,11 +1534,20 @@ document.body.className = c;
  *
  */
 function iframe_footer() {
-	//We're going to hide any footer output on iframe pages, but run the hooks anyway since they output Javascript or other needed content. ?>
+	/*
+	 * We're going to hide any footer output on iFrame pages,
+	 * but run the hooks anyway since they output Javascript
+	 * or other needed content.
+	 */
+	 ?>
 	<div class="hidden">
 <?php
-	do_action('admin_footer', '');
-	do_action('admin_print_footer_scripts'); ?>
+	/** This action is documented in wp-admin/admin-footer.php */
+	do_action( 'admin_footer', '' );
+
+	/** This action is documented in wp-admin/admin-footer.php */
+	do_action( 'admin_print_footer_scripts' );
+?>
 	</div>
 <script type="text/javascript">if(typeof wpOnload=="function")wpOnload();</script>
 </body>
@@ -1496,6 +1574,15 @@ function _post_states($post) {
 	if ( is_sticky($post->ID) )
 		$post_states['sticky'] = __('Sticky');
 
+	/**
+	 * Filter the default post display states used in the Posts list table.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param array $post_states An array of post display states. Values include 'Password protected',
+	 *                           'Private', 'Draft', 'Pending', and 'Sticky'.
+	 * @param int   $post        The post ID.
+	 */
 	$post_states = apply_filters( 'display_post_states', $post_states, $post );
 
 	if ( ! empty($post_states) ) {
@@ -1527,6 +1614,14 @@ function _media_states( $post ) {
 			$media_states[] = __( 'Background Image' );
 	}
 
+	/**
+	 * Filter the default media display states for items in the Media list table.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param array $media_states An array of media states. Default 'Header Image',
+	 *                            'Background Image'.
+	 */
 	$media_states = apply_filters( 'display_media_states', $media_states );
 
 	if ( ! empty( $media_states ) ) {
@@ -1701,13 +1796,19 @@ function _wp_admin_html_begin() {
 	if ( $is_IE )
 		@header('X-UA-Compatible: IE=edge');
 
+/**
+ * Fires inside the HTML tag in the admin header.
+ *
+ * @since 2.2.0
+ */
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]>
-<html xmlns="http://www.w3.org/1999/xhtml" class="ie8 <?php echo $admin_html_class; ?>" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
+<html xmlns="http://www.w3.org/1999/xhtml" class="ie8 <?php echo $admin_html_class; ?>" <?php do_action( 'admin_xml_ns' ); ?> <?php language_attributes(); ?>>
 <![endif]-->
 <!--[if !(IE 8) ]><!-->
-<html xmlns="http://www.w3.org/1999/xhtml" class="<?php echo $admin_html_class; ?>" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
+<?php /** This action is documented in wp-admin/includes/template.php */ ?>
+<html xmlns="http://www.w3.org/1999/xhtml" class="<?php echo $admin_html_class; ?>" <?php do_action( 'admin_xml_ns' ); ?> <?php language_attributes(); ?>>
 <!--<![endif]-->
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
