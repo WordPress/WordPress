@@ -22,7 +22,7 @@ function fileQueued(fileObj) {
 		.appendTo( jQuery('#media-items' ) );
 
 	// Disable submit
-	jQuery('#insert-gallery, #insert-playlist').prop('disabled', true);
+	jQuery('#insert-gallery').prop('disabled', true);
 }
 
 function uploadStart() {
@@ -47,7 +47,7 @@ function fileUploading(up, file) {
 
 	if ( max > hundredmb && file.size > hundredmb ) {
 		setTimeout(function(){
-			
+
 			if ( file.status < 3 && file.loaded === 0 ) { // not uploading
 				wpFileError(file, pluploadL10n.big_upload_failed.replace('%1$s', '<a class="uploader-html" href="#">').replace('%2$s', '</a>'));
 				up.stop(); // stops the whole queue
@@ -64,11 +64,11 @@ function updateMediaForm() {
 	// Just one file, no need for collapsible part
 	if ( items.length == 1 ) {
 		items.addClass('open').find('.slidetoggle').show();
-		jQuery('.insert-gallery, .insert-playlist').hide();
+		jQuery('.insert-gallery').hide();
 	} else if ( items.length > 1 ) {
 		items.removeClass('open');
 		// Only show Gallery/Playlist buttons when there are at least two files.
-		jQuery('.insert-gallery, .insert-playlist').show();
+		jQuery('.insert-gallery').show();
 	}
 
 	// Only show Save buttons when there is at least one file.
@@ -171,7 +171,7 @@ function prepareMediaItemInit(fileObj) {
 			success: function( ){
 				var type,
 					item = jQuery('#media-item-' + fileObj.id);
-				
+
 				if ( type = jQuery('#type-of-' + fileObj.id).val() )
 					jQuery('#' + type + '-counter').text(jQuery('#' + type + '-counter').text()-0+1);
 
@@ -257,7 +257,7 @@ function deleteError() {
 }
 
 function uploadComplete() {
-	jQuery('#insert-gallery, #insert-playlist').prop('disabled', false);
+	jQuery('#insert-gallery').prop('disabled', false);
 }
 
 function switchUploader(s) {
