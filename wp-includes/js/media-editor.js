@@ -406,7 +406,7 @@
 			}
 
  			// Remove default attributes from the shortcode.
- 			_.each( this.defaults, function( value, key ) {
+ 			_.each( wp.media[prop].defaults, function( value, key ) {
  				if ( value === attrs[ key ] ) {
  					delete attrs[ key ];
 				}
