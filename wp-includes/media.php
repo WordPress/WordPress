@@ -1100,7 +1100,7 @@ function wp_get_playlist( $attr, $type ) {
 			if ( ! empty( $id ) ) {
 				list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'full' );
 				$track['image'] = compact( 'src', 'width', 'height' );
-				list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'thumb' );
+				list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'thumbnail' );
 				$track['thumb'] = compact( 'src', 'width', 'height' );
 			}
 		}
