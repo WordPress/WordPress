@@ -431,24 +431,35 @@ function wp_print_media_templates() {
 			</select>
 		</label>
 
+		<#
+			var playlist = 'playlist-edit' === data.controller.id, emptyModel = 'undefined' === typeof data.model.style;
+		#>
 		<label class="setting">
 			<span><?php _e( 'Show Tracklist' ); ?></span>
-			<input type="checkbox" data-setting="_tracklist" />
+			<input type="checkbox" data-setting="_tracklist" <# if ( playlist && emptyModel ) { #>
+				checked="checked"
+			<# } #> />
 		</label>
 
 		<label class="setting">
 			<span><?php _e( 'Show Track Numbers' ); ?></span>
-			<input type="checkbox" data-setting="_tracknumbers" />
+			<input type="checkbox" data-setting="_tracknumbers" <# if ( playlist && emptyModel ) { #>
+				checked="checked"
+			<# } #> />
 		</label>
 
 		<label class="setting">
 			<span><?php _e( 'Show Artist Name in Tracklist' ); ?></span>
-			<input type="checkbox" data-setting="_artists" />
+			<input type="checkbox" data-setting="_artists" <# if ( playlist && emptyModel ) { #>
+				checked="checked"
+			<# } #> />
 		</label>
 
 		<label class="setting">
 			<span><?php _e( 'Show Images' ); ?></span>
-			<input type="checkbox" data-setting="_images" />
+			<input type="checkbox" data-setting="_images" <# if ( emptyModel ) { #>
+				checked="checked"
+			<# } #> />
 		</label>
 	</script>
 

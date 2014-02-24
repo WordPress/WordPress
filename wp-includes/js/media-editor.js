@@ -583,7 +583,7 @@
 				style: 'light',
 				tracklist: false,
 				tracknumbers: false,
-				images: false
+				images: true
 			}
 		};
 
@@ -812,10 +812,16 @@
 			}, this );
 
 			workflow.state('playlist-edit').on( 'update', function( selection ) {
+				/**
+				 * @this wp.media.editor
+				 */
 				this.insert( wp.media.playlist.shortcode( selection ).string() );
 			}, this );
 
 			workflow.state('video-playlist-edit').on( 'update', function( selection ) {
+				/**
+				 * @this wp.media.editor
+				 */
 				this.insert( wp.media['video-playlist'].shortcode( selection ).string() );
 			}, this );
 
