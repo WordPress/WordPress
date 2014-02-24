@@ -941,8 +941,9 @@ function gallery_shortcode( $attr ) {
  *
  * @since 3.9.0
  *
- * @param array $attr Attributes of the shortcode.
- * @return string $type Type of playlist. Defaults to audio, video is also supported
+ * @param array  $attr Attributes of the shortcode.
+ * @param string $type Type of playlist. Accepts 'audio' and 'video'.
+ * @return string Playlist output. Empty string if the passed type is unsupported.
  */
 function wp_get_playlist( $attr, $type ) {
 	global $content_width;
@@ -963,13 +964,27 @@ function wp_get_playlist( $attr, $type ) {
 		$attr['include'] = $attr['ids'];
 	}
 
-	// Allow plugins/themes to override the default gallery template.
+	/**
+	 * Filter the playlist output.
+	 *
+	 * Passing a non-empty value to the filter will short-circuit generation
+	 * of the default playlist output, returning the passed value instead.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param string $output Playlist output. Default empty.
+	 * @param array  $attr   Array of shortcode attributes.
+	 * @param string $type   Type of playlist to generate output for.
+	 */
 	$output = apply_filters( 'post_playlist', '', $attr, $type );
 	if ( $output != '' ) {
 		return $output;
 	}
 
-	// We're trusting author input, so let's at least make sure it looks like a valid orderby statement
+	/*
+	 * We're trusting author input, so let's at least make sure it looks
+	 * like a valid orderby statement.
+	 */
 	if ( isset( $attr['orderby'] ) ) {
 		$attr['orderby'] = sanitize_sql_orderby( $attr['orderby'] );
 		if ( ! $attr['orderby'] )
