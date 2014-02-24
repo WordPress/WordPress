@@ -1063,9 +1063,8 @@ function wp_get_playlist( $attr, $type ) {
 		$url = wp_get_attachment_url( $attachment->ID );
 		$ftype = wp_check_filetype( $url, wp_get_mime_types() );
 		$track = array(
-			'type' => $type,
 			'src' => $url,
-			'type' => $ftype['ext'],
+			'type' => $ftype['type'],
 			'title' => get_the_title( $attachment->ID ),
 			'caption' => wptexturize( $attachment->post_excerpt ),
 			'description' => wptexturize( $attachment->post_content )
