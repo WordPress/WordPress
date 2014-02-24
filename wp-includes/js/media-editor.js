@@ -319,7 +319,7 @@
 				}
 
 				if ( -1 !== jQuery.inArray( prop, ['playlist', 'video-playlist'] ) ) {
-					_.each(['tracknumbers', 'tracklist', 'images'], function (setting) {
+					_.each(['tracknumbers', 'tracklist', 'images', 'artists'], function (setting) {
 						if ( 'undefined' === typeof attrs[setting] ) {
 							attrs['_' + setting] = wp.media[ prop ].defaults[ setting ];
 						} else if ( 'true' === attrs[setting] || true === attrs[setting] ) {
@@ -395,7 +395,7 @@
 			}
 
 			if ( -1 !== jQuery.inArray( prop, ['playlist', 'video-playlist'] ) ) {
-				_.each(['tracknumbers', 'tracklist', 'images'], function (setting) {
+				_.each(['tracknumbers', 'tracklist', 'images', 'artists'], function (setting) {
 					if ( attrs['_' + setting] ) {
 						attrs[setting] = true;
 					} else {
@@ -557,6 +557,41 @@
  			title : wp.media.view.l10n.editGalleryTitle
  		}));
   	}());
+
+	wp.media.playlist = (function() {
+		var playlist = {
+			defaults : {
+				id: wp.media.view.settings.post.id,
+				style: 'light',
+				tracklist: true,
+				tracknumbers: true,
+				images: true,
+				artists: true
+			}
+		};
+
+		return _.extend(playlist, wp.media.collection.instance( 'playlist', {
+			type : 'audio',
+			title : wp.media.view.l10n.editPlaylistTitle
+		}));
+	}());
+
+	wp.media['video-playlist'] = (function() {
+		var playlist = {
+			defaults : {
+				id: wp.media.view.settings.post.id,
+				style: 'light',
+				tracklist: false,
+				tracknumbers: false,
+				images: false
+			}
+		};
+
+		return _.extend(playlist, wp.media.collection.instance( 'video-playlist', {
+			type : 'video',
+			title : wp.media.view.l10n.editVideoPlaylistTitle
+		}));
+	}());
 
 	/**
 	 * wp.media.featuredImage
@@ -774,6 +809,14 @@
 				 * @this wp.media.editor
 				 */
 				this.insert( wp.media.gallery.shortcode( selection ).string() );
+			}, this );
+
+			workflow.state('playlist-edit').on( 'update', function( selection ) {
+				this.insert( wp.media.playlist.shortcode( selection ).string() );
+			}, this );
+
+			workflow.state('video-playlist-edit').on( 'update', function( selection ) {
+				this.insert( wp.media['video-playlist'].shortcode( selection ).string() );
 			}, this );
 
 			workflow.state('embed').on( 'select', function() {
@@ -1015,6 +1058,12 @@
 				if ( elem.hasClass( 'gallery' ) ) {
 					options.state = 'gallery';
 					options.title = wp.media.view.l10n.createGalleryTitle;
+				} else if ( elem.hasClass( 'playlist' ) ) {
+					options.state = 'playlist';
+					options.title = wp.media.view.l10n.createPlaylistTitle;
+				} else if ( elem.hasClass( 'video-playlist' ) ) {
+					options.state = 'video-playlist';
+					options.title = wp.media.view.l10n.createVideoPlaylistTitle;
 				}
 
 				wp.media.editor.open( editor, options );

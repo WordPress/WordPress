@@ -22,7 +22,7 @@ function fileQueued(fileObj) {
 		.appendTo( jQuery('#media-items' ) );
 
 	// Disable submit
-	jQuery('#insert-gallery').prop('disabled', true);
+	jQuery('#insert-gallery, #insert-playlist').prop('disabled', true);
 }
 
 function uploadStart() {
@@ -64,11 +64,11 @@ function updateMediaForm() {
 	// Just one file, no need for collapsible part
 	if ( items.length == 1 ) {
 		items.addClass('open').find('.slidetoggle').show();
-		jQuery('.insert-gallery').hide();
+		jQuery('.insert-gallery, .insert-playlist').hide();
 	} else if ( items.length > 1 ) {
 		items.removeClass('open');
-		// Only show Gallery button when there are at least two files.
-		jQuery('.insert-gallery').show();
+		// Only show Gallery/Playlist buttons when there are at least two files.
+		jQuery('.insert-gallery, .insert-playlist').show();
 	}
 
 	// Only show Save buttons when there is at least one file.
@@ -257,7 +257,7 @@ function deleteError() {
 }
 
 function uploadComplete() {
-	jQuery('#insert-gallery').prop('disabled', false);
+	jQuery('#insert-gallery, #insert-playlist').prop('disabled', false);
 }
 
 function switchUploader(s) {

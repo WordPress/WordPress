@@ -941,6 +941,49 @@
 			title: l10n.addToGalleryTitle
 		}
 	});
+
+	// wp.media.controller.PlaylistEdit
+	// -------------------------------
+	media.controller.PlaylistEdit = media.controller.CollectionEdit( 'playlist', {
+		type: 'audio',
+		settings: 'Playlist',
+		dragInfoText: l10n.playlistDragInfo,
+		defaults: {
+			title: l10n.editPlaylistTitle,
+			dragInfo : false
+		}
+	});
+
+	// wp.media.controller.PlaylistAdd
+	// ---------------------------------
+	media.controller.PlaylistAdd = media.controller.CollectionAdd( 'playlist', {
+		type: 'audio',
+		defaults: {
+			title: l10n.addToPlaylistTitle
+		}
+	});
+
+	// wp.media.controller.VideoPlaylistEdit
+	// -------------------------------
+	media.controller.VideoPlaylistEdit = media.controller.CollectionEdit( 'video-playlist', {
+		type: 'video',
+		settings: 'Playlist',
+		dragInfoText: l10n.videoPlaylistDragInfo,
+		defaults: {
+			title: l10n.editVideoPlaylistTitle,
+			dragInfo : false
+		}
+	});
+
+	// wp.media.controller.VideoPlaylistAdd
+	// ---------------------------------
+	media.controller.VideoPlaylistAdd = media.controller.CollectionAdd( 'video-playlist', {
+		type: 'video',
+		defaults: {
+			title: l10n.addToVideoPlaylistTitle
+		}
+	});
+
 	/**
 	 * wp.media.controller.FeaturedImage
 	 *
@@ -1767,7 +1810,53 @@
 					menu:    'gallery'
 				}),
 
-				new media.controller.GalleryAdd()
+				new media.controller.GalleryAdd(),
+
+				new media.controller.Library({
+					id:         'playlist',
+					title:      l10n.createPlaylistTitle,
+					priority:   60,
+					toolbar:    'main-playlist',
+					filterable: 'uploaded',
+					multiple:   'add',
+					editable:   false,
+
+					library:  media.query( _.defaults({
+						type: 'audio'
+					}, options.library ) )
+				}),
+
+				// Playlist states.
+				new media.controller.PlaylistEdit({
+					library: options.selection,
+					editing: options.editing,
+					menu:    'playlist'
+				}),
+
+				new media.controller.PlaylistAdd(),
+
+				new media.controller.Library({
+					id:         'video-playlist',
+					title:      l10n.createVideoPlaylistTitle,
+					priority:   60,
+					toolbar:    'main-video-playlist',
+					filterable: 'uploaded',
+					multiple:   'add',
+					editable:   false,
+
+					library:  media.query( _.defaults({
+						type: 'video'
+					}, options.library ) )
+				}),
+
+				// Video Playlist states.
+				new media.controller.VideoPlaylistEdit({
+					library: options.selection,
+					editing: options.editing,
+					menu:    'video-playlist'
+				}),
+
+				new media.controller.VideoPlaylistAdd()
 			]);
 
 
@@ -1782,15 +1871,21 @@
 			 */
 			media.view.MediaFrame.Select.prototype.bindHandlers.apply( this, arguments );
 			this.on( 'menu:create:gallery', this.createMenu, this );
+			this.on( 'menu:create:playlist', this.createMenu, this );
+			this.on( 'menu:create:video-playlist', this.createMenu, this );
 			this.on( 'toolbar:create:main-insert', this.createToolbar, this );
-			this.on( 'toolbar:create:main-gallery', this.createToolbar, this );
+  			this.on( 'toolbar:create:main-gallery', this.createToolbar, this );
+ 			this.on( 'toolbar:create:main-playlist', this.createToolbar, this );
+ 			this.on( 'toolbar:create:main-video-playlist', this.createToolbar, this );
 			this.on( 'toolbar:create:featured-image', this.featuredImageToolbar, this );
 			this.on( 'toolbar:create:main-embed', this.mainEmbedToolbar, this );
 
 			var handlers = {
 				menu: {
 					'default': 'mainMenu',
-					'gallery': 'galleryMenu'
+					'gallery': 'galleryMenu',
+					'playlist': 'playlistMenu',
+					'video-playlist': 'videoPlaylistMenu'
 				},
 
 				content: {
@@ -1802,7 +1897,13 @@
 					'main-insert':      'mainInsertToolbar',
 					'main-gallery':     'mainGalleryToolbar',
 					'gallery-edit':     'galleryEditToolbar',
-					'gallery-add':      'galleryAddToolbar'
+					'gallery-add':      'galleryAddToolbar',
+					'main-playlist':	'mainPlaylistToolbar',
+					'playlist-edit':	'playlistEditToolbar',
+					'playlist-add':		'playlistAddToolbar',
+					'main-video-playlist': 'mainVideoPlaylistToolbar',
+					'video-playlist-edit': 'videoPlaylistEditToolbar',
+					'video-playlist-add': 'videoPlaylistAddToolbar'
 				}
 			};
 
@@ -1848,6 +1949,52 @@
 				separateCancel: new media.View({
 					className: 'separator',
 					priority: 40
+				})
+			});
+		},
+
+		playlistMenu: function( view ) {
+			var lastState = this.lastState(),
+				previous = lastState && lastState.id,
+				frame = this;
+
+			view.set({
+				cancel: {
+					text:     l10n.cancelPlaylistTitle,
+					priority: 20,
+					click:    function() {
+						if ( previous )
+							frame.setState( previous );
+						else
+							frame.close();
+					}
+				},
+				separateCancel: new media.View({
+					className: 'separator',
+					priority: 60
+				})
+			});
+		},
+
+		videoPlaylistMenu: function( view ) {
+			var lastState = this.lastState(),
+				previous = lastState && lastState.id,
+				frame = this;
+
+			view.set({
+				cancel: {
+					text:     l10n.cancelVideoPlaylistTitle,
+					priority: 20,
+					click:    function() {
+						if ( previous )
+							frame.setState( previous );
+						else
+							frame.close();
+					}
+				},
+				separateCancel: new media.View({
+					className: 'separator',
+					priority: 80
 				})
 			});
 		},
@@ -1970,6 +2117,58 @@
 			});
 		},
 
+		mainPlaylistToolbar: function( view ) {
+			var controller = this;
+
+			this.selectionStatusToolbar( view );
+
+			view.set( 'playlist', {
+				style:    'primary',
+				text:     l10n.createNewPlaylist,
+				priority: 100,
+				requires: { selection: true },
+
+				click: function() {
+					var selection = controller.state().get('selection'),
+						edit = controller.state('playlist-edit'),
+						models = selection.where({ type: 'audio' });
+
+					edit.set( 'library', new media.model.Selection( models, {
+						props:    selection.props.toJSON(),
+						multiple: true
+					}) );
+
+					this.controller.setState('playlist-edit');
+				}
+			});
+		},
+
+		mainVideoPlaylistToolbar: function( view ) {
+			var controller = this;
+
+			this.selectionStatusToolbar( view );
+
+			view.set( 'video-playlist', {
+				style:    'primary',
+				text:     l10n.createNewVideoPlaylist,
+				priority: 100,
+				requires: { selection: true },
+
+				click: function() {
+					var selection = controller.state().get('selection'),
+						edit = controller.state('video-playlist-edit'),
+						models = selection.where({ type: 'video' });
+
+					edit.set( 'library', new media.model.Selection( models, {
+						props:    selection.props.toJSON(),
+						multiple: true
+					}) );
+
+					this.controller.setState('video-playlist-edit');
+				}
+			});
+		},
+
 		featuredImageToolbar: function( toolbar ) {
 			this.createSelectToolbar( toolbar, {
 				text:  l10n.setFeaturedImage,
@@ -2038,8 +2237,115 @@
 					}
 				}
 			}) );
-		}
+		},
 
+		playlistEditToolbar: function() {
+			var editing = this.state().get('editing');
+			this.toolbar.set( new media.view.Toolbar({
+				controller: this,
+				items: {
+					insert: {
+						style:    'primary',
+						text:     editing ? l10n.updatePlaylist : l10n.insertPlaylist,
+						priority: 80,
+						requires: { library: true },
+
+						/**
+						 * @fires wp.media.controller.State#update
+						 */
+						click: function() {
+							var controller = this.controller,
+								state = controller.state();
+
+							controller.close();
+							state.trigger( 'update', state.get('library') );
+
+							// Restore and reset the default state.
+							controller.setState( controller.options.state );
+							controller.reset();
+						}
+					}
+				}
+			}) );
+		},
+
+		playlistAddToolbar: function() {
+			this.toolbar.set( new media.view.Toolbar({
+				controller: this,
+				items: {
+					insert: {
+						style:    'primary',
+						text:     l10n.addToPlaylist,
+						priority: 80,
+						requires: { selection: true },
+
+						/**
+						 * @fires wp.media.controller.State#reset
+						 */
+						click: function() {
+							var controller = this.controller,
+								state = controller.state(),
+								edit = controller.state('playlist-edit');
+
+							edit.get('library').add( state.get('selection').models );
+							state.trigger('reset');
+							controller.setState('playlist-edit');
+						}
+					}
+				}
+			}) );
+		},
+
+		videoPlaylistEditToolbar: function() {
+			var editing = this.state().get('editing');
+			this.toolbar.set( new media.view.Toolbar({
+				controller: this,
+				items: {
+					insert: {
+						style:    'primary',
+						text:     editing ? l10n.updateVideoPlaylist : l10n.insertVideoPlaylist,
+						priority: 140,
+						requires: { library: true },
+
+						click: function() {
+							var controller = this.controller,
+								state = controller.state();
+
+							controller.close();
+							state.trigger( 'update', state.get('library') );
+
+							// Restore and reset the default state.
+							controller.setState( controller.options.state );
+							controller.reset();
+						}
+					}
+				}
+			}) );
+		},
+
+		videoPlaylistAddToolbar: function() {
+			this.toolbar.set( new media.view.Toolbar({
+				controller: this,
+				items: {
+					insert: {
+						style:    'primary',
+						text:     l10n.addToVideoPlaylist,
+						priority: 140,
+						requires: { selection: true },
+
+						click: function() {
+							var controller = this.controller,
+								state = controller.state(),
+								edit = controller.state('video-playlist-edit');
+
+							edit.get('library').add( state.get('selection').models );
+							state.trigger('reset');
+							controller.setState('video-playlist-edit');
+						}
+					}
+				}
+			}) );
+		}
 	});
 
 	media.view.MediaFrame.ImageDetails = media.view.MediaFrame.Select.extend({
@@ -4864,8 +5170,22 @@
 	 * @augments Backbone.View
 	 */
 	media.view.Settings.Gallery = media.view.Settings.extend({
-		className: 'gallery-settings',
+		className: 'collection-settings gallery-settings',
 		template:  media.template('gallery-settings')
+	});
+
+	/**
+	 * wp.media.view.Settings.Playlist
+	 *
+	 * @constructor
+	 * @augments wp.media.view.Settings
+	 * @augments wp.media.View
+	 * @augments wp.Backbone.View
+	 * @augments Backbone.View
+	 */
+	media.view.Settings.Playlist = media.view.Settings.extend({
+		className: 'collection-settings playlist-settings',
+		template:  media.template('playlist-settings')
 	});
 
 	/**

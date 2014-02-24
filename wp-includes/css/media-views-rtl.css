@@ -595,10 +595,6 @@
 	box-shadow: 0 4px 4px -4px rgba( 0, 0, 0, 0.1 );
 }
 
-.media-frame .media-toolbar .add-to-gallery {
-	display: none;
-}
-
 .media-frame-title h1 {
 	padding: 0 16px;
 	font-size: 22px;
@@ -1427,7 +1423,7 @@
 	margin: 1.4em 0 0.4em;
 }
 
-.gallery-settings {
+.collection-settings {
 	overflow: hidden;
 }
 
@@ -1886,7 +1882,7 @@
 		border-top: none;
 	}
 
-	.gallery-settings h3 {
+	.collection-settings h3 {
 		margin-top: 45px;
 	}
 

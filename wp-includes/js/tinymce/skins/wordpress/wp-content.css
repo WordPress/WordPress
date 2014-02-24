@@ -143,6 +143,14 @@ img::selection {
 	background-image: url("images/audio.png");
 }
 
+.mce-content-body img.wp-media.wp-playlist {
+	background-image: url("images/playlist-audio.png");
+}
+
+.mce-content-body img.wp-media.wp-video-playlist {
+	background-image: url("images/playlist-video.png");
+}
+
 #wp-image-toolbar {
 	position: absolute;
 }

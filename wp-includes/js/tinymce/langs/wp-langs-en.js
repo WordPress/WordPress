@@ -478,6 +478,8 @@
 		add_audio: "Add Audio",
 		editgallery: "Edit Gallery",
 		delgallery: "Delete Gallery",
+		editplaylist: "Edit Playlist",
+		delplaylist: "Delete Playlist",
 		wp_fullscreen_desc: "Distraction Free Writing mode (Alt + Shift + W)"
 	});
 

@@ -411,6 +411,47 @@ function wp_print_media_templates() {
 		</label>
 	</script>
 
+	<script type="text/html" id="tmpl-playlist-settings">
+		<h3><?php _e('Playlist Settings'); ?></h3>
+
+		<label class="setting">
+			<span><?php _e( 'Random Order' ); ?></span>
+			<input type="checkbox" data-setting="_orderbyRandom" />
+		</label>
+
+		<label class="setting">
+			<span><?php _e('Style'); ?></span>
+			<select class="style" data-setting="style">
+				<option value="light">
+					<?php esc_attr_e('Light'); ?>
+				</option>
+				<option value="dark">
+					<?php esc_attr_e('Dark'); ?>
+				</option>
+			</select>
+		</label>
+
+		<label class="setting">
+			<span><?php _e( 'Show Tracklist' ); ?></span>
+			<input type="checkbox" data-setting="_tracklist" />
+		</label>
+
+		<label class="setting">
+			<span><?php _e( 'Show Track Numbers' ); ?></span>
+			<input type="checkbox" data-setting="_tracknumbers" />
+		</label>
+
+		<label class="setting">
+			<span><?php _e( 'Show Artist Name in Tracklist' ); ?></span>
+			<input type="checkbox" data-setting="_artists" />
+		</label>
+
+		<label class="setting">
+			<span><?php _e( 'Show Images' ); ?></span>
+			<input type="checkbox" data-setting="_images" />
+		</label>
+	</script>
+
 	<script type="text/html" id="tmpl-embed-link-settings">
 		<label class="setting">
 			<span><?php _e('Title'); ?></span>

@@ -13,3 +13,104 @@
 .me-cannotplay {
 	width: auto !important;
 }
+
+.wp-playlist {
+	border: 1px solid #ccc;
+	padding: 10px;
+	margin: 12px 0 18px;
+	font-size: 85%;
+	line-height: 160%;
+}
+
+.wp-playlist audio,
+.wp-playlist video {
+	display: inline-block;
+	max-width: 100%;
+}
+
+.wp-playlist .mejs-container {
+	margin: 0;
+	width: 100%;
+}
+
+.wp-playlist .mejs-controls .mejs-button button {
+	outline: 0;
+}
+
+.wp-playlist-light {
+	background: #fff;
+}
+
+.wp-playlist-dark {
+	color: #fff;
+	background: #000;
+}
+
+.wp-playlist-caption {
+	max-width: 85%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wp-caption-meta {
+	display: block;
+}
+
+.wp-caption-title {
+	font-size: 100%;
+}
+
+.wp-caption-album {
+	font-style: italic;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wp-caption-artist {
+	font-size: 85%;
+	text-transform: uppercase;
+}
+
+.wp-caption-by {
+	font-size: 65%;
+	font-weight: bold;
+}
+
+.wp-playlist-item-length {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.wp-playlist-tracks {
+	margin-top: 10px;
+	border-top: 1px solid #ccc;
+}
+
+.wp-playlist-item {
+	position: relative;
+	cursor: pointer;
+	border-bottom: 1px solid #ccc;
+}
+
+.wp-playlist-current-item {
+	overflow: hidden;
+	margin-bottom: 10px;
+	height: 60px;
+}
+
+.wp-playlist-current-item img {
+	float: left;
+	max-width: 60px;
+	height: auto;
+	margin-right: 10px;
+}
+
+.wp-playlist-current-item .wp-caption-title,
+.wp-playlist-current-item .wp-caption-artist {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

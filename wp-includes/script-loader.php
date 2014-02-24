@@ -315,6 +315,8 @@ function wp_default_scripts( &$scripts ) {
 		'pluginPath' => includes_url( 'js/mediaelement/', 'relative' ),
 	) );
 
+	$scripts->add( 'wp-playlist', "/wp-includes/js/mediaelement/wp-playlist.js", array( 'wp-util', 'backbone', 'mediaelement' ), false, 1 );
+
 	$scripts->add( 'zxcvbn-async', "/wp-includes/js/zxcvbn-async$suffix.js", array(), '1.0' );
 	did_action( 'init' ) && $scripts->localize( 'zxcvbn-async', '_zxcvbnSettings', array(
 		'src' => empty( $guessed_url ) ? includes_url( '/js/zxcvbn.min.js' ) : $scripts->base_url . '/wp-includes/js/zxcvbn.min.js',

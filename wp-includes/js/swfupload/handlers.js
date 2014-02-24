@@ -212,11 +212,12 @@ function updateMediaForm() {
 	else
 		jQuery('.savebutton').hide();
 
-	// Only show Gallery button when there are at least two files.
-	if ( items.length > 1 )
-		jQuery('.insert-gallery').show();
-	else
-		jQuery('.insert-gallery').hide();
+	// Only show Gallery/Playlist buttons when there are at least two files.
+	if ( items.length > 1 ) {
+		jQuery('.insert-gallery, .insert-playlist').show();
+	} else {
+		jQuery('.insert-gallery, .insert-playlist').hide();
+	}
 }
 
 function uploadSuccess(fileObj, serverData) {
@@ -238,7 +239,7 @@ function uploadComplete(fileObj) {
 	// If no more uploads queued, enable the submit button
 	if ( swfu.getStats().files_queued == 0 ) {
 		jQuery('#cancel-upload').prop('disabled', true);
-		jQuery('#insert-gallery').prop('disabled', false);
+		jQuery('#insert-gallery, #insert-playlist').prop('disabled', false);
 	}
 }
 
