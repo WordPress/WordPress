@@ -412,7 +412,7 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-playlist-settings">
-		<h3><?php _e('Playlist Settings'); ?></h3>
+		<h3><?php _e( 'Playlist Settings' ); ?></h3>
 
 		<label class="setting">
 			<span><?php _e( 'Random Order' ); ?></span>
@@ -420,13 +420,13 @@ function wp_print_media_templates() {
 		</label>
 
 		<label class="setting">
-			<span><?php _e('Style'); ?></span>
+			<span><?php _e( 'Style' ); ?></span>
 			<select class="style" data-setting="style">
 				<option value="light">
-					<?php esc_attr_e('Light'); ?>
+					<?php esc_attr_e( 'Light' ); ?>
 				</option>
 				<option value="dark">
-					<?php esc_attr_e('Dark'); ?>
+					<?php esc_attr_e( 'Dark' ); ?>
 				</option>
 			</select>
 		</label>
