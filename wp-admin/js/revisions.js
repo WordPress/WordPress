@@ -1048,15 +1048,12 @@ window.wp = window.wp || {};
 		}
 	});
 
-	// The revisions router
-	// takes URLs with #hash fragments and routes them
+	// The revisions router.
+	// Maintains the URL routes so browser URL matches state.
 	revisions.Router = Backbone.Router.extend({
 		initialize: function( options ) {
 			this.model = options.model;
-			this.routes = _.object([
-				[ this.baseUrl( '?from=:from&to=:to' ), 'handleRoute' ],
-				[ this.baseUrl( '?from=:from&to=:to' ), 'handleRoute' ]
-			]);
+
 			// Maintain state and history when navigating
 			this.listenTo( this.model, 'update:diff', _.debounce( this.updateUrl, 250 ) );
 			this.listenTo( this.model, 'change:compareTwoMode', this.updateUrl );
@@ -1085,12 +1082,6 @@ window.wp = window.wp || {};
 				b = b ? b.id : 0;
 				a = a ? a.id : 0;
 			}
-
-			this.model.set({
-				from: this.model.revisions.get( parseInt( a, 10 ) ),
-				to: this.model.revisions.get( parseInt( a, 10 ) ),
-				compareTwoMode: compareTwo
-			});
 		}
 	});
 
