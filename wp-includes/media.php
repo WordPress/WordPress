@@ -1070,9 +1070,9 @@ function wp_get_playlist( $attr, $type ) {
 			'description' => wptexturize( $attachment->post_content )
 		);
 
+		$track['meta'] = array();
 		$meta = wp_get_attachment_metadata( $attachment->ID );
 		if ( ! empty( $meta ) ) {
-			$track['meta'] = array();
 
 			$keys = array( 'title', 'artist', 'band', 'album', 'genre', 'year', 'length', 'length_formatted' );
 			foreach ( $keys as $key ) {
@@ -1154,7 +1154,7 @@ function wp_get_playlist( $attr, $type ) {
 	<?php if ( 'audio' === $type ): ?>
 	<div class="wp-playlist-current-item"></div>
 	<?php endif ?>
-	<<?php echo $type ?> controls="controls" preload="metadata" width="<?php echo $content_width - $outer ?>"></<?php echo $type ?>>
+	<<?php echo $type ?> controls="controls" preload="metadata" width="<?php echo $theme_width ?>"></<?php echo $type ?>>
 	<div class="wp-playlist-next"></div>
 	<div class="wp-playlist-prev"></div>
 	<noscript>
