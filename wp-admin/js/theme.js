@@ -769,8 +769,8 @@ jQuery(document).ready( function($) {
 			W = ( 1040 < width ) ? 1040 : width,
 			adminbar_height = 0;
 
-		if ( $('body.admin-bar').length ) {
-			adminbar_height = parseInt( jQuery('#wpadminbar').css('height'), 10 );
+		if ( $('#wpadminbar').length ) {
+			adminbar_height = parseInt( $('#wpadminbar').css('height'), 10 );
 		}
 
 		if ( tbWindow.size() ) {

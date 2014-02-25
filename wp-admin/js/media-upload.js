@@ -43,8 +43,8 @@ var tb_position;
 			W = ( 720 < width ) ? 720 : width,
 			adminbar_height = 0;
 
-		if ( $('body.admin-bar').length ) {
-			adminbar_height = parseInt( jQuery('#wpadminbar').css('height'), 10 );
+		if ( $('#wpadminbar').length ) {
+			adminbar_height = parseInt( $('#wpadminbar').css('height'), 10 );
 		}
 
 		if ( tbWindow.size() ) {
