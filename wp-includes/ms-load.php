@@ -250,7 +250,7 @@ function wpmu_current_site() {
 		$networks = $wpdb->get_col( "SELECT id FROM $wpdb->site LIMIT 2" );
 
 		if ( count( $networks ) <= 1 ) {
-			$current_site = wp_get_network( $networks[0]->id );
+			$current_site = wp_get_network( $networks[0] );
 
 			$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id
 				FROM $wpdb->blogs WHERE domain = %s AND path = %s",
