@@ -808,33 +808,6 @@ function _fix_attachment_links( $post ) {
 }
 
 /**
- * Move child posts to a new parent.
- *
- * @since 2.3.0
- * @access private
- *
- * @param unknown_type $old_ID
- * @param unknown_type $new_ID
- * @return unknown
- */
-function _relocate_children( $old_ID, $new_ID ) {
-	global $wpdb;
-	$old_ID = (int) $old_ID;
-	$new_ID = (int) $new_ID;
-
-	$children = $wpdb->get_col( $wpdb->prepare("
-		SELECT post_id
-		FROM $wpdb->postmeta
-		WHERE meta_key = '_wp_attachment_temp_parent'
-		AND meta_value = %d", $old_ID) );
-
-	foreach ( $children as $child_id ) {
-		$wpdb->update($wpdb->posts, array('post_parent' => $new_ID), array('ID' => $child_id) );
-		delete_post_meta($child_id, '_wp_attachment_temp_parent');
-	}
-}
-
-/**
  * Get all the possible statuses for a post_type
  *
  * @since 2.5.0
