@@ -2363,7 +2363,7 @@ function get_dashboard_url( $user_id = 0, $path = '', $scheme = 'admin' ) {
  * @return string Dashboard url link with optional path appended.
  */
 function get_edit_profile_url( $user_id = 0, $scheme = 'admin' ) {
-	$user_id = $user_id ? (int) $user : get_current_user_id();
+	$user_id = $user_id ? (int) $user_id : get_current_user_id();
 
 	if ( is_user_admin() )
 		$url = user_admin_url( 'profile.php', $scheme );
