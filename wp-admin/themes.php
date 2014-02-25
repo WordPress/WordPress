@@ -99,10 +99,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		'canInstall'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ),
 		'installURI'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ) ? admin_url( 'theme-install.php' ) : null,
 		'confirmDelete' => __( "Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete." ),
-		'root'          => parse_url( admin_url( 'themes.php' ), PHP_URL_PATH ),
-		'theme'         => esc_html( $theme ),
-		'search'        => esc_html( $search ),
-
+		'adminUrl'      => parse_url( admin_url(), PHP_URL_PATH ),
 	),
  	'l10n' => array(
  		'addNew' => __( 'Add New Theme' ),
