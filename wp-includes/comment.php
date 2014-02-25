@@ -373,8 +373,13 @@ class WP_Comment_Query {
 		}
 		if ( '' !== $parent )
 			$where .= $wpdb->prepare( ' AND comment_parent = %d', $parent );
-		if ( '' !== $user_id )
+
+		if ( is_array( $user_id ) ) {
+			$where .= ' AND user_id IN (' . implode( ',', array_map( 'absint', $user_id ) ) . ')';
+		} elseif ( '' !== $user_id ) {
 			$where .= $wpdb->prepare( ' AND user_id = %d', $user_id );
+		}
+
 		if ( '' !== $search )
 			$where .= $this->get_search_sql( $search, array( 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_content' ) );
 
