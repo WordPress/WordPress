@@ -2768,6 +2768,10 @@
 			}
 
 			this.controller.on( 'activate', this.refresh, this );
+
+			this.controller.on( 'detach', function() {
+				this.$browser.remove();
+			}, this );
 		},
 
 		refresh: function() {

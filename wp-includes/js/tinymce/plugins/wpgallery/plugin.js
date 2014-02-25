@@ -73,6 +73,7 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 			frame.state('gallery-edit').on( 'update', function( selection ) {
 				var shortcode = gallery.shortcode( selection ).string();
 				editor.dom.setAttrib( node, 'data-wp-media', window.encodeURIComponent( shortcode ) );
+				frame.detach();
 			});
 		} else if ( editor.dom.hasClass( node, 'wp-playlist' ) && wp.media.playlist ) {
 			data = window.decodeURIComponent( editor.dom.getAttrib( node, 'data-wp-media' ) );
@@ -81,6 +82,7 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 			frame.state('playlist-edit').on( 'update', function( selection ) {
 				var shortcode = wp.media.playlist.shortcode( selection ).string();
 				editor.dom.setAttrib( node, 'data-wp-media', window.encodeURIComponent( shortcode ) );
+				frame.detach();
 			});
 		} else if ( editor.dom.hasClass( node, 'wp-video-playlist' ) && wp.media['video-playlist'] ) {
 			data = window.decodeURIComponent( editor.dom.getAttrib( node, 'data-wp-media' ) );
@@ -89,6 +91,7 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 			frame.state('video-playlist-edit').on( 'update', function( selection ) {
 				var shortcode = wp.media['video-playlist'].shortcode( selection ).string();
 				editor.dom.setAttrib( node, 'data-wp-media', window.encodeURIComponent( shortcode ) );
+				frame.detach();
 			});
 		} else {
 			// temp
