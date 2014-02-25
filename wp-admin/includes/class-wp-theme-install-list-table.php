@@ -192,7 +192,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$preview_url   = add_query_arg( array(
 			'tab'   => 'theme-information',
 			'theme' => $theme->slug,
-		) );
+		), self_admin_url( 'theme-install.php' ) );
 
 		$actions = array();
 
