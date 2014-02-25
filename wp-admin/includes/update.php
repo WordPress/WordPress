@@ -7,9 +7,9 @@
  */
 
 /**
- * Selects the first update version from the update_core option
+ * Selects the first update version from the update_core option.
  *
- * @return object the response from the API
+ * @return bool|object The response from the API on success, false on failure.
  */
 function get_preferred_from_update_core() {
 	$updates = get_core_updates();
@@ -21,11 +21,11 @@ function get_preferred_from_update_core() {
 }
 
 /**
- * Get available core updates
+ * Get available core updates.
  *
  * @param array $options Set $options['dismissed'] to true to show dismissed upgrades too,
  * 	set $options['available'] to false to skip not-dismissed updates.
- * @return array Array of the update objects
+ * @return bool|array Array of the update objects on success, false on failure.
  */
 function get_core_updates( $options = array() ) {
 	$options = array_merge( array( 'available' => true, 'dismissed' => false ), $options );
