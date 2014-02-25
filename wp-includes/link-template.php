@@ -2343,13 +2343,13 @@ function set_url_scheme( $url, $scheme = null ) {
  *
  * @since 3.1.0
  *
- * @param int $user_id User ID
+ * @param int $user_id Optional. User ID. Defaults to current user.
  * @param string $path Optional path relative to the dashboard. Use only paths known to both blog and user admins.
  * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Dashboard url link with optional path appended.
  */
-function get_dashboard_url( $user_id, $path = '', $scheme = 'admin' ) {
-	$user_id = (int) $user_id;
+function get_dashboard_url( $user_id = 0, $path = '', $scheme = 'admin' ) {
+	$user_id = $user_id ? (int) $user_id : get_current_user_id();
 
 	$blogs = get_blogs_of_user( $user_id );
 	if ( ! is_super_admin() && empty($blogs) ) {
@@ -2377,21 +2377,22 @@ function get_dashboard_url( $user_id, $path = '', $scheme = 'admin' ) {
  *
  * @since 3.1.0
  *
- * @param int $user User ID
- * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
+ * @param int    $user_id Optional. User ID. Defaults to current user.
+ * @param string $scheme  The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl().
+ *                        'http' or 'https' can be passed to force those schemes.
  * @return string Dashboard url link with optional path appended.
  */
-function get_edit_profile_url( $user, $scheme = 'admin' ) {
-	$user = (int) $user;
+function get_edit_profile_url( $user_id = 0, $scheme = 'admin' ) {
+	$user_id = $user_id ? (int) $user : get_current_user_id();
 
 	if ( is_user_admin() )
 		$url = user_admin_url( 'profile.php', $scheme );
 	elseif ( is_network_admin() )
 		$url = network_admin_url( 'profile.php', $scheme );
 	else
-		$url = get_dashboard_url( $user, 'profile.php', $scheme );
+		$url = get_dashboard_url( $user_id, 'profile.php', $scheme );
 
-	return apply_filters( 'edit_profile_url', $url, $user, $scheme);
+	return apply_filters( 'edit_profile_url', $url, $user_id, $scheme);
 }
 
 /**
