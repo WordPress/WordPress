@@ -181,6 +181,15 @@ class wpdb {
 	var $prefix = '';
 
 	/**
+	 * WordPress base table prefix.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string
+	 */
+	 public $base_prefix;
+
+	/**
 	 * Whether the database queries are ready to start executing.
 	 *
 	 * @since 2.3.2
