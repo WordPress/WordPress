@@ -111,6 +111,10 @@ h3.dashboard-widget-title small a:hover {
 	word-wrap: break-word;
 }
 
+#the-comment-list td.comment img {
+	max-width: 100%;
+}
+
 /* Welcome Panel */
 .welcome-panel {
 	position: relative;
