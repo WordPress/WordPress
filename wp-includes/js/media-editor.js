@@ -292,26 +292,26 @@
 			 *			containing the 'props' for the gallery.
 			 */
 			return function( shortcode ) {
-  				var shortcodeString = shortcode.string(),
- 					result = cache[ shortcodeString ],
-  					attrs, args, query, others;
+				var shortcodeString = shortcode.string(),
+					result = cache[ shortcodeString ],
+					attrs, args, query, others;
 
- 				delete cache[ shortcodeString ];
+				delete cache[ shortcodeString ];
 
-  				if ( result ) {
-  					return result;
+				if ( result ) {
+					return result;
 				}
 
-  				// Fill the default shortcode attributes.
- 				attrs = _.defaults( shortcode.attrs.named, this.defaults );
-  				args  = _.pick( attrs, 'orderby', 'order' );
+				// Fill the default shortcode attributes.
+				attrs = _.defaults( shortcode.attrs.named, this.defaults );
+				args  = _.pick( attrs, 'orderby', 'order' );
 
- 				args.type = type;
-  				args.perPage = -1;
+				args.type = type;
+				args.perPage = -1;
 
-  				// Mark the `orderby` override attribute.
- 				if ( undefined !== attrs.orderby ) {
-  					attrs._orderByField = attrs.orderby;
+				// Mark the `orderby` override attribute.
+				if ( undefined !== attrs.orderby ) {
+					attrs._orderByField = attrs.orderby;
 				}
 
 				if ( 'rand' === attrs.orderby ) {
@@ -358,40 +358,40 @@
 			};
 		},
 
- 		shortcodeAttrs : function ( prop, attachments ) {
- 			var props = attachments.props.toJSON(),
- 				attrs = _.pick( props, 'orderby', 'order', 'style' );
+		shortcodeAttrs : function ( prop, attachments ) {
+			var props = attachments.props.toJSON(),
+				attrs = _.pick( props, 'orderby', 'order', 'style' );
 
- 			if ( attachments[ prop ] ) {
- 				_.extend( attrs, attachments[ prop ].toJSON() );
+			if ( attachments[ prop ] ) {
+				_.extend( attrs, attachments[ prop ].toJSON() );
 			}
 
- 			// Convert all collection shortcodes to use the `ids` property.
- 			// Ignore `post__in` and `post__not_in`; the attachments in
- 			// the collection will already reflect those properties.
- 			attrs.ids = attachments.pluck('id');
+			// Convert all collection shortcodes to use the `ids` property.
+			// Ignore `post__in` and `post__not_in`; the attachments in
+			// the collection will already reflect those properties.
+			attrs.ids = attachments.pluck('id');
 
- 			// Copy the `uploadedTo` post ID.
- 			if ( props.uploadedTo ) {
- 				attrs.id = props.uploadedTo;
+			// Copy the `uploadedTo` post ID.
+			if ( props.uploadedTo ) {
+				attrs.id = props.uploadedTo;
 			}
 
- 			// Check if the collection is randomly ordered.
- 			delete attrs.orderby;
+			// Check if the collection is randomly ordered.
+			delete attrs.orderby;
 
- 			if ( attrs._orderbyRandom ) {
- 				attrs.orderby = 'rand';
+			if ( attrs._orderbyRandom ) {
+				attrs.orderby = 'rand';
 			} else if ( attrs._orderByField && attrs._orderByField != 'rand' ) {
- 				attrs.orderby = attrs._orderByField;
+				attrs.orderby = attrs._orderByField;
 			}
 
- 			delete attrs._orderbyRandom;
+			delete attrs._orderbyRandom;
 			delete attrs._orderByField;
 
- 			// If the `ids` attribute is set and `orderby` attribute
- 			// is the default value, clear it for cleaner output.
- 			if ( attrs.ids && 'post__in' === attrs.orderby ) {
-  				delete attrs.orderby;
+			// If the `ids` attribute is set and `orderby` attribute
+			// is the default value, clear it for cleaner output.
+			if ( attrs.ids && 'post__in' === attrs.orderby ) {
+				delete attrs.orderby;
 			}
 
 			if ( -1 !== jQuery.inArray( prop, ['playlist', 'video-playlist'] ) ) {
@@ -405,46 +405,46 @@
 				});
 			}
 
- 			// Remove default attributes from the shortcode.
- 			_.each( wp.media[prop].defaults, function( value, key ) {
- 				if ( value === attrs[ key ] ) {
- 					delete attrs[ key ];
+			// Remove default attributes from the shortcode.
+			_.each( wp.media[prop].defaults, function( value, key ) {
+				if ( value === attrs[ key ] ) {
+					delete attrs[ key ];
 				}
- 			});
- 			return attrs;
- 		},
+			});
+			return attrs;
+		},
 
- 		editSelection : function ( prop, shortcode ) {
- 			var defaultPostId = wp.media[ prop ].defaults.id,
+		editSelection : function ( prop, shortcode ) {
+			var defaultPostId = wp.media[ prop ].defaults.id,
 				attachments, selection;
 
- 			// Ignore the rest of the match object.
- 			shortcode = shortcode.shortcode;
+			// Ignore the rest of the match object.
+			shortcode = shortcode.shortcode;
 
- 			if ( _.isUndefined( shortcode.get('id') ) && ! _.isUndefined( defaultPostId ) ) {
- 				shortcode.set( 'id', defaultPostId );
+			if ( _.isUndefined( shortcode.get('id') ) && ! _.isUndefined( defaultPostId ) ) {
+				shortcode.set( 'id', defaultPostId );
 			}
 
- 			attachments = wp.media[ prop ].attachments( shortcode );
+			attachments = wp.media[ prop ].attachments( shortcode );
 
- 			selection = new wp.media.model.Selection( attachments.models, {
- 				props:    attachments.props.toJSON(),
- 				multiple: true
- 			});
+			selection = new wp.media.model.Selection( attachments.models, {
+				props:    attachments.props.toJSON(),
+				multiple: true
+			});
 
- 			selection[ prop ] = attachments[ prop ];
+			selection[ prop ] = attachments[ prop ];
 
- 			// Fetch the query's attachments, and then break ties from the
+			// Fetch the query's attachments, and then break ties from the
 			// query to allow for sorting.
- 			selection.more().done( function() {
- 				// Break ties with the query.
- 				selection.props.set({ query: false });
- 				selection.unmirror();
- 				selection.props.unset('orderby');
- 			});
+			selection.more().done( function() {
+				// Break ties with the query.
+				selection.props.set({ query: false });
+				selection.unmirror();
+				selection.props.unset('orderby');
+			});
 
- 			return selection;
- 		},
+			return selection;
+		},
 
 		/**
 		 *
@@ -453,36 +453,36 @@
 		 * @param {wp.shortcode} shortcode
 		 * @returns {wp.shortcode}
 		 */
- 		cacheShortcode : function ( prop, attachments, shortcode ) {
- 			// Use a cloned version of the playlist.
- 			var clone = new wp.media.model.Attachments( attachments.models, {
- 				props: attachments.props.toJSON()
- 			});
- 			clone[ prop ] = attachments[ prop ];
- 			cache[ shortcode.string() ] = clone;
+		cacheShortcode : function ( prop, attachments, shortcode ) {
+			// Use a cloned version of the playlist.
+			var clone = new wp.media.model.Attachments( attachments.models, {
+				props: attachments.props.toJSON()
+			});
+			clone[ prop ] = attachments[ prop ];
+			cache[ shortcode.string() ] = clone;
 
- 			return shortcode;
- 		},
+			return shortcode;
+		},
 
- 		getEditFrame : function ( args ) {
- 			// Destroy the previous gallery frame.
- 			if ( this.frame ) {
- 				this.frame.dispose();
+		getEditFrame : function ( args ) {
+			// Destroy the previous gallery frame.
+			if ( this.frame ) {
+				this.frame.dispose();
 			}
 
- 			// Store the current gallery frame.
- 			this.frame = wp.media( _.extend( {
- 				frame:     'post',
- 				editing:   true,
- 				multiple:  true,
- 			}, args ) ).open();
+			// Store the current gallery frame.
+			this.frame = wp.media( _.extend( {
+				frame:     'post',
+				editing:   true,
+				multiple:  true
+			}, args ) ).open();
 
- 			return this.frame;
- 		},
+			return this.frame;
+		},
 
- 		instance : function ( prop, args ) {
- 			return {
- 				attachments: this.attachments( prop, args.type ),
+		instance : function ( prop, args ) {
+			return {
+				attachments: this.attachments( prop, args.type ),
 				/**
 				 * Triggered when clicking 'Insert {label}' or 'Update {label}'
 				 *
@@ -495,14 +495,14 @@
 				 *			containing the 'props' for the gallery.
 				 * @returns {wp.shortcode}
 				 */
- 				shortcode: function( attachments ) {
- 					var shortcode = new wp.shortcode({
- 						tag: prop,
- 						attrs: wp.media.collection.shortcodeAttrs( prop, attachments ),
- 						type: 'single'
- 					});
+				shortcode: function( attachments ) {
+					var shortcode = new wp.shortcode({
+						tag: prop,
+						attrs: wp.media.collection.shortcodeAttrs( prop, attachments ),
+						type: 'single'
+					});
 
- 					return wp.media.collection.cacheShortcode( prop, attachments, shortcode );
+					return wp.media.collection.cacheShortcode( prop, attachments, shortcode );
 				},
 				/**
 				 * Triggered when double-clicking a collection shortcode placeholder
@@ -519,44 +519,44 @@
 				 *
 				 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
 				 */
- 				edit: function( content ) {
- 					var shortcode = wp.shortcode.next( prop, content );
+				edit: function( content ) {
+					var shortcode = wp.shortcode.next( prop, content );
 
- 					// Bail if we didn't match the shortcode or all of the content.
- 					if ( ! shortcode || shortcode.content !== content ) {
- 						return;
+					// Bail if we didn't match the shortcode or all of the content.
+					if ( ! shortcode || shortcode.content !== content ) {
+						return;
 					}
 
- 					return wp.media.collection.getEditFrame( {
- 						title: args.title,
- 						state: prop + '-edit',
- 						selection:	wp.media.collection.editSelection( prop, shortcode )
- 					} );
- 				}
- 			};
- 		}
+					return wp.media.collection.getEditFrame( {
+						title: args.title,
+						state: prop + '-edit',
+						selection:	wp.media.collection.editSelection( prop, shortcode )
+					} );
+				}
+			};
+		}
 	};
 
- 	wp.media.gallery = (function() {
- 		var gallery = {
- 			defaults : {
+	wp.media.gallery = (function() {
+		var gallery = {
+			defaults : {
 				itemtag: 'dl',
 				icontag: 'dt',
 				captiontag: 'dd',
- 				columns: '3',
+				columns: '3',
 				link: 'post',
 				size: 'thumbnail',
- 				order: 'ASC',
- 				id: wp.media.view.settings.post.id,
- 				orderby : 'menu_order ID'
-  			}
-  		};
+				order: 'ASC',
+				id: wp.media.view.settings.post.id,
+				orderby : 'menu_order ID'
+			}
+		};
 
- 		return _.extend(gallery, wp.media.collection.instance( 'gallery', {
- 			type : 'image',
- 			title : wp.media.view.l10n.editGalleryTitle
- 		}));
-  	}());
+		return _.extend(gallery, wp.media.collection.instance( 'gallery', {
+			type : 'image',
+			title : wp.media.view.l10n.editGalleryTitle
+		}));
+	}());
 
 	wp.media.playlist = (function() {
 		var playlist = {
