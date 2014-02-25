@@ -1287,7 +1287,7 @@ table.links-table {
 	/* Tags Metabox */
 	.tagsdiv .newtag {
 		width: 100%;
-		padding: 25px 10px;
+		height: auto;
 		margin-bottom: 15px;
 	}
 
