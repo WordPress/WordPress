@@ -466,8 +466,6 @@ class WP_Comment_Query {
  * Comments have a limited set of valid status values, this provides the comment
  * status values and descriptions.
  *
- * @package WordPress
- * @subpackage Post
  * @since 2.7.0
  *
  * @return array List of comment statuses.
@@ -2356,8 +2354,6 @@ function xmlrpc_pingback_error( $ixr_error ) {
  * Removes comment ID from the comment cache.
  *
  * @since 2.3.0
- * @package WordPress
- * @subpackage Cache
  *
  * @param int|array $ids Comment ID or array of comment IDs to remove from cache
  */
@@ -2376,8 +2372,6 @@ function clean_comment_cache($ids) {
  * cache using the comment group with the key using the ID of the comments.
  *
  * @since 2.3.0
- * @package WordPress
- * @subpackage Cache
  *
  * @param array $comments Array of comment row objects
  */

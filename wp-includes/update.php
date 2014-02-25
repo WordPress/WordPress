@@ -13,7 +13,6 @@
  * WordPress server at api.wordpress.org server. Will only check if WordPress
  * isn't installing.
  *
- * @package WordPress
  * @since 2.3.0
  * @uses $wp_version Used to check against the newest WordPress version.
  *
@@ -164,7 +163,6 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
  * all plugins installed. Checks against the WordPress server at
  * api.wordpress.org. Will only check if WordPress isn't installing.
  *
- * @package WordPress
  * @since 2.3.0
  * @uses $wp_version Used to notify the WordPress version.
  *
@@ -295,7 +293,6 @@ function wp_update_plugins() {
  * WordPress server at api.wordpress.org. Will only check if WordPress isn't
  * installing.
  *
- * @package WordPress
  * @since 2.7.0
  * @uses $wp_version Used to notify the WordPress version.
  *

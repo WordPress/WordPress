@@ -593,12 +593,9 @@ function post_password_required( $post = null ) {
 	return ! $hasher->CheckPassword( $post->post_password, $hash );
 }
 
-/**
- * Page Template Functions for usage in Themes
- *
- * @package WordPress
- * @subpackage Template
- */
+//
+// Page Template Functions for usage in Themes
+//
 
 /**
  * The formatted output of a list of pages.
@@ -986,7 +983,6 @@ function walk_page_dropdown_tree() {
 /**
  * Create HTML list of pages.
  *
- * @package WordPress
  * @since 2.1.0
  * @uses Walker
  */
@@ -1102,7 +1098,6 @@ class Walker_Page extends Walker {
 /**
  * Create HTML dropdown list of pages.
  *
- * @package WordPress
  * @since 2.1.0
  * @uses Walker
  */
@@ -1306,8 +1301,6 @@ function get_page_template_slug( $post_id = null ) {
 /**
  * Retrieve formatted date timestamp of a revision (linked to that revisions's page).
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @uses date_i18n()
@@ -1345,8 +1338,6 @@ function wp_post_revision_title( $revision, $link = true ) {
 /**
  * Retrieve formatted date timestamp of a revision (linked to that revisions's page).
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 3.6.0
  *
  * @uses date_i18n()
@@ -1398,8 +1389,6 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
  * Can output either a UL with edit links or a TABLE with diff interface, and
  * restore action links.
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @uses wp_get_post_revisions()

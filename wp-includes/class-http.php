@@ -766,9 +766,6 @@ class WP_Http {
 /**
  * HTTP request method uses PHP Streams to retrieve the url.
  *
- * @package WordPress
- * @subpackage HTTP
- *
  * @since 2.7.0
  * @since 3.7.0 Combined with the fsockopen transport and switched to stream_socket_client().
  */
@@ -1156,9 +1153,6 @@ class WP_Http_Streams {
  * All code should make use of WP_HTTP directly through it's API.
  *
  * @see WP_HTTP::request
- *
- * @package WordPress
- * @subpackage HTTP
  *
  * @since 2.7.0
  * @deprecated 3.7.0 Please use WP_HTTP::request() directly

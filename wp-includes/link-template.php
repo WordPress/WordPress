@@ -499,8 +499,6 @@ function get_post_comments_feed_link($post_id = 0, $feed = '') {
  * anchor. If no link text is specified, default text is used. If no post ID is
  * specified, the current post is used.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.5.0
  *
  * @param string $link_text Descriptive text.
@@ -522,8 +520,6 @@ function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
  * Returns a link to the feed for all posts by a given author. A specific feed
  * can be requested or left blank to get the default feed.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.5.0
  *
  * @param int $author_id ID of an author.
@@ -560,8 +556,6 @@ function get_author_feed_link( $author_id, $feed = '' ) {
  * Returns a link to the feed for all posts in a given category. A specific feed
  * can be requested or left blank to get the default feed.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.5.0
  *
  * @param int $cat_id ID of a category.
@@ -1955,7 +1949,6 @@ function get_shortcut_link() {
  * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
  * overridden.
  *
- * @package WordPress
  * @since 3.0.0
  *
  * @uses get_home_url()
@@ -1975,7 +1968,6 @@ function home_url( $path = '', $scheme = null ) {
  * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
  * overridden.
  *
- * @package WordPress
  * @since 3.0.0
  *
  * @param  int $blog_id   (optional) Blog ID. Defaults to current blog.
@@ -2016,7 +2008,6 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
  * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
  * overridden.
  *
- * @package WordPress
  * @since 2.6.0
  *
  * @uses get_site_url()
@@ -2036,7 +2027,6 @@ function site_url( $path = '', $scheme = null ) {
  * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
  * overridden.
  *
- * @package WordPress
  * @since 3.0.0
  *
  * @param int $blog_id (optional) Blog ID. Defaults to current blog.
@@ -2064,7 +2054,6 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 /**
  * Retrieve the url to the admin area for the current site.
  *
- * @package WordPress
  * @since 2.6.0
  *
  * @param string $path Optional path relative to the admin url.
@@ -2078,7 +2067,6 @@ function admin_url( $path = '', $scheme = 'admin' ) {
 /**
  * Retrieve the url to the admin area for a given site.
  *
- * @package WordPress
  * @since 3.0.0
  *
  * @param int $blog_id (optional) Blog ID. Defaults to current blog.
@@ -2098,7 +2086,6 @@ function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin' ) {
 /**
  * Retrieve the url to the includes directory.
  *
- * @package WordPress
  * @since 2.6.0
  *
  * @param string $path Optional. Path relative to the includes url.
@@ -2117,7 +2104,6 @@ function includes_url( $path = '', $scheme = null ) {
 /**
  * Retrieve the url to the content directory.
  *
- * @package WordPress
  * @since 2.6.0
  *
  * @param string $path Optional. Path relative to the content url.
@@ -2136,7 +2122,6 @@ function content_url($path = '') {
  * Retrieve the url to the plugins directory or to a specific file within that directory.
  * You can hardcode the plugin slug in $path or pass __FILE__ as a second argument to get the correct folder name.
  *
- * @package WordPress
  * @since 2.6.0
  *
  * @param string $path Optional. Path relative to the plugins url.
@@ -2178,7 +2163,6 @@ function plugins_url($path = '', $plugin = '') {
  * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
  * overridden.
  *
- * @package WordPress
  * @since 3.0.0
  *
  * @param string $path Optional. Path relative to the site url.
@@ -2209,7 +2193,6 @@ function network_site_url( $path = '', $scheme = null ) {
  * is_ssl() and 'http' otherwise. If $scheme is 'http' or 'https', is_ssl() is
  * overridden.
  *
- * @package WordPress
  * @since 3.0.0
  *
  * @param  string $path   (optional) Path relative to the home url.
@@ -2240,7 +2223,6 @@ function network_home_url( $path = '', $scheme = null ) {
 /**
  * Retrieve the url to the admin area for the network.
  *
- * @package WordPress
  * @since 3.0.0
  *
  * @param string $path Optional path relative to the admin url.
@@ -2262,7 +2244,6 @@ function network_admin_url( $path = '', $scheme = 'admin' ) {
 /**
  * Retrieve the url to the admin area for the current user.
  *
- * @package WordPress
  * @since 3.0.0
  *
  * @param string $path Optional path relative to the admin url.
@@ -2281,7 +2262,6 @@ function user_admin_url( $path = '', $scheme = 'admin' ) {
 /**
  * Retrieve the url to the admin area for either the current blog or the network depending on context.
  *
- * @package WordPress
  * @since 3.1.0
  *
  * @param string $path Optional path relative to the admin url.
@@ -2398,7 +2378,6 @@ function get_edit_profile_url( $user_id = 0, $scheme = 'admin' ) {
 /**
  * Output rel=canonical for singular queries.
  *
- * @package WordPress
  * @since 2.9.0
 */
 function rel_canonical() {

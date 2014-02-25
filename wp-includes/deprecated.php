@@ -1677,8 +1677,6 @@ function the_author_ID() {
  * dots added to the end. If there is content left over, then dots will be added
  * and the rest of the content will be removed.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 0.71
  * @uses apply_filters() Calls 'the_content_rss' on the content before processing.
  *

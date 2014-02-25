@@ -2190,7 +2190,6 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
  * $file is a file relative to wp-admin/ without its ".css" extension. A
  * stylesheet link to that generated URL is printed.
  *
- * @package WordPress
  * @since 2.3.0
  * @uses $wp_styles WordPress Styles Object
  *

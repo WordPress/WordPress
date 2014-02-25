@@ -16,8 +16,6 @@
  * Everything will be stripped of tags and characters converted, when the values
  * are retrieved for use in the feeds.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 1.5.1
  * @see get_bloginfo() For the list of possible values to display.
  *
@@ -47,8 +45,6 @@ function get_bloginfo_rss($show = '') {
  * Everything will be stripped of tags and characters converted, when the values
  * are retrieved for use in the feeds.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 0.71
  * @see get_bloginfo() For the list of possible values to display.
  *
@@ -74,8 +70,6 @@ function bloginfo_rss($show = '') {
  * The default feed is 'rss2', unless a plugin changes it through the
  * 'default_feed' filter.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.5.0
  * @uses apply_filters() Calls 'default_feed' hook on the default feed string.
  *
@@ -97,8 +91,6 @@ function get_default_feed() {
 /**
  * Retrieve the blog title for the feed title.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.2.0
  *
  * @param string $sep Optional.How to separate the title. See wp_title() for more info.
@@ -123,8 +115,6 @@ function get_wp_title_rss($sep = '&#187;') {
 /**
  * Display the blog title for display of the feed title.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.2.0
  * @see wp_title() $sep parameter usage.
  *
@@ -147,8 +137,6 @@ function wp_title_rss( $sep = '&#187;' ) {
 /**
  * Retrieve the current post title for the feed.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.0.0
  *
  * @return string Current post title.
@@ -169,8 +157,6 @@ function get_the_title_rss() {
 /**
  * Display the post title in the feed.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 0.71
  * @uses get_the_title_rss() Used to retrieve current post title.
  */
@@ -181,8 +167,6 @@ function the_title_rss() {
 /**
  * Retrieve the post content for feeds.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.9.0
  * @see get_the_content()
  *
@@ -211,8 +195,6 @@ function get_the_content_feed($feed_type = null) {
 /**
  * Display the post content for feeds.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.9.0
  * @uses apply_filters() Calls 'the_content_feed' on the content before processing.
  * @see get_the_content()
@@ -226,8 +208,6 @@ function the_content_feed($feed_type = null) {
 /**
  * Display the post excerpt for the feed.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 0.71
  */
 function the_excerpt_rss() {
@@ -245,8 +225,6 @@ function the_excerpt_rss() {
 /**
  * Display the permalink to the post for use in feeds.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.3.0
  */
 function the_permalink_rss() {
@@ -281,8 +259,6 @@ function comments_link_feed() {
 /**
  * Display the feed GUID for the current comment.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.5.0
  *
  * @param int|object $comment_id Optional comment object or id. Defaults to global comment object.
@@ -294,8 +270,6 @@ function comment_guid($comment_id = null) {
 /**
  * Retrieve the feed GUID for the current comment.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.5.0
  *
  * @param int|object $comment_id Optional comment object or id. Defaults to global comment object.
@@ -331,8 +305,6 @@ function comment_link() {
 /**
  * Retrieve the current comment author for use in the feeds.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.0.0
  * @uses get_comment_author()
  *
@@ -354,8 +326,6 @@ function get_comment_author_rss() {
 /**
  * Display the current comment author in the feed.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 1.0.0
  */
 function comment_author_rss() {
@@ -365,8 +335,6 @@ function comment_author_rss() {
 /**
  * Display the current comment content for use in the feeds.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 1.0.0
  * @uses get_comment_text()
  */
@@ -390,8 +358,6 @@ function comment_text_rss() {
  * retrieved and have feed markup added, so that they can easily be added to the
  * RSS2, Atom, or RSS1 and RSS0.91 RDF feeds.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.1.0
  *
  * @param string $type Optional, default is the type returned by get_default_feed().
@@ -444,8 +410,6 @@ function get_the_category_rss($type = null) {
 /**
  * Display the post categories in the feed.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 0.71
  * @see get_the_category_rss() For better explanation.
  *
@@ -460,8 +424,6 @@ function the_category_rss($type = null) {
  *
  * The two possible values are either 'xhtml' or 'html'.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.2.0
  */
 function html_type_rss() {
@@ -485,8 +447,6 @@ function html_type_rss() {
  * enclosure(s) consist of enclosure HTML tag(s) with a URI and other
  * attributes.
  *
- * @package WordPress
- * @subpackage Template
  * @since 1.5.0
  * @uses get_post_custom() To get the current post enclosure metadata.
  */
@@ -527,8 +487,6 @@ function rss_enclosure() {
  * metadata field and parses the value to display the enclosure(s). The
  * enclosure(s) consist of link HTML tag(s) with a URI and other attributes.
  *
- * @package WordPress
- * @subpackage Template
  * @since 2.2.0
  * @uses get_post_custom() To get the current post enclosure metadata.
  */
@@ -565,8 +523,6 @@ function atom_enclosure() {
  *
  * @link http://www.atomenabled.org/developers/syndication/atom-format-spec.php#rfc.section.3.1
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.5.0
  *
  * @param string $data Input string
@@ -603,8 +559,6 @@ function prep_atom_text_construct($data) {
  *
  * Generate a correct link for the atom:self element.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.5.0
  */
 function self_link() {
@@ -625,8 +579,6 @@ function self_link() {
 /**
  * Return the content type for specified feed type.
  *
- * @package WordPress
- * @subpackage Feed
  * @since 2.8.0
  */
 function feed_content_type( $type = '' ) {

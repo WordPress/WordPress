@@ -47,8 +47,6 @@ $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
  * Display install header.
  *
  * @since 2.5.0
- * @package WordPress
- * @subpackage Installer
  */
 function display_header() {
 	header( 'Content-Type: text/html; charset=utf-8' );
@@ -73,8 +71,6 @@ function display_header() {
  * Display installer setup form.
  *
  * @since 2.8.0
- * @package WordPress
- * @subpackage Installer
  */
 function display_setup_form( $error = null ) {
 	global $wpdb;

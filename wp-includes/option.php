@@ -3,6 +3,7 @@
  * Option API
  *
  * @package WordPress
+ * @subpackage Option
  */
 
 /**
@@ -16,8 +17,6 @@
  * If the option was serialized then it will be unserialized when it is returned.
  *
  * @since 1.5.0
- * @package WordPress
- * @subpackage Option
  * @uses apply_filters() Calls 'pre_option_$option' before checking the option.
  * 	Any value other than false will "short-circuit" the retrieval of the option
  *	and return the returned value. You should not try to override special options,
@@ -98,8 +97,6 @@ function get_option( $option, $default = false ) {
  * and 'notoptions' options.
  *
  * @since 2.2.0
- * @package WordPress
- * @subpackage Option
  *
  * @param string $option Option name.
  */
@@ -113,8 +110,6 @@ function wp_protect_special_option( $option ) {
  *
  * @uses attr Sanitizes value.
  * @since 1.5.0
- * @package WordPress
- * @subpackage Option
  *
  * @param string $option Option name.
  */
@@ -126,8 +121,6 @@ function form_option( $option ) {
  * Loads and caches all autoloaded options, if available or all options.
  *
  * @since 2.2.0
- * @package WordPress
- * @subpackage Option
  *
  * @return array List of all options.
  */
@@ -159,8 +152,6 @@ function wp_load_alloptions() {
  * Loads and caches certain often requested site options if is_multisite() and a persistent cache is not being used.
  *
  * @since 3.0.0
- * @package WordPress
- * @subpackage Option
  *
  * @param int $site_id Optional site ID for which to query the options. Defaults to the current site.
  */
@@ -199,8 +190,6 @@ function wp_load_core_site_options( $site_id = null ) {
  * to set whether an option is autoloaded, then you need to use the add_option().
  *
  * @since 1.0.0
- * @package WordPress
- * @subpackage Option
  *
  * @uses apply_filters() Calls 'pre_update_option_$option' hook to allow overwriting the
  * 	option value to be stored.
@@ -274,8 +263,6 @@ function update_option( $option, $value ) {
  * aren't adding a protected WordPress option. Care should be taken to not name
  * options the same as the ones which are protected.
  *
- * @package WordPress
- * @subpackage Option
  * @since 1.0.0
  *
  * @uses do_action() Calls 'add_option' hook before adding the option.
@@ -343,8 +330,6 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 /**
  * Removes option by name. Prevents removal of protected WordPress options.
  *
- * @package WordPress
- * @subpackage Option
  * @since 1.2.0
  *
  * @uses do_action() Calls 'delete_option' hook before option is deleted.
@@ -391,8 +376,6 @@ function delete_option( $option ) {
  * Delete a transient.
  *
  * @since 2.8.0
- * @package WordPress
- * @subpackage Transient
  *
  * @uses do_action() Calls 'delete_transient_$transient' hook before transient is deleted.
  * @uses do_action() Calls 'deleted_transient' hook on success.
@@ -431,8 +414,6 @@ function delete_transient( $transient ) {
  * 	the transient value.
  *
  * @since 2.8.0
- * @package WordPress
- * @subpackage Transient
  *
  * @param string $transient Transient name. Expected to not be SQL-escaped
  * @return mixed Value of transient
@@ -473,8 +454,6 @@ function get_transient( $transient ) {
  * it will be serialized before it is set.
  *
  * @since 2.8.0
- * @package WordPress
- * @subpackage Transient
  *
  * @uses apply_filters() Calls 'pre_set_transient_$transient' hook to allow overwriting the
  * 	transient value to be stored.
@@ -521,8 +500,6 @@ function set_transient( $transient, $value, $expiration = 0 ) {
  * cookie exists (different browser used), adds the last saved cookie restoring
  * the settings.
  *
- * @package WordPress
- * @subpackage Option
  * @since 2.7.0
  */
 function wp_user_settings() {
@@ -568,8 +545,6 @@ function wp_user_settings() {
 /**
  * Retrieve user interface setting value based on setting name.
  *
- * @package WordPress
- * @subpackage Option
  * @since 2.7.0
  *
  * @param string $name The name of the setting.
@@ -588,8 +563,6 @@ function get_user_setting( $name, $default = false ) {
  * Both $name and $value can contain only ASCII letters, numbers and underscores.
  * This function has to be used before any output has started as it calls setcookie().
  *
- * @package WordPress
- * @subpackage Option
  * @since 2.8.0
  *
  * @param string $name The name of the setting.
@@ -613,8 +586,6 @@ function set_user_setting( $name, $value ) {
  * Deleting settings would reset them to the defaults.
  * This function has to be used before any output has started as it calls setcookie().
  *
- * @package WordPress
- * @subpackage Option
  * @since 2.7.0
  *
  * @param mixed $names The name or array of names of the setting to be deleted.
@@ -645,8 +616,6 @@ function delete_user_setting( $names ) {
 /**
  * Retrieve all user interface settings.
  *
- * @package WordPress
- * @subpackage Option
  * @since 2.7.0
  *
  * @return array the last saved user settings or empty array.
@@ -680,8 +649,6 @@ function get_all_user_settings() {
 /**
  * Private. Set all user interface settings.
  *
- * @package WordPress
- * @subpackage Option
  * @since 2.8.0
  *
  * @param array $user_settings
@@ -717,8 +684,6 @@ function wp_set_all_user_settings( $user_settings ) {
 /**
  * Delete the user settings of the current user.
  *
- * @package WordPress
- * @subpackage Option
  * @since 2.7.0
  */
 function delete_all_user_settings() {
@@ -733,8 +698,6 @@ function delete_all_user_settings() {
  * Retrieve site option value based on name of option.
  *
  * @see get_option()
- * @package WordPress
- * @subpackage Option
  * @since 2.8.0
  *
  * @uses apply_filters() Calls 'pre_site_option_$option' before checking the option.
@@ -795,8 +758,6 @@ function get_site_option( $option, $default = false, $use_cache = true ) {
  * Existing options will not be updated. Note that prior to 3.3 this wasn't the case.
  *
  * @see add_option()
- * @package WordPress
- * @subpackage Option
  * @since 2.8.0
  *
  * @uses apply_filters() Calls 'pre_add_site_option_$option' hook to allow overwriting the
@@ -856,8 +817,6 @@ function add_site_option( $option, $value ) {
  * Removes site option by name.
  *
  * @see delete_option()
- * @package WordPress
- * @subpackage Option
  * @since 2.8.0
  *
  * @uses do_action() Calls 'pre_delete_site_option_$option' hook before option is deleted.
@@ -899,8 +858,6 @@ function delete_site_option( $option ) {
  *
  * @see update_option()
  * @since 2.8.0
- * @package WordPress
- * @subpackage Option
  *
  * @uses apply_filters() Calls 'pre_update_site_option_$option' hook to allow overwriting the
  * 	option value to be stored.
@@ -957,8 +914,6 @@ function update_site_option( $option, $value ) {
  * Delete a site transient.
  *
  * @since 2.9.0
- * @package WordPress
- * @subpackage Transient
  *
  * @uses do_action() Calls 'delete_site_transient_$transient' hook before transient is deleted.
  * @uses do_action() Calls 'deleted_site_transient' hook on success.
@@ -990,8 +945,6 @@ function delete_site_transient( $transient ) {
  *
  * @see get_transient()
  * @since 2.9.0
- * @package WordPress
- * @subpackage Transient
  *
  * @uses apply_filters() Calls 'pre_site_transient_$transient' hook before checking the transient.
  * 	Any value other than false will "short-circuit" the retrieval of the transient
@@ -1038,8 +991,6 @@ function get_site_transient( $transient ) {
  *
  * @see set_transient()
  * @since 2.9.0
- * @package WordPress
- * @subpackage Transient
  *
  * @uses apply_filters() Calls 'pre_set_site_transient_$transient' hook to allow overwriting the
  * 	transient value to be stored.

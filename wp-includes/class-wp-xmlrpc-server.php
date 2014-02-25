@@ -3,6 +3,7 @@
  * XML-RPC protocol support for WordPress
  *
  * @package WordPress
+ * @subpackage Publishing
  */
 
 /**

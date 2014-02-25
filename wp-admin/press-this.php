@@ -19,8 +19,6 @@ if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( get_post_type_obj
 /**
  * Press It form handler.
  *
- * @package WordPress
- * @subpackage Press_This
  * @since 2.6.0
  *
  * @return int Post ID
@@ -163,8 +161,6 @@ if ( !empty($_REQUEST['ajax']) ) {
 		/**
 		 * Retrieve all image URLs from given URI.
 		 *
-		 * @package WordPress
-		 * @subpackage Press_This
 		 * @since 2.6.0
 		 *
 		 * @param string $uri

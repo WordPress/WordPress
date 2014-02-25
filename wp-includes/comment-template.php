@@ -1523,7 +1523,6 @@ function comment_form_title( $noreplytext = false, $replytext = false, $linktopa
 /**
  * HTML comment list class.
  *
- * @package WordPress
  * @uses Walker
  * @since 2.7.0
  */
