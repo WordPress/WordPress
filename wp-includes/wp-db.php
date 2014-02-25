@@ -568,7 +568,18 @@ class wpdb {
 		if ( WP_DEBUG && WP_DEBUG_DISPLAY )
 			$this->show_errors();
 
-		$this->use_mysqli = ( version_compare( phpversion(), '5.5', '>=' ) && function_exists( 'mysqli_connect' ) );
+		/* Use ext/mysqli if it exists and:
+		 *  - We are a development version of WordPress, or
+		 *  - We are running PHP 5.5 or greater, or
+		 *  - ext/mysql is not loaded.
+		 */
+		if ( function_exists( 'mysqli_connect' ) ) {
+			if ( version_compare( phpversion(), '5.5', '>=' ) || ! function_exists( 'mysql_connect' ) ) {
+				$this->use_mysqli = true;
+			} elseif ( false !== strpos( $GLOBALS['wp_version'], '-' ) ) {
+				$this->use_mysqli = true;
+			}
+		}
 
 		$this->init_charset();
 
