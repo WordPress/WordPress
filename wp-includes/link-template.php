@@ -1148,16 +1148,61 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
  * WordPress Adjacent Post API
  *
  * Based on the current or specified post, determines either the previous or
- * next post based on the criteria specified. Supports retrieving posts with the
- * same taxonomy terms and posts that lack specific terms.
+ * next post based on the criteria specified. Supports retrieving posts with
+ * the same taxonomy terms and posts that lack specific terms.
+ *
+ * @since 3.9.0
+ *
+ * @package WordPress
+ * @subpackage Template
  */
 class WP_Adjacent_Post {
+
+	/**
+	 * Adjacent post object.
+	 *
+	 * @since 3.9.0
+	 * @access public
+	 * @var null|WP_Adjacent_Post
+	 */
 	public $adjacent_post = null;
 
+	/**
+	 * Current post object.
+	 *
+	 * @since 3.9.0
+	 * @access protected
+	 * @var bool|WP_Post
+	 */
 	protected $current_post   = false;
+
+	/**
+	 * 'previous' or 'next' type of adjacent post.
+	 *
+	 * @since 3.9.0
+	 * @access protected
+	 * @var string
+	 */
 	protected $adjacent       = 'previous';
+
 	protected $taxonomy       = 'category';
+
+	/**
+	 * Whether the post should be in a same taxonomy term.
+	 *
+	 * @since 3.9.0
+	 * @access protected
+	 * @var string
+	 */
 	protected $in_same_term   = false;
+
+	/**
+	 * Excluded term IDs.
+	 *
+	 * @since 3.9.0
+	 * @access protected
+	 * @var string|array
+	 */
 	protected $excluded_terms = '';
 
 	/**
@@ -1179,7 +1224,7 @@ class WP_Adjacent_Post {
 	/**
 	 * Allow direct access to adjacent post from the class instance itself
 	 *
-	 * @param string $property
+	 * @param string $property Property to get.
 	 * @return mixed String when adjacent post is found and post property exists. Null when no adjacent post is found.
 	 */
 	public function __get( $property ) {
@@ -1312,26 +1357,29 @@ class WP_Adjacent_Post {
 	 * Apply the deprecated filters to WP_Query's clauses.
 	 *
 	 * @param array $clauses
-	 * @uses $this->filter_join_and_where()
-	 * @uses $this->filter_sort()
-	 * @filter post_clauses
 	 * @return array
 	 */
 	public function filter( $clauses ) {
-		// Immediately deregister these legacy filters to avoid modifying
-		// any calls to WP_Query from filter callbacks hooked to WP_Query filters.
+		/*
+		 * Immediately deregister these legacy filters to avoid modifying
+		 * any calls to WP_Query from filter callbacks hooked to WP_Query filters.
+		 */
 		remove_filter( 'posts_clauses', array( $this, 'filter' ) );
 
-		// The `join` and `where` filters are identical in their parameters,
-		// so we can use the same approach for both.
+		/*
+		 * The `join` and `where` filters are identical in their parameters,
+		 * so we can use the same approach for both.
+		 */
 		foreach ( array( 'join', 'where' ) as $clause ) {
 			if ( has_filter( 'get_' . $this->adjacent . '_post_' . $clause ) ) {
 				$clauses[ $clause ] = $this->filter_join_and_where( $clauses[ $clause ], $clause );
 			}
 		}
 
-		// The legacy `sort` filter combined the ORDER BY and LIMIT clauses,
-		// while `WP_Query` does not, which requires special handling.
+		/*
+		 * The legacy `sort` filter combined the ORDER BY and LIMIT clauses,
+		 * while `WP_Query` does not, which requires special handling.
+		 */
 		if ( has_filter( 'get_' . $this->adjacent . '_post_sort' ) ) {
 			$sort_clauses = $this->filter_sort( $clauses['orderby'], $clauses['limits'] );
 			$clauses      = array_merge( $clauses, $sort_clauses );
@@ -1349,6 +1397,7 @@ class WP_Adjacent_Post {
 	 */
 	protected function filter_join_and_where( $value, $clause ) {
 		/**
+		 * @todo Minimal hook docs
 		 * @deprecated 3.9.0
 		 */
 		return apply_filters( 'get_' . $this->adjacent . '_post_' . $clause, $value, $this->in_same_term, $this->excluded_terms );
@@ -1377,8 +1426,11 @@ class WP_Adjacent_Post {
 
 		// Split the string of one or two clauses into their respective array keys
 		if ( false !== $has_order_by && false !== $has_limit ) {
-			// The LIMIT clause cannot appear before the ORDER BY clause in a valid query
-			// However, since the legacy filter would allow a user to invert the order, we maintain that handling so the same errors are triggered.
+			/*
+			 * The LIMIT clause cannot appear before the ORDER BY clause in a valid query
+			 * However, since the legacy filter would allow a user to invert the order,
+			 * we maintain that handling so the same errors are triggered.
+			 */
 			if ( $has_order_by < $has_limit ) {
 				$orderby = trim( str_ireplace( 'order by', '', substr( $sort, 0, $has_limit ) ) );
 				$limits  = trim( substr( $sort, $has_limit ) );
