@@ -472,10 +472,11 @@ function get_comment_date( $d = '', $comment_ID = 0 ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string|int $date Formatted date string or Unix timestamp.
-	 * @param string     $d    The format of the date.
+	 * @param string|int $date    Formatted date string or Unix timestamp.
+	 * @param string     $d       The format of the date.
+	 * @param object     $comment The comment object.
 	 */
-	return apply_filters( 'get_comment_date', $date, $d );
+	return apply_filters( 'get_comment_date', $date, $d, $comment );
 }
 
 /**
@@ -820,8 +821,9 @@ function get_comment_time( $d = '', $gmt = false, $translate = true ) {
 	 * @param string     $d         Date format.
 	 * @param bool       $gmt       Whether the GMT date is in use.
 	 * @param bool       $translate Whether the time is translated.
+	 * @param object     $comment   The comment object.
 	 */
-	return apply_filters( 'get_comment_time', $date, $d, $gmt, $translate );
+	return apply_filters( 'get_comment_time', $date, $d, $gmt, $translate, $comment );
 }
 
 /**
