@@ -969,8 +969,9 @@ class wpdb {
 		}
 		if ( ! $success ) {
 			$this->ready = false;
-			wp_load_translations_early();
-			$this->bail( sprintf( __( '<h1>Can&#8217;t select database</h1>
+			if ( ! did_action( 'template_redirect' ) ) {
+				wp_load_translations_early();
+				$this->bail( sprintf( __( '<h1>Can&#8217;t select database</h1>
 <p>We were able to connect to the database server (which means your username and password is okay) but not able to select the <code>%1$s</code> database.</p>
 <ul>
 <li>Are you sure it exists?</li>
@@ -978,6 +979,7 @@ class wpdb {
 <li>On some systems the name of your database is prefixed with your username, so it would be like <code>username_%1$s</code>. Could that be the problem?</li>
 </ul>
 <p>If you don\'t know how to set up a database you should <strong>contact your host</strong>. If all else fails you may find help at the <a href="http://wordpress.org/support/">WordPress Support Forums</a>.</p>' ), htmlspecialchars( $db, ENT_QUOTES ), htmlspecialchars( $this->dbuser, ENT_QUOTES ) ), 'db_select_fail' );
+			}
 			return;
 		}
 	}
@@ -1378,7 +1380,8 @@ class wpdb {
 	/**
 	 * Check that the connection to the database is still up. If not, try to reconnect.
 	 *
-	 * If this function is unable to reconnect, it will forcibly die.
+	 * If this function is unable to reconnect, it will forcibly die, or if after the
+	 * the template_redirect hook has been fired, return false instead.
 	 *
 	 * @since 3.9.0
 	 *
@@ -1419,6 +1422,12 @@ class wpdb {
 			}
 
 			sleep( 1 );
+		}
+
+		// If template_redirect has already happened, it's too late for wp_die()/dead_db().
+		// Let's just return and hope for the best.
+		if ( did_action( 'template_redirect' ) ) {
+			return false;
 		}
 
 		// We weren't able to reconnect, so we better bail.
@@ -1486,6 +1495,9 @@ class wpdb {
 		if ( empty( $this->dbh ) || 2006 == $mysql_errno ) {
 			if ( $this->check_connection() ) {
 				$this->_do_query( $query );
+			} else {
+				$this->insert_id = 0;
+				return false;
 			}
 		}
 
