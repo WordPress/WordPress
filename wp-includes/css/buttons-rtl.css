@@ -170,6 +170,7 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-disabled {
 	color: #aaa !important;
 	border-color: #ddd !important;
+	background: #f7f7f7 !important;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
 	text-shadow: 0 1px 0 #fff !important;
