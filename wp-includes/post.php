@@ -3733,7 +3733,7 @@ function get_pages( $args = array() ) {
 	$key = md5( serialize( compact(array_keys($defaults)) ) );
 	$last_changed = wp_cache_get( 'last_changed', 'posts' );
 	if ( ! $last_changed ) {
-		$last_changed = microtime( true );
+		$last_changed = microtime();
 		wp_cache_set( 'last_changed', $last_changed, 'posts' );
 	}
 
@@ -4754,7 +4754,7 @@ function clean_post_cache( $post ) {
 		do_action( 'clean_page_cache', $post->ID );
 	}
 
-	wp_cache_set( 'last_changed', microtime( true ), 'posts' );
+	wp_cache_set( 'last_changed', microtime(), 'posts' );
 }
 
 /**

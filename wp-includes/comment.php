@@ -280,7 +280,7 @@ class WP_Comment_Query {
 		$key = md5( serialize( compact(array_keys($defaults)) )  );
 		$last_changed = wp_cache_get( 'last_changed', 'comment' );
 		if ( ! $last_changed ) {
-			$last_changed = microtime( true );
+			$last_changed = microtime();
 			wp_cache_set( 'last_changed', $last_changed, 'comment' );
 		}
 		$cache_key = "get_comments:$key:$last_changed";
@@ -1563,7 +1563,7 @@ function wp_insert_comment($commentdata) {
 	 */
 	do_action( 'wp_insert_comment', $id, $comment );
 
-	wp_cache_set( 'last_changed', microtime( true ), 'comment' );
+	wp_cache_set( 'last_changed', microtime(), 'comment' );
 
 	return $id;
 }
@@ -2361,7 +2361,7 @@ function clean_comment_cache($ids) {
 	foreach ( (array) $ids as $id )
 		wp_cache_delete($id, 'comment');
 
-	wp_cache_set( 'last_changed', microtime( true ), 'comment' );
+	wp_cache_set( 'last_changed', microtime(), 'comment' );
 }
 
 /**
