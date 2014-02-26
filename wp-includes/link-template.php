@@ -1174,7 +1174,7 @@ class WP_Adjacent_Post {
 	 * @access protected
 	 * @var bool|WP_Post
 	 */
-	protected $current_post   = false;
+	protected $current_post = false;
 
 	/**
 	 * 'previous' or 'next' type of adjacent post.
@@ -1183,9 +1183,9 @@ class WP_Adjacent_Post {
 	 * @access protected
 	 * @var string
 	 */
-	protected $adjacent       = 'previous';
+	protected $adjacent = 'previous';
 
-	protected $taxonomy       = 'category';
+	protected $taxonomy = 'category';
 
 	/**
 	 * Whether the post should be in a same taxonomy term.
@@ -1194,7 +1194,7 @@ class WP_Adjacent_Post {
 	 * @access protected
 	 * @var string
 	 */
-	protected $in_same_term   = false;
+	protected $in_same_term = false;
 
 	/**
 	 * Excluded term IDs.
