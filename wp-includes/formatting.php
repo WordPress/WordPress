@@ -3431,6 +3431,8 @@ function wp_sprintf_l($pattern, $args) {
 
 	/**
 	 * Filter the translated delimiters used by wp_sprintf_l().
+	 * Placeholders (%s) are included to assist translators and then
+	 * removed before the array of strings reaches the filter.
 	 *
 	 * Please note: Ampersands and entities should be avoided here.
 	 *
@@ -3439,12 +3441,12 @@ function wp_sprintf_l($pattern, $args) {
 	 * @param array $delimiters An array of translated delimiters.
 	 */
 	$l = apply_filters( 'wp_sprintf_l', array(
-		/* translators: used between list items, there is a space after the comma */
-		'between'          => __(', '),
-		/* translators: used between list items, there is a space after the and */
-		'between_last_two' => __(', and '),
-		/* translators: used between only two list items, there is a space after the and */
-		'between_only_two' => __(' and '),
+		/* translators: used to join items in a list with more than 2 items */
+		'between'          => sprintf( __('%s, %s'), '', '' ),
+		/* translators: used to join last two items in a list with more than 2 times */
+		'between_last_two' => sprintf( __('%s, and %s'), '', '' ),
+		/* translators: used to join items in a list with only 2 items */
+		'between_only_two' => sprintf( __('%s and %s'), '', '' ),
 	) );
 
 	$args = (array) $args;
