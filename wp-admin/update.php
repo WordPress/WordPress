@@ -37,7 +37,7 @@ if ( isset($_GET['action']) ) {
 		$url = 'update.php?action=update-selected&amp;plugins=' . urlencode(implode(',', $plugins));
 		$nonce = 'bulk-update-plugins';
 
-		wp_enqueue_script('jquery');
+		wp_enqueue_script( 'updates' );
 		iframe_header();
 
 		$upgrader = new Plugin_Upgrader( new Bulk_Plugin_Upgrader_Skin( compact( 'nonce', 'url' ) ) );
@@ -54,6 +54,8 @@ if ( isset($_GET['action']) ) {
 		$title = __('Update Plugin');
 		$parent_file = 'plugins.php';
 		$submenu_file = 'plugins.php';
+
+		wp_enqueue_script( 'updates' );
 		require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 		$nonce = 'upgrade-plugin_' . $plugin;
@@ -154,6 +156,7 @@ if ( isset($_GET['action']) ) {
 		check_admin_referer('upgrade-theme_' . $theme);
 
 		wp_enqueue_script( 'customize-loader' );
+		wp_enqueue_script( 'updates' );
 
 		$title = __('Update Theme');
 		$parent_file = 'themes.php';
@@ -185,7 +188,7 @@ if ( isset($_GET['action']) ) {
 		$url = 'update.php?action=update-selected-themes&amp;themes=' . urlencode(implode(',', $themes));
 		$nonce = 'bulk-update-themes';
 
-		wp_enqueue_script('jquery');
+		wp_enqueue_script( 'updates' );
 		iframe_header();
 
 		$upgrader = new Theme_Upgrader( new Bulk_Theme_Upgrader_Skin( compact( 'nonce', 'url' ) ) );

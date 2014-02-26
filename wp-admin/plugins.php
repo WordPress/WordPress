@@ -113,6 +113,7 @@ if ( $action ) {
 			$title = __( 'Update Plugins' );
 			$parent_file = 'plugins.php';
 
+			wp_enqueue_script( 'updates' );
 			require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 			echo '<div class="wrap">';
