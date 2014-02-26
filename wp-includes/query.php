@@ -18,13 +18,14 @@
  * @since 1.5.0
  * @uses $wp_query
  *
- * @param string $var The variable key to retrieve.
+ * @param string $var       The variable key to retrieve.
+ * @param mixed  $default   Value to return if the query variable is not set. Default ''.
  * @return mixed
  */
-function get_query_var($var) {
+function get_query_var( $var, $default = '' ) {
 	global $wp_query;
 
-	return $wp_query->get($var);
+	return $wp_query->get( $var, $default );
 }
 
 /**
@@ -2130,13 +2131,15 @@ class WP_Query {
 	 * @access public
 	 *
 	 * @param string $query_var Query variable key.
+	 * @param mixed  $default   Value to return if the query variable is not set. Default ''.
 	 * @return mixed
 	 */
-	function get($query_var) {
-		if ( isset($this->query_vars[$query_var]) )
-			return $this->query_vars[$query_var];
+	function get( $query_var, $default = '' ) {
+		if ( isset( $this->query_vars[ $query_var ] ) ) {
+			return $this->query_vars[ $query_var ];
+		}
 
-		return '';
+		return $default;
 	}
 
 	/**
