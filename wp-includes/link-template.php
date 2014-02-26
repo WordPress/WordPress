@@ -1294,7 +1294,7 @@ class WP_Adjacent_Post {
 		 * @since 3.9.0
 		 *
 		 * @param array $query_args WP_Query arguments.
-		 * @param array $args       Arguments passed to WP_Get_Adjacent_Post.
+		 * @param array $args       Arguments passed to WP_Adjacent_Post.
 		 */
 		$query_args = apply_filters( 'get_adjacent_post_query_args', $query_args, $args );
 
