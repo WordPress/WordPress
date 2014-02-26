@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * WordPress Link Template Functions
  *
