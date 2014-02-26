@@ -1185,6 +1185,13 @@ class WP_Adjacent_Post {
 	 */
 	protected $adjacent = 'previous';
 
+	/**
+	 * Post taxonomy.
+	 *
+	 * @since 3.9.0
+	 * @access protected
+	 * @var string
+	 */
 	protected $taxonomy = 'category';
 
 	/**
