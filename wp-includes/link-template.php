@@ -1262,6 +1262,7 @@ class WP_Adjacent_Post {
 		$this->current_post = get_post( $args['post'] );
 		$this->excluded_terms = array_map( 'intval', $args['excluded_terms'] );
 		$this->adjacent       = $args['previous'] ? 'previous' : 'next';
+		$this->taxonomy       = $args['taxonomy'];
 		$this->in_same_term   = (bool) $args['in_same_term'];
 
 		// Return null when either the post or taxonomy doesn't exist.
