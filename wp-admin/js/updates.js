@@ -18,12 +18,14 @@ window.wp = window.wp || {};
 		if ( count < 0 ) {
 			return;
 		}
+		$( '#wp-admin-bar-updates .ab-item' ).removeAttr( 'title' );
 		$elem.text( count );
 
 		$elem = $( 'a[href="update-core.php"] .update-plugins' );
 		$elem.each( function( index, elem ) {
 			elem.className = elem.className.replace( /count-\d+/, 'count-' + count );
 		} );
+		$elem.removeAttr( 'title' );
 		$elem.find( '.update-count' ).text( count );
 
 		if ( 'plugin' === upgradeType ) {
