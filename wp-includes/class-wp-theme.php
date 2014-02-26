@@ -963,7 +963,19 @@ final class WP_Theme implements ArrayAccess {
 		if ( $this->parent() )
 			$page_templates += $this->parent()->get_page_templates();
 
-		return $page_templates;
+		/**
+		 * Remove or rename page templates for a theme.
+		 *
+		 * This filter does not currently allow for page templates to be added.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param array    $page_templates Array of page templates. Keys are filenames,
+		 *                                 values are translated names.
+		 * @param WP_Theme $this           The theme object.
+		 */
+		$return = apply_filters( 'page_templates', $page_templates, $this );
+		return array_intersect_assoc( $return, $page_templates );
 	}
 
 	/**
