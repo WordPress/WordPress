@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * WordPress Link Template Functions
  *
@@ -1119,82 +1119,283 @@ function get_next_post( $in_same_term = false, $excluded_terms = '', $taxonomy =
  * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
  * @param bool         $previous       Optional. Whether to retrieve previous post.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
- * @return mixed       Post object if successful. Null if global $post is not set. Empty string if no corresponding post exists.
+ * @return mixed       Post object if successful. Null if current post doesn't exist. Empty string if no corresponding adjacent post exists.
  */
 function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category' ) {
-	global $wpdb;
+	if ( is_string( $excluded_terms ) && false !== strpos( $excluded_terms, ' and ' ) ) {
+		// back-compat: $excluded_terms used to be IDs separated by " and "
+		_deprecated_argument( __FUNCTION__, '3.3', sprintf( __( 'Use commas instead of %s to separate excluded terms.' ), "'and'" ) );
+		$excluded_terms = explode( ' and ', $excluded_terms );
+	}
+	if ( $excluded_terms ) {
+		$excluded_terms = wp_parse_id_list( $excluded_terms );
+	} else {
+		$excluded_terms = array();
+	}
 
-	if ( ( ! $post = get_post() ) || ! taxonomy_exists( $taxonomy ) )
-		return null;
+	$adjacent = new WP_Get_Adjacent_Post( array(
+		'post'           => get_post(),
+		'previous'       => $previous,
+		'taxonomy'       => $taxonomy,
+		'in_same_term'   => $in_same_term,
+		'excluded_terms' => $excluded_terms,
+	) );
 
-	$current_post_date = $post->post_date;
+	return $adjacent->adjacent_post;
+}
 
-	$join = '';
-	$posts_in_ex_terms_sql = '';
-	if ( $in_same_term || ! empty( $excluded_terms ) ) {
-		$join = " INNER JOIN $wpdb->term_relationships AS tr ON p.ID = tr.object_id INNER JOIN $wpdb->term_taxonomy tt ON tr.term_taxonomy_id = tt.term_taxonomy_id";
+/**
+ * WordPress Adjacent Post API
+ *
+ * Based on the current or specified post, determines either the previous or
+ * next post based on the criteria specified. Supports retrieving posts with the
+ * same taxonomy terms and posts that lack specific terms.
+ */
+class WP_Get_Adjacent_Post {
+	public $adjacent_post = null;
 
-		if ( $in_same_term ) {
-			if ( ! is_object_in_taxonomy( $post->post_type, $taxonomy ) )
-				return '';
-			$term_array = wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'ids' ) );
-			if ( ! $term_array || is_wp_error( $term_array ) )
-				return '';
-			$join .= $wpdb->prepare( " AND tt.taxonomy = %s AND tt.term_id IN (" . implode( ',', array_map( 'intval', $term_array ) ) . ")", $taxonomy );
+	protected $current_post   = false;
+	protected $adjacent       = 'previous';
+	protected $taxonomy       = 'category';
+	protected $in_same_term   = false;
+	protected $excluded_terms = '';
+
+	/**
+	 * Class constructor.
+	 *
+	 * The post is queried is run if arguments are passed to the constructor.
+	 * Otherwise, the get_post() method will need to be called.
+	 *
+	 * @param array $args Optional. See the get_post() method for $args.
+	 */
+	public function __construct( $args = array() ) {
+		if ( empty( $args ) ) {
+			return;
 		}
 
-		$posts_in_ex_terms_sql = $wpdb->prepare( "AND tt.taxonomy = %s", $taxonomy );
-		if ( ! empty( $excluded_terms ) ) {
-			if ( ! is_array( $excluded_terms ) ) {
-				// back-compat, $excluded_terms used to be $excluded_terms with IDs separated by " and "
-				if ( false !== strpos( $excluded_terms, ' and ' ) ) {
-					_deprecated_argument( __FUNCTION__, '3.3', sprintf( __( 'Use commas instead of %s to separate excluded terms.' ), "'and'" ) );
-					$excluded_terms = explode( ' and ', $excluded_terms );
-				} else {
-					$excluded_terms = explode( ',', $excluded_terms );
-				}
-			}
+		$this->get_post( $args );
+	}
 
-			$excluded_terms = array_map( 'intval', $excluded_terms );
-
-			if ( ! empty( $term_array ) ) {
-				$excluded_terms = array_diff( $excluded_terms, $term_array );
-				$posts_in_ex_terms_sql = '';
-			}
-
-			if ( ! empty( $excluded_terms ) ) {
-				$posts_in_ex_terms_sql = $wpdb->prepare( " AND tt.taxonomy = %s AND tt.term_id NOT IN (" . implode( $excluded_terms, ',' ) . ')', $taxonomy );
-			}
+	/**
+	 * Allow direct access to adjacent post from the class instance itself
+	 *
+	 * @param string $property
+	 * @return mixed String when adjacent post is found and post property exists. Null when no adjacent post is found.
+	 */
+	public function __get( $property ) {
+		if ( is_object( $this->adjacent_post ) && property_exists( $this->adjacent_post, $property ) ) {
+			return $this->adjacent_post->{$property};
+		} else {
+			return null;
 		}
 	}
 
-	$adjacent = $previous ? 'previous' : 'next';
-	$op = $previous ? '<' : '>';
-	$order = $previous ? 'DESC' : 'ASC';
+	/**
+	 * Determine adjacent post for specified post and adjacency.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param array $args {
+	 *     Arguments for querying the adjacent post.
+	 *
+	 *     @type mixed  $post           Optional. Post object or ID to find adjacent post for.
+	 *     @type bool   $previous       Optional. Whether to retrieve previous post.
+	 *     @type string $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
+	 *     @type bool   $in_same_term   Optional. Whether post should be in a same taxonomy term.
+	 *     @type array  $excluded_terms Optional. Array of excluded term IDs.
+	 * }
+	 * @return mixed Post object on success. False if no adjacent post exists. Null on failure.
+	 */
+	protected function get_post( $args ) {
+		$this->current_post = get_post( $args['post'] );
+		$this->excluded_terms = array_map( 'intval', $args['excluded_terms'] );
+		$this->adjacent       = $args['previous'] ? 'previous' : 'next';
+		$this->in_same_term   = (bool) $args['in_same_term'];
 
-	$join  = apply_filters( "get_{$adjacent}_post_join", $join, $in_same_term, $excluded_terms );
-	$where = apply_filters( "get_{$adjacent}_post_where", $wpdb->prepare( "WHERE p.post_date $op %s AND p.post_type = %s AND p.post_status = 'publish' $posts_in_ex_terms_sql", $current_post_date, $post->post_type), $in_same_term, $excluded_terms );
-	$sort  = apply_filters( "get_{$adjacent}_post_sort", "ORDER BY p.post_date $order LIMIT 1" );
+		// Return null when either the post or taxonomy doesn't exist.
+		if ( ! $this->current_post ) {
+			return;
+		}
+		if ( $this->in_same_term || $this->excluded_terms ) {
+			if ( ! taxonomy_exists( $args['taxonomy'] ) ) {
+				return;
+			}
+		}
 
-	$query = "SELECT p.ID FROM $wpdb->posts AS p $join $where $sort";
-	$query_key = 'adjacent_post_' . md5( $query );
-	$result = wp_cache_get( $query_key, 'counts' );
-	if ( false !== $result ) {
-		if ( $result )
-			$result = get_post( $result );
-		return $result;
+		// Build our arguments for WP_Query.
+		$query_args = array(
+			'posts_per_page'   => 1,
+			'post_status'      => 'publish',
+			'post_type'        => 'post',
+			'orderby'          => 'date',
+			'order'            => 'previous' === $this->adjacent ? 'DESC' : 'ASC',
+			'no_found_rows'    => true,
+			'cache_results'    => true,
+			'date_query'       => array(),
+		);
+
+		$tax_query = array();
+
+		// Set up for requests limited to posts that share terms.
+		if ( $this->in_same_term ) {
+			$terms = get_the_terms( $this->current_post->ID, $args['taxonomy'] );
+
+			if ( is_array( $terms ) && ! empty( $terms ) ) {
+				$terms = wp_list_pluck( $terms, 'term_id' );
+				$terms = array_values( $terms );
+				$terms = array_map( 'intval', $terms );
+			} else {
+				unset( $terms );
+			}
+		}
+
+		// Handle excluded terms.
+		if ( $this->excluded_terms ) {
+			$tax_query[] = array(
+				'taxonomy' => $args['taxonomy'],
+				'slugs'    => $this->excluded_terms,
+				'compare'  => 'NOT IN',
+			);
+		}
+
+		// If requesting same term, ensure excluded terms don't appear in term list.
+		if ( isset( $terms ) ) {
+			if ( isset( $this->excluded_terms ) && is_array( $this->excluded_terms ) ) {
+				$terms = array_diff( $terms, $this->excluded_terms );
+			}
+
+			if ( ! empty( $terms ) ) {
+				$tax_query[] = array(
+					'taxonomy' => $args['taxonomy'],
+					'terms'    => $terms,
+				);
+			}
+		}
+
+		// If we have a tax query, add it to our query args.
+		if ( $tax_query ) {
+			$query_args['tax_query'] = $tax_query;
+		}
+
+		// And now, the date constraint.
+		$date_query_key = 'previous' === $this->adjacent ? 'before' : 'after';
+
+		$query_args['date_query'][] = array(
+			$date_query_key => $this->current_post->post_date,
+			'inclusive'     => true,
+		);
+
+		// Ensure the current post isn't returned, since we're using an inclusive date query.
+		$query_args['post__not_in'] = array( $this->current_post->ID );
+
+		/**
+		 * Filter the arguments passed to WP_Query when finding an adjacent post.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param array $query_args WP_Query arguments.
+		 * @param array $args       Arguments passed to WP_Get_Adjacent_Post.
+		 */
+		$query_args = apply_filters( 'get_adjacent_post_query_args', $query_args, $args );
+
+		add_filter( 'posts_clauses', array( $this, 'filter' ) );
+		$query = new WP_Query( $query_args );
+
+		if ( $query->posts ) {
+			$this->adjacent_post = $query->post;
+		} else {
+			$this->adjacent_post = false;
+		}
 	}
 
-	$result = $wpdb->get_var( $query );
-	if ( null === $result )
-		$result = '';
+	/**
+	 * Apply the deprecated filters to WP_Query's clauses.
+	 *
+	 * @param array $clauses
+	 * @uses $this->filter_join_and_where()
+	 * @uses $this->filter_sort()
+	 * @filter post_clauses
+	 * @return array
+	 */
+	public function filter( $clauses ) {
+		// Immediately deregister these legacy filters to avoid modifying
+		// any calls to WP_Query from filter callbacks hooked to WP_Query filters.
+		remove_filter( 'posts_clauses', array( $this, 'filter' ) );
 
-	wp_cache_set( $query_key, $result, 'counts' );
+		// The `join` and `where` filters are identical in their parameters,
+		// so we can use the same approach for both.
+		foreach ( array( 'join', 'where' ) as $clause ) {
+			if ( has_filter( 'get_' . $this->adjacent . '_post_' . $clause ) ) {
+				$clauses[ $clause ] = $this->filter_join_and_where( $clauses[ $clause ], $clause );
+			}
+		}
 
-	if ( $result )
-		$result = get_post( $result );
+		// The legacy `sort` filter combined the ORDER BY and LIMIT clauses,
+		// while `WP_Query` does not, which requires special handling.
+		if ( has_filter( 'get_' . $this->adjacent . '_post_sort' ) ) {
+			$sort_clauses = $this->filter_sort( $clauses['orderby'], $clauses['limits'] );
+			$clauses      = array_merge( $clauses, $sort_clauses );
+		}
 
-	return $result;
+		return $clauses;
+	}
+
+	/**
+	 * Apply the deprecated `join` or `where` clause filter to the clauses built by WP_Query.
+	 *
+	 * @param string $value
+	 * @param string $clause
+	 * @return string
+	 */
+	protected function filter_join_and_where( $value, $clause ) {
+		/**
+		 * @deprecated 3.9.0
+		 */
+		return apply_filters( 'get_' . $this->adjacent . '_post_' . $clause, $value, $this->in_same_term, $this->excluded_terms );
+	}
+
+	/**
+	 * Apply deprecated `sort` filter, which applies to both the ORDER BY and LIMIT clauses.
+	 *
+	 * @param string $orderby
+	 * @param string $limits
+	 * @return array
+	 */
+	protected function filter_sort( $orderby, $limits ) {
+		/**
+		 * @deprecated 3.9.0
+		 */
+		$sort = apply_filters( 'get_' . $this->adjacent . '_post_sort', 'ORDER BY ' . $orderby . ' ' . $limits );
+
+		if ( empty( $sort ) ) {
+			return compact( 'orderby', 'limits' );
+		}
+
+		// The legacy filter could allow either clause to be removed, or their order inverted, so we need to know what we have and where.
+		$has_order_by = stripos( $sort, 'order by' );
+		$has_limit    = stripos( $sort, 'limit' );
+
+		// Split the string of one or two clauses into their respective array keys
+		if ( false !== $has_order_by && false !== $has_limit ) {
+			// The LIMIT clause cannot appear before the ORDER BY clause in a valid query
+			// However, since the legacy filter would allow a user to invert the order, we maintain that handling so the same errors are triggered.
+			if ( $has_order_by < $has_limit ) {
+				$orderby = trim( str_ireplace( 'order by', '', substr( $sort, 0, $has_limit ) ) );
+				$limits  = trim( substr( $sort, $has_limit ) );
+			} else {
+				$orderby = trim( str_ireplace( 'order by', '', substr( $sort, $has_order_by ) ) );
+				$limits  = trim( substr( $sort, 0, $has_order_by ) );
+			}
+		} elseif ( false !== $has_order_by ) {
+			$orderby = trim( str_ireplace( 'order by', '', $sort ) );
+			$limits  = '';
+		} elseif ( false !== $has_limit ) {
+			$orderby = '';
+			$limits  = trim( $sort );
+		}
+
+		return compact( 'orderby', 'limits' );
+	}
 }
 
 /**
