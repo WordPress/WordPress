@@ -1742,11 +1742,11 @@ div.star-holder {
 	position: relative;
 	height: 17px;
 	width: 100px;
-	background: url('../images/stars.png?ver=20121108') repeat-x bottom left;
+	background: url(../images/stars.png?ver=20121108) repeat-x bottom left;
 }
 
 div.star-holder .star-rating {
-	background: url('../images/stars.png?ver=20121108') repeat-x top left;
+	background: url(../images/stars.png?ver=20121108) repeat-x top left;
 	height: 17px;
 	float: left;
 }
@@ -2328,13 +2328,13 @@ img {
 	/* Back-compat for pre-3.8 */
 	div.star-holder,
 	div.star-holder .star-rating {
-		background: url('../images/stars-2x.png?ver=20121108') repeat-x bottom left;
+		background: url(../images/stars-2x.png?ver=20121108) repeat-x bottom left;
 		-webkit-background-size: 21px 37px;
 		background-size: 21px 37px;
 	}
 
 	.spinner {
-		background-image: url('../images/spinner-2x.gif');
+		background-image: url(../images/spinner-2x.gif);
 	}
 
 	/* @todo: evaluate - most of these were likely replaced by dashicons */

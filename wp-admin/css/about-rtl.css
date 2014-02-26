@@ -133,8 +133,8 @@
 /* WordPress Version Badge */
 
 .wp-badge {
-	background: #0074a2 url('../images/w-logo-white.png?ver=20131202') no-repeat;
-	background: #0074a2, url('../images/wordpress-logo-white.svg?ver=20131110') no-repeat; /* multiple backgrounds are ignored by browsers that don't support SVGs */
+	background: #0074a2 url(../images/w-logo-white.png?ver=20131202) no-repeat;
+	background: #0074a2, url(../images/wordpress-logo-white.svg?ver=20131110) no-repeat; /* multiple backgrounds are ignored by browsers that don't support SVGs */
 	background-position: center 24px;
 	-webkit-background-size: 85px 85px;
 	background-size: 85px 85px;

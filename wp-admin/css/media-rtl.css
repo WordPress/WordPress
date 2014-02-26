@@ -437,7 +437,7 @@ td.imgedit-settings input {
 .imgedit-wait {
 	position: absolute;
 	top: 0;
-	background: #fff url('../images/spinner.gif') no-repeat scroll 22px 10px;
+	background: #fff url(../images/spinner.gif) no-repeat scroll 22px 10px;
 	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
 	opacity: 0.7;
@@ -448,7 +448,7 @@ td.imgedit-settings input {
 }
 
 .spinner {
-	background: url('../images/spinner.gif') no-repeat;
+	background: url(../images/spinner.gif) no-repeat;
 	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
 	display: none;
@@ -651,7 +651,7 @@ span.imgedit-scale-warn {
   (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
 	.imgedit-wait {
-		background-image: url('../images/spinner-2x.gif');
+		background-image: url(../images/spinner-2x.gif);
 	}
 }
 

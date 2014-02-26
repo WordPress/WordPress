@@ -353,13 +353,13 @@ td.plugin-title p {
 }
 
 #content-resize-handle {
-	background: transparent url('../images/resize.gif') no-repeat scroll right bottom;
+	background: transparent url(../images/resize.gif) no-repeat scroll right bottom;
 	width: 12px;
 	cursor: n-resize;
 }
 
 .rtl #content-resize-handle {
-	background: transparent url('../images/resize-rtl.gif') no-repeat scroll left bottom;
+	background: transparent url(../images/resize-rtl.gif) no-repeat scroll left bottom;
 }
 
 #wp-word-count {
@@ -1153,14 +1153,14 @@ table.links-table {
   (min-resolution: 120dpi) {
 	#content-resize-handle,
 	#post-body .wp_themeSkin .mceStatusbar a.mceResize {
-		background: transparent url('../images/resize-2x.gif') no-repeat scroll right bottom;
+		background: transparent url(../images/resize-2x.gif) no-repeat scroll right bottom;
 		-webkit-background-size: 11px 11px;
 		background-size: 11px 11px;
 	}
 
 	.rtl #content-resize-handle,
 	.rtl #post-body .wp_themeSkin .mceStatusbar a.mceResize {
-		background: transparent url('../images/resize-rtl-2x.gif') no-repeat scroll right bottom;
+		background: transparent url(../images/resize-rtl-2x.gif) no-repeat scroll right bottom;
 	}
 }
 

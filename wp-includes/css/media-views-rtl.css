@@ -1279,7 +1279,7 @@
  */
 
 .media-frame .spinner {
-	background: url('../images/spinner.gif') no-repeat;
+	background: url(../images/spinner.gif) no-repeat;
 	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
 	display: none;
@@ -1952,6 +1952,6 @@
   	}
 
   	.media-frame .spinner {
-  		background-image: url('../images/spinner-2x.gif');
+  		background-image: url(../images/spinner-2x.gif);
   	}
 }

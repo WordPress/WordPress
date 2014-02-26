@@ -467,7 +467,7 @@ p.search-box {
 }
 
 input[type="text"].ui-autocomplete-loading {
-	background: transparent url('../images/loading.gif') no-repeat right center;
+	background: transparent url(../images/loading.gif) no-repeat right center;
 	visibility: visible;
 }
 

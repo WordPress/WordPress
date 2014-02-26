@@ -406,7 +406,7 @@ th.asc:hover span.sorting-indicator:before {
 }
 
 tr.wp-locked .locked-indicator {
-	background: url('../images/lock.png') no-repeat;
+	background: url(../images/lock.png) no-repeat;
 	margin: -2px 0 0 6px;
 	height: 20px;
 	width: 16px;
@@ -1218,7 +1218,7 @@ tr.active + tr.plugin-update-tr .plugin-update .update-message {
   (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
 	tr.wp-locked .locked-indicator {
-		background-image: url('../images/lock-2x.png');
+		background-image: url(../images/lock-2x.png);
 		-webkit-background-size: 16px 16px;
 		background-size: 16px 16px;
 	}

@@ -913,7 +913,7 @@ i.mce-caret:before {
 }
 
 #wp-link .toggle-arrow {
-	background: transparent url("../images/toggle-arrow.png") top left no-repeat;
+	background: transparent url(../images/toggle-arrow.png) top left no-repeat;
 	height: 23px;
 	line-height: 23px;
 }
@@ -1831,7 +1831,7 @@ html:lang(he-il) .rtl .quicktags-toolbar input  {
 	}
 
 	#wp-link .toggle-arrow {
-		background: transparent url('../images/toggle-arrow-2x.png') top left no-repeat;
+		background: transparent url(../images/toggle-arrow-2x.png) top left no-repeat;
 		-webkit-background-size: 19px 69px;
 		background-size: 19px 69px;
 	}
