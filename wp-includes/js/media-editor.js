@@ -338,7 +338,6 @@
 				// Collect the attributes that were not included in `args`.
 				others = _.omit( attrs, 'id', 'ids', 'include', 'exclude', 'orderby', 'order' );
 
-				// Remove default attributes from the shortcode.
 				_.each( this.defaults, function( value, key ) {
 					others[ key ] = self.coerce( others, key );
 				});
