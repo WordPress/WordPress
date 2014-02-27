@@ -867,39 +867,35 @@
 	/**
 	 * wp.media.controller.CollectionAdd
 	 *
-	 * @static
-	 * @param {string} prop The shortcode slug
-	 * @param {object} args
-	 * @returns {wp.media.controller.Library}
+	 * @constructor
+	 * @augments wp.media.controller.Library
+	 * @augments wp.media.controller.State
+	 * @augments Backbone.Model
 	 */
-	media.controller.CollectionAdd = function ( prop, args ) {
-		/**
-		 * @constructor
-		 * @augments wp.media.controller.Library
-		 * @augments wp.media.controller.State
-		 * @augments Backbone.Model
-		 */
-		return media.controller.Library.extend({
-			defaults: _.defaults({
-				id:           prop + '-library',
-				filterable:   'uploaded',
-				multiple:     'add',
-				menu:         prop,
-				toolbar:      prop + '-add',
-				priority:     100,
+	media.controller.CollectionAdd = function (attributes) {
+		var ExtendedLibrary, extended = _.extend( attributes, {
+			defaults: _.defaults( {
+				id: attributes.tag + '-library',
+				title: attributes.title,
+				menu: attributes.tag,
+				toolbar: attributes.tag + '-add',
+				filterable: 'uploaded',
+				multiple:   'add',
+				priority:   100,
 				syncSelection: false
-			}, args.defaults || {}, media.controller.Library.prototype.defaults ),
+			}, media.controller.Library.prototype.defaults ),
+
 			initialize: function() {
 				// If we haven't been provided a `library`, create a `Selection`.
 				if ( ! this.get('library') ) {
-					this.set( 'library', media.query({ type: args.type }) );
+					this.set( 'library', media.query({ type: this.type }) );
 				}
 				media.controller.Library.prototype.initialize.apply( this, arguments );
 			},
 
 			activate: function() {
 				var library = this.get('library'),
-					edit    = this.frame.state(prop + '-edit').get('library');
+					edit    = this.frame.state( this.tag + '-edit' ).get('library');
 
 				if ( this.editLibrary && this.editLibrary !== edit ) {
 					library.unobserve( this.editLibrary );
@@ -920,7 +916,10 @@
 
 				media.controller.Library.prototype.activate.apply( this, arguments );
 			}
-		});
+		} );
+		ExtendedLibrary = media.controller.Library.extend( extended );
+
+		return new ExtendedLibrary();
 	};
 
 	// wp.media.controller.GalleryEdit
@@ -930,15 +929,6 @@
 		settings: 'Gallery',
 		defaults: {
 			title: l10n.editGalleryTitle
-		}
-	});
-
-	// wp.media.controller.GalleryAdd
-	// ---------------------------------
-	media.controller.GalleryAdd = media.controller.CollectionAdd( 'gallery', {
-		type: 'image',
-		defaults: {
-			title: l10n.addToGalleryTitle
 		}
 	});
 
@@ -954,15 +944,6 @@
 		}
 	});
 
-	// wp.media.controller.PlaylistAdd
-	// ---------------------------------
-	media.controller.PlaylistAdd = media.controller.CollectionAdd( 'playlist', {
-		type: 'audio',
-		defaults: {
-			title: l10n.addToPlaylistTitle
-		}
-	});
-
 	// wp.media.controller.VideoPlaylistEdit
 	// -------------------------------
 	media.controller.VideoPlaylistEdit = media.controller.CollectionEdit( 'video-playlist', {
@@ -972,15 +953,6 @@
 		defaults: {
 			title: l10n.editVideoPlaylistTitle,
 			dragInfo : false
-		}
-	});
-
-	// wp.media.controller.VideoPlaylistAdd
-	// ---------------------------------
-	media.controller.VideoPlaylistAdd = media.controller.CollectionAdd( 'video-playlist', {
-		type: 'video',
-		defaults: {
-			title: l10n.addToVideoPlaylistTitle
 		}
 	});
 
@@ -1810,7 +1782,11 @@
 					menu:    'gallery'
 				}),
 
-				new media.controller.GalleryAdd(),
+				new media.controller.CollectionAdd({
+					tag: 'gallery',
+					type: 'image',
+					title: l10n.addToGalleryTitle
+				}),
 
 				new media.controller.Library({
 					id:         'playlist',
@@ -1833,7 +1809,11 @@
 					menu:    'playlist'
 				}),
 
-				new media.controller.PlaylistAdd(),
+				new media.controller.CollectionAdd({
+					tag: 'playlist',
+					type: 'audio',
+					title: l10n.addToPlaylistTitle
+				}),
 
 				new media.controller.Library({
 					id:         'video-playlist',
@@ -1856,7 +1836,11 @@
 					menu:    'video-playlist'
 				}),
 
-				new media.controller.VideoPlaylistAdd()
+				new media.controller.CollectionAdd({
+					tag: 'video-playlist',
+					type: 'video',
+					title: l10n.addToVideoPlaylistTitle
+				})
 			]);
 
 
