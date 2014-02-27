@@ -1117,7 +1117,7 @@ function wp_get_playlist( $attr, $type ) {
 	}
 	$data['tracks'] = $tracks;
 
-	$safe_type = esc_attr( $safe_type );
+	$safe_type = esc_attr( $type );
 	$safe_style = esc_attr( $style );
 
 	ob_start();

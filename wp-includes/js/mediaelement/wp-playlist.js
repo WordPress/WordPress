@@ -1,4 +1,4 @@
-/*globals window, document, $, jQuery */
+/*globals window, document, jQuery, _, Backbone, _wpmejsSettings */
 
 (function ($, _, Backbone) {
 	"use strict";
@@ -32,7 +32,7 @@
 
 			_.bindAll( this, 'bindPlayer', 'ended', 'clickTrack' );
 
-			if ( typeof _wpmejsSettings !== 'undefined' ) {
+			if ( ! _.isUndefined( window._wpmejsSettings ) ) {
 				settings.pluginPath = _wpmejsSettings.pluginPath;
 			}
 			settings.success = this.bindPlayer;
@@ -47,8 +47,7 @@
 					this.playerNode.attr( 'poster', this.current.get( 'image' ).src );
 				}
 				dimensions = this.current.get( 'dimensions' ).resized;
-				this.playerNode.attr( 'width', dimensions.width );
-				this.playerNode.attr( 'height', dimensions.height );
+				this.playerNode.attr( dimensions );
 			} else {
 				if ( ! this.data.images ) {
 					this.current.set( 'image', false );

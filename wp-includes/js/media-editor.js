@@ -632,8 +632,8 @@
 		 */
 		insert: function( html ) {
 			var editor,
-				hasTinymce = ! _.isUndefined( tinymce ),
-				hasQuicktags = ! _.isUndefined( QTags ),
+				hasTinymce = ! _.isUndefined( window.tinymce ),
+				hasQuicktags = ! _.isUndefined( window.QTags ),
 				wpActiveEditor = window.wpActiveEditor;
 
 			// Delegate to the global `send_to_editor` if it exists.
@@ -798,7 +798,7 @@
 			id = wpActiveEditor;
 
 			// If that doesn't work, fall back to `tinymce.activeEditor.id`.
-			if ( ! id && ! _.isUndefined( tinymce ) && tinymce.activeEditor ) {
+			if ( ! id && ! _.isUndefined( window.tinymce ) && tinymce.activeEditor ) {
 				id = tinymce.activeEditor.id;
 			}
 
@@ -929,7 +929,7 @@
 			id = this.id( id );
 /*
 			// Save a bookmark of the caret position in IE.
-			if ( ! _.isUndefined( tinymce ) ) {
+			if ( ! _.isUndefined( window.tinymce ) ) {
 				editor = tinymce.get( id );
 
 				if ( tinymce.isIE && editor && ! editor.isHidden() ) {
