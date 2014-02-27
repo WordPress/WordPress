@@ -1138,7 +1138,7 @@ function wp_get_playlist( $attr, $type ) {
 		<span class="wp-caption-meta wp-caption-artist">{{{ data.meta.artist }}}</span>
 	</div>
 	<# } else { #>
-	<div class="wp-playlist-caption">{{{ data.caption }}}</div>
+	<div class="wp-playlist-caption">{{{ data.caption ? data.caption : data.title }}}</div>
 	<# } #>
 </script>
 <script type="text/html" id="tmpl-wp-playlist-item">
