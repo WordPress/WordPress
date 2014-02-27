@@ -342,7 +342,7 @@ themes.view.Details = wp.Backbone.View.extend({
 			// With a quick fade out animation
 			this.$el.fadeOut( 130, function() {
 				// Clicking outside the modal box closes the overlay
-				$( 'body' ).removeClass( 'theme-overlay-open closing-overlay' );
+				$( 'body' ).removeClass( 'closing-overlay' );
 				// Handle event cleanup
 				self.closeOverlay();
 
@@ -378,6 +378,7 @@ themes.view.Details = wp.Backbone.View.extend({
 	// Performs the actions to effectively close
 	// the theme details overlay
 	closeOverlay: function() {
+		$( 'body' ).removeClass( 'theme-overlay-open' );
 		this.remove();
 		this.unbind();
 		this.trigger( 'theme:collapse' );
