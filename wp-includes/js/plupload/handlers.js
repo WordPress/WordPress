@@ -401,7 +401,7 @@ jQuery(document).ready(function($){
 	// init and set the uploader
 	uploader_init = function() {
 		uploader = new plupload.Uploader(wpUploaderInit);
-//console.dir(uploader)
+
 		$('#image_resize').bind('change', function() {
 			var arg = $(this).prop('checked');
 
@@ -415,7 +415,7 @@ jQuery(document).ready(function($){
 
 		uploader.bind('Init', function(up) {
 			var uploaddiv = $('#plupload-upload-ui');
-window.console.dir('init...');window.console.dir(up);
+
 			setResize( getUserSetting('upload_resize', false) );
 
 			if ( up.features.dragdrop && ! $(document.body).hasClass('mobile') ) {
