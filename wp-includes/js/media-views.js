@@ -4987,7 +4987,7 @@
 			}, this.options );
 		},
 		/**
-		 * @returns {wp.media.view.Setings} Returns itself to allow chaining
+		 * @returns {wp.media.view.Settings} Returns itself to allow chaining
 		 */
 		render: function() {
 			media.View.prototype.render.apply( this, arguments );
