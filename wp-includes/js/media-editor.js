@@ -278,6 +278,15 @@
 		var collections = {};
 
 		return _.extend( attributes, {
+			/**
+			 * A helper function to avoid truthy and falsey values being
+			 *   passed as an input that expects booleans. If key is undefined in the map,
+			 *   but has a default value, set it.
+			 *
+			 * @param {object} attrs Map of props from a shortcode or settings.
+			 * @param {string} key The key within the passed map to check for a value.
+			 * @returns {mixed|undefined} The original or coerced value of key within attrs
+			 */
 			coerce: function ( attrs, key ) {
 				if ( _.isUndefined( attrs[ key ] ) && ! _.isUndefined( this.defaults[ key ] ) ) {
 					attrs[ key ] = this.defaults[ key ];
@@ -288,7 +297,17 @@
 				}
 				return attrs[ key ];
 			},
-
+			/**
+			 * Retrieve attachments based on the properties of the passed shortcode
+			 *
+			 * @global wp.media.query
+			 *
+			 * @param {wp.shortcode} shortcode An instance of wp.shortcode().
+			 * @returns {wp.media.model.Attachments} A Backbone.Collection containing
+			 *      the media items belonging to a collection.
+			 *      The query[ this.tag ] property is a Backbone.Model
+			 *          containing the 'props' for the collection.
+			 */
 			attachments: function( shortcode ) {
 				var shortcodeString = shortcode.string(),
 					result = collections[ shortcodeString ],
@@ -346,7 +365,18 @@
 				query[ this.tag ] = new Backbone.Model( others );
 				return query;
 			},
-
+			/**
+			 * Triggered when clicking 'Insert {label}' or 'Update {label}'
+			 *
+			 * @global wp.shortcode
+			 * @global wp.media.model.Attachments
+			 *
+			 * @param {wp.media.model.Attachments} attachments A Backbone.Collection containing
+			 *      the media items belonging to a collection.
+			 *      The query[ this.tag ] property is a Backbone.Model
+			 *          containing the 'props' for the collection.
+			 * @returns {wp.shortcode}
+			 */
 			shortcode: function( attachments ) {
 				var props = attachments.props.toJSON(),
 					attrs = _.pick( props, 'orderby', 'order' ),
@@ -405,7 +435,21 @@
 
 				return shortcode;
 			},
-
+			/**
+			 * Triggered when double-clicking a collection shortcode placeholder
+			 *   in the editor
+			 *
+			 * @global wp.shortcode
+			 * @global wp.media.model.Selection
+			 * @global wp.media.view.l10n
+			 *
+			 * @param {string} content Content that is searched for possible
+			 *    shortcode markup matching the passed tag name,
+			 *
+			 * @this wp.media.{prop}
+			 *
+			 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
+			 */
 			edit: function( content ) {
 				var shortcode = wp.shortcode.next( this.tag, content ),
 					defaultPostId = this.defaults.id,
