@@ -212,7 +212,7 @@
 			props = wp.media.string.props( props, attachment );
 			classes = props.classes || [];
 
-			img.src = typeof attachment !== 'undefined' ? attachment.url : props.url;
+			img.src = ! _.isUndefined( attachment ) ? attachment.url : props.url;
 			_.extend( img, _.pick( props, 'width', 'height', 'alt' ) );
 
 			// Only assign the align class to the image if we're not printing
@@ -279,7 +279,7 @@
 
 		return _.extend( attributes, {
 			coerce: function ( attrs, key ) {
-				if ( 'undefined' === typeof attrs[ key ] && 'undefined' !== typeof this.defaults[ key ] ) {
+				if ( _.isUndefined( attrs[ key ] ) && ! _.isUndefined( this.defaults[ key ] ) ) {
 					attrs[ key ] = this.defaults[ key ];
 				} else if ( 'true' === attrs[ key ] ) {
 					attrs[ key ] = true;
@@ -632,8 +632,8 @@
 		 */
 		insert: function( html ) {
 			var editor,
-				hasTinymce = typeof tinymce !== 'undefined',
-				hasQuicktags = typeof QTags !== 'undefined',
+				hasTinymce = ! _.isUndefined( tinymce ),
+				hasQuicktags = ! _.isUndefined( QTags ),
 				wpActiveEditor = window.wpActiveEditor;
 
 			// Delegate to the global `send_to_editor` if it exists.
@@ -798,7 +798,7 @@
 			id = wpActiveEditor;
 
 			// If that doesn't work, fall back to `tinymce.activeEditor.id`.
-			if ( ! id && typeof tinymce !== 'undefined' && tinymce.activeEditor ) {
+			if ( ! id && ! _.isUndefined( tinymce ) && tinymce.activeEditor ) {
 				id = tinymce.activeEditor.id;
 			}
 
@@ -929,7 +929,7 @@
 			id = this.id( id );
 /*
 			// Save a bookmark of the caret position in IE.
-			if ( typeof tinymce !== 'undefined' ) {
+			if ( ! _.isUndefined( tinymce ) ) {
 				editor = tinymce.get( id );
 
 				if ( tinymce.isIE && editor && ! editor.isHidden() ) {
