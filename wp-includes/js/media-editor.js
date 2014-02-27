@@ -396,6 +396,10 @@
 
 			if ( -1 !== jQuery.inArray( prop, ['playlist', 'video-playlist'] ) ) {
 				_.each(['tracknumbers', 'tracklist', 'images', 'artists'], function (setting) {
+					if ( 'undefined' === typeof attrs[ '_' + setting ] ) {
+						attrs[ '_' + setting ] = wp.media[ prop ].defaults[ setting ];
+					}
+
 					if ( attrs['_' + setting] ) {
 						attrs[setting] = true;
 					} else {
