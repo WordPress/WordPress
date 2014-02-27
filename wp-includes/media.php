@@ -2053,16 +2053,14 @@ function wp_plupload_default_settings() {
 	$max_upload_size = wp_max_upload_size();
 
 	$defaults = array(
-		'runtimes'            => 'html5,silverlight,flash,html4',
+		'runtimes'            => 'flash,html4', // html5,silverlight,
 		'file_data_name'      => 'async-upload', // key passed to $_FILE.
-		'multiple_queues'     => true,
-		'max_file_size'       => $max_upload_size . 'b',
 		'url'                 => admin_url( 'async-upload.php', 'relative' ),
-		'flash_swf_url'       => includes_url( 'js/plupload/plupload.flash.swf' ),
-		'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
-		'filters'             => array( array( 'title' => __( 'Allowed Files' ), 'extensions' => '*') ),
-		'multipart'           => true,
-		'urlstream_upload'    => true,
+		'flash_swf_url'       => includes_url( 'js/plupload/Moxie.swf' ),
+		'silverlight_xap_url' => includes_url( 'js/plupload/Moxie.xap' ),
+		'filters' => array(
+			'max_file_size'   => $max_upload_size . 'b',
+		),
 	);
 
 	// Multi-file uploading doesn't currently work in iOS Safari,

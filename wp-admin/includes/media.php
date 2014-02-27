@@ -1760,20 +1760,18 @@ $post_params = array(
 $post_params = apply_filters( 'upload_post_params', $post_params );
 
 $plupload_init = array(
-	'runtimes' => 'html5,silverlight,flash,html4',
-	'browse_button' => 'plupload-browse-button',
-	'container' => 'plupload-upload-ui',
-	'drop_element' => 'drag-drop-area',
-	'file_data_name' => 'async-upload',
-	'multiple_queues' => true,
-	'max_file_size' => $max_upload_size . 'b',
-	'url' => $upload_action_url,
-	'flash_swf_url' => includes_url('js/plupload/plupload.flash.swf'),
-	'silverlight_xap_url' => includes_url('js/plupload/plupload.silverlight.xap'),
-	'filters' => array( array('title' => __( 'Allowed Files' ), 'extensions' => '*') ),
-	'multipart' => true,
-	'urlstream_upload' => true,
-	'multipart_params' => $post_params
+	'runtimes'            => 'html5,silverlight,flash,html4',
+	'browse_button'       => 'plupload-browse-button',
+	'container'           => 'plupload-upload-ui',
+	'drop_element'        => 'drag-drop-area',
+	'file_data_name'      => 'async-upload',
+	'url'                 => $upload_action_url,
+	'flash_swf_url'       => includes_url( 'js/plupload/Moxie.swf' ),
+	'silverlight_xap_url' => includes_url( 'js/plupload/Moxie.xap' ),
+	'filters' => array(
+		'max_file_size'   => $max_upload_size . 'b',
+	),
+	'multipart_params'    => $post_params,
 );
 
 // Multi-file uploading doesn't currently work in iOS Safari,
@@ -1860,9 +1858,6 @@ do_action( 'post-html-upload-ui' );
 
 <span class="max-upload-size"><?php printf( __( 'Maximum upload file size: %d%s.' ), esc_html($upload_size_unit), esc_html($sizes[$u]) ); ?></span>
 <?php
-if ( ($is_IE || $is_opera) && $max_upload_size > 100 * 1024 * 1024 ) { ?>
-	<span class="big-file-warning"><?php _e('Your browser has some limitations uploading large files with the multi-file uploader. Please use the browser uploader for files over 100MB.'); ?></span>
-<?php }
 
 	/**
 	 * Fires on the post upload UI screen.
