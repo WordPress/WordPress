@@ -2,13 +2,13 @@
 
 // WordPress, TinyMCE, and Media
 // -----------------------------
-(function($){
+(function($, _){
 	/**
 	 * Stores the editors' `wp.media.controller.Frame` instances.
 	 *
 	 * @static
 	 */
-	var workflows = {}, cache = {};
+	var workflows = {};
 
 	/**
 	 * wp.media.string
@@ -274,39 +274,35 @@
 		}
 	};
 
-	/**
-	 * wp.media.collection
-	 * @namespace
-	 */
-	wp.media.collection = {
-		attachments : function ( prop, type ) {
-			/**
-			 * Retrieve attachments based on the properties of the passed shortcode
-			 *
-			 * @global wp.media.query
-			 *
-			 * @param {wp.shortcode} shortcode An instance of wp.shortcode().
-			 * @returns {wp.media.model.Attachments} A Backbone.Collection containing
-			 *      the media items belonging to a collection.
-			 *      The 'prop' specified by the passed prop is a Backbone.Model
-			 *			containing the 'props' for the gallery.
-			 */
-			return function( shortcode ) {
+	wp.media.collection = function(attributes) {
+		var collections = {};
+
+		return _.extend( attributes, {
+			coerce: function ( attrs, key ) {
+				if ( 'undefined' === typeof attrs[ key ] && 'undefined' !== typeof this.defaults[ key ] ) {
+					attrs[ key ] = this.defaults[ key ];
+				} else if ( 'true' === attrs[ key ] ) {
+					attrs[ key ] = true;
+				} else if ( 'false' === attrs[ key ] ) {
+					attrs[ key ] = false;
+				}
+				return attrs[ key ];
+			},
+
+			attachments: function( shortcode ) {
 				var shortcodeString = shortcode.string(),
-					result = cache[ shortcodeString ],
-					attrs, args, query, others;
+					result = collections[ shortcodeString ],
+					attrs, args, query, others, self = this;
 
-				delete cache[ shortcodeString ];
-
+				delete collections[ shortcodeString ];
 				if ( result ) {
 					return result;
 				}
-
 				// Fill the default shortcode attributes.
 				attrs = _.defaults( shortcode.attrs.named, this.defaults );
 				args  = _.pick( attrs, 'orderby', 'order' );
 
-				args.type = type;
+				args.type    = this.type;
 				args.perPage = -1;
 
 				// Mark the `orderby` override attribute.
@@ -316,16 +312,6 @@
 
 				if ( 'rand' === attrs.orderby ) {
 					attrs._orderbyRandom = true;
-				}
-
-				if ( -1 !== jQuery.inArray( prop, ['playlist', 'video-playlist'] ) ) {
-					_.each(['tracknumbers', 'tracklist', 'images', 'artists'], function (setting) {
-						if ( 'undefined' === typeof attrs[setting] ) {
-							attrs['_' + setting] = wp.media[ prop ].defaults[ setting ];
-						} else if ( 'true' === attrs[setting] || true === attrs[setting] ) {
-							attrs['_' + setting] = true;
-						}
-					});
 				}
 
 				// Map the `orderby` attribute to the corresponding model property.
@@ -352,250 +338,173 @@
 				// Collect the attributes that were not included in `args`.
 				others = _.omit( attrs, 'id', 'ids', 'include', 'exclude', 'orderby', 'order' );
 
-				query = wp.media.query( args );
-				query[ prop ] = new Backbone.Model( others );
-				return query;
-			};
-		},
-
-		shortcodeAttrs : function ( prop, attachments ) {
-			var props = attachments.props.toJSON(),
-				attrs = _.pick( props, 'orderby', 'order', 'style' );
-
-			if ( attachments[ prop ] ) {
-				_.extend( attrs, attachments[ prop ].toJSON() );
-			}
-
-			// Convert all collection shortcodes to use the `ids` property.
-			// Ignore `post__in` and `post__not_in`; the attachments in
-			// the collection will already reflect those properties.
-			attrs.ids = attachments.pluck('id');
-
-			// Copy the `uploadedTo` post ID.
-			if ( props.uploadedTo ) {
-				attrs.id = props.uploadedTo;
-			}
-
-			// Check if the collection is randomly ordered.
-			delete attrs.orderby;
-
-			if ( attrs._orderbyRandom ) {
-				attrs.orderby = 'rand';
-			} else if ( attrs._orderByField && attrs._orderByField != 'rand' ) {
-				attrs.orderby = attrs._orderByField;
-			}
-
-			delete attrs._orderbyRandom;
-			delete attrs._orderByField;
-
-			// If the `ids` attribute is set and `orderby` attribute
-			// is the default value, clear it for cleaner output.
-			if ( attrs.ids && 'post__in' === attrs.orderby ) {
-				delete attrs.orderby;
-			}
-
-			if ( -1 !== jQuery.inArray( prop, ['playlist', 'video-playlist'] ) ) {
-				_.each(['tracknumbers', 'tracklist', 'images', 'artists'], function (setting) {
-					if ( 'undefined' === typeof attrs[ '_' + setting ] ) {
-						attrs[ '_' + setting ] = wp.media[ prop ].defaults[ setting ];
-					}
-
-					if ( attrs['_' + setting] ) {
-						attrs[setting] = true;
-					} else {
-						attrs[setting] = false;
-					}
-					delete attrs['_' + setting];
+				// Remove default attributes from the shortcode.
+				_.each( this.defaults, function( value, key ) {
+					others[ key ] = self.coerce( others, key );
 				});
-			}
 
-			// Remove default attributes from the shortcode.
-			_.each( wp.media[prop].defaults, function( value, key ) {
-				if ( value === attrs[ key ] ) {
-					delete attrs[ key ];
+				query = wp.media.query( args );
+				query[ this.tag ] = new Backbone.Model( others );
+				return query;
+			},
+
+			shortcode: function( attachments ) {
+				var props = attachments.props.toJSON(),
+					attrs = _.pick( props, 'orderby', 'order' ),
+					shortcode, clone, self = this;
+
+				if ( attachments[this.tag] ) {
+					_.extend( attrs, attachments[this.tag].toJSON() );
 				}
-			});
-			return attrs;
-		},
+				// Convert all gallery shortcodes to use the `ids` property.
+				// Ignore `post__in` and `post__not_in`; the attachments in
+				// the collection will already reflect those properties.
+				attrs.ids = attachments.pluck('id');
 
-		editSelection : function ( prop, shortcode ) {
-			var defaultPostId = wp.media[ prop ].defaults.id,
-				attachments, selection;
+				// Copy the `uploadedTo` post ID.
+				if ( props.uploadedTo ) {
+					attrs.id = props.uploadedTo;
+				}
+				// Check if the gallery is randomly ordered.
+				delete attrs.orderby;
 
-			// Ignore the rest of the match object.
-			shortcode = shortcode.shortcode;
+				if ( attrs._orderbyRandom ) {
+					attrs.orderby = 'rand';
+				} else if ( attrs._orderByField && attrs._orderByField != 'rand' ) {
+					attrs.orderby = attrs._orderByField;
+				}
 
-			if ( _.isUndefined( shortcode.get('id') ) && ! _.isUndefined( defaultPostId ) ) {
-				shortcode.set( 'id', defaultPostId );
-			}
+				delete attrs._orderbyRandom;
+				delete attrs._orderByField;
 
-			attachments = wp.media[ prop ].attachments( shortcode );
+				// If the `ids` attribute is set and `orderby` attribute
+				// is the default value, clear it for cleaner output.
+				if ( attrs.ids && 'post__in' === attrs.orderby ) {
+					delete attrs.orderby;
+				}
 
-			selection = new wp.media.model.Selection( attachments.models, {
-				props:    attachments.props.toJSON(),
-				multiple: true
-			});
-
-			selection[ prop ] = attachments[ prop ];
-
-			// Fetch the query's attachments, and then break ties from the
-			// query to allow for sorting.
-			selection.more().done( function() {
-				// Break ties with the query.
-				selection.props.set({ query: false });
-				selection.unmirror();
-				selection.props.unset('orderby');
-			});
-
-			return selection;
-		},
-
-		/**
-		 *
-		 * @param {string} prop The shortcode slug
-		 * @param {wp.media.model.Attachments} attachments
-		 * @param {wp.shortcode} shortcode
-		 * @returns {wp.shortcode}
-		 */
-		cacheShortcode : function ( prop, attachments, shortcode ) {
-			// Use a cloned version of the playlist.
-			var clone = new wp.media.model.Attachments( attachments.models, {
-				props: attachments.props.toJSON()
-			});
-			clone[ prop ] = attachments[ prop ];
-			cache[ shortcode.string() ] = clone;
-
-			return shortcode;
-		},
-
-		getEditFrame : function ( args ) {
-			// Destroy the previous gallery frame.
-			if ( this.frame ) {
-				this.frame.dispose();
-			}
-
-			// Store the current gallery frame.
-			this.frame = wp.media( _.extend( {
-				frame:     'post',
-				editing:   true,
-				multiple:  true
-			}, args ) ).open();
-
-			return this.frame;
-		},
-
-		instance : function ( prop, args ) {
-			return {
-				attachments: this.attachments( prop, args.type ),
-				/**
-				 * Triggered when clicking 'Insert {label}' or 'Update {label}'
-				 *
-				 * @global wp.shortcode
-				 * @global wp.media.model.Attachments
-				 *
-				 * @param {wp.media.model.Attachments} attachments A Backbone.Collection containing
-				 *      the media items belonging to a collection.
-				 *      The 'prop' specified by the passed prop is a Backbone.Model
-				 *			containing the 'props' for the gallery.
-				 * @returns {wp.shortcode}
-				 */
-				shortcode: function( attachments ) {
-					var shortcode = new wp.shortcode({
-						tag: prop,
-						attrs: wp.media.collection.shortcodeAttrs( prop, attachments ),
-						type: 'single'
-					});
-
-					return wp.media.collection.cacheShortcode( prop, attachments, shortcode );
-				},
-				/**
-				 * Triggered when double-clicking a collection shortcode placeholder
-				 *   in the editor
-				 *
-				 * @global wp.shortcode
-				 * @global wp.media.model.Selection
-				 * @global wp.media.view.l10n
-				 *
-				 * @param {string} content Content that is searched for possible
-				 *    shortcode markup matching the passed tag name,
-				 *
-				 * @this wp.media.{prop}
-				 *
-				 * @returns {wp.media.view.MediaFrame.Select} A media workflow.
-				 */
-				edit: function( content ) {
-					var shortcode = wp.shortcode.next( prop, content );
-
-					// Bail if we didn't match the shortcode or all of the content.
-					if ( ! shortcode || shortcode.content !== content ) {
-						return;
+				// Remove default attributes from the shortcode.
+				_.each( this.defaults, function( value, key ) {
+					attrs[ key ] = self.coerce( attrs, key );
+					if ( value === attrs[ key ] ) {
+						delete attrs[ key ];
 					}
+				});
 
-					return wp.media.collection.getEditFrame( {
-						title: args.title,
-						state: prop + '-edit',
-						selection:	wp.media.collection.editSelection( prop, shortcode )
-					} );
+				shortcode = new wp.shortcode({
+					tag:    this.tag,
+					attrs:  attrs,
+					type:   'single'
+				});
+
+				// Use a cloned version of the gallery.
+				clone = new wp.media.model.Attachments( attachments.models, {
+					props: props
+				});
+				clone[ this.tag ] = attachments[ this.tag ];
+				collections[ shortcode.string() ] = clone;
+
+				return shortcode;
+			},
+
+			edit: function( content ) {
+				var shortcode = wp.shortcode.next( this.tag, content ),
+					defaultPostId = this.defaults.id,
+					attachments, selection;
+
+				// Bail if we didn't match the shortcode or all of the content.
+				if ( ! shortcode || shortcode.content !== content ) {
+					return;
 				}
-			};
-		}
+
+				// Ignore the rest of the match object.
+				shortcode = shortcode.shortcode;
+
+				if ( _.isUndefined( shortcode.get('id') ) && ! _.isUndefined( defaultPostId ) ) {
+					shortcode.set( 'id', defaultPostId );
+				}
+
+				attachments = this.attachments( shortcode );
+
+				selection = new wp.media.model.Selection( attachments.models, {
+					props:    attachments.props.toJSON(),
+					multiple: true
+				});
+
+				selection[ this.tag ] = attachments[ this.tag ];
+
+				// Fetch the query's attachments, and then break ties from the
+				// query to allow for sorting.
+				selection.more().done( function() {
+					// Break ties with the query.
+					selection.props.set({ query: false });
+					selection.unmirror();
+					selection.props.unset('orderby');
+				});
+
+				// Destroy the previous gallery frame.
+				if ( this.frame ) {
+					this.frame.dispose();
+				}
+
+				// Store the current gallery frame.
+				this.frame = wp.media({
+					frame:     'post',
+					state:     this.tag + '-edit',
+					title:     this.editTitle,
+					editing:   true,
+					multiple:  true,
+					selection: selection
+				}).open();
+
+				return this.frame;
+			}
+		});
 	};
 
-	wp.media.gallery = (function() {
-		var gallery = {
-			defaults : {
-				itemtag: 'dl',
-				icontag: 'dt',
-				captiontag: 'dd',
-				columns: '3',
-				link: 'post',
-				size: 'thumbnail',
-				order: 'ASC',
-				id: wp.media.view.settings.post.id,
-				orderby : 'menu_order ID'
-			}
-		};
+	wp.media.gallery = new wp.media.collection({
+		tag: 'gallery',
+		type : 'image',
+		editTitle : wp.media.view.l10n.editGalleryTitle,
+		defaults : {
+			itemtag: 'dl',
+			icontag: 'dt',
+			captiontag: 'dd',
+			columns: '3',
+			link: 'post',
+			size: 'thumbnail',
+			order: 'ASC',
+			id: wp.media.view.settings.post.id,
+			orderby : 'menu_order ID'
+		}
+	});
 
-		return _.extend(gallery, wp.media.collection.instance( 'gallery', {
-			type : 'image',
-			title : wp.media.view.l10n.editGalleryTitle
-		}));
-	}());
+	wp.media.playlist = new wp.media.collection({
+		tag: 'playlist',
+		type : 'audio',
+		editTitle : wp.media.view.l10n.editPlaylistTitle,
+		defaults : {
+			id: wp.media.view.settings.post.id,
+			style: 'light',
+			tracklist: true,
+			tracknumbers: true,
+			images: true,
+			artists: true
+		}
+	});
 
-	wp.media.playlist = (function() {
-		var playlist = {
-			defaults : {
-				id: wp.media.view.settings.post.id,
-				style: 'light',
-				tracklist: true,
-				tracknumbers: true,
-				images: true,
-				artists: true
-			}
-		};
-
-		return _.extend(playlist, wp.media.collection.instance( 'playlist', {
-			type : 'audio',
-			title : wp.media.view.l10n.editPlaylistTitle
-		}));
-	}());
-
-	wp.media['video-playlist'] = (function() {
-		var playlist = {
-			defaults : {
-				id: wp.media.view.settings.post.id,
-				style: 'light',
-				tracklist: false,
-				tracknumbers: false,
-				images: true
-			}
-		};
-
-		return _.extend(playlist, wp.media.collection.instance( 'video-playlist', {
-			type : 'video',
-			title : wp.media.view.l10n.editVideoPlaylistTitle
-		}));
-	}());
+	wp.media['video-playlist'] = new wp.media.collection( {
+		tag: 'video-playlist',
+		type : 'video',
+		editTitle : wp.media.view.l10n.editVideoPlaylistTitle,
+		defaults : {
+			id: wp.media.view.settings.post.id,
+			style: 'light',
+			tracklist: false,
+			tracknumbers: false,
+			images: true
+		}
+	} );
 
 	/**
 	 * wp.media.featuredImage
@@ -1083,4 +992,4 @@
 
 	_.bindAll( wp.media.editor, 'open' );
 	$( wp.media.editor.init );
-}(jQuery));
+}(jQuery, _));
