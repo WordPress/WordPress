@@ -1713,11 +1713,11 @@ function wp_ajax_set_post_thumbnail() {
 }
 
 function wp_ajax_date_format() {
-	wp_die( date_i18n( sanitize_option( 'date_format', $_POST['date'] ) ) );
+	wp_die( date_i18n( sanitize_option( 'date_format', wp_unslash( $_POST['date'] ) ) ) );
 }
 
 function wp_ajax_time_format() {
-	wp_die( date_i18n( sanitize_option( 'time_format', $_POST['date'] ) ) );
+	wp_die( date_i18n( sanitize_option( 'time_format', wp_unslash( $_POST['date'] ) ) ) );
 }
 
 function wp_ajax_wp_fullscreen_save_post() {
