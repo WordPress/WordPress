@@ -314,11 +314,15 @@ function wp_doc_link_parse( $content ) {
 		return array();
 
 	$tokens = token_get_all( $content );
+	$count = count( $tokens );
 	$functions = array();
 	$ignore_functions = array();
-	for ( $t = 0, $count = count( $tokens ); $t < $count; $t++ ) {
-		if ( !is_array( $tokens[$t] ) ) continue;
-		if ( T_STRING == $tokens[$t][0] && ( '(' == $tokens[ $t + 1 ] || '(' == $tokens[ $t + 2 ] ) ) {
+	for ( $t = 0; $t < $count - 2; $t++ ) {
+		if ( ! is_array( $tokens[ $t ] ) ) {
+			continue;
+		}
+
+		if ( T_STRING == $tokens[ $t ][0] && ( '(' == $tokens[ $t + 1 ] || '(' == $tokens[ $t + 2 ] ) ) {
 			// If it's a function or class defined locally, there's not going to be any docs available
 			if ( ( isset( $tokens[ $t - 2 ][1] ) && in_array( $tokens[ $t - 2 ][1], array( 'function', 'class' ) ) ) || ( isset( $tokens[ $t - 2 ][0] ) && T_OBJECT_OPERATOR == $tokens[ $t - 1 ][0] ) ) {
 				$ignore_functions[] = $tokens[$t][1];
