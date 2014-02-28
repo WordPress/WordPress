@@ -217,7 +217,7 @@ function timer_start() {
  *
  * @param int $display Use '0' or null to not echo anything and 1 to echo the total time
  * @param int $precision The amount of digits from the right of the decimal to display. Default is 3.
- * @return float The "second.microsecond" finished time calculation
+ * @return string The "second.microsecond" finished time calculation. The number is formatted for human consumption, it is both localized and rounded.
  */
 function timer_stop( $display = 0, $precision = 3 ) { // if called like timer_stop(1), will echo $timetotal
 	global $timestart, $timeend;
