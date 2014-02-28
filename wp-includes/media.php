@@ -1058,7 +1058,13 @@ function wp_get_playlist( $attr, $type ) {
 		|| $images;
 
 	$outer = 22; // default padding and border of wrapper
+
+	$default_width = 640;
+	$default_height = 360;
+
 	$theme_width = $content_width - $outer;
+	$theme_height = round( ( $default_height * $theme_width ) / $default_width );
+
 	$data = compact( 'type', 'style' );
 
 	// don't pass strings to JSON, will be truthy in JS
@@ -1090,9 +1096,15 @@ function wp_get_playlist( $attr, $type ) {
 			}
 
 			if ( 'video' === $type ) {
-				$width = empty( $meta['width'] ) ? 640 : $meta['width'];
-				$height = empty( $meta['height'] ) ? 360 : $meta['height'];
-				$theme_height = round( ( $height * $theme_width ) / $width );
+				if ( ! empty( $meta['width'] ) && ! empty( $meta['height'] ) ) {
+					$width = $meta['width'];
+					$height = $meta['height'];
+					$theme_height = round( ( $height * $theme_width ) / $width );
+				} else {
+					$width = $default_width;
+					$height = $default_height;
+				}
+
 				$track['dimensions'] = array(
 					'original' => compact( 'width', 'height' ),
 					'resized' => array(
@@ -1165,7 +1177,11 @@ function wp_get_playlist( $attr, $type ) {
 	<?php if ( 'audio' === $type ): ?>
 	<div class="wp-playlist-current-item"></div>
 	<?php endif ?>
-	<<?php echo $safe_type ?> controls="controls" preload="metadata" width="<?php echo (int) $theme_width ?>"></<?php echo $safe_type ?>>
+	<<?php echo $safe_type ?> controls="controls" preload="metadata" width="<?php
+		echo (int) $theme_width;
+	?>"<?php if ( 'video' === $safe_type ):
+		echo ' height="', (int) $theme_height, '"';
+	endif; ?>></<?php echo $safe_type ?>>
 	<div class="wp-playlist-next"></div>
 	<div class="wp-playlist-prev"></div>
 	<noscript>
@@ -1444,8 +1460,8 @@ function wp_video_shortcode( $attr, $content = '' ) {
 		'loop'     => '',
 		'autoplay' => '',
 		'preload'  => 'metadata',
+		'width'    => 640,
 		'height'   => 360,
-		'width'    => empty( $content_width ) ? 640 : $content_width,
 	);
 
 	foreach ( $default_types as $type )
@@ -1454,17 +1470,19 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	$atts = shortcode_atts( $defaults_atts, $attr, 'video' );
 	extract( $atts );
 
-	$w = $width;
-	$h = $height;
-	if ( is_admin() && $width > 600 )
-		$w = 600;
-	elseif ( ! is_admin() && $w > $defaults_atts['width'] )
-		$w = $defaults_atts['width'];
-
-	if ( $w < $width )
-		$height = round( ( $h * $w ) / $width );
-
-	$width = $w;
+	if ( is_admin() ) {
+		// shrink the video so it isn't huge in the admin
+		if ( $width > $defaults_atts['width'] ) {
+			$height = round( ( $height * $defaults_atts['width'] ) / $width );
+			$width = $defaults_atts['width'];
+		}
+	} else {
+		// if the video is bigger than the theme
+		if ( $width > $content_width ) {
+			$height = round( ( $height * $content_width ) / $width );
+			$width = $content_width;
+		}
+	}
 
 	$yt_pattern = '#^https?://(:?www\.)?(:?youtube\.com/watch|youtu\.be/)#';
 
@@ -1545,9 +1563,6 @@ function wp_video_shortcode( $attr, $content = '' ) {
 				$type = array( 'type' => 'video/youtube' );
 			} else {
 				$type = wp_check_filetype( $$fallback, wp_get_mime_types() );
-				// m4v sometimes shows up as video/mpeg which collides with mp4
-				if ( 'm4v' === $type['ext'] )
-					$type['type'] = 'video/m4v';
 			}
 			$html .= sprintf( $source, $type['type'], esc_url( $$fallback ) );
 		}

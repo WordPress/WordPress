@@ -640,6 +640,15 @@ span.imgedit-scale-warn {
 	padding: 2px 10px;
 }
 
+audio, video {
+	display: inline-block;
+	max-width: 100%;
+}
+
+.mejs-container {
+	width: 100%;
+}
+
 /* =Media Queries
 -------------------------------------------------------------- */
 

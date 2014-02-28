@@ -2640,20 +2640,17 @@ function edit_form_image_editor( $post ) {
 		maybe_regenerate_attachment_metadata( $post );
 
 		$meta = wp_get_attachment_metadata( $attachment_id );
-		$w = ! empty( $meta['width'] ) ? min( $meta['width'], 600 ) : 0;
-		$h = 0;
-		if ( ! empty( $meta['height'] ) )
-			$h = $meta['height'];
-		if ( $h && $w < $meta['width'] )
+		$w = ! empty( $meta['width'] ) ? min( $meta['width'], 640 ) : 0;
+		$h = ! empty( $meta['height'] ) ? $meta['height'] : 0;
+		if ( $h && $w < $meta['width'] ) {
 			$h = round( ( $meta['height'] * $w ) / $meta['width'] );
+		}
 
 		$attr = array( 'src' => $att_url );
-
-		if ( ! empty( $meta['width' ] ) )
+		if ( ! empty( $w ) && ! empty( $h ) ) {
 			$attr['width'] = $w;
-
-		if ( ! empty( $meta['height'] ) )
 			$attr['height'] = $h;
+		}
 
 		echo wp_video_shortcode( $attr );
 
