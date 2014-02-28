@@ -83,16 +83,23 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		foreach ( (array) $plugins['all'] as $plugin_file => $plugin_data ) {
 			// Filter into individual sections
-			if ( is_multisite() && ! $screen->in_admin( 'network' ) && is_network_only_plugin( $plugin_file ) ) {
+			if ( is_multisite() && ! $screen->in_admin( 'network' ) && is_network_only_plugin( $plugin_file ) && ! is_plugin_active( $plugin_file ) ) {
+				// On the non-network screen, filter out network-only plugins as long as they're not individually activated
 				unset( $plugins['all'][ $plugin_file ] );
 			} elseif ( ! $screen->in_admin( 'network' ) && is_plugin_active_for_network( $plugin_file ) ) {
+				// On the non-network screen, filter out network activated plugins
 				unset( $plugins['all'][ $plugin_file ] );
 			} elseif ( ( ! $screen->in_admin( 'network' ) && is_plugin_active( $plugin_file ) )
 				|| ( $screen->in_admin( 'network' ) && is_plugin_active_for_network( $plugin_file ) ) ) {
+				// On the non-network screen, populate the active list with plugins that are individually activated
+				// On the network-admin screen, populate the active list with plugins that are network activated
 				$plugins['active'][ $plugin_file ] = $plugin_data;
 			} else {
-				if ( ! $screen->in_admin( 'network' ) && isset( $recently_activated[ $plugin_file ] ) ) // Was the plugin recently activated?
+				if ( ! $screen->in_admin( 'network' ) && isset( $recently_activated[ $plugin_file ] ) ) {
+					// On the non-network screen, populate the recently activated list with plugins that have been recently activated
 					$plugins['recently_activated'][ $plugin_file ] = $plugin_data;
+				}
+				// Populate the inactive list with plugins that aren't activated
 				$plugins['inactive'][ $plugin_file ] = $plugin_data;
 			}
 		}
