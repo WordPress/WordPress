@@ -99,7 +99,7 @@ if ( !defined('ABSPATH') )
 
 <div class="misc-pub-section curtime misc-pub-curtime">
 <?php
-// translators: Publish box date format, see http://php.net/date
+/* translators: Publish box date format, see http://php.net/date */
 $datef = __( 'M j, Y @ G:i' );
 $stamp = __('Submitted on: <b>%1$s</b>');
 $date = date_i18n( $datef, strtotime( $comment->comment_date ) );

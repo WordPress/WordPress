@@ -158,7 +158,7 @@ echo esc_html( $visibility_trans ); ?></span>
 </div><!-- .misc-pub-section -->
 
 <?php
-// translators: Publish box date format, see http://php.net/date
+/* translators: Publish box date format, see http://php.net/date */
 $datef = __( 'M j, Y @ G:i' );
 if ( 0 != $post->ID ) {
 	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
@@ -294,7 +294,7 @@ function attachment_submit_meta_box( $post ) {
 
 <div id="misc-publishing-actions">
 	<?php
-	// translators: Publish box date format, see http://php.net/date
+	/* translators: Publish box date format, see http://php.net/date */
 	$datef = __( 'M j, Y @ G:i' );
 	$stamp = __('Uploaded on: <b>%1$s</b>');
 	$date = date_i18n( $datef, strtotime( $post->post_date ) );
