@@ -889,7 +889,7 @@ class Walker_Category extends Walker {
 		}
 
 		if ( !empty($show_count) )
-			$link .= ' (' . intval($category->count) . ')';
+			$link .= ' (' . number_format_i18n( $category->count ) . ')';
 
 		if ( 'list' == $args['style'] ) {
 			$output .= "\t<li";
@@ -973,7 +973,7 @@ class Walker_CategoryDropdown extends Walker {
 		$output .= '>';
 		$output .= $pad.$cat_name;
 		if ( $args['show_count'] )
-			$output .= '&nbsp;&nbsp;('. $category->count .')';
+			$output .= '&nbsp;&nbsp;('. number_format_i18n( $category->count ) .')';
 		$output .= "</option>\n";
 	}
 }
