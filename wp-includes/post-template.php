@@ -719,10 +719,10 @@ function _wp_link_page( $i ) {
 			'preview' => 'true'
 		), $url );
 
-		if ( 'draft' !== $post->post_status ) {
+		if ( ( 'draft' !== $post->post_status ) && isset( $_GET['preview_id'], $_GET['preview_nonce'] ) ) {
 			$url = add_query_arg( array(
-				'preview_id'    => $post->ID,
-				'preview_nonce' => wp_create_nonce( 'post_preview_' . $post->ID )
+				'preview_id'    => wp_unslash( $_GET['preview_id'] ),
+				'preview_nonce' => wp_unslash( $_GET['preview_nonce'] )
 			), $url );
 		}
 	}
