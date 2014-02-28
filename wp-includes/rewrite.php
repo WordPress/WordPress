@@ -250,10 +250,11 @@ define( 'EP_ALL', EP_PERMALINK | EP_ATTACHMENT | EP_ROOT | EP_COMMENTS | EP_SEAR
  *
  * @param string $name Name of the endpoint.
  * @param int $places Endpoint mask describing the places the endpoint should be added.
+ * @param string $query_var Name of the corresponding query variable. Defaults to $name.
  */
-function add_rewrite_endpoint( $name, $places ) {
+function add_rewrite_endpoint( $name, $places, $query_var = null ) {
 	global $wp_rewrite;
-	$wp_rewrite->add_endpoint( $name, $places );
+	$wp_rewrite->add_endpoint( $name, $places, $query_var );
 }
 
 /**
@@ -1265,7 +1266,7 @@ class WP_Rewrite {
 				//match everything after the endpoint name, but allow for nothing to appear there
 				$epmatch = $endpoint[1] . '(/(.*))?/?$';
 				//this will be appended on to the rest of the query for each dir
-				$epquery = '&' . $endpoint[1] . '=';
+				$epquery = '&' . $endpoint[2] . '=';
 				$ep_query_append[$epmatch] = array ( $endpoint[0], $epquery );
 			}
 		}
@@ -1822,16 +1823,21 @@ class WP_Rewrite {
 	 *
 	 * @see add_rewrite_endpoint()
 	 * @since 2.1.0
+	 * @since 3.9.0 $query_var parameter added.
 	 * @access public
 	 * @uses WP::add_query_var()
 	 *
 	 * @param string $name Name of the endpoint.
 	 * @param int $places Endpoint mask describing the places the endpoint should be added.
+	 * @param string $query_var Name of the corresponding query variable. Defaults to $name.
 	 */
-	function add_endpoint($name, $places) {
+	function add_endpoint( $name, $places, $query_var = null ) {
 		global $wp;
-		$this->endpoints[] = array ( $places, $name );
-		$wp->add_query_var($name);
+		if ( null === $query_var ) {
+			$query_var = $name;
+		}
+		$this->endpoints[] = array( $places, $name, $query_var );
+		$wp->add_query_var( $query_var );
 	}
 
 	/**
