@@ -175,7 +175,7 @@ add_action( 'save_post',     'twentyfourteen_category_transient_flusher' );
  * @return void
 */
 function twentyfourteen_post_thumbnail() {
-	if ( post_password_required() || ! has_post_thumbnail() ) {
+	if ( post_password_required() || is_attachment() || ! has_post_thumbnail() ) {
 		return;
 	}
 
