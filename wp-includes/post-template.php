@@ -714,6 +714,19 @@ function _wp_link_page( $i ) {
 			$url = trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged');
 	}
 
+	if ( is_preview() ) {
+		$url = add_query_arg( array(
+			'preview' => 'true'
+		), $url );
+
+		if ( 'draft' !== $post->post_status ) {
+			$url = add_query_arg( array(
+				'preview_id'    => $post->ID,
+				'preview_nonce' => wp_create_nonce( 'post_preview_' . $post->ID )
+			), $url );
+		}
+	}
+
 	return '<a href="' . esc_url( $url ) . '">';
 }
 
