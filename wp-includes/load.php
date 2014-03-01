@@ -196,30 +196,21 @@ function timer_start() {
 }
 
 /**
- * Return and/or display the time from the page start to when function is called.
- *
- * You can get the results and print them by doing:
- * <code>
- * $nTimePageTookToExecute = timer_stop();
- * echo $nTimePageTookToExecute;
- * </code>
- *
- * Or instead, you can do:
- * <code>
- * timer_stop(1);
- * </code>
- * which will do what the above does. If you need the result, you can assign it to a variable, but
- * in most cases, you only need to echo it.
+ * Retrieve or display the time from the page start to when function is called.
  *
  * @since 0.71
- * @global float $timestart Seconds from when timer_start() is called
- * @global float $timeend Seconds from when function is called
  *
- * @param int $display Use '0' or null to not echo anything and 1 to echo the total time
- * @param int $precision The amount of digits from the right of the decimal to display. Default is 3.
- * @return string The "second.microsecond" finished time calculation. The number is formatted for human consumption, it is both localized and rounded.
+ * @global float $timestart Seconds from when timer_start() is called.
+ * @global float $timeend   Seconds from when function is called.
+ *
+ * @param int $display   Whether to echo or return the results. Accepts 0|false for return,
+ *                       1|true for echo. Default 0|false.
+ * @param int $precision The number of digits from the right of the decimal to display.
+ *                       Default 3.
+ * @return string The "second.microsecond" finished time calculation. The number is formatted
+ *                for human consumption, both localized and rounded.
  */
-function timer_stop( $display = 0, $precision = 3 ) { // if called like timer_stop(1), will echo $timetotal
+function timer_stop( $display = 0, $precision = 3 ) {
 	global $timestart, $timeend;
 	$timeend = microtime( true );
 	$timetotal = $timeend - $timestart;
