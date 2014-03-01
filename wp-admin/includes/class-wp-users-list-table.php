@@ -217,6 +217,12 @@ class WP_Users_List_Table extends WP_List_Table {
 			submit_button( __( 'Change' ), 'button', 'changeit', false );
 		endif;
 
+		/**
+		 * Fires just before the closing div containing the buik role-change controls
+		 * in the Users list table.
+		 *
+		 * @since 3.5.0
+		 */
 		do_action( 'restrict_manage_users' );
 		echo '</div>';
 	}
@@ -363,6 +369,15 @@ class WP_Users_List_Table extends WP_List_Table {
 				$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url( "users.php?action=delete&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Delete' ) . "</a>";
 			if ( is_multisite() && get_current_user_id() != $user_object->ID && current_user_can( 'remove_user', $user_object->ID ) )
 				$actions['remove'] = "<a class='submitdelete' href='" . wp_nonce_url( $url."action=remove&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Remove' ) . "</a>";
+
+			/**
+			 * Filter user row actions for a single row in the Users list table.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param array   $actions     Array of row actions actions.
+			 * @param WP_User $user_object WP_User object for the currently-listed user.
+			 */
 			$actions = apply_filters( 'user_row_actions', $actions, $user_object );
 			$edit .= $this->row_actions( $actions );
 
@@ -419,6 +434,16 @@ class WP_Users_List_Table extends WP_List_Table {
 					break;
 				default:
 					$r .= "<td $attributes>";
+
+					/**
+					 * Filter display output of custom columns in the Users list table.
+					 *
+					 * @since 2.8.0
+					 *
+					 * @param string $output Custom column output. Default empty.
+					 * @param string $column_name Column name.
+					 * @param int    $user_id     ID of the currently-listed user.
+					 */
 					$r .= apply_filters( 'manage_users_custom_column', '', $column_name, $user_object->ID );
 					$r .= "</td>";
 			}
