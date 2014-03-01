@@ -1455,17 +1455,17 @@ function get_temp_dir() {
 		return trailingslashit(WP_TEMP_DIR);
 
 	if ( $temp )
-		return trailingslashit( rtrim( $temp, '\\' ) );
+		return trailingslashit( $temp );
 
 	if ( function_exists('sys_get_temp_dir') ) {
 		$temp = sys_get_temp_dir();
 		if ( @is_dir( $temp ) && wp_is_writable( $temp ) )
-			return trailingslashit( rtrim( $temp, '\\' ) );
+			return trailingslashit( $temp );
 	}
 
 	$temp = ini_get('upload_tmp_dir');
 	if ( @is_dir( $temp ) && wp_is_writable( $temp ) )
-		return trailingslashit( rtrim( $temp, '\\' ) );
+		return trailingslashit( $temp );
 
 	$temp = WP_CONTENT_DIR . '/';
 	if ( is_dir( $temp ) && wp_is_writable( $temp ) )
