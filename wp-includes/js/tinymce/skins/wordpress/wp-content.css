@@ -80,6 +80,8 @@ td {
 .mce-content-body img.mce-wp-nextpage,
 .mce-content-body img.mce-wp-more {
 	border: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 	width: 95%;
 	height: 10px;
 	display: block;
