@@ -748,7 +748,8 @@ function update_core($from, $to) {
 	apply_filters( 'update_feedback', __( 'Preparing to install the latest version&#8230;' ) );
 
 	// Don't copy wp-content, we'll deal with that below
-	$skip = array( 'wp-content' );
+	// We also copy version.php last so failed updates report their old version
+	$skip = array( 'wp-content', 'wp-includes/version.php' );
 	$check_is_writable = array();
 
 	// Check to see which files don't really need updating - only available for 3.7 and higher
@@ -809,6 +810,15 @@ function update_core($from, $to) {
 	$result = _copy_dir( $from . $distro, $to, $skip );
 	if ( is_wp_error( $result ) )
 		$result = new WP_Error( $result->get_error_code(), $result->get_error_message(), substr( $result->get_error_data(), strlen( $to ) ) );
+
+	// Since we know the core files have copied over, we can now copy the version file
+	if ( ! is_wp_error( $result ) ) {
+		if ( ! $r = $wp_filesystem->copy( $from . $distro . 'wp-includes/version.php', $to . 'wp-includes/version.php', true /* overwrite */ ) ) {
+			$wp_filesystem->delete( $from, true );
+			$result = new WP_Error( 'copy_failed_for_version_file', __( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' ), 'WTFwp-includes/version.php' );
+		}
+		$wp_filesystem->chmod( $to . 'wp-includes/version.php', FS_CHMOD_FILE );
+	}
 
 	// Check to make sure everything copied correctly, ignoring the contents of wp-content
 	$skip = array( 'wp-content' );
