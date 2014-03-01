@@ -2781,6 +2781,12 @@
 			dropzone = this.uploader.dropzone;
 			dropzone.on( 'dropzone:enter', _.bind( this.show, this ) );
 			dropzone.on( 'dropzone:leave', _.bind( this.hide, this ) );
+
+			$( this.uploader ).on( 'uploader:ready', _.bind( this._ready, this ) );
+		},
+
+		_ready: function() {
+			this.controller.trigger( 'uploader:ready' );
 		},
 
 		show: function() {
@@ -2803,6 +2809,103 @@
 					$el.hide();
 				}
 			});
+		}
+	});
+
+	/**
+	 * wp.media.view.EditorUploader
+	 *
+	 * @constructor
+	 * @augments wp.media.View
+	 * @augments wp.Backbone.View
+	 * @augments Backbone.View
+	 */
+	media.view.EditorUploader = media.View.extend({
+		tagName:   'div',
+		className: 'uploader-editor',
+		template:  media.template( 'uploader-editor' ),
+
+		events: {
+			'drop': 'drop',
+			'dragover': 'dropzoneDragover',
+			'dragleave': 'dropzoneDragleave',
+		},
+
+		initialize: function() {
+			this.files = [];
+			this.$document = $(document);
+			this.$document.on( 'dragover', _.bind( this.containerDragover, this ) );
+			this.$document.on( 'dragleave', _.bind( this.containerDragleave, this ) );
+			return this;
+		},
+
+		refresh: function() {
+			// Hide the dropzone only if dragging has left the screen.
+			return this.$el.toggle( this.overContainer || this.overDropzone );
+		},
+
+		render: function() {
+			media.View.prototype.render.apply( this, arguments );
+			$( '.edit-form-section' ).append( this.$el );
+			return this;
+		},
+
+		drop: function( event ) {
+			this.files = event.originalEvent.dataTransfer.files;
+			if ( this.files.length < 1 )
+				return;
+
+			this.containerDragleave();
+			this.dropzoneDragleave();
+
+			if ( ! this.workflow ) {
+				this.workflow = wp.media.editor.open( 'content', {
+					frame:    'post',
+					state:    'insert',
+					title:    wp.media.view.l10n.addMedia,
+					multiple: true
+				});
+				this.workflow.on( 'uploader:ready', this.addFiles, this );
+			} else {
+				this.workflow.state().reset();
+				this.addFiles.apply( this );
+				this.workflow.open();
+			}
+
+			return false;
+		},
+
+		addFiles: function() {
+			if ( this.files.length ) {
+				this.workflow.uploader.uploader.uploader.addFile( _.toArray( this.files ) );
+				this.files = [];
+			}
+			return this;
+		},
+
+		containerDragover: function() {
+			this.overContainer = true;
+			this.refresh();
+		},
+
+		containerDragleave: function() {
+			this.overContainer = false;
+
+			// Throttle dragleave because it's called when bouncing from some elements to others.
+			_.delay( _.bind( this.refresh, this ), 50 );
+		},
+
+		dropzoneDragover: function() {
+			this.$el.addClass( 'droppable' );
+			this.overDropzone = true;
+			_.defer( _.bind( this.refresh, this ) );
+			return false;
+		},
+
+		dropzoneDragleave: function() {
+			this.$el.removeClass( 'droppable' );
+			this.overDropzone = false;
+			this.refresh();
 		}
 	});
 

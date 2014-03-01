@@ -149,6 +149,8 @@ window.wp = window.wp || {};
 					dropzone.trigger('dropzone:leave').removeClass('drag-over');
 				}, 0 );
 			});
+
+			$(self).trigger( 'uploader:ready' );
 		});
 
 		this.uploader.init();

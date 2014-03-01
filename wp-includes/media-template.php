@@ -41,6 +41,12 @@ function wp_print_media_templates() {
 		</div>
 	</script>
 
+	<script type="text/html" id="tmpl-uploader-editor">
+		<div class="uploader-editor-content">
+			<h3><?php _e( 'Drop files to upload' ); ?></h3>
+		</div>
+	</script>
+
 	<script type="text/html" id="tmpl-uploader-inline">
 		<# var messageClass = data.message ? 'has-upload-message' : 'no-upload-message'; #>
 		<div class="uploader-inline-content {{ messageClass }}">

@@ -1030,6 +1030,9 @@
 
 				wp.media.editor.open( editor, options );
 			});
+
+			// Initialize and render the Editor drag-and-drop uploader.
+			new wp.media.view.EditorUploader().render();
 		}
 	};
 

@@ -593,7 +593,52 @@ span.wp-media-buttons-icon:before {
 }
 
 .edit-form-section {
-	margin-bottom: 20px;
+ 	margin-bottom: 20px;
+	position: relative;
+}
+
+.uploader-editor {
+	background: rgba( 150, 150, 150, 0.9 );
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 250000;
+	display: none;
+	text-align: center;
+}
+
+.uploader-editor-content {
+	border: 1px dashed #fff;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	right: 10px;
+	bottom: 10px;
+	pointer-events: none;
+}
+
+#poststuff .uploader-editor-content h3 {
+	margin: -0.5em 0 0;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	transform: translateY( -50% );
+	font-size: 40px;
+	color: #fff;
+	padding: 0;
+	display: none;
+	pointer-events: none;
+}
+
+.uploader-editor.droppable {
+	background: rgba( 0, 86, 132, 0.9 );
+}
+
+#poststuff .uploader-editor.droppable h3 {
+	display: block;
 }
 
 /* TinyMCE */
