@@ -1147,7 +1147,13 @@ class Walker_PageDropdown extends Walker {
 		if ( $page->ID == $args['selected'] )
 			$output .= ' selected="selected"';
 		$output .= '>';
-		$title = apply_filters( 'list_pages', $page->post_title, $page );
+
+		$title = $page->post_title;
+		if ( '' === $title ) {
+			$title = sprintf( __( '#%d (no title)' ), $page->ID );
+		}
+
+		$title = apply_filters( 'list_pages', $title, $page );
 		$output .= $pad . esc_html( $title );
 		$output .= "</option>\n";
 	}
