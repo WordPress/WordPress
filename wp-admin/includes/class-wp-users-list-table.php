@@ -218,7 +218,7 @@ class WP_Users_List_Table extends WP_List_Table {
 		endif;
 
 		/**
-		 * Fires just before the closing div containing the buik role-change controls
+		 * Fires just before the closing div containing the bulk role-change controls
 		 * in the Users list table.
 		 *
 		 * @since 3.5.0
@@ -371,11 +371,13 @@ class WP_Users_List_Table extends WP_List_Table {
 				$actions['remove'] = "<a class='submitdelete' href='" . wp_nonce_url( $url."action=remove&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Remove' ) . "</a>";
 
 			/**
-			 * Filter user row actions for a single row in the Users list table.
+			 * Filter the action links displayed under each user in the Users list table.
 			 *
 			 * @since 2.8.0
 			 *
-			 * @param array   $actions     Array of row actions actions.
+			 * @param array   $actions     An array of action links to be displayed.
+			 *                             Default 'Edit', 'Delete' for single site, and
+			 *                             'Edit', 'Remove' for Multisite.
 			 * @param WP_User $user_object WP_User object for the currently-listed user.
 			 */
 			$actions = apply_filters( 'user_row_actions', $actions, $user_object );
@@ -436,11 +438,11 @@ class WP_Users_List_Table extends WP_List_Table {
 					$r .= "<td $attributes>";
 
 					/**
-					 * Filter display output of custom columns in the Users list table.
+					 * Filter the display output of custom columns in the Users list table.
 					 *
 					 * @since 2.8.0
 					 *
-					 * @param string $output Custom column output. Default empty.
+					 * @param string $output      Custom column output. Default empty.
 					 * @param string $column_name Column name.
 					 * @param int    $user_id     ID of the currently-listed user.
 					 */
