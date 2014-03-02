@@ -1947,10 +1947,11 @@
 					text:     l10n.cancelPlaylistTitle,
 					priority: 20,
 					click:    function() {
-						if ( previous )
+						if ( previous ) {
 							frame.setState( previous );
-						else
+						} else {
 							frame.close();
+						}
 					}
 				},
 				separateCancel: new media.View({
@@ -1970,10 +1971,11 @@
 					text:     l10n.cancelVideoPlaylistTitle,
 					priority: 20,
 					click:    function() {
-						if ( previous )
+						if ( previous ) {
 							frame.setState( previous );
-						else
+						} else {
 							frame.close();
+						}
 					}
 				},
 				separateCancel: new media.View({
