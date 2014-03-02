@@ -797,8 +797,7 @@ final class _WP_Editors {
 		?>
 
 		( function() {
-			var init, edId, qtId, firstInit, override,
-				loadMCE = typeof getUserSetting !== 'undefined' ? getUserSetting( 'editor' ) === 'tinymce' : true;
+			var init, edId, qtId, firstInit, wrapper;
 
 			if ( typeof tinymce !== 'undefined' ) {
 				for ( edId in tinyMCEPreInit.mceInit ) {
@@ -808,10 +807,11 @@ final class _WP_Editors {
 						init = firstInit = tinyMCEPreInit.mceInit[edId];
 					}
 
-					override = tinymce.DOM.hasClass( tinymce.DOM.select( '#wp-' + edId + '-wrap' )[0], 'tmce-active' );
-					override = override || ! tinyMCEPreInit.qtInit.hasOwnProperty( edId );
+					wrapper = tinymce.DOM.select( '#wp-' + edId + '-wrap' )[0];
 
-					if ( ( loadMCE || override ) && ! init.wp_skip_init ) {
+					if ( ( tinymce.DOM.hasClass( wrapper, 'tmce-active' ) || ! tinyMCEPreInit.qtInit.hasOwnProperty( edId ) ) &&
+						! init.wp_skip_init ) {
+
 						try {
 							tinymce.init( init );
 
