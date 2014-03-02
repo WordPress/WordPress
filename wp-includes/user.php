@@ -22,7 +22,7 @@
  * @param bool $secure_cookie Optional. Whether to use secure cookie.
  * @return object Either WP_Error on failure, or WP_User on success.
  */
-function wp_signon( $credentials = '', $secure_cookie = '' ) {
+function wp_signon( $credentials = array(), $secure_cookie = '' ) {
 	if ( empty($credentials) ) {
 		if ( ! empty($_POST['log']) )
 			$credentials['user_login'] = $_POST['log'];
