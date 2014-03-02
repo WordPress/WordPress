@@ -102,9 +102,10 @@ function wp_signon( $credentials = array(), $secure_cookie = '' ) {
 /**
  * Authenticate the user using the username and password.
  */
-add_filter('authenticate', 'wp_authenticate_username_password', 20, 3);
 function wp_authenticate_username_password($user, $username, $password) {
-	if ( is_a($user, 'WP_User') ) { return $user; }
+	if ( is_a( $user, 'WP_User' ) ) {
+		return $user;
+	}
 
 	if ( empty($username) || empty($password) ) {
 		if ( is_wp_error( $user ) )
@@ -150,7 +151,9 @@ function wp_authenticate_username_password($user, $username, $password) {
  * Authenticate the user using the WordPress auth cookie.
  */
 function wp_authenticate_cookie($user, $username, $password) {
-	if ( is_a($user, 'WP_User') ) { return $user; }
+	if ( is_a( $user, 'WP_User' ) ) {
+		return $user;
+	}
 
 	if ( empty($username) && empty($password) ) {
 		$user_id = wp_validate_auth_cookie();
