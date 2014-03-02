@@ -1936,7 +1936,7 @@
 				},
 				separateCancel: new media.View({
 					className: 'separator',
-					priority: 60
+					priority: 40
 				})
 			});
 		},
@@ -1960,7 +1960,7 @@
 				},
 				separateCancel: new media.View({
 					className: 'separator',
-					priority: 80
+					priority: 40
 				})
 			});
 		},
