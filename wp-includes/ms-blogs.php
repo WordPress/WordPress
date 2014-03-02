@@ -569,7 +569,7 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
  *
  * @param int $new_blog The id of the blog you want to switch to. Default: current blog
  * @param bool $deprecated Deprecated argument
- * @return bool True on success, false if the validation failed
+ * @return bool Always returns True.
  */
 function switch_to_blog( $new_blog, $deprecated = null ) {
 	global $wpdb, $wp_roles;
