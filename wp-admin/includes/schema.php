@@ -889,6 +889,8 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		$wpdb->insert( $wpdb->site, array( 'domain' => $domain, 'path' => $path, 'id' => $network_id ) );
 	}
 
+	wp_cache_delete( 'networks_have_paths', 'site-options' );
+
 	if ( !is_multisite() ) {
 		$site_admins = array( $site_user->user_login );
 		$users = get_users( array( 'fields' => array( 'ID', 'user_login' ) ) );

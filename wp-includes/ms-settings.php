@@ -22,109 +22,155 @@ ms_subdomain_constants();
 
 if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 
-	$domain = addslashes( $_SERVER['HTTP_HOST'] );
-	if ( false !== strpos( $domain, ':' ) ) {
-		if ( substr( $domain, -3 ) == ':80' ) {
-			$domain = substr( $domain, 0, -3 );
-			$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
-		} elseif ( substr( $domain, -4 ) == ':443' ) {
-			$domain = substr( $domain, 0, -4 );
-			$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
+	// Given the domain and path, let's try to identify the network and site.
+	// Usually, it's easier to query the site first, which declares its network.
+	// In limited situations, though, we either can or must find the network first.
+
+	$domain = strtolower( stripslashes( $_SERVER['HTTP_HOST'] ) );
+	if ( substr( $domain, -3 ) == ':80' ) {
+		$domain = substr( $domain, 0, -3 );
+		$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
+	} elseif ( substr( $domain, -4 ) == ':443' ) {
+		$domain = substr( $domain, 0, -4 );
+		$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
+	}
+
+	$path = stripslashes( $_SERVER['REQUEST_URI'] );
+	if ( is_admin() ) {
+		$path = preg_replace( '#(.*)/wp-admin/.*#', '$1/', $path );
+	}
+	list( $path ) = explode( '?', $path );
+
+	// If the network is defined in wp-config.php, we can simply use that.
+	if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
+		$current_site = new stdClass;
+		$current_site->id = defined( 'SITE_ID_CURRENT_SITE' ) ? SITE_ID_CURRENT_SITE : 1;
+		$current_site->domain = DOMAIN_CURRENT_SITE;
+		$current_site->path = PATH_CURRENT_SITE;
+		if ( defined( 'BLOG_ID_CURRENT_SITE' ) ) {
+			$current_site->blog_id = BLOG_ID_CURRENT_SITE;
+		} elseif ( defined( 'BLOGID_CURRENT_SITE' ) ) { // deprecated.
+			$current_site->blog_id = BLOGID_CURRENT_SITE;
+		}
+
+		if ( $current_site->domain === $domain && $current_site->path === $path ) {
+			$current_blog = get_site_by_path( $domain, $path );
+		} elseif ( '/' !== $current_site->path && $current_site->domain === $domain && 0 === strpos( $path, $current_site->path ) ) {
+			// If the current network has a path and also matches the domain and path of the request,
+			// we need to look for a site using the first path segment following the network's path.
+			$current_blog = get_site_by_path( $domain, $path, 1 + count( explode( '/', trim( $current_site->path, '/' ) ) ) );
 		} else {
-			wp_load_translations_early();
-			wp_die( __( 'Multisite only works without the port number in the URL.' ) );
+			// Otherwise, use the first path segment (as usual).
+			$current_blog = get_site_by_path( $domain, $path, 1 );
+		}
+
+	} elseif ( ! is_subdomain_install() ) {
+		/*
+		 * A "subdomain" install can be re-interpreted to mean "can support any domain".
+		 * If we're not dealing with one of these installs, then the important part is determing
+		 * the network first, because we need the network's path to identify any sites.
+		 */
+		if ( ! $current_site = wp_cache_get( 'current_network', 'site-options' ) ) {
+			// Are there even two networks installed?
+			$one_network = $wpdb->get_row( "SELECT * FROM $wpdb->site LIMIT 2" ); // [sic]
+			if ( 1 === $wpdb->num_rows ) {
+				$current_site = wp_get_network( $one_network );
+				wp_cache_set( 'current_network', 'site-options' );
+			} elseif ( 0 === $wpdb->num_rows ) {
+				ms_not_installed();
+			}
+		}
+		if ( empty( $current_site ) ) {
+			$current_site = get_network_by_path( $domain, $path, 1 );
+		}
+
+		if ( empty( $current_site ) ) {
+			ms_not_installed();
+		} elseif ( $path === $current_site->path ) {
+			$current_blog = get_site_by_path( $domain, $path );
+		} else {
+			// Search the network path + one more path segment (on top of the network path).
+			$current_blog = get_site_by_path( $domain, $path, substr_count( $current_site->path, '/' ) );
+		}
+	} else {
+		// Find the site by the domain and at most the first path segment.
+		$current_blog = get_site_by_path( $domain, $path, 1 );
+		if ( $current_blog ) {
+			$current_site = wp_get_network( $current_blog->site_id ? $current_blog->site_id : 1 );
+		} else {
+			// If you don't have a site with the same domain/path as a network, you're pretty screwed, but:
+			$current_site = get_network_by_path( $domain, $path, 1 );
 		}
 	}
 
-	$domain = rtrim( $domain, '.' );
+	// The network declared by the site trumps any constants.
+	if ( $current_blog && $current_blog->site_id != $current_site->id ) {
+		$current_site = wp_get_network( $current_blog->site_id );
+	}
 
-	$path = preg_replace( '|([a-z0-9-]+.php.*)|', '', $_SERVER['REQUEST_URI'] );
-	$path = str_replace ( '/wp-admin/', '/', $path );
-	$path = preg_replace( '|(/[a-z0-9-]+?/).*|', '$1', $path );
+	// If we don't have a network by now, we have a problem.
+	if ( empty( $current_site ) ) {
+		ms_not_installed();
+	}
 
-	$current_site = wpmu_current_site();
+	// @todo What if the domain of the network doesn't match the current site?
 	$current_site->cookie_domain = $current_site->domain;
 	if ( 'www.' === substr( $current_site->cookie_domain, 0, 4 ) ) {
 		$current_site->cookie_domain = substr( $current_site->cookie_domain, 4 );
 	}
 
-	if ( ! isset( $current_site->blog_id ) )
-		$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $current_site->domain, $current_site->path ) );
-
-	if ( is_subdomain_install() ) {
-		$current_blog = wp_cache_get( 'current_blog_' . $domain, 'site-options' );
-		if ( !$current_blog ) {
-			$current_blog = get_blog_details( array( 'domain' => $domain ), false );
-			if ( $current_blog )
-				wp_cache_set( 'current_blog_' . $domain, $current_blog, 'site-options' );
-		}
-		if ( $current_blog && $current_blog->site_id != $current_site->id ) {
-			$current_site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->site WHERE id = %d", $current_blog->site_id ) );
-			if ( ! isset( $current_site->blog_id ) )
-				$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $current_site->domain, $current_site->path ) );
-		} else
-			$blogname = substr( $domain, 0, strpos( $domain, '.' ) );
-	} else {
-		$blogname = htmlspecialchars( substr( $_SERVER[ 'REQUEST_URI' ], strlen( $path ) ) );
-		if ( false !== strpos( $blogname, '/' ) )
-			$blogname = substr( $blogname, 0, strpos( $blogname, '/' ) );
-		if ( false !== strpos( $blogname, '?' ) )
-			$blogname = substr( $blogname, 0, strpos( $blogname, '?' ) );
-		$reserved_blognames = array( 'page', 'comments', 'blog', 'wp-admin', 'wp-includes', 'wp-content', 'files', 'feed' );
-		if ( $blogname != '' && ! in_array( $blogname, $reserved_blognames ) && ! is_file( $blogname ) )
-			$path .= $blogname . '/';
-		$current_blog = wp_cache_get( 'current_blog_' . $domain . $path, 'site-options' );
-		if ( ! $current_blog ) {
-			$current_blog = get_blog_details( array( 'domain' => $domain, 'path' => $path ), false );
-			if ( $current_blog )
-				wp_cache_set( 'current_blog_' . $domain . $path, $current_blog, 'site-options' );
-		}
-		unset($reserved_blognames);
-	}
-
-	if ( ! defined( 'WP_INSTALLING' ) && is_subdomain_install() && ! is_object( $current_blog ) ) {
-		if ( defined( 'NOBLOGREDIRECT' ) ) {
-			$destination = NOBLOGREDIRECT;
-			if ( '%siteurl%' == $destination )
-				$destination = "http://" . $current_site->domain . $current_site->path;
+	// Figure out the current network's main site.
+	if ( ! isset( $current_site->blog_id ) ) {
+		if ( $current_blog && $current_blog->domain === $current_site->domain && $current_blog->path === $current_site->path ) {
+			$current_site->blog_id = $current_blog->blog_id;
 		} else {
-			$destination = 'http://' . $current_site->domain . $current_site->path . 'wp-signup.php?new=' . str_replace( '.' . $current_site->domain, '', $domain );
+			// @todo we should be able to cache the blog ID of a network's main site easily.
+			$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s",
+				$current_site->domain, $current_site->path ) );
 		}
-		header( 'Location: ' . $destination );
-		die();
 	}
 
-	if ( ! defined( 'WP_INSTALLING' ) ) {
-		if ( $current_site && ! $current_blog ) {
-			if ( $current_site->domain != $_SERVER[ 'HTTP_HOST' ] ) {
+	// If we haven't figured out our site, give up.
+	if ( empty( $current_blog ) ) {
+		if ( defined( 'WP_INSTALLING' ) ) {
+			$current_blog->blog_id = $blog_id = 1;
+
+		} elseif ( is_subdomain_install() ) {
+			// @todo This is only for an open registration subdomain network.
+			if ( defined( 'NOBLOGREDIRECT' ) ) {
+				if ( '%siteurl%' === NOBLOGREDIRECT ) {
+					$destination = "http://" . $current_site->domain . $current_site->path;
+				} else {
+					$destination = NOBLOGREDIRECT;
+				}
+			} else {
+				$destination = 'http://' . $current_site->domain . $current_site->path . 'wp-signup.php?new=' . str_replace( '.' . $current_site->domain, '', $domain );
+			}
+			header( 'Location: ' . $destination );
+			exit;
+
+		} else {
+			if ( 0 !== strcasecmp( $current_site->domain, $domain ) ) {
 				header( 'Location: http://' . $current_site->domain . $current_site->path );
 				exit;
 			}
-			$current_blog = get_blog_details( array( 'domain' => $current_site->domain, 'path' => $current_site->path ), false );
-		}
-		if ( ! $current_blog || ! $current_site )
 			ms_not_installed();
+		}
 	}
 
 	$blog_id = $current_blog->blog_id;
 	$public  = $current_blog->public;
 
-	if ( empty( $current_blog->site_id ) )
+	if ( empty( $current_blog->site_id ) ) {
+		// This dates to [MU134] and shouldn't be relevant anymore,
+		// but it could be possible for arguments passed to insert_blog() etc.
 		$current_blog->site_id = 1;
-	$site_id = $current_blog->site_id;
-
-	$current_site = get_current_site_name( $current_site );
-
-	if ( ! $blog_id ) {
-		if ( defined( 'WP_INSTALLING' ) ) {
-			$current_blog->blog_id = $blog_id = 1;
-		} else {
-			wp_load_translations_early();
-			$msg = ! $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) ? ' ' . __( 'Database tables are missing.' ) : '';
-			wp_die( __( 'No site by that name on this system.' ) . $msg );
-		}
 	}
+
+	$site_id = $current_blog->site_id;
+	wp_load_core_site_options( $site_id );
 }
+
 $wpdb->set_prefix( $table_prefix, false ); // $table_prefix can be set in sunrise.php
 $wpdb->set_blog_id( $current_blog->blog_id, $current_blog->site_id );
 $table_prefix = $wpdb->get_blog_prefix();
@@ -133,6 +179,13 @@ $switched = false;
 
 // need to init cache again after blog_id is set
 wp_start_object_cache();
+
+if ( ! isset( $current_site->site_name ) ) {
+	$current_site->site_name = get_site_option( 'site_name' );
+	if ( ! $current_site->site_name ) {
+		$current_site->site_name = ucfirst( $current_site->domain );
+	}
+}
 
 // Define upload directory constants
 ms_upload_constants();
