@@ -1643,7 +1643,7 @@ class WP_Rewrite {
 		/**
 		 * Filter rewrite rules used for author archives.
 		 *
-		 * Likely author archives would inlcude /author/author-name/, as well as
+		 * Likely author archives would include /author/author-name/, as well as
 		 * pagination and feed paths for author archives.
 		 *
 		 * @since 1.5.0
