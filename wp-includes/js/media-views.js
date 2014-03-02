@@ -2828,7 +2828,7 @@
 		events: {
 			'drop': 'drop',
 			'dragover': 'dropzoneDragover',
-			'dragleave': 'dropzoneDragleave',
+			'dragleave': 'dropzoneDragleave'
 		},
 
 		initialize: function() {
