@@ -59,34 +59,26 @@ if ( isset( $_GET['action'] ) ) {
 			nocache_headers();
 			header( 'Content-Type: text/html; charset=utf-8' );
 		}
-		if ( $current_site->blog_id == $id )
-			wp_die( __( 'You are not allowed to change the current site.' ) );
-		?>
-		<!DOCTYPE html>
-		<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
-			<head>
-				<meta name="viewport" content="width=device-width" />
-				<title><?php _e( 'WordPress &rsaquo; Confirm your action' ); ?></title>
 
-				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-				<?php
-				wp_admin_css( 'install', true );
-				wp_admin_css( 'ie', true );
-				?>
-			</head>
-			<body class="wp-core-ui">
-				<h1 id="logo"><a href="<?php echo esc_url( __( 'http://wordpress.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></h1>
+		if ( $current_site->blog_id == $id ) {
+			wp_die( __( 'You are not allowed to change the current site.' ) );
+		}
+
+		require_once( ABSPATH . 'wp-admin/admin-header.php' );
+		?>
+			<div class="wrap">
+				<h2><?php _e( 'Confirm your action' ); ?></h2>
 				<form action="sites.php?action=<?php echo esc_attr( $_GET['action2'] ) ?>" method="post">
 					<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action2'] ) ?>" />
 					<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />
 					<input type="hidden" name="_wp_http_referer" value="<?php echo esc_attr( wp_get_referer() ); ?>" />
 					<?php wp_nonce_field( $_GET['action2'], '_wpnonce', false ); ?>
 					<p><?php echo esc_html( wp_unslash( $_GET['msg'] ) ); ?></p>
-					<?php submit_button( __('Confirm'), 'button' ); ?>
+					<?php submit_button( __( 'Confirm' ), 'button' ); ?>
 				</form>
-			</body>
-		</html>
+			</div>
 		<?php
+		require_once( ABSPATH . 'wp-admin/admin-footer.php' );
 		exit();
 	}
 
