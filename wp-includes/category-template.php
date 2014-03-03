@@ -622,10 +622,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	);
 
 	if ( !isset( $args['topic_count_text_callback'] ) && isset( $args['single_text'] ) && isset( $args['multiple_text'] ) ) {
-		$body = 'return sprintf (
-			_n(' . var_export($args['single_text'], true) . ', ' . var_export($args['multiple_text'], true) . ', $count),
-			number_format_i18n( $count ));';
-		$args['topic_count_text_callback'] = create_function('$count', $body);
+		$args['topic_count_text_callback'] = '_plugin_topic_count';
 	}
 
 	$args = wp_parse_args( $args, $defaults );
@@ -723,6 +720,21 @@ function _wp_object_name_sort_cb( $a, $b ) {
  */
 function _wp_object_count_sort_cb( $a, $b ) {
 	return ( $a->count > $b->count );
+}
+
+/**
+ * Default text for tooltip for tag links
+ *
+ * @since 3.9.0
+ * @access private
+ *
+ * @param integer $count Number of posts with that tag.
+ * @param object  $tag   Tag object.
+ * @param array   $args  Arguments for the tag cloud.
+ * @return string Text for the tooltip of a tag link.
+ */
+function _plugin_topic_count( $count, $tag, $args ) {
+	return sprintf( 1 == $count? $args['single_text'] : $args['multiple_text'], number_format_i18n( $count ) );
 }
 
 //
