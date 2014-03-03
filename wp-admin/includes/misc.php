@@ -405,11 +405,18 @@ function set_screen_options() {
 			default:
 
 				/**
-				 * Filter the default of number of rows value to use for item listings.
+				 * Filter a screen option value before it is set.
+				 *
+				 * The filter can also be used to modify non-standard [items]_per_page
+				 * settings. See the parent function for a full list of standard options.
+				 *
+				 * Returning false to the filter will skip saving the current option.
 				 *
 				 * @since 2.8.0
 				 *
-				 * @param bool|int $value  The number of rows value. Default false.
+				 * @see set_screen_options()
+				 *
+				 * @param bool|int $value  Screen option value. Default false to skip.
 				 * @param string   $option The option name.
 				 * @param int      $value  The number of rows to use.
 				 */
