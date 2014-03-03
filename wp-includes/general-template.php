@@ -1420,25 +1420,36 @@ function the_date( $d = '', $before = '', $after = '', $echo = true ) {
 }
 
 /**
- * Retrieve the date the current post was written.
+ * Retrieve the date on which the post was written.
  *
  * Unlike the_date() this function will always return the date.
  * Modify output with 'get_the_date' filter.
  *
  * @since 3.0.0
  *
- * @param string $d Optional. PHP date format defaults to the date_format option if not specified.
+ * @param  string      $d    Optional. PHP date format defaults to the date_format option if not specified.
+ * @param  int|WP_Post $post Optional. Post ID or WP_Post object. Default current post.
  * @return string Date the current post was written.
  */
-function get_the_date( $d = '' ) {
-	$post = get_post();
+function get_the_date( $d = '', $post = null ) {
+	$post = get_post( $post );
 
-	if ( '' == $d )
+	if ( '' == $d ) {
 		$the_date = mysql2date( get_option( 'date_format' ), $post->post_date );
-	else
+	} else {
 		$the_date = mysql2date( $d, $post->post_date );
+	}
 
-	return apply_filters( 'get_the_date', $the_date, $d );
+	/**
+	 * Filter the date returned from the get_the_date function.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string      $the_date The formatted date.
+	 * @param string      $d        The date format.
+	 * @param int|WP_Post $post     The post object or id.
+	 */
+	return apply_filters( 'get_the_date', $the_date, $d, $post );
 }
 
 /**
