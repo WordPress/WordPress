@@ -87,7 +87,7 @@ class WP_Admin_Bar {
 	 * - parent     - string    - The ID of the parent node. Optional.
 	 * - href       - string    - The link for the item. Optional.
 	 * - group      - boolean   - If the node is a group. Optional. Default false.
-	 * - meta       - array     - Meta data including the following keys: html, class, onclick, target, title, tabindex.
+	 * - meta       - array     - Meta data including the following keys: html, class, onclick, target, title, tabindex, rel.
 	 */
 	public function add_node( $args ) {
 		// Shim for old method signature: add_node( $parent_id, $menu_obj, $args )
@@ -437,6 +437,9 @@ class WP_Admin_Bar {
 				endif;
 				if ( ! empty( $node->meta['title'] ) ) :
 					?> title="<?php echo esc_attr( $node->meta['title'] ); ?>"<?php
+				endif;
+				if ( ! empty( $node->meta['rel'] ) ) :
+					?> rel="<?php echo esc_attr( $node->meta['rel'] ); ?>"<?php
 				endif;
 				?>><?php
 			else:
