@@ -3418,3 +3418,15 @@ function rich_edit_exists() {
  * @deprecated 3.9.0
  */
 function wp_style_loader_src() {}
+
+
+/**
+ * Old callback for tag link tooltips.
+ *
+ * @since 2.7.0
+ * @deprecated 3.9.0
+ * @access private
+ */
+function default_topic_count_text( $count ) {
+	return $count;
+}
