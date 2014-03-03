@@ -482,9 +482,10 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 ?>
 
 		<div id="comment-<?php echo $comment->comment_ID; ?>" <?php comment_class( array( 'comment-item', wp_get_comment_status($comment->comment_ID) ) ); ?>>
-			<?php if ( !$comment->comment_type || 'comment' == $comment->comment_type ) : ?>
 
 			<?php echo get_avatar( $comment, 50, 'mystery' ); ?>
+
+			<?php if ( !$comment->comment_type || 'comment' == $comment->comment_type ) : ?>
 
 			<div class="dashboard-comment-wrap">
 			<h4 class="comment-meta">
