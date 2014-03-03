@@ -177,7 +177,7 @@ endif;
  *
  * @since 2.2.0
  * @deprecated 3.5.0
- * @link http://wordpress.org/plugins/atom-publishing-protocol/
+ * @link https://wordpress.org/plugins/atom-publishing-protocol/
  */
 if ( ! class_exists( 'wp_atom_server' ) ) {
 	class wp_atom_server {

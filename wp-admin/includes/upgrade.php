@@ -170,7 +170,7 @@ function wp_install_defaults( $user_id ) {
 
 	// Default comment
 	$first_comment_author = __('Mr WordPress');
-	$first_comment_url = 'http://wordpress.org/';
+	$first_comment_url = 'https://wordpress.org/';
 	$first_comment = __('Hi, this is a comment.
 To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.');
 	if ( is_multisite() ) {
@@ -282,7 +282,7 @@ Password: %3\$s
 We hope you enjoy your new site. Thanks!
 
 --The WordPress Team
-http://wordpress.org/
+https://wordpress.org/
 "), $blog_url, $name, $password);
 
 	@wp_mail($email, __('New WordPress Site'), $message);

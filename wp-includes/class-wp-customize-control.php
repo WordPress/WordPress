@@ -593,7 +593,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	 */
 	public function tab_upload_new() {
 		if ( ! _device_can_upload() ) {
-			echo '<p>' . sprintf( __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.'), 'http://wordpress.org/mobile/' ) . '</p>';
+			echo '<p>' . sprintf( __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.'), 'https://wordpress.org/mobile/' ) . '</p>';
 		} else {
 			?>
 			<div class="upload-dropzone">

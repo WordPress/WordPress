@@ -2250,7 +2250,7 @@ class WP_Automatic_Updater {
 
 		// Add a note about the support forums to all emails.
 		$body .= "\n\n" . __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.' );
-		$body .= "\n" . __( 'http://wordpress.org/support/' );
+		$body .= "\n" . __( 'https://wordpress.org/support/' );
 
 		// If things are successful and we're now on the latest, mention plugins and themes if any are out of date.
 		if ( $type == 'success' && ! $newer_version_available && ( get_plugin_updates() || get_theme_updates() ) ) {
@@ -2387,7 +2387,7 @@ BETA TESTING?
 This debugging email is sent when you are using a development version of WordPress.
 
 If you think these failures might be due to a bug in WordPress, could you report it?
- * Open a thread in the support forums: http://wordpress.org/support/forum/alphabeta
+ * Open a thread in the support forums: https://wordpress.org/support/forum/alphabeta
  * Or, if you're comfortable writing a bug report: http://core.trac.wordpress.org/
 
 Thanks! -- The WordPress Team" );

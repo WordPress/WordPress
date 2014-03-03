@@ -115,7 +115,7 @@ else: // have_posts()
 <?php endif; ?>
 <!-- // this is just the end of the motor - don't touch that line either :) -->
 <?php //} ?>
-<p class="credit"><?php timer_stop(1); ?> <cite><?php printf(__('Powered by <a href="%s" title="Powered by WordPress, state-of-the-art semantic personal publishing platform"><strong>WordPress</strong></a>'), 'http://wordpress.org/'); ?></cite></p>
+<p class="credit"><?php timer_stop(1); ?> <cite><?php printf(__('Powered by <a href="%s" title="Powered by WordPress, state-of-the-art semantic personal publishing platform"><strong>WordPress</strong></a>'), 'https://wordpress.org/'); ?></cite></p>
 <?php // Seen at http://www.mijnkopthee.nl/log2/archive/2003/05/28/esc(18) ?>
 <script type="text/javascript">
 <!--

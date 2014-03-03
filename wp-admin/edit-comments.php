@@ -133,7 +133,7 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __( '<a href="http://codex.wordpress.org/Administration_Screens#Comments" target="_blank">Documentation on Comments</a>' ) . '</p>' .
 	'<p>' . __( '<a href="http://codex.wordpress.org/Comment_Spam" target="_blank">Documentation on Comment Spam</a>' ) . '</p>' .
 	'<p>' . __( '<a href="http://codex.wordpress.org/Keyboard_Shortcuts" target="_blank">Documentation on Keyboard Shortcuts</a>' ) . '</p>' .
-	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
 );
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );

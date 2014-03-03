@@ -130,7 +130,7 @@ get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Create_A_Network" target="_blank">Documentation on Creating a Network</a>') . '</p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Network_Screen" target="_blank">Documentation on the Network Screen</a>') . '</p>' .
-	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
+	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
 include( ABSPATH . 'wp-admin/admin-header.php' );

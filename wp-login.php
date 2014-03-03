@@ -96,7 +96,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 		$login_header_url   = network_home_url();
 		$login_header_title = get_current_site()->site_name;
 	} else {
-		$login_header_url   = __( 'http://wordpress.org/' );
+		$login_header_url   = __( 'https://wordpress.org/' );
 		$login_header_title = __( 'Powered by WordPress' );
 	}
 
