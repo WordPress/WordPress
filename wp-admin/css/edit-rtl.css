@@ -594,6 +594,9 @@ span.wp-media-buttons-icon:before {
 
 .edit-form-section {
  	margin-bottom: 20px;
+}
+
+.wp-editor-wrap {
 	position: relative;
 }
 
@@ -604,7 +607,7 @@ span.wp-media-buttons-icon:before {
 	right: 0;
 	width: 100%;
 	height: 100%;
-	z-index: 250000;
+	z-index: 99998; /* under the toolbar */
 	display: none;
 	text-align: center;
 }

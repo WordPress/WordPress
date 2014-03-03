@@ -2807,38 +2807,59 @@
 		className: 'uploader-editor',
 		template:  media.template( 'uploader-editor' ),
 
-		events: {
-			'drop': 'drop',
-			'dragover': 'dropzoneDragover',
-			'dragleave': 'dropzoneDragleave'
-		},
-
 		initialize: function() {
-			this.files = [];
 			this.$document = $(document);
+			this.dropzones = [];
+			this.files = [];
+
+			this.$document.on( 'drop', '.uploader-editor', _.bind( this.drop, this ) );
+			this.$document.on( 'dragover', '.uploader-editor', _.bind( this.dropzoneDragover, this ) );
+			this.$document.on( 'dragleave', '.uploader-editor', _.bind( this.dropzoneDragleave, this ) );
+
 			this.$document.on( 'dragover', _.bind( this.containerDragover, this ) );
 			this.$document.on( 'dragleave', _.bind( this.containerDragleave, this ) );
+
 			return this;
 		},
 
 		refresh: function() {
-			// Hide the dropzone only if dragging has left the screen.
-			return this.$el.toggle( this.overContainer || this.overDropzone );
+			var dropzone_id;
+			for ( dropzone_id in this.dropzones ) {
+				// Hide the dropzones only if dragging has left the screen.
+				this.dropzones[ dropzone_id ].toggle( this.overContainer || this.overDropzone );
+			}
+			return this;
 		},
 
 		render: function() {
 			media.View.prototype.render.apply( this, arguments );
-			$( '.edit-form-section' ).append( this.$el );
+			$( '.wp-editor-wrap' ).each( _.bind( this.attach, this ) );
+			return this;
+		},
+
+		attach: function( index, editor ) {
+			// Attach a dropzone to an editor.
+			var dropzone = this.$el.clone();
+			this.dropzones.push( dropzone );
+			$( editor ).append( dropzone );
 			return this;
 		},
 
 		drop: function( event ) {
+			var $wrap = null;
+
 			this.files = event.originalEvent.dataTransfer.files;
 			if ( this.files.length < 1 )
 				return;
 
-			this.containerDragleave();
-			this.dropzoneDragleave();
+			this.containerDragleave( event );
+			this.dropzoneDragleave( event );
+
+			// Set the active editor to the drop target.
+			$wrap = $( event.target ).parents( '.wp-editor-wrap' );
+			if ( $wrap.length > 0 ) {
+				window.wpActiveEditor = $wrap[0].id.slice( 3, -5 );
+			}
 
 			if ( ! this.workflow ) {
 				this.workflow = wp.media.editor.open( 'content', {
@@ -2877,15 +2898,15 @@
 			_.delay( _.bind( this.refresh, this ), 50 );
 		},
 
-		dropzoneDragover: function() {
-			this.$el.addClass( 'droppable' );
+		dropzoneDragover: function( e ) {
+			$( e.target ).addClass( 'droppable' );
 			this.overDropzone = true;
 			_.defer( _.bind( this.refresh, this ) );
 			return false;
 		},
 
-		dropzoneDragleave: function() {
-			this.$el.removeClass( 'droppable' );
+		dropzoneDragleave: function( e ) {
+			$( e.target ).removeClass( 'droppable' );
 			this.overDropzone = false;
 			this.refresh();
 		}
