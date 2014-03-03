@@ -245,6 +245,31 @@ function wp_nav_menu( $args = array() ) {
 	$args = apply_filters( 'wp_nav_menu_args', $args );
 	$args = (object) $args;
 
+	/**
+	 * Filter whether to short-circuit the wp_nav_menu() output.
+	 *
+	 * Returning a non-null value to the filter will short-circuit
+	 * wp_nav_menu(), echoing that value if $args->echo is true,
+	 * returning that value otherwise.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @see wp_nav_menu()
+	 *
+	 * @param string|null $output Nav menu output to short-circuit with. Default null.
+	 * @param object      $args   An object containing wp_nav_menu() arguments.
+	 */
+	$nav_menu = apply_filters( 'pre_wp_nav_menu', null, $args );
+
+	if ( null !== $nav_menu ) {
+		if ( $args->echo ) {
+			echo $nav_menu;
+			return;
+		}
+
+		return $nav_menu;
+	}
+
 	// Get the nav menu based on the requested menu
 	$menu = wp_get_nav_menu_object( $args->menu );
 
