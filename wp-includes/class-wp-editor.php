@@ -87,11 +87,11 @@ final class _WP_Editors {
 	 */
 	public static function editor( $content, $editor_id, $settings = array() ) {
 
-		$set = self::parse_settings($editor_id, $settings);
+		$set = self::parse_settings( $editor_id, $settings );
 		$editor_class = ' class="' . trim( $set['editor_class'] . ' wp-editor-area' ) . '"';
 		$tabindex = $set['tabindex'] ? ' tabindex="' . (int) $set['tabindex'] . '"' : '';
 		$switch_class = 'html-active';
-		$toolbar = $buttons = '';
+		$toolbar = $buttons = $autocomplete = '';
 
 		if ( ! empty( $set['editor_height'] ) )
 			$height = ' style="height: ' . $set['editor_height'] . 'px"';
@@ -103,8 +103,10 @@ final class _WP_Editors {
 
 		if ( ! self::$this_quicktags && self::$this_tinymce ) {
 			$switch_class = 'tmce-active';
+			$autocomplete = ' autocomplete="off"';
 		} elseif ( self::$this_quicktags && self::$this_tinymce ) {
 			$default_editor = $set['default_editor'] ? $set['default_editor'] : wp_default_editor();
+			$autocomplete = ' autocomplete="off"';
 
 			// 'html' is used for the "Text" editor tab.
 			if ( 'html' === $default_editor ) {
@@ -147,10 +149,12 @@ final class _WP_Editors {
 			echo "</div>\n";
 		}
 
-		$the_editor = apply_filters('the_editor', '<div id="wp-' . $editor_id . '-editor-container" class="wp-editor-container"><textarea' . $editor_class . $height . $tabindex . ' cols="40" name="' . $set['textarea_name'] . '" id="' . $editor_id . '">%s</textarea></div>');
-		$content = apply_filters('the_editor_content', $content);
+		$the_editor = apply_filters( 'the_editor', '<div id="wp-' . $editor_id . '-editor-container" class="wp-editor-container">' .
+			'<textarea' . $editor_class . $height . $tabindex . $autocomplete . ' cols="40" name="' . $set['textarea_name'] . '" ' .
+			'id="' . $editor_id . '">%s</textarea></div>' );
+		$content = apply_filters( 'the_editor_content', $content );
 
-		printf($the_editor, $content);
+		printf( $the_editor, $content );
 		echo "\n</div>\n\n";
 
 		self::editor_settings($editor_id, $set);
