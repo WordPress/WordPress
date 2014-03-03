@@ -72,9 +72,11 @@ default :
 		break;
 	}
 
-	$post_title = '<a href="' . get_edit_post_link() . '">' . _draft_or_post_title() . '</a>';
-	$h2 = sprintf( __( 'Compare Revisions of &#8220;%1$s&#8221;' ), $post_title );
-	$title = __( 'Revisions' );
+	$post_edit_link = get_edit_post_link();
+	$post_title     = '<a href="' . $post_edit_link . '">' . _draft_or_post_title() . '</a>';
+	$h2             = sprintf( __( 'Compare Revisions of &#8220;%1$s&#8221;' ), $post_title );
+	$return_to_post = '<a href="' . $post_edit_link . '">' . __( '&larr; Return to post editor' ) . '</a>';
+	$title          = __( 'Revisions' );
 
 	$redirect = false;
 	break;
@@ -125,6 +127,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 <div class="wrap">
 	<h2 class="long-header"><?php echo $h2; ?></h2>
+	<?php echo $return_to_post; ?>
 </div>
 
 <script id="tmpl-revisions-frame" type="text/html">
