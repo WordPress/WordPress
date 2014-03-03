@@ -280,8 +280,8 @@ function get_network_by_path( $domain, $path, $segments = null ) {
  *
  * @since 3.9.0
  *
- * @param int $network_id The network's DB row or ID.
- * @return mixed Object containing network information if found, false if not.
+ * @param object|int $network The network's DB row or ID.
+ * @return object|bool Object containing network information if found, false if not.
  */
 function wp_get_network( $network ) {
 	global $wpdb;
@@ -315,14 +315,13 @@ function wpmu_current_site() {
 function get_site_by_path( $domain, $path, $segments = null ) {
 	global $wpdb;
 
-	$path_segments = array_filter( explode( '/', trim( $path, "/" ) ) );
+	$path_segments = array_filter( explode( '/', trim( $path, '/' ) ) );
 
 	/**
 	 * Filter the number of path segments to consider when searching for a site.
 	 *
 	 * @since 3.9.0
 	 *
-
 	 * @param mixed  $segments The number of path segments to consider. WordPress by default looks at
 	 *                         one path segment following the network path. The function default of
 	 *                         null only makes sense when you know the requested path should match a site.
@@ -331,7 +330,7 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	 */
 	$segments = apply_filters( 'site_by_path_segments_count', $segments, $domain, $path );
 
-	if ( null !== $segments && count($path_segments ) > $segments ) {
+	if ( null !== $segments && count( $path_segments ) > $segments ) {
 		$path_segments = array_slice( $path_segments, 0, $segments );
 	}
 
