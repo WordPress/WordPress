@@ -276,7 +276,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	});
 
 	editor.on( 'init', function() {
-		var env = tinymce.Env,
+		var env = tinymce.Env, topx, reset,
+			deltax = 0,
 			bodyClass = ['mceContentBody'], // back-compat for themes that use this in editor-style.css...
 			doc = editor.getDoc();
 
@@ -318,9 +319,14 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		if ( ! ( 'ontouchstart' in window ) ) {
 			// When scrolling with mouse wheel or trackpad inside the editor, don't scroll the parent window
 			editor.dom.bind( doc, 'onwheel' in doc ? 'wheel' : 'mousewheel', function( event ) {
-				var delta, docElement = doc.documentElement;
+				var delta, top,
+					docElement = doc.documentElement;
 
 				if ( editor.settings.wp_fullscreen ) {
+					return;
+				}
+				// Don't modify scrolling when the editor is not active.
+				if ( typeof doc.hasFocus === 'function' && ! doc.hasFocus() ) {
 					return;
 				}
 
@@ -334,13 +340,34 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					delta = -event.wheelDelta;
 				}
 
-				event.preventDefault();
-
 				if ( env.webkit ) {
 					doc.body.scrollTop += delta;
 				} else {
 					docElement.scrollTop += delta;
 				}
+
+				top = docElement.scrollTop || doc.body.scrollTop;
+
+				if ( topx === top ) {
+					deltax += delta;
+
+					window.clearTimeout( reset );
+					// Sensitivity: delay before resetting the count of over-scroll pixels
+					reset = window.setTimeout( function() {
+						deltax = 0;
+					}, 1000 );
+				} else {
+					deltax = 0;
+				}
+
+				topx = top;
+
+				// Sensitivity: scroll the parent window when over-scrolling by more than 1000px
+				if ( deltax > 1000 || deltax < -1000 ) {
+					return;
+				}
+
+				event.preventDefault();
 			});
 		}
 	});

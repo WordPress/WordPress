@@ -370,7 +370,8 @@ $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
 }(jQuery));
 
 jQuery(document).ready( function($) {
-	var stamp, visibility, $submitButtons, updateVisibility, updateText, $content,
+	var stamp, visibility, $submitButtons, updateVisibility, updateText, $content, topx, reset,
+		deltax = 0,
 		sticky = '',
 		last = 0,
 		co = $('#content'),
@@ -1067,9 +1068,15 @@ jQuery(document).ready( function($) {
 	if ( ! ( 'ontouchstart' in window ) ) {
 		// When scrolling with mouse wheel or trackpad inside the Text editor, don't scroll the whole window
 		$content = $('#content').on( 'onwheel' in $document[0] ? 'wheel.text-editor-scroll' : 'mousewheel.text-editor-scroll', function( event ) {
-			var delta, origEvent = event.originalEvent;
+			var delta, top,
+				origEvent = event.originalEvent;
 
 			if ( wp.editor && wp.editor.fullscreen.settings.visible ) {
+				return;
+			}
+
+			// Don't modify scrolling when the Text editor is not active.
+			if ( document.activeElement && document.activeElement.id !== 'content' ) {
 				return;
 			}
 
@@ -1084,6 +1091,27 @@ jQuery(document).ready( function($) {
 			}
 
 			$content.scrollTop( $content.scrollTop() + delta );
+
+			top = $content.scrollTop();
+
+			if ( topx === top ) {
+				deltax += delta;
+
+				window.clearTimeout( reset );
+				reset = window.setTimeout( function() {
+					deltax = 0;
+				}, 1000 );
+			} else {
+				deltax = 0;
+			}
+
+			topx = top;
+
+			// Sensitivity: scroll the parent window when over-scrolling by more than 800px
+			if ( deltax > 1000 || deltax < -1000 ) {
+				return;
+			}
+
 			event.preventDefault();
 		});
 	}
