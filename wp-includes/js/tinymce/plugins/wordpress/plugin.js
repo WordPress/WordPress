@@ -443,6 +443,13 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		editor.dom.bind( editor.getBody(), 'dragstart', function() {
 			_hideButtons();
 		});
+
+		editor.dom.bind( editor.getWin(), 'dragover', function(e) {
+			if ( typeof window.jQuery !== 'undefined' ) {
+				// Propagate the event to its container for the parent window to catch.
+				jQuery( editor.getContainer() ).trigger(e);
+			}
+		});
 	});
 
 	editor.on( 'BeforeExecCommand', function() {
