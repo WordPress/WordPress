@@ -17,7 +17,8 @@ define( 'EZSQL_VERSION', 'WP1.25' );
 /**
  * @since 0.71
  */
-define( 'OBJECT', 'OBJECT', true );
+define( 'OBJECT', 'OBJECT' );
+define( 'object', 'OBJECT' ); // Back compat.
 
 /**
  * @since 2.5.0
@@ -1821,6 +1822,9 @@ class wpdb {
 			return $this->last_result[$y] ? get_object_vars( $this->last_result[$y] ) : null;
 		} elseif ( $output == ARRAY_N ) {
 			return $this->last_result[$y] ? array_values( get_object_vars( $this->last_result[$y] ) ) : null;
+		} elseif ( strtoupper( $output ) === OBJECT ) {
+			// Back compat for OBJECT being previously case insensitive.
+			return $this->last_result[$y] ? $this->last_result[$y] : null;
 		} else {
 			$this->print_error( " \$db->get_row(string query, output type, int offset) -- Output type must be one of: OBJECT, ARRAY_A, ARRAY_N" );
 		}
@@ -1900,6 +1904,9 @@ class wpdb {
 				}
 			}
 			return $new_array;
+		} elseif ( strtoupper( $output ) === OBJECT ) {
+			// Back compat for OBJECT being previously case insensitive.
+			return $this->last_result;
 		}
 		return null;
 	}
