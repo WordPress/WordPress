@@ -16,7 +16,7 @@
 function get_importers() {
 	global $wp_importers;
 	if ( is_array( $wp_importers ) ) {
-		uasort( $wp_importers, '_uasort_by_first_member' );
+		uasort( $wp_importers, '_usort_by_first_member' );
 	}
 	return $wp_importers;
 }
@@ -33,7 +33,7 @@ function get_importers() {
  * @param array $b
  * @return int
  */
-function _uasort_by_first_member( $a, $b ) {
+function _usort_by_first_member( $a, $b ) {
 	return strnatcasecmp( $a[0], $b[0] );
 }
 
