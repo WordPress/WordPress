@@ -528,9 +528,6 @@
 						case 'unlink':
 							s.editor.execCommand('unlink');
 							break;
-						case 'image':
-							s.editor.execCommand('mceImage');
-							break;
 						case 'help':
 							s.editor.execCommand('WP_Help');
 							break;
