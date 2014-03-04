@@ -1467,6 +1467,7 @@ function _wp_add_global_attributes( $value ) {
 		'id' => true,
 		'style' => true,
 		'title' => true,
+		'role' => true,
 	);
 
 	if ( true === $value )
