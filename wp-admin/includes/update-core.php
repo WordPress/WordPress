@@ -598,6 +598,8 @@ $_old_files = array(
 // 3.9
 'wp-admin/css/colors.css',
 'wp-admin/css/colors.min.css',
+'wp-admin/images/lock-2x.png',
+'wp-admin/images/lock.png',
 );
 
 /**

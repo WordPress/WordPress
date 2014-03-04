@@ -406,10 +406,22 @@ th.asc:hover span.sorting-indicator:before {
 }
 
 tr.wp-locked .locked-indicator {
-	background: url(../images/lock.png) no-repeat;
-	margin: -2px 0 0 6px;
+	margin-left: 6px;
 	height: 20px;
 	width: 16px;
+}
+
+tr.wp-locked .locked-indicator:before {
+	color: #888;
+	content: '\f160';
+	display: inline-block;
+	float: left;
+	font: normal 20px/1 'dashicons';
+	speak: none;
+	vertical-align: middle;
+	margin-left: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 tr.wp-locked .check-column label,
@@ -1213,17 +1225,6 @@ tr.active + tr.plugin-update-tr .plugin-update .update-message {
 /**
  * HiDPI Displays
  */
-@media print,
-  (-o-min-device-pixel-ratio: 5/4),
-  (-webkit-min-device-pixel-ratio: 1.25),
-  (min-resolution: 120dpi) {
-	tr.wp-locked .locked-indicator {
-		background-image: url(../images/lock-2x.png);
-		-webkit-background-size: 16px 16px;
-		background-size: 16px 16px;
-	}
-}
-
 @media screen and ( max-width: 782px ) {
 	/* WP List Table Options & Filters */
 	.tablenav {
