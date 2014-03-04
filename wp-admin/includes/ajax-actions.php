@@ -1431,8 +1431,10 @@ function wp_ajax_find_posts() {
 		wp_die( __('No items found.') );
 
 	$html = '<table class="widefat"><thead><tr><th class="found-radio"><br /></th><th>'.__('Title').'</th><th class="no-break">'.__('Type').'</th><th class="no-break">'.__('Date').'</th><th class="no-break">'.__('Status').'</th></tr></thead><tbody>';
+	$alt = '';
 	foreach ( $posts as $post ) {
 		$title = trim( $post->post_title ) ? $post->post_title : __( '(no title)' );
+		$alt = ( 'alternate' == $alt ) ? '' : 'alternate';
 
 		switch ( $post->post_status ) {
 			case 'publish' :
@@ -1457,7 +1459,7 @@ function wp_ajax_find_posts() {
 			$time = mysql2date(__('Y/m/d'), $post->post_date);
 		}
 
-		$html .= '<tr class="found-posts"><td class="found-radio"><input type="radio" id="found-'.$post->ID.'" name="found_post_id" value="' . esc_attr($post->ID) . '"></td>';
+		$html .= '<tr class="' . trim( 'found-posts ' . $alt ) . '"><td class="found-radio"><input type="radio" id="found-'.$post->ID.'" name="found_post_id" value="' . esc_attr($post->ID) . '"></td>';
 		$html .= '<td><label for="found-'.$post->ID.'">' . esc_html( $title ) . '</label></td><td class="no-break">' . esc_html( $post_types[$post->post_type]->labels->singular_name ) . '</td><td class="no-break">'.esc_html( $time ) . '</td><td class="no-break">' . esc_html( $stat ). ' </td></tr>' . "\n\n";
 	}
 

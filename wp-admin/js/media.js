@@ -19,7 +19,11 @@ var findPosts;
 			}
 			$('#find-posts').show().draggable({
 				handle: '#find-posts-head'
-			}).css({'top':st + 50 + 'px','left':'50%','marginLeft':'-328px'});
+			});
+
+			$('.find-box-inside').css({
+				'max-height': $( window ).height() - ( ( 30 + 40 + 1 + 16 ) * 2 ) + 'px'
+			});
 
 			$('#find-posts-input').focus().keyup(function(e){
 				if (e.which == 27) { findPosts.close(); } // close on Escape
@@ -38,9 +42,7 @@ var findPosts;
 		},
 
 		overlay : function() {
-			$( '.ui-find-overlay' ).css(
-				{ 'z-index': '999', 'width': $( document ).width() + 'px', 'height': $( document ).height() + 'px' }
-			).on('click', function () {
+			$( '.ui-find-overlay' ).on( 'click', function () {
 				findPosts.close();
 			});
 		},
@@ -120,6 +122,8 @@ var findPosts;
 		});
 	});
 	$(window).resize(function() {
-		findPosts.overlay();
+		$('.find-box-inside').css({
+			'max-height': $( window ).height() - ( ( 30 + 40 + 1 + 16 ) * 2 ) + 'px'
+		});
 	});
 })(jQuery);

@@ -1376,26 +1376,29 @@ function settings_errors( $setting = '', $sanitize = false, $hide_on_update = fa
  */
 function find_posts_div($found_action = '') {
 ?>
-	<div id="find-posts" class="find-box" style="display:none;">
-		<div id="find-posts-head" class="find-box-head"><?php _e('Find Posts or Pages'); ?></div>
+	<div id="find-posts" class="find-box" style="display: none;">
+		<div id="find-posts-head" class="find-box-head">
+			<?php _e( 'Find Posts or Pages' ); ?>
+			<div id="find-posts-close"></div>
+		</div>
 		<div class="find-box-inside">
 			<div class="find-box-search">
 				<?php if ( $found_action ) { ?>
 					<input type="hidden" name="found_action" value="<?php echo esc_attr($found_action); ?>" />
 				<?php } ?>
-
 				<input type="hidden" name="affected" id="affected" value="" />
 				<?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
 				<label class="screen-reader-text" for="find-posts-input"><?php _e( 'Search' ); ?></label>
 				<input type="text" id="find-posts-input" name="ps" value="" />
 				<span class="spinner"></span>
 				<input type="button" id="find-posts-search" value="<?php esc_attr_e( 'Search' ); ?>" class="button" />
+				<div class="clear"></div>
 			</div>
 			<div id="find-posts-response"></div>
 		</div>
 		<div class="find-box-buttons">
-			<input id="find-posts-close" type="button" class="button alignleft" value="<?php esc_attr_e('Close'); ?>" />
 			<?php submit_button( __( 'Select' ), 'button-primary alignright', 'find-posts-submit', false ); ?>
+			<div class="clear"></div>
 		</div>
 	</div>
 <?php

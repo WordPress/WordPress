@@ -233,41 +233,39 @@
 ------------------------------------------------------------------------------*/
 
 .find-box {
+	background-color: #fff;
 	width: 600px;
-	height: 300px;
+	max-width: 100%;
 	overflow: hidden;
-	padding: 33px 0 51px;
-	position: absolute;
-	z-index: 1000;
-	background-color: #444;
+	margin-right: -300px;
+	position: fixed;
+	top: 30px;
+	right: 50%;
+	z-index: 160000;
 }
 
 .find-box-head {
 	cursor: move;
-	color: #eee;
+	background: #fcfcfc;
+	border-bottom: 1px solid #dfdfdf;
+	height: 40px;
+	font-size: 22px;
 	font-weight: 600;
-	height: 2em;
-	line-height: 2em;
-	padding: 1px 12px;
-	position: absolute;
-	top: 5px;
-	width: 100%;
+	line-height: 40px;
+	padding: 0 16px 0 40px;
+	overflow: hidden;
 }
 
 .find-box-inside {
 	overflow: auto;
-	padding: 6px;
-	height: 100%;
+	padding: 16px;
 	background-color: #fff;
+	max-height: 300px;
+	overflow-y: scroll;
 }
 
-.find-box-search,
-.find-box-buttons {
-	overflow: hidden;
-	padding: 8px;
-	position: relative;
-	background-color: #f7f7f7;
-	border-top: 1px solid #dfdfdf;
+.find-box-search {
+	padding-bottom: 16px;
 }
 
 .find-box-search .spinner {
@@ -277,29 +275,49 @@
 	top: 9px;
 }
 
-#find-posts-input {
-	float: right;
-	width: 140px;
-	height: 24px;
-}
-
+#find-posts-input,
 #find-posts-search {
 	float: right;
-	margin: 1px 3px 0 4px;
 }
 
-#find-posts-response {
-	margin: 8px 0;
-	padding: 0 1px 6px;
+#find-posts-input {
+	width: 140px;
+	height: 28px;
+	margin: 0 0 0 4px;
 }
 
-#find-posts-response table {
-	width: 100%;
+.found-radio {
+	width: 16px;
 }
 
-#find-posts-response .found-radio {
-	padding: 3px 8px 0 0;
-	width: 15px;
+#find-posts-close {
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+	text-align: center;
+	color: #666;
+}
+
+#find-posts-close:hover {
+	color: #2ea2cc;
+}
+
+#find-posts-close:before {
+	font: normal 20px/40px 'dashicons';
+	vertical-align: top;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: '\f158';
+}
+
+.find-box-buttons {
+	padding: 6px 16px;
+	background: #fcfcfc;
+	border-top: 1px solid #dfdfdf;
 }
 
 .find-box #resize-se {
@@ -309,12 +327,14 @@
 }
 
 .ui-find-overlay {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	right: 0;
-	background-color: #000;
-	opacity: 0.6;
-	filter: alpha(opacity=60);
+	left: 0;
+	bottom: 0;
+	background: #000;
+	opacity: 0.7;
+	z-index: 159900;
 }
 
 ul#dismissed-updates {

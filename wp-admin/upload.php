@@ -145,6 +145,8 @@ wp_enqueue_script( 'wp-ajax-response' );
 wp_enqueue_script( 'jquery-ui-draggable' );
 wp_enqueue_script( 'media' );
 
+add_action( 'admin_print_footer_scripts', 'find_posts_div' );
+
 add_screen_option( 'per_page', array('label' => _x( 'Media items', 'items per page (screen options)' )) );
 
 get_current_screen()->add_help_tab( array(
@@ -238,12 +240,10 @@ if ( !empty($message) ) { ?>
 
 <?php $wp_list_table->display(); ?>
 
-<div id="ajax-response"></div>
-<?php find_posts_div(); ?>
-<br class="clear" />
-
 </form>
 </div>
+
+<div id="ajax-response"></div>
 
 <?php
 include( ABSPATH . 'wp-admin/admin-footer.php' );
