@@ -39,19 +39,19 @@ class WP_Customize_Control {
 	 * @access public
 	 * @var int
 	 */
-	public $priority          = 10;
+	public $priority = 10;
 
 	/**
 	 * @access public
 	 * @var string
 	 */
-	public $section           = '';
+	public $section = '';
 
 	/**
 	 * @access public
 	 * @var string
 	 */
-	public $label             = '';
+	public $label = '';
 
 	/**
 	 * @todo: Remove choices
@@ -59,7 +59,7 @@ class WP_Customize_Control {
 	 * @access public
 	 * @var array
 	 */
-	public $choices           = array();
+	public $choices = array();
 
 	/**
 	 * @access public
@@ -76,6 +76,8 @@ class WP_Customize_Control {
 
 	/**
 	 * Constructor.
+	 *
+	 * Supplied $args override class property defaults.
 	 *
 	 * If $args['settings'] is not defined, use the $id as the setting ID.
 	 *
@@ -94,7 +96,6 @@ class WP_Customize_Control {
 
 		$this->manager = $manager;
 		$this->id = $id;
-
 
 		// Process settings.
 		if ( empty( $this->settings ) )
@@ -185,7 +186,7 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Render the control. Renders the control wrapper, then calls $this->render_content().
+	 * Renders the control wrapper and calls $this->render_content() for the internals.
 	 *
 	 * @since 3.4.0
 	 */
@@ -199,7 +200,7 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Get the data link parameter for a setting.
+	 * Get the data link attribute for a setting.
 	 *
 	 * @since 3.4.0
 	 *
@@ -214,7 +215,7 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Render the data link parameter for a setting
+	 * Render the data link attribute for the control's input element.
 	 *
 	 * @since 3.4.0
 	 * @uses WP_Customize_Control::get_link()
@@ -228,7 +229,9 @@ class WP_Customize_Control {
 	/**
 	 * Render the control's content.
 	 *
-	 * Allows the content to be overriden without having to rewrite the wrapper.
+	 * Allows the content to be overriden without having to rewrite the wrapper in $this->render().
+	 *
+	 * Supports basic input types `text`, `checkbox`, `radio`, `select` and `dropdown-pages`.
 	 *
 	 * @since 3.4.0
 	 */
@@ -331,8 +334,6 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 	/**
 	 * Constructor.
 	 *
-	 * If $args['settings'] is not defined, use the $id as the setting ID.
-	 *
 	 * @since 3.4.0
 	 * @uses WP_Customize_Control::__construct()
 	 *
@@ -346,7 +347,7 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 	}
 
 	/**
-	 * Enqueue control related scripts/styles.
+	 * Enqueue scripts/styles for the color picker.
 	 *
 	 * @since 3.4.0
 	 */
@@ -466,8 +467,6 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 
 	/**
 	 * Constructor.
-	 *
-	 * If $args['settings'] is not defined, use the $id as the setting ID.
 	 *
 	 * @since 3.4.0
 	 * @uses WP_Customize_Upload_Control::__construct()

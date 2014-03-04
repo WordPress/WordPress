@@ -2,36 +2,78 @@
 /**
  * Customize Setting Class.
  *
+ * Handles saving and sanitizing of settings.
+ *
  * @package WordPress
  * @subpackage Customize
  * @since 3.4.0
  */
 class WP_Customize_Setting {
+	/**
+	 * @access public
+	 * @var WP_Customize_Manager
+	 */
 	public $manager;
+
+	/**
+	 * @access public
+	 * @var string
+	 */
 	public $id;
 
-	public $type            = 'theme_mod';
-	public $capability      = 'edit_theme_options';
+	/**
+	 * @access public
+	 * @var string
+	 */
+	public $type = 'theme_mod';
+
+	/**
+	 * Capability required to edit this setting.
+	 *
+	 * @var string
+	 */
+	public $capability = 'edit_theme_options';
+
+	/**
+	 * Feature a theme is required to support to enable this setting.
+	 *
+	 * @access public
+	 * @var string
+	 */
 	public $theme_supports  = '';
 	public $default         = '';
 	public $transport       = 'refresh';
 
+	/**
+	 * Server-side sanitization callback for the setting's value.
+	 *
+	 * @var callback
+	 */
 	public $sanitize_callback    = '';
 	public $sanitize_js_callback = '';
 
 	protected $id_data = array();
-	private $_post_value; // Cached, sanitized $_POST value.
+
+	/**
+	 * Cached and sanitized $_POST value for the setting.
+	 *
+	 * @access private
+	 * @var mixed
+	 */
+	private $_post_value;
 
 	/**
 	 * Constructor.
 	 *
+	 * Any supplied $args override class property defaults.
+	 *
 	 * @since 3.4.0
 	 *
 	 * @param WP_Customize_Manager $manager
-	 * @param string $id An specific ID of the setting. Can be a
-	 *                   theme mod or option name.
-	 * @param array $args Setting arguments.
-	 * @return WP_Customize_Setting
+	 * @param string               $id      An specific ID of the setting. Can be a
+	 *                                      theme mod or option name.
+	 * @param array                $args    Setting arguments.
+	 * @return WP_Customize_Setting $setting
 	 */
 	function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_class_vars( __CLASS__ ) );
@@ -98,7 +140,8 @@ class WP_Customize_Setting {
 	}
 
 	/**
-	 * Set the value of the parameter for a specific theme.
+	 * Check user capabilities and theme supports, and then save
+	 * the value of the setting.
 	 *
 	 * @since 3.4.0
 	 *
@@ -116,7 +159,7 @@ class WP_Customize_Setting {
 	}
 
 	/**
-	 * Fetches, validates, and sanitizes the $_POST value.
+	 * Fetch and sanitize the $_POST value for the setting.
 	 *
 	 * @since 3.4.0
 	 *
@@ -124,9 +167,11 @@ class WP_Customize_Setting {
 	 * @return mixed The default value on failure, otherwise the sanitized value.
 	 */
 	public final function post_value( $default = null ) {
+		// Check for a cached value
 		if ( isset( $this->_post_value ) )
 			return $this->_post_value;
 
+		// Call the manager for the post value
 		$result = $this->manager->post_value( $this );
 
 		if ( isset( $result ) )
@@ -149,7 +194,7 @@ class WP_Customize_Setting {
 	}
 
 	/**
-	 * Set the value of the parameter for a specific theme.
+	 * Save the value of the setting, using the related API.
 	 *
 	 * @since 3.4.0
 	 *
@@ -190,7 +235,7 @@ class WP_Customize_Setting {
 	}
 
 	/**
-	 * Update the theme mod from the value of the parameter.
+	 * Update the option from the value of the setting.
 	 *
 	 * @since 3.4.0
 	 *
@@ -210,13 +255,14 @@ class WP_Customize_Setting {
 	}
 
 	/**
-	 * Fetch the value of the parameter for a specific theme.
+	 * Fetch the value of the setting.
 	 *
 	 * @since 3.4.0
 	 *
-	 * @return mixed The requested value.
+	 * @return mixed The value.
 	 */
 	public function value() {
+		// Get the callback that corresponds to the setting type.
 		switch( $this->type ) {
 			case 'theme_mod' :
 				$function = 'get_theme_mod';
@@ -238,7 +284,7 @@ class WP_Customize_Setting {
 	}
 
 	/**
-	 * Escape the parameter's value for use in JavaScript.
+	 * Sanitize the setting's value for use in JavaScript.
 	 *
 	 * @since 3.4.0
 	 *
@@ -254,7 +300,7 @@ class WP_Customize_Setting {
 	}
 
 	/**
-	 * Check if the theme supports the setting and check user capabilities.
+	 * Validate user capabilities whether the theme supports the setting.
 	 *
 	 * @since 3.4.0
 	 *
