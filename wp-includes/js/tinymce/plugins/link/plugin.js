@@ -30,7 +30,7 @@ tinymce.PluginManager.add('link', function(editor) {
 
 	function showDialog(linkList) {
 		var data = {}, selection = editor.selection, dom = editor.dom, selectedElm, anchorElm, initialText;
-		var win, textListCtrl, linkListCtrl, relListCtrl, targetListCtrl;
+		var win, onlyText, textListCtrl, linkListCtrl, relListCtrl, targetListCtrl, classListCtrl;
 
 		function linkListChangeHandler(e) {
 			var textCtrl = win.find('#text');
@@ -56,37 +56,28 @@ tinymce.PluginManager.add('link', function(editor) {
 			return linkListItems;
 		}
 
-		function buildRelList(relValue) {
-			var relListItems = [{text: 'None', value: ''}];
+		function buildValues(listSettingName, dataItemName, defaultItems) {
+			var selectedItem, items = [];
 
-			tinymce.each(editor.settings.rel_list, function(rel) {
-				relListItems.push({
-					text: rel.text || rel.title,
-					value: rel.value,
-					selected: relValue === rel.value
-				});
+			tinymce.each(editor.settings[listSettingName] || defaultItems, function(target) {
+				var item = {
+					text: target.text || target.title,
+					value: target.value
+				};
+
+				items.push(item);
+
+				if (data[dataItemName] === target.value || (!selectedItem && target.selected)) {
+					selectedItem = item;
+				}
 			});
 
-			return relListItems;
-		}
-
-		function buildTargetList(targetValue) {
-			var targetListItems = [];
-
-			if (!editor.settings.target_list) {
-				targetListItems.push({text: 'None', value: ''});
-				targetListItems.push({text: 'New window', value: '_blank'});
+			if (selectedItem && !data[dataItemName]) {
+				data[dataItemName] = selectedItem.value;
+				selectedItem.selected = true;
 			}
 
-			tinymce.each(editor.settings.target_list, function(target) {
-				targetListItems.push({
-					text: target.text || target.title,
-					value: target.value,
-					selected: targetValue === target.value
-				});
-			});
-
-			return targetListItems;
+			return items;
 		}
 
 		function buildAnchorListControl(url) {
@@ -127,30 +118,40 @@ tinymce.PluginManager.add('link', function(editor) {
 			}
 		}
 
-		selectedElm = selection.getNode();
-		anchorElm = dom.getParent(selectedElm, 'a[href]');
+		function isOnlyTextSelected(anchorElm) {
+			var html = selection.getContent();
 
-		var onlyText = true;
-		if (/</.test(selection.getContent())) {
-			onlyText = false;
-		} else if (anchorElm) {
-			var nodes = anchorElm.childNodes, i;
-			if (nodes.length === 0) {
-				onlyText = false;
-			} else {
+			// Partial html and not a fully selected anchor element
+			if (/</.test(html) && (!/^<a [^>]+>[^<]+<\/a>$/.test(html) || html.indexOf('href=') == -1)) {
+				return false;
+			}
+
+			if (anchorElm) {
+				var nodes = anchorElm.childNodes, i;
+
+				if (nodes.length === 0) {
+					return false;
+				}
+
 				for (i = nodes.length - 1; i >= 0; i--) {
 					if (nodes[i].nodeType != 3) {
-						onlyText = false;
-						break;
+						return false;
 					}
 				}
 			}
+
+			return true;
 		}
+
+		selectedElm = selection.getNode();
+		anchorElm = dom.getParent(selectedElm, 'a[href]');
+		onlyText = isOnlyTextSelected();
 
 		data.text = initialText = anchorElm ? (anchorElm.innerText || anchorElm.textContent) : selection.getContent({format: 'text'});
 		data.href = anchorElm ? dom.getAttrib(anchorElm, 'href') : '';
-		data.target = anchorElm ? dom.getAttrib(anchorElm, 'target') : (editor.settings.default_link_target || '');
-		data.rel = anchorElm ? dom.getAttrib(anchorElm, 'rel') : '';
+		data.target = anchorElm ? dom.getAttrib(anchorElm, 'target') : (editor.settings.default_link_target || null);
+		data.rel = anchorElm ? dom.getAttrib(anchorElm, 'rel') : null;
+		data['class'] = anchorElm ? dom.getAttrib(anchorElm, 'class') : null;
 
 		if (onlyText) {
 			textListCtrl = {
@@ -182,7 +183,7 @@ tinymce.PluginManager.add('link', function(editor) {
 				name: 'target',
 				type: 'listbox',
 				label: 'Target',
-				values: buildTargetList(data.target)
+				values: buildValues('target_list', 'target', [{text: 'None', value: ''}, {text: 'New window', value: '_blank'}])
 			};
 		}
 
@@ -191,7 +192,16 @@ tinymce.PluginManager.add('link', function(editor) {
 				name: 'rel',
 				type: 'listbox',
 				label: 'Rel',
-				values: buildRelList(data.rel)
+				values: buildValues('rel_list', 'rel', [{text: 'None', value: ''}])
+			};
+		}
+
+		if (editor.settings.link_class_list) {
+			classListCtrl = {
+				name: 'class',
+				type: 'listbox',
+				label: 'Class',
+				values: buildValues('link_class_list', 'class')
 			};
 		}
 
@@ -213,10 +223,14 @@ tinymce.PluginManager.add('link', function(editor) {
 				buildAnchorListControl(data.href),
 				linkListCtrl,
 				relListCtrl,
-				targetListCtrl
+				targetListCtrl,
+				classListCtrl
 			],
 			onSubmit: function(e) {
-				var data = e.data, href = data.href;
+				var href;
+
+				data = tinymce.extend(data, e.data);
+				href = data.href;
 
 				// Delay confirm since onSubmit will move focus
 				function delayedConfirm(message, callback) {
@@ -241,7 +255,8 @@ tinymce.PluginManager.add('link', function(editor) {
 						dom.setAttribs(anchorElm, {
 							href: href,
 							target: data.target ? data.target : null,
-							rel: data.rel ? data.rel : null
+							rel: data.rel ? data.rel : null,
+							"class": data["class"] ? data["class"] : null
 						});
 
 						selection.select(anchorElm);
@@ -251,7 +266,8 @@ tinymce.PluginManager.add('link', function(editor) {
 							editor.insertContent(dom.createHTML('a', {
 								href: href,
 								target: data.target ? data.target : null,
-								rel: data.rel ? data.rel : null
+								rel: data.rel ? data.rel : null,
+								"class": data["class"] ? data["class"] : null
 							}, dom.encode(data.text)));
 						} else {
 							editor.execCommand('mceInsertLink', false, {

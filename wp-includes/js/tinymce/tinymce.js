@@ -1,4 +1,4 @@
-// 4.0.16 (2014-01-31)
+// 4.0.18 (2014-02-27)
 
 /**
  * Compiled inline version. (Library mode)
@@ -192,7 +192,7 @@ define("tinymce/dom/EventUtils", [], function() {
 				} else {
 					originalEvent.cancelBubble = true; // IE
 				}
-			 }
+			}
 		};
 
 		// Add stopImmediatePropagation
@@ -232,7 +232,9 @@ define("tinymce/dom/EventUtils", [], function() {
 		}
 
 		function waitForDomLoaded() {
-			if (doc.readyState === "complete" || doc.readyState === "interactive") {
+			// Check complete or interactive state if there is a body
+			// element on some iframes IE 8 will produce a null body
+			if (doc.readyState === "complete" || (doc.readyState === "interactive" && doc.body)) {
 				removeEvent(doc, "readystatechange", waitForDomLoaded);
 				readyHandler();
 			}
@@ -4604,7 +4606,7 @@ define("tinymce/dom/Range", [
 			return _traverseCommonAncestors(startNode, endNode, how);
 		}
 
-		 function _traverseSameContainer(how) {
+		function _traverseSameContainer(how) {
 			var frag, s, sub, n, cnt, sibling, xferNode, start, len;
 
 			if (how != DELETE) {
@@ -9052,7 +9054,7 @@ define("tinymce/html/Schema", [
 		textBlockElementsMap = createLookupTable('text_block_elements', 'h1 h2 h3 h4 h5 h6 p div address pre form ' +
 						'blockquote center dir fieldset header footer article section hgroup aside nav figure');
 		blockElementsMap = createLookupTable('block_elements', 'hr table tbody thead tfoot ' +
-						'th tr td li ol ul caption dl dt dd noscript menu isindex samp option ' +
+						'th tr td li ol ul caption dl dt dd noscript menu isindex option ' +
 						'datalist select optgroup', textBlockElementsMap);
 
 		each((settings.special || 'script noscript style textarea').split(' '), function(name) {
@@ -9566,7 +9568,7 @@ define("tinymce/html/Schema", [
 
 		/**
 		 * Parses a valid elements string and adds it to the schema. The valid elements
-		  format is for example "element[attr=default|otherattr]".
+		 * format is for example "element[attr=default|otherattr]".
 		 * Existing rules will be replaced with the ones specified, so this extends the schema.
 		 *
 		 * @method addValidElements
@@ -12273,8 +12275,6 @@ define("tinymce/dom/ControlSelection", [
 					var handleElm, handlerContainerElm;
 
 					function startDrag(e) {
-						resizeStarted = true;
-
 						startX = e.screenX;
 						startY = e.screenY;
 						startW = selectedElm.clientWidth;
@@ -12322,12 +12322,18 @@ define("tinymce/dom/ControlSelection", [
 							id: 'mceResizeHandle' + name,
 							'data-mce-bogus': true,
 							'class': 'mce-resizehandle',
-							contentEditable: false, // Hides IE move layer cursor
-							unSelectabe: true,
+							unselectable: true,
 							style: 'cursor:' + name + '-resize; margin:0; padding:0'
 						});
 
+						// Hides IE move layer cursor
+						// If we set it on Chrome we get this wounderful bug: #6725
+						if (Env.ie) {
+							handleElm.contentEditable = false;
+						}
+
 						dom.bind(handleElm, 'mousedown', function(e) {
+							e.stopImmediatePropagation();
 							e.preventDefault();
 							startDrag(e);
 						});
@@ -12568,6 +12574,485 @@ define("tinymce/dom/ControlSelection", [
 	};
 });
 
+// Included from: js/tinymce/classes/dom/RangeUtils.js
+
+/**
+ * Range.js
+ *
+ * Copyright, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * RangeUtils
+ *
+ * @class tinymce.dom.RangeUtils
+ * @private
+ */
+define("tinymce/dom/RangeUtils", [
+	"tinymce/util/Tools",
+	"tinymce/dom/TreeWalker"
+], function(Tools, TreeWalker) {
+	var each = Tools.each;
+
+	function RangeUtils(dom) {
+		/**
+		 * Walks the specified range like object and executes the callback for each sibling collection it finds.
+		 *
+		 * @method walk
+		 * @param {Object} rng Range like object.
+		 * @param {function} callback Callback function to execute for each sibling collection.
+		 */
+		this.walk = function(rng, callback) {
+			var startContainer = rng.startContainer,
+				startOffset = rng.startOffset,
+				endContainer = rng.endContainer,
+				endOffset = rng.endOffset,
+				ancestor, startPoint,
+				endPoint, node, parent, siblings, nodes;
+
+			// Handle table cell selection the table plugin enables
+			// you to fake select table cells and perform formatting actions on them
+			nodes = dom.select('td.mce-item-selected,th.mce-item-selected');
+			if (nodes.length > 0) {
+				each(nodes, function(node) {
+					callback([node]);
+				});
+
+				return;
+			}
+
+			/**
+			 * Excludes start/end text node if they are out side the range
+			 *
+			 * @private
+			 * @param {Array} nodes Nodes to exclude items from.
+			 * @return {Array} Array with nodes excluding the start/end container if needed.
+			 */
+			function exclude(nodes) {
+				var node;
+
+				// First node is excluded
+				node = nodes[0];
+				if (node.nodeType === 3 && node === startContainer && startOffset >= node.nodeValue.length) {
+					nodes.splice(0, 1);
+				}
+
+				// Last node is excluded
+				node = nodes[nodes.length - 1];
+				if (endOffset === 0 && nodes.length > 0 && node === endContainer && node.nodeType === 3) {
+					nodes.splice(nodes.length - 1, 1);
+				}
+
+				return nodes;
+			}
+
+			/**
+			 * Collects siblings
+			 *
+			 * @private
+			 * @param {Node} node Node to collect siblings from.
+			 * @param {String} name Name of the sibling to check for.
+			 * @return {Array} Array of collected siblings.
+			 */
+			function collectSiblings(node, name, end_node) {
+				var siblings = [];
+
+				for (; node && node != end_node; node = node[name]) {
+					siblings.push(node);
+				}
+
+				return siblings;
+			}
+
+			/**
+			 * Find an end point this is the node just before the common ancestor root.
+			 *
+			 * @private
+			 * @param {Node} node Node to start at.
+			 * @param {Node} root Root/ancestor element to stop just before.
+			 * @return {Node} Node just before the root element.
+			 */
+			function findEndPoint(node, root) {
+				do {
+					if (node.parentNode == root) {
+						return node;
+					}
+
+					node = node.parentNode;
+				} while(node);
+			}
+
+			function walkBoundary(start_node, end_node, next) {
+				var siblingName = next ? 'nextSibling' : 'previousSibling';
+
+				for (node = start_node, parent = node.parentNode; node && node != end_node; node = parent) {
+					parent = node.parentNode;
+					siblings = collectSiblings(node == start_node ? node : node[siblingName], siblingName);
+
+					if (siblings.length) {
+						if (!next) {
+							siblings.reverse();
+						}
+
+						callback(exclude(siblings));
+					}
+				}
+			}
+
+			// If index based start position then resolve it
+			if (startContainer.nodeType == 1 && startContainer.hasChildNodes()) {
+				startContainer = startContainer.childNodes[startOffset];
+			}
+
+			// If index based end position then resolve it
+			if (endContainer.nodeType == 1 && endContainer.hasChildNodes()) {
+				endContainer = endContainer.childNodes[Math.min(endOffset - 1, endContainer.childNodes.length - 1)];
+			}
+
+			// Same container
+			if (startContainer == endContainer) {
+				return callback(exclude([startContainer]));
+			}
+
+			// Find common ancestor and end points
+			ancestor = dom.findCommonAncestor(startContainer, endContainer);
+
+			// Process left side
+			for (node = startContainer; node; node = node.parentNode) {
+				if (node === endContainer) {
+					return walkBoundary(startContainer, ancestor, true);
+				}
+
+				if (node === ancestor) {
+					break;
+				}
+			}
+
+			// Process right side
+			for (node = endContainer; node; node = node.parentNode) {
+				if (node === startContainer) {
+					return walkBoundary(endContainer, ancestor);
+				}
+
+				if (node === ancestor) {
+					break;
+				}
+			}
+
+			// Find start/end point
+			startPoint = findEndPoint(startContainer, ancestor) || startContainer;
+			endPoint = findEndPoint(endContainer, ancestor) || endContainer;
+
+			// Walk left leaf
+			walkBoundary(startContainer, startPoint, true);
+
+			// Walk the middle from start to end point
+			siblings = collectSiblings(
+				startPoint == startContainer ? startPoint : startPoint.nextSibling,
+				'nextSibling',
+				endPoint == endContainer ? endPoint.nextSibling : endPoint
+			);
+
+			if (siblings.length) {
+				callback(exclude(siblings));
+			}
+
+			// Walk right leaf
+			walkBoundary(endContainer, endPoint);
+		};
+
+		/**
+		 * Splits the specified range at it's start/end points.
+		 *
+		 * @private
+		 * @param {Range/RangeObject} rng Range to split.
+		 * @return {Object} Range position object.
+		 */
+		this.split = function(rng) {
+			var startContainer = rng.startContainer,
+				startOffset = rng.startOffset,
+				endContainer = rng.endContainer,
+				endOffset = rng.endOffset;
+
+			function splitText(node, offset) {
+				return node.splitText(offset);
+			}
+
+			// Handle single text node
+			if (startContainer == endContainer && startContainer.nodeType == 3) {
+				if (startOffset > 0 && startOffset < startContainer.nodeValue.length) {
+					endContainer = splitText(startContainer, startOffset);
+					startContainer = endContainer.previousSibling;
+
+					if (endOffset > startOffset) {
+						endOffset = endOffset - startOffset;
+						startContainer = endContainer = splitText(endContainer, endOffset).previousSibling;
+						endOffset = endContainer.nodeValue.length;
+						startOffset = 0;
+					} else {
+						endOffset = 0;
+					}
+				}
+			} else {
+				// Split startContainer text node if needed
+				if (startContainer.nodeType == 3 && startOffset > 0 && startOffset < startContainer.nodeValue.length) {
+					startContainer = splitText(startContainer, startOffset);
+					startOffset = 0;
+				}
+
+				// Split endContainer text node if needed
+				if (endContainer.nodeType == 3 && endOffset > 0 && endOffset < endContainer.nodeValue.length) {
+					endContainer = splitText(endContainer, endOffset).previousSibling;
+					endOffset = endContainer.nodeValue.length;
+				}
+			}
+
+			return {
+				startContainer: startContainer,
+				startOffset: startOffset,
+				endContainer: endContainer,
+				endOffset: endOffset
+			};
+		};
+
+		/**
+		 * Normalizes the specified range by finding the closest best suitable caret location.
+		 *
+		 * @private
+		 * @param {Range} rng Range to normalize.
+		 * @return {Boolean} True/false if the specified range was normalized or not.
+		 */
+		this.normalize = function(rng) {
+			var normalized, collapsed;
+
+			function normalizeEndPoint(start) {
+				var container, offset, walker, body = dom.getRoot(), node, nonEmptyElementsMap, nodeName;
+				var directionLeft, isAfterNode;
+
+				function hasBrBeforeAfter(node, left) {
+					var walker = new TreeWalker(node, dom.getParent(node.parentNode, dom.isBlock) || body);
+
+					while ((node = walker[left ? 'prev' : 'next']())) {
+						if (node.nodeName === "BR") {
+							return true;
+						}
+					}
+				}
+
+				function isPrevNode(node, name) {
+					return node.previousSibling && node.previousSibling.nodeName == name;
+				}
+
+				// Walks the dom left/right to find a suitable text node to move the endpoint into
+				// It will only walk within the current parent block or body and will stop if it hits a block or a BR/IMG
+				function findTextNodeRelative(left, startNode) {
+					var walker, lastInlineElement, parentBlockContainer;
+
+					startNode = startNode || container;
+					parentBlockContainer = dom.getParent(startNode.parentNode, dom.isBlock) || body;
+
+					// Lean left before the BR element if it's the only BR within a block element. Gecko bug: #6680
+					// This: <p><br>|</p> becomes <p>|<br></p>
+					if (left && startNode.nodeName == 'BR' && isAfterNode && dom.isEmpty(parentBlockContainer)) {
+						container = startNode.parentNode;
+						offset = dom.nodeIndex(startNode);
+						normalized = true;
+						return;
+					}
+
+					// Walk left until we hit a text node we can move to or a block/br/img
+					walker = new TreeWalker(startNode, parentBlockContainer);
+					while ((node = walker[left ? 'prev' : 'next']())) {
+						// Found text node that has a length
+						if (node.nodeType === 3 && node.nodeValue.length > 0) {
+							container = node;
+							offset = left ? node.nodeValue.length : 0;
+							normalized = true;
+							return;
+						}
+
+						// Break if we find a block or a BR/IMG/INPUT etc
+						if (dom.isBlock(node) || nonEmptyElementsMap[node.nodeName.toLowerCase()]) {
+							return;
+						}
+
+						lastInlineElement = node;
+					}
+
+					// Only fetch the last inline element when in caret mode for now
+					if (collapsed && lastInlineElement) {
+						container = lastInlineElement;
+						normalized = true;
+						offset = 0;
+					}
+				}
+
+				container = rng[(start ? 'start' : 'end') + 'Container'];
+				offset = rng[(start ? 'start' : 'end') + 'Offset'];
+				isAfterNode = container.nodeType == 1 && offset === container.childNodes.length;
+				nonEmptyElementsMap = dom.schema.getNonEmptyElements();
+				directionLeft = start;
+
+				if (container.nodeType == 1 && offset > container.childNodes.length - 1) {
+					directionLeft = false;
+				}
+
+				// If the container is a document move it to the body element
+				if (container.nodeType === 9) {
+					container = dom.getRoot();
+					offset = 0;
+				}
+
+				// If the container is body try move it into the closest text node or position
+				if (container === body) {
+					// If start is before/after a image, table etc
+					if (directionLeft) {
+						node = container.childNodes[offset > 0 ? offset - 1 : 0];
+						if (node) {
+							nodeName = node.nodeName.toLowerCase();
+							if (nonEmptyElementsMap[node.nodeName] || node.nodeName == "TABLE") {
+								return;
+							}
+						}
+					}
+
+					// Resolve the index
+					if (container.hasChildNodes()) {
+						offset = Math.min(!directionLeft && offset > 0 ? offset - 1 : offset, container.childNodes.length - 1);
+						container = container.childNodes[offset];
+						offset = 0;
+
+						// Don't walk into elements that doesn't have any child nodes like a IMG
+						if (container.hasChildNodes() && !/TABLE/.test(container.nodeName)) {
+							// Walk the DOM to find a text node to place the caret at or a BR
+							node = container;
+							walker = new TreeWalker(container, body);
+
+							do {
+								// Found a text node use that position
+								if (node.nodeType === 3 && node.nodeValue.length > 0) {
+									offset = directionLeft ? 0 : node.nodeValue.length;
+									container = node;
+									normalized = true;
+									break;
+								}
+
+								// Found a BR/IMG element that we can place the caret before
+								if (nonEmptyElementsMap[node.nodeName.toLowerCase()]) {
+									offset = dom.nodeIndex(node);
+									container = node.parentNode;
+
+									// Put caret after image when moving the end point
+									if (node.nodeName ==  "IMG" && !directionLeft) {
+										offset++;
+									}
+
+									normalized = true;
+									break;
+								}
+							} while ((node = (directionLeft ? walker.next() : walker.prev())));
+						}
+					}
+				}
+
+				// Lean the caret to the left if possible
+				if (collapsed) {
+					// So this: <b>x</b><i>|x</i>
+					// Becomes: <b>x|</b><i>x</i>
+					// Seems that only gecko has issues with this
+					if (container.nodeType === 3 && offset === 0) {
+						findTextNodeRelative(true);
+					}
+
+					// Lean left into empty inline elements when the caret is before a BR
+					// So this: <i><b></b><i>|<br></i>
+					// Becomes: <i><b>|</b><i><br></i>
+					// Seems that only gecko has issues with this.
+					// Special edge case for <p><a>x</a>|<br></p> since we don't want <p><a>x|</a><br></p>
+					if (container.nodeType === 1) {
+						node = container.childNodes[offset];
+
+						// Offset is after the containers last child
+						// then use the previous child for normalization
+						if (!node) {
+							node = container.childNodes[offset - 1];
+						}
+
+						if (node && node.nodeName === 'BR' && !isPrevNode(node, 'A') &&
+							!hasBrBeforeAfter(node) && !hasBrBeforeAfter(node, true)) {
+							findTextNodeRelative(true, node);
+						}
+					}
+				}
+
+				// Lean the start of the selection right if possible
+				// So this: x[<b>x]</b>
+				// Becomes: x<b>[x]</b>
+				if (directionLeft && !collapsed && container.nodeType === 3 && offset === container.nodeValue.length) {
+					findTextNodeRelative(false);
+				}
+
+				// Set endpoint if it was normalized
+				if (normalized) {
+					rng['set' + (start ? 'Start' : 'End')](container, offset);
+				}
+			}
+
+			collapsed = rng.collapsed;
+
+			normalizeEndPoint(true);
+
+			if (!collapsed) {
+				normalizeEndPoint();
+			}
+
+			// If it was collapsed then make sure it still is
+			if (normalized && collapsed) {
+				rng.collapse(true);
+			}
+
+			return normalized;
+		};
+	}
+
+	/**
+	 * Compares two ranges and checks if they are equal.
+	 *
+	 * @static
+	 * @method compareRanges
+	 * @param {DOMRange} rng1 First range to compare.
+	 * @param {DOMRange} rng2 First range to compare.
+	 * @return {Boolean} true/false if the ranges are equal.
+	 */
+	RangeUtils.compareRanges = function(rng1, rng2) {
+		if (rng1 && rng2) {
+			// Compare native IE ranges
+			if (rng1.item || rng1.duplicate) {
+				// Both are control ranges and the selected element matches
+				if (rng1.item && rng2.item && rng1.item(0) === rng2.item(0)) {
+					return true;
+				}
+
+				// Both are text ranges and the range matches
+				if (rng1.isEqual && rng2.isEqual && rng2.isEqual(rng1)) {
+					return true;
+				}
+			} else {
+				// Compare w3c ranges
+				return rng1.startContainer == rng2.startContainer && rng1.startOffset == rng2.startOffset;
+			}
+		}
+
+		return false;
+	};
+
+	return RangeUtils;
+});
+
 // Included from: js/tinymce/classes/dom/Selection.js
 
 /**
@@ -12593,9 +13078,10 @@ define("tinymce/dom/Selection", [
 	"tinymce/dom/TreeWalker",
 	"tinymce/dom/TridentSelection",
 	"tinymce/dom/ControlSelection",
+	"tinymce/dom/RangeUtils",
 	"tinymce/Env",
 	"tinymce/util/Tools"
-], function(TreeWalker, TridentSelection, ControlSelection, Env, Tools) {
+], function(TreeWalker, TridentSelection, ControlSelection, RangeUtils, Env, Tools) {
 	var each = Tools.each, grep = Tools.grep, trim = Tools.trim;
 	var isIE = Env.ie, isOpera = Env.opera;
 
@@ -13345,6 +13831,19 @@ define("tinymce/dom/Selection", [
 		getRng: function(w3c) {
 			var self = this, selection, rng, elm, doc = self.win.document, ieRng;
 
+			function tryCompareBounderyPoints(how, sourceRange, destinationRange) {
+				try {
+					return sourceRange.compareBoundaryPoints(how, destinationRange);
+				} catch (ex) {
+					// Gecko throws wrong document exception if the range points
+					// to nodes that where removed from the dom #6690
+					// Browsers should mutate existing DOMRange instances so that they always point
+					// to something in the document this is not the case in Gecko works fine in IE/WebKit/Blink
+					// For performance reasons just return -1
+					return -1;
+				}
+			}
+
 			// Use last rng passed from FocusManager if it's available this enables
 			// calls to editor.selection.getStart() to work when caret focus is lost on IE
 			if (!w3c && self.lastFocusBookmark) {
@@ -13412,8 +13911,8 @@ define("tinymce/dom/Selection", [
 			}
 
 			if (self.selectedRange && self.explicitRange) {
-				if (rng.compareBoundaryPoints(rng.START_TO_START, self.selectedRange) === 0 &&
-					rng.compareBoundaryPoints(rng.END_TO_END, self.selectedRange) === 0) {
+				if (tryCompareBounderyPoints(rng.START_TO_START, rng, self.selectedRange) === 0 &&
+					tryCompareBounderyPoints(rng.END_TO_END, rng, self.selectedRange) === 0) {
 					// Safari, Opera and Chrome only ever select text which causes the range to change.
 					// This lets us use the originally set range if the selection hasn't been changed by the user.
 					rng = self.explicitRange;
@@ -13612,7 +14111,7 @@ define("tinymce/dom/Selection", [
 			return selectedBlocks;
 		},
 
-		isForward: function(){
+		isForward: function() {
 			var dom = this.dom, sel = this.getSel(), anchorRange, focusRange;
 
 			// No support for selection direction then always return true
@@ -13632,188 +14131,13 @@ define("tinymce/dom/Selection", [
 		},
 
 		normalize: function() {
-			var self = this, rng, normalized, collapsed;
+			var self = this, rng = self.getRng();
 
-			function normalizeEndPoint(start) {
-				var container, offset, walker, dom = self.dom, body = dom.getRoot(), node, nonEmptyElementsMap, nodeName;
-				var directionLeft;
-
-				function hasBrBeforeAfter(node, left) {
-					var walker = new TreeWalker(node, dom.getParent(node.parentNode, dom.isBlock) || body);
-
-					while ((node = walker[left ? 'prev' : 'next']())) {
-						if (node.nodeName === "BR") {
-							return true;
-						}
-					}
-				}
-
-				function isPrevNode(node, name) {
-					return node.previousSibling && node.previousSibling.nodeName == name;
-				}
-
-				// Walks the dom left/right to find a suitable text node to move the endpoint into
-				// It will only walk within the current parent block or body and will stop if it hits a block or a BR/IMG
-				function findTextNodeRelative(left, startNode) {
-					var walker, lastInlineElement;
-
-					startNode = startNode || container;
-					walker = new TreeWalker(startNode, dom.getParent(startNode.parentNode, dom.isBlock) || body);
-
-					// Walk left until we hit a text node we can move to or a block/br/img
-					while ((node = walker[left ? 'prev' : 'next']())) {
-						// Found text node that has a length
-						if (node.nodeType === 3 && node.nodeValue.length > 0) {
-							container = node;
-							offset = left ? node.nodeValue.length : 0;
-							normalized = true;
-							return;
-						}
-
-						// Break if we find a block or a BR/IMG/INPUT etc
-						if (dom.isBlock(node) || nonEmptyElementsMap[node.nodeName.toLowerCase()]) {
-							return;
-						}
-
-						lastInlineElement = node;
-					}
-
-					// Only fetch the last inline element when in caret mode for now
-					if (collapsed && lastInlineElement) {
-						container = lastInlineElement;
-						normalized = true;
-						offset = 0;
-					}
-				}
-
-				container = rng[(start ? 'start' : 'end') + 'Container'];
-				offset = rng[(start ? 'start' : 'end') + 'Offset'];
-				nonEmptyElementsMap = dom.schema.getNonEmptyElements();
-				directionLeft = start;
-
-				if (container.nodeType == 1 && offset > container.childNodes.length - 1) {
-					directionLeft = false;
-				}
-
-				// If the container is a document move it to the body element
-				if (container.nodeType === 9) {
-					container = dom.getRoot();
-					offset = 0;
-				}
-
-				// If the container is body try move it into the closest text node or position
-				if (container === body) {
-					// If start is before/after a image, table etc
-					if (directionLeft) {
-						node = container.childNodes[offset > 0 ? offset - 1 : 0];
-						if (node) {
-							nodeName = node.nodeName.toLowerCase();
-							if (nonEmptyElementsMap[node.nodeName] || node.nodeName == "TABLE") {
-								return;
-							}
-						}
-					}
-
-					// Resolve the index
-					if (container.hasChildNodes()) {
-						offset = Math.min(!directionLeft && offset > 0 ? offset - 1 : offset, container.childNodes.length - 1);
-						container = container.childNodes[offset];
-						offset = 0;
-
-						// Don't walk into elements that doesn't have any child nodes like a IMG
-						if (container.hasChildNodes() && !/TABLE/.test(container.nodeName)) {
-							// Walk the DOM to find a text node to place the caret at or a BR
-							node = container;
-							walker = new TreeWalker(container, body);
-
-							do {
-								// Found a text node use that position
-								if (node.nodeType === 3 && node.nodeValue.length > 0) {
-									offset = directionLeft ? 0 : node.nodeValue.length;
-									container = node;
-									normalized = true;
-									break;
-								}
-
-								// Found a BR/IMG element that we can place the caret before
-								if (nonEmptyElementsMap[node.nodeName.toLowerCase()]) {
-									offset = dom.nodeIndex(node);
-									container = node.parentNode;
-
-									// Put caret after image when moving the end point
-									if (node.nodeName ==  "IMG" && !directionLeft) {
-										offset++;
-									}
-
-									normalized = true;
-									break;
-								}
-							} while ((node = (directionLeft ? walker.next() : walker.prev())));
-						}
-					}
-				}
-
-				// Lean the caret to the left if possible
-				if (collapsed) {
-					// So this: <b>x</b><i>|x</i>
-					// Becomes: <b>x|</b><i>x</i>
-					// Seems that only gecko has issues with this
-					if (container.nodeType === 3 && offset === 0) {
-						findTextNodeRelative(true);
-					}
-
-					// Lean left into empty inline elements when the caret is before a BR
-					// So this: <i><b></b><i>|<br></i>
-					// Becomes: <i><b>|</b><i><br></i>
-					// Seems that only gecko has issues with this.
-					// Special edge case for <p><a>x</a>|<br></p> since we don't want <p><a>x|</a><br></p>
-					if (container.nodeType === 1) {
-						node = container.childNodes[offset];
-						if(node && node.nodeName === 'BR' && !isPrevNode(node, 'A') &&
-							!hasBrBeforeAfter(node) && !hasBrBeforeAfter(node, true)) {
-							findTextNodeRelative(true, container.childNodes[offset]);
-						}
-					}
-				}
-
-				// Lean the start of the selection right if possible
-				// So this: x[<b>x]</b>
-				// Becomes: x<b>[x]</b>
-				if (directionLeft && !collapsed && container.nodeType === 3 && offset === container.nodeValue.length) {
-					findTextNodeRelative(false);
-				}
-
-				// Set endpoint if it was normalized
-				if (normalized) {
-					rng['set' + (start ? 'Start' : 'End')](container, offset);
-				}
-			}
-
-			// Normalize only on non IE browsers for now
-			if (isIE) {
-				return;
-			}
-
-			rng = self.getRng();
-			collapsed = rng.collapsed;
-
-			// Normalize the end points
-			normalizeEndPoint(true);
-
-			if (!collapsed) {
-				normalizeEndPoint();
-			}
-
-			// Set the selection if it was normalized
-			if (normalized) {
-				// If it was collapsed then make sure it still is
-				if (collapsed) {
-					rng.collapse(true);
-				}
-
-				//console.log(self.dom.dumpRng(rng));
+			if (!isIE && new RangeUtils(self.dom).normalize(rng)) {
 				self.setRng(rng, self.isForward());
 			}
+
+			return rng;
 		},
 
 		/**
@@ -13991,285 +14315,6 @@ define("tinymce/dom/Selection", [
 	return Selection;
 });
 
-// Included from: js/tinymce/classes/dom/RangeUtils.js
-
-/**
- * Range.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * RangeUtils
- *
- * @class tinymce.dom.RangeUtils
- * @private
- */
-define("tinymce/dom/RangeUtils", [
-	"tinymce/util/Tools"
-], function(Tools) {
-	var each = Tools.each;
-
-	function RangeUtils(dom) {
-		/**
-		 * Walks the specified range like object and executes the callback for each sibling collection it finds.
-		 *
-		 * @method walk
-		 * @param {Object} rng Range like object.
-		 * @param {function} callback Callback function to execute for each sibling collection.
-		 */
-		this.walk = function(rng, callback) {
-			var startContainer = rng.startContainer,
-				startOffset = rng.startOffset,
-				endContainer = rng.endContainer,
-				endOffset = rng.endOffset,
-				ancestor, startPoint,
-				endPoint, node, parent, siblings, nodes;
-
-			// Handle table cell selection the table plugin enables
-			// you to fake select table cells and perform formatting actions on them
-			nodes = dom.select('td.mce-item-selected,th.mce-item-selected');
-			if (nodes.length > 0) {
-				each(nodes, function(node) {
-					callback([node]);
-				});
-
-				return;
-			}
-
-			/**
-			 * Excludes start/end text node if they are out side the range
-			 *
-			 * @private
-			 * @param {Array} nodes Nodes to exclude items from.
-			 * @return {Array} Array with nodes excluding the start/end container if needed.
-			 */
-			function exclude(nodes) {
-				var node;
-
-				// First node is excluded
-				node = nodes[0];
-				if (node.nodeType === 3 && node === startContainer && startOffset >= node.nodeValue.length) {
-					nodes.splice(0, 1);
-				}
-
-				// Last node is excluded
-				node = nodes[nodes.length - 1];
-				if (endOffset === 0 && nodes.length > 0 && node === endContainer && node.nodeType === 3) {
-					nodes.splice(nodes.length - 1, 1);
-				}
-
-				return nodes;
-			}
-
-			/**
-			 * Collects siblings
-			 *
-			 * @private
-			 * @param {Node} node Node to collect siblings from.
-			 * @param {String} name Name of the sibling to check for.
-			 * @return {Array} Array of collected siblings.
-			 */
-			function collectSiblings(node, name, end_node) {
-				var siblings = [];
-
-				for (; node && node != end_node; node = node[name]) {
-					siblings.push(node);
-				}
-
-				return siblings;
-			}
-
-			/**
-			 * Find an end point this is the node just before the common ancestor root.
-			 *
-			 * @private
-			 * @param {Node} node Node to start at.
-			 * @param {Node} root Root/ancestor element to stop just before.
-			 * @return {Node} Node just before the root element.
-			 */
-			function findEndPoint(node, root) {
-				do {
-					if (node.parentNode == root) {
-						return node;
-					}
-
-					node = node.parentNode;
-				} while(node);
-			}
-
-			function walkBoundary(start_node, end_node, next) {
-				var siblingName = next ? 'nextSibling' : 'previousSibling';
-
-				for (node = start_node, parent = node.parentNode; node && node != end_node; node = parent) {
-					parent = node.parentNode;
-					siblings = collectSiblings(node == start_node ? node : node[siblingName], siblingName);
-
-					if (siblings.length) {
-						if (!next) {
-							siblings.reverse();
-						}
-
-						callback(exclude(siblings));
-					}
-				}
-			}
-
-			// If index based start position then resolve it
-			if (startContainer.nodeType == 1 && startContainer.hasChildNodes()) {
-				startContainer = startContainer.childNodes[startOffset];
-			}
-
-			// If index based end position then resolve it
-			if (endContainer.nodeType == 1 && endContainer.hasChildNodes()) {
-				endContainer = endContainer.childNodes[Math.min(endOffset - 1, endContainer.childNodes.length - 1)];
-			}
-
-			// Same container
-			if (startContainer == endContainer) {
-				return callback(exclude([startContainer]));
-			}
-
-			// Find common ancestor and end points
-			ancestor = dom.findCommonAncestor(startContainer, endContainer);
-
-			// Process left side
-			for (node = startContainer; node; node = node.parentNode) {
-				if (node === endContainer) {
-					return walkBoundary(startContainer, ancestor, true);
-				}
-
-				if (node === ancestor) {
-					break;
-				}
-			}
-
-			// Process right side
-			for (node = endContainer; node; node = node.parentNode) {
-				if (node === startContainer) {
-					return walkBoundary(endContainer, ancestor);
-				}
-
-				if (node === ancestor) {
-					break;
-				}
-			}
-
-			// Find start/end point
-			startPoint = findEndPoint(startContainer, ancestor) || startContainer;
-			endPoint = findEndPoint(endContainer, ancestor) || endContainer;
-
-			// Walk left leaf
-			walkBoundary(startContainer, startPoint, true);
-
-			// Walk the middle from start to end point
-			siblings = collectSiblings(
-				startPoint == startContainer ? startPoint : startPoint.nextSibling,
-				'nextSibling',
-				endPoint == endContainer ? endPoint.nextSibling : endPoint
-			);
-
-			if (siblings.length) {
-				callback(exclude(siblings));
-			}
-
-			// Walk right leaf
-			walkBoundary(endContainer, endPoint);
-		};
-
-		/**
-		 * Splits the specified range at it's start/end points.
-		 *
-		 * @private
-		 * @param {Range/RangeObject} rng Range to split.
-		 * @return {Object} Range position object.
-		 */
-		this.split = function(rng) {
-			var startContainer = rng.startContainer,
-				startOffset = rng.startOffset,
-				endContainer = rng.endContainer,
-				endOffset = rng.endOffset;
-
-			function splitText(node, offset) {
-				return node.splitText(offset);
-			}
-
-			// Handle single text node
-			if (startContainer == endContainer && startContainer.nodeType == 3) {
-				if (startOffset > 0 && startOffset < startContainer.nodeValue.length) {
-					endContainer = splitText(startContainer, startOffset);
-					startContainer = endContainer.previousSibling;
-
-					if (endOffset > startOffset) {
-						endOffset = endOffset - startOffset;
-						startContainer = endContainer = splitText(endContainer, endOffset).previousSibling;
-						endOffset = endContainer.nodeValue.length;
-						startOffset = 0;
-					} else {
-						endOffset = 0;
-					}
-				}
-			} else {
-				// Split startContainer text node if needed
-				if (startContainer.nodeType == 3 && startOffset > 0 && startOffset < startContainer.nodeValue.length) {
-					startContainer = splitText(startContainer, startOffset);
-					startOffset = 0;
-				}
-
-				// Split endContainer text node if needed
-				if (endContainer.nodeType == 3 && endOffset > 0 && endOffset < endContainer.nodeValue.length) {
-					endContainer = splitText(endContainer, endOffset).previousSibling;
-					endOffset = endContainer.nodeValue.length;
-				}
-			}
-
-			return {
-				startContainer: startContainer,
-				startOffset: startOffset,
-				endContainer: endContainer,
-				endOffset: endOffset
-			};
-		};
-	}
-
-	/**
-	 * Compares two ranges and checks if they are equal.
-	 *
-	 * @static
-	 * @method compareRanges
-	 * @param {DOMRange} rng1 First range to compare.
-	 * @param {DOMRange} rng2 First range to compare.
-	 * @return {Boolean} true/false if the ranges are equal.
-	 */
-	RangeUtils.compareRanges = function(rng1, rng2) {
-		if (rng1 && rng2) {
-			// Compare native IE ranges
-			if (rng1.item || rng1.duplicate) {
-				// Both are control ranges and the selected element matches
-				if (rng1.item && rng2.item && rng1.item(0) === rng2.item(0)) {
-					return true;
-				}
-
-				// Both are text ranges and the range matches
-				if (rng1.isEqual && rng2.isEqual && rng2.isEqual(rng1)) {
-					return true;
-				}
-			} else {
-				// Compare w3c ranges
-				return rng1.startContainer == rng2.startContainer && rng1.startOffset == rng2.startOffset;
-			}
-		}
-
-		return false;
-	};
-
-	return RangeUtils;
-});
-
 // Included from: js/tinymce/classes/Formatter.js
 
 /**
@@ -14415,7 +14460,7 @@ define("tinymce/Formatter", [
 
 				removeformat: [
 					{
-						selector: 'b,strong,em,i,font,u,strike,sub,sup',
+						selector: 'b,strong,em,i,font,u,strike,sub,sup,dfn,code,samp,kbd,var,cite,mark,q',
 						remove: 'all',
 						split: true,
 						expand: false,
@@ -14830,7 +14875,7 @@ define("tinymce/Formatter", [
 						});
 
 						// If child was found and of the same type as the current node
-						if (child && matchName(child, format)) {
+						if (child && !isBookmarkNode(child) && matchName(child, format)) {
 							clone = dom.clone(child, FALSE);
 							setElementFormat(clone);
 
@@ -14864,6 +14909,10 @@ define("tinymce/Formatter", [
 							// will become: <span style="color:red"><b><span style="font-size:10px">text</span></b></span>
 							each(dom.select(format.inline, node), function(child) {
 								var parent;
+
+								if (isBookmarkNode(child)) {
+									return;
+								}
 
 								// When wrap_links is set to false we don't want
 								// to remove the format on children within links
@@ -16166,7 +16215,7 @@ define("tinymce/Formatter", [
 				next = next ? 'nextSibling' : 'previousSibling';
 
 				for (node = inc ? node : node[next]; node; node = node[next]) {
-					if (node.nodeType == 1 && !isWhiteSpaceNode(node)) {
+					if (node.nodeType == 1 || !isWhiteSpaceNode(node)) {
 						return node;
 					}
 				}
@@ -16284,7 +16333,7 @@ define("tinymce/Formatter", [
 					return FALSE;
 				}
 
-				return TRUE;
+				return !isBookmarkNode(node1) && !isBookmarkNode(node2);
 			}
 
 			function findElementSibling(node, sibling_name) {
@@ -16731,9 +16780,9 @@ define("tinymce/UndoManager", [
 			return trim(editor.getContent({format: 'raw', no_events: 1}).replace(trimContentRegExp, ''));
 		}
 
-		function addNonTypingUndoLevel() {
+		function addNonTypingUndoLevel(e) {
 			self.typing = false;
-			self.add();
+			self.add({}, e);
 		}
 
 		// Add initial undo level when the editor is initialized
@@ -16755,7 +16804,7 @@ define("tinymce/UndoManager", [
 			var cmd = e.command;
 
 			if (cmd != 'Undo' && cmd != 'Redo' && cmd != 'mceRepaint') {
-				self.add();
+				addNonTypingUndoLevel(e);
 			}
 		});
 
@@ -16763,13 +16812,8 @@ define("tinymce/UndoManager", [
 			self.beforeChange();
 		});
 
-		editor.on('SaveContent ObjectResized', addNonTypingUndoLevel);
+		editor.on('SaveContent ObjectResized blur', addNonTypingUndoLevel);
 		editor.dom.bind(editor.dom.getRoot(), 'dragend', addNonTypingUndoLevel);
-		editor.dom.bind(editor.getBody(), 'focusout', function() {
-			if (!editor.removed && self.typing) {
-				addNonTypingUndoLevel();
-			}
-		});
 
 		editor.on('KeyUp', function(e) {
 			var keyCode = e.keyCode;
@@ -16807,7 +16851,7 @@ define("tinymce/UndoManager", [
 			// Is caracter positon keys left,right,up,down,home,end,pgdown,pgup,enter
 			if ((keyCode >= 33 && keyCode <= 36) || (keyCode >= 37 && keyCode <= 40) || keyCode == 45) {
 				if (self.typing) {
-					addNonTypingUndoLevel();
+					addNonTypingUndoLevel(e);
 				}
 
 				return;
@@ -16817,14 +16861,14 @@ define("tinymce/UndoManager", [
 			if ((keyCode < 16 || keyCode > 20) && keyCode != 224 && keyCode != 91 && !self.typing) {
 				self.beforeChange();
 				self.typing = true;
-				self.add();
+				self.add({}, e);
 				isFirstTypedCharacter = true;
 			}
 		});
 
-		editor.on('MouseDown', function() {
+		editor.on('MouseDown', function(e) {
 			if (self.typing) {
-				addNonTypingUndoLevel();
+				addNonTypingUndoLevel(e);
 			}
 		});
 
@@ -16866,16 +16910,21 @@ define("tinymce/UndoManager", [
 			 * Adds a new undo level/snapshot to the undo list.
 			 *
 			 * @method add
-			 * @param {Object} l Optional undo level object to add.
+			 * @param {Object} level Optional undo level object to add.
+			 * @param {DOMEvent} Event Optional event responsible for the creation of the undo level.
 			 * @return {Object} Undo level that got added or null it a level wasn't needed.
 			 */
-			add: function(level) {
+			add: function(level, event) {
 				var i, settings = editor.settings, lastLevel;
 
 				level = level || {};
 				level.content = getContent();
 
-				if (lock || editor.fire('BeforeAddUndo', {level: level}).isDefaultPrevented()) {
+				if (lock || editor.removed) {
+					return null;
+				}
+
+				if (editor.fire('BeforeAddUndo', {level: level, originalEvent: event}).isDefaultPrevented()) {
 					return null;
 				}
 
@@ -16913,13 +16962,13 @@ define("tinymce/UndoManager", [
 				data.push(level);
 				index = data.length - 1;
 
-				var args = {level: level, lastLevel: lastLevel};
+				var args = {level: level, lastLevel: lastLevel, originalEvent: event};
 
 				editor.fire('AddUndo', args);
 
 				if (index > 0) {
-					editor.fire('change', args);
 					editor.isNotDirty = false;
+					editor.fire('change', args);
 				}
 
 				return level;
@@ -17051,8 +17100,9 @@ define("tinymce/UndoManager", [
  */
 define("tinymce/EnterKey", [
 	"tinymce/dom/TreeWalker",
+	"tinymce/dom/RangeUtils",
 	"tinymce/Env"
-], function(TreeWalker, Env) {
+], function(TreeWalker, RangeUtils, Env) {
 	var isIE = Env.ie && Env.ie < 11;
 
 	return function(editor) {
@@ -17060,7 +17110,7 @@ define("tinymce/EnterKey", [
 		var undoManager = editor.undoManager, schema = editor.schema, nonEmptyElementsMap = schema.getNonEmptyElements();
 
 		function handleEnterKey(evt) {
-			var rng = selection.getRng(true), tmpRng, editableRoot, container, offset, parentBlock, documentMode, shiftKey,
+			var rng, tmpRng, editableRoot, container, offset, parentBlock, documentMode, shiftKey,
 				newBlock, fragment, containerBlock, parentBlockName, containerBlockName, newBlockName, isAfterLastNodeInContainer;
 
 			// Returns true if the block can be split into two blocks or not
@@ -17225,7 +17275,7 @@ define("tinymce/EnterKey", [
 				// Clone any parent styles
 				if (settings.keep_styles !== false) {
 					do {
-						if (/^(SPAN|STRONG|B|EM|I|FONT|STRIKE|U)$/.test(node.nodeName)) {
+						if (/^(SPAN|STRONG|B|EM|I|FONT|STRIKE|U|VAR|CITE|DFN|CODE|MARK|Q|SUP|SUB|SAMP)$/.test(node.nodeName)) {
 							// Never clone a caret containers
 							if (node.id == '_mce_caret') {
 								continue;
@@ -17542,18 +17592,21 @@ define("tinymce/EnterKey", [
 				}
 			}
 
-			// Delete any selected contents
-			if (!rng.collapsed) {
-				editor.execCommand('Delete');
-				return;
-			}
+			rng = selection.getRng(true);
 
 			// Event is blocked by some other handler for example the lists plugin
 			if (evt.isDefaultPrevented()) {
 				return;
 			}
 
+			// Delete any selected contents
+			if (!rng.collapsed) {
+				editor.execCommand('Delete');
+				return;
+			}
+
 			// Setup range items and newBlockName
+			new RangeUtils(dom).normalize(rng);
 			container = rng.startContainer;
 			offset = rng.startOffset;
 			newBlockName = (settings.force_p_newlines ? 'p' : '') || settings.forced_root_block;
@@ -17564,6 +17617,7 @@ define("tinymce/EnterKey", [
 			// Resolve node index
 			if (container.nodeType == 1 && container.hasChildNodes()) {
 				isAfterLastNodeInContainer = offset > container.childNodes.length - 1;
+
 				container = container.childNodes[Math.min(offset, container.childNodes.length - 1)] || container;
 				if (isAfterLastNodeInContainer && container.nodeType == 3) {
 					offset = container.nodeValue.length;
@@ -20070,7 +20124,7 @@ define("tinymce/ui/Control", [
 			self.settings = settings = Tools.extend({}, self.Defaults, settings);
 
 			// Initial states
-			self._id = DomUtils.id();
+			self._id = settings.id || DomUtils.id();
 			self._text = self._name = '';
 			self._width = self._height = 0;
 			self._aria = {role: settings.role};
@@ -21026,7 +21080,7 @@ define("tinymce/ui/Control", [
 		 * @return {tinymce.ui.Control} Current control instance.
 		 */
 		aria: function(name, value) {
-			var self = this, elm = self.getEl();
+			var self = this, elm = self.getEl(self.ariaTarget);
 
 			if (typeof(value) === "undefined") {
 				return self._aria[name];
@@ -21035,10 +21089,6 @@ define("tinymce/ui/Control", [
 			}
 
 			if (self._rendered) {
-				if (name == 'label') {
-					elm.setAttribute('aria-labelledby', self._id);
-				}
-
 				elm.setAttribute(name == 'role' ? name : 'aria-' + name, value);
 			}
 
@@ -21669,6 +21719,399 @@ define("tinymce/ui/Factory", [], function() {
 	};
 });
 
+// Included from: js/tinymce/classes/ui/KeyboardNavigation.js
+
+/**
+ * KeyboardNavigation.js
+ *
+ * Copyright, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * This class handles keyboard navigation of controls and elements.
+ *
+ * @class tinymce.ui.KeyboardNavigation
+ */
+define("tinymce/ui/KeyboardNavigation", [
+], function() {
+	"use strict";
+
+	/**
+	 * This class handles all keyboard navigation for WAI-ARIA support. Each root container
+	 * gets an instance of this class.
+	 *
+	 * @constructor
+	 */
+	return function(settings) {
+		var root = settings.root, focusedElement, focusedControl;
+
+		focusedElement = document.activeElement;
+		focusedControl = root.getParentCtrl(focusedElement);
+
+		/**
+		 * Returns the currently focused elements wai aria role of the currently
+		 * focused element or specified element.
+		 *
+		 * @private
+		 * @param {Element} elm Optional element to get role from.
+		 * @return {String} Role of specified element.
+		 */
+		function getRole(elm) {
+			elm = elm || focusedElement;
+
+			return elm && elm.getAttribute('role');
+		}
+
+		/**
+		 * Returns the wai role of the parent element of the currently
+		 * focused element or specified element.
+		 *
+		 * @private
+		 * @param {Element} elm Optional element to get parent role from.
+		 * @return {String} Role of the first parent that has a role.
+		 */
+		function getParentRole(elm) {
+			var role, parent = elm || focusedElement;
+
+			while ((parent = parent.parentNode)) {
+				if ((role = getRole(parent))) {
+					return role;
+				}
+			}
+		}
+
+		/**
+		 * Returns a wai aria property by name for example aria-selected.
+		 *
+		 * @private
+		 * @param {String} name Name of the aria property to get for example "disabled".
+		 * @return {String} Aria property value.
+		 */
+		function getAriaProp(name) {
+			var elm = focusedElement;
+
+			if (elm) {
+				return elm.getAttribute('aria-' + name);
+			}
+		}
+
+		/**
+		 * Is the element a text input element or not.
+		 *
+		 * @private
+		 * @param {Element} elm Element to check if it's an text input element or not.
+		 * @return {Boolean} True/false if the element is a text element or not.
+		 */
+		function isTextInputElement(elm) {
+			// Notice: since type can be "email" etc we don't check the type
+			// So all input elements gets treated as text input elements
+			return elm.tagName == "INPUT" || elm.tagName == "TEXTAREA";
+		}
+
+		/**
+		 * Returns true/false if the specified element can be focused or not.
+		 *
+		 * @private
+		 * @param {Element} elm DOM element to check if it can be focused or not.
+		 * @return {Boolean} True/false if the element can have focus.
+		 */
+		function canFocus(elm) {
+			if (isTextInputElement(elm) && !elm.hidden) {
+				return true;
+			}
+
+			if (/^(button|menuitem|checkbox|tab|menuitemcheckbox|option|gridcell)$/.test(getRole(elm))) {
+				return true;
+			}
+
+			return false;
+		}
+
+		/**
+		 * Returns an array of focusable visible elements within the specified container element.
+		 *
+		 * @private
+		 * @param {Element} elm DOM element to find focusable elements within.
+		 * @return {Array} Array of focusable elements.
+		 */
+		function getFocusElements(elm) {
+			var elements = [];
+
+			function collect(elm) {
+				if (elm.nodeType != 1 || elm.style.display == 'none') {
+					return;
+				}
+
+				if (canFocus(elm)) {
+					elements.push(elm);
+				}
+
+				for (var i = 0; i < elm.childNodes.length; i++) {
+					collect(elm.childNodes[i]);
+				}
+			}
+
+			collect(elm || root.getEl());
+
+			return elements;
+		}
+
+		/**
+		 * Returns the navigation root control for the specified control. The navigation root
+		 * is the control that the keyboard navigation gets scoped to for example a menubar or toolbar group.
+		 * It will look for parents of the specified target control or the currenty focused control if this option is omitted.
+		 *
+		 * @private
+		 * @param {tinymce.ui.Control} targetControl Optional target control to find root of.
+		 * @return {tinymce.ui.Control} Navigation root control.
+		 */
+		function getNavigationRoot(targetControl) {
+			var navigationRoot, controls;
+
+			targetControl = targetControl || focusedControl;
+			controls = targetControl.parents().toArray();
+			controls.unshift(targetControl);
+
+			for (var i = 0; i < controls.length; i++) {
+				navigationRoot = controls[i];
+
+				if (navigationRoot.settings.ariaRoot) {
+					break;
+				}
+			}
+
+			return navigationRoot;
+		}
+
+		/**
+		 * Focuses the first item in the specified targetControl element or the last aria index if the
+		 * navigation root has the ariaRemember option enabled.
+		 *
+		 * @private
+		 * @param {tinymce.ui.Control} targetControl Target control to focus the first item in.
+		 */
+		function focusFirst(targetControl) {
+			var navigationRoot = getNavigationRoot(targetControl);
+			var focusElements = getFocusElements(navigationRoot.getEl());
+
+			if (navigationRoot.settings.ariaRemember && "lastAriaIndex" in navigationRoot) {
+				moveFocusToIndex(navigationRoot.lastAriaIndex, focusElements);
+			} else {
+				moveFocusToIndex(0, focusElements);
+			}
+		}
+
+		/**
+		 * Moves the focus to the specified index within the elements list.
+		 * This will scope the index to the size of the element list if it changed.
+		 *
+		 * @private
+		 * @param {Number} idx Specified index to move to.
+		 * @param {Array} elements Array with dom elements to move focus within.
+		 * @return {Number} Input index or a changed index if it was out of range.
+		 */
+		function moveFocusToIndex(idx, elements) {
+			if (idx < 0) {
+				idx = elements.length - 1;
+			} else if (idx >= elements.length) {
+				idx = 0;
+			}
+
+			if (elements[idx]) {
+				elements[idx].focus();
+			}
+
+			return idx;
+		}
+
+		/**
+		 * Moves the focus forwards or backwards.
+		 *
+		 * @private
+		 * @param {Number} dir Direction to move in positive means forward, negative means backwards.
+		 * @param {Array} elements Optional array of elements to move within defaults to the current navigation roots elements.
+		 */
+		function moveFocus(dir, elements) {
+			var idx = -1, navigationRoot = getNavigationRoot();
+
+			elements = elements || getFocusElements(navigationRoot.getEl());
+
+			for (var i = 0; i < elements.length; i++) {
+				if (elements[i] === focusedElement) {
+					idx = i;
+				}
+			}
+
+			idx += dir;
+			navigationRoot.lastAriaIndex = moveFocusToIndex(idx, elements);
+		}
+
+		/**
+		 * Moves the focus to the left this is called by the left key.
+		 *
+		 * @private
+		 */
+		function left() {
+			var parentRole = getParentRole();
+
+			if (parentRole == "tablist") {
+				moveFocus(-1, getFocusElements(focusedElement.parentNode));
+			} else if (focusedControl.parent().submenu) {
+				cancel();
+			} else {
+				moveFocus(-1);
+			}
+		}
+
+		/**
+		 * Moves the focus to the right this is called by the right key.
+		 *
+		 * @private
+		 */
+		function right() {
+			var role = getRole(), parentRole = getParentRole();
+
+			if (parentRole == "tablist") {
+				moveFocus(1, getFocusElements(focusedElement.parentNode));
+			} else if (role == "menuitem" && parentRole == "menu" && getAriaProp('haspopup')) {
+				enter();
+			} else {
+				moveFocus(1);
+			}
+		}
+
+		/**
+		 * Moves the focus to the up this is called by the up key.
+		 *
+		 * @private
+		 */
+		function up() {
+			moveFocus(-1);
+		}
+
+		/**
+		 * Moves the focus to the up this is called by the down key.
+		 *
+		 * @private
+		 */
+		function down() {
+			var role = getRole(), parentRole = getParentRole();
+
+			if (role == "menuitem" && parentRole == "menubar") {
+				enter();
+			} else if (role == "button" && getAriaProp('haspopup')) {
+				enter({key: 'down'});
+			} else {
+				moveFocus(1);
+			}
+		}
+
+		/**
+		 * Moves the focus to the next item or previous item depending on shift key.
+		 *
+		 * @private
+		 * @param {DOMEvent} e DOM event object.
+		 */
+		function tab(e) {
+			var parentRole = getParentRole();
+
+			if (parentRole == "tablist") {
+				var elm = getFocusElements(focusedControl.getEl('body'))[0];
+
+				if (elm) {
+					elm.focus();
+				}
+			} else {
+				moveFocus(e.shiftKey ? -1 : 1);
+			}
+		}
+
+		/**
+		 * Calls the cancel event on the currently focused control. This is normally done using the Esc key.
+		 *
+		 * @private
+		 */
+		function cancel() {
+			focusedControl.fire('cancel');
+		}
+
+		/**
+		 * Calls the click event on the currently focused control. This is normally done using the Enter/Space keys.
+		 *
+		 * @private
+		 * @param {Object} aria Optional aria data to pass along with the enter event.
+		 */
+		function enter(aria) {
+			aria = aria || {};
+			focusedControl.fire('click', {target: focusedElement, aria: aria});
+		}
+
+		root.on('keydown', function(e) {
+			function handleNonTabEvent(e, handler) {
+				// Ignore non tab keys for text elements
+				if (isTextInputElement(focusedElement)) {
+					return;
+				}
+
+				if (handler(e) !== false) {
+					e.preventDefault();
+				}
+			}
+
+			if (e.isDefaultPrevented()) {
+				return;
+			}
+
+			switch (e.keyCode) {
+				case 37: // DOM_VK_LEFT
+					handleNonTabEvent(e, left);
+					break;
+
+				case 39: // DOM_VK_RIGHT
+					handleNonTabEvent(e, right);
+					break;
+
+				case 38: // DOM_VK_UP
+					handleNonTabEvent(e, up);
+					break;
+
+				case 40: // DOM_VK_DOWN
+					handleNonTabEvent(e, down);
+					break;
+
+				case 27: // DOM_VK_ESCAPE
+					handleNonTabEvent(e, cancel);
+					break;
+
+				case 14: // DOM_VK_ENTER
+				case 13: // DOM_VK_RETURN
+				case 32: // DOM_VK_SPACE
+					handleNonTabEvent(e, enter);
+					break;
+
+				case 9: // DOM_VK_TAB
+					if (tab(e) !== false) {
+						e.preventDefault();
+					}
+					break;
+			}
+		});
+
+		root.on('focusin', function(e) {
+			focusedElement = e.target;
+			focusedControl = e.control;
+		});
+
+		return {
+			focusFirst: focusFirst
+		};
+	};
+});
+
 // Included from: js/tinymce/classes/ui/Container.js
 
 /**
@@ -21695,9 +22138,10 @@ define("tinymce/ui/Container", [
 	"tinymce/ui/Collection",
 	"tinymce/ui/Selector",
 	"tinymce/ui/Factory",
+	"tinymce/ui/KeyboardNavigation",
 	"tinymce/util/Tools",
 	"tinymce/ui/DomUtils"
-], function(Control, Collection, Selector, Factory, Tools, DomUtils) {
+], function(Control, Collection, Selector, Factory, KeyboardNavigation, Tools, DomUtils) {
 	"use strict";
 
 	var selectorCache = {};
@@ -21788,15 +22232,41 @@ define("tinymce/ui/Container", [
 		 * for the first control in the container and focus that.
 		 *
 		 * @method focus
+		 * @param {Boolean} keyboard Optional true/false if the focus was a keyboard focus or not.
 		 * @return {tinymce.ui.Collection} Current instance.
 		 */
-		focus: function() {
-			var self = this;
+		focus: function(keyboard) {
+			var self = this, focusCtrl, keyboardNav, items;
 
-			if (self.keyNav) {
-				self.keyNav.focusFirst();
-			} else {
-				self._super();
+			if (keyboard) {
+				keyboardNav = self.keyboardNav || self.parents().eq(-1)[0].keyboardNav;
+
+				if (keyboardNav) {
+					keyboardNav.focusFirst(self);
+					return;
+				}
+			}
+
+			items = self.find('*');
+
+			// TODO: Figure out a better way to auto focus alert dialog buttons
+			if (self.statusbar) {
+				items.add(self.statusbar.items());
+			}
+
+			items.each(function(ctrl) {
+				if (ctrl.settings.autofocus) {
+					focusCtrl = null;
+					return false;
+				}
+
+				if (ctrl.canFocus) {
+					focusCtrl = focusCtrl || ctrl;
+				}
+			});
+
+			if (focusCtrl) {
+				focusCtrl.focus();
 			}
 
 			return self;
@@ -22056,6 +22526,12 @@ define("tinymce/ui/Container", [
 					'border-right-width': box.right,
 					'border-bottom-width': box.bottom,
 					'border-left-width': box.left
+				});
+			}
+
+			if (!self.parent()) {
+				self.keyboardNav = new KeyboardNavigation({
+					root: self
 				});
 			}
 
@@ -22486,7 +22962,7 @@ define("tinymce/ui/Panel", [
 			}
 
 			return (
-				'<div id="' + self._id + '" class="' + self.classes() + '" hideFocus="1" tabIndex="-1">' +
+				'<div id="' + self._id + '" class="' + self.classes() + '" hideFocus="1" tabIndex="-1" role="group">' +
 					(self._preBodyHtml || '') +
 					innerHtml +
 				'</div>'
@@ -23085,6 +23561,16 @@ define("tinymce/ui/FloatPanel", [
 		remove: function() {
 			removeVisiblePanel(this);
 			this._super();
+		},
+
+		postRender: function() {
+			var self = this;
+
+			if (self.settings.bodyRole) {
+				this.getEl('body').setAttribute('role', self.settings.bodyRole);
+			}
+
+			return self._super();
 		}
 	});
 
@@ -23100,8 +23586,7 @@ define("tinymce/ui/FloatPanel", [
 		while (i--) {
 			var panel = visiblePanels[i];
 
-			if (panel.settings.autohide) {
-				panel.fire('cancel', {}, false);
+			if (panel && panel.settings.autohide) {
 				panel.hide();
 				visiblePanels.splice(i, 1);
 			}
@@ -23129,347 +23614,6 @@ define("tinymce/ui/FloatPanel", [
 	return FloatPanel;
 });
 
-// Included from: js/tinymce/classes/ui/KeyboardNavigation.js
-
-/**
- * KeyboardNavigation.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * This class handles keyboard navigation of controls and elements.
- *
- * @class tinymce.ui.KeyboardNavigation
- */
-define("tinymce/ui/KeyboardNavigation", [
-	"tinymce/ui/DomUtils"
-], function(DomUtils) {
-	"use strict";
-
-	/**
-	 * Create a new KeyboardNavigation instance to handle the focus for a specific element.
-	 *
-	 * @constructor
-	 * @param {Object} settings the settings object to define how keyboard navigation works.
-	 *
-	 * @setting {tinymce.ui.Control} root the root control navigation focus movement is scoped to this root.
-	 * @setting {Array} items an array containing the items to move focus between. Every object in this array must have an
-	 *                        id attribute which maps to the actual DOM element and it must be able to have focus i.e. tabIndex=-1.
-	 * @setting {Function} onCancel the callback for when the user presses escape or otherwise indicates canceling.
-	 * @setting {Function} onAction (optional) the action handler to call when the user activates an item.
-	 * @setting {Boolean} enableLeftRight (optional, default) when true, the up/down arrows move through items.
-	 * @setting {Boolean} enableUpDown (optional) when true, the up/down arrows move through items.
-	 * Note for both up/down and left/right explicitly set both enableLeftRight and enableUpDown to true.
-	 */
-	return function(settings) {
-		var root = settings.root, enableUpDown = settings.enableUpDown !== false;
-		var enableLeftRight = settings.enableLeftRight !== false;
-		var items = settings.items, focussedId;
-
-		/**
-		 * Initializes the items array if needed. This will collect items/elements
-		 * from the specified root control.
-		 */
-		function initItems() {
-			if (!items) {
-				items = [];
-
-				if (root.find) {
-					// Root is a container then get child elements using the UI API
-					root.find('*').each(function(ctrl) {
-						if (ctrl.canFocus) {
-							items.push(ctrl.getEl());
-						}
-					});
-				} else {
-					// Root is a control/widget then get the child elements of that control
-					var elements = root.getEl().getElementsByTagName('*');
-					for (var i = 0; i < elements.length; i++) {
-						if (elements[i].id && elements[i]) {
-							items.push(elements[i]);
-						}
-					}
-				}
-			}
-		}
-
-		/**
-		 * Returns the currently focused element.
-		 *
-		 * @private
-		 * @return {Element} Currently focused element.
-		 */
-		function getFocusElement() {
-			return document.getElementById(focussedId);
-		}
-
-		/**
-		 * Returns the currently focused elements wai aria role.
-		 *
-		 * @private
-		 * @param {Element} elm Optional element to get role from.
-		 * @return {String} Role of specified element.
-		 */
-		function getRole(elm) {
-			elm = elm || getFocusElement();
-
-			return elm && elm.getAttribute('role');
-		}
-
-		/**
-		 * Returns the role of the parent element.
-		 *
-		 * @private
-		 * @param {Element} elm Optional element to get parent role from.
-		 * @return {String} Role of the first parent that has a role.
-		 */
-		function getParentRole(elm) {
-			var role, parent = elm || getFocusElement();
-
-			while ((parent = parent.parentNode)) {
-				if ((role = getRole(parent))) {
-					return role;
-				}
-			}
-		}
-
-		/**
-		 * Returns an wai aria property by name.
-		 *
-		 * @private
-		 * @param {String} name Name of the aria property to get for example "disabled".
-		 * @return {String} Aria property value.
-		 */
-		function getAriaProp(name) {
-			var elm = document.getElementById(focussedId);
-
-			if (elm) {
-				return elm.getAttribute('aria-' + name);
-			}
-		}
-
-		/**
-		 * Executes the onAction event callback. This is when the user presses enter/space.
-		 *
-		 * @private
-		 */
-		function action() {
-			var focusElm = getFocusElement();
-
-			if (focusElm && (focusElm.nodeName == "TEXTAREA" || focusElm.type == "text")) {
-				return;
-			}
-
-			if (settings.onAction) {
-				settings.onAction(focussedId);
-			} else {
-				DomUtils.fire(getFocusElement(), 'click', {keyboard: true});
-			}
-
-			return true;
-		}
-
-		/**
-		 * Cancels the current navigation. The same as pressing the Esc key.
-		 *
-		 * @method cancel
-		 */
-		function cancel() {
-			var focusElm;
-
-			if (settings.onCancel) {
-				if ((focusElm = getFocusElement())) {
-					focusElm.blur();
-				}
-
-				settings.onCancel();
-			} else {
-				settings.root.fire('cancel');
-			}
-		}
-
-		/**
-		 * Moves the focus to the next or previous item. It will wrap to start/end if it can't move.
-		 *
-		 * @method moveFocus
-		 * @param {Number} dir Direction for move -1 or 1.
-		 */
-		function moveFocus(dir) {
-			var idx = -1, focusElm, i;
-			var visibleItems = [];
-
-			function isVisible(elm) {
-				var rootElm = root ? root.getEl() : document.body;
-
-				while (elm && elm != rootElm) {
-					if (elm.style.display == 'none') {
-						return false;
-					}
-
-					elm = elm.parentNode;
-				}
-
-				return true;
-			}
-
-			initItems();
-
-			// TODO: Optimize this, will be slow on lots of items
-			i = visibleItems.length;
-			for (i = 0; i < items.length; i++) {
-				if (isVisible(items[i])) {
-					visibleItems.push(items[i]);
-				}
-			}
-
-			i = visibleItems.length;
-			while (i--) {
-				if (visibleItems[i].id === focussedId) {
-					idx = i;
-					break;
-				}
-			}
-
-			idx += dir;
-			if (idx < 0) {
-				idx = visibleItems.length - 1;
-			} else if (idx >= visibleItems.length) {
-				idx = 0;
-			}
-
-			focusElm = visibleItems[idx];
-			focusElm.focus();
-			focussedId = focusElm.id;
-
-			if (settings.actOnFocus) {
-				action();
-			}
-		}
-
-		/**
-		 * Moves focus to the first item or the last focused item if root is a toolbar.
-		 *
-		 * @method focusFirst
-		 * @return {[type]} [description]
-		 */
-		function focusFirst() {
-			var i, rootRole;
-
-			rootRole = getRole(settings.root.getEl());
-			initItems();
-
-			i = items.length;
-			while (i--) {
-				if (rootRole == 'toolbar' && items[i].id === focussedId) {
-					items[i].focus();
-					return;
-				}
-			}
-
-			items[0].focus();
-		}
-
-		// Handle accessible keys
-		root.on('keydown', function(e) {
-			var DOM_VK_LEFT = 37, DOM_VK_RIGHT = 39, DOM_VK_UP = 38, DOM_VK_DOWN = 40;
-			var DOM_VK_ESCAPE = 27, DOM_VK_ENTER = 14, DOM_VK_RETURN = 13, DOM_VK_SPACE = 32, DOM_VK_TAB = 9;
-			var preventDefault;
-
-			switch (e.keyCode) {
-				case DOM_VK_LEFT:
-					if (enableLeftRight) {
-						if (settings.leftAction) {
-							settings.leftAction();
-						} else {
-							moveFocus(-1);
-						}
-
-						preventDefault = true;
-					}
-					break;
-
-				case DOM_VK_RIGHT:
-					if (enableLeftRight) {
-						if (getRole() == 'menuitem' && getParentRole() == 'menu') {
-							if (getAriaProp('haspopup')) {
-								action();
-							}
-						} else {
-							moveFocus(1);
-						}
-
-						preventDefault = true;
-					}
-					break;
-
-				case DOM_VK_UP:
-					if (enableUpDown) {
-						moveFocus(-1);
-						preventDefault = true;
-					}
-					break;
-
-				case DOM_VK_DOWN:
-					if (enableUpDown) {
-						if (getRole() == 'menuitem' && getParentRole() == 'menubar') {
-							action();
-						} else if (getRole() == 'button' && getAriaProp('haspopup')) {
-							action();
-						} else {
-							moveFocus(1);
-						}
-
-						preventDefault = true;
-					}
-					break;
-
-				case DOM_VK_TAB:
-					preventDefault = true;
-
-					if (e.shiftKey) {
-						moveFocus(-1);
-					} else {
-						moveFocus(1);
-					}
-					break;
-
-				case DOM_VK_ESCAPE:
-					preventDefault = true;
-					cancel();
-					break;
-
-				case DOM_VK_ENTER:
-				case DOM_VK_RETURN:
-				case DOM_VK_SPACE:
-					preventDefault = action();
-					break;
-			}
-
-			if (preventDefault) {
-				e.stopPropagation();
-				e.preventDefault();
-			}
-		});
-
-		// Init on focus in
-		root.on('focusin', function(e) {
-			initItems();
-			focussedId = e.target.id;
-		});
-
-		return {
-			moveFocus: moveFocus,
-			focusFirst: focusFirst,
-			cancel: cancel
-		};
-	};
-});
-
 // Included from: js/tinymce/classes/ui/Window.js
 
 /**
@@ -23493,9 +23637,8 @@ define("tinymce/ui/Window", [
 	"tinymce/ui/FloatPanel",
 	"tinymce/ui/Panel",
 	"tinymce/ui/DomUtils",
-	"tinymce/ui/KeyboardNavigation",
 	"tinymce/ui/DragHelper"
-], function(FloatPanel, Panel, DomUtils, KeyboardNavigation, DragHelper) {
+], function(FloatPanel, Panel, DomUtils, DragHelper) {
 	"use strict";
 
 	var Window = FloatPanel.extend({
@@ -23560,6 +23703,11 @@ define("tinymce/ui/Window", [
 				}
 			});
 
+			self.on('cancel', function() {
+				self.close();
+			});
+
+			self.aria('describedby', self.describedBy || self._id + '-none');
 			self.aria('label', settings.title);
 			self._fullscreen = false;
 		},
@@ -23667,7 +23815,7 @@ define("tinymce/ui/Window", [
 			if (settings.title) {
 				headerHtml = (
 					'<div id="' + id + '-head" class="' + prefix + 'window-head">' +
-						'<div class="' + prefix + 'title">' + self.encode(settings.title) + '</div>' +
+						'<div id="' + id + '-title" class="' + prefix + 'title">' + self.encode(settings.title) + '</div>' +
 						'<button type="button" class="' + prefix + 'close" aria-hidden="true">&times;</button>' +
 						'<div id="' + id + '-dragh" class="' + prefix + 'dragh"></div>' +
 					'</div>'
@@ -23687,12 +23835,14 @@ define("tinymce/ui/Window", [
 			}
 
 			return (
-				'<div id="' + id + '" class="' + self.classes() + '" hideFocus="1" tabIndex="-1">' +
-					headerHtml +
-					'<div id="' + id + '-body" class="' + self.classes('body') + '">' +
-						html +
+				'<div id="' + id + '" class="' + self.classes() + '" hideFocus="1">' +
+					'<div class="' + self.classPrefix + 'reset" role="application">' +
+						headerHtml +
+						'<div id="' + id + '-body" class="' + self.classes('body') + '">' +
+							html +
+						'</div>' +
+						footerHtml +
 					'</div>' +
-					footerHtml +
 				'</div>'
 			);
 		},
@@ -23770,49 +23920,11 @@ define("tinymce/ui/Window", [
 		 * @method postRender
 		 */
 		postRender: function() {
-			var self = this, items = [], focusCtrl, autoFocusFound, startPos;
+			var self = this, startPos;
 
 			setTimeout(function() {
 				self.addClass('in');
 			}, 0);
-
-			self.keyboardNavigation = new KeyboardNavigation({
-				root: self,
-				enableLeftRight: false,
-				enableUpDown: false,
-				items: items,
-				onCancel: function() {
-					self.close();
-				}
-			});
-
-			self.find('*').each(function(ctrl) {
-				if (ctrl.canFocus) {
-					autoFocusFound = autoFocusFound || ctrl.settings.autofocus;
-					focusCtrl = focusCtrl || ctrl;
-
-					// TODO: Figure out a better way
-					if (ctrl.subinput) {
-						items.push(ctrl.getEl('inp'));
-
-						if (ctrl.getEl('open')) {
-							items.push(ctrl.getEl('open'));
-						}
-					} else {
-						items.push(ctrl.getEl());
-					}
-				}
-			});
-
-			if (self.statusbar) {
-				self.statusbar.find('*').each(function(ctrl) {
-					if (ctrl.canFocus) {
-						autoFocusFound = autoFocusFound || ctrl.settings.autofocus;
-						focusCtrl = focusCtrl || ctrl;
-						items.push(ctrl.getEl());
-					}
-				});
-			}
 
 			self._super();
 
@@ -23820,9 +23932,7 @@ define("tinymce/ui/Window", [
 				self.statusbar.postRender();
 			}
 
-			if (!autoFocusFound && focusCtrl) {
-				focusCtrl.focus();
-			}
+			self.focus();
 
 			this.dragHelper = new DragHelper(self._id + '-dragh', {
 				start: function() {
@@ -24031,6 +24141,7 @@ define("tinymce/ui/MessageBox", [
 					align: "center",
 					buttons: buttons,
 					title: settings.title,
+					role: 'alertdialog',
 					items: {
 						type: "label",
 						multiline: true,
@@ -24038,7 +24149,13 @@ define("tinymce/ui/MessageBox", [
 						maxHeight: 200,
 						text: settings.text
 					},
-					onClose: settings.onClose
+					onPostRender: function() {
+						this.aria('describedby', this.items()[0]._id);
+					},
+					onClose: settings.onClose,
+					onCancel: function() {
+						callback(false);
+					}
 				}).renderTo(document.body).reflow();
 			},
 
@@ -24145,7 +24262,7 @@ define("tinymce/WindowManager", [
 		 * @option {Number} height Height in pixels.
 		 * @option {Boolean} resizable Specifies whether the popup window is resizable or not.
 		 * @option {Boolean} maximizable Specifies whether the popup window has a "maximize" button and can get maximized or not.
-		 * @option {String/bool} scrollbars Specifies whether the popup window can have scrollbars if required (i.e. content
+		 * @option {String/Boolean} scrollbars Specifies whether the popup window can have scrollbars if required (i.e. content
 		 * larger than the popup size specified).
 		 */
 		self.open = function(args, params) {
@@ -24238,6 +24355,8 @@ define("tinymce/WindowManager", [
 			MessageBox.alert(message, function() {
 				if (callback) {
 					callback.call(scope || this);
+				} else {
+					editor.focus();
 				}
 			});
 		};
@@ -24850,8 +24969,8 @@ define("tinymce/util/Quirks", [
 				return;
 			}
 
-			 // Enable display: none in area and add a specific class that hides all BR elements in PRE to
-			 // avoid the caret from getting stuck at the BR elements while pressing the right arrow key
+			// Enable display: none in area and add a specific class that hides all BR elements in PRE to
+			// avoid the caret from getting stuck at the BR elements while pressing the right arrow key
 			setEditorCommandState('RespectVisibilityInDesign', true);
 			editor.contentStyles.push('.mceHideBrInPre pre br {display: none}');
 			dom.addClass(editor.getBody(), 'mceHideBrInPre');
@@ -25208,7 +25327,7 @@ define("tinymce/util/Quirks", [
 						dom.bind(doc, 'mouseup', endSelection);
 						dom.bind(doc, 'mousemove', selectionChange);
 
-						dom.win.focus();
+						dom.getRoot().focus();
 						startRng.select();
 					}
 				}
@@ -25272,8 +25391,8 @@ define("tinymce/util/Quirks", [
 				editor.contentStyles.push('body {min-height: 150px}');
 				editor.on('click', function(e) {
 					if (e.target.nodeName == 'HTML') {
-						editor.execCommand('SelectAll');
-						editor.selection.collapse(true);
+						editor.getBody().focus();
+						editor.selection.normalize();
 						editor.nodeChanged();
 					}
 				});
@@ -25300,6 +25419,21 @@ define("tinymce/util/Quirks", [
 		 */
 		function disableAutoUrlDetect() {
 			setEditorCommandState("AutoUrlDetect", false);
+		}
+
+		/**
+		 * IE 11 has a fantastic bug where it will produce two trailing BR elements to iframe bodies when
+		 * the iframe is hidden by display: none. This workaround solves this by switching
+		 * on designMode on the whole document.
+		 *
+		 * Example this: <body>text</body> becomes <body>text<br><br></body>
+		 */
+		function doubleTrailingBrElements() {
+			if (!editor.inline) {
+				editor.on('init', function() {
+					editor.getDoc().designMode = 'on';
+				});
+			}
 		}
 
 		// All browsers
@@ -25339,6 +25473,7 @@ define("tinymce/util/Quirks", [
 
 		if (Env.ie >= 11) {
 			bodyHeight();
+			doubleTrailingBrElements();
 		}
 
 		if (Env.ie) {
@@ -26984,7 +27119,7 @@ define("tinymce/Editor", [
 		 *
 		 *    setup: function(ed) {
 		 *       ed.addMenuItem('example', {
-		 *          title: 'My menu item',
+		 *          text: 'My menu item',
 		 *          context: 'tools',
 		 *          onclick: function() {
 		 *             ed.insertContent('Hello world!!');
@@ -27359,7 +27494,10 @@ define("tinymce/Editor", [
 			html = args.content;
 
 			if (!/TEXTAREA|INPUT/i.test(elm.nodeName)) {
-				elm.innerHTML = html;
+				// Update DIV element when not in inline mode
+				if (!self.inline) {
+					elm.innerHTML = html;
+				}
 
 				// Update hidden form element
 				if ((form = DOM.getParent(self.id, 'form'))) {
@@ -27702,7 +27840,7 @@ define("tinymce/Editor", [
 					case 'A':
 						if (!dom.getAttrib(elm, 'href', false)) {
 							value = dom.getAttrib(elm, 'name') || elm.id;
-							cls = 'mce-item-anchor';
+							cls = settings.visual_anchor_class || 'mce-item-anchor';
 
 							if (value) {
 								if (self.hasVisual) {
@@ -27921,7 +28059,7 @@ define("tinymce/util/I18n", [], function() {
 		 * Property gets set to true if a RTL language pack was loaded.
 		 *
 		 * @property rtl
-		 * @type {Boolean}
+		 * @type Boolean
 		 */
 		rtl: false,
 
@@ -28069,14 +28207,24 @@ define("tinymce/FocusManager", [
 			editor.on('init', function() {
 				// On IE take selection snapshot onbeforedeactivate
 				if ("onbeforedeactivate" in document && Env.ie < 11) {
+					// Gets fired when the editor is about to be blurred but also when the selection
+					// is moved into a table cell so we need to add the range as a pending range then
+					// use that pending range on the blur event of the editor body
 					editor.dom.bind(editor.getBody(), 'beforedeactivate', function() {
 						try {
-							editor.lastRng = editor.selection.getRng();
+							editor.pendingRng = editor.selection.getRng();
 						} catch (ex) {
 							// IE throws "Unexcpected call to method or property access" some times so lets ignore it
 						}
+					});
 
-						editor.selection.lastFocusBookmark = createBookmark(editor.lastRng);
+					// Set the pending range as the current last range if the blur event occurs
+					editor.dom.bind(editor.getBody(), 'blur', function() {
+						if (editor.pendingRng) {
+							editor.lastRng = editor.pendingRng;
+							editor.selection.lastFocusBookmark = createBookmark(editor.lastRng);
+							editor.pendingRng = null;
+						}
 					});
 				} else if (editor.inline || Env.ie > 10) {
 					// On other browsers take snapshot on nodechange in inline mode since they have Ghost selections for iframes
@@ -28142,7 +28290,7 @@ define("tinymce/FocusManager", [
 					editorManager.activeEditor = editor;
 					editorManager.focusedEditor = editor;
 					editor.fire('focus', {blurredEditor: focusedEditor});
-					editor.focus(false);
+					editor.focus(true);
 				}
 
 				editor.lastRng = null;
@@ -28172,7 +28320,6 @@ define("tinymce/FocusManager", [
 			var activeEditor = editorManager.activeEditor;
 
 			if (activeEditor && e.target.ownerDocument == document) {
-
 				// Check to make sure we have a valid selection
 				if (activeEditor.selection) {
 					activeEditor.selection.lastFocusBookmark = createBookmark(activeEditor.lastRng);
@@ -28254,7 +28401,7 @@ define("tinymce/EditorManager", [
 		 * @property minorVersion
 		 * @type String
 		 */
-		minorVersion : '0.16',
+		minorVersion : '0.18',
 
 		/**
 		 * Release date of TinyMCE build.
@@ -28262,7 +28409,7 @@ define("tinymce/EditorManager", [
 		 * @property releaseDate
 		 * @type String
 		 */
-		releaseDate: '2014-01-31',
+		releaseDate: '2014-02-27',
 
 		/**
 		 * Collection of editor instances.
@@ -29846,10 +29993,9 @@ define("tinymce/ui/Widget", [
 				self.on('mouseleave mousedown click', function() {
 					self.tooltip().hide();
 				});
-
 			}
 
-			self.aria('label', settings.tooltip);
+			self.aria('label', settings.ariaLabel || settings.tooltip);
 		},
 
 		/**
@@ -29859,11 +30005,9 @@ define("tinymce/ui/Widget", [
 		 * @return {tinymce.ui.Tooltip} Tooltip instance.
 		 */
 		tooltip: function() {
-			var self = this;
-
 			if (!tooltip) {
 				tooltip = new Tooltip({type: 'tooltip'});
-				tooltip.renderTo(self.getContainerElm());
+				tooltip.renderTo();
 			}
 
 			return tooltip;
@@ -29923,9 +30067,7 @@ define("tinymce/ui/Widget", [
 			}
 
 			if (settings.autofocus) {
-				setTimeout(function() {
-					self.focus();
-				}, 0);
+				self.focus();
 			}
 		},
 
@@ -30081,7 +30223,7 @@ define("tinymce/ui/Button", [
 			icon = self.settings.icon ? prefix + 'ico ' + prefix + 'i-' + icon : '';
 
 			return (
-				'<div id="' + id + '" class="' + self.classes() + '" tabindex="-1">' +
+				'<div id="' + id + '" class="' + self.classes() + '" tabindex="-1" aria-labelledby="' + id + '">' +
 					'<button role="presentation" type="button" tabindex="-1">' +
 						(icon ? '<i class="' + icon + '"' + image + '></i>' : '') +
 						(self._text ? (icon ? '\u00a0' : '') + self.encode(self._text) : '') +
@@ -30130,7 +30272,7 @@ define("tinymce/ui/ButtonGroup", [
 	return Container.extend({
 		Defaults: {
 			defaultType: 'button',
-			role: 'toolbar'
+			role: 'group'
 		},
 
 		/**
@@ -30326,12 +30468,19 @@ define("tinymce/ui/PanelButton", [
 					};
 				}
 
+				panelSettings.role = panelSettings.role || 'dialog';
 				panelSettings.popover = true;
 				panelSettings.autohide = true;
+				panelSettings.ariaRoot = true;
 
 				self.panel = new FloatPanel(panelSettings).on('hide', function() {
 					self.active(false);
+				}).on('cancel', function(e) {
+					e.stopPropagation();
+					self.focus();
+					self.hidePanel();
 				}).parent(self).renderTo(self.getContainerElm());
+
 				self.panel.fire('show');
 				self.panel.reflow();
 			} else {
@@ -30362,12 +30511,15 @@ define("tinymce/ui/PanelButton", [
 		postRender: function() {
 			var self = this;
 
+			self.aria('haspopup', true);
+
 			self.on('click', function(e) {
 				if (e.control === self) {
 					if (self.panel && self.panel.visible()) {
 						self.hidePanel();
 					} else {
 						self.showPanel();
+						self.panel.focus(!!e.aria);
 					}
 				}
 			});
@@ -30447,7 +30599,7 @@ define("tinymce/ui/ColorButton", [
 			var image = self.settings.image ? ' style="background-image: url(\'' + self.settings.image + '\')"' : '';
 
 			return (
-				'<div id="' + id + '" class="' + self.classes() + '">' +
+				'<div id="' + id + '" class="' + self.classes() + '" role="button" tabindex="-1" aria-haspopup="true">' +
 					'<button role="presentation" hidefocus type="button" tabindex="-1">' +
 						(icon ? '<i class="' + icon + '"' + image + '></i>' : '') +
 						'<span id="' + id + '-preview" class="' + prefix + 'preview"></span>' +
@@ -30469,6 +30621,10 @@ define("tinymce/ui/ColorButton", [
 			var self = this, onClickHandler = self.settings.onclick;
 
 			self.on('click', function(e) {
+				if (e.aria && e.aria.key == 'down') {
+					return;
+				}
+
 				if (e.control == self && !DOM.getParent(e.target, '.' + self.classPrefix + 'open')) {
 					e.stopImmediatePropagation();
 					onClickHandler.call(self, e);
@@ -30524,6 +30680,7 @@ define("tinymce/ui/ComboBox", [
 			self._super(settings);
 			self.addClass('combobox');
 			self.subinput = true;
+			self.ariaTarget = 'inp'; // TODO: Figure out a better way
 
 			settings = self.settings;
 			settings.menu = settings.menu || settings.values;
@@ -30533,16 +30690,16 @@ define("tinymce/ui/ComboBox", [
 			}
 
 			self.on('click', function(e) {
-				var elm = e.target;
+				var elm = e.target, root = self.getEl();
 
-				while (elm) {
+				while (elm && elm != root) {
 					if (elm.id && elm.id.indexOf('-open') != -1) {
 						self.fire('action');
 
 						if (settings.menu) {
 							self.showMenu();
 
-							if (e.keyboard) {
+							if (e.aria) {
 								self.menu.items()[0].focus();
 							}
 						}
@@ -30795,7 +30952,7 @@ define("tinymce/ui/ComboBox", [
 
 			if (icon || text) {
 				openBtnHtml = (
-					'<div id="' + id + '-open" class="' + prefix + 'btn ' + prefix + 'open" tabIndex="-1">' +
+					'<div id="' + id + '-open" class="' + prefix + 'btn ' + prefix + 'open" tabIndex="-1" role="button">' +
 						'<button id="' + id + '-action" type="button" hidefocus tabindex="-1">' +
 							(icon != 'caret' ? '<i class="' + icon + '"></i>' : '<i class="' + prefix + 'caret"></i>') +
 							(text ? (icon ? ' ' : '') + text : '') +
@@ -30837,9 +30994,8 @@ define("tinymce/ui/ComboBox", [
  * @extends tinymce.ui.Widget
  */
 define("tinymce/ui/Path", [
-	"tinymce/ui/Widget",
-	"tinymce/ui/KeyboardNavigation"
-], function(Widget, KeyboardNavigation) {
+	"tinymce/ui/Widget"
+], function(Widget) {
 	"use strict";
 
 	return Widget.extend({
@@ -30879,12 +31035,7 @@ define("tinymce/ui/Path", [
 		focus: function() {
 			var self = this;
 
-			self.keyNav = new KeyboardNavigation({
-				root: self,
-				enableLeftRight: true
-			});
-
-			self.keyNav.focusFirst();
+			self.getEl().firstChild.focus();
 
 			return self;
 		},
@@ -30953,7 +31104,7 @@ define("tinymce/ui/Path", [
 				html += (
 					(i > 0 ? '<div class="'+ prefix + 'divider" aria-hidden="true"> ' + self.settings.delimiter + ' </div>' : '') +
 					'<div role="button" class="' + prefix + 'path-item' + (i == l - 1 ? ' ' + prefix + 'last' : '') + '" data-index="' +
-					i + '" tabindex="-1" id="' + self._id + '-' + i +'">' + parts[i].name + '</div>'
+					i + '" tabindex="-1" id="' + self._id + '-' + i +'" aria-level="' + i + '">' + parts[i].name + '</div>'
 				);
 			}
 
@@ -31181,11 +31332,12 @@ define("tinymce/ui/Form", [
 						autoResize: "overflow",
 						defaults: {flex: 1},
 						items: [
-							{type: 'label', text: label, flex: 0, forId: ctrl._id, disabled: ctrl.disabled()}
+							{type: 'label', id: ctrl._id + '-l', text: label, flex: 0, forId: ctrl._id, disabled: ctrl.disabled()}
 						]
 					});
 
 					formItem.type = 'formitem';
+					ctrl.aria('labelledby', ctrl._id + '-l');
 
 					if (typeof(ctrl.settings.flex) == "undefined") {
 						ctrl.settings.flex = 1;
@@ -32852,9 +33004,8 @@ define("tinymce/ui/Label", [
  * @extends tinymce.ui.Container
  */
 define("tinymce/ui/Toolbar", [
-	"tinymce/ui/Container",
-	"tinymce/ui/KeyboardNavigation"
-], function(Container, KeyboardNavigation) {
+	"tinymce/ui/Container"
+], function(Container) {
 	"use strict";
 
 	return Container.extend({
@@ -32885,11 +33036,6 @@ define("tinymce/ui/Toolbar", [
 			var self = this;
 
 			self.items().addClass('toolbar-item');
-
-			self.keyNav = new KeyboardNavigation({
-				root: self,
-				enableLeftRight: true
-			});
 
 			return self._super();
 		}
@@ -32924,6 +33070,7 @@ define("tinymce/ui/MenuBar", [
 		Defaults: {
 			role: 'menubar',
 			containerCls: 'menubar',
+			ariaRoot: true,
 			defaults: {
 				type: 'menubutton'
 			}
@@ -33018,22 +33165,29 @@ define("tinymce/ui/MenuButton", [
 					menu.type = menu.type || 'menu';
 				}
 
-				self.menu = Factory.create(menu).parent(self).renderTo(self.getContainerElm());
+				self.menu = Factory.create(menu).parent(self).renderTo();
 				self.fire('createmenu');
 				self.menu.reflow();
 				self.menu.on('cancel', function(e) {
-					if (e.control === self.menu) {
+					if (e.control.parent() === self.menu) {
+						e.stopPropagation();
 						self.focus();
+						self.hideMenu();
 					}
+				});
+
+				// Move focus to button when a menu item is selected/clicked
+				self.menu.on('select', function() {
+					self.focus();
 				});
 
 				self.menu.on('show hide', function(e) {
 					if (e.control == self.menu) {
 						self.activeMenu(e.type == 'show');
 					}
-				}).fire('show');
 
-				self.aria('expanded', true);
+					self.aria('expanded', e.type == 'show');
+				}).fire('show');
 			}
 
 			self.menu.show();
@@ -33057,7 +33211,6 @@ define("tinymce/ui/MenuButton", [
 				});
 
 				self.menu.hide();
-				self.aria('expanded', false);
 			}
 		},
 
@@ -33083,7 +33236,7 @@ define("tinymce/ui/MenuButton", [
 			self.aria('role', self.parent() instanceof MenuBar ? 'menuitem' : 'button');
 
 			return (
-				'<div id="' + id + '" class="' + self.classes() + '" tabindex="-1">' +
+				'<div id="' + id + '" class="' + self.classes() + '" tabindex="-1" aria-labelledby="' + id + '">' +
 					'<button id="' + id + '-open" role="presentation" type="button" tabindex="-1">' +
 						(icon ? '<i class="' + icon + '"></i>' : '') +
 						'<span>' + (self._text ? (icon ? '\u00a0' : '') + self.encode(self._text) : '') + '</span>' +
@@ -33105,7 +33258,7 @@ define("tinymce/ui/MenuButton", [
 				if (e.control === self && isChildOf(e.target, self.getEl())) {
 					self.showMenu();
 
-					if (e.keyboard) {
+					if (e.aria) {
 						self.menu.items()[0].focus();
 					}
 				}
@@ -33215,7 +33368,14 @@ define("tinymce/ui/ListBox", [
 					if (selected) {
 						selectedText = selectedText || values[i].text;
 						self._value = values[i].value;
+						break;
 					}
+				}
+
+				// Default with first item
+				if (!selected && values.length > 0) {
+					selectedText = values[0].text;
+					self._value = values[0].value;
 				}
 
 				settings.menu = values;
@@ -33356,13 +33516,11 @@ define("tinymce/ui/MenuItem", [
 			if (self._text === '-' || self._text === '|') {
 				self.addClass('menu-item-sep');
 				self.aria('role', 'separator');
-				self.canFocus = false;
 				self._text = '-';
 			}
 
 			if (settings.selectable) {
 				self.aria('role', 'menuitemcheckbox');
-				self.aria('checked', true);
 				self.addClass('menu-item-checkbox');
 				settings.icon = 'selected';
 			}
@@ -33373,24 +33531,6 @@ define("tinymce/ui/MenuItem", [
 
 			self.on('mousedown', function(e) {
 				e.preventDefault();
-			});
-
-			self.on('mouseenter click', function(e) {
-				if (e.control === self) {
-					if (!settings.menu && e.type === 'click') {
-						self.parent().hideAll();
-						self.fire('cancel');
-						self.fire('select');
-					} else {
-						self.showMenu();
-
-						if (e.keyboard) {
-							setTimeout(function() {
-								self.menu.items()[0].focus();
-							}, 0);
-						}
-					}
-				}
 			});
 
 			if (settings.menu) {
@@ -33442,11 +33582,13 @@ define("tinymce/ui/MenuItem", [
 						menu.itemDefaults = parent.settings.itemDefaults;
 					}
 
-					menu = self.menu = Factory.create(menu).parent(self).renderTo(self.getContainerElm());
+					menu = self.menu = Factory.create(menu).parent(self).renderTo();
 					menu.reflow();
 					menu.fire('show');
-					menu.on('cancel', function() {
+					menu.on('cancel', function(e) {
+						e.stopPropagation();
 						self.focus();
+						menu.hide();
 					});
 
 					menu.on('hide', function(e) {
@@ -33454,6 +33596,8 @@ define("tinymce/ui/MenuItem", [
 							self.removeClass('selected');
 						}
 					});
+
+					menu.submenu = true;
 				} else {
 					menu.show();
 				}
@@ -33535,8 +33679,7 @@ define("tinymce/ui/MenuItem", [
 				'<div id="' + id + '" class="' + self.classes() + '" tabindex="-1">' +
 					(text !== '-' ? '<i class="' + icon + '"' + image + '></i>&nbsp;' : '') +
 					(text !== '-' ? '<span id="' + id + '-text" class="' + prefix + 'text">' + text + '</span>' : '') +
-					(shortcut ? '<div id="' + id + '-shortcut" class="' + prefix + 'menu-shortcut">' +
-					 shortcut + '</div>' : '') +
+					(shortcut ? '<div id="' + id + '-shortcut" class="' + prefix + 'menu-shortcut">' + shortcut + '</div>' : '') +
 					(settings.menu ? '<div class="' + prefix + 'caret"></div>' : '') +
 				'</div>'
 			);
@@ -33562,7 +33705,32 @@ define("tinymce/ui/MenuItem", [
 				}
 			}
 
-			return self._super();
+			self.on('mouseenter click', function(e) {
+				if (e.control === self) {
+					if (!settings.menu && e.type === 'click') {
+						self.fire('select');
+						self.parent().hideAll();
+					} else {
+						self.showMenu();
+
+						if (e.aria) {
+							self.menu.focus(true);
+						}
+					}
+				}
+			});
+
+			self._super();
+
+			return self;
+		},
+
+		active: function(state) {
+			if (typeof(state) != "undefined") {
+				this.aria('checked', state);
+			}
+
+			return this._super(state);
 		},
 
 		/**
@@ -33601,10 +33769,9 @@ define("tinymce/ui/MenuItem", [
  */
 define("tinymce/ui/Menu", [
 	"tinymce/ui/FloatPanel",
-	"tinymce/ui/KeyboardNavigation",
 	"tinymce/ui/MenuItem",
 	"tinymce/util/Tools"
-], function(FloatPanel, KeyboardNavigation, MenuItem, Tools) {
+], function(FloatPanel, MenuItem, Tools) {
 	"use strict";
 
 	var Menu = FloatPanel.extend({
@@ -33612,7 +33779,9 @@ define("tinymce/ui/Menu", [
 			defaultType: 'menuitem',
 			border: 1,
 			layout: 'stack',
-			role: 'menu'
+			role: 'application',
+			bodyRole: 'menu',
+			ariaRoot: true
 		},
 
 		/**
@@ -33637,23 +33806,6 @@ define("tinymce/ui/Menu", [
 
 			self._super(settings);
 			self.addClass('menu');
-
-			self.keyNav = new KeyboardNavigation({
-				root: self,
-				enableUpDown: true,
-				enableLeftRight: true,
-
-				leftAction: function() {
-					if (self.parent() instanceof MenuItem) {
-						self.keyNav.cancel();
-					}
-				},
-
-				onCancel: function() {
-					self.fire('cancel', {}, false);
-					self.hide();
-				}
-			});
 		},
 
 		/**
@@ -33681,7 +33833,6 @@ define("tinymce/ui/Menu", [
 			var self = this;
 
 			self.hideAll();
-			self.fire('cancel');
 			self.fire('select');
 		},
 
@@ -33697,7 +33848,25 @@ define("tinymce/ui/Menu", [
 
 			return self._super();
 		},
+/*
+		getContainerElm: function() {
+			var doc = document, id = this.classPrefix + 'menucontainer';
 
+			var elm = doc.getElementById(id);
+			if (!elm) {
+				elm = doc.createElement('div');
+				elm.id = id;
+				elm.setAttribute('role', 'application');
+				elm.className = this.classPrefix + '-reset';
+				elm.style.position = 'absolute';
+				elm.style.top = elm.style.left = '0';
+				elm.style.overflow = 'visible';
+				doc.body.appendChild(elm);
+			}
+
+			return elm;
+		},
+*/
 		/**
 		 * Invoked before the menu is rendered.
 		 *
@@ -33911,7 +34080,7 @@ define("tinymce/ui/SplitButton", [
 	return MenuButton.extend({
 		Defaults: {
 			classes: "widget btn splitbtn",
-			role: "splitbutton"
+			role: "button"
 		},
 
 		/**
@@ -33961,7 +34130,7 @@ define("tinymce/ui/SplitButton", [
 			var icon = self.settings.icon ? prefix + 'ico ' + prefix + 'i-' + self.settings.icon : '';
 
 			return (
-				'<div id="' + id + '" class="' + self.classes() + '">' +
+				'<div id="' + id + '" class="' + self.classes() + '" role="button" tabindex="-1">' +
 					'<button type="button" hidefocus tabindex="-1">' +
 						(icon ? '<i class="' + icon + '"></i>' : '') +
 						(self._text ? (icon ? ' ' : '') + self._text : '') +
@@ -33989,7 +34158,7 @@ define("tinymce/ui/SplitButton", [
 				if (e.control == this) {
 					// Find clicks that is on the main button
 					while (node) {
-						if (node.nodeName == 'BUTTON' && node.className.indexOf('open') == -1) {
+						if ((e.aria && e.aria.key != 'down') || (node.nodeName == 'BUTTON' && node.className.indexOf('open') == -1)) {
 							e.stopImmediatePropagation();
 							onClickHandler.call(this, e);
 							return;
@@ -34084,13 +34253,19 @@ define("tinymce/ui/TabPanel", [
 		 * @param {Number} idx Index of the tab to activate.
 		 */
 		activateTab: function(idx) {
+			var activeTabElm;
+
 			if (this.activeTabId) {
-				DomUtils.removeClass(this.getEl(this.activeTabId), this.classPrefix + 'active');
+				activeTabElm = this.getEl(this.activeTabId);
+				DomUtils.removeClass(activeTabElm, this.classPrefix + 'active');
+				activeTabElm.setAttribute('aria-selected', "false");
 			}
 
 			this.activeTabId = 't' + idx;
 
-			DomUtils.addClass(this.getEl('t' + idx), this.classPrefix + 'active');
+			activeTabElm = this.getEl('t' + idx);
+			activeTabElm.setAttribute('aria-selected', "true");
+			DomUtils.addClass(activeTabElm, this.classPrefix + 'active');
 
 			if (idx != this.lastIdx) {
 				this.items()[this.lastIdx].hide();
@@ -34114,8 +34289,14 @@ define("tinymce/ui/TabPanel", [
 			layout.preRender(self);
 
 			self.items().each(function(ctrl, i) {
+				var id = self._id + '-t' + i;
+
+				ctrl.aria('role', 'tabpanel');
+				ctrl.aria('labelledby', id);
+
 				tabsHtml += (
-					'<div id="' + self._id + '-t' + i + '" class="' + prefix + 'tab" unselectable="on">' +
+					'<div id="' + id + '" class="' + prefix + 'tab" '+
+						'unselectable="on" role="tab" aria-controls="' + ctrl._id + '" aria-selected="false" tabIndex="-1">' +
 						self.encode(ctrl.settings.title) +
 					'</div>'
 				);
@@ -34123,7 +34304,7 @@ define("tinymce/ui/TabPanel", [
 
 			return (
 				'<div id="' + self._id + '" class="' + self.classes() + '" hideFocus="1" tabIndex="-1">' +
-					'<div id="' + self._id + '-head" class="' + prefix + 'tabs">' +
+					'<div id="' + self._id + '-head" class="' + prefix + 'tabs" role="tablist">' +
 						tabsHtml +
 					'</div>' +
 					'<div id="' + self._id + '-body" class="' + self.classes('body') + '">' +
@@ -34501,5 +34682,5 @@ define("tinymce/ui/Throbber", [
 	};
 });
 
-expose(["tinymce/dom/EventUtils","tinymce/dom/Sizzle","tinymce/dom/DomQuery","tinymce/html/Styles","tinymce/dom/TreeWalker","tinymce/util/Tools","tinymce/dom/Range","tinymce/html/Entities","tinymce/Env","tinymce/dom/StyleSheetLoader","tinymce/dom/DOMUtils","tinymce/dom/ScriptLoader","tinymce/AddOnManager","tinymce/html/Node","tinymce/html/Schema","tinymce/html/SaxParser","tinymce/html/DomParser","tinymce/html/Writer","tinymce/html/Serializer","tinymce/dom/Serializer","tinymce/dom/TridentSelection","tinymce/util/VK","tinymce/dom/ControlSelection","tinymce/dom/Selection","tinymce/dom/RangeUtils","tinymce/Formatter","tinymce/UndoManager","tinymce/EnterKey","tinymce/ForceBlocks","tinymce/EditorCommands","tinymce/util/URI","tinymce/util/Class","tinymce/ui/Selector","tinymce/ui/Collection","tinymce/ui/DomUtils","tinymce/ui/Control","tinymce/ui/Factory","tinymce/ui/Container","tinymce/ui/DragHelper","tinymce/ui/Scrollable","tinymce/ui/Panel","tinymce/ui/Movable","tinymce/ui/Resizable","tinymce/ui/FloatPanel","tinymce/ui/KeyboardNavigation","tinymce/ui/Window","tinymce/ui/MessageBox","tinymce/WindowManager","tinymce/util/Quirks","tinymce/util/Observable","tinymce/Shortcuts","tinymce/Editor","tinymce/util/I18n","tinymce/FocusManager","tinymce/EditorManager","tinymce/LegacyInput","tinymce/util/XHR","tinymce/util/JSON","tinymce/util/JSONRequest","tinymce/util/JSONP","tinymce/util/LocalStorage","tinymce/Compat","tinymce/ui/Layout","tinymce/ui/AbsoluteLayout","tinymce/ui/Tooltip","tinymce/ui/Widget","tinymce/ui/Button","tinymce/ui/ButtonGroup","tinymce/ui/Checkbox","tinymce/ui/PanelButton","tinymce/ui/ColorButton","tinymce/ui/ComboBox","tinymce/ui/Path","tinymce/ui/ElementPath","tinymce/ui/FormItem","tinymce/ui/Form","tinymce/ui/FieldSet","tinymce/ui/FilePicker","tinymce/ui/FitLayout","tinymce/ui/FlexLayout","tinymce/ui/FlowLayout","tinymce/ui/FormatControls","tinymce/ui/GridLayout","tinymce/ui/Iframe","tinymce/ui/Label","tinymce/ui/Toolbar","tinymce/ui/MenuBar","tinymce/ui/MenuButton","tinymce/ui/ListBox","tinymce/ui/MenuItem","tinymce/ui/Menu","tinymce/ui/Radio","tinymce/ui/ResizeHandle","tinymce/ui/Spacer","tinymce/ui/SplitButton","tinymce/ui/StackLayout","tinymce/ui/TabPanel","tinymce/ui/TextBox","tinymce/ui/Throbber"]);
+expose(["tinymce/dom/EventUtils","tinymce/dom/Sizzle","tinymce/dom/DomQuery","tinymce/html/Styles","tinymce/dom/TreeWalker","tinymce/util/Tools","tinymce/dom/Range","tinymce/html/Entities","tinymce/Env","tinymce/dom/StyleSheetLoader","tinymce/dom/DOMUtils","tinymce/dom/ScriptLoader","tinymce/AddOnManager","tinymce/html/Node","tinymce/html/Schema","tinymce/html/SaxParser","tinymce/html/DomParser","tinymce/html/Writer","tinymce/html/Serializer","tinymce/dom/Serializer","tinymce/dom/TridentSelection","tinymce/util/VK","tinymce/dom/ControlSelection","tinymce/dom/RangeUtils","tinymce/dom/Selection","tinymce/Formatter","tinymce/UndoManager","tinymce/EnterKey","tinymce/ForceBlocks","tinymce/EditorCommands","tinymce/util/URI","tinymce/util/Class","tinymce/ui/Selector","tinymce/ui/Collection","tinymce/ui/DomUtils","tinymce/ui/Control","tinymce/ui/Factory","tinymce/ui/KeyboardNavigation","tinymce/ui/Container","tinymce/ui/DragHelper","tinymce/ui/Scrollable","tinymce/ui/Panel","tinymce/ui/Movable","tinymce/ui/Resizable","tinymce/ui/FloatPanel","tinymce/ui/Window","tinymce/ui/MessageBox","tinymce/WindowManager","tinymce/util/Quirks","tinymce/util/Observable","tinymce/Shortcuts","tinymce/Editor","tinymce/util/I18n","tinymce/FocusManager","tinymce/EditorManager","tinymce/LegacyInput","tinymce/util/XHR","tinymce/util/JSON","tinymce/util/JSONRequest","tinymce/util/JSONP","tinymce/util/LocalStorage","tinymce/Compat","tinymce/ui/Layout","tinymce/ui/AbsoluteLayout","tinymce/ui/Tooltip","tinymce/ui/Widget","tinymce/ui/Button","tinymce/ui/ButtonGroup","tinymce/ui/Checkbox","tinymce/ui/PanelButton","tinymce/ui/ColorButton","tinymce/ui/ComboBox","tinymce/ui/Path","tinymce/ui/ElementPath","tinymce/ui/FormItem","tinymce/ui/Form","tinymce/ui/FieldSet","tinymce/ui/FilePicker","tinymce/ui/FitLayout","tinymce/ui/FlexLayout","tinymce/ui/FlowLayout","tinymce/ui/FormatControls","tinymce/ui/GridLayout","tinymce/ui/Iframe","tinymce/ui/Label","tinymce/ui/Toolbar","tinymce/ui/MenuBar","tinymce/ui/MenuButton","tinymce/ui/ListBox","tinymce/ui/MenuItem","tinymce/ui/Menu","tinymce/ui/Radio","tinymce/ui/ResizeHandle","tinymce/ui/Spacer","tinymce/ui/SplitButton","tinymce/ui/StackLayout","tinymce/ui/TabPanel","tinymce/ui/TextBox","tinymce/ui/Throbber"]);
 })(this);

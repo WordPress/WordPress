@@ -160,6 +160,7 @@ img::selection {
 #wp-image-toolbar .wrapper {
 	position: relative;
 	height: 33px;
+	background-color: #333; /* old IE */
 	background-color: rgba(0,0,0,0.3);
 }
 

@@ -112,9 +112,9 @@ tinymce.PluginManager.add('media', function(editor, url) {
 							align: 'center',
 							spacing: 5,
 							items: [
-								{name: 'width', type: 'textbox', maxLength: 5, size: 3, onchange: recalcSize},
+								{name: 'width', type: 'textbox', maxLength: 5, size: 3, ariaLabel: 'Width', onchange: recalcSize},
 								{type: 'label', text: 'x'},
-								{name: 'height', type: 'textbox', maxLength: 5, size: 3, onchange: recalcSize},
+								{name: 'height', type: 'textbox', maxLength: 5, size: 3, ariaLabel: 'Height', onchange: recalcSize},
 								{name: 'constrain', type: 'checkbox', checked: true, text: 'Constrain proportions'}
 							]
 						}
@@ -135,9 +135,11 @@ tinymce.PluginManager.add('media', function(editor, url) {
 					items: [
 						{
 							type: 'label',
-							text: 'Paste your embed code below:'
+							text: 'Paste your embed code below:',
+							forId: 'mcemediasource'
 						},
 						{
+							id: 'mcemediasource',
 							type: 'textbox',
 							flex: 1,
 							name: 'embed',
@@ -641,7 +643,7 @@ tinymce.PluginManager.add('media', function(editor, url) {
 	editor.addButton('media', {
 		tooltip: 'Insert/edit video',
 		onclick: showDialog,
-		stateSelector: 'img[data-mce-object=video]'
+		stateSelector: ['img[data-mce-object=video]', 'img[data-mce-object=iframe]']
 	});
 
 	editor.addMenuItem('media', {

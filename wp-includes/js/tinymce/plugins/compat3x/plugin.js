@@ -226,12 +226,14 @@
 			}
 
 			if ( settings.title ) {
+				// WP
 				string = (editor.settings.language || "en") + "." + settings.title;
 				translated = tinymce.i18n.translate(string);
 
 				if ( string !== translated ) {
 					settings.title = translated;
 				}
+				// WP end
 			}
 
 			return originalAddButton.call(this, name, settings);
