@@ -69,12 +69,26 @@ function permalink_anchor( $mode = 'id' ) {
 }
 
 /**
+ * Retrieve full permalink for current post or post ID. Alias for get_permalink().
+ *
+ * @since 3.9.0
+ * @see get_permalink()
+ *
+ * @param int|WP_Post $id        Optional. Post ID or post object. Defaults current post.
+ * @param bool        $leavename Optional. Whether to keep post name or page name. Default false.
+ * @return string|bool The permalink URL or false if post does not exist.
+ */
+function get_the_permalink( $id = 0, $leavename = false ) {
+	return get_permalink( $id, $leavename );
+}
+
+/**
  * Retrieve full permalink for current post or post ID.
  *
  * @since 1.0.0
  *
- * @param int|WP_Post $id Optional. Post ID or post object, defaults to the current post.
- * @param bool $leavename Optional. Whether to keep post name or page name, defaults to false.
+ * @param int|WP_Post $id        Optional. Post ID or post object. Default current post.
+ * @param bool        $leavename Optional. Whether to keep post name or page name. Default false.
  * @return string|bool The permalink URL or false if post does not exist.
  */
 function get_permalink( $id = 0, $leavename = false ) {
