@@ -58,7 +58,7 @@ $core_actions_post = array(
 	'wp-remove-post-lock', 'dismiss-wp-pointer', 'upload-attachment', 'get-attachment',
 	'query-attachments', 'save-attachment', 'save-attachment-compat', 'send-link-to-editor',
 	'send-attachment-to-editor', 'save-attachment-order', 'heartbeat', 'get-revision-diffs',
-	'save-user-color-scheme',
+	'save-user-color-scheme', 'update-widget',
 );
 
 // Register core Ajax calls.

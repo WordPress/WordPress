@@ -61,6 +61,9 @@ final class WP_Customize_Manager {
 		require( ABSPATH . WPINC . '/class-wp-customize-setting.php' );
 		require( ABSPATH . WPINC . '/class-wp-customize-section.php' );
 		require( ABSPATH . WPINC . '/class-wp-customize-control.php' );
+		require( ABSPATH . WPINC . '/class-wp-customize-widgets.php' );
+
+		WP_Customize_Widgets::setup(); // This should be integrated.
 
 		add_filter( 'wp_die_handler', array( $this, 'wp_die_handler' ) );
 

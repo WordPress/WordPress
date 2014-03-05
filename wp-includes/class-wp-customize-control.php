@@ -814,3 +814,75 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			$this->print_header_image( $choice, $header );
 	}
 }
+
+/**
+ * Widget Area Customize Control Class
+ *
+ */
+class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
+	public $type = 'sidebar_widgets';
+	public $sidebar_id;
+
+	public function to_json() {
+		parent::to_json();
+		$exported_properties = array( 'sidebar_id' );
+		foreach ( $exported_properties as $key ) {
+			$this->json[ $key ] = $this->$key;
+		}
+	}
+
+	public function render_content() {
+		?>
+		<span class="button-secondary add-new-widget" tabindex="0">
+			<?php esc_html_e( 'Add a Widget' ); ?>
+		</span>
+
+		<span class="reorder-toggle" tabindex="0">
+			<span class="reorder"><?php esc_html_e( 'Reorder' ); ?></span>
+			<span class="reorder-done"><?php esc_html_e( 'Done' ); ?></span>
+		</span>
+		<?php
+	}
+}
+
+/**
+ * Widget Form Customize Control Class
+ */
+class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
+	public $type = 'widget_form';
+	public $widget_id;
+	public $widget_id_base;
+	public $sidebar_id;
+	public $is_new = false;
+	public $width;
+	public $height;
+	public $is_wide = false;
+	public $is_live_previewable = false;
+
+	public function to_json() {
+		parent::to_json();
+		$exported_properties = array( 'widget_id', 'widget_id_base', 'sidebar_id', 'width', 'height', 'is_wide', 'is_live_previewable' );
+		foreach ( $exported_properties as $key ) {
+			$this->json[ $key ] = $this->$key;
+		}
+	}
+
+	public function render_content() {
+		global $wp_registered_widgets;
+		require_once ABSPATH . '/wp-admin/includes/widgets.php';
+
+		$widget = $wp_registered_widgets[ $this->widget_id ];
+		if ( ! isset( $widget['params'][0] ) ) {
+			$widget['params'][0] = array();
+		}
+
+		$args = array(
+			'widget_id' => $widget['id'],
+			'widget_name' => $widget['name'],
+		);
+
+		$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => $args, 1 => $widget['params'][0] ) );
+		echo WP_Customize_Widgets::get_widget_control( $args );
+	}
+}
+
