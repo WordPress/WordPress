@@ -274,29 +274,32 @@
 		}
 	};
 
+	wp.media.mixin = {
+		/**
+		 * A helper function to avoid truthy and falsey values being
+		 *   passed as an input that expects booleans. If key is undefined in the map,
+		 *   but has a default value, set it.
+		 *
+		 * @param {object} attrs Map of props from a shortcode or settings.
+		 * @param {string} key The key within the passed map to check for a value.
+		 * @returns {mixed|undefined} The original or coerced value of key within attrs
+		 */
+		coerce: function ( attrs, key ) {
+			if ( _.isUndefined( attrs[ key ] ) && ! _.isUndefined( this.defaults[ key ] ) ) {
+				attrs[ key ] = this.defaults[ key ];
+			} else if ( 'true' === attrs[ key ] ) {
+				attrs[ key ] = true;
+			} else if ( 'false' === attrs[ key ] ) {
+				attrs[ key ] = false;
+			}
+			return attrs[ key ];
+		}
+	};
+
 	wp.media.collection = function(attributes) {
 		var collections = {};
 
-		return _.extend( attributes, {
-			/**
-			 * A helper function to avoid truthy and falsey values being
-			 *   passed as an input that expects booleans. If key is undefined in the map,
-			 *   but has a default value, set it.
-			 *
-			 * @param {object} attrs Map of props from a shortcode or settings.
-			 * @param {string} key The key within the passed map to check for a value.
-			 * @returns {mixed|undefined} The original or coerced value of key within attrs
-			 */
-			coerce: function ( attrs, key ) {
-				if ( _.isUndefined( attrs[ key ] ) && ! _.isUndefined( this.defaults[ key ] ) ) {
-					attrs[ key ] = this.defaults[ key ];
-				} else if ( 'true' === attrs[ key ] ) {
-					attrs[ key ] = true;
-				} else if ( 'false' === attrs[ key ] ) {
-					attrs[ key ] = false;
-				}
-				return attrs[ key ];
-			},
+		return _.extend( attributes, wp.media.mixin, {
 			/**
 			 * Retrieve attachments based on the properties of the passed shortcode
 			 *
@@ -536,7 +539,7 @@
 		}
 	});
 
-	wp.media['video-playlist'] = new wp.media.collection( {
+	wp.media['video-playlist'] = new wp.media.collection({
 		tag: 'video-playlist',
 		type : 'video',
 		editTitle : wp.media.view.l10n.editVideoPlaylistTitle,
@@ -547,7 +550,89 @@
 			tracknumbers: false,
 			images: true
 		}
-	} );
+	});
+
+	wp.media.audio = _.extend({
+		defaults : {
+			id : wp.media.view.settings.post.id,
+			src      : '',
+			loop     : false,
+			autoplay : false,
+			preload  : 'none'
+		},
+
+		edit : function (data) {
+			var frame, shortcode = wp.shortcode.next( 'audio', data ).shortcode;
+			frame = wp.media({
+				frame: 'audio',
+				state: 'audio-details',
+				metadata: _.defaults(
+					shortcode.attrs.named,
+					wp.media.audio.defaults
+				)
+			});
+
+			return frame;
+		},
+
+		shortcode : function (shortcode) {
+			var self = this;
+
+ 			_.each( wp.media.audio.defaults, function( value, key ) {
+				shortcode[ key ] = self.coerce( shortcode, key );
+
+ 				if ( value === shortcode[ key ] ) {
+ 					delete shortcode[ key ];
+				}
+ 			});
+
+			return wp.shortcode.string({
+				tag:     'audio',
+				attrs:   shortcode
+			});
+		}
+	}, wp.media.mixin);
+
+	wp.media.video = _.extend({
+		defaults : {
+			id : wp.media.view.settings.post.id,
+			src : '',
+			poster : '',
+			loop : false,
+			autoplay : false,
+			preload : 'metadata'
+		},
+
+		edit : function (data) {
+			var frame, shortcode = wp.shortcode.next( 'video', data ).shortcode;
+			frame = wp.media({
+				frame: 'video',
+				state: 'video-details',
+				metadata: _.defaults(
+					shortcode.attrs.named,
+					wp.media.video.defaults
+				)
+			});
+
+			return frame;
+		},
+
+		shortcode : function (shortcode) {
+			var self = this;
+ 			_.each( wp.media.video.defaults, function( value, key ) {
+				shortcode[ key ] = self.coerce( shortcode, key );
+
+ 				if ( value === shortcode[ key ] ) {
+ 					delete shortcode[ key ];
+				}
+ 			});
+
+			return wp.shortcode.string({
+				tag:     'video',
+				attrs:   shortcode
+			});
+		}
+	}, wp.media.mixin);
 
 	/**
 	 * wp.media.featuredImage

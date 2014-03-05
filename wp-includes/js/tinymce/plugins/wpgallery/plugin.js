@@ -64,10 +64,11 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 			return;
 		}
 
+		data = window.decodeURIComponent( editor.dom.getAttrib( node, 'data-wp-media' ) );
+
 		// Make sure we've selected a gallery node.
 		if ( editor.dom.hasClass( node, 'wp-gallery' ) && wp.media.gallery ) {
 			gallery = wp.media.gallery;
-			data = window.decodeURIComponent( editor.dom.getAttrib( node, 'data-wp-media' ) );
 			frame = gallery.edit( data );
 
 			frame.state('gallery-edit').on( 'update', function( selection ) {
@@ -76,7 +77,6 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 				frame.detach();
 			});
 		} else if ( editor.dom.hasClass( node, 'wp-playlist' ) && wp.media.playlist ) {
-			data = window.decodeURIComponent( editor.dom.getAttrib( node, 'data-wp-media' ) );
 			frame = wp.media.playlist.edit( data );
 
 			frame.state('playlist-edit').on( 'update', function( selection ) {
@@ -85,7 +85,6 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 				frame.detach();
 			});
 		} else if ( editor.dom.hasClass( node, 'wp-video-playlist' ) && wp.media['video-playlist'] ) {
-			data = window.decodeURIComponent( editor.dom.getAttrib( node, 'data-wp-media' ) );
 			frame = wp.media['video-playlist'].edit( data );
 
 			frame.state('video-playlist-edit').on( 'update', function( selection ) {
@@ -93,9 +92,23 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 				editor.dom.setAttrib( node, 'data-wp-media', window.encodeURIComponent( shortcode ) );
 				frame.detach();
 			});
+		} else if ( editor.dom.hasClass( node, 'wp-video' ) ) {
+			frame = wp.media.video.edit( data );
+			frame.state( 'video-details' ).on( 'update replace', function ( selection ) {
+				var shortcode = wp.media.video.shortcode( selection );
+				editor.dom.setAttrib( node, 'data-wp-media', window.encodeURIComponent( shortcode ) );
+			} );
+			frame.open();
+		} else if ( editor.dom.hasClass( node, 'wp-audio' ) ) {
+			frame = wp.media.audio.edit( data );
+			frame.state( 'audio-details' ).on( 'update replace', function ( selection ) {
+				var shortcode = wp.media.audio.shortcode( selection );
+				editor.dom.setAttrib( node, 'data-wp-media', window.encodeURIComponent( shortcode ) );
+			} );
+			frame.open();
 		} else {
 			// temp
-			window.console && window.console.log( 'Edit AV shortcode ' + window.decodeURIComponent( editor.dom.getAttrib( node, 'data-wp-media' ) ) );
+			window.console && window.console.log( 'Edit AV shortcode ' + data );
 		}
 	}
 

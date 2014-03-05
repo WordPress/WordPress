@@ -14,6 +14,27 @@
 	width: auto !important;
 }
 
+.audio-details .wp-audio-shortcode {
+	display: inline-block;
+	max-width: 400px;
+}
+
+.video-details .embed-video-settings,
+.audio-details .embed-audio-settings {
+	top: 10px;
+}
+
+.video-details .embed-video-settings .checkbox-setting,
+.audio-details .embed-audio-settings .checkbox-setting {
+	width: 100px;
+	clear: none;
+}
+
+.video-details .wp-video-holder {
+	width: 100%;
+	max-width: 640px;
+}
+
 .wp-playlist {
 	border: 1px solid #ccc;
 	padding: 10px;
