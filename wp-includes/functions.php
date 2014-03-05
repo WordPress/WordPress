@@ -864,10 +864,14 @@ function get_status_header_desc( $code ) {
 			415 => 'Unsupported Media Type',
 			416 => 'Requested Range Not Satisfiable',
 			417 => 'Expectation Failed',
+			418 => 'I\'m a teapot',
 			422 => 'Unprocessable Entity',
 			423 => 'Locked',
 			424 => 'Failed Dependency',
 			426 => 'Upgrade Required',
+			428 => 'Precondition Required',
+			429 => 'Too Many Requests',
+			431 => 'Request Header Fields Too Large',
 
 			500 => 'Internal Server Error',
 			501 => 'Not Implemented',
@@ -877,7 +881,8 @@ function get_status_header_desc( $code ) {
 			505 => 'HTTP Version Not Supported',
 			506 => 'Variant Also Negotiates',
 			507 => 'Insufficient Storage',
-			510 => 'Not Extended'
+			510 => 'Not Extended',
+			511 => 'Network Authentication Required',
 		);
 	}
 
