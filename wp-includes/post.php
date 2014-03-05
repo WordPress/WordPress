@@ -3497,10 +3497,10 @@ function get_page( $page, $output = OBJECT, $filter = 'raw') {
  *
  * @param string $page_path Page path
  * @param string $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
- * @param string $post_type Optional. Post type. Default page.
+ * @param string|array $post_type Optional. Post type or array of post types. Default page.
  * @return WP_Post|null WP_Post on success or null on failure
  */
-function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
+function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 	global $wpdb;
 
 	$page_path = rawurlencode(urldecode($page_path));
@@ -3510,9 +3510,24 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	$parts = esc_sql( $parts );
 	$parts = array_map( 'sanitize_title_for_query', $parts );
 
-	$in_string = "'". implode( "','", $parts ) . "'";
-	$post_type_sql = esc_sql( $post_type );
-	$pages = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_type FROM $wpdb->posts WHERE post_name IN ($in_string) AND (post_type = '$post_type_sql' OR post_type = 'attachment')", OBJECT_K );
+	$in_string = "'" . implode( "','", $parts ) . "'";
+
+	if ( is_array( $post_type ) ) {
+		$post_types = $post_type;
+	} else {
+		$post_types = array( $post_type, 'attachment' );
+	}
+
+	$post_types = esc_sql( $post_types );
+	$post_type_in_string = "'" . implode( "','", $post_types ) . "'";
+	$sql = "
+		SELECT ID, post_name, post_parent, post_type
+		FROM $wpdb->posts
+		WHERE post_name IN ($in_string)
+		AND post_type IN ($post_type_in_string)
+	";
+
+	$pages = $wpdb->get_results( $sql, OBJECT_K );
 
 	$revparts = array_reverse( $parts );
 
@@ -3551,12 +3566,32 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
  *
  * @param string $page_title Page title
  * @param string $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
- * @param string $post_type Optional. Post type. Default page.
+ * @param string|array $post_type Optional. Post type or array of post types. Default page.
  * @return WP_Post|null WP_Post on success or null on failure
  */
-function get_page_by_title($page_title, $output = OBJECT, $post_type = 'page' ) {
+function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' ) {
 	global $wpdb;
-	$page = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type= %s", $page_title, $post_type ) );
+
+	if ( is_array( $post_type ) ) {
+		$post_type = esc_sql( $post_type );
+		$post_type_in_string = "'" . implode( "','", $post_type ) . "'";
+		$sql = $wpdb->prepare( "
+			SELECT ID
+			FROM $wpdb->posts
+			WHERE post_title = %s
+			AND post_type IN ($post_type_in_string)
+		", $page_title );
+	} else {
+		$sql = $wpdb->prepare( "
+			SELECT ID
+			FROM $wpdb->posts
+			WHERE post_title = %s
+			AND post_type = %s
+		", $page_title, $post_type );
+	}
+
+	$page = $wpdb->get_var( $sql );
+
 	if ( $page )
 		return get_post( $page, $output );
 
