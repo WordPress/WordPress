@@ -665,11 +665,11 @@ function wp_print_media_templates() {
 						preload="{{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}}"
 						<#
 						if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) {
-							#>autoplay<#
+							#> autoplay<#
 						}
 
 						if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) {
-							#>loop<#
+							#> loop<#
 						} #>
 					/>
 					<# rendered = true; #>
@@ -690,10 +690,10 @@ function wp_print_media_templates() {
 						preload="{{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}}"
 						<#
 						if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) {
-							#>autoplay<#
+							#> autoplay<#
 						}
 						if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) {
-							#>loop<#
+							#> loop<#
 						} #>
 					/>
 					<#
@@ -760,16 +760,16 @@ function wp_print_media_templates() {
 						src="{{{ src }}}"
 						<#
 						if ( ! _.isUndefined( data.model.poster ) ) {
-							#>poster="{{{ data.model.poster }}}"<#
-						} #>
-						preload="{{{ _.isUndefined( data.model.preload ) ? 'metadata' : data.model.preload }}}"
+							#> poster="{{{ data.model.poster }}}"<#
+						}
+						#> preload="{{{ _.isUndefined( data.model.preload ) ? 'metadata' : data.model.preload }}}"
 						<#
 						if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) {
-							#>autoplay<#
+							#> autoplay<#
 						}
 
 						if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) {
-							#>loop<#
+							#> loop<#
 						} #>
 					/>
 					<# rendered = true; #>
@@ -792,16 +792,16 @@ function wp_print_media_templates() {
 						src="{{{ src }}}"
 						<#
 						if ( ! _.isUndefined( data.model.poster ) ) {
-							#>poster="{{{ data.model.poster }}}"<#
-						} #>
-						preload="{{{ _.isUndefined( data.model.preload ) ? 'metadata' : data.model.preload }}}"
+							#> poster="{{{ data.model.poster }}}"<#
+						}
+						#> preload="{{{ _.isUndefined( data.model.preload ) ? 'metadata' : data.model.preload }}}"
 						<#
 						if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) {
-							#>autoplay<#
+							#> autoplay<#
 						}
 
 						if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) {
-							#>loop<#
+							#> loop<#
 						} #>
 					/>
 					<#
