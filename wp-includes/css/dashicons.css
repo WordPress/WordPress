@@ -176,7 +176,7 @@
 }
 
 .dashicons-image-rotate-left:before {
-	content:"\f166";	
+	content:"\f166";
 }
 
 .dashicons-image-rotate-right:before {
@@ -192,7 +192,7 @@
 }
 
 
-/* Both Image Editing and TinyMCE */ 
+/* Both Image Editing and TinyMCE */
 
 .dashicons-undo:before {
 	content:"\f171";
@@ -205,71 +205,71 @@
 /* TinyMCE Icons */
 
 .dashicons-editor-bold:before {
-	content:"\f200";	
+	content:"\f200";
 }
 
 .dashicons-editor-italic:before {
-	content:"\f201";	
+	content:"\f201";
 }
 
 .dashicons-editor-ul:before {
-	content:"\f203";	
+	content:"\f203";
 }
 
 .dashicons-editor-ol:before {
-	content:"\f204";	
+	content:"\f204";
 }
 
 .dashicons-editor-quote:before {
-	content:"\f205";	
+	content:"\f205";
 }
 
 .dashicons-editor-alignleft:before {
-	content:"\f206";	
+	content:"\f206";
 }
 
 .dashicons-editor-aligncenter:before {
-	content:"\f207";	
+	content:"\f207";
 }
 
 .dashicons-editor-alignright:before {
-	content:"\f208";	
+	content:"\f208";
 }
 
 .dashicons-editor-insertmore:before {
-	content:"\f209";	
+	content:"\f209";
 }
 
 .dashicons-editor-spellcheck:before {
-	content:"\f210";	
+	content:"\f210";
 }
 
 .dashicons-editor-distractionfree:before {
-	content:"\f211";	
+	content:"\f211";
 }
 
 .dashicons-editor-kitchensink:before {
-	content:"\f212";	
+	content:"\f212";
 }
 
 .dashicons-editor-underline:before {
-	content:"\f213";	
+	content:"\f213";
 }
 
 .dashicons-editor-justify:before {
-	content:"\f214";	
+	content:"\f214";
 }
 
 .dashicons-editor-textcolor:before {
-	content:"\f215";	
+	content:"\f215";
 }
 
 .dashicons-editor-paste-word:before {
-	content:"\f216";	
+	content:"\f216";
 }
 
 .dashicons-editor-paste-text:before {
-	content:"\f217";	
+	content:"\f217";
 }
 
 .dashicons-editor-removeformatting:before {
@@ -436,66 +436,66 @@
 	content:"\f237";
 }
 
-.dashicons-share1:before { 
+.dashicons-share1:before {
 	content:"\f237";
 }
 
-.dashicons-share-alt:before { 
+.dashicons-share-alt:before {
 	content:"\f240";
 }
 
-.dashicons-share-alt2:before { 
+.dashicons-share-alt2:before {
 	content:"\f242";
 }
 
-.dashicons-twitter:before { 
+.dashicons-twitter:before {
 	content:"\f301";
 }
 
-.dashicons-rss:before { 
+.dashicons-rss:before {
 	content:"\f303";
 }
 
 .dashicons-email:before {
-	content:"\f465";	
+	content:"\f465";
 }
 
 .dashicons-email-alt:before {
-	content:"\f466";	
+	content:"\f466";
 }
 
-.dashicons-facebook:before { 
+.dashicons-facebook:before {
 	content:"\f304";
 }
 
-.dashicons-facebook-alt:before { 
+.dashicons-facebook-alt:before {
 	content:"\f305";
 }
 
-.dashicons-networking:before { 
+.dashicons-networking:before {
 	content:"\f325";
 }
 
-.dashicons-googleplus:before { 
+.dashicons-googleplus:before {
 	content:"\f462";
 }
 
 
 /* Jobs Icons */
 
-.dashicons-hammer:before { 
+.dashicons-hammer:before {
 	content:"\f308";
 }
 
-.dashicons-art:before { 
+.dashicons-art:before {
 	content:"\f309";
 }
 
-.dashicons-migrate:before { 
+.dashicons-migrate:before {
 	content:"\f310";
 }
 
-.dashicons-performance:before { 
+.dashicons-performance:before {
 	content:"\f311";
 }
 
@@ -507,7 +507,7 @@
 }
 
 .dashicons-wordpress-alt:before {
-	content:"\f324";	
+	content:"\f324";
 }
 
 .dashicons-pressthis:before {
@@ -545,11 +545,11 @@
 
 /* Taxonomies */
 
-.dashicons-tag:before { 
+.dashicons-tag:before {
 	content:"\f323";
 }
 
-.dashicons-category:before { 
+.dashicons-category:before {
 	content:"\f318";
 }
 
@@ -611,7 +611,7 @@
 	content:"\f231";
 }
 
-.dashicons-camera:before { 
+.dashicons-camera:before {
 	content:"\f306";
 }
 
@@ -671,63 +671,63 @@
 	content:"\f185";
 }
 
-.dashicons-chart-line:before { 
+.dashicons-chart-line:before {
 	content:"\f238";
 }
 
-.dashicons-chart-area:before { 
+.dashicons-chart-area:before {
 	content:"\f239";
 }
 
-.dashicons-groups:before { 
+.dashicons-groups:before {
 	content:"\f307";
 }
 
-.dashicons-businessman:before { 
+.dashicons-businessman:before {
 	content:"\f338";
 }
 
-.dashicons-id:before { 
+.dashicons-id:before {
 	content:"\f336";
 }
 
-.dashicons-id-alt:before { 
+.dashicons-id-alt:before {
 	content:"\f337";
 }
 
-.dashicons-products:before { 
+.dashicons-products:before {
 	content:"\f312";
 }
 
-.dashicons-awards:before { 
+.dashicons-awards:before {
 	content:"\f313";
 }
 
-.dashicons-forms:before { 
+.dashicons-forms:before {
 	content:"\f314";
 }
 
-.dashicons-testimonial:before { 
+.dashicons-testimonial:before {
 	content:"\f473";
 }
 
-.dashicons-portfolio:before { 
+.dashicons-portfolio:before {
 	content:"\f322";
 }
 
-.dashicons-book:before { 
+.dashicons-book:before {
 	content:"\f330";
 }
 
-.dashicons-book-alt:before { 
+.dashicons-book-alt:before {
 	content:"\f331";
 }
 
-.dashicons-download:before { 
+.dashicons-download:before {
 	content:"\f316";
 }
 
-.dashicons-upload:before { 
+.dashicons-upload:before {
 	content:"\f317";
 }
 
