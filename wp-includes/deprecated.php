@@ -3430,3 +3430,18 @@ function wp_style_loader_src() {}
 function default_topic_count_text( $count ) {
 	return $count;
 }
+
+/**
+ * Formerly used to escape strings before INSERTing into the DB. Hasn't performed this function for many, many years.
+ *
+ * @since 0.71
+ * @deprecated 3.9.0
+ * @deprecated Original intent was to add slashes to POSTed data, use $wpdb::prepare() instead
+ *
+ * @param string $content The text to format.
+ * @return string The very same text.
+ */
+function format_to_post( $content ) {
+	_deprecated_function( __FUNCTION__, '3.9' );
+	return $content;
+}
