@@ -1460,7 +1460,7 @@
 }
 
 .embed-link-settings,
-.embed-image-settings {
+.embed-media-settings {
 	position: absolute;
 	top: 60px;
 	left: 0;
@@ -1470,7 +1470,7 @@
 	overflow: auto;
 }
 
-.image-details .embed-image-settings {
+.image-details .embed-media-settings {
 	top: 0;
 }
 
@@ -1523,7 +1523,7 @@
 	margin: 2px 0;
 }
 
-.media-embed .setting input,
+.media-embed .setting input[type="text"],
 .media-embed .setting textarea {
 	display: block;
 	width: 100%;
@@ -1872,7 +1872,7 @@
 
 	/* Image From Link */
 	.embed-link-settings,
-	.embed-image-settings {
+	.embed-media-settings {
 		padding-bottom: 52px;
 	}
 

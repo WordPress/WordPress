@@ -2381,6 +2381,16 @@ function wp_enqueue_media( $args = array() ) {
 		'imageReplaceTitle'     => __( 'Replace Image' ),
 		'imageDetailsCancel'    => __( 'Cancel Edit' ),
 
+		// Edit Image
+		'audioDetailsTitle'     => __( 'Audio Details' ),
+		'audioReplaceTitle'     => __( 'Replace Audio' ),
+		'audioDetailsCancel'    => __( 'Cancel Edit' ),
+
+		// Edit Image
+		'videoDetailsTitle'     => __( 'Video Details' ),
+		'videoReplaceTitle'     => __( 'Replace Video' ),
+		'videoDetailsCancel'    => __( 'Cancel Edit' ),
+
  		// Playlist
  		'playlistDragInfo'    => __( 'Drag and drop to reorder tracks.' ),
  		'createPlaylistTitle' => __( 'Create Playlist' ),
