@@ -93,7 +93,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				$img_class = ' svg';
 			} elseif ( 0 === strpos( $item[6], 'dashicons-' ) ) {
 				$img = '<br />';
-				$img_class = ' dashicons ' . sanitize_html_class( $item[6] );
+				$img_class = ' dashicons-before ' . sanitize_html_class( $item[6] );
 			}
 		}
 		$arrow = '<div class="wp-menu-arrow"><div></div></div>';

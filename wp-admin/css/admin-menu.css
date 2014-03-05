@@ -51,69 +51,56 @@
 	transition: all .1s ease-in-out;
 }
 
-.icon16.icon-dashboard:before,
-#adminmenu .menu-icon-dashboard div.wp-menu-image:before {
+.icon16.icon-dashboard:before {
 	content: '\f226';
 }
 
-.icon16.icon-post:before,
-#adminmenu .menu-icon-post div.wp-menu-image:before {
+.icon16.icon-post:before {
 	content: '\f109';
 }
 
-.icon16.icon-media:before,
-#adminmenu .menu-icon-media div.wp-menu-image:before {
+.icon16.icon-media:before {
 	content: '\f104';
 }
 
-.icon16.icon-links:before,
-#adminmenu .menu-icon-links div.wp-menu-image:before {
+.icon16.icon-links:before {
 	content: '\f103';
 }
 
-.icon16.icon-page:before,
-#adminmenu .menu-icon-page div.wp-menu-image:before {
+.icon16.icon-page:before {
 	content: '\f105';
 }
 
-.icon16.icon-comments:before,
-#adminmenu .menu-icon-comments div.wp-menu-image:before {
+.icon16.icon-comments:before {
 	content: '\f101';
 	margin-top: 1px;
 }
 
-.icon16.icon-appearance:before,
-#adminmenu .menu-icon-appearance div.wp-menu-image:before {
+.icon16.icon-appearance:before {
 	content: '\f100';
 }
 
-.icon16.icon-plugins:before,
-#adminmenu .menu-icon-plugins div.wp-menu-image:before {
+.icon16.icon-plugins:before {
 	content: '\f106';
 }
 
-.icon16.icon-users:before,
-#adminmenu .menu-icon-users div.wp-menu-image:before {
+.icon16.icon-users:before {
 	content: '\f110';
 }
 
-.icon16.icon-tools:before,
-#adminmenu .menu-icon-tools div.wp-menu-image:before {
+.icon16.icon-tools:before {
 	content: '\f107';
 }
 
-.icon16.icon-settings:before,
-#adminmenu .menu-icon-settings div.wp-menu-image:before {
+.icon16.icon-settings:before {
 	content: '\f108';
 }
 
-.icon16.icon-site:before,
-#adminmenu .menu-icon-site div.wp-menu-image:before {
+.icon16.icon-site:before {
 	content: '\f112'
 }
 
-.icon16.icon-generic:before,
-#adminmenu .menu-icon-generic div.wp-menu-image:before {
+.icon16.icon-generic:before {
 	content: '\f111';
 }
 
@@ -357,15 +344,8 @@
 }
 
 div.wp-menu-image:before {
-	font: normal 20px/1 'dashicons' !important;
-	speak: none;
 	color: #999;
 	padding: 7px 0;
-	height: 20px;
-	width: 20px;
-	display: inline-block;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 	-webkit-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out;
 }
