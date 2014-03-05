@@ -6147,8 +6147,6 @@
 
 			this.listenTo( this.controller, 'close', this.close );
 
-			// used in AttachmentDisplay.prototype.updateLinkTo
-			this.options.attachment = this.model.attachment;
 			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
 		},
 
@@ -6167,8 +6165,6 @@
 		close : function() {
 			this.mejs.pause();
 			this.remove();
-			delete this.mejs;
-			delete this.mejsInstance;
 		},
 
 		player : function (mejs) {
@@ -6187,7 +6183,7 @@
 			media.view.Settings.AttachmentDisplay.prototype.render.apply( this, arguments );
 			setTimeout( function() { self.resetFocus(); }, 10 );
 
-			this.mejsInstance = new MediaElementPlayer( this.$('audio').get(0), settings );
+			new MediaElementPlayer( this.$('audio').get(0), settings );
 
 			return this;
 		},
