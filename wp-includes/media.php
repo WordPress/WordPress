@@ -673,6 +673,7 @@ add_shortcode('caption', 'img_caption_shortcode');
  *                           'aligncenter', alignright', 'alignnone'.
  *     @type int    $width   The width of the caption, in pixels.
  *     @type string $caption The caption text.
+ *     @type string $class   Additional class name(s) added to the caption container.
  * }
  * @param string $content Optional. Shortcode content.
  * @return string HTML content to display the caption.
@@ -708,7 +709,8 @@ function img_caption_shortcode( $attr, $content = null ) {
 		'id'	  => '',
 		'align'	  => 'alignnone',
 		'width'	  => '',
-		'caption' => ''
+		'caption' => '',
+		'class'   => '',
 	), $attr, 'caption' );
 
 	$atts['width'] = (int) $atts['width'];
@@ -741,7 +743,9 @@ function img_caption_shortcode( $attr, $content = null ) {
 	if ( $caption_width )
 		$style = 'style="width: ' . (int) $caption_width . 'px" ';
 
-	return '<div ' . $atts['id'] . $style . 'class="wp-caption ' . esc_attr( $atts['align'] ) . '">'
+	$class = trim( 'wp-caption ' . $atts['align'] . ' ' . $atts['class'] );
+
+	return '<div ' . $atts['id'] . $style . 'class="' . esc_attr( $class ) . '">'
 	. do_shortcode( $content ) . '<p class="wp-caption-text">' . $atts['caption'] . '</p></div>';
 }
 
