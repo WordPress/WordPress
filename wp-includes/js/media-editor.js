@@ -273,7 +273,10 @@
 			return html;
 		}
 	};
-
+	
+	/**
+	 * @mixin
+	 */
 	wp.media.mixin = {
 		/**
 		 * A helper function to avoid truthy and falsey values being
@@ -552,6 +555,9 @@
 		}
 	});
 
+	/**
+	 * @namespace
+	 */
 	wp.media.audio = _.extend({
 		defaults : {
 			id : wp.media.view.settings.post.id,
@@ -593,6 +599,9 @@
 		}
 	}, wp.media.mixin);
 
+	/**
+	 * @namespace
+	 */
 	wp.media.video = _.extend({
 		defaults : {
 			id : wp.media.view.settings.post.id,
