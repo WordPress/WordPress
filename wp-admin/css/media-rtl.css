@@ -235,33 +235,41 @@
 .find-box {
 	background-color: #fff;
 	width: 600px;
-	max-width: 100%;
 	overflow: hidden;
 	margin-right: -300px;
 	position: fixed;
 	top: 30px;
+	bottom: 30px;
 	right: 50%;
 	z-index: 160000;
 }
 
 .find-box-head {
-	cursor: move;
 	background: #fcfcfc;
 	border-bottom: 1px solid #dfdfdf;
-	height: 40px;
+	height: 56px;
 	font-size: 22px;
 	font-weight: 600;
-	line-height: 40px;
+	line-height: 56px;
 	padding: 0 16px 0 40px;
-	overflow: hidden;
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
 }
 
 .find-box-inside {
 	overflow: auto;
 	padding: 16px;
 	background-color: #fff;
-	max-height: 300px;
+	position: absolute;
+	top: 57px;
+	bottom: 57px;
 	overflow-y: scroll;
+	width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .find-box-search {
@@ -272,7 +280,7 @@
 	float: none;
 	right: 125px;
 	position: absolute;
-	top: 9px;
+	top: 18px;
 }
 
 #find-posts-input,
@@ -286,7 +294,8 @@
 	margin: 0 0 0 4px;
 }
 
-.found-radio {
+.widefat .found-radio {
+	padding-left: 0;
 	width: 16px;
 }
 
@@ -315,15 +324,29 @@
 }
 
 .find-box-buttons {
-	padding: 6px 16px;
+	padding: 14px 16px;
 	background: #fcfcfc;
 	border-top: 1px solid #dfdfdf;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	left: 0;
 }
 
-.find-box #resize-se {
-	position: absolute;
-	left: 1px;
-	bottom: 1px;
+@media screen and ( max-width: 660px ) {
+
+	.find-box {
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		margin: 0;
+		width: 100%;
+	}
+
+	.find-box-inside {
+		bottom: 69px;
+	}
 }
 
 .ui-find-overlay {

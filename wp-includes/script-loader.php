@@ -493,7 +493,10 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'list-revisions', "/wp-includes/js/wp-list-revisions$suffix.js" );
 
-		$scripts->add( 'media', "/wp-admin/js/media$suffix.js", array( 'jquery-ui-draggable' ), false, 1 );
+		$scripts->add( 'media', "/wp-admin/js/media$suffix.js", array( 'jquery' ), false, 1 );
+		did_action( 'init' ) && $scripts->localize( 'media', 'attachMediaBoxL10n', array(
+			'error' => __( 'An error has occured. Please reload the page and try again.' )
+		));
 
 		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'image-edit', 'imageEditL10n', array(

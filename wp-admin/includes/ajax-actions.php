@@ -1465,11 +1465,7 @@ function wp_ajax_find_posts() {
 
 	$html .= '</tbody></table>';
 
-	$x = new WP_Ajax_Response();
-	$x->add( array(
-		'data' => $html
-	));
-	$x->send();
+	wp_send_json_success( $html );
 }
 
 function wp_ajax_widgets_order() {
