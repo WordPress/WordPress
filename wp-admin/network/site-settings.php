@@ -88,19 +88,8 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 
 <div class="wrap">
 <h2 id="edit-site"><?php echo $title_site_url_linked ?></h2>
-<h3 class="nav-tab-wrapper">
-<?php
-$tabs = array(
-	'site-info'     => array( 'label' => __( 'Info' ),     'url' => 'site-info.php'     ),
-	'site-users'    => array( 'label' => __( 'Users' ),    'url' => 'site-users.php'    ),
-	'site-themes'   => array( 'label' => __( 'Themes' ),   'url' => 'site-themes.php'   ),
-	'site-settings' => array( 'label' => __( 'Settings' ), 'url' => 'site-settings.php' ),
-);
-foreach ( $tabs as $tab_id => $tab ) {
-	$class = ( $tab['url'] == $pagenow ) ? ' nav-tab-active' : '';
-	echo '<a href="' . $tab['url'] . '?id=' . $id .'" class="nav-tab' . $class . '">' . esc_html( $tab['label'] ) . '</a>';
-}
-?>
+<h3 class="nav-tab-wrapper" role="tablist">
+<?php network_edit_site_tabs( $id ); ?>
 </h3>
 <?php
 if ( ! empty( $messages ) ) {
