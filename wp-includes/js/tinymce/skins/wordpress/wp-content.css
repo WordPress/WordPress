@@ -198,6 +198,141 @@ img::selection {
 	outline: 0;
 }
 
+
+/**
+ * WP Views
+ */
+
+/* IE hasLayout. Needed for all IE incl. 11 (ugh, not again!!) */
+.wpview-wrap {
+	width: 99.99%;
+	position: relative;
+}
+
+/* delegate the handling of the selection to the wpview tinymce plugin */
+.wpview-wrap,
+.wpview-wrap * {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* hide the shortcode content, but allow the content to still be selected */
+.wpview-wrap .wpview-clipboard {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	clip: rect(1px, 1px, 1px, 1px);
+	overflow: hidden;
+	outline: 0;
+}
+
+/**
+ * Gallery preview
+ */
+.wpview-type-gallery {
+    position: relative;
+    padding: 0 0 12px;
+    margin-bottom: 16px;
+	cursor: pointer;
+}
+
+ .wpview-type-gallery:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+ .wpview-type-gallery.selected {
+	background-color: #efefef;
+}
+
+.wpview-type-gallery .toolbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    color: white;
+    padding: 4px;
+	display: none;
+}
+
+.wpview-type-gallery.selected .toolbar {
+	display: block;
+}
+
+.wpview-type-gallery .toolbar span {
+	cursor: pointer;
+}
+
+.gallery img[data-mce-selected]:focus {
+	outline: none;
+}
+
+.gallery a {
+	cursor: default;
+}
+
+.gallery {
+	margin: auto;
+    line-height: 1;
+}
+
+.gallery .gallery-item {
+	float: left;
+	margin: 10px 0 0 0;
+	text-align: center;
+}
+
+.gallery .gallery-caption,
+.gallery .gallery-icon {
+	margin: 0;
+}
+
+.gallery-columns-1 .gallery-item {
+	width: 99%;
+}
+
+.gallery-columns-2 .gallery-item {
+	width: 49.5%;
+}
+
+.gallery-columns-3 .gallery-item {
+	width: 33%;
+}
+
+.gallery-columns-4 .gallery-item {
+	width: 24.75%;
+}
+
+.gallery-columns-5 .gallery-item {
+	width: 19.825%;
+}
+
+.gallery-columns-6 .gallery-item {
+	width: 16%;
+}
+
+.gallery-columns-7 .gallery-item {
+	width: 14%;
+}
+
+.gallery-columns-8 .gallery-item {
+	width: 12%;
+}
+
+.gallery-columns-9 .gallery-item {
+	width: 11%;
+}
+
+.gallery img {
+	border: 1px solid #cfcfcf;
+}
+
 img.wp-oembed {
 	border: 1px dashed #888;
 	background: #f7f5f2 url(images/embedded.png) no-repeat scroll center center;

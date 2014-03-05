@@ -59,7 +59,7 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 			return;
 		}
 
-		// Check if the `wp.media.gallery` API exists.
+		// Check if the `wp.media` API exists.
 		if ( typeof wp === 'undefined' || ! wp.media ) {
 			return;
 		}
@@ -166,7 +166,11 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 	});
 
 	editor.on( 'BeforeSetContent', function( event ) {
-		event.content = replaceGalleryShortcodes( event.content );
+		// 'wpview' handles the gallery shortcode when present
+		if ( ! editor.plugins.wpview ) {
+			event.content = replaceGalleryShortcodes( event.content );
+		}
+
 		event.content = replaceAVShortcodes( event.content );
 	});
 

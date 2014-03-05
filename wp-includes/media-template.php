@@ -650,6 +650,36 @@ function wp_print_media_templates() {
 	</script>
 	<?php
 
+		//TODO: do we want to deal with the fact that the elements used for gallery items are filterable and can be overriden via shortcode attributes
+		// do we want to deal with the difference between display and edit context at all? (e.g. wptexturize() being applied to the caption.
+	?>
+
+	<script type="text/html" id="tmpl-editor-gallery">
+		<div class="toolbar">
+			<div class="dashicons dashicons-format-gallery edit"></div>
+			<div class="dashicons dashicons-no-alt remove"></div>
+		</div>
+		<div class="gallery gallery-columns-{{{ data.columns }}}">
+			<# _.each( data.attachments, function( attachment, index ) { #>
+				<dl class="gallery-item">
+					<dt class="gallery-icon">
+						<?php // TODO: need to figure out the best way to make sure that we have thumbnails ?>
+						<img src="{{{ attachment.sizes.thumbnail.url }}}" />
+					</dt>
+					<dd class="wp-caption-text gallery-caption">
+						{{ attachment.caption }}
+					</dd>
+				</dl>
+				<?php // this is kind silly, but copied from the gallery shortcode. Maybe it should be removed ?>
+				<# if ( index % data.columns === data.columns - 1 ) { #>
+					<br style="clear: both;">
+				<# } #>
+
+			<# } ); #>
+		</div>
+	</script>
+	<?php
+
 	/**
 	 * Prints the media manager custom media templates.
 	 *

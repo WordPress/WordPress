@@ -1,173 +1,95 @@
+/* global tinymce */
+
 // Ensure the global `wp` object exists.
 window.wp = window.wp || {};
 
 (function($){
 	var views = {},
-		instances = {};
+		instances = {},
+		media = wp.media,
+		viewOptions = ['encodedText'];
 
 	// Create the `wp.mce` object if necessary.
 	wp.mce = wp.mce || {};
 
-	// wp.mce.view
-	// -----------
-	// A set of utilities that simplifies adding custom UI within a TinyMCE editor.
-	// At its core, it serves as a series of converters, transforming text to a
-	// custom UI, and back again.
-	wp.mce.view = {
-		// ### defaults
-		defaults: {
-			// The default properties used for objects with the `pattern` key in
-			// `wp.mce.view.add()`.
-			pattern: {
-				view: Backbone.View,
-				text: function( instance ) {
-					return instance.options.original;
-				},
+	/**
+	 * wp.mce.View
+	 *
+	 * A Backbone-like View constructor intended for use when rendering a TinyMCE View. The main difference is
+	 * that the TinyMCE View is not tied to a particular DOM node.
+	 */
+	wp.mce.View = function( options ) {
+		options || (options = {});
+		_.extend(this, _.pick(options, viewOptions));
+		this.initialize.apply(this, arguments);
+	};
 
-				toView: function( content ) {
-					if ( ! this.pattern )
-						return;
-
-					this.pattern.lastIndex = 0;
-					var match = this.pattern.exec( content );
-
-					if ( ! match )
-						return;
-
-					return {
-						index:   match.index,
-						content: match[0],
-						options: {
-							original: match[0],
-							results:  match
-						}
-					};
+	_.extend( wp.mce.View.prototype, {
+		initialize: function() {},
+		html: function() {},
+		render: function() {
+			var html = this.getHtml();
+			// Search all tinymce editor instances and update the placeholders
+			_.each( tinymce.editors, function( editor ) {
+				var doc;
+				if ( editor.plugins.wpview ) {
+					doc = editor.getDoc();
+					$( doc ).find( '[data-wpview-text="' + this.encodedText + '"]' ).html( html );
 				}
-			},
+			}, this );
+		}
+	} );
 
-			// The default properties used for objects with the `shortcode` key in
-			// `wp.mce.view.add()`.
-			shortcode: {
-				view: Backbone.View,
-				text: function( instance ) {
-					return instance.options.shortcode.string();
-				},
+	// take advantage of the Backbone extend method
+	wp.mce.View.extend = Backbone.View.extend;
 
-				toView: function( content ) {
-					var match = wp.shortcode.next( this.shortcode, content );
+	/**
+	 * wp.mce.views
+	 *
+	 * A set of utilities that simplifies adding custom UI within a TinyMCE editor.
+	 * At its core, it serves as a series of converters, transforming text to a
+	 * custom UI, and back again.
+	 */
+	wp.mce.views = {
 
-					if ( ! match )
-						return;
-
-					return {
-						index:   match.index,
-						content: match.content,
-						options: {
-							shortcode: match.shortcode
-						}
-					};
-				}
-			}
+		/**
+		 * wp.mce.views.register( type, view )
+		 *
+		 * Registers a new TinyMCE view.
+		 *
+		 * @param type
+		 * @param constructor
+		 *
+		 */
+		register: function( type, constructor ) {
+			views[ type ] = constructor;
 		},
 
-		// ### add( id, options )
-		// Registers a new TinyMCE view.
-		//
-		// Accepts a unique `id` and an `options` object.
-		//
-		// `options` accepts the following properties:
-		//
-		// * `pattern` is the regular expression used to scan the content and
-		// detect matching views.
-		//
-		// * `view` is a `Backbone.View` constructor. If a plain object is
-		// provided, it will automatically extend the parent constructor
-		// (usually `Backbone.View`). Views are instantiated when the `pattern`
-		// is successfully matched. The instance's `options` object is provided
-		// with the `original` matched value, the match `results` including
-		// capture groups, and the `viewType`, which is the constructor's `id`.
-		//
-		// * `extend` an existing view by passing in its `id`. The current
-		// view will inherit all properties from the parent view, and if
-		// `view` is set to a plain object, it will extend the parent `view`
-		// constructor.
-		//
-		// * `text` is a method that accepts an instance of the `view`
-		// constructor and transforms it into a text representation.
-		add: function( id, options ) {
-			var parent, remove, base, properties;
-
-			// Fetch the parent view or the default options.
-			if ( options.extend )
-				parent = wp.mce.view.get( options.extend );
-			else if ( options.shortcode )
-				parent = wp.mce.view.defaults.shortcode;
-			else
-				parent = wp.mce.view.defaults.pattern;
-
-			// Extend the `options` object with the parent's properties.
-			_.defaults( options, parent );
-			options.id = id;
-
-			// Create properties used to enhance the view for use in TinyMCE.
-			properties = {
-				// Ensure the wrapper element and references to the view are
-				// removed. Otherwise, removed views could randomly restore.
-				remove: function() {
-					delete instances[ this.el.id ];
-					this.$el.parent().remove();
-
-					// Trigger the inherited `remove` method.
-					if ( remove )
-						remove.apply( this, arguments );
-
-					return this;
-				}
-			};
-
-			// If the `view` provided was an object, use the parent's
-			// `view` constructor as a base. If a `view` constructor
-			// was provided, treat that as the base.
-			if ( _.isFunction( options.view ) ) {
-				base = options.view;
-			} else {
-				base   = parent.view;
-				remove = options.view.remove;
-				_.defaults( properties, options.view );
-			}
-
-			// If there's a `remove` method on the `base` view that wasn't
-			// created by this method, inherit it.
-			if ( ! remove && ! base._mceview )
-				remove = base.prototype.remove;
-
-			// Automatically create the new `Backbone.View` constructor.
-			options.view = base.extend( properties, {
-				// Flag that the new view has been created by `wp.mce.view`.
-				_mceview: true
-			});
-
-			views[ id ] = options;
+		/**
+		 * wp.mce.views.get( id )
+		 *
+		 * Returns a TinyMCE view constructor.
+		 */
+		get: function( type ) {
+			return views[ type ];
 		},
 
-		// ### get( id )
-		// Returns a TinyMCE view options object.
-		get: function( id ) {
-			return views[ id ];
+		/**
+		 * wp.mce.views.unregister( type )
+		 *
+		 * Unregisters a TinyMCE view.
+		 */
+		unregister: function( type ) {
+			delete views[ type ];
 		},
 
-		// ### remove( id )
-		// Unregisters a TinyMCE view.
-		remove: function( id ) {
-			delete views[ id ];
-		},
-
-		// ### toViews( content )
-		// Scans a `content` string for each view's pattern, replacing any
-		// matches with wrapper elements, and creates a new view instance for
-		// every match.
-		//
-		// To render the views, call `wp.mce.view.render( scope )`.
+		/**
+		 * toViews( content )
+		 * Scans a `content` string for each view's pattern, replacing any
+		 * matches with wrapper elements, and creates a new instance for
+		 * every match, which triggers the related data to be fetched.
+		 *
+		 */
 		toViews: function( content ) {
 			var pieces = [ { content: content } ],
 				current;
@@ -190,12 +112,13 @@ window.wp = window.wp || {};
 					// and slicing the string as we go.
 					while ( remaining && (result = view.toView( remaining )) ) {
 						// Any text before the match becomes an unprocessed piece.
-						if ( result.index )
+						if ( result.index ) {
 							pieces.push({ content: remaining.substring( 0, result.index ) });
+						}
 
 						// Add the processed piece for the match.
 						pieces.push({
-							content:   wp.mce.view.toView( viewType, result.options ),
+							content: wp.mce.views.toView( viewType, result.content, result.options ),
 							processed: true
 						});
 
@@ -205,145 +128,178 @@ window.wp = window.wp || {};
 
 					// There are no additional matches. If any content remains,
 					// add it as an unprocessed piece.
-					if ( remaining )
+					if ( remaining ) {
 						pieces.push({ content: remaining });
+					}
 				});
 			});
 
 			return _.pluck( pieces, 'content' ).join('');
 		},
 
-		toView: function( viewType, options ) {
-			var view = wp.mce.view.get( viewType ),
-				instance, id;
+		/**
+		 * Create a placeholder for a particular view type
+		 *
+		 * @param viewType
+		 * @param text
+		 * @param options
+		 *
+		 */
+		toView: function( viewType, text, options ) {
+			var view = wp.mce.views.get( viewType ),
+				encodedText = window.encodeURIComponent( text ),
+				instance, viewOptions;
 
-			if ( ! view )
-				return '';
 
-			// Create a new view instance.
-			instance = new view.view( _.extend( options || {}, {
-				viewType: viewType
-			}) );
+			if ( ! view ) {
+				return text;
+			}
 
-			// Use the view's `id` if it already exists. Otherwise,
-			// create a new `id`.
-			id = instance.el.id = instance.el.id || _.uniqueId('__wpmce-');
-			instances[ id ] = instance;
-
-			// Create a dummy `$wrapper` property to allow `$wrapper` to be
-			// called in the view's `render` method without a conditional.
-			instance.$wrapper = $();
+			if ( ! wp.mce.views.getInstance( encodedText ) ) {
+				viewOptions = options;
+				viewOptions.encodedText = encodedText;
+				instance = new view.View( viewOptions );
+				instances[ encodedText ] = instance;
+			}
 
 			return wp.html.string({
-				// If the view is a span, wrap it in a span.
-				tag: 'span' === instance.tagName ? 'span' : 'div',
+				tag: 'div',
 
 				attrs: {
-					'class':           'wp-view-wrap wp-view-type-' + viewType,
-					'data-wp-view':    id,
-					'contenteditable': false
-				}
+					'class': 'wpview-wrap wpview-type-' + viewType,
+					'data-wpview-text': encodedText,
+					'data-wpview-type': viewType,
+					'contenteditable': 'false'
+				},
+
+				content: '\u00a0'
 			});
 		},
 
-		// ### render( scope )
-		// Renders any view instances inside a DOM node `scope`.
-		//
-		// View instances are detected by the presence of wrapper elements.
-		// To generate wrapper elements, pass your content through
-		// `wp.mce.view.toViews( content )`.
-		render: function( scope ) {
-			$( '.wp-view-wrap', scope ).each( function() {
-				var wrapper = $(this),
-					view = wp.mce.view.instance( this );
+		/**
+		 * Refresh views after an update is made
+		 * 
+		 * @param view {object} being refreshed
+		 * @param text {string} textual representation of the view
+		 */
+		refreshView: function( view, text ) {
+			var encodedText = window.encodeURIComponent( text ),
+				viewOptions,
+				result, instance;
 
-				if ( ! view )
-					return;
+			instance = wp.mce.views.getInstance( encodedText );
 
-				// Link the real wrapper to the view.
-				view.$wrapper = wrapper;
-				// Render the view.
-				view.render();
-				// Detach the view element to ensure events are not unbound.
-				view.$el.detach();
+			if ( ! instance ) {
+				result = view.toView( text );
+				viewOptions = result.options;
+				viewOptions.encodedText = encodedText;
+				instance = new view.View( viewOptions );
+				instances[ encodedText ] = instance;
+			}
 
-				// Empty the wrapper, attach the view element to the wrapper,
-				// and add an ending marker to the wrapper to help regexes
-				// scan the HTML string.
-				wrapper.empty().append( view.el ).append('<span data-wp-view-end class="wp-view-end"></span>');
-			});
+			wp.mce.views.render();
 		},
 
-		// ### toText( content )
-		// Scans an HTML `content` string and replaces any view instances with
-		// their respective text representations.
-		toText: function( content ) {
-			return content.replace( /<(?:div|span)[^>]+data-wp-view="([^"]+)"[^>]*>.*?<span[^>]+data-wp-view-end[^>]*><\/span><\/(?:div|span)>/g, function( match, id ) {
-				var instance = instances[ id ],
-					view;
-
-				if ( instance )
-					view = wp.mce.view.get( instance.options.viewType );
-
-				return instance && view ? view.text( instance ) : '';
-			});
+		getInstance: function( encodedText ) {
+			return instances[ encodedText ];
 		},
 
-		// ### Remove internal TinyMCE attributes.
-		removeInternalAttrs: function( attrs ) {
-			var result = {};
-			_.each( attrs, function( value, attr ) {
-				if ( -1 === attr.indexOf('data-mce') )
-					result[ attr ] = value;
-			});
-			return result;
+		/** 
+		 * render( scope )
+		 * 
+		 * Renders any view instances inside a DOM node `scope`.
+		 *
+		 * View instances are detected by the presence of wrapper elements.
+		 * To generate wrapper elements, pass your content through
+		 * `wp.mce.view.toViews( content )`.
+		 */
+		render: function() {
+			_.each( instances, function( instance ) {
+				instance.render();
+			} );
 		},
 
-		// ### Parse an attribute string and removes internal TinyMCE attributes.
-		attrs: function( content ) {
-			return wp.mce.view.removeInternalAttrs( wp.html.attrs( content ) );
-		},
+		edit: function( node ) {
+			var viewType = $( node ).data('wpview-type'),
+				view = wp.mce.views.get( viewType );
 
-		// ### instance( scope )
-		//
-		// Accepts a MCE view wrapper `node` (i.e. a node with the
-		// `wp-view-wrap` class).
-		instance: function( node ) {
-			var id = $( node ).data('wp-view');
-
-			if ( id )
-				return instances[ id ];
-		},
-
-		// ### Select a view.
-		//
-		// Accepts a MCE view wrapper `node` (i.e. a node with the
-		// `wp-view-wrap` class).
-		select: function( node ) {
-			var $node = $(node);
-
-			// Bail if node is already selected.
-			if ( $node.hasClass('selected') )
-				return;
-
-			$node.addClass('selected');
-			$( node.firstChild ).trigger('select');
-		},
-
-		// ### Deselect a view.
-		//
-		// Accepts a MCE view wrapper `node` (i.e. a node with the
-		// `wp-view-wrap` class).
-		deselect: function( node ) {
-			var $node = $(node);
-
-			// Bail if node is already selected.
-			if ( ! $node.hasClass('selected') )
-				return;
-
-			$node.removeClass('selected');
-			$( node.firstChild ).trigger('deselect');
+			if ( view ) {
+				view.edit( node );
+			}
 		}
 	};
 
+	wp.mce.gallery = {
+		shortcode: 'gallery',
+		toView:  function( content ) {
+			var match = wp.shortcode.next( this.shortcode, content );
+
+			if ( ! match ) {
+				return;
+			}
+
+			return {
+				index:   match.index,
+				content: match.content,
+				options: {
+					shortcode: match.shortcode
+				}
+			};
+		},
+		View: wp.mce.View.extend({
+			className: 'editor-gallery',
+			template:  media.template('editor-gallery'),
+
+			// The fallback post ID to use as a parent for galleries that don't
+			// specify the `ids` or `include` parameters.
+			//
+			// Uses the hidden input on the edit posts page by default.
+			postID: $('#post_ID').val(),
+
+			initialize: function( options ) {
+				this.shortcode = options.shortcode;
+				this.fetch();
+			},
+
+			fetch: function() {
+				this.attachments = wp.media.gallery.attachments( this.shortcode, this.postID );
+				this.attachments.more().done( _.bind( this.render, this ) );
+			},
+
+			getHtml: function() {
+				var attrs = this.shortcode.attrs.named,
+					options;
+
+				if ( ! this.attachments.length ) {
+					return;
+				}
+
+				options = {
+					attachments: this.attachments.toJSON(),
+					columns: attrs.columns ? parseInt( attrs.columns, 10 ) : 3
+				};
+
+				return this.template( options );
+
+			}
+		}),
+
+		edit: function( node ) {
+			var gallery = wp.media.gallery,
+				self = this,
+				frame, data;
+
+			data = window.decodeURIComponent( $( node ).data('wpview-text') );
+			frame = gallery.edit( data );
+
+			frame.state('gallery-edit').on( 'update', function( selection ) {
+				var shortcode = gallery.shortcode( selection ).string();
+				$( node ).attr( 'data-wpview-text', window.encodeURIComponent( shortcode ) );
+				wp.mce.views.refreshView( self, shortcode );
+				frame.detach();
+			});
+		}
+
+	};
+	wp.mce.views.register( 'gallery', wp.mce.gallery );
 }(jQuery));
