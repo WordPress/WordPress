@@ -332,7 +332,7 @@
 }
 
 #adminmenu .wp-menu-image img {
-	padding: 9px 0 0 0px;
+	padding: 9px 0 0 0;
 	opacity: 0.6;
 	filter: alpha(opacity=60);
 }
@@ -344,7 +344,7 @@
 #adminmenu div.wp-menu-image {
 	float: left;
 	width: 36px;
-	height: 30px;
+	height: 34px;
 	margin: 0;
 	text-align: center;
 }
@@ -360,8 +360,8 @@ div.wp-menu-image:before {
 	font: normal 20px/1 'dashicons' !important;
 	speak: none;
 	color: #999;
-	padding: 8px 0;
-	height: 36px;
+	padding: 7px 0;
+	height: 20px;
 	width: 20px;
 	display: inline-block;
 	-webkit-font-smoothing: antialiased;
