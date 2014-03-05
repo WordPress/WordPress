@@ -77,7 +77,8 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 		$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
 		$id = ! empty( $item[5] ) ? ' id="' . preg_replace( '|[^a-zA-Z0-9_:.]|', '-', $item[5] ) . '"' : '';
-		$img = $img_style = $img_class = '';
+		$img = $img_style = '';
+		$img_class = ' dashicons-before';
 
 		// if the string 'none' (previously 'div') is passed instead of an URL, don't output the default menu image
 		// so an icon can be added to div.wp-menu-image as background with CSS.
