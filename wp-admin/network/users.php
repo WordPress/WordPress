@@ -22,7 +22,7 @@ function confirm_delete_users( $users ) {
 		return false;
 	?>
 	<h2><?php esc_html_e( 'Users' ); ?></h2>
-	<p><?php _e( 'Transfer or delete posts before deleting users.' ); ?></p>
+	<p><?php _e( 'Transfer or delete content before deleting users.' ); ?></p>
 	<form action="users.php?action=dodelete" method="post">
 	<input type="hidden" name="dodelete" />
 	<?php
@@ -45,7 +45,7 @@ function confirm_delete_users( $users ) {
 
 			if ( !empty( $blogs ) ) {
 				?>
-				<br /><fieldset><p><legend><?php printf( __( "What should be done with posts owned by <em>%s</em>?" ), $delete_user->user_login ); ?></legend></p>
+				<br /><fieldset><p><legend><?php printf( __( "What should be done with content owned by <em>%s</em>?" ), $delete_user->user_login ); ?></legend></p>
 				<?php
 				foreach ( (array) $blogs as $key => $details ) {
 					$blog_users = get_users( array( 'blog_id' => $details->userblog_id, 'fields' => array( 'ID', 'user_login' ) ) );
@@ -65,9 +65,9 @@ function confirm_delete_users( $users ) {
 						<ul style="list-style:none;">
 							<li><?php printf( __( 'Site: %s' ), $user_site ); ?></li>
 							<li><label><input type="radio" id="delete_option0" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID ?>]" value="delete" checked="checked" />
-							<?php _e( 'Delete all posts.' ); ?></label></li>
+							<?php _e( 'Delete all content.' ); ?></label></li>
 							<li><label><input type="radio" id="delete_option1" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID ?>]" value="reassign" />
-							<?php echo __( 'Attribute all posts to:' ) . '</label>' . $user_dropdown; ?></li>
+							<?php echo __( 'Attribute all content to:' ) . '</label>' . $user_dropdown; ?></li>
 						</ul>
 						<?php
 					}
