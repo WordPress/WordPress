@@ -913,7 +913,7 @@ function get_theme_mod( $name, $default = false ) {
  */
 function set_theme_mod( $name, $value ) {
 	$mods = get_theme_mods();
-	$old_value = $mods[ $name ];
+	$old_value = isset( $mods[ $name ] ) ? $mods[ $name ] : false;
 
 	/**
 	 * Filter the theme mod value on save.
