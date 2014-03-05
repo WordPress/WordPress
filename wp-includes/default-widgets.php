@@ -191,7 +191,7 @@ class WP_Widget_Search extends WP_Widget {
 
 	function __construct() {
 		$widget_ops = array('classname' => 'widget_search', 'description' => __( "A search form for your site.") );
-		parent::__construct('search', __('Search'), $widget_ops);
+		parent::__construct( 'search', _x( 'Search', 'Search widget' ), $widget_ops );
 	}
 
 	function widget( $args, $instance ) {
