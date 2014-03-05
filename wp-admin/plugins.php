@@ -69,16 +69,19 @@ if ( $action ) {
 
 			$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 
-			// Only activate plugins which are not already active.
 			if ( is_network_admin() ) {
 				foreach ( $plugins as $i => $plugin ) {
-					if ( is_plugin_active_for_network( $plugin ) )
+					// Only activate plugins which are not already network activated.
+					if ( is_plugin_active_for_network( $plugin ) ) {
 						unset( $plugins[ $i ] );
+					}
 				}
 			} else {
 				foreach ( $plugins as $i => $plugin ) {
-					if ( is_plugin_active( $plugin ) || is_network_only_plugin( $plugin ) )
+					// Only activate plugins which are not already active and are not network-only when on Multisite.
+					if ( is_plugin_active( $plugin ) || ( is_multisite() && is_network_only_plugin( $plugin ) ) ) {
 						unset( $plugins[ $i ] );
+					}
 				}
 			}
 
