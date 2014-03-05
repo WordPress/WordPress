@@ -6239,7 +6239,7 @@
 			media.view.Settings.AttachmentDisplay.prototype.render.apply( this, arguments );
 			setTimeout( function() { self.resetFocus(); }, 10 );
 
-			new MediaElementPlayer( this.$('audio').get(0), settings );
+			new MediaElementPlayer( this.$('.wp-audio-shortcode').get(0), settings );
 
 			return this;
 		},
@@ -6264,13 +6264,10 @@
 		template:  media.template('video-details'),
 
 		initialize: function() {
-			_.bindAll(this, 'player', 'played');
+			_.bindAll(this, 'player');
 
-			this.removable = false;
 			this.listenTo( this.controller, 'close', this.close );
 
-			// used in AttachmentDisplay.prototype.updateLinkTo
-			this.options.attachment = this.model.attachment;
 			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
 		},
 
@@ -6287,20 +6284,12 @@
 		},
 
 		close : function() {
-			if ( this.removable ) {
-				this.mejs.pause();
-			}
+			this.mejs.pause();
 			this.remove();
-			this.mejs = this.mejsInstance = null;
-		},
-
-		played : function () {
-			this.removable = true;
 		},
 
 		player : function (mejs) {
 			this.mejs = mejs;
-			this.mejs.addEventListener( 'play', this.played );
 		},
 
 		render: function() {
@@ -6315,10 +6304,7 @@
 			media.view.Settings.AttachmentDisplay.prototype.render.apply( this, arguments );
 			setTimeout( function() { self.resetFocus(); }, 10 );
 
-			if ( ! this.mejsInstance ) {
-				this.mejsInstance = new MediaElementPlayer( this.$('video').get(0), settings );
-			}
-
+			new MediaElementPlayer( this.$('.wp-video-shortcode').get(0), settings );
 			return this;
 		},
 

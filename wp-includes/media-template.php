@@ -654,11 +654,23 @@ function wp_print_media_templates() {
 		<# var rendered = false; #>
 		<div class="media-embed">
 			<div class="embed-media-settings embed-audio-settings">
-				<# if ( data.model.src ) { #>
-					<audio class="wp-audio-shortcode" src="{{{ data.model.src }}}"
+				<#
+					var src,
+						t = (new Date()).getTime();
+
+					if ( data.model.src ) {
+						src = data.model.src + (data.model.src.indexOf('?') > -1 ? '&' : '?' ) + t;
+					#>
+					<audio controls class="wp-audio-shortcode" src="{{{ src }}}"
 						preload="{{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}}"
-						<# if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) { #>autoplay<# } #>
-						<# if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) { #>loop<# } #>
+						<#
+						if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) {
+							#>autoplay<#
+						}
+
+						if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) {
+							#>loop<#
+						} #>
 					/>
 					<# rendered = true; #>
 				<label class="setting">
@@ -671,11 +683,18 @@ function wp_print_media_templates() {
 
 				foreach ( $default_types as $type ): ?>
 				<# if ( data.model.<?php echo $type ?> ) { #>
-					<# if ( ! rendered ) { #>
-					<audio class="wp-audio-shortcode" src="{{{ data.model.<?php echo $type ?> }}}"
+					<# if ( ! rendered ) {
+						src = data.model.<?php echo $type ?> + (data.model.<?php echo $type ?>.indexOf('?') > -1 ? '&' : '?' ) + t;
+					#>
+					<audio controls class="wp-audio-shortcode" src="{{{ src }}}"
 						preload="{{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}}"
-						<# if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) { #>autoplay<# } #>
-						<# if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) { #>loop<# } #>
+						<#
+						if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) {
+							#>autoplay<#
+						}
+						if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) {
+							#>loop<#
+						} #>
 					/>
 					<#
 						rendered = true;
@@ -723,22 +742,35 @@ function wp_print_media_templates() {
 			<div class="embed-media-settings embed-video-settings">
 				<div class="wp-video-holder">
 				<#
-				var w = ! data.model.width || data.model.width > 640 ? 640 : data.model.width,
-					h = ! data.model.height ? 320 : data.model.height;
+					var src,
+						t = (new Date()).getTime(),
+						w = ! data.model.width || data.model.width > 640 ? 640 : data.model.width,
+						h = ! data.model.height ? 360 : data.model.height;
 
 				if ( w !== data.model.width ) {
 					h = Math.ceil( ( h * w ) / data.model.width );
 				}
 
-				if ( data.model.src ) { #>
-					<video class="wp-video-shortcode"
+				if ( data.model.src ) {
+					src = data.model.src + (data.model.src.indexOf('?') > -1 ? '&' : '?' ) + t;
+				#>
+					<video controls class="wp-video-shortcode"
 						width="{{{ w }}}"
 						height="{{{ h }}}"
-						src="{{{ data.model.src }}}"
-						<# if ( ! _.isUndefined( data.model.poster ) ) { #>poster="{{{ data.model.poster }}}"<# } #>
+						src="{{{ src }}}"
+						<#
+						if ( ! _.isUndefined( data.model.poster ) ) {
+							#>poster="{{{ data.model.poster }}}"<#
+						} #>
 						preload="{{{ _.isUndefined( data.model.preload ) ? 'metadata' : data.model.preload }}}"
-						<# if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) { #>autoplay<# } #>
-						<# if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) { #>loop<# } #>
+						<#
+						if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) {
+							#>autoplay<#
+						}
+
+						if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) {
+							#>loop<#
+						} #>
 					/>
 					<# rendered = true; #>
 				<label class="setting">
@@ -751,15 +783,26 @@ function wp_print_media_templates() {
 
 				foreach ( $default_types as $type ): ?>
 				<# if ( data.model.<?php echo $type ?> ) { #>
-					<# if ( ! rendered ) { #>
-					<video class="wp-video-shortcode"
+					<# if ( ! rendered ) {
+						src = data.model.<?php echo $type ?> + (data.model.<?php echo $type ?>.indexOf('?') > -1 ? '&' : '?' ) + t;
+					#>
+					<video controls class="wp-video-shortcode"
 						width="{{{ w }}}"
 						height="{{{ h }}}"
-						src="{{{ data.model.<?php echo $type ?> }}}"
-						<# if ( ! _.isUndefined( data.model.poster ) ) { #>poster="{{{ data.model.poster }}}"<# } #>
+						src="{{{ src }}}"
+						<#
+						if ( ! _.isUndefined( data.model.poster ) ) {
+							#>poster="{{{ data.model.poster }}}"<#
+						} #>
 						preload="{{{ _.isUndefined( data.model.preload ) ? 'metadata' : data.model.preload }}}"
-						<# if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) { #>autoplay<# } #>
-						<# if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) { #>loop<# } #>
+						<#
+						if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) {
+							#>autoplay<#
+						}
+
+						if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) {
+							#>loop<#
+						} #>
 					/>
 					<#
 						rendered = true;
