@@ -1137,7 +1137,7 @@ function get_uploaded_header_images() {
 		return array();
 
 	foreach ( (array) $headers as $header ) {
-		$url = esc_url_raw( $header->guid );
+		$url = esc_url_raw( wp_get_attachment_url( $header->ID ) );
 		$header_data = wp_get_attachment_metadata( $header->ID );
 		$header_index = basename($url);
 		$header_images[$header_index] = array();
