@@ -5254,6 +5254,16 @@
 
 			this.collection.on( 'add remove reset', this.updateContent, this );
 		},
+		toggleSpinner: function( state ) {
+			if ( state ) {
+				this.spinnerTimeout = _.delay(function( view ) {
+					view.toolbar.get( 'spinner' ).show();
+				}, 600, this );
+			} else {
+				this.toolbar.get( 'spinner' ).hide();
+				clearTimeout( this.spinnerTimeout );
+			}
+		},
 		/**
 		 * @returns {wp.media.view.AttachmentsBrowser} Returns itself to allow chaining
 		 */
@@ -5290,6 +5300,10 @@
 				}).render() );
 			}
 
+			this.toolbar.set( 'spinner', new media.view.Spinner({
+				priority: -70
+			}) );
+
 			if ( this.options.search ) {
 				this.toolbar.set( 'search', new media.view.Search({
 					controller: this.controller,
@@ -5314,10 +5328,12 @@
 			}
 
 			if ( ! this.collection.length ) {
-				this.collection.more().done( function() {
+				this.toggleSpinner( true );
+				this.collection.more().done(function() {
 					if ( ! view.collection.length ) {
 						view.createUploader();
 					}
+					view.toggleSpinner( false );
 				});
 			}
 		},
@@ -6311,6 +6327,29 @@
 
 		resetFocus: function() {
 			this.$( '.embed-media-settings' ).scrollTop( 0 );
+		}
+	});
+
+	/**
+	 * wp.media.view.Spinner
+	 *
+	 * @constructor
+	 * @augments wp.media.View
+	 * @augments wp.Backbone.View
+	 * @augments Backbone.View
+	 */
+	media.view.Spinner = media.View.extend({
+		tagName:   'span',
+		className: 'spinner',
+
+		show: function() {
+			this.$el.show();
+			return this;
+		},
+
+		hide: function() {
+			this.$el.hide();
+			return this;
 		}
 	});
 }(jQuery, _));

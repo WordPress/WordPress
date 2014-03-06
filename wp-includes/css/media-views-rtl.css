@@ -1290,6 +1290,10 @@
 	margin: 0;
 }
 
+.media-toolbar .spinner {
+	margin-top: 14px;
+}
+
 .media-sidebar .settings-save-status {
 	background: #f5f5f5;
 	float: left;
