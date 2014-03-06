@@ -273,7 +273,7 @@
 			return html;
 		}
 	};
-	
+
 	/**
 	 * @mixin
 	 */
@@ -584,13 +584,13 @@
 		shortcode : function (shortcode) {
 			var self = this;
 
- 			_.each( wp.media.audio.defaults, function( value, key ) {
+			_.each( wp.media.audio.defaults, function( value, key ) {
 				shortcode[ key ] = self.coerce( shortcode, key );
 
- 				if ( value === shortcode[ key ] ) {
- 					delete shortcode[ key ];
+				if ( value === shortcode[ key ] ) {
+					delete shortcode[ key ];
 				}
- 			});
+			});
 
 			return wp.shortcode.string({
 				tag:     'audio',
@@ -628,13 +628,13 @@
 
 		shortcode : function (shortcode) {
 			var self = this;
- 			_.each( wp.media.video.defaults, function( value, key ) {
+			_.each( wp.media.video.defaults, function( value, key ) {
 				shortcode[ key ] = self.coerce( shortcode, key );
 
- 				if ( value === shortcode[ key ] ) {
- 					delete shortcode[ key ];
+				if ( value === shortcode[ key ] ) {
+					delete shortcode[ key ];
 				}
- 			});
+			});
 
 			return wp.shortcode.string({
 				tag:     'video',

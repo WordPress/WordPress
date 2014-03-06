@@ -457,12 +457,12 @@ window.wp = window.wp || {};
 	 * @constructor
 	 * @augments Backbone.Model
 	 **/
-	PostAudio = media.model.PostAudio = Backbone.Model.extend({
+	media.model.PostAudio = Backbone.Model.extend({
 		initialize: function() {
 			this.attachment = false;
 		},
 
-		changeAttachment: function( attachment, props ) {
+		changeAttachment: function( attachment ) {
 			var self = this;
 
 			this.attachment = attachment;
@@ -486,12 +486,12 @@ window.wp = window.wp || {};
 	 * @constructor
 	 * @augments Backbone.Model
 	 **/
-	PostVideo = media.model.PostVideo = Backbone.Model.extend({
+	media.model.PostVideo = Backbone.Model.extend({
 		initialize: function() {
 			this.attachment = false;
 		},
 
-		changeAttachment: function( attachment, props ) {
+		changeAttachment: function( attachment ) {
 			var self = this;
 
 			this.attachment = attachment;
