@@ -216,6 +216,13 @@ final class WP_Customize_Manager {
 			add_filter( 'pre_option_template_root', array( $this, 'get_template_root' ) );
 		}
 
+		/**
+		 * Fires once the Customizer theme preview has started.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param WP_Customize_Manager $this WP_Customize_Manager instance.
+		 */
 		do_action( 'start_previewing_theme', $this );
 	}
 
@@ -246,6 +253,13 @@ final class WP_Customize_Manager {
 			remove_filter( 'pre_option_template_root', array( $this, 'get_template_root' ) );
 		}
 
+		/**
+		 * Fires once the Customizer theme preview has stopped.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param WP_Customize_Manager $this WP_Customize_Manager instance.
+		 */
 		do_action( 'stop_previewing_theme', $this );
 	}
 
@@ -310,6 +324,14 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 */
 	public function wp_loaded() {
+
+		/**
+		 * Fires once WordPress has loaded, allowing scripts and styles to be initialized.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param WP_Customize_Manager $this WP_Customize_Manager instance.
+		 */
 		do_action( 'customize_register', $this );
 
 		if ( $this->is_preview() && ! is_admin() )
@@ -375,6 +397,14 @@ final class WP_Customize_Manager {
 			$setting->preview();
 		}
 
+		/**
+		 * Fires once the Customizer preview has initialized and JavaScript
+		 * settings have been printed.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param WP_Customize_Manager $this WP_Customize_Manager instance.
+		 */
 		do_action( 'customize_preview_init', $this );
 	}
 
@@ -541,12 +571,27 @@ final class WP_Customize_Manager {
 			$this->start_previewing_theme();
 		}
 
+		/**
+		 * Fires once the theme has switched in the Customizer, but before settings
+		 * have been saved.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param WP_Customize_Manager $this WP_Customize_Manager instance.
+		 */
 		do_action( 'customize_save', $this );
 
 		foreach ( $this->settings as $setting ) {
 			$setting->save();
 		}
 
+		/**
+		 * Fires after Customize settings have been saved.
+		 *
+		 * @since 3.6.0
+		 *
+		 * @param WP_Customize_Manager $this WP_Customize_Manager instance.
+		 */
 		do_action( 'customize_save_after', $this );
 
 		die;
