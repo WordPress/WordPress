@@ -304,8 +304,9 @@ function post_class( $class = '', $post_id = null ) {
 /**
  * Retrieve the classes for the post div as an array.
  *
- * The class names are add are many. If the post is a sticky, then the 'sticky'
- * class name. The class 'hentry' is always added to each post. For each
+ * The class names are many. If the post is a sticky, then the 'sticky'
+ * class name. The class 'hentry' is always added to each post. If the post has a
+ * post thumbnail, 'has-post-thumbnail' is added as a class. For each
  * category, the class will be added with 'category-' with category slug is
  * added. The tags are the same way as the categories with 'tag-' before the tag
  * slug. All classes are passed through the filter, 'post_class' with the list
@@ -342,9 +343,13 @@ function get_post_class( $class = '', $post_id = null ) {
 			$classes[] = 'format-standard';
 	}
 
-	// post requires password
-	if ( post_password_required($post->ID) )
+	// Post requires password
+	if ( post_password_required( $post->ID ) ) {
 		$classes[] = 'post-password-required';
+	// Post thumbnails
+	} elseif ( current_theme_supports( 'post-thumbnails' ) && has_post_thumbnail( $post->ID ) ) {
+		$classes[] = 'has-post-thumbnail';
+	}
 
 	// sticky for Sticky Posts
 	if ( is_sticky($post->ID) && is_home() && !is_paged() )
