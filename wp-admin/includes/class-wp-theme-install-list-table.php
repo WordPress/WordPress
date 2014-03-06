@@ -48,7 +48,24 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
 		$nonmenu_tabs = array( 'theme-information' ); // Valid actions to perform which do not have a Menu item.
 
+		/**
+		 * Filter the tabs shown on the Install Themes screen.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array $tabs The tabs shown on the Install Themes screen. Defaults are
+		 *                    'dashboard', 'search', 'upload', 'featured', 'new', and 'updated'.
+		 */
 		$tabs = apply_filters( 'install_themes_tabs', $tabs );
+
+		/**
+		 * Filter tabs not associated with a menu item on the Install Themes screen.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array $nonmenu_tabs The tabs that don't have a menu item on
+		 *                            the Install Themes screen.
+		 */
 		$nonmenu_tabs = apply_filters( 'install_themes_nonmenu_tabs', $nonmenu_tabs );
 
 		// If a non-valid menu tab has been selected, And it's not a non-menu action.
@@ -93,6 +110,17 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 				break;
 		}
 
+		/**
+		 * Filter API request arguments for each Install Themes screen tab.
+		 *
+		 * The dynamic portion of the hook name, $tab, refers to the theme install
+		 * tabs. Default tabs are 'dashboard', 'search', 'upload', 'featured',
+		 * 'new', and 'updated'.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param array $args An array of themes API arguments.
+		 */
 		$args = apply_filters( 'install_themes_table_api_args_' . $tab, $args );
 
 		if ( ! $args )
@@ -134,7 +162,14 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 ?>
 		<div class="tablenav top themes">
 			<div class="alignleft actions">
-				<?php do_action( 'install_themes_table_header' ); ?>
+				<?php
+				/**
+				 * Fires in the Install Themes list table header.
+				 *
+				 * @since 2.8.0
+				 */
+				do_action( 'install_themes_table_header' );
+				?>
 			</div>
 			<?php $this->pagination( 'top' ); ?>
 			<br class="clear" />
@@ -224,6 +259,15 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
 		$actions[] = '<a class="install-theme-preview" href="' . esc_url( $preview_url ) . '" title="' . esc_attr( sprintf( __( 'Preview %s' ), $name ) ) . '">' . __( 'Preview' ) . '</a>';
 
+		/**
+		 * Filter the install action links for a theme in the Install Themes list table.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param array    $actions An array of theme action hyperlinks. Defaults are
+		 *                          links to Install Now, Preview, and Details.
+		 * @param WP_Theme $theme   Theme object.
+		 */
 		$actions = apply_filters( 'theme_install_actions', $actions, $theme );
 
 		?>
