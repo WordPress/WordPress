@@ -199,6 +199,7 @@ table.diff tbody tr td:nth-child(2) {
 }
 
 table.diff {
+	table-layout: fixed;
 	width: 100%;
 	white-space: pre-wrap;
 }
@@ -229,6 +230,8 @@ table.diff th {
 	font-size: 14px;
 	line-height: 1.618;
 	padding: .5em;
+	vertical-align: top;
+	word-wrap: break-word;
 }
 
 table.diff td h1,
