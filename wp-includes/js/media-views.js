@@ -6280,7 +6280,7 @@
 		template:  media.template('video-details'),
 
 		initialize: function() {
-			_.bindAll(this, 'player');
+			_.bindAll(this, 'success');
 
 			this.listenTo( this.controller, 'close', this.close );
 
@@ -6301,15 +6301,16 @@
 
 		close : function() {
 			this.mejs.pause();
+			this.player.remove();
 		},
 
-		player : function (mejs) {
+		success : function (mejs) {
 			this.mejs = mejs;
 		},
 
 		render: function() {
 			var video, self = this, settings = {
-				success : this.player
+				success : this.success
 			};
 
 			if ( ! _.isUndefined( window._wpmejsSettings ) ) {
@@ -6326,7 +6327,7 @@
 				(new Date()).getTime()
 			].join('');
 
-			new MediaElementPlayer( video, settings );
+			this.player = new MediaElementPlayer( video, settings );
 			return this;
 		},
 
