@@ -77,6 +77,11 @@ td {
 }
 
 /* Styles for the WordPress plugins */
+.mce-content-body img[data-mce-placeholder] {
+	border-radius: 0;
+	padding: 0;
+}
+
 .mce-content-body img.mce-wp-nextpage,
 .mce-content-body img.mce-wp-more {
 	border: 0;
