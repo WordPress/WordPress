@@ -350,8 +350,9 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 
 	if ( count( $paths ) > 1 ) {
 		$paths = "'" . implode( "', '", $wpdb->_escape( $paths ) ) . "'";
-		$site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs
-			WHERE domain = %s AND path IN ($paths) ORDER BY CHAR_LENGTH(path) DESC LIMIT 1", $domain ) );
+		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s", $domain );
+		$sql .= " AND path IN ($paths) ORDER BY CHAR_LENGTH(path) DESC LIMIT 1";
+		$site = $wpdb->get_row( $sql );
 	} else {
 		$site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s and path = %s", $domain, $paths[0] ) );
 	}
