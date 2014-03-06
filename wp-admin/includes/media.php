@@ -2634,13 +2634,13 @@ function edit_form_image_editor( $post ) {
 	<?php
 	elseif ( $attachment_id && 0 === strpos( $post->post_mime_type, 'audio/' ) ):
 
-		maybe_regenerate_attachment_metadata( $post );
+		wp_maybe_generate_attachment_metadata( $post );
 
 		echo wp_audio_shortcode( array( 'src' => $att_url ) );
 
 	elseif ( $attachment_id && 0 === strpos( $post->post_mime_type, 'video/' ) ):
 
-		maybe_regenerate_attachment_metadata( $post );
+		wp_maybe_generate_attachment_metadata( $post );
 
 		$meta = wp_get_attachment_metadata( $attachment_id );
 		$w = ! empty( $meta['width'] ) ? min( $meta['width'], 640 ) : 0;
