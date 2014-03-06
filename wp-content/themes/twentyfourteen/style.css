@@ -502,7 +502,7 @@ textarea:focus {
 /* Buttons */
 
 button,
-.contributor-posts-link,
+.button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"] {
@@ -519,7 +519,8 @@ input[type="submit"] {
 
 button:hover,
 button:focus,
-.contributor-posts-link:hover,
+.button:hover,
+.button:focus,
 input[type="button"]:hover,
 input[type="button"]:focus,
 input[type="reset"]:hover,
@@ -531,7 +532,7 @@ input[type="submit"]:focus {
 }
 
 button:active,
-.contributor-posts-link:active,
+.button:active,
 input[type="button"]:active,
 input[type="reset"]:active,
 input[type="submit"]:active {
@@ -1256,7 +1257,11 @@ a.post-thumbnail:hover {
 .entry-content a:hover,
 .entry-summary a:hover,
 .page-content a:hover,
-.comment-content a:hover {
+.comment-content a:hover,
+.entry-content a.button,
+.entry-summary a.button,
+.page-content a.button,
+.comment-content a.button {
 	text-decoration: none;
 }
 
@@ -2223,6 +2228,7 @@ a.post-thumbnail:hover {
 }
 
 .widget button,
+.widget .button,
 .widget input[type="button"],
 .widget input[type="reset"],
 .widget input[type="submit"] {
