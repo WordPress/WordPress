@@ -34,7 +34,14 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 			id = ( id && id[1] ) ? id[1] : '';
 			cls = ( cls && cls[1] ) ? cls[1] : 'alignnone';
-			w = ( w && w[1] ) ? w[1] : '';
+
+			if ( ! w && img ) {
+				w = img.match( /width=['"]([0-9]*)['"]/ );
+			}
+
+			if ( w && w[1] ) {
+				w = w[1];
+			}
 
 			if ( ! w || ! cap ) {
 				return c;
