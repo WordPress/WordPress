@@ -698,7 +698,7 @@
 
 			this._frame = wp.media({
 				state: 'featured-image',
-				states: [ new wp.media.controller.FeaturedImage() ]
+				states: [ new wp.media.controller.FeaturedImage() , new wp.media.controller.EditImage() ]
 			});
 
 			this._frame.on( 'toolbar:create:featured-image', function( toolbar ) {
@@ -708,6 +708,17 @@
 				this.createSelectToolbar( toolbar, {
 					text: wp.media.view.l10n.setFeaturedImage
 				});
+			}, this._frame );
+
+			this._frame.on( 'content:render:edit-image', function() {
+				var selection = this.state('featured-image').get('selection'),
+					view = new wp.media.view.EditImage( { model: selection.single(), controller: this } ).render();
+
+				this.content.set( view );
+
+				// after bringing in the frame, load the actual editor via an ajax call
+				view.loadEditor();
+
 			}, this._frame );
 
 			this._frame.state('featured-image').on( 'select', this.select );

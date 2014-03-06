@@ -483,6 +483,54 @@
 		};
 	});
 
+	media.selectionSync = {
+		syncSelection: function() {
+			var selection = this.get('selection'),
+				manager = this.frame._selection;
+
+			if ( ! this.get('syncSelection') || ! manager || ! selection ) {
+				return;
+			}
+
+			// If the selection supports multiple items, validate the stored
+			// attachments based on the new selection's conditions. Record
+			// the attachments that are not included; we'll maintain a
+			// reference to those. Other attachments are considered in flux.
+			if ( selection.multiple ) {
+				selection.reset( [], { silent: true });
+				selection.validateAll( manager.attachments );
+				manager.difference = _.difference( manager.attachments.models, selection.models );
+			}
+
+			// Sync the selection's single item with the master.
+			selection.single( manager.single );
+		},
+
+		/**
+		 * Record the currently active attachments, which is a combination
+		 * of the selection's attachments and the set of selected
+		 * attachments that this specific selection considered invalid.
+		 * Reset the difference and record the single attachment.
+		 */
+		recordSelection: function() {
+			var selection = this.get('selection'),
+				manager = this.frame._selection;
+
+			if ( ! this.get('syncSelection') || ! manager || ! selection ) {
+				return;
+			}
+
+			if ( selection.multiple ) {
+				manager.attachments.reset( selection.toArray().concat( manager.difference ) );
+				manager.difference = [];
+			} else {
+				manager.attachments.add( selection.toArray() );
+			}
+
+			manager.single = selection._single;
+		}
+	};
+
 	/**
 	 * wp.media.controller.Library
 	 *
@@ -635,51 +683,6 @@
 			return _.contains( media.view.settings.embedExts, attachment.get('filename').split('.').pop() );
 		},
 
-		syncSelection: function() {
-			var selection = this.get('selection'),
-				manager = this.frame._selection;
-
-			if ( ! this.get('syncSelection') || ! manager || ! selection ) {
-				return;
-			}
-
-			// If the selection supports multiple items, validate the stored
-			// attachments based on the new selection's conditions. Record
-			// the attachments that are not included; we'll maintain a
-			// reference to those. Other attachments are considered in flux.
-			if ( selection.multiple ) {
-				selection.reset( [], { silent: true });
-				selection.validateAll( manager.attachments );
-				manager.difference = _.difference( manager.attachments.models, selection.models );
-			}
-
-			// Sync the selection's single item with the master.
-			selection.single( manager.single );
-		},
-
-		/**
-		 * Record the currently active attachments, which is a combination
-		 * of the selection's attachments and the set of selected
-		 * attachments that this specific selection considered invalid.
-		 * Reset the difference and record the single attachment.
-		 */
-		recordSelection: function() {
-			var selection = this.get('selection'),
-				manager = this.frame._selection;
-
-			if ( ! this.get('syncSelection') || ! manager || ! selection ) {
-				return;
-			}
-
-			if ( selection.multiple ) {
-				manager.attachments.reset( selection.toArray().concat( manager.difference ) );
-				manager.difference = [];
-			} else {
-				manager.attachments.add( selection.toArray() );
-			}
-
-			manager.single = selection._single;
-		},
 
 		/**
 		 * If the state is active, no items are selected, and the current
@@ -733,6 +736,8 @@
 			}
 		}
 	});
+
+	_.extend( media.controller.Library.prototype, media.selectionSync );
 
 	/**
 	 * wp.media.controller.ImageDetails
@@ -989,7 +994,7 @@
 			toolbar:    'featured-image',
 			title:      l10n.setFeaturedImageTitle,
 			priority:   60,
-			syncSelection: false
+			syncSelection: true
 		}, media.controller.Library.prototype.defaults ),
 
 		initialize: function() {
@@ -1070,7 +1075,7 @@
 			toolbar:    'replace',
 			title:      l10n.replaceImageTitle,
 			priority:   60,
-			syncSelection: false
+			syncSelection: true
 		}, media.controller.Library.prototype.defaults ),
 
 		initialize: function( options ) {
@@ -1119,6 +1124,63 @@
 			selection.reset( attachment ? [ attachment ] : [] );
 		}
 	});
+
+	/**
+	 * wp.media.controller.EditImage
+	 *
+	 * @constructor
+	 * @augments wp.media.controller.State
+	 * @augments Backbone.Model
+	 */
+	media.controller.EditImage = media.controller.State.extend({
+		defaults: {
+			id: 'edit-image',
+			url: '',
+			menu: false,
+			toolbar: 'edit-image',
+			title: l10n.editImage,
+			content: 'edit-image',
+			syncSelection: true
+		},
+
+		activate: function() {
+			if ( ! this.get('selection') ) {
+				this.set( 'selection', new media.model.Selection() );
+			}
+			this.listenTo( this.frame, 'toolbar:render:edit-image', this.toolbar );
+			this.syncSelection();
+		},
+
+		deactivate: function() {
+			this.stopListening( this.frame );
+		},
+
+		toolbar: function() {
+			var frame = this.frame,
+				lastState = frame.lastState(),
+				previous = lastState && lastState.id;
+
+			frame.toolbar.set( new media.view.Toolbar({
+				controller: frame,
+				items: {
+					back: {
+						style: 'primary',
+						text:     l10n.back,
+						priority: 20,
+						click:    function() {
+							if ( previous ) {
+								frame.setState( previous );
+							} else {
+								frame.close();
+							}
+						}
+					}
+				}
+			}) );
+		}
+	});
+
+	_.extend( media.controller.EditImage.prototype, media.selectionSync );
 
 	/**
 	 * wp.media.controller.ReplaceVideo
@@ -1928,6 +1990,8 @@
 				// Embed states.
 				new media.controller.Embed(),
 
+				new media.controller.EditImage( { selection: options.selection } ),
+
 				// Gallery states.
 				new media.controller.CollectionEdit({
 					type:           'image',
@@ -2043,6 +2107,7 @@
 
 				content: {
 					'embed':          'embedContent',
+					'edit-image':     'editImageContent',
 					'edit-selection': 'editSelectionContent'
 				},
 
@@ -2193,6 +2258,17 @@
 
 			// Browse our library of attachments.
 			this.content.set( view );
+		},
+
+		editImageContent: function() {
+			var selection = this.state().get('selection'),
+				view = new media.view.EditImage( { model: selection.single(), controller: this } ).render();
+
+			this.content.set( view );
+
+			// after creating the wrapper view, load the actual editor via an ajax call
+			view.loadEditor();
+
 		},
 
 		// Toolbars
@@ -2537,6 +2613,7 @@
 			media.view.MediaFrame.Select.prototype.bindHandlers.apply( this, arguments );
 			this.on( 'menu:create:image-details', this.createMenu, this );
 			this.on( 'content:render:image-details', this.renderImageDetailsContent, this );
+			this.on( 'content:render:edit-image', this.editImageContent, this );
 			this.on( 'menu:render:image-details', this.renderMenu, this );
 			this.on( 'toolbar:render:image-details', this.renderImageDetailsToolbar, this );
 			// override the select toolbar
@@ -2560,7 +2637,11 @@
 					toolbar: 'replace',
 					priority:  80,
 					displaySettings: true
-				})
+				}),
+				new media.controller.EditImage( {
+					image: this.image,
+					selection: this.options.selection
+				} )
 			]);
 		},
 
@@ -2574,6 +2655,32 @@
 			this.content.set( view );
 
 		},
+
+		editImageContent: function() {
+			var state = this.state(),
+				attachment = state.get('image').attachment,
+				model,
+				view;
+
+			if ( ! attachment ) {
+				return;
+			}
+
+			model = state.get('selection').single();
+
+			if ( ! model ) {
+				model = attachment;
+			}
+
+			view = new media.view.EditImage( { model: model, controller: this } ).render();
+
+			this.content.set( view );
+
+			// after bringing in the frame, load the actual editor via an ajax call
+			view.loadEditor();
+
+		},
+
 
 		renderMenu: function( view ) {
 			var lastState = this.lastState(),
@@ -5864,8 +5971,9 @@
 			}
 		},
 
-		editAttachment: function() {
-			this.$el.addClass('needs-refresh');
+		editAttachment: function( event ) {
+			event.preventDefault();
+			this.controller.setState( 'edit-image' );
 		},
 		/**
 		 * @param {Object} event
@@ -5875,6 +5983,7 @@
 			event.preventDefault();
 			this.model.fetch();
 		}
+
 	});
 
 	/**
@@ -6158,10 +6267,15 @@
 	media.view.ImageDetails = media.view.Settings.AttachmentDisplay.extend({
 		className: 'image-details',
 		template:  media.template('image-details'),
-
+		events: _.defaults( media.view.Settings.AttachmentDisplay.prototype.events, {
+			'click .edit-attachment': 'editAttachment'
+		} ),
 		initialize: function() {
 			// used in AttachmentDisplay.prototype.updateLinkTo
 			this.options.attachment = this.model.attachment;
+			if ( this.model.attachment ) {
+				this.listenTo( this.model.attachment, 'change:url', this.updateUrl );
+			}
 			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
 		},
 
@@ -6176,7 +6290,6 @@
 				attachment: attachment
 			}, this.options );
 		},
-
 
 		render: function() {
 			var self = this,
@@ -6198,7 +6311,62 @@
 		resetFocus: function() {
 			this.$( '.caption textarea' ).focus();
 			this.$( '.embed-image-settings' ).scrollTop( 0 );
+		},
+
+		updateUrl: function() {
+			this.$( '.thumbnail img' ).attr( 'src', this.model.get('url' ) );
+			this.$( '.url' ).val( this.model.get('url' ) );
+		},
+
+		editAttachment: function( event ) {
+			event.preventDefault();
+			this.controller.setState( 'edit-image' );
 		}
+	});
+
+
+	media.view.EditImage = media.View.extend({
+
+		className: 'image-editor',
+		template: media.template('image-editor'),
+
+		initialize: function( options ) {
+			this.editor = window.imageEdit;
+			this.controller = options.controller;
+			media.View.prototype.initialize.apply( this, arguments );
+		},
+
+		prepare: function() {
+			return this.model.toJSON();
+		},
+
+		render: function() {
+			media.View.prototype.render.apply( this, arguments );
+			return this;
+		},
+
+		loadEditor: function() {
+			this.editor.open( this.model.get('id'), this.model.get('nonces').edit, this );
+		},
+
+		back: function() {
+			var lastState = this.controller.lastState();
+			this.controller.setState( lastState );
+		},
+
+		refresh: function() {
+			this.model.fetch();
+		},
+
+		save: function() {
+			var self = this,
+				lastState = this.controller.lastState();
+
+			this.model.fetch().done( function() {
+				self.controller.setState( lastState );
+			});
+		}
+
 	});
 
 	/**

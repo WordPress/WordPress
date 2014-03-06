@@ -1432,6 +1432,22 @@
 }
 
 /**
+ * Image Editor
+ */
+
+.media-frame .image-editor {
+	padding: 16px;
+}
+
+.media-frame .imgedit-wrap table td {
+	vertical-align: top;
+	padding-top: 0;
+}
+
+.media-frame .imgedit-wrap table td.imgedit-settings {
+	width: 250px;
+}
+/**
  * Embed from URL and Image Details
  */
 .embed-url {
@@ -1488,6 +1504,10 @@
 .media-embed .thumbnail img {
 	max-height: 200px;
 	display: block;
+}
+
+.media-embed .edit-attachment {
+	margin-right: 10px;
 }
 
 .media-embed .thumbnail:after {

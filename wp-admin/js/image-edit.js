@@ -5,6 +5,7 @@ var imageEdit = window.imageEdit = {
 	iasapi : {},
 	hold : {},
 	postid : '',
+	_view : false,
 
 	intval : function(f) {
 		return f | 0;
@@ -241,11 +242,18 @@ var imageEdit = window.imageEdit = {
 		$.post(ajaxurl, data, function(r) {
 			$('#image-editor-' + postid).empty().append(r);
 			t.toggleEditor(postid, 0);
+			// refresh the attachment model so that changes propagate
+			if ( this._view ) {
+				this._view.refresh();
+			}
 		});
 	},
 
 	save : function(postid, nonce) {
-		var data, target = this.getTarget(postid), history = this.filterHistory(postid, 0);
+		var data,
+			target = this.getTarget(postid),
+			history = this.filterHistory(postid, 0),
+			self = this;
 
 		if ( '' === history ) {
 			return false;
@@ -283,11 +291,17 @@ var imageEdit = window.imageEdit = {
 				$('#imgedit-response-' + postid).html('<div class="updated"><p>' + ret.msg + '</p></div>');
 			}
 
-			imageEdit.close(postid);
+			if ( self._view ) {
+				self._view.save();
+			} else {
+				imageEdit.close(postid);
+			}
 		});
 	},
 
-	open : function(postid, nonce) {
+	open : function( postid, nonce, view ) {
+		this._view = view;
+
 		var data, elem = $('#image-editor-' + postid), head = $('#media-head-' + postid),
 			btn = $('#imgedit-open-btn-' + postid), spin = btn.siblings('.spinner');
 
@@ -319,8 +333,10 @@ var imageEdit = window.imageEdit = {
 	},
 
 	initCrop : function(postid, image, parent) {
-		var t = this, selW = $('#imgedit-sel-width-' + postid),
-			selH = $('#imgedit-sel-height-' + postid);
+		var t = this,
+			selW = $('#imgedit-sel-width-' + postid),
+			selH = $('#imgedit-sel-height-' + postid),
+			$img;
 
 		t.iasapi = $(image).imgAreaSelect({
 			parent: parent,
@@ -330,7 +346,13 @@ var imageEdit = window.imageEdit = {
 			minWidth: 3,
 			minHeight: 3,
 
-			onInit: function() {
+			onInit: function( img ) {
+				// Ensure that the imgareaselect wrapper elements are position:absolute
+				// (even if we're in a position:fixed modal)
+				$img = $( img );
+				$img.next().css( 'position', 'absolute' )
+					.nextAll( '.imgareaselect-outer' ).css( 'position', 'absolute' );
+
 				parent.children().mousedown(function(e){
 					var ratio = false, sel, defRatio;
 
@@ -397,10 +419,22 @@ var imageEdit = window.imageEdit = {
 
 		this.iasapi = {};
 		this.hold = {};
-		$('#image-editor-' + postid).fadeOut('fast', function() {
-			$('#media-head-' + postid).fadeIn('fast');
-			$(this).empty();
-		});
+
+		// If we've loaded the editor in the context of a Media Modal, then switch to the previous view,
+		// whatever that might have been.
+		if ( this._view ){
+			this._view.back();
+		}
+
+		// In case we are not accessing the image editor in the context of a View, close the editor the old-skool way
+		else {
+			$('#image-editor-' + postid).fadeOut('fast', function() {
+				$('#media-head-' + postid).fadeIn('fast');
+				$(this).empty();
+			});
+		}
+
+
 	},
 
 	notsaved : function(postid) {

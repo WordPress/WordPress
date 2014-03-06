@@ -371,6 +371,7 @@ window.wp = window.wp || {};
 
 		bindAttachmentListeners: function() {
 			this.listenTo( this.attachment, 'sync', this.setLinkTypeFromUrl );
+			this.listenTo( this.attachment, 'change', this.updateSize );
 		},
 
 		changeAttachment: function( attachment, props ) {
