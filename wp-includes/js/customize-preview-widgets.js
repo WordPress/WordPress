@@ -3,7 +3,7 @@
 var WidgetCustomizerPreview = (function ($) {
 	'use strict';
 
-	var self = {
+	var OldPreview, self = {
 		rendered_sidebars: {}, // @todo Make rendered a property of the Backbone model
 		rendered_widgets: {}, // @todo Make rendered a property of the Backbone model
 		registered_sidebars: [], // @todo Make a Backbone collection
@@ -31,14 +31,19 @@ var WidgetCustomizerPreview = (function ($) {
 		buildWidgetSelectors: function () {
 			$.each( self.registered_sidebars, function ( i, sidebar ) {
 				var widget_tpl = [
-					sidebar.before_widget.replace('%1$s', '').replace('%2$s', ''),
-					sidebar.before_title,
-					sidebar.after_title,
-					sidebar.after_widget
-				].join('');
-				var empty_widget = $(widget_tpl);
-				var widget_selector = empty_widget.prop('tagName');
-				var widget_classes = empty_widget.prop('className').replace(/^\s+|\s+$/g, '');
+						sidebar.before_widget.replace('%1$s', '').replace('%2$s', ''),
+						sidebar.before_title,
+						sidebar.after_title,
+						sidebar.after_widget
+					].join(''),
+					empty_widget,
+					widget_selector,
+					widget_classes;
+
+				empty_widget = $(widget_tpl);
+				widget_selector = empty_widget.prop('tagName');
+				widget_classes = empty_widget.prop('className').replace(/^\s+|\s+$/g, '');
+
 				if ( widget_classes ) {
 					widget_selector += '.' + widget_classes.split(/\s+/).join('.');
 				}
@@ -98,7 +103,7 @@ var WidgetCustomizerPreview = (function ($) {
 	/**
 	 * Capture the instance of the Preview since it is private
 	 */
-	var OldPreview = wp.customize.Preview;
+	OldPreview = wp.customize.Preview;
 	wp.customize.Preview = OldPreview.extend( {
 		initialize: function( params, options ) {
 			self.preview = this;
