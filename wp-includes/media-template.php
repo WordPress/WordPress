@@ -650,27 +650,21 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-audio-details">
-		<?php // reusing .media-embed to pick up the styles for now ?>
-		<# var rendered = false; #>
+		<?php // reusing .media-embed to pick up the styles for now
+		?><# var rendered = false; #>
 		<div class="media-embed">
 			<div class="embed-media-settings embed-audio-settings">
-				<#
-					var src,
-						t = (new Date()).getTime();
-
-					if ( data.model.src ) {
-						src = data.model.src + (data.model.src.indexOf('?') > -1 ? '&' : '?' ) + t;
-					#>
-					<audio controls class="wp-audio-shortcode" src="{{{ src }}}"
+				<# if ( data.model.src ) { #>
+					<audio controls
+						class="wp-audio-shortcode"
+						src="{{{ data.model.src }}}"
 						preload="{{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}}"
 						<#
-						if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) {
-							#> autoplay<#
+						<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
+						?>if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
+							#> <?php echo $attr ?><#
 						}
-
-						if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) {
-							#> loop<#
-						} #>
+						<?php endforeach ?>#>
 					/>
 					<# rendered = true; #>
 				<label class="setting">
@@ -681,23 +675,21 @@ function wp_print_media_templates() {
 				<?php
 				$default_types = wp_get_audio_extensions();
 
-				foreach ( $default_types as $type ): ?>
-				<# if ( data.model.<?php echo $type ?> ) { #>
-					<# if ( ! rendered ) {
-						src = data.model.<?php echo $type ?> + (data.model.<?php echo $type ?>.indexOf('?') > -1 ? '&' : '?' ) + t;
-					#>
-					<audio controls class="wp-audio-shortcode" src="{{{ src }}}"
+				foreach ( $default_types as $type ):
+				?><# if ( data.model.<?php echo $type ?> ) { #>
+					<# if ( ! rendered ) { #>
+					<audio controls
+						class="wp-audio-shortcode"
+						src="{{{ data.model.<?php echo $type ?> }}}"
 						preload="{{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}}"
 						<#
-						if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) {
-							#> autoplay<#
+						<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
+						?>if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
+							#> <?php echo $attr ?><#
 						}
-						if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) {
-							#> loop<#
-						} #>
+						<?php endforeach ?>#>
 					/>
-					<#
-						rendered = true;
+					<# rendered = true;
 					} #>
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
@@ -709,15 +701,9 @@ function wp_print_media_templates() {
 				<div class="setting preload">
 					<span><?php _e( 'Preload' ); ?></span>
 					<div class="button-group button-large" data-setting="preload">
-						<button class="button" value="auto">
-							<?php esc_attr_e( 'Auto' ); ?>
-						</button>
-						<button class="button" value="metadata">
-							<?php esc_attr_e( 'Metadata' ); ?>
-						</button>
-						<button class="button active" value="none">
-							<?php esc_attr_e( 'None' ); ?>
-						</button>
+						<button class="button" value="auto"><?php _e( 'Auto' ); ?></button>
+						<button class="button" value="metadata"><?php _e( 'Metadata' ); ?></button>
+						<button class="button active" value="none"><?php _e( 'None' ); ?></button>
 					</div>
 				</div>
 
@@ -736,41 +722,36 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-video-details">
-		<?php // reusing .media-embed to pick up the styles for now ?>
-		<# var rendered = false; #>
+		<?php // reusing .media-embed to pick up the styles for now
+		?><# var rendered = false; #>
 		<div class="media-embed">
 			<div class="embed-media-settings embed-video-settings">
 				<div class="wp-video-holder">
 				<#
-					var src,
-						t = (new Date()).getTime(),
-						w = ! data.model.width || data.model.width > 640 ? 640 : data.model.width,
-						h = ! data.model.height ? 360 : data.model.height;
+				var w = ! data.model.width || data.model.width > 640 ? 640 : data.model.width,
+					h = ! data.model.height ? 360 : data.model.height;
 
 				if ( w !== data.model.width ) {
 					h = Math.ceil( ( h * w ) / data.model.width );
 				}
 
-				if ( data.model.src ) {
-					src = data.model.src + (data.model.src.indexOf('?') > -1 ? '&' : '?' ) + t;
-				#>
-					<video controls class="wp-video-shortcode"
+				if ( data.model.src ) { #>
+					<video controls
+						class="wp-video-shortcode"
 						width="{{{ w }}}"
 						height="{{{ h }}}"
-						src="{{{ src }}}"
-						<#
-						if ( ! _.isUndefined( data.model.poster ) ) {
-							#> poster="{{{ data.model.poster }}}"<#
+						src="{{{ data.model.src }}}"
+						<?php
+						$props = array( 'poster' => '', 'preload' => 'metadata' );
+						foreach ( $props as $key => $value ):
+							echo $key ?>="{{{ _.isUndefined( data.model.<?php echo $key ?> ) ? '<?php echo $value ?>' : data.model.<?php echo $key ?> }}}"
+						<?php endforeach;
+						?><#
+						<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
+						?> if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
+							#> <?php echo $attr ?><#
 						}
-						#> preload="{{{ _.isUndefined( data.model.preload ) ? 'metadata' : data.model.preload }}}"
-						<#
-						if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) {
-							#> autoplay<#
-						}
-
-						if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) {
-							#> loop<#
-						} #>
+						<?php endforeach ?>#>
 					/>
 					<# rendered = true; #>
 				<label class="setting">
@@ -781,31 +762,27 @@ function wp_print_media_templates() {
 				<?php
 				$default_types = wp_get_video_extensions();
 
-				foreach ( $default_types as $type ): ?>
-				<# if ( data.model.<?php echo $type ?> ) { #>
-					<# if ( ! rendered ) {
-						src = data.model.<?php echo $type ?> + (data.model.<?php echo $type ?>.indexOf('?') > -1 ? '&' : '?' ) + t;
-					#>
-					<video controls class="wp-video-shortcode"
+				foreach ( $default_types as $type ):
+				?><# if ( data.model.<?php echo $type ?> ) {
+					if ( ! rendered ) { #>
+					<video controls
+						class="wp-video-shortcode"
 						width="{{{ w }}}"
 						height="{{{ h }}}"
-						src="{{{ src }}}"
-						<#
-						if ( ! _.isUndefined( data.model.poster ) ) {
-							#> poster="{{{ data.model.poster }}}"<#
+						src="{{{ data.model.<?php echo $type ?> }}}"
+						<?php
+						$props = array( 'poster' => '', 'preload' => 'metadata' );
+						foreach ( $props as $key => $value ):
+							echo $key ?>="{{{ _.isUndefined( data.model.<?php echo $key ?> ) ? '<?php echo $value ?>' : data.model.<?php echo $key ?> }}}"
+						<?php endforeach;
+						?><#
+						<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
+						?>if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
+							#> <?php echo $attr ?><#
 						}
-						#> preload="{{{ _.isUndefined( data.model.preload ) ? 'metadata' : data.model.preload }}}"
-						<#
-						if ( ! _.isUndefined( data.model.autoplay ) && data.model.autoplay ) {
-							#> autoplay<#
-						}
-
-						if ( ! _.isUndefined( data.model.loop ) && data.model.loop ) {
-							#> loop<#
-						} #>
+						<?php endforeach ?>#>
 					/>
-					<#
-						rendered = true;
+					<# rendered = true;
 					} #>
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>

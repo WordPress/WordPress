@@ -6237,7 +6237,6 @@
 
 		close : function() {
 			this.mejs.pause();
-			this.remove();
 		},
 
 		player : function (mejs) {
@@ -6302,7 +6301,6 @@
 
 		close : function() {
 			this.mejs.pause();
-			this.remove();
 		},
 
 		player : function (mejs) {
@@ -6310,7 +6308,7 @@
 		},
 
 		render: function() {
-			var self = this, settings = {
+			var video, self = this, settings = {
 				success : this.player
 			};
 
@@ -6321,7 +6319,14 @@
 			media.view.Settings.AttachmentDisplay.prototype.render.apply( this, arguments );
 			setTimeout( function() { self.resetFocus(); }, 10 );
 
-			new MediaElementPlayer( this.$('.wp-video-shortcode').get(0), settings );
+			video = this.$('.wp-video-shortcode').get(0);
+			video.src = [
+				video.src,
+				video.src.indexOf('?') > -1 ? '&' : '?',
+				(new Date()).getTime()
+			].join('');
+
+			new MediaElementPlayer( video, settings );
 			return this;
 		},
 

@@ -94,16 +94,24 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 			});
 		} else if ( editor.dom.hasClass( node, 'wp-video' ) ) {
 			frame = wp.media.video.edit( data );
+			frame.on( 'close', function () {
+				frame.detach();
+			} );
 			frame.state( 'video-details' ).on( 'update replace', function ( selection ) {
 				var shortcode = wp.media.video.shortcode( selection );
 				editor.dom.setAttrib( node, 'data-wp-media', window.encodeURIComponent( shortcode ) );
+				frame.detach();
 			} );
 			frame.open();
 		} else if ( editor.dom.hasClass( node, 'wp-audio' ) ) {
 			frame = wp.media.audio.edit( data );
+			frame.on( 'close', function () {
+				frame.detach();
+			} );
 			frame.state( 'audio-details' ).on( 'update replace', function ( selection ) {
 				var shortcode = wp.media.audio.shortcode( selection );
 				editor.dom.setAttrib( node, 'data-wp-media', window.encodeURIComponent( shortcode ) );
+				frame.detach();
 			} );
 			frame.open();
 		} else {
