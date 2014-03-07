@@ -2248,12 +2248,8 @@ class WP_Query {
 				$q['post_type'] = '';
 		}
 		$post_type = $q['post_type'];
-		if ( ! isset( $q['posts_per_page'] ) || $q['posts_per_page'] == 0 ) {
-			if ( $this->is_feed ) {
-				$q['posts_per_page'] = get_option( 'posts_per_rss' );
-			} else {
-				$q['posts_per_page'] = get_option( 'posts_per_page' );
-			}
+		if ( empty( $q['posts_per_page'] ) ) {
+			$q['posts_per_page'] = get_option( 'posts_per_page' );
 		}
 		if ( isset($q['showposts']) && $q['showposts'] ) {
 			$q['showposts'] = (int) $q['showposts'];
@@ -2269,6 +2265,12 @@ class WP_Query {
 			}
 		}
 		if ( $this->is_feed ) {
+			// This overrides posts_per_page.
+			if ( ! empty( $q['posts_per_rss'] ) ) {
+				$q['posts_per_page'] = $q['posts_per_rss'];
+			} else { 
+				$q['posts_per_page'] = get_option( 'posts_per_rss' );
+			}
 			$q['nopaging'] = false;
 		}
 		$q['posts_per_page'] = (int) $q['posts_per_page'];
