@@ -1477,11 +1477,15 @@ function get_terms($taxonomies, $args = '') {
 	if ( $hierarchical && $hide_empty && is_array( $terms ) ) {
 		foreach ( $terms as $k => $term ) {
 			if ( ! $term->count ) {
-				$children = _get_term_children( $term->term_id, $terms, reset( $taxonomies ) );
-				if ( is_array( $children ) )
-					foreach ( $children as $child )
-						if ( $child->count )
+				$children = get_term_children( $term->term_id, reset( $taxonomies ) );
+				if ( is_array( $children ) ) {
+					foreach ( $children as $child_id ) {
+						$child = get_term( $child_id, reset( $taxonomies ) );
+						if ( $child->count ) {
 							continue 2;
+						}
+					}
+				}
 
 				// It really is empty
 				unset($terms[$k]);
@@ -2923,20 +2927,6 @@ function _get_term_children($term_id, $terms, $taxonomy) {
 		}
 
 		if ( $term->term_id == $term_id ) {
-			if ( isset( $has_children[$term_id] ) ) {
-				$current_id = $term_id;
-				while ( $current_id > 0 ) {
-					foreach ( $has_children[$current_id] as $t_id ) {
-						if ( $use_id ) {
-							$term_list[] = $t_id;
-						} else {
-							$term_list[] = get_term( $t_id, $taxonomy );
-						}
-					}
-
-					$current_id = isset( $has_children[$t_id] ) ? $t_id : 0;
-				}
-			}
 			continue;
 		}
 
