@@ -1050,7 +1050,7 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
  *
  * @param string $term_id ID of Term to get children
  * @param string $taxonomy Taxonomy Name
- * @return array|WP_Error List of Term Objects. WP_Error returned if $taxonomy does not exist
+ * @return array|WP_Error List of Term IDs. WP_Error returned if $taxonomy does not exist
  */
 function get_term_children( $term_id, $taxonomy ) {
 	if ( ! taxonomy_exists($taxonomy) )
