@@ -6370,7 +6370,7 @@
 	});
 
 	/**
-	 * wp.media.view.AudioDetails
+	 * wp.media.view.MediaDetails
 	 *
 	 * @contructor
 	 * @augments wp.media.view.Settings.AttachmentDisplay
@@ -6379,12 +6379,9 @@
 	 * @augments wp.Backbone.View
 	 * @augments Backbone.View
 	 */
-	media.view.AudioDetails = media.view.Settings.AttachmentDisplay.extend({
-		className: 'audio-details',
-		template:  media.template('audio-details'),
-
+	media.view.MediaDetails = media.view.Settings.AttachmentDisplay.extend({
 		initialize: function() {
-			_.bindAll(this, 'player', 'close');
+			_.bindAll(this, 'success', 'close');
 
 			this.listenTo( this.controller, 'close', this.close );
 
@@ -6403,81 +6400,74 @@
 			}, this.options );
 		},
 
-		close : function() {
-			this.mejs.pause();
+		prepareSrc : function (media) {
+			media.src = [
+				media.src,
+				media.src.indexOf('?') > -1 ? '&' : '?',
+				(new Date()).getTime()
+			].join('');
+
+			return media;
 		},
 
-		player : function (mejs) {
+		setPlayer : function () {
+			this.player = false;
+		},
+
+		/**
+		 * Override the MediaElement method for removing a player.
+		 *	MediaElement tries to pull the audio/video tag out of
+		 *	its container and re-add it to the DOM.
+		 */
+		remove: function() {
+			var t = this.player, featureIndex, feature;
+
+			// invoke features cleanup
+			for ( featureIndex in t.options.features ) {
+				feature = t.options.features[featureIndex];
+				if ( t['clean' + feature] ) {
+					try {
+						t['clean' + feature](t);
+					} catch (e) {}
+				}
+			}
+
+			if ( ! t.isDynamic ) {
+				t.$node.remove();
+			}
+
+			if ( 'native' !== t.media.pluginType ) {
+				t.media.remove();
+			}
+
+			delete mejs.players[t.id];
+
+			t.container.remove();
+			t.globalUnbind();
+			delete t.node.player;
+		},
+
+		close : function() {
+			if ( this.player ) {
+				this.mejs.pause();
+				this.remove();
+			}
+		},
+
+		success : function (mejs) {
+			var autoplay = mejs.attributes.autoplay && 'false' !== mejs.attributes.autoplay;
+
+			if ( 'flash' === mejs.pluginType && autoplay ) {
+				mejs.addEventListener( 'canplay', function () {
+					mejs.play();
+				}, false );
+			}
+
 			this.mejs = mejs;
 		},
 
 		render: function() {
 			var self = this, settings = {
-				success : this.player
-			};
-
-			if ( ! _.isUndefined( window._wpmejsSettings ) ) {
-				settings.pluginPath = _wpmejsSettings.pluginPath;
-			}
-
-			media.view.Settings.AttachmentDisplay.prototype.render.apply( this, arguments );
-			setTimeout( function() { self.resetFocus(); }, 10 );
-
-			new MediaElementPlayer( this.$('.wp-audio-shortcode').get(0), settings );
-
-			return this;
-		},
-
-		resetFocus: function() {
-			this.$( '.embed-media-settings' ).scrollTop( 0 );
-		}
-	});
-
-	/**
-	 * wp.media.view.VideoDetails
-	 *
-	 * @contructor
-	 * @augments wp.media.view.Settings.AttachmentDisplay
-	 * @augments wp.media.view.Settings
-	 * @augments wp.media.View
-	 * @augments wp.Backbone.View
-	 * @augments Backbone.View
-	 */
-	media.view.VideoDetails = media.view.Settings.AttachmentDisplay.extend({
-		className: 'video-details',
-		template:  media.template('video-details'),
-
-		initialize: function() {
-			_.bindAll(this, 'success');
-
-			this.listenTo( this.controller, 'close', this.close );
-
-			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
-		},
-
-		prepare: function() {
-			var attachment = false;
-
-			if ( this.model.attachment ) {
-				attachment = this.model.attachment.toJSON();
-			}
-			return _.defaults({
-				model: this.model.toJSON(),
-				attachment: attachment
-			}, this.options );
-		},
-
-		close : function() {
-			this.mejs.pause();
-			this.player.remove();
-		},
-
-		success : function (mejs) {
-			this.mejs = mejs;
-		},
-
-		render: function() {
-			var video, self = this, settings = {
 				success : this.success
 			};
 
@@ -6488,19 +6478,63 @@
 			media.view.Settings.AttachmentDisplay.prototype.render.apply( this, arguments );
 			setTimeout( function() { self.resetFocus(); }, 10 );
 
-			video = this.$('.wp-video-shortcode').get(0);
-			video.src = [
-				video.src,
-				video.src.indexOf('?') > -1 ? '&' : '?',
-				(new Date()).getTime()
-			].join('');
+			this.setPlayer( settings );
 
-			this.player = new MediaElementPlayer( video, settings );
 			return this;
 		},
 
 		resetFocus: function() {
 			this.$( '.embed-media-settings' ).scrollTop( 0 );
+		}
+	});
+
+	/**
+	 * wp.media.view.AudioDetails
+	 *
+	 * @contructor
+	 * @augments wp.media.view.MediaDetails
+	 * @augments wp.media.view.Settings.AttachmentDisplay
+	 * @augments wp.media.view.Settings
+	 * @augments wp.media.View
+	 * @augments wp.Backbone.View
+	 * @augments Backbone.View
+	 */
+	media.view.AudioDetails = media.view.MediaDetails.extend({
+		className: 'audio-details',
+		template:  media.template('audio-details'),
+
+		setPlayer: function( settings ) {
+			var audio = this.$('.wp-audio-shortcode').get(0);
+
+			audio = this.prepareSrc( audio );
+
+			this.player = new MediaElementPlayer( audio, settings );
+			return this;
+		}
+	});
+
+	/**
+	 * wp.media.view.VideoDetails
+	 *
+	 * @contructor
+	 * @augments wp.media.view.MediaDetails
+	 * @augments wp.media.view.Settings.AttachmentDisplay
+	 * @augments wp.media.view.Settings
+	 * @augments wp.media.View
+	 * @augments wp.Backbone.View
+	 * @augments Backbone.View
+	 */
+	media.view.VideoDetails = media.view.MediaDetails.extend({
+		className: 'video-details',
+		template:  media.template('video-details'),
+
+		setPlayer: function( settings ) {
+			var video = this.$('.wp-video-shortcode').get(0);
+
+			video = this.prepareSrc( video );
+
+			this.player = new MediaElementPlayer( video, settings );
+			return this;
 		}
 	});
 
