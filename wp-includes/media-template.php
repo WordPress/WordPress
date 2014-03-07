@@ -739,11 +739,41 @@ function wp_print_media_templates() {
 				var w = ! data.model.width || data.model.width > 640 ? 640 : data.model.width,
 					h = ! data.model.height ? 360 : data.model.height;
 
-				if ( w !== data.model.width ) {
+				if ( data.model.width && w !== data.model.width ) {
 					h = Math.ceil( ( h * w ) / data.model.width );
 				}
 
-				if ( data.model.src ) { #>
+				if ( data.model.src ) {
+					if ( data.model.src.match(/youtube|youtu\.be/) ) {
+				#>
+					<video controls
+						class="wp-video-shortcode youtube-video"
+						width="{{{ w }}}"
+						height="{{{ h }}}"
+						<?php
+						$props = array( 'poster' => '', 'preload' => 'metadata' );
+						foreach ( $props as $key => $value ):
+							if ( empty( $value ) ) {
+							?><#
+							if ( ! _.isUndefined( data.model.<?php echo $key ?> ) && data.model.<?php echo $key ?> ) {
+								#> <?php echo $key ?>="{{{ data.model.<?php echo $key ?> }}}"<#
+							} #>
+							<?php } else {
+								echo $key ?>="{{{ _.isUndefined( data.model.<?php echo $key ?> ) ? '<?php echo $value ?>' : data.model.<?php echo $key ?> }}}"<?php
+							}
+						endforeach;
+						?><#
+						<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
+						?> if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
+							#> <?php echo $attr ?><#
+						}
+						<?php endforeach ?>#>
+					>
+						<source type="video/youtube" src="{{{ data.model.src }}}" />
+					</video>
+				<#
+					} else {
+				#>
 					<video controls
 						class="wp-video-shortcode"
 						width="{{{ w }}}"
@@ -752,8 +782,15 @@ function wp_print_media_templates() {
 						<?php
 						$props = array( 'poster' => '', 'preload' => 'metadata' );
 						foreach ( $props as $key => $value ):
-							echo $key ?>="{{{ _.isUndefined( data.model.<?php echo $key ?> ) ? '<?php echo $value ?>' : data.model.<?php echo $key ?> }}}"
-						<?php endforeach;
+							if ( empty( $value ) ) {
+							?><#
+							if ( ! _.isUndefined( data.model.<?php echo $key ?> ) && data.model.<?php echo $key ?> ) {
+								#> <?php echo $key ?>="{{{ data.model.<?php echo $key ?> }}}"<#
+							} #>
+							<?php } else {
+								echo $key ?>="{{{ _.isUndefined( data.model.<?php echo $key ?> ) ? '<?php echo $value ?>' : data.model.<?php echo $key ?> }}}"<?php
+							}
+						endforeach;
 						?><#
 						<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
 						?> if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
@@ -761,12 +798,13 @@ function wp_print_media_templates() {
 						}
 						<?php endforeach ?>#>
 					/>
-					<# rendered = true; #>
 				<label class="setting">
 					<span>SRC</span>
 					<input type="text" disabled="disabled" data-setting="src" value="{{{ data.model.src }}}" />
 				</label>
-				<# } #>
+				<#	}
+					rendered = true;
+				} #>
 				<?php
 				$default_types = wp_get_video_extensions();
 
