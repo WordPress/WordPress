@@ -6450,7 +6450,7 @@
 				t.media.remove();
 			}
 
-			delete mejs.players[t.id];
+			delete window.mejs.players[t.id];
 
 			t.container.remove();
 			t.globalUnbind();
