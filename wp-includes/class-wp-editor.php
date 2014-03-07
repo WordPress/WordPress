@@ -211,7 +211,7 @@ final class _WP_Editors {
 				$ext_plugins = '';
 
 				if ( $set['teeny'] ) {
-					self::$plugins = $plugins = apply_filters( 'teeny_mce_plugins', array( 'fullscreen', 'link', 'image', 'wordpress', 'wpeditimage', 'wplink' ), $editor_id );
+					self::$plugins = $plugins = apply_filters( 'teeny_mce_plugins', array( 'fullscreen', 'image', 'wordpress', 'wpeditimage', 'wplink' ), $editor_id );
 				} else {
 					/**
 					 * TinyMCE external plugins filter
@@ -232,7 +232,6 @@ final class _WP_Editors {
 					$plugins = array_unique( apply_filters( 'tiny_mce_plugins', array(
 						'charmap',
 						'hr',
-						'link',
 						'media',
 						'paste',
 						'tabfocus',

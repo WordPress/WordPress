@@ -12,6 +12,23 @@ tinymce.PluginManager.add( 'wplink', function( editor ) {
 		tooltip: 'Insert/edit link',
 		shortcut: 'Alt+Shift+A',
 		cmd: 'WP_Link',
+
+		onPostRender: function() {
+			var ctrl = this;
+
+			editor.on( 'nodechange', function( event ) {
+				var node = event.element;
+
+				ctrl.disabled( editor.selection.isCollapsed() && node.nodeName !== 'A' );
+				ctrl.active( node.nodeName === 'A' && ! node.name );
+			});
+		}
+	});
+
+	editor.addButton( 'unlink', {
+		icon: 'unlink',
+		tooltip: 'Remove link',
+		cmd: 'unlink',
 		stateSelector: 'a[href]'
 	});
 
