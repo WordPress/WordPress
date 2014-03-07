@@ -774,15 +774,13 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	});
 
 	editor.on( 'mousedown', function( event ) {
-		var node = event.target;
-
-		if ( tinymce.Env.ie && editor.dom.getParent( node, '#wp-image-toolbar' ) ) {
-			// Stop IE > 8 from making the wrapper resizable on mousedown
-			event.preventDefault();
-		}
-
-		if ( node.nodeName === 'IMG' && ! editor.dom.getAttrib( node, 'data-wp-imgselect' ) && ! isPlaceholder( node ) ) {
-			addToolbar( node );
+		if ( editor.dom.getParent( event.target, '#wp-image-toolbar' ) ) {
+			if ( tinymce.Env.ie ) {
+				// Stop IE > 8 from making the wrapper resizable on mousedown
+				event.preventDefault();
+			}
+		} else if ( event.target.nodeName !== 'IMG' ) {
+			removeToolbar();
 		}
 	});
 
@@ -809,6 +807,8 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 					editImage( image );
 				}
 			}
+		} else if ( node.nodeName === 'IMG' && ! editor.dom.getAttrib( node, 'data-wp-imgselect' ) && ! isPlaceholder( node ) ) {
+			addToolbar( node );
 		} else if ( node.nodeName !== 'IMG' ) {
 			removeToolbar();
 		}
