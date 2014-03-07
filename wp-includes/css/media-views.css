@@ -1388,7 +1388,8 @@
 
 .attachment-info .edit-attachment,
 .attachment-info .refresh-attachment,
-.attachment-info .delete-attachment {
+.attachment-info .delete-attachment,
+.attachment-info .trash-attachment {
 	display: block;
 	text-decoration: none;
 	white-space: nowrap;
@@ -1404,11 +1405,13 @@
 	display: block;
 }
 
-.attachment-info .delete-attachment {
+.attachment-info .delete-attachment,
+.attachment-info .trash-attachment {
 	color: #bc0b0b;
 }
 
-.attachment-info .delete-attachment:hover {
+.attachment-info .delete-attachment:hover,
+.attachment-info .trash-attachment:hover {
 	color: red;
 }
 

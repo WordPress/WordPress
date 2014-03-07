@@ -5933,6 +5933,7 @@
 			'change [data-setting] select':   'updateSetting',
 			'change [data-setting] textarea': 'updateSetting',
 			'click .delete-attachment':       'deleteAttachment',
+			'click .trash-attachment':        'trashAttachment',
 			'click .edit-attachment':         'editAttachment',
 			'click .refresh-attachment':      'refreshAttachment'
 		},
@@ -5970,7 +5971,17 @@
 				this.model.destroy();
 			}
 		},
+		/**
+		 * @param {Object} event
+		 */
+		trashAttachment: function( event ) {
+			event.preventDefault();
 
+			this.model.destroy();
+		},
+		/**
+		 * @param {Object} event
+		 */
 		editAttachment: function( event ) {
 			event.preventDefault();
 			this.controller.setState( 'edit-image' );
