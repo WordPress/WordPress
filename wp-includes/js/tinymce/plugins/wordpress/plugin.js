@@ -420,7 +420,6 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	editor.addShortcut( modKey + '+u', '', 'InsertUnorderedList' );
 	editor.addShortcut( modKey + '+o', '', 'InsertOrderedList' );
 	editor.addShortcut( modKey + '+n', '', 'mceSpellCheck' );
-	editor.addShortcut( modKey + '+a', '', 'WP_Link' );
 	editor.addShortcut( modKey + '+s', '', 'unlink' );
 	editor.addShortcut( modKey + '+m', '', 'WP_Medialib' );
 	editor.addShortcut( modKey + '+z', '', 'WP_Adv' );
