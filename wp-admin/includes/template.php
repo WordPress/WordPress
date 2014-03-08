@@ -741,7 +741,7 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
  * @param string $default Optional. The template file name. Default empty.
  */
 function page_template_dropdown( $default = '' ) {
-	$templates = get_page_templates();
+	$templates = get_page_templates( get_post() );
 	ksort( $templates );
 	foreach ( array_keys( $templates ) as $template ) {
 		$selected = selected( $default, $templates[ $template ], false );

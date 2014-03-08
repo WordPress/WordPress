@@ -78,10 +78,11 @@ function delete_theme($stylesheet, $redirect = '') {
  *
  * @since 1.5.0
  *
+ * @param WP_Post|null $post Optional. The post being edited, provided for context.
  * @return array Key is the template name, value is the filename of the template
  */
-function get_page_templates() {
-	return array_flip( wp_get_theme()->get_page_templates() );
+function get_page_templates( $post = null ) {
+	return array_flip( wp_get_theme()->get_page_templates( $post ) );
 }
 
 /**

@@ -931,9 +931,10 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 3.4.0
 	 * @access public
 	 *
+	 * @param WP_Post|null $post Optional. The post being edited, provided for context.
 	 * @return array Array of page templates, keyed by filename, with the value of the translated header name.
 	 */
-	public function get_page_templates() {
+	public function get_page_templates( $post = null ) {
 		// If you screw up your current theme and we invalidate your parent, most things still work. Let it slide.
 		if ( $this->errors() && $this->errors()->get_error_codes() !== array( 'theme_parent_invalid' ) )
 			return array();
@@ -961,7 +962,7 @@ final class WP_Theme implements ArrayAccess {
 		}
 
 		if ( $this->parent() )
-			$page_templates += $this->parent()->get_page_templates();
+			$page_templates += $this->parent()->get_page_templates( $post );
 
 		/**
 		 * Remove or rename page templates for a theme.
@@ -970,11 +971,13 @@ final class WP_Theme implements ArrayAccess {
 		 *
 		 * @since 3.9.0
 		 *
-		 * @param array    $page_templates Array of page templates. Keys are filenames,
-		 *                                 values are translated names.
-		 * @param WP_Theme $this           The theme object.
+		 * @param array        $page_templates Array of page templates. Keys are filenames,
+		 *                                     values are translated names.
+		 * @param WP_Theme     $this           The theme object.
+		 * @param WP_Post|null $post           The post being edited, provided for context, or null.
 		 */
-		$return = apply_filters( 'page_templates', $page_templates, $this );
+		error_log( serialize( $this ) );
+		$return = apply_filters( 'theme_page_templates', $page_templates, $this, $post );
 		return array_intersect_assoc( $return, $page_templates );
 	}
 
