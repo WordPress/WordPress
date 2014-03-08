@@ -380,7 +380,7 @@ function get_extended($post) {
  * @since 1.5.1
  * @link http://codex.wordpress.org/Function_Reference/get_post
  *
- * @param int|object $post Post ID or post object. Optional, default is the current post from the loop.
+ * @param int|WP_Post $post Optional. Post ID or post object.
  * @param string $output Optional, default is Object. Either OBJECT, ARRAY_A, or ARRAY_N.
  * @param string $filter Optional, default is raw.
  * @return WP_Post|null WP_Post on success or null on failure
@@ -710,7 +710,7 @@ final class WP_Post {
  *
  * @since 2.5.0
  *
- * @param int|object $post Post ID or post object
+ * @param int|WP_Post $post Post ID or post object.
  * @return array Ancestor IDs or empty array if none are found.
  */
 function get_post_ancestors( $post ) {
@@ -747,7 +747,7 @@ function get_post_ancestors( $post ) {
  * @uses sanitize_post_field() See for possible $context values.
  *
  * @param string $field Post field name.
- * @param int|object $post Post ID or post object.
+ * @param int|WP_Post $post Post ID or post object.
  * @param string $context Optional. How to filter the field. Default is 'display'.
  * @return string The value of the post field on success, empty string on failure.
  */
@@ -771,7 +771,7 @@ function get_post_field( $field, $post, $context = 'display' ) {
  *
  * @since 2.0.0
  *
- * @param int $ID Optional. Post ID. Default is the current post from the loop.
+ * @param int|WP_Post $ID Optional. Post ID or post object.
  * @return string|bool The mime type on success, false on failure.
  */
 function get_post_mime_type($ID = '') {
@@ -791,7 +791,7 @@ function get_post_mime_type($ID = '') {
  *
  * @since 2.0.0
  *
- * @param int $ID Optional. Post ID. Default is the current post from the loop.
+ * @param int|WP_Post $ID Optional. Post ID or post object.
  * @return string|bool Post status on success, false on failure.
  */
 function get_post_status($ID = '') {
@@ -1025,7 +1025,7 @@ function post_type_exists( $post_type ) {
  *
  * @since 2.1.0
  *
- * @param int|object $post Optional. Post ID or post object. Default is the current post from the loop.
+ * @param int|WP_Post $post Optional. Post ID or post object.
  * @return string|bool Post type on success, false on failure.
  */
 function get_post_type( $post = null ) {
@@ -2480,7 +2480,7 @@ function wp_untrash_post($post_id = 0) {
  * @uses do_action() on 'trash_post_comments' before trashing
  * @uses do_action() on 'trashed_post_comments' after trashing
  *
- * @param int|object $post Post ID or object.
+ * @param int|WP_Post $post Optional. Post ID or post object.
  * @return mixed False on failure
  */
 function wp_trash_post_comments($post = null) {
@@ -2521,7 +2521,7 @@ function wp_trash_post_comments($post = null) {
  * @uses do_action() on 'untrash_post_comments' before trashing
  * @uses do_action() on 'untrashed_post_comments' after trashing
  *
- * @param int|object $post Post ID or object.
+ * @param int|WP_Post $post Optional. Post ID or post object.
  * @return mixed False on failure
  */
 function wp_untrash_post_comments($post = null) {
@@ -3039,7 +3039,7 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
  * @uses $wpdb
  * @uses do_action() Calls 'edit_post', 'save_post_{$post_type}', 'save_post' and 'wp_insert_post' on post_id and post data.
  *
- * @param int|object $post Post ID or object.
+ * @param int|WP_Post $post Post ID or post object.
  */
 function wp_publish_post( $post ) {
 	global $wpdb;
@@ -3072,7 +3072,7 @@ function wp_publish_post( $post ) {
  *
  * @since 2.5.0
  *
- * @param int $post_id Post ID.
+ * @param int|WP_Post $post_id Post ID or post object.
  * @return null Nothing is returned. Which can mean that no action is required or post was published.
  */
 function check_and_publish_future_post($post_id) {
@@ -4760,7 +4760,7 @@ function update_post_cache( &$posts ) {
  *
  * @uses do_action() Calls 'clean_post_cache' on $id before adding children (if any).
  *
- * @param int|object $post Post ID or object to remove from the cache
+ * @param int|WP_Post $post Post ID or post object to remove from the cache.
  */
 function clean_post_cache( $post ) {
 	global $_wp_suspend_cache_invalidation, $wpdb;
@@ -5039,7 +5039,7 @@ function wp_check_post_hierarchy_for_loops( $post_parent, $post_ID ) {
  *
  * @since 3.1.0
  *
- * @param int|object $post Post ID or object where thumbnail should be attached.
+ * @param int|WP_Post $post Post ID or post object where thumbnail should be attached.
  * @param int $thumbnail_id Thumbnail to attach.
  * @return bool True on success, false on failure.
  */
@@ -5060,7 +5060,7 @@ function set_post_thumbnail( $post, $thumbnail_id ) {
  *
  * @since 3.3.0
  *
- * @param int|object $post Post ID or object where thumbnail should be removed from.
+ * @param int|WP_Post $post Post ID or post object where thumbnail should be removed from.
  * @return bool True on success, false on failure.
  */
 function delete_post_thumbnail( $post ) {

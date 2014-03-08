@@ -96,7 +96,7 @@ function the_title_attribute( $args = '' ) {
  *
  * @since 0.71
  *
- * @param int|object $post Optional. Post ID or object.
+ * @param int|WP_Post $post Optional. Post ID or post object.
  * @return string
  */
 function get_the_title( $post = 0 ) {
@@ -129,7 +129,7 @@ function get_the_title( $post = 0 ) {
  *
  * @since 1.5.0
  *
- * @param int $id Optional. Post ID.
+ * @param int|WP_Post $id Optional. Post ID or post object.
  */
 function the_guid( $id = 0 ) {
 	echo esc_url( get_the_guid( $id ) );
@@ -144,7 +144,7 @@ function the_guid( $id = 0 ) {
  *
  * @since 1.5.0
  *
- * @param int $id Optional. Post ID.
+ * @param int|WP_Post $id Optional. Post ID or post object.
  * @return string
  */
 function get_the_guid( $id = 0 ) {
@@ -280,7 +280,7 @@ function get_the_excerpt( $deprecated = '' ) {
  *
  * @since 2.3.0
  *
- * @param int $id Optional. Post ID.
+ * @param int|WP_Post $id Optional. Post ID or post object.
  * @return bool
  */
 function has_excerpt( $id = 0 ) {
@@ -294,7 +294,7 @@ function has_excerpt( $id = 0 ) {
  * @since 2.7.0
  *
  * @param string|array $class One or more classes to add to the class list.
- * @param int $post_id An optional post ID.
+ * @param int|WP_Post $post_id Optional. Post ID or post object.
  */
 function post_class( $class = '', $post_id = null ) {
 	// Separates classes with a single space, collates classes for post DIV
@@ -316,7 +316,7 @@ function post_class( $class = '', $post_id = null ) {
  * @since 2.7.0
  *
  * @param string|array $class One or more classes to add to the class list.
- * @param int $post_id An optional post ID.
+ * @param int|WP_Post $post_id Optional. Post ID or post object.
  * @return array Array of classes.
  */
 function get_post_class( $class = '', $post_id = null ) {
@@ -1173,7 +1173,7 @@ class Walker_PageDropdown extends Walker {
  *
  * @since 2.0.0
  *
- * @param int $id Optional. Post ID.
+ * @param int|WP_Post $id Optional. Post ID or post object.
  * @param bool $fullsize Optional, default is false. Whether to use full size.
  * @param bool $deprecated Deprecated. Not used.
  * @param bool $permalink Optional, default is false. Whether to include permalink.
@@ -1194,7 +1194,7 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
  * @since 2.5.0
  * @uses apply_filters() Calls 'wp_get_attachment_link' filter on HTML content with same parameters as function.
  *
- * @param int $id Optional. Post ID.
+ * @param int|WP_Post $id Optional. Post ID or post object.
  * @param string $size Optional, default is 'thumbnail'. Size of image, either array or string.
  * @param bool $permalink Optional, default is false. Whether to add permalink to image.
  * @param bool $icon Optional, default is false. Whether to include icon.
@@ -1259,7 +1259,7 @@ function prepend_attachment($content) {
  *
  * @since 1.0.0
  * @uses apply_filters() Calls 'the_password_form' filter on output.
- * @param int|WP_Post $post Optional. A post id or post object. Defaults to the current post when in The Loop, undefined otherwise.
+ * @param int|WP_Post $post Optional. A post ID or post object.
  * @return string HTML content for password form for password protected post.
  */
 function get_the_password_form( $post = 0 ) {
@@ -1420,7 +1420,7 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
  * @uses get_edit_post_link()
  * @uses get_the_author_meta()
  *
- * @param int|object $post_id Post ID or post object.
+ * @param int|WP_Post $post_id Optional. Post ID or post object.
  * @param string $type 'all' (default), 'revision' or 'autosave'
  * @return null
  */

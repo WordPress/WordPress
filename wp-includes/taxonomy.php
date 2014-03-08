@@ -3193,7 +3193,7 @@ function the_taxonomies($args = array()) {
  *
  * @since 2.5.0
  *
- * @param int $post Optional. Post ID or will use Global Post ID (in loop).
+ * @param int|WP_Post $post Optional. Post ID or post object.
  * @param array $args Override the defaults.
  * @return array
  */
@@ -3240,7 +3240,7 @@ function get_the_taxonomies($post = 0, $args = array() ) {
  * @since 2.5.0
  * @uses get_object_taxonomies()
  *
- * @param int $post Optional. Post ID
+ * @param int|WP_Post $post Optional. Post ID or post object.
  * @return array
  */
 function get_post_taxonomies($post = 0) {
