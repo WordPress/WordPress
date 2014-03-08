@@ -612,6 +612,12 @@ span.wp-media-buttons-icon:before {
 	text-align: center;
 }
 
+.wp-fullscreen-wrap .uploader-editor {
+	background: rgba( 0, 86, 132, 0.9 );
+	position: fixed;
+	z-index: 100050; /* above the editor toolbar */
+}
+
 .uploader-editor-content {
 	border: 1px dashed #fff;
 	position: absolute;
@@ -619,11 +625,9 @@ span.wp-media-buttons-icon:before {
 	right: 10px;
 	left: 10px;
 	bottom: 10px;
-	pointer-events: none;
 }
 
 #poststuff .uploader-editor-content h3 {
-	margin: -0.5em 0 0;
 	position: absolute;
 	top: 50%;
 	right: 0;
@@ -635,7 +639,6 @@ span.wp-media-buttons-icon:before {
 	color: #fff;
 	padding: 0;
 	display: none;
-	pointer-events: none;
 }
 
 .uploader-editor.droppable {

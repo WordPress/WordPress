@@ -3423,6 +3423,13 @@
 		template:  media.template( 'uploader-editor' ),
 
 		initialize: function() {
+			this.initialized = false;
+
+			// Bail if UA does not support drag'n'drop or File API.
+			if ( ! this.browserSupport() ) {
+				return this;
+			}
+
 			this.$document = $(document);
 			this.dropzones = [];
 			this.files = [];
@@ -3434,19 +3441,37 @@
 			this.$document.on( 'dragover', _.bind( this.containerDragover, this ) );
 			this.$document.on( 'dragleave', _.bind( this.containerDragleave, this ) );
 
+			this.initialized = true;
 			return this;
 		},
 
-		refresh: function() {
+		browserSupport: function() {
+			var supports = false, div = document.createElement('div');
+
+			supports = ( 'draggable' in div ) || ( 'ondragstart' in div && 'ondrop' in div );
+			supports = supports && !! ( window.File && window.FileList && window.FileReader );
+			return supports;
+		},
+
+		refresh: function( e ) {
 			var dropzone_id;
 			for ( dropzone_id in this.dropzones ) {
 				// Hide the dropzones only if dragging has left the screen.
 				this.dropzones[ dropzone_id ].toggle( this.overContainer || this.overDropzone );
 			}
+
+			if ( ! _.isUndefined( e ) ) {
+				$( e.target ).closest( '.uploader-editor' ).toggleClass( 'droppable', this.overDropzone );
+			}
+
 			return this;
 		},
 
 		render: function() {
+			if ( ! this.initialized ) {
+				return this;
+			}
+
 			media.View.prototype.render.apply( this, arguments );
 			$( '.wp-editor-wrap' ).each( _.bind( this.attach, this ) );
 			return this;
@@ -3514,16 +3539,14 @@
 		},
 
 		dropzoneDragover: function( e ) {
-			$( e.target ).addClass( 'droppable' );
 			this.overDropzone = true;
-			_.defer( _.bind( this.refresh, this ) );
+			this.refresh( e );
 			return false;
 		},
 
 		dropzoneDragleave: function( e ) {
-			$( e.target ).removeClass( 'droppable' );
 			this.overDropzone = false;
-			this.refresh();
+			_.delay( _.bind( this.refresh, this, e ), 50 );
 		}
 	});
 
