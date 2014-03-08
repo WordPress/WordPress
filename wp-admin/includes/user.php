@@ -282,9 +282,10 @@ function wp_delete_user( $id, $reassign = 'novalue' ) {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int $id User ID.
+	 * @param int $id              ID of the user to delete.
+	 * @param int|string $reassign ID of the user to reassign posts and links to. Default 'novalue'.
 	 */
-	do_action( 'delete_user', $id );
+	do_action( 'delete_user', $id, $reassign );
 
 	if ( 'novalue' === $reassign || null === $reassign ) {
 		$post_types_to_delete = array();
@@ -353,9 +354,10 @@ function wp_delete_user( $id, $reassign = 'novalue' ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param int $id ID of the deleted user.
+	 * @param int $id              ID of the deleted user.
+	 * @param int|string $reassign ID of the user to reassign posts and links to. Default 'novalue'.
 	 */
-	do_action( 'deleted_user', $id );
+	do_action( 'deleted_user', $id, $reassign );
 
 	return true;
 }
