@@ -97,7 +97,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 			else
 				$sizes[$s]['height'] = get_option( "{$s}_size_h" ); // For default sizes set in options
 			if ( isset( $_wp_additional_image_sizes[$s]['crop'] ) )
-				$sizes[$s]['crop'] = intval( $_wp_additional_image_sizes[$s]['crop'] ); // For theme-added sizes
+				$sizes[$s]['crop'] = $_wp_additional_image_sizes[$s]['crop']; // For theme-added sizes
 			else
 				$sizes[$s]['crop'] = get_option( "{$s}_crop" ); // For default sizes set in options
 		}
