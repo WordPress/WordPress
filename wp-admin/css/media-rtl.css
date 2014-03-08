@@ -333,6 +333,12 @@
 	left: 0;
 }
 
+@media screen and ( max-width: 782px ) {
+	.find-box-inside {
+		bottom: 69px;
+	}
+}
+
 @media screen and ( max-width: 660px ) {
 
 	.find-box {
@@ -344,9 +350,6 @@
 		width: 100%;
 	}
 
-	.find-box-inside {
-		bottom: 69px;
-	}
 }
 
 .ui-find-overlay {
