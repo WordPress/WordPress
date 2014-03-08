@@ -268,7 +268,7 @@ function get_users_drafts( $user_id ) {
  * @param int $reassign Optional. Reassign posts and links to new User ID.
  * @return bool True when finished.
  */
-function wp_delete_user( $id, $reassign = 'novalue' ) {
+function wp_delete_user( $id, $reassign = null ) {
 	global $wpdb;
 
 	$id = (int) $id;
@@ -277,17 +277,28 @@ function wp_delete_user( $id, $reassign = 'novalue' ) {
 	if ( !$user->exists() )
 		return false;
 
+	// Normalize $reassign to null or a user ID. 'novalue' was an older default.
+	if ( 'novalue' === $reassign ) {
+		$reassign = null;
+	} elseif ( null !== $reassign ) {
+		$reassign = (int) $reassign;
+	}
+
+	var_dump( $reassign );
+	die;
+
 	/**
 	 * Fires immediately before a user is deleted from the database.
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int        $id       ID of the user to delete.
-	 * @param int|string $reassign ID of the user to reassign posts and links to. Default 'novalue'.
+	 * @param int      $id       ID of the user to delete.
+	 * @param int|null $reassign ID of the user to reassign posts and links to.
+	 *                           Default null, for no reassignment.
 	 */
 	do_action( 'delete_user', $id, $reassign );
 
-	if ( 'novalue' === $reassign || null === $reassign ) {
+	if ( null === $reassign ) {
 		$post_types_to_delete = array();
 		foreach ( get_post_types( array(), 'objects' ) as $post_type ) {
 			if ( $post_type->delete_with_user ) {
@@ -321,7 +332,6 @@ function wp_delete_user( $id, $reassign = 'novalue' ) {
 				wp_delete_link($link_id);
 		}
 	} else {
-		$reassign = (int) $reassign;
 		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_author = %d", $id ) );
 		$wpdb->update( $wpdb->posts, array('post_author' => $reassign), array('post_author' => $id) );
 		if ( ! empty( $post_ids ) ) {
@@ -354,8 +364,9 @@ function wp_delete_user( $id, $reassign = 'novalue' ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param int        $id       ID of the deleted user.
-	 * @param int|string $reassign ID of the user to reassign posts and links to. Default 'novalue'.
+	 * @param int      $id       ID of the deleted user.
+	 * @param int|null $reassign ID of the user to reassign posts and links to.
+	 *                           Default null, for no reassignment.
 	 */
 	do_action( 'deleted_user', $id, $reassign );
 
