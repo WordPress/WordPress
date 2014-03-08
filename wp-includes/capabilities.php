@@ -1071,20 +1071,15 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		}
 
-		$post_author_id = $post->post_author;
-
-		// If no author set yet, default to current user for cap checks.
-		if ( ! $post_author_id )
-			$post_author_id = $user_id;
-
-		// If the user is the author...
-		if ( $user_id == $post_author_id ) {
+		// If the post author is set and the user is the author...
+		if ( $post->post_author && $user_id == $post->post_author ) {
 			// If the post is published...
 			if ( 'publish' == $post->post_status ) {
 				$caps[] = $post_type->cap->delete_published_posts;
 			} elseif ( 'trash' == $post->post_status ) {
-				if ('publish' == get_post_meta($post->ID, '_wp_trash_meta_status', true) )
+				if ( 'publish' == get_post_meta( $post->ID, '_wp_trash_meta_status', true ) ) {
 					$caps[] = $post_type->cap->delete_published_posts;
+				}
 			} else {
 				// If the post is draft...
 				$caps[] = $post_type->cap->delete_posts;
@@ -1093,10 +1088,11 @@ function map_meta_cap( $cap, $user_id ) {
 			// The user is trying to edit someone else's post.
 			$caps[] = $post_type->cap->delete_others_posts;
 			// The post is published, extra cap required.
-			if ( 'publish' == $post->post_status )
+			if ( 'publish' == $post->post_status ) {
 				$caps[] = $post_type->cap->delete_published_posts;
-			elseif ( 'private' == $post->post_status )
+			} elseif ( 'private' == $post->post_status ) {
 				$caps[] = $post_type->cap->delete_private_posts;
+			}
 		}
 		break;
 		// edit_post breaks down to edit_posts, edit_published_posts, or
@@ -1121,20 +1117,15 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		}
 
-		$post_author_id = $post->post_author;
-
-		// If no author set yet, default to current user for cap checks.
-		if ( ! $post_author_id )
-			$post_author_id = $user_id;
-
-		// If the user is the author...
-		if ( $user_id == $post_author_id ) {
+		// If the post author is set and the user is the author...
+		if ( $post->post_author && $user_id == $post->post_author ) {
 			// If the post is published...
 			if ( 'publish' == $post->post_status ) {
 				$caps[] = $post_type->cap->edit_published_posts;
 			} elseif ( 'trash' == $post->post_status ) {
-				if ('publish' == get_post_meta($post->ID, '_wp_trash_meta_status', true) )
+				if ( 'publish' == get_post_meta( $post->ID, '_wp_trash_meta_status', true ) ) {
 					$caps[] = $post_type->cap->edit_published_posts;
+				}
 			} else {
 				// If the post is draft...
 				$caps[] = $post_type->cap->edit_posts;
@@ -1143,10 +1134,11 @@ function map_meta_cap( $cap, $user_id ) {
 			// The user is trying to edit someone else's post.
 			$caps[] = $post_type->cap->edit_others_posts;
 			// The post is published, extra cap required.
-			if ( 'publish' == $post->post_status )
+			if ( 'publish' == $post->post_status ) {
 				$caps[] = $post_type->cap->edit_published_posts;
-			elseif ( 'private' == $post->post_status )
+			} elseif ( 'private' == $post->post_status ) {
 				$caps[] = $post_type->cap->edit_private_posts;
+			}
 		}
 		break;
 	case 'read_post':
@@ -1173,18 +1165,13 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		}
 
-		$post_author_id = $post->post_author;
-
-		// If no author set yet, default to current user for cap checks.
-		if ( ! $post_author_id )
-			$post_author_id = $user_id;
-
-		if ( $user_id == $post_author_id )
+		if ( $post->post_author && $user_id == $post->post_author ) {
 			$caps[] = $post_type->cap->read;
-		elseif ( $status_obj->private )
+		} elseif ( $status_obj->private ) {
 			$caps[] = $post_type->cap->read_private_posts;
-		else
+		} else {
 			$caps = map_meta_cap( 'edit_post', $user_id, $post->ID );
+		}
 		break;
 	case 'publish_post':
 		$post = get_post( $args[0] );

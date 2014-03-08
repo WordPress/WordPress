@@ -141,8 +141,6 @@ $wp_list_table->prepare_items();
 $title = __('Media Library');
 $parent_file = 'upload.php';
 
-wp_enqueue_script( 'wp-ajax-response' );
-wp_enqueue_script( 'jquery-ui-draggable' );
 wp_enqueue_script( 'media' );
 
 add_screen_option( 'per_page', array('label' => _x( 'Media items', 'items per page (screen options)' )) );
@@ -239,9 +237,7 @@ if ( !empty($message) ) { ?>
 <?php $wp_list_table->display(); ?>
 
 <div id="ajax-response"></div>
-<?php find_posts_div(); ?>
-<br class="clear" />
-
+<?php find_posts_div(); ?> 
 </form>
 </div>
 

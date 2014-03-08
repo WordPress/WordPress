@@ -47,8 +47,6 @@ $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
  * Display install header.
  *
  * @since 2.5.0
- * @package WordPress
- * @subpackage Installer
  */
 function display_header() {
 	header( 'Content-Type: text/html; charset=utf-8' );
@@ -73,8 +71,6 @@ function display_header() {
  * Display installer setup form.
  *
  * @since 2.8.0
- * @package WordPress
- * @subpackage Installer
  */
 function display_setup_form( $error = null ) {
 	global $wpdb;
@@ -123,7 +119,7 @@ function display_setup_form( $error = null ) {
 				<input name="admin_password" type="password" id="pass1" size="25" value="" />
 				<p><input name="admin_password2" type="password" id="pass2" size="25" value="" /></p>
 				<div id="pass-strength-result"><?php _e('Strength indicator'); ?></div>
-				<p><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
+				<p><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
 			</td>
 		</tr>
 		<?php endif; ?>

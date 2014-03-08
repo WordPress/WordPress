@@ -177,13 +177,13 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
 
 	switch ( $code ) {
 		case 1 :
-			wp_die( __('Sorry, can&#8217;t edit files with &#8220;..&#8221; in the name. If you are trying to edit a file in your WordPress home directory, you can just type the name of the file in.' ));
+			wp_die( __( 'Sorry, that file cannot be edited.' ) );
 
 		//case 2 :
 		//	wp_die( __('Sorry, can&#8217;t call files with their real path.' ));
 
 		case 3 :
-			wp_die( __('Sorry, that file cannot be edited.' ));
+			wp_die( __( 'Sorry, that file cannot be edited.' ) );
 	}
 }
 
@@ -191,7 +191,7 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
  * Handle PHP uploads in WordPress, sanitizing file names, checking extensions for mime type,
  * and moving the file to the appropriate directory within the uploads directory.
  *
- * @since 2.0
+ * @since 2.0.0
  *
  * @uses wp_handle_upload_error
  * @uses apply_filters
@@ -258,8 +258,9 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 		return call_user_func($upload_error_handler, $file, __( 'Invalid form submission.' ));
 
 	// A successful upload will pass this test. It makes no sense to override this one.
-	if ( $file['error'] > 0 )
-		return call_user_func($upload_error_handler, $file, $upload_error_strings[$file['error']] );
+	if ( isset( $file['error'] ) && $file['error'] > 0 ) {
+		return call_user_func( $upload_error_handler, $file, $upload_error_strings[ $file['error'] ] );
+	}
 
 	// A non-empty file will pass this test.
 	if ( $test_size && !($file['size'] > 0 ) ) {
@@ -1052,24 +1053,24 @@ jQuery(function($){
 	_e('If you do not remember your credentials, you should contact your web host.');
 ?></p>
 <table class="form-table">
-<tr valign="top">
+<tr>
 <th scope="row"><label for="hostname"><?php _e('Hostname') ?></label></th>
 <td><input name="hostname" type="text" id="hostname" value="<?php echo esc_attr($hostname); if ( !empty($port) ) echo ":$port"; ?>"<?php disabled( defined('FTP_HOST') ); ?> size="40" /></td>
 </tr>
 
-<tr valign="top">
+<tr>
 <th scope="row"><label for="username"><?php echo $label_user; ?></label></th>
 <td><input name="username" type="text" id="username" value="<?php echo esc_attr($username) ?>"<?php disabled( defined('FTP_USER') ); ?> size="40" /></td>
 </tr>
 
-<tr valign="top">
+<tr>
 <th scope="row"><label for="password"><?php echo $label_pass; ?></label></th>
 <td><div><input name="password" type="password" id="password" value="<?php if ( defined('FTP_PASS') ) echo '*****'; ?>"<?php disabled( defined('FTP_PASS') ); ?> size="40" /></div>
 <div><em><?php if ( ! defined('FTP_PASS') ) _e( 'This password will not be stored on the server.' ); ?></em></div></td>
 </tr>
 
 <?php if ( isset($types['ssh']) ) : ?>
-<tr id="ssh_keys" valign="top" style="<?php if ( 'ssh' != $connection_type ) echo 'display:none' ?>">
+<tr id="ssh_keys" style="<?php if ( 'ssh' != $connection_type ) echo 'display:none' ?>">
 <th scope="row"><?php _e('Authentication Keys') ?>
 <div class="key-labels textright">
 <label for="public_key"><?php _e('Public Key:') ?></label ><br />
@@ -1080,7 +1081,7 @@ jQuery(function($){
 </tr>
 <?php endif; ?>
 
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e('Connection Type') ?></th>
 <td>
 <fieldset><legend class="screen-reader-text"><span><?php _e('Connection Type') ?></span></legend>

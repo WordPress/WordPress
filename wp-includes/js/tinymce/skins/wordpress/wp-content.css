@@ -1,0 +1,347 @@
+/* Additional default styles for the editor */
+body {
+	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-size: 13px;
+	line-height: 19px;
+	color: #333;
+	margin: 10px;
+}
+
+/* DFW mode */
+html.wp-fullscreen,
+html.wp-fullscreen body {
+	background: transparent;
+	width: auto;
+	max-width: none;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.aligncenter,
+dl.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.alignleft {
+	float: left;
+}
+
+.alignright {
+	float: right;
+}
+
+.wp-caption {
+	border: 1px solid #ddd;
+	text-align: center;
+	background-color: #f3f3f3;
+	padding-top: 4px;
+	margin: 10px 0;
+}
+
+.mceIEcenter {
+	text-align: center;
+}
+
+.wp-caption img {
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+}
+
+div.mceTemp {
+	-ms-user-select: element;
+}
+
+dl.wp-caption,
+dl.wp-caption * {
+	-webkit-user-drag: none;
+}
+
+.wp-caption-dd {
+	font-size: 11px;
+	line-height: 17px;
+	padding: 0 4px 5px;
+	margin: 0;
+}
+
+pre {
+	font: 12px/18px Consolas, Monaco, monospace;
+}
+
+td {
+	color: #000;
+	font-size: 11px;
+	margin: 8px;
+}
+
+/* Styles for the WordPress plugins */
+.mce-content-body img[data-mce-placeholder] {
+	border-radius: 0;
+	padding: 0;
+}
+
+.mce-content-body img.mce-wp-nextpage,
+.mce-content-body img.mce-wp-more {
+	border: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	width: 95%;
+	height: 10px;
+	display: block;
+	margin: 15px auto 0;
+	outline: 0;
+	cursor: default;
+}
+
+/* Remove blue highlighting of selected images in WebKit */
+img::selection {
+	background-color: transparent;
+}
+
+.mce-content-body img.mce-wp-nextpage[data-mce-selected],
+.mce-content-body img.mce-wp-more[data-mce-selected] {
+	background-color: rgba(128,128,128,0.2);
+	outline: 1px dotted #888;
+	border-color: transparent;
+}
+
+.mce-content-body img.mce-wp-more {
+	border-top: 2px dashed #bbb;
+}
+
+.mce-content-body img.mce-wp-nextpage {
+    border-top: 3px dotted #bbb;
+}
+
+/* Gallery, audio, vudeo placeholders */
+.mce-content-body img.wp-media {
+	border: 1px solid #aaa;
+	background-color: #f2f2f2;
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 99%;
+	height: 250px;
+	outline: 0;
+	cursor: pointer;
+}
+
+.mce-content-body img.wp-media:hover {
+	background-color: #ededed;
+	border-color: #777;
+}
+
+.mce-content-body img.wp-media.wp-media-selected {
+	background-color: #d8d8d8;
+	border-color: #777;
+}
+
+.mce-content-body img.wp-media.wp-gallery {
+	background-image: url(images/gallery.png);
+}
+
+.mce-content-body img.wp-media.wp-video {
+	background-image: url(images/video.png);
+}
+
+.mce-content-body img.wp-media.wp-audio {
+	height: 70px;
+	background-image: url(images/audio.png);
+}
+
+.mce-content-body img.wp-media.wp-playlist {
+	background-image: url("images/playlist-audio.png");
+}
+
+.mce-content-body img.wp-media.wp-video-playlist {
+	background-image: url("images/playlist-video.png");
+}
+
+#wp-image-toolbar {
+	position: absolute;
+}
+
+#wp-image-toolbar .wrapper {
+	position: relative;
+	height: 33px;
+	background-color: #333; /* old IE */
+	background-color: rgba(0,0,0,0.3);
+}
+
+#wp-image-toolbar .dashicons {
+	position: absolute;
+	color: white;
+	width: 36px;
+	height: 32px;
+	line-height: 32px;
+	cursor: pointer;
+}
+
+#wp-image-toolbar div.dashicons-no-alt {
+	top: 0;
+	right: 0;
+}
+
+#wp-image-toolbar div.dashicons-format-image {
+	top: 0;
+	left: 0;
+}
+
+/* Image resize handles */
+.mce-content-body div.mce-resizehandle {
+	border-color: #777;
+	width: 7px;
+	height: 7px;
+}
+
+.mce-content-body img[data-mce-selected] {
+	outline: 1px solid #777;
+}
+
+.mce-content-body img[data-mce-resize="false"] {
+	outline: 0;
+}
+
+
+/**
+ * WP Views
+ */
+
+/* IE hasLayout. Needed for all IE incl. 11 (ugh, not again!!) */
+.wpview-wrap {
+	width: 99.99%;
+	position: relative;
+}
+
+/* delegate the handling of the selection to the wpview tinymce plugin */
+.wpview-wrap,
+.wpview-wrap * {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* hide the shortcode content, but allow the content to still be selected */
+.wpview-wrap .wpview-clipboard {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	clip: rect(1px, 1px, 1px, 1px);
+	overflow: hidden;
+	outline: 0;
+}
+
+/**
+ * Gallery preview
+ */
+.wpview-type-gallery {
+    position: relative;
+    padding: 0 0 12px;
+    margin-bottom: 16px;
+	cursor: pointer;
+}
+
+ .wpview-type-gallery:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+ .wpview-type-gallery.selected {
+	background-color: #efefef;
+}
+
+.wpview-type-gallery .toolbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    color: white;
+    padding: 4px;
+	display: none;
+}
+
+.wpview-type-gallery.selected .toolbar {
+	display: block;
+}
+
+.wpview-type-gallery .toolbar span {
+	cursor: pointer;
+}
+
+.gallery img[data-mce-selected]:focus {
+	outline: none;
+}
+
+.gallery a {
+	cursor: default;
+}
+
+.gallery {
+	margin: auto;
+    line-height: 1;
+}
+
+.gallery .gallery-item {
+	float: left;
+	margin: 10px 0 0 0;
+	text-align: center;
+}
+
+.gallery .gallery-caption,
+.gallery .gallery-icon {
+	margin: 0;
+}
+
+.gallery-columns-1 .gallery-item {
+	width: 99%;
+}
+
+.gallery-columns-2 .gallery-item {
+	width: 49.5%;
+}
+
+.gallery-columns-3 .gallery-item {
+	width: 33%;
+}
+
+.gallery-columns-4 .gallery-item {
+	width: 24.75%;
+}
+
+.gallery-columns-5 .gallery-item {
+	width: 19.825%;
+}
+
+.gallery-columns-6 .gallery-item {
+	width: 16%;
+}
+
+.gallery-columns-7 .gallery-item {
+	width: 14%;
+}
+
+.gallery-columns-8 .gallery-item {
+	width: 12%;
+}
+
+.gallery-columns-9 .gallery-item {
+	width: 11%;
+}
+
+.gallery img {
+	border: 1px solid #cfcfcf;
+}
+
+img.wp-oembed {
+	border: 1px dashed #888;
+	background: #f7f5f2 url(images/embedded.png) no-repeat scroll center center;
+	width: 300px;
+	height: 250px;
+	outline: 0;
+}

@@ -86,6 +86,15 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
 
 	wp_cache_flush();
 
+	/**
+	 * Fires after a site is fully installed.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param WP_User $user The site owner.
+	 */
+	do_action( 'wp_install', $user );
+
 	return array('url' => $guessurl, 'user_id' => $user_id, 'password' => $user_password, 'password_message' => $message);
 }
 endif;
@@ -161,7 +170,7 @@ function wp_install_defaults( $user_id ) {
 
 	// Default comment
 	$first_comment_author = __('Mr WordPress');
-	$first_comment_url = 'http://wordpress.org/';
+	$first_comment_url = 'https://wordpress.org/';
 	$first_comment = __('Hi, this is a comment.
 To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.');
 	if ( is_multisite() ) {
@@ -273,7 +282,7 @@ Password: %3\$s
 We hope you enjoy your new site. Thanks!
 
 --The WordPress Team
-http://wordpress.org/
+https://wordpress.org/
 "), $blog_url, $name, $password);
 
 	@wp_mail($email, __('New WordPress Site'), $message);
@@ -317,6 +326,16 @@ function wp_upgrade() {
 		else
 			$wpdb->query( "INSERT INTO {$wpdb->blog_versions} ( `blog_id` , `db_version` , `last_updated` ) VALUES ( '{$wpdb->blogid}', '{$wp_db_version}', NOW());" );
 	}
+
+	/**
+	 * Fires after a site is fully upgraded.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param int $new_db_version The new $wp_db_version.
+	 * @param int $old_db_version The old $wp_db_version.
+	 */
+	do_action( 'wp_upgrade', $wp_db_version, $wp_current_db_version );
 }
 endif;
 

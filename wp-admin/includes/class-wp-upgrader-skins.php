@@ -92,6 +92,23 @@ class WP_Upgrader_Skin {
 	function before() {}
 	function after() {}
 
+	/**
+	 * Output JavaScript that calls function to decrement the update counts.
+	 *
+	 * @since 3.9.0
+	 */
+	protected function decrement_update_count( $type ) {
+		if ( ! $this->result || is_wp_error( $this->result ) || 'up_to_date' === $this->result ) {
+			return;
+		}
+		echo '<script type="text/javascript">
+				(function( wp ) {
+					if ( wp && wp.updates.decrementCount ) {
+						wp.updates.decrementCount( "' . $type . '" );
+					}
+				})( window.wp );
+			</script>';
+	}
 }
 
 /**
@@ -123,6 +140,8 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 		if ( !empty($this->plugin) && !is_wp_error($this->result) && $this->plugin_active ){
 			echo '<iframe style="border:0;overflow:hidden" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&networkwide=' . $this->plugin_network_active . '&plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin) .'"></iframe>';
 		}
+
+		$this->decrement_update_count( 'plugin' );
 
 		$update_actions =  array(
 			'activate_plugin' => '<a href="' . wp_nonce_url('plugins.php?action=activate&amp;plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin) . '" title="' . esc_attr__('Activate this plugin') . '" target="_parent">' . __('Activate Plugin') . '</a>',
@@ -252,6 +271,22 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 		wp_ob_end_flush_all();
 		flush();
 	}
+
+	/**
+	 * Output JavaScript that sends message to parent window to decrement the update counts.
+	 *
+	 * @since 3.9.0
+	 */
+	protected function decrement_update_count( $type ) {
+		if ( ! $this->result || is_wp_error( $this->result ) || 'up_to_date' === $this->result ) {
+			return;
+		}
+		echo '<script type="text/javascript">
+				if ( window.postMessage && JSON ) {
+					window.parent.postMessage( JSON.stringify( { action: "decrementUpdateCount", upgradeType: "' . $type . '" } ), window.location.protocol + "//" + window.location.hostname );
+				}
+			</script>';
+	}
 }
 
 class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
@@ -272,6 +307,7 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
 
 	function after($title = '') {
 		parent::after($this->plugin_info['Title']);
+		$this->decrement_update_count( 'plugin' );
 	}
 	function bulk_footer() {
 		parent::bulk_footer();
@@ -306,6 +342,7 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 
 	function after($title = '') {
 		parent::after( $this->theme_info->display('Name') );
+		$this->decrement_update_count( 'theme' );
 	}
 
 	function bulk_footer() {
@@ -479,6 +516,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	function after() {
+		$this->decrement_update_count( 'theme' );
 
 		$update_actions = array();
 		if ( ! empty( $this->upgrader->result['destination_name'] ) && $theme_info = $this->upgrader->theme_info() ) {
@@ -561,6 +599,7 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	function bulk_footer() {
+		$this->decrement_update_count( 'translation' );
 		$update_actions = array();
 		$update_actions['updates_page'] = '<a href="' . self_admin_url( 'update-core.php' ) . '" title="' . esc_attr__( 'Go to WordPress Updates page' ) . '" target="_parent">' . __( 'Return to WordPress Updates' ) . '</a>';
 		$update_actions = apply_filters( 'update_translations_complete_actions', $update_actions );

@@ -3,7 +3,7 @@
  * PemFTP - A Ftp implementation in pure PHP
  *
  * @package PemFTP
- * @since 2.5
+ * @since 2.5.0
  *
  * @version 1.0
  * @copyright Alexey Dotsenko
@@ -17,7 +17,7 @@
  *
  * @package PemFTP
  * @subpackage Socket
- * @since 2.5
+ * @since 2.5.0
  *
  * @version 1.0
  * @copyright Alexey Dotsenko

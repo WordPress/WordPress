@@ -129,7 +129,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		$this->set_pagination_args( array(
 			'total_items' => $api->info['results'],
-			'per_page' => $per_page,
+			'per_page' => $args['per_page'],
 		) );
 	}
 
@@ -245,7 +245,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 						break;
 					case 'update_available':
 						if ( $status['url'] )
-							$action_links[] = '<a href="' . $status['url'] . '" title="' . esc_attr( sprintf( __( 'Update to version %s' ), $status['version'] ) ) . '">' . sprintf( __( 'Update Now' ), $status['version'] ) . '</a>';
+							$action_links[] = '<a href="' . $status['url'] . '" title="' . esc_attr( sprintf( __( 'Update to version %s' ), $status['version'] ) ) . '">' . __( 'Update Now' ) . '</a>';
 						break;
 					case 'latest_installed':
 					case 'newer_installed':

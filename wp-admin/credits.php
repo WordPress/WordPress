@@ -27,6 +27,7 @@ function wp_credits() {
 	$results = get_site_transient( 'wordpress_credits_' . $locale );
 
 	if ( ! is_array( $results )
+		|| false !== strpos( $wp_version, '-' )
 		|| ( isset( $results['data']['version'] ) && strpos( $wp_version, $results['data']['version'] ) !== 0 )
 	) {
 		$response = wp_remote_get( "http://api.wordpress.org/core/credits/1.1/?version=$wp_version&locale=$locale" );

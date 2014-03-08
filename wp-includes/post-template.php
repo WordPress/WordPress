@@ -304,8 +304,9 @@ function post_class( $class = '', $post_id = null ) {
 /**
  * Retrieve the classes for the post div as an array.
  *
- * The class names are add are many. If the post is a sticky, then the 'sticky'
- * class name. The class 'hentry' is always added to each post. For each
+ * The class names are many. If the post is a sticky, then the 'sticky'
+ * class name. The class 'hentry' is always added to each post. If the post has a
+ * post thumbnail, 'has-post-thumbnail' is added as a class. For each
  * category, the class will be added with 'category-' with category slug is
  * added. The tags are the same way as the categories with 'tag-' before the tag
  * slug. All classes are passed through the filter, 'post_class' with the list
@@ -342,9 +343,13 @@ function get_post_class( $class = '', $post_id = null ) {
 			$classes[] = 'format-standard';
 	}
 
-	// post requires password
-	if ( post_password_required($post->ID) )
+	// Post requires password
+	if ( post_password_required( $post->ID ) ) {
 		$classes[] = 'post-password-required';
+	// Post thumbnails
+	} elseif ( current_theme_supports( 'post-thumbnails' ) && has_post_thumbnail( $post->ID ) ) {
+		$classes[] = 'has-post-thumbnail';
+	}
 
 	// sticky for Sticky Posts
 	if ( is_sticky($post->ID) && is_home() && !is_paged() )
@@ -593,12 +598,9 @@ function post_password_required( $post = null ) {
 	return ! $hasher->CheckPassword( $post->post_password, $hash );
 }
 
-/**
- * Page Template Functions for usage in Themes
- *
- * @package WordPress
- * @subpackage Template
- */
+//
+// Page Template Functions for usage in Themes
+//
 
 /**
  * The formatted output of a list of pages.
@@ -715,6 +717,19 @@ function _wp_link_page( $i ) {
 			$url = trailingslashit(get_permalink()) . user_trailingslashit("$wp_rewrite->pagination_base/" . $i, 'single_paged');
 		else
 			$url = trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged');
+	}
+
+	if ( is_preview() ) {
+		$url = add_query_arg( array(
+			'preview' => 'true'
+		), $url );
+
+		if ( ( 'draft' !== $post->post_status ) && isset( $_GET['preview_id'], $_GET['preview_nonce'] ) ) {
+			$url = add_query_arg( array(
+				'preview_id'    => wp_unslash( $_GET['preview_id'] ),
+				'preview_nonce' => wp_unslash( $_GET['preview_nonce'] )
+			), $url );
+		}
 	}
 
 	return '<a href="' . esc_url( $url ) . '">';
@@ -986,7 +1001,6 @@ function walk_page_dropdown_tree() {
 /**
  * Create HTML list of pages.
  *
- * @package WordPress
  * @since 2.1.0
  * @uses Walker
  */
@@ -1102,7 +1116,6 @@ class Walker_Page extends Walker {
 /**
  * Create HTML dropdown list of pages.
  *
- * @package WordPress
  * @since 2.1.0
  * @uses Walker
  */
@@ -1139,7 +1152,13 @@ class Walker_PageDropdown extends Walker {
 		if ( $page->ID == $args['selected'] )
 			$output .= ' selected="selected"';
 		$output .= '>';
-		$title = apply_filters( 'list_pages', $page->post_title, $page );
+
+		$title = $page->post_title;
+		if ( '' === $title ) {
+			$title = sprintf( __( '#%d (no title)' ), $page->ID );
+		}
+
+		$title = apply_filters( 'list_pages', $title, $page );
 		$output .= $pad . esc_html( $title );
 		$output .= "</option>\n";
 	}
@@ -1248,8 +1267,7 @@ function get_the_password_form( $post = 0 ) {
 	$label = 'pwbox-' . ( empty($post->ID) ? rand() : $post->ID );
 	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" class="post-password-form" method="post">
 	<p>' . __( 'This content is password protected. To view it please enter your password below:' ) . '</p>
-	<p><label for="' . $label . '">' . __( 'Password:' ) . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . esc_attr__( 'Submit' ) . '" /></p>
-	</form>
+	<p><label for="' . $label . '">' . __( 'Password:' ) . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . esc_attr__( 'Submit' ) . '" /></p></form>
 	';
 	return apply_filters( 'the_password_form', $output );
 }
@@ -1307,8 +1325,6 @@ function get_page_template_slug( $post_id = null ) {
 /**
  * Retrieve formatted date timestamp of a revision (linked to that revisions's page).
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @uses date_i18n()
@@ -1346,8 +1362,6 @@ function wp_post_revision_title( $revision, $link = true ) {
 /**
  * Retrieve formatted date timestamp of a revision (linked to that revisions's page).
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 3.6.0
  *
  * @uses date_i18n()
@@ -1399,8 +1413,6 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
  * Can output either a UL with edit links or a TABLE with diff interface, and
  * restore action links.
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @uses wp_get_post_revisions()

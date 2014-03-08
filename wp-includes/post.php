@@ -876,8 +876,6 @@ function get_page_statuses() {
  *
  * Arguments prefixed with an _underscore shouldn't be used by plugins and themes.
  *
- * @package WordPress
- * @subpackage Post
  * @since 3.0.0
  * @uses $wp_post_statuses Inserts new post status object into the list
  *
@@ -951,8 +949,6 @@ function register_post_status($post_status, $args = array()) {
 /**
  * Retrieve a post status object by name
  *
- * @package WordPress
- * @subpackage Post
  * @since 3.0.0
  * @uses $wp_post_statuses
  * @see register_post_status
@@ -973,8 +969,6 @@ function get_post_status_object( $post_status ) {
 /**
  * Get a list of all registered post status objects.
  *
- * @package WordPress
- * @subpackage Post
  * @since 3.0.0
  * @uses $wp_post_statuses
  * @see register_post_status
@@ -1044,8 +1038,6 @@ function get_post_type( $post = null ) {
 /**
  * Retrieve a post type object by name
  *
- * @package WordPress
- * @subpackage Post
  * @since 3.0.0
  * @uses $wp_post_types
  * @see register_post_type
@@ -1066,8 +1058,6 @@ function get_post_type_object( $post_type ) {
 /**
  * Get a list of all registered post type objects.
  *
- * @package WordPress
- * @subpackage Post
  * @since 2.9.0
  * @uses $wp_post_types
  * @see register_post_type
@@ -1131,7 +1121,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * - menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
  *     * Pass a base64-encoded SVG using a data URI, which will be colored to match the color scheme.
  *      This should begin with 'data:image/svg+xml;base64,'.
- *     * Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-piechart'.
+ *     * Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-chart-pie'.
  *     * Pass 'none' to leave div.wp-menu-image empty so an icon can be added via CSS.
  * - capability_type - The string to use to build the read, edit, and delete capabilities. Defaults to 'post'.
  *     * May be passed as an array to allow for alternative plurals when using this argument as a base to construct the
@@ -1555,16 +1545,20 @@ add_action( 'admin_menu', '_add_post_type_submenus' );
 /**
  * Register support of certain features for a post type.
  *
- * All features are directly associated with a functional area of the edit screen, such as the
- * editor or a meta box: 'title', 'editor', 'comments', 'revisions', 'trackbacks', 'author',
- * 'excerpt', 'page-attributes', 'thumbnail', and 'custom-fields'.
+ * All core features are directly associated with a functional area of the edit
+ * screen, such as the editor or a meta box. Features include: 'title', 'editor',
+ * 'comments', 'revisions', 'trackbacks', 'author', 'excerpt', 'page-attributes',
+ * 'thumbnail', 'custom-fields', and 'post-formats'.
  *
- * Additionally, the 'revisions' feature dictates whether the post type will store revisions,
- * and the 'comments' feature dictates whether the comments count will show on the edit screen.
+ * Additionally, the 'revisions' feature dictates whether the post type will
+ * store revisions, and the 'comments' feature dictates whether the comments
+ * count will show on the edit screen.
  *
  * @since 3.0.0
- * @param string $post_type The post type for which to add the feature
- * @param string|array $feature the feature being added, can be an array of feature strings or a single string
+ *
+ * @param string       $post_type The post type for which to add the feature.
+ * @param string|array $feature   The feature being added, accpets an array of
+ *                                feature strings or a single string.
  */
 function add_post_type_support( $post_type, $feature ) {
 	global $_wp_post_type_features;
@@ -1785,7 +1779,7 @@ function get_post_meta($post_id, $key = '', $single = false) {
  * @param string $meta_key Metadata key.
  * @param mixed $meta_value Metadata value. Must be serializable if non-scalar.
  * @param mixed $prev_value Optional. Previous value to check before removing.
- * @return bool True on success, false on failure.
+ * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
  */
 function update_post_meta($post_id, $meta_key, $meta_value, $prev_value = '') {
 	// make sure meta is added to the post, not a revision
@@ -2073,6 +2067,26 @@ function unstick_post($post_id) {
 }
 
 /**
+ * Return the cache key for wp_count_posts() based on the passed arguments
+ *
+ * @since 3.9.0
+ *
+ * @param string $type Optional. Post type to retrieve count
+ * @param string $perm Optional. 'readable' or empty.
+ * @return string The cache key.
+ */
+function _count_posts_cache_key( $type = 'post', $perm = '' ) {
+	$cache_key = 'posts-' . $type;
+	if ( 'readable' == $perm && is_user_logged_in() ) {
+		$post_type_object = get_post_type_object( $type );
+		if ( ! current_user_can( $post_type_object->cap->read_private_posts ) ) {
+			$cache_key .= '_' . $perm . '_' . get_current_user_id();
+		}
+	}
+	return $cache_key;
+}
+
+/**
  * Count number of posts of a post type and if user has permissions to view.
  *
  * This function provides an efficient method of finding the amount of post's
@@ -2097,16 +2111,15 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 	if ( ! post_type_exists( $type ) )
 		return new stdClass;
 
-	$user = wp_get_current_user();
-
-	$cache_key = 'posts-' . $type;
+	$cache_key = _count_posts_cache_key( $type, $perm );
 
 	$query = "SELECT post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts} WHERE post_type = %s";
 	if ( 'readable' == $perm && is_user_logged_in() ) {
 		$post_type_object = get_post_type_object($type);
-		if ( !current_user_can( $post_type_object->cap->read_private_posts ) ) {
-			$cache_key .= '_' . $perm . '_' . $user->ID;
-			$query .= " AND (post_status != 'private' OR ( post_author = '$user->ID' AND post_status = 'private' ))";
+		if ( ! current_user_can( $post_type_object->cap->read_private_posts ) ) {
+			$query .= $wpdb->prepare( " AND (post_status != 'private' OR ( post_author = %d AND post_status = 'private' ))",
+				get_current_user_id()
+			);
 		}
 	}
 	$query .= ' GROUP BY post_status';
@@ -2578,8 +2591,6 @@ function wp_get_post_categories( $post_id = 0, $args = array() ) {
  * is set to 'all'. There are other defaults that can be overridden in
  * {@link wp_get_object_terms()}.
  *
- * @package WordPress
- * @subpackage Post
  * @since 2.3.0
  *
  * @uses wp_get_object_terms() Gets the tags for returning. Args can be found here
@@ -2599,8 +2610,6 @@ function wp_get_post_tags( $post_id = 0, $args = array() ) {
  * is set to 'all'. There are other defaults that can be overridden in
  * {@link wp_get_object_terms()}.
  *
- * @package WordPress
- * @subpackage Post
  * @since 2.8.0
  *
  * @uses wp_get_object_terms() Gets the tags for returning. Args can be found here
@@ -3192,8 +3201,6 @@ function _truncate_post_slug( $slug, $length = 200 ) {
  *
  * @uses wp_set_post_tags() Same first two parameters, but the last parameter is always set to true.
  *
- * @package WordPress
- * @subpackage Post
  * @since 2.3.0
  *
  * @param int $post_id Post ID
@@ -3490,10 +3497,10 @@ function get_page( $page, $output = OBJECT, $filter = 'raw') {
  *
  * @param string $page_path Page path
  * @param string $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
- * @param string $post_type Optional. Post type. Default page.
+ * @param string|array $post_type Optional. Post type or array of post types. Default page.
  * @return WP_Post|null WP_Post on success or null on failure
  */
-function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
+function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 	global $wpdb;
 
 	$page_path = rawurlencode(urldecode($page_path));
@@ -3503,9 +3510,24 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	$parts = esc_sql( $parts );
 	$parts = array_map( 'sanitize_title_for_query', $parts );
 
-	$in_string = "'". implode( "','", $parts ) . "'";
-	$post_type_sql = esc_sql( $post_type );
-	$pages = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_type FROM $wpdb->posts WHERE post_name IN ($in_string) AND (post_type = '$post_type_sql' OR post_type = 'attachment')", OBJECT_K );
+	$in_string = "'" . implode( "','", $parts ) . "'";
+
+	if ( is_array( $post_type ) ) {
+		$post_types = $post_type;
+	} else {
+		$post_types = array( $post_type, 'attachment' );
+	}
+
+	$post_types = esc_sql( $post_types );
+	$post_type_in_string = "'" . implode( "','", $post_types ) . "'";
+	$sql = "
+		SELECT ID, post_name, post_parent, post_type
+		FROM $wpdb->posts
+		WHERE post_name IN ($in_string)
+		AND post_type IN ($post_type_in_string)
+	";
+
+	$pages = $wpdb->get_results( $sql, OBJECT_K );
 
 	$revparts = array_reverse( $parts );
 
@@ -3544,12 +3566,32 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
  *
  * @param string $page_title Page title
  * @param string $output Optional. Output type. OBJECT, ARRAY_N, or ARRAY_A. Default OBJECT.
- * @param string $post_type Optional. Post type. Default page.
+ * @param string|array $post_type Optional. Post type or array of post types. Default page.
  * @return WP_Post|null WP_Post on success or null on failure
  */
-function get_page_by_title($page_title, $output = OBJECT, $post_type = 'page' ) {
+function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' ) {
 	global $wpdb;
-	$page = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type= %s", $page_title, $post_type ) );
+
+	if ( is_array( $post_type ) ) {
+		$post_type = esc_sql( $post_type );
+		$post_type_in_string = "'" . implode( "','", $post_type ) . "'";
+		$sql = $wpdb->prepare( "
+			SELECT ID
+			FROM $wpdb->posts
+			WHERE post_title = %s
+			AND post_type IN ($post_type_in_string)
+		", $page_title );
+	} else {
+		$sql = $wpdb->prepare( "
+			SELECT ID
+			FROM $wpdb->posts
+			WHERE post_title = %s
+			AND post_type = %s
+		", $page_title, $post_type );
+	}
+
+	$page = $wpdb->get_var( $sql );
+
 	if ( $page )
 		return get_post( $page, $output );
 
@@ -4070,6 +4112,17 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 
 	// expected_slashed (everything!)
 	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'guid' ) );
+
+	/**
+	 * Filter attachment post data before it is updated in or added
+	 * to the database.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param array $data   Array of sanitized attachment post data.
+	 * @param array $object Array of un-sanitized attachment post data.
+	 */
+	$data = apply_filters( 'wp_insert_attachment_data', $data, $object );
 	$data = wp_unslash( $data );
 
 	if ( $update ) {
@@ -4682,8 +4735,6 @@ function _get_last_post_time( $timezone, $field ) {
 /**
  * Updates posts in cache.
  *
- * @package WordPress
- * @subpackage Cache
  * @since 1.5.1
  *
  * @param array $posts Array of post objects
@@ -4705,8 +4756,6 @@ function update_post_cache( &$posts ) {
  * This function not run if $_wp_suspend_cache_invalidation is not empty. See
  * wp_suspend_cache_invalidation().
  *
- * @package WordPress
- * @subpackage Cache
  * @since 2.0.0
  *
  * @uses do_action() Calls 'clean_post_cache' on $id before adding children (if any).
@@ -4746,8 +4795,6 @@ function clean_post_cache( $post ) {
 /**
  * Call major cache updating functions for list of Post objects.
  *
- * @package WordPress
- * @subpackage Cache
  * @since 1.5.0
  *
  * @uses update_post_cache()
@@ -4800,8 +4847,6 @@ function update_post_caches(&$posts, $post_type = 'post', $update_term_cache = t
  * metadata cache for the posts. Therefore, the functions, which call this
  * function, do not need to perform SQL queries on their own.
  *
- * @package WordPress
- * @subpackage Cache
  * @since 2.1.0
  *
  * @param array $post_ids List of post IDs.
@@ -4820,8 +4865,6 @@ function update_postmeta_cache($post_ids) {
  * This function will not run if $_wp_suspend_cache_invalidation is not empty. See
  * wp_suspend_cache_invalidation().
  *
- * @package WordPress
- * @subpackage Cache
  * @since 3.0.0
  *
  * @uses do_action() Calls 'clean_attachment_cache' on $id.
@@ -4879,6 +4922,11 @@ function _transition_post_status($new_status, $old_status, $post) {
 			wp_cache_delete( "lastpostmodified:$timezone", 'timeinfo' );
 			wp_cache_delete( "lastpostdate:$timezone", 'timeinfo' );
 		}
+	}
+
+	if ( $new_status !== $old_status ) {
+		wp_cache_delete( _count_posts_cache_key( $post->post_type ), 'counts' );
+		wp_cache_delete( _count_posts_cache_key( $post->post_type, 'readable' ), 'counts' );
 	}
 
 	// Always clears the hook in case the post status bounced from future to draft.

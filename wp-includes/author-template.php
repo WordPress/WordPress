@@ -13,7 +13,8 @@
 /**
  * Retrieve the author of the current post.
  *
- * @since 1.5
+ * @since 1.5.0
+ *
  * @uses $authordata The current author's DB object.
  * @uses apply_filters() Calls 'the_author' hook on the author display name.
  *
@@ -68,7 +69,8 @@ function the_author( $deprecated = '', $deprecated_echo = true ) {
 /**
  * Retrieve the author who last edited the current post.
  *
- * @since 2.8
+ * @since 2.8.0
+ *
  * @uses $post The current post's DB object.
  * @uses get_post_meta() Retrieves the ID of the author who last edited the current post.
  * @uses get_userdata() Retrieves the author's DB object.
@@ -93,7 +95,8 @@ function get_the_modified_author() {
 /**
  * Display the name of the author who last edited the current post.
  *
- * @since 2.8
+ * @since 2.8.0
+ *
  * @see get_the_author()
  * @return string The author's display name, from get_the_modified_author().
  */
@@ -184,7 +187,9 @@ function get_the_author_link() {
  * author's name.
  *
  * @link http://codex.wordpress.org/Template_Tags/the_author_link
- * @since 2.1
+ *
+ * @since 2.1.0
+ *
  * @uses get_the_author_link()
  */
 function the_author_link() {
@@ -194,7 +199,8 @@ function the_author_link() {
 /**
  * Retrieve the number of posts by the author of the current post.
  *
- * @since 1.5
+ * @since 1.5.0
+ *
  * @uses $post The current post in the Loop's DB object.
  * @uses count_user_posts()
  * @return int The number of posts by the author.
@@ -310,6 +316,8 @@ function get_author_posts_url($author_id, $author_nicename = '') {
  * or as a string.</li>
  * <li>html (bool) (true): Whether to list the items in html form or plaintext.
  * </li>
+ * <li>exclude (array): Array of user IDs to explicitly exclude.</li>
+ * <li>include (array): Array of user IDs to explicitly include.</li>
  * </ul>
  *
  * @link http://codex.wordpress.org/Template_Tags/wp_list_authors
@@ -325,7 +333,7 @@ function wp_list_authors($args = '') {
 		'optioncount' => false, 'exclude_admin' => true,
 		'show_fullname' => false, 'hide_empty' => true,
 		'feed' => '', 'feed_image' => '', 'feed_type' => '', 'echo' => true,
-		'style' => 'list', 'html' => true
+		'style' => 'list', 'html' => true, 'exclude' => '', 'include' => ''
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -333,7 +341,7 @@ function wp_list_authors($args = '') {
 
 	$return = '';
 
-	$query_args = wp_array_slice_assoc( $args, array( 'orderby', 'order', 'number' ) );
+	$query_args = wp_array_slice_assoc( $args, array( 'orderby', 'order', 'number', 'exclude', 'include' ) );
 	$query_args['fields'] = 'ids';
 	$authors = get_users( $query_args );
 

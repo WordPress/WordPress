@@ -27,7 +27,7 @@ $wp_query->is_404 = false;
 /**
  * Fires before the Site Activation page is loaded.
  *
- * @since 3.0
+ * @since 3.0.0
  */
 do_action( 'activate_header' );
 
@@ -40,7 +40,7 @@ function do_activate_header() {
     /**
      * Fires before the Site Activation page is loaded, but on the wp_head action.
      *
-     * @since 3.0
+     * @since 3.0.0
      */
     do_action( 'activate_wp_head' );
 }

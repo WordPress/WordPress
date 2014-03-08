@@ -68,9 +68,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?></title>
 	<?php
 
-	wp_admin_css( 'wp-admin', true );
-	wp_admin_css( 'colors-fresh', true );
-	wp_admin_css( 'ie', true );
+	wp_admin_css( 'login', true );
 
 	// Remove all stored post data on logging out.
 	// This could be added by add_action('login_head'...) like wp_shake_js()
@@ -98,7 +96,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 		$login_header_url   = network_home_url();
 		$login_header_title = get_current_site()->site_name;
 	} else {
-		$login_header_url   = __( 'http://wordpress.org/' );
+		$login_header_url   = __( 'https://wordpress.org/' );
 		$login_header_title = __( 'Powered by WordPress' );
 	}
 
@@ -614,9 +612,20 @@ case 'rp' :
 	</p>
 
 	<div id="pass-strength-result" class="hide-if-no-js"><?php _e('Strength indicator'); ?></div>
-	<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
+	<p class="description indicator-hint"><?php _e('Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; ).'); ?></p>
 
 	<br class="clear" />
+
+	<?php
+	/**
+	 * Fires following the 'Strength indicator' meter in the user password reset form.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param WP_User $user User undergoing the password reset.
+	 */
+	do_action( 'resetpass_form', $user );
+	?>
 	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Reset Password'); ?>" /></p>
 </form>
 

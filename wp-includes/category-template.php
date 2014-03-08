@@ -371,7 +371,15 @@ function wp_dropdown_categories( $args = '' ) {
 	if ( ! $r['hide_if_empty'] || ! empty($categories) )
 		$output .= "</select>\n";
 
-	$output = apply_filters( 'wp_dropdown_cats', $output );
+	/**
+	 * Filter the result of wp_dropdown_categories().
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param $output HTML content.
+	 * @param $r      Arguments used to build the dropdown.
+	 */
+	$output = apply_filters( 'wp_dropdown_cats', $output, $r );
 
 	if ( $echo )
 		echo $output;
@@ -507,8 +515,11 @@ function wp_list_categories( $args = '' ) {
  * The 'number' argument is how many tags to return. By default, the limit will
  * be to return the top 45 tags in the tag cloud list.
  *
- * The 'topic_count_text_callback' argument is a function, which, given the count
- * of the posts  with that tag, returns a text for the tooltip of the tag link.
+ * The 'topic_count_text' argument is a nooped plural from _n_noop() to generate the
+ * text for the tooltip of the tag link.
+ *
+ * The 'topic_count_text_callback' argument is a function, which given the count
+ * of the posts with that tag returns a text for the tooltip of the tag link.
  *
  * The 'exclude' and 'include' arguments are used for the {@link get_tags()}
  * function. Only one should be used, because only one will be used and the
@@ -555,16 +566,6 @@ function wp_tag_cloud( $args = '' ) {
 }
 
 /**
- * Default text for tooltip for tag links
- *
- * @param integer $count number of posts with that tag
- * @return string text for the tooltip of a tag link.
- */
-function default_topic_count_text( $count ) {
-	return sprintf( _n('%s topic', '%s topics', $count), number_format_i18n( $count ) );
-}
-
-/**
  * Default topic count scaling for tag links
  *
  * @param integer $count number of posts with that tag
@@ -595,8 +596,11 @@ function default_topic_count_scale( $count ) {
  * The 'number' argument is how many tags to return. By default, the limit will
  * be to return the entire tag cloud list.
  *
+ * The 'topic_count_text' argument is a nooped plural from _n_noop() to generate the
+ * text for the tooltip of the tag link.
+ *
  * The 'topic_count_text_callback' argument is a function, which given the count
- * of the posts  with that tag returns a text for the tooltip of the tag link.
+ * of the posts with that tag returns a text for the tooltip of the tag link.
  *
  * @todo Complete functionality.
  * @since 2.3.0
@@ -609,22 +613,34 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	$defaults = array(
 		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 0,
 		'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
-		'topic_count_text_callback' => 'default_topic_count_text',
+		'topic_count_text' => null, 'topic_count_text_callback' => null,
 		'topic_count_scale_callback' => 'default_topic_count_scale', 'filter' => 1,
 	);
 
-	if ( !isset( $args['topic_count_text_callback'] ) && isset( $args['single_text'] ) && isset( $args['multiple_text'] ) ) {
-		$body = 'return sprintf (
-			_n(' . var_export($args['single_text'], true) . ', ' . var_export($args['multiple_text'], true) . ', $count),
-			number_format_i18n( $count ));';
-		$args['topic_count_text_callback'] = create_function('$count', $body);
-	}
-
 	$args = wp_parse_args( $args, $defaults );
-	extract( $args );
+	extract( $args, EXTR_SKIP );
 
 	if ( empty( $tags ) )
 		return;
+
+	// Juggle topic count tooltips:
+	if ( isset( $args['topic_count_text'] ) ) {
+		// First look for nooped plural support via topic_count_text.
+		$translate_nooped_plural = $args['topic_count_text'];
+	} elseif ( ! empty( $args['topic_count_text_callback'] ) ) {
+		// Look for the alternative callback style. Ignore the previous default.
+		if ( $args['topic_count_text_callback'] === 'default_topic_count_text' ) {
+			$translate_nooped_plural = _n_noop( '%s topic', '%s topics' );
+		} else {
+			$translate_nooped_plural = false;
+		}
+	} elseif ( isset( $args['single_text'] ) && isset( $args['multiple_text'] ) ) {
+		// If no callback exists, look for the old-style single_text and multiple_text arguments.
+		$translate_nooped_plural = _n_noop( $args['single_text'], $args['multiple_text'] );
+	} else {
+		// This is the default for when no callback, plural, or argument is passed in.
+		$translate_nooped_plural = _n_noop( '%s topic', '%s topics' );
+	}
 
 	$tags_sorted = apply_filters( 'tag_cloud_sort', $tags, $args );
 	if ( $tags_sorted != $tags  ) { // the tags have been sorted by a plugin
@@ -672,7 +688,14 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$tag_link = '#' != $tag->link ? esc_url( $tag->link ) : '#';
 		$tag_id = isset($tags[ $key ]->id) ? $tags[ $key ]->id : $key;
 		$tag_name = $tags[ $key ]->name;
-		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . esc_attr( call_user_func( $topic_count_text_callback, $real_count, $tag, $args ) ) . "' style='font-size: " .
+
+		if ( $translate_nooped_plural ) {
+			$title_attribute = sprintf( translate_nooped_plural( $translate_nooped_plural, $real_count ), number_format_i18n( $real_count ) );
+		} else {
+			$title_attribute = call_user_func( $topic_count_text_callback, $real_count, $tag, $args );
+		}
+
+		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . esc_attr( $title_attribute ) . "' style='font-size: " .
 			str_replace( ',', '.', ( $smallest + ( ( $count - $min_count ) * $font_step ) ) )
 			. "$unit;'>$tag_name</a>";
 	}
@@ -881,7 +904,7 @@ class Walker_Category extends Walker {
 		}
 
 		if ( !empty($show_count) )
-			$link .= ' (' . intval($category->count) . ')';
+			$link .= ' (' . number_format_i18n( $category->count ) . ')';
 
 		if ( 'list' == $args['style'] ) {
 			$output .= "\t<li";
@@ -965,7 +988,7 @@ class Walker_CategoryDropdown extends Walker {
 		$output .= '>';
 		$output .= $pad.$cat_name;
 		if ( $args['show_count'] )
-			$output .= '&nbsp;&nbsp;('. $category->count .')';
+			$output .= '&nbsp;&nbsp;('. number_format_i18n( $category->count ) .')';
 		$output .= "</option>\n";
 	}
 }
@@ -1042,7 +1065,7 @@ function the_tags( $before = null, $sep = ', ', $after = '' ) {
 /**
  * Retrieve tag description.
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @param int $tag Optional. Tag ID. Will use global tag ID by default.
  * @return string Tag description, available.
@@ -1054,7 +1077,7 @@ function tag_description( $tag = 0 ) {
 /**
  * Retrieve term description.
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @param int $term Optional. Term ID. Will use global term ID by default.
  * @param string $taxonomy Optional taxonomy name. Defaults to 'post_tag'.

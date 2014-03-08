@@ -99,10 +99,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		'canInstall'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ),
 		'installURI'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ) ? admin_url( 'theme-install.php' ) : null,
 		'confirmDelete' => __( "Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete." ),
-		'root'          => parse_url( admin_url( 'themes.php' ), PHP_URL_PATH ),
-		'theme'         => esc_html( $theme ),
-		'search'        => esc_html( $search ),
-
+		'adminUrl'      => parse_url( admin_url(), PHP_URL_PATH ),
 	),
  	'l10n' => array(
  		'addNew' => __( 'Add New Theme' ),
@@ -191,8 +188,11 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
  * This PHP is synchronized with the tmpl-theme template below!
  */
 
-foreach ( $themes as $theme ) : ?>
-<div class="theme<?php if ( $theme['active'] ) echo ' active'; ?>">
+foreach ( $themes as $theme ) :
+	$aria_action = esc_attr( $theme['id'] . '-action' );
+	$aria_name   = esc_attr( $theme['id'] . '-name' );
+	?>
+<div class="theme<?php if ( $theme['active'] ) echo ' active'; ?>" tabindex="0" aria-describedby="<?php echo $aria_action . ' ' . $aria_name; ?>">
 	<?php if ( ! empty( $theme['screenshot'][0] ) ) { ?>
 		<div class="theme-screenshot">
 			<img src="<?php echo $theme['screenshot'][0]; ?>" alt="" />
@@ -200,13 +200,13 @@ foreach ( $themes as $theme ) : ?>
 	<?php } else { ?>
 		<div class="theme-screenshot blank"></div>
 	<?php } ?>
-	<span class="more-details"><?php _e( 'Theme Details' ); ?></span>
+	<span class="more-details" id="<?php echo $aria_action; ?>"><?php _e( 'Theme Details' ); ?></span>
 	<div class="theme-author"><?php printf( __( 'By %s' ), $theme['author'] ); ?></div>
 
 	<?php if ( $theme['active'] ) { ?>
-		<h3 class="theme-name"><span><?php _ex( 'Active:', 'theme' ); ?></span> <?php echo $theme['name']; ?></h3>
+		<h3 class="theme-name" id="<?php echo $aria_name; ?>"><span><?php _ex( 'Active:', 'theme' ); ?></span> <?php echo $theme['name']; ?></h3>
 	<?php } else { ?>
-		<h3 class="theme-name"><?php echo $theme['name']; ?></h3>
+		<h3 class="theme-name" id="<?php echo $aria_name; ?>"><?php echo $theme['name']; ?></h3>
 	<?php } ?>
 
 	<div class="theme-actions">
@@ -277,13 +277,13 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	<# } else { #>
 		<div class="theme-screenshot blank"></div>
 	<# } #>
-	<span class="more-details"><?php _e( 'Theme Details' ); ?></span>
+	<span class="more-details" id="{{ data.id }}-action"><?php _e( 'Theme Details' ); ?></span>
 	<div class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.author }}}' ); ?></div>
 
 	<# if ( data.active ) { #>
-		<h3 class="theme-name"><span><?php _ex( 'Active:', 'theme' ); ?></span> {{{ data.name }}}</h3>
+		<h3 class="theme-name" id="{{ data.id }}-name"><span><?php _ex( 'Active:', 'theme' ); ?></span> {{{ data.name }}}</h3>
 	<# } else { #>
-		<h3 class="theme-name">{{{ data.name }}}</h3>
+		<h3 class="theme-name" id="{{ data.id }}-name">{{{ data.name }}}</h3>
 	<# } #>
 
 	<div class="theme-actions">
@@ -309,9 +309,9 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	<div class="theme-backdrop"></div>
 	<div class="theme-wrap">
 		<div class="theme-header">
-			<div alt="<?php _e( 'Close overlay' ); ?>" class="close dashicons dashicons-no"></div>
-			<div alt="<?php _e( 'Show previous theme' ); ?>" class="left dashicons dashicons-no"></div>
-			<div alt="<?php _e( 'Show next theme' ); ?>" class="right dashicons dashicons-no"></div>
+			<button class="left dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show previous theme' ); ?></span></button>
+			<button class="right dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show next theme' ); ?></span></button>
+			<button class="close dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Close overlay' ); ?></span></button>
 		</div>
 		<div class="theme-about">
 			<div class="theme-screenshots">

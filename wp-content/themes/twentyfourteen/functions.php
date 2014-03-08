@@ -461,7 +461,7 @@ add_filter( 'body_class', 'twentyfourteen_body_classes' );
  * @return array The filtered post class list.
  */
 function twentyfourteen_post_classes( $classes ) {
-	if ( ! post_password_required() && has_post_thumbnail() ) {
+	if ( ! post_password_required() && ! is_attachment() && has_post_thumbnail() ) {
 		$classes[] = 'has-post-thumbnail';
 	}
 
@@ -487,7 +487,7 @@ function twentyfourteen_wp_title( $title, $sep ) {
 	}
 
 	// Add the site name.
-	$title .= get_bloginfo( 'name' );
+	$title .= get_bloginfo( 'name', 'display' );
 
 	// Add the site description for the home/front page.
 	$site_description = get_bloginfo( 'description', 'display' );

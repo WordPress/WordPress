@@ -106,6 +106,8 @@ if ( isset($_GET['update']) ) {
 $title = __('Add New Site');
 $parent_file = 'sites.php';
 
+wp_enqueue_script( 'user-suggest' );
+
 require( ABSPATH . 'wp-admin/admin-header.php' );
 
 ?>
@@ -138,7 +140,7 @@ if ( ! empty( $messages ) ) {
 		</tr>
 		<tr class="form-field form-required">
 			<th scope="row"><?php _e( 'Admin Email' ) ?></th>
-			<td><input name="blog[email]" type="text" class="regular-text" title="<?php esc_attr_e( 'Email' ) ?>"/></td>
+			<td><input name="blog[email]" type="text" class="regular-text wp-suggest-user" data-autocomplete-type="search" data-autocomplete-field="user_email" title="<?php esc_attr_e( 'Email' ) ?>"/></td>
 		</tr>
 		<tr class="form-field">
 			<td colspan="2"><?php _e( 'A new user will be created if the above email address is not in the database.' ) ?><br /><?php _e( 'The username and password will be mailed to this email address.' ) ?></td>

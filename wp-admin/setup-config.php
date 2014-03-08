@@ -13,8 +13,6 @@
 
 /**
  * We are installing.
- *
- * @package WordPress
  */
 define('WP_INSTALLING', true);
 
@@ -88,8 +86,6 @@ $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
  *
  * @ignore
  * @since 2.3.0
- * @package WordPress
- * @subpackage Installer_WP_Config
  */
 function setup_config_display_header() {
 	global $wp_version;

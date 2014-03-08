@@ -568,8 +568,15 @@ class WP {
 		// We will 404 for paged queries, as no posts were found.
 		if ( ! is_paged() ) {
 
+			// Don't 404 for authors without posts as long as they matched an author on this site.
+			$author = get_query_var( 'author' );
+			if ( is_author() && is_numeric( $author ) && $author > 0 && is_user_member_of_blog( $author ) ) {
+				status_header( 200 );
+				return;
+			}
+
 			// Don't 404 for these queries if they matched an object.
-			if ( ( is_tag() || is_category() || is_tax() || is_author() || is_post_type_archive() ) && $wp_query->get_queried_object() ) {
+			if ( ( is_tag() || is_category() || is_tax() || is_post_type_archive() ) && get_queried_object() ) {
 				status_header( 200 );
 				return;
 			}

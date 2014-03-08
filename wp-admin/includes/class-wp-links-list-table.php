@@ -114,7 +114,7 @@ class WP_Links_List_Table extends WP_List_Table {
 
 			$edit_link = get_edit_bookmark_link( $link );
 ?>
-		<tr id="link-<?php echo $link->link_id; ?>" valign="middle" <?php echo $style; ?>>
+		<tr id="link-<?php echo $link->link_id; ?>" <?php echo $style; ?>>
 <?php
 
 			list( $columns, $hidden ) = $this->get_column_info();

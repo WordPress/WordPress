@@ -46,10 +46,33 @@ class WP_Terms_List_Table extends WP_List_Table {
 		$tags_per_page = $this->get_items_per_page( 'edit_' . $this->screen->taxonomy . '_per_page' );
 
 		if ( 'post_tag' == $this->screen->taxonomy ) {
+			/**
+			 * Filter the number of terms displayed per page for the Tags list table.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param int $tags_per_page Number of tags to be displayed. Default 20.
+			 */
 			$tags_per_page = apply_filters( 'edit_tags_per_page', $tags_per_page );
-			$tags_per_page = apply_filters( 'tagsperpage', $tags_per_page ); // Old filter
+
+			/**
+			 * Filter the number of terms displayed per page for the Tags list table.
+			 *
+			 * @since 2.7.0
+			 * @deprecated 2.8.0 Use edit_tags_per_page instead.
+			 *
+			 * @param int $tags_per_page Number of tags to be displayed. Default 20.
+			 */
+			$tags_per_page = apply_filters( 'tagsperpage', $tags_per_page );
 		} elseif ( 'category' == $this->screen->taxonomy ) {
-			$tags_per_page = apply_filters( 'edit_categories_per_page', $tags_per_page ); // Old filter
+			/**
+			 * Filter the number of terms displayed per page for the Categories list table.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param int $tags_per_page Number of categories to be displayed. Default 20.
+			 */
+			$tags_per_page = apply_filters( 'edit_categories_per_page', $tags_per_page );
 		}
 
 		$search = !empty( $_REQUEST['s'] ) ? trim( wp_unslash( $_REQUEST['s'] ) ) : '';
@@ -246,7 +269,22 @@ class WP_Terms_List_Table extends WP_List_Table {
 		$default_term = get_option( 'default_' . $taxonomy );
 
 		$pad = str_repeat( '&#8212; ', max( 0, $this->level ) );
+
+		/**
+		 * Filter display of the term name in the terms list table.
+		 *
+		 * The default output may include padding due to the term's
+		 * current level in the term hierarchy.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @see WP_Terms_List_Table::column_name()
+		 *
+		 * @param string $pad_tag_name The term name, padded if not top-level.
+		 * @param object $tag          Term object.
+		 */
 		$name = apply_filters( 'term_name', $pad . ' ' . $tag->name, $tag );
+
 		$qe_data = get_term( $tag->term_id, $taxonomy, OBJECT, 'edit' );
 		$edit_link = esc_url( get_edit_term_link( $tag->term_id, $taxonomy, $this->screen->post_type ) );
 
@@ -262,12 +300,36 @@ class WP_Terms_List_Table extends WP_List_Table {
 		if ( $tax->public )
 			$actions['view'] = '<a href="' . get_term_link( $tag ) . '">' . __( 'View' ) . '</a>';
 
+		/**
+		 * Filter the action links displayed for each term in the Tags list table.
+		 *
+		 * @since 2.8.0
+		 * @deprecated 3.0.0 Use {$taxonomy}_row_actions instead.
+		 *
+		 * @param array  $actions An array of action links to be displayed. Default
+		 *                        'Edit', 'Quick Edit', 'Delete', and 'View'.
+		 * @param object $tag     Term object.
+		 */
 		$actions = apply_filters( 'tag_row_actions', $actions, $tag );
+
+		/**
+		 * Filter the action links displayed for each term in the terms list table.
+		 *
+		 * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array  $actions An array of action links to be displayed. Default
+		 *                        'Edit', 'Quick Edit', 'Delete', and 'View'.
+		 * @param object $tag     Term object.
+		 */
 		$actions = apply_filters( "{$taxonomy}_row_actions", $actions, $tag );
 
 		$out .= $this->row_actions( $actions );
 		$out .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
 		$out .= '<div class="name">' . $qe_data->name . '</div>';
+
+		/** This filter is documented in wp-admin/edit-tag-form.php */
 		$out .= '<div class="slug">' . apply_filters( 'editable_slug', $qe_data->slug ) . '</div>';
 		$out .= '<div class="parent">' . $qe_data->parent . '</div></div>';
 
@@ -279,6 +341,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	function column_slug( $tag ) {
+		/** This filter is documented in wp-admin/edit-tag-form.php */
 		return apply_filters( 'editable_slug', $tag->slug );
 	}
 
@@ -314,6 +377,18 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	function column_default( $tag, $column_name ) {
+		/**
+		 * Filter the displayed columns in the terms list table.
+		 *
+		 * The dynamic portion of the hook name, $this->screen->taxonomy,
+		 * refers to the slug of the current taxonomy.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param string $string      Blank string.
+		 * @param string $column_name Name of the column.
+		 * @param int    $term_id     Term ID.
+		 */
 		return apply_filters( "manage_{$this->screen->taxonomy}_custom_column", '', $column_name, $tag->term_id );
 	}
 
@@ -356,6 +431,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 			if ( isset( $core_columns[$column_name] ) )
 				continue;
 
+			/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
 			do_action( 'quick_edit_custom_box', $column_name, 'edit-tags', $this->screen->taxonomy );
 		}
 

@@ -38,21 +38,63 @@ if ( isset($action) && $action == 'edit' && !$ID )
 		wp_die( __( 'Cheatin&#8217; uh?' ) );
 
 	// upload type: image, video, file, ..?
-	if ( isset($_GET['type']) )
+	if ( isset($_GET['type']) ) {
 		$type = strval($_GET['type']);
-	else
-		$type = apply_filters('media_upload_default_type', 'file');
+	} else {
+		/**
+		 * Filter the default media upload type in the legacy (pre-3.5.0) media popup.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $type The default media upload type. Possible values include
+		 *                     'image', 'audio', 'video', 'file', etc. Default 'file'.
+		 */
+		$type = apply_filters( 'media_upload_default_type', 'file' );
+	}
 
 	// tab: gallery, library, or type-specific
-	if ( isset($_GET['tab']) )
+	if ( isset($_GET['tab']) ) {
 		$tab = strval($_GET['tab']);
-	else
-		$tab = apply_filters('media_upload_default_tab', 'type');
+	} else {
+		/**
+		 * Filter the default tab in the legacy (pre-3.5.0) media popup.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $type The default media popup tab. Default 'type' (From Computer).
+		 */
+		$tab = apply_filters( 'media_upload_default_tab', 'type' );
+	}
 
 	$body_id = 'media-upload';
 
 	// let the action code decide how to handle the request
-	if ( $tab == 'type' || $tab == 'type_url' || ! array_key_exists( $tab , media_upload_tabs() ) )
-		do_action("media_upload_$type");
-	else
-		do_action("media_upload_$tab");
+	if ( $tab == 'type' || $tab == 'type_url' || ! array_key_exists( $tab , media_upload_tabs() ) ) {
+		/**
+		 * Fires inside specific upload-type views in the legacy (pre-3.5.0)
+		 * media popup based on the current tab.
+		 *
+		 * The dynamic portion of the hook name, $type, refers to the specific
+		 * media upload type. Possible values include 'image', 'audio', 'video',
+		 * 'file', etc.
+		 *
+		 * The hook only fires if the current $tab is 'type' (From Computer),
+		 * 'type_url' (From URL), or, if the tab does not exist (i.e., has not
+		 * been registered via the 'media_upload_tabs' filter.
+		 *
+		 * @since 2.5.0
+		 */
+		do_action( "media_upload_$type" );
+	} else {
+		/**
+		 * Fires inside limited and specific upload-tab views in the legacy
+		 * (pre-3.5.0) media popup.
+		 *
+		 * The dynamic portion of the hook name, $tab, refers to the specific
+		 * media upload tab. Possible values include 'library' (Media Library),
+		 * or any custom tab registered via the 'media_upload_tabs' filter.
+		 *
+		 * @since 2.5.0
+		 */
+		do_action( "media_upload_$tab" );
+	}

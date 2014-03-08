@@ -93,7 +93,7 @@ if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picke
 				/** This action is documented in wp-admin/user-edit.php */
 				do_action( 'admin_color_scheme_picker' );
 				?>
-			<p><?php printf( __( 'To change your color scheme later, just <a href="%1$s">visit your profile</a>.' ), get_edit_profile_url( get_current_user_id() ) ); ?></p>
+			<p><?php printf( __( 'To change your color scheme later, just <a href="%1$s">visit your profile</a>.' ), get_edit_profile_url() ); ?></p>
 		</div>
 	</div>
 </div>

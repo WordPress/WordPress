@@ -31,7 +31,7 @@
 	background-color: #eee;
 	z-index: 1000001;
 	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-	box-shadow:         0 3px 6px rgba(0,0,0,0.3);
+	box-shadow: 0 3px 6px rgba(0,0,0,0.3);
 }
 
 #wp-auth-check-wrap.fallback #wp-auth-check {
@@ -41,6 +41,7 @@
 
 #wp-auth-check-wrap #wp-auth-check-form {
 	background: url(../images/wpspin-2x.gif) no-repeat center center;
+	-webkit-background-size: 16px 16px;
 	background-size: 16px 16px;
 	height: 100%;
 }
@@ -71,6 +72,7 @@
 	width: 22px;
 	color: #777;
 	-webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 #wp-auth-check-wrap .wp-auth-check-close:hover:before {

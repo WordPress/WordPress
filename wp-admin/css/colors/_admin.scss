@@ -20,12 +20,10 @@ a {
 	}
 }
 
-#rightnow a:hover,
 #media-upload a.del-link:hover,
 div.dashboard-widget-submit input:hover,
 .subsubsub a:hover,
-.subsubsub a.current:hover,
-.ui-tabs-nav a:hover {
+.subsubsub a.current:hover {
 	color: $link-focus;
 }
 
@@ -441,7 +439,6 @@ ul#adminmenu > li.current > a.current:after {
 .wp-slider .ui-slider-handle.focus {
 	background: $button-color;
 	border-color: darken( $button-color, 10% );
-	-webkit-box-shadow: inset 0 1px 0 lighten( $button-color, 15% ), 0 1px 0 rgba(0,0,0,.15);
 	box-shadow: inset 0 1px 0 lighten( $button-color, 15% ), 0 1px 0 rgba(0,0,0,.15);
 }
 

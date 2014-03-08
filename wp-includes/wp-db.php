@@ -17,7 +17,8 @@ define( 'EZSQL_VERSION', 'WP1.25' );
 /**
  * @since 0.71
  */
-define( 'OBJECT', 'OBJECT', true );
+define( 'OBJECT', 'OBJECT' );
+define( 'object', 'OBJECT' ); // Back compat.
 
 /**
  * @since 2.5.0
@@ -158,6 +159,16 @@ class wpdb {
 	var $queries;
 
 	/**
+	 * The number of times to retry reconnecting before dying.
+	 *
+	 * @since 3.9.0
+	 * @access protected
+	 * @see wpdb::check_connection()
+	 * @var int
+	 */
+	protected $reconnect_retries = 5;
+
+	/**
 	 * WordPress table prefix
 	 *
 	 * You can set this to have multiple WordPress installations
@@ -169,6 +180,15 @@ class wpdb {
 	 * @var string
 	 */
 	var $prefix = '';
+
+	/**
+	 * WordPress base table prefix.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 * @var string
+	 */
+	 public $base_prefix;
 
 	/**
 	 * Whether the database queries are ready to start executing.
@@ -510,6 +530,25 @@ class wpdb {
 	public $is_mysql = null;
 
 	/**
+	 * A list of incompatible SQL modes.
+	 *
+	 * @since 3.9.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $incompatible_modes = array( 'NO_ZERO_DATE', 'ONLY_FULL_GROUP_BY',
+		'STRICT_TRANS_TABLES', 'STRICT_ALL_TABLES', 'TRADITIONAL' );
+
+	/**
+	 * Whether to use mysqli over mysql.
+	 *
+	 * @since 3.9.0
+	 * @access private
+	 * @var bool
+	 */
+	private $use_mysqli = false;
+
+	/**
 	 * Connects to the database server and selects a database
 	 *
 	 * PHP5 style constructor for compatibility with PHP5. Does
@@ -529,6 +568,22 @@ class wpdb {
 
 		if ( WP_DEBUG && WP_DEBUG_DISPLAY )
 			$this->show_errors();
+
+		/* Use ext/mysqli if it exists and:
+		 *  - USE_EXT_MYSQL is defined as false, or
+		 *  - We are a development version of WordPress, or
+		 *  - We are running PHP 5.5 or greater, or
+		 *  - ext/mysql is not loaded.
+		 */
+		if ( function_exists( 'mysqli_connect' ) ) {
+			if ( defined( 'USE_EXT_MYSQL' ) ) {
+				$this->use_mysqli = ! USE_EXT_MYSQL;
+			} elseif ( version_compare( phpversion(), '5.5', '>=' ) || ! function_exists( 'mysql_connect' ) ) {
+				$this->use_mysqli = true;
+			} elseif ( false !== strpos( $GLOBALS['wp_version'], '-' ) ) {
+				$this->use_mysqli = true;
+			}
+		}
 
 		$this->init_charset();
 
@@ -637,14 +692,92 @@ class wpdb {
 		if ( ! isset( $collate ) )
 			$collate = $this->collate;
 		if ( $this->has_cap( 'collation' ) && ! empty( $charset ) ) {
-			if ( function_exists( 'mysql_set_charset' ) && $this->has_cap( 'set_charset' ) ) {
-				mysql_set_charset( $charset, $dbh );
+			if ( $this->use_mysqli ) {
+				if ( function_exists( 'mysqli_set_charset' ) && $this->has_cap( 'set_charset' ) ) {
+					mysqli_set_charset( $dbh, $charset );
+				} else {
+					$query = $this->prepare( 'SET NAMES %s', $charset );
+					if ( ! empty( $collate ) )
+						$query .= $this->prepare( ' COLLATE %s', $collate );
+					mysqli_query( $query, $dbh );
+				}
 			} else {
-				$query = $this->prepare( 'SET NAMES %s', $charset );
-				if ( ! empty( $collate ) )
-					$query .= $this->prepare( ' COLLATE %s', $collate );
-				mysql_query( $query, $dbh );
+				if ( function_exists( 'mysql_set_charset' ) && $this->has_cap( 'set_charset' ) ) {
+					mysql_set_charset( $charset, $dbh );
+				} else {
+					$query = $this->prepare( 'SET NAMES %s', $charset );
+					if ( ! empty( $collate ) )
+						$query .= $this->prepare( ' COLLATE %s', $collate );
+					mysql_query( $query, $dbh );
+				}
 			}
+		}
+	}
+
+	/**
+	 * Change the current SQL mode, and ensure its WordPress compatibility.
+	 *
+	 * If no modes are passed, it will ensure the current MySQL server
+	 * modes are compatible.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param array $modes Optional. A list of SQL modes to set.
+	 */
+	function set_sql_mode( $modes = array() ) {
+		if ( empty( $modes ) ) {
+			if ( $this->use_mysqli ) {
+				$res = mysqli_query( $this->dbh, 'SELECT @@SESSION.sql_mode' );
+			} else {
+				$res = mysql_query( 'SELECT @@SESSION.sql_mode', $this->dbh );
+			}
+
+			if ( empty( $res ) ) {
+				return;
+			}
+
+			if ( $this->use_mysqli ) {
+				$modes_array = mysqli_fetch_array( $res );
+				if ( empty( $modes_array[0] ) ) {
+					return;
+				}
+				$modes_str = $modes_array[0];
+			} else {
+				$modes_str = mysql_result( $res, 0 );
+			}
+
+			if ( empty( $modes_str ) ) {
+				return;
+			}
+
+			$modes = explode( ',', $modes_str );
+		}
+
+		$modes = array_change_key_case( $modes, CASE_UPPER );
+
+		/**
+		 * Filter the list of incompatible SQL modes to exclude.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @see wpdb::$incompatible_modes
+		 *
+		 * @param array $incompatible_modes An array of incompatible modes.
+		 */
+		$incompatible_modes = (array) apply_filters( 'incompatible_sql_modes', $this->incompatible_modes );
+
+		foreach( $modes as $i => $mode ) {
+			if ( in_array( $mode, $incompatible_modes ) ) {
+				unset( $modes[ $i ] );
+			}
+		}
+
+		$modes_str = implode( ',', $modes );
+
+		if ( $this->use_mysqli ) {
+			mysqli_query( $this->dbh, "SET SESSION sql_mode='$modes_str'" );
+		} else {
+			mysql_query( "SET SESSION sql_mode='$modes_str'", $this->dbh );
 		}
 	}
 
@@ -830,17 +963,24 @@ class wpdb {
 		if ( is_null($dbh) )
 			$dbh = $this->dbh;
 
-		if ( !@mysql_select_db( $db, $dbh ) ) {
+		if ( $this->use_mysqli ) {
+			$success = @mysqli_select_db( $dbh, $db );
+		} else {
+			$success = @mysql_select_db( $db, $dbh );
+		}
+		if ( ! $success ) {
 			$this->ready = false;
-			wp_load_translations_early();
-			$this->bail( sprintf( __( '<h1>Can&#8217;t select database</h1>
+			if ( ! did_action( 'template_redirect' ) ) {
+				wp_load_translations_early();
+				$this->bail( sprintf( __( '<h1>Can&#8217;t select database</h1>
 <p>We were able to connect to the database server (which means your username and password is okay) but not able to select the <code>%1$s</code> database.</p>
 <ul>
 <li>Are you sure it exists?</li>
 <li>Does the user <code>%2$s</code> have permission to use the <code>%1$s</code> database?</li>
 <li>On some systems the name of your database is prefixed with your username, so it would be like <code>username_%1$s</code>. Could that be the problem?</li>
 </ul>
-<p>If you don\'t know how to set up a database you should <strong>contact your host</strong>. If all else fails you may find help at the <a href="http://wordpress.org/support/">WordPress Support Forums</a>.</p>' ), htmlspecialchars( $db, ENT_QUOTES ), htmlspecialchars( $this->dbuser, ENT_QUOTES ) ), 'db_select_fail' );
+<p>If you don\'t know how to set up a database you should <strong>contact your host</strong>. If all else fails you may find help at the <a href="https://wordpress.org/support/">WordPress Support Forums</a>.</p>' ), htmlspecialchars( $db, ENT_QUOTES ), htmlspecialchars( $this->dbuser, ENT_QUOTES ) ), 'db_select_fail' );
+			}
 			return;
 		}
 	}
@@ -866,8 +1006,9 @@ class wpdb {
 	}
 
 	/**
-	 * Real escape, using mysql_real_escape_string()
+	 * Real escape, using mysqli_real_escape_string() or mysql_real_escape_string()
 	 *
+	 * @see mysqli_real_escape_string()
 	 * @see mysql_real_escape_string()
 	 * @since 2.8.0
 	 * @access private
@@ -876,8 +1017,13 @@ class wpdb {
 	 * @return string escaped
 	 */
 	function _real_escape( $string ) {
-		if ( $this->dbh )
-			return mysql_real_escape_string( $string, $this->dbh );
+		if ( $this->dbh ) {
+			if ( $this->use_mysqli ) {
+				return mysqli_real_escape_string( $this->dbh, $string );
+			} else {
+				return mysql_real_escape_string( $string, $this->dbh );
+			}
+		}
 
 		$class = get_class( $this );
 		_doing_it_wrong( $class, "$class must set a database connection for use with escaping.", E_USER_NOTICE );
@@ -993,6 +1139,11 @@ class wpdb {
 		if ( is_null( $query ) )
 			return;
 
+		// This is not meant to be foolproof -- but it will catch obviously incorrect usage.
+		if ( strpos( $query, '%' ) === false ) {
+			_doing_it_wrong( 'wpdb::prepare', sprintf( __( 'The query argument of %s must have a placeholder.' ), 'wpdb::prepare()' ), '3.9' );
+		}
+
 		$args = func_get_args();
 		array_shift( $args );
 		// If args were passed as an array (as in vsprintf), move them up
@@ -1018,8 +1169,13 @@ class wpdb {
 	function print_error( $str = '' ) {
 		global $EZSQL_ERROR;
 
-		if ( !$str )
-			$str = mysql_error( $this->dbh );
+		if ( !$str ) {
+			if ( $this->use_mysqli ) {
+				$str = mysqli_error( $this->dbh );
+			} else {
+				$str = mysql_error( $this->dbh );
+			}
+		}
 		$EZSQL_ERROR[] = array( 'query' => $this->last_query, 'error_str' => $str );
 
 		if ( $this->suppress_errors )
@@ -1122,38 +1278,82 @@ class wpdb {
 		$this->rows_affected = $this->num_rows = 0;
 		$this->last_error  = '';
 
-		if ( is_resource( $this->result ) )
-			mysql_free_result( $this->result );
+		if ( is_resource( $this->result ) ) {
+			if ( $this->use_mysqli ) {
+				mysqli_free_result( $this->result );
+			} else {
+				mysql_free_result( $this->result );
+			}
+		}
 	}
 
 	/**
-	 * Connect to and select database
+	 * Connect to and select database.
 	 *
 	 * @since 3.0.0
+	 *
+	 * @param bool $allow_bail Optional. Allows the function to bail, default true. If this is set
+	 *                         to false, you will need to handle the lack of database connection
+	 *                         manually. Available since 3.9.0.
+	 *
+	 * @return bool True with a successful connection, false on failure.
 	 */
-	function db_connect() {
+	function db_connect( $allow_bail = true ) {
 
 		$this->is_mysql = true;
 
 		$new_link = defined( 'MYSQL_NEW_LINK' ) ? MYSQL_NEW_LINK : true;
 		$client_flags = defined( 'MYSQL_CLIENT_FLAGS' ) ? MYSQL_CLIENT_FLAGS : 0;
 
-		if ( WP_DEBUG ) {
-			$error_reporting = false;
-			if ( defined( 'E_DEPRECATED' ) ) {
-				$error_reporting = error_reporting();
-				error_reporting( $error_reporting ^ E_DEPRECATED );
+		if ( $this->use_mysqli ) {
+			$this->dbh = mysqli_init();
+
+			// mysqli_real_connect doesn't support the host param including a port or socket
+			// like mysql_connect does. This duplicates how mysql_connect detects a port and/or socket file.
+			$port = null;
+			$socket = null;
+			$host = $this->dbhost;
+			$port_or_socket = strstr( $host, ':' );
+			if ( ! empty( $port_or_socket ) ) {
+				$host = strstr( $host, ':', true );
+				$port_or_socket = substr( $port_or_socket, 1 );
+				if ( 0 !== strpos( $port_or_socket, '/' ) ) {
+					$port = intval( $port_or_socket );
+					$maybe_socket = strstr( $port_or_socket, ':' );
+					if ( ! empty( $maybe_socket ) ) {
+						$socket = substr( $maybe_socket, 1 );
+					}
+				} else {
+					$socket = $port_or_socket;
+				}
 			}
-			$this->dbh = mysql_connect( $this->dbhost, $this->dbuser, $this->dbpassword, $new_link, $client_flags );
-			if ( false !== $error_reporting ) {
-				error_reporting( $error_reporting );
+
+			if ( WP_DEBUG ) {
+				mysqli_real_connect( $this->dbh, $host, $this->dbuser, $this->dbpassword, null, $port, $socket, $client_flags );
+			} else {
+				@mysqli_real_connect( $this->dbh, $host, $this->dbuser, $this->dbpassword, null, $port, $socket, $client_flags );
+			}
+
+			if ( $this->dbh->connect_errno ) {
+				$this->dbh = null;
 			}
 		} else {
-			$this->dbh = @mysql_connect( $this->dbhost, $this->dbuser, $this->dbpassword, $new_link, $client_flags );
+			if ( WP_DEBUG ) {
+				$this->dbh = mysql_connect( $this->dbhost, $this->dbuser, $this->dbpassword, $new_link, $client_flags );
+			} else {
+				$this->dbh = @mysql_connect( $this->dbhost, $this->dbuser, $this->dbpassword, $new_link, $client_flags );
+			}
 		}
 
-		if ( !$this->dbh ) {
+		if ( ! $this->dbh && $allow_bail ) {
 			wp_load_translations_early();
+
+			// Load custom DB error template, if present.
+			if ( file_exists( WP_CONTENT_DIR . '/db-error.php' ) ) {
+				require_once( WP_CONTENT_DIR . '/db-error.php' );
+				die();
+			}
+
 			$this->bail( sprintf( __( "
 <h1>Error establishing a database connection</h1>
 <p>This either means that the username and password information in your <code>wp-config.php</code> file is incorrect or we can't contact the database server at <code>%s</code>. This could mean your host's database server is down.</p>
@@ -1162,17 +1362,88 @@ class wpdb {
 	<li>Are you sure that you have typed the correct hostname?</li>
 	<li>Are you sure that the database server is running?</li>
 </ul>
-<p>If you're unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href='http://wordpress.org/support/'>WordPress Support Forums</a>.</p>
+<p>If you're unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href='https://wordpress.org/support/'>WordPress Support Forums</a>.</p>
 " ), htmlspecialchars( $this->dbhost, ENT_QUOTES ) ), 'db_connect_fail' );
 
-			return;
+			return false;
+		} else if ( $this->dbh ) {
+			$this->set_charset( $this->dbh );
+			$this->set_sql_mode();
+			$this->ready = true;
+			$this->select( $this->dbname, $this->dbh );
+
+			return true;
 		}
 
-		$this->set_charset( $this->dbh );
+		return false;
+	}
 
-		$this->ready = true;
+	/**
+	 * Check that the connection to the database is still up. If not, try to reconnect.
+	 *
+	 * If this function is unable to reconnect, it will forcibly die, or if after the
+	 * the template_redirect hook has been fired, return false instead.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @return bool True if the connection is up.
+	 */
+	function check_connection() {
+		if ( $this->use_mysqli ) {
+			if ( @mysqli_ping( $this->dbh ) ) {
+				return true;
+			}
+		} else {
+			if ( @mysql_ping( $this->dbh ) ) {
+				return true;
+			}
+		}
 
-		$this->select( $this->dbname, $this->dbh );
+		$error_reporting = false;
+
+		// Disable warnings, as we don't want to see a multitude of "unable to connect" messages
+		if ( WP_DEBUG ) {
+			$error_reporting = error_reporting();
+			error_reporting( $error_reporting & ~E_WARNING );
+		}
+
+		for ( $tries = 1; $tries <= $this->reconnect_retries; $tries++ ) {
+			// On the last try, re-enable warnings. We want to see a single instance of the
+			// "unable to connect" message on the bail() screen, if it appears.
+			if ( $this->reconnect_retries === $tries && WP_DEBUG ) {
+				error_reporting( $error_reporting );
+			}
+
+			if ( $this->db_connect( false ) ) {
+				if ( $error_reporting ) {
+					error_reporting( $error_reporting );
+				}
+
+				return true;
+			}
+
+			sleep( 1 );
+		}
+
+		// If template_redirect has already happened, it's too late for wp_die()/dead_db().
+		// Let's just return and hope for the best.
+		if ( did_action( 'template_redirect' ) ) {
+			return false;
+		}
+
+		// We weren't able to reconnect, so we better bail.
+		$this->bail( sprintf( ( "
+<h1>Error reconnecting to the database</h1>
+<p>This means that we lost contact with the database server at <code>%s</code>. This could mean your host's database server is down.</p>
+<ul>
+	<li>Are you sure that the database server is running?</li>
+	<li>Are you sure that the database server is not under particularly heavy load?</li>
+</ul>
+<p>If you're unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href='https://wordpress.org/support/'>WordPress Support Forums</a>.</p>
+" ), htmlspecialchars( $this->dbhost, ENT_QUOTES ) ), 'db_connect_fail' );
+
+		// Call dead_db() if bail didn't die, because this database is no more. It has ceased to be (at least temporarily).
+		dead_db();
 	}
 
 	/**
@@ -1188,12 +1459,15 @@ class wpdb {
 	function query( $query ) {
 		if ( ! $this->ready )
 			return false;
+
 		/**
 		 * Filter the database query.
 		 *
-		 * Some queries are made before the plugins have been loaded, and thus cannot be filtered with this method.
+		 * Some queries are made before the plugins have been loaded,
+		 * and thus cannot be filtered with this method.
 		 *
 		 * @since 2.1.0
+		 *
 		 * @param string $query Database query.
 		 */
 		$query = apply_filters( 'query', $query );
@@ -1207,17 +1481,35 @@ class wpdb {
 		// Keep track of the last query for debug..
 		$this->last_query = $query;
 
-		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES )
-			$this->timer_start();
+		$this->_do_query( $query );
 
-		$this->result = @mysql_query( $query, $this->dbh );
-		$this->num_queries++;
+		// MySQL server has gone away, try to reconnect
+		$mysql_errno = 0;
+		if ( ! empty( $this->dbh ) ) {
+			if ( $this->use_mysqli ) {
+				$mysql_errno = mysqli_errno( $this->dbh );
+			} else {
+				$mysql_errno = mysql_errno( $this->dbh );
+			}
+		}
 
-		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES )
-			$this->queries[] = array( $query, $this->timer_stop(), $this->get_caller() );
+		if ( empty( $this->dbh ) || 2006 == $mysql_errno ) {
+			if ( $this->check_connection() ) {
+				$this->_do_query( $query );
+			} else {
+				$this->insert_id = 0;
+				return false;
+			}
+		}
 
 		// If there is an error then take note of it..
-		if ( $this->last_error = mysql_error( $this->dbh ) ) {
+		if ( $this->use_mysqli ) {
+			$this->last_error = mysqli_error( $this->dbh );
+		} else {
+			$this->last_error = mysql_error( $this->dbh );
+		}
+
+		if ( $this->last_error ) {
 			// Clear insert_id on a subsequent failed insert.
 			if ( $this->insert_id && preg_match( '/^\s*(insert|replace)\s/i', $query ) )
 				$this->insert_id = 0;
@@ -1229,18 +1521,33 @@ class wpdb {
 		if ( preg_match( '/^\s*(create|alter|truncate|drop)\s/i', $query ) ) {
 			$return_val = $this->result;
 		} elseif ( preg_match( '/^\s*(insert|delete|update|replace)\s/i', $query ) ) {
-			$this->rows_affected = mysql_affected_rows( $this->dbh );
+			if ( $this->use_mysqli ) {
+				$this->rows_affected = mysqli_affected_rows( $this->dbh );
+			} else {
+				$this->rows_affected = mysql_affected_rows( $this->dbh );
+			}
 			// Take note of the insert_id
 			if ( preg_match( '/^\s*(insert|replace)\s/i', $query ) ) {
-				$this->insert_id = mysql_insert_id($this->dbh);
+				if ( $this->use_mysqli ) {
+					$this->insert_id = mysqli_insert_id( $this->dbh );
+				} else {
+					$this->insert_id = mysql_insert_id( $this->dbh );
+				}
 			}
 			// Return number of rows affected
 			$return_val = $this->rows_affected;
 		} else {
 			$num_rows = 0;
-			while ( $row = @mysql_fetch_object( $this->result ) ) {
-				$this->last_result[$num_rows] = $row;
-				$num_rows++;
+			if ( $this->use_mysqli ) {
+				while ( $row = @mysqli_fetch_object( $this->result ) ) {
+					$this->last_result[$num_rows] = $row;
+					$num_rows++;
+				}
+			} else {
+				while ( $row = @mysql_fetch_object( $this->result ) ) {
+					$this->last_result[$num_rows] = $row;
+					$num_rows++;
+				}
 			}
 
 			// Log number of rows the query returned
@@ -1250,6 +1557,33 @@ class wpdb {
 		}
 
 		return $return_val;
+	}
+
+	/**
+	 * Internal function to perform the mysql_query call
+	 *
+	 * @since 3.9.0
+	 *
+	 * @access private
+	 * @see wpdb::query()
+	 *
+	 * @param string $query The query to run
+	 */
+	private function _do_query( $query ) {
+		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
+			$this->timer_start();
+		}
+
+		if ( $this->use_mysqli ) {
+			$this->result = @mysqli_query( $this->dbh, $query );
+		} else {
+			$this->result = @mysql_query( $query, $this->dbh );
+		}
+		$this->num_queries++;
+
+		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
+			$this->queries[] = array( $query, $this->timer_stop(), $this->get_caller() );
+		}
 	}
 
 	/**
@@ -1488,6 +1822,9 @@ class wpdb {
 			return $this->last_result[$y] ? get_object_vars( $this->last_result[$y] ) : null;
 		} elseif ( $output == ARRAY_N ) {
 			return $this->last_result[$y] ? array_values( get_object_vars( $this->last_result[$y] ) ) : null;
+		} elseif ( strtoupper( $output ) === OBJECT ) {
+			// Back compat for OBJECT being previously case insensitive.
+			return $this->last_result[$y] ? $this->last_result[$y] : null;
 		} else {
 			$this->print_error( " \$db->get_row(string query, output type, int offset) -- Output type must be one of: OBJECT, ARRAY_A, ARRAY_N" );
 		}
@@ -1567,6 +1904,9 @@ class wpdb {
 				}
 			}
 			return $new_array;
+		} elseif ( strtoupper( $output ) === OBJECT ) {
+			// Back compat for OBJECT being previously case insensitive.
+			return $this->last_result;
 		}
 		return null;
 	}
@@ -1582,8 +1922,14 @@ class wpdb {
 		if ( $this->col_info )
 			return;
 
-		for ( $i = 0; $i < @mysql_num_fields( $this->result ); $i++ ) {
-			$this->col_info[ $i ] = @mysql_fetch_field( $this->result, $i );
+		if ( $this->use_mysqli ) {
+			for ( $i = 0; $i < @mysqli_num_fields( $this->result ); $i++ ) {
+				$this->col_info[ $i ] = @mysqli_fetch_field( $this->result, $i );
+			}
+		} else {
+			for ( $i = 0; $i < @mysql_num_fields( $this->result ); $i++ ) {
+				$this->col_info[ $i ] = @mysql_fetch_field( $this->result, $i );
+			}
 		}
 	}
 
@@ -1755,6 +2101,11 @@ class wpdb {
 	 * @return false|string false on failure, version number on success
 	 */
 	function db_version() {
-		return preg_replace( '/[^0-9.].*/', '', mysql_get_server_info( $this->dbh ) );
+		if ( $this->use_mysqli ) {
+			$server_info = mysqli_get_server_info( $this->dbh );
+		} else {
+			$server_info = mysql_get_server_info( $this->dbh );
+		}
+		return preg_replace( '/[^0-9.].*/', '', $server_info );
 	}
 }

@@ -130,7 +130,7 @@ get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Create_A_Network" target="_blank">Documentation on Creating a Network</a>') . '</p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Tools_Network_Screen" target="_blank">Documentation on the Network Screen</a>') . '</p>' .
-	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
+	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
 include( ABSPATH . 'wp-admin/admin-header.php' );
@@ -329,9 +329,11 @@ function network_step2( $errors = false ) {
 	$rewrite_base      = ! empty( $wp_siteurl_subdir ) ? ltrim( trailingslashit( $wp_siteurl_subdir ), '/' ) : '';
 
 
-	$location_of_wp_config = ABSPATH;
-	if ( ! file_exists( ABSPATH . 'wp-config.php' ) && file_exists( dirname( ABSPATH ) . '/wp-config.php' ) )
-		$location_of_wp_config = trailingslashit( dirname( ABSPATH ) );
+	$location_of_wp_config = $abspath_fix;
+	if ( ! file_exists( ABSPATH . 'wp-config.php' ) && file_exists( dirname( ABSPATH ) . '/wp-config.php' ) ) {
+		$location_of_wp_config = dirname( $abspath_fix );
+	}
+	$location_of_wp_config = trailingslashit( $location_of_wp_config );
 
 	// Wildcard DNS message.
 	if ( is_wp_error( $errors ) )
@@ -468,7 +470,7 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
 </configuration>';
 
 	?>
-		<li><p><?php printf( __( 'Add the following to your <code>web.config</code> file in <code>%s</code>, replacing other WordPress rules:' ), $home_path ); ?></p>
+		<li><p><?php printf( __( 'Add the following to your <code>web.config</code> file in <code>%s</code>, <strong>replacing</strong> other WordPress rules:' ), $home_path ); ?></p>
 		<?php
 		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' )
 			echo '<p><strong>' . __('Warning:') . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
@@ -502,7 +504,7 @@ RewriteRule . index.php [L]
 EOF;
 
 		?>
-		<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, replacing other WordPress rules:' ), $home_path ); ?></p>
+		<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, <strong>replacing</strong> other WordPress rules:' ), $home_path ); ?></p>
 		<?php
 		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' )
 			echo '<p><strong>' . __('Warning:') . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';

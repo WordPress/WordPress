@@ -90,6 +90,9 @@ function unregister_nav_menu( $location ) {
 
 	if ( is_array( $_wp_registered_nav_menus ) && isset( $_wp_registered_nav_menus[$location] ) ) {
 		unset( $_wp_registered_nav_menus[$location] );
+		if ( empty( $_wp_registered_nav_menus ) ) {
+			_remove_theme_support( 'menus' );
+		}
 		return true;
 	}
 	return false;
@@ -273,7 +276,7 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
  * @param int $menu_id The ID of the menu. Required. If "0", makes the menu item a draft orphan.
  * @param int $menu_item_db_id The ID of the menu item. If "0", creates a new menu item.
  * @param array $menu_item_data The menu item's data.
- * @return int The menu item's database ID or WP_Error object on failure.
+ * @return int|WP_Error The menu item's database ID or WP_Error object on failure.
  */
 function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item_data = array() ) {
 	$menu_id = (int) $menu_id;
@@ -281,12 +284,17 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 
 	// make sure that we don't convert non-nav_menu_item objects into nav_menu_item objects
 	if ( ! empty( $menu_item_db_id ) && ! is_nav_menu_item( $menu_item_db_id ) )
-		return new WP_Error('update_nav_menu_item_failed', __('The given object ID is not that of a menu item.'));
+		return new WP_Error( 'update_nav_menu_item_failed', __( 'The given object ID is not that of a menu item.' ) );
 
 	$menu = wp_get_nav_menu_object( $menu_id );
 
-	if ( ( ! $menu && 0 !== $menu_id ) || is_wp_error( $menu ) )
+	if ( ! $menu && 0 !== $menu_id ) {
+		return new WP_Error( 'invalid_menu_id', __( 'Invalid menu ID.' ) );
+	}
+
+	if ( is_wp_error( $menu ) ) {
 		return $menu;
+	}
 
 	$defaults = array(
 		'menu-item-db-id' => $menu_item_db_id,
@@ -702,11 +710,19 @@ function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_
 	);
 	foreach( (array) $menu_items as $menu_item ) {
 		if ( isset( $menu_item->ID ) && is_nav_menu_item( $menu_item->ID ) ) {
-			if ( get_post_meta( $menu_item->ID, '_menu_item_type', true ) !== $object_type ||
-				get_post_meta( $menu_item->ID, '_menu_item_object', true ) !== $taxonomy )
-				continue;
-
-			$menu_item_ids[] = (int) $menu_item->ID;
+			$menu_item_type = get_post_meta( $menu_item->ID, '_menu_item_type', true );
+			if (
+				'post_type' == $object_type &&
+				'post_type' == $menu_item_type
+			) {
+				$menu_item_ids[] = (int) $menu_item->ID;
+			} else if (
+				'taxonomy' == $object_type &&
+				'taxonomy' == $menu_item_type &&
+				get_post_meta( $menu_item->ID, '_menu_item_object', true ) == $taxonomy
+			) {
+				$menu_item_ids[] = (int) $menu_item->ID;
+			}
 		}
 	}
 

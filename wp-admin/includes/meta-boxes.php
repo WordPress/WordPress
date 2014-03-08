@@ -42,11 +42,18 @@ if ( 'publish' == $post->post_status ) {
 	$preview_button = __( 'Preview Changes' );
 } else {
 	$preview_link = set_url_scheme( get_permalink( $post->ID ) );
+	/**
+	 * Filter the URI of a post preview in the post submit box.
+	 *
+	 * @since 2.0.5
+	 *
+	 * @param string $preview_link URI the user will be directed to for a post preview.
+	 */
 	$preview_link = esc_url( apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ) ) );
 	$preview_button = __( 'Preview' );
 }
 ?>
-<a class="preview button" href="<?php echo $preview_link; ?>" target="wp-preview" id="post-preview"><?php echo $preview_button; ?></a>
+<a class="preview button" href="<?php echo $preview_link; ?>" target="wp-preview-<?php echo (int) $post->ID; ?>" id="post-preview"><?php echo $preview_button; ?></a>
 <input type="hidden" name="wp-preview" id="wp-preview" value="" />
 </div>
 <?php endif; // public post type ?>
@@ -79,7 +86,7 @@ switch ( $post->post_status ) {
 ?>
 </span>
 <?php if ( 'publish' == $post->post_status || 'private' == $post->post_status || $can_publish ) { ?>
-<a href="#post_status" <?php if ( 'private' == $post->post_status ) { ?>style="display:none;" <?php } ?>class="edit-post-status hide-if-no-js"><?php _e('Edit') ?></a>
+<a href="#post_status" <?php if ( 'private' == $post->post_status ) { ?>style="display:none;" <?php } ?>class="edit-post-status hide-if-no-js"><span aria-hidden="true"><?php _e( 'Edit' ); ?></span> <span class="screen-reader-text"><?php _e( 'Edit status' ); ?></span></a>
 
 <div id="post-status-select" class="hide-if-js">
 <input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo esc_attr( ('auto-draft' == $post->post_status ) ? 'draft' : $post->post_status); ?>" />
@@ -125,7 +132,7 @@ if ( 'private' == $post->post_status ) {
 
 echo esc_html( $visibility_trans ); ?></span>
 <?php if ( $can_publish ) { ?>
-<a href="#visibility" class="edit-visibility hide-if-no-js"><?php _e('Edit'); ?></a>
+<a href="#visibility" class="edit-visibility hide-if-no-js"><span aria-hidden="true"><?php _e( 'Edit' ); ?></span> <span class="screen-reader-text"><?php _e( 'Edit visibility' ); ?></span></a>
 
 <div id="post-visibility-select" class="hide-if-js">
 <input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo esc_attr($post->post_password); ?>" />
@@ -151,7 +158,7 @@ echo esc_html( $visibility_trans ); ?></span>
 </div><!-- .misc-pub-section -->
 
 <?php
-// translators: Publish box date format, see http://php.net/date
+/* translators: Publish box date format, see http://php.net/date */
 $datef = __( 'M j, Y @ G:i' );
 if ( 0 != $post->ID ) {
 	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
@@ -185,7 +192,7 @@ if ( ! empty( $args['args']['revisions_count'] ) ) :
 		printf( __( 'Revisions: %s' ), '<b>' . number_format_i18n( $args['args']['revisions_count'] ) . '</b>' );
 	}
 ?>
-	<a class="hide-if-no-js" href="<?php echo esc_url( get_edit_post_link( $args['args']['revision_id'] ) ); ?>"><?php _ex( 'Browse', 'revisions' ); ?></a>
+	<a class="hide-if-no-js" href="<?php echo esc_url( get_edit_post_link( $args['args']['revision_id'] ) ); ?>"><span aria-hidden="true"><?php _ex( 'Browse', 'revisions' ); ?></span> <span class="screen-reader-text"><?php _e( 'Browse revisions' ); ?></span></a>
 </div>
 <?php endif;
 
@@ -193,18 +200,32 @@ if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
 <div class="misc-pub-section curtime misc-pub-curtime">
 	<span id="timestamp">
 	<?php printf($stamp, $date); ?></span>
-	<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><?php _e('Edit') ?></a>
+	<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><span aria-hidden="true"><?php _e( 'Edit' ); ?></span> <span class="screen-reader-text"><?php _e( 'Edit date and time' ); ?></span></a>
 	<div id="timestampdiv" class="hide-if-js"><?php touch_time(($action == 'edit'), 1); ?></div>
 </div><?php // /misc-pub-section ?>
 <?php endif; ?>
 
-<?php do_action('post_submitbox_misc_actions'); ?>
+<?php
+/**
+ * Fires after the post time/date setting in the Publish meta box.
+ *
+ * @since 2.9.0
+ */
+do_action( 'post_submitbox_misc_actions' );
+?>
 </div>
 <div class="clear"></div>
 </div>
 
 <div id="major-publishing-actions">
-<?php do_action('post_submitbox_start'); ?>
+<?php
+/**
+ * Fires at the beginning of the publishing actions section of the Publish meta box.
+ *
+ * @since 2.7.0
+ */
+do_action( 'post_submitbox_start' );
+?>
 <div id="delete-action">
 <?php
 if ( current_user_can( "delete_post", $post->ID ) ) {
@@ -273,7 +294,7 @@ function attachment_submit_meta_box( $post ) {
 
 <div id="misc-publishing-actions">
 	<?php
-	// translators: Publish box date format, see http://php.net/date
+	/* translators: Publish box date format, see http://php.net/date */
 	$datef = __( 'M j, Y @ G:i' );
 	$stamp = __('Uploaded on: <b>%1$s</b>');
 	$date = date_i18n( $datef, strtotime( $post->post_date ) );
@@ -282,7 +303,15 @@ function attachment_submit_meta_box( $post ) {
 		<span id="timestamp"><?php printf($stamp, $date); ?></span>
 	</div><!-- .misc-pub-section -->
 
-	<?php do_action('attachment_submitbox_misc_actions'); ?>
+	<?php
+	/**
+	 * Fires after the 'Uploaded on' section of the Save meta box
+	 * in the attachment editing screen.
+	 *
+	 * @since 3.5.0
+	 */
+	do_action( 'attachment_submitbox_misc_actions' );
+	?>
 </div><!-- #misc-publishing-actions -->
 <div class="clear"></div>
 </div><!-- #minor-publishing -->
@@ -525,7 +554,16 @@ function post_comment_status_meta_box($post) {
 <p class="meta-options">
 	<label for="comment_status" class="selectit"><input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> /> <?php _e( 'Allow comments.' ) ?></label><br />
 	<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php printf( __( 'Allow <a href="%s" target="_blank">trackbacks and pingbacks</a> on this page.' ), __( 'http://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments' ) ); ?></label>
-	<?php do_action('post_comment_status_meta_box-options', $post); ?>
+	<?php
+	/**
+	 * Fires at the end of the Discussion meta box on the post editing screen.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param WP_Post $post WP_Post object of the current post.
+	 */
+	do_action( 'post_comment_status_meta_box-options', $post );
+	?>
 </p>
 <?php
 }
@@ -588,8 +626,9 @@ function post_comment_meta_box( $post ) {
  * @param object $post
  */
 function post_slug_meta_box($post) {
+/** This filter is documented in wp-admin/edit-tag-form.php */
 ?>
-<label class="screen-reader-text" for="post_name"><?php _e('Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo esc_attr( apply_filters('editable_slug', $post->post_name) ); ?>" />
+<label class="screen-reader-text" for="post_name"><?php _e('Slug') ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo esc_attr( apply_filters( 'editable_slug', $post->post_name ) ); ?>" />
 <?php
 }
 
@@ -646,6 +685,16 @@ function page_attributes_meta_box($post) {
 			'echo'             => 0,
 		);
 
+		/**
+		 * Filter the arguments used to generate a Pages drop-down element.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @see wp_dropdown_pages()
+		 *
+		 * @param array   $dropdown_args Array of arguments used to generate the pages drop-down.
+		 * @param WP_Post $post          The current WP_Post object.
+		 */
 		$dropdown_args = apply_filters( 'page_attributes_dropdown_pages_args', $dropdown_args, $post );
 		$pages = wp_dropdown_pages( $dropdown_args );
 		if ( ! empty($pages) ) {
@@ -710,7 +759,10 @@ function link_submit_meta_box($link) {
 </div>
 
 <div id="major-publishing-actions">
-<?php do_action('post_submitbox_start'); ?>
+<?php
+/** This action is documented in wp-admin/includes/meta-boxes.php */
+do_action( 'post_submitbox_start' );
+?>
 <div id="delete-action">
 <?php
 if ( !empty($_GET['action']) && 'edit' == $_GET['action'] && current_user_can('manage_links') ) { ?>
@@ -727,7 +779,14 @@ if ( !empty($_GET['action']) && 'edit' == $_GET['action'] && current_user_can('m
 </div>
 <div class="clear"></div>
 </div>
-<?php do_action('submitlink_box'); ?>
+<?php
+/**
+ * Fires at the end of the Publish box in the Link editing screen.
+ *
+ * @since 2.5.0
+ */
+do_action( 'submitlink_box' );
+?>
 <div class="clear"></div>
 </div>
 <?php
@@ -841,7 +900,7 @@ function xfn_check( $class, $value = '', $deprecated = '' ) {
  */
 function link_xfn_meta_box($link) {
 ?>
-<table class="links-table" cellspacing="0">
+<table class="links-table">
 	<tr>
 		<th scope="row"><label for="link_rel"><?php /* translators: xfn: http://gmpg.org/xfn/ */ _e('rel:') ?></label></th>
 		<td><input type="text" name="link_rel" id="link_rel" value="<?php echo ( isset( $link->link_rel ) ? esc_attr($link->link_rel) : ''); ?>" /></td>

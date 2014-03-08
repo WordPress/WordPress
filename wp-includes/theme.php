@@ -913,8 +913,21 @@ function get_theme_mod( $name, $default = false ) {
  */
 function set_theme_mod( $name, $value ) {
 	$mods = get_theme_mods();
+	$old_value = isset( $mods[ $name ] ) ? $mods[ $name ] : false;
 
-	$mods[ $name ] = $value;
+	/**
+	 * Filter the theme mod value on save.
+	 *
+	 * The dynamic portion of the hook name, $name, refers to the key name of
+	 * the modification array. For example, 'header_textcolor', 'header_image',
+	 * and so on depending on the theme options.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param string $value     The new value of the theme mod.
+	 * @param string $old_value The current value of the theme mod.
+	 */
+	$mods[ $name ] = apply_filters( "pre_set_theme_mod_$name", $value, $old_value );
 
 	$theme = get_option( 'stylesheet' );
 	update_option( "theme_mods_$theme", $mods );
@@ -1559,7 +1572,8 @@ add_action( 'wp_loaded', '_custom_header_background_just_in_time' );
 /**
  * Gets the theme support arguments passed when registering that support
  *
- * @since 3.1
+ * @since 3.1.0
+ *
  * @param string $feature the feature to check
  * @return array The array of extra arguments
  */
@@ -1723,12 +1737,17 @@ function current_theme_supports( $feature ) {
  * Checks a theme's support for a given feature before loading the functions which implement it.
  *
  * @since 2.9.0
- * @param string $feature the feature being checked
- * @param string $include the file containing the functions that implement the feature
+ *
+ * @param string $feature The feature being checked.
+ * @param string $include Path to the file.
+ * @return bool True if the current theme supports the supplied feature, false otherwise.
  */
-function require_if_theme_supports( $feature, $include) {
-	if ( current_theme_supports( $feature ) )
+function require_if_theme_supports( $feature, $include ) {
+	if ( current_theme_supports( $feature ) ) {
 		require ( $include );
+		return true;
+	}
+	return false;
 }
 
 /**

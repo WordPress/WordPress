@@ -69,16 +69,19 @@ if ( $action ) {
 
 			$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 
-			// Only activate plugins which are not already active.
 			if ( is_network_admin() ) {
 				foreach ( $plugins as $i => $plugin ) {
-					if ( is_plugin_active_for_network( $plugin ) )
+					// Only activate plugins which are not already network activated.
+					if ( is_plugin_active_for_network( $plugin ) ) {
 						unset( $plugins[ $i ] );
+					}
 				}
 			} else {
 				foreach ( $plugins as $i => $plugin ) {
-					if ( is_plugin_active( $plugin ) || is_network_only_plugin( $plugin ) )
+					// Only activate plugins which are not already active and are not network-only when on Multisite.
+					if ( is_plugin_active( $plugin ) || ( is_multisite() && is_network_only_plugin( $plugin ) ) ) {
 						unset( $plugins[ $i ] );
+					}
 				}
 			}
 
@@ -113,6 +116,7 @@ if ( $action ) {
 			$title = __( 'Update Plugins' );
 			$parent_file = 'plugins.php';
 
+			wp_enqueue_script( 'updates' );
 			require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 			echo '<div class="wrap">';
@@ -143,6 +147,7 @@ if ( $action ) {
 			@ini_set('display_errors', true); //Ensure that Fatal errors are displayed.
 			// Go back to "sandbox" scope so we get the same errors as before
 			function plugin_sandbox_scrape( $plugin ) {
+				wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $plugin );
 				include( WP_PLUGIN_DIR . '/' . $plugin );
 			}
 			plugin_sandbox_scrape( $plugin );

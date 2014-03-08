@@ -50,7 +50,7 @@
 	width: 35%;
 }
 
-#wp-fullscreen-title {
+.wp-fullscreen-title {
 	width: 97%;
 }
 
@@ -212,7 +212,6 @@ ul#adminmenu {
 
 .theme-browser .theme .theme-screenshot {
 	height: 180px;
-	min-width:
 }
 
 .theme-browser .theme .theme-actions {

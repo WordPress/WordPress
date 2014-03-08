@@ -233,7 +233,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 					break;
 
 					case 'id':?>
-						<th valign="top" scope="row">
+						<th scope="row">
 							<?php echo $blog['blog_id'] ?>
 						</th>
 					<?php
@@ -306,7 +306,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 					break;
 
 					case 'lastupdated':
-						echo "<td valign='top' class='$column_name column-$column_name'$style>";
+						echo "<td class='$column_name column-$column_name'$style>";
 							if ( 'list' == $mode )
 								$date = 'Y/m/d';
 							else
@@ -316,7 +316,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 					<?php
 					break;
 				case 'registered':
-						echo "<td valign='top' class='$column_name column-$column_name'$style>";
+						echo "<td class='$column_name column-$column_name'$style>";
 						if ( $blog['registered'] == '0000-00-00 00:00:00' )
 							echo '&#x2014;';
 						else
@@ -326,7 +326,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 					<?php
 					break;
 				case 'users':
-						echo "<td valign='top' class='$column_name column-$column_name'$style>";
+						echo "<td class='$column_name column-$column_name'$style>";
 							$blogusers = get_users( array( 'blog_id' => $blog['blog_id'], 'number' => 6) );
 							if ( is_array( $blogusers ) ) {
 								$blogusers_warning = '';
@@ -350,7 +350,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 				case 'plugins': ?>
 					<?php if ( has_filter( 'wpmublogsaction' ) ) {
-					echo "<td valign='top' class='$column_name column-$column_name'$style>";
+					echo "<td class='$column_name column-$column_name'$style>";
 						/**
 						 * Fires inside the auxiliary 'Actions' column of the Sites list table.
 						 *

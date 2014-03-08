@@ -215,7 +215,7 @@ function wp_is_post_autosave( $post ) {
  *
  * @param int|object|array $post Post ID, post object OR post array.
  * @param bool $autosave Optional. Is the revision an autosave?
- * @return mixed Null or 0 if error, new revision ID if success.
+ * @return mixed WP_Error or 0 if error, new revision ID if success.
  */
 function _wp_put_post_revision( $post = null, $autosave = false ) {
 	if ( is_object($post) )
@@ -223,8 +223,8 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 	elseif ( !is_array($post) )
 		$post = get_post($post, ARRAY_A);
 
-	if ( !$post || empty($post['ID']) )
-		return;
+	if ( ! $post || empty($post['ID']) )
+		return new WP_Error( 'invalid_post', __( 'Invalid post ID' ) );
 
 	if ( isset($post['post_type']) && 'revision' == $post['post_type'] )
 		return new WP_Error( 'post_type', __( 'Cannot create a revision of a revision' ) );
@@ -256,11 +256,10 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
  * @return mixed Null if error or post object if success.
  */
 function wp_get_post_revision(&$post, $output = OBJECT, $filter = 'raw') {
-	$null = null;
 	if ( !$revision = get_post( $post, OBJECT, $filter ) )
 		return $revision;
 	if ( 'revision' !== $revision->post_type )
-		return $null;
+		return null;
 
 	if ( $output == OBJECT ) {
 		return $revision;
@@ -372,7 +371,7 @@ function wp_get_post_revisions( $post_id = 0, $args = null ) {
 	if ( ! $post || empty( $post->ID ) )
 		return array();
 
-	$defaults = array( 'order' => 'DESC', 'orderby' => 'date', 'check_enabled' => true );
+	$defaults = array( 'order' => 'DESC', 'orderby' => 'date ID', 'check_enabled' => true );
 	$args = wp_parse_args( $args, $defaults );
 
 	if ( $args['check_enabled'] && ! wp_revisions_enabled( $post ) )

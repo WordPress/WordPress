@@ -203,7 +203,16 @@ function wp_image_editor($post_id, $msg = false) {
  */
 function wp_stream_image( $image, $mime_type, $post_id ) {
 	if ( $image instanceof WP_Image_Editor ) {
-		$image = apply_filters('image_editor_save_pre', $image, $post_id);
+
+		/**
+		 * Filter the WP_Image_Editor instance for the image to be streamed to the browser.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param WP_Image_Editor $image   WP_Image_Editor instance.
+		 * @param int             $post_id Post ID.
+		 */
+		$image = apply_filters( 'image_editor_save_pre', $image, $post_id );
 
 		if ( is_wp_error( $image->stream( $mime_type ) ) )
 			return false;
@@ -212,7 +221,16 @@ function wp_stream_image( $image, $mime_type, $post_id ) {
 	} else {
 		_deprecated_argument( __FUNCTION__, '3.5', __( '$image needs to be an WP_Image_Editor object' ) );
 
-		$image = apply_filters('image_save_pre', $image, $post_id);
+		/**
+		 * Filter the GD image resource to be streamed to the browser.
+		 *
+		 * @since 2.9.0
+		 * @deprecated 3.5.0 Use image_editor_save_pre instead.
+		 *
+		 * @param resource $image   Image resource to be streamed.
+		 * @param int      $post_id Post ID.
+		 */
+		$image = apply_filters( 'image_save_pre', $image, $post_id );
 
 		switch ( $mime_type ) {
 			case 'image/jpeg':
@@ -241,8 +259,25 @@ function wp_stream_image( $image, $mime_type, $post_id ) {
  */
 function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 	if ( $image instanceof WP_Image_Editor ) {
-		$image = apply_filters('image_editor_save_pre', $image, $post_id);
-		$saved = apply_filters('wp_save_image_editor_file', null, $filename, $image, $mime_type, $post_id);
+
+		/** This filter is documented in wp-admin/includes/image-edit.php */
+		$image = apply_filters( 'image_editor_save_pre', $image, $post_id );
+
+		/**
+		 * Filter whether to skip saving the image file.
+		 *
+		 * Returning a non-null value will short-circuit the save method,
+		 * returning that value instead.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param mixed           $override  Value to return instead of saving. Default null.
+		 * @param string          $filename  Name of the file to be saved.
+		 * @param WP_Image_Editor $image     WP_Image_Editor instance.
+		 * @param string          $mime_type Image mime type.
+		 * @param int             $post_id   Post ID.
+		 */
+		$saved = apply_filters( 'wp_save_image_editor_file', null, $filename, $image, $mime_type, $post_id );
 
 		if ( null !== $saved )
 			return $saved;
@@ -251,14 +286,32 @@ function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 	} else {
 		_deprecated_argument( __FUNCTION__, '3.5', __( '$image needs to be an WP_Image_Editor object' ) );
 
-		$image = apply_filters('image_save_pre', $image, $post_id);
-		$saved = apply_filters('wp_save_image_file', null, $filename, $image, $mime_type, $post_id);
+		/** This filter is documented in wp-admin/includes/image-edit.php */
+		$image = apply_filters( 'image_save_pre', $image, $post_id );
+
+		/**
+		 * Filter whether to skip saving the image file.
+		 *
+		 * Returning a non-null value will short-circuit the save method,
+		 * returning that value instead.
+		 *
+		 * @since 2.9.0
+		 * @deprecated 3.5.0 Use wp_save_image_editor_file instead.
+		 *
+		 * @param mixed           $override  Value to return instead of saving. Default null.
+		 * @param string          $filename  Name of the file to be saved.
+		 * @param WP_Image_Editor $image     WP_Image_Editor instance.
+		 * @param string          $mime_type Image mime type.
+		 * @param int             $post_id   Post ID.
+		 */
+		$saved = apply_filters( 'wp_save_image_file', null, $filename, $image, $mime_type, $post_id );
 
 		if ( null !== $saved )
 			return $saved;
 
 		switch ( $mime_type ) {
 			case 'image/jpeg':
+
 				/** This filter is documented in wp-includes/class-wp-image-editor.php */
 				return imagejpeg( $image, $filename, apply_filters( 'jpeg_quality', 90, 'edit_image' ) );
 			case 'image/png':
@@ -398,10 +451,30 @@ function image_edit_apply_changes( $image, $changes ) {
 	}
 
 	// image resource before applying the changes
-	if ( $image instanceof WP_Image_Editor )
-		$image = apply_filters('wp_image_editor_before_change', $image, $changes);
-	elseif ( is_resource( $image ) )
-		$image = apply_filters('image_edit_before_change', $image, $changes);
+	if ( $image instanceof WP_Image_Editor ) {
+
+		/**
+		 * Filter the WP_Image_Editor instance before applying changes to the image.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param WP_Image_Editor $image   WP_Image_Editor instance.
+ 		 * @param array           $changes Array of change operations.
+		 */
+		$image = apply_filters( 'wp_image_editor_before_change', $image, $changes );
+	} elseif ( is_resource( $image ) ) {
+
+		/**
+		 * Filter the GD image resource before applying changes to the image.
+		 *
+		 * @since 2.9.0
+		 * @deprecated 3.5.0 Use wp_image_editor_before_change instead.
+		 *
+		 * @param resource $image   GD image resource.
+ 		 * @param array    $changes Array of change operations.
+		 */
+		$image = apply_filters( 'image_edit_before_change', $image, $changes );
+	}
 
 	foreach ( $changes as $operation ) {
 		switch ( $operation->type ) {
@@ -451,6 +524,8 @@ function image_edit_apply_changes( $image, $changes ) {
  */
 function stream_preview_image( $post_id ) {
 	$post = get_post( $post_id );
+
+	/** This filter is documented in wp-admin/admin.php */
 	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 
 	$img = wp_get_image_editor( _load_image_to_edit_path( $post_id ) );
@@ -500,8 +575,9 @@ function wp_restore_image($post_id) {
 			if ( defined('IMAGE_EDIT_OVERWRITE') && IMAGE_EDIT_OVERWRITE ) {
 				// delete only if it's edited image
 				if ( preg_match('/-e[0-9]{13}\./', $parts['basename']) ) {
+
 					/** This filter is documented in wp-admin/custom-header.php */
-					$delpath = apply_filters('wp_delete_file', $file);
+					$delpath = apply_filters( 'wp_delete_file', $file );
 					@unlink($delpath);
 				}
 			} elseif ( isset( $meta['width'], $meta['height'] ) ) {
@@ -725,8 +801,9 @@ function wp_save_image( $post_id ) {
 	}
 
 	if ( $delete ) {
+
 		/** This filter is documented in wp-admin/custom-header.php */
-		$delpath = apply_filters('wp_delete_file', $new_path);
+		$delpath = apply_filters( 'wp_delete_file', $new_path );
 		@unlink( $delpath );
 	}
 

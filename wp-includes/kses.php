@@ -119,6 +119,7 @@ if ( ! CUSTOM_TAGS ) {
 			'datetime' => true,
 		),
 		'dd' => array(),
+		'dfn' => array(),
 		'details' => array(
 			'align' => true,
 			'dir' => true,
@@ -235,6 +236,7 @@ if ( ! CUSTOM_TAGS ) {
 		'map' => array(
 			'name' => true,
 		),
+		'mark' => array(),
 		'menu' => array(
 			'type' => true,
 		),
@@ -257,6 +259,7 @@ if ( ! CUSTOM_TAGS ) {
 			'cite' => true,
 		),
 		's' => array(),
+		'samp' => array(),
 		'span' => array(
 			'dir' => true,
 			'align' => true,
@@ -1464,6 +1467,7 @@ function _wp_add_global_attributes( $value ) {
 		'id' => true,
 		'style' => true,
 		'title' => true,
+		'role' => true,
 	);
 
 	if ( true === $value )

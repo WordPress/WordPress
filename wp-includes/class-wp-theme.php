@@ -179,6 +179,7 @@ final class WP_Theme implements ArrayAccess {
 
 		// Initialize caching on first run.
 		if ( ! isset( self::$persistently_cache ) ) {
+			/** This action is documented in wp-includes/theme.php */
 			self::$persistently_cache = apply_filters( 'wp_cache_themes_persistently', false, 'WP_Theme' );
 			if ( self::$persistently_cache ) {
 				wp_cache_add_global_groups( 'themes' );
@@ -962,7 +963,19 @@ final class WP_Theme implements ArrayAccess {
 		if ( $this->parent() )
 			$page_templates += $this->parent()->get_page_templates();
 
-		return $page_templates;
+		/**
+		 * Remove or rename page templates for a theme.
+		 *
+		 * This filter does not currently allow for page templates to be added.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param array    $page_templates Array of page templates. Keys are filenames,
+		 *                                 values are translated names.
+		 * @param WP_Theme $this           The theme object.
+		 */
+		$return = apply_filters( 'page_templates', $page_templates, $this );
+		return array_intersect_assoc( $return, $page_templates );
 	}
 
 	/**
@@ -1086,6 +1099,13 @@ final class WP_Theme implements ArrayAccess {
 	 * @return array Array of stylesheet names.
 	 */
 	public static function get_allowed( $blog_id = null ) {
+		/**
+		 * Filter the array of themes allowed on the site or network.
+		 *
+		 * @since MU
+		 *
+		 * @param array $allowed_themes An array of theme stylesheet names.
+		 */
 		$network = (array) apply_filters( 'allowed_themes', self::get_allowed_on_network() );
 		return $network + self::get_allowed_on_site( $blog_id );
 	}

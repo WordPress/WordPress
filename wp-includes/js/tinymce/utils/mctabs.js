@@ -1,12 +1,14 @@
 /**
  * mctabs.js
  *
- * Copyright 2009, Moxiecode Systems AB
+ * Copyright, Moxiecode Systems AB
  * Released under LGPL License.
  *
- * License: http://tinymce.moxiecode.com/license
- * Contributing: http://tinymce.moxiecode.com/contributing
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
  */
+
+/*jshint globals: tinyMCEPopup */
 
 function MCTabs() {
 	this.settings = [];
@@ -122,9 +124,9 @@ tinyMCEPopup.onInit.add(function() {
 	var tinymce = tinyMCEPopup.getWin().tinymce, dom = tinyMCEPopup.dom, each = tinymce.each;
 
 	each(dom.select('div.tabs'), function(tabContainerElm) {
-		var keyNav;
+		//var keyNav;
 
-		dom.setAttrib(tabContainerElm, "role", "tablist"); 
+		dom.setAttrib(tabContainerElm, "role", "tablist");
 
 		var items = tinyMCEPopup.dom.select('li', tabContainerElm);
 		var action = function(id) {
@@ -141,7 +143,7 @@ tinyMCEPopup.onInit.add(function() {
 
 		dom.bind(dom.getRoot(), 'keydown', function(evt) {
 			if (evt.keyCode === 9 && evt.ctrlKey && !evt.altKey) { // Tab
-				keyNav.moveFocus(evt.shiftKey ? -1 : 1);
+				//keyNav.moveFocus(evt.shiftKey ? -1 : 1);
 				tinymce.dom.Event.cancel(evt);
 			}
 		});
@@ -150,13 +152,13 @@ tinyMCEPopup.onInit.add(function() {
 			dom.setAttrib(a, 'tabindex', '-1');
 		});
 
-		keyNav = tinyMCEPopup.editor.windowManager.createInstance('tinymce.ui.KeyboardNavigation', {
+		/*keyNav = tinyMCEPopup.editor.windowManager.createInstance('tinymce.ui.KeyboardNavigation', {
 			root: tabContainerElm,
 			items: items,
 			onAction: action,
 			actOnFocus: true,
 			enableLeftRight: true,
 			enableUpDown: true
-		}, tinyMCEPopup.dom);
+		}, tinyMCEPopup.dom);*/
 	});
 });

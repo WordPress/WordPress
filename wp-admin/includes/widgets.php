@@ -237,5 +237,6 @@ function wp_widget_control( $sidebar_args ) {
 	</div>
 <?php
 	echo $sidebar_args['after_widget'];
+
 	return $sidebar_args;
 }

@@ -1382,7 +1382,7 @@ function the_date_xml() {
 }
 
 /**
- * Display or Retrieve the date the current $post was written (once per date)
+ * Display or Retrieve the date the current post was written (once per date)
  *
  * Will only output the date if the current post's date is different from the
  * previous one output.
@@ -1403,14 +1403,12 @@ function the_date_xml() {
  */
 function the_date( $d = '', $before = '', $after = '', $echo = true ) {
 	global $currentday, $previousday;
-	$the_date = '';
+
 	if ( $currentday != $previousday ) {
-		$the_date .= $before;
-		$the_date .= get_the_date( $d );
-		$the_date .= $after;
+		$the_date = $before . get_the_date( $d ) . $after;
 		$previousday = $currentday;
 
-		$the_date = apply_filters('the_date', $the_date, $d, $before, $after);
+		$the_date = apply_filters( 'the_date', $the_date, $d, $before, $after );
 
 		if ( $echo )
 			echo $the_date;
@@ -1422,26 +1420,36 @@ function the_date( $d = '', $before = '', $after = '', $echo = true ) {
 }
 
 /**
- * Retrieve the date the current $post was written.
+ * Retrieve the date on which the post was written.
  *
  * Unlike the_date() this function will always return the date.
  * Modify output with 'get_the_date' filter.
  *
  * @since 3.0.0
  *
- * @param string $d Optional. PHP date format defaults to the date_format option if not specified.
- * @return string|null Null if displaying, string if retrieving.
+ * @param  string      $d    Optional. PHP date format defaults to the date_format option if not specified.
+ * @param  int|WP_Post $post Optional. Post ID or WP_Post object. Default current post.
+ * @return string Date the current post was written.
  */
-function get_the_date( $d = '' ) {
-	$post = get_post();
-	$the_date = '';
+function get_the_date( $d = '', $post = null ) {
+	$post = get_post( $post );
 
-	if ( '' == $d )
-		$the_date .= mysql2date(get_option('date_format'), $post->post_date);
-	else
-		$the_date .= mysql2date($d, $post->post_date);
+	if ( '' == $d ) {
+		$the_date = mysql2date( get_option( 'date_format' ), $post->post_date );
+	} else {
+		$the_date = mysql2date( $d, $post->post_date );
+	}
 
-	return apply_filters('get_the_date', $the_date, $d);
+	/**
+	 * Filter the date returned from the get_the_date function.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string      $the_date The formatted date.
+	 * @param string      $d        The date format.
+	 * @param int|WP_Post $post     The post object or id.
+	 */
+	return apply_filters( 'get_the_date', $the_date, $d, $post );
 }
 
 /**
@@ -1499,9 +1507,11 @@ function the_time( $d = '' ) {
  *
  * @since 1.5.0
  *
- * @param string $d Optional Either 'G', 'U', or php date format defaults to the value specified in the time_format option.
- * @param int|object $post Optional post ID or object. Default is global $post object.
- * @return string
+ * @param string      $d    Optional. Format to use for retrieving the time the post
+ *                          was written. Either 'G', 'U', or php date format defaults
+ *                          to the value specified in the time_format option. Default empty.
+ * @param int|WP_Post $post WP_Post object or ID. Default is global $post object.
+ * @return string|int Formatted date string, or Unix timestamp.
  */
 function get_the_time( $d = '', $post = null ) {
 	$post = get_post($post);
@@ -1518,13 +1528,14 @@ function get_the_time( $d = '', $post = null ) {
  *
  * @since 2.0.0
  *
- * @param string $d Optional Either 'G', 'U', or php date format.
- * @param bool $gmt Optional, default is false. Whether to return the gmt time.
- * @param int|object $post Optional post ID or object. Default is global $post object.
- * @param bool $translate Whether to translate the time string
- * @return string
+ * @param string      $d         Optional. Format to use for retrieving the time the post
+ *                               was written. Either 'G', 'U', or php date format. Default 'U'.
+ * @param bool        $gmt       Optional. Whether to retrieve the GMT time. Default false.
+ * @param int|WP_Post $post      WP_Post object or ID. Default is global $post object.
+ * @param bool        $translate Whether to translate the time string. Default false.
+ * @return string|int Formatted date string, or Unix timestamp.
  */
-function get_post_time( $d = 'U', $gmt = false, $post = null, $translate = false ) { // returns timestamp
+function get_post_time( $d = 'U', $gmt = false, $post = null, $translate = false ) {
 	$post = get_post($post);
 
 	if ( $gmt )
@@ -1702,7 +1713,7 @@ function feed_links_extra( $args = array() ) {
 		$post = get_post( $id );
 
 		if ( comments_open() || pings_open() || $post->comment_count > 0 ) {
-			$title = sprintf( $args['singletitle'], get_bloginfo('name'), $args['separator'], esc_html( get_the_title() ) );
+			$title = sprintf( $args['singletitle'], get_bloginfo('name'), $args['separator'], the_title_attribute( array( 'echo' => false ) ) );
 			$href = get_post_comments_feed_link( $post->ID );
 		}
 	} elseif ( is_post_type_archive() ) {
@@ -1794,22 +1805,6 @@ function noindex() {
  */
 function wp_no_robots() {
 	echo "<meta name='robots' content='noindex,follow' />\n";
-}
-
-/**
- * Determine if TinyMCE is available.
- *
- * Checks to see if the user has deleted the tinymce files to slim down there WordPress install.
- *
- * @since 2.1.0
- *
- * @return bool Whether TinyMCE exists.
- */
-function rich_edit_exists() {
-	global $wp_rich_edit_exists;
-	if ( !isset($wp_rich_edit_exists) )
-		$wp_rich_edit_exists = file_exists(ABSPATH . WPINC . '/js/tinymce/tiny_mce.js');
-	return $wp_rich_edit_exists;
 }
 
 /**
@@ -2119,7 +2114,7 @@ function register_admin_color_schemes() {
 	$suffix .= defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 	wp_admin_css_color( 'fresh', _x( 'Default', 'admin color scheme' ),
-		admin_url( "css/colors$suffix.css" ),
+		false,
 		array( '#222', '#333', '#0074a2', '#2ea2cc' ),
 		array( 'base' => '#999', 'focus' => '#2ea2cc', 'current' => '#fff' )
 	);
@@ -2206,7 +2201,6 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
  * $file is a file relative to wp-admin/ without its ".css" extension. A
  * stylesheet link to that generated URL is printed.
  *
- * @package WordPress
  * @since 2.3.0
  * @uses $wp_styles WordPress Styles Object
  *

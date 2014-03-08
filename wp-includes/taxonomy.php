@@ -123,8 +123,6 @@ add_action( 'init', 'create_initial_taxonomies', 0 ); // highest priority
 /**
  * Get a list of registered taxonomy objects.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 3.0.0
  * @uses $wp_taxonomies
  * @see register_taxonomy
@@ -152,8 +150,6 @@ function get_taxonomies( $args = array(), $output = 'names', $operator = 'and' )
  * <code><?php $taxonomies = get_object_taxonomies('post'); ?></code> Should
  * result in <code>Array('category', 'post_tag')</code>
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses $wp_taxonomies
@@ -192,8 +188,6 @@ function get_object_taxonomies($object, $output = 'names') {
  * The get_taxonomy function will first check that the parameter string given
  * is a taxonomy object and if it is, it will return it.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses $wp_taxonomies
@@ -216,8 +210,6 @@ function get_taxonomy( $taxonomy ) {
  *
  * Formerly is_taxonomy(), introduced in 2.3.0.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 3.0.0
  *
  * @uses $wp_taxonomies
@@ -239,8 +231,6 @@ function taxonomy_exists( $taxonomy ) {
  *
  * A false return value might also mean that the taxonomy does not exist.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses taxonomy_exists() Checks whether taxonomy exists
@@ -289,6 +279,8 @@ function is_taxonomy_hierarchical($taxonomy) {
  *     * If not set, the default is inherited from public.
  * - show_tagcloud - Whether to list the taxonomy in the Tag Cloud Widget.
  *     * If not set, the default is inherited from show_ui.
+ * - show_admin_column - Whether to display a column for the taxonomy on its post type listing screens.
+ *     * Defaults to false.
  * - meta_box_cb - Provide a callback function for the meta box display.
  *     * If not set, defaults to post_categories_meta_box for hierarchical taxonomies
  *     and post_tags_meta_box for non-hierarchical.
@@ -336,6 +328,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		'show_in_menu'          => null,
 		'show_in_nav_menus'     => null,
 		'show_tagcloud'         => null,
+		'show_admin_column'     => false,
 		'meta_box_cb'           => null,
 		'capabilities'          => array(),
 		'rewrite'               => true,
@@ -485,8 +478,6 @@ function get_taxonomy_labels( $tax ) {
 /**
  * Add an already registered taxonomy to an object type.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 3.0.0
  * @uses $wp_taxonomies Modifies taxonomy object
  *
@@ -554,8 +545,6 @@ function unregister_taxonomy_for_object_type( $taxonomy, $object_type ) {
  * using PHP sort family functions or using the database by using $args with
  * either ASC or DESC array. The value should be in the key named 'order'.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses $wpdb
@@ -915,8 +904,6 @@ class WP_Tax_Query {
  * example, if 'category', it would be 'get_category' as the filter name. Useful
  * for custom taxonomies or plugging into default taxonomies.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses $wpdb
@@ -932,7 +919,6 @@ class WP_Tax_Query {
  */
 function get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 	global $wpdb;
-	$null = null;
 
 	if ( empty($term) ) {
 		$error = new WP_Error('invalid_term', __('Empty Term'));
@@ -951,11 +937,11 @@ function get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
 		if ( is_object($term) )
 			$term = $term->term_id;
 		if ( !$term = (int) $term )
-			return $null;
+			return null;
 		if ( ! $_term = wp_cache_get($term, $taxonomy) ) {
 			$_term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = %s AND t.term_id = %d LIMIT 1", $taxonomy, $term) );
 			if ( ! $_term )
-				return $null;
+				return null;
 			wp_cache_add($term, $_term, $taxonomy);
 		}
 	}
@@ -989,8 +975,6 @@ function get_term($term, $taxonomy, $output = OBJECT, $filter = 'raw') {
  * If $value does not exist, the return value will be false. If $taxonomy exists
  * and $field and $value combinations exist, the Term will be returned.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses $wpdb
@@ -1058,8 +1042,6 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
  *
  * Will return an empty array if $term does not exist in $taxonomy.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses $wpdb
@@ -1098,8 +1080,6 @@ function get_term_children( $term_id, $taxonomy ) {
  * reasons and for simplicity of usage. See sanitize_term_field() for more
  * information.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses sanitize_term_field() Passes the return value in sanitize_term_field on success.
@@ -1131,8 +1111,6 @@ function get_term_field( $field, $term, $taxonomy, $context = 'display' ) {
  * Return value is sanitize_term() and usage is for sanitizing the term for
  * editing. Function is for contextual and simplicity.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses sanitize_term() Passes the return value on success
@@ -1242,8 +1220,6 @@ function get_term_to_edit( $id, $taxonomy ) {
  * query (such as 'terms_clauses'), setting 'cache_domain' to a unique value will not overwrite
  * the cache for similar queries. Default value is 'core'.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses $wpdb
@@ -1277,7 +1253,7 @@ function get_terms($taxonomies, $args = '') {
 	$args['number'] = absint( $args['number'] );
 	$args['offset'] = absint( $args['offset'] );
 	if ( !$single_taxonomy || ! is_taxonomy_hierarchical( reset( $taxonomies ) ) ||
-		'' !== $args['parent'] ) {
+		( '' !== $args['parent'] && 0 !== $args['parent'] ) ) {
 		$args['child_of'] = 0;
 		$args['hierarchical'] = false;
 		$args['pad_counts'] = false;
@@ -1549,8 +1525,6 @@ function get_terms($taxonomies, $args = '') {
  *
  * Formerly is_term(), introduced in 2.3.0.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 3.0.0
  *
  * @uses $wpdb
@@ -1645,8 +1619,6 @@ function term_is_ancestor_of( $term1, $term2, $taxonomy ) {
  *
  * The $term is expected to be either an array or an object.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses sanitize_term_field Used to sanitize all fields in a term
@@ -1695,8 +1667,6 @@ function sanitize_term($term, $taxonomy, $context = 'display') {
  * without creating your own filter function. Simply create a function that
  * hooks into the filter you need.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses $wpdb
@@ -1755,8 +1725,6 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
  *
  * Default $args is 'hide_empty' which can be 'hide_empty=true' or array('hide_empty' => true).
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses get_terms()
@@ -1788,8 +1756,6 @@ function wp_count_terms( $taxonomy, $args = array() ) {
  * a particular taxonomy or taxonomies. Does not remove the term or
  * taxonomy itself.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  * @uses wp_remove_object_terms()
  *
@@ -1820,8 +1786,7 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
  *
  * The $args 'force_default' will force the term supplied as default to be
  * assigned even if the object was not going to be termless
- * @package WordPress
- * @subpackage Taxonomy
+ *
  * @since 2.3.0
  *
  * @uses $wpdb
@@ -1951,8 +1916,6 @@ function wp_delete_category( $cat_ID ) {
  * terms objects will be returned. If either 'ids' or 'names' is used, then an
  * array of all matching term ids or term names will be returned respectively.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  * @uses $wpdb
  *
@@ -1970,7 +1933,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	if ( !is_array($taxonomies) )
 		$taxonomies = array($taxonomies);
 
-	foreach ( (array) $taxonomies as $taxonomy ) {
+	foreach ( $taxonomies as $taxonomy ) {
 		if ( ! taxonomy_exists($taxonomy) )
 			return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 	}
@@ -2239,8 +2202,6 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
  * A term has no meaning until it is given context by defining which taxonomy it
  * exists under.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  * @uses wp_remove_object_terms()
  *
@@ -2335,9 +2296,7 @@ function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
 /**
  * Add term(s) associated with a given object.
  *
- * @package WordPress
- * @subpackage Taxonomy
- * @since 3.6
+ * @since 3.6.0
  * @uses wp_set_object_terms()
  *
  * @param int $object_id The ID of the object to which the terms will be added.
@@ -2352,9 +2311,7 @@ function wp_add_object_terms( $object_id, $terms, $taxonomy ) {
 /**
  * Remove term(s) associated with a given object.
  *
- * @package WordPress
- * @subpackage Taxonomy
- * @since 3.6
+ * @since 3.6.0
  * @uses $wpdb
  *
  * @uses apply_filters() Calls 'delete_term_relationships' hook with object_id and tt_ids as parameters.
@@ -2427,8 +2384,6 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
  *
  * The only purpose for $term is for appending a parent, if one exists.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  * @uses $wpdb
  *
@@ -2500,8 +2455,6 @@ function wp_unique_term_slug($slug, $term) {
  * For what can be overrode in $args, check the term scheme can contain and stay
  * away from the term keys.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses $wpdb
@@ -2592,6 +2545,12 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	$wpdb->update( $wpdb->term_taxonomy, compact( 'term_id', 'taxonomy', 'description', 'parent' ), array( 'term_taxonomy_id' => $tt_id ) );
 	do_action( 'edited_term_taxonomy', $tt_id, $taxonomy );
 
+	// Clean the relationship caches for all object types using this term
+	$objects = $wpdb->get_col( $wpdb->prepare( "SELECT object_id FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $tt_id ) );
+	$tax_object = get_taxonomy( $taxonomy );
+	foreach ( $tax_object->object_type as $object_type )
+		clean_object_term_cache( $objects, $object_type );
+
 	do_action("edit_term", $term_id, $tt_id, $taxonomy);
 	do_action("edit_$taxonomy", $term_id, $tt_id);
 
@@ -2635,8 +2594,6 @@ function wp_defer_term_counting($defer=null) {
  * The default action is to count what the amount of terms have the relationship
  * of term ID. Once that is done, then update the database.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  * @uses $wpdb
  *
@@ -2719,8 +2676,6 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
  * term IDs have to exist within the taxonomy $object_type for the deletion to
  * take place.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @see get_object_taxonomies() for more on $object_type
@@ -2736,9 +2691,11 @@ function clean_object_term_cache($object_ids, $object_type) {
 
 	$taxonomies = get_object_taxonomies( $object_type );
 
-	foreach ( $object_ids as $id )
-		foreach ( $taxonomies as $taxonomy )
+	foreach ( $object_ids as $id ) {
+		foreach ( $taxonomies as $taxonomy ) {
 			wp_cache_delete($id, "{$taxonomy}_relationships");
+		}
+	}
 
 	do_action('clean_object_term_cache', $object_ids, $object_type);
 }
@@ -2746,8 +2703,6 @@ function clean_object_term_cache($object_ids, $object_type) {
 /**
  * Will remove all of the term ids from the cache.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  * @uses $wpdb
  *
@@ -2757,7 +2712,6 @@ function clean_object_term_cache($object_ids, $object_type) {
  */
 function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 	global $wpdb;
-	static $cleaned = array();
 
 	if ( !is_array($ids) )
 		$ids = array($ids);
@@ -2785,10 +2739,6 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 	}
 
 	foreach ( $taxonomies as $taxonomy ) {
-		if ( isset($cleaned[$taxonomy]) )
-			continue;
-		$cleaned[$taxonomy] = true;
-
 		if ( $clean_taxonomy ) {
 			wp_cache_delete('all_ids', $taxonomy);
 			wp_cache_delete('get', $taxonomy);
@@ -2806,8 +2756,6 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 /**
  * Retrieves the taxonomy relationship to the term object id.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @uses wp_cache_get() Retrieves taxonomy relationship from cache
@@ -2834,8 +2782,6 @@ function get_object_term_cache($id, $taxonomy) {
  * lot of terms that exist in a lot of taxonomies. The amount of time increases
  * for each term and it also increases for each taxonomy the term belongs to.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  * @uses wp_get_object_terms() Used to get terms from the database to update
  *
@@ -2893,8 +2839,6 @@ function update_object_term_cache($object_ids, $object_type) {
 /**
  * Updates Terms to Taxonomy in cache.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 2.3.0
  *
  * @param array $terms List of Term objects to change
@@ -2917,8 +2861,6 @@ function update_term_cache($terms, $taxonomy = '') {
 /**
  * Retrieves children of taxonomy as Term IDs.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @access private
  * @since 2.3.0
  *
@@ -2952,8 +2894,6 @@ function _get_term_hierarchy($taxonomy) {
  * If $terms is an array of objects, then _get_term_children returns an array of objects.
  * If $terms is an array of IDs, then _get_term_children returns an array of IDs.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @access private
  * @since 2.3.0
  *
@@ -2982,8 +2922,23 @@ function _get_term_children($term_id, $terms, $taxonomy) {
 			$use_id = true;
 		}
 
-		if ( $term->term_id == $term_id )
+		if ( $term->term_id == $term_id ) {
+			if ( isset( $has_children[$term_id] ) ) {
+				$current_id = $term_id;
+				while ( $current_id > 0 ) {
+					foreach ( $has_children[$current_id] as $t_id ) {
+						if ( $use_id ) {
+							$term_list[] = $t_id;
+						} else {
+							$term_list[] = get_term( $t_id, $taxonomy );
+						}
+					}
+
+					$current_id = isset( $has_children[$t_id] ) ? $t_id : 0;
+				}
+			}
 			continue;
+		}
 
 		if ( $term->parent == $term_id ) {
 			if ( $use_id )
@@ -3008,8 +2963,6 @@ function _get_term_children($term_id, $terms, $taxonomy) {
  * Recalculates term counts by including items from child terms. Assumes all
  * relevant children are already in the $terms argument.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @access private
  * @since 2.3.0
  * @uses $wpdb
@@ -3074,8 +3027,6 @@ function _pad_term_counts(&$terms, $taxonomy) {
  * Private function for the default callback for post_tag and category
  * taxonomies.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @access private
  * @since 2.3.0
  * @uses $wpdb
@@ -3122,8 +3073,6 @@ function _update_post_term_count( $terms, $taxonomy ) {
  *
  * Default callback for the link_category taxonomy.
  *
- * @package WordPress
- * @subpackage Taxonomy
  * @since 3.3.0
  * @uses $wpdb
  *

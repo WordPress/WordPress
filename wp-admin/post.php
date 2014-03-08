@@ -117,6 +117,10 @@ case 'post-quickdraft-save':
 
 	$post = get_post( $_REQUEST['post_ID'] );
 	check_admin_referer( 'add-' . $post->post_type );
+
+	$_POST['comment_status'] = get_option( 'default_comment_status' );
+	$_POST['ping_status'] = get_option( 'default_ping_status' );
+
 	edit_post();
 	// output the quickdraft dashboard widget
 	require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
@@ -303,7 +307,7 @@ case 'delete':
 	break;
 
 case 'preview':
-	check_admin_referer( 'autosave', 'autosavenonce' );
+	check_admin_referer( 'update-post_' . $post_id );
 
 	$url = post_preview();
 

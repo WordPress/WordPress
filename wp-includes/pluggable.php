@@ -506,7 +506,7 @@ if ( !function_exists('wp_validate_auth_cookie') ) :
  * Makes sure the cookie is not expired. Verifies the hash in cookie is what is
  * should be and compares the two.
  *
- * @since 2.5
+ * @since 2.5.0
  *
  * @param string $cookie Optional. If used, will validate contents instead of cookie's
  * @param string $scheme Optional. The cookie scheme to use: auth, secure_auth, or logged_in
@@ -561,7 +561,8 @@ if ( !function_exists('wp_generate_auth_cookie') ) :
 /**
  * Generate authentication cookie contents.
  *
- * @since 2.5
+ * @since 2.5.0
+ *
  * @uses apply_filters() Calls 'auth_cookie' hook on $cookie contents, User ID
  *		and expiration of cookie.
  *
@@ -588,7 +589,7 @@ if ( !function_exists('wp_parse_auth_cookie') ) :
 /**
  * Parse a cookie into its components
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param string $cookie
  * @param string $scheme Optional. The cookie scheme to use: auth, secure_auth, or logged_in
@@ -633,13 +634,13 @@ endif;
 
 if ( !function_exists('wp_set_auth_cookie') ) :
 /**
- * Sets the authentication cookies based User ID.
+ * Sets the authentication cookies based on user ID.
  *
  * The $remember parameter increases the time that the cookie will be kept. The
  * default the cookie is kept without remembering is two days. When $remember is
  * set, the cookies will be kept for 14 days or two weeks.
  *
- * @since 2.5
+ * @since 2.5.0
  *
  * @param int $user_id User ID
  * @param bool $remember Whether to remember the user
@@ -687,7 +688,7 @@ if ( !function_exists('wp_clear_auth_cookie') ) :
 /**
  * Removes all of the cookies associated with authentication.
  *
- * @since 2.5
+ * @since 2.5.0
  */
 function wp_clear_auth_cookie() {
 	do_action('clear_auth_cookie');
@@ -735,7 +736,7 @@ if ( !function_exists('auth_redirect') ) :
 /**
  * Checks if a user is logged in, if not it redirects them to the login page.
  *
- * @since 1.5
+ * @since 1.5.0
  */
 function auth_redirect() {
 	// Checks if a user is logged in, if not redirects them to the login page
@@ -903,7 +904,7 @@ if ( !function_exists('wp_sanitize_redirect') ) :
 /**
  * Sanitizes a URL for use in a redirect.
  *
- * @since 2.3
+ * @since 2.3.0
  *
  * @return string redirect-sanitized URL
  **/
@@ -930,7 +931,8 @@ if ( !function_exists('wp_safe_redirect') ) :
  * instead. This prevents malicious redirects which redirect to another host,
  * but only used in a few places.
  *
- * @since 2.3
+ * @since 2.3.0
+ *
  * @uses wp_validate_redirect() To validate the redirect is to an allowed host.
  *
  * @return void Does not return anything
@@ -1165,7 +1167,8 @@ if ( !function_exists('wp_notify_moderator') ) :
 /**
  * Notifies the moderator of the blog about a new comment that is awaiting approval.
  *
- * @since 1.0
+ * @since 1.0.0
+ *
  * @uses $wpdb
  *
  * @param int $comment_id Comment ID
@@ -1251,7 +1254,7 @@ if ( !function_exists('wp_password_change_notification') ) :
 /**
  * Notify the blog admin of a user changing password, normally via email.
  *
- * @since 2.7
+ * @since 2.7.0
  *
  * @param object $user User Object
  */
@@ -1270,12 +1273,14 @@ endif;
 
 if ( !function_exists('wp_new_user_notification') ) :
 /**
- * Notify the blog admin of a new user, normally via email.
+ * Email login credentials to a newly-registered user.
  *
- * @since 2.0
+ * A new user registration notification is also sent to admin email.
  *
- * @param int $user_id User ID
- * @param string $plaintext_pass Optional. The user's plaintext password
+ * @since 2.0.0
+ *
+ * @param int    $user_id        User ID.
+ * @param string $plaintext_pass Optional. The user's plaintext password. Default empty.
  */
 function wp_new_user_notification($user_id, $plaintext_pass = '') {
 	$user = get_userdata( $user_id );
@@ -1309,7 +1314,7 @@ if ( !function_exists('wp_nonce_tick') ) :
  * A nonce has a lifespan of two ticks. Nonces in their second tick may be
  * updated, e.g. by autosave.
  *
- * @since 2.5
+ * @since 2.5.0
  *
  * @return int
  */
@@ -1401,7 +1406,7 @@ if ( !function_exists('wp_salt') ) :
  * Salting passwords helps against tools which has stored hashed values of
  * common dictionary strings. The added values makes it harder to crack.
  *
- * @since 2.5
+ * @since 2.5.0
  *
  * @link https://api.wordpress.org/secret-key/1.1/salt/ Create secrets for wp-config.php
  *
@@ -1485,7 +1490,8 @@ if ( !function_exists('wp_hash_password') ) :
  * For integration with other applications, this function can be overwritten to
  * instead use the other package password checking algorithm.
  *
- * @since 2.5
+ * @since 2.5.0
+ *
  * @global object $wp_hasher PHPass object
  * @uses PasswordHash::HashPassword
  *
@@ -1517,7 +1523,8 @@ if ( !function_exists('wp_check_password') ) :
  * For integration with other applications, this function can be overwritten to
  * instead use the other package password checking algorithm.
  *
- * @since 2.5
+ * @since 2.5.0
+ *
  * @global object $wp_hasher PHPass object used for checking the password
  *	against the $hash + $password
  * @uses PasswordHash::CheckPassword
@@ -1559,7 +1566,7 @@ if ( !function_exists('wp_generate_password') ) :
 /**
  * Generates a random password drawn from the defined set of characters.
  *
- * @since 2.5
+ * @since 2.5.0
  *
  * @param int $length The length of password to generate
  * @param bool $special_chars Whether to include standard special characters. Default true.
@@ -1638,7 +1645,8 @@ if ( !function_exists('wp_set_password') ) :
  * For integration with other applications, this function can be overwritten to
  * instead use the other package password checking algorithm.
  *
- * @since 2.5
+ * @since 2.5.0
+ *
  * @uses $wpdb WordPress database object for queries
  * @uses wp_hash_password() Used to encrypt the user's password before passing to the database
  *
@@ -1659,7 +1667,8 @@ if ( !function_exists( 'get_avatar' ) ) :
 /**
  * Retrieve the avatar for a user who provided a user ID or email address.
  *
- * @since 2.5
+ * @since 2.5.0
+ *
  * @param int|string|object $id_or_email A user ID,  email address, or comment object
  * @param int $size Size of the avatar image
  * @param string $default URL to a default image to use if no avatar is available
@@ -1773,7 +1782,8 @@ if ( !function_exists( 'wp_text_diff' ) ) :
  * 'title_right' : Default is an empty string. Change the HTML to the right of
  *		the title.
  *
- * @since 2.6
+ * @since 2.6.0
+ *
  * @see wp_parse_args() Used to change defaults to user defined settings.
  * @uses Text_Diff
  * @uses WP_Text_Diff_Renderer_Table

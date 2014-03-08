@@ -560,7 +560,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 			$this->skin->plugin_info = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin, false, true);
 
 			if ( !isset( $current->response[ $plugin ] ) ) {
-				$this->skin->set_result(true);
+				$this->skin->set_result('up_to_date');
 				$this->skin->before();
 				$this->skin->feedback('up_to_date');
 				$this->skin->after();
@@ -863,7 +863,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		if ( !isset( $current->response[ $theme ] ) ) {
 			$this->skin->before();
 			$this->skin->set_result(false);
-			$this->skin->error('up_to_date');
+			$this->skin->error( 'up_to_date' );
 			$this->skin->after();
 			return false;
 		}
@@ -948,7 +948,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			if ( !isset( $current->response[ $theme ] ) ) {
 				$this->skin->set_result(true);
 				$this->skin->before();
-				$this->skin->feedback('up_to_date');
+				$this->skin->feedback( 'up_to_date' );
 				$this->skin->after();
 				$results[$theme] = true;
 				continue;
@@ -1401,7 +1401,9 @@ class Core_Upgrader extends WP_Upgrader {
 			}
 
 			if ( $try_rollback ) {
+				/** This filter is documented in wp-admin/includes/update-core.php */
 				apply_filters( 'update_feedback', $result );
+				/** This filter is documented in wp-admin/includes/update-core.php */
 				apply_filters( 'update_feedback', $this->strings['start_rollback'] );
 
 				$rollback_result = $this->upgrade( $current, array_merge( $parsed_args, array( 'do_rollback' => true ) ) );
@@ -2248,7 +2250,7 @@ class WP_Automatic_Updater {
 
 		// Add a note about the support forums to all emails.
 		$body .= "\n\n" . __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.' );
-		$body .= "\n" . __( 'http://wordpress.org/support/' );
+		$body .= "\n" . __( 'https://wordpress.org/support/' );
 
 		// If things are successful and we're now on the latest, mention plugins and themes if any are out of date.
 		if ( $type == 'success' && ! $newer_version_available && ( get_plugin_updates() || get_theme_updates() ) ) {
@@ -2385,7 +2387,7 @@ BETA TESTING?
 This debugging email is sent when you are using a development version of WordPress.
 
 If you think these failures might be due to a bug in WordPress, could you report it?
- * Open a thread in the support forums: http://wordpress.org/support/forum/alphabeta
+ * Open a thread in the support forums: https://wordpress.org/support/forum/alphabeta
  * Or, if you're comfortable writing a bug report: http://core.trac.wordpress.org/
 
 Thanks! -- The WordPress Team" );
@@ -2395,8 +2397,9 @@ Thanks! -- The WordPress Team" );
 			$subject = sprintf( __( '[%s] Background updates have finished' ), $site_title );
 		}
 
-		$body[] = __( 'UPDATE LOG' );
-		$body[] = '==========';
+		$title = __( 'UPDATE LOG' );
+		$body[] = $title;
+		$body[] = str_repeat( '=', strlen( $title ) );
 		$body[] = '';
 
 		foreach ( array( 'core', 'plugin', 'theme', 'translation' ) as $type ) {

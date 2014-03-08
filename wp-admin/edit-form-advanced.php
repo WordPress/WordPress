@@ -24,7 +24,13 @@ $post_ID = isset($post_ID) ? (int) $post_ID : 0;
 $user_ID = isset($user_ID) ? (int) $user_ID : 0;
 $action = isset($action) ? $action : '';
 
-if ( post_type_supports($post_type, 'editor') || post_type_supports($post_type, 'thumbnail') ) {
+$media_type = false;
+if ( 'attachment' === $post_type && $post_ID ) {
+	$post = get_post( $post_ID );
+	$media_type = post_supports_thumbnails( $post );
+}
+
+if ( post_type_supports( $post_type, 'editor' ) || post_type_supports( $post_type, 'thumbnail' ) || $media_type ) {
 	add_thickbox();
 	wp_enqueue_media( array( 'post' => $post_ID ) );
 }
@@ -48,7 +54,7 @@ $messages['post'] = array(
 	 7 => __('Post saved.'),
 	 8 => sprintf( __('Post submitted. <a target="_blank" href="%s">Preview post</a>'), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
 	 9 => sprintf( __('Post scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview post</a>'),
-		// translators: Publish box date format, see http://php.net/date
+		/* translators: Publish box date format, see http://php.net/date */
 		date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink($post_ID) ) ),
 	10 => sprintf( __('Post draft updated. <a target="_blank" href="%s">Preview post</a>'), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
 );
@@ -402,7 +408,6 @@ if ( 'draft' != get_post_status( $post ) )
 
 echo $form_extra;
 
-wp_nonce_field( 'autosave', 'autosavenonce', false );
 wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 ?>
@@ -483,8 +488,12 @@ if ( post_type_supports($post_type, 'editor') ) {
 	'dfw' => true,
 	'tabfocus_elements' => 'insert-media-button,save-post',
 	'editor_height' => 360,
+	'tinymce' => array(
+		'resize' => false,
+		'add_unload_trigger' => false,
+	),
 ) ); ?>
-<table id="post-status-info" cellspacing="0"><tbody><tr>
+<table id="post-status-info"><tbody><tr>
 	<td id="wp-word-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></td>
 	<td class="autosave-info">
 	<span class="autosave-message">&nbsp;</span>
@@ -499,6 +508,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 		echo '</span>';
 	} ?>
 	</td>
+	<td id="content-resize-handle" class="hide-if-no-js"><br /></td>
 </tr></tbody></table>
 
 </div>

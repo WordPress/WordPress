@@ -39,19 +39,19 @@ class WP_Customize_Control {
 	 * @access public
 	 * @var int
 	 */
-	public $priority          = 10;
+	public $priority = 10;
 
 	/**
 	 * @access public
 	 * @var string
 	 */
-	public $section           = '';
+	public $section = '';
 
 	/**
 	 * @access public
 	 * @var string
 	 */
-	public $label             = '';
+	public $label = '';
 
 	/**
 	 * @todo: Remove choices
@@ -59,7 +59,7 @@ class WP_Customize_Control {
 	 * @access public
 	 * @var array
 	 */
-	public $choices           = array();
+	public $choices = array();
 
 	/**
 	 * @access public
@@ -76,6 +76,8 @@ class WP_Customize_Control {
 
 	/**
 	 * Constructor.
+	 *
+	 * Supplied $args override class property defaults.
 	 *
 	 * If $args['settings'] is not defined, use the $id as the setting ID.
 	 *
@@ -94,7 +96,6 @@ class WP_Customize_Control {
 
 		$this->manager = $manager;
 		$this->id = $id;
-
 
 		// Process settings.
 		if ( empty( $this->settings ) )
@@ -178,14 +179,32 @@ class WP_Customize_Control {
 		if ( ! $this->check_capabilities() )
 			return;
 
+		/**
+		 * Fires just before the current Customizer control is rendered.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param WP_Customize_Control $this WP_Customize_Control instance.
+		 */
 		do_action( 'customize_render_control', $this );
+
+		/**
+		 * Fires just before a specific Customizer control is rendered.
+		 *
+		 * The dynamic portion of the hook name, $this->id, refers to
+		 * the control ID.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param WP_Customize_Control $this WP_Customize_Control instance.
+		 */
 		do_action( 'customize_render_control_' . $this->id, $this );
 
 		$this->render();
 	}
 
 	/**
-	 * Render the control. Renders the control wrapper, then calls $this->render_content().
+	 * Renders the control wrapper and calls $this->render_content() for the internals.
 	 *
 	 * @since 3.4.0
 	 */
@@ -199,7 +218,7 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Get the data link parameter for a setting.
+	 * Get the data link attribute for a setting.
 	 *
 	 * @since 3.4.0
 	 *
@@ -214,7 +233,7 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Render the data link parameter for a setting
+	 * Render the data link attribute for the control's input element.
 	 *
 	 * @since 3.4.0
 	 * @uses WP_Customize_Control::get_link()
@@ -228,7 +247,9 @@ class WP_Customize_Control {
 	/**
 	 * Render the control's content.
 	 *
-	 * Allows the content to be overriden without having to rewrite the wrapper.
+	 * Allows the content to be overriden without having to rewrite the wrapper in $this->render().
+	 *
+	 * Supports basic input types `text`, `checkbox`, `radio`, `select` and `dropdown-pages`.
 	 *
 	 * @since 3.4.0
 	 */
@@ -331,8 +352,6 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 	/**
 	 * Constructor.
 	 *
-	 * If $args['settings'] is not defined, use the $id as the setting ID.
-	 *
 	 * @since 3.4.0
 	 * @uses WP_Customize_Control::__construct()
 	 *
@@ -346,7 +365,7 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 	}
 
 	/**
-	 * Enqueue control related scripts/styles.
+	 * Enqueue scripts/styles for the color picker.
 	 *
 	 * @since 3.4.0
 	 */
@@ -466,8 +485,6 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 
 	/**
 	 * Constructor.
-	 *
-	 * If $args['settings'] is not defined, use the $id as the setting ID.
 	 *
 	 * @since 3.4.0
 	 * @uses WP_Customize_Upload_Control::__construct()
@@ -593,7 +610,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	 */
 	public function tab_upload_new() {
 		if ( ! _device_can_upload() ) {
-			echo '<p>' . sprintf( __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.'), 'http://wordpress.org/mobile/' ) . '</p>';
+			echo '<p>' . sprintf( __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.'), 'https://wordpress.org/mobile/' ) . '</p>';
 		} else {
 			?>
 			<div class="upload-dropzone">
@@ -815,3 +832,75 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			$this->print_header_image( $choice, $header );
 	}
 }
+
+/**
+ * Widget Area Customize Control Class
+ *
+ */
+class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
+	public $type = 'sidebar_widgets';
+	public $sidebar_id;
+
+	public function to_json() {
+		parent::to_json();
+		$exported_properties = array( 'sidebar_id' );
+		foreach ( $exported_properties as $key ) {
+			$this->json[ $key ] = $this->$key;
+		}
+	}
+
+	public function render_content() {
+		?>
+		<span class="button-secondary add-new-widget" tabindex="0">
+			<?php esc_html_e( 'Add a Widget' ); ?>
+		</span>
+
+		<span class="reorder-toggle" tabindex="0">
+			<span class="reorder"><?php esc_html_e( 'Reorder' ); ?></span>
+			<span class="reorder-done"><?php esc_html_e( 'Done' ); ?></span>
+		</span>
+		<?php
+	}
+}
+
+/**
+ * Widget Form Customize Control Class
+ */
+class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
+	public $type = 'widget_form';
+	public $widget_id;
+	public $widget_id_base;
+	public $sidebar_id;
+	public $is_new = false;
+	public $width;
+	public $height;
+	public $is_wide = false;
+	public $is_live_previewable = false;
+
+	public function to_json() {
+		parent::to_json();
+		$exported_properties = array( 'widget_id', 'widget_id_base', 'sidebar_id', 'width', 'height', 'is_wide', 'is_live_previewable' );
+		foreach ( $exported_properties as $key ) {
+			$this->json[ $key ] = $this->$key;
+		}
+	}
+
+	public function render_content() {
+		global $wp_registered_widgets;
+		require_once ABSPATH . '/wp-admin/includes/widgets.php';
+
+		$widget = $wp_registered_widgets[ $this->widget_id ];
+		if ( ! isset( $widget['params'][0] ) ) {
+			$widget['params'][0] = array();
+		}
+
+		$args = array(
+			'widget_id' => $widget['id'],
+			'widget_name' => $widget['name'],
+		);
+
+		$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => $args, 1 => $widget['params'][0] ) );
+		echo WP_Customize_Widgets::get_widget_control( $args );
+	}
+}
+

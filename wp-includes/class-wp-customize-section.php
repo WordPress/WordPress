@@ -2,28 +2,67 @@
 /**
  * Customize Section Class.
  *
+ * A UI container for controls, managed by the WP_Customize_Manager.
+ *
  * @package WordPress
  * @subpackage Customize
  * @since 3.4.0
  */
 class WP_Customize_Section {
+	/**
+	 * @access public
+	 *
+	 * @var WP_Customize_Manager
+	 */
 	public $manager;
+
+	/**
+	 * Unique identifier.
+	 *
+	 * @var string
+	 */
 	public $id;
+
+	/**
+	 * Priority of the section which informs load order of sections.
+	 *
+	 * @var integer
+	 */
 	public $priority       = 10;
+
+	/**
+	 * Capability required for the section.
+	 *
+	 * @var string
+	 */
 	public $capability     = 'edit_theme_options';
 	public $theme_supports = '';
+
+	/**
+	 * Title of the section to show in UI.
+	 *
+	 * @var string
+	 */
 	public $title          = '';
+
+	/**
+	 * Description to show in the UI.
+	 *
+	 * @var string
+	 */
 	public $description    = '';
 	public $controls;
 
 	/**
 	 * Constructor.
 	 *
+	 * Any supplied $args override class property defaults.
+	 *
 	 * @since 3.4.0
 	 *
 	 * @param WP_Customize_Manager $manager
-	 * @param string $id An specific ID of the section.
-	 * @param array $args Section arguments.
+	 * @param string               $id      An specific ID of the section.
+	 * @param array                $args    Section arguments.
 	 */
 	function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_class_vars( __CLASS__ ) );
@@ -41,7 +80,8 @@ class WP_Customize_Section {
 	}
 
 	/**
-	 * Check if the theme supports the section and check user capabilities.
+	 * Checks required user capabilities and whether the theme has the
+	 * feature support required by the section.
 	 *
 	 * @since 3.4.0
 	 *
@@ -66,14 +106,29 @@ class WP_Customize_Section {
 		if ( ! $this->check_capabilities() )
 			return;
 
+		/**
+		 * Fires before rendering a Customizer section.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param WP_Customize_Section $this WP_Customize_Section instance.
+		 */
 		do_action( 'customize_render_section', $this );
-		do_action( 'customize_render_section_' . $this->id );
+		/**
+		 * Fires before rendering a specific Customizer section.
+		 *
+		 * The dynamic portion of the hook name, $this->id, refers to the ID
+		 * of the specific Customizer section to be rendered.
+		 *
+		 * @since 3.4.0
+		 */
+		do_action( "customize_render_section_{$this->id}" );
 
 		$this->render();
 	}
 
 	/**
-	 * Render the section.
+	 * Render the section, and the controls that have been added to it.
 	 *
 	 * @since 3.4.0
 	 */

@@ -49,6 +49,14 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		wp_reset_vars( array( 'orderby', 'order', 's' ) );
 
 		$themes = array(
+			/**
+			 * Filter the full array of WP_Theme objects to list in the Multisite
+			 * themes list table.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param array $all An array of WP_Theme objects to display in the list table.
+			 */
 			'all' => apply_filters( 'all_themes', wp_get_themes() ),
 			'search' => array(),
 			'enabled' => array(),
@@ -284,7 +292,44 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		if ( ! $allowed && current_user_can( 'delete_themes' ) && ! $this->is_site_themes && $stylesheet != get_option( 'stylesheet' ) && $stylesheet != get_option( 'template' ) )
 			$actions['delete'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=delete-selected&amp;checked[]=' . $theme_key . '&amp;theme_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-themes' ) ) . '" title="' . esc_attr__( 'Delete this theme' ) . '" class="delete">' . __( 'Delete' ) . '</a>';
 
+		/**
+		 * Filter the action links displayed for each theme in the Multisite
+		 * themes list table.
+		 *
+		 * The action links displayed are determined by the theme's status, and
+		 * which Multisite themes list table is being displayed - the Network
+		 * themes list table (themes.php), which displays all installed themes,
+		 * or the Site themes list table (site-themes.php), which displays the
+		 * non-network enabled themes when editing a site in the Network admin.
+		 *
+		 * The default action links for the Network themes list table include
+		 * 'Network Enable', 'Network Disable', 'Edit', and 'Delete'.
+		 *
+		 * The default action links for the Site themes list table include
+		 * 'Enable', 'Disable', and 'Edit'.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array    $actions An array of action links.
+		 * @param WP_Theme $theme   The current WP_Theme object.
+		 * @param string   $context Status of the theme.
+		 */
 		$actions = apply_filters( 'theme_action_links', array_filter( $actions ), $theme, $context );
+
+		/**
+		 * Filter the action links of a specific theme in the Multisite themes
+		 * list table.
+		 *
+		 * The dynamic portion of the hook name, $stylesheet, refers to the
+		 * directory name of the theme, which in most cases is synonymous
+		 * with the template name.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array    $actions An array of action links.
+		 * @param WP_Theme $theme   The current WP_Theme object.
+		 * @param string   $context Status of the theme.
+		 */
 		$actions = apply_filters( "theme_action_links_$stylesheet", $actions, $theme, $context );
 
 		$class = ! $allowed ? 'inactive' : 'active';
@@ -333,6 +378,19 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					if ( $theme->get('ThemeURI') )
 						$theme_meta[] = '<a href="' . $theme->display('ThemeURI') . '" title="' . esc_attr__( 'Visit theme homepage' ) . '">' . __( 'Visit Theme Site' ) . '</a>';
 
+					/**
+					 * Filter the array of row meta for each theme in the Multisite themes
+					 * list table.
+					 *
+					 * @since 3.1.0
+					 *
+					 * @param array    $theme_meta An array of the theme's metadata,
+					 *                             including the version, author, and
+					 *                             theme URI.
+					 * @param string   $stylesheet Directory name of the theme.
+					 * @param WP_Theme $theme      WP_Theme object.
+					 * @param string   $status     Status of the theme.
+					 */
 					$theme_meta = apply_filters( 'theme_row_meta', $theme_meta, $stylesheet, $theme, $status );
 					echo implode( ' | ', $theme_meta );
 
@@ -341,6 +399,16 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 				default:
 					echo "<td class='$column_name column-$column_name'$style>";
+
+					/**
+					 * Fires inside each custom column of the Multisite themes list table.
+					 *
+					 * @since 3.1.0
+					 *
+					 * @param string   $column_name Name of the column.
+					 * @param string   $stylesheet  Directory name of the theme.
+					 * @param WP_Theme $theme       Current WP_Theme object.
+					 */
 					do_action( 'manage_themes_custom_column', $column_name, $stylesheet, $theme );
 					echo "</td>";
 			}
@@ -350,7 +418,31 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		if ( $this->is_site_themes )
 			remove_action( "after_theme_row_$stylesheet", 'wp_theme_update_row' );
+
+		/**
+		 * Fires after each row in the Multisite themes list table.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string   $stylesheet Directory name of the theme.
+		 * @param WP_Theme $theme      Current WP_Theme object.
+		 * @param string   $status     Status of the theme.
+		 */
 		do_action( 'after_theme_row', $stylesheet, $theme, $status );
+
+		/**
+		 * Fires after each specific row in the Multisite themes list table.
+		 *
+		 * The dynamic portion of the hook name, $stylesheet, refers to the
+		 * directory name of the theme, most often synonymous with the template
+		 * name of the theme.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param string   $stylesheet Directory name of the theme.
+		 * @param WP_Theme $theme      Current WP_Theme object.
+		 * @param string   $status     Status of the theme.
+		 */
 		do_action( "after_theme_row_$stylesheet", $stylesheet, $theme, $status );
 	}
 }

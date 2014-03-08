@@ -177,7 +177,7 @@ class Custom_Image_Header {
 	/**
 	 * Set up the enqueue for the CSS files
 	 *
-	 * @since 2.7
+	 * @since 2.7.0
 	 */
 	function css_includes() {
 		$step = $this->step();
@@ -450,7 +450,7 @@ class Custom_Image_Header {
 ?>
 
 <div class="wrap">
-<h2><?php _e('Custom Header'); ?></h2>
+<h2><?php _e( 'Custom Header' ); ?></h2>
 
 <?php if ( ! empty( $this->updated ) ) { ?>
 <div id="message" class="updated">
@@ -464,11 +464,12 @@ class Custom_Image_Header {
 <tbody>
 
 <?php if ( get_custom_header() || display_header_text() ) : ?>
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e( 'Preview' ); ?></th>
 <td>
-	<?php if ( $this->admin_image_div_callback ) {
-	  call_user_func( $this->admin_image_div_callback );
+	<?php
+	if ( $this->admin_image_div_callback ) {
+		call_user_func( $this->admin_image_div_callback );
 	} else {
 		$custom_header = get_custom_header();
 		$header_image_style = 'background-image:url(' . esc_url( get_header_image() ) . ');';
@@ -493,7 +494,7 @@ class Custom_Image_Header {
 <?php endif; ?>
 
 <?php if ( current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e( 'Select Image' ); ?></th>
 <td>
 	<p><?php _e( 'You can select an image to be shown at the top of your site by uploading from your computer or choosing from your media library. After selecting an image you will be able to crop it.' ); ?><br />
@@ -547,7 +548,7 @@ class Custom_Image_Header {
 <table class="form-table">
 <tbody>
 	<?php if ( get_uploaded_header_images() ) : ?>
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e( 'Uploaded Images' ); ?></th>
 <td>
 	<p><?php _e( 'You can choose one of your previously uploaded headers, or show a random one.' ) ?></p>
@@ -558,7 +559,7 @@ class Custom_Image_Header {
 </tr>
 	<?php endif;
 	if ( ! empty( $this->default_headers ) ) : ?>
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e( 'Default Images' ); ?></th>
 <td>
 <?php if ( current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
@@ -573,7 +574,7 @@ class Custom_Image_Header {
 </tr>
 	<?php endif;
 	if ( get_header_image() ) : ?>
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e( 'Remove Image' ); ?></th>
 <td>
 	<p><?php _e( 'This will remove the header image. You will not be able to restore any customizations.' ) ?></p>
@@ -584,7 +585,7 @@ class Custom_Image_Header {
 
 	$default_image = get_theme_support( 'custom-header', 'default-image' );
 	if ( $default_image && get_header_image() != $default_image ) : ?>
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e( 'Reset Image' ); ?></th>
 <td>
 	<p><?php _e( 'This will restore the original header image. You will not be able to restore any customizations.' ) ?></p>
@@ -601,7 +602,7 @@ class Custom_Image_Header {
 
 <table class="form-table">
 <tbody>
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e( 'Header Text' ); ?></th>
 <td>
 	<p>
@@ -610,7 +611,7 @@ class Custom_Image_Header {
 </td>
 </tr>
 
-<tr valign="top" class="displaying-header-text">
+<tr class="displaying-header-text">
 <th scope="row"><?php _e( 'Text Color' ); ?></th>
 <td>
 	<p>

@@ -90,45 +90,45 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <?php settings_fields('general'); ?>
 
 <table class="form-table">
-<tr valign="top">
+<tr>
 <th scope="row"><label for="blogname"><?php _e('Site Title') ?></label></th>
 <td><input name="blogname" type="text" id="blogname" value="<?php form_option('blogname'); ?>" class="regular-text" /></td>
 </tr>
-<tr valign="top">
+<tr>
 <th scope="row"><label for="blogdescription"><?php _e('Tagline') ?></label></th>
 <td><input name="blogdescription" type="text" id="blogdescription" value="<?php form_option('blogdescription'); ?>" class="regular-text" />
 <p class="description"><?php _e('In a few words, explain what this site is about.') ?></p></td>
 </tr>
 <?php if ( !is_multisite() ) { ?>
-<tr valign="top">
+<tr>
 <th scope="row"><label for="siteurl"><?php _e('WordPress Address (URL)') ?></label></th>
 <td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>"<?php disabled( defined( 'WP_SITEURL' ) ); ?> class="regular-text code<?php if ( defined( 'WP_SITEURL' ) ) echo ' disabled' ?>" /></td>
 </tr>
-<tr valign="top">
+<tr>
 <th scope="row"><label for="home"><?php _e('Site Address (URL)') ?></label></th>
 <td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>"<?php disabled( defined( 'WP_HOME' ) ); ?> class="regular-text code<?php if ( defined( 'WP_HOME' ) ) echo ' disabled' ?>" />
 <p class="description"><?php _e('Enter the address here if you want your site homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different from the directory</a> you installed WordPress.'); ?></p></td>
 </tr>
-<tr valign="top">
+<tr>
 <th scope="row"><label for="admin_email"><?php _e('E-mail Address') ?> </label></th>
 <td><input name="admin_email" type="text" id="admin_email" value="<?php form_option('admin_email'); ?>" class="regular-text ltr" />
 <p class="description"><?php _e('This address is used for admin purposes, like new user notification.') ?></p></td>
 </tr>
-<tr valign="top">
+<tr>
 <th scope="row"><?php _e('Membership') ?></th>
 <td> <fieldset><legend class="screen-reader-text"><span><?php _e('Membership') ?></span></legend><label for="users_can_register">
 <input name="users_can_register" type="checkbox" id="users_can_register" value="1" <?php checked('1', get_option('users_can_register')); ?> />
 <?php _e('Anyone can register') ?></label>
 </fieldset></td>
 </tr>
-<tr valign="top">
+<tr>
 <th scope="row"><label for="default_role"><?php _e('New User Default Role') ?></label></th>
 <td>
 <select name="default_role" id="default_role"><?php wp_dropdown_roles( get_option('default_role') ); ?></select>
 </td>
 </tr>
 <?php } else { ?>
-<tr valign="top">
+<tr>
 <th scope="row"><label for="new_admin_email"><?php _e('E-mail Address') ?> </label></th>
 <td><input name="new_admin_email" type="text" id="new_admin_email" value="<?php form_option('admin_email'); ?>" class="regular-text ltr" />
 <p class="description"><?php _e('This address is used for admin purposes. If you change this we will send you an e-mail at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>') ?></p>
@@ -306,7 +306,7 @@ endfor;
 	$languages = get_available_languages();
 	if ( is_multisite() && !empty( $languages ) ):
 ?>
-	<tr valign="top">
+	<tr>
 		<th width="33%" scope="row"><?php _e('Site Language') ?></th>
 		<td>
 			<select name="WPLANG" id="WPLANG">

@@ -43,7 +43,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct( 'widget_twentyfourteen_ephemera', __( 'Twenty Fourteen Ephemera', 'twentyfourteen' ), array(
 			'classname'   => 'widget_twentyfourteen_ephemera',
-			'description' => __( 'Use this widget to list your recent Aside, Quote, Video, Audio, Image, Gallery, and Link posts', 'twentyfourteen' ),
+			'description' => __( 'Use this widget to list your recent Aside, Quote, Video, Audio, Image, Gallery, and Link posts.', 'twentyfourteen' ),
 		) );
 
 		/*
@@ -102,7 +102,12 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 			</h1>
 			<ol>
 
-				<?php while ( $ephemera->have_posts() ) : $ephemera->the_post(); ?>
+				<?php
+					while ( $ephemera->have_posts() ) :
+						$ephemera->the_post();
+						$tmp_more = $GLOBALS['more'];
+						$GLOBALS['more'] = 0;
+				?>
 				<li>
 				<article <?php post_class(); ?>>
 					<div class="entry-content">
@@ -194,6 +199,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 			// Reset the post globals as this query will have stomped on it.
 			wp_reset_postdata();
 
+			$GLOBALS['more']          = $tmp_more;
 			$GLOBALS['content_width'] = $tmp_content_width;
 
 		endif; // End check for ephemeral posts.

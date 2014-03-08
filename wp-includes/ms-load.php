@@ -113,118 +113,255 @@ function ms_site_check() {
 }
 
 /**
- * Sets current site name.
+ * Retrieve a network object by its domain and path.
  *
- * @access private
- * @since 3.0.0
- * @return object $current_site object with site_name
+ * @since 3.9.0
+ *
+ * @param string $domain   Domain to check.
+ * @param string $path     Path to check.
+ * @param int    $segments Path segments to use. Defaults to null, or the full path.
+ * @return object|bool Network object if successful. False when no network is found.
  */
-function get_current_site_name( $current_site ) {
+function get_network_by_path( $domain, $path, $segments = null ) {
 	global $wpdb;
 
-	$current_site->site_name = wp_cache_get( $current_site->id . ':site_name', 'site-options' );
-	if ( ! $current_site->site_name ) {
-		$current_site->site_name = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE site_id = %d AND meta_key = 'site_name'", $current_site->id ) );
-		if ( ! $current_site->site_name )
-			$current_site->site_name = ucfirst( $current_site->domain );
-		wp_cache_set( $current_site->id . ':site_name', $current_site->site_name, 'site-options' );
+	$domains = $exact_domains = array( $domain );
+	$pieces = explode( '.', $domain );
+
+	// It's possible one domain to search is 'com', but it might as well
+	// be 'localhost' or some other locally mapped domain.
+	while ( array_shift( $pieces ) ) {
+		if ( $pieces ) {
+			$domains[] = implode( '.', $pieces );
+		}
 	}
 
-	return $current_site;
+	/*
+	 * If we've gotten to this function during normal execution, there is
+	 * more than one network installed. At this point, who knows how many
+	 * we have. Attempt to optimize for the situation where networks are
+	 * only domains, thus meaning paths never need to be considered.
+	 *
+	 * This is a very basic optimization; anything further could have drawbacks
+	 * depending on the setup, so this is best done per-install.
+	 */
+	$using_paths = true;
+	if ( wp_using_ext_object_cache() ) {
+		$using_paths = wp_cache_get( 'networks_have_paths', 'site-options' );
+		if ( false === $using_paths ) {
+			$using_paths = (bool) $wpdb->get_var( "SELECT id FROM $wpdb->site WHERE path <> '/' LIMIT 1" );
+			wp_cache_add( 'networks_have_paths', (int) $using_paths, 'site-options'  );
+		}
+	}
+
+	$paths = array();
+	if ( $using_paths ) {
+		$path_segments = array_filter( explode( '/', trim( $path, "/" ) ) );
+
+		/**
+		 * Filter the number of path segments to consider when searching for a site.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param mixed  $segments The number of path segments to consider. WordPress by default looks at
+		 *                         one path segment. The function default of null only makes sense when you
+		 *                         know the requested path should match a network.
+		 * @param string $domain   The requested domain.
+		 * @param string $path     The requested path, in full.
+		 */
+		$segments = apply_filters( 'network_by_path_segments_count', $segments, $domain, $path );
+
+		if ( null !== $segments && count($path_segments ) > $segments ) {
+			$path_segments = array_slice( $path_segments, 0, $segments );
+		}
+
+		while ( count( $path_segments ) ) {
+			$paths[] = '/' . implode( '/', $path_segments ) . '/';
+			array_pop( $path_segments );
+		}
+
+		$paths[] = '/';
+	}
+
+	/**
+	 * Determine a network by its domain and path.
+	 *
+	 * This allows one to short-circuit the default logic, perhaps by
+	 * replacing it with a routine that is more optimal for your setup.
+	 *
+	 * Return null to avoid the short-circuit. Return false if no network
+	 * can be found at the requested domain and path. Otherwise, return
+	 * an object from wp_get_network().
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param string $domain   The requested domain.
+	 * @param string $path     The requested path, in full.
+	 * @param mixed  $segments The suggested number of paths to consult.
+	 *                         Default null, meaning the entire path was to be consulted.
+	 * @param array  $paths    The paths to search for, based on $path and $segments.
+	 */
+	$pre = apply_filters( 'pre_get_network_by_path', null, $domain, $path, $segments, $paths );
+	if ( null !== $pre ) {
+		return $pre;
+	}
+
+	// @todo Consider additional optimization routes, perhaps as an opt-in for plugins.
+	// We already have paths covered. What about how far domains should be drilled down (including www)?
+
+	$search_domains = "'" . implode( "', '", $wpdb->_escape( $domains ) ) . "'";
+
+	if ( ! $using_paths ) {
+		$network = $wpdb->get_row( "SELECT id, domain, path FROM $wpdb->site
+			WHERE domain IN ($search_domains) ORDER BY CHAR_LENGTH(domain) DESC LIMIT 1" );
+		if ( $network ) {
+			return wp_get_network( $network );
+		}
+		return false;
+
+	} else {
+		$search_paths = "'" . implode( "', '", $wpdb->_escape( $paths ) ) . "'";
+		$networks = $wpdb->get_results( "SELECT id, domain, path FROM $wpdb->site
+			WHERE domain IN ($search_domains) AND path IN ($search_paths)
+			ORDER BY CHAR_LENGTH(domain) DESC, CHAR_LENGTH(path) DESC" );
+	}
+
+	/*
+	 * Domains are sorted by length of domain, then by length of path.
+	 * The domain must match for the path to be considered. Otherwise,
+	 * a network with the path of / will suffice.
+	 */
+	$found = false;
+	foreach ( $networks as $network ) {
+		if ( $network->domain === $domain || "www.$network->domain" === $domain ) {
+			if ( in_array( $network->path, $paths, true ) ) {
+				$found = true;
+				break;
+			}
+		}
+		if ( $network->path === '/' ) {
+			$found = true;
+			break;
+		}
+	}
+
+	if ( $found ) {
+		return wp_get_network( $network );
+	}
+
+	return false;
 }
 
 /**
- * Sets current_site object.
+ * Retrieve an object containing information about the requested network.
  *
- * @access private
- * @since 3.0.0
- * @return object $current_site object
+ * @since 3.9.0
+ *
+ * @param object|int $network The network's DB row or ID.
+ * @return object|bool Object containing network information if found, false if not.
+ */
+function wp_get_network( $network ) {
+	global $wpdb;
+
+	if ( ! is_object( $network ) ) {
+		$network = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->site WHERE id = %d", $network ) );
+		if ( ! $network ) {
+			return false;
+		}
+	}
+
+	return $network;
+}
+
+/**
+ * @todo deprecate
  */
 function wpmu_current_site() {
-	global $wpdb, $current_site, $domain, $path, $sites, $cookie_domain;
+}
 
-	if ( empty( $current_site ) )
-		$current_site = new stdClass;
+/**
+ * Retrieve a site object by its domain and path.
+ *
+ * @since 3.9.0
+ *
+ * @param string $domain   Domain to check.
+ * @param string $path     Path to check.
+ * @param int    $segments Path segments to use. Defaults to null, or the full path.
+ * @return object|bool Site object if successful. False when no site is found.
+ */
+function get_site_by_path( $domain, $path, $segments = null ) {
+	global $wpdb;
 
-	if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
-		$current_site->id = defined( 'SITE_ID_CURRENT_SITE' ) ? SITE_ID_CURRENT_SITE : 1;
-		$current_site->domain = DOMAIN_CURRENT_SITE;
-		$current_site->path   = $path = PATH_CURRENT_SITE;
-		if ( defined( 'BLOG_ID_CURRENT_SITE' ) )
-			$current_site->blog_id = BLOG_ID_CURRENT_SITE;
-		elseif ( defined( 'BLOGID_CURRENT_SITE' ) ) // deprecated.
-			$current_site->blog_id = BLOGID_CURRENT_SITE;
-		if ( DOMAIN_CURRENT_SITE == $domain )
-			$current_site->cookie_domain = $cookie_domain;
-		elseif ( substr( $current_site->domain, 0, 4 ) == 'www.' )
-			$current_site->cookie_domain = substr( $current_site->domain, 4 );
-		else
-			$current_site->cookie_domain = $current_site->domain;
+	$path_segments = array_filter( explode( '/', trim( $path, '/' ) ) );
 
-		wp_load_core_site_options( $current_site->id );
+	/**
+	 * Filter the number of path segments to consider when searching for a site.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param mixed  $segments The number of path segments to consider. WordPress by default looks at
+	 *                         one path segment following the network path. The function default of
+	 *                         null only makes sense when you know the requested path should match a site.
+	 * @param string $domain   The requested domain.
+	 * @param string $path     The requested path, in full.
+	 */
+	$segments = apply_filters( 'site_by_path_segments_count', $segments, $domain, $path );
 
-		return $current_site;
+	if ( null !== $segments && count( $path_segments ) > $segments ) {
+		$path_segments = array_slice( $path_segments, 0, $segments );
 	}
 
-	$current_site = wp_cache_get( 'current_site', 'site-options' );
-	if ( $current_site )
-		return $current_site;
-
-	$sites = $wpdb->get_results( "SELECT * FROM $wpdb->site" ); // usually only one site
-	if ( 1 == count( $sites ) ) {
-		$current_site = $sites[0];
-		wp_load_core_site_options( $current_site->id );
-		$path = $current_site->path;
-		$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $current_site->domain, $current_site->path ) );
-		$current_site = get_current_site_name( $current_site );
-		if ( substr( $current_site->domain, 0, 4 ) == 'www.' )
-			$current_site->cookie_domain = substr( $current_site->domain, 4 );
-		wp_cache_set( 'current_site', $current_site, 'site-options' );
-		return $current_site;
-	}
-	$path = substr( $_SERVER[ 'REQUEST_URI' ], 0, 1 + strpos( $_SERVER[ 'REQUEST_URI' ], '/', 1 ) );
-
-	if ( $domain == $cookie_domain )
-		$current_site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->site WHERE domain = %s AND path = %s", $domain, $path ) );
-	else
-		$current_site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->site WHERE domain IN ( %s, %s ) AND path = %s ORDER BY CHAR_LENGTH( domain ) DESC LIMIT 1", $domain, $cookie_domain, $path ) );
-
-	if ( ! $current_site ) {
-		if ( $domain == $cookie_domain )
-			$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path='/'", $domain ) );
-		else
-			$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain IN ( %s, %s ) AND path = '/' ORDER BY CHAR_LENGTH( domain ) DESC LIMIT 1", $domain, $cookie_domain, $path ) );
+	while ( count( $path_segments ) ) {
+		$paths[] = '/' . implode( '/', $path_segments ) . '/';
+		array_pop( $path_segments );
 	}
 
-	if ( $current_site ) {
-		$path = $current_site->path;
-		$current_site->cookie_domain = $cookie_domain;
-		return $current_site;
+	$paths[] = '/';
+
+	/**
+	 * Determine a site by its domain and path.
+	 *
+	 * This allows one to short-circuit the default logic, perhaps by
+	 * replacing it with a routine that is more optimal for your setup.
+	 *
+	 * Return null to avoid the short-circuit. Return false if no site
+	 * can be found at the requested domain and path. Otherwise, return
+	 * a site object.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param string $domain   The requested domain.
+	 * @param string $path     The requested path, in full.
+	 * @param mixed  $segments The suggested number of paths to consult.
+	 *                         Default null, meaning the entire path was to be consulted.
+	 * @param array  $paths    The paths to search for, based on $path and $segments.
+	 */
+	$pre = apply_filters( 'pre_get_site_by_path', null, $domain, $path, $segments, $paths );
+	if ( null !== $pre ) {
+		return $pre;
 	}
 
-	if ( is_subdomain_install() ) {
-		$sitedomain = substr( $domain, 1 + strpos( $domain, '.' ) );
-		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path = %s", $sitedomain, $path) );
-		if ( $current_site ) {
-			$current_site->cookie_domain = $current_site->domain;
-			return $current_site;
-		}
+	// @todo
+	// get_blog_details(), caching, etc. Consider alternative optimization routes,
+	// perhaps as an opt-in for plugins, rather than using the pre_* filter.
+	// For example: The segments filter can expand or ignore paths.
+	// If persistent caching is enabled, we could query the DB for a path <> '/'
+	// then cache whether we can just always ignore paths.
 
-		$current_site = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->site WHERE domain = %s AND path='/'", $sitedomain) );
+	if ( count( $paths ) > 1 ) {
+		$paths = "'" . implode( "', '", $wpdb->_escape( $paths ) ) . "'";
+		$site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs
+			WHERE domain = %s AND path IN ($paths) ORDER BY CHAR_LENGTH(path) DESC LIMIT 1", $domain ) );
+	} else {
+		$site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s and path = %s", $domain, $paths[0] ) );
 	}
 
-	if ( $current_site || defined( 'WP_INSTALLING' ) ) {
-		$path = '/';
-		return $current_site;
+	if ( $site ) {
+		// @todo get_blog_details()
+		return $site;
 	}
 
-	// Still no dice.
-	wp_load_translations_early();
-
-	if ( 1 == count( $sites ) )
-		wp_die( sprintf( __( 'That site does not exist. Please try <a href="%s">%s</a>.' ), 'http://' . $sites[0]->domain . $sites[0]->path ) );
-	else
-		wp_die( __( 'No site defined on this host. If you are the owner of this site, please check <a href="http://codex.wordpress.org/Debugging_a_WordPress_Network">Debugging a WordPress Network</a> for help.' ) );
+	return false;
 }
 
 /**
@@ -261,4 +398,22 @@ function ms_not_installed() {
 	$msg .= '</ul>';
 
 	wp_die( $msg, $title );
+}
+
+/**
+ * This deprecated function formerly set the site_name property of the $current_site object.
+ *
+ * This function simply returns the object, as before.
+ * The bootstrap takes care of setting site_name.
+ *
+ * @access private
+ * @since 3.0.0
+ * @deprecated 3.9.0
+ *
+ * @param object $current_site
+ * @return object
+ */
+function get_current_site_name( $current_site ) {
+	_deprecated_function( __FUNCTION__, '3.9' );
+	return $current_site;
 }

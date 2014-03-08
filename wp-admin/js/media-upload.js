@@ -1,49 +1,36 @@
-/* global tinymce, QTags, tb_remove */
+/* global tinymce, QTags */
 // send html to the post editor
 
 var wpActiveEditor, send_to_editor;
 
-send_to_editor = function(h) {
-	var ed, mce = typeof(tinymce) != 'undefined', qt = typeof(QTags) != 'undefined';
+send_to_editor = function( html ) {
+	var editor,
+		hasTinymce = typeof tinymce !== 'undefined',
+		hasQuicktags = typeof QTags !== 'undefined';
 
-	if ( !wpActiveEditor ) {
-		if ( mce && tinymce.activeEditor ) {
-			ed = tinymce.activeEditor;
-			wpActiveEditor = ed.id;
-		} else if ( !qt ) {
+	if ( ! wpActiveEditor ) {
+		if ( hasTinymce && tinymce.activeEditor ) {
+			editor = tinymce.activeEditor;
+			wpActiveEditor = editor.id;
+		} else if ( ! hasQuicktags ) {
 			return false;
 		}
-	} else if ( mce ) {
-		if ( tinymce.activeEditor && (tinymce.activeEditor.id == 'mce_fullscreen' || tinymce.activeEditor.id == 'wp_mce_fullscreen') )
-			ed = tinymce.activeEditor;
-		else
-			ed = tinymce.get(wpActiveEditor);
+	} else if ( hasTinymce ) {
+		editor = tinymce.get( wpActiveEditor );
 	}
 
-	if ( ed && !ed.isHidden() ) {
-		// restore caret position on IE
-		if ( tinymce.isIE && ed.windowManager.insertimagebookmark )
-			ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark);
-
-		if ( h.indexOf('[caption') !== -1 ) {
-			if ( ed.wpSetImgCaption )
-				h = ed.wpSetImgCaption(h);
-		} else if ( h.indexOf('[gallery') !== -1 ) {
-			if ( ed.plugins.wpgallery )
-				h = ed.plugins.wpgallery._do_gallery(h);
-		} else if ( h.indexOf('[embed') === 0 ) {
-			if ( ed.plugins.wordpress )
-				h = ed.plugins.wordpress._setEmbed(h);
-		}
-
-		ed.execCommand('mceInsertContent', false, h);
-	} else if ( qt ) {
-		QTags.insertContent(h);
+	if ( editor && ! editor.isHidden() ) {
+		editor.execCommand( 'mceInsertContent', false, html );
+	} else if ( hasQuicktags ) {
+		QTags.insertContent( html );
 	} else {
-		document.getElementById(wpActiveEditor).value += h;
+		document.getElementById( wpActiveEditor ).value += html;
 	}
 
-	try{tb_remove();}catch(e){}
+	// If the old thickbox remove function exists, call it
+	if ( window.tb_remove ) {
+		try { window.tb_remove(); } catch( e ) {}
+	}
 };
 
 // thickbox settings
@@ -56,8 +43,8 @@ var tb_position;
 			W = ( 720 < width ) ? 720 : width,
 			adminbar_height = 0;
 
-		if ( $('body.admin-bar').length ) {
-			adminbar_height = parseInt( jQuery('#wpadminbar').css('height'), 10 );
+		if ( $('#wpadminbar').length ) {
+			adminbar_height = parseInt( $('#wpadminbar').css('height'), 10 );
 		}
 
 		if ( tbWindow.size() ) {
@@ -78,17 +65,5 @@ var tb_position;
 	};
 
 	$(window).resize(function(){ tb_position(); });
-
-	// store caret position in IE
-	$(document).ready(function($){
-		$('a.thickbox').click(function(){
-			var ed;
-
-			if ( typeof(tinymce) != 'undefined' && tinymce.isIE && ( ed = tinymce.get(wpActiveEditor) ) && !ed.isHidden() ) {
-				ed.focus();
-				ed.windowManager.insertimagebookmark = ed.selection.getBookmark();
-			}
-		});
-	});
 
 })(jQuery);

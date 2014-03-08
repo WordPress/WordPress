@@ -20,8 +20,22 @@ function get_column_headers( $screen ) {
 
 	static $column_headers = array();
 
-	if ( ! isset( $column_headers[ $screen->id ] ) )
+	if ( ! isset( $column_headers[ $screen->id ] ) ) {
+
+		/**
+		 * Filter the column headers for a list table on a specific screen.
+		 *
+		 * The dynamic portion of the hook name, $screen->id, refers to the
+		 * ID of a specific screen. For example, the screen ID for the Posts
+		 * list table is edit-post, so the filter for that screen would be
+		 * manage_edit-post_columns.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $columns An array of column headers. Default empty.
+		 */
 		$column_headers[ $screen->id ] = apply_filters( 'manage_' . $screen->id . '_columns', array() );
+	}
 
 	return $column_headers[ $screen->id ];
 }
@@ -101,9 +115,28 @@ function get_hidden_meta_boxes( $screen ) {
 			else
 				$hidden = array( 'slugdiv' );
 		}
+
+		/**
+		 * Filter the default list of hidden meta boxes.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array     $hidden An array of meta boxes hidden by default.
+		 * @param WP_Screen $screen WP_Screen object of the current screen.
+		 */
 		$hidden = apply_filters( 'default_hidden_meta_boxes', $hidden, $screen );
 	}
 
+	/**
+	 * Filter the list of hidden meta boxes.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param array     $hidden       An array of hidden meta boxes.
+	 * @param WP_Screen $screen       WP_Screen object of the current screen.
+	 * @param bool      $use_defaults Whether to show the default meta boxes.
+	 *                                Default true.
+	 */
 	return apply_filters( 'hidden_meta_boxes', $hidden, $screen, $use_defaults );
 }
 
@@ -502,6 +535,14 @@ final class WP_Screen {
 		$current_screen = $this;
 		$taxnow = $this->taxonomy;
 		$typenow = $this->post_type;
+
+		/**
+		 * Fires after the current screen has been set.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param WP_Screen $current_screen Current WP_Screen object.
+		 */
 		do_action( 'current_screen', $current_screen );
 	}
 
@@ -747,14 +788,46 @@ final class WP_Screen {
 	 */
 	public function render_screen_meta() {
 
-		// Call old contextual_help_list filter.
+		/**
+		 * Filter the legacy contextual help list.
+		 *
+		 * @since 2.7.0
+		 * @deprecated 3.3.0 Use get_current_screen()->add_help_tab() or
+		 *                   get_current_screen()->remove_help_tab() instead.
+		 *
+		 * @param array     $old_compat_help Old contextual help.
+		 * @param WP_Screen $this            Current WP_Screen instance.
+		 */
 		self::$_old_compat_help = apply_filters( 'contextual_help_list', self::$_old_compat_help, $this );
 
 		$old_help = isset( self::$_old_compat_help[ $this->id ] ) ? self::$_old_compat_help[ $this->id ] : '';
+
+		/**
+		 * Filter the legacy contextual help text.
+		 *
+		 * @since 2.7.0
+		 * @deprecated 3.3.0 Use get_current_screen()->add_help_tab() or
+		 *                   get_current_screen()->remove_help_tab() instead.
+		 *
+		 * @param string    $old_help  Help text that appears on the screen.
+		 * @param string    $screen_id Screen ID.
+		 * @param WP_Screen $this      Current WP_Screen instance.
+		 *
+		 */
 		$old_help = apply_filters( 'contextual_help', $old_help, $this->id, $this );
 
 		// Default help only if there is no old-style block of text and no new-style help tabs.
 		if ( empty( $old_help ) && ! $this->get_help_tabs() ) {
+
+			/**
+			 * Filter the default legacy contextual help text.
+			 *
+			 * @since 2.8.0
+			 * @deprecated 3.3.0 Use get_current_screen()->add_help_tab() or
+			 *                   get_current_screen()->remove_help_tab() instead.
+			 *
+			 * @param string $old_help_default Default contextual help text.
+			 */
 			$default_help = apply_filters( 'default_contextual_help', '' );
 			if ( $default_help )
 				$old_help = '<p>' . $default_help . '</p>';
@@ -835,7 +908,18 @@ final class WP_Screen {
 		<?php
 		// Setup layout columns
 
-		// Back compat for plugins using the filter instead of add_screen_option()
+		/**
+		 * Filter the array of screen layout columns.
+		 *
+		 * This hook provides back-compat for plugins using the back-compat
+		 * filter instead of add_screen_option().
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array     $empty_columns Empty array.
+		 * @param string    $screen_id     Screen ID.
+		 * @param WP_Screen $this          Current WP_Screen instance.
+		 */
 		$columns = apply_filters( 'screen_layout_columns', array(), $this->id, $this );
 
 		if ( ! empty( $columns ) && isset( $columns[ $this->id ] ) )
@@ -892,11 +976,31 @@ final class WP_Screen {
 				break;
 		}
 
+		/**
+		 * Filter the screen settings text displayed in the Screen Options tab.
+		 *
+		 * This filter is currently only used on the Widgets screen to enable
+		 * accessibility mode.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string    $screen_settings Screen settings.
+		 * @param WP_Screen $this            WP_Screen object.
+		 */
 		$this->_screen_settings = apply_filters( 'screen_settings', $this->_screen_settings, $this );
 
 		if ( $this->_screen_settings || $this->_options )
 			$show_screen = true;
 
+		/**
+		 * Filter whether to show the Screen Options tab.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param bool      $show_screen Whether to show Screen Options tab.
+		 *                               Default true.
+		 * @param WP_Screen $this        Current WP_Screen instance.
+		 */
 		$this->_show_screen_options = apply_filters( 'screen_options_show_screen', $show_screen, $this );
 		return $this->_show_screen_options;
 	}
@@ -1034,16 +1138,22 @@ final class WP_Screen {
 
 		if ( 'edit_comments_per_page' == $option ) {
 			$comment_status = isset( $_REQUEST['comment_status'] ) ? $_REQUEST['comment_status'] : 'all';
+
+			/** This filter is documented in wp-admin/includes/class-wp-comments-list-table.php */
 			$per_page = apply_filters( 'comments_per_page', $per_page, $comment_status );
 		} elseif ( 'categories_per_page' == $option ) {
+			/** This filter is documented in wp-admin/includes/class-wp-terms-list-table.php */
 			$per_page = apply_filters( 'edit_categories_per_page', $per_page );
 		} else {
+			/** This filter is documented in wp-admin/includes/class-wp-list-table.php */
 			$per_page = apply_filters( $option, $per_page );
 		}
 
 		// Back compat
-		if ( isset( $this->post_type ) )
+		if ( isset( $this->post_type ) ) {
+			/** This filter is documented in wp-admin/includes/class-wp-posts-list-table.php */
 			$per_page = apply_filters( 'edit_posts_per_page', $per_page, $this->post_type );
+		}
 
 		?>
 		<div class="screen-options">

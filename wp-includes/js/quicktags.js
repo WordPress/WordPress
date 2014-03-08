@@ -1,4 +1,4 @@
-/* global adminpage, wpActiveEditor, quicktagsL10n, wpLink, fullscreen, prompt */
+/* global adminpage, wpActiveEditor, quicktagsL10n, wpLink, prompt */
 /*
  * Quicktags
  *
@@ -185,6 +185,9 @@ function edButton(id, display, tagStart, tagEnd, access) {
 		tb = document.createElement('div');
 		tb.id = toolbar_id;
 		tb.className = 'quicktags-toolbar';
+		tb.onclick = function() {
+			window.wpActiveEditor = id;
+		};
 
 		canvas.parentNode.insertBefore(tb, canvas);
 		t.toolbar = tb;
@@ -563,8 +566,8 @@ function edButton(id, display, tagStart, tagEnd, access) {
 	qt.LinkButton.prototype.callback = function(e, c, ed, defaultValue) {
 		var URL, t = this;
 
-		if ( typeof(wpLink) !== 'undefined' ) {
-			wpLink.open();
+		if ( typeof wpLink !== 'undefined' ) {
+			wpLink.open( ed.id );
 			return;
 		}
 
@@ -605,11 +608,11 @@ function edButton(id, display, tagStart, tagEnd, access) {
 	};
 	qt.FullscreenButton.prototype = new qt.Button();
 	qt.FullscreenButton.prototype.callback = function(e, c) {
-		if ( !c.id || typeof(fullscreen) === 'undefined' ) {
+		if ( ! c.id || typeof wp === 'undefined' || ! wp.editor || ! wp.editor.fullscreen ) {
 			return;
 		}
 
-		fullscreen.on();
+		wp.editor.fullscreen.on();
 	};
 
 	qt.TextDirectionButton = function() {
@@ -640,7 +643,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 	edButtons[90] = new qt.TagButton('ol','ol','<ol>\n','</ol>\n\n','o'),
 	edButtons[100] = new qt.TagButton('li','li','\t<li>','</li>\n','l'),
 	edButtons[110] = new qt.TagButton('code','code','<code>','</code>','c'),
-	edButtons[120] = new qt.TagButton('more','more','<!--more-->','','t'),
+	edButtons[120] = new qt.TagButton('more','more','\n\n<!--more-->\n\n','','t'),
 	edButtons[140] = new qt.CloseButton();
 
 })();

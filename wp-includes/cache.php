@@ -163,7 +163,8 @@ function wp_cache_replace( $key, $data, $group = '', $expire = 0 ) {
 /**
  * Saves the data to the cache.
  *
- * @since 2.0
+ * @since 2.0.0
+ *
  * @uses $wp_object_cache Object Cache Class
  * @see WP_Object_Cache::set()
  *
@@ -256,7 +257,7 @@ function wp_cache_reset() {
  *
  * @package WordPress
  * @subpackage Cache
- * @since 2.0
+ * @since 2.0.0
  */
 class WP_Object_Cache {
 
@@ -387,26 +388,24 @@ class WP_Object_Cache {
 	/**
 	 * Remove the contents of the cache key in the group
 	 *
-	 * If the cache key does not exist in the group and $force parameter is set
-	 * to false, then nothing will happen. The $force parameter is set to false
-	 * by default.
+	 * If the cache key does not exist in the group, then nothing will happen.
 	 *
 	 * @since 2.0.0
 	 *
 	 * @param int|string $key What the contents in the cache are called
 	 * @param string $group Where the cache contents are grouped
-	 * @param bool $force Optional. Whether to force the unsetting of the cache
-	 *		key in the group
+	 * @param bool $deprecated Deprecated.
+	 *
 	 * @return bool False if the contents weren't deleted and true on success
 	 */
-	function delete($key, $group = 'default', $force = false) {
+	function delete( $key, $group = 'default', $deprecated = false ) {
 		if ( empty( $group ) )
 			$group = 'default';
 
 		if ( $this->multisite && ! isset( $this->global_groups[ $group ] ) )
 			$key = $this->blog_prefix . $key;
 
-		if ( ! $force && ! $this->_exists( $key, $group ) )
+		if ( ! $this->_exists( $key, $group ) )
 			return false;
 
 		unset( $this->cache[$group][$key] );

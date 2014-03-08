@@ -19,7 +19,7 @@
  *
  * @package WordPress
  * @subpackage Widgets
- * @since 2.8
+ * @since 2.8.0
  */
 class WP_Widget {
 
@@ -183,15 +183,16 @@ class WP_Widget {
 		}
 	}
 
-	/** Deal with changed settings.
-	 *	Do NOT over-ride this function. */
-	function update_callback( $widget_args = 1 ) {
+	/**
+	 * Deal with changed settings.
+	 *
+	 * Do NOT over-ride this function.
+	 *
+	 * @param mixed $deprecated Not used.
+	 */
+	function update_callback( $deprecated = 1 ) {
 		global $wp_registered_widgets;
 
-		if ( is_numeric($widget_args) )
-			$widget_args = array( 'number' => $widget_args );
-
-		$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
 		$all_instances = $this->get_settings();
 
 		// We need to update the data
@@ -311,7 +312,7 @@ class WP_Widget {
  *
  * @package WordPress
  * @subpackage Widgets
- * @since 2.8
+ * @since 2.8.0
  */
 class WP_Widget_Factory {
 	var $widgets = array();
@@ -978,7 +979,7 @@ function is_dynamic_sidebar() {
 /**
  * Whether a sidebar is in use.
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @param mixed $index Sidebar name, id or number to check.
  * @return bool true if the sidebar is in use, false otherwise.
@@ -1124,7 +1125,7 @@ function wp_convert_widget_settings($base_name, $option_name, $settings) {
 /**
  * Output an arbitrary widget as a template tag
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @param string $widget the widget's PHP class name (see default-widgets.php)
  * @param array $instance the widget's instance settings

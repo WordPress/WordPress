@@ -9,7 +9,7 @@
 /**
  * Creates a new user from the "Users" form using $_POST information.
  *
- * @since 2.0
+ * @since 2.0.0
  *
  * @return null|WP_Error|int Null when adding user, WP_Error or User ID integer when no parameters.
  */
@@ -22,7 +22,7 @@ function add_user() {
  *
  * Used on user-edit.php and profile.php to manage and process user options, passwords etc.
  *
- * @since 2.0
+ * @since 2.0.0
  *
  * @param int $user_id Optional. User ID.
  * @return int user id of the updated user
@@ -193,7 +193,7 @@ function edit_user( $user_id = 0 ) {
  * only editors or authors. This filter allows admins to delegate
  * user management.
  *
- * @since 2.8
+ * @since 2.8.0
  *
  * @return unknown
  */
@@ -420,7 +420,7 @@ function default_password_nag() {
 	echo '<strong>' . __('Notice:') . '</strong> ';
 	_e('You&rsquo;re using the auto-generated password for your account. Would you like to change it to something easier to remember?');
 	echo '</p><p>';
-	printf( '<a href="%s">' . __('Yes, take me to my profile page') . '</a> | ', get_edit_profile_url( get_current_user_id() ) . '#password' );
+	printf( '<a href="%s">' . __('Yes, take me to my profile page') . '</a> | ', get_edit_profile_url() . '#password' );
 	printf( '<a href="%s" id="default-password-nag-no">' . __('No thanks, do not remind me again') . '</a>', '?default_password_nag=0' );
 	echo '</p></div>';
 }

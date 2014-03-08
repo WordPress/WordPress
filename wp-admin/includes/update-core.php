@@ -292,9 +292,7 @@ $_old_files = array(
 'wp-admin/css/colors-classic-rtl.dev.css',
 'wp-admin/css/colors-fresh-rtl.css',
 'wp-admin/css/colors-fresh-rtl.dev.css',
-'wp-admin/css/dashboard-rtl.css',
 'wp-admin/css/dashboard-rtl.dev.css',
-'wp-admin/css/dashboard.css',
 'wp-admin/css/dashboard.dev.css',
 'wp-admin/css/farbtastic-rtl.css',
 'wp-admin/css/global-rtl.css',
@@ -303,9 +301,7 @@ $_old_files = array(
 'wp-admin/css/global.dev.css',
 'wp-admin/css/install-rtl.css',
 'wp-admin/css/install-rtl.dev.css',
-'wp-admin/css/login-rtl.css',
 'wp-admin/css/login-rtl.dev.css',
-'wp-admin/css/login.css',
 'wp-admin/css/login.dev.css',
 'wp-admin/css/ms.css',
 'wp-admin/css/ms.dev.css',
@@ -317,9 +313,7 @@ $_old_files = array(
 'wp-admin/css/plugin-install-rtl.dev.css',
 'wp-admin/css/plugin-install.css',
 'wp-admin/css/plugin-install.dev.css',
-'wp-admin/css/press-this-rtl.css',
 'wp-admin/css/press-this-rtl.dev.css',
-'wp-admin/css/press-this.css',
 'wp-admin/css/press-this.dev.css',
 'wp-admin/css/theme-editor-rtl.css',
 'wp-admin/css/theme-editor-rtl.dev.css',
@@ -329,9 +323,7 @@ $_old_files = array(
 'wp-admin/css/theme-install-rtl.dev.css',
 'wp-admin/css/theme-install.css',
 'wp-admin/css/theme-install.dev.css',
-'wp-admin/css/widgets-rtl.css',
 'wp-admin/css/widgets-rtl.dev.css',
-'wp-admin/css/widgets.css',
 'wp-admin/css/widgets.dev.css',
 'wp-admin/includes/internal-linking.php',
 'wp-includes/images/admin-bar-sprite-rtl.png',
@@ -603,6 +595,11 @@ $_old_files = array(
 'wp-admin/images/stars-rtl.png',
 'wp-admin/images/wp-logo-vs-2x.png',
 'wp-admin/images/about-updates-2x.png',
+// 3.9
+'wp-admin/css/colors.css',
+'wp-admin/css/colors.min.css',
+'wp-admin/images/lock-2x.png',
+'wp-admin/images/lock.png',
 );
 
 /**
@@ -684,8 +681,26 @@ function update_core($from, $to) {
 
 	@set_time_limit( 300 );
 
-	// Sanity check the unzipped distribution
-	apply_filters( 'update_feedback', __('Verifying the unpacked files&#8230;') );
+	/**
+	 * Filter feedback messages displayed during the core update process.
+	 *
+	 * The filter is first evaluated after the zip file for the latest version
+	 * has been downloaded and unzipped. It is evaluated five more times during
+	 * the process:
+	 *
+	 * 1. Before WordPress begins the core upgrade process.
+	 * 2. Before Maintenance Mode is enabled.
+	 * 3. Before WordPress begins copying over the necessary files.
+	 * 4. Before Maintenance Mode is disabled.
+	 * 5. Before the database is upgraded.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $feedback The core update feedback messages.
+	 */
+	apply_filters( 'update_feedback', __( 'Verifying the unpacked files&#8230;' ) );
+
+	// Sanity check the unzipped distribution.
 	$distro = '';
 	$roots = array( '/wordpress/', '/wordpress-mu/' );
 	foreach ( $roots as $root ) {
@@ -703,8 +718,8 @@ function update_core($from, $to) {
 	// $wp_filesystem->wp_content_dir() returned unslashed pre-2.8
 	$versions_file = trailingslashit( $wp_filesystem->wp_content_dir() ) . 'upgrade/version-current.php';
 	if ( ! $wp_filesystem->copy( $from . $distro . 'wp-includes/version.php', $versions_file ) ) {
-		 $wp_filesystem->delete( $from, true );
-		 return new WP_Error( 'copy_failed_for_version_file', __( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' ), 'wp-includes/version.php' );
+		$wp_filesystem->delete( $from, true );
+		return new WP_Error( 'copy_failed_for_version_file', __( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' ), 'wp-includes/version.php' );
 	}
 
 	$wp_filesystem->chmod( $versions_file, FS_CHMOD_FILE );
@@ -731,10 +746,12 @@ function update_core($from, $to) {
 	elseif ( !$mysql_compat )
 		return new WP_Error( 'mysql_not_compatible', sprintf( __('The update cannot be installed because WordPress %1$s requires MySQL version %2$s or higher. You are running version %3$s.'), $wp_version, $required_mysql_version, $mysql_version ) );
 
+	/** This filter is documented in wp-admin/includes/update-core.php */
 	apply_filters( 'update_feedback', __( 'Preparing to install the latest version&#8230;' ) );
 
 	// Don't copy wp-content, we'll deal with that below
-	$skip = array( 'wp-content' );
+	// We also copy version.php last so failed updates report their old version
+	$skip = array( 'wp-content', 'wp-includes/version.php' );
 	$check_is_writable = array();
 
 	// Check to see which files don't really need updating - only available for 3.7 and higher
@@ -781,6 +798,7 @@ function update_core($from, $to) {
 		}
 	}
 
+	/** This filter is documented in wp-admin/includes/update-core.php */
 	apply_filters( 'update_feedback', __( 'Enabling Maintenance mode&#8230;' ) );
 	// Create maintenance file to signal that we are upgrading
 	$maintenance_string = '<?php $upgrading = ' . time() . '; ?>';
@@ -788,11 +806,21 @@ function update_core($from, $to) {
 	$wp_filesystem->delete($maintenance_file);
 	$wp_filesystem->put_contents($maintenance_file, $maintenance_string, FS_CHMOD_FILE);
 
+	/** This filter is documented in wp-admin/includes/update-core.php */
 	apply_filters( 'update_feedback', __( 'Copying the required files&#8230;' ) );
 	// Copy new versions of WP files into place.
 	$result = _copy_dir( $from . $distro, $to, $skip );
 	if ( is_wp_error( $result ) )
 		$result = new WP_Error( $result->get_error_code(), $result->get_error_message(), substr( $result->get_error_data(), strlen( $to ) ) );
+
+	// Since we know the core files have copied over, we can now copy the version file
+	if ( ! is_wp_error( $result ) ) {
+		if ( ! $wp_filesystem->copy( $from . $distro . 'wp-includes/version.php', $to . 'wp-includes/version.php', true /* overwrite */ ) ) {
+			$wp_filesystem->delete( $from, true );
+			$result = new WP_Error( 'copy_failed_for_version_file', __( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' ), 'wp-includes/version.php' );
+		}
+		$wp_filesystem->chmod( $to . 'wp-includes/version.php', FS_CHMOD_FILE );
+	}
 
 	// Check to make sure everything copied correctly, ignoring the contents of wp-content
 	$skip = array( 'wp-content' );
@@ -853,6 +881,7 @@ function update_core($from, $to) {
 		}
 	}
 
+	/** This filter is documented in wp-admin/includes/update-core.php */
 	apply_filters( 'update_feedback', __( 'Disabling Maintenance mode&#8230;' ) );
 	// Remove maintenance file, we're done with potential site-breaking changes
 	$wp_filesystem->delete( $maintenance_file );
@@ -924,7 +953,8 @@ function update_core($from, $to) {
 	}
 
 	// Upgrade DB with separate request
-	apply_filters('update_feedback', __('Upgrading database&#8230;'));
+	/** This filter is documented in wp-admin/includes/update-core.php */
+	apply_filters( 'update_feedback', __( 'Upgrading database&#8230;' ) );
 	$db_upgrade_url = admin_url('upgrade.php?step=upgrade_db');
 	wp_remote_post($db_upgrade_url, array('timeout' => 60));
 
@@ -942,7 +972,13 @@ function update_core($from, $to) {
 	else
 		delete_option('update_core');
 
-	// If we made it this far:
+	/**
+	 * Fires after WordPress core has been successfully updated.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param string $wp_version The current WordPress version.
+	 */
 	do_action( '_core_updated_successfully', $wp_version );
 
 	// Clear the option that blocks auto updates after failures, now that we've been successful.

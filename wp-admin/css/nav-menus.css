@@ -1,0 +1,853 @@
+/* nav-menu */
+
+/* @todo: determine if this is truly for nav menus only */
+.no-js #message {
+	display: block;
+}
+
+ul.add-menu-item-tabs li {
+	padding: 3px 5px 3px 8px;
+}
+
+.accordion-section ul.category-tabs,
+.accordion-section ul.add-menu-item-tabs,
+.accordion-section ul.wp-tab-bar {
+	margin: 0;
+}
+
+.accordion-section .categorychecklist {
+	margin: 13px 0;
+}
+
+#nav-menu-meta .accordion-section-content {
+	padding: 18px 13px;
+}
+
+#nav-menu-meta .button-controls {
+	margin-bottom: 0;
+}
+
+#nav-menus-frame {
+	margin-left: 300px;
+	margin-top: 23px;
+}
+
+#wpbody-content #menu-settings-column {
+	display:inline;
+	width:281px;
+	margin-left: -300px;
+	clear: both;
+	float: left;
+	padding-top: 0;
+}
+
+#menu-settings-column .inside {
+	clear: both;
+	margin: 10px 0 0;
+}
+
+.metabox-holder-disabled .postbox,
+.metabox-holder-disabled .accordion-section-content,
+.metabox-holder-disabled .accordion-section-title {
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+}
+
+.metabox-holder-disabled .button-controls .select-all {
+	display: none;
+}
+
+#wpbody {
+	position: relative;
+}
+
+.blank-slate .menu-name {
+	height: 2em;
+}
+
+.blank-slate .menu-settings {
+	border: none;
+	margin-top: 0;
+	padding-top: 0;
+	overflow: hidden;
+}
+
+.is-submenu {
+	color: #999;
+	font-style: italic;
+	font-weight: normal;
+	margin-left: 4px;
+}
+
+.manage-menus {
+	margin-top: 23px;
+	padding: 10px;
+	overflow: hidden;
+	background: #fbfbfb;
+}
+
+.manage-menus select {
+	float: left;
+	margin-right: 6px;
+}
+
+.manage-menus .selected-menu {
+	float: left;
+	margin: 5px 6px 0 0;
+}
+
+.manage-menus .submit-btn {
+	float: left;
+	margin-top: 1px;
+}
+
+.menu-edit p {
+	margin: .3em 0 .6em;
+}
+
+.menu-edit #post-body-content h3 {
+	margin: 1em 0 10px;
+}
+
+.menu-settings {
+	border-top: 1px solid #eee;
+	margin-top: 2em;
+}
+
+.menu-settings dl {
+	margin: 0 0 10px;
+	overflow: hidden;
+	padding-left: 18%;
+}
+
+.menu-settings dd {
+	float: left;
+	margin: 0;
+	width: 100%;
+}
+
+.menu-settings dt {
+	float: left;
+	clear: both;
+	width: 21.951%;
+	padding: 3px 0 0;
+	margin-left: -21.951%;
+}
+
+.menu-settings label {
+	vertical-align: baseline;
+}
+
+.menu-edit .checkbox-input {
+	margin-top: 4px;
+}
+
+.theme-location-set {
+	color: #999;
+	font-size: 11px;
+}
+
+/* Menu Container */
+#menu-management-liquid {
+	float: left;
+	min-width: 100%;
+	margin-top: 3px;
+}
+
+#menu-management {
+	position: relative;
+	margin-right: 20px;
+	margin-top: -3px;
+	width: 100%;
+	background: #f5f5f5;
+}
+
+#menu-management .menu-edit {
+	margin-bottom: 20px;
+}
+
+.nav-menus-php #post-body {
+	padding: 0 10px 10px;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #dfdfdf;
+	background: #fff;
+}
+
+#nav-menu-header,
+#nav-menu-footer {
+	padding: 0 10px;
+}
+
+#nav-menu-header {
+	border-bottom: 1px solid #dfdfdf;
+	margin-bottom: 0;
+}
+
+#nav-menu-header .menu-name-label {
+	margin-top: 4px;
+}
+
+.nav-menus-php #post-body div.updated,
+.nav-menus-php #post-body div.error {
+	margin: 0;
+}
+
+.nav-menus-php #post-body-content {
+	position: relative;
+	float: none;
+}
+
+#menu-management .menu-add-new abbr {
+	font-weight:600;
+}
+
+#select-nav-menu-container {
+	text-align: right;
+	padding: 0 10px 3px 10px;
+	margin-bottom: 5px;
+}
+
+#select-nav-menu {
+	width: 100px;
+	display: inline;
+}
+
+#menu-name-label {
+	margin-top: -2px;
+}
+
+.widefat td.menu-location-menus {
+	padding-bottom: 5px;
+}
+
+.menu-location-menus select {
+	float: left;
+}
+
+#locations-nav-menu-wrapper {
+	padding: 5px 0;
+}
+
+.locations-nav-menu-select select {
+	float: left;
+	width: 160px;
+	margin-right: 5px;
+}
+
+.locations-row-links {
+	float: left;
+	margin: 6px 0 0 6px;
+}
+
+.locations-edit-menu-link,
+.locations-add-menu-link {
+	margin: 0 3px;
+}
+
+.locations-edit-menu-link {
+	padding-right: 3px;
+	border-right: 1px solid #ccc;
+}
+
+#wpbody .open-label {
+	display: block;
+	float:left;
+}
+
+#wpbody .open-label span {
+	padding-right: 10px;
+}
+
+.js .input-with-default-title {
+	color: #aaa;
+	font-style: italic;
+}
+
+#menu-management .inside {
+	padding: 0 10px;
+}
+
+/* Add Menu Item Boxes */
+.postbox .howto input,
+.accordion-container .howto input {
+	width: 180px;
+	float: right;
+}
+
+.accordion-container .outer-border {
+	margin: 0;
+}
+
+.customlinkdiv .howto input {
+	width: 180px;
+}
+
+.customlinkdiv p {
+	margin-top: 0
+}
+
+#nav-menu-theme-locations .howto select {
+	width: 100%;
+}
+
+#nav-menu-theme-locations .button-controls {
+	text-align: right;
+}
+
+.add-menu-item-view-all {
+	height: 400px;
+}
+
+/* Button Primary Actions */
+#menu-container .submit {
+	margin: 0 0 10px;
+	padding: 0;
+}
+
+.nav-menus-php .add-new-menu-action {
+	float: left;
+	margin: 6px 0 0 6px;
+	line-height: 15px;
+}
+
+.nav-menus-php .meta-sep,
+.nav-menus-php .submitdelete,
+.nav-menus-php .submitcancel {
+	display: block;
+	float: left;
+	margin: 6px 0;
+	line-height: 15px;
+}
+
+.meta-sep {
+	padding: 0 2px;
+}
+
+/* @todo: is this actually used? */
+#cancel-save {
+	text-decoration: underline;
+	font-size: 12px;
+	margin-left: 20px;
+	margin-top: 5px;
+}
+
+.button.right, .button-secondary.right, .button-primary.right {
+	float: right;
+}
+
+/* Button Secondary Actions */
+.list-controls {
+	float: left;
+	margin-top: 5px;
+}
+
+.add-to-menu {
+	float: right;
+}
+
+.postbox .spinner {
+	display: none;
+	vertical-align: middle;
+}
+
+.button-controls {
+	clear:both;
+	margin: 10px 0;
+}
+
+.show-all,
+.hide-all {
+	cursor: pointer;
+}
+
+.hide-all {
+	display: none;
+}
+
+/* Create Menu */
+#menu-name {
+	width: 270px;
+}
+
+#manage-menu .inside {
+	padding: 0px 0px;
+}
+
+/* Custom Links */
+#available-links dt {
+	display: block;
+}
+
+#add-custom-link .howto {
+	font-size: 12px;
+}
+
+#add-custom-link label span {
+	display: block;
+	float: left;
+	margin-top: 5px;
+	padding-right: 5px;
+}
+
+.menu-item-textbox {
+	width: 180px;
+}
+
+.nav-menus-php .howto span {
+	margin-top: 6px;
+	display: block;
+	float: left;
+}
+
+/* Menu item types */
+.quick-search {
+	width: 190px;
+}
+
+.nav-menus-php .list-wrap {
+	display: none;
+	clear: both;
+	margin-bottom: 10px;
+}
+
+.nav-menus-php .postbox p.submit {
+	margin-bottom: 0;
+}
+
+/* Listings */
+.nav-menus-php .list li {
+	display: none;
+	margin: 0;
+	margin-bottom: 5px;
+}
+
+.nav-menus-php .list li .menu-item-title {
+	cursor: pointer;
+	display: block;
+}
+
+.nav-menus-php .list li .menu-item-title input {
+	margin-right: 3px;
+	margin-top: -3px;
+}
+
+.menu-item-title input[type=checkbox] {
+	display: inline-block;
+	margin-top: -4px;
+}
+
+/* Nav Menu */
+#menu-container .inside {
+	padding-bottom: 10px;
+}
+
+.menu {
+	padding-top:1em;
+}
+
+#menu-to-edit {
+	margin: 0;
+	padding: 0.1em 0;
+}
+
+.menu ul {
+	width: 100%;
+}
+
+.menu li {
+	margin-bottom: 0;
+	position:relative;
+}
+
+.menu-item-bar {
+	clear:both;
+	line-height:1.5em;
+	position:relative;
+	margin: 9px 0 0;
+}
+
+.menu-item-bar .menu-item-handle {
+	border: 1px solid #dfdfdf;
+	position: relative;
+	padding: 10px 15px;
+	height: auto;
+	width: 382px;
+	line-height: 30px;
+	overflow: hidden;
+	word-wrap: break-word;
+}
+
+.menu-item-bar .menu-item-handle:hover {
+	border-color: #999;
+}
+
+#menu-to-edit .menu-item-invalid .menu-item-handle {
+	background: #f6c9cc;
+	border-color: #f1acb1;
+}
+
+.no-js .menu-item-edit-active .item-edit {
+	display: none;
+}
+
+.js .menu-item-handle {
+	cursor: move;
+}
+
+.menu li.deleting .menu-item-handle {
+	background-image: none;
+	background-color: #f66;
+}
+
+.menu-item-handle .item-title {
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 20px;
+	display: block;
+	margin-right: 13em;
+}
+
+/* Sortables */
+li.menu-item.ui-sortable-helper dl {
+	margin-top: 0;
+}
+
+li.menu-item.ui-sortable-helper .menu-item-transport dl {
+	margin-top: 13px;
+}
+
+.menu .sortable-placeholder {
+	height: 35px;
+	width: 410px;
+	margin-top: 13px;
+}
+
+/* WARNING: The factor of 30px is hardcoded into the nav-menus javascript. */
+.menu-item-depth-0 { margin-left: 0px; }
+.menu-item-depth-1 { margin-left: 30px; }
+.menu-item-depth-2 { margin-left: 60px; }
+.menu-item-depth-3 { margin-left: 90px; }
+.menu-item-depth-4 { margin-left: 120px; }
+.menu-item-depth-5 { margin-left: 150px; }
+.menu-item-depth-6 { margin-left: 180px; }
+.menu-item-depth-7 { margin-left: 210px; }
+.menu-item-depth-8 { margin-left: 240px; }
+.menu-item-depth-9 { margin-left: 270px; }
+.menu-item-depth-10 { margin-left: 300px; }
+.menu-item-depth-11 { margin-left: 330px; }
+
+.menu-item-depth-0 .menu-item-transport { margin-left: 0px; }
+.menu-item-depth-1 .menu-item-transport { margin-left: -30px; }
+.menu-item-depth-2 .menu-item-transport { margin-left: -60px; }
+.menu-item-depth-3 .menu-item-transport { margin-left: -90px; }
+.menu-item-depth-4 .menu-item-transport { margin-left: -120px; }
+.menu-item-depth-5 .menu-item-transport { margin-left: -150px; }
+.menu-item-depth-6 .menu-item-transport { margin-left: -180px; }
+.menu-item-depth-7 .menu-item-transport { margin-left: -210px; }
+.menu-item-depth-8 .menu-item-transport { margin-left: -240px; }
+.menu-item-depth-9 .menu-item-transport { margin-left: -270px; }
+.menu-item-depth-10 .menu-item-transport { margin-left: -300px; }
+.menu-item-depth-11 .menu-item-transport { margin-left: -330px; }
+
+body.menu-max-depth-0 { min-width: 950px !important; }
+body.menu-max-depth-1 { min-width: 980px !important; }
+body.menu-max-depth-2 { min-width: 1010px !important; }
+body.menu-max-depth-3 { min-width: 1040px !important; }
+body.menu-max-depth-4 { min-width: 1070px !important; }
+body.menu-max-depth-5 { min-width: 1100px !important; }
+body.menu-max-depth-6 { min-width: 1130px !important; }
+body.menu-max-depth-7 { min-width: 1160px !important; }
+body.menu-max-depth-8 { min-width: 1190px !important; }
+body.menu-max-depth-9 { min-width: 1220px !important; }
+body.menu-max-depth-10 { min-width: 1250px !important; }
+body.menu-max-depth-11 { min-width: 1280px !important; }
+
+/* Menu item controls */
+.item-type {
+	color: #777;
+	font-size: 12px;
+	padding: 12px 10px;
+	line-height: 18px;
+	display: block;
+}
+
+.item-controls {
+	font-size: 12px;
+	position: absolute;
+	right: 20px;
+	top: -1px;
+}
+
+.item-controls a {
+	text-decoration: none;
+}
+
+.item-controls a:hover {
+	cursor: pointer;
+}
+
+.item-controls .item-order {
+	padding-right: 10px;
+}
+
+.nav-menus-php .item-edit {
+	position: absolute;
+	right: -20px;
+	top: 0;
+	display: block;
+	width: 30px;
+	height: 40px;
+	margin-right: 0 !important;
+	text-indent: 100%;
+	outline: none;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+/* Menu editing */
+.menu-instructions-inactive {
+	display: none;
+}
+
+.menu-item-settings {
+	display: block;
+	width: 402px;
+	padding: 10px 0 10px 10px;
+	position: relative;
+	z-index: 10; /* Keep .item-title's shadow from appearing on top of .menu-item-settings */
+	border: 1px solid #e5e5e5;
+	border-top: none;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+}
+
+.menu-item-settings .field-move a {
+	display: none;
+	margin: 0 2px;
+}
+
+.menu-item-edit-active .menu-item-settings {
+	display: block;
+}
+
+.menu-item-edit-inactive .menu-item-settings {
+	display: none;
+}
+
+.add-menu-item-pagelinks {
+	margin: .5em auto;
+	text-align: center;
+}
+
+.link-to-original {
+	display: block;
+	margin: 0 0 10px;
+	padding: 3px 5px 5px;
+	border: 1px solid #dfdfdf;
+	color: #777;
+	font-size: 12px;
+	font-style: italic;
+}
+
+.link-to-original a {
+	padding-left: 4px;
+	font-style: normal;
+}
+
+.hidden-field {
+	display: none;
+}
+
+.menu-item-settings .description-thin,
+.menu-item-settings .description-wide {
+	margin-right: 10px;
+	float: left;
+}
+
+.description-thin {
+	width: 190px;
+	height: 40px;
+}
+
+.description-wide {
+	width: 390px;
+}
+
+.menu-item-actions {
+	padding-top: 15px;
+}
+
+#cancel-save {
+	cursor: pointer;
+}
+
+/* Major/minor publishing actions (classes) */
+.nav-menus-php .major-publishing-actions {
+	clear: both;
+	padding: 3px 0 6px;
+}
+
+.nav-menus-php .major-publishing-actions .publishing-action {
+	text-align: right;
+	float: right;
+	line-height: 23px;
+	margin: 4px 0 1px;
+}
+
+.nav-menus-php .blank-slate .menu-settings {
+	display: none;
+}
+
+.nav-menus-php .delete-action {
+	float: left;
+	margin-top: 2px;
+}
+
+.nav-menus-php .submitbox .submitcancel {
+	border-bottom: 1px solid #0074a2;
+	padding: 1px 2px;
+	color: #0074a2;
+	text-decoration: none;
+}
+
+.nav-menus-php .submitbox .submitcancel:hover {
+	background: #0074a2;
+	color: #fff;
+}
+
+.nav-menus-php .major-publishing-actions .form-invalid {
+	padding-left: 4px;
+	margin-left: -4px;
+}
+
+/* Clearfix */
+#menu-item-name-wrap:after,
+#menu-item-url-wrap:after,
+#menu-name-label:after,
+#menu-settings-column .inside:after,
+#nav-menus-frame:after,
+.nav-menus-php #post-body-content:after,
+.nav-menus-php .button-controls:after,
+.nav-menus-php .major-publishing-actions:after,
+.nav-menus-php .menu-item-settings:after {
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
+
+#nav-menus-frame,
+.button-controls,
+#menu-item-url-wrap,
+#menu-item-name-wrap {
+	display: block;
+}
+
+/* =Media Queries
+-------------------------------------------------------------- */
+
+@media screen and ( max-width: 782px ) {
+	body.nav-menus-php {
+		min-width: 0 !important;
+	}
+
+	#nav-menus-frame {
+		margin-left: 0;
+		float: none;
+		width: 100%;
+	}
+
+	#wpbody-content #menu-settings-column {
+		display: block;
+		width: 100%;
+		float: none;
+		margin-left: 0;
+	}
+
+	#side-sortables .add-menu-item-tabs {
+		margin: 15px 0 14px;
+	}
+
+	ul.add-menu-item-tabs li.tabs {
+		padding: 13px 15px 14px;
+	}
+
+	.nav-menus-php .item-controls .item-type {
+		margin-top: 2px;
+	}
+
+	.nav-menus-php .customlinkdiv .howto input {
+		width: 65%;
+	}
+
+	.nav-menus-php .quick-search {
+		width: 85%;
+	}
+
+	#menu-management-liquid {
+		margin-top: 25px;
+	}
+
+	.nav-menus-php .menu-name-label.howto span {
+		margin-top: 13px
+	}
+
+	.menu-name-label #menu-name {
+		margin-top: 4px;
+	}
+
+	.nav-menus-php .major-publishing-actions .publishing-action {
+		margin-top: 6px;
+	}
+
+	.nav-menus-php .delete-action {
+		font-size: 14px;
+		line-height: 50px;
+		margin-top: 12px;
+	}
+
+	.menu-item-bar .menu-item-handle,
+	.menu-item-settings,
+	.description-wide {
+		width: auto;
+	}
+
+	.menu-item-settings {
+		padding: 10px;
+	}
+
+	.menu-item-settings .description-thin,
+	.menu-item-settings .description-wide {
+		width: 100%;
+		height: auto;
+	}
+
+	.menu-item-settings input {
+		width: 100%;
+	}
+
+	.menu-settings dl {
+		padding-left: 0;
+	}
+
+	.menu-settings dd {
+		float: none;
+		width: 100%;
+		margin-bottom: 15px;
+	}
+
+	.menu-settings dt {
+		float: none;
+		width: auto;
+		margin-left: 0;
+		margin-bottom: 15px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	/* menu locations */
+	#menu-locations-wrap .widefat {
+		width: 100%;
+	}
+}

@@ -235,13 +235,13 @@ if ( ! IS_PROFILE_PAGE ) {
 <?php endif; ?>
 <p>
 <input type="hidden" name="from" value="profile" />
-<input type="hidden" name="checkuser_id" value="<?php echo $user_ID ?>" />
+<input type="hidden" name="checkuser_id" value="<?php echo get_current_user_id(); ?>" />
 </p>
 
 <h3><?php _e('Personal Options'); ?></h3>
 
 <table class="form-table">
-<?php if ( rich_edit_exists() && !( IS_PROFILE_PAGE && !$user_can_edit ) ) : // don't bother showing the option if the editor has been removed ?>
+<?php if ( ! ( IS_PROFILE_PAGE && ! $user_can_edit ) ) : ?>
 	<tr>
 		<th scope="row"><?php _e('Visual Editor')?></th>
 		<td><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="false" <?php if ( ! empty( $profileuser->rich_editing ) ) checked( 'false', $profileuser->rich_editing ); ?> /> <?php _e( 'Disable the visual editor when writing' ); ?></label></td>
@@ -260,7 +260,7 @@ if ( ! IS_PROFILE_PAGE ) {
  * @since 3.0.0
  */
 ?>
-<td><?php do_action( 'admin_color_scheme_picker' ); ?></td>
+<td><?php do_action( 'admin_color_scheme_picker', $user_id ); ?></td>
 </tr>
 <?php
 endif; // $_wp_admin_css_colors
@@ -470,7 +470,7 @@ if ( $show_password_fields ) :
 	<span class="description" for="pass2"><?php _e( 'Type your new password again.' ); ?></span>
 	<br />
 	<div id="pass-strength-result"><?php _e( 'Strength indicator' ); ?></div>
-	<p class="description indicator-hint"><?php _e( 'Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp; ).' ); ?></p>
+	<p class="description indicator-hint"><?php _e( 'Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; ).' ); ?></p>
 	</td>
 </tr>
 <?php endif; ?>
@@ -479,7 +479,7 @@ if ( $show_password_fields ) :
 <?php
 	if ( IS_PROFILE_PAGE ) {
 		/**
-		 * Fires after the 'About the User' settings table on the 'Your Profile' editing screen.
+		 * Fires after the 'About Yourself' settings table on the 'Your Profile' editing screen.
 		 *
 		 * The action only fires if the current user is editing their own profile.
 		 *

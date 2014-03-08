@@ -156,11 +156,8 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			}
 
 			jQuery(document).bind('keydown.thickbox', function(e){
-				e.stopImmediatePropagation();
-
 				if ( e.which == 27 ){ // close
-					if ( ! jQuery(document).triggerHandler( 'wp_CloseOnEscape', [{ event: e, what: 'thickbox', cb: tb_remove }] ) )
-						tb_remove();
+					tb_remove();
 
 				} else if ( e.which == 190 ){ // display previous image
 					if(!(TB_NextHTML == "")){
@@ -244,13 +241,9 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 		}
 
 		if(!params['modal']){
-			jQuery(document).bind('keyup.thickbox', function(e){
-
+			jQuery(document).bind('keydown.thickbox', function(e){
 				if ( e.which == 27 ){ // close
-					e.stopImmediatePropagation();
-					if ( ! jQuery(document).triggerHandler( 'wp_CloseOnEscape', [{ event: e, what: 'thickbox', cb: tb_remove }] ) )
-						tb_remove();
-
+					tb_remove();
 					return false;
 				}
 			});
