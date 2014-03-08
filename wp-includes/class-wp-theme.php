@@ -976,7 +976,6 @@ final class WP_Theme implements ArrayAccess {
 		 * @param WP_Theme     $this           The theme object.
 		 * @param WP_Post|null $post           The post being edited, provided for context, or null.
 		 */
-		error_log( serialize( $this ) );
 		$return = apply_filters( 'theme_page_templates', $page_templates, $this, $post );
 		return array_intersect_assoc( $return, $page_templates );
 	}
