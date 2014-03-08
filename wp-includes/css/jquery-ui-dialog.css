@@ -252,7 +252,7 @@
 /* WP jQuery Dialog Theme */
 .wp-dialog {
 	padding: 0;
-	z-index: 300002;
+	z-index: 100102;
 	border: 0;
 	-webkit-box-shadow: 0 5px 15px rgba(0,0,0,0.7);
 	box-shadow: 0 5px 15px rgba(0,0,0,0.7);
@@ -312,7 +312,7 @@
 }
 
 .ui-widget-overlay {
-	z-index: 300001;
+	z-index: 100101;
 	background-color: #000;
 	opacity: 0.6;
 	filter: alpha(opacity=60);

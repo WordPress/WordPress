@@ -1,4 +1,8 @@
-/* global tinymce, getUserSetting, setUserSetting, switchEditors */
+/* global tinymce, getUserSetting, setUserSetting */
+
+// Set the minimum value for the modals z-index higher than #wpadminbar (100000)
+tinymce.ui.FloatPanel.zIndex = 100100;
+
 tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	var DOM = tinymce.DOM, wpAdvButton, modKey, style,
 		last = 0;
@@ -279,7 +283,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		var env = tinymce.Env, topx, reset,
 			deltax = 0,
 			bodyClass = ['mceContentBody'], // back-compat for themes that use this in editor-style.css...
-			doc = editor.getDoc();
+			doc = editor.getDoc(),
+			dom = editor.dom;
 
 		if ( editor.getParam( 'directionality' ) === 'rtl' ) {
 			bodyClass.push('rtl');
@@ -299,7 +304,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 		tinymce.each( bodyClass, function( cls ) {
 			if ( cls ) {
-				editor.dom.addClass( doc.body, cls );
+				dom.addClass( doc.body, cls );
 			}
 		});
 
@@ -318,7 +323,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 		if ( ! ( 'ontouchstart' in window ) ) {
 			// When scrolling with mouse wheel or trackpad inside the editor, don't scroll the parent window
-			editor.dom.bind( doc, 'onwheel' in doc ? 'wheel' : 'mousewheel', function( event ) {
+			dom.bind( doc, 'onwheel' in doc ? 'wheel' : 'mousewheel', function( event ) {
 				var delta, top,
 					docElement = doc.documentElement;
 
@@ -370,6 +375,13 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				event.preventDefault();
 			});
 		}
+
+		dom.bind( doc, 'dragover', function( event ) {
+			if ( typeof window.jQuery !== 'undefined' ) {
+				// Propagate the event to its container for the parent window to catch.
+				window.jQuery( editor.getContainer() ).trigger( event );
+			}
+		});
 	});
 
 	// Word count
@@ -399,8 +411,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		// Keep empty paragraphs :(
 		e.content = e.content.replace( /<p>(<br ?\/?>|\u00a0|\uFEFF)?<\/p>/g, '<p>&nbsp;</p>' );
 
-		if ( editor.getParam( 'wpautop', true ) && typeof switchEditors !== 'undefined' ) {
-			e.content = switchEditors.pre_wpautop( e.content );
+		if ( editor.getParam( 'wpautop', true ) && typeof window.switchEditors !== 'undefined' ) {
+			e.content = window.switchEditors.pre_wpautop( e.content );
 		}
 	});
 
@@ -441,13 +453,6 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 		editor.dom.bind( editor.getBody(), 'dragstart', function() {
 			_hideButtons();
-		});
-
-		editor.dom.bind( editor.getWin(), 'dragover', function(e) {
-			if ( typeof window.jQuery !== 'undefined' ) {
-				// Propagate the event to its container for the parent window to catch.
-				jQuery( editor.getContainer() ).trigger(e);
-			}
 		});
 	});
 

@@ -241,7 +241,7 @@
 	top: 30px;
 	bottom: 30px;
 	right: 50%;
-	z-index: 160000;
+	z-index: 100105;
 }
 
 .find-box-head {
@@ -357,7 +357,7 @@
 	bottom: 0;
 	background: #000;
 	opacity: 0.7;
-	z-index: 159900;
+	z-index: 100100;
 }
 
 ul#dismissed-updates {
