@@ -22,7 +22,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 	?>
 </head>
 <body class="wp-core-ui">
-<h1 id="logo"><a href="<?php echo esc_url( __( 'http://wordpress.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></h1>
+<h1 id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></h1>
 
 <?php
 
@@ -98,7 +98,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
 	}
 
 	if ( $problems ) {
-		printf( '<p>' . __('Some database problems could not be repaired. Please copy-and-paste the following list of errors to the <a href="%s">WordPress support forums</a> to get additional assistance.') . '</p>', __( 'http://wordpress.org/support/forum/how-to-and-troubleshooting' ) );
+		printf( '<p>' . __('Some database problems could not be repaired. Please copy-and-paste the following list of errors to the <a href="%s">WordPress support forums</a> to get additional assistance.') . '</p>', __( 'https://wordpress.org/support/forum/how-to-and-troubleshooting' ) );
 		$problem_output = '';
 		foreach ( $problems as $table => $problem )
 			$problem_output .= "$table: $problem\n";
