@@ -74,7 +74,7 @@ foreach ( $popular_importers as $pop_importer => $pop_data ) {
 if ( empty( $importers ) ) {
 	echo '<p>' . __('No importers are available.') . '</p>'; // TODO: make more helpful
 } else {
-	uasort( $importers, '_uasort_by_first_member' );
+	uasort( $importers, '_usort_by_first_member' );
 ?>
 <table class="widefat importers">
 
