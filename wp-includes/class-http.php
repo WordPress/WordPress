@@ -1349,9 +1349,11 @@ class WP_Http_Curl {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param array $handle cURL options set using curl_setopt().
+		 * @param resource &$handle The cURL handle returned by curl_init().
+		 * @param array    $r       The HTTP request arguments.
+		 * @param string   $url     The destination URL.
 		 */
-		do_action_ref_array( 'http_api_curl', array(&$handle) );
+		do_action_ref_array( 'http_api_curl', array( &$handle, $r, $url ) );
 
 		// We don't need to return the body, so don't. Just execute request and return.
 		if ( ! $r['blocking'] ) {
