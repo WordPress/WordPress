@@ -284,9 +284,6 @@ function wp_delete_user( $id, $reassign = null ) {
 		$reassign = (int) $reassign;
 	}
 
-	var_dump( $reassign );
-	die;
-
 	/**
 	 * Fires immediately before a user is deleted from the database.
 	 *
