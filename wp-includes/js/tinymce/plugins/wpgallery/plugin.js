@@ -97,7 +97,7 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 			frame.on( 'close', function () {
 				frame.detach();
 			} );
-			frame.state( 'video-details' ).on( 'update replace', function ( selection ) {
+			frame.state( 'video-details' ).on( 'update replace add-source select-poster-image', function ( selection ) {
 				var shortcode = wp.media.video.shortcode( selection );
 				editor.dom.setAttrib( node, 'data-wp-media', window.encodeURIComponent( shortcode ) );
 				frame.detach();
@@ -108,7 +108,7 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 			frame.on( 'close', function () {
 				frame.detach();
 			} );
-			frame.state( 'audio-details' ).on( 'update replace', function ( selection ) {
+			frame.state( 'audio-details' ).on( 'update replace add-source', function ( selection ) {
 				var shortcode = wp.media.audio.shortcode( selection );
 				editor.dom.setAttrib( node, 'data-wp-media', window.encodeURIComponent( shortcode ) );
 				frame.detach();

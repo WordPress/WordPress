@@ -663,7 +663,8 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-audio-details">
 		<?php $audio_types = wp_get_audio_extensions(); ?>
-		<div class="media-embed">
+		<div class="media-embed media-embed-details">
+			<div class="instructions media-instructions">{{{ wp.media.view.l10n.audioDetailsText }}}</div>
 			<div class="embed-media-settings embed-audio-settings">
 				<audio controls
 					class="wp-audio-shortcode"
@@ -689,6 +690,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span>SRC</span>
 					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
+					<a class="remove-setting">{{{ wp.media.view.l10n.audioRemoveSource }}}</a>
 				</label>
 				<# } #>
 				<?php
@@ -698,6 +700,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
 					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
+					<a class="remove-setting">{{{ wp.media.view.l10n.audioRemoveSource }}}</a>
 				</label>
 				<# } #>
 				<?php endforeach ?>
@@ -727,19 +730,22 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-video-details">
 		<?php $video_types = wp_get_video_extensions(); ?>
-		<div class="media-embed">
+		<div class="media-embed media-embed-details">
+			<div class="instructions media-instructions">{{{ wp.media.view.l10n.videoDetailsText }}}</div>
 			<div class="embed-media-settings embed-video-settings">
 				<div class="wp-video-holder">
 				<#
-				var w = ! data.model.width || data.model.width > 640 ? 640 : data.model.width,
+				var isYouTube = ! _.isEmpty( data.model.src ) && data.model.src.match(/youtube|youtu\.be/);
+					w = ! data.model.width || data.model.width > 640 ? 640 : data.model.width,
 					h = ! data.model.height ? 360 : data.model.height;
 
 				if ( data.model.width && w !== data.model.width ) {
 					h = Math.ceil( ( h * w ) / data.model.width );
 				}
+
 				#>
 				<video controls
-					class="wp-video-shortcode youtube-video"
+					class="wp-video-shortcode{{ isYouTube ? ' youtube-video' : '' }}"
 					width="{{ w }}"
 					height="{{ h }}"
 					<?php
@@ -762,7 +768,7 @@ function wp_print_media_templates() {
 					<?php endforeach ?>#>
 				>
 					<# if ( ! _.isEmpty( data.model.src ) ) {
-						if ( data.model.src.match(/youtube|youtu\.be/) ) { #>
+						if ( isYouTube ) { #>
 						<source src="{{ data.model.src }}" type="video/youtube" />
 						<# } else { #>
 						<source src="{{ data.model.src }}" type="{{ wp.media.view.settings.embedMimes[ data.model.src.split('.').pop() ] }}" />
@@ -779,6 +785,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span>SRC</span>
 					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
+					<a class="remove-setting">{{{ wp.media.view.l10n.videoRemoveSource }}}</a>
 				</label>
 				<# } #>
 				<?php foreach ( $video_types as $type ):
@@ -786,14 +793,18 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
 					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
+					<a class="remove-setting">{{{ wp.media.view.l10n.videoRemoveSource }}}</a>
 				</label>
 				<# } #>
 				<?php endforeach ?>
 				</div>
+				<# if ( ! _.isEmpty( data.model.poster ) ) { #>
 				<label class="setting">
 					<span><?php _e( 'Poster Image' ); ?></span>
-					<input type="text" data-setting="poster" value="{{ data.model.poster }}" />
+					<input type="text" disabled="disabled" data-setting="poster" value="{{ data.model.poster }}" />
+					<a class="remove-setting">{{{ wp.media.view.l10n.videoRemovePoster }}}</a>
 				</label>
+				<# } #>
 				<div class="setting preload">
 					<span><?php _e( 'Preload' ); ?></span>
 					<div class="button-group button-large" data-setting="preload">

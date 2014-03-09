@@ -453,56 +453,31 @@ window.wp = window.wp || {};
 	});
 
 	/**
-	 * wp.media.model.PostAudio
+	 * wp.media.model.PostMedia
 	 *
 	 * @constructor
 	 * @augments Backbone.Model
 	 **/
-	media.model.PostAudio = Backbone.Model.extend({
+	media.model.PostMedia = Backbone.Model.extend({
 		initialize: function() {
 			this.attachment = false;
+		},
+
+		setSource: function ( attachment ) {
+			this.attachment = attachment;
+			this.extension = attachment.get('filename' ).split('.').pop();
+
+			if ( _.contains( wp.media.view.settings.embedExts, this.extension ) ) {
+				this.set( this.extension, this.attachment.get( 'url' ) );
+			} else {
+				this.unset( this.extension );
+			}
 		},
 
 		changeAttachment: function( attachment ) {
 			var self = this;
 
-			this.attachment = attachment;
-			this.extension = attachment.get('filename' ).split('.').pop();
-
-			if ( _.contains( wp.media.view.settings.embedExts, this.extension ) ) {
-				this.set( this.extension, attachment.get( 'url' ) );
-			} else {
-				this.unset( this.extension );
-			}
-
-			_.each( _.without( wp.media.view.settings.embedExts, this.extension ), function (ext) {
-				self.unset( ext );
-			} );
-		}
-	});
-
-	/**
-	 * wp.media.model.PostVideo
-	 *
-	 * @constructor
-	 * @augments Backbone.Model
-	 **/
-	media.model.PostVideo = Backbone.Model.extend({
-		initialize: function() {
-			this.attachment = false;
-		},
-
-		changeAttachment: function( attachment ) {
-			var self = this;
-
-			this.attachment = attachment;
-			this.extension = attachment.get('filename' ).split('.').pop();
-
-			if ( _.contains( wp.media.view.settings.embedExts, this.extension ) ) {
-				this.set( this.extension, attachment.get( 'url' ) );
-			} else {
-				this.unset( this.extension );
-			}
+			this.setSource( attachment );
 
 			_.each( _.without( wp.media.view.settings.embedExts, this.extension ), function (ext) {
 				self.unset( ext );

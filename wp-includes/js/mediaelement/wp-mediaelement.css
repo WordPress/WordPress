@@ -14,18 +14,33 @@
 	width: auto !important;
 }
 
-.audio-details .wp-audio-shortcode {
+.media-embed-details .wp-audio-shortcode {
 	display: inline-block;
 	max-width: 400px;
 }
 
-.video-details .embed-video-settings,
-.audio-details .embed-audio-settings {
-	top: 10px;
+.media-embed-details .embed-media-settings {
+	padding-top: 0;
 }
 
-.video-details .embed-video-settings .checkbox-setting,
-.audio-details .embed-audio-settings .checkbox-setting {
+.media-embed-details .instructions {
+	padding: 16px;
+	max-width: 600px;
+}
+
+.media-embed-details .setting a {
+	color: #a00;
+}
+
+.media-embed-details .setting a:hover {
+	color: #f00;
+}
+
+.media-embed-details .embed-media-settings {
+	top: 70px;
+}
+
+.media-embed-details .embed-media-settings .checkbox-setting {
 	width: 100px;
 	clear: none;
 }

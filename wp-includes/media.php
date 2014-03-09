@@ -2443,15 +2443,25 @@ function wp_enqueue_media( $args = array() ) {
 		'imageDetailsCancel'    => __( 'Cancel Edit' ),
 		'editImage'             => __( 'Edit Image' ),
 
-		// Edit Image
+		// Edit Audio
 		'audioDetailsTitle'     => __( 'Audio Details' ),
 		'audioReplaceTitle'     => __( 'Replace Audio' ),
+		'audioAddSourceTitle'   => __( 'Add Audio Source' ),
 		'audioDetailsCancel'    => __( 'Cancel Edit' ),
+		'audioDetailsText'      => __( '"Replace Audio" will remove all associated source files when you update. ' .
+			'"Add Audio Source" allows you to specify alternate sources for maximum native HTML5 audio playback.' ),
+		'audioRemoveSource'     => __( 'Remove Audio Source' ),
 
-		// Edit Image
+		// Edit Video
 		'videoDetailsTitle'     => __( 'Video Details' ),
 		'videoReplaceTitle'     => __( 'Replace Video' ),
+		'videoAddSourceTitle'   => __( 'Add Video Source' ),
 		'videoDetailsCancel'    => __( 'Cancel Edit' ),
+		'videoDetailsText'      => __( '"Replace Video" will remove all associated source files when you update. ' .
+			'"Add Video Source" allows you to specify alternate sources for maximum native HTML5 video playback.' ),
+		'videoRemoveSource'     => __( 'Remove Video Source' ),
+		'videoSelectPosterImageTitle' => _( 'Select Poster Image' ),
+		'videoRemovePoster'     => __( 'Remove Poster Image' ),
 
  		// Playlist
  		'playlistDragInfo'    => __( 'Drag and drop to reorder tracks.' ),
