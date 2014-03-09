@@ -165,7 +165,8 @@ CREATE TABLE $wpdb->posts (
   KEY post_name (post_name),
   KEY type_status_date (post_type,post_status,post_date,ID),
   KEY post_parent (post_parent),
-  KEY post_author (post_author)
+  KEY post_author (post_author),
+  KEY status_type_author (post_status,post_type,post_author)
 ) $charset_collate;\n";
 
 	// Single site users table. The multisite flavor of the users table is handled below.
