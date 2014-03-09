@@ -2697,7 +2697,7 @@
 	});
 
 	/**
-	 * wp.media.view.MediaFrame.AudioDetails
+	 * wp.media.view.MediaFrame.MediaDetails
 	 *
 	 * @constructor
 	 * @augments wp.media.view.MediaFrame.Select
@@ -2708,7 +2708,170 @@
 	 * @augments Backbone.View
 	 * @mixes wp.media.controller.StateMachine
 	 */
-	media.view.MediaFrame.AudioDetails = media.view.MediaFrame.Select.extend({
+	media.view.MediaFrame.MediaDetails = media.view.MediaFrame.Select.extend({
+		defaults: {
+			id:      'media',
+			url:     '',
+			menu:    'media-details',
+			content: 'media-details',
+			toolbar: 'media-details',
+			type:    'link',
+			priority: 120
+		},
+
+		initialize: function( options ) {
+			this.DetailsView = options.DetailsView;
+			this.cancelText = options.cancelText;
+			this.addText = options.addText;
+
+			this.media = new media.model.PostMedia( options.metadata );
+			this.options.selection = new media.model.Selection( this.media.attachment, { multiple: false } );
+			media.view.MediaFrame.Select.prototype.initialize.apply( this, arguments );
+		},
+
+		bindHandlers: function() {
+			var menu = this.defaults.menu;
+
+			media.view.MediaFrame.Select.prototype.bindHandlers.apply( this, arguments );
+
+			this.on( 'menu:create:' + menu, this.createMenu, this );
+			this.on( 'content:render:' + menu, this.renderDetailsContent, this );
+			this.on( 'menu:render:' + menu, this.renderMenu, this );
+			this.on( 'toolbar:render:' + menu, this.renderDetailsToolbar, this );
+		},
+
+		renderDetailsContent: function() {
+			var view = new this.DetailsView({
+				controller: this,
+				model: this.state().media,
+				attachment: this.state().media.attachment
+			}).render();
+
+			this.content.set( view );
+		},
+
+		renderMenu: function( view ) {
+			var lastState = this.lastState(),
+				previous = lastState && lastState.id,
+				frame = this;
+
+			view.set({
+				cancel: {
+					text:     this.cancelText,
+					priority: 20,
+					click:    function() {
+						if ( previous ) {
+							frame.setState( previous );
+						} else {
+							frame.close();
+						}
+					}
+				},
+				separateCancel: new media.View({
+					className: 'separator',
+					priority: 40
+				})
+			});
+
+		},
+
+		renderDetailsToolbar: function() {
+			this.toolbar.set( new media.view.Toolbar({
+				controller: this,
+				items: {
+					select: {
+						style:    'primary',
+						text:     l10n.update,
+						priority: 80,
+
+						click: function() {
+							var controller = this.controller,
+								state = controller.state();
+
+							controller.close();
+
+							state.trigger( 'update', controller.media.toJSON() );
+
+							// Restore and reset the default state.
+							controller.setState( controller.options.state );
+							controller.reset();
+						}
+					}
+				}
+			}) );
+		},
+
+		renderReplaceToolbar: function() {
+			this.toolbar.set( new media.view.Toolbar({
+				controller: this,
+				items: {
+					replace: {
+						style:    'primary',
+						text:     l10n.replace,
+						priority: 80,
+
+						click: function() {
+							var controller = this.controller,
+								state = controller.state(),
+								selection = state.get( 'selection' ),
+								attachment = selection.single();
+
+							controller.media.changeAttachment( attachment, state.display( attachment ) );
+
+							state.trigger( 'replace', controller.media.toJSON() );
+
+							// Restore and reset the default state.
+							controller.setState( controller.options.state );
+							controller.reset();
+						}
+					}
+				}
+			}) );
+		},
+
+		renderAddSourceToolbar: function() {
+			this.toolbar.set( new media.view.Toolbar({
+				controller: this,
+				items: {
+					replace: {
+						style:    'primary',
+						text:     this.addText,
+						priority: 80,
+
+						click: function() {
+							var controller = this.controller,
+								state = controller.state(),
+								selection = state.get( 'selection' ),
+								attachment = selection.single();
+
+							controller.media.setSource( attachment, state.display( attachment ) );
+
+							state.trigger( 'add-source', controller.media.toJSON() );
+
+							// Restore and reset the default state.
+							controller.setState( controller.options.state );
+							controller.reset();
+						}
+					}
+				}
+			}) );
+		}
+	});
+
+	/**
+	 * wp.media.view.MediaFrame.AudioDetails
+	 *
+	 * @constructor
+	 * @augments wp.media.view.MediaFrame.MediaDetails
+	 * @augments wp.media.view.MediaFrame.Select
+	 * @augments wp.media.view.MediaFrame
+	 * @augments wp.media.view.Frame
+	 * @augments wp.media.View
+	 * @augments wp.Backbone.View
+	 * @augments Backbone.View
+	 * @mixes wp.media.controller.StateMachine
+	 */
+	media.view.MediaFrame.AudioDetails = media.view.MediaFrame.MediaDetails.extend({
 		defaults: {
 			id:      'audio',
 			url:     '',
@@ -2721,20 +2884,18 @@
 		},
 
 		initialize: function( options ) {
-			this.media = new media.model.PostMedia( options.metadata );
-			this.options.selection = new media.model.Selection( this.media.attachment, { multiple: false } );
-			media.view.MediaFrame.Select.prototype.initialize.apply( this, arguments );
+			options.DetailsView = media.view.AudioDetails;
+			options.cancelText = l10n.audioDetailsCancel;
+			options.addText = l10n.audioAddSourceTitle;
+
+			media.view.MediaFrame.MediaDetails.prototype.initialize.call( this, options );
 		},
 
 		bindHandlers: function() {
-			media.view.MediaFrame.Select.prototype.bindHandlers.apply( this, arguments );
-			this.on( 'menu:create:audio-details', this.createMenu, this );
-			this.on( 'content:render:audio-details', this.renderAudioDetailsContent, this );
-			this.on( 'menu:render:audio-details', this.renderMenu, this );
-			this.on( 'toolbar:render:audio-details', this.renderAudioDetailsToolbar, this );
-			// override the select toolbar
-			this.on( 'toolbar:render:replace-audio', this.renderReplaceAudioToolbar, this );
-			this.on( 'toolbar:render:add-audio-source', this.renderAddAudioSourceToolbar, this );
+			media.view.MediaFrame.MediaDetails.prototype.bindHandlers.apply( this, arguments );
+
+			this.on( 'toolbar:render:replace-audio', this.renderReplaceToolbar, this );
+			this.on( 'toolbar:render:add-audio-source', this.renderAddSourceToolbar, this );
 		},
 
 		createStates: function() {
@@ -2764,125 +2925,6 @@
 					menu: 'audio-details'
 				} )
 			]);
-		},
-
-		renderAudioDetailsContent: function() {
-			var view = new media.view.AudioDetails({
-				controller: this,
-				model: this.state().media,
-				attachment: this.state().media.attachment
-			}).render();
-
-			this.content.set( view );
-		},
-
-		renderMenu: function( view ) {
-			var lastState = this.lastState(),
-				previous = lastState && lastState.id,
-				frame = this;
-
-			view.set({
-				cancel: {
-					text:     l10n.audioDetailsCancel,
-					priority: 20,
-					click:    function() {
-						if ( previous ) {
-							frame.setState( previous );
-						} else {
-							frame.close();
-						}
-					}
-				},
-				separateCancel: new media.View({
-					className: 'separator',
-					priority: 40
-				})
-			});
-
-		},
-
-		renderAudioDetailsToolbar: function() {
-			this.toolbar.set( new media.view.Toolbar({
-				controller: this,
-				items: {
-					select: {
-						style:    'primary',
-						text:     l10n.update,
-						priority: 80,
-
-						click: function() {
-							var controller = this.controller,
-								state = controller.state();
-
-							controller.close();
-
-							state.trigger( 'update', controller.media.toJSON() );
-
-							// Restore and reset the default state.
-							controller.setState( controller.options.state );
-							controller.reset();
-						}
-					}
-				}
-			}) );
-		},
-
-		renderReplaceAudioToolbar: function() {
-			this.toolbar.set( new media.view.Toolbar({
-				controller: this,
-				items: {
-					replace: {
-						style:    'primary',
-						text:     l10n.replace,
-						priority: 80,
-
-						click: function() {
-							var controller = this.controller,
-								state = controller.state(),
-								selection = state.get( 'selection' ),
-								attachment = selection.single();
-
-							controller.media.changeAttachment( attachment, state.display( attachment ) );
-
-							// not sure if we want to use wp.media.string.image which will create a shortcode or
-							// perhaps wp.html.string to at least to build the <img />
-							state.trigger( 'replace', controller.media.toJSON() );
-
-							// Restore and reset the default state.
-							controller.setState( controller.options.state );
-							controller.reset();
-						}
-					}
-				}
-			}) );
-		},
-
-		renderAddAudioSourceToolbar: function() {
-			this.toolbar.set( new media.view.Toolbar({
-				controller: this,
-				items: {
-					replace: {
-						style:    'primary',
-						text:     l10n.audioAddSourceTitle,
-						priority: 80,
-
-						click: function() {
-							var controller = this.controller,
-								state = controller.state(),
-								selection = state.get( 'selection' ),
-								attachment = selection.single();
-
-							controller.media.setSource( attachment, state.display( attachment ) );
-
-							state.trigger( 'add-source', controller.media.toJSON() );
-
-							// Restore and reset the default state.
-							controller.setState( controller.options.state );
-							controller.reset();
-						}
-					}
-				}
-			}) );
 		}
 	});
 
@@ -2890,6 +2932,7 @@
 	 * wp.media.view.MediaFrame.VideoDetails
 	 *
 	 * @constructor
+	 * @augments wp.media.view.MediaFrame.MediaDetails
 	 * @augments wp.media.view.MediaFrame.Select
 	 * @augments wp.media.view.MediaFrame
 	 * @augments wp.media.view.Frame
@@ -2898,7 +2941,7 @@
 	 * @augments Backbone.View
 	 * @mixes wp.media.controller.StateMachine
 	 */
-	media.view.MediaFrame.VideoDetails = media.view.MediaFrame.Select.extend({
+	media.view.MediaFrame.VideoDetails = media.view.MediaFrame.MediaDetails.extend({
 		defaults: {
 			id:      'video',
 			url:     '',
@@ -2911,20 +2954,18 @@
 		},
 
 		initialize: function( options ) {
-			this.media = new media.model.PostMedia( options.metadata );
-			this.options.selection = new media.model.Selection( this.media.attachment, { multiple: false } );
-			media.view.MediaFrame.Select.prototype.initialize.apply( this, arguments );
+			options.DetailsView = media.view.VideoDetails;
+			options.cancelText = l10n.videoDetailsCancel;
+			options.addText = l10n.videoAddSourceTitle;
+
+			media.view.MediaFrame.MediaDetails.prototype.initialize.call( this, options );
 		},
 
 		bindHandlers: function() {
-			media.view.MediaFrame.Select.prototype.bindHandlers.apply( this, arguments );
-			this.on( 'menu:create:video-details', this.createMenu, this );
-			this.on( 'content:render:video-details', this.renderVideoDetailsContent, this );
-			this.on( 'menu:render:video-details', this.renderMenu, this );
-			this.on( 'toolbar:render:video-details', this.renderVideoDetailsToolbar, this );
-			// override the select toolbar
-			this.on( 'toolbar:render:replace-video', this.renderReplaceVideoToolbar, this );
-			this.on( 'toolbar:render:add-video-source', this.renderAddVideoSourceToolbar, this );
+			media.view.MediaFrame.MediaDetails.prototype.bindHandlers.apply( this, arguments );
+
+			this.on( 'toolbar:render:replace-video', this.renderReplaceToolbar, this );
+			this.on( 'toolbar:render:add-video-source', this.renderAddSourceToolbar, this );
 			this.on( 'toolbar:render:select-poster-image', this.renderSelectPosterImageToolbar, this );
 		},
 
@@ -2963,125 +3004,6 @@
 					menu: 'video-details'
 				} )
 			]);
-		},
-
-		renderVideoDetailsContent: function() {
-			var view = new media.view.VideoDetails({
-				controller: this,
-				model: this.state().media,
-				attachment: this.state().media.attachment
-			}).render();
-
-			this.content.set( view );
-		},
-
-		renderMenu: function( view ) {
-			var lastState = this.lastState(),
-				previous = lastState && lastState.id,
-				frame = this;
-
-			view.set({
-				cancel: {
-					text:     l10n.videoDetailsCancel,
-					priority: 20,
-					click:    function() {
-						if ( previous ) {
-							frame.setState( previous );
-						} else {
-							frame.close();
-						}
-					}
-				},
-				separateCancel: new media.View({
-					className: 'separator',
-					priority: 40
-				})
-			});
-
-		},
-
-		renderVideoDetailsToolbar: function() {
-			this.toolbar.set( new media.view.Toolbar({
-				controller: this,
-				items: {
-					select: {
-						style:    'primary',
-						text:     l10n.update,
-						priority: 80,
-
-						click: function() {
-							var controller = this.controller,
-								state = controller.state();
-
-							controller.close();
-
-							// not sure if we want to use wp.media.string.image which will create a shortcode or
-							// perhaps wp.html.string to at least to build the <img />
-							state.trigger( 'update', controller.media.toJSON() );
-
-							// Restore and reset the default state.
-							controller.setState( controller.options.state );
-							controller.reset();
-						}
-					}
-				}
-			}) );
-		},
-
-		renderReplaceVideoToolbar: function() {
-			this.toolbar.set( new media.view.Toolbar({
-				controller: this,
-				items: {
-					replace: {
-						style:    'primary',
-						text:     l10n.replace,
-						priority: 80,
-
-						click: function() {
-							var controller = this.controller,
-								state = controller.state(),
-								selection = state.get( 'selection' ),
-								attachment = selection.single();
-
-							controller.media.changeAttachment( attachment, state.display( attachment ) );
-
-							state.trigger( 'replace', controller.media.toJSON() );
-
-							// Restore and reset the default state.
-							controller.setState( controller.options.state );
-							controller.reset();
-						}
-					}
-				}
-			}) );
-		},
-
-		renderAddVideoSourceToolbar: function() {
-			this.toolbar.set( new media.view.Toolbar({
-				controller: this,
-				items: {
-					replace: {
-						style:    'primary',
-						text:     l10n.videoAddSourceTitle,
-						priority: 80,
-
-						click: function() {
-							var controller = this.controller,
-								state = controller.state(),
-								selection = state.get( 'selection' ),
-								attachment = selection.single();
-
-							controller.media.setSource( attachment, state.display( attachment ) );
-
-							state.trigger( 'add-source', controller.media.toJSON() );
-
-							// Restore and reset the default state.
-							controller.setState( controller.options.state );
-							controller.reset();
-						}
-					}
-				}
-			}) );
 		},
 
 		renderSelectPosterImageToolbar: function() {
