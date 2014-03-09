@@ -999,6 +999,55 @@ function gallery_shortcode( $attr ) {
 }
 
 /**
+ * Output and enqueue default scripts and styles for playlists.
+ *
+ * @since 3.9.0
+ *
+ * @param string $type Type of playlist: "audio" or "video."
+ */
+function wp_playlist_scripts( $type ) {
+	wp_enqueue_style( 'wp-mediaelement' );
+	wp_enqueue_script( 'wp-playlist' );
+?>
+<!--[if lt IE 9]><script>document.createElement('<?php echo esc_js( $type ) ?>');</script><![endif]-->
+<script type="text/html" id="tmpl-wp-playlist-current-item">
+	<# if ( data.image ) { #>
+	<img src="{{{ data.thumb.src }}}"/>
+	<# } #>
+	<# if ( data.meta.title ) { #>
+	<div class="wp-playlist-caption">
+		<span class="wp-caption-meta wp-caption-title">&#8220;{{{ data.meta.title }}}&#8221;</span>
+		<span class="wp-caption-meta wp-caption-album">{{{ data.meta.album }}}</span>
+		<span class="wp-caption-meta wp-caption-artist">{{{ data.meta.artist }}}</span>
+	</div>
+	<# } else { #>
+	<div class="wp-playlist-caption">{{{ data.caption ? data.caption : data.title }}}</div>
+	<# } #>
+</script>
+<script type="text/html" id="tmpl-wp-playlist-item">
+	<div class="wp-playlist-item">
+		<# if ( ( data.title || data.meta.title ) && ( ! data.artists || data.meta.artist ) ) { #>
+		<div class="wp-playlist-caption">
+			{{{ data.index ? ( data.index + '.&nbsp;' ) : '' }}}
+			<span class="wp-caption-title">&#8220;{{{ data.title ? data.title : data.meta.title }}}&#8221;</span>
+			<# if ( data.artists ) { #>
+			<span class="wp-caption-by"><?php _e( 'by' ) ?></span>
+			<span class="wp-caption-artist">{{{ data.meta.artist }}}</span>
+			<# } #>
+		</div>
+		<# } else { #>
+		<div class="wp-playlist-caption">{{{ data.index ? ( data.index + '.' ) : '' }}} {{{ data.caption ? data.caption : data.title }}}</div>
+		<# } #>
+		<# if ( data.meta.length_formatted ) { #>
+		<div class="wp-playlist-item-length">{{{ data.meta.length_formatted }}}</div>
+		<# } #>
+	</div>
+</script>
+<?php
+}
+add_action( 'wp_playlist_scripts', 'wp_playlist_scripts' );
+
+/**
  * The Playlist shortcode.
  *
  * This implements the functionality of the Playlist Shortcode for displaying
@@ -1195,45 +1244,17 @@ function wp_get_playlist( $attr, $type ) {
 
 	ob_start();
 
-	if ( 1 === $instance ):
-		wp_enqueue_style( 'wp-mediaelement' );
-		wp_enqueue_script( 'wp-playlist' );
-?>
-<!--[if lt IE 9]><script>document.createElement('<?php echo esc_js( $type ) ?>');</script><![endif]-->
-<script type="text/html" id="tmpl-wp-playlist-current-item">
-	<# if ( data.image ) { #>
-	<img src="{{{ data.thumb.src }}}"/>
-	<# } #>
-	<# if ( data.meta.title ) { #>
-	<div class="wp-playlist-caption">
-		<span class="wp-caption-meta wp-caption-title">&#8220;{{{ data.meta.title }}}&#8221;</span>
-		<span class="wp-caption-meta wp-caption-album">{{{ data.meta.album }}}</span>
-		<span class="wp-caption-meta wp-caption-artist">{{{ data.meta.artist }}}</span>
-	</div>
-	<# } else { #>
-	<div class="wp-playlist-caption">{{{ data.caption ? data.caption : data.title }}}</div>
-	<# } #>
-</script>
-<script type="text/html" id="tmpl-wp-playlist-item">
-	<div class="wp-playlist-item">
-		<# if ( ( data.title || data.meta.title ) && ( ! data.artists || data.meta.artist ) ) { #>
-		<div class="wp-playlist-caption">
-			{{{ data.index ? ( data.index + '.&nbsp;' ) : '' }}}
-			<span class="wp-caption-title">&#8220;{{{ data.title ? data.title : data.meta.title }}}&#8221;</span>
-			<# if ( data.artists ) { #>
-			<span class="wp-caption-by"><?php _e( 'by' ) ?></span>
-			<span class="wp-caption-artist">{{{ data.meta.artist }}}</span>
-			<# } #>
-		</div>
-		<# } else { #>
-		<div class="wp-playlist-caption">{{{ data.index ? ( data.index + '.' ) : '' }}} {{{ data.caption ? data.caption : data.title }}}</div>
-		<# } #>
-		<# if ( data.meta.length_formatted ) { #>
-		<div class="wp-playlist-item-length">{{{ data.meta.length_formatted }}}</div>
-		<# } #>
-	</div>
-</script>
-	<?php endif ?>
+	if ( 1 === $instance ) {
+		/**
+		 * Hook to print and enqueue playlist scripts, styles, and JavaScript templates.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param string $type   Type of playlist: "audio" or "video."
+		 * @param string $style  The "theme" for the playlist. Core provides "light" and "dark."
+		 */
+		do_action( 'wp_playlist_scripts', $type, $style );
+	} ?>
 <div class="wp-playlist wp-<?php echo $safe_type ?>-playlist wp-playlist-<?php echo $safe_style ?>">
 	<?php if ( 'audio' === $type ): ?>
 	<div class="wp-playlist-current-item"></div>
@@ -1246,14 +1267,11 @@ function wp_get_playlist( $attr, $type ) {
 	<div class="wp-playlist-next"></div>
 	<div class="wp-playlist-prev"></div>
 	<noscript>
-	<?php
-	$output = "\n";
+	<ol><?php
 	foreach ( $attachments as $att_id => $attachment ) {
-		$output .= wp_get_attachment_link( $att_id ) . "\n";
+		printf( '<li>%s</li>', wp_get_attachment_link( $att_id ) );
 	}
-
-	echo $output;
-	?>
+	?></ol>
 	</noscript>
 	<script type="application/json"><?php echo json_encode( $data ) ?></script>
 </div>
