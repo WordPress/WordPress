@@ -1193,41 +1193,16 @@
 	media.controller.MediaLibrary = media.controller.Library.extend({
 		defaults: _.defaults({
 			filterable: 'uploaded',
-			multiple:   false,
 			priority:   80,
 			syncSelection: false,
-			displaySettings: true
+			displaySettings: false
 		}, media.controller.Library.prototype.defaults ),
 
 		initialize: function( options ) {
-			var library, comparator;
-
 			this.media = options.media;
 			this.set( 'library', media.query({ type: options.type }) );
 
 			media.controller.Library.prototype.initialize.apply( this, arguments );
-
-			library    = this.get('library');
-			comparator = library.comparator;
-
-			// Overload the library's comparator to push items that are not in
-			// the mirrored query to the front of the aggregate collection.
-			library.comparator = function( a, b ) {
-				var aInQuery = !! this.mirroring.get( a.cid ),
-					bInQuery = !! this.mirroring.get( b.cid );
-
-				if ( ! aInQuery && bInQuery ) {
-					return -1;
-				} else if ( aInQuery && ! bInQuery ) {
-					return 1;
-				} else {
-					return comparator.apply( this, arguments );
-				}
-			};
-
-			// Add all items in the selection to the library, so any featured
-			// images that are not initially loaded still appear.
-			library.observe( this.get('selection') );
 		}
 	});
 
@@ -2952,6 +2927,7 @@
 			this.on( 'toolbar:render:replace-video', this.renderReplaceToolbar, this );
 			this.on( 'toolbar:render:add-video-source', this.renderAddSourceToolbar, this );
 			this.on( 'toolbar:render:select-poster-image', this.renderSelectPosterImageToolbar, this );
+			this.on( 'toolbar:render:add-track', this.renderAddTrackToolbar, this );
 		},
 
 		createStates: function() {
@@ -2987,6 +2963,15 @@
 					toolbar: 'select-poster-image',
 					media: this.media,
 					menu: 'video-details'
+				} ),
+
+				new media.controller.MediaLibrary( {
+					type: 'text',
+					id: 'add-track',
+					title: l10n.videoAddTrackTitle,
+					toolbar: 'add-track',
+					media: this.media,
+					menu: 'video-details'
 				} )
 			]);
 		},
@@ -3009,6 +2994,43 @@
 							controller.media.set( 'poster', attachment.get( 'url' ) );
 
 							state.trigger( 'set-poster-image', controller.media.toJSON() );
+
+							// Restore and reset the default state.
+							controller.setState( controller.options.state );
+							controller.reset();
+						}
+					}
+				}
+			}) );
+		},
+
+		renderAddTrackToolbar: function() {
+			this.toolbar.set( new media.view.Toolbar({
+				controller: this,
+				items: {
+					replace: {
+						style:    'primary',
+						text:     l10n.videoAddTrackTitle,
+						priority: 80,
+
+						click: function() {
+							var controller = this.controller,
+								state = controller.state(),
+								selection = state.get( 'selection' ),
+								attachment = selection.single(),
+								content = controller.media.get( 'content' );
+
+							if ( -1 === content.indexOf( attachment.get( 'url' ) ) ) {
+								content += [
+									'<track srclang="en" label="English"kind="subtitles" src="',
+									attachment.get( 'url' ),
+									'" />'
+								].join('');
+
+								controller.media.set( 'content', content );
+							}
+
+							state.trigger( 'add-track', controller.media.toJSON() );
 
 							// Restore and reset the default state.
 							controller.setState( controller.options.state );
@@ -6366,21 +6388,17 @@
 			this.on( 'media:setting:remove', this.render );
 			this.on( 'media:setting:remove', this.setPlayer );
 			this.events = _.extend( this.events, {
-				'click .remove-setting' : 'removeSetting'
+				'click .remove-setting' : 'removeSetting',
+				'change .content-track' : 'setTracks',
+				'click .remove-track' : 'setTracks'
 			} );
 
 			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
 		},
 
 		prepare: function() {
-			var attachment = false;
-
-			if ( this.model.attachment ) {
-				attachment = this.model.attachment.toJSON();
-			}
 			return _.defaults({
-				model: this.model.toJSON(),
-				attachment: attachment
+				model: this.model.toJSON()
 			}, this.options );
 		},
 
@@ -6404,12 +6422,26 @@
 		},
 
 		removeSetting : function (e) {
-			var setting = $( e.currentTarget ).parent();
+			var wrap = $( e.currentTarget ).parent(), setting;
 
-			this.model.unset( setting.find( 'input' ).data( 'setting' ) );
+			setting = wrap.find( 'input' ).data( 'setting' );
 
-			setting.remove();
+			if ( setting ) {
+				this.model.unset( setting );
+				this.trigger( 'media:setting:remove', this );
+			}
 
+			wrap.remove();
+		},
+
+		setTracks : function () {
+			var tracks = '';
+
+			_.each( this.$('.content-track'), function (track) {
+				tracks += $( track ).val();
+			} );
+
+			this.model.set( 'content', tracks );
 			this.trigger( 'media:setting:remove', this );
 		},
 

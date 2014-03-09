@@ -19,6 +19,11 @@
 	max-width: 400px;
 }
 
+.media-embed-details .embed-media-settings .setting span {
+	max-width: 400px;
+	width: auto;
+}
+
 .media-embed-details .embed-media-settings {
 	padding-top: 0;
 }
@@ -28,8 +33,11 @@
 	max-width: 600px;
 }
 
+.media-embed-details .setting p,
 .media-embed-details .setting a {
 	color: #a00;
+	font-size: 10px;
+	text-transform: uppercase;
 }
 
 .media-embed-details .setting a:hover {

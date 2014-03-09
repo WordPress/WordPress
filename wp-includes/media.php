@@ -2395,7 +2395,8 @@ function wp_enqueue_media( $args = array() ) {
 		'cancel'      => __( 'Cancel' ),
 		'update'      => __( 'Update' ),
 		'replace'     => __( 'Replace' ),
-		'back'     => __( 'Back' ),
+		'remove'      => __( 'Remove' ),
+		'back'        => __( 'Back' ),
 		/* translators: This is a would-be plural string used in the media manager.
 		   If there is not a word you can use in your language to avoid issues with the
 		   lack of plural support here, turn it into "selected: %d" then translate it.
@@ -2450,7 +2451,6 @@ function wp_enqueue_media( $args = array() ) {
 		'audioDetailsCancel'    => __( 'Cancel Edit' ),
 		'audioDetailsText'      => __( '"Replace Audio" will remove all associated source files when you update. ' .
 			'"Add Audio Source" allows you to specify alternate sources for maximum native HTML5 audio playback.' ),
-		'audioRemoveSource'     => __( 'Remove Audio Source' ),
 
 		// Edit Video
 		'videoDetailsTitle'     => __( 'Video Details' ),
@@ -2459,9 +2459,8 @@ function wp_enqueue_media( $args = array() ) {
 		'videoDetailsCancel'    => __( 'Cancel Edit' ),
 		'videoDetailsText'      => __( '"Replace Video" will remove all associated source files when you update. ' .
 			'"Add Video Source" allows you to specify alternate sources for maximum native HTML5 video playback.' ),
-		'videoRemoveSource'     => __( 'Remove Video Source' ),
 		'videoSelectPosterImageTitle' => _( 'Select Poster Image' ),
-		'videoRemovePoster'     => __( 'Remove Poster Image' ),
+		'videoAddTrackTitle'	=> __( 'Add Subtitles' ),
 
  		// Playlist
  		'playlistDragInfo'    => __( 'Drag and drop to reorder tracks.' ),

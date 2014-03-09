@@ -609,26 +609,33 @@
 			poster : '',
 			loop : false,
 			autoplay : false,
-			preload : 'metadata'
+			preload : 'metadata',
+			content : ''
 		},
 
 		edit : function (data) {
-			var frame, shortcode = wp.shortcode.next( 'video', data ).shortcode;
+			var frame,
+				defaults = this.defaults,
+				shortcode = wp.shortcode.next( 'video', data ).shortcode,
+				attrs;
+
+			attrs = shortcode.attrs.named;
+			attrs.content = shortcode.content;
+
 			frame = wp.media({
 				frame: 'video',
 				state: 'video-details',
-				metadata: _.defaults(
-					shortcode.attrs.named,
-					wp.media.video.defaults
-				)
+				metadata: _.defaults( attrs, defaults )
 			});
 
 			return frame;
 		},
 
 		shortcode : function (shortcode) {
-			var self = this;
-			_.each( wp.media.video.defaults, function( value, key ) {
+			var self = this, content = shortcode.content;
+			delete shortcode.content;
+
+			_.each( this.defaults, function( value, key ) {
 				shortcode[ key ] = self.coerce( shortcode, key );
 
 				if ( value === shortcode[ key ] ) {
@@ -638,7 +645,8 @@
 
 			return wp.shortcode.string({
 				tag:     'video',
-				attrs:   shortcode
+				attrs:   shortcode,
+				content: content
 			});
 		}
 	}, wp.media.mixin);

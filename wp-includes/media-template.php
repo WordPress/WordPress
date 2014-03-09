@@ -690,7 +690,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span>SRC</span>
 					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
-					<a class="remove-setting">{{{ wp.media.view.l10n.audioRemoveSource }}}</a>
+					<a class="remove-setting">{{{ wp.media.view.l10n.remove }}}</a>
 				</label>
 				<# } #>
 				<?php
@@ -700,7 +700,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
 					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
-					<a class="remove-setting">{{{ wp.media.view.l10n.audioRemoveSource }}}</a>
+					<a class="remove-setting">{{{ wp.media.view.l10n.remove }}}</a>
 				</label>
 				<# } #>
 				<?php endforeach ?>
@@ -779,13 +779,14 @@ function wp_print_media_templates() {
 					?><# if ( data.model.<?php echo $type ?> ) { #>
 					<source src="{{ data.model.<?php echo $type ?> }}" type="{{ wp.media.view.settings.embedMimes[ '<?php echo $type ?>' ] }}" />
 					<# } #>
-					<?php endforeach;
-				?></video>
+					<?php endforeach; ?>
+					{{{ data.model.content }}}
+				</video>
 				<# if ( ! _.isEmpty( data.model.src ) ) { #>
 				<label class="setting">
 					<span>SRC</span>
 					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
-					<a class="remove-setting">{{{ wp.media.view.l10n.videoRemoveSource }}}</a>
+					<a class="remove-setting">{{{ wp.media.view.l10n.remove }}}</a>
 				</label>
 				<# } #>
 				<?php foreach ( $video_types as $type ):
@@ -793,7 +794,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
 					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
-					<a class="remove-setting">{{{ wp.media.view.l10n.videoRemoveSource }}}</a>
+					<a class="remove-setting">{{{ wp.media.view.l10n.remove }}}</a>
 				</label>
 				<# } #>
 				<?php endforeach ?>
@@ -802,7 +803,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php _e( 'Poster Image' ); ?></span>
 					<input type="text" disabled="disabled" data-setting="poster" value="{{ data.model.poster }}" />
-					<a class="remove-setting">{{{ wp.media.view.l10n.videoRemovePoster }}}</a>
+					<a class="remove-setting">{{{ wp.media.view.l10n.remove }}}</a>
 				</label>
 				<# } #>
 				<div class="setting preload">
@@ -824,6 +825,25 @@ function wp_print_media_templates() {
 					<input type="checkbox" data-setting="loop" />
 				</label>
 				<div class="clear"></div>
+
+				<label class="setting" data-setting="content">
+					<span><?php _e( 'Tracks (subtitles, captions, descriptions, chapters or metadata)' ); ?></span>
+					<#
+					var content = '';
+					if ( ! _.isEmpty( data.model.content ) ) {
+						var tracks = jQuery( data.model.content ).filter( 'track' );
+						_.each( tracks.toArray(), function (track) {
+							content += track.outerHTML; #>
+						<p>
+							<input class="content-track" type="text" value="{{ track.outerHTML }}" />
+							<a class="remove-setting remove-track">{{{ wp.media.view.l10n.remove }}}</a>
+						</p>
+						<# } ); #>
+					<# } else { #>
+					<em>There are no associated subtitles.</em>
+					<# } #>
+					<textarea class="hidden content-setting">{{ content }}</textarea>
+				</label>
 			</div>
 		</div>
 	</script>

@@ -1983,6 +1983,7 @@ function wp_get_mime_types() {
 	'rtx' => 'text/richtext',
 	'css' => 'text/css',
 	'htm|html' => 'text/html',
+	'vtt' => 'text/vtt',
 	// Audio formats
 	'mp3|m4a|m4b' => 'audio/mpeg',
 	'ra|ram' => 'audio/x-realaudio',
