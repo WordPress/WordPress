@@ -662,50 +662,42 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-audio-details">
-		<?php // reusing .media-embed to pick up the styles for now
-		?><# var rendered = false; #>
+		<?php $audio_types = wp_get_audio_extensions(); ?>
 		<div class="media-embed">
 			<div class="embed-media-settings embed-audio-settings">
-				<# if ( data.model.src ) { #>
-					<audio controls
-						class="wp-audio-shortcode"
-						src="{{{ data.model.src }}}"
-						preload="{{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}}"
-						<#
-						<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
-						?>if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
-							#> <?php echo $attr ?><#
-						}
-						<?php endforeach ?>#>
-					/>
-					<# rendered = true; #>
+				<audio controls
+					class="wp-audio-shortcode"
+					preload="{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}"
+					<#
+					<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
+					?>if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
+						#> <?php echo $attr ?><#
+					}
+					<?php endforeach ?>#>
+				>
+					<# if ( ! _.isEmpty( data.model.src ) ) { #>
+					<source src="{{ data.model.src }}" type="{{ wp.media.view.settings.embedMimes[ data.model.src.split('.').pop() ] }}" />
+					<# } #>
+
+					<?php foreach ( $audio_types as $type ):
+					?><# if ( ! _.isEmpty( data.model.<?php echo $type ?> ) ) { #>
+					<source src="{{ data.model.<?php echo $type ?> }}" type="{{ wp.media.view.settings.embedMimes[ '<?php echo $type ?>' ] }}" />
+					<# } #>
+					<?php endforeach;
+				?></audio>
+				<# if ( ! _.isEmpty( data.model.src ) ) { #>
 				<label class="setting">
 					<span>SRC</span>
-					<input type="text" disabled="disabled" data-setting="src" value="{{{ data.model.src }}}" />
+					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
 				</label>
 				<# } #>
 				<?php
-				$default_types = wp_get_audio_extensions();
 
-				foreach ( $default_types as $type ):
-				?><# if ( data.model.<?php echo $type ?> ) { #>
-					<# if ( ! rendered ) { #>
-					<audio controls
-						class="wp-audio-shortcode"
-						src="{{{ data.model.<?php echo $type ?> }}}"
-						preload="{{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}}"
-						<#
-						<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
-						?>if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
-							#> <?php echo $attr ?><#
-						}
-						<?php endforeach ?>#>
-					/>
-					<# rendered = true;
-					} #>
+				foreach ( $audio_types as $type ):
+				?><# if ( ! _.isEmpty( data.model.<?php echo $type ?> ) ) { #>
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
-					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{{ data.model.<?php echo $type ?> }}}" />
+					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
 				</label>
 				<# } #>
 				<?php endforeach ?>
@@ -734,8 +726,7 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-video-details">
-		<?php // reusing .media-embed to pick up the styles for now
-		?><# var rendered = false; #>
+		<?php $video_types = wp_get_video_extensions(); ?>
 		<div class="media-embed">
 			<div class="embed-media-settings embed-video-settings">
 				<div class="wp-video-holder">
@@ -746,117 +737,69 @@ function wp_print_media_templates() {
 				if ( data.model.width && w !== data.model.width ) {
 					h = Math.ceil( ( h * w ) / data.model.width );
 				}
+				#>
+				<video controls
+					class="wp-video-shortcode youtube-video"
+					width="{{ w }}"
+					height="{{ h }}"
+					<?php
+					$props = array( 'poster' => '', 'preload' => 'metadata' );
+					foreach ( $props as $key => $value ):
+						if ( empty( $value ) ) {
+						?><#
+						if ( ! _.isUndefined( data.model.<?php echo $key ?> ) && data.model.<?php echo $key ?> ) {
+							#> <?php echo $key ?>="{{ data.model.<?php echo $key ?> }}"<#
+						} #>
+						<?php } else {
+							echo $key ?>="{{ _.isUndefined( data.model.<?php echo $key ?> ) ? '<?php echo $value ?>' : data.model.<?php echo $key ?> }}"<?php
+						}
+					endforeach;
+					?><#
+					<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
+					?> if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
+						#> <?php echo $attr ?><#
+					}
+					<?php endforeach ?>#>
+				>
+					<# if ( ! _.isEmpty( data.model.src ) ) {
+						if ( data.model.src.match(/youtube|youtu\.be/) ) { #>
+						<source src="{{ data.model.src }}" type="video/youtube" />
+						<# } else { #>
+						<source src="{{ data.model.src }}" type="{{ wp.media.view.settings.embedMimes[ data.model.src.split('.').pop() ] }}" />
+						<# }
+					} #>
 
-				if ( data.model.src ) {
-					if ( data.model.src.match(/youtube|youtu\.be/) ) {
-				#>
-					<video controls
-						class="wp-video-shortcode youtube-video"
-						width="{{{ w }}}"
-						height="{{{ h }}}"
-						<?php
-						$props = array( 'poster' => '', 'preload' => 'metadata' );
-						foreach ( $props as $key => $value ):
-							if ( empty( $value ) ) {
-							?><#
-							if ( ! _.isUndefined( data.model.<?php echo $key ?> ) && data.model.<?php echo $key ?> ) {
-								#> <?php echo $key ?>="{{{ data.model.<?php echo $key ?> }}}"<#
-							} #>
-							<?php } else {
-								echo $key ?>="{{{ _.isUndefined( data.model.<?php echo $key ?> ) ? '<?php echo $value ?>' : data.model.<?php echo $key ?> }}}"<?php
-							}
-						endforeach;
-						?><#
-						<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
-						?> if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
-							#> <?php echo $attr ?><#
-						}
-						<?php endforeach ?>#>
-					>
-						<source type="video/youtube" src="{{{ data.model.src }}}" />
-					</video>
-				<#
-					} else {
-				#>
-					<video controls
-						class="wp-video-shortcode"
-						width="{{{ w }}}"
-						height="{{{ h }}}"
-						src="{{{ data.model.src }}}"
-						<?php
-						$props = array( 'poster' => '', 'preload' => 'metadata' );
-						foreach ( $props as $key => $value ):
-							if ( empty( $value ) ) {
-							?><#
-							if ( ! _.isUndefined( data.model.<?php echo $key ?> ) && data.model.<?php echo $key ?> ) {
-								#> <?php echo $key ?>="{{{ data.model.<?php echo $key ?> }}}"<#
-							} #>
-							<?php } else {
-								echo $key ?>="{{{ _.isUndefined( data.model.<?php echo $key ?> ) ? '<?php echo $value ?>' : data.model.<?php echo $key ?> }}}"<?php
-							}
-						endforeach;
-						?><#
-						<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
-						?> if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
-							#> <?php echo $attr ?><#
-						}
-						<?php endforeach ?>#>
-					/>
+					<?php foreach ( $video_types as $type ):
+					?><# if ( data.model.<?php echo $type ?> ) { #>
+					<source src="{{ data.model.<?php echo $type ?> }}" type="{{ wp.media.view.settings.embedMimes[ '<?php echo $type ?>' ] }}" />
+					<# } #>
+					<?php endforeach;
+				?></video>
+				<# if ( ! _.isEmpty( data.model.src ) ) { #>
 				<label class="setting">
 					<span>SRC</span>
-					<input type="text" disabled="disabled" data-setting="src" value="{{{ data.model.src }}}" />
+					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
 				</label>
-				<#	}
-					rendered = true;
-				} #>
-				<?php
-				$default_types = wp_get_video_extensions();
-
-				foreach ( $default_types as $type ):
-				?><# if ( data.model.<?php echo $type ?> ) {
-					if ( ! rendered ) { #>
-					<video controls
-						class="wp-video-shortcode"
-						width="{{{ w }}}"
-						height="{{{ h }}}"
-						src="{{{ data.model.<?php echo $type ?> }}}"
-						<?php
-						$props = array( 'poster' => '', 'preload' => 'metadata' );
-						foreach ( $props as $key => $value ):
-							echo $key ?>="{{{ _.isUndefined( data.model.<?php echo $key ?> ) ? '<?php echo $value ?>' : data.model.<?php echo $key ?> }}}"
-						<?php endforeach;
-						?><#
-						<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
-						?>if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
-							#> <?php echo $attr ?><#
-						}
-						<?php endforeach ?>#>
-					/>
-					<# rendered = true;
-					} #>
+				<# } #>
+				<?php foreach ( $video_types as $type ):
+				?><# if ( ! _.isEmpty( data.model.<?php echo $type ?> ) ) { #>
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
-					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{{ data.model.<?php echo $type ?> }}}" />
+					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
 				</label>
 				<# } #>
 				<?php endforeach ?>
 				</div>
 				<label class="setting">
 					<span><?php _e( 'Poster Image' ); ?></span>
-					<input type="text" data-setting="poster" value="{{{ data.model.poster }}}" />
+					<input type="text" data-setting="poster" value="{{ data.model.poster }}" />
 				</label>
 				<div class="setting preload">
 					<span><?php _e( 'Preload' ); ?></span>
 					<div class="button-group button-large" data-setting="preload">
-						<button class="button" value="auto">
-							<?php esc_attr_e( 'Auto' ); ?>
-						</button>
-						<button class="button" value="metadata">
-							<?php esc_attr_e( 'Metadata' ); ?>
-						</button>
-						<button class="button active" value="none">
-							<?php esc_attr_e( 'None' ); ?>
-						</button>
+						<button class="button" value="auto"><?php _e( 'Auto' ); ?></button>
+						<button class="button" value="metadata"><?php _e( 'Metadata' ); ?></button>
+						<button class="button active" value="none"><?php _e( 'None' ); ?></button>
 					</div>
 				</div>
 

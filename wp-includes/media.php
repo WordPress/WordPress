@@ -2342,6 +2342,18 @@ function wp_enqueue_media( $args = array() ) {
 		'size'  => get_option( 'image_default_size' ),  // empty default
 	);
 
+	$exts = array_merge( wp_get_audio_extensions(), wp_get_video_extensions() );
+	$mimes = get_allowed_mime_types();
+	$ext_mimes = array();
+	foreach ( $exts as $ext ) {
+		foreach ( $mimes as $ext_preg => $mime_match ) {
+			if ( preg_match( '#' . $ext . '#i', $ext_preg ) ) {
+				$ext_mimes[ $ext ] = $mime_match;
+				break;
+			}
+		}
+	}
+
 	$settings = array(
 		'tabs'      => $tabs,
 		'tabUrl'    => add_query_arg( array( 'chromeless' => true ), admin_url('media-upload.php') ),
@@ -2354,7 +2366,8 @@ function wp_enqueue_media( $args = array() ) {
 			'id' => 0,
 		),
 		'defaultProps' => $props,
-		'embedExts'    => array_merge( wp_get_audio_extensions(), wp_get_video_extensions() ),
+		'embedExts'    => $exts,
+		'embedMimes'   => $ext_mimes
 	);
 
 	$post = null;

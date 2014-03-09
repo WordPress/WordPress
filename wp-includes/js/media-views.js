@@ -6435,18 +6435,27 @@
 			}, this.options );
 		},
 
+		/**
+		 * When multiple players in the DOM contain the same src, things get weird.
+		 *
+		 * @param {HTMLElement} media
+		 * @returns {HTMLElement}
+		 */
 		prepareSrc : function (media) {
-			media.src = [
-				media.src,
-				media.src.indexOf('?') > -1 ? '&' : '?',
-				(new Date()).getTime()
-			].join('');
+			var t = (new Date()).getTime();
+			_.each( $(media).find('source'), function (source) {
+				source.src = [
+					source.src,
+					source.src.indexOf('?') > -1 ? '&' : '?',
+					t
+				].join('');
+			});
 
 			return media;
 		},
 
 		setPlayer : function () {
-			if ( ! this.player ) {
+			if ( ! this.player && this.media ) {
 				this.player = new MediaElementPlayer( this.media, this.settings );
 			}
 		},
