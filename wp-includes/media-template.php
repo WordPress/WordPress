@@ -418,11 +418,6 @@ function wp_print_media_templates() {
 		<h3><?php _e( 'Playlist Settings' ); ?></h3>
 
 		<label class="setting">
-			<span><?php _e( 'Random Order' ); ?></span>
-			<input type="checkbox" data-setting="_orderbyRandom" />
-		</label>
-
-		<label class="setting">
 			<span><?php _e( 'Style' ); ?></span>
 			<select class="style" data-setting="style">
 				<option value="light">
@@ -438,31 +433,36 @@ function wp_print_media_templates() {
 			var playlist = 'playlist-edit' === data.controller.id, emptyModel = _.isEmpty(data.model);
 		#>
 		<label class="setting">
-			<span><?php _e( 'Show Tracklist' ); ?></span>
+			<input type="checkbox" data-setting="_orderbyRandom" />
+			<span><?php _e( 'Random Order' ); ?></span>
+		</label>
+
+		<label class="setting">
 			<input type="checkbox" data-setting="tracklist" <# if ( playlist && emptyModel ) { #>
 				checked="checked"
 			<# } #> />
+			<span><?php _e( 'Show Tracklist' ); ?></span>
 		</label>
 
 		<label class="setting">
-			<span><?php _e( 'Show Track Numbers' ); ?></span>
 			<input type="checkbox" data-setting="tracknumbers" <# if ( playlist && emptyModel ) { #>
 				checked="checked"
 			<# } #> />
+			<span><?php _e( 'Show Track Numbers' ); ?></span>
 		</label>
 
 		<label class="setting">
-			<span><?php _e( 'Show Artist Name in Tracklist' ); ?></span>
 			<input type="checkbox" data-setting="artists" <# if ( playlist && emptyModel ) { #>
 				checked="checked"
 			<# } #> />
+			<span><?php _e( 'Show Artist Name in Tracklist' ); ?></span>
 		</label>
 
 		<label class="setting">
-			<span><?php _e( 'Show Images' ); ?></span>
 			<input type="checkbox" data-setting="images" <# if ( emptyModel ) { #>
 				checked="checked"
 			<# } #> />
+			<span><?php _e( 'Show Images' ); ?></span>
 		</label>
 	</script>
 

@@ -1432,6 +1432,15 @@
 	overflow: hidden;
 }
 
+.collection-settings .setting input[type="checkbox"] {
+	float: left;
+	margin-right: 8px;
+}
+
+.collection-settings .setting span {
+	min-width: inherit;
+}
+
 /**
  * Image Editor
  */
