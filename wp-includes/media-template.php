@@ -417,17 +417,27 @@ function wp_print_media_templates() {
 	<script type="text/html" id="tmpl-playlist-settings">
 		<h3><?php _e( 'Playlist Settings' ); ?></h3>
 
+		<?php
+		$playlist_styles = array(
+			'light' => _x( 'Light', 'light playlist theme' ),
+			'dark'	=> _x( 'Dark', 'dark playlist theme' )
+		);
+
+		/** This filter is documented in wp-includes/media.php */
+		$styles = apply_filters( 'playlist_styles', $playlist_styles );
+
+		if ( ! empty( $styles ) ): ?>
 		<label class="setting">
 			<span><?php _e( 'Style' ); ?></span>
 			<select class="style" data-setting="style">
-				<option value="light">
-					<?php esc_attr_e( 'Light' ); ?>
+				<?php foreach ( $styles as $slug => $label ): ?>
+				<option value="<?php echo esc_attr( $slug ) ?>">
+					<?php echo $label ?>
 				</option>
-				<option value="dark">
-					<?php esc_attr_e( 'Dark' ); ?>
-				</option>
+				<?php endforeach ?>
 			</select>
 		</label>
+		<?php endif; ?>
 
 		<#
 			var playlist = 'playlist-edit' === data.controller.id, emptyModel = _.isEmpty(data.model);

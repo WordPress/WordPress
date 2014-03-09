@@ -1123,7 +1123,21 @@ function wp_get_playlist( $attr, $type ) {
 		$orderby = 'none';
 	}
 
-	if ( ! in_array( $style, array( 'light', 'dark' ), true ) ) {
+	$playlist_styles = array(
+		'light' => _x( 'Light', 'light playlist theme' ),
+		'dark'	=> _x( 'Dark', 'dark playlist theme' )
+	);
+
+	/**
+	 * Filter the available playlist styles.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param array $playlist_styles Array of playlist styles. Defaults are 'light' and 'dark'.
+	 */
+	$styles = apply_filters( 'playlist_styles', $playlist_styles );
+
+	if ( ! in_array( $style, array_keys( $styles ), true ) ) {
 		$style = 'light';
 	}
 
