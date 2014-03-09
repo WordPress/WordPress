@@ -664,8 +664,8 @@ function wp_print_media_templates() {
 	<script type="text/html" id="tmpl-audio-details">
 		<?php $audio_types = wp_get_audio_extensions(); ?>
 		<div class="media-embed media-embed-details">
-			<div class="instructions media-instructions">{{{ wp.media.view.l10n.audioDetailsText }}}</div>
 			<div class="embed-media-settings embed-audio-settings">
+				<div class="instructions media-instructions">{{{ wp.media.view.l10n.audioDetailsText }}}</div>
 				<audio controls
 					class="wp-audio-shortcode"
 					preload="{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}"
@@ -731,8 +731,8 @@ function wp_print_media_templates() {
 	<script type="text/html" id="tmpl-video-details">
 		<?php $video_types = wp_get_video_extensions(); ?>
 		<div class="media-embed media-embed-details">
-			<div class="instructions media-instructions">{{{ wp.media.view.l10n.videoDetailsText }}}</div>
 			<div class="embed-media-settings embed-video-settings">
+				<div class="instructions media-instructions">{{{ wp.media.view.l10n.videoDetailsText }}}</div>
 				<div class="wp-video-holder">
 				<#
 				var isYouTube = ! _.isEmpty( data.model.src ) && data.model.src.match(/youtube|youtu\.be/);

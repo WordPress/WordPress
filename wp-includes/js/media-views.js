@@ -1228,20 +1228,6 @@
 			// Add all items in the selection to the library, so any featured
 			// images that are not initially loaded still appear.
 			library.observe( this.get('selection') );
-		},
-
-		activate: function() {
-			this.updateSelection();
-			media.controller.Library.prototype.activate.apply( this, arguments );
-		},
-
-		updateSelection: function() {
-			var selection = this.get('selection'),
-				attachment;
-
-			attachment = this.media.attachment;
-
-			selection.reset( attachment ? [ attachment ] : [] );
 		}
 	});
 
@@ -2816,7 +2802,7 @@
 								selection = state.get( 'selection' ),
 								attachment = selection.single();
 
-							controller.media.changeAttachment( attachment, state.display( attachment ) );
+							controller.media.changeAttachment( attachment );
 
 							state.trigger( 'replace', controller.media.toJSON() );
 
@@ -2844,7 +2830,7 @@
 								selection = state.get( 'selection' ),
 								attachment = selection.single();
 
-							controller.media.setSource( attachment, state.display( attachment ) );
+							controller.media.setSource( attachment );
 
 							state.trigger( 'add-source', controller.media.toJSON() );
 
@@ -2914,7 +2900,6 @@
 					media: this.media,
 					menu: 'audio-details'
 				} ),
-
 
 				new media.controller.MediaLibrary( {
 					type: 'audio',

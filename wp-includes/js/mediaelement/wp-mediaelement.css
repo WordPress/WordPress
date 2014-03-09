@@ -24,7 +24,7 @@
 }
 
 .media-embed-details .instructions {
-	padding: 16px;
+	padding: 16px 0;
 	max-width: 600px;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .media-embed-details .embed-media-settings {
-	top: 70px;
+	top: 0;
 }
 
 .media-embed-details .embed-media-settings .checkbox-setting {
