@@ -1049,9 +1049,12 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 
-	if ( 'publish' == get_post_status( $post ) ) {
-		$ptype = get_post_type_object($post->post_type);
+	if ( current_user_can( 'read_post', $post->ID ) ) {
+		$ptype = get_post_type_object( $post->post_type );
 		$view_post = $ptype->labels->view_item;
+	}
+
+	if ( 'publish' == get_post_status( $post ) ) {
 		$title = __('Click to edit this part of the permalink');
 	} else {
 		$title = __('Temporary permalink. Click to edit this part.');
