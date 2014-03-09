@@ -97,14 +97,23 @@ function get_currentuserinfo() {
 		return false;
 	}
 
-	if ( ! $user = wp_validate_auth_cookie() ) {
-		 if ( is_blog_admin() || is_network_admin() || empty( $_COOKIE[LOGGED_IN_COOKIE] ) || !$user = wp_validate_auth_cookie( $_COOKIE[LOGGED_IN_COOKIE], 'logged_in' ) ) {
-		 	wp_set_current_user( 0 );
-		 	return false;
-		 }
+	/**
+	 * Determine the current user based on request data.
+	 *
+	 * The default filters use this to determine the current user from the
+	 * request's cookies, if available.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param int|boolean $user_id User ID if determined, or false otherwise.
+	 */
+	$user_id = apply_filters( 'determine_current_user', false );
+	if ( ! $user_id ) {
+		wp_set_current_user( 0 );
+		return false;
 	}
 
-	wp_set_current_user( $user );
+	wp_set_current_user( $user_id );
 }
 endif;
 
