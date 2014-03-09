@@ -472,11 +472,11 @@ window.wp = window.wp || {};
 			if ( _.contains( wp.media.view.settings.embedExts, this.extension ) ) {
 				this.set( this.extension, attachment.get( 'url' ) );
 			} else {
-				this.set( this.extension, '' );
+				this.unset( this.extension );
 			}
 
 			_.each( _.without( wp.media.view.settings.embedExts, this.extension ), function (ext) {
-				self.set( ext, '' );
+				self.unset( ext );
 			} );
 		}
 	});
@@ -501,11 +501,11 @@ window.wp = window.wp || {};
 			if ( _.contains( wp.media.view.settings.embedExts, this.extension ) ) {
 				this.set( this.extension, attachment.get( 'url' ) );
 			} else {
-				this.set( this.extension, '' );
+				this.unset( this.extension );
 			}
 
 			_.each( _.without( wp.media.view.settings.embedExts, this.extension ), function (ext) {
-				self.set( ext, '' );
+				self.unset( ext );
 			} );
 		}
 	});
