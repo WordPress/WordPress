@@ -657,11 +657,11 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 
 		if ( ! $silent ) {
 			/**
-			 * Fires for each plugin being deactivated in deactivate_plugins(), after deactivation
-			 * and when the $silent parameter is false.
+			 * Fires before a specific plugin is deactivated.
 			 *
-			 * The action concatenates the 'deactivate_' prefix with the plugin's basename
-			 * to create a dynamically-named action.
+			 * The dynamic portion of the hook name, $plugin. refers to the plugin basename.
+			 *
+			 * The hook only first when the $silent parameter is false.
 			 *
 			 * @since 2.0.0
 			 *
@@ -671,14 +671,15 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			do_action( 'deactivate_' . $plugin, $network_deactivating );
 
 			/**
-			 * Fires for each plugin being deactivated in deactivate_plugins(), after deactivation
-			 * and when the $silent parameter is false.
+			 * Fires before a plugin is deactivated.
+			 *
+			 * The hook only fies when the $silent parameter is false.
 			 *
 			 * @since 2.9.0
 			 *
-			 * @param string $plugin               Plugin path to main plugin file with plugin data.
+			 * @param string $plugin               Plugin basename.
 			 * @param bool   $network_deactivating Whether the plugin is deactivated for all sites in the network
-			 *                                     or just the current site. Multisite only. Default is false.
+			 *                                     or just the current site. Multisite only. Default false.
 			 */
 			do_action( 'deactivated_plugin', $plugin, $network_deactivating );
 		}
