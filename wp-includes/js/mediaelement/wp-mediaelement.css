@@ -124,7 +124,7 @@
 
 .wp-playlist-item-length {
 	position: absolute;
-	right: 0;
+	right: 3px;
 	top: 0;
 }
 
@@ -136,7 +136,22 @@
 .wp-playlist-item {
 	position: relative;
 	cursor: pointer;
+	padding: 0 3px;
 	border-bottom: 1px solid #ccc;
+}
+
+.wp-playlist-dark .wp-playlist-item {
+	color: #dedede;
+}
+
+.wp-playlist-playing {
+	font-weight: bold;
+	background: #f7f7f7;
+}
+
+.wp-playlist-dark .wp-playlist-playing {
+	background: #000;
+	color: #fff;
 }
 
 .wp-playlist-current-item {

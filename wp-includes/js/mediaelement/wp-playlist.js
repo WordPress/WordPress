@@ -25,6 +25,7 @@
 			this.renderCurrent();
 
 			if ( this.data.tracklist ) {
+				this.playingClass = 'wp-playlist-playing';
 				this.renderTracks();
 			}
 
@@ -57,17 +58,19 @@
 		},
 
 		renderTracks : function () {
-			var that = this, i = 1, tracklist = $( '<div class="wp-playlist-tracks"></div>' );
+			var self = this, i = 1, tracklist = $( '<div class="wp-playlist-tracks"></div>' );
 			this.tracks.each(function (model) {
-				if ( ! that.data.images ) {
+				if ( ! self.data.images ) {
 					model.set( 'image', false );
 				}
-				model.set( 'artists', that.data.artists );
-				model.set( 'index', that.data.tracknumbers ? i : false );
-				tracklist.append( that.itemTemplate( model.toJSON() ) );
+				model.set( 'artists', self.data.artists );
+				model.set( 'index', self.data.tracknumbers ? i : false );
+				tracklist.append( self.itemTemplate( model.toJSON() ) );
 				i += 1;
 			});
 			this.$el.append( tracklist );
+
+			this.$( '.wp-playlist-item' ).eq(0).addClass( this.playingClass );
 		},
 
 		events : {
@@ -115,6 +118,14 @@
 
 		setCurrent : function () {
 			this.current = this.tracks.at( this.index );
+
+			if ( this.data.tracklist ) {
+				this.$( '.wp-playlist-item' )
+					.removeClass( this.playingClass )
+					.eq( this.index )
+						.addClass( this.playingClass );
+			}
+
 			this.loadCurrent();
 			this.player.play();
 		}
