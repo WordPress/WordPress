@@ -850,7 +850,7 @@ function wp_print_media_templates() {
 						</p>
 						<# } ); #>
 					<# } else { #>
-					<em>There are no associated subtitles.</em>
+					<em><?php _e( 'There are no associated subtitles.' ); ?></em>
 					<# } #>
 					<textarea class="hidden content-setting">{{ content }}</textarea>
 				</label>
