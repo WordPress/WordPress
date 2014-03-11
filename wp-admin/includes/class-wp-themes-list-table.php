@@ -222,8 +222,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 
 			foreach ( array( 'Name', 'Description', 'Author', 'AuthorURI' ) as $header ) {
 				// Don't mark up; Do translate.
-				if ( false !== stripos( $theme->display( $header, false, true ), $word ) )
+				if ( false !== stripos( strip_tags( $theme->display( $header, false, true ) ), $word ) ) {
 					continue 2;
+				}
 			}
 
 			if ( false !== stripos( $theme->get_stylesheet(), $word ) )
