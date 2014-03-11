@@ -1,4 +1,4 @@
-/* globals _wpCustomizeHeader, _wpCustomizeSettings */
+/* globals _wpCustomizeHeader */
 (function( $, wp ) {
 	var api = wp.customize;
 	api.HeaderTool = {};
@@ -88,7 +88,7 @@
 				nonce: _wpCustomizeHeader.nonces.add,
 				wp_customize: 'on',
 				theme: api.settings.theme.stylesheet,
-				attachment_id: data.attachment_id,
+				attachment_id: data.attachment_id
 			} );
 		},
 

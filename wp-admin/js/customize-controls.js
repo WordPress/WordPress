@@ -420,7 +420,7 @@
 		 * @param {event} event
 		 */
 		openMedia: function(event) {
-			var title, suggestedWidth, suggestedHeight,
+			var suggestedWidth, suggestedHeight,
 				l10n = _wpMediaViewsL10n;
 
 			event.preventDefault();
