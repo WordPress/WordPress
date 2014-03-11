@@ -2257,7 +2257,7 @@ function media_upload_library_form($errors) {
 
 	$q = $_GET;
 	$q['posts_per_page'] = 10;
-	$q = isset( $q['paged'] ) ? intval( $q['paged'] ) : 0;
+	$q['paged'] = isset( $q['paged'] ) ? intval( $q['paged'] ) : 0;
 	if ( $q['paged'] < 1 ) {
 		$q['paged'] = 1;
 	}
