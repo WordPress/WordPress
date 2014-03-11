@@ -20,6 +20,34 @@ body.login {
 	line-height: 1.4em;
 }
 
+a {
+	color: #0074a2;
+	-webkit-transition-property: border, background, color;
+	transition-property: border, background, color;
+	-webkit-transition-duration: .05s;
+	transition-duration: .05s;
+	-webkit-transition-timing-function: ease-in-out;
+	transition-timing-function: ease-in-out;
+}
+
+a {
+	outline: 0;
+}
+
+a:hover,
+a:active {
+	color: #2ea2cc;
+}
+
+a:focus {
+	color: #124964;
+}
+
+a:focus,
+a:active {
+	outline: thin dotted;
+}
+
 p {
 	line-height: 1.5;
 }
