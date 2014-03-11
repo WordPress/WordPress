@@ -708,37 +708,9 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 	}
 }
 
-/**
- * Customize Header Image Control Class
- *
- * @package WordPress
- * @subpackage Customize
- * @since 3.4.0
- */
-class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
-	/**
-	 * The processed default headers.
-	 * @since 3.4.2
-	 * @var array
-	 */
-	protected $default_headers;
+final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
+	public $type = 'header';
 
-	/**
-	 * The uploaded headers.
-	 * @since 3.4.2
-	 * @var array
-	 */
-	protected $uploaded_headers;
-
-	/**
-	 * Constructor.
-	 *
-	 * @since 3.4.0
-	 * @uses WP_Customize_Image_Control::__construct()
-	 * @uses WP_Customize_Image_Control::add_tab()
-	 *
-	 * @param WP_Customize_Manager $manager
-	 */
 	public function __construct( $manager ) {
 		parent::__construct( $manager, 'header_image', array(
 			'label'    => __( 'Header Image' ),
@@ -750,86 +722,305 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			'context'  => 'custom-header',
 			'removed'  => 'remove-header',
 			'get_url'  => 'get_header_image',
-			'statuses' => array(
-				''                      => __('Default'),
-				'remove-header'         => __('No Image'),
-				'random-default-image'  => __('Random Default Image'),
-				'random-uploaded-image' => __('Random Uploaded Image'),
+		) );
+
+	}
+
+	public function to_json() {
+		parent::to_json();
+	}
+
+	public function enqueue() {
+		wp_enqueue_media();
+		wp_enqueue_script( 'customize-views' );
+
+		$this->prepare_control();
+
+		wp_localize_script( 'customize-views', '_wpCustomizeHeader', array(
+			'data' => array(
+				'width' => absint( get_theme_support( 'custom-header', 'width' ) ),
+				'height' => absint( get_theme_support( 'custom-header', 'height' ) ),
+				'flex-width' => absint( get_theme_support( 'custom-header', 'flex-width' ) ),
+				'flex-height' => absint( get_theme_support( 'custom-header', 'flex-height' ) ),
+				'currentImgSrc' => $this->get_current_image_src(),
+			),
+			'nonces' => array(
+				'add' => wp_create_nonce( 'header-add' ),
+				'remove' => wp_create_nonce( 'header-remove' ),
+			),
+			'l10n' => array(
+				/* translators: header images uploaded by user */
+				'uploaded' => __( 'uploaded' ),
+				/* translators: header images suggested by the current theme */
+				'default' => __( 'suggested' )
+			),
+			'uploads' => $this->uploaded_headers,
+			'defaults' => $this->default_headers
+		) );
+
+		parent::enqueue();
+	}
+
+	public function get_default_header_images() {
+		global $custom_image_header;
+
+		// Get *the* default image if there is one
+		$default = get_theme_support( 'custom-header', 'default-image' );
+
+		if ( ! $default ) { // If not,
+			return $custom_image_header->default_headers; // easy peasy.
+		}
+
+		$default = sprintf( $default,
+			get_template_directory_uri(),
+			get_stylesheet_directory_uri() );
+
+		$header_images = array();
+		$already_has_default = false;
+
+		// Get the whole set of default images
+		$default_header_images = $custom_image_header->default_headers;
+		foreach ( $default_header_images as $k => $h ) {
+			if ( $h['url'] == $default ) {
+				$already_has_default = true;
+				break;
+			}
+		}
+
+		// If *the one true image* isn't included in the default set, add it in
+		// first position
+		if ( ! $already_has_default ) {
+			$header_images['default'] = array(
+				'url' => $default,
+				'thumbnail_url' => $default,
+				'description' => 'Default'
+			);
+		}
+
+		// The rest of the set comes after
+		$header_images = array_merge( $header_images, $default_header_images );
+
+		return $header_images;
+	}
+
+	public function get_uploaded_header_images() {
+		$key = '_wp_attachment_custom_header_last_used_' . get_stylesheet();
+		$header_images = array();
+
+		$headers_not_dated = get_posts( array(
+			'post_type' => 'attachment',
+			'meta_key' => '_wp_attachment_is_custom_header',
+			'meta_value' => get_option('stylesheet'),
+			'orderby' => 'none',
+			'nopaging' => true,
+			'meta_query' => array(
+				array(
+					'key' => '_wp_attachment_is_custom_header',
+					'value' => get_option( 'stylesheet' ),
+					'compare' => 'LIKE'
+				),
+				array(
+					'key' => $key,
+					'value' => 'this string must not be empty',
+					'compare' => 'NOT EXISTS'
+				),
 			)
 		) );
 
-		// Remove the upload tab.
-		$this->remove_tab( 'upload-new' );
+		$headers_dated = get_posts( array(
+			'post_type' => 'attachment',
+			'meta_key' => $key,
+			'orderby' => 'meta_value_num',
+			'order' => 'DESC',
+			'nopaging' => true,
+			'meta_query' => array(
+				array(
+					'key' => '_wp_attachment_is_custom_header',
+					'value' => get_option( 'stylesheet' ),
+					'compare' => 'LIKE'
+				),
+			),
+		) );
+
+		$limit = apply_filters( 'custom_header_uploaded_limit', 15 );
+		$headers = array_merge( $headers_dated, $headers_not_dated );
+		$headers = array_slice( $headers, 0, $limit );
+
+		foreach ( (array) $headers as $header ) {
+			$url = esc_url_raw( $header->guid );
+			$header_data = wp_get_attachment_metadata( $header->ID );
+			$timestamp = get_post_meta( $header->ID,
+				'_wp_attachment_custom_header_last_used_' . get_stylesheet(),
+				true );
+
+			$h = array(
+				'attachment_id' => $header->ID,
+				'url'           => $url,
+				'thumbnail_url' => $url,
+				'timestamp'     => $timestamp ? $timestamp : 0,
+			);
+
+			if ( isset( $header_data['width'] ) ) {
+				$h['width'] = $header_data['width'];
+			}
+			if ( isset( $header_data['height'] ) ) {
+				$h['height'] = $header_data['height'];
+			}
+
+			$header_images[] = $h;
+		}
+
+		return $header_images;
 	}
 
-	/**
-	 * Prepares the control.
-	 *
-	 * If no tabs exist, removes the control from the manager.
-	 *
-	 * @since 3.4.2
-	 */
 	public function prepare_control() {
 		global $custom_image_header;
-		if ( empty( $custom_image_header ) )
-			return parent::prepare_control();
+		if ( empty( $custom_image_header ) ) {
+			return;
+		}
 
 		// Process default headers and uploaded headers.
 		$custom_image_header->process_default_headers();
-		$this->default_headers = $custom_image_header->default_headers;
-		$this->uploaded_headers = get_uploaded_header_images();
-
-		if ( $this->default_headers )
-			$this->add_tab( 'default',  __('Default'),  array( $this, 'tab_default_headers' ) );
-
-		if ( ! $this->uploaded_headers )
-			$this->remove_tab( 'uploaded' );
-
-		return parent::prepare_control();
+		$this->default_headers = $this->get_default_header_images();
+		$this->uploaded_headers = $this->get_uploaded_header_images();
 	}
 
-	/**
-	 * @since 3.4.0
-	 *
-	 * @param mixed $choice Which header image to select. (@see Custom_Image_Header::get_header_image() )
-	 * @param array $header
-	 */
-	public function print_header_image( $choice, $header ) {
-		$header['url']           = set_url_scheme( $header['url'] );
-		$header['thumbnail_url'] = set_url_scheme( $header['thumbnail_url'] );
-
-		$header_image_data = array( 'choice' => $choice );
-		foreach ( array( 'attachment_id', 'width', 'height', 'url', 'thumbnail_url' ) as $key ) {
-			if ( isset( $header[ $key ] ) )
-				$header_image_data[ $key ] = $header[ $key ];
-		}
-
-
+	function print_header_image_template() {
 		?>
-		<a href="#" class="thumbnail"
-			data-customize-image-value="<?php echo esc_url( $header['url'] ); ?>"
-			data-customize-header-image-data="<?php echo esc_attr( json_encode( $header_image_data ) ); ?>">
-			<img src="<?php echo esc_url( $header['thumbnail_url'] ); ?>" />
-		</a>
+		<script type="text/template" id="tmpl-header-choice">
+			<# if (data.random) { #>
+
+			<div class="placeholder random">
+				<div class="inner">
+					<span><span class="dice">&#9860;</span>
+					<# if ( data.type === 'uploaded' ) { #>
+						<?php _e( 'Randomize uploaded headers' ); ?>
+					<# } else if ( data.type === 'suggested' ) { #>
+						<?php _e( 'Randomize suggested headers' ); ?>
+					<# } #>
+					</span>
+				</div>
+			</div>
+
+			<# } else { #>
+
+			<# if (data.type === 'uploaded') { #>
+			<div class="dashicons dashicons-no close"></div>
+			<# } #>
+
+			<a href="#" class="choice thumbnail #>"
+				data-customize-image-value="{{{data.header.url}}}"
+				data-customize-header-image-data="{{JSON.stringify(data.header)}}">
+				<img src="{{{data.header.thumbnail_url}}}">
+			</a>
+
+			<# } #>
+		</script>
+
+		<script type="text/template" id="tmpl-header-current">
+			<# if (data.choice) { #>
+				<# if (data.random) { #>
+
+			<div class="placeholder">
+				<div class="inner">
+					<span><span class="dice">&#9860;</span>
+					<# if ( data.type === 'uploaded' ) { #>
+						<?php _e( 'Randomizing uploaded headers' ); ?>
+					<# } else if ( data.type === 'suggested' ) { #>
+						<?php _e( 'Randomizing suggested headers' ); ?>
+					<# } #>
+					</span>
+				</div>
+			</div>
+
+				<# } else { #>
+
+			<img src="{{{data.header.thumbnail_url}}}" />
+
+				<# } #>
+			<# } else { #>
+
+			<div class="placeholder">
+				<div class="inner">
+					<span>
+						<?php _e( 'No image set' ); ?>
+					</span>
+				</div>
+			</div>
+
+			<# } #>
+		</script>
 		<?php
 	}
 
-	/**
-	 * @since 3.4.0
-	 */
-	public function tab_uploaded() {
-		?><div class="uploaded-target"></div><?php
-
-		foreach ( $this->uploaded_headers as $choice => $header )
-			$this->print_header_image( $choice, $header );
+	public function get_current_image_src() {
+		$src = $this->value();
+		if ( isset( $this->get_url ) ) {
+			$src = call_user_func( $this->get_url, $src );
+			return $src;
+		}
+		return null;
 	}
 
-	/**
-	 * @since 3.4.0
-	 */
-	public function tab_default_headers() {
-		foreach ( $this->default_headers as $choice => $header )
-			$this->print_header_image( $choice, $header );
+	public function render_content() {
+		$this->print_header_image_template();
+		$visibility = $this->get_current_image_src() ? '' : ' style="display:none" ';
+		$width = absint( get_theme_support( 'custom-header', 'width' ) );
+		$height = absint( get_theme_support( 'custom-header', 'height' ) );
+		?>
+
+
+		<div class="customize-control-content">
+			<p class="customizer-section-intro">
+				<?php _e( 'Personalize your site with your own header image.' ); ?>
+				<?php
+				if ( $width && $height ) {
+					printf( __( 'While you can crop images to your liking after clicking <strong>%s</strong>, your theme recommends a header size of <strong>%dx%d</strong> pixels.' ),
+						_x( 'Add new', 'header image' ), $width, $height );
+				} else {
+					if ( $width ) {
+						printf( __( 'While you can crop images to your liking after clicking <strong>%s</strong>, your theme recommends a header width of <strong>%d</strong> pixels.' ),
+							_x( 'Add new', 'header image' ), $width );
+					}
+					if ( $height ) {
+						printf( __( 'While you can crop images to your liking after clicking <strong>%s</strong>, your theme recommends a header height of <strong>%d</strong> pixels.' ),
+							_x( 'Add new', 'header image' ), $height );
+					}
+				}
+				?>
+			</p>
+			<div class="current">
+				<span class="customize-control-title">
+					<?php _e( 'Current header' ); ?>
+				</span>
+				<div class="container">
+				</div>
+			</div>
+			<div class="actions">
+				<?php /* translators: Hide as in hide header image via the Customizer */ ?>
+				<a href="#" <?php echo $visibility ?> class="button remove"><?php _ex( 'Hide', 'custom header' ); ?></a>
+				<?php /* translators: New as in add new header image via the Customizer */ ?>
+				<a href="#" class="button new"><?php _ex( 'Add new', 'header image' ); ?></a>
+				<div style="clear:both"></div>
+			</div>
+			<div class="choices">
+				<span class="customize-control-title header-previously-uploaded">
+					<?php _ex( 'Previously uploaded', 'custom headers' ); ?>
+				</span>
+				<div class="uploaded">
+					<div class="list">
+					</div>
+				</div>
+				<span class="customize-control-title header-default">
+					<?php _ex( 'Suggested', 'custom headers' ); ?>
+				</span>
+				<div class="default">
+					<div class="list">
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php
 	}
 }
 

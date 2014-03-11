@@ -2476,6 +2476,23 @@ function wp_enqueue_media( $args = array() ) {
 		'imageDetailsCancel'    => __( 'Cancel Edit' ),
 		'editImage'             => __( 'Edit Image' ),
 
+		// Crop Image
+		/* translators: title for Media Manager library view */
+		'chooseImage' => __( 'Choose Image' ),
+		/* translators: button to select an image from the MM library to crop */
+		'selectAndCrop' => __( 'Select and Crop' ),
+		/* translators: button to choose not to crop the selected image */
+		'skipCropping' => __( 'Skip Cropping' ),
+		/* translators: button to choose to crop the selected image */
+		'cropImage' => __( 'Crop Image' ),
+		'cropYourImage' => __( 'Crop your image' ),
+		/* translators: button label changes to this while the image is being cropped server-side */
+		'cropping' => __( 'Cropping...' ),
+		/* translators: suggested width of header image in pixels */
+		'suggestedWidth' => __( 'Suggested width is %d pixels.' ),
+		/* translators: suggested height of header image in pixels */
+		'suggestedHeight' => __( 'Suggested height is %d pixels.' ),
+
 		// Edit Audio
 		'audioDetailsTitle'     => __( 'Audio Details' ),
 		'audioReplaceTitle'     => __( 'Replace Audio' ),
