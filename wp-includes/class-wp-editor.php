@@ -492,8 +492,6 @@ final class _WP_Editors {
 
 		if ( in_array('wplink', self::$plugins, true) || in_array('link', self::$qt_buttons, true) ) {
 			wp_enqueue_script('wplink');
-			wp_enqueue_script('wpdialogs');
-			wp_enqueue_style('wp-jquery-ui-dialog');
 		}
 
 		if ( in_array('wpfullscreen', self::$plugins, true) || in_array('fullscreen', self::$qt_buttons, true) )
@@ -1041,58 +1039,61 @@ final class _WP_Editors {
 	 * @since 3.1.0
 	 */
 	public static function wp_link_dialog() {
-	?>
-	<div style="display:none;">
-	<form id="wp-link" tabindex="-1">
-	<?php wp_nonce_field( 'internal-linking', '_ajax_linking_nonce', false ); ?>
-	<div id="link-selector">
-		<div id="link-options">
-			<p class="howto"><?php _e( 'Enter the destination URL' ); ?></p>
-			<div>
-				<label><span><?php _e( 'URL' ); ?></span><input id="url-field" type="text" name="href" /></label>
-			</div>
-			<div>
-				<label><span><?php _e( 'Title' ); ?></span><input id="link-title-field" type="text" name="linktitle" /></label>
-			</div>
-			<div class="link-target">
-				<label><input type="checkbox" id="link-target-checkbox" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
-			</div>
-		</div>
-		<?php $show_internal = '1' == get_user_setting( 'wplink', '0' ); ?>
-		<p class="howto toggle-arrow <?php if ( $show_internal ) echo 'toggle-arrow-active'; ?>" id="internal-toggle"><?php _e( 'Or link to existing content' ); ?></p>
-		<div id="search-panel"<?php if ( ! $show_internal ) echo ' style="display:none"'; ?>>
-			<div class="link-search-wrapper">
-				<label>
-					<span class="search-label"><?php _e( 'Search' ); ?></span>
-					<input type="search" id="search-field" class="link-search-field" autocomplete="off" />
-					<span class="spinner"></span>
-				</label>
-			</div>
-			<div id="search-results" class="query-results">
-				<ul></ul>
-				<div class="river-waiting">
-					<span class="spinner"></span>
+		$search_panel_visible = '1' == get_user_setting( 'wplink', '0' ) ? ' class="search-panel-visible"' : '';
+
+		?>
+		<div id="wp-link-backdrop"></div>
+		<div id="wp-link-wrap"<?php echo $search_panel_visible; ?>>
+		<form id="wp-link" tabindex="-1">
+		<?php wp_nonce_field( 'internal-linking', '_ajax_linking_nonce', false ); ?>
+		<div id="link-modal-title">
+			<?php _e( 'Insert/edit link' ) ?>
+			<div id="wp-link-close" tabindex="0"></div>
+	 	</div>
+		<div id="link-selector">
+			<div id="link-options">
+				<p class="howto"><?php _e( 'Enter the destination URL' ); ?></p>
+				<div>
+					<label><span><?php _e( 'URL' ); ?></span><input id="url-field" type="text" name="href" /></label>
+				</div>
+				<div>
+					<label><span><?php _e( 'Title' ); ?></span><input id="link-title-field" type="text" name="linktitle" /></label>
+				</div>
+				<div class="link-target">
+					<label><input type="checkbox" id="link-target-checkbox" /> <?php _e( 'Open link in a new window/tab' ); ?></label>
 				</div>
 			</div>
-			<div id="most-recent-results" class="query-results">
-				<div class="query-notice"><em><?php _e( 'No search term specified. Showing recent items.' ); ?></em></div>
-				<ul></ul>
-				<div class="river-waiting">
-					<span class="spinner"></span>
+			<p class="howto" id="wp-link-search-toggle"><?php _e( 'Or link to existing content' ); ?></p>
+			<div id="search-panel">
+				<div class="link-search-wrapper">
+					<label>
+						<span class="search-label"><?php _e( 'Search' ); ?></span>
+						<input type="search" id="search-field" class="link-search-field" autocomplete="off" />
+						<span class="spinner"></span>
+					</label>
+				</div>
+				<div id="search-results" class="query-results">
+					<ul></ul>
+					<div class="river-waiting">
+						<span class="spinner"></span>
+					</div>
+				</div>
+				<div id="most-recent-results" class="query-results">
+					<div class="query-notice"><em><?php _e( 'No search term specified. Showing recent items.' ); ?></em></div>
+					<ul></ul>
+					<div class="river-waiting">
+						<span class="spinner"></span>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="submitbox">
-		<div id="wp-link-update">
-			<input type="submit" value="<?php esc_attr_e( 'Add Link' ); ?>" class="button-primary" id="wp-link-submit" name="wp-link-submit">
+		<div class="submitbox">
+			<div id="wp-link-update">
+				<input type="submit" value="<?php esc_attr_e( 'Add Link' ); ?>" class="button-primary" id="wp-link-submit" name="wp-link-submit">
+			</div>
 		</div>
-		<div id="wp-link-cancel">
-			<a class="submitdelete deletion" href="#"><?php _e( 'Cancel' ); ?></a>
+		</form>
 		</div>
-	</div>
-	</form>
-	</div>
-	<?php
+		<?php
 	}
 }

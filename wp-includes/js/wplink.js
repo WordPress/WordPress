@@ -1,8 +1,8 @@
 /* global ajaxurl, tinymce, wpLinkL10n, setUserSetting, wpActiveEditor */
 var wpLink;
 
-(function($){
-	var inputs = {}, rivers = {}, ed, River, Query;
+( function( $ ) {
+	var inputs = {}, rivers = {}, editor, River, Query;
 
 	wpLink = {
 		timeToTriggerRiver: 150,
@@ -12,54 +12,49 @@ var wpLink;
 		lastSearch: '',
 		textarea: '',
 
-		init : function() {
-			inputs.dialog = $('#wp-link');
-			inputs.submit = $('#wp-link-submit');
+		init: function() {
+			inputs.wrap = $('#wp-link-wrap');
+			inputs.dialog = $( '#wp-link' );
+			inputs.backdrop = $( '#wp-link-backdrop' );
+			inputs.submit = $( '#wp-link-submit' );
+			inputs.close = $( '#wp-link-close' );
 			// URL
-			inputs.url = $('#url-field');
-			inputs.nonce = $('#_ajax_linking_nonce');
+			inputs.url = $( '#url-field' );
+			inputs.nonce = $( '#_ajax_linking_nonce' );
 			// Secondary options
-			inputs.title = $('#link-title-field');
+			inputs.title = $( '#link-title-field' );
 			// Advanced Options
-			inputs.openInNewTab = $('#link-target-checkbox');
-			inputs.search = $('#search-field');
+			inputs.openInNewTab = $( '#link-target-checkbox' );
+			inputs.search = $( '#search-field' );
 			// Build Rivers
-			rivers.search = new River( $('#search-results') );
-			rivers.recent = new River( $('#most-recent-results') );
-			rivers.elements = $('.query-results', inputs.dialog);
+			rivers.search = new River( $( '#search-results' ) );
+			rivers.recent = new River( $( '#most-recent-results' ) );
+			rivers.elements = inputs.dialog.find( '.query-results' );
 
 			// Bind event handlers
 			inputs.dialog.keydown( wpLink.keydown );
 			inputs.dialog.keyup( wpLink.keyup );
-			inputs.submit.click( function(e){
-				e.preventDefault();
+			inputs.submit.click( function( event ) {
+				event.preventDefault();
 				wpLink.update();
 			});
-			$('#wp-link-cancel').click( function(e){
-				e.preventDefault();
+			inputs.close.add( inputs.backdrop ).click( function( event ) {
+				event.preventDefault();
 				wpLink.close();
 			});
-			$('#internal-toggle').click( wpLink.toggleInternalLinking );
 
-			rivers.elements.bind('river-select', wpLink.updateFields );
+			$( '#wp-link-search-toggle' ).click( wpLink.toggleInternalLinking );
+
+			rivers.elements.on( 'river-select', wpLink.updateFields );
 
 			inputs.search.keyup( wpLink.searchInternalLinks );
-
-			inputs.dialog.bind('wpdialogrefresh', wpLink.refresh);
-			inputs.dialog.bind('wpdialogbeforeopen', wpLink.beforeOpen);
-			inputs.dialog.bind('wpdialogclose', wpLink.onClose);
 		},
 
-		beforeOpen : function() {
+		open: function( editorId ) {
+			var ed;
+			
 			wpLink.range = null;
 
-			if ( ! wpLink.isMCE() && document.selection ) {
-				wpLink.textarea.focus();
-				wpLink.range = document.selection.createRange();
-			}
-		},
-
-		open : function( editorId ) {
 			if ( editorId ) {
 				window.wpActiveEditor = editorId;
 			}
@@ -68,35 +63,38 @@ var wpLink;
 				return;
 			}
 
-			this.textarea = $( '#' + wpActiveEditor ).get(0);
+			this.textarea = $( '#' + window.wpActiveEditor ).get( 0 );
 
 			if ( typeof tinymce !== 'undefined' ) {
 				ed = tinymce.get( wpActiveEditor );
 
-				if ( ed && tinymce.isIE ) {
-					ed.windowManager.bookmark = ed.selection.getBookmark();
+				if ( ed && ! ed.isHidden() ) {
+					editor = ed;
+				} else {
+					editor = null;
+				}
+
+				if ( editor && tinymce.isIE ) {
+					editor.windowManager.bookmark = editor.selection.getBookmark();
 				}
 			}
 
-			// Initialize the dialog
-			if ( ! inputs.dialog.data('wpdialog') ) {
-				inputs.dialog.wpdialog({
-					title: wpLinkL10n.title,
-					width: 480,
-					height: 'auto',
-					modal: true,
-					dialogClass: 'wp-dialog'
-				});
+			if ( ! wpLink.isMCE() && document.selection ) {
+				this.textarea.focus();
+				this.range = document.selection.createRange();
 			}
 
-			inputs.dialog.wpdialog('open');
+			inputs.wrap.show();
+			inputs.backdrop.show();
+
+			wpLink.refresh();
 		},
 
-		isMCE : function() {
-			return ed && ! ed.isHidden();
+		isMCE: function() {
+			return editor && ! editor.isHidden();
 		},
 
-		refresh : function() {
+		refresh: function() {
 			// Refresh rivers (clear links, check visibility)
 			rivers.search.refresh();
 			rivers.recent.refresh();
@@ -119,12 +117,12 @@ var wpLink;
 			var e;
 
 			// If link exists, select proper values.
-			if ( e = ed.dom.getParent( ed.selection.getNode(), 'A' ) ) {
+			if ( e = editor.dom.getParent( editor.selection.getNode(), 'A' ) ) {
 				// Set URL and description.
-				inputs.url.val( ed.dom.getAttrib( e, 'href' ) );
-				inputs.title.val( ed.dom.getAttrib( e, 'title' ) );
+				inputs.url.val( editor.dom.getAttrib( e, 'href' ) );
+				inputs.title.val( editor.dom.getAttrib( e, 'title' ) );
 				// Set open in new tab.
-				inputs.openInNewTab.prop( 'checked', ( '_blank' === ed.dom.getAttrib( e, 'target' ) ) );
+				inputs.openInNewTab.prop( 'checked', ( '_blank' === editor.dom.getAttrib( e, 'target' ) ) );
 				// Update save prompt.
 				inputs.submit.val( wpLinkL10n.update );
 
@@ -135,10 +133,6 @@ var wpLink;
 		},
 
 		close: function() {
-			inputs.dialog.wpdialog('close');
-		},
-
-		onClose: function() {
 			if ( ! wpLink.isMCE() ) {
 				wpLink.textarea.focus();
 
@@ -146,14 +140,19 @@ var wpLink;
 					wpLink.range.moveToBookmark( wpLink.range.getBookmark() );
 					wpLink.range.select();
 				}
+			} else {
+				editor.focus();
 			}
+
+			inputs.backdrop.hide();
+			inputs.wrap.hide();
 		},
 
 		getAttrs: function() {
 			return {
-				href : inputs.url.val(),
-				title : inputs.title.val(),
-				target : inputs.openInNewTab.prop('checked') ? '_blank' : ''
+				href: inputs.url.val(),
+				title: inputs.title.val(),
+				target: inputs.openInNewTab.prop( 'checked' ) ? '_blank' : ''
 			};
 		},
 
@@ -230,33 +229,33 @@ var wpLink;
 				attrs = wpLink.getAttrs();
 
 			wpLink.close();
-			ed.focus();
+			editor.focus();
 
 			if ( tinymce.isIE ) {
-				ed.selection.moveToBookmark( ed.windowManager.bookmark );
+				editor.selection.moveToBookmark( editor.windowManager.bookmark );
 			}
 
-			link = ed.dom.getParent( ed.selection.getNode(), 'a[href]' );
+			link = editor.dom.getParent( editor.selection.getNode(), 'a[href]' );
 
 			// If the values are empty, unlink and return
 			if ( ! attrs.href || attrs.href == 'http://' ) {
-				ed.execCommand('unlink');
+				editor.execCommand( 'unlink' );
 				return;
 			}
 
 			if ( link ) {
-				ed.dom.setAttribs( link, attrs );
+				editor.dom.setAttribs( link, attrs );
 			} else {
-				ed.execCommand( 'mceInsertLink', false, attrs );
+				editor.execCommand( 'mceInsertLink', false, attrs );
 			}
 
 			// Move the cursor to the end of the selection
-			ed.selection.collapse();
+			editor.selection.collapse();
 		},
 
 		updateFields: function( e, li, originalEvent ) {
-			inputs.url.val( li.children('.item-permalink').val() );
-			inputs.title.val( li.hasClass('no-title') ? '' : li.children('.item-title').text() );
+			inputs.url.val( li.children( '.item-permalink' ).val() );
+			inputs.title.val( li.hasClass( 'no-title' ) ? '' : li.children( '.item-title' ).text() );
 			if ( originalEvent && originalEvent.type == 'click' )
 				inputs.url.focus();
 		},
@@ -264,15 +263,15 @@ var wpLink;
 		setDefaultValues: function() {
 			// Set URL and description to defaults.
 			// Leave the new tab setting as-is.
-			inputs.url.val('http://');
-			inputs.title.val('');
+			inputs.url.val( 'http://' );
+			inputs.title.val( '' );
 
 			// Update save prompt.
 			inputs.submit.val( wpLinkL10n.save );
 		},
 
 		searchInternalLinks: function() {
-			var t = $(this), waiting,
+			var t = $( this ), waiting,
 				search = t.val();
 
 			if ( search.length > 2 ) {
@@ -284,10 +283,12 @@ var wpLink;
 					return;
 
 				wpLink.lastSearch = search;
-				waiting = t.parent().find('.spinner').show();
+				waiting = $( '#river-waiting' ).show();
 
 				rivers.search.change( search );
-				rivers.search.ajax( function(){ waiting.hide(); });
+				rivers.search.ajax( function() {
+					waiting.hide();
+				});
 			} else {
 				rivers.search.hide();
 				rivers.recent.show();
@@ -305,18 +306,29 @@ var wpLink;
 		},
 
 		keydown: function( event ) {
-			var fn, key = $.ui.keyCode;
+			var fn, id,
+				key = $.ui.keyCode;
 
-			if ( key.ESCAPE === event.which ) {
+			if ( key.ESCAPE === event.keyCode ) {
 				wpLink.close();
 				event.stopImmediatePropagation();
+			} else if ( key.TAB === event.keyCode ) {
+				id = event.target.id;
+
+				if ( id === 'wp-link-submit' && ! event.shiftKey ) {
+					inputs.close.focus();
+					event.preventDefault();
+				} else if ( id === 'wp-link-close' && event.shiftKey ) {
+					inputs.submit.focus();
+					event.preventDefault();
+				}
 			}
 
-			if ( event.which !== key.UP && event.which !== key.DOWN ) {
+			if ( event.keyCode !== key.UP && event.keyCode !== key.DOWN ) {
 				return;
 			}
 
-			fn = event.which === key.UP ? 'prev' : 'next';
+			fn = event.keyCode === key.UP ? 'prev' : 'next';
 			clearInterval( wpLink.keyInterval );
 			wpLink[ fn ]();
 			wpLink.keyInterval = setInterval( wpLink[ fn ], wpLink.keySensitivity );
@@ -343,7 +355,7 @@ var wpLink;
 					return func.apply( funcContext, funcArgs );
 				// Otherwise, wait.
 				timeoutTriggered = true;
-			}, delay);
+			}, delay );
 
 			return function() {
 				if ( timeoutTriggered )
@@ -355,53 +367,37 @@ var wpLink;
 			};
 		},
 
-		toggleInternalLinking: function( event ) {
-			var panel = $('#search-panel'),
-				widget = inputs.dialog.wpdialog('widget'),
-				// We're about to toggle visibility; it's currently the opposite
-				visible = !panel.is(':visible'),
-				win = $(window);
+		toggleInternalLinking: function() {
+			var visible = inputs.wrap.hasClass( 'search-panel-visible' );
 
-			$(this).toggleClass('toggle-arrow-active', visible);
-
-			inputs.dialog.height('auto');
-			panel.slideToggle( 300, function() {
-				setUserSetting('wplink', visible ? '1' : '0');
-				inputs[ visible ? 'search' : 'url' ].focus();
-
-				// Move the box if the box is now expanded, was opened in a collapsed state,
-				// and if it needs to be moved. (Judged by bottom not being positive or
-				// bottom being smaller than top.)
-				var scroll = win.scrollTop(),
-					top = widget.offset().top,
-					bottom = top + widget.outerHeight(),
-					diff = bottom - win.height();
-
-				if ( diff > scroll ) {
-					widget.animate({'top': diff < top ?  top - diff : scroll }, 200);
-				}
-			});
-			event.preventDefault();
+			inputs.wrap.toggleClass( 'search-panel-visible', ! visible );
+			setUserSetting( 'wplink', visible ? '0' : '1' );
+			inputs[ ! visible ? 'search' : 'url' ].focus();
 		}
 	};
 
 	River = function( element, search ) {
 		var self = this;
 		this.element = element;
-		this.ul = element.children('ul');
-		this.waiting = element.find('.river-waiting');
+		this.ul = element.children( 'ul' );
+		this.contentHeight = element.children( '#link-selector-height' );
+		this.waiting = $( '#river-waiting' );
 
 		this.change( search );
 		this.refresh();
 
-		element.scroll( function(){ self.maybeLoad(); });
-		element.delegate('li', 'click', function(e){ self.select( $(this), e ); });
+		$( '#wp-link .query-results, #wp-link #link-selector' ).scroll( function() {
+			self.maybeLoad();
+		});
+		element.on( 'click', 'li', function( event ) {
+			self.select( $( this ), event );
+		});
 	};
 
 	$.extend( River.prototype, {
 		refresh: function() {
 			this.deselect();
-			this.visible = this.element.is(':visible');
+			this.visible = this.element.is( ':visible' );
 		},
 		show: function() {
 			if ( ! this.visible ) {
@@ -418,11 +414,11 @@ var wpLink;
 		select: function( li, event ) {
 			var liHeight, elHeight, liTop, elTop;
 
-			if ( li.hasClass('unselectable') || li == this.selected )
+			if ( li.hasClass( 'unselectable' ) || li == this.selected )
 				return;
 
 			this.deselect();
-			this.selected = li.addClass('selected');
+			this.selected = li.addClass( 'selected' );
 			// Make sure the element is visible
 			liHeight = li.outerHeight();
 			elHeight = this.element.height();
@@ -435,11 +431,11 @@ var wpLink;
 				this.element.scrollTop( elTop + liTop - elHeight + liHeight );
 
 			// Trigger the river-select event
-			this.element.trigger('river-select', [ li, event, this ]);
+			this.element.trigger( 'river-select', [ li, event, this ] );
 		},
 		deselect: function() {
 			if ( this.selected )
-				this.selected.removeClass('selected');
+				this.selected.removeClass( 'selected' );
 			this.selected = false;
 		},
 		prev: function() {
@@ -448,7 +444,7 @@ var wpLink;
 
 			var to;
 			if ( this.selected ) {
-				to = this.selected.prev('li');
+				to = this.selected.prev( 'li' );
 				if ( to.length )
 					this.select( to );
 			}
@@ -457,7 +453,7 @@ var wpLink;
 			if ( ! this.visible )
 				return;
 
-			var to = this.selected ? this.selected.next('li') : $('li:not(.unselectable):first', this.element);
+			var to = this.selected ? this.selected.next( 'li' ) : $( 'li:not(.unselectable):first', this.element );
 			if ( to.length )
 				this.select( to );
 		},
@@ -478,13 +474,13 @@ var wpLink;
 
 			this._search = search;
 			this.query = new Query( search );
-			this.element.scrollTop(0);
+			this.element.scrollTop( 0 );
 		},
 		process: function( results, params ) {
 			var list = '', alt = true, classes = '',
 				firstPage = params.page == 1;
 
-			if ( !results ) {
+			if ( ! results ) {
 				if ( firstPage ) {
 					list += '<li class="unselectable"><span class="item-title"><em>' +
 						wpLinkL10n.noMatchesFound + '</em></span></li>';
@@ -509,20 +505,22 @@ var wpLink;
 				el = this.element,
 				bottom = el.scrollTop() + el.height();
 
-			if ( ! this.query.ready() || bottom < this.ul.height() - wpLink.riverBottomThreshold )
+			if ( ! this.query.ready() || bottom < this.contentHeight.height() - wpLink.riverBottomThreshold )
 				return;
 
 			setTimeout(function() {
 				var newTop = el.scrollTop(),
 					newBottom = newTop + el.height();
 
-				if ( ! self.query.ready() || newBottom < self.ul.height() - wpLink.riverBottomThreshold )
+				if ( ! self.query.ready() || newBottom < self.contentHeight.height() - wpLink.riverBottomThreshold )
 					return;
 
 				self.waiting.show();
 				el.scrollTop( newTop + self.waiting.outerHeight() );
 
-				self.ajax( function() { self.waiting.hide(); });
+				self.ajax( function() {
+					self.waiting.hide();
+				});
 			}, wpLink.timeToTriggerRiver );
 		}
 	});
@@ -536,7 +534,7 @@ var wpLink;
 
 	$.extend( Query.prototype, {
 		ready: function() {
-			return !( this.querying || this.allLoaded );
+			return ! ( this.querying || this.allLoaded );
 		},
 		ajax: function( callback ) {
 			var self = this,
@@ -551,14 +549,14 @@ var wpLink;
 
 			this.querying = true;
 
-			$.post( ajaxurl, query, function(r) {
+			$.post( ajaxurl, query, function( r ) {
 				self.page++;
 				self.querying = false;
-				self.allLoaded = !r;
+				self.allLoaded = ! r;
 				callback( r, query );
 			}, 'json' );
 		}
 	});
 
-	$(document).ready( wpLink.init );
-})(jQuery);
+	$( document ).ready( wpLink.init );
+})( jQuery );
