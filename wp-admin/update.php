@@ -202,7 +202,7 @@ if ( isset($_GET['action']) ) {
 
 		include_once ABSPATH . 'wp-admin/includes/theme-install.php'; //for themes_api..
 
-		check_admin_referer('install-theme_' . $theme);
+		check_admin_referer( 'install-theme' );
 		$api = themes_api('theme_information', array('slug' => $theme, 'fields' => array('sections' => false, 'tags' => false) ) ); //Save on a bit of bandwidth.
 
 		if ( is_wp_error($api) )
