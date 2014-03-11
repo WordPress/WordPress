@@ -894,6 +894,10 @@ i.mce-caret:before {
 	margin-right: -300px;
 	position: fixed;
 	top: 30px;
+	top: calc(50% - 130px);
+	bottom: 30px;
+	bottom: calc(50% - 130px);
+	max-height: 260px;
 	right: 50%;
 	z-index: 100105;
 }
@@ -917,17 +921,19 @@ i.mce-caret:before {
 }
 
 #wp-link-wrap.search-panel-visible {
-	bottom: 30px;
+	max-height: 500px;
+	top: calc(50% - 250px);
+	bottom: calc(50% - 250px);
 }
 
 #link-modal-title {
 	background: #fcfcfc;
 	border-bottom: 1px solid #dfdfdf;
-	height: 42px;
-	font-size: 22px;
+	height: 36px;
+	font-size: 20px;
 	font-weight: 600;
-	line-height: 41px;
-	padding: 0 16px 0 42px;
+	line-height: 36px;
+	padding: 0 16px 0 36px;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -940,19 +946,19 @@ i.mce-caret:before {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 42px;
-	height: 42px;
+	width: 36px;
+	height: 36px;
 	text-align: center;
 }
 
 #wp-link-close:before {
-	font: normal 20px/42px 'dashicons';
+	font: normal 20px/36px 'dashicons';
 	vertical-align: top;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	width: 42px;
-	height: 42px;
+	width: 36px;
+	height: 36px;
 	content: '\f158';
 }
 
@@ -968,7 +974,7 @@ i.mce-caret:before {
 #wp-link-wrap.search-panel-visible #link-selector {
 	padding: 0 16px;
 	position: absolute;
-	top: 42px;
+	top: 36px;
 	right: 0;
 	left: 0;
 	bottom: 44px;
@@ -1148,6 +1154,10 @@ i.mce-caret:before {
 	bottom: 0;
 	right: 0;
 	left: 0;
+}
+
+#wp-link-cancel { 
+	line-height: 25px; 
 }
 
 #wp-link-update {
