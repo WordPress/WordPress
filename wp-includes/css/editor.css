@@ -1153,8 +1153,8 @@ i.mce-caret:before {
 	right: 0;
 }
 
-#wp-link-cancel { 
-	line-height: 25px; 
+#wp-link-cancel {
+	line-height: 25px;
 }
 
 #wp-link-update {
@@ -1167,39 +1167,61 @@ i.mce-caret:before {
 	margin-bottom: 0;
 }
 
-@media screen and ( max-width: 782px ), ( max-height: 520px ) {
+@media screen and ( max-width: 782px ) {
+	#wp-link-wrap {
+		height: 270px;
+		margin-top: -135px;
+	}
 
-	#wp-link-wrap,
-	#wp-link-wrap.search-panel-visible {
+	#wp-link-wrap.search-panel-visible .query-results {
+		top: 235px;
+	}
+}
+
+@media screen and ( max-width: 620px ) {
+	#wp-link-wrap {
 		width: auto;
-		height: auto;
-		margin: 0;
-		top: 10px;
+		margin-left: 0;
 		left: 10px;
 		right: 10px;
-		bottom: 10px;
 		max-width: 600px;
-		margin: auto;
+	}
+}
+
+@media screen and ( max-height: 520px ) {
+	#wp-link-wrap.search-panel-visible {
+		height: auto;
+		margin-top: 0;
+		top: 10px;
+		bottom: 10px;
+	}
+
+	.search-panel-visible #link-selector {
+		overflow: auto;
+	}
+
+	.search-panel-visible #search-panel .query-results {
+		position: static;
+	}
+}
+
+@media screen and ( max-height: 290px ) {
+	#wp-link-wrap {
+		height: auto;
+		margin-top: 0;
+		top: 10px;
+		bottom: 10px;
 	}
 
 	#link-selector {
 		overflow: auto;
-		height: calc(100% - 88px);
-		padding-bottom: 0;
-	}
-
-	#wp-link #search-panel {
-		display: block;
-	}
-
-	#wp-link-search-toggle {
-		display: none;
+		height: calc(100% - 92px);
+		padding-bottom: 10px;
 	}
 
 	#search-panel .query-results {
 		position: static;
 	}
-
 }
 
 /* Old TinyMCE 3.x modal */
