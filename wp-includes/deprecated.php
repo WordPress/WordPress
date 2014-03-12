@@ -3412,15 +3412,6 @@ function rich_edit_exists() {
 }
 
 /**
- * Callback formerly fired on the style_loader_src hook. No longer needed.
- *
- * @since 2.6.0
- * @deprecated 3.9.0
- */
-function wp_style_loader_src() {}
-
-
-/**
  * Old callback for tag link tooltips.
  *
  * @since 2.7.0

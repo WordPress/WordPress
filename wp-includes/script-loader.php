@@ -581,15 +581,7 @@ function wp_default_styles( &$styles ) {
 	}
 
 	// Register a stylesheet for the selected admin color scheme.
-	$colors_url = false;
-	if ( ! empty( $GLOBALS['_wp_admin_css_colors'] ) ) {
-		$color = get_user_option( 'admin_color' );
-		if ( ! $color || ! isset( $GLOBALS['_wp_admin_css_colors'][ $color ] ) ) {
-			$color = 'fresh';
-		}
-		$colors_url = $GLOBALS['_wp_admin_css_colors'][ $color ]->url;
-	}
-	$styles->add( 'colors', $colors_url, array( 'wp-admin', 'buttons', 'open-sans', 'dashicons' ) );
+	$styles->add( 'colors', true, array( 'wp-admin', 'buttons', 'open-sans', 'dashicons' ) );
 
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
@@ -686,6 +678,57 @@ function wp_just_in_time_script_localization() {
 		'blog_id' => get_current_blog_id(),
 	) );
 
+}
+
+/**
+ * Administration Screen CSS for changing the styles.
+ *
+ * If installing the 'wp-admin/' directory will be replaced with './'.
+ *
+ * The $_wp_admin_css_colors global manages the Administration Screens CSS
+ * stylesheet that is loaded. The option that is set is 'admin_color' and is the
+ * color and key for the array. The value for the color key is an object with
+ * a 'url' parameter that has the URL path to the CSS file.
+ *
+ * The query from $src parameter will be appended to the URL that is given from
+ * the $_wp_admin_css_colors array value URL.
+ *
+ * @since 2.6.0
+ * @uses $_wp_admin_css_colors
+ *
+ * @param string $src Source URL.
+ * @param string $handle Either 'colors' or 'colors-rtl'.
+ * @return string URL path to CSS stylesheet for Administration Screens.
+ */
+function wp_style_loader_src( $src, $handle ) {
+	global $_wp_admin_css_colors;
+
+	if ( defined('WP_INSTALLING') )
+		return preg_replace( '#^wp-admin/#', './', $src );
+
+	if ( 'colors' == $handle ) {
+		$color = get_user_option('admin_color');
+
+		if ( empty($color) || !isset($_wp_admin_css_colors[$color]) )
+			$color = 'fresh';
+
+		$color = $_wp_admin_css_colors[$color];
+		$parsed = parse_url( $src );
+		$url = $color->url;
+
+		if ( ! $url ) {
+			return false;
+		}
+
+		if ( isset($parsed['query']) && $parsed['query'] ) {
+			wp_parse_str( $parsed['query'], $qv );
+			$url = add_query_arg( $qv, $url );
+		}
+
+		return $url;
+	}
+
+	return $src;
 }
 
 /**
@@ -934,3 +977,4 @@ add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
 
 add_action( 'wp_default_styles', 'wp_default_styles' );
+add_filter( 'style_loader_src', 'wp_style_loader_src', 10, 2 );
