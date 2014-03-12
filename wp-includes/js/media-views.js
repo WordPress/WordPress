@@ -1139,16 +1139,11 @@
 			menu: false,
 			toolbar: 'edit-image',
 			title: l10n.editImage,
-			content: 'edit-image',
-			syncSelection: true
+			content: 'edit-image'
 		},
 
 		activate: function() {
-			if ( ! this.get('selection') ) {
-				this.set( 'selection', new media.model.Selection() );
-			}
 			this.listenTo( this.frame, 'toolbar:render:edit-image', this.toolbar );
-			this.syncSelection();
 		},
 
 		deactivate: function() {
@@ -1179,8 +1174,6 @@
 			}) );
 		}
 	});
-
-	_.extend( media.controller.EditImage.prototype, media.selectionSync );
 
 	/**
 	 * wp.media.controller.MediaLibrary
@@ -1980,7 +1973,7 @@
 				// Embed states.
 				new media.controller.Embed(),
 
-				new media.controller.EditImage( { selection: options.selection } ),
+				new media.controller.EditImage( { model: options.editImage } ),
 
 				// Gallery states.
 				new media.controller.CollectionEdit({
@@ -2251,8 +2244,8 @@
 		},
 
 		editImageContent: function() {
-			var selection = this.state().get('selection'),
-				view = new media.view.EditImage( { model: selection.single(), controller: this } ).render();
+			var image = this.state().get('image'),
+				view = new media.view.EditImage( { model: image, controller: this } ).render();
 
 			this.content.set( view );
 
@@ -2648,18 +2641,11 @@
 
 		editImageContent: function() {
 			var state = this.state(),
-				attachment = state.get('image').attachment,
-				model,
+				model = state.get('image'),
 				view;
 
-			if ( ! attachment ) {
-				return;
-			}
-
-			model = state.get('selection').single();
-
 			if ( ! model ) {
-				model = attachment;
+				return;
 			}
 
 			view = new media.view.EditImage( { model: model, controller: this } ).render();
@@ -6072,7 +6058,10 @@
 		 * @param {Object} event
 		 */
 		editAttachment: function( event ) {
+			var editState = this.controller.state( 'edit-image' );
 			event.preventDefault();
+
+			editState.set( 'image', this.model );
 			this.controller.setState( 'edit-image' );
 		},
 		/**
@@ -6419,7 +6408,10 @@
 		},
 
 		editAttachment: function( event ) {
+			var editState = this.controller.state( 'edit-image' );
 			event.preventDefault();
+
+			editState.set( 'image', this.model.attachment );
 			this.controller.setState( 'edit-image' );
 		}
 	});
