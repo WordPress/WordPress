@@ -1,8 +1,8 @@
 <?php
 /**
- * XML-RPC protocol support for WordPress
+ * XML-RPC protocol support for EasyPress
  *
- * @package WordPress
+ * @package EasyPress
  */
 
 /**
@@ -34,8 +34,8 @@ header('Content-Type: text/xml; charset=' . get_option('blog_charset'), true);
 <?php echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 <rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd">
   <service>
-    <engineName>WordPress</engineName>
-    <engineLink>http://wordpress.org/</engineLink>
+    <engineName>EasyPress</engineName>
+    <engineLink>http://easypress.craftmovies.cz/</engineLink>
     <homePageLink><?php bloginfo_rss('url') ?></homePageLink>
     <apis>
       <api name="WordPress" blogID="1" preferred="true" apiLink="<?php echo site_url('xmlrpc.php', 'rpc') ?>" />

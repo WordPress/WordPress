@@ -1,3 +1,11 @@
+EASYPRESS LICENSE
+Same as WordPress... :)
+
+
+
+
+ORIGINAL WORDPRESS LICENSE
+
 WordPress - Web publishing software
 
 Copyright 2013 by the contributors
