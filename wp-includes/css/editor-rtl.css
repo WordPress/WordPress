@@ -31,33 +31,33 @@
 	background: #fcfcfc;
 	border-bottom: 1px solid #dfdfdf;
 	padding: 0;
-	min-height: 40px;
+	min-height: 36px;
 }
 
 .mce-window .mce-window-head .mce-title {
-	font-size: 22px;
+	font-size: 20px;
 	font-weight: 600;
-	line-height: 40px;
+	line-height: 36px;
 	margin: 0;
-	padding: 0 16px 0 40px;
+	padding: 0 16px 0 36px;
 }
 
 .mce-window .mce-window-head .mce-close {
 	color: transparent;
 	top: 0;
 	left: 0;
-	width: 40px;
-	height: 40px;
-	line-height: 40px;
+	width: 36px;
+	height: 36px;
+	line-height: 36px;
 	text-align: center;
 }
 
 .mce-window .mce-window-head .mce-close:before {
-	font: normal 20px/2 'dashicons';
+	font: normal 20px/36px 'dashicons';
 	text-align: center;
 	color: #666;
-	width: 40px;
-	height: 40px;
+	width: 36px;
+	height: 36px;
 	display: block;
 }
 
@@ -66,8 +66,8 @@
 }
 
 .mce-window .mce-window-head .mce-dragh {
-	width: -webkit-calc( 100% - 40px );
-	width: calc( 100% - 40px );
+	width: -webkit-calc( 100% - 36px );
+	width: calc( 100% - 36px );
 }
 
 .mce-textbox {
@@ -214,7 +214,7 @@ div.mce-statusbar {
 }
 
 .mce-toolbar .mce-colorbutton .mce-preview {
-	margin-right: -18px;
+	margin-right: -17px;
 	padding: 0;
 	width: 18px;
 }
@@ -235,23 +235,22 @@ div.mce-statusbar {
     border-color: #bbb;
 }
 
-
-.mce-toolbar .mce-btn .mce-caret {
-	border: none;
-	margin: 0 -5px 0 0;
-	width: 16px;
+.mce-panel .mce-btn i.mce-caret {
+	border-top: 6px solid #777;
 }
 
-.mce-toolbar .mce-listbox .mce-caret {
-	margin-top: 0;
-	padding: 2px 0 0;
-	left: 0;
-	top: 0;
-	width: 16px;
+.mce-panel .mce-btn:hover i.mce-caret {
+	border-top-color: #333;
 }
 
-.mce-toolbar .mce-listbox .mce-caret:before {
-	margin-right: -6px;
+.mce-panel .mce-active i.mce-caret {
+	border-top: 0;
+	border-bottom: 6px solid #333;
+	margin-top: 7px;
+}
+
+.mce-listbox.mce-active i.mce-caret {
+	margin-top: -3px;
 }
 
 .mce-toolbar .mce-splitbtn:hover .mce-open {
@@ -305,6 +304,10 @@ div.mce-menu .mce-menu-item-sep,
 .mce-menubtn span {
 	margin-left: 0;
 	padding-right: 3px;
+}
+
+.mce-menu-has-icons i.mce-ico:before {
+	margin-right: -2px;
 }
 
 /* Buttons in modals */
@@ -412,13 +415,21 @@ div.mce-menu .mce-menu-item-sep,
 }
 
 @media screen and ( max-width: 782px ) {
+	.mce-toolbar .mce-btn button {
+		padding: 5px 6px;
+	}
+
+	#wp-fullscreen-buttons .mce-btn,
+	.mce-toolbar .mce-btn-group .mce-btn {
+		margin: 0 3px;
+	}
+
+	.mce-toolbar .mce-colorbutton .mce-preview {
+		margin-right: -20px;
+	}
+
 	.mce-window .mce-btn {
-		padding: 10px 14px;
-		line-height: 1;
-		font-size: 14px;
-		vertical-align: middle;
-		height: auto;
-		margin-bottom: 4px;
+		padding: 2px 0;
 	}
 }
 
@@ -456,14 +467,15 @@ div.mce-menu .mce-menu-item-sep,
 }
 
 /* TinyMCE icons */
-.mce-toolbar .mce-ico,
-.mce-toolbar .mce-caret {
+.mce-toolbar .mce-ico {
 	color: #777;
 	line-height: 20px;
 	width: 20px;
 	height: 20px;
 	text-align: center;
 	text-shadow: none;
+	margin: 0;
+	padding: 0;
 }
 
 .mce-toolbar .mce-btn:hover .mce-ico,
@@ -475,6 +487,10 @@ div.mce-menu .mce-menu-item-sep,
 
 .mce-toolbar .mce-btn.mce-active .mce-open {
 	border-right-color: #bdbdbd;
+}
+
+.mce-toolbar .mce-btn .mce-open {
+	line-height: 20px;
 }
 
 i.mce-i-bold,
@@ -509,7 +525,6 @@ i.mce-i-wp_help,
 i.mce-i-wp-media-library,
 i.mce-i-ltr,
 i.mce-i-wp_page,
-i.mce-caret,
 .mce-close {
 	font: normal 20px/1 'dashicons';
 	padding: 0;
@@ -517,6 +532,8 @@ i.mce-caret,
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	margin-right: -2px;
+	padding-left: 2px;
 }
 
 i.mce-i-bold:before {
@@ -635,14 +652,6 @@ i.mce-i-ltr:before {
 
 i.mce-i-wp_page:before {
 	content: '\f105';
-}
-
-i.mce-caret:before {
-	content: '\f140';
-}
-
-.mce-active i.mce-caret:before {
-	content: '\f142';
 }
 
 .mce-close:before {

@@ -342,7 +342,11 @@ tinymce.PluginManager.add('charmap', function(editor) {
 					minHeight: 80
 				}
 			],
-			buttons: [] // WP, see #27107
+			buttons: [
+				{text: "Close", onclick: function() {
+					win.close();
+				}}
+			]
 		});
 	}
 

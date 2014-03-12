@@ -237,6 +237,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	if ( typeof wp !== 'undefined' && wp.media && wp.media.editor ) {
 		editor.addMenuItem( 'add_media', {
 			text: 'Add Media',
+			icon: 'wp-media-library',
 			context: 'insert',
 			cmd: 'WP_Medialib'
 		});
@@ -245,6 +246,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	// Insert "Read More..."
 	editor.addMenuItem( 'wp_more', {
 		text: 'Insert Read More tag',
+		icon: 'wp_more',
 		context: 'insert',
 		onclick: function() {
 			editor.execCommand( 'WP_More', 'more' );
@@ -254,6 +256,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	// Insert "Next Page"
 	editor.addMenuItem( 'wp_page', {
 		text: 'Page break',
+		icon: 'wp_page',
 		context: 'insert',
 		onclick: function() {
 			editor.execCommand( 'WP_More', 'nextpage' );

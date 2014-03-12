@@ -96,6 +96,7 @@ tinymce.PluginManager.add( 'wpfullscreen', function( editor ) {
 
 	editor.addMenuItem( 'wp_fullscreen', {
 		text: 'Distraction Free Writing',
+		icon: 'wp_fullscreen',
 		shortcut: 'Alt+Shift+W',
 		context: 'view',
 		onclick: toggleFullscreen
