@@ -5205,13 +5205,22 @@
 		},
 
 		scroll: function() {
+			var view = this,
+				toolbar;
+
 			// @todo: is this still necessary?
 			if ( ! this.$el.is(':visible') ) {
 				return;
 			}
 
 			if ( this.collection.hasMore() && this.el.scrollHeight < this.el.scrollTop + ( this.el.clientHeight * this.options.refreshThreshold ) ) {
-				this.collection.more().done( this.scroll );
+				toolbar = this.views.parent.toolbar;
+				toolbar.get('spinner').show();
+
+				this.collection.more().done(function() {
+					view.scroll();
+					toolbar.get('spinner').hide();
+				});
 			}
 		}
 	}, {
@@ -5451,16 +5460,6 @@
 
 			this.collection.on( 'add remove reset', this.updateContent, this );
 		},
-		toggleSpinner: function( state ) {
-			if ( state ) {
-				this.spinnerTimeout = _.delay(function( view ) {
-					view.toolbar.get( 'spinner' ).show();
-				}, 600, this );
-			} else {
-				this.toolbar.get( 'spinner' ).hide();
-				clearTimeout( this.spinnerTimeout );
-			}
-		},
 		/**
 		 * @returns {wp.media.view.AttachmentsBrowser} Returns itself to allow chaining
 		 */
@@ -5525,12 +5524,12 @@
 			}
 
 			if ( ! this.collection.length ) {
-				this.toggleSpinner( true );
+				this.toolbar.get( 'spinner' ).show();
 				this.collection.more().done(function() {
 					if ( ! view.collection.length ) {
 						view.createUploader();
 					}
-					view.toggleSpinner( false );
+					view.toolbar.get( 'spinner' ).hide();
 				});
 			}
 		},
@@ -6764,14 +6763,23 @@
 	media.view.Spinner = media.View.extend({
 		tagName:   'span',
 		className: 'spinner',
+		spinnerTimeout: false,
+		delay: 400,
 
 		show: function() {
-			this.$el.show();
+			if ( ! this.spinnerTimeout ) {
+				this.spinnerTimeout = _.delay(function( $el ) {
+					$el.show();
+				}, this.delay, this.$el );
+			}
+
 			return this;
 		},
 
 		hide: function() {
 			this.$el.hide();
+			this.spinnerTimeout = clearTimeout( this.spinnerTimeout );
+
 			return this;
 		}
 	});
