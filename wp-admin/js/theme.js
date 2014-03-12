@@ -47,7 +47,8 @@ themes.Model = Backbone.Model.extend({
 		this.set({
 			installURI: install,
 			previewURI: preview,
-			id: this.get( 'slug' )
+			// slug is for installation, id is for existing.
+			id: this.get( 'slug' ) || this.get( 'id' )
 		});
 	}
 });
