@@ -2513,7 +2513,7 @@ function wp_enqueue_media( $args = array() ) {
 
  		// Playlist
  		'playlistDragInfo'    => __( 'Drag and drop to reorder tracks.' ),
- 		'createPlaylistTitle' => __( 'Create Playlist' ),
+ 		'createPlaylistTitle' => __( 'Create Audio Playlist' ),
  		'editPlaylistTitle'   => __( 'Edit Playlist' ),
  		'cancelPlaylistTitle' => __( '&#8592; Cancel Playlist' ),
  		'insertPlaylist'      => __( 'Insert playlist' ),
