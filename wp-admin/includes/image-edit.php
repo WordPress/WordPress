@@ -636,6 +636,8 @@ function wp_restore_image($post_id) {
  * @return \stdClass
  */
 function wp_save_image( $post_id ) {
+	global $_wp_additional_image_sizes;
+
 	$return = new stdClass;
 	$success = $delete = $scaled = $nocrop = false;
 	$post = get_post( $post_id );
@@ -770,8 +772,17 @@ function wp_save_image( $post_id ) {
 					$backup_sizes[$tag] = $meta['sizes'][$size];
 			}
 
-			$crop = $nocrop ? false : get_option("{$size}_crop");
-			$_sizes[ $size ] = array( 'width' => get_option("{$size}_size_w"), 'height' => get_option("{$size}_size_h"), 'crop' => $crop );
+			if ( isset( $_wp_additional_image_sizes[ $size ] ) ) {
+				$width  = intval( $_wp_additional_image_sizes[ $size ]['width'] );
+				$height = intval( $_wp_additional_image_sizes[ $size ]['height'] );
+				$crop   = ( $nocrop ) ? false : intval( $_wp_additional_image_sizes[ $size ]['crop'] );
+			} else {
+				$height = get_option( "{$size}_size_h" );
+				$width  = get_option( "{$size}_size_w" );
+				$crop   = ( $nocrop ) ? false : get_option( "{$size}_crop" );
+			}
+
+			$_sizes[ $size ] = array( 'width' => $width, 'height' => $height, 'crop' => $crop );
 		}
 
 		$meta['sizes'] = array_merge( $meta['sizes'], $img->multi_resize( $_sizes ) );
