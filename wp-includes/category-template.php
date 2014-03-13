@@ -136,9 +136,11 @@ function _usort_terms_by_ID( $a, $b ) {
 function get_the_category_by_ID( $cat_ID ) {
 	$cat_ID = (int) $cat_ID;
 	$category = get_term( $cat_ID, 'category' );
+
 	if ( is_wp_error( $category ) )
 		return $category;
-	return $category->name;
+
+	return ( $category ) ? $category->name : '';
 }
 
 /**
