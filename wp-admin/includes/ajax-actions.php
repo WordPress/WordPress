@@ -1588,9 +1588,6 @@ function wp_ajax_save_widget() {
 }
 
 function wp_ajax_update_widget() {
-	require( ABSPATH . WPINC . '/class-wp-customize-manager.php' );
-	$GLOBALS['wp_customize'] = new WP_Customize_Manager;
-
 	WP_Customize_Widgets::wp_ajax_update_widget();
 }
 

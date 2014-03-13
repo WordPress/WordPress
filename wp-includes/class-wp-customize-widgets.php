@@ -321,7 +321,7 @@ class WP_Customize_Widgets {
 						array(
 							'section' => $section_id,
 							'sidebar_id' => $sidebar_id,
-							//'priority' => 99, // so it appears at the end
+							'priority' => count( $sidebar_widget_ids ), // place Add Widget & Reorder buttons at end
 						)
 					);
 					$new_setting_ids[] = $setting_id;

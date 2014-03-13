@@ -1132,6 +1132,7 @@ var WidgetCustomizer = ( function ($) {
 
 			params = {};
 			params.action = self.update_widget_ajax_action;
+			params.wp_customize = 'on';
 			params[self.update_widget_nonce_post_key] = self.update_widget_nonce_value;
 
 			data = $.param( params );
@@ -1153,7 +1154,6 @@ var WidgetCustomizer = ( function ($) {
 			}
 			data += '&' + widget_content.find( '~ :input' ).serialize();
 
-			window.console && window.console.log( wp.ajax.settings.url, data );
 			jqxhr = $.post( wp.ajax.settings.url, data, function ( r ) {
 				var message,
 					sanitized_form,
