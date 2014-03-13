@@ -5284,7 +5284,7 @@
 			// Build `<option>` elements.
 			this.$el.html( _.chain( this.filters ).map( function( filter, value ) {
 				return {
-					el: $('<option></option>').val(value).text(filter.text)[0],
+					el: $( '<option></option>' ).val( value ).html( filter.text )[0],
 					priority: filter.priority || 50
 				};
 			}, this ).sortBy('priority').pluck('el').value() );
