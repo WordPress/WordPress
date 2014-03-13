@@ -40,7 +40,6 @@ class WP_oEmbed {
 			'#https?://(.+\.)?smugmug\.com/.*#i'                  => array( 'http://api.smugmug.com/services/oembed/',            true  ),
 			'#https?://(www\.)?hulu\.com/watch/.*#i'              => array( 'http://www.hulu.com/api/oembed.{format}',            true  ),
 			'#https?://(www\.)?viddler\.com/.*#i'                 => array( 'http://lab.viddler.com/services/oembed/',            true  ),
-			'http://qik.com/*'                                    => array( 'http://qik.com/api/oembed.{format}',                 false ),
 			'http://revision3.com/*'                              => array( 'http://revision3.com/api/oembed/',                   false ),
 			'http://i*.photobucket.com/albums/*'                  => array( 'http://photobucket.com/oembed',                      false ),
 			'http://gi*.photobucket.com/groups/*'                 => array( 'http://photobucket.com/oembed',                      false ),
