@@ -1469,7 +1469,8 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 			if ( empty( $fileurl ) )
 				$fileurl = $$fallback;
 			$type = wp_check_filetype( $$fallback, wp_get_mime_types() );
-			$html .= sprintf( $source, $type['type'], esc_url( $$fallback ) );
+			$url = add_query_arg( '_', $instances, $$fallback );
+			$html .= sprintf( $source, $type['type'], esc_url( $url ) );
 		}
 	}
 
@@ -1657,7 +1658,8 @@ function wp_video_shortcode( $attr, $content = '' ) {
 			} else {
 				$type = wp_check_filetype( $$fallback, wp_get_mime_types() );
 			}
-			$html .= sprintf( $source, $type['type'], esc_url( $$fallback ) );
+			$url = add_query_arg( '_', $instances, $$fallback );
+			$html .= sprintf( $source, $type['type'], esc_url( $url ) );
 		}
 	}
 
