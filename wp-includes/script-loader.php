@@ -378,6 +378,8 @@ function wp_default_scripts( &$scripts ) {
 		'allowedFiles' => __( 'Allowed Files' ),
 	) );
 
+	$scripts->add( 'customize-widgets', "/wp-admin/js/customize-widgets$suffix.js", array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-droppable', 'wp-backbone', 'customize-controls' ), false, 1 );
+
 	$scripts->add( 'accordion', "/wp-admin/js/accordion$suffix.js", array( 'jquery' ), false, 1 );
 
 	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
@@ -591,6 +593,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'install',            "/wp-admin/css/install$suffix.css", array( 'buttons', 'open-sans' ) );
 	$styles->add( 'wp-color-picker',    "/wp-admin/css/color-picker$suffix.css" );
 	$styles->add( 'customize-controls', "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie', 'imgareaselect' ) );
+	$styles->add( 'customize-widgets',  "/wp-admin/css/customize-widgets$suffix.css", array( 'wp-admin', 'colors' ) );
 	$styles->add( 'ie',                 "/wp-admin/css/ie$suffix.css" );
 
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
@@ -623,7 +626,7 @@ function wp_default_styles( &$styles ) {
 	// RTL CSS
 	$rtl_styles = array(
 		// wp-admin
-		'wp-admin', 'install', 'wp-color-picker', 'customize-controls', 'ie',
+		'wp-admin', 'install', 'wp-color-picker', 'customize-controls', 'customize-widgets', 'ie',
 		// wp-includes
 		'buttons', 'admin-bar', 'wp-auth-check', 'editor-buttons', 'media-views', 'wp-pointer',
 		'wp-jquery-ui-dialog',

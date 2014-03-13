@@ -457,17 +457,8 @@ class WP_Customize_Widgets {
 	 * @action customize_controls_enqueue_scripts
 	 */
 	static function customize_controls_enqueue_deps() {
-		wp_enqueue_script( 'jquery-ui-sortable' );
-		wp_enqueue_script( 'jquery-ui-droppable' );
-		wp_enqueue_style(
-			'widget-customizer',
-			admin_url( 'css/customize-widgets.css' )
-		);
-		wp_enqueue_script(
-			'widget-customizer',
-			admin_url( 'js/customize-widgets.js' ),
-			array( 'jquery', 'wp-backbone', 'wp-util', 'customize-controls' )
-		);
+		wp_enqueue_style( 'customize-widgets' );
+		wp_enqueue_script( 'customize-widgets' );
 
 		// Export available widgets with control_tpl removed from model
 		// since plugins need templates to be in the DOM
@@ -533,7 +524,7 @@ class WP_Customize_Widgets {
 		}
 
 		$wp_scripts->add_data(
-			'widget-customizer',
+			'customize-widgets',
 			'data',
 			sprintf( 'var WidgetCustomizer_exports = %s;', json_encode( $exports ) )
 		);
