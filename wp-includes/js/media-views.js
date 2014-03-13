@@ -6549,12 +6549,13 @@
 		 * @returns {HTMLElement}
 		 */
 		prepareSrc : function (media) {
-			var t = (new Date()).getTime();
+			var i = wp.media.view.MediaDetails.instances++;
 			_.each( $(media).find('source'), function (source) {
 				source.src = [
 					source.src,
 					source.src.indexOf('?') > -1 ? '&' : '?',
-					t
+					'_=',
+					i
 				].join('');
 			});
 
@@ -6673,6 +6674,8 @@
 		resetFocus: function() {
 			this.$( '.embed-media-settings' ).scrollTop( 0 );
 		}
+	}, {
+		instances : 0
 	});
 
 	/**
