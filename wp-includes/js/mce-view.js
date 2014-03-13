@@ -1,4 +1,4 @@
-/* global tinymce */
+/* global tinymce, _wpmejsSettings, MediaElementPlayer */
 
 // Ensure the global `wp` object exists.
 window.wp = window.wp || {};
@@ -31,10 +31,14 @@ window.wp = window.wp || {};
 			var html = this.getHtml();
 			// Search all tinymce editor instances and update the placeholders
 			_.each( tinymce.editors, function( editor ) {
-				var doc;
+				var doc, self = this;
 				if ( editor.plugins.wpview ) {
 					doc = editor.getDoc();
-					$( doc ).find( '[data-wpview-text="' + this.encodedText + '"]' ).html( html );
+					$( doc ).find( '[data-wpview-text="' + this.encodedText + '"]' ).each(function (i, elem) {
+						var node = $( elem );
+						node.html( html );
+						$( self ).trigger( 'ready', elem );
+					});
 				}
 			}, this );
 		}
@@ -178,7 +182,7 @@ window.wp = window.wp || {};
 
 		/**
 		 * Refresh views after an update is made
-		 * 
+		 *
 		 * @param view {object} being refreshed
 		 * @param text {string} textual representation of the view
 		 */
@@ -204,9 +208,9 @@ window.wp = window.wp || {};
 			return instances[ encodedText ];
 		},
 
-		/** 
+		/**
 		 * render( scope )
-		 * 
+		 *
 		 * Renders any view instances inside a DOM node `scope`.
 		 *
 		 * View instances are detected by the presence of wrapper elements.
@@ -302,4 +306,110 @@ window.wp = window.wp || {};
 
 	};
 	wp.mce.views.register( 'gallery', wp.mce.gallery );
+
+	wp.mce.media = {
+		toView:  function( content ) {
+			var match = wp.shortcode.next( this.shortcode, content );
+
+			if ( ! match ) {
+				return;
+			}
+
+			return {
+				index:   match.index,
+				content: match.content,
+				options: {
+					shortcode: match.shortcode
+				}
+			};
+		},
+
+		edit: function( node ) {
+			var p,
+				media = wp.media[ this.shortcode ],
+				self = this,
+				frame, data;
+
+			for (p in window.mejs.players) {
+				window.mejs.players[p].pause();
+			}
+
+			data = window.decodeURIComponent( $( node ).data('wpview-text') );
+			frame = media.edit( data );
+			frame.on( 'close', function () {
+				frame.detach();
+			} );
+			frame.state( self.shortcode + '-details' ).on( 'update', function( selection ) {
+				var shortcode = wp.media[ self.shortcode ].update( selection ).string();
+				$( node ).attr( 'data-wpview-text', window.encodeURIComponent( shortcode ) );
+				wp.mce.views.refreshView( self, shortcode );
+				frame.detach();
+			} );
+			frame.open();
+		}
+	};
+
+	wp.mce.media.ViewMixin = wp.mce.View.extend({
+		initialize: function( options ) {
+			this.shortcode = options.shortcode;
+			_.bindAll( this, 'setPlayer' );
+			$(this).on( 'ready', this.setPlayer );
+		},
+
+		setPlayer: function (e, node) {
+			// if the ready event fires on an empty node
+			if ( ! node ) {
+				return;
+			}
+
+			var id,
+				media,
+				settings = {},
+				className = '.wp-' +  this.shortcode.tag + '-shortcode';
+
+			media = $( node ).find( className );
+
+			if ( media.hasClass( 'rendered' ) ) {
+				id = media.closest( className ).attr( 'id' );
+				window.mejs.players[ id ].remove();
+			} else {
+				media.addClass( 'rendered' );
+			}
+
+			media.prop( 'preload', 'none' );
+			media = media.get(0);
+
+			if ( ! _.isUndefined( window._wpmejsSettings ) ) {
+				settings.pluginPath = _wpmejsSettings.pluginPath;
+			}
+
+			media = wp.media.view.MediaDetails.prepareSrc( media );
+			new MediaElementPlayer( media, settings );
+		},
+
+		getHtml: function() {
+			var attrs = this.shortcode.attrs.named;
+			return this.template({ model: attrs });
+		}
+	});
+
+	wp.mce.video = _.extend( {}, wp.mce.media, {
+		shortcode: 'video',
+		View: wp.mce.media.ViewMixin.extend({
+			className: 'editor-video',
+			template:  media.template('editor-video')
+		})
+	} );
+
+	wp.mce.views.register( 'video', wp.mce.video );
+
+	wp.mce.audio = _.extend( {}, wp.mce.media, {
+		shortcode: 'audio',
+		View: wp.mce.media.ViewMixin.extend({
+			className: 'editor-audio',
+			template:  media.template('editor-audio')
+		})
+	} );
+
+	wp.mce.views.register( 'audio', wp.mce.audio );
 }(jQuery));

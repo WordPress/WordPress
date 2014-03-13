@@ -343,9 +343,16 @@ final class _WP_Editors {
 				$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 				$version = 'ver=' . $GLOBALS['wp_version'];
 				$dashicons = includes_url( "css/dashicons$suffix.css?$version" );
+				$mediaelement = includes_url( "js/mediaelement/mediaelementplayer.min.css?$version" );
+				$wpmediaelement = includes_url( "js/mediaelement/wp-mediaelement.css?$version" );
 
 				// WordPress default stylesheet and dashicons
-				$mce_css = array( $dashicons, self::$baseurl . '/skins/wordpress/wp-content.css' );
+				$mce_css = array(
+					$dashicons,
+					$mediaelement,
+					$wpmediaelement,
+					self::$baseurl . '/skins/wordpress/wp-content.css'
+				);
 
 				// load editor_style.css if the current theme supports it
 				if ( ! empty( $GLOBALS['editor_styles'] ) && is_array( $GLOBALS['editor_styles'] ) ) {

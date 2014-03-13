@@ -8,6 +8,97 @@
  */
 
 /**
+ * Output the markup for a audio tag to be used in an Underscore template
+ *	when data.model is passed.
+ *
+ * @since 3.9.0
+ */
+function wp_underscore_audio_template() {
+	$audio_types = wp_get_audio_extensions();
+?>
+<audio controls
+	class="wp-audio-shortcode"
+	preload="{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}"
+	<#
+	<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
+	?>if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
+		#> <?php echo $attr ?><#
+	}
+	<?php endforeach ?>#>
+>
+	<# if ( ! _.isEmpty( data.model.src ) ) { #>
+	<source src="{{ data.model.src }}" type="{{ wp.media.view.settings.embedMimes[ data.model.src.split('.').pop() ] }}" />
+	<# } #>
+
+	<?php foreach ( $audio_types as $type ):
+	?><# if ( ! _.isEmpty( data.model.<?php echo $type ?> ) ) { #>
+	<source src="{{ data.model.<?php echo $type ?> }}" type="{{ wp.media.view.settings.embedMimes[ '<?php echo $type ?>' ] }}" />
+	<# } #>
+	<?php endforeach;
+?></audio>
+<?php
+}
+
+/**
+ * Output the markup for a video tag to be used in an Underscore template
+ *	when data.model is passed.
+ *
+ * @since 3.9.0
+ */
+function wp_underscore_video_template( $onload = false ) {
+	$video_types = wp_get_video_extensions();
+?>
+<#
+var isYouTube = ! _.isEmpty( data.model.src ) && data.model.src.match(/youtube|youtu\.be/);
+	w = ! data.model.width || data.model.width > 640 ? 640 : data.model.width,
+	h = ! data.model.height ? 360 : data.model.height;
+
+if ( data.model.width && w !== data.model.width ) {
+	h = Math.ceil( ( h * w ) / data.model.width );
+}
+#>
+<video controls
+	class="wp-video-shortcode{{ isYouTube ? ' youtube-video' : '' }}"
+	width="{{ w }}"
+	height="{{ h }}"
+	<?php
+	$props = array( 'poster' => '', 'preload' => 'metadata' );
+	foreach ( $props as $key => $value ):
+		if ( empty( $value ) ) {
+		?><#
+		if ( ! _.isUndefined( data.model.<?php echo $key ?> ) && data.model.<?php echo $key ?> ) {
+			#> <?php echo $key ?>="{{ data.model.<?php echo $key ?> }}"<#
+		} #>
+		<?php } else {
+			echo $key ?>="{{ _.isUndefined( data.model.<?php echo $key ?> ) ? '<?php echo $value ?>' : data.model.<?php echo $key ?> }}"<?php
+		}
+	endforeach;
+	?><#
+	<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
+	?> if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
+		#> <?php echo $attr ?><#
+	}
+	<?php endforeach ?>#>
+>
+	<# if ( ! _.isEmpty( data.model.src ) ) {
+		if ( isYouTube ) { #>
+		<source src="{{ data.model.src }}" type="video/youtube" />
+		<# } else { #>
+		<source src="{{ data.model.src }}" type="{{ wp.media.view.settings.embedMimes[ data.model.src.split('.').pop() ] }}" />
+		<# }
+	} #>
+
+	<?php foreach ( $video_types as $type ):
+	?><# if ( data.model.<?php echo $type ?> ) { #>
+	<source src="{{ data.model.<?php echo $type ?> }}" type="{{ wp.media.view.settings.embedMimes[ '<?php echo $type ?>' ] }}" />
+	<# } #>
+	<?php endforeach; ?>
+	{{{ data.model.content }}}
+</video>
+<?php
+}
+
+/**
  * Prints the templates used in the media manager.
  *
  * @since 3.5.0
@@ -676,26 +767,7 @@ function wp_print_media_templates() {
 		<div class="media-embed media-embed-details">
 			<div class="embed-media-settings embed-audio-settings">
 				<div class="instructions media-instructions">{{{ wp.media.view.l10n.audioDetailsText }}}</div>
-				<audio controls
-					class="wp-audio-shortcode"
-					preload="{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}"
-					<#
-					<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
-					?>if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
-						#> <?php echo $attr ?><#
-					}
-					<?php endforeach ?>#>
-				>
-					<# if ( ! _.isEmpty( data.model.src ) ) { #>
-					<source src="{{ data.model.src }}" type="{{ wp.media.view.settings.embedMimes[ data.model.src.split('.').pop() ] }}" />
-					<# } #>
-
-					<?php foreach ( $audio_types as $type ):
-					?><# if ( ! _.isEmpty( data.model.<?php echo $type ?> ) ) { #>
-					<source src="{{ data.model.<?php echo $type ?> }}" type="{{ wp.media.view.settings.embedMimes[ '<?php echo $type ?>' ] }}" />
-					<# } #>
-					<?php endforeach;
-				?></audio>
+				<?php wp_underscore_audio_template() ?>
 				<# if ( ! _.isEmpty( data.model.src ) ) { #>
 				<label class="setting">
 					<span>SRC</span>
@@ -738,60 +810,21 @@ function wp_print_media_templates() {
 		</div>
 	</script>
 
+	<script type="text/html" id="tmpl-editor-audio">
+		<div class="toolbar">
+			<div class="dashicons dashicons-format-audio edit"></div>
+			<div class="dashicons dashicons-no-alt remove"></div>
+		</div>
+		<?php wp_underscore_audio_template() ?>
+	</script>
+
 	<script type="text/html" id="tmpl-video-details">
 		<?php $video_types = wp_get_video_extensions(); ?>
 		<div class="media-embed media-embed-details">
 			<div class="embed-media-settings embed-video-settings">
 				<div class="instructions media-instructions">{{{ wp.media.view.l10n.videoDetailsText }}}</div>
 				<div class="wp-video-holder">
-				<#
-				var isYouTube = ! _.isEmpty( data.model.src ) && data.model.src.match(/youtube|youtu\.be/);
-					w = ! data.model.width || data.model.width > 640 ? 640 : data.model.width,
-					h = ! data.model.height ? 360 : data.model.height;
-
-				if ( data.model.width && w !== data.model.width ) {
-					h = Math.ceil( ( h * w ) / data.model.width );
-				}
-
-				#>
-				<video controls
-					class="wp-video-shortcode{{ isYouTube ? ' youtube-video' : '' }}"
-					width="{{ w }}"
-					height="{{ h }}"
-					<?php
-					$props = array( 'poster' => '', 'preload' => 'metadata' );
-					foreach ( $props as $key => $value ):
-						if ( empty( $value ) ) {
-						?><#
-						if ( ! _.isUndefined( data.model.<?php echo $key ?> ) && data.model.<?php echo $key ?> ) {
-							#> <?php echo $key ?>="{{ data.model.<?php echo $key ?> }}"<#
-						} #>
-						<?php } else {
-							echo $key ?>="{{ _.isUndefined( data.model.<?php echo $key ?> ) ? '<?php echo $value ?>' : data.model.<?php echo $key ?> }}"<?php
-						}
-					endforeach;
-					?><#
-					<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
-					?> if ( ! _.isUndefined( data.model.<?php echo $attr ?> ) && data.model.<?php echo $attr ?> ) {
-						#> <?php echo $attr ?><#
-					}
-					<?php endforeach ?>#>
-				>
-					<# if ( ! _.isEmpty( data.model.src ) ) {
-						if ( isYouTube ) { #>
-						<source src="{{ data.model.src }}" type="video/youtube" />
-						<# } else { #>
-						<source src="{{ data.model.src }}" type="{{ wp.media.view.settings.embedMimes[ data.model.src.split('.').pop() ] }}" />
-						<# }
-					} #>
-
-					<?php foreach ( $video_types as $type ):
-					?><# if ( data.model.<?php echo $type ?> ) { #>
-					<source src="{{ data.model.<?php echo $type ?> }}" type="{{ wp.media.view.settings.embedMimes[ '<?php echo $type ?>' ] }}" />
-					<# } #>
-					<?php endforeach; ?>
-					{{{ data.model.content }}}
-				</video>
+				<?php wp_underscore_video_template() ?>
 				<# if ( ! _.isEmpty( data.model.src ) ) { #>
 				<label class="setting">
 					<span>SRC</span>
@@ -856,6 +889,14 @@ function wp_print_media_templates() {
 				</label>
 			</div>
 		</div>
+	</script>
+
+	<script type="text/html" id="tmpl-editor-video">
+		<div class="toolbar">
+			<div class="dashicons dashicons-format-video edit"></div>
+			<div class="dashicons dashicons-no-alt remove"></div>
+		</div>
+		<?php wp_underscore_video_template() ?>
 	</script>
 	<?php
 

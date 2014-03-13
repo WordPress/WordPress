@@ -581,20 +581,24 @@
 			return frame;
 		},
 
-		shortcode : function (shortcode) {
-			var self = this;
+		update : function (model) {
+			var self = this, content;
 
-			_.each( wp.media.audio.defaults, function( value, key ) {
-				shortcode[ key ] = self.coerce( shortcode, key );
+			_.each( this.defaults, function( value, key ) {
+				model[ key ] = self.coerce( model, key );
 
-				if ( value === shortcode[ key ] ) {
-					delete shortcode[ key ];
+				if ( value === model[ key ] ) {
+					delete model[ key ];
 				}
 			});
 
-			return wp.shortcode.string({
-				tag:     'audio',
-				attrs:   shortcode
+			content = model.content;
+			delete model.content;
+
+			return new wp.shortcode({
+				tag: 'audio',
+				attrs: model,
+				content: content
 			});
 		}
 	}, wp.media.mixin);
@@ -631,21 +635,23 @@
 			return frame;
 		},
 
-		shortcode : function (shortcode) {
-			var self = this, content = shortcode.content;
-			delete shortcode.content;
+		update : function (model) {
+			var self = this, content = '';
 
 			_.each( this.defaults, function( value, key ) {
-				shortcode[ key ] = self.coerce( shortcode, key );
+				model[ key ] = self.coerce( model, key );
 
-				if ( value === shortcode[ key ] ) {
-					delete shortcode[ key ];
+				if ( value === model[ key ] ) {
+					delete model[ key ];
 				}
 			});
 
-			return wp.shortcode.string({
-				tag:     'video',
-				attrs:   shortcode,
+			content = model.content;
+			delete model.content;
+
+			return new wp.shortcode({
+				tag: 'video',
+				attrs: model,
 				content: content
 			});
 		}
@@ -1111,38 +1117,47 @@
 		 * @global wp.media.view.l10n
 		 */
 		init: function() {
-			$(document.body).on( 'click', '.insert-media', function( event ) {
-				var elem = $( event.currentTarget ),
-					editor = elem.data('editor'),
-					options = {
-						frame:    'post',
-						state:    'insert',
-						title:    wp.media.view.l10n.addMedia,
-						multiple: true
-					};
+			$(document.body)
+				.on( 'click', '.insert-media', function( event ) {
+					var elem = $( event.currentTarget ),
+						editor = elem.data('editor'),
+						options = {
+							frame:    'post',
+							state:    'insert',
+							title:    wp.media.view.l10n.addMedia,
+							multiple: true
+						};
 
-				event.preventDefault();
+					event.preventDefault();
 
-				// Remove focus from the `.insert-media` button.
-				// Prevents Opera from showing the outline of the button
-				// above the modal.
-				//
-				// See: http://core.trac.wordpress.org/ticket/22445
-				elem.blur();
+					// Remove focus from the `.insert-media` button.
+					// Prevents Opera from showing the outline of the button
+					// above the modal.
+					//
+					// See: http://core.trac.wordpress.org/ticket/22445
+					elem.blur();
 
-				if ( elem.hasClass( 'gallery' ) ) {
-					options.state = 'gallery';
-					options.title = wp.media.view.l10n.createGalleryTitle;
-				} else if ( elem.hasClass( 'playlist' ) ) {
-					options.state = 'playlist';
-					options.title = wp.media.view.l10n.createPlaylistTitle;
-				} else if ( elem.hasClass( 'video-playlist' ) ) {
-					options.state = 'video-playlist';
-					options.title = wp.media.view.l10n.createVideoPlaylistTitle;
-				}
+					if ( elem.hasClass( 'gallery' ) ) {
+						options.state = 'gallery';
+						options.title = wp.media.view.l10n.createGalleryTitle;
+					} else if ( elem.hasClass( 'playlist' ) ) {
+						options.state = 'playlist';
+						options.title = wp.media.view.l10n.createPlaylistTitle;
+					} else if ( elem.hasClass( 'video-playlist' ) ) {
+						options.state = 'video-playlist';
+						options.title = wp.media.view.l10n.createVideoPlaylistTitle;
+					}
 
-				wp.media.editor.open( editor, options );
-			});
+					wp.media.editor.open( editor, options );
+				})
+				.on( 'click', '.wp-switch-editor', function () {
+					var p;
+					if ( window.mejs && window.mejs.players ) {
+						for ( p in window.mejs.players ) {
+							window.mejs.players[p].pause();
+						}
+					}
+				} );
 
 			// Initialize and render the Editor drag-and-drop uploader.
 			new wp.media.view.EditorUploader().render();

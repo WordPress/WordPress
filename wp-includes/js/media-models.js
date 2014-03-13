@@ -467,6 +467,7 @@ window.wp = window.wp || {};
 			this.attachment = attachment;
 			this.extension = attachment.get('filename' ).split('.').pop();
 
+			this.unset( 'src' );
 			if ( _.contains( wp.media.view.settings.embedExts, this.extension ) ) {
 				this.set( this.extension, this.attachment.get( 'url' ) );
 			} else {
