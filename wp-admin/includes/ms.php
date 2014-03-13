@@ -769,6 +769,60 @@ function revoke_super_admin( $user_id ) {
 	return false;
 }
 
+/** 
+ * Output the html for the network Edit Site page tabs 
+ * 
+ * @since 3.9.0 
+ * 
+ * @uses apply_filters() Calls 'network_edit_site_tabs' on 'info', 'users', 'themes', and settings tabs. 
+ * @uses apply_filters() Calls 'network_edit_site_tab_html' on 'tab_html 
+ * 
+ * @param int $id The blog_id of the current site being edited. 
+ */ 
+function network_edit_site_tabs( $id ) {
+		global $pagenow;
+		
+		$default = array(
+			'site-info'     => array( 'label' => __( 'Info' ), 'url' => 'site-info.php' ),
+			'site-users'    => array( 'label' => __( 'Users' ), 'url' => 'site-users.php' ),
+			'site-themes'   => array( 'label' => __( 'Themes' ), 'url' => 'site-themes.php' ),
+			'site-settings' => array( 'label' => __( 'Settings' ), 'url' => 'site-settings.php' ),
+		); 
+		$tabs = apply_filters( 'network_edit_site_tabs', $default, $id, $pagenow );
+		
+		foreach ( $tabs as $tab_id => $tab ) {
+			
+			if ( isset( $tab[ 'menu-slug' ] ) && isset( $tab[ 'callback-function' ] ) ) {
+				
+				$menu_slug = plugin_basename( $tab[ 'menu-slug' ] );
+				
+				$html = sprintf(
+					'<a href="%s" class="nav-tab %s">%s</a>',
+					add_query_arg( array( 'id' => $id ), network_admin_url( 'admin.php?page=' . $tab[ 'menu-slug' ] ) ),
+					isset( $_GET[ 'page' ] ) && $menu_slug == $_GET[ 'page' ] ? ' nav-tab-active' : '',
+					esc_html( $tab[ 'label' ] )
+				);
+				
+				echo $html;
+				 
+				$admin_page_hooks[ $menu_slug ] = sanitize_title( $tab[ 'label' ] ); 
+			} else {
+				
+				// Set class for stylesheet
+				$class    = ( $tab[ 'url' ] == $pagenow ) ? ' nav-tab-active' : '';
+				// Adds aria-selected to each of the tabs
+				$selected = ( $tab[ 'url' ] == $pagenow ) ? 'true' : 'false';
+				// Markup for each tab
+				$tab_html = '<a href="' . $tab['url'] . '?id=' . $id . '" class="nav-tab' 
+					. $class . '" role="tab" aria-controls="' . sanitize_title( $tab_id ) . '" aria-selected="' 
+					. $selected . '">' . esc_html( $tab[ 'label' ] ) . '</a>';
+				
+				echo apply_filters( 'network_edit_site_tab_html', $tab_html, $tab, $class, $id ); 
+			} 
+		} 
+} 
+ 
+
 /**
  * Whether or not we can edit this network from this page
  *
