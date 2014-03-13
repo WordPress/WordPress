@@ -6542,6 +6542,26 @@
 			}, this.options );
 		},
 
+		/**
+		 * When multiple players in the DOM contain the same src, things get weird.
+		 *
+		 * @param {HTMLElement} media
+		 * @returns {HTMLElement}
+		 */
+		prepareSrc : function (media) {
+			var i = wp.media.view.MediaDetails.instances++;
+			_.each( $(media).find('source'), function (source) {
+				source.src = [
+					source.src,
+					source.src.indexOf('?') > -1 ? '&' : '?',
+					'_=',
+					i
+				].join('');
+			});
+
+			return media;
+		},
+
 		removeSetting : function (e) {
 			var wrap = $( e.currentTarget ).parent(), setting;
 
@@ -6613,10 +6633,9 @@
 		},
 
 		unsetPlayer : function() {
-			var p;
 			if ( this.player ) {
-				for ( p in window.mejs.players ) {
-					window.mejs.players[p].pause();
+				if ( _.isUndefined( this.mejs.pluginType ) ) {
+					this.mejs.pause();
 				}
 				this.removePlayer();
 				this.player = false;
@@ -6656,30 +6675,7 @@
 			this.$( '.embed-media-settings' ).scrollTop( 0 );
 		}
 	}, {
-		instances : 0,
-
-		/**
-		 * When multiple players in the DOM contain the same src, things get weird.
-		 *
-		 * @param {HTMLElement} media
-		 * @returns {HTMLElement}
-		 */
-		prepareSrc : function (media) {
-			var i = wp.media.view.MediaDetails.instances++;
-			if ( 0 === i ) {
-				i = (new Date()).getTime();
-			}
-			_.each( $(media).find('source'), function (source) {
-				source.src = [
-					source.src,
-					source.src.indexOf('?') > -1 ? '&' : '?',
-					'_=',
-					i
-				].join('');
-			});
-
-			return media;
-		}
+		instances : 0
 	});
 
 	/**
@@ -6698,23 +6694,13 @@
 		template:  media.template('audio-details'),
 
 		setMedia: function() {
-			var className = '.wp-audio-shortcode',
-				audio;
-
-			audio = this.$( className );
+			var audio = this.$('.wp-audio-shortcode');
 
 			if ( audio.find( 'source' ).length ) {
 				if ( audio.is(':hidden') ) {
 					audio.show();
 				}
-
-				audio = audio.get(0);
-
-				if ( $( className ).length > 0 ) {
-					audio = media.view.MediaDetails.prepareSrc( audio );
-				}
-
-				this.media = audio;
+				this.media = this.prepareSrc( audio.get(0) );
 			} else {
 				audio.hide();
 				this.media = false;
@@ -6740,25 +6726,18 @@
 		template:  media.template('video-details'),
 
 		setMedia: function() {
-			var className = '.wp-video-shortcode',
-				video,
-				yt;
-
-			video = this.$( className );
-			yt = video.hasClass('youtube-video');
+			var video = this.$('.wp-video-shortcode');
 
 			if ( video.find( 'source' ).length ) {
 				if ( video.is(':hidden') ) {
 					video.show();
 				}
 
-				video = video.get(0);
-
-				if ( ! yt ) {
-					video = media.view.MediaDetails.prepareSrc( video );
+				if ( ! video.hasClass('youtube-video') ) {
+					this.media = this.prepareSrc( video.get(0) );
+				} else {
+					this.media = video.get(0);
 				}
-
-				this.media = video;
 			} else {
 				video.hide();
 				this.media = false;
