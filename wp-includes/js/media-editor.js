@@ -296,13 +296,23 @@
 				attrs[ key ] = false;
 			}
 			return attrs[ key ];
+		},
+
+		pauseAllPlayers: function () {
+			var p;
+			if ( window.mejs && window.mejs.players ) {
+				for ( p in window.mejs.players ) {
+					window.mejs.players[p].pause();
+				}
+			}
 		}
 	};
 
 	wp.media.collection = function(attributes) {
 		var collections = {};
 
-		return _.extend( attributes, wp.media.mixin, {
+		return _.extend( attributes, {
+			coerce : wp.media.mixin.coerce,
 			/**
 			 * Retrieve attachments based on the properties of the passed shortcode
 			 *
@@ -558,7 +568,9 @@
 	/**
 	 * @namespace
 	 */
-	wp.media.audio = _.extend({
+	wp.media.audio = {
+		coerce : wp.media.mixin.coerce,
+
 		defaults : {
 			id : wp.media.view.settings.post.id,
 			src      : '',
@@ -597,12 +609,14 @@
 				attrs:   shortcode
 			});
 		}
-	}, wp.media.mixin);
+	};
 
 	/**
 	 * @namespace
 	 */
-	wp.media.video = _.extend({
+	wp.media.video = {
+		coerce : wp.media.mixin.coerce,
+
 		defaults : {
 			id : wp.media.view.settings.post.id,
 			src : '',
@@ -649,7 +663,7 @@
 				content: content
 			});
 		}
-	}, wp.media.mixin);
+	};
 
 	/**
 	 * wp.media.featuredImage
@@ -1111,38 +1125,40 @@
 		 * @global wp.media.view.l10n
 		 */
 		init: function() {
-			$(document.body).on( 'click', '.insert-media', function( event ) {
-				var elem = $( event.currentTarget ),
-					editor = elem.data('editor'),
-					options = {
-						frame:    'post',
-						state:    'insert',
-						title:    wp.media.view.l10n.addMedia,
-						multiple: true
-					};
+			$(document.body)
+				.on( 'click', '.insert-media', function( event ) {
+					var elem = $( event.currentTarget ),
+						editor = elem.data('editor'),
+						options = {
+							frame:    'post',
+							state:    'insert',
+							title:    wp.media.view.l10n.addMedia,
+							multiple: true
+						};
 
-				event.preventDefault();
+					event.preventDefault();
 
-				// Remove focus from the `.insert-media` button.
-				// Prevents Opera from showing the outline of the button
-				// above the modal.
-				//
-				// See: http://core.trac.wordpress.org/ticket/22445
-				elem.blur();
+					// Remove focus from the `.insert-media` button.
+					// Prevents Opera from showing the outline of the button
+					// above the modal.
+					//
+					// See: http://core.trac.wordpress.org/ticket/22445
+					elem.blur();
 
-				if ( elem.hasClass( 'gallery' ) ) {
-					options.state = 'gallery';
-					options.title = wp.media.view.l10n.createGalleryTitle;
-				} else if ( elem.hasClass( 'playlist' ) ) {
-					options.state = 'playlist';
-					options.title = wp.media.view.l10n.createPlaylistTitle;
-				} else if ( elem.hasClass( 'video-playlist' ) ) {
-					options.state = 'video-playlist';
-					options.title = wp.media.view.l10n.createVideoPlaylistTitle;
-				}
+					if ( elem.hasClass( 'gallery' ) ) {
+						options.state = 'gallery';
+						options.title = wp.media.view.l10n.createGalleryTitle;
+					} else if ( elem.hasClass( 'playlist' ) ) {
+						options.state = 'playlist';
+						options.title = wp.media.view.l10n.createPlaylistTitle;
+					} else if ( elem.hasClass( 'video-playlist' ) ) {
+						options.state = 'video-playlist';
+						options.title = wp.media.view.l10n.createVideoPlaylistTitle;
+					}
 
-				wp.media.editor.open( editor, options );
-			});
+					wp.media.editor.open( editor, options );
+				})
+				.on( 'click', '.wp-switch-editor', wp.media.mixin.pauseAllPlayers );
 
 			// Initialize and render the Editor drag-and-drop uploader.
 			new wp.media.view.EditorUploader().render();
