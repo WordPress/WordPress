@@ -203,6 +203,13 @@ img::selection {
 	outline: 0;
 }
 
+audio,
+video,
+embed {
+	display: -moz-inline-stack;
+	display: inline-block;
+	max-width: 100%;
+}
 
 /**
  * WP Views
