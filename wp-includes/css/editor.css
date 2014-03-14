@@ -661,6 +661,10 @@ i.mce-i-wp_page:before {
 	content: '\f158';
 }
 
+.mce-i-wp_code:before {
+	content: "\e017";
+}
+
 /* Editors */
 .wp-editor-wrap {
 	position: relative;
