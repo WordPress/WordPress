@@ -467,6 +467,10 @@ window.wp = window.wp || {};
 			this.attachment = attachment;
 			this.extension = attachment.get('filename' ).split('.').pop();
 
+			if ( this.get( 'src' ) && this.extension === this.get( 'src' ).split('.').pop() ) {
+				this.unset( 'src' );
+			}
+
 			if ( _.contains( wp.media.view.settings.embedExts, this.extension ) ) {
 				this.set( this.extension, this.attachment.get( 'url' ) );
 			} else {
@@ -479,6 +483,7 @@ window.wp = window.wp || {};
 
 			this.setSource( attachment );
 
+			this.unset( 'src' );
 			_.each( _.without( wp.media.view.settings.embedExts, this.extension ), function (ext) {
 				self.unset( ext );
 			} );
