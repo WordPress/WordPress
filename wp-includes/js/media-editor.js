@@ -307,6 +307,71 @@
 			}
 		},
 
+		isCompatible: function ( media ) {
+			if ( ! media.find( 'source' ).length ) {
+				return false;
+			}
+
+			var ua = window.navigator.userAgent.toLowerCase(),
+				ff, chrome, opera, safari,
+				isIE = ua.match(/MSIE/gi) !== null,
+				isOpera = window.navigator.userAgent.match(/OPR/) !== null,
+				isOldIE = ua.match(/MSIE [6-8]/gi) !== null,
+				isChrome = ua.match(/safari/gi) && ua.match(/chrome/gi) !== null,
+				isFirefox = ua.match(/firefox/gi) !== null,
+				isSafari = ua.match(/safari/gi) !== null && ua.match(/chrome/gi) === null;
+
+			if ( isOldIE || isIE ) {
+				return false;
+			}
+
+			if ( isOpera ) {
+				opera = false;
+				media.find( 'source' ).each(function (i, elem) {
+					if ( elem.type.match(/video\/(ogv|webm)/gi) !== null ||
+						( elem.type.match(/audio\/(ogg|wav)/gi) !== null ) ) {
+						opera = true;
+					}
+				});
+
+				return opera;
+			} else if ( isChrome ) {
+				chrome = false;
+				media.find( 'source' ).each(function (i, elem) {
+					if ( elem.type.match(/video\/(mp4|m4v|mpeg|webm|ogg)/gi) !== null ||
+						elem.type.match(/audio\/(ogg|mpeg|x-ms-wma)/gi) !== null ) {
+						chrome = true;
+					}
+				});
+
+				return chrome;
+
+			} else if ( isFirefox ) {
+				ff = false;
+				media.find( 'source' ).each(function (i, elem) {
+					if ( elem.type.match(/video\/(ogg|webm)/gi) !== null ||
+						( elem.type.match(/audio\/(ogg|mpeg)/gi) !== null && -1 === elem.src.indexOf('.m4a') ) ) {
+						ff = true;
+					}
+				});
+
+				return ff;
+
+			} else if ( isSafari  ) {
+				safari = false;
+				media.find( 'source' ).each(function (i, elem) {
+					if ( elem.type.match(/video\/(mp4|m4v|mpeg|x-ms-wmv|quicktime)/gi) !== null ||
+						( elem.type.match(/audio\/(mpeg|wav)/gi) !== null ) ) {
+						safari = true;
+					}
+				});
+
+				return safari;
+			}
+
+			return false;
+		},
+
 		/**
 		 * Override the MediaElement method for removing a player.
 		 *	MediaElement tries to pull the audio/video tag out of
