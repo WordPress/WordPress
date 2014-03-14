@@ -3475,7 +3475,13 @@
 		className: 'uploader-editor',
 		template:  media.template( 'uploader-editor' ),
 
+		localDrag: false,
+		overContainer: false,
+		overDropzone: false,
+
 		initialize: function() {
+			var self = this;
+
 			this.initialized = false;
 
 			// Bail if UA does not support drag'n'drop or File API.
@@ -3490,9 +3496,14 @@
 			this.$document.on( 'drop', '.uploader-editor', _.bind( this.drop, this ) );
 			this.$document.on( 'dragover', '.uploader-editor', _.bind( this.dropzoneDragover, this ) );
 			this.$document.on( 'dragleave', '.uploader-editor', _.bind( this.dropzoneDragleave, this ) );
+			this.$document.on( 'click', '.uploader-editor', _.bind( this.click, this ) );
 
 			this.$document.on( 'dragover', _.bind( this.containerDragover, this ) );
 			this.$document.on( 'dragleave', _.bind( this.containerDragleave, this ) );
+
+			this.$document.on( 'dragstart dragend drop', function( event ) {
+				self.localDrag = event.type === 'dragstart';
+			});
 
 			this.initialized = true;
 			return this;
@@ -3541,16 +3552,17 @@
 		drop: function( event ) {
 			var $wrap = null;
 
-			this.files = event.originalEvent.dataTransfer.files;
-			if ( this.files.length < 1 )
-				return;
-
 			this.containerDragleave( event );
 			this.dropzoneDragleave( event );
 
+			this.files = event.originalEvent.dataTransfer.files;
+			if ( this.files.length < 1 ) {
+				return;
+			}
+
 			// Set the active editor to the drop target.
 			$wrap = $( event.target ).parents( '.wp-editor-wrap' );
-			if ( $wrap.length > 0 ) {
+			if ( $wrap.length > 0 && $wrap[0].id ) {
 				window.wpActiveEditor = $wrap[0].id.slice( 3, -5 );
 			}
 
@@ -3580,6 +3592,10 @@
 		},
 
 		containerDragover: function() {
+			if ( this.localDrag ) {
+				return;
+			}
+
 			this.overContainer = true;
 			this.refresh();
 		},
@@ -3592,6 +3608,10 @@
 		},
 
 		dropzoneDragover: function( e ) {
+			if ( this.localDrag ) {
+				return;
+			}
+
 			this.overDropzone = true;
 			this.refresh( e );
 			return false;
@@ -3600,6 +3620,13 @@
 		dropzoneDragleave: function( e ) {
 			this.overDropzone = false;
 			_.delay( _.bind( this.refresh, this, e ), 50 );
+		},
+
+		click: function( e ) {
+			// In the rare case where the dropzone gets stuck, hide it on click.
+			this.containerDragleave( e );
+			this.dropzoneDragleave( e );
+			this.localDrag = false;
 		}
 	});
 

@@ -379,10 +379,10 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			});
 		}
 
-		dom.bind( doc, 'dragover', function( event ) {
+		dom.bind( doc, 'dragstart dragend dragover drop', function( event ) {
 			if ( typeof window.jQuery !== 'undefined' ) {
-				// Propagate the event to its container for the parent window to catch.
-				window.jQuery( editor.getContainer() ).trigger( event );
+				// Trigger the jQuery handlers.
+				window.jQuery( document ).triggerHandler( event.type );
 			}
 		});
 	});
