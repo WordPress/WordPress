@@ -258,7 +258,7 @@ class WP_Customize_Widgets {
 	 * @action customize_register
 	 */
 	static function customize_register( $wp_customize = null ) {
-		global $wp_registered_widgets, $wp_registered_widget_controls;
+		global $wp_registered_widgets, $wp_registered_widget_controls, $wp_registered_sidebars;
 		if ( ! ( $wp_customize instanceof WP_Customize_Manager ) ) {
 			$wp_customize = $GLOBALS['wp_customize'];
 		}
@@ -311,6 +311,7 @@ class WP_Customize_Widgets {
 					$section_args = array(
 						'title' => sprintf( __( 'Widgets: %s' ), $GLOBALS['wp_registered_sidebars'][$sidebar_id]['name'] ),
 						'description' => $GLOBALS['wp_registered_sidebars'][$sidebar_id]['description'],
+						'priority' => 1000 + array_search( $sidebar_id, array_keys( $wp_registered_sidebars ) ),
 					);
 					$section_args = apply_filters( 'customizer_widgets_section_args', $section_args, $section_id, $sidebar_id );
 					$wp_customize->add_section( $section_id, $section_args );
