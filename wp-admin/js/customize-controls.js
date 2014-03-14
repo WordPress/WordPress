@@ -952,36 +952,55 @@
 					query = $.extend( this.query(), {
 						action: 'customize_save',
 						nonce:  this.nonce.save
-					}),
-					request = $.post( api.settings.url.ajax, query );
+					} ),
+					processing = api.state( 'processing' ),
+					submitWhenDoneProcessing,
+					submit;
 
-				api.trigger( 'save', request );
+				body.addClass( 'saving' );
 
-				body.addClass('saving');
+				submit = function () {
+					var request = $.post( api.settings.url.ajax, query );
 
-				request.always( function() {
-					body.removeClass('saving');
-				});
+					api.trigger( 'save', request );
 
-				request.done( function( response ) {
-					// Check if the user is logged out.
-					if ( '0' === response ) {
-						self.preview.iframe.hide();
-						self.login().done( function() {
-							self.save();
-							self.preview.iframe.show();
-						});
-						return;
-					}
+					request.always( function () {
+						body.removeClass( 'saving' );
+					} );
 
-					// Check for cheaters.
-					if ( '-1' === response ) {
-						self.cheatin();
-						return;
-					}
+					request.done( function( response ) {
+						// Check if the user is logged out.
+						if ( '0' === response ) {
+							self.preview.iframe.hide();
+							self.login().done( function() {
+								self.save();
+								self.preview.iframe.show();
+							} );
+							return;
+						}
 
-					api.trigger( 'saved' );
-				});
+						// Check for cheaters.
+						if ( '-1' === response ) {
+							self.cheatin();
+							return;
+						}
+
+						api.trigger( 'saved' );
+					} );
+				};
+
+				if ( 0 === processing() ) {
+					submit();
+				} else {
+					submitWhenDoneProcessing = function () {
+						if ( 0 === processing() ) {
+							api.state.unbind( 'change', submitWhenDoneProcessing );
+							submit();
+						}
+					};
+					api.state.bind( 'change', submitWhenDoneProcessing );
+				}
+
 			}
 		});
 
@@ -1016,8 +1035,9 @@
 		// Save and activated states
 		(function() {
 			var state = new api.Values(),
-				saved = state.create('saved'),
-				activated = state.create('activated');
+				saved = state.create( 'saved' ),
+				activated = state.create( 'activated' ),
+				processing = state.create( 'processing' );
 
 			state.bind( 'change', function() {
 				var save = $('#save'),
@@ -1040,6 +1060,7 @@
 			// Set default states.
 			saved( true );
 			activated( api.settings.theme.active );
+			processing( 0 );
 
 			api.bind( 'change', function() {
 				state('saved').set( false );

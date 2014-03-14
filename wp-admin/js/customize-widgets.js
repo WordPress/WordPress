@@ -914,7 +914,7 @@ var WidgetCustomizer = ( function ($) {
 			var control = this,
 				widget_content,
 				save_btn,
-				trigger_save;
+				update_widget_debounced;
 
 			widget_content = control.container.find( '.widget-content' );
 
@@ -928,7 +928,7 @@ var WidgetCustomizer = ( function ($) {
 				control.updateWidget();
 			} );
 
-			trigger_save = _.debounce( function () {
+			update_widget_debounced = _.debounce( function () {
 				// @todo For compatibility with other plugins, should we trigger a click event? What about form submit event?
 				control.updateWidget();
 			}, 250 );
@@ -943,8 +943,10 @@ var WidgetCustomizer = ( function ($) {
 
 			// Handle widgets that support live previews
 			widget_content.on( 'change input propertychange', ':input', function ( e ) {
-				if ( e.type === 'change' || ( this.checkValidity && this.checkValidity() ) ) {
-					trigger_save();
+				if ( e.type === 'change' ) {
+					control.updateWidget();
+				} else if ( this.checkValidity && this.checkValidity() ) {
+					update_widget_debounced();
 				}
 			} );
 
@@ -1097,9 +1099,10 @@ var WidgetCustomizer = ( function ($) {
 				element_id_to_refocus = null,
 				active_input_selection_start = null,
 				active_input_selection_end = null,
-				params = {},
+				params,
 				data,
 				inputs,
+				processing,
 				jqxhr;
 
 			args = $.extend( {
@@ -1129,6 +1132,8 @@ var WidgetCustomizer = ( function ($) {
 
 			control.container.addClass( 'widget-form-loading' );
 			control.container.addClass( 'previewer-loading' );
+			processing = wp.customize.state( 'processing' );
+			processing( processing() + 1 );
 
 			params = {};
 			params.action = self.update_widget_ajax_action;
@@ -1252,6 +1257,8 @@ var WidgetCustomizer = ( function ($) {
 				inputs.each( function () {
 					$( this ).removeData( 'state' + update_number );
 				} );
+
+				processing( processing() - 1 );
 			} );
 		},
 
