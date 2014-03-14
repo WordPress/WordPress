@@ -307,69 +307,88 @@
 			}
 		},
 
+		ua: {
+			is : function (browser) {
+				var passes = false, ua = window.navigator.userAgent;
+
+				switch ( browser ) {
+					case 'oldie':
+						passes = ua.match(/MSIE [6-8]/gi) !== null;
+					break;
+					case 'ie':
+						passes = ua.match(/MSIE/gi) !== null;
+					break;
+					case 'ff':
+						passes = ua.match(/firefox/gi) !== null;
+					break;
+					case 'opera':
+						passes = ua.match(/OPR/) !== null;
+					break;
+					case 'safari':
+						passes = ua.match(/safari/gi) !== null && ua.match(/chrome/gi) === null;
+					break;
+					case 'chrome':
+						passes = ua.match(/safari/gi) && ua.match(/chrome/gi) !== null;
+					break;
+				}
+
+				return passes;
+			}
+		},
+
+		compat :{
+			'opera' : {
+				audio: ['ogg', 'wav'],
+				video: ['ogg', 'webm']
+			},
+			'chrome' : {
+				audio: ['ogg', 'mpeg', 'x-ms-wma'],
+				video: ['ogg', 'webm', 'mp4', 'm4v', 'mpeg']
+			},
+			'ff' : {
+				audio: ['ogg', 'mpeg'],
+				video: ['ogg', 'webm']
+			},
+			'safari' : {
+				audio: ['mpeg', 'wav'],
+				video: ['mp4', 'm4v', 'mpeg', 'x-ms-wmv', 'quicktime']
+			},
+			'ie' : {
+				audio: ['mpeg'],
+				video: ['mp4', 'm4v', 'mpeg']
+			}
+		},
+
 		isCompatible: function ( media ) {
 			if ( ! media.find( 'source' ).length ) {
 				return false;
 			}
 
-			var ua = window.navigator.userAgent.toLowerCase(),
-				ff, chrome, opera, safari,
-				isIE = ua.match(/MSIE/gi) !== null,
-				isOpera = window.navigator.userAgent.match(/OPR/) !== null,
-				isOldIE = ua.match(/MSIE [6-8]/gi) !== null,
-				isChrome = ua.match(/safari/gi) && ua.match(/chrome/gi) !== null,
-				isFirefox = ua.match(/firefox/gi) !== null,
-				isSafari = ua.match(/safari/gi) !== null && ua.match(/chrome/gi) === null;
+			var ua = this.ua, test = false, found = false, sources;
 
-			if ( isOldIE || isIE ) {
+			if ( ua.is( 'oldIE' ) ) {
 				return false;
 			}
 
-			if ( isOpera ) {
-				opera = false;
-				media.find( 'source' ).each(function (i, elem) {
-					if ( elem.type.match(/video\/(ogv|webm)/gi) !== null ||
-						( elem.type.match(/audio\/(ogg|wav)/gi) !== null ) ) {
-						opera = true;
-					}
-				});
+			sources = media.find( 'source' );
 
-				return opera;
-			} else if ( isChrome ) {
-				chrome = false;
-				media.find( 'source' ).each(function (i, elem) {
-					if ( elem.type.match(/video\/(mp4|m4v|mpeg|webm|ogg)/gi) !== null ||
-						elem.type.match(/audio\/(ogg|mpeg|x-ms-wma)/gi) !== null ) {
-						chrome = true;
-					}
-				});
+			_.find( this.compat, function (supports, browser) {
+				if ( ua.is( browser ) ) {
+					found = true;
+					_.each( sources, function (elem) {
+						var audio = new RegExp( 'audio\/(' + supports.audio.join('|') + ')', 'gi' ),
+							video = new RegExp( 'video\/(' + supports.video.join('|') + ')', 'gi' );
 
-				return chrome;
+						if ( elem.type.match( video ) !== null || elem.type.match( audio ) !== null ) {
+							test = true;
+						}
+					} );
+				}
 
-			} else if ( isFirefox ) {
-				ff = false;
-				media.find( 'source' ).each(function (i, elem) {
-					if ( elem.type.match(/video\/(ogg|webm)/gi) !== null ||
-						( elem.type.match(/audio\/(ogg|mpeg)/gi) !== null && -1 === elem.src.indexOf('.m4a') ) ) {
-						ff = true;
-					}
-				});
+				return test || found;
+			} );
 
-				return ff;
-
-			} else if ( isSafari  ) {
-				safari = false;
-				media.find( 'source' ).each(function (i, elem) {
-					if ( elem.type.match(/video\/(mp4|m4v|mpeg|x-ms-wmv|quicktime)/gi) !== null ||
-						( elem.type.match(/audio\/(mpeg|wav)/gi) !== null ) ) {
-						safari = true;
-					}
-				});
-
-				return safari;
-			}
-
-			return false;
+			return test;
 		},
 
 		/**
