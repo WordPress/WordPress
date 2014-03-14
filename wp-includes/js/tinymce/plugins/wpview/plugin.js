@@ -140,7 +140,11 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	editor.on( 'SetContent', function( event ) {
 		var body, padNode;
 
-		wp.mce.views.render();
+		// don't (re-)render views if the format of the content is raw
+		// to avoid adding additional undo levels on undo/redo
+		if ( event.format !== 'raw' ) {
+			wp.mce.views.render();
+		}
 
 		// Add padding <p> if the noneditable node is last
 		if ( event.load || ! event.set ) {
