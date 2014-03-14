@@ -1423,27 +1423,6 @@ html.wp-toolbar {
 	padding: 0 5px;
 }
 
-#TB_window {
-	border: 1px solid #333;
-}
-
-#TB_window #TB_title {
-	background-color: #222;
-	color: #cfcfcf;
-}
-
-#TB_window #TB_title a.tb-theme-preview-link,
-#TB_window #TB_title a.tb-theme-preview-link:visited {
-	color: #999;
-	font-weight: 600;
-	text-decoration: none;
-}
-
-#TB_window #TB_title a.tb-theme-preview-link:hover,
-#TB_window #TB_title a.tb-theme-preview-link:focus {
-	color: #ccc;
-}
-
 /* @todo: what is this doing here */
 #dashboard_right_now .versions .b,
 #post-status-display,
@@ -1994,17 +1973,6 @@ img {
 	content: '\f140';
 }
 
-#TB_ajaxContent #options {
-	position: absolute;
-	top: 20px;
-	right: 25px;
-	padding: 5px;
-}
-
-#TB_ajaxContent h3 {
-	margin-bottom: .25em;
-}
-
 .error a {
 	text-decoration: underline;
 }
@@ -2270,15 +2238,6 @@ img {
 .control-section.open .accordion-section-title {
 	/* When expanded */
 	border-bottom: 1px solid #dfdfdf;
-}
-
-/* @todo: these seem misplaced */
-.sticky-menu #TB_window {
-	background: #f1f1f1;
-}
-
-.sticky-menu #TB_window .updated {
-	margin: 16px 0 0;
 }
 
 /* =Media Queries

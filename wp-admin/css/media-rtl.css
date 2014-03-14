@@ -234,6 +234,8 @@
 
 .find-box {
 	background-color: #fff;
+	-webkit-box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
+	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
 	width: 600px;
 	overflow: hidden;
 	margin-right: -300px;
@@ -247,11 +249,11 @@
 .find-box-head {
 	background: #fcfcfc;
 	border-bottom: 1px solid #dfdfdf;
-	height: 42px;
-	font-size: 22px;
+	height: 36px;
+	font-size: 18px;
 	font-weight: 600;
-	line-height: 41px;
-	padding: 0 16px 0 42px;
+	line-height: 36px;
+	padding: 0 16px 0 36px;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -263,7 +265,7 @@
 	padding: 16px;
 	background-color: #fff;
 	position: absolute;
-	top: 43px;
+	top: 37px;
 	bottom: 45px;
 	overflow-y: scroll;
 	width: 100%;
@@ -300,8 +302,8 @@
 }
 
 #find-posts-close {
-	width: 42px;
-	height: 42px;
+	width: 36px;
+	height: 36px;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -315,7 +317,7 @@
 }
 
 #find-posts-close:before {
-	font: normal 20px/42px 'dashicons';
+	font: normal 20px/36px 'dashicons';
 	vertical-align: top;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
@@ -360,6 +362,7 @@
 	bottom: 0;
 	background: #000;
 	opacity: 0.7;
+	filter: alpha(opacity=70);
 	z-index: 100100;
 }
 

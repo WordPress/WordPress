@@ -452,6 +452,8 @@ span.wp-media-buttons-icon:before {
 	width: 450px;
 	margin-left: -225px;
 	background: #fff;
+	-webkit-box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
+	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
 	line-height: 1.5;
 	z-index: 1000005;
 }
@@ -463,8 +465,8 @@ span.wp-media-buttons-icon:before {
 	right: 0;
 	bottom: 0;
 	background: #000;
-	opacity: 0.5;
-	filter: alpha(opacity=50);
+	opacity: 0.7;
+	filter: alpha(opacity=70);
 	z-index: 1000000;
 }
 
