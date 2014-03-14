@@ -6547,11 +6547,11 @@
 	 */
 	media.view.MediaDetails = media.view.Settings.AttachmentDisplay.extend({
 		initialize: function() {
-			_.bindAll(this, 'success', 'unsetPlayer');
+			_.bindAll(this, 'success');
 
-			this.listenTo( this.controller, 'close', this.unsetPlayer );
+			this.listenTo( this.controller, 'close', media.mixin.unsetPlayer );
 			this.on( 'ready', this.setPlayer );
-			this.on( 'media:setting:remove', this.unsetPlayer );
+			this.on( 'media:setting:remove', media.mixin.unsetPlayer, this );
 			this.on( 'media:setting:remove', this.render );
 			this.on( 'media:setting:remove', this.setPlayer );
 			this.events = _.extend( this.events, {
@@ -6604,49 +6604,6 @@
 		 */
 		setMedia : function () {
 			return this;
-		},
-
-		/**
-		 * Override the MediaElement method for removing a player.
-		 *	MediaElement tries to pull the audio/video tag out of
-		 *	its container and re-add it to the DOM.
-		 */
-		removePlayer: function() {
-			var t = this.player, featureIndex, feature;
-
-			// invoke features cleanup
-			for ( featureIndex in t.options.features ) {
-				feature = t.options.features[featureIndex];
-				if ( t['clean' + feature] ) {
-					try {
-						t['clean' + feature](t);
-					} catch (e) {}
-				}
-			}
-
-			if ( ! t.isDynamic ) {
-				t.$node.remove();
-			}
-
-			if ( 'native' !== t.media.pluginType ) {
-				t.media.remove();
-			}
-
-			delete window.mejs.players[t.id];
-
-			t.container.remove();
-			t.globalUnbind();
-			delete t.node.player;
-		},
-
-		unsetPlayer : function() {
-			if ( this.player ) {
-				if ( _.isUndefined( this.mejs.pluginType ) ) {
-					this.mejs.pause();
-				}
-				this.removePlayer();
-				this.player = false;
-			}
 		},
 
 		success : function (mejs) {

@@ -305,6 +305,53 @@
 					window.mejs.players[p].pause();
 				}
 			}
+		},
+
+		/**
+		 * Override the MediaElement method for removing a player.
+		 *	MediaElement tries to pull the audio/video tag out of
+		 *	its container and re-add it to the DOM.
+		 */
+		removePlayer: function() {
+			var t = this.player, featureIndex, feature;
+
+			// invoke features cleanup
+			for ( featureIndex in t.options.features ) {
+				feature = t.options.features[featureIndex];
+				if ( t['clean' + feature] ) {
+					try {
+						t['clean' + feature](t);
+					} catch (e) {}
+				}
+			}
+
+			if ( ! t.isDynamic ) {
+				t.$node.remove();
+			}
+
+			if ( 'native' !== t.media.pluginType ) {
+				t.media.remove();
+			}
+
+			delete window.mejs.players[t.id];
+
+			t.container.remove();
+			t.globalUnbind();
+			delete t.node.player;
+		},
+
+		/**
+		 * Allows any class that has set 'player' to a MediaElementPlayer
+		 *  instance to remove the player when listening to events.
+		 *
+		 *  Examples: modal closes, shortcode properties are removed, etc.
+		 */
+		unsetPlayer : function() {
+			if ( this.player ) {
+				wp.media.mixin.pauseAllPlayers();
+				wp.media.mixin.removePlayer.apply( this );
+				this.player = false;
+			}
 		}
 	};
 
