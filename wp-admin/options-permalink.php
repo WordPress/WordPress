@@ -117,9 +117,10 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	exit;
 }
 
-$permalink_structure = get_option('permalink_structure');
-$category_base = get_option('category_base');
-$tag_base = get_option( 'tag_base' );
+$permalink_structure = get_option( 'permalink_structure' );
+$category_base       = get_option( 'category_base' );
+$tag_base            = get_option( 'tag_base' );
+$update_required     = false;
 
 if ( $iis7_permalinks ) {
 	if ( ( ! file_exists($home_path . 'web.config') && win_is_writable($home_path) ) || win_is_writable($home_path . 'web.config') )
@@ -129,10 +130,14 @@ if ( $iis7_permalinks ) {
 } elseif ( $is_nginx ) {
 	$writable = false;
 } else {
-	if ( ( ! file_exists($home_path . '.htaccess') && is_writable($home_path) ) || is_writable($home_path . '.htaccess') )
+	if ( ( ! file_exists( $home_path . '.htaccess' ) && is_writable( $home_path ) ) || is_writable( $home_path . '.htaccess' ) ) {
 		$writable = true;
-	else
+	} else {
 		$writable = false;
+		$existing_rules  = array_filter( extract_from_markers( $home_path . '.htaccess', 'WordPress' ) );
+		$new_rules       = array_filter( explode( "\n", $wp_rewrite->mod_rewrite_rules() ) );
+		$update_required = ( $new_rules !== $existing_rules );
+	}
 }
 
 if ( $wp_rewrite->using_index_permalinks() )
@@ -157,10 +162,11 @@ if ( ! is_multisite() ) {
 	} elseif ( $is_nginx ) {
 		_e('Permalink structure updated.');
 	} else {
-		if ( $permalink_structure && ! $usingpi && ! $writable )
+		if ( $permalink_structure && ! $usingpi && ! $writable && $update_required ) {
 			_e('You should update your .htaccess now.');
-		else
+		} else {
 			_e('Permalink structure updated.');
+		}
 	}
 } else {
 	_e('Permalink structure updated.');
@@ -273,7 +279,7 @@ printf( __('If you like, you may enter custom structures for your category and t
 		<?php endif; ?>
 	<?php endif; ?>
 <?php elseif ( ! $is_nginx ) :
-	if ( $permalink_structure && ! $usingpi && ! $writable ) : ?>
+	if ( $permalink_structure && ! $usingpi && ! $writable && $update_required ) : ?>
 <p><?php _e('If your <code>.htaccess</code> file were <a href="http://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>
 <form action="options-permalink.php" method="post">
 <?php wp_nonce_field('update-permalink') ?>
