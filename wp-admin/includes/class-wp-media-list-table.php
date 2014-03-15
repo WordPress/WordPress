@@ -164,7 +164,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		if ( !$this->detached ) {
 			$posts_columns['parent'] = _x( 'Uploaded to', 'column name' );
 			if ( post_type_supports( 'attachment', 'comments' ) )
-				$posts_columns['comments'] = '<span class="vers"><div title="' . esc_attr__( 'Comments' ) . '" class="comment-grey-bubble"></div></span>';
+				$posts_columns['comments'] = '<span class="vers"><span title="' . esc_attr__( 'Comments' ) . '" class="comment-grey-bubble"></span></span>';
 		}
 		/* translators: column name */
 		$posts_columns['date'] = _x( 'Date', 'column name' );

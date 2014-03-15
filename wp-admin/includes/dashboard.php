@@ -960,7 +960,7 @@ function wp_dashboard_plugins_output( $rss, $args = array() ) {
 
 		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) . '&amp;TB_iframe=true&amp;width=600&amp;height=800';
 
-		echo "<li class='dashboard-news-plugin'><span>$label:</span> <a href='$link' class='dashboard-news-plugin-link'>$title</a></h5>&nbsp;<span>(<a href='$ilink' class='thickbox' title='$title'>" . __( 'Install' ) . "</a>)</span></li>";
+		echo "<li class='dashboard-news-plugin'><span>$label:</span> <a href='$link' class='dashboard-news-plugin-link'>$title</a>&nbsp;<span>(<a href='$ilink' class='thickbox' title='$title'>" . __( 'Install' ) . "</a>)</span></li>";
 
 		$$feed->__destruct();
 		unset( $$feed );
