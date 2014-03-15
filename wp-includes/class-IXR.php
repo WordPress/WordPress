@@ -629,6 +629,10 @@ class IXR_Client
             if (!$this->path) {
                 $this->path = '/';
             }
+
+            if ( ! empty( $bits['query'] ) ) {
+                $this->path .= '?' . $bits['query'];
+            }
         } else {
             $this->server = $server;
             $this->path = $path;
