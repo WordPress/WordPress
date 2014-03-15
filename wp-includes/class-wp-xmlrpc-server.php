@@ -3244,7 +3244,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			if ( $this->blog_options[$o_name]['readonly'] == true )
 				continue;
 
-			update_option( $this->blog_options[$o_name]['option'], $o_value );
+			update_option( $this->blog_options[$o_name]['option'], wp_unslash( $o_value ) );
 		}
 
 		//Now return the updated values
