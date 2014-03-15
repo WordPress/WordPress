@@ -881,7 +881,7 @@ function WP_Filesystem( $args = false, $context = false ) {
  * Note that the return value of this function can be overridden in 2 ways
  *  - By defining FS_METHOD in your <code>wp-config.php</code> file
  *  - By using the filesystem_method filter
- * Valid values for these are: 'direct', 'ssh', 'ftpext' or 'ftpsockets'
+ * Valid values for these are: 'direct', 'ssh2', 'ftpext' or 'ftpsockets'
  * Plugins may also define a custom transport handler, See the WP_Filesystem function for more information.
  *
  * @since 2.5.0
@@ -891,7 +891,7 @@ function WP_Filesystem( $args = false, $context = false ) {
  * @return string The transport to use, see description for valid return values.
  */
 function get_filesystem_method($args = array(), $context = false) {
-	$method = defined('FS_METHOD') ? FS_METHOD : false; //Please ensure that this is either 'direct', 'ssh', 'ftpext' or 'ftpsockets'
+	$method = defined('FS_METHOD') ? FS_METHOD : false; // Please ensure that this is either 'direct', 'ssh2', 'ftpext' or 'ftpsockets'
 
 	if ( ! $method && function_exists('getmyuid') && function_exists('fileowner') ){
 		if ( !$context )
@@ -971,7 +971,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 		unset($credentials['port']);
 	}
 
-	if ( (defined('FTP_SSH') && FTP_SSH) || (defined('FS_METHOD') && 'ssh' == FS_METHOD) )
+	if ( ( defined('FTP_SSH') && FTP_SSH ) || ( defined('FS_METHOD') && 'ssh2' == FS_METHOD ) )
 		$credentials['connection_type'] = 'ssh';
 	else if ( (defined('FTP_SSL') && FTP_SSL) && 'ftpext' == $type ) //Only the FTP Extension understands SSL
 		$credentials['connection_type'] = 'ftps';
