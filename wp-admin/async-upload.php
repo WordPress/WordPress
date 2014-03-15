@@ -6,6 +6,10 @@
  * @subpackage Administration
  */
 
+if ( isset( $_REQUEST['action'] ) && 'upload-attachment' === $_REQUEST['action'] ) {
+	define( 'DOING_AJAX', true );
+}
+
 define('WP_ADMIN', true);
 
 if ( defined('ABSPATH') )
@@ -32,7 +36,6 @@ if ( !current_user_can('upload_files') )
 header('Content-Type: text/html; charset=' . get_option('blog_charset'));
 
 if ( isset( $_REQUEST['action'] ) && 'upload-attachment' === $_REQUEST['action'] ) {
-	define( 'DOING_AJAX', true );
 	include ABSPATH . 'wp-admin/includes/ajax-actions.php';
 
 	send_nosniff_header();
