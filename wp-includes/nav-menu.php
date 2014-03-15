@@ -365,10 +365,6 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 
 	$update = 0 != $menu_item_db_id;
 
-	// Only set the menu term if it isn't set to avoid unnecessary wp_get_object_terms()
-	if ( $menu_id && ( ! $update || ! is_object_in_term( $menu_item_db_id, 'nav_menu', (int) $menu->term_id ) ) )
-		$post['tax_input'] = array( 'nav_menu' => array( intval( $menu->term_id ) ) );
-
 	// New menu item. Default is draft status
 	if ( ! $update ) {
 		$post['ID'] = 0;
@@ -376,6 +372,12 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		$menu_item_db_id = wp_insert_post( $post );
 		if ( ! $menu_item_db_id	|| is_wp_error( $menu_item_db_id ) )
 			return $menu_item_db_id;
+	}
+
+	// Associate the menu item with the menu term
+	// Only set the menu term if it isn't set to avoid unnecessary wp_get_object_terms()
+	 if ( $menu_id && ( ! $update || ! is_object_in_term( $menu_item_db_id, 'nav_menu', (int) $menu->term_id ) ) ) {
+		wp_set_object_terms( $menu_item_db_id, array( $menu->term_id ), 'nav_menu' );
 	}
 
 	if ( 'custom' == $args['menu-item-type'] ) {
