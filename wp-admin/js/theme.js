@@ -803,6 +803,11 @@ themes.view.Search = wp.Backbone.View.extend({
 			event.target.value = '';
 		}
 
+		// Lose input focus when pressing enter
+		if ( event.which === 13 ) {
+			this.$el.trigger( 'blur' );
+		}
+
 		this.collection.doSearch( event.target.value );
 
 		// if search is initiated and key is not return
