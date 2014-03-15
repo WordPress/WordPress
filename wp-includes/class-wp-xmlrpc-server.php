@@ -1131,6 +1131,7 @@ class wp_xmlrpc_server extends IXR_Server {
 						return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign a term to one of the given taxonomies.' ) );
 
 					$term_ids = $post_data['terms'][$taxonomy];
+					$terms[ $taxonomy ] = array();
 					foreach ( $term_ids as $term_id ) {
 						$term = get_term_by( 'id', $term_id, $taxonomy );
 
