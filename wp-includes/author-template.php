@@ -385,7 +385,7 @@ function wp_list_authors($args = '') {
 				$link .= '(';
 			}
 
-			$link .= '<a href="' . get_author_feed_link( $author->ID ) . '"';
+			$link .= '<a href="' . get_author_feed_link( $author->ID, $feed_type ) . '"';
 
 			$alt = $title = '';
 			if ( !empty( $feed ) ) {
