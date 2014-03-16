@@ -58,7 +58,7 @@
 	overflow: hidden; 
 	padding: 0 29px 0 10px;
 	text-overflow: ellipsis;
-	white-space: nowrap; 
+	white-space: nowrap;
 	width: calc( 100% - 39px );
 }
 
