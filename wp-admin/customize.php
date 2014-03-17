@@ -208,15 +208,15 @@ do_action( 'customize_controls_print_scripts' );
 			'active'     => $wp_customize->is_theme_active(),
 		),
 		'url'      => array(
-			'preview'       => esc_url( $url ? $url : home_url( '/' ) ),
-			'parent'        => esc_url( admin_url() ),
-			'activated'     => admin_url( 'themes.php?activated=true&previewed' ),
-			'ajax'          => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
-			'allowed'       => array_map( 'esc_url', $allowed_urls ),
+			'preview'       => esc_url_raw( $url ? $url : home_url( '/' ) ),
+			'parent'        => esc_url_raw( admin_url() ),
+			'activated'     => esc_url_raw( admin_url( 'themes.php?activated=true&previewed' ) ),
+			'ajax'          => esc_url_raw( admin_url( 'admin-ajax.php', 'relative' ) ),
+			'allowed'       => array_map( 'esc_url_raw', $allowed_urls ),
 			'isCrossDomain' => $cross_domain,
-			'fallback'      => $fallback_url,
-			'home'          => esc_url( home_url( '/' ) ),
-			'login'         => $login_url,
+			'fallback'      => esc_url_raw( $fallback_url ),
+			'home'          => esc_url_raw( home_url( '/' ) ),
+			'login'         => esc_url_raw( $login_url ),
 		),
 		'browser'  => array(
 			'mobile' => wp_is_mobile(),
@@ -225,9 +225,9 @@ do_action( 'customize_controls_print_scripts' );
 		'settings' => array(),
 		'controls' => array(),
 		'nonce'    => array(
- 			'save'    => wp_create_nonce( 'save-customize_' . $wp_customize->get_stylesheet() ),
- 			'preview' => wp_create_nonce( 'preview-customize_' . $wp_customize->get_stylesheet() )
- 		),
+			'save'    => wp_create_nonce( 'save-customize_' . $wp_customize->get_stylesheet() ),
+			'preview' => wp_create_nonce( 'preview-customize_' . $wp_customize->get_stylesheet() )
+		),
 	);
 
 	// Prepare Customize Setting objects to pass to Javascript.
