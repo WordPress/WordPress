@@ -329,7 +329,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 			$parent_type = get_post_type_object( $parent->post_type );
 ?>
 			<td <?php echo $attributes ?>><strong>
-				<?php if ( current_user_can( 'edit_post', $post->post_parent ) && $parent_type->show_ui ) { ?>
+				<?php if ( current_user_can( 'edit_post', $post->post_parent ) && $parent_type && $parent_type->show_ui ) { ?>
 					<a href="<?php echo get_edit_post_link( $post->post_parent ); ?>">
 						<?php echo $title ?></a><?php
 				} else {
