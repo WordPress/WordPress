@@ -561,9 +561,9 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 
 		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Posts' );
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
-		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 10;
+		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 5;
 		if ( ! $number )
- 			$number = 10;
+			$number = 5;
 		$show_date = isset( $instance['show_date'] ) ? $instance['show_date'] : false;
 
 		$r = new WP_Query( apply_filters( 'widget_posts_args', array( 'posts_per_page' => $number, 'no_found_rows' => true, 'post_status' => 'publish', 'ignore_sticky_posts' => true ) ) );
@@ -676,14 +676,14 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 			return;
 		}
 
- 		extract($args, EXTR_SKIP);
- 		$output = '';
+		extract($args, EXTR_SKIP);
+		$output = '';
 
 		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Comments' );
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 5;
 		if ( ! $number )
- 			$number = 5;
+			$number = 5;
 
 		$comments = get_comments( apply_filters( 'widget_comments_args', array( 'number' => $number, 'status' => 'approve', 'post_status' => 'publish' ) ) );
 		$output .= $before_widget;
@@ -699,7 +699,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 			foreach ( (array) $comments as $comment) {
 				$output .=  '<li class="recentcomments">' . /* translators: comments widget: 1: comment author, 2: post link */ sprintf(_x('%1$s on %2$s', 'widgets'), get_comment_author_link(), '<a href="' . esc_url( get_comment_link($comment->comment_ID) ) . '">' . get_the_title($comment->comment_post_ID) . '</a>') . '</li>';
 			}
- 		}
+		}
 		$output .= '</ul>';
 		$output .= $after_widget;
 
