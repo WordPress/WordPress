@@ -323,7 +323,7 @@ function metadata_exists( $meta_type, $object_id, $meta_key ) {
 
 	$check = apply_filters( "get_{$meta_type}_metadata", null, $object_id, $meta_key, true );
 	if ( null !== $check )
-		return true;
+		return (bool) $check;
 
 	$meta_cache = wp_cache_get( $object_id, $meta_type . '_meta' );
 
