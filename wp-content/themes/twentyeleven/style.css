@@ -2473,6 +2473,11 @@ p.comment-form-comment {
 	.singular.page .hentry {
 		padding: 1.625em 0 0;
 	}
+	.singular .entry-header .entry-meta,
+	.singular .entry-header .entry-format,
+	.singular .entry-meta .edit-link a {
+		position: static;
+	}
 	/* Talking avatars take up too much room at this size */
 	.commentlist > li.comment,
 	.commentlist > li.pingback {
@@ -2527,11 +2532,6 @@ p.comment-form-comment {
 	}
 	#branding {
 		border-top: none;
-	}
-	.singular .entry-header .entry-meta,
-	.singular .entry-header .entry-format,
-	.singular .entry-meta .edit-link a {
-		position: static;
 	}
 }
 
