@@ -1032,7 +1032,10 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	$author  = get_userdata( $post->post_author );
 
 	// Who to notify? By default, just the post author, but others can be added.
-	$emails = array( $author->user_email );
+	$emails = array();
+	if ( $author ) {
+		$emails[] = $author->user_email;
+	}
 
 	/**
 	 * Filter the list of emails to receive a comment notification.
@@ -1070,17 +1073,17 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	$notify_author = apply_filters( 'comment_notification_notify_author', false, $comment_id );
 
 	// The comment was left by the author
-	if ( ! $notify_author && $comment->user_id == $post->post_author ) {
+	if ( $author && ! $notify_author && $comment->user_id == $post->post_author ) {
 		unset( $emails[ $author->user_email ] );
 	}
 
 	// The author moderated a comment on their own post
-	if ( ! $notify_author && $post->post_author == get_current_user_id() ) {
+	if ( $author && ! $notify_author && $post->post_author == get_current_user_id() ) {
 		unset( $emails[ $author->user_email ] );
 	}
 
 	// The post author is no longer a member of the blog
-	if ( ! $notify_author && ! user_can( $post->post_author, 'read_post', $post->ID ) ) {
+	if ( $author && ! $notify_author && ! user_can( $post->post_author, 'read_post', $post->ID ) ) {
 		unset( $emails[ $author->user_email ] );
 	}
 
