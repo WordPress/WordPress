@@ -194,10 +194,10 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	 * FIXME does not handle errors in fileperms()
 	 *
 	 * @param string $file Path to the file.
-	 * @return string Mode of the file (last 4 digits).
+	 * @return string Mode of the file (last 3 digits).
 	 */
 	function getchmod($file) {
-		return substr(decoct(@fileperms($file)),3);
+		return substr( decoct( @fileperms( $file ) ), -3 );
 	}
 
 	function group($file) {
