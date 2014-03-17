@@ -251,20 +251,24 @@ function maybe_unserialize( $original ) {
  */
 function is_serialized( $data, $strict = true ) {
 	// if it isn't a string, it isn't serialized
-	if ( ! is_string( $data ) )
+	if ( ! is_string( $data ) ) {
 		return false;
+	}
 	$data = trim( $data );
- 	if ( 'N;' == $data )
+ 	if ( 'N;' == $data ) {
 		return true;
-	$length = strlen( $data );
-	if ( $length < 4 )
+	}
+	if ( strlen( $data ) < 4 ) {
 		return false;
-	if ( ':' !== $data[1] )
+	}
+	if ( ':' !== $data[1] ) {
 		return false;
+	}
 	if ( $strict ) {
-		$lastc = $data[ $length - 1 ];
-		if ( ';' !== $lastc && '}' !== $lastc )
+		$lastc = substr( $data, -1 );
+		if ( ';' !== $lastc && '}' !== $lastc ) {
 			return false;
+		}
 	} else {
 		$semicolon = strpos( $data, ';' );
 		$brace     = strpos( $data, '}' );
@@ -281,8 +285,9 @@ function is_serialized( $data, $strict = true ) {
 	switch ( $token ) {
 		case 's' :
 			if ( $strict ) {
-				if ( '"' !== $data[ $length - 2 ] )
+				if ( '"' !== substr( $data, -2, 1 ) ) {
 					return false;
+				}
 			} elseif ( false === strpos( $data, '"' ) ) {
 				return false;
 			}
@@ -309,22 +314,23 @@ function is_serialized( $data, $strict = true ) {
  */
 function is_serialized_string( $data ) {
 	// if it isn't a string, it isn't a serialized string
-	if ( !is_string( $data ) )
+	if ( ! is_string( $data ) ) {
 		return false;
+	}
 	$data = trim( $data );
-	$length = strlen( $data );
-	if ( $length < 4 )
+	if ( strlen( $data ) < 4 ) {
 		return false;
-	elseif ( ':' !== $data[1] )
+	} elseif ( ':' !== $data[1] ) {
 		return false;
-	elseif ( ';' !== $data[$length-1] )
+	} elseif ( ';' !== substr( $data, -1 ) ) {
 		return false;
-	elseif ( $data[0] !== 's' )
+	} elseif ( $data[0] !== 's' ) {
 		return false;
-	elseif ( '"' !== $data[$length-2] )
+	} elseif ( '"' !== substr( $data, -2, 1 ) ) {
 		return false;
-	else
+	} else {
 		return true;
+	}
 }
 
 /**
