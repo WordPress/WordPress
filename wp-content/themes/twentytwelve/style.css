@@ -1708,20 +1708,9 @@ img#wpstats {
 		margin: 0;
 		width: auto;
 	}
-	.singular .entry-header .entry-meta {
-		position: static;
-	}
-	.singular .site-content,
-	.singular .entry-header,
-	.singular .entry-content,
-	.singular footer.entry-meta,
-	.singular .comments-title {
-		margin: 0;
-		width: 100%;
-	}
+
 	.entry-header .entry-title,
-	.entry-title,
-	.singular .entry-title {
+	.entry-title {
 		font-size: 21pt;
 	}
 	footer.entry-meta,
