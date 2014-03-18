@@ -543,6 +543,7 @@ td.imgedit-settings input {
 	text-align: center;
 	line-height: 28px;
 	color: #777;
+	cursor: pointer;
 }
 
 .imgedit-menu div:before {
@@ -562,6 +563,7 @@ td.imgedit-settings input {
 	background-color: #ddd;
 	filter: alpha(opacity=50);
 	opacity: 0.5;
+	cursor: default;
 }
 
 .imgedit-crop:before {
