@@ -750,11 +750,7 @@ class WP_Customize_Widgets {
 	 * @action wp_enqueue_scripts
 	 */
 	static function customize_preview_enqueue_deps() {
-		wp_enqueue_script(
-			'customize-preview-widgets',
-			includes_url( 'js/customize-preview-widgets.js' ),
-			array( 'jquery', 'wp-util', 'customize-preview' )
-		);
+		wp_enqueue_script( 'customize-preview-widgets' );
 
 		add_action( 'wp_print_styles', array( __CLASS__, 'inject_preview_css' ), 1 );
 
