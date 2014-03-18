@@ -41,18 +41,6 @@ class WP_Customize_Widgets {
 		add_action( 'dynamic_sidebar', array( __CLASS__, 'tally_rendered_widgets' ) );
 		add_filter( 'is_active_sidebar', array( __CLASS__, 'tally_sidebars_via_is_active_sidebar_calls' ), 10, 2 );
 		add_filter( 'dynamic_sidebar_has_widgets', array( __CLASS__, 'tally_sidebars_via_dynamic_sidebar_calls' ), 10, 2 );
-
-		/**
-		 * Special filter for Settings Revisions plugin until it can handle
-		 * dynamically creating settings. Normally this should be handled by
-		 * a setting's sanitize_js_callback, but when restoring an old revision
-		 * it may include settings which do not currently exist, and so they
-		 * do not have the opportunity to be sanitized as needed. Furthermore,
-		 * we have to add this filter here because the customizer is not
-		 * initialized in WP Ajax, which is where Settings Revisions currently
-		 * needs to apply this filter at times.
-		 */
-		add_filter( 'temp_customize_sanitize_js', array( __CLASS__, 'temp_customize_sanitize_js' ), 10, 2 );
 	}
 
 	/**
@@ -588,21 +576,6 @@ class WP_Customize_Widgets {
 			}
 		}
 		return $sanitized_widget_ids;
-	}
-
-	/**
-	 * Special filter for Settings Revisions plugin until it can handle
-	 * dynamically creating settings.
-	 *
-	 * @param mixed $value
-	 * @param stdClass|WP_Customize_Setting $setting
-	 * @return mixed
-	 */
-	static function temp_customize_sanitize_js( $value, $setting ) {
-		if ( preg_match( '/^widget_/', $setting->id ) && $setting->type === 'option' ) {
-			$value = self::sanitize_widget_js_instance( $value );
-		}
-		return $value;
 	}
 
 	/**
