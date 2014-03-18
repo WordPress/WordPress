@@ -735,7 +735,6 @@ class WP_Customize_Widgets {
 			'i18n' => array(
 				'widget_tooltip' => __( 'Press shift and then click to edit widget in customizer...' ),
 			),
-			'request_uri' => wp_unslash( $_SERVER['REQUEST_URI'] ),
 		);
 		foreach ( $exports['registered_widgets'] as &$registered_widget ) {
 			unset( $registered_widget['callback'] ); // may not be JSON-serializeable

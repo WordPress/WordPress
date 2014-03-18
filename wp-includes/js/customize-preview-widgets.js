@@ -9,9 +9,6 @@ var WidgetCustomizerPreview = (function ($) {
 		registered_sidebars: [], // @todo Make a Backbone collection
 		registered_widgets: {}, // @todo Make array, Backbone collection
 		widget_selectors: [],
-		render_widget_ajax_action: null,
-		render_widget_nonce_value: null,
-		render_widget_nonce_post_key: null,
 		preview: null,
 		i18n: {},
 
