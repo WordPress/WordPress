@@ -2995,8 +2995,10 @@ a.post-thumbnail:hover {
 	}
 
 	.list-view .site-content .cat-links,
-	.list-view .site-content .entry-content,
-	.list-view .site-content .entry-summary,
+	.list-view .site-content .type-post .entry-content,
+	.list-view .site-content .type-page .entry-content,
+	.list-view .site-content .type-post .entry-summary,
+	.list-view .site-content .type-page .entry-summary,
 	.list-view .site-content footer.entry-meta {
 		display: none;
 	}
