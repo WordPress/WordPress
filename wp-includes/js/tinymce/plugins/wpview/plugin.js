@@ -86,6 +86,11 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		editor.dom.bind( clipboard, 'beforedeactivate focusin focusout', _stop );
 		editor.dom.bind( selected, 'beforedeactivate focusin focusout', _stop );
 
+		// Make sure that the editor is focused.
+		// It is possible that the editor is not focused when the mouse event fires
+		// without focus, the selection will not work properly.
+		editor.getBody().focus();
+
 		// select the hidden div
 		editor.selection.select( clipboard, true );
 	}
@@ -156,8 +161,6 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 				editor.selection.setCursorLocation( padNode, 0 );
 			}
 		}
-
-	//	refreshEmptyContentNode();
 	});
 
 	// Detect mouse down events that are adjacent to a view when a view is the first view or the last view
@@ -188,6 +191,9 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			}
 
 			if ( padNode ) {
+				// Make sure that a selected view is deselected so that focus and selection are handled properly
+				deselect();
+				editor.getBody().focus();
 				editor.selection.setCursorLocation( padNode, 0 );
 			}
 		}
@@ -298,7 +304,8 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 	editor.on( 'keydown', function( event ) {
 		var keyCode = event.keyCode,
-			view;
+			body = editor.getBody(),
+			view, padNode;
 
 		// If a view isn't selected, let the event go on its merry way.
 		if ( ! selected ) {
@@ -314,21 +321,79 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			return;
 		}
 
-		// If the caret is not within the selected view, deselect the
-		// view and bail.
 		view = getParentView( editor.selection.getNode() );
 
+		// If the caret is not within the selected view, deselect the
+		// view and bail.
 		if ( view !== selected ) {
 			deselect();
 			return;
 		}
 
-		// If delete or backspace is pressed, delete the view.
-		if ( keyCode === VK.DELETE || keyCode === VK.BACKSPACE ) {
+		if ( keyCode === VK.LEFT || keyCode === VK.UP ) {
+			deselect();
+			// Handle case where two views are stacked on top of one another
+			if ( isView( view.previousSibling ) ) {
+				select( view.previousSibling );
+			// Handle case where view is the first node
+			} else if ( view.previousSibling === null ) {
+				padNode = createPadNode();
+				body.insertBefore( padNode, body.firstChild );
+				editor.selection.setCursorLocation( body.firstChild, 0 );
+			// Handle default case
+			} else {
+				editor.selection.select( view.previousSibling, true );
+				editor.selection.collapse();
+			}
+		} else if ( keyCode === VK.RIGHT || keyCode === VK.DOWN ) {
+			deselect();
+			// Handle case where the next node is another wpview
+			if ( isView( view.nextSibling ) ) {
+				select( view.nextSibling );
+			// Handle case were the view is that last node
+			} else if ( view.nextSibling === null ) {
+				padNode = createPadNode();
+				body.appendChild( padNode );
+				editor.selection.setCursorLocation( body.lastChild, 0 );
+			// Handle default case where the next node is a non-wpview
+			} else {
+				editor.selection.setCursorLocation( view.nextSibling.firstChild, 0 );
+			}
+		} else if ( keyCode === VK.DELETE || keyCode === VK.BACKSPACE ) {
+			// If delete or backspace is pressed, delete the view.
 			editor.dom.remove( selected );
 		}
 
 		event.preventDefault();
+	});
+
+	// Select and deselect views when arrow keys are used to navigate the content of the editor.
+	editor.on( 'keydown', function( event ) {
+		var keyCode = event.keyCode,
+			range = editor.selection.getRng(),
+			body = editor.getBody(),
+			node;
+
+		if ( ! range.collapsed || event.metaKey || event.ctrlKey ) {
+			return;
+		}
+
+		if ( keyCode === VK.LEFT || keyCode === VK.UP ) {
+			node = range.startContainer.parentNode === body ? range.startContainer : range.startContainer.parentNode;
+			// The caret is directly after a wpview
+			if ( range.startOffset === 0 && isView( node.previousSibling ) ) {
+				select( node.previousSibling );
+				event.preventDefault();
+			}
+		} else if ( keyCode === VK.RIGHT || keyCode === VK.DOWN ) {
+			node = range.startContainer.parentNode === body ? range.startContainer : range.startContainer.parentNode;
+			// The caret is directly before a wpview
+			if ( ( ( range.startOffset === 0 && ! range.endContainer.length ) || ( range.startOffset === range.endContainer.length ) ) &&
+					isView( node.nextSibling ) ) {
+				select( node.nextSibling );
+				event.preventDefault();
+			}
+		}
 	});
 
 	editor.on( 'keyup', function( event ) {
