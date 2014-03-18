@@ -1217,7 +1217,8 @@ function register_default_headers( $headers ) {
  * @since 3.0.0
  *
  * @param string|array $header The header string id (key of array) to remove, or an array thereof.
- * @return True on success, false on failure.
+ * @return bool|void A single header returns true on success, false on failure.
+ *                   There is currently no return value for multiple headers.
  */
 function unregister_default_headers( $header ) {
 	global $_wp_default_headers;
