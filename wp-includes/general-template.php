@@ -1983,6 +1983,12 @@ function language_attributes($doctype = 'html') {
  * It is possible to add query vars to the link by using the 'add_args' argument
  * and see {@link add_query_arg()} for more information.
  *
+ * The 'before_page_number' and 'after_page_number' arguments allow users to 
+ * augment the links themselves. Typically this might be to add context to the
+ * numbered links so that screen reader users understand what the links are for.
+ * The text strings are added before and after the page number - within the 
+ * anchor tag.
+ *
  * @since 2.1.0
  *
  * @param string|array $args Optional. Override defaults.
@@ -2002,7 +2008,9 @@ function paginate_links( $args = '' ) {
 		'mid_size' => 2,
 		'type' => 'plain',
 		'add_args' => false, // array of query args to add
-		'add_fragment' => ''
+		'add_fragment' => '',
+		'before_page_number' => '',
+		'after_page_number' => ''
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -2031,7 +2039,7 @@ function paginate_links( $args = '' ) {
 	endif;
 	for ( $n = 1; $n <= $total; $n++ ) :
 		if ( $n == $current ) :
-			$page_links[] = "<span class='page-numbers current'>" . number_format_i18n($n) . "</span>";
+			$page_links[] = "<span class='page-numbers current'>" . $before_page_number . number_format_i18n( $n ) . $after_page_number . "</span>";
 			$dots = true;
 		else :
 			if ( $show_all || ( $n <= $end_size || ( $current && $n >= $current - $mid_size && $n <= $current + $mid_size ) || $n > $total - $end_size ) ) :
@@ -2040,7 +2048,7 @@ function paginate_links( $args = '' ) {
 				if ( $add_args )
 					$link = add_query_arg( $add_args, $link );
 				$link .= $add_fragment;
-				$page_links[] = "<a class='page-numbers' href='" . esc_url( apply_filters( 'paginate_links', $link ) ) . "'>" . number_format_i18n($n) . "</a>";
+				$page_links[] = "<a class='page-numbers' href='" . esc_url( apply_filters( 'paginate_links', $link ) ) . "'>" . $before_page_number . number_format_i18n( $n ) . $after_page_number . "</a>";
 				$dots = true;
 			elseif ( $dots && !$show_all ) :
 				$page_links[] = '<span class="page-numbers dots">' . __( '&hellip;' ) . '</span>';
