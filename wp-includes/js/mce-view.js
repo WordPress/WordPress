@@ -300,7 +300,7 @@ window.wp = window.wp || {};
 				self = this,
 				frame, data;
 
-			data = window.decodeURIComponent( $( node ).data('wpview-text') );
+			data = window.decodeURIComponent( $( node ).attr('data-wpview-text') );
 			frame = gallery.edit( data );
 
 			frame.state('gallery-edit').on( 'update', function( selection ) {
