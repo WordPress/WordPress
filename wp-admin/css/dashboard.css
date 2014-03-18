@@ -664,12 +664,6 @@ form.initial-form.quickpress-open input#title {
 	padding: 8px 12px 4px;
 }
 
-#future-posts .show-more,
-#published-posts .show-more {
-	float: right;
-	margin-right: 12px;
-}
-
 #future-posts ul,
 #published-posts ul {
 	clear: both;

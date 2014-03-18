@@ -123,12 +123,6 @@ jQuery(document).ready( function($) {
 
 	$( '.meta-box-sortables' ).sortable( 'option', 'containment', 'document' );
 
-	// Activity Widget
-	$( '.show-more a' ).on( 'click', function(e) {
-		$( this ).fadeOut().closest('.activity-block').find( 'li.hidden' ).fadeIn().removeClass( 'hidden' );
-		e.preventDefault();
-	});
-
 	function autoResizeTextarea() {
 		// Add a hidden div. We'll copy over the text from the textarea to measure its height.
 		$('body').append( '<div class="quick-draft-textarea-clone" style="display: none;"></div>' );

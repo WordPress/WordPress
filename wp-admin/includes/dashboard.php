@@ -530,7 +530,6 @@ function wp_dashboard_site_activity() {
 	echo '<div id="activity-widget">';
 
 	$future_posts = wp_dashboard_recent_posts( array(
-		'display' => 2,
 		'max'     => 5,
 		'status'  => 'future',
 		'order'   => 'ASC',
@@ -538,7 +537,6 @@ function wp_dashboard_site_activity() {
 		'id'      => 'future-posts',
 	) );
 	$recent_posts = wp_dashboard_recent_posts( array(
-		'display' => 2,
 		'max'     => 5,
 		'status'  => 'publish',
 		'order'   => 'DESC',
@@ -566,8 +564,7 @@ function wp_dashboard_site_activity() {
  * @param array $args {
  *     An array of query and display arguments.
  *
- *     @type int    $display Number of posts to display.
- *     @type int    $max     Maximum number of posts to query.
+ *     @type int    $max     Number of posts to display.
  *     @type string $status  Post status.
  *     @type string $order   Designates ascending ('ASC') or descending ('DESC') order.
  *     @type string $title   Section title.
@@ -590,10 +587,6 @@ function wp_dashboard_recent_posts( $args ) {
 	if ( $posts->have_posts() ) {
 
 		echo '<div id="' . $args['id'] . '" class="activity-block">';
-
-		if ( $posts->post_count > $args['display'] ) {
-			echo '<small class="show-more hide-if-no-js"><a href="#">' . sprintf( __( 'See %s more&hellip;'), $posts->post_count - intval( $args['display'] ) ) . '</a></small>';
-		}
 
 		echo '<h4>' . $args['title'] . '</h4>';
 
@@ -625,9 +618,7 @@ function wp_dashboard_recent_posts( $args ) {
   				_draft_or_post_title()
   			);
 
- 			$hidden = $i >= $args['display'] ? ' class="hidden"' : '';
- 			echo "<li{$hidden}>$text</li>";
-			$i++;
+ 			echo "<li>$text</li>";
 		}
 
 		echo '</ul>';
