@@ -268,14 +268,25 @@ window.wp = window.wp || {};
 
 			getHtml: function() {
 				var attrs = this.shortcode.attrs.named,
-					options;
+					options,
+					attachments;
 
 				if ( ! this.attachments.length ) {
 					return;
 				}
 
+				attachments = this.attachments.toJSON();
+
+				_.each( attachments, function( attachment ) {
+					if ( attachment.sizes.thumbnail ) {
+						attachment.thumbnail = attachment.sizes.thumbnail;
+					} else {
+						attachment.thumbnail = attachment.sizes.full;
+					}
+				} );
+
 				options = {
-					attachments: this.attachments.toJSON(),
+					attachments: attachments,
 					columns: attrs.columns ? parseInt( attrs.columns, 10 ) : 3
 				};
 
