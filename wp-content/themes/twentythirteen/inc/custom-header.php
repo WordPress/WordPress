@@ -19,8 +19,6 @@
  * @uses register_default_headers() to set up the bundled header images.
  *
  * @since Twenty Thirteen 1.0
- *
- * @return void
  */
 function twentythirteen_custom_header_setup() {
 	$args = array(
@@ -68,8 +66,6 @@ add_action( 'after_setup_theme', 'twentythirteen_custom_header_setup', 11 );
  * Load our special font CSS files.
  *
  * @since Twenty Thirteen 1.0
- *
- * @return void
  */
 function twentythirteen_custom_header_fonts() {
 	// Add Source Sans Pro and Bitter fonts.
@@ -86,8 +82,6 @@ add_action( 'admin_print_styles-appearance_page_custom-header', 'twentythirteen_
  * get_header_textcolor() options: Hide text (returns 'blank'), or any hex value.
  *
  * @since Twenty Thirteen 1.0
- *
- * @return void
  */
 function twentythirteen_header_style() {
 	$header_image = get_header_image();
@@ -144,8 +138,6 @@ function twentythirteen_header_style() {
  * Style the header image displayed on the Appearance > Header admin panel.
  *
  * @since Twenty Thirteen 1.0
- *
- * @return void
  */
 function twentythirteen_admin_header_style() {
 	$header_image = get_header_image();
@@ -212,8 +204,6 @@ function twentythirteen_admin_header_style() {
  * This callback overrides the default markup displayed there.
  *
  * @since Twenty Thirteen 1.0
- *
- * @return void
  */
 function twentythirteen_admin_header_image() {
 	?>

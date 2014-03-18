@@ -56,8 +56,6 @@ if ( version_compare( $GLOBALS['wp_version'], '3.6-alpha', '<' ) )
  * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
  *
  * @since Twenty Thirteen 1.0
- *
- * @return void
  */
 function twentythirteen_setup() {
 	/*
@@ -156,8 +154,6 @@ function twentythirteen_fonts_url() {
  * Enqueue scripts and styles for the front end.
  *
  * @since Twenty Thirteen 1.0
- *
- * @return void
  */
 function twentythirteen_scripts_styles() {
 	/*
@@ -227,8 +223,6 @@ add_filter( 'wp_title', 'twentythirteen_wp_title', 10, 2 );
  * Register two widget areas.
  *
  * @since Twenty Thirteen 1.0
- *
- * @return void
  */
 function twentythirteen_widgets_init() {
 	register_sidebar( array(
@@ -258,8 +252,6 @@ if ( ! function_exists( 'twentythirteen_paging_nav' ) ) :
  * Display navigation to next/previous set of posts when applicable.
  *
  * @since Twenty Thirteen 1.0
- *
- * @return void
  */
 function twentythirteen_paging_nav() {
 	global $wp_query;
@@ -291,8 +283,6 @@ if ( ! function_exists( 'twentythirteen_post_nav' ) ) :
  * Display navigation to next/previous post when applicable.
 *
 * @since Twenty Thirteen 1.0
-*
-* @return void
 */
 function twentythirteen_post_nav() {
 	global $post;
@@ -324,8 +314,6 @@ if ( ! function_exists( 'twentythirteen_entry_meta' ) ) :
  * Create your own twentythirteen_entry_meta() to override in a child theme.
  *
  * @since Twenty Thirteen 1.0
- *
- * @return void
  */
 function twentythirteen_entry_meta() {
 	if ( is_sticky() && is_home() && ! is_paged() )
@@ -393,8 +381,6 @@ if ( ! function_exists( 'twentythirteen_the_attached_image' ) ) :
  * Print the attached image with a link to the next attached image.
  *
  * @since Twenty Thirteen 1.0
- *
- * @return void
  */
 function twentythirteen_the_attached_image() {
 	/**
@@ -504,8 +490,6 @@ add_filter( 'body_class', 'twentythirteen_body_class' );
  * Adjust content_width value for video post formats and attachment templates.
  *
  * @since Twenty Thirteen 1.0
- *
- * @return void
  */
 function twentythirteen_content_width() {
 	global $content_width;
@@ -523,7 +507,6 @@ add_action( 'template_redirect', 'twentythirteen_content_width' );
  * @since Twenty Thirteen 1.0
  *
  * @param WP_Customize_Manager $wp_customize Customizer object.
- * @return void
  */
 function twentythirteen_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
@@ -539,8 +522,6 @@ add_action( 'customize_register', 'twentythirteen_customize_register' );
  * reload changes asynchronously.
  *
  * @since Twenty Thirteen 1.0
- *
- * @return void
  */
 function twentythirteen_customize_preview_js() {
 	wp_enqueue_script( 'twentythirteen-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20130226', true );
