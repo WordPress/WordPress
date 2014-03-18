@@ -2119,7 +2119,7 @@ function wp_ajax_heartbeat() {
 		$screen_id = 'front';
 
 	if ( ! empty($_POST['data']) ) {
-		$data = (array) $_POST['data'];
+		$data = wp_unslash( (array) $_POST['data'] );
 
 		/**
 		 * Filter the Heartbeat response received.

@@ -1450,9 +1450,9 @@ function wp_autosave( $post_data ) {
 
 	if ( ! wp_check_post_lock( $post->ID ) && get_current_user_id() == $post->post_author && ( 'auto-draft' == $post->post_status || 'draft' == $post->post_status ) ) {
 		// Drafts and auto-drafts are just overwritten by autosave for the same user if the post is not locked
-		return edit_post( $post_data );
+		return edit_post( wp_slash( $post_data ) );
 	} else {
 		// Non drafts or other users drafts are not overwritten. The autosave is stored in a special post revision for each user.
-		return wp_create_post_autosave( $post_data );
+		return wp_create_post_autosave( wp_slash( $post_data ) );
 	}
 }
