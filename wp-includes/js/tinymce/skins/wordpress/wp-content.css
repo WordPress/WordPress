@@ -160,32 +160,12 @@ img::selection {
 
 #wp-image-toolbar {
 	position: absolute;
-}
-
-#wp-image-toolbar .wrapper {
-	position: relative;
-	height: 33px;
-	background-color: #333; /* old IE */
-	background-color: rgba(0,0,0,0.3);
+	background-color: #333;
 }
 
 #wp-image-toolbar .dashicons {
-	position: absolute;
 	color: white;
-	width: 36px;
-	height: 32px;
-	line-height: 32px;
 	cursor: pointer;
-}
-
-#wp-image-toolbar div.dashicons-no-alt {
-	top: 0;
-	right: 0;
-}
-
-#wp-image-toolbar div.dashicons-format-image {
-	top: 0;
-	left: 0;
 }
 
 /* Image resize handles */
@@ -239,6 +219,7 @@ embed {
 	clip: rect(1px, 1px, 1px, 1px);
 	overflow: hidden;
 	outline: 0;
+	width: 100%;
 }
 
 /**
@@ -246,21 +227,19 @@ embed {
  */
 .wpview-type-gallery {
     position: relative;
-    padding: 0 0 12px;
     margin-bottom: 16px;
 	cursor: pointer;
 }
 
  .wpview-type-gallery:after {
     content: '';
-    display: block;
-    height: 0;
+	display: table;
     clear: both;
-    visibility: hidden;
 }
 
  .wpview-type-gallery.selected {
-	background-color: #efefef;
+	background-color: #f2f8ff;
+	outline: 1px solid #777;
 }
 
 .wpview-type-gallery .toolbar {
@@ -269,8 +248,12 @@ embed {
     left: 0;
     background-color: #333;
     color: white;
-    padding: 4px;
 	display: none;
+}
+
+.wpview-type-gallery .toolbar div,
+#wp-image-toolbar div {
+	margin: 5px;
 }
 
 .wpview-type-gallery.selected .toolbar {
@@ -291,13 +274,21 @@ embed {
 
 .gallery {
 	margin: auto;
-    line-height: 1;
+	padding: 0.5em 0;
+	line-height: 1;
+	margin-left: -0.5em;
+	margin-right: -0.5em;
+	overflow-x: hidden;
 }
 
 .gallery .gallery-item {
 	float: left;
-	margin: 10px 0 0 0;
+	margin: 0;
 	text-align: center;
+	padding: 0.5em;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .gallery .gallery-caption,
@@ -305,44 +296,51 @@ embed {
 	margin: 0;
 }
 
+.gallery .gallery-caption {
+	font-size: 13px;
+	margin: 4px 0;
+}
+
 .gallery-columns-1 .gallery-item {
-	width: 99%;
+	width: 100%;
 }
 
 .gallery-columns-2 .gallery-item {
-	width: 49.5%;
+	width: 50%;
 }
 
 .gallery-columns-3 .gallery-item {
-	width: 33%;
+	width: 33.333%;
 }
 
 .gallery-columns-4 .gallery-item {
-	width: 24.75%;
+	width: 25%;
 }
 
 .gallery-columns-5 .gallery-item {
-	width: 19.825%;
+	width: 20%;
 }
 
 .gallery-columns-6 .gallery-item {
-	width: 16%;
+	width: 16.667%;
 }
 
 .gallery-columns-7 .gallery-item {
-	width: 14%;
+	width: 14.285%;
 }
 
 .gallery-columns-8 .gallery-item {
-	width: 12%;
+	width: 12.5%;
 }
 
 .gallery-columns-9 .gallery-item {
-	width: 11%;
+	width: 11.111%;
 }
 
 .gallery img {
 	border: 1px solid #cfcfcf;
+	max-width: 100%;
+	height: auto;
 }
 
 img.wp-oembed {

@@ -905,7 +905,7 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-editor-gallery">
 		<div class="toolbar">
-			<div class="dashicons dashicons-format-gallery edit"></div>
+			<div class="dashicons dashicons-edit edit"></div>
 			<div class="dashicons dashicons-no-alt remove"></div>
 		</div>
 		<div class="gallery gallery-columns-{{{ data.columns }}}">
