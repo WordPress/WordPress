@@ -121,8 +121,6 @@ add_action( 'after_setup_theme', 'twentyfourteen_setup' );
  * Adjust content_width value for image attachment template.
  *
  * @since Twenty Fourteen 1.0
- *
- * @return void
  */
 function twentyfourteen_content_width() {
 	if ( is_attachment() && wp_attachment_is_image() ) {
@@ -164,8 +162,6 @@ function twentyfourteen_has_featured_posts() {
  * Register three Twenty Fourteen widget areas.
  *
  * @since Twenty Fourteen 1.0
- *
- * @return void
  */
 function twentyfourteen_widgets_init() {
 	require get_template_directory() . '/inc/widgets.php';
@@ -225,8 +221,6 @@ function twentyfourteen_font_url() {
  * Enqueue scripts and styles for the front end.
  *
  * @since Twenty Fourteen 1.0
- *
- * @return void
  */
 function twentyfourteen_scripts() {
 	// Add Lato font, used in the main stylesheet.
@@ -270,8 +264,6 @@ add_action( 'wp_enqueue_scripts', 'twentyfourteen_scripts' );
  * Enqueue Google fonts style to admin screen for custom header display.
  *
  * @since Twenty Fourteen 1.0
- *
- * @return void
  */
 function twentyfourteen_admin_fonts() {
 	wp_enqueue_style( 'twentyfourteen-lato', twentyfourteen_font_url(), array(), null );
@@ -283,8 +275,6 @@ if ( ! function_exists( 'twentyfourteen_the_attached_image' ) ) :
  * Print the attached image with a link to the next attached image.
  *
  * @since Twenty Fourteen 1.0
- *
- * @return void
  */
 function twentyfourteen_the_attached_image() {
 	$post                = get_post();
@@ -352,8 +342,6 @@ if ( ! function_exists( 'twentyfourteen_list_authors' ) ) :
  * Print a list of all site contributors who published at least one post.
  *
  * @since Twenty Fourteen 1.0
- *
- * @return void
  */
 function twentyfourteen_list_authors() {
 	$contributor_ids = get_users( array(

@@ -45,7 +45,6 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	 *
 	 * @param array $args     An array of standard parameters for widgets in this theme.
 	 * @param array $instance An array of settings for this widget instance.
-	 * @return void Echoes its output.
 	 */
 	public function widget( $args, $instance ) {
 		$format = $instance['format'];
@@ -247,7 +246,6 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param array $instance
-	 * @return void
 	 */
 	function form( $instance ) {
 		$title  = empty( $instance['title'] ) ? '' : esc_attr( $instance['title'] );

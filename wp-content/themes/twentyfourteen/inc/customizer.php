@@ -88,8 +88,6 @@ add_action( 'customize_preview_init', 'twentyfourteen_customize_preview_js' );
  * Add contextual help to the Themes and Post edit screens.
  *
  * @since Twenty Fourteen 1.0
- *
- * @return void
  */
 function twentyfourteen_contextual_help() {
 	if ( 'admin_head-edit.php' === current_filter() && 'post' !== $GLOBALS['typenow'] ) {

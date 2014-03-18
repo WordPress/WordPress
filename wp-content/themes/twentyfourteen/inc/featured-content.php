@@ -284,7 +284,6 @@ class Featured_Content {
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param int $tag_id The term_id of the tag that has been deleted.
-	 * @return void
 	 */
 	public static function delete_post_tag( $tag_id ) {
 		$settings = self::get_setting();
@@ -390,8 +389,6 @@ class Featured_Content {
 	 * @static
 	 * @access public
 	 * @since Twenty Fourteen 1.0
-	 *
-	 * @return void
 	 */
 	public static function register_setting() {
 		register_setting( 'featured-content', 'featured-content', array( __CLASS__, 'validate_settings' ) );
