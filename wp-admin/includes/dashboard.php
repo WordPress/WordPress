@@ -611,7 +611,7 @@ function wp_dashboard_recent_posts( $args ) {
 
  			$text = sprintf(
 				/* translators: 1: relative date, 2: time, 4: post title */
- 				__( '<span>%1$s, %2$s</span> <a href="%3$s">%4$s</a>' ),
+ 				__( '<span>%1$s, %2$s</span><a href="%3$s"> %4$s</a>' ),
   				$relative,
   				get_the_time(),
   				get_edit_post_link(),
