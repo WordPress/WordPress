@@ -16,8 +16,6 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 * Constructor
 	 *
 	 * @since Twenty Eleven 1.0
-	 *
-	 * @return void
 	 **/
 	function Twenty_Eleven_Ephemera_Widget() {
 		$widget_ops = array( 'classname' => 'widget_twentyeleven_ephemera', 'description' => __( 'Use this widget to list your recent Aside, Status, Quote, and Link posts', 'twentyeleven' ) );
@@ -36,7 +34,6 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 *
 	 * @param array $args     An array of standard parameters for widgets in this theme.
 	 * @param array $instance An array of settings for this widget instance.
-	 * @return void
 	 **/
 	function widget( $args, $instance ) {
 		$cache = wp_cache_get( 'widget_twentyeleven_ephemera', 'widget' );
