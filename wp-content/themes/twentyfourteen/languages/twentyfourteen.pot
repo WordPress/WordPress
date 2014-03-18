@@ -1,14 +1,14 @@
-# Copyright (C) 2013 the WordPress team
+# Copyright (C) 2014 the WordPress team
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fourteen 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentyfourteen\n"
-"POT-Creation-Date: 2013-12-12 05:25:07+00:00\n"
+"POT-Creation-Date: 2014-03-18 19:16:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -85,19 +85,19 @@ msgstr ""
 
 #: content-aside.php:37 content-audio.php:37 content-gallery.php:37
 #: content-image.php:37 content-link.php:37 content-quote.php:37
-#: content-video.php:37 content.php:38 inc/widgets.php:180
+#: content-video.php:37 content.php:38 inc/widgets.php:185
 msgid "Leave a comment"
 msgstr ""
 
 #: content-aside.php:37 content-audio.php:37 content-gallery.php:37
 #: content-image.php:37 content-link.php:37 content-quote.php:37
-#: content-video.php:37 content.php:38 inc/widgets.php:180
+#: content-video.php:37 content.php:38 inc/widgets.php:185
 msgid "1 Comment"
 msgstr ""
 
 #: content-aside.php:37 content-audio.php:37 content-gallery.php:37
 #: content-image.php:37 content-link.php:37 content-quote.php:37
-#: content-video.php:37 content.php:38 inc/widgets.php:180
+#: content-video.php:37 content.php:38 inc/widgets.php:185
 msgid "% Comments"
 msgstr ""
 
@@ -110,7 +110,7 @@ msgstr ""
 
 #: content-aside.php:46 content-audio.php:46 content-gallery.php:46
 #: content-image.php:46 content-link.php:46 content-quote.php:46
-#: content-video.php:46 content.php:54 inc/widgets.php:113 inc/widgets.php:158
+#: content-video.php:46 content.php:54 inc/widgets.php:118 inc/widgets.php:163
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
@@ -244,44 +244,50 @@ msgstr ""
 msgid "Display Site Title &amp; Tagline"
 msgstr ""
 
-#: inc/customizer.php:35 inc/featured-content.php:408
+#: inc/customizer.php:35 inc/featured-content.php:411
 msgid "Featured Content"
 msgstr ""
 
-#: inc/customizer.php:36
+#: inc/customizer.php:36 inc/featured-content.php:412
 msgid ""
 "Use a <a href=\"%1$s\">tag</a> to feature your posts. If no posts match the "
 "tag, <a href=\"%2$s\">sticky posts</a> will be displayed instead."
 msgstr ""
 
-#: inc/customizer.php:47
+#: inc/customizer.php:37 inc/customizer.php:104 inc/featured-content.php:413
+#: inc/featured-content.php:422 inc/featured-content.php:482
+msgctxt "featured content default tag slug"
+msgid "featured"
+msgstr ""
+
+#: inc/customizer.php:50
 msgid "Layout"
 msgstr ""
 
-#: inc/customizer.php:51
+#: inc/customizer.php:54
 msgid "Grid"
 msgstr ""
 
-#: inc/customizer.php:52
+#: inc/customizer.php:55
 msgid "Slider"
 msgstr ""
 
 #. #-#-#-#-#  twentyfourteen.pot (Twenty Fourteen 1.0)  #-#-#-#-#
 #. Theme Name of the plugin/theme
-#: inc/customizer.php:98
+#: inc/customizer.php:101
 msgid "Twenty Fourteen"
 msgstr ""
 
-#: inc/customizer.php:101
+#: inc/customizer.php:104
 msgid ""
 "The home page features your choice of up to 6 posts prominently displayed in "
-"a grid or slider, controlled by the <a href=\"%1$s\">featured</a> tag; you "
-"can change the tag and layout in <a href=\"%2$s\">Appearance &rarr; "
-"Customize</a>. If no posts match the tag, <a href=\"%3$s\">sticky posts</a> "
-"will be displayed instead."
+"a grid or slider, controlled a <a href=\"%1$s\">tag</a>; you can change the "
+"tag and layout in <a href=\"%2$s\">Appearance &rarr; Customize</a>. If no "
+"posts match the tag, <a href=\"%3$s\">sticky posts</a> will be displayed "
+"instead."
 msgstr ""
 
-#: inc/customizer.php:102
+#: inc/customizer.php:105
 msgid ""
 "Enhance your site design by using <a href=\"%s\">Featured Images</a> for "
 "posts you&rsquo;d like to stand out (also known as post thumbnails). This "
@@ -290,24 +296,17 @@ msgid ""
 "title&mdash;and in the Featured Content area on the home page."
 msgstr ""
 
-#: inc/customizer.php:103
+#: inc/customizer.php:106
 msgid ""
 "For an in-depth tutorial, and more tips and tricks, visit the <a href=\"%s"
 "\">Twenty Fourteen documentation</a>."
 msgstr ""
 
-#: inc/featured-content.php:409
-msgid ""
-"Use the <a href=\"%1$s\">\"featured\" tag</a> to feature your posts. You can "
-"change this to a tag of your choice; if no posts match the tag, <a href="
-"\"%2$s\">sticky posts</a> will be displayed instead."
-msgstr ""
-
-#: inc/featured-content.php:428
+#: inc/featured-content.php:434
 msgid "Tag Name"
 msgstr ""
 
-#: inc/featured-content.php:433
+#: inc/featured-content.php:439
 msgid "Don&rsquo;t display tag on front end."
 msgstr ""
 
@@ -350,7 +349,7 @@ msgstr ""
 #: inc/widgets.php:46
 msgid ""
 "Use this widget to list your recent Aside, Quote, Video, Audio, Image, "
-"Gallery, and Link posts"
+"Gallery, and Link posts."
 msgstr ""
 
 #: inc/widgets.php:53 taxonomy-post_format.php:30
@@ -381,26 +380,26 @@ msgstr ""
 msgid "Galleries"
 msgstr ""
 
-#: inc/widgets.php:148
+#: inc/widgets.php:153
 msgid "This gallery contains <a href=\"%1$s\" rel=\"bookmark\">%2$s photo</a>."
 msgid_plural ""
 "This gallery contains <a href=\"%1$s\" rel=\"bookmark\">%2$s photos</a>."
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/widgets.php:189
+#: inc/widgets.php:194
 msgid "More %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:236
+#: inc/widgets.php:242
 msgid "Title:"
 msgstr ""
 
-#: inc/widgets.php:239
+#: inc/widgets.php:245
 msgid "Number of posts to show:"
 msgstr ""
 
-#: inc/widgets.php:242
+#: inc/widgets.php:248
 msgid "Post format to show:"
 msgstr ""
 
