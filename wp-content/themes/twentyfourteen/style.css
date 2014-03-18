@@ -820,7 +820,7 @@ span + .edit-link:before,
  */
 
 /* Ensure that there is no gap between the header and
-   the admin bar for WordPress versions before 3.8. */
+	 the admin bar for WordPress versions before 3.8. */
 #wpadminbar {
 	min-height: 32px;
 }
@@ -986,11 +986,14 @@ span + .edit-link:before,
 }
 
 .menu-toggle {
+	background-color: #000;
+	border-radius: 0;
 	cursor: pointer;
 	font-size: 0;
 	height: 48px;
 	margin: 0;
 	overflow: hidden;
+	padding: 0;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -1001,7 +1004,18 @@ span + .edit-link:before,
 .menu-toggle:before {
 	color: #fff;
 	content: "\f419";
+	display: inline;
 	margin-top: 16px;
+}
+
+.menu-toggle:active,
+.menu-toggle:focus,
+.menu-toggle:hover {
+	background-color: #444;
+}
+
+.menu-toggle:focus {
+	outline: 1px dotted;
 }
 
 
