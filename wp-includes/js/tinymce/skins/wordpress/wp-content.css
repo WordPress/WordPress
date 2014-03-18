@@ -229,6 +229,7 @@ embed {
     position: relative;
     margin-bottom: 16px;
 	cursor: pointer;
+	border: 1px solid transparent;
 }
 
  .wpview-type-gallery:after {
@@ -239,13 +240,13 @@ embed {
 
  .wpview-type-gallery.selected {
 	background-color: #f2f8ff;
-	outline: 1px solid #777;
+	border-color: #777;
 }
 
 .wpview-type-gallery .toolbar {
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     background-color: #333;
     color: white;
 	display: none;
@@ -273,11 +274,9 @@ embed {
 }
 
 .gallery {
-	margin: auto;
-	padding: 0.5em 0;
+	margin: auto -6px;
+	padding: 6px 0;
 	line-height: 1;
-	margin-left: -0.5em;
-	margin-right: -0.5em;
 	overflow-x: hidden;
 }
 
@@ -285,7 +284,7 @@ embed {
 	float: left;
 	margin: 0;
 	text-align: center;
-	padding: 0.5em;
+	padding: 6px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -338,7 +337,6 @@ embed {
 }
 
 .gallery img {
-	border: 1px solid #cfcfcf;
 	max-width: 100%;
 	height: auto;
 }
