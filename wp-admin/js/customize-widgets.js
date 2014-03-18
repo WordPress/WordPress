@@ -1442,7 +1442,7 @@ var WidgetCustomizer = ( function ($) {
 		getPreviewWidgetElement: function () {
 			var control = this,
 				widget_customizer_preview = self.getPreviewWindow().WidgetCustomizerPreview;
-			return widget_customizer_preview.getSidebarWidgetElement( control.params.sidebar_id, control.params.widget_id );
+			return widget_customizer_preview.getWidgetElement( control.params.widget_id );
 		},
 
 		/**

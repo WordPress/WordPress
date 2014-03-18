@@ -52,19 +52,16 @@ var WidgetCustomizerPreview = (function ($) {
 		},
 
 		/**
-		 * Obtain a widget instance if it was added to the provided sidebar
-		 * This addresses a race condition where a widget is moved between sidebars
-		 * We cannot use ID selector because jQuery will only return the first one
-		 * that matches. We have to resort to an [id] attribute selector
+		 * Obtain a rendered widget element. Assumes standard practice of using
+		 * the widget ID as the ID for the DOM element. To eliminate this
+		 * assumption, additional data-* attributes would need to be injected
+		 * onto the rendered widget root element.
 		 *
-		 * @param {String} sidebar_id
 		 * @param {String} widget_id
 		 * @return {jQuery}
 		 */
-		getSidebarWidgetElement: function ( sidebar_id, widget_id ) {
-			return $( '[id=' + widget_id + ']' ).filter( function () {
-				return $( this ).data( 'widget_customizer_sidebar_id' ) === sidebar_id;
-			} );
+		getWidgetElement: function ( widget_id ) {
+			return $( '#' + widget_id );
 		},
 
 		/**
