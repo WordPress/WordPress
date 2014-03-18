@@ -429,9 +429,15 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 	$GLOBALS['comment'] =& $comment;
 
-	$comment_post_url = get_edit_post_link( $comment->comment_post_ID );
 	$comment_post_title = strip_tags(get_the_title( $comment->comment_post_ID ));
-	$comment_post_link = "<a href='$comment_post_url'>$comment_post_title</a>";
+
+	if ( current_user_can( 'edit_post', $comment->comment_post_ID ) ) {
+		$comment_post_url = get_edit_post_link( $comment->comment_post_ID );
+		$comment_post_link = "<a href='$comment_post_url'>$comment_post_title</a>";
+	} else {
+		$comment_post_link = $comment_post_title;
+	}
+
 	$comment_link = '<a class="comment-link" href="' . esc_url(get_comment_link()) . '">#</a>';
 
 	$actions_string = '';
@@ -580,7 +586,8 @@ function wp_dashboard_recent_posts( $args ) {
 		'order'          => $args['order'],
 		'posts_per_page' => intval( $args['max'] ),
 		'no_found_rows'  => true,
-		'cache_results'  => false
+		'cache_results'  => false,
+		'perm'           => ( 'future' === $args['status'] ) ? 'editable' : 'readable',
 	);
 	$posts = new WP_Query( $query_args );
 
@@ -609,9 +616,16 @@ function wp_dashboard_recent_posts( $args ) {
 				$relative = date_i18n( __( 'M jS' ), $time );
 			}
 
- 			$text = sprintf(
+			if ( current_user_can( 'edit_post', get_the_ID() ) ) {
+				/* translators: 1: relative date, 2: time, 3: post edit link, 4: post title */
+				$format = __( '<span>%1$s, %2$s</span> <a href="%3$s">%4$s</a>' );
+			} else {
 				/* translators: 1: relative date, 2: time, 4: post title */
- 				__( '<span>%1$s, %2$s</span> <a href="%3$s">%4$s</a>' ),
+				$format = __( '<span>%1$s, %2$s</span> %4$s' );
+			}
+
+ 			$text = sprintf(
+				$format,
   				$relative,
   				get_the_time(),
   				get_edit_post_link(),
