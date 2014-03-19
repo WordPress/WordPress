@@ -104,23 +104,38 @@ body.full-width .site-content {
 	position: relative;
 }
 .main-navigation li ul {
-	display: none;
 	margin: 0;
 	padding: 0;
 	position: absolute;
 	top: 100%;
 	z-index: 1;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	clip: rect(1px, 1px, 1px, 1px);
 }
 .ie7 .main-navigation li ul {
+	clip: inherit;
+	display: none;
 	left: 0;
+	overflow: visible;
 }
 .main-navigation li ul ul,
 .ie7 .main-navigation li ul ul {
 	top: 0;
 	left: 100%;
 }
-.main-navigation ul li:hover > ul {
+.main-navigation ul li:hover > ul,
+.main-navigation ul li:focus > ul,
+.main-navigation .focus > ul {
 	border-left: 0;
+	clip: inherit;
+	overflow: inherit;
+	height: inherit;
+	width: inherit;
+}
+.ie7 .main-navigation ul li:hover > ul,
+.ie7 .main-navigation ul li:focus > ul {
 	display: block;
 }
 .main-navigation li ul li a {

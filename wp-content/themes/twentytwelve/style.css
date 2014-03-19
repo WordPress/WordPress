@@ -590,7 +590,8 @@ a:hover {
 .main-navigation a {
 	color: #5e5e5e;
 }
-.main-navigation a:hover {
+.main-navigation a:hover,
+.main-navigation a:focus {
 	color: #21759b;
 }
 .main-navigation ul.nav-menu,
@@ -1509,7 +1510,8 @@ img#wpstats {
 		text-transform: uppercase;
 		white-space: nowrap;
 	}
-	.main-navigation li a:hover {
+	.main-navigation li a:hover,
+	.main-navigation li a:focus {
 		color: #000;
 	}
 	.main-navigation li {
@@ -1518,20 +1520,28 @@ img#wpstats {
 		position: relative;
 	}
 	.main-navigation li ul {
-		display: none;
 		margin: 0;
 		padding: 0;
 		position: absolute;
 		top: 100%;
 		z-index: 1;
+		height: 1px;
+		width: 1px;
+		overflow: hidden;
+		clip: rect(1px, 1px, 1px, 1px);
 	}
 	.main-navigation li ul ul {
 		top: 0;
 		left: 100%;
 	}
-	.main-navigation ul li:hover > ul {
+	.main-navigation ul li:hover > ul,
+	.main-navigation ul li:focus > ul,
+	.main-navigation .focus > ul {
 		border-left: 0;
-		display: block;
+		clip: inherit;
+		overflow: inherit;
+		height: inherit;
+		width: inherit;
 	}
 	.main-navigation li ul li a {
 		background: #efefef;
@@ -1546,7 +1556,8 @@ img#wpstats {
 		width: 12.85714286rem;
 		white-space: normal;
 	}
-	.main-navigation li ul li a:hover {
+	.main-navigation li ul li a:hover,
+	.main-navigation li ul li a:focus {
 		background: #e3e3e3;
 		color: #444;
 	}
