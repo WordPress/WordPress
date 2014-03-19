@@ -753,7 +753,7 @@ img.wp-smiley,
 }
 
 .wp-caption.alignleft + ul,
-.wp-caption.alignleft + ol  {
+.wp-caption.alignleft + ol {
 	list-style-position: inside;
 }
 
@@ -867,7 +867,9 @@ div.nav-menu > ul {
 }
 
 .nav-menu li:hover > a,
-.nav-menu li a:hover {
+.nav-menu li a:hover,
+.nav-menu li:focus > a,
+.nav-menu li a:focus {
 	background-color: #220e10;
 	color: #fff;
 }
@@ -877,11 +879,14 @@ div.nav-menu > ul {
 	background-color: #220e10;
 	border: 2px solid #f7f5e7;
 	border-top: 0;
-	display: none;
 	padding: 0;
 	position: absolute;
 	left: -2px;
 	z-index: 99999;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	clip: rect(1px, 1px, 1px, 1px);
 }
 
 .nav-menu .sub-menu ul,
@@ -899,13 +904,20 @@ ul.nav-menu ul a,
 }
 
 ul.nav-menu ul a:hover,
-.nav-menu ul ul a:hover {
+.nav-menu ul ul a:hover,
+ul.nav-menu ul a:focus,
+.nav-menu ul ul a:focus {
 	background-color: #db572f;
 }
 
 ul.nav-menu li:hover > ul,
-.nav-menu ul li:hover > ul {
-	display: block;
+.nav-menu ul li:hover > ul,
+ul.nav-menu .focus > ul,
+.nav-menu .focus > ul {
+	clip: inherit;
+	overflow: inherit;
+	height: inherit;
+	width: inherit;
 }
 
 .nav-menu .current_page_item > a,

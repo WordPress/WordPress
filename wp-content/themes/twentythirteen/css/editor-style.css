@@ -366,7 +366,7 @@ img {
 }
 
 .mceTemp + ul,
-.mceTemp + ol  {
+.mceTemp + ol {
 	list-style-position: inside;
 }
 
