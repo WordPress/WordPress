@@ -469,9 +469,11 @@ define('BLOG_ID_CURRENT_SITE', 1);</textarea>
     </system.webServer>
 </configuration>';
 
-	?>
-		<li><p><?php printf( __( 'Add the following to your <code>web.config</code> file in <code>%s</code>, <strong>replacing</strong> other WordPress rules:' ), $home_path ); ?></p>
-		<?php
+		echo '<li><p>';
+		/* translators: 1: a filename like .htaccess. 2: a file path. */
+		printf( __( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
+			'<code>web.config</code>', '<code>' . $home_path . '</code>' );
+		echo '</p>';
 		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' )
 			echo '<p><strong>' . __('Warning:') . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
 		?>
@@ -503,9 +505,11 @@ RewriteRule ^{$subdir_match}(.*\.php)$ {$rewrite_base}$subdir_replacement_12 [L]
 RewriteRule . index.php [L]
 EOF;
 
-		?>
-		<li><p><?php printf( __( 'Add the following to your <code>.htaccess</code> file in <code>%s</code>, <strong>replacing</strong> other WordPress rules:' ), $home_path ); ?></p>
-		<?php
+		echo '<li><p>';
+		/* translators: 1: a filename like .htaccess. 2: a file path. */
+		printf( __( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
+			'<code>.htaccess</code>', '<code>' . $home_path . '</code>' );
+		echo '</p>';
 		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' )
 			echo '<p><strong>' . __('Warning:') . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
 		?>
