@@ -9,6 +9,7 @@
  */
 
 /*jshint maxlen:255 */
+/*eslint max-len:0 */
 /*global tinymce:true */
 
 tinymce.PluginManager.add('media', function(editor, url) {
@@ -192,6 +193,7 @@ tinymce.PluginManager.add('media', function(editor, url) {
 
 					for (i = 0; match[i]; i++) {
 						/*jshint loopfunc:true*/
+						/*eslint no-loop-func:0 */
 						url = url.replace('$' + i, function() {
 							return match[i];
 						});

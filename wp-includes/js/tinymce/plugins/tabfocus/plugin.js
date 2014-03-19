@@ -30,7 +30,7 @@ tinymce.PluginManager.add('tabfocus', function(editor) {
 			el = DOM.select(':input:enabled,*[tabindex]:not(iframe)');
 
 			function canSelectRecursive(e) {
-				return e.nodeName==="BODY" || (e.type != 'hidden' &&
+				return e.nodeName === "BODY" || (e.type != 'hidden' &&
 					e.style.display != "none" &&
 					e.style.visibility != "hidden" && canSelectRecursive(e.parentNode));
 			}

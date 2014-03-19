@@ -9,6 +9,7 @@
  */
 
 /*global tinymce:true */
+/*eslint consistent-this:0 */
 
 tinymce.PluginManager.add('textcolor', function(editor) {
 	function mapColors() {

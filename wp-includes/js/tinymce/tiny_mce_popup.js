@@ -295,7 +295,7 @@ var tinyMCEPopup = {
 	 * native version use the callback method instead then it can be extended.
 	 *
 	 * @method alert
-	 * @param {String} t Title for the new alert dialog.
+	 * @param {String} tx Title for the new alert dialog.
 	 * @param {function} cb Callback function to be executed after the user has selected ok.
 	 * @param {Object} s Optional scope to execute the callback in.
 	 */
