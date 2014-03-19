@@ -1379,11 +1379,13 @@ function post_preview() {
 	$post_ID = (int) $_POST['post_ID'];
 	$_POST['ID'] = $post_ID;
 
-	if ( ! $post = get_post( $post_ID ) )
-		wp_die( __('You attempted to preview a non existing item.') );
+	if ( ! $post = get_post( $post_ID ) ) {
+		wp_die( __( 'You are not allowed to edit this post.' ) );
+	}
 
-	if ( ! current_user_can( 'edit_post', $post->ID ) )
-		wp_die( __('You are not allowed to preview this item.') );
+	if ( ! current_user_can( 'edit_post', $post->ID ) ) {
+		wp_die( __( 'You are not allowed to edit this post.' ) );
+	}
 
 	$is_autosave = false;
 
