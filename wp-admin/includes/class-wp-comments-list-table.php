@@ -233,7 +233,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		if ( 'top' == $which ) {
 ?>
 			<select name="comment_type">
-				<option value=""><?php _e( 'Show all comment types' ); ?></option>
+				<option value=""><?php _e( 'All comment types' ); ?></option>
 <?php
 				/**
 				 * Filter the comment types dropdown menu.

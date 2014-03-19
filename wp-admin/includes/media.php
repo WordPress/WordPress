@@ -902,7 +902,7 @@ function image_align_input_fields( $post, $checked = '' ) {
 	foreach ( $alignments as $name => $label ) {
 		$name = esc_attr($name);
 		$out[] = "<input type='radio' name='attachments[{$post->ID}][align]' id='image-align-{$name}-{$post->ID}' value='$name'".
-		 	( $checked == $name ? " checked='checked'" : "" ) .
+			( $checked == $name ? " checked='checked'" : "" ) .
 			" /><label for='image-align-{$name}-{$post->ID}' class='align image-align-{$name}-label'>$label</label>";
 	}
 	return join("\n", $out);
@@ -1570,11 +1570,11 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 
 	$defaults = array(
 		'input'         => 'text',
- 		'required'      => false,
- 		'value'         => '',
- 		'extra_rows'    => array(),
- 		'show_in_edit'  => true,
- 		'show_in_modal' => true,
+		'required'      => false,
+		'value'         => '',
+		'extra_rows'    => array(),
+		'show_in_edit'  => true,
+		'show_in_modal' => true,
 	);
 
 	$hidden_fields = array();
@@ -2357,7 +2357,7 @@ $selected_month = isset( $_GET['m'] ) ? $_GET['m'] : 0;
 
 if ( $month_count && !( 1 == $month_count && 0 == $arc_result[0]->mmonth ) ) { ?>
 <select name='m'>
-<option<?php selected( $selected_month, 0 ); ?> value='0'><?php _e('Show all dates'); ?></option>
+<option<?php selected( $selected_month, 0 ); ?> value='0'><?php _e( 'All dates' ); ?></option>
 <?php
 foreach ($arc_result as $arc_row) {
 	if ( $arc_row->yyear == 0 )
@@ -2547,7 +2547,7 @@ add_action('post-plupload-upload-ui', 'media_upload_flash_bypass');
 function media_upload_html_bypass() {
 	?>
 	<p class="upload-html-bypass hide-if-no-js">
-       <?php _e('You are using the browser&#8217;s built-in file uploader. The WordPress uploader includes multiple file selection and drag and drop capability. <a href="#">Switch to the multi-file uploader</a>.'); ?>
+	   <?php _e('You are using the browser&#8217;s built-in file uploader. The WordPress uploader includes multiple file selection and drag and drop capability. <a href="#">Switch to the multi-file uploader</a>.'); ?>
 	</p>
 	<?php
 }
@@ -2620,7 +2620,7 @@ function edit_form_image_editor( $post ) {
 			$nonce = wp_create_nonce( "image_editor-$post->ID" );
 			$image_edit_button = "<input type='button' id='imgedit-open-btn-$post->ID' onclick='imageEdit.open( $post->ID, \"$nonce\" )' class='button' value='" . esc_attr__( 'Edit Image' ) . "' /> <span class='spinner'></span>";
 		}
- 	?>
+	?>
 
 		<div class="imgedit-response" id="imgedit-response-<?php echo $attachment_id; ?>"></div>
 
