@@ -5050,6 +5050,8 @@
 					}
 					view.toolbar.get( 'spinner' ).hide();
 				});
+			} else {
+				view.toolbar.get( 'spinner' ).hide();
 			}
 		},
 
