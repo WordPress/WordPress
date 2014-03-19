@@ -1706,6 +1706,18 @@ section.recent-posts .other-recent-posts li:after {
 	text-transform: uppercase;
 }
 
+/* =Media
+-------------------------------------------------------------- */
+
+audio,
+video {
+	display: inline-block;
+	max-width: 100%;
+}
+
+.attachment .entry-content .mejs-container {
+	margin-bottom: 24px;
+}
 
 /* =Navigation
 -------------------------------------------------------------- */

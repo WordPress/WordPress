@@ -1837,6 +1837,18 @@ footer.entry-meta {
 	display: none;
 }
 
+.attachment .entry-content .mejs-audio {
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+.attachment .entry-content .wp-video {
+	margin: 0 auto;
+}
+
+.attachment .entry-content .mejs-container {
+	margin-bottom: 24px;
+}
 
 /**
  * 5.7 Post/Paging Navigation

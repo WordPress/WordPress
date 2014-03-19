@@ -1007,6 +1007,17 @@ footer.entry-meta {
 	margin-top: 1.571428571rem;
 }
 
+/* =Single audio/video attachment view
+-------------------------------------------------------------- */
+
+.attachment .entry-content .mejs-audio {
+	max-width: 400px;
+}
+
+.attachment .entry-content .mejs-container {
+	margin-bottom: 24px;
+}
+
 
 /* =Single image attachment view
 -------------------------------------------------------------- */

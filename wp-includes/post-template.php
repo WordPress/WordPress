@@ -347,7 +347,7 @@ function get_post_class( $class = '', $post_id = null ) {
 	if ( post_password_required( $post->ID ) ) {
 		$classes[] = 'post-password-required';
 	// Post thumbnails
-	} elseif ( current_theme_supports( 'post-thumbnails' ) && has_post_thumbnail( $post->ID ) ) {
+	} elseif ( ! is_attachment( $post ) && current_theme_supports( 'post-thumbnails' ) && has_post_thumbnail( $post->ID ) ) {
 		$classes[] = 'has-post-thumbnail';
 	}
 
@@ -1241,10 +1241,23 @@ function prepend_attachment($content) {
 	if ( empty($post->post_type) || $post->post_type != 'attachment' )
 		return $content;
 
-	$p = '<p class="attachment">';
-	// show the medium sized image representation of the attachment if available, and link to the raw file
-	$p .= wp_get_attachment_link(0, 'medium', false);
-	$p .= '</p>';
+	if ( wp_attachment_is_image() ):
+		$p = '<p class="attachment">';
+		// show the medium sized image representation of the attachment if available, and link to the raw file
+		$p .= wp_get_attachment_link(0, 'medium', false);
+		$p .= '</p>';
+	elseif ( 0 === strpos( $post->post_mime_type, 'video' ) ):
+		$meta = wp_get_attachment_metadata( get_the_ID() );
+		$atts = array( 'src' => wp_get_attachment_url() );
+		if ( ! empty( $meta['width'] ) && ! empty( $meta['height'] ) ) {
+			$atts['width'] = (int) $meta['width'];
+			$atts['height'] = (int) $meta['height'];
+		}
+		$p = wp_video_shortcode( $atts );
+	elseif ( 0 === strpos( $post->post_mime_type, 'audio' ) ):
+		$p = wp_audio_shortcode( array( 'src' => wp_get_attachment_url() ) );
+	endif;
+
 	$p = apply_filters('prepend_attachment', $p);
 
 	return "$p\n$content";
