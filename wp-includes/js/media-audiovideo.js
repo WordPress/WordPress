@@ -996,8 +996,7 @@
 		},
 
 		edit: function( node ) {
-			var p,
-				media = wp.media[ this.shortcode ],
+			var media = wp.media[ this.shortcode ],
 				self = this,
 				frame, data;
 
