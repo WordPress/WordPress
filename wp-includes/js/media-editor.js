@@ -11,6 +11,26 @@
 	var workflows = {};
 
 	/**
+	 * A helper mixin function to avoid truthy and falsey values being
+	 *   passed as an input that expects booleans. If key is undefined in the map,
+	 *   but has a default value, set it.
+	 *
+	 * @param {object} attrs Map of props from a shortcode or settings.
+	 * @param {string} key The key within the passed map to check for a value.
+	 * @returns {mixed|undefined} The original or coerced value of key within attrs
+	 */
+	wp.media.coerce = function ( attrs, key ) {
+		if ( _.isUndefined( attrs[ key ] ) && ! _.isUndefined( this.defaults[ key ] ) ) {
+			attrs[ key ] = this.defaults[ key ];
+		} else if ( 'true' === attrs[ key ] ) {
+			attrs[ key ] = true;
+		} else if ( 'false' === attrs[ key ] ) {
+			attrs[ key ] = false;
+		}
+		return attrs[ key ];
+	};
+
+	/**
 	 * wp.media.string
 	 * @namespace
 	 */
@@ -274,176 +294,11 @@
 		}
 	};
 
-	/**
-	 * @mixin
-	 */
-	wp.media.mixin = {
-		/**
-		 * A helper function to avoid truthy and falsey values being
-		 *   passed as an input that expects booleans. If key is undefined in the map,
-		 *   but has a default value, set it.
-		 *
-		 * @param {object} attrs Map of props from a shortcode or settings.
-		 * @param {string} key The key within the passed map to check for a value.
-		 * @returns {mixed|undefined} The original or coerced value of key within attrs
-		 */
-		coerce: function ( attrs, key ) {
-			if ( _.isUndefined( attrs[ key ] ) && ! _.isUndefined( this.defaults[ key ] ) ) {
-				attrs[ key ] = this.defaults[ key ];
-			} else if ( 'true' === attrs[ key ] ) {
-				attrs[ key ] = true;
-			} else if ( 'false' === attrs[ key ] ) {
-				attrs[ key ] = false;
-			}
-			return attrs[ key ];
-		},
-
-		pauseAllPlayers: function () {
-			var p;
-			if ( window.mejs && window.mejs.players ) {
-				for ( p in window.mejs.players ) {
-					window.mejs.players[p].pause();
-				}
-			}
-		},
-
-		ua: {
-			is : function (browser) {
-				var passes = false, ua = window.navigator.userAgent;
-
-				switch ( browser ) {
-					case 'oldie':
-						passes = ua.match(/MSIE [6-8]/gi) !== null;
-					break;
-					case 'ie':
-						passes = ua.match(/MSIE/gi) !== null;
-					break;
-					case 'ff':
-						passes = ua.match(/firefox/gi) !== null;
-					break;
-					case 'opera':
-						passes = ua.match(/OPR/) !== null;
-					break;
-					case 'safari':
-						passes = ua.match(/safari/gi) !== null && ua.match(/chrome/gi) === null;
-					break;
-					case 'chrome':
-						passes = ua.match(/safari/gi) && ua.match(/chrome/gi) !== null;
-					break;
-				}
-
-				return passes;
-			}
-		},
-
-		compat :{
-			'opera' : {
-				audio: ['ogg', 'wav'],
-				video: ['ogg', 'webm']
-			},
-			'chrome' : {
-				audio: ['ogg', 'mpeg', 'x-ms-wma'],
-				video: ['ogg', 'webm', 'mp4', 'm4v', 'mpeg']
-			},
-			'ff' : {
-				audio: ['ogg', 'mpeg'],
-				video: ['ogg', 'webm']
-			},
-			'safari' : {
-				audio: ['mpeg', 'wav'],
-				video: ['mp4', 'm4v', 'mpeg', 'x-ms-wmv', 'quicktime']
-			},
-			'ie' : {
-				audio: ['mpeg'],
-				video: ['mp4', 'm4v', 'mpeg']
-			}
-		},
-
-		isCompatible: function ( media ) {
-			if ( ! media.find( 'source' ).length ) {
-				return false;
-			}
-
-			var ua = this.ua, test = false, found = false, sources;
-
-			if ( ua.is( 'oldIE' ) ) {
-				return false;
-			}
-
-			sources = media.find( 'source' );
-
-			_.find( this.compat, function (supports, browser) {
-				if ( ua.is( browser ) ) {
-					found = true;
-					_.each( sources, function (elem) {
-						var audio = new RegExp( 'audio\/(' + supports.audio.join('|') + ')', 'gi' ),
-							video = new RegExp( 'video\/(' + supports.video.join('|') + ')', 'gi' );
-
-						if ( elem.type.match( video ) !== null || elem.type.match( audio ) !== null ) {
-							test = true;
-						}
-					} );
-				}
-
-				return test || found;
-			} );
-
-			return test;
-		},
-
-		/**
-		 * Override the MediaElement method for removing a player.
-		 *	MediaElement tries to pull the audio/video tag out of
-		 *	its container and re-add it to the DOM.
-		 */
-		removePlayer: function() {
-			var t = this.player, featureIndex, feature;
-
-			// invoke features cleanup
-			for ( featureIndex in t.options.features ) {
-				feature = t.options.features[featureIndex];
-				if ( t['clean' + feature] ) {
-					try {
-						t['clean' + feature](t);
-					} catch (e) {}
-				}
-			}
-
-			if ( ! t.isDynamic ) {
-				t.$node.remove();
-			}
-
-			if ( 'native' !== t.media.pluginType ) {
-				t.media.remove();
-			}
-
-			delete window.mejs.players[t.id];
-
-			t.container.remove();
-			t.globalUnbind();
-			delete t.node.player;
-		},
-
-		/**
-		 * Allows any class that has set 'player' to a MediaElementPlayer
-		 *  instance to remove the player when listening to events.
-		 *
-		 *  Examples: modal closes, shortcode properties are removed, etc.
-		 */
-		unsetPlayer : function() {
-			if ( this.player ) {
-				wp.media.mixin.pauseAllPlayers();
-				wp.media.mixin.removePlayer.apply( this );
-				this.player = false;
-			}
-		}
-	};
-
 	wp.media.collection = function(attributes) {
 		var collections = {};
 
 		return _.extend( attributes, {
-			coerce : wp.media.mixin.coerce,
+			coerce : wp.media.coerce,
 			/**
 			 * Retrieve attachments based on the properties of the passed shortcode
 			 *
@@ -668,133 +523,6 @@
 			orderby : 'menu_order ID'
 		}
 	});
-
-	wp.media.playlist = new wp.media.collection({
-		tag: 'playlist',
-		type : 'audio',
-		editTitle : wp.media.view.l10n.editPlaylistTitle,
-		defaults : {
-			id: wp.media.view.settings.post.id,
-			style: 'light',
-			tracklist: true,
-			tracknumbers: true,
-			images: true,
-			artists: true
-		}
-	});
-
-	wp.media['video-playlist'] = new wp.media.collection({
-		tag: 'video-playlist',
-		type : 'video',
-		editTitle : wp.media.view.l10n.editVideoPlaylistTitle,
-		defaults : {
-			id: wp.media.view.settings.post.id,
-			style: 'light',
-			tracklist: false,
-			tracknumbers: false,
-			images: true
-		}
-	});
-
-	/**
-	 * @namespace
-	 */
-	wp.media.audio = {
-		coerce : wp.media.mixin.coerce,
-
-		defaults : {
-			id : wp.media.view.settings.post.id,
-			src      : '',
-			loop     : false,
-			autoplay : false,
-			preload  : 'none'
-		},
-
-		edit : function (data) {
-			var frame, shortcode = wp.shortcode.next( 'audio', data ).shortcode;
-			frame = wp.media({
-				frame: 'audio',
-				state: 'audio-details',
-				metadata: _.defaults(
-					shortcode.attrs.named,
-					wp.media.audio.defaults
-				)
-			});
-
-			return frame;
-		},
-
-		shortcode : function (shortcode) {
-			var self = this;
-
-			_.each( wp.media.audio.defaults, function( value, key ) {
-				shortcode[ key ] = self.coerce( shortcode, key );
-
-				if ( value === shortcode[ key ] ) {
-					delete shortcode[ key ];
-				}
-			});
-
-			return wp.shortcode.string({
-				tag:     'audio',
-				attrs:   shortcode
-			});
-		}
-	};
-
-	/**
-	 * @namespace
-	 */
-	wp.media.video = {
-		coerce : wp.media.mixin.coerce,
-
-		defaults : {
-			id : wp.media.view.settings.post.id,
-			src : '',
-			poster : '',
-			loop : false,
-			autoplay : false,
-			preload : 'metadata',
-			content : ''
-		},
-
-		edit : function (data) {
-			var frame,
-				defaults = this.defaults,
-				shortcode = wp.shortcode.next( 'video', data ).shortcode,
-				attrs;
-
-			attrs = shortcode.attrs.named;
-			attrs.content = shortcode.content;
-
-			frame = wp.media({
-				frame: 'video',
-				state: 'video-details',
-				metadata: _.defaults( attrs, defaults )
-			});
-
-			return frame;
-		},
-
-		shortcode : function (shortcode) {
-			var self = this, content = shortcode.content;
-			delete shortcode.content;
-
-			_.each( this.defaults, function( value, key ) {
-				shortcode[ key ] = self.coerce( shortcode, key );
-
-				if ( value === shortcode[ key ] ) {
-					delete shortcode[ key ];
-				}
-			});
-
-			return wp.shortcode.string({
-				tag:     'video',
-				attrs:   shortcode,
-				content: content
-			});
-		}
-	};
 
 	/**
 	 * wp.media.featuredImage
@@ -1279,17 +1007,10 @@
 					if ( elem.hasClass( 'gallery' ) ) {
 						options.state = 'gallery';
 						options.title = wp.media.view.l10n.createGalleryTitle;
-					} else if ( elem.hasClass( 'playlist' ) ) {
-						options.state = 'playlist';
-						options.title = wp.media.view.l10n.createPlaylistTitle;
-					} else if ( elem.hasClass( 'video-playlist' ) ) {
-						options.state = 'video-playlist';
-						options.title = wp.media.view.l10n.createVideoPlaylistTitle;
 					}
 
 					wp.media.editor.open( editor, options );
-				})
-				.on( 'click', '.wp-switch-editor', wp.media.mixin.pauseAllPlayers );
+				});
 
 			// Initialize and render the Editor drag-and-drop uploader.
 			new wp.media.view.EditorUploader().render();

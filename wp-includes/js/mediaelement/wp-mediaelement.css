@@ -26,6 +26,7 @@
 
 .media-embed-details .embed-media-settings {
 	padding-top: 0;
+	top: 28px;
 }
 
 .media-embed-details .instructions {
@@ -42,10 +43,6 @@
 
 .media-embed-details .setting a:hover {
 	color: #f00;
-}
-
-.media-embed-details .embed-media-settings {
-	top: 0;
 }
 
 .media-embed-details .embed-media-settings .checkbox-setting {

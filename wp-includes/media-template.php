@@ -765,14 +765,19 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-audio-details">
+		<# var ext, html5types = { mp3: true, ogg: true }; #>
+
 		<?php $audio_types = wp_get_audio_extensions(); ?>
 		<div class="media-embed media-embed-details">
 			<div class="embed-media-settings embed-audio-settings">
-				<div class="instructions media-instructions">{{{ wp.media.view.l10n.audioDetailsText }}}</div>
-
 				<?php wp_underscore_audio_template() ?>
 
-				<# if ( ! _.isEmpty( data.model.src ) ) { #>
+				<# if ( ! _.isEmpty( data.model.src ) ) {
+					ext = data.model.src.split('.').pop();
+					if ( html5types[ ext ] ) {
+						delete html5types[ ext ];
+					}
+				#>
 				<label class="setting">
 					<span>SRC</span>
 					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
@@ -782,7 +787,11 @@ function wp_print_media_templates() {
 				<?php
 
 				foreach ( $audio_types as $type ):
-				?><# if ( ! _.isEmpty( data.model.<?php echo $type ?> ) ) { #>
+				?><# if ( ! _.isEmpty( data.model.<?php echo $type ?> ) ) {
+					if ( ! _.isUndefined( html5types.<?php echo $type ?> ) ) {
+						delete html5types.<?php echo $type ?>;
+					}
+				#>
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
 					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
@@ -790,6 +799,17 @@ function wp_print_media_templates() {
 				</label>
 				<# } #>
 				<?php endforeach ?>
+
+				<# if ( ! _.isEmpty( html5types ) ) { #>
+				<div class="setting">
+					<span>{{{ wp.media.view.l10n.mediaHTML5Text }}}</span>
+					<div class="button-large">
+					<# _.each( html5types, function (value, type) { #>
+					<button class="button add-media-source">{{ type }}</button>
+					<# } ) #>
+					</div>
+				</div>
+				<# } #>
 
 				<div class="setting preload">
 					<span><?php _e( 'Preload' ); ?></span>
@@ -815,10 +835,11 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-video-details">
+		<# var ext, html5types = { mp4: true, ogv: true, webm: true }; #>
+
 		<?php $video_types = wp_get_video_extensions(); ?>
 		<div class="media-embed media-embed-details">
 			<div class="embed-media-settings embed-video-settings">
-				<div class="instructions media-instructions">{{{ wp.media.view.l10n.videoDetailsText }}}</div>
 				<div class="wp-video-holder">
 				<#
 				var isYouTube = ! _.isEmpty( data.model.src ) && data.model.src.match(/youtube|youtu\.be/);
@@ -832,7 +853,12 @@ function wp_print_media_templates() {
 
 				<?php wp_underscore_video_template() ?>
 
-				<# if ( ! _.isEmpty( data.model.src ) ) { #>
+				<# if ( ! _.isEmpty( data.model.src ) ) {
+					ext = data.model.src.split('.').pop();
+					if ( html5types[ ext ] ) {
+						delete html5types[ ext ];
+					}
+				#>
 				<label class="setting">
 					<span>SRC</span>
 					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
@@ -840,7 +866,11 @@ function wp_print_media_templates() {
 				</label>
 				<# } #>
 				<?php foreach ( $video_types as $type ):
-				?><# if ( ! _.isEmpty( data.model.<?php echo $type ?> ) ) { #>
+				?><# if ( ! _.isEmpty( data.model.<?php echo $type ?> ) ) {
+					if ( ! _.isUndefined( html5types.<?php echo $type ?> ) ) {
+						delete html5types.<?php echo $type ?>;
+					}
+				#>
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
 					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
@@ -849,6 +879,18 @@ function wp_print_media_templates() {
 				<# } #>
 				<?php endforeach ?>
 				</div>
+
+				<# if ( ! _.isEmpty( html5types ) ) { #>
+				<div class="setting">
+					<span>{{{ wp.media.view.l10n.mediaHTML5Text }}}</span>
+					<div class="button-large">
+					<# _.each( html5types, function (value, type) { #>
+					<button class="button add-media-source">{{ type }}</button>
+					<# } ) #>
+					</div>
+				</div>
+				<# } #>
+
 				<# if ( ! _.isEmpty( data.model.poster ) ) { #>
 				<label class="setting">
 					<span><?php _e( 'Poster Image' ); ?></span>

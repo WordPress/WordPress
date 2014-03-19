@@ -2400,6 +2400,7 @@ function wp_enqueue_media( $args = array() ) {
 			'id' => 0,
 		),
 		'defaultProps' => $props,
+		'attachmentCounts' => wp_count_attachments(),
 		'embedExts'    => $exts,
 		'embedMimes'   => $ext_mimes
 	);
@@ -2495,21 +2496,19 @@ function wp_enqueue_media( $args = array() ) {
 		/* translators: suggested height of header image in pixels */
 		'suggestedHeight' => __( 'Suggested height is %d pixels.' ),
 
+		'mediaHTML5Text'        => __( 'Add alternate sources for maximum HTML5 playback:' ),
+
 		// Edit Audio
 		'audioDetailsTitle'     => __( 'Audio Details' ),
 		'audioReplaceTitle'     => __( 'Replace Audio' ),
 		'audioAddSourceTitle'   => __( 'Add Audio Source' ),
 		'audioDetailsCancel'    => __( 'Cancel Edit' ),
-		'audioDetailsText'      => __( '"Replace Audio" will remove all associated source files when you update. ' .
-			'"Add Audio Source" allows you to specify alternate sources for maximum native HTML5 audio playback.' ),
 
 		// Edit Video
 		'videoDetailsTitle'     => __( 'Video Details' ),
 		'videoReplaceTitle'     => __( 'Replace Video' ),
 		'videoAddSourceTitle'   => __( 'Add Video Source' ),
 		'videoDetailsCancel'    => __( 'Cancel Edit' ),
-		'videoDetailsText'      => __( '"Replace Video" will remove all associated source files when you update. ' .
-			'"Add Video Source" allows you to specify alternate sources for maximum native HTML5 video playback.' ),
 		'videoSelectPosterImageTitle' => _( 'Select Poster Image' ),
 		'videoAddTrackTitle'	=> __( 'Add Subtitles' ),
 
@@ -2542,6 +2541,7 @@ function wp_enqueue_media( $args = array() ) {
 	wp_localize_script( 'media-views', '_wpMediaViewsL10n', $strings );
 
 	wp_enqueue_script( 'media-editor' );
+	wp_enqueue_script( 'media-audiovideo' );
 	wp_enqueue_style( 'media-views' );
 	wp_enqueue_style( 'imgareaselect' );
 	wp_plupload_default_settings();
