@@ -1,4 +1,4 @@
-/* global _wpMediaViewsL10n */
+/* global _wpMediaViewsL10n, _wpmejsSettings, MediaElementPlayer */
 
 (function ($, _, Backbone) {
 	var media = wp.media, l10n = typeof _wpMediaViewsL10n === 'undefined' ? {} : _wpMediaViewsL10n;
@@ -61,7 +61,7 @@
 				video: ['ogg', 'webm']
 			},
 			'chrome' : {
-				audio: ['ogg', 'mpeg', 'x-ms-wma'],
+				audio: ['ogg', 'mpeg'],
 				video: ['ogg', 'webm', 'mp4', 'm4v', 'mpeg']
 			},
 			'ff' : {
@@ -227,20 +227,24 @@
 			return frame;
 		},
 
-		shortcode : function (shortcode) {
-			var self = this;
+		update : function (model) {
+			var self = this, content;
 
-			_.each( wp.media.audio.defaults, function( value, key ) {
-				shortcode[ key ] = self.coerce( shortcode, key );
+			_.each( this.defaults, function( value, key ) {
+				model[ key ] = self.coerce( model, key );
 
-				if ( value === shortcode[ key ] ) {
-					delete shortcode[ key ];
+				if ( value === model[ key ] ) {
+					delete model[ key ];
 				}
 			});
 
-			return wp.shortcode.string({
-				tag:     'audio',
-				attrs:   shortcode
+			content = model.content;
+			delete model.content;
+
+			return new wp.shortcode({
+				tag: 'audio',
+				attrs: model,
+				content: content
 			});
 		}
 	};
@@ -283,21 +287,23 @@
 			return frame;
 		},
 
-		shortcode : function (shortcode) {
-			var self = this, content = shortcode.content;
-			delete shortcode.content;
+		update : function (model) {
+			var self = this, content;
 
 			_.each( this.defaults, function( value, key ) {
-				shortcode[ key ] = self.coerce( shortcode, key );
+				model[ key ] = self.coerce( model, key );
 
-				if ( value === shortcode[ key ] ) {
-					delete shortcode[ key ];
+				if ( value === model[ key ] ) {
+					delete model[ key ];
 				}
 			});
 
-			return wp.shortcode.string({
-				tag:     'video',
-				attrs:   shortcode,
+			content = model.content;
+			delete model.content;
+
+			return new wp.shortcode({
+				tag: 'video',
+				attrs: model,
 				content: content
 			});
 		}
@@ -971,6 +977,125 @@
 			];
 		}
 	} );
+
+	wp.mce.media = {
+		toView:  function( content ) {
+			var match = wp.shortcode.next( this.shortcode, content );
+
+			if ( ! match ) {
+				return;
+			}
+
+			return {
+				index:   match.index,
+				content: match.content,
+				options: {
+					shortcode: match.shortcode
+				}
+			};
+		},
+
+		edit: function( node ) {
+			var p,
+				media = wp.media[ this.shortcode ],
+				self = this,
+				frame, data;
+
+			wp.media.mixin.pauseAllPlayers();
+
+			data = window.decodeURIComponent( $( node ).data('wpview-text') );
+			frame = media.edit( data );
+			frame.on( 'close', function () {
+				frame.detach();
+			} );
+			frame.state( self.shortcode + '-details' ).on( 'update', function( selection ) {
+				var shortcode = wp.media[ self.shortcode ].update( selection ).string();
+				$( node ).attr( 'data-wpview-text', window.encodeURIComponent( shortcode ) );
+				wp.mce.views.refreshView( self, shortcode );
+				frame.detach();
+			} );
+			frame.open();
+		}
+	};
+
+	wp.mce.media.View = wp.mce.View.extend({
+		initialize: function( options ) {
+			this.shortcode = options.shortcode;
+			_.bindAll( this, 'setPlayer' );
+			$(this).on( 'ready', this.setPlayer );
+		},
+
+		setPlayer: function (e, node) {
+			// if the ready event fires on an empty node
+			if ( ! node ) {
+				return;
+			}
+
+			var self = this,
+				media,
+				settings = {},
+				className = '.wp-' +  this.shortcode.tag + '-shortcode';
+
+			if ( this.player ) {
+				this.unsetPlayer();
+			}
+
+			media = $( node ).find( className );
+
+			if ( ! _.isUndefined( window._wpmejsSettings ) ) {
+				settings.pluginPath = _wpmejsSettings.pluginPath;
+			}
+
+			if ( ! this.isCompatible( media ) ) {
+				media.closest( '.wpview-wrap' ).addClass( 'wont-play' );
+				if ( ! media.parent().hasClass( 'wpview-wrap' ) ) {
+					media.parent().replaceWith( media );
+				}
+				media.replaceWith( '<p>' + media.find( 'source' ).eq(0).prop( 'src' ) + '</p>' );
+				return;
+			} else {
+				media.closest( '.wpview-wrap' ).removeClass( 'wont-play' );
+				if ( this.ua.is( 'ff' ) ) {
+					media.prop( 'preload', 'metadata' );
+				} else {
+					media.prop( 'preload', 'none' );
+				}
+			}
+
+			media = wp.media.view.MediaDetails.prepareSrc( media.get(0) );
+
+			// Thanks, Firefox!
+			setTimeout(function () {
+				self.player = new MediaElementPlayer( media, settings );
+			}, 50);
+		},
+
+		getHtml: function() {
+			var attrs = this.shortcode.attrs.named;
+			return this.template({ model: attrs });
+		}
+	});
+	_.extend( wp.mce.media.View.prototype, wp.media.mixin );
+
+	wp.mce.video = _.extend( {}, wp.mce.media, {
+		shortcode: 'video',
+		View: wp.mce.media.View.extend({
+			className: 'editor-video',
+			template:  media.template('editor-video')
+		})
+	} );
+
+	wp.mce.views.register( 'video', wp.mce.video );
+
+	wp.mce.audio = _.extend( {}, wp.mce.media, {
+		shortcode: 'audio',
+		View: wp.mce.media.View.extend({
+			className: 'editor-audio',
+			template:  media.template('editor-audio')
+		})
+	} );
+
+	wp.mce.views.register( 'audio', wp.mce.audio );
 
 	function init() {
 		$(document.body)

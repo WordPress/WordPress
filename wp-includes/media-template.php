@@ -961,6 +961,23 @@ function wp_print_media_templates() {
 			<# } ); #>
 		</div>
 	</script>
+
+	<script type="text/html" id="tmpl-editor-audio">
+		<div class="toolbar">
+			<div class="dashicons dashicons-format-audio edit"></div>
+			<div class="dashicons dashicons-no-alt remove"></div>
+		</div>
+		<?php wp_underscore_audio_template() ?>
+	</script>
+
+	<script type="text/html" id="tmpl-editor-video">
+		<div class="toolbar">
+			<div class="dashicons dashicons-format-video edit"></div>
+			<div class="dashicons dashicons-no-alt remove"></div>
+		</div>
+		<?php wp_underscore_video_template() ?>
+	</script>
+
 	<?php
 
 	/**

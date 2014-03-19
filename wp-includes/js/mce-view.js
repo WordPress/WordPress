@@ -31,10 +31,14 @@ window.wp = window.wp || {};
 			var html = this.getHtml();
 			// Search all tinymce editor instances and update the placeholders
 			_.each( tinymce.editors, function( editor ) {
-				var doc;
+				var doc, self = this;
 				if ( editor.plugins.wpview ) {
 					doc = editor.getDoc();
-					$( doc ).find( '[data-wpview-text="' + this.encodedText + '"]' ).html( html );
+					$( doc ).find( '[data-wpview-text="' + this.encodedText + '"]' ).each(function (i, elem) {
+						var node = $( elem );
+						node.html( html );
+						$( self ).trigger( 'ready', elem );
+					});
 				}
 			}, this );
 		}
@@ -178,7 +182,7 @@ window.wp = window.wp || {};
 
 		/**
 		 * Refresh views after an update is made
-		 * 
+		 *
 		 * @param view {object} being refreshed
 		 * @param text {string} textual representation of the view
 		 */
@@ -204,9 +208,9 @@ window.wp = window.wp || {};
 			return instances[ encodedText ];
 		},
 
-		/** 
+		/**
 		 * render( scope )
-		 * 
+		 *
 		 * Renders any view instances inside a DOM node `scope`.
 		 *
 		 * View instances are detected by the presence of wrapper elements.
