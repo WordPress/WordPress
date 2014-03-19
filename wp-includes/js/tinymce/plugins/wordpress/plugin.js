@@ -42,10 +42,10 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			DOM.setStyle( iframe, 'height', iframe.clientHeight + pixels ); // Resize iframe
 
 			if ( state === 'hide' ) {
-				setUserSetting('hidetb', '1');
+				setUserSetting('hidetb', '0');
 				wpAdvButton && wpAdvButton.active( false );
 			} else {
-				setUserSetting('hidetb', '0');
+				setUserSetting('hidetb', '1');
 				wpAdvButton && wpAdvButton.active( true );
 			}
 		}
@@ -62,7 +62,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 	// Hide the toolbars after loading
 	editor.on( 'PostRender', function() {
-		if ( getUserSetting('hidetb', '1') === '1' ) {
+		if ( getUserSetting('hidetb', '0') === '0' ) {
 			toggleToolbars( 'hide' );
 		}
 	});
