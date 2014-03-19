@@ -1434,13 +1434,15 @@ function wp_autosave( $post_data ) {
 	$post_id = (int) $post_data['post_id'];
 	$post_data['ID'] = $post_data['post_ID'] = $post_id;
 
-	if ( false === wp_verify_nonce( $post_data['_wpnonce'], 'update-post_' . $post_id ) )
-		return new WP_Error( 'invalid_nonce', __('ERROR: invalid post data.') );
+	if ( false === wp_verify_nonce( $post_data['_wpnonce'], 'update-post_' . $post_id ) ) {
+		return new WP_Error( 'invalid_nonce', __( 'Error while saving.' ) );
+	}
 
 	$post = get_post( $post_id );
 
-	if ( ! current_user_can( 'edit_post', $post->ID ) )
-		return new WP_Error( 'edit_post', __('You are not allowed to edit this item.') );
+	if ( ! current_user_can( 'edit_post', $post->ID ) ) {
+		return new WP_Error( 'edit_posts', __( 'You are not allowed to edit this item.' ) );
+	}
 
 	if ( 'auto-draft' == $post->post_status )
 		$post_data['post_status'] = 'draft';
