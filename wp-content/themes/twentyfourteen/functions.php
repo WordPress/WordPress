@@ -438,26 +438,6 @@ function twentyfourteen_body_classes( $classes ) {
 add_filter( 'body_class', 'twentyfourteen_body_classes' );
 
 /**
- * Extend the default WordPress post classes.
- *
- * Adds a post class to denote:
- * Non-password protected page with a post thumbnail.
- *
- * @since Twenty Fourteen 1.0
- *
- * @param array $classes A list of existing post class values.
- * @return array The filtered post class list.
- */
-function twentyfourteen_post_classes( $classes ) {
-	if ( ! post_password_required() && ! is_attachment() && has_post_thumbnail() ) {
-		$classes[] = 'has-post-thumbnail';
-	}
-
-	return $classes;
-}
-add_filter( 'post_class', 'twentyfourteen_post_classes' );
-
-/**
  * Create a nicely formatted and more specific title element text for output
  * in head of document, based on current view.
  *
