@@ -1480,7 +1480,10 @@ function wp_ajax_find_posts() {
 	if ( ! $posts )
 		wp_die( __('No items found.') );
 
-	$html = '<table class="widefat" cellspacing="0"><thead><tr><th class="found-radio"><br /></th><th>'.__('Title').'</th><th class="no-break">'.__('Type').'</th><th class="no-break">'.__('Date').'</th><th class="no-break">'.__('Status').'</th></tr></thead><tbody>';
+	$html = '<table class="widefat" cellspacing="0"><thead><tr><th class="found-radio"><br /></th><th>' . __( 'Title' );
+	$html .= '</th><th class="no-break">' . _x( 'Type', 'type of attachment parent' ) . '</th><th class="no-break">';
+	$html .= __( 'Date' ). '</th><th class="no-break">' . __( 'Status' ) . '</th></tr></thead><tbody>';
+
 	foreach ( $posts as $post ) {
 		$title = trim( $post->post_title ) ? $post->post_title : __( '(no title)' );
 
