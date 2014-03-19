@@ -195,10 +195,10 @@ embed {
  * WP Views
  */
 
-/* IE hasLayout. Needed for all IE incl. 11 (ugh, not again!!) */
 .wpview-wrap {
-	width: 99.99%;
+	width: 99.99%; /* All IE need hasLayout, incl. 11 (ugh, not again!!) */
 	position: relative;
+	clear: both;
 }
 
 /* delegate the handling of the selection to the wpview tinymce plugin */
