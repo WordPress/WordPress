@@ -5594,10 +5594,14 @@
 		 */
 		editAttachment: function( event ) {
 			var editState = this.controller.state( 'edit-image' );
-			event.preventDefault();
+			if ( window.imageEdit ) {
+				event.preventDefault();
 
-			editState.set( 'image', this.model );
-			this.controller.setState( 'edit-image' );
+				editState.set( 'image', this.model );
+				this.controller.setState( 'edit-image' );
+			} else {
+				this.$el.addClass('needs-refresh');
+			}
 		},
 		/**
 		 * @param {Object} event
@@ -5944,10 +5948,12 @@
 
 		editAttachment: function( event ) {
 			var editState = this.controller.state( 'edit-image' );
-			event.preventDefault();
 
-			editState.set( 'image', this.model.attachment );
-			this.controller.setState( 'edit-image' );
+			if ( window.imageEdit ) {
+				event.preventDefault();
+				editState.set( 'image', this.model.attachment );
+				this.controller.setState( 'edit-image' );
+			}
 		}
 	});
 

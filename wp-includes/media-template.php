@@ -666,7 +666,7 @@ function wp_print_media_templates() {
 				<div class="thumbnail">
 					<img src="{{ data.model.url }}" draggable="false" />
 				</div>
-				<# if ( data.attachment ) { #>
+				<# if ( data.attachment && window.imageEdit ) { #>
 					<input type="button" class="edit-attachment button" value="<?php esc_attr_e( 'Edit Image' ); ?>" />
 				<# } #>
 
