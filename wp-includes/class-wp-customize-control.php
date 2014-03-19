@@ -748,12 +748,6 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 				'add' => wp_create_nonce( 'header-add' ),
 				'remove' => wp_create_nonce( 'header-remove' ),
 			),
-			'l10n' => array(
-				/* translators: header images uploaded by user */
-				'uploaded' => __( 'uploaded' ),
-				/* translators: header images suggested by the current theme */
-				'default' => __( 'suggested' )
-			),
 			'uploads' => $this->uploaded_headers,
 			'defaults' => $this->default_headers
 		) );
@@ -972,20 +966,15 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 
 		<div class="customize-control-content">
 			<p class="customizer-section-intro">
-				<?php _e( 'Personalize your site with your own header image.' ); ?>
 				<?php
+				// @todo translate (and look to custom-header.php for inspiration)
+				echo ( 'Personalize your site with your own header image.' );
 				if ( $width && $height ) {
-					printf( __( 'While you can crop images to your liking after clicking <strong>%s</strong>, your theme recommends a header size of <strong>%dx%d</strong> pixels.' ),
-						_x( 'Add new', 'header image' ), $width, $height );
+					printf( ( 'While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header size of <strong>%d &times; %d</strong> pixels.' ), $width, $height );
+				} elseif ( $width ) {
+					printf( ( 'While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header width of <strong>%d</strong> pixels.' ), $width );
 				} else {
-					if ( $width ) {
-						printf( __( 'While you can crop images to your liking after clicking <strong>%s</strong>, your theme recommends a header width of <strong>%d</strong> pixels.' ),
-							_x( 'Add new', 'header image' ), $width );
-					}
-					if ( $height ) {
-						printf( __( 'While you can crop images to your liking after clicking <strong>%s</strong>, your theme recommends a header height of <strong>%d</strong> pixels.' ),
-							_x( 'Add new', 'header image' ), $height );
-					}
+					printf( ( 'While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header height of <strong>%d</strong> pixels.' ), $height );
 				}
 				?>
 			</p>

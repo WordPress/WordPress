@@ -1124,8 +1124,8 @@ function wp_get_playlist( $attr, $type ) {
 	}
 
 	$playlist_styles = array(
-		'light' => _x( 'Light', 'light playlist theme' ),
-		'dark'	=> _x( 'Dark', 'dark playlist theme' )
+		'light' => _x( 'Light', 'playlist theme' ),
+		'dark'	=> _x( 'Dark', 'playlist theme' )
 	);
 
 	/**
@@ -2480,20 +2480,13 @@ function wp_enqueue_media( $args = array() ) {
 		'editImage'             => __( 'Edit Image' ),
 
 		// Crop Image
-		/* translators: title for Media Manager library view */
 		'chooseImage' => __( 'Choose Image' ),
-		/* translators: button to select an image from the MM library to crop */
 		'selectAndCrop' => __( 'Select and Crop' ),
-		/* translators: button to choose not to crop the selected image */
 		'skipCropping' => __( 'Skip Cropping' ),
-		/* translators: button to choose to crop the selected image */
 		'cropImage' => __( 'Crop Image' ),
 		'cropYourImage' => __( 'Crop your image' ),
-		/* translators: button label changes to this while the image is being cropped server-side */
-		'cropping' => __( 'Cropping...' ),
-		/* translators: suggested width of header image in pixels */
+		'cropping' => __( 'Cropping&hellip;' ),
 		'suggestedWidth' => __( 'Suggested width is %d pixels.' ),
-		/* translators: suggested height of header image in pixels */
 		'suggestedHeight' => __( 'Suggested height is %d pixels.' ),
 
 		'mediaHTML5Text'        => __( 'Add alternate sources for maximum HTML5 playback:' ),

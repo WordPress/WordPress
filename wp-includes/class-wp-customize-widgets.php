@@ -296,6 +296,7 @@ class WP_Customize_Widgets {
 				$section_id = sprintf( 'sidebar-widgets-%s', $sidebar_id );
 				if ( $is_active_sidebar ) {
 					$section_args = array(
+						/* translators: %s: sidebar name */
 						'title' => sprintf( __( 'Widgets: %s' ), $GLOBALS['wp_registered_sidebars'][$sidebar_id]['name'] ),
 						'description' => $GLOBALS['wp_registered_sidebars'][$sidebar_id]['description'],
 						'priority' => 1000 + array_search( $sidebar_id, array_keys( $wp_registered_sidebars ) ),
@@ -457,20 +458,17 @@ class WP_Customize_Widgets {
 		}
 
 		$widget_reorder_nav_tpl = sprintf(
-			'<div class="widget-reorder-nav"><span class="move-widget" tabindex="0" title="%1$s">%2$s</span><span class="move-widget-down" tabindex="0" title="%3$s">%4$s</span><span class="move-widget-up" tabindex="0" title="%5$s">%6$s</span></div>',
-			esc_attr__( 'Move to another area...' ),
-			esc_html__( 'Move to another area...' ),
-			esc_attr__( 'Move down' ),
-			esc_html__( 'Move down' ),
-			esc_attr__( 'Move up' ),
-			esc_html__( 'Move up' )
+			'<div class="widget-reorder-nav"><span class="move-widget" tabindex="0">%1$s</span><span class="move-widget-down" tabindex="0">%2$s</span><span class="move-widget-up" tabindex="0">%3$s</span></div>',
+			__( 'Move to another area&hellip;' ),
+			__( 'Move down' ),
+			__( 'Move up' )
 		);
 
 		$move_widget_area_tpl = str_replace(
 			array( '{description}', '{btn}' ),
 			array(
-				esc_html__( 'Select an area to move this widget into:' ),
-				esc_html__( 'Move' ),
+				( 'Select an area to move this widget into:' ), // @todo translate
+				esc_html_x( 'Move', 'move widget' ),
 			),
 			'
 				<div class="move-widget-area">
@@ -497,10 +495,11 @@ class WP_Customize_Widgets {
 			'registered_widgets' => $GLOBALS['wp_registered_widgets'],
 			'available_widgets' => $available_widgets, // @todo Merge this with registered_widgets
 			'i18n' => array(
-				'save_btn_label' => _x( 'Apply', 'button to save changes to a widget' ),
-				'save_btn_tooltip' => _x( 'Save and preview changes before publishing them.', 'tooltip on the widget save button' ),
-				'remove_btn_label' => _x( 'Remove', 'link to move a widget to the inactive widgets sidebar' ),
-				'remove_btn_tooltip' => _x( 'Trash widget by moving it to the inactive widgets sidebar.', 'tooltip on btn a widget to move it to the inactive widgets sidebar' ),
+				'save_btn_label' => __( 'Apply' ),
+				// @todo translate? do we want these tooltips?
+				'save_btn_tooltip' => ( 'Save and preview changes before publishing them.' ),
+				'remove_btn_label' => __( 'Remove' ),
+				'remove_btn_tooltip' => ( 'Trash widget by moving it to the inactive widgets sidebar.' ),
 			),
 			'tpl' => array(
 				'widget_reorder_nav' => $widget_reorder_nav_tpl,
@@ -733,7 +732,7 @@ class WP_Customize_Widgets {
 			'registered_sidebars' => array_values( $GLOBALS['wp_registered_sidebars'] ),
 			'registered_widgets' => $GLOBALS['wp_registered_widgets'],
 			'i18n' => array(
-				'widget_tooltip' => __( 'Press shift and then click to edit widget in customizer...' ),
+				'widget_tooltip' => ( 'Shift-click to edit this widget.' ),
 			),
 		);
 		foreach ( $exports['registered_widgets'] as &$registered_widget ) {
@@ -1031,13 +1030,13 @@ class WP_Customize_Widgets {
 
 		try {
 			if ( ! check_ajax_referer( self::UPDATE_WIDGET_AJAX_ACTION, self::UPDATE_WIDGET_NONCE_POST_KEY, false ) ) {
-				throw new Widget_Customizer_Exception( __( 'Nonce check failed. Reload and try again?' ) );
+				throw new Widget_Customizer_Exception( ( 'Nonce check failed. Reload and try again?' ) );
 			}
 			if ( ! current_user_can( 'edit_theme_options' ) ) {
-				throw new Widget_Customizer_Exception( __( 'Current user cannot!' ) );
+				throw new Widget_Customizer_Exception( ( 'Current user cannot!' ) ); // @todo translate
 			}
 			if ( ! isset( $_POST['widget-id'] ) ) {
-				throw new Widget_Customizer_Exception( __( 'Incomplete request' ) );
+				throw new Widget_Customizer_Exception( ( 'Incomplete request' ) ); // @todo translate
 			}
 
 			unset( $_POST[self::UPDATE_WIDGET_NONCE_POST_KEY], $_POST['action'] );

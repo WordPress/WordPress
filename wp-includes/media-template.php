@@ -512,8 +512,8 @@ function wp_print_media_templates() {
 
 		<?php
 		$playlist_styles = array(
-			'light' => _x( 'Light', 'light playlist theme' ),
-			'dark'	=> _x( 'Dark', 'dark playlist theme' )
+			'light' => _x( 'Light', 'playlist theme' ),
+			'dark'	=> _x( 'Dark', 'playlist theme' )
 		);
 
 		/** This filter is documented in wp-includes/media.php */
@@ -814,7 +814,7 @@ function wp_print_media_templates() {
 				<div class="setting preload">
 					<span><?php _e( 'Preload' ); ?></span>
 					<div class="button-group button-large" data-setting="preload">
-						<button class="button" value="auto"><?php _e( 'Auto' ); ?></button>
+						<button class="button" value="auto"><?php _ex( 'Auto', 'auto preload video' ); ?></button>
 						<button class="button" value="metadata"><?php _e( 'Metadata' ); ?></button>
 						<button class="button active" value="none"><?php _e( 'None' ); ?></button>
 					</div>
@@ -919,7 +919,7 @@ function wp_print_media_templates() {
 				<div class="clear"></div>
 
 				<label class="setting" data-setting="content">
-					<span><?php _e( 'Tracks (subtitles, captions, descriptions, chapters or metadata)' ); ?></span>
+					<span><?php _e( 'Tracks (subtitles, captions, descriptions, chapters, or metadata)' ); ?></span>
 					<#
 					var content = '';
 					if ( ! _.isEmpty( data.model.content ) ) {

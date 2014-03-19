@@ -497,7 +497,7 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'media', "/wp-admin/js/media$suffix.js", array( 'jquery' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'media', 'attachMediaBoxL10n', array(
-			'error' => __( 'An error has occured. Please reload the page and try again.' )
+			'error' => __( 'An error has occurred. Please reload the page and try again.' ),
 		));
 
 		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array('jquery', 'json2', 'imgareaselect'), false, 1 );

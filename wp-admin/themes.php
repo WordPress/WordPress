@@ -104,7 +104,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
  	'l10n' => array(
  		'addNew' => __( 'Add New Theme' ),
  		'search'  => __( 'Search Installed Themes' ),
- 		'searchPlaceholder' => __( 'Search installed themes...' ),
+ 		'searchPlaceholder' => __( 'Search installed themes...' ), // placeholder (no ellipsis)
   	),
 ) );
 

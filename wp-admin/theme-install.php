@@ -46,7 +46,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 	'l10n' => array(
 		'addNew' => __( 'Add New Theme' ),
 		'search'  => __( 'Search Themes' ),
-		'searchPlaceholder' => __( 'Search themes&hellip;' ),
+		'searchPlaceholder' => __( 'Search themes...' ), // placeholder (no ellipsis)
 		'upload' => __( 'Upload Theme' ),
 		'back'   => __( 'Back' ),
 		'error'  => ( 'There was a problem trying to load the themes. Please, try again.' ), // @todo improve
