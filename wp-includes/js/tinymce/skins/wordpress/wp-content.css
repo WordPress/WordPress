@@ -115,7 +115,7 @@ img::selection {
     border-top: 3px dotted #bbb;
 }
 
-/* Gallery, audio, vudeo placeholders */
+/* Gallery, audio, video placeholders */
 .mce-content-body img.wp-media {
 	border: 1px solid #aaa;
 	background-color: #f2f2f2;
@@ -147,16 +147,6 @@ img::selection {
 
 .mce-content-body img.wp-media.wp-video-playlist {
 	background-image: url("images/playlist-video.png");
-}
-
-#wp-image-toolbar {
-	position: absolute;
-	background-color: #333;
-}
-
-#wp-image-toolbar .dashicons {
-	color: white;
-	cursor: pointer;
 }
 
 /* Image resize handles */
@@ -216,12 +206,9 @@ embed {
 /**
  * Media previews
  */
-.wpview-type-gallery,
-.wpview-type-audio,
-.wpview-type-video {
+.wpview-wrap {
     position: relative;
     margin-bottom: 16px;
-	cursor: pointer;
 	border: 1px solid transparent;
 }
 
@@ -252,45 +239,64 @@ embed {
     clear: both;
 }
 
-.wpview-type-gallery.selected,
-.wpview-type-audio,
-.wpview-type-video {
-	background-color: #f2f8ff;
-	border-color: #777;
-}
-
-.wpview-type-gallery .toolbar,
-.wpview-type-audio .toolbar,
-.wpview-type-video .toolbar {
+.wpview-wrap .toolbar {
 	position: absolute;
 	top: 0;
 	right: 0;
-	background-color: #333;
-	color: white;
 	display: none;
 	z-index: 100;
 }
 
-.wpview-type-video .toolbar div,
-.wpview-type-gallery .toolbar div,
+#wp-image-toolbar {
+	position: absolute;
+}
+
+.wpview-wrap .toolbar div,
 #wp-image-toolbar div {
-	margin: 5px;
+	margin-top: 7px;
+	margin-right: 7px;
+	padding: 2px;
+	width: 30px;
+	height: 30px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	background-color: #000;
+	background-color: rgba(0,0,0,0.9);
+	cursor: pointer;
+	color: white;
+	font-size: 30px;
 }
 
-.wpview-type-audio .toolbar div {
-	margin: 2px 5px;
+.wpview-wrap .toolbar div:hover,
+#wp-image-toolbar div:hover {
+	box-shadow: 0 1px 3px rgba(0,0,0,0.8);
+	background-color: #000;
+	color: #2ea2cc;
 }
 
+/* temporary overrides; still pending styling */
+.wpview-type-audio .toolbar div,
+.wont-play .toolbar div {
+	margin: 0;
+	padding: 3px;
+	width: 20px;
+	height: 20px;
+	box-shadow: none;
+	font-size: 20px;
+}
+
+.wpview-wrap.selected .toolbar,
 .wpview-type-audio .toolbar,
-.wpview-type-video .toolbar,
-.wpview-type-gallery.selected .toolbar {
+.wpview-type-video .toolbar {
 	display: block;
 }
 
-.wpview-type-audio .toolbar span,
-.wpview-type-video .toolbar span,
-.wpview-type-gallery .toolbar span {
-	cursor: pointer;
+.wpview-type-gallery.selected,
+.wpview-type-audio,
+.wpview-type-video {
+	background-color: #f2f8ff; /* fallback to old blue */
+	background-color: rgba(0,0,0,0.1);
+	border-color: #777;
+	border-color: rgba(0,0,0,0.3);
 }
 
 .gallery img[data-mce-selected]:focus {

@@ -941,8 +941,7 @@ function wp_print_media_templates() {
 	</script>
 	<script type="text/html" id="tmpl-editor-gallery">
 		<div class="toolbar">
-			<div class="dashicons dashicons-edit edit"></div>
-			<div class="dashicons dashicons-no-alt remove"></div>
+			<div class="dashicons dashicons-edit edit"></div><div class="dashicons dashicons-no-alt remove"></div>
 		</div>
 		<div class="gallery gallery-columns-{{{ data.columns }}}">
 			<# _.each( data.attachments, function( attachment, index ) { #>
@@ -964,7 +963,7 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-editor-audio">
 		<div class="toolbar">
-			<div class="dashicons dashicons-format-audio edit"></div>
+			<div class="dashicons dashicons-edit edit"></div>
 			<div class="dashicons dashicons-no-alt remove"></div>
 		</div>
 		<?php wp_underscore_audio_template() ?>
@@ -972,7 +971,7 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-editor-video">
 		<div class="toolbar">
-			<div class="dashicons dashicons-format-video edit"></div>
+			<div class="dashicons dashicons-edit edit"></div>
 			<div class="dashicons dashicons-no-alt remove"></div>
 		</div>
 		<?php wp_underscore_video_template() ?>

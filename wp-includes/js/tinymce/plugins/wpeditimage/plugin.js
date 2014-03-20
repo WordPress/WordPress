@@ -348,7 +348,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		dom.setAttrib( node, 'data-wp-imgselect', 1 );
 		rectangle = dom.getRect( node );
 
-		toolbarHtml = '<div class="dashicons dashicons-edit edit" data-mce-bogus="1"></div> ' +
+		toolbarHtml = '<div class="dashicons dashicons-edit edit" data-mce-bogus="1"></div>' +
 			'<div class="dashicons dashicons-no-alt remove" data-mce-bogus="1"></div>';
 
 		toolbar = dom.create( 'div', {
