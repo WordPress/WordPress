@@ -8,10 +8,10 @@
 
 		itemTemplate : wp.template('wp-playlist-item'),
 
-		initialize : function () {
+		initialize : function (options) {
 			var settings = {};
 
-			this.data = $.parseJSON( this.$('script').html() );
+			this.data = options.metadata || $.parseJSON( this.$('script').html() );
 			this.playerNode = this.$( this.data.type );
 
 			this.tracks = new Backbone.Collection( this.data.tracks );
@@ -38,7 +38,7 @@
 			}
 			settings.success = this.bindPlayer;
 
-			new MediaElementPlayer( this.playerNode.get(0), settings );
+			this._player = new MediaElementPlayer( this.playerNode.get(0), settings );
 		},
 
 		renderCurrent : function () {
@@ -132,9 +132,13 @@
 	});
 
     $(document).ready(function () {
-		$('.wp-playlist').each(function () {
-			return new WPPlaylistView({ el: this });
-		});
+		if ( ! $( 'body' ).hasClass('wp-admin') ) {
+			$('.wp-playlist').each(function () {
+				return new WPPlaylistView({ el: this });
+			});
+		}
     });
+
+	window.WPPlaylistView = WPPlaylistView;
 
 }(jQuery, _, Backbone));

@@ -13,28 +13,6 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 			'data-wp-media="' + data + '" data-mce-resize="false" data-mce-placeholder="1" />';
 	}
 
-	function replaceCallback( match, type, close ) {
-		var index;
-
-		if ( close && close.indexOf( '[' + type ) > -1 ) {
-			index = match.length - close.length;
-			return html( 'wp-' + type, match.substring( 0, index ) ) + match.substring( index );
-		}
-
-		return html( 'wp-' + type, match );
-	}
-
-	function replaceAVShortcodes( content ) {
-		var testRegex = /\[(video-playlist|playlist)[^\]]*\]/,
-			replaceRegex = /\[(video-playlist|playlist)[^\]]*\]([\s\S]*?\[\/\1\])?/;
-
-		while ( testRegex.test( content ) ) {
-			content = content.replace( replaceRegex, replaceCallback );
-		}
-
-		return content;
-	}
-
 	function restoreMediaShortcodes( content ) {
 		function getAttr( str, name ) {
 			name = new RegExp( name + '=\"([^\"]+)\"' ).exec( str );
@@ -76,25 +54,6 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 				editor.dom.setAttrib( node, 'data-wp-media', window.encodeURIComponent( shortcode ) );
 				frame.detach();
 			});
-		} else if ( editor.dom.hasClass( node, 'wp-playlist' ) && wp.media.playlist ) {
-			frame = wp.media.playlist.edit( data );
-
-			frame.state('playlist-edit').on( 'update', function( selection ) {
-				var shortcode = wp.media.playlist.shortcode( selection ).string();
-				editor.dom.setAttrib( node, 'data-wp-media', window.encodeURIComponent( shortcode ) );
-				frame.detach();
-			});
-		} else if ( editor.dom.hasClass( node, 'wp-video-playlist' ) && wp.media['video-playlist'] ) {
-			frame = wp.media['video-playlist'].edit( data );
-
-			frame.state('video-playlist-edit').on( 'update', function( selection ) {
-				var shortcode = wp.media['video-playlist'].shortcode( selection ).string();
-				editor.dom.setAttrib( node, 'data-wp-media', window.encodeURIComponent( shortcode ) );
-				frame.detach();
-			});
-		} else {
-			// temp
-			window.console && window.console.log( 'Edit AV shortcode ' + data );
 		}
 	}
 
@@ -152,10 +111,6 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 		if ( node.nodeName === 'IMG' && dom.getAttrib( node, 'data-wp-media' ) ) {
 			if ( dom.hasClass( node, 'wp-gallery' ) ) {
 				event.name = 'gallery';
-			} else if ( dom.hasClass( node, 'wp-playlist' ) ) {
-				event.name = 'playlist';
-			} else if ( dom.hasClass( node, 'wp-video-playlist' ) ) {
-				event.name = 'video-playlist';
 			}
 		}
 	});
@@ -165,8 +120,6 @@ tinymce.PluginManager.add('wpgallery', function( editor ) {
 		if ( ! editor.plugins.wpview ) {
 			event.content = replaceGalleryShortcodes( event.content );
 		}
-
-		event.content = replaceAVShortcodes( event.content );
 	});
 
 	editor.on( 'PostProcess', function( event ) {

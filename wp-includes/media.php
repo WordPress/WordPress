@@ -999,17 +999,12 @@ function gallery_shortcode( $attr ) {
 }
 
 /**
- * Output and enqueue default scripts and styles for playlists.
+ * Output the templates used by playlists
  *
  * @since 3.9.0
- *
- * @param string $type Type of playlist: "audio" or "video."
  */
-function wp_playlist_scripts( $type ) {
-	wp_enqueue_style( 'wp-mediaelement' );
-	wp_enqueue_script( 'wp-playlist' );
+function wp_underscore_playlist_templates() {
 ?>
-<!--[if lt IE 9]><script>document.createElement('<?php echo esc_js( $type ) ?>');</script><![endif]-->
 <script type="text/html" id="tmpl-wp-playlist-current-item">
 	<# if ( data.image ) { #>
 	<img src="{{{ data.thumb.src }}}"/>
@@ -1044,6 +1039,22 @@ function wp_playlist_scripts( $type ) {
 	</div>
 </script>
 <?php
+}
+
+/**
+ * Output and enqueue default scripts and styles for playlists.
+ *
+ * @since 3.9.0
+ *
+ * @param string $type Type of playlist: "audio" or "video."
+ */
+function wp_playlist_scripts( $type ) {
+	wp_enqueue_style( 'wp-mediaelement' );
+	wp_enqueue_script( 'wp-playlist' );
+?>
+<!--[if lt IE 9]><script>document.createElement('<?php echo esc_js( $type ) ?>');</script><![endif]-->
+<?php
+	wp_underscore_playlist_templates();
 }
 add_action( 'wp_playlist_scripts', 'wp_playlist_scripts' );
 
@@ -1390,6 +1401,7 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 
 	$default_types = wp_get_audio_extensions();
 	$defaults_atts = array(
+		'caption'  => '',
 		'src'      => '',
 		'loop'     => '',
 		'autoplay' => '',
@@ -1549,6 +1561,7 @@ function wp_video_shortcode( $attr, $content = '' ) {
 
 	$default_types = wp_get_video_extensions();
 	$defaults_atts = array(
+		'caption'  => '',
 		'src'      => '',
 		'poster'   => '',
 		'loop'     => '',
@@ -2332,6 +2345,22 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	if ( $meta && ( 'audio' === $type || 'video' === $type ) ) {
 		if ( isset( $meta['length_formatted'] ) )
 			$response['fileLength'] = $meta['length_formatted'];
+
+		$response['meta'] = array();
+		$keys = array( 'title', 'artist', 'band', 'album', 'genre', 'year', 'length', 'length_formatted' );
+		foreach ( $keys as $key ) {
+			if ( ! empty( $meta[ $key ] ) ) {
+				$response['meta'][ $key ] = $meta[ $key ];
+			}
+		}
+
+		$id = get_post_thumbnail_id( $attachment->ID );
+		if ( ! empty( $id ) ) {
+			list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'full' );
+			$response['image'] = compact( 'src', 'width', 'height' );
+			list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'thumbnail' );
+			$response['thumb'] = compact( 'src', 'width', 'height' );
+		}
 	}
 
 	if ( function_exists('get_compat_media_markup') )

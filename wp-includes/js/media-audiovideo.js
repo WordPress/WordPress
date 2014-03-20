@@ -207,10 +207,11 @@
 
 		defaults : {
 			id : wp.media.view.settings.post.id,
-			src      : '',
-			loop     : false,
+			src : '',
+			loop : false,
 			autoplay : false,
-			preload  : 'none'
+			preload : 'none',
+			caption : ''
 		},
 
 		edit : function (data) {
@@ -227,7 +228,7 @@
 			return frame;
 		},
 
-		update : function (model) {
+		shortcode : function (model) {
 			var self = this, content;
 
 			_.each( this.defaults, function( value, key ) {
@@ -266,7 +267,8 @@
 			loop : false,
 			autoplay : false,
 			preload : 'metadata',
-			content : ''
+			content : '',
+			caption : ''
 		},
 
 		edit : function (data) {
@@ -287,7 +289,7 @@
 			return frame;
 		},
 
-		update : function (model) {
+		shortcode : function (model) {
 			var self = this, content;
 
 			_.each( this.defaults, function( value, key ) {
@@ -1129,13 +1131,13 @@
 
 			wp.media.mixin.pauseAllPlayers();
 
-			data = window.decodeURIComponent( $( node ).data('wpview-text') );
+			data = window.decodeURIComponent( $( node ).attr('data-wpview-text') );
 			frame = media.edit( data );
 			frame.on( 'close', function () {
 				frame.detach();
 			} );
-			frame.state( self.shortcode + '-details' ).on( 'update', function( selection ) {
-				var shortcode = wp.media[ self.shortcode ].update( selection ).string();
+			frame.state( self.state ).on( 'update', function( selection ) {
+				var shortcode = wp.media[ self.shortcode ].shortcode( selection ).string();
 				$( node ).attr( 'data-wpview-text', window.encodeURIComponent( shortcode ) );
 				wp.mce.views.refreshView( self, shortcode );
 				frame.detach();
@@ -1205,6 +1207,7 @@
 
 	wp.mce.video = _.extend( {}, wp.mce.media, {
 		shortcode: 'video',
+		state: 'video-details',
 		View: wp.mce.media.View.extend({
 			className: 'editor-video',
 			template:  media.template('editor-video')
@@ -1215,6 +1218,7 @@
 
 	wp.mce.audio = _.extend( {}, wp.mce.media, {
 		shortcode: 'audio',
+		state: 'audio-details',
 		View: wp.mce.media.View.extend({
 			className: 'editor-audio',
 			template:  media.template('editor-audio')
@@ -1222,6 +1226,138 @@
 	} );
 
 	wp.mce.views.register( 'audio', wp.mce.audio );
+
+	wp.mce.media.PlaylistView = wp.mce.View.extend({
+		className: 'editor-playlist',
+		template:  media.template('editor-playlist'),
+
+		initialize: function( options ) {
+			this.data = {};
+			this.attachments = [];
+			this.shortcode = options.shortcode;
+			_.bindAll( this, 'setPlayer' );
+			$(this).on('ready', this.setNode);
+		},
+
+		setNode: function (e, node) {
+			this.node = node;
+			this.fetch();
+		},
+
+		fetch: function() {
+			this.attachments = wp.media[ this.shortcode.tag ].attachments( this.shortcode );
+			this.attachments.more().done( this.setPlayer );
+		},
+
+		setPlayer: function () {
+			var p,
+				html = this.getHtml(),
+				t = this.encodedText,
+				self = this;
+
+			this.unsetPlayer();
+
+			_.each( tinymce.editors, function( editor ) {
+				var doc;
+				if ( editor.plugins.wpview ) {
+					doc = editor.getDoc();
+					$( doc ).find( '[data-wpview-text="' + t + '"]' ).each(function (i, elem) {
+						var node = $( elem );
+						node.html( html );
+						self.node = elem;
+					});
+				}
+			}, this );
+
+			p = new WPPlaylistView({
+				el: $( self.node ).find( '.wp-playlist' ).get(0),
+				metadata: this.data
+			});
+
+			this.player = p._player;
+		},
+
+		getHtml: function() {
+			var data = this.shortcode.attrs.named,
+				model = wp.media[ this.shortcode.tag ],
+				type = 'playlist' === this.shortcode.tag ? 'audio' : 'video',
+				options,
+				attachments,
+				tracks = [];
+
+			if ( ! this.attachments.length ) {
+				return;
+			}
+
+			_.each( model.defaults, function( value, key ) {
+				data[ key ] = model.coerce( data, key );
+			});
+
+			attachments = this.attachments.toJSON();
+
+			options = {
+				type: type,
+				style: data.style,
+				tracklist: data.tracklist,
+				tracknumbers: data.tracknumbers,
+				images: data.images,
+				artists: data.artists
+			};
+
+			_.each( attachments, function (attachment) {
+				var size = {}, track = {
+					src : attachment.url,
+					type : attachment.mime,
+					title : attachment.title,
+					caption : attachment.caption,
+					description : attachment.description,
+					meta : attachment.meta
+				};
+
+				if ( 'video' === type ) {
+					if ( ! options.width ) {
+						options.width = attachment.width;
+						options.height = attachment.height;
+					}
+					size.width = attachment.width;
+					size.height = attachment.height;
+					track.dimensions = {
+						original : size,
+						resized : size
+					};
+				} else {
+					options.width = 400;
+				}
+
+				track.image = attachment.image;
+				track.thumb = attachment.thumb;
+
+				tracks.push( track );
+			} );
+
+			options.tracks = tracks;
+			this.data = options;
+
+			return this.template( options );
+		}
+	});
+	_.extend( wp.mce.media.PlaylistView.prototype, wp.media.mixin );
+
+	wp.mce.playlist = _.extend( {}, wp.mce.media, {
+		shortcode: 'playlist',
+		state: 'playlist-edit',
+		View: wp.mce.media.PlaylistView
+	} );
+
+	wp.mce.views.register( 'playlist', wp.mce.playlist );
+
+	wp.mce['video-playlist'] = _.extend( {}, wp.mce.media, {
+		shortcode: 'video-playlist',
+		state: 'video-playlist-edit',
+		View: wp.mce.media.PlaylistView
+	} );
+
+	wp.mce.views.register( 'video-playlist', wp.mce['video-playlist'] );
 
 	function init() {
 		$(document.body)

@@ -141,14 +141,6 @@ img::selection {
 	background-image: url(images/gallery.png);
 }
 
-.mce-content-body img.wp-media.wp-playlist {
-	background-image: url("images/playlist-audio.png");
-}
-
-.mce-content-body img.wp-media.wp-video-playlist {
-	background-image: url("images/playlist-video.png");
-}
-
 /* Image resize handles */
 .mce-content-body div.mce-resizehandle {
 	border-color: #777;
@@ -297,6 +289,16 @@ embed {
 	background-color: rgba(0,0,0,0.1);
 	border-color: #777;
 	border-color: rgba(0,0,0,0.3);
+}
+
+.wpview-type-audio .track-details {
+	position: absolute;
+	top: 0;
+	left: 5px;
+	width: 85%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .gallery img[data-mce-selected]:focus {
