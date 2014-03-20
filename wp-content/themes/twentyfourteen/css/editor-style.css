@@ -443,57 +443,57 @@ img {
 
 .gallery-columns-2 .gallery-item {
 	max-width: 48%;
-	max-width: -webkit-calc(50% - 4px);
-	max-width:         calc(50% - 4px);
+	max-width: -webkit-calc(50% - 14px);
+	max-width:         calc(50% - 14px);
 	width: auto;
 }
 
 .gallery-columns-3 .gallery-item {
 	max-width: 32%;
-	max-width: -webkit-calc(33.3% - 4px);
-	max-width:         calc(33.3% - 4px);
+	max-width: -webkit-calc(33.3% - 11px);
+	max-width:         calc(33.3% - 11px);
 	width: auto;
 }
 
 .gallery-columns-4 .gallery-item {
 	max-width: 23%;
-	max-width: -webkit-calc(25% - 4px);
-	max-width:         calc(25% - 4px);
+	max-width: -webkit-calc(25% - 9px);
+	max-width:         calc(25% - 9px);
 	width: auto;
 }
 
 .gallery-columns-5 .gallery-item {
 	max-width: 19%;
-	max-width: -webkit-calc(20% - 4px);
-	max-width:         calc(20% - 4px);
+	max-width: -webkit-calc(20% - 8px);
+	max-width:         calc(20% - 8px);
 	width: auto;
 }
 
 .gallery-columns-6 .gallery-item {
 	max-width: 15%;
-	max-width: -webkit-calc(16.7% - 4px);
-	max-width:         calc(16.7% - 4px);
+	max-width: -webkit-calc(16.7% - 7px);
+	max-width:         calc(16.7% - 7px);
 	width: auto;
 }
 
 .gallery-columns-7 .gallery-item {
 	max-width: 13%;
-	max-width: -webkit-calc(14.28% - 4px);
-	max-width:         calc(14.28% - 4px);
+	max-width: -webkit-calc(14.28% - 7px);
+	max-width:         calc(14.28% - 7px);
 	width: auto;
 }
 
 .gallery-columns-8 .gallery-item {
 	max-width: 11%;
-	max-width: -webkit-calc(12.5% - 4px);
-	max-width:         calc(12.5% - 4px);
+	max-width: -webkit-calc(12.5% - 6px);
+	max-width:         calc(12.5% - 6px);
 	width: auto;
 }
 
 .gallery-columns-9 .gallery-item {
 	max-width: 9%;
-	max-width: -webkit-calc(11.1% - 4px);
-	max-width:         calc(11.1% - 4px);
+	max-width: -webkit-calc(11.1% - 6px);
+	max-width:         calc(11.1% - 6px);
 	width: auto;
 }
 
@@ -511,17 +511,14 @@ img {
 
 .gallery-columns-1 .gallery-item:nth-of-type(1n),
 .gallery-columns-2 .gallery-item:nth-of-type(2n - 1),
-.gallery-columns-3 .gallery-item:nth-of-type(3n - 2) {
-	margin-left: 14px; /* Compensate for the default negative margin on .gallery, which can't be changed. */
-}
-
+.gallery-columns-3 .gallery-item:nth-of-type(3n - 2),
 .gallery-columns-4 .gallery-item:nth-of-type(4n - 3),
 .gallery-columns-5 .gallery-item:nth-of-type(5n - 4),
 .gallery-columns-6 .gallery-item:nth-of-type(6n - 5),
 .gallery-columns-7 .gallery-item:nth-of-type(7n - 6),
 .gallery-columns-8 .gallery-item:nth-of-type(8n - 7),
 .gallery-columns-9 .gallery-item:nth-of-type(9n - 8) {
-	margin-left: 2px; /* Compensate for the default negative margin on .gallery, which can't be changed. Images overflow the border in these cases. */
+	margin-left: 12px; /* Compensate for the default negative margin on .gallery, which can't be changed. */
 }
 
 .gallery .gallery-caption {
