@@ -992,7 +992,8 @@ themes.view.Installer = themes.view.Appearance.extend({
 	events: {
 		'click .theme-section': 'onSort',
 		'click .theme-filter': 'onFilter',
-		'click .more-filters': 'moreFilters'
+		'click .more-filters': 'moreFilters',
+		'click [type="checkbox"]': 'addFilter'
 	},
 
 	// Send Ajax POST request to api.wordpress.org/themes
@@ -1126,6 +1127,7 @@ themes.view.Installer = themes.view.Appearance.extend({
 		// using the default values
 
 		// @todo Cache the collection after fetching based on the filter
+		filter = _.union( filter, this.filtersChecked() );
 		request = { tag: [ filter ] };
 
 		// Send Ajax POST request to api.wordpress.org/themes
@@ -1146,6 +1148,40 @@ themes.view.Installer = themes.view.Appearance.extend({
 		return false;
 	},
 
+	// Clicking on a checkbox triggers a tag request
+	addFilter: function() {
+		var self = this,
+			tags = this.filtersChecked(),
+			request = { tag: tags };
+
+		// Send Ajax POST request to api.wordpress.org/themes
+		this.apiCall( request ).done( function( data ) {
+				// Update the collection with the queried data
+				self.collection.reset( data.themes );
+				// Trigger a collection refresh event to render the views
+				self.collection.trigger( 'update' );
+
+				// Un-spin it
+				$( 'body' ).removeClass( 'loading-themes' );
+				$( '.theme-browser' ).find( 'div.error' ).remove();
+		}).fail( function() {
+				$( '.theme-browser' ).find( 'div.error' ).remove();
+				$( '.theme-browser' ).append( '<div class="error"><p>' + l10n.error + '</p></div>' );
+		});
+	},
+
+	// Get the checked filters and return an array
+	filtersChecked: function() {
+		var items = $( '.feature-group' ).find( ':checkbox' ),
+			tags = [];
+
+		_.each( items.filter( ':checked' ), function( item ) {
+			tags.push( $( item ).prop( 'value' ) );
+		});
+
+		return tags;
+	},
+
 	activeClass: 'current',
 
 	// Overwrite search container class to append search
@@ -1153,10 +1189,13 @@ themes.view.Installer = themes.view.Appearance.extend({
 	searchContainer: $( '.theme-navigation' ),
 
 	uploader: function() {
-		$( 'a.upload.button' ).on( 'click', function() {
-			$( '.upload-theme' )
-				.toggleClass( 'opened' )
-				.hasClass( 'opened' ) ? $( this ).text( l10n.back ) : $( this ).text( l10n.upload );
+		$( 'a.upload' ).on( 'click', function() {
+			$( 'body' ).addClass( 'show-upload-theme' );
+			themes.router.navigate( themes.router.baseUrl( '?upload' ), { replace: true } );
+		});
+		$( 'a.browse-themes' ).on( 'click', function() {
+			$( 'body' ).removeClass( 'show-upload-theme' );
+			themes.router.navigate( themes.router.baseUrl( '' ), { replace: true } );
 		});
 	},
 
@@ -1168,7 +1207,8 @@ themes.view.Installer = themes.view.Appearance.extend({
 themes.InstallerRouter = Backbone.Router.extend({
 	routes: {
 		'theme-install.php?theme=:slug': 'preview',
-		'theme-install.php(?sort=:sort)': 'sort',
+		'theme-install.php?sort=:sort': 'sort',
+		'theme-install.php?upload': 'upload',
 		'': 'sort'
 	},
 
@@ -1223,6 +1263,10 @@ themes.RunInstaller = {
 			}
 			self.view.sort( sort );
 			self.view.trigger( 'theme:close' );
+		});
+
+		themes.router.on( 'route:upload', function( slug ) {
+			$( 'a.upload' ).trigger( 'click' );
 		});
 
 		this.extraRoutes();
