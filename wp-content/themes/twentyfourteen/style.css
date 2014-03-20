@@ -1338,7 +1338,7 @@ a.post-thumbnail:hover {
 
 .hentry .mejs-controls .mejs-time-rail .mejs-time-total,
 .hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total {
-	background: rgba(255,255,255,.33);
+	background: rgba(255, 255, 255, .33);
 }
 
 .hentry .mejs-container .mejs-controls .mejs-time {
