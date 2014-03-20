@@ -3221,6 +3221,9 @@ class WP_Query {
 		}
 
 		$split_the_query = ( $old_request == $this->request && "$wpdb->posts.*" == $fields && !empty( $limits ) && $q['posts_per_page'] < 500 );
+		if ( $split_the_query && isset( $q['split_the_query'] ) && empty( $q['split_the_query'] ) ) {
+			$split_the_query = false;
+		}
 
 		/**
 		 * Filter whether to split the query.
