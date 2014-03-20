@@ -1,4 +1,3 @@
-/* globals _wpCustomizeHeader */
 (function( $, wp, _ ) {
 
 	if ( ! wp || ! wp.customize ) { return; }

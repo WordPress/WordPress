@@ -1,4 +1,4 @@
-/* global _wpMediaViewsL10n, _wpmejsSettings, MediaElementPlayer */
+/* global _wpMediaViewsL10n, _wpmejsSettings, MediaElementPlayer, tinymce, WPPlaylistView */
 
 (function ($, _, Backbone) {
 	var media = wp.media, l10n = typeof _wpMediaViewsL10n === 'undefined' ? {} : _wpMediaViewsL10n;

@@ -1,5 +1,4 @@
-/* global _wpMediaViewsL10n, _wpmejsSettings, MediaElementPlayer,
-	confirm, getUserSetting, setUserSetting */
+/* global _wpMediaViewsL10n, confirm, getUserSetting, setUserSetting */
 (function($, _){
 	var media = wp.media, l10n;
 

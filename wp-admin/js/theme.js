@@ -1265,7 +1265,7 @@ themes.RunInstaller = {
 			self.view.trigger( 'theme:close' );
 		});
 
-		themes.router.on( 'route:upload', function( slug ) {
+		themes.router.on( 'route:upload', function() {
 			$( 'a.upload' ).trigger( 'click' );
 		});
 
