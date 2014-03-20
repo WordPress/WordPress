@@ -820,6 +820,13 @@
 			}, this.options );
 		},
 
+		/**
+		 * Remove a setting's UI when the model unsets it
+		 *
+		 * @fires wp.media.view.MediaDetails#media:setting:remove
+		 *
+		 * @param {Event} e
+		 */
 		removeSetting : function (e) {
 			var wrap = $( e.currentTarget ).parent(), setting;
 
@@ -833,6 +840,10 @@
 			wrap.remove();
 		},
 
+		/**
+		 *
+		 * @fires wp.media.view.MediaDetails#media:setting:remove
+		 */
 		setTracks : function () {
 			var tracks = '';
 
@@ -844,6 +855,9 @@
 			this.trigger( 'media:setting:remove', this );
 		},
 
+		/**
+		 * @global MediaElementPlayer
+		 */
 		setPlayer : function () {
 			if ( ! this.player && this.media ) {
 				this.player = new MediaElementPlayer( this.media, this.settings );
@@ -869,6 +883,11 @@
 			this.mejs = mejs;
 		},
 
+		/**
+		 * @global _wpmejsSettings
+		 *
+		 * @returns {media.view.MediaDetails} Returns itself to allow chaining
+		 */
 		render: function() {
 			var self = this, settings = {
 				success : this.success
@@ -985,6 +1004,11 @@
 	_.extend( wp.media.playlist, {
 		/**
 		 * Determine how many audio and video files the user has uploaded
+		 *
+		 * @global wp.media.view.settings
+		 *
+		 * @param {Object} settings
+		 * @returns {Object}
 		 */
 		counts : (function (settings) {
 			var counts = {};
@@ -1107,7 +1131,23 @@
 		}
 	} );
 
+	/**
+	 * Tiny MCE Views
+	 *
+	 */
+
+	/**
+	 * These are base methods that are shared by each shortcode's MCE controller
+	 *
+	 * @mixin
+	 */
 	wp.mce.media = {
+		/**
+		 * @global wp.shortcode
+		 *
+		 * @param {string} content
+		 * @returns {Object}
+		 */
 		toView:  function( content ) {
 			var match = wp.shortcode.next( this.shortcode, content );
 
@@ -1124,6 +1164,16 @@
 			};
 		},
 
+		/**
+		 * Called when a TinyMCE view is clicked for editing.
+		 * - Parses the shortcode out of the element's data attribute
+		 * - Calls the `edit` method on the shortcode model
+		 * - Launches the model window
+		 * - Bind's an `update` callback which updates the element's data attribute
+		 *   re-renders the view
+		 *
+		 * @param {HTMLElement} node
+		 */
 		edit: function( node ) {
 			var media = wp.media[ this.shortcode ],
 				self = this,
@@ -1146,6 +1196,13 @@
 		}
 	};
 
+	/**
+	 * Base View class for audio and video shortcodes
+	 *
+	 * @constructor
+	 * @augments wp.mce.View
+	 * @mixes wp.media.mixin
+	 */
 	wp.mce.media.View = wp.mce.View.extend({
 		initialize: function( options ) {
 			this.shortcode = options.shortcode;
@@ -1153,6 +1210,15 @@
 			$(this).on( 'ready', this.setPlayer );
 		},
 
+		/**
+		 * Creates the player instance for the current node
+		 *
+		 * @global MediaElementPlayer
+		 * @global _wpmejsSettings
+		 *
+		 * @param {Event} e
+		 * @param {HTMLElement} node
+		 */
 		setPlayer: function (e, node) {
 			// if the ready event fires on an empty node
 			if ( ! node ) {
@@ -1198,6 +1264,11 @@
 			}, 50);
 		},
 
+		/**
+		 * Pass data to the View's Underscore template and return the compiled output
+		 *
+		 * @returns {string}
+		 */
 		getHtml: function() {
 			var attrs = this.shortcode.attrs.named;
 			return this.template({ model: attrs });
@@ -1205,6 +1276,11 @@
 	});
 	_.extend( wp.mce.media.View.prototype, wp.media.mixin );
 
+	/**
+	 * TinyMCE handler for the video shortcode
+	 *
+	 * @mixes wp.mce.media
+	 */
 	wp.mce.video = _.extend( {}, wp.mce.media, {
 		shortcode: 'video',
 		state: 'video-details',
@@ -1213,9 +1289,13 @@
 			template:  media.template('editor-video')
 		})
 	} );
-
 	wp.mce.views.register( 'video', wp.mce.video );
 
+	/**
+	 * TinyMCE handler for the audio shortcode
+	 *
+	 * @mixes wp.mce.media
+	 */
 	wp.mce.audio = _.extend( {}, wp.mce.media, {
 		shortcode: 'audio',
 		state: 'audio-details',
@@ -1224,9 +1304,15 @@
 			template:  media.template('editor-audio')
 		})
 	} );
-
 	wp.mce.views.register( 'audio', wp.mce.audio );
 
+	/**
+	 * Base View class for playlist shortcodes
+	 *
+	 * @constructor
+	 * @augments wp.mce.View
+	 * @mixes wp.media.mixin
+	 */
 	wp.mce.media.PlaylistView = wp.mce.View.extend({
 		className: 'editor-playlist',
 		template:  media.template('editor-playlist'),
@@ -1239,16 +1325,34 @@
 			$(this).on('ready', this.setNode);
 		},
 
+		/**
+		 * Set the element context for the view, and then fetch the playlist's
+		 *   associated attachments.
+		 *
+		 * @param {Event} e
+		 * @param {HTMLElement} node
+		 */
 		setNode: function (e, node) {
 			this.node = node;
 			this.fetch();
 		},
 
+		/**
+		 * Asynchronously fetch the shortcode's attachments
+		 */
 		fetch: function() {
 			this.attachments = wp.media[ this.shortcode.tag ].attachments( this.shortcode );
 			this.attachments.more().done( this.setPlayer );
 		},
 
+		/**
+		 * Get the HTML for the view (which also set's the data), replace the
+		 *   current HTML, and then invoke the WPPlaylistView instance to render
+		 *   the playlist in the editor
+		 *
+		 * @global WPPlaylistView
+		 * @global tinymce.editors
+		 */
 		setPlayer: function () {
 			var p,
 				html = this.getHtml(),
@@ -1277,6 +1381,12 @@
 			this.player = p._player;
 		},
 
+		/**
+		 * Set the data that will be used to compile the Underscore template,
+		 *  compile the template, and then return it.
+		 *
+		 * @returns {string}
+		 */
 		getHtml: function() {
 			var data = this.shortcode.attrs.named,
 				model = wp.media[ this.shortcode.tag ],
@@ -1343,22 +1453,33 @@
 	});
 	_.extend( wp.mce.media.PlaylistView.prototype, wp.media.mixin );
 
+	/**
+	 * TinyMCE handler for the playlist shortcode
+	 *
+	 * @mixes wp.mce.media
+	 */
 	wp.mce.playlist = _.extend( {}, wp.mce.media, {
 		shortcode: 'playlist',
 		state: 'playlist-edit',
 		View: wp.mce.media.PlaylistView
 	} );
-
 	wp.mce.views.register( 'playlist', wp.mce.playlist );
 
+	/**
+	 * TinyMCE handler for the video-playlist shortcode
+	 *
+	 * @mixes wp.mce.media
+	 */
 	wp.mce['video-playlist'] = _.extend( {}, wp.mce.media, {
 		shortcode: 'video-playlist',
 		state: 'video-playlist-edit',
 		View: wp.mce.media.PlaylistView
 	} );
-
 	wp.mce.views.register( 'video-playlist', wp.mce['video-playlist'] );
 
+	/**
+	 * Event binding
+	 */
 	function init() {
 		$(document.body)
 			.on( 'click', '.wp-switch-editor', wp.media.mixin.pauseAllPlayers )
