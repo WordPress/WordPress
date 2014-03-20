@@ -785,6 +785,133 @@
 	});
 
 	/**
+	 * wp.media.view.MediaDetails
+	 *
+	 * @contructor
+	 * @augments wp.media.view.Settings.AttachmentDisplay
+	 * @augments wp.media.view.Settings
+	 * @augments wp.media.View
+	 * @augments wp.Backbone.View
+	 * @augments Backbone.View
+	 */
+	media.view.MediaDetails = media.view.Settings.AttachmentDisplay.extend({
+		initialize: function() {
+			_.bindAll(this, 'success');
+
+			this.listenTo( this.controller, 'close', media.mixin.unsetPlayer );
+			this.on( 'ready', this.setPlayer );
+			this.on( 'media:setting:remove', media.mixin.unsetPlayer, this );
+			this.on( 'media:setting:remove', this.render );
+			this.on( 'media:setting:remove', this.setPlayer );
+			this.events = _.extend( this.events, {
+				'click .remove-setting' : 'removeSetting',
+				'change .content-track' : 'setTracks',
+				'click .remove-track' : 'setTracks'
+			} );
+
+			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
+		},
+
+		prepare: function() {
+			return _.defaults({
+				model: this.model.toJSON()
+			}, this.options );
+		},
+
+		removeSetting : function (e) {
+			var wrap = $( e.currentTarget ).parent(), setting;
+
+			setting = wrap.find( 'input' ).data( 'setting' );
+
+			if ( setting ) {
+				this.model.unset( setting );
+				this.trigger( 'media:setting:remove', this );
+			}
+
+			wrap.remove();
+		},
+
+		setTracks : function () {
+			var tracks = '';
+
+			_.each( this.$('.content-track'), function (track) {
+				tracks += $( track ).val();
+			} );
+
+			this.model.set( 'content', tracks );
+			this.trigger( 'media:setting:remove', this );
+		},
+
+		setPlayer : function () {
+			if ( ! this.player && this.media ) {
+				this.player = new MediaElementPlayer( this.media, this.settings );
+			}
+		},
+
+		/**
+		 * @abstract
+		 */
+		setMedia : function () {
+			return this;
+		},
+
+		success : function (mejs) {
+			var autoplay = mejs.attributes.autoplay && 'false' !== mejs.attributes.autoplay;
+
+			if ( 'flash' === mejs.pluginType && autoplay ) {
+				mejs.addEventListener( 'canplay', function () {
+					mejs.play();
+				}, false );
+			}
+
+			this.mejs = mejs;
+		},
+
+		render: function() {
+			var self = this, settings = {
+				success : this.success
+			};
+
+			if ( ! _.isUndefined( window._wpmejsSettings ) ) {
+				settings.pluginPath = _wpmejsSettings.pluginPath;
+			}
+
+			media.view.Settings.AttachmentDisplay.prototype.render.apply( this, arguments );
+			setTimeout( function() { self.resetFocus(); }, 10 );
+
+			this.settings = settings;
+
+			return this.setMedia();
+		},
+
+		resetFocus: function() {
+			this.$( '.embed-media-settings' ).scrollTop( 0 );
+		}
+	}, {
+		instances : 0,
+
+		/**
+		 * When multiple players in the DOM contain the same src, things get weird.
+		 *
+		 * @param {HTMLElement} media
+		 * @returns {HTMLElement}
+		 */
+		prepareSrc : function (media) {
+			var i = wp.media.view.MediaDetails.instances++;
+			_.each( $(media).find('source'), function (source) {
+				source.src = [
+					source.src,
+					source.src.indexOf('?') > -1 ? '&' : '?',
+					'_=',
+					i
+				].join('');
+			});
+
+			return media;
+		}
+	});
+
+	/**
 	 * wp.media.view.AudioDetails
 	 *
 	 * @contructor
