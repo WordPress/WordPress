@@ -345,13 +345,13 @@ final class _WP_Editors {
 				$dashicons = includes_url( "css/dashicons$suffix.css?$version" );
 				$mediaelement = includes_url( "js/mediaelement/mediaelementplayer.min.css?$version" );
 				$wpmediaelement = includes_url( "js/mediaelement/wp-mediaelement.css?$version" );
-				
+
 				// WordPress default stylesheet and dashicons
 				$mce_css = array(
 					$dashicons,
 					$mediaelement,
 					$wpmediaelement,
-					self::$baseurl . '/skins/wordpress/wp-content.css'
+					self::$baseurl . '/skins/wordpress/wp-content.css?' . $version
 				);
 
 				// load editor_style.css if the current theme supports it
