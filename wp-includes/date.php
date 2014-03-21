@@ -71,7 +71,7 @@ class WP_Date_Query {
 	 *                 @type string $day   Optional when passing array.The day of the month.
 	 *                                     Default (string:empty)|(array:1). Accepts numbers 1-31.
 	 *             }
-	 *             @type string|array $after Optional. Date to retrieve posts before. Accepts strtotime()-compatible
+	 *             @type string|array $after Optional. Date to retrieve posts after. Accepts strtotime()-compatible
 	 *                                       string, or array of 'year', 'month', 'day' values. {
 	 *
 	 *                 @type string $year  The four-digit year. Default empty. Accepts any four-digit year.
