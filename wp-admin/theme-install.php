@@ -104,8 +104,8 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 <div class="wrap">
 	<h2>
 		<?php echo esc_html( $title ); ?>
-		<a class="upload add-new-h2"><?php esc_html_e( 'Upload Theme' ); ?></a>
-		<a class="browse-themes add-new-h2"><?php esc_html_e( 'Browse' ); ?></a>
+		<a class="upload add-new-h2"><?php _e( 'Upload Theme' ); ?></a>
+		<a class="browse-themes add-new-h2"><?php _ex( 'Browse', 'themes' ); ?></a>
 	</h2>
 
 	<div class="upload-theme">
