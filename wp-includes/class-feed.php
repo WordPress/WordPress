@@ -11,7 +11,11 @@ class WP_Feed_Cache extends SimplePie_Cache {
 	 * @access public
 	 */
 	function create($location, $filename, $extension) {
-		return new WP_Feed_Cache_Transient($location, $filename, $extension);
+		if (defined('MEMCACHE_SERVER')) {
+			return new WP_Feed_Cache_Memcache($location, $filename, $extension);
+		} else {
+			return new WP_Feed_Cache_Transient($location, $filename, $extension);
+		}
 	}
 }
 
@@ -60,6 +64,67 @@ class WP_Feed_Cache_Transient {
 	function unlink() {
 		delete_transient($this->name);
 		delete_transient($this->mod_name);
+		return true;
+	}
+}
+
+/**
+ * Same as WP_Feed_Cache_Transient but use memcache as the backend
+ * In WP_Feed_Cache, it will only be activated when MEMCACHE_SEVER is defined in wp-config
+ */
+class WP_Feed_Cache_Memcache {
+	var $name;
+	var $mod_name;
+	var $lifetime = 43200; //Default lifetime in cache of 12 hours
+	var $memcache = null;
+	var $memcache_prefix = "";
+
+	function __construct($location, $filename, $extension) {
+		$this->name = 'feed_' . $filename;
+		$this->mod_name = 'feed_mod_' . $filename;
+
+		$lifetime = $this->lifetime;
+		/**
+		 * Filter the transient lifetime of the feed cache.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param int    $lifetime Cache duration in seconds. Default is 43200 seconds (12 hours).
+		 * @param string $filename Unique identifier for the cache object.
+		 */
+		$this->lifetime = apply_filters( 'wp_feed_cache_transient_lifetime', $lifetime, $filename);
+
+		$this->memcache = new Memcache();
+
+		// MEMCACHE_SERVER is from wp-config
+		$this->memcache->connect(MEMCACHE_SERVER, 11211);
+		$this->memcache_prefix = DB_NAME."::";
+	}
+
+	function save($data) {
+		if ( is_a($data, 'SimplePie') )
+			$data = $data->data;
+
+		$this->memcache->set($this->memcache_prefix . $this->name, $data, $this->lifetime);
+		$this->memcache->set($this->memcache_prefix . $this->mod_name, time(), $this->lifetime);
+		return true;
+	}
+
+	function load() {
+		return $this->memcache->get($this->memcache_prefix . $this->name);
+	}
+
+	function mtime() {
+		return $this->memcache->get($this->memcache_prefix . $this->mod_name);
+	}
+
+	function touch() {
+		return $this->memcache->set($this->memcache_prefix . $this->mod_name, time(), $this->lifetime);
+	}
+
+	function unlink() {
+		$this->memcache->delete($this->memcache_prefix . $this->name);
+		$this->memcache->delete($this->memcache_prefix . $this->mod_name);
 		return true;
 	}
 }
