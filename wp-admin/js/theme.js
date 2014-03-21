@@ -179,11 +179,12 @@ themes.Collection = Backbone.Collection.extend({
 		// Start with a full collection
 		this.reset( themes.data.themes, { silent: true } );
 
-		// The RegExp object to match
-		//
+		// Escape the term string for RegExp meta characters
+		term = term.replace( /[-\/\\^$*+?.()|[\]{}]/g, '\\$&' );
+
 		// Consider spaces as word delimiters and match the whole string
 		// so matching terms can be combined
-		term = term.replace( ' ', ')(?=.*' );
+		term = term.replace( / /g, ')(?=.*' );
 		match = new RegExp( '^(?=.*' + term + ').+', 'i' );
 
 		// Find results
