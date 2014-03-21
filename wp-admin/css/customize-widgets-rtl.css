@@ -387,6 +387,7 @@ body.adding-widget .add-new-widget:before {
 	padding: 20px 60px 20px 15px;
 	border-bottom: 1px solid #e4e4e4;
 	cursor: pointer;
+	display: none;
 }
 
 #available-widgets .widget-tpl:hover,

@@ -61,7 +61,60 @@ var WidgetCustomizer = ( function ($) {
 	} );
 
 	WidgetCollection = self.WidgetCollection = Backbone.Collection.extend( {
-		model: Widget
+		model: Widget,
+
+		// Controls searching on the current widget collection
+		// and triggers an update event
+		doSearch: function( value ) {
+
+			// Don't do anything if we've already done this search
+			// Useful because the search handler fires multiple times per keystroke
+			if ( this.terms === value ) {
+				return;
+			}
+
+			// Updates terms with the value passed
+			this.terms = value;
+
+			// If we have terms, run a search...
+			if ( this.terms.length > 0 ) {
+				this.search( this.terms );
+			}
+
+			// If search is blank, show all themes
+			// Useful for resetting the views when you clean the input
+			if ( this.terms === '' ) {
+				this.reset( WidgetCustomizer_exports.available_widgets );
+			}
+
+			// Trigger an 'update' event
+			this.trigger( 'update' );
+		},
+
+		// Performs a search within the collection
+		// @uses RegExp
+		search: function( term ) {
+			var match, results, haystack;
+
+			// Start with a full collection
+			this.reset( WidgetCustomizer_exports.available_widgets, { silent: true } );
+
+			// Escape the term string for RegExp meta characters
+			term = term.replace( /[-\/\\^$*+?.()|[\]{}]/g, '\\$&' );
+
+			// Consider spaces as word delimiters and match the whole string
+			// so matching terms can be combined
+			term = term.replace( / /g, ')(?=.*' );
+			match = new RegExp( '^(?=.*' + term + ').+', 'i' );
+
+			results = this.filter( function( data ) {
+				haystack = _.union( data.get( 'name' ), data.get( 'id' ), data.get( 'description' ) );
+
+				return match.test( haystack );
+			});
+
+			this.reset( results );
+		}
 	} );
 	self.available_widgets = new WidgetCollection( self.available_widgets );
 
@@ -1552,23 +1605,13 @@ var WidgetCustomizer = ( function ($) {
 		 * Set up event listeners
 		 */
 		setup: function () {
-			var panel = this, update_available_widgets_list;
+			var panel = this;
 
 			panel.container = $( '#available-widgets' );
 			panel.filter_input = $( '#available-widgets-filter' ).find( 'input' );
 
-			update_available_widgets_list = function () {
-				self.available_widgets.each( function ( widget ) {
-					var widget_tpl = $( '#widget-tpl-' + widget.id );
-					widget_tpl.toggle( ! widget.get( 'is_disabled' ) );
-					if ( widget.get( 'is_disabled' ) && widget_tpl.is( panel.selected_widget_tpl ) ) {
-						panel.selected_widget_tpl = null;
-					}
-				} );
-			};
-
-			self.available_widgets.on( 'change', update_available_widgets_list );
-			update_available_widgets_list();
+			self.available_widgets.on( 'change update', panel.update_available_widgets_list );
+			panel.update_available_widgets_list();
 
 			// If the available widgets panel is open and the customize controls are
 			// interacted with (i.e. available widgets panel is blurred) then close the
@@ -1596,38 +1639,31 @@ var WidgetCustomizer = ( function ($) {
 				panel.submit( this );
 			} );
 
-			panel.container.liveFilter(
-				'#available-widgets-filter input',
-				'.widget-tpl',
-				{
-					filterChildSelector: '.widget-title h4',
-					after: function () {
-						var filter_val = panel.filter_input.val(),
-							first_visible_widget;
+			panel.filter_input.on( 'input keyup change', function( event ) {
+				var first_visible_widget;
 
-						// Remove a widget from being selected if it is no longer visible
-						if ( panel.selected_widget_tpl && ! panel.selected_widget_tpl.is( ':visible' ) ) {
-							panel.selected_widget_tpl.removeClass( 'selected' );
-							panel.selected_widget_tpl = null;
-						}
+				self.available_widgets.doSearch( event.target.value );
 
-						// If a widget was selected but the filter value has been cleared out, clear selection
-						if ( panel.selected_widget_tpl && ! filter_val ) {
-							panel.selected_widget_tpl.removeClass( 'selected' );
-							panel.selected_widget_tpl = null;
-						}
+				// Remove a widget from being selected if it is no longer visible
+				if ( panel.selected_widget_tpl && ! panel.selected_widget_tpl.is( ':visible' ) ) {
+					panel.selected_widget_tpl.removeClass( 'selected' );
+					panel.selected_widget_tpl = null;
+				}
 
-						// If a filter has been entered and a widget hasn't been selected, select the first one shown
-						if ( ! panel.selected_widget_tpl && filter_val ) {
-							first_visible_widget = panel.container.find( '> .widget-tpl:visible:first' );
-							if ( first_visible_widget.length ) {
-								panel.select( first_visible_widget );
-							}
-						}
+				// If a widget was selected but the filter value has been cleared out, clear selection
+				if ( panel.selected_widget_tpl && ! event.target.value ) {
+					panel.selected_widget_tpl.removeClass( 'selected' );
+					panel.selected_widget_tpl = null;
+				}
 
+				// If a filter has been entered and a widget hasn't been selected, select the first one shown
+				if ( ! panel.selected_widget_tpl &&  event.target.value ) {
+					first_visible_widget = panel.container.find( '> .widget-tpl:visible:first' );
+					if ( first_visible_widget.length ) {
+						panel.select( first_visible_widget );
 					}
 				}
-			);
+			} );
 
 			// Select a widget when it is focused on
 			panel.container.find( ' > .widget-tpl' ).on( 'focus', function () {
@@ -1681,6 +1717,25 @@ var WidgetCustomizer = ( function ($) {
 		},
 
 		/**
+		 * Updates widgets list.
+		 */
+		update_available_widgets_list: function() {
+			var panel = self.availableWidgetsPanel;
+
+			// First hide all widgets...
+			panel.container.find( '.widget-tpl' ).hide();
+
+			// ..and then show only available widgets which could be filtered
+			self.available_widgets.each( function ( widget ) {
+				var widget_tpl = $( '#widget-tpl-' + widget.id );
+				widget_tpl.toggle( ! widget.get( 'is_disabled' ) );
+				if ( widget.get( 'is_disabled' ) && widget_tpl.is( panel.selected_widget_tpl ) ) {
+					panel.selected_widget_tpl = null;
+				}
+			} );
+		},
+
+		/**
 		 * @param widget_tpl
 		 */
 		select: function ( widget_tpl ) {
@@ -1725,6 +1780,7 @@ var WidgetCustomizer = ( function ($) {
 
 			$( 'body' ).addClass( 'adding-widget' );
 			panel.container.find( '.widget-tpl' ).removeClass( 'selected' );
+			self.available_widgets.doSearch( '' );
 			panel.filter_input.focus();
 		},
 
@@ -1780,58 +1836,3 @@ var WidgetCustomizer = ( function ($) {
 
 	return self;
 }( jQuery ));
-
-/* @todo remove this dependency */
-/*
- * jQuery.liveFilter
- *
- * Copyright (c) 2009 Mike Merritt
- *
- * Forked by Lim Chee Aun (cheeaun.com)
- *
- */
-
-(function($){
-	$.fn.liveFilter = function(inputEl, filterEl, options){
-		var el, filter, defaults = {
-			filterChildSelector: null,
-			filter: function(el, val){
-				return $(el).text().toUpperCase().indexOf(val.toUpperCase()) >= 0;
-			},
-			before: function(){},
-			after: function(){}
-		};
-		options = $.extend(defaults, options);
-
-		el = $(this).find(filterEl);
-		if (options.filterChildSelector) {
-			el = el.find(options.filterChildSelector);
-		}
-
-		filter = options.filter;
-		$(inputEl).keyup(function(){
-			var val = $(this).val(), contains, containsNot;
-
-			contains = el.filter(function(){
-				return filter(this, val);
-			});
-			containsNot = el.not(contains);
-			if (options.filterChildSelector){
-				contains = contains.parents(filterEl);
-				containsNot = containsNot.parents(filterEl).hide();
-			}
-
-			options.before.call(this, contains, containsNot);
-
-			contains.show();
-			containsNot.hide();
-
-			if (val === '') {
-				contains.show();
-				containsNot.show();
-			}
-
-			options.after.call(this, contains, containsNot);
-		});
-	};
-})(jQuery);
