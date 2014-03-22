@@ -1,24 +1,31 @@
-/*global jQuery, WidgetCustomizerPreview_exports */
-/*exported WidgetCustomizerPreview */
-var WidgetCustomizerPreview = (function ($) {
-	'use strict';
+(function( $, wp ){
 
-	var OldPreview, self = {
-		rendered_sidebars: {}, // @todo Make rendered a property of the Backbone model
-		rendered_widgets: {}, // @todo Make rendered a property of the Backbone model
-		registered_sidebars: [], // @todo Make a Backbone collection
-		registered_widgets: {}, // @todo Make array, Backbone collection
-		widget_selectors: [],
+	if ( ! wp || ! wp.customize ) { return; }
+
+	var api = wp.customize,
+		OldPreview;
+
+	/**
+	 * wp.customize.WidgetCustomizerPreview
+	 *
+	 */
+	api.WidgetCustomizerPreview = {
+		renderedSidebars: {}, // @todo Make rendered a property of the Backbone model
+		renderedWidgets: {}, // @todo Make rendered a property of the Backbone model
+		registeredSidebars: [], // @todo Make a Backbone collection
+		registeredWidgets: {}, // @todo Make array, Backbone collection
+		widgetSelectors: [],
 		preview: null,
-		i18n: {},
+		l10n: {},
 
 		init: function () {
+			var self = this;
 			this.buildWidgetSelectors();
 			this.highlightControls();
 
-			self.preview.bind( 'active', function() {
-				self.preview.send( 'rendered-sidebars', self.rendered_sidebars ); // @todo Only send array of IDs
-				self.preview.send( 'rendered-widgets', self.rendered_widgets ); // @todo Only send array of IDs
+			this.preview.bind( 'active', function() {
+				self.preview.send( 'rendered-sidebars', self.renderedSidebars ); // @todo Only send array of IDs
+				self.preview.send( 'rendered-widgets', self.renderedWidgets ); // @todo Only send array of IDs
 			} );
 		},
 
@@ -26,25 +33,27 @@ var WidgetCustomizerPreview = (function ($) {
 		 * Calculate the selector for the sidebar's widgets based on the registered sidebar's info
 		 */
 		buildWidgetSelectors: function () {
-			$.each( self.registered_sidebars, function ( i, sidebar ) {
-				var widget_tpl = [
+			var self = this;
+
+			$.each( this.registeredSidebars, function ( i, sidebar ) {
+				var widgetTpl = [
 						sidebar.before_widget.replace('%1$s', '').replace('%2$s', ''),
 						sidebar.before_title,
 						sidebar.after_title,
 						sidebar.after_widget
 					].join(''),
-					empty_widget,
-					widget_selector,
-					widget_classes;
+					emptyWidget,
+					widgetSelector,
+					widgetClasses;
 
-				empty_widget = $(widget_tpl);
-				widget_selector = empty_widget.prop('tagName');
-				widget_classes = empty_widget.prop('className').replace(/^\s+|\s+$/g, '');
+				emptyWidget = $(widgetTpl);
+				widgetSelector = emptyWidget.prop('tagName');
+				widgetClasses = emptyWidget.prop('className').replace(/^\s+|\s+$/g, '');
 
-				if ( widget_classes ) {
-					widget_selector += '.' + widget_classes.split(/\s+/).join('.');
+				if ( widgetClasses ) {
+					widgetSelector += '.' + widgetClasses.split(/\s+/).join('.');
 				}
-				self.widget_selectors.push(widget_selector);
+				self.widgetSelectors.push(widgetSelector);
 			});
 		},
 
@@ -65,10 +74,9 @@ var WidgetCustomizerPreview = (function ($) {
 		 *
 		 */
 		highlightControls: function() {
+			var selector = this.widgetSelectors.join(',');
 
-			var selector = this.widget_selectors.join(',');
-
-			$(selector).attr( 'title', self.i18n.widget_tooltip );
+			$(selector).attr( 'title', this.l10n.widgetTooltip );
 
 			$(document).on( 'mouseenter', selector, function () {
 				var control = parent.WidgetCustomizer.getWidgetFormControlForWidget( $(this).prop('id') );
@@ -89,26 +97,28 @@ var WidgetCustomizerPreview = (function ($) {
 				}
 			});
 		}
-
 	};
-
-	$.extend(self, WidgetCustomizerPreview_exports);
 
 	/**
 	 * Capture the instance of the Preview since it is private
 	 */
-	OldPreview = wp.customize.Preview;
-	wp.customize.Preview = OldPreview.extend( {
+	OldPreview = api.Preview;
+	api.Preview = OldPreview.extend( {
 		initialize: function( params, options ) {
-			self.preview = this;
+			api.WidgetCustomizerPreview.preview = this;
 			OldPreview.prototype.initialize.call( this, params, options );
 		}
 	} );
 
-	// @todo on customize ready?
 	$(function () {
-		self.init();
+		var settings = window._wpWidgetCustomizerPreviewSettings;
+		if ( ! settings ) {
+			return;
+		}
+
+		$.extend( api.WidgetCustomizerPreview, settings );
+
+		api.WidgetCustomizerPreview.init();
 	});
 
-	return self;
-}( jQuery ));
+})( jQuery, window.wp );

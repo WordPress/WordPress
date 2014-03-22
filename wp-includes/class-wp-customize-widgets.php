@@ -696,8 +696,9 @@ class WP_Customize_Widgets {
 	 */
 	static function customize_preview_init() {
 		add_filter( 'sidebars_widgets', array( __CLASS__, 'preview_sidebars_widgets' ), 1 );
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'customize_preview_enqueue_deps' ) );
-		add_action( 'wp_footer', array( __CLASS__, 'export_preview_data' ), 9999 );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'customize_preview_enqueue' ) );
+		add_action( 'wp_print_styles', array( __CLASS__, 'inject_preview_css' ), 1 );
+		add_action( 'wp_footer', array( __CLASS__, 'export_preview_data' ), 20 );
 	}
 
 	/**
@@ -719,29 +720,9 @@ class WP_Customize_Widgets {
 	 *
 	 * @action wp_enqueue_scripts
 	 */
-	static function customize_preview_enqueue_deps() {
+	static function customize_preview_enqueue() {
 		wp_enqueue_script( 'customize-preview-widgets' );
-
-		add_action( 'wp_print_styles', array( __CLASS__, 'inject_preview_css' ), 1 );
-
-		// Why not wp_localize_script? Because we're not localizing, and it forces values into strings
-		global $wp_scripts;
-		$exports = array(
-			'registered_sidebars' => array_values( $GLOBALS['wp_registered_sidebars'] ),
-			'registered_widgets' => $GLOBALS['wp_registered_widgets'],
-			'i18n' => array(
-				'widget_tooltip' => ( 'Shift-click to edit this widget.' ),
-			),
-		);
-		foreach ( $exports['registered_widgets'] as &$registered_widget ) {
-			unset( $registered_widget['callback'] ); // may not be JSON-serializeable
 		}
-		$wp_scripts->add_data(
-			'customize-preview-widgets',
-			'data',
-			sprintf( 'var WidgetCustomizerPreview_exports = %s;', json_encode( $exports ) )
-		);
-	}
 
 	/**
 	 * Insert default style for highlighted widget at early point so theme
@@ -767,14 +748,23 @@ class WP_Customize_Widgets {
 	 * @action wp_footer
 	 */
 	static function export_preview_data() {
-		wp_print_scripts( array( 'customize-preview-widgets' ) );
+		// Prepare customizer settings to pass to Javascript.
+		$settings = array(
+			'renderedSidebars'   => array_fill_keys( array_unique( self::$rendered_sidebars ), true ),
+			'renderedWidgets'    => array_fill_keys( array_keys( self::$rendered_widgets ), true ),
+			'registeredSidebars' => array_values( $GLOBALS['wp_registered_sidebars'] ),
+			'registeredWidgets'  => $GLOBALS['wp_registered_widgets'],
+			'l10n'               => array(
+				'widgetTooltip' => ( 'Shift-click to edit this widget.' ),
+			),
+		);
+		foreach ( $settings['registeredWidgets'] as &$registered_widget ) {
+			unset( $registered_widget['callback'] ); // may not be JSON-serializeable
+		}
+
 		?>
-		<script>
-		(function () {
-			/*global WidgetCustomizerPreview */
-			WidgetCustomizerPreview.rendered_sidebars = <?php echo json_encode( array_fill_keys( array_unique( self::$rendered_sidebars ), true ) ) ?>;
-			WidgetCustomizerPreview.rendered_widgets = <?php echo json_encode( array_fill_keys( array_keys( self::$rendered_widgets ), true ) ); ?>;
-		}());
+		<script type="text/javascript">
+			var _wpWidgetCustomizerPreviewSettings = <?php echo json_encode( $settings ); ?>;
 		</script>
 		<?php
 	}

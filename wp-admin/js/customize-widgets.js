@@ -1510,7 +1510,7 @@ var WidgetCustomizer = ( function ($) {
 		 */
 		getPreviewWidgetElement: function () {
 			var control = this,
-				widget_customizer_preview = self.getPreviewWindow().WidgetCustomizerPreview;
+				widget_customizer_preview = self.getPreviewWindow().wp.customize.WidgetCustomizerPreview;
 			return widget_customizer_preview.getWidgetElement( control.params.widget_id );
 		},
 
