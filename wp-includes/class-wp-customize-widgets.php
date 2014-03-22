@@ -424,17 +424,14 @@ class WP_Customize_Widgets {
 	/**
 	 * Convert a widget setting ID (option path) to its id_base and number components
 	 *
-	 * @throws Widget_Customizer_Exception
-	 * @throws Exception
-	 *
 	 * @param string $setting_id
-	 * @param array
-	 * @return array
+	 * @return WP_Error|array
 	 */
 	static function parse_widget_setting_id( $setting_id ) {
 		if ( ! preg_match( '/^(widget_(.+?))(?:\[(\d+)\])?$/', $setting_id, $matches ) ) {
-			throw new Widget_Customizer_Exception( sprintf( 'Invalid widget setting ID: %s', $setting_id ) );
+			return new WP_Error( 'invalid_setting_id', 'Invalid widget setting ID' );
 		}
+
 		$id_base = $matches[2];
 		$number  = isset( $matches[3] ) ? intval( $matches[3] ) : null;
 		return compact( 'id_base', 'number' );
@@ -500,6 +497,7 @@ class WP_Customize_Widgets {
 				'save_btn_tooltip' => ( 'Save and preview changes before publishing them.' ),
 				'remove_btn_label' => __( 'Remove' ),
 				'remove_btn_tooltip' => ( 'Trash widget by moving it to the inactive widgets sidebar.' ),
+				'error' => __('An error has occurred. Please reload the page and try again.'),
 			),
 			'tpl' => array(
 				'widget_reorder_nav' => $widget_reorder_nav_tpl,
@@ -912,108 +910,106 @@ class WP_Customize_Widgets {
 	 * Find and invoke the widget update and control callbacks. Requires that
 	 * $_POST be populated with the instance data.
 	 *
-	 * @throws Widget_Customizer_Exception
-	 * @throws Exception
-	 *
-	 * @param string $widget_id
-	 * @return array
+	 * @param  string $widget_id
+	 * @return WP_Error|array
 	 */
 	static function call_widget_update( $widget_id ) {
 		global $wp_registered_widget_updates, $wp_registered_widget_controls;
 
 		$options_transaction = new Options_Transaction();
 
-		try {
-			$options_transaction->start();
-			$parsed_id   = self::parse_widget_id( $widget_id );
-			$option_name = 'widget_' . $parsed_id['id_base'];
+		$options_transaction->start();
+		$parsed_id   = self::parse_widget_id( $widget_id );
+		$option_name = 'widget_' . $parsed_id['id_base'];
 
-			/**
-			 * If a previously-sanitized instance is provided, populate the input vars
-			 * with its values so that the widget update callback will read this instance
-			 */
-			$added_input_vars = array();
-			if ( ! empty( $_POST['sanitized_widget_setting'] ) ) {
-				$sanitized_widget_setting = json_decode( self::get_post_value( 'sanitized_widget_setting' ), true );
-				if ( empty( $sanitized_widget_setting ) ) {
-					throw new Widget_Customizer_Exception( 'Malformed sanitized_widget_setting' );
-				}
-				$instance = self::sanitize_widget_instance( $sanitized_widget_setting );
-				if ( is_null( $instance ) ) {
-					throw new Widget_Customizer_Exception( 'Unsanitary sanitized_widget_setting' );
-				}
-				if ( ! is_null( $parsed_id['number'] ) ) {
-					$value = array();
-					$value[$parsed_id['number']] = $instance;
-					$key = 'widget-' . $parsed_id['id_base'];
+		/**
+		 * If a previously-sanitized instance is provided, populate the input vars
+		 * with its values so that the widget update callback will read this instance
+		 */
+		$added_input_vars = array();
+		if ( ! empty( $_POST['sanitized_widget_setting'] ) ) {
+			$sanitized_widget_setting = json_decode( self::get_post_value( 'sanitized_widget_setting' ), true );
+			if ( empty( $sanitized_widget_setting ) ) {
+				$options_transaction->rollback();
+				return new WP_Error( 'malformed_data', 'Malformed sanitized_widget_setting' );
+			}
+
+			$instance = self::sanitize_widget_instance( $sanitized_widget_setting );
+			if ( is_null( $instance ) ) {
+				$options_transaction->rollback();
+				return new WP_Error( 'unsanitary_data', 'Unsanitary sanitized_widget_setting' );
+			}
+
+			if ( ! is_null( $parsed_id['number'] ) ) {
+				$value = array();
+				$value[$parsed_id['number']] = $instance;
+				$key = 'widget-' . $parsed_id['id_base'];
+				$_REQUEST[$key] = $_POST[$key] = wp_slash( $value );
+				$added_input_vars[] = $key;
+			} else {
+				foreach ( $instance as $key => $value ) {
 					$_REQUEST[$key] = $_POST[$key] = wp_slash( $value );
 					$added_input_vars[] = $key;
-				} else {
-					foreach ( $instance as $key => $value ) {
-						$_REQUEST[$key] = $_POST[$key] = wp_slash( $value );
-						$added_input_vars[] = $key;
-					}
 				}
 			}
-
-			/**
-			 * Invoke the widget update callback
-			 */
-			foreach ( (array) $wp_registered_widget_updates as $name => $control ) {
-				if ( $name === $parsed_id['id_base'] && is_callable( $control['callback'] ) ) {
-					ob_start();
-					call_user_func_array( $control['callback'], $control['params'] );
-					ob_end_clean();
-					break;
-				}
-			}
-
-			// Clean up any input vars that were manually added
-			foreach ( $added_input_vars as $key ) {
-				unset( $_POST[$key] );
-				unset( $_REQUEST[$key] );
-			}
-
-			/**
-			 * Make sure the expected option was updated
-			 */
-			if ( 0 !== $options_transaction->count() ) {
-				if ( count( $options_transaction->options ) > 1 ) {
-					throw new Widget_Customizer_Exception( sprintf( 'Widget %1$s unexpectedly updated more than one option.', $widget_id ) );
-				}
-				$updated_option_name = key( $options_transaction->options );
-				if ( $updated_option_name !== $option_name ) {
-					throw new Widget_Customizer_Exception( sprintf( 'Widget %1$s updated option "%2$s", but expected "%3$s".', $widget_id, $updated_option_name, $option_name ) );
-				}
-			}
-
-			/**
-			 * Obtain the widget control with the updated instance in place
-			 */
-			ob_start();
-			$form = $wp_registered_widget_controls[$widget_id];
-			if ( $form ) {
-				call_user_func_array( $form['callback'], $form['params'] );
-			}
-			$form = ob_get_clean();
-
-			/**
-			 * Obtain the widget instance
-			 */
-			$option = get_option( $option_name );
-			if ( null !== $parsed_id['number'] ) {
-				$instance = $option[$parsed_id['number']];
-			} else {
-				$instance = $option;
-			}
-
-			$options_transaction->rollback();
-			return compact( 'instance', 'form' );
 		}
-		catch ( Exception $e ) {
-			$options_transaction->rollback();
-			throw $e;
+
+		/**
+		 * Invoke the widget update callback
+		 */
+		foreach ( (array) $wp_registered_widget_updates as $name => $control ) {
+			if ( $name === $parsed_id['id_base'] && is_callable( $control['callback'] ) ) {
+				ob_start();
+				call_user_func_array( $control['callback'], $control['params'] );
+				ob_end_clean();
+				break;
+			}
 		}
+
+		// Clean up any input vars that were manually added
+		foreach ( $added_input_vars as $key ) {
+			unset( $_POST[$key] );
+			unset( $_REQUEST[$key] );
+		}
+
+		/**
+		 * Make sure the expected option was updated
+		 */
+		if ( 0 !== $options_transaction->count() ) {
+			if ( count( $options_transaction->options ) > 1 ) {
+				$options_transaction->rollback();
+				return new WP_Error( 'unexpected_update', 'Widget unexpectedly updated more than one option.' );
+			}
+
+			$updated_option_name = key( $options_transaction->options );
+			if ( $updated_option_name !== $option_name ) {
+				$options_transaction->rollback();
+				return new WP_Error( 'wrong_option', sprintf( 'Widget updated option "%1$s", but expected "%2$s".', $updated_option_name, $option_name ) );
+			}
+		}
+
+		/**
+		 * Obtain the widget control with the updated instance in place
+		 */
+		ob_start();
+		$form = $wp_registered_widget_controls[$widget_id];
+		if ( $form ) {
+			call_user_func_array( $form['callback'], $form['params'] );
+		}
+		$form = ob_get_clean();
+
+		/**
+		 * Obtain the widget instance
+		 */
+		$option = get_option( $option_name );
+		if ( null !== $parsed_id['number'] ) {
+			$instance = $option[$parsed_id['number']];
+		} else {
+			$instance = $option;
+		}
+
+		$options_transaction->rollback();
+		return compact( 'instance', 'form' );
 	}
 
 	/**
@@ -1026,52 +1022,46 @@ class WP_Customize_Widgets {
 	 * @action wp_ajax_update_widget
 	 */
 	static function wp_ajax_update_widget() {
-		$generic_error = __( 'An error has occurred. Please reload the page and try again.' );
 
-		try {
-			if ( ! check_ajax_referer( self::UPDATE_WIDGET_AJAX_ACTION, self::UPDATE_WIDGET_NONCE_POST_KEY, false ) ) {
-				throw new Widget_Customizer_Exception( ( 'Nonce check failed. Reload and try again?' ) );
-			}
-			if ( ! current_user_can( 'edit_theme_options' ) ) {
-				throw new Widget_Customizer_Exception( ( 'Current user cannot!' ) ); // @todo translate
-			}
-			if ( ! isset( $_POST['widget-id'] ) ) {
-				throw new Widget_Customizer_Exception( ( 'Incomplete request' ) ); // @todo translate
-			}
-
-			unset( $_POST[self::UPDATE_WIDGET_NONCE_POST_KEY], $_POST['action'] );
-
-			do_action( 'load-widgets.php' );
-			do_action( 'widgets.php' );
-			do_action( 'sidebar_admin_setup' );
-
-			$widget_id = self::get_post_value( 'widget-id' );
-			$parsed_id = self::parse_widget_id( $widget_id );
-			$id_base   = $parsed_id['id_base'];
-
-			if ( isset( $_POST['widget-' . $id_base] ) && is_array( $_POST['widget-' . $id_base] ) && preg_match( '/__i__|%i%/', key( $_POST['widget-' . $id_base] ) ) ) {
-				throw new Widget_Customizer_Exception( 'Cannot pass widget templates to create new instances; apply template vars in JS' );
-			}
-
-			$updated_widget = self::call_widget_update( $widget_id ); // => {instance,form}
-			$form = $updated_widget['form'];
-			$instance = self::sanitize_widget_js_instance( $updated_widget['instance'] );
-
-			wp_send_json_success( compact( 'form', 'instance' ) );
+		if ( ! is_user_logged_in() ) {
+			wp_die( 0 );
 		}
-		catch( Exception $e ) {
-			if ( $e instanceof Widget_Customizer_Exception ) {
-				$message = $e->getMessage();
-			} else {
-				error_log( sprintf( '%s in %s: %s', get_class( $e ), __FUNCTION__, $e->getMessage() ) );
-				$message = $generic_error;
-			}
-			wp_send_json_error( compact( 'message' ) );
+
+		check_ajax_referer( self::UPDATE_WIDGET_AJAX_ACTION, self::UPDATE_WIDGET_NONCE_POST_KEY );
+
+		if ( ! current_user_can( 'edit_theme_options' ) ) {
+			wp_die( -1 );
 		}
+
+		if ( ! isset( $_POST['widget-id'] ) ) {
+			wp_send_json_error();
+		}
+
+		unset( $_POST[self::UPDATE_WIDGET_NONCE_POST_KEY], $_POST['action'] );
+
+		do_action( 'load-widgets.php' );
+		do_action( 'widgets.php' );
+		do_action( 'sidebar_admin_setup' );
+
+		$widget_id = self::get_post_value( 'widget-id' );
+		$parsed_id = self::parse_widget_id( $widget_id );
+		$id_base   = $parsed_id['id_base'];
+
+		if ( isset( $_POST['widget-' . $id_base] ) && is_array( $_POST['widget-' . $id_base] ) && preg_match( '/__i__|%i%/', key( $_POST['widget-' . $id_base] ) ) ) {
+			wp_send_json_error();
+		}
+
+		$updated_widget = self::call_widget_update( $widget_id ); // => {instance,form}
+		if ( is_wp_error( $updated_widget ) ) {
+			wp_send_json_error();
+		}
+
+		$form = $updated_widget['form'];
+		$instance = self::sanitize_widget_js_instance( $updated_widget['instance'] );
+
+		wp_send_json_success( compact( 'form', 'instance' ) );
 	}
 }
-
-class Widget_Customizer_Exception extends Exception {}
 
 class Options_Transaction {
 
@@ -1203,9 +1193,6 @@ class Options_Transaction {
 			}
 			else if ( 'update' === $option_operation['operation'] ) {
 				update_option( $option_operation['option_name'], $option_operation['old_value'] );
-			}
-			else {
-				throw new Exception( 'Unexpected operation' );
 			}
 		}
 		$this->_is_current = false;

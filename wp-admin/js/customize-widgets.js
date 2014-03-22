@@ -16,7 +16,8 @@ var WidgetCustomizer = ( function ($) {
 			save_btn_label: '',
 			save_btn_tooltip: '',
 			remove_btn_label: '',
-			remove_btn_tooltip: ''
+			remove_btn_tooltip: '',
+			error: '',
 		},
 		available_widgets: [], // available widgets for instantiating
 		registered_widgets: [], // all widgets registered
@@ -1172,6 +1173,9 @@ var WidgetCustomizer = ( function ($) {
 
 			widget_content = control.container.find( '.widget-content' );
 
+			// Remove a previous error message
+			widget_content.find( '.widget-error' ).remove();
+
 			// @todo Support more selectors than IDs?
 			if ( $.contains( control.container[0], document.activeElement ) && $( document.activeElement ).is( '[id]' ) ) {
 				element_id_to_refocus = $( document.activeElement ).prop( 'id' );
@@ -1218,6 +1222,22 @@ var WidgetCustomizer = ( function ($) {
 					sanitized_inputs,
 					has_same_inputs_in_response,
 					is_instance_identical;
+
+				// Check if the user is logged out.
+				if ( '0' === r ) {
+					self.previewer.preview.iframe.hide();
+					self.previewer.login().done( function() {
+						control.updateWidget( args );
+						self.previewer.preview.iframe.show();
+					} );
+					return;
+				}
+
+				// Check for cheaters.
+				if ( '-1' === r ) {
+					self.previewer.cheatin();
+					return;
+				}
 
 				if ( r.success ) {
 					sanitized_form = $( '<div>' + r.data.form + '</div>' );
@@ -1274,9 +1294,7 @@ var WidgetCustomizer = ( function ($) {
 					 * preview finishing loading.
 					 */
 					is_instance_identical = _( control.setting() ).isEqual( r.data.instance );
-					if ( is_instance_identical ) {
-						control.container.removeClass( 'previewer-loading' );
-					} else {
+					if ( ! is_instance_identical ) {
 						control.is_widget_updating = true; // suppress triggering another updateWidget
 						control.setting( r.data.instance );
 						control.is_widget_updating = false;
@@ -1286,26 +1304,24 @@ var WidgetCustomizer = ( function ($) {
 						complete_callback.call( control, null, { no_change: is_instance_identical, ajax_finished: true } );
 					}
 				} else {
-					window.console && window.console.log( r );
-					message = 'FAIL';
+					message = self.i18n.error;
 					if ( r.data && r.data.message ) {
 						message = r.data.message;
 					}
 					if ( complete_callback ) {
 						complete_callback.call( control, message );
 					} else {
-						throw new Error( message );
+						widget_content.prepend( '<p class="widget-error"><strong>' + message + '</strong></p>' );
 					}
 				}
 			} );
 			jqxhr.fail( function ( jqXHR, textStatus ) {
 				if ( complete_callback ) {
 					complete_callback.call( control, textStatus );
-				} else {
-					throw new Error( textStatus );
 				}
 			} );
 			jqxhr.always( function () {
+				control.container.removeClass( 'previewer-loading' );
 				control.container.removeClass( 'widget-form-loading' );
 				inputs.each( function () {
 					$( this ).removeData( 'state' + update_number );
