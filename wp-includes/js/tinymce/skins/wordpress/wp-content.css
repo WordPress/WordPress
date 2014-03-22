@@ -164,6 +164,10 @@ embed {
 	max-width: 100%;
 }
 
+audio {
+	visibility: hidden;
+}
+
 /**
  * WP Views
  */

@@ -48,14 +48,20 @@ function wp_underscore_audio_template() {
 function wp_underscore_video_template() {
 	$video_types = wp_get_video_extensions();
 ?>
-<#
-var isYouTube = ! _.isEmpty( data.model.src ) && data.model.src.match(/youtube|youtu\.be/);
-	w = ! data.model.width || data.model.width > 640 ? 640 : data.model.width,
-	h = ! data.model.height ? 360 : data.model.height;
+<#  var w, h, settings = wp.media.view.settings,
+		isYouTube = ! _.isEmpty( data.model.src ) && data.model.src.match(/youtube|youtu\.be/);
 
-if ( data.model.width && w !== data.model.width ) {
-	h = Math.ceil( ( h * w ) / data.model.width );
-}
+	if ( settings.contentWidth && data.model.width >= settings.contentWidth ) {
+		w = settings.contentWidth;
+	} else {
+		w = data.model.width;
+	}
+
+	if ( w !== data.model.width ) {
+		h = Math.ceil( ( h * w ) / data.model.width );
+	} else {
+		h = data.model.height;
+	}
 #>
 <div style="max-width: 100%; width: {{ w }}px">
 <video controls
@@ -85,13 +91,13 @@ if ( data.model.width && w !== data.model.width ) {
 		if ( isYouTube ) { #>
 		<source src="{{ data.model.src }}" type="video/youtube" />
 		<# } else { #>
-		<source src="{{ data.model.src }}" type="{{ wp.media.view.settings.embedMimes[ data.model.src.split('.').pop() ] }}" />
+		<source src="{{ data.model.src }}" type="{{ settings.embedMimes[ data.model.src.split('.').pop() ] }}" />
 		<# }
 	} #>
 
 	<?php foreach ( $video_types as $type ):
 	?><# if ( data.model.<?php echo $type ?> ) { #>
-	<source src="{{ data.model.<?php echo $type ?> }}" type="{{ wp.media.view.settings.embedMimes[ '<?php echo $type ?>' ] }}" />
+	<source src="{{ data.model.<?php echo $type ?> }}" type="{{ settings.embedMimes[ '<?php echo $type ?>' ] }}" />
 	<# } #>
 	<?php endforeach; ?>
 	{{{ data.model.content }}}

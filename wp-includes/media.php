@@ -1197,8 +1197,8 @@ function wp_get_playlist( $attr, $type ) {
 	$default_width = 640;
 	$default_height = 360;
 
-	$theme_width = $content_width - $outer;
-	$theme_height = round( ( $default_height * $theme_width ) / $default_width );
+	$theme_width = empty( $content_width ) ? $default_width : ( $content_width - $outer );
+	$theme_height = empty( $content_width ) ? $default_height : round( ( $default_height * $theme_width ) / $default_width );
 
 	$data = compact( 'type', 'style' );
 
@@ -1585,7 +1585,7 @@ function wp_video_shortcode( $attr, $content = '' ) {
 		}
 	} else {
 		// if the video is bigger than the theme
-		if ( $width > $content_width ) {
+		if ( ! empty( $content_width ) && $width > $content_width ) {
 			$height = round( ( $height * $content_width ) / $width );
 			$width = $content_width;
 		}
@@ -2381,6 +2381,8 @@ function wp_enqueue_media( $args = array() ) {
 	if ( did_action( 'wp_enqueue_media' ) )
 		return;
 
+	global $content_width;
+
 	$defaults = array(
 		'post' => null,
 	);
@@ -2431,7 +2433,8 @@ function wp_enqueue_media( $args = array() ) {
 		'defaultProps' => $props,
 		'attachmentCounts' => wp_count_attachments(),
 		'embedExts'    => $exts,
-		'embedMimes'   => $ext_mimes
+		'embedMimes'   => $ext_mimes,
+		'contentWidth' => $content_width,
 	);
 
 	$post = null;
