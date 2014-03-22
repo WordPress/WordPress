@@ -22,7 +22,7 @@
 				header: {
 					attachment_id: 0,
 					url: '',
-					timestamp: Date.now(),
+					timestamp: _.now(),
 					thumbnail_url: ''
 				},
 				choice: '',
@@ -212,7 +212,7 @@
 				model.set('hidden', true);
 				// Bump images to top except for special "Randomize" images
 				if (!model.get('random')) {
-					model.get('header').timestamp = Date.now();
+					model.get('header').timestamp = _.now();
 					this.sort();
 				}
 			}
