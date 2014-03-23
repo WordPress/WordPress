@@ -142,7 +142,7 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-uploader-editor">
 		<div class="uploader-editor-content">
-			<h3><?php _e( 'Drop files to upload' ); ?></h3>
+			<div class="uploader-editor-title"><?php _e( 'Drop files to upload' ); ?></div>
 		</div>
 	</script>
 
