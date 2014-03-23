@@ -189,6 +189,10 @@
 			shortcode = {};
 
 			if ( 'video' === type ) {
+				if ( attachment.image ) {
+					shortcode.poster = attachment.image.src;
+				}
+
 				if ( attachment.width ) {
 					shortcode.width = attachment.width;
 				}

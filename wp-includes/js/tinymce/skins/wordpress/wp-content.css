@@ -295,6 +295,7 @@ audio {
 	border-color: rgba(0,0,0,0.3);
 }
 
+.wpview-type-video .track-details,
 .wpview-type-audio .track-details {
 	position: absolute;
 	top: 0;
