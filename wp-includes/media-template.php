@@ -771,7 +771,10 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-audio-details">
-		<# var ext, html5types = { mp3: true, ogg: true }; #>
+		<# var ext, html5types = {
+			mp3: wp.media.view.settings.embedMimes.mp3,
+			ogg: wp.media.view.settings.embedMimes.ogg
+		}; #>
 
 		<?php $audio_types = wp_get_audio_extensions(); ?>
 		<div class="media-embed media-embed-details">
@@ -810,8 +813,8 @@ function wp_print_media_templates() {
 				<div class="setting">
 					<span>{{{ wp.media.view.l10n.mediaHTML5Text }}}</span>
 					<div class="button-large">
-					<# _.each( html5types, function (value, type) { #>
-					<button class="button add-media-source">{{ type }}</button>
+					<# _.each( html5types, function (mime, type) { #>
+					<button class="button add-media-source" data-mime="{{ mime }}">{{ type }}</button>
 					<# } ) #>
 					</div>
 				</div>
@@ -847,7 +850,11 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-video-details">
-		<# var ext, html5types = { mp4: true, ogv: true, webm: true }; #>
+		<# var ext, html5types = {
+			mp4: wp.media.view.settings.embedMimes.mp4,
+			ogv: wp.media.view.settings.embedMimes.ogv,
+			webm: wp.media.view.settings.embedMimes.webm
+		}; #>
 
 		<?php $video_types = wp_get_video_extensions(); ?>
 		<div class="media-embed media-embed-details">
@@ -896,8 +903,8 @@ function wp_print_media_templates() {
 				<div class="setting">
 					<span>{{{ wp.media.view.l10n.mediaHTML5Text }}}</span>
 					<div class="button-large">
-					<# _.each( html5types, function (value, type) { #>
-					<button class="button add-media-source">{{ type }}</button>
+					<# _.each( html5types, function (mime, type) { #>
+					<button class="button add-media-source" data-mime="{{ mime }}">{{ type }}</button>
 					<# } ) #>
 					</div>
 				</div>

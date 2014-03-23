@@ -1408,8 +1408,9 @@
 	function init() {
 		$(document.body)
 			.on( 'click', '.wp-switch-editor', wp.media.mixin.pauseAllPlayers )
-			.on( 'click', '.add-media-source', function() {
-				media.frame.setState('add-' + media.frame.defaults.id + '-source');
+			.on( 'click', '.add-media-source', function( e ) {
+				media.frame.lastMime = $( e.currentTarget ).data( 'mime' );
+				media.frame.setState( 'add-' + media.frame.defaults.id + '-source' );
 			} );
 	}
 

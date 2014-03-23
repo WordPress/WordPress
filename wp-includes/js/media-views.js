@@ -1140,9 +1140,18 @@
 
 		initialize: function( options ) {
 			this.media = options.media;
-			this.set( 'library', media.query({ type: options.type }) );
+			this.type = options.type;
+			this.set( 'library', media.query({ type: this.type }) );
 
 			media.controller.Library.prototype.initialize.apply( this, arguments );
+		},
+
+		activate: function() {
+			if ( media.frame.lastMime ) {
+				this.set( 'library', media.query({ type: media.frame.lastMime }) );
+				delete media.frame.lastMime;
+			}
+			media.controller.Library.prototype.activate.apply( this, arguments );
 		}
 	});
 
