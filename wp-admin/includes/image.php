@@ -127,10 +127,10 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 
 	} elseif ( preg_match( '#^video/#', get_post_mime_type( $attachment ) ) ) {
 		$metadata = wp_read_video_metadata( $file );
-		$support = current_theme_supports( 'post-thumbnails', 'attachment:video' ) && post_type_supports( 'attachment:video', 'thumbnail' );
+		$support = current_theme_supports( 'post-thumbnails', 'attachment:video' ) || post_type_supports( 'attachment:video', 'thumbnail' );
 	} elseif ( preg_match( '#^audio/#', get_post_mime_type( $attachment ) ) ) {
 		$metadata = wp_read_audio_metadata( $file );
-		$support = current_theme_supports( 'post-thumbnails', 'attachment:audio' ) && post_type_supports( 'attachment:audio', 'thumbnail' );
+		$support = current_theme_supports( 'post-thumbnails', 'attachment:audio' ) || post_type_supports( 'attachment:audio', 'thumbnail' );
 	}
 
 	if ( $support && ! empty( $metadata['image']['data'] ) ) {

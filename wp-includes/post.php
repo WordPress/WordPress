@@ -74,6 +74,8 @@ function create_initial_post_types() {
 		'delete_with_user' => true,
 		'supports' => array( 'title', 'author', 'comments' ),
 	) );
+	add_post_type_support( 'attachment:audio', 'thumbnail' );
+	add_post_type_support( 'attachment:video', 'thumbnail' );
 
 	register_post_type( 'revision', array(
 		'labels' => array(

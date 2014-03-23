@@ -2445,7 +2445,7 @@ function wp_enqueue_media( $args = array() ) {
 			'nonce' => wp_create_nonce( 'update-post_' . $post->ID ),
 		);
 
-		if ( theme_supports_thumbnails( $post ) && post_supports_thumbnails( $post ) ) {
+		if ( theme_supports_thumbnails( $post ) || post_supports_thumbnails( $post ) ) {
 			$featured_image_id = get_post_meta( $post->ID, '_thumbnail_id', true );
 			$settings['post']['featuredImageId'] = $featured_image_id ? $featured_image_id : -1;
 		}
