@@ -25,6 +25,7 @@ window.wp = window.wp || {};
 	 */
 	Uploader = function( options ) {
 		var self = this,
+			isIE = navigator.userAgent.indexOf('Trident/') != -1 || navigator.userAgent.indexOf('MSIE ') != -1,
 			elements = {
 				container: 'container',
 				browser:   'browse_button',
@@ -83,6 +84,14 @@ window.wp = window.wp || {};
 		// If the uploader has neither a browse button nor a dropzone, bail.
 		if ( ! ( this.browser && this.browser.length ) && ! ( this.dropzone && this.dropzone.length ) ) {
 			return;
+		}
+
+		 // Make sure flash sends cookies (seems in IE it does whitout switching to urlstream mode)
+		 if ( ! isIE && 'flash' === plupload.predictRuntime( this.plupload ) &&
+		 	( ! this.plupload.required_features || ! this.plupload.required_features.hasOwnProperty( 'send_binary_string' ) ) ) {
+
+			this.plupload.required_features = this.plupload.required_features || {};
+			this.plupload.required_features.send_binary_string = true;
 		}
 
 		this.uploader = new plupload.Uploader( this.plupload );

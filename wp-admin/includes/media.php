@@ -1760,7 +1760,7 @@ $post_params = array(
 $post_params = apply_filters( 'upload_post_params', $post_params );
 
 $plupload_init = array(
-	'runtimes'            => 'html5,silverlight,flash,html4',
+	'runtimes'            => 'html5,flash,silverlight,html4',
 	'browse_button'       => 'plupload-browse-button',
 	'container'           => 'plupload-upload-ui',
 	'drop_element'        => 'drag-drop-area',

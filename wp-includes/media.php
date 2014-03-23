@@ -2176,7 +2176,7 @@ function wp_plupload_default_settings() {
 	$max_upload_size = wp_max_upload_size();
 
 	$defaults = array(
-		'runtimes'            => 'html5,silverlight,flash,html4',
+		'runtimes'            => 'html5,flash,silverlight,html4',
 		'file_data_name'      => 'async-upload', // key passed to $_FILE.
 		'url'                 => admin_url( 'async-upload.php', 'relative' ),
 		'flash_swf_url'       => includes_url( 'js/plupload/Moxie.swf' ),

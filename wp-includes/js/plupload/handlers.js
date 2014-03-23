@@ -400,6 +400,16 @@ jQuery(document).ready(function($){
 
 	// init and set the uploader
 	uploader_init = function() {
+		var isIE = navigator.userAgent.indexOf('Trident/') != -1 || navigator.userAgent.indexOf('MSIE ') != -1;
+
+		 // Make sure flash sends cookies (seems in IE it does whitout switching to urlstream mode)
+		 if ( ! isIE && 'flash' === plupload.predictRuntime( wpUploaderInit ) &&
+		 	( ! wpUploaderInit.required_features || ! wpUploaderInit.required_features.hasOwnProperty( 'send_binary_string' ) ) ) {
+
+			wpUploaderInit.required_features = wpUploaderInit.required_features || {};
+			wpUploaderInit.required_features.send_binary_string = true;
+		}
+
 		uploader = new plupload.Uploader(wpUploaderInit);
 
 		$('#image_resize').bind('change', function() {
@@ -430,8 +440,9 @@ jQuery(document).ready(function($){
 				$('#drag-drop-area').unbind('.wp-uploader');
 			}
 
-			if ( up.runtime == 'html4' )
+			if ( up.runtime === 'html4' ) {
 				$('.upload-flash-bypass').hide();
+			}
 		});
 
 		uploader.init();
