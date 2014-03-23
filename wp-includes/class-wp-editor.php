@@ -223,13 +223,7 @@ final class _WP_Editors {
 					 */
 					$mce_external_plugins = apply_filters( 'mce_external_plugins', array() );
 
-					/**
-					 * TinyMCE default plugins filter
-					 *
-					 * Specifies which of the default plugins that are included in WordPress should be added to
-					 * the TinyMCE instance.
-					 */
-					$plugins = array_unique( apply_filters( 'tiny_mce_plugins', array(
+					$plugins = array(
 						'charmap',
 						'hr',
 						'media',
@@ -243,7 +237,19 @@ final class _WP_Editors {
 						'wplink',
 						'wpdialogs',
 						'wpview',
-					) ) );
+					);
+
+					if ( ! self::$has_medialib ) {
+						$plugins[] = 'image';
+					}
+
+					/**
+					 * TinyMCE default plugins filter
+					 *
+					 * Specifies which of the default plugins that are included in WordPress should be added to
+					 * the TinyMCE instance.
+					 */
+					$plugins = array_unique( apply_filters( 'tiny_mce_plugins', $plugins ) );
 
 					if ( ( $key = array_search( 'spellchecker', $plugins ) ) !== false ) {
 						// Remove 'spellchecker' from the internal plugins if added with 'tiny_mce_plugins' filter to prevent errors.
@@ -507,9 +513,6 @@ final class _WP_Editors {
 		if ( self::$has_medialib ) {
 			add_thickbox();
 			wp_enqueue_script('media-upload');
-
-			if ( self::$has_tinymce )
-				wp_enqueue_script('mce-view');
 		}
 	}
 
@@ -540,17 +543,17 @@ final class _WP_Editors {
 			'Subscript' => __( 'Subscript' ),
 			'Superscript' => __( 'Superscript' ),
 			'Clear formatting' => __( 'Clear formatting' ),
-			'Bold' => __('Bold'),
-			'Italic' => __('Italic'),
+			'Bold' => __( 'Bold' ),
+			'Italic' => __( 'Italic' ),
 			'Code' => _x( 'Code', 'editor button' ),
 			'Source code' => __( 'Source code' ),
 
-			'Align center' => __('Align center'),
-			'Align right' => __('Align right'),
+			'Align center' => __( 'Align center' ),
+			'Align right' => __( 'Align right' ),
 			'Align left' => __( 'Align left' ),
-			'Justify' => __('Justify'),
-			'Increase indent' => __('Increase indent'),
-			'Decrease indent' => __('Decrease indent'),
+			'Justify' => __( 'Justify' ),
+			'Increase indent' => __( 'Increase indent' ),
+			'Decrease indent' => __( 'Decrease indent' ),
 
 			'Cut' => __( 'Cut' ),
 			'Copy' => __( 'Copy' ),
@@ -565,7 +568,7 @@ final class _WP_Editors {
 			'Visual aids' => __( 'Visual aids' ),
 
 			'Bullet list' => __( 'Bulleted list' ),
-			'Numbered list' => __('Numbered list'),
+			'Numbered list' => __( 'Numbered list' ),
 			'Square' => _x( 'Square', 'list style' ),
 			'Default' => _x( 'Default', 'list style' ),
 			'Circle' => _x( 'Circle', 'list style' ),
@@ -591,24 +594,24 @@ final class _WP_Editors {
 			'Author' => __( 'Author' ),
 
 			// Media, image plugins
-			'Insert/edit image' => __('Insert/edit image'),
-			'General' => __('General'),
-			'Advanced' => __('Advanced'),
-			'Source' => __('Source'),
-			'Border' => __('Border'),
-			'Constrain proportions' => __('Constrain proportions'),
-			'Vertical space' => __('Vertical space'),
-			'Image description' => __('Image description'),
-			'Style' => __('Style'),
-			'Dimensions' => __('Dimensions'),
-			'Insert image' => __('Insert image'),
-			'Insert date/time' => __('Insert date/time'),
-			'Insert/edit video' => __('Insert/edit video'),
-			'Poster' => __('Poster'),
-			'Alternative source' => __('Alternative source'),
-			'Paste your embed code below:' => __('Paste your embed code below:'),
-			'Insert video' => __('Insert video'),
-			'Embed' => __('Embed'),
+			'Insert/edit image' => __( 'Insert/edit image' ),
+			'General' => __( 'General' ),
+			'Advanced' => __( 'Advanced' ),
+			'Source' => __( 'Source' ),
+			'Border' => __( 'Border' ),
+			'Constrain proportions' => __( 'Constrain proportions' ),
+			'Vertical space' => __( 'Vertical space' ),
+			'Image description' => __( 'Image description' ),
+			'Style' => __( 'Style' ),
+			'Dimensions' => __( 'Dimensions' ),
+			'Insert image' => __( 'Insert image' ),
+			'Insert date/time' => __( 'Insert date/time' ),
+			'Insert/edit video' => __( 'Insert/edit video' ),
+			'Poster' => __( 'Poster' ),
+			'Alternative source' => __( 'Alternative source' ),
+			'Paste your embed code below:' => __( 'Paste your embed code below:' ),
+			'Insert video' => __( 'Insert video' ),
+			'Embed' => __( 'Embed' ),
 
 			// Each of these have a corresponding plugin
 			'Special character' => __( 'Special character' ),
@@ -625,6 +628,7 @@ final class _WP_Editors {
 			'Horizontal line' => __( 'Horizontal line' ),
 			'Horizontal space' => __( 'Horizontal space' ),
 			'Restore last draft' => __( 'Restore last draft' ),
+			'Insert/edit link' => __( 'Insert/edit link' ),
 
 			// Spelling, search/replace plugins
 			'Could not find the specified string.' => __( 'Could not find the specified string.' ),
@@ -633,11 +637,11 @@ final class _WP_Editors {
 			/* translators: previous */
 			'Prev' => _x( 'Prev', 'find/replace' ),
 			'Whole words' => _x( 'Whole words', 'find/replace' ),
-			'Find and replace' => __('Find and replace' ),
+			'Find and replace' => __( 'Find and replace' ),
 			'Replace with' => _x('Replace with', 'find/replace' ),
 			'Find' => _x( 'Find', 'find/replace' ),
 			'Replace all' => _x( 'Replace all', 'find/replace' ),
-			'Match case' => __('Match case'),
+			'Match case' => __( 'Match case' ),
 			'Spellcheck' => __( 'Check Spelling' ),
 			'Finish' => _x( 'Finish', 'spellcheck' ),
 			'Ignore all' => _x( 'Ignore all', 'spellcheck' ),
@@ -661,20 +665,20 @@ final class _WP_Editors {
 			'Footer' => _x( 'Footer', 'table footer' ),
 
 			'Insert row before' => __( 'Insert row before' ),
-			'Insert row after' => __('Insert row after'),
+			'Insert row after' => __( 'Insert row after' ),
 			'Insert column before' => __( 'Insert column before' ),
 			'Insert column after' => __( 'Insert column after' ),
 			'Paste row before' => __( 'Paste table row before' ),
 			'Paste row after' => __( 'Paste table row after' ),
 			'Delete row' => __( 'Delete row' ),
-			'Delete column' => __('Delete column'),
-			'Cut row' => __('Cut table row' ),
+			'Delete column' => __( 'Delete column' ),
+			'Cut row' => __( 'Cut table row' ),
 			'Copy row' => __( 'Copy table row' ),
 			'Merge cells' => __( 'Merge table cells' ),
-			'Split cell' => __( 'Split merged table cells' ),
+			'Split cell' => __( 'Split table cell' ),
 
 			'Height' => __( 'Height' ),
-			'Width' => __('Width'),
+			'Width' => __( 'Width' ),
 			'Caption' => __( 'Caption' ),
 			'Alignment' => __( 'Alignment' ),
 			'Left' => __( 'Left' ),
@@ -699,10 +703,10 @@ final class _WP_Editors {
 
 			/* translators: word count */
 			'Words: {0}' => sprintf( __( 'Words: %s' ), '{0}' ),
-			'Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.' => __('Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.'),
-			'Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help' => __('Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help'),
+			'Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.' => __( 'Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.' ),
+			'Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help' => __( 'Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help' ),
 			'You have unsaved changes are you sure you want to navigate away?' => __( 'The changes you made will be lost if you navigate away from this page.' ),
-			'Your browser doesn\'t support direct access to the clipboard. Please use the Ctrl+X/C/V keyboard shortcuts instead.' => __('Your browser does not support direct access to the clipboard. Please use the Ctrl+X/C/V keyboard shortcuts instead.'),
+			'Your browser doesn\'t support direct access to the clipboard. Please use the Ctrl+X/C/V keyboard shortcuts instead.' => __( 'Your browser does not support direct access to the clipboard. Please use the Ctrl+X/C/V keyboard shortcuts instead.' ),
 
 			// TinyMCE menus
 			'Insert' => _x( 'Insert', 'TinyMCE menu' ),
@@ -714,10 +718,10 @@ final class _WP_Editors {
 			'Format' => _x( 'Format', 'TinyMCE menu' ),
 
 			// WordPress strings
-			'Help' => __('Help'),
-			'Toolbar Toggle' => __('Toolbar Toggle'),
-			'Insert Read More tag' => __('Insert Read More tag'),
-			'Distraction Free Writing' => __('Distraction Free Writing'),
+			'Help' => __( 'Help' ),
+			'Toolbar Toggle' => __( 'Toolbar Toggle' ),
+			'Insert Read More tag' => __( 'Insert Read More tag' ),
+			'Distraction Free Writing' => __( 'Distraction Free Writing' ),
 		);
 
 		$baseurl = self::$baseurl;

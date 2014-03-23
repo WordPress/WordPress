@@ -80,7 +80,7 @@ body.press-this {
 }
 
 .press-this .posting {
-	margin-right: 252px;
+	margin-right: 250px;
 }
 
 .press-this-sidebar {
@@ -105,9 +105,30 @@ body.press-this {
 	margin: 0;
 }
 
+.press-this #wp-content-wrap #wp-content-editor-tools {
+	padding: 0;
+	top: 3px;
+	overflow: hidden;
+}
+
 .press-this .wp-media-buttons {
 	cursor: default;
 	padding: 8px 8px 6px;
+}
+
+.press-this #wp-content-wrap #wp-content-media-buttons a {
+	padding: 0;
+	line-height: normal;
+	height: auto;
+	font-size: 16px;
+}
+
+.press-this #wp-content-wrap .mce-toolbar .mce-btn-group .mce-btn {
+	margin: 0 1px;
+}
+
+.press-this #wp-content-wrap .mce-toolbar .mce-btn button {
+	padding: 2px 3px;
 }
 
 .press-this .howto {
@@ -132,7 +153,7 @@ body.press-this {
 
 /* Editor/Main Column */
 .press-this #poststuff {
-	margin: 0 10px 10px;
+	margin: 0 8px;
 	padding: 0;
 }
 
@@ -323,7 +344,7 @@ h3.tb {
 	margin: 5px 0;
 	padding: 0 5px;
 	border: 0 none;
-	height: 345px;
+	height: 340px;
 	font-family: Consolas, Monaco, monospace;
 	font-size: 13px;
 	line-height: 19px;
