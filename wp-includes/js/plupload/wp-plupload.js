@@ -86,7 +86,7 @@ window.wp = window.wp || {};
 			return;
 		}
 
-		 // Make sure flash sends cookies (seems in IE it does whitout switching to urlstream mode)
+		 // Make sure flash sends cookies (seems in IE it does without switching to urlstream mode)
 		 if ( ! isIE && 'flash' === plupload.predictRuntime( this.plupload ) &&
 		 	( ! this.plupload.required_features || ! this.plupload.required_features.hasOwnProperty( 'send_binary_string' ) ) ) {
 
