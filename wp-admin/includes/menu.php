@@ -257,7 +257,6 @@ uksort($menu, "strnatcasecmp"); // make it all pretty
  * @param bool $custom Whether custom ordering is enabled. Default false.
  */
 if ( apply_filters( 'custom_menu_order', false ) ) {
-	log_it( 'false is true' );
 	$menu_order = array();
 	foreach ( $menu as $menu_item ) {
 		$menu_order[] = $menu_item[2];
