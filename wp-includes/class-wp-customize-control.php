@@ -889,7 +889,7 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 					<span><span class="dice">&#9860;</span>
 					<# if ( data.type === 'uploaded' ) { #>
 						<?php _e( 'Randomize uploaded headers' ); ?>
-					<# } else if ( data.type === 'suggested' ) { #>
+					<# } else if ( data.type === 'default' ) { #>
 						<?php _e( 'Randomize suggested headers' ); ?>
 					<# } #>
 					</span>
@@ -920,7 +920,7 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 					<span><span class="dice">&#9860;</span>
 					<# if ( data.type === 'uploaded' ) { #>
 						<?php _e( 'Randomizing uploaded headers' ); ?>
-					<# } else if ( data.type === 'suggested' ) { #>
+					<# } else if ( data.type === 'default' ) { #>
 						<?php _e( 'Randomizing suggested headers' ); ?>
 					<# } #>
 					</span>
