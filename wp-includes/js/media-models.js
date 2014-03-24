@@ -448,6 +448,11 @@ window.wp = window.wp || {};
 			}
 
 			size = this.attachment.get( 'sizes' )[ this.get( 'size' ) ];
+
+			if ( ! size ) {
+				return;
+			}
+
 			this.set( 'url', size.url );
 			this.set( 'width', size.width );
 			this.set( 'height', size.height );
