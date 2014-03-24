@@ -753,7 +753,7 @@ class WP_Meta_Query {
 		// Split out the meta_key only queries (we can only do this for OR)
 		if ( 'OR' == $this->relation ) {
 			foreach ( $this->queries as $k => $q ) {
-				if ( ! array_key_exists( 'value', $q ) && ! empty( $q['key'] ) )
+				if ( ( empty( $q['compare'] ) || 'NOT EXISTS' != $q['compare'] ) && ! array_key_exists( 'value', $q ) && ! empty( $q['key'] ) )
 					$key_only_queries[$k] = $q;
 				else
 					$queries[$k] = $q;
