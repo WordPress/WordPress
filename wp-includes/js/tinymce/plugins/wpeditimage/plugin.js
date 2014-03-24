@@ -192,7 +192,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 			html = createImageAndLink( imageData, 'html' );
 
-			width = parseInt( imageData.width );
+			width = parseInt( imageData.width, 10 );
 
 			if ( ! editor.getParam( 'wpeditimage_html5_captions' ) ) {
 				width += 10;

@@ -136,7 +136,7 @@
 		extendedModel: function() {
 			var c = this.model.get('collection');
 			return _.extend(this.model.toJSON(), {
-				type: c.type,
+				type: c.type
 			});
 		},
 
