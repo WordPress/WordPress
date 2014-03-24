@@ -442,10 +442,10 @@ function install_plugin_information() {
 					echo '<a class="button button-primary right" href="' . $status['url'] . '" target="_parent">' . __('Install Update Now') .'</a>';
 				break;
 			case 'newer_installed':
-				echo '<a class="button button-primary right">' . sprintf(__('Newer Version (%s) Installed'), $status['version']) . '</a>';
+				echo '<a class="button button-primary right disabled">' . sprintf(__('Newer Version (%s) Installed'), $status['version']) . '</a>';
 				break;
 			case 'latest_installed':
-				echo '<a class="button button-primary right">' . __('Latest Version Installed') . '</a>';
+				echo '<a class="button button-primary right disabled">' . __('Latest Version Installed') . '</a>';
 				break;
 		}
 	}
