@@ -2338,7 +2338,7 @@ $page_links = paginate_links( array(
 	'prev_text' => __('&laquo;'),
 	'next_text' => __('&raquo;'),
 	'total' => ceil($wp_query->found_posts / 10),
-	'current' => $_GET['paged']
+	'current' => $q['paged'],
 ));
 
 if ( $page_links )
