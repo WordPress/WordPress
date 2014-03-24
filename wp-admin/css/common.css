@@ -2008,6 +2008,8 @@ body.index-php #TB_window {
 	body.plugin-install-php #TB_window,
 	body.index-php #TB_window {
 		background: #fcfcfc url( ../images/spinner-2x.gif ) no-repeat center;
+		-webkit-background-size: 20px 20px;
+		background-size: 20px 20px;
 	}
 }
 
