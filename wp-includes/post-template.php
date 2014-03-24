@@ -107,14 +107,44 @@ function get_the_title( $post = 0 ) {
 
 	if ( ! is_admin() ) {
 		if ( ! empty( $post->post_password ) ) {
+
+			/**
+			 * Filter the text prepended to the post title for protected posts.
+			 *
+			 * The filter is only applied on the front end.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param string $prepend Text displayed before the post title.
+			 *                        Default 'Protected: %s'.
+			 */
 			$protected_title_format = apply_filters( 'protected_title_format', __( 'Protected: %s' ) );
 			$title = sprintf( $protected_title_format, $title );
 		} else if ( isset( $post->post_status ) && 'private' == $post->post_status ) {
+
+			/**
+			 * Filter the text prepended to the post title of private posts.
+			 *
+			 * The filter is only applied on the front end.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param string $prepend Text displayed before the post title.
+			 *                        Default 'Private: %s'.
+			 */
 			$private_title_format = apply_filters( 'private_title_format', __( 'Private: %s' ) );
 			$title = sprintf( $private_title_format, $title );
 		}
 	}
 
+	/**
+	 * Filter the post title.
+	 *
+	 * @since 0.71
+	 *
+	 * @param string $title The post title.
+	 * @param int    $id    The post ID.
+	 */
 	return apply_filters( 'the_title', $title, $id );
 }
 
@@ -150,7 +180,14 @@ function the_guid( $id = 0 ) {
 function get_the_guid( $id = 0 ) {
 	$post = get_post($id);
 
-	return apply_filters('get_the_guid', $post->guid);
+	/**
+	 * Filter the Global Unique Identifier (guid) of the post.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string $post_guid Global Unique Identifier (guid) of the post.
+	 */
+	return apply_filters( 'get_the_guid', $post->guid );
 }
 
 /**
@@ -163,6 +200,14 @@ function get_the_guid( $id = 0 ) {
  */
 function the_content( $more_link_text = null, $strip_teaser = false) {
 	$content = get_the_content( $more_link_text, $strip_teaser );
+
+	/**
+	 * Filter the post content.
+	 *
+	 * @since 0.71
+	 *
+	 * @param string $content Content of the current post.
+	 */
 	$content = apply_filters( 'the_content', $content );
 	$content = str_replace( ']]>', ']]&gt;', $content );
 	echo $content;
@@ -221,6 +266,15 @@ function get_the_content( $more_link_text = null, $strip_teaser = false ) {
 			$output .= '<span id="more-' . $post->ID . '"></span>' . $content[1];
 		} else {
 			if ( ! empty( $more_link_text ) )
+
+				/**
+				 * Filter the Read More link text.
+				 *
+				 * @since 2.8.0
+				 *
+				 * @param string $more_link_element Read More link element.
+				 * @param string $more_link_text    Read More text.
+				 */
 				$output .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-{$post->ID}\" class=\"more-link\">$more_link_text</a>", $more_link_text );
 			$output = force_balance_tags( $output );
 		}
@@ -248,10 +302,19 @@ function _convert_urlencoded_to_entities( $match ) {
  * Display the post excerpt.
  *
  * @since 0.71
- * @uses apply_filters() Calls 'the_excerpt' hook on post excerpt.
  */
 function the_excerpt() {
-	echo apply_filters('the_excerpt', get_the_excerpt());
+
+	/**
+	 * Filter the displayed post excerpt.
+	 *
+	 * @since 0.71
+	 *
+	 * @see get_the_excerpt()
+	 *
+	 * @param string $post_excerpt The post excerpt.
+	 */
+	echo apply_filters( 'the_excerpt', get_the_excerpt() );
 }
 
 /**
@@ -272,6 +335,13 @@ function get_the_excerpt( $deprecated = '' ) {
 		return __( 'There is no excerpt because this is a protected post.' );
 	}
 
+	/**
+	 * Filter the retrieved post excerpt.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $post_excerpt The post excerpt.
+	 */
 	return apply_filters( 'get_the_excerpt', $post->post_excerpt );
 }
 
@@ -384,7 +454,16 @@ function get_post_class( $class = '', $post_id = null ) {
 
 	$classes = array_map('esc_attr', $classes);
 
-	return apply_filters('post_class', $classes, $class, $post->ID);
+	/**
+	 * Filter the list of CSS classes for the current post.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param array  $classes An array of post classes.
+	 * @param string $class   A comma-separated list of additional classes added to the post.
+	 * @param int    $post_id The post ID.
+	 */
+	return apply_filters( 'post_class', $classes, $class, $post->ID );
 }
 
 /**
@@ -568,6 +647,14 @@ function get_body_class( $class = '' ) {
 
 	$classes = array_map( 'esc_attr', $classes );
 
+	/**
+	 * Filter the list of CSS body classes for the current post or page.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param array  $classes An array of body classes.
+	 * @param string $class   A comma-separated list of additional classes added to the body.
+	 */
 	return apply_filters( 'body_class', $classes, $class );
 }
 
@@ -652,6 +739,14 @@ function wp_link_pages( $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
+
+	/**
+	 * Filter the arguments used in retrieving page links for paginated posts.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $r An array of arguments for page links for paginated posts.
+	 */
 	$r = apply_filters( 'wp_link_pages_args', $r );
 	extract( $r, EXTR_SKIP );
 
@@ -665,6 +760,15 @@ function wp_link_pages( $args = '' ) {
 				$link = $link_before . str_replace( '%', $i, $pagelink ) . $link_after;
 				if ( $i != $page || ! $more && 1 == $page )
 					$link = _wp_link_page( $i ) . $link . '</a>';
+
+				/**
+				 * Filter the HTML output of individual page number links.
+				 *
+				 * @since 3.6.0
+				 *
+				 * @param string $link The page number HTML output.
+				 * @param int    $i    Page number for paginated posts' page links.
+				 */
 				$link = apply_filters( 'wp_link_pages_link', $link, $i );
 				$output .= $separator . $link;
 			}
@@ -674,12 +778,16 @@ function wp_link_pages( $args = '' ) {
 			$i = $page - 1;
 			if ( $i ) {
 				$link = _wp_link_page( $i ) . $link_before . $previouspagelink . $link_after . '</a>';
+
+				/** This filter is documented in wp-includes/post-template.php */
 				$link = apply_filters( 'wp_link_pages_link', $link, $i );
 				$output .= $separator . $link;
 			}
 			$i = $page + 1;
 			if ( $i <= $numpages ) {
 				$link = _wp_link_page( $i ) . $link_before . $nextpagelink . $link_after . '</a>';
+
+				/** This filter is documented in wp-includes/post-template.php */
 				$link = apply_filters( 'wp_link_pages_link', $link, $i );
 				$output .= $separator . $link;
 			}
@@ -687,6 +795,14 @@ function wp_link_pages( $args = '' ) {
 		}
 	}
 
+	/**
+	 * Filter the HTML output of page links for paginated posts.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param string $output HTML output of paginated posts' page links.
+	 * @param array  $args   An array of arguments.
+	 */
 	$output = apply_filters( 'wp_link_pages', $output, $args );
 
 	if ( $echo )
@@ -774,7 +890,17 @@ function the_meta() {
 				continue;
 			$values = array_map('trim', get_post_custom_values($key));
 			$value = implode($values,', ');
-			echo apply_filters('the_meta_key', "<li><span class='post-meta-key'>$key:</span> $value</li>\n", $key, $value);
+
+			/**
+			 * Filter the HTML output of the li element in the post custom fields list.
+			 *
+			 * @since 2.2.0
+			 *
+			 * @param string $html  The HTML output for the li element.
+			 * @param string $key   Meta key.
+			 * @param string $value Meta value.
+			 */
+			echo apply_filters( 'the_meta_key', "<li><span class='post-meta-key'>$key:</span> $value</li>\n", $key, $value );
 		}
 		echo "</ul>\n";
 	}
@@ -820,7 +946,14 @@ function wp_dropdown_pages($args = '') {
 		$output .= "</select>\n";
 	}
 
-	$output = apply_filters('wp_dropdown_pages', $output);
+	/**
+	 * Filter the HTML output of a list of pages as a drop down.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $output HTML output for drop down list of pages.
+	 */
+	$output = apply_filters( 'wp_dropdown_pages', $output );
 
 	if ( $echo )
 		echo $output;
@@ -857,7 +990,15 @@ function wp_list_pages($args = '') {
 
 	// Allow plugins to filter an array of excluded pages (but don't put a nullstring into the array)
 	$exclude_array = ( $r['exclude'] ) ? explode(',', $r['exclude']) : array();
-	$r['exclude'] = implode( ',', apply_filters('wp_list_pages_excludes', $exclude_array) );
+
+	/**
+	 * Filter the array of pages to exclude from the pages list.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param array $exclude_array An array of page IDs to exclude.
+	 */
+	$r['exclude'] = implode( ',', apply_filters( 'wp_list_pages_excludes', $exclude_array ) );
 
 	// Query pages.
 	$r['hierarchical'] = 0;
@@ -876,7 +1017,17 @@ function wp_list_pages($args = '') {
 			$output .= '</ul></li>';
 	}
 
-	$output = apply_filters('wp_list_pages', $output, $r);
+	/**
+	 * Filter the HTML output of the pages to list.
+	 *
+	 * @since 1.5.1
+	 *
+	 * @see wp_list_pages()
+	 *
+	 * @param string $output HTML output of the pages list.
+	 * @param array  $r      An array of page-listing arguments.
+	 */
+	$output = apply_filters( 'wp_list_pages', $output, $r );
 
 	if ( $r['echo'] )
 		echo $output;
@@ -913,6 +1064,16 @@ function wp_list_pages($args = '') {
 function wp_page_menu( $args = array() ) {
 	$defaults = array('sort_column' => 'menu_order, post_title', 'menu_class' => 'menu', 'echo' => true, 'link_before' => '', 'link_after' => '');
 	$args = wp_parse_args( $args, $defaults );
+
+	/**
+	 * Filter the arguments used to generate a page-based menu.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @see wp_page_menu()
+	 *
+	 * @param array $args An array of page menu arguments.
+	 */
 	$args = apply_filters( 'wp_page_menu_args', $args );
 
 	$menu = '';
@@ -948,6 +1109,17 @@ function wp_page_menu( $args = array() ) {
 		$menu = '<ul>' . $menu . '</ul>';
 
 	$menu = '<div class="' . esc_attr($args['menu_class']) . '">' . $menu . "</div>\n";
+
+	/**
+	 * Filter the HTML output of a page-based menu.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @see wp_page_menu()
+	 *
+	 * @param string $menu The HTML output.
+	 * @param array  $args An array of arguments.
+	 */
 	$menu = apply_filters( 'wp_page_menu', $menu, $args );
 	if ( $args['echo'] )
 		echo $menu;
@@ -1080,6 +1252,20 @@ class Walker_Page extends Walker {
 			$css_class[] = 'current_page_parent';
 		}
 
+		/**
+		 * Filter the list of CSS classes to include with each page item in the list.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @see wp_list_pages()
+		 *
+		 * @param array   $css_class    An array of CSS classes to be applied
+		 *                             to each list item.
+		 * @param WP_Post $page         Page data object.
+		 * @param int     $depth        Depth of page, used for padding.
+		 * @param array   $args         An array of arguments.
+		 * @param int     $current_page ID of the current page.
+		 */
 		$css_class = implode( ' ', apply_filters( 'page_css_class', $css_class, $page, $depth, $args, $current_page ) );
 
 		if ( '' === $page->post_title )
@@ -1158,6 +1344,14 @@ class Walker_PageDropdown extends Walker {
 			$title = sprintf( __( '#%d (no title)' ), $page->ID );
 		}
 
+		/**
+		 * Filter the page title when creating an HTML drop-down list of pages.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string $title Page title.
+		 * @param object $page  Page data object.
+		 */
 		$title = apply_filters( 'list_pages', $title, $page );
 		$output .= $pad . esc_html( $title );
 		$output .= "</option>\n";
@@ -1223,6 +1417,18 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 	if ( trim( $link_text ) == '' )
 		$link_text = $_post->post_title;
 
+	/**
+	 * Filter a retrieved attachment page link.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string      $link_html The page link HTML output.
+	 * @param int         $id        Post ID.
+	 * @param string      $size      Image size. Default 'thumbnail'.
+	 * @param bool        $permalink Whether to add permalink to image. Default false.
+	 * @param bool        $icon      Whether to include an icon. Default false.
+	 * @param string|bool $text      If string, will be link text. Default false.
+	 */
 	return apply_filters( 'wp_get_attachment_link', "<a href='$url'>$link_text</a>", $id, $size, $permalink, $icon, $text );
 }
 
@@ -1230,7 +1436,6 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
  * Wrap attachment in <<p>> element before content.
  *
  * @since 2.0.0
- * @uses apply_filters() Calls 'prepend_attachment' hook on HTML content.
  *
  * @param string $content
  * @return string
@@ -1258,7 +1463,16 @@ function prepend_attachment($content) {
 		$p = wp_audio_shortcode( array( 'src' => wp_get_attachment_url() ) );
 	endif;
 
-	$p = apply_filters('prepend_attachment', $p);
+	/**
+	 * Filter the attachment markup to be prepended to the post content.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @see prepend_attachment()
+	 *
+	 * @param string $p The attachment HTML output.
+	 */
+	$p = apply_filters( 'prepend_attachment', $p );
 
 	return "$p\n$content";
 }
@@ -1282,6 +1496,18 @@ function get_the_password_form( $post = 0 ) {
 	<p>' . __( 'This content is password protected. To view it please enter your password below:' ) . '</p>
 	<p><label for="' . $label . '">' . __( 'Password:' ) . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . esc_attr__( 'Submit' ) . '" /></p></form>
 	';
+
+	/**
+	 * Filter the HTML output for the protected post password form.
+	 *
+	 * If modifying the password field, please note that the core database schema
+	 * limits the password field to 20 characters regardless of the value of the
+	 * size attribute in the form input.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param string $output The password form HTML output.
+	 */
 	return apply_filters( 'the_password_form', $output );
 }
 
