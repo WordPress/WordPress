@@ -2268,7 +2268,7 @@ class WP_Query {
 			// This overrides posts_per_page.
 			if ( ! empty( $q['posts_per_rss'] ) ) {
 				$q['posts_per_page'] = $q['posts_per_rss'];
-			} else { 
+			} else {
 				$q['posts_per_page'] = get_option( 'posts_per_rss' );
 			}
 			$q['nopaging'] = false;
@@ -3205,7 +3205,7 @@ class WP_Query {
 			$this->post_count = count( $this->posts );
 			$this->set_found_posts( $q, $limits );
 
-			return $this->posts;
+			return array_map( 'intval', $this->posts );
 		}
 
 		if ( 'id=>parent' == $q['fields'] ) {
@@ -3214,9 +3214,9 @@ class WP_Query {
 			$this->set_found_posts( $q, $limits );
 
 			$r = array();
-			foreach ( $this->posts as $post )
-				$r[ $post->ID ] = $post->post_parent;
-
+			foreach ( $this->posts as $post ) {
+				$r[ (int) $post->ID ] = (int) $post->post_parent;
+			}
 			return $r;
 		}
 
