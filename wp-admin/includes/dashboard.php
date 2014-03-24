@@ -56,16 +56,56 @@ function wp_dashboard_setup() {
 	// WordPress News
 	wp_add_dashboard_widget( 'dashboard_primary', __( 'WordPress News' ), 'wp_dashboard_primary' );
 
-	// Hook to register new widgets
-	// Filter widget order
 	if ( is_network_admin() ) {
+
+		/**
+		 * Fires after core widgets for the Network Admin dashboard have been registered.
+		 *
+		 * @since 3.1.0
+		 */
 		do_action( 'wp_network_dashboard_setup' );
+
+		/**
+		 * Filter the list of widgets to load for the Network Admin dashboard.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array $dashboard_widgets An array of dashboard widgets.
+		 */
 		$dashboard_widgets = apply_filters( 'wp_network_dashboard_widgets', array() );
 	} elseif ( is_user_admin() ) {
+
+		/**
+		 * Fires after core widgets for the User Admin dashboard have been registered.
+		 *
+		 * @since 3.1.0
+		 */
 		do_action( 'wp_user_dashboard_setup' );
+
+		/**
+		 * Filter the list of widgets to load for the User Admin dashboard.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array $dashboard_widgets An array of dashboard widgets.
+		 */
 		$dashboard_widgets = apply_filters( 'wp_user_dashboard_widgets', array() );
 	} else {
+
+		/**
+		 * Fires after core widgets for the admin dashboard have been registered.
+		 *
+		 * @since 2.5.0
+		 */
 		do_action( 'wp_dashboard_setup' );
+
+		/**
+		 * Filter the list of widgets to load for the admin dashboard.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param array $dashboard_widgets An array of dashboard widgets.
+		 */
 		$dashboard_widgets = apply_filters( 'wp_dashboard_widgets', array() );
 	}
 
@@ -87,9 +127,10 @@ function wp_dashboard_setup() {
 		update_option( 'dashboard_widget_options', $widget_options );
 
 	/** This action is documented in wp-admin/edit-form-advanced.php */
-	do_action('do_meta_boxes', $screen->id, 'normal', '');
+	do_action( 'do_meta_boxes', $screen->id, 'normal', '' );
+
 	/** This action is documented in wp-admin/edit-form-advanced.php */
-	do_action('do_meta_boxes', $screen->id, 'side', '');
+	do_action( 'do_meta_boxes', $screen->id, 'side', '' );
 }
 
 function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null, $callback_args = null ) {
@@ -165,7 +206,9 @@ function wp_dashboard() {
 
 }
 
-/* Dashboard Widgets */
+//
+// Dashboard Widgets
+//
 
 /**
  * Dashboard widget that displays some basic stats about the site.
@@ -220,13 +263,18 @@ function wp_dashboard_right_now() {
 	}
 
 	/**
-	 * Include additional elements in the 'At a Glance' dashboard widget.
-	 * This widget was previously 'Right Now'.
+	 * Filter the array of extra elements to list in the 'At a Glance'
+	 * dashboard widget.
+	 *
+	 * Prior to 3.8.0, the widget was named 'Right Now'. Each element
+	 * is wrapped in list-item tags on output.
 	 *
 	 * @since 3.8.0
-	 * @param array $items Array of items.
+	 *
+	 * @param array $items Array of extra 'At a Glance' widget items.
 	 */
 	$elements = apply_filters( 'dashboard_glance_items', array() );
+
 	if ( $elements ) {
 		echo '<li>' . implode( "</li>\n<li>", $elements ) . "</li>\n";
 	}
@@ -240,20 +288,26 @@ function wp_dashboard_right_now() {
 	if ( ! is_network_admin() && ! is_user_admin() && current_user_can( 'manage_options' ) && '1' != get_option( 'blog_public' ) ) {
 
 		/**
-		 * Filter the title attribute for the link displayed in Site Content metabox when search engines are discouraged from indexing the site.
+		 * Filter the link title attribute for the 'Search Engines Discouraged'
+		 * message displayed in the 'At a Glance' dashboard widget.
+		 *
+		 * Prior to 3.8.0, the widget was named 'Right Now'.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string Default attribute text.
+		 * @param string $title Default attribute text.
 		 */
 		$title = apply_filters( 'privacy_on_link_title', __( 'Your site is asking search engines not to index its content' ) );
 
 		/**
-		 * Filter the text for the link displayed in Site Content metabox when search engines are discouraged from indexing the site.
+		 * Filter the link label for the 'Search Engines Discouraged' message
+		 * displayed in the 'At a Glance' dashboard widget.
+		 *
+		 * Prior to 3.8.0, the widget was named 'Right Now'.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string Default text.
+		 * @param string $content Default text.
 		 */
 		$content = apply_filters( 'privacy_on_link_text' , __( 'Search Engines Discouraged' ) );
 
@@ -262,11 +316,30 @@ function wp_dashboard_right_now() {
 	?>
 	</div>
 	<?php
-	// activity_box_end has a core action, but only prints content when multisite.
-	// Using an output buffer is the only way to really check if anything's displayed here.
+	/*
+	 * activity_box_end has a core action, but only prints content when multisite.
+	 * Using an output buffer is the only way to really check if anything's displayed here.
+	 */
 	ob_start();
+
+	/**
+	 * Fires at the end of the 'At a Glance' dashboard widget.
+	 *
+	 * Prior to 3.8.0, the widget was named 'Right Now'.
+	 *
+	 * @since 2.5.0
+	 */
 	do_action( 'rightnow_end' );
+
+	/**
+	 * Fires at the end of the 'At a Glance' dashboard widget.
+	 *
+	 * Prior to 3.8.0, the widget was named 'Right Now'.
+	 *
+	 * @since 2.0.0
+	 */
 	do_action( 'activity_box_end' );
+
 	$actions = ob_get_clean();
 
 	if ( !empty( $actions ) ) : ?>
@@ -303,7 +376,19 @@ function wp_network_dashboard_right_now() {
 	<br class="clear" />
 
 	<p class="youhave"><?php echo $sentence; ?></p>
-	<?php do_action( 'wpmuadminresult', '' ); ?>
+
+
+	<?php
+		/**
+		 * Fires in the Network Admin 'Right Now' dashboard widget
+		 * just before the user and site search form fields.
+		 *
+		 * @since MU
+		 *
+		 * @param null $unused
+		 */
+		do_action( 'wpmuadminresult', '' );
+	?>
 
 	<form action="<?php echo network_admin_url('users.php'); ?>" method="get">
 		<p>
@@ -319,7 +404,18 @@ function wp_network_dashboard_right_now() {
 		</p>
 	</form>
 <?php
+	/**
+	 * Fires at the end of the 'Right Now' widget in the Network Admin dashboard.
+	 *
+	 * @since MU
+	 */
 	do_action( 'mu_rightnow_end' );
+
+	/**
+	 * Fires at the end of the 'Right Now' widget in the Network Admin dashboard.
+	 *
+	 * @since MU
+	 */
 	do_action( 'mu_activity_box_end' );
 }
 
@@ -361,7 +457,13 @@ function wp_dashboard_quick_press( $error_msg = false ) {
 		<?php endif; ?>
 
 		<div class="input-text-wrap" id="title-wrap">
-			<label class="screen-reader-text prompt" for="title" id="title-prompt-text"><?php echo apply_filters( 'enter_title_here', __( 'Title' ), $post ); ?></label>
+			<label class="screen-reader-text prompt" for="title" id="title-prompt-text">
+
+				<?php
+				/** This filter is documented in wp-admin/edit-form-advanced.php */
+				echo apply_filters( 'enter_title_here', __( 'Title' ), $post );
+				?>
+			</label>
 			<input type="text" name="post_title" id="title" autocomplete="off" />
 		</div>
 
@@ -470,6 +572,17 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		else
 			$actions['trash'] = "<a href='$trash_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::trash=1' class='delete vim-d vim-destructive' title='" . esc_attr__( 'Move this comment to the trash' ) . "'>" . _x('Trash', 'verb') . '</a>';
 
+		/**
+		 * Filter the action links displayed for each comment in the 'Recent Comments'
+		 * dashboard widget.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param array  $actions An array of comment actions. Default actions include:
+		 *                        'Approve', 'Unapprove', 'Edit', 'Reply', 'Spam',
+		 *                        'Delete', and 'Trash'.
+		 * @param object $comment The comment object.
+		 */
 		$actions = apply_filters( 'comment_row_actions', array_filter($actions), $comment );
 
 		$i = 0;
@@ -830,9 +943,33 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
  */
 function wp_dashboard_primary() {
 	$feeds = array(
-		'news'   => array(
-			'link'         => apply_filters( 'dashboard_primary_link', __( 'http://wordpress.org/news/' ) ),
-			'url'          => apply_filters( 'dashboard_primary_feed', __( 'http://wordpress.org/news/feed/' ) ),
+		'news' => array(
+
+			/**
+			 * Filter the primary link URL for the 'WordPress News' dashboard widget.
+			 *
+			 * @since 2.5.0
+			 *
+			 * @param string $link The widget's primary link URL.
+			 */
+			'link' => apply_filters( 'dashboard_primary_link', __( 'http://wordpress.org/news/' ) ),
+
+			/**
+			 * Filter the primary feed URL for the 'WordPress News' dashboard widget.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param string $url The widget's primary feed URL.
+			 */
+			'url' => apply_filters( 'dashboard_primary_feed', __( 'http://wordpress.org/news/feed/' ) ),
+
+			/**
+			 * Filter the primary link title for the 'WordPress News' dashboard widget.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param string $title Title attribute for the widget's primary link.
+			 */
 			'title'        => apply_filters( 'dashboard_primary_title', __( 'WordPress Blog' ) ),
 			'items'        => 1,
 			'show_summary' => 1,
@@ -840,8 +977,32 @@ function wp_dashboard_primary() {
 			'show_date'    => 1,
 		),
 		'planet' => array(
-			'link'         => apply_filters( 'dashboard_secondary_link', __( 'http://planet.wordpress.org/' ) ),
-			'url'          => apply_filters( 'dashboard_secondary_feed', __( 'http://planet.wordpress.org/feed/' ) ),
+
+			/**
+			 * Filter the secondary link URL for the 'WordPress News' dashboard widget.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param string $link The widget's secondary link URL.
+			 */
+			'link' => apply_filters( 'dashboard_secondary_link', __( 'http://planet.wordpress.org/' ) ),
+
+			/**
+			 * Filter the secondary feed URL for the 'WordPress News' dashboard widget.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param string $url The widget's secondary feed URL.
+			 */
+			'url' => apply_filters( 'dashboard_secondary_feed', __( 'http://planet.wordpress.org/feed/' ) ),
+
+			/**
+			 * Filter the secondary link title for the 'WordPress News' dashboard widget.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param string $title Title attribute for the widget's secondary link.
+			 */
 			'title'        => apply_filters( 'dashboard_secondary_title', __( 'Other WordPress News' ) ),
 			'items'        => 3,
 			'show_summary' => 0,
@@ -1057,6 +1218,14 @@ function wp_dashboard_browser_nag() {
 		$notice .= '<div class="clear"></div>';
 	}
 
+	/**
+	* Filter the notice output for the 'Browse Happy' nag meta box.
+	*
+	* @since 3.2.0
+	*
+	* @param string $notice   The notice content.
+	* @param array  $response An array containing web browser information.
+	*/
 	echo apply_filters( 'browse-happy-notice', $notice, $response );
 }
 
