@@ -113,9 +113,10 @@ class WP_Upgrader {
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param bool    $reply   Whether to bail without returning the package. Default is false.
-		 * @param string  $package The package file name.
-		 * @param object  $this    The WP_Upgrader instance.
+		 * @param bool        $reply   Whether to bail without returning the package.
+		 *                             Default false.
+		 * @param string      $package The package file name.
+		 * @param WP_Upgrader $this    The WP_Upgrader instance.
 		 */
 		$reply = apply_filters( 'upgrader_pre_download', false, $package, $this );
 		if ( false !== $reply )
@@ -198,7 +199,19 @@ class WP_Upgrader {
 
 		$this->skin->feedback('installing_package');
 
-		$res = apply_filters('upgrader_pre_install', true, $hook_extra);
+		/**
+		 * Filter the install response before the installation has started.
+		 *
+		 * Returning a truthy value, or one that could be evaluated as a WP_Error
+		 * will effectively short-circuit the installation, returning that value
+		 * instead.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param bool|WP_Error $response   Response.
+		 * @param array         $hook_extra Extra arguments passed to hooked filters.
+		 */
+		$res = apply_filters( 'upgrader_pre_install', true, $hook_extra );
 		if ( is_wp_error($res) )
 			return $res;
 
@@ -217,8 +230,16 @@ class WP_Upgrader {
 		else //It's only a single file, the upgrader will use the foldername of this file as the destination folder. foldername is based on zip filename.
 			$source = trailingslashit($source);
 
-		//Hook ability to change the source file location..
-		$source = apply_filters('upgrader_source_selection', $source, $remote_source, $this);
+		/**
+		 * Filter the source file location for the upgrade package.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param string      $source        File source location.
+		 * @param string      $remote_source Remove file source location.
+		 * @param WP_Upgrader $this          WP_Upgrader instance.
+		 */
+		$source = apply_filters( 'upgrader_source_selection', $source, $remote_source, $this );
 		if ( is_wp_error($source) )
 			return $source;
 
@@ -243,7 +264,18 @@ class WP_Upgrader {
 			$removed = true;
 			if ( $wp_filesystem->exists($remote_destination) )
 				$removed = $wp_filesystem->delete($remote_destination, true);
-			$removed = apply_filters('upgrader_clear_destination', $removed, $local_destination, $remote_destination, $hook_extra);
+
+			/**
+			 * Filter whether the upgrader cleared the destination.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param bool   $removed            Whether the destination was cleared.
+			 * @param string $local_destination  The local package destination.
+			 * @param string $remote_destination The remote package destination.
+			 * @param array  $hook_extra         Extra arguments passed to hooked filters.
+			 */
+			$removed = apply_filters( 'upgrader_clear_destination', $removed, $local_destination, $remote_destination, $hook_extra );
 
 			if ( is_wp_error($removed) )
 				return $removed;
@@ -282,7 +314,17 @@ class WP_Upgrader {
 
 		$this->result = compact('local_source', 'source', 'source_name', 'source_files', 'destination', 'destination_name', 'local_destination', 'remote_destination', 'clear_destination', 'delete_source_dir');
 
-		$res = apply_filters('upgrader_post_install', true, $hook_extra, $this->result);
+		/**
+		 * Filter the install response after the installation has finished.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param bool  $response   Install response.
+		 * @param array $hook_extra Extra arguments passed to hooked filters.
+		 * @param array $result     Installation result data.
+		 */
+		$res = apply_filters( 'upgrader_post_install', true, $hook_extra, $this->result );
+
 		if ( is_wp_error($res) ) {
 			$this->result = $res;
 			return $res;
@@ -373,6 +415,8 @@ class WP_Upgrader {
 		$this->skin->after();
 
 		if ( ! $is_multi ) {
+
+			/** This action is documented in wp-admin/includes/class-wp-upgrader.php */
 			do_action( 'upgrader_process_complete', $this, $hook_extra );
 			$this->skin->footer();
 		}
@@ -593,6 +637,22 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$this->maintenance_mode(false);
 
+		/**
+		 * Fires when the bulk upgrader process is complete.
+		 *
+		 * @since 3.6.0
+		 *
+		 * @param Plugin_Upgrader $this Plugin_Upgrader instance. In other contexts, $this, might
+		 *                              be a Theme_Upgrader or Core_Upgrade instance.
+		 * @param array           $data {
+		 *     Array of bulk item update data.
+		 *
+		 *     @type string $action   Type of action. Default 'update'.
+		 *     @type string $type     Type of update process. Accepts 'plugin', 'theme', or 'core'.
+		 *     @type bool   $bulk     Whether the update process is a bulk update. Default true.
+		 *     @type array  $packages Array of plugin, theme, or core packages to update.
+		 * }
+		 */
 		do_action( 'upgrader_process_complete', $this, array(
 			'action' => 'update',
 			'type' => 'plugin',
@@ -976,6 +1036,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$this->maintenance_mode(false);
 
+		/** This action is documented in wp-admin/includes/class-wp-upgrader.php */
 		do_action( 'upgrader_process_complete', $this, array(
 			'action' => 'update',
 			'type' => 'theme',
@@ -1346,10 +1407,12 @@ class Core_Upgrader extends WP_Upgrader {
 		elseif ( $parsed_args['pre_check_md5'] && ! $this->check_files() )
 			$partial = false;
 
-		// If partial update is returned from the API, use that, unless we're doing a reinstall.
-		// If we cross the new_bundled version number, then use the new_bundled zip.
-		// Don't though if the constant is set to skip bundled items.
-		// If the API returns a no_content zip, go with it. Finally, default to the full zip.
+		/*
+		 * If partial update is returned from the API, use that, unless we're doing
+		 * a reinstall. If we cross the new_bundled version number, then use
+		 * the new_bundled zip. Don't though if the constant is set to skip bundled items.
+		 * If the API returns a no_content zip, go with it. Finally, default to the full zip.
+		 */
 		if ( $parsed_args['do_rollback'] && $current->packages->rollback )
 			$to_download = 'rollback';
 		elseif ( $current->packages->partial && 'reinstall' != $current->response && $wp_version == $current->partial_version && $partial )
@@ -1403,6 +1466,7 @@ class Core_Upgrader extends WP_Upgrader {
 			if ( $try_rollback ) {
 				/** This filter is documented in wp-admin/includes/update-core.php */
 				apply_filters( 'update_feedback', $result );
+
 				/** This filter is documented in wp-admin/includes/update-core.php */
 				apply_filters( 'update_feedback', $this->strings['start_rollback'] );
 
@@ -1413,6 +1477,7 @@ class Core_Upgrader extends WP_Upgrader {
 			}
 		}
 
+		/** This action is documented in wp-admin/includes/class-wp-upgrader.php */
 		do_action( 'upgrader_process_complete', $this, array( 'action' => 'update', 'type' => 'core' ) );
 
 		// Clear the current updates
@@ -1508,18 +1573,45 @@ class Core_Upgrader extends WP_Upgrader {
 
 		// 3: 3.7-alpha-25000 -> 3.7-alpha-25678 -> 3.7-beta1 -> 3.7-beta2
 		if ( $current_is_development_version ) {
+
+			/**
+			 * Filter whether to enable automatic core updates for development versions.
+			 *
+			 * @since 3.7.0
+			 *
+			 * @param bool $upgrade_dev Whether to enable automatic updates for
+			 *                          development versions.
+			 */
 			if ( ! apply_filters( 'allow_dev_auto_core_updates', $upgrade_dev ) )
 				return false;
 			// else fall through to minor + major branches below
 		}
 
 		// 4: Minor In-branch updates (3.7.0 -> 3.7.1 -> 3.7.2 -> 3.7.4)
-		if ( $current_branch == $new_branch )
+		if ( $current_branch == $new_branch ) {
+
+			/**
+			 * Filter whether to enable minor automatic core updates.
+			 *
+			 * @since 3.7.0
+			 *
+			 * @param bool $upgrade_minor Whether to enable minor automatic core updates.
+			 */
 			return apply_filters( 'allow_minor_auto_core_updates', $upgrade_minor );
+		}
 
 		// 5: Major version updates (3.7.0 -> 3.8.0 -> 3.9.1)
-		if ( version_compare( $new_branch, $current_branch, '>' ) )
+		if ( version_compare( $new_branch, $current_branch, '>' ) ) {
+
+			/**
+			 * Filter whether to enable major automatic core updates.
+			 *
+			 * @since 3.7.0
+			 *
+			 * @param bool $upgrade_major Whether to enable major automatic core updates.
+			 */
 			return apply_filters( 'allow_major_auto_core_updates', $upgrade_major );
+		}
 
 		// If we're not sure, we don't want it
 		return false;
@@ -1660,6 +1752,7 @@ class WP_Automatic_Updater {
 		 * This also disables update notification emails. That may change in the future.
 		 *
 		 * @since 3.7.0
+		 *
 		 * @param bool $disabled Whether the updater should be disabled.
 		 */
 		return apply_filters( 'automatic_updater_disabled', $disabled );
@@ -1713,13 +1806,15 @@ class WP_Automatic_Updater {
 		}
 
 		/**
-		 * Filter whether the automatic updater should consider a filesystem location to be potentially
-		 * managed by a version control system.
+		 * Filter whether the automatic updater should consider a filesystem
+		 * location to be potentially managed by a version control system.
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param bool $checkout  Whether a VCS checkout was discovered at $context or ABSPATH, or anywhere higher.
-		 * @param string $context The filesystem context (a path) against which filesystem status should be checked.
+		 * @param bool $checkout  Whether a VCS checkout was discovered at $context
+		 *                        or ABSPATH, or anywhere higher.
+		 * @param string $context The filesystem context (a path) against which
+		 *                        filesystem status should be checked.
 		 */
 		return apply_filters( 'automatic_updates_is_vcs_checkout', $checkout, $context );
 	}
@@ -1729,10 +1824,11 @@ class WP_Automatic_Updater {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param string $type    The type of update being checked: 'core', 'theme', 'plugin', 'translation'.
+	 * @param string $type    The type of update being checked: 'core', 'theme',
+	 *                        'plugin', 'translation'.
 	 * @param object $item    The update offer.
-	 * @param string $context The filesystem context (a path) against which filesystem access and status
-	 *                        should be checked.
+	 * @param string $context The filesystem context (a path) against which filesystem
+	 *                        access and status should be checked.
 	 */
 	public function should_update( $type, $item, $context ) {
 		// Used to see if WP_Filesystem is set up to allow unattended updates.
@@ -1760,11 +1856,13 @@ class WP_Automatic_Updater {
 		 * The dynamic portion of the hook name, $type, refers to the type of update
 		 * being checked. Can be 'core', 'theme', 'plugin', or 'translation'.
 		 *
-		 * Generally speaking, plugins, themes, and major core versions are not updated by default,
-		 * while translations and minor and development versions for core are updated by default.
+		 * Generally speaking, plugins, themes, and major core versions are not updated
+		 * by default, while translations and minor and development versions for core
+		 * are updated by default.
 		 *
-		 * See the filters allow_dev_auto_core_updates, allow_minor_auto_core_updates, and
-		 * allow_major_auto_core_updates more straightforward filters to adjust core updates.
+		 * See the allow_dev_auto_core_updates, allow_minor_auto_core_updates, and
+		 * allow_major_auto_core_updates filters for a more straightforward way to
+		 * adjust core updates.
 		 *
 		 * @since 3.7.0
 		 *
@@ -1815,20 +1913,23 @@ class WP_Automatic_Updater {
 		$notify = ! empty( $item->notify_email );
 
 		/**
-		 * Whether to notify the site administrator of a new core update.
+		 * Filter whether to notify the site administrator of a new core update.
 		 *
-		 * By default, administrators are notified when the update offer received from WordPress.org
-		 * sets a particular flag. This allows for discretion in if and when to notify.
+		 * By default, administrators are notified when the update offer received
+		 * from WordPress.org sets a particular flag. This allows some discretion
+		 * in if and when to notify.
 		 *
-		 * This filter only fires once per release -- if the same email address was already
-		 * notified of the same new version, we won't repeatedly email the administrator.
+		 * This filter is only evaluated once per release. If the same email address
+		 * was already notified of the same new version, WordPress won't repeatedly
+		 * email the administrator.
 		 *
-		 * This filter is also used on about.php to check if a plugin has disabled these notifications.
+		 * This filter is also used on about.php to check if a plugin has disabled
+		 * these notifications.
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param bool $notify Whether the site administrator is notified.
-		 * @param object $item The update offer.
+		 * @param bool   $notify Whether the site administrator is notified.
+		 * @param object $item   The update offer.
 		 */
 		if ( ! apply_filters( 'send_core_update_notification_email', $notify, $item ) )
 			return false;
@@ -2020,11 +2121,14 @@ class WP_Automatic_Updater {
 		// Send debugging email to all development installs.
 		if ( ! empty( $this->update_results ) ) {
 			$development_version = false !== strpos( $wp_version, '-' );
+
 			/**
 			 * Filter whether to send a debugging email for each automatic background update.
 			 *
 			 * @since 3.7.0
-			 * @param bool $development_version By default, emails are sent if the install is a development version.
+			 *
+			 * @param bool $development_version By default, emails are sent if the
+			 *                                  install is a development version.
 			 *                                  Return false to avoid the email.
 			 */
 			if ( apply_filters( 'automatic_updates_send_debug_email', $development_version ) )
@@ -2034,12 +2138,12 @@ class WP_Automatic_Updater {
 				$this->after_core_update( $this->update_results['core'][0] );
 
 			/**
-		 	 * Action triggered after all automatic updates have run.
-		 	 *
-		 	 * @since 3.8.0
-		 	 *
-		 	 * @param array $update_results The results of all attempted updates.
-		 	 */
+			 * Fires after all automatic updates have run.
+			 *
+			 * @since 3.8.0
+			 *
+			 * @param array $update_results The results of all attempted updates.
+			 */
 			do_action( 'automatic_updates_complete', $this->update_results );
 		}
 
@@ -2162,7 +2266,8 @@ class WP_Automatic_Updater {
 		 * @since 3.7.0
 		 *
 		 * @param bool   $send        Whether to send the email. Default true.
-		 * @param string $type        The type of email to send. Can be one of 'success', 'fail', 'critical'.
+		 * @param string $type        The type of email to send. Can be one of
+		 *                            'success', 'fail', 'critical'.
 		 * @param object $core_update The update offer that was attempted.
 		 * @param mixed  $result      The result for the core update. Can be WP_Error.
 		 */
@@ -2293,6 +2398,7 @@ class WP_Automatic_Updater {
 		$headers = '';
 
 		$email = compact( 'to', 'subject', 'body', 'headers' );
+
 		/**
 		 * Filter the email sent following an automatic background core update.
 		 *
@@ -2301,12 +2407,14 @@ class WP_Automatic_Updater {
 		 * @param array $email {
 		 *     Array of email arguments that will be passed to wp_mail().
 		 *
-		 *     @type string $to      The email recipient. An array of emails can be returned, as handled by wp_mail().
+		 *     @type string $to      The email recipient. An array of emails
+		 *                            can be returned, as handled by wp_mail().
 		 *     @type string $subject The email's subject.
 		 *     @type string $body    The email message body.
 		 *     @type string $headers Any email headers, defaults to no headers.
 		 * }
-		 * @param string $type        The type of email being sent. Can be one of 'success', 'fail', 'manual', 'critical'.
+		 * @param string $type        The type of email being sent. Can be one of
+		 *                            'success', 'fail', 'manual', 'critical'.
 		 * @param object $core_update The update offer that was attempted.
 		 * @param mixed  $result      The result for the core update. Can be WP_Error.
 		 */
@@ -2443,15 +2551,16 @@ Thanks! -- The WordPress Team" );
 		);
 
 		/**
-		 * Filter the debug email that can be sent following an automatic background core update.
+		 * Filter the debug email that can be sent following an automatic
+		 * background core update.
 		 *
 		 * @since 3.8.0
 		 *
 		 * @param array $email {
 		 *     Array of email arguments that will be passed to wp_mail().
 		 *
-		 *     @type string $to      The email recipient. An array of emails can be returned,
-		 *                           as handled by wp_mail().
+		 *     @type string $to      The email recipient. An array of emails
+		 *                           can be returned, as handled by wp_mail().
 		 *     @type string $subject Email subject.
 		 *     @type string $body    Email message body.
 		 *     @type string $headers Any email headers. Default empty.
