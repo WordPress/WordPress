@@ -75,7 +75,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 			$one_network = $wpdb->get_row( "SELECT * FROM $wpdb->site LIMIT 2" ); // [sic]
 			if ( 1 === $wpdb->num_rows ) {
 				$current_site = wp_get_network( $one_network );
-				wp_cache_set( 'current_network', $current_site, 'site-options' );
+				wp_cache_add( 'current_network', $current_site, 'site-options' );
 			} elseif ( 0 === $wpdb->num_rows ) {
 				ms_not_installed();
 			}
