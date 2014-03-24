@@ -274,6 +274,7 @@ function edit_post( $post_data = null ) {
 		}
 
 		$attachment_data = isset( $post_data['attachments'][ $post_ID ] ) ? $post_data['attachments'][ $post_ID ] : array();
+
 		/** This filter is documented in wp-admin/includes/media.php */
 		$post_data = apply_filters( 'attachment_fields_to_save', $post_data, $attachment_data );
 	}
@@ -495,8 +496,34 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 		$post = new WP_Post( $post );
 	}
 
+	/**
+	 * Filter the default post content initially used in the "Write Post" form.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string  $post_content Default post content.
+	 * @param WP_Post $post         Post object.
+	 */
 	$post->post_content = apply_filters( 'default_content', $post_content, $post );
-	$post->post_title   = apply_filters( 'default_title',   $post_title, $post   );
+
+	/**
+	 * Filter the default post title initially used in the "Write Post" form.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string  $post_title Default post title.
+	 * @param WP_Post $post       Post object.
+	 */
+	$post->post_title = apply_filters( 'default_title', $post_title, $post );
+
+	/**
+	 * Filter the default post excerpt initially used in the "Write Post" form.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string  $post_excerpt Default post excerpt.
+	 * @param WP_Post $post         Post object.
+	 */
 	$post->post_excerpt = apply_filters( 'default_excerpt', $post_excerpt, $post );
 	$post->post_name = '';
 
@@ -865,7 +892,30 @@ function wp_edit_posts_query( $q = false ) {
 	if ( empty( $posts_per_page ) || $posts_per_page < 1 )
 		$posts_per_page = 20;
 
+	/**
+	 * Filter the number of items per page to show for a specific 'per_page' type.
+	 *
+	 * The dynamic hook name, $per_page, refers to a hook name comprised of the post type,
+	 * preceded by 'edit_', and succeeded by '_per_page', e.g. 'edit_$post_type_per_page'.
+	 *
+	 * Some examples of filter hooks generated here include: 'edit_attachment_per_page',
+	 * 'edit_post_per_page', 'edit_page_per_page', etc.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int $posts_per_page Number of posts to display per page for the given 'per_page'
+	 *                            type. Default 20.
+	 */
 	$posts_per_page = apply_filters( $per_page, $posts_per_page );
+
+	/**
+	 * Filter the number of posts displayed per page when specifically listing "posts".
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param int    $per_page  Number of posts to be displayed. Default 20.
+	 * @param string $post_type The post type.
+	 */
 	$posts_per_page = apply_filters( 'edit_posts_per_page', $posts_per_page, $post_type );
 
 	$query = compact('post_type', 'post_status', 'perm', 'order', 'orderby', 'posts_per_page');
@@ -906,7 +956,6 @@ function get_available_post_mime_types($type = 'attachment') {
  * can be passed in, which will override the arguments set by this function.
  *
  * @since 2.5.0
- * @uses apply_filters() Calls 'upload_per_page' on posts_per_page argument
  *
  * @param array|bool $q Array of query variables to use to build the query or false to use $_GET superglobal.
  * @return array
@@ -927,6 +976,14 @@ function wp_edit_attachments_query( $q = false ) {
 	$media_per_page = (int) get_user_option( 'upload_per_page' );
 	if ( empty( $media_per_page ) || $media_per_page < 1 )
 		$media_per_page = 20;
+
+	/**
+	 * Filter the number of items to list per page when listing media items.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param int $media_per_page Number of media to list. Default 20.
+	 */
 	$q['posts_per_page'] = apply_filters( 'upload_per_page', $media_per_page );
 
 	$post_mime_types = get_post_mime_types();
@@ -966,6 +1023,16 @@ function postbox_classes( $id, $page ) {
 		$classes = array( '' );
 	}
 
+	/**
+	 * Filter the postbox classes for a specific screen and screen ID combo.
+	 *
+	 * The dynamic portions of the hook name, $page, and $id, refer to
+	 * the screen, and screen ID, respectively.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @param array $classes An array of postbox classes.
+	 */
 	$classes = apply_filters( "postbox_classes_{$page}_{$id}", $classes );
 	return implode( ' ', $classes );
 }
@@ -1017,13 +1084,16 @@ function get_sample_permalink($id, $title = null, $name = null) {
 		$uri = untrailingslashit($uri);
 		$uri = strrev( stristr( strrev( $uri ), '/' ) );
 		$uri = untrailingslashit($uri);
+
+		/** This filter is documented in wp-admin/edit-tag-form.php */
 		$uri = apply_filters( 'editable_slug', $uri );
 		if ( !empty($uri) )
 			$uri .= '/';
 		$permalink = str_replace('%pagename%', "{$uri}%pagename%", $permalink);
 	}
 
-	$permalink = array($permalink, apply_filters('editable_slug', $post->post_name));
+	/** This filter is documented in wp-admin/edit-tag-form.php */
+	$permalink = array( $permalink, apply_filters( 'editable_slug', $post->post_name ) );
 	$post->post_status = $original_status;
 	$post->post_date = $original_date;
 	$post->post_name = $original_name;
@@ -1067,7 +1137,17 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 		if ( isset( $view_post ) )
 			$return .= "<span id='view-post-btn'><a href='$permalink' class='button button-small'>$view_post</a></span>\n";
 
-		$return = apply_filters('get_sample_permalink_html', $return, $id, $new_title, $new_slug);
+		/**
+		 * Filter the sample permalink HTML markup.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param string      $return    Sample permalink HTML markup.
+		 * @param int|WP_Post $id        Post object or ID.
+		 * @param string      $new_title New sample permalink title.
+		 * @param string      $new_slug  New sample permalink slug.
+		 */
+		$return = apply_filters( 'get_sample_permalink_html', $return, $id, $new_title, $new_slug );
 
 		return $return;
 	}
@@ -1099,7 +1179,8 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 		$return .= "<span id='view-post-btn'><a href='" . get_permalink( $post ) . "' class='button button-small'>$view_post</a></span>\n";
 	}
 
-	$return = apply_filters('get_sample_permalink_html', $return, $id, $new_title, $new_slug);
+	/** This filter is documented in wp-admin/includes/post.php */
+	$return = apply_filters( 'get_sample_permalink_html', $return, $id, $new_title, $new_slug );
 
 	return $return;
 }
@@ -1137,6 +1218,14 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 		$content_width = $old_content_width;
 	}
 
+	/**
+	 * Filter the admin post thumbnail HTML markup to return.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param string $content Admin post thumbnail HTML markup.
+	 * @param int    $post_id Post ID.
+	 */
 	return apply_filters( 'admin_post_thumbnail_html', $content, $post->ID );
 }
 
@@ -1159,6 +1248,7 @@ function wp_check_post_lock( $post_id ) {
 	$time = $lock[0];
 	$user = isset( $lock[1] ) ? $lock[1] : get_post_meta( $post->ID, '_edit_last', true );
 
+	/** This filter is documented in wp-admin/includes/ajax-actions.php */
 	$time_window = apply_filters( 'wp_check_post_lock_window', 150 );
 
 	if ( $time && $time > time() - $time_window && $user != get_current_user_id() )
@@ -1203,6 +1293,17 @@ function _admin_notice_post_locked() {
 		$user = get_userdata( $user_id );
 
 	if ( $user ) {
+
+		/**
+		 * Filter whether to show the post locked dialog.
+		 *
+		 * Returning a falsey value to the filter will short-circuit displaying the dialog.
+		 *
+		 * @since 3.6.0
+		 *
+		 * @param bool         $display Whether to display the dialog. Default true.
+		 * @param WP_User|bool $user    WP_User object on success, false otherwise.
+		 */
 		if ( ! apply_filters( 'show_post_locked_dialog', true, $post, $user ) )
 			return;
 
@@ -1245,7 +1346,21 @@ function _admin_notice_post_locked() {
 			$preview_link = '';
 		}
 
+		/** This filter is documented in wp-admin/includes/meta-boxes.php */
 		$preview_link = apply_filters( 'preview_post_link', $preview_link );
+
+		/**
+		 * Filter whether to allow the post lock to be overridden.
+		 *
+		 * Returning a falsey value to the filter will disable the ability
+		 * to override the post lock.
+		 *
+		 * @since 3.6.0
+		 *
+		 * @param bool    $override Whether to allow overriding post locks. Default true.
+		 * @param WP_Post $post     Post object.
+		 * @param WP_User $user     User object.
+		 */
 		$override = apply_filters( 'override_post_lock', true, $post, $user );
 		$tab_last = $override ? '' : ' wp-tab-last';
 
@@ -1259,7 +1374,16 @@ function _admin_notice_post_locked() {
 				printf( ' ' . __( 'If you take over, %s will be blocked from continuing to edit.' ), esc_html( $user->display_name ) );
 		?>
 		</p>
-		<?php do_action( 'post_locked_dialog', $post ); ?>
+		<?php
+		/**
+		 * Fires inside the post locked dialog before the buttons are displayed.
+		 *
+		 * @since 3.6.0
+		 *
+		 * @param WP_Post $post Post object.
+		 */
+		do_action( 'post_locked_dialog', $post );
+		?>
 		<p>
 		<a class="button" href="<?php echo esc_url( $sendback ); ?>"><?php echo $sendback_text; ?></a>
 		<?php if ( $preview_link ) { ?>
@@ -1287,7 +1411,16 @@ function _admin_notice_post_locked() {
 			<span class="locked-saving hidden"><img src="images/wpspin_light-2x.gif" width="16" height="16" /> <?php _e('Saving revision...'); ?></span>
 			<span class="locked-saved hidden"><?php _e('Your latest changes were saved as a revision.'); ?></span>
 			</p>
-			<?php do_action( 'post_lock_lost_dialog', $post ); ?>
+			<?php
+			/**
+			 * Fires inside the dialog displayed when a user has lost the post lock.
+			 *
+			 * @since 3.6.0
+			 *
+			 * @param WP_Post $post Post object.
+			 */
+			do_action( 'post_lock_lost_dialog', $post );
+			?>
 			<p><a class="button button-primary wp-tab-last" href="<?php echo esc_url( $sendback ); ?>"><?php echo $sendback_text; ?></a></p>
 		</div>
 		<?php
@@ -1414,6 +1547,8 @@ function post_preview() {
 	}
 
 	$url = add_query_arg( $query_args, get_permalink( $post->ID ) );
+
+	/** This filter is documented in wp-admin/includes/meta-boxes.php */
 	return apply_filters( 'preview_post_link', $url );
 }
 

@@ -90,14 +90,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$post_type = $this->screen->post_type;
 		$per_page = $this->get_items_per_page( 'edit_' . $post_type . '_per_page' );
 
-		/**
-		 * Filter the number of posts displayed per page on the Posts list table.
-		 *
-		 * @since 2.8.0
-		 *
-		 * @param int    $per_page  Number of posts to be displayed. Default 20.
-		 * @param string $post_type The post type.
-		 */
+		/** This filter is documented in wp-admin/includes/post.php */
  		$per_page = apply_filters( 'edit_posts_per_page', $per_page, $post_type );
 
 		if ( $this->hierarchical_display )
