@@ -1293,7 +1293,7 @@ class WP_Adjacent_Post {
 		$query_args = array(
 			'posts_per_page'      => 1,
 			'post_status'         => 'publish',
-			'post_type'           => 'post',
+			'post_type'           => $this->current_post->post_type,
 			'orderby'             => 'date',
 			'order'               => 'previous' === $this->adjacent ? 'DESC' : 'ASC',
 			'ignore_sticky_posts' => true,
