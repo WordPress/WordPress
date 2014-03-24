@@ -4995,6 +4995,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			'url'  => $upload[ 'url' ],
 			'type' => $type
 		);
+
+		/** This filter is documented in wp-admin/includes/file.php */
 		return apply_filters( 'wp_handle_upload', $struct, 'upload' );
 	}
 

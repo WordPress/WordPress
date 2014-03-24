@@ -194,7 +194,6 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
  * @since 2.0.0
  *
  * @uses wp_handle_upload_error
- * @uses apply_filters
  * @uses is_multisite
  * @uses wp_check_filetype_and_ext
  * @uses current_user_can
@@ -214,6 +213,13 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 		}
 	}
 
+	/**
+	 * Filter data for the current file to upload.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param array $file An array of data for a single file.
+	 */
 	$file = apply_filters( 'wp_handle_upload_prefilter', $file );
 
 	// You may define your own function and pass the name in $overrides['upload_error_handler']
@@ -325,6 +331,20 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	if ( is_multisite() )
 		delete_transient( 'dirsize_cache' );
 
+	/**
+	 * Filter the data array for the uploaded file.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param array  $upload {
+	 *     Array of upload data.
+	 *
+	 *     @type string $file Filename of the newly-uploaded file.
+	 *     @type string $url  URL of the uploaded file.
+	 *     @type string $type File type.
+	 * }
+	 * @param string $context The type of upload action. Accepts 'upload' or 'sideload'.
+	 */
 	return apply_filters( 'wp_handle_upload', array( 'file' => $new_file, 'url' => $url, 'type' => $type ), 'upload' );
 }
 
@@ -336,7 +356,6 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
  * @since 2.6.0
  *
  * @uses wp_handle_upload_error
- * @uses apply_filters
  * @uses wp_check_filetype_and_ext
  * @uses current_user_can
  * @uses wp_upload_dir
@@ -450,6 +469,7 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
 	// Compute the URL
 	$url = $uploads['url'] . "/$filename";
 
+	/** This filter is documented in wp-admin/includes/file.php */
 	$return = apply_filters( 'wp_handle_upload', array( 'file' => $new_file, 'url' => $url, 'type' => $type ), 'sideload' );
 
 	return $return;
@@ -543,6 +563,7 @@ function unzip_file($file, $to) {
 		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
 
 	// Unzip can use a lot of memory, but not this much hopefully
+	/** This filter is documented in wp-admin/admin.php */
 	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 
 	$needed_dirs = array();
@@ -566,7 +587,14 @@ function unzip_file($file, $to) {
 		}
 	}
 
-	if ( class_exists('ZipArchive') && apply_filters('unzip_file_use_ziparchive', true ) ) {
+	/**
+	 * Filter whether to use ZipArchive to unzip archives.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param bool $ziparchive Whether to use ZipArchive. Default true.
+	 */
+	if ( class_exists( 'ZipArchive' ) && apply_filters( 'unzip_file_use_ziparchive', true ) ) {
 		$result = _unzip_file_ziparchive($file, $to, $needed_dirs);
 		if ( true === $result ) {
 			return $result;
@@ -843,7 +871,19 @@ function WP_Filesystem( $args = false, $context = false ) {
 		return false;
 
 	if ( ! class_exists("WP_Filesystem_$method") ) {
-		$abstraction_file = apply_filters('filesystem_method_file', ABSPATH . 'wp-admin/includes/class-wp-filesystem-' . $method . '.php', $method);
+
+		/**
+		 * Filter the path for a specific filesystem method class file.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @see get_filesystem_method()
+		 *
+		 * @param string $path   Path to the specific filesystem method class file.
+		 * @param string $method The filesystem method to use.
+		 */
+		$abstraction_file = apply_filters( 'filesystem_method_file', ABSPATH . 'wp-admin/includes/class-wp-filesystem-' . $method . '.php', $method );
+
 		if ( ! file_exists($abstraction_file) )
 			return;
 
@@ -915,7 +955,16 @@ function get_filesystem_method($args = array(), $context = false) {
 	if ( ! $method && isset($args['connection_type']) && 'ssh' == $args['connection_type'] && extension_loaded('ssh2') && function_exists('stream_get_contents') ) $method = 'ssh2';
 	if ( ! $method && extension_loaded('ftp') ) $method = 'ftpext';
 	if ( ! $method && ( extension_loaded('sockets') || function_exists('fsockopen') ) ) $method = 'ftpsockets'; //Sockets: Socket extension; PHP Mode: FSockopen / fwrite / fread
-	return apply_filters('filesystem_method', $method, $args);
+
+	/**
+	 * Filter the filesystem method to use.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param string $method Filesystem method to return.
+	 * @param array  $args   An array of connection details for the method.
+	 */
+	return apply_filters( 'filesystem_method', $method, $args );
 }
 
 /**
@@ -936,6 +985,24 @@ function get_filesystem_method($args = array(), $context = false) {
  * @return boolean False on failure. True on success.
  */
 function request_filesystem_credentials($form_post, $type = '', $error = false, $context = false, $extra_fields = null) {
+
+	/**
+	 * Filter the filesystem credentials form output.
+	 *
+	 * Returning anything other than an empty string will effectively short-circuit
+	 * output of the filesystem credentials form, returning that value instead.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param mixed  $output       Form output to return instead. Default empty.
+	 * @param string $form_post    URL to POST the form to.
+	 * @param string $type         Chosen type of filesystem.
+	 * @param bool   $error        Whether the current request has failed to connect.
+	 *                             Default false.
+	 * @param string $context      Full path to the directory that is tested for
+	 *                             being writable.
+	 * @param array  $extra_fields Extra POST fields.
+	 */
 	$req_cred = apply_filters( 'request_filesystem_credentials', '', $form_post, $type, $error, $context, $extra_fields );
 	if ( '' !== $req_cred )
 		return $req_cred;
@@ -1014,7 +1081,19 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 	if ( extension_loaded('ssh2') && function_exists('stream_get_contents') )
 		$types[ 'ssh' ] = __('SSH2');
 
-	$types = apply_filters('fs_ftp_connection_types', $types, $credentials, $type, $error, $context);
+	/**
+	 * Filter the connection types to output to the filesystem credentials form.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param array  $types       Types of connections.
+	 * @param array  $credentials Credentials to connect with.
+	 * @param string $type        Chosen filesystem method.
+	 * @param object $error       Error object.
+	 * @param string $context     Full path to the directory that is tested
+	 *                            for being writable.
+	 */
+	$types = apply_filters( 'fs_ftp_connection_types', $types, $credentials, $type, $error, $context );
 
 ?>
 <script type="text/javascript">
