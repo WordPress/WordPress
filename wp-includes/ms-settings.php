@@ -67,7 +67,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 	} elseif ( ! is_subdomain_install() ) {
 		/*
 		 * A "subdomain" install can be re-interpreted to mean "can support any domain".
-		 * If we're not dealing with one of these installs, then the important part is determing
+		 * If we're not dealing with one of these installs, then the important part is determining
 		 * the network first, because we need the network's path to identify any sites.
 		 */
 		if ( ! $current_site = wp_cache_get( 'current_network', 'site-options' ) ) {
@@ -108,9 +108,58 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 		$current_site = wp_get_network( $current_blog->site_id );
 	}
 
-	// If we don't have a network by now, we have a problem.
+	// No network has been found, bail.
 	if ( empty( $current_site ) ) {
 		ms_not_installed();
+	}
+
+	// @todo Investigate when exactly this can occur.
+	if ( empty( $current_blog ) && defined( 'WP_INSTALLING' ) ) {
+		$current_blog = new stdClass;
+		$current_blog->blog_id = $blog_id = 1;
+	}
+
+	// No site has been found, bail.
+	if ( empty( $current_blog ) ) {
+		// We're going to redirect to the network URL, with some possible modifications.
+		$scheme = is_ssl() ? 'https' : 'http';
+		$destination = "$scheme://{$current_site->domain}{$current_site->path}";
+
+		/**
+		 * Fires when a network can be determined but a site cannot.
+		 *
+		 * At the time of this action, the only recourse is to redirect somewhere
+		 * and exit. If you want to declare a particular site, do so earlier.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param object $current_site The network that had been determined.
+		 * @param string $domain       The domain used to search for a site.
+		 * @param string $path         The path used to search for a site.
+		 */
+		do_action( 'ms_site_not_found', $current_site, $domain, $path );
+
+		if ( is_subdomain_install() && ! defined( 'NOBLOGREDIRECT' ) ) {
+			// For a "subdomain" install, redirect to the signup form specifically.
+			$destination .= 'wp-signup.php?new=' . str_replace( '.' . $current_site->domain, '', $domain );
+		} elseif ( is_subdomain_install() ) {
+			// For a "subdomain" install, the NOBLOGREDIRECT constant
+			// can be used to avoid a redirect to the signup form.
+			// Using the ms_site_not_found action is preferred to the constant.
+			if ( '%siteurl%' !== NOBLOGREDIRECT ) {
+				$destination = NOBLOGREDIRECT;
+			}
+		} elseif ( 0 === strcasecmp( $current_site->domain, $domain ) ) {
+			/*
+			 * If the domain we were searching for matches the network's domain,
+			 * it's no use redirecting back to ourselves -- it'll cause a loop.
+			 * As we couldn't find a site, we're simply not installed.
+			 */
+			ms_not_installed();
+		}
+
+		header( 'Location: ' . $destination );
+		exit;
 	}
 
 	// @todo What if the domain of the network doesn't match the current site?
@@ -121,40 +170,12 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 
 	// Figure out the current network's main site.
 	if ( ! isset( $current_site->blog_id ) ) {
-		if ( $current_blog && $current_blog->domain === $current_site->domain && $current_blog->path === $current_site->path ) {
+		if ( $current_blog->domain === $current_site->domain && $current_blog->path === $current_site->path ) {
 			$current_site->blog_id = $current_blog->blog_id;
 		} else {
 			// @todo we should be able to cache the blog ID of a network's main site easily.
 			$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s",
 				$current_site->domain, $current_site->path ) );
-		}
-	}
-
-	// If we haven't figured out our site, give up.
-	if ( empty( $current_blog ) ) {
-		if ( defined( 'WP_INSTALLING' ) ) {
-			$current_blog->blog_id = $blog_id = 1;
-
-		} elseif ( is_subdomain_install() ) {
-			// @todo This is only for an open registration subdomain network.
-			if ( defined( 'NOBLOGREDIRECT' ) ) {
-				if ( '%siteurl%' === NOBLOGREDIRECT ) {
-					$destination = "http://" . $current_site->domain . $current_site->path;
-				} else {
-					$destination = NOBLOGREDIRECT;
-				}
-			} else {
-				$destination = 'http://' . $current_site->domain . $current_site->path . 'wp-signup.php?new=' . str_replace( '.' . $current_site->domain, '', $domain );
-			}
-			header( 'Location: ' . $destination );
-			exit;
-
-		} else {
-			if ( 0 !== strcasecmp( $current_site->domain, $domain ) ) {
-				header( 'Location: http://' . $current_site->domain . $current_site->path );
-				exit;
-			}
-			ms_not_installed();
 		}
 	}
 
