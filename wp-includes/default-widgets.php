@@ -866,21 +866,23 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		if ( empty($title) )
 			$title = __('Untitled');
 
-		$desc = str_replace( array("\n", "\r"), ' ', esc_attr( strip_tags( @html_entity_decode( $item->get_description(), ENT_QUOTES, get_option('blog_charset') ) ) ) );
-		$excerpt = wp_html_excerpt( $desc, 360 );
+		$desc = @html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) );
+		$desc = esc_attr( strip_tags( $desc ) );
+		$desc = trim( str_replace( array( "\n", "\r" ), ' ', $desc ) );
+		$desc = wp_html_excerpt( $desc, 360 );
 
-		// Append ellipsis. Change existing [...] to [&hellip;].
-		if ( '[...]' == substr( $excerpt, -5 ) )
-			$excerpt = substr( $excerpt, 0, -5 ) . '[&hellip;]';
-		elseif ( '[&hellip;]' != substr( $excerpt, -10 ) && $desc != $excerpt )
-			$excerpt .= ' [&hellip;]';
-
-		$excerpt = esc_html( $excerpt );
-
+		$summary = '';
 		if ( $show_summary ) {
-			$summary = "<div class='rssSummary'>$excerpt</div>";
-		} else {
-			$summary = '';
+			$summary = $desc;
+
+			// Append ellipsis. Change existing [...] to [&hellip;].
+			if ( '[...]' == substr( $summary, -5 ) ) {
+				$summary = substr( $summary, 0, -5 ) . '[&hellip;]';
+			} elseif ( '[&hellip;]' != substr( $summary, -10 ) && $desc !== $summary ) {
+				$summary .= ' [&hellip;]';
+			}
+
+			$summary = '<div class="rssSummary">' . esc_html( $summary ) . '</div>';
 		}
 
 		$date = '';
@@ -903,8 +905,10 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 
 		if ( $link == '' ) {
 			echo "<li>$title{$date}{$summary}{$author}</li>";
+		} elseif ( $show_summary ) {
+			echo "<li><a class='rsswidget' href='$link'>$title</a>{$date}{$summary}{$author}</li>";
 		} else {
-			echo "<li><a class='rsswidget' href='$link' title='$desc'>$title</a>{$date}{$summary}{$author}</li>";
+			echo "<li><a class='rsswidget' href='$link' title='$desc'>$title</a>{$date}{$author}</li>";
 		}
 	}
 	echo '</ul>';
