@@ -40,6 +40,10 @@ dl.aligncenter {
 	margin: 10px 0;
 }
 
+.html5-captions .wp-caption {
+	padding: 4px;
+}
+
 .mceIEcenter {
 	text-align: center;
 }

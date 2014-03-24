@@ -765,6 +765,13 @@ function img_caption_shortcode( $attr, $content = null ) {
 	if ( ! empty( $atts['id'] ) )
 		$atts['id'] = 'id="' . esc_attr( $atts['id'] ) . '" ';
 
+	$class = trim( 'wp-caption ' . $atts['align'] . ' ' . $atts['class'] );
+
+	if ( current_theme_supports( 'html5', 'caption' ) ) {
+		return '<figure ' . $atts['id'] . 'style="width: ' . (int) $atts['width'] . 'px;" class="' . esc_attr( $class ) . '">'
+		. do_shortcode( $content ) . '<figcaption class="wp-caption-text">' . $atts['caption'] . '</figcaption></figure>';
+	}
+
 	$caption_width = 10 + $atts['width'];
 
 	/**
@@ -787,8 +794,6 @@ function img_caption_shortcode( $attr, $content = null ) {
 	$style = '';
 	if ( $caption_width )
 		$style = 'style="width: ' . (int) $caption_width . 'px" ';
-
-	$class = trim( 'wp-caption ' . $atts['align'] . ' ' . $atts['class'] );
 
 	return '<div ' . $atts['id'] . $style . 'class="' . esc_attr( $class ) . '">'
 	. do_shortcode( $content ) . '<p class="wp-caption-text">' . $atts['caption'] . '</p></div>';

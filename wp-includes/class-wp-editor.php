@@ -339,6 +339,7 @@ final class _WP_Editors {
 					'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform',
 
 					'wpeditimage_disable_captions' => $no_captions,
+					'wpeditimage_html5_captions' => current_theme_supports( 'html5', 'caption' ),
 					'plugins' => implode( ',', $plugins ),
 				);
 

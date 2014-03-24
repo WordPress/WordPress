@@ -47,7 +47,10 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				return c;
 			}
 
-			width = parseInt( w, 10 ) + 10;
+			width = parseInt( w, 10 );
+			if ( ! editor.getParam( 'wpeditimage_html5_captions' ) ) {
+				width += 10;
+			}
 
 			return '<div class="mceTemp"><dl id="'+ id +'" class="wp-caption '+ cls +'" style="width: '+ width +'px">' +
 				'<dt class="wp-caption-dt">'+ img +'</dt><dd class="wp-caption-dd">'+ cap +'</dd></dl></div>';
@@ -189,7 +192,12 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 			html = createImageAndLink( imageData, 'html' );
 
-			width = imageData.width + 10;
+			width = parseInt( imageData.width );
+
+			if ( ! editor.getParam( 'wpeditimage_html5_captions' ) ) {
+				width += 10;
+			}
+
 			className = 'align' + imageData.align;
 
 			//TODO: shouldn't add the id attribute if it isn't an attachment
@@ -391,6 +399,10 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	editor.on( 'init', function() {
 		var dom = editor.dom;
 
+		if ( editor.getParam( 'wpeditimage_html5_captions' ) ) {
+			dom.addClass( editor.getBody(), 'html5-captions' );
+		}
+
 		// Add caption field to the default image dialog
 		editor.on( 'wpLoadImageForm', function( event ) {
 			if ( editor.getParam( 'wpeditimage_disable_captions' ) ) {
@@ -475,8 +487,13 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 					node = editor.selection.getNode();
 
 					if ( data.width ) {
-						captionWidth = parseInt( data.width, 10 ) + 10;
-						captionWidth = ' style="width: '+ captionWidth +'px"';
+						captionWidth = parseInt( data.width, 10 );
+
+						if ( ! editor.getParam( 'wpeditimage_html5_captions' ) ) {
+							captionWidth += 10;
+						}
+
+						captionWidth = ' style="width: ' + captionWidth + 'px"';
 					}
 
 					html = '<dl class="wp-caption alignnone"' + captionWidth + '>' +
@@ -539,7 +556,12 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 						captionWidth = data.width || imgNode.clientWidth;
 
 						if ( captionWidth ) {
-							captionWidth = parseInt( captionWidth, 10 ) + 10;
+							captionWidth = parseInt( captionWidth, 10 );
+
+							if ( ! editor.getParam( 'wpeditimage_html5_captions' ) ) {
+								captionWidth += 10;
+							}
+
 							captionWidth = ' style="width: '+ captionWidth +'px"';
 						}
 
@@ -618,7 +640,6 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 			// Remove toolbar to avoid an orphaned toolbar when dragging an image to a new location
 			removeToolbar();
-
 		});
 
 		// Prevent IE11 from making dl.wp-caption resizable
@@ -654,7 +675,12 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				width = event.width || editor.dom.getAttrib( node, 'width' );
 
 				if ( width ) {
-					width = parseInt( width, 10 ) + 10;
+					width = parseInt( width, 10 );
+
+					if ( ! editor.getParam( 'wpeditimage_html5_captions' ) ) {
+						width += 10;
+					}
+
 					editor.dom.setStyle( parent, 'width', width + 'px' );
 				}
 			}
