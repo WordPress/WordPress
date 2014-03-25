@@ -571,6 +571,9 @@ function wp_list_categories( $args = '' ) {
  * The 'topic_count_text_callback' argument is a function, which given the count
  * of the posts with that tag returns a text for the tooltip of the tag link.
  *
+ * The 'post_type' argument is used only when 'link' is set to 'edit'. It determines the post_type
+ * passed to edit.php for the popular tags edit links.
+ *
  * The 'exclude' and 'include' arguments are used for the {@link get_tags()}
  * function. Only one should be used, because only one will be used and the
  * other ignored, if they are both set.
@@ -584,7 +587,7 @@ function wp_tag_cloud( $args = '' ) {
 	$defaults = array(
 		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 45,
 		'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
-		'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'post_tag', 'echo' => true
+		'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'post_tag', 'post_type' => '', 'echo' => true
 	);
 	$args = wp_parse_args( $args, $defaults );
 
@@ -595,7 +598,7 @@ function wp_tag_cloud( $args = '' ) {
 
 	foreach ( $tags as $key => $tag ) {
 		if ( 'edit' == $args['link'] )
-			$link = get_edit_tag_link( $tag->term_id, $tag->taxonomy );
+			$link = get_edit_term_link( $tag->term_id, $tag->taxonomy, $args['post_type'] );
 		else
 			$link = get_term_link( intval($tag->term_id), $tag->taxonomy );
 		if ( is_wp_error( $link ) )
