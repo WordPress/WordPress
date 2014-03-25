@@ -712,21 +712,27 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	 * @param array $args An array of tag cloud arguments.
 	 */
 	$tags_sorted = apply_filters( 'tag_cloud_sort', $tags, $args );
-	if ( $tags_sorted != $tags  ) {
+	if ( empty( $tags_sorted ) ) {
+		return $return;
+	}
+
+	if ( $tags_sorted !== $tags ) {
 		$tags = $tags_sorted;
-		unset($tags_sorted);
+		unset( $tags_sorted );
 	} else {
-		if ( 'RAND' == $order ) {
-			shuffle($tags);
+		if ( 'RAND' === $order ) {
+			shuffle( $tags );
 		} else {
 			// SQL cannot save you; this is a second (potentially different) sort on a subset of data.
-			if ( 'name' == $orderby )
+			if ( 'name' === $orderby ) {
 				uasort( $tags, '_wp_object_name_sort_cb' );
-			else
+			} else {
 				uasort( $tags, '_wp_object_count_sort_cb' );
+			}
 
-			if ( 'DESC' == $order )
+			if ( 'DESC' === $order ) {
 				$tags = array_reverse( $tags, true );
+			}
 		}
 	}
 
