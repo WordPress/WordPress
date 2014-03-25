@@ -1284,7 +1284,11 @@ function _custom_background_cb() {
 
 	// $color is the saved custom color.
 	// A default has to be specified in style.css. It will not be printed here.
-	$color = get_theme_mod( 'background_color' );
+	$color = get_background_color();
+
+	if ( $color === get_theme_support( 'custom-background', 'default-color' ) ) {
+		$color = false;
+	}
 
 	if ( ! $background && ! $color )
 		return;
