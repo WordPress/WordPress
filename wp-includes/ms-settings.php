@@ -35,7 +35,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 		$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
 	}
 
-	$path = stripslashes( $_SERVER['REQUEST_URI'] );
+	$path = strtolower( stripslashes( $_SERVER['REQUEST_URI'] ) );
 	if ( is_admin() ) {
 		$path = preg_replace( '#(.*)/wp-admin/.*#', '$1/', $path );
 	}
