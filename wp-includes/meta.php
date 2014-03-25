@@ -380,9 +380,9 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	}
 
 	/**
-	 * Fires immediatley after deleting metadata of a specific type.
+	 * Fires immediately after deleting metadata of a specific type.
 	 *
-	 * The dynamic portion of the hook, $meta_type, refers to the meta
+	 * The dynamic portion of the hook name, $meta_type, refers to the meta
 	 * object type (comment, post, or user).
 	 *
 	 * @since 2.9.0
