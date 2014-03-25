@@ -21,14 +21,38 @@ class WP_Widget_Pages extends WP_Widget {
 	function widget( $args, $instance ) {
 		extract( $args );
 
-		$title = apply_filters('widget_title', empty( $instance['title'] ) ? __( 'Pages' ) : $instance['title'], $instance, $this->id_base);
+		/**
+		 * Filter the widget title.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param string $title    The widget title. Default 'Pages'.
+		 * @param array  $instance An array of the widget's settings.
+		 * @param mixed  $id_base  The widget ID.
+		 */
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Pages' ) : $instance['title'], $instance, $this->id_base );
+
 		$sortby = empty( $instance['sortby'] ) ? 'menu_order' : $instance['sortby'];
 		$exclude = empty( $instance['exclude'] ) ? '' : $instance['exclude'];
 
 		if ( $sortby == 'menu_order' )
 			$sortby = 'menu_order, post_title';
 
-		$out = wp_list_pages( apply_filters('widget_pages_args', array('title_li' => '', 'echo' => 0, 'sort_column' => $sortby, 'exclude' => $exclude) ) );
+		/**
+		 * Filter the arguments for the Pages widget.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @see wp_list_pages()
+		 *
+		 * @param array $args An array of arguments to retrieve the pages list.
+		 */
+		$out = wp_list_pages( apply_filters( 'widget_pages_args', array(
+			'title_li'    => '',
+			'echo'        => 0,
+			'sort_column' => $sortby,
+			'exclude'     => $exclude
+		) ) );
 
 		if ( !empty( $out ) ) {
 			echo $before_widget;
@@ -107,7 +131,17 @@ class WP_Widget_Links extends WP_Widget {
 		$limit = isset( $instance['limit'] ) ? $instance['limit'] : -1;
 
 		$before_widget = preg_replace('/id="[^"]*"/','id="%id"', $before_widget);
-		wp_list_bookmarks(apply_filters('widget_links_args', array(
+
+		/**
+		 * Filter the arguments for the Links widget.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @see wp_list_bookmarks()
+		 *
+		 * @param array $args An array of arguments to retrieve the links list.
+		 */
+		wp_list_bookmarks( apply_filters( 'widget_links_args', array(
 			'title_before' => $before_title, 'title_after' => $after_title,
 			'category_before' => $before_widget, 'category_after' => $after_widget,
 			'show_images' => $show_images, 'show_description' => $show_description,
@@ -115,7 +149,7 @@ class WP_Widget_Links extends WP_Widget {
 			'category' => $category, 'class' => 'linkcat widget',
 			'orderby' => $orderby, 'order' => $order,
 			'limit' => $limit,
-		)));
+		) ) );
 	}
 
 	function update( $new_instance, $old_instance ) {
@@ -196,6 +230,8 @@ class WP_Widget_Search extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
+
+		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 
 		echo $before_widget;
@@ -241,7 +277,9 @@ class WP_Widget_Archives extends WP_Widget {
 		extract($args);
 		$c = ! empty( $instance['count'] ) ? '1' : '0';
 		$d = ! empty( $instance['dropdown'] ) ? '1' : '0';
-		$title = apply_filters('widget_title', empty($instance['title']) ? __('Archives') : $instance['title'], $instance, $this->id_base);
+
+		/** This filter is documented in wp-includes/default-widgets.php */
+		$title = apply_filters( 'widget_title', empty($instance['title'] ) ? __( 'Archives' ) : $instance['title'], $instance, $this->id_base );
 
 		echo $before_widget;
 		if ( $title )
@@ -249,12 +287,45 @@ class WP_Widget_Archives extends WP_Widget {
 
 		if ( $d ) {
 ?>
-		<select name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'> <option value=""><?php echo esc_attr(__('Select Month')); ?></option> <?php wp_get_archives(apply_filters('widget_archives_dropdown_args', array('type' => 'monthly', 'format' => 'option', 'show_post_count' => $c))); ?> </select>
+		<select name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
+			<option value=""><?php echo esc_attr( __( 'Select Month' ) ); ?></option>
+
+			<?php
+			/**
+			 * Filter the arguments for the Archives widget drop-down.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @see wp_get_archives()
+			 *
+			 * @param array $args An array of Archives widget drop-down arguments.
+			 */
+			wp_get_archives( apply_filters( 'widget_archives_dropdown_args', array(
+				'type'            => 'monthly',
+				'format'          => 'option',
+				'show_post_count' => $c
+			) ) );
+?>
+		</select>
 <?php
 		} else {
 ?>
 		<ul>
-		<?php wp_get_archives(apply_filters('widget_archives_args', array('type' => 'monthly', 'show_post_count' => $c))); ?>
+<?php
+		/**
+		 * Filter the arguments for the Archives widget.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @see wp_get_archives()
+		 *
+		 * @param array $args An array of Archives option arguments.
+		 */
+		wp_get_archives( apply_filters( 'widget_archives_args', array(
+			'type'            => 'monthly',
+			'show_post_count' => $c
+		) ) );
+?>
 		</ul>
 <?php
 		}
@@ -304,7 +375,9 @@ class WP_Widget_Meta extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = apply_filters('widget_title', empty($instance['title']) ? __('Meta') : $instance['title'], $instance, $this->id_base);
+
+		/** This filter is documented in wp-includes/default-widgets.php */
+		$title = apply_filters( 'widget_title', empty($instance['title']) ? __( 'Meta' ) : $instance['title'], $instance, $this->id_base );
 
 		echo $before_widget;
 		if ( $title )
@@ -315,12 +388,22 @@ class WP_Widget_Meta extends WP_Widget {
 			<li><?php wp_loginout(); ?></li>
 			<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php echo esc_attr(__('Syndicate this site using RSS 2.0')); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
 			<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php echo esc_attr(__('The latest comments to all posts in RSS')); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
-			<?php echo apply_filters( 'widget_meta_poweredby', sprintf( '<li><a href="%s" title="%s">%s</a></li>',
+<?php
+			/**
+			 * Filter the "Powered by WordPress" text in the Meta widget.
+			 *
+			 * @since 3.6.0
+			 *
+			 * @param string $title_text Default title text for the WordPress.org link.
+			 */
+			echo apply_filters( 'widget_meta_poweredby', sprintf( '<li><a href="%s" title="%s">%s</a></li>',
 				esc_url( __( 'https://wordpress.org/' ) ),
 				esc_attr__( 'Powered by WordPress, state-of-the-art semantic personal publishing platform.' ),
 				_x( 'WordPress.org', 'meta widget link text' )
-			) ); ?>
-			<?php wp_meta(); ?>
+			) );
+
+			wp_meta();
+?>
 			</ul>
 <?php
 		echo $after_widget;
@@ -356,7 +439,10 @@ class WP_Widget_Calendar extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
-		$title = apply_filters('widget_title', empty($instance['title']) ? '' : $instance['title'], $instance, $this->id_base);
+
+		/** This filter is documented in wp-includes/default-widgets.php */
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+
 		echo $before_widget;
 		if ( $title )
 			echo $before_title . $title . $after_title;
@@ -398,7 +484,18 @@ class WP_Widget_Text extends WP_Widget {
 
 	function widget( $args, $instance ) {
 		extract($args);
+
+		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+
+		/**
+		 * Filter the content of the Text widget.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param string    $widget_text The widget content.
+		 * @param WP_Widget $instance    WP_Widget instance.
+		 */
 		$text = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
 		echo $before_widget;
 		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; } ?>
@@ -448,7 +545,9 @@ class WP_Widget_Categories extends WP_Widget {
 	function widget( $args, $instance ) {
 		extract( $args );
 
-		$title = apply_filters('widget_title', empty( $instance['title'] ) ? __( 'Categories' ) : $instance['title'], $instance, $this->id_base);
+		/** This filter is documented in wp-includes/default-widgets.php */
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Categories' ) : $instance['title'], $instance, $this->id_base );
+
 		$c = ! empty( $instance['count'] ) ? '1' : '0';
 		$h = ! empty( $instance['hierarchical'] ) ? '1' : '0';
 		$d = ! empty( $instance['dropdown'] ) ? '1' : '0';
@@ -461,7 +560,17 @@ class WP_Widget_Categories extends WP_Widget {
 
 		if ( $d ) {
 			$cat_args['show_option_none'] = __('Select Category');
-			wp_dropdown_categories(apply_filters('widget_categories_dropdown_args', $cat_args));
+
+			/**
+			 * Filter the arguments for the Categories widget drop-down.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @see wp_dropdown_categories()
+			 *
+			 * @param array $cat_args An array of Categories widget drop-down arguments.
+			 */
+			wp_dropdown_categories( apply_filters( 'widget_categories_dropdown_args', $cat_args ) );
 ?>
 
 <script type='text/javascript'>
@@ -482,7 +591,15 @@ class WP_Widget_Categories extends WP_Widget {
 		<ul>
 <?php
 		$cat_args['title_li'] = '';
-		wp_list_categories(apply_filters('widget_categories_args', $cat_args));
+
+		/**
+		 * Filter the arguments for the Categories widget.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array $cat_args An array of Categories widget options.
+		 */
+		wp_list_categories( apply_filters( 'widget_categories_args', $cat_args ) );
 ?>
 		</ul>
 <?php
@@ -560,13 +677,31 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		extract($args);
 
 		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Posts' );
+
+		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+
 		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 5;
 		if ( ! $number )
 			$number = 5;
 		$show_date = isset( $instance['show_date'] ) ? $instance['show_date'] : false;
 
-		$r = new WP_Query( apply_filters( 'widget_posts_args', array( 'posts_per_page' => $number, 'no_found_rows' => true, 'post_status' => 'publish', 'ignore_sticky_posts' => true ) ) );
+		/**
+		 * Filter the arguments for the Recent Posts widget.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @see WP_Query::get_posts()
+		 *
+		 * @param array $args An array of arguments used to retrieve the recent posts.
+		 */
+		$r = new WP_Query( apply_filters( 'widget_posts_args', array(
+			'posts_per_page'      => $number,
+			'no_found_rows'       => true,
+			'post_status'         => 'publish',
+			'ignore_sticky_posts' => true
+		) ) );
+
 		if ($r->have_posts()) :
 ?>
 		<?php echo $before_widget; ?>
@@ -648,6 +783,15 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 	}
 
 	function recent_comments_style() {
+
+		/**
+		 * Filter the Recent Comments default widget styles.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param bool   $active  Whether the widget is active. Default true.
+		 * @param string $id_base The widget ID.
+		 */
 		if ( ! current_theme_supports( 'widgets' ) // Temp hack #14876
 			|| ! apply_filters( 'show_recent_comments_widget_style', true, $this->id_base ) )
 			return;
@@ -680,12 +824,29 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		$output = '';
 
 		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Comments' );
+
+		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+
 		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 5;
 		if ( ! $number )
 			$number = 5;
 
-		$comments = get_comments( apply_filters( 'widget_comments_args', array( 'number' => $number, 'status' => 'approve', 'post_status' => 'publish' ) ) );
+		/**
+		 * Filter the arguments for the Recent Comments widget.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @see get_comments()
+		 *
+		 * @param array $comment_args An array of arguments used to retrieve the recent comments.
+		 */
+		$comments = get_comments( apply_filters( 'widget_comments_args', array(
+			'number'      => $number,
+			'status'      => 'approve',
+			'post_status' => 'publish'
+		) ) );
+
 		$output .= $before_widget;
 		if ( $title )
 			$output .= $before_title . $title . $after_title;
@@ -782,7 +943,9 @@ class WP_Widget_RSS extends WP_Widget {
 		if ( empty($title) )
 			$title = empty($desc) ? __('Unknown Feed') : $desc;
 
-		$title = apply_filters('widget_title', $title, $instance, $this->id_base);
+		/** This filter is documented in wp-includes/default-widgets.php */
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+
 		$url = esc_url(strip_tags($url));
 		$icon = includes_url('images/rss.png');
 		if ( $title )
@@ -1054,13 +1217,29 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 				$title = $tax->labels->name;
 			}
 		}
-		$title = apply_filters('widget_title', $title, $instance, $this->id_base);
+
+		/** This filter is documented in wp-includes/default-widgets.php */
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
 		echo $before_widget;
 		if ( $title )
 			echo $before_title . $title . $after_title;
 		echo '<div class="tagcloud">';
-		wp_tag_cloud( apply_filters('widget_tag_cloud_args', array('taxonomy' => $current_taxonomy) ) );
+
+		/**
+		 * Filter the taxonomy used in the Tag Cloud widget.
+		 *
+		 * @since 2.8.0
+		 * @since 3.0.0 Added taxonomy drop-down.
+		 *
+		 * @see wp_tag_cloud()
+		 *
+		 * @param array $current_taxonomy The taxonomy to use in the tag cloud. Default 'tags'.
+		 */
+		wp_tag_cloud( apply_filters( 'widget_tag_cloud_args', array(
+			'taxonomy' => $current_taxonomy
+		) ) );
+
 		echo "</div>\n";
 		echo $after_widget;
 	}
@@ -1115,6 +1294,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		if ( !$nav_menu )
 			return;
 
+		/** This filter is documented in wp-includes/default-widgets.php */
 		$instance['title'] = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 
 		echo $args['before_widget'];
@@ -1205,7 +1385,12 @@ function wp_widgets_init() {
 
 	register_widget('WP_Nav_Menu_Widget');
 
-	do_action('widgets_init');
+	/**
+	 * Fires after all default WordPress widgets have been registered.
+	 *
+	 * @since 2.2.0
+	 */
+	do_action( 'widgets_init' );
 }
 
 add_action('init', 'wp_widgets_init', 1);
