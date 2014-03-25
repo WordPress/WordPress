@@ -1,6 +1,8 @@
 /* global tinymce, wpCookies, autosaveL10n, switchEditors */
-// Back-compat: prevent fatal errors
-window.autosave = function(){};
+// Back-compat
+window.autosave = function() {
+	return true;
+};
 
 ( function( $, window ) {
 	function autosave() {
@@ -489,7 +491,8 @@ window.autosave = function(){};
 			function save() {
 				var postData, compareString;
 
-				if ( isSuspended || _blockSave ) {
+				// window.autosave() used for back-compat
+				if ( isSuspended || _blockSave || ! window.autosave() ) {
 					return false;
 				}
 
