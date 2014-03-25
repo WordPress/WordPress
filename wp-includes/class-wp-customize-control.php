@@ -886,7 +886,7 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 
 			<div class="placeholder random">
 				<div class="inner">
-					<span><span class="dice">&#9860;</span>
+					<span><span class="dashicons dashicons-randomize dice"></span>
 					<# if ( data.type === 'uploaded' ) { #>
 						<?php _e( 'Randomize uploaded headers' ); ?>
 					<# } else if ( data.type === 'default' ) { #>
@@ -917,7 +917,7 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 
 			<div class="placeholder">
 				<div class="inner">
-					<span><span class="dice">&#9860;</span>
+					<span><span class="dashicons dashicons-randomize dice"></span>
 					<# if ( data.type === 'uploaded' ) { #>
 						<?php _e( 'Randomizing uploaded headers' ); ?>
 					<# } else if ( data.type === 'default' ) { #>

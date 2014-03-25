@@ -534,11 +534,6 @@ body {
 	display: block;
 }
 
-#customize-control-header_image .dice {
-	font-size: 16px;
-	vertical-align: -1px;
-}
-
 #customize-control-header_image .placeholder:hover .dice {
 	-webkit-animation: dice-color-change 3s infinite;
 	-moz-animation: dice-color-change 3s infinite;
