@@ -161,7 +161,8 @@ function wp_image_editor($post_id, $msg = false) {
 	</div>
 
 	<p>
-		<img src="<?php echo $thumb['url']; ?>" width="<?php echo $thumb_img[0]; ?>" height="<?php echo $thumb_img[1]; ?>" class="imgedit-size-preview" alt="" /><br /><?php _e('Current thumbnail'); ?>
+		<img src="<?php echo $thumb['url']; ?>" width="<?php echo $thumb_img[0]; ?>" height="<?php echo $thumb_img[1]; ?>" class="imgedit-size-preview" alt="" draggable="false" />
+		<br /><?php _e('Current thumbnail'); ?>
 	</p>
 
 	<p id="imgedit-save-target-<?php echo $post_id; ?>">
