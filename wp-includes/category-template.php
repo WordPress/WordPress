@@ -665,7 +665,7 @@ function default_topic_count_scale( $count ) {
  *
  * @param array $tags List of tags.
  * @param string|array $args Optional, override default arguments.
- * @return string
+ * @return string|array Tag cloud as a string or an array, depending on 'format' argument.
  */
 function wp_generate_tag_cloud( $tags, $args = '' ) {
 	$defaults = array(
@@ -678,8 +678,11 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	$args = wp_parse_args( $args, $defaults );
 	extract( $args, EXTR_SKIP );
 
-	if ( empty( $tags ) )
-		return;
+	$return = ( 'array' === $format ) ? array() : '';
+
+	if ( empty( $tags ) ) {
+		return $return;
+	}
 
 	// Juggle topic count tooltips:
 	if ( isset( $args['topic_count_text'] ) ) {
@@ -791,9 +794,11 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		 *
 		 * @see wp_generate_tag_cloud()
 		 *
-		 * @param string $return Generated HTML output of the tag cloud.
-		 * @param array  $tags   An array of terms used in the tag cloud.
-		 * @param array  $args   An array of wp_generate_tag_cloud() arguments.
+		 * @param array|string $return String containing the generated HTML tag cloud output
+		 *                             or an array of tag links if the 'format' argument
+		 *                             equals 'array'.
+		 * @param array        $tags   An array of terms used in the tag cloud.
+		 * @param array        $args   An array of wp_generate_tag_cloud() arguments.
 		 */
 		return apply_filters( 'wp_generate_tag_cloud', $return, $tags, $args );
 	}
