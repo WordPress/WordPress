@@ -221,7 +221,12 @@ add_action( 'network_admin_notices', 'update_nag', 3 );
 
 // Called directly from dashboard
 function update_right_now_message() {
-	$msg = sprintf( __( 'You are using <span class="b">WordPress %s</span>.' ), get_bloginfo( 'version', 'display' ) );
+	$theme_name = wp_get_theme();
+	if ( current_user_can( 'switch_themes' ) ) {
+		$theme_name = sprintf( '<a href="themes.php">%1$s</a>', $theme_name );
+	}
+
+	$msg = sprintf( __( 'WordPress %1$s running %2$s theme.' ), get_bloginfo( 'version', 'display' ), $theme_name );
 
 	if ( current_user_can('update_core') ) {
 		$cur = get_preferred_from_update_core();
@@ -230,7 +235,7 @@ function update_right_now_message() {
 			$msg .= " <a href='" . network_admin_url( 'update-core.php' ) . "' class='button'>" . sprintf( __('Update to %s'), $cur->current ? $cur->current : __( 'Latest' ) ) . '</a>';
 	}
 
-	echo "<span id='wp-version-message'>$msg</span>";
+	echo "<p id='wp-version-message'>$msg</p>";
 }
 
 function get_plugin_updates() {

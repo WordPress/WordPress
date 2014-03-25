@@ -362,11 +362,19 @@ div.dashboard-widget-notice {
 }
 
 #dashboard_right_now .main {
+	overflow: hidden;
 	padding: 0 12px 11px;
 }
 
 #dashboard_right_now .main p {
 	margin: 0;
+}
+
+#dashboard_right_now #wp-version-message .button {
+	clear: right;
+	float: right;
+	position: relative;
+	top: -5px;
 }
 
 .mu-storage {
