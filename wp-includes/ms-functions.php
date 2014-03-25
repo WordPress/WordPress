@@ -1299,7 +1299,9 @@ Disable these notifications: %3$s'), $user->user_login, wp_unslash( $_SERVER['RE
  */
 function domain_exists($domain, $path, $site_id = 1) {
 	global $wpdb;
+	$path = trailingslashit( $path );
 	$result = $wpdb->get_var( $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s AND site_id = %d", $domain, $path, $site_id) );
+
 	/**
 	 * Filter whether a blogname is taken.
 	 *
