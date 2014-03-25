@@ -1029,7 +1029,7 @@ function wp_print_media_templates() {
 	<?php
 
 	/**
-	 * Prints the media manager custom media templates.
+	 * Fires when the custom Backbone media templates are printed.
 	 *
 	 * @since 3.5.0
 	 */

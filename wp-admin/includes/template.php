@@ -1514,9 +1514,7 @@ if ( is_rtl() )
 
 ?>
 </head>
-<?php
-/** This filter is documented in wp-admin/admin-header.php */
-?>
+<?php /** This filter is documented in wp-admin/admin-header.php */ ?>
 <body<?php if ( isset($GLOBALS['body_id']) ) echo ' id="' . $GLOBALS['body_id'] . '"'; ?> class="wp-admin wp-core-ui no-js iframe <?php echo apply_filters( 'admin_body_class', '' ) . ' ' . $admin_body_class; ?>">
 <script type="text/javascript">
 //<![CDATA[

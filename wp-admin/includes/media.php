@@ -442,7 +442,7 @@ isRtl = <?php echo (int) is_rtl(); ?>;
 	do_action( 'admin_enqueue_scripts', 'media-upload-popup' );
 
 	/**
-	 * Print admin styles enqueued for the legacy (pre-3.5.0) media upload popup.
+	 * Fires when admin styles enqueued for the legacy (pre-3.5.0) media upload popup are printed.
 	 *
 	 * @since 2.9.0
 	 */
@@ -452,7 +452,7 @@ isRtl = <?php echo (int) is_rtl(); ?>;
 	do_action( 'admin_print_styles' );
 
 	/**
-	 * Print admin scripts enqueued for the legacy (pre-3.5.0) media upload popup.
+	 * Fires when admin scripts enqueued for the legacy (pre-3.5.0) media upload popup are printed.
 	 *
 	 * @since 2.9.0
 	 */
@@ -462,8 +462,8 @@ isRtl = <?php echo (int) is_rtl(); ?>;
 	do_action( 'admin_print_scripts' );
 
 	/**
-	 * Print scripts enqueued for the admin header for the legacy (pre-3.5.0)
-	 * media upload popup.
+	 * Fires when scripts enqueued for the admin header for the legacy (pre-3.5.0)
+	 * media upload popup are printed.
 	 *
 	 * @since 2.9.0
 	 */

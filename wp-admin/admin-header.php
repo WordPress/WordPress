@@ -80,28 +80,28 @@ var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
 do_action( 'admin_enqueue_scripts', $hook_suffix );
 
 /**
- * Print styles for a specific admin page based on $hook_suffix.
+ * Fires when styles are printed for a specific admin page based on $hook_suffix.
  *
  * @since 2.6.0
  */
 do_action( "admin_print_styles-$hook_suffix" );
 
 /**
- * Print styles for all admin pages.
+ * Fires when styles are printed for all admin pages.
  *
  * @since 2.6.0
  */
 do_action( 'admin_print_styles' );
 
 /**
- * Print scripts for a specific admin page based on $hook_suffix.
+ * Fires when scripts are printed for a specific admin page based on $hook_suffix.
  *
  * @since 2.1.0
  */
 do_action( "admin_print_scripts-$hook_suffix" );
 
 /**
- * Print scripts for all admin pages.
+ * Fires when scripts are printed for all admin pages.
  *
  * @since 2.1.0
  */

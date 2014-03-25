@@ -308,28 +308,34 @@ var photostorage = false;
 <?php
 	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_enqueue_scripts', 'press-this.php' );
+
 	/**
-	 * Print styles for the Press This admin page.
+	 * Firest when styles are printed for the Press This admin page.
 	 *
 	 * @since 3.7.0
 	 */
 	do_action( 'admin_print_styles-press-this.php' );
+
 	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_print_styles' );
+
 	/**
-	 * Print scripts for the Press This admin page.
+	 * Fires when scripts are printed for the Press This admin page.
 	 *
 	 * @since 3.7.0
 	 */
 	do_action( 'admin_print_scripts-press-this.php' );
+
 	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_print_scripts' );
+
 	/**
 	 * Fires in the head tag on the Press This admin page.
 	 *
 	 * @since 3.7.0
 	 */
 	do_action( 'admin_head-press-this.php' );
+
 	/** This action is documented in wp-admin/admin-header.php */
 	do_action( 'admin_head' );
 ?>

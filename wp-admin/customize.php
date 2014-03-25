@@ -84,14 +84,14 @@ var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>';
 
 <?php
 /**
- * Print Customizer control styles.
+ * Fires when Customizer control styles are printed.
  *
  * @since 3.4.0
  */
 do_action( 'customize_controls_print_styles' );
 
 /**
- * Print Customizer control scripts.
+ * Fires when Customizer control scripts are printed.
  *
  * @since 3.4.0
  */
