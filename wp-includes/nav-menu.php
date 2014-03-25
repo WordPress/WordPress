@@ -201,6 +201,14 @@ function wp_delete_nav_menu( $menu ) {
 	set_theme_mod( 'nav_menu_locations', $locations );
 
 	if ( $result && !is_wp_error($result) )
+
+		/**
+		 * Fires after a navigation menu has been successfully deleted.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param int $term_id ID of the deleted menu.
+		 */
 		do_action( 'wp_delete_nav_menu', $menu->term_id );
 
 	return $result;
@@ -213,7 +221,7 @@ function wp_delete_nav_menu( $menu ) {
  *
  * @param int $menu_id The ID of the menu or "0" to create a new menu.
  * @param array $menu_data The array of menu data.
- * @return int|error object The menu's ID or WP_Error object.
+ * @return int|WP_Error object The menu's ID or WP_Error object.
  */
 function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 	$menu_id = (int) $menu_id;
@@ -249,6 +257,14 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 		if ( is_wp_error( $_menu ) )
 			return $_menu;
 
+		/**
+		 * Fires after a navigation menu is successfully created.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param int   $term_id   ID of the new menu.
+		 * @param array $menu_data An array of menu data.
+		 */
 		do_action( 'wp_create_nav_menu', $_menu['term_id'], $menu_data );
 
 		return (int) $_menu['term_id'];
@@ -264,6 +280,14 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 	if ( is_wp_error( $update_response ) )
 		return $update_response;
 
+	/**
+	 * Fires after a navigation menu has been successfully updated.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int   $menu_id   ID of the updated menu.
+	 * @param array $menu_data An array of menu data.
+	 */
 	do_action( 'wp_update_nav_menu', $menu_id, $menu_data );
 	return $menu_id;
 }
@@ -411,7 +435,18 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		wp_update_post( $post );
 	}
 
-	do_action('wp_update_nav_menu_item', $menu_id, $menu_item_db_id, $args );
+	/**
+	 * Fires after a navigation menu item has been updated.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @see wp_update_nav_menu_items()
+	 *
+	 * @param int   $menu_id         ID of the updated menu.
+	 * @param int   $menu_item_db_id ID of the updated menu item.
+	 * @param array $args            An array of arguments used to update a menu item.
+	 */
+	do_action( 'wp_update_nav_menu_item', $menu_id, $menu_item_db_id, $args );
 
 	return $menu_item_db_id;
 }
@@ -427,6 +462,17 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 function wp_get_nav_menus( $args = array() ) {
 	$defaults = array( 'hide_empty' => false, 'orderby' => 'none' );
 	$args = wp_parse_args( $args, $defaults );
+
+	/**
+	 * Filter the navigation menu objects being returned.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @see get_terms()
+	 *
+	 * @param array $menus An array of menu objects.
+	 * @param array $args  An array of arguments used to retrieve menu objects.
+	 */
 	return apply_filters( 'wp_get_nav_menus', get_terms( 'nav_menu',  $args), $args );
 }
 
@@ -556,6 +602,15 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		}
 	}
 
+	/**
+	 * Filter the navigation menu items being returned.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array  $items An array of menu item post objects.
+	 * @param object $menu  The menu object.
+	 * @param array  $args  An array of arguments used to retrieve menu item objects.
+	 */
 	return apply_filters( 'wp_get_nav_menu_items',  $items, $menu, $args );
 }
 
@@ -632,10 +687,25 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 			$menu_item->target = empty( $menu_item->target ) ? get_post_meta( $menu_item->ID, '_menu_item_target', true ) : $menu_item->target;
 
+			/**
+			 * Filter a navigation menu item's title attribute.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param string $item_title The menu item title attribute.
+			 */
 			$menu_item->attr_title = empty( $menu_item->attr_title ) ? apply_filters( 'nav_menu_attr_title', $menu_item->post_excerpt ) : $menu_item->attr_title;
 
-			if ( empty( $menu_item->description ) )
-				$menu_item->description = apply_filters( 'nav_menu_description',  wp_trim_words( $menu_item->post_content, 200 ) );
+			if ( empty( $menu_item->description ) ) {
+				/**
+				 * Filter a navigation menu item's description.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param string $description The menu item description.
+				 */
+				$menu_item->description = apply_filters( 'nav_menu_description', wp_trim_words( $menu_item->post_content, 200 ) );
+			}
 
 			$menu_item->classes = empty( $menu_item->classes ) ? (array) get_post_meta( $menu_item->ID, '_menu_item_classes', true ) : $menu_item->classes;
 			$menu_item->xfn = empty( $menu_item->xfn ) ? get_post_meta( $menu_item->ID, '_menu_item_xfn', true ) : $menu_item->xfn;
@@ -656,7 +726,10 @@ function wp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->url = get_permalink( $menu_item->ID );
 			$menu_item->target = '';
 
+			/** This filter is documented in wp-includes/nav-menu.php */
 			$menu_item->attr_title = apply_filters( 'nav_menu_attr_title', '' );
+
+			/** This filter is documented in wp-includes/nav-menu.php */
 			$menu_item->description = apply_filters( 'nav_menu_description', '' );
 			$menu_item->classes = array();
 			$menu_item->xfn = '';
@@ -683,6 +756,13 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 	}
 
+	/**
+	 * Filter a navigation menu item object.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param object $menu_item The menu item object.
+	 */
 	return apply_filters( 'wp_setup_nav_menu_item', $menu_item );
 }
 
