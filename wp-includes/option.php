@@ -642,9 +642,22 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 			}
 			$result = add_option( $transient, $value, '', $autoload );
 		} else {
-			if ( $expiration )
-				update_option( $transient_timeout, time() + $expiration );
-			$result = update_option( $transient, $value );
+			// If expiration is requested, but the transient has no timeout option,
+			// delete, then re-create transient rather than update.
+			$update = true;
+			if ( $expiration ) {
+				if ( false === get_option( $transient_timeout ) ) {
+					delete_option( $transient );
+					add_option( $transient_timeout, time() + $expiration, '', 'no' );
+					$result = add_option( $transient, $value, '', 'no' );
+					$update = false;
+				} else {
+					update_option( $transient_timeout, time() + $expiration );
+				}
+			}
+			if ( $update ) {
+				$result = update_option( $transient, $value );
+			}
 		}
 	}
 
