@@ -668,11 +668,14 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 	editor.on( 'ObjectResized', function( event ) {
         var parent, width,
-			node = event.target;
+			node = event.target,
+			dom = editor.dom;
 
 		if ( node.nodeName === 'IMG' ) {
-			if ( parent = editor.dom.getParent( node, '.wp-caption' ) ) {
-				width = event.width || editor.dom.getAttrib( node, 'width' );
+			node.className = node.className.replace( /\bsize-[^ ]+/, '' );
+
+			if ( parent = dom.getParent( node, '.wp-caption' ) ) {
+				width = event.width || dom.getAttrib( node, 'width' );
 
 				if ( width ) {
 					width = parseInt( width, 10 );
@@ -681,7 +684,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 						width += 10;
 					}
 
-					editor.dom.setStyle( parent, 'width', width + 'px' );
+					dom.setStyle( parent, 'width', width + 'px' );
 				}
 			}
 			// refresh toolbar
