@@ -18,7 +18,8 @@ function array_unique_noempty(a) {
 	return out;
 }
 
-(function($){
+( function($) {
+	var titleHasFocus = false;
 
 tagBox = {
 	clean : function(tags) {
@@ -309,9 +310,12 @@ $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
 			$('#active_post_lock').val( received.new_lock );
 		}
 	}
+}).on( 'before-autosave.update-post-slug', function() {
+	titleHasFocus = document.activeElement && document.activeElement.id === 'title';
 }).on( 'after-autosave.update-post-slug', function() {
-	// create slug area only if not already there
-	if ( ! $('#edit-slug-box > *').length ) {
+	// Create slug area only if not already there
+	// and the title field was not focused (user was not typing a title) when autosave ran
+	if ( ! $('#edit-slug-box > *').length && ! titleHasFocus ) {
 		$.post( ajaxurl, {
 				action: 'sample-permalink',
 				post_id: $('#post_ID').val(),
@@ -501,7 +505,7 @@ jQuery(document).ready( function($) {
 	// Autosave new posts after a title is typed
 	if ( $( '#auto_draft' ).val() ) {
 		$( '#title' ).blur( function() {
-			if ( ! this.value || $( '#auto_draft' ).val() !== '1' ) {
+			if ( ! this.value || $('#edit-slug-box > *').length ) {
 				return;
 			}
 
