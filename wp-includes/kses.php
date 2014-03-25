@@ -763,10 +763,10 @@ function wp_kses_hair($attr, $allowed_protocols) {
 		switch ($mode) {
 			case 0 : # attribute name, href for instance
 
-				if (preg_match('/^([-a-zA-Z]+)/', $attr, $match)) {
+				if ( preg_match('/^([-a-zA-Z:]+)/', $attr, $match ) ) {
 					$attrname = $match[1];
 					$working = $mode = 1;
-					$attr = preg_replace('/^[-a-zA-Z]+/', '', $attr);
+					$attr = preg_replace( '/^[-a-zA-Z:]+/', '', $attr );
 				}
 
 				break;
