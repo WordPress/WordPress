@@ -1423,7 +1423,7 @@ var WidgetCustomizer = ( function ($) {
 			var control = this;
 			control.expandControlSection();
 			control.expandForm();
-			control.container.find( ':focusable:first' ).focus().trigger( 'click' );
+			control.container.find( '.widget-content :focusable:first' ).focus();
 		},
 
 		/**
