@@ -4479,8 +4479,8 @@ function wp_mime_type_icon( $mime = 0 ) {
 		$icon_files = wp_cache_get('icon_files');
 
 		if ( !is_array($icon_files) ) {
-			$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/crystal' );
-			$icon_dir_uri = apply_filters( 'icon_dir_uri', includes_url('images/crystal') );
+			$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/media' );
+			$icon_dir_uri = apply_filters( 'icon_dir_uri', includes_url('images/media') );
 			$dirs = apply_filters( 'icon_dirs', array($icon_dir => $icon_dir_uri) );
 			$icon_files = array();
 			while ( $dirs ) {

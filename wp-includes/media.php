@@ -602,7 +602,7 @@ function wp_get_attachment_image_src($attachment_id, $size='thumbnail', $icon = 
 	$src = false;
 
 	if ( $icon && $src = wp_mime_type_icon($attachment_id) ) {
-		$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/crystal' );
+		$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/media' );
 		$src_file = $icon_dir . '/' . wp_basename($src);
 		@list($width, $height) = getimagesize($src_file);
 	}
