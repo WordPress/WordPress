@@ -686,13 +686,14 @@ function choose_primary_blog() {
  *
  * @since 3.0.0
  * @param int $user_id ID of the user to be granted Super Admin privileges.
+ * @return bool True on success, false on failure. This can fail when the user is
+ *              already a super admin or when the $super_admins global is defined.
  */
 function grant_super_admin( $user_id ) {
-	global $super_admins;
-
 	// If global super_admins override is defined, there is nothing to do here.
-	if ( isset( $super_admins ) )
+	if ( isset( $GLOBALS['super_admins'] ) ) {
 		return false;
+	}
 
 	/**
 	 * Fires before the user is granted Super Admin privileges.
@@ -729,13 +730,14 @@ function grant_super_admin( $user_id ) {
  *
  * @since 3.0.0
  * @param int $user_id ID of the user Super Admin privileges to be revoked from.
+ * @return bool True on success, false on failure. This can fail when the user's email
+ *              is the network admin email or when the $super_admins global is defined.
  */
 function revoke_super_admin( $user_id ) {
-	global $super_admins;
-
 	// If global super_admins override is defined, there is nothing to do here.
-	if ( isset( $super_admins ) )
+	if ( isset( $GLOBALS['super_admins'] ) ) {
 		return false;
+	}
 
 	/**
 	 * Fires before the user's Super Admin privileges are revoked.
