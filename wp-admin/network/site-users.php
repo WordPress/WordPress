@@ -39,6 +39,10 @@ get_current_screen()->set_help_sidebar(
 $_SERVER['REQUEST_URI'] = remove_query_arg( 'update', $_SERVER['REQUEST_URI'] );
 $referer = remove_query_arg( 'update', wp_get_referer() );
 
+if ( ! empty( $_REQUEST['paged'] ) ) {
+	$referer = add_query_arg( 'paged', (int) $_REQUEST['paged'], $referer );
+}
+
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
 if ( ! $id )
