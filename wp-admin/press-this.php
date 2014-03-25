@@ -310,7 +310,7 @@ var photostorage = false;
 	do_action( 'admin_enqueue_scripts', 'press-this.php' );
 
 	/**
-	 * Firest when styles are printed for the Press This admin page.
+	 * Fires when styles are printed for the Press This admin page.
 	 *
 	 * @since 3.7.0
 	 */
