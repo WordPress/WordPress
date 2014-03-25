@@ -288,8 +288,8 @@ TABLE OF CONTENTS:
 	input#publish,
 	input#save-post,
 	a.preview {
-		padding: 10px 14px;
-		line-height: 1;
+		padding: 6px 14px;
+		line-height: normal;
 		font-size: 14px;
 		vertical-align: middle;
 		height: auto;
