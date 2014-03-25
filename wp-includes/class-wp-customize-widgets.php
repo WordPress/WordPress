@@ -734,9 +734,11 @@ class WP_Customize_Widgets {
 		?>
 		<style>
 		.widget-customizer-highlighted-widget {
-			border-radius: 2px;
 			outline: none;
+			-webkit-box-shadow: 0 0 3px #ce0000;
 			box-shadow: 0 0 3px #ce0000;
+			position: relative;
+			z-index: 1;
 		}
 		</style>
 		<?php

@@ -101,12 +101,13 @@
 	cursor: move;
 }
 
-/* @todo What does this do? */
 .control-section.accordion-section.widget-customizer-highlighted > .accordion-section-title,
 .customize-control-widget_form.widget-customizer-highlighted {
 	outline: none;
 	-webkit-box-shadow: 0 0 3px #ce0000;
 	box-shadow: 0 0 3px #ce0000;
+	position: relative;
+	z-index: 1;
 }
 
 #widget-customizer-control-templates {
