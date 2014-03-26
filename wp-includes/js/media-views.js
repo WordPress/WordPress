@@ -5930,9 +5930,13 @@
 		render: function() {
 			var self = this,
 				args = arguments;
+
 			if ( this.model.attachment && 'pending' === this.model.dfd.state() ) {
-				// should instead show a spinner when the attachment is new and then add a listener that updates on change
 				this.model.dfd.done( function() {
+					media.view.Settings.AttachmentDisplay.prototype.render.apply( self, args );
+					self.resetFocus();
+				} ).fail( function() {
+					self.model.attachment = false;
 					media.view.Settings.AttachmentDisplay.prototype.render.apply( self, args );
 					self.resetFocus();
 				} );
