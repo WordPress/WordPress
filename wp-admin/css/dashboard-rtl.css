@@ -611,9 +611,6 @@ form.initial-form.quickpress-open input#title {
 }
 
 #dashboard_activity h4.comment-meta {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 	margin-bottom: 4px;
 }
 
