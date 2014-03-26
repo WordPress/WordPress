@@ -1,4 +1,4 @@
-/* global tinymce */
+/* global tinymce, MediaElementPlayer, WPPlaylistView */
 
 // Ensure the global `wp` object exists.
 window.wp = window.wp || {};
