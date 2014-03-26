@@ -326,7 +326,7 @@ function wp_default_scripts( &$scripts ) {
 
 
 	$scripts->add( 'wp-mediaelement', "/wp-includes/js/mediaelement/wp-mediaelement.js", array('mediaelement'), false, 1 );
-	did_action( 'init' ) && $scripts->localize( 'wp-mediaelement', '_wpmejsSettings', array(
+	did_action( 'init' ) && $scripts->localize( 'mediaelement', '_wpmejsSettings', array(
 		'pluginPath' => includes_url( 'js/mediaelement/', 'relative' ),
 	) );
 
