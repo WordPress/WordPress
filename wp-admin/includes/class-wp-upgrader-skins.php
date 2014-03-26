@@ -65,7 +65,7 @@ class WP_Upgrader_Skin {
 		} elseif ( is_wp_error($errors) && $errors->get_error_code() ) {
 			foreach ( $errors->get_error_messages() as $message ) {
 				if ( $errors->get_error_data() && is_string( $errors->get_error_data() ) )
-					$this->feedback($message . ' ' . esc_html( $errors->get_error_data() ) );
+					$this->feedback($message . ' ' . esc_html( strip_tags( $errors->get_error_data() ) ) );
 				else
 					$this->feedback($message);
 			}
@@ -217,7 +217,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 		if ( is_wp_error($error) ) {
 			foreach ( $error->get_error_messages() as $emessage ) {
 				if ( $error->get_error_data() && is_string( $error->get_error_data() ) )
-					$messages[] = $emessage . ' ' . esc_html( $error->get_error_data() );
+					$messages[] = $emessage . ' ' . esc_html( strip_tags( $error->get_error_data() ) );
 				else
 					$messages[] = $emessage;
 			}
