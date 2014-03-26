@@ -208,9 +208,9 @@ themes.Collection = Backbone.Collection.extend({
 		var collection = this;
 		instance = instance || 0;
 
-		// Themes per instance are set at 15
-		collection = _( collection.rest( 15 * instance ) );
-		collection = _( collection.first( 15 ) );
+		// Themes per instance are set at 20
+		collection = _( collection.rest( 20 * instance ) );
+		collection = _( collection.first( 20 ) );
 
 		return collection;
 	}
