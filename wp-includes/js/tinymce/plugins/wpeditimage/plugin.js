@@ -397,11 +397,10 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	}
 
 	editor.on( 'init', function() {
-		var dom = editor.dom;
+		var dom = editor.dom,
+			captionClass = editor.getParam( 'wpeditimage_html5_captions' ) ? 'html5-captions' : 'html4-captions';
 
-		if ( editor.getParam( 'wpeditimage_html5_captions' ) ) {
-			dom.addClass( editor.getBody(), 'html5-captions' );
-		}
+		dom.addClass( editor.getBody(), captionClass );
 
 		// Add caption field to the default image dialog
 		editor.on( 'wpLoadImageForm', function( event ) {
