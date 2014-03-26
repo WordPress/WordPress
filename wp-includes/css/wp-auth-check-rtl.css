@@ -15,7 +15,7 @@
 	background: #000;
 	opacity: 0.7;
 	filter: alpha(opacity=70);
-	z-index: 1000000;
+	z-index: 1000010; /* needs to appear above .notification-dialog */
 }
 
 #wp-auth-check-wrap #wp-auth-check {
@@ -29,7 +29,7 @@
 	margin: 0 -190px 0 0;
 	padding: 30px 0 0;
 	background-color: #eee;
-	z-index: 1000001;
+	z-index: 1000011; /* needs to appear above #wp-auth-check-bg */
 	-webkit-box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
 	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
 }
