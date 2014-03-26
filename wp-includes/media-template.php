@@ -18,6 +18,7 @@ function wp_underscore_audio_template() {
 ?>
 <audio controls
 	class="wp-audio-shortcode"
+	width="{{ _.isUndefined( data.model.width ) ? 400 : data.model.width }}"
 	preload="{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}"
 	<#
 	<?php foreach ( array( 'autoplay', 'loop' ) as $attr ):
