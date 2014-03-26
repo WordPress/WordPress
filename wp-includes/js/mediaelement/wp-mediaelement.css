@@ -63,10 +63,13 @@
 	line-height: 160%;
 }
 
-.wp-playlist audio,
 .wp-playlist video {
 	display: inline-block;
 	max-width: 100%;
+}
+
+.wp-playlist audio {
+	display: none;
 }
 
 .wp-playlist .mejs-container {
@@ -157,7 +160,7 @@
 	height: 60px;
 }
 
-.wp-playlist-current-item img {
+.wp-playlist .wp-playlist-current-item img {
 	float: left;
 	max-width: 60px;
 	height: auto;
