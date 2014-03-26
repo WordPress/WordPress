@@ -561,12 +561,14 @@ function wp_print_media_templates() {
 			<span><?php _e( 'Show Track Numbers' ); ?></span>
 		</label>
 
+		<# if ( playlist ) { #>
 		<label class="setting">
 			<input type="checkbox" data-setting="artists" <# if ( playlist && emptyModel ) { #>
 				checked="checked"
 			<# } #> />
 			<span><?php _e( 'Show Artist Name in Tracklist' ); ?></span>
 		</label>
+		<# } #>
 
 		<label class="setting">
 			<input type="checkbox" data-setting="images" <# if ( emptyModel ) { #>
