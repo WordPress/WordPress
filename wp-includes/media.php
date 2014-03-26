@@ -1194,9 +1194,6 @@ function wp_get_playlist( $attr, $type ) {
 		return $output;
 	}
 
-	$supports_thumbs = ( current_theme_supports( 'post-thumbnails', "attachment:$type" ) && post_type_supports( "attachment:$type", 'thumbnail' ) )
-		|| $images;
-
 	$outer = 22; // default padding and border of wrapper
 
 	$default_width = 640;
@@ -1255,12 +1252,18 @@ function wp_get_playlist( $attr, $type ) {
 			}
 		}
 
-		if ( $supports_thumbs ) {
+		if ( $images ) {
 			$id = get_post_thumbnail_id( $attachment->ID );
 			if ( ! empty( $id ) ) {
 				list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'full' );
 				$track['image'] = compact( 'src', 'width', 'height' );
 				list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'thumbnail' );
+				$track['thumb'] = compact( 'src', 'width', 'height' );
+			} else {
+				$src = wp_mime_type_icon( $attachment->ID );
+				$width = 48;
+				$height = 64;
+				$track['image'] = compact( 'src', 'width', 'height' );
 				$track['thumb'] = compact( 'src', 'width', 'height' );
 			}
 		}
