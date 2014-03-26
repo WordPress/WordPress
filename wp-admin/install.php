@@ -217,7 +217,7 @@ switch($step) {
 
 		if ( $error === false ) {
 			$wpdb->show_errors();
-			$result = wp_install($weblog_title, $user_name, $admin_email, $public, '', $admin_password);
+			$result = wp_install($weblog_title, $user_name, $admin_email, $public, '', wp_slash( $admin_password ) );
 			extract( $result, EXTR_SKIP );
 ?>
 
