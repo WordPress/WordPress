@@ -1604,8 +1604,8 @@ function get_adjacent_post_rel_link( $title = '%title', $in_same_term = false, $
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
 function adjacent_posts_rel_link( $title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
-	echo get_adjacent_post_rel_link( $title, $in_same_term, $excluded_terms = '', true, $taxonomy );
-	echo get_adjacent_post_rel_link( $title, $in_same_term, $excluded_terms = '', false, $taxonomy );
+	echo get_adjacent_post_rel_link( $title, $in_same_term, $excluded_terms, true, $taxonomy );
+	echo get_adjacent_post_rel_link( $title, $in_same_term, $excluded_terms, false, $taxonomy );
 }
 
 /**
@@ -1632,7 +1632,7 @@ function adjacent_posts_rel_link_wp_head() {
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
 function next_post_rel_link( $title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
-	echo get_adjacent_post_rel_link( $title, $in_same_term, $excluded_terms = '', false, $taxonomy );
+	echo get_adjacent_post_rel_link( $title, $in_same_term, $excluded_terms, false, $taxonomy );
 }
 
 /**
@@ -1646,7 +1646,7 @@ function next_post_rel_link( $title = '%title', $in_same_term = false, $excluded
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
 function prev_post_rel_link( $title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
-	echo get_adjacent_post_rel_link( $title, $in_same_term, $excluded_terms = '', true, $taxonomy );
+	echo get_adjacent_post_rel_link( $title, $in_same_term, $excluded_terms, true, $taxonomy );
 }
 
 /**
