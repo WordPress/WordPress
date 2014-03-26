@@ -375,6 +375,11 @@ ol.ol-decimal > li {
 }
 
 /* @noflip */
+.ltr {
+	direction: ltr;
+}
+
+/* @noflip */
 .code,
 code {
 	font-family: Consolas, Monaco, monospace;

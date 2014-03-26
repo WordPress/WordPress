@@ -12,6 +12,12 @@ textarea {
 	box-sizing: border-box;
 }
 
+/* @noflip */
+input[type="email"],
+input[type="url"] {
+	direction: ltr;
+}
+
 input[type="checkbox"],
 input[type="radio"] {
 	border: 1px solid #bbb;
