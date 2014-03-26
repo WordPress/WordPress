@@ -57,7 +57,7 @@ function update_post_thumbnail_cache( $wp_query = null ) {
 	if ( ! $wp_query )
 		$wp_query = $GLOBALS['wp_query'];
 
-	if ( $wp_query->thumbnails_cached || ! $wp_query->posts )
+	if ( $wp_query->thumbnails_cached )
 		return;
 
 	$thumb_ids = array();
@@ -69,7 +69,7 @@ function update_post_thumbnail_cache( $wp_query = null ) {
 	if ( ! empty ( $thumb_ids ) ) {
 		_prime_post_caches( $thumb_ids, false, true );
 	}
-	
+
 	$wp_query->thumbnails_cached = true;
 }
 
