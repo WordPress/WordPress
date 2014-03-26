@@ -501,27 +501,42 @@ function wp_kses( $string, $allowed_html, $allowed_protocols = array() ) {
 function wp_kses_allowed_html( $context = '' ) {
 	global $allowedposttags, $allowedtags, $allowedentitynames;
 
-	if ( is_array( $context ) )
+	if ( is_array( $context ) ) {
+		/**
+		 * Filter HTML elements allowed for a given context.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param string $tags    Allowed tags, attributes, and/or entities.
+		 * @param string $context Context to judge allowed tags by. Allowed values are 'post',
+		 *                        'data', 'strip', 'entities', 'explicit', or the name of a filter.
+		 */
 		return apply_filters( 'wp_kses_allowed_html', $context, 'explicit' );
+	}
 
 	switch ( $context ) {
 		case 'post':
+			/** This filter is documented in wp-includes/kses.php */
 			return apply_filters( 'wp_kses_allowed_html', $allowedposttags, $context );
 			break;
 		case 'user_description':
 		case 'pre_user_description':
 			$tags = $allowedtags;
 			$tags['a']['rel'] = true;
+			/** This filter is documented in wp-includes/kses.php */
 			return apply_filters( 'wp_kses_allowed_html', $tags, $context );
 			break;
 		case 'strip':
+			/** This filter is documented in wp-includes/kses.php */
 			return apply_filters( 'wp_kses_allowed_html', array(), $context );
 			break;
 		case 'entities':
+			/** This filter is documented in wp-includes/kses.php */
 			return apply_filters( 'wp_kses_allowed_html', $allowedentitynames, $context);
 			break;
 		case 'data':
 		default:
+			/** This filter is documented in wp-includes/kses.php */
 			return apply_filters( 'wp_kses_allowed_html', $allowedtags, $context );
 	}
 }
@@ -540,7 +555,16 @@ function wp_kses_allowed_html( $context = '' ) {
  * @return string Filtered content through 'pre_kses' hook
  */
 function wp_kses_hook( $string, $allowed_html, $allowed_protocols ) {
-	$string = apply_filters('pre_kses', $string, $allowed_html, $allowed_protocols);
+	/**
+	 * Filter content to be run through kses.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param string $string            Content to run through kses.
+	 * @param array  $allowed_html      Allowed HTML elements.
+	 * @param array  $allowed_protocols Allowed protocol in links.
+	 */
+	$string = apply_filters( 'pre_kses', $string, $allowed_html, $allowed_protocols );
 	return $string;
 }
 
@@ -1414,6 +1438,14 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 		return '';
 
 	$css_array = explode( ';', trim( $css ) );
+
+	/**
+	 * Filter list of allowed CSS attributes.
+	 *
+	 * @since 2.8.1
+	 *
+	 * @param array $attr List of allowed CSS attributes.
+	 */
 	$allowed_attr = apply_filters( 'safe_style_css', array( 'text-align', 'margin', 'color', 'float',
 	'border', 'background', 'background-color', 'border-bottom', 'border-bottom-color',
 	'border-bottom-style', 'border-bottom-width', 'border-collapse', 'border-color', 'border-left',
