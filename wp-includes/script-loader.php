@@ -117,12 +117,28 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'heartbeat', "/wp-includes/js/heartbeat$suffix.js", array('jquery'), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'heartbeat', 'heartbeatSettings',
+		/**
+		 * Filter the Heartbeat settings.
+		 *
+		 * @since 3.6.0
+		 *
+		 * @param array $settings Heartbeat settings array.
+		 */
 		apply_filters( 'heartbeat_settings', array() )
 	);
 
 	$scripts->add( 'wp-auth-check', "/wp-includes/js/wp-auth-check$suffix.js", array('heartbeat'), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'wp-auth-check', 'authcheckL10n', array(
 		'beforeunload' => __('Your session has expired. You can log in again from this page or go to the login page.'),
+
+		/**
+		 * Filter the authentication check interval.
+		 *
+		 * @since 3.6.0
+		 *
+		 * @param int $interval The interval in which to check a user's authentication.
+		 *                      Default 3 minutes in seconds, or 180.
+		 */
 		'interval' => apply_filters( 'wp_auth_check_interval', 3 * MINUTE_IN_SECONDS ),
 	) );
 
@@ -761,8 +777,16 @@ function print_head_scripts() {
 	$wp_scripts->do_concat = $concatenate_scripts;
 	$wp_scripts->do_head_items();
 
-	if ( apply_filters('print_head_scripts', true) )
+	/**
+	 * Filter whether to print the head scripts.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param bool $print Whether to print the head scripts. Default true.
+	 */
+	if ( apply_filters( 'print_head_scripts', true ) ) {
 		_print_scripts();
+	}
 
 	$wp_scripts->reset();
 	return $wp_scripts->done;
@@ -783,8 +807,16 @@ function print_footer_scripts() {
 	$wp_scripts->do_concat = $concatenate_scripts;
 	$wp_scripts->do_footer_items();
 
-	if ( apply_filters('print_footer_scripts', true) )
+	/**
+	 * Filter whether to print the footer scripts.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param bool $print Whether to print the footer scripts. Default true.
+	 */
+	if ( apply_filters( 'print_footer_scripts', true ) ) {
 		_print_scripts();
+	}
 
 	$wp_scripts->reset();
 	return $wp_scripts->done;
@@ -859,7 +891,12 @@ function _wp_footer_scripts() {
  * @since 2.8.0
  */
 function wp_print_footer_scripts() {
-	do_action('wp_print_footer_scripts');
+	/**
+	 * Fires when footer scripts are printed.
+	 *
+	 * @since 2.8.0
+	 */
+	do_action( 'wp_print_footer_scripts' );
 }
 
 /**
@@ -871,7 +908,12 @@ function wp_print_footer_scripts() {
  * @since 2.8.0
  */
 function wp_enqueue_scripts() {
-	do_action('wp_enqueue_scripts');
+	/**
+	 * Fires when scripts and styles are enqueued.
+	 *
+	 * @since 2.8.0
+	 */
+	do_action( 'wp_enqueue_scripts' );
 }
 
 /**
@@ -893,8 +935,16 @@ function print_admin_styles() {
 
 	$wp_styles->do_items(false);
 
-	if ( apply_filters('print_admin_styles', true) )
+	/**
+	 * Filter whether to print the admin styles.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param bool $print Whether to print the admin styles. Default true.
+	 */
+	if ( apply_filters( 'print_admin_styles', true ) ) {
 		_print_styles();
+	}
 
 	$wp_styles->reset();
 	return $wp_styles->done;
@@ -914,8 +964,16 @@ function print_late_styles() {
 	$wp_styles->do_concat = $concatenate_scripts;
 	$wp_styles->do_footer_items();
 
-	if ( apply_filters('print_late_styles', true) )
+	/**
+	 * Filter whether to print the styles queued too late for the HTML head.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param bool $print Whether to print the 'late' styles. Default true.
+	 */
+	if ( apply_filters( 'print_late_styles', true ) ) {
 		_print_styles();
+	}
 
 	$wp_styles->reset();
 	return $wp_styles->done;
