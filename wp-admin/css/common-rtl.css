@@ -1506,7 +1506,7 @@ html.wp-toolbar {
 .nav-tab-active,
 .nav-tab-active:hover {
 	border-bottom: 1px solid #f1f1f1;
-	background: none;
+	background: #f1f1f1;
 	color: #000;
 }
 
