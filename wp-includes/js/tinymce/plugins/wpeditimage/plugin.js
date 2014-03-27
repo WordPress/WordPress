@@ -369,7 +369,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 		dom.setStyles( toolbar, {
 			top: rectangle.y,
-			left: rectangle.x + rectangle.w - toolbarSize.w
+			left: rectangle.x
 		});
 	}
 

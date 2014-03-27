@@ -997,6 +997,7 @@ function wp_print_media_templates() {
 		<div class="track-details">{{{ data.model.caption }}}</div>
 		<# } #>
 		<?php wp_underscore_audio_template() ?>
+		<div class="wpview-overlay"></div>
 	</script>
 
 	<script type="text/html" id="tmpl-editor-video">
@@ -1008,6 +1009,7 @@ function wp_print_media_templates() {
 		<div class="track-details">{{{ data.model.caption }}}</div>
 		<# } #>
 		<?php wp_underscore_video_template() ?>
+		<div class="wpview-overlay"></div>
 	</script>
 
 	<?php wp_underscore_playlist_templates() ?>
@@ -1027,6 +1029,7 @@ function wp_print_media_templates() {
 			<div class="wp-playlist-next"></div>
 			<div class="wp-playlist-prev"></div>
 		</div>
+		<div class="wpview-overlay"></div>
 	</script>
 
 	<?php
