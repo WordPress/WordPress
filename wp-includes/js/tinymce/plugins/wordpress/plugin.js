@@ -311,61 +311,6 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			window.jQuery( document ).triggerHandler( 'tinymce-editor-init', [editor] );
 		}
 
-		if ( ! ( 'ontouchstart' in window ) ) {
-			// When scrolling with mouse wheel or trackpad inside the editor, don't scroll the parent window
-			dom.bind( doc, 'onwheel' in doc ? 'wheel' : 'mousewheel', function( event ) {
-				var delta, top,
-					docElement = doc.documentElement;
-
-				if ( editor.settings.wp_fullscreen ) {
-					return;
-				}
-				// Don't modify scrolling when the editor is not active.
-				if ( typeof doc.hasFocus === 'function' && ! doc.hasFocus() ) {
-					return;
-				}
-
-				if ( typeof event.deltaY !== 'undefined' ) {
-					delta = event.deltaY;
-
-					if ( typeof event.deltaMode !== 'undefined' && event.deltaMode === event.DOM_DELTA_LINE ) {
-						delta *= 20;
-					}
-				} else {
-					delta = -event.wheelDelta;
-				}
-
-				if ( env.webkit ) {
-					doc.body.scrollTop += delta;
-				} else {
-					docElement.scrollTop += delta;
-				}
-
-				top = docElement.scrollTop || doc.body.scrollTop;
-
-				if ( topx === top ) {
-					deltax += delta;
-
-					window.clearTimeout( reset );
-					// Sensitivity: delay before resetting the count of over-scroll pixels
-					reset = window.setTimeout( function() {
-						deltax = 0;
-					}, 1000 );
-				} else {
-					deltax = 0;
-				}
-
-				topx = top;
-
-				// Sensitivity: scroll the parent window when over-scrolling by more than 1000px
-				if ( deltax > 1000 || deltax < -1000 ) {
-					return;
-				}
-
-				event.preventDefault();
-			});
-		}
-
 		dom.bind( doc, 'dragstart dragend dragover drop', function( event ) {
 			if ( typeof window.jQuery !== 'undefined' ) {
 				// Trigger the jQuery handlers.
