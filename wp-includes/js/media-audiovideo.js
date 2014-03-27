@@ -176,7 +176,6 @@
 	 */
 	wp.media.playlist = new wp.media.collection({
 		tag: 'playlist',
-		type : 'audio',
 		editTitle : l10n.editPlaylistTitle,
 		defaults : {
 			id: wp.media.view.settings.post.id,
@@ -184,20 +183,8 @@
 			tracklist: true,
 			tracknumbers: true,
 			images: true,
-			artists: true
-		}
-	});
-
-	wp.media['video-playlist'] = new wp.media.collection({
-		tag: 'video-playlist',
-		type : 'video',
-		editTitle : l10n.editVideoPlaylistTitle,
-		defaults : {
-			id: wp.media.view.settings.post.id,
-			style: 'light',
-			tracklist: false,
-			tracknumbers: false,
-			images: true
+			artists: true,
+			type: 'audio'
 		}
 	});
 
@@ -953,96 +940,10 @@
 
 				counts.audio = a;
 				counts.video = v;
-
+				
 				return counts;
 			};
-		}(media.view.settings)),
-
-		/**
-		 * Return the playlist states for MediaFrame.Post
-		 *
-		 * @param {Object} options
-		 * @returns {Array}
-		 */
-		states : function(options) {
-			return [
-				new media.controller.Library({
-					id:         'playlist',
-					title:      l10n.createPlaylistTitle,
-					priority:   60,
-					toolbar:    'main-playlist',
-					filterable: 'uploaded',
-					multiple:   'add',
-					editable:   false,
-
-					library:  media.query( _.defaults({
-						type: 'audio'
-					}, options.library ) )
-				}),
-
-				// Playlist states.
-				new media.controller.CollectionEdit({
-					type:           'audio',
-					collectionType: 'playlist',
-					title:          l10n.editPlaylistTitle,
-					SettingsView:   media.view.Settings.Playlist,
-					library:        options.selection,
-					editing:        options.editing,
-					menu:           'playlist',
-					dragInfoText:   l10n.playlistDragInfo,
-					dragInfo:       false
-				}),
-
-				new media.controller.CollectionAdd({
-					type: 'audio',
-					collectionType: 'playlist',
-					title: l10n.addToPlaylistTitle
-				})
-			];
-		},
-
-		/**
-		 * Return the video-playlist states for MediaFrame.Post
-		 *
-		 * @param {Object} options
-		 * @returns {Array}
-		 */
-		videoStates : function(options) {
-			return [
-				new media.controller.Library({
-					id:         'video-playlist',
-					title:      l10n.createVideoPlaylistTitle,
-					priority:   60,
-					toolbar:    'main-video-playlist',
-					filterable: 'uploaded',
-					multiple:   'add',
-					editable:   false,
-
-					library:  media.query( _.defaults({
-						type: 'video'
-					}, options.library ) )
-				}),
-
-				// Video Playlist states.
-				new media.controller.CollectionEdit({
-					type:           'video',
-					collectionType: 'video-playlist',
-					title:          l10n.editVideoPlaylistTitle,
-					SettingsView:   media.view.Settings.Playlist,
-					library:        options.selection,
-					editing:        options.editing,
-					menu:           'video-playlist',
-					dragInfoText:   l10n.videoPlaylistDragInfo,
-					dragInfo:       false
-				}),
-
-				new media.controller.CollectionAdd({
-					type:           'video',
-					collectionType: 'video-playlist',
-					title:          l10n.addToVideoPlaylistTitle
-				})
-			];
-		}
+		}(media.view.settings))
 	} );
 
 	/**

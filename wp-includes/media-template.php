@@ -517,53 +517,25 @@ function wp_print_media_templates() {
 	<script type="text/html" id="tmpl-playlist-settings">
 		<h3><?php _e( 'Playlist Settings' ); ?></h3>
 
-		<?php
-		$playlist_styles = array(
-			'light' => _x( 'Light', 'playlist theme' ),
-			'dark'	=> _x( 'Dark', 'playlist theme' )
-		);
-
-		/** This filter is documented in wp-includes/media.php */
-		$styles = apply_filters( 'playlist_styles', $playlist_styles );
-
-		if ( ! empty( $styles ) ): ?>
-		<label class="setting">
-			<span><?php _e( 'Style' ); ?></span>
-			<select class="style" data-setting="style">
-				<?php foreach ( $styles as $slug => $label ): ?>
-				<option value="<?php echo esc_attr( $slug ) ?>">
-					<?php echo $label ?>
-				</option>
-				<?php endforeach ?>
-			</select>
-		</label>
-		<?php endif; ?>
-
-		<#
-			var playlist = 'playlist-edit' === data.controller.id, emptyModel = _.isEmpty(data.model);
-		#>
-		<label class="setting">
-			<input type="checkbox" data-setting="_orderbyRandom" />
-			<span><?php _e( 'Random Order' ); ?></span>
-		</label>
+		<# var emptyModel = _.isEmpty( data.model );  #>
 
 		<label class="setting">
-			<input type="checkbox" data-setting="tracklist" <# if ( playlist && emptyModel ) { #>
+			<input type="checkbox" data-setting="tracklist" <# if ( emptyModel ) { #>
 				checked="checked"
 			<# } #> />
 			<span><?php _e( 'Show Tracklist' ); ?></span>
 		</label>
 
 		<label class="setting">
-			<input type="checkbox" data-setting="tracknumbers" <# if ( playlist && emptyModel ) { #>
+			<input type="checkbox" data-setting="tracknumbers" <# if ( emptyModel ) { #>
 				checked="checked"
 			<# } #> />
 			<span><?php _e( 'Show Track Numbers' ); ?></span>
 		</label>
 
-		<# if ( playlist ) { #>
+		<# if ( 'audio' === data.model.type ) { #>
 		<label class="setting">
-			<input type="checkbox" data-setting="artists" <# if ( playlist && emptyModel ) { #>
+			<input type="checkbox" data-setting="artists" <# if ( emptyModel ) { #>
 				checked="checked"
 			<# } #> />
 			<span><?php _e( 'Show Artist Name in Tracklist' ); ?></span>

@@ -364,7 +364,7 @@ window.wp = window.wp || {};
 		edit: function( node ) {
 			var media = wp.media[ this.shortcode ],
 				self = this,
-				frame, data;
+				frame, data, callback;
 
 			wp.media.mixin.pauseAllPlayers();
 
@@ -373,12 +373,20 @@ window.wp = window.wp || {};
 			frame.on( 'close', function() {
 				frame.detach();
 			} );
-			frame.state( self.state ).on( 'update', function( selection ) {
+
+			callback = function( selection ) {
 				var shortcode = wp.media[ self.shortcode ].shortcode( selection ).string();
 				$( node ).attr( 'data-wpview-text', window.encodeURIComponent( shortcode ) );
 				wp.mce.views.refreshView( self, shortcode );
 				frame.detach();
-			} );
+			};
+			if ( _.isArray( self.state ) ) {
+				_.each( self.state, function (state) {
+					frame.state( state ).on( 'update', callback );
+				} );
+			} else {
+				frame.state( self.state ).on( 'update', callback );
+			}
 			frame.open();
 		}
 	};
@@ -531,7 +539,7 @@ window.wp = window.wp || {};
 		 * Asynchronously fetch the shortcode's attachments
 		 */
 		fetch: function() {
-			this.attachments = wp.media[ this.shortcode.tag ].attachments( this.shortcode );
+			this.attachments = wp.media.playlist.attachments( this.shortcode );
 			this.attachments.more().done( this.setPlayer );
 		},
 
@@ -579,8 +587,7 @@ window.wp = window.wp || {};
 		 */
 		getHtml: function() {
 			var data = this.shortcode.attrs.named,
-				model = wp.media[ this.shortcode.tag ],
-				type = 'playlist' === this.shortcode.tag ? 'audio' : 'video',
+				model = wp.media.playlist,
 				options,
 				attachments,
 				tracks = [];
@@ -596,7 +603,7 @@ window.wp = window.wp || {};
 			attachments = this.attachments.toJSON();
 
 			options = {
-				type: type,
+				type: data.type,
 				style: data.style,
 				tracklist: data.tracklist,
 				tracknumbers: data.tracknumbers,
@@ -614,7 +621,7 @@ window.wp = window.wp || {};
 					meta : attachment.meta
 				};
 
-				if ( 'video' === type ) {
+				if ( 'video' === data.type ) {
 					size.width = attachment.width;
 					size.height = attachment.height;
 					if ( media.view.settings.contentWidth ) {
@@ -659,20 +666,8 @@ window.wp = window.wp || {};
 	 */
 	wp.mce.playlist = _.extend( {}, wp.mce.media, {
 		shortcode: 'playlist',
-		state: 'playlist-edit',
+		state: ['playlist-edit', 'video-playlist-edit'],
 		View: wp.mce.media.PlaylistView
 	} );
 	wp.mce.views.register( 'playlist', wp.mce.playlist );
-
-	/**
-	 * TinyMCE handler for the video-playlist shortcode
-	 *
-	 * @mixes wp.mce.media
-	 */
-	wp.mce['video-playlist'] = _.extend( {}, wp.mce.media, {
-		shortcode: 'video-playlist',
-		state: 'video-playlist-edit',
-		View: wp.mce.media.PlaylistView
-	} );
-	wp.mce.views.register( 'video-playlist', wp.mce['video-playlist'] );
 }(jQuery));

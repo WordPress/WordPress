@@ -793,6 +793,10 @@
 		initialize: function() {
 			var collectionType = this.get('collectionType');
 
+			if ( 'video' === this.get( 'type' ) ) {
+				collectionType = 'video-' + collectionType;
+			}
+
 			this.set( 'id', collectionType + '-edit' );
 			this.set( 'toolbar', collectionType + '-edit' );
 
@@ -1886,7 +1890,7 @@
 		},
 
 		createStates: function() {
-			var options = this.options, counts;
+			var options = this.options;
 
 			// Add the default states.
 			this.states.add([
@@ -1946,18 +1950,73 @@
 					type:           'image',
 					collectionType: 'gallery',
 					title:          l10n.addToGalleryTitle
+				}),
+
+				new media.controller.Library({
+					id:         'playlist',
+					title:      l10n.createPlaylistTitle,
+					priority:   60,
+					toolbar:    'main-playlist',
+					filterable: 'uploaded',
+					multiple:   'add',
+					editable:   false,
+
+					library:  media.query( _.defaults({
+						type: 'audio'
+					}, options.library ) )
+				}),
+
+				// Playlist states.
+				new media.controller.CollectionEdit({
+					type: 'audio',
+					collectionType: 'playlist',
+					title:          l10n.editPlaylistTitle,
+					SettingsView:   media.view.Settings.Playlist,
+					library:        options.selection,
+					editing:        options.editing,
+					menu:           'playlist',
+					dragInfoText:   l10n.playlistDragInfo,
+					dragInfo:       false
+				}),
+
+				new media.controller.CollectionAdd({
+					type: 'audio',
+					collectionType: 'playlist',
+					title: l10n.addToPlaylistTitle
+				}),
+
+				new media.controller.Library({
+					id:         'video-playlist',
+					title:      l10n.createVideoPlaylistTitle,
+					priority:   60,
+					toolbar:    'main-video-playlist',
+					filterable: 'uploaded',
+					multiple:   'add',
+					editable:   false,
+
+					library:  media.query( _.defaults({
+						type: 'video'
+					}, options.library ) )
+				}),
+
+				new media.controller.CollectionEdit({
+					type: 'video',
+					collectionType: 'playlist',
+					title:          l10n.editVideoPlaylistTitle,
+					SettingsView:   media.view.Settings.Playlist,
+					library:        options.selection,
+					editing:        options.editing,
+					menu:           'video-playlist',
+					dragInfoText:   l10n.playlistDragInfo,
+					dragInfo:       false
+				}),
+
+				new media.controller.CollectionAdd({
+					type: 'video',
+					collectionType: 'playlist',
+					title: l10n.addToVideoPlaylistTitle
 				})
 			]);
-
-			counts = media.playlist.counts();
-
-			if ( counts.audio ) {
-				this.states.add( media.playlist.states(options) );
-			}
-
-			if ( counts.video ) {
-				this.states.add( media.playlist.videoStates(options) );
-			}
 
 			if ( media.view.settings.post.featuredImageId ) {
 				this.states.add( new media.controller.FeaturedImage() );
@@ -2422,10 +2481,13 @@
 
 						click: function() {
 							var controller = this.controller,
-								state = controller.state();
+								state = controller.state(),
+								library = state.get('library');
+
+							library.type = 'video';
 
 							controller.close();
-							state.trigger( 'update', state.get('library') );
+							state.trigger( 'update', library );
 
 							// Restore and reset the default state.
 							controller.setState( controller.options.state );

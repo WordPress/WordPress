@@ -405,6 +405,11 @@
 					attrs = _.pick( props, 'orderby', 'order' ),
 					shortcode, clone, self = this;
 
+				if ( attachments.type ) {
+					attrs.type = attachments.type;
+					delete attachments.type;
+				}
+
 				if ( attachments[this.tag] ) {
 					_.extend( attrs, attachments[this.tag].toJSON() );
 				}
@@ -477,7 +482,7 @@
 			edit: function( content ) {
 				var shortcode = wp.shortcode.next( this.tag, content ),
 					defaultPostId = this.defaults.id,
-					attachments, selection;
+					attachments, selection, state;
 
 				// Bail if we didn't match the shortcode or all of the content.
 				if ( ! shortcode || shortcode.content !== content ) {
@@ -514,10 +519,16 @@
 					this.frame.dispose();
 				}
 
-				// Store the current gallery frame.
+				if ( shortcode.attrs.named.type && 'video' === shortcode.attrs.named.type ) {
+					state = 'video-' + this.tag + '-edit';
+				} else {
+					state = this.tag + '-edit';
+				}
+
+				// Store the current frame.
 				this.frame = wp.media({
 					frame:     'post',
-					state:     this.tag + '-edit',
+					state:     state,
 					title:     this.editTitle,
 					editing:   true,
 					multiple:  true,
@@ -786,7 +797,7 @@
 				/**
 				 * @this wp.media.editor
 				 */
-				this.insert( wp.media['video-playlist'].shortcode( selection ).string() );
+				this.insert( wp.media.playlist.shortcode( selection ).string() );
 			}, this );
 
 			workflow.state('embed').on( 'select', function() {

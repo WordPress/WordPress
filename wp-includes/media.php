@@ -1072,16 +1072,11 @@ add_action( 'wp_playlist_scripts', 'wp_playlist_scripts' );
  * @since 3.9.0
  *
  * @param array  $attr Attributes of the shortcode.
- * @param string $type Type of playlist. Accepts 'audio' and 'video'.
  * @return string Playlist output. Empty string if the passed type is unsupported.
  */
-function wp_get_playlist( $attr, $type ) {
+function wp_playlist_shortcode( $attr ) {
 	global $content_width;
 	$post = get_post();
-
-	if ( ! in_array( $type, array( 'audio', 'video' ) ) ) {
-		return '';
-	}
 
 	static $instance = 0;
 	$instance++;
@@ -1106,7 +1101,7 @@ function wp_get_playlist( $attr, $type ) {
 	 * @param array  $attr   Array of shortcode attributes.
 	 * @param string $type   Type of playlist to generate output for.
 	 */
-	$output = apply_filters( 'post_playlist', '', $attr, $type );
+	$output = apply_filters( 'post_playlist', '', $attr );
 	if ( $output != '' ) {
 		return $output;
 	}
@@ -1122,14 +1117,15 @@ function wp_get_playlist( $attr, $type ) {
 	}
 
 	extract( shortcode_atts( array(
+		'type'		=> 'audio',
 		'order'		=> 'ASC',
 		'orderby'	=> 'menu_order ID',
 		'id'		=> $post ? $post->ID : 0,
 		'include'	=> '',
 		'exclude'   => '',
 		'style'		=> 'light',
-		'tracklist' => 'audio' === $type,
-		'tracknumbers' => 'audio' === $type,
+		'tracklist' => true,
+		'tracknumbers' => true,
 		'images'	=> true,
 		'artists'	=> true
 	), $attr, 'playlist' ) );
@@ -1137,24 +1133,6 @@ function wp_get_playlist( $attr, $type ) {
 	$id = intval( $id );
 	if ( 'RAND' == $order ) {
 		$orderby = 'none';
-	}
-
-	$playlist_styles = array(
-		'light' => _x( 'Light', 'playlist theme' ),
-		'dark'	=> _x( 'Dark', 'playlist theme' )
-	);
-
-	/**
-	 * Filter the available playlist styles.
-	 *
-	 * @since 3.9.0
-	 *
-	 * @param array $playlist_styles Array of playlist styles. Defaults are 'light' and 'dark'.
-	 */
-	$styles = apply_filters( 'playlist_styles', $playlist_styles );
-
-	if ( ! in_array( $style, array_keys( $styles ), true ) ) {
-		$style = 'light';
 	}
 
 	$args = array(
@@ -1202,7 +1180,7 @@ function wp_get_playlist( $attr, $type ) {
 	$theme_width = empty( $content_width ) ? $default_width : ( $content_width - $outer );
 	$theme_height = empty( $content_width ) ? $default_height : round( ( $default_height * $theme_width ) / $default_width );
 
-	$data = compact( 'type', 'style' );
+	$data = compact( 'type' );
 
 	// don't pass strings to JSON, will be truthy in JS
 	foreach ( array( 'tracklist', 'tracknumbers', 'images', 'artists' ) as $key ) {
@@ -1311,32 +1289,7 @@ function wp_get_playlist( $attr, $type ) {
 	<?php
 	return ob_get_clean();
 }
-
-/**
- * Playlist shortcode handler
- *
- * @since 3.9.0
- *
- * @param array $attr Parsed shortcode attributes.
- * @return string The resolved playlist shortcode markup.
- */
-function wp_playlist_shortcode( $attr ) {
-	return wp_get_playlist( $attr, 'audio' );
-}
 add_shortcode( 'playlist', 'wp_playlist_shortcode' );
-
-/**
- * Video playlist shortcode handler
- *
- * @since 3.9.0
- *
- * @param array $attr Parsed shortcode attributes.
- * @return string The resolved video playlist shortcode markup.
- */
-function wp_video_playlist_shortcode( $attr ) {
-	return wp_get_playlist( $attr, 'video' );
-}
-add_shortcode( 'video-playlist', 'wp_video_playlist_shortcode' );
 
 /**
  * Provide a No-JS Flash fallback as a last resort for audio / video
