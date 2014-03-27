@@ -186,7 +186,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	}
 
 	function updateImage( imageNode, imageData ) {
-		var className, width, node, html, captionNode, nodeToReplace, uid, editedImg;
+		var className, width, node, html, captionNode, nodeToReplace, uid, editedImg, id;
 
 		if ( imageData.caption ) {
 
@@ -199,11 +199,10 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			}
 
 			className = 'align' + imageData.align;
-
-			//TODO: shouldn't add the id attribute if it isn't an attachment
+			id = imageData.attachment_id ? 'id="attachment_'+ imageData.attachment_id +'" ' : '';
 
 			// should create a new function for generating the caption markup
-			html =  '<dl id="'+ imageData.attachment_id +'" class="wp-caption '+ className +'" style="width: '+ width +'px">' +
+			html =  '<dl ' + id + 'class="wp-caption '+ className +'" style="width: '+ width +'px">' +
 				'<dt class="wp-caption-dt">'+ html + '</dt><dd class="wp-caption-dd">'+ imageData.caption +'</dd></dl>';
 
 			node = editor.dom.create( 'div', { 'class': 'mceTemp' }, html );
