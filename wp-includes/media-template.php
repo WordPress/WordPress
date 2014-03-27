@@ -523,7 +523,11 @@ function wp_print_media_templates() {
 			<input type="checkbox" data-setting="tracklist" <# if ( emptyModel ) { #>
 				checked="checked"
 			<# } #> />
+			<# if ( 'audio' === data.model.type ) { #>
 			<span><?php _e( 'Show Tracklist' ); ?></span>
+			<# } else { #>
+			<span><?php _e( 'Show Video List' ); ?></span>
+			<# } #>
 		</label>
 
 		<# if ( 'audio' === data.model.type ) { #>
