@@ -50,16 +50,16 @@
 	right: auto !important;
 	max-width: 100%;
 }
+
 .customize-control-widget_form.wide-widget-control .widget-inside {
 	position: fixed;
 	right: 299px;
 	top: 25%;
-	padding: 20px;
 	border: 1px solid rgb(229, 229, 229);
-	z-index: -1;
+	overflow: auto;
 }
-.customize-control-widget_form.wide-widget-control.collapsing .widget-inside {
-	z-index: -2;
+.customize-control-widget_form.wide-widget-control .widget-inside > .form {
+	padding: 20px;
 }
 
 .customize-control-widget_form.wide-widget-control .widget-top {
