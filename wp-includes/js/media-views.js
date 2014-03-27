@@ -892,6 +892,10 @@
 		initialize: function() {
 			var collectionType = this.get('collectionType');
 
+			if ( 'video' === this.get( 'type' ) ) {
+				collectionType = 'video-' + collectionType;
+			}
+
 			this.set( 'id', collectionType + '-library' );
 			this.set( 'toolbar', collectionType + '-add' );
 			this.set( 'menu', collectionType );

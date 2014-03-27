@@ -2514,12 +2514,12 @@ function wp_enqueue_media( $args = array() ) {
  		// Playlist
  		'playlistDragInfo'    => __( 'Drag and drop to reorder tracks.' ),
  		'createPlaylistTitle' => __( 'Create Audio Playlist' ),
- 		'editPlaylistTitle'   => __( 'Edit Playlist' ),
- 		'cancelPlaylistTitle' => __( '&#8592; Cancel Playlist' ),
- 		'insertPlaylist'      => __( 'Insert playlist' ),
- 		'updatePlaylist'      => __( 'Update playlist' ),
- 		'addToPlaylist'       => __( 'Add to playlist' ),
- 		'addToPlaylistTitle'  => __( 'Add to Playlist' ),
+ 		'editPlaylistTitle'   => __( 'Edit Audio Playlist' ),
+ 		'cancelPlaylistTitle' => __( '&#8592; Cancel Audio Playlist' ),
+ 		'insertPlaylist'      => __( 'Insert audio playlist' ),
+ 		'updatePlaylist'      => __( 'Update audio playlist' ),
+ 		'addToPlaylist'       => __( 'Add to audio playlist' ),
+ 		'addToPlaylistTitle'  => __( 'Add to Audio Playlist' ),
 
  		// Video Playlist
  		'videoPlaylistDragInfo'    => __( 'Drag and drop to reorder videos.' ),
