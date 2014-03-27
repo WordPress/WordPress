@@ -5,7 +5,9 @@
 /* TinyMCE widgets/containers */
 
 .mce-container,
-.mce-widget {
+.mce-container *,
+.mce-widget,
+.mce-widget * {
 	color: inherit;
 	font-family: inherit;
 }
@@ -37,7 +39,6 @@
 
 .mce-window .mce-window-head .mce-title {
 	color: #444;
-	font-family: 'Open Sans', sans-serif;
 	font-size: 18px;
 	font-weight: 600;
 	line-height: 36px;
@@ -485,6 +486,14 @@ div.mce-menu .mce-menu-item-sep,
 }
 
 /* TinyMCE icons */
+.mce-ico {
+	font-family: 'tinymce', Arial;
+}
+
+.mce-btn-small .mce-ico {
+    font-family: 'tinymce-small', Arial;
+}
+
 .mce-toolbar .mce-ico {
 	color: #777;
 	line-height: 20px;
@@ -543,6 +552,7 @@ i.mce-i-wp_help,
 i.mce-i-wp-media-library,
 i.mce-i-ltr,
 i.mce-i-wp_page,
+i.mce-i-hr,
 .mce-close {
 	font: normal 20px/1 'dashicons';
 	padding: 0;
@@ -670,6 +680,10 @@ i.mce-i-ltr:before {
 
 i.mce-i-wp_page:before {
 	content: '\f105';
+}
+
+i.mce-i-hr:before {
+	content: '\f460';
 }
 
 .mce-close:before {
@@ -844,6 +858,7 @@ i.mce-i-wp_page:before {
 	padding: 2px 4px;
 	font: 12px/18px "Open Sans", sans-serif;
 	color: #464646;
+	cursor: pointer;
 	border: 1px solid #c3c3c3;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
