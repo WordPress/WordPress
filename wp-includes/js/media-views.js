@@ -761,6 +761,10 @@
 		initialize: function( options ) {
 			this.image = options.image;
 			media.controller.State.prototype.initialize.apply( this, arguments );
+		},
+
+		activate: function() {
+			this.frame.modal.$el.addClass('image-details');
 		}
 	});
 
@@ -2622,7 +2626,6 @@
 
 		},
 
-
 		renderMenu: function( view ) {
 			var lastState = this.lastState(),
 				previous = lastState && lastState.id,
@@ -2677,9 +2680,25 @@
 		},
 
 		renderReplaceImageToolbar: function() {
+			var frame = this,
+				lastState = frame.lastState(),
+				previous = lastState && lastState.id;
+
 			this.toolbar.set( new media.view.Toolbar({
 				controller: this,
 				items: {
+					back: {
+						text:     l10n.back,
+						priority: 20,
+						click:    function() {
+							if ( previous ) {
+								frame.setState( previous );
+							} else {
+								frame.close();
+							}
+						}
+					},
+
 					replace: {
 						style:    'primary',
 						text:     l10n.replace,
@@ -5970,13 +5989,16 @@
 		className: 'image-details',
 		template:  media.template('image-details'),
 		events: _.defaults( media.view.Settings.AttachmentDisplay.prototype.events, {
-			'click .edit-attachment': 'editAttachment'
+			'click .edit-attachment': 'editAttachment',
+			'click .replace-attachment': 'replaceAttachment',
+			'click .show-advanced': 'showAdvanced'
 		} ),
 		initialize: function() {
 			// used in AttachmentDisplay.prototype.updateLinkTo
 			this.options.attachment = this.model.attachment;
 			if ( this.model.attachment ) {
-				this.listenTo( this.model.attachment, 'change:url', this.updateUrl );
+				this.listenTo( this.model, 'change:url', this.updateUrl );
+				this.listenTo( this.model, 'change:link', this.toggleLinkSettings );
 			}
 			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
 		},
@@ -6001,27 +6023,45 @@
 				this.model.dfd.done( function() {
 					media.view.Settings.AttachmentDisplay.prototype.render.apply( self, args );
 					self.resetFocus();
+					self.toggleLinkSettings();
 				} ).fail( function() {
 					self.model.attachment = false;
 					media.view.Settings.AttachmentDisplay.prototype.render.apply( self, args );
 					self.resetFocus();
+					self.toggleLinkSettings();
 				} );
 			} else {
 				media.view.Settings.AttachmentDisplay.prototype.render.apply( this, arguments );
 				setTimeout( function() { self.resetFocus(); }, 10 );
+				self.toggleLinkSettings();
 			}
 
 			return this;
 		},
 
 		resetFocus: function() {
-			this.$( '.caption textarea' ).focus();
-			this.$( '.embed-image-settings' ).scrollTop( 0 );
+			this.$( '.link-to-custom' ).blur();
+			this.$( '.embed-media-settings' ).scrollTop( 0 );
 		},
 
 		updateUrl: function() {
-			this.$( '.thumbnail img' ).attr( 'src', this.model.get('url' ) );
+			this.$( '.image img' ).attr( 'src', this.model.get('url' ) );
 			this.$( '.url' ).val( this.model.get('url' ) );
+		},
+
+		toggleLinkSettings: function() {
+			if ( this.model.get( 'link' ) === 'none' ) {
+				this.$( '.link-settings' ).addClass('hidden');
+			} else {
+				this.$( '.link-settings' ).removeClass('hidden');
+			}
+		},
+
+		showAdvanced: function( event ) {
+			event.preventDefault();
+			$( event.target ).closest('.advanced')
+				.find( '.hidden' ).removeClass( 'hidden' );
+			$( event.target ).remove();
 		},
 
 		editAttachment: function( event ) {
@@ -6032,6 +6072,11 @@
 				editState.set( 'image', this.model.attachment );
 				this.controller.setState( 'edit-image' );
 			}
+		},
+
+		replaceAttachment: function( event ) {
+			event.preventDefault();
+			this.controller.setState( 'replace-image' );
 		}
 	});
 

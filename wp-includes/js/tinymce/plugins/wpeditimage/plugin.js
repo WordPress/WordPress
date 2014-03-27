@@ -114,7 +114,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	}
 
 	function extractImageData( imageNode ) {
-		var classes, metadata, captionBlock, caption,
+		var classes, metadata, captionBlock, caption, link,
 			dom = editor.dom;
 
 		// default attributes
@@ -123,25 +123,27 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			url: false,
 			height: '',
 			width: '',
-			size: 'none',
+			size: false,
 			caption: '',
 			alt: '',
 			align: 'none',
 			link: false,
-			linkUrl: ''
+			linkUrl: '',
+			linkClassName: '',
+			linkTargetBlank: false,
+			linkRel: '',
+			title: '',
+			className: ''
 		};
 
 		metadata.url = dom.getAttrib( imageNode, 'src' );
 		metadata.alt = dom.getAttrib( imageNode, 'alt' );
+		metadata.title = dom.getAttrib( imageNode, 'title' );
 		metadata.width = parseInt( dom.getAttrib( imageNode, 'width' ), 10 );
 		metadata.height = parseInt( dom.getAttrib( imageNode, 'height' ), 10 );
+		metadata.className = imageNode.className;
 
-		//TODO: probably should capture attributes on both the <img /> and the <a /> so that they can be restored
-		// when the image and/or caption are updated
-		// maybe use getAttribs()
-
-		// extract meta data from classes (candidate for turning into a method)
-		classes = imageNode.className.split( ' ' );
+		classes = metadata.className.split( ' ' );
 		tinymce.each( classes, function( name ) {
 
 			if ( /^wp-image/.test( name ) ) {
@@ -157,7 +159,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			}
 		} );
 
-		// extract caption
+		// Extract caption
 		captionBlock = dom.getParents( imageNode, '.wp-caption' );
 
 		if ( captionBlock.length ) {
@@ -173,15 +175,19 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			caption = dom.select( 'dd.wp-caption-dd', captionBlock );
 			if ( caption.length ) {
 				caption = caption[0];
-				// need to do some more thinking about this
+
 				metadata.caption = editor.serializer.serialize( caption )
 					.replace( /<br[^>]*>/g, '$&\n' ).replace( /^<p>/, '' ).replace( /<\/p>$/, '' );
 			}
 		}
 
-		// extract linkTo
+		// Extract linkTo
 		if ( imageNode.parentNode && imageNode.parentNode.nodeName === 'A' ) {
-			metadata.linkUrl = dom.getAttrib( imageNode.parentNode, 'href' );
+			link = imageNode.parentNode;
+			metadata.linkUrl = dom.getAttrib( link, 'href' );
+			metadata.linkTargetBlank = dom.getAttrib( link, 'target' ) === '_blank' ? true : false;
+			metadata.linkRel = dom.getAttrib( link, 'rel' );
+			metadata.linkClassName = link.className;
 		}
 
 		return metadata;
@@ -223,7 +229,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				nodeToReplace = imageNode.parentNode;
 			}
 		}
-		// uniqueId isn't super exciting, so maybe we want to use something else
+
 		uid = editor.dom.uniqueId( 'wp_' );
 		editor.dom.setAttrib( node, 'data-wp-replace-id', uid );
 		editor.dom.replace( node, nodeToReplace );
@@ -246,7 +252,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 	function createImageAndLink( imageData, mode ) {
 		var classes = [],
-			props;
+			attrs, linkAttrs;
 
 		mode = mode ? mode : 'node';
 
@@ -261,27 +267,46 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			}
 		}
 
-		props = {
+		attrs = {
 			src: imageData.url,
 			width: imageData.width,
 			height: imageData.height,
-			alt: imageData.alt
+			alt: imageData.alt,
+			title: imageData.title || null
 		};
 
 		if ( classes.length ) {
-			props['class'] = classes.join( ' ' );
+			attrs['class'] = classes.join( ' ' );
 		}
 
 		if ( imageData.linkUrl ) {
-			if ( mode === 'node' ) {
-				return editor.dom.create( 'a', { href: imageData.linkUrl }, editor.dom.createHTML( 'img', props ) );
-			} else if ( mode === 'html' ) {
-				return editor.dom.createHTML( 'a', { href: imageData.linkUrl }, editor.dom.createHTML( 'img', props ) );
+
+			linkAttrs = {
+				href: imageData.linkUrl
+			};
+
+			if ( imageData.linkRel ) {
+				linkAttrs.rel = imageData.linkRel;
 			}
+
+			if ( imageData.linkTargetBlank ) {
+				linkAttrs.target = '_blank';
+			}
+
+			if ( imageData.linkClassName ) {
+				linkAttrs['class'] = imageData.linkClassName;
+			}
+
+			if ( mode === 'node' ) {
+				return editor.dom.create( 'a', linkAttrs, editor.dom.createHTML( 'img', attrs ) );
+			} else if ( mode === 'html' ) {
+				return editor.dom.createHTML( 'a', linkAttrs, editor.dom.createHTML( 'img', attrs ) );
+			}
+
 		} else if ( mode === 'node' ) {
-			return editor.dom.create( 'img', props );
+			return editor.dom.create( 'img', attrs );
 		} else if ( mode === 'html' ) {
-			return editor.dom.createHTML( 'img', props );
+			return editor.dom.createHTML( 'img', attrs );
 		}
 	}
 

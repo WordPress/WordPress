@@ -638,101 +638,133 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-image-details">
-		<?php // reusing .media-embed to pick up the styles for now ?>
 		<div class="media-embed">
 			<div class="embed-media-settings">
-				<div class="thumbnail">
-					<img src="{{ data.model.url }}" draggable="false" />
-				</div>
-				<# if ( data.attachment && window.imageEdit ) { #>
-					<input type="button" class="edit-attachment button" value="<?php esc_attr_e( 'Edit Image' ); ?>" />
-				<# } #>
+				<div class="column-settings">
+					<?php
+					/** This filter is documented in wp-admin/includes/media.php */
+					if ( ! apply_filters( 'disable_captions', '' ) ) : ?>
+						<label class="setting caption">
+							<span><?php _e('Caption'); ?></span>
+							<textarea data-setting="caption">{{ data.model.caption }}</textarea>
+						</label>
+					<?php endif; ?>
 
-				<div class="setting url">
-					<?php // might want to make the url editable if it isn't an attachment ?>
-					<input type="text" disabled="disabled" value="{{ data.model.url }}" />
-				</div>
-
-				<?php
-				/** This filter is documented in wp-admin/includes/media.php */
-				if ( ! apply_filters( 'disable_captions', '' ) ) : ?>
-					<label class="setting caption">
-						<span><?php _e('Caption'); ?></span>
-						<textarea data-setting="caption">{{ data.model.caption }}</textarea>
+					<label class="setting alt-text">
+						<span><?php _e('Alternative Text'); ?></span>
+						<input type="text" data-setting="alt" value="{{ data.model.alt }}" />
 					</label>
-				<?php endif; ?>
 
-				<label class="setting alt-text">
-					<span><?php _e('Alt Text'); ?></span>
-					<input type="text" data-setting="alt" value="{{ data.model.alt }}" />
-				</label>
-
-				<div class="setting align">
-					<span><?php _e('Align'); ?></span>
-					<div class="button-group button-large" data-setting="align">
-						<button class="button" value="left">
-							<?php esc_attr_e('Left'); ?>
-						</button>
-						<button class="button" value="center">
-							<?php esc_attr_e('Center'); ?>
-						</button>
-						<button class="button" value="right">
-							<?php esc_attr_e('Right'); ?>
-						</button>
-						<button class="button active" value="none">
-							<?php esc_attr_e('None'); ?>
-						</button>
-					</div>
-				</div>
-				<div class="setting link-to">
-					<span><?php _e('Link To'); ?></span>
-					<div class="button-group button-large" data-setting="link">
-					<# if ( data.attachment ) { #>
-						<button class="button" value="file">
-							<?php esc_attr_e('Media File'); ?>
-						</button>
-						<button class="button" value="post">
-							<?php esc_attr_e('Attachment Page'); ?>
-						</button>
-					<# } else { #>
-						<button class="button" value="file">
-							<?php esc_attr_e('Image URL'); ?>
-						</button>
-					<# } #>
-						<button class="button" value="custom">
-							<?php esc_attr_e('Custom URL'); ?>
-						</button>
-						<button class="button active" value="none">
-							<?php esc_attr_e('None'); ?>
-						</button>
-					</div>
-					<input type="text" class="link-to-custom" data-setting="linkUrl" />
-				</div>
-
-				<# if ( data.attachment ) { #>
-					<div class="setting size">
-						<span><?php _e('Size'); ?></span>
-						<div class="button-group button-large" data-setting="size">
-						<?php
-							/** This filter is documented in wp-admin/includes/media.php */
-							$sizes = apply_filters( 'image_size_names_choose', array(
-								'thumbnail' => __('Thumbnail'),
-								'medium'    => __('Medium'),
-								'large'     => __('Large'),
-								'full'      => __('Full Size'),
-							) );
-
-							foreach ( $sizes as $value => $name ) : ?>
-								<# var size = data.attachment.sizes['<?php echo esc_js( $value ); ?>'];
-								if ( size ) { #>
-									<button class="button" value="<?php echo esc_attr( $value ); ?>">
-										<?php echo esc_html( $name ); ?>
-										</button>
-								<# } #>
-							<?php endforeach; ?>
+					<div class="setting advanced">
+						<a class="show-advanced" href="#"><?php _e('show advanced'); ?></a>
+						<div class="hidden">
+							<label class="setting title-text">
+								<span><?php _e('Title Attribute'); ?></span>
+								<input type="text" data-setting="title" value="{{ data.model.title }}" />
+							</label>
 						</div>
 					</div>
-				<# } #>
+
+					<div class="setting align">
+						<span><?php _e('Align'); ?></span>
+						<div class="button-group button-large" data-setting="align">
+							<button class="button" value="left">
+								<?php esc_attr_e('Left'); ?>
+							</button>
+							<button class="button" value="center">
+								<?php esc_attr_e('Center'); ?>
+							</button>
+							<button class="button" value="right">
+								<?php esc_attr_e('Right'); ?>
+							</button>
+							<button class="button active" value="none">
+								<?php esc_attr_e('None'); ?>
+							</button>
+						</div>
+					</div>
+
+					<# if ( data.attachment ) { #>
+						<div class="setting size">
+							<span><?php _e('Size'); ?></span>
+							<div class="button-group button-large" data-setting="size">
+							<?php
+								/** This filter is documented in wp-admin/includes/media.php */
+								$sizes = apply_filters( 'image_size_names_choose', array(
+									'thumbnail' => __('Thumbnail'),
+									'medium'    => __('Medium'),
+									'large'     => __('Large'),
+									'full'      => __('Full Size'),
+								) );
+
+								foreach ( $sizes as $value => $name ) : ?>
+									<# var size = data.attachment.sizes['<?php echo esc_js( $value ); ?>'];
+									if ( size ) { #>
+										<button class="button" value="<?php echo esc_attr( $value ); ?>">
+											<?php echo esc_html( $name ); ?>
+											</button>
+									<# } #>
+								<?php endforeach; ?>
+							</div>
+						</div>
+					<# } #>
+
+					<div class="setting link-to">
+						<span><?php _e('Link To'); ?></span>
+						<div class="button-group button-large" data-setting="link">
+						<# if ( data.attachment ) { #>
+							<button class="button" value="file">
+								<?php esc_attr_e('Media File'); ?>
+							</button>
+							<button class="button" value="post">
+								<?php esc_attr_e('Attachment Page'); ?>
+							</button>
+						<# } else { #>
+							<button class="button" value="file">
+								<?php esc_attr_e('Image URL'); ?>
+							</button>
+						<# } #>
+							<button class="button" value="custom">
+								<?php esc_attr_e('Custom URL'); ?>
+							</button>
+							<button class="button active" value="none">
+								<?php esc_attr_e('None'); ?>
+							</button>
+						</div>
+						<input type="text" class="link-to-custom" data-setting="linkUrl" />
+					</div>
+
+
+					<div class="setting link-settings">
+						<div class="setting link-target">
+							<label><input type="checkbox" data-setting="linkTargetBlank" value="_blank" <# if ( data.model.linkTargetBlank ) { #>checked="checked"<# } #>><?php _e( 'Open link in a new window/tab' ); ?></label>
+						</div>
+						<div class="advanced">
+							<a class="show-advanced" href="#"><?php _e('show advanced'); ?></a>
+							<div class="hidden">
+								<label class="setting link-rel">
+									<span><?php _e('Link Rel'); ?></span>
+									<input type="text" data-setting="linkRel" value="{{ data.model.linkClassName }}" />
+								</label>
+								<label class="setting link-class-name">
+									<span><?php _e('CSS Class'); ?></span>
+									<input type="text" data-setting="linkClassName" value="{{ data.model.linkClassName }}" />
+								</label>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="column-image">
+					<div class="image">
+						<img src="{{ data.model.url }}" draggable="false" />
+					</div>
+					<# if ( data.attachment && window.imageEdit ) { #>
+						<div class="actions">
+							<input type="button" class="edit-attachment button" value="<?php esc_attr_e( 'Edit Original' ); ?>" />
+							<input type="button" class="replace-attachment button" value="<?php esc_attr_e( 'Replace' ); ?>" />
+						</div>
+					<# } #>
+				</div>
 			</div>
 		</div>
 	</script>
