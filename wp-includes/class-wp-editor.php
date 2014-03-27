@@ -955,10 +955,11 @@ final class _WP_Editors {
 			}
 
 			$onclick = ! empty( $args['onclick'] ) ? ' onclick="' . $args['onclick'] . '"' : '';
+			$title = esc_attr( $args['title'] );
 			?>
 
 			<div class="mce-widget mce-btn<?php if ( $args['both'] ) { ?> wp-fullscreen-both<?php } ?>">
-			<button type="button" role="presentation" title="<?php echo $args['title']; ?>"<?php echo $onclick; ?> id="wp_fs_<?php echo $button; ?>">
+			<button type="button" aria-label="<?php echo $title; ?>" title="<?php echo $title; ?>"<?php echo $onclick; ?> id="wp_fs_<?php echo $button; ?>">
 				<i class="mce-ico mce-i-<?php echo $button; ?>"></i>
 			</button>
 			</div>
