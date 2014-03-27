@@ -3742,7 +3742,7 @@ function get_pages( $args = array() ) {
 		'sort_column' => 'post_title', 'hierarchical' => 1,
 		'exclude' => array(), 'include' => array(),
 		'meta_key' => '', 'meta_value' => '',
-		'authors' => '', 'parent' => -1, 'exclude_tree' => '',
+		'authors' => '', 'parent' => -1, 'exclude_tree' => array(),
 		'number' => '', 'offset' => 0,
 		'post_type' => 'page', 'post_status' => 'publish',
 	);
@@ -3924,17 +3924,20 @@ function get_pages( $args = array() ) {
 	if ( $child_of || $hierarchical )
 		$pages = get_page_children($child_of, $pages);
 
-	if ( !empty($exclude_tree) ) {
-		$exclude = (int) $exclude_tree;
-		$children = get_page_children($exclude, $pages);
-		$excludes = array();
-		foreach ( $children as $child )
-			$excludes[] = $child->ID;
-		$excludes[] = $exclude;
-		$num_pages = count($pages);
+	if ( ! empty( $exclude_tree ) ) {
+		$exclude = wp_parse_id_list( $exclude_tree );
+		foreach( $exclude as $id ) {
+			$children = get_page_children( $id, $pages );
+			foreach ( $children as $child ) {
+				$exclude[] = $child->ID;
+			}
+		}
+
+		$num_pages = count( $pages );
 		for ( $i = 0; $i < $num_pages; $i++ ) {
-			if ( in_array($pages[$i]->ID, $excludes) )
-				unset($pages[$i]);
+			if ( in_array( $pages[$i]->ID, $exclude ) ) {
+				unset( $pages[$i] );
+			}
 		}
 	}
 
