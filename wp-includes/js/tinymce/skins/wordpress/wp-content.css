@@ -271,7 +271,12 @@ audio {
 
 /* Audio player is short; therefore let's put the toolbar above */
 .wpview-type-audio .toolbar {
-	top: -41px;
+	top: auto;
+	bottom: -34px;
+}
+
+.wpview-type-audio .toolbar div {
+	margin-top: 0;
 }
 
 .wpview-type-audio .toolbar div:first-child {
