@@ -526,13 +526,6 @@ function wp_print_media_templates() {
 			<span><?php _e( 'Show Tracklist' ); ?></span>
 		</label>
 
-		<label class="setting">
-			<input type="checkbox" data-setting="tracknumbers" <# if ( emptyModel ) { #>
-				checked="checked"
-			<# } #> />
-			<span><?php _e( 'Show Track Numbers' ); ?></span>
-		</label>
-
 		<# if ( 'audio' === data.model.type ) { #>
 		<label class="setting">
 			<input type="checkbox" data-setting="artists" <# if ( emptyModel ) { #>
