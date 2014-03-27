@@ -2380,6 +2380,16 @@ function wp_enqueue_media( $args = array() ) {
 		}
 	}
 
+	$audio = $video = 0;
+	$counts = wp_count_attachments();
+	foreach ( $counts as $mime => $total ) {
+		if ( 0 === strpos( $mime, 'audio/' ) ) {
+			$audio += (int) $total;
+		} elseif ( 0 === strpos( $mime, 'video/' ) ) {
+			$video += (int) $total;
+		}
+	}
+
 	$settings = array(
 		'tabs'      => $tabs,
 		'tabUrl'    => add_query_arg( array( 'chromeless' => true ), admin_url('media-upload.php') ),
@@ -2392,7 +2402,10 @@ function wp_enqueue_media( $args = array() ) {
 			'id' => 0,
 		),
 		'defaultProps' => $props,
-		'attachmentCounts' => wp_count_attachments(),
+		'attachmentCounts' => array(
+			'audio' => $audio,
+			'video' => $video
+		),
 		'embedExts'    => $exts,
 		'embedMimes'   => $ext_mimes,
 		'contentWidth' => $content_width,

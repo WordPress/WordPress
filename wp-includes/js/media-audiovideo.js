@@ -902,50 +902,6 @@
 		}
 	});
 
-	_.extend( wp.media.playlist, {
-		/**
-		 * Determine how many audio and video files the user has uploaded
-		 *
-		 * @global wp.media.view.settings
-		 *
-		 * @param {Object} settings
-		 * @returns {Object}
-		 */
-		counts : (function(settings) {
-			var counts = {};
-
-			return  function() {
-				if ( ! _.isEmpty( counts ) ) {
-					return counts;
-				}
-
-				var a = 0, v = 0;
-				_.each( settings.attachmentCounts, function(total, mime) {
-					var type;
-					if ( -1 < mime.indexOf('/') ) {
-						type = mime.split('/')[0];
-
-						total = parseInt(total, 10);
-
-						switch ( type ) {
-							case 'audio':
-								a += total;
-							break;
-							case 'video':
-								v += total;
-							break;
-						}
-					}
-				} );
-
-				counts.audio = a;
-				counts.video = v;
-				
-				return counts;
-			};
-		}(media.view.settings))
-	} );
-
 	/**
 	 * Event binding
 	 */
