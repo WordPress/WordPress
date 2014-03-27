@@ -1838,6 +1838,7 @@ div.action-links {
 	line-height: 18px;
 	font-size: 14px;
 	text-decoration: none;
+	-webkit-transition: none;
 	transition: none;
 }
 

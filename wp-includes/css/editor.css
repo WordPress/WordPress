@@ -197,8 +197,6 @@ div.mce-statusbar {
 	background: #eee;
 	background-image: -webkit-gradient(linear, left bottom, left top, from(#f6f6f6), to(#e3e3e3));
 	background-image: -webkit-linear-gradient(bottom, #f6f6f6, #e3e3e3);
-	background-image:    -moz-linear-gradient(bottom, #f6f6f6, #e3e3e3);
-	background-image:      -o-linear-gradient(bottom, #f6f6f6, #e3e3e3);
 	background-image: linear-gradient(to top, #f6f6f6, #e3e3e3);
 }
 
@@ -933,6 +931,7 @@ i.mce-i-wp_page:before {
 	top: 50%;
 	left: 50%;
 	z-index: 100105;
+	-webkit-transition: height 0.2s, margin-top 0.2s;
 	transition: height 0.2s, margin-top 0.2s;
 }
 
@@ -1153,6 +1152,7 @@ i.mce-i-wp_page:before {
 #wp-link .item-title {
 	display: inline-block;
 	width: 80%;
+	width: -webkit-calc(100% - 68px);
 	width: calc(100% - 68px);
 }
 
@@ -1243,6 +1243,7 @@ i.mce-i-wp_page:before {
 
 @media screen and ( max-height: 520px ) {
 	#wp-link-wrap {
+		-webkit-transition: none;
 		transition: none;
 	}
 
@@ -1272,6 +1273,7 @@ i.mce-i-wp_page:before {
 
 	#link-selector {
 		overflow: auto;
+		height: -webkit-calc(100% - 92px);
 		height: calc(100% - 92px);
 		padding-bottom: 2px;
 	}
