@@ -77,21 +77,23 @@
 	border-bottom: none;
 }
 
-.mce-textbox {
+.mce-textbox,
+.mce-checkbox i.mce-i-checkbox {
 	border: 1px solid #ddd;
 	-webkit-border-radius: 0;
 	border-radius: 0;
 	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
 	box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
-	-webkit-transition: none;
-	transition: none;
+	-webkit-transition: .05s border-color ease-in-out;
+	transition: .05s border-color ease-in-out;
 }
 
 .mce-textbox:focus,
-.mce-textbox.mce-focus {
-	border-color: #999;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+.mce-textbox.mce-focus,
+.mce-checkbox:focus i.mce-i-checkbox {
+	border-color: #5b9dd9;
+	-webkit-box-shadow: 0 0 2px rgba(30,140,190,0.8);
+	box-shadow: 0 0 2px rgba(30,140,190,0.8);
 }
 
 /* TinyMCE menus */
