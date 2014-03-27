@@ -211,12 +211,16 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	/**
 	 * Resizes current image.
 	 *
+	 * At minimum, either a height or width must be provided.
+	 * If one of the two is set to null, the resize will
+	 * maintain aspect ratio according to the provided dimension.
+	 *
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @param int $max_w
-	 * @param int $max_h
-	 * @param boolean $crop
+	 * @param  int|null $max_w Image width.
+	 * @param  int|null $max_h Image height.
+	 * @param  boolean  $crop
 	 * @return boolean|WP_Error
 	 */
 	public function resize( $max_w, $max_h, $crop = false ) {
@@ -255,13 +259,17 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @param array $sizes {
 	 *     An array of image size arrays. Default sizes are 'small', 'medium', 'large'.
 	 *
+	 *     Either a height or width must be provided.
+	 *     If one of the two is set to null, the resize will
+	 *     maintain aspect ratio according to the provided dimension.
+	 *
 	 *     @type array $size {
-	 *         @type int  $width  Image width.
-	 *         @type int  $height Image height.
+	 *         @type int  ['width']  Optional. Image width.
+	 *         @type int  ['height'] Optional. Image height.
 	 *         @type bool $crop   Optional. Whether to crop the image. Default false.
 	 *     }
 	 * }
-	 * @return array An array of resized images metadata by size.
+	 * @return array An array of resized images' metadata by size.
 	 */
 	public function multi_resize( $sizes ) {
 		$metadata = array();
@@ -272,11 +280,20 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			if ( ! $this->image )
 				$this->image = $orig_image->getImage();
 
-			if ( ! ( isset( $size_data['width'] ) && isset( $size_data['height'] ) ) )
+			if ( ! isset( $size_data['width'] ) && ! isset( $size_data['height'] ) ) {
 				continue;
+			}
 
-			if ( ! isset( $size_data['crop'] ) )
+			if ( ! isset( $size_data['width'] ) ) {
+				$size_data['width'] = null;
+			}
+			if ( ! isset( $size_data['height'] ) ) {
+				$size_data['height'] = null;
+			}
+
+			if ( ! isset( $size_data['crop'] ) ) {
 				$size_data['crop'] = false;
+			}
 
 			$resize_result = $this->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
