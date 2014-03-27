@@ -1615,6 +1615,7 @@
 	-ms-transform: translateY( -50% );
 	transform: translateY( -50% );
 	font-size: 3em;
+	line-height: 1.3;
 	font-weight: bold;
 	color: #fff;
 	padding: 0;
