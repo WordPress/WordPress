@@ -275,6 +275,13 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 .theme-overlay .theme-header .close:hover, .theme-overlay .theme-header .right:hover, .theme-overlay .theme-header .left:hover {
   background: #04a4cc; }
 
+.theme-section.current, .theme-filter.current {
+  border-bottom-color: #e5e5e5; }
+
+body.more-filters-opened .more-filters, body.more-filters-opened .more-filters:before {
+  color: #fff;
+  background-color: #888; }
+
 /* jQuery UI Slider */
 .wp-slider .ui-slider-handle, .wp-slider .ui-slider-handle.ui-state-hover, .wp-slider .ui-slider-handle.focus {
   background: #04a4cc;
@@ -307,3 +314,7 @@ div#wp-responsive-toggle a:before {
 /* temporary fix for admin-bar hover color */
 #wpadminbar .ab-top-menu > li:hover > .ab-item, #wpadminbar .ab-top-menu > li.hover > .ab-item, #wpadminbar > #wp-toolbar > #wp-admin-bar-root-default li:hover span.ab-label, #wpadminbar > #wp-toolbar > #wp-admin-bar-top-secondary li.hover span.ab-label, #wpadminbar .ab-top-menu > li > .ab-item:focus, #wpadminbar.nojq .quicklinks .ab-top-menu > li > .ab-item:focus, #wpadminbar-nojs .ab-top-menu > li.menupop:hover > .ab-item, #wpadminbar .ab-top-menu > li.menupop.hover > .ab-item {
   color: #333; }
+
+/* Override the theme filter highlight color for this scheme */
+.theme-section.current, .theme-filter.current {
+  border-bottom-color: #04a4cc; }

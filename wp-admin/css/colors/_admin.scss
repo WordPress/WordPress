@@ -31,11 +31,11 @@ div.dashboard-widget-submit input:hover,
 /* Forms */
 
 input[type=checkbox]:checked:before {
-    color: $form-checked;
+	color: $form-checked;
 }
 
 input[type=radio]:checked:before {
-    background: $form-checked;
+	background: $form-checked;
 }
 
 .wp-core-ui input[type="reset"]:hover,
@@ -430,6 +430,17 @@ ul#adminmenu > li.current > a.current:after {
 .theme-overlay .theme-header .right:hover,
 .theme-overlay .theme-header .left:hover {
 	background: $highlight-color;
+}
+
+.theme-section.current,
+.theme-filter.current {
+	border-bottom-color: $menu-background;
+}
+
+body.more-filters-opened .more-filters,
+body.more-filters-opened .more-filters:before {
+	color: $menu-highlight-text;
+	background-color: $menu-highlight-background;
 }
 
 /* jQuery UI Slider */

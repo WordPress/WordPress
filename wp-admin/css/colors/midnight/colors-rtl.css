@@ -275,6 +275,13 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 .theme-overlay .theme-header .close:hover, .theme-overlay .theme-header .right:hover, .theme-overlay .theme-header .left:hover {
   background: #e14d43; }
 
+.theme-section.current, .theme-filter.current {
+  border-bottom-color: #363b3f; }
+
+body.more-filters-opened .more-filters, body.more-filters-opened .more-filters:before {
+  color: #fff;
+  background-color: #e14d43; }
+
 /* jQuery UI Slider */
 .wp-slider .ui-slider-handle, .wp-slider .ui-slider-handle.ui-state-hover, .wp-slider .ui-slider-handle.focus {
   background: #e14d43;
