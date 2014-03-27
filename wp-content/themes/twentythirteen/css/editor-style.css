@@ -344,12 +344,34 @@ img {
 	text-align: left;
 }
 
+.html5-captions .wp-caption {
+	padding: 0;
+}
+
 .wp-caption.alignleft {
 	margin: 5px 10px 5px 0;
 }
 
+.html5-captions .wp-caption.alignleft {
+	margin-right: 20px;
+}
+
 .wp-caption.alignright {
 	margin: 5px 0 5px 10px;
+}
+
+.wp-caption.alignright img,
+.wp-caption.alignright .wp-caption-dd {
+	padding-left: 10px;
+}
+
+.html5-captions .wp-caption.alignright {
+	margin-left: 20px;
+}
+
+.html5-captions .wp-caption.alignright img,
+.html5-captions .wp-caption.alignright .wp-caption-dd {
+	padding: 0;
 }
 
 .wp-caption-dt {

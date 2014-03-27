@@ -709,6 +709,7 @@ video {
 	margin-right: auto;
 }
 
+figure.wp-caption.alignleft,
 img.alignleft {
 	margin: 5px 20px 5px 0;
 }
@@ -717,6 +718,7 @@ img.alignleft {
 	margin: 5px 10px 5px 0;
 }
 
+figure.wp-caption.alignright,
 img.alignright {
 	margin: 5px 0 5px 20px;
 }
@@ -740,6 +742,15 @@ img.alignnone {
 	font-size: 18px;
 	font-style: italic;
 	font-weight: 300;
+	margin: 0 0 24px;
+}
+
+div.wp-caption.alignright img[class*="wp-image-"] {
+	float: right;
+}
+
+div.wp-caption.alignright .wp-caption-text {
+	padding-left: 10px;
 }
 
 img.wp-smiley,
