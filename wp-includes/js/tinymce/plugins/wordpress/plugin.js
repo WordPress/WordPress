@@ -270,8 +270,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	});
 
 	editor.on( 'init', function() {
-		var env = tinymce.Env, topx, reset,
-			deltax = 0,
+		var env = tinymce.Env,
 			bodyClass = ['mceContentBody'], // back-compat for themes that use this in editor-style.css...
 			doc = editor.getDoc(),
 			dom = editor.dom;

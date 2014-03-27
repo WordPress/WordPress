@@ -374,8 +374,7 @@ $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
 }(jQuery));
 
 jQuery(document).ready( function($) {
-	var stamp, visibility, $submitButtons, updateVisibility, updateText, $content, topx, reset,
-		deltax = 0,
+	var stamp, visibility, $submitButtons, updateVisibility, updateText,
 		sticky = '',
 		last = 0,
 		co = $('#content'),
