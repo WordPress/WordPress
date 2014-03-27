@@ -180,8 +180,7 @@ div.mce-statusbar {
 }
 
 #wp-fullscreen-buttons .mce-btn:hover,
-.mce-toolbar .mce-btn-group .mce-btn:hover,
-.mce-toolbar .mce-btn-group .mce-btn.mce-active {
+.mce-toolbar .mce-btn-group .mce-btn:hover {
 	-webkit-box-shadow: 0 0 transparent;
 	box-shadow: 0 0 transparent;
 	border-color: #bbb;
@@ -189,6 +188,18 @@ div.mce-statusbar {
 	background-image: -webkit-gradient(linear, right bottom, right top, from(#e5e5e5), to(#fff));
 	background-image: -webkit-linear-gradient(bottom, #e5e5e5, #fff);
 	background-image: linear-gradient(to top, #e5e5e5, #fff);
+}
+
+.mce-toolbar .mce-btn-group .mce-btn.mce-active {
+	-webkit-box-shadow: 0 0 transparent;
+	box-shadow: 0 0 transparent;
+	border-color: #bbb;
+	background: #eee;
+	background-image: -webkit-gradient(linear, right bottom, right top, from(#f6f6f6), to(#e3e3e3));
+	background-image: -webkit-linear-gradient(bottom, #f6f6f6, #e3e3e3);
+	background-image:    -moz-linear-gradient(bottom, #f6f6f6, #e3e3e3);
+	background-image:      -o-linear-gradient(bottom, #f6f6f6, #e3e3e3);
+	background-image: linear-gradient(to top, #f6f6f6, #e3e3e3);
 }
 
 .mce-toolbar .mce-btn-group .mce-disabled.mce-btn:hover {
