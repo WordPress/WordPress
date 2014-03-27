@@ -182,7 +182,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			url: tinymce.baseURL + '/wp-mce-help.php',
 			width: 450,
 			height: 420,
-			inline: 1
+			inline: 1,
+			classes: 'wp-help'
 		});
 	});
 

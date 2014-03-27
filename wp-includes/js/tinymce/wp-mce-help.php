@@ -27,51 +27,35 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 		min-width: 0;
 	}
 
-	#tabs-wrap {
+	.wp-core-ui #tabs {
+		margin-top: 1px;
+		padding: 0 6px;
 		position: absolute;
 		top: 0;
+		right: 0;
+		left: 0;
+		height: 31px;
+		z-index: 1;
 	}
 
-	#tabs {
-		box-shadow: 0 3px 5px rgba( 255, 255, 255, 0.2 );
-		margin: 0;
-		padding: 0;
+	.wp-core-ui #tabs a {
 		position: relative;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-	}
-
-	#tabs a {
+		float: left;
+		padding: 6px 10px;
+		margin: 0;
+		height: 18px;
+		line-height: 18px;
+		text-decoration: none;
 		-webkit-transition: none;
 		transition: none;
 	}
-	
-	#tabs-wrap #tabs > a {
-		float: left;
-		font-size: 14px;
-		height: 18px;
-		line-height: 18px;
-		margin: 0;
-		padding: 7px 10px;
-		position: relative;
-		text-decoration: none;
-		border-right: 1px solid #ddd;
-		background-color: #eee;
-		color: inherit;
-	}
 
-	#tabs > a:active,
-	#tabs > a:focus {
-		outline: none;
-	}
-
-	#tabs-wrap #tabs .active,
-	#tabs-wrap #tabs .active:hover {
-		color: #333;
+	#tabs a.active {
+		margin: -1px -1px 0;
 		background: #fff;
-		border-bottom: 1px solid #fff;
+		border: 1px solid #ddd;
+		border-bottom: none;
+		color: #333;
 	}
 
 	#tabs .active:after {
@@ -83,8 +67,8 @@ header('Content-Type: text/html; charset=' . get_bloginfo('charset'));
 		border-top: 1px solid #ddd;
 		height: 360px;
 		margin: 0;
-		margin-top: 32px;
-		overflow-y: scroll;
+		margin-top: 30px;
+		overflow: auto;
 		padding: 10px 16px;
 	}
 
@@ -151,13 +135,11 @@ if ( tinymce.isMac )
 	document.body.className = document.body.className.replace(/windows/, 'macos');
 </script>
 
-<div id="tabs-wrap">
-	<div id="tabs">
-		<a id="tab1" href="javascript:flipTab(1)" title="<?php esc_attr_e('Basics of Rich Editing'); ?>" accesskey="1" class="active"><?php _e('Basics'); ?></a>
-		<a id="tab2" href="javascript:flipTab(2)" title="<?php esc_attr_e('Advanced use of the Rich Editor'); ?>" accesskey="2"><?php _e('Advanced'); ?></a>
-		<a id="tab3" href="javascript:flipTab(3)" title="<?php esc_attr_e('Hotkeys'); ?>" accesskey="3"><?php _e('Hotkeys'); ?></a>
-		<a id="tab4" href="javascript:flipTab(4)" title="<?php esc_attr_e('About the software'); ?>" accesskey="4"><?php _e('About'); ?></a>
-	</div>
+<div id="tabs">
+	<a id="tab1" href="javascript:flipTab(1)" title="<?php esc_attr_e('Basics of Rich Editing'); ?>" accesskey="1" class="active"><?php _e('Basics'); ?></a>
+	<a id="tab2" href="javascript:flipTab(2)" title="<?php esc_attr_e('Advanced use of the Rich Editor'); ?>" accesskey="2"><?php _e('Advanced'); ?></a>
+	<a id="tab3" href="javascript:flipTab(3)" title="<?php esc_attr_e('Hotkeys'); ?>" accesskey="3"><?php _e('Hotkeys'); ?></a>
+	<a id="tab4" href="javascript:flipTab(4)" title="<?php esc_attr_e('About the software'); ?>" accesskey="4"><?php _e('About'); ?></a>
 </div>
 
 <div id="flipper" class="wrap">

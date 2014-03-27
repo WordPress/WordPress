@@ -1806,15 +1806,14 @@ div.action-links {
 }
 
 #plugin-information-title {
-	padding: 0 36px 0 16px;
-	font-size: 18px;
+	padding: 0 76px 0 20px;
+	font-size: 22px;
 	font-weight: 600;
-	line-height: 36px;
+	line-height: 56px;
 	top: 0;
 	right: 0;
 	left: 0;
-	height: 36px;
-	border-bottom: 1px solid #ddd;
+	height: 56px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -1862,9 +1861,8 @@ div.action-links {
 	position: absolute;
 	top: 90px;
 	right: 0;
-	bottom: 44px;
+	bottom: 58px;
 	left: 0;
-	overflow: auto;
 }
 
 #section-holder {
@@ -1875,6 +1873,7 @@ div.action-links {
 	right: 250px;
 	bottom: 0;
 	left: 0;
+	overflow: auto;
 }
 
 #section-holder .updated {
@@ -1883,14 +1882,15 @@ div.action-links {
 
 #plugin-information .fyi {
 	background: #f3f3f3;
-	border: 1px solid #ddd;
-	border-top: 0;
+	border-left: 1px solid #ddd;
 	color: #666;
 	padding: 16px;
 	position: absolute;
 	top: 0;
 	right: 0;
+	bottom: 0;
 	width: 217px;
+	overflow: auto;
 }
 
 #plugin-information .fyi strong {
@@ -1922,11 +1922,12 @@ div.action-links {
 }
 
 #plugin-information-footer {
-	padding: 8px 16px;
+	padding: 15px 16px;
 	position: absolute;
 	right: 0;
 	bottom: 0;
 	left: 0;
+	height: 28px;
 }
 
 #plugin-information .section ul,
@@ -1974,7 +1975,7 @@ div.action-links {
 @media screen and ( max-width: 782px ) {
 	#plugin-information-content {
 		overflow: auto;
-		bottom: 62px;
+		bottom: 58px;
 	}
 
 	#plugin-information .fyi {
@@ -1994,8 +1995,8 @@ div.action-links {
 	}
 
 	#plugin-information-footer {
-		padding: 12px 16px;
-		height: 37px;
+		padding: 12px 16px 0;
+		height: 46px;
 	}
 }
 
@@ -2031,14 +2032,14 @@ body.index-php #TB_ajaxWindowTitle {
 
 body.plugin-install-php .tb-close-icon,
 body.index-php .tb-close-icon {
-	line-height: 36px;
-	width: 36px;
-	height: 36px;
+	line-height: 48px;
+	width: 48px;
+	height: 48px;
 }
 
 body.plugin-install-php .tb-close-icon:before,
 body.index-php .tb-close-icon:before {
-	line-height: 36px;
+	line-height: 48px;
 }
 
 /* @todo: move this. */

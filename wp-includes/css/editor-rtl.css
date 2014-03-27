@@ -73,6 +73,10 @@
 	width: calc( 100% - 36px );
 }
 
+.mce-wp-help .mce-window-head {
+	border-bottom: none;
+}
+
 .mce-textbox {
 	border: 1px solid #ddd;
 	-webkit-border-radius: 0;
