@@ -1,5 +1,7 @@
 /* global tinymce */
 tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
+	var toolbarActive = false;
+
 	function parseShortcode( content ) {
 		return content.replace( /(?:<p>)?\[(?:wp_)?caption([^\]]+)\]([\s\S]+?)\[\/(?:wp_)?caption\](?:<\/p>)?/g, function( a, b, c ) {
 			var id, cls, w, cap, img, width,
@@ -102,7 +104,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			});
 
 			if ( out.indexOf('[caption') !== 0 ) {
-				// the caption html seems brocken, try to find the image that may be wrapped in a link
+				// the caption html seems broken, try to find the image that may be wrapped in a link
 				// and may be followed by <p> with the caption text.
 				out = b.replace( /[\s\S]*?((?:<a [^>]+>)?<img [^>]+>(?:<\/a>)?)(<p>[\s\S]*<\/p>)?[\s\S]*/gi, '<p>$1</p>$2' );
 			}
@@ -339,6 +341,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		} else {
 			editor.dom.remove( node );
 		}
+		removeToolbar();
 	}
 
 	function addToolbar( node ) {
@@ -371,6 +374,8 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			top: rectangle.y,
 			left: rectangle.x
 		});
+
+		toolbarActive = true;
 	}
 
 	function removeToolbar() {
@@ -381,6 +386,8 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		}
 
 		editor.dom.setAttrib( editor.dom.select( 'img[data-wp-imgselect]' ), 'data-wp-imgselect', null );
+
+		toolbarActive = false;
 	}
 
 	function isPlaceholder( node ) {
@@ -753,9 +760,10 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	editor.on( 'keydown', function( event ) {
 		var node, wrap, P, spacer,
 			selection = editor.selection,
+			keyCode = event.keyCode,
 			dom = editor.dom;
 
-		if ( event.keyCode === tinymce.util.VK.ENTER ) {
+		if ( keyCode === tinymce.util.VK.ENTER ) {
 			// When pressing Enter inside a caption move the caret to a new parapraph under it
 			node = selection.getNode();
 			wrap = dom.getParent( node, 'div.mceTemp' );
@@ -782,7 +790,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				editor.nodeChanged();
 				selection.setCursorLocation( P, 0 );
 			}
-		} else if ( event.keyCode === tinymce.util.VK.DELETE || event.keyCode === tinymce.util.VK.BACKSPACE ) {
+		} else if ( keyCode === tinymce.util.VK.DELETE || keyCode === tinymce.util.VK.BACKSPACE ) {
 			node = selection.getNode();
 
 			if ( node.nodeName === 'DIV' && dom.hasClass( node, 'mceTemp' ) ) {
@@ -796,6 +804,18 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				removeImage( node );
 				return false;
 			}
+
+			removeToolbar();
+		}
+
+		// Key presses will replace the image so we need to remove the toolbar
+		if ( toolbarActive ) {
+			if ( event.ctrlKey || event.metaKey || event.altKey ||
+				( keyCode < 48 && keyCode > 90 ) || keyCode > 186 ) {
+				return;
+			}
+
+			removeToolbar();
 		}
 	});
 
@@ -828,7 +848,6 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 				if ( dom.hasClass( node, 'remove' ) ) {
 					removeImage( image );
-					removeToolbar();
 				} else if ( dom.hasClass( node, 'edit' ) ) {
 					editImage( image );
 				}
