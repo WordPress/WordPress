@@ -228,7 +228,10 @@ $(document).ready( function() {
 		});
 
 		menu.find('a.wp-has-submenu').on( mobileEvent+'.wp-mobile-hover', function(e) {
-			var el = $(this), parent = el.parent();
+			var b, h, o, f, menutop, wintop, maxtop,
+				el = $(this),
+				parent = el.parent(),
+				m = parent.find('.wp-submenu');
 
 			if ( menu.data('wp-responsive') ) {
 				return;
@@ -239,6 +242,30 @@ $(document).ready( function() {
 			//	- the submenu is not shown inline or the menu is not folded
 			if ( !parent.hasClass('opensub') && ( !parent.hasClass('wp-menu-open') || parent.width() < 40 ) ) {
 				e.preventDefault();
+
+				menutop = parent.offset().top;
+				wintop = $(window).scrollTop();
+				maxtop = menutop - wintop - 30; // max = make the top of the sub almost touch admin bar
+
+				b = menutop + m.height() + 1; // Bottom offset of the menu
+				h = $('#wpwrap').height(); // Height of the entire page
+				o = 60 + b - h;
+				f = $(window).height() + wintop - 50; // The fold
+
+				if ( f < (b - o) ) {
+					o = b - f;
+				}
+
+				if ( o > maxtop ) {
+					o = maxtop;
+				}
+
+				if ( o > 1 ) {
+					m.css('margin-top', '-'+o+'px');
+				} else {
+					m.css('margin-top', '');
+				}
+
 				menu.find('li.opensub').removeClass('opensub');
 				parent.addClass('opensub');
 			}
@@ -249,8 +276,9 @@ $(document).ready( function() {
 		over: function() {
 			var b, h, o, f, m = $(this).find('.wp-submenu'), menutop, wintop, maxtop, top = parseInt( m.css('top'), 10 );
 
-			if ( isNaN(top) || top > -5 ) // meaning the submenu is visible
+			if ( isNaN(top) || top > -5 ) { // meaning the submenu is visible
 				return;
+			}
 
 			if ( menu.data('wp-responsive') ) {
 				// The menu is in responsive mode, bail
@@ -266,16 +294,19 @@ $(document).ready( function() {
 			o = 60 + b - h;
 			f = $(window).height() + wintop - 15; // The fold
 
-			if ( f < (b - o) )
+			if ( f < (b - o) ) {
 				o = b - f;
+			}
 
-			if ( o > maxtop )
+			if ( o > maxtop ) {
 				o = maxtop;
+			}
 
-			if ( o > 1 )
+			if ( o > 1 ) {
 				m.css('margin-top', '-'+o+'px');
-			else
+			} else {
 				m.css('margin-top', '');
+			}
 
 			menu.find('li.menu-top').removeClass('opensub');
 			$(this).addClass('opensub');
