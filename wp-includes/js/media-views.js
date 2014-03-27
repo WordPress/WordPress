@@ -5663,8 +5663,8 @@
 		 * @param {Object} event
 		 */
 		editAttachment: function( event ) {
-			var editState = this.controller.state( 'edit-image' );
-			if ( window.imageEdit ) {
+			var editState = this.controller.states.get( 'edit-image' );
+			if ( window.imageEdit && editState ) {
 				event.preventDefault();
 
 				editState.set( 'image', this.model );
@@ -6021,9 +6021,9 @@
 		},
 
 		editAttachment: function( event ) {
-			var editState = this.controller.state( 'edit-image' );
+			var editState = this.controller.states.get( 'edit-image' );
 
-			if ( window.imageEdit ) {
+			if ( window.imageEdit && editState ) {
 				event.preventDefault();
 				editState.set( 'image', this.model.attachment );
 				this.controller.setState( 'edit-image' );
