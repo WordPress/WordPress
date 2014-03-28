@@ -1445,8 +1445,12 @@ i.mce-i-hr:before {
 }
 
 .wp-fullscreen-wrap .wp-editor-container,
+.wp-fullscreen-title,
 #wp-fullscreen-central-toolbar {
-	max-width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	max-width: 100% !important;
 }
 
 .wp-fullscreen-active .wp-editor-tools,
