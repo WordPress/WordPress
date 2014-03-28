@@ -42,15 +42,6 @@
 	margin-bottom: 0;
 }
 
-.customize-control-widget_form:not(.wide-widget-control) {
-	/**
-	 * Prevent plugins (e.g. Widget Visibility in Jetpack) from forcing widget forms
-	 * to be wide and so overflow the customizer panel
-	 */
-	left: auto !important;
-	max-width: 100%;
-}
-
 .customize-control-widget_form.wide-widget-control .widget-inside {
 	position: fixed;
 	left: 299px;
