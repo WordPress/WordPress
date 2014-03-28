@@ -9,9 +9,6 @@
  * @since 3.9.0
  */
 final class WP_Customize_Widgets {
-	const UPDATE_WIDGET_AJAX_ACTION    = 'update-widget';
-	const UPDATE_WIDGET_NONCE_POST_KEY = 'update-sidebar-widgets-nonce';
-
 	/**
 	 * @access public
 	 * @var WP_Customize_Manager
@@ -134,9 +131,9 @@ final class WP_Customize_Widgets {
 		$is_ajax_widget_update = (
 			( defined( 'DOING_AJAX' ) && DOING_AJAX )
 			&&
-			$this->get_post_value( 'action' ) === self::UPDATE_WIDGET_AJAX_ACTION
+			$this->get_post_value( 'action' ) === 'update-widget'
 			&&
-			check_ajax_referer( self::UPDATE_WIDGET_AJAX_ACTION, self::UPDATE_WIDGET_NONCE_POST_KEY, false )
+			check_ajax_referer( 'update-widget', 'update-widget-nonce', false )
 		);
 
 		$is_ajax_customize_save = (
@@ -577,9 +574,9 @@ final class WP_Customize_Widgets {
 		// Why not wp_localize_script? Because we're not localizing, and it forces values into strings.
 		global $wp_scripts;
 		$exports = array(
-			'update_widget_ajax_action' => self::UPDATE_WIDGET_AJAX_ACTION,
-			'update_widget_nonce_value' => wp_create_nonce( self::UPDATE_WIDGET_AJAX_ACTION ),
-			'update_widget_nonce_post_key' => self::UPDATE_WIDGET_NONCE_POST_KEY,
+			'update_widget_ajax_action' => 'update-widget',
+			'update_widget_nonce_value' => wp_create_nonce( 'update-widget' ),
+			'update_widget_nonce_post_key' => 'update-widget-nonce',
 			'registered_sidebars' => array_values( $GLOBALS['wp_registered_sidebars'] ),
 			'registered_widgets' => $GLOBALS['wp_registered_widgets'],
 			'available_widgets' => $available_widgets, // @todo Merge this with registered_widgets
@@ -1162,7 +1159,7 @@ final class WP_Customize_Widgets {
 			wp_die( 0 );
 		}
 
-		check_ajax_referer( self::UPDATE_WIDGET_AJAX_ACTION, self::UPDATE_WIDGET_NONCE_POST_KEY );
+		check_ajax_referer( 'update-widget', 'update-widget-nonce' );
 
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
 			wp_die( -1 );
@@ -1172,7 +1169,7 @@ final class WP_Customize_Widgets {
 			wp_send_json_error();
 		}
 
-		unset( $_POST[self::UPDATE_WIDGET_NONCE_POST_KEY], $_POST['action'] );
+		unset( $_POST['update-widget-nonce'], $_POST['action'] );
 
 		do_action( 'load-widgets.php' );
 		do_action( 'widgets.php' );
