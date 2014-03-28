@@ -517,20 +517,21 @@ function wp_print_media_templates() {
 	<script type="text/html" id="tmpl-playlist-settings">
 		<h3><?php _e( 'Playlist Settings' ); ?></h3>
 
-		<# var emptyModel = _.isEmpty( data.model );  #>
+		<# var emptyModel = _.isEmpty( data.model ),
+			isVideo = 'video' === data.controller.get('library').props.get('type'); #>
 
 		<label class="setting">
 			<input type="checkbox" data-setting="tracklist" <# if ( emptyModel ) { #>
 				checked="checked"
 			<# } #> />
-			<# if ( 'audio' === data.model.type ) { #>
-			<span><?php _e( 'Show Tracklist' ); ?></span>
-			<# } else { #>
+			<# if ( isVideo ) { #>
 			<span><?php _e( 'Show Video List' ); ?></span>
+			<# } else { #>
+			<span><?php _e( 'Show Tracklist' ); ?></span>
 			<# } #>
 		</label>
 
-		<# if ( 'audio' === data.model.type ) { #>
+		<# if ( ! isVideo ) { #>
 		<label class="setting">
 			<input type="checkbox" data-setting="artists" <# if ( emptyModel ) { #>
 				checked="checked"
