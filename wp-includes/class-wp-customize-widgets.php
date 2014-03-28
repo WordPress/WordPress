@@ -118,31 +118,20 @@ final class WP_Customize_Widgets {
 	 * @global WP_Customize_Manager $wp_customize
 	 */
 	public function setup_widget_addition_previews() {
-		$is_customize_preview = (
-			( ! empty( $this->manager ) )
-			&&
-			( ! is_admin() )
-			&&
-			( 'on' === $this->get_post_value( 'wp_customize' ) )
-			&&
-			check_ajax_referer( 'preview-customize_' . $this->manager->get_stylesheet(), 'nonce', false )
-		);
+		$is_customize_preview = false;
+		if ( ! empty( $this->manager ) && ! is_admin() && 'on' === $this->get_post_value( 'wp_customize' ) ) {
+			$is_customize_preview = check_ajax_referer( 'preview-customize_' . $this->manager->get_stylesheet(), 'nonce', false );
+		}
 
-		$is_ajax_widget_update = (
-			( defined( 'DOING_AJAX' ) && DOING_AJAX )
-			&&
-			$this->get_post_value( 'action' ) === 'update-widget'
-			&&
-			check_ajax_referer( 'update-widget', 'nonce', false )
-		);
+		$is_ajax_widget_update = false;
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX && 'update-widget' === $this->get_post_value( 'action' ) ) {
+			$is_ajax_widget_update = check_ajax_referer( 'update-widget', 'nonce', false );
+		}
 
-		$is_ajax_customize_save = (
-			( defined( 'DOING_AJAX' ) && DOING_AJAX )
-			&&
-			$this->get_post_value( 'action' ) === 'customize_save'
-			&&
-			check_ajax_referer( 'save-customize_' . $this->manager->get_stylesheet(), 'nonce', false )
-		);
+		$is_ajax_customize_save = false;
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX && 'customize_save' === $this->get_post_value( 'action' ) ) {
+			$is_ajax_customize_save = check_ajax_referer( 'save-customize_' . $this->manager->get_stylesheet(), 'nonce', false );
+		}
 
 		$is_valid_request = ( $is_ajax_widget_update || $is_customize_preview || $is_ajax_customize_save );
 		if ( ! $is_valid_request ) {
