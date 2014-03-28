@@ -27,21 +27,52 @@ final class _WP_Editors {
 
 	private function __construct() {}
 
-	public static function parse_settings($editor_id, $settings) {
+	/**
+	 * Parse _WP_Editors settings.
+	 *
+	 * @param string $editor_id ID for the current editor isntance.
+	 * @param array  $settings {
+	 *     Array of editor arguments.
+	 *
+	 *     @type bool       $wpautop           Whether to use wpautop(). Default true.
+	 *     @type bool       $media_buttons     Whether to show the Add Media/other media buttons.
+	 *     @type string     $default_editor    When both TinyMCE and Quicktags are used, set which
+	 *                                         editor is shown on page load. Default empty.
+	 *     @type string     $textarea_name     Give the textarea a unique name here. Square brackets
+	 *                                         can be used here. Default $editor_id.
+	 *     @type int        $textarea_rows     Number rows in the editor textarea. Default 20.
+	 *     @type string|int $tabindex          Tabindex value to use. Default empty.
+	 *     @type string     $tabfocus_elements The previous and next element ID to move the focus to
+	 *                                         when pressing the Tab key in TinyMCE. Defualt ':prev,:next'.
+	 *     @type string     $editor_css        Intended for extra styles for both Visual and Text editors.
+	 *                                         Should include <style> tags, and can use "scoped". Default empty.
+	 *     @type string     $editor_class      Extra classes to add to the editor textarea elemen. Default empty.
+	 *     @type bool       $teeny             Whether to output the minimal editor config. Examples include
+	 *                                         Press This and the Comment editor. Default false.
+	 *     @type bool       $dfw               Whether to replace the default fullscreen with "Distraction Free
+	 *                                         Writing". DFW requires specific DOM elements and css). Default false.
+	 *     @type bool|array $tinymce           Whether to load TinyMCE. Can be used to pass settings directly to
+	 *                                         TinyMCE using an array. Default true.
+	 *     @type bool|array $quicktags         Whether to load Quicktags. Can be used to pass settings directly to
+	 *                                         Quicktags using an array. Default true.
+	 * }
+	 * @return array Parsed arguments array.
+	 */
+	public static function parse_settings( $editor_id, $settings ) {
 		$set = wp_parse_args( $settings,  array(
-			'wpautop' => true, // use wpautop?
-			'media_buttons' => true, // show insert/upload button(s)
-			'default_editor' => '', // When both TinyMCE and Quicktags are used, set which editor is shown on loading the page
-			'textarea_name' => $editor_id, // set the textarea name to something different, square brackets [] can be used here
-			'textarea_rows' => 20,
-			'tabindex' => '',
-			'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
-			'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
-			'editor_class' => '', // add extra class(es) to the editor textarea
-			'teeny' => false, // output the minimal editor config used in Press This
-			'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
-			'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
-			'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
+			'wpautop'           => true,
+			'media_buttons'     => true,
+			'default_editor'    => '',
+			'textarea_name'     => $editor_id,
+			'textarea_rows'     => 20,
+			'tabindex'          => '',
+			'tabfocus_elements' => ':prev,:next',
+			'editor_css'        => '',
+			'editor_class'      => '',
+			'teeny'             => false,
+			'dfw'               => false,
+			'tinymce' =>        true,
+			'quicktags' =>      true
 		) );
 
 		self::$this_tinymce = ( $set['tinymce'] && user_can_richedit() );
