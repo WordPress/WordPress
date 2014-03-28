@@ -213,6 +213,124 @@ themes.Collection = Backbone.Collection.extend({
 		collection = _( collection.first( 20 ) );
 
 		return collection;
+	},
+
+	// Handles requests for more themes
+	// and caches results
+	//
+	// When we are missing a cache object we fire an apiCall()
+	// which triggers events of `query:success` or `query:fail`
+	query: function( request ) {
+		/**
+		 * @static
+		 * @type Array
+		 */
+		var queries = this.queries,
+			self = this,
+			query, isPaginated, count;
+
+		// Search the query cache for matches.
+		query = _.find( queries, function( query ) {
+			return _.isEqual( query.request, request );
+		});
+
+		// If the request matches the stored currentQuery.request
+		// it means we have a paginated request.
+		isPaginated = _.has( request, 'page' );
+
+		// Reset the internal api page counter for non paginated queries.
+		if ( ! isPaginated ) {
+			this.currentQuery.page = 1;
+		}
+
+		// Otherwise, send a new API call and add it to the cache.
+		if ( ! query ) {
+			query = this.apiCall( request ).done( function( data ) {
+				// Update the collection with the queried data.
+				self.reset( data.themes );
+				count = data.info.results;
+
+				// Trigger a collection refresh event
+				// and a `query:success` event with a `count` argument.
+				self.trigger( 'update' );
+				self.trigger( 'query:success', count );
+
+				// Store the results and the query request
+				queries.push( { themes: data.themes, request: request } );
+			}).fail( function() {
+				self.trigger( 'query:fail' );
+			});
+		} else {
+			// If it's a paginated request we need to fetch more themes...
+			if ( isPaginated ) {
+				return this.apiCall( request, isPaginated ).done( function( data ) {
+					// Add the new themes to the current collection
+					// @todo update counter
+					self.add( data.themes );
+					self.trigger( 'query:success' );
+
+				}).fail( function() {
+					self.trigger( 'query:fail' );
+				});
+			}
+
+			// Only trigger an update event since we already have the themes
+			// on our cached object
+			this.reset( query.themes );
+			this.trigger( 'update' );
+		}
+	},
+
+	// Local cache array for API queries
+	queries: [],
+
+	// Keep track of current query so we can handle pagination
+	currentQuery: {
+		page: 1,
+		request: {}
+	},
+
+	// Send Ajax POST request to api.wordpress.org/themes
+	apiCall: function( request, paginated ) {
+		// Store current query request args
+		// for later use with the event `theme:end`
+		this.currentQuery.request = request;
+
+		// Ajax request to .org API
+		return $.ajax({
+			url: 'https://api.wordpress.org/themes/info/1.1/?action=query_themes',
+
+			// We want JSON data
+			dataType: 'json',
+			type: 'POST',
+			crossDomain: true,
+
+			// Request data
+			data: {
+				action: 'query_themes',
+				request: _.extend({
+					per_page: 72,
+					fields: {
+						description: true,
+						tested: true,
+						requires: true,
+						rating: true,
+						downloaded: true,
+						downloadLink: true,
+						last_updated: true,
+						homepage: true,
+						num_ratings: true
+					}
+				}, request)
+			},
+
+			beforeSend: function() {
+				if ( ! paginated ) {
+					// Spin it
+					$( 'body' ).addClass( 'loading-themes' );
+				}
+			}
+		});
 	}
 });
 
@@ -571,6 +689,15 @@ themes.view.Themes = wp.Backbone.View.extend({
 			self.render( this );
 		});
 
+		// Update theme count to full result set when available.
+		this.listenTo( self.collection, 'query:success', function( count ) {
+			if ( _.isNumber( count ) ) {
+				self.count.text( count );
+			} else {
+				self.count.text( self.collection.length );
+			}
+		});
+
 		this.listenTo( this.parent, 'theme:scroll', function() {
 			self.renderThemes( self.parent.page );
 		});
@@ -582,7 +709,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 		} );
 
 		// Bind keyboard events.
-		$('body').on( 'keyup', function( event ) {
+		$( 'body' ).on( 'keyup', function( event ) {
 			if ( ! self.overlay ) {
 				return;
 			}
@@ -628,7 +755,10 @@ themes.view.Themes = wp.Backbone.View.extend({
 
 		// Generate the themes
 		// Using page instance
-		this.renderThemes( this.parent.page );
+		// While checking the collection has items
+		if ( this.options.collection.size() > 0 ) {
+			this.renderThemes( this.parent.page );
+		}
 
 		// Display a live theme count for the collection
 		this.count.text( this.collection.length );
@@ -642,7 +772,9 @@ themes.view.Themes = wp.Backbone.View.extend({
 		self.instance = self.collection.paginate( page );
 
 		// If we have no more themes bail
-		if ( self.instance.length === 0 ) {
+		if ( self.instance.size() === 0 ) {
+			// Fire a no-more-themes event.
+			this.parent.trigger( 'theme:end' );
 			return;
 		}
 
@@ -967,7 +1099,7 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 		_.debounce( _.bind( this.doSearch, this ), 300 )( event.target.value );
 	},
 
-	doSearch: function( value ) {
+	doSearch: _.debounce( function( value ) {
 		var request = {},
 			self = this;
 
@@ -991,23 +1123,10 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 			request.tag = [ value.slice( 4 ) ];
 		}
 
-		// Send Ajax POST request to api.wordpress.org/themes
-		themes.view.Installer.prototype.apiCall( request ).done( function( data ) {
-				// Update the collection with the queried data
-				self.collection.reset( data.themes );
-				// Trigger a collection refresh event to render the views
-				self.collection.trigger( 'update' );
-
-				// Un-spin it
-				$( 'body' ).removeClass( 'loading-themes' );
-				$( '.theme-browser' ).find( 'div.error' ).remove();
-		}).fail( function() {
-				$( '.theme-browser' ).find( 'div.error' ).remove();
-				$( '.theme-browser' ).append( '<div class="error"><p>' + l10n.error + '</p></div>' );
-		});
-
-		return false;
-	}
+		// Get the themes by sending Ajax POST request to api.wordpress.org/themes
+		// or searching the local cache
+		this.collection.query( request );
+	}, 300 ),
 });
 
 themes.view.Installer = themes.view.Appearance.extend({
@@ -1022,61 +1141,32 @@ themes.view.Installer = themes.view.Appearance.extend({
 		'click [type="checkbox"]': 'addFilter'
 	},
 
-	// Send Ajax POST request to api.wordpress.org/themes
-	apiCall: function( request ) {
-		return $.ajax({
-			url: 'https://api.wordpress.org/themes/info/1.1/?action=query_themes',
-
-			// We want JSON data
-			dataType: 'json',
-			type: 'POST',
-			crossDomain: true,
-
-			// Request data
-			data: {
-				action: 'query_themes',
-				request: _.extend({
-					per_page: 36,
-					fields: {
-						description: true,
-						tested: true,
-						requires: true,
-						rating: true,
-						downloaded: true,
-						downloadLink: true,
-						last_updated: true,
-						homepage: true,
-						num_ratings: true
-					}
-				}, request)
-			},
-
-			beforeSend: function() {
-				// Spin it
-				$( 'body' ).addClass( 'loading-themes' );
-			}
-		});
-	},
-
 	// Handles all the rendering of the public theme directory
 	browse: function( section ) {
 		var self = this;
 
-		// @todo Cache the collection after fetching based on the section
 		this.collection = new themes.Collection();
 
-		// Create a new collection with the proper theme data
-		// for each section
-		this.apiCall({ browse: section }).done( function( data ) {
-			// Update the collection with the queried data
-			self.collection.reset( data.themes );
-			// Trigger a collection refresh event to render the views
-			self.collection.trigger( 'update' );
+		// Bump `collection.currentQuery.page` and request more themes if we hit the end of the page.
+		this.listenTo( this, 'theme:end', function() {
+			self.collection.currentQuery.page++;
+			_.extend( self.collection.currentQuery.request, { page: self.collection.currentQuery.page } );
+			self.collection.query( self.collection.currentQuery.request );
+		});
 
-			// Un-spin it
+		this.listenTo( this.collection, 'query:success', function() {
 			$( 'body' ).removeClass( 'loading-themes' );
 			$( '.theme-browser' ).find( 'div.error' ).remove();
 		});
+
+		this.listenTo( this.collection, 'query:fail', function() {
+			$( '.theme-browser' ).find( 'div.error' ).remove();
+			$( '.theme-browser' ).append( '<div class="error"><p>' + l10n.error + '</p></div>' );
+		});
+
+		// Create a new collection with the proper theme data
+		// for each section
+		this.collection.query( { browse: section } );
 
 		if ( this.view ) {
 			this.view.remove();
@@ -1153,27 +1243,12 @@ themes.view.Installer = themes.view.Appearance.extend({
 
 		// Construct the filter request
 		// using the default values
-
-		// @todo Cache the collection after fetching based on the filter
 		filter = _.union( filter, this.filtersChecked() );
 		request = { tag: [ filter ] };
 
-		// Send Ajax POST request to api.wordpress.org/themes
-		this.apiCall( request ).done( function( data ) {
-				// Update the collection with the queried data
-				self.collection.reset( data.themes );
-				// Trigger a collection refresh event to render the views
-				self.collection.trigger( 'update' );
-
-				// Un-spin it
-				$( 'body' ).removeClass( 'loading-themes' );
-				$( '.theme-browser' ).find( 'div.error' ).remove();
-		}).fail( function() {
-				$( '.theme-browser' ).find( 'div.error' ).remove();
-				$( '.theme-browser' ).append( '<div class="error"><p>' + l10n.error + '</p></div>' );
-		});
-
-		return false;
+		// Get the themes by sending Ajax POST request to api.wordpress.org/themes
+		// or searching the local cache
+		this.collection.query( request );
 	},
 
 	// Clicking on a checkbox triggers a tag request
@@ -1182,20 +1257,9 @@ themes.view.Installer = themes.view.Appearance.extend({
 			tags = this.filtersChecked(),
 			request = { tag: tags };
 
-		// Send Ajax POST request to api.wordpress.org/themes
-		this.apiCall( request ).done( function( data ) {
-				// Update the collection with the queried data
-				self.collection.reset( data.themes );
-				// Trigger a collection refresh event to render the views
-				self.collection.trigger( 'update' );
-
-				// Un-spin it
-				$( 'body' ).removeClass( 'loading-themes' );
-				$( '.theme-browser' ).find( 'div.error' ).remove();
-		}).fail( function() {
-				$( '.theme-browser' ).find( 'div.error' ).remove();
-				$( '.theme-browser' ).append( '<div class="error"><p>' + l10n.error + '</p></div>' );
-		});
+		// Get the themes by sending Ajax POST request to api.wordpress.org/themes
+		// or searching the local cache
+		this.collection.query( request );
 	},
 
 	// Get the checked filters and return an array
