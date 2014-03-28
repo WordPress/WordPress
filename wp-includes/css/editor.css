@@ -1232,11 +1232,11 @@ i.mce-i-hr:before {
 	#wp-link-wrap.search-panel-visible .query-results {
 		top: 235px;
 	}
-	
+
 	#link-selector {
 		padding: 0 16px 60px;
 	}
-	
+
 	#wp-link-wrap.search-panel-visible #link-selector {
 		bottom: 52px;
 	}
@@ -1721,6 +1721,70 @@ i.mce-i-hr:before {
 
 .fade-trigger {
 	opacity: 1;
+}
+
+/* DFW on touch screen devices */
+.wp-dfw-touch #fullscreen-topbar {
+	position: absolute;
+	opacity: 1;
+}
+
+.wp-dfw-touch .wp-fullscreen-wrap .wp-editor-container,
+.wp-dfw-touch .wp-fullscreen-title {
+	max-width: 700px;
+}
+
+.wp-fullscreen-active.wp-dfw-touch  .wp-fullscreen-title,
+.wp-fullscreen-active.wp-dfw-touch .wp-editor-container {
+	border-color: #ccc;
+}
+
+.wp-dfw-touch #wp-fullscreen-status {
+	opacity: 1;
+}
+
+@media screen and ( max-width: 782px ) {
+	#wp-fullscreen-close,
+	#wp-fullscreen-central-toolbar,
+	#wp-fullscreen-mode-bar,
+	#wp-fullscreen-button-bar,
+	#wp-fullscreen-save {
+		float: none;
+		display: inline-block;
+	}
+
+	#fullscreen-topbar {
+		height: 85px;
+	}
+
+	#wp-fullscreen-central-toolbar {
+		width: auto !important;
+	}
+
+	#wp-fullscreen-close {
+		line-height: 30px;
+		vertical-align: top;
+		padding: 0 12px;
+	}
+
+	#wp-fullscreen-button-bar {
+		position: absolute;
+		top: 45px;
+		left: 0;
+	}
+
+	.wp-fullscreen-wrap {
+		top: 95px;
+	}
+
+	.wp-fullscreen-wrap .wp-editor-container,
+	.wp-fullscreen-title {
+		max-width: 700px;
+	}
+
+	.wp-fullscreen-saved-message {
+		display: none !important;
+	}
 }
 
 /* =Localization
