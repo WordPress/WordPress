@@ -83,6 +83,7 @@
 
 .wp-playlist-light {
 	background: #fff;
+	color: #000;
 }
 
 .wp-playlist-dark {
@@ -140,6 +141,10 @@
 	border-bottom: 1px solid #ccc;
 }
 
+.wp-playlist-light .wp-playlist-item {
+	color: #333;
+}
+
 .wp-playlist-dark .wp-playlist-item {
 	color: #dedede;
 }
@@ -147,6 +152,11 @@
 .wp-playlist-playing {
 	font-weight: bold;
 	background: #f7f7f7;
+}
+
+.wp-playlist-light .wp-playlist-playing {
+	background: #fff;
+	color: #000;
 }
 
 .wp-playlist-dark .wp-playlist-playing {
