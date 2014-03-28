@@ -996,8 +996,12 @@ function gallery_shortcode( $attr ) {
 			$output .= '<br style="clear: both" />';
 	}
 
+	if ( $columns > 0 && $i % $columns !== 0 ) {
+		$output .= "
+			<br style='clear: both' />";
+	}
+
 	$output .= "
-			<br style='clear: both;' />
 		</div>\n";
 
 	return $output;
