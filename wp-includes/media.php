@@ -2325,6 +2325,12 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			$response['image'] = compact( 'src', 'width', 'height' );
 			list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'thumbnail' );
 			$response['thumb'] = compact( 'src', 'width', 'height' );
+		} else {
+			$src = wp_mime_type_icon( $attachment->ID );
+			$width = 48;
+			$height = 64;
+			$response['image'] = compact( 'src', 'width', 'height' );
+			$response['thumb'] = compact( 'src', 'width', 'height' );
 		}
 	}
 
