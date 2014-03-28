@@ -102,6 +102,7 @@ function display_setup_form( $error = null ) {
 			<?php
 			if ( $user_table ) {
 				_e('User(s) already exists.');
+				echo '<input name="user_name" type="hidden" value="admin" />';
 			} else {
 				?><input name="user_name" type="text" id="user_login" size="25" value="<?php echo esc_attr( sanitize_user( $user_name, true ) ); ?>" />
 				<p><?php _e( 'Usernames can have only alphanumeric characters, spaces, underscores, hyphens, periods and the @ symbol.' ); ?></p>
