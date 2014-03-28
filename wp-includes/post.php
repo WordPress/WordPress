@@ -2161,7 +2161,7 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
  * @since 2.5.0
  *
  * @param string|array $mime_type Optional. Array or comma-separated list of MIME patterns.
- * @return array Number of posts for each mime type.
+ * @return object An object containing the attachment counts by mime type.
  */
 function wp_count_attachments( $mime_type = '' ) {
 	global $wpdb;
