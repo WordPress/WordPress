@@ -880,7 +880,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_ema
 		$from_name,
 		esc_url( 'http://' . $domain . $path )
 	);
-	wp_mail($user_email, $subject, $message, $message_headers);
+	wp_mail( $user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
 	return true;
 }
 
@@ -965,7 +965,7 @@ function wpmu_signup_user_notification( $user, $user_email, $key, $meta = array(
 		$from_name,
 		$user
 	);
-	wp_mail($user_email, $subject, $message, $message_headers);
+	wp_mail( $user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
 	return true;
 }
 
@@ -1521,7 +1521,7 @@ We hope you enjoy your new site. Thanks!
 	 * @param string $subject Subject of the email.
 	 */
 	$subject = apply_filters( 'update_welcome_subject', sprintf( __( 'New %1$s Site: %2$s' ), $current_site->site_name, wp_unslash( $title ) ) );
-	wp_mail($user->user_email, $subject, $message, $message_headers);
+	wp_mail( $user->user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
 	return true;
 }
 
@@ -1599,7 +1599,7 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	 * @param string $subject Subject of the email.
 	 */
 	$subject = apply_filters( 'update_welcome_user_subject', sprintf( __( 'New %1$s User: %2$s' ), $current_site->site_name, $user->user_login) );
-	wp_mail($user->user_email, $subject, $message, $message_headers);
+	wp_mail( $user->user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
 	return true;
 }
 

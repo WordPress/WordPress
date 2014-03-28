@@ -1168,7 +1168,7 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	$message_headers = apply_filters( 'comment_notification_headers',    $message_headers, $comment_id );
 
 	foreach ( $emails as $email ) {
-		@wp_mail( $email, $subject, $notify_message, $message_headers );
+		@wp_mail( $email, wp_specialchars_decode( $subject ), $notify_message, $message_headers );
 	}
 
 	return true;
@@ -1255,7 +1255,7 @@ function wp_notify_moderator($comment_id) {
 	$message_headers = apply_filters( 'comment_moderation_headers',    $message_headers, $comment_id );
 
 	foreach ( $emails as $email ) {
-		@wp_mail( $email, $subject, $notify_message, $message_headers );
+		@wp_mail( $email, wp_specialchars_decode( $subject ), $notify_message, $message_headers );
 	}
 
 	return true;
