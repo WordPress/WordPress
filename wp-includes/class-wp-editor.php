@@ -28,9 +28,9 @@ final class _WP_Editors {
 	private function __construct() {}
 
 	/**
-	 * Parse _WP_Editors settings.
+	 * Parse default arguments for the editor eisntance.
 	 *
-	 * @param string $editor_id ID for the current editor isntance.
+	 * @param string $editor_id ID for the current editor instance.
 	 * @param array  $settings {
 	 *     Array of editor arguments.
 	 *
