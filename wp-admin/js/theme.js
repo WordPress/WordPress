@@ -235,6 +235,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 		'click .preview': 'preview',
 		'keydown': themes.isInstall ? 'preview': 'expand',
 		'touchend': themes.isInstall ? 'preview': 'expand',
+		'keyup': 'addFocus',
 		'touchmove': 'preventExpand'
 	},
 
@@ -262,6 +263,14 @@ themes.view.Theme = wp.Backbone.View.extend({
 		if ( this.model.get( 'active' ) ) {
 			this.$el.addClass( 'active' );
 		}
+	},
+
+	// Add class of focus to the theme we are focused on.
+	addFocus: function() {
+		var $themeToFocus = ( $( ':focus' ).hasClass( 'theme' ) ) ? $( ':focus' ) : $(':focus').parents('.theme');
+
+		$('.theme.focus').removeClass('focus');
+		$themeToFocus.addClass('focus');
 	},
 
 	// Single theme overlay screen
@@ -301,6 +310,16 @@ themes.view.Theme = wp.Backbone.View.extend({
 		// Bail if the user scrolled on a touch device
 		if ( this.touchDrag === true ) {
 			return this.touchDrag = false;
+		}
+
+		// 'enter' and 'space' keys expand the details view when a theme is :focused
+		if ( event.type === 'keydown' && ( event.which !== 13 && event.which !== 32 ) ) {
+			return;
+		}
+
+		// pressing enter while focused on the buttons shouldn't open the preview
+		if ( event.type === 'keydown' && event.which !== 13 && $( ':focus' ).hasClass( 'button' ) ) {
+			return;
 		}
 
 		event.preventDefault();
@@ -932,6 +951,12 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 
 	// Handles Ajax request for searching through themes in public repo
 	search: function( event ) {
+
+		// Tabbing or reverse tabbing into the search input shouldn't trigger a search
+		if ( event.type === 'keyup' && ( event.which === 9 || event.which === 16 ) ) {
+			return;
+		}
+
 		this.collection = this.options.parent.view.collection;
 
 		// Clear on escape.
@@ -1084,6 +1109,8 @@ themes.view.Installer = themes.view.Appearance.extend({
 	onSort: function( event ) {
 		var $el = $( event.target ),
 			sort = $el.data( 'sort' );
+
+		event.preventDefault();
 
 		// Bail if this is already active
 		if ( $el.hasClass( this.activeClass ) ) {

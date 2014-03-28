@@ -280,7 +280,11 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 
 body.more-filters-opened .more-filters, body.more-filters-opened .more-filters:before {
   color: #fff;
-  background-color: #c7a589; }
+  background-color: #59524c; }
+
+body.more-filters-opened .more-filters:hover, body.more-filters-opened .more-filters:focus, body.more-filters-opened .more-filters:hover:before, body.more-filters-opened .more-filters:focus:before {
+  background-color: #c7a589;
+  color: #fff; }
 
 /* jQuery UI Slider */
 .wp-slider .ui-slider-handle, .wp-slider .ui-slider-handle.ui-state-hover, .wp-slider .ui-slider-handle.focus {

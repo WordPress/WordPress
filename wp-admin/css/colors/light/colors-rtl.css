@@ -279,8 +279,12 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
   border-bottom-color: #e5e5e5; }
 
 body.more-filters-opened .more-filters, body.more-filters-opened .more-filters:before {
-  color: #fff;
-  background-color: #888; }
+  color: #333;
+  background-color: #e5e5e5; }
+
+body.more-filters-opened .more-filters:hover, body.more-filters-opened .more-filters:focus, body.more-filters-opened .more-filters:hover:before, body.more-filters-opened .more-filters:focus:before {
+  background-color: #888;
+  color: #fff; }
 
 /* jQuery UI Slider */
 .wp-slider .ui-slider-handle, .wp-slider .ui-slider-handle.ui-state-hover, .wp-slider .ui-slider-handle.focus {

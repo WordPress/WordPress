@@ -104,8 +104,8 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 <div class="wrap">
 	<h2>
 		<?php echo esc_html( $title ); ?>
-		<a class="upload add-new-h2"><?php _e( 'Upload Theme' ); ?></a>
-		<a class="browse-themes add-new-h2"><?php _ex( 'Browse', 'themes' ); ?></a>
+		<a href="#" class="upload add-new-h2"><?php _e( 'Upload Theme' ); ?></a>
+		<a href="#" class="browse-themes add-new-h2"><?php _ex( 'Browse', 'themes' ); ?></a>
 	</h2>
 
 	<div class="upload-theme">
@@ -114,13 +114,13 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 
 	<div class="theme-navigation">
 		<span class="theme-count"></span>
-		<span class="theme-section current" data-sort="featured"><?php _ex( 'Featured', 'themes' ); ?></span>
-		<span class="theme-section" data-sort="popular"><?php _ex( 'Popular', 'themes' ); ?></span>
-		<span class="theme-section" data-sort="new"><?php _ex( 'Latest', 'themes' ); ?></span>
+		<a class="theme-section current" href="#" data-sort="featured"><?php _ex( 'Featured', 'themes' ); ?></a>
+		<a class="theme-section" href="#" data-sort="popular"><?php _ex( 'Popular', 'themes' ); ?></a>
+		<a class="theme-section" href="#" data-sort="new"><?php _ex( 'Latest', 'themes' ); ?></a>
 		<div class="theme-top-filters">
 			<!--<span class="theme-filter" data-filter="photoblogging">Photography</span>
 			<span class="theme-filter" data-filter="responsive-layout">Responsive</span>-->
-			<span class="more-filters"><?php _e( 'Feature Filter' ); ?></span>
+			<a class="more-filters" href="#"><?php _e( 'Feature Filter' ); ?></a>
 		</div>
 		<div class="more-filters-container">
 		<?php

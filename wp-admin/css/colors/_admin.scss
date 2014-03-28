@@ -439,9 +439,18 @@ ul#adminmenu > li.current > a.current:after {
 
 body.more-filters-opened .more-filters,
 body.more-filters-opened .more-filters:before {
-	color: $menu-highlight-text;
-	background-color: $menu-highlight-background;
+	color: $menu-text;
+	background-color: $menu-background;
 }
+
+body.more-filters-opened .more-filters:hover,
+body.more-filters-opened .more-filters:focus,
+body.more-filters-opened .more-filters:hover:before,
+body.more-filters-opened .more-filters:focus:before {
+	background-color: $menu-highlight-background;
+	color: $menu-highlight-text;
+}
+
 
 /* jQuery UI Slider */
 
