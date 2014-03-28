@@ -9,9 +9,7 @@ var WidgetCustomizer = ( function ($) {
 		SidebarCollection,
 		OldPreviewer,
 		customize = wp.customize, self = {
-		update_widget_ajax_action: null,
-		update_widget_nonce_value: null,
-		update_widget_nonce_post_key: null,
+		nonce: null,
 		i18n: {
 			save_btn_label: '',
 			save_btn_tooltip: '',
@@ -1201,9 +1199,9 @@ var WidgetCustomizer = ( function ($) {
 			processing( processing() + 1 );
 
 			params = {};
-			params.action = self.update_widget_ajax_action;
+			params.action = 'update-widget';
 			params.wp_customize = 'on';
-			params[self.update_widget_nonce_post_key] = self.update_widget_nonce_value;
+			params.nonce = self.nonce;
 
 			data = $.param( params );
 			inputs = widget_content.find( ':input, option' );

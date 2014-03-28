@@ -133,7 +133,7 @@ final class WP_Customize_Widgets {
 			&&
 			$this->get_post_value( 'action' ) === 'update-widget'
 			&&
-			check_ajax_referer( 'update-widget', 'update-widget-nonce', false )
+			check_ajax_referer( 'update-widget', 'nonce', false )
 		);
 
 		$is_ajax_customize_save = (
@@ -141,7 +141,7 @@ final class WP_Customize_Widgets {
 			&&
 			$this->get_post_value( 'action' ) === 'customize_save'
 			&&
-			check_ajax_referer( 'save-customize_' . $this->manager->get_stylesheet(), 'nonce' )
+			check_ajax_referer( 'save-customize_' . $this->manager->get_stylesheet(), 'nonce', false )
 		);
 
 		$is_valid_request = ( $is_ajax_widget_update || $is_customize_preview || $is_ajax_customize_save );
@@ -574,9 +574,7 @@ final class WP_Customize_Widgets {
 		// Why not wp_localize_script? Because we're not localizing, and it forces values into strings.
 		global $wp_scripts;
 		$exports = array(
-			'update_widget_ajax_action' => 'update-widget',
-			'update_widget_nonce_value' => wp_create_nonce( 'update-widget' ),
-			'update_widget_nonce_post_key' => 'update-widget-nonce',
+			'nonce' => wp_create_nonce( 'update-widget' ),
 			'registered_sidebars' => array_values( $GLOBALS['wp_registered_sidebars'] ),
 			'registered_widgets' => $GLOBALS['wp_registered_widgets'],
 			'available_widgets' => $available_widgets, // @todo Merge this with registered_widgets
@@ -1159,7 +1157,7 @@ final class WP_Customize_Widgets {
 			wp_die( 0 );
 		}
 
-		check_ajax_referer( 'update-widget', 'update-widget-nonce' );
+		check_ajax_referer( 'update-widget', 'nonce' );
 
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
 			wp_die( -1 );
@@ -1168,8 +1166,6 @@ final class WP_Customize_Widgets {
 		if ( ! isset( $_POST['widget-id'] ) ) {
 			wp_send_json_error();
 		}
-
-		unset( $_POST['update-widget-nonce'], $_POST['action'] );
 
 		do_action( 'load-widgets.php' );
 		do_action( 'widgets.php' );
