@@ -1080,7 +1080,7 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 		);
 
 		$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => $args, 1 => $widget['params'][0] ) );
-		echo WP_Customize_Widgets::get_widget_control( $args );
+		echo $this->manager->widgets->get_widget_control( $args );
 	}
 }
 

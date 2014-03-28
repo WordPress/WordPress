@@ -1588,7 +1588,8 @@ function wp_ajax_save_widget() {
 }
 
 function wp_ajax_update_widget() {
-	WP_Customize_Widgets::wp_ajax_update_widget();
+	global $wp_customize;
+	$wp_customize->widgets->wp_ajax_update_widget();
 }
 
 function wp_ajax_upload_attachment() {

@@ -37,6 +37,13 @@ final class WP_Customize_Manager {
 	 */
 	protected $previewing = false;
 
+	/**
+	 * Methods and properties deailing with managing widgets in the customizer.
+	 *
+	 * @var WP_Customize_Widgets
+	 */
+	public $widgets;
+
 	protected $settings = array();
 	protected $sections = array();
 	protected $controls = array();
@@ -63,7 +70,7 @@ final class WP_Customize_Manager {
 		require( ABSPATH . WPINC . '/class-wp-customize-control.php' );
 		require( ABSPATH . WPINC . '/class-wp-customize-widgets.php' );
 
-		WP_Customize_Widgets::setup(); // This should be integrated.
+		$this->widgets = new WP_Customize_Widgets( $this );
 
 		add_filter( 'wp_die_handler', array( $this, 'wp_die_handler' ) );
 
