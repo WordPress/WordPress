@@ -281,6 +281,8 @@ final class WP_Customize_Widgets {
 	public function customize_controls_init() {
 		do_action( 'load-widgets.php' );
 		do_action( 'widgets.php' );
+
+		/** This action is documented in wp-admin/widgets.php */
 		do_action( 'sidebar_admin_setup' );
 	}
 
@@ -1158,6 +1160,8 @@ final class WP_Customize_Widgets {
 
 		do_action( 'load-widgets.php' );
 		do_action( 'widgets.php' );
+
+		/** This action is documented in wp-admin/widgets.php */
 		do_action( 'sidebar_admin_setup' );
 
 		$widget_id = $this->get_post_value( 'widget-id' );
