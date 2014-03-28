@@ -28,7 +28,7 @@ final class _WP_Editors {
 	private function __construct() {}
 
 	/**
-	 * Parse default arguments for the editor eisntance.
+	 * Parse default arguments for the editor instance.
 	 *
 	 * @param string $editor_id ID for the current editor instance.
 	 * @param array  $settings {
@@ -71,8 +71,8 @@ final class _WP_Editors {
 			'editor_class'      => '',
 			'teeny'             => false,
 			'dfw'               => false,
-			'tinymce' =>        true,
-			'quicktags' =>      true
+			'tinymce'           => true,
+			'quicktags'         => true
 		) );
 
 		self::$this_tinymce = ( $set['tinymce'] && user_can_richedit() );
