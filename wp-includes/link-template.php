@@ -2788,8 +2788,12 @@ function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
 	// Return p= link for all public post types.
 	if ( ! empty( $post_id ) ) {
 		$post_type = get_post_type_object( $post->post_type );
-		if ( $post_type->public )
-			$shortlink = home_url('?p=' . $post_id);
+
+		if ( 'page' === $post->post_type && $post->ID == get_option( 'page_on_front' ) && 'page' == get_option( 'show_on_front' ) ) {
+			$shortlink = home_url( '/' );
+		} elseif ( $post_type->public ) {
+			$shortlink = home_url( '?p=' . $post_id );
+		}
 	}
 
 	return apply_filters('get_shortlink', $shortlink, $id, $context, $allow_slugs);
