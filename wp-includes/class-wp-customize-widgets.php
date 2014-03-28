@@ -875,8 +875,8 @@ class WP_Customize_Widgets {
 		<style>
 		.widget-customizer-highlighted-widget {
 			outline: none;
-			-webkit-box-shadow: 0 0 3px #ce0000;
-			box-shadow: 0 0 3px #ce0000;
+			-webkit-box-shadow: 0 0 2px rgba(30,140,190,0.8);
+			box-shadow: 0 0 2px rgba(30,140,190,0.8);
 			position: relative;
 			z-index: 1;
 		}
