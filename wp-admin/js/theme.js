@@ -1100,8 +1100,7 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 	},
 
 	doSearch: _.debounce( function( value ) {
-		var request = {},
-			self = this;
+		var request = {};
 
 		request.search = value;
 
@@ -1126,7 +1125,7 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 		// Get the themes by sending Ajax POST request to api.wordpress.org/themes
 		// or searching the local cache
 		this.collection.query( request );
-	}, 300 ),
+	}, 300 )
 });
 
 themes.view.Installer = themes.view.Appearance.extend({
@@ -1226,8 +1225,7 @@ themes.view.Installer = themes.view.Appearance.extend({
 	onFilter: function( event ) {
 		var request,
 			$el = $( event.target ),
-			filter = $el.data( 'filter' ),
-			self = this;
+			filter = $el.data( 'filter' );
 
 		// Bail if this is already active
 		if ( $el.hasClass( this.activeClass ) ) {
@@ -1253,8 +1251,7 @@ themes.view.Installer = themes.view.Appearance.extend({
 
 	// Clicking on a checkbox triggers a tag request
 	addFilter: function() {
-		var self = this,
-			tags = this.filtersChecked(),
+		var tags = this.filtersChecked(),
 			request = { tag: tags };
 
 		// Get the themes by sending Ajax POST request to api.wordpress.org/themes
