@@ -154,12 +154,9 @@ div.mce-statusbar {
 	border-top: 1px solid #eee;
 }
 
-.mce-path {
-	padding: 0 8px 1px;
-}
-
-.mce-path-item {
-	line-height: 1;
+div.mce-path {
+	padding: 0 8px 2px;
+	margin: 0;
 }
 
 .mce-toolbar .mce-btn {
