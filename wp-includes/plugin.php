@@ -410,7 +410,7 @@ function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
  * You can pass extra arguments to the hooks, much like you can with
  * apply_filters().
  *
- * @see apply_filters() This function works similar with the exception that
+ * @see apply_filters() This function works similarly, with the exception that
  * nothing is returned and only the functions or methods are called.
  *
  * @since 1.2.0
