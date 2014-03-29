@@ -755,118 +755,6 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 		parent::enqueue();
 	}
 
-	public function get_default_header_images() {
-		global $custom_image_header;
-
-		// Get *the* default image if there is one
-		$default = get_theme_support( 'custom-header', 'default-image' );
-
-		if ( ! $default ) { // If not,
-			return $custom_image_header->default_headers; // easy peasy.
-		}
-
-		$default = sprintf( $default,
-			get_template_directory_uri(),
-			get_stylesheet_directory_uri() );
-
-		$header_images = array();
-		$already_has_default = false;
-
-		// Get the whole set of default images
-		$default_header_images = $custom_image_header->default_headers;
-		foreach ( $default_header_images as $k => $h ) {
-			if ( $h['url'] == $default ) {
-				$already_has_default = true;
-				break;
-			}
-		}
-
-		// If *the one true image* isn't included in the default set, add it in
-		// first position
-		if ( ! $already_has_default ) {
-			$header_images['default'] = array(
-				'url' => $default,
-				'thumbnail_url' => $default,
-				'description' => 'Default'
-			);
-		}
-
-		// The rest of the set comes after
-		$header_images = array_merge( $header_images, $default_header_images );
-
-		return $header_images;
-	}
-
-	public function get_uploaded_header_images() {
-		$key = '_wp_attachment_custom_header_last_used_' . get_stylesheet();
-		$header_images = array();
-
-		$headers_not_dated = get_posts( array(
-			'post_type' => 'attachment',
-			'meta_key' => '_wp_attachment_is_custom_header',
-			'meta_value' => get_option('stylesheet'),
-			'orderby' => 'none',
-			'nopaging' => true,
-			'meta_query' => array(
-				array(
-					'key' => '_wp_attachment_is_custom_header',
-					'value' => get_option( 'stylesheet' ),
-					'compare' => 'LIKE'
-				),
-				array(
-					'key' => $key,
-					'value' => 'this string must not be empty',
-					'compare' => 'NOT EXISTS'
-				),
-			)
-		) );
-
-		$headers_dated = get_posts( array(
-			'post_type' => 'attachment',
-			'meta_key' => $key,
-			'orderby' => 'meta_value_num',
-			'order' => 'DESC',
-			'nopaging' => true,
-			'meta_query' => array(
-				array(
-					'key' => '_wp_attachment_is_custom_header',
-					'value' => get_option( 'stylesheet' ),
-					'compare' => 'LIKE'
-				),
-			),
-		) );
-
-		$limit = apply_filters( 'custom_header_uploaded_limit', 15 );
-		$headers = array_merge( $headers_dated, $headers_not_dated );
-		$headers = array_slice( $headers, 0, $limit );
-
-		foreach ( (array) $headers as $header ) {
-			$url = esc_url_raw( $header->guid );
-			$header_data = wp_get_attachment_metadata( $header->ID );
-			$timestamp = get_post_meta( $header->ID,
-				'_wp_attachment_custom_header_last_used_' . get_stylesheet(),
-				true );
-
-			$h = array(
-				'attachment_id' => $header->ID,
-				'url'           => $url,
-				'thumbnail_url' => $url,
-				'timestamp'     => $timestamp ? $timestamp : 0,
-			);
-
-			if ( isset( $header_data['width'] ) ) {
-				$h['width'] = $header_data['width'];
-			}
-			if ( isset( $header_data['height'] ) ) {
-				$h['height'] = $header_data['height'];
-			}
-
-			$header_images[] = $h;
-		}
-
-		return $header_images;
-	}
-
 	public function prepare_control() {
 		global $custom_image_header;
 		if ( empty( $custom_image_header ) ) {
@@ -875,8 +763,8 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 
 		// Process default headers and uploaded headers.
 		$custom_image_header->process_default_headers();
-		$this->default_headers = $this->get_default_header_images();
-		$this->uploaded_headers = $this->get_uploaded_header_images();
+		$this->default_headers = $custom_image_header->get_default_header_images();
+		$this->uploaded_headers = $custom_image_header->get_uploaded_header_images();
 	}
 
 	function print_header_image_template() {
