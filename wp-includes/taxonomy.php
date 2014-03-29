@@ -1107,6 +1107,10 @@ function get_term_children( $term_id, $taxonomy ) {
 	$children = $terms[$term_id];
 
 	foreach ( (array) $terms[$term_id] as $child ) {
+		if ( $term_id == $child ) {
+			continue;
+		}
+
 		if ( isset($terms[$child]) )
 			$children = array_merge($children, get_term_children($child, $taxonomy));
 	}
