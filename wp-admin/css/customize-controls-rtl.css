@@ -608,18 +608,19 @@ body {
 
 /** Handle cheaters. */
 body.cheatin {
+	font-size: medium;
+	height: auto;
+	background: #fff;
+	margin: 50px auto 2em;
+	padding: 1em 2em;
+	max-width: 700px;
 	min-width: 0;
-	background: #f9f9f9;
-	padding: 50px;
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.13);
 }
 
 body.cheatin p {
-	max-width: 700px;
-	margin: 0 auto;
-	padding: 2em;
 	font-size: 14px;
-	background: #555555;
-	border: 1px solid #dfdfdf;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+	line-height: 1.5;
+	margin: 25px 0 20px;
 }
