@@ -508,7 +508,7 @@ final class WP_Customize_Widgets {
 	 */
 	public function parse_widget_setting_id( $setting_id ) {
 		if ( ! preg_match( '/^(widget_(.+?))(?:\[(\d+)\])?$/', $setting_id, $matches ) ) {
-			return new WP_Error( 'invalid_setting_id', 'Invalid widget setting ID' );
+			return new WP_Error( 'widget_setting_invalid_id' );
 		}
 
 		$id_base = $matches[2];
@@ -1057,13 +1057,13 @@ final class WP_Customize_Widgets {
 			$sanitized_widget_setting = json_decode( $this->get_post_value( 'sanitized_widget_setting' ), true );
 			if ( empty( $sanitized_widget_setting ) ) {
 				$this->stop_capturing_option_updates();
-				return new WP_Error( 'malformed_data', 'Malformed sanitized_widget_setting' );
+				return new WP_Error( 'widget_setting_malformed' );
 			}
 
 			$instance = $this->sanitize_widget_instance( $sanitized_widget_setting );
 			if ( is_null( $instance ) ) {
 				$this->stop_capturing_option_updates();
-				return new WP_Error( 'unsanitary_data', 'Unsanitary sanitized_widget_setting' );
+				return new WP_Error( 'widget_setting_unsanitized' );
 			}
 
 			if ( ! is_null( $parsed_id['number'] ) ) {
@@ -1100,13 +1100,13 @@ final class WP_Customize_Widgets {
 		if ( 0 !== $this->count_captured_options() ) {
 			if ( $this->count_captured_options() > 1 ) {
 				$this->stop_capturing_option_updates();
-				return new WP_Error( 'unexpected_update', 'Widget unexpectedly updated more than one option.' );
+				return new WP_Error( 'widget_setting_too_many_options' );
 			}
 
 			$updated_option_name = key( $this->get_captured_options() );
 			if ( $updated_option_name !== $option_name ) {
 				$this->stop_capturing_option_updates();
-				return new WP_Error( 'wrong_option', sprintf( 'Widget updated option "%1$s", but expected "%2$s".', $updated_option_name, $option_name ) );
+				return new WP_Error( 'widget_setting_unexpected_option' );
 			}
 		}
 
