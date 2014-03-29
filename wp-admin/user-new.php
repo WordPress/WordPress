@@ -400,7 +400,7 @@ if ( apply_filters( 'show_password_fields', true ) ) : ?>
 	</tr>
 	<tr>
 		<th scope="row"><label for="send_password"><?php _e('Send Password?') ?></label></th>
-		<td><label for="send_password"><input type="checkbox" name="send_password" id="send_password" <?php checked( $new_user_send_password ); ?> /> <?php _e('Send this password to the new user by email.'); ?></label></td>
+		<td><label for="send_password"><input type="checkbox" name="send_password" id="send_password" value="1" <?php checked( $new_user_send_password ); ?> /> <?php _e('Send this password to the new user by email.'); ?></label></td>
 	</tr>
 <?php endif; ?>
 <?php } // !is_multisite ?>
