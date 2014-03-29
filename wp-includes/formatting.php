@@ -87,36 +87,44 @@ function wptexturize($text) {
 		$dynamic = array();
 
 		// '99 '99s '99's (apostrophe)
-		if ( "'" != $apos )
+		if ( "'" !== $apos ) {
 			$dynamic[ '/\'(?=\d)/' ] = $apos;
+		}
 
 		// Single quote at start, or preceded by (, {, <, [, ", or spaces.
-		if ( "'" != $opening_single_quote )
+		if ( "'" !== $opening_single_quote ) {
 			$dynamic[ '/(?<=\A|[([{<"]|' . $spaces . ')\'/' ] = $opening_single_quote;
+		}
 
 		// 9" (double prime)
-		if ( '"' != $double_prime )
+		if ( '"' !== $double_prime ) {
 			$dynamic[ '/(?<=\d)"/' ] = $double_prime;
+		}
 
 		// 9' (prime)
-		if ( "'" != $prime )
+		if ( "'" !== $prime ) {
 			$dynamic[ '/(?<=\d)\'/' ] = $prime;
+		}
 
 		// Apostrophe in a word.  No spaces or double primes.
-		if ( "'" != $apos )
+		if ( "'" !== $apos ) {
 			$dynamic[ '/(?<!' . $spaces . ')\'(?!\'|' . $spaces . ')/' ] = $apos;
+		}
 
 		// Double quote at start, or preceded by (, {, <, [, or spaces, and not followed by spaces.
-		if ( '"' != $opening_quote )
+		if ( '"' !== $opening_quote ) {
 			$dynamic[ '/(?<=\A|[([{<]|' . $spaces . ')"(?!' . $spaces . ')/' ] = $opening_quote;
+		}
 
 		// Any remaining double quotes.
-		if ( '"' != $closing_quote )
+		if ( '"' !== $closing_quote ) {
 			$dynamic[ '/"/' ] = $closing_quote;
+		}
 
 		// Single quotes followed by spaces or a period.
-		if ( "'" != $closing_single_quote )
-			$dynamic[ '/\'(?=\Z|\.|' . $spaces . ')/' ] = $closing_single_quote; 
+		if ( "'" !== $closing_single_quote ) {
+			$dynamic[ '/\'(?=\Z|\.|' . $spaces . ')/' ] = $closing_single_quote;
+		}
 
 		$dynamic_characters = array_keys( $dynamic );
 		$dynamic_replacements = array_values( $dynamic );
@@ -147,8 +155,9 @@ function wptexturize($text) {
 	$textarr = preg_split('/(<.*>|\[.*\])/Us', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 	foreach ( $textarr as &$curl ) {
-		if ( empty( $curl ) )
+		if ( empty( $curl ) ) {
 			continue;
+		}
 
 		// Only call _wptexturize_pushpop_element if first char is correct tag opening
 		$first = $curl[0];
@@ -212,8 +221,9 @@ function _wptexturize_pushpop_element($text, &$stack, $disabled_elements, $openi
 			$last = array_pop($stack);
 
 			// Make sure it matches the opening tag
-			if ($last != $matches[1])
-				array_push($stack, $last);
+			if ( $last != $matches[1] ) {
+				array_push( $stack, $last );
+			}
 		}
 	}
 }
