@@ -401,7 +401,7 @@ div.wp-menu-image:before {
 /* Sticky admin menu */
 .sticky-menu #adminmenuwrap {
 	position: fixed;
-	z-index: 99; /* Match the z-index of .wp-submenu to ensure flyout menus don't appear underneath main column elements */
+	z-index: 9999; /* Match the z-index of .wp-submenu to ensure flyout menus don't appear underneath main column elements */
 }
 
 /* A new arrow */
