@@ -63,7 +63,7 @@ var imageEdit = window.imageEdit = {
 	},
 
 	toggleHelp : function(el) {
-		$(el).siblings('.imgedit-help').slideToggle('fast');
+		$( el ).parents( '.imgedit-group-top' ).toggleClass( 'imgedit-help-toggled' ).find( '.imgedit-help' ).slideToggle( 'fast' );
 		return false;
 	},
 

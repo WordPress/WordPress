@@ -457,28 +457,34 @@ border color while dragging a file over the uploader drop area */
 }
 
 .imgedit-settings p {
-	margin: 8px 0;
+	margin: 8px 0 0;
 }
 
-.post-php .imgedit-wrap table {
-	width: 100%;
-}
-
-.describe .imgedit-wrap table td,
-.wp_attachment_holder .imgedit-wrap table td {
-	vertical-align: top;
-	padding-top: 0;
-}
-
-.describe .imgedit-wrap table td.imgedit-settings {
+.describe .imgedit-wrap .imgedit-settings {
 	padding: 0 5px;
 }
 
-.wp_attachment_holder .imgedit-wrap table td.imgedit-settings {
+.wp_attachment_holder div.updated {
+	margin-top: 0;
+}
+
+.wp_attachment_holder .imgedit-wrap > div {
+	height: auto;
+	overflow: hidden;
+}
+
+.wp_attachment_holder .imgedit-wrap .imgedit-panel-content {
+	padding-right: 16px;
+	width: auto;
+	overflow: hidden;
+}
+
+.wp_attachment_holder .imgedit-wrap .imgedit-settings {
+	float: right;
 	width: 250px;
 }
 
-td.imgedit-settings input {
+.imgedit-settings input {
 	margin-top: 0;
 	vertical-align: middle;
 }
@@ -486,7 +492,7 @@ td.imgedit-settings input {
 .imgedit-wait {
 	position: absolute;
 	top: 0;
-	background: #fff url(../images/spinner.gif) no-repeat scroll 22px 10px;
+	background: #fff url(../images/spinner.gif) no-repeat center;
 	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
 	opacity: 0.7;
@@ -561,6 +567,7 @@ td.imgedit-settings input {
 .imgedit-menu div.disabled {
 	border-color: #ccc;
 	background-color: #ddd;
+	color: #777;
 	filter: alpha(opacity=50);
 	opacity: 0.5;
 	cursor: default;
@@ -634,6 +641,14 @@ td.imgedit-settings input {
 	margin: 5px 0;
 }
 
+#poststuff .imgedit-group-top h3 {
+	padding: 0;
+}
+
+.imgedit-group-top h3 a {
+	text-decoration: none;
+}
+
 .imgedit-applyto .imgedit-label {
 	padding: 2px 0 0;
 	display: block;
@@ -642,7 +657,6 @@ td.imgedit-settings input {
 .imgedit-help {
 	display: none;
 	font-style: italic;
-	margin-bottom: 8px;
 }
 
 a.imgedit-help-toggle {
