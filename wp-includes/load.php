@@ -377,7 +377,7 @@ function wp_using_ext_object_cache( $using = null ) {
 	$current_using = $_wp_using_ext_object_cache;
 	if ( null !== $using )
 		$_wp_using_ext_object_cache = $using;
-	return (bool) $current_using;
+	return $current_using;
 }
 
 /**
