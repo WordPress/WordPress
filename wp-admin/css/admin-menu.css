@@ -168,6 +168,11 @@
 	color: #bbb;
 }
 
+#adminmenu .wp-submenu a:hover,
+#adminmenu .wp-submenu a:focus {
+	background: none;
+}
+
 #adminmenu a:hover,
 #adminmenu li.menu-top > a:focus,
 #adminmenu .wp-submenu a:hover,
