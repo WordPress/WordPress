@@ -269,6 +269,9 @@ themes.Collection = Backbone.Collection.extend({
 					self.add( data.themes );
 					self.trigger( 'query:success' );
 
+					// We are done loading themes for now.
+					self.loadingThemes = false;
+
 				}).fail( function() {
 					self.trigger( 'query:fail' );
 				});
@@ -331,7 +334,10 @@ themes.Collection = Backbone.Collection.extend({
 				}
 			}
 		});
-	}
+	},
+
+	// Static status controller for when we are loading themes.
+	loadingThemes: false
 });
 
 // This is the view that controls each theme item
@@ -1148,7 +1154,17 @@ themes.view.Installer = themes.view.Appearance.extend({
 
 		// Bump `collection.currentQuery.page` and request more themes if we hit the end of the page.
 		this.listenTo( this, 'theme:end', function() {
+
+			// Make sure we are not already loading
+			if ( self.collection.loadingThemes ) {
+				return;
+			}
+
+			// Set loadingThemes to true and bump page instance of currentQuery.
+			self.collection.loadingThemes = true;
 			self.collection.currentQuery.page++;
+
+			// Use currentQuery.page to build the themes request.
 			_.extend( self.collection.currentQuery.request, { page: self.collection.currentQuery.page } );
 			self.collection.query( self.collection.currentQuery.request );
 		});
