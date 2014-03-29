@@ -669,8 +669,10 @@ final class _WP_Editors {
 		if ( self::$has_tinymce )
 			wp_enqueue_script('editor');
 
-		if ( self::$has_quicktags )
-			wp_enqueue_script('quicktags');
+		if ( self::$has_quicktags ) {
+			wp_enqueue_script( 'quicktags' );
+			wp_enqueue_style( 'buttons' );
+		}
 
 		if ( in_array('wplink', self::$plugins, true) || in_array('link', self::$qt_buttons, true) ) {
 			wp_enqueue_script('wplink');
@@ -1115,10 +1117,12 @@ final class _WP_Editors {
 			<div id="wp-fullscreen-close"><a href="#" onclick="wp.editor.fullscreen.off();return false;"><?php _e('Exit fullscreen'); ?></a></div>
 			<div id="wp-fullscreen-central-toolbar" style="width:<?php echo $width; ?>px;">
 
-			<div id="wp-fullscreen-mode-bar"><div id="wp-fullscreen-modes">
-				<a href="#" onclick="wp.editor.fullscreen.switchmode('tinymce');return false;"><?php _e( 'Visual' ); ?></a>
-				<a href="#" onclick="wp.editor.fullscreen.switchmode('html');return false;"><?php _ex( 'Text', 'Name for the Text editor tab (formerly HTML)' ); ?></a>
-			</div></div>
+			<div id="wp-fullscreen-mode-bar">
+				<div id="wp-fullscreen-modes" class="button-group">
+					<a class="button wp-fullscreen-mode-tinymce" href="#" onclick="wp.editor.fullscreen.switchmode( 'tinymce' ); return false;"><?php _e( 'Visual' ); ?></a>
+					<a class="button wp-fullscreen-mode-html" href="#" onclick="wp.editor.fullscreen.switchmode( 'html' ); return false;"><?php _ex( 'Text', 'Name for the Text editor tab (formerly HTML)' ); ?></a>
+				</div>
+			</div>
 
 			<div id="wp-fullscreen-button-bar"><div id="wp-fullscreen-buttons" class="mce-toolbar">
 		<?php

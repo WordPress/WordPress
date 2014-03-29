@@ -439,7 +439,8 @@
 
 	api.refreshButtons = function( fade ) {
 		if ( s.mode === 'html' ) {
-			$('#wp-fullscreen-mode-bar').removeClass('wp-tmce-mode').addClass('wp-html-mode');
+			$('#wp-fullscreen-mode-bar').removeClass('wp-tmce-mode').addClass('wp-html-mode')
+				.find('a').removeClass( 'active' ).filter('.wp-fullscreen-mode-html').addClass( 'active' );
 
 			if ( fade ) {
 				$('#wp-fullscreen-button-bar').fadeOut( 150, function(){
@@ -449,7 +450,8 @@
 				$('#wp-fullscreen-button-bar').addClass('wp-html-mode');
 			}
 		} else if ( s.mode === 'tinymce' ) {
-			$('#wp-fullscreen-mode-bar').removeClass('wp-html-mode').addClass('wp-tmce-mode');
+			$('#wp-fullscreen-mode-bar').removeClass('wp-html-mode').addClass('wp-tmce-mode')
+				.find('a').removeClass( 'active' ).filter('.wp-fullscreen-mode-tinymce').addClass( 'active' );
 
 			if ( fade ) {
 				$('#wp-fullscreen-button-bar').fadeOut( 150, function(){

@@ -57,6 +57,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		cmd: 'WP_Adv',
 		onPostRender: function() {
 			wpAdvButton = this;
+			wpAdvButton.active( getUserSetting( 'hidetb' ) === '1' ? true : false );
 		}
 	});
 
