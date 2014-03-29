@@ -1885,6 +1885,17 @@
 	 */
 	media.view.MediaFrame.Post = media.view.MediaFrame.Select.extend({
 		initialize: function() {
+			this.counts = {
+				audio: {
+					count: media.view.settings.attachmentCounts.audio,
+					state: 'playlist'
+				},
+				video: {
+					count: media.view.settings.attachmentCounts.video,
+					state: 'video-playlist'
+				}
+			};
+
 			_.defaults( this.options, {
 				multiple:  true,
 				editing:   false,
@@ -1895,6 +1906,7 @@
 			 */
 			media.view.MediaFrame.Select.prototype.initialize.apply( this, arguments );
 			this.createIframeStates();
+
 		},
 
 		createStates: function() {
@@ -2032,10 +2044,21 @@
 		},
 
 		bindHandlers: function() {
-			/**
-			 * call 'bindHandlers' directly on the parent class
-			 */
+			var handlers, checkCounts;
+
 			media.view.MediaFrame.Select.prototype.bindHandlers.apply( this, arguments );
+
+			this.on( 'activate', this.activate, this );
+
+			// Only bother checking media type counts if one of the counts is zero
+			checkCounts = _.find( this.counts, function( type ) {
+				return type.count === 0;
+			} );
+
+			if ( typeof checkCounts !== 'undefined' ) {
+				this.listenTo( media.model.Attachments.all, 'change:type', this.mediaTypeCounts );
+			}
+
 			this.on( 'menu:create:gallery', this.createMenu, this );
 			this.on( 'menu:create:playlist', this.createMenu, this );
 			this.on( 'menu:create:video-playlist', this.createMenu, this );
@@ -2046,7 +2069,7 @@
 			this.on( 'toolbar:create:featured-image', this.featuredImageToolbar, this );
 			this.on( 'toolbar:create:main-embed', this.mainEmbedToolbar, this );
 
-			var handlers = {
+			handlers = {
 				menu: {
 					'default': 'mainMenu',
 					'gallery': 'galleryMenu',
@@ -2081,6 +2104,22 @@
 			}, this );
 		},
 
+		activate: function() {
+			// Hide menu items for states tied to particular media types if there are no items
+			_.each( this.counts, function( type ) {
+				if ( type.count < 1 ) {
+					this.menuItemVisibility( type.state, 'hide' );
+				}
+			}, this );
+		},
+
+		mediaTypeCounts: function( model, attr ) {
+			if ( typeof this.counts[ attr ] !== 'undefined' && this.counts[ attr ].count < 1 ) {
+				this.counts[ attr ].count++;
+				this.menuItemVisibility( this.counts[ attr ].state, 'show' );
+			}
+		},
+
 		// Menus
 		/**
 		 * @param {wp.Backbone.View} view
@@ -2092,6 +2131,15 @@
 					priority: 100
 				})
 			});
+		},
+
+		menuItemVisibility: function( state, visibility ) {
+			var menu = this.menu.get();
+			if ( visibility === 'hide' ) {
+				menu.hide( state );
+			} else if ( visibility === 'show' ) {
+				menu.show( state );
+			}
 		},
 		/**
 		 * @param {wp.Backbone.View} view
@@ -4066,6 +4114,26 @@
 
 		deselect: function() {
 			this.$el.children().removeClass('active');
+		},
+
+		hide: function( id ) {
+			var view = this.get( id );
+
+			if ( ! view ) {
+				return;
+			}
+
+			view.$el.addClass('hidden');
+		},
+
+		show: function( id ) {
+			var view = this.get( id );
+
+			if ( ! view ) {
+				return;
+			}
+
+			view.$el.removeClass('hidden');
 		}
 	});
 
