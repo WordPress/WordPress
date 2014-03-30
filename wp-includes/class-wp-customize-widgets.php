@@ -604,7 +604,8 @@ final class WP_Customize_Widgets {
 		<div id="widgets-left"><!-- compatibility with JS which looks for widget templates here -->
 		<div id="available-widgets">
 			<div id="available-widgets-filter">
-				<input type="search" placeholder="<?php esc_attr_e( 'Find widgets&hellip;' ) ?>">
+				<label class="screen-reader-text" for="widgets-search"><?php _e( 'Find Widgets' ); ?></label>
+				<input type="search" id="widgets-search" placeholder="<?php esc_attr_e( 'Find widgets&hellip;' ) ?>" />
 			</div>
 			<?php foreach ( $this->get_available_widgets() as $available_widget ): ?>
 				<div id="widget-tpl-<?php echo esc_attr( $available_widget['id'] ) ?>" data-widget-id="<?php echo esc_attr( $available_widget['id'] ) ?>" class="widget-tpl <?php echo esc_attr( $available_widget['id'] ) ?>" tabindex="0">
