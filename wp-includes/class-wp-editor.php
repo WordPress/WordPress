@@ -1111,7 +1111,7 @@ final class _WP_Editors {
 		$save = isset( $post->post_status ) && $post->post_status == 'publish' ? __('Update') : __('Save');
 
 		?>
-		<div id="wp-fullscreen-body"<?php if ( is_rtl() ) echo ' class="rtl"'; ?> data-theme-width="<?php echo (int) $width; ?>" data-dfw-width="<?php echo (int) $dfw_width; ?>">
+		<div id="wp-fullscreen-body" class="wp-core-ui<?php if ( is_rtl() ) echo ' rtl'; ?>" data-theme-width="<?php echo (int) $width; ?>" data-dfw-width="<?php echo (int) $dfw_width; ?>">
 		<div id="fullscreen-topbar">
 			<div id="wp-fullscreen-toolbar">
 			<div id="wp-fullscreen-close"><a href="#" onclick="wp.editor.fullscreen.off();return false;"><?php _e('Exit fullscreen'); ?></a></div>
@@ -1287,11 +1287,11 @@ final class _WP_Editors {
 	 * @since 3.1.0
 	 */
 	public static function wp_link_dialog() {
-		$search_panel_visible = '1' == get_user_setting( 'wplink', '0' ) ? ' class="search-panel-visible"' : '';
+		$search_panel_visible = '1' == get_user_setting( 'wplink', '0' ) ? ' search-panel-visible' : '';
 
 		?>
 		<div id="wp-link-backdrop"></div>
-		<div id="wp-link-wrap"<?php echo $search_panel_visible; ?>>
+		<div id="wp-link-wrap" class="wp-core-ui<?php echo $search_panel_visible; ?>">
 		<form id="wp-link" tabindex="-1">
 		<?php wp_nonce_field( 'internal-linking', '_ajax_linking_nonce', false ); ?>
 		<div id="link-modal-title">
