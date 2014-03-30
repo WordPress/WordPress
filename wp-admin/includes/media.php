@@ -2662,7 +2662,7 @@ function edit_form_image_editor( $post ) {
 	<div class="wp_attachment_details edit-form-section">
 		<p>
 			<label for="attachment_caption"><strong><?php _e( 'Caption' ); ?></strong><?php
-			if ( preg_match( '#^audio|video#', $post->post_mime_type ) ): ?>: <?php
+			if ( preg_match( '#^(audio|video)/#', $post->post_mime_type ) ): ?>: <?php
 				_e( "Custom label for item in a playlist. If empty, the file's available data is used." );
 			endif ?></label><br />
 			<textarea class="widefat" name="excerpt" id="attachment_caption"><?php echo $post->post_excerpt; ?></textarea>
@@ -2688,7 +2688,7 @@ function edit_form_image_editor( $post ) {
 	?>
 
 	<label for="content"><strong><?php _e( 'Description' ); ?></strong><?php
-	if ( preg_match( '#^audio|video#', $post->post_mime_type ) ): ?>: <?php
+	if ( preg_match( '#^(audio|video)/#', $post->post_mime_type ) ): ?>: <?php
 		_e( 'Displayed on attachment pages.' );
 	endif ?></label>
 	<?php wp_editor( $post->post_content, 'attachment_content', $editor_args ); ?>
@@ -2751,7 +2751,7 @@ function attachment_submitbox_metadata() {
 			<?php
 		endif;
 
-	if ( preg_match( '#^(audio|video)#', $post->post_mime_type ) ):
+	if ( preg_match( '#^(audio|video)/#', $post->post_mime_type ) ):
 
 		/**
 		 * Filter the audio and video metadata fields to be shown in the publish meta box.

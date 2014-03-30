@@ -1016,25 +1016,25 @@ function wp_underscore_playlist_templates() {
 ?>
 <script type="text/html" id="tmpl-wp-playlist-current-item">
 	<# if ( data.image ) { #>
-	<img src="{{{ data.thumb.src }}}"/>
+	<img src="{{ data.thumb.src }}"/>
 	<# } #>
 	<div class="wp-playlist-caption">
 		<span class="wp-caption-meta wp-caption-title">&#8220;{{{ data.title }}}&#8221;</span>
-		<# if ( data.meta.album ) { #><span class="wp-caption-meta wp-caption-album">{{{ data.meta.album }}}</span><# } #>
-		<# if ( data.meta.artist ) { #><span class="wp-caption-meta wp-caption-artist">{{{ data.meta.artist }}}</span><# } #>
+		<# if ( data.meta.album ) { #><span class="wp-caption-meta wp-caption-album">{{ data.meta.album }}</span><# } #>
+		<# if ( data.meta.artist ) { #><span class="wp-caption-meta wp-caption-artist">{{ data.meta.artist }}</span><# } #>
 	</div>
 </script>
 <script type="text/html" id="tmpl-wp-playlist-item">
 	<div class="wp-playlist-item">
 		<div class="wp-playlist-caption">
-			{{{ data.index ? ( data.index + '.&nbsp;' ) : '' }}}
+			{{ data.index ? ( data.index + '. ' ) : '' }}
 			<# if ( data.caption ) { #>
 				{{{ data.caption }}}
 			<# } else { #>
 				<span class="wp-caption-title">&#8220;{{{ data.title }}}&#8221;</span>
 				<# if ( data.artists && data.meta.artist ) { #>
 				<span class="wp-caption-by"><?php _e( 'by' ) ?></span>
-				<span class="wp-caption-artist">{{{ data.meta.artist }}}</span>
+				<span class="wp-caption-artist">{{ data.meta.artist }}</span>
 				<# } #>
 			<# } #>
 		</div>
@@ -1203,7 +1203,7 @@ function wp_playlist_shortcode( $attr ) {
 		$meta = wp_get_attachment_metadata( $attachment->ID );
 		if ( ! empty( $meta ) ) {
 
-			foreach ( wp_get_relevant_id3_keys() as $key => $label ) {
+			foreach ( wp_get_relevant_id3_keys( $attachment ) as $key => $label ) {
 				if ( ! empty( $meta[ $key ] ) ) {
 					$track['meta'][ $key ] = $meta[ $key ];
 				}
@@ -1317,9 +1317,10 @@ function wp_get_audio_extensions() {
  *
  * @since 3.9.0
  *
+ * @param WP_Post $post The post in question, provided for context.
  * @return array
  */
-function wp_get_relevant_id3_keys() {
+function wp_get_relevant_id3_keys( $post ) {
 	$fields = array(
 		'artist' => __( 'Artist' ),
 		'album' => __( 'Album' ),
@@ -1327,14 +1328,16 @@ function wp_get_relevant_id3_keys() {
 		'year' => __( 'Year' ),
 		'length_formatted' => __( 'Formatted Length' )
 	);
+
 	/**
-	 * Filter the editable list of keys to lookup data from an attachment's metadata
+	 * Filter the editable list of keys to lookup data from an attachment's metadata.
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param array $fields
+	 * @param array   $fields Key/value pairs of field keys to labels.
+	 * @param WP_Post $post   Post object.
 	 */
-	return apply_filters( 'wp_get_relevant_id3_keys', $fields );
+	return apply_filters( 'wp_get_relevant_id3_keys', $fields, $post );
 }
 /**
  * The Audio shortcode.
@@ -2331,7 +2334,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			$response['fileLength'] = $meta['length_formatted'];
 
 		$response['meta'] = array();
-		foreach ( wp_get_relevant_id3_keys() as $key => $label ) {
+		foreach ( wp_get_relevant_id3_keys( $attachment ) as $key => $label ) {
 			if ( ! empty( $meta[ $key ] ) ) {
 				$response['meta'][ $key ] = $meta[ $key ];
 			}

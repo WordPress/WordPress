@@ -1071,7 +1071,7 @@ function attachment_id3_data_meta_box( $post ) {
 		$meta = wp_get_attachment_metadata( $post->ID );
 	}
 
-	foreach ( wp_get_relevant_id3_keys() as $key => $label ): ?>
+	foreach ( wp_get_relevant_id3_keys( $post ) as $key => $label ): ?>
 	<p>
 		<label for="title"><?php echo $label ?></label>
 		<input type="text" name="id3_<?php echo esc_attr( $key ) ?>" id="id3_<?php echo esc_attr( $key ) ?>" class="widefat" value="<?php
