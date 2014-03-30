@@ -245,7 +245,7 @@ function edit_post( $post_data = null ) {
 
 		foreach ( wp_get_relevant_id3_keys( $post ) as $key => $label ) {
 			if ( isset( $post_data[ 'id3_' . $key ] ) ) {
-				$id3data[ $key ] = sanitize_post_field( wp_unslash( $post_data[ 'id3_' . $key ] ) );
+				$id3data[ $key ] = sanitize_text_field( wp_unslash( $post_data[ 'id3_' . $key ] ) );
 			}
 		}
 		wp_update_attachment_metadata( $post_ID, $id3data );
