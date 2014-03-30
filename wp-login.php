@@ -755,11 +755,18 @@ default:
 	if ( !$secure_cookie && is_ssl() && force_ssl_login() && !force_ssl_admin() && ( 0 !== strpos($redirect_to, 'https') ) && ( 0 === strpos($redirect_to, 'http') ) )
 		$secure_cookie = false;
 
-	// If cookies are disabled we can't log in even with a valid user+pass
-	if ( isset($_POST['testcookie']) && empty($_COOKIE[TEST_COOKIE]) )
-		$user = new WP_Error('test_cookie', __("<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use WordPress."));
-	else
-		$user = wp_signon('', $secure_cookie);
+	$user = wp_signon( '', $secure_cookie );
+
+	if ( empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
+		if ( headers_sent() ) {
+			$user = new WP_Error( 'test_cookie', sprintf( __( '<strong>ERROR</strong>: Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
+				__( 'http://codex.wordpress.org/Cookies' ), __( 'https://wordpress.org/support/' ) ) );
+		} elseif ( isset( $_POST['testcookie'] ) && empty( $_COOKIE[ TEST_COOKIE ] ) ) {
+			// If cookies are disabled we can't log in even with a valid user+pass
+			$user = new WP_Error( 'test_cookie', sprintf( __( '<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
+				__( 'http://codex.wordpress.org/Cookies' ) ) );
+		}
+	}
 
 	$requested_redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
 	/**
