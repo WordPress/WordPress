@@ -1019,9 +1019,9 @@ function wp_underscore_playlist_templates() {
 	<img src="{{ data.thumb.src }}"/>
 	<# } #>
 	<div class="wp-playlist-caption">
-		<span class="wp-caption-meta wp-caption-title">&#8220;{{{ data.title }}}&#8221;</span>
-		<# if ( data.meta.album ) { #><span class="wp-caption-meta wp-caption-album">{{ data.meta.album }}</span><# } #>
-		<# if ( data.meta.artist ) { #><span class="wp-caption-meta wp-caption-artist">{{ data.meta.artist }}</span><# } #>
+		<span class="wp-playlist-item-meta wp-playlist-item-title">&#8220;{{{ data.title }}}&#8221;</span>
+		<# if ( data.meta.album ) { #><span class="wp-playlist-item-meta wp-playlist-item-album">{{ data.meta.album }}</span><# } #>
+		<# if ( data.meta.artist ) { #><span class="wp-playlist-item-meta wp-playlist-item-artist">{{ data.meta.artist }}</span><# } #>
 	</div>
 </script>
 <script type="text/html" id="tmpl-wp-playlist-item">
@@ -1031,10 +1031,9 @@ function wp_underscore_playlist_templates() {
 			<# if ( data.caption ) { #>
 				{{{ data.caption }}}
 			<# } else { #>
-				<span class="wp-caption-title">&#8220;{{{ data.title }}}&#8221;</span>
+				<span class="wp-playlist-item-title">&#8220;{{{ data.title }}}&#8221;</span>
 				<# if ( data.artists && data.meta.artist ) { #>
-				<span class="wp-caption-by"><?php _e( 'by' ) ?></span>
-				<span class="wp-caption-artist">{{ data.meta.artist }}</span>
+				<span class="wp-playlist-item-artist"> &mdash; {{ data.meta.artist }}</span>
 				<# } #>
 			<# } #>
 		</div>
