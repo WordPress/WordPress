@@ -1057,3 +1057,28 @@ function post_thumbnail_meta_box( $post ) {
 	$thumbnail_id = get_post_meta( $post->ID, '_thumbnail_id', true );
 	echo _wp_post_thumbnail_html( $thumbnail_id, $post->ID );
 }
+
+/**
+ * Display fields for ID3 data
+ *
+ * @since 3.9.0
+ *
+ * @param WP_Post $post
+ */
+function attachment_id3_data_meta_box( $post ) {
+	$meta = array();
+	if ( ! empty( $post->ID ) ) {
+		$meta = wp_get_attachment_metadata( $post->ID );
+	}
+
+	foreach ( wp_get_relevant_id3_keys() as $key => $label ): ?>
+	<p>
+		<label for="title"><?php echo $label ?></label>
+		<input type="text" name="id3_<?php echo esc_attr( $key ) ?>" id="id3_<?php echo esc_attr( $key ) ?>" class="widefat" value="<?php
+			if ( ! empty( $meta[ $key ] ) ) {
+				echo esc_attr( $meta[ $key ] );
+			}
+		?>" />
+	</p>
+	<?php endforeach;
+}

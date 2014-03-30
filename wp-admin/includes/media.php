@@ -2661,9 +2661,13 @@ function edit_form_image_editor( $post ) {
 	</div>
 	<div class="wp_attachment_details edit-form-section">
 		<p>
-			<label for="attachment_caption"><strong><?php _e( 'Caption' ); ?></strong></label><br />
+			<label for="attachment_caption"><strong><?php _e( 'Caption' ); ?></strong><?php
+			if ( preg_match( '#^audio|video#', $post->post_mime_type ) ): ?>: <?php
+				_e( "Custom label for item in a playlist. If empty, the file's available data is used." );
+			endif ?></label><br />
 			<textarea class="widefat" name="excerpt" id="attachment_caption"><?php echo $post->post_excerpt; ?></textarea>
 		</p>
+
 
 	<?php if ( 'image' === substr( $post->post_mime_type, 0, 5 ) ) : ?>
 		<p>
@@ -2683,7 +2687,10 @@ function edit_form_image_editor( $post ) {
 		);
 	?>
 
-	<label for="content"><strong><?php _e( 'Description' ); ?></strong></label>
+	<label for="content"><strong><?php _e( 'Description' ); ?></strong><?php
+	if ( preg_match( '#^audio|video#', $post->post_mime_type ) ): ?>: <?php
+		_e( 'Displayed on attachment pages.' );
+	endif ?></label>
 	<?php wp_editor( $post->post_content, 'attachment_content', $editor_args ); ?>
 
 	</div>
@@ -2765,8 +2772,6 @@ function attachment_submitbox_metadata() {
 		 */
 		$fields = apply_filters( 'media_submitbox_misc_sections', array(
 			'mime_type'        => __( 'Mime-type:' ),
-			'year'             => __( 'Year:' ),
-			'genre'            => __( 'Genre:' ),
 			'length_formatted' => __( 'Length:' ),
 		) );
 

@@ -1018,30 +1018,26 @@ function wp_underscore_playlist_templates() {
 	<# if ( data.image ) { #>
 	<img src="{{{ data.thumb.src }}}"/>
 	<# } #>
-	<# if ( data.meta.title ) { #>
 	<div class="wp-playlist-caption">
-		<span class="wp-caption-meta wp-caption-title">&#8220;{{{ data.meta.title }}}&#8221;</span>
-		<span class="wp-caption-meta wp-caption-album">{{{ data.meta.album }}}</span>
-		<span class="wp-caption-meta wp-caption-artist">{{{ data.meta.artist }}}</span>
+		<span class="wp-caption-meta wp-caption-title">&#8220;{{{ data.title }}}&#8221;</span>
+		<# if ( data.meta.album ) { #><span class="wp-caption-meta wp-caption-album">{{{ data.meta.album }}}</span><# } #>
+		<# if ( data.meta.artist ) { #><span class="wp-caption-meta wp-caption-artist">{{{ data.meta.artist }}}</span><# } #>
 	</div>
-	<# } else { #>
-	<div class="wp-playlist-caption">{{{ data.caption ? data.caption : data.title }}}</div>
-	<# } #>
 </script>
 <script type="text/html" id="tmpl-wp-playlist-item">
 	<div class="wp-playlist-item">
-		<# if ( ( data.title || data.meta.title ) && ( ! data.artists || data.meta.artist ) ) { #>
 		<div class="wp-playlist-caption">
 			{{{ data.index ? ( data.index + '.&nbsp;' ) : '' }}}
-			<span class="wp-caption-title">&#8220;{{{ data.title ? data.title : data.meta.title }}}&#8221;</span>
-			<# if ( data.artists ) { #>
-			<span class="wp-caption-by"><?php _e( 'by' ) ?></span>
-			<span class="wp-caption-artist">{{{ data.meta.artist }}}</span>
+			<# if ( data.caption ) { #>
+				{{{ data.caption }}}
+			<# } else { #>
+				<span class="wp-caption-title">&#8220;{{{ data.title }}}&#8221;</span>
+				<# if ( data.artists && data.meta.artist ) { #>
+				<span class="wp-caption-by"><?php _e( 'by' ) ?></span>
+				<span class="wp-caption-artist">{{{ data.meta.artist }}}</span>
+				<# } #>
 			<# } #>
 		</div>
-		<# } else { #>
-		<div class="wp-playlist-caption">{{{ data.index ? ( data.index + '.' ) : '' }}} {{{ data.caption ? data.caption : data.title }}}</div>
-		<# } #>
 		<# if ( data.meta.length_formatted ) { #>
 		<div class="wp-playlist-item-length">{{{ data.meta.length_formatted }}}</div>
 		<# } #>
@@ -1207,8 +1203,7 @@ function wp_playlist_shortcode( $attr ) {
 		$meta = wp_get_attachment_metadata( $attachment->ID );
 		if ( ! empty( $meta ) ) {
 
-			$keys = array( 'title', 'artist', 'band', 'album', 'genre', 'year', 'length', 'length_formatted' );
-			foreach ( $keys as $key ) {
+			foreach ( wp_get_relevant_id3_keys() as $key => $label ) {
 				if ( ! empty( $meta[ $key ] ) ) {
 					$track['meta'][ $key ] = $meta[ $key ];
 				}
@@ -1317,6 +1312,30 @@ function wp_get_audio_extensions() {
 	return apply_filters( 'wp_audio_extensions', array( 'mp3', 'ogg', 'wma', 'm4a', 'wav' ) );
 }
 
+/**
+ * Return useful keys to use to lookup data from an attachment's stored metadata
+ *
+ * @since 3.9.0
+ *
+ * @return array
+ */
+function wp_get_relevant_id3_keys() {
+	$fields = array(
+		'artist' => __( 'Artist' ),
+		'album' => __( 'Album' ),
+		'genre' => __( 'Genre' ),
+		'year' => __( 'Year' ),
+		'length_formatted' => __( 'Formatted Length' )
+	);
+	/**
+	 * Filter the editable list of keys to lookup data from an attachment's metadata
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param array $fields
+	 */
+	return apply_filters( 'wp_get_relevant_id3_keys', $fields );
+}
 /**
  * The Audio shortcode.
  *
@@ -2312,8 +2331,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			$response['fileLength'] = $meta['length_formatted'];
 
 		$response['meta'] = array();
-		$keys = array( 'title', 'artist', 'band', 'album', 'genre', 'year', 'length', 'length_formatted' );
-		foreach ( $keys as $key ) {
+		foreach ( wp_get_relevant_id3_keys() as $key => $label ) {
 			if ( ! empty( $meta[ $key ] ) ) {
 				$response['meta'][ $key ] = $meta[ $key ];
 			}
