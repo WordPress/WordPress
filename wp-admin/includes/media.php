@@ -240,7 +240,7 @@ win.send_to_editor('<?php echo addslashes($html); ?>');
  * @param int $post_id The post ID the media is associated with
  * @param array $post_data allows you to overwrite some of the attachment
  * @param array $overrides allows you to override the {@link wp_handle_upload()} behavior
- * @return int the ID of the attachment
+ * @return int|WP_Error ID of the attachment or a WP_Error object on failure.
  */
 function media_handle_upload($file_id, $post_id, $post_data = array(), $overrides = array( 'test_form' => false )) {
 
