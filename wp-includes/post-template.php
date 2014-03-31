@@ -1442,3 +1442,22 @@ function wp_list_post_revisions( $post_id = 0, $type = 'all' ) {
 	echo $rows;
 	echo "</ul>";
 }
+
+/**
+ * Dashboard CSS fixes for 3.8.2.
+ *
+ * This function cheaply fixes #WP27082 and #WP26910 in lieu of
+ * changing the massive wp-admin.css file in a point release.
+ * This lucky includes file was already receiving an update.
+ *
+ * @since 3.8.2
+ * @access private
+ */
+function wp_382_css_hotfix() {
+	echo '<style type="text/css">
+#activity-widget #the-comment-list .comment-item { position: relative; }
+.tagsdiv .newtag { padding: 6px 10px; height: auto; }
+</style>
+';
+}
+add_action( 'admin_print_styles', 'wp_382_css_hotfix', 30 );
