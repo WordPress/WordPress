@@ -1071,14 +1071,15 @@ function attachment_id3_data_meta_box( $post ) {
 		$meta = wp_get_attachment_metadata( $post->ID );
 	}
 
-	foreach ( wp_get_relevant_id3_keys( $post ) as $key => $label ): ?>
+	foreach ( wp_get_attachment_id3_keys( $post, 'edit' ) as $key => $label ) : ?>
 	<p>
-		<label for="title"><?php echo $label ?></label>
-		<input type="text" name="id3_<?php echo esc_attr( $key ) ?>" id="id3_<?php echo esc_attr( $key ) ?>" class="widefat" value="<?php
+		<label for="title"><?php echo $label ?></label><br />
+		<input type="text" name="id3_<?php echo esc_attr( $key ) ?>" id="id3_<?php echo esc_attr( $key ) ?>" class="large-text" value="<?php
 			if ( ! empty( $meta[ $key ] ) ) {
 				echo esc_attr( $meta[ $key ] );
 			}
 		?>" />
 	</p>
-	<?php endforeach;
+	<?php
+	endforeach;
 }

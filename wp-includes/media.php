@@ -1019,7 +1019,7 @@ function wp_underscore_playlist_templates() {
 	<img src="{{ data.thumb.src }}"/>
 	<# } #>
 	<div class="wp-playlist-caption">
-		<span class="wp-playlist-item-meta wp-playlist-item-title">&#8220;{{{ data.title }}}&#8221;</span>
+		<span class="wp-playlist-item-meta wp-playlist-item-title">&#8220;{{ data.title }}&#8221;</span>
 		<# if ( data.meta.album ) { #><span class="wp-playlist-item-meta wp-playlist-item-album">{{ data.meta.album }}</span><# } #>
 		<# if ( data.meta.artist ) { #><span class="wp-playlist-item-meta wp-playlist-item-artist">{{ data.meta.artist }}</span><# } #>
 	</div>
@@ -1029,16 +1029,16 @@ function wp_underscore_playlist_templates() {
 		<div class="wp-playlist-caption">
 			{{ data.index ? ( data.index + '. ' ) : '' }}
 			<# if ( data.caption ) { #>
-				{{{ data.caption }}}
+				{{ data.caption }}
 			<# } else { #>
-				<span class="wp-playlist-item-title">&#8220;{{{ data.title }}}&#8221;</span>
+				<span class="wp-playlist-item-title">&#8220;{{ data.title }}&#8221;</span>
 				<# if ( data.artists && data.meta.artist ) { #>
 				<span class="wp-playlist-item-artist"> &mdash; {{ data.meta.artist }}</span>
 				<# } #>
 			<# } #>
 		</div>
 		<# if ( data.meta.length_formatted ) { #>
-		<div class="wp-playlist-item-length">{{{ data.meta.length_formatted }}}</div>
+		<div class="wp-playlist-item-length">{{ data.meta.length_formatted }}</div>
 		<# } #>
 	</div>
 </script>
@@ -1202,7 +1202,7 @@ function wp_playlist_shortcode( $attr ) {
 		$meta = wp_get_attachment_metadata( $attachment->ID );
 		if ( ! empty( $meta ) ) {
 
-			foreach ( wp_get_relevant_id3_keys( $attachment ) as $key => $label ) {
+			foreach ( wp_get_attachment_id3_keys( $attachment ) as $key => $label ) {
 				if ( ! empty( $meta[ $key ] ) ) {
 					$track['meta'][ $key ] = $meta[ $key ];
 				}
@@ -1312,31 +1312,35 @@ function wp_get_audio_extensions() {
 }
 
 /**
- * Return useful keys to use to lookup data from an attachment's stored metadata
+ * Return useful keys to use to lookup data from an attachment's stored metadata.
  *
  * @since 3.9.0
  *
- * @param WP_Post $post The post in question, provided for context.
+ * @param WP_Post $attachment The attachment in question, provided for context.
+ * @param string  $context    The context. Accepts 'edit', 'display'. Default 'display'.
  * @return array
  */
-function wp_get_relevant_id3_keys( $post ) {
+function wp_get_attachment_id3_keys( $attachment, $context = 'display' ) {
 	$fields = array(
 		'artist' => __( 'Artist' ),
 		'album' => __( 'Album' ),
-		'genre' => __( 'Genre' ),
-		'year' => __( 'Year' ),
-		'length_formatted' => __( 'Formatted Length' )
 	);
+
+	if ( 'display' === $context ) {
+		$fields['genre']            = __( 'Genre' );
+		$fields['year']             = __( 'Year' );
+		$fields['length_formatted'] = _x( 'Length', 'video or audio' );
+	}
 
 	/**
 	 * Filter the editable list of keys to lookup data from an attachment's metadata.
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param array   $fields Key/value pairs of field keys to labels.
-	 * @param WP_Post $post   Post object.
+	 * @param array   $fields     Key/value pairs of field keys to labels.
+	 * @param WP_Post $attachment Attachment object.
 	 */
-	return apply_filters( 'wp_get_relevant_id3_keys', $fields, $post );
+	return apply_filters( 'wp_get_attachment_id3_keys', $fields, $attachment, $context );
 }
 /**
  * The Audio shortcode.
@@ -2333,7 +2337,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			$response['fileLength'] = $meta['length_formatted'];
 
 		$response['meta'] = array();
-		foreach ( wp_get_relevant_id3_keys( $attachment ) as $key => $label ) {
+		foreach ( wp_get_attachment_id3_keys( $attachment ) as $key => $label ) {
 			if ( ! empty( $meta[ $key ] ) ) {
 				$response['meta'][ $key ] = $meta[ $key ];
 			}

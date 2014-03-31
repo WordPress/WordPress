@@ -2661,10 +2661,7 @@ function edit_form_image_editor( $post ) {
 	</div>
 	<div class="wp_attachment_details edit-form-section">
 		<p>
-			<label for="attachment_caption"><strong><?php _e( 'Caption' ); ?></strong><?php
-			if ( preg_match( '#^(audio|video)/#', $post->post_mime_type ) ): ?>: <?php
-				_e( "Custom label for item in a playlist. If empty, the file's available data is used." );
-			endif ?></label><br />
+			<label for="attachment_caption"><strong><?php _e( 'Caption' ); ?></strong></label><br />
 			<textarea class="widefat" name="excerpt" id="attachment_caption"><?php echo $post->post_excerpt; ?></textarea>
 		</p>
 
@@ -2688,9 +2685,9 @@ function edit_form_image_editor( $post ) {
 	?>
 
 	<label for="content"><strong><?php _e( 'Description' ); ?></strong><?php
-	if ( preg_match( '#^(audio|video)/#', $post->post_mime_type ) ): ?>: <?php
-		_e( 'Displayed on attachment pages.' );
-	endif ?></label>
+	if ( preg_match( '#^(audio|video)/#', $post->post_mime_type ) ) {
+		echo ': ' . __( 'Displayed on attachment pages.' );
+	} ?></label>
 	<?php wp_editor( $post->post_content, 'attachment_content', $editor_args ); ?>
 
 	</div>
@@ -2728,10 +2725,17 @@ function attachment_submitbox_metadata() {
 	</div>
 	<div class="misc-pub-section misc-pub-filetype">
 		<?php _e( 'File type:' ); ?> <strong><?php
-			if ( preg_match( '/^.*?\.(\w+)$/', get_attached_file( $post->ID ), $matches ) )
+			if ( preg_match( '/^.*?\.(\w+)$/', get_attached_file( $post->ID ), $matches ) ) {
 				echo esc_html( strtoupper( $matches[1] ) );
-			else
+				list( $mime_type ) = explode( '/', $post->post_mime_type );
+				if ( $mime_type !== 'image' && ! empty( $meta['mime_type'] ) ) {
+					if ( $meta['mime_type'] !== "$mime_type/" . strtolower( $matches[1] ) ) {
+						echo ' (' . $meta['mime_type'] . ')';
+					}
+				}
+			} else {
 				echo strtoupper( str_replace( 'image/', '', $post->post_mime_type ) );
+			}
 		?></strong>
 	</div>
 
@@ -2751,7 +2755,7 @@ function attachment_submitbox_metadata() {
 			<?php
 		endif;
 
-	if ( preg_match( '#^(audio|video)/#', $post->post_mime_type ) ):
+	if ( preg_match( '#^(audio|video)/#', $post->post_mime_type ) ) {
 
 		/**
 		 * Filter the audio and video metadata fields to be shown in the publish meta box.
@@ -2761,41 +2765,35 @@ function attachment_submitbox_metadata() {
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param array $fields {
-		 *     An array of the attachment metadata keys and labels.
-		 *
-		 *     @type string $mime_type        Label to be shown before the field mime_type.
-		 *     @type string $year             Label to be shown before the field year.
-		 *     @type string $genre            Label to be shown before the field genre.
-		 *     @type string $length_formatted Label to be shown before the field length_formatted.
-		 * }
+		 * @param array $fields An array of the attachment metadata keys and labels.
 		 */
 		$fields = apply_filters( 'media_submitbox_misc_sections', array(
-			'mime_type'        => __( 'Mime-type:' ),
 			'length_formatted' => __( 'Length:' ),
+			'bitrate'          => __( 'Bitrate:' ),
 		) );
 
-		foreach ( $fields as $key => $label ):
-			if ( ! empty( $meta[$key] ) ) : ?>
+		foreach ( $fields as $key => $label ) {
+			if ( empty( $meta[ $key ] ) ) {
+				continue;
+			}
+	?>
 		<div class="misc-pub-section misc-pub-mime-meta misc-pub-<?php echo sanitize_html_class( $key ); ?>">
-			<?php echo $label ?> <strong><?php echo esc_html( $meta[$key] ); ?></strong>
-		</div>
-	<?php
-			endif;
-		endforeach;
-
-		if ( ! empty( $meta['bitrate'] ) ) : ?>
-		<div class="misc-pub-section misc-pub-bitrate">
-			<?php _e( 'Bitrate:' ); ?> <strong><?php
-				echo round( $meta['bitrate'] / 1000 ), 'kb/s';
-
-				if ( ! empty( $meta['bitrate_mode'] ) )
-					echo ' ', strtoupper( $meta['bitrate_mode'] );
-
+			<?php echo $label ?> <strong><?php
+				switch ( $key ) {
+					case 'bitrate' :
+						echo round( $meta['bitrate'] / 1000 ) . 'kb/s';
+						if ( ! empty( $meta['bitrate_mode'] ) ) {
+							echo ' ' . strtoupper( esc_html( $meta['bitrate_mode'] ) );
+						}
+						break;
+					default:
+						echo esc_html( $meta[ $key ] );
+						break;
+				}
 			?></strong>
 		</div>
 	<?php
-		endif;
+		}
 
 		/**
 		 * Filter the audio attachment metadata fields to be shown in the publish meta box.
@@ -2805,28 +2803,25 @@ function attachment_submitbox_metadata() {
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param array $fields {
-		 *     An array of the attachment metadata keys and labels.
-		 *
-		 *     @type string $dataformat Label to be shown before the field dataformat.
-		 *     @type string $codec      Label to be shown before the field codec.
-		 * }
+		 * @param array $fields An array of the attachment metadata keys and labels.
 		 */
 		$audio_fields = apply_filters( 'audio_submitbox_misc_sections', array(
 			'dataformat' => __( 'Audio Format:' ),
 			'codec'      => __( 'Audio Codec:' )
 		) );
 
-		foreach ( $audio_fields as $key => $label ):
-			if ( ! empty( $meta['audio'][$key] ) ) : ?>
+		foreach ( $audio_fields as $key => $label ) {
+			if ( empty( $meta['audio'][ $key ] ) ) {
+				continue;
+			}
+	?>
 		<div class="misc-pub-section misc-pub-audio misc-pub-<?php echo sanitize_html_class( $key ); ?>">
 			<?php echo $label; ?> <strong><?php echo esc_html( $meta['audio'][$key] ); ?></strong>
 		</div>
 	<?php
-			endif;
-		endforeach;
+		}
 
-	endif;
+	}
 
 	if ( $media_dims ) : ?>
 	<div class="misc-pub-section misc-pub-dimensions">
