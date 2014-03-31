@@ -5390,11 +5390,18 @@ class wp_xmlrpc_server extends IXR_Server {
 		// very stupid, but gives time to the 'from' server to publish !
 		sleep(1);
 
+		$remote_ip = preg_replace( '/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR'] );
+		$user_agent = apply_filters( 'http_headers_useragent', 'WordPress/' . $GLOBALS['wp_version'] . '; ' . get_bloginfo( 'url' ) );
+
 		// Let's check the remote site
 		$http_api_args = array(
 			'timeout' => 10,
 			'redirection' => 0,
 			'limit_response_size' => 153600, // 150 KB
+			'user-agent' => "$user_agent; verifying pingback from $remote_ip",
+			'headers' => array(
+				'X-Pingback-Forwarded-For' => $remote_ip,
+			),
 		);
 		$linea = wp_remote_retrieve_body( wp_safe_remote_get( $pagelinkedfrom, $http_api_args ) );
 
