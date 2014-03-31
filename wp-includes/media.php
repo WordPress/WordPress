@@ -2529,8 +2529,6 @@ function wp_enqueue_media( $args = array() ) {
 		'suggestedWidth' => __( 'Suggested width is %d pixels.' ),
 		'suggestedHeight' => __( 'Suggested height is %d pixels.' ),
 
-		'mediaHTML5Text'        => __( 'Add alternate sources for maximum HTML5 playback:' ),
-
 		// Edit Audio
 		'audioDetailsTitle'     => __( 'Audio Details' ),
 		'audioReplaceTitle'     => __( 'Replace Audio' ),

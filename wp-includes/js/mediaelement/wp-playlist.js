@@ -4,13 +4,9 @@
 	"use strict";
 
 	var WPPlaylistView = Backbone.View.extend({
-		index : 0,
-
-		itemTemplate : wp.template('wp-playlist-item'),
-
 		initialize : function (options) {
-			var settings = {};
-
+			this.index = 0;
+			this.settings = {};
 			this.data = options.metadata || $.parseJSON( this.$('script').html() );
 			this.playerNode = this.$( this.data.type );
 
@@ -18,27 +14,57 @@
 			this.current = this.tracks.first();
 
 			if ( 'audio' === this.data.type ) {
-				this.currentTemplate = wp.template('wp-playlist-current-item');
+				this.currentTemplate = wp.template( 'wp-playlist-current-item' );
 				this.currentNode = this.$( '.wp-playlist-current-item' );
 			}
 
 			this.renderCurrent();
 
 			if ( this.data.tracklist ) {
+				this.itemTemplate = wp.template( 'wp-playlist-item' );
 				this.playingClass = 'wp-playlist-playing';
 				this.renderTracks();
 			}
 
-			this.playerNode.attr( 'src', this.current.get('src') );
+			this.playerNode.attr( 'src', this.current.get( 'src' ) );
 
-			_.bindAll( this, 'bindPlayer', 'ended', 'clickTrack' );
+			_.bindAll( this, 'bindPlayer', 'bindResetPlayer', 'setPlayer', 'ended', 'clickTrack' );
 
 			if ( ! _.isUndefined( window._wpmejsSettings ) ) {
-				settings.pluginPath = _wpmejsSettings.pluginPath;
+				this.settings.pluginPath = _wpmejsSettings.pluginPath;
 			}
-			settings.success = this.bindPlayer;
+			this.settings.success = this.bindPlayer;
+			this.setPlayer();
+		},
 
-			this._player = new MediaElementPlayer( this.playerNode.get(0), settings );
+		bindPlayer : function (mejs) {
+			this.player = mejs;
+			this.player.addEventListener( 'ended', this.ended );
+		},
+
+		bindResetPlayer : function (mejs) {
+			this.bindPlayer( mejs );
+			this.playCurrentSrc();
+		},
+
+		setPlayer: function () {
+			if ( this._player ) {
+				this._player.pause();
+				this._player.remove();
+				this.playerNode = this.$( this.data.type );
+				this.playerNode.prop( 'src', this.current.get( 'src' ) );
+				this.settings.success = this.bindResetPlayer;
+			}
+			/**
+			 * This is also our bridge to the outside world
+			 */
+			this._player = new MediaElementPlayer( this.playerNode.get(0), this.settings );
+		},
+
+		playCurrentSrc : function () {
+			this.renderCurrent();
+			this.player.load();
+			this.player.play();
 		},
 
 		renderCurrent : function () {
@@ -79,11 +105,6 @@
 			'click .wp-playlist-prev' : 'prev'
 		},
 
-		bindPlayer : function (mejs) {
-			this.player = mejs;
-			this.player.addEventListener( 'ended', this.ended );
-		},
-
 		clickTrack : function (e) {
 			this.index = this.$( '.wp-playlist-item' ).index( e.currentTarget );
 			this.setCurrent();
@@ -110,10 +131,17 @@
 		},
 
 		loadCurrent : function () {
+			var last = this.playerNode.attr( 'src' ).split('.').pop(),
+				current = this.current.get( 'src' ).split('.').pop();
+
 			this.player.pause();
-			this.playerNode.attr( 'src', this.current.get( 'src' ) );
-			this.renderCurrent();
-			this.player.load();
+
+			if ( last !== current ) {
+				this.setPlayer();
+			} else {
+				this.playerNode.prop( 'src', this.current.get( 'src' ) );
+				this.playCurrentSrc();
+			}
 		},
 
 		setCurrent : function () {
@@ -127,7 +155,6 @@
 			}
 
 			this.loadCurrent();
-			this.player.play();
 		}
 	});
 
