@@ -362,7 +362,7 @@ function url_to_postid($url) {
 		if ( !empty($url) && ($url != $request) && (strpos($match, $url) === 0) )
 			$request_match = $url . '/' . $request;
 
-		if ( preg_match("!^$match!", $request_match, $matches) ) {
+		if ( preg_match("#^$match#", $request_match, $matches) ) {
 
 			if ( $wp_rewrite->use_verbose_page_rules && preg_match( '/pagename=\$matches\[([0-9]+)\]/', $query, $varmatch ) ) {
 				// this is a verbose page match, lets check to be sure about it

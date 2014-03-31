@@ -542,7 +542,10 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 
 		if ( ! $silent ) {
 			/**
-			 * Fires before a plugin is activated in activate_plugin() when the $silent parameter is false.
+			 * Fires before a plugin is activated.
+			 *
+			 * If a plugin is silently activated (such as during an update),
+			 * this hook does not fire.
 			 *
 			 * @since 2.9.0
 			 *
@@ -553,10 +556,14 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 			do_action( 'activate_plugin', $plugin, $network_wide );
 
 			/**
-			 * Fires before a plugin is activated in activate_plugin() when the $silent parameter is false.
+			 * Fires as a specific plugin is being deactivated.
 			 *
-			 * The action concatenates the 'activate_' prefix with the $plugin value passed to
-			 * activate_plugin() to create a dynamically-named action.
+			 * This hook is the "deactivation" hook used internally by
+			 * register_deactivation_hook(). The dynamic portion of the
+			 * hook name, $plugin. refers to the plugin basename.
+			 *
+			 * If a plugin is silently activated (such as during an update),
+			 * this hook does not fire.
 			 *
 			 * @since 2.0.0
 			 *
@@ -577,7 +584,10 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 
 		if ( ! $silent ) {
 			/**
-			 * Fires after a plugin has been activated in activate_plugin() when the $silent parameter is false.
+			 * Fires after a plugin has been activated.
+			 *
+			 * If a plugin is silently activated (such as during an update),
+			 * this hook does not fire.
 			 *
 			 * @since 2.9.0
 			 *
@@ -626,8 +636,10 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 
 		if ( ! $silent ) {
 			/**
-			 * Fires for each plugin being deactivated in deactivate_plugins(), before deactivation
-			 * and when the $silent parameter is false.
+			 * Fires before a plugin is deactivated.
+			 *
+			 * If a plugin is silently deactivated (such as during an update),
+			 * this hook does not fire.
 			 *
 			 * @since 2.9.0
 			 *
@@ -657,11 +669,14 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 
 		if ( ! $silent ) {
 			/**
-			 * Fires before a specific plugin is deactivated.
+			 * Fires as a specific plugin is being deactivated.
 			 *
-			 * The dynamic portion of the hook name, $plugin. refers to the plugin basename.
+			 * This hook is the "deactivation" hook used internally by
+			 * register_deactivation_hook(). The dynamic portion of the
+			 * hook name, $plugin. refers to the plugin basename.
 			 *
-			 * The hook only first when the $silent parameter is false.
+			 * If a plugin is silently deactivated (such as during an update),
+			 * this hook does not fire.
 			 *
 			 * @since 2.0.0
 			 *
@@ -671,9 +686,10 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			do_action( 'deactivate_' . $plugin, $network_deactivating );
 
 			/**
-			 * Fires before a plugin is deactivated.
+			 * Fires after a plugin is deactivated.
 			 *
-			 * The hook only fies when the $silent parameter is false.
+			 * If a plugin is silently deactivated (such as during an update),
+			 * this hook does not fire.
 			 *
 			 * @since 2.9.0
 			 *

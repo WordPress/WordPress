@@ -237,6 +237,20 @@ function edit_post( $post_data = null ) {
 		}
 	}
 
+	if ( 'attachment' === $post_data['post_type'] && preg_match( '#^(audio|video)/#', $post_data['post_mime_type'] ) ) {
+		$id3data = wp_get_attachment_metadata( $post_ID );
+		if ( ! is_array( $id3data ) ) {
+			$id3data = array();
+		}
+
+		foreach ( wp_get_attachment_id3_keys( $post, 'edit' ) as $key => $label ) {
+			if ( isset( $post_data[ 'id3_' . $key ] ) ) {
+				$id3data[ $key ] = sanitize_text_field( wp_unslash( $post_data[ 'id3_' . $key ] ) );
+			}
+		}
+		wp_update_attachment_metadata( $post_ID, $id3data );
+	}
+
 	// Meta Stuff
 	if ( isset($post_data['meta']) && $post_data['meta'] ) {
 		foreach ( $post_data['meta'] as $key => $value ) {

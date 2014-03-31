@@ -29,6 +29,13 @@ class WP_Styles extends WP_Dependencies {
 	var $default_dirs;
 
 	function __construct() {
+		/**
+		 * Fires when the WP_Styles instance is initialized.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param WP_Styles &$this WP_Styles instance, passed by reference.
+		 */
 		do_action_ref_array( 'wp_default_styles', array(&$this) );
 	}
 
@@ -69,6 +76,14 @@ class WP_Styles extends WP_Dependencies {
 		$rel = isset($obj->extra['alt']) && $obj->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
 		$title = isset($obj->extra['title']) ? "title='" . esc_attr( $obj->extra['title'] ) . "'" : '';
 
+		/**
+		 * Filter the HTML link tag of an enqueued style.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param string         The link tag for the enqueued style.
+		 * @param string $handle The style's registered handle.
+		 */
 		$tag = apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle-css' $title href='$href' type='text/css' media='$media' />\n", $handle );
 		if ( 'rtl' === $this->text_direction && isset($obj->extra['rtl']) && $obj->extra['rtl'] ) {
 			if ( is_bool( $obj->extra['rtl'] ) || 'replace' === $obj->extra['rtl'] ) {
@@ -78,6 +93,14 @@ class WP_Styles extends WP_Dependencies {
 				$rtl_href = $this->_css_href( $obj->extra['rtl'], $ver, "$handle-rtl" );
 			}
 
+			/**
+			 * Filter the right-to-left (RTL) HTML link tag of an enqueued style.
+			 *
+			 * @since 2.6.0
+			 *
+			 * @param string $rtl_style The right to left link tag for the enqueued style.
+			 * @param string $handle    The style's registered handle.
+			 */
 			$rtl_tag = apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle-rtl-css' $title href='$rtl_href' type='text/css' media='$media' />\n", $handle );
 
 			if ( $obj->extra['rtl'] === 'replace' ) {
@@ -136,8 +159,16 @@ class WP_Styles extends WP_Dependencies {
 
 	function all_deps( $handles, $recursion = false, $group = false ) {
 		$r = parent::all_deps( $handles, $recursion );
-		if ( !$recursion )
+		if ( !$recursion ) {
+			/**
+			 * Filter the array of enqueued styles before processing for output.
+			 *
+			 * @since 2.6.0
+			 *
+			 * @param array $to_do The list of enqueued styles about to be processed.
+			 */
 			$this->to_do = apply_filters( 'print_styles_array', $this->to_do );
+		}
 		return $r;
 	}
 
@@ -148,6 +179,15 @@ class WP_Styles extends WP_Dependencies {
 
 		if ( !empty($ver) )
 			$src = add_query_arg('ver', $ver, $src);
+
+		/**
+		 * Filter an enqueued style's fully-qualified URL.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param string $src    The source URL of the enqueued style.
+		 * @param string $handle The style's registered handle.
+		 */
 		$src = apply_filters( 'style_loader_src', $src, $handle );
 		return esc_url( $src );
 	}

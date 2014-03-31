@@ -144,7 +144,7 @@ if ( !empty($_REQUEST['ajax']) ) {
 			<h3 class="tb"><label for="tb_this_photo_description"><?php _e('Description') ?></label></h3>
 			<div class="titlediv">
 				<div class="titlewrap">
-					<input id="tb_this_photo_description" name="photo_description" class="tb_this_photo_description tbtitle text" onkeypress="if(event.keyCode==13) image_selector(this);" value="<?php echo esc_attr($title);?>"/>
+					<input id="tb_this_photo_description" name="photo_description" class="tb_this_photo_description tbtitle text" type="text" onkeypress="if(event.keyCode==13) image_selector(this);" value="<?php echo esc_attr($title);?>"/>
 				</div>
 			</div>
 
@@ -606,7 +606,7 @@ $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( 
 
 		<div id="titlediv">
 			<div class="titlewrap">
-				<input name="title" id="title" class="text" value="<?php echo esc_attr($title);?>"/>
+				<input name="title" id="title" class="text" type="text" value="<?php echo esc_attr($title);?>"/>
 			</div>
 		</div>
 

@@ -918,13 +918,14 @@
 			body = $( document.body ),
 			overlay = body.children('.wp-full-overlay');
 
-		// Prevent the form from saving when enter is pressed.
+		// Prevent the form from saving when enter is pressed on an input or select element.
 		$('#customize-controls').on( 'keydown', function( e ) {
-			if ( $( e.target ).is('textarea') )
-				return;
+			var isEnter = ( 13 === e.which ),
+				$el = $( e.target );
 
-			if ( 13 === e.which ) // Enter
+			if ( isEnter && ( $el.is( 'input:not([type=button])' ) || $el.is( 'select' ) ) ) {
 				e.preventDefault();
+			}
 		});
 
 		// Initialize Previewer

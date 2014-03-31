@@ -177,7 +177,7 @@ strong .post-com-count:after {
 
 #the-comment-list .unapproved th,
 #the-comment-list .unapproved td {
-	background-color: #fefaf7;
+	background-color: #fef7f1;
 }
 
 #the-comment-list .unapproved th.check-column {
@@ -1124,7 +1124,7 @@ ul.cat-checklist {
 .plugins .active.update td,
 .plugins .active.update th,
 tr.active.update + tr.plugin-update-tr .plugin-update {
-	background-color: #fefaf7;
+	background-color: #fef7f1;
 }
 
 .plugins .active th.check-column {

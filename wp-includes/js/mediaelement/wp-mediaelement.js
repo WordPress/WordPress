@@ -7,6 +7,10 @@
 	$(function () {
 		var settings = {};
 
+		if ( $( document.body ).hasClass( 'mce-content-body' ) ) {
+			return;
+		}
+
 		if ( typeof _wpmejsSettings !== 'undefined' ) {
 			settings.pluginPath = _wpmejsSettings.pluginPath;
 		}

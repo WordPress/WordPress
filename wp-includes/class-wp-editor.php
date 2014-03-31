@@ -27,21 +27,52 @@ final class _WP_Editors {
 
 	private function __construct() {}
 
-	public static function parse_settings($editor_id, $settings) {
+	/**
+	 * Parse default arguments for the editor instance.
+	 *
+	 * @param string $editor_id ID for the current editor instance.
+	 * @param array  $settings {
+	 *     Array of editor arguments.
+	 *
+	 *     @type bool       $wpautop           Whether to use wpautop(). Default true.
+	 *     @type bool       $media_buttons     Whether to show the Add Media/other media buttons.
+	 *     @type string     $default_editor    When both TinyMCE and Quicktags are used, set which
+	 *                                         editor is shown on page load. Default empty.
+	 *     @type string     $textarea_name     Give the textarea a unique name here. Square brackets
+	 *                                         can be used here. Default $editor_id.
+	 *     @type int        $textarea_rows     Number rows in the editor textarea. Default 20.
+	 *     @type string|int $tabindex          Tabindex value to use. Default empty.
+	 *     @type string     $tabfocus_elements The previous and next element ID to move the focus to
+	 *                                         when pressing the Tab key in TinyMCE. Defualt ':prev,:next'.
+	 *     @type string     $editor_css        Intended for extra styles for both Visual and Text editors.
+	 *                                         Should include <style> tags, and can use "scoped". Default empty.
+	 *     @type string     $editor_class      Extra classes to add to the editor textarea elemen. Default empty.
+	 *     @type bool       $teeny             Whether to output the minimal editor config. Examples include
+	 *                                         Press This and the Comment editor. Default false.
+	 *     @type bool       $dfw               Whether to replace the default fullscreen with "Distraction Free
+	 *                                         Writing". DFW requires specific DOM elements and css). Default false.
+	 *     @type bool|array $tinymce           Whether to load TinyMCE. Can be used to pass settings directly to
+	 *                                         TinyMCE using an array. Default true.
+	 *     @type bool|array $quicktags         Whether to load Quicktags. Can be used to pass settings directly to
+	 *                                         Quicktags using an array. Default true.
+	 * }
+	 * @return array Parsed arguments array.
+	 */
+	public static function parse_settings( $editor_id, $settings ) {
 		$set = wp_parse_args( $settings,  array(
-			'wpautop' => true, // use wpautop?
-			'media_buttons' => true, // show insert/upload button(s)
-			'default_editor' => '', // When both TinyMCE and Quicktags are used, set which editor is shown on loading the page
-			'textarea_name' => $editor_id, // set the textarea name to something different, square brackets [] can be used here
-			'textarea_rows' => 20,
-			'tabindex' => '',
-			'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
-			'editor_css' => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
-			'editor_class' => '', // add extra class(es) to the editor textarea
-			'teeny' => false, // output the minimal editor config used in Press This
-			'dfw' => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
-			'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
-			'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
+			'wpautop'           => true,
+			'media_buttons'     => true,
+			'default_editor'    => '',
+			'textarea_name'     => $editor_id,
+			'textarea_rows'     => 20,
+			'tabindex'          => '',
+			'tabfocus_elements' => ':prev,:next',
+			'editor_css'        => '',
+			'editor_class'      => '',
+			'teeny'             => false,
+			'dfw'               => false,
+			'tinymce'           => true,
+			'quicktags'         => true
 		) );
 
 		self::$this_tinymce = ( $set['tinymce'] && user_can_richedit() );
@@ -141,7 +172,15 @@ final class _WP_Editors {
 					include(ABSPATH . 'wp-admin/includes/media.php');
 
 				echo '<div id="wp-' . $editor_id . '-media-buttons" class="wp-media-buttons">';
-				do_action('media_buttons', $editor_id);
+
+				/**
+				 * Fires after the default media button(s) are displayed.
+				 *
+				 * @since 2.5.0
+				 *
+				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 */
+				do_action( 'media_buttons', $editor_id );
 				echo "</div>\n";
 			}
 
@@ -149,9 +188,24 @@ final class _WP_Editors {
 			echo "</div>\n";
 		}
 
+		/**
+		 * Filter the HTML markup output that displays the editor.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param string $output Editor's HTML markup.
+		 */
 		$the_editor = apply_filters( 'the_editor', '<div id="wp-' . $editor_id . '-editor-container" class="wp-editor-container">' .
 			'<textarea' . $editor_class . $height . $tabindex . $autocomplete . ' cols="40" name="' . $set['textarea_name'] . '" ' .
 			'id="' . $editor_id . '">%s</textarea></div>' );
+
+		/**
+		 * Filter the default editor content.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param string $content Default editor content.
+		 */
 		$content = apply_filters( 'the_editor_content', $content );
 
 		printf( $the_editor, $content );
@@ -189,7 +243,16 @@ final class _WP_Editors {
 			if ( $set['dfw'] )
 				$qtInit['buttons'] .= ',fullscreen';
 
-			$qtInit = apply_filters('quicktags_settings', $qtInit, $editor_id);
+			/**
+			 * Filter the Quicktags settings.
+			 *
+			 * @since 3.3.0
+			 *
+			 * @param array  $qtInit    Quicktags settings.
+			 * @param string $editor_id The unique editor ID, e.g. 'content'.
+			 */
+			$qtInit = apply_filters( 'quicktags_settings', $qtInit, $editor_id );
+
 			self::$qt_settings[$editor_id] = $qtInit;
 
 			self::$qt_buttons = array_merge( self::$qt_buttons, explode(',', $qtInit['buttons']) );
@@ -206,20 +269,41 @@ final class _WP_Editors {
 				}
 
 				self::$mce_locale = $mce_locale;
+
+				/** This filter is documented in wp-admin/includes/media.php */
 				$no_captions = (bool) apply_filters( 'disable_captions', '' );
 				$first_run = true;
 				$ext_plugins = '';
 
 				if ( $set['teeny'] ) {
+
+					/**
+					 * Filter the list of teenyMCE plugins.
+					 *
+					 * @since 2.7.0
+					 *
+					 * @param array  $plugins   An array of teenyMCE plugins.
+					 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+					 */
 					self::$plugins = $plugins = apply_filters( 'teeny_mce_plugins', array( 'fullscreen', 'image', 'wordpress', 'wpeditimage', 'wplink' ), $editor_id );
 				} else {
+
 					/**
-					 * TinyMCE external plugins filter
+					 * Filter the list of TinyMCE external plugins.
 					 *
-					 * Takes an associative array of external plugins for TinyMCE in the form 'plugin_name' => 'url'.
-					 * The url should be absolute and should include the js file name to be loaded.
-					 * Example: 'myplugin' => 'http://my-site.com/wp-content/plugins/myfolder/mce_plugin.js'.
-					 * If the plugin adds a button, it should be added with one of the "$mce_buttons" filters.
+					 * The filter takes an associative array of external plugins for
+					 * TinyMCE in the form 'plugin_name' => 'url'.
+					 *
+					 * The url should be absolute, and should include the js filename
+					 * to be loaded. For example:
+					 * 'myplugin' => 'http://mysite.com/wp-content/plugins/myfolder/mce_plugin.js'.
+					 *
+					 * If the external plugin adds a button, it should be added with
+					 * one of the 'mce_buttons' filters.
+					 *
+					 * @since 2.5.0
+					 *
+					 * @param array $external_plugins An array of external TinyMCE plugins.
 					 */
 					$mce_external_plugins = apply_filters( 'mce_external_plugins', array() );
 
@@ -244,10 +328,14 @@ final class _WP_Editors {
 					}
 
 					/**
-					 * TinyMCE default plugins filter
+					 * Filter the list of default TinyMCE plugins.
 					 *
-					 * Specifies which of the default plugins that are included in WordPress should be added to
-					 * the TinyMCE instance.
+					 * The filter specifies which of the default plugins included
+					 * in WordPress should be added to the TinyMCE instance.
+					 *
+					 * @since 3.3.0
+					 *
+					 * @param array $plugins An array of default TinyMCE plugins.
 					 */
 					$plugins = array_unique( apply_filters( 'tiny_mce_plugins', $plugins ) );
 
@@ -258,13 +346,19 @@ final class _WP_Editors {
 					}
 
 					if ( ! empty( $mce_external_plugins ) ) {
+
 						/**
-						 * This filter loads translations for external TinyMCE 3.x plugins.
+						 * Filter the translations loaded for external TinyMCE 3.x plugins.
 						 *
-						 * Takes an associative array 'plugin_name' => 'path', where path is the
-						 * include path to the file. The language file should follow the same format as
-						 * wp_mce_translation() and should define a variable $strings that
-						 * holds all translated strings.
+						 * The filter takes an associative array ('plugin_name' => 'path')
+						 * where 'path' is the include path to the file.
+						 *
+						 * The language file should follow the same format as wp_mce_translation(),
+						 * and should define a variable ($strings) that holds all translated strings.
+						 *
+						 * @since 2.5.0
+						 *
+						 * @param array $translations Translations for external TinyMCE plugins.
 						 */
 						$mce_external_languages = apply_filters( 'mce_external_languages', array() );
 
@@ -394,6 +488,13 @@ final class _WP_Editors {
 					}
 				}
 
+				/**
+				 * Filter the comma-delimited list of stylesheets to load in TinyMCE.
+				 *
+				 * @since 2.1.0
+				 *
+				 * @param array $stylesheets Comma-delimited list of stylesheets.
+				 */
 				$mce_css = trim( apply_filters( 'mce_css', implode( ',', $mce_css ) ), ' ,' );
 
 				if ( ! empty($mce_css) )
@@ -401,13 +502,58 @@ final class _WP_Editors {
 			}
 
 			if ( $set['teeny'] ) {
+
+				/**
+				 * Filter the list of teenyMCE buttons (Text tab).
+				 *
+				 * @since 2.7.0
+				 *
+				 * @param array  $buttons   An array of teenyMCE buttons.
+				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 */
 				$mce_buttons = apply_filters( 'teeny_mce_buttons', array('bold', 'italic', 'underline', 'blockquote', 'strikethrough', 'bullist', 'numlist', 'alignleft', 'aligncenter', 'alignright', 'undo', 'redo', 'link', 'unlink', 'fullscreen'), $editor_id );
 				$mce_buttons_2 = $mce_buttons_3 = $mce_buttons_4 = array();
 			} else {
-				$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', 'bullist', 'numlist', 'blockquote', 'hr', 'alignleft', 'aligncenter', 'alignright', 'link', 'unlink', 'wp_more', 'spellchecker', 'fullscreen', 'wp_adv' ), $editor_id);
-				$mce_buttons_2 = apply_filters('mce_buttons_2', array( 'formatselect', 'underline', 'alignjustify', 'forecolor', 'pastetext', 'removeformat', 'charmap', 'outdent', 'indent', 'undo', 'redo', 'wp_help' ), $editor_id);
-				$mce_buttons_3 = apply_filters('mce_buttons_3', array(), $editor_id);
-				$mce_buttons_4 = apply_filters('mce_buttons_4', array(), $editor_id);
+
+				/**
+				 * Filter the first-row list of TinyMCE buttons (Visual tab).
+				 *
+				 * @since 2.0.0
+				 *
+				 * @param array  $buttons   First-row list of buttons.
+				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 */
+				$mce_buttons = apply_filters( 'mce_buttons', array('bold', 'italic', 'strikethrough', 'bullist', 'numlist', 'blockquote', 'hr', 'alignleft', 'aligncenter', 'alignright', 'link', 'unlink', 'wp_more', 'spellchecker', 'fullscreen', 'wp_adv' ), $editor_id );
+
+				/**
+				 * Filter the second-row list of TinyMCE buttons (Visual tab).
+				 *
+				 * @since 2.0.0
+				 *
+				 * @param array  $buttons   Second-row list of buttons.
+				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 */
+				$mce_buttons_2 = apply_filters( 'mce_buttons_2', array( 'formatselect', 'underline', 'alignjustify', 'forecolor', 'pastetext', 'removeformat', 'charmap', 'outdent', 'indent', 'undo', 'redo', 'wp_help' ), $editor_id );
+
+				/**
+				 * Filter the third-row list of TinyMCE buttons (Visual tab).
+				 *
+				 * @since 2.0.0
+				 *
+				 * @param array  $buttons   Third-row list of buttons.
+				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 */
+				$mce_buttons_3 = apply_filters( 'mce_buttons_3', array(), $editor_id );
+
+				/**
+				 * Filter the fourth-row list of TinyMCE buttons (Visual tab).
+				 *
+				 * @since 2.5.0
+				 *
+				 * @param array  $buttons   Fourth-row list of buttons.
+				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 */
+				$mce_buttons_4 = apply_filters( 'mce_buttons_4', array(), $editor_id );
 			}
 
 			$body_class = $editor_id;
@@ -458,13 +604,35 @@ final class _WP_Editors {
 			if ( is_array( $set['tinymce'] ) )
 				$mceInit = array_merge( $mceInit, $set['tinymce'] );
 
-			// For people who really REALLY know what they're doing with TinyMCE
-			// You can modify $mceInit to add, remove, change elements of the config before tinyMCE.init
-			// Setting "valid_elements", "invalid_elements" and "extended_valid_elements" can be done through this filter.
-			// Best is to use the default cleanup by not specifying valid_elements, as TinyMCE contains full set of XHTML 1.0.
+			/*
+			 * For people who really REALLY know what they're doing with TinyMCE
+			 * You can modify $mceInit to add, remove, change elements of the config
+			 * before tinyMCE.init. Setting "valid_elements", "invalid_elements"
+			 * and "extended_valid_elements" can be done through this filter. Best
+			 * is to use the default cleanup by not specifying valid_elements,
+			 * as TinyMCE contains full set of XHTML 1.0.
+			 */
 			if ( $set['teeny'] ) {
+
+				/**
+				 * Filter the teenyMCE config before init.
+				 *
+				 * @since 2.7.0
+				 *
+				 * @param array  $mceInit   An array with teenyMCE config.
+				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 */
 				$mceInit = apply_filters( 'teeny_mce_before_init', $mceInit, $editor_id );
 			} else {
+
+				/**
+				 * Filter the TinyMCE config before init.
+				 *
+				 * @since 2.5.0
+				 *
+				 * @param array  $mceInit   An array with TinyMCE config.
+				 * @param string $editor_id Unique editor identifier, e.g. 'content'.
+				 */
 				$mceInit = apply_filters( 'tiny_mce_before_init', $mceInit, $editor_id );
 			}
 
@@ -501,8 +669,10 @@ final class _WP_Editors {
 		if ( self::$has_tinymce )
 			wp_enqueue_script('editor');
 
-		if ( self::$has_quicktags )
-			wp_enqueue_script('quicktags');
+		if ( self::$has_quicktags ) {
+			wp_enqueue_script( 'quicktags' );
+			wp_enqueue_style( 'buttons' );
+		}
 
 		if ( in_array('wplink', self::$plugins, true) || in_array('link', self::$qt_buttons, true) ) {
 			wp_enqueue_script('wplink');
@@ -796,6 +966,13 @@ final class _WP_Editors {
 
 		$suffix = ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) ? '' : '.min';
 
+		/**
+		 * Fires immediately before the TinyMCE settings are printed.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param array $mce_settings TinyMCE settings array.
+		 */
 		do_action( 'before_wp_tiny_mce', self::$mce_settings );
 		?>
 
@@ -830,7 +1007,14 @@ final class _WP_Editors {
 			}
 		}
 
-		// Allow scripts to be added after tinymce.js has been loaded but before any editor instances are created.
+		/**
+		 * Fires after tinymce.js is loaded, but before any TinyMCE editor
+		 * instances are created.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param array $mce_settings TinyMCE settings array.
+		 */
 		do_action( 'wp_tiny_mce_init', self::$mce_settings );
 
 		?>
@@ -907,6 +1091,13 @@ final class _WP_Editors {
 		if ( in_array( 'wpfullscreen', self::$plugins, true ) || in_array( 'fullscreen', self::$qt_buttons, true ) )
 			self::wp_fullscreen_html();
 
+		/**
+		 * Fires after any core TinyMCE editor instances are created.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param array $mce_settings TinyMCE settings array.
+		 */
 		do_action( 'after_wp_tiny_mce', self::$mce_settings );
 	}
 
@@ -920,16 +1111,18 @@ final class _WP_Editors {
 		$save = isset( $post->post_status ) && $post->post_status == 'publish' ? __('Update') : __('Save');
 
 		?>
-		<div id="wp-fullscreen-body"<?php if ( is_rtl() ) echo ' class="rtl"'; ?> data-theme-width="<?php echo (int) $width; ?>" data-dfw-width="<?php echo (int) $dfw_width; ?>">
+		<div id="wp-fullscreen-body" class="wp-core-ui<?php if ( is_rtl() ) echo ' rtl'; ?>" data-theme-width="<?php echo (int) $width; ?>" data-dfw-width="<?php echo (int) $dfw_width; ?>">
 		<div id="fullscreen-topbar">
 			<div id="wp-fullscreen-toolbar">
 			<div id="wp-fullscreen-close"><a href="#" onclick="wp.editor.fullscreen.off();return false;"><?php _e('Exit fullscreen'); ?></a></div>
 			<div id="wp-fullscreen-central-toolbar" style="width:<?php echo $width; ?>px;">
 
-			<div id="wp-fullscreen-mode-bar"><div id="wp-fullscreen-modes">
-				<a href="#" onclick="wp.editor.fullscreen.switchmode('tinymce');return false;"><?php _e( 'Visual' ); ?></a>
-				<a href="#" onclick="wp.editor.fullscreen.switchmode('html');return false;"><?php _ex( 'Text', 'Name for the Text editor tab (formerly HTML)' ); ?></a>
-			</div></div>
+			<div id="wp-fullscreen-mode-bar">
+				<div id="wp-fullscreen-modes" class="button-group">
+					<a class="button wp-fullscreen-mode-tinymce" href="#" onclick="wp.editor.fullscreen.switchmode( 'tinymce' ); return false;"><?php _e( 'Visual' ); ?></a>
+					<a class="button wp-fullscreen-mode-html" href="#" onclick="wp.editor.fullscreen.switchmode( 'html' ); return false;"><?php _ex( 'Text', 'Name for the Text editor tab (formerly HTML)' ); ?></a>
+				</div>
+			</div>
 
 			<div id="wp-fullscreen-button-bar"><div id="wp-fullscreen-buttons" class="mce-toolbar">
 		<?php
@@ -947,6 +1140,14 @@ final class _WP_Editors {
 			'help' => array( 'title' => __('Help (Alt + Shift + H)'), 'both' => false ),
 		);
 
+		/**
+		 * Filter the list of TinyMCE buttons for the fullscreen
+		 * 'Distraction Free Writing' editor.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param array $buttons An array of TinyMCE buttons for the DFW editor.
+		 */
 		$buttons = apply_filters( 'wp_fullscreen_buttons', $buttons );
 
 		foreach ( $buttons as $button => $args ) {
@@ -955,10 +1156,11 @@ final class _WP_Editors {
 			}
 
 			$onclick = ! empty( $args['onclick'] ) ? ' onclick="' . $args['onclick'] . '"' : '';
+			$title = esc_attr( $args['title'] );
 			?>
 
 			<div class="mce-widget mce-btn<?php if ( $args['both'] ) { ?> wp-fullscreen-both<?php } ?>">
-			<button type="button" role="presentation" title="<?php echo $args['title']; ?>"<?php echo $onclick; ?> id="wp_fs_<?php echo $button; ?>">
+			<button type="button" aria-label="<?php echo $title; ?>" title="<?php echo $title; ?>"<?php echo $onclick; ?> id="wp_fs_<?php echo $button; ?>">
 				<i class="mce-ico mce-i-<?php echo $button; ?>"></i>
 			</button>
 			</div>
@@ -1061,17 +1263,20 @@ final class _WP_Editors {
 		 *
 		 * @since 3.7.0
 		 *
+		 * @see 'wp_link_query_args' filter
+		 *
 		 * @param array $results {
 		 *     An associative array of query results.
 		 *
 		 *     @type array {
-		 *         @type int    'ID'        The post ID.
-		 *         @type string 'title'     The trimmed, escaped post title.
-		 *         @type string 'permalink' The post permalink.
-		 *         @type string 'info'      A 'Y/m/d'-formatted date for 'post' post type, the 'singular_name' post type label otherwise.
+		 *         @type int    $ID        Post ID.
+		 *         @type string $title     The trimmed, escaped post title.
+		 *         @type string $permalink Post permalink.
+		 *         @type string $info      A 'Y/m/d'-formatted date for 'post' post type,
+		 *                                 the 'singular_name' post type label otherwise.
 		 *     }
 		 * }
-		 * @param array $query   An array of WP_Query arguments. @see 'wp_link_query_args' filter
+		 * @param array $query  An array of WP_Query arguments.
 		 */
 		return apply_filters( 'wp_link_query', $results, $query );
 	}
@@ -1082,11 +1287,11 @@ final class _WP_Editors {
 	 * @since 3.1.0
 	 */
 	public static function wp_link_dialog() {
-		$search_panel_visible = '1' == get_user_setting( 'wplink', '0' ) ? ' class="search-panel-visible"' : '';
+		$search_panel_visible = '1' == get_user_setting( 'wplink', '0' ) ? ' search-panel-visible' : '';
 
 		?>
 		<div id="wp-link-backdrop"></div>
-		<div id="wp-link-wrap"<?php echo $search_panel_visible; ?>>
+		<div id="wp-link-wrap" class="wp-core-ui<?php echo $search_panel_visible; ?>">
 		<form id="wp-link" tabindex="-1">
 		<?php wp_nonce_field( 'internal-linking', '_ajax_linking_nonce', false ); ?>
 		<div id="link-modal-title">

@@ -2420,7 +2420,7 @@ class WP_Automatic_Updater {
 		 */
 		$email = apply_filters( 'auto_core_update_email', $email, $type, $core_update, $result );
 
-		wp_mail( $email['to'], $email['subject'], $email['body'], $email['headers'] );
+		wp_mail( $email['to'], wp_specialchars_decode( $email['subject'] ), $email['body'], $email['headers'] );
 	}
 
 	/**
@@ -2570,6 +2570,6 @@ Thanks! -- The WordPress Team" );
 		 */
 		$email = apply_filters( 'automatic_updates_debug_email', $email, $failures, $this->update_results );
 
-		wp_mail( $email['to'], $email['subject'], $email['body'], $email['headers'] );
+		wp_mail( $email['to'], wp_specialchars_decode( $email['subject'] ), $email['body'], $email['headers'] );
 	}
 }

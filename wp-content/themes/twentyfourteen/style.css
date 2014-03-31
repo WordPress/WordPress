@@ -636,6 +636,7 @@ span > object {
 }
 
 blockquote.alignleft,
+figure.wp-caption.alignleft,
 img.alignleft {
 	margin: 7px 24px 7px 0;
 }
@@ -645,6 +646,7 @@ img.alignleft {
 }
 
 blockquote.alignright,
+figure.wp-caption.alignright,
 img.alignright {
 	margin: 7px 0 7px 24px;
 }
@@ -694,7 +696,16 @@ img.aligncenter,
 	font-style: italic;
 	line-height: 1.5;
 	margin: 9px 0;
+}
+
+div.wp-caption .wp-caption-text {
 	padding-right: 10px;
+}
+
+div.wp-caption.alignright img[class*="wp-image-"],
+div.wp-caption.alignright .wp-caption-text {
+	padding-left: 10px;
+	padding-right: 0;
 }
 
 .wp-smiley {

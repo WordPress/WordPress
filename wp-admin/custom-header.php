@@ -40,7 +40,7 @@ class Custom_Image_Header {
 	 * @since 3.0.0
 	 * @access private
 	 */
-	var $default_headers = array();
+	var $default_headers;
 
 	/**
 	 * Holds custom headers uploaded by the user.
@@ -254,6 +254,10 @@ class Custom_Image_Header {
 		if ( !isset($_wp_default_headers) )
 			return;
 
+		if ( is_array( $this->default_headers ) ) {
+			return;
+		}
+
 		$this->default_headers = $_wp_default_headers;
 		$template_directory_uri = get_template_directory_uri();
 		$stylesheet_directory_uri = get_stylesheet_directory_uri();
@@ -261,7 +265,6 @@ class Custom_Image_Header {
 			$this->default_headers[$header]['url'] =  sprintf( $this->default_headers[$header]['url'], $template_directory_uri, $stylesheet_directory_uri );
 			$this->default_headers[$header]['thumbnail_url'] =  sprintf( $this->default_headers[$header]['thumbnail_url'], $template_directory_uri, $stylesheet_directory_uri );
 		}
-
 	}
 
 	/**
@@ -1227,5 +1230,53 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		$attachment_id = $data['attachment_id'];
 		$key = '_wp_attachment_custom_header_last_used_' . get_stylesheet();
 		update_post_meta( $attachment_id, $key, time() );
+	}
+
+	public function get_default_header_images() {
+		$this->process_default_headers();
+
+		// Get the default image if there is one.
+		$default = get_theme_support( 'custom-header', 'default-image' );
+
+		if ( ! $default ) { // If not,
+			return $this->default_headers; // easy peasy.
+		}
+
+		$default = sprintf( $default, get_template_directory_uri(), get_stylesheet_directory_uri() );
+		$already_has_default = false;
+
+		foreach ( $this->default_headers as $k => $h ) {
+			if ( $h['url'] === $default ) {
+				$already_has_default = true;
+				break;
+			}
+		}
+
+		if ( $already_has_default ) {
+			return $this->default_headers;
+		}
+
+		// If the one true image isn't included in the default set, prepend it.
+		$header_images = array();
+		$header_images['default'] = array(
+			'url'           => $default,
+			'thumbnail_url' => $default,
+			'description'   => 'Default'
+		);
+
+		// The rest of the set comes after.
+		$header_images = array_merge( $header_images, $this->default_headers );
+		return $header_images;
+	}
+
+	public function get_uploaded_header_images() {
+		$header_images = get_uploaded_header_images();
+		$timestamp_key = '_wp_attachment_custom_header_last_used_' . get_stylesheet();
+
+		foreach ( $header_images as &$header_image ) {
+			$header_image['timestamp'] = get_post_meta( $header_image['attachment_id'], $timestamp_key, true );
+		}
+
+		return $header_images;
 	}
 }

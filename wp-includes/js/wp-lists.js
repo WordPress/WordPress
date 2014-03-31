@@ -309,7 +309,11 @@ wpList = {
 	},
 
 	add: function( e, s ) {
-		e = $( $.trim(e) ); // Trim leading whitespaces
+		if ( 'string' == typeof e ) {
+			e = $( $.trim( e ) ); // Trim leading whitespaces
+		} else {
+			e = $( e );
+		}
 
 		var list = $(this), old = false, _s = { pos: 0, id: 0, oldId: null }, ba, ref, color;
 

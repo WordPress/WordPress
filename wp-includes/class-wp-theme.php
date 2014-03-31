@@ -535,7 +535,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 3.4.0
 	 *
 	 * @param string $header Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
-	 * @return string String on success, false on failure.
+	 * @return string|bool String on success, false on failure.
 	 */
 	public function get( $header ) {
 		if ( ! isset( $this->headers[ $header ] ) )
@@ -571,10 +571,13 @@ final class WP_Theme implements ArrayAccess {
 	 * @param string $header Theme header. Name, Description, Author, Version, ThemeURI, AuthorURI, Status, Tags.
 	 * @param bool $markup Optional. Whether to mark up the header. Defaults to true.
 	 * @param bool $translate Optional. Whether to translate the header. Defaults to true.
-	 * @return string Processed header, false on failure.
+	 * @return string|bool Processed header, false on failure.
 	 */
 	public function display( $header, $markup = true, $translate = true ) {
 		$value = $this->get( $header );
+		if ( false === $value ) {
+			return false;
+		}
 
 		if ( $translate && ( empty( $value ) || ! $this->load_textdomain() ) )
 			$translate = false;

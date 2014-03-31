@@ -1523,11 +1523,7 @@ function wp_ajax_save_widget() {
 	 */
 	do_action( 'widgets.php' );
 
-	/**
-	 * Fires early when editing the widgets displayed in sidebars.
-	 *
-	 * @since 2.2.0
-	 */
+	/** This action is documented in wp-admin/widgets.php */
 	do_action( 'sidebar_admin_setup' );
 
 	$id_base = $_POST['id_base'];
@@ -1588,7 +1584,8 @@ function wp_ajax_save_widget() {
 }
 
 function wp_ajax_update_widget() {
-	WP_Customize_Widgets::wp_ajax_update_widget();
+	global $wp_customize;
+	$wp_customize->widgets->wp_ajax_update_widget();
 }
 
 function wp_ajax_upload_attachment() {

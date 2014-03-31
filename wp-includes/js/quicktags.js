@@ -406,7 +406,10 @@ function edButton(id, display, tagStart, tagEnd, access) {
 	};
 	qt.Button.prototype.html = function(idPrefix) {
 		var access = this.access ? ' accesskey="' + this.access + '"' : '';
-		return '<input type="button" id="' + idPrefix + this.id + '"' + access + ' class="ed_button" title="' + this.title + '" value="' + this.display + '" />';
+		if ( this.id === 'fullscreen' ) {
+			return '<button type="button" id="' + idPrefix + this.id + '"' + access + ' class="ed_button qt-fullscreen" title="' + this.title + '"></button>';
+		}
+		return '<input type="button" id="' + idPrefix + this.id + '"' + access + ' class="ed_button button button-small" title="' + this.title + '" value="' + this.display + '" />';
 	};
 	qt.Button.prototype.callback = function(){};
 

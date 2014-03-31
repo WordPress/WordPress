@@ -73,27 +73,58 @@ function wptexturize($text) {
 		$static_characters = array_merge( array( '---', ' -- ', '--', ' - ', 'xn&#8211;', '...', '``', '\'\'', ' (tm)' ), $cockney );
 		$static_replacements = array_merge( array( $em_dash, ' ' . $em_dash . ' ', $en_dash, ' ' . $en_dash . ' ', 'xn--', '&#8230;', $opening_quote, $closing_quote, ' &#8482;' ), $cockneyreplace );
 
-		$dynamic = array();
-		if ( "'" != $apos ) {
-			$dynamic[ '/\'(\d\d(?:&#8217;|\')?s)/' ] = $apos . '$1'; // '99's
-			$dynamic[ '/\'(\d)/'                   ] = $apos . '$1'; // '99
-		}
-		if ( "'" != $opening_single_quote )
-			$dynamic[ '/(\s|\A|[([{<]|")\'/'       ] = '$1' . $opening_single_quote; // opening single quote, even after (, {, <, [
-		if ( '"' != $double_prime )
-			$dynamic[ '/(\d)"/'                    ] = '$1' . $double_prime; // 9" (double prime)
-		if ( "'" != $prime )
-			$dynamic[ '/(\d)\'/'                   ] = '$1' . $prime; // 9' (prime)
-		if ( "'" != $apos )
-			$dynamic[ '/(\S)\'([^\'\s])/'          ] = '$1' . $apos . '$2'; // apostrophe in a word
-		if ( '"' != $opening_quote )
-			$dynamic[ '/(\s|\A|[([{<])"(?!\s)/'    ] = '$1' . $opening_quote . '$2'; // opening double quote, even after (, {, <, [
-		if ( '"' != $closing_quote )
-			$dynamic[ '/"(\s|\S|\Z)/'              ] = $closing_quote . '$1'; // closing double quote
-		if ( "'" != $closing_single_quote )
-			$dynamic[ '/\'([\s.]|\Z)/'             ] = $closing_single_quote . '$1'; // closing single quote
+		/*
+		 * Regex for common whitespace characters.
+		 *
+		 * By default, spaces include new lines, tabs, nbsp entities, and the UTF-8 nbsp.
+		 * This is designed to replace the PCRE \s sequence.  In #WP22692, that sequence
+		 * was found to be unreliable due to random inclusion of the A0 byte.
+		 */
+		$spaces = '[\r\n\t ]|\xC2\xA0|&nbsp;';
 
-		$dynamic[ '/\b(\d+)x(\d+)\b/'              ] = '$1&#215;$2'; // 9x9 (times)
+
+		// Pattern-based replacements of characters.
+		$dynamic = array();
+
+		// '99 '99s '99's (apostrophe)
+		if ( "'" !== $apos ) {
+			$dynamic[ '/\'(?=\d)/' ] = $apos;
+		}
+
+		// Single quote at start, or preceded by (, {, <, [, ", or spaces.
+		if ( "'" !== $opening_single_quote ) {
+			$dynamic[ '/(?<=\A|[([{<"]|' . $spaces . ')\'/' ] = $opening_single_quote;
+		}
+
+		// 9" (double prime)
+		if ( '"' !== $double_prime ) {
+			$dynamic[ '/(?<=\d)"/' ] = $double_prime;
+		}
+
+		// 9' (prime)
+		if ( "'" !== $prime ) {
+			$dynamic[ '/(?<=\d)\'/' ] = $prime;
+		}
+
+		// Apostrophe in a word.  No spaces or double primes.
+		if ( "'" !== $apos ) {
+			$dynamic[ '/(?<!' . $spaces . ')\'(?!\'|' . $spaces . ')/' ] = $apos;
+		}
+
+		// Double quote at start, or preceded by (, {, <, [, or spaces, and not followed by spaces.
+		if ( '"' !== $opening_quote ) {
+			$dynamic[ '/(?<=\A|[([{<]|' . $spaces . ')"(?!' . $spaces . ')/' ] = $opening_quote;
+		}
+
+		// Any remaining double quotes.
+		if ( '"' !== $closing_quote ) {
+			$dynamic[ '/"/' ] = $closing_quote;
+		}
+
+		// Single quotes followed by spaces or a period.
+		if ( "'" !== $closing_single_quote ) {
+			$dynamic[ '/\'(?=\Z|\.|' . $spaces . ')/' ] = $closing_single_quote;
+		}
 
 		$dynamic_characters = array_keys( $dynamic );
 		$dynamic_replacements = array_values( $dynamic );
@@ -124,8 +155,9 @@ function wptexturize($text) {
 	$textarr = preg_split('/(<.*>|\[.*\])/Us', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 	foreach ( $textarr as &$curl ) {
-		if ( empty( $curl ) )
+		if ( empty( $curl ) ) {
 			continue;
+		}
 
 		// Only call _wptexturize_pushpop_element if first char is correct tag opening
 		$first = $curl[0];
@@ -134,11 +166,21 @@ function wptexturize($text) {
 		} elseif ( '[' === $first ) {
 			_wptexturize_pushpop_element($curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes, '[', ']');
 		} elseif ( empty($no_texturize_shortcodes_stack) && empty($no_texturize_tags_stack) ) {
+
 			// This is not a tag, nor is the texturization disabled static strings
 			$curl = str_replace($static_characters, $static_replacements, $curl);
+
 			// regular expressions
 			$curl = preg_replace($dynamic_characters, $dynamic_replacements, $curl);
+
+			// 9x9 (times)
+			if ( 1 === preg_match( '/(?<=\d)x\d/', $text ) ) {
+				// Searching for a digit is 10 times more expensive than for the x, so we avoid doing this one!
+				$curl = preg_replace( '/\b(\d+)x(\d+)\b/', '$1&#215;$2', $curl );
+			}
 		}
+
+		// Replace each & with &#038; unless it already looks like an entity.
 		$curl = preg_replace('/&([^#])(?![a-zA-Z1-4]{1,8};)/', '&#038;$1', $curl);
 	}
 	return implode( '', $textarr );
@@ -179,8 +221,9 @@ function _wptexturize_pushpop_element($text, &$stack, $disabled_elements, $openi
 			$last = array_pop($stack);
 
 			// Make sure it matches the opening tag
-			if ($last != $matches[1])
-				array_push($stack, $last);
+			if ( $last != $matches[1] ) {
+				array_push( $stack, $last );
+			}
 		}
 	}
 }
@@ -234,7 +277,7 @@ function wpautop($pee, $br = true) {
 
 	$pee = preg_replace('|<br />\s*<br />|', "\n\n", $pee);
 	// Space things out a little
-	$allblocks = '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|option|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|noscript|legend|section|article|aside|hgroup|header|footer|nav|figure|details|menu|summary)';
+	$allblocks = '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|noscript|legend|section|article|aside|hgroup|header|footer|nav|figure|details|menu|summary)';
 	$pee = preg_replace('!(<' . $allblocks . '[^>]*>)!', "\n$1", $pee);
 	$pee = preg_replace('!(</' . $allblocks . '>)!', "$1\n\n", $pee);
 	$pee = str_replace(array("\r\n", "\r"), "\n", $pee); // cross-platform newlines

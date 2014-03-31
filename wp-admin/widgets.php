@@ -35,7 +35,8 @@ if ( 'on' == $widgets_access ) {
 }
 
 /**
- * Fires early before the Widgets administration screen loads, after scripts are enqueued.
+ * Fires early before the Widgets administration screen loads,
+ * after scripts are enqueued.
  *
  * @since 2.2.0
  */

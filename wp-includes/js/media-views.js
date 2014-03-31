@@ -761,6 +761,10 @@
 		initialize: function( options ) {
 			this.image = options.image;
 			media.controller.State.prototype.initialize.apply( this, arguments );
+		},
+
+		activate: function() {
+			this.frame.modal.$el.addClass('image-details');
 		}
 	});
 
@@ -792,6 +796,10 @@
 
 		initialize: function() {
 			var collectionType = this.get('collectionType');
+
+			if ( 'video' === this.get( 'type' ) ) {
+				collectionType = 'video-' + collectionType;
+			}
 
 			this.set( 'id', collectionType + '-edit' );
 			this.set( 'toolbar', collectionType + '-edit' );
@@ -887,6 +895,10 @@
 
 		initialize: function() {
 			var collectionType = this.get('collectionType');
+
+			if ( 'video' === this.get( 'type' ) ) {
+				collectionType = 'video-' + collectionType;
+			}
 
 			this.set( 'id', collectionType + '-library' );
 			this.set( 'toolbar', collectionType + '-add' );
@@ -1873,6 +1885,17 @@
 	 */
 	media.view.MediaFrame.Post = media.view.MediaFrame.Select.extend({
 		initialize: function() {
+			this.counts = {
+				audio: {
+					count: media.view.settings.attachmentCounts.audio,
+					state: 'playlist'
+				},
+				video: {
+					count: media.view.settings.attachmentCounts.video,
+					state: 'video-playlist'
+				}
+			};
+
 			_.defaults( this.options, {
 				multiple:  true,
 				editing:   false,
@@ -1883,10 +1906,11 @@
 			 */
 			media.view.MediaFrame.Select.prototype.initialize.apply( this, arguments );
 			this.createIframeStates();
+
 		},
 
 		createStates: function() {
-			var options = this.options, counts;
+			var options = this.options;
 
 			// Add the default states.
 			this.states.add([
@@ -1946,18 +1970,73 @@
 					type:           'image',
 					collectionType: 'gallery',
 					title:          l10n.addToGalleryTitle
+				}),
+
+				new media.controller.Library({
+					id:         'playlist',
+					title:      l10n.createPlaylistTitle,
+					priority:   60,
+					toolbar:    'main-playlist',
+					filterable: 'uploaded',
+					multiple:   'add',
+					editable:   false,
+
+					library:  media.query( _.defaults({
+						type: 'audio'
+					}, options.library ) )
+				}),
+
+				// Playlist states.
+				new media.controller.CollectionEdit({
+					type: 'audio',
+					collectionType: 'playlist',
+					title:          l10n.editPlaylistTitle,
+					SettingsView:   media.view.Settings.Playlist,
+					library:        options.selection,
+					editing:        options.editing,
+					menu:           'playlist',
+					dragInfoText:   l10n.playlistDragInfo,
+					dragInfo:       false
+				}),
+
+				new media.controller.CollectionAdd({
+					type: 'audio',
+					collectionType: 'playlist',
+					title: l10n.addToPlaylistTitle
+				}),
+
+				new media.controller.Library({
+					id:         'video-playlist',
+					title:      l10n.createVideoPlaylistTitle,
+					priority:   60,
+					toolbar:    'main-video-playlist',
+					filterable: 'uploaded',
+					multiple:   'add',
+					editable:   false,
+
+					library:  media.query( _.defaults({
+						type: 'video'
+					}, options.library ) )
+				}),
+
+				new media.controller.CollectionEdit({
+					type: 'video',
+					collectionType: 'playlist',
+					title:          l10n.editVideoPlaylistTitle,
+					SettingsView:   media.view.Settings.Playlist,
+					library:        options.selection,
+					editing:        options.editing,
+					menu:           'video-playlist',
+					dragInfoText:   l10n.playlistDragInfo,
+					dragInfo:       false
+				}),
+
+				new media.controller.CollectionAdd({
+					type: 'video',
+					collectionType: 'playlist',
+					title: l10n.addToVideoPlaylistTitle
 				})
 			]);
-
-			counts = media.playlist.counts();
-
-			if ( counts.audio ) {
-				this.states.add( media.playlist.states(options) );
-			}
-
-			if ( counts.video ) {
-				this.states.add( media.playlist.videoStates(options) );
-			}
 
 			if ( media.view.settings.post.featuredImageId ) {
 				this.states.add( new media.controller.FeaturedImage() );
@@ -1965,10 +2044,21 @@
 		},
 
 		bindHandlers: function() {
-			/**
-			 * call 'bindHandlers' directly on the parent class
-			 */
+			var handlers, checkCounts;
+
 			media.view.MediaFrame.Select.prototype.bindHandlers.apply( this, arguments );
+
+			this.on( 'activate', this.activate, this );
+
+			// Only bother checking media type counts if one of the counts is zero
+			checkCounts = _.find( this.counts, function( type ) {
+				return type.count === 0;
+			} );
+
+			if ( typeof checkCounts !== 'undefined' ) {
+				this.listenTo( media.model.Attachments.all, 'change:type', this.mediaTypeCounts );
+			}
+
 			this.on( 'menu:create:gallery', this.createMenu, this );
 			this.on( 'menu:create:playlist', this.createMenu, this );
 			this.on( 'menu:create:video-playlist', this.createMenu, this );
@@ -1979,7 +2069,7 @@
 			this.on( 'toolbar:create:featured-image', this.featuredImageToolbar, this );
 			this.on( 'toolbar:create:main-embed', this.mainEmbedToolbar, this );
 
-			var handlers = {
+			handlers = {
 				menu: {
 					'default': 'mainMenu',
 					'gallery': 'galleryMenu',
@@ -2014,6 +2104,22 @@
 			}, this );
 		},
 
+		activate: function() {
+			// Hide menu items for states tied to particular media types if there are no items
+			_.each( this.counts, function( type ) {
+				if ( type.count < 1 ) {
+					this.menuItemVisibility( type.state, 'hide' );
+				}
+			}, this );
+		},
+
+		mediaTypeCounts: function( model, attr ) {
+			if ( typeof this.counts[ attr ] !== 'undefined' && this.counts[ attr ].count < 1 ) {
+				this.counts[ attr ].count++;
+				this.menuItemVisibility( this.counts[ attr ].state, 'show' );
+			}
+		},
+
 		// Menus
 		/**
 		 * @param {wp.Backbone.View} view
@@ -2025,6 +2131,15 @@
 					priority: 100
 				})
 			});
+		},
+
+		menuItemVisibility: function( state, visibility ) {
+			var menu = this.menu.get();
+			if ( visibility === 'hide' ) {
+				menu.hide( state );
+			} else if ( visibility === 'show' ) {
+				menu.show( state );
+			}
 		},
 		/**
 		 * @param {wp.Backbone.View} view
@@ -2422,10 +2537,13 @@
 
 						click: function() {
 							var controller = this.controller,
-								state = controller.state();
+								state = controller.state(),
+								library = state.get('library');
+
+							library.type = 'video';
 
 							controller.close();
-							state.trigger( 'update', state.get('library') );
+							state.trigger( 'update', library );
 
 							// Restore and reset the default state.
 							controller.setState( controller.options.state );
@@ -2556,7 +2674,6 @@
 
 		},
 
-
 		renderMenu: function( view ) {
 			var lastState = this.lastState(),
 				previous = lastState && lastState.id,
@@ -2611,9 +2728,25 @@
 		},
 
 		renderReplaceImageToolbar: function() {
+			var frame = this,
+				lastState = frame.lastState(),
+				previous = lastState && lastState.id;
+
 			this.toolbar.set( new media.view.Toolbar({
 				controller: this,
 				items: {
+					back: {
+						text:     l10n.back,
+						priority: 20,
+						click:    function() {
+							if ( previous ) {
+								frame.setState( previous );
+							} else {
+								frame.close();
+							}
+						}
+					},
+
 					replace: {
 						style:    'primary',
 						text:     l10n.replace,
@@ -3051,7 +3184,7 @@
 			}
 
 			media.View.prototype.render.apply( this, arguments );
-			$( '.wp-editor-wrap' ).each( _.bind( this.attach, this ) );
+			$( '.wp-editor-wrap, #wp-fullscreen-body' ).each( _.bind( this.attach, this ) );
 			return this;
 		},
 
@@ -3981,6 +4114,26 @@
 
 		deselect: function() {
 			this.$el.children().removeClass('active');
+		},
+
+		hide: function( id ) {
+			var view = this.get( id );
+
+			if ( ! view ) {
+				return;
+			}
+
+			view.$el.addClass('hidden');
+		},
+
+		show: function( id ) {
+			var view = this.get( id );
+
+			if ( ! view ) {
+				return;
+			}
+
+			view.$el.removeClass('hidden');
 		}
 	});
 
@@ -5601,8 +5754,8 @@
 		 * @param {Object} event
 		 */
 		editAttachment: function( event ) {
-			var editState = this.controller.state( 'edit-image' );
-			if ( window.imageEdit ) {
+			var editState = this.controller.states.get( 'edit-image' );
+			if ( window.imageEdit && editState ) {
 				event.preventDefault();
 
 				editState.set( 'image', this.model );
@@ -5904,13 +6057,16 @@
 		className: 'image-details',
 		template:  media.template('image-details'),
 		events: _.defaults( media.view.Settings.AttachmentDisplay.prototype.events, {
-			'click .edit-attachment': 'editAttachment'
+			'click .edit-attachment': 'editAttachment',
+			'click .replace-attachment': 'replaceAttachment',
+			'click .show-advanced': 'showAdvanced'
 		} ),
 		initialize: function() {
 			// used in AttachmentDisplay.prototype.updateLinkTo
 			this.options.attachment = this.model.attachment;
 			if ( this.model.attachment ) {
-				this.listenTo( this.model.attachment, 'change:url', this.updateUrl );
+				this.listenTo( this.model, 'change:url', this.updateUrl );
+				this.listenTo( this.model, 'change:link', this.toggleLinkSettings );
 			}
 			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
 		},
@@ -5930,38 +6086,65 @@
 		render: function() {
 			var self = this,
 				args = arguments;
+
 			if ( this.model.attachment && 'pending' === this.model.dfd.state() ) {
-				// should instead show a spinner when the attachment is new and then add a listener that updates on change
 				this.model.dfd.done( function() {
 					media.view.Settings.AttachmentDisplay.prototype.render.apply( self, args );
 					self.resetFocus();
+					self.toggleLinkSettings();
+				} ).fail( function() {
+					self.model.attachment = false;
+					media.view.Settings.AttachmentDisplay.prototype.render.apply( self, args );
+					self.resetFocus();
+					self.toggleLinkSettings();
 				} );
 			} else {
 				media.view.Settings.AttachmentDisplay.prototype.render.apply( this, arguments );
 				setTimeout( function() { self.resetFocus(); }, 10 );
+				self.toggleLinkSettings();
 			}
 
 			return this;
 		},
 
 		resetFocus: function() {
-			this.$( '.caption textarea' ).focus();
-			this.$( '.embed-image-settings' ).scrollTop( 0 );
+			this.$( '.link-to-custom' ).blur();
+			this.$( '.embed-media-settings' ).scrollTop( 0 );
 		},
 
 		updateUrl: function() {
-			this.$( '.thumbnail img' ).attr( 'src', this.model.get('url' ) );
+			this.$( '.image img' ).attr( 'src', this.model.get('url' ) );
 			this.$( '.url' ).val( this.model.get('url' ) );
 		},
 
-		editAttachment: function( event ) {
-			var editState = this.controller.state( 'edit-image' );
+		toggleLinkSettings: function() {
+			if ( this.model.get( 'link' ) === 'none' ) {
+				this.$( '.link-settings' ).addClass('hidden');
+			} else {
+				this.$( '.link-settings' ).removeClass('hidden');
+			}
+		},
 
-			if ( window.imageEdit ) {
+		showAdvanced: function( event ) {
+			event.preventDefault();
+			$( event.target ).closest('.advanced')
+				.find( '.hidden' ).removeClass( 'hidden' );
+			$( event.target ).remove();
+		},
+
+		editAttachment: function( event ) {
+			var editState = this.controller.states.get( 'edit-image' );
+
+			if ( window.imageEdit && editState ) {
 				event.preventDefault();
 				editState.set( 'image', this.model.attachment );
 				this.controller.setState( 'edit-image' );
 			}
+		},
+
+		replaceAttachment: function( event ) {
+			event.preventDefault();
+			this.controller.setState( 'replace-image' );
 		}
 	});
 

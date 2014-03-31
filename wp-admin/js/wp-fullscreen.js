@@ -92,14 +92,16 @@
 	 *
 	 * Toggle the CSS class to show/hide the toolbar, borders and statusbar.
 	 */
-	toggleUI = api.toggleUI = function( hide ) {
+	toggleUI = api.toggleUI = function( show ) {
 		clearTimeout( uiTimer );
 
-		if ( ! $body.hasClass('wp-dfw-show-ui') ) {
+		if ( ! $body.hasClass('wp-dfw-show-ui') || show === 'show' ) {
 			$body.addClass('wp-dfw-show-ui');
+		} else if ( show !== 'autohide' ) {
+			$body.removeClass('wp-dfw-show-ui');
 		}
 
-		if ( hide === 'hide' ) {
+		if ( show === 'autohide' ) {
 			uiTimer = setTimeout( _hideUI, 2000 );
 		}
 	};
@@ -305,8 +307,17 @@
 	api.dfwWidth = function( pixels, total ) {
 		var width;
 
+		if ( pixels && pixels.toString().indexOf('%') !== -1 ) {
+			s.$editorContainer.css( 'width', pixels );
+
+			if ( s.$dfwTitle ) {
+				s.$dfwTitle.css( 'width', pixels );
+			}
+			return;
+		}
+
 		if ( ! pixels ) {
-			// reset to theme width
+			// Reset to theme width
 			width = $('#wp-fullscreen-body').data('theme-width') || 800;
 			s.$editorContainer.width( width );
 
@@ -365,7 +376,7 @@
 		$('#wpadminbar').hide();
 
 		// Show the UI for 2 sec. when opening
-		toggleUI('hide');
+		toggleUI('autohide');
 
 		api.bind_resize();
 
@@ -373,7 +384,11 @@
 			s.editor.execCommand( 'wpFullScreenOn' );
 		}
 
-		api.dfwWidth( $( '#wp-fullscreen-body' ).data('dfw-width') || 800, true );
+		if ( 'ontouchstart' in window ) {
+			api.dfwWidth( '90%' );
+		} else {
+			api.dfwWidth( $( '#wp-fullscreen-body' ).data('dfw-width') || 800, true );
+		}
 
 		// scroll to top so the user is not disoriented
 		scrollTo(0, 0);
@@ -424,7 +439,8 @@
 
 	api.refreshButtons = function( fade ) {
 		if ( s.mode === 'html' ) {
-			$('#wp-fullscreen-mode-bar').removeClass('wp-tmce-mode').addClass('wp-html-mode');
+			$('#wp-fullscreen-mode-bar').removeClass('wp-tmce-mode').addClass('wp-html-mode')
+				.find('a').removeClass( 'active' ).filter('.wp-fullscreen-mode-html').addClass( 'active' );
 
 			if ( fade ) {
 				$('#wp-fullscreen-button-bar').fadeOut( 150, function(){
@@ -434,7 +450,8 @@
 				$('#wp-fullscreen-button-bar').addClass('wp-html-mode');
 			}
 		} else if ( s.mode === 'tinymce' ) {
-			$('#wp-fullscreen-mode-bar').removeClass('wp-html-mode').addClass('wp-tmce-mode');
+			$('#wp-fullscreen-mode-bar').removeClass('wp-html-mode').addClass('wp-tmce-mode')
+				.find('a').removeClass( 'active' ).filter('.wp-fullscreen-mode-tinymce').addClass( 'active' );
 
 			if ( fade ) {
 				$('#wp-fullscreen-button-bar').fadeOut( 150, function(){
@@ -498,10 +515,14 @@
 				}
 			});
 
+			if ( 'ontouchstart' in window ) {
+				$body.addClass('wp-dfw-touch');
+			}
+
 			toolbar.on( 'mouseenter', function() {
 				toggleUI('show');
 			}).on( 'mouseleave', function() {
-				toggleUI('hide');
+				toggleUI('autohide');
 			});
 
 			// Bind buttons

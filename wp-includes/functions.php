@@ -2200,11 +2200,11 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 	<title><?php echo $title ?></title>
 	<style type="text/css">
 		html {
-			background: #eee;
+			background: #f1f1f1;
 		}
 		body {
 			background: #fff;
-			color: #333;
+			color: #444;
 			font-family: "Open Sans", sans-serif;
 			margin: 2em auto;
 			padding: 1em 2em;

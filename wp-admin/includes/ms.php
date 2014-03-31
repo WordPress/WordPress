@@ -259,7 +259,7 @@ All at ###SITENAME###
 	$content = str_replace( '###SITENAME###', get_site_option( 'site_name' ), $content );
 	$content = str_replace( '###SITEURL###', network_home_url(), $content );
 
-	wp_mail( $value, sprintf( __( '[%s] New Admin Email Address' ), get_option( 'blogname' ) ), $content );
+	wp_mail( $value, sprintf( __( '[%s] New Admin Email Address' ), wp_specialchars_decode( get_option( 'blogname' ) ) ), $content );
 }
 add_action( 'update_option_new_admin_email', 'update_option_new_admin_email', 10, 2 );
 add_action( 'add_option_new_admin_email', 'update_option_new_admin_email', 10, 2 );
@@ -328,7 +328,7 @@ All at ###SITENAME###
 		$content = str_replace( '###SITENAME###', get_site_option( 'site_name' ), $content );
 		$content = str_replace( '###SITEURL###', network_home_url(), $content );
 
-		wp_mail( $_POST['email'], sprintf( __( '[%s] New Email Address' ), get_option( 'blogname' ) ), $content );
+		wp_mail( $_POST['email'], sprintf( __( '[%s] New Email Address' ), wp_specialchars_decode( get_option( 'blogname' ) ) ), $content );
 		$_POST['email'] = $current_user->user_email;
 	}
 }

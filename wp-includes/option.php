@@ -255,6 +255,17 @@ function update_option( $option, $value ) {
 	 */
 	$value = apply_filters( 'pre_update_option_' . $option, $value, $old_value );
 
+	/**
+	 * Filter an option before its value is (maybe) serialized and updated.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param mixed  $value     The new, unserialized option value.
+	 * @param string $option    Name of the option.
+	 * @param mixed  $old_value The old option value.
+	 */
+	$value = apply_filters( 'pre_update_option', $value, $option, $old_value );
+
 	// If the new and old values are the same, no need to update.
 	if ( $value === $old_value )
 		return false;

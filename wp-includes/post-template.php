@@ -1009,8 +1009,15 @@ function wp_list_pages($args = '') {
 			$output .= '<li class="pagenav">' . $r['title_li'] . '<ul>';
 
 		global $wp_query;
-		if ( is_page() || is_attachment() || $wp_query->is_posts_page )
-			$current_page = $wp_query->get_queried_object_id();
+		if ( is_page() || is_attachment() || $wp_query->is_posts_page ) {
+			$current_page = get_queried_object_id();
+		} elseif ( is_singular() ) {
+			$queried_object = get_queried_object();
+			if ( is_post_type_hierarchical( $queried_object->post_type ) ) {
+				$current_page = $queried_object->ID;
+			}
+		}
+
 		$output .= walk_page_tree($pages, $r['depth'], $current_page, $r);
 
 		if ( $r['title_li'] )
