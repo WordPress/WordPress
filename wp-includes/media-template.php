@@ -771,8 +771,8 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-image-editor">
-		<div id="media-head-{{{ data.id }}}"></div>
-		<div id="image-editor-{{{ data.id }}}"></div>
+		<div id="media-head-{{ data.id }}"></div>
+		<div id="image-editor-{{ data.id }}"></div>
 	</script>
 
 	<script type="text/html" id="tmpl-audio-details">
@@ -795,7 +795,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span>SRC</span>
 					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
-					<a class="remove-setting">{{{ wp.media.view.l10n.remove }}}</a>
+					<a class="remove-setting"><?php _e( 'Remove' ); ?></a>
 				</label>
 				<# } #>
 				<?php
@@ -809,14 +809,14 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
 					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
-					<a class="remove-setting">{{{ wp.media.view.l10n.remove }}}</a>
+					<a class="remove-setting"><?php _e( 'Remove' ); ?></a>
 				</label>
 				<# } #>
 				<?php endforeach ?>
 
 				<# if ( ! _.isEmpty( html5types ) ) { #>
 				<div class="setting">
-					<span>{{{ wp.media.view.l10n.mediaHTML5Text }}}</span>
+					<span><?php _e( 'Add alternate sources for maximum HTML5 playback:' ) ?></span>
 					<div class="button-large">
 					<# _.each( html5types, function (mime, type) { #>
 					<button class="button add-media-source" data-mime="{{ mime }}">{{ type }}</button>
@@ -886,7 +886,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span>SRC</span>
 					<input type="text" disabled="disabled" data-setting="src" value="{{ data.model.src }}" />
-					<a class="remove-setting">{{{ wp.media.view.l10n.remove }}}</a>
+					<a class="remove-setting"><?php _e( 'Remove' ); ?></a>
 				</label>
 				<# } #>
 				<?php foreach ( $video_types as $type ):
@@ -898,7 +898,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php echo strtoupper( $type ) ?></span>
 					<input type="text" disabled="disabled" data-setting="<?php echo $type ?>" value="{{ data.model.<?php echo $type ?> }}" />
-					<a class="remove-setting">{{{ wp.media.view.l10n.remove }}}</a>
+					<a class="remove-setting"><?php _e( 'Remove' ); ?></a>
 				</label>
 				<# } #>
 				<?php endforeach ?>
@@ -906,7 +906,7 @@ function wp_print_media_templates() {
 
 				<# if ( ! _.isEmpty( html5types ) ) { #>
 				<div class="setting">
-					<span>{{{ wp.media.view.l10n.mediaHTML5Text }}}</span>
+					<span><?php _e( 'Add alternate sources for maximum HTML5 playback:' ); ?></span>
 					<div class="button-large">
 					<# _.each( html5types, function (mime, type) { #>
 					<button class="button add-media-source" data-mime="{{ mime }}">{{ type }}</button>
@@ -919,7 +919,7 @@ function wp_print_media_templates() {
 				<label class="setting">
 					<span><?php _e( 'Poster Image' ); ?></span>
 					<input type="text" disabled="disabled" data-setting="poster" value="{{ data.model.poster }}" />
-					<a class="remove-setting">{{{ wp.media.view.l10n.remove }}}</a>
+					<a class="remove-setting"><?php _e( 'Remove' ); ?></a>
 				</label>
 				<# } #>
 				<div class="setting preload">
@@ -952,7 +952,7 @@ function wp_print_media_templates() {
 							content += track.outerHTML; #>
 						<p>
 							<input class="content-track" type="text" value="{{ track.outerHTML }}" />
-							<a class="remove-setting remove-track">{{{ wp.media.view.l10n.remove }}}</a>
+							<a class="remove-setting remove-track"><?php _e( 'Remove' ); ?></a>
 						</p>
 						<# } ); #>
 					<# } else { #>
@@ -972,11 +972,11 @@ function wp_print_media_templates() {
 		<div class="toolbar">
 			<div class="dashicons dashicons-edit edit"></div><div class="dashicons dashicons-no-alt remove"></div>
 		</div>
-		<div class="gallery gallery-columns-{{{ data.columns }}}">
+		<div class="gallery gallery-columns-{{ data.columns }}">
 			<# _.each( data.attachments, function( attachment, index ) { #>
 				<dl class="gallery-item">
 					<dt class="gallery-icon">
-						<img src="{{{ attachment.thumbnail.url }}}" width="{{ attachment.thumbnail.width }}" height="{{ attachment.thumbnail.height }}" />
+						<img src="{{ attachment.thumbnail.url }}" width="{{ attachment.thumbnail.width }}" height="{{ attachment.thumbnail.height }}" />
 					</dt>
 					<dd class="wp-caption-text gallery-caption">
 						{{ attachment.caption }}
@@ -996,7 +996,7 @@ function wp_print_media_templates() {
 			<div class="dashicons dashicons-no-alt remove"></div>
 		</div>
 		<# if ( ! _.isEmpty( data.model.caption ) ) { #>
-		<div class="track-details">{{{ data.model.caption }}}</div>
+		<div class="track-details">{{ data.model.caption }}</div>
 		<# } #>
 		<?php wp_underscore_audio_template() ?>
 		<div class="wpview-overlay"></div>
@@ -1008,7 +1008,7 @@ function wp_print_media_templates() {
 			<div class="dashicons dashicons-no-alt remove"></div>
 		</div>
 		<# if ( ! _.isEmpty( data.model.caption ) ) { #>
-		<div class="track-details">{{{ data.model.caption }}}</div>
+		<div class="track-details">{{ data.model.caption }}</div>
 		<# } #>
 		<?php wp_underscore_video_template() ?>
 		<div class="wpview-overlay"></div>
