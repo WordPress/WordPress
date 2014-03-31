@@ -1384,7 +1384,9 @@ function remove_editor_styles() {
  * The init hook may be too late for some features.
  *
  * @since 2.9.0
- * @param string $feature the feature being added
+ *
+ * @param string $feature The feature being added.
+ * @return void|bool False on failure, void otherwise.
  */
 function add_theme_support( $feature ) {
 	global $_wp_theme_features;
@@ -1403,6 +1405,7 @@ function add_theme_support( $feature ) {
 		case 'html5' :
 			// You can't just pass 'html5', you need to pass an array of types.
 			if ( empty( $args[0] ) ) {
+				// Build an array of types for back-compat.
 				$args = array( 0 => array( 'comment-list', 'comment-form', 'search-form' ) );
 			} elseif ( ! is_array( $args[0] ) ) {
 				_doing_it_wrong( "add_theme_support( 'html5' )", 'You need to pass an array of types.', '3.6.1' );
