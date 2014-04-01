@@ -139,39 +139,11 @@ var WidgetCustomizer = ( function ($) {
 	 * customizer controls.
 	 */
 	self.init = function () {
-		this.showFirstSidebarIfRequested();
 		this.availableWidgetsPanel.setup();
 	};
 	wp.customize.bind( 'ready', function () {
 		self.init();
 	} );
-
-	/**
-	 * Listen for updates to which sidebars are rendered in the preview and toggle
-	 * the customizer sections accordingly.
-	 */
-	self.showFirstSidebarIfRequested = function () {
-		if ( ! /widget-customizer=open/.test( location.search ) ) {
-			return;
-		}
-
-		var show_first_visible_sidebar = function () {
-			self.registered_sidebars.off( 'change:is_rendered', show_first_visible_sidebar );
-			var section, first_rendered_sidebar = self.registered_sidebars.find( function ( sidebar ) {
-				return sidebar.get( 'is_rendered' );
-			} );
-			if ( ! first_rendered_sidebar ) {
-				return;
-			}
-			section = $( '#accordion-section-sidebar-widgets-' + first_rendered_sidebar.get( 'id' ) );
-			if ( ! section.hasClass( 'open' ) ) {
-				section.find( '.accordion-section-title' ).trigger( 'click' );
-			}
-			section[0].scrollIntoView();
-		};
-		show_first_visible_sidebar = _.debounce( show_first_visible_sidebar, 100 ); // so only fires when all updated at end
-		self.registered_sidebars.on( 'change:is_rendered', show_first_visible_sidebar );
-	};
 
 	/**
 	 * Sidebar Widgets control
