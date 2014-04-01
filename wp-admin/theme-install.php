@@ -118,8 +118,8 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 		<a class="theme-section" href="#" data-sort="popular"><?php _ex( 'Popular', 'themes' ); ?></a>
 		<a class="theme-section" href="#" data-sort="new"><?php _ex( 'Latest', 'themes' ); ?></a>
 		<div class="theme-top-filters">
-			<!--<span class="theme-filter" data-filter="photoblogging">Photography</span>
-			<span class="theme-filter" data-filter="responsive-layout">Responsive</span>-->
+			<!-- <span class="theme-filter" data-filter="photoblogging">Photography</span>
+			<span class="theme-filter" data-filter="responsive-layout">Responsive</span> -->
 			<a class="more-filters" href="#"><?php _e( 'Feature Filter' ); ?></a>
 		</div>
 		<div class="more-filters-container">
@@ -140,12 +140,19 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 		}
 		?>
 			<br class="clear" />
+			<a class="apply-filters button button-secondary" href="#"><?php _e( 'Apply Filters' ); ?><span></span></a>
+			<a class="clear-filters button button-secondary" href="#"><?php _e( 'Clear' ); ?></a>
+			<div class="filtering-by">
+				<span><?php _e( 'Filtering by:' ); ?></span>
+				<div class="tags"></div>
+			</div>
 		</div>
 	</div>
 	<div class="theme-browser"></div>
 	<div class="theme-overlay"></div>
 	<div id="theme-installer" class="wp-full-overlay expanded"></div>
 
+	<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
 	<span class="spinner"></span>
 
 	<br class="clear" />
@@ -188,7 +195,7 @@ if ( $tab ) {
 <script id="tmpl-theme-preview" type="text/template">
 	<div class="wp-full-overlay-sidebar">
 		<div class="wp-full-overlay-header">
-			<a href="" class="close-full-overlay button-secondary"><?php _e( 'Close' ); ?></a>
+			<a href="#" class="close-full-overlay button-secondary"><?php _e( 'Close' ); ?></a>
 			<a href="{{ data.installURI }}" class="button button-primary theme-install"><?php _e( 'Install' ); ?></a>
 		</div>
 		<div class="wp-full-overlay-sidebar-content">
@@ -213,7 +220,7 @@ if ( $tab ) {
 			</div>
 		</div>
 		<div class="wp-full-overlay-footer">
-			<a href="" class="collapse-sidebar" title="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
+			<a href="#" class="collapse-sidebar" title="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
 				<span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
 				<span class="collapse-sidebar-arrow"></span>
 			</a>

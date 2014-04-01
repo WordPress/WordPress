@@ -255,6 +255,10 @@ themes.Collection = Backbone.Collection.extend({
 				self.trigger( 'update' );
 				self.trigger( 'query:success', count );
 
+				if ( data.themes.length === 0 ) {
+					self.trigger( 'query:empty' );
+				}
+
 				// Store the results and the query request
 				queries.push( { themes: data.themes, request: request } );
 			}).fail( function() {
@@ -275,6 +279,12 @@ themes.Collection = Backbone.Collection.extend({
 				}).fail( function() {
 					self.trigger( 'query:fail' );
 				});
+			}
+
+			if ( query.themes.length === 0 ) {
+				self.trigger( 'query:empty' );
+			} else {
+				$( 'body' ).removeClass( 'no-results' );
 			}
 
 			// Only trigger an update event since we already have the themes
@@ -330,7 +340,7 @@ themes.Collection = Backbone.Collection.extend({
 			beforeSend: function() {
 				if ( ! paginated ) {
 					// Spin it
-					$( 'body' ).addClass( 'loading-themes' );
+					$( 'body' ).addClass( 'loading-themes' ).removeClass( 'no-results' );
 				}
 			}
 		});
@@ -657,6 +667,7 @@ themes.view.Preview = wp.Backbone.View.extend({
 	},
 
 	collapse: function() {
+
 		this.$el.toggleClass( 'collapsed' ).toggleClass( 'expanded' );
 		return false;
 	}
@@ -702,6 +713,10 @@ themes.view.Themes = wp.Backbone.View.extend({
 			} else {
 				self.count.text( self.collection.length );
 			}
+		});
+
+		this.listenTo( self.collection, 'query:empty', function() {
+			$( 'body' ).addClass( 'no-results' );
 		});
 
 		this.listenTo( this.parent, 'theme:scroll', function() {
@@ -1143,7 +1158,10 @@ themes.view.Installer = themes.view.Appearance.extend({
 		'click .theme-section': 'onSort',
 		'click .theme-filter': 'onFilter',
 		'click .more-filters': 'moreFilters',
-		'click [type="checkbox"]': 'addFilter'
+		'click .apply-filters': 'addFilter',
+		'click [type="checkbox"]': 'filtersChecked',
+		'click .clear-filters': 'clearFilters',
+		'click .feature-name': 'filterSection'
 	},
 
 	// Handles all the rendering of the public theme directory
@@ -1217,6 +1235,8 @@ themes.view.Installer = themes.view.Appearance.extend({
 
 		event.preventDefault();
 
+		$( 'body' ).removeClass( 'filters-applied more-filters-opened' );
+
 		// Bail if this is already active
 		if ( $el.hasClass( this.activeClass ) ) {
 			return;
@@ -1266,16 +1286,31 @@ themes.view.Installer = themes.view.Appearance.extend({
 	},
 
 	// Clicking on a checkbox triggers a tag request
-	addFilter: function() {
-		var tags = this.filtersChecked(),
-			request = { tag: tags };
+	addFilter: function( event ) {
+		var name,
+			tags = this.filtersChecked(),
+			request = { tag: tags },
+			filteringBy = $( '.filtering-by .tags' );
+
+		if ( event ) {
+			event.preventDefault();
+		}
+
+		$( 'body' ).addClass( 'filters-applied' );
+		filteringBy.empty();
+
+		_.each( tags, function( tag ) {
+			name = $( 'label[for="feature-id-' + tag + '"]' ).text();
+			filteringBy.append( '<span class="tag">' + name + '</span>' );
+		});
 
 		// Get the themes by sending Ajax POST request to api.wordpress.org/themes
 		// or searching the local cache
 		this.collection.query( request );
 	},
 
-	// Get the checked filters and return an array
+	// Get the checked filters
+	// @return {array} of tags or false
 	filtersChecked: function() {
 		var items = $( '.feature-group' ).find( ':checkbox' ),
 			tags = [];
@@ -1283,6 +1318,17 @@ themes.view.Installer = themes.view.Appearance.extend({
 		_.each( items.filter( ':checked' ), function( item ) {
 			tags.push( $( item ).prop( 'value' ) );
 		});
+
+		// When no filters are checked, restore initial state and return
+		if ( tags.length === 0 ) {
+			$( '.apply-filters' ).find( 'span' ).text( '' );
+			$( '.clear-filters' ).hide();
+			$( 'body' ).removeClass( 'filters-applied' );
+			return false;
+		}
+
+		$( '.apply-filters' ).find( 'span' ).text( tags.length );
+		$( '.clear-filters' ).css( 'display', 'inline-block' );
 
 		return tags;
 	},
@@ -1304,8 +1350,40 @@ themes.view.Installer = themes.view.Appearance.extend({
 		});
 	},
 
-	moreFilters: function() {
+	// Toggle the full filters navigation
+	moreFilters: function( event ) {
+		event.preventDefault();
+
+		if ( $( 'body' ).hasClass( 'filters-applied' ) ) {
+			return $( 'body' ).removeClass( 'filters-applied' );
+		}
+
+		// If the filters section is opened and filters are checked
+		// run the relevant query collapsing to filtered-by state
+		if ( $( 'body' ).hasClass( 'more-filters-opened' ) && this.filtersChecked() ) {
+			return this.addFilter();
+		}
+
 		$( 'body' ).toggleClass( 'more-filters-opened' );
+	},
+
+	// Expand/collapse each individual filter section
+	filterSection: function() {
+		$( event.target ).parent().toggleClass( 'open' );
+	},
+
+	// Clears all the checked filters
+	// @uses filtersChecked()
+	clearFilters: function( event ) {
+		var items = $( '.feature-group' ).find( ':checkbox' ),
+			self = this;
+
+		event.preventDefault();
+
+		_.each( items.filter( ':checked' ), function( item ) {
+			$( item ).prop( 'checked', false );
+			return self.filtersChecked();
+		});
 	}
 });
 
