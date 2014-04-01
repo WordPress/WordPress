@@ -886,6 +886,11 @@ function update_core($from, $to) {
 	$db_upgrade_url = admin_url('upgrade.php?step=upgrade_db');
 	wp_remote_post($db_upgrade_url, array('timeout' => 60));
 
+	// Clear the cache to prevent an update_option() from saving a stale db_version to the cache
+	wp_cache_flush();
+	// (Not all cache backends listen to 'flush')
+	wp_cache_delete( 'alloptions', 'options' );
+
 	// Remove working directory
 	$wp_filesystem->delete($from, true);
 
