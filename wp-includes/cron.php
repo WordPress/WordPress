@@ -160,8 +160,19 @@ function wp_clear_scheduled_hook( $hook, $args = array() ) {
 		$args = array_slice( func_get_args(), 1 );
 	}
 
-	while ( $timestamp = wp_next_scheduled( $hook, $args ) )
-		wp_unschedule_event( $timestamp, $hook, $args );
+	// This logic duplicates wp_next_scheduled()
+	// It's required due to a scenario where wp_unschedule_event() fails due to update_option() failing,
+	// and, wp_next_scheduled() returns the same schedule in an infinite loop.
+	$crons = _get_cron_array();
+	if ( empty( $crons ) )
+		return;
+
+	$key = md5( serialize( $args ) );
+	foreach ( $crons as $timestamp => $cron ) {
+		if ( isset( $cron[ $hook ][ $key ] ) ) {
+			wp_unschedule_event( $timestamp, $hook, $args );
+		}
+	}
 }
 
 /**
