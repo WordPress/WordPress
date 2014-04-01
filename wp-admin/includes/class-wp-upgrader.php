@@ -1333,8 +1333,9 @@ class Core_Upgrader extends WP_Upgrader {
 			return new WP_Error('up_to_date', $this->strings['up_to_date']);
 
 		$res = $this->fs_connect( array(ABSPATH, WP_CONTENT_DIR) );
-		if ( is_wp_error($res) )
+		if ( ! $res || is_wp_error( $res ) ) {
 			return $res;
+		}
 
 		$wp_dir = trailingslashit($wp_filesystem->abspath());
 
@@ -1896,6 +1897,11 @@ class WP_Automatic_Updater {
 			'pre_check_md5'      => false, /* always use partial builds if possible for core updates */
 			'attempt_rollback'   => true, /* only available for core updates */
 		) );
+
+		// if the filesystem is unavailable, false is returned.
+		if ( false === $upgrade_result ) {
+			$upgrade_result = new WP_Error( 'fs_unavailable', __( 'Could not access filesystem.' ) );			
+		}
 
 		// Core doesn't output this, so lets append it so we don't get confused
 		if ( 'core' == $type ) {
