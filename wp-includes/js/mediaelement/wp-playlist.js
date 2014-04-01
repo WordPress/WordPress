@@ -52,7 +52,7 @@
 				this._player.pause();
 				this._player.remove();
 				this.playerNode = this.$( this.data.type );
-				this.playerNode.prop( 'src', this.current.get( 'src' ) );
+				this.playerNode.attr( 'src', this.current.get( 'src' ) );
 				this.settings.success = this.bindResetPlayer;
 			}
 			/**
@@ -63,6 +63,7 @@
 
 		playCurrentSrc : function () {
 			this.renderCurrent();
+			this.player.setSrc( this.playerNode.attr( 'src' ) );
 			this.player.load();
 			this.player.play();
 		},
@@ -139,7 +140,7 @@
 			if ( last !== current ) {
 				this.setPlayer();
 			} else {
-				this.playerNode.prop( 'src', this.current.get( 'src' ) );
+				this.playerNode.attr( 'src', this.current.get( 'src' ) );
 				this.playCurrentSrc();
 			}
 		},
