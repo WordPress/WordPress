@@ -931,13 +931,11 @@ var WidgetCustomizer = ( function ($) {
 			// Highlight whenever hovering or clicking over the form
 			control.container.on( 'mouseenter click', function () {
 				control.setting.previewer.send( 'highlight-widget', control.params.widget_id );
-				//control.highlightPreviewWidget();
 			} );
 
 			// Highlight when the setting is updated
 			control.setting.bind( function () {
 				control.setting.previewer.send( 'highlight-widget', control.params.widget_id );
-				//control.highlightPreviewWidget();
 			} );
 
 			// Highlight when the widget form is expanded
