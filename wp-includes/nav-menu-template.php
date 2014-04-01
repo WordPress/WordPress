@@ -347,6 +347,20 @@ function wp_nav_menu( $args = array() ) {
 	}
 
 	unset( $menu_items, $menu_item );
+	
+	// Add first-menu-item and last-menu-item classes (including child menus)
+    $parents = array();
+    foreach ( $sorted_menu_items as $menu_key => &$menu_item ) {
+        if ( ! array_key_exists( $menu_item->menu_item_parent, $parents ) ) {
+            $menu_item->classes []= 'first-menu-item';
+        } else {
+            array_pop( $sorted_menu_items[ $parents[ $menu_item->menu_item_parent ] ]->classes );
+        }
+        $parents[ $menu_item->menu_item_parent ] = $menu_key;
+        $menu_item->classes []= 'last-menu-item';
+    }
+
+    unset($parents, $menu_item);
 
 	/**
 	 * Filter the sorted list of menu item objects before generating the menu's HTML.
