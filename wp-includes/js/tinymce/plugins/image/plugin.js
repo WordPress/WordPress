@@ -40,6 +40,16 @@ tinymce.PluginManager.add('image', function(editor) {
 		img.src = url;
 	}
 
+	function applyPreview(items) {
+		tinymce.each(items, function(item) {
+			item.textStyle = function() {
+				return editor.formatter.getCssText({inline: 'img', classes: [item.value]});
+			};
+		});
+
+		return items;
+	}
+
 	function createImageList(callback) {
 		return function() {
 			var imageList = editor.settings.image_list;
@@ -145,12 +155,16 @@ tinymce.PluginManager.add('image', function(editor) {
 
 				imgElm.onerror = selectImage;
 			}
-			
+
 			updateStyle();
 			recalcSize();
 
 			data = tinymce.extend(data, win.toJSON());
 			var caption = data.caption; // WP
+
+			if (!data.alt) {
+				data.alt = '';
+			}
 
 			if (data.width === '') {
 				data.width = null;
@@ -281,16 +295,22 @@ tinymce.PluginManager.add('image', function(editor) {
 				name: 'class',
 				type: 'listbox',
 				label: 'Class',
-				values: buildValues('image_class_list', 'class')
+				values: applyPreview(buildValues('image_class_list', 'class'))
 			};
 		}
 
 		// General settings shared between simple and advanced dialogs
 		var generalFormItems = [
 			{name: 'src', type: 'filepicker', filetype: 'image', label: 'Source', autofocus: true, onchange: srcChange},
-			imageListCtrl,
-			{name: 'alt', type: 'textbox', label: 'Image description'},
-			{
+			imageListCtrl
+		];
+
+		if (editor.settings.image_description !== false) {
+			generalFormItems.push({name: 'alt', type: 'textbox', label: 'Image description'});
+		}
+
+		if (editor.settings.image_dimensions !== false) {
+			generalFormItems.push({
 				type: 'container',
 				label: 'Dimensions',
 				layout: 'flex',
@@ -303,9 +323,10 @@ tinymce.PluginManager.add('image', function(editor) {
 					{name: 'height', type: 'textbox', maxLength: 5, size: 3, onchange: recalcSize, ariaLabel: 'Height'},
 					{name: 'constrain', type: 'checkbox', checked: true, text: 'Constrain proportions'}
 				]
-			},
-			classListCtrl
-		];
+			});
+		}
+
+		generalFormItems.push(classListCtrl);
 
 		// WP
 		editor.fire( 'wpLoadImageForm', { data: generalFormItems } );

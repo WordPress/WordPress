@@ -131,6 +131,11 @@ body.press-this {
 	padding: 2px 3px;
 }
 
+.press-this #wp-content-wrap div.mce-toolbar-grp,
+.press-this #wp-content-wrap .quicktags-toolbar {
+	padding-right: 3px;
+}
+
 .press-this .howto {
 	margin-top: 2px;
 	margin-bottom: 3px;

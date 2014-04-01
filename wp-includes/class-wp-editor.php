@@ -427,7 +427,7 @@ final class _WP_Editors {
 					'entity_encoding' => 'raw',
 					'menubar' => false,
 					'keep_styles' => false,
-					'paste_remove_styles' => true,
+					'paste_webkit_styles' => 'font-weight font-style color',
 
 					// Limit the preview styles in the menu/toolbar
 					'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform',

@@ -142,6 +142,20 @@ tinymce.ThemeManager.add('modern', function(editor) {
 			return true;
 		}
 
+		// Convert toolbar array to multiple options
+		if (tinymce.isArray(settings.toolbar)) {
+			// Empty toolbar array is the same as a disabled toolbar
+			if (settings.toolbar.length === 0) {
+				return;
+			}
+
+			tinymce.each(settings.toolbar, function(toolbar, i) {
+				settings["toolbar" + (i + 1)] = toolbar;
+			});
+
+			delete settings.toolbar;
+		}
+
 		// Generate toolbar<n>
 		for (var i = 1; i < 10; i++) {
 			if (!addToolbar(settings["toolbar" + i])) {
@@ -149,12 +163,21 @@ tinymce.ThemeManager.add('modern', function(editor) {
 			}
 		}
 
-		// Generate toolbar or default toolbar
-		if (!toolbars.length) {
+		// Generate toolbar or default toolbar unless it's disabled
+		if (!toolbars.length && settings.toolbar !== false) {
 			addToolbar(settings.toolbar || defaultToolbar);
 		}
 
-		return toolbars;
+		if (toolbars.length) {
+			return {
+				type: 'panel',
+				layout: 'stack',
+				classes: "toolbar-grp",
+				ariaRoot: true,
+				ariaRemember: true,
+				items: toolbars
+			};
+		}
 	}
 
 	/**
@@ -402,9 +425,7 @@ tinymce.ThemeManager.add('modern', function(editor) {
 				border: 1,
 				items: [
 					settings.menubar === false ? null : {type: 'menubar', border: '0 0 1 0', items: createMenuButtons()},
-					settings.toolbar === false ? null : {
-						type: 'panel', layout: 'stack', classes: "toolbar-grp", ariaRoot: true, ariaRemember: true, items: createToolbars()
-					}
+					createToolbars()
 				]
 			});
 
@@ -480,9 +501,7 @@ tinymce.ThemeManager.add('modern', function(editor) {
 			border: 1,
 			items: [
 				settings.menubar === false ? null : {type: 'menubar', border: '0 0 1 0', items: createMenuButtons()},
-				settings.toolbar === false ? null : {
-					type: 'panel', layout: 'stack', classes: "toolbar-grp", ariaRoot: true, ariaRemember: true, items: createToolbars()
-				},
+				createToolbars(),
 				{type: 'panel', name: 'iframe', layout: 'stack', classes: 'edit-area', html: '', border: '1 0 0 0'}
 			]
 		});

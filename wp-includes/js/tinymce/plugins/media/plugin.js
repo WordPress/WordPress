@@ -14,10 +14,10 @@
 
 tinymce.PluginManager.add('media', function(editor, url) {
 	var urlPatterns = [
-		{regex: /youtu\.be\/([a-z1-9.-_]+)/, type: 'iframe', w: 425, h: 350, url: 'http://www.youtube.com/embed/$1'},
-		{regex: /youtube\.com(.+)v=([^&]+)/, type: 'iframe', w: 425, h: 350, url: 'http://www.youtube.com/embed/$2'},
-		{regex: /vimeo\.com\/([0-9]+)/, type: 'iframe', w: 425, h: 350, url: 'http://player.vimeo.com/video/$1?title=0&byline=0&portrait=0&color=8dc7dc'},
-		{regex: /maps\.google\.([a-z]{2,3})\/maps\/(.+)msid=(.+)/, type: 'iframe', w: 425, h: 350, url: 'http://maps.google.com/maps/ms?msid=$2&output=embed"'}
+		{regex: /youtu\.be\/([\w\-.]+)/, type: 'iframe', w: 425, h: 350, url: '//www.youtube.com/embed/$1'},
+		{regex: /youtube\.com(.+)v=([^&]+)/, type: 'iframe', w: 425, h: 350, url: '//www.youtube.com/embed/$2'},
+		{regex: /vimeo\.com\/([0-9]+)/, type: 'iframe', w: 425, h: 350, url: '//player.vimeo.com/video/$1?title=0&byline=0&portrait=0&color=8dc7dc'},
+		{regex: /maps\.google\.([a-z]{2,3})\/maps\/(.+)msid=(.+)/, type: 'iframe', w: 425, h: 350, url: '//maps.google.com/maps/ms?msid=$2&output=embed"'}
 	];
 
 	function guessMime(url) {
@@ -62,6 +62,9 @@ tinymce.PluginManager.add('media', function(editor, url) {
 
 	function showDialog() {
 		var win, width, height, data;
+		var generalFormItems = [
+			{name: 'source1', type: 'filepicker', filetype: 'media', size: 40, autofocus: true, label: 'Source'}
+		];
 
 		function recalcSize(e) {
 			var widthCtrl, heightCtrl, newWidth, newHeight;
@@ -86,6 +89,30 @@ tinymce.PluginManager.add('media', function(editor, url) {
 			height = newHeight;
 		}
 
+		if (editor.settings.media_alt_source !== false) {
+			generalFormItems.push({name: 'source2', type: 'filepicker', filetype: 'media', size: 40, label: 'Alternative source'});
+		}
+
+		if (editor.settings.media_poster !== false) {
+			generalFormItems.push({name: 'poster', type: 'filepicker', filetype: 'image', size: 40, label: 'Poster'});
+		}
+
+		if (editor.settings.media_dimensions !== false) {
+			generalFormItems.push({
+				type: 'container',
+				label: 'Dimensions',
+				layout: 'flex',
+				align: 'center',
+				spacing: 5,
+				items: [
+					{name: 'width', type: 'textbox', maxLength: 3, size: 3, onchange: recalcSize},
+					{type: 'label', text: 'x'},
+					{name: 'height', type: 'textbox', maxLength: 3, size: 3, onchange: recalcSize},
+					{name: 'constrain', type: 'checkbox', checked: true, text: 'Constrain proportions'}
+				]
+			});
+		}
+
 		data = getData(editor.selection.getNode());
 		width = data.width;
 		height = data.height;
@@ -102,24 +129,7 @@ tinymce.PluginManager.add('media', function(editor, url) {
 						data = htmlToData(this.next().find('#embed').value());
 						this.fromJSON(data);
 					},
-					items: [
-						{name: 'source1', type: 'filepicker', filetype: 'media', size: 40, autofocus: true, label: 'Source'},
-						{name: 'source2', type: 'filepicker', filetype: 'media', size: 40, label: 'Alternative source'},
-						{name: 'poster', type: 'filepicker', filetype: 'image', size: 40, label: 'Poster'},
-						{
-							type: 'container',
-							label: 'Dimensions',
-							layout: 'flex',
-							align: 'center',
-							spacing: 5,
-							items: [
-								{name: 'width', type: 'textbox', maxLength: 5, size: 3, ariaLabel: 'Width', onchange: recalcSize},
-								{type: 'label', text: 'x'},
-								{name: 'height', type: 'textbox', maxLength: 5, size: 3, ariaLabel: 'Height', onchange: recalcSize},
-								{name: 'constrain', type: 'checkbox', checked: true, text: 'Constrain proportions'}
-							]
-						}
-					]
+					items: generalFormItems
 				},
 
 				{
@@ -173,6 +183,14 @@ tinymce.PluginManager.add('media', function(editor, url) {
 			if (!data.source1) {
 				return '';
 			}
+		}
+
+		if (!data.source2) {
+			data.source2 = '';
+		}
+
+		if (!data.poster) {
+			data.poster = '';
 		}
 
 		data.source1 = editor.convertURL(data.source1, "source");
