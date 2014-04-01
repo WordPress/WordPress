@@ -74,6 +74,8 @@
 
 .wp-playlist audio {
 	display: none;
+	max-width: 100%;
+	width: 400px;
 }
 
 .wp-playlist .mejs-container {
