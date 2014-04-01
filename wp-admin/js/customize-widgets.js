@@ -140,6 +140,12 @@ var WidgetCustomizer = ( function ($) {
 	 */
 	self.init = function () {
 		this.availableWidgetsPanel.setup();
+
+		// Highlight widget control
+		this.previewer.bind( 'highlight-widget-control', self.highlightWidgetFormControl );
+
+		// Open and focus widget control
+		this.previewer.bind( 'focus-widget-control', self.focusWidgetFormControl );
 	};
 	wp.customize.bind( 'ready', function () {
 		self.init();
@@ -924,13 +930,14 @@ var WidgetCustomizer = ( function ($) {
 
 			// Highlight whenever hovering or clicking over the form
 			control.container.on( 'mouseenter click', function () {
-				control.highlightPreviewWidget();
+				control.setting.previewer.send( 'highlight-widget', control.params.widget_id );
+				//control.highlightPreviewWidget();
 			} );
 
 			// Highlight when the setting is updated
 			control.setting.bind( function () {
-				control.scrollPreviewWidgetIntoView();
-				control.highlightPreviewWidget();
+				control.setting.previewer.send( 'highlight-widget', control.params.widget_id );
+				//control.highlightPreviewWidget();
 			} );
 
 			// Highlight when the widget form is expanded
@@ -1482,16 +1489,6 @@ var WidgetCustomizer = ( function ($) {
 		},
 
 		/**
-		 * Inverse of WidgetCustomizer.getControlInstanceForWidget
-		 * @return {jQuery}
-		 */
-		getPreviewWidgetElement: function () {
-			var control = this,
-				widget_customizer_preview = self.getPreviewWindow().wp.customize.WidgetCustomizerPreview;
-			return widget_customizer_preview.getWidgetElement( control.params.widget_id );
-		},
-
-		/**
 		 * Inside of the customizer preview, scroll the widget into view
 		 */
 		scrollPreviewWidgetIntoView: function () {
@@ -1515,21 +1512,6 @@ var WidgetCustomizer = ( function ($) {
 			setTimeout( function () {
 				target_element.removeClass( 'widget-customizer-highlighted' );
 			}, 500 );
-		},
-
-		/**
-		 * Add the widget-customizer-highlighted-widget class to the widget for 500ms
-		 */
-		highlightPreviewWidget: function () {
-			var control = this, widget_el, root_el;
-
-			widget_el = control.getPreviewWidgetElement();
-			root_el = widget_el.closest( 'html' );
-			root_el.find( '.widget-customizer-highlighted-widget' ).removeClass( 'widget-customizer-highlighted-widget' );
-			widget_el.addClass( 'widget-customizer-highlighted-widget' );
-			setTimeout( function () {
-				widget_el.removeClass( 'widget-customizer-highlighted-widget' );
-			}, 500 );
 		}
 
 	} );
@@ -1545,6 +1527,32 @@ var WidgetCustomizer = ( function ($) {
 			this.bind( 'refresh', this.refresh );
 		}
 	} );
+
+	/**
+	 * Highlight a widget control.
+	 *
+	 * @param {string} widgetId
+	 */
+	self.highlightWidgetFormControl = function( widgetId ) {
+		var control = self.getWidgetFormControlForWidget( widgetId );
+
+		if ( control ) {
+			control.highlightSectionAndControl();
+		}
+	},
+
+	/**
+	 * Focus a widget control.
+	 *
+	 * @param {string} widgetId
+	 */
+	self.focusWidgetFormControl = function( widgetId ) {
+		var control = self.getWidgetFormControlForWidget( widgetId );
+
+		if ( control ) {
+			control.focus();
+		}
+	},
 
 	/**
 	 * Given a widget control, find the sidebar widgets control that contains it.

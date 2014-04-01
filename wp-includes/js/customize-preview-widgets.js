@@ -27,6 +27,8 @@
 				self.preview.send( 'rendered-sidebars', self.renderedSidebars ); // @todo Only send array of IDs
 				self.preview.send( 'rendered-widgets', self.renderedWidgets ); // @todo Only send array of IDs
 			} );
+
+			this.preview.bind( 'highlight-widget', self.highlightWidget );
 		},
 
 		/**
@@ -58,31 +60,34 @@
 		},
 
 		/**
-		 * Obtain a rendered widget element. Assumes standard practice of using
-		 * the widget ID as the ID for the DOM element. To eliminate this
-		 * assumption, additional data-* attributes would need to be injected
-		 * onto the rendered widget root element.
+		 * Highlight the widget on widget updates or widget control mouse overs.
 		 *
-		 * @param {String} widget_id
-		 * @return {jQuery}
+		 * @param  {string} widgetId ID of the widget.
 		 */
-		getWidgetElement: function ( widget_id ) {
-			return $( '#' + widget_id );
+		highlightWidget: function( widgetId ) {
+			var $body = $( document.body ),
+				$widget = $( '#' + widgetId );
+
+			$body.find( '.widget-customizer-highlighted-widget' ).removeClass( 'widget-customizer-highlighted-widget' );
+
+			$widget.addClass( 'widget-customizer-highlighted-widget' );
+			setTimeout( function () {
+				$widget.removeClass( 'widget-customizer-highlighted-widget' );
+			}, 500 );
 		},
 
 		/**
-		 *
+		 * Show a title and highlight widgets on hover. On shift+clicking
+		 * focus the widget control.
 		 */
 		highlightControls: function() {
-			var selector = this.widgetSelectors.join(',');
+			var self = this,
+				selector = this.widgetSelectors.join(',');
 
 			$(selector).attr( 'title', this.l10n.widgetTooltip );
 
 			$(document).on( 'mouseenter', selector, function () {
-				var control = parent.WidgetCustomizer.getWidgetFormControlForWidget( $(this).prop('id') );
-				if ( control ) {
-					control.highlightSectionAndControl();
-				}
+				self.preview.send( 'highlight-widget-control', $( this ).prop( 'id' ) );
 			});
 
 			// Open expand the widget control when shift+clicking the widget element
@@ -91,10 +96,8 @@
 					return;
 				}
 				e.preventDefault();
-				var control = parent.WidgetCustomizer.getWidgetFormControlForWidget( $(this).prop('id') );
-				if ( control ) {
-					control.focus();
-				}
+
+				self.preview.send( 'focus-widget-control', $( this ).prop( 'id' ) );
 			});
 		}
 	};
