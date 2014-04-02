@@ -1368,7 +1368,7 @@ final class WP_Customize_Widgets {
 
 		$this->_is_capturing_option_updates = true;
 
-		add_filter( 'pre_update_option', array( $this, '_capture_filter_pre_update_option' ), 10, 3 );
+		add_filter( 'pre_update_option', array( $this, 'capture_filter_pre_update_option' ), 10, 3 );
 	}
 
 	/**
@@ -1382,13 +1382,13 @@ final class WP_Customize_Widgets {
 	 * @param mixed $old_value
 	 * @return mixed
 	 */
-	public function _capture_filter_pre_update_option( $new_value, $option_name, $old_value ) {
+	public function capture_filter_pre_update_option( $new_value, $option_name, $old_value ) {
 		if ( $this->is_option_capture_ignored( $option_name ) ) {
 			return;
 		}
 
 		if ( ! isset( $this->_captured_options[$option_name] ) ) {
-			add_filter( "pre_option_{$option_name}", array( $this, '_capture_filter_pre_get_option' ) );
+			add_filter( "pre_option_{$option_name}", array( $this, 'capture_filter_pre_get_option' ) );
 		}
 
 		$this->_captured_options[$option_name] = $new_value;
@@ -1405,7 +1405,7 @@ final class WP_Customize_Widgets {
 	 * @param mixed $value Option
 	 * @return mixed
 	 */
-	public function _capture_filter_pre_get_option( $value ) {
+	public function capture_filter_pre_get_option( $value ) {
 		$option_name = preg_replace( '/^pre_option_/', '', current_filter() );
 
 		if ( isset( $this->_captured_options[$option_name] ) ) {
@@ -1427,9 +1427,10 @@ final class WP_Customize_Widgets {
 			return;
 		}
 
-		remove_filter( '_capture_filter_pre_update_option', array( $this, '_capture_filter_pre_update_option' ), 10, 3 );
+		remove_filter( 'pre_update_option', array( $this, 'capture_filter_pre_update_option' ), 10, 3 );
+
 		foreach ( array_keys( $this->_captured_options ) as $option_name ) {
-			remove_filter( "pre_option_{$option_name}", array( $this, '_capture_filter_pre_get_option' ) );
+			remove_filter( "pre_option_{$option_name}", array( $this, 'capture_filter_pre_get_option' ) );
 		}
 
 		$this->_captured_options = array();
