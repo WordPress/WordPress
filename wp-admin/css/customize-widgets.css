@@ -23,20 +23,15 @@
 	opacity: 0.5;
 }
 
-
-.customize-control-widget_form .widget-control-save {
+.customize-control-widget_form .widget-control-save,
+.customize-control-widget_form .spinner {
 	display: none;
 }
 
-.customize-control-widget_form .spinner {
-	display: inline;
-	opacity: 0.0;
-	-webkit-transition: opacity 0.1s;
-	transition: opacity 0.1s;
-}
 .customize-control-widget_form.previewer-loading .spinner {
-	opacity: 1.0;
+	display: inline;
 }
+
 .customize-control-widget_form.widget-form-disabled .widget-content {
 	opacity: 0.7;
 	pointer-events: none;
@@ -320,8 +315,8 @@
 	content: "\f132";
 	display: inline-block;
 	position: relative;
-		left: -2px;
-		top: -1px;
+	left: -2px;
+	top: -1px;
 	font: normal 16px/1 'dashicons';
 	vertical-align: middle;
 	-webkit-transition: all 0.2s;
