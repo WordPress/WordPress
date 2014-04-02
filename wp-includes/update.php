@@ -257,7 +257,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
-	if ( $plugin_update_stats ) {
+	if ( $extra_stats ) {
 		$options['body']['update_stats'] = json_encode( $extra_stats );
 	}
 
@@ -401,7 +401,7 @@ function wp_update_themes( $extra_stats = array() ) {
 		'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
-	if ( $theme_update_stats ) {
+	if ( $extra_stats ) {
 		$options['body']['update_stats'] = json_encode( $extra_stats );
 	}
 
