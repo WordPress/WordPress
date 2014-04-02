@@ -992,11 +992,12 @@ function gallery_shortcode( $attr ) {
 				</{$captiontag}>";
 		}
 		$output .= "</{$itemtag}>";
-		if ( $columns > 0 && ++$i % $columns == 0 )
+		if ( ! $html5 && $columns > 0 && ++$i % $columns == 0 ) {
 			$output .= '<br style="clear: both" />';
+		}
 	}
 
-	if ( $columns > 0 && $i % $columns !== 0 ) {
+	if ( ! $html5 && $columns > 0 && $i % $columns !== 0 ) {
 		$output .= "
 			<br style='clear: both' />";
 	}
