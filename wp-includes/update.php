@@ -166,9 +166,10 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
  * @since 2.3.0
  * @uses $wp_version Used to notify the WordPress version.
  *
+ * @param array $extra_stats Extra statistics to report to the WordPress.org API.
  * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
  */
-function wp_update_plugins() {
+function wp_update_plugins( $extra_stats = array() ) {
 	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
 
 	if ( defined('WP_INSTALLING') )
@@ -207,7 +208,7 @@ function wp_update_plugins() {
 
 	$time_not_changed = isset( $current->last_checked ) && $timeout > ( time() - $current->last_checked );
 
-	if ( $time_not_changed ) {
+	if ( $time_not_changed && ! $extra_stats ) {
 		$plugin_changed = false;
 		foreach ( $plugins as $file => $p ) {
 			$new_option->checked[ $file ] = $p['Version'];
@@ -256,6 +257,10 @@ function wp_update_plugins() {
 		'user-agent' => 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
 
+	if ( $plugin_update_stats ) {
+		$options['body']['update_stats'] = json_encode( $extra_stats );
+	}
+
 	$url = $http_url = 'http://api.wordpress.org/plugins/update-check/1.1/';
 	if ( $ssl = wp_http_supports( array( 'ssl' ) ) )
 		$url = set_url_scheme( $url, 'https' );
@@ -296,9 +301,10 @@ function wp_update_plugins() {
  * @since 2.7.0
  * @uses $wp_version Used to notify the WordPress version.
  *
+ * @param array $extra_stats Extra statistics to report to the WordPress.org API.
  * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
  */
-function wp_update_themes() {
+function wp_update_themes( $extra_stats = array() ) {
 	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
 
 	if ( defined( 'WP_INSTALLING' ) )
@@ -348,7 +354,7 @@ function wp_update_themes() {
 
 	$time_not_changed = isset( $last_update->last_checked ) && $timeout > ( time() - $last_update->last_checked );
 
-	if ( $time_not_changed ) {
+	if ( $time_not_changed && ! $extra_stats ) {
 		$theme_changed = false;
 		foreach ( $checked as $slug => $v ) {
 			if ( !isset( $last_update->checked[ $slug ] ) || strval($last_update->checked[ $slug ]) !== strval($v) )
@@ -394,6 +400,10 @@ function wp_update_themes() {
 		),
 		'user-agent'	=> 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' )
 	);
+
+	if ( $theme_update_stats ) {
+		$options['body']['update_stats'] = json_encode( $extra_stats );
+	}
 
 	$url = $http_url = 'http://api.wordpress.org/themes/update-check/1.1/';
 	if ( $ssl = wp_http_supports( array( 'ssl' ) ) )
