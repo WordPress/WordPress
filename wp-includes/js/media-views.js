@@ -3131,8 +3131,8 @@
 
 			this.initialized = false;
 
-			// Bail if UA does not support drag'n'drop or File API.
-			if ( ! this.browserSupport() ) {
+			// Bail if not enabled or UA does not support drag'n'drop or File API.
+			if ( ! window.tinyMCEPreInit || ! window.tinyMCEPreInit.dragDropUpload || ! this.browserSupport() ) {
 				return this;
 			}
 

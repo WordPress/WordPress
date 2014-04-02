@@ -311,12 +311,14 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			window.jQuery( document ).triggerHandler( 'tinymce-editor-init', [editor] );
 		}
 
-		dom.bind( doc, 'dragstart dragend dragover drop', function( event ) {
-			if ( typeof window.jQuery !== 'undefined' ) {
-				// Trigger the jQuery handlers.
-				window.jQuery( document ).triggerHandler( event.type );
-			}
-		});
+		if ( window.tinyMCEPreInit && window.tinyMCEPreInit.dragDropUpload ) {
+			dom.bind( doc, 'dragstart dragend dragover drop', function( event ) {
+				if ( typeof window.jQuery !== 'undefined' ) {
+					// Trigger the jQuery handlers.
+					window.jQuery( document ).triggerHandler( event.type );
+				}
+			});
+		}
 	});
 
 	// Word count

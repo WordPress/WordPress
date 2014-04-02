@@ -24,6 +24,7 @@ final class _WP_Editors {
 	private static $has_quicktags = false;
 	private static $has_medialib = false;
 	private static $editor_buttons_css = true;
+	private static $drag_drop_upload = false;
 
 	private function __construct() {}
 
@@ -38,6 +39,8 @@ final class _WP_Editors {
 	 *     @type bool       $media_buttons     Whether to show the Add Media/other media buttons.
 	 *     @type string     $default_editor    When both TinyMCE and Quicktags are used, set which
 	 *                                         editor is shown on page load. Default empty.
+	 *     @type bool       $drag_drop_upload  Whether to enable drag & drop on the editor uploading. Default false.
+	 *                                         Requires the media modal.
 	 *     @type string     $textarea_name     Give the textarea a unique name here. Square brackets
 	 *                                         can be used here. Default $editor_id.
 	 *     @type int        $textarea_rows     Number rows in the editor textarea. Default 20.
@@ -63,6 +66,7 @@ final class _WP_Editors {
 			'wpautop'           => true,
 			'media_buttons'     => true,
 			'default_editor'    => '',
+			'drag_drop_upload'  => false,
 			'textarea_name'     => $editor_id,
 			'textarea_rows'     => 20,
 			'tabindex'          => '',
@@ -123,6 +127,10 @@ final class _WP_Editors {
 		$tabindex = $set['tabindex'] ? ' tabindex="' . (int) $set['tabindex'] . '"' : '';
 		$switch_class = 'html-active';
 		$toolbar = $buttons = $autocomplete = '';
+
+		if ( $set['drag_drop_upload'] ) {
+			self::$drag_drop_upload = true;
+		}
 
 		if ( ! empty( $set['editor_height'] ) )
 			$height = ' style="height: ' . $set['editor_height'] . 'px"';
@@ -980,6 +988,13 @@ final class _WP_Editors {
 		tinyMCEPreInit = {
 			baseURL: "<?php echo self::$baseurl; ?>",
 			suffix: "<?php echo $suffix; ?>",
+			<?php
+
+			if ( self::$drag_drop_upload ) {
+				echo 'dragDropUpload: true,';
+			}
+
+			?>
 			mceInit: <?php echo $mceInit; ?>,
 			qtInit: <?php echo $qtInit; ?>,
 			ref: <?php echo self::_parse_init( $ref ); ?>,
