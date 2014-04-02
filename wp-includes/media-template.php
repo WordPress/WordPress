@@ -641,6 +641,18 @@ function wp_print_media_templates() {
 	<script type="text/html" id="tmpl-image-details">
 		<div class="media-embed">
 			<div class="embed-media-settings">
+				<div class="column-image">
+					<div class="image">
+						<img src="{{ data.model.url }}" draggable="false" />
+
+						<# if ( data.attachment && window.imageEdit ) { #>
+							<div class="actions">
+								<input type="button" class="edit-attachment button" value="<?php esc_attr_e( 'Edit Original' ); ?>" />
+								<input type="button" class="replace-attachment button" value="<?php esc_attr_e( 'Replace' ); ?>" />
+							</div>
+						<# } #>
+					</div>
+				</div>
 				<div class="column-settings">
 					<?php
 					/** This filter is documented in wp-admin/includes/media.php */
@@ -656,16 +668,7 @@ function wp_print_media_templates() {
 						<input type="text" data-setting="alt" value="{{ data.model.alt }}" />
 					</label>
 
-					<div class="setting advanced">
-						<a class="show-advanced" href="#"><?php _e('show advanced'); ?></a>
-						<div class="hidden">
-							<label class="setting title-text">
-								<span><?php _e('Title Attribute'); ?></span>
-								<input type="text" data-setting="title" value="{{ data.model.title }}" />
-							</label>
-						</div>
-					</div>
-
+					<h3><?php _e( 'Display Settings' ); ?></h3>
 					<div class="setting align">
 						<span><?php _e('Align'); ?></span>
 						<div class="button-group button-large" data-setting="align">
@@ -685,86 +688,85 @@ function wp_print_media_templates() {
 					</div>
 
 					<# if ( data.attachment ) { #>
-						<div class="setting size">
-							<span><?php _e('Size'); ?></span>
-							<div class="button-group button-large" data-setting="size">
-							<?php
-								/** This filter is documented in wp-admin/includes/media.php */
-								$sizes = apply_filters( 'image_size_names_choose', array(
-									'thumbnail' => __('Thumbnail'),
-									'medium'    => __('Medium'),
-									'large'     => __('Large'),
-									'full'      => __('Full Size'),
-								) );
+						<# if ( 'undefined' !== typeof data.attachment.sizes ) { #>
+							<label class="setting">
+								<span><?php _e('Size'); ?></span>
+								<select class="size" name="size"
+									data-setting="size"
+									<# if ( data.userSettings ) { #>
+										data-user-setting="imgsize"
+									<# } #>>
+									<?php
+									/** This filter is documented in wp-admin/includes/media.php */
+									$sizes = apply_filters( 'image_size_names_choose', array(
+										'thumbnail' => __('Thumbnail'),
+										'medium'    => __('Medium'),
+										'large'     => __('Large'),
+										'full'      => __('Full Size'),
+									) );
 
-								foreach ( $sizes as $value => $name ) : ?>
-									<# var size = data.attachment.sizes['<?php echo esc_js( $value ); ?>'];
-									if ( size ) { #>
-										<button class="button" value="<?php echo esc_attr( $value ); ?>">
-											<?php echo esc_html( $name ); ?>
-											</button>
-									<# } #>
-								<?php endforeach; ?>
-							</div>
-						</div>
+									foreach ( $sizes as $value => $name ) : ?>
+										<#
+										var size = data.sizes['<?php echo esc_js( $value ); ?>'];
+										if ( size ) { #>
+											<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 'full' ); ?>>
+												<?php echo esc_html( $name ); ?> &ndash; {{ size.width }} &times; {{ size.height }}
+											</option>
+										<# } #>
+									<?php endforeach; ?>
+								</select>
+							</label>
+						<# } #>
 					<# } #>
 
 					<div class="setting link-to">
 						<span><?php _e('Link To'); ?></span>
-						<div class="button-group button-large" data-setting="link">
+						<select data-setting="link">
 						<# if ( data.attachment ) { #>
-							<button class="button" value="file">
+							<option value="file">
 								<?php esc_attr_e('Media File'); ?>
-							</button>
-							<button class="button" value="post">
+							</option>
+							<option value="post">
 								<?php esc_attr_e('Attachment Page'); ?>
-							</button>
+							</option>
 						<# } else { #>
-							<button class="button" value="file">
+							<option value="file">
 								<?php esc_attr_e('Image URL'); ?>
-							</button>
+							</option>
 						<# } #>
-							<button class="button" value="custom">
+							<option value="custom">
 								<?php esc_attr_e('Custom URL'); ?>
-							</button>
-							<button class="button active" value="none">
+							</option>
+							<option value="none">
 								<?php esc_attr_e('None'); ?>
-							</button>
-						</div>
+							</option>
+						</select>
 						<input type="text" class="link-to-custom" data-setting="linkUrl" />
 					</div>
-
-
-					<div class="setting link-settings">
-						<div class="setting link-target">
-							<label><input type="checkbox" data-setting="linkTargetBlank" value="_blank" <# if ( data.model.linkTargetBlank ) { #>checked="checked"<# } #>><?php _e( 'Open link in a new window/tab' ); ?></label>
-						</div>
-						<div class="advanced">
-							<a class="show-advanced" href="#"><?php _e('show advanced'); ?></a>
-							<div class="hidden">
-								<label class="setting link-rel">
-									<span><?php _e('Link Rel'); ?></span>
-									<input type="text" data-setting="linkRel" value="{{ data.model.linkClassName }}" />
-								</label>
-								<label class="setting link-class-name">
-									<span><?php _e('CSS Class'); ?></span>
-									<input type="text" data-setting="linkClassName" value="{{ data.model.linkClassName }}" />
-								</label>
+					<div class="advanced">
+						<a class="advanced-toggle" href="#"><?php _e('Show advanced options'); ?></a>
+						<div class="hidden">
+							<label class="setting title-text">
+								<span><?php _e('Image Title Attribute'); ?></span>
+								<input type="text" data-setting="title" value="{{ data.model.title }}" />
+							</label>
+							<label class="setting extra-classes">
+								<span><?php _e('Image CSS Class'); ?></span>
+								<input type="text" data-setting="extraClasses" value="{{ data.model.extraClasses }}" />
+							</label>
+							<div class="setting link-target">
+								<label><input type="checkbox" data-setting="linkTargetBlank" value="_blank" <# if ( data.model.linkTargetBlank ) { #>checked="checked"<# } #>><?php _e( 'Open link in a new window/tab' ); ?></label>
 							</div>
+							<label class="setting link-rel">
+								<span><?php _e('Link Rel'); ?></span>
+								<input type="text" data-setting="linkRel" value="{{ data.model.linkClassName }}" />
+							</label>
+							<label class="setting link-class-name">
+								<span><?php _e('Link CSS Class'); ?></span>
+								<input type="text" data-setting="linkClassName" value="{{ data.model.linkClassName }}" />
+							</label>
 						</div>
 					</div>
-
-				</div>
-				<div class="column-image">
-					<div class="image">
-						<img src="{{ data.model.url }}" draggable="false" />
-					</div>
-					<# if ( data.attachment && window.imageEdit ) { #>
-						<div class="actions">
-							<input type="button" class="edit-attachment button" value="<?php esc_attr_e( 'Edit Original' ); ?>" />
-							<input type="button" class="replace-attachment button" value="<?php esc_attr_e( 'Replace' ); ?>" />
-						</div>
-					<# } #>
 				</div>
 			</div>
 		</div>

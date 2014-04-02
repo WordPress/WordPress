@@ -6059,15 +6059,13 @@
 		events: _.defaults( media.view.Settings.AttachmentDisplay.prototype.events, {
 			'click .edit-attachment': 'editAttachment',
 			'click .replace-attachment': 'replaceAttachment',
-			'click .show-advanced': 'showAdvanced'
+			'click .advanced-toggle': 'toggleAdvanced'
 		} ),
 		initialize: function() {
 			// used in AttachmentDisplay.prototype.updateLinkTo
 			this.options.attachment = this.model.attachment;
-			if ( this.model.attachment ) {
-				this.listenTo( this.model, 'change:url', this.updateUrl );
-				this.listenTo( this.model, 'change:link', this.toggleLinkSettings );
-			}
+			this.listenTo( this.model, 'change:url', this.updateUrl );
+			this.listenTo( this.model, 'change:link', this.toggleLinkSettings );
 			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
 		},
 
@@ -6113,8 +6111,8 @@
 		},
 
 		updateUrl: function() {
-			this.$( '.image img' ).attr( 'src', this.model.get('url' ) );
-			this.$( '.url' ).val( this.model.get('url' ) );
+			this.$( '.image img' ).attr( 'src', this.model.get( 'url' ) );
+			this.$( '.url' ).val( this.model.get( 'url' ) );
 		},
 
 		toggleLinkSettings: function() {
@@ -6125,11 +6123,16 @@
 			}
 		},
 
-		showAdvanced: function( event ) {
+		toggleAdvanced: function( event ) {
+			var $advanced = $( event.target ).closest( '.advanced' );
 			event.preventDefault();
-			$( event.target ).closest('.advanced')
-				.find( '.hidden' ).removeClass( 'hidden' );
-			$( event.target ).remove();
+			if ( $advanced.hasClass('advanced-visible') ) {
+				$advanced.removeClass('advanced-visible');
+				$advanced.find('div').addClass('hidden');
+			} else {
+				$advanced.addClass('advanced-visible');
+				$advanced.find('div').removeClass('hidden');
+			}
 		},
 
 		editAttachment: function( event ) {
