@@ -1212,6 +1212,7 @@ i.mce-i-hr:before {
 #wp-link .river-waiting .spinner {
 	margin: 0 auto;
 	display: block;
+	float: none;
 }
 
 #wp-link .submitbox {

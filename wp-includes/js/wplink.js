@@ -2,7 +2,7 @@
 var wpLink;
 
 ( function( $ ) {
-	var inputs = {}, rivers = {}, editor, River, Query;
+	var inputs = {}, rivers = {}, editor, searchTimer, River, Query;
 
 	wpLink = {
 		timeToTriggerRiver: 150,
@@ -47,7 +47,14 @@ var wpLink;
 
 			rivers.elements.on( 'river-select', wpLink.updateFields );
 
-			inputs.search.keyup( wpLink.searchInternalLinks );
+			inputs.search.keyup( function() {
+				var self = this;
+
+				window.clearTimeout( searchTimer );
+				searchTimer = window.setTimeout( function() {
+					wpLink.searchInternalLinks.call( self );
+				}, 500 );
+			});
 		},
 
 		open: function( editorId ) {
@@ -283,7 +290,7 @@ var wpLink;
 					return;
 
 				wpLink.lastSearch = search;
-				waiting = $( '#river-waiting' ).show();
+				waiting = t.parent().find('.spinner').show();
 
 				rivers.search.change( search );
 				rivers.search.ajax( function() {
@@ -381,7 +388,7 @@ var wpLink;
 		this.element = element;
 		this.ul = element.children( 'ul' );
 		this.contentHeight = element.children( '#link-selector-height' );
-		this.waiting = $( '#river-waiting' );
+		this.waiting = element.find('.river-waiting');
 
 		this.change( search );
 		this.refresh();
