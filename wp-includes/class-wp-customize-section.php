@@ -9,9 +9,12 @@
  * @since 3.4.0
  */
 class WP_Customize_Section {
+
 	/**
-	 * @access public
+	 * WP_Customize_Manager instance.
 	 *
+	 * @since 3.4.0
+	 * @access public
 	 * @var WP_Customize_Manager
 	 */
 	public $manager;
@@ -19,6 +22,8 @@ class WP_Customize_Section {
 	/**
 	 * Unique identifier.
 	 *
+	 * @since 3.4.0
+	 * @access public
 	 * @var string
 	 */
 	public $id;
@@ -26,31 +31,55 @@ class WP_Customize_Section {
 	/**
 	 * Priority of the section which informs load order of sections.
 	 *
+	 * @since 3.4.0
+	 * @access public
 	 * @var integer
 	 */
-	public $priority       = 10;
+	public $priority = 10;
 
 	/**
 	 * Capability required for the section.
 	 *
+	 * @since 3.4.0
+	 * @access public
 	 * @var string
 	 */
-	public $capability     = 'edit_theme_options';
+	public $capability = 'edit_theme_options';
+
+	/**
+	 * Theme feature support for the section.
+	 *
+	 * @since 3.4.0
+	 * @access public
+	 * @var string|array
+	 */
 	public $theme_supports = '';
 
 	/**
 	 * Title of the section to show in UI.
 	 *
+	 * @since 3.4.0
+	 * @access public
 	 * @var string
 	 */
-	public $title          = '';
+	public $title = '';
 
 	/**
 	 * Description to show in the UI.
 	 *
+	 * @since 3.4.0
+	 * @access public
 	 * @var string
 	 */
-	public $description    = '';
+	public $description = '';
+
+	/**
+	 * Customizer controls for this section.
+	 *
+	 * @since 3.4.0
+	 * @access public
+	 * @var array
+	 */
 	public $controls;
 
 	/**
@@ -60,7 +89,7 @@ class WP_Customize_Section {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param WP_Customize_Manager $manager
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      An specific ID of the section.
 	 * @param array                $args    Section arguments.
 	 */
