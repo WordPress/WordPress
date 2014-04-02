@@ -328,6 +328,30 @@ audio {
 	overflow-x: hidden;
 }
 
+.gallery-error {
+	border: 1px solid #dedede;
+	padding: 20px 0;
+	margin: 0;
+}
+
+.selected .gallery-error {
+	border-color: transparent;
+}
+
+.gallery-error .dashicons {
+	display: block;
+	margin: 0 auto;
+	width: 32px;
+	height: 32px;
+	font-size: 32px;
+}
+
+.gallery-error p {
+	margin: 0;
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+}
+
 .gallery .gallery-item {
 	float: left;
 	margin: 0;

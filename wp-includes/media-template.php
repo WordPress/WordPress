@@ -970,26 +970,32 @@ function wp_print_media_templates() {
 			</div>
 		</div>
 	</script>
+
 	<script type="text/html" id="tmpl-editor-gallery">
 		<div class="toolbar">
 			<div class="dashicons dashicons-edit edit"></div><div class="dashicons dashicons-no-alt remove"></div>
 		</div>
-		<div class="gallery gallery-columns-{{ data.columns }}">
-			<# _.each( data.attachments, function( attachment, index ) { #>
-				<dl class="gallery-item">
-					<dt class="gallery-icon">
-						<img src="{{ attachment.thumbnail.url }}" width="{{ attachment.thumbnail.width }}" height="{{ attachment.thumbnail.height }}" />
-					</dt>
-					<dd class="wp-caption-text gallery-caption">
-						{{ attachment.caption }}
-					</dd>
-				</dl>
-				<# if ( index % data.columns === data.columns - 1 ) { #>
-					<br style="clear: both;">
-				<# } #>
-
-			<# } ); #>
-		</div>
+		<# if ( data.attachments ) { #>
+			<div class="gallery gallery-columns-{{{ data.columns }}}">
+				<# _.each( data.attachments, function( attachment, index ) { #>
+					<dl class="gallery-item">
+						<dt class="gallery-icon">
+							<img src="{{{ attachment.thumbnail.url }}}" width="{{ attachment.thumbnail.width }}" height="{{ attachment.thumbnail.height }}" />
+						</dt>
+						<dd class="wp-caption-text gallery-caption">
+							{{ attachment.caption }}
+						</dd>
+					</dl>
+					<# if ( index % data.columns === data.columns - 1 ) { #>
+						<br style="clear: both;">
+					<# } #>
+				<# } ); #>
+			</div>
+		<# } else { #>
+			<div class="gallery-error">
+				<div class="dashicons dashicons-format-gallery"></div><p><?php _e( 'No items found.' ); ?></p>
+			</div>
+		<# } #>
 	</script>
 
 	<script type="text/html" id="tmpl-editor-audio">

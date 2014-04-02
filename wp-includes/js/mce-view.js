@@ -26,7 +26,7 @@ window.wp = window.wp || {};
 
 	_.extend( wp.mce.View.prototype, {
 		initialize: function() {},
-		html: function() {},
+		getHtml: function() {},
 		render: function() {
 			var html = this.getHtml();
 			// Search all tinymce editor instances and update the placeholders
@@ -267,27 +267,30 @@ window.wp = window.wp || {};
 
 			fetch: function() {
 				this.attachments = wp.media.gallery.attachments( this.shortcode, this.postID );
-				this.attachments.more().done( _.bind( this.render, this ) );
+				this.dfd = this.attachments.more().done( _.bind( this.render, this ) );
 			},
 
 			getHtml: function() {
 				var attrs = this.shortcode.attrs.named,
-					options,
-					attachments;
+					attachments = false,
+					options;
 
-				if ( ! this.attachments.length ) {
+				// Don't render errors while still fetching attachments
+				if ( this.dfd && 'pending' === this.dfd.state() && ! this.attachments.length ) {
 					return;
 				}
 
-				attachments = this.attachments.toJSON();
+				if ( this.attachments.length ) {
+					attachments = this.attachments.toJSON();
 
-				_.each( attachments, function( attachment ) {
-					if ( attachment.sizes.thumbnail ) {
-						attachment.thumbnail = attachment.sizes.thumbnail;
-					} else {
-						attachment.thumbnail = attachment.sizes.full;
-					}
-				} );
+					_.each( attachments, function( attachment ) {
+						if ( attachment.sizes.thumbnail ) {
+							attachment.thumbnail = attachment.sizes.thumbnail;
+						} else {
+							attachment.thumbnail = attachment.sizes.full;
+						}
+					} );
+				}
 
 				options = {
 					attachments: attachments,
