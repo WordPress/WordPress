@@ -118,6 +118,7 @@ do_action( 'customize_controls_print_scripts' );
 			$cannot_expand = ! ( $screenshot || $wp_customize->theme()->get('Description') );
 		?>
 
+		<div id="widgets-right"><!-- For Widget Customizer, many widgets try to look for instances under div#widgets-right, so we have to add that ID to a container div in the customizer for compat -->
 		<div class="wp-full-overlay-sidebar-content accordion-container" tabindex="-1">
 			<div id="customize-info" class="accordion-section <?php if ( $cannot_expand ) echo ' cannot-expand'; ?>">
 				<div class="accordion-section-title" aria-label="<?php esc_attr_e( 'Theme Customizer Options' ); ?>" tabindex="0">
@@ -145,6 +146,7 @@ do_action( 'customize_controls_print_scripts' );
 					$section->maybe_render();
 				?>
 			</ul></div>
+		</div>
 		</div>
 
 		<div id="customize-footer-actions" class="wp-full-overlay-footer">

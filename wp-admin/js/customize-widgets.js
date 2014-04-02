@@ -35,10 +35,6 @@ var WidgetCustomizer = ( function ($) {
 		window.ajaxurl = wp.ajax.settings.url;
 	}
 
-	// Unfortunately many widgets try to look for instances under div#widgets-right,
-	// so we have to add that ID to a container div in the customizer for compat
-	$( '#customize-theme-controls' ).closest( 'div:not([id])' ).attr( 'id', 'widgets-right' );
-
 	/**
 	 * Set up model
 	 */

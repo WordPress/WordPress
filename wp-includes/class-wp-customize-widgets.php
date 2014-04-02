@@ -74,7 +74,10 @@ final class WP_Customize_Widgets {
 		add_action( 'after_setup_theme',                       array( $this, 'setup_widget_addition_previews' ) );
 		add_action( 'customize_controls_init',                 array( $this, 'customize_controls_init' ) );
 		add_action( 'customize_register',                      array( $this, 'schedule_customize_register' ), 1 );
-		add_action( 'customize_controls_enqueue_scripts',      array( $this, 'customize_controls_enqueue_deps' ) );
+		add_action( 'customize_controls_enqueue_scripts',      array( $this, 'enqueue_scripts' ) );
+		add_action( 'customize_controls_print_styles',         array( $this, 'print_styles' ) );
+		add_action( 'customize_controls_print_scripts',        array( $this, 'print_scripts' ) );
+		add_action( 'customize_controls_print_footer_scripts', array( $this, 'print_footer_scripts' ) );
 		add_action( 'customize_controls_print_footer_scripts', array( $this, 'output_widget_control_templates' ) );
 		add_action( 'customize_preview_init',                  array( $this, 'customize_preview_init' ) );
 
@@ -533,14 +536,47 @@ final class WP_Customize_Widgets {
 	}
 
 	/**
+	 * Call admin_print_styles-widgets.php and admin_print_styles hooks to
+	 * allow custom styles from plugins.
+	 *
+	 * @since 3.9.0
+	 * @access public
+	 */
+	public function print_styles() {
+		/** This action is documented in wp-admin/admin-header.php */
+		do_action( 'admin_print_styles-widgets.php' );
+
+		/** This action is documented in wp-admin/admin-header.php */
+		do_action( 'admin_print_styles' );
+	}
+
+	/**
+	 * Call admin_print_scripts-widgets.php and admin_print_scripts hooks to
+	 * allow custom scripts from plugins.
+	 *
+	 * @since 3.9.0
+	 * @access public
+	 */
+	public function print_scripts() {
+		/** This action is documented in wp-admin/admin-header.php */
+		do_action( 'admin_print_scripts-widgets.php' );
+
+		/** This action is documented in wp-admin/admin-header.php */
+		do_action( 'admin_print_scripts' );
+	}
+
+	/**
 	 * Enqueue scripts and styles for customizer panel and export data to JavaScript.
 	 *
 	 * @since 3.9.0
 	 * @access public
 	 */
-	public function customize_controls_enqueue_deps() {
+	public function enqueue_scripts() {
 		wp_enqueue_style( 'customize-widgets' );
 		wp_enqueue_script( 'customize-widgets' );
+
+		/** This action is documented in wp-admin/admin-header.php */
+		do_action( 'admin_enqueue_scripts', 'widgets.php' );
 
 		/*
 		 * Export available widgets with control_tpl removed from model
@@ -639,6 +675,21 @@ final class WP_Customize_Widgets {
 		</div><!-- #available-widgets -->
 		</div><!-- #widgets-left -->
 		<?php
+	}
+
+	/**
+	 * Call admin_print_footer_scripts and admin_print_scripts hooks to
+	 * allow custom scripts from plugins.
+	 *
+	 * @since 3.9.0
+	 * @access public
+	 */
+	public function print_footer_scripts() {
+		/** This action is documented in wp-admin/admin-footer.php */
+		do_action( 'admin_print_footer_scripts' );
+
+		/** This action is documented in wp-admin/admin-footer.php */
+		do_action( 'admin_footer-widgets.php' );
 	}
 
 	/**
