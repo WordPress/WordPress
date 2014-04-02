@@ -1285,6 +1285,9 @@ var WidgetCustomizer = ( function ($) {
 						control.is_widget_updating = true; // suppress triggering another updateWidget
 						control.setting( r.data.instance );
 						control.is_widget_updating = false;
+					} else {
+						// no change was made, so stop the spinner now instead of when the preview would updates
+						control.container.removeClass( 'previewer-loading' );
 					}
 
 					if ( complete_callback ) {
@@ -1308,7 +1311,6 @@ var WidgetCustomizer = ( function ($) {
 				}
 			} );
 			jqxhr.always( function () {
-				control.container.removeClass( 'previewer-loading' );
 				control.container.removeClass( 'widget-form-loading' );
 				inputs.each( function () {
 					$( this ).removeData( 'state' + update_number );
