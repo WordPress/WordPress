@@ -270,13 +270,9 @@ final class _WP_Editors {
 
 			if ( empty( self::$first_init ) ) {
 				self::$baseurl = includes_url( 'js/tinymce' );
+
 				$mce_locale = get_locale();
-
-				if ( empty( $mce_locale ) || 'en' == substr( $mce_locale, 0, 2 ) ) {
-					$mce_locale = 'en';
-				}
-
-				self::$mce_locale = $mce_locale;
+				self::$mce_locale = $mce_locale = empty( $mce_locale ) ? 'en' : strtolower( substr( $mce_locale, 0, 2 ) ); // ISO 639-1
 
 				/** This filter is documented in wp-admin/includes/media.php */
 				$no_captions = (bool) apply_filters( 'disable_captions', '' );
@@ -392,10 +388,40 @@ final class _WP_Editors {
 							$url = set_url_scheme( $url );
 							$mce_external_plugins[ $name ] = $url;
 							$plugurl = dirname( $url );
+							$strings = $str1 = $str2 = '';
 
-							if ( in_array( $name, $loaded_langs ) ) {
-								$ext_plugins .= 'tinyMCEPreInit.load_ext("' . $plugurl . '", "' . $mce_locale . '");' . "\n";
+							// Try to load langs/[locale].js and langs/[locale]_dlg.js
+							if ( ! in_array( $name, $loaded_langs, true ) ) {
+								$path = str_replace( content_url(), '', $plugurl );
+								$path = WP_CONTENT_DIR . $path . '/langs/';
+
+								if ( function_exists('realpath') )
+									$path = trailingslashit( realpath($path) );
+
+								if ( @is_file( $path . $mce_locale . '.js' ) )
+									$strings .= @file_get_contents( $path . $mce_locale . '.js' ) . "\n";
+
+								if ( @is_file( $path . $mce_locale . '_dlg.js' ) )
+									$strings .= @file_get_contents( $path . $mce_locale . '_dlg.js' ) . "\n";
+
+								if ( 'en' != $mce_locale && empty( $strings ) ) {
+									if ( @is_file( $path . 'en.js' ) ) {
+										$str1 = @file_get_contents( $path . 'en.js' );
+										$strings .= preg_replace( '/([\'"])en\./', '$1' . $mce_locale . '.', $str1, 1 ) . "\n";
+									}
+
+									if ( @is_file( $path . 'en_dlg.js' ) ) {
+										$str2 = @file_get_contents( $path . 'en_dlg.js' );
+										$strings .= preg_replace( '/([\'"])en\./', '$1' . $mce_locale . '.', $str2, 1 ) . "\n";
+									}
+								}
+
+								if ( ! empty( $strings ) )
+									$ext_plugins .= "\n" . $strings . "\n";
 							}
+
+							$ext_plugins .= 'tinyMCEPreInit.load_ext("' . $plugurl . '", "' . $mce_locale . '");' . "\n";
+							$ext_plugins .= 'tinymce.PluginManager.load("' . $name . '", "' . $url . '");' . "\n";
 						}
 					}
 				}
