@@ -145,11 +145,11 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 			<div class="filtering-by">
 				<span><?php _e( 'Filtering by:' ); ?></span>
 				<div class="tags"></div>
+				<a href="#"><?php _e( 'Edit' ); ?></a>
 			</div>
 		</div>
 	</div>
 	<div class="theme-browser"></div>
-	<div class="theme-overlay"></div>
 	<div id="theme-installer" class="wp-full-overlay expanded"></div>
 
 	<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
@@ -224,6 +224,10 @@ if ( $tab ) {
 				<span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
 				<span class="collapse-sidebar-arrow"></span>
 			</a>
+			<div class="theme-navigation">
+				<a class="previous-theme button" href="#"><?php _e( 'Previous' ); ?></a>
+				<a class="next-theme button" href="#"><?php _e( 'Next' ); ?></a>
+			</div>
 		</div>
 	</div>
 	<div class="wp-full-overlay-main">

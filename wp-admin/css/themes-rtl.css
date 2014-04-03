@@ -1289,8 +1289,11 @@ body.more-filters-opened.filters-applied .theme-browser {
 	margin: 0 5px;
 	padding: 4px 8px;
 }
+.more-filters-container .filtering-by a {
+	margin-right: 10px;
+}
 body.filters-applied .more-filters-container .filters-group,
-body.filters-applied .more-filters-container a,
+body.filters-applied .more-filters-container a.button,
 body.filters-applied .more-filters-container br {
 	display: none !important;
 }
@@ -1509,7 +1512,7 @@ body.full-overlay-active {
 	margin: 0;
 	z-index: 10;
 	overflow: auto;
-	background: transparent;
+	background: #eee;
 	border-left: none;
 }
 
@@ -1672,6 +1675,16 @@ body.full-overlay-active {
 	display: none;
 }
 
+.wp-full-overlay .theme-navigation {
+	padding: 10px 20px;
+	position: absolute;
+		bottom: 10px;
+	text-align: right;
+}
+.wp-full-overlay .theme-navigation .next-theme {
+	float: left;
+}
+
 /* Animations */
 .wp-full-overlay,
 .wp-full-overlay-sidebar,
@@ -1750,7 +1763,7 @@ body.full-overlay-active {
 
 .install-theme-info {
 	display: none;
-	padding: 10px 20px 20px;
+	padding: 10px 20px 60px;
 }
 
 .single-theme .install-theme-info {
