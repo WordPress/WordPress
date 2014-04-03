@@ -549,6 +549,15 @@ class wpdb {
 	private $use_mysqli = false;
 
 	/**
+	 * Whether we've managed to successfully connect at some point
+	 *
+	 * @since 3.9.0
+	 * @access private
+	 * @var bool
+	 */
+	private $has_connected = false;
+
+	/**
 	 * Connects to the database server and selects a database
 	 *
 	 * PHP5 style constructor for compatibility with PHP5. Does
@@ -1336,6 +1345,26 @@ class wpdb {
 
 			if ( $this->dbh->connect_errno ) {
 				$this->dbh = null;
+
+				/* It's possible ext/mysqli is misconfigured. Fall back to ext/mysql if:
+		 		 *  - We haven't previously connected, and
+		 		 *  - USE_EXT_MYSQL isn't set to false, and
+		 		 *  - ext/mysql is loaded.
+		 		 */
+				$attempt_fallback = true;
+
+				if ( $this->has_connected ) {
+					$attempt_fallback = false;
+				} else if ( defined( 'USE_EXT_MYSQL' ) && ! USE_EXT_MYSQL ) {
+					$attempt_fallback = false;
+				} else if ( ! function_exists( 'mysql_connect' ) ) {
+					$attempt_fallback = false;
+				}
+
+				if ( $attempt_fallback ) {
+					$this->use_mysqli = false;
+					$this->db_connect();
+				}
 			}
 		} else {
 			if ( WP_DEBUG ) {
@@ -1367,6 +1396,7 @@ class wpdb {
 
 			return false;
 		} else if ( $this->dbh ) {
+			$this->has_connected = true;
 			$this->set_charset( $this->dbh );
 			$this->set_sql_mode();
 			$this->ready = true;
