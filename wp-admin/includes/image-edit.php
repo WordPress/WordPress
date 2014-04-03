@@ -103,7 +103,7 @@ function wp_image_editor($post_id, $msg = false) {
 		<?php _e('Selection:'); ?>
 		<span  class="nowrap">
 		<input type="text" id="imgedit-sel-width-<?php echo $post_id; ?>" onkeyup="imageEdit.setNumSelection(<?php echo $post_id; ?>)" style="width:4em;" />
-		:
+		&times;
 		<input type="text" id="imgedit-sel-height-<?php echo $post_id; ?>" onkeyup="imageEdit.setNumSelection(<?php echo $post_id; ?>)" style="width:4em;" />
 		</span>
 	</p>
