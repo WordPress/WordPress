@@ -392,9 +392,6 @@ function populate_options() {
 	'time_format' => __('g:i a'),
 	/* translators: links last updated date format, see http://php.net/date */
 	'links_updated_date_format' => __('F j, Y g:i a'),
-	'links_recently_updated_prepend' => '<em>',
-	'links_recently_updated_append' => '</em>',
-	'links_recently_updated_time' => 120,
 	'comment_moderation' => 0,
 	'moderation_notify' => 1,
 	'permalink_structure' => '',
@@ -537,6 +534,7 @@ function populate_options() {
 		'links_rating_ignore_zero', 'links_rating_single_image', 'links_rating_image0', 'links_rating_image1',
 		'links_rating_image2', 'links_rating_image3', 'links_rating_image4', 'links_rating_image5',
 		'links_rating_image6', 'links_rating_image7', 'links_rating_image8', 'links_rating_image9',
+		'links_recently_updated_time', 'links_recently_updated_prepend', 'links_recently_updated_append',
 		'weblogs_cacheminutes', 'comment_allowed_tags', 'search_engine_friendly_urls', 'default_geourl_lat',
 		'default_geourl_lon', 'use_default_geourl', 'weblogs_xml_url', 'new_users_can_blog', '_wpnonce',
 		'_wp_http_referer', 'Update', 'action', 'rich_editing', 'autosave_interval', 'deactivated_plugins',
