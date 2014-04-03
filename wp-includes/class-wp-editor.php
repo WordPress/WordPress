@@ -727,13 +727,21 @@ final class _WP_Editors {
 			// Default TinyMCE strings
 			'New document' => __( 'New document' ),
 			'Formats' => _x( 'Formats', 'TinyMCE' ),
-			'Headers' => _x( 'Headers', 'TinyMCE' ),
+			'Headers' => _x( 'Headings', 'TinyMCE' ),
 			'Header 1' => __( 'Heading 1' ),
 			'Header 2' => __( 'Heading 2' ),
 			'Header 3' => __( 'Heading 3' ),
 			'Header 4' => __( 'Heading 4' ),
 			'Header 5' => __( 'Heading 5' ),
 			'Header 6' => __( 'Heading 6' ),
+
+			'Headings' => _x( 'Headings', 'TinyMCE' ),
+			'Heading 1' => __( 'Heading 1' ),
+			'Heading 2' => __( 'Heading 2' ),
+			'Heading 3' => __( 'Heading 3' ),
+			'Heading 4' => __( 'Heading 4' ),
+			'Heading 5' => __( 'Heading 5' ),
+			'Heading 6' => __( 'Heading 6' ),
 
 			/* translators: block tags */
 			'Blocks' => _x( 'Blocks', 'TinyMCE' ),
@@ -752,6 +760,8 @@ final class _WP_Editors {
 			'Italic' => __( 'Italic' ),
 			'Code' => _x( 'Code', 'editor button' ),
 			'Source code' => __( 'Source code' ),
+			'Font Family' => __( 'Font Family' ),
+			'Font Sizes' => __( 'Font Sizes' ),
 
 			'Align center' => __( 'Align center' ),
 			'Align right' => __( 'Align right' ),
@@ -834,6 +844,7 @@ final class _WP_Editors {
 			'Horizontal space' => __( 'Horizontal space' ),
 			'Restore last draft' => __( 'Restore last draft' ),
 			'Insert/edit link' => __( 'Insert/edit link' ),
+			'Remove link' => __( 'Remove link' ),
 
 			// Spelling, search/replace plugins
 			'Could not find the specified string.' => __( 'Could not find the specified string.' ),
@@ -889,6 +900,7 @@ final class _WP_Editors {
 			'Left' => __( 'Left' ),
 			'Center' => __( 'Center' ),
 			'Right' => __( 'Right' ),
+			'None' => _x( 'None', 'table cell alignment attribute' ),
 
 			'Row group' => __( 'Row group' ),
 			'Column group' => __( 'Column group' ),
@@ -928,6 +940,17 @@ final class _WP_Editors {
 			'Insert Read More tag' => __( 'Insert Read More tag' ),
 			'Distraction Free Writing' => __( 'Distraction Free Writing' ),
 		);
+
+		/**
+		 * Link plugin (not included):
+		 *	Insert link
+		 *	Target
+		 *	New window
+		 *	Text to display
+		 *	The URL you entered seems to be an email address. Do you want to add the required mailto: prefix?
+		 *	The URL you entered seems to be an external link. Do you want to add the required http:\/\/ prefix?
+		 *	Url
+		 */
 
 		$baseurl = self::$baseurl;
 		$mce_locale = self::$mce_locale;
