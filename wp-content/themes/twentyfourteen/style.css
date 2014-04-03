@@ -753,6 +753,8 @@ div.wp-caption.alignright .wp-caption-text {
 .footer-sidebar:after,
 .hentry:before,
 .hentry:after,
+.gallery:before,
+.gallery:after,
 .slider-direction-nav:before,
 .slider-direction-nav:after,
 .contributor-info:before,
@@ -769,6 +771,7 @@ div.wp-caption.alignright .wp-caption-text {
 
 .footer-sidebar:after,
 .hentry:after,
+.gallery:after,
 .slider-direction-nav:after,
 .contributor-info:after,
 .search-box:after,
@@ -1487,6 +1490,13 @@ a.post-thumbnail:hover {
 .gallery-columns-8 .gallery-item:nth-of-type(8n),
 .gallery-columns-9 .gallery-item:nth-of-type(9n) {
 	margin-right: 0;
+}
+
+.gallery-columns-1.gallery-size-medium figure.gallery-item:nth-of-type(1n+1),
+.gallery-columns-1.gallery-size-thumbnail figure.gallery-item:nth-of-type(1n+1),
+.gallery-columns-2.gallery-size-thumbnail figure.gallery-item:nth-of-type(2n+1),
+.gallery-columns-3.gallery-size-thumbnail figure.gallery-item:nth-of-type(3n+1) {
+	clear: left;
 }
 
 .gallery-caption {

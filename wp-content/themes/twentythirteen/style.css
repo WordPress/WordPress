@@ -1324,6 +1324,13 @@ footer.entry-meta {
 	margin-right: 0;
 }
 
+.gallery-columns-1.gallery-size-medium figure.gallery-item:nth-of-type(1n+1),
+.gallery-columns-1.gallery-size-thumbnail figure.gallery-item:nth-of-type(1n+1),
+.gallery-columns-2.gallery-size-thumbnail figure.gallery-item:nth-of-type(2n+1),
+.gallery-columns-3.gallery-size-thumbnail figure.gallery-item:nth-of-type(3n+1) {
+	clear: left;
+}
+
 .gallery-caption {
 	background-color: rgba(0, 0, 0, 0.7);
 	box-sizing: border-box;
