@@ -14,6 +14,11 @@ tinymce.PluginManager.add( 'wplink', function( editor ) {
 	// The "de-facto standard" shortcut, see #27305
 	editor.addShortcut( 'ctrl+k', '', 'WP_Link' );
 
+	function setState( button, node ) {
+		button.disabled( editor.selection.isCollapsed() && node.nodeName !== 'A' );
+		button.active( node.nodeName === 'A' && ! node.name );
+	}
+
 	editor.addButton( 'link', {
 		icon: 'link',
 		tooltip: 'Insert/edit link',
@@ -24,10 +29,7 @@ tinymce.PluginManager.add( 'wplink', function( editor ) {
 			linkButton = this;
 
 			editor.on( 'nodechange', function( event ) {
-				var node = event.element;
-
-				linkButton.disabled( editor.selection.isCollapsed() && node.nodeName !== 'A' );
-				linkButton.active( node.nodeName === 'A' && ! node.name );
+				setState( linkButton, event.element );
 			});
 		}
 	});
@@ -36,7 +38,14 @@ tinymce.PluginManager.add( 'wplink', function( editor ) {
 		icon: 'unlink',
 		tooltip: 'Remove link',
 		cmd: 'unlink',
-		stateSelector: 'a[href]'
+
+		onPostRender: function() {
+			var unlinkButton = this;
+
+			editor.on( 'nodechange', function( event ) {
+				setState( unlinkButton, event.element );
+			});
+		}
 	});
 
 	editor.addMenuItem( 'link', {
