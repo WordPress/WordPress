@@ -1386,9 +1386,13 @@ class wpdb {
 	 *
 	 * @since 3.9.0
 	 *
+	 * @param bool $allow_bail Optional. Allows the function to bail, default true. If this is set
+	 *                         to false, you will need to handle the lack of database connection
+	 *                         manually.
+	 *
 	 * @return bool True if the connection is up.
 	 */
-	function check_connection() {
+	function check_connection( $allow_bail = true ) {
 		if ( $this->use_mysqli ) {
 			if ( @mysqli_ping( $this->dbh ) ) {
 				return true;
@@ -1428,6 +1432,10 @@ class wpdb {
 		// If template_redirect has already happened, it's too late for wp_die()/dead_db().
 		// Let's just return and hope for the best.
 		if ( did_action( 'template_redirect' ) ) {
+			return false;
+		}
+
+		if ( ! $allow_bail ) {
 			return false;
 		}
 
