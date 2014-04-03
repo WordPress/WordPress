@@ -272,7 +272,9 @@ window.wp = window.wp || {};
 			up.refresh();
 		});
 
-		this.init();
+		this.uploader.bind( 'PostInit', function() {
+			self.init();
+		});
 	};
 
 	// Adds the 'defaults' and 'browser' properties.
