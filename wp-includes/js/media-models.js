@@ -369,6 +369,9 @@ window.wp = window.wp || {};
 			this.on( 'change:size', this.updateSize, this );
 
 			this.setLinkTypeFromUrl();
+
+			this.set( 'aspectRatio', attributes.customWidth / attributes.customHeight );
+			this.set( 'originalUrl', attributes.url );
 		},
 
 		bindAttachmentListeners: function() {
@@ -444,6 +447,13 @@ window.wp = window.wp || {};
 			var size;
 
 			if ( ! this.attachment ) {
+				return;
+			}
+
+			if ( this.get( 'size' ) === 'custom' ) {
+				this.set( 'width', this.get( 'customWidth' ) );
+				this.set( 'height', this.get( 'customHeight' ) );
+				this.set( 'url', this.get( 'originalUrl' ) );
 				return;
 			}
 

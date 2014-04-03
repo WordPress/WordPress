@@ -123,7 +123,9 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			url: false,
 			height: '',
 			width: '',
-			size: false,
+			customWidth: '',
+			customHeight: '',
+			size: 'custom',
 			caption: '',
 			alt: '',
 			align: 'none',
@@ -139,12 +141,12 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		metadata.url = dom.getAttrib( imageNode, 'src' );
 		metadata.alt = dom.getAttrib( imageNode, 'alt' );
 		metadata.title = dom.getAttrib( imageNode, 'title' );
-
 		width = dom.getAttrib( imageNode, 'width' ) || imageNode.width;
 		height = dom.getAttrib( imageNode, 'height' ) || imageNode.height;
-
 		metadata.width = parseInt( width, 10 );
 		metadata.height = parseInt( height, 10 );
+		metadata.customWidth = metadata.width;
+		metadata.customHeight = metadata.height;
 
 		classes = tinymce.explode( imageNode.className, ' ' );
 		extraClasses = [];
@@ -199,9 +201,13 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		return metadata;
 	}
 
+	function hasTextContent( node ) {
+		return node && !! ( node.textContent || node.innerText );
+	}
+
 	function updateImage( imageNode, imageData ) {
-		var classes, className, width, node, html, parent, wrap,
-			captionNode, dd, dl, id, attrs, linkAttrs,
+		var classes, className, node, html, parent, wrap, linkNode,
+			captionNode, dd, dl, id, attrs, linkAttrs, width, height,
 			dom = editor.dom;
 
 		classes = tinymce.explode( imageData.extraClasses, ' ' );
@@ -216,15 +222,23 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 		if ( imageData.attachment_id ) {
 			classes.push( 'wp-image-' + imageData.attachment_id );
-			if ( imageData.size ) {
+			if ( imageData.size && imageData.size !== 'custom' ) {
 				classes.push( 'size-' + imageData.size );
 			}
 		}
 
+		width = imageData.width;
+		height = imageData.height;
+
+		if ( imageData.size === 'custom' ) {
+			width = imageData.customWidth;
+			height = imageData.customHeight;
+		}
+
 		attrs = {
 			src: imageData.url,
-			width: imageData.width || null,
-			height: imageData.height || null,
+			width: width || null,
+			height: height || null,
 			alt: imageData.alt,
 			title: imageData.title || null,
 			'class': classes.join( ' ' ) || null
@@ -239,31 +253,41 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			'class': imageData.linkClassName || null
 		};
 
-		if ( imageNode.parentNode.nodeName === 'A' ) {
+		if ( imageNode.parentNode && imageNode.parentNode.nodeName === 'A' && ! hasTextContent( imageNode.parentNode ) ) {
+			// Update or remove an existing link wrapped around the image
 			if ( imageData.linkUrl ) {
 				dom.setAttribs( imageNode.parentNode, linkAttrs );
 			} else {
 				dom.remove( imageNode.parentNode, true );
 			}
 		} else if ( imageData.linkUrl ) {
-			html = dom.createHTML( 'a', linkAttrs, dom.getOuterHTML( imageNode ) );
-			dom.outerHTML( imageNode, html );
+			if ( linkNode = dom.getParent( imageNode, 'a' ) ) {
+				// The image is inside a link together with other nodes,
+				// or is nested in another node, move it out
+				dom.insertAfter( imageNode, linkNode );
+			}
+
+			// Add link wrapped around the image
+			linkNode = dom.create( 'a', linkAttrs );
+			imageNode.parentNode.insertBefore( linkNode, imageNode );
+			linkNode.appendChild( imageNode );
 		}
 
 		captionNode = editor.dom.getParent( imageNode, '.mceTemp' );
 
-		if ( imageNode.parentNode.nodeName === 'A' ) {
+		if ( imageNode.parentNode && imageNode.parentNode.nodeName === 'A' && ! hasTextContent( imageNode.parentNode ) ) {
 			node = imageNode.parentNode;
 		} else {
 			node = imageNode;
 		}
 
 		if ( imageData.caption ) {
-			width = parseInt( imageData.width, 10 );
+
 			id = imageData.attachment_id ? 'attachment_' + imageData.attachment_id : null;
-			className = 'wp-caption align' + imageData.align;
+			className = 'wp-caption align' + ( imageData.align || 'none' );
 
 			if ( ! editor.getParam( 'wpeditimage_html5_captions' ) ) {
+				width = parseInt( width, 10 );
 				width += 10;
 			}
 
@@ -312,7 +336,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		}
 
 		editor.nodeChanged();
-		// refresh the toolbar
+		// Refresh the toolbar
 		addToolbar( imageNode );
 	}
 
@@ -324,8 +348,6 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			return;
 		}
 
-		editor.undoManager.add();
-
 		frame = wp.media({
 			frame: 'image',
 			state: 'image-details',
@@ -333,8 +355,10 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		} );
 
 		callback = function( imageData ) {
-			updateImage( img, imageData );
 			editor.focus();
+			editor.undoManager.transact( function() {
+				updateImage( img, imageData );
+			} );
 			frame.detach();
 		};
 

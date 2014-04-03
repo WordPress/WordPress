@@ -6059,13 +6059,18 @@
 		events: _.defaults( media.view.Settings.AttachmentDisplay.prototype.events, {
 			'click .edit-attachment': 'editAttachment',
 			'click .replace-attachment': 'replaceAttachment',
-			'click .advanced-toggle': 'toggleAdvanced'
+			'click .advanced-toggle': 'toggleAdvanced',
+			'change [data-setting="customWidth"]': 'syncCustomSize',
+			'change [data-setting="customHeight"]': 'syncCustomSize',
+			'keyup [data-setting="customWidth"]': 'syncCustomSize',
+			'keyup [data-setting="customHeight"]': 'syncCustomSize'
 		} ),
 		initialize: function() {
 			// used in AttachmentDisplay.prototype.updateLinkTo
 			this.options.attachment = this.model.attachment;
 			this.listenTo( this.model, 'change:url', this.updateUrl );
 			this.listenTo( this.model, 'change:link', this.toggleLinkSettings );
+			this.listenTo( this.model, 'change:size', this.toggleCustomSize );
 			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
 		},
 
@@ -6120,6 +6125,29 @@
 				this.$( '.link-settings' ).addClass('hidden');
 			} else {
 				this.$( '.link-settings' ).removeClass('hidden');
+			}
+		},
+
+		toggleCustomSize: function() {
+			if ( this.model.get( 'size' ) !== 'custom' ) {
+				this.$( '.custom-size' ).addClass('hidden');
+			} else {
+				this.$( '.custom-size' ).removeClass('hidden');
+			}
+		},
+
+		syncCustomSize: function( event ) {
+			var dimension = $( event.target ).data('setting'),
+				value;
+
+			if ( dimension === 'customWidth' ) {
+				value = Math.round( 1 / this.model.get( 'aspectRatio' ) * $( event.target ).val() );
+				this.model.set( 'customHeight', value, { silent: true } );
+				this.$( '[data-setting="customHeight"]' ).val( value );
+			} else {
+				value = Math.round( this.model.get( 'aspectRatio' ) * $( event.target ).val() );
+				this.$( '[data-setting="customWidth"]' ).val( value );
+				this.model.set( 'customWidth', value, { silent: true } );
 			}
 		},
 

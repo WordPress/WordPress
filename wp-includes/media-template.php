@@ -689,7 +689,7 @@ function wp_print_media_templates() {
 
 					<# if ( data.attachment ) { #>
 						<# if ( 'undefined' !== typeof data.attachment.sizes ) { #>
-							<label class="setting">
+							<label class="setting size">
 								<span><?php _e('Size'); ?></span>
 								<select class="size" name="size"
 									data-setting="size"
@@ -709,14 +709,20 @@ function wp_print_media_templates() {
 										<#
 										var size = data.sizes['<?php echo esc_js( $value ); ?>'];
 										if ( size ) { #>
-											<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 'full' ); ?>>
+											<option value="<?php echo esc_attr( $value ); ?>">
 												<?php echo esc_html( $name ); ?> &ndash; {{ size.width }} &times; {{ size.height }}
 											</option>
 										<# } #>
 									<?php endforeach; ?>
+									<option value="<?php echo esc_attr( 'custom' ); ?>">
+										<?php _e( 'Custom Size' ); ?>
+									</option>
 								</select>
 							</label>
 						<# } #>
+							<div class="custom-size<# if ( data.model.size !== 'custom' ) { #> hidden<# } #>">
+								<label><span><?php _e( 'Width' ); ?> <small>(px)</small></span> <input data-setting="customWidth" type="number" step="1" value="{{ data.model.customWidth }}" /></label><span class="sep">&times;</span><label><span><?php _e( 'Height' ); ?> <small>(px)</small></span><input data-setting="customHeight" type="number" step="1" value="{{ data.model.customHeight }}" /></label>
+							</div>
 					<# } #>
 
 					<div class="setting link-to">
@@ -744,7 +750,7 @@ function wp_print_media_templates() {
 						<input type="text" class="link-to-custom" data-setting="linkUrl" />
 					</div>
 					<div class="advanced">
-						<a class="advanced-toggle" href="#"><?php _e('Show advanced options'); ?></a>
+						<h3><a class="advanced-toggle" href="#"><?php _e('Advanced Options'); ?></a></h3>
 						<div class="hidden">
 							<label class="setting title-text">
 								<span><?php _e('Image Title Attribute'); ?></span>
