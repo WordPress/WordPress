@@ -1014,13 +1014,18 @@ jQuery(document).ready( function($) {
 			if ( mce ) {
 				editor.focus();
 				toolbarHeight = $( '#wp-content-editor-container .mce-toolbar-grp' ).height();
+
+				if ( toolbarHeight < 10 || toolbarHeight > 200 ) {
+					toolbarHeight = 30;
+				}
+
 				height = parseInt( $('#content_ifr').css('height'), 10 ) + toolbarHeight - 28;
 			} else {
 				$textarea.focus();
 				height = parseInt( $textarea.css('height'), 10 );
 			}
 
-			$document.off( 'mousemove.wp-editor-resize mouseup.wp-editor-resize' );
+			$document.off( '.wp-editor-resize' );
 
 			// sanity check
 			if ( height && height > 50 && height < 5000 ) {
@@ -1045,10 +1050,10 @@ jQuery(document).ready( function($) {
 			}
 
 			$document.on( 'mousemove.wp-editor-resize', dragging )
-				.on( 'mouseup.wp-editor-resize', endDrag );
+				.on( 'mouseup.wp-editor-resize mouseleave.wp-editor-resize', endDrag );
 
 			event.preventDefault();
-		});
+		}).on( 'mouseup.wp-editor-resize', endDrag );
 	})();
 
 	if ( typeof tinymce !== 'undefined' ) {

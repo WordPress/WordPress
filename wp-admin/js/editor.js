@@ -13,7 +13,7 @@ window.switchEditors = {
 
 	// mode can be 'html', 'tmce', or 'toggle'; 'html' is used for the 'Text' editor tab.
 	go: function( id, mode ) {
-		var t = this, ed, wrap_id, txtarea_el, editorHeight, toolbarHeight,
+		var t = this, ed, wrap_id, txtarea_el, iframe, editorHeight, toolbarHeight,
 			DOM = tinymce.DOM; //DOMUtils outside the editor iframe
 
 		id = id || 'content';
@@ -32,17 +32,14 @@ window.switchEditors = {
 		}
 
 		function getToolbarHeight() {
-			var height;
+			var node = DOM.select( '.mce-toolbar-grp', ed.getContainer() )[0],
+				height = node && node.clientHeight;
 
-			try {
-				height = DOM.getSize( DOM.select( '.mce-toolbar-grp', ed.getContainer() )[0] );
-			} catch(e){}
-
-			if ( height && height.h && height.h > 10 && height.h < 100 ) {
-				return height.h;
+			if ( height && height > 10 && height < 200 ) {
+				return parseInt( height, 10 );
 			}
 
-			return 0;
+			return 30;
 		}
 
 		if ( 'tmce' === mode || 'tinymce' === mode ) {
@@ -63,8 +60,9 @@ window.switchEditors = {
 			if ( ed ) {
 				ed.show();
 
-				if ( editorHeight && ( toolbarHeight = getToolbarHeight() ) ) {
-					editorHeight = editorHeight - toolbarHeight + 11;
+				if ( editorHeight ) {
+					toolbarHeight = getToolbarHeight();
+					editorHeight = editorHeight - toolbarHeight + 14;
 
 					// height cannot be under 50 or over 5000
 					if ( editorHeight > 50 && editorHeight < 5000 ) {
@@ -73,9 +71,6 @@ window.switchEditors = {
 				}
 			} else {
 				tinymce.init( tinyMCEPreInit.mceInit[id] );
-
-		//		ed = tinymce.createEditor( id, tinyMCEPreInit.mceInit[id] );
-		//		ed.render();
 			}
 
 			DOM.removeClass( wrap_id, 'html-active' );
@@ -89,11 +84,12 @@ window.switchEditors = {
 			}
 
 			if ( ed ) {
-				editorHeight = DOM.get( id + '_ifr' );
-				editorHeight = editorHeight ? parseInt( editorHeight.style.height, 10 ) : 0;
+				iframe = DOM.get( id + '_ifr' );
+				editorHeight = iframe ? parseInt( iframe.style.height, 10 ) : 0;
 
-				if ( editorHeight && ( toolbarHeight = getToolbarHeight() ) ) {
-					editorHeight = editorHeight + toolbarHeight - 11;
+				if ( editorHeight ) {
+					toolbarHeight = getToolbarHeight();
+					editorHeight = editorHeight + toolbarHeight - 14;
 
 					// height cannot be under 50 or over 5000
 					if ( editorHeight > 50 && editorHeight < 5000 ) {
