@@ -41,7 +41,10 @@ dl.aligncenter {
 }
 
 .html5-captions .wp-caption {
-	padding: 4px;
+	border: none;
+	background-color: transparent;
+	margin: 0;
+	padding: 0;
 }
 
 .mceIEcenter {
