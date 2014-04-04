@@ -856,7 +856,7 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 			<p class="customizer-section-intro">
 				<?php
 				// @todo translate (and look to custom-header.php for inspiration)
-				echo ( 'Personalize your site with your own header image.' );
+				echo ( 'Personalize your site with your own header image.' ) . ' ';
 				if ( $width && $height ) {
 					printf( ( 'While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header size of <strong>%d &times; %d</strong> pixels.' ), $width, $height );
 				} elseif ( $width ) {
