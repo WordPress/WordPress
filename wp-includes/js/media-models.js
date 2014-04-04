@@ -472,7 +472,7 @@ window.wp = window.wp || {};
 		setAspectRatio: function() {
 			var full;
 
-			if ( this.attachment ) {
+			if ( this.attachment && this.attachment.get( 'sizes' ) ) {
 				full = this.attachment.get( 'sizes' ).full;
 
 				if ( full ) {
