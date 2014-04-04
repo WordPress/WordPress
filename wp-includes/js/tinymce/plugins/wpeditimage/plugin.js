@@ -115,19 +115,14 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 	function extractImageData( imageNode ) {
 		var classes, extraClasses, metadata, captionBlock, caption, link, width, height,
-			dom = editor.dom;
+			dom = editor.dom,
+			isIntRegExp = /^\d+$/;
 
 		// default attributes
 		metadata = {
 			attachment_id: false,
-			url: false,
-			height: '',
-			width: '',
-			customWidth: '',
-			customHeight: '',
 			size: 'custom',
 			caption: '',
-			alt: '',
 			align: 'none',
 			extraClasses: '',
 			link: false,
@@ -141,12 +136,20 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		metadata.url = dom.getAttrib( imageNode, 'src' );
 		metadata.alt = dom.getAttrib( imageNode, 'alt' );
 		metadata.title = dom.getAttrib( imageNode, 'title' );
-		width = dom.getAttrib( imageNode, 'width' ) || imageNode.width;
-		height = dom.getAttrib( imageNode, 'height' ) || imageNode.height;
-		metadata.width = parseInt( width, 10 );
-		metadata.height = parseInt( height, 10 );
-		metadata.customWidth = metadata.width;
-		metadata.customHeight = metadata.height;
+
+		width = dom.getAttrib( imageNode, 'width' );
+		height = dom.getAttrib( imageNode, 'height' );
+
+		if ( ! isIntRegExp.test( width ) || parseInt( width, 10 ) < 1 ) {
+			width = imageNode.naturalWidth || imageNode.width;
+		}
+
+		if ( ! isIntRegExp.test( height ) || parseInt( height, 10 ) < 1 ) {
+			height = imageNode.naturalHeight || imageNode.height;
+		}
+
+		metadata.customWidth = metadata.width = width;
+		metadata.customHeight = metadata.height = height;
 
 		classes = tinymce.explode( imageNode.className, ' ' );
 		extraClasses = [];

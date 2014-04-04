@@ -369,13 +369,14 @@ window.wp = window.wp || {};
 			this.on( 'change:size', this.updateSize, this );
 
 			this.setLinkTypeFromUrl();
+			this.setAspectRatio();
 
-			this.set( 'aspectRatio', attributes.customWidth / attributes.customHeight );
 			this.set( 'originalUrl', attributes.url );
 		},
 
 		bindAttachmentListeners: function() {
 			this.listenTo( this.attachment, 'sync', this.setLinkTypeFromUrl );
+			this.listenTo( this.attachment, 'sync', this.setAspectRatio );
 			this.listenTo( this.attachment, 'change', this.updateSize );
 		},
 
@@ -466,6 +467,21 @@ window.wp = window.wp || {};
 			this.set( 'url', size.url );
 			this.set( 'width', size.width );
 			this.set( 'height', size.height );
+		},
+
+		setAspectRatio: function() {
+			var full;
+
+			if ( this.attachment ) {
+				full = this.attachment.get( 'sizes' ).full;
+
+				if ( full ) {
+					this.set( 'aspectRatio', full.width / full.height );
+					return;
+				}
+			}
+
+			this.set( 'aspectRatio', this.get( 'customWidth' ) / this.get( 'customHeight' ) );
 		}
 	});
 

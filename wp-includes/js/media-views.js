@@ -6060,10 +6060,10 @@
 			'click .edit-attachment': 'editAttachment',
 			'click .replace-attachment': 'replaceAttachment',
 			'click .advanced-toggle': 'toggleAdvanced',
-			'change [data-setting="customWidth"]': 'syncCustomSize',
-			'change [data-setting="customHeight"]': 'syncCustomSize',
-			'keyup [data-setting="customWidth"]': 'syncCustomSize',
-			'keyup [data-setting="customHeight"]': 'syncCustomSize'
+			'change [data-setting="customWidth"]': 'onCustomSize',
+			'change [data-setting="customHeight"]': 'onCustomSize',
+			'keyup [data-setting="customWidth"]': 'onCustomSize',
+			'keyup [data-setting="customHeight"]': 'onCustomSize'
 		} ),
 		initialize: function() {
 			// used in AttachmentDisplay.prototype.updateLinkTo
@@ -6136,18 +6136,26 @@
 			}
 		},
 
-		syncCustomSize: function( event ) {
+		onCustomSize: function( event ) {
 			var dimension = $( event.target ).data('setting'),
+				num = $( event.target ).val(),
 				value;
 
+			// Ignore bogus input
+			if ( ! /^\d+/.test( num ) || parseInt( num, 10 ) < 1 ) {
+				event.preventDefault();
+				return;
+			}
+
 			if ( dimension === 'customWidth' ) {
-				value = Math.round( 1 / this.model.get( 'aspectRatio' ) * $( event.target ).val() );
+				value = Math.round( 1 / this.model.get( 'aspectRatio' ) * num );
 				this.model.set( 'customHeight', value, { silent: true } );
 				this.$( '[data-setting="customHeight"]' ).val( value );
 			} else {
-				value = Math.round( this.model.get( 'aspectRatio' ) * $( event.target ).val() );
+				value = Math.round( this.model.get( 'aspectRatio' ) * num );
+				this.model.set( 'customWidth', value, { silent: true  } );
 				this.$( '[data-setting="customWidth"]' ).val( value );
-				this.model.set( 'customWidth', value, { silent: true } );
+
 			}
 		},
 
