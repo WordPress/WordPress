@@ -41,7 +41,7 @@ function wp_image_editor($post_id, $msg = false) {
 	<div class="imgedit-group-top">
 		<h3><?php _e( 'Scale Image' ); ?> <a href="#" class="dashicons dashicons-editor-help imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;"></a></h3>
 		<div class="imgedit-help">
-		<p><?php _e('You can proportionally scale the original image. For best results the scaling should be done before performing any other operations on it like crop, rotate, etc. Note that images can only be scaled down, not up.'); ?></p>
+		<p><?php _e('You can proportionally scale the original image. For best results, scaling should be done before you crop, flip, or rotate. Images can only be scaled down, not up.'); ?></p>
 		</div>
 		<?php if ( isset( $meta['width'], $meta['height'] ) ): ?>
 		<p><?php printf( __('Original dimensions %s'), $meta['width'] . ' &times; ' . $meta['height'] ); ?></p>
@@ -80,13 +80,13 @@ function wp_image_editor($post_id, $msg = false) {
 		<h3><?php _e('Image Crop'); ?> <a href="#" class="dashicons dashicons-editor-help imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;"></a></h3>
 
 		<div class="imgedit-help">
-		<p><?php _e('The image can be cropped by clicking on it and dragging to select the desired part. While dragging the dimensions of the selection are displayed below.'); ?></p>
+		<p><?php _e('To crop the image, click on it and drag to make your selection.'); ?></p>
 
 		<p><strong><?php _e('Crop Aspect Ratio'); ?></strong><br />
-		<?php _e('You can specify the crop selection aspect ratio then hold down the Shift key while dragging to lock it. The values can be 1:1 (square), 4:3, 16:9, etc. If there is a selection, specifying aspect ratio will set it immediately.'); ?></p>
+		<?php _e('The aspect ratio is the relationship between the width and height. You can preserve the aspect ratio by holding down the shift key while resizing your selection. Use the input box to specify the aspect ratio, e.g. 1:1 (square), 4:3, 16:9, etc.'); ?></p>
 
 		<p><strong><?php _e('Crop Selection'); ?></strong><br />
-		<?php _e('Once started, the selection can be adjusted by entering new values (in pixels). Note that these values are scaled to approximately match the original image dimensions. The minimum selection size equals the thumbnail size as set in the Media settings.'); ?></p>
+		<?php _e('Once you have made your selection, you can adjust it by entering the size in pixels. The minimum selection size is the thumbnail size as set in the Media settings.'); ?></p>
 		</div>
 	</div>
 
@@ -116,7 +116,7 @@ function wp_image_editor($post_id, $msg = false) {
 	<div class="imgedit-group imgedit-applyto">
 	<div class="imgedit-group-top">
 		<h3><?php _e('Thumbnail Settings'); ?> <a href="#" class="dashicons dashicons-editor-help imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;"></a></h3>
-		<p class="imgedit-help"><?php _e('The thumbnail image can be cropped differently. For example it can be square or contain only a portion of the original image to showcase it better. Here you can select whether to apply changes to all image sizes or make the thumbnail different.'); ?></p>
+		<p class="imgedit-help"><?php _e('You can edit the image while preserving the thumbnail. For example, you may wish to have a square thumbnail that displays just a section of the image.'); ?></p>
 	</div>
 
 	<p>
