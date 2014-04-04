@@ -115,8 +115,6 @@ function comment_author_email( $comment_ID = 0 ) {
  * enable anyone, including those that people don't want to get the email
  * address and use it for their own means good and bad.
  *
- * @global object $comment The current Comment row object
-
  * @since 0.71
  *
  * @param string $linktext Optional. Text to display instead of the comment author's email address.
