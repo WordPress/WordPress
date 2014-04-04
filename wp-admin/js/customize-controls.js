@@ -389,7 +389,6 @@
 				keys: true,
 				instance: true,
 				persistent: true,
-				parent: this.$el,
 				imageWidth: realWidth,
 				imageHeight: realHeight,
 				x1: 0,

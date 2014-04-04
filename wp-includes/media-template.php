@@ -1048,6 +1048,11 @@ function wp_print_media_templates() {
 		<div class="wpview-overlay"></div>
 	</script>
 
+	<script type="text/html" id="tmpl-crop-content">
+		<img class="crop-image" src="{{ data.url }}">
+		<div class="upload-errors"></div>
+	</script>
+
 	<?php
 
 	/**
