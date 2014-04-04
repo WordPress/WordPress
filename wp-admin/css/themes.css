@@ -1413,10 +1413,11 @@ body.show-upload-theme p.no-themes {
 .rating-100 span.five:before {
 	content: "\f155";
 }
-.rating .votes {
+.rating .ratings {
 	display: inline;
 	margin-left: 10px;
 	line-height: 20px;
+	color: #999;
 }
 .loading-themes .theme-browser,
 .error .theme-browser {
@@ -1829,7 +1830,7 @@ body.full-overlay-active {
 }
 
 #theme-installer .wp-full-overlay-main {
-	background: #fff url(../images/spinner.gif) no-repeat fixed center center;
+	background: #fff url(../images/spinner.gif) no-repeat center center;
 	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
 }

@@ -212,7 +212,11 @@ if ( $tab ) {
 						<span class="three"></span>
 						<span class="four"></span>
 						<span class="five"></span>
-						<p class="votes"><?php printf( __( 'Based on %s ratings.' ), '{{ data.num_ratings }}' ); ?></p>
+					<# if ( data.num_ratings ) { #>
+						<p class="ratings">({{ data.num_ratings }})</p>
+					<# } else { #>
+						<p class="ratings"><?php _e( 'No ratings.' ); ?></p>
+					<# } #>
 					</div>
 					<div class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></div>
 					<div class="theme-description">{{ data.description }}</div>
