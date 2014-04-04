@@ -774,27 +774,28 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 
 			<div class="placeholder random">
 				<div class="inner">
-					<span><span class="dashicons dashicons-randomize dice"></span>
+					<button type="button"><span class="dashicons dashicons-randomize dice"></span>
 					<# if ( data.type === 'uploaded' ) { #>
 						<?php _e( 'Randomize uploaded headers' ); ?>
 					<# } else if ( data.type === 'default' ) { #>
 						<?php _e( 'Randomize suggested headers' ); ?>
 					<# } #>
-					</span>
+					</button>
 				</div>
 			</div>
 
 			<# } else { #>
 
 			<# if (data.type === 'uploaded') { #>
-			<div class="dashicons dashicons-no close"></div>
+				<div class="dashicons dashicons-no close"></div>
 			<# } #>
 
-			<a href="#" class="choice thumbnail #>"
+			<button type="button" class="choice thumbnail"
 				data-customize-image-value="{{{data.header.url}}}"
 				data-customize-header-image-data="{{JSON.stringify(data.header)}}">
-				<img src="{{{data.header.thumbnail_url}}}">
-			</a>
+				<span class="screen-reader-text"><?php _e( 'Set image' ); ?></span>
+				<img src="{{{data.header.thumbnail_url}}}" alt="{{{data.header.alt_text || data.header.description}}}">
+			</button>
 
 			<# } #>
 		</script>
@@ -803,7 +804,7 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 			<# if (data.choice) { #>
 				<# if (data.random) { #>
 
-			<div class="placeholder">
+			<div class="placeholder" tabindex="0">
 				<div class="inner">
 					<span><span class="dashicons dashicons-randomize dice"></span>
 					<# if ( data.type === 'uploaded' ) { #>
@@ -817,12 +818,12 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 
 				<# } else { #>
 
-			<img src="{{{data.header.thumbnail_url}}}" />
+			<img src="{{{data.header.thumbnail_url}}}" alt="{{{data.header.alt_text || data.header.description}}}" tabindex="0"/>
 
 				<# } #>
 			<# } else { #>
 
-			<div class="placeholder">
+			<div class="placeholder" tabindex="0">
 				<div class="inner">
 					<span>
 						<?php _e( 'No image set' ); ?>
@@ -853,7 +854,7 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 
 
 		<div class="customize-control-content">
-			<p class="customizer-section-intro">
+			<p class="customizer-section-intro" tabindex="0">
 				<?php
 				// @todo translate (and look to custom-header.php for inspiration)
 				echo ( 'Personalize your site with your own header image.' ) . ' ';
@@ -867,7 +868,7 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 				?>
 			</p>
 			<div class="current">
-				<span class="customize-control-title">
+				<span class="customize-control-title" tabindex="0">
 					<?php _e( 'Current header' ); ?>
 				</span>
 				<div class="container">
@@ -875,20 +876,20 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 			</div>
 			<div class="actions">
 				<?php /* translators: Hide as in hide header image via the Customizer */ ?>
-				<a href="#" <?php echo $visibility ?> class="button remove"><?php _ex( 'Hide', 'custom header' ); ?></a>
+				<button type="button"<?php echo $visibility ?> class="button remove"><?php _ex( 'Hide image', 'custom header' ); ?></button>
 				<?php /* translators: New as in add new header image via the Customizer */ ?>
-				<a href="#" class="button new"><?php _ex( 'Add new', 'header image' ); ?></a>
+				<button type="button" class="button new"><?php _ex( 'Add new image', 'header image' ); ?></button>
 				<div style="clear:both"></div>
 			</div>
 			<div class="choices">
-				<span class="customize-control-title header-previously-uploaded">
+				<span class="customize-control-title header-previously-uploaded" tabindex="0">
 					<?php _ex( 'Previously uploaded', 'custom headers' ); ?>
 				</span>
 				<div class="uploaded">
 					<div class="list">
 					</div>
 				</div>
-				<span class="customize-control-title header-default">
+				<span class="customize-control-title header-default" tabindex="0">
 					<?php _ex( 'Suggested', 'custom headers' ); ?>
 				</span>
 				<div class="default">

@@ -465,18 +465,34 @@ body {
 	margin-bottom: 18px;
 }
 
+#customize-control-header_image .uploaded button,
+#customize-control-header_image .default button {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	background: none;
+	border: none;
+	color: inherit;
+	cursor: pointer;
+	outline: none;
+}
+
+#customize-control-header_image button img {
+	display: block;
+}
+
 /* Header control: current image container */
 
 #customize-control-header_image .current .container {
 	overflow: hidden;
 	-webkit-border-radius: 2px;
+	border: 1px solid #eee;
 	border-radius: 2px;
 }
 
 #customize-control-header_image .placeholder {
 	width: 100%;
 	position: relative;
-	background: #262626;
 	text-align: center;
 	cursor: default;
 }
@@ -485,17 +501,48 @@ body {
 	display: none;
 	position: absolute;
 	width: 100%;
-	height: 18px;
-	margin-top: -9px;
-	top: 50%;
-	color: #eee;
+	color: #555;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
-/* Header control: overlay "close" button */
+#customize-control-header_image .inner,
+#customize-control-header_image .inner .dashicons {
+	line-height: 20px;
+	top: 10px;
+}
+#customize-control-header_image .list .inner,
+#customize-control-header_image .list .inner .dashicons {
+	top: 9px;
+}
 
 #customize-control-header_image .header-view {
 	position: relative;
+	width: 100%;
+	margin-bottom: 5px;
 }
+
+#customize-control-header_image .header-view:last-child {
+	margin-bottom: 0px;
+}
+
+/* Convoluted, but 'outline' support isn't good enough yet */
+#customize-control-header_image .header-view:after {
+	border: 0;
+}
+#customize-control-header_image .header-view.selected:after {
+	content: '';
+	position: absolute;
+	top: 0; right: 0; bottom: 0; left: 0;
+	border: 4px solid #2ea2cc;
+	border-radius: 2px;
+}
+#customize-control-header_image .header-view.button.selected {
+	border: 0;
+}
+
+/* Header control: overlay "close" button */
 
 #customize-control-header_image .uploaded .header-view .close {
 	font-size: 2em;
@@ -575,19 +622,8 @@ body {
 	margin-bottom: 9px;
 }
 
-#customize-control-header_image .choice.random:before {
-	position: absolute;
-	content: attr(data-label);
-	right: 0;
-	top: 0;
-}
-
 #customize-control-header_image .uploaded div:last-child > .choice {
 	margin-bottom: 0;
-}
-
-#customize-control-header_image .choices hr {
-	visibility: hidden;
 }
 
 #customize-control-header_image img {
