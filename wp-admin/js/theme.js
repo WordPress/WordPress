@@ -453,7 +453,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 
 	preview: function( event ) {
 		var self = this,
-			current;
+			current, preview;
 
 		// Bail if the user scrolled on a touch device
 		if ( this.touchDrag === true ) {
@@ -478,7 +478,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 		themes.focusedTheme = this.$el;
 
 		// Construct a new Preview view.
-		var preview = new themes.view.Preview({
+		preview = new themes.view.Preview({
 			model: this.model
 		});
 
