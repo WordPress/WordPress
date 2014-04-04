@@ -519,7 +519,7 @@ function download_url( $url, $timeout = 300 ) {
 }
 
 /**
- * Calculates and compares the MD5 of a file to it's expected value.
+ * Calculates and compares the MD5 of a file to its expected value.
  *
  * @since 3.7.0
  *
