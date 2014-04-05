@@ -1191,7 +1191,7 @@ class WP_Http_Curl {
 	private $body = '';
 
 	/**
-	 * The maximum amount of data to recieve from the remote server
+	 * The maximum amount of data to receive from the remote server.
 	 *
 	 * @since 3.6.0
 	 * @access private
