@@ -170,6 +170,10 @@ body {
 	line-height: 28px;
 }
 
+.customize-control select[multiple] {
+	height: auto;
+}
+
 .customize-control-title {
 	display: block;
 	font-size: 14px;
