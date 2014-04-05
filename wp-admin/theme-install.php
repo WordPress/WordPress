@@ -219,7 +219,7 @@ if ( $tab ) {
 					<# } #>
 					</div>
 					<div class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></div>
-					<div class="theme-description">{{ data.description }}</div>
+					<div class="theme-description">{{{ data.description }}}</div>
 				</div>
 			</div>
 		</div>
