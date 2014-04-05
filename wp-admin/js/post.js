@@ -504,13 +504,22 @@ jQuery(document).ready( function($) {
 	// Autosave new posts after a title is typed
 	if ( $( '#auto_draft' ).val() ) {
 		$( '#title' ).blur( function() {
+			var cancel;
+
 			if ( ! this.value || $('#edit-slug-box > *').length ) {
 				return;
 			}
 
-			if ( wp.autosave ) {
-				wp.autosave.server.triggerSave();
-			}
+			// Cancel the autosave when the blur was triggered by the user submitting the form
+			$('form#post').one( 'submit', function() {
+				cancel = true;
+			});
+
+			window.setTimeout( function() {
+				if ( ! cancel && wp.autosave ) {
+					wp.autosave.server.triggerSave();
+				}
+			}, 200 );
 		});
 	}
 

@@ -536,6 +536,7 @@ body {
 	position: absolute;
 	top: 0; left: 0; bottom: 0; right: 0;
 	border: 4px solid #2ea2cc;
+	-webkit-border-radius: 2px;
 	border-radius: 2px;
 }
 #customize-control-header_image .header-view.button.selected {
