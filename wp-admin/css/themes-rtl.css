@@ -1216,13 +1216,14 @@ body.more-filters-opened .more-filters:focus:before {
 }
 .more-filters-container {
 	display: none;
-	padding: 30px;
+	padding: 20px;
 	border-top: 1px solid #eee;
 	margin: 0 -20px;
 	background: #fafafa;
 }
 body.more-filters-opened .more-filters-container {
 	display: block;
+	overflow: hidden;
 }
 body.more-filters-opened .theme-section.current {
 	border-bottom: none;
@@ -1254,15 +1255,22 @@ body.more-filters-opened.filters-applied .theme-browser {
 .more-filters-container ol {
 	list-style-type: none;
 	margin: 20px 0 0;
-	display: block;
 	font-size: 12px;
 }
+.more-filters-container li {
+	display: inline-block;
+	vertical-align: top;
+	list-style-type: none;
+	margin: 5px 0;
+	padding-left: 25px;
+	width: 160px;
+}
 .theme-navigation .more-filters-container .apply-filters {
-	margin: 20px 0 0;
+	margin: 0 0 20px;
 }
 .theme-navigation .more-filters-container .clear-filters {
 	display: none;
-	margin: 20px 10px 0 0;
+	margin: 0 10px 20px 0;
 }
 .more-filters-container .apply-filters span {
 	display: inline-block;
@@ -1345,15 +1353,18 @@ body.show-upload-theme p.no-themes {
 	.more-filters-container .filters-group {
 		margin-bottom: 0;
 		margin-top: 5px;
-		width: 49%;
+		width: 100%;
 	}
-	.more-filters-container .filters-group:nth-child(3n) {
-		clear: right;
+	.more-filters-container .filters-group li {
+		margin: 10px 0;
 	}
 }
 
 @media only screen and (max-width: 782px) {
 	.more-filters-container .filters-group {
+		width: 100%;
+	}
+	.more-filters-container .filters-group li {
 		width: 100%;
 	}
 }
