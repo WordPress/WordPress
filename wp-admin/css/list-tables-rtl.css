@@ -948,6 +948,7 @@ ul.cat-checklist {
 .inline-edit-row fieldset ul.cat-checklist li,
 .inline-edit-row fieldset ul.cat-checklist input {
 	margin: 0;
+	position: relative; /* RTL fix, #WP27629 */
 }
 
 .inline-edit-row fieldset ul.cat-checklist label,
