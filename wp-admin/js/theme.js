@@ -317,34 +317,25 @@ themes.Collection = Backbone.Collection.extend({
 		request: {}
 	},
 
-	// Send Ajax POST request to api.wordpress.org/themes
+	// Send request to api.wordpress.org/themes
 	apiCall: function( request, paginated ) {
 
-		// Ajax request to .org API
-		return $.ajax({
-			url: 'https://api.wordpress.org/themes/info/1.1/?action=query_themes',
+		// Send tags (and fields) as comma-separated to keep the JSONP query string short.
+		if ( request.tag && _.isArray( request.tag ) ) {
+			request.tag = request.tag.join( ',' );
+		}
 
-			// We want JSON data
-			dataType: 'json',
-			type: 'POST',
-			crossDomain: true,
+		// JSONP request to .org API
+		return $.ajax({
+			url: 'https://api.wordpress.org/themes/info/1.1/?callback=?',
+			dataType: 'jsonp',
 
 			// Request data
 			data: {
 				action: 'query_themes',
 				request: _.extend({
 					per_page: 72,
-					fields: {
-						description: true,
-						tested: true,
-						requires: true,
-						rating: true,
-						downloaded: true,
-						downloadLink: true,
-						last_updated: true,
-						homepage: true,
-						num_ratings: true
-					}
+					fields: 'description,tested,requires,rating,downloaded,downloadLink,last_updated,homepage,num_ratings'
 				}, request)
 			},
 
