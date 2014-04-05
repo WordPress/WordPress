@@ -86,6 +86,10 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 		if ( 'auto-draft' === $post_data['post_status'] ) {
 			$post_data['post_status'] = 'draft';
 		}
+
+		if ( ! get_post_status_object( $post_data['post_status'] ) ) {
+			unset( $post_data['post_status'] );
+		}
 	}
 
 	// What to do based on which button they pressed
@@ -106,6 +110,10 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 		$post_id = false;
 	$previous_status = $post_id ? get_post_field( 'post_status', $post_id ) : false;
 
+	if ( isset( $post_data['post_status'] ) && 'private' == $post_data['post_status'] && ! current_user_can( $ptype->cap->publish_posts ) ) {
+		$post_data['post_status'] = $previous_status ? $previous_status : 'pending';
+	}
+
 	$published_statuses = array( 'publish', 'future' );
 
 	// Posts 'submitted for approval' present are submitted to $_POST the same as if they were being published.
@@ -116,6 +124,10 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 
 	if ( ! isset( $post_data['post_status'] ) ) {
 		$post_data['post_status'] = 'auto-draft' === $previous_status ? 'draft' : $previous_status;
+	}
+
+	if ( isset( $post_data['post_password'] ) && ! current_user_can( $ptype->cap->publish_posts ) ) {
+		unset( $post_data['post_password'] );
 	}
 
 	if (!isset( $post_data['comment_status'] ))
@@ -177,6 +189,14 @@ function edit_post( $post_data = null ) {
 	$post_data['post_type'] = $post->post_type;
 	$post_data['post_mime_type'] = $post->post_mime_type;
 
+	if ( ! empty( $post_data['post_status'] ) ) {
+		$post_data['post_status'] = sanitize_key( $post_data['post_status'] );
+
+		if ( 'inherit' == $post_data['post_status'] ) {
+			unset( $post_data['post_status'] );
+		}
+	}
+
 	$ptype = get_post_type_object($post_data['post_type']);
 	if ( !current_user_can( 'edit_post', $post_ID ) ) {
 		if ( 'page' == $post_data['post_type'] )
@@ -194,10 +214,6 @@ function edit_post( $post_data = null ) {
 			_wp_upgrade_revisions_of_post( $post, wp_get_post_revisions( $post_ID ) );
 	}
 
-	$post_data = _wp_translate_postdata( true, $post_data );
-	if ( is_wp_error($post_data) )
-		wp_die( $post_data->get_error_message() );
-
 	if ( isset($post_data['visibility']) ) {
 		switch ( $post_data['visibility'] ) {
 			case 'public' :
@@ -213,6 +229,10 @@ function edit_post( $post_data = null ) {
 				break;
 		}
 	}
+
+	$post_data = _wp_translate_postdata( true, $post_data );
+	if ( is_wp_error($post_data) )
+		wp_die( $post_data->get_error_message() );
 
 	// Post Formats
 	if ( isset( $post_data['post_format'] ) )
@@ -351,6 +371,14 @@ function bulk_edit_posts( $post_data = null ) {
 	}
 	unset($post_data['_status']);
 
+	if ( ! empty( $post_data['post_status'] ) ) {
+		$post_data['post_status'] = sanitize_key( $post_data['post_status'] );
+
+		if ( 'inherit' == $post_data['post_status'] ) {
+			unset( $post_data['post_status'] );
+		}
+	}
+
 	$post_IDs = array_map( 'intval', (array) $post_data['post'] );
 
 	$reset = array(
@@ -441,10 +469,25 @@ function bulk_edit_posts( $post_data = null ) {
 			unset( $post_data['tax_input']['category'] );
 		}
 
+		$post_data['post_type'] = $post->post_type;
 		$post_data['post_mime_type'] = $post->post_mime_type;
 		$post_data['guid'] = $post->guid;
 
+		foreach ( array( 'comment_status', 'ping_status', 'post_author' ) as $field ) {
+			if ( ! isset( $post_data[ $field ] ) ) {
+				$post_data[ $field ] = $post->$field;
+			}
+		}
+
 		$post_data['ID'] = $post_ID;
+		$post_data['post_ID'] = $post_ID;
+
+		$post_data = _wp_translate_postdata( true, $post_data );
+		if ( is_wp_error( $post_data ) ) {
+			$skipped[] = $post_ID;
+			continue;
+		}
+
 		$updated[] = wp_update_post( $post_data );
 
 		if ( isset( $post_data['sticky'] ) && current_user_can( $ptype->cap->edit_others_posts ) ) {
