@@ -1236,8 +1236,8 @@ themes.view.Installer = themes.view.Appearance.extend({
 		'click .theme-section': 'onSort',
 		'click .theme-filter': 'onFilter',
 		'click .more-filters': 'moreFilters',
-		'click .apply-filters': 'addFilter',
-		'click [type="checkbox"]': 'filtersChecked',
+		'click .apply-filters': 'applyFilters',
+		'click [type="checkbox"]': 'addFilter',
 		'click .clear-filters': 'clearFilters',
 		'click .feature-name': 'filterSection',
 		'click .filtering-by a': 'backToFilters'
@@ -1365,8 +1365,13 @@ themes.view.Installer = themes.view.Appearance.extend({
 		this.collection.query( request );
 	},
 
-	// Clicking on a checkbox triggers a tag request
-	addFilter: function( event ) {
+	// Clicking on a checkbox to add another filter to the request
+	addFilter: function() {
+		this.filtersChecked();
+	},
+
+	// Applying filters triggers a tag request
+	applyFilters: function( event ) {
 		var name,
 			tags = this.filtersChecked(),
 			request = { tag: tags },
