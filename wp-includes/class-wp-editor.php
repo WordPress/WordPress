@@ -80,6 +80,14 @@ final class _WP_Editors {
 		) );
 
 		self::$this_tinymce = ( $set['tinymce'] && user_can_richedit() );
+
+		if ( self::$this_tinymce ) {
+			if ( false !== strpos( $editor_id, '[' ) ) {
+				self::$this_tinymce = false;
+				_deprecated_argument( 'wp_editor()', '3.9', 'TinyMCE editor IDs cannot have brackets.' );
+			}
+		}
+
 		self::$this_quicktags = (bool) $set['quicktags'];
 
 		if ( self::$this_tinymce )
