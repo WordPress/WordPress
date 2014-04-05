@@ -136,7 +136,8 @@ class WP_oEmbed {
 		$providers = array();
 
 		// Fetch URL content
-		if ( $html = wp_remote_retrieve_body( wp_safe_remote_get( $url ) ) ) {
+		$request = wp_safe_remote_get( $url );
+		if ( $html = wp_remote_retrieve_body( $request ) ) {
 
 			/**
 			 * Filter the link types that contain oEmbed provider URLs.
