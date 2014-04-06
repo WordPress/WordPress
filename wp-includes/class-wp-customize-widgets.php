@@ -602,19 +602,17 @@ final class WP_Customize_Widgets {
 				( 'Select an area to move this widget into:' ), // @todo translate
 				esc_html_x( 'Move', 'move widget' ),
 			),
-			'
-				<div class="move-widget-area">
-					<p class="description">{description}</p>
-					<ul class="widget-area-select">
-						<% _.each( sidebars, function ( sidebar ){ %>
-							<li class="" data-id="<%- sidebar.id %>" title="<%- sidebar.description %>" tabindex="0"><%- sidebar.name %></li>
-						<% }); %>
-					</ul>
-					<div class="move-widget-actions">
-						<button class="move-widget-btn button-secondary" type="button">{btn}</button>
-					</div>
+			'<div class="move-widget-area">
+				<p class="description">{description}</p>
+				<ul class="widget-area-select">
+					<% _.each( sidebars, function ( sidebar ){ %>
+						<li class="" data-id="<%- sidebar.id %>" title="<%- sidebar.description %>" tabindex="0"><%- sidebar.name %></li>
+					<% }); %>
+				</ul>
+				<div class="move-widget-actions">
+					<button class="move-widget-btn button-secondary" type="button">{btn}</button>
 				</div>
-			'
+			</div>'
 		);
 
 		/*
