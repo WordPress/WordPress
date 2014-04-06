@@ -474,8 +474,8 @@ $_wp_sidebars_widgets = array();
 /**
  * Private
  */
- $GLOBALS['_wp_deprecated_widgets_callbacks'] = array(
- 	'wp_widget_pages',
+$GLOBALS['_wp_deprecated_widgets_callbacks'] = array(
+	'wp_widget_pages',
 	'wp_widget_pages_control',
 	'wp_widget_calendar',
 	'wp_widget_calendar_control',
@@ -497,7 +497,7 @@ $_wp_sidebars_widgets = array();
 	'wp_widget_rss_control',
 	'wp_widget_recent_comments',
 	'wp_widget_recent_comments_control'
- );
+);
 
 /* Template tags & API functions */
 
