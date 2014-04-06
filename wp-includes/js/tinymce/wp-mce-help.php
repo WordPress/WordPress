@@ -160,8 +160,8 @@ if ( tinymce.isMac )
 	<h3><?php _e('HTML in the Rich Editor'); ?></h3>
 	<p><?php _e('Any HTML entered directly into the rich editor will show up as text when the post is viewed. What you see is what you get. When you want to include HTML elements that cannot be generated with the toolbar buttons, you must enter it by hand in the Text editor. Examples are tables and &lt;code&gt;. To do this, click the Text tab and edit the code, then switch back to Visual mode. If the code is valid and understood by the editor, you should see it rendered immediately.'); ?></p>
 	<h3><?php _e('Pasting in the Rich Editor'); ?></h3>
-	<p><?php _e('When pasting content from another web page the results can be inconsistent and depend on your browser and on the web page you are pasting from. The editor tries to correct any invalid HTML code that was pasted, but for best results try using the Text tab or one of the paste buttons that are on the second row. Alternatively try pasting paragraph by paragraph. In most browsers to select one paragraph at a time, triple-click on it.'); ?></p>
-	<p><?php _e('Pasting content from another application, like Word or Excel, is best done with the Paste from Word button on the second row, or in Text mode.'); ?></p>
+	<p><?php _e('When pasting content from another web page the results can be inconsistent and depend on your browser and on the web page you are pasting from. The editor tries to correct any invalid HTML code that was pasted, but for best results try using the Text tab or the "Paste as text" button on the second row. Alternatively try pasting paragraph by paragraph. In most browsers to select one paragraph at a time, triple-click on it.'); ?></p>
+	<p><?php _e('Pasting content from another application, like Word or Excel, is automatically handled. If you want it to appear as plain text instead, you can use "Paste as text" button on the second row, or paste directly in Text mode.'); ?></p>
 </div>
 
 <div id="content3" class="hidden">
