@@ -800,7 +800,7 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 			<# if (data.choice) { #>
 				<# if (data.random) { #>
 
-			<div class="placeholder" tabindex="0">
+			<div class="placeholder">
 				<div class="inner">
 					<span><span class="dashicons dashicons-randomize dice"></span>
 					<# if ( data.type === 'uploaded' ) { #>
@@ -819,7 +819,7 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 				<# } #>
 			<# } else { #>
 
-			<div class="placeholder" tabindex="0">
+			<div class="placeholder">
 				<div class="inner">
 					<span>
 						<?php _e( 'No image set' ); ?>
@@ -850,7 +850,7 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 
 
 		<div class="customize-control-content">
-			<p class="customizer-section-intro" tabindex="0">
+			<p class="customizer-section-intro">
 				<?php
 				// @todo translate (and look to custom-header.php for inspiration)
 				echo ( 'Personalize your site with your own header image.' ) . ' ';
@@ -864,7 +864,7 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 				?>
 			</p>
 			<div class="current">
-				<span class="customize-control-title" tabindex="0">
+				<span class="customize-control-title">
 					<?php _e( 'Current header' ); ?>
 				</span>
 				<div class="container">
@@ -878,14 +878,14 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 				<div style="clear:both"></div>
 			</div>
 			<div class="choices">
-				<span class="customize-control-title header-previously-uploaded" tabindex="0">
+				<span class="customize-control-title header-previously-uploaded">
 					<?php _ex( 'Previously uploaded', 'custom headers' ); ?>
 				</span>
 				<div class="uploaded">
 					<div class="list">
 					</div>
 				</div>
-				<span class="customize-control-title header-default" tabindex="0">
+				<span class="customize-control-title header-default">
 					<?php _ex( 'Suggested', 'custom headers' ); ?>
 				</span>
 				<div class="default">
