@@ -170,6 +170,7 @@ wpWidgets = {
 
 					wpWidgets.save( $widget, 0, 0, 1 );
 					$widget.find('input.add_new').val('');
+					$( document ).trigger( 'widget-added', [ $widget ] );
 				}
 
 				$sidebar = $widget.parent();
@@ -374,8 +375,9 @@ wpWidgets = {
 			} else {
 				$('.spinner').hide();
 				if ( r && r.length > 2 ) {
-					$( 'div.widget-content', widget ).html(r);
+					$( 'div.widget-content', widget ).html( r );
 					wpWidgets.appendTitle( widget );
+					$( document ).trigger( 'widget-updated', [ widget ] );
 				}
 			}
 			if ( order ) {
@@ -439,6 +441,8 @@ wpWidgets = {
 		wpWidgets.save( widget, 0, 0, 1 );
 		// No longer "new" widget
 		widget.find( 'input.add_new' ).val('');
+
+		$( document ).trigger( 'widget-added', [ widget ] );
 
 		/*
 		 * Check if any part of the sidebar is visible in the viewport. If it is, don't scroll.
