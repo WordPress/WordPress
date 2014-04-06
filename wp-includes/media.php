@@ -1269,7 +1269,7 @@ function wp_playlist_shortcode( $attr ) {
 	<?php if ( 'audio' === $type ): ?>
 	<div class="wp-playlist-current-item"></div>
 	<?php endif ?>
-	<<?php echo $safe_type ?> controls="controls" preload="metadata" width="<?php
+	<<?php echo $safe_type ?> controls="controls" preload="none" width="<?php
 		echo (int) $theme_width;
 	?>"<?php if ( 'video' === $safe_type ):
 		echo ' height="', (int) $theme_height, '"';
