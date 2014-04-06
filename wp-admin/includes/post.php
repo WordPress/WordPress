@@ -657,10 +657,6 @@ function wp_write_post() {
 	if ( isset( $_POST['post_ID'] ) )
 		return edit_post();
 
-	$translated = _wp_translate_postdata( false );
-	if ( is_wp_error($translated) )
-		return $translated;
-
 	if ( isset($_POST['visibility']) ) {
 		switch ( $_POST['visibility'] ) {
 			case 'public' :
@@ -676,6 +672,10 @@ function wp_write_post() {
 				break;
 		}
 	}
+
+	$translated = _wp_translate_postdata( false );
+	if ( is_wp_error($translated) )
+		return $translated;
 
 	// Create the post.
 	$post_ID = wp_insert_post( $_POST );
