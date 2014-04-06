@@ -68,7 +68,7 @@ final class WP_Customize_Widgets {
 	 *
 	 * @param WP_Customize_Manager $manager Customize manager bootstrap instance.
 	 */
-	public function __construct( WP_Customize_Manager $manager ) {
+	public function __construct( $manager ) {
 		$this->manager = $manager;
 
 		add_action( 'after_setup_theme',                       array( $this, 'setup_widget_addition_previews' ) );
@@ -880,7 +880,7 @@ final class WP_Customize_Widgets {
 	public function customize_preview_init() {
 		add_filter( 'sidebars_widgets',   array( $this, 'preview_sidebars_widgets' ), 1 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'customize_preview_enqueue' ) );
-		add_action( 'wp_print_styles',    array( $this, 'inject_preview_css' ), 1 );
+		add_action( 'wp_print_styles',    array( $this, 'print_preview_css' ), 1 );
 		add_action( 'wp_footer',          array( $this, 'export_preview_data' ), 20 );
 	}
 
@@ -924,7 +924,7 @@ final class WP_Customize_Widgets {
 	 *
 	 * @action wp_print_styles
 	 */
-	public function inject_preview_css() {
+	public function print_preview_css() {
 		?>
 		<style>
 		.widget-customizer-highlighted-widget {
@@ -1250,7 +1250,6 @@ final class WP_Customize_Widgets {
 	 *
 	 * @see wp_ajax_save_widget()
 	 *
-	 * @todo Reuse wp_ajax_save_widget now that we have option transactions?
 	 */
 	public function wp_ajax_update_widget() {
 
