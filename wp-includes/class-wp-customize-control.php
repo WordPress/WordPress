@@ -771,18 +771,14 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 		?>
 		<script type="text/template" id="tmpl-header-choice">
 			<# if (data.random) { #>
-
-			<div class="placeholder random">
-				<div class="inner">
-					<button type="button"><span class="dashicons dashicons-randomize dice"></span>
-					<# if ( data.type === 'uploaded' ) { #>
-						<?php _e( 'Randomize uploaded headers' ); ?>
-					<# } else if ( data.type === 'default' ) { #>
-						<?php _e( 'Randomize suggested headers' ); ?>
-					<# } #>
+					<button type="button" class="button display-options random">
+						<span class="dashicons dashicons-randomize dice"></span>
+						<# if ( data.type === 'uploaded' ) { #>
+							<?php _e( 'Randomize uploaded headers' ); ?>
+						<# } else if ( data.type === 'default' ) { #>
+							<?php _e( 'Randomize suggested headers' ); ?>
+						<# } #>
 					</button>
-				</div>
-			</div>
 
 			<# } else { #>
 

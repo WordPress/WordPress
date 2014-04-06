@@ -121,7 +121,6 @@
 			this.$el.html(this.template(this.extendedModel()));
 
 			if (this.model.get('random')) {
-				this.$el.addClass('button display-options');
 				this.setPlaceholder(40);
 			}
 
