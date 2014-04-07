@@ -1299,12 +1299,13 @@ class wpdb {
 	/**
 	 * Connect to and select database.
 	 *
+	 * If $allow_bail is false, the lack of database connection will need
+	 * to be handled manually.
+	 *
 	 * @since 3.0.0
+	 * @since 3.9.0 $allow_bail parameter added.
 	 *
-	 * @param bool $allow_bail Optional. Allows the function to bail, default true. If this is set
-	 *                         to false, you will need to handle the lack of database connection
-	 *                         manually. Available since 3.9.0.
-	 *
+	 * @param bool $allow_bail Optional. Allows the function to bail. Default true.
 	 * @return bool True with a successful connection, false on failure.
 	 */
 	function db_connect( $allow_bail = true ) {
@@ -1414,12 +1415,12 @@ class wpdb {
 	 * If this function is unable to reconnect, it will forcibly die, or if after the
 	 * the template_redirect hook has been fired, return false instead.
 	 *
+	 * If $allow_bail is false, the lack of database connection will need
+	 * to be handled manually.
+	 *
 	 * @since 3.9.0
 	 *
-	 * @param bool $allow_bail Optional. Allows the function to bail, default true. If this is set
-	 *                         to false, you will need to handle the lack of database connection
-	 *                         manually.
-	 *
+	 * @param bool $allow_bail Optional. Allows the function to bail. Default true.
 	 * @return bool True if the connection is up.
 	 */
 	function check_connection( $allow_bail = true ) {
@@ -1598,14 +1599,14 @@ class wpdb {
 	}
 
 	/**
-	 * Internal function to perform the mysql_query call
+	 * Internal function to perform the mysql_query() call.
 	 *
 	 * @since 3.9.0
 	 *
 	 * @access private
 	 * @see wpdb::query()
 	 *
-	 * @param string $query The query to run
+	 * @param string $query The query to run.
 	 */
 	private function _do_query( $query ) {
 		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
