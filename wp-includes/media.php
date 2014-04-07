@@ -1009,7 +1009,7 @@ function gallery_shortcode( $attr ) {
 }
 
 /**
- * Output the templates used by playlists
+ * Output the templates used by playlists.
  *
  * @since 3.9.0
  */
@@ -1051,7 +1051,7 @@ function wp_underscore_playlist_templates() {
  *
  * @since 3.9.0
  *
- * @param string $type Type of playlist: "audio" or "video."
+ * @param string $type Type of playlist. Accepts 'audio' or 'video'.
  */
 function wp_playlist_scripts( $type ) {
 	wp_enqueue_style( 'wp-mediaelement' );
@@ -1064,14 +1064,14 @@ function wp_playlist_scripts( $type ) {
 add_action( 'wp_playlist_scripts', 'wp_playlist_scripts' );
 
 /**
- * The Playlist shortcode.
+ * The playlist shortcode.
  *
- * This implements the functionality of the Playlist Shortcode for displaying
+ * This implements the functionality of the playlist shortcode for displaying
  * a collection of WordPress audio or video files in a post.
  *
  * @since 3.9.0
  *
- * @param array  $attr Attributes of the shortcode.
+ * @param array $attr Playlist shortcode attributes.
  * @return string Playlist output. Empty string if the passed type is unsupported.
  */
 function wp_playlist_shortcode( $attr ) {
@@ -1260,8 +1260,8 @@ function wp_playlist_shortcode( $attr ) {
 		 *
 		 * @since 3.9.0
 		 *
-		 * @param string $type   Type of playlist: "audio" or "video."
-		 * @param string $style  The "theme" for the playlist. Core provides "light" and "dark."
+		 * @param string $type  Type of playlist. Possible values are 'audio' or 'video'.
+		 * @param string $style The 'theme' for the playlist. Core provides 'light' and 'dark'.
 		 */
 		do_action( 'wp_playlist_scripts', $type, $style );
 	} ?>
@@ -1317,9 +1317,9 @@ function wp_get_audio_extensions() {
  *
  * @since 3.9.0
  *
- * @param WP_Post $attachment The attachment in question, provided for context.
+ * @param WP_Post $attachment The current attachment, provided for context.
  * @param string  $context    The context. Accepts 'edit', 'display'. Default 'display'.
- * @return array
+ * @return array Key/value pairs of field keys to labels.
  */
 function wp_get_attachment_id3_keys( $attachment, $context = 'display' ) {
 	$fields = array(
@@ -2734,11 +2734,11 @@ function get_post_gallery_images( $post = 0 ) {
 }
 
 /**
- * If an attachment is missing its metadata, try to generate it.
+ * Maybe attempt to generate attachment metadata, if missing.
  *
  * @since 3.9.0
  *
- * @param post $attachment Post object.
+ * @param WP_Post $attachment Attachment object.
  */
 function wp_maybe_generate_attachment_metadata( $attachment ) {
 	if ( empty( $attachment ) || ( empty( $attachment->ID ) || ! $attachment_id = (int) $attachment->ID ) ) {
@@ -2759,13 +2759,13 @@ function wp_maybe_generate_attachment_metadata( $attachment ) {
 }
 
 /**
- * Determine if a post supports thumbnails based on the passed $post
+ * Determine if a post supports thumbnails based on the passed post object.
  *
  * @since 3.9.0
  *
- * @param WP_Post $post
+ * @param WP_Post $post Post object.
  *
- * @return boolean
+ * @return bool Whether the post type supports thumbnails.
  */
 function post_supports_thumbnails( $post ) {
 	if ( 'attachment' === $post->post_type ) {
@@ -2780,13 +2780,13 @@ function post_supports_thumbnails( $post ) {
 }
 
 /**
- * Determine if a theme supports thumbnails based on the passed $post
+ * Determine if a theme supports thumbnails based on the passed post object.
  *
  * @since 3.9.0
  *
- * @param WP_Post $post
+ * @param WP_Post $post Post object.
  *
- * @return boolean
+ * @return bool Whether the current theme supports thumbnails.
  */
 function theme_supports_thumbnails( $post ) {
 	if ( 'attachment' === $post->post_type ) {
