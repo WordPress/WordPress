@@ -1955,17 +1955,16 @@ class WP_Rewrite {
 	/**
 	 * Add an endpoint, like /trackback/.
 	 *
-	 * See {@link add_rewrite_endpoint()} for full documentation.
-	 *
-	 * @see add_rewrite_endpoint()
 	 * @since 2.1.0
 	 * @since 3.9.0 $query_var parameter added.
 	 * @access public
+	 *
+	 * @see add_rewrite_endpoint() for full documentation.
 	 * @uses WP::add_query_var()
 	 *
-	 * @param string $name Name of the endpoint.
-	 * @param int $places Endpoint mask describing the places the endpoint should be added.
-	 * @param string $query_var Name of the corresponding query variable. Defaults to $name.
+	 * @param string $name      Name of the endpoint.
+	 * @param int    $places    Endpoint mask describing the places the endpoint should be added.
+	 * @param string $query_var Name of the corresponding query variable. Default is value of $name.
 	 */
 	function add_endpoint( $name, $places, $query_var = null ) {
 		global $wp;
