@@ -1,4 +1,9 @@
 /* global tinymce, MediaElementPlayer, WPPlaylistView */
+/**
+ * Note: this API is "experimental" meaning that it will probably change
+ * in the next few releases based on feedback from 3.9.0.
+ * If you decide to use it, please follow the development closely.
+ */      
 
 // Ensure the global `wp` object exists.
 window.wp = window.wp || {};
