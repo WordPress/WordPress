@@ -3423,7 +3423,8 @@ function default_topic_count_text( $count ) {
 }
 
 /**
- * Formerly used to escape strings before INSERTing into the DB. Hasn't performed this function for many, many years.
+ * Formerly used to escape strings before INSERTing into the DB. Has not performed
+ * this function for many, many years.
  *
  * @since 0.71
  * @deprecated 3.9.0
