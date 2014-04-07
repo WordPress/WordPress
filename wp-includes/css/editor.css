@@ -125,7 +125,7 @@
 }
 
 .mce-menu-has-icons i.mce-ico {
-	line-height: 16px;
+	line-height: 20px;
 }
 
 /* TinyMCE panel */
@@ -138,6 +138,10 @@ div.mce-panel {
 
 .mce-panel.mce-menu {
 	border: 1px solid #ddd;
+}
+
+div.mce-tab {
+	line-height: 13px;
 }
 
 /* TinyMCE toolbars */
