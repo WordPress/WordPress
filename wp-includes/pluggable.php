@@ -66,14 +66,15 @@ if ( !function_exists('get_currentuserinfo') ) :
  * Populate global variables with information about the currently logged in user.
  *
  * Will set the current user, if the current user is not set. The current user
- * will be set to the logged in person. If no user is logged in, then it will
+ * will be set to the logged-in person. If no user is logged-in, then it will
  * set the current user to 0, which is invalid and won't have any permissions.
  *
  * @since 0.71
+ *
  * @uses $current_user Checks if the current user is set
  * @uses wp_validate_auth_cookie() Retrieves current logged in user.
  *
- * @return bool|null False on XMLRPC Request and invalid auth cookie. Null when current user set
+ * @return bool|null False on XML-RPC Request and invalid auth cookie. Null when current user set.
  */
 function get_currentuserinfo() {
 	global $current_user;
@@ -102,14 +103,17 @@ function get_currentuserinfo() {
 	}
 
 	/**
-	 * Determine the current user based on request data.
+	 * Filter the current user.
 	 *
 	 * The default filters use this to determine the current user from the
 	 * request's cookies, if available.
 	 *
+	 * Returning a value of false will effectively short-circuit setting
+	 * the current user.
+	 *
 	 * @since 3.9.0
 	 *
-	 * @param int|bool $user_id User ID if determined, or false otherwise.
+	 * @param int|bool $user_id User ID if one has been determined, false otherwise.
 	 */
 	$user_id = apply_filters( 'determine_current_user', false );
 	if ( ! $user_id ) {
