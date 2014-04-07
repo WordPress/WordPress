@@ -1962,7 +1962,7 @@ class wpdb {
 
 		if ( $this->use_mysqli ) {
 			for ( $i = 0; $i < @mysqli_num_fields( $this->result ); $i++ ) {
-				$this->col_info[ $i ] = @mysqli_fetch_field( $this->result, $i );
+				$this->col_info[ $i ] = @mysqli_fetch_field( $this->result );
 			}
 		} else {
 			for ( $i = 0; $i < @mysql_num_fields( $this->result ); $i++ ) {
