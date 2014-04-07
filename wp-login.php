@@ -622,7 +622,7 @@ case 'rp' :
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param WP_User $user User undergoing the password reset.
+	 * @param WP_User $user User object of the user whose password is being reset.
 	 */
 	do_action( 'resetpass_form', $user );
 	?>
