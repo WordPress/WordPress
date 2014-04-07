@@ -107,6 +107,8 @@
 		},
 
 		clickTrack : function (e) {
+			e.preventDefault();
+
 			this.index = this.$( '.wp-playlist-item' ).index( e.currentTarget );
 			this.setCurrent();
 		},

@@ -1027,7 +1027,7 @@ function wp_underscore_playlist_templates() {
 </script>
 <script type="text/html" id="tmpl-wp-playlist-item">
 	<div class="wp-playlist-item">
-		<div class="wp-playlist-caption">
+		<a class="wp-playlist-caption" href="{{ data.src }}">
 			{{ data.index ? ( data.index + '. ' ) : '' }}
 			<# if ( data.caption ) { #>
 				{{ data.caption }}
@@ -1037,7 +1037,7 @@ function wp_underscore_playlist_templates() {
 				<span class="wp-playlist-item-artist"> &mdash; {{ data.meta.artist }}</span>
 				<# } #>
 			<# } #>
-		</div>
+		</a>
 		<# if ( data.meta.length_formatted ) { #>
 		<div class="wp-playlist-item-length">{{ data.meta.length_formatted }}</div>
 		<# } #>
