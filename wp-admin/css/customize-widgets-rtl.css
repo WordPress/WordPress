@@ -95,8 +95,8 @@
 	cursor: move;
 }
 
-.control-section.accordion-section.widget-customizer-highlighted > .accordion-section-title,
-.customize-control-widget_form.widget-customizer-highlighted {
+.control-section.accordion-section.highlighted > .accordion-section-title,
+.customize-control-widget_form.highlighted {
 	outline: none;
 	-webkit-box-shadow: 0 0 2px rgba(30,140,190,0.8);
 	box-shadow: 0 0 2px rgba(30,140,190,0.8);
