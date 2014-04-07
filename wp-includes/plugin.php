@@ -637,7 +637,11 @@ function plugin_basename( $file ) {
 /**
  * Register a plugin's real path.
  *
- * This is used in {@see plugin_basename()} to resolve symlinked paths.
+ * This is used in plugin_basename() to resolve symlinked paths.
+ *
+ * @since 3.9.0
+ *
+ * @see plugin_basename()
  *
  * @param string $file Known path to the file.
  * @return bool Whether the path was able to be registered.
