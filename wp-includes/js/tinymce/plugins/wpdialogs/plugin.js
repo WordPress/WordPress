@@ -29,13 +29,22 @@ tinymce.WPWindowManager = tinymce.InlineWindowManager = function( editor ) {
 			return;
 		}
 
+		if ( typeof jQuery === 'undefined' || ! jQuery.wp || ! jQuery.wp.wpdialog ) {
+			// wpdialod.js is not loaded
+			if ( window.console && window.console.error ) {
+				window.console.error('wpdialog.js is not loaded. Please set it as dependency for your script when calling wp_enqueue_script().');
+			}
+
+			return;
+		}
+
 		wp.$element = $element = jQuery( '#' + args.id );
 
 		if ( ! $element.length ) {
 			return;
 		}
 
-		if ( window && window.console ) {
+		if ( window.console && window.console.log ) {
 			window.console.log('tinymce.WPWindowManager is deprecated. Use the default editor.windowManager to open dialogs with inline HTML.');
 		}
 
