@@ -733,6 +733,15 @@ final class _WP_Editors {
 			add_thickbox();
 			wp_enqueue_script('media-upload');
 		}
+
+		/**
+		 * Fires when scripts and styles are enqueued for the editor
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param array An array containing boolean values whether TinyMCE and Quicktags are being loaded.
+		 */
+		do_action( 'wp_enqueue_editor', array( 'tinymce' => self::$has_tinymce, 'quicktags' => self::$has_quicktags ) ); 
 	}
 
 	public static function wp_mce_translation() {
