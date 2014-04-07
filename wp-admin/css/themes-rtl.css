@@ -216,7 +216,8 @@
  * Displays a theme update notice
  * when an update is available.
  */
-.theme-browser .theme .theme-update {
+.theme-browser .theme .theme-update,
+.theme-browser .theme .theme-installed {
 	background: #d54e21;
 	background: rgba(213, 78, 33, 0.95);
 	color: #fff;
@@ -234,7 +235,8 @@
 	overflow: hidden;
 }
 
-.theme-browser .theme .theme-update:before {
+.theme-browser .theme .theme-update:before,
+.theme-browser .theme .theme-installed:before {
 	content: '\f463';
 	display: inline-block;
 	font: normal 20px/1 'dashicons';
@@ -1073,6 +1075,25 @@ body.folded .theme-overlay .theme-wrap {
 /*------------------------------------------------------------------------------
   16.2 - Install Themes
 ------------------------------------------------------------------------------*/
+
+/* Already installed theme */
+.theme-browser .theme.is-installed {
+	cursor: default;
+}
+.theme-browser .theme .theme-installed {
+	background: #0074a2;
+}
+.theme-browser .theme .theme-installed:before {
+	content: '\f147';
+}
+.theme-browser .theme.is-installed .theme-actions,
+.theme-browser.rendered .theme.is-installed .more-details {
+	display: none !important;
+}
+.theme-browser.rendered .theme.is-installed:hover .theme-screenshot img,
+.theme-browser.rendered .theme.is-installed:focus .theme-screenshot img {
+	opacity: 1 !important;
+}
 
 .theme-navigation {
 	background: #fff;

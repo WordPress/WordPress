@@ -33,6 +33,13 @@ $sections = array(
 	'new'      => __( 'Newest Themes' ),
 );
 
+$installed_themes = search_theme_directories();
+foreach ( $installed_themes as $k => $v ) {
+	if ( false !== strpos( $k, '/' ) ) {
+		unset( $installed_themes[ $k ] );
+	}
+}
+
 wp_localize_script( 'theme', '_wpThemeSettings', array(
 	'themes'   => false,
 	'settings' => array(
@@ -51,6 +58,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		'back'   => __( 'Back' ),
 		'error'  => ( 'There was a problem trying to load the themes. Please, try again.' ), // @todo improve
 	),
+	'installedThemes' => array_keys( $installed_themes ),
 	'browse' => array(
 		'sections' => $sections,
 	),
@@ -190,13 +198,21 @@ if ( $tab ) {
 		<a class="button button-primary" href="{{ data.installURI }}"><?php esc_html_e( 'Install' ); ?></a>
 		<a class="button button-secondary preview install-theme-preview" href="#"><?php esc_html_e( 'Preview' ); ?></a>
 	</div>
+
+	<# if ( data.installed ) { #>
+		<div class="theme-installed"><?php _e( 'Already Installed' ); ?></div>
+	<# } #>
 </script>
 
 <script id="tmpl-theme-preview" type="text/template">
 	<div class="wp-full-overlay-sidebar">
 		<div class="wp-full-overlay-header">
 			<a href="#" class="close-full-overlay button-secondary"><?php _e( 'Close' ); ?></a>
+		<# if ( data.installed ) { #>
+			<a href="#" class="button button-primary theme-install disabled"><?php _e( 'Installed' ); ?></a>
+		<# } else { #>
 			<a href="{{ data.installURI }}" class="button button-primary theme-install"><?php _e( 'Install' ); ?></a>
+		<# } #>
 		</div>
 		<div class="wp-full-overlay-sidebar-content">
 			<div class="install-theme-info">
