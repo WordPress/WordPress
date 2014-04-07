@@ -917,12 +917,12 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 	public function render_content() {
 		?>
 		<span class="button-secondary add-new-widget" tabindex="0">
-			<?php esc_html_e( 'Add a Widget' ); ?>
+			<?php _e( 'Add a Widget' ); ?>
 		</span>
 
 		<span class="reorder-toggle" tabindex="0">
-			<span class="reorder"><?php esc_html_e( 'Reorder' ); ?></span>
-			<span class="reorder-done"><?php esc_html_e( 'Done' ); ?></span>
+			<span class="reorder"><?php _ex( 'Reorder', 'Reorder widgets in Customizer' ); ?></span>
+			<span class="reorder-done"><?php _ex( 'Done', 'Cancel reordering widgets in Customizer'  ); ?></span>
 		</span>
 		<?php
 	}
@@ -940,11 +940,10 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 	public $width;
 	public $height;
 	public $is_wide = false;
-	public $is_live_previewable = false;
 
 	public function to_json() {
 		parent::to_json();
-		$exported_properties = array( 'widget_id', 'widget_id_base', 'sidebar_id', 'width', 'height', 'is_wide', 'is_live_previewable' );
+		$exported_properties = array( 'widget_id', 'widget_id_base', 'sidebar_id', 'width', 'height', 'is_wide' );
 		foreach ( $exported_properties as $key ) {
 			$this->json[ $key ] = $this->$key;
 		}

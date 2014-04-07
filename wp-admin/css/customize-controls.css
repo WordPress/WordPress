@@ -490,6 +490,7 @@ body {
 	overflow: hidden;
 	-webkit-border-radius: 2px;
 	border: 1px solid #eee;
+	-webkit-border-radius: 2px;
 	border-radius: 2px;
 }
 

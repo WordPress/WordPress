@@ -1,4 +1,4 @@
-(function( $, wp ){
+(function( wp, $ ){
 
 	if ( ! wp || ! wp.customize ) { return; }
 
@@ -124,4 +124,4 @@
 		api.WidgetCustomizerPreview.init();
 	});
 
-})( jQuery, window.wp );
+})( window.wp, jQuery );

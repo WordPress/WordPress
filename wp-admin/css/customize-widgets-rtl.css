@@ -108,13 +108,6 @@
 	display: none;
 }
 
-
-/* MP6-compat */
-#customize-theme-controls .accordion-section-content .widget {
-	color: black;
-}
-
-
 /**
 * Widget reordering styles
 **/
@@ -326,7 +319,7 @@
 
 body.adding-widget .add-new-widget,
 body.adding-widget .add-new-widget:hover {
-	background: #EEE;
+	background: #eee;
 	border-color: #999;
 	color: #333;
 	-webkit-box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);

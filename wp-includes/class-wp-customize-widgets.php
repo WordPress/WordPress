@@ -406,8 +406,6 @@ final class WP_Customize_Widgets {
 				$setting_id        = $this->get_setting_id( $widget_id );
 				$id_base           = $GLOBALS['wp_registered_widget_controls'][$widget_id]['id_base'];
 
-				assert( false !== is_active_widget( $registered_widget['callback'], $registered_widget['id'], false, false ) );
-
 				$control = new WP_Widget_Form_Customize_Control( $this->manager, $setting_id, array(
 					'label'          => $registered_widget['name'],
 					'section'        => $section_id,
@@ -599,8 +597,8 @@ final class WP_Customize_Widgets {
 		$move_widget_area_tpl = str_replace(
 			array( '{description}', '{btn}' ),
 			array(
-				( 'Select an area to move this widget into:' ), // @todo translate
-				esc_html_x( 'Move', 'move widget' ),
+				__( 'Select an area to move this widget into:' ),
+				_x( 'Move', 'Move widget' ),
 			),
 			'<div class="move-widget-area">
 				<p class="description">{description}</p>
@@ -615,39 +613,34 @@ final class WP_Customize_Widgets {
 			</div>'
 		);
 
-		/*
-		 * Why not wp_localize_script? Because we're not localizing,
-		 * and it forces values into strings.
-		 */
 		global $wp_scripts;
 
-		$exports = array(
-			'nonce'               => wp_create_nonce( 'update-widget' ),
-			'registered_sidebars' => array_values( $GLOBALS['wp_registered_sidebars'] ),
-			'registered_widgets'  => $GLOBALS['wp_registered_widgets'],
-			'available_widgets'   => $available_widgets, // @todo Merge this with registered_widgets
-			'i18n' => array(
-				'save_btn_label'     => __( 'Apply' ),
-				// @todo translate? do we want these tooltips?
-				'save_btn_tooltip'   => ( 'Save and preview changes before publishing them.' ),
-				'remove_btn_label'   => __( 'Remove' ),
-				'remove_btn_tooltip' => ( 'Trash widget by moving it to the inactive widgets sidebar.' ),
-				'error'              => __( 'An error has occurred. Please reload the page and try again.' ),
+		$settings = array(
+			'nonce'                => wp_create_nonce( 'update-widget' ),
+			'registeredSidebars'   => array_values( $GLOBALS['wp_registered_sidebars'] ),
+			'registeredWidgets'    => $GLOBALS['wp_registered_widgets'],
+			'availableWidgets'     => $available_widgets, // @todo Merge this with registered_widgets
+			'l10n' => array(
+				'saveBtnLabel'     => __( 'Apply' ),
+				'saveBtnTooltip'   => __( 'Save and preview changes before publishing them.' ),
+				'removeBtnLabel'   => __( 'Remove' ),
+				'removeBtnTooltip' => __( 'Trash widget by moving it to the inactive widgets sidebar.' ),
+				'error'            => __( 'An error has occurred. Please reload the page and try again.' ),
 			),
-			'tpl'                 => array(
-				'widget_reorder_nav' => $widget_reorder_nav_tpl,
-				'move_widget_area'   => $move_widget_area_tpl,
+			'tpl' => array(
+				'widgetReorderNav' => $widget_reorder_nav_tpl,
+				'moveWidgetArea'   => $move_widget_area_tpl,
 			),
 		);
 
-		foreach ( $exports['registered_widgets'] as &$registered_widget ) {
+		foreach ( $settings['registeredWidgets'] as &$registered_widget ) {
 			unset( $registered_widget['callback'] ); // may not be JSON-serializeable
 		}
 
 		$wp_scripts->add_data(
 			'customize-widgets',
 			'data',
-			sprintf( 'var WidgetCustomizer_exports = %s;', json_encode( $exports ) )
+			sprintf( 'var _wpCustomizeWidgetsSettings = %s;', json_encode( $settings ) )
 		);
 	}
 
@@ -662,12 +655,12 @@ final class WP_Customize_Widgets {
 		<div id="widgets-left"><!-- compatibility with JS which looks for widget templates here -->
 		<div id="available-widgets">
 			<div id="available-widgets-filter">
-				<label class="screen-reader-text" for="widgets-search"><?php _e( 'Find Widgets' ); ?></label>
-				<input type="search" id="widgets-search" placeholder="<?php esc_attr_e( 'Find widgets&hellip;' ) ?>" />
+				<label class="screen-reader-text" for="widgets-search"><?php _e( 'Search Widgets' ); ?></label>
+				<input type="search" id="widgets-search" placeholder="<?php esc_attr_e( 'Search widgets&hellip;' ) ?>" />
 			</div>
 			<?php foreach ( $this->get_available_widgets() as $available_widget ): ?>
 				<div id="widget-tpl-<?php echo esc_attr( $available_widget['id'] ) ?>" data-widget-id="<?php echo esc_attr( $available_widget['id'] ) ?>" class="widget-tpl <?php echo esc_attr( $available_widget['id'] ) ?>" tabindex="0">
-					<?php echo $available_widget['control_tpl']; // xss ok ?>
+					<?php echo $available_widget['control_tpl']; ?>
 				</div>
 			<?php endforeach; ?>
 		</div><!-- #available-widgets -->
@@ -826,6 +819,7 @@ final class WP_Customize_Widgets {
 
 			$available_widgets[] = $available_widget;
 		}
+
 		return $available_widgets;
 	}
 
