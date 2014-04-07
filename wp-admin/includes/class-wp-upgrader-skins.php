@@ -96,6 +96,9 @@ class WP_Upgrader_Skin {
 	 * Output JavaScript that calls function to decrement the update counts.
 	 *
 	 * @since 3.9.0
+	 *
+	 * @param string $type Type of update count to decrement. Likely values include 'plugin',
+	 *                     'theme', 'translation', etc.
 	 */
 	protected function decrement_update_count( $type ) {
 		if ( ! $this->result || is_wp_error( $this->result ) || 'up_to_date' === $this->result ) {
@@ -276,6 +279,9 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	 * Output JavaScript that sends message to parent window to decrement the update counts.
 	 *
 	 * @since 3.9.0
+	 *
+	 * @param string $type Type of update count to decrement. Likely values include 'plugin',
+	 *                     'theme', 'translation', etc.
 	 */
 	protected function decrement_update_count( $type ) {
 		if ( ! $this->result || is_wp_error( $this->result ) || 'up_to_date' === $this->result ) {
