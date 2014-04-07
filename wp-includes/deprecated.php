@@ -3424,14 +3424,12 @@ function default_topic_count_text( $count ) {
 }
 
 /**
- * Formerly used to escape strings before INSERTing into the DB.
+ * Formerly used to escape strings before inserting into the DB.
  *
- * Has not performed this function for many, many years.
+ * Has not performed this function for many, many years. Use wpdb::prepare() instead.
  *
  * @since 0.71
  * @deprecated 3.9.0
- * @deprecated Original intent was to add slashes to POSTed data, use
- *             $wpdb::prepare() instead
  *
  * @param string $content The text to format.
  * @return string The very same text.
