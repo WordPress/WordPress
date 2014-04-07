@@ -189,7 +189,7 @@
 			shortcode = {};
 
 			if ( 'video' === type ) {
-				if ( attachment.image ) {
+				if ( attachment.image && -1 === attachment.image.src.indexOf( attachment.icon ) ) {
 					shortcode.poster = attachment.image.src;
 				}
 
