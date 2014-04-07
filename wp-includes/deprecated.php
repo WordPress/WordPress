@@ -3394,7 +3394,8 @@ function _search_terms_tidy( $t ) {
 /**
  * Determine if TinyMCE is available.
  *
- * Checks to see if the user has deleted the tinymce files to slim down their WordPress install.
+ * Checks to see if the user has deleted the tinymce files to slim down
+ * their WordPress install.
  *
  * @since 2.1.0
  * @deprecated 3.9.0
@@ -3423,12 +3424,14 @@ function default_topic_count_text( $count ) {
 }
 
 /**
- * Formerly used to escape strings before INSERTing into the DB. Has not performed
- * this function for many, many years.
+ * Formerly used to escape strings before INSERTing into the DB.
+ *
+ * Has not performed this function for many, many years.
  *
  * @since 0.71
  * @deprecated 3.9.0
- * @deprecated Original intent was to add slashes to POSTed data, use $wpdb::prepare() instead
+ * @deprecated Original intent was to add slashes to POSTed data, use
+ *             $wpdb::prepare() instead
  *
  * @param string $content The text to format.
  * @return string The very same text.
