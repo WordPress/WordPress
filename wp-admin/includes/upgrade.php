@@ -332,8 +332,8 @@ function wp_upgrade() {
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param int $new_db_version The new $wp_db_version.
-	 * @param int $old_db_version The old $wp_db_version.
+	 * @param int $wp_db_version         The new $wp_db_version.
+	 * @param int $wp_current_db_version The old (current) $wp_db_version.
 	 */
 	do_action( 'wp_upgrade', $wp_db_version, $wp_current_db_version );
 }
