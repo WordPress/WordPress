@@ -457,14 +457,9 @@ window.wp = window.wp || {};
 
 			media = wp.media.view.MediaDetails.prepareSrc( media.get(0) );
 
-			// Thanks, Firefox!
-			if ( firefox ) {
-				setTimeout( function() {
-					self.player = new MediaElementPlayer( media, this.mejsSettings );
-				}, 50 );
-			} else {
-				this.player = new MediaElementPlayer( media, this.mejsSettings );
-			}
+			setTimeout( function() {
+				self.player = new MediaElementPlayer( media, this.mejsSettings );
+			}, 75 );
 		},
 
 		/**
