@@ -579,14 +579,14 @@ class wpdb {
 			$this->show_errors();
 
 		/* Use ext/mysqli if it exists and:
-		 *  - USE_EXT_MYSQL is defined as false, or
+		 *  - WP_USE_EXT_MYSQL is defined as false, or
 		 *  - We are a development version of WordPress, or
 		 *  - We are running PHP 5.5 or greater, or
 		 *  - ext/mysql is not loaded.
 		 */
 		if ( function_exists( 'mysqli_connect' ) ) {
-			if ( defined( 'USE_EXT_MYSQL' ) ) {
-				$this->use_mysqli = ! USE_EXT_MYSQL;
+			if ( defined( 'WP_USE_EXT_MYSQL' ) ) {
+				$this->use_mysqli = ! WP_USE_EXT_MYSQL;
 			} elseif ( version_compare( phpversion(), '5.5', '>=' ) || ! function_exists( 'mysql_connect' ) ) {
 				$this->use_mysqli = true;
 			} elseif ( false !== strpos( $GLOBALS['wp_version'], '-' ) ) {
@@ -1349,14 +1349,14 @@ class wpdb {
 
 				/* It's possible ext/mysqli is misconfigured. Fall back to ext/mysql if:
 		 		 *  - We haven't previously connected, and
-		 		 *  - USE_EXT_MYSQL isn't set to false, and
+		 		 *  - WP_USE_EXT_MYSQL isn't set to false, and
 		 		 *  - ext/mysql is loaded.
 		 		 */
 				$attempt_fallback = true;
 
 				if ( $this->has_connected ) {
 					$attempt_fallback = false;
-				} else if ( defined( 'USE_EXT_MYSQL' ) && ! USE_EXT_MYSQL ) {
+				} else if ( defined( 'WP_USE_EXT_MYSQL' ) && ! WP_USE_EXT_MYSQL ) {
 					$attempt_fallback = false;
 				} else if ( ! function_exists( 'mysql_connect' ) ) {
 					$attempt_fallback = false;
