@@ -4888,17 +4888,19 @@
 
 		scroll: function() {
 			var view = this,
-				toolbar;
+				toolbar = this.views.parent.toolbar;
 
-			// @todo: is this still necessary?
-			if ( ! this.$el.is(':visible') ) {
+			// @todo: is :visible still necessary?
+			if ( ! this.$el.is(':visible') || ! this.collection.hasMore() ) {
 				return;
 			}
 
-			if ( this.collection.hasMore() && this.el.scrollHeight < this.el.scrollTop + ( this.el.clientHeight * this.options.refreshThreshold ) ) {
-				toolbar = this.views.parent.toolbar;
+			// Show the spinner only if we are close to the bottom.
+			if ( this.el.scrollHeight - ( this.el.scrollTop + this.el.clientHeight ) < this.el.clientHeight / 3 ) {
 				toolbar.get('spinner').show();
+			}
 
+			if ( this.el.scrollHeight < this.el.scrollTop + ( this.el.clientHeight * this.options.refreshThreshold ) ) {
 				this.collection.more().done(function() {
 					view.scroll();
 					toolbar.get('spinner').hide();
