@@ -289,10 +289,12 @@ window.wp = window.wp || {};
 					attachments = this.attachments.toJSON();
 
 					_.each( attachments, function( attachment ) {
-						if ( attachment.sizes.thumbnail ) {
-							attachment.thumbnail = attachment.sizes.thumbnail;
-						} else {
-							attachment.thumbnail = attachment.sizes.full;
+						if ( attachment.sizes ) {
+							if ( attachment.sizes.thumbnail ) {
+								attachment.thumbnail = attachment.sizes.thumbnail;
+							} else if ( attachment.sizes.full ) {
+								attachment.thumbnail = attachment.sizes.full;
+							}
 						}
 					} );
 				}
