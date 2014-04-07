@@ -69,12 +69,15 @@ function permalink_anchor( $mode = 'id' ) {
 }
 
 /**
- * Retrieve full permalink for current post or post ID. Alias for get_permalink().
+ * Retrieve full permalink for current post or post ID.
+ *
+ * This function is an alias for get_permalink().
  *
  * @since 3.9.0
+ *
  * @see get_permalink()
  *
- * @param int|WP_Post $id        Optional. Post ID or post object. Defaults current post.
+ * @param int|WP_Post $id        Optional. Post ID or post object. Default is the current post.
  * @param bool        $leavename Optional. Whether to keep post name or page name. Default false.
  * @return string|bool The permalink URL or false if post does not exist.
  */
