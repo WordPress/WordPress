@@ -968,7 +968,7 @@ final class WP_Theme implements ArrayAccess {
 			$page_templates += $this->parent()->get_page_templates( $post );
 
 		/**
-		 * Remove or rename page templates for a theme.
+		 * Filter list of page templates for a theme.
 		 *
 		 * This filter does not currently allow for page templates to be added.
 		 *
@@ -980,6 +980,7 @@ final class WP_Theme implements ArrayAccess {
 		 * @param WP_Post|null $post           The post being edited, provided for context, or null.
 		 */
 		$return = apply_filters( 'theme_page_templates', $page_templates, $this, $post );
+
 		return array_intersect_assoc( $return, $page_templates );
 	}
 
