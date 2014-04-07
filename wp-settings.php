@@ -168,7 +168,6 @@ $GLOBALS['wp_plugin_paths'] = array();
 
 // Load must-use plugins.
 foreach ( wp_get_mu_plugins() as $mu_plugin ) {
-	wp_register_plugin_realpath( $mu_plugin );
 	include_once( $mu_plugin );
 }
 unset( $mu_plugin );

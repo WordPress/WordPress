@@ -638,16 +638,30 @@ function plugin_basename( $file ) {
  * This is used in {@see plugin_basename()} to resolve symlinked paths.
  *
  * @param string $file Known path to the file.
+ * @return bool Whether the path was able to be registered.
  */
 function wp_register_plugin_realpath( $file ) {
 	global $wp_plugin_paths;
 
+	// Normalize, but store as static to avoid recalculation of a constant value
+	static $wp_plugin_path, $wpmu_plugin_path;
+	if ( ! isset( $wp_plugin_path ) ) {
+		$wp_plugin_path   = wp_normalize_path( WP_PLUGIN_DIR   );
+		$wpmu_plugin_path = wp_normalize_path( WPMU_PLUGIN_DIR );
+	}
+
 	$plugin_path = wp_normalize_path( dirname( $file ) );
 	$plugin_realpath = wp_normalize_path( dirname( realpath( $file ) ) );
+
+	if ( $plugin_path === $wp_plugin_path || $plugin_path === $wpmu_plugin_path ) {
+		return false;
+	}
 
 	if ( $plugin_path !== $plugin_realpath ) {
 		$wp_plugin_paths[ $plugin_path ] = $plugin_realpath;
 	}
+
+	return true;
 }
 
 /**
