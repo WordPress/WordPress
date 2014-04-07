@@ -851,12 +851,6 @@ function wp_print_media_templates() {
 					<span><?php _e( 'Loop' ); ?></span>
 					<input type="checkbox" data-setting="loop" />
 				</label>
-
-				<label class="setting">
-					<span><?php _e( 'Caption' ); ?></span>
-					<input type="text" data-setting="caption" value="{{ data.model.caption }}" />
-				</label>
-
 				<div class="clear"></div>
 			</div>
 		</div>
@@ -968,11 +962,6 @@ function wp_print_media_templates() {
 					<# } #>
 					<textarea class="hidden content-setting">{{ content }}</textarea>
 				</label>
-
-				<label class="setting">
-					<span><?php _e( 'Caption' ); ?></span>
-					<input type="text" data-setting="caption" value="{{ data.model.caption }}" />
-				</label>
 			</div>
 		</div>
 	</script>
@@ -1009,9 +998,6 @@ function wp_print_media_templates() {
 			<div class="dashicons dashicons-edit edit"></div>
 			<div class="dashicons dashicons-no-alt remove"></div>
 		</div>
-		<# if ( ! _.isEmpty( data.model.caption ) ) { #>
-		<div class="track-details">{{ data.model.caption }}</div>
-		<# } #>
 		<?php wp_underscore_audio_template() ?>
 		<div class="wpview-overlay"></div>
 	</script>
@@ -1021,9 +1007,6 @@ function wp_print_media_templates() {
 			<div class="dashicons dashicons-edit edit"></div>
 			<div class="dashicons dashicons-no-alt remove"></div>
 		</div>
-		<# if ( ! _.isEmpty( data.model.caption ) ) { #>
-		<div class="track-details">{{ data.model.caption }}</div>
-		<# } #>
 		<?php wp_underscore_video_template() ?>
 		<div class="wpview-overlay"></div>
 	</script>

@@ -204,7 +204,6 @@
 			loop : false,
 			autoplay : false,
 			preload : 'none',
-			caption : '',
 			width : 400
 		},
 
@@ -259,7 +258,6 @@
 			autoplay : false,
 			preload : 'metadata',
 			content : '',
-			caption : '',
 			width : 640,
 			height : 360
 		},

@@ -1392,7 +1392,6 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 
 	$default_types = wp_get_audio_extensions();
 	$defaults_atts = array(
-		'caption'  => '',
 		'src'      => '',
 		'loop'     => '',
 		'autoplay' => '',
@@ -1552,7 +1551,6 @@ function wp_video_shortcode( $attr, $content = '' ) {
 
 	$default_types = wp_get_video_extensions();
 	$defaults_atts = array(
-		'caption'  => '',
 		'src'      => '',
 		'poster'   => '',
 		'loop'     => '',

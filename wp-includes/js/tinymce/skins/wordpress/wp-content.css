@@ -297,17 +297,6 @@ audio {
 	text-align: center;
 }
 
-.wpview-type-video .track-details,
-.wpview-type-audio .track-details {
-	position: absolute;
-	top: 0;
-	left: 5px;
-	width: 85%;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
-
 .wpview-type-gallery:after {
     content: '';
 	display: table;
