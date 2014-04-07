@@ -173,8 +173,8 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 				 * @since 3.9.0
 				 *
 				 * @param array $image_attachment An array of parameters to create the thumbnail.
-				 * @param array $metadata   Current attachment metadata.
-				 * @param array $uploaded   An array containing the thumbnail path and url.
+				 * @param array $metadata         Current attachment metadata.
+				 * @param array $uploaded         An array containing the thumbnail path and url.
 				 */
 				$image_attachment = apply_filters( 'attachment_thumbnail_args', $image_attachment, $metadata, $uploaded );
 
