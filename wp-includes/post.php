@@ -191,6 +191,15 @@ function get_attached_file( $attachment_id, $unfiltered = false ) {
 		$file = $uploads['basedir'] . "/$file";
 	if ( $unfiltered )
 		return $file;
+
+	/**
+	 * Filter the attached file based on the given ID.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $file          Path to attached file.
+	 * @param int    $attachment_id Attachment ID.
+	 */
 	return apply_filters( 'get_attached_file', $file, $attachment_id );
 }
 
@@ -201,7 +210,6 @@ function get_attached_file( $attachment_id, $unfiltered = false ) {
  * '_wp_attached_file' to store the path of the attachment.
  *
  * @since 2.1.0
- * @uses apply_filters() Calls 'update_attached_file' on file path and attachment ID.
  *
  * @param int $attachment_id Attachment ID
  * @param string $file File path for the attachment
@@ -211,7 +219,16 @@ function update_attached_file( $attachment_id, $file ) {
 	if ( !get_post( $attachment_id ) )
 		return false;
 
+	/**
+	 * Filter the path to the attached file to update.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $file          Path to the attached file to update.
+	 * @param int    $attachment_id Attachment ID.
+	 */
 	$file = apply_filters( 'update_attached_file', $file, $attachment_id );
+
 	if ( $file = _wp_relative_upload_path( $file ) )
 		return update_post_meta( $attachment_id, '_wp_attached_file', $file );
 	else
@@ -224,7 +241,6 @@ function update_attached_file( $attachment_id, $file ) {
  * The path is relative to the current upload dir.
  *
  * @since 2.9.0
- * @uses apply_filters() Calls '_wp_relative_upload_path' on file path.
  *
  * @param string $path Full path to the file
  * @return string relative path on success, unchanged path on failure.
@@ -238,6 +254,14 @@ function _wp_relative_upload_path( $path ) {
 			$new_path = ltrim( $new_path, '/' );
 	}
 
+	/**
+	 * Filter the relative path to an uploaded file.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param string $new_path Relative path to the file.
+	 * @param string $path     Full path to the file.
+	 */
 	return apply_filters( '_wp_relative_upload_path', $new_path, $path );
 }
 
@@ -1493,6 +1517,19 @@ function get_post_type_labels( $post_type_object ) {
 	$labels = _get_custom_object_labels( $post_type_object, $nohier_vs_hier_defaults );
 
 	$post_type = $post_type_object->name;
+
+	/**
+	 * Filter the labels of a specific post type.
+	 *
+	 * The dynamic portion of the hook name, $post_type, refers to
+	 * the post type slug.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @see get_post_type_labels() for the full list of labels.
+	 *
+	 * @param array $labels Array of labels for the given post type.
+	 */
 	return apply_filters( "post_type_labels_{$post_type}", $labels );
 }
 
@@ -1937,17 +1974,6 @@ function sanitize_post($post, $context = 'display') {
  * when calling filters.
  *
  * @since 2.3.0
- * @uses apply_filters() Calls 'edit_$field' and '{$field_no_prefix}_edit_pre' passing $value and
- *  $post_id if $context == 'edit' and field name prefix == 'post_'.
- *
- * @uses apply_filters() Calls 'edit_post_$field' passing $value and $post_id if $context == 'db'.
- * @uses apply_filters() Calls 'pre_$field' passing $value if $context == 'db' and field name prefix == 'post_'.
- * @uses apply_filters() Calls '{$field}_pre' passing $value if $context == 'db' and field name prefix != 'post_'.
- *
- * @uses apply_filters() Calls '$field' passing $value, $post_id and $context if $context == anything
- *  other than 'raw', 'edit' and 'db' and field name prefix == 'post_'.
- * @uses apply_filters() Calls 'post_$field' passing $value if $context == anything other than 'raw',
- *  'edit' and 'db' and field name prefix != 'post_'.
  *
  * @param string $field The Post Object field name.
  * @param mixed $value The Post Object value.
@@ -1981,11 +2007,48 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 		$format_to_edit = array('post_content', 'post_excerpt', 'post_title', 'post_password');
 
 		if ( $prefixed ) {
-			$value = apply_filters("edit_{$field}", $value, $post_id);
-			// Old school
-			$value = apply_filters("{$field_no_prefix}_edit_pre", $value, $post_id);
+
+			/**
+			 * Filter the value of a specific post field to edit.
+			 *
+			 * The dynamic portion of the hook name, $field, refers to the prefixed
+			 * post field name. For example, 'post_title'.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param mixed $value   Value of the post field.
+			 * @param int   $post_id Post ID.
+			 */
+			$value = apply_filters( "edit_{$field}", $value, $post_id );
+
+			/**
+			 * Filter the value of a specific post field to edit.
+			 *
+			 * The dynamic portion of the hook name, $field_no_prefix, refers to
+			 * the post field name with no prefix. For example, 'title' instead
+			 * of 'post_title'.
+			 *
+			 * @since 2.3.0
+			 * @deprecated 2.3.0 Use "edit_post_$field" instead.
+			 *
+			 * @param mixed $value   Value of the post field.
+			 * @param int   $post_id Post ID.
+			 */
+			$value = apply_filters( "{$field_no_prefix}_edit_pre", $value, $post_id );
 		} else {
-			$value = apply_filters("edit_post_{$field}", $value, $post_id);
+
+			/**
+			 * Filter the value of a specific post field to edit.
+			 *
+			 * The dynamic portion of the hook name, $field, refers to the un-prefixed
+			 * post field. For example, 'title' instead of 'post_title'.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param mixed $value   Value of the un-prefixed post field.
+			 * @param int   $post_id Post ID.
+			 */
+			$value = apply_filters( "edit_post_{$field}", $value, $post_id );
 		}
 
 		if ( in_array($field, $format_to_edit) ) {
@@ -1998,18 +2061,97 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 		}
 	} else if ( 'db' == $context ) {
 		if ( $prefixed ) {
-			$value = apply_filters("pre_{$field}", $value);
-			$value = apply_filters("{$field_no_prefix}_save_pre", $value);
+
+			/**
+			 * Filter the value of a specific field before saving.
+			 *
+			 * The dynamic portion of the hook name, $field, refers to the
+			 * prefixed post field name. For example, 'post_title'.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param mixed $value Value of the post field.
+			 */
+			$value = apply_filters( "pre_{$field}", $value );
+
+			/**
+			 * Filter the value of a specific field before saving.
+			 *
+			 * The dynamic portion of the hook name, $field_no_prefix, refers
+			 * to the un-prefixed post field name. For example, 'title' instead
+			 * of 'post_title'.
+			 *
+			 * @since 2.3.0
+			 * @deprecated 2.3.0 Use "pre_post_{$field}" instead.
+			 *
+			 * @param mixed $value Value of the post field.
+			 */
+			$value = apply_filters( "{$field_no_prefix}_save_pre", $value );
 		} else {
-			$value = apply_filters("pre_post_{$field}", $value);
-			$value = apply_filters("{$field}_pre", $value);
+
+			/**
+			 * Filter the value of a specific field before saving.
+			 *
+			 * The dynamic portion of the hook name, $field, refers to the un-prefixed
+			 * post field name. For example, 'title' instead of 'post_title'.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param mixed $value Value of the post field.
+			 */
+			$value = apply_filters( "pre_post_{$field}", $value );
+
+			/**
+			 * Filter the value of a specific field before saving.
+			 *
+			 * The dynamic portion of the hook name, $field, refers to the un-prefixed
+			 * post field name. For example, 'title' instead of 'post_title'.
+			 *
+			 * @since 2.3.0
+			 * @deprecated 2.3.0 Use "pre_post_{$field}" instead.
+			 *
+			 * @param mixed $value Value of the post field.
+			 */
+			$value = apply_filters( "{$field}_pre", $value );
 		}
 	} else {
+
 		// Use display filters by default.
-		if ( $prefixed )
-			$value = apply_filters($field, $value, $post_id, $context);
-		else
-			$value = apply_filters("post_{$field}", $value, $post_id, $context);
+		if ( $prefixed ) {
+
+			/**
+			 * Filter the value of a specific post field for display.
+			 *
+			 * The dynamic hook name, $field, refers to the prefixed post field
+			 * name. For example, 'post_title'.
+			 *
+			 * @since
+			 *
+			 * @param mixed  $value   Value of the prefixed post field.
+			 * @param int    $post_id Post ID.
+			 * @param string $context Context for how to sanitize the field. Possible
+			 *                        values include 'raw', 'edit', 'db', 'display',
+			 *                        'attribute' and 'js'.
+			 */
+			$value = apply_filters( $field, $value, $post_id, $context );
+		} else {
+
+			/**
+			 * Filter the value of a specific post field for display.
+			 *
+			 * The dynamic portion of the hook name, $field, refers to the un-prefixed
+			 * post field name. For example, 'title' instead of 'post_title'.'
+			 *
+			 * @since
+			 *
+			 * @param mixed  $value   Value of the un-prefixed post field.
+			 * @param int    $post_id Post ID.
+			 * @param string $context Context for how to sanitize the field. Possible
+			 *                        values include 'raw', 'edit', 'db', 'display',
+			 *                        'attribute' and 'js'.
+			 */
+			$value = apply_filters( "post_{$field}", $value, $post_id, $context );
+		}
 	}
 
 	if ( 'attribute' == $context )
@@ -2143,9 +2285,11 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param object $counts An object containing the current post_type's post counts by status.
-	 * @param string $type   The post type.
-	 * @param string $perm   The permission to determine if the posts are 'readable' by the current user.
+	 * @param object $counts An object containing the current post_type's post
+	 *                       counts by status.
+	 * @param string $type   Post type.
+	 * @param string $perm   The permission to determine if the posts are 'readable'
+	 *                       by the current user.
 	 */
 	return apply_filters( 'wp_count_posts', $counts, $type, $perm );
 }
@@ -2200,7 +2344,14 @@ function get_post_mime_types() {
 		'video' => array(__('Video'), __('Manage Video'), _n_noop('Video <span class="count">(%s)</span>', 'Video <span class="count">(%s)</span>')),
 	);
 
-	return apply_filters('post_mime_types', $post_mime_types);
+	/**
+	 * Filter the default list of post mime types.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param array $post_mime_types Default list of post mime types.
+	 */
+	return apply_filters( 'post_mime_types', $post_mime_types );
 }
 
 /**
@@ -2756,6 +2907,22 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	$maybe_empty = ! $post_content && ! $post_title && ! $post_excerpt && post_type_supports( $post_type, 'editor' )
 		&& post_type_supports( $post_type, 'title' ) && post_type_supports( $post_type, 'excerpt' );
 
+	/**
+	 * Filter whether the post should be considered "empty".
+	 *
+	 * The post is considered "empty" if both:
+	 * 1. The post type supports the title, editor, and excerpt fields
+	 * 2. The title, editor, and excerpt fields are all empty
+	 *
+	 * Returning a truthy value to the filter will effectively short-circuit
+	 * the new post being inserted, returning 0. If $wp_error is true, a WP_Error
+	 * will be returned instead.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param bool  $maybe_empty Whether the post should be considered "empty".
+	 * @param array $postarr     Array of post data.
+	 */
 	if ( apply_filters( 'wp_insert_post_empty_content', $maybe_empty, $postarr ) ) {
 		if ( $wp_error )
 			return new WP_Error( 'empty_content', __( 'Content, title, and excerpt are empty.' ) );
