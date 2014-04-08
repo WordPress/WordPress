@@ -450,7 +450,6 @@ final class _WP_Editors {
 					'theme' => 'modern',
 					'skin' => 'lightgray',
 					'language' => self::$mce_locale,
-					'resize' => 'vertical',
 					'formats' => "{
 						alignleft: [
 							{selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: {textAlign:'left'}},
@@ -473,7 +472,6 @@ final class _WP_Editors {
 					'fix_list_elements' => true,
 					'entities' => '38,amp,60,lt,62,gt',
 					'entity_encoding' => 'raw',
-					'menubar' => false,
 					'keep_styles' => false,
 					'paste_webkit_styles' => 'font-weight font-style color',
 
@@ -636,6 +634,8 @@ final class _WP_Editors {
 
 			$mceInit = array (
 				'selector' => "#$editor_id",
+				'resize' => 'vertical',
+				'menubar' => false,
 				'wpautop' => (bool) $set['wpautop'],
 				'indent' => ! $set['wpautop'],
 				'toolbar1' => implode($mce_buttons, ','),
