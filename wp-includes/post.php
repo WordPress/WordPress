@@ -2011,8 +2011,7 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific post field to edit.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the prefixed
-			 * post field name. For example, 'post_title'.
+			 * The dynamic portion of the hook name, $field, refers to the post field name.
 			 *
 			 * @since 2.3.0
 			 *
@@ -2025,29 +2024,15 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			 * Filter the value of a specific post field to edit.
 			 *
 			 * The dynamic portion of the hook name, $field_no_prefix, refers to
-			 * the post field name with no prefix. For example, 'title' instead
-			 * of 'post_title'.
+			 * the post field name.
 			 *
 			 * @since 2.3.0
-			 * @deprecated 2.3.0 Use "edit_post_$field" instead.
 			 *
 			 * @param mixed $value   Value of the post field.
 			 * @param int   $post_id Post ID.
 			 */
 			$value = apply_filters( "{$field_no_prefix}_edit_pre", $value, $post_id );
 		} else {
-
-			/**
-			 * Filter the value of a specific post field to edit.
-			 *
-			 * The dynamic portion of the hook name, $field, refers to the un-prefixed
-			 * post field. For example, 'title' instead of 'post_title'.
-			 *
-			 * @since 2.3.0
-			 *
-			 * @param mixed $value   Value of the un-prefixed post field.
-			 * @param int   $post_id Post ID.
-			 */
 			$value = apply_filters( "edit_post_{$field}", $value, $post_id );
 		}
 
@@ -2063,10 +2048,9 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 		if ( $prefixed ) {
 
 			/**
-			 * Filter the value of a specific field before saving.
+			 * Filter the value of a specific post field before saving.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the
-			 * prefixed post field name. For example, 'post_title'.
+			 * The dynamic portion of the hook name, $field, refers to the post field name.
 			 *
 			 * @since 2.3.0
 			 *
@@ -2078,37 +2062,22 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			 * Filter the value of a specific field before saving.
 			 *
 			 * The dynamic portion of the hook name, $field_no_prefix, refers
-			 * to the un-prefixed post field name. For example, 'title' instead
-			 * of 'post_title'.
+			 * to the post field name.
 			 *
 			 * @since 2.3.0
-			 * @deprecated 2.3.0 Use "pre_post_{$field}" instead.
 			 *
 			 * @param mixed $value Value of the post field.
 			 */
 			$value = apply_filters( "{$field_no_prefix}_save_pre", $value );
 		} else {
-
-			/**
-			 * Filter the value of a specific field before saving.
-			 *
-			 * The dynamic portion of the hook name, $field, refers to the un-prefixed
-			 * post field name. For example, 'title' instead of 'post_title'.
-			 *
-			 * @since 2.3.0
-			 *
-			 * @param mixed $value Value of the post field.
-			 */
 			$value = apply_filters( "pre_post_{$field}", $value );
 
 			/**
-			 * Filter the value of a specific field before saving.
+			 * Filter the value of a specific post field before saving.
 			 *
-			 * The dynamic portion of the hook name, $field, refers to the un-prefixed
-			 * post field name. For example, 'title' instead of 'post_title'.
+			 * The dynamic portion of the hook name, $field, refers to the post field name.
 			 *
 			 * @since 2.3.0
-			 * @deprecated 2.3.0 Use "pre_post_{$field}" instead.
 			 *
 			 * @param mixed $value Value of the post field.
 			 */
@@ -2122,10 +2091,9 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			/**
 			 * Filter the value of a specific post field for display.
 			 *
-			 * The dynamic hook name, $field, refers to the prefixed post field
-			 * name. For example, 'post_title'.
+			 * The dynamic portion of the hook name, $field, refers to the post field name.
 			 *
-			 * @since
+			 * @since 2.3.0
 			 *
 			 * @param mixed  $value   Value of the prefixed post field.
 			 * @param int    $post_id Post ID.
@@ -2135,21 +2103,6 @@ function sanitize_post_field($field, $value, $post_id, $context) {
 			 */
 			$value = apply_filters( $field, $value, $post_id, $context );
 		} else {
-
-			/**
-			 * Filter the value of a specific post field for display.
-			 *
-			 * The dynamic portion of the hook name, $field, refers to the un-prefixed
-			 * post field name. For example, 'title' instead of 'post_title'.'
-			 *
-			 * @since
-			 *
-			 * @param mixed  $value   Value of the un-prefixed post field.
-			 * @param int    $post_id Post ID.
-			 * @param string $context Context for how to sanitize the field. Possible
-			 *                        values include 'raw', 'edit', 'db', 'display',
-			 *                        'attribute' and 'js'.
-			 */
 			$value = apply_filters( "post_{$field}", $value, $post_id, $context );
 		}
 	}
