@@ -1366,7 +1366,7 @@ themes.view.Installer = themes.view.Appearance.extend({
 		this.sort( sort );
 
 		// Trigger a router.naviagte update
-		themes.router.navigate( themes.router.baseUrl( '?sort=' + sort ) );
+		themes.router.navigate( themes.router.baseUrl( '?browse=' + sort ) );
 	},
 
 	sort: function( sort ) {
@@ -1528,7 +1528,7 @@ themes.view.Installer = themes.view.Appearance.extend({
 themes.InstallerRouter = Backbone.Router.extend({
 	routes: {
 		'theme-install.php?theme=:slug': 'preview',
-		'theme-install.php?sort=:sort': 'sort',
+		'theme-install.php?browse=:sort': 'sort',
 		'theme-install.php?upload': 'upload',
 		'theme-install.php?search=:query': 'search',
 		'': 'sort'
