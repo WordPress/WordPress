@@ -153,7 +153,16 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 		if ( $this->plugin_active || ! $this->result || is_wp_error( $this->result ) || ! current_user_can( 'activate_plugins' ) )
 			unset( $update_actions['activate_plugin'] );
 
-		$update_actions = apply_filters('update_plugin_complete_actions', $update_actions, $this->plugin);
+		/**
+		 * Filter the list of action links available following a single plugin update.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param array  $update_actions Array of plugin action links.
+		 * @param string $plugin         Path to the plugin file.
+		 */
+		$update_actions = apply_filters( 'update_plugin_complete_actions', $update_actions, $this->plugin );
+
 		if ( ! empty($update_actions) )
 			$this->feedback(implode(' | ', (array)$update_actions));
 	}
@@ -324,7 +333,16 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
 		if ( ! current_user_can( 'activate_plugins' ) )
 			unset( $update_actions['plugins_page'] );
 
-		$update_actions = apply_filters('update_bulk_plugins_complete_actions', $update_actions, $this->plugin_info);
+		/**
+		 * Filter the list of action links available following bulk plugin updates.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $update_actions Array of plugin action links.
+		 * @param array $plugin_info    Array of information for the last-updated plugin.
+		 */
+		$update_actions = apply_filters( 'update_bulk_plugins_complete_actions', $update_actions, $this->plugin_info );
+
 		if ( ! empty($update_actions) )
 			$this->feedback(implode(' | ', (array)$update_actions));
 	}
@@ -360,7 +378,16 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 		if ( ! current_user_can( 'switch_themes' ) && ! current_user_can( 'edit_theme_options' ) )
 			unset( $update_actions['themes_page'] );
 
-		$update_actions = apply_filters('update_bulk_theme_complete_actions', $update_actions, $this->theme_info );
+		/**
+		 * Filter the list of action links available following bulk theme updates.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $update_actions Array of theme action links.
+		 * @param array $theme_info     Array of information for the last-updated theme.
+		 */
+		$update_actions = apply_filters( 'update_bulk_theme_complete_actions', $update_actions, $this->theme_info );
+
 		if ( ! empty($update_actions) )
 			$this->feedback(implode(' | ', (array)$update_actions));
 	}
@@ -423,7 +450,19 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 			unset( $install_actions['activate_plugin'] );
 		}
 
-		$install_actions = apply_filters('install_plugin_complete_actions', $install_actions, $this->api, $plugin_file);
+		/**
+		 * Filter the list of action links available following a single plugin installation.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param array  $install_actions Array of plugin action links.
+		 * @param object $api             Object containing WordPress.org API plugin data. Empty
+		 *                                for non-API installs, such as when a plugin is installed
+		 *                                via upload.
+		 * @param string $plugin_file     Path to the plugin file.
+		 */
+		$install_actions = apply_filters( 'install_plugin_complete_actions', $install_actions, $this->api, $plugin_file );
+
 		if ( ! empty($install_actions) )
 			$this->feedback(implode(' | ', (array)$install_actions));
 	}
@@ -496,7 +535,17 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		if ( ! $this->result || is_wp_error($this->result) || is_network_admin() || ! current_user_can( 'switch_themes' ) )
 			unset( $install_actions['activate'], $install_actions['preview'] );
 
-		$install_actions = apply_filters('install_theme_complete_actions', $install_actions, $this->api, $stylesheet, $theme_info);
+		/**
+		 * Filter the list of action links available following a single theme installation.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array    $install_actions Array of theme action links.
+		 * @param object   $api             Object containing WordPress.org API theme data.
+		 * @param string   $stylesheet      Theme directory name.
+		 * @param WP_Theme $theme_info      Theme object.
+		 */
+		$install_actions = apply_filters( 'install_theme_complete_actions', $install_actions, $this->api, $stylesheet, $theme_info );
 		if ( ! empty($install_actions) )
 			$this->feedback(implode(' | ', (array)$install_actions));
 	}
@@ -558,7 +607,16 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 
 		$update_actions['themes_page'] = '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Return to Themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>';
 
-		$update_actions = apply_filters('update_theme_complete_actions', $update_actions, $this->theme);
+		/**
+		 * Filter the list of action links available following a single theme update.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array  $update_actions Array of theme action links.
+		 * @param string $theme          Theme directory name.
+		 */
+		$update_actions = apply_filters( 'update_theme_complete_actions', $update_actions, $this->theme );
+
 		if ( ! empty($update_actions) )
 			$this->feedback(implode(' | ', (array)$update_actions));
 	}
@@ -608,6 +666,14 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 		$this->decrement_update_count( 'translation' );
 		$update_actions = array();
 		$update_actions['updates_page'] = '<a href="' . self_admin_url( 'update-core.php' ) . '" title="' . esc_attr__( 'Go to WordPress Updates page' ) . '" target="_parent">' . __( 'Return to WordPress Updates' ) . '</a>';
+
+		/**
+		 * Filter the list of action links available following a translations update.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param array $update_actions Array of translations update links.
+		 */
 		$update_actions = apply_filters( 'update_translations_complete_actions', $update_actions );
 
 		if ( $update_actions && $this->display_footer_actions )
