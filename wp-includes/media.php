@@ -2452,7 +2452,16 @@ function wp_enqueue_media( $args = array() ) {
 			'nonce' => wp_create_nonce( 'update-post_' . $post->ID ),
 		);
 
-		if ( theme_supports_thumbnails( $post ) || post_supports_thumbnails( $post ) ) {
+		$thumbnail_support = current_theme_supports( 'post-thumbnails', $post->post_type ) && post_type_supports( $post->post_type, 'thumbnail' );
+		if ( ! $thumbnail_support && 'attachment' === $post->post_type && $post->post_mime_type ) {
+			if ( 0 === strpos( $post->post_mime_type, 'audio/' ) ) {
+				$thumbnail_support = post_type_supports( 'attachment:audio', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:audio' );
+			} elseif ( 0 === strpos( $post->post_mime_type, 'video/' ) ) {
+				$thumbnail_support = post_type_supports( 'attachment:video', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:video' );
+			}
+		}
+
+		if ( $thumbnail_support ) {
 			$featured_image_id = get_post_meta( $post->ID, '_thumbnail_id', true );
 			$settings['post']['featuredImageId'] = $featured_image_id ? $featured_image_id : -1;
 		}
@@ -2755,46 +2764,4 @@ function wp_maybe_generate_attachment_metadata( $attachment ) {
 			delete_transient( $regeneration_lock );
 		}
 	}
-}
-
-/**
- * Determine if a post supports thumbnails based on the passed post object.
- *
- * @since 3.9.0
- *
- * @param WP_Post $post Post object.
- *
- * @return bool Whether the post type supports thumbnails.
- */
-function post_supports_thumbnails( $post ) {
-	if ( 'attachment' === $post->post_type ) {
-		if ( 0 === strpos( $post->post_mime_type, 'audio' ) ) {
-			return post_type_supports( 'attachment:audio', 'thumbnail' );
-		} elseif ( 0 === strpos( $post->post_mime_type, 'video' ) ) {
-			return post_type_supports( 'attachment:video', 'thumbnail' );
-		}
-	}
-
-	return post_type_supports( $post->post_type, 'thumbnail' );
-}
-
-/**
- * Determine if a theme supports thumbnails based on the passed post object.
- *
- * @since 3.9.0
- *
- * @param WP_Post $post Post object.
- *
- * @return bool Whether the current theme supports thumbnails.
- */
-function theme_supports_thumbnails( $post ) {
-	if ( 'attachment' === $post->post_type ) {
-		if ( 0 === strpos( $post->post_mime_type, 'audio' ) ) {
-			return current_theme_supports( 'post-thumbnails', 'attachment:audio' );
-		} elseif ( 0 === strpos( $post->post_mime_type, 'video' ) ) {
-			return current_theme_supports( 'post-thumbnails', 'attachment:video' );
-		}
-	}
-
-	return current_theme_supports( 'post-thumbnails', $post->post_type );
 }

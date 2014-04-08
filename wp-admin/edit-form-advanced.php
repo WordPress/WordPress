@@ -24,9 +24,16 @@ $post_ID = isset($post_ID) ? (int) $post_ID : 0;
 $user_ID = isset($user_ID) ? (int) $user_ID : 0;
 $action = isset($action) ? $action : '';
 
-$media_support = theme_supports_thumbnails( $post ) || post_supports_thumbnails( $post );
+$thumbnail_support = current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports( $post_type, 'thumbnail' );
+if ( ! $thumbnail_support && 'attachment' === $post_type && $post->post_mime_type ) {
+	if ( 0 === strpos( $post->post_mime_type, 'audio/' ) ) {
+		$thumbnail_support = post_type_supports( 'attachment:audio', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:audio' );
+	} elseif ( 0 === strpos( $post->post_mime_type, 'video/' ) ) {
+		$thumbnail_support = post_type_supports( 'attachment:video', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:video' );
+	}
+}
 
-if ( post_type_supports( $post_type, 'editor' ) || post_type_supports( $post_type, 'thumbnail' ) || $media_support ) {
+if ( $thumbnail_support ) {
 	add_thickbox();
 	wp_enqueue_media( array( 'post' => $post_ID ) );
 }
@@ -169,7 +176,7 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 if ( post_type_supports($post_type, 'page-attributes') )
 	add_meta_box('pageparentdiv', 'page' == $post_type ? __('Page Attributes') : __('Attributes'), 'page_attributes_meta_box', null, 'side', 'core');
 
-if ( current_theme_supports( 'post-thumbnails', $post_type ) || post_supports_thumbnails( $post ) )
+if ( $thumbnail_support )
 	add_meta_box('postimagediv', __('Featured Image'), 'post_thumbnail_meta_box', null, 'side', 'low');
 
 if ( post_type_supports($post_type, 'excerpt') )
