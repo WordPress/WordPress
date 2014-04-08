@@ -1475,11 +1475,13 @@ themes.view.Installer = themes.view.Appearance.extend({
 	searchContainer: $( '.theme-navigation' ),
 
 	uploader: function() {
-		$( 'a.upload' ).on( 'click', function() {
+		$( 'a.upload' ).on( 'click', function( event ) {
+			event.preventDefault();
 			$( 'body' ).addClass( 'show-upload-theme' );
 			themes.router.navigate( themes.router.baseUrl( '?upload' ), { replace: true } );
 		});
-		$( 'a.browse-themes' ).on( 'click', function() {
+		$( 'a.browse-themes' ).on( 'click', function( event ) {
+			event.preventDefault();
 			$( 'body' ).removeClass( 'show-upload-theme' );
 			themes.router.navigate( themes.router.baseUrl( '' ), { replace: true } );
 		});
