@@ -1020,7 +1020,7 @@ function wp_underscore_playlist_templates() {
 	<img src="{{ data.thumb.src }}"/>
 	<# } #>
 	<div class="wp-playlist-caption">
-		<span class="wp-playlist-item-meta wp-playlist-item-title">&#8220;{{{ data.title }}}&#8221;</span>
+		<span class="wp-playlist-item-meta wp-playlist-item-title">&#8220;{{ data.title }}&#8221;</span>
 		<# if ( data.meta.album ) { #><span class="wp-playlist-item-meta wp-playlist-item-album">{{ data.meta.album }}</span><# } #>
 		<# if ( data.meta.artist ) { #><span class="wp-playlist-item-meta wp-playlist-item-artist">{{ data.meta.artist }}</span><# } #>
 	</div>
@@ -1194,9 +1194,9 @@ function wp_playlist_shortcode( $attr ) {
 		$track = array(
 			'src' => $url,
 			'type' => $ftype['type'],
-			'title' => get_the_title( $attachment->ID ),
-			'caption' => wptexturize( $attachment->post_excerpt ),
-			'description' => wptexturize( $attachment->post_content )
+			'title' => $attachment->post_title,
+			'caption' => $attachment->post_excerpt,
+			'description' => $attachment->post_content
 		);
 
 		$track['meta'] = array();
