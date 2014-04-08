@@ -543,7 +543,7 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 	$key = wp_hash($username . $pass_frag . '|' . $expiration, $scheme);
 	$hash = hash_hmac('md5', $username . '|' . $expiration, $key);
 
-	if ( $hmac != $hash ) {
+	if ( hash_hmac( 'md5', $hmac, $key ) !== hash_hmac( 'md5', $hash, $key ) ) {
 		do_action('auth_cookie_bad_hash', $cookie_elements);
 		return false;
 	}
