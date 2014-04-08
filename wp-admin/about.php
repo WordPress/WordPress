@@ -13,18 +13,13 @@ $title = __( 'About' );
 
 list( $display_version ) = explode( '-', $wp_version );
 
-// Temporary 3.8 hack: We want to use user-profile for the color schemes but don't need the heavy zxcvbn.
-wp_deregister_script( 'zxcvbn-async' );
-wp_register_script( 'zxcvbn-async', false );
-wp_enqueue_script( 'user-profile' );
-
 include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 <div class="wrap about-wrap">
 
 <h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
 
-<div class="about-text"><?php printf( __( 'Thank you for updating to WordPress %s, the most beautiful WordPress&nbsp;yet.' ), $display_version ); ?></div>
+<div class="about-text"><?php printf( ( 'Thank you for updating! WordPress %s refines the way you write and edit.<br />We hope you like&nbsp;it.' ), $display_version ); ?></div>
 
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
@@ -39,96 +34,86 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="changelog">
-	<h2 class="about-headline-callout"><?php _e( 'Introducing a modern new&nbsp;design' ); ?></h2>
+	<h2 class="about-headline-callout"><?php echo ( 'A smoother media editing&nbsp;experience' ); ?></h2>
 	<img class="about-overview-img" src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/overview.png?1" />
-	<div class="feature-section col three-col about-updates">
+	<div class="feature-section col three-col">
 		<div class="col-1">
-			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/aesthetics.png?1" />
-			<h3><?php _e( 'Modern aesthetic' ); ?></h3>
-			<p><?php _e( 'The new WordPress dashboard has a fresh, uncluttered design that embraces clarity and simplicity.' ); ?></p>
+			<h4><?php echo ( 'Gallery previews' ); ?></h4>
+			<p><?php echo ( 'Galleries display a beautiful grid of images right in the editor, just like they do in your published post.' ); ?></p>
 		</div>
 		<div class="col-2">
-			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/typography.png?1" />
-			<h3><?php _e( 'Clean typography' ); ?></h3>
-			<p><?php _e( 'The Open Sans typeface provides simple, friendly text that is optimized for both desktop and mobile viewing. It&#8217;s even open source, just like WordPress.' ); ?></p>
+			<h4><?php echo ( 'Improved image editing' ); ?></h4>
+			<p><?php echo ( 'We&#8217;ve made it much easier to edit your images, with quicker access to cropping and rotation tools. You can also scale images directly in the editor to find just the right fit.' ); ?></p>
 		</div>
 		<div class="col-3 last-feature">
-			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/contrast.png?1" />
-			<h3><?php _e( 'Refined contrast' ); ?></h3>
-			<p><?php _e( 'We think beautiful design should never sacrifice legibility. With superior contrast and large, comfortable type, the new design is easy to read and a pleasure to navigate.' ); ?></p>
+			<h4><?php echo ( 'Drag and drop your images' ); ?></h4>
+			<p><?php echo ( 'Grab images from your desktop and drop them directly onto the editor, saving yourself that extra step.' ); ?></p>
 		</div>
 	</div>
-</div>
-
-<hr>
-
-<div class="changelog">
-	<div class="feature-section col two-col">
-		<div>
-			<h3><?php _e( 'WordPress on every&nbsp;device' ); ?></h3>
-			<p><?php _e( 'We all access the internet in different ways. Smartphone, tablet, notebook, desktop &mdash; no matter what you use, WordPress will adapt and you&#8217;ll feel right at home.' ); ?></p>
-			<h4><?php _e( 'High definition at high&nbsp;speed' ); ?></h4>
-			<p><?php _e( 'WordPress is sharper than ever with new vector-based icons that scale to your screen. By ditching pixels, pages load significantly faster, too.' ); ?></p>
+	<div class="feature-section col three-col">
+		<div class="col-1">
+			<h4><?php echo ( 'Improved visual editor' ); ?></h4>
+			<p><?php echo ( 'We&#8217;ve updated the visual editor with better mobile support, improved speed and accessibility, and a modern API for developers.' ); ?></p>
+			<p><?php echo ( 'The visual editor will now automatically clean up the messy styling that certain word processing applications insert when copying and pasting. Yeah, we&#8217;re talking about you, Microsoft Word.' ); ?></p>
 		</div>
-		<div class="last-feature about-colors-img">
+		<div class="col-2">
+			<h4><?php echo ( 'Do more with audio and video' ); ?></h4>
+			<p><?php echo ( 'Images have galleries; now we&#8217;ve added simple audio and video playlists, so you can showcase your music and clips.' ); ?></p>
+			<!-- maybe insert note about playing/editing audio/video from the editor -->
+		</div>
+		<div class="col-3 last-feature">
 			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/colors.png?1" />
+			<!-- embedded playlist? -->
 		</div>
 	</div>
 </div>
 
 <hr>
-
-<?php
-global $_wp_admin_css_colors;
-$new_colors = array( 'fresh', 'light', 'blue', 'midnight', 'sunrise', 'ectoplasm', 'ocean', 'coffee' );
-$_wp_admin_css_colors = array_intersect_key( $_wp_admin_css_colors, array_fill_keys( $new_colors, true ) );
-
-if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picker' ) ) : ?>
-<div class="changelog about-colors">
-	<div class="feature-section col one-col">
-		<div>
-			<h3><?php _e( 'Pick a color' ); ?></h3>
-			<p><?php _e( 'We&#8217;ve included eight color schemes so you can pick your favorite. Choose from any of them below to change it instantly.' ); ?>
-				<?php
-				/** This action is documented in wp-admin/user-edit.php */
-				do_action( 'admin_color_scheme_picker' );
-				?>
-			<p><?php printf( __( 'To change your color scheme later, just <a href="%1$s">visit your profile</a>.' ), get_edit_profile_url() ); ?></p>
-		</div>
-	</div>
-</div>
-
-<hr>
-<?php endif; ?>
 
 <div class="changelog">
+	<h3><?php echo ( 'Customize your heart out' ); ?></h3>
+
 	<div class="feature-section col two-col">
 		<div>
-			<h3><?php _e( 'Refined theme management' ); ?></h3>
-			<p><?php _e( 'The new themes screen lets you survey your themes at a glance. Or want more information? Click to discover more. Then sit back and use your keyboard&#8217;s navigation arrows to flip through every theme you&#8217;ve got.' ); ?></p>
-			<h4><?php _e( 'Smoother widget experience' ); ?></h4>
-			<p><?php _e( 'Drag-drag-drag. Scroll-scroll-scroll. Widget management can be complicated. With the new design, we&#8217;ve worked to streamline the widgets&nbsp;screen.' ); ?></p>
-			<p><?php _e( 'Have a large monitor? Multiple widget areas stack side-by-side to use the available space. Using a tablet? Just tap a widget to add it.' ); ?></p>
+			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/twentyfourteen.jpg?1" />
+			<h4><?php echo ( 'Live widget previews' ); ?></h4>
+			<p><?php echo ( 'Add, edit, and rearrange your site&#8217;s widgets right in the theme customizer. No &#8220;save and surprise&#8221; &mdash; preview your changes live and only save them when you&#8217;re ready.' ); ?></p>
+			<p><?php echo ( 'The improved header image tool also lets you upload, crop, and manage headers while customizing your theme.' ); ?></p>
 		</div>
-		<div class="last-feature about-themes-img">
-			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/themes.png?1" />
+		<div class="last-feature">
+			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/twentyfourteen.jpg?1" />
+			<h4><?php echo ( 'Stunning new theme browser' ); ?></h4>
+			<p><?php echo ( 'Looking for a new theme to try out should be easy and fun. Lose yourself in the seemingly boundless supply of free WordPress.org themes with the beautiful new theme browser.' ); ?></p>
+			<p><a href="<?php echo network_admin_url( 'theme-install.php' ); ?>" class="button button-primary">Browse Themes</a></p>
 		</div>
 	</div>
 </div>
 
 <hr>
 
-<div class="changelog about-twentyfourteen">
-	<h2 class="about-headline-callout"><?php _e( 'Twenty Fourteen, a sleek new magazine&nbsp;theme' ); ?></h2>
-	<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/twentyfourteen.jpg?1" />
+<div class="changelog">
+	<h3><?php _e( 'Under the Hood' ); ?></h3>
 
-	<div class="feature-section col one-col center-col">
+	<div class="feature-section col three-col">
 		<div>
-			<h3><?php _e( 'Turn your blog into a&nbsp;magazine' ); ?></h3>
-			<p><?php _e( 'Create a beautiful magazine-style site with WordPress and Twenty Fourteen. Choose a grid or a slider to display featured content on your homepage. Customize your site with three widget areas or change your layout with two page templates.' ); ?></p>
-			<p><?php _e( 'With a striking design that does not compromise our trademark simplicity, Twenty Fourteen is our most intrepid default theme yet.' ); ?></p>
+			<h4><?php echo ( 'Semantic Captions and Galleries' ); ?></h4>
+			<p><?php echo ( 'Theme developers have new options for images and galleries that use intelligent HTML5 markup.' ); ?></p>
+
+			<h4><?php echo ( 'Inline Code Documentation' ); ?></h4>
+			<p><?php echo ( 'Every action and filter hook in WordPress is now documented, along with expanded documentation for the media manager and customizer APIs.' ); ?></p>
 		</div>
-	</div>
+		<div>
+			<h4><?php echo ( 'External Libraries' ); ?></h4>
+			<p><?php echo ( 'Updated libraries: TinyMCE&nbsp;4, jQuery&nbsp;1.11, Backbone&nbsp;1.1, Underscore&nbsp;1.6, Plupload&nbsp;2, MediaElement&nbsp;2.14, Masonry&nbsp;3.' ); ?></p>
+
+			<h4><?php echo ( 'Improved Database Layer' ); ?></h4>
+			<p><?php echo ( 'Database connections are now more fault-resistant and have improved compatibility with PHP 5.5 and MySQL 5.6.' ); ?></p>
+		</div>
+		<div class="last-feature">
+			<h4><?php echo ( 'New Utility Functions' ); ?></h4>
+			<p><?php echo ( 'Identify a hook in progress with <code>doing_action()</code> and <code>doing_filter()</code>, and manipulate custom image sizes with <code>has_image_size()</code> and <code>remove_image_size()</code>.' ); ?></p>
+			<p><?php echo ( 'Plugins and themes registering custom theme sizes can now register suggested cropping points. For example, prevent heads from being cropped out of photos with a top-center crop.' ); ?></p>
+		</div>
 </div>
 
 <hr>
