@@ -181,7 +181,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	editor.addCommand( 'WP_Help', function() {
 		editor.windowManager.open({
 			url: tinymce.baseURL + '/wp-mce-help.php',
-			title: 'Editor Help',
+			title: 'Keyboard Shortcuts',
 			width: 450,
 			height: 420,
 			inline: 1,
@@ -211,7 +211,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	});
 
 	editor.addButton( 'wp_help', {
-		tooltip: 'Editor Help',
+		tooltip: 'Keyboard Shortcuts',
 		cmd: 'WP_Help'
 	});
 
