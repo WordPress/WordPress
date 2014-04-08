@@ -442,22 +442,6 @@ themes.view.Theme = wp.Backbone.View.extend({
 		this.touchDrag = true;
 	},
 
-	// Handles .disabled classes for previous/next buttons in theme installer preview
-	setNavButtonsState: function() {
-		var $themeInstaller = $( '.theme-install-overlay' ),
-			current = _.isUndefined( this.current ) ? this.model : this.current;
-
-		// Disable previous at the zero position
-		if ( 0 === this.model.collection.indexOf( current ) ) {
-			$themeInstaller.find( '.previous-theme' ).addClass( 'disabled' );
-		}
-
-		// Disable next if the next model is undefined
-		if ( _.isUndefined( this.model.collection.at( this.model.collection.indexOf( current ) + 1 ) ) ) {
-			$themeInstaller.find( '.next-theme' ).addClass( 'disabled' );
-		}
-	},
-
 	preview: function( event ) {
 		var self = this,
 			current, preview;
@@ -496,6 +480,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 
 		// Render the view and append it.
 		preview.render();
+		this.setNavButtonsState();
 		$( 'div.wrap' ).append( preview.el );
 
 		// Listen to our preview object
@@ -535,6 +520,11 @@ themes.view.Theme = wp.Backbone.View.extend({
 			// Keep track of current theme model.
 			current = self.model;
 
+			// Bail early if we are at the beginning of the collection
+			if ( self.model.collection.indexOf( self.current ) === 0 ) {
+				return;
+			}
+
 			// If we have ventured away from current model update the current model position.
 			if ( ! _.isUndefined( self.current ) ) {
 				current = self.current;
@@ -559,7 +549,26 @@ themes.view.Theme = wp.Backbone.View.extend({
 			$( 'div.wrap' ).append( preview.el );
 			$( '.previous-theme' ).focus();
 		});
-		self.setNavButtonsState();
+
+		this.listenTo( preview, 'preview:close', function() {
+			self.current = self.model
+		});
+	},
+
+	// Handles .disabled classes for previous/next buttons in theme installer preview
+	setNavButtonsState: function() {
+		var $themeInstaller = $( '.theme-install-overlay' ),
+			current = _.isUndefined( this.current ) ? this.model : this.current;
+
+		// Disable previous at the zero position
+		if ( 0 === this.model.collection.indexOf( current ) ) {
+			$themeInstaller.find( '.previous-theme' ).addClass( 'disabled' );
+		}
+
+		// Disable next if the next model is undefined
+		if ( _.isUndefined( this.model.collection.at( this.model.collection.indexOf( current ) + 1 ) ) ) {
+			$themeInstaller.find( '.next-theme' ).addClass( 'disabled' );
+		}
 	}
 });
 
@@ -738,7 +747,8 @@ themes.view.Preview = themes.view.Details.extend({
 		'click .close-full-overlay': 'close',
 		'click .collapse-sidebar': 'collapse',
 		'click .previous-theme': 'previousTheme',
-		'click .next-theme': 'nextTheme'
+		'click .next-theme': 'nextTheme',
+		'keyup': 'keyEvent'
 	},
 
 	// The HTML template for the theme preview
@@ -752,30 +762,14 @@ themes.view.Preview = themes.view.Details.extend({
 		themes.router.navigate( themes.router.baseUrl( '?theme=' + this.model.get( 'id' ) ), { replace: true } );
 
 		this.$el.fadeIn( 200, function() {
-			$( 'body' )
-				.addClass( 'theme-installer-active full-overlay-active' )
-				.on( 'keyup.overlay', function( event ) {
-					// The escape key closes the preview
-					if ( event.keyCode === 27 ) {
-						self.close();
-					}
-					// The right arrow key, next theme
-					if ( event.keyCode === 39 ) {
-						self.nextTheme();
-					}
-
-					// The left arrow key, previous theme
-					if ( event.keyCode === 37 ) {
-						self.previousTheme();
-					}
-				});
+			$( 'body' ).addClass( 'theme-installer-active full-overlay-active' );
 			$( '.close-full-overlay' ).focus();
 		});
 	},
 
 	close: function() {
 		this.$el.fadeOut( 200, function() {
-			$( 'body' ).removeClass( 'theme-installer-active full-overlay-active' ).off( 'keyup.overlay' );
+			$( 'body' ).removeClass( 'theme-installer-active full-overlay-active' );
 
 			// Return focus to the theme div
 			if ( themes.focusedTheme ) {
@@ -784,6 +778,7 @@ themes.view.Preview = themes.view.Details.extend({
 		});
 
 		themes.router.navigate( themes.router.baseUrl( '' ) );
+		this.trigger( 'preview:close' );
 		return false;
 	},
 
@@ -791,6 +786,23 @@ themes.view.Preview = themes.view.Details.extend({
 
 		this.$el.toggleClass( 'collapsed' ).toggleClass( 'expanded' );
 		return false;
+	},
+
+	keyEvent: function( event ) {
+		// The escape key closes the preview
+		if ( event.keyCode === 27 ) {
+			this.undelegateEvents();
+			this.close();
+		}
+		// The right arrow key, next theme
+		if ( event.keyCode === 39 ) {
+			_.once( this.nextTheme() );
+		}
+
+		// The left arrow key, previous theme
+		if ( event.keyCode === 37 ) {
+			this.previousTheme();
+		}
 	}
 });
 

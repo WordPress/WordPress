@@ -1077,22 +1077,14 @@ body.folded .theme-overlay .theme-wrap {
 ------------------------------------------------------------------------------*/
 
 /* Already installed theme */
-.theme-browser .theme.is-installed {
-	cursor: default;
-}
 .theme-browser .theme .theme-installed {
 	background: #0074a2;
 }
 .theme-browser .theme .theme-installed:before {
 	content: '\f147';
 }
-.theme-browser .theme.is-installed .theme-actions .button-primary,
-.theme-browser.rendered .theme.is-installed .more-details {
+.theme-browser .theme.is-installed .theme-actions .button-primary {
 	display: none !important;
-}
-.theme-browser.rendered .theme.is-installed:hover .theme-screenshot img,
-.theme-browser.rendered .theme.is-installed:focus .theme-screenshot img {
-	opacity: 1 !important;
 }
 
 .theme-navigation {
