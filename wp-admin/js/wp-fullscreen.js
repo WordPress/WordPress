@@ -309,6 +309,7 @@
 
 		if ( pixels && pixels.toString().indexOf('%') !== -1 ) {
 			s.$editorContainer.css( 'width', pixels );
+			s.$statusbar.css( 'width', pixels );
 
 			if ( s.$dfwTitle ) {
 				s.$dfwTitle.css( 'width', pixels );
@@ -320,6 +321,7 @@
 			// Reset to theme width
 			width = $('#wp-fullscreen-body').data('theme-width') || 800;
 			s.$editorContainer.width( width );
+			s.$statusbar.width( width );
 
 			if ( s.$dfwTitle ) {
 				s.$dfwTitle.width( width - 16 );
@@ -342,6 +344,7 @@
 		}
 
 		s.$editorContainer.width( width );
+		s.$statusbar.width( width );
 
 		if ( s.$dfwTitle ) {
 			s.$dfwTitle.width( width - 16 );
@@ -362,9 +365,7 @@
 	// This event occurs while the overlay blocks the UI.
 	ps.subscribe( 'showing', function() {
 		$body.addClass( 'wp-fullscreen-active' );
-
 		s.$dfwWrap.addClass( 'wp-fullscreen-wrap' );
-		s.$editorContainer.append( $('#wp-fullscreen-status') );
 
 		if ( s.$dfwTitle ) {
 			s.$dfwTitle.after( '<span id="wp-fullscreen-title-placeholder">' );
@@ -412,7 +413,6 @@
 
 	ps.subscribe( 'hiding', function() { // This event occurs while the overlay blocks the DFW UI.
 		$body.removeClass( 'wp-fullscreen-active' );
-		$( '#wp-fullscreen-body' ).append( $('#wp-fullscreen-status') );
 
 		if ( s.$dfwTitle ) {
 			$( '#wp-fullscreen-title-placeholder' ).before( s.$dfwTitle.removeClass('wp-fullscreen-title').css( 'width', '' ) ).remove();
@@ -474,6 +474,7 @@
 
 			s.toolbar = toolbar = $('#fullscreen-topbar');
 			s.$fullscreenFader = $('#fullscreen-fader');
+			s.$statusbar = $('#wp-fullscreen-status');
 			s.hasTinymce = typeof tinymce !== 'undefined';
 
 			if ( ! s.hasTinymce )

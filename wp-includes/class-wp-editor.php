@@ -1263,7 +1263,7 @@ final class _WP_Editors {
 		</div></div>
 
 		<div id="wp-fullscreen-save">
-			<input type="button" class="button-primary right" value="<?php echo $save; ?>" onclick="wp.editor.fullscreen.save();" />
+			<input type="button" class="button button-primary right" value="<?php echo $save; ?>" onclick="wp.editor.fullscreen.save();" />
 			<span class="spinner"></span>
 			<span class="wp-fullscreen-saved-message"><?php if ( $post->post_status == 'publish' ) _e('Updated.'); else _e('Saved.'); ?></span>
 			<span class="wp-fullscreen-error-message"><?php _e('Save failed.'); ?></span>
@@ -1272,9 +1272,11 @@ final class _WP_Editors {
 		</div>
 		</div>
 	</div>
-	<div id="wp-fullscreen-status">
-		<div id="wp-fullscreen-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></div>
-		<div id="wp-fullscreen-tagline"><?php _e('Just write.'); ?></div>
+	<div id="wp-fullscreen-statusbar">
+		<div id="wp-fullscreen-status">
+			<div id="wp-fullscreen-count"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></div>
+			<div id="wp-fullscreen-tagline"><?php _e('Just write.'); ?></div>
+		</div>
 	</div>
 	</div>
 
