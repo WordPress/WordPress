@@ -192,19 +192,16 @@ function get_theme_feature_list( $api = true ) {
 				'light'   => __( 'Light' ),
 			),
 
-		__( 'Columns' ) => array(
+		__( 'Layout' ) => array(
+			'fixed-layout'      => __( 'Fixed Layout' ),
+			'fluid-layout'      => __( 'Fluid Layout' ),
+			'responsive-layout' => __( 'Responsive Layout' ),
 			'one-column'    => __( 'One Column' ),
 			'two-columns'   => __( 'Two Columns' ),
 			'three-columns' => __( 'Three Columns' ),
 			'four-columns'  => __( 'Four Columns' ),
 			'left-sidebar'  => __( 'Left Sidebar' ),
 			'right-sidebar' => __( 'Right Sidebar' ),
-		),
-
-		__( 'Layout' ) => array(
-			'fixed-layout'      => __( 'Fixed Layout' ),
-			'fluid-layout'      => __( 'Fluid Layout' ),
-			'responsive-layout' => __( 'Responsive Layout' ),
 		),
 
 		__( 'Features' ) => array(
@@ -256,7 +253,6 @@ function get_theme_feature_list( $api = true ) {
 
 	$category_translations = array(
 		'Colors'   => __( 'Colors' ),
-		'Columns'  => __( 'Columns' ),
 		'Layout'   => __( 'Layout' ),
 		'Features' => __( 'Features' ),
 		'Subject'  => __( 'Subject' )
