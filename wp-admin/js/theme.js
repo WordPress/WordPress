@@ -443,6 +443,22 @@ themes.view.Theme = wp.Backbone.View.extend({
 		this.touchDrag = true;
 	},
 
+	// Handles .disabled classes for previous/next buttons in theme installer preview
+	setNavButtonsState: function() {
+		var $themeInstaller = $( '.theme-install-overlay' ),
+			current = _.isUndefined( this.current ) ? this.model : this.current;
+
+		// Disable previous at the zero position
+		if ( 0 === this.model.collection.indexOf( current ) ) {
+			$themeInstaller.find( '.previous-theme' ).addClass( 'disabled' );
+		}
+
+		// Disable next if the next model is undefined
+		if ( _.isUndefined( this.model.collection.at( this.model.collection.indexOf( current ) + 1 ) ) ) {
+			$themeInstaller.find( '.next-theme' ).addClass( 'disabled' );
+		}
+	},
+
 	preview: function( event ) {
 		var self = this,
 			current, preview;
@@ -511,6 +527,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 
 			// Render and append.
 			preview.render();
+			this.setNavButtonsState();
 			$( 'div.wrap' ).append( preview.el );
 			$( '.next-theme' ).focus();
 		})
@@ -539,9 +556,11 @@ themes.view.Theme = wp.Backbone.View.extend({
 
 			// Render and append.
 			preview.render();
+			this.setNavButtonsState();
 			$( 'div.wrap' ).append( preview.el );
 			$( '.previous-theme' ).focus();
 		});
+		self.setNavButtonsState();
 	}
 });
 
@@ -676,7 +695,7 @@ themes.view.Details = wp.Backbone.View.extend({
 		this.trigger( 'theme:collapse' );
 	},
 
-	// Confirmation dialoge for deleting a theme
+	// Confirmation dialog for deleting a theme
 	deleteTheme: function() {
 		return confirm( themes.data.settings.confirmDelete );
 	},
@@ -684,11 +703,13 @@ themes.view.Details = wp.Backbone.View.extend({
 	nextTheme: function() {
 		var self = this;
 		self.trigger( 'theme:next', self.model.cid );
+		return false;
 	},
 
 	previousTheme: function() {
 		var self = this;
 		self.trigger( 'theme:previous', self.model.cid );
+		return false;
 	},
 
 	// Checks if the theme screenshot is the old 300px width version
@@ -712,7 +733,7 @@ themes.view.Details = wp.Backbone.View.extend({
 themes.view.Preview = themes.view.Details.extend({
 
 	className: 'wp-full-overlay expanded',
-	el: '#theme-installer',
+	el: '.theme-install-overlay',
 
 	events: {
 		'click .close-full-overlay': 'close',
@@ -725,20 +746,28 @@ themes.view.Preview = themes.view.Details.extend({
 	html: themes.template( 'theme-preview' ),
 
 	render: function() {
-		var data = this.model.toJSON();
+		var data = this.model.toJSON(),
+			self = this;
 		this.$el.html( this.html( data ) );
 
 		themes.router.navigate( themes.router.baseUrl( '?theme=' + this.model.get( 'id' ) ), { replace: true } );
 
 		this.$el.fadeIn( 200, function() {
-			$( 'body' ).addClass( 'theme-installer-active full-overlay-active' );
+			$( 'body' )
+				.addClass( 'theme-installer-active full-overlay-active' )
+				.on( 'keyup.overlay', function( event ) {
+					// Pressing the escape key closes the preview
+					if ( event.keyCode === 27 ) {
+						self.close();
+					}
+				});
 			$( '.close-full-overlay' ).focus();
 		});
 	},
 
 	close: function() {
 		this.$el.fadeOut( 200, function() {
-			$( 'body' ).removeClass( 'theme-installer-active full-overlay-active' );
+			$( 'body' ).removeClass( 'theme-installer-active full-overlay-active' ).off( 'keyup.overlay' );
 
 			// Return focus to the theme div
 			if ( themes.focusedTheme ) {

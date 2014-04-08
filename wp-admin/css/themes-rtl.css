@@ -1770,7 +1770,7 @@ body.full-overlay-active {
 }
 
 #customize-container iframe,
-#theme-installer iframe {
+.theme-install-overlay iframe {
 	height: 100%;
 	width: 100%;
 	z-index: 20;
@@ -1786,11 +1786,11 @@ body.full-overlay-active {
 	margin-top: 0;
 }
 
-#theme-installer {
+.theme-install-overlay {
 	display: none;
 }
 
-#theme-installer.single-theme {
+.theme-install-overlay.single-theme {
 	display: block;
 }
 
@@ -1803,7 +1803,7 @@ body.full-overlay-active {
 	padding-top: 15px;
 }
 
-#theme-installer .install-theme-info {
+.theme-install-overlay .install-theme-info {
 	display: block;
 }
 
@@ -1846,22 +1846,22 @@ body.full-overlay-active {
 	max-width: 100%;
 }
 
-#theme-installer .wp-full-overlay-header {
+.theme-install-overlay .wp-full-overlay-header {
 	margin-top: 9px;
 }
 
-#theme-installer .wp-full-overlay-header .theme-install {
+.theme-install-overlay .wp-full-overlay-header .theme-install {
 	float: left;
 	/* For when .theme-install is a span rather than a.button-primary (already installed theme) */
 	line-height: 26px;
 }
 
-#theme-installer .wp-full-overlay-sidebar {
+.theme-install-overlay .wp-full-overlay-sidebar {
 	background: #EEE;
 	border-left: 1px solid #DDD;
 }
 
-#theme-installer .wp-full-overlay-main {
+.theme-install-overlay .wp-full-overlay-main {
 	background: #fff url(../images/spinner.gif) no-repeat center center;
 	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
@@ -1884,7 +1884,7 @@ body.full-overlay-active {
 	}
 
 	.customize-loading #customize-container,
-	#theme-installer .wp-full-overlay-main {
+	.theme-install-overlay .wp-full-overlay-main {
 		background-image: url(../images/spinner-2x.gif);
 	}
 }

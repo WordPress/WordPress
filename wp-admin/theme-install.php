@@ -158,7 +158,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 		</div>
 	</div>
 	<div class="theme-browser"></div>
-	<div id="theme-installer" class="wp-full-overlay expanded"></div>
+	<div class="theme-install-overlay wp-full-overlay expanded"></div>
 
 	<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
 	<span class="spinner"></span>
