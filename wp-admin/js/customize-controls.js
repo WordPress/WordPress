@@ -424,23 +424,24 @@
 			event.preventDefault();
 
 			this.frame = wp.media({
-				title: l10n.chooseImage,
-				library: {
-					type: 'image'
-				},
 				button: {
 					text: l10n.selectAndCrop,
 					close: false
 				},
-				multiple: false,
-				crop: {
-					suggestedWidth: _wpCustomizeHeader.data.width,
-					suggestedHeight: _wpCustomizeHeader.data.height,
-					imgSelectOptions: this.calculateImageSelectOptions
-				}
+				states: [
+					new wp.media.controller.Library({
+						title:     l10n.chooseImage,
+						library:   wp.media.query({ type: 'image' }),
+						multiple:  false,
+						priority:  20,
+						suggestedWidth: _wpCustomizeHeader.data.width,
+						suggestedHeight: _wpCustomizeHeader.data.height
+					}),
+					new wp.media.controller.Cropper({
+						imgSelectOptions: this.calculateImageSelectOptions
+					})
+				]
 			});
-
-			this.frame.states.add([new wp.media.controller.Cropper()]);
 
 			this.frame.on('select', this.onSelect, this);
 			this.frame.on('cropped', this.onCropped, this);

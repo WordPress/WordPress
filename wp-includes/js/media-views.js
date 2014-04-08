@@ -1843,6 +1843,9 @@
 				display:    state.get('displaySettings'),
 				dragInfo:   state.get('dragInfo'),
 
+				suggestedWidth:  state.get('suggestedWidth'),
+				suggestedHeight: state.get('suggestedHeight'),
+
 				AttachmentView: state.get('AttachmentView')
 			});
 		},
@@ -3314,12 +3317,14 @@
 		},
 
 		prepare: function() {
-			var cropOptions = this.controller.options.crop;
-			if ( cropOptions ) {
+			var suggestedWidth = this.controller.state().get('suggestedWidth'),
+				suggestedHeight = this.controller.state().get('suggestedHeight');
+
+			if ( suggestedWidth && suggestedHeight ) {
 				return {
-					suggestedWidth: cropOptions.suggestedWidth,
-					suggestedHeight: cropOptions.suggestedHeight
-				}
+					suggestedWidth: suggestedWidth,
+					suggestedHeight: suggestedHeight
+				};
 			}
 		},
 		/**
@@ -5164,8 +5169,7 @@
 		},
 
 		createToolbar: function() {
-			var filters, FiltersConstructor,
-				frameOptions = this.controller.options;
+			var filters, FiltersConstructor;
 
 			/**
 			 * @member {wp.media.view.Toolbar}
@@ -5210,9 +5214,9 @@
 				}) );
 			}
 
-			if ( frameOptions.crop ) {
+			if ( this.options.suggestedWidth && this.options.suggestedHeight ) {
 				this.toolbar.set( 'suggestedDimensions', new media.View({
-					el: $( '<div class="instructions">' + l10n.suggestedDimensions + ' ' + frameOptions.crop.suggestedWidth + ' &times; ' + frameOptions.crop.suggestedHeight + '</div>' )[0],
+					el: $( '<div class="instructions">' + l10n.suggestedDimensions + ' ' + this.options.suggestedWidth + ' &times; ' + this.options.suggestedHeight + '</div>' )[0],
 					priority: -40
 				}) );
 			}
@@ -6248,7 +6252,7 @@
 			};
 		},
 		onImageLoad: function() {
-			var imgOptions = this.controller.frame.options.crop.imgSelectOptions;
+			var imgOptions = this.controller.get('imgSelectOptions');
 			if (typeof imgOptions === 'function') {
 				imgOptions = imgOptions(this.options.attachment, this.controller);
 			}
