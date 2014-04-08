@@ -207,7 +207,7 @@ function wp_print_media_templates() {
 
 				<# if ( data.suggestedWidth && data.suggestedHeight ) { #>
 					<p class="suggested-dimensions">
-						<?php _e( 'Suggested image dimensions:' ); ?> {{{data.suggestedWidth}}} &times; {{{data.suggestedHeight}}}
+						<?php _e( 'Suggested image dimensions:' ); ?> {{data.suggestedWidth}} &times; {{data.suggestedHeight}}
 					</p>
 				<# } #>
 
@@ -977,7 +977,7 @@ function wp_print_media_templates() {
 			<div class="dashicons dashicons-edit edit"></div><div class="dashicons dashicons-no-alt remove"></div>
 		</div>
 		<# if ( data.attachments ) { #>
-			<div class="gallery gallery-columns-{{{ data.columns }}}">
+			<div class="gallery gallery-columns-{{ data.columns }}">
 				<# _.each( data.attachments, function( attachment, index ) { #>
 					<dl class="gallery-item">
 						<dt class="gallery-icon">
