@@ -1380,7 +1380,7 @@
 
 						// Check if the widget is in another sidebar
 						api.each( function( otherSetting ) {
-							if ( otherSetting.id === self.setting.id || 0 !== otherSetting.id.indexOf( 'sidebars_widgets[' ) || otherSetting.id === 'sidebars_widgets[wp_inactiveWidgets]' ) {
+							if ( otherSetting.id === self.setting.id || 0 !== otherSetting.id.indexOf( 'sidebars_widgets[' ) || otherSetting.id === 'sidebars_widgets[wp_inactive_widgets]' ) {
 								return;
 							}
 
@@ -1411,9 +1411,9 @@
 						// Move widget to inactive widgets sidebar (move it to trash) if has been previously saved
 						// This prevents the inactive widgets sidebar from overflowing with throwaway widgets
 						if ( api.Widgets.savedWidgetIds[removedWidgetId] ) {
-							inactiveWidgets = api.value( 'sidebars_widgets[wp_inactiveWidgets]' )().slice();
+							inactiveWidgets = api.value( 'sidebars_widgets[wp_inactive_widgets]' )().slice();
 							inactiveWidgets.push( removedWidgetId );
-							api.value( 'sidebars_widgets[wp_inactiveWidgets]' )( _( inactiveWidgets ).unique() );
+							api.value( 'sidebars_widgets[wp_inactive_widgets]' )( _( inactiveWidgets ).unique() );
 						}
 
 						// Make old single widget available for adding again
