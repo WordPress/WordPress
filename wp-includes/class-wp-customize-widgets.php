@@ -1150,7 +1150,7 @@ final class WP_Customize_Widgets {
 		$added_input_vars = array();
 		if ( ! empty( $_POST['sanitized_widget_setting'] ) ) {
 			$sanitized_widget_setting = json_decode( $this->get_post_value( 'sanitized_widget_setting' ), true );
-			if ( empty( $sanitized_widget_setting ) ) {
+			if ( false === $sanitized_widget_setting ) {
 				$this->stop_capturing_option_updates();
 				return new WP_Error( 'widget_setting_malformed' );
 			}

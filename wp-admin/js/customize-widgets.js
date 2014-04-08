@@ -36,7 +36,8 @@
 		transport: 'refresh',
 		params: [],
 		width: null,
-		height: null
+		height: null,
+		search_matched: true
 	});
 
 	/**
@@ -71,20 +72,16 @@
 			// If search is blank, show all themes
 			// Useful for resetting the views when you clean the input
 			if ( this.terms === '' ) {
-				this.reset( api.Widgets.data.availableWidgets );
+				this.each( function ( widget ) {
+					widget.set( 'search_matched', true );
+				} );
 			}
-
-			// Trigger an 'update' event
-			this.trigger( 'update' );
 		},
 
 		// Performs a search within the collection
 		// @uses RegExp
 		search: function( term ) {
-			var match, results, haystack;
-
-			// Start with a full collection
-			this.reset( api.Widgets.data.availableWidgets, { silent: true } );
+			var match, haystack;
 
 			// Escape the term string for RegExp meta characters
 			term = term.replace( /[-\/\\^$*+?.()|[\]{}]/g, '\\$&' );
@@ -94,13 +91,10 @@
 			term = term.replace( / /g, ')(?=.*' );
 			match = new RegExp( '^(?=.*' + term + ').+', 'i' );
 
-			results = this.filter( function( data ) {
-				haystack = _.union( data.get( 'name' ), data.get( 'id' ), data.get( 'description' ) );
-
-				return match.test( haystack );
-			});
-
-			this.reset( results );
+			this.each( function ( data ) {
+				haystack = [ data.get( 'name' ), data.get( 'id' ), data.get( 'description' ) ].join( ' ' );
+				data.set( 'search_matched', match.test( haystack ) );
+			} );
 		}
 	});
 	api.Widgets.availableWidgets = new api.Widgets.WidgetCollection( api.Widgets.data.availableWidgets );
@@ -176,7 +170,6 @@
 
 			_.bindAll( this, 'close' );
 
-			this.listenTo( this.collection, 'update', this.updateList );
 			this.listenTo( this.collection, 'change', this.updateList );
 
 			this.updateList();
@@ -222,29 +215,25 @@
 			}
 		},
 
-		// Changes visibilty of available widgets
+		// Changes visibility of available widgets
 		updateList: function() {
-			// First hide all widgets...
-			this.$el.find( '.widget-tpl' ).hide();
-
-			// ..and then show only available widgets which could be filtered
 			this.collection.each( function( widget ) {
 				var widgetTpl = $( '#widget-tpl-' + widget.id );
-				widgetTpl.toggle( ! widget.get( 'is_disabled' ) );
+				widgetTpl.toggle( widget.get( 'search_matched' ) && ! widget.get( 'is_disabled' ) );
 				if ( widget.get( 'is_disabled' ) && widgetTpl.is( this.selected ) ) {
 					this.selected = null;
 				}
 			} );
 		},
 
-		// Hightlights a widget
+		// Highlights a widget
 		select: function( widgetTpl ) {
 			this.selected = $( widgetTpl );
 			this.selected.siblings( '.widget-tpl' ).removeClass( 'selected' );
 			this.selected.addClass( 'selected' );
 		},
 
-		// Hightlights a widget on focus
+		// Highlights a widget on focus
 		focus: function( event ) {
 			this.select( $( event.currentTarget ) );
 		},
@@ -1601,7 +1590,7 @@
 
 		/**
 		 * @param {string} widgetId or an id_base for adding a previously non-existing widget
-		 * @returns {object} widget_form control instance
+		 * @returns {object|false} widget_form control instance, or false on error
 		 */
 		addWidget: function( widgetId ) {
 			var self = this, controlHtml, $widget, controlType = 'widget_form', $control, controlConstructor,
@@ -1612,11 +1601,11 @@
 				settingId, isExistingWidget, widgetFormControl,	sidebarWidgets,	settingArgs;
 
 			if ( ! widget ) {
-				return;
+				return false;
 			}
 
 			if ( widgetNumber && ! widget.get( 'is_multi' ) ) {
-				return;
+				return false;
 			}
 
 			// Set up new multi widget
