@@ -32,7 +32,7 @@ tinymce.WPWindowManager = tinymce.InlineWindowManager = function( editor ) {
 		if ( typeof jQuery === 'undefined' || ! jQuery.wp || ! jQuery.wp.wpdialog ) {
 			// wpdialog.js is not loaded
 			if ( window.console && window.console.error ) {
-				window.console.error("wpdialog.js is not loaded. Please set 'wpdialogs' as dependency for your script when calling wp_enqueue_script(). You may also want to enqueue the 'wp-jquery-ui-dialog' stylesheet.");
+				window.console.error('wpdialog.js is not loaded. Please set "wpdialogs" as dependency for your script when calling wp_enqueue_script(). You may also want to enqueue the "wp-jquery-ui-dialog" stylesheet.');
 			}
 
 			return;

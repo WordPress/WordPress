@@ -1519,8 +1519,8 @@ i.mce-i-hr:before {
 	height: 30px;
 	z-index: 100020;
 	background: #fff;
-	transition-property: height;
-	transition-duration: 0.2s;
+	-webkit-transition: height 0.2s;
+	transition: height 0.2s;
 }
 
 #wp-fullscreen-status {

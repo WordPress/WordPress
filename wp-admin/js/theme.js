@@ -22,7 +22,7 @@ themes.Model = Backbone.Model.extend({
 	// Adds attributes to the default data coming through the .org themes api
 	// Map `id` to `slug` for shared code
 	initialize: function() {
-		var install, installed;
+		var install;
 
 		// Install url for the theme
 		// using the install nonce
@@ -1204,7 +1204,7 @@ themes.Run = {
 		});
 
 		// Handles search route event
-		themes.router.on( 'route:search', function( query ) {
+		themes.router.on( 'route:search', function() {
 			$( '.theme-search' ).trigger( 'keyup' );
 		});
 
@@ -1548,7 +1548,7 @@ themes.InstallerRouter = Backbone.Router.extend({
 
 	search: function( query ) {
 		$( '.theme-search' ).val( query );
-	},
+	}
 });
 
 
@@ -1604,7 +1604,7 @@ themes.RunInstaller = {
 		});
 
 		// Handles search route event
-		themes.router.on( 'route:search', function( query ) {
+		themes.router.on( 'route:search', function() {
 			$( '.theme-search' ).focus().trigger( 'keyup' );
 		});
 
