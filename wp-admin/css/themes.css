@@ -1086,7 +1086,7 @@ body.folded .theme-overlay .theme-wrap {
 .theme-browser .theme .theme-installed:before {
 	content: '\f147';
 }
-.theme-browser .theme.is-installed .theme-actions,
+.theme-browser .theme.is-installed .theme-actions .button-primary,
 .theme-browser.rendered .theme.is-installed .more-details {
 	display: none !important;
 }

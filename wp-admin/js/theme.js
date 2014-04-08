@@ -390,7 +390,6 @@ themes.view.Theme = wp.Backbone.View.extend({
 
 		if ( this.model.get( 'installed' ) ) {
 			this.$el.addClass( 'is-installed' );
-			this.$el.unbind();
 		}
 	},
 
