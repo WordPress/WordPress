@@ -419,15 +419,9 @@
 		 * @param {event} event
 		 */
 		openMedia: function(event) {
-			var suggestedWidth, suggestedHeight,
-				l10n = _wpMediaViewsL10n;
+			var l10n = _wpMediaViewsL10n;
 
 			event.preventDefault();
-
-			suggestedWidth = l10n.suggestedWidth.replace('%d', _wpCustomizeHeader.data.width);
-			suggestedHeight = l10n.suggestedHeight.replace('%d', _wpCustomizeHeader.data.height);
-
-			/* '<span class="suggested-dimensions">' + suggestedWidth + ' ' + suggestedHeight + '</span>' */
 
 			this.frame = wp.media({
 				title: l10n.chooseImage,
@@ -439,7 +433,11 @@
 					close: false
 				},
 				multiple: false,
-				imgSelectOptions: this.calculateImageSelectOptions
+				crop: {
+					suggestedWidth: _wpCustomizeHeader.data.width,
+					suggestedHeight: _wpCustomizeHeader.data.height,
+					imgSelectOptions: this.calculateImageSelectOptions
+				}
 			});
 
 			this.frame.states.add([new wp.media.controller.Cropper()]);

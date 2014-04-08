@@ -205,6 +205,12 @@ function wp_print_media_templates() {
 					printf( __( 'Maximum upload file size: %d%s.' ), esc_html($upload_size_unit), esc_html($byte_sizes[$u]) );
 				?></p>
 
+				<# if ( data.suggestedWidth && data.suggestedHeight ) { #>
+					<p class="suggested-dimensions">
+						<?php _e( 'Suggested image dimensions:' ); ?> {{{data.suggestedWidth}}} &times; {{{data.suggestedHeight}}}
+					</p>
+				<# } #>
+
 				<?php
 				/** This action is documented in wp-admin/includes/media.php */
 				do_action( 'post-upload-ui' ); ?>

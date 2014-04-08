@@ -2525,8 +2525,7 @@ function wp_enqueue_media( $args = array() ) {
 		'cropImage' => __( 'Crop Image' ),
 		'cropYourImage' => __( 'Crop your image' ),
 		'cropping' => __( 'Cropping&hellip;' ),
-		'suggestedWidth' => __( 'Suggested width is %d pixels.' ),
-		'suggestedHeight' => __( 'Suggested height is %d pixels.' ),
+		'suggestedDimensions' => __( 'Suggested image dimensions:' ),
 		'cropError' => __( 'There has been an error cropping your image.' ),
 
 		// Edit Audio
