@@ -756,9 +756,18 @@ themes.view.Preview = themes.view.Details.extend({
 			$( 'body' )
 				.addClass( 'theme-installer-active full-overlay-active' )
 				.on( 'keyup.overlay', function( event ) {
-					// Pressing the escape key closes the preview
+					// The escape key closes the preview
 					if ( event.keyCode === 27 ) {
 						self.close();
+					}
+					// The right arrow key, next theme
+					if ( event.keyCode === 39 ) {
+						self.nextTheme();
+					}
+
+					// The left arrow key, previous theme
+					if ( event.keyCode === 37 ) {
+						self.previousTheme();
 					}
 				});
 			$( '.close-full-overlay' ).focus();
