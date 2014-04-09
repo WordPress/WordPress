@@ -551,7 +551,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 		});
 
 		this.listenTo( preview, 'preview:close', function() {
-			self.current = self.model
+			self.current = self.model;
 		});
 	},
 
@@ -755,8 +755,8 @@ themes.view.Preview = themes.view.Details.extend({
 	html: themes.template( 'theme-preview' ),
 
 	render: function() {
-		var data = this.model.toJSON(),
-			self = this;
+		var data = this.model.toJSON();
+
 		this.$el.html( this.html( data ) );
 
 		themes.router.navigate( themes.router.baseUrl( '?theme=' + this.model.get( 'id' ) ), { replace: true } );

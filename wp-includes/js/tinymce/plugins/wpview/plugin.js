@@ -265,11 +265,19 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		});
 
 		editor.dom.bind( editor.getBody(), 'mousedown mouseup click', function( event ) {
-			var view = getParentView( event.target );
+			var view = getParentView( event.target ),
+				deselectEventType;
 
 			// Contain clicks inside the view wrapper
 			if ( view ) {
 				event.stopPropagation();
+
+				// Hack to try and keep the block resize handles from appearing. They will show on mousedown and then be removed on mouseup.
+				if ( tinymce.Env.ie <= 10 ) {
+					deselect();
+				}
+
+				select( view );
 
 				if ( event.type === 'click' && ! event.metaKey && ! event.ctrlKey ) {
 					if ( editor.dom.hasClass( event.target, 'edit' ) ) {
@@ -278,12 +286,20 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 						editor.dom.remove( view );
 					}
 				}
-				select( view );
 				// Returning false stops the ugly bars from appearing in IE11 and stops the view being selected as a range in FF.
 				// Unfortunately, it also inhibits the dragging of views to a new location.
 				return false;
 			} else {
-				if ( event.type === 'mousedown' ) {
+
+				// Fix issue with deselecting a view in IE8. Without this hack, clicking content above the view wouldn't actually deselect it
+				// and the caret wouldn't be placed at the mouse location
+				if( tinymce.Env.ie <= 8 ) {
+					deselectEventType = 'mouseup';
+				} else {
+					deselectEventType = 'mousedown';
+				}
+
+				if ( event.type === deselectEventType ) {
 					deselect();
 				}
 			}

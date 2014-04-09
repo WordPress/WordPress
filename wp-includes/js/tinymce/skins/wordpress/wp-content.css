@@ -198,10 +198,14 @@ audio {
 	top: 0;
 	left: 0;
 	z-index: -1;
+	clip: rect(1px 1px 1px 1px); /* IE7 */
 	clip: rect(1px, 1px, 1px, 1px);
 	overflow: hidden;
 	outline: 0;
-	width: 100%;
+	padding: 0;
+	border: 0;
+	width: 1px;
+	height: 1px;
 }
 
 /**
@@ -214,10 +218,14 @@ audio {
 }
 
 .wpview-wrap.selected {
-	background-color: #f2f8ff; /* fallback to old blue */
 	background-color: rgba(0,0,0,0.1);
-	border-color: #777;
 	border-color: rgba(0,0,0,0.3);
+}
+
+.ie8 .wpview-wrap.selected,
+.ie7 .wpview-wrap.selected {
+	background-color: #e5e5e5;
+	border-color: #777;
 }
 
 .wpview-overlay {
@@ -262,6 +270,25 @@ audio {
 	color: white;
 	font-size: 30px;
 }
+
+.ie8 .wpview-wrap .toolbar div,
+.ie7 .wpview-wrap .toolbar div,
+.ie8 #wp-image-toolbar div,
+.ie7 #wp-image-toolbar div {
+	display: inline;
+	padding: 0;
+}
+
+.ie8 .dashicons-edit,
+.ie7 .dashicons-edit {
+	background-image: url(images/dashicon-edit.png);
+}
+
+.ie8 .dashicons-no-alt,
+.ie7 .dashicons-no-alt {
+	background-image: url(images/dashicon-no-alt.png);
+}
+
 
 .wpview-wrap .toolbar div:hover,
 #wp-image-toolbar div:hover {
@@ -318,6 +345,11 @@ audio {
 	overflow-x: hidden;
 }
 
+.ie7 .gallery,
+.ie8 .gallery {
+	margin: auto;
+}
+
 .gallery-error {
 	border: 1px solid #dedede;
 	padding: 20px 0;
@@ -352,6 +384,11 @@ audio {
 	box-sizing: border-box;
 }
 
+.ie7 .gallery .gallery-item,
+.ie8 .gallery .gallery-item {
+	padding: 6px 0;
+}
+
 .gallery .gallery-caption,
 .gallery .gallery-icon {
 	margin: 0;
@@ -374,6 +411,11 @@ audio {
 	width: 33.333%;
 }
 
+.ie8 .gallery-columns-3 .gallery-item,
+.ie7 .gallery-columns-3 .gallery-item {
+	width: 33%;
+}
+
 .gallery-columns-4 .gallery-item {
 	width: 25%;
 }
@@ -383,7 +425,7 @@ audio {
 }
 
 .gallery-columns-6 .gallery-item {
-	width: 16.667%;
+	width: 16.665%;
 }
 
 .gallery-columns-7 .gallery-item {
