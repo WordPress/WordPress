@@ -293,7 +293,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 				// Fix issue with deselecting a view in IE8. Without this hack, clicking content above the view wouldn't actually deselect it
 				// and the caret wouldn't be placed at the mouse location
-				if( tinymce.Env.ie <= 8 ) {
+				if ( tinymce.Env.ie && tinymce.Env.ie <= 8 ) {
 					deselectEventType = 'mouseup';
 				} else {
 					deselectEventType = 'mousedown';
