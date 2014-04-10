@@ -1,4 +1,4 @@
-// 4.0.21 (2014-04-01)
+// 4.0.21.1 (2014-04-09)
 
 /**
  * Compiled inline version. (Library mode)
@@ -7997,12 +7997,21 @@ define("tinymce/AddOnManager", [
 		 * @param {String} languages Optional comma or space separated list of languages to check if it matches the name.
 		 */
 		requireLangPack: function(name, languages) {
-			if (AddOnManager.language && AddOnManager.languageLoad !== false) {
-				if (languages && new RegExp('([, ]|\\b)' + AddOnManager.language + '([, ]|\\b)').test(languages) === false) {
-					return;
+			var language = AddOnManager.language;
+
+			if (language && AddOnManager.languageLoad !== false) {
+				if (languages) {
+					languages = ',' + languages + ',';
+
+					// Load short form sv.js or long form sv_SE.js
+					if (languages.indexOf(',' + language.substr(0, 2) + ',') != -1) {
+						language = language.substr(0, 2);
+					} else if (languages.indexOf(',' + language + ',') == -1) {
+						return;
+					}
 				}
 
-				ScriptLoader.ScriptLoader.add(this.urls[name] + '/langs/' + AddOnManager.language + '.js');
+				ScriptLoader.ScriptLoader.add(this.urls[name] + '/langs/' + language + '.js');
 			}
 		},
 
@@ -17165,12 +17174,12 @@ define("tinymce/UndoManager", [
 					return null;
 				}
 
-				if (editor.fire('BeforeAddUndo', {level: level, originalEvent: event}).isDefaultPrevented()) {
+				lastLevel = data[index];
+				if (editor.fire('BeforeAddUndo', {level: level, lastLevel: lastLevel, originalEvent: event}).isDefaultPrevented()) {
 					return null;
 				}
 
 				// Add undo level if needed
-				lastLevel = data[index];
 				if (lastLevel && lastLevel.content == level.content) {
 					return null;
 				}
@@ -28788,7 +28797,7 @@ define("tinymce/EditorManager", [
 		 * @property minorVersion
 		 * @type String
 		 */
-		minorVersion : '0.21',
+		minorVersion : '0.21.1',
 
 		/**
 		 * Release date of TinyMCE build.
@@ -28796,7 +28805,7 @@ define("tinymce/EditorManager", [
 		 * @property releaseDate
 		 * @type String
 		 */
-		releaseDate: '2014-04-01',
+		releaseDate: '2014-04-09',
 
 		/**
 		 * Collection of editor instances.
