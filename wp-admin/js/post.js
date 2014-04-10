@@ -486,15 +486,18 @@ jQuery(document).ready( function($) {
 
 	// This code is meant to allow tabbing from Title to Post content.
 	$('#title').on( 'keydown.editor-focus', function( event ) {
-		var editor;
+		var editor, textarea;
 
 		if ( event.keyCode === 9 && ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) {
 			editor = typeof tinymce != 'undefined' && tinymce.get('content');
+			$textarea = $('#content');
 
 			if ( editor && ! editor.isHidden() ) {
 				editor.focus();
+			} else if ( $textarea.length ) {
+				$textarea.focus();
 			} else {
-				$('#content').focus();
+				return;
 			}
 
 			event.preventDefault();
