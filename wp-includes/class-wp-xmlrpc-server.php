@@ -180,28 +180,14 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return mixed WP_User object if authentication passed, false otherwise
 	 */
 	function login( $username, $password ) {
-		// Respect any old filters against get_option() for 'enable_xmlrpc'.
-
-		/**
-		 * Filter whether XML-RPC is enabled.
-		 *
-		 * @since 3.5.0
-		 * @deprecated 3.5.0 Use 'xmlrpc_enabled' instead.
-		 *
-		 * @param bool $enable Whether to enable XML-RPC. Default false.
+		/*
+		 * Respect old get_option() filters left for back-compat when the 'enable_xmlrpc'
+		 * option was deprecated in 3.5.0. Use the 'xmlrpc_enabled' hook instead.
 		 */
 		$enabled = apply_filters( 'pre_option_enable_xmlrpc', false );
-		if ( false === $enabled )
-
-			/**
-			 * Filter whether XML-RPC is enabled.
-			 *
-			 * @since 3.5.0
-			 * @deprecated 3.5.0 Use 'xmlrpc_enabled' instead.
-			 *
-			 * @param bool $enable Whether to enable XML-RPC. Default true.
-			 */
+		if ( false === $enabled ) {
 			$enabled = apply_filters( 'option_enable_xmlrpc', true );
+		}
 
 		/**
 		 * Filter whether XML-RPC is enabled.
@@ -1533,10 +1519,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password           = $args[2];
 		$post_id            = (int) $args[3];
 
-		if ( isset( $args[4] ) )
+		if ( isset( $args[4] ) ) {
 			$fields = $args[4];
-		else
-
+		} else {
 			/**
 			 * Filter the list of post query fields used by the given XML-RPC method.
 			 *
@@ -1546,6 +1531,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			 * @param string $method Method name.
 			 */
 			$fields = apply_filters( 'xmlrpc_default_post_fields', array( 'post', 'terms', 'custom_fields' ), 'wp.getPost' );
+		}
 
 		if ( ! $user = $this->login( $username, $password ) )
 			return $this->error;
