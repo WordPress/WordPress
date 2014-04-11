@@ -1382,9 +1382,10 @@ final class _WP_Editors {
 	public static function wp_link_dialog() {
 		$search_panel_visible = '1' == get_user_setting( 'wplink', '0' ) ? ' search-panel-visible' : '';
 
+		// display: none is required here, see #WP27605
 		?>
-		<div id="wp-link-backdrop"></div>
-		<div id="wp-link-wrap" class="wp-core-ui<?php echo $search_panel_visible; ?>">
+		<div id="wp-link-backdrop" style="display: none"></div>
+		<div id="wp-link-wrap" class="wp-core-ui<?php echo $search_panel_visible; ?>" style="display: none">
 		<form id="wp-link" tabindex="-1">
 		<?php wp_nonce_field( 'internal-linking', '_ajax_linking_nonce', false ); ?>
 		<div id="link-modal-title">
