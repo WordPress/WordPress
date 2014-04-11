@@ -408,6 +408,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 26148 )
 		upgrade_372();
 
+	if ( $wp_current_db_version < 26149 )
+		upgrade_373();
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1235,6 +1238,35 @@ function upgrade_372() {
 	global $wp_current_db_version;
 	if ( $wp_current_db_version < 26148 )
 		wp_clear_scheduled_hook( 'wp_maybe_auto_update' );
+}
+
+/**
+ * Execute changes made in WordPress 3.7.3.
+ *
+ * @since 3.7.3
+ */
+function upgrade_373() {
+	global $wp_current_db_version, $wpdb;
+	if ( $wp_current_db_version < 26149 ) {
+		// Find all lost Quick Draft auto-drafts and promote them to proper drafts.
+		$posts = $wpdb->get_results( "SELECT ID, post_title, post_content FROM $wpdb->posts WHERE post_type = 'post'
+			AND post_status = 'auto-draft' AND post_date >= '2014-04-08 00:00:00'" );
+
+		foreach ( $posts as $post ) {
+			// A regular auto-draft should never have content as that would mean it should have been promoted.
+			// If an auto-draft has content, it's from Quick Draft and it should be recovered.
+			if ( '' === $post->post_content ) {
+				// If it does not have content, we must evaluate whether the title should be recovered.
+				if ( 'Auto Draft' === $post->post_title || __( 'Auto Draft' ) === $post->post_title ) {
+					// This a plain old auto draft. Ignore it.
+					continue;
+				}
+			}
+
+			$wpdb->update( $wpdb->posts, array( 'post_status' => 'draft' ), array( 'ID' => $post->ID ) );
+			clean_post_cache( $post->ID );
+		}
+	}
 }
 
 /**

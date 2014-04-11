@@ -11,7 +11,7 @@ $wp_version = '3.7.2';
  *
  * @global int $wp_db_version
  */
-$wp_db_version = 26148;
+$wp_db_version = 26149;
 
 /**
  * Holds the TinyMCE version
