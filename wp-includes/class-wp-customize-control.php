@@ -708,7 +708,7 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 	}
 }
 
-final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
+class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	public $type = 'header';
 
 	public function __construct( $manager ) {
@@ -852,14 +852,12 @@ final class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
 		<div class="customize-control-content">
 			<p class="customizer-section-intro">
 				<?php
-				// @todo translate (and look to custom-header.php for inspiration)
-				echo ( 'Personalize your site with your own header image.' ) . ' ';
 				if ( $width && $height ) {
-					printf( ( 'While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header size of <strong>%d &times; %d</strong> pixels.' ), $width, $height );
+					printf( __( 'While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header size of <strong>%s &times; %s</strong> pixels.' ), $width, $height );
 				} elseif ( $width ) {
-					printf( ( 'While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header width of <strong>%d</strong> pixels.' ), $width );
+					printf( __( 'While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header width of <strong>%s</strong> pixels.' ), $width );
 				} else {
-					printf( ( 'While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header height of <strong>%d</strong> pixels.' ), $height );
+					printf( __( 'While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header height of <strong>%s</strong> pixels.' ), $height );
 				}
 				?>
 			</p>
