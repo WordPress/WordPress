@@ -2003,6 +2003,7 @@ div.action-links {
 
 /* Thickbox for Plugin Install screen */
 body.plugin-install-php #TB_window,
+body.import-php #TB_window,
 body.plugins-php #TB_window,
 body.update-core-php #TB_window,
 body.index-php #TB_window {
@@ -2015,6 +2016,7 @@ body.index-php #TB_window {
 	(min-resolution: 120dpi) {
 
 	body.plugin-install-php #TB_window,
+	body.import-php #TB_window,
 	body.plugins-php #TB_window,
 	body.update-core-php #TB_window,
 	body.index-php #TB_window {
@@ -2025,6 +2027,7 @@ body.index-php #TB_window {
 }
 
 body.plugin-install-php #TB_title,
+body.import-php #TB_title,
 body.plugins-php #TB_title,
 body.update-core-php #TB_title,
 body.index-php #TB_title {
@@ -2033,6 +2036,7 @@ body.index-php #TB_title {
 }
 
 body.plugin-install-php #TB_ajaxWindowTitle,
+body.import-php #TB_ajaxWindowTitle,
 body.plugins-php #TB_ajaxWindowTitle,
 body.update-core-php #TB_ajaxWindowTitle,
 body.index-php #TB_ajaxWindowTitle {
@@ -2040,6 +2044,7 @@ body.index-php #TB_ajaxWindowTitle {
 }
 
 body.plugin-install-php .tb-close-icon,
+body.import-php .tb-close-icon,
 body.plugins-php .tb-close-icon,
 body.update-core-php .tb-close-icon,
 body.index-php .tb-close-icon {
@@ -2049,6 +2054,7 @@ body.index-php .tb-close-icon {
 }
 
 body.plugin-install-php .tb-close-icon:before,
+body.import-php .tb-close-icon:before,
 body.plugins-php .tb-close-icon:before,
 body.update-core-php .tb-close-icon:before,
 body.index-php .tb-close-icon:before {
