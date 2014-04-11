@@ -778,7 +778,7 @@ function wp_save_image( $post_id ) {
 			if ( isset( $_wp_additional_image_sizes[ $size ] ) ) {
 				$width  = intval( $_wp_additional_image_sizes[ $size ]['width'] );
 				$height = intval( $_wp_additional_image_sizes[ $size ]['height'] );
-				$crop   = ( $nocrop ) ? false : intval( $_wp_additional_image_sizes[ $size ]['crop'] );
+				$crop   = ( $nocrop ) ? false : $_wp_additional_image_sizes[ $size ]['crop'];
 			} else {
 				$height = get_option( "{$size}_size_h" );
 				$width  = get_option( "{$size}_size_w" );
