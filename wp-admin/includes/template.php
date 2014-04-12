@@ -1829,8 +1829,8 @@ final class WP_Internal_Pointers {
 	 * All pointers can be disabled using the following:
 	 *     remove_action( 'admin_enqueue_scripts', array( 'WP_Internal_Pointers', 'enqueue_scripts' ) );
 	 *
-	 * Individual pointers (e.g. wp330_toolbar) can be disabled using the following:
-	 *     remove_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_wp330_toolbar' ) );
+	 * Individual pointers (e.g. wp390_widgets) can be disabled using the following:
+	 *     remove_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_wp390_widgets' ) );
 	 */
 	public static function enqueue_scripts( $hook_suffix ) {
 		/*
@@ -1839,13 +1839,11 @@ final class WP_Internal_Pointers {
 		 */
 
 		$registered_pointers = array(
-			'index.php'    => 'wp330_toolbar',
 			'post-new.php' => 'wp350_media',
 			'post.php'     => array( 'wp350_media', 'wp360_revisions' ),
 			'edit.php'     => 'wp360_locks',
-			'themes.php'   => array( 'wp330_saving_widgets', 'wp340_customize_current_theme_link' ),
-			'appearance_page_custom-header' => 'wp340_choose_image_from_library',
-			'appearance_page_custom-background' => 'wp340_choose_image_from_library',
+			'widgets.php'  => 'wp390_widgets',
+			'themes.php'   => 'wp390_widgets',
 		);
 
 		// Check if screen related pointer is registered
@@ -1855,9 +1853,6 @@ final class WP_Internal_Pointers {
 		$pointers = (array) $registered_pointers[ $hook_suffix ];
 
 		$caps_required = array(
-			'wp330_saving_widgets' => array( 'edit_theme_options', 'switch_themes' ),
-			'wp340_customize_current_theme_link' => array( 'edit_theme_options' ),
-			'wp340_choose_image_from_library' => array( 'edit_theme_options' ),
 			'wp350_media' => array( 'upload_files' ),
 		);
 
@@ -1932,71 +1927,11 @@ final class WP_Internal_Pointers {
 		<?php
 	}
 
-	public static function pointer_wp330_toolbar() {
-		$content  = '<h3>' . __( 'New Feature: Toolbar' ) . '</h3>';
-		$content .= '<p>' .  __( 'We&#8217;ve combined the admin bar and the old Dashboard header into one persistent toolbar. Hover over the toolbar items to see what&#8217;s new.' ) . '</p>';
-
-		if ( is_multisite() && is_super_admin() )
-			$content .= '<p>' . __( 'Network Admin is now located in the My Sites menu.' ) . '</p>';
-
-		WP_Internal_Pointers::print_js( 'wp330_toolbar', '#wpadminbar', array(
-			'content'  => $content,
-			'position' => array( 'edge' => 'top', 'align' => 'center' ),
-		) );
-	}
-
-	/**
-	 * Print 'Updated Media Uploader' for 3.3.0.
-	 *
-	 * @since 3.3.0
-	 */
+	public static function pointer_wp330_toolbar() {}
 	public static function pointer_wp330_media_uploader() {}
-
-	/**
-	 * Print 'New Feature: Saving Widgets' for 3.3.0.
-	 *
-	 * @since 3.3.0
-	 */
-	public static function pointer_wp330_saving_widgets() {
-		$content  = '<h3>' . __( 'New Feature: Saving Widgets' ) . '</h3>';
-		$content .= '<p>' . __( 'If you change your mind and revert to your previous theme, we&#8217;ll put the widgets back the way you had them.' ) . '</p>';
-
-		WP_Internal_Pointers::print_js( 'wp330_saving_widgets', '#message2', array(
-			'content'  => $content,
-			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left' ),
-		) );
-	}
-
-	/**
-	 * Print 'New Feature: Current Theme Customize Link' for 3.4.0.
-	 *
-	 * @since 3.4.0
-	 */
-	public static function pointer_wp340_customize_current_theme_link() {
-		$content  = '<h3>' . __( 'New Feature: Customizer' ) . '</h3>';
-		$content .= '<p>' . __( 'Click Customize to change the header, background, title and menus of the current theme, all in one place.' ) . '</p>';
-		$content .= '<p>' . __( 'Click the Live Preview links in the Available Themes list below to customize and preview another theme before activating it.' ) . '</p>';
-
-		WP_Internal_Pointers::print_js( 'wp340_customize_current_theme_link', '#customize-current-theme-link', array(
-			'content'  => $content,
-			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left', 'offset' => is_rtl() ? '32 0' : '-32 0' ),
-		) );
-	}
-
-	/**
-	 * Print 'New Feature: Choose Image from Library' for 3.4.0.
-	 *
-	 * @since 3.4.0
-	 */
-	public static function pointer_wp340_choose_image_from_library() {
-		$content  = '<h3>' . __( 'New Feature: Choose Image from Library' ) . '</h3>';
-		$content .= '<p>' . __( 'Want to use an image you uploaded earlier? Select it from your media library instead of uploading it again.' ) . '</p>';
-
-		WP_Internal_Pointers::print_js( 'wp340_choose_image_from_library', '#choose-from-library-link', array(
-			'content'  => $content,
-			'position' => array( 'edge' => 'top', 'align' => is_rtl() ? 'right' : 'left', 'defer_loading' => true ),
-		) );
-	}
+	public static function pointer_wp330_saving_widgets() {}
+	public static function pointer_wp340_customize_current_theme_link() {}
+	public static function pointer_wp340_choose_image_from_library() {}
 
 	public static function pointer_wp350_media() {
 		$content  = '<h3>' . __( 'New Media Manager' ) . '</h3>';
@@ -2019,15 +1954,42 @@ final class WP_Internal_Pointers {
 	}
 
 	public static function pointer_wp360_locks() {
+		if ( ! is_multi_author() ) {
+			return;
+		}
+
 		$content  = '<h3>' . __( 'Edit Lock' ) . '</h3>';
 		$content .= '<p>' . __( 'Someone else is editing this. No need to refresh; the lock will disappear when they&#8217;re done.' ) . '</p>';
-
-		if ( ! is_multi_author() )
-			return;
 
 		self::print_js( 'wp360_locks', 'tr.wp-locked .locked-indicator', array(
 			'content' => $content,
 			'position' => array( 'edge' => 'left', 'align' => 'left' ),
+		) );
+	}
+
+	public static function pointer_wp390_widgets() {
+		if ( ! current_theme_supports( 'widgets' ) ) {
+			return;
+		}
+
+		$content  = '<h3>' . __( 'New Feature: Live Widget Previews' ) . '</h3>';
+		$content .= '<p>' . __( 'Add, edit, and play around with your widgets from the theme customizer.' ) . ' ' . __( 'Preview your changes in real-time and only save them when you&#8217;re ready.' ) . '</p>';
+
+		if ( 'themes' === get_current_screen()->id ) {
+			$selector = '.theme.active .customize';
+			$position = array( 'edge' => is_rtl() ? 'right' : 'left', 'align' => 'center' );
+		} else {
+			$selector = 'a[href="customize.php"]';
+			if ( is_rtl() ) {
+				$position = array( 'edge' => 'right', 'align' => 'center-8px', 'my' => 'right-5px' );
+			} else {
+				$position = array( 'edge' => 'left', 'align' => 'center-8px', 'my' => 'left-5px' );
+			}
+		}
+
+		self::print_js( 'wp390_widgets', $selector, array(
+			'content' => $content,
+			'position' => $position,
 		) );
 	}
 
@@ -2037,7 +1999,7 @@ final class WP_Internal_Pointers {
 	 * @since 3.3.0
 	 */
 	public static function dismiss_pointers_for_new_users( $user_id ) {
-		add_user_meta( $user_id, 'dismissed_wp_pointers', 'wp330_toolbar,wp330_saving_widgets,wp340_choose_image_from_library,wp340_customize_current_theme_link,wp350_media,wp360_revisions,wp360_locks' );
+		add_user_meta( $user_id, 'dismissed_wp_pointers', 'wp350_media,wp360_revisions,wp360_locks,wp390_widgets' );
 	}
 }
 
