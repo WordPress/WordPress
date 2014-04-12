@@ -665,7 +665,9 @@ class WP_User_Query {
 				$cap_meta_query['compare'] = 'like';
 			}
 
-			$qv['meta_query'][] = $cap_meta_query;
+			if ( empty( $qv['meta_query'] ) || ! in_array( $cap_meta_query, $qv['meta_query'], true ) ) {
+				$qv['meta_query'][] = $cap_meta_query;
+			}
 		}
 
 		$meta_query = new WP_Meta_Query();
