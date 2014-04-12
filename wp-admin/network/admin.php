@@ -22,7 +22,7 @@ $redirect_network_admin_request = 0 !== strcasecmp( $current_blog->domain, $curr
  *
  * @since 3.2.0
  *
- * @param bool $redirect_user_admin_request Whether the request should be redirected.
+ * @param bool $redirect_network_admin_request Whether the request should be redirected.
  */
 $redirect_network_admin_request = apply_filters( 'redirect_network_admin_request', $redirect_network_admin_request );
 if ( $redirect_network_admin_request ) {

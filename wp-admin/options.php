@@ -108,11 +108,11 @@ if ( !is_multisite() ) {
 	$whitelist_options['general'][] = 'WPLANG';
 
 	/**
-	 * Toggle post-by-email functionality.
+	 * Filter whether the post-by-email functionality is enabled.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param bool True or false, based on whether post-by-email configuration is enabled or not.
+	 * @param bool $enabled Whether post-by-email configuration is enabled. Default true.
 	 */
 	if ( apply_filters( 'enable_post_by_email_configuration', true ) )
 		$whitelist_options['writing'] = array_merge($whitelist_options['writing'], $mail_options);

@@ -209,6 +209,8 @@ class WP_Embed {
 			/**
 			 * Filter whether to inspect the given URL for discoverable <link> tags.
 			 *
+			 * @since 2.9.0
+			 *
 			 * @see WP_oEmbed::discover()
 			 *
 			 * @param bool false Whether to enable <link> tag discovery. Default false.

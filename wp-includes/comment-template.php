@@ -518,7 +518,15 @@ function get_comment_excerpt( $comment_ID = 0 ) {
 		$excerpt .= $blah[$i] . ' ';
 	}
 	$excerpt .= ($use_dotdotdot) ? '&hellip;' : '';
-	return apply_filters('get_comment_excerpt', $excerpt);
+
+	/**
+	 * Filter the retrieved comment excerpt.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string $excerpt The comment excerpt text.
+	 */
+	return apply_filters( 'get_comment_excerpt', $excerpt );
 }
 
 /**
@@ -641,7 +649,7 @@ function get_comments_link( $post_id = 0 ) {
 	/**
 	 * Filter the returned post comments permalink.
 	 *
-	 * @since
+	 * @since 3.6.0
 	 *
 	 * @param string      $comments_link Post comments permalink with '#comments' appended.
 	 * @param int|WP_Post $post_id       Post ID or WP_Post object.
@@ -976,7 +984,7 @@ function comments_open( $post_id = null ) {
 	/**
 	 * Filter whether the current post is open for comments.
 	 *
-	 * @since
+	 * @since 2.5.0
 	 *
 	 * @param bool        $open    Whether the current post is open for comments.
 	 * @param int|WP_Post $post_id The post ID or WP_Post object.
@@ -997,6 +1005,15 @@ function pings_open( $post_id = null ) {
 	$_post = get_post($post_id);
 
 	$open = ( 'open' == $_post->ping_status );
+
+	/**
+	 * Filter whether the current post is open for pings.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param bool        $open    Whether the current post is open for pings.
+	 * @param int|WP_Post $post_id The post ID or WP_Post object.
+	 */
 	return apply_filters( 'pings_open', $open, $post_id );
 }
 
@@ -2055,7 +2072,9 @@ function comment_form( $args = array(), $post_id = null ) {
 	$defaults = array(
 		'fields'               => $fields,
 		'comment_field'        => '<p class="comment-form-comment"><label for="comment">' . _x( 'Comment', 'noun' ) . '</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>',
+		/** This filter is documented in wp-includes/link-template.php */
 		'must_log_in'          => '<p class="must-log-in">' . sprintf( __( 'You must be <a href="%s">logged in</a> to post a comment.' ), wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>',
+		/** This filter is documented in wp-includes/link-template.php */
 		'logged_in_as'         => '<p class="logged-in-as">' . sprintf( __( 'Logged in as <a href="%1$s">%2$s</a>. <a href="%3$s" title="Log out of this account">Log out?</a>' ), get_edit_user_link(), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>',
 		'comment_notes_before' => '<p class="comment-notes">' . __( 'Your email address will not be published.' ) . ( $req ? $required_text : '' ) . '</p>',
 		'comment_notes_after'  => '<p class="form-allowed-tags">' . sprintf( __( 'You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes: %s' ), ' <code>' . allowed_tags() . '</code>' ) . '</p>',

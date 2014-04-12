@@ -80,7 +80,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
  *
  * @since 2.7.0.
  *
- * @param int $10 The maximum depth of threaded comments. Default 10.
+ * @param int $max_depth The maximum depth of threaded comments. Default 10.
  */
 $maxdeep = (int) apply_filters( 'thread_comments_depth_max', 10 );
 

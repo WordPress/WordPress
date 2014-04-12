@@ -5775,6 +5775,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		sleep(1);
 
 		$remote_ip = preg_replace( '/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR'] );
+
+		/** This filter is documented in wp-includes/class-http.php */
 		$user_agent = apply_filters( 'http_headers_useragent', 'WordPress/' . $GLOBALS['wp_version'] . '; ' . get_bloginfo( 'url' ) );
 
 		// Let's check the remote site

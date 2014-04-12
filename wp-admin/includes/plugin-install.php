@@ -53,7 +53,7 @@ function plugins_api($action, $args = null) {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param bool|object         The result object. Default is false.
+	 * @param bool|object $result The result object. Default false.
 	 * @param string      $action The type of information being requested from the Plugin Install API.
 	 * @param object      $args   Plugin API arguments.
 	 */

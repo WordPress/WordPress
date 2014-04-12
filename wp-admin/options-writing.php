@@ -37,13 +37,7 @@ if ( apply_filters( 'enable_post_by_email_configuration', true ) ) {
 	) );
 }
 
-/**
- * Toggle site update services configuration functionality.
- *
- * @since 3.0.0
- *
- * @param bool True or false, based on whether update services configuration is enabled or not.
- */
+/** This filter is documented in wp-admin/options-writing.php */
 if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 	get_current_screen()->add_help_tab( array(
 		'id'      => 'options-services',
@@ -167,7 +161,13 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
 <?php } ?>
 
 <?php
-/** This filter is documented in wp-admin/options-writing.php */
+/**
+ * Filter whether to enable the Update Services section in the Writing settings screen.
+ *
+ * @since 3.0.0
+ *
+ * @param bool $enable Whether to enable the Update Services settings area. Default true.
+ */
 if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 ?>
 <h3 class="title"><?php _e('Update Services') ?></h3>
