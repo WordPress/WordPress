@@ -82,8 +82,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 		<div class="last-feature">
 			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/twentyfourteen.jpg?1" />
-			<h4><?php echo ( 'Stunning new theme browser' ); ?></h4>
-			<p><?php echo ( 'Looking for a new theme to try out should be easy and fun. Lose yourself in the seemingly boundless supply of free WordPress.org themes with the beautiful new theme browser.' ); ?></p>
+			<h4><?php _e( 'Stunning new theme browser' ); ?></h4>
+			<p><?php _e( 'Looking for a new theme should be easy and fun. Lose yourself in the boundless supply of free WordPress.org themes with the beautiful new theme browser.' ); ?></p>
 			<p><a href="<?php echo network_admin_url( 'theme-install.php' ); ?>" class="button button-primary">Browse Themes</a></p>
 		</div>
 	</div>
@@ -96,23 +96,23 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="feature-section col three-col">
 		<div>
-			<h4><?php echo __( 'Semantic Captions and Galleries' ); ?></h4>
-			<p><?php echo __( 'Theme developers have new options for images and galleries that use intelligent HTML5 markup.' ); ?></p>
+			<h4><?php _e( 'Semantic Captions and Galleries' ); ?></h4>
+			<p><?php _e( 'Theme developers have new options for images and galleries that use intelligent HTML5 markup.' ); ?></p>
 
-			<h4><?php echo __( 'Inline Code Documentation' ); ?></h4>
-			<p><?php echo __( 'Every action and filter hook in WordPress is now documented, along with expanded documentation for the media manager and customizer APIs.' ); ?></p>
+			<h4><?php _e( 'Inline Code Documentation' ); ?></h4>
+			<p><?php _e( 'Every action and filter hook in WordPress is now documented, along with expanded documentation for the media manager and customizer APIs.' ); ?></p>
 		</div>
 		<div>
-			<h4><?php echo __( 'External Libraries' ); ?></h4>
-			<p><?php echo __( 'Updated libraries: TinyMCE&nbsp;4, jQuery&nbsp;1.11, Backbone&nbsp;1.1, Underscore&nbsp;1.6, Plupload&nbsp;2, MediaElement&nbsp;2.14, Masonry&nbsp;3.' ); ?></p>
+			<h4><?php _e( 'External Libraries' ); ?></h4>
+			<p><?php _e( 'Updated libraries: TinyMCE&nbsp;4, jQuery&nbsp;1.11, Backbone&nbsp;1.1, Underscore&nbsp;1.6, Plupload&nbsp;2, MediaElement&nbsp;2.14, Masonry&nbsp;3.' ); ?></p>
 
-			<h4><?php echo __( 'Improved Database Layer' ); ?></h4>
-			<p><?php echo __( 'Database connections are now more fault-resistant and have improved compatibility with PHP 5.5 and MySQL 5.6.' ); ?></p>
+			<h4><?php _e( 'Improved Database Layer' ); ?></h4>
+			<p><?php _e( 'Database connections are now more fault-resistant and have improved compatibility with PHP 5.5 and MySQL 5.6.' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<h4><?php echo __( 'New Utility Functions' ); ?></h4>
-			<p><?php echo __( 'Identify a hook in progress with <code>doing_action()</code> and <code>doing_filter()</code>, and manipulate custom image sizes with <code>has_image_size()</code> and <code>remove_image_size()</code>.' ); ?></p>
-			<p><?php echo __( 'Plugins and themes registering custom theme sizes can now register suggested cropping points. For example, prevent heads from being cropped out of photos with a top-center crop.' ); ?></p>
+			<h4><?php _e( 'New Utility Functions' ); ?></h4>
+			<p><?php _e( 'Identify a hook in progress with <code>doing_action()</code> and <code>doing_filter()</code>, and manipulate custom image sizes with <code>has_image_size()</code> and <code>remove_image_size()</code>.' ); ?></p>
+			<p><?php _e( 'Plugins and themes registering custom theme sizes can now register suggested cropping points. For example, prevent heads from being cropped out of photos with a top-center crop.' ); ?></p>
 		</div>
 </div>
 
