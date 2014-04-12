@@ -484,6 +484,14 @@ body {
 	display: block;
 }
 
+#customize-control-header_image button.new,
+#customize-control-header_image button.remove {
+	white-space: normal;
+	width: 48%;
+	height: auto;
+}
+
+
 /* Header control: current image container */
 
 #customize-control-header_image .current .container {
@@ -538,6 +546,7 @@ body {
 #customize-control-header_image .header-view.selected:after {
 	content: '';
 	position: absolute;
+	height: auto;
 	top: 0; left: 0; bottom: 0; right: 0;
 	border: 4px solid #2ea2cc;
 	-webkit-border-radius: 2px;
@@ -586,7 +595,9 @@ body {
 
 #customize-control-header_image button.random {
 	width: 100%;
-	height: 40px;
+	height: auto;
+	min-height: 40px;
+	white-space: normal;
 }
 
 #customize-control-header_image button.random .dice {

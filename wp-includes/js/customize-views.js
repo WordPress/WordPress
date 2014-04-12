@@ -120,10 +120,6 @@
 		render: function() {
 			this.$el.html(this.template(this.extendedModel()));
 
-			if (this.model.get('random')) {
-				this.setPlaceholder(40);
-			}
-
 			this.toggleSelected();
 			return this;
 		},
