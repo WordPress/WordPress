@@ -1854,6 +1854,7 @@ final class WP_Internal_Pointers {
 
 		$caps_required = array(
 			'wp350_media' => array( 'upload_files' ),
+			'wp390_widgets' => array( 'edit_theme_options' ),
 		);
 
 		// Get dismissed pointers
