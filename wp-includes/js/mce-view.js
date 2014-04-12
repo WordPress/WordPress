@@ -41,12 +41,15 @@ window.wp = window.wp || {};
 					doc = editor.getDoc();
 					$( doc ).find( '[data-wpview-text="' + this.encodedText + '"]' ).each(function (i, elem) {
 						var node = $( elem );
-						node.html( html );
+						// The <ins> is used to mark the end of the wrapper div. Needed when comparing
+						// the content as string for preventing extra undo levels.
+						node.html( html ).append( '<ins data-wpview-end="1"></ins>' );
 						$( self ).trigger( 'ready', elem );
 					});
 				}
 			}, this );
-		}
+		},
+		unbind: function() {}
 	} );
 
 	// take advantage of the Backbone extend method
@@ -90,6 +93,17 @@ window.wp = window.wp || {};
 		 */
 		unregister: function( type ) {
 			delete views[ type ];
+		},
+
+		/**
+		 * wp.mce.views.unbind( editor )
+		 *
+		 * The editor DOM is being rebuilt, run cleanup.
+		 */
+		unbind: function() {
+			_.each( instances, function( instance ) {
+				instance.unbind();
+			} );
 		},
 
 		/**
@@ -339,6 +353,7 @@ window.wp = window.wp || {};
 	 * @mixin
 	 */
 	wp.mce.media = {
+		loaded: false,
 		/**
 		 * @global wp.shortcode
 		 *
@@ -410,6 +425,7 @@ window.wp = window.wp || {};
 	 */
 	wp.mce.media.View = wp.mce.View.extend({
 		initialize: function( options ) {
+			this.players = [];
 			this.shortcode = options.shortcode;
 			_.bindAll( this, 'setPlayer' );
 			$(this).on( 'ready', this.setPlayer );
@@ -460,8 +476,9 @@ window.wp = window.wp || {};
 			media = wp.media.view.MediaDetails.prepareSrc( media.get(0) );
 
 			setTimeout( function() {
-				self.player = new MediaElementPlayer( media, this.mejsSettings );
-			}, 75 );
+				wp.mce.media.loaded = true;
+				self.players.push( new MediaElementPlayer( media, self.mejsSettings ) );
+			}, wp.mce.media.loaded ? 10 : 500 );
 		},
 
 		/**
@@ -475,6 +492,15 @@ window.wp = window.wp || {};
 				wp.media[ this.shortcode.tag ].defaults
 			);
 			return this.template({ model: attrs });
+		},
+
+		unbind: function() {
+			var self = this;
+			this.pauseAllPlayers();
+			_.each( this.players, function (player) {
+				self.removePlayer( player );
+			} );
+			this.players = [];
 		}
 	});
 	_.extend( wp.mce.media.View.prototype, wp.media.mixin );

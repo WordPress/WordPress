@@ -128,8 +128,8 @@
 		 *	MediaElement tries to pull the audio/video tag out of
 		 *	its container and re-add it to the DOM.
 		 */
-		removePlayer: function() {
-			var t = this.player, featureIndex, feature;
+		removePlayer: function(t) {
+			var featureIndex, feature;
 
 			// invoke features cleanup
 			for ( featureIndex in t.options.features ) {
@@ -165,7 +165,7 @@
 		unsetPlayer : function() {
 			if ( this.player ) {
 				wp.media.mixin.pauseAllPlayers();
-				wp.media.mixin.removePlayer.apply( this );
+				wp.media.mixin.removePlayer( this.player );
 				this.player = false;
 			}
 		}

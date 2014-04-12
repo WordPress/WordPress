@@ -80,11 +80,12 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			'contenteditable': 'true'
 		}, getViewText( viewNode ) );
 
-		viewNode.appendChild( clipboard );
+		// Prepend inside the wrapper
+		viewNode.insertBefore( clipboard, viewNode.firstChild );
 
 		// Both of the following are necessary to prevent manipulating the selection/focus
-		editor.dom.bind( clipboard, 'beforedeactivate focusin focusout', _stop );
-		editor.dom.bind( selected, 'beforedeactivate focusin focusout', _stop );
+		dom.bind( clipboard, 'beforedeactivate focusin focusout', _stop );
+		dom.bind( selected, 'beforedeactivate focusin focusout', _stop );
 
 		// Make sure that the editor is focused.
 		// It is possible that the editor is not focused when the mouse event fires
@@ -140,8 +141,14 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		return;
 	}
 
+	// Remove the content of view wrappers from HTML string
+	function emptyViews( content ) {
+		return content.replace(/(<div[^>]+wpview-wrap[^>]+>)[\s\S]+?data-wpview-end[^>]*><\/ins><\/div>/g, '$1</div>' );
+	}
+
+	// Prevent adding undo levels on changes inside a view wrapper
 	editor.on( 'BeforeAddUndo', function( event ) {
-		if ( selected && ! toRemove ) {
+		if ( event.lastLevel && emptyViews( event.level.content ) === emptyViews( event.lastLevel.content ) ) {
 			event.preventDefault();
 		}
 	});
@@ -149,12 +156,16 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	// When the editor's content changes, scan the new content for
 	// matching view patterns, and transform the matches into
 	// view wrappers.
-	editor.on( 'BeforeSetContent', function( e ) {
-		if ( ! e.content ) {
+	editor.on( 'BeforeSetContent', function( event ) {
+		if ( ! event.content ) {
 			return;
 		}
 
-		e.content = wp.mce.views.toViews( e.content );
+		if ( ! event.initial ) {
+			wp.mce.views.unbind( editor );
+		}
+
+		event.content = wp.mce.views.toViews( event.content );
 	});
 
 	// When the editor's content has been updated and the DOM has been
@@ -162,11 +173,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	editor.on( 'SetContent', function( event ) {
 		var body, padNode;
 
-		// don't (re-)render views if the format of the content is raw
-		// to avoid adding additional undo levels on undo/redo
-		if ( event.format !== 'raw' ) {
-			wp.mce.views.render();
-		}
+		wp.mce.views.render();
 
 		// Add padding <p> if the noneditable node is last
 		if ( event.load || ! event.set ) {
@@ -175,7 +182,10 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			if ( isView( body.lastChild ) ) {
 				padNode = createPadNode();
 				body.appendChild( padNode );
-				editor.selection.setCursorLocation( padNode, 0 );
+
+				if ( ! event.initial ) {
+					editor.selection.setCursorLocation( padNode, 0 );
+				}
 			}
 		}
 	});
