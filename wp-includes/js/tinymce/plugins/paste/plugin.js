@@ -862,6 +862,20 @@ define("tinymce/pasteplugin/WordFilter", [
 								outputStyles[name] = value;
 							}
 							return;
+
+						case "mso-element":
+							// Remove track changes code
+							if (/^(comment|comment-list)$/i.test(value)) {
+								node.remove();
+								return;
+							}
+
+							break;
+					}
+
+					if (name.indexOf('mso-comment') === 0) {
+						node.remove();
+						return;
 					}
 
 					// Never allow mso- prefixed names
@@ -931,18 +945,34 @@ define("tinymce/pasteplugin/WordFilter", [
 
 				var validElements = settings.paste_word_valid_elements;
 				if (!validElements) {
-					validElements = '@[style],-strong/b,-em/i,-span,-p,-ol,-ul,-li,-h1,-h2,-h3,-h4,-h5,-h6,' +
-						'-table[width],-tr,-td[colspan|rowspan|width],-th,-thead,-tfoot,-tbody,-a[href|name],sub,sup,strike,br';
+					validElements = '-strong/b,-em/i,-span,-p,-ol,-ul,-li,-h1,-h2,-h3,-h4,-h5,-h6,-p/div,' +
+						'-table[width],-tr,-td[colspan|rowspan|width],-th,-thead,-tfoot,-tbody,-a[href|name],sub,sup,strike,br,del';
 				}
 
 				// Setup strict schema
 				var schema = new Schema({
-					valid_elements: validElements
+					valid_elements: validElements,
+					valid_children: '-li[p]'
+				});
+
+				// Add style/class attribute to all element rules since the user might have removed them from
+				// paste_word_valid_elements config option and we need to check them for properties
+				Tools.each(schema.elements, function(rule) {
+					if (!rule.attributes["class"]) {
+						rule.attributes["class"] = {};
+						rule.attributesOrder.push("class");
+					}
+
+					if (!rule.attributes.style) {
+						rule.attributes.style = {};
+						rule.attributesOrder.push("style");
+					}
 				});
 
 				// Parse HTML into DOM structure
 				var domParser = new DomParser({}, schema);
 
+				// Filter styles to remove "mso" specific styles and convert some of them
 				domParser.addAttributeFilter('style', function(nodes) {
 					var i = nodes.length, node;
 
@@ -951,12 +981,38 @@ define("tinymce/pasteplugin/WordFilter", [
 						node.attr('style', filterStyles(node, node.attr('style')));
 
 						// Remove pointess spans
-						if (node.name == 'span' && !node.attributes.length) {
+						if (node.name == 'span' && node.parent && !node.attributes.length) {
 							node.unwrap();
 						}
 					}
 				});
 
+				// Check the class attribute for comments or del items and remove those
+				domParser.addAttributeFilter('class', function(nodes) {
+					var i = nodes.length, node, className;
+
+					while (i--) {
+						node = nodes[i];
+
+						className = node.attr('class');
+						if (/^(MsoCommentReference|MsoCommentText|msoDel)$/i.test(className)) {
+							node.remove();
+						}
+
+						node.attr('class', null);
+					}
+				});
+
+				// Remove all del elements since we don't want the track changes code in the editor
+				domParser.addNodeFilter('del', function(nodes) {
+					var i = nodes.length;
+
+					while (i--) {
+						nodes[i].remove();
+					}
+				});
+
+				// Keep some of the links and anchors
 				domParser.addNodeFilter('a', function(nodes) {
 					var i = nodes.length, node, href, name;
 
@@ -964,6 +1020,11 @@ define("tinymce/pasteplugin/WordFilter", [
 						node = nodes[i];
 						href = node.attr('href');
 						name = node.attr('name');
+
+						if (href && href.indexOf('#_msocom_') != -1) {
+							node.remove();
+							continue;
+						}
 
 						if (href && href.indexOf('file://') === 0) {
 							href = href.split('#')[1];
@@ -975,6 +1036,11 @@ define("tinymce/pasteplugin/WordFilter", [
 						if (!href && !name) {
 							node.unwrap();
 						} else {
+							if (name && name.indexOf('Toc') !== 0) {
+								node.unwrap();
+								continue;
+							}
+
 							node.attr({
 								href: href,
 								name: name
