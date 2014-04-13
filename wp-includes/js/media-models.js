@@ -360,7 +360,12 @@ window.wp = window.wp || {};
 
 			if ( attributes.attachment_id ) {
 				this.attachment = Attachment.get( attributes.attachment_id );
-				this.dfd = this.attachment.fetch();
+				if ( this.attachment.get( 'url' ) ) {
+					this.dfd = $.Deferred();
+					this.dfd.resolve();
+				} else {
+					this.dfd = this.attachment.fetch();
+				}
 				this.bindAttachmentListeners();
 			}
 
