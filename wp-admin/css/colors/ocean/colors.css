@@ -244,7 +244,8 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 
 /* Pointers */
 .wp-pointer .wp-pointer-content h3 {
-  background-color: #9ebaa0; }
+  background-color: #9ebaa0;
+  border-color: #8faf91; }
 
 .wp-pointer .wp-pointer-content h3:before {
   color: #9ebaa0; }

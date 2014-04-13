@@ -386,6 +386,7 @@ ul#adminmenu > li.current > a.current:after {
 
 .wp-pointer .wp-pointer-content h3 {
 	background-color: $highlight-color;
+	border-color: darken( $highlight-color, 5% );
 }
 
 .wp-pointer .wp-pointer-content h3:before {
