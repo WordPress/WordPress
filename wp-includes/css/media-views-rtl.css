@@ -609,6 +609,10 @@
 	margin-left: 20px;
 }
 
+.media-frame-content .crop-content {
+	height: 100%;
+}
+
 .media-frame-content .crop-content .crop-image {
 	display: block;
 	margin: auto;
