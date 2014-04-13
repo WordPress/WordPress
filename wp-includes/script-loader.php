@@ -644,7 +644,7 @@ function wp_default_styles( &$styles ) {
 	// RTL CSS
 	$rtl_styles = array(
 		// wp-admin
-		'wp-admin', 'install', 'wp-color-picker', 'customize-controls', 'customize-widgets', 'ie',
+		'wp-admin', 'install', 'wp-color-picker', 'customize-controls', 'customize-widgets', 'ie', 'login',
 		// wp-includes
 		'buttons', 'admin-bar', 'wp-auth-check', 'editor-buttons', 'media-views', 'wp-pointer',
 		'wp-jquery-ui-dialog',

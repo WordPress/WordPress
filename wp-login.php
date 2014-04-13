@@ -131,6 +131,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 		if ( 'success' ===  $interim_login )
 			$classes[] = 'interim-login-success';
 	}
+	$classes[] =' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 
 	/**
 	 * Filter the login page body classes.
