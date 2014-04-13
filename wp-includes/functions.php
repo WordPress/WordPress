@@ -2457,20 +2457,21 @@ function _config_wp_siteurl( $url = '' ) {
  * Will only set the direction to 'rtl', if the WordPress locale has the text
  * direction set to 'rtl'.
  *
- * Fills in the 'directionality', 'plugins', and 'theme_advanced_button1' array
- * keys. These keys are then returned in the $input array.
+ * Fills in the 'directionality' setting, enables the 'directionality' plugin,
+ * and adds the 'ltr' button to 'toolbar1', formerly 'theme_advanced_buttons1' array
+ * keys. These keys are then returned in the $input (TinyMCE settings) array.
  *
  * @access private
  * @since 2.1.0
  *
- * @param array $input MCE plugin array.
+ * @param array $input MCE settings array.
  * @return array Direction set for 'rtl', if needed by locale.
  */
 function _mce_set_direction( $input ) {
 	if ( is_rtl() ) {
 		$input['directionality'] = 'rtl';
 		$input['plugins'] .= ',directionality';
-		$input['theme_advanced_buttons1'] .= ',ltr';
+		$input['toolbar1'] .= ',ltr';
 	}
 
 	return $input;

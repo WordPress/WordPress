@@ -982,6 +982,11 @@ final class _WP_Editors {
 		$baseurl = self::$baseurl;
 		$mce_locale = self::$mce_locale;
 
+		// Set direction
+		if ( is_rtl() ) {
+			$mce_translation['_dir'] = 'rtl';
+		}
+
 		/**
 		 * Filter translated strings prepared for TinyMCE.
 		 *

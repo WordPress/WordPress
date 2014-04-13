@@ -279,6 +279,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 		if ( editor.getParam( 'directionality' ) === 'rtl' ) {
 			bodyClass.push('rtl');
+			dom.setAttrib( doc.documentElement, 'dir', 'rtl' );
 		}
 
 		if ( env.ie ) {

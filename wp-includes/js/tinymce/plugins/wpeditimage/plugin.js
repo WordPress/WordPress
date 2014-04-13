@@ -403,7 +403,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	}
 
 	function addToolbar( node ) {
-		var rectangle, toolbarHtml, toolbar, toolbarSize,
+		var rectangle, toolbarHtml, toolbar, left,
 			dom = editor.dom;
 
 		removeToolbar();
@@ -425,12 +425,16 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			'contenteditable': false
 		}, toolbarHtml );
 
-		editor.getBody().appendChild( toolbar );
-		toolbarSize = dom.getSize( toolbar );
+		if ( editor.rtl ) {
+			left = rectangle.x + rectangle.w - 82;
+		} else {
+			left = rectangle.x;
+		}
 
+		editor.getBody().appendChild( toolbar );
 		dom.setStyles( toolbar, {
 			top: rectangle.y,
-			left: rectangle.x
+			left: left
 		});
 
 		toolbarActive = true;

@@ -453,6 +453,22 @@ img.wp-oembed {
 	outline: 0;
 }
 
+/* rtl */
+.rtl .gallery .gallery-item {
+	float: right;
+}
+
+.rtl .wpview-wrap .toolbar {
+	left: auto;
+	right: 0;
+}
+
+.rtl .wpview-wrap .toolbar div,
+.rtl #wp-image-toolbar div {
+	margin-left: auto;
+	margin-right: 7px;
+}
+
 @media print,
 	(-o-min-device-pixel-ratio: 5/4),
 	(-webkit-min-device-pixel-ratio: 1.25),

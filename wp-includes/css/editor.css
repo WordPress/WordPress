@@ -1851,6 +1851,16 @@ i.mce-i-hr:before {
 	font-family: Tahoma, sans-serif;
 }
 
+/* @noflip */
+.mce-rtl .mce-flow-layout .mce-flow-layout-item > div {
+	direction: rtl;
+}
+
+/* @noflip */
+.mce-rtl .mce-listbox i.mce-caret {
+	left: 6px;
+}
+
 html:lang(he-il) .rtl .wp-switch-editor,
 html:lang(he-il) .rtl .quicktags-toolbar input  {
  	font-family: Arial, sans-serif;
