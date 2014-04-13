@@ -50,7 +50,14 @@
 
 				emptyWidget = $(widgetTpl);
 				widgetSelector = emptyWidget.prop('tagName');
-				widgetClasses = emptyWidget.prop('className').replace(/^\s+|\s+$/g, '');
+				widgetClasses = emptyWidget.prop('className');
+
+				// Prevent a rare case when before_widget, before_title, after_title and after_widget is empty.
+				if ( ! widgetClasses ) {
+					return;
+				}
+
+				widgetClasses = widgetClasses.replace(/^\s+|\s+$/g, '');
 
 				if ( widgetClasses ) {
 					widgetSelector += '.' + widgetClasses.split(/\s+/).join('.');
