@@ -56,7 +56,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		'searchPlaceholder' => __( 'Search themes...' ), // placeholder (no ellipsis)
 		'upload' => __( 'Upload Theme' ),
 		'back'   => __( 'Back' ),
-		'error'  => ( 'There was a problem trying to load the themes. Please, try again.' ), // @todo improve
+		'error'  => sprintf( __( 'An unexpected error occurred and we can&#8127;t reach WordPress.org. If you continue to have problems, please try the <a href="%s">support forums</a>.' ), __( 'https://wordpress.org/support/' ) )
 	),
 	'installedThemes' => array_keys( $installed_themes ),
 	'browse' => array(

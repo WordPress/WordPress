@@ -325,6 +325,7 @@ themes.Collection = Backbone.Collection.extend({
 		return $.ajax({
 			url: 'https://api.wordpress.org/themes/info/1.1/?callback=?',
 			dataType: 'jsonp',
+			timeout: 15000, // 15 seconds
 
 			// Request data
 			data: {
