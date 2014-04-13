@@ -482,6 +482,7 @@
 
 			data.url = url;
 			data.thumbnail_url = url;
+			data.timestamp = _.now();
 
 			if (attachmentId) {
 				data.attachment_id = attachmentId;
