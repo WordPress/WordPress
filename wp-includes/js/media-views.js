@@ -6226,7 +6226,7 @@
 		events: _.defaults( media.view.Settings.AttachmentDisplay.prototype.events, {
 			'click .edit-attachment': 'editAttachment',
 			'click .replace-attachment': 'replaceAttachment',
-			'click .advanced-toggle': 'toggleAdvanced',
+			'click .advanced-toggle': 'onToggleAdvanced',
 			'change [data-setting="customWidth"]': 'onCustomSize',
 			'change [data-setting="customHeight"]': 'onCustomSize',
 			'keyup [data-setting="customWidth"]': 'onCustomSize',
@@ -6238,6 +6238,7 @@
 			this.listenTo( this.model, 'change:url', this.updateUrl );
 			this.listenTo( this.model, 'change:link', this.toggleLinkSettings );
 			this.listenTo( this.model, 'change:size', this.toggleCustomSize );
+
 			media.view.Settings.AttachmentDisplay.prototype.initialize.apply( this, arguments );
 		},
 
@@ -6277,6 +6278,9 @@
 		postRender: function() {
 			setTimeout( _.bind( this.resetFocus, this ), 10 );
 			this.toggleLinkSettings();
+			if ( getUserSetting( 'advImgDetails' ) === 'show' ) {
+				this.toggleAdvanced( true );
+			}
 			this.trigger( 'post-render' );
 		},
 
@@ -6329,16 +6333,26 @@
 			}
 		},
 
-		toggleAdvanced: function( event ) {
-			var $advanced = $( event.target ).closest( '.advanced-section' );
+		onToggleAdvanced: function( event ) {
 			event.preventDefault();
-			if ( $advanced.hasClass('advanced-visible') ) {
+			this.toggleAdvanced();
+		},
+
+		toggleAdvanced: function( show ) {
+			var $advanced = this.$el.find( '.advanced-section' ),
+				mode;
+
+			if ( $advanced.hasClass('advanced-visible') || show === false ) {
 				$advanced.removeClass('advanced-visible');
 				$advanced.find('.advanced-settings').addClass('hidden');
+				mode = 'hide';
 			} else {
 				$advanced.addClass('advanced-visible');
 				$advanced.find('.advanced-settings').removeClass('hidden');
+				mode = 'show';
 			}
+
+			setUserSetting( 'advImgDetails', mode );
 		},
 
 		editAttachment: function( event ) {
