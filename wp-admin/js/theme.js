@@ -22,7 +22,7 @@ themes.Model = Backbone.Model.extend({
 	// Adds attributes to the default data coming through the .org themes api
 	// Map `id` to `slug` for shared code
 	initialize: function() {
-		var install;
+		var install, description;
 
 		// Install url for the theme
 		// using the install nonce
@@ -46,6 +46,13 @@ themes.Model = Backbone.Model.extend({
 			// slug is for installation, id is for existing.
 			id: this.get( 'slug' ) || this.get( 'id' )
 		});
+
+		// Map `section.description` to `description`
+		// as the API sometimes returns it differently
+		if ( this.has( 'sections' ) ) {
+			description = this.get( 'sections' ).description;
+			this.set({ description: description });
+		}
 	}
 });
 
@@ -218,7 +225,7 @@ themes.Collection = Backbone.Collection.extend({
 	//
 	// When we are missing a cache object we fire an apiCall()
 	// which triggers events of `query:success` or `query:fail`
-	query: function( request ) {
+	query: function( request, action ) {
 		/**
 		 * @static
 		 * @type Array
@@ -247,29 +254,37 @@ themes.Collection = Backbone.Collection.extend({
 
 		// Otherwise, send a new API call and add it to the cache.
 		if ( ! query && ! isPaginated ) {
-			query = this.apiCall( request ).done( function( data ) {
+			query = this.apiCall( request, action ).done( function( data ) {
+
 				// Update the collection with the queried data.
-				self.reset( data.themes );
-				count = data.info.results;
+				if ( data.themes ) {
+					self.reset( data.themes );
+					count = data.info.results;
+					// Store the results and the query request
+					queries.push( { themes: data.themes, request: request, total: count } );
+
+				} else if ( action ) {
+					self.reset( data );
+					count = 1;
+					self.trigger( 'query:theme' );
+				}
 
 				// Trigger a collection refresh event
 				// and a `query:success` event with a `count` argument.
 				self.trigger( 'update' );
 				self.trigger( 'query:success', count );
 
-				if ( data.themes.length === 0 ) {
+				if ( data.themes && data.themes.length === 0 ) {
 					self.trigger( 'query:empty' );
 				}
 
-				// Store the results and the query request
-				queries.push( { themes: data.themes, request: request, total: count } );
 			}).fail( function() {
 				self.trigger( 'query:fail' );
 			});
 		} else {
 			// If it's a paginated request we need to fetch more themes...
 			if ( isPaginated ) {
-				return this.apiCall( request, isPaginated ).done( function( data ) {
+				return this.apiCall( request, action, isPaginated ).done( function( data ) {
 					// Add the new themes to the current collection
 					// @todo update counter
 					self.add( data.themes );
@@ -314,11 +329,16 @@ themes.Collection = Backbone.Collection.extend({
 	},
 
 	// Send request to api.wordpress.org/themes
-	apiCall: function( request, paginated ) {
+	apiCall: function( request, action, paginated ) {
 
 		// Send tags (and fields) as comma-separated to keep the JSONP query string short.
 		if ( request.tag && _.isArray( request.tag ) ) {
 			request.tag = request.tag.join( ',' );
+		}
+
+		// Set request action
+		if ( ! action ) {
+			action = 'query_themes'
 		}
 
 		// JSONP request to .org API
@@ -329,7 +349,7 @@ themes.Collection = Backbone.Collection.extend({
 
 			// Request data
 			data: {
-				action: 'query_themes',
+				action: action,
 				request: _.extend({
 					per_page: 72,
 					fields: 'description,tested,requires,rating,downloaded,downloadLink,last_updated,homepage,num_ratings'
@@ -482,6 +502,15 @@ themes.view.Theme = wp.Backbone.View.extend({
 		// Render the view and append it.
 		preview.render();
 		this.setNavButtonsState();
+
+		// Hide previous/next navigation if there is only one theme
+		if ( this.model.collection.length === 1 ) {
+			preview.$el.addClass( 'no-navigation' );
+		} else {
+			preview.$el.removeClass( 'no-navigation' );
+		}
+
+		// Apend preview
 		$( 'div.wrap' ).append( preview.el );
 
 		// Listen to our preview object
@@ -780,6 +809,7 @@ themes.view.Preview = themes.view.Details.extend({
 
 		themes.router.navigate( themes.router.baseUrl( '' ) );
 		this.trigger( 'preview:close' );
+		this.unbind();
 		return false;
 	},
 
@@ -1305,9 +1335,12 @@ themes.view.Installer = themes.view.Appearance.extend({
 		'click .filtering-by a': 'backToFilters'
 	},
 
-	// Handles all the rendering of the public theme directory
-	browse: function( section ) {
+	// Initial render method
+	render: function() {
 		var self = this;
+
+		this.search();
+		this.uploader();
 
 		this.collection = new themes.Collection();
 
@@ -1339,10 +1372,6 @@ themes.view.Installer = themes.view.Appearance.extend({
 			$( '.theme-browser' ).find( 'div.themes' ).before( '<div class="error"><p>' + l10n.error + '</p></div>' );
 		});
 
-		// Create a new collection with the proper theme data
-		// for each section
-		this.collection.query( { browse: section } );
-
 		if ( this.view ) {
 			this.view.remove();
 		}
@@ -1350,7 +1379,6 @@ themes.view.Installer = themes.view.Appearance.extend({
 		// Set ups the view and passes the section argument
 		this.view = new themes.view.Themes({
 			collection: this.collection,
-			section: section,
 			parent: this
 		});
 
@@ -1363,11 +1391,11 @@ themes.view.Installer = themes.view.Appearance.extend({
 		this.$el.find( '.theme-browser' ).append( this.view.el ).addClass( 'rendered' );
 	},
 
-	// Initial render method
-	render: function() {
-		this.search();
-		this.uploader();
-		return this.browse( this.options.section );
+	// Handles all the rendering of the public theme directory
+	browse: function( section ) {
+		// Create a new collection with the proper theme data
+		// for each section
+		this.collection.query( { browse: section } );
 	},
 
 	// Sorting navigation
@@ -1554,7 +1582,7 @@ themes.InstallerRouter = Backbone.Router.extend({
 		'theme-install.php?browse=:sort': 'sort',
 		'theme-install.php?upload': 'upload',
 		'theme-install.php?search=:query': 'search',
-		'': 'sort'
+		'theme-install.php': 'sort'
 	},
 
 	baseUrl: function( url ) {
@@ -1596,16 +1624,23 @@ themes.RunInstaller = {
 	},
 
 	routes: function() {
-		var self = this;
-		// Bind to our global thx object
-		// so that the object is available to sub-views
+		var self = this,
+			request = {};
+
+		// Bind to our global `wp.themes` object
+		// so that the router is available to sub-views
 		themes.router = new themes.InstallerRouter();
 
-		// Handles theme details route event
-		themes.router.on( 'route:theme', function( slug ) {
-			self.view.view.expand( slug );
+		// Handles `theme` route event
+		// Queries the API for the passed theme slug
+		themes.router.on( 'route:preview', function( slug ) {
+			request.slug = slug;
+			self.view.collection.query( request, 'theme_information' );
 		});
 
+		// Handles sorting / browsing routes
+		// Also handles the root URL triggering a sort request
+		// for `featured`, the default view
 		themes.router.on( 'route:sort', function( sort ) {
 			if ( ! sort ) {
 				sort = 'featured';
@@ -1614,11 +1649,12 @@ themes.RunInstaller = {
 			self.view.trigger( 'theme:close' );
 		});
 
+		// Support the `upload` route by going straight to upload section
 		themes.router.on( 'route:upload', function() {
 			$( 'a.upload' ).trigger( 'click' );
 		});
 
-		// Handles search route event
+		// The `search` route event. The router populates the input field.
 		themes.router.on( 'route:search', function() {
 			$( '.theme-search' ).focus().trigger( 'keyup' );
 		});

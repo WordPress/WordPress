@@ -122,7 +122,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 
 	<div class="theme-navigation">
 		<span class="theme-count"></span>
-		<a class="theme-section current" href="#" data-sort="featured"><?php _ex( 'Featured', 'themes' ); ?></a>
+		<a class="theme-section" href="#" data-sort="featured"><?php _ex( 'Featured', 'themes' ); ?></a>
 		<a class="theme-section" href="#" data-sort="popular"><?php _ex( 'Popular', 'themes' ); ?></a>
 		<a class="theme-section" href="#" data-sort="new"><?php _ex( 'Latest', 'themes' ); ?></a>
 		<div class="theme-top-filters">

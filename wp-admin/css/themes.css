@@ -1713,6 +1713,9 @@ body.full-overlay-active {
 .wp-full-overlay .theme-navigation .next-theme {
 	float: right;
 }
+.wp-full-overlay.no-navigation .theme-navigation {
+	display: none;
+}
 
 /* Animations */
 .wp-full-overlay,
