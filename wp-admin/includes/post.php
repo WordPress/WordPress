@@ -433,7 +433,12 @@ function bulk_edit_posts( $post_data = null ) {
 	}
 
 	$updated = $skipped = $locked = array();
+	$shared_post_data = $post_data;
+
 	foreach ( $post_IDs as $post_ID ) {
+		// Start with fresh post data with each iteration.
+		$post_data = $shared_post_data;
+
 		$post_type_object = get_post_type_object( get_post_type( $post_ID ) );
 
 		if ( !isset( $post_type_object ) || ( isset($children) && in_array($post_ID, $children) ) || !current_user_can( 'edit_post', $post_ID ) ) {
@@ -482,13 +487,13 @@ function bulk_edit_posts( $post_data = null ) {
 		$post_data['ID'] = $post_ID;
 		$post_data['post_ID'] = $post_ID;
 
-		$translated_post_data = _wp_translate_postdata( true, $post_data );
-		if ( is_wp_error( $translated_post_data ) ) {
+		$post_data = _wp_translate_postdata( true, $post_data );
+		if ( is_wp_error( $post_data ) ) {
 			$skipped[] = $post_ID;
 			continue;
 		}
 
-		$updated[] = wp_update_post( $translated_post_data );
+		$updated[] = wp_update_post( $post_data );
 
 		if ( isset( $post_data['sticky'] ) && current_user_can( $ptype->cap->edit_others_posts ) ) {
 			if ( 'sticky' == $post_data['sticky'] )
