@@ -269,6 +269,7 @@
 
 		$spinner.show();
 		$errorMessage.hide();
+		$saveMessage.hide();
 		$hidden.val('wp-fullscreen-save-post');
 
 		if ( s.editor && ! s.editor.isHidden() ) {
