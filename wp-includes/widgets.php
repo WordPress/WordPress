@@ -1401,8 +1401,16 @@ function _wp_sidebars_changed() {
 	retrieve_widgets(true);
 }
 
-// look for "lost" widgets, this has to run at least on each theme change
-function retrieve_widgets($theme_changed = false) {
+/**
+ * Look for "lost" widgets, this has to run at least on each theme change.
+ *
+ * @since 2.8.0
+ *
+ * @param mixed $theme_changed Whether the theme was changed as a boolean. A value
+ *                             of 'customize' defers updates for the customizer.
+ * @return array
+ */
+function retrieve_widgets( $theme_changed = false ) {
 	global $wp_registered_sidebars, $sidebars_widgets, $wp_registered_widgets;
 
 	$registered_sidebar_keys = array_keys( $wp_registered_sidebars );
@@ -1412,7 +1420,10 @@ function retrieve_widgets($theme_changed = false) {
 	if ( is_array( $old_sidebars_widgets ) ) {
 		// time() that sidebars were stored is in $old_sidebars_widgets['time']
 		$_sidebars_widgets = $old_sidebars_widgets['data'];
-		remove_theme_mod( 'sidebars_widgets' );
+
+		if ( 'customize' === $theme_changed ) {
+			remove_theme_mod( 'sidebars_widgets' );
+		}
 
 		foreach ( $_sidebars_widgets as $sidebar => $widgets ) {
 			if ( 'wp_inactive_widgets' == $sidebar || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) )
@@ -1495,7 +1506,9 @@ function retrieve_widgets($theme_changed = false) {
 	}
 
 	$sidebars_widgets['wp_inactive_widgets'] = array_merge($lost_widgets, (array) $sidebars_widgets['wp_inactive_widgets']);
-	wp_set_sidebars_widgets($sidebars_widgets);
+	if ( 'customize' === $theme_changed ) {
+		wp_set_sidebars_widgets( $sidebars_widgets );
+	}
 
 	return $sidebars_widgets;
 }

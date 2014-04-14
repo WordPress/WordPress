@@ -575,6 +575,7 @@ final class WP_Customize_Manager {
 			// to operate properly.
 			$this->stop_previewing_theme();
 			switch_theme( $this->get_stylesheet() );
+			update_option( 'theme_switched_via_customizer', true );
 			$this->start_previewing_theme();
 		}
 

@@ -61,6 +61,13 @@ final class WP_Customize_Widgets {
 	protected $rendered_widgets = array();
 
 	/**
+	 * @since 3.9.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $old_sidebars_widgets = array();
+
+	/**
 	 * Initial loader.
 	 *
 	 * @since 3.9.0
@@ -72,6 +79,7 @@ final class WP_Customize_Widgets {
 		$this->manager = $manager;
 
 		add_action( 'after_setup_theme',                       array( $this, 'setup_widget_addition_previews' ) );
+		add_action( 'wp_loaded',                               array( $this, 'override_sidebars_widgets_for_theme_switch' ) );
 		add_action( 'customize_controls_init',                 array( $this, 'customize_controls_init' ) );
 		add_action( 'customize_register',                      array( $this, 'schedule_customize_register' ), 1 );
 		add_action( 'customize_controls_enqueue_scripts',      array( $this, 'enqueue_scripts' ) );
@@ -115,7 +123,6 @@ final class WP_Customize_Widgets {
 	 * @since 3.9.0
 	 *
 	 * @access public
-	 * @global WP_Customize_Manager $wp_customize Customizer instance.
 	 */
 	public function setup_widget_addition_previews() {
 		$is_customize_preview = false;
@@ -125,12 +132,12 @@ final class WP_Customize_Widgets {
 		}
 
 		$is_ajax_widget_update = false;
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX && 'update-widget' === $this->get_post_value( 'action' ) ) {
+		if ( $this->manager->doing_ajax() && 'update-widget' === $this->get_post_value( 'action' ) ) {
 			$is_ajax_widget_update = check_ajax_referer( 'update-widget', 'nonce', false );
 		}
 
 		$is_ajax_customize_save = false;
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX && 'customize_save' === $this->get_post_value( 'action' ) ) {
+		if ( $this->manager->doing_ajax() && 'customize_save' === $this->get_post_value( 'action' ) ) {
 			$is_ajax_customize_save = check_ajax_referer( 'save-customize_' . $this->manager->get_stylesheet(), 'nonce', false );
 		}
 
@@ -279,6 +286,72 @@ final class WP_Customize_Widgets {
 	}
 
 	/**
+	 * Override sidebars_widgets for theme switch.
+	 *
+	 * When switching a theme via the customizer, supply any previously-configured
+	 * sidebars_widgets from the target theme as the initial sidebars_widgets
+	 * setting. Also store the old theme's existing settings so that they can
+	 * be passed along for storing in the sidebars_widgets theme_mod when the
+	 * theme gets switched.
+	 *
+	 * @since 3.9.0
+	 * @access public
+	 */
+	public function override_sidebars_widgets_for_theme_switch() {
+		global $sidebars_widgets;
+
+		if ( $this->manager->doing_ajax() || $this->manager->is_theme_active() ) {
+			return;
+		}
+
+		$this->old_sidebars_widgets = wp_get_sidebars_widgets();
+		add_filter( 'customize_value_old_sidebars_widgets_data', array( $this, 'filter_customize_value_old_sidebars_widgets_data' ) );
+
+		// retrieve_widgets() looks at the global $sidebars_widgets
+		$sidebars_widgets = $this->old_sidebars_widgets;
+		$sidebars_widgets = retrieve_widgets( 'customize' );
+		add_filter( 'option_sidebars_widgets', array( $this, 'filter_option_sidebars_widgets_for_theme_switch' ), 1 );
+	}
+
+	/**
+	 * Filter old_sidebars_widgets_data customizer setting.
+	 *
+	 * When switching themes, filter the Customizer setting
+	 * old_sidebars_widgets_data to supply initial $sidebars_widgets before they
+	 * were overridden by retrieve_widgets(). The value for
+	 * old_sidebars_widgets_data gets set in the old theme's sidebars_widgets
+	 * theme_mod.
+	 *
+	 * @see WP_Customize_Widgets::handle_theme_switch()
+	 * @since 3.9.0
+	 * @access public
+	 *
+	 * @param array $sidebars_widgets
+	 */
+	public function filter_customize_value_old_sidebars_widgets_data( $old_sidebars_widgets ) {
+		return $this->old_sidebars_widgets;
+	}
+
+	/**
+	 * Filter sidebars_widgets option for theme switch.
+	 *
+	 * When switching themes, the retrieve_widgets() function is run when the
+	 * Customizer initializes, and then the new sidebars_widgets here get
+	 * supplied as the default value for the sidebars_widgets option.
+	 *
+	 * @see WP_Customize_Widgets::handle_theme_switch()
+	 * @since 3.9.0
+	 * @access public
+	 *
+	 * @param array $sidebars_widgets
+	 */
+	public function filter_option_sidebars_widgets_for_theme_switch( $sidebars_widgets ) {
+		$sidebars_widgets = $GLOBALS['sidebars_widgets'];
+		$sidebars_widgets['array_version'] = 3;
+		return $sidebars_widgets;
+	}
+
+	/**
 	 * Make sure all widgets get loaded into the Customizer.
 	 *
 	 * Note: these actions are also fired in wp_ajax_update_widget().
@@ -347,6 +420,18 @@ final class WP_Customize_Widgets {
 			$this->manager->add_setting( $setting_id, $setting_args );
 
 			$new_setting_ids[] = $setting_id;
+		}
+
+		/*
+		 * Add a setting which will be supplied for the theme's sidebars_widgets
+		 * theme_mod when the the theme is switched.
+		 */
+		if ( ! $this->manager->is_theme_active() ) {
+			$setting_id = 'old_sidebars_widgets_data';
+			$setting_args = $this->get_setting_args( $setting_id, array(
+				'type' => 'global_variable',
+			) );
+			$this->manager->add_setting( $setting_id, $setting_args );
 		}
 
 		foreach ( $sidebars_widgets as $sidebar_id => $sidebar_widget_ids ) {
