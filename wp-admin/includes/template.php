@@ -1978,13 +1978,13 @@ final class WP_Internal_Pointers {
 
 		if ( 'themes' === get_current_screen()->id ) {
 			$selector = '.theme.active .customize';
-			$position = array( 'edge' => is_rtl() ? 'right' : 'left', 'align' => 'center' );
+			$position = array( 'edge' => is_rtl() ? 'right' : 'left', 'align' => 'center', 'my' => is_rtl() ? 'right-13px' : '' );
 		} else {
 			$selector = 'a[href="customize.php"]';
 			if ( is_rtl() ) {
-				$position = array( 'edge' => 'right', 'align' => 'center-8px', 'my' => 'right-5px' );
+				$position = array( 'edge' => 'right', 'align' => 'center', 'my' => 'right-5px' );
 			} else {
-				$position = array( 'edge' => 'left', 'align' => 'center-8px', 'my' => 'left-5px' );
+				$position = array( 'edge' => 'left', 'align' => 'center', 'my' => 'left-5px' );
 			}
 		}
 

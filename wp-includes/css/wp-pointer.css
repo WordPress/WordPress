@@ -66,7 +66,7 @@
 	display: block !important;
 	font: normal 13px/1 'dashicons';
 	speak: none;
-	margin: 2px 0;
+	margin: 1px 0;
 	text-align: center;
 	-webkit-font-smoothing: antialiased !important;
 	width: 10px;
@@ -188,12 +188,18 @@
 }
 
 .wp-pointer-right .wp-pointer-arrow:before {
-	margin-left: -14px;
+	margin-left: -12px;
 	margin-top: -13px;
 	border: 13px solid transparent;
 	border-left-color: #fff;
 	display: block;
 	content: ' ';
+}
+
+.rtl .wp-pointer-arrow:before {
+	-webkit-transform: rotateY(180deg);
+	-ms-transform:     rotateY(180deg);
+	transform:         rotateY(180deg);
 }
 
 /* Disable pointers at responsive sizes */
