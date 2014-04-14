@@ -379,6 +379,16 @@ final class WP_Customize_Widgets {
 						'description' => $GLOBALS['wp_registered_sidebars'][$sidebar_id]['description'],
 						'priority' => 1000 + array_search( $sidebar_id, array_keys( $wp_registered_sidebars ) ),
 					);
+
+					/**
+					 * Filter Customizer widget section arguments for a given sidebar.
+					 *
+					 * @since 3.9.0
+					 *
+					 * @param array      $section_args Array of Customizer widget section arguments.
+					 * @param string     $section_id   Customizer section ID.
+					 * @param int|string $sidebar_id   Sidebar ID.
+					 */
 					$section_args = apply_filters( 'customizer_widgets_section_args', $section_args, $section_id, $sidebar_id );
 
 					$this->manager->add_section( $section_id, $section_args );
@@ -1401,6 +1411,8 @@ final class WP_Customize_Widgets {
 
 		if ( isset( $this->_captured_options[$option_name] ) ) {
 			$value = $this->_captured_options[$option_name];
+
+			/** This filter is documented in wp-includes/option.php */
 			$value = apply_filters( 'option_' . $option_name, $value );
 		}
 
