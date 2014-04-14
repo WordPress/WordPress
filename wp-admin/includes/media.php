@@ -1766,8 +1766,8 @@ $plupload_init = array(
 	'drop_element'        => 'drag-drop-area',
 	'file_data_name'      => 'async-upload',
 	'url'                 => $upload_action_url,
-	'flash_swf_url'       => includes_url( 'js/plupload/Moxie.swf' ),
-	'silverlight_xap_url' => includes_url( 'js/plupload/Moxie.xap' ),
+	'flash_swf_url'       => includes_url( 'js/plupload/plupload.flash.swf' ),
+	'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
 	'filters' => array(
 		'max_file_size'   => $max_upload_size . 'b',
 	),
