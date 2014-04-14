@@ -452,6 +452,25 @@ body.more-filters-opened .more-filters:focus:before {
 	color: $menu-highlight-text;
 }
 
+/* Widgets */
+
+.widgets-chooser li.widgets-chooser-selected {
+	background-color: $menu-highlight-background;
+	color: $menu-highlight-text;
+}
+
+.widgets-chooser li.widgets-chooser-selected:before,
+.widgets-chooser li.widgets-chooser-selected:focus:before {
+	color: $menu-highlight-text;
+}
+
+/* Customize */
+
+#customize-theme-controls .widget-area-select .selected {
+	background-color: $menu-highlight-background;
+	color: $menu-highlight-text;
+}
+
 
 /* jQuery UI Slider */
 

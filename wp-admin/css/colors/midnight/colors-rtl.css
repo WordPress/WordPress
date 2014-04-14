@@ -287,6 +287,19 @@ body.more-filters-opened .more-filters:hover, body.more-filters-opened .more-fil
   background-color: #e14d43;
   color: #fff; }
 
+/* Widgets */
+.widgets-chooser li.widgets-chooser-selected {
+  background-color: #e14d43;
+  color: #fff; }
+
+.widgets-chooser li.widgets-chooser-selected:before, .widgets-chooser li.widgets-chooser-selected:focus:before {
+  color: #fff; }
+
+/* Customize */
+#customize-theme-controls .widget-area-select .selected {
+  background-color: #e14d43;
+  color: #fff; }
+
 /* jQuery UI Slider */
 .wp-slider .ui-slider-handle, .wp-slider .ui-slider-handle.ui-state-hover, .wp-slider .ui-slider-handle.focus {
   background: #e14d43;

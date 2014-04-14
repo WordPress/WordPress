@@ -256,7 +256,6 @@
 #customize-theme-controls .widget-area-select .selected {
 	color: #fff;
 	text-shadow: 0 -1px 0 rgba(0,0,0,.4);
-	border-top: 1px solid #207fa1;
 	background: #2ea2cc;
 }
 
@@ -264,17 +263,9 @@
 	display: block;
 }
 
-#customize-theme-controls .widget-area-select .selected:last-child {
-	border-bottom: 1px solid #207fa1;
-}
-
 #customize-theme-controls .move-widget-actions {
 	text-align: left;
 	padding: 12px;
-}
-
-#customize-theme-controls .widget-area-select + li {
-	border-top: 1px solid #207fa1;
 }
 
 #customize-theme-controls .reordering .widget-title-action {
