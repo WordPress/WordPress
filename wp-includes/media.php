@@ -2168,8 +2168,8 @@ function wp_plupload_default_settings() {
 		'runtimes'            => 'html5,flash,silverlight,html4',
 		'file_data_name'      => 'async-upload', // key passed to $_FILE.
 		'url'                 => admin_url( 'async-upload.php', 'relative' ),
-		'flash_swf_url'       => includes_url( 'js/plupload/Moxie.swf' ),
-		'silverlight_xap_url' => includes_url( 'js/plupload/Moxie.xap' ),
+		'flash_swf_url'       => includes_url( 'js/plupload/plupload.flash.swf' ),
+		'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
 		'filters' => array(
 			'max_file_size'   => $max_upload_size . 'b',
 		),

@@ -266,14 +266,16 @@ function wp_default_scripts( &$scripts ) {
 		'error_uploading' => __('&#8220;%s&#8221; has failed to upload.')
 	);
 
-	// Back compat
 	$scripts->add( 'plupload', '/wp-includes/js/plupload/plupload.full.min.js', array(), '2.1.1' );
-	$scripts->add( 'plupload-all', '/wp-includes/js/plupload/plupload.full.min.js', array(), '2.1.1' );
+	// Back compat handles:
+	foreach ( array( 'all', 'html5', 'flash', 'silverlight', 'html4' ) as $handle ) {
+		$scripts->add( "plupload-$handle", false, array( 'plupload' ), '2.1.1' );
+	}
 
-	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-all', 'jquery') );
+	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array( 'plupload', 'jquery' ) );
 	did_action( 'init' ) && $scripts->localize( 'plupload-handlers', 'pluploadL10n', $uploader_l10n );
 
-	$scripts->add( 'wp-plupload', "/wp-includes/js/plupload/wp-plupload$suffix.js", array('plupload-all', 'jquery', 'json2', 'media-models'), false, 1 );
+	$scripts->add( 'wp-plupload', "/wp-includes/js/plupload/wp-plupload$suffix.js", array( 'plupload', 'jquery', 'json2', 'media-models' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'wp-plupload', 'pluploadL10n', $uploader_l10n );
 
 	// keep 'swfupload' for back-compat.
