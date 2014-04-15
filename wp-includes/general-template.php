@@ -426,9 +426,46 @@ function wp_login_form( $args = array() ) {
 	 */
 	$args = wp_parse_args( $args, apply_filters( 'login_form_defaults', $defaults ) );
 
+	/**
+	 * Filter content to display at the top of the login form.
+	 *
+	 * The filter evaluates just following the opening form tag element.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $content Content to display. Default empty.
+	 * @param array  $args    Array of login form arguments.
+	 */
+	$login_form_top = apply_filters( 'login_form_top', '', $args );
+
+	/**
+	 * Filter content to display in the middle of the login form.
+	 *
+	 * The filter evaluates just following the location where the 'login-password'
+	 * field is displayed.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $content Content to display. Default empty.
+	 * @param array  $args    Array of login form arguments.
+	 */
+	$login_form_middle = apply_filters( 'login_form_middle', '', $args );
+
+	/**
+	 * Filter content to display at the bottom of the login form.
+	 *
+	 * The filter evaluates just preceding the closing form tag element.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $content Content to display. Default empty.
+	 * @param array  $args    Array of login form arguments.
+	 */
+	$login_form_bottom = apply_filters( 'login_form_bottom', '', $args );
+
 	$form = '
 		<form name="' . $args['form_id'] . '" id="' . $args['form_id'] . '" action="' . esc_url( site_url( 'wp-login.php', 'login_post' ) ) . '" method="post">
-			' . apply_filters( 'login_form_top', '', $args ) . '
+			' . $login_form_top . '
 			<p class="login-username">
 				<label for="' . esc_attr( $args['id_username'] ) . '">' . esc_html( $args['label_username'] ) . '</label>
 				<input type="text" name="log" id="' . esc_attr( $args['id_username'] ) . '" class="input" value="' . esc_attr( $args['value_username'] ) . '" size="20" />
@@ -437,13 +474,13 @@ function wp_login_form( $args = array() ) {
 				<label for="' . esc_attr( $args['id_password'] ) . '">' . esc_html( $args['label_password'] ) . '</label>
 				<input type="password" name="pwd" id="' . esc_attr( $args['id_password'] ) . '" class="input" value="" size="20" />
 			</p>
-			' . apply_filters( 'login_form_middle', '', $args ) . '
+			' . $login_form_middle . '
 			' . ( $args['remember'] ? '<p class="login-remember"><label><input name="rememberme" type="checkbox" id="' . esc_attr( $args['id_remember'] ) . '" value="forever"' . ( $args['value_remember'] ? ' checked="checked"' : '' ) . ' /> ' . esc_html( $args['label_remember'] ) . '</label></p>' : '' ) . '
 			<p class="login-submit">
 				<input type="submit" name="wp-submit" id="' . esc_attr( $args['id_submit'] ) . '" class="button-primary" value="' . esc_attr( $args['label_log_in'] ) . '" />
 				<input type="hidden" name="redirect_to" value="' . esc_url( $args['redirect'] ) . '" />
 			</p>
-			' . apply_filters( 'login_form_bottom', '', $args ) . '
+			' . $login_form_bottom . '
 		</form>';
 
 	if ( $args['echo'] )
