@@ -2365,13 +2365,24 @@ class WP_Automatic_Updater {
 				break;
 		}
 
-		// Updates are important!
-		if ( $type != 'success' || $newer_version_available )
-			$body .= "\n\n" . __( 'Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers.' );
+		$critical_support = 'critical' === $type && ! empty( $core_update->support_email );
+		if ( $critical_support ) {
+			// Support offer if available.
+			$body .= "\n\n" . sprintf( __( "The WordPress team is willing to help you. Forward this email to %s and the team will work with you to make sure your site is working." ), $core_update->support_email );
+		} else {
+			// Add a note about the support forums.
+			$body .= "\n\n" . __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.' );
+			$body .= "\n" . __( 'https://wordpress.org/support/' );
+		}
 
-		// Add a note about the support forums to all emails.
-		$body .= "\n\n" . __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.' );
-		$body .= "\n" . __( 'https://wordpress.org/support/' );
+		// Updates are important!
+		if ( $type != 'success' || $newer_version_available ) {
+			$body .= "\n\n" . __( 'Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers.' );
+		}
+
+		if ( $critical_support ) {
+			$body .= " " . __( "If you reach out to us, we'll also ensure you'll never have this problem again." );
+		}
 
 		// If things are successful and we're now on the latest, mention plugins and themes if any are out of date.
 		if ( $type == 'success' && ! $newer_version_available && ( get_plugin_updates() || get_theme_updates() ) ) {

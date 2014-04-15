@@ -142,7 +142,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 				$offer[ $offer_key ] = esc_html( $value );
 		}
 		$offer = (object) array_intersect_key( $offer, array_fill_keys( array( 'response', 'download', 'locale',
-			'packages', 'current', 'version', 'php_version', 'mysql_version', 'new_bundled', 'partial_version', 'notify_email' ), '' ) );
+			'packages', 'current', 'version', 'php_version', 'mysql_version', 'new_bundled', 'partial_version', 'notify_email', 'support_email' ), '' ) );
 	}
 
 	$updates = new stdClass();
