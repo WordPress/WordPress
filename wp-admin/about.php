@@ -35,63 +35,66 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <div class="changelog">
 	<h2 class="about-headline-callout"><?php echo ( 'A smoother media editing&nbsp;experience' ); ?></h2>
-	<img class="about-overview-img" src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/overview.png?1" />
-	<div class="feature-section col three-col">
-		<div class="col-1">
-			<h4><?php echo ( 'Gallery previews' ); ?></h4>
-			<p><?php echo ( 'Galleries display a beautiful grid of images right in the editor, just like they do in your published post.' ); ?></p>
-		</div>
-		<div class="col-2">
-			<h4><?php echo ( 'Improved image editing' ); ?></h4>
-			<p><?php echo ( 'We&#8217;ve made it much easier to edit your images, with quicker access to cropping and rotation tools. You can also scale images directly in the editor to find just the right fit.' ); ?></p>
-		</div>
-		<div class="col-3 last-feature">
-			<h4><?php echo ( 'Drag and drop your images' ); ?></h4>
-			<p><?php echo ( 'Grab images from your desktop and drop them directly onto the editor, saving yourself that extra step.' ); ?></p>
-		</div>
+	<div class="about-overview">
+		<img class="about-overview-img" src="//wordpress.org/images/core/3.9/overview.png?0" />
 	</div>
 	<div class="feature-section col three-col">
 		<div class="col-1">
+			<img src="//wordpress.org/images/core/3.9/editor.jpg?0" />
 			<h4><?php echo ( 'Improved visual editor' ); ?></h4>
 			<p><?php echo ( 'We&#8217;ve updated the visual editor with better mobile support, improved speed and accessibility, and a modern API for developers.' ); ?></p>
 			<p><?php echo ( 'The visual editor will now automatically clean up the messy styling that certain word processing applications insert when copying and pasting. Yeah, we&#8217;re talking about you, Microsoft Word.' ); ?></p>
 		</div>
 		<div class="col-2">
-			<h4><?php echo ( 'Do more with audio and video' ); ?></h4>
-			<p><?php echo ( 'Images have galleries; now we&#8217;ve added simple audio and video playlists, so you can showcase your music and clips.' ); ?></p>
-			<!-- maybe insert note about playing/editing audio/video from the editor -->
+			<img src="//wordpress.org/images/core/3.9/image.jpg?0" />
+			<h4><?php echo ( 'Improved image editing' ); ?></h4>
+			<p><?php echo ( 'We&#8217;ve made it much easier to edit your images, with quicker access to cropping and rotation tools. You can also scale images directly in the editor to find just the right fit.' ); ?></p>
 		</div>
 		<div class="col-3 last-feature">
-			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/colors.png?1" />
-			<!-- embedded playlist? -->
+			<img src="//wordpress.org/images/core/3.9/drop.jpg?0" />
+			<h4><?php echo ( 'Drag and drop your images' ); ?></h4>
+			<p><?php echo ( 'Grab images from your desktop and drop them directly onto the editor, saving yourself that extra step.' ); ?></p>
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="feature-section col two-col">
+		<div class="col-1">
+			<img src="//wordpress.org/images/core/3.9/gallery.jpg?0" />
+			<h4><?php echo ( 'Gallery previews' ); ?></h4>
+			<p><?php echo ( 'Galleries display a beautiful grid of images right in the editor, just like they do in your published post.' ); ?></p>
+		</div>
+		<div class="col-2 last-feature">
+			<h4><?php echo ( 'Do more with audio and video' ); ?></h4>
+			<p><?php echo ( 'Images have galleries; now we&#8217;ve added simple audio and video playlists, so you can showcase your music and clips.' ); ?></p>
 		</div>
 	</div>
 </div>
 
 <hr>
 
-<div class="changelog">
+<div class="changelog customize">
 	<h3><?php echo ( 'Customize your heart out' ); ?></h3>
 
 	<div class="feature-section col two-col">
 		<div>
-			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/twentyfourteen.jpg?1" />
 			<h4><?php echo ( 'Live widget previews' ); ?></h4>
 			<p><?php echo ( 'Add, edit, and rearrange your site&#8217;s widgets right in the theme customizer. No &#8220;save and surprise&#8221; &mdash; preview your changes live and only save them when you&#8217;re ready.' ); ?></p>
 			<p><?php echo ( 'The improved header image tool also lets you upload, crop, and manage headers while customizing your theme.' ); ?></p>
 		</div>
 		<div class="last-feature">
-			<img src="<?php echo is_ssl() ? 'https://' : '//s.'; ?>wordpress.org/images/core/3.8/twentyfourteen.jpg?1" />
+			<img src="//wordpress.org/images/core/3.9/theme.jpg?0" />
 			<h4><?php _e( 'Stunning new theme browser' ); ?></h4>
 			<p><?php _e( 'Looking for a new theme should be easy and fun. Lose yourself in the boundless supply of free WordPress.org themes with the beautiful new theme browser.' ); ?></p>
-			<p><a href="<?php echo network_admin_url( 'theme-install.php' ); ?>" class="button button-primary">Browse Themes</a></p>
+			<p><a href="<?php echo network_admin_url( 'theme-install.php' ); ?>" class="button button-large button-primary">Browse Themes</a></p>
 		</div>
 	</div>
 </div>
 
 <hr>
 
-<div class="changelog">
+<div class="changelog under-the-hood">
 	<h3><?php _e( 'Under the Hood' ); ?></h3>
 
 	<div class="feature-section col three-col">
