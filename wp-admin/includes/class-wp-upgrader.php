@@ -1962,7 +1962,7 @@ class WP_Automatic_Updater {
 				break;
 			case 'theme':
 				$upgrader = new Theme_Upgrader( $skin );
-				$context  = get_theme_root( $item );
+				$context  = get_theme_root( $item->theme );
 				break;
 			case 'translation':
 				$upgrader = new Language_Pack_Upgrader( $skin );
