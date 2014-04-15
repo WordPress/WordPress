@@ -46,9 +46,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		'isInstall'     => true,
 		'canInstall'    => current_user_can( 'install_themes' ),
 		'installURI'    => current_user_can( 'install_themes' ) ? self_admin_url( 'theme-install.php' ) : null,
-		'adminUrl'      => parse_url( self_admin_url(), PHP_URL_PATH ),
-		'updateURI'     => self_admin_url( 'update.php' ),
-		'_nonceInstall' => wp_create_nonce( 'install-theme' )
+		'adminUrl'      => parse_url( self_admin_url(), PHP_URL_PATH )
 	),
 	'l10n' => array(
 		'addNew' => __( 'Add New Theme' ),
@@ -56,7 +54,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		'searchPlaceholder' => __( 'Search themes...' ), // placeholder (no ellipsis)
 		'upload' => __( 'Upload Theme' ),
 		'back'   => __( 'Back' ),
-		'error'  => sprintf( __( 'An unexpected error occurred and we can&#8127;t reach WordPress.org. If you continue to have problems, please try the <a href="%s">support forums</a>.' ), __( 'https://wordpress.org/support/' ) )
+		'error'  => __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' )
 	),
 	'installedThemes' => array_keys( $installed_themes ),
 	'browse' => array(
@@ -199,7 +197,7 @@ if ( $tab ) {
 	<h3 class="theme-name">{{ data.name }}</h3>
 
 	<div class="theme-actions">
-		<a class="button button-primary" href="{{ data.installURI }}"><?php esc_html_e( 'Install' ); ?></a>
+		<a class="button button-primary" href="{{ data.install_url }}"><?php esc_html_e( 'Install' ); ?></a>
 		<a class="button button-secondary preview install-theme-preview" href="#"><?php esc_html_e( 'Preview' ); ?></a>
 	</div>
 
@@ -215,7 +213,7 @@ if ( $tab ) {
 		<# if ( data.installed ) { #>
 			<a href="#" class="button button-primary theme-install disabled"><?php _e( 'Installed' ); ?></a>
 		<# } else { #>
-			<a href="{{ data.installURI }}" class="button button-primary theme-install"><?php _e( 'Install' ); ?></a>
+			<a href="{{ data.install_url }}" class="button button-primary theme-install"><?php _e( 'Install' ); ?></a>
 		<# } #>
 		</div>
 		<div class="wp-full-overlay-sidebar-content">
@@ -233,7 +231,7 @@ if ( $tab ) {
 						<span class="four"></span>
 						<span class="five"></span>
 					<# if ( data.num_ratings ) { #>
-						<p class="ratings">({{ data.num_ratings }})</p>
+						<p class="ratings">{{ data.num_ratings }}</p>
 					<# } else { #>
 						<p class="ratings"><?php _e( 'No ratings.' ); ?></p>
 					<# } #>

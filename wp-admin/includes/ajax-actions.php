@@ -2204,3 +2204,48 @@ function wp_ajax_save_user_color_scheme() {
 	update_user_meta( get_current_user_id(), 'admin_color', $color_scheme );
 	wp_send_json_success();
 }
+
+/**
+ * Get themes from themes_api().
+ *
+ * @since 3.9.0
+ */
+function wp_ajax_query_themes() {
+	global $themes_allowedtags, $theme_field_defaults;
+
+	if ( ! current_user_can( 'install_themes' ) ) {
+		wp_send_json_error();
+	}
+
+	$args = wp_parse_args( wp_unslash( $_REQUEST['request'] ), array(
+		'per_page' => 20,
+		'fields'   => $theme_field_defaults
+	) );
+
+	$old_filter = isset( $args['browse'] ) ? $args['browse'] : 'search';
+
+	/** This filter is documented in wp-admin/includes/class-wp-theme-install-list-table.php */
+	$args = apply_filters( 'install_themes_table_api_args_' . $old_filter, $args );
+
+	$api = themes_api( 'query_themes', $args );
+
+	if ( is_wp_error( $api ) ) {
+		wp_send_json_error();
+	}
+
+	$update_php = self_admin_url( 'update.php?action=install-theme' );
+	foreach ( $api->themes as &$theme ) {
+		$theme->install_url = add_query_arg( array(
+			'theme'    => $theme->slug,
+			'_wpnonce' => wp_create_nonce( 'install-theme_' . $theme->slug )
+		), $update_php );
+
+		$theme->name        = wp_kses( $theme->name, $themes_allowedtags );
+		$theme->author      = wp_kses( $theme->author, $themes_allowedtags );
+		$theme->version     = wp_kses( $theme->version, $themes_allowedtags );
+		$theme->description = wp_kses( $theme->description, $themes_allowedtags );
+		$theme->num_ratings = sprintf( _n( '(based on %s rating)', '(based on %s ratings)', $theme->num_ratings ), number_format_i18n( $theme->num_ratings ) );
+	}
+
+	wp_send_json_success( $api );
+}

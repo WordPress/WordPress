@@ -22,18 +22,7 @@ themes.Model = Backbone.Model.extend({
 	// Adds attributes to the default data coming through the .org themes api
 	// Map `id` to `slug` for shared code
 	initialize: function() {
-		var install, description;
-
-		// Install url for the theme
-		// using the install nonce
-		install = {
-			action: 'install-theme',
-			theme: this.get( 'slug' ),
-			_wpnonce: themes.data.settings._nonceInstall
-		};
-
-		// Build the url query
-		install = themes.data.settings.updateURI + '?' + $.param( install );
+		var description;
 
 		// If theme is already installed, set an attribute.
 		if ( _.indexOf( themes.data.installedThemes, this.get( 'slug' ) ) !== -1 ) {
@@ -42,7 +31,6 @@ themes.Model = Backbone.Model.extend({
 
 		// Set the attributes
 		this.set({
-			installURI: ( this.get( 'slug' ) ) ? install : false,
 			// slug is for installation, id is for existing.
 			id: this.get( 'slug' ) || this.get( 'id' )
 		});
@@ -225,7 +213,7 @@ themes.Collection = Backbone.Collection.extend({
 	//
 	// When we are missing a cache object we fire an apiCall()
 	// which triggers events of `query:success` or `query:fail`
-	query: function( request, action ) {
+	query: function( request ) {
 		/**
 		 * @static
 		 * @type Array
@@ -254,7 +242,7 @@ themes.Collection = Backbone.Collection.extend({
 
 		// Otherwise, send a new API call and add it to the cache.
 		if ( ! query && ! isPaginated ) {
-			query = this.apiCall( request, action ).done( function( data ) {
+			query = this.apiCall( request ).done( function( data ) {
 
 				// Update the collection with the queried data.
 				if ( data.themes ) {
@@ -262,11 +250,6 @@ themes.Collection = Backbone.Collection.extend({
 					count = data.info.results;
 					// Store the results and the query request
 					queries.push( { themes: data.themes, request: request, total: count } );
-
-				} else if ( action ) {
-					self.reset( data );
-					count = 1;
-					self.trigger( 'query:theme' );
 				}
 
 				// Trigger a collection refresh event
@@ -284,7 +267,7 @@ themes.Collection = Backbone.Collection.extend({
 		} else {
 			// If it's a paginated request we need to fetch more themes...
 			if ( isPaginated ) {
-				return this.apiCall( request, action, isPaginated ).done( function( data ) {
+				return this.apiCall( request, isPaginated ).done( function( data ) {
 					// Add the new themes to the current collection
 					// @todo update counter
 					self.add( data.themes );
@@ -310,12 +293,13 @@ themes.Collection = Backbone.Collection.extend({
 				this.count = query.total;
 			}
 
+			this.reset( query.themes );
 			if ( ! query.total ) {
 				this.count = this.length;
 			}
 
-			this.reset( query.themes );
 			this.trigger( 'update' );
+			this.trigger( 'query:success', this.count );
 		}
 	},
 
@@ -329,30 +313,23 @@ themes.Collection = Backbone.Collection.extend({
 	},
 
 	// Send request to api.wordpress.org/themes
-	apiCall: function( request, action, paginated ) {
-
-		// Send tags (and fields) as comma-separated to keep the JSONP query string short.
-		if ( request.tag && _.isArray( request.tag ) ) {
-			request.tag = request.tag.join( ',' );
-		}
-
-		// Set request action
-		if ( ! action ) {
-			action = 'query_themes'
-		}
-
-		// JSONP request to .org API
-		return $.ajax({
-			url: 'https://api.wordpress.org/themes/info/1.1/?callback=?',
-			dataType: 'jsonp',
-			timeout: 15000, // 15 seconds
-
-			// Request data
+	apiCall: function( request, paginated ) {
+		return wp.ajax.send( 'query-themes', {
 			data: {
-				action: action,
+			// Request data
 				request: _.extend({
-					per_page: 72,
-					fields: 'description,tested,requires,rating,downloaded,downloadLink,last_updated,homepage,num_ratings'
+					per_page: 100,
+					fields: {
+						description: true,
+						tested: true,
+						requires: true,
+						rating: true,
+						downloaded: true,
+						downloadLink: true,
+						last_updated: true,
+						homepage: true,
+						num_ratings: true
+					}
 				}, request)
 			},
 
@@ -1567,7 +1544,11 @@ themes.view.Installer = themes.view.Appearance.extend({
 		});
 	},
 
-	backToFilters: function() {
+	backToFilters: function( event ) {
+		if ( event ) {
+			event.preventDefault();
+		}
+
 		$( 'body' ).removeClass( 'filters-applied' );
 	},
 
@@ -1634,8 +1615,8 @@ themes.RunInstaller = {
 		// Handles `theme` route event
 		// Queries the API for the passed theme slug
 		themes.router.on( 'route:preview', function( slug ) {
-			request.slug = slug;
-			self.view.collection.query( request, 'theme_information' );
+			request.theme = slug;
+			self.view.collection.query( request );
 		});
 
 		// Handles sorting / browsing routes
