@@ -153,7 +153,20 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	if ( isset( $body['translations'] ) )
 		$updates->translations = $body['translations'];
 
-	set_site_transient( 'update_core',  $updates);
+	set_site_transient( 'update_core', $updates );
+
+	if ( ! empty( $body['ttl'] ) ) {
+		$ttl = (int) $body['ttl'];
+		if ( $ttl && ( time() + $ttl < wp_next_scheduled( 'wp_version_check' ) ) ) {
+			// Queue an event to re-run the update check in $ttl seconds.
+			wp_schedule_single_event( time() + $ttl, 'wp_version_check' );
+		}
+	}
+
+	// Trigger a background updates check if running non-interactively, and we weren't called from the update handler.
+	if ( defined( 'DOING_CRON' ) && DOING_CRON && ! doing_action( 'wp_maybe_auto_update' ) ) {
+		do_action( 'wp_maybe_auto_update' );
+	}
 }
 
 /**
@@ -203,7 +216,11 @@ function wp_update_plugins( $extra_stats = array() ) {
 			$timeout = HOUR_IN_SECONDS;
 			break;
 		default :
-			$timeout = 12 * HOUR_IN_SECONDS;
+			if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+				$timeout = 0;
+			} else {
+				$timeout = 12 * HOUR_IN_SECONDS;
+			}
 	}
 
 	$time_not_changed = isset( $current->last_checked ) && $timeout > ( time() - $current->last_checked );
@@ -349,7 +366,11 @@ function wp_update_themes( $extra_stats = array() ) {
 			$timeout = HOUR_IN_SECONDS;
 			break;
 		default :
-			$timeout = 12 * HOUR_IN_SECONDS;
+			if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+				$timeout = 0;
+			} else {
+				$timeout = 12 * HOUR_IN_SECONDS;
+			}
 	}
 
 	$time_not_changed = isset( $last_update->last_checked ) && $timeout > ( time() - $last_update->last_checked );
