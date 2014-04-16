@@ -1041,7 +1041,7 @@ final class WP_Customize_Widgets {
 			'registeredSidebars' => array_values( $GLOBALS['wp_registered_sidebars'] ),
 			'registeredWidgets'  => $GLOBALS['wp_registered_widgets'],
 			'l10n'               => array(
-				'widgetTooltip' => ( 'Shift-click to edit this widget.' ),
+				'widgetTooltip' => __( 'Shift-click to edit this widget.' ),
 			),
 		);
 		foreach ( $settings['registeredWidgets'] as &$registered_widget ) {
