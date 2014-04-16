@@ -53,7 +53,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="col-3 last-feature">
 			<img src="//wordpress.org/images/core/3.9/drop.jpg?0" />
 			<h4><?php _e( 'Drag and drop your images' ); ?></h4>
-			<p><?php _e( 'Uploading your images is easier than ever. Just grab them from your desktop and drop them in the editor.' ); ?></p>
+			<p><?php _e( 'Uploading your images is easier than ever. Just grab them from your desktop and drop them onto the editor.' ); ?></p>
 		</div>
 	</div>
 
