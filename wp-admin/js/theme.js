@@ -1179,7 +1179,7 @@ themes.Router = Backbone.Router.extend({
 
 	navigate: function() {
 		if ( Backbone.history._hasPushState ) {
-			Backbone.Router.navigate.apply( this, arguments );
+			Backbone.Router.prototype.navigate.apply( this, arguments );
 		}
 	}
 
@@ -1582,7 +1582,7 @@ themes.InstallerRouter = Backbone.Router.extend({
 
 	navigate: function() {
 		if ( Backbone.history._hasPushState ) {
-			Backbone.Router.navigate.apply( this, arguments );
+			Backbone.Router.prototype.navigate.apply( this, arguments );
 		}
 	}
 });
