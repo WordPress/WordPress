@@ -114,7 +114,7 @@ function get_core_checksums( $version, $locale ) {
 
 	$response = wp_remote_get( $url, $options );
 	if ( $ssl && is_wp_error( $response ) ) {
-		trigger_error( __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ) . ' ' . '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)', headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE );
+		trigger_error( __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ), headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE );
 		$response = wp_remote_get( $http_url, $options );
 	}
 
