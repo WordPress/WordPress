@@ -2693,7 +2693,7 @@ function wp_enqueue_media( $args = array() ) {
 	}
 
 	$audio = $video = 0;
-	$counts = wp_count_attachments();
+	$counts = (array) wp_count_attachments();
 	foreach ( $counts as $mime => $total ) {
 		if ( 0 === strpos( $mime, 'audio/' ) ) {
 			$audio += (int) $total;
