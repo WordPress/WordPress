@@ -114,8 +114,7 @@
 
 .reorder-toggle {
 	float: left;
-	padding: 5px 10px;
-	margin-left: 10px;
+	padding: 5px 8px;
 	text-decoration: none;
 	cursor: pointer;
 	outline: none;
@@ -285,9 +284,10 @@
 	width: 100%;
 }
 
-.add-new-widget {
+#customize-theme-controls .add-new-widget {
 	cursor: pointer;
 	float: left;
+	margin-right: 10px;
 	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 	-webkit-user-select: none;
