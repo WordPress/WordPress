@@ -602,6 +602,10 @@ window.wp = window.wp || {};
 				}
 			}, this );
 
+			if ( ! this.data.tracks ) {
+				return;
+			}
+
 			p = new WPPlaylistView({
 				el: $( self.node ).find( '.wp-playlist' ).get(0),
 				metadata: this.data
@@ -623,15 +627,14 @@ window.wp = window.wp || {};
 				attachments,
 				tracks = [];
 
-			if ( ! this.attachments.length ) {
+			// Don't render errors while still fetching attachments
+			if ( this.dfd && 'pending' === this.dfd.state() && ! this.attachments.length ) {
 				return;
 			}
 
 			_.each( model.defaults, function( value, key ) {
 				data[ key ] = model.coerce( data, key );
 			});
-
-			attachments = this.attachments.toJSON();
 
 			options = {
 				type: data.type,
@@ -641,6 +644,12 @@ window.wp = window.wp || {};
 				images: data.images,
 				artists: data.artists
 			};
+
+			if ( ! this.attachments.length ) {
+				return this.template( options );
+			}
+
+			attachments = this.attachments.toJSON();
 
 			_.each( attachments, function( attachment ) {
 				var size = {}, resize = {}, track = {

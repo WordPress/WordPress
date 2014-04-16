@@ -1001,7 +1001,7 @@ function wp_print_media_templates() {
 				<# } ); #>
 			</div>
 		<# } else { #>
-			<div class="gallery-error">
+			<div class="wpview-error">
 				<div class="dashicons dashicons-format-gallery"></div><p><?php _e( 'No items found.' ); ?></p>
 			</div>
 		<# } #>
@@ -1032,17 +1032,23 @@ function wp_print_media_templates() {
 			<div class="dashicons dashicons-edit edit"></div>
 			<div class="dashicons dashicons-no-alt remove"></div>
 		</div>
-		<div class="wp-playlist wp-{{ data.type }}-playlist wp-playlist-{{ data.style }}">
-			<# if ( 'audio' === data.type ){ #>
-			<div class="wp-playlist-current-item"></div>
-			<# } #>
-			<{{ data.type }} controls="controls" preload="none" <#
-				if ( data.width ) { #> width="{{ data.width }}"<# }
-				#><# if ( data.height ) { #> height="{{ data.height }}"<# } #>></{{ data.type }}>
-			<div class="wp-playlist-next"></div>
-			<div class="wp-playlist-prev"></div>
-		</div>
-		<div class="wpview-overlay"></div>
+		<# if ( data.tracks ) { #>
+			<div class="wp-playlist wp-{{ data.type }}-playlist wp-playlist-{{ data.style }}">
+				<# if ( 'audio' === data.type ){ #>
+				<div class="wp-playlist-current-item"></div>
+				<# } #>
+				<{{ data.type }} controls="controls" preload="none" <#
+					if ( data.width ) { #> width="{{ data.width }}"<# }
+					#><# if ( data.height ) { #> height="{{ data.height }}"<# } #>></{{ data.type }}>
+				<div class="wp-playlist-next"></div>
+				<div class="wp-playlist-prev"></div>
+			</div>
+			<div class="wpview-overlay"></div>
+		<# } else { #>
+			<div class="wpview-error">
+				<div class="dashicons dashicons-video-alt3"></div><p><?php _e( 'No items found.' ); ?></p>
+			</div>
+		<# } #>
 	</script>
 
 	<script type="text/html" id="tmpl-crop-content">
