@@ -535,7 +535,7 @@
 			link: 'post',
 			size: 'thumbnail',
 			order: 'ASC',
-			id: wp.media.view.settings.post.id,
+			id: wp.media.view.settings.post && wp.media.view.settings.post.id,
 			orderby : 'menu_order ID'
 		}
 	});
