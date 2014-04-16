@@ -1175,6 +1175,12 @@ themes.Router = Backbone.Router.extend({
 
 	themes: function() {
 		$( '.theme-search' ).val( '' );
+	},
+
+	navigate: function() {
+		if ( Backbone.history._hasPushState ) {
+			Backbone.Router.navigate.apply( this, arguments );
+		}
 	}
 
 });
@@ -1572,6 +1578,12 @@ themes.InstallerRouter = Backbone.Router.extend({
 
 	search: function( query ) {
 		$( '.theme-search' ).val( query );
+	},
+
+	navigate: function() {
+		if ( Backbone.history._hasPushState ) {
+			Backbone.Router.navigate.apply( this, arguments );
+		}
 	}
 });
 
