@@ -1,4 +1,4 @@
-/* globals _wpCustomizeHeader */
+/* globals _wpCustomizeHeader, _ */
 (function( $, wp ) {
 	var api = wp.customize;
 	api.HeaderTool = {};
@@ -142,7 +142,7 @@
 			}
 
 			// Overridable by an extending class
-			if (!this.data) {
+			if (typeof this.data === 'undefined') {
 				this.data = _wpCustomizeHeader.uploads;
 			}
 
