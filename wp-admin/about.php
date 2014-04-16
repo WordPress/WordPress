@@ -9,7 +9,9 @@
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-wp_playlist_scripts( 'audio' );
+wp_enqueue_style( 'wp-mediaelement' );
+wp_enqueue_script( 'wp-playlist' );
+add_action( 'admin_footer', 'wp_underscore_playlist_templates', 0 );
 
 $title = __( 'About' );
 
@@ -17,6 +19,7 @@ list( $display_version ) = explode( '-', $wp_version );
 
 include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
+<!--[if lt IE 9]><script>document.createElement('audio');document.createElement('video');</script><![endif]-->
 <div class="wrap about-wrap">
 
 <h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
