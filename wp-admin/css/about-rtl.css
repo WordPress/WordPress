@@ -175,7 +175,16 @@
 .about-overview {
 	margin-top: 40px;
 	text-align: center;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.about-overview .wp-video {
+	margin: 0 auto;
+}
+
+.changelog .wp-playlist .wp-playlist-current-item img {
+	height: 64px;
+	width: auto;
+	max-width: 100%;
 }
 
 .about-wrap .feature-section {

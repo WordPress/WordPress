@@ -162,7 +162,7 @@
 	});
 
     $(document).ready(function () {
-		if ( ! $( 'body' ).hasClass('wp-admin') ) {
+		if ( ! $( 'body' ).hasClass( 'wp-admin' ) || $( 'body' ).hasClass( 'about-php' ) ) {
 			$('.wp-playlist').each(function () {
 				return new WPPlaylistView({ el: this });
 			});

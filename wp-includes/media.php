@@ -1139,7 +1139,8 @@ function wp_playlist_scripts( $type ) {
 ?>
 <!--[if lt IE 9]><script>document.createElement('<?php echo esc_js( $type ) ?>');</script><![endif]-->
 <?php
-	wp_underscore_playlist_templates();
+	add_action( 'wp_footer', 'wp_underscore_playlist_templates', 0 );
+	add_action( 'admin_footer', 'wp_underscore_playlist_templates', 0 );
 }
 add_action( 'wp_playlist_scripts', 'wp_playlist_scripts' );
 
