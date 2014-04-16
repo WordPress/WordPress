@@ -148,16 +148,16 @@ final class WP_Customize_Widgets {
 
 		// Input from customizer preview.
 		if ( isset( $_POST['customized'] ) ) {
-			$customized = json_decode( $this->get_post_value( 'customized' ), true );
+			$this->_customized = json_decode( $this->get_post_value( 'customized' ), true );
 		} else { // Input from ajax widget update request.
-			$customized    = array();
-			$id_base       = $this->get_post_value( 'id_base' );
-			$widget_number = (int) $this->get_post_value( 'widget_number' );
-			$option_name   = 'widget_' . $id_base;
-			$customized[$option_name] = array();
-			if ( false !== $widget_number ) {
+			$this->_customized = array();
+			$id_base = $this->get_post_value( 'id_base' );
+			$widget_number = $this->get_post_value( 'widget_number', false );
+			$option_name = 'widget_' . $id_base;
+			$this->_customized[ $option_name ] = array();
+			if ( preg_match( '/^[0-9]+$/', $widget_number ) ) {
 				$option_name .= '[' . $widget_number . ']';
-				$customized[$option_name][$widget_number] = array();
+				$this->_customized[ $option_name ][ $widget_number ] = array();
 			}
 		}
 
@@ -171,30 +171,22 @@ final class WP_Customize_Widgets {
 		add_filter( $hook, $function );
 		$this->_prepreview_added_filters[] = compact( 'hook', 'function' );
 
-		foreach ( $customized as $setting_id => $value ) {
-			if ( preg_match( '/^(widget_.+?)(\[(\d+)\])?$/', $setting_id, $matches ) ) {
-
-				/*
-				 * @todo Replace the next two lines with the following once WordPress supports PHP 5.3.
-				 *
-				 * $self = $this; // not needed in PHP 5.4
-				 *
-				 * $function = function ( $value ) use ( $self, $setting_id ) {
-				 * 		return $self->manager->widgets->prepreview_added_widget_instance( $value, $setting_id );
-				 * };
-				 */
-				$body     = sprintf( 'global $wp_customize; return $wp_customize->widgets->prepreview_added_widget_instance( $value, %s );', var_export( $setting_id, true ) );
-				$function = create_function( '$value', $body );
-
+		$function = array( $this, 'prepreview_added_widget_instance' );
+		foreach ( $this->_customized as $setting_id => $value ) {
+			if ( preg_match( '/^(widget_.+?)(?:\[(\d+)\])?$/', $setting_id, $matches ) ) {
 				$option = $matches[1];
 
 				$hook = sprintf( 'option_%s', $option );
-				add_filter( $hook, $function );
-				$this->_prepreview_added_filters[] = compact( 'hook', 'function' );
+				if ( ! has_filter( $hook, $function ) ) {
+					add_filter( $hook, $function );
+					$this->_prepreview_added_filters[] = compact( 'hook', 'function' );
+				}
 
 				$hook = sprintf( 'default_option_%s', $option );
-				add_filter( $hook, $function );
-				$this->_prepreview_added_filters[] = compact( 'hook', 'function' );
+				if ( ! has_filter( $hook, $function ) ) {
+					add_filter( $hook, $function );
+					$this->_prepreview_added_filters[] = compact( 'hook', 'function' );
+				}
 
 				/*
 				 * Make sure the option is registered so that the update_option()
@@ -204,8 +196,6 @@ final class WP_Customize_Widgets {
 				add_option( $option, array() );
 			}
 		}
-
-		$this->_customized = $customized;
 	}
 
 	/**
@@ -225,7 +215,7 @@ final class WP_Customize_Widgets {
 		foreach ( $this->_customized as $setting_id => $value ) {
 			if ( preg_match( '/^sidebars_widgets\[(.+?)\]$/', $setting_id, $matches ) ) {
 				$sidebar_id = $matches[1];
-				$sidebars_widgets[$sidebar_id] = $value;
+				$sidebars_widgets[ $sidebar_id ] = $value;
 			}
 		}
 		return $sidebars_widgets;
@@ -242,30 +232,39 @@ final class WP_Customize_Widgets {
 	 * @since 3.9.0
 	 * @access public
 	 *
-	 * @param array $instance    Widget instance.
-	 * @param string $setting_id Widget setting ID.
-	 * @return array Parsed widget instance.
+	 * @param array|bool|mixed $value Widget instance(s), false if open was empty.
+	 * @return array|mixed Widget instance(s) with additions.
 	 */
-	public function prepreview_added_widget_instance( $instance, $setting_id ) {
-		if ( isset( $this->_customized[$setting_id] ) ) {
-			$parsed_setting_id = $this->parse_widget_setting_id( $setting_id );
-			$widget_number     = $parsed_setting_id['number'];
+	public function prepreview_added_widget_instance( $value = false ) {
+		if ( ! preg_match( '/^(?:default_)?option_(widget_(.+))/', current_filter(), $matches ) ) {
+			return $value;
+		}
+		$id_base = $matches[2];
 
-			// Single widget.
+		foreach ( $this->_customized as $setting_id => $setting ) {
+			$parsed_setting_id = $this->parse_widget_setting_id( $setting_id );
+			if ( is_wp_error( $parsed_setting_id ) || $id_base !== $parsed_setting_id['id_base'] ) {
+				continue;
+			}
+			$widget_number = $parsed_setting_id['number'];
+
 			if ( is_null( $widget_number ) ) {
-				if ( false === $instance && empty( $value ) ) {
-					$instance = array();
+				// Single widget.
+				if ( false === $value ) {
+					$value = array();
 				}
-			} else if ( false === $instance || ! isset( $instance[$widget_number] ) ) { // Multi widget
-				if ( empty( $instance ) ) {
-					$instance = array( '_multiwidget' => 1 );
+			} else {
+				// Multi widget.
+				if ( empty( $value ) ) {
+					$value = array( '_multiwidget' => 1 );
 				}
-				if ( ! isset( $instance[$widget_number] ) ) {
-					$instance[$widget_number] = array();
+				if ( ! isset( $value[ $widget_number ] ) ) {
+					$value[ $widget_number ] = array();
 				}
 			}
 		}
-		return $instance;
+
+		return $value;
 	}
 
 	/**

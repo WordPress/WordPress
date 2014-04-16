@@ -722,7 +722,7 @@
 			}, 250 );
 
 			// Trigger widget form update when hitting Enter within an input
-			this.container.find( '.widget-content' ).on( 'keydown', 'input', function( e ) {
+			$widgetContent.on( 'keydown', 'input', function( e ) {
 				if ( 13 === e.which ) { // Enter
 					e.preventDefault();
 					self.updateWidget( { ignoreActiveElement: true } );
