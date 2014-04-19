@@ -2,7 +2,7 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Thirteen 1.1\n"
+"Project-Id-Version: Twenty Thirteen 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentythirteen\n"
 "POT-Creation-Date: 2014-04-16 18:28:45+00:00\n"
 "MIME-Version: 1.0\n"
