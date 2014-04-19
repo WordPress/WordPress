@@ -853,11 +853,11 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			<p class="customizer-section-intro">
 				<?php
 				if ( $width && $height ) {
-					printf( __( 'While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header size of <strong>%s &times; %s</strong> pixels.' ), $width, $height );
+					printf( __( 'While you can crop images to your liking after clicking <strong>Add new image</strong>, your theme recommends a header size of <strong>%s &times; %s</strong> pixels.' ), $width, $height );
 				} elseif ( $width ) {
-					printf( __( 'While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header width of <strong>%s</strong> pixels.' ), $width );
+					printf( __( 'While you can crop images to your liking after clicking <strong>Add new image</strong>, your theme recommends a header width of <strong>%s</strong> pixels.' ), $width );
 				} else {
-					printf( __( 'While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header height of <strong>%s</strong> pixels.' ), $height );
+					printf( __( 'While you can crop images to your liking after clicking <strong>Add new image</strong>, your theme recommends a header height of <strong>%s</strong> pixels.' ), $height );
 				}
 				?>
 			</p>
