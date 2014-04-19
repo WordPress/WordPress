@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Thirteen 1.1\n"
+"Project-Id-Version: Twenty Thirteen 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentythirteen\n"
-"POT-Creation-Date: 2014-03-18 19:16:26+00:00\n"
+"POT-Creation-Date: 2014-04-16 18:28:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -179,71 +179,71 @@ msgctxt "Bitter font: on or off"
 msgid "on"
 msgstr ""
 
-#: functions.php:220
+#: functions.php:218
 msgid "Page %s"
 msgstr ""
 
-#: functions.php:235
+#: functions.php:231
 msgid "Main Widget Area"
 msgstr ""
 
-#: functions.php:237
+#: functions.php:233
 msgid "Appears in the footer section of the site."
 msgstr ""
 
-#: functions.php:245
+#: functions.php:241
 msgid "Secondary Widget Area"
 msgstr ""
 
-#: functions.php:247
+#: functions.php:243
 msgid "Appears on posts and pages in the sidebar."
 msgstr ""
 
-#: functions.php:272
+#: functions.php:266
 msgid "Posts navigation"
 msgstr ""
 
-#: functions.php:276
+#: functions.php:270
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:280
+#: functions.php:274
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:308
+#: functions.php:300
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:311
+#: functions.php:303
 msgctxt "Previous post link"
 msgid "<span class=\"meta-nav\">&larr;</span> %title"
 msgstr ""
 
-#: functions.php:312
+#: functions.php:304
 msgctxt "Next post link"
 msgid "%title <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:332
+#: functions.php:322
 msgid "Sticky"
 msgstr ""
 
 #. Translators: used between list items, there is a space after the comma.
-#: functions.php:338 functions.php:344
+#: functions.php:328 functions.php:334
 msgid ", "
 msgstr ""
 
-#: functions.php:353
+#: functions.php:343
 msgid "View all posts by %s"
 msgstr ""
 
-#: functions.php:373
+#: functions.php:363
 msgctxt "1: post format name. 2: date"
 msgid "%1$s on %2$s"
 msgstr ""
 
-#: functions.php:379
+#: functions.php:369
 msgid "Permalink to %s"
 msgstr ""
 
@@ -278,23 +278,23 @@ msgstr ""
 msgid "Next <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: inc/back-compat.php:41 inc/back-compat.php:53 inc/back-compat.php:68
+#: inc/back-compat.php:37 inc/back-compat.php:47 inc/back-compat.php:60
 msgid ""
 "Twenty Thirteen requires at least WordPress version 3.6. You are running "
 "version %s. Please upgrade and try again."
 msgstr ""
 
-#: inc/custom-header.php:51
+#: inc/custom-header.php:49
 msgctxt "header image description"
 msgid "Circle"
 msgstr ""
 
-#: inc/custom-header.php:56
+#: inc/custom-header.php:54
 msgctxt "header image description"
 msgid "Diamond"
 msgstr ""
 
-#: inc/custom-header.php:61
+#: inc/custom-header.php:59
 msgctxt "header image description"
 msgid "Star"
 msgstr ""
