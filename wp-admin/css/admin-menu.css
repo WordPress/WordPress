@@ -500,7 +500,7 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 #adminmenu .awaiting-mod,
-#adminmenu span.update-plugins,
+#adminmenu .update-plugins,
 #sidemenu li a span.update-plugins {
 	display: inline-block;
 	background-color: #d54e21;
