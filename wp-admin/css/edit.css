@@ -355,7 +355,7 @@ td.plugin-title p {
 #content-resize-handle {
 	background: transparent url(../images/resize.gif) no-repeat scroll right bottom;
 	width: 12px;
-	cursor: n-resize;
+	cursor: row-resize;
 }
 
 .rtl #content-resize-handle {
