@@ -28,6 +28,10 @@
 	width: auto;
 }
 
+.media-embed-details .embed-media-settings .checkbox-setting span {
+	display: inline-block;
+}
+
 .media-embed-details .embed-media-settings {
 	padding-top: 0;
 	top: 28px;
@@ -50,8 +54,8 @@
 }
 
 .media-embed-details .embed-media-settings .checkbox-setting {
-	width: 100px;
-	clear: none;
+	float: none;
+	margin: 0 0 10px;
 }
 
 .video-details .wp-video-holder {
