@@ -241,11 +241,11 @@ final class _WP_Editors {
 
 		if ( empty(self::$first_init) ) {
 			if ( is_admin() ) {
-				add_action( 'admin_print_footer_scripts', array( __CLASS__, 'editor_js'), 50 );
-				add_action( 'admin_footer', array( __CLASS__, 'enqueue_scripts'), 1 );
+				add_action( 'admin_print_footer_scripts', array( __CLASS__, 'editor_js' ), 50 );
+				add_action( 'admin_print_footer_scripts', array( __CLASS__, 'enqueue_scripts' ), 1 );
 			} else {
-				add_action( 'wp_print_footer_scripts', array( __CLASS__, 'editor_js'), 50 );
-				add_action( 'wp_footer', array( __CLASS__, 'enqueue_scripts'), 1 );
+				add_action( 'wp_print_footer_scripts', array( __CLASS__, 'editor_js' ), 50 );
+				add_action( 'wp_print_footer_scripts', array( __CLASS__, 'enqueue_scripts' ), 1 );
 			}
 		}
 
