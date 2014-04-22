@@ -451,10 +451,6 @@ window.wp = window.wp || {};
 				firefox = this.ua.is( 'ff' ),
 				className = '.wp-' +  this.shortcode.tag + '-shortcode';
 
-			if ( this.player ) {
-				this.unsetPlayer();
-			}
-
 			media = $( node ).find( className );
 
 			if ( ! this.isCompatible( media ) ) {
@@ -495,12 +491,7 @@ window.wp = window.wp || {};
 		},
 
 		unbind: function() {
-			var self = this;
-			this.pauseAllPlayers();
-			_.each( this.players, function (player) {
-				self.removePlayer( player );
-			} );
-			this.players = [];
+			this.unsetPlayers();
 		}
 	});
 	_.extend( wp.mce.media.View.prototype, wp.media.mixin );
@@ -547,22 +538,10 @@ window.wp = window.wp || {};
 		template:  media.template('editor-playlist'),
 
 		initialize: function( options ) {
+			this.players = [];
 			this.data = {};
 			this.attachments = [];
 			this.shortcode = options.shortcode;
-			_.bindAll( this, 'setPlayer' );
-			$(this).on('ready', this.setNode);
-		},
-
-		/**
-		 * Set the element context for the view, and then fetch the playlist's
-		 *   associated attachments.
-		 *
-		 * @param {Event} e
-		 * @param {HTMLElement} node
-		 */
-		setNode: function(e, node) {
-			this.node = node;
 			this.fetch();
 		},
 
@@ -571,7 +550,7 @@ window.wp = window.wp || {};
 		 */
 		fetch: function() {
 			this.attachments = wp.media.playlist.attachments( this.shortcode );
-			this.attachments.more().done( this.setPlayer );
+			this.dfd = this.attachments.more().done( _.bind( this.render, this ) );
 		},
 
 		/**
@@ -582,36 +561,31 @@ window.wp = window.wp || {};
 		 * @global WPPlaylistView
 		 * @global tinymce.editors
 		 */
-		setPlayer: function() {
-			var p,
-				html = this.getHtml(),
-				t = this.encodedText,
-				self = this;
-
-			this.unsetPlayer();
+		render: function() {
+			var html = this.getHtml(), self = this;
 
 			_.each( tinymce.editors, function( editor ) {
 				var doc;
 				if ( editor.plugins.wpview ) {
 					doc = editor.getDoc();
-					$( doc ).find( '[data-wpview-text="' + t + '"]' ).each(function(i, elem) {
+					$( doc ).find( '[data-wpview-text="' + this.encodedText + '"]' ).each(function (i, elem) {
 						var node = $( elem );
-						node.html( html );
-						self.node = elem;
+
+						// The <ins> is used to mark the end of the wrapper div. Needed when comparing
+						// the content as string for preventing extra undo levels.
+						node.html( html ).append( '<ins data-wpview-end="1"></ins>' );
+
+						if ( ! self.data.tracks ) {
+							return;
+						}
+
+						self.players.push( new WPPlaylistView({
+							el: $( elem ).find( '.wp-playlist' ).get(0),
+							metadata: self.data
+						}).player );
 					});
 				}
 			}, this );
-
-			if ( ! this.data.tracks ) {
-				return;
-			}
-
-			p = new WPPlaylistView({
-				el: $( self.node ).find( '.wp-playlist' ).get(0),
-				metadata: this.data
-			});
-
-			this.player = p.player;
 		},
 
 		/**
@@ -695,6 +669,10 @@ window.wp = window.wp || {};
 			this.data = options;
 
 			return this.template( options );
+		},
+
+		unbind: function() {
+			this.unsetPlayers();
 		}
 	});
 	_.extend( wp.mce.media.PlaylistView.prototype, wp.media.mixin );

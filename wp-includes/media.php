@@ -1353,6 +1353,8 @@ function wp_playlist_shortcode( $attr ) {
 		echo (int) $theme_width;
 	?>"<?php if ( 'video' === $safe_type ):
 		echo ' height="', (int) $theme_height, '"';
+	else:
+		echo ' style="visibility: hidden"';
 	endif; ?>></<?php echo $safe_type ?>>
 	<div class="wp-playlist-next"></div>
 	<div class="wp-playlist-prev"></div>
@@ -1555,7 +1557,7 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 		'loop'     => $loop,
 		'autoplay' => $autoplay,
 		'preload'  => $preload,
-		'style'    => 'width: 100%',
+		'style'    => 'width: 100%; visibility: hidden;',
 	);
 
 	// These ones should just be omitted altogether if they are blank

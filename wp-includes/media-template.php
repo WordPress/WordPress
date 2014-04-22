@@ -16,7 +16,8 @@
 function wp_underscore_audio_template() {
 	$audio_types = wp_get_audio_extensions();
 ?>
-<audio controls
+<audio style="visibility: hidden"
+	controls
 	class="wp-audio-shortcode"
 	width="{{ _.isUndefined( data.model.width ) ? 400 : data.model.width }}"
 	preload="{{ _.isUndefined( data.model.preload ) ? 'none' : data.model.preload }}"
