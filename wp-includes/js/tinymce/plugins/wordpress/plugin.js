@@ -317,7 +317,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			dom.bind( doc, 'dragstart dragend dragover drop', function( event ) {
 				if ( typeof window.jQuery !== 'undefined' ) {
 					// Trigger the jQuery handlers.
-					window.jQuery( document ).triggerHandler( event.type );
+					window.jQuery( document ).trigger( new window.jQuery.Event( event ) );
 				}
 			});
 		}
