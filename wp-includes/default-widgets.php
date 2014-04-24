@@ -732,7 +732,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 			$cache[ $args['widget_id'] ] = ob_get_flush();
 			wp_cache_set( 'widget_recent_posts', $cache, 'widget' );
 		} else {
-			ob_flush();
+			ob_end_flush();
 		}
 	}
 
