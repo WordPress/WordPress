@@ -2656,7 +2656,7 @@ function wp_enqueue_media( $args = array() ) {
 	if ( did_action( 'wp_enqueue_media' ) )
 		return;
 
-	global $content_width;
+	global $content_width, $wpdb;
 
 	$defaults = array(
 		'post' => null,
@@ -2695,6 +2695,21 @@ function wp_enqueue_media( $args = array() ) {
 		}
 	}
 
+	$has_audio = $wpdb->get_var( "
+		SELECT ID
+		FROM $wpdb->posts
+		WHERE post_type = 'attachment'
+		AND post_mime_type LIKE 'audio%'
+		LIMIT 1
+	" );
+	$has_video = $wpdb->get_var( "
+		SELECT ID
+		FROM $wpdb->posts
+		WHERE post_type = 'attachment'
+		AND post_mime_type LIKE 'video%'
+		LIMIT 1
+	" );
+
 	$settings = array(
 		'tabs'      => $tabs,
 		'tabUrl'    => add_query_arg( array( 'chromeless' => true ), admin_url('media-upload.php') ),
@@ -2709,8 +2724,8 @@ function wp_enqueue_media( $args = array() ) {
 		),
 		'defaultProps' => $props,
 		'attachmentCounts' => array(
-			'audio' => wp_has_mime_type_attachments( 'audio' ) ? 1 : 0,
-			'video' => wp_has_mime_type_attachments( 'video' ) ? 1 : 0
+			'audio' => ( $has_audio ) ? 1 : 0,
+			'video' => ( $has_video ) ? 1 : 0
 		),
 		'embedExts'    => $exts,
 		'embedMimes'   => $ext_mimes,

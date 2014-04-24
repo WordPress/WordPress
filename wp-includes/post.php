@@ -2292,23 +2292,6 @@ function wp_count_attachments( $mime_type = '' ) {
 }
 
 /**
- * Determine if at least one attachment of a particular mime-type has been uploaded
- *
- * @global wpdb $wpdb
- *
- * @since 3.9.1
- *
- * @param string $mime_type The mime-type string to check.
- *
- * @return int|null If exist, the post ID of the first found attachment.
- */
-function wp_has_mime_type_attachments( $mime_type ) {
-	global $wpdb;
-	$sql = sprintf( "SELECT ID FROM $wpdb->posts WHERE post_type = 'attachment' AND post_mime_type LIKE '%s%%' LIMIT 1", like_escape( $mime_type ) );
-	return $wpdb->get_var( $sql );
-}
-
-/**
  * Get default post mime types
  *
  * @since 2.9.0
