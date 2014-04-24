@@ -1025,7 +1025,7 @@ jQuery(document).ready( function($) {
 
 			if ( mce ) {
 				editor.focus();
-				toolbarHeight = $( '#wp-content-editor-container .mce-toolbar-grp' ).height();
+				toolbarHeight = parseInt( $( '#wp-content-editor-container .mce-toolbar-grp' ).height(), 10 );
 
 				if ( toolbarHeight < 10 || toolbarHeight > 200 ) {
 					toolbarHeight = 30;
