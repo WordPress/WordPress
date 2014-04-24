@@ -1036,7 +1036,8 @@ define("tinymce/pasteplugin/WordFilter", [
 						if (!href && !name) {
 							node.unwrap();
 						} else {
-							if (name && name.indexOf('Toc') !== 0) {
+							// Remove all named anchors that isn't toc specific
+							if (name && !/^_?toc/i.test(name)) {
 								node.unwrap();
 								continue;
 							}
@@ -1112,7 +1113,8 @@ define("tinymce/pasteplugin/Quirks", [
 		 */
 		function removeWebKitFragments(html) {
 			html = Utils.filter(html, [
-				/^[\s\S]*<!--StartFragment-->|<!--EndFragment-->[\s\S]*$/g, // WebKit fragment
+				/^[\s\S]*<body[^>]*>\s*<!--StartFragment-->|<!--EndFragment-->\s*<\/body[^>]*>[\s\S]*$/g, // WebKit fragment body
+				/<!--StartFragment-->|<!--EndFragment-->/g, // Inner fragments (tables from excel on mac)
 				[/<span class="Apple-converted-space">\u00a0<\/span>/g, '\u00a0'], // WebKit &nbsp;
 				/<br>$/i // Traling BR elements
 			]);
