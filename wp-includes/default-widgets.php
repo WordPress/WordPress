@@ -1348,11 +1348,12 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		<p>
 			<label for="<?php echo $this->get_field_id('nav_menu'); ?>"><?php _e('Select Menu:'); ?></label>
 			<select id="<?php echo $this->get_field_id('nav_menu'); ?>" name="<?php echo $this->get_field_name('nav_menu'); ?>">
+				<option value="0"><?php _e( '-- Select --' ) ?></option>
 		<?php
 			foreach ( $menus as $menu ) {
 				echo '<option value="' . $menu->term_id . '"'
 					. selected( $nav_menu, $menu->term_id, false )
-					. '>'. $menu->name . '</option>';
+					. '>'. esc_html( $menu->name ) . '</option>';
 			}
 		?>
 			</select>
