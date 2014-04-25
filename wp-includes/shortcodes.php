@@ -190,7 +190,7 @@ function has_shortcode( $content, $tag ) {
 function do_shortcode($content) {
 	global $shortcode_tags;
 
-	if ( false === strpos( $content, '[' ) ) {
+	if ( false === strpos( (string) $content, '[' ) ) {
 		return $content;
 	}
 
