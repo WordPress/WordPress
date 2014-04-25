@@ -544,13 +544,8 @@ case 'retrievepassword' :
 <?php
 if ( get_option( 'users_can_register' ) ) :
 	$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
-	/**
-	 * Filter the registration URL below the login form.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param string $registration_url Registration URL.
-	 */
+
+	/** This filter is documented in wp-includes/general-template.php */
 	echo ' | ' . apply_filters( 'register', $registration_url );
 endif;
 ?>
@@ -635,7 +630,8 @@ case 'rp' :
 <?php
 if ( get_option( 'users_can_register' ) ) :
 	$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
-	/** This filter is documented in wp-login.php */
+
+	/** This filter is documented in wp-includes/general-template.php */
 	echo ' | ' . apply_filters( 'register', $registration_url );
 endif;
 ?>
@@ -892,7 +888,8 @@ default:
 <?php if ( ! isset( $_GET['checkemail'] ) || ! in_array( $_GET['checkemail'], array( 'confirm', 'newpass' ) ) ) :
 	if ( get_option( 'users_can_register' ) ) :
 		$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
-		/** This filter is documented in wp-login.php */
+
+		/** This filter is documented in wp-includes/general-template.php */
 		echo apply_filters( 'register', $registration_url ) . ' | ';
 	endif;
 	?>

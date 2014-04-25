@@ -544,21 +544,22 @@ function wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
 		$link = $before . '<a href="' . admin_url() . '">' . __('Site Admin') . '</a>' . $after;
 	}
 
+	/**
+	 * Filter the HTML link to the Registration or Admin page.
+	 *
+	 * Users are sent to the admin page if logged-in, or the registration page
+	 * if enabled and logged-out.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string $link The HTML code for the link to the Registration or Admin page.
+	 */
+	$link = apply_filters( 'register', $link );
+
 	if ( $echo ) {
-		/**
-		 * Filter the HTML link to the Registration or Admin page.
-		 *
-		 * Users are sent to the admin page if logged-in, or the registration page
-		 * if enabled and logged-out.
-		 *
-		 * @since 1.5.0
-		 *
-		 * @param string $link The HTML code for the link to the Registration or Admin page.
-		 */
-		echo apply_filters( 'register', $link );
+		echo $link;
 	} else {
-		/** This filter is documented in wp-includes/general-template.php */
-		return apply_filters( 'register', $link );
+		return $link;
 	}
 }
 
