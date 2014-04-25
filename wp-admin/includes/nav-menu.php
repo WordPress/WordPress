@@ -503,14 +503,16 @@ function wp_nav_menu_post_type_meta_boxes() {
 
 	foreach ( $post_types as $post_type ) {
 		/**
-		 * Filter whether a menu items meta box will be added for the current post type.
+		 * Filter whether a menu items meta box will be added for the current
+		 * object type.
 		 *
-		 * If a falsey value is returned instead of a post type object,
-		 * the post type menu items meta box will not be added.
+		 * If a falsey value is returned instead of an object, the menu items
+		 * meta box for the current meta box object will not be added.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param object $post_type The post type object to be used as a meta box.
+		 * @param object $meta_box_object The current object to add a menu items
+		 *                                meta box for.
 		 */
 		$post_type = apply_filters( 'nav_menu_meta_box_object', $post_type );
 		if ( $post_type ) {
@@ -534,16 +536,7 @@ function wp_nav_menu_taxonomy_meta_boxes() {
 		return;
 
 	foreach ( $taxonomies as $tax ) {
-		/**
-		 * Filter whether a menu items meta box will be added for the current taxonomy.
-		 *
-		 * If a falsey value is returned instead of a taxonomy object,
-		 * the taxonomy menu items meta box will not be added.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param object $tax The taxonomy object to be used as a meta box.
-		 */
+		/** This filter is documented in wp-admin/includes/nav-menu.php */
 		$tax = apply_filters( 'nav_menu_meta_box_object', $tax );
 		if ( $tax ) {
 			$id = $tax->name;

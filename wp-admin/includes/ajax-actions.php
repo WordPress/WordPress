@@ -1174,14 +1174,8 @@ function wp_ajax_menu_get_metabox() {
 
 	if ( ! empty( $_POST['item-object'] ) && isset( $items[$_POST['item-object']] ) ) {
 		$menus_meta_box_object = $items[ $_POST['item-object'] ];
-		/**
-		 * Filter a nav menu meta box object.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param object $menus_meta_box_object A nav menu meta box object, such as Page,
-		 *                                      Post, Category, Tag, etc.
-		 */
+
+		/** This filter is documented in wp-admin/includes/nav-menu.php */
 		$item = apply_filters( 'nav_menu_meta_box_object', $menus_meta_box_object );
 		ob_start();
 		call_user_func_array($callback, array(
