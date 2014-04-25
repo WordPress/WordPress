@@ -670,10 +670,10 @@ function choose_primary_blog() {
 		<tr>
 			<th scope="row" colspan="2" class="th-full">
 				<?php
-				$signup_url = network_site_url( 'wp-signup.php' );
 				/** This filter is documented in wp-login.php */
+				$sign_up_url = apply_filters( 'wp_signup_location', network_site_url( 'wp-signup.php' ) );
 				?>
-				<a href="<?php echo apply_filters( 'wp_signup_location', $signup_url ); ?>"><?php _e( 'Create a New Site' ); ?></a>
+				<a href="<?php echo esc_url( $sign_up_url ); ?>"><?php _e( 'Create a New Site' ); ?></a>
 			</th>
 		</tr>
 	<?php endif; ?>

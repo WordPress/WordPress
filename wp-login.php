@@ -643,7 +643,6 @@ break;
 
 case 'register' :
 	if ( is_multisite() ) {
-		$sign_up_url = network_site_url( 'wp-signup.php' );
 		/**
 		 * Filter the Multisite sign up URL.
 		 *
@@ -651,7 +650,7 @@ case 'register' :
 		 *
 		 * @param string $sign_up_url The sign up URL.
 		 */
-		wp_redirect( apply_filters( 'wp_signup_location', $sign_up_url ) );
+		wp_redirect( apply_filters( 'wp_signup_location', network_site_url( 'wp-signup.php' ) ) );
 		exit;
 	}
 
