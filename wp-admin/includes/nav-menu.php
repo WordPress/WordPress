@@ -1165,12 +1165,12 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 			return $result . ' <ul class="menu" id="menu-to-edit"> </ul>';
 
 		/**
-		 * Filter the Walker class used to render a menu formatted for editing.
+		 * Filter the Walker class used when adding nav menu items.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string $walker_class_name The Walker class used to render a menu formatted for editing.
-		 * @param int    $menu_id           The ID of the menu being rendered.
+		 * @param string $class   The walker class to use. Default 'Walker_Nav_Menu_Edit'.
+		 * @param int    $menu_id ID of the menu being rendered.
 		 */
 		$walker_class_name = apply_filters( 'wp_edit_nav_menu_walker', 'Walker_Nav_Menu_Edit', $menu_id );
 

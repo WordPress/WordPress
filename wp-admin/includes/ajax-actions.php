@@ -956,14 +956,7 @@ function wp_ajax_add_menu_item() {
 		}
 	}
 
-	/**
-	 * Filter the Walker class used when adding nav menu items.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @param string $class   The walker class to use. Default 'Walker_Nav_Menu_Edit'.
-	 * @param int    $menu_id The menu id, derived from $_POST['menu'].
-	 */
+	/** This filter is documented in wp-admin/includes/nav-menu.php */
 	$walker_class_name = apply_filters( 'wp_edit_nav_menu_walker', 'Walker_Nav_Menu_Edit', $_POST['menu'] );
 
 	if ( ! class_exists( $walker_class_name ) )
