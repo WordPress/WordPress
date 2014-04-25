@@ -113,6 +113,10 @@
 				return false;
 			}
 
+			if (this.get('imageWidth') <= this.get('themeWidth')) {
+				return false;
+			}
+
 			return true;
 		}
 	});
