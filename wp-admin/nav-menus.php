@@ -620,7 +620,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<label for="menu" class="selected-menu"><?php _e( 'Select a menu to edit:' ); ?></label>
 			<select name="menu" id="menu">
 				<?php if ( $add_new_screen ) : ?>
-					<option value="0" selected="selected"><?php _e( '-- Select --' ); ?></option>
+					<option value="0" selected="selected"><?php _e( '&mdash; Select &mdash;' ); ?></option>
 				<?php endif; ?>
 				<?php foreach( (array) $nav_menus as $_nav_menu ) : ?>
 					<option value="<?php echo esc_attr( $_nav_menu->term_id ); ?>" <?php selected( $_nav_menu->term_id, $nav_menu_selected_id ); ?>>
