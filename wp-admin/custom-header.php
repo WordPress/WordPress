@@ -1153,6 +1153,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 			wp_send_json_error( array( 'message' => __( 'Image could not be processed. Please go back and try again.' ) ) );
 		}
 
+		/** This filter is documented in wp-admin/custom-header.php */
 		$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication
 
 		$object = $this->create_attachment_object( $cropped, $attachment_id );
