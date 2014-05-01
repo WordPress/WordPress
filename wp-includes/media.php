@@ -2829,7 +2829,7 @@ function wp_enqueue_media( $args = array() ) {
 		'videoReplaceTitle'     => __( 'Replace Video' ),
 		'videoAddSourceTitle'   => __( 'Add Video Source' ),
 		'videoDetailsCancel'    => __( 'Cancel Edit' ),
-		'videoSelectPosterImageTitle' => _( 'Select Poster Image' ),
+		'videoSelectPosterImageTitle' => __( 'Select Poster Image' ),
 		'videoAddTrackTitle'	=> __( 'Add Subtitles' ),
 
  		// Playlist
