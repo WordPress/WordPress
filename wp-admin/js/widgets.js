@@ -50,10 +50,12 @@ wpWidgets = {
 						css[ margin ] = widgetWidth - ( targetWidth + 30 ) + 'px';
 						widget.css( css );
 					}
+					widget.addClass( 'open' );
 					inside.slideDown('fast');
 				} else {
 					inside.slideUp('fast', function() {
 						widget.attr( 'style', '' );
+						widget.removeClass( 'open' );
 					});
 				}
 				e.preventDefault();

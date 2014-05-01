@@ -2270,7 +2270,8 @@ img {
 
 .control-section.open .accordion-section-title:after,
 #customize-info.open .accordion-section-title:after,
-.nav-menus-php .menu-item-edit-active .item-edit:before {
+.nav-menus-php .menu-item-edit-active .item-edit:before,
+.widget.open .widget-top a.widget-action:after {
 	content: '\f142';
 }
 
