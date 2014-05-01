@@ -37,13 +37,13 @@ window.wp = window.wp || {};
 			// If we matched a leading `[`, strip it from the match
 			// and increment the index accordingly.
 			if ( match[1] ) {
-				result.match = result.match.slice( 1 );
+				result.content = result.content.slice( 1 );
 				result.index++;
 			}
 
 			// If we matched a trailing `]`, strip it from the match.
 			if ( match[7] ) {
-				result.match = result.match.slice( 0, -1 );
+				result.content = result.content.slice( 0, -1 );
 			}
 
 			return result;
