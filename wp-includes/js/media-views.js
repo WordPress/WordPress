@@ -2175,7 +2175,7 @@
 					library:        options.selection,
 					editing:        options.editing,
 					menu:           'video-playlist',
-					dragInfoText:   l10n.playlistDragInfo,
+					dragInfoText:   l10n.videoPlaylistDragInfo,
 					dragInfo:       false
 				}),
 
