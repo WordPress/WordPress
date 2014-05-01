@@ -853,15 +853,14 @@ function wp_print_media_templates() {
 				</div>
 
 				<label class="setting checkbox-setting">
-					<span><?php _e( 'Autoplay' ); ?></span>
 					<input type="checkbox" data-setting="autoplay" />
+					<span><?php _e( 'Autoplay' ); ?></span>
 				</label>
 
 				<label class="setting checkbox-setting">
-					<span><?php _e( 'Loop' ); ?></span>
 					<input type="checkbox" data-setting="loop" />
+					<span><?php _e( 'Loop' ); ?></span>
 				</label>
-				<div class="clear"></div>
 			</div>
 		</div>
 	</script>
@@ -944,15 +943,14 @@ function wp_print_media_templates() {
 				</div>
 
 				<label class="setting checkbox-setting">
-					<span><?php _e( 'Autoplay' ); ?></span>
 					<input type="checkbox" data-setting="autoplay" />
+					<span><?php _e( 'Autoplay' ); ?></span>
 				</label>
 
 				<label class="setting checkbox-setting">
-					<span><?php _e( 'Loop' ); ?></span>
 					<input type="checkbox" data-setting="loop" />
+					<span><?php _e( 'Loop' ); ?></span>
 				</label>
-				<div class="clear"></div>
 
 				<label class="setting" data-setting="content">
 					<span><?php _e( 'Tracks (subtitles, captions, descriptions, chapters, or metadata)' ); ?></span>
