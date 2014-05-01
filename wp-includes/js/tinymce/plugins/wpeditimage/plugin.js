@@ -320,7 +320,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 				if ( parent = dom.getParent( node, 'p' ) ) {
 					wrap = dom.create( 'div', { 'class': 'mceTemp' }, html );
-					dom.insertAfter( wrap, parent );
+					parent.parentNode.insertBefore( wrap, parent );
 					dom.remove( node );
 
 					if ( dom.isEmpty( parent ) ) {
@@ -593,7 +593,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 					if ( parent && parent.nodeName === 'P' ) {
 						wrap = dom.create( 'div', { 'class': 'mceTemp' }, html );
-						dom.insertAfter( wrap, parent );
+						parent.parentNode.insertBefore( wrap, parent );
 						editor.selection.select( wrap );
 						editor.nodeChanged();
 
