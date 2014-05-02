@@ -47,7 +47,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	 * @param array $instance An array of settings for this widget instance.
 	 */
 	public function widget( $args, $instance ) {
-		$format = $instance['format'];
+		$format = isset( $instance['format'] ) && in_array( $instance['format'], $this->formats ) ? $instance['format'] : 'aside';
 
 		switch ( $format ) {
 			case 'image':
