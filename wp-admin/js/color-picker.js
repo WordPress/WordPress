@@ -1,4 +1,4 @@
-/* global wpColorPickerL10n:true */
+/* global wpColorPickerL10n */
 ( function( $, undef ){
 
 	var ColorPicker,
@@ -19,12 +19,17 @@
 		},
 		_create: function() {
 			// bail early for unsupported Iris.
-			if ( ! $.support.iris )
+			if ( ! $.support.iris ) {
 				return;
+			}
+
 			var self = this,
 				el = self.element;
 
 			$.extend( self.options, el.data() );
+
+			// keep close bound so it can be attached to a body listener
+			self.close = $.proxy( self.close, self );
 
 			self.initialValue = el.val();
 
@@ -35,12 +40,13 @@
 			self.pickerContainer = $( _after ).insertAfter( el );
 			self.button = $( _button );
 
-			if ( self.options.defaultColor )
+			if ( self.options.defaultColor ) {
 				self.button.addClass( 'wp-picker-default' ).val( wpColorPickerL10n.defaultString );
-			else
+			} else {
 				self.button.addClass( 'wp-picker-clear' ).val( wpColorPickerL10n.clear );
+			}
 
-			el.wrap('<span class="wp-picker-input-wrap" />').after(self.button);
+			el.wrap( '<span class="wp-picker-input-wrap" />' ).after(self.button);
 
 			el.iris( {
 				target: self.pickerContainer,
@@ -51,80 +57,95 @@
 				change: function( event, ui ) {
 					self.toggler.css( { backgroundColor: ui.color.toString() } );
 					// check for a custom cb
-					if ( $.isFunction( self.options.change ) )
+					if ( $.isFunction( self.options.change ) ) {
 						self.options.change.call( this, event, ui );
+					}
 				}
 			} );
+
 			el.val( self.initialValue );
 			self._addListeners();
-			if ( ! self.options.hide )
+			if ( ! self.options.hide ) {
 				self.toggler.click();
+			}
 		},
 		_addListeners: function() {
 			var self = this;
 
-			self.toggler.click( function( event ){
+			// prevent any clicks inside this widget from leaking to the top and closing it
+			self.wrap.on( 'click.wpcolorpicker', function( event ) {
 				event.stopPropagation();
-				self.element.toggle().iris( 'toggle' );
-				self.button.toggleClass('hidden');
-				self.toggler.toggleClass( 'wp-picker-open' );
-
-				// close picker when you click outside it
-				if ( self.toggler.hasClass( 'wp-picker-open' ) )
-					$( 'body' ).on( 'click', { wrap: self.wrap, toggler: self.toggler }, self._bodyListener );
-				else
-					$( 'body' ).off( 'click', self._bodyListener );
 			});
 
-			self.element.change(function( event ) {
-				var me = $(this),
+			self.toggler.click( function(){
+				if ( self.toggler.hasClass( 'wp-picker-open' ) ) {
+					self.close();
+				} else {
+					self.open();
+				}
+			});
+
+			self.element.change( function( event ) {
+				var me = $( this ),
 					val = me.val();
 				// Empty = clear
 				if ( val === '' || val === '#' ) {
-					self.toggler.css('backgroundColor', '');
+					self.toggler.css( 'backgroundColor', '' );
 					// fire clear callback if we have one
-					if ( $.isFunction( self.options.clear ) )
+					if ( $.isFunction( self.options.clear ) ) {
 						self.options.clear.call( this, event );
+					}
 				}
 			});
 
 			// open a keyboard-focused closed picker with space or enter
-			self.toggler.on('keyup', function( e ) {
-				if ( e.keyCode === 13 || e.keyCode === 32 ) {
-					e.preventDefault();
-					self.toggler.trigger('click').next().focus();
+			self.toggler.on( 'keyup', function( event ) {
+				if ( event.keyCode === 13 || event.keyCode === 32 ) {
+					event.preventDefault();
+					self.toggler.trigger( 'click' ).next().focus();
 				}
 			});
 
 			self.button.click( function( event ) {
-				var me = $(this);
+				var me = $( this );
 				if ( me.hasClass( 'wp-picker-clear' ) ) {
 					self.element.val( '' );
-					self.toggler.css('backgroundColor', '');
-					if ( $.isFunction( self.options.clear ) )
+					self.toggler.css( 'backgroundColor', '' );
+					if ( $.isFunction( self.options.clear ) ) {
 						self.options.clear.call( this, event );
+					}
 				} else if ( me.hasClass( 'wp-picker-default' ) ) {
 					self.element.val( self.options.defaultColor ).change();
 				}
 			});
 		},
-		_bodyListener: function( event ) {
-			if ( ! event.data.wrap.find( event.target ).length )
-					event.data.toggler.click();
+		open: function() {
+			this.element.show().iris( 'toggle' );
+			this.button.removeClass( 'hidden' );
+			this.toggler.addClass( 'wp-picker-open' );
+			$( 'body' ).trigger( 'click.wpcolorpicker' ).on( 'click.wpcolorpicker', this.close );
+		},
+		close: function() {
+			this.element.hide().iris( 'toggle' );
+			this.button.addClass( 'hidden' );
+			this.toggler.removeClass( 'wp-picker-open' );
+			$( 'body' ).off( 'click.wpcolorpicker', this.close );
 		},
 		// $("#input").wpColorPicker('color') returns the current color
 		// $("#input").wpColorPicker('color', '#bada55') to set
 		color: function( newColor ) {
-			if ( newColor === undef )
+			if ( newColor === undef ) {
 				return this.element.iris( 'option', 'color' );
+			}
 
 			this.element.iris( 'option', 'color', newColor );
 		},
 		//$("#input").wpColorPicker('defaultColor') returns the current default color
 		//$("#input").wpColorPicker('defaultColor', newDefaultColor) to set
 		defaultColor: function( newDefaultColor ) {
-			if ( newDefaultColor === undef )
+			if ( newDefaultColor === undef ) {
 				return this.options.defaultColor;
+			}
 
 			this.options.defaultColor = newDefaultColor;
 		}
