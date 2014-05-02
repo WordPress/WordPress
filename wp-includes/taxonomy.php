@@ -276,9 +276,9 @@ function is_taxonomy_hierarchical($taxonomy) {
  * - public - If the taxonomy should be publicly queryable; //@TODO not implemented.
  *     * Defaults to true.
  * - hierarchical - Whether the taxonomy is hierarchical (e.g. category). Defaults to false.
- * - show_ui -Whether to generate a default UI for managing this taxonomy in the admin.
+ * - show_ui - Whether to generate a default UI for managing this taxonomy in the admin.
  *     * If not set, the default is inherited from public.
- * - show_in_menu - Where to show the taxonomy in the admin menu.
+ * - show_in_menu - Whether to show the taxonomy in the admin menu.
  *     * If true, the taxonomy is shown as a submenu of the object type menu.
  *     * If false, no menu is shown.
  *     * show_ui must be true.
