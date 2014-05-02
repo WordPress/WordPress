@@ -325,7 +325,7 @@ function twentyeleven_settings_field_layout() {
 }
 
 /**
- * Return the options array for Twenty Eleven.
+ * Render the theme options page for Twenty Eleven.
  *
  * @since Twenty Eleven 1.2
  */
