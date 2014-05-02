@@ -52,7 +52,10 @@ define( 'ARRAY_N', 'ARRAY_N' );
 class wpdb {
 
 	/**
-	 * Whether to show SQL/DB errors
+	 * Whether to show SQL/DB errors.
+	 *
+	 * Default behavior is to show errors if both WP_DEBUG and WP_DEBUG_DISPLAY
+	 * evaluated to true.
 	 *
 	 * @since 0.71
 	 * @access private
