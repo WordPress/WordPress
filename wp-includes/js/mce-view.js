@@ -611,7 +611,7 @@ window.wp = window.wp || {};
 				metadata: this.data
 			});
 
-			this.player = p._player;
+			this.player = p.player;
 		},
 
 		/**

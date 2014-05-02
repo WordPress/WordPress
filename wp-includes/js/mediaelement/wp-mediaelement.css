@@ -219,3 +219,7 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+
+.wp-audio-playlist .me-cannotplay span {
+	padding: 5px 15px;
+}

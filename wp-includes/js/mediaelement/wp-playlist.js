@@ -7,6 +7,7 @@
 		initialize : function (options) {
 			this.index = 0;
 			this.settings = {};
+			this.compatMode = $( 'body' ).hasClass( 'wp-admin' ) && $( '#content_ifr' ).length;
 			this.data = options.metadata || $.parseJSON( this.$('script').html() );
 			this.playerNode = this.$( this.data.type );
 
@@ -26,7 +27,9 @@
 				this.renderTracks();
 			}
 
-			this.playerNode.attr( 'src', this.current.get( 'src' ) );
+			if ( this.isCompatibleSrc() ) {
+				this.playerNode.attr( 'src', this.current.get( 'src' ) );
+			}
 
 			_.bindAll( this, 'bindPlayer', 'bindResetPlayer', 'setPlayer', 'ended', 'clickTrack' );
 
@@ -38,34 +41,58 @@
 		},
 
 		bindPlayer : function (mejs) {
-			this.player = mejs;
-			this.player.addEventListener( 'ended', this.ended );
+			this.mejs = mejs;
+			this.mejs.addEventListener( 'ended', this.ended );
 		},
 
 		bindResetPlayer : function (mejs) {
 			this.bindPlayer( mejs );
-			this.playCurrentSrc();
+			if ( this.isCompatibleSrc() ) {
+				this.playCurrentSrc();
+			}
 		},
 
-		setPlayer: function () {
-			if ( this._player ) {
-				this._player.pause();
-				this._player.remove();
+		isCompatibleSrc: function () {
+			var testNode;
+
+			if ( this.compatMode ) {
+				testNode = $( '<span><source type="' + this.current.get( 'type' ) + '" /></span>' );
+
+				if ( ! wp.media.mixin.isCompatible( testNode ) ) {
+					this.playerNode.removeAttr( 'src' );
+					this.playerNode.removeAttr( 'poster' );
+					return;
+				}
+			}
+
+			return true;
+		},
+
+		setPlayer: function (force) {
+			if ( this.player ) {
+				this.player.pause();
+				this.player.remove();
 				this.playerNode = this.$( this.data.type );
-				this.playerNode.attr( 'src', this.current.get( 'src' ) );
+			}
+
+			if (force) {
+				if ( this.isCompatibleSrc() ) {
+					this.playerNode.attr( 'src', this.current.get( 'src' ) );
+				}
 				this.settings.success = this.bindResetPlayer;
 			}
+
 			/**
 			 * This is also our bridge to the outside world
 			 */
-			this._player = new MediaElementPlayer( this.playerNode.get(0), this.settings );
+			this.player = new MediaElementPlayer( this.playerNode.get(0), this.settings );
 		},
 
 		playCurrentSrc : function () {
 			this.renderCurrent();
-			this.player.setSrc( this.playerNode.attr( 'src' ) );
-			this.player.load();
-			this.player.play();
+			this.mejs.setSrc( this.playerNode.attr( 'src' ) );
+			this.mejs.load();
+			this.mejs.play();
 		},
 
 		renderCurrent : function () {
@@ -134,14 +161,14 @@
 		},
 
 		loadCurrent : function () {
-			var last = this.playerNode.attr( 'src' ).split('.').pop(),
+			var last = this.playerNode.attr( 'src' ) && this.playerNode.attr( 'src' ).split('.').pop(),
 				current = this.current.get( 'src' ).split('.').pop();
 
-			this.player.pause();
+			this.mejs && this.mejs.pause();
 
 			if ( last !== current ) {
-				this.setPlayer();
-			} else {
+				this.setPlayer( true );
+			} else if ( this.isCompatibleSrc() ) {
 				this.playerNode.attr( 'src', this.current.get( 'src' ) );
 				this.playCurrentSrc();
 			}
