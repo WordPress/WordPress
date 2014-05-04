@@ -612,10 +612,10 @@ function get_body_class( $class = '' ) {
 
 	$page = $wp_query->get( 'page' );
 
-	if ( !$page || $page < 2)
+	if ( ! $page || $page < 2 )
 		$page = $wp_query->get( 'paged' );
 
-	if ( $page && $page > 1 ) {
+	if ( $page && $page > 1 && ! is_404() ) {
 		$classes[] = 'paged-' . $page;
 
 		if ( is_single() )
