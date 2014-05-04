@@ -256,16 +256,12 @@ class WP_Date_Query {
 
 		if ( isset( $query['month'] ) && $value = $this->build_value( $compare, $query['month'] ) )
 			$where_parts[] = "MONTH( $column ) $compare $value";
-
-		// Legacy
-		if ( isset( $query['monthnum'] ) && $value = $this->build_value( $compare, $query['monthnum'] ) )
+		else if ( isset( $query['monthnum'] ) && $value = $this->build_value( $compare, $query['monthnum'] ) )
 			$where_parts[] = "MONTH( $column ) $compare $value";
 
 		if ( isset( $query['week'] ) && false !== ( $value = $this->build_value( $compare, $query['week'] ) ) )
 			$where_parts[] = _wp_mysql_week( $column ) . " $compare $value";
-
-		// Legacy
-		if ( isset( $query['w'] ) && false !== ( $value = $this->build_value( $compare, $query['w'] ) ) )
+		else if ( isset( $query['w'] ) && false !== ( $value = $this->build_value( $compare, $query['w'] ) ) )
 			$where_parts[] = _wp_mysql_week( $column ) . " $compare $value";
 
 		if ( isset( $query['dayofyear'] ) && $value = $this->build_value( $compare, $query['dayofyear'] ) )
