@@ -209,7 +209,7 @@ function twentytwelve_wp_title( $title, $sep ) {
 		$title = "$title $sep $site_description";
 
 	// Add a page number if necessary.
-	if ( $paged >= 2 || $page >= 2 )
+	if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() )
 		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
 
 	return $title;

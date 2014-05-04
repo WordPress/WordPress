@@ -29,7 +29,7 @@
 		echo " | $site_description";
 
 	// Add a page number if necessary:
-	if ( $paged >= 2 || $page >= 2 )
+	if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() )
 		echo ' | ' . sprintf( __( 'Page %s', 'twentyten' ), max( $paged, $page ) );
 
 	?></title>
