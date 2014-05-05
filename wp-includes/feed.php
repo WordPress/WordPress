@@ -390,7 +390,7 @@ function get_the_category_rss($type = null) {
 			$the_list .= "\t\t<dc:subject><![CDATA[$cat_name]]></dc:subject>\n";
 		elseif ( 'atom' == $type )
 			/** This filter is documented in wp-includes/feed.php */
-			$the_list .= sprintf( '<category scheme="%1$s" term="%2$s" />', esc_attr( apply_filters( 'get_bloginfo_rss', get_bloginfo( 'url' ) ) ), esc_attr( $cat_name ) );
+			$the_list .= sprintf( '<category scheme="%1$s" term="%2$s" />', esc_attr( get_bloginfo_rss( 'url' ) ), esc_attr( $cat_name ) );
 		else
 			$the_list .= "\t\t<category><![CDATA[" . @html_entity_decode( $cat_name, ENT_COMPAT, get_option('blog_charset') ) . "]]></category>\n";
 	}
