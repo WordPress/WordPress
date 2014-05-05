@@ -145,7 +145,7 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 	 * Filter the date formatted based on the locale.
 	 *
 	 * @since 2.8.0
-	 * 
+	 *
 	 * @param string $j          Formatted date string.
 	 * @param string $req_format Format to display the date.
 	 * @param int    $i          Unix timestamp.
@@ -2095,7 +2095,7 @@ function wp_get_mime_types() {
 	'webm' => 'video/webm',
 	'mkv' => 'video/x-matroska',
 	// Text formats
-	'txt|asc|c|cc|h' => 'text/plain',
+	'txt|asc|c|cc|h|srt' => 'text/plain',
 	'csv' => 'text/csv',
 	'tsv' => 'text/tab-separated-values',
 	'ics' => 'text/calendar',
@@ -2103,6 +2103,7 @@ function wp_get_mime_types() {
 	'css' => 'text/css',
 	'htm|html' => 'text/html',
 	'vtt' => 'text/vtt',
+	'dfxp' => 'application/ttaf+xml',
 	// Audio formats
 	'mp3|m4a|m4b' => 'audio/mpeg',
 	'ra|ram' => 'audio/x-realaudio',
@@ -4121,8 +4122,8 @@ function wp_allowed_protocols() {
 
 		/**
 		 * Filter the list of protocols allowed in HTML attributes.
-		 * 
-		 * @since 3.0.0 
+		 *
+		 * @since 3.0.0
 		 *
 		 * @param array $protocols Array of allowed protocols e.g. 'http', 'ftp', 'tel', and more.
 		 */
