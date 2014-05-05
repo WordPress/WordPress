@@ -364,6 +364,7 @@ function populate_options() {
 
 	$options = array(
 	'siteurl' => $guessurl,
+	'home' => $guessurl,
 	'blogname' => __('My Site'),
 	/* translators: blog tagline */
 	'blogdescription' => __('Just another WordPress site'),
@@ -400,7 +401,6 @@ function populate_options() {
 	'blog_charset' => 'UTF-8',
 	'moderation_keys' => '',
 	'active_plugins' => array(),
-	'home' => $guessurl,
 	'category_base' => '',
 	'ping_sites' => 'http://rpc.pingomatic.com/',
 	'advanced_edit' => 0,
