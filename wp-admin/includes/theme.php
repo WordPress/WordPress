@@ -238,7 +238,7 @@ function get_theme_feature_list( $api = true ) {
 		return $features;
 
 	if ( !$feature_list = get_site_transient( 'wporg_theme_feature_list' ) )
-		set_site_transient( 'wporg_theme_feature_list', array(), 10800);
+		set_site_transient( 'wporg_theme_feature_list', array(), 3 * HOUR_IN_SECONDS );
 
 	if ( !$feature_list ) {
 		$feature_list = themes_api( 'feature_list', array() );
@@ -249,7 +249,7 @@ function get_theme_feature_list( $api = true ) {
 	if ( !$feature_list )
 		return $features;
 
-	set_site_transient( 'wporg_theme_feature_list', $feature_list, 10800 );
+	set_site_transient( 'wporg_theme_feature_list', $feature_list, 3 * HOUR_IN_SECONDS );
 
 	$category_translations = array(
 		'Colors'   => __( 'Colors' ),
