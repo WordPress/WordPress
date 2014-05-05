@@ -32,7 +32,7 @@ window.wp = window.wp || {};
 			$elem = $( '#menu-plugins' );
 			pluginCount = $elem.find( '.plugin-count' ).eq(0).text();
 			pluginCount = parseInt( pluginCount, 10 ) - 1;
-			if ( count < 0 ) {
+			if ( pluginCount < 0 ) {
 				return;
 			}
 			$elem.find( '.plugin-count' ).text( pluginCount );
