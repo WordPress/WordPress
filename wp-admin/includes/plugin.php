@@ -717,7 +717,7 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
  *
  * @since 2.6.0
  *
- * @param string|array $plugins
+ * @param string|array $plugins Single plugin or list of plugins to activate.
  * @param string $redirect Redirect to page after successful activation.
  * @param bool $network_wide Whether to enable the plugin for all sites in the network.
  * @param bool $silent Prevent calling activation hooks. Default is false.
@@ -743,18 +743,16 @@ function activate_plugins( $plugins, $redirect = '', $network_wide = false, $sil
 }
 
 /**
- * Remove directory and files of a plugin for a single or list of plugin(s).
- *
- * If the plugins parameter list is empty, false will be returned. True when
- * completed.
+ * Remove directory and files of a plugin for a list of plugins.
  *
  * @since 2.6.0
  *
- * @param array $plugins List of plugin
- * @param string $redirect Redirect to page when complete.
- * @return mixed
+ * @param array  $plugins    List of plugins to delete.
+ * @param string $deprecated Deprecated.
+ * @return bool|null|WP_Error True on success, false is $plugins is empty, WP_Error on failure.
+ *                            Null if filesystem credentials are required to proceed.
  */
-function delete_plugins($plugins, $redirect = '' ) {
+function delete_plugins( $plugins, $deprecated = '' ) {
 	global $wp_filesystem;
 
 	if ( empty($plugins) )
