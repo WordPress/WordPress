@@ -2078,8 +2078,6 @@ class WP_Query {
 	protected function parse_search_order( &$q ) {
 		global $wpdb;
 
-		$search_orderby = '';
-
 		if ( $q['search_terms_count'] > 1 ) {
 			$num_terms = count( $q['search_orderby_title'] );
 			$search_orderby_s = like_escape( esc_sql( $q['s'] ) );
@@ -2212,7 +2210,6 @@ class WP_Query {
 		$join = '';
 		$search = '';
 		$groupby = '';
-		$fields = '';
 		$post_status_join = false;
 		$page = 1;
 
