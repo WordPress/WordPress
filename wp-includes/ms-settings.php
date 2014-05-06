@@ -35,7 +35,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 		$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
 	}
 
-	$path = strtolower( stripslashes( $_SERVER['REQUEST_URI'] ) );
+	$path = stripslashes( $_SERVER['REQUEST_URI'] );
 	if ( is_admin() ) {
 		$path = preg_replace( '#(.*)/wp-admin/.*#', '$1/', $path );
 	}
@@ -53,9 +53,9 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 			$current_site->blog_id = BLOGID_CURRENT_SITE;
 		}
 
-		if ( $current_site->domain === $domain && $current_site->path === $path ) {
+		if ( 0 === strcasecmp( $current_site->domain, $domain ) && 0 === strcasecmp( $current_site->path, $path ) ) {
 			$current_blog = get_site_by_path( $domain, $path );
-		} elseif ( '/' !== $current_site->path && $current_site->domain === $domain && 0 === strpos( $path, $current_site->path ) ) {
+		} elseif ( '/' !== $current_site->path && 0 === strcasecmp( $current_site->domain, $domain ) && 0 === stripos( $path, $current_site->path ) ) {
 			// If the current network has a path and also matches the domain and path of the request,
 			// we need to look for a site using the first path segment following the network's path.
 			$current_blog = get_site_by_path( $domain, $path, 1 + count( explode( '/', trim( $current_site->path, '/' ) ) ) );
