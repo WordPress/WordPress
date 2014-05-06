@@ -147,7 +147,6 @@ class WP_Users_List_Table extends WP_List_Table {
 		$avail_roles =& $users_of_blog['avail_roles'];
 		unset($users_of_blog);
 
-		$current_role = false;
 		$class = empty($role) ? ' class="current"' : '';
 		$role_links = array();
 		$role_links['all'] = "<a href='$url'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
@@ -158,7 +157,6 @@ class WP_Users_List_Table extends WP_List_Table {
 			$class = '';
 
 			if ( $this_role == $role ) {
-				$current_role = $role;
 				$class = ' class="current"';
 			}
 
