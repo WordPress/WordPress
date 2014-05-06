@@ -1211,7 +1211,6 @@ function edit_post_link( $link = null, $before = '', $after = '', $id = 0 ) {
 	if ( null === $link )
 		$link = __('Edit This');
 
-	$post_type_obj = get_post_type_object( $post->post_type );
 	$link = '<a class="post-edit-link" href="' . $url . '">' . $link . '</a>';
 
 	/**
