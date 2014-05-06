@@ -108,7 +108,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
  */
 function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null ) {
 	$post = get_post( $post );
-	$revisions = $authors = array();
+	$authors = array();
 	$now_gmt = time();
 
 	$revisions = wp_get_post_revisions( $post->ID, array( 'order' => 'ASC', 'check_enabled' => false ) );
