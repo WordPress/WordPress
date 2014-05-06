@@ -46,7 +46,6 @@ switch ($action) {
 
 		wp_redirect("$this_file?deleted=$deleted");
 		exit;
-		break;
 
 	case 'move' :
 		check_admin_referer('bulk-bookmarks');
@@ -62,7 +61,6 @@ switch ($action) {
 
 		wp_redirect($this_file);
 		exit;
-		break;
 
 	case 'add' :
 		check_admin_referer('add-bookmark');
@@ -73,7 +71,6 @@ switch ($action) {
 
 		wp_redirect( $redir );
 		exit;
-		break;
 
 	case 'save' :
 		$link_id = (int) $_POST['link_id'];
@@ -83,7 +80,6 @@ switch ($action) {
 
 		wp_redirect($this_file);
 		exit;
-		break;
 
 	case 'delete' :
 		$link_id = (int) $_GET['link_id'];
@@ -93,7 +89,6 @@ switch ($action) {
 
 		wp_redirect($this_file);
 		exit;
-		break;
 
 	case 'edit' :
 		wp_enqueue_script('link');
