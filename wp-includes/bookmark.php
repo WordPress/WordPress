@@ -132,7 +132,6 @@ function get_bookmarks($args = '') {
 	$r = wp_parse_args( $args, $defaults );
 	extract( $r, EXTR_SKIP );
 
-	$cache = array();
 	$key = md5( serialize( $r ) );
 	if ( $cache = wp_cache_get( 'get_bookmarks', 'bookmark' ) ) {
 		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
@@ -356,7 +355,7 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 		// We return here so that the categories aren't filtered.
 		// The 'link_category' filter is for the name of a link category, not an array of a link's link categories
 		return $value;
-		break;
+		
 	case 'link_visible' : // bool stored as Y|N
 		$value = preg_replace('/[^YNyn]/', '', $value);
 		break;
