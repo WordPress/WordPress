@@ -626,7 +626,7 @@ class Custom_Image_Header {
 	<p>
 <?php
 $header_textcolor = display_header_text() ? get_header_textcolor() : get_theme_support( 'custom-header', 'default-text-color' );
-$default_color = '';
+
 if ( current_theme_supports( 'custom-header', 'default-text-color' ) ) {
 	$default_color = '#' . get_theme_support( 'custom-header', 'default-text-color' );
 	$default_color_attr = ' data-default-color="' . esc_attr( $default_color ) . '"';
