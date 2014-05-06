@@ -1372,7 +1372,7 @@ class WP_Http_Curl {
 			return array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
 		}
 
-		$theResponse = curl_exec( $handle );
+		curl_exec( $handle );
 		$theHeaders = WP_Http::processHeaders( $this->headers, $url );
 		$theBody = $this->body;
 
