@@ -1318,8 +1318,6 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null) 
 	if ( !comments_open($post->ID) )
 		return false;
 
-	$link = '';
-
 	if ( get_option('comment_registration') && ! is_user_logged_in() )
 		$link = '<a rel="nofollow" class="comment-reply-login" href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . $login_text . '</a>';
 	else
@@ -1584,8 +1582,8 @@ class Walker_Comment extends Walker {
 			case 'ol':
 				$output .= '<ol class="children">' . "\n";
 				break;
-			default:
 			case 'ul':
+			default:
 				$output .= '<ul class="children">' . "\n";
 				break;
 		}
@@ -1611,8 +1609,8 @@ class Walker_Comment extends Walker {
 			case 'ol':
 				$output .= "</ol><!-- .children -->\n";
 				break;
-			default:
 			case 'ul':
+			default:
 				$output .= "</ul><!-- .children -->\n";
 				break;
 		}
@@ -2045,8 +2043,6 @@ function wp_list_comments( $args = array(), $comments = null ) {
 function comment_form( $args = array(), $post_id = null ) {
 	if ( null === $post_id )
 		$post_id = get_the_ID();
-	else
-		$id = $post_id;
 
 	$commenter = wp_get_current_commenter();
 	$user = wp_get_current_user();
