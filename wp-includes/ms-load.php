@@ -92,7 +92,7 @@ function ms_site_check() {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-deleted.php' ) )
 			return WP_CONTENT_DIR . '/blog-deleted.php';
 		else
-			wp_die( __( 'This user has elected to delete their account and the content is no longer available.' ), '', array( 'response' => 410 ) );
+			wp_die( __( 'This site is no longer available.' ), '', array( 'response' => 410 ) );
 	}
 
 	if ( '2' == $blog->deleted ) {
