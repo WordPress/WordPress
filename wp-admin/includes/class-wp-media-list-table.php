@@ -23,7 +23,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	function prepare_items() {
-		global $lost, $wpdb, $wp_query, $post_mime_types, $avail_post_mime_types;
+		global $lost, $wp_query, $post_mime_types, $avail_post_mime_types;
 
 		$q = $_REQUEST;
 
@@ -132,8 +132,6 @@ class WP_Media_List_Table extends WP_List_Table {
 		/* translators: column name */
 		$posts_columns['title'] = _x( 'File', 'column name' );
 		$posts_columns['author'] = __( 'Author' );
-
-		$taxonomies = array();
 
 		$taxonomies = get_taxonomies_for_attachments( 'objects' );
 		$taxonomies = wp_filter_object_list( $taxonomies, array( 'show_admin_column' => true ), 'and', 'name' );
@@ -377,7 +375,6 @@ foreach ( $columns as $column_name => $column_display_name ) {
 			$taxonomy = false;
 
 		if ( $taxonomy ) {
-			$taxonomy_object = get_taxonomy( $taxonomy );
 			echo '<td ' . $attributes . '>';
 			if ( $terms = get_the_terms( $post->ID, $taxonomy ) ) {
 				$out = array();
