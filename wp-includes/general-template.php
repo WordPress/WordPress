@@ -1388,7 +1388,6 @@ function calendar_week_mod($num) {
 function get_calendar($initial = true, $echo = true) {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
-	$cache = array();
 	$key = md5( $m . $monthnum . $year );
 	if ( $cache = wp_cache_get( 'get_calendar', 'calendar' ) ) {
 		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
@@ -2244,7 +2243,7 @@ function user_can_richedit() {
  */
 function wp_default_editor() {
 	$r = user_can_richedit() ? 'tinymce' : 'html'; // defaults
-	if ( $user = wp_get_current_user() ) { // look for cookie
+	if ( wp_get_current_user() ) { // look for cookie
 		$ed = get_user_setting('editor', 'tinymce');
 		$r = ( in_array($ed, array('tinymce', 'html', 'test') ) ) ? $ed : $r;
 	}
@@ -2345,7 +2344,6 @@ function the_search_query() {
  */
 function language_attributes($doctype = 'html') {
 	$attributes = array();
-	$output = '';
 
 	if ( function_exists( 'is_rtl' ) && is_rtl() )
 		$attributes[] = 'dir="rtl"';
@@ -2453,7 +2451,6 @@ function paginate_links( $args = '' ) {
 	$add_args = is_array($add_args) ? $add_args : false;
 	$r = '';
 	$page_links = array();
-	$n = 0;
 	$dots = false;
 
 	if ( $prev_next && $current && 1 < $current ) :
