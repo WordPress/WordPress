@@ -125,7 +125,7 @@ function ms_site_check() {
 function get_network_by_path( $domain, $path, $segments = null ) {
 	global $wpdb;
 
-	$domains = $exact_domains = array( $domain );
+	$domains = array( $domain );
 	$pieces = explode( '.', $domain );
 
 	/*
