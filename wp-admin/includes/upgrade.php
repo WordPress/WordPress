@@ -1385,7 +1385,7 @@ function maybe_create_table($table_name, $create_ddl) {
 	if ( $wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name )
 		return true;
 	//didn't find it try to create it.
-	$q = $wpdb->query($create_ddl);
+	$wpdb->query($create_ddl);
 	// we cannot directly tell that whether this succeeded!
 	if ( $wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name )
 		return true;
@@ -1447,7 +1447,7 @@ function maybe_add_column($table_name, $column_name, $create_ddl) {
 		}
 	}
 	//didn't find it try to create it.
-	$q = $wpdb->query($create_ddl);
+	$wpdb->query($create_ddl);
 	// we cannot directly tell that whether this succeeded!
 	foreach ($wpdb->get_col("DESC $table_name", 0) as $column ) {
 		if ($column == $column_name) {
@@ -1555,8 +1555,8 @@ function dbDelta( $queries = '', $execute = true ) {
 		$queries = explode( ';', $queries );
 		$queries = array_filter( $queries );
 	}
-	
-	/** 
+
+	/**
 	 * Filter the dbDelta SQL queries.
 	 *
 	 * @since 3.3.0
@@ -1584,23 +1584,23 @@ function dbDelta( $queries = '', $execute = true ) {
 			// Unrecognized query type
 		}
 	}
-	
-	/** 
+
+	/**
 	 * Filter the dbDelta SQL queries for creating tables and/or databases.
 	 *
 	 * Queries filterable via this hook contain "CREATE TABLE" or "CREATE DATABASE".
-	 * 
+	 *
 	 * @since 3.3.0
 	 *
 	 * @param array $cqueries An array of dbDelta create SQL queries.
 	 */
 	$cqueries = apply_filters( 'dbdelta_create_queries', $cqueries );
 
-	/** 
+	/**
 	 * Filter the dbDelta SQL queries for inserting or updating.
 	 *
 	 * Queries filterable via this hook contain "INSERT INTO" or "UPDATE".
-	 * 
+	 *
 	 * @since 3.3.0
 	 *
 	 * @param array $iqueries An array of dbDelta insert or update SQL queries.
@@ -1794,7 +1794,7 @@ function make_db_current( $tables = 'all' ) {
  * @since 1.5.0
  */
 function make_db_current_silent( $tables = 'all' ) {
-	$alterations = dbDelta( $tables );
+	dbDelta( $tables );
 }
 
 /**
