@@ -189,7 +189,6 @@ class Walker {
 		if (empty($elements)) //nothing to walk
 			return $output;
 
-		$id_field = $this->db_fields['id'];
 		$parent_field = $this->db_fields['parent'];
 
 		// flat display
@@ -276,7 +275,6 @@ class Walker {
 		$args = array_slice( func_get_args(), 4 );
 		$output = '';
 
-		$id_field = $this->db_fields['id'];
 		$parent_field = $this->db_fields['parent'];
 
 		$count = -1;
