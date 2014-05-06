@@ -84,13 +84,12 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	function get_views() {
-		global $wp_roles, $role;
+		global $role;
 
 		$total_users = get_user_count();
 		$super_admins = get_super_admins();
 		$total_admins = count( $super_admins );
 
-		$current_role = false;
 		$class = $role != 'super' ? ' class="current"' : '';
 		$role_links = array();
 		$role_links['all'] = "<a href='" . network_admin_url('users.php') . "'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
