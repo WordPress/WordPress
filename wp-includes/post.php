@@ -5608,7 +5608,7 @@ function set_post_thumbnail( $post, $thumbnail_id ) {
 	$post = get_post( $post );
 	$thumbnail_id = absint( $thumbnail_id );
 	if ( $post && $thumbnail_id && get_post( $thumbnail_id ) ) {
-		if ( $thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' ) )
+		if ( wp_attachment_is_image( $thumbnail_id) )
 			return update_post_meta( $post->ID, '_thumbnail_id', $thumbnail_id );
 		else
 			return delete_post_meta( $post->ID, '_thumbnail_id' );
