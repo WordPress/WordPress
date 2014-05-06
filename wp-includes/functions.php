@@ -61,13 +61,10 @@ function current_time( $type, $gmt = 0 ) {
 	switch ( $type ) {
 		case 'mysql':
 			return ( $gmt ) ? gmdate( 'Y-m-d H:i:s' ) : gmdate( 'Y-m-d H:i:s', ( time() + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) );
-			break;
 		case 'timestamp':
 			return ( $gmt ) ? time() : time() + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
-			break;
 		default:
 			return ( $gmt ) ? date( $type ) : date( $type, time() + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) );
-			break;
 	}
 }
 
@@ -692,7 +689,6 @@ function _http_build_query($data, $prefix=null, $sep=null, $key='', $urlencode=t
  * @return string New URL query string.
  */
 function add_query_arg() {
-	$ret = '';
 	$args = func_get_args();
 	if ( is_array( $args[0] ) ) {
 		if ( count( $args ) < 2 || false === $args[1] )
@@ -1427,7 +1423,6 @@ function wp_mkdir_p( $target ) {
 	}
 
 	// Get the permission bits.
-	$dir_perms = false;
 	if ( $stat = @stat( $target_parent ) ) {
 		$dir_perms = $stat['mode'] & 0007777;
 	} else {
