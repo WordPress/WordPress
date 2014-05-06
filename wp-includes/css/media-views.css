@@ -1781,7 +1781,8 @@
 	margin-top: 24px;
 }
 
-.media-embed .setting input.hidden {
+.media-embed .setting input.hidden,
+.media-embed .setting textarea.hidden {
 	display: none;
 }
 

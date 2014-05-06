@@ -483,11 +483,13 @@ window.wp = window.wp || {};
 		 * @returns {string}
 		 */
 		getHtml: function() {
-			var attrs = _.defaults(
-				this.shortcode.attrs.named,
-				wp.media[ this.shortcode.tag ].defaults
-			);
-			return this.template({ model: attrs });
+			var attrs = this.shortcode.attrs.named;
+			attrs.content = this.shortcode.content;
+
+			return this.template({ model: _.defaults(
+				attrs,
+				wp.media[ this.shortcode.tag ].defaults )
+			});
 		},
 
 		unbind: function() {
