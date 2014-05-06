@@ -247,8 +247,8 @@ if ( $tab ) {
 				<span class="collapse-sidebar-arrow"></span>
 			</a>
 			<div class="theme-navigation">
-				<a class="previous-theme button" href="#"><?php _e( 'Previous' ); ?></a>
-				<a class="next-theme button" href="#"><?php _e( 'Next' ); ?></a>
+				<a class="previous-theme button" href="#"><?php _ex( 'Previous', 'Button label for a theme' ); ?></a>
+				<a class="next-theme button" href="#"><?php _ex( 'Next', 'Button label for a theme' ); ?></a>
 			</div>
 		</div>
 	</div>
