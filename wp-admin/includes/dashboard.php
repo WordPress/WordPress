@@ -765,7 +765,6 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 
 	// Select all comment types and filter out spam later for better query performance.
 	$comments = array();
-	$start = 0;
 
 	$comments_query = array(
 		'number' => $total_items * 5,
@@ -785,8 +784,6 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 		$comments_query['offset'] += $comments_query['number'];
 		$comments_query['number'] = $total_items * 10;
 	}
-
-
 
 	if ( $comments ) {
 		echo '<div id="latest-comments" class="activity-block">';
