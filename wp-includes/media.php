@@ -2654,7 +2654,7 @@ function wp_enqueue_media( $args = array() ) {
 	if ( did_action( 'wp_enqueue_media' ) )
 		return;
 
-	global $content_width;
+	global $content_width, $wpdb;
 
 	$defaults = array(
 		'post' => null,
@@ -2693,15 +2693,20 @@ function wp_enqueue_media( $args = array() ) {
 		}
 	}
 
-	$audio = $video = 0;
-	$counts = (array) wp_count_attachments();
-	foreach ( $counts as $mime => $total ) {
-		if ( 0 === strpos( $mime, 'audio/' ) ) {
-			$audio += (int) $total;
-		} elseif ( 0 === strpos( $mime, 'video/' ) ) {
-			$video += (int) $total;
-		}
-	}
+	$has_audio = $wpdb->get_var( "
+		SELECT ID
+		FROM $wpdb->posts
+		WHERE post_type = 'attachment'
+		AND post_mime_type LIKE 'audio%'
+		LIMIT 1
+	" );
+	$has_video = $wpdb->get_var( "
+		SELECT ID
+		FROM $wpdb->posts
+		WHERE post_type = 'attachment'
+		AND post_mime_type LIKE 'video%'
+		LIMIT 1
+	" );
 
 	$settings = array(
 		'tabs'      => $tabs,
@@ -2717,8 +2722,8 @@ function wp_enqueue_media( $args = array() ) {
 		),
 		'defaultProps' => $props,
 		'attachmentCounts' => array(
-			'audio' => $audio,
-			'video' => $video
+			'audio' => (int) $has_audio,
+			'video' => (int) $has_video,
 		),
 		'embedExts'    => $exts,
 		'embedMimes'   => $ext_mimes,
