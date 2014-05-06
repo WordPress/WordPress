@@ -101,8 +101,6 @@ function find_core_auto_update() {
  * @return bool|array False on failure. An array of checksums on success.
  */
 function get_core_checksums( $version, $locale ) {
-	$return = array();
-
 	$url = $http_url = 'http://api.wordpress.org/core/checksums/1.0/?' . http_build_query( compact( 'version', 'locale' ), null, '&' );
 
 	if ( $ssl = wp_http_supports( array( 'ssl' ) ) )
@@ -181,16 +179,13 @@ function core_update_footer( $msg = '' ) {
 	switch ( $cur->response ) {
 	case 'development' :
 		return sprintf( __( 'You are using a development version (%1$s). Cool! Please <a href="%2$s">stay updated</a>.' ), get_bloginfo( 'version', 'display' ), network_admin_url( 'update-core.php' ) );
-	break;
 
 	case 'upgrade' :
 		return sprintf( '<strong>'.__( '<a href="%1$s">Get Version %2$s</a>' ).'</strong>', network_admin_url( 'update-core.php' ), $cur->current);
-	break;
 
 	case 'latest' :
 	default :
 		return sprintf( __( 'Version %s' ), get_bloginfo( 'version', 'display' ) );
-	break;
 	}
 }
 add_filter( 'update_footer', 'core_update_footer' );
@@ -332,7 +327,6 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 }
 
 function get_theme_updates() {
-	$themes = wp_get_themes();
 	$current = get_site_transient('update_themes');
 
 	if ( ! isset( $current->response ) )
@@ -367,8 +361,6 @@ function wp_theme_update_row( $theme_key, $theme ) {
 	if ( !isset( $current->response[ $theme_key ] ) )
 		return false;
 	$r = $current->response[ $theme_key ];
-	$themes_allowedtags = array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array());
-	$theme_name = wp_kses( $theme['Name'], $themes_allowedtags );
 
 	$details_url = add_query_arg( array( 'TB_iframe' => 'true', 'width' => 1024, 'height' => 800 ), $current->response[ $theme_key ]['url'] );
 
