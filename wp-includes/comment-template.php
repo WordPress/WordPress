@@ -1918,6 +1918,15 @@ function wp_list_comments( $args = array(), $comments = null ) {
 
 	$r = wp_parse_args( $args, $defaults );
 
+	/**
+	 * Filter the arguments used in retrieving the comment list.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array $r An array of arguments for displaying comments.
+	 */
+	$r = apply_filters( 'wp_list_comments_args', $r );
+
 	// Figure out what comments we'll be looping through ($_comments)
 	if ( null !== $comments ) {
 		$comments = (array) $comments;
