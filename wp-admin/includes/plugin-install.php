@@ -411,11 +411,6 @@ function install_plugin_information() {
 
 		foreach ( (array)$api->sections as $section_name => $content ) {
 
-			if ( isset( $plugins_section_titles[ $section_name ] ) )
-				$title = $plugins_section_titles[ $section_name ];
-			else
-				$title = ucwords( str_replace( '_', ' ', $section_name ) );
-
 			$content = links_add_base_url( $content, 'https://wordpress.org/plugins/' . $api->slug . '/' );
 			$content = links_add_target( $content, '_blank' );
 
