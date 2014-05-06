@@ -348,13 +348,30 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	 * then cache whether we can just always ignore paths.
 	 */
 
+	// Either www or non-www is supported, not both. If a www domain is requested,
+	// query for both to provide the proper redirect.
+	$domains = array( $domain );
+	if ( 'www.' === substr( $domain, 0, 4 ) ) {
+		$domains[] = substr( $domain, 4 );
+		$search_domains = "'" . implode( "', '", $wpdb->_escape( $domains ) ) . "'";
+	}
+
 	if ( count( $paths ) > 1 ) {
-		$paths = "'" . implode( "', '", $wpdb->_escape( $paths ) ) . "'";
-		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s", $domain );
-		$sql .= " AND path IN ($paths) ORDER BY CHAR_LENGTH(path) DESC LIMIT 1";
+		$search_paths = "'" . implode( "', '", $wpdb->_escape( $paths ) ) . "'";
+	}
+
+	if ( count( $domains ) > 1 && count( $paths ) > 1 ) {
+		$site = $wpdb->get_row( "SELECT * FROM $wpdb->blogs WHERE domain IN ($search_domains) AND path IN ($search_paths) ORDER BY CHAR_LENGTH(domain) DESC, CHAR_LENGTH(path) DESC LIMIT 1" );
+	} elseif ( count( $domains ) > 1 ) {
+		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE path = %s", $paths[0] );
+		$sql .= " AND domain IN ($search_domains) ORDER BY CHAR_LENGTH(domain) DESC LIMIT 1";
+		$site = $wpdb->get_row( $sql );
+	} elseif ( count( $paths ) > 1 ) {
+		$sql = $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s", $domains[0] );
+		$sql .= " AND path IN ($search_paths) ORDER BY CHAR_LENGTH(path) DESC LIMIT 1";
 		$site = $wpdb->get_row( $sql );
 	} else {
-		$site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s and path = %s", $domain, $paths[0] ) );
+		$site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs WHERE domain = %s AND path = %s", $domains[0], $paths[0] ) );
 	}
 
 	if ( $site ) {
