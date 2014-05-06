@@ -40,7 +40,7 @@ class Custom_Image_Header {
 	 * @since 3.0.0
 	 * @access private
 	 */
-	var $default_headers;
+	var $default_headers = array();
 
 	/**
 	 * Holds custom headers uploaded by the user.
@@ -254,7 +254,7 @@ class Custom_Image_Header {
 		if ( !isset($_wp_default_headers) )
 			return;
 
-		if ( is_array( $this->default_headers ) ) {
+		if ( ! empty( $this->default_headers ) ) {
 			return;
 		}
 
