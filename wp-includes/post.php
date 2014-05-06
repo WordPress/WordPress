@@ -4176,9 +4176,6 @@ function get_pages( $args = array() ) {
 		return $pages;
 	}
 
-	if ( !is_array($cache) )
-		$cache = array();
-
 	$inclusions = '';
 	if ( ! empty( $include ) ) {
 		$child_of = 0; //ignore child_of, parent, exclude, meta_key, and meta_value params if using include
@@ -5608,7 +5605,7 @@ function set_post_thumbnail( $post, $thumbnail_id ) {
 	$post = get_post( $post );
 	$thumbnail_id = absint( $thumbnail_id );
 	if ( $post && $thumbnail_id && get_post( $thumbnail_id ) ) {
-		if ( $thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' ) )
+		if ( wp_get_attachment_image( $thumbnail_id, 'thumbnail' ) )
 			return update_post_meta( $post->ID, '_thumbnail_id', $thumbnail_id );
 		else
 			return delete_post_meta( $post->ID, '_thumbnail_id' );
