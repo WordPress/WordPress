@@ -356,7 +356,6 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 				if ( 'markup' == $response_format ) {
 					echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', array( get_post( $object_id ) ) ), 0, (object) $args );
 				} elseif ( 'json' == $response_format ) {
-					$post_obj = get_post( $object_id );
 					echo json_encode(
 						array(
 							'ID' => $object_id,
@@ -643,8 +642,6 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 		return;
 	}
 
-	$post_type_object = get_post_type_object($post_type_name);
-
 	$num_pages = $get_posts->max_num_pages;
 
 	$page_links = paginate_links( array(
@@ -662,9 +659,6 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 		'total' => $num_pages,
 		'current' => $pagenum
 	));
-
-	if ( !$posts )
-		$error = '<li id="error">'. $post_type['args']->labels->not_found .'</li>';
 
 	$db_fields = false;
 	if ( is_post_type_hierarchical( $post_type_name ) ) {
