@@ -2607,8 +2607,6 @@ function edit_form_image_editor( $post ) {
 	if ( $attachment_id = intval( $post->ID ) )
 		$thumb_url = wp_get_attachment_image_src( $attachment_id, array( 900, 450 ), true );
 
-	$filename = esc_html( basename( $post->guid ) );
-	$title = esc_attr( $post->post_title );
 	$alt_text = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
 
 	$att_url = wp_get_attachment_url( $post->ID ); ?>
