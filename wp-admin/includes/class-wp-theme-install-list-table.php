@@ -41,10 +41,10 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		if ( 'search' == $tab )
 			$tabs['search']	= __( 'Search Results' );
 		$tabs['upload'] = __( 'Upload' );
-		$tabs['featured'] = _x( 'Featured','Theme Installer' );
-		//$tabs['popular']  = _x( 'Popular','Theme Installer' );
-		$tabs['new']      = _x( 'Newest','Theme Installer' );
-		$tabs['updated']  = _x( 'Recently Updated','Theme Installer' );
+		$tabs['featured'] = _x( 'Featured', 'themes' );
+		//$tabs['popular']  = _x( 'Popular', 'themes' );
+		$tabs['new']      = _x( 'Latest', 'themes' );
+		$tabs['updated']  = _x( 'Recently Updated', 'themes' );
 
 		$nonmenu_tabs = array( 'theme-information' ); // Valid actions to perform which do not have a Menu item.
 
