@@ -109,7 +109,6 @@ if ( isset( $_GET['action'] ) ) {
 				wp_redirect( network_admin_url( 'users.php' ) );
 			}
 			exit();
-		break;
 
 		case 'allusers':
 			if ( !current_user_can( 'manage_network_users' ) )
@@ -135,7 +134,6 @@ if ( isset( $_GET['action'] ) ) {
 								echo '</div>';
 								require_once( ABSPATH . 'wp-admin/admin-footer.php' );
 								exit();
-							break;
 
 							case 'spam':
 								$user = get_userdata( $val );
@@ -172,7 +170,6 @@ if ( isset( $_GET['action'] ) ) {
 				wp_redirect( $location );
 			}
 			exit();
-		break;
 
 		case 'dodelete':
 			check_admin_referer( 'ms-users-delete' );
@@ -208,7 +205,6 @@ if ( isset( $_GET['action'] ) ) {
 
 			wp_redirect( add_query_arg( array( 'updated' => 'true', 'action' => $deletefunction ), network_admin_url( 'users.php' ) ) );
 			exit();
-		break;
 	}
 }
 
