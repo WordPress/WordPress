@@ -270,8 +270,7 @@ abstract class WP_Image_Editor {
 	 * @return array { filename|null, extension, mime-type }
 	 */
 	protected function get_output_format( $filename = null, $mime_type = null ) {
-		$new_ext = $file_ext = null;
-		$file_mime = null;
+		$new_ext = null;
 
 		// By default, assume specified type takes priority
 		if ( $mime_type ) {
