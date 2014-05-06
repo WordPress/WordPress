@@ -276,11 +276,6 @@ if ( !in_array( $post->post_status, array('publish', 'future', 'private') ) || 0
  * @param object $post
  */
 function attachment_submit_meta_box( $post ) {
-	global $action;
-
-	$post_type = $post->post_type;
-	$post_type_object = get_post_type_object($post_type);
-	$can_publish = current_user_can($post_type_object->cap->publish_posts);
 ?>
 <div class="submitbox" id="submitpost">
 
