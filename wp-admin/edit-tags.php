@@ -63,7 +63,6 @@ case 'add-tag':
 		$location = add_query_arg( 'message', 4, $location );
 	wp_redirect( $location );
 	exit;
-break;
 
 case 'delete':
 	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
@@ -91,8 +90,6 @@ case 'delete':
 	wp_redirect( $location );
 	exit;
 
-break;
-
 case 'bulk-delete':
 	check_admin_referer( 'bulk-tags' );
 
@@ -115,8 +112,6 @@ case 'bulk-delete':
 	$location = add_query_arg( 'message', 6, $location );
 	wp_redirect( $location );
 	exit;
-
-break;
 
 case 'edit':
 	$title = $tax->labels->edit_item;
@@ -160,7 +155,6 @@ case 'editedtag':
 
 	wp_redirect( $location );
 	exit;
-break;
 
 default:
 if ( ! empty($_REQUEST['_wp_http_referer']) ) {
