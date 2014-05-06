@@ -40,14 +40,12 @@ if ( $action ) {
 			else
 				wp_safe_redirect( add_query_arg( 'enabled', 1, $referer ) );
 			exit;
-			break;
 		case 'disable':
 			check_admin_referer('disable-theme_' . $_GET['theme']);
 			unset( $allowed_themes[ $_GET['theme'] ] );
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_safe_redirect( add_query_arg( 'disabled', '1', $referer ) );
 			exit;
-			break;
 		case 'enable-selected':
 			check_admin_referer('bulk-themes');
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
@@ -60,7 +58,6 @@ if ( $action ) {
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_safe_redirect( add_query_arg( 'enabled', count( $themes ), $referer ) );
 			exit;
-			break;
 		case 'disable-selected':
 			check_admin_referer('bulk-themes');
 			$themes = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
@@ -73,7 +70,6 @@ if ( $action ) {
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_safe_redirect( add_query_arg( 'disabled', count( $themes ), $referer ) );
 			exit;
-			break;
 		case 'update-selected' :
 			check_admin_referer( 'bulk-themes' );
 
@@ -99,7 +95,6 @@ if ( $action ) {
 			echo '</div>';
 			require_once(ABSPATH . 'wp-admin/admin-footer.php');
 			exit;
-			break;
 		case 'delete-selected':
 			if ( ! current_user_can( 'delete_themes' ) )
 				wp_die( __('You do not have sufficient permissions to delete themes for this site.') );
@@ -182,7 +177,7 @@ if ( $action ) {
 					'_wpnonce' => $_REQUEST['_wpnonce']
 				), network_admin_url( 'themes.php' ) ) ) );
 			}
-			
+
 			$paged = ( $_REQUEST['paged'] ) ? $_REQUEST['paged'] : 1;
 			wp_redirect( add_query_arg( array(
 				'deleted' => count( $themes ),
@@ -190,7 +185,6 @@ if ( $action ) {
 				's' => $s
 			), network_admin_url( 'themes.php' ) ) );
 			exit;
-			break;
 	}
 }
 
