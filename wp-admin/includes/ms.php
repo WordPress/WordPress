@@ -211,7 +211,6 @@ function wpmu_delete_user( $id ) {
 }
 
 function update_option_new_admin_email( $old_value, $value ) {
-	$email = get_option( 'admin_email' );
 	if ( $value == get_option( 'admin_email' ) || !is_email( $value ) )
 		return;
 
