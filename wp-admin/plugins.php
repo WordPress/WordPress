@@ -60,7 +60,7 @@ if ( $action ) {
 				wp_redirect( self_admin_url("plugins.php?activate=true&plugin_status=$status&paged=$page&s=$s") ); // overrides the ?error=true one above
 			}
 			exit;
-			break;
+
 		case 'activate-selected':
 			if ( ! current_user_can('activate_plugins') )
 				wp_die(__('You do not have sufficient permissions to activate plugins for this site.'));
@@ -101,7 +101,7 @@ if ( $action ) {
 
 			wp_redirect( self_admin_url("plugins.php?activate-multi=true&plugin_status=$status&paged=$page&s=$s") );
 			exit;
-			break;
+
 		case 'update-selected' :
 
 			check_admin_referer( 'bulk-plugins' );
@@ -129,7 +129,7 @@ if ( $action ) {
 			echo '</div>';
 			require_once(ABSPATH . 'wp-admin/admin-footer.php');
 			exit;
-			break;
+
 		case 'error_scrape':
 			if ( ! current_user_can('activate_plugins') )
 				wp_die(__('You do not have sufficient permissions to activate plugins for this site.'));
@@ -154,7 +154,7 @@ if ( $action ) {
 			/** This action is documented in wp-admin/includes/plugins.php */
 			do_action( "activate_{$plugin}" );
 			exit;
-			break;
+
 		case 'deactivate':
 			if ( ! current_user_can('activate_plugins') )
 				wp_die(__('You do not have sufficient permissions to deactivate plugins for this site.'));
@@ -174,7 +174,7 @@ if ( $action ) {
 			else
 				wp_redirect( self_admin_url("plugins.php?deactivate=true&plugin_status=$status&paged=$page&s=$s") );
 			exit;
-			break;
+
 		case 'deactivate-selected':
 			if ( ! current_user_can('activate_plugins') )
 				wp_die(__('You do not have sufficient permissions to deactivate plugins for this site.'));
@@ -205,7 +205,7 @@ if ( $action ) {
 
 			wp_redirect( self_admin_url("plugins.php?deactivate-multi=true&plugin_status=$status&paged=$page&s=$s") );
 			exit;
-			break;
+
 		case 'delete-selected':
 			if ( ! current_user_can('delete_plugins') )
 				wp_die(__('You do not have sufficient permissions to delete plugins for this site.'));
@@ -324,7 +324,7 @@ if ( $action ) {
 			set_transient('plugins_delete_result_' . $user_ID, $delete_result); //Store the result in a cache rather than a URL param due to object type & length
 			wp_redirect( self_admin_url("plugins.php?deleted=true&plugin_status=$status&paged=$page&s=$s") );
 			exit;
-			break;
+
 		case 'clear-recent-list':
 			if ( ! is_network_admin() )
 				update_option( 'recently_activated', array() );
