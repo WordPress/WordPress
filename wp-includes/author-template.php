@@ -360,8 +360,6 @@ function wp_list_authors($args = '') {
 		if ( !$posts && $hide_empty )
 			continue;
 
-		$link = '';
-
 		if ( $show_fullname && $author->first_name && $author->last_name )
 			$name = "$author->first_name $author->last_name";
 		else
