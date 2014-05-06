@@ -1306,12 +1306,6 @@ function get_media_item( $attachment_id, $args = null ) {
 	$filename = esc_html( wp_basename( $post->guid ) );
 	$title = esc_attr( $post->post_title );
 
-	if ( $_tags = get_the_tags( $attachment_id ) ) {
-		foreach ( $_tags as $tag )
-			$tags[] = $tag->name;
-		$tags = esc_attr( join( ', ', $tags ) );
-	}
-
 	$post_mime_types = get_post_mime_types();
 	$keys = array_keys( wp_match_mime_types( array_keys( $post_mime_types ), $post->post_mime_type ) );
 	$type = array_shift( $keys );
