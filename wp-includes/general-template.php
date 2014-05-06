@@ -2500,19 +2500,20 @@ function paginate_links( $args = '' ) {
 		/** This filter is documented in wp-includes/general-template.php */
 		$page_links[] = '<a class="next page-numbers" href="' . esc_url( apply_filters( 'paginate_links', $link ) ) . '">' . $next_text . '</a>';
 	endif;
-	switch ( $type ) :
+	switch ( $type ) {
 		case 'array' :
 			return $page_links;
-			break;
+
 		case 'list' :
 			$r .= "<ul class='page-numbers'>\n\t<li>";
 			$r .= join("</li>\n\t<li>", $page_links);
 			$r .= "</li>\n</ul>\n";
 			break;
+		
 		default :
 			$r = join("\n", $page_links);
 			break;
-	endswitch;
+	}
 	return $r;
 }
 
