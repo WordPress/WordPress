@@ -1734,7 +1734,6 @@ function wp_new_comment( $commentdata ) {
 function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) {
 	global $wpdb;
 
-	$status = '0';
 	switch ( $comment_status ) {
 		case 'hold':
 		case '0':
