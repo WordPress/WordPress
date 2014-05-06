@@ -232,10 +232,10 @@ class WP_Customize_Setting {
 		switch( $this->type ) {
 			case 'theme_mod' :
 				return $this->_update_theme_mod( $value );
-				break;
+
 			case 'option' :
 				return $this->_update_option( $value );
-				break;
+
 			default :
 
 				/**
