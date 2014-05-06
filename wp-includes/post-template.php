@@ -1412,8 +1412,6 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 	if ( $permalink )
 		$url = get_attachment_link( $_post->ID );
 
-	$post_title = esc_attr( $_post->post_title );
-
 	if ( $text )
 		$link_text = $text;
 	elseif ( $size && 'none' != $size )
