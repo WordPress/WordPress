@@ -469,8 +469,6 @@ case 'postpass' :
 	wp_safe_redirect( wp_get_referer() );
 	exit();
 
-break;
-
 case 'logout' :
 	check_admin_referer('log-out');
 	wp_logout();
@@ -478,8 +476,6 @@ case 'logout' :
 	$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : 'wp-login.php?loggedout=true';
 	wp_safe_redirect( $redirect_to );
 	exit();
-
-break;
 
 case 'lostpassword' :
 case 'retrievepassword' :
