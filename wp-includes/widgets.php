@@ -238,8 +238,6 @@ class WP_Widget {
 		if ( $this->updated )
 			return;
 
-		$sidebars_widgets = wp_get_sidebars_widgets();
-
 		if ( isset($_POST['delete_widget']) && $_POST['delete_widget'] ) {
 			// Delete the settings for this instance of the widget
 			if ( isset($_POST['the-widget-id']) )
