@@ -1196,7 +1196,7 @@ function wp_playlist_shortcode( $attr ) {
 			unset( $attr['orderby'] );
 	}
 
-	extract( shortcode_atts( array(
+	$atts = shortcode_atts( array(
 		'type'		=> 'audio',
 		'order'		=> 'ASC',
 		'orderby'	=> 'menu_order ID',
@@ -1208,32 +1208,32 @@ function wp_playlist_shortcode( $attr ) {
 		'tracknumbers' => true,
 		'images'	=> true,
 		'artists'	=> true
-	), $attr, 'playlist' ) );
+	), $attr, 'playlist' );
 
-	$id = intval( $id );
-	if ( 'RAND' == $order ) {
-		$orderby = 'none';
+	$id = intval( $atts['id'] );
+	if ( 'RAND' == $atts['order'] ) {
+		$atts['orderby'] = 'none';
 	}
 
 	$args = array(
 		'post_status' => 'inherit',
 		'post_type' => 'attachment',
-		'post_mime_type' => $type,
-		'order' => $order,
-		'orderby' => $orderby
+		'post_mime_type' => $atts['type'],
+		'order' => $atts['order'],
+		'orderby' => $atts['orderby']
 	);
 
-	if ( ! empty( $include ) ) {
-		$args['include'] = $include;
+	if ( ! empty( $atts['include'] ) ) {
+		$args['include'] = $atts['include'];
 		$_attachments = get_posts( $args );
 
 		$attachments = array();
 		foreach ( $_attachments as $key => $val ) {
 			$attachments[$val->ID] = $_attachments[$key];
 		}
-	} elseif ( ! empty( $exclude ) ) {
+	} elseif ( ! empty( $atts['exclude'] ) ) {
 		$args['post_parent'] = $id;
-		$args['exclude'] = $exclude;
+		$args['exclude'] = $atts['exclude'];
 		$attachments = get_children( $args );
 	} else {
 		$args['post_parent'] = $id;
@@ -1260,12 +1260,14 @@ function wp_playlist_shortcode( $attr ) {
 	$theme_width = empty( $content_width ) ? $default_width : ( $content_width - $outer );
 	$theme_height = empty( $content_width ) ? $default_height : round( ( $default_height * $theme_width ) / $default_width );
 
-	$data = compact( 'type' );
-
-	// don't pass strings to JSON, will be truthy in JS
-	foreach ( array( 'tracklist', 'tracknumbers', 'images', 'artists' ) as $key ) {
-		$data[$key] = filter_var( $$key, FILTER_VALIDATE_BOOLEAN );
-	}
+	$data = array(
+		'type' => $atts['type'],
+		// don't pass strings to JSON, will be truthy in JS
+		'tracklist' => filter_var( $atts['tracklist'], FILTER_VALIDATE_BOOLEAN ),
+		'tracknumbers' => filter_var( $atts['tracknumbers'], FILTER_VALIDATE_BOOLEAN ),
+		'images' => filter_var( $atts['images'], FILTER_VALIDATE_BOOLEAN ),
+		'artists' => filter_var( $atts['artists'], FILTER_VALIDATE_BOOLEAN ),
+	);
 
 	$tracks = array();
 	foreach ( $attachments as $attachment ) {
@@ -1289,7 +1291,7 @@ function wp_playlist_shortcode( $attr ) {
 				}
 			}
 
-			if ( 'video' === $type ) {
+			if ( 'video' === $atts['type'] ) {
 				if ( ! empty( $meta['width'] ) && ! empty( $meta['height'] ) ) {
 					$width = $meta['width'];
 					$height = $meta['height'];
@@ -1309,12 +1311,12 @@ function wp_playlist_shortcode( $attr ) {
 			}
 		}
 
-		if ( $images ) {
-			$id = get_post_thumbnail_id( $attachment->ID );
-			if ( ! empty( $id ) ) {
-				list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'full' );
+		if ( $atts['images'] ) {
+			$thumb_id = get_post_thumbnail_id( $attachment->ID );
+			if ( ! empty( $thumb_id ) ) {
+				list( $src, $width, $height ) = wp_get_attachment_image_src( $thumb_id, 'full' );
 				$track['image'] = compact( 'src', 'width', 'height' );
-				list( $src, $width, $height ) = wp_get_attachment_image_src( $id, 'thumbnail' );
+				list( $src, $width, $height ) = wp_get_attachment_image_src( $thumb_id, 'thumbnail' );
 				$track['thumb'] = compact( 'src', 'width', 'height' );
 			} else {
 				$src = wp_mime_type_icon( $attachment->ID );
@@ -1329,8 +1331,8 @@ function wp_playlist_shortcode( $attr ) {
 	}
 	$data['tracks'] = $tracks;
 
-	$safe_type = esc_attr( $type );
-	$safe_style = esc_attr( $style );
+	$safe_type = esc_attr( $atts['type'] );
+	$safe_style = esc_attr( $atts['style'] );
 
 	ob_start();
 
@@ -1343,10 +1345,10 @@ function wp_playlist_shortcode( $attr ) {
 		 * @param string $type  Type of playlist. Possible values are 'audio' or 'video'.
 		 * @param string $style The 'theme' for the playlist. Core provides 'light' and 'dark'.
 		 */
-		do_action( 'wp_playlist_scripts', $type, $style );
+		do_action( 'wp_playlist_scripts', $atts['type'], $atts['style'] );
 	} ?>
 <div class="wp-playlist wp-<?php echo $safe_type ?>-playlist wp-playlist-<?php echo $safe_style ?>">
-	<?php if ( 'audio' === $type ): ?>
+	<?php if ( 'audio' === $atts['type'] ): ?>
 	<div class="wp-playlist-current-item"></div>
 	<?php endif ?>
 	<<?php echo $safe_type ?> controls="controls" preload="none" width="<?php
@@ -1482,9 +1484,10 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	 * @param string $content   Shortcode content.
 	 * @param int    $instances Unique numeric ID of this audio shortcode instance.
 	 */
-	$html = apply_filters( 'wp_audio_shortcode_override', '', $attr, $content, $instances );
-	if ( '' !== $html )
-		return $html;
+	$override = apply_filters( 'wp_audio_shortcode_override', '', $attr, $content, $instances );
+	if ( '' !== $override ) {
+		return $override;
+	}
 
 	$audio = null;
 
@@ -1495,38 +1498,42 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 		'autoplay' => '',
 		'preload'  => 'none'
 	);
-	foreach ( $default_types as $type )
+	foreach ( $default_types as $type ) {
 		$defaults_atts[$type] = '';
+	}
 
 	$atts = shortcode_atts( $defaults_atts, $attr, 'audio' );
-	extract( $atts );
 
 	$primary = false;
-	if ( ! empty( $src ) ) {
-		$type = wp_check_filetype( $src, wp_get_mime_types() );
-		if ( ! in_array( strtolower( $type['ext'] ), $default_types ) )
-			return sprintf( '<a class="wp-embedded-audio" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
+	if ( ! empty( $atts['src'] ) ) {
+		$type = wp_check_filetype( $atts['src'], wp_get_mime_types() );
+		if ( ! in_array( strtolower( $type['ext'] ), $default_types ) ) {
+			return sprintf( '<a class="wp-embedded-audio" href="%s">%s</a>', esc_url( $atts['src'] ), esc_html( $atts['src'] ) );
+		}
 		$primary = true;
 		array_unshift( $default_types, 'src' );
 	} else {
 		foreach ( $default_types as $ext ) {
-			if ( ! empty( $$ext ) ) {
-				$type = wp_check_filetype( $$ext, wp_get_mime_types() );
-				if ( strtolower( $type['ext'] ) === $ext )
+			if ( ! empty( $atts[ $ext ] ) ) {
+				$type = wp_check_filetype( $atts[ $ext ], wp_get_mime_types() );
+				if ( strtolower( $type['ext'] ) === $ext ) {
 					$primary = true;
+				}
 			}
 		}
 	}
 
 	if ( ! $primary ) {
 		$audios = get_attached_media( 'audio', $post_id );
-		if ( empty( $audios ) )
+		if ( empty( $audios ) ) {
 			return;
+		}
 
 		$audio = reset( $audios );
-		$src = wp_get_attachment_url( $audio->ID );
-		if ( empty( $src ) )
+		$atts['src'] = wp_get_attachment_url( $audio->ID );
+		if ( empty( $atts['src'] ) ) {
 			return;
+		}
 
 		array_unshift( $default_types, 'src' );
 	}
@@ -1551,45 +1558,49 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	 *
 	 * @param string $class CSS class or list of space-separated classes.
 	 */
-	$atts = array(
+	$html_atts = array(
 		'class'    => apply_filters( 'wp_audio_shortcode_class', 'wp-audio-shortcode' ),
 		'id'       => sprintf( 'audio-%d-%d', $post_id, $instances ),
-		'loop'     => $loop,
-		'autoplay' => $autoplay,
-		'preload'  => $preload,
+		'loop'     => $atts['loop'],
+		'autoplay' => $atts['autoplay'],
+		'preload'  => $atts['preload'],
 		'style'    => 'width: 100%; visibility: hidden;',
 	);
 
 	// These ones should just be omitted altogether if they are blank
 	foreach ( array( 'loop', 'autoplay', 'preload' ) as $a ) {
-		if ( empty( $atts[$a] ) )
-			unset( $atts[$a] );
+		if ( empty( $html_atts[$a] ) ) {
+			unset( $html_atts[$a] );
+		}
 	}
 
 	$attr_strings = array();
-	foreach ( $atts as $k => $v ) {
+	foreach ( $html_atts as $k => $v ) {
 		$attr_strings[] = $k . '="' . esc_attr( $v ) . '"';
 	}
 
 	$html = '';
-	if ( 'mediaelement' === $library && 1 === $instances )
+	if ( 'mediaelement' === $library && 1 === $instances ) {
 		$html .= "<!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->\n";
+	}
 	$html .= sprintf( '<audio %s controls="controls">', join( ' ', $attr_strings ) );
 
 	$fileurl = '';
 	$source = '<source type="%s" src="%s" />';
 	foreach ( $default_types as $fallback ) {
-		if ( ! empty( $$fallback ) ) {
-			if ( empty( $fileurl ) )
-				$fileurl = $$fallback;
-			$type = wp_check_filetype( $$fallback, wp_get_mime_types() );
-			$url = add_query_arg( '_', $instances, $$fallback );
+		if ( ! empty( $atts[ $fallback ] ) ) {
+			if ( empty( $fileurl ) ) {
+				$fileurl = $atts[ $fallback ];
+			}
+			$type = wp_check_filetype( $atts[ $fallback ], wp_get_mime_types() );
+			$url = add_query_arg( '_', $instances, $atts[ $fallback ] );
 			$html .= sprintf( $source, $type['type'], esc_url( $url ) );
 		}
 	}
 
-	if ( 'mediaelement' === $library )
+	if ( 'mediaelement' === $library ) {
 		$html .= wp_mediaelement_fallback( $fileurl );
+	}
 	$html .= '</audio>';
 
 	/**
@@ -1674,9 +1685,10 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	 * @param string $content   Video shortcode content.
 	 * @param int    $instances Unique numeric ID of this video shortcode instance.
 	 */
-	$html = apply_filters( 'wp_video_shortcode_override', '', $attr, $content, $instances );
-	if ( '' !== $html )
-		return $html;
+	$override = apply_filters( 'wp_video_shortcode_override', '', $attr, $content, $instances );
+	if ( '' !== $override ) {
+		return $override;
+	}
 
 	$video = null;
 
@@ -1691,57 +1703,60 @@ function wp_video_shortcode( $attr, $content = '' ) {
 		'height'   => 360,
 	);
 
-	foreach ( $default_types as $type )
+	foreach ( $default_types as $type ) {
 		$defaults_atts[$type] = '';
+	}
 
 	$atts = shortcode_atts( $defaults_atts, $attr, 'video' );
-	extract( $atts );
 
 	if ( is_admin() ) {
 		// shrink the video so it isn't huge in the admin
-		if ( $width > $defaults_atts['width'] ) {
-			$height = round( ( $height * $defaults_atts['width'] ) / $width );
-			$width = $defaults_atts['width'];
+		if ( $atts['width'] > $defaults_atts['width'] ) {
+			$atts['height'] = round( ( $atts['height'] * $defaults_atts['width'] ) / $atts['width'] );
+			$atts['width'] = $defaults_atts['width'];
 		}
 	} else {
 		// if the video is bigger than the theme
-		if ( ! empty( $content_width ) && $width > $content_width ) {
-			$height = round( ( $height * $content_width ) / $width );
-			$width = $content_width;
+		if ( ! empty( $content_width ) && $atts['width'] > $content_width ) {
+			$atts['height'] = round( ( $atts['height'] * $content_width ) / $atts['width'] );
+			$atts['width'] = $content_width;
 		}
 	}
 
 	$yt_pattern = '#^https?://(:?www\.)?(:?youtube\.com/watch|youtu\.be/)#';
 
 	$primary = false;
-	if ( ! empty( $src ) ) {
-		if ( ! preg_match( $yt_pattern, $src ) ) {
-			$type = wp_check_filetype( $src, wp_get_mime_types() );
+	if ( ! empty( $atts['src'] ) ) {
+		if ( ! preg_match( $yt_pattern, $atts['src'] ) ) {
+			$type = wp_check_filetype( $atts['src'], wp_get_mime_types() );
 			if ( ! in_array( strtolower( $type['ext'] ), $default_types ) ) {
-				return sprintf( '<a class="wp-embedded-video" href="%s">%s</a>', esc_url( $src ), esc_html( $src ) );
+				return sprintf( '<a class="wp-embedded-video" href="%s">%s</a>', esc_url( $atts['src'] ), esc_html( $atts['src'] ) );
 			}
 		}
 		$primary = true;
 		array_unshift( $default_types, 'src' );
 	} else {
 		foreach ( $default_types as $ext ) {
-			if ( ! empty( $$ext ) ) {
-				$type = wp_check_filetype( $$ext, wp_get_mime_types() );
-				if ( strtolower( $type['ext'] ) === $ext )
+			if ( ! empty( $atts[ $ext ] ) ) {
+				$type = wp_check_filetype( $atts[ $ext ], wp_get_mime_types() );
+				if ( strtolower( $type['ext'] ) === $ext ) {
 					$primary = true;
+				}
 			}
 		}
 	}
 
 	if ( ! $primary ) {
 		$videos = get_attached_media( 'video', $post_id );
-		if ( empty( $videos ) )
+		if ( empty( $videos ) ) {
 			return;
+		}
 
 		$video = reset( $videos );
-		$src = wp_get_attachment_url( $video->ID );
-		if ( empty( $src ) )
+		$atts['src'] = wp_get_attachment_url( $video->ID );
+		if ( empty( $atts['src'] ) ) {
 			return;
+		}
 
 		array_unshift( $default_types, 'src' );
 	}
@@ -1766,75 +1781,78 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	 *
 	 * @param string $class CSS class or list of space-separated classes.
 	 */
-	$atts = array(
+	$html_atts = array(
 		'class'    => apply_filters( 'wp_video_shortcode_class', 'wp-video-shortcode' ),
 		'id'       => sprintf( 'video-%d-%d', $post_id, $instances ),
-		'width'    => absint( $width ),
-		'height'   => absint( $height ),
-		'poster'   => esc_url( $poster ),
-		'loop'     => $loop,
-		'autoplay' => $autoplay,
-		'preload'  => $preload,
+		'width'    => absint( $atts['width'] ),
+		'height'   => absint( $atts['height'] ),
+		'poster'   => esc_url( $atts['poster'] ),
+		'loop'     => $atts['loop'],
+		'autoplay' => $atts['autoplay'],
+		'preload'  => $atts['preload'],
 	);
 
 	// These ones should just be omitted altogether if they are blank
 	foreach ( array( 'poster', 'loop', 'autoplay', 'preload' ) as $a ) {
-		if ( empty( $atts[$a] ) )
-			unset( $atts[$a] );
+		if ( empty( $html_atts[$a] ) ) {
+			unset( $html_atts[$a] );
+		}
 	}
 
 	$attr_strings = array();
-	foreach ( $atts as $k => $v ) {
+	foreach ( $html_atts as $k => $v ) {
 		$attr_strings[] = $k . '="' . esc_attr( $v ) . '"';
 	}
 
 	$html = '';
-	if ( 'mediaelement' === $library && 1 === $instances )
+	if ( 'mediaelement' === $library && 1 === $instances ) {
 		$html .= "<!--[if lt IE 9]><script>document.createElement('video');</script><![endif]-->\n";
+	}
 	$html .= sprintf( '<video %s controls="controls">', join( ' ', $attr_strings ) );
 
 	$fileurl = '';
 	$source = '<source type="%s" src="%s" />';
 	foreach ( $default_types as $fallback ) {
-		if ( ! empty( $$fallback ) ) {
-			if ( empty( $fileurl ) )
-				$fileurl = $$fallback;
-
-			if ( 'src' === $fallback && preg_match( $yt_pattern, $src ) ) {
+		if ( ! empty( $atts[ $fallback ] ) ) {
+			if ( empty( $fileurl ) ) {
+				$fileurl = $atts[ $fallback ];
+			}
+			if ( 'src' === $fallback && preg_match( $yt_pattern, $atts['src'] ) ) {
 				$type = array( 'type' => 'video/youtube' );
 			} else {
-				$type = wp_check_filetype( $$fallback, wp_get_mime_types() );
+				$type = wp_check_filetype( $atts[ $fallback ], wp_get_mime_types() );
 			}
-			$url = add_query_arg( '_', $instances, $$fallback );
+			$url = add_query_arg( '_', $instances, $atts[ $fallback ] );
 			$html .= sprintf( $source, $type['type'], esc_url( $url ) );
 		}
 	}
 
 	if ( ! empty( $content ) ) {
-		if ( false !== strpos( $content, "\n" ) )
+		if ( false !== strpos( $content, "\n" ) ) {
 			$content = str_replace( array( "\r\n", "\n", "\t" ), '', $content );
-
+		}
 		$html .= trim( $content );
 	}
 
-	if ( 'mediaelement' === $library )
+	if ( 'mediaelement' === $library ) {
 		$html .= wp_mediaelement_fallback( $fileurl );
+	}
 	$html .= '</video>';
 
-	$html = sprintf( '<div style="width: %dpx; max-width: 100%%;" class="wp-video">%s</div>', $width, $html );
+	$output = sprintf( '<div style="width: %dpx; max-width: 100%%;" class="wp-video">%s</div>', $atts['width'], $html );
 
 	/**
 	 * Filter the output of the video shortcode.
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param string $html    Video shortcode HTML output.
+	 * @param string $output  Video shortcode HTML output.
 	 * @param array  $atts    Array of video shortcode attributes.
 	 * @param string $video   Video file.
 	 * @param int    $post_id Post ID.
 	 * @param string $library Media library used for the video shortcode.
 	 */
-	return apply_filters( 'wp_video_shortcode', $html, $atts, $video, $post_id, $library );
+	return apply_filters( 'wp_video_shortcode', $output, $atts, $video, $post_id, $library );
 }
 add_shortcode( 'video', 'wp_video_shortcode' );
 
