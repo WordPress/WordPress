@@ -186,24 +186,14 @@ function wp_print_media_templates() {
 					do_action( 'post-plupload-upload-ui' );
 				}
 
-				$upload_size_unit = $max_upload_size = wp_max_upload_size();
-				$byte_sizes = array( 'KB', 'MB', 'GB' );
-
-				for ( $u = -1; $upload_size_unit > 1024 && $u < count( $byte_sizes ) - 1; $u++ ) {
-					$upload_size_unit /= 1024;
+				$max_upload_size = wp_max_upload_size();
+				if ( ! $max_upload_size ) {
+					$max_upload_size = 0;
 				}
-
-				if ( $u < 0 ) {
-					$upload_size_unit = 0;
-					$u = 0;
-				} else {
-					$upload_size_unit = (int) $upload_size_unit;
-				}
-
 				?>
 
 				<p class="max-upload-size"><?php
-					printf( __( 'Maximum upload file size: %d%s.' ), esc_html($upload_size_unit), esc_html($byte_sizes[$u]) );
+					printf( __( 'Maximum upload file size: %s.' ), esc_html( size_format( $max_upload_size ) ) );
 				?></p>
 
 				<# if ( data.suggestedWidth && data.suggestedHeight ) { #>

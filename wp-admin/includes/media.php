@@ -1690,18 +1690,9 @@ function media_upload_form( $errors = null ) {
 	$_type = isset($type) ? $type : '';
 	$_tab = isset($tab) ? $tab : '';
 
-	$upload_size_unit = $max_upload_size = wp_max_upload_size();
-	$sizes = array( 'KB', 'MB', 'GB' );
-
-	for ( $u = -1; $upload_size_unit > 1024 && $u < count( $sizes ) - 1; $u++ ) {
-		$upload_size_unit /= 1024;
-	}
-
-	if ( $u < 0 ) {
-		$upload_size_unit = 0;
-		$u = 0;
-	} else {
-		$upload_size_unit = (int) $upload_size_unit;
+	$max_upload_size = wp_max_upload_size();
+	if ( ! $max_upload_size ) {
+		$max_upload_size = 0;
 	}
 ?>
 
@@ -1736,11 +1727,11 @@ if ( is_multisite() && !is_upload_space_available() ) {
 do_action( 'pre-upload-ui' );
 
 $post_params = array(
-		"post_id" => $post_id,
-		"_wpnonce" => wp_create_nonce('media-form'),
-		"type" => $_type,
-		"tab" => $_tab,
-		"short" => "1",
+	"post_id" => $post_id,
+	"_wpnonce" => wp_create_nonce('media-form'),
+	"type" => $_type,
+	"tab" => $_tab,
+	"short" => "1",
 );
 
 /**
@@ -1850,7 +1841,7 @@ do_action( 'post-html-upload-ui' );
 ?>
 </div>
 
-<span class="max-upload-size"><?php printf( __( 'Maximum upload file size: %d%s.' ), esc_html($upload_size_unit), esc_html($sizes[$u]) ); ?></span>
+<span class="max-upload-size"><?php printf( __( 'Maximum upload file size: %s.' ), esc_html( size_format( $max_upload_size ) ) ); ?></span>
 <?php
 
 	/**
