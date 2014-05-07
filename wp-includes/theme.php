@@ -1437,7 +1437,6 @@ function add_theme_support( $feature ) {
 
 		case 'custom-header-uploads' :
 			return add_theme_support( 'custom-header', array( 'uploads' => true ) );
-			break;
 
 		case 'custom-header' :
 			if ( ! is_array( $args ) )
@@ -1618,10 +1617,9 @@ function get_theme_support( $feature ) {
 			if ( isset( $_wp_theme_features[ $feature ][0][ $args[0] ] ) )
 				return $_wp_theme_features[ $feature ][0][ $args[0] ];
 			return false;
-			break;
+
 		default :
 			return $_wp_theme_features[ $feature ];
-			break;
 	}
 }
 
@@ -1720,7 +1718,6 @@ function current_theme_supports( $feature ) {
 				return true;
 			$content_type = $args[0];
 			return in_array( $content_type, $_wp_theme_features[$feature][0] );
-			break;
 
 		case 'html5':
 		case 'post-formats':
@@ -1731,7 +1728,6 @@ function current_theme_supports( $feature ) {
 
 			$type = $args[0];
 			return in_array( $type, $_wp_theme_features[$feature][0] );
-			break;
 
 		case 'custom-header':
 		case 'custom-background' :
@@ -1739,7 +1735,6 @@ function current_theme_supports( $feature ) {
 			// an array to add_theme_support()
 			$header_support = $args[0];
 			return ( isset( $_wp_theme_features[$feature][0][$header_support] ) && $_wp_theme_features[$feature][0][$header_support] );
-			break;
 	}
 
 	/**
