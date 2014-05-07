@@ -932,7 +932,6 @@ class wpdb {
 				break;
 			default :
 				return array();
-				break;
 		}
 
 		if ( $prefix ) {
@@ -1514,7 +1513,6 @@ class wpdb {
 		 */
 		$query = apply_filters( 'query', $query );
 
-		$return_val = 0;
 		$this->flush();
 
 		// Log how the function was called
@@ -1786,7 +1784,7 @@ class wpdb {
 		if ( ! is_array( $where ) )
 			return false;
 
-		$bits = $wheres = array();
+		$wheres = array();
 
 		$where_formats = $where_format = (array) $where_format;
 
