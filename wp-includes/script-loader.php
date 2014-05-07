@@ -918,17 +918,13 @@ function wp_enqueue_scripts() {
  * @since 2.8.0
  */
 function print_admin_styles() {
-	global $wp_styles, $concatenate_scripts, $compress_css;
+	global $wp_styles, $concatenate_scripts;
 
 	if ( !is_a($wp_styles, 'WP_Styles') )
 		$wp_styles = new WP_Styles();
 
 	script_concat_settings();
 	$wp_styles->do_concat = $concatenate_scripts;
-	$zip = $compress_css ? 1 : 0;
-	if ( $zip && defined('ENFORCE_GZIP') && ENFORCE_GZIP )
-		$zip = 'gzip';
-
 	$wp_styles->do_items(false);
 
 	/**
