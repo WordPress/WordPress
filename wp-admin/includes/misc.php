@@ -22,9 +22,10 @@ function got_mod_rewrite() {
 	 * This filter was previously used to force URL rewriting for other servers,
 	 * like nginx. Use the got_url_rewrite filter in got_url_rewrite() instead.
 	 *
+	 * @since 2.5.0
+	 * 
 	 * @see got_url_rewrite()
 	 *
-	 * @since 2.5.0
 	 * @param bool $got_rewrite Whether Apache and mod_rewrite are present.
 	 */
 	return apply_filters( 'got_rewrite', $got_rewrite );
@@ -46,6 +47,7 @@ function got_url_rewrite() {
 	 * Filter whether URL rewriting is available.
 	 *
 	 * @since 3.7.0
+	 * 
 	 * @param bool $got_url_rewrite Whether URL rewriting is available.
 	 */
 	return apply_filters( 'got_url_rewrite', $got_url_rewrite );
@@ -336,11 +338,11 @@ function wp_doc_link_parse( $content ) {
 	sort( $functions );
 
 	/**
-	 * Filter the list of functions/classes to be ignored from the documentation lookup.
+	 * Filter the list of functions and classes to be ignored from the documentation lookup.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array $ignore_functions Functions/Classes to be ignored.
+	 * @param array $ignore_functions Functions and classes to be ignored.
 	 */
 	$ignore_functions = apply_filters( 'documentation_ignore_functions', $ignore_functions );
 
