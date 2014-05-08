@@ -34,7 +34,7 @@ function get_column_headers( $screen ) {
 		 *
 		 * @param array $columns An array of column headers. Default empty.
 		 */
-		$column_headers[ $screen->id ] = apply_filters( 'manage_' . $screen->id . '_columns', array() );
+		$column_headers[ $screen->id ] = apply_filters( "manage_{$screen->id}_columns", array() );
 	}
 
 	return $column_headers[ $screen->id ];
