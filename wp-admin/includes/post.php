@@ -949,7 +949,7 @@ function wp_edit_posts_query( $q = false ) {
 	elseif ( isset($q['post_status']) && 'pending' == $q['post_status'] )
 		$order = 'ASC';
 
-	$per_page = 'edit_' . $post_type . '_per_page';
+	$per_page = "edit_{$post_type}_per_page";
 	$posts_per_page = (int) get_user_option( $per_page );
 	if ( empty( $posts_per_page ) || $posts_per_page < 1 )
 		$posts_per_page = 20;
@@ -957,26 +957,25 @@ function wp_edit_posts_query( $q = false ) {
 	/**
 	 * Filter the number of items per page to show for a specific 'per_page' type.
 	 *
-	 * The dynamic hook name, $per_page, refers to a hook name comprised of the post type,
-	 * preceded by 'edit_', and succeeded by '_per_page', e.g. 'edit_$post_type_per_page'.
+	 * The dynamic portion of the hook name, $post_type, refers to the post type.
 	 *
 	 * Some examples of filter hooks generated here include: 'edit_attachment_per_page',
 	 * 'edit_post_per_page', 'edit_page_per_page', etc.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param int $posts_per_page Number of posts to display per page for the given 'per_page'
+	 * @param int $posts_per_page Number of posts to display per page for the given post
 	 *                            type. Default 20.
 	 */
-	$posts_per_page = apply_filters( $per_page, $posts_per_page );
+	$posts_per_page = apply_filters( "edit_{$post_type}_per_page", $posts_per_page );
 
 	/**
 	 * Filter the number of posts displayed per page when specifically listing "posts".
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param int    $per_page  Number of posts to be displayed. Default 20.
-	 * @param string $post_type The post type.
+	 * @param int    $posts_per_page Number of posts to be displayed. Default 20.
+	 * @param string $post_type      The post type.
 	 */
 	$posts_per_page = apply_filters( 'edit_posts_per_page', $posts_per_page, $post_type );
 
