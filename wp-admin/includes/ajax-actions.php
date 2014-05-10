@@ -6,9 +6,9 @@
  * @subpackage Administration
  */
 
-/*
- * No-privilege Ajax handlers.
- */
+//
+// No-privilege Ajax handlers.
+//
 
 /**
  * Ajax handler for the (experimental) Heartbeat API in
