@@ -168,6 +168,12 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		event.content = wp.mce.views.toViews( event.content );
 	});
 
+	editor.on( 'PastePreProcess', function( event ) {
+		if ( event.content.match( /^\s*(https?:\/\/[^\s"]+)\s*$/im ) ) {
+			event.content = '[embed]' + event.content + '[/embed]';
+		}
+	} );
+
 	// When the editor's content has been updated and the DOM has been
 	// processed, render the views in the document.
 	editor.on( 'SetContent', function( event ) {

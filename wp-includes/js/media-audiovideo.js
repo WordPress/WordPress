@@ -131,6 +131,10 @@
 		removePlayer: function(t) {
 			var featureIndex, feature;
 
+			if ( ! t.options ) {
+				return;
+			}
+
 			// invoke features cleanup
 			for ( featureIndex in t.options.features ) {
 				feature = t.options.features[featureIndex];

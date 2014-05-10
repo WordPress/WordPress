@@ -2506,3 +2506,24 @@ function wp_ajax_query_themes() {
 
 	wp_send_json_success( $api );
 }
+
+/**
+ * Apply `the_content` filters to a string based on the post ID.
+ *
+ * @since 4.0.0
+ */
+function wp_ajax_filter_content() {
+	global $post;
+
+	if ( ! $post = get_post( (int) $_REQUEST['post_ID'] ) ) {
+		wp_send_json_error();
+	}
+
+	if ( ! current_user_can( 'read_post', $post->ID ) ) {
+		wp_send_json_error();
+	}
+
+	setup_postdata( $post );
+
+	wp_send_json_success( apply_filters( 'the_content', wp_unslash( $_POST['content'] ) ) );
+}

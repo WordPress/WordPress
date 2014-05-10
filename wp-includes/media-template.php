@@ -1045,6 +1045,14 @@ function wp_print_media_templates() {
 		<div class="upload-errors"></div>
 	</script>
 
+	<script type="text/html" id="tmpl-editor-embed">
+		<div class="toolbar">
+			<div class="dashicons dashicons-no-alt remove"></div>
+		</div>
+		{{{ data.content }}}
+		<div class="wpview-overlay"></div>
+	</script>
+
 	<?php
 
 	/**
