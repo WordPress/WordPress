@@ -144,12 +144,12 @@ function wp_image_editor($post_id, $msg = false) {
 	<?php } ?>
 
 	</div>
-	
+
 	<div class="imgedit-panel-content">
 		<?php echo $note; ?>
 		<div class="imgedit-menu">
 			<div onclick="imageEdit.crop(<?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-crop disabled" title="<?php esc_attr_e( 'Crop' ); ?>"></div><?php
-	
+
 		// On some setups GD library does not provide imagerotate() - Ticket #11536
 		if ( wp_image_editor_supports( array( 'mime_type' => get_post_mime_type( $post_id ), 'methods' => array( 'rotate' ) ) ) ) { ?>
 			<div class="imgedit-rleft"  onclick="imageEdit.rotate( 90, <?php echo "$post_id, '$nonce'"; ?>, this)" title="<?php esc_attr_e( 'Rotate counter-clockwise' ); ?>"></div>
@@ -160,15 +160,15 @@ function wp_image_editor($post_id, $msg = false) {
 		    <div class="imgedit-rleft disabled"  title="<?php echo $note_no_rotate; ?>"></div>
 		    <div class="imgedit-rright disabled" title="<?php echo $note_no_rotate; ?>"></div>
 	<?php } ?>
-	
+
 			<div onclick="imageEdit.flip(1, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-flipv" title="<?php esc_attr_e( 'Flip vertically' ); ?>"></div>
 			<div onclick="imageEdit.flip(2, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-fliph" title="<?php esc_attr_e( 'Flip horizontally' ); ?>"></div>
-	
+
 			<div id="image-undo-<?php echo $post_id; ?>" onclick="imageEdit.undo(<?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-undo disabled" title="<?php esc_attr_e( 'Undo' ); ?>"></div>
 			<div id="image-redo-<?php echo $post_id; ?>" onclick="imageEdit.redo(<?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-redo disabled" title="<?php esc_attr_e( 'Redo' ); ?>"></div>
 			<br class="clear" />
 		</div>
-	
+
 		<input type="hidden" id="imgedit-sizer-<?php echo $post_id; ?>" value="<?php echo $sizer; ?>" />
 		<input type="hidden" id="imgedit-minthumb-<?php echo $post_id; ?>" value="<?php echo ( get_option('thumbnail_size_w') . ':' . get_option('thumbnail_size_h') ); ?>" />
 		<input type="hidden" id="imgedit-history-<?php echo $post_id; ?>" value="" />
@@ -176,17 +176,17 @@ function wp_image_editor($post_id, $msg = false) {
 		<input type="hidden" id="imgedit-selection-<?php echo $post_id; ?>" value="" />
 		<input type="hidden" id="imgedit-x-<?php echo $post_id; ?>" value="<?php echo isset( $meta['width'] ) ? $meta['width'] : 0; ?>" />
 		<input type="hidden" id="imgedit-y-<?php echo $post_id; ?>" value="<?php echo isset( $meta['height'] ) ? $meta['height'] : 0; ?>" />
-	
+
 		<div id="imgedit-crop-<?php echo $post_id; ?>" class="imgedit-crop-wrap">
 		<img id="image-preview-<?php echo $post_id; ?>" onload="imageEdit.imgLoaded('<?php echo $post_id; ?>')" src="<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>?action=imgedit-preview&amp;_ajax_nonce=<?php echo $nonce; ?>&amp;postid=<?php echo $post_id; ?>&amp;rand=<?php echo rand(1, 99999); ?>" />
 		</div>
-	
+
 		<div class="imgedit-submit">
 			<input type="button" onclick="imageEdit.close(<?php echo $post_id; ?>, 1)" class="button" value="<?php esc_attr_e( 'Cancel' ); ?>" />
 			<input type="button" onclick="imageEdit.save(<?php echo "$post_id, '$nonce'"; ?>)" disabled="disabled" class="button button-primary imgedit-submit-btn" value="<?php esc_attr_e( 'Save' ); ?>" />
 		</div>
 	</div>
-	
+
 	</div>
 	<div class="imgedit-wait" id="imgedit-wait-<?php echo $post_id; ?>"></div>
 	<script type="text/javascript">jQuery( function() { imageEdit.init(<?php echo $post_id; ?>); });</script>
@@ -804,10 +804,11 @@ function wp_save_image( $post_id ) {
 				$return->thumbnail = $thumb_url[0];
 			} else {
 				$file_url = wp_get_attachment_url($post_id);
-				if ( $thumb = $meta['sizes']['thumbnail'] )
+				if ( ! empty( $meta['sizes']['thumbnail'] ) && $thumb = $meta['sizes']['thumbnail'] ) {
 					$return->thumbnail = path_join( dirname($file_url), $thumb['file'] );
-				else
+				} else {
 					$return->thumbnail = "$file_url?w=128&h=128";
+				}
 			}
 		}
 	} else {
