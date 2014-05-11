@@ -2095,7 +2095,6 @@ function media_upload_gallery_form($errors) {
 ?>
 
 <script type="text/javascript">
-<!--
 jQuery(function($){
 	var preloaded = $(".media-item.preloaded");
 	if ( preloaded.length > 0 ) {
@@ -2103,7 +2102,6 @@ jQuery(function($){
 		updateMediaForm();
 	}
 });
--->
 </script>
 <div id="sort-buttons" class="hide-if-no-js">
 <span>
