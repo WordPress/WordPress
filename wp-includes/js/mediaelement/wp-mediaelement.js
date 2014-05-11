@@ -12,7 +12,7 @@
 		}
 
 		if ( typeof _wpmejsSettings !== 'undefined' ) {
-			settings.pluginPath = _wpmejsSettings.pluginPath;
+			settings = _wpmejsSettings;
 		}
 
 		settings.success = function (mejs) {

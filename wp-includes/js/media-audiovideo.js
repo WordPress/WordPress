@@ -6,7 +6,7 @@
 		l10n = typeof _wpMediaViewsL10n === 'undefined' ? {} : _wpMediaViewsL10n;
 
 	if ( ! _.isUndefined( window._wpmejsSettings ) ) {
-		baseSettings.pluginPath = _wpmejsSettings.pluginPath;
+		baseSettings = _wpmejsSettings;
 	}
 
 	/**

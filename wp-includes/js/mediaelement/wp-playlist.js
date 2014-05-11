@@ -34,7 +34,7 @@
 			_.bindAll( this, 'bindPlayer', 'bindResetPlayer', 'setPlayer', 'ended', 'clickTrack' );
 
 			if ( ! _.isUndefined( window._wpmejsSettings ) ) {
-				this.settings.pluginPath = _wpmejsSettings.pluginPath;
+				this.settings = _wpmejsSettings;
 			}
 			this.settings.success = this.bindPlayer;
 			this.setPlayer();
