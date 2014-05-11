@@ -206,7 +206,11 @@ function the_author_link() {
  * @return int The number of posts by the author.
  */
 function get_the_author_posts() {
-	return count_user_posts( get_post()->post_author );
+	$post = get_post();
+	if ( ! $post ) {
+		return 0;
+	}
+	return count_user_posts( $post->post_author );
 }
 
 /**
