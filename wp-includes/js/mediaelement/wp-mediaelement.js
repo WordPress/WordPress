@@ -16,9 +16,17 @@
 		}
 
 		settings.success = function (mejs) {
-			var autoplay = mejs.attributes.autoplay && 'false' !== mejs.attributes.autoplay;
-			if ( 'flash' === mejs.pluginType && autoplay ) {
-				mejs.addEventListener( 'canplay', function () {
+			var autoplay, loop;
+
+			if ( 'flash' === mejs.pluginType ) {
+				autoplay = mejs.attributes.autoplay && 'false' !== mejs.attributes.autoplay;
+				loop = mejs.attributes.loop && 'false' !== mejs.attributes.loop;
+
+				autoplay && mejs.addEventListener( 'canplay', function () {
+					mejs.play();
+				}, false );
+
+				loop && mejs.addEventListener( 'ended', function () {
 					mejs.play();
 				}, false );
 			}
