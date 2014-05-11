@@ -1390,7 +1390,7 @@
 	margin-top: 35px;
 }
 
-.attachment-info .thumbnail:after {
+.attachment-info .thumbnail-image:after {
 	content: '';
 	display: block;
 	position: absolute;

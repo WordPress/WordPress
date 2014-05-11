@@ -285,7 +285,7 @@ function wp_print_media_templates() {
 			</span>
 		</h3>
 		<div class="attachment-info">
-			<div class="thumbnail">
+			<div class="thumbnail thumbnail-{{ data.type }}">
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
 				<# } else if ( 'image' === data.type ) { #>
