@@ -27,6 +27,15 @@
 		},
 
 		/**
+		 * Pauses the current object's instances of MediaElementPlayer
+		 */
+		pausePlayers: function() {
+			_.each( this.players, function (player) {
+				player.pause();
+			} );
+		},
+
+		/**
 		 * Utility to identify the user's browser
 		 */
 		ua: {
@@ -168,8 +177,8 @@
 		 */
 		unsetPlayers : function() {
 			if ( this.players && this.players.length ) {
-				wp.media.mixin.pauseAllPlayers();
 				_.each( this.players, function (player) {
+					player.pause();
 					wp.media.mixin.removePlayer( player );
 				} );
 				this.players = [];
@@ -911,7 +920,6 @@
 	 */
 	function init() {
 		$(document.body)
-			.on( 'click', '.wp-switch-editor', wp.media.mixin.pauseAllPlayers )
 			.on( 'click', '.add-media-source', function( e ) {
 				media.frame.lastMime = $( e.currentTarget ).data( 'mime' );
 				media.frame.setState( 'add-' + media.frame.defaults.id + '-source' );

@@ -371,7 +371,7 @@ window.wp = window.wp || {};
 				self = this,
 				frame, data, callback;
 
-			wp.media.mixin.pauseAllPlayers();
+			$( document ).trigger( 'media:edit' );
 
 			data = window.decodeURIComponent( $( node ).attr('data-wpview-text') );
 			frame = media.edit( data );
@@ -407,8 +407,10 @@ window.wp = window.wp || {};
 		initialize: function( options ) {
 			this.players = [];
 			this.shortcode = options.shortcode;
-			_.bindAll( this, 'setPlayer' );
-			$(this).on( 'ready', this.setPlayer );
+			_.bindAll( this, 'setPlayer', 'pausePlayers' );
+			$( this ).on( 'ready', this.setPlayer );
+			$( 'body' ).on( 'click', '.wp-switch-editor', this.pausePlayers );
+			$( document ).on( 'media:edit', this.pausePlayers );
 		},
 
 		/**
@@ -524,6 +526,10 @@ window.wp = window.wp || {};
 			this.data = {};
 			this.attachments = [];
 			this.shortcode = options.shortcode;
+
+			$( 'body' ).on( 'click', '.wp-switch-editor', this.pausePlayers );
+			$( document ).on( 'media:edit', this.pausePlayers );
+
 			this.fetch();
 		},
 
@@ -687,8 +693,8 @@ window.wp = window.wp || {};
 			},
 			unbind: function() {
 				var self = this;
-				this.pauseAllPlayers();
 				_.each( this.players, function ( player ) {
+					player.pause();
 					self.removePlayer( player );
 				} );
 				this.players = [];
