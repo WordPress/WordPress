@@ -322,48 +322,60 @@ function wp_read_image_metadata( $file ) {
 	if ( is_callable( 'exif_read_data' ) && in_array( $sourceImageType, apply_filters( 'wp_read_image_metadata_types', array( IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM ) ) ) ) {
 		$exif = @exif_read_data( $file );
 
-		if ( !empty( $exif['Title'] ) )
+		if ( empty( $meta['title'] ) && ! empty( $exif['Title'] ) ) {
 			$meta['title'] = trim( $exif['Title'] );
+		}
 
 		if ( ! empty( $exif['ImageDescription'] ) ) {
 			if ( empty( $meta['title'] ) && strlen( $exif['ImageDescription'] ) < 80 ) {
 				// Assume the title is stored in ImageDescription
 				$meta['title'] = trim( $exif['ImageDescription'] );
-				if ( ! empty( $exif['COMPUTED']['UserComment'] ) && trim( $exif['COMPUTED']['UserComment'] ) != $meta['title'] )
+				if ( empty( $meta['caption'] ) && ! empty( $exif['COMPUTED']['UserComment'] ) && trim( $exif['COMPUTED']['UserComment'] ) != $meta['title'] ) {
 					$meta['caption'] = trim( $exif['COMPUTED']['UserComment'] );
-			} elseif ( trim( $exif['ImageDescription'] ) != $meta['title'] ) {
+				}
+			} elseif ( empty( $meta['caption'] ) && trim( $exif['ImageDescription'] ) != $meta['title'] ) {
 				$meta['caption'] = trim( $exif['ImageDescription'] );
 			}
-		} elseif ( ! empty( $exif['Comments'] ) && trim( $exif['Comments'] ) != $meta['title'] ) {
+		} elseif ( empty( $meta['caption'] ) && ! empty( $exif['Comments'] ) && trim( $exif['Comments'] ) != $meta['title'] ) {
 			$meta['caption'] = trim( $exif['Comments'] );
 		}
 
-		if ( ! empty( $exif['Artist'] ) )
-			$meta['credit'] = trim( $exif['Artist'] );
-		elseif ( ! empty($exif['Author'] ) )
-			$meta['credit'] = trim( $exif['Author'] );
+		if ( empty( $meta['credit'] ) ) {
+			if ( ! empty( $exif['Artist'] ) ) {
+				$meta['credit'] = trim( $exif['Artist'] );
+			} elseif ( ! empty($exif['Author'] ) ) {
+				$meta['credit'] = trim( $exif['Author'] );
+			}
+		}
 
-		if ( ! empty( $exif['Copyright'] ) )
+		if ( empty( $meta['copyright'] ) && ! empty( $exif['Copyright'] ) ) {
 			$meta['copyright'] = trim( $exif['Copyright'] );
-		if ( ! empty($exif['FNumber'] ) )
+		}
+		if ( ! empty( $exif['FNumber'] ) ) {
 			$meta['aperture'] = round( wp_exif_frac2dec( $exif['FNumber'] ), 2 );
-		if ( ! empty($exif['Model'] ) )
+		}
+		if ( ! empty( $exif['Model'] ) ) {
 			$meta['camera'] = trim( $exif['Model'] );
-		if ( ! empty($exif['DateTimeDigitized'] ) )
-			$meta['created_timestamp'] = wp_exif_date2ts($exif['DateTimeDigitized'] );
-		if ( ! empty($exif['FocalLength'] ) )
+		}
+		if ( empty( $meta['created_timestamp'] ) && ! empty( $exif['DateTimeDigitized'] ) ) {
+			$meta['created_timestamp'] = wp_exif_date2ts( $exif['DateTimeDigitized'] );
+		}
+		if ( ! empty( $exif['FocalLength'] ) ) {
 			$meta['focal_length'] = (string) wp_exif_frac2dec( $exif['FocalLength'] );
-		if ( ! empty($exif['ISOSpeedRatings'] ) ) {
+		}
+		if ( ! empty( $exif['ISOSpeedRatings'] ) ) {
 			$meta['iso'] = is_array( $exif['ISOSpeedRatings'] ) ? reset( $exif['ISOSpeedRatings'] ) : $exif['ISOSpeedRatings'];
 			$meta['iso'] = trim( $meta['iso'] );
 		}
-		if ( ! empty($exif['ExposureTime'] ) )
+		if ( ! empty( $exif['ExposureTime'] ) ) {
 			$meta['shutter_speed'] = (string) wp_exif_frac2dec( $exif['ExposureTime'] );
+		}
 	}
 
 	foreach ( array( 'title', 'caption', 'credit', 'copyright', 'camera', 'iso' ) as $key ) {
-		if ( $meta[ $key ] && ! seems_utf8( $meta[ $key ] ) )
+		if ( $meta[ $key ] && ! seems_utf8( $meta[ $key ] ) ) {
 			$meta[ $key ] = utf8_encode( $meta[ $key ] );
+		}
 	}
 
 	/**
