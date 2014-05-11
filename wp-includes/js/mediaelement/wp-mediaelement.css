@@ -1,3 +1,7 @@
+.mejs-container {
+	clear: both;
+}
+
 .mejs-container * {
 	font-family: Helvetica, Arial;
 }
