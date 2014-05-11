@@ -5714,7 +5714,7 @@
 				}
 			// Handle checkboxes.
 			} else if ( $setting.is('input[type="checkbox"]') ) {
-				$setting.prop( 'checked', !! value );
+				$setting.prop( 'checked', !! value && 'false' !== value );
 			}
 		},
 		/**
