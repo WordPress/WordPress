@@ -175,9 +175,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	}
 
 	function get_table_classes() {
-		extract( $this->_args );
-
-		return array( 'widefat', $plural );
+		return array( 'widefat', $this->_args['plural'] );
 	}
 
 	function get_columns() {
