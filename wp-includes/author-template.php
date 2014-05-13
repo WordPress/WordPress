@@ -329,7 +329,7 @@ function get_author_posts_url($author_id, $author_nicename = '') {
  * @param array $args The argument array.
  * @return null|string The output, if echo is set to false.
  */
-function wp_list_authors($args = '') {
+function wp_list_authors( $args = '' ) {
 	global $wpdb;
 
 	$defaults = array(
@@ -341,7 +341,6 @@ function wp_list_authors($args = '') {
 	);
 
 	$args = wp_parse_args( $args, $defaults );
-	extract( $args, EXTR_SKIP );
 
 	$return = '';
 
@@ -350,76 +349,82 @@ function wp_list_authors($args = '') {
 	$authors = get_users( $query_args );
 
 	$author_count = array();
-	foreach ( (array) $wpdb->get_results("SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE post_type = 'post' AND " . get_private_posts_cap_sql( 'post' ) . " GROUP BY post_author") as $row )
+	foreach ( (array) $wpdb->get_results( "SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE post_type = 'post' AND " . get_private_posts_cap_sql( 'post' ) . " GROUP BY post_author" ) as $row ) {
 		$author_count[$row->post_author] = $row->count;
-
+	}
 	foreach ( $authors as $author_id ) {
 		$author = get_userdata( $author_id );
 
-		if ( $exclude_admin && 'admin' == $author->display_name )
+		if ( $args['exclude_admin'] && 'admin' == $author->display_name ) {
 			continue;
+		}
 
 		$posts = isset( $author_count[$author->ID] ) ? $author_count[$author->ID] : 0;
 
-		if ( !$posts && $hide_empty )
+		if ( ! $posts && $args['hide_empty'] ) {
 			continue;
+		}
 
-		if ( $show_fullname && $author->first_name && $author->last_name )
+		if ( $args['show_fullname'] && $author->first_name && $author->last_name ) {
 			$name = "$author->first_name $author->last_name";
-		else
+		} else {
 			$name = $author->display_name;
+		}
 
-		if ( !$html ) {
+		if ( ! $args['html'] ) {
 			$return .= $name . ', ';
 
 			continue; // No need to go further to process HTML.
 		}
 
-		if ( 'list' == $style ) {
+		if ( 'list' == $args['style'] ) {
 			$return .= '<li>';
 		}
 
 		$link = '<a href="' . get_author_posts_url( $author->ID, $author->user_nicename ) . '" title="' . esc_attr( sprintf(__("Posts by %s"), $author->display_name) ) . '">' . $name . '</a>';
 
-		if ( !empty( $feed_image ) || !empty( $feed ) ) {
+		if ( ! empty( $args['feed_image'] ) || ! empty( $args['feed'] ) ) {
 			$link .= ' ';
-			if ( empty( $feed_image ) ) {
+			if ( empty( $args['feed_image'] ) ) {
 				$link .= '(';
 			}
 
-			$link .= '<a href="' . get_author_feed_link( $author->ID, $feed_type ) . '"';
+			$link .= '<a href="' . get_author_feed_link( $author->ID, $args['feed_type'] ) . '"';
 
 			$alt = '';
-			if ( !empty( $feed ) ) {
-				$alt = ' alt="' . esc_attr( $feed ) . '"';
-				$name = $feed;
+			if ( ! empty( $args['feed'] ) ) {
+				$alt = ' alt="' . esc_attr( $args['feed'] ) . '"';
+				$name = $args['feed'];
 			}
 
 			$link .= '>';
 
-			if ( !empty( $feed_image ) )
-				$link .= '<img src="' . esc_url( $feed_image ) . '" style="border: none;"' . $alt . ' />';
-			else
+			if ( ! empty( $args['feed_image'] ) ) {
+				$link .= '<img src="' . esc_url( $args['feed_image'] ) . '" style="border: none;"' . $alt . ' />';
+			} else {
 				$link .= $name;
+			}
 
 			$link .= '</a>';
 
-			if ( empty( $feed_image ) )
+			if ( empty( $args['feed_image'] ) ) {
 				$link .= ')';
+			}
 		}
 
-		if ( $optioncount )
+		if ( $args['optioncount'] ) {
 			$link .= ' ('. $posts . ')';
+		}
 
 		$return .= $link;
-		$return .= ( 'list' == $style ) ? '</li>' : ', ';
+		$return .= ( 'list' == $args['style'] ) ? '</li>' : ', ';
 	}
 
-	$return = rtrim($return, ', ');
+	$return = rtrim( $return, ', ' );
 
-	if ( !$echo )
+	if ( ! $args['echo'] ) {
 		return $return;
-
+	}
 	echo $return;
 }
 
