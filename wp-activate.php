@@ -84,7 +84,7 @@ get_header();
 	<?php } else {
 
 		$key = !empty($_GET['key']) ? $_GET['key'] : $_POST['key'];
-		$result = wpmu_activate_signup($key);
+		$result = wpmu_activate_signup( $key );
 		if ( is_wp_error($result) ) {
 			if ( 'already_active' == $result->get_error_code() || 'blog_taken' == $result->get_error_code() ) {
 			    $signup = $result->get_error_data();
@@ -105,15 +105,14 @@ get_header();
 			    echo '<p>'.$result->get_error_message().'</p>';
 			}
 		} else {
-			extract($result);
-			$url = get_blogaddress_by_id( (int) $blog_id);
-			$user = get_userdata( (int) $user_id);
+			$url = get_blogaddress_by_id( (int) $result['blog_id'] );
+			$user = get_userdata( (int) $result['user_id'] );
 			?>
 			<h2><?php _e('Your account is now active!'); ?></h2>
 
 			<div id="signup-welcome">
 				<p><span class="h3"><?php _e('Username:'); ?></span> <?php echo $user->user_login ?></p>
-				<p><span class="h3"><?php _e('Password:'); ?></span> <?php echo $password; ?></p>
+				<p><span class="h3"><?php _e('Password:'); ?></span> <?php echo $result['password']; ?></p>
 			</div>
 
 			<?php if ( $url != network_home_url('', 'http') ) : ?>
