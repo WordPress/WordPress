@@ -689,10 +689,14 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		if ( empty( $_POST ) && isset( $_GET['file'] ) ) {
 			$attachment_id = absint( $_GET['file'] );
 			$file = get_attached_file( $attachment_id, true );
-			$url = wp_get_attachment_image_src( $attachment_id, 'full');
+			$url = wp_get_attachment_image_src( $attachment_id, 'full' );
 			$url = $url[0];
 		} elseif ( isset( $_POST ) ) {
-			extract($this->step_2_manage_upload());
+			$data = $this->step_2_manage_upload();
+			$attachment_id = $data['attachment_id'];
+			$file = $data['file'];
+			$url = $data['url'];
+			$type = $data['type'];
 		}
 
 		if ( file_exists( $file ) ) {
