@@ -925,25 +925,26 @@ class WP_List_Table {
 	function ajax_response() {
 		$this->prepare_items();
 
-		extract( $this->_args );
-		extract( $this->_pagination_args, EXTR_SKIP );
-
 		ob_start();
-		if ( ! empty( $_REQUEST['no_placeholder'] ) )
+		if ( ! empty( $_REQUEST['no_placeholder'] ) ) {
 			$this->display_rows();
-		else
+		} else {
 			$this->display_rows_or_placeholder();
+		}
 
 		$rows = ob_get_clean();
 
 		$response = array( 'rows' => $rows );
 
-		if ( isset( $total_items ) )
-			$response['total_items_i18n'] = sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) );
-
-		if ( isset( $total_pages ) ) {
-			$response['total_pages'] = $total_pages;
-			$response['total_pages_i18n'] = number_format_i18n( $total_pages );
+		if ( isset( $this->_pagination_args['total_items'] ) ) {
+			$response['total_items_i18n'] = sprintf(
+				_n( '1 item', '%s items', $this->_pagination_args['total_items'] ),
+				number_format_i18n( $this->_pagination_args['total_items'] )
+			);
+		}
+		if ( isset( $this->_pagination_args['total_pages'] ) ) {
+			$response['total_pages'] = $this->_pagination_args['total_pages'];
+			$response['total_pages_i18n'] = number_format_i18n( $this->_pagination_args['total_pages'] );
 		}
 
 		die( json_encode( $response ) );
