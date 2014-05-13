@@ -154,41 +154,41 @@ class WP_Terms_List_Table extends WP_List_Table {
 			'hide_empty' => 0
 		) );
 
-		extract( $args, EXTR_SKIP );
+		$page = $args['page'];
+		// set variable because $args['number'] can be subsequently overridden
+		$number = $args['number'];
 
 		$args['offset'] = $offset = ( $page - 1 ) * $number;
 
 		// convert it to table rows
 		$count = 0;
 
-		$terms = array();
-
-		if ( is_taxonomy_hierarchical( $taxonomy ) && !isset( $orderby ) ) {
+		if ( is_taxonomy_hierarchical( $taxonomy ) && ! isset( $args['orderby'] ) ) {
 			// We'll need the full set of terms then.
 			$args['number'] = $args['offset'] = 0;
 		}
 		$terms = get_terms( $taxonomy, $args );
 
 		if ( empty( $terms ) ) {
-			list( $columns, $hidden ) = $this->get_column_info();
 			echo '<tr class="no-items"><td class="colspanchange" colspan="' . $this->get_column_count() . '">';
 			$this->no_items();
 			echo '</td></tr>';
 			return;
 		}
 
-		if ( is_taxonomy_hierarchical( $taxonomy ) && !isset( $orderby ) ) {
-			if ( !empty( $search ) ) // Ignore children on searches.
+		if ( is_taxonomy_hierarchical( $taxonomy ) && ! isset( $args['orderby'] ) ) {
+			if ( ! empty( $args['search'] ) ) {// Ignore children on searches.
 				$children = array();
-			else
+			} else {
 				$children = _get_term_hierarchy( $taxonomy );
-
+			}
 			// Some funky recursion to get the job done( Paging & parents mainly ) is contained within, Skip it for non-hierarchical taxonomies for performance sake
 			$this->_rows( $taxonomy, $terms, $children, $offset, $number, $count );
 		} else {
 			$terms = get_terms( $taxonomy, $args );
-			foreach ( $terms as $term )
+			foreach ( $terms as $term ) {
 				$this->single_row( $term );
+			}
 			$count = $number; // Only displaying a single page.
 		}
 	}
