@@ -372,15 +372,17 @@ function post_format_meta_box( $post, $box ) {
  *
  * @param object $post
  */
-function post_tags_meta_box($post, $box) {
-	$defaults = array('taxonomy' => 'post_tag');
-	if ( !isset($box['args']) || !is_array($box['args']) )
+function post_tags_meta_box( $post, $box ) {
+	$defaults = array( 'taxonomy' => 'post_tag' );
+	if ( ! isset( $box['args'] ) || ! is_array( $box['args'] ) ) {
 		$args = array();
-	else
+	} else {
 		$args = $box['args'];
-	extract( wp_parse_args($args, $defaults), EXTR_SKIP );
-	$tax_name = esc_attr($taxonomy);
-	$taxonomy = get_taxonomy($taxonomy);
+	}
+	$r = wp_parse_args( $args, $defaults );
+	$tax = $r['taxonomy'];
+	$tax_name = esc_attr( $tax );
+	$taxonomy = get_taxonomy( $tax );
 	$user_can_assign_terms = current_user_can( $taxonomy->cap->assign_terms );
 	$comma = _x( ',', 'tag delimiter' );
 ?>
@@ -415,14 +417,15 @@ function post_tags_meta_box($post, $box) {
  * @param object $post
  */
 function post_categories_meta_box( $post, $box ) {
-	$defaults = array('taxonomy' => 'category');
-	if ( !isset($box['args']) || !is_array($box['args']) )
+	$defaults = array( 'taxonomy' => 'category' );
+	if ( ! isset( $box['args'] ) || ! is_array( $box['args'] ) ) {
 		$args = array();
-	else
+	} else {
 		$args = $box['args'];
-	extract( wp_parse_args($args, $defaults), EXTR_SKIP );
-	$tax = get_taxonomy($taxonomy);
-
+	}
+	$r = wp_parse_args( $args, $defaults );
+	$taxonomy = $r['taxonomy'];
+	$tax = get_taxonomy( $taxonomy );
 	?>
 	<div id="taxonomy-<?php echo $taxonomy; ?>" class="categorydiv">
 		<ul id="<?php echo $taxonomy; ?>-tabs" class="category-tabs">
