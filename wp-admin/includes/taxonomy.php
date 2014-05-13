@@ -89,53 +89,53 @@ function wp_create_categories($categories, $post_id = '') {
  * @param bool $wp_error Optional, since 2.5.0. Set this to true if the caller handles WP_Error return values.
  * @return int|object The ID number of the new or updated Category on success. Zero or a WP_Error on failure, depending on param $wp_error.
  */
-function wp_insert_category($catarr, $wp_error = false) {
-	$cat_defaults = array('cat_ID' => 0, 'taxonomy' => 'category', 'cat_name' => '', 'category_description' => '', 'category_nicename' => '', 'category_parent' => '');
-	$catarr = wp_parse_args($catarr, $cat_defaults);
-	extract($catarr, EXTR_SKIP);
+function wp_insert_category( $catarr, $wp_error = false ) {
+	$cat_defaults = array( 'cat_ID' => 0, 'taxonomy' => 'category', 'cat_name' => '', 'category_description' => '', 'category_nicename' => '', 'category_parent' => '' );
+	$catarr = wp_parse_args( $catarr, $cat_defaults );
 
-	if ( trim( $cat_name ) == '' ) {
-		if ( ! $wp_error )
+	if ( trim( $catarr['cat_name'] ) == '' ) {
+		if ( ! $wp_error ) {
 			return 0;
-		else
-			return new WP_Error( 'cat_name', __('You did not enter a category name.') );
+		} else {
+			return new WP_Error( 'cat_name', __( 'You did not enter a category name.' ) );
+		}
 	}
 
-	$cat_ID = (int) $cat_ID;
+	$catarr['cat_ID'] = (int) $catarr['cat_ID'];
 
 	// Are we updating or creating?
-	if ( !empty ($cat_ID) )
-		$update = true;
-	else
-		$update = false;
+	$update = ! empty ( $catarr['cat_ID'] );
 
-	$name = $cat_name;
-	$description = $category_description;
-	$slug = $category_nicename;
-	$parent = $category_parent;
-
-	$parent = (int) $parent;
-	if ( $parent < 0 )
+	$name = $catarr['cat_name'];
+	$description = $catarr['category_description'];
+	$slug = $catarr['category_nicename'];
+	$parent = (int) $catarr['category_parent'];
+	if ( $parent < 0 ) {
 		$parent = 0;
+	}
 
-	if ( empty( $parent ) || ! term_exists( $parent, $taxonomy ) || ( $cat_ID && term_is_ancestor_of( $cat_ID, $parent, $taxonomy ) ) )
+	if ( empty( $parent )
+		|| ! term_exists( $parent, $catarr['taxonomy'] )
+		|| ( $catarr['cat_ID'] && term_is_ancestor_of( $catarr['cat_ID'], $parent, $catarr['taxonomy'] ) ) ) {
 		$parent = 0;
+	}
 
 	$args = compact('name', 'slug', 'parent', 'description');
 
-	if ( $update )
-		$cat_ID = wp_update_term($cat_ID, $taxonomy, $args);
-	else
-		$cat_ID = wp_insert_term($cat_name, $taxonomy, $args);
-
-	if ( is_wp_error($cat_ID) ) {
-		if ( $wp_error )
-			return $cat_ID;
-		else
-			return 0;
+	if ( $update ) {
+		$catarr['cat_ID'] = wp_update_term( $catarr['cat_ID'], $catarr['taxonomy'], $args );
+	} else {
+		$catarr['cat_ID'] = wp_insert_term( $catarr['cat_name'], $catarr['taxonomy'], $args );
 	}
 
-	return $cat_ID['term_id'];
+	if ( is_wp_error( $catarr['cat_ID'] ) ) {
+		if ( $wp_error ) {
+			return $catarr['cat_ID'];
+		} else {
+			return 0;
+		}
+	}
+	return $catarr['cat_ID']['term_id'];
 }
 
 /**
