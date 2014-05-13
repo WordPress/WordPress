@@ -1115,7 +1115,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	}
 
 	/**
-	 * Insert an attachment & its metadata.
+	 * Insert an attachment and its metadata.
 	 *
 	 * @param array $object Attachment object.
 	 * @param string $cropped Cropped image URL.
@@ -1126,8 +1126,13 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		$attachment_id = wp_insert_attachment( $object, $cropped );
 		$metadata = wp_generate_attachment_metadata( $attachment_id, $cropped );
 		/**
-		 * Allows us to insert custom meta data for an attachment.
+		 * Filter the header image attachment metadata.
 		 *
+		 * @since 3.9.0
+		 *
+		 * @see wp_generate_attachment_metadata()
+		 *
+		 * @param array $metadata Attachment metadata.
 		 */
 		$metadata = apply_filters( 'wp_header_image_attachment_metadata', $metadata );
 		wp_update_attachment_metadata( $attachment_id, $metadata );
