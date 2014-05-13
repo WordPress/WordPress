@@ -50,8 +50,8 @@ if ( get_option('db_upgraded') ) {
 	 * Filter whether to attempt to perform the multisite DB upgrade routine.
 	 *
 	 * In single site, the user would be redirected to wp-admin/upgrade.php.
-	 * In multisite, it is automatically fired, but only when this filter
-	 * returns true.
+	 * In multisite, the DB upgrade routine is automatically fired, but only
+	 * when this filter returns true.
 	 *
 	 * If the network is 50 sites or less, it will run every time. Otherwise,
 	 * it will throttle itself to reduce load.
