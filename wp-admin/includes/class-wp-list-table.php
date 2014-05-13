@@ -760,7 +760,7 @@ class WP_List_Table {
 	 * @access public
 	 */
 	function display() {
-		extract( $this->_args );
+		$singular = $this->_args['singular'];
 
 		$this->display_tablenav( 'top' );
 
@@ -778,7 +778,10 @@ class WP_List_Table {
 	</tr>
 	</tfoot>
 
-	<tbody id="the-list"<?php if ( $singular ) echo " data-wp-lists='list:$singular'"; ?>>
+	<tbody id="the-list"<?php
+		if ( $singular ) {
+			echo " data-wp-lists='list:$singular'";
+		} ?>>
 		<?php $this->display_rows_or_placeholder(); ?>
 	</tbody>
 </table>
