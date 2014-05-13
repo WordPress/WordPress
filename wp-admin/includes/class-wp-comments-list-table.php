@@ -309,8 +309,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	function display() {
-		extract( $this->_args );
-
 		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 
 		$this->display_tablenav( 'top' );
@@ -598,13 +596,18 @@ class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 	}
 
 	function display( $output_empty = false ) {
-		extract( $this->_args );
+		$singular = $this->_args['singular'];
 
 		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 ?>
 <table class="<?php echo implode( ' ', $this->get_table_classes() ); ?>" style="display:none;">
-	<tbody id="the-comment-list"<?php if ( $singular ) echo " data-wp-lists='list:$singular'"; ?>>
-		<?php if ( ! $output_empty ) $this->display_rows_or_placeholder(); ?>
+	<tbody id="the-comment-list"<?php
+		if ( $singular ) {
+			echo " data-wp-lists='list:$singular'";
+		} ?>>
+		<?php if ( ! $output_empty ) {
+			$this->display_rows_or_placeholder();
+		} ?>
 	</tbody>
 </table>
 <?php
