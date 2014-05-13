@@ -3820,25 +3820,22 @@ function get_to_ping($post_id) {
  * @param string $tb_list Comma separated list of URLs
  * @param int $post_id Post ID
  */
-function trackback_url_list($tb_list, $post_id) {
+function trackback_url_list( $tb_list, $post_id ) {
 	if ( ! empty( $tb_list ) ) {
 		// get post data
-		$postdata = get_post($post_id, ARRAY_A);
-
-		// import postdata as variables
-		extract($postdata, EXTR_SKIP);
+		$postdata = get_post( $post_id, ARRAY_A );
 
 		// form an excerpt
-		$excerpt = strip_tags($post_excerpt ? $post_excerpt : $post_content);
+		$excerpt = strip_tags( $postdata['post_excerpt'] ? $postdata['post_excerpt'] : $postdata['post_content'] );
 
-		if (strlen($excerpt) > 255) {
-			$excerpt = substr($excerpt,0,252) . '&hellip;';
+		if ( strlen( $excerpt ) > 255 ) {
+			$excerpt = substr( $excerpt, 0, 252 ) . '&hellip;';
 		}
 
-		$trackback_urls = explode(',', $tb_list);
-		foreach( (array) $trackback_urls as $tb_url) {
-			$tb_url = trim($tb_url);
-			trackback($tb_url, wp_unslash($post_title), $excerpt, $post_id);
+		$trackback_urls = explode( ',', $tb_list );
+		foreach( (array) $trackback_urls as $tb_url ) {
+			$tb_url = trim( $tb_url );
+			trackback( $tb_url, wp_unslash( $postdata['post_title'] ), $excerpt, $post_id );
 		}
 	}
 }
