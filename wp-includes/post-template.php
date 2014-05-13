@@ -69,22 +69,23 @@ function the_title($before = '', $after = '', $echo = true) {
  * @return string|null Null on failure or display. String when echo is false.
  */
 function the_title_attribute( $args = '' ) {
-	$defaults = array('before' => '', 'after' =>  '', 'echo' => true, 'post' => get_post() );
-	$r = wp_parse_args($args, $defaults);
-	extract( $r, EXTR_SKIP );
+	$defaults = array( 'before' => '', 'after' =>  '', 'echo' => true, 'post' => get_post() );
+	$r = wp_parse_args( $args, $defaults );
 
-	$title = get_the_title( $post );
+	$title = get_the_title( $r['post'] );
 
-	if ( strlen($title) == 0 )
+	if ( strlen( $title ) == 0 ) {
 		return;
+	}
 
-	$title = $before . $title . $after;
-	$title = esc_attr(strip_tags($title));
+	$title = $r['before'] . $title . $r['after'];
+	$title = esc_attr( strip_tags( $title ) );
 
-	if ( $echo )
+	if ( $r['echo'] ) {
 		echo $title;
-	else
+	} else {
 		return $title;
+	}
 }
 
 /**
