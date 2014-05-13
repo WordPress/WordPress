@@ -2961,7 +2961,7 @@ function get_attached_media( $type, $post = 0 ) {
 	$children = get_children( $args );
 
 	/**
-	 * Filter the
+	 * Filter the list of media attached to the given post.
 	 *
 	 * @since 3.6.0
 	 *
