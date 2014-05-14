@@ -217,8 +217,7 @@ switch($step) {
 
 		if ( $error === false ) {
 			$wpdb->show_errors();
-			$result = wp_install($weblog_title, $user_name, $admin_email, $public, '', wp_slash( $admin_password ) );
-			extract( $result, EXTR_SKIP );
+			$result = wp_install( $weblog_title, $user_name, $admin_email, $public, '', wp_slash( $admin_password ) );
 ?>
 
 <h1><?php _e( 'Success!' ); ?></h1>
@@ -233,9 +232,10 @@ switch($step) {
 	<tr>
 		<th><?php _e( 'Password' ); ?></th>
 		<td><?php
-		if ( ! empty( $password ) && empty($admin_password_check) )
-			echo '<code>'. esc_html($password) .'</code><br />';
-		echo "<p>$password_message</p>"; ?>
+		if ( ! empty( $result['password'] ) && empty( $admin_password_check ) ): ?>
+			<code><?php echo esc_html( $result['password'] ) ?></code><br />
+		<?php endif ?>
+			<p><?php echo $result['password_message'] ?></p>
 		</td>
 	</tr>
 </table>
