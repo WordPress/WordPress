@@ -1805,9 +1805,9 @@ function wp_update_comment($commentarr) {
 
 	// First, get all of the original fields
 	$comment = get_comment($commentarr['comment_ID'], ARRAY_A);
-	if ( empty( $comment ) )
+	if ( empty( $comment ) ) {
 		return 0;
-
+	}
 	// Escape data pulled from DB.
 	$comment = wp_slash($comment);
 
@@ -1819,7 +1819,7 @@ function wp_update_comment($commentarr) {
 	$commentarr = wp_filter_comment( $commentarr );
 
 	// Now extract the merged array.
-	extract(wp_unslash($commentarr), EXTR_SKIP);
+	$data = wp_unslash( $commentarr );
 
 	/**
 	 * Filter the comment content before it is updated in the database.
@@ -1828,22 +1828,26 @@ function wp_update_comment($commentarr) {
 	 *
 	 * @param string $comment_content The comment data.
 	 */
-	$comment_content = apply_filters( 'comment_save_pre', $comment_content );
+	$data['comment_content'] = apply_filters( 'comment_save_pre', $data['comment_content'] );
 
-	$comment_date_gmt = get_gmt_from_date($comment_date);
+	$data['comment_date_gmt'] = get_gmt_from_date( $data['comment_date'] );
 
-	if ( !isset($comment_approved) )
-		$comment_approved = 1;
-	else if ( 'hold' == $comment_approved )
-		$comment_approved = 0;
-	else if ( 'approve' == $comment_approved )
-		$comment_approved = 1;
+	if ( ! isset( $data['comment_approved'] ) ) {
+		$data['comment_approved'] = 1;
+	} else if ( 'hold' == $data['comment_approved'] ) {
+		$data['comment_approved'] = 0;
+	} else if ( 'approve' == $data['comment_approved'] ) {
+		$data['comment_approved'] = 1;
+	}
 
-	$data = compact( 'comment_content', 'comment_author', 'comment_author_email', 'comment_approved', 'comment_karma', 'comment_author_url', 'comment_date', 'comment_date_gmt', 'comment_parent' );
+	$comment_ID = $data['comment_ID'];
+	$comment_post_ID = $data['comment_post_ID'];
+	$keys = array( 'comment_content', 'comment_author', 'comment_author_email', 'comment_approved', 'comment_karma', 'comment_author_url', 'comment_date', 'comment_date_gmt', 'comment_parent' );
+	$data = wp_array_slice_assoc( $data, $keys );
 	$rval = $wpdb->update( $wpdb->comments, $data, compact( 'comment_ID' ) );
 
-	clean_comment_cache($comment_ID);
-	wp_update_comment_count($comment_post_ID);
+	clean_comment_cache( $comment_ID );
+	wp_update_comment_count( $comment_post_ID );
 	/**
 	 * Fires immediately after a comment is updated in the database.
 	 *
