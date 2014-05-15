@@ -241,7 +241,7 @@ function wp_list_bookmarks( $args = '' ) {
 		}
 	}
 
-	if ( $categorize ) {
+	if ( $r['categorize'] ) {
 		// Split the bookmarks into ul's for each category
 		foreach ( (array) $cats as $cat ) {
 			$params = array_merge( $r, array( 'category' => $cat->term_id ) );

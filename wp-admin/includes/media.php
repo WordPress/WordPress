@@ -1285,7 +1285,13 @@ function get_media_item( $attachment_id, $args = null ) {
 	$post = get_post( $attachment_id );
 	$current_post_id = !empty( $_GET['post_id'] ) ? (int) $_GET['post_id'] : 0;
 
-	$default_args = array( 'errors' => null, 'send' => $current_post_id ? post_type_supports( get_post_type( $current_post_id ), 'editor' ) : true, 'delete' => true, 'toggle' => true, 'show_title' => true );
+	$default_args = array(
+		'errors' => null,
+		'send' => $current_post_id ? post_type_supports( get_post_type( $current_post_id ), 'editor' ) : true,
+		'delete' => true,
+		'toggle' => true,
+		'show_title' => true
+	);
 	$args = wp_parse_args( $args, $default_args );
 
 	/**
@@ -1297,8 +1303,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	 *
 	 * @param array $args An array of arguments.
 	 */
-	$args = apply_filters( 'get_media_item_args', $args );
-	extract( $args, EXTR_SKIP );
+	$r = apply_filters( 'get_media_item_args', $args );
 
 	$toggle_on  = __( 'Show' );
 	$toggle_off = __( 'Hide' );
@@ -1311,10 +1316,10 @@ function get_media_item( $attachment_id, $args = null ) {
 	$type = array_shift( $keys );
 	$type_html = "<input type='hidden' id='type-of-$attachment_id' value='" . esc_attr( $type ) . "' />";
 
-	$form_fields = get_attachment_fields_to_edit( $post, $errors );
+	$form_fields = get_attachment_fields_to_edit( $post, $r['errors'] );
 
-	if ( $toggle ) {
-		$class = empty( $errors ) ? 'startclosed' : 'startopen';
+	if ( $r['toggle'] ) {
+		$class = empty( $r['errors'] ) ? 'startclosed' : 'startopen';
 		$toggle_links = "
 	<a class='toggle describe-toggle-on' href='#'>$toggle_on</a>
 	<a class='toggle describe-toggle-off' href='#'>$toggle_off</a>";
@@ -1324,7 +1329,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	}
 
 	$display_title = ( !empty( $title ) ) ? $title : $filename; // $title shouldn't ever be empty, but just in case
-	$display_title = $show_title ? "<div class='filename new'><span class='title'>" . wp_html_excerpt( $display_title, 60, '&hellip;' ) . "</span></div>" : '';
+	$display_title = $r['show_title'] ? "<div class='filename new'><span class='title'>" . wp_html_excerpt( $display_title, 60, '&hellip;' ) . "</span></div>" : '';
 
 	$gallery = ( ( isset( $_REQUEST['tab'] ) && 'gallery' == $_REQUEST['tab'] ) || ( isset( $redir_tab ) && 'gallery' == $redir_tab ) );
 	$order = '';
@@ -1398,8 +1403,11 @@ function get_media_item( $attachment_id, $args = null ) {
 		'extra_rows' => array(),
 	);
 
-	if ( $send )
-		$send = get_submit_button( __( 'Insert into Post' ), 'button', "send[$attachment_id]", false );
+	if ( $r['send'] ) {
+		$r['send'] = get_submit_button( __( 'Insert into Post' ), 'button', "send[$attachment_id]", false );
+	}
+
+	$delete = empty( $r['delete'] ) ? '' : $r['delete'];
 	if ( $delete && current_user_can( 'delete_post', $attachment_id ) ) {
 		if ( !EMPTY_TRASH_DAYS ) {
 			$delete = "<a href='" . wp_nonce_url( "post.php?action=delete&amp;post=$attachment_id", 'delete-post_' . $attachment_id ) . "' id='del[$attachment_id]' class='delete-permanently'>" . __( 'Delete Permanently' ) . '</a>';
@@ -1419,19 +1427,20 @@ function get_media_item( $attachment_id, $args = null ) {
 
 	$thumbnail = '';
 	$calling_post_id = 0;
-	if ( isset( $_GET['post_id'] ) )
+	if ( isset( $_GET['post_id'] ) ) {
 		$calling_post_id = absint( $_GET['post_id'] );
-	elseif ( isset( $_POST ) && count( $_POST ) ) // Like for async-upload where $_GET['post_id'] isn't set
+	} elseif ( isset( $_POST ) && count( $_POST ) ) {// Like for async-upload where $_GET['post_id'] isn't set
 		$calling_post_id = $post->post_parent;
+	}
 	if ( 'image' == $type && $calling_post_id && current_theme_supports( 'post-thumbnails', get_post_type( $calling_post_id ) )
 		&& post_type_supports( get_post_type( $calling_post_id ), 'thumbnail' ) && get_post_thumbnail_id( $calling_post_id ) != $attachment_id ) {
 		$ajax_nonce = wp_create_nonce( "set_post_thumbnail-$calling_post_id" );
 		$thumbnail = "<a class='wp-post-thumbnail' id='wp-post-thumbnail-" . $attachment_id . "' href='#' onclick='WPSetAsThumbnail(\"$attachment_id\", \"$ajax_nonce\");return false;'>" . esc_html__( "Use as featured image" ) . "</a>";
 	}
 
-	if ( ( $send || $thumbnail || $delete ) && !isset( $form_fields['buttons'] ) )
-		$form_fields['buttons'] = array( 'tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>$send $thumbnail $delete</td></tr>\n" );
-
+	if ( ( $r['send'] || $thumbnail || $delete ) && !isset( $form_fields['buttons'] ) ) {
+		$form_fields['buttons'] = array( 'tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>" . $r['send'] . " $thumbnail $delete</td></tr>\n" );
+	}
 	$hidden_fields = array();
 
 	foreach ( $form_fields as $id => $field ) {
