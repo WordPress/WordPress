@@ -149,8 +149,6 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 	$args = wp_parse_args( $linkdata, $defaults );
 	$r = sanitize_bookmark( $args, 'db' );
 
-	extract( wp_unslash( $linkdata ), EXTR_SKIP );
-
 	$update = false;
 	if ( ! empty( $r['link_id'] ) ) {
 		$update = true;
