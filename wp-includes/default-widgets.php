@@ -929,8 +929,6 @@ class WP_Widget_RSS extends WP_Widget {
 		if ( isset($instance['error']) && $instance['error'] )
 			return;
 
-		extract($args, EXTR_SKIP);
-
 		$url = ! empty( $instance['url'] ) ? $instance['url'] : '';
 		while ( stristr($url, 'http') != $url )
 			$url = substr($url, 1);
@@ -967,11 +965,12 @@ class WP_Widget_RSS extends WP_Widget {
 		if ( $title )
 			$title = "<a class='rsswidget' href='$url' title='" . esc_attr__( 'Syndicate this content' ) ."'><img style='border:0' width='14' height='14' src='$icon' alt='RSS' /></a> <a class='rsswidget' href='$link' title='$desc'>$title</a>";
 
-		echo $before_widget;
-		if ( $title )
-			echo $before_title . $title . $after_title;
+		echo $args['before_widget'];
+		if ( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
 		wp_widget_rss_output( $rss, $instance );
-		echo $after_widget;
+		echo $args['after_widget'];
 
 		if ( ! is_wp_error($rss) )
 			$rss->__destruct();
