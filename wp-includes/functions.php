@@ -1987,11 +1987,13 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 
 	// Do basic extension validation and MIME mapping
 	$wp_filetype = wp_check_filetype( $filename, $mimes );
-	extract( $wp_filetype );
+	$ext = $wp_filetype['ext'];
+	$type = $wp_filetype['type'];
 
 	// We can't do any further validation without a file to work with
-	if ( ! file_exists( $file ) )
+	if ( ! file_exists( $file ) ) {
 		return compact( 'ext', 'type', 'proper_filename' );
+	}
 
 	// We're able to validate images using GD
 	if ( $type && 0 === strpos( $type, 'image/' ) && function_exists('getimagesize') ) {
@@ -2023,12 +2025,13 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 				$filename_parts[] = $mime_to_ext[ $imgstats['mime'] ];
 				$new_filename = implode( '.', $filename_parts );
 
-				if ( $new_filename != $filename )
+				if ( $new_filename != $filename ) {
 					$proper_filename = $new_filename; // Mark that it changed
-
+				}
 				// Redefine the extension / MIME
 				$wp_filetype = wp_check_filetype( $new_filename, $mimes );
-				extract( $wp_filetype );
+				$ext = $wp_filetype['ext'];
+				$type = $wp_filetype['type'];
 			}
 		}
 	}
