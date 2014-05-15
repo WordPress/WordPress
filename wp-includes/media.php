@@ -911,8 +911,9 @@ function gallery_shortcode( $attr ) {
 
 	if ( ! empty( $attr['ids'] ) ) {
 		// 'ids' is explicitly ordered, unless you specify otherwise.
-		if ( empty( $attr['orderby'] ) )
+		if ( empty( $attr['orderby'] ) ) {
 			$attr['orderby'] = 'post__in';
+		}
 		$attr['include'] = $attr['ids'];
 	}
 
@@ -930,18 +931,20 @@ function gallery_shortcode( $attr ) {
 	 * @param array  $attr   Attributes of the gallery shortcode.
 	 */
 	$output = apply_filters( 'post_gallery', '', $attr );
-	if ( $output != '' )
+	if ( $output != '' ) {
 		return $output;
+	}
 
 	// We're trusting author input, so let's at least make sure it looks like a valid orderby statement
 	if ( isset( $attr['orderby'] ) ) {
 		$attr['orderby'] = sanitize_sql_orderby( $attr['orderby'] );
-		if ( !$attr['orderby'] )
+		if ( ! $attr['orderby'] ) {
 			unset( $attr['orderby'] );
+		}
 	}
 
 	$html5 = current_theme_supports( 'html5', 'gallery' );
-	extract(shortcode_atts(array(
+	$atts = shortcode_atts( array(
 		'order'      => 'ASC',
 		'orderby'    => 'menu_order ID',
 		'id'         => $post ? $post->ID : 0,
@@ -953,47 +956,53 @@ function gallery_shortcode( $attr ) {
 		'include'    => '',
 		'exclude'    => '',
 		'link'       => ''
-	), $attr, 'gallery'));
+	), $attr, 'gallery' );
 
-	$id = intval($id);
-	if ( 'RAND' == $order )
-		$orderby = 'none';
+	$id = intval( $atts['id'] );
+	if ( 'RAND' == $atts['order'] ) {
+		$atts['orderby'] = 'none';
+	}
 
-	if ( !empty($include) ) {
-		$_attachments = get_posts( array('include' => $include, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+	if ( ! empty( $atts['include'] ) ) {
+		$_attachments = get_posts( array( 'include' => $atts['include'], 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $atts['order'], 'orderby' => $atts['orderby'] ) );
 
 		$attachments = array();
 		foreach ( $_attachments as $key => $val ) {
 			$attachments[$val->ID] = $_attachments[$key];
 		}
-	} elseif ( !empty($exclude) ) {
-		$attachments = get_children( array('post_parent' => $id, 'exclude' => $exclude, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+	} elseif ( ! empty( $atts['exclude'] ) ) {
+		$attachments = get_children( array( 'post_parent' => $id, 'exclude' => $atts['exclude'], 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $atts['order'], 'orderby' => $atts['orderby'] ) );
 	} else {
-		$attachments = get_children( array('post_parent' => $id, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+		$attachments = get_children( array( 'post_parent' => $id, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $atts['order'], 'orderby' => $atts['orderby'] ) );
 	}
 
-	if ( empty($attachments) )
+	if ( empty( $attachments ) ) {
 		return '';
+	}
 
 	if ( is_feed() ) {
 		$output = "\n";
-		foreach ( $attachments as $att_id => $attachment )
-			$output .= wp_get_attachment_link($att_id, $size, true) . "\n";
+		foreach ( $attachments as $att_id => $attachment ) {
+			$output .= wp_get_attachment_link( $att_id, $atts['size'], true ) . "\n";
+		}
 		return $output;
 	}
 
-	$itemtag = tag_escape($itemtag);
-	$captiontag = tag_escape($captiontag);
-	$icontag = tag_escape($icontag);
+	$itemtag = tag_escape( $atts['itemtag'] );
+	$captiontag = tag_escape( $atts['captiontag'] );
+	$icontag = tag_escape( $atts['icontag'] );
 	$valid_tags = wp_kses_allowed_html( 'post' );
-	if ( ! isset( $valid_tags[ $itemtag ] ) )
+	if ( ! isset( $valid_tags[ $itemtag ] ) ) {
 		$itemtag = 'dl';
-	if ( ! isset( $valid_tags[ $captiontag ] ) )
+	}
+	if ( ! isset( $valid_tags[ $captiontag ] ) ) {
 		$captiontag = 'dd';
-	if ( ! isset( $valid_tags[ $icontag ] ) )
+	}
+	if ( ! isset( $valid_tags[ $icontag ] ) ) {
 		$icontag = 'dt';
+	}
 
-	$columns = intval($columns);
+	$columns = intval( $atts['columns'] );
 	$itemwidth = $columns > 0 ? floor(100/$columns) : 100;
 	$float = is_rtl() ? 'right' : 'left';
 
@@ -1032,7 +1041,7 @@ function gallery_shortcode( $attr ) {
 		</style>\n\t\t";
 	}
 
-	$size_class = sanitize_html_class( $size );
+	$size_class = sanitize_html_class( $atts['size'] );
 	$gallery_div = "<div id='$selector' class='gallery galleryid-{$id} gallery-columns-{$columns} gallery-size-{$size_class}'>";
 
 	/**
@@ -1047,19 +1056,19 @@ function gallery_shortcode( $attr ) {
 
 	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
-		if ( ! empty( $link ) && 'file' === $link )
-			$image_output = wp_get_attachment_link( $id, $size, false, false );
-		elseif ( ! empty( $link ) && 'none' === $link )
-			$image_output = wp_get_attachment_image( $id, $size, false );
-		else
-			$image_output = wp_get_attachment_link( $id, $size, true, false );
-
+		if ( ! empty( $atts['link'] ) && 'file' === $atts['link'] ) {
+			$image_output = wp_get_attachment_link( $id, $atts['size'], false, false );
+		} elseif ( ! empty( $atts['link'] ) && 'none' === $atts['link'] ) {
+			$image_output = wp_get_attachment_image( $id, $atts['size'], false );
+		} else {
+			$image_output = wp_get_attachment_link( $id, $atts['size'], true, false );
+		}
 		$image_meta  = wp_get_attachment_metadata( $id );
 
 		$orientation = '';
-		if ( isset( $image_meta['height'], $image_meta['width'] ) )
+		if ( isset( $image_meta['height'], $image_meta['width'] ) ) {
 			$orientation = ( $image_meta['height'] > $image_meta['width'] ) ? 'portrait' : 'landscape';
-
+		}
 		$output .= "<{$itemtag} class='gallery-item'>";
 		$output .= "
 			<{$icontag} class='gallery-icon {$orientation}'>
