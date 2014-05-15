@@ -4209,7 +4209,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @param array $args Method parameters.
 	 * @return bool true when done.
 	 */
-	function blogger_editPost($args) {
+	function blogger_editPost( $args ) {
 
 		$this->escape($args);
 
@@ -4219,39 +4219,42 @@ class wp_xmlrpc_server extends IXR_Server {
 		$content     = $args[4];
 		$publish     = $args[5];
 
-		if ( !$user = $this->login($username, $password) )
+		if ( ! $user = $this->login( $username, $password ) ) {
 			return $this->error;
+		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'blogger.editPost' );
 
-		$actual_post = get_post($post_ID,ARRAY_A);
+		$actual_post = get_post( $post_ID, ARRAY_A );
 
-		if ( !$actual_post || $actual_post['post_type'] != 'post' )
-			return new IXR_Error(404, __('Sorry, no such post.'));
+		if ( ! $actual_post || $actual_post['post_type'] != 'post' ) {
+			return new IXR_Error( 404, __( 'Sorry, no such post.' ) );
+		}
 
 		$this->escape($actual_post);
 
-		if ( !current_user_can('edit_post', $post_ID) )
+		if ( ! current_user_can( 'edit_post', $post_ID ) ) {
 			return new IXR_Error(401, __('Sorry, you do not have the right to edit this post.'));
+		}
+		if ( 'publish' == $actual_post['post_status'] && ! current_user_can( 'publish_posts' ) ) {
+			return new IXR_Error( 401, __( 'Sorry, you do not have the right to publish this post.' ) );
+		}
 
-		extract($actual_post, EXTR_SKIP);
+		$postdata = array();
+		$postdata['ID'] = $actual_post['ID'];
+		$postdata['post_content'] = xmlrpc_removepostdata( $content );
+		$postdata['post_title'] = xmlrpc_getposttitle( $content );
+		$postdata['post_category'] = xmlrpc_getpostcategory( $content );
+		$postdata['post_status'] = $actual_post['post_status'];
+		$postdata['post_excerpt'] = $actual_post['post_excerpt'];
 
-		if ( ('publish' == $post_status) && !current_user_can('publish_posts') )
-			return new IXR_Error(401, __('Sorry, you do not have the right to publish this post.'));
+		$result = wp_update_post( $postdata );
 
-		$post_title = xmlrpc_getposttitle($content);
-		$post_category = xmlrpc_getpostcategory($content);
-		$post_content = xmlrpc_removepostdata($content);
-
-		$postdata = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt');
-
-		$result = wp_update_post($postdata);
-
-		if ( !$result )
+		if ( ! $result ) {
 			return new IXR_Error(500, __('For some strange yet very annoying reason, this post could not be edited.'));
-
-		$this->attach_uploads( $ID, $post_content );
+		}
+		$this->attach_uploads( $actual_post['ID'], $postdata['post_content'] );
 
 		/**
 		 * Fires after a post has been successfully updated via the XML-RPC Blogger API.
