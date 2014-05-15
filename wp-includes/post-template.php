@@ -918,7 +918,7 @@ function the_meta() {
  * @param array|string $args Optional. Override default arguments.
  * @return string HTML content, if not displaying.
  */
-function wp_dropdown_pages($args = '') {
+function wp_dropdown_pages( $args = '' ) {
 	$defaults = array(
 		'depth' => 0, 'child_of' => 0,
 		'selected' => 0, 'echo' => 1,
@@ -928,21 +928,23 @@ function wp_dropdown_pages($args = '') {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
-	$pages = get_pages($r);
+	$pages = get_pages( $r );
 	$output = '';
 	// Back-compat with old system where both id and name were based on $name argument
-	if ( empty($id) )
-		$id = $name;
+	if ( empty( $r['id'] ) ) {
+		$r['id'] = $r['name'];
+	}
 
-	if ( ! empty($pages) ) {
-		$output = "<select name='" . esc_attr( $name ) . "' id='" . esc_attr( $id ) . "'>\n";
-		if ( $show_option_no_change )
-			$output .= "\t<option value=\"-1\">$show_option_no_change</option>";
-		if ( $show_option_none )
-			$output .= "\t<option value=\"" . esc_attr($option_none_value) . "\">$show_option_none</option>\n";
-		$output .= walk_page_dropdown_tree($pages, $depth, $r);
+	if ( ! empty( $pages ) ) {
+		$output = "<select name='" . esc_attr( $r['name'] ) . "' id='" . esc_attr( $r['id'] ) . "'>\n";
+		if ( $r['show_option_no_change'] ) {
+			$output .= "\t<option value=\"-1\">" . $r['show_option_no_change'] . "</option>\n";
+		}
+		if ( $r['show_option_none'] ) {
+			$output .= "\t<option value=\"" . esc_attr( $r['option_none_value'] ) . '">' . $r['show_option_none'] . "</option>\n";
+		}
+		$output .= walk_page_dropdown_tree( $pages, $r['depth'], $r );
 		$output .= "</select>\n";
 	}
 
@@ -951,14 +953,14 @@ function wp_dropdown_pages($args = '') {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $output HTML output for drop down list of pages.
+	 * @param string $html HTML output for drop down list of pages.
 	 */
-	$output = apply_filters( 'wp_dropdown_pages', $output );
+	$html = apply_filters( 'wp_dropdown_pages', $output );
 
-	if ( $echo )
-		echo $output;
-
-	return $output;
+	if ( $r['echo'] ) {
+		echo $html;
+	}
+	return $html;
 }
 
 /**
