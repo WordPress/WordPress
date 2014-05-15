@@ -1984,20 +1984,22 @@ function wp_list_comments( $args = array(), $comments = null ) {
 	if ( null === $r['reverse_top_level'] )
 		$r['reverse_top_level'] = ( 'desc' == get_option('comment_order') );
 
-	extract( $r, EXTR_SKIP );
-
-	if ( empty($walker) )
+	if ( empty( $r['walker'] ) ) {
 		$walker = new Walker_Comment;
+	} else {
+		$walker = $r['walker'];
+	}
 
-	$output = $walker->paged_walk($_comments, $max_depth, $page, $per_page, $r);
+	$output = $walker->paged_walk( $_comments, $r['max_depth'], $r['page'], $r['per_page'], $r );
 	$wp_query->max_num_comment_pages = $walker->max_pages;
 
 	$in_comment_loop = false;
 
-	if ( $r['echo'] )
+	if ( $r['echo'] ) {
 		echo $output;
-	else
+	} else {
 		return $output;
+	}
 }
 
 /**
