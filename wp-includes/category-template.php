@@ -485,52 +485,57 @@ function wp_list_categories( $args = '' ) {
 		$r['exclude'] = '';
 	}
 
-	if ( !isset( $r['class'] ) )
+	if ( ! isset( $r['class'] ) )
 		$r['class'] = ( 'category' == $r['taxonomy'] ) ? 'categories' : $r['taxonomy'];
 
-	extract( $r );
-
-	if ( !taxonomy_exists($taxonomy) )
+	if ( ! taxonomy_exists( $r['taxonomy'] ) ) {
 		return false;
+	}
+
+	$show_option_all = $r['show_option_all'];
+	$show_option_none = $r['show_option_none'];
 
 	$categories = get_categories( $r );
 
 	$output = '';
-	if ( $title_li && 'list' == $style )
-			$output = '<li class="' . esc_attr( $class ) . '">' . $title_li . '<ul>';
-
+	if ( $r['title_li'] && 'list' == $r['style'] ) {
+		$output = '<li class="' . esc_attr( $r['class'] ) . '">' . $r['title_li'] . '<ul>';
+	}
 	if ( empty( $categories ) ) {
 		if ( ! empty( $show_option_none ) ) {
-			if ( 'list' == $style )
+			if ( 'list' == $r['style'] ) {
 				$output .= '<li class="cat-item-none">' . $show_option_none . '</li>';
-			else
+			} else {
 				$output .= $show_option_none;
+			}
 		}
 	} else {
 		if ( ! empty( $show_option_all ) ) {
 			$posts_page = ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_for_posts' ) ) ? get_permalink( get_option( 'page_for_posts' ) ) : home_url( '/' );
 			$posts_page = esc_url( $posts_page );
-			if ( 'list' == $style )
+			if ( 'list' == $r['style'] ) {
 				$output .= "<li class='cat-item-all'><a href='$posts_page'>$show_option_all</a></li>";
-			else
+			} else {
 				$output .= "<a href='$posts_page'>$show_option_all</a>";
+			}
 		}
 
 		if ( empty( $r['current_category'] ) && ( is_category() || is_tax() || is_tag() ) ) {
 			$current_term_object = get_queried_object();
-			if ( $current_term_object && $r['taxonomy'] === $current_term_object->taxonomy )
+			if ( $current_term_object && $r['taxonomy'] === $current_term_object->taxonomy ) {
 				$r['current_category'] = get_queried_object_id();
+			}
 		}
 
-		if ( $hierarchical )
+		if ( $r['hierarchical'] ) {
 			$depth = $r['depth'];
-		else
+		} else {
 			$depth = -1; // Flat.
-
+		}
 		$output .= walk_category_tree( $categories, $depth, $r );
 	}
 
-	if ( $title_li && 'list' == $style )
+	if ( $r['title_li'] && 'list' == $r['style'] )
 		$output .= '</ul></li>';
 
 	/**
@@ -541,12 +546,13 @@ function wp_list_categories( $args = '' ) {
 	 * @param string $output HTML output.
 	 * @param array  $args   An array of taxonomy-listing arguments.
 	 */
-	$output = apply_filters( 'wp_list_categories', $output, $args );
+	$html = apply_filters( 'wp_list_categories', $output, $args );
 
-	if ( $echo )
-		echo $output;
-	else
-		return $output;
+	if ( $r['echo'] ) {
+		echo $html;
+	} else {
+		return $html;
+	}
 }
 
 /**
