@@ -685,9 +685,8 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	);
 
 	$args = wp_parse_args( $args, $defaults );
-	extract( $args, EXTR_SKIP );
 
-	$return = ( 'array' === $format ) ? array() : '';
+	$return = ( 'array' === $args['format'] ) ? array() : '';
 
 	if ( empty( $tags ) ) {
 		return $return;
@@ -729,37 +728,37 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$tags = $tags_sorted;
 		unset( $tags_sorted );
 	} else {
-		if ( 'RAND' === $order ) {
+		if ( 'RAND' === $args['order'] ) {
 			shuffle( $tags );
 		} else {
 			// SQL cannot save you; this is a second (potentially different) sort on a subset of data.
-			if ( 'name' === $orderby ) {
+			if ( 'name' === $args['orderby'] ) {
 				uasort( $tags, '_wp_object_name_sort_cb' );
 			} else {
 				uasort( $tags, '_wp_object_count_sort_cb' );
 			}
 
-			if ( 'DESC' === $order ) {
+			if ( 'DESC' === $args['order'] ) {
 				$tags = array_reverse( $tags, true );
 			}
 		}
 	}
 
-	if ( $number > 0 )
-		$tags = array_slice($tags, 0, $number);
+	if ( $args['number'] > 0 )
+		$tags = array_slice( $tags, 0, $args['number'] );
 
 	$counts = array();
 	$real_counts = array(); // For the alt tag
 	foreach ( (array) $tags as $key => $tag ) {
 		$real_counts[ $key ] = $tag->count;
-		$counts[ $key ] = $topic_count_scale_callback($tag->count);
+		$counts[ $key ] = call_user_func( $args['topic_count_scale_callback'], $tag->count );
 	}
 
 	$min_count = min( $counts );
 	$spread = max( $counts ) - $min_count;
 	if ( $spread <= 0 )
 		$spread = 1;
-	$font_spread = $largest - $smallest;
+	$font_spread = $args['largest'] - $args['smallest'];
 	if ( $font_spread < 0 )
 		$font_spread = 1;
 	$font_step = $font_spread / $spread;
@@ -776,15 +775,15 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		if ( $translate_nooped_plural ) {
 			$title_attribute = sprintf( translate_nooped_plural( $translate_nooped_plural, $real_count ), number_format_i18n( $real_count ) );
 		} else {
-			$title_attribute = call_user_func( $topic_count_text_callback, $real_count, $tag, $args );
+			$title_attribute = call_user_func( $args['topic_count_text_callback'], $real_count, $tag, $args );
 		}
 
 		$a[] = "<a href='$tag_link' class='tag-link-$tag_id' title='" . esc_attr( $title_attribute ) . "' style='font-size: " .
-			str_replace( ',', '.', ( $smallest + ( ( $count - $min_count ) * $font_step ) ) )
-			. "$unit;'>$tag_name</a>";
+			str_replace( ',', '.', ( $args['smallest'] + ( ( $count - $min_count ) * $font_step ) ) )
+			. $args['unit'] . ";'>$tag_name</a>";
 	}
 
-	switch ( $format ) :
+	switch ( $args['format'] ) :
 	case 'array' :
 		$return =& $a;
 		break;
@@ -794,11 +793,11 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$return .= "</li>\n</ul>\n";
 		break;
 	default :
-		$return = join( $separator, $a );
+		$return = join( $args['separator'], $a );
 		break;
 	endswitch;
 
-	if ( $filter ) {
+	if ( $args['filter'] ) {
 		/**
 		 * Filter the generated output of a tag cloud.
 		 *
