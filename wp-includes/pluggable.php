@@ -233,11 +233,31 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	 * @param array $args A compacted array of wp_mail() arguments, including the "to" email,
 	 *                    subject, message, headers, and attachments values.
 	 */
-	extract( apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers', 'attachments' ) ) );
+	$atts = apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers', 'attachments' ) );
 
-	if ( !is_array($attachments) )
+	if ( isset( $atts['to'] ) ) {
+		$to = $atts['to'];
+	}
+
+	if ( isset( $atts['subject'] ) ) {
+		$subject = $atts['subject'];
+	}
+
+	if ( isset( $atts['message'] ) ) {
+		$message = $atts['message'];
+	}
+
+	if ( isset( $atts['headers'] ) ) {
+		$headers = $atts['headers'];
+	}
+
+	if ( isset( $atts['attachments'] ) ) {
+		$attachments = $atts['attachments'];
+	}
+
+	if ( ! is_array( $attachments ) ) {
 		$attachments = explode( "\n", str_replace( "\r\n", "\n", $attachments ) );
-
+	}
 	global $phpmailer;
 
 	// (Re)create it, if it's gone missing
