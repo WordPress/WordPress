@@ -1291,7 +1291,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
  *                             Default current post.
  * @return mixed Link to show comment form, if successful. False, if comments are closed.
  */
-function get_comment_reply_link($args = array(), $comment = null, $post = null) {
+function get_comment_reply_link( $args = array(), $comment = null, $post = null ) {
 
 	$defaults = array(
 		'add_below'  => 'comment',
@@ -1303,26 +1303,31 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null) 
 		'after'      => ''
 	);
 
-	$args = wp_parse_args($args, $defaults);
+	$args = wp_parse_args( $args, $defaults );
 
-	if ( 0 == $args['depth'] || $args['max_depth'] <= $args['depth'] )
+	if ( 0 == $args['depth'] || $args['max_depth'] <= $args['depth'] ) {
 		return;
+	}
 
-	extract($args, EXTR_SKIP);
+	$add_below = $args['add_below'];
+	$respond_id = $args['respond_id'];
+	$reply_text = $args['reply_text'];
 
-	$comment = get_comment($comment);
-	if ( empty($post) )
+	$comment = get_comment( $comment );
+	if ( empty( $post ) ) {
 		$post = $comment->comment_post_ID;
-	$post = get_post($post);
+	}
+	$post = get_post( $post );
 
-	if ( !comments_open($post->ID) )
+	if ( ! comments_open( $post->ID ) ) {
 		return false;
+	}
 
-	if ( get_option('comment_registration') && ! is_user_logged_in() )
-		$link = '<a rel="nofollow" class="comment-reply-login" href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . $login_text . '</a>';
-	else
+	if ( get_option( 'comment_registration' ) && ! is_user_logged_in() ) {
+		$link = '<a rel="nofollow" class="comment-reply-login" href="' . esc_url( wp_login_url( get_permalink() ) ) . '">' . $args['login_text'] . '</a>';
+	} else {
 		$link = "<a class='comment-reply-link' href='" . esc_url( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $respond_id . "' onclick='return addComment.moveForm(\"$add_below-$comment->comment_ID\", \"$comment->comment_ID\", \"$respond_id\", \"$post->ID\")'>$reply_text</a>";
-
+	}
 	/**
 	 * Filter the comment reply link.
 	 *
@@ -1333,7 +1338,7 @@ function get_comment_reply_link($args = array(), $comment = null, $post = null) 
 	 * @param object  $comment The object of the comment being replied.
 	 * @param WP_Post $post    The WP_Post object.
 	 */
-	return apply_filters( 'comment_reply_link', $before . $link . $after, $args, $comment, $post );
+	return apply_filters( 'comment_reply_link', $args['before'] . $link . $args['after'], $args, $comment, $post );
 }
 
 /**
