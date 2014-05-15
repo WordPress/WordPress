@@ -752,17 +752,28 @@ function sanitize_comment_cookies() {
  * @param array $commentdata Contains information on the comment
  * @return mixed Signifies the approval status (0|1|'spam')
  */
-function wp_allow_comment($commentdata) {
+function wp_allow_comment( $commentdata ) {
 	global $wpdb;
-	extract($commentdata, EXTR_SKIP);
 
 	// Simple duplicate check
 	// expected_slashed ($comment_post_ID, $comment_author, $comment_author_email, $comment_content)
-	$dupe = $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_parent = %s AND comment_approved != 'trash' AND ( comment_author = %s ", wp_unslash( $comment_post_ID ), wp_unslash( $comment_parent ), wp_unslash( $comment_author ) );
-	if ( $comment_author_email )
-		$dupe .= $wpdb->prepare( "OR comment_author_email = %s ", wp_unslash( $comment_author_email ) );
-	$dupe .= $wpdb->prepare( ") AND comment_content = %s LIMIT 1", wp_unslash( $comment_content ) );
-	if ( $wpdb->get_var($dupe) ) {
+	$dupe = $wpdb->prepare(
+		"SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_parent = %s AND comment_approved != 'trash' AND ( comment_author = %s ",
+		wp_unslash( $commentdata['comment_post_ID'] ),
+		wp_unslash( $commentdata['comment_parent'] ),
+		wp_unslash( $commentdata['comment_author'] )
+	);
+	if ( $commentdata['comment_author_email'] ) {
+		$dupe .= $wpdb->prepare(
+			"OR comment_author_email = %s ",
+			wp_unslash( $commentdata['comment_author_email'] )
+		);
+	}
+	$dupe .= $wpdb->prepare(
+		") AND comment_content = %s LIMIT 1",
+		wp_unslash( $commentdata['comment_content'] )
+	);
+	if ( $wpdb->get_var( $dupe ) ) {
 		/**
 		 * Fires immediately after a duplicate comment is detected.
 		 *
@@ -771,9 +782,9 @@ function wp_allow_comment($commentdata) {
 		 * @param array $commentdata Comment data.
 		 */
 		do_action( 'comment_duplicate_trigger', $commentdata );
-		if ( defined('DOING_AJAX') )
+		if ( defined( 'DOING_AJAX' ) ) {
 			die( __('Duplicate comment detected; it looks as though you&#8217;ve already said that!') );
-
+		}
 		wp_die( __('Duplicate comment detected; it looks as though you&#8217;ve already said that!') );
 	}
 
@@ -788,24 +799,50 @@ function wp_allow_comment($commentdata) {
 	 * @param string $comment_author_email Comment author's email.
 	 * @param string $comment_date_gmt     GMT date the comment was posted.
 	 */
-	do_action( 'check_comment_flood', $comment_author_IP, $comment_author_email, $comment_date_gmt );
+	do_action(
+		'check_comment_flood',
+		$commentdata['comment_author_IP'],
+		$commentdata['comment_author_email'],
+		$commentdata['comment_date_gmt']
+	);
 
-	if ( ! empty( $user_id ) ) {
-		$user = get_userdata( $user_id );
-		$post_author = $wpdb->get_var($wpdb->prepare("SELECT post_author FROM $wpdb->posts WHERE ID = %d LIMIT 1", $comment_post_ID));
+	if ( ! empty( $commentdata['user_id'] ) ) {
+		$user = get_userdata( $commentdata['user_id'] );
+		$post_author = $wpdb->get_var( $wpdb->prepare(
+			"SELECT post_author FROM $wpdb->posts WHERE ID = %d LIMIT 1",
+			$commentdata['comment_post_ID']
+		) );
 	}
 
-	if ( isset( $user ) && ( $user_id == $post_author || $user->has_cap( 'moderate_comments' ) ) ) {
+	if ( isset( $user ) && ( $commentdata['user_id'] == $post_author || $user->has_cap( 'moderate_comments' ) ) ) {
 		// The author and the admins get respect.
 		$approved = 1;
 	} else {
 		// Everyone else's comments will be checked.
-		if ( check_comment($comment_author, $comment_author_email, $comment_author_url, $comment_content, $comment_author_IP, $comment_agent, $comment_type) )
+		if ( check_comment(
+			$commentdata['comment_author'],
+			$commentdata['comment_author_email'],
+			$commentdata['comment_author_url'],
+			$commentdata['comment_content'],
+			$commentdata['comment_author_IP'],
+			$commentdata['comment_agent'],
+			$commentdata['comment_type']
+		) ) {
 			$approved = 1;
-		else
+		} else {
 			$approved = 0;
-		if ( wp_blacklist_check($comment_author, $comment_author_email, $comment_author_url, $comment_content, $comment_author_IP, $comment_agent) )
+		}
+		
+		if ( wp_blacklist_check(
+			$commentdata['comment_author'],
+			$commentdata['comment_author_email'],
+			$commentdata['comment_author_url'],
+			$commentdata['comment_content'],
+			$commentdata['comment_author_IP'],
+			$commentdata['comment_agent']
+		) ) {
 			$approved = 'spam';
+		}
 	}
 
 	/**
