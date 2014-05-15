@@ -2229,7 +2229,9 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 			$args = array_merge($args, $t->args);
 	}
 
-	extract($args, EXTR_SKIP);
+	$orderby = $args['orderby'];
+	$order = $args['order'];
+	$fields = $args['fields'];
 
 	if ( 'count' == $orderby )
 		$orderby = 'tt.count';
