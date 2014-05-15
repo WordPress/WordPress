@@ -1016,16 +1016,15 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 		return;
 	}
 
-	$default_args = array( 'show_author' => 0, 'show_date' => 0, 'show_summary' => 0 );
+	$default_args = array( 'show_author' => 0, 'show_date' => 0, 'show_summary' => 0, 'items' => 0 );
 	$args = wp_parse_args( $args, $default_args );
-	extract( $args, EXTR_SKIP );
 
-	$items = (int) $items;
+	$items = (int) $args['items'];
 	if ( $items < 1 || 20 < $items )
 		$items = 10;
-	$show_summary  = (int) $show_summary;
-	$show_author   = (int) $show_author;
-	$show_date     = (int) $show_date;
+	$show_summary  = (int) $args['show_summary'];
+	$show_author   = (int) $args['show_author'];
+	$show_date     = (int) $args['show_date'];
 
 	if ( !$rss->get_item_quantity() ) {
 		echo '<ul><li>' . __( 'An error has occurred, which probably means the feed is down. Try again later.' ) . '</li></ul>';
