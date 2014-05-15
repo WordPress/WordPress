@@ -3712,39 +3712,43 @@ function the_taxonomies($args = array()) {
  * @param array $args Override the defaults.
  * @return array
  */
-function get_the_taxonomies($post = 0, $args = array() ) {
+function get_the_taxonomies( $post = 0, $args = array() ) {
 	$post = get_post( $post );
 
 	$args = wp_parse_args( $args, array(
 		'template' => '%s: %l.',
 	) );
-	extract( $args, EXTR_SKIP );
 
 	$taxonomies = array();
 
-	if ( !$post )
+	if ( ! $post ) {
 		return $taxonomies;
+	}
 
-	foreach ( get_object_taxonomies($post) as $taxonomy ) {
-		$t = (array) get_taxonomy($taxonomy);
-		if ( empty($t['label']) )
+	foreach ( get_object_taxonomies( $post ) as $taxonomy ) {
+		$t = (array) get_taxonomy( $taxonomy );
+		if ( empty( $t['label'] ) ) {
 			$t['label'] = $taxonomy;
-		if ( empty($t['args']) )
+		}
+		if ( empty( $t['args'] ) ) {
 			$t['args'] = array();
-		if ( empty($t['template']) )
-			$t['template'] = $template;
+		}
+		if ( empty( $t['template'] ) ) {
+			$t['template'] = $args['template'];
+		}
 
-		$terms = get_object_term_cache($post->ID, $taxonomy);
-		if ( false === $terms )
-			$terms = wp_get_object_terms($post->ID, $taxonomy, $t['args']);
-
+		$terms = get_object_term_cache( $post->ID, $taxonomy );
+		if ( false === $terms ) {
+			$terms = wp_get_object_terms( $post->ID, $taxonomy, $t['args'] );
+		}
 		$links = array();
 
-		foreach ( $terms as $term )
-			$links[] = "<a href='" . esc_attr( get_term_link($term) ) . "'>$term->name</a>";
-
-		if ( $links )
-			$taxonomies[$taxonomy] = wp_sprintf($t['template'], $t['label'], $links, $terms);
+		foreach ( $terms as $term ) {
+			$links[] = "<a href='" . esc_attr( get_term_link( $term ) ) . "'>$term->name</a>";
+		}
+		if ( $links ) {
+			$taxonomies[$taxonomy] = wp_sprintf( $t['template'], $t['label'], $links, $terms );
+		}
 	}
 	return $taxonomies;
 }
