@@ -19,7 +19,6 @@ class WP_Widget_Pages extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
-		extract( $args );
 
 		/**
 		 * Filter the widget title.
@@ -54,16 +53,17 @@ class WP_Widget_Pages extends WP_Widget {
 			'exclude'     => $exclude
 		) ) );
 
-		if ( !empty( $out ) ) {
-			echo $before_widget;
-			if ( $title)
-				echo $before_title . $title . $after_title;
+		if ( ! empty( $out ) ) {
+			echo $args['before_widget'];
+			if ( $title ) {
+				echo $args['before_title'] . $title . $args['after_title'];
+			}
 		?>
 		<ul>
 			<?php echo $out; ?>
 		</ul>
 		<?php
-			echo $after_widget;
+			echo $args['after_widget'];
 		}
 	}
 
@@ -119,7 +119,6 @@ class WP_Widget_Links extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
-		extract($args, EXTR_SKIP);
 
 		$show_description = isset($instance['description']) ? $instance['description'] : false;
 		$show_name = isset($instance['name']) ? $instance['name'] : false;
@@ -130,7 +129,7 @@ class WP_Widget_Links extends WP_Widget {
 		$order = $orderby == 'rating' ? 'DESC' : 'ASC';
 		$limit = isset( $instance['limit'] ) ? $instance['limit'] : -1;
 
-		$before_widget = preg_replace('/id="[^"]*"/','id="%id"', $before_widget);
+		$before_widget = preg_replace( '/id="[^"]*"/', 'id="%id"', $args['before_widget'] );
 
 		/**
 		 * Filter the arguments for the Links widget.
@@ -142,8 +141,8 @@ class WP_Widget_Links extends WP_Widget {
 		 * @param array $args An array of arguments to retrieve the links list.
 		 */
 		wp_list_bookmarks( apply_filters( 'widget_links_args', array(
-			'title_before' => $before_title, 'title_after' => $after_title,
-			'category_before' => $before_widget, 'category_after' => $after_widget,
+			'title_before' => $args['before_title'], 'title_after' => $args['after_title'],
+			'category_before' => $before_widget, 'category_after' => $args['after_widget'],
 			'show_images' => $show_images, 'show_description' => $show_description,
 			'show_name' => $show_name, 'show_rating' => $show_rating,
 			'category' => $category, 'class' => 'linkcat widget',
@@ -229,19 +228,19 @@ class WP_Widget_Search extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
-		extract($args);
 
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 
-		echo $before_widget;
-		if ( $title )
-			echo $before_title . $title . $after_title;
+		echo $args['before_widget'];
+		if ( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
 
 		// Use current theme search form if it exists
 		get_search_form();
 
-		echo $after_widget;
+		echo $args['after_widget'];
 	}
 
 	function form( $instance ) {
@@ -274,16 +273,16 @@ class WP_Widget_Archives extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
-		extract($args);
 		$c = ! empty( $instance['count'] ) ? '1' : '0';
 		$d = ! empty( $instance['dropdown'] ) ? '1' : '0';
 
 		/** This filter is documented in wp-includes/default-widgets.php */
-		$title = apply_filters( 'widget_title', empty($instance['title'] ) ? __( 'Archives' ) : $instance['title'], $instance, $this->id_base );
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Archives' ) : $instance['title'], $instance, $this->id_base );
 
-		echo $before_widget;
-		if ( $title )
-			echo $before_title . $title . $after_title;
+		echo $args['before_widget'];
+		if ( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
 
 		if ( $d ) {
 ?>
@@ -330,7 +329,7 @@ class WP_Widget_Archives extends WP_Widget {
 <?php
 		}
 
-		echo $after_widget;
+		echo $args['after_widget'];
 	}
 
 	function update( $new_instance, $old_instance ) {
@@ -374,14 +373,14 @@ class WP_Widget_Meta extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
-		extract($args);
 
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty($instance['title']) ? __( 'Meta' ) : $instance['title'], $instance, $this->id_base );
 
-		echo $before_widget;
-		if ( $title )
-			echo $before_title . $title . $after_title;
+		echo $args['before_widget'];
+		if ( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
 ?>
 			<ul>
 			<?php wp_register(); ?>
@@ -406,7 +405,7 @@ class WP_Widget_Meta extends WP_Widget {
 ?>
 			</ul>
 <?php
-		echo $after_widget;
+		echo $args['after_widget'];
 	}
 
 	function update( $new_instance, $old_instance ) {
@@ -438,18 +437,18 @@ class WP_Widget_Calendar extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
-		extract($args);
 
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 
-		echo $before_widget;
-		if ( $title )
-			echo $before_title . $title . $after_title;
+		echo $args['before_widget'];
+		if ( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
 		echo '<div id="calendar_wrap">';
 		get_calendar();
 		echo '</div>';
-		echo $after_widget;
+		echo $args['after_widget'];
 	}
 
 	function update( $new_instance, $old_instance ) {
@@ -483,7 +482,6 @@ class WP_Widget_Text extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
-		extract($args);
 
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
@@ -497,11 +495,13 @@ class WP_Widget_Text extends WP_Widget {
 		 * @param WP_Widget $instance    WP_Widget instance.
 		 */
 		$text = apply_filters( 'widget_text', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
-		echo $before_widget;
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; } ?>
+		echo $args['before_widget'];
+		if ( ! empty( $title ) ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		} ?>
 			<div class="textwidget"><?php echo !empty( $instance['filter'] ) ? wpautop( $text ) : $text; ?></div>
 		<?php
-		echo $after_widget;
+		echo $args['after_widget'];
 	}
 
 	function update( $new_instance, $old_instance ) {
@@ -543,7 +543,6 @@ class WP_Widget_Categories extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
-		extract( $args );
 
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Categories' ) : $instance['title'], $instance, $this->id_base );
@@ -552,9 +551,10 @@ class WP_Widget_Categories extends WP_Widget {
 		$h = ! empty( $instance['hierarchical'] ) ? '1' : '0';
 		$d = ! empty( $instance['dropdown'] ) ? '1' : '0';
 
-		echo $before_widget;
-		if ( $title )
-			echo $before_title . $title . $after_title;
+		echo $args['before_widget'];
+		if ( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
 
 		$cat_args = array('orderby' => 'name', 'show_count' => $c, 'hierarchical' => $h);
 
@@ -605,7 +605,7 @@ class WP_Widget_Categories extends WP_Widget {
 <?php
 		}
 
-		echo $after_widget;
+		echo $args['after_widget'];
 	}
 
 	function update( $new_instance, $old_instance ) {
@@ -679,7 +679,6 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		}
 
 		ob_start();
-		extract($args);
 
 		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Posts' );
 
@@ -709,8 +708,10 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 
 		if ($r->have_posts()) :
 ?>
-		<?php echo $before_widget; ?>
-		<?php if ( $title ) echo $before_title . $title . $after_title; ?>
+		<?php echo $args['before_widget']; ?>
+		<?php if ( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		} ?>
 		<ul>
 		<?php while ( $r->have_posts() ) : $r->the_post(); ?>
 			<li>
@@ -721,7 +722,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 			</li>
 		<?php endwhile; ?>
 		</ul>
-		<?php echo $after_widget; ?>
+		<?php echo $args['after_widget']; ?>
 <?php
 		// Reset the global $the_post as this query will have stomped on it
 		wp_reset_postdata();
@@ -832,7 +833,6 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 			return;
 		}
 
-		extract($args, EXTR_SKIP);
 		$output = '';
 
 		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Comments' );
@@ -859,9 +859,10 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 			'post_status' => 'publish'
 		) ) );
 
-		$output .= $before_widget;
-		if ( $title )
-			$output .= $before_title . $title . $after_title;
+		$output .= $args['before_widget'];
+		if ( $title ) {
+			$output .= $args['before_title'] . $title . $args['after_title'];
+		}
 
 		$output .= '<ul id="recentcomments">';
 		if ( $comments ) {
@@ -874,7 +875,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 			}
 		}
 		$output .= '</ul>';
-		$output .= $after_widget;
+		$output .= $args['after_widget'];
 
 		echo $output;
 
@@ -1220,7 +1221,6 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
-		extract($args);
 		$current_taxonomy = $this->_get_current_taxonomy($instance);
 		if ( !empty($instance['title']) ) {
 			$title = $instance['title'];
@@ -1236,9 +1236,10 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
-		echo $before_widget;
-		if ( $title )
-			echo $before_title . $title . $after_title;
+		echo $args['before_widget'];
+		if ( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
 		echo '<div class="tagcloud">';
 
 		/**
@@ -1256,7 +1257,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		) ) );
 
 		echo "</div>\n";
-		echo $after_widget;
+		echo $args['after_widget'];
 	}
 
 	function update( $new_instance, $old_instance ) {
@@ -1323,8 +1324,13 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	}
 
 	function update( $new_instance, $old_instance ) {
-		$instance['title'] = strip_tags( stripslashes($new_instance['title']) );
-		$instance['nav_menu'] = (int) $new_instance['nav_menu'];
+		$instance = array();
+		if ( ! empty( $new_instance['title'] ) ) {
+			$instance['title'] = strip_tags( stripslashes($new_instance['title']) );
+		}
+		if ( ! empty( $new_instance['nav_menu'] ) ) {
+			$instance['nav_menu'] = (int) $new_instance['nav_menu'];
+		}
 		return $instance;
 	}
 
