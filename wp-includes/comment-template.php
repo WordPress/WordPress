@@ -1387,18 +1387,21 @@ function get_post_reply_link($args = array(), $post = null) {
 	);
 
 	$args = wp_parse_args($args, $defaults);
-	extract($args, EXTR_SKIP);
+	$add_below = $args['add_below'];
+	$respond_id = $args['respond_id'];
+	$reply_text = $args['reply_text'];
 	$post = get_post($post);
 
-	if ( !comments_open($post->ID) )
+	if ( ! comments_open( $post->ID ) ) {
 		return false;
+	}
 
-	if ( get_option('comment_registration') && ! is_user_logged_in() )
-		$link = '<a rel="nofollow" href="' . wp_login_url( get_permalink() ) . '">' . $login_text . '</a>';
-	else
+	if ( get_option('comment_registration') && ! is_user_logged_in() ) {
+		$link = '<a rel="nofollow" href="' . wp_login_url( get_permalink() ) . '">' . $args['login_text'] . '</a>';
+	} else {
 		$link = "<a rel='nofollow' class='comment-reply-link' href='" . get_permalink($post->ID) . "#$respond_id' onclick='return addComment.moveForm(\"$add_below-$post->ID\", \"0\", \"$respond_id\", \"$post->ID\")'>$reply_text</a>";
-
-	$formatted_link = $before . $link . $after;
+	}
+	$formatted_link = $args['before'] . $link . $args['after'];
 	/**
 	 * Filter the formatted post comments link HTML.
 	 *
