@@ -576,22 +576,22 @@ function unregister_taxonomy_for_object_type( $taxonomy, $object_type ) {
 function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 	global $wpdb;
 
-	if ( ! is_array( $term_ids ) )
+	if ( ! is_array( $term_ids ) ) {
 		$term_ids = array( $term_ids );
-
-	if ( ! is_array( $taxonomies ) )
+	}
+	if ( ! is_array( $taxonomies ) ) {
 		$taxonomies = array( $taxonomies );
-
+	}
 	foreach ( (array) $taxonomies as $taxonomy ) {
-		if ( ! taxonomy_exists( $taxonomy ) )
+		if ( ! taxonomy_exists( $taxonomy ) ) {
 			return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy' ) );
+		}
 	}
 
 	$defaults = array( 'order' => 'ASC' );
 	$args = wp_parse_args( $args, $defaults );
-	extract( $args, EXTR_SKIP );
 
-	$order = ( 'desc' == strtolower( $order ) ) ? 'DESC' : 'ASC';
+	$order = ( 'desc' == strtolower( $args['order'] ) ) ? 'DESC' : 'ASC';
 
 	$term_ids = array_map('intval', $term_ids );
 
@@ -600,9 +600,9 @@ function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 
 	$object_ids = $wpdb->get_col("SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tt.term_id IN ($term_ids) ORDER BY tr.object_id $order");
 
-	if ( ! $object_ids )
+	if ( ! $object_ids ){
 		return array();
-
+	}
 	return $object_ids;
 }
 
