@@ -138,7 +138,7 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
 				'display'
 			);
 		}
-		$output .= $r['$after'] . "\n";
+		$output .= $r['after'] . "\n";
 	} // end while
 
 	return $output;
@@ -210,7 +210,7 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
  * @return string|null Will only return if echo option is set to not echo.
  *		Default is not return anything.
  */
-function wp_list_bookmarks($args = '') {
+function wp_list_bookmarks( $args = '' ) {
 	$defaults = array(
 		'orderby' => 'name', 'order' => 'ASC',
 		'limit' => -1, 'category' => '', 'exclude_category' => '',
@@ -224,24 +224,36 @@ function wp_list_bookmarks($args = '') {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
 	$output = '';
 
-	if ( $categorize ) {
-		$cats = get_terms( 'link_category', array( 'name__like' => $category_name, 'include' => $category, 'exclude' => $exclude_category, 'orderby' => $category_orderby, 'order' => $category_order, 'hierarchical' => 0 ) );
-		if ( empty( $cats ) )
+	if ( $r['categorize'] ) {
+		$cats = get_terms( 'link_category', array(
+			'name__like' => $r['category_name'],
+			'include' => $r['category'],
+			'exclude' => $r['exclude_category'],
+			'orderby' => $r['category_orderby'],
+			'order' => $r['category_order'],
+			'hierarchical' => 0
+		) );
+		if ( empty( $cats ) ) {
 			$categorize = false;
+		}
 	}
 
 	if ( $categorize ) {
 		// Split the bookmarks into ul's for each category
 		foreach ( (array) $cats as $cat ) {
-			$params = array_merge($r, array('category'=>$cat->term_id));
-			$bookmarks = get_bookmarks($params);
-			if ( empty($bookmarks) )
+			$params = array_merge( $r, array( 'category' => $cat->term_id ) );
+			$bookmarks = get_bookmarks( $params );
+			if ( empty( $bookmarks ) ) {
 				continue;
-			$output .= str_replace(array('%id', '%class'), array("linkcat-$cat->term_id", $class), $category_before);
+			}
+			$output .= str_replace(
+				array( '%id', '%class' ),
+				array( "linkcat-$cat->term_id", $r['class'] ),
+				$r['category_before']
+			);
 			/**
 			 * Filter the bookmarks category name.
 			 *
@@ -251,22 +263,34 @@ function wp_list_bookmarks($args = '') {
 			 */
 			$catname = apply_filters( 'link_category', $cat->name );
 
-			$output .= "$title_before$catname$title_after\n\t<ul class='xoxo blogroll'>\n";
-			$output .= _walk_bookmarks($bookmarks, $r);
-			$output .= "\n\t</ul>\n$category_after\n";
+			$output .= $r['title_before'];
+			$output .= $catname;
+			$output .= $r['title_after'];
+			$output .= "\n\t<ul class='xoxo blogroll'>\n";
+			$output .= _walk_bookmarks( $bookmarks, $r );
+			$output .= "\n\t</ul>\n";
+			$output .= $r['category_after'] . "\n";
 		}
 	} else {
 		//output one single list using title_li for the title
-		$bookmarks = get_bookmarks($r);
+		$bookmarks = get_bookmarks( $r );
 
-		if ( !empty($bookmarks) ) {
-			if ( !empty( $title_li ) ){
-				$output .= str_replace(array('%id', '%class'), array("linkcat-$category", $class), $category_before);
-				$output .= "$title_before$title_li$title_after\n\t<ul class='xoxo blogroll'>\n";
-				$output .= _walk_bookmarks($bookmarks, $r);
-				$output .= "\n\t</ul>\n$category_after\n";
+		if ( ! empty( $bookmarks ) ) {
+			if ( ! empty( $r['title_li'] ) ) {
+				$output .= str_replace(
+					array( '%id', '%class' ),
+					array( "linkcat-" . $r['category'], $r['class'] ),
+					$r['category_before']
+				);
+				$output .= $r['title_before'];
+				$output .= $r['title_li'];
+				$output .= $r['title_after'];
+				$output .= "\n\t<ul class='xoxo blogroll'>\n";
+				$output .= _walk_bookmarks( $bookmarks, $r );
+				$output .= "\n\t</ul>\n";
+				$output .= $r['category_after'] . "\n";
 			} else {
-				$output .= _walk_bookmarks($bookmarks, $r);
+				$output .= _walk_bookmarks( $bookmarks, $r );
 			}
 		}
 	}
@@ -276,11 +300,12 @@ function wp_list_bookmarks($args = '') {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $output The HTML list of bookmarks.
+	 * @param string $html The HTML list of bookmarks.
 	 */
-	$output = apply_filters( 'wp_list_bookmarks', $output );
+	$html = apply_filters( 'wp_list_bookmarks', $output );
 
-	if ( !$echo )
-		return $output;
-	echo $output;
+	if ( ! $r['echo'] ) {
+		return $html;
+	}
+	echo $html;
 }
