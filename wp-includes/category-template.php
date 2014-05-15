@@ -344,27 +344,27 @@ function wp_dropdown_categories( $args = '' ) {
 
 	$r = wp_parse_args( $args, $defaults );
 
-	if ( !isset( $r['pad_counts'] ) && $r['show_count'] && $r['hierarchical'] ) {
+	if ( ! isset( $r['pad_counts'] ) && $r['show_count'] && $r['hierarchical'] ) {
 		$r['pad_counts'] = true;
 	}
 
-	extract( $r );
+	$tab_index = $r['tab_index'];
 
 	$tab_index_attribute = '';
-	if ( (int) $tab_index > 0 )
+	if ( (int) $tab_index > 0 ) {
 		$tab_index_attribute = " tabindex=\"$tab_index\"";
+	}
+	$categories = get_terms( $r['taxonomy'], $r );
+	$name = esc_attr( $r['name'] );
+	$class = esc_attr( $r['class'] );
+	$id = $r['id'] ? esc_attr( $r['id'] ) : $name;
 
-	$categories = get_terms( $taxonomy, $r );
-	$name = esc_attr( $name );
-	$class = esc_attr( $class );
-	$id = $id ? esc_attr( $id ) : $name;
-
-	if ( ! $r['hide_if_empty'] || ! empty($categories) )
+	if ( ! $r['hide_if_empty'] || ! empty( $categories ) ) {
 		$output = "<select name='$name' id='$id' class='$class' $tab_index_attribute>\n";
-	else
+	} else {
 		$output = '';
-
-	if ( empty($categories) && ! $r['hide_if_empty'] && !empty($show_option_none) ) {
+	}
+	if ( empty( $categories ) && ! $r['hide_if_empty'] && ! empty( $r['show_option_none'] ) ) {
 
 		/**
 		 * Filter a taxonomy drop-down display element.
@@ -380,39 +380,39 @@ function wp_dropdown_categories( $args = '' ) {
 		 *
 		 * @param string $element Taxonomy element to list.
 		 */
-		$show_option_none = apply_filters( 'list_cats', $show_option_none );
+		$show_option_none = apply_filters( 'list_cats', $r['show_option_none'] );
 		$output .= "\t<option value='-1' selected='selected'>$show_option_none</option>\n";
 	}
 
 	if ( ! empty( $categories ) ) {
 
-		if ( $show_option_all ) {
+		if ( $r['show_option_all'] ) {
 
 			/** This filter is documented in wp-includes/category-template.php */
-			$show_option_all = apply_filters( 'list_cats', $show_option_all );
+			$show_option_all = apply_filters( 'list_cats', $r['show_option_all'] );
 			$selected = ( '0' === strval($r['selected']) ) ? " selected='selected'" : '';
 			$output .= "\t<option value='0'$selected>$show_option_all</option>\n";
 		}
 
-		if ( $show_option_none ) {
+		if ( $r['show_option_none'] ) {
 
 			/** This filter is documented in wp-includes/category-template.php */
-			$show_option_none = apply_filters( 'list_cats', $show_option_none );
+			$show_option_none = apply_filters( 'list_cats', $r['show_option_none'] );
 			$selected = ( '-1' === strval($r['selected']) ) ? " selected='selected'" : '';
 			$output .= "\t<option value='-1'$selected>$show_option_none</option>\n";
 		}
 
-		if ( $hierarchical )
+		if ( $r['hierarchical'] ) {
 			$depth = $r['depth'];  // Walk the full depth.
-		else
+		} else {
 			$depth = -1; // Flat.
-
+		}
 		$output .= walk_category_dropdown_tree( $categories, $depth, $r );
 	}
 
-	if ( ! $r['hide_if_empty'] || ! empty($categories) )
+	if ( ! $r['hide_if_empty'] || ! empty( $categories ) ) {
 		$output .= "</select>\n";
-
+	}
 	/**
 	 * Filter the taxonomy drop-down output.
 	 *
@@ -423,9 +423,9 @@ function wp_dropdown_categories( $args = '' ) {
 	 */
 	$output = apply_filters( 'wp_dropdown_cats', $output, $r );
 
-	if ( $echo )
+	if ( $r['echo'] ) {
 		echo $output;
-
+	}
 	return $output;
 }
 
