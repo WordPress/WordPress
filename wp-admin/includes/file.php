@@ -284,18 +284,20 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 	// A correct MIME type will pass this test. Override $mimes or use the upload_mimes filter.
 	if ( $test_type ) {
 		$wp_filetype = wp_check_filetype_and_ext( $file['tmp_name'], $file['name'], $mimes );
-
-		extract( $wp_filetype );
+		$ext = empty( $wp_filetype['ext'] ) ? '' : $wp_filetype['ext'];
+		$type = empty( $wp_filetype['type'] ) ? '' : $wp_filetype['type'];
+		$proper_filename = empty( $wp_filetype['proper_filename'] ) ? '' : $wp_filetype['proper_filename'];
 
 		// Check to see if wp_check_filetype_and_ext() determined the filename was incorrect
-		if ( $proper_filename )
+		if ( $proper_filename ) {
 			$file['name'] = $proper_filename;
-
-		if ( ( !$type || !$ext ) && !current_user_can( 'unfiltered_upload' ) )
-			return call_user_func($upload_error_handler, $file, __( 'Sorry, this file type is not permitted for security reasons.' ));
-
-		if ( !$type )
+		}
+		if ( ( ! $type || !$ext ) && ! current_user_can( 'unfiltered_upload' ) ) {
+			return call_user_func( $upload_error_handler, $file, __( 'Sorry, this file type is not permitted for security reasons.' ) );
+		}
+		if ( ! $type ) {
 			$type = $file['type'];
+		}
 	} else {
 		$type = '';
 	}
