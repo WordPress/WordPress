@@ -980,9 +980,11 @@ function wp_print_media_templates() {
 								<img src="{{ attachment.url }}" />
 							<# } #>
 						</dt>
-						<dd class="wp-caption-text gallery-caption">
-							{{ attachment.caption }}
-						</dd>
+						<# if ( attachment.caption.trim() ) { #>
+							<dd class="wp-caption-text gallery-caption">
+								{{ attachment.caption }}
+							</dd>
+						<# } #>
 					</dl>
 					<# if ( index % data.columns === data.columns - 1 ) { #>
 						<br style="clear: both;">
