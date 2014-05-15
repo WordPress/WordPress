@@ -1001,24 +1001,23 @@ function wp_dropdown_pages( $args = '' ) {
 function wp_list_pages( $args = '' ) {
 	$defaults = array(
 		'depth' => 0, 'show_date' => '',
-		'date_format' => get_option('date_format'),
+		'date_format' => get_option( 'date_format' ),
 		'child_of' => 0, 'exclude' => '',
-		'title_li' => __('Pages'), 'echo' => 1,
+		'title_li' => __( 'Pages' ), 'echo' => 1,
 		'authors' => '', 'sort_column' => 'menu_order, post_title',
 		'link_before' => '', 'link_after' => '', 'walker' => '',
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
 	$output = '';
 	$current_page = 0;
 
 	// sanitize, mostly to keep spaces out
-	$r['exclude'] = preg_replace('/[^0-9,]/', '', $r['exclude']);
+	$r['exclude'] = preg_replace( '/[^0-9,]/', '', $r['exclude'] );
 
 	// Allow plugins to filter an array of excluded pages (but don't put a nullstring into the array)
-	$exclude_array = ( $r['exclude'] ) ? explode(',', $r['exclude']) : array();
+	$exclude_array = ( $r['exclude'] ) ? explode( ',', $r['exclude'] ) : array();
 
 	/**
 	 * Filter the array of pages to exclude from the pages list.
@@ -1031,12 +1030,12 @@ function wp_list_pages( $args = '' ) {
 
 	// Query pages.
 	$r['hierarchical'] = 0;
-	$pages = get_pages($r);
+	$pages = get_pages( $r );
 
-	if ( !empty($pages) ) {
-		if ( $r['title_li'] )
+	if ( ! empty( $pages ) ) {
+		if ( $r['title_li'] ) {
 			$output .= '<li class="pagenav">' . $r['title_li'] . '<ul>';
-
+		}
 		global $wp_query;
 		if ( is_page() || is_attachment() || $wp_query->is_posts_page ) {
 			$current_page = get_queried_object_id();
@@ -1047,10 +1046,11 @@ function wp_list_pages( $args = '' ) {
 			}
 		}
 
-		$output .= walk_page_tree($pages, $r['depth'], $current_page, $r);
+		$output .= walk_page_tree( $pages, $r['depth'], $current_page, $r );
 
-		if ( $r['title_li'] )
+		if ( $r['title_li'] ) {
 			$output .= '</ul></li>';
+		}
 	}
 
 	/**
@@ -1060,15 +1060,16 @@ function wp_list_pages( $args = '' ) {
 	 *
 	 * @see wp_list_pages()
 	 *
-	 * @param string $output HTML output of the pages list.
+	 * @param string $html HTML output of the pages list.
 	 * @param array  $r      An array of page-listing arguments.
 	 */
-	$output = apply_filters( 'wp_list_pages', $output, $r );
+	$html = apply_filters( 'wp_list_pages', $output, $r );
 
-	if ( $r['echo'] )
-		echo $output;
-	else
-		return $output;
+	if ( $r['echo'] ) {
+		echo $html;
+	} else {
+		return $html;
+	}
 }
 
 /**
