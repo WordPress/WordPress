@@ -146,72 +146,75 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 
 	$defaults = array( 'link_id' => 0, 'link_name' => '', 'link_url' => '', 'link_rating' => 0 );
 
-	$linkdata = wp_parse_args( $linkdata, $defaults );
-	$linkdata = sanitize_bookmark( $linkdata, 'db' );
+	$args = wp_parse_args( $linkdata, $defaults );
+	$r = sanitize_bookmark( $args, 'db' );
 
 	extract( wp_unslash( $linkdata ), EXTR_SKIP );
 
 	$update = false;
-
-	if ( !empty( $link_id ) )
+	if ( ! empty( $r['link_id'] ) ) {
 		$update = true;
+	}
 
-	if ( trim( $link_name ) == '' ) {
-		if ( trim( $link_url ) != '' ) {
-			$link_name = $link_url;
+	if ( trim( $r['link_name'] ) == '' ) {
+		if ( trim( $r['link_url'] ) != '' ) {
+			$r['link_name'] = $r['link_url'];
 		} else {
 			return 0;
 		}
 	}
 
-	if ( trim( $link_url ) == '' )
+	if ( trim( $r['link_url'] ) == '' ) {
 		return 0;
-
-	if ( empty( $link_rating ) )
-		$link_rating = 0;
-
-	if ( empty( $link_image ) )
-		$link_image = '';
-
-	if ( empty( $link_target ) )
-		$link_target = '';
-
-	if ( empty( $link_visible ) )
-		$link_visible = 'Y';
-
-	if ( empty( $link_owner ) )
-		$link_owner = get_current_user_id();
-
-	if ( empty( $link_notes ) )
-		$link_notes = '';
-
-	if ( empty( $link_description ) )
-		$link_description = '';
-
-	if ( empty( $link_rss ) )
-		$link_rss = '';
-
-	if ( empty( $link_rel ) )
-		$link_rel = '';
+	}
+	if ( empty( $r['link_rating'] ) ) {
+		$r['link_rating'] = 0;
+	}
+	if ( empty( $r['link_image'] ) ) {
+		$r['link_image'] = '';
+	}
+	if ( empty( $r['link_target'] ) ) {
+		$r['link_target'] = '';
+	}
+	if ( empty( $r['link_visible'] ) ) {
+		$r['link_visible'] = 'Y';
+	}
+	if ( empty( $r['link_owner'] ) ) {
+		$r['link_owner'] = get_current_user_id();
+	}
+	if ( empty( $r['link_notes'] ) ) {
+		$r['link_notes'] = '';
+	}
+	if ( empty( $r['link_description'] ) ) {
+		$r['link_description'] = '';
+	}
+	if ( empty( $r['link_rss'] ) ) {
+		$r['link_rss'] = '';
+	}
+	if ( empty( $r['link_rel'] ) ) {
+		$r['link_rel'] = '';
+	}
 
 	// Make sure we set a valid category
-	if ( ! isset( $link_category ) || 0 == count( $link_category ) || !is_array( $link_category ) ) {
+	if ( ! isset( $r['link_category'] ) || ! is_array( $r['link_category'] ) || 0 == count( $r['link_category'] ) ) {
 		$link_category = array( get_option( 'default_link_category' ) );
 	}
 
 	if ( $update ) {
-		if ( false === $wpdb->update( $wpdb->links, compact('link_url', 'link_name', 'link_image', 'link_target', 'link_description', 'link_visible', 'link_rating', 'link_rel', 'link_notes', 'link_rss'), compact('link_id') ) ) {
-			if ( $wp_error )
+		if ( false === $wpdb->update( $wpdb->links, compact( 'link_url', 'link_name', 'link_image', 'link_target', 'link_description', 'link_visible', 'link_rating', 'link_rel', 'link_notes', 'link_rss' ), compact( 'link_id' ) ) ) {
+			if ( $wp_error ) {
 				return new WP_Error( 'db_update_error', __( 'Could not update link in the database' ), $wpdb->last_error );
-			else
+			} else {
 				return 0;
+			}
 		}
 	} else {
-		if ( false === $wpdb->insert( $wpdb->links, compact('link_url', 'link_name', 'link_image', 'link_target', 'link_description', 'link_visible', 'link_owner', 'link_rating', 'link_rel', 'link_notes', 'link_rss') ) ) {
-			if ( $wp_error )
+		if ( false === $wpdb->insert( $wpdb->links, compact( 'link_url', 'link_name', 'link_image', 'link_target', 'link_description', 'link_visible', 'link_owner', 'link_rating', 'link_rel', 'link_notes', 'link_rss' ) ) ) {
+			if ( $wp_error ) {
 				return new WP_Error( 'db_insert_error', __( 'Could not insert link into the database' ), $wpdb->last_error );
-			else
+			} else {
 				return 0;
+			}
 		}
 		$link_id = (int) $wpdb->insert_id;
 	}
