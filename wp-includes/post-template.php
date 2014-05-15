@@ -739,29 +739,28 @@ function wp_link_pages( $args = '' ) {
 		'echo'             => 1
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$params = wp_parse_args( $args, $defaults );
 
 	/**
 	 * Filter the arguments used in retrieving page links for paginated posts.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $r An array of arguments for page links for paginated posts.
+	 * @param array $params An array of arguments for page links for paginated posts.
 	 */
-	$r = apply_filters( 'wp_link_pages_args', $r );
-	extract( $r, EXTR_SKIP );
+	$r = apply_filters( 'wp_link_pages_args', $params );
 
 	global $page, $numpages, $multipage, $more;
 
 	$output = '';
 	if ( $multipage ) {
-		if ( 'number' == $next_or_number ) {
-			$output .= $before;
+		if ( 'number' == $r['next_or_number'] ) {
+			$output .= $r['before'];
 			for ( $i = 1; $i <= $numpages; $i++ ) {
-				$link = $link_before . str_replace( '%', $i, $pagelink ) . $link_after;
-				if ( $i != $page || ! $more && 1 == $page )
+				$link = $r['link_before'] . str_replace( '%', $i, $r['pagelink'] ) . $r['link_after'];
+				if ( $i != $page || ! $more && 1 == $page ) {
 					$link = _wp_link_page( $i ) . $link . '</a>';
-
+				}
 				/**
 				 * Filter the HTML output of individual page number links.
 				 *
@@ -771,28 +770,28 @@ function wp_link_pages( $args = '' ) {
 				 * @param int    $i    Page number for paginated posts' page links.
 				 */
 				$link = apply_filters( 'wp_link_pages_link', $link, $i );
-				$output .= $separator . $link;
+				$output .= $r['separator'] . $link;
 			}
-			$output .= $after;
+			$output .= $r['after'];
 		} elseif ( $more ) {
-			$output .= $before;
-			$i = $page - 1;
-			if ( $i ) {
-				$link = _wp_link_page( $i ) . $link_before . $previouspagelink . $link_after . '</a>';
+			$output .= $r['before'];
+			$prev = $page - 1;
+			if ( $prev ) {
+				$link = _wp_link_page( $prev ) . $r['link_before'] . $r['previouspagelink'] . $r['link_after'] . '</a>';
 
 				/** This filter is documented in wp-includes/post-template.php */
-				$link = apply_filters( 'wp_link_pages_link', $link, $i );
-				$output .= $separator . $link;
+				$link = apply_filters( 'wp_link_pages_link', $link, $prev );
+				$output .= $r['separator'] . $link;
 			}
-			$i = $page + 1;
-			if ( $i <= $numpages ) {
-				$link = _wp_link_page( $i ) . $link_before . $nextpagelink . $link_after . '</a>';
+			$next = $page + 1;
+			if ( $next <= $numpages ) {
+				$link = _wp_link_page( $next ) . $r['link_before'] . $r['nextpagelink'] . $r['link_after'] . '</a>';
 
 				/** This filter is documented in wp-includes/post-template.php */
-				$link = apply_filters( 'wp_link_pages_link', $link, $i );
-				$output .= $separator . $link;
+				$link = apply_filters( 'wp_link_pages_link', $link, $next );
+				$output .= $r['separator'] . $link;
 			}
-			$output .= $after;
+			$output .= $r['after'];
 		}
 	}
 
@@ -801,15 +800,15 @@ function wp_link_pages( $args = '' ) {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param string $output HTML output of paginated posts' page links.
+	 * @param string $html HTML output of paginated posts' page links.
 	 * @param array  $args   An array of arguments.
 	 */
-	$output = apply_filters( 'wp_link_pages', $output, $args );
+	$html = apply_filters( 'wp_link_pages', $output, $args );
 
-	if ( $echo )
-		echo $output;
-
-	return $output;
+	if ( $r['echo'] ) {
+		echo $html;
+	}
+	return $html;
 }
 
 /**
