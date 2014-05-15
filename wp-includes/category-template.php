@@ -1001,7 +1001,7 @@ class Walker_Category extends Walker {
 			} else {
 				$alt = ' alt="' . $args['feed'] . '"';
 				$name = $args['feed'];
-				$link .= $args['title'];
+				$link .= empty( $args['title'] ) ? '' : $args['title'];
 			}
 
 			$link .= '>';
