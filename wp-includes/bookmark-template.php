@@ -47,7 +47,7 @@
  * @param string|array $args Optional. Overwrite the defaults.
  * @return string Formatted output in HTML
  */
-function _walk_bookmarks($bookmarks, $args = '' ) {
+function _walk_bookmarks( $bookmarks, $args = '' ) {
 	$defaults = array(
 		'show_updated' => 0, 'show_description' => 0,
 		'show_images' => 1, 'show_name' => 0,
@@ -56,75 +56,89 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
 	$output = ''; // Blank string to start with.
 
 	foreach ( (array) $bookmarks as $bookmark ) {
-		if ( !isset($bookmark->recently_updated) )
+		if ( ! isset( $bookmark->recently_updated ) ) {
 			$bookmark->recently_updated = false;
-		$output .= $before;
-		if ( $show_updated && $bookmark->recently_updated )
+		}
+		$output .= $r['before'];
+		if ( $r['show_updated'] && $bookmark->recently_updated ) {
 			$output .= '<em>';
-
+		}
 		$the_link = '#';
-		if ( !empty($bookmark->link_url) )
-			$the_link = esc_url($bookmark->link_url);
-
-		$desc = esc_attr(sanitize_bookmark_field('link_description', $bookmark->link_description, $bookmark->link_id, 'display'));
-		$name = esc_attr(sanitize_bookmark_field('link_name', $bookmark->link_name, $bookmark->link_id, 'display'));
+		if ( ! empty( $bookmark->link_url ) ) {
+			$the_link = esc_url( $bookmark->link_url );
+		}
+		$desc = esc_attr( sanitize_bookmark_field( 'link_description', $bookmark->link_description, $bookmark->link_id, 'display' ) );
+		$name = esc_attr( sanitize_bookmark_field( 'link_name', $bookmark->link_name, $bookmark->link_id, 'display' ) );
  		$title = $desc;
 
-		if ( $show_updated )
-			if ( '00' != substr($bookmark->link_updated_f, 0, 2) ) {
+		if ( $r['show_updated'] ) {
+			if ( '00' != substr( $bookmark->link_updated_f, 0, 2 ) ) {
 				$title .= ' (';
-				$title .= sprintf(__('Last updated: %s'), date(get_option('links_updated_date_format'), $bookmark->link_updated_f + (get_option('gmt_offset') * HOUR_IN_SECONDS)));
+				$title .= sprintf(
+					__('Last updated: %s'),
+					date(
+						get_option( 'links_updated_date_format' ),
+						$bookmark->link_updated_f + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS )
+					)
+				);
 				$title .= ')';
 			}
+		}
+		$alt = ' alt="' . $name . ( $r['show_description'] ? ' ' . $title : '' ) . '"';
 
-		$alt = ' alt="' . $name . ( $show_description ? ' ' . $title : '' ) . '"';
-
-		if ( '' != $title )
+		if ( '' != $title ) {
 			$title = ' title="' . $title . '"';
-
+		}
 		$rel = $bookmark->link_rel;
-		if ( '' != $rel )
+		if ( '' != $rel ) {
 			$rel = ' rel="' . esc_attr($rel) . '"';
-
+		}
 		$target = $bookmark->link_target;
-		if ( '' != $target )
+		if ( '' != $target ) {
 			$target = ' target="' . $target . '"';
-
+		}
 		$output .= '<a href="' . $the_link . '"' . $rel . $title . $target . '>';
 
-		$output .= $link_before;
+		$output .= $r['link_before'];
 
-		if ( $bookmark->link_image != null && $show_images ) {
-			if ( strpos($bookmark->link_image, 'http') === 0 )
+		if ( $bookmark->link_image != null && $r['show_images'] ) {
+			if ( strpos( $bookmark->link_image, 'http' ) === 0 ) {
 				$output .= "<img src=\"$bookmark->link_image\" $alt $title />";
-			else // If it's a relative path
+			} else { // If it's a relative path
 				$output .= "<img src=\"" . get_option('siteurl') . "$bookmark->link_image\" $alt $title />";
-
-			if ( $show_name )
+			}
+			if ( $r['show_name'] ) {
 				$output .= " $name";
+			}
 		} else {
 			$output .= $name;
 		}
 
-		$output .= $link_after;
+		$output .= $r['link_after'];
 
 		$output .= '</a>';
 
-		if ( $show_updated && $bookmark->recently_updated )
+		if ( $r['show_updated'] && $bookmark->recently_updated ) {
 			$output .= '</em>';
+		}
 
-		if ( $show_description && '' != $desc )
-			$output .= $between . $desc;
+		if ( $r['show_description'] && '' != $desc ) {
+			$output .= $r['between'] . $desc;
+		}
 
-		if ( $show_rating )
-			$output .= $between . sanitize_bookmark_field('link_rating', $bookmark->link_rating, $bookmark->link_id, 'display');
-
-		$output .= "$after\n";
+		if ( $r['show_rating'] ) {
+			$output .= $r['between'] . sanitize_bookmark_field(
+				'link_rating',
+				$bookmark->link_rating,
+				$bookmark->link_id,
+				'display'
+			);
+		}
+		$output .= $r['$after'] . "\n";
 	} // end while
 
 	return $output;
