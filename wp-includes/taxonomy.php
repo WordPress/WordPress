@@ -3685,7 +3685,7 @@ function get_term_link( $term, $taxonomy = '') {
  *
  * @param array $args Override the defaults.
  */
-function the_taxonomies($args = array()) {
+function the_taxonomies( $args = array() ) {
 	$defaults = array(
 		'post' => 0,
 		'before' => '',
@@ -3695,9 +3695,8 @@ function the_taxonomies($args = array()) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
 
-	echo $before . join($sep, get_the_taxonomies($post, $r)) . $after;
+	echo $r['before'] . join( $r['sep'], get_the_taxonomies( $r['post'], $r ) ) . $r['after'];
 }
 
 /**
