@@ -190,14 +190,15 @@ class WP_Upgrader {
 		);
 
 		$args = wp_parse_args($args, $defaults);
-		extract($args);
+		$destination = $args['destination'];
+		$clear_destination = $args['clear_destination'];
 
 		@set_time_limit( 300 );
 
-		if ( empty($source) || empty($destination) )
-			return new WP_Error('bad_request', $this->strings['bad_request']);
-
-		$this->skin->feedback('installing_package');
+		if ( empty( $source ) || empty( $destination ) ) {
+			return new WP_Error( 'bad_request', $this->strings['bad_request'] );
+		}
+		$this->skin->feedback( 'installing_package' );
 
 		/**
 		 * Filter the install response before the installation has started.
@@ -211,24 +212,26 @@ class WP_Upgrader {
 		 * @param bool|WP_Error $response   Response.
 		 * @param array         $hook_extra Extra arguments passed to hooked filters.
 		 */
-		$res = apply_filters( 'upgrader_pre_install', true, $hook_extra );
-		if ( is_wp_error($res) )
+		$res = apply_filters( 'upgrader_pre_install', true, $args['hook_extra'] );
+		if ( is_wp_error( $res ) ) {
 			return $res;
+		}
 
 		//Retain the Original source and destinations
-		$remote_source = $source;
+		$remote_source = $args['source'];
 		$local_destination = $destination;
 
-		$source_files = array_keys( $wp_filesystem->dirlist($remote_source) );
-		$remote_destination = $wp_filesystem->find_folder($local_destination);
+		$source_files = array_keys( $wp_filesystem->dirlist( $remote_source ) );
+		$remote_destination = $wp_filesystem->find_folder( $local_destination );
 
 		//Locate which directory to copy to the new folder, This is based on the actual folder holding the files.
-		if ( 1 == count($source_files) && $wp_filesystem->is_dir( trailingslashit($source) . $source_files[0] . '/') ) //Only one folder? Then we want its contents.
-			$source = trailingslashit($source) . trailingslashit($source_files[0]);
-		elseif ( count($source_files) == 0 )
+		if ( 1 == count( $source_files ) && $wp_filesystem->is_dir( trailingslashit( $args['source'] ) . $source_files[0] . '/' ) ) { //Only one folder? Then we want its contents.
+			$source = trailingslashit( $args['source'] ) . trailingslashit( $source_files[0] );
+		} elseif ( count( $source_files ) == 0 ) {
 			return new WP_Error( 'incompatible_archive_empty', $this->strings['incompatible_archive'], $this->strings['no_files'] ); // There are no files?
-		else //It's only a single file, the upgrader will use the foldername of this file as the destination folder. foldername is based on zip filename.
-			$source = trailingslashit($source);
+		} else { //It's only a single file, the upgrader will use the foldername of this file as the destination folder. foldername is based on zip filename.
+			$source = trailingslashit( $args['source'] );
+		}
 
 		/**
 		 * Filter the source file location for the upgrade package.
@@ -240,30 +243,33 @@ class WP_Upgrader {
 		 * @param WP_Upgrader $this          WP_Upgrader instance.
 		 */
 		$source = apply_filters( 'upgrader_source_selection', $source, $remote_source, $this );
-		if ( is_wp_error($source) )
+		if ( is_wp_error( $source ) ) {
 			return $source;
+		}
 
 		//Has the source location changed? If so, we need a new source_files list.
-		if ( $source !== $remote_source )
-			$source_files = array_keys( $wp_filesystem->dirlist($source) );
-
+		if ( $source !== $remote_source ) {
+			$source_files = array_keys( $wp_filesystem->dirlist( $source ) );
+		}
 		// Protection against deleting files in any important base directories.
 		// Theme_Upgrader & Plugin_Upgrader also trigger this, as they pass the destination directory (WP_PLUGIN_DIR / wp-content/themes)
 		// intending to copy the directory into the directory, whilst they pass the source as the actual files to copy.
 		$protected_directories = array( ABSPATH, WP_CONTENT_DIR, WP_PLUGIN_DIR, WP_CONTENT_DIR . '/themes' );
-		if ( is_array( $wp_theme_directories ) )
+		if ( is_array( $wp_theme_directories ) ) {
 			$protected_directories = array_merge( $protected_directories, $wp_theme_directories );
+		}
 		if ( in_array( $destination, $protected_directories ) ) {
-			$remote_destination = trailingslashit($remote_destination) . trailingslashit(basename($source));
-			$destination = trailingslashit($destination) . trailingslashit(basename($source));
+			$remote_destination = trailingslashit( $remote_destination ) . trailingslashit( basename( $source ) );
+			$destination = trailingslashit( $destination ) . trailingslashit( basename( $source ) );
 		}
 
 		if ( $clear_destination ) {
 			//We're going to clear the destination if there's something there
 			$this->skin->feedback('remove_old');
 			$removed = true;
-			if ( $wp_filesystem->exists($remote_destination) )
-				$removed = $wp_filesystem->delete($remote_destination, true);
+			if ( $wp_filesystem->exists( $remote_destination ) ) {
+				$removed = $wp_filesystem->delete( $remote_destination, true );
+			}
 
 			/**
 			 * Filter whether the upgrader cleared the destination.
@@ -275,13 +281,14 @@ class WP_Upgrader {
 			 * @param string $remote_destination The remote package destination.
 			 * @param array  $hook_extra         Extra arguments passed to hooked filters.
 			 */
-			$removed = apply_filters( 'upgrader_clear_destination', $removed, $local_destination, $remote_destination, $hook_extra );
+			$removed = apply_filters( 'upgrader_clear_destination', $removed, $local_destination, $remote_destination, $args['hook_extra'] );
 
-			if ( is_wp_error($removed) )
+			if ( is_wp_error($removed) ) {
 				return $removed;
-			else if ( ! $removed )
+			} else if ( ! $removed ) {
 				return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
-		} elseif ( $abort_if_destination_exists && $wp_filesystem->exists($remote_destination) ) {
+			}
+		} elseif ( $args['abort_if_destination_exists'] && $wp_filesystem->exists($remote_destination) ) {
 			//If we're not clearing the destination folder and something exists there already, Bail.
 			//But first check to see if there are actually any files in the folder.
 			$_files = $wp_filesystem->dirlist($remote_destination);
@@ -292,25 +299,29 @@ class WP_Upgrader {
 		}
 
 		//Create destination if needed
-		if ( !$wp_filesystem->exists($remote_destination) )
-			if ( !$wp_filesystem->mkdir($remote_destination, FS_CHMOD_DIR) )
+		if ( ! $wp_filesystem->exists( $remote_destination ) ) {
+			if ( ! $wp_filesystem->mkdir( $remote_destination, FS_CHMOD_DIR ) ) {
 				return new WP_Error( 'mkdir_failed_destination', $this->strings['mkdir_failed'], $remote_destination );
-
+			}
+		}
 		// Copy new version of item into place.
 		$result = copy_dir($source, $remote_destination);
 		if ( is_wp_error($result) ) {
-			if ( $clear_working )
-				$wp_filesystem->delete($remote_source, true);
+			if ( $args['clear_working'] ) {
+				$wp_filesystem->delete( $remote_source, true );
+			}
 			return $result;
 		}
 
 		//Clear the Working folder?
-		if ( $clear_working )
-			$wp_filesystem->delete($remote_source, true);
+		if ( $args['clear_working'] ) {
+			$wp_filesystem->delete( $remote_source, true );
+		}
 
 		$destination_name = basename( str_replace($local_destination, '', $destination) );
-		if ( '.' == $destination_name )
+		if ( '.' == $destination_name ) {
 			$destination_name = '';
+		}
 
 		$this->result = compact('local_source', 'source', 'source_name', 'source_files', 'destination', 'destination_name', 'local_destination', 'remote_destination', 'clear_destination', 'delete_source_dir');
 
@@ -323,7 +334,7 @@ class WP_Upgrader {
 		 * @param array $hook_extra Extra arguments passed to hooked filters.
 		 * @param array $result     Installation result data.
 		 */
-		$res = apply_filters( 'upgrader_post_install', true, $hook_extra, $this->result );
+		$res = apply_filters( 'upgrader_post_install', true, $args['hook_extra'], $this->result );
 
 		if ( is_wp_error($res) ) {
 			$this->result = $res;
@@ -334,7 +345,7 @@ class WP_Upgrader {
 		return $this->result;
 	}
 
-	function run($options) {
+	function run( $options ) {
 
 		$defaults = array(
 			'package' => '', // Please always pass this.
@@ -346,18 +357,19 @@ class WP_Upgrader {
 			'hook_extra' => array() // Pass any extra $hook_extra args here, this will be passed to any hooked filters.
 		);
 
-		$options = wp_parse_args($options, $defaults);
-		extract($options);
+		$options = wp_parse_args( $options, $defaults );
 
-		if ( ! $is_multi ) // call $this->header separately if running multiple times
+		if ( ! $options['is_multi'] ) { // call $this->header separately if running multiple times
 			$this->skin->header();
+		}
 
 		// Connect to the Filesystem first.
-		$res = $this->fs_connect( array(WP_CONTENT_DIR, $destination) );
+		$res = $this->fs_connect( array( WP_CONTENT_DIR, $options['destination'] ) );
 		// Mainly for non-connected filesystem.
 		if ( ! $res ) {
-			if ( ! $is_multi )
+			if ( ! $options['is_multi'] ) {
 				$this->skin->footer();
+			}
 			return false;
 		}
 
@@ -366,41 +378,44 @@ class WP_Upgrader {
 		if ( is_wp_error($res) ) {
 			$this->skin->error($res);
 			$this->skin->after();
-			if ( ! $is_multi )
+			if ( ! $options['is_multi'] ) {
 				$this->skin->footer();
+			}
 			return $res;
 		}
 
 		//Download the package (Note, This just returns the filename of the file if the package is a local file)
-		$download = $this->download_package( $package );
+		$download = $this->download_package( $options['package'] );
 		if ( is_wp_error($download) ) {
 			$this->skin->error($download);
 			$this->skin->after();
-			if ( ! $is_multi )
+			if ( ! $options['is_multi'] ) {
 				$this->skin->footer();
+			}
 			return $download;
 		}
 
-		$delete_package = ($download != $package); // Do not delete a "local" file
+		$delete_package = ( $download != $options['package'] ); // Do not delete a "local" file
 
 		//Unzips the file into a temporary directory
 		$working_dir = $this->unpack_package( $download, $delete_package );
 		if ( is_wp_error($working_dir) ) {
 			$this->skin->error($working_dir);
 			$this->skin->after();
-			if ( ! $is_multi )
+			if ( ! $options['is_multi'] ) {
 				$this->skin->footer();
+			}
 			return $working_dir;
 		}
 
 		//With the given options, this installs it to the destination directory.
 		$result = $this->install_package( array(
 			'source' => $working_dir,
-			'destination' => $destination,
-			'clear_destination' => $clear_destination,
-			'abort_if_destination_exists' => $abort_if_destination_exists,
-			'clear_working' => $clear_working,
-			'hook_extra' => $hook_extra
+			'destination' => $options['destination'],
+			'clear_destination' => $options['clear_destination'],
+			'abort_if_destination_exists' => $options['abort_if_destination_exists'],
+			'clear_working' => $options['clear_working'],
+			'hook_extra' => $options['hook_extra']
 		) );
 
 		$this->skin->set_result($result);
@@ -414,10 +429,10 @@ class WP_Upgrader {
 
 		$this->skin->after();
 
-		if ( ! $is_multi ) {
+		if ( ! $options['is_multi'] ) {
 
 			/** This action is documented in wp-admin/includes/class-wp-upgrader.php */
-			do_action( 'upgrader_process_complete', $this, $hook_extra );
+			do_action( 'upgrader_process_complete', $this, $options['hook_extra'] );
 			$this->skin->footer();
 		}
 
