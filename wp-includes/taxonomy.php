@@ -738,17 +738,20 @@ class WP_Tax_Query {
 		foreach ( $this->queries as $index => $query ) {
 			$this->clean_query( $query );
 
-			if ( is_wp_error( $query ) )
+			if ( is_wp_error( $query ) ) {
 				return self::$no_results;
+			}
 
-			extract( $query );
+			$terms = $query['terms'];
+			$operator = $query['operator'];
 
 			if ( 'IN' == $operator ) {
 
 				if ( empty( $terms ) ) {
 					if ( 'OR' == $this->relation ) {
-						if ( ( $index + 1 === $count ) && empty( $where ) )
+						if ( ( $index + 1 === $count ) && empty( $where ) ) {
 							return self::$no_results;
+						}
 						continue;
 					} else {
 						return self::$no_results;
@@ -766,8 +769,9 @@ class WP_Tax_Query {
 				$where[] = "$alias.term_taxonomy_id $operator ($terms)";
 			} elseif ( 'NOT IN' == $operator ) {
 
-				if ( empty( $terms ) )
+				if ( empty( $terms ) ) {
 					continue;
+				}
 
 				$terms = implode( ',', $terms );
 
@@ -778,8 +782,9 @@ class WP_Tax_Query {
 				)";
 			} elseif ( 'AND' == $operator ) {
 
-				if ( empty( $terms ) )
+				if ( empty( $terms ) ) {
 					continue;
+				}
 
 				$num_terms = count( $terms );
 
@@ -796,11 +801,11 @@ class WP_Tax_Query {
 			$i++;
 		}
 
-		if ( ! empty( $where ) )
+		if ( ! empty( $where ) ) {
 			$where = ' AND ( ' . implode( " $this->relation ", $where ) . ' )';
-		else
+		} else {
 			$where = '';
-
+		}
 		return compact( 'join', 'where' );
 	}
 
