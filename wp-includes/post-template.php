@@ -800,7 +800,7 @@ function wp_link_pages( $args = '' ) {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param string $html HTML output of paginated posts' page links.
+	 * @param string $output HTML output of paginated posts' page links.
 	 * @param array  $args   An array of arguments.
 	 */
 	$html = apply_filters( 'wp_link_pages', $output, $args );
@@ -953,7 +953,7 @@ function wp_dropdown_pages( $args = '' ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $html HTML output for drop down list of pages.
+	 * @param string $output HTML output for drop down list of pages.
 	 */
 	$html = apply_filters( 'wp_dropdown_pages', $output );
 
@@ -1060,7 +1060,7 @@ function wp_list_pages( $args = '' ) {
 	 *
 	 * @see wp_list_pages()
 	 *
-	 * @param string $html HTML output of the pages list.
+	 * @param string $output HTML output of the pages list.
 	 * @param array  $r      An array of page-listing arguments.
 	 */
 	$html = apply_filters( 'wp_list_pages', $output, $r );
