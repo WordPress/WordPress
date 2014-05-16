@@ -201,7 +201,7 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
  * @uses wp_unique_filename
  * @uses delete_transient
  * @param array $file Reference to a single element of $_FILES. Call the function once for each uploaded file.
- * @param array $overrides Optional. An associative array of names=>values to override default variables with extract( $overrides, EXTR_OVERWRITE ).
+ * @param array $overrides Optional. An associative array of names=>values to override default variables.
  * @param string $time Optional. Time formatted in 'yyyy/mm'.
  * @return array On success, returns an associative array of file attributes. On failure, returns $overrides['upload_error_handler'](&$file, $message ) or array( 'error'=>$message ).
  */
@@ -372,7 +372,7 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
  * @uses wp_upload_dir
  * @uses wp_unique_filename
  * @param array $file an array similar to that of a PHP $_FILES POST array
- * @param array $overrides Optional. An associative array of names=>values to override default variables with extract( $overrides, EXTR_OVERWRITE ).
+ * @param array $overrides Optional. An associative array of names=>values to override default variables.
  * @param string $time Optional. Time formatted in 'yyyy/mm'.
  * @return array On success, returns an associative array of file attributes. On failure, returns $overrides['upload_error_handler'](&$file, $message ) or array( 'error'=>$message ).
  */
