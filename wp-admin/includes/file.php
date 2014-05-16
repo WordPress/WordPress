@@ -224,16 +224,27 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 
 	// You may define your own function and pass the name in $overrides['upload_error_handler']
 	$upload_error_handler = 'wp_handle_upload_error';
+	if ( isset( $overrides['upload_error_handler'] ) ) {
+		$upload_error_handler = $overrides['upload_error_handler'];
+	}
 
 	// You may have had one or more 'wp_handle_upload_prefilter' functions error out the file. Handle that gracefully.
 	if ( isset( $file['error'] ) && !is_numeric( $file['error'] ) && $file['error'] )
 		return $upload_error_handler( $file, $file['error'] );
 
+	// Install user overrides. Did we mention that this voids your warranty?
+
 	// You may define your own function and pass the name in $overrides['unique_filename_callback']
 	$unique_filename_callback = null;
+	if ( isset( $overrides['unique_filename_callback'] ) ) {
+		$unique_filename_callback = $overrides['unique_filename_callback'];
+	}
 
 	// $_POST['action'] must be set and its value must equal $overrides['action'] or this:
 	$action = 'wp_handle_upload';
+	if ( isset( $overrides['action'] ) ) {
+		$action = $overrides['action'];
+	}
 
 	// Courtesy of php.net, the strings that describe the error indicated in $_FILES[{form field}]['error'].
 	$upload_error_strings = array( false,
@@ -246,23 +257,24 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 		__( "Failed to write file to disk." ),
 		__( "File upload stopped by extension." ));
 
+	// this may not have orignially been intended to be overrideable, but historically has been
+	if ( isset( $overrides['upload_error_strings'] ) ) {
+		$upload_error_strings = $overrides['upload_error_strings'];
+	}
+
 	// All tests are on by default. Most can be turned off by $overrides[{test_name}] = false;
-	$test_form = true;
-	$test_size = true;
-	$test_upload = true;
+	$test_form = isset( $overrides['test_form'] ) ? $overrides['test_form'] : true;
+	$test_size = isset( $overrides['test_size'] ) ? $overrides['test_size'] : true;
+	$test_upload = isset( $overrides['test_upload'] ) ? $overrides['test_upload'] : true;
 
 	// If you override this, you must provide $ext and $type!!!!
-	$test_type = true;
-	$mimes = false;
-
-	// Install user overrides. Did we mention that this voids your warranty?
-	if ( is_array( $overrides ) )
-		extract( $overrides, EXTR_OVERWRITE );
+	$test_type = isset( $overrides['test_type'] ) ? $overrides['test_type'] : true;
+	$mimes = isset( $overrides['mimes'] ) ? $overrides['mimes'] : false;
 
 	// A correct form post will pass this test.
-	if ( $test_form && (!isset( $_POST['action'] ) || ($_POST['action'] != $action ) ) )
-		return call_user_func($upload_error_handler, $file, __( 'Invalid form submission.' ));
-
+	if ( $test_form && ( ! isset( $_POST['action'] ) || ($_POST['action'] != $action ) ) ) {
+		return call_user_func( $upload_error_handler, $file, __( 'Invalid form submission.' ) );
+	}
 	// A successful upload will pass this test. It makes no sense to override this one.
 	if ( isset( $file['error'] ) && $file['error'] > 0 ) {
 		return call_user_func( $upload_error_handler, $file, $upload_error_strings[ $file['error'] ] );
