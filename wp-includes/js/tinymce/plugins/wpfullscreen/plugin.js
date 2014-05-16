@@ -78,6 +78,13 @@ tinymce.PluginManager.add( 'wpfullscreen', function( editor ) {
 
 	editor.addCommand( 'wpFullScreen', toggleFullscreen );
 
+	editor.on( 'keyup', function( event ) {
+		// Turn fullscreen off when Esc is pressed.
+		if ( event.keyCode === 27 && wp.editor.fullscreen.settings.visible ) {
+			wp.editor.fullscreen.off();
+		}
+	} );
+
 	editor.on( 'init', function() {
 		// Set the editor when initializing from whitin DFW
 		if ( editor.getParam('wp_fullscreen') ) {
