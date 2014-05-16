@@ -3289,6 +3289,14 @@ function sanitize_option($option, $value) {
 			if ( ! get_role( $value ) && get_role( 'subscriber' ) )
 				$value = 'subscriber';
 			break;
+
+		case 'moderation_keys':
+		case 'blacklist_keys':
+			$value = explode( "\n", $value );
+			$value = array_filter( array_map( 'trim', $value ) );
+			$value = array_unique( $value );
+			$value = implode( "\n", $value );
+			break;
 	}
 
 	/**
