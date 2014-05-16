@@ -4727,7 +4727,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		$this->escape($postdata);
-		extract($postdata, EXTR_SKIP);
+
+		$ID = $postdata['ID'];
+		$post_content = $postdata['post_content'];
+		$post_title = $postdata['post_title'];
+		$post_excerpt = $postdata['post_excerpt'];
+		$post_password = $postdata['post_password'];
+		$post_parent = $postdata['post_parent'];
+		$menu_order = $postdata['menu_order'];
 
 		// Let WordPress manage slug if none was provided.
 		$post_name = "";
@@ -4747,6 +4754,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset($content_struct['wp_page_order']) )
 			$menu_order = $content_struct['wp_page_order'];
 
+		$page_template = null;
 		if ( ! empty( $content_struct['wp_page_template'] ) && 'page' == $post_type )
 			$page_template = $content_struct['wp_page_template'];
 
