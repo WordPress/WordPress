@@ -315,7 +315,13 @@ function validate_another_blog_signup() {
 		die();
 
 	$result = validate_blog_form();
-	extract($result);
+
+	// extracted values set/overwrite globals
+	$domain = $result['domain'];
+	$path = $result['path'];
+	$blogname = $result['blogname'];
+	$blog_title = $result['blog_title'];
+	$errors = $result['errors'];
 
 	if ( $errors->get_error_code() ) {
 		signup_another_blog($blogname, $blog_title, $errors);
@@ -337,7 +343,7 @@ function validate_another_blog_signup() {
 	 *
 	 * @param array $blog_meta_defaults An array of default blog meta variables.
 	 */
-	$meta = apply_filters( 'signup_create_blog_meta', $blog_meta_defaults );
+	$meta_defaults = apply_filters( 'signup_create_blog_meta', $blog_meta_defaults );
 	/**
 	 * Filter the new default site meta variables.
 	 *
@@ -350,7 +356,7 @@ function validate_another_blog_signup() {
 	 *     @type int $blog_public Whether search engines should be discouraged from indexing the site. 1 for true, 0 for false.
 	 * }
 	 */
-	$meta = apply_filters( 'add_signup_meta', $meta );
+	$meta = apply_filters( 'add_signup_meta', $meta_defaults );
 
 	wpmu_create_blog( $domain, $path, $blog_title, $current_user->ID, $meta, $wpdb->siteid );
 	confirm_another_blog_signup($domain, $path, $blog_title, $current_user->user_login, $current_user->user_email, $meta);
