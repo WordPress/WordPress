@@ -1535,25 +1535,25 @@ function validate_username( $username ) {
 function wp_insert_user( $userdata ) {
 	global $wpdb;
 
-	if ( is_a( $userdata, 'stdClass' ) )
+	if ( is_a( $userdata, 'stdClass' ) ) {
 		$userdata = get_object_vars( $userdata );
-	elseif ( is_a( $userdata, 'WP_User' ) )
+	} elseif ( is_a( $userdata, 'WP_User' ) ) {
 		$userdata = $userdata->to_array();
-
-	extract( $userdata, EXTR_SKIP );
-
+	}
 	// Are we updating or creating?
-	if ( !empty($ID) ) {
-		$ID = (int) $ID;
+	if ( ! empty( $userdata['ID'] ) ) {
+		$ID = (int) $userdata['ID'];
 		$update = true;
 		$old_user_data = WP_User::get_data_by( 'id', $ID );
+		// hashed in wp_update_user(), plaintext if called directly
+		$user_pass = $userdata['user_pass'];
 	} else {
 		$update = false;
 		// Hash the password
-		$user_pass = wp_hash_password($user_pass);
+		$user_pass = wp_hash_password( $userdata['user_pass'] );
 	}
 
-	$user_login = sanitize_user($user_login, true);
+	$sanitized_user_login = sanitize_user( $userdata['user_login'], true );
 
 	/**
 	 * Filter a username after it has been sanitized.
@@ -1562,22 +1562,24 @@ function wp_insert_user( $userdata ) {
 	 *
 	 * @since 2.0.3
 	 *
-	 * @param string $user_login Username after it has been sanitized.
+	 * @param string $sanitized_user_login Username after it has been sanitized.
 	 */
-	$user_login = apply_filters( 'pre_user_login', $user_login );
+	$pre_user_login = apply_filters( 'pre_user_login', $sanitized_user_login );
 
 	//Remove any non-printable chars from the login string to see if we have ended up with an empty username
-	$user_login = trim($user_login);
+	$user_login = trim( $pre_user_login );
 
-	if ( empty($user_login) )
+	if ( empty( $user_login ) ) {
 		return new WP_Error('empty_user_login', __('Cannot create a user with an empty login name.') );
-
-	if ( !$update && username_exists( $user_login ) )
+	}
+	if ( ! $update && username_exists( $user_login ) ) {
 		return new WP_Error( 'existing_user_login', __( 'Sorry, that username already exists!' ) );
-
-	if ( empty($user_nicename) )
+	}
+	if ( empty( $userdata['user_nicename'] ) ) {
 		$user_nicename = sanitize_title( $user_login );
-
+	} else {
+		$user_nicename = $userdata['user_nicename'];
+	}
 	/**
 	 * Filter a user's nicename before the user is created or updated.
 	 *
@@ -1587,8 +1589,7 @@ function wp_insert_user( $userdata ) {
 	 */
 	$user_nicename = apply_filters( 'pre_user_nicename', $user_nicename );
 
-	if ( empty($user_url) )
-		$user_url = '';
+	$user_url = empty( $userdata['user_url'] ) ? '' : $userdata['user_url'];
 
 	/**
 	 * Filter a user's URL before the user is created or updated.
@@ -1599,8 +1600,7 @@ function wp_insert_user( $userdata ) {
 	 */
 	$user_url = apply_filters( 'pre_user_url', $user_url );
 
-	if ( empty($user_email) )
-		$user_email = '';
+	$user_email = empty( $userdata['user_email'] ) ? '' : $userdata['user_email'];
 
 	/**
 	 * Filter a user's email before the user is created or updated.
@@ -1611,12 +1611,10 @@ function wp_insert_user( $userdata ) {
 	 */
 	$user_email = apply_filters( 'pre_user_email', $user_email );
 
-	if ( !$update && ! defined( 'WP_IMPORTING' ) && email_exists($user_email) )
+	if ( ! $update && ! defined( 'WP_IMPORTING' ) && email_exists( $user_email ) ) {
 		return new WP_Error( 'existing_user_email', __( 'Sorry, that email address is already used!' ) );
-
-	if ( empty($nickname) )
-		$nickname = $user_login;
-
+	}
+	$nickname = empty( $userdata['nickname'] ) ? $user_login : $userdata['nickname'];
 	/**
 	 * Filter a user's nickname before the user is created or updated.
 	 *
@@ -1626,8 +1624,7 @@ function wp_insert_user( $userdata ) {
 	 */
 	$nickname = apply_filters( 'pre_user_nickname', $nickname );
 
-	if ( empty($first_name) )
-		$first_name = '';
+	$first_name = empty( $userdata['first_name'] ) ? '' : $userdata['first_name'];
 
 	/**
 	 * Filter a user's first name before the user is created or updated.
@@ -1638,8 +1635,7 @@ function wp_insert_user( $userdata ) {
 	 */
 	$first_name = apply_filters( 'pre_user_first_name', $first_name );
 
-	if ( empty($last_name) )
-		$last_name = '';
+	$last_name = empty( $userdata['last_name'] ) ? '' : $userdata['last_name'];
 
 	/**
 	 * Filter a user's last name before the user is created or updated.
@@ -1650,18 +1646,21 @@ function wp_insert_user( $userdata ) {
 	 */
 	$last_name = apply_filters( 'pre_user_last_name', $last_name );
 
-	if ( empty( $display_name ) ) {
-		if ( $update )
+	if ( empty( $userdata['display_name'] ) ) {
+		if ( $update ) {
 			$display_name = $user_login;
-		elseif ( $first_name && $last_name )
+		} elseif ( $first_name && $last_name ) {
 			/* translators: 1: first name, 2: last name */
 			$display_name = sprintf( _x( '%1$s %2$s', 'Display name based on first name and last name' ), $first_name, $last_name );
-		elseif ( $first_name )
+		} elseif ( $first_name ) {
 			$display_name = $first_name;
-		elseif ( $last_name )
+		} elseif ( $last_name ) {
 			$display_name = $last_name;
-		else
+		} else {
 			$display_name = $user_login;
+		}
+	} else {
+		$display_name = $userdata['display_name'];
 	}
 
 	/**
@@ -1673,8 +1672,7 @@ function wp_insert_user( $userdata ) {
 	 */
 	$display_name = apply_filters( 'pre_user_display_name', $display_name );
 
-	if ( empty($description) )
-		$description = '';
+	$description = empty( $userdata['description'] ) ? '' : $userdata['description'];
 
 	/**
 	 * Filter a user's description before the user is created or updated.
@@ -1685,24 +1683,18 @@ function wp_insert_user( $userdata ) {
 	 */
 	$description = apply_filters( 'pre_user_description', $description );
 
-	if ( empty($rich_editing) )
-		$rich_editing = 'true';
+	$rich_editing = empty( $userdata['rich_editing'] ) ? 'true' : $userdata['rich_editing'];
 
-	if ( empty($comment_shortcuts) )
-		$comment_shortcuts = 'false';
+	$comment_shortcuts = empty( $userdata['comment_shortcuts'] ) ? 'false' : $userdata['comment_shortcuts'];
 
-	if ( empty($admin_color) )
-		$admin_color = 'fresh';
-	$admin_color = preg_replace('|[^a-z0-9 _.\-@]|i', '', $admin_color);
+	$admin_color = empty( $userdata['admin_color'] ) ? 'fresh' : $userdata['admin_color'];
+	$admin_color = preg_replace( '|[^a-z0-9 _.\-@]|i', '', $admin_color );
 
-	if ( empty($use_ssl) )
-		$use_ssl = 0;
+	$use_ssl = empty( $userdata['use_ssl'] ) ? 0 : $userdata['use_ssl'];
 
-	if ( empty($user_registered) )
-		$user_registered = gmdate('Y-m-d H:i:s');
+	$user_registered = empty( $userdata['user_registered'] ) ? gmdate( 'Y-m-d H:i:s' ) : $userdata['user_registered'];
 
-	if ( empty($show_admin_bar_front) )
-		$show_admin_bar_front = 'true';
+	$show_admin_bar_front = empty( $userdata['show_admin_bar_front'] ) ? 'true' : $userdata['show_admin_bar_front'];
 
 	$user_nicename_check = $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1" , $user_nicename, $user_login));
 
@@ -1730,17 +1722,18 @@ function wp_insert_user( $userdata ) {
 	$user = new WP_User( $user_id );
 
 	foreach ( _get_additional_user_keys( $user ) as $key ) {
-		if ( isset( $$key ) )
+		if ( isset( $$key ) ) {
 			update_user_meta( $user_id, $key, $$key );
+		}
 	}
 
-	if ( isset($role) )
-		$user->set_role($role);
-	elseif ( !$update )
+	if ( isset( $userdata['role'] ) ) {
+		$user->set_role( $userdata['role'] );
+	} elseif ( ! $update ) {
 		$user->set_role(get_option('default_role'));
-
-	wp_cache_delete($user_id, 'users');
-	wp_cache_delete($user_login, 'userlogins');
+	}
+	wp_cache_delete( $user_id, 'users' );
+	wp_cache_delete( $user_login, 'userlogins' );
 
 	if ( $update ) {
 		/**
