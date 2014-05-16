@@ -1106,24 +1106,23 @@ function wp_widget_rss_output( $rss, $args = array() ) {
  * @param array $inputs Override default display options.
  */
 function wp_widget_rss_form( $args, $inputs = null ) {
-
 	$default_inputs = array( 'url' => true, 'title' => true, 'items' => true, 'show_summary' => true, 'show_author' => true, 'show_date' => true );
 	$inputs = wp_parse_args( $inputs, $default_inputs );
-	extract( $args );
-	extract( $inputs, EXTR_SKIP );
 
-	$number = esc_attr( $number );
-	$title  = esc_attr( $title );
-	$url    = esc_url( $url );
-	$items  = (int) $items;
-	if ( $items < 1 || 20 < $items )
+	$number = esc_attr( $args['number'] );
+	$title  = isset( $args['title'] ) ? esc_attr( $args['title'] ) : '';
+	$url    = isset( $args['url'] ) ? esc_url( $args['url'] ) : '';
+	$items  = isset( $args['items'] ) ? (int) $args['items'] : 0;
+	if ( $items < 1 || 20 < $items ) {
 		$items  = 10;
-	$show_summary   = (int) $show_summary;
-	$show_author    = (int) $show_author;
-	$show_date      = (int) $show_date;
+	}
+	$show_summary   = isset( $args['show_summary'] ) ? (int) $args['show_summary'] : (int) $inputs['show_summary'];
+	$show_author    = isset( $args['show_author'] ) ? (int) $args['show_author'] : (int) $inputs['show_author'];
+	$show_date      = isset( $args['show_date'] ) ? (int) $args['show_date'] : (int) $inputs['show_date'];
 
-	if ( !empty($error) )
-		echo '<p class="widget-error"><strong>' . sprintf( __('RSS Error: %s'), $error) . '</strong></p>';
+	if ( ! empty( $args['error'] ) ) {
+		echo '<p class="widget-error"><strong>' . sprintf( __( 'RSS Error: %s' ), $args['error'] ) . '</strong></p>';
+	}
 
 	if ( $inputs['url'] ) :
 ?>
