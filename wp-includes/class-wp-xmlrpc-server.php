@@ -4734,6 +4734,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_excerpt = $postdata['post_excerpt'];
 		$post_password = $postdata['post_password'];
 		$post_parent = $postdata['post_parent'];
+		$post_type = $postdata['post_type'];
 		$menu_order = $postdata['menu_order'];
 
 		// Let WordPress manage slug if none was provided.
