@@ -2888,23 +2888,30 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '');
 	$args = wp_parse_args($args, $defaults);
 	$args = sanitize_term($args, $taxonomy, 'db');
-	extract($args, EXTR_SKIP);
+	$parsed_args = $args;
 
 	// expected_slashed ($name)
-	$name = wp_unslash($name);
-	$description = wp_unslash($description);
+	$name = wp_unslash( $args['name'] );
+	$description = wp_unslash( $args['description'] );
+
+	$parsed_args['name'] = $name;
+	$parsed_args['description'] = $description;
 
 	if ( '' == trim($name) )
 		return new WP_Error('empty_term_name', __('A name is required for this term'));
 
 	$empty_slug = false;
-	if ( empty($slug) ) {
+	if ( empty( $args['slug'] ) ) {
 		$empty_slug = true;
 		$slug = sanitize_title($name);
+	} else {
+		$slug = $args['slug'];
 	}
 
-	if ( $alias_of ) {
-		$alias = $wpdb->get_row( $wpdb->prepare( "SELECT term_id, term_group FROM $wpdb->terms WHERE slug = %s", $alias_of) );
+	$parsed_args['slug'] = $slug;
+
+	if ( $args['alias_of'] ) {
+		$alias = $wpdb->get_row( $wpdb->prepare( "SELECT term_id, term_group FROM $wpdb->terms WHERE slug = %s", $args['alias_of'] ) );
 		if ( $alias->term_group ) {
 			// The alias we want is already in a group, so let's use that one.
 			$term_group = $alias->term_group;
@@ -2919,6 +2926,8 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 			/** This action is documented in wp-includes/taxonomy.php */
 			do_action( 'edited_terms', $alias->term_id, $taxonomy );
 		}
+
+		$parsed_args['term_group'] = $term_group;
 	}
 
 	/**
@@ -2928,13 +2937,13 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param int    $parent   ID of the parent term.
-	 * @param int    $term_id  Term ID.
-	 * @param string $taxonomy Taxonomy slug.
-	 * @param array  $args     Compacted array of update arguments for the given term.
-	 * @param array  $args     An array of update arguments for the given term.
+	 * @param int    $parent      ID of the parent term.
+	 * @param int    $term_id     Term ID.
+	 * @param string $taxonomy    Taxonomy slug.
+	 * @param array  $parsed_args An array of potentially altered update arguments for the given term.
+	 * @param array  $args        An array of update arguments for the given term.
 	 */
-	$parent = apply_filters( 'wp_update_term_parent', $parent, $term_id, $taxonomy, compact( array_keys( $args ) ), $args );
+	$parent = apply_filters( 'wp_update_term_parent', $args['parent'], $term_id, $taxonomy, $parsed_args, $args );
 
 	// Check for duplicate slug
 	$id = $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM $wpdb->terms WHERE slug = %s", $slug ) );
