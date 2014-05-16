@@ -475,7 +475,7 @@ function signup_user( $user_name = '', $user_email = '', $errors = '' ) {
 function validate_user_signup() {
 	$result = validate_user_form();
 	$user_name = $result['user_name'];
-	$user_email = $result['user_email']; 
+	$user_email = $result['user_email'];
 	$errors = $result['errors'];
 
 	if ( $errors->get_error_code() ) {
@@ -593,16 +593,22 @@ function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_ti
  */
 function validate_blog_signup() {
 	// Re-validate user info.
-	$result = wpmu_validate_user_signup($_POST['user_name'], $_POST['user_email']);
-	extract($result);
+	$user_result = wpmu_validate_user_signup( $_POST['user_name'], $_POST['user_email'] );
+	$user_name = $user_result['user_name'];
+	$user_email = $user_result['user_email'];
+	$user_errors = $user_result['errors'];
 
-	if ( $errors->get_error_code() ) {
-		signup_user($user_name, $user_email, $errors);
+	if ( $user_errors->get_error_code() ) {
+		signup_user( $user_name, $user_email, $user_errors );
 		return false;
 	}
 
-	$result = wpmu_validate_blog_signup($_POST['blogname'], $_POST['blog_title']);
-	extract($result);
+	$result = wpmu_validate_blog_signup( $_POST['blogname'], $_POST['blog_title'] );
+	$domain = $result['domain'];
+	$path = $result['path'];
+	$blogname = $result['blogname'];
+	$blog_title = $result['blog_title'];
+	$errors = $result['errors'];
 
 	if ( $errors->get_error_code() ) {
 		signup_blog($user_name, $user_email, $blogname, $blog_title, $errors);
@@ -610,10 +616,10 @@ function validate_blog_signup() {
 	}
 
 	$public = (int) $_POST['blog_public'];
-	$meta = array ('lang_id' => 1, 'public' => $public);
+	$signup_meta = array ('lang_id' => 1, 'public' => $public);
 
 	/** This filter is documented in wp-signup.php */
-	$meta = apply_filters( 'add_signup_meta', $meta );
+	$meta = apply_filters( 'add_signup_meta', $signup_meta );
 
 	wpmu_signup_blog($domain, $path, $blog_title, $user_name, $user_email, $meta);
 	confirm_blog_signup($domain, $path, $blog_title, $user_name, $user_email, $meta);
