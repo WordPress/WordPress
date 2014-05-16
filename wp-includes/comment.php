@@ -276,7 +276,7 @@ class WP_Comment_Query {
 		do_action_ref_array( 'pre_get_comments', array( &$this ) );
 
 		// $args can be whatever, only use the args defined in defaults to compute the key
-		$key = md5( serialize( compact( array_keys( $defaults ) ) )  );
+		$key = md5( serialize( wp_array_slice_assoc( $this->query_vars, array_keys( $defaults ) ) )  );
 		$last_changed = wp_cache_get( 'last_changed', 'comment' );
 		if ( ! $last_changed ) {
 			$last_changed = microtime();
