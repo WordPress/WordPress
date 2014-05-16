@@ -1084,11 +1084,13 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 		update_option('ftp_credentials', $stored_credentials);
 		return $credentials;
 	}
-	$hostname = '';
-	$username = '';
-	$connection_type = '';
-	if ( !empty($credentials) )
-		extract($credentials, EXTR_OVERWRITE);
+	$hostname = isset( $credentials['hostname'] ) ? $credentials['hostname'] : '';
+	$username = isset( $credentials['username'] ) ? $credentials['username'] : '';
+	$public_key = isset( $credentials['public_key'] ) ? $credentials['public_key'] : '';
+	$private_key = isset( $credentials['private_key'] ) ? $credentials['private_key'] : '';
+	$port = isset( $credentials['port'] ) ? $credentials['port'] : '';
+	$connection_type = isset( $credentials[''] ) ? $credentials[''] : '';
+
 	if ( $error ) {
 		$error_string = __('<strong>ERROR:</strong> There was an error connecting to the server, Please verify the settings are correct.');
 		if ( is_wp_error($error) )
@@ -1178,7 +1180,8 @@ jQuery(function($){
 <label for="public_key"><?php _e('Public Key:') ?></label ><br />
 <label for="private_key"><?php _e('Private Key:') ?></label>
 </div></th>
-<td><br /><input name="public_key" type="text" id="public_key" value="<?php echo esc_attr($public_key) ?>"<?php disabled( defined('FTP_PUBKEY') ); ?> size="40" /><br /><input name="private_key" type="text" id="private_key" value="<?php echo esc_attr($private_key) ?>"<?php disabled( defined('FTP_PRIKEY') ); ?> size="40" />
+<td><br /><input name="public_key" type="text" id="public_key" value="<?php echo esc_attr($public_key) ?>"<?php disabled( defined('FTP_PUBKEY') ); ?> size="40" />
+	<br /><input name="private_key" type="text" id="private_key" value="<?php echo esc_attr($private_key) ?>"<?php disabled( defined('FTP_PRIKEY') ); ?> size="40" />
 <div><?php _e('Enter the location on the server where the keys are located. If a passphrase is needed, enter that in the password field above.') ?></div></td>
 </tr>
 <?php endif; ?>
