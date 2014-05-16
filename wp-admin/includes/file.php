@@ -384,14 +384,25 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
 		}
 	}
 
+	// Install user overrides. Did we mention that this voids your warranty?
+
 	// You may define your own function and pass the name in $overrides['upload_error_handler']
 	$upload_error_handler = 'wp_handle_upload_error';
+	if ( isset( $overrides['upload_error_handler'] ) ) {
+		$upload_error_handler = $overrides['upload_error_handler'];
+	}
 
 	// You may define your own function and pass the name in $overrides['unique_filename_callback']
 	$unique_filename_callback = null;
+	if ( isset( $overrides['unique_filename_callback'] ) ) {
+		$unique_filename_callback = $overrides['unique_filename_callback'];
+	}
 
 	// $_POST['action'] must be set and its value must equal $overrides['action'] or this:
 	$action = 'wp_handle_sideload';
+	if ( isset( $overrides['action'] ) ) {
+		$action = $overrides['action'];
+	}
 
 	// Courtesy of php.net, the strings that describe the error indicated in $_FILES[{form field}]['error'].
 	$upload_error_strings = array( false,
@@ -404,17 +415,18 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
 		__( "Failed to write file to disk." ),
 		__( "File upload stopped by extension." ));
 
+	// this may not have orignially been intended to be overrideable, but historically has been
+	if ( isset( $overrides['upload_error_strings'] ) ) {
+		$upload_error_strings = $overrides['upload_error_strings'];
+	}
+
 	// All tests are on by default. Most can be turned off by $overrides[{test_name}] = false;
-	$test_form = true;
-	$test_size = true;
+	$test_form = isset( $overrides['test_form'] ) ? $overrides['test_form'] : true;
+	$test_size = isset( $overrides['test_size'] ) ? $overrides['test_size'] : true;
 
 	// If you override this, you must provide $ext and $type!!!!
-	$test_type = true;
-	$mimes = false;
-
-	// Install user overrides. Did we mention that this voids your warranty?
-	if ( is_array( $overrides ) )
-		extract( $overrides, EXTR_OVERWRITE );
+	$test_type = isset( $overrides['test_type'] ) ? $overrides['test_type'] : true;
+	$mimes = isset( $overrides['mimes'] ) ? $overrides['mimes'] : false;
 
 	// A correct form post will pass this test.
 	if ( $test_form && (!isset( $_POST['action'] ) || ($_POST['action'] != $action ) ) )
@@ -449,6 +461,8 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
 		if ( ! $type ) {
 			$type = $file['type'];
 		}
+	} else {
+		$type = '';
 	}
 
 	// A writable uploads dir will pass this test. Again, there's no point overriding this one.
