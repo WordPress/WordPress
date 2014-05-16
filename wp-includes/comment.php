@@ -274,7 +274,6 @@ class WP_Comment_Query {
 		 * @param WP_Comment_Query &$this Current instance of WP_Comment_Query, passed by reference.
 		 */
 		do_action_ref_array( 'pre_get_comments', array( &$this ) );
-		extract( $this->query_vars, EXTR_SKIP );
 
 		// $args can be whatever, only use the args defined in defaults to compute the key
 		$key = md5( serialize( compact( array_keys( $defaults ) ) )  );
