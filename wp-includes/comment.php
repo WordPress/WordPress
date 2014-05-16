@@ -832,7 +832,7 @@ function wp_allow_comment( $commentdata ) {
 		} else {
 			$approved = 0;
 		}
-		
+
 		if ( wp_blacklist_check(
 			$commentdata['comment_author'],
 			$commentdata['comment_author_email'],
@@ -1553,36 +1553,37 @@ function wp_get_current_commenter() {
  * @param array $commentdata Contains information on the comment.
  * @return int The new comment's ID.
  */
-function wp_insert_comment($commentdata) {
+function wp_insert_comment( $commentdata ) {
 	global $wpdb;
-	extract(wp_unslash($commentdata), EXTR_SKIP);
+	$data = wp_unslash( $commentdata );
 
-	if ( ! isset($comment_author_IP) )
-		$comment_author_IP = '';
-	if ( ! isset($comment_date) )
-		$comment_date = current_time('mysql');
-	if ( ! isset($comment_date_gmt) )
-		$comment_date_gmt = get_gmt_from_date($comment_date);
-	if ( ! isset($comment_parent) )
-		$comment_parent = 0;
-	if ( ! isset($comment_approved) )
-		$comment_approved = 1;
-	if ( ! isset($comment_karma) )
-		$comment_karma = 0;
-	if ( ! isset($user_id) )
-		$user_id = 0;
-	if ( ! isset($comment_type) )
-		$comment_type = '';
+	$comment_author       = ! isset( $data['comment_author'] )       ? '' : $data['comment_author'];
+	$comment_author_email = ! isset( $data['comment_author_email'] ) ? '' : $data['comment_author_email'];
+	$comment_author_url   = ! isset( $data['comment_author_url'] )   ? '' : $data['comment_author_url'];
+	$comment_author_IP    = ! isset( $data['comment_author_IP'] )    ? '' : $data['comment_author_IP'];
 
-	$data = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_date', 'comment_date_gmt', 'comment_content', 'comment_karma', 'comment_approved', 'comment_agent', 'comment_type', 'comment_parent', 'user_id');
-	$wpdb->insert($wpdb->comments, $data);
+	$comment_date     = ! isset( $data['comment_date'] )     ? current_time( 'mysql' )            : $data['comment_date'];
+	$comment_date_gmt = ! isset( $data['comment_date_gmt'] ) ? get_gmt_from_date( $comment_date ) : $data['comment_date_gmt'];
+
+	$comment_post_ID  = ! isset( $data['comment_post_ID'] )  ? '' : $data['comment_post_ID'];
+	$comment_content  = ! isset( $data['comment_content'] )  ? '' : $data['comment_content'];
+	$comment_karma    = ! isset( $data['comment_karma'] )    ? 0  : $data['comment_karma'];
+	$comment_approved = ! isset( $data['comment_approved'] ) ? 1  : $data['comment_approved'];
+	$comment_agent    = ! isset( $data['comment_agent'] )    ? '' : $data['comment_agent'];
+	$comment_type     = ! isset( $data['comment_type'] )     ? '' : $data['comment_type'];
+	$comment_parent   = ! isset( $data['comment_parent'] )   ? 0  : $data['comment_parent'];
+
+	$user_id  = ! isset( $data['user_id'] ) ? 0 : $data['user_id'];
+
+	$compacted = compact( 'comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_date', 'comment_date_gmt', 'comment_content', 'comment_karma', 'comment_approved', 'comment_agent', 'comment_type', 'comment_parent', 'user_id' );
+	$wpdb->insert( $wpdb->comments, $compacted );
 
 	$id = (int) $wpdb->insert_id;
 
-	if ( $comment_approved == 1 )
-		wp_update_comment_count($comment_post_ID);
-
-	$comment = get_comment($id);
+	if ( $comment_approved == 1 ) {
+		wp_update_comment_count( $comment_post_ID );
+	}
+	$comment = get_comment( $id );
 
 	/**
 	 * Fires immediately after a comment is inserted into the database.
