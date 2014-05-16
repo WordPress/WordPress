@@ -474,7 +474,9 @@ function signup_user( $user_name = '', $user_email = '', $errors = '' ) {
  */
 function validate_user_signup() {
 	$result = validate_user_form();
-	extract($result);
+	$user_name = $result['user_name'];
+	$user_email = $result['user_email']; 
+	$errors = $result['errors'];
 
 	if ( $errors->get_error_code() ) {
 		signup_user($user_name, $user_email, $errors);
