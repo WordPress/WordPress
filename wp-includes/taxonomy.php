@@ -2059,12 +2059,16 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	}
 
 	$args = wp_parse_args($args, $defaults);
-	extract($args, EXTR_SKIP);
 
-	if ( isset( $default ) ) {
-		$default = (int) $default;
-		if ( ! term_exists($default, $taxonomy) )
-			unset($default);
+	if ( isset( $args['default'] ) ) {
+		$default = (int) $args['default'];
+		if ( ! term_exists( $default, $taxonomy ) ) {
+			unset( $default );
+		}
+	}
+
+	if ( isset( $args['force_default'] ) ) {
+		$force_default = $args['force_default'];
 	}
 
 	// Update children to point to new parent
