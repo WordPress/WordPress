@@ -4453,97 +4453,135 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	$user_id = get_current_user_id();
 
 	$defaults = array('post_status' => 'inherit', 'post_type' => 'post', 'post_author' => $user_id,
-		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0, 'post_title' => '',
-		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '', 'post_content' => '',
-		'guid' => '', 'post_content_filtered' => '', 'post_excerpt' => '', 'import_id' => 0, 'context' => '');
+		'ping_status' => get_option('default_ping_status'), 'post_parent' => 0,
+		'menu_order' => 0, 'to_ping' =>  '', 'pinged' => '', 'post_password' => '',
+		'guid' => '', 'post_content_filtered' => '', 'post_excerpt' => '', 'import_id' => 0,
+		'post_title' => '', 'post_content' => '', 'context' => '');
 
 	$object = wp_parse_args($object, $defaults);
-	if ( !empty($parent) )
+	if ( ! empty( $parent ) ) {
 		$object['post_parent'] = $parent;
-
+	}
 	unset( $object[ 'filter' ] );
 
 	$object = sanitize_post($object, 'db');
 
-	// export array as variables
-	extract($object, EXTR_SKIP);
+	$post_ID = 0;
+	$update = false;
+	$guid = $object['guid'];
 
-	if ( empty($post_author) )
-		$post_author = $user_id;
+	// Are we updating or creating?
+	if ( ! empty( $object['ID'] ) ) {
+		$update = true;
+		$post_ID = (int) $object['ID'];
+
+		// wp_insert_post() checks for the existence of this post....
+	}
 
 	$post_type = 'attachment';
 
-	if ( ! in_array( $post_status, array( 'inherit', 'private' ) ) )
-		$post_status = 'inherit';
+	$post_title = $object['post_title'];
+	$post_content = $object['post_content'];
+	$post_excerpt = $object['post_excerpt'];
+	if ( isset( $object['post_name'] ) ) {
+		$post_name = $object['post_name'];
+	}
 
-	if ( !empty($post_category) )
-		$post_category = array_filter($post_category); // Filter out empty terms
+	// wp_insert_post() checks $maybe_empty
+
+	$post_status = $object['post_status'];
+	if ( ! in_array( $post_status, array( 'inherit', 'private' ) ) ) {
+		$post_status = 'inherit';
+	}
+
+	if ( ! empty( $object['post_category'] ) ) {
+		$post_category = array_filter( $object['post_category'] ); // Filter out empty terms
+	}
 
 	// Make sure we set a valid category.
-	if ( empty($post_category) || 0 == count($post_category) || !is_array($post_category) ) {
+	if ( empty( $post_category ) || 0 == count( $post_category ) || ! is_array( $post_category ) ) {
+		// ironically, the default post_type for this function is 'post'
+		// as such, this should be probably have the same checks as wp_insert_post(),
+		// since all 'post's require a category. BUT, you can't override the post_type, because the
+		// variable is explicitly set.
 		$post_category = array();
 	}
 
-	// Are we updating or creating?
-	if ( !empty($ID) ) {
-		$update = true;
-		$post_ID = (int) $ID;
+	// Create a valid post name.
+	if ( empty( $post_name ) ) {
+		$post_name = sanitize_title($post_title);
 	} else {
-		$update = false;
-		$post_ID = 0;
+		// missing check from wp_insert_post on update:
+		// "On updates, we need to check to see if it's using the old, fixed sanitization context."
+		$post_name = sanitize_title( $post_name );
 	}
 
-	// Create a valid post name.
-	if ( empty($post_name) )
-		$post_name = sanitize_title($post_title);
-	else
-		$post_name = sanitize_title($post_name);
+	if ( isset( $object['post_parent'] ) ) {
+		$post_parent = (int) $object['post_parent'];
+	} else {
+		$post_parent = 0;
+	}
+
+	if ( empty( $object['post_date'] ) || '0000-00-00 00:00:00' == $object['post_date'] ) {
+		$post_date = current_time( 'mysql' );
+	} else {
+		$post_date = $object['post_date'];
+	}
+
+	// wp_insert_post() validates the date here
+
+	if ( empty( $object['post_date_gmt'] ) || '0000-00-00 00:00:00' == $object['post_date_gmt'] ) {
+		$post_date_gmt = get_gmt_from_date( $post_date );
+	} else {
+		$post_date_gmt = $object['post_date_gmt'];
+	}
+
+	if ( $update || '0000-00-00 00:00:00' == $post_date ) {
+		$post_modified     = current_time( 'mysql' );
+		$post_modified_gmt = current_time( 'mysql', 1 );
+	} else {
+		$post_modified     = $post_date;
+		$post_modified_gmt = $post_date_gmt;
+	}
+
+	// wp_insert_post() does "future" checks
+
+	if ( empty( $object['comment_status'] ) ) {
+		if ( $update ) {
+			$comment_status = 'closed';
+		} else {
+			$comment_status = get_option('default_comment_status');
+		}
+	} else {
+		$comment_status = $object['comment_status'];
+	}
+
+	// these variables are needed by compact() later
+	$post_content_filtered = $object['post_content_filtered'];
+	$post_author = empty( $object['post_author'] ) ? $user_id : $object['post_author'];
+	$ping_status = empty( $object['ping_status'] ) ? get_option( 'default_ping_status' ) : $object['ping_status'];
+	$to_ping = isset( $object['to_ping'] ) ? sanitize_trackback_urls( $object['to_ping'] ) : '';
+	$pinged = isset( $object['pinged'] ) ? $object['pinged'] : '';
+	$import_id = isset( $object['import_id'] ) ? $object['import_id'] : 0;
+
+	if ( isset( $object['menu_order'] ) ) {
+		$menu_order = (int) $object['menu_order'];
+	} else {
+		$menu_order = 0;
+	}
+
+	$post_password = isset( $object['post_password'] ) ? $object['post_password'] : '';
+
+	// skips the 'wp_insert_post_parent' filter, present in wp_insert_post()
 
 	// expected_slashed ($post_name)
-	$post_name = wp_unique_post_slug($post_name, $post_ID, $post_status, $post_type, $post_parent);
+	$post_name = wp_unique_post_slug( $post_name, $post_ID, $post_status, $post_type, $post_parent );
 
-	if ( empty($post_date) )
-		$post_date = current_time('mysql');
-	if ( empty($post_date_gmt) )
-		$post_date_gmt = current_time('mysql', 1);
-
-	if ( empty($post_modified) )
-		$post_modified = $post_date;
-	if ( empty($post_modified_gmt) )
-		$post_modified_gmt = $post_date_gmt;
-
-	if ( empty($comment_status) ) {
-		if ( $update )
-			$comment_status = 'closed';
-		else
-			$comment_status = get_option('default_comment_status');
-	}
-	if ( empty($ping_status) )
-		$ping_status = get_option('default_ping_status');
-
-	if ( isset($to_ping) )
-		$to_ping = preg_replace('|\s+|', "\n", $to_ping);
-	else
-		$to_ping = '';
-
-	if ( isset($post_parent) )
-		$post_parent = (int) $post_parent;
-	else
-		$post_parent = 0;
-
-	if ( isset($menu_order) )
-		$menu_order = (int) $menu_order;
-	else
-		$menu_order = 0;
-
-	if ( !isset($post_password) )
-		$post_password = '';
-
-	if ( ! isset($pinged) )
-		$pinged = '';
+	// don't unslash
+	$post_mime_type = isset( $object['post_mime_type'] ) ? $object['post_mime_type'] : '';
 
 	// expected_slashed (everything!)
-	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'guid' ) );
+	$data = compact( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'guid' );
 
 	/**
 	 * Filter attachment post data before it is updated in or added
@@ -4556,53 +4594,68 @@ function wp_insert_attachment($object, $file = false, $parent = 0) {
 	 */
 	$data = apply_filters( 'wp_insert_attachment_data', $data, $object );
 	$data = wp_unslash( $data );
+	$where = array( 'ID' => $post_ID );
 
 	if ( $update ) {
-		$wpdb->update( $wpdb->posts, $data, array( 'ID' => $post_ID ) );
+		// skips 'pre_post_update' action
+		$wpdb->update( $wpdb->posts, $data, $where );
 	} else {
 		// If there is a suggested ID, use it if not already present
-		if ( !empty($import_id) ) {
+		if ( ! empty( $import_id ) ) {
 			$import_id = (int) $import_id;
-			if ( ! $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE ID = %d", $import_id) ) ) {
+			if ( ! $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE ID = %d", $import_id ) ) ) {
 				$data['ID'] = $import_id;
 			}
 		}
 
 		$wpdb->insert( $wpdb->posts, $data );
 		$post_ID = (int) $wpdb->insert_id;
+		$where = array( 'ID' => $post_ID );
 	}
 
-	if ( empty($post_name) ) {
-		$post_name = sanitize_title($post_title, $post_ID);
-		$wpdb->update( $wpdb->posts, compact("post_name"), array( 'ID' => $post_ID ) );
+	if ( empty( $data['post_name'] ) ) {
+		$data['post_name'] = sanitize_title( $data['post_title'], $post_ID );
+		$wpdb->update( $wpdb->posts, array( 'post_name' => $data['post_name'] ), $where );
 	}
 
-	if ( is_object_in_taxonomy($post_type, 'category') )
+	if ( is_object_in_taxonomy( $data['post_type'], 'category' ) ) {
 		wp_set_post_categories( $post_ID, $post_category );
+	}
 
-	if ( isset( $tags_input ) && is_object_in_taxonomy($post_type, 'post_tag') )
-		wp_set_post_tags( $post_ID, $tags_input );
+	if ( isset( $object['tags_input'] ) && is_object_in_taxonomy( $data['post_type'], 'post_tag' ) ) {
+		wp_set_post_tags( $post_ID, $object['tags_input'] );
+	}
 
-	// support for all custom taxonomies
-	if ( !empty($tax_input) ) {
-		foreach ( $tax_input as $taxonomy => $tags ) {
+	// new-style support for all custom taxonomies
+	if ( ! empty( $object['tax_input'] ) ) {
+		foreach ( $object['tax_input'] as $taxonomy => $tags ) {
 			$taxonomy_obj = get_taxonomy($taxonomy);
-			if ( is_array($tags) ) // array = hierarchical, string = non-hierarchical.
+			if ( is_array( $tags ) ) { // array = hierarchical, string = non-hierarchical.
 				$tags = array_filter($tags);
-			if ( current_user_can($taxonomy_obj->cap->assign_terms) )
+			}
+			if ( current_user_can( $taxonomy_obj->cap->assign_terms ) ) {
 				wp_set_post_terms( $post_ID, $tags, $taxonomy );
+			}
 		}
 	}
 
-	if ( $file )
+	if ( $file ) {
 		update_attached_file( $post_ID, $file );
+	}
+
+	// wp_insert_post() fills in guid if it is empty
 
 	clean_post_cache( $post_ID );
 
-	if ( ! empty( $context ) )
-		add_post_meta( $post_ID, '_wp_attachment_context', $context, true );
+	if ( ! empty( $object['context'] ) ) {
+		add_post_meta( $post_ID, '_wp_attachment_context', $object['context'], true );
+	}
 
-	if ( $update) {
+	// skips wp_transition_post_status
+
+	// the actions completely diverge from wp_insert_post()
+
+	if ( $update ) {
 		/**
 		 * Fires once an existing attachment has been updated.
 		 *
