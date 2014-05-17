@@ -2923,28 +2923,37 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 
 	$postarr = sanitize_post($postarr, 'db');
 
-	// export array as variables
-	extract($postarr, EXTR_SKIP);
-
 	// Are we updating or creating?
 	$post_ID = 0;
 	$update = false;
-	if ( ! empty( $ID ) ) {
+	$guid = $postarr['guid'];
+
+	if ( ! empty( $postarr['ID'] ) ) {
 		$update = true;
 
 		// Get the post ID and GUID
-		$post_ID = $ID;
+		$post_ID = $postarr['ID'];
 		$post_before = get_post( $post_ID );
 		if ( is_null( $post_before ) ) {
-			if ( $wp_error )
+			if ( $wp_error ) {
 				return new WP_Error( 'invalid_post', __( 'Invalid post ID.' ) );
+			}
 			return 0;
 		}
 
 		$guid = get_post_field( 'guid', $post_ID );
-		$previous_status = get_post_field('post_status', $ID);
+		$previous_status = get_post_field('post_status', $post_ID );
 	} else {
 		$previous_status = 'new';
+	}
+
+	$post_type = empty( $postarr['post_type'] ) ? 'post' : $postarr['post_type'];
+
+	$post_title = $postarr['post_title'];
+	$post_content = $postarr['post_content'];
+	$post_excerpt = $postarr['post_excerpt'];
+	if ( isset( $postarr['post_name'] ) ) {
+		$post_name = $postarr['post_name'];
 	}
 
 	$maybe_empty = ! $post_content && ! $post_title && ! $post_excerpt && post_type_supports( $post_type, 'editor' )
@@ -2967,74 +2976,80 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 * @param array $postarr     Array of post data.
 	 */
 	if ( apply_filters( 'wp_insert_post_empty_content', $maybe_empty, $postarr ) ) {
-		if ( $wp_error )
+		if ( $wp_error ) {
 			return new WP_Error( 'empty_content', __( 'Content, title, and excerpt are empty.' ) );
-		else
+		} else {
 			return 0;
+		}
 	}
 
-	if ( empty($post_type) )
-		$post_type = 'post';
+	$post_status = empty( $postarr['post_status'] ) ? 'draft' : $postarr['post_status'];
 
-	if ( empty($post_status) )
-		$post_status = 'draft';
-
-	if ( !empty($post_category) )
-		$post_category = array_filter($post_category); // Filter out empty terms
+	if ( ! empty( $postarr['post_category'] ) ) {
+		$post_category = array_filter( $postarr['post_category'] ); // Filter out empty terms
+	}
 
 	// Make sure we set a valid category.
-	if ( empty($post_category) || 0 == count($post_category) || !is_array($post_category) ) {
+	if ( empty( $post_category ) || 0 == count( $post_category ) || ! is_array( $post_category ) ) {
 		// 'post' requires at least one category.
-		if ( 'post' == $post_type && 'auto-draft' != $post_status )
+		if ( 'post' == $post_type && 'auto-draft' != $post_status ) {
 			$post_category = array( get_option('default_category') );
-		else
+		} else {
 			$post_category = array();
+		}
 	}
 
-	if ( empty($post_author) )
-		$post_author = $user_id;
-
 	// Don't allow contributors to set the post slug for pending review posts
-	if ( 'pending' == $post_status && !current_user_can( 'publish_posts' ) )
+	if ( 'pending' == $post_status && !current_user_can( 'publish_posts' ) ) {
 		$post_name = '';
+	}
 
 	// Create a valid post name. Drafts and pending posts are allowed to have an empty
 	// post name.
 	if ( empty($post_name) ) {
-		if ( !in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) )
+		if ( !in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) ) {
 			$post_name = sanitize_title($post_title);
-		else
+		} else {
 			$post_name = '';
+		}
 	} else {
 		// On updates, we need to check to see if it's using the old, fixed sanitization context.
 		$check_name = sanitize_title( $post_name, '', 'old-save' );
-		if ( $update && strtolower( urlencode( $post_name ) ) == $check_name && get_post_field( 'post_name', $ID ) == $check_name )
+		if ( $update && strtolower( urlencode( $post_name ) ) == $check_name && get_post_field( 'post_name', $post_ID ) == $check_name ) {
 			$post_name = $check_name;
-		else // new post, or slug has changed.
+		} else { // new post, or slug has changed.
 			$post_name = sanitize_title($post_name);
+		}
 	}
 
 	// If the post date is empty (due to having been new or a draft) and status is not 'draft' or 'pending', set date to now
-	if ( empty($post_date) || '0000-00-00 00:00:00' == $post_date )
-		$post_date = current_time('mysql');
+	if ( empty( $postarr['post_date'] ) || '0000-00-00 00:00:00' == $postarr['post_date'] ) {
+		$post_date = current_time( 'mysql' );
+	} else {
+		$post_date = $postarr['post_date'];
+	}
 
-		// validate the date
-		$mm = substr( $post_date, 5, 2 );
-		$jj = substr( $post_date, 8, 2 );
-		$aa = substr( $post_date, 0, 4 );
-		$valid_date = wp_checkdate( $mm, $jj, $aa, $post_date );
-		if ( !$valid_date ) {
-			if ( $wp_error )
-				return new WP_Error( 'invalid_date', __( 'Whoops, the provided date is invalid.' ) );
-			else
-				return 0;
+	// validate the date
+	$mm = substr( $post_date, 5, 2 );
+	$jj = substr( $post_date, 8, 2 );
+	$aa = substr( $post_date, 0, 4 );
+	$valid_date = wp_checkdate( $mm, $jj, $aa, $post_date );
+	if ( ! $valid_date ) {
+		if ( $wp_error ) {
+			return new WP_Error( 'invalid_date', __( 'Whoops, the provided date is invalid.' ) );
+		} else {
+			return 0;
 		}
+	}
 
-	if ( empty($post_date_gmt) || '0000-00-00 00:00:00' == $post_date_gmt ) {
-		if ( !in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) )
-			$post_date_gmt = get_gmt_from_date($post_date);
-		else
+	if ( empty( $postarr['post_date_gmt'] ) || '0000-00-00 00:00:00' == $postarr['post_date_gmt'] ) {
+		if ( ! in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) ) {
+			$post_date_gmt = get_gmt_from_date( $post_date );
+		} else {
 			$post_date_gmt = '0000-00-00 00:00:00';
+		}
+	} else {
+		$post_date_gmt = $postarr['post_date_gmt'];
 	}
 
 	if ( $update || '0000-00-00 00:00:00' == $post_date ) {
@@ -3047,35 +3062,52 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 
 	if ( 'publish' == $post_status ) {
 		$now = gmdate('Y-m-d H:i:59');
-		if ( mysql2date('U', $post_date_gmt, false) > mysql2date('U', $now, false) )
+		if ( mysql2date('U', $post_date_gmt, false) > mysql2date('U', $now, false) ) {
 			$post_status = 'future';
+		}
 	} elseif( 'future' == $post_status ) {
 		$now = gmdate('Y-m-d H:i:59');
-		if ( mysql2date('U', $post_date_gmt, false) <= mysql2date('U', $now, false) )
+		if ( mysql2date('U', $post_date_gmt, false) <= mysql2date('U', $now, false) ) {
 			$post_status = 'publish';
+		}
 	}
 
-	if ( empty($comment_status) ) {
-		if ( $update )
+	if ( empty( $postarr['comment_status'] ) ) {
+		if ( $update ) {
 			$comment_status = 'closed';
-		else
+		} else {
 			$comment_status = get_option('default_comment_status');
+		}
+	} else {
+		$comment_status = $postarr['comment_status'];
 	}
-	if ( empty($ping_status) )
-		$ping_status = get_option('default_ping_status');
 
-	if ( isset($to_ping) )
-		$to_ping = sanitize_trackback_urls( $to_ping );
-	else
-		$to_ping = '';
+	// these variables are needed by compact() later
+	$post_content_filtered = $postarr['post_content_filtered'];
+	$post_author = empty( $postarr['post_author'] ) ? $user_id : $postarr['post_author'];
+	$ping_status = empty( $postarr['ping_status'] ) ? get_option( 'default_ping_status' ) : $postarr['ping_status'];
+	$to_ping = isset( $postarr['to_ping'] ) ? sanitize_trackback_urls( $postarr['to_ping'] ) : '';
+	$pinged = isset( $postarr['pinged'] ) ? $postarr['pinged'] : '';
+	$import_id = isset( $postarr['import_id'] ) ? $postarr['import_id'] : 0;
 
-	if ( ! isset($pinged) )
-		$pinged = '';
+	// The 'wp_insert_post_parent' filter expects all variables to be present.
+	// Previously, these variables would have already been extracted
+	if ( isset( $postarr['menu_order'] ) ) {
+		$menu_order = (int) $postarr['menu_order'];
+	} else {
+		$menu_order = 0;
+	}
 
-	if ( isset($post_parent) )
-		$post_parent = (int) $post_parent;
-	else
+	$post_password = isset( $postarr['post_password'] ) ? $postarr['post_password'] : '';
+	if ( 'private' == $post_status ) {
+		$post_password = '';
+	}
+
+	if ( isset( $postarr['post_parent'] ) ) {
+		$post_parent = (int) $postarr['post_parent'];
+	} else {
 		$post_parent = 0;
+	}
 
 	/**
 	 * Filter the post parent -- used to check for and prevent hierarchy loops.
@@ -3089,18 +3121,10 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 */
 	$post_parent = apply_filters( 'wp_insert_post_parent', $post_parent, $post_ID, compact( array_keys( $postarr ) ), $postarr );
 
-	if ( isset($menu_order) )
-		$menu_order = (int) $menu_order;
-	else
-		$menu_order = 0;
-
-	if ( !isset($post_password) || 'private' == $post_status )
-		$post_password = '';
-
-	$post_name = wp_unique_post_slug($post_name, $post_ID, $post_status, $post_type, $post_parent);
+	$post_name = wp_unique_post_slug( $post_name, $post_ID, $post_status, $post_type, $post_parent );
 
 	// expected_slashed (everything!)
-	$data = compact( array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'guid' ) );
+	$data = compact( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'guid' );
 
 	/**
 	 * Filter slashed post data just before it is inserted into the database.
@@ -3125,26 +3149,29 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		 */
 		do_action( 'pre_post_update', $post_ID, $data );
 		if ( false === $wpdb->update( $wpdb->posts, $data, $where ) ) {
-			if ( $wp_error )
+			if ( $wp_error ) {
 				return new WP_Error('db_update_error', __('Could not update post in the database'), $wpdb->last_error);
-			else
+			} else {
 				return 0;
+			}
 		}
 	} else {
-		if ( isset($post_mime_type) )
-			$data['post_mime_type'] = wp_unslash( $post_mime_type ); // This isn't in the update
+		if ( isset( $postarr['post_mime_type'] ) ) {
+			$data['post_mime_type'] = wp_unslash( $postarr['post_mime_type'] ); // This isn't in the update
+		}
 		// If there is a suggested ID, use it if not already present
-		if ( !empty($import_id) ) {
+		if ( ! empty( $import_id ) ) {
 			$import_id = (int) $import_id;
 			if ( ! $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE ID = %d", $import_id) ) ) {
 				$data['ID'] = $import_id;
 			}
 		}
 		if ( false === $wpdb->insert( $wpdb->posts, $data ) ) {
-			if ( $wp_error )
+			if ( $wp_error ) {
 				return new WP_Error('db_insert_error', __('Could not insert post into the database'), $wpdb->last_error);
-			else
+			} else {
 				return 0;
+			}
 		}
 		$post_ID = (int) $wpdb->insert_id;
 
@@ -3157,43 +3184,48 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		$wpdb->update( $wpdb->posts, array( 'post_name' => $data['post_name'] ), $where );
 	}
 
-	if ( is_object_in_taxonomy($post_type, 'category') )
+	if ( is_object_in_taxonomy( $post_type, 'category' ) ) {
 		wp_set_post_categories( $post_ID, $post_category );
+	}
 
-	if ( isset( $tags_input ) && is_object_in_taxonomy($post_type, 'post_tag') )
-		wp_set_post_tags( $post_ID, $tags_input );
+	if ( isset( $postarr['tags_input'] ) && is_object_in_taxonomy( $post_type, 'post_tag' ) ) {
+		wp_set_post_tags( $post_ID, $postarr['tags_input'] );
+	}
 
 	// new-style support for all custom taxonomies
-	if ( !empty($tax_input) ) {
-		foreach ( $tax_input as $taxonomy => $tags ) {
+	if ( ! empty( $postarr['tax_input'] ) ) {
+		foreach ( $postarr['tax_input'] as $taxonomy => $tags ) {
 			$taxonomy_obj = get_taxonomy($taxonomy);
-			if ( is_array($tags) ) // array = hierarchical, string = non-hierarchical.
+			if ( is_array( $tags ) ) { // array = hierarchical, string = non-hierarchical.
 				$tags = array_filter($tags);
-			if ( current_user_can($taxonomy_obj->cap->assign_terms) )
+			}
+			if ( current_user_can( $taxonomy_obj->cap->assign_terms ) ) {
 				wp_set_post_terms( $post_ID, $tags, $taxonomy );
+			}
 		}
 	}
 
 	$current_guid = get_post_field( 'guid', $post_ID );
 
 	// Set GUID
-	if ( !$update && '' == $current_guid )
+	if ( ! $update && '' == $current_guid ) {
 		$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post_ID ) ), $where );
-
+	}
 	clean_post_cache( $post_ID );
 
-	$post = get_post($post_ID);
+	$post = get_post( $post_ID );
 
-	if ( !empty($page_template) && 'page' == $data['post_type'] ) {
-		$post->page_template = $page_template;
+	if ( ! empty( $postarr['page_template'] ) && 'page' == $data['post_type'] ) {
+		$post->page_template = $postarr['page_template'];
 		$page_templates = wp_get_theme()->get_page_templates( $post );
-		if ( 'default' != $page_template && ! isset( $page_templates[ $page_template ] ) ) {
-			if ( $wp_error )
+		if ( 'default' != $postarr['page_template'] && ! isset( $page_templates[ $postarr['page_template'] ] ) ) {
+			if ( $wp_error ) {
 				return new WP_Error('invalid_page_template', __('The page template is invalid.'));
-			else
+			} else {
 				return 0;
+			}
 		}
-		update_post_meta($post_ID, '_wp_page_template',  $page_template);
+		update_post_meta( $post_ID, '_wp_page_template', $postarr['page_template'] );
 	}
 
 	wp_transition_post_status($data['post_status'], $previous_status, $post);
