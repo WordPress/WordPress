@@ -2364,9 +2364,9 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
 
-	if ( ! taxonomy_exists($taxonomy) )
+	if ( ! taxonomy_exists($taxonomy) ) {
 		return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
-
+	}
 	/**
 	 * Filter a term before it is sanitized and inserted into the database.
 	 *
@@ -2376,34 +2376,36 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 * @param string $taxonomy Taxonomy slug.
 	 */
 	$term = apply_filters( 'pre_insert_term', $term, $taxonomy );
-		if ( is_wp_error( $term ) )
-			return $term;
-
-	if ( is_int($term) && 0 == $term )
+	if ( is_wp_error( $term ) ) {
+		return $term;
+	}
+	if ( is_int($term) && 0 == $term ) {
 		return new WP_Error('invalid_term_id', __('Invalid term ID'));
-
-	if ( '' == trim($term) )
+	}
+	if ( '' == trim($term) ) {
 		return new WP_Error('empty_term_name', __('A name is required for this term'));
-
+	}
 	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '');
 	$args = wp_parse_args($args, $defaults);
 	$args['name'] = $term;
 	$args['taxonomy'] = $taxonomy;
 	$args = sanitize_term($args, $taxonomy, 'db');
-	extract($args, EXTR_SKIP);
 
 	// expected_slashed ($name)
-	$name = wp_unslash($name);
-	$description = wp_unslash($description);
+	$name = wp_unslash( $args['name'] );
+	$description = wp_unslash( $args['description'] );
+	$parent = (int) $args['parent'];
 
-	$slug_provided = ! empty( $slug );
+	$slug_provided = ! empty( $args['slug'] );
 	if ( ! $slug_provided ) {
 		$slug = sanitize_title($name);
+	} else {
+		$slug = $args['slug'];
 	}
 
 	$term_group = 0;
-	if ( $alias_of ) {
-		$alias = $wpdb->get_row( $wpdb->prepare( "SELECT term_id, term_group FROM $wpdb->terms WHERE slug = %s", $alias_of) );
+	if ( $args['alias_of'] ) {
+		$alias = $wpdb->get_row( $wpdb->prepare( "SELECT term_id, term_group FROM $wpdb->terms WHERE slug = %s", $args['alias_of'] ) );
 		if ( $alias->term_group ) {
 			// The alias we want is already in a group, so let's use that one.
 			$term_group = $alias->term_group;
@@ -2439,7 +2441,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		// We've got an existing term in the same taxonomy, which matches the name of the new term:
 		if ( is_taxonomy_hierarchical($taxonomy) && $existing_term['name'] == $name && $exists = term_exists( (int) $term_id, $taxonomy ) ) {
 			// Hierarchical, and it matches an existing term, Do not allow same "name" in the same level.
-			$siblings = get_terms($taxonomy, array('fields' => 'names', 'get' => 'all', 'parent' => (int)$parent) );
+			$siblings = get_terms($taxonomy, array('fields' => 'names', 'get' => 'all', 'parent' => $parent ) );
 			if ( in_array($name, $siblings) ) {
 				if ( $slug_provided ) {
 					return new WP_Error( 'term_exists', __( 'A term with the name and slug provided already exists with this parent.' ), $exists['term_id'] );
@@ -2448,15 +2450,17 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 				}
 			} else {
 				$slug = wp_unique_term_slug($slug, (object) $args);
-				if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) )
+				if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) ) {
 					return new WP_Error('db_insert_error', __('Could not insert term into the database'), $wpdb->last_error);
+				}
 				$term_id = (int) $wpdb->insert_id;
 			}
 		} elseif ( $existing_term['name'] != $name ) {
 			// We've got an existing term, with a different name, Create the new term.
 			$slug = wp_unique_term_slug($slug, (object) $args);
-			if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) )
+			if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) ) {
 				return new WP_Error('db_insert_error', __('Could not insert term into the database'), $wpdb->last_error);
+			}
 			$term_id = (int) $wpdb->insert_id;
 		} elseif ( $exists = term_exists( (int) $term_id, $taxonomy ) )  {
 			// Same name, same slug.
@@ -2465,8 +2469,9 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	} else {
 		// This term does not exist at all in the database, Create it.
 		$slug = wp_unique_term_slug($slug, (object) $args);
-		if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) )
+		if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) ) {
 			return new WP_Error('db_insert_error', __('Could not insert term into the database'), $wpdb->last_error);
+		}
 		$term_id = (int) $wpdb->insert_id;
 	}
 
@@ -2484,9 +2489,9 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	$tt_id = $wpdb->get_var( $wpdb->prepare( "SELECT tt.term_taxonomy_id FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d", $taxonomy, $term_id ) );
 
-	if ( !empty($tt_id) )
+	if ( !empty($tt_id) ) {
 		return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
-
+	}
 	$wpdb->insert( $wpdb->term_taxonomy, compact( 'term_id', 'taxonomy', 'description', 'parent') + array( 'count' => 0 ) );
 	$tt_id = (int) $wpdb->insert_id;
 
