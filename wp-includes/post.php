@@ -4157,8 +4157,6 @@ function get_page_uri( $page ) {
 function get_pages( $args = array() ) {
 	global $wpdb;
 
-	$pages = false;
-
 	$defaults = array(
 		'child_of' => 0, 'sort_order' => 'ASC',
 		'sort_column' => 'post_title', 'hierarchical' => 1,
@@ -4170,26 +4168,37 @@ function get_pages( $args = array() ) {
 	);
 
 	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-	$number = (int) $number;
-	$offset = (int) $offset;
+
+	$number = (int) $r['number'];
+	$offset = (int) $r['offset'];
+	$child_of = (int) $r['child_of'];
+	$hierarchical = $r['hierarchical'];
+	$exclude = $r['exclude'];
+	$meta_key = $r['meta_key'];
+	$meta_value = $r['meta_value'];
+	$parent = $r['parent'];
+	$post_status = $r['post_status'];
 
 	// Make sure the post type is hierarchical
 	$hierarchical_post_types = get_post_types( array( 'hierarchical' => true ) );
-	if ( !in_array( $post_type, $hierarchical_post_types ) )
-		return $pages;
+	if ( ! in_array( $r['post_type'], $hierarchical_post_types ) ) {
+		return false;
+	}
 
-	if ( $parent > 0 && ! $child_of )
+	if ( $parent > 0 && ! $child_of ) {
 		$hierarchical = false;
+	}
 
 	// Make sure we have a valid post status
-	if ( !is_array( $post_status ) )
+	if ( ! is_array( $post_status ) ) {
 		$post_status = explode( ',', $post_status );
-	if ( array_diff( $post_status, get_post_stati() ) )
-		return $pages;
+	}
+	if ( array_diff( $post_status, get_post_stati() ) ) {
+		return false;
+	}
 
 	// $args can be whatever, only use the args defined in defaults to compute the key
-	$key = md5( serialize( compact(array_keys($defaults)) ) );
+	$key = md5( serialize( wp_array_slice_assoc( $r, array_keys( $defaults ) ) ) );
 	$last_changed = wp_cache_get( 'last_changed', 'posts' );
 	if ( ! $last_changed ) {
 		$last_changed = microtime();
@@ -4206,48 +4215,54 @@ function get_pages( $args = array() ) {
 	}
 
 	$inclusions = '';
-	if ( ! empty( $include ) ) {
+	if ( ! empty( $r['include'] ) ) {
 		$child_of = 0; //ignore child_of, parent, exclude, meta_key, and meta_value params if using include
 		$parent = -1;
 		$exclude = '';
 		$meta_key = '';
 		$meta_value = '';
 		$hierarchical = false;
-		$incpages = wp_parse_id_list( $include );
-		if ( ! empty( $incpages ) )
+		$incpages = wp_parse_id_list( $r['include'] );
+		if ( ! empty( $incpages ) ) {
 			$inclusions = ' AND ID IN (' . implode( ',', $incpages ) .  ')';
+		}
 	}
 
 	$exclusions = '';
 	if ( ! empty( $exclude ) ) {
 		$expages = wp_parse_id_list( $exclude );
-		if ( ! empty( $expages ) )
+		if ( ! empty( $expages ) ) {
 			$exclusions = ' AND ID NOT IN (' . implode( ',', $expages ) .  ')';
+		}
 	}
 
 	$author_query = '';
-	if (!empty($authors)) {
-		$post_authors = preg_split('/[\s,]+/',$authors);
+	if ( ! empty( $r['authors'] ) ) {
+		$post_authors = preg_split( '/[\s,]+/', $r['authors'] );
 
 		if ( ! empty( $post_authors ) ) {
 			foreach ( $post_authors as $post_author ) {
 				//Do we have an author id or an author login?
 				if ( 0 == intval($post_author) ) {
 					$post_author = get_user_by('login', $post_author);
-					if ( empty($post_author) )
+					if ( empty( $post_author ) ) {
 						continue;
-					if ( empty($post_author->ID) )
+					}
+					if ( empty( $post_author->ID ) ) {
 						continue;
+					}
 					$post_author = $post_author->ID;
 				}
 
-				if ( '' == $author_query )
+				if ( '' == $author_query ) {
 					$author_query = $wpdb->prepare(' post_author = %d ', $post_author);
-				else
+				} else {
 					$author_query .= $wpdb->prepare(' OR post_author = %d ', $post_author);
+				}
 			}
-			if ( '' != $author_query )
+			if ( '' != $author_query ) {
 				$author_query = " AND ($author_query)";
+			}
 		}
 	}
 
@@ -4259,36 +4274,41 @@ function get_pages( $args = array() ) {
 		// meta_key and meta_value might be slashed
 		$meta_key = wp_unslash($meta_key);
 		$meta_value = wp_unslash($meta_value);
-		if ( '' !== $meta_key )
+		if ( '' !== $meta_key ) {
 			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_key = %s", $meta_key);
-		if ( '' !== $meta_value )
+		}
+		if ( '' !== $meta_value ) {
 			$where .= $wpdb->prepare(" AND $wpdb->postmeta.meta_value = %s", $meta_value);
+		}
 
 	}
 
 	if ( is_array( $parent ) ) {
 		$post_parent__in = implode( ',', array_map( 'absint', (array) $parent ) );
-		if ( ! empty( $post_parent__in ) )
+		if ( ! empty( $post_parent__in ) ) {
 			$where .= " AND post_parent IN ($post_parent__in)";
+		}
 	} elseif ( $parent >= 0 ) {
 		$where .= $wpdb->prepare(' AND post_parent = %d ', $parent);
 	}
 
 	if ( 1 == count( $post_status ) ) {
-		$where_post_type = $wpdb->prepare( "post_type = %s AND post_status = %s", $post_type, array_shift( $post_status ) );
+		$where_post_type = $wpdb->prepare( "post_type = %s AND post_status = %s", $r['post_type'], array_shift( $post_status ) );
 	} else {
 		$post_status = implode( "', '", $post_status );
-		$where_post_type = $wpdb->prepare( "post_type = %s AND post_status IN ('$post_status')", $post_type );
+		$where_post_type = $wpdb->prepare( "post_type = %s AND post_status IN ('$post_status')", $r['post_type'] );
 	}
 
 	$orderby_array = array();
-	$allowed_keys = array('author', 'post_author', 'date', 'post_date', 'title', 'post_title', 'name', 'post_name', 'modified',
-						  'post_modified', 'modified_gmt', 'post_modified_gmt', 'menu_order', 'parent', 'post_parent',
-						  'ID', 'rand', 'comment_count');
-	foreach ( explode( ',', $sort_column ) as $orderby ) {
+	$allowed_keys = array( 'author', 'post_author', 'date', 'post_date', 'title', 'post_title', 'name', 'post_name', 'modified',
+		'post_modified', 'modified_gmt', 'post_modified_gmt', 'menu_order', 'parent', 'post_parent',
+		'ID', 'rand', 'comment_count' );
+
+	foreach ( explode( ',', $r['sort_column'] ) as $orderby ) {
 		$orderby = trim( $orderby );
-		if ( !in_array( $orderby, $allowed_keys ) )
+		if ( ! in_array( $orderby, $allowed_keys ) ) {
 			continue;
+		}
 
 		switch ( $orderby ) {
 			case 'menu_order':
@@ -4303,10 +4323,11 @@ function get_pages( $args = array() ) {
 				$orderby = "$wpdb->posts.comment_count";
 				break;
 			default:
-				if ( 0 === strpos( $orderby, 'post_' ) )
+				if ( 0 === strpos( $orderby, 'post_' ) ) {
 					$orderby = "$wpdb->posts." . $orderby;
-				else
+				} else {
 					$orderby = "$wpdb->posts.post_" . $orderby;
+				}
 		}
 
 		$orderby_array[] = $orderby;
@@ -4314,16 +4335,18 @@ function get_pages( $args = array() ) {
 	}
 	$sort_column = ! empty( $orderby_array ) ? implode( ',', $orderby_array ) : "$wpdb->posts.post_title";
 
-	$sort_order = strtoupper( $sort_order );
-	if ( '' !== $sort_order && !in_array( $sort_order, array( 'ASC', 'DESC' ) ) )
+	$sort_order = strtoupper( $r['sort_order'] );
+	if ( '' !== $sort_order && ! in_array( $sort_order, array( 'ASC', 'DESC' ) ) ) {
 		$sort_order = 'ASC';
+	}
 
 	$query = "SELECT * FROM $wpdb->posts $join WHERE ($where_post_type) $where ";
 	$query .= $author_query;
 	$query .= " ORDER BY " . $sort_column . " " . $sort_order ;
 
-	if ( !empty($number) )
+	if ( ! empty( $number ) ) {
 		$query .= ' LIMIT ' . $offset . ',' . $number;
+	}
 
 	$pages = $wpdb->get_results($query);
 
@@ -4342,11 +4365,12 @@ function get_pages( $args = array() ) {
 	// Update cache.
 	update_post_cache( $pages );
 
-	if ( $child_of || $hierarchical )
+	if ( $child_of || $hierarchical ) {
 		$pages = get_page_children($child_of, $pages);
+	}
 
-	if ( ! empty( $exclude_tree ) ) {
-		$exclude = wp_parse_id_list( $exclude_tree );
+	if ( ! empty( $r['exclude_tree'] ) ) {
+		$exclude = wp_parse_id_list( $r['exclude_tree'] );
 		foreach( $exclude as $id ) {
 			$children = get_page_children( $id, $pages );
 			foreach ( $children as $child ) {
@@ -4363,8 +4387,9 @@ function get_pages( $args = array() ) {
 	}
 
 	$page_structure = array();
-	foreach ( $pages as $page )
+	foreach ( $pages as $page ) {
 		$page_structure[] = $page->ID;
+	}
 
 	wp_cache_set( $cache_key, $page_structure, 'posts' );
 
