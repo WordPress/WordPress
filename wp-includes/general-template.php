@@ -1149,28 +1149,31 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 /**
  * Display archive links based on type and format.
  *
- * The 'type' argument offers a few choices and by default will display monthly
- * archive links. The other options for values are 'daily', 'weekly', 'monthly',
- * 'yearly', 'postbypost' or 'alpha'. Both 'postbypost' and 'alpha' display the
- * same archive link list, the difference between the two is that 'alpha'
- * will order by post title and 'postbypost' will order by post date.
- *
- * The date archives will logically display dates with links to the archive post
- * page. The 'postbypost' and 'alpha' values for 'type' argument will display
- * the post titles.
- *
- * The 'limit' argument will only display a limited amount of links, specified
- * by the 'limit' integer value. By default, there is no limit. The
- * 'show_post_count' argument will show how many posts are within the archive.
- * By default, the 'show_post_count' argument is set to false.
- *
- * For the 'format', 'before', and 'after' arguments, see {@link
- * get_archives_link()}. The values of these arguments have to do with that
- * function.
- *
  * @since 1.2.0
  *
- * @param string|array $args Optional. Override defaults.
+ * @see get_archives_link()
+ *
+ * @param string|array $args {
+ *     Default archive links arguments. Optional.
+ *
+ *     @type string     $type            Type of archive to retrieve. Accepts 'daily', 'weekly', 'monthly',
+ *                                       'yearly', 'postbypost', or 'alpha'. Both 'postbypost' and 'alpha'
+ *                                       display the same archive link list as well as post titles instead
+ *                                       of displaying dates. The difference between the two is that 'alpha'
+ *                                       will order by post title and 'postbypost' will order by post date.
+ *                                       Default 'monthly'.
+ *     @type string|int $limit           Number of links to limit the query to. Default empty (no limit).
+ *     @type string     $format          Format each link should take using the $before and $after args.
+ *                                       Accepts 'link' (`<link>` tag), 'option' (`<option>` tag), 'html'
+ *                                       (`<li>` tag), or a custom format, which generates a link anchor
+ *                                       with $before preceding and $after succeeding. Default 'html'.
+ *     @type string     $before          Markup to prepend to the beginning of each link. Default empty.
+ *     @type string     $after           Markup to append to the end of each link. Default empty.
+ *     @type bool       $show_post_count Whether to display the post count alongside the link. Default false.
+ *     @type bool       $echo            Whether to echo or return the links list. Default 1|true to echo.
+ *     @type string     $order           Whether to use ascending or descending order. Accepts 'ASC', or 'DESC'.
+ *                                       Default 'DESC'.
+ * }
  * @return string|null String when retrieving, null when displaying.
  */
 function wp_get_archives( $args = '' ) {
