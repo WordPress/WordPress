@@ -352,13 +352,13 @@ class Custom_Image_Header {
 	var default_color = '<?php echo $default_color; ?>',
 		header_text_fields;
 
-	public function pickColor(color) {
+	function pickColor(color) {
 		$('#name').css('color', color);
 		$('#desc').css('color', color);
 		$('#text-color').val(color);
 	}
 
-	public function toggle_text() {
+	function toggle_text() {
 		var checked = $('#display-header-text').prop('checked'),
 			text_color;
 		header_text_fields.toggle( checked );
@@ -403,7 +403,7 @@ class Custom_Image_Header {
 	public function js_2() { ?>
 <script type="text/javascript">
 /* <![CDATA[ */
-	public function onEndCrop( coords ) {
+	function onEndCrop( coords ) {
 		jQuery( '#x1' ).val(coords.x);
 		jQuery( '#y1' ).val(coords.y);
 		jQuery( '#width' ).val(coords.w);
@@ -452,7 +452,7 @@ class Custom_Image_Header {
 			<?php
 			}
 			?>
-			onInit: public function () {
+			onInit: function () {
 				jQuery('#width').val(xinit);
 				jQuery('#height').val(yinit);
 			},
