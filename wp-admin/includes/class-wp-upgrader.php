@@ -1393,7 +1393,7 @@ class Core_Upgrader extends WP_Upgrader {
 	function upgrade( $current, $args = array() ) {
 		global $wp_filesystem;
 
-		include ABSPATH . WPINC . '/version.php'; // $wp_version;
+		include( ABSPATH . WPINC . '/version.php' ); // $wp_version;
 
 		$start_time = time();
 
@@ -1537,7 +1537,7 @@ class Core_Upgrader extends WP_Upgrader {
 
 	// Determines if this WordPress Core version should update to $offered_ver or not
 	static function should_update_to_version( $offered_ver /* x.y.z */ ) {
-		include ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
+		include( ABSPATH . WPINC . '/version.php' ); // $wp_version; // x.y.z
 
 		$current_branch = implode( '.', array_slice( preg_split( '/[.-]/', $wp_version  ), 0, 2 ) ); // x.y
 		$new_branch     = implode( '.', array_slice( preg_split( '/[.-]/', $offered_ver ), 0, 2 ) ); // x.y

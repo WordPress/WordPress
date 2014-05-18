@@ -38,7 +38,7 @@ if ( !current_user_can('upload_files') )
 header('Content-Type: text/html; charset=' . get_option('blog_charset'));
 
 if ( isset( $_REQUEST['action'] ) && 'upload-attachment' === $_REQUEST['action'] ) {
-	include ABSPATH . 'wp-admin/includes/ajax-actions.php';
+	include( ABSPATH . 'wp-admin/includes/ajax-actions.php' );
 
 	send_nosniff_header();
 	nocache_headers();

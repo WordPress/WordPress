@@ -25,7 +25,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		return;
 
 	global $wpdb, $wp_local_package;
-	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
+	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
 	$php_version = phpversion();
 
 	$current = get_site_transient( 'update_core' );
@@ -183,7 +183,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
  * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
  */
 function wp_update_plugins( $extra_stats = array() ) {
-	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
+	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
 
 	if ( defined('WP_INSTALLING') )
 		return false;
@@ -322,7 +322,7 @@ function wp_update_plugins( $extra_stats = array() ) {
  * @return mixed Returns null if update is unsupported. Returns false if check is too soon.
  */
 function wp_update_themes( $extra_stats = array() ) {
-	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
+	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
 
 	if ( defined( 'WP_INSTALLING' ) )
 		return false;
@@ -550,7 +550,7 @@ function wp_get_update_data() {
 }
 
 function _maybe_update_core() {
-	include ABSPATH . WPINC . '/version.php'; // include an unmodified $wp_version
+	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
 
 	$current = get_site_transient( 'update_core' );
 
