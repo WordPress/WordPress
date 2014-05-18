@@ -111,7 +111,7 @@ case 'spam'    :
 	$nonce_action .= $comment_id;
 
 ?>
-<div class='wrap'>
+<div class="wrap">
 
 <div class="narrow">
 
@@ -181,7 +181,7 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 
 <p><?php _e('Are you sure you want to do this?'); ?></p>
 
-<form action='comment.php' method='get'>
+<form action="comment.php" method="get">
 
 <table width="100%">
 <tr>
@@ -191,9 +191,9 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 </table>
 
 <?php wp_nonce_field( $nonce_action ); ?>
-<input type='hidden' name='action' value='<?php echo esc_attr($formaction); ?>' />
-<input type='hidden' name='c' value='<?php echo esc_attr($comment->comment_ID); ?>' />
-<input type='hidden' name='noredir' value='1' />
+<input type="hidden" name="action" value="<?php echo esc_attr($formaction); ?>" />
+<input type="hidden" name="c" value="<?php echo esc_attr($comment->comment_ID); ?>" />
+<input type="hidden" name="noredir" value="1" />
 </form>
 
 </div>
