@@ -22,7 +22,7 @@ class Custom_Background {
 	 * @since 3.0.0
 	 * @access private
 	 */
-	var $admin_header_callback;
+	private $admin_header_callback;
 
 	/**
 	 * Callback for header div.
@@ -31,7 +31,7 @@ class Custom_Background {
 	 * @since 3.0.0
 	 * @access private
 	 */
-	var $admin_image_div_callback;
+	private $admin_image_div_callback;
 
 	/**
 	 * Holds the page menu hook.
@@ -40,7 +40,7 @@ class Custom_Background {
 	 * @since 3.0.0
 	 * @access private
 	 */
-	var $page = '';
+	private $page = '';
 
 	/**
 	 * Constructor - Register administration header callback.
@@ -50,7 +50,7 @@ class Custom_Background {
 	 * @param callback $admin_image_div_callback Optional custom image div output callback.
 	 * @return Custom_Background
 	 */
-	function __construct($admin_header_callback = '', $admin_image_div_callback = '') {
+	public function __construct($admin_header_callback = '', $admin_image_div_callback = '') {
 		$this->admin_header_callback = $admin_header_callback;
 		$this->admin_image_div_callback = $admin_image_div_callback;
 
@@ -59,11 +59,22 @@ class Custom_Background {
 	}
 
 	/**
+	 * Make private properties readable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __get( $name ) {
+		return $this->$name;
+	}
+
+	/**
 	 * Set up the hooks for the Custom Background admin page.
 	 *
 	 * @since 3.0.0
 	 */
-	function init() {
+	public function init() {
 		if ( ! current_user_can('edit_theme_options') )
 			return;
 
@@ -82,7 +93,7 @@ class Custom_Background {
 	 *
 	 * @since 3.0.0
 	 */
-	function admin_load() {
+	public function admin_load() {
 		get_current_screen()->add_help_tab( array(
 			'id'      => 'overview',
 			'title'   => __('Overview'),
@@ -109,7 +120,7 @@ class Custom_Background {
 	 *
 	 * @since 3.0.0
 	 */
-	function take_action() {
+	public function take_action() {
 
 		if ( empty($_POST) )
 			return;
@@ -176,7 +187,7 @@ class Custom_Background {
 	 *
 	 * @since 3.0.0
 	 */
-	function admin_page() {
+	public function admin_page() {
 ?>
 <div class="wrap" id="custom-background">
 <h2><?php _e( 'Custom Background' ); ?></h2>
@@ -343,7 +354,7 @@ if ( current_theme_supports( 'custom-background', 'default-color' ) )
 	 *
 	 * @since 3.0.0
 	 */
-	function handle_upload() {
+	public function handle_upload() {
 
 		if ( empty($_FILES) )
 			return;
@@ -397,7 +408,7 @@ if ( current_theme_supports( 'custom-background', 'default-color' ) )
 	 *
 	 * @since 3.4.0
 	 */
-	function attachment_fields_to_edit( $form_fields ) {
+	public function attachment_fields_to_edit( $form_fields ) {
 		return $form_fields;
 	}
 
@@ -406,7 +417,7 @@ if ( current_theme_supports( 'custom-background', 'default-color' ) )
 	 *
 	 * @since 3.4.0
 	 */
-	function filter_upload_tabs( $tabs ) {
+	public function filter_upload_tabs( $tabs ) {
 		return $tabs;
 	}
 

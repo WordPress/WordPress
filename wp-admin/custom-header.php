@@ -22,7 +22,7 @@ class Custom_Image_Header {
 	 * @since 2.1.0
 	 * @access private
 	 */
-	var $admin_header_callback;
+	private $admin_header_callback;
 
 	/**
 	 * Callback for header div.
@@ -31,7 +31,7 @@ class Custom_Image_Header {
 	 * @since 3.0.0
 	 * @access private
 	 */
-	var $admin_image_div_callback;
+	private $admin_image_div_callback;
 
 	/**
 	 * Holds default headers.
@@ -40,7 +40,7 @@ class Custom_Image_Header {
 	 * @since 3.0.0
 	 * @access private
 	 */
-	var $default_headers = array();
+	private $default_headers = array();
 
 	/**
 	 * Holds custom headers uploaded by the user.
@@ -49,7 +49,7 @@ class Custom_Image_Header {
 	 * @since 3.2.0
 	 * @access private
 	 */
-	var $uploaded_headers = array();
+	private $uploaded_headers = array();
 
 	/**
 	 * Holds the page menu hook.
@@ -58,7 +58,7 @@ class Custom_Image_Header {
 	 * @since 3.0.0
 	 * @access private
 	 */
-	var $page = '';
+	private $page = '';
 
 	/**
 	 * Constructor - Register administration header callback.
@@ -68,7 +68,7 @@ class Custom_Image_Header {
 	 * @param callback $admin_image_div_callback Optional custom image div output callback.
 	 * @return Custom_Image_Header
 	 */
-	function __construct($admin_header_callback, $admin_image_div_callback = '') {
+	public function __construct($admin_header_callback, $admin_image_div_callback = '') {
 		$this->admin_header_callback = $admin_header_callback;
 		$this->admin_image_div_callback = $admin_image_div_callback;
 
@@ -81,11 +81,22 @@ class Custom_Image_Header {
 	}
 
 	/**
+	 * Make private properties readable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __get( $name ) {
+		return $this->$name;
+	}
+
+	/**
 	 * Set up the hooks for the Custom Header admin page.
 	 *
 	 * @since 2.1.0
 	 */
-	function init() {
+	public function init() {
 		if ( ! current_user_can('edit_theme_options') )
 			return;
 
@@ -106,7 +117,7 @@ class Custom_Image_Header {
 	 *
 	 * @since 3.0.0
 	 */
-	function help() {
+	public function help() {
 		get_current_screen()->add_help_tab( array(
 			'id'      => 'overview',
 			'title'   => __('Overview'),
@@ -148,7 +159,7 @@ class Custom_Image_Header {
 	 *
 	 * @return int Current step
 	 */
-	function step() {
+	public function step() {
 		if ( ! isset( $_GET['step'] ) )
 			return 1;
 
@@ -167,7 +178,7 @@ class Custom_Image_Header {
 	 *
 	 * @since 2.1.0
 	 */
-	function js_includes() {
+	public function js_includes() {
 		$step = $this->step();
 
 		if ( ( 1 == $step || 3 == $step ) ) {
@@ -185,7 +196,7 @@ class Custom_Image_Header {
 	 *
 	 * @since 2.7.0
 	 */
-	function css_includes() {
+	public function css_includes() {
 		$step = $this->step();
 
 		if ( ( 1 == $step || 3 == $step ) && current_theme_supports( 'custom-header', 'header-text' ) )
@@ -199,7 +210,7 @@ class Custom_Image_Header {
 	 *
 	 * @since 2.6.0
 	 */
-	function take_action() {
+	public function take_action() {
 		if ( ! current_user_can('edit_theme_options') )
 			return;
 
@@ -245,7 +256,7 @@ class Custom_Image_Header {
 	 *
 	 * @since 3.0.0
 	 */
-	function process_default_headers() {
+	public function process_default_headers() {
 		global $_wp_default_headers;
 
 		if ( !empty($this->headers) )
@@ -275,7 +286,7 @@ class Custom_Image_Header {
 	 *
 	 * @since 3.0.0
 	 */
-	function show_header_selector( $type = 'default' ) {
+	public function show_header_selector( $type = 'default' ) {
 		if ( 'default' == $type ) {
 			$headers = $this->default_headers;
 		} else {
@@ -312,7 +323,7 @@ class Custom_Image_Header {
 	 *
 	 * @since 2.1.0
 	 */
-	function js() {
+	public function js() {
 		$step = $this->step();
 		if ( ( 1 == $step || 3 == $step ) && current_theme_supports( 'custom-header', 'header-text' ) )
 			$this->js_1();
@@ -325,7 +336,7 @@ class Custom_Image_Header {
 	 *
 	 * @since 2.6.0
 	 */
-	function js_1() {
+	public function js_1() {
 		$default_color = '';
 		if ( current_theme_supports( 'custom-header', 'default-text-color' ) ) {
 			$default_color = get_theme_support( 'custom-header', 'default-text-color' );
@@ -341,13 +352,13 @@ class Custom_Image_Header {
 	var default_color = '<?php echo $default_color; ?>',
 		header_text_fields;
 
-	function pickColor(color) {
+	public function pickColor(color) {
 		$('#name').css('color', color);
 		$('#desc').css('color', color);
 		$('#text-color').val(color);
 	}
 
-	function toggle_text() {
+	public function toggle_text() {
 		var checked = $('#display-header-text').prop('checked'),
 			text_color;
 		header_text_fields.toggle( checked );
@@ -389,10 +400,10 @@ class Custom_Image_Header {
 	 *
 	 * @since 2.6.0
 	 */
-	function js_2() { ?>
+	public function js_2() { ?>
 <script type="text/javascript">
 /* <![CDATA[ */
-	function onEndCrop( coords ) {
+	public function onEndCrop( coords ) {
 		jQuery( '#x1' ).val(coords.x);
 		jQuery( '#y1' ).val(coords.y);
 		jQuery( '#width' ).val(coords.w);
@@ -441,7 +452,7 @@ class Custom_Image_Header {
 			<?php
 			}
 			?>
-			onInit: function () {
+			onInit: public function () {
 				jQuery('#width').val(xinit);
 				jQuery('#height').val(yinit);
 			},
@@ -463,7 +474,7 @@ class Custom_Image_Header {
 	 *
 	 * @since 2.1.0
 	 */
-	function step_1() {
+	public function step_1() {
 		$this->process_default_headers();
 ?>
 
@@ -681,7 +692,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 *
 	 * @since 2.1.0
 	 */
-	function step_2() {
+	public function step_2() {
 		check_admin_referer('custom-header-upload', '_wpnonce-custom-header-upload');
 		if ( ! current_theme_supports( 'custom-header', 'uploads' ) )
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
@@ -795,7 +806,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 *
 	 * @since 3.4.0
 	 */
-	function step_2_manage_upload() {
+	public function step_2_manage_upload() {
 		$overrides = array('test_form' => false);
 
 		$uploaded_file = $_FILES['import'];
@@ -832,7 +843,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 *
 	 * @since 2.1.0
 	 */
-	function step_3() {
+	public function step_3() {
 		check_admin_referer( 'custom-header-crop-image' );
 
 		if ( ! current_theme_supports( 'custom-header', 'uploads' ) )
@@ -908,7 +919,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 *
 	 * @since 2.1.0
 	 */
-	function finished() {
+	public function finished() {
 		$this->updated = true;
 		$this->step_1();
 	}
@@ -918,7 +929,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 *
 	 * @since 2.1.0
 	 */
-	function admin_page() {
+	public function admin_page() {
 		if ( ! current_user_can('edit_theme_options') )
 			wp_die(__('You do not have permission to customize headers.'));
 		$step = $this->step();
@@ -935,7 +946,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 *
 	 * @since 3.4.0
 	 */
-	function attachment_fields_to_edit( $form_fields ) {
+	public function attachment_fields_to_edit( $form_fields ) {
 		return $form_fields;
 	}
 
@@ -944,7 +955,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 *
 	 * @since 3.4.0
 	 */
-	function filter_upload_tabs( $tabs ) {
+	public function filter_upload_tabs( $tabs ) {
 		return $tabs;
 	}
 
@@ -1147,7 +1158,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 * Gets attachment uploaded by Media Manager, crops it, then saves it as a
 	 * new object. Returns JSON-encoded object details.
 	 */
-	function ajax_header_crop() {
+	public function ajax_header_crop() {
 		check_ajax_referer( 'image_editor-' . $_POST['id'], 'nonce' );
 
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
@@ -1204,7 +1215,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 * Triggered when the user tries adds a new header image from the
 	 * Media Manager, even if s/he doesn't save that change.
 	 */
-	function ajax_header_add() {
+	public function ajax_header_add() {
 		check_ajax_referer( 'header-add', 'nonce' );
 
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
@@ -1230,7 +1241,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 * Triggered when the user clicks the overlay "X" button next to each image
 	 * choice in the Customizer's Header tool.
 	 */
-	function ajax_header_remove() {
+	public function ajax_header_remove() {
 		check_ajax_referer( 'header-remove', 'nonce' );
 
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
@@ -1249,7 +1260,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		wp_send_json_success();
 	}
 
-	function customize_set_last_used( $wp_customize ) {
+	public function customize_set_last_used( $wp_customize ) {
 		$data = $wp_customize->get_setting( 'header_image_data' )->post_value();
 
 		if ( ! isset( $data['attachment_id'] ) ) {
