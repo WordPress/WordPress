@@ -11,8 +11,9 @@
  *
  * @since 2.3.2
  */
-if ( ! defined('WP_ADMIN') )
-	define('WP_ADMIN', true);
+if ( ! defined( 'WP_ADMIN' ) ) {
+	define( 'WP_ADMIN', true );
+}
 
 if ( ! defined('WP_NETWORK_ADMIN') )
 	define('WP_NETWORK_ADMIN', false);
