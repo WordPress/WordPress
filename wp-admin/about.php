@@ -67,7 +67,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 	</div>
 
-	<hr>
+	<hr />
 
 	<div class="feature-section col two-col">
 		<div class="col-1">
@@ -172,7 +172,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	</div>
 </div>
 
-<hr>
+<hr />
 
 <div class="changelog customize">
 	<div class="feature-section col two-col">
@@ -202,7 +202,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	</div>
 </div>
 
-<hr>
+<hr />
 
 <div class="changelog under-the-hood">
 	<h3><?php _e( 'Under the Hood' ); ?></h3>
@@ -227,18 +227,20 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<p><?php _e( 'Identify a hook in progress with <code>doing_action()</code> and <code>doing_filter()</code>, and manipulate custom image sizes with <code>has_image_size()</code> and <code>remove_image_size()</code>.' ); ?></p>
 			<p><?php _e( 'Plugins and themes registering custom image sizes can now register suggested cropping points. For example, prevent heads from being cropped out of photos with a top-center crop.' ); ?></p>
 		</div>
-</div>
+	</div>
 
-<hr>
+	<hr />
 
-<div class="return-to-dashboard">
-	<?php if ( current_user_can( 'update_core' ) && isset( $_GET['updated'] ) ) : ?>
-	<a href="<?php echo esc_url( self_admin_url( 'update-core.php' ) ); ?>"><?php
-		is_multisite() ? _e( 'Return to Updates' ) : _e( 'Return to Dashboard &rarr; Updates' );
-	?></a> |
-	<?php endif; ?>
-	<a href="<?php echo esc_url( self_admin_url() ); ?>"><?php
-		is_blog_admin() ? _e( 'Go to Dashboard &rarr; Home' ) : _e( 'Go to Dashboard' ); ?></a>
+	<div class="return-to-dashboard">
+		<?php if ( current_user_can( 'update_core' ) && isset( $_GET['updated'] ) ) : ?>
+		<a href="<?php echo esc_url( self_admin_url( 'update-core.php' ) ); ?>"><?php
+			is_multisite() ? _e( 'Return to Updates' ) : _e( 'Return to Dashboard &rarr; Updates' );
+		?></a> |
+		<?php endif; ?>
+		<a href="<?php echo esc_url( self_admin_url() ); ?>"><?php
+			is_blog_admin() ? _e( 'Go to Dashboard &rarr; Home' ) : _e( 'Go to Dashboard' ); ?></a>
+	</div>
+
 </div>
 
 </div>
