@@ -147,54 +147,42 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 	$defaults = array( 'link_id' => 0, 'link_name' => '', 'link_url' => '', 'link_rating' => 0 );
 
 	$args = wp_parse_args( $linkdata, $defaults );
-	$r = sanitize_bookmark( $args, 'db' );
+	$r = wp_unslash( sanitize_bookmark( $args, 'db' ) );
+
+	$link_id   = $r['link_id'];
+	$link_name = $r['link_name'];
+	$link_url  = $r['link_url'];
 
 	$update = false;
-	if ( ! empty( $r['link_id'] ) ) {
+	if ( ! empty( $link_id ) ) {
 		$update = true;
 	}
 
-	if ( trim( $r['link_name'] ) == '' ) {
-		if ( trim( $r['link_url'] ) != '' ) {
-			$r['link_name'] = $r['link_url'];
+	if ( trim( $link_name ) == '' ) {
+		if ( trim( $link_url ) != '' ) {
+			$link_name = $link_url;
 		} else {
 			return 0;
 		}
 	}
 
-	if ( trim( $r['link_url'] ) == '' ) {
+	if ( trim( $link_url ) == '' ) {
 		return 0;
 	}
-	if ( empty( $r['link_rating'] ) ) {
-		$r['link_rating'] = 0;
-	}
-	if ( empty( $r['link_image'] ) ) {
-		$r['link_image'] = '';
-	}
-	if ( empty( $r['link_target'] ) ) {
-		$r['link_target'] = '';
-	}
-	if ( empty( $r['link_visible'] ) ) {
-		$r['link_visible'] = 'Y';
-	}
-	if ( empty( $r['link_owner'] ) ) {
-		$r['link_owner'] = get_current_user_id();
-	}
-	if ( empty( $r['link_notes'] ) ) {
-		$r['link_notes'] = '';
-	}
-	if ( empty( $r['link_description'] ) ) {
-		$r['link_description'] = '';
-	}
-	if ( empty( $r['link_rss'] ) ) {
-		$r['link_rss'] = '';
-	}
-	if ( empty( $r['link_rel'] ) ) {
-		$r['link_rel'] = '';
-	}
+
+	$link_rating      = ( ! empty( $r['link_rating'] ) ) ? $r['link_rating'] : 0;
+	$link_image       = ( ! empty( $r['link_image'] ) ) ? $r['link_image'] : '';
+	$link_target      = ( ! empty( $r['link_target'] ) ) ? $r['link_target'] : '';
+	$link_visible     = ( ! empty( $r['link_visible'] ) ) ? $r['link_visible'] : 'Y';
+	$link_owner       = ( ! empty( $r['link_owner'] ) ) ? $r['link_owner'] : get_current_user_id();
+	$link_notes       = ( ! empty( $r['link_notes'] ) ) ? $r['link_notes'] : '';
+	$link_description = ( ! empty( $r['link_description'] ) ) ? $r['link_description'] : '';
+	$link_rss         = ( ! empty( $r['link_rss'] ) ) ? $r['link_rss'] : '';
+	$link_rel         = ( ! empty( $r['link_rel'] ) ) ? $r['link_rel'] : '';
+	$link_category    = ( ! empty( $r['link_category'] ) ) ? $r['link_category'] : array();
 
 	// Make sure we set a valid category
-	if ( ! isset( $r['link_category'] ) || ! is_array( $r['link_category'] ) || 0 == count( $r['link_category'] ) ) {
+	if ( ! is_array( $link_category ) || 0 == count( $link_category ) ) {
 		$link_category = array( get_option( 'default_link_category' ) );
 	}
 
