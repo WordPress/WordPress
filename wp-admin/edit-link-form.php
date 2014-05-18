@@ -13,12 +13,12 @@ if ( !defined('ABSPATH') )
 if ( ! empty($link_id) ) {
 	$heading = sprintf( __( '<a href="%s">Links</a> / Edit Link' ), 'link-manager.php' );
 	$submit_text = __('Update Link');
-	$form = '<form name="editlink" id="editlink" method="post" action="link.php">';
+	$form_name = 'editlink';
 	$nonce_action = 'update-bookmark_' . $link_id;
 } else {
 	$heading = sprintf( __( '<a href="%s">Links</a> / Add New Link' ), 'link-manager.php' );
 	$submit_text = __('Add Link');
-	$form = '<form name="addlink" id="addlink" method="post" action="link.php">';
+	$form_name = 'addlink';
 	$nonce_action = 'add-bookmark';
 }
 
@@ -76,11 +76,11 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 <div id="message" class="updated"><p><?php _e('Link added.'); ?></p></div>
 <?php endif; ?>
 
+<form name="<?php echo esc_attr( $form_name ); ?>" id="<?php echo esc_attr( $form_name ); ?>" method="post" action="link.php">
 <?php
-if ( !empty($form) )
-	echo $form;
-if ( !empty($link_added) )
+if ( ! empty( $link_added ) ) {
 	echo $link_added;
+}
 
 wp_nonce_field( $nonce_action );
 wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
