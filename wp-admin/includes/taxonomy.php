@@ -84,10 +84,23 @@ function wp_create_categories($categories, $post_id = '') {
  * Updates an existing Category or creates a new Category.
  *
  * @since 2.0.0
+ * @since 2.5.0 $wp_error parameter was added.
+ * @since 3.0.0 The 'taxonomy' argument was added.
  *
- * @param mixed $catarr See defaults below. Set 'cat_ID' to a non-zero value to update an existing category. The 'taxonomy' key was added in 3.0.0.
- * @param bool $wp_error Optional, since 2.5.0. Set this to true if the caller handles WP_Error return values.
- * @return int|object The ID number of the new or updated Category on success. Zero or a WP_Error on failure, depending on param $wp_error.
+ * @param array $catarr {
+ *     Array of arguments for inserting a new category.
+ *
+ *     @type int        $cat_ID               Categoriy ID. A non-zero value updates an existing category.
+ *                                            Default 0.
+ *     @type string     $taxonomy             Taxonomy slug. Defualt 'category'.
+ *     @type string     $cat_nam              Category name. Default empty.
+ *     @type string     $category_description Category description. Default empty.
+ *     @type string     $category_nicename    Category nice (display) name. Default empty.
+ *     @type int|string $category_parent      Category parent ID. Default empty.
+ * }
+ * @param bool  $wp_error Optional. Default false.
+ * @return int|object The ID number of the new or updated Category on success. Zero or a WP_Error on failure,
+ *                    depending on param $wp_error.
  */
 function wp_insert_category( $catarr, $wp_error = false ) {
 	$cat_defaults = array( 'cat_ID' => 0, 'taxonomy' => 'category', 'cat_name' => '', 'category_description' => '', 'category_nicename' => '', 'category_parent' => '' );
