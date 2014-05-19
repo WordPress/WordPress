@@ -8,7 +8,7 @@ class WP_Importer {
 	 *
 	 * @return void
 	 */
-	function __construct() {}
+	public function __construct() {}
 
 	/**
 	 * Returns array with imported permalinks from WordPress database
@@ -16,7 +16,7 @@ class WP_Importer {
 	 * @param string $bid
 	 * @return array
 	 */
-	function get_imported_posts( $importer_name, $bid ) {
+	public function get_imported_posts( $importer_name, $bid ) {
 		global $wpdb;
 
 		$hashtable = array();
@@ -53,7 +53,7 @@ class WP_Importer {
 	 * @param string $bid
 	 * @return int
 	 */
-	function count_imported_posts( $importer_name, $bid ) {
+	public function count_imported_posts( $importer_name, $bid ) {
 		global $wpdb;
 
 		$count = 0;
@@ -79,7 +79,7 @@ class WP_Importer {
 	 * @param string $bid
 	 * @return array
 	 */
-	function get_imported_comments( $bid ) {
+	public function get_imported_comments( $bid ) {
 		global $wpdb;
 
 		$hashtable = array();
@@ -115,7 +115,7 @@ class WP_Importer {
 		return $hashtable;
 	}
 
-	function set_blog( $blog_id ) {
+	public function set_blog( $blog_id ) {
 		if ( is_numeric( $blog_id ) ) {
 			$blog_id = (int) $blog_id;
 		} else {
@@ -142,7 +142,7 @@ class WP_Importer {
 		return $blog_id;
 	}
 
-	function set_user( $user_id ) {
+	public function set_user( $user_id ) {
 		if ( is_numeric( $user_id ) ) {
 			$user_id = (int) $user_id;
 		} else {
@@ -164,7 +164,7 @@ class WP_Importer {
 	 * @param string $b
 	 * @return int
 	 */
-	function cmpr_strlen( $a, $b ) {
+	public function cmpr_strlen( $a, $b ) {
 		return strlen( $b ) - strlen( $a );
 	}
 
@@ -177,7 +177,7 @@ class WP_Importer {
 	 * @param bool $head
 	 * @return array
 	 */
-	function get_page( $url, $username = '', $password = '', $head = false ) {
+	public function get_page( $url, $username = '', $password = '', $head = false ) {
 		// Increase the timeout
 		add_filter( 'http_request_timeout', array( $this, 'bump_request_timeout' ) );
 
@@ -199,7 +199,7 @@ class WP_Importer {
 	 * @param int $val
 	 * @return int
 	 */
-	function bump_request_timeout( $val ) {
+	public function bump_request_timeout( $val ) {
 		return 60;
 	}
 
@@ -208,7 +208,7 @@ class WP_Importer {
 	 *
 	 * @return bool
 	 */
-	function is_user_over_quota() {
+	public function is_user_over_quota() {
 		if ( function_exists( 'upload_is_user_over_quota' ) ) {
 			if ( upload_is_user_over_quota( 1 ) ) {
 				echo "Sorry, you have used your upload quota.\n";
@@ -225,7 +225,7 @@ class WP_Importer {
 	 * @param string $string
 	 * @return string
 	 */
-	function min_whitespace( $string ) {
+	public function min_whitespace( $string ) {
 		return preg_replace( '|[\r\n\t ]+|', ' ', $string );
 	}
 
@@ -234,7 +234,7 @@ class WP_Importer {
 	 *
 	 * @return void
 	 */
-	function stop_the_insanity() {
+	public function stop_the_insanity() {
 		global $wpdb, $wp_actions;
 		// Or define( 'WP_IMPORTING', true );
 		$wpdb->queries = array();
