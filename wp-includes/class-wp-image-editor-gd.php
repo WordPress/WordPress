@@ -18,7 +18,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 
 	protected $image = false; // GD Resource
 
-	function __destruct() {
+	public function __destruct() {
 		if ( $this->image ) {
 			// we don't need the original in memory anymore
 			imagedestroy( $this->image );
