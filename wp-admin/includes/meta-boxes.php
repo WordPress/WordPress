@@ -342,7 +342,15 @@ function attachment_submit_meta_box( $post ) {
  *
  * @since 3.1.0
  *
- * @param object $post
+ * @param WP_Post $post Post object.
+ * @param array   $box {
+ *     Post formats meta box arguments.
+ *
+ *     @type string   $id       Meta box ID.
+ *     @type string   $title    Meta box title.
+ *     @type callback $callback Meta box display callback.
+ *     @type array    $args     Extra meta box arguments.
+ * }
  */
 function post_format_meta_box( $post, $box ) {
 	if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post->post_type, 'post-formats' ) ) :
@@ -370,7 +378,21 @@ function post_format_meta_box( $post, $box ) {
  *
  * @since 2.6.0
  *
- * @param object $post
+ * @todo Create taxonomy-agnostic wrapper for this.
+ *
+ * @param WP_Post $post Post object.
+ * @param array   $box {
+ *     Tags meta box arguments.
+ *
+ *     @type string   $id       Meta box ID.
+ *     @type string   $title    Meta box title.
+ *     @type callback $callback Meta box display callback.
+ *     @type array    $args {
+ *         Extra meta box arguments.
+ *
+ *         @type string $taxonomy Taxonomy. Default 'post_tag'.
+ *     }
+ * }
  */
 function post_tags_meta_box( $post, $box ) {
 	$defaults = array( 'taxonomy' => 'post_tag' );
@@ -414,7 +436,21 @@ function post_tags_meta_box( $post, $box ) {
  *
  * @since 2.6.0
  *
- * @param object $post
+ * @todo Create taxonomy-agnostic wrapper for this.
+ *
+ * @param WP_Post $post Post object.
+ * @param array   $box {
+ *     Categories meta box arguments.
+ *
+ *     @type string   $id       Meta box ID.
+ *     @type string   $title    Meta box title.
+ *     @type callback $callback Meta box display callback.
+ *     @type array    $args {
+ *         Extra meta box arguments.
+ *
+ *         @type string $taxonomy Taxonomy. Default 'category'.
+ *     }
+ * }
  */
 function post_categories_meta_box( $post, $box ) {
 	$defaults = array( 'taxonomy' => 'category' );
