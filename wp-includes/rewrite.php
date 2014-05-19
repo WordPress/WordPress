@@ -571,7 +571,7 @@ class WP_Rewrite {
 	 * @access public
 	 * @var string
 	 */
-	var $index = 'index.php';
+	public $index = 'index.php';
 
 	/**
 	 * Variable name to use for regex matches in the rewritten query.
@@ -654,7 +654,7 @@ class WP_Rewrite {
 	 * @access public
 	 * @var bool
 	 */
-	var $use_verbose_rules = false;
+	public $use_verbose_rules = false;
 
 	/**
 	 * Could post permalinks be confused with those of pages?
@@ -672,7 +672,7 @@ class WP_Rewrite {
 	 * @access public
 	 * @var bool
 	 */
-	var $use_verbose_page_rules = true;
+	public $use_verbose_page_rules = true;
 
 	/**
 	 * Rewrite tags that can be used in permalink structures.
@@ -763,7 +763,7 @@ class WP_Rewrite {
 	 *
 	 * @return bool True, if permalinks are enabled.
 	 */
-	function using_permalinks() {
+	public function using_permalinks() {
 		return ! empty($this->permalink_structure);
 	}
 
@@ -777,7 +777,7 @@ class WP_Rewrite {
 	 *
 	 * @return bool
 	 */
-	function using_index_permalinks() {
+	public function using_index_permalinks() {
 		if ( empty($this->permalink_structure) )
 			return false;
 
@@ -798,7 +798,7 @@ class WP_Rewrite {
 	 *
 	 * @return bool
 	 */
-	function using_mod_rewrite_permalinks() {
+	public function using_mod_rewrite_permalinks() {
 		if ( $this->using_permalinks() && ! $this->using_index_permalinks() )
 			return true;
 		else
@@ -821,7 +821,7 @@ class WP_Rewrite {
 	 * @param int $number Index number.
 	 * @return string
 	 */
-	function preg_index($number) {
+	public function preg_index($number) {
 		$match_prefix = '$';
 		$match_suffix = '';
 
@@ -844,7 +844,7 @@ class WP_Rewrite {
 	 *
 	 * @return array Array of page URIs as first element and attachment URIs as second element.
 	 */
-	function page_uri_index() {
+	public function page_uri_index() {
 		global $wpdb;
 
 		//get pages in order of hierarchy, i.e. children after parents
@@ -886,7 +886,7 @@ class WP_Rewrite {
 	 *
 	 * @return array
 	 */
-	function page_rewrite_rules() {
+	public function page_rewrite_rules() {
 		// the extra .? at the beginning prevents clashes with other regular expressions in the rules array
 		$this->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
 
@@ -913,7 +913,7 @@ class WP_Rewrite {
 	 *
 	 * @return bool|string False on no permalink structure. Date permalink structure.
 	 */
-	function get_date_permastruct() {
+	public function get_date_permastruct() {
 		if ( isset($this->date_structure) )
 			return $this->date_structure;
 
@@ -967,7 +967,7 @@ class WP_Rewrite {
 	 *
 	 * @return bool|string False on failure. Year structure on success.
 	 */
-	function get_year_permastruct() {
+	public function get_year_permastruct() {
 		$structure = $this->get_date_permastruct();
 
 		if ( empty($structure) )
@@ -992,7 +992,7 @@ class WP_Rewrite {
 	 *
 	 * @return bool|string False on failure. Year/Month structure on success.
 	 */
-	function get_month_permastruct() {
+	public function get_month_permastruct() {
 		$structure = $this->get_date_permastruct();
 
 		if ( empty($structure) )
@@ -1015,7 +1015,7 @@ class WP_Rewrite {
 	 *
 	 * @return bool|string False on failure. Year/Month/Day structure on success.
 	 */
-	function get_day_permastruct() {
+	public function get_day_permastruct() {
 		return $this->get_date_permastruct();
 	}
 
@@ -1032,7 +1032,7 @@ class WP_Rewrite {
 	 *
 	 * @return bool|string False on failure. Category permalink structure.
 	 */
-	function get_category_permastruct() {
+	public function get_category_permastruct() {
 		return $this->get_extra_permastruct('category');
 	}
 
@@ -1049,7 +1049,7 @@ class WP_Rewrite {
 	 *
 	 * @return bool|string False on failure. Tag permalink structure.
 	 */
-	function get_tag_permastruct() {
+	public function get_tag_permastruct() {
 		return $this->get_extra_permastruct('post_tag');
 	}
 
@@ -1062,7 +1062,7 @@ class WP_Rewrite {
 	 * @param string $name Permalink structure name.
 	 * @return string|bool False if not found. Permalink structure string.
 	 */
-	function get_extra_permastruct($name) {
+	public function get_extra_permastruct($name) {
 		if ( empty($this->permalink_structure) )
 			return false;
 
@@ -1084,7 +1084,7 @@ class WP_Rewrite {
 	 *
 	 * @return string|bool False if not found. Permalink structure string.
 	 */
-	function get_author_permastruct() {
+	public function get_author_permastruct() {
 		if ( isset($this->author_structure) )
 			return $this->author_structure;
 
@@ -1110,7 +1110,7 @@ class WP_Rewrite {
 	 *
 	 * @return string|bool False if not found. Permalink structure string.
 	 */
-	function get_search_permastruct() {
+	public function get_search_permastruct() {
 		if ( isset($this->search_structure) )
 			return $this->search_structure;
 
@@ -1136,7 +1136,7 @@ class WP_Rewrite {
 	 *
 	 * @return string|bool False if not found. Permalink structure string.
 	 */
-	function get_page_permastruct() {
+	public function get_page_permastruct() {
 		if ( isset($this->page_structure) )
 			return $this->page_structure;
 
@@ -1162,7 +1162,7 @@ class WP_Rewrite {
 	 *
 	 * @return string|bool False if not found. Permalink structure string.
 	 */
-	function get_feed_permastruct() {
+	public function get_feed_permastruct() {
 		if ( isset($this->feed_structure) )
 			return $this->feed_structure;
 
@@ -1188,7 +1188,7 @@ class WP_Rewrite {
 	 *
 	 * @return string|bool False if not found. Permalink structure string.
 	 */
-	function get_comment_feed_permastruct() {
+	public function get_comment_feed_permastruct() {
 		if ( isset($this->comment_feed_structure) )
 			return $this->comment_feed_structure;
 
@@ -1218,7 +1218,7 @@ class WP_Rewrite {
 	 * @param string $regex Regular expression to substitute the tag for in rewrite rules.
 	 * @param string $query String to append to the rewritten query. Must end in '='.
 	 */
-	function add_rewrite_tag( $tag, $regex, $query ) {
+	public function add_rewrite_tag( $tag, $regex, $query ) {
 		$position = array_search( $tag, $this->rewritecode );
 		if ( false !== $position && null !== $position ) {
 			$this->rewritereplace[ $position ] = $regex;
@@ -1250,7 +1250,7 @@ class WP_Rewrite {
 	 * @param bool $endpoints Should endpoints be applied to the generated rewrite rules? Default is true.
 	 * @return array Rewrite rule list.
 	 */
-	function generate_rewrite_rules($permalink_structure, $ep_mask = EP_NONE, $paged = true, $feed = true, $forcomments = false, $walk_dirs = true, $endpoints = true) {
+	public function generate_rewrite_rules($permalink_structure, $ep_mask = EP_NONE, $paged = true, $feed = true, $forcomments = false, $walk_dirs = true, $endpoints = true) {
 		//build a regex to match the feed section of URLs, something like (feed|atom|rss|rss2)/?
 		$feedregex2 = '';
 		foreach ( (array) $this->feeds as $feed_name)
@@ -1520,7 +1520,7 @@ class WP_Rewrite {
 	 * @param bool $walk_dirs Optional, default is false. Whether to create list of directories to walk over.
 	 * @return array
 	 */
-	function generate_rewrite_rule($permalink_structure, $walk_dirs = false) {
+	public function generate_rewrite_rule($permalink_structure, $walk_dirs = false) {
 		return $this->generate_rewrite_rules($permalink_structure, EP_NONE, false, false, false, $walk_dirs);
 	}
 
@@ -1542,7 +1542,7 @@ class WP_Rewrite {
 	 *
 	 * @return array An associate array of matches and queries.
 	 */
-	function rewrite_rules() {
+	public function rewrite_rules() {
 		$rewrite = array();
 
 		if ( empty($this->permalink_structure) )
@@ -1744,7 +1744,7 @@ class WP_Rewrite {
 	 *
 	 * @return array Rewrite rules.
 	 */
-	function wp_rewrite_rules() {
+	public function wp_rewrite_rules() {
 		$this->rules = get_option('rewrite_rules');
 		if ( empty($this->rules) ) {
 			$this->matches = 'matches';
@@ -1769,7 +1769,7 @@ class WP_Rewrite {
 	 *
 	 * @return string
 	 */
-	function mod_rewrite_rules() {
+	public function mod_rewrite_rules() {
 		if ( ! $this->using_permalinks() )
 			return '';
 
@@ -1867,7 +1867,7 @@ class WP_Rewrite {
 	 *
 	 * @return string
 	 */
-	function iis7_url_rewrite_rules( $add_parent_tags = false ) {
+	public function iis7_url_rewrite_rules( $add_parent_tags = false ) {
 
 		if ( ! $this->using_permalinks() )
 			return '';
@@ -1922,7 +1922,7 @@ class WP_Rewrite {
 	 * @param string $redirect URL regex redirects to when regex matches request.
 	 * @param string $after Optional, default is bottom. Location to place rule.
 	 */
-	function add_rule($regex, $redirect, $after = 'bottom') {
+	public function add_rule($regex, $redirect, $after = 'bottom') {
 		//get everything up to the first ?
 		$index = (strpos($redirect, '?') == false ? strlen($redirect) : strpos($redirect, '?'));
 		$front = substr($redirect, 0, $index);
@@ -1948,7 +1948,7 @@ class WP_Rewrite {
 	 * @param string $regex Regular expression to match against request.
 	 * @param string $redirect URL regex redirects to when regex matches request.
 	 */
-	function add_external_rule($regex, $redirect) {
+	public function add_external_rule($regex, $redirect) {
 		$this->non_wp_rules[$regex] = $redirect;
 	}
 
@@ -1966,7 +1966,7 @@ class WP_Rewrite {
 	 * @param int    $places    Endpoint mask describing the places the endpoint should be added.
 	 * @param string $query_var Name of the corresponding query variable. Default is value of $name.
 	 */
-	function add_endpoint( $name, $places, $query_var = null ) {
+	public function add_endpoint( $name, $places, $query_var = null ) {
 		global $wp;
 		if ( null === $query_var ) {
 			$query_var = $name;
@@ -2003,7 +2003,7 @@ class WP_Rewrite {
 	 *                          rules built for each in turn? Default is true.
 	 *     - endpoints (bool) - Should endpoints be applied to the generated rewrite rules? Default is true.
 	 */
-	function add_permastruct( $name, $struct, $args = array() ) {
+	public function add_permastruct( $name, $struct, $args = array() ) {
 		// backwards compatibility for the old parameters: $with_front and $ep_mask
 		if ( ! is_array( $args ) )
 			$args = array( 'with_front' => $args );
@@ -2042,7 +2042,7 @@ class WP_Rewrite {
 	 * @access public
 	 * @param bool $hard Whether to update .htaccess (hard flush) or just update rewrite_rules option (soft flush). Default is true (hard).
 	 */
-	function flush_rules($hard = true) {
+	public function flush_rules($hard = true) {
 		delete_option('rewrite_rules');
 		$this->wp_rewrite_rules();
 		/**
@@ -2073,7 +2073,7 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 * @access public
 	 */
-	function init() {
+	public function init() {
 		$this->extra_rules = $this->non_wp_rules = $this->endpoints = array();
 		$this->permalink_structure = get_option('permalink_structure');
 		$this->front = substr($this->permalink_structure, 0, strpos($this->permalink_structure, '%'));
@@ -2110,7 +2110,7 @@ class WP_Rewrite {
 	 *
 	 * @param string $permalink_structure Permalink structure.
 	 */
-	function set_permalink_structure($permalink_structure) {
+	public function set_permalink_structure($permalink_structure) {
 		if ( $permalink_structure != $this->permalink_structure ) {
 			$old_permalink_structure = $this->permalink_structure;
 			update_option('permalink_structure', $permalink_structure);
@@ -2140,7 +2140,7 @@ class WP_Rewrite {
 	 *
 	 * @param string $category_base Category permalink structure base.
 	 */
-	function set_category_base($category_base) {
+	public function set_category_base($category_base) {
 		if ( $category_base != get_option('category_base') ) {
 			update_option('category_base', $category_base);
 			$this->init();
@@ -2159,7 +2159,7 @@ class WP_Rewrite {
 	 *
 	 * @param string $tag_base Tag permalink structure base.
 	 */
-	function set_tag_base( $tag_base ) {
+	public function set_tag_base( $tag_base ) {
 		if ( $tag_base != get_option( 'tag_base') ) {
 			update_option( 'tag_base', $tag_base );
 			$this->init();
@@ -2174,7 +2174,7 @@ class WP_Rewrite {
 	 *
 	 * @return WP_Rewrite
 	 */
-	function __construct() {
+	public function __construct() {
 		$this->init();
 	}
 }

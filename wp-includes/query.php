@@ -3422,7 +3422,7 @@ class WP_Query {
 	 * @since 3.5.0
 	 * @access private
 	 */
-	function set_found_posts( $q, $limits ) {
+	private function set_found_posts( $q, $limits ) {
 		global $wpdb;
 
 		// Bail if posts is an empty array. Continue if posts is an empty string,
