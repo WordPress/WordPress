@@ -449,7 +449,7 @@ class WP_User_Query {
 	 * @access public
 	 * @var array
 	 */
-	var $query_vars = array();
+	public $query_vars = array();
 
 	/**
 	 * List of found user ids
@@ -458,7 +458,7 @@ class WP_User_Query {
 	 * @access private
 	 * @var array
 	 */
-	var $results;
+	private $results;
 
 	/**
 	 * Total number of found users for the current query
@@ -467,14 +467,14 @@ class WP_User_Query {
 	 * @access private
 	 * @var int
 	 */
-	var $total_users = 0;
+	private $total_users = 0;
 
 	// SQL clauses
-	var $query_fields;
-	var $query_from;
-	var $query_where;
-	var $query_orderby;
-	var $query_limit;
+	public $query_fields;
+	public $query_from;
+	public $query_where;
+	public $query_orderby;
+	public $query_limit;
 
 	/**
 	 * PHP5 constructor.
@@ -484,7 +484,7 @@ class WP_User_Query {
 	 * @param string|array $args Optional. The query variables.
 	 * @return WP_User_Query
 	 */
-	function __construct( $query = null ) {
+	public function __construct( $query = null ) {
 		if ( ! empty( $query ) ) {
 			$this->prepare_query( $query );
 			$this->query();
@@ -498,7 +498,7 @@ class WP_User_Query {
 	 *
 	 * @param string|array $args Optional. The query variables.
 	 */
-	function prepare_query( $query = array() ) {
+	public function prepare_query( $query = array() ) {
 		global $wpdb;
 
 		if ( empty( $this->query_vars ) || ! empty( $query ) ) {
@@ -712,7 +712,7 @@ class WP_User_Query {
 	 *
 	 * @global wpdb $wpdb WordPress database object for queries.
 	 */
-	function query() {
+	public function query() {
 		global $wpdb;
 
 		$qv =& $this->query_vars;
@@ -764,7 +764,7 @@ class WP_User_Query {
 	 * @param string $query_var Query variable key.
 	 * @return mixed
 	 */
-	function get( $query_var ) {
+	public function get( $query_var ) {
 		if ( isset( $this->query_vars[$query_var] ) )
 			return $this->query_vars[$query_var];
 
@@ -780,7 +780,7 @@ class WP_User_Query {
 	 * @param string $query_var Query variable key.
 	 * @param mixed $value Query variable value.
 	 */
-	function set( $query_var, $value ) {
+	public function set( $query_var, $value ) {
 		$this->query_vars[$query_var] = $value;
 	}
 
@@ -796,7 +796,7 @@ class WP_User_Query {
 	 *  single site. Single site allows leading and trailing wildcards, Network Admin only trailing.
 	 * @return string
 	 */
-	function get_search_sql( $string, $cols, $wild = false ) {
+	protected function get_search_sql( $string, $cols, $wild = false ) {
 		$string = esc_sql( $string );
 
 		$searches = array();
@@ -820,7 +820,7 @@ class WP_User_Query {
 	 *
 	 * @return array Array of results.
 	 */
-	function get_results() {
+	public function get_results() {
 		return $this->results;
 	}
 
@@ -832,8 +832,65 @@ class WP_User_Query {
 	 *
 	 * @return array Array of total users.
 	 */
-	function get_total() {
+	public function get_total() {
 		return $this->total_users;
+	}
+
+	/**
+	 * Make private properties readable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __get( $name ) {
+		return $this->$name;
+	}
+
+	/**
+	 * Make private properties setable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @param string $value
+	 * @return mixed
+	 */
+	public function __set( $name, $value ) {
+		return $this->$name = $value;
+	}
+
+	/**
+	 * Make private properties checkable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __isset( $name ) {
+		return isset( $this->$name );
+	}
+
+	/**
+	 * Make private properties unsetable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __unset( $name ) {
+		unset( $this->$name );
+	}
+
+	/**
+	 * Make private/protected methods readable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @param array $arguments
+	 * @return mixed
+	 */
+	public function __call( $name, $arguments ) {
+		return call_user_func_array( array( $this, $name ), $arguments );
 	}
 }
 
