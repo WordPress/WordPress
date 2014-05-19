@@ -87,7 +87,7 @@ class _WP_List_Table_Compat extends WP_List_Table {
 	public $_screen;
 	public $_columns;
 
-	public function _WP_List_Table_Compat( $screen, $columns = array() ) {
+	public function __construct( $screen, $columns = array() ) {
 		if ( is_string( $screen ) )
 			$screen = convert_to_screen( $screen );
 
