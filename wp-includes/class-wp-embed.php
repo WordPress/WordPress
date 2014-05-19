@@ -7,15 +7,15 @@
  * @since 2.9.0
  */
 class WP_Embed {
-	var $handlers = array();
-	var $post_ID;
-	var $usecache = true;
-	var $linkifunknown = true;
+	public $handlers = array();
+	public $post_ID;
+	public $usecache = true;
+	public $linkifunknown = true;
 
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		// Hack to get the [embed] shortcode to run before wpautop()
 		add_filter( 'the_content', array( $this, 'run_shortcode' ), 8 );
 
@@ -47,7 +47,7 @@ class WP_Embed {
 	 * @param string $content Content to parse
 	 * @return string Content with shortcode parsed
 	 */
-	function run_shortcode( $content ) {
+	public function run_shortcode( $content ) {
 		global $shortcode_tags;
 
 		// Back up current registered shortcodes and clear them all out
@@ -69,7 +69,7 @@ class WP_Embed {
 	 * If a post/page was saved, then output JavaScript to make
 	 * an AJAX request that will call WP_Embed::cache_oembed().
 	 */
-	function maybe_run_ajax_cache() {
+	public function maybe_run_ajax_cache() {
 		$post = get_post();
 
 		if ( ! $post || empty($_GET['message']) || 1 != $_GET['message'] )
@@ -95,7 +95,7 @@ class WP_Embed {
 	 * @param callback $callback The callback function that will be called if the regex is matched.
 	 * @param int $priority Optional. Used to specify the order in which the registered handlers will be tested (default: 10). Lower numbers correspond with earlier testing, and handlers with the same priority are tested in the order in which they were added to the action.
 	 */
-	function register_handler( $id, $regex, $callback, $priority = 10 ) {
+	public function register_handler( $id, $regex, $callback, $priority = 10 ) {
 		$this->handlers[$priority][$id] = array(
 			'regex'    => $regex,
 			'callback' => $callback,
@@ -108,7 +108,7 @@ class WP_Embed {
 	 * @param string $id The handler ID that should be removed.
 	 * @param int $priority Optional. The priority of the handler to be removed (default: 10).
 	 */
-	function unregister_handler( $id, $priority = 10 ) {
+	public function unregister_handler( $id, $priority = 10 ) {
 		if ( isset($this->handlers[$priority][$id]) )
 			unset($this->handlers[$priority][$id]);
 	}
@@ -139,7 +139,7 @@ class WP_Embed {
 	 * @param string $url The URL attempting to be embedded.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
-	function shortcode( $attr, $url = '' ) {
+	public function shortcode( $attr, $url = '' ) {
 		$post = get_post();
 
 		if ( empty( $url ) )
@@ -240,7 +240,7 @@ class WP_Embed {
 	 *
 	 * @param int $post_ID Post ID to delete the caches for.
 	 */
-	function delete_oembed_caches( $post_ID ) {
+	public function delete_oembed_caches( $post_ID ) {
 		$post_metas = get_post_custom_keys( $post_ID );
 		if ( empty($post_metas) )
 			return;
@@ -256,7 +256,7 @@ class WP_Embed {
 	 *
 	 * @param int $post_ID Post ID to do the caching for.
 	 */
-	function cache_oembed( $post_ID ) {
+	public function cache_oembed( $post_ID ) {
 		$post = get_post( $post_ID );
 
 		$post_types = array( 'post', 'page' );
@@ -290,7 +290,7 @@ class WP_Embed {
 	 * @param string $content The content to be searched.
 	 * @return string Potentially modified $content.
 	 */
-	function autoembed( $content ) {
+	public function autoembed( $content ) {
 		return preg_replace_callback( '|^\s*(https?://[^\s"]+)\s*$|im', array( $this, 'autoembed_callback' ), $content );
 	}
 
@@ -302,7 +302,7 @@ class WP_Embed {
 	 * @param array $match A regex match array.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
-	function autoembed_callback( $match ) {
+	public function autoembed_callback( $match ) {
 		$oldval = $this->linkifunknown;
 		$this->linkifunknown = false;
 		$return = $this->shortcode( array(), $match[1] );
@@ -317,7 +317,7 @@ class WP_Embed {
 	 * @param string $url URL to potentially be linked.
 	 * @return string Linked URL or the original URL.
 	 */
-	function maybe_make_link( $url ) {
+	public function maybe_make_link( $url ) {
 		$output = ( $this->linkifunknown ) ? '<a href="' . esc_url($url) . '">' . esc_html($url) . '</a>' : $url;
 
 		/**
