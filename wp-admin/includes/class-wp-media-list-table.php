@@ -9,7 +9,7 @@
  */
 class WP_Media_List_Table extends WP_List_Table {
 
-	function __construct( $args = array() ) {
+	public function __construct( $args = array() ) {
 		$this->detached = isset( $_REQUEST['detached'] ) || isset( $_REQUEST['find_detached'] );
 
 		parent::__construct( array(
@@ -18,11 +18,11 @@ class WP_Media_List_Table extends WP_List_Table {
 		) );
 	}
 
-	function ajax_user_can() {
+	public function ajax_user_can() {
 		return current_user_can('upload_files');
 	}
 
-	function prepare_items() {
+	public function prepare_items() {
 		global $lost, $wp_query, $post_mime_types, $avail_post_mime_types;
 
 		$q = $_REQUEST;
@@ -41,7 +41,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		) );
 	}
 
-	function get_views() {
+	protected function get_views() {
 		global $wpdb, $post_mime_types, $avail_post_mime_types;
 
 		$type_links = array();
@@ -74,7 +74,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		return $type_links;
 	}
 
-	function get_bulk_actions() {
+	protected function get_bulk_actions() {
 		$actions = array();
 		$actions['delete'] = __( 'Delete Permanently' );
 		if ( $this->detached )
@@ -83,7 +83,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
-	function extra_tablenav( $which ) {
+	protected function extra_tablenav( $which ) {
 ?>
 		<div class="alignleft actions">
 <?php
@@ -104,7 +104,7 @@ class WP_Media_List_Table extends WP_List_Table {
 <?php
 	}
 
-	function current_action() {
+	public function current_action() {
 		if ( isset( $_REQUEST['find_detached'] ) )
 			return 'find_detached';
 
@@ -117,15 +117,15 @@ class WP_Media_List_Table extends WP_List_Table {
 		return parent::current_action();
 	}
 
-	function has_items() {
+	public function has_items() {
 		return have_posts();
 	}
 
-	function no_items() {
+	public function no_items() {
 		_e( 'No media attachments found.' );
 	}
 
-	function get_columns() {
+	protected function get_columns() {
 		$posts_columns = array();
 		$posts_columns['cb'] = '<input type="checkbox" />';
 		$posts_columns['icon'] = '';
@@ -180,7 +180,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		return $posts_columns;
 	}
 
-	function get_sortable_columns() {
+	protected function get_sortable_columns() {
 		return array(
 			'title'    => 'title',
 			'author'   => 'author',
@@ -190,7 +190,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		);
 	}
 
-	function display_rows() {
+	protected function display_rows() {
 		global $post;
 
 		add_filter( 'the_title','esc_html' );
@@ -421,7 +421,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 <?php endwhile;
 	}
 
-	function _get_row_actions( $post, $att_title ) {
+	private function _get_row_actions( $post, $att_title ) {
 		$actions = array();
 
 		if ( $this->detached ) {

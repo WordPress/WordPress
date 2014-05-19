@@ -9,18 +9,18 @@
  */
 class WP_MS_Sites_List_Table extends WP_List_Table {
 
-	function __construct( $args = array() ) {
+	public function __construct( $args = array() ) {
 		parent::__construct( array(
 			'plural' => 'sites',
 			'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
 		) );
 	}
 
-	function ajax_user_can() {
+	public function ajax_user_can() {
 		return current_user_can( 'manage_sites' );
 	}
 
-	function prepare_items() {
+	public function prepare_items() {
 		global $s, $mode, $wpdb;
 
 		$current_site = get_current_site();
@@ -120,11 +120,11 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		) );
 	}
 
-	function no_items() {
+	public function no_items() {
 		_e( 'No sites found.' );
 	}
 
-	function get_bulk_actions() {
+	protected function get_bulk_actions() {
 		$actions = array();
 		if ( current_user_can( 'delete_sites' ) )
 			$actions['delete'] = __( 'Delete' );
@@ -134,7 +134,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
-	function pagination( $which ) {
+	protected function pagination( $which ) {
 		global $mode;
 
 		parent::pagination( $which );
@@ -143,7 +143,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			$this->view_switcher( $mode );
 	}
 
-	function get_columns() {
+	protected function get_columns() {
 		$blogname_columns = ( is_subdomain_install() ) ? __( 'Domain' ) : __( 'Path' );
 		$sites_columns = array(
 			'cb'          => '<input type="checkbox" />',
@@ -169,7 +169,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		return $sites_columns;
 	}
 
-	function get_sortable_columns() {
+	protected function get_sortable_columns() {
 		return array(
 			'blogname'    => 'blogname',
 			'lastupdated' => 'lastupdated',
@@ -177,7 +177,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		);
 	}
 
-	function display_rows() {
+	protected function display_rows() {
 		global $mode;
 
 		$status_list = array(

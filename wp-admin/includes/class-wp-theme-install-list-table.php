@@ -9,13 +9,13 @@
  */
 class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
-	var $features = array();
+	public $features = array();
 
-	function ajax_user_can() {
+	public function ajax_user_can() {
 		return current_user_can( 'install_themes' );
 	}
 
-	function prepare_items() {
+	public function prepare_items() {
 		include( ABSPATH . 'wp-admin/includes/theme-install.php' );
 
 		global $tabs, $tab, $paged, $type, $theme_field_defaults;
@@ -140,11 +140,11 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		) );
 	}
 
-	function no_items() {
+	public function no_items() {
 		_e( 'No themes match your request.' );
 	}
 
-	function get_views() {
+	protected function get_views() {
 		global $tabs, $tab;
 
 		$display_tabs = array();
@@ -157,7 +157,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		return $display_tabs;
 	}
 
-	function display() {
+	public function display() {
 		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 ?>
 		<div class="tablenav top themes">
@@ -183,7 +183,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		parent::tablenav( 'bottom' );
 	}
 
-	function display_rows() {
+	protected function display_rows() {
 		$themes = $this->items;
 		foreach ( $themes as $theme ) {
 				?>
@@ -214,7 +214,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 *     public 'description' => string 'A basic magazine style layout with a fully customizable layout through a backend interface. Designed by <a href="http://bavotasan.com">c.bavota</a> of <a href="http://tinkerpriestmedia.com">Tinker Priest Media</a>.'
 	 *     public 'download_link' => string 'http://wordpress.org/themes/download/magazine-basic.1.1.zip'
 	 */
-	function single_row( $theme ) {
+	protected function single_row( $theme ) {
 		global $themes_allowedtags;
 
 		if ( empty( $theme ) )
@@ -294,7 +294,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	/**
 	 * Prints the wrapper for the theme installer.
 	 */
-	function theme_installer() {
+	public function theme_installer() {
 		?>
 		<div id="theme-installer" class="wp-full-overlay expanded">
 			<div class="wp-full-overlay-sidebar">
@@ -323,7 +323,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 *
 	 * @param object $theme - A WordPress.org Theme API object.
 	 */
-	function theme_installer_single( $theme ) {
+	public function theme_installer_single( $theme ) {
 		?>
 		<div id="theme-installer" class="wp-full-overlay single-theme">
 			<div class="wp-full-overlay-sidebar">
@@ -341,7 +341,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 *
 	 * @param object $theme - A WordPress.org Theme API object.
 	 */
-	function install_theme_info( $theme ) {
+	public function install_theme_info( $theme ) {
 		global $themes_allowedtags;
 
 		if ( empty( $theme ) )
@@ -408,7 +408,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 * @uses $tab Global; current tab within Themes->Install screen
 	 * @uses $type Global; type of search.
 	 */
-	function _js_vars( $extra_args = array() ) {
+	private function _js_vars( $extra_args = array() ) {
 		global $tab, $type;
 		parent::_js_vars( compact( 'tab', 'type' ) );
 	}

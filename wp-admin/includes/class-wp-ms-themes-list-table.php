@@ -9,10 +9,10 @@
  */
 class WP_MS_Themes_List_Table extends WP_List_Table {
 
-	var $site_id;
-	var $is_site_themes;
+	public $site_id;
+	public $is_site_themes;
 
-	function __construct( $args = array() ) {
+	public function __construct( $args = array() ) {
 		global $status, $page;
 
 		parent::__construct( array(
@@ -32,18 +32,18 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 	}
 
-	function get_table_classes() {
+	protected function get_table_classes() {
 		return array( 'widefat', 'plugins' );	// todo: remove and add CSS for .themes
 	}
 
-	function ajax_user_can() {
+	public function ajax_user_can() {
 		if ( $this->is_site_themes )
 			return current_user_can( 'manage_sites' );
 		else
 			return current_user_can( 'manage_network_themes' );
 	}
 
-	function prepare_items() {
+	public function prepare_items() {
 		global $status, $totals, $page, $orderby, $order, $s;
 
 		wp_reset_vars( array( 'orderby', 'order', 's' ) );
@@ -131,7 +131,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		) );
 	}
 
-	function _search_callback( $theme ) {
+	public function _search_callback( $theme ) {
 		static $term;
 		if ( is_null( $term ) )
 			$term = wp_unslash( $_REQUEST['s'] );
@@ -152,7 +152,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	}
 
 	// Not used by any core columns.
-	function _order_callback( $theme_a, $theme_b ) {
+	public function _order_callback( $theme_a, $theme_b ) {
 		global $orderby, $order;
 
 		$a = $theme_a[ $orderby ];
@@ -167,14 +167,14 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			return ( $a < $b ) ? -1 : 1;
 	}
 
-	function no_items() {
+	public function no_items() {
 		if ( ! $this->has_items )
 			_e( 'No themes found.' );
 		else
 			_e( 'You do not appear to have any themes available at this time.' );
 	}
 
-	function get_columns() {
+	protected function get_columns() {
 		global $status;
 
 		return array(
@@ -184,13 +184,13 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		);
 	}
 
-	function get_sortable_columns() {
+	protected function get_sortable_columns() {
 		return array(
 			'name'         => 'name',
 		);
 	}
 
-	function get_views() {
+	protected function get_views() {
 		global $totals, $status;
 
 		$status_links = array();
@@ -233,7 +233,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		return $status_links;
 	}
 
-	function get_bulk_actions() {
+	protected function get_bulk_actions() {
 		global $status;
 
 		$actions = array();
@@ -250,12 +250,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
-	function display_rows() {
+	protected function display_rows() {
 		foreach ( $this->items as $theme )
 			$this->single_row( $theme );
 	}
 
-	function single_row( $theme ) {
+	protected function single_row( $theme ) {
 		global $status, $page, $s, $totals;
 
 		$context = $status;
