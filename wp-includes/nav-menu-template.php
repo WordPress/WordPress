@@ -21,7 +21,7 @@ class Walker_Nav_Menu extends Walker {
 	 * @since 3.0.0
 	 * @var string
 	 */
-	var $tree_type = array( 'post_type', 'taxonomy', 'custom' );
+	public $tree_type = array( 'post_type', 'taxonomy', 'custom' );
 
 	/**
 	 * Database fields to use.
@@ -31,7 +31,7 @@ class Walker_Nav_Menu extends Walker {
 	 * @todo Decouple this.
 	 * @var array
 	 */
-	var $db_fields = array( 'parent' => 'menu_item_parent', 'id' => 'db_id' );
+	public $db_fields = array( 'parent' => 'menu_item_parent', 'id' => 'db_id' );
 
 	/**
 	 * Starts the list before the elements are added.
@@ -44,7 +44,7 @@ class Walker_Nav_Menu extends Walker {
 	 * @param int    $depth  Depth of menu item. Used for padding.
 	 * @param array  $args   An array of arguments. @see wp_nav_menu()
 	 */
-	function start_lvl( &$output, $depth = 0, $args = array() ) {
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
 		$output .= "\n$indent<ul class=\"sub-menu\">\n";
 	}
@@ -60,7 +60,7 @@ class Walker_Nav_Menu extends Walker {
 	 * @param int    $depth  Depth of menu item. Used for padding.
 	 * @param array  $args   An array of arguments. @see wp_nav_menu()
 	 */
-	function end_lvl( &$output, $depth = 0, $args = array() ) {
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
 		$output .= "$indent</ul>\n";
 	}
@@ -78,7 +78,7 @@ class Walker_Nav_Menu extends Walker {
 	 * @param array  $args   An array of arguments. @see wp_nav_menu()
 	 * @param int    $id     Current item ID.
 	 */
-	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
@@ -186,7 +186,7 @@ class Walker_Nav_Menu extends Walker {
 	 * @param int    $depth  Depth of page. Not Used.
 	 * @param array  $args   An array of arguments. @see wp_nav_menu()
 	 */
-	function end_el( &$output, $item, $depth = 0, $args = array() ) {
+	public function end_el( &$output, $item, $depth = 0, $args = array() ) {
 		$output .= "</li>\n";
 	}
 

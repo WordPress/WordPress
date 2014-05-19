@@ -1558,7 +1558,7 @@ class Walker_Comment extends Walker {
 	 * @since 2.7.0
 	 * @var string
 	 */
-	var $tree_type = 'comment';
+	public $tree_type = 'comment';
 
 	/**
 	 * DB fields to use.
@@ -1568,7 +1568,7 @@ class Walker_Comment extends Walker {
 	 * @since 2.7.0
 	 * @var array
 	 */
-	var $db_fields = array ('parent' => 'comment_parent', 'id' => 'comment_ID');
+	public $db_fields = array ('parent' => 'comment_parent', 'id' => 'comment_ID');
 
 	/**
 	 * Start the list before the elements are added.
@@ -1581,7 +1581,7 @@ class Walker_Comment extends Walker {
 	 * @param int $depth Depth of comment.
 	 * @param array $args Uses 'style' argument for type of HTML list.
 	 */
-	function start_lvl( &$output, $depth = 0, $args = array() ) {
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$GLOBALS['comment_depth'] = $depth + 1;
 
 		switch ( $args['style'] ) {
@@ -1608,7 +1608,7 @@ class Walker_Comment extends Walker {
 	 * @param int    $depth  Depth of comment.
 	 * @param array  $args   Will only append content if style argument value is 'ol' or 'ul'.
 	 */
-	function end_lvl( &$output, $depth = 0, $args = array() ) {
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$GLOBALS['comment_depth'] = $depth + 1;
 
 		switch ( $args['style'] ) {
@@ -1656,7 +1656,7 @@ class Walker_Comment extends Walker {
 	 * @param string $output            Passed by reference. Used to append additional content.
 	 * @return null Null on failure with no changes to parameters.
 	 */
-	function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
+	public function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
 
 		if ( !$element )
 			return;
@@ -1690,7 +1690,7 @@ class Walker_Comment extends Walker {
 	 * @param int    $depth   Depth of comment in reference to parents.
 	 * @param array  $args    An array of arguments.
 	 */
-	function start_el( &$output, $comment, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $comment, $depth = 0, $args = array(), $id = 0 ) {
 		$depth++;
 		$GLOBALS['comment_depth'] = $depth;
 		$GLOBALS['comment'] = $comment;
@@ -1730,7 +1730,7 @@ class Walker_Comment extends Walker {
 	 * @param int    $depth   Depth of comment.
 	 * @param array  $args    An array of arguments.
 	 */
-	function end_el( &$output, $comment, $depth = 0, $args = array() ) {
+	public function end_el( &$output, $comment, $depth = 0, $args = array() ) {
 		if ( !empty( $args['end-callback'] ) ) {
 			ob_start();
 			call_user_func( $args['end-callback'], $comment, $args, $depth );

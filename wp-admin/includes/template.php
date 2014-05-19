@@ -21,8 +21,8 @@
  * @since 2.5.1
  */
 class Walker_Category_Checklist extends Walker {
-	var $tree_type = 'category';
-	var $db_fields = array ('parent' => 'parent', 'id' => 'term_id'); //TODO: decouple this
+	public $tree_type = 'category';
+	public $db_fields = array ('parent' => 'parent', 'id' => 'term_id'); //TODO: decouple this
 
 	/**
 	 * Starts the list before the elements are added.
