@@ -21,23 +21,23 @@ require ABSPATH . 'wp-admin/includes/class-wp-upgrader-skins.php';
  * @since 2.8.0
  */
 class WP_Upgrader {
-	var $strings = array();
-	var $skin = null;
-	var $result = array();
+	public $strings = array();
+	public $skin = null;
+	public $result = array();
 
-	function __construct($skin = null) {
+	public function __construct($skin = null) {
 		if ( null == $skin )
 			$this->skin = new WP_Upgrader_Skin();
 		else
 			$this->skin = $skin;
 	}
 
-	function init() {
+	public function init() {
 		$this->skin->set_upgrader($this);
 		$this->generic_strings();
 	}
 
-	function generic_strings() {
+	public function generic_strings() {
 		$this->strings['bad_request'] = __('Invalid Data provided.');
 		$this->strings['fs_unavailable'] = __('Could not access filesystem.');
 		$this->strings['fs_error'] = __('Filesystem error.');
@@ -59,7 +59,7 @@ class WP_Upgrader {
 		$this->strings['maintenance_end'] = __('Disabling Maintenance mode&#8230;');
 	}
 
-	function fs_connect( $directories = array() ) {
+	public function fs_connect( $directories = array() ) {
 		global $wp_filesystem;
 
 		if ( false === ($credentials = $this->skin->request_filesystem_credentials()) )
@@ -106,7 +106,7 @@ class WP_Upgrader {
 		return true;
 	} //end fs_connect();
 
-	function download_package($package) {
+	public function download_package($package) {
 
 		/**
 		 * Filter whether to return the package.
@@ -138,7 +138,7 @@ class WP_Upgrader {
 		return $download_file;
 	}
 
-	function unpack_package($package, $delete_package = true) {
+	public function unpack_package($package, $delete_package = true) {
 		global $wp_filesystem;
 
 		$this->skin->feedback('unpack_package');
@@ -177,7 +177,7 @@ class WP_Upgrader {
 		return $working_dir;
 	}
 
-	function install_package( $args = array() ) {
+	public function install_package( $args = array() ) {
 		global $wp_filesystem, $wp_theme_directories;
 
 		$defaults = array(
@@ -347,7 +347,7 @@ class WP_Upgrader {
 		return $this->result;
 	}
 
-	function run( $options ) {
+	public function run( $options ) {
 
 		$defaults = array(
 			'package' => '', // Please always pass this.
@@ -441,7 +441,7 @@ class WP_Upgrader {
 		return $result;
 	}
 
-	function maintenance_mode($enable = false) {
+	public function maintenance_mode($enable = false) {
 		global $wp_filesystem;
 		$file = $wp_filesystem->abspath() . '.maintenance';
 		if ( $enable ) {
@@ -467,10 +467,10 @@ class WP_Upgrader {
  */
 class Plugin_Upgrader extends WP_Upgrader {
 
-	var $result;
-	var $bulk = false;
+	public $result;
+	public $bulk = false;
 
-	function upgrade_strings() {
+	public function upgrade_strings() {
 		$this->strings['up_to_date'] = __('The plugin is at the latest version.');
 		$this->strings['no_package'] = __('Update package not available.');
 		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;');
@@ -481,7 +481,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->strings['process_success'] = __('Plugin updated successfully.');
 	}
 
-	function install_strings() {
+	public function install_strings() {
 		$this->strings['no_package'] = __('Install package not available.');
 		$this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;');
 		$this->strings['unpack_package'] = __('Unpacking the package&#8230;');
@@ -491,7 +491,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->strings['process_success'] = __('Plugin installed successfully.');
 	}
 
-	function install( $package, $args = array() ) {
+	public function install( $package, $args = array() ) {
 
 		$defaults = array(
 			'clear_update_cache' => true,
@@ -525,7 +525,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		return true;
 	}
 
-	function upgrade( $plugin, $args = array() ) {
+	public function upgrade( $plugin, $args = array() ) {
 
 		$defaults = array(
 			'clear_update_cache' => true,
@@ -576,7 +576,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		return true;
 	}
 
-	function bulk_upgrade( $plugins, $args = array() ) {
+	public function bulk_upgrade( $plugins, $args = array() ) {
 
 		$defaults = array(
 			'clear_update_cache' => true,
@@ -690,7 +690,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		return $results;
 	}
 
-	function check_package($source) {
+	public function check_package($source) {
 		global $wp_filesystem;
 
 		if ( is_wp_error($source) )
@@ -717,7 +717,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	}
 
 	//return plugin info.
-	function plugin_info() {
+	public function plugin_info() {
 		if ( ! is_array($this->result) )
 			return false;
 		if ( empty($this->result['destination_name']) )
@@ -733,7 +733,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	}
 
 	//Hooked to pre_install
-	function deactivate_plugin_before_upgrade($return, $plugin) {
+	public function deactivate_plugin_before_upgrade($return, $plugin) {
 
 		if ( is_wp_error($return) ) //Bypass.
 			return $return;
@@ -753,7 +753,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	}
 
 	//Hooked to upgrade_clear_destination
-	function delete_old_plugin($removed, $local_destination, $remote_destination, $plugin) {
+	public function delete_old_plugin($removed, $local_destination, $remote_destination, $plugin) {
 		global $wp_filesystem;
 
 		if ( is_wp_error($removed) )
@@ -791,10 +791,10 @@ class Plugin_Upgrader extends WP_Upgrader {
  */
 class Theme_Upgrader extends WP_Upgrader {
 
-	var $result;
-	var $bulk = false;
+	public $result;
+	public $bulk = false;
 
-	function upgrade_strings() {
+	public function upgrade_strings() {
 		$this->strings['up_to_date'] = __('The theme is at the latest version.');
 		$this->strings['no_package'] = __('Update package not available.');
 		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;');
@@ -805,7 +805,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->strings['process_success'] = __('Theme updated successfully.');
 	}
 
-	function install_strings() {
+	public function install_strings() {
 		$this->strings['no_package'] = __('Install package not available.');
 		$this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;');
 		$this->strings['unpack_package'] = __('Unpacking the package&#8230;');
@@ -825,7 +825,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->strings['parent_theme_not_found'] = __('<strong>The parent theme could not be found.</strong> You will need to install the parent theme, <strong>%s</strong>, before you can use this child theme.');
 	}
 
-	function check_parent_theme_filter($install_result, $hook_extra, $child_result) {
+	public function check_parent_theme_filter($install_result, $hook_extra, $child_result) {
 		// Check to see if we need to install a parent theme
 		$theme_info = $this->theme_info();
 
@@ -884,12 +884,12 @@ class Theme_Upgrader extends WP_Upgrader {
 		return $install_result;
 	}
 
-	function hide_activate_preview_actions($actions) {
+	public function hide_activate_preview_actions($actions) {
 		unset($actions['activate'], $actions['preview']);
 		return $actions;
 	}
 
-	function install( $package, $args = array() ) {
+	public function install( $package, $args = array() ) {
 
 		$defaults = array(
 			'clear_update_cache' => true,
@@ -925,7 +925,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		return true;
 	}
 
-	function upgrade( $theme, $args = array() ) {
+	public function upgrade( $theme, $args = array() ) {
 
 		$defaults = array(
 			'clear_update_cache' => true,
@@ -975,7 +975,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		return true;
 	}
 
-	function bulk_upgrade( $themes, $args = array() ) {
+	public function bulk_upgrade( $themes, $args = array() ) {
 
 		$defaults = array(
 			'clear_update_cache' => true,
@@ -1076,7 +1076,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		return $results;
 	}
 
-	function check_package($source) {
+	public function check_package($source) {
 		global $wp_filesystem;
 
 		if ( is_wp_error($source) )
@@ -1103,7 +1103,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		return $source;
 	}
 
-	function current_before($return, $theme) {
+	public function current_before($return, $theme) {
 
 		if ( is_wp_error($return) )
 			return $return;
@@ -1119,7 +1119,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		return $return;
 	}
 
-	function current_after($return, $theme) {
+	public function current_after($return, $theme) {
 		if ( is_wp_error($return) )
 			return $return;
 
@@ -1141,7 +1141,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		return $return;
 	}
 
-	function delete_old_theme( $removed, $local_destination, $remote_destination, $theme ) {
+	public function delete_old_theme( $removed, $local_destination, $remote_destination, $theme ) {
 		global $wp_filesystem;
 
 		if ( is_wp_error( $removed ) )
@@ -1160,7 +1160,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		return true;
 	}
 
-	function theme_info($theme = null) {
+	public function theme_info($theme = null) {
 
 		if ( empty($theme) ) {
 			if ( !empty($this->result['destination_name']) )
@@ -1184,10 +1184,10 @@ add_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async
  */
 class Language_Pack_Upgrader extends WP_Upgrader {
 
-	var $result;
-	var $bulk = true;
+	public $result;
+	public $bulk = true;
 
-	static function async_upgrade( $upgrader = false ) {
+	public static function async_upgrade( $upgrader = false ) {
 		// Avoid recursion.
 		if ( $upgrader && $upgrader instanceof Language_Pack_Upgrader )
 			return;
@@ -1205,7 +1205,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		$lp_upgrader->upgrade();
 	}
 
-	function upgrade_strings() {
+	public function upgrade_strings() {
 		$this->strings['starting_upgrade'] = __( 'Some of your translations need updating. Sit tight for a few more seconds while we update them as well.' );
 		$this->strings['up_to_date'] = __( 'The translation is up to date.' ); // We need to silently skip this case
 		$this->strings['no_package'] = __( 'Update package not available.' );
@@ -1215,14 +1215,14 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		$this->strings['process_success'] = __( 'Translation updated successfully.' );
 	}
 
-	function upgrade( $update = false, $args = array() ) {
+	public function upgrade( $update = false, $args = array() ) {
 		if ( $update )
 			$update = array( $update );
 		$results = $this->bulk_upgrade( $update, $args );
 		return $results[0];
 	}
 
-	function bulk_upgrade( $language_updates = array(), $args = array() ) {
+	public function bulk_upgrade( $language_updates = array(), $args = array() ) {
 		global $wp_filesystem;
 
 		$defaults = array(
@@ -1323,7 +1323,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		return $results;
 	}
 
-	function check_package( $source, $remote_source ) {
+	public function check_package( $source, $remote_source ) {
 		global $wp_filesystem;
 
 		if ( is_wp_error( $source ) )
@@ -1348,7 +1348,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		return $source;
 	}
 
-	function get_name_for_update( $update ) {
+	public function get_name_for_update( $update ) {
 		switch ( $update->type ) {
 			case 'core':
 				return 'WordPress'; // Not translated
@@ -1379,7 +1379,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
  */
 class Core_Upgrader extends WP_Upgrader {
 
-	function upgrade_strings() {
+	public function upgrade_strings() {
 		$this->strings['up_to_date'] = __('WordPress is at the latest version.');
 		$this->strings['no_package'] = __('Update package not available.');
 		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;');
@@ -1390,7 +1390,7 @@ class Core_Upgrader extends WP_Upgrader {
 		$this->strings['rollback_was_required'] = __( 'Due to an error during updating, WordPress has rolled back to your previous version.' );
 	}
 
-	function upgrade( $current, $args = array() ) {
+	public function upgrade( $current, $args = array() ) {
 		global $wp_filesystem;
 
 		include( ABSPATH . WPINC . '/version.php' ); // $wp_version;
@@ -1536,7 +1536,7 @@ class Core_Upgrader extends WP_Upgrader {
 	}
 
 	// Determines if this WordPress Core version should update to $offered_ver or not
-	static function should_update_to_version( $offered_ver /* x.y.z */ ) {
+	public static function should_update_to_version( $offered_ver /* x.y.z */ ) {
 		include( ABSPATH . WPINC . '/version.php' ); // $wp_version; // x.y.z
 
 		$current_branch = implode( '.', array_slice( preg_split( '/[.-]/', $wp_version  ), 0, 2 ) ); // x.y
@@ -1634,7 +1634,7 @@ class Core_Upgrader extends WP_Upgrader {
 		return false;
 	}
 
-	function check_files() {
+	public function check_files() {
 		global $wp_version, $wp_local_package;
 
 		$checksums = get_core_checksums( $wp_version, isset( $wp_local_package ) ? $wp_local_package : 'en_US' );
@@ -1662,11 +1662,11 @@ class Core_Upgrader extends WP_Upgrader {
  * @since 2.8.0
  */
 class File_Upload_Upgrader {
-	var $package;
-	var $filename;
-	var $id = 0;
+	public $package;
+	public $filename;
+	public $id = 0;
 
-	function __construct($form, $urlholder) {
+	public function __construct($form, $urlholder) {
 
 		if ( empty($_FILES[$form]['name']) && empty($_GET[$urlholder]) )
 			wp_die(__('Please select a file'));
@@ -1717,7 +1717,7 @@ class File_Upload_Upgrader {
 		}
 	}
 
-	function cleanup() {
+	public function cleanup() {
 		if ( $this->id )
 			wp_delete_attachment( $this->id );
 
