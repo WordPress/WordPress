@@ -268,7 +268,7 @@ class WP_Object_Cache {
 	 * @access private
 	 * @since 2.0.0
 	 */
-	public $cache = array();
+	private $cache = array();
 
 	/**
 	 * The amount of times the cache data was already stored in the cache.
@@ -315,6 +315,18 @@ class WP_Object_Cache {
 	 */
 	public function __get( $name ) {
 		return $this->$name;
+	}
+
+	/**
+	 * Make private properties setable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @param string $value
+	 * @return mixed
+	 */
+	public function __set( $name, $value ) {
+		return $this->$name = $value;
 	}
 
 	/**

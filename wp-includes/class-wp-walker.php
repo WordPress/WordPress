@@ -51,6 +51,18 @@ class Walker {
 	}
 
 	/**
+	 * Make private properties setable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @param string $value
+	 * @return mixed
+	 */
+	public function __set( $name, $value ) {
+		return $this->$name = $value;
+	}
+
+	/**
 	 * Starts the list before the elements are added.
 	 *
 	 * The $args parameter holds additional values that may be used with the child

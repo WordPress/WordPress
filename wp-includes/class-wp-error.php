@@ -76,6 +76,18 @@ class WP_Error {
 	}
 
 	/**
+	 * Make private properties setable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @param string $value
+	 * @return mixed
+	 */
+	public function __set( $name, $value ) {
+		return $this->$name = $value;
+	}
+
+	/**
 	 * Retrieve all error codes.
 	 *
 	 * @since 2.1.0

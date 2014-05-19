@@ -56,6 +56,18 @@ class WP_Filesystem_Base {
 	}
 
 	/**
+	 * Make private properties setable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @param string $value
+	 * @return mixed
+	 */
+	public function __set( $name, $value ) {
+		return $this->$name = $value;
+	}
+
+	/**
 	 * Return the path on the remote filesystem of ABSPATH.
 	 *
 	 * @access public

@@ -674,6 +674,18 @@ class WP_MatchesMapRegex {
 	}
 
 	/**
+	 * Make private properties setable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @param string $value
+	 * @return mixed
+	 */
+	public function __set( $name, $value ) {
+		return $this->$name = $value;
+	}
+
+	/**
 	 * Make private/protected methods readable for backwards compatibility
 	 *
 	 * @since 4.0.0

@@ -41,6 +41,18 @@ class WP_Ajax_Response {
 	}
 
 	/**
+	 * Make private properties setable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @param string $value
+	 * @return mixed
+	 */
+	public function __set( $name, $value ) {
+		return $this->$name = $value;
+	}
+
+	/**
 	 * Append to XML response based on given arguments.
 	 *
 	 * The arguments that can be passed in the $args parameter are below. It is
