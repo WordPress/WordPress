@@ -40,11 +40,6 @@ class WP_Filesystem_Base {
 	public $method = '';
 
 	/**
-	 * Constructor (empty).
-	 */
-	public function __construct() {}
-
-	/**
 	 * Make private properties readable for backwards compatibility
 	 *
 	 * @since 4.0.0
