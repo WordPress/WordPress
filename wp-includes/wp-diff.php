@@ -28,18 +28,18 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	/**
 	 * @see Text_Diff_Renderer::_leading_context_lines
 	 * @var int
-	 * @access protected
+	 * @access public
 	 * @since 2.6.0
 	 */
-	var $_leading_context_lines  = 10000;
+	public $_leading_context_lines  = 10000;
 
 	/**
 	 * @see Text_Diff_Renderer::_trailing_context_lines
 	 * @var int
-	 * @access protected
+	 * @access public
 	 * @since 2.6.0
 	 */
-	var $_trailing_context_lines = 10000;
+	public $_trailing_context_lines = 10000;
 
 	/**
 	 * {@internal Missing Description}}
@@ -48,7 +48,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @access protected
 	 * @since 2.6.0
 	 */
-	var $_diff_threshold = 0.6;
+	protected $_diff_threshold = 0.6;
 
 	/**
 	 * Inline display helper object name.
@@ -57,7 +57,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @access protected
 	 * @since 2.6.0
 	 */
-	var $inline_diff_renderer = 'WP_Text_Diff_Renderer_inline';
+	protected $inline_diff_renderer = 'WP_Text_Diff_Renderer_inline';
 
 	/**
 	 * Should we show the split view or not
@@ -66,7 +66,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @access protected
 	 * @since 3.6.0
 	 */
-	var $_show_split_view = true;
+	protected $_show_split_view = true;
 
 	/**
 	 * Constructor - Call parent constructor with params array.
@@ -77,7 +77,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 *
 	 * @param array $params
 	 */
-	function __construct( $params = array() ) {
+	public function __construct( $params = array() ) {
 		parent::__construct( $params );
 		if ( isset( $params[ 'show_split_view' ] ) )
 			$this->_show_split_view = $params[ 'show_split_view' ];
@@ -89,7 +89,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @param string $header
 	 * @return string
 	 */
-	function _startBlock( $header ) {
+	public function _startBlock( $header ) {
 		return '';
 	}
 
@@ -99,7 +99,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @param array $lines
 	 * @param string $prefix
 	 */
-	function _lines( $lines, $prefix=' ' ) {
+	public function _lines( $lines, $prefix=' ' ) {
 	}
 
 	/**
@@ -108,7 +108,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @param string $line HTML-escape the value.
 	 * @return string
 	 */
-	function addedLine( $line ) {
+	public function addedLine( $line ) {
 		return "<td class='diff-addedline'>{$line}</td>";
 
 	}
@@ -119,7 +119,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @param string $line HTML-escape the value.
 	 * @return string
 	 */
-	function deletedLine( $line ) {
+	public function deletedLine( $line ) {
 		return "<td class='diff-deletedline'>{$line}</td>";
 	}
 
@@ -129,7 +129,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @param string $line HTML-escape the value.
 	 * @return string
 	 */
-	function contextLine( $line ) {
+	public function contextLine( $line ) {
 		return "<td class='diff-context'>{$line}</td>";
 	}
 
@@ -138,19 +138,19 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 *
 	 * @return string
 	 */
-	function emptyLine() {
+	public function emptyLine() {
 		return '<td>&nbsp;</td>';
 	}
 
 	/**
 	 * @ignore
-	 * @access private
+	 * @access public
 	 *
 	 * @param array $lines
 	 * @param bool $encode
 	 * @return string
 	 */
-	function _added( $lines, $encode = true ) {
+	public function _added( $lines, $encode = true ) {
 		$r = '';
 		foreach ($lines as $line) {
 			if ( $encode )
@@ -166,13 +166,13 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 
 	/**
 	 * @ignore
-	 * @access private
+	 * @access public
 	 *
 	 * @param array $lines
 	 * @param bool $encode
 	 * @return string
 	 */
-	function _deleted( $lines, $encode = true ) {
+	public function _deleted( $lines, $encode = true ) {
 		$r = '';
 		foreach ($lines as $line) {
 			if ( $encode )
@@ -189,13 +189,13 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 
 	/**
 	 * @ignore
-	 * @access private
+	 * @access public
 	 *
 	 * @param array $lines
 	 * @param bool $encode
 	 * @return string
 	 */
-	function _context( $lines, $encode = true ) {
+	public function _context( $lines, $encode = true ) {
 		$r = '';
 		foreach ($lines as $line) {
 			if ( $encode )
@@ -215,14 +215,14 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * (TRAC style) sometimes these lines can actually be deleted or added rows.
 	 * We do additional processing to figure that out
 	 *
-	 * @access private
+	 * @access public
 	 * @since 2.6.0
 	 *
 	 * @param array $orig
 	 * @param array $final
 	 * @return string
 	 */
-	function _changed( $orig, $final ) {
+	public function _changed( $orig, $final ) {
 		$r = '';
 
 		// Does the aforementioned additional processing
@@ -313,7 +313,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @param unknown_type $final
 	 * @return unknown
 	 */
-	function interleave_changed_lines( $orig, $final ) {
+	public function interleave_changed_lines( $orig, $final ) {
 
 		// Contains all pairwise string comparisons. Keys are such that this need only be a one dimensional array.
 		$matches = array();
@@ -402,7 +402,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @param string $string2
 	 * @return int
 	 */
-	function compute_string_distance( $string1, $string2 ) {
+	public function compute_string_distance( $string1, $string2 ) {
 		// Vectors containing character frequency for all chars in each string
 		$chars1 = count_chars($string1);
 		$chars2 = count_chars($string2);
@@ -426,10 +426,66 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @param int $b
 	 * @return int
 	 */
-	function difference( $a, $b ) {
+	public function difference( $a, $b ) {
 		return abs( $a - $b );
 	}
 
+	/**
+	 * Make private properties readable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __get( $name ) {
+		return $this->$name;
+	}
+
+	/**
+	 * Make private properties setable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @param string $value
+	 * @return mixed
+	 */
+	public function __set( $name, $value ) {
+		return $this->$name = $value;
+	}
+
+	/**
+	 * Make private properties checkable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __isset( $name ) {
+		return isset( $this->$name );
+	}
+
+	/**
+	 * Make private properties unsetable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __unset( $name ) {
+		unset( $this->$name );
+	}
+
+	/**
+	 * Make private/protected methods readable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @param array $arguments
+	 * @return mixed
+	 */
+	public function __call( $name, $arguments ) {
+		return call_user_func_array( array( $this, $name ), $arguments );
+	}
 }
 
 /**
@@ -448,7 +504,7 @@ class WP_Text_Diff_Renderer_inline extends Text_Diff_Renderer_inline {
 	 * @param string $newlineEscape
 	 * @return string
 	 */
-	function _splitOnWords($string, $newlineEscape = "\n") {
+	public function _splitOnWords($string, $newlineEscape = "\n") {
 		$string = str_replace("\0", '', $string);
 		$words  = preg_split( '/([^\w])/u', $string, -1, PREG_SPLIT_DELIM_CAPTURE );
 		$words  = str_replace( "\n", $newlineEscape, $words );
