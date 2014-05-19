@@ -28,7 +28,7 @@ function confirm_delete_users( $users ) {
 	<?php
 	wp_nonce_field( 'ms-users-delete' );
 	$site_admins = get_super_admins();
-	$admin_out = "<option value='$current_user->ID'>$current_user->user_login</option>";
+	$admin_out = '<option value="' . $current_user->ID . '">' . $current_user->user_login . '</option>';
 
 	foreach ( ( $allusers = (array) $_POST['allusers'] ) as $key => $val ) {
 		if ( $val != '' && $val != '0' ) {

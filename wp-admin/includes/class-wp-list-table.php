@@ -420,7 +420,7 @@ class WP_List_Table {
 
 		$m = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
 ?>
-		<select name='m'>
+		<select name="m">
 			<option<?php selected( $m, 0 ); ?> value='0'><?php _e( 'All dates' ); ?></option>
 <?php
 		foreach ( $months as $arc_row ) {
