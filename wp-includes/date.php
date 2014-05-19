@@ -105,7 +105,7 @@ class WP_Date_Query {
 	 *                              Accepts 'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt',
 	 *                              'comment_date', 'comment_date_gmt'.
 	 */
-	function __construct( $date_query, $default_column = 'post_date' ) {
+	public function __construct( $date_query, $default_column = 'post_date' ) {
 		if ( empty( $date_query ) || ! is_array( $date_query ) )
 			return;
 
