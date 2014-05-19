@@ -209,7 +209,7 @@ class WP_Comment_Query {
 	 * @access public
 	 * @var object WP_Meta_Query
 	 */
-	var $meta_query = false;
+	public $meta_query = false;
 
 	/**
 	 * Date query container
@@ -218,7 +218,19 @@ class WP_Comment_Query {
 	 * @access public
 	 * @var object WP_Date_Query
 	 */
-	var $date_query = false;
+	public $date_query = false;
+
+	/**
+	 * Make private/protected methods readable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @param array $arguments
+	 * @return mixed
+	 */
+	public function __call( $name, $arguments ) {
+		return call_user_func_array( array( $this, $name ), $arguments );
+	}
 
 	/**
 	 * Execute the query
@@ -228,7 +240,7 @@ class WP_Comment_Query {
 	 * @param string|array $query_vars
 	 * @return int|array
 	 */
-	function query( $query_vars ) {
+	public function query( $query_vars ) {
 		global $wpdb;
 
 		$defaults = array(
@@ -468,7 +480,7 @@ class WP_Comment_Query {
 	 * @param array $cols
 	 * @return string
 	 */
-	function get_search_sql( $string, $cols ) {
+	protected function get_search_sql( $string, $cols ) {
 		$string = esc_sql( like_escape( $string ) );
 
 		$searches = array();
