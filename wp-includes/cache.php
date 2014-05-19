@@ -268,7 +268,7 @@ class WP_Object_Cache {
 	 * @access private
 	 * @since 2.0.0
 	 */
-	private $cache = array ();
+	public $cache = array();
 
 	/**
 	 * The amount of times the cache data was already stored in the cache.
