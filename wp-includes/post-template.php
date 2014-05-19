@@ -65,7 +65,14 @@ function the_title($before = '', $after = '', $echo = true) {
  *
  * @since 2.3.0
  *
- * @param string|array $args Optional. Override the defaults.
+ * @param string|array $args {
+ *     Title attribute arguments. Optional.
+ *
+ *     @type string  $before Markup to prepend to the title. Default empty.
+ *     @type string  $after  Markup to append to the title. Default empty.
+ *     @type bool    $echo   Whether to echo or return the title. Default true for echo.
+ *     @type WP_Post $post   Current post object to retrieve the title for.
+ * }
  * @return string|null Null on failure or display. String when echo is false.
  */
 function the_title_attribute( $args = '' ) {
