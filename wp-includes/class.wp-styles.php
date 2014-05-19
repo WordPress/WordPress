@@ -17,18 +17,18 @@
  * @since r74
  */
 class WP_Styles extends WP_Dependencies {
-	var $base_url;
-	var $content_url;
-	var $default_version;
-	var $text_direction = 'ltr';
-	var $concat = '';
-	var $concat_version = '';
-	var $do_concat = false;
-	var $print_html = '';
-	var $print_code = '';
-	var $default_dirs;
+	public $base_url;
+	public $content_url;
+	public $default_version;
+	public $text_direction = 'ltr';
+	public $concat = '';
+	public $concat_version = '';
+	public $do_concat = false;
+	public $print_html = '';
+	public $print_code = '';
+	public $default_dirs;
 
-	function __construct() {
+	public function __construct() {
 		/**
 		 * Fires when the WP_Styles instance is initialized.
 		 *
@@ -39,7 +39,7 @@ class WP_Styles extends WP_Dependencies {
 		do_action_ref_array( 'wp_default_styles', array(&$this) );
 	}
 
-	function do_item( $handle ) {
+	public function do_item( $handle ) {
 		if ( !parent::do_item($handle) )
 			return false;
 
@@ -119,7 +119,7 @@ class WP_Styles extends WP_Dependencies {
 		return true;
 	}
 
-	function add_inline_style( $handle, $code ) {
+	public function add_inline_style( $handle, $code ) {
 		if ( !$code )
 			return false;
 
@@ -132,7 +132,7 @@ class WP_Styles extends WP_Dependencies {
 		return $this->add_data( $handle, 'after', $after );
 	}
 
-	function print_inline_style( $handle, $echo = true ) {
+	public function print_inline_style( $handle, $echo = true ) {
 		$output = $this->get_data( $handle, 'after' );
 
 		if ( empty( $output ) )
@@ -150,7 +150,7 @@ class WP_Styles extends WP_Dependencies {
 		return true;
 	}
 
-	function all_deps( $handles, $recursion = false, $group = false ) {
+	public function all_deps( $handles, $recursion = false, $group = false ) {
 		$r = parent::all_deps( $handles, $recursion );
 		if ( !$recursion ) {
 			/**
@@ -165,7 +165,7 @@ class WP_Styles extends WP_Dependencies {
 		return $r;
 	}
 
-	function _css_href( $src, $ver, $handle ) {
+	public function _css_href( $src, $ver, $handle ) {
 		if ( !is_bool($src) && !preg_match('|^(https?:)?//|', $src) && ! ( $this->content_url && 0 === strpos($src, $this->content_url) ) ) {
 			$src = $this->base_url . $src;
 		}
@@ -185,7 +185,7 @@ class WP_Styles extends WP_Dependencies {
 		return esc_url( $src );
 	}
 
-	function in_default_dir($src) {
+	public function in_default_dir($src) {
 		if ( ! $this->default_dirs )
 			return true;
 
@@ -196,12 +196,12 @@ class WP_Styles extends WP_Dependencies {
 		return false;
 	}
 
-	function do_footer_items() { // HTML 5 allows styles in the body, grab late enqueued items and output them in the footer.
+	public function do_footer_items() { // HTML 5 allows styles in the body, grab late enqueued items and output them in the footer.
 		$this->do_items(false, 1);
 		return $this->done;
 	}
 
-	function reset() {
+	public function reset() {
 		$this->do_concat = false;
 		$this->concat = '';
 		$this->concat_version = '';
