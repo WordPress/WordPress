@@ -17,7 +17,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @access public
 	 * @var int
 	 */
-	var $site_id;
+	public $site_id;
 
 	/**
 	 * Whether or not the current Users list table is for Multisite.
@@ -26,7 +26,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @access public
 	 * @var bool
 	 */
-	var $is_site_users;
+	public $is_site_users;
 
 	/**
 	 * Constructor.
@@ -34,7 +34,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @since 3.1.0
 	 * @access public
 	 */
-	function __construct( $args = array() ) {
+	public function __construct( $args = array() ) {
 		parent::__construct( array(
 			'singular' => 'user',
 			'plural'   => 'users',
@@ -53,7 +53,7 @@ class WP_Users_List_Table extends WP_List_Table {
  	 * @since 3.1.0
 	 * @access public
 	 */
-	function ajax_user_can() {
+	public function ajax_user_can() {
 		if ( $this->is_site_users )
 			return current_user_can( 'manage_sites' );
 		else
@@ -66,7 +66,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @since 3.1.0
 	 * @access public
 	 */
-	function prepare_items() {
+	public function prepare_items() {
 		global $role, $usersearch;
 
 		$usersearch = isset( $_REQUEST['s'] ) ? wp_unslash( trim( $_REQUEST['s'] ) ) : '';
@@ -115,7 +115,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @since 3.1.0
 	 * @access public
 	 */
-	function no_items() {
+	public function no_items() {
 		_e( 'No matching users were found.' );
 	}
 
@@ -131,7 +131,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 *
 	 * @return array An array of HTML links, one for each view.
 	 */
-	function get_views() {
+	public function get_views() {
 		global $wp_roles, $role;
 
 		if ( $this->is_site_users ) {
@@ -177,7 +177,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 *
 	 * @return array Array of bulk actions.
 	 */
-	function get_bulk_actions() {
+	public function get_bulk_actions() {
 		$actions = array();
 
 		if ( is_multisite() ) {
@@ -200,7 +200,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @param string $which Whether this is being invoked above ("top")
 	 *                      or below the table ("bottom").
 	 */
-	function extra_tablenav( $which ) {
+	public function extra_tablenav( $which ) {
 		if ( 'top' != $which )
 			return;
 	?>
@@ -236,7 +236,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 *
 	 * @return string The bulk action required.
 	 */
-	function current_action() {
+	public function current_action() {
 		if ( isset($_REQUEST['changeit']) && !empty($_REQUEST['new_role']) )
 			return 'promote';
 
@@ -252,7 +252,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @return array Array in which the key is the ID of the column,
 	 *               and the value is the description.
 	 */
-	function get_columns() {
+	public function get_columns() {
 		$c = array(
 			'cb'       => '<input type="checkbox" />',
 			'username' => __( 'Username' ),
@@ -276,7 +276,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 *
 	 * @return array Array of sortable columns.
 	 */
-	function get_sortable_columns() {
+	public function get_sortable_columns() {
 		$c = array(
 			'username' => 'login',
 			'name'     => 'name',
@@ -295,7 +295,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @since 3.1.0
 	 * @access public
 	 */
-	function display_rows() {
+	public function display_rows() {
 		// Query the post counts for this page
 		if ( ! $this->is_site_users )
 			$post_counts = count_many_users_posts( array_keys( $this->items ) );
@@ -334,7 +334,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 *                            to zero, as in, a new user has made zero posts.
 	 * @return string Output for a single row.
 	 */
-	function single_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
+	public function single_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
 		global $wp_roles;
 
 		if ( !( is_object( $user_object ) && is_a( $user_object, 'WP_User' ) ) )
