@@ -896,7 +896,7 @@ class Walker_Category extends Walker {
 	 * @since 2.1.0
 	 * @var string
 	 */
-	var $tree_type = 'category';
+	public $tree_type = 'category';
 
 	/**
 	 * Database fields to use.
@@ -906,7 +906,7 @@ class Walker_Category extends Walker {
 	 * @todo Decouple this
 	 * @var array
 	 */
-	var $db_fields = array ('parent' => 'parent', 'id' => 'term_id');
+	public $db_fields = array ('parent' => 'parent', 'id' => 'term_id');
 
 	/**
 	 * Starts the list before the elements are added.
@@ -920,7 +920,7 @@ class Walker_Category extends Walker {
 	 * @param array  $args   An array of arguments. Will only append content if style argument value is 'list'.
 	 *                       @see wp_list_categories()
 	 */
-	function start_lvl( &$output, $depth = 0, $args = array() ) {
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
 			return;
 
@@ -940,7 +940,7 @@ class Walker_Category extends Walker {
 	 * @param array  $args   An array of arguments. Will only append content if style argument value is 'list'.
 	 *                       @wsee wp_list_categories()
 	 */
-	function end_lvl( &$output, $depth = 0, $args = array() ) {
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
 			return;
 
@@ -961,7 +961,7 @@ class Walker_Category extends Walker {
 	 * @param array  $args     An array of arguments. @see wp_list_categories()
 	 * @param int    $id       ID of the current category.
 	 */
-	function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		/** This filter is documented in wp-includes/category-template.php */
 		$cat_name = apply_filters(
 			'list_cats',
@@ -1051,7 +1051,7 @@ class Walker_Category extends Walker {
 	 * @param int    $depth  Depth of category. Not used.
 	 * @param array  $args   An array of arguments. Only uses 'list' for whether should append to output. @see wp_list_categories()
 	 */
-	function end_el( &$output, $page, $depth = 0, $args = array() ) {
+	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
 			return;
 
@@ -1073,7 +1073,7 @@ class Walker_CategoryDropdown extends Walker {
 	 * @since 2.1.0
 	 * @var string
 	 */
-	var $tree_type = 'category';
+	public $tree_type = 'category';
 
 	/**
 	 * @see Walker::$db_fields
@@ -1081,7 +1081,7 @@ class Walker_CategoryDropdown extends Walker {
 	 * @todo Decouple this
 	 * @var array
 	 */
-	var $db_fields = array ('parent' => 'parent', 'id' => 'term_id');
+	public $db_fields = array ('parent' => 'parent', 'id' => 'term_id');
 
 	/**
 	 * Start the element output.
@@ -1094,7 +1094,7 @@ class Walker_CategoryDropdown extends Walker {
 	 * @param int    $depth    Depth of category. Used for padding.
 	 * @param array  $args     Uses 'selected' and 'show_count' keys, if they exist. @see wp_dropdown_categories()
 	 */
-	function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
 
 		/** This filter is documented in wp-includes/category-template.php */
