@@ -23,14 +23,14 @@
  */
 class WP_Widget {
 
-	var $id_base;			// Root id for all widgets of this type.
-	var $name;				// Name for this widget type.
-	var $widget_options;	// Option array passed to wp_register_sidebar_widget()
-	var $control_options;	// Option array passed to wp_register_widget_control()
+	public $id_base;			// Root id for all widgets of this type.
+	public $name;				// Name for this widget type.
+	public $widget_options;	// Option array passed to wp_register_sidebar_widget()
+	public $control_options;	// Option array passed to wp_register_widget_control()
 
-	var $number = false;	// Unique ID number of the current instance.
-	var $id = false;		// Unique ID string of the current instance (id_base-number)
-	var $updated = false;	// Set true when we update the data after a POST submit - makes sure we don't do it twice.
+	public $number = false;	// Unique ID number of the current instance.
+	public $id = false;		// Unique ID string of the current instance (id_base-number)
+	public $updated = false;	// Set true when we update the data after a POST submit - makes sure we don't do it twice.
 
 	// Member functions that you must over-ride.
 
@@ -41,7 +41,7 @@ class WP_Widget {
 	 * @param array $args Display arguments including before_title, after_title, before_widget, and after_widget.
 	 * @param array $instance The settings for the particular instance of the widget
 	 */
-	function widget($args, $instance) {
+	public function widget($args, $instance) {
 		die('function WP_Widget::widget() must be over-ridden in a sub-class.');
 	}
 
@@ -55,7 +55,7 @@ class WP_Widget {
 	 * @param array $old_instance Old settings for this instance
 	 * @return array Settings to save or bool false to cancel saving
 	 */
-	function update($new_instance, $old_instance) {
+	public function update($new_instance, $old_instance) {
 		return $new_instance;
 	}
 
@@ -63,7 +63,7 @@ class WP_Widget {
 	 *
 	 * @param array $instance Current settings
 	 */
-	function form($instance) {
+	public function form($instance) {
 		echo '<p class="no-options-widget">' . __('There are no options for this widget.') . '</p>';
 		return 'noform';
 	}
@@ -83,7 +83,7 @@ class WP_Widget {
 	 *	 - width: required if more than 250px
 	 *	 - height: currently not used but may be needed in the future
 	 */
-	function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
+	public function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
 		$this->id_base = empty($id_base) ? preg_replace( '/(wp_)?widget_/', '', strtolower(get_class($this)) ) : strtolower($id_base);
 		$this->name = $name;
 		$this->option_name = 'widget_' . $this->id_base;
@@ -94,7 +94,7 @@ class WP_Widget {
 	/**
 	 * PHP4 constructor
 	 */
-	function WP_Widget( $id_base, $name, $widget_options = array(), $control_options = array() ) {
+	public function WP_Widget( $id_base, $name, $widget_options = array(), $control_options = array() ) {
 		WP_Widget::__construct( $id_base, $name, $widget_options, $control_options );
 	}
 
@@ -106,7 +106,7 @@ class WP_Widget {
 	 * @param string $field_name Field name
 	 * @return string Name attribute for $field_name
 	 */
-	function get_field_name($field_name) {
+	public function get_field_name($field_name) {
 		return 'widget-' . $this->id_base . '[' . $this->number . '][' . $field_name . ']';
 	}
 
@@ -118,13 +118,13 @@ class WP_Widget {
 	 * @param string $field_name Field name
 	 * @return string ID attribute for $field_name
 	 */
-	function get_field_id($field_name) {
+	public function get_field_id($field_name) {
 		return 'widget-' . $this->id_base . '-' . $this->number . '-' . $field_name;
 	}
 
 	// Private Functions. Don't worry about these.
 
-	function _register() {
+	public function _register() {
 		$settings = $this->get_settings();
 		$empty = true;
 
@@ -146,20 +146,20 @@ class WP_Widget {
 		}
 	}
 
-	function _set($number) {
+	public function _set($number) {
 		$this->number = $number;
 		$this->id = $this->id_base . '-' . $number;
 	}
 
-	function _get_display_callback() {
+	public function _get_display_callback() {
 		return array($this, 'display_callback');
 	}
 
-	function _get_update_callback() {
+	public function _get_update_callback() {
 		return array($this, 'update_callback');
 	}
 
-	function _get_form_callback() {
+	public function _get_form_callback() {
 		return array($this, 'form_callback');
 	}
 
@@ -173,7 +173,7 @@ class WP_Widget {
 	 *
 	 * @return bool True if Customizer is on, false if not.
 	 */
-	function is_preview() {
+	public function is_preview() {
 		global $wp_customize;
 		return ( isset( $wp_customize ) && $wp_customize->is_preview() ) ;
 	}
@@ -181,7 +181,7 @@ class WP_Widget {
 	/** Generate the actual widget content.
 	 *	Just finds the instance and calls widget().
 	 *	Do NOT over-ride this function. */
-	function display_callback( $args, $widget_args = 1 ) {
+	public function display_callback( $args, $widget_args = 1 ) {
 		if ( is_numeric($widget_args) )
 			$widget_args = array( 'number' => $widget_args );
 
@@ -229,7 +229,7 @@ class WP_Widget {
 	 *
 	 * @param mixed $deprecated Not used.
 	 */
-	function update_callback( $deprecated = 1 ) {
+	public function update_callback( $deprecated = 1 ) {
 		global $wp_registered_widgets;
 
 		$all_instances = $this->get_settings();
@@ -309,7 +309,7 @@ class WP_Widget {
 	 *
 	 * Do NOT over-ride this function.
 	 */
-	function form_callback( $widget_args = 1 ) {
+	public function form_callback( $widget_args = 1 ) {
 		if ( is_numeric($widget_args) )
 			$widget_args = array( 'number' => $widget_args );
 
@@ -363,18 +363,18 @@ class WP_Widget {
 	}
 
 	/** Helper function: Registers a single instance. */
-	function _register_one($number = -1) {
+	public function _register_one($number = -1) {
 		wp_register_sidebar_widget(	$this->id, $this->name,	$this->_get_display_callback(), $this->widget_options, array( 'number' => $number ) );
 		_register_widget_update_callback( $this->id_base, $this->_get_update_callback(), $this->control_options, array( 'number' => -1 ) );
 		_register_widget_form_callback(	$this->id, $this->name,	$this->_get_form_callback(), $this->control_options, array( 'number' => $number ) );
 	}
 
-	function save_settings($settings) {
+	public function save_settings($settings) {
 		$settings['_multiwidget'] = 1;
 		update_option( $this->option_name, $settings );
 	}
 
-	function get_settings() {
+	public function get_settings() {
 		$settings = get_option($this->option_name);
 
 		if ( false === $settings && isset($this->alt_option_name) )
@@ -401,22 +401,22 @@ class WP_Widget {
  * @since 2.8.0
  */
 class WP_Widget_Factory {
-	var $widgets = array();
+	public $widgets = array();
 
-	function WP_Widget_Factory() {
+	public function WP_Widget_Factory() {
 		add_action( 'widgets_init', array( $this, '_register_widgets' ), 100 );
 	}
 
-	function register($widget_class) {
+	public function register($widget_class) {
 		$this->widgets[$widget_class] = new $widget_class();
 	}
 
-	function unregister($widget_class) {
+	public function unregister($widget_class) {
 		if ( isset($this->widgets[$widget_class]) )
 			unset($this->widgets[$widget_class]);
 	}
 
-	function _register_widgets() {
+	public function _register_widgets() {
 		global $wp_registered_widgets;
 		$keys = array_keys($this->widgets);
 		$registered = array_keys($wp_registered_widgets);
