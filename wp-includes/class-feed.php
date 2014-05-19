@@ -10,17 +10,17 @@ class WP_Feed_Cache extends SimplePie_Cache {
 	 * @static
 	 * @access public
 	 */
-	function create($location, $filename, $extension) {
+	public function create($location, $filename, $extension) {
 		return new WP_Feed_Cache_Transient($location, $filename, $extension);
 	}
 }
 
 class WP_Feed_Cache_Transient {
-	var $name;
-	var $mod_name;
-	var $lifetime = 43200; //Default lifetime in cache of 12 hours
+	public $name;
+	public $mod_name;
+	public $lifetime = 43200; //Default lifetime in cache of 12 hours
 
-	function __construct($location, $filename, $extension) {
+	public function __construct($location, $filename, $extension) {
 		$this->name = 'feed_' . $filename;
 		$this->mod_name = 'feed_mod_' . $filename;
 
@@ -36,7 +36,7 @@ class WP_Feed_Cache_Transient {
 		$this->lifetime = apply_filters( 'wp_feed_cache_transient_lifetime', $lifetime, $filename);
 	}
 
-	function save($data) {
+	public function save($data) {
 		if ( is_a($data, 'SimplePie') )
 			$data = $data->data;
 
@@ -45,19 +45,19 @@ class WP_Feed_Cache_Transient {
 		return true;
 	}
 
-	function load() {
+	public function load() {
 		return get_transient($this->name);
 	}
 
-	function mtime() {
+	public function mtime() {
 		return get_transient($this->mod_name);
 	}
 
-	function touch() {
+	public function touch() {
 		return set_transient($this->mod_name, time(), $this->lifetime);
 	}
 
-	function unlink() {
+	public function unlink() {
 		delete_transient($this->name);
 		delete_transient($this->mod_name);
 		return true;
@@ -66,7 +66,7 @@ class WP_Feed_Cache_Transient {
 
 class WP_SimplePie_File extends SimplePie_File {
 
-	function __construct($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false) {
+	public function __construct($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false) {
 		$this->url = $url;
 		$this->timeout = $timeout;
 		$this->redirects = $redirects;
