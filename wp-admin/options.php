@@ -230,18 +230,19 @@ foreach ( (array) $options as $option ) :
 		$class = 'all-options';
 	}
 	$name = esc_attr( $option->option_name );
-	echo "
+	?>
 <tr>
-	<th scope='row'><label for='$name'>" . esc_html( $option->option_name ) . "</label></th>
-<td>";
-	if ( strpos( $value, "\n" ) !== false )
-		echo "<textarea class='$class' name='$name' id='$name' cols='30' rows='5'>" . esc_textarea( $value ) . "</textarea>";
-	else
-		echo "<input class='regular-text $class' type='text' name='$name' id='$name' value='" . esc_attr( $value ) . "'" . disabled( $disabled, true, false ) . " />";
-	echo "</td>
-</tr>";
-endforeach;
-?>
+	<th scope="row"><label for="<?php echo $name ?>"><?php echo esc_html( $option->option_name ); ?></label></th>
+<td>
+<?php if ( strpos( $value, "\n" ) !== false ) : ?>
+	<textarea class="<?php echo $class ?>" name="<?php echo $name ?>" id="<?php echo $name ?>" cols="30" rows="5"><?php
+		echo esc_textarea( $value );
+	?></textarea>
+	<?php else: ?>
+		<input class="regular-text <?php echo $class ?>" type="text" name="<?php echo $name ?>" id="<?php echo $name ?>" value="<?php echo esc_attr( $value ) ?>"<?php disabled( $disabled, true ) ?> />
+	<?php endif ?></td>
+</tr>
+<?php endforeach; ?>
   </table>
 
 <input type="hidden" name="page_options" value="<?php echo esc_attr( implode( ',', $options_to_update ) ); ?>" />
