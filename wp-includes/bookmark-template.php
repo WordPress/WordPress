@@ -237,7 +237,7 @@ function wp_list_bookmarks( $args = '' ) {
 			'hierarchical' => 0
 		) );
 		if ( empty( $cats ) ) {
-			$categorize = false;
+			$r['categorize'] = false;
 		}
 	}
 
