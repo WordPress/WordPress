@@ -34,7 +34,7 @@ class WP_Roles {
 	 * @access public
 	 * @var array
 	 */
-	var $roles;
+	public $roles;
 
 	/**
 	 * List of the role objects.
@@ -43,7 +43,7 @@ class WP_Roles {
 	 * @access public
 	 * @var array
 	 */
-	var $role_objects = array();
+	public $role_objects = array();
 
 	/**
 	 * List of role names.
@@ -52,7 +52,7 @@ class WP_Roles {
 	 * @access public
 	 * @var array
 	 */
-	var $role_names = array();
+	public $role_names = array();
 
 	/**
 	 * Option name for storing role list.
@@ -61,7 +61,7 @@ class WP_Roles {
 	 * @access public
 	 * @var string
 	 */
-	var $role_key;
+	public $role_key;
 
 	/**
 	 * Whether to use the database for retrieval and storage.
@@ -70,15 +70,27 @@ class WP_Roles {
 	 * @access public
 	 * @var bool
 	 */
-	var $use_db = true;
+	public $use_db = true;
 
 	/**
 	 * Constructor
 	 *
 	 * @since 2.0.0
 	 */
-	function __construct() {
+	public function __construct() {
 		$this->_init();
+	}
+
+	/**
+	 * Make private/protected methods readable for backwards compatibility
+	 *
+	 * @since 4.0.0
+	 * @param string $name
+	 * @param array $arguments
+	 * @return mixed
+	 */
+	public function __call( $name, $arguments ) {
+		return call_user_func_array( array( $this, $name ), $arguments );
 	}
 
 	/**
@@ -93,7 +105,7 @@ class WP_Roles {
 	 * @uses $wpdb Used to get the database prefix.
 	 * @global array $wp_user_roles Used to set the 'roles' property value.
 	 */
-	function _init () {
+	protected function _init() {
 		global $wpdb, $wp_user_roles;
 		$this->role_key = $wpdb->get_blog_prefix() . 'user_roles';
 		if ( ! empty( $wp_user_roles ) ) {
@@ -123,7 +135,7 @@ class WP_Roles {
 	 * @since 3.5.0
 	 * @access public
 	 */
-	function reinit() {
+	public function reinit() {
 		// There is no need to reinit if using the wp_user_roles global.
 		if ( ! $this->use_db )
 			return;
@@ -160,7 +172,7 @@ class WP_Roles {
 	 * @param array $capabilities List of role capabilities in the above format.
 	 * @return WP_Role|null WP_Role object if role is added, null if already exists.
 	 */
-	function add_role( $role, $display_name, $capabilities = array() ) {
+	public function add_role( $role, $display_name, $capabilities = array() ) {
 		if ( isset( $this->roles[$role] ) )
 			return;
 
@@ -183,7 +195,7 @@ class WP_Roles {
 	 *
 	 * @param string $role Role name.
 	 */
-	function remove_role( $role ) {
+	public function remove_role( $role ) {
 		if ( ! isset( $this->role_objects[$role] ) )
 			return;
 
@@ -208,7 +220,7 @@ class WP_Roles {
 	 * @param string $cap Capability name.
 	 * @param bool $grant Optional, default is true. Whether role is capable of performing capability.
 	 */
-	function add_cap( $role, $cap, $grant = true ) {
+	public function add_cap( $role, $cap, $grant = true ) {
 		if ( ! isset( $this->roles[$role] ) )
 			return;
 
@@ -226,7 +238,7 @@ class WP_Roles {
 	 * @param string $role Role name.
 	 * @param string $cap Capability name.
 	 */
-	function remove_cap( $role, $cap ) {
+	public function remove_cap( $role, $cap ) {
 		if ( ! isset( $this->roles[$role] ) )
 			return;
 
@@ -244,7 +256,7 @@ class WP_Roles {
 	 * @param string $role Role name.
 	 * @return WP_Role|null WP_Role object if found, null if the role does not exist.
 	 */
-	function get_role( $role ) {
+	public function get_role( $role ) {
 		if ( isset( $this->role_objects[$role] ) )
 			return $this->role_objects[$role];
 		else
@@ -259,7 +271,7 @@ class WP_Roles {
 	 *
 	 * @return array List of role names.
 	 */
-	function get_names() {
+	public function get_names() {
 		return $this->role_names;
 	}
 
@@ -272,7 +284,7 @@ class WP_Roles {
 	 * @param string $role Role name to look up.
 	 * @return bool
 	 */
-	function is_role( $role ) {
+	public function is_role( $role ) {
 		return isset( $this->role_names[$role] );
 	}
 }
