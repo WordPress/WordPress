@@ -334,6 +334,7 @@ case 'remove':
 		}
  	}
  	?>
+</ul>
 <?php if ( $go_remove ) : ?>
 		<input type="hidden" name="action" value="doremove" />
 		<?php submit_button( __('Confirm Removal'), 'secondary' ); ?>

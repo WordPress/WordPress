@@ -12,7 +12,7 @@
  * @since 2.5.0
  */
 function wp_list_widgets() {
-	global $wp_registered_widgets, $sidebars_widgets, $wp_registered_widget_controls;
+	global $wp_registered_widgets, $wp_registered_widget_controls;
 
 	$sort = $wp_registered_widgets;
 	usort( $sort, '_sort_name_callback' );

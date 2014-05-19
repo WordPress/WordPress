@@ -19,7 +19,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	 * @param int    $depth  Depth of menu item. Used for padding.
 	 * @param array  $args   Not used.
 	 */
-	function start_lvl( &$output, $depth = 0, $args = array() ) {}
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {}
 
 	/**
 	 * Ends the list of after the elements are added.
@@ -32,7 +32,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	 * @param int    $depth  Depth of menu item. Used for padding.
 	 * @param array  $args   Not used.
 	 */
-	function end_lvl( &$output, $depth = 0, $args = array() ) {}
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {}
 
 	/**
 	 * Start the element output.
@@ -46,7 +46,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	 * @param array  $args   Not used.
 	 * @param int    $id     Not used.
 	 */
-	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		global $_wp_nav_menu_max_depth;
 		$_wp_nav_menu_max_depth = $depth > $_wp_nav_menu_max_depth ? $depth : $_wp_nav_menu_max_depth;
 
@@ -235,7 +235,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
  * @uses Walker_Nav_Menu
  */
 class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
-	function __construct( $fields = false ) {
+	public function __construct( $fields = false ) {
 		if ( $fields ) {
 			$this->db_fields = $fields;
 		}
@@ -252,7 +252,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	 * @param int    $depth  Depth of page. Used for padding.
 	 * @param array  $args   Not used.
 	 */
-	function start_lvl( &$output, $depth = 0, $args = array() ) {
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat( "\t", $depth );
 		$output .= "\n$indent<ul class='children'>\n";
 	}
@@ -268,7 +268,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	 * @param int    $depth  Depth of page. Used for padding.
 	 * @param array  $args   Not used.
 	 */
-	function end_lvl( &$output, $depth = 0, $args = array() ) {
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat( "\t", $depth );
 		$output .= "\n$indent</ul>";
 	}
@@ -286,7 +286,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	 * @param array  $args   Not used.
 	 * @param int    $id     Not used.
 	 */
-	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		global $_nav_menu_placeholder;
 
 		$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? intval($_nav_menu_placeholder) - 1 : -1;

@@ -29,7 +29,7 @@ if ( ! $revision_id )
 	$revision_id = absint( $to );
 $redirect = 'edit.php';
 
-switch ( $action ) :
+switch ( $action ) {
 case 'restore' :
 	if ( ! $revision = wp_get_post_revision( $revision_id ) )
 		break;
@@ -80,7 +80,7 @@ default :
 
 	$redirect = false;
 	break;
-endswitch;
+}
 
 // Empty post_type means either malformed object found, or no valid parent was found.
 if ( ! $redirect && empty( $post->post_type ) )

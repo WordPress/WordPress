@@ -128,4 +128,4 @@ get_header();
 	var key_input = document.getElementById('key');
 	key_input && key_input.focus();
 </script>
-<?php get_footer(); ?>
+<?php get_footer();

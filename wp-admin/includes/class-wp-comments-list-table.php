@@ -248,7 +248,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 				) );
 
 				foreach ( $comment_types as $type => $label )
-					echo "\t<option value='" . esc_attr( $type ) . "'" . selected( $comment_type, $type, false ) . ">$label</option>\n";
+					echo "\t" . '<option value="' . esc_attr( $type ) . '"' . selected( $comment_type, $type, false ) . ">$label</option>\n";
 			?>
 			</select>
 <?php

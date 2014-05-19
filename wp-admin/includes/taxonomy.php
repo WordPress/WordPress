@@ -236,16 +236,18 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 
 	$tags = wp_get_post_terms($post_id, $taxonomy, array());
 
-	if ( !$tags )
+	if ( !$tags ) {
 		return false;
-
-	if ( is_wp_error($tags) )
+	}
+	if ( is_wp_error($tags) ) {
 		return $tags;
-
-	foreach ( $tags as $tag )
+	}
+	$tag_names = array();
+	foreach ( $tags as $tag ) {
 		$tag_names[] = $tag->name;
-	$tags_to_edit = join( ',', $tag_names );
-	$tags_to_edit = esc_attr( $tags_to_edit );
+	}
+
+	$tags_to_edit = esc_attr( join( ',', $tag_names ) );
 
 	/**
 	 * Filter the comma-separated list of terms available to edit.

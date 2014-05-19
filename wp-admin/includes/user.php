@@ -28,7 +28,7 @@ function add_user() {
  * @return int user id of the updated user
  */
 function edit_user( $user_id = 0 ) {
-	global $wp_roles, $wpdb;
+	global $wp_roles;
 	$user = new stdClass;
 	if ( $user_id ) {
 		$update = true;

@@ -367,4 +367,4 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 	</div>
 </script>
 
-<?php require( ABSPATH . 'wp-admin/admin-footer.php' ); ?>
+<?php require( ABSPATH . 'wp-admin/admin-footer.php' );

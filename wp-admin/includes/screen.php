@@ -530,7 +530,7 @@ final class WP_Screen {
 	 * @see set_current_screen()
 	 * @since 3.3.0
 	 */
-	function set_current_screen() {
+	public function set_current_screen() {
 		global $current_screen, $taxnow, $typenow;
 		$current_screen = $this;
 		$taxnow = $this->taxonomy;
@@ -581,7 +581,7 @@ final class WP_Screen {
 	 * @param WP_Screen $screen A screen object.
 	 * @param string $help Help text.
 	 */
-	static function add_old_compat_help( $screen, $help ) {
+	public static function add_old_compat_help( $screen, $help ) {
 		self::$_old_compat_help[ $screen->id ] = $help;
 	}
 
@@ -593,7 +593,7 @@ final class WP_Screen {
 	 *
 	 * @param string $parent_file The parent file of the screen. Typically the $parent_file global.
 	 */
-	function set_parentage( $parent_file ) {
+	public function set_parentage( $parent_file ) {
 		$this->parent_file = $parent_file;
 		list( $this->parent_base ) = explode( '?', $parent_file );
 		$this->parent_base = str_replace( '.php', '', $this->parent_base );
@@ -1089,7 +1089,7 @@ final class WP_Screen {
 	 *
 	 * @since 3.3.0
 	 */
-	function render_screen_layout() {
+	public function render_screen_layout() {
 		if ( ! $this->get_option('layout_columns') )
 			return;
 
@@ -1118,7 +1118,7 @@ final class WP_Screen {
 	 *
 	 * @since 3.3.0
 	 */
-	function render_per_page_options() {
+	public function render_per_page_options() {
 		if ( ! $this->get_option( 'per_page' ) )
 			return;
 

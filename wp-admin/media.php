@@ -14,7 +14,7 @@ $submenu_file = 'upload.php';
 
 wp_reset_vars(array('action'));
 
-switch( $action ) :
+switch ( $action ) {
 case 'editattachment' :
 	$attachment_id = (int) $_POST['attachment_id'];
 	check_admin_referer('media-form');
@@ -143,4 +143,4 @@ default:
 	wp_redirect( admin_url('upload.php') );
 	exit;
 
-endswitch;
+}

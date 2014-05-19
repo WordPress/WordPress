@@ -126,6 +126,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 	cache_users( wp_list_pluck( $revisions, 'post_author' ) );
 
 	$can_restore = current_user_can( 'edit_post', $post->ID );
+	$current_id = false;
 
 	foreach ( $revisions as $revision ) {
 		$modified = strtotime( $revision->post_modified );

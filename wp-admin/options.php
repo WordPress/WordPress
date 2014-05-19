@@ -204,7 +204,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' ); ?>
   <form name="form" action="options.php" method="post" id="all-options">
   <?php wp_nonce_field('options-options') ?>
   <input type="hidden" name="action" value="update" />
-  <input type='hidden' name='option_page' value='options' />
+  <input type="hidden" name="option_page" value="options" />
   <table class="form-table">
 <?php
 $options = $wpdb->get_results( "SELECT * FROM $wpdb->options ORDER BY option_name" );
