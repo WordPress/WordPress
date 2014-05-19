@@ -190,7 +190,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 3.4.0
 	 */
-	function after_setup_theme() {
+	public function after_setup_theme() {
 		if ( ! $this->doing_ajax() && ! validate_current_theme() ) {
 			wp_redirect( 'themes.php?broken=true' );
 			exit;

@@ -87,7 +87,7 @@ class WP_Customize_Control {
 	 * @param string $id
 	 * @param array $args
 	 */
-	function __construct( $manager, $id, $args = array() ) {
+	public function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_object_vars( $this ) );
 		foreach ( $keys as $key ) {
 			if ( isset( $args[ $key ] ) )

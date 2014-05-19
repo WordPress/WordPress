@@ -93,7 +93,7 @@ class WP_Customize_Section {
 	 * @param string               $id      An specific ID of the section.
 	 * @param array                $args    Section arguments.
 	 */
-	function __construct( $manager, $id, $args = array() ) {
+	public function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_class_vars( __CLASS__ ) );
 		foreach ( $keys as $key ) {
 			if ( isset( $args[ $key ] ) )

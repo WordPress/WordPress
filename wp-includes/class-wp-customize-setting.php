@@ -75,7 +75,7 @@ class WP_Customize_Setting {
 	 * @param array                $args    Setting arguments.
 	 * @return WP_Customize_Setting $setting
 	 */
-	function __construct( $manager, $id, $args = array() ) {
+	public function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_class_vars( __CLASS__ ) );
 		foreach ( $keys as $key ) {
 			if ( isset( $args[ $key ] ) )
