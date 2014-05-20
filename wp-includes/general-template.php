@@ -1261,12 +1261,13 @@ function wp_get_archives( $args = '' ) {
 		}
 		if ( $results ) {
 			$after = $r['after'];
+			$afterafter = $r['after'];
 			foreach ( (array) $results as $result ) {
 				$url = get_month_link( $result->year, $result->month );
 				/* translators: 1: month name, 2: 4-digit year */
 				$text = sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $result->month ), $result->year );
 				if ( $r['show_post_count'] ) {
-					$after = '&nbsp;('.$result->posts.')' . $after;
+					$after = '&nbsp;('.$result->posts.')' . $afterafter;
 				}
 				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $after );
 			}
@@ -1281,13 +1282,14 @@ function wp_get_archives( $args = '' ) {
 		}
 		if ( $results ) {
 			$after = $r['after'];
+			$afterafter = $r['after'];
 			foreach ( (array) $results as $result) {
 				$url = get_year_link( $result->year );
 				$text = sprintf( '%d', $result->year );
 				if ( $r['show_post_count'] ) {
-					$r['after'] = '&nbsp;('.$result->posts.')' . $after;
+					$after = '&nbsp;('.$result->posts.')' . $afterafter;
 				}
-				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
+				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $after );
 			}
 		}
 	} elseif ( 'daily' == $r['type'] ) {
@@ -1301,12 +1303,13 @@ function wp_get_archives( $args = '' ) {
 		}
 		if ( $results ) {
 			$after = $r['after'];
+			$afterafter = $r['after'];
 			foreach ( (array) $results as $result ) {
 				$url	= get_day_link( $result->year, $result->month, $result->dayofmonth );
 				$date = sprintf( '%1$d-%2$02d-%3$02d 00:00:00', $result->year, $result->month, $result->dayofmonth );
 				$text = mysql2date( $archive_day_date_format, $date );
 				if ( $r['show_post_count'] ) {
-					$after = '&nbsp;(' . $result->posts . ')' . $after;
+					$after = '&nbsp;(' . $result->posts . ')' . $afterafter;
 				}
 				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $after );
 			}
@@ -1321,8 +1324,9 @@ function wp_get_archives( $args = '' ) {
 			wp_cache_set( $key, $results, 'posts' );
 		}
 		$arc_w_last = '';
-		$after = $r['after'];
 		if ( $results ) {
+				$after = $r['after'];
+				$afterafter = $r['after'];
 				foreach ( (array) $results as $result ) {
 					if ( $result->week != $arc_w_last ) {
 						$arc_year = $result->yr;
@@ -1333,7 +1337,7 @@ function wp_get_archives( $args = '' ) {
 						$url  = sprintf( '%1$s/%2$s%3$sm%4$s%5$s%6$sw%7$s%8$d', home_url(), '', '?', '=', $arc_year, '&amp;', '=', $result->week );
 						$text = $arc_week_start . $archive_week_separator . $arc_week_end;
 						if ( $r['show_post_count'] ) {
-							$after = '&nbsp;(' . $result->posts . ')' . $after;
+							$after = '&nbsp;(' . $result->posts . ')' . $afterafter;
 						}
 						$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $after );
 					}
