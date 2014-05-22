@@ -2532,7 +2532,7 @@ class WP_Automatic_Updater {
 
 		$site_title = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
 		if ( $failures ) {
-			$body[] = __( "
+			$body[] = trim( __( "
 BETA TESTING?
 =============
 
@@ -2542,16 +2542,17 @@ If you think these failures might be due to a bug in WordPress, could you report
  * Open a thread in the support forums: https://wordpress.org/support/forum/alphabeta
  * Or, if you're comfortable writing a bug report: http://core.trac.wordpress.org/
 
-Thanks! -- The WordPress Team" );
+Thanks! -- The WordPress Team" ) );
+			$body[] = '';
 
 			$subject = sprintf( __( '[%s] There were failures during background updates' ), $site_title );
 		} else {
 			$subject = sprintf( __( '[%s] Background updates have finished' ), $site_title );
 		}
 
-		$title = __( 'UPDATE LOG' );
-		$body[] = $title;
-		$body[] = str_repeat( '=', strlen( $title ) );
+		$body[] = trim( __( '
+UPDATE LOG
+==========' ) );
 		$body[] = '';
 
 		foreach ( array( 'core', 'plugin', 'theme', 'translation' ) as $type ) {
