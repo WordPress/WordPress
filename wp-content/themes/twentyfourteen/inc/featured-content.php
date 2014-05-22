@@ -106,7 +106,7 @@ class Featured_Content {
 	 */
 	public static function wp_loaded() {
 		if ( self::get_setting( 'hide-tag' ) ) {
-			add_filter( 'get_terms',     array( __CLASS__, 'hide_featured_term'     ), 10, 2 );
+			add_filter( 'get_terms',     array( __CLASS__, 'hide_featured_term'     ), 10, 3 );
 			add_filter( 'get_the_terms', array( __CLASS__, 'hide_the_featured_term' ), 10, 3 );
 		}
 	}
@@ -312,7 +312,7 @@ class Featured_Content {
 	 *
 	 * @uses Featured_Content::get_setting()
 	 */
-	public static function hide_featured_term( $terms, $taxonomies ) {
+	public static function hide_featured_term( $terms, $taxonomies, $args ) {
 
 		// This filter is only appropriate on the front-end.
 		if ( is_admin() ) {
@@ -326,6 +326,11 @@ class Featured_Content {
 
 		// Bail if no terms were returned.
 		if ( empty( $terms ) ) {
+			return $terms;
+		}
+
+		// Bail if term objects are unavailable.
+		if ( 'all' != $args['fields'] ) {
 			return $terms;
 		}
 
