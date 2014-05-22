@@ -3190,8 +3190,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return mixed {@link wp_new_comment()}
 	 */
 	public function wp_newComment($args) {
-		global $wpdb;
-
 		$this->escape($args);
 
 		$blog_id	= (int) $args[0];

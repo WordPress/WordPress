@@ -761,8 +761,6 @@ function wp_dashboard_recent_posts( $args ) {
  * @return bool False if no comments were found. True otherwise.
  */
 function wp_dashboard_recent_comments( $total_items = 5 ) {
-	global $wpdb;
-
 	// Select all comment types and filter out spam later for better query performance.
 	$comments = array();
 

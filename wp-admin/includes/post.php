@@ -518,8 +518,6 @@ function bulk_edit_posts( $post_data = null ) {
  * @return WP_Post Post object containing all the default post data as attributes
  */
 function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) {
-	global $wpdb;
-
 	$post_title = '';
 	if ( !empty( $_REQUEST['post_title'] ) )
 		$post_title = esc_html( wp_unslash( $_REQUEST['post_title'] ));
@@ -733,7 +731,6 @@ function write_post() {
  * @return unknown
  */
 function add_meta( $post_ID ) {
-	global $wpdb;
 	$post_ID = (int) $post_ID;
 
 	$metakeyselect = isset($_POST['metakeyselect']) ? wp_unslash( trim( $_POST['metakeyselect'] ) ) : '';

@@ -103,8 +103,6 @@ function wp_ajax_fetch_list() {
  * @since 3.1.0
  */
 function wp_ajax_ajax_tag_search() {
-	global $wpdb;
-
 	if ( isset( $_GET['tax'] ) ) {
 		$taxonomy = sanitize_key( $_GET['tax'] );
 		$tax = get_taxonomy( $taxonomy );
@@ -894,7 +892,7 @@ function wp_ajax_get_comments( $action ) {
  * @param string $action Action to perform.
  */
 function wp_ajax_replyto_comment( $action ) {
-	global $wp_list_table, $wpdb;
+	global $wp_list_table;
 	if ( empty( $action ) )
 		$action = 'replyto-comment';
 

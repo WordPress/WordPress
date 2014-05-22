@@ -623,8 +623,6 @@ function post_comment_meta_box_thead($result) {
  * @param object $post
  */
 function post_comment_meta_box( $post ) {
-	global $wpdb;
-
 	wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
 	?>
 	<p class="hide-if-no-js" id="add-new-comment"><a class="button" href="#commentstatusdiv" onclick="window.commentReply && commentReply.addcomment(<?php echo $post->ID; ?>);return false;"><?php _e('Add comment'); ?></a></p>

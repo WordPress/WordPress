@@ -140,7 +140,7 @@ class WP_Roles {
 		if ( ! $this->use_db )
 			return;
 
-		global $wpdb, $wp_user_roles;
+		global $wpdb;
 
 		// Duplicated from _init() to avoid an extra function call.
 		$this->role_key = $wpdb->get_blog_prefix() . 'user_roles';

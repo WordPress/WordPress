@@ -3161,8 +3161,6 @@ function wp_update_term_count( $terms, $taxonomy, $do_deferred=false ) {
  * @return bool Always true when complete.
  */
 function wp_update_term_count_now( $terms, $taxonomy ) {
-	global $wpdb;
-
 	$terms = array_map('intval', $terms);
 
 	$taxonomy = get_taxonomy($taxonomy);
