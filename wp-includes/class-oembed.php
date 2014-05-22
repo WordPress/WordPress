@@ -27,8 +27,8 @@ class WP_oEmbed {
 	 */
 	public function __construct() {
 		$providers = array(
-			'#http://(www\.)?youtube\.com/watch.*#i'              => array( 'http://www.youtube.com/oembed',                      true  ),
-			'#https://(www\.)?youtube\.com/watch.*#i'             => array( 'http://www.youtube.com/oembed?scheme=https',         true  ),
+			'#http://(www\.)?youtube\.com/(watch|playlist).*#i'   => array( 'http://www.youtube.com/oembed',                      true  ),
+			'#https://(www\.)?youtube\.com/(watch|playlist).*#i'  => array( 'http://www.youtube.com/oembed?scheme=https',         true  ),
 			'#http://youtu\.be/.*#i'                              => array( 'http://www.youtube.com/oembed',                      true  ),
 			'#https://youtu\.be/.*#i'                             => array( 'http://www.youtube.com/oembed?scheme=https',         true  ),
 			'http://blip.tv/*'                                    => array( 'http://blip.tv/oembed/',                             false ),
