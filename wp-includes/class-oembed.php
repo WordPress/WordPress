@@ -39,7 +39,7 @@ class WP_oEmbed {
 			'http://flic.kr/*'                                    => array( 'http://www.flickr.com/services/oembed/',             false ),
 			'#https?://(.+\.)?smugmug\.com/.*#i'                  => array( 'http://api.smugmug.com/services/oembed/',            true  ),
 			'#https?://(www\.)?hulu\.com/watch/.*#i'              => array( 'http://www.hulu.com/api/oembed.{format}',            true  ),
-			'#https?://(www\.)?viddler\.com/.*#i'                 => array( 'http://lab.viddler.com/services/oembed/',            true  ),
+			'#https?://(www\.)?viddler\.com/.*#i'                 => array( 'http://www.viddler.com/oembed/',                     true  ),
 			'http://revision3.com/*'                              => array( 'http://revision3.com/api/oembed/',                   false ),
 			'http://i*.photobucket.com/albums/*'                  => array( 'http://photobucket.com/oembed',                      false ),
 			'http://gi*.photobucket.com/groups/*'                 => array( 'http://photobucket.com/oembed',                      false ),
