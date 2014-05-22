@@ -1008,7 +1008,7 @@ function gallery_shortcode( $attr ) {
 
 	$selector = "gallery-{$instance}";
 
-	$gallery_style = $gallery_div = '';
+	$gallery_style = '';
 
 	/**
 	 * Filter whether to print default gallery styles.
