@@ -2668,7 +2668,7 @@ class WP_Query {
 
 				$orderby_array[] = $orderby;
 			}
-			$orderby = implode( ',', $orderby_array );
+			$orderby = implode( ' ' . $q['order'] . ', ', $orderby_array );
 
 			if ( empty( $orderby ) )
 				$orderby = "$wpdb->posts.post_date ".$q['order'];
