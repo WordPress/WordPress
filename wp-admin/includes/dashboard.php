@@ -707,7 +707,6 @@ function wp_dashboard_recent_posts( $args ) {
 
 		echo '<ul>';
 
-		$i = 0;
 		$today    = date( 'Y-m-d', current_time( 'timestamp' ) );
 		$tomorrow = date( 'Y-m-d', strtotime( '+1 day', current_time( 'timestamp' ) ) );
 
