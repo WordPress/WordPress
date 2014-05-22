@@ -978,7 +978,6 @@ final class WP_Customize_Manager {
 
 		$locations      = get_registered_nav_menus();
 		$menus          = wp_get_nav_menus();
-		$menu_locations = get_nav_menu_locations();
 		$num_locations  = count( array_keys( $locations ) );
 
 		$this->add_section( 'nav', array(
@@ -1084,7 +1083,7 @@ final class WP_Customize_Manager {
 
 		return $color;
 	}
-};
+}
 
 /**
  * Sanitizes a hex color.
