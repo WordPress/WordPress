@@ -417,7 +417,7 @@ function wp_get_post_revisions( $post_id = 0, $args = null ) {
 	if ( ! $post || empty( $post->ID ) )
 		return array();
 
-	$defaults = array( 'order' => 'ASC', 'orderby' => 'date ID', 'check_enabled' => true );
+	$defaults = array( 'order' => 'DESC', 'orderby' => 'date ID', 'check_enabled' => true );
 	$args = wp_parse_args( $args, $defaults );
 
 	if ( $args['check_enabled'] && ! wp_revisions_enabled( $post ) )
@@ -427,8 +427,6 @@ function wp_get_post_revisions( $post_id = 0, $args = null ) {
 
 	if ( ! $revisions = get_children( $args ) )
 		return array();
-
-	$revisions = array_reverse( $revisions ); 
 
 	return $revisions;
 }
