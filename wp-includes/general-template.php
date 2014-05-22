@@ -1308,7 +1308,7 @@ function wp_get_archives( $args = '' ) {
 				if ( $r['show_post_count'] ) {
 					$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
 				}
-				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $after );
+				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
 			}
 		}
 	} elseif ( 'weekly' == $r['type'] ) {
