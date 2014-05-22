@@ -46,6 +46,7 @@ class WP_oEmbed {
 			'#https?://(www\.)?scribd\.com/.*#i'                  => array( 'http://www.scribd.com/services/oembed',              true  ),
 			'http://wordpress.tv/*'                               => array( 'http://wordpress.tv/oembed/',                        false ),
 			'#https?://(.+\.)?polldaddy\.com/.*#i'                => array( 'http://polldaddy.com/oembed/',                       true  ),
+			'#https?://poll\.fm/.*#i'                             => array( 'http://polldaddy.com/oembed/',                       true  ),
 			'#https?://(www\.)?funnyordie\.com/videos/.*#i'       => array( 'http://www.funnyordie.com/oembed',                   true  ),
 			'#https?://(www\.)?twitter\.com/.+?/status(es)?/.*#i' => array( 'https://api.twitter.com/1/statuses/oembed.{format}', true  ),
  			'#https?://(www\.)?soundcloud\.com/.*#i'              => array( 'http://soundcloud.com/oembed',                       true  ),
