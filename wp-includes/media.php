@@ -1272,10 +1272,10 @@ function wp_playlist_shortcode( $attr ) {
 	$data = array(
 		'type' => $atts['type'],
 		// don't pass strings to JSON, will be truthy in JS
-		'tracklist' => filter_var( $atts['tracklist'], FILTER_VALIDATE_BOOLEAN ),
-		'tracknumbers' => filter_var( $atts['tracknumbers'], FILTER_VALIDATE_BOOLEAN ),
-		'images' => filter_var( $atts['images'], FILTER_VALIDATE_BOOLEAN ),
-		'artists' => filter_var( $atts['artists'], FILTER_VALIDATE_BOOLEAN ),
+		'tracklist' => wp_validate_boolean( $atts['tracklist'] ),
+		'tracknumbers' => wp_validate_boolean( $atts['tracknumbers'] ),
+		'images' => wp_validate_boolean( $atts['images'] ),
+		'artists' => wp_validate_boolean( $atts['artists'] ),
 	);
 
 	$tracks = array();

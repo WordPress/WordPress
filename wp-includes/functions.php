@@ -4445,3 +4445,23 @@ function mbstring_binary_safe_encoding( $reset = false ) {
 function reset_mbstring_encoding() {
 	mbstring_binary_safe_encoding( true );
 }
+
+/**
+ * Alternative to filter_var( $var, FILTER_VALIDATE_BOOLEAN )
+ *
+ * @since 4.0.0
+ *
+ * @param mixed $var
+ * @return boolean
+ */
+function wp_validate_boolean( $var ) {
+	if ( is_bool( $var ) ) {
+		return $var;
+	}
+
+	if ( 'false' === $var ) {
+		return false;
+	}
+
+	return (bool) $var;
+}
