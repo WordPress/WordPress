@@ -1261,15 +1261,14 @@ function wp_get_archives( $args = '' ) {
 		}
 		if ( $results ) {
 			$after = $r['after'];
-			$afterafter = $r['after'];
 			foreach ( (array) $results as $result ) {
 				$url = get_month_link( $result->year, $result->month );
 				/* translators: 1: month name, 2: 4-digit year */
 				$text = sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $result->month ), $result->year );
 				if ( $r['show_post_count'] ) {
-					$after = '&nbsp;('.$result->posts.')' . $afterafter;
+					$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
 				}
-				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $after );
+				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
 			}
 		}
 	} elseif ( 'yearly' == $r['type'] ) {
@@ -1282,14 +1281,13 @@ function wp_get_archives( $args = '' ) {
 		}
 		if ( $results ) {
 			$after = $r['after'];
-			$afterafter = $r['after'];
 			foreach ( (array) $results as $result) {
 				$url = get_year_link( $result->year );
 				$text = sprintf( '%d', $result->year );
 				if ( $r['show_post_count'] ) {
-					$after = '&nbsp;('.$result->posts.')' . $afterafter;
+					$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
 				}
-				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $after );
+				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
 			}
 		}
 	} elseif ( 'daily' == $r['type'] ) {
@@ -1303,13 +1301,12 @@ function wp_get_archives( $args = '' ) {
 		}
 		if ( $results ) {
 			$after = $r['after'];
-			$afterafter = $r['after'];
 			foreach ( (array) $results as $result ) {
-				$url	= get_day_link( $result->year, $result->month, $result->dayofmonth );
+				$url  = get_day_link( $result->year, $result->month, $result->dayofmonth );
 				$date = sprintf( '%1$d-%2$02d-%3$02d 00:00:00', $result->year, $result->month, $result->dayofmonth );
 				$text = mysql2date( $archive_day_date_format, $date );
 				if ( $r['show_post_count'] ) {
-					$after = '&nbsp;(' . $result->posts . ')' . $afterafter;
+					$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
 				}
 				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $after );
 			}
@@ -1325,23 +1322,22 @@ function wp_get_archives( $args = '' ) {
 		}
 		$arc_w_last = '';
 		if ( $results ) {
-				$after = $r['after'];
-				$afterafter = $r['after'];
-				foreach ( (array) $results as $result ) {
-					if ( $result->week != $arc_w_last ) {
-						$arc_year = $result->yr;
-						$arc_w_last = $result->week;
-						$arc_week = get_weekstartend( $result->yyyymmdd, get_option( 'start_of_week' ) );
-						$arc_week_start = date_i18n( $archive_week_start_date_format, $arc_week['start'] );
-						$arc_week_end = date_i18n( $archive_week_end_date_format, $arc_week['end'] );
-						$url  = sprintf( '%1$s/%2$s%3$sm%4$s%5$s%6$sw%7$s%8$d', home_url(), '', '?', '=', $arc_year, '&amp;', '=', $result->week );
-						$text = $arc_week_start . $archive_week_separator . $arc_week_end;
-						if ( $r['show_post_count'] ) {
-							$after = '&nbsp;(' . $result->posts . ')' . $afterafter;
-						}
-						$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $after );
+			$after = $r['after'];
+			foreach ( (array) $results as $result ) {
+				if ( $result->week != $arc_w_last ) {
+					$arc_year       = $result->yr;
+					$arc_w_last     = $result->week;
+					$arc_week       = get_weekstartend( $result->yyyymmdd, get_option( 'start_of_week' ) );
+					$arc_week_start = date_i18n( $archive_week_start_date_format, $arc_week['start'] );
+					$arc_week_end   = date_i18n( $archive_week_end_date_format, $arc_week['end'] );
+					$url            = sprintf( '%1$s/%2$s%3$sm%4$s%5$s%6$sw%7$s%8$d', home_url(), '', '?', '=', $arc_year, '&amp;', '=', $result->week );
+					$text           = $arc_week_start . $archive_week_separator . $arc_week_end;
+					if ( $r['show_post_count'] ) {
+						$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
 					}
+					$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
 				}
+			}
 		}
 	} elseif ( ( 'postbypost' == $r['type'] ) || ('alpha' == $r['type'] ) ) {
 		$orderby = ( 'alpha' == $r['type'] ) ? 'post_title ASC ' : 'post_date DESC ';
@@ -1355,7 +1351,7 @@ function wp_get_archives( $args = '' ) {
 		if ( $results ) {
 			foreach ( (array) $results as $result ) {
 				if ( $result->post_date != '0000-00-00 00:00:00' ) {
-					$url  = get_permalink( $result );
+					$url = get_permalink( $result );
 					if ( $result->post_title ) {
 						/** This filter is documented in wp-includes/post-template.php */
 						$text = strip_tags( apply_filters( 'the_title', $result->post_title, $result->ID ) );
