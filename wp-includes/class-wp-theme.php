@@ -726,7 +726,7 @@ final class WP_Theme implements ArrayAccess {
 				}
 
 				return $value;
-				break;
+
 			default :
 				$value = translate( $value, $this->get('TextDomain') );
 		}
