@@ -2329,27 +2329,37 @@ function get_post_mime_types() {
  * @param string|array $real_mime_types post_mime_type values
  * @return array array(wildcard=>array(real types))
  */
-function wp_match_mime_types($wildcard_mime_types, $real_mime_types) {
+function wp_match_mime_types( $wildcard_mime_types, $real_mime_types ) {
 	$matches = array();
-	if ( is_string($wildcard_mime_types) )
-		$wildcard_mime_types = array_map('trim', explode(',', $wildcard_mime_types));
-	if ( is_string($real_mime_types) )
-		$real_mime_types = array_map('trim', explode(',', $real_mime_types));
+	if ( is_string( $wildcard_mime_types ) ) {
+		$wildcard_mime_types = array_map( 'trim', explode( ',', $wildcard_mime_types ) );
+	}
+	if ( is_string( $real_mime_types ) ) {
+		$real_mime_types = array_map( 'trim', explode( ',', $real_mime_types ) );
+	}
+
+	$patternses = array();
 	$wild = '[-._a-z0-9]*';
+
 	foreach ( (array) $wildcard_mime_types as $type ) {
-		$type = str_replace('*', $wild, $type);
-		$patternses[1][$type] = "^$type$";
+		$regex = str_replace( '__wildcard__', $wild, preg_quote( str_replace( '*', '__wildcard__', $type ) ) );
+		$patternses[1][$type] = "^$regex$";
 		if ( false === strpos($type, '/') ) {
-			$patternses[2][$type] = "^$type/";
-			$patternses[3][$type] = $type;
+			$patternses[2][$type] = "^$regex/";
+			$patternses[3][$type] = $regex;
 		}
 	}
-	asort($patternses);
-	foreach ( $patternses as $patterns )
-		foreach ( $patterns as $type => $pattern )
-			foreach ( (array) $real_mime_types as $real )
-				if ( preg_match("#$pattern#", $real) && ( empty($matches[$type]) || false === array_search($real, $matches[$type]) ) )
+	asort( $patternses );
+
+	foreach ( $patternses as $patterns ) {
+		foreach ( $patterns as $type => $pattern ) {
+			foreach ( (array) $real_mime_types as $real ) {
+				if ( preg_match( "#$pattern#", $real ) && ( empty( $matches[$type] ) || false === array_search( $real, $matches[$type] ) ) ) {
 					$matches[$type][] = $real;
+				}
+			}
+		}
+	}
 	return $matches;
 }
 
