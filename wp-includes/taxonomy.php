@@ -632,15 +632,15 @@ class WP_Tax_Query {
 
 	/**
 	 * List of taxonomy queries. A single taxonomy query is an associative array:
-	 * - 'taxonomy' string The taxonomy being queried
+	 * - 'taxonomy' string The taxonomy being queried. Optional when using the term_taxonomy_id field.
 	 * - 'terms' string|array The list of terms
 	 * - 'field' string (optional) Which term field is being used.
-	 *		Possible values: 'term_id', 'slug' or 'name'
+	 *		Possible values: 'term_id', 'slug', 'name', or 'term_taxonomy_id'
 	 *		Default: 'term_id'
 	 * - 'operator' string (optional)
 	 *		Possible values: 'AND', 'IN' or 'NOT IN'.
 	 *		Default: 'IN'
-	 * - 'include_children' bool (optional) Whether to include child terms.
+	 * - 'include_children' bool (optional) Whether to include child terms. Requires that a taxonomy be specified.
 	 *		Default: true
 	 *
 	 * @since 3.1.0
@@ -818,7 +818,15 @@ class WP_Tax_Query {
 	 * @param array &$query The single query
 	 */
 	private function clean_query( &$query ) {
-		if ( ! taxonomy_exists( $query['taxonomy'] ) ) {
+		if ( empty( $query['taxonomy'] ) ) {
+			if ( 'term_taxonomy_id' !== $query['field'] ) {
+				$query = new WP_Error( 'Invalid taxonomy' );
+				return;
+			}
+
+			// so long as there are shared terms, include_children requires that a taxonomy is set
+			$query['include_children'] = false;
+		} elseif ( ! taxonomy_exists( $query['taxonomy'] ) ) {
 			$query = new WP_Error( 'Invalid taxonomy' );
 			return;
 		}
