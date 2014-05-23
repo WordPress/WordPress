@@ -1192,7 +1192,7 @@ function wp_get_archives( $args = '' ) {
 		$r['type'] = 'monthly';
 	}
 
-	if ( '' != $r['limit'] ) {
+	if ( ! empty( $r['limit'] ) ) {
 		$r['limit'] = absint( $r['limit'] );
 		$r['limit'] = ' LIMIT ' . $r['limit'];
 	}
