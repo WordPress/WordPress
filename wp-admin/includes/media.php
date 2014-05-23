@@ -800,28 +800,25 @@ function wp_media_upload_handler() {
  * @param string $desc Optional. Description of the image
  * @return string|WP_Error Populated HTML img tag on success
  */
-function media_sideload_image($file, $post_id, $desc = null) {
-	if ( ! empty($file) ) {
-		// Download file to temp location
-		$tmp = download_url( $file );
-
+function media_sideload_image( $file, $post_id, $desc = null ) {
+	if ( ! empty( $file ) ) {
 		// Set variables for storage
 		// fix file filename for query strings
 		preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
-		$file_array['name'] = basename($matches[0]);
-		$file_array['tmp_name'] = $tmp;
+		$file_array['name'] = basename( $matches[0] );
+		// Download file to temp location
+		$file_array['tmp_name'] = download_url( $file );
 
-		// If error storing temporarily, unlink
-		if ( is_wp_error( $tmp ) ) {
-			@unlink($file_array['tmp_name']);
-			$file_array['tmp_name'] = '';
+		// If error storing temporarily, return the error.
+		if ( is_wp_error( $file_array['tmp_name'] ) ) {
+			return $file_array['tmp_name'];
 		}
 
 		// do the validation and storage stuff
 		$id = media_handle_sideload( $file_array, $post_id, $desc );
 		// If error storing permanently, unlink
-		if ( is_wp_error($id) ) {
-			@unlink($file_array['tmp_name']);
+		if ( is_wp_error( $id ) ) {
+			@unlink( $file_array['tmp_name'] );
 			return $id;
 		}
 
@@ -829,8 +826,8 @@ function media_sideload_image($file, $post_id, $desc = null) {
 	}
 
 	// Finally check to make sure the file has been saved, then return the html
-	if ( ! empty($src) ) {
-		$alt = isset($desc) ? esc_attr($desc) : '';
+	if ( ! empty( $src ) ) {
+		$alt = isset( $desc ) ? esc_attr( $desc ) : '';
 		$html = "<img src='$src' alt='$alt' />";
 		return $html;
 	}
