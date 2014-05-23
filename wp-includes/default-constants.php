@@ -296,12 +296,16 @@ function wp_templating_constants() {
 	/**
 	 * Filesystem path to the current active template directory
 	 * @since 1.5.0
+	 * @deprecated 4.0
+	 * @deprecated Use get_template_directory()
 	 */
 	define('TEMPLATEPATH', get_template_directory());
 
 	/**
 	 * Filesystem path to the current active template stylesheet directory
 	 * @since 2.1.0
+	 * @deprecated 4.0
+	 * @deprecated Use get_stylesheet_directory()
 	 */
 	define('STYLESHEETPATH', get_stylesheet_directory());
 
