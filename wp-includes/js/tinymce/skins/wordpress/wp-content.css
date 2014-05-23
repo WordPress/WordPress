@@ -206,6 +206,10 @@ audio {
 	border: 0;
 	width: 1px;
 	height: 1px;
+	-moz-user-select: text;
+	-webkit-user-select: text;
+	-ms-user-select: text;
+	user-select: text;
 }
 
 /**
