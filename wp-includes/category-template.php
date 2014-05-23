@@ -331,7 +331,7 @@ function wp_dropdown_categories( $args = '' ) {
 		'name' => 'cat', 'id' => '',
 		'class' => 'postform', 'depth' => 0,
 		'tab_index' => 0, 'taxonomy' => 'category',
-		'hide_if_empty' => false
+		'hide_if_empty' => false, 'option_none_value' => -1
 	);
 
 	$defaults['selected'] = ( is_category() ) ? get_query_var( 'cat' ) : 0;
@@ -343,6 +343,7 @@ function wp_dropdown_categories( $args = '' ) {
 	}
 
 	$r = wp_parse_args( $args, $defaults );
+	$option_none_value = $r['option_none_value'];
 
 	if ( ! isset( $r['pad_counts'] ) && $r['show_count'] && $r['hierarchical'] ) {
 		$r['pad_counts'] = true;
@@ -381,7 +382,7 @@ function wp_dropdown_categories( $args = '' ) {
 		 * @param string $element Taxonomy element to list.
 		 */
 		$show_option_none = apply_filters( 'list_cats', $r['show_option_none'] );
-		$output .= "\t<option value='-1' selected='selected'>$show_option_none</option>\n";
+		$output .= "\t<option value='" . esc_attr( $option_none_value ) . "' selected='selected'>$show_option_none</option>\n";
 	}
 
 	if ( ! empty( $categories ) ) {
@@ -398,8 +399,8 @@ function wp_dropdown_categories( $args = '' ) {
 
 			/** This filter is documented in wp-includes/category-template.php */
 			$show_option_none = apply_filters( 'list_cats', $r['show_option_none'] );
-			$selected = ( '-1' === strval($r['selected']) ) ? " selected='selected'" : '';
-			$output .= "\t<option value='-1'$selected>$show_option_none</option>\n";
+			$selected = selected( $option_none_value, $r['selected'], false );
+			$output .= "\t<option value='" . esc_attr( $option_none_value ) . "'$selected>$show_option_none</option>\n";
 		}
 
 		if ( $r['hierarchical'] ) {
