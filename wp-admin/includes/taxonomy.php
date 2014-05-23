@@ -234,20 +234,24 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 	if ( !$post_id )
 		return false;
 
-	$tags = wp_get_post_terms($post_id, $taxonomy, array());
+	$terms = get_object_term_cache( $post_id, $taxonomy );
+	if ( false === $terms ) {
+		$terms = wp_get_object_terms( $post_id, $taxonomy );
+		wp_cache_add( $post_id, $terms, $taxonomy . '_relationships' );
+	}
 
-	if ( !$tags ) {
+	if ( ! $terms ) {
 		return false;
 	}
-	if ( is_wp_error($tags) ) {
-		return $tags;
+	if ( is_wp_error( $terms ) ) {
+		return $terms;
 	}
-	$tag_names = array();
-	foreach ( $tags as $tag ) {
-		$tag_names[] = $tag->name;
+	$term_names = array();
+	foreach ( $terms as $term ) {
+		$term_names[] = $term->name;
 	}
 
-	$tags_to_edit = esc_attr( join( ',', $tag_names ) );
+	$terms_to_edit = esc_attr( join( ',', $term_names ) );
 
 	/**
 	 * Filter the comma-separated list of terms available to edit.
@@ -256,12 +260,12 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 	 *
 	 * @see get_terms_to_edit()
 	 *
-	 * @param array  $tags_to_edit An array of terms.
+	 * @param array  $terms_to_edit An array of terms.
 	 * @param string $taxonomy     The taxonomy for which to retrieve terms. Default 'post_tag'.
 	 */
-	$tags_to_edit = apply_filters( 'terms_to_edit', $tags_to_edit, $taxonomy );
+	$terms_to_edit = apply_filters( 'terms_to_edit', $terms_to_edit, $taxonomy );
 
-	return $tags_to_edit;
+	return $terms_to_edit;
 }
 
 /**

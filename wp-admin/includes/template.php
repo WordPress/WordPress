@@ -364,11 +364,21 @@ function get_inline_data($post) {
 		$taxonomy = get_taxonomy( $taxonomy_name );
 
 		if ( $taxonomy->hierarchical && $taxonomy->show_ui ) {
-				echo '<div class="post_category" id="' . $taxonomy_name . '_' . $post->ID . '">'
-					. implode( ',', wp_get_object_terms( $post->ID, $taxonomy_name, array( 'fields' => 'ids' ) ) ) . '</div>';
+
+			$terms = get_object_term_cache( $post->ID, $taxonomy_name );
+			if ( false === $terms ) {
+				$terms = wp_get_object_terms( $post->ID, $taxonomy_name );
+				wp_cache_add( $post->ID, $terms, $taxonomy_name . '_relationships' );
+			}
+			$term_ids = empty( $terms ) ? array() : wp_list_pluck( $terms, 'term_id' );
+
+			echo '<div class="post_category" id="' . $taxonomy_name . '_' . $post->ID . '">' . implode( ',', $term_ids ) . '</div>';
+
 		} elseif ( $taxonomy->show_ui ) {
+
 			echo '<div class="tags_input" id="'.$taxonomy_name.'_'.$post->ID.'">'
 				. esc_html( str_replace( ',', ', ', get_terms_to_edit( $post->ID, $taxonomy_name ) ) ) . '</div>';
+
 		}
 	}
 
