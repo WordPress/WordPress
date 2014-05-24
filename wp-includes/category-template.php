@@ -292,6 +292,7 @@ function category_description( $category = 0 ) {
  * The list of arguments is below:
  *     'show_option_all' (string) - Text to display for showing all categories.
  *     'show_option_none' (string) - Text to display for showing no categories.
+ *     'option_none_value' (mixed) - Value to use when no category is selected.
  *     'orderby' (string) default is 'ID' - What column to use for ordering the
  * categories.
  *     'order' (string) default is 'ASC' - What direction to order categories.

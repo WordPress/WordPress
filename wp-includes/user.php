@@ -1252,6 +1252,7 @@ function setup_userdata($for_user_id = '') {
  * <ol>
  * <li>show_option_all - Text to show all and whether HTML option exists.</li>
  * <li>show_option_none - Text for show none and whether HTML option exists.</li>
+ * <li>option_none_value - Value to use when no option is selected.</li>
  * <li>hide_if_only_one_author - Don't create the dropdown if there is only one user.</li>
  * <li>orderby - SQL order by clause for what order the users appear. Default is 'display_name'.</li>
  * <li>order - Default is 'ASC'. Can also be 'DESC'.</li>
