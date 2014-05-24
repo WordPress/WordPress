@@ -123,10 +123,11 @@ function get_the_title( $post = 0 ) {
 			 *
 			 * @since 2.8.0
 			 *
-			 * @param string $prepend Text displayed before the post title.
-			 *                        Default 'Protected: %s'.
+			 * @param string  $prepend Text displayed before the post title.
+			 *                         Default 'Protected: %s'.
+			 * @param WP_Post $post    Current post object.
 			 */
-			$protected_title_format = apply_filters( 'protected_title_format', __( 'Protected: %s' ) );
+			$protected_title_format = apply_filters( 'protected_title_format', __( 'Protected: %s' ), $post );
 			$title = sprintf( $protected_title_format, $title );
 		} else if ( isset( $post->post_status ) && 'private' == $post->post_status ) {
 
@@ -137,10 +138,11 @@ function get_the_title( $post = 0 ) {
 			 *
 			 * @since 2.8.0
 			 *
-			 * @param string $prepend Text displayed before the post title.
-			 *                        Default 'Private: %s'.
+			 * @param string  $prepend Text displayed before the post title.
+			 *                         Default 'Private: %s'.
+			 * @param WP_Post $post    Current post object.
 			 */
-			$private_title_format = apply_filters( 'private_title_format', __( 'Private: %s' ) );
+			$private_title_format = apply_filters( 'private_title_format', __( 'Private: %s' ), $post );
 			$title = sprintf( $private_title_format, $title );
 		}
 	}
