@@ -200,30 +200,30 @@ tinymce.PluginManager.add('media', function(editor, url) {
 		data.poster = editor.convertURL(data.poster, "poster");
 		data.flashPlayerUrl = editor.convertURL(url + '/moxieplayer.swf', "movie");
 
+		tinymce.each(urlPatterns, function(pattern) {
+			var match, i, url;
+
+			if ((match = pattern.regex.exec(data.source1))) {
+				url = pattern.url;
+
+				for (i = 0; match[i]; i++) {
+					/*jshint loopfunc:true*/
+					/*eslint no-loop-func:0 */
+					url = url.replace('$' + i, function() {
+						return match[i];
+					});
+				}
+
+				data.source1 = url;
+				data.type = pattern.type;
+				data.width = data.width || pattern.w;
+				data.height = data.height || pattern.h;
+			}
+		});
+
 		if (data.embed) {
 			html = updateHtml(data.embed, data, true);
-		} else {
-			tinymce.each(urlPatterns, function(pattern) {
-				var match, i, url;
-
-				if ((match = pattern.regex.exec(data.source1))) {
-					url = pattern.url;
-
-					for (i = 0; match[i]; i++) {
-						/*jshint loopfunc:true*/
-						/*eslint no-loop-func:0 */
-						url = url.replace('$' + i, function() {
-							return match[i];
-						});
-					}
-
-					data.source1 = url;
-					data.type = pattern.type;
-					data.width = data.width || pattern.w;
-					data.height = data.height || pattern.h;
-				}
-			});
-
+		} else {	
 			var videoScript = getVideoScriptMatch(data.source1);
 			if (videoScript) {
 				data.type = 'script';
@@ -511,7 +511,7 @@ tinymce.PluginManager.add('media', function(editor, url) {
 		});
 
 		// Allow elements
-		editor.schema.addValidElements('object[id|style|width|height|classid|codebase|*],embed[id|style|width|height|type|src|*],video[*],audio[*]');
+		//editor.schema.addValidElements('object[id|style|width|height|classid|codebase|*],embed[id|style|width|height|type|src|*],video[*],audio[*]');
 
 		// Set allowFullscreen attribs as boolean
 		var boolAttrs = editor.schema.getBoolAttrs();
@@ -526,6 +526,9 @@ tinymce.PluginManager.add('media', function(editor, url) {
 
 			while (i--) {
 				node = nodes[i];
+				if (!node.parent) {
+					continue;
+				}
 
 				if (node.name == 'script') {
 					videoScript = getVideoScriptMatch(node.attr('src'));
@@ -591,6 +594,10 @@ tinymce.PluginManager.add('media', function(editor, url) {
 
 			while (i--) {
 				node = nodes[i];
+				if (!node.parent) {
+					continue;
+				}
+
 				realElmName = node.attr(name);
 				realElm = new tinymce.html.Node(realElmName, 1);
 

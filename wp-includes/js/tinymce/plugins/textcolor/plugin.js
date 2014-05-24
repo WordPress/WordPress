@@ -46,7 +46,7 @@ tinymce.PluginManager.add('textcolor', function(editor) {
 			"00FF00", "Lime",
 			"00FFFF", "Aqua",
 			"00CCFF", "Sky blue",
-			"993366", "Brown",
+			"993366", "Red violet",
 			"C0C0C0", "Silver",
 			"FF99CC", "Pink",
 			"FFCC99", "Peach",

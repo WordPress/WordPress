@@ -460,7 +460,7 @@ tinymce.ThemeManager.add('modern', function(editor) {
 			}
 		});
 
-		editor.on('blur', hide);
+		editor.on('blur hide', hide);
 
 		// Remove the panel when the editor is removed
 		editor.on('remove', function() {
