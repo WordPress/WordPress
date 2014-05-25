@@ -1874,7 +1874,7 @@ function get_adjacent_post_link( $format, $link, $in_same_term = false, $exclude
  *
  * @param string       $format         Link anchor format.
  * @param string       $link           Link permalink format.
- * @param bool         $in_same_term   Optional. Whether link should be in a taxonomy term.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
  * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded category IDs.
  * @param bool         $previous       Optional. Whether to display link to previous or next post. Default true.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
