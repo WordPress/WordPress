@@ -1751,8 +1751,8 @@ function get_boundary_post( $in_same_term = false, $excluded_terms = '', $start 
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string
  */
-function get_previous_post_link( $format = '&laquo; %link', $link = '%title', $in_same_cat = false, $excluded_terms = '', $taxonomy = 'category' ) {
-	return get_adjacent_post_link( $format, $link, $in_same_cat, $excluded_terms, true, $taxonomy );
+function get_previous_post_link( $format = '&laquo; %link', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
+	return get_adjacent_post_link( $format, $link, $in_same_term, $excluded_terms, true, $taxonomy );
 }
 
 /**
@@ -1767,8 +1767,8 @@ function get_previous_post_link( $format = '&laquo; %link', $link = '%title', $i
  * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
-function previous_post_link( $format = '&laquo; %link', $link = '%title', $in_same_cat = false, $excluded_terms = '', $taxonomy = 'category' ) {
-	echo get_previous_post_link( $format, $link, $in_same_cat, $excluded_terms, $taxonomy );
+function previous_post_link( $format = '&laquo; %link', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
+	echo get_previous_post_link( $format, $link, $in_same_term, $excluded_terms, $taxonomy );
 }
 
 /**
@@ -1783,8 +1783,8 @@ function previous_post_link( $format = '&laquo; %link', $link = '%title', $in_sa
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string
  */
-function get_next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_cat = false, $excluded_terms = '', $taxonomy = 'category' ) {
-	return get_adjacent_post_link( $format, $link, $in_same_cat, $excluded_terms, false, $taxonomy );
+function get_next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
+	return get_adjacent_post_link( $format, $link, $in_same_term, $excluded_terms, false, $taxonomy );
 }
 
 /**
@@ -1799,8 +1799,8 @@ function get_next_post_link( $format = '%link &raquo;', $link = '%title', $in_sa
  * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
-function next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_cat = false, $excluded_terms = '', $taxonomy = 'category' ) {
-	 echo get_next_post_link( $format, $link, $in_same_cat, $excluded_terms, $taxonomy );
+function next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
+	 echo get_next_post_link( $format, $link, $in_same_term, $excluded_terms, $taxonomy );
 }
 
 /**
@@ -1818,11 +1818,11 @@ function next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_c
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string
  */
-function get_adjacent_post_link( $format, $link, $in_same_cat = false, $excluded_terms = '', $previous = true, $taxonomy = 'category' ) {
+function get_adjacent_post_link( $format, $link, $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category' ) {
 	if ( $previous && is_attachment() )
 		$post = get_post( get_post()->post_parent );
 	else
-		$post = get_adjacent_post( $in_same_cat, $excluded_terms, $previous, $taxonomy );
+		$post = get_adjacent_post( $in_same_term, $excluded_terms, $previous, $taxonomy );
 
 	if ( ! $post ) {
 		$output = '';
@@ -1874,14 +1874,14 @@ function get_adjacent_post_link( $format, $link, $in_same_cat = false, $excluded
  *
  * @param string       $format         Link anchor format.
  * @param string       $link           Link permalink format.
- * @param bool         $in_same_cat    Optional. Whether link should be in a same category.
+ * @param bool         $in_same_term   Optional. Whether link should be in a taxonomy term.
  * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded category IDs.
  * @param bool         $previous       Optional. Whether to display link to previous or next post. Default true.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string
  */
-function adjacent_post_link( $format, $link, $in_same_cat = false, $excluded_terms = '', $previous = true, $taxonomy = 'category' ) {
-	echo get_adjacent_post_link( $format, $link, $in_same_cat, $excluded_terms, $previous, $taxonomy );
+function adjacent_post_link( $format, $link, $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category' ) {
+	echo get_adjacent_post_link( $format, $link, $in_same_term, $excluded_terms, $previous, $taxonomy );
 }
 
 /**
