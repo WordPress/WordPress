@@ -342,7 +342,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 	editor.on( 'SaveContent', function( e ) {
 		// If editor is hidden, we just want the textarea's value to be saved
-		if ( editor.isHidden() ) {
+		if ( ! editor.inline && ! tinymce.DOM.isHidden( editor.id ) ) {
 			e.content = e.element.value;
 			return;
 		}
