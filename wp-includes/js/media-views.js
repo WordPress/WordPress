@@ -785,18 +785,19 @@
 	 */
 	media.controller.GalleryEdit = media.controller.Library.extend({
 		defaults: {
-			id:         'gallery-edit',
-			multiple:   false,
-			describe:   true,
-			edge:       199,
-			editing:    false,
-			sortable:   true,
-			searchable: false,
-			toolbar:    'gallery-edit',
-			content:    'browse',
-			title:      l10n.editGalleryTitle,
-			priority:   60,
-			dragInfo:   true,
+			id:              'gallery-edit',
+			multiple:        false,
+			describe:        true,
+			edge:            199,
+			editing:         false,
+			sortable:        true,
+			searchable:      false,
+			toolbar:         'gallery-edit',
+			content:         'browse',
+			title:           l10n.editGalleryTitle,
+			priority:        60,
+			dragInfo:        true,
+			displaySettings: true,
 
 			// Don't sync the selection, as the Edit Gallery library
 			// *is* the selection.
@@ -838,10 +839,15 @@
 		},
 
 		gallerySettings: function( browser ) {
+			if ( ! this.get('displaySettings') ) {
+				return;
+			}
+
 			var library = this.get('library');
 
-			if ( ! library || ! browser )
+			if ( ! library || ! browser ) {
 				return;
+			}
 
 			library.gallery = library.gallery || new Backbone.Model();
 
