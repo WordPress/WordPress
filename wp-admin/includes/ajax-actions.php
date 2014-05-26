@@ -2506,12 +2506,12 @@ function wp_ajax_query_themes() {
 }
 
 /**
- * Apply `the_content` filters to a string based on the post ID.
+ * Apply [embed] handlers to a string.
  *
  * @since 4.0.0
  */
-function wp_ajax_filter_content() {
-	global $post;
+function wp_ajax_parse_embed() {
+	global $post, $wp_embed;
 
 	if ( ! $post = get_post( (int) $_REQUEST['post_ID'] ) ) {
 		wp_send_json_error();
@@ -2523,5 +2523,9 @@ function wp_ajax_filter_content() {
 
 	setup_postdata( $post );
 
-	wp_send_json_success( apply_filters( 'the_content', wp_unslash( $_POST['content'] ) ) );
+	$parsed = $wp_embed->run_shortcode( $_POST['content'] );
+	if ( preg_match( '/' . get_shortcode_regex() . '/s', $parsed ) ) {
+		$parsed = do_shortcode( $parsed );
+	}
+	wp_send_json_success( $parsed );
 }

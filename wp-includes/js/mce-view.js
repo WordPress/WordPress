@@ -708,7 +708,7 @@ window.wp = window.wp || {};
 				}
 			},
 			fetch: function () {
-				wp.ajax.send( 'filter-content', {
+				wp.ajax.send( 'parse-embed', {
 					data: {
 						post_ID: $( '#post_ID' ).val(),
 						content: this.shortcode.string()
