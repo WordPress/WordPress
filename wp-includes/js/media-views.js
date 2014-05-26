@@ -6150,7 +6150,7 @@
 		},
 
 		initialize: function() {
-			this.$input = $('<input/>').attr( 'type', 'text' ).val( this.model.get('url') );
+			this.$input = $('<input id="embed-url-field" />').attr( 'type', 'text' ).val( this.model.get('url') );
 			this.input = this.$input[0];
 
 			this.spinner = $('<span class="spinner" />')[0];
@@ -6206,7 +6206,51 @@
 	 */
 	media.view.EmbedLink = media.view.Settings.extend({
 		className: 'embed-link-settings',
-		template:  media.template('embed-link-settings')
+		template:  media.template('embed-link-settings'),
+
+		initialize: function() {
+			this.spinner = $('<span class="spinner" />');
+			this.$el.append( this.spinner[0] );
+			this.listenTo( this.model, 'change:url', this.updateoEmbed );
+		},
+
+		updateoEmbed: function() {
+			var url = this.model.get( 'url' );
+
+			this.$('.setting.title').show();
+			// clear out previous results
+			this.$('.embed-container').hide().find('.embed-preview').html('');
+
+			// only proceed with embed if the field contains more than 6 characters
+			if ( url && url.length < 6 ) {
+				return;
+			}
+
+			this.spinner.show();
+
+			setTimeout( _.bind( this.fetch, this ), 500 );
+		},
+
+		fetch: function() {
+			// check if they haven't typed in 500 ms
+			if ( $('#embed-url-field').val() !== this.model.get('url') ) {
+				return;
+			}
+
+			wp.ajax.send( 'parse-embed', {
+				data : {
+					post_ID: media.view.settings.post.id,
+					content: '[embed]' + this.model.get('url') + '[/embed]'
+				}
+			} ).done( _.bind( this.renderoEmbed, this ) );
+		},
+
+		renderoEmbed: function(html) {
+			this.spinner.hide();
+
+			this.$('.setting.title').hide();
+			this.$('.embed-container').show().find('.embed-preview').html( html );
+		}
 	});
 
 	/**

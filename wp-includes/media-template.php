@@ -546,10 +546,13 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-embed-link-settings">
-		<label class="setting">
-			<span><?php _e('Title'); ?></span>
+		<label class="setting title">
+			<span><?php _e( 'Title' ); ?></span>
 			<input type="text" class="alignment" data-setting="title" />
 		</label>
+		<div class="embed-container" style="display: none;">
+			<div class="embed-preview"></div>
+		</div>
 	</script>
 
 	<script type="text/html" id="tmpl-embed-image-settings">

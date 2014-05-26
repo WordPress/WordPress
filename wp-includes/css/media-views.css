@@ -1583,7 +1583,7 @@
 
 .media-frame .embed-url .spinner {
 	position: absolute;
-	top: 16px;
+	top: 32px;
 	right: 26px;
 }
 
@@ -1594,12 +1594,20 @@
 .embed-link-settings,
 .embed-media-settings {
 	position: absolute;
-	top: 60px;
+	top: 70px;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	padding: 16px 16px 32px;
 	overflow: auto;
+}
+
+.embed-preview img, .embed-preview iframe, .embed-preview embed {
+	max-width: 100%;
+}
+
+.embed-preview img {
+	height: auto;
 }
 
 .image-details .media-modal {
