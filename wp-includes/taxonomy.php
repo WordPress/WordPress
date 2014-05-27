@@ -2337,9 +2337,11 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		}
 	}
 
-	if ( ! $terms )
+	if ( ! $terms ) {
 		$terms = array();
-
+	} else {
+		$terms = array_values( array_unique( $terms, SORT_REGULAR ) );
+	}
 	/**
 	 * Filter the terms for a given object or objects.
 	 *
