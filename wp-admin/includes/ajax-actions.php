@@ -2537,8 +2537,7 @@ function wp_ajax_parse_embed() {
 	setup_postdata( $post );
 
 	$parsed = $wp_embed->run_shortcode( $_POST['content'] );
-	if ( preg_match( '/' . get_shortcode_regex() . '/s', $parsed ) ) {
-		$parsed = do_shortcode( $parsed );
-	}
+	$parsed = do_shortcode( $parsed );
+
 	wp_send_json_success( $parsed );
 }
