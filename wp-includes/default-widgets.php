@@ -1034,29 +1034,28 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 	}
 
 	echo '<ul>';
-	foreach ( $rss->get_items(0, $items) as $item ) {
+	foreach ( $rss->get_items( 0, $items ) as $item ) {
 		$link = $item->get_link();
-		while ( stristr($link, 'http') != $link )
-			$link = substr($link, 1);
-		$link = esc_url(strip_tags($link));
-		$title = esc_attr(strip_tags($item->get_title()));
-		if ( empty($title) )
-			$title = __('Untitled');
+		while ( stristr( $link, 'http' ) != $link ) {
+			$link = substr( $link, 1 );
+		}
+		$link = esc_url( strip_tags( $link ) );
+
+		$title = esc_html( trim( strip_tags( $item->get_title() ) ) );
+		if ( empty( $title ) ) {
+			$title = __( 'Untitled' );
+		}
 
 		$desc = @html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) );
-		$desc = esc_attr( strip_tags( $desc ) );
-		$desc = trim( str_replace( array( "\n", "\r" ), ' ', $desc ) );
-		$desc = wp_html_excerpt( $desc, 360 );
+		$desc = esc_attr( wp_trim_words( $desc, 55, ' [&hellip;]' ) );
 
 		$summary = '';
 		if ( $show_summary ) {
 			$summary = $desc;
 
-			// Append ellipsis. Change existing [...] to [&hellip;].
+			// Change existing [...] to [&hellip;].
 			if ( '[...]' == substr( $summary, -5 ) ) {
 				$summary = substr( $summary, 0, -5 ) . '[&hellip;]';
-			} elseif ( '[&hellip;]' != substr( $summary, -10 ) && $desc !== $summary ) {
-				$summary .= ' [&hellip;]';
 			}
 
 			$summary = '<div class="rssSummary">' . esc_html( $summary ) . '</div>';
