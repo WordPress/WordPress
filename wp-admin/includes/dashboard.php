@@ -18,11 +18,6 @@ function wp_dashboard_setup() {
 	$wp_dashboard_control_callbacks = array();
 	$screen = get_current_screen();
 
-	$update = false;
-	$widget_options = get_option( 'dashboard_widget_options' );
-	if ( !$widget_options || !is_array($widget_options) )
-		$widget_options = array();
-
 	/* Register Widgets and Controls */
 
 	$response = wp_check_browser_version();
@@ -122,9 +117,6 @@ function wp_dashboard_setup() {
 		wp_redirect( remove_query_arg( 'edit' ) );
 		exit;
 	}
-
-	if ( $update )
-		update_option( 'dashboard_widget_options', $widget_options );
 
 	/** This action is documented in wp-admin/edit-form-advanced.php */
 	do_action( 'do_meta_boxes', $screen->id, 'normal', '' );
