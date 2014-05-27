@@ -1196,22 +1196,25 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
  *
  * @since 1.0.0
  *
- * @param string $link Optional. Anchor text.
+ * @param string $text Optional. Anchor text.
  * @param string $before Optional. Display before edit link.
  * @param string $after Optional. Display after edit link.
  * @param int $id Optional. Post ID.
  */
-function edit_post_link( $link = null, $before = '', $after = '', $id = 0 ) {
-	if ( !$post = get_post( $id ) )
+function edit_post_link( $text = null, $before = '', $after = '', $id = 0 ) {
+	if ( ! $post = get_post( $id ) ) {
 		return;
+	}
 
-	if ( !$url = get_edit_post_link( $post->ID ) )
+	if ( ! $url = get_edit_post_link( $post->ID ) ) {
 		return;
+	}
 
-	if ( null === $link )
-		$link = __('Edit This');
+	if ( null === $text ) {
+		$text = __( 'Edit This' );
+	}
 
-	$link = '<a class="post-edit-link" href="' . $url . '">' . $link . '</a>';
+	$link = '<a class="post-edit-link" href="' . $url . '">' . $text . '</a>';
 
 	/**
 	 * Filter the post edit link anchor tag.
@@ -1220,8 +1223,9 @@ function edit_post_link( $link = null, $before = '', $after = '', $id = 0 ) {
 	 *
 	 * @param string $link    Anchor tag for the edit link.
 	 * @param int    $post_id Post ID.
+	 * @param string $text    Anchor text.
 	 */
-	echo $before . apply_filters( 'edit_post_link', $link, $post->ID ) . $after;
+	echo $before . apply_filters( 'edit_post_link', $link, $post->ID, $text ) . $after;
 }
 
 /**
@@ -1297,20 +1301,22 @@ function get_edit_comment_link( $comment_id = 0 ) {
  *
  * @since 1.0.0
  *
- * @param string $link Optional. Anchor text.
+ * @param string $text Optional. Anchor text.
  * @param string $before Optional. Display before edit link.
  * @param string $after Optional. Display after edit link.
  */
-function edit_comment_link( $link = null, $before = '', $after = '' ) {
+function edit_comment_link( $text = null, $before = '', $after = '' ) {
 	global $comment;
 
-	if ( !current_user_can( 'edit_comment', $comment->comment_ID ) )
+	if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) ) {
 		return;
+	}
 
-	if ( null === $link )
-		$link = __('Edit This');
+	if ( null === $text ) {
+		$text = __( 'Edit This' );
+	}
 
-	$link = '<a class="comment-edit-link" href="' . get_edit_comment_link( $comment->comment_ID ) . '">' . $link . '</a>';
+	$link = '<a class="comment-edit-link" href="' . get_edit_comment_link( $comment->comment_ID ) . '">' . $text . '</a>';
 
 	/**
 	 * Filter the comment edit link anchor tag.
@@ -1319,8 +1325,9 @@ function edit_comment_link( $link = null, $before = '', $after = '' ) {
 	 *
 	 * @param string $link       Anchor tag for the edit link.
 	 * @param int    $comment_id Comment ID.
+	 * @param string $text       Anchor text.
 	 */
-	echo $before . apply_filters( 'edit_comment_link', $link, $comment->comment_ID ) . $after;
+	echo $before . apply_filters( 'edit_comment_link', $link, $comment->comment_ID, $text ) . $after;
 }
 
 /**
