@@ -413,13 +413,16 @@ function file_is_valid_image($path) {
  * @return bool True if suitable, false if not suitable.
  */
 function file_is_displayable_image($path) {
-	$info = @getimagesize($path);
-	if ( empty($info) )
+	$displayable_image_types = array( IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP );
+
+	$info = @getimagesize( $path );
+	if ( empty( $info ) ) {
 		$result = false;
-	elseif ( !in_array($info[2], array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG)) )	// only gif, jpeg and png images can reliably be displayed
+	} elseif ( ! in_array( $info[2], $displayable_image_types ) ) {
 		$result = false;
-	else
+	} else {
 		$result = true;
+	}
 
 	/**
 	 * Filter whether the current image is displayable in the browser.
