@@ -3147,17 +3147,25 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	// expected_slashed (everything!)
 	$data = compact( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_content_filtered', 'post_title', 'post_excerpt', 'post_status', 'post_type', 'comment_status', 'ping_status', 'post_password', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_parent', 'menu_order', 'post_mime_type', 'guid' );
 
-	/**
-	 * Filter slashed post data just before it is inserted into the database.
-	 *
-	 * @since 2.7.0
-	 *
-	 * @param array $data    Array of slashed post data.
-	 * @param array $postarr Array of sanitized, but otherwise unmodified post data.
-	 */
 	if ( 'attachment' === $post_type ) {
+		/**
+		 * Filter attachment post data before it is updated in or added to the database.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param array $data    An array of sanitized attachment post data.
+		 * @param array $postarr An array of unsanitized attachment post data.
+		 */
 		$data = apply_filters( 'wp_insert_attachment_data', $data, $postarr );
 	} else {
+		/**
+		 * Filter slashed post data just before it is inserted into the database.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param array $data    An array of slashed post data.
+		 * @param array $postarr An array of sanitized, but otherwise unmodified post data.
+		 */
 		$data = apply_filters( 'wp_insert_post_data', $data, $postarr );
 	}
 	$data = wp_unslash( $data );
