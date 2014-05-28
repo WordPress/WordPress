@@ -678,7 +678,7 @@ function comments_link( $deprecated = '', $deprecated_2 = '' ) {
  *
  * @since 1.5.0
  *
- * @param int|WP_Post $post_id Post ID or WP_Post object. Default current post.
+ * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is global `$post`.
  * @return int The number of comments a post has.
  */
 function get_comments_number( $post_id = 0 ) {
@@ -696,7 +696,7 @@ function get_comments_number( $post_id = 0 ) {
 	 * @since 1.5.0
 	 *
 	 * @param int         $count   Nnumber of comments a post has.
-	 * @param int|WP_Post $post_id Post ID or WP_Post object.
+	 * @param int $post_id Post ID.
 	 */
 	return apply_filters( 'get_comments_number', $count, $post_id );
 }
