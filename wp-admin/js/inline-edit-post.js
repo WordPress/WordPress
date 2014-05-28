@@ -53,7 +53,7 @@ inlineEditPost = {
 			return false;
 		});
 
-		$('#bulk-title-div').parents('fieldset').after(
+		$('#bulk-edit').find('fieldset:first').after(
 			$('#inline-edit fieldset.inline-edit-categories').clone()
 		).siblings( 'fieldset:last' ).prepend(
 			$('#inline-edit label.inline-edit-tags').clone()
