@@ -695,10 +695,10 @@ function get_comments_number( $post_id = 0 ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param int         $count   Nnumber of comments a post has.
+	 * @param int $count   Number of comments a post has.
 	 * @param int $post_id Post ID.
 	 */
-	return apply_filters( 'get_comments_number', $count, $post_id );
+	return apply_filters( 'get_comments_number', $count, $post->ID );
 }
 
 /**
