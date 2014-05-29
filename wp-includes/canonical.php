@@ -340,6 +340,10 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	else
 		unset($redirect['port']);
 
+	if ( ! empty( $user_home['scheme'] ) && $user_home['scheme'] === 'https' ) {
+		$redirect['scheme'] = 'https';
+	}
+
 	// trailing /index.php
 	$redirect['path'] = preg_replace('|/' . preg_quote( $wp_rewrite->index, '|' ) . '/*?$|', '/', $redirect['path']);
 
@@ -397,7 +401,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		( strtolower($original['host']) != 'www.' . strtolower($redirect['host']) && 'www.' . strtolower($original['host']) != strtolower($redirect['host']) ) )
 		$redirect['host'] = $original['host'];
 
-	$compare_original = array($original['host'], $original['path']);
+	$compare_original = array( $original['scheme'], $original['host'], $original['path'] );
 
 	if ( !empty( $original['port'] ) )
 		$compare_original[] = $original['port'];
@@ -405,7 +409,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	if ( !empty( $original['query'] ) )
 		$compare_original[] = $original['query'];
 
-	$compare_redirect = array($redirect['host'], $redirect['path']);
+	$compare_redirect = array( $redirect['scheme'], $redirect['host'], $redirect['path'] );
 
 	if ( !empty( $redirect['port'] ) )
 		$compare_redirect[] = $redirect['port'];
