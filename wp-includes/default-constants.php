@@ -247,16 +247,17 @@ function wp_ssl_constants() {
 	/**
 	 * @since 2.6.0
 	 */
-	if ( !defined('FORCE_SSL_ADMIN') )
-		define('FORCE_SSL_ADMIN', false);
-	force_ssl_admin(FORCE_SSL_ADMIN);
+	if ( !defined( 'FORCE_SSL_ADMIN' ) )
+		define( 'FORCE_SSL_ADMIN', false );
+	force_ssl_admin( FORCE_SSL_ADMIN );
 
 	/**
 	 * @since 2.6.0
+	 * @deprecated 4.0.0
 	 */
-	if ( !defined('FORCE_SSL_LOGIN') )
-		define('FORCE_SSL_LOGIN', false);
-	force_ssl_login(FORCE_SSL_LOGIN);
+	if ( defined( 'FORCE_SSL_LOGIN' ) && FORCE_SSL_LOGIN ) {
+		force_ssl_admin( true );
+	}
 }
 
 /**

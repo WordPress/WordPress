@@ -2845,15 +2845,13 @@ function self_admin_url($path = '', $scheme = 'admin') {
  */
 function set_url_scheme( $url, $scheme = null ) {
 	$orig_scheme = $scheme;
-	if ( ! in_array( $scheme, array( 'http', 'https', 'relative' ) ) ) {
-		if ( ( 'login_post' == $scheme || 'rpc' == $scheme ) && ( force_ssl_login() || force_ssl_admin() ) )
-			$scheme = 'https';
-		elseif ( ( 'login' == $scheme ) && force_ssl_admin() )
-			$scheme = 'https';
-		elseif ( ( 'admin' == $scheme ) && force_ssl_admin() )
-			$scheme = 'https';
-		else
-			$scheme = ( is_ssl() ? 'https' : 'http' );
+
+	if ( ! $scheme ) {
+		$scheme = is_ssl() ? 'https' : 'http';
+	} elseif ( $scheme === 'admin' || $scheme === 'login' || $scheme === 'login_post' || $scheme === 'rpc' ) {
+		$scheme = is_ssl() || force_ssl_admin() ? 'https' : 'http';
+	} elseif ( $scheme !== 'http' && $scheme !== 'https' && $scheme !== 'relative' ) {
+		$scheme = is_ssl() ? 'https' : 'http';
 	}
 
 	$url = trim( $url );

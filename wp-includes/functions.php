@@ -3387,15 +3387,7 @@ function is_ssl() {
  * @return bool True if forced, false if not forced.
  */
 function force_ssl_login( $force = null ) {
-	static $forced = false;
-
-	if ( !is_null( $force ) ) {
-		$old_forced = $forced;
-		$forced = $force;
-		return $old_forced;
-	}
-
-	return $forced;
+	return force_ssl_admin( $force );
 }
 
 /**
@@ -4304,9 +4296,6 @@ function wp_auth_check_html() {
 	$login_url = wp_login_url();
 	$current_domain = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'];
 	$same_domain = ( strpos( $login_url, $current_domain ) === 0 );
-
-	if ( $same_domain && force_ssl_login() && ! force_ssl_admin() )
-		$same_domain = false;
 
 	/**
 	 * Filter whether the authentication check originated at the same domain.
