@@ -945,7 +945,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 	// Remove toolbar from undo levels
 	editor.on( 'BeforeAddUndo', function( event ) {
-		event.level.content = event.level.content.replace( /<p [^>]*data-mce-bogus[^>]+>[\s\S]*<\/p>/g, '' );
+		event.level.content = event.level.content.replace( /<p [^>]*data-mce-bogus[^>]+>[\s\S]*?<\/p>/g, '' );
 	});
 
 	editor.on( 'cut', function() {
