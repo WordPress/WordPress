@@ -265,8 +265,9 @@ a:focus {
 }
 
 #adminmenu a:focus,
-#adminmenu a:active,
 .screen-reader-text:focus {
+	-webkit-box-shadow: none;
+	box-shadow: none;
 	outline: none;
 }
 

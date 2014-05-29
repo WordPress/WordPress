@@ -65,6 +65,8 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar select,
 #wpadminbar textarea,
 #wpadminbar div {
+	-webkit-box-shadow: none;
+	box-shadow: none;
 	outline: none;
 }
 
