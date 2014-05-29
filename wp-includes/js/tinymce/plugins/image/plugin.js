@@ -98,17 +98,25 @@ tinymce.PluginManager.add('image', function(editor) {
 		}
 
 		function buildImageList() {
-			var imageListItems = [{text: 'None', value: ''}];
+			function appendItems(values, output) {
+				output = output || [];
 
-			tinymce.each(imageList, function(image) {
-				imageListItems.push({
-					text: image.text || image.title,
-					value: editor.convertURL(image.value || image.url, 'src'),
-					menu: image.menu
+				tinymce.each(values, function(value) {
+					var item = {text: value.text || value.title};
+
+					if (value.menu) {
+						item.menu = appendItems(value.menu);
+					} else {
+						item.value = editor.convertURL(value.value || value.url, 'src');
+					}
+
+					output.push(item);
 				});
-			});
 
-			return imageListItems;
+				return output;
+			}
+
+			return appendItems(imageList, [{text: 'None', value: ''}]);
 		}
 
 		function recalcSize() {
@@ -284,7 +292,7 @@ tinymce.PluginManager.add('image', function(editor) {
 						altCtrl.value(e.control.text());
 					}
 
-					win.find('#src').value(e.control.value());
+					win.find('#src').value(e.control.value()).fire('change');
 				},
 				onPostRender: function() {
 					imageListCtrl = this;
