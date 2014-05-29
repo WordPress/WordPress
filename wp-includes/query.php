@@ -1510,11 +1510,10 @@ class WP_Query {
 			$this->is_page = true;
 			$this->is_single = false;
 		} else {
-		// Look for archive queries. Dates, categories, authors, search, post type archives.
 
-			if ( !empty($qv['s']) ) {
+		// Look for archive queries. Dates, categories, authors, search, post type archives.
+			if ( ! empty( $qv['s'] ) || ( $this->is_main_query() && array_key_exists( 's', $this->query ) ) )
 				$this->is_search = true;
-			}
 
 			if ( '' !== $qv['second'] ) {
 				$this->is_time = true;
@@ -2261,6 +2260,11 @@ class WP_Query {
 				$q['nopaging'] = false;
 			}
 		}
+
+		if ( $this->is_search ) {
+			$search = 'AND 0';
+		}
+
 		if ( $this->is_feed ) {
 			// This overrides posts_per_page.
 			if ( ! empty( $q['posts_per_rss'] ) ) {
@@ -2876,7 +2880,7 @@ class WP_Query {
 		}
 
 		// Comments feeds
-		if ( $this->is_comment_feed && ( $this->is_archive || $this->is_search || !$this->is_singular ) ) {
+		if ( $this->is_comment_feed && ( $this->is_archive || ( $this->is_search && ! empty( $q['s'] ) ) || !$this->is_singular ) ) {
 			if ( $this->is_archive || $this->is_search ) {
 				$cjoin = "JOIN $wpdb->posts ON ($wpdb->comments.comment_post_ID = $wpdb->posts.ID) $join ";
 				$cwhere = "WHERE comment_approved = '1' $where";
