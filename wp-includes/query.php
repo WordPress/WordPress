@@ -1510,10 +1510,11 @@ class WP_Query {
 			$this->is_page = true;
 			$this->is_single = false;
 		} else {
+			// Look for archive queries. Dates, categories, authors, search, post type archives.
 
-		// Look for archive queries. Dates, categories, authors, search, post type archives.
-			if ( ! empty( $qv['s'] ) || ( $this->is_main_query() && array_key_exists( 's', $this->query ) ) )
+			if ( isset( $this->query['s'] ) ) {
 				$this->is_search = true;
+			}
 
 			if ( '' !== $qv['second'] ) {
 				$this->is_time = true;
@@ -2261,10 +2262,6 @@ class WP_Query {
 			}
 		}
 
-		if ( $this->is_search ) {
-			$search = 'AND 0';
-		}
-
 		if ( $this->is_feed ) {
 			// This overrides posts_per_page.
 			if ( ! empty( $q['posts_per_rss'] ) ) {
@@ -2477,8 +2474,11 @@ class WP_Query {
 		}
 
 		// If a search pattern is specified, load the posts that match.
-		if ( ! empty( $q['s'] ) )
+		if ( ! empty( $q['s'] ) ) {
 			$search = $this->parse_search( $q );
+		} elseif ( $this->is_search ) {
+			$search = 'AND 0';
+		}
 
 		/**
 		 * Filter the search SQL that is used in the WHERE clause of WP_Query.
