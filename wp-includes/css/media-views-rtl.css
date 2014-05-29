@@ -478,8 +478,7 @@
 	border-left: 0;
 }
 
-.media-router > a:active,
-.media-router > a:focus {
+.media-router > a:active {
 	outline: none;
 }
 
@@ -694,6 +693,16 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+.attachment:focus {
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 2px #5b9dd9;
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 2px #5b9dd9;
+	outline: none;
 }
 
 .selected.attachment {
@@ -925,6 +934,7 @@
 	left: 300px;
 	bottom: 0;
 	overflow: auto;
+	outline: none;
 }
 
 .attachments-browser .instructions {
