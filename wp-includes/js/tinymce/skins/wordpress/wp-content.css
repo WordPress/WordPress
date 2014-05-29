@@ -258,6 +258,7 @@ audio {
 
 #wp-image-toolbar {
 	position: absolute;
+	margin: 0;
 }
 
 .wpview-wrap .toolbar div,
