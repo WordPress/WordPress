@@ -252,11 +252,16 @@ a:active {
 
 a:focus {
 	color: #124964;
+    -webkit-box-shadow:
+    	0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+    box-shadow:
+    	0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
-a:focus,
-a:active {
-	outline: thin dotted;
+.ie8 a:focus {
+	outline: #5b9dd9 solid 1px;
 }
 
 #adminmenu a:focus,
