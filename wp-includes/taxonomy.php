@@ -743,7 +743,7 @@ class WP_Tax_Query {
 			}
 
 			$terms = $query['terms'];
-			$operator = $query['operator'];
+			$operator = strtoupper( $query['operator'] );
 
 			if ( 'IN' == $operator ) {
 
