@@ -3177,7 +3177,7 @@
 		/**
 		 * @param {Object} event
 		 */
-		updateIndex: function( event ) {
+		updateIndex: function() {
 			// Resets tabbable elements
 			this.tabbables = $( ':tabbable', this.$el );
 			this.tabbableFirst = this.tabbables.filter( ':first' );
