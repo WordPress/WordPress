@@ -2622,7 +2622,7 @@ class WP_Query {
 			$orderby = "FIELD( {$wpdb->posts}.post_parent, $post_parent__in )";
 		} else {
 			// Used to filter values
-			$allowed_keys = array('name', 'author', 'date', 'title', 'modified', 'menu_order', 'parent', 'ID', 'rand', 'comment_count');
+			$allowed_keys = array( 'name', 'author', 'date', 'title', 'modified', 'menu_order', 'parent', 'ID', 'rand', 'comment_count', 'type' );
 			if ( !empty($q['meta_key']) ) {
 				$allowed_keys[] = $q['meta_key'];
 				$allowed_keys[] = 'meta_value';
