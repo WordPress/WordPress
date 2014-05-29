@@ -261,7 +261,7 @@ audio {
 }
 
 .wpview-wrap .toolbar div,
-#wp-image-toolbar div {
+#wp-image-toolbar i {
 	margin-top: 7px;
 	margin-left: 7px;
 	padding: 2px;
@@ -277,8 +277,8 @@ audio {
 
 .ie8 .wpview-wrap .toolbar div,
 .ie7 .wpview-wrap .toolbar div,
-.ie8 #wp-image-toolbar div,
-.ie7 #wp-image-toolbar div {
+.ie8 #wp-image-toolbar i,
+.ie7 #wp-image-toolbar i {
 	display: inline;
 	padding: 0;
 }
@@ -319,7 +319,7 @@ audio {
 
 
 .wpview-wrap .toolbar div:hover,
-#wp-image-toolbar div:hover {
+#wp-image-toolbar i:hover {
 	box-shadow: 0 1px 3px rgba(0,0,0,0.8);
 	background-color: #000;
 	color: #2ea2cc;
@@ -471,7 +471,7 @@ img.wp-oembed {
 }
 
 .rtl .wpview-wrap .toolbar div,
-.rtl #wp-image-toolbar div {
+.rtl #wp-image-toolbar i {
 	margin-left: auto;
 	margin-right: 7px;
 }
