@@ -1028,9 +1028,9 @@ function image_attachment_fields_to_edit($form_fields, $post) {
  *
  * @since 2.5.0
  *
- * @param array $form_fields
- * @param object $post {@internal $post not used}}
- * @return array
+ * @param array   $form_fields An array of attachment form fields.
+ * @param WP_Post $post        The WP_Post attachment object.
+ * @return array Filtered attachment form fields.
  */
 function media_single_attachment_fields_to_edit( $form_fields, $post ) {
 	unset($form_fields['url'], $form_fields['align'], $form_fields['image-size']);
@@ -1042,9 +1042,9 @@ function media_single_attachment_fields_to_edit( $form_fields, $post ) {
  *
  * @since 2.8.0
  *
- * @param array $form_fields
- * @param object $post {@internal $post not used}}
- * @return array
+ * @param array   $form_fields An array of attachment form fields.
+ * @param WP_Post $post        The WP_Post attachment object.
+ * @return array Filtered attachment form fields.
  */
 function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
 	unset($form_fields['image_url']);
@@ -1060,9 +1060,9 @@ function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
  *
  * @since 2.5.0
  *
- * @param object $post
- * @param array $attachment {@internal $attachment not used}}
- * @return array
+ * @param WP_Post $post       The WP_Post attachment object.
+ * @param array   $attachment An array of attachment metadata.
+ * @return array Filtered attachment post object.
  */
 function image_attachment_fields_to_save( $post, $attachment ) {
 	if ( substr( $post['post_mime_type'], 0, 5 ) == 'image' ) {
