@@ -538,7 +538,9 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 			wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect)); // we'll override this later if the plugin can be included without fatal error
 		ob_start();
 		wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $plugin );
+		$_wp_plugin_file = $plugin;
 		include_once( WP_PLUGIN_DIR . '/' . $plugin );
+		$plugin = $_wp_plugin_file; // Avoid stomping of the $plugin variable in a plugin.
 
 		if ( ! $silent ) {
 			/**
