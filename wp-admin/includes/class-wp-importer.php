@@ -196,9 +196,10 @@ class WP_Importer {
 	/**
 	 * Bump up the request timeout for http requests
 	 *
+	 * @param int $val 
 	 * @return int
 	 */
-	public function bump_request_timeout() {
+	public function bump_request_timeout( $val ) {
 		return 60;
 	}
 
