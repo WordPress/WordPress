@@ -818,8 +818,12 @@ function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 		$expire = 0;
 	}
 
-	if ( '' === $secure )
+	if ( '' === $secure ) {
 		$secure = is_ssl();
+	}
+
+	// Frontend cookie is secure when the auth cookie is secure and the site's home URL is forced HTTPS.
+	$secure_logged_in_cookie = $secure && 'https' === parse_url( get_option( 'home' ), PHP_URL_SCHEME );
 
 	/**
 	 * Filter whether the connection is secure.
@@ -840,7 +844,7 @@ function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 	 * @param int  $user_id User ID.
 	 * @param bool $secure  Whether the connection is secure.
 	 */
-	$secure_logged_in_cookie = apply_filters( 'secure_logged_in_cookie', false, $user_id, $secure );
+	$secure_logged_in_cookie = apply_filters( 'secure_logged_in_cookie', $secure_logged_in_cookie, $user_id, $secure );
 
 	if ( $secure ) {
 		$auth_cookie_name = SECURE_AUTH_COOKIE;
