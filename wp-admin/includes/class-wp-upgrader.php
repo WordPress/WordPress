@@ -1919,7 +1919,6 @@ class WP_Automatic_Updater {
 	 * @param object $item The update offer.
 	 */
 	protected function send_core_update_notification_email( $item ) {
-		$notify   = true;
 		$notified = get_site_option( 'auto_core_update_notified' );
 
 		// Don't notify if we've already notified the same email address of the same version.

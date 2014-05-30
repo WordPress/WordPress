@@ -519,11 +519,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 	}
 
-	public function column_date( $comment ) {
+	public function column_date() {
 		return get_comment_date( __( 'Y/m/d \a\t g:ia' ) );
 	}
 
-	public function column_response( $comment ) {
+	public function column_response() {
 		$post = get_post();
 
 		if ( isset( $this->pending_count[$post->ID] ) ) {

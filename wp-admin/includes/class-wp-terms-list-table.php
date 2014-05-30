@@ -189,7 +189,6 @@ class WP_Terms_List_Table extends WP_List_Table {
 			foreach ( $terms as $term ) {
 				$this->single_row( $term );
 			}
-			$count = $number; // Only displaying a single page.
 		}
 	}
 
