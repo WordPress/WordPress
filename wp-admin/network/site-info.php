@@ -42,6 +42,7 @@ $details = get_blog_details( $id );
 if ( !can_edit_network( $details->site_id ) )
 	wp_die( __( 'You do not have permission to access this page.' ) );
 
+$parsed = parse_url( $details->siteurl );
 $is_main_site = is_main_site( $id );
 
 if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] ) {
@@ -122,12 +123,10 @@ if ( ! empty( $messages ) ) {
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row"><?php _e( 'Domain' ) ?></th>
-			<?php
-			$protocol = is_ssl() ? 'https://' : 'http://';
-			if ( $is_main_site ) { ?>
-			<td><code><?php echo $protocol; echo esc_attr( $details->domain ) ?></code></td>
+			<?php if ( $is_main_site ) { ?>
+				<td><code><?php echo $parsed['scheme'] . '://' . esc_attr( $details->domain ) ?></code></td>
 			<?php } else { ?>
-			<td><?php echo $protocol; ?><input name="blog[domain]" type="text" id="domain" value="<?php echo esc_attr( $details->domain ) ?>" size="33" /></td>
+				<td><?php echo $parsed['scheme'] . '://'; ?><input name="blog[domain]" type="text" id="domain" value="<?php echo esc_attr( $details->domain ) ?>" size="33" /></td>
 			<?php } ?>
 		</tr>
 		<tr class="form-field form-required">
