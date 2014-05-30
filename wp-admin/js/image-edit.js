@@ -316,8 +316,8 @@ var imageEdit = window.imageEdit = {
 		};
 
 		elem.load(ajaxurl, data, function() {
-			elem.fadeIn('fast');
 			head.fadeOut('fast', function(){
+				elem.fadeIn('fast');
 				btn.removeAttr('disabled');
 				spin.hide();
 			});
