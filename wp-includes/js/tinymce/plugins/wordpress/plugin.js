@@ -37,9 +37,12 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			}
 		});
 
-		if ( pixels && ! initial ) {
-			iframe = editor.getContentAreaContainer().firstChild;
-			DOM.setStyle( iframe, 'height', iframe.clientHeight + pixels ); // Resize iframe
+		if (  pixels && ! initial ) {
+			// Resize iframe, not needed in iOS
+			if ( ! tinymce.Env.iOS ) {
+				iframe = editor.getContentAreaContainer().firstChild;
+				DOM.setStyle( iframe, 'height', iframe.clientHeight + pixels );
+			}
 
 			if ( state === 'hide' ) {
 				setUserSetting('hidetb', '0');
@@ -277,6 +280,10 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			doc = editor.getDoc(),
 			dom = editor.dom;
 
+		if ( tinymce.Env.iOS ) {
+			dom.addClass( doc.documentElement, 'ios' );
+		}
+
 		if ( editor.getParam( 'directionality' ) === 'rtl' ) {
 			bodyClass.push('rtl');
 			dom.setAttrib( doc.documentElement, 'dir', 'rtl' );
@@ -358,6 +365,10 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	editor.on( 'preInit', function() {
 		// Don't replace <i> with <em> and <b> with <strong> and don't remove them when empty
 		editor.schema.addValidElements( '@[id|accesskey|class|dir|lang|style|tabindex|title|contenteditable|draggable|dropzone|hidden|spellcheck|translate],i,b' );
+
+		if ( tinymce.Env.iOS ) {
+			editor.settings.height = 300;
+		}
 	});
 
 	// Add custom shortcuts
