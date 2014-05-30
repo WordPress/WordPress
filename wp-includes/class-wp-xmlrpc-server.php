@@ -2469,7 +2469,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 		// If the page doesn't exist indicate that.
 		else {
-			return(new IXR_Error(404, __('Sorry, no such page.')));
+			return new IXR_Error( 404, __( 'Sorry, no such page.' ) );
 		}
 	}
 
