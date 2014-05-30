@@ -2301,7 +2301,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 				$title = $error_data['title'];
 		}
 		$errors = $message->get_error_messages();
-		switch ( count( $errors ) ) :
+		switch ( count( $errors ) ) {
 		case 0 :
 			$message = '';
 			break;
@@ -2311,7 +2311,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		default :
 			$message = "<ul>\n\t\t<li>" . join( "</li>\n\t\t<li>", $errors ) . "</li>\n\t</ul>";
 			break;
-		endswitch;
+		}
 	} elseif ( is_string( $message ) ) {
 		$message = "<p>$message</p>";
 	}

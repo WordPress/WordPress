@@ -302,8 +302,8 @@ CREATE TABLE $wpdb->signups (
 		case 'ms_global' :
 			$queries = $ms_global_tables;
 			break;
-		default:
 		case 'all' :
+		default:
 			$queries = $global_tables . $blog_tables;
 			if ( $is_multisite )
 				$queries .= $ms_global_tables;

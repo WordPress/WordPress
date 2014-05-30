@@ -90,12 +90,12 @@ case 'edit' :
 	$message = '';
 	$class = '';
 	if ( isset($_GET['message']) ) {
-		switch ( $_GET['message'] ) :
-		case 'updated' :
-			$message = __('Media attachment updated.');
-			$class = 'updated';
-			break;
-		endswitch;
+		switch ( $_GET['message'] ) {
+			case 'updated' :
+				$message = __('Media attachment updated.');
+				$class = 'updated';
+				break;
+		}
 	}
 	if ( $message )
 		echo "<div id='message' class='$class'><p>$message</p></div>\n";

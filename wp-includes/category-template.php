@@ -785,19 +785,19 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 			. $args['unit'] . ";'>$tag_name</a>";
 	}
 
-	switch ( $args['format'] ) :
-	case 'array' :
-		$return =& $a;
-		break;
-	case 'list' :
-		$return = "<ul class='wp-tag-cloud'>\n\t<li>";
-		$return .= join( "</li>\n\t<li>", $a );
-		$return .= "</li>\n</ul>\n";
-		break;
-	default :
-		$return = join( $args['separator'], $a );
-		break;
-	endswitch;
+	switch ( $args['format'] ) {
+		case 'array' :
+			$return =& $a;
+			break;
+		case 'list' :
+			$return = "<ul class='wp-tag-cloud'>\n\t<li>";
+			$return .= join( "</li>\n\t<li>", $a );
+			$return .= "</li>\n</ul>\n";
+			break;
+		default :
+			$return = join( $args['separator'], $a );
+			break;
+	}
 
 	if ( $args['filter'] ) {
 		/**
