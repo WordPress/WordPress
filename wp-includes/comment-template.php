@@ -684,10 +684,11 @@ function comments_link( $deprecated = '', $deprecated_2 = '' ) {
 function get_comments_number( $post_id = 0 ) {
 	$post = get_post( $post_id );
 
-	if ( ! isset( $post->comment_count ) ) {
+	if ( ! $post ) {
 		$count = 0;
 	} else {
 		$count = $post->comment_count;
+		$post_id = $post->ID;
 	}
 
 	/**
@@ -698,7 +699,7 @@ function get_comments_number( $post_id = 0 ) {
 	 * @param int $count   Number of comments a post has.
 	 * @param int $post_id Post ID.
 	 */
-	return apply_filters( 'get_comments_number', $count, $post->ID );
+	return apply_filters( 'get_comments_number', $count, $post_id );
 }
 
 /**
