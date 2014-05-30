@@ -1655,8 +1655,9 @@ function adjacent_posts_rel_link( $title = '%title', $in_same_term = false, $exc
  *
  */
 function adjacent_posts_rel_link_wp_head() {
-	if ( !is_singular() || is_attachment() )
+	if ( ! is_single() ) {
 		return;
+	}
 	adjacent_posts_rel_link();
 }
 
