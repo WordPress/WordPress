@@ -840,9 +840,9 @@ function wp_set_auth_cookie($user_id, $remember = false, $secure = '') {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param bool $cookie  Whether to use a secure cookie when logged-in.
-	 * @param int  $user_id User ID.
-	 * @param bool $secure  Whether the connection is secure.
+	 * @param bool $secure_logged_in_cookie Whether to use a secure cookie when logged-in.
+	 * @param int  $user_id                 User ID.
+	 * @param bool $secure                  Whether the connection is secure.
 	 */
 	$secure_logged_in_cookie = apply_filters( 'secure_logged_in_cookie', $secure_logged_in_cookie, $user_id, $secure );
 
