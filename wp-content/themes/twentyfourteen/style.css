@@ -3655,7 +3655,7 @@ a.post-thumbnail:hover {
 
 	.site-description {
 		display: block;
-		margin: -3px 0 21px;
+		margin: 0 0 18px;
 	}
 
 	.site-description:empty {
