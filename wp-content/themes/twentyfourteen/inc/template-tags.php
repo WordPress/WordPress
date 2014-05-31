@@ -12,10 +12,15 @@ if ( ! function_exists( 'twentyfourteen_paging_nav' ) ) :
  * Display navigation to next/previous set of posts when applicable.
  *
  * @since Twenty Fourteen 1.0
+ * 
+ * @global WP_Query   $wp_query   WordPress Query object.
+ * @global WP_Rewrite $wp_rewrite WordPress Rewrite object.
  */
 function twentyfourteen_paging_nav() {
+	global $wp_query, $wp_rewrite;
+
 	// Don't print empty markup if there's only one page.
-	if ( $GLOBALS['wp_query']->max_num_pages < 2 ) {
+	if ( $wp_query->max_num_pages < 2 ) {
 		return;
 	}
 
@@ -31,14 +36,14 @@ function twentyfourteen_paging_nav() {
 	$pagenum_link = remove_query_arg( array_keys( $query_args ), $pagenum_link );
 	$pagenum_link = trailingslashit( $pagenum_link ) . '%_%';
 
-	$format  = $GLOBALS['wp_rewrite']->using_index_permalinks() && ! strpos( $pagenum_link, 'index.php' ) ? 'index.php/' : '';
-	$format .= $GLOBALS['wp_rewrite']->using_permalinks() ? user_trailingslashit( 'page/%#%', 'paged' ) : '?paged=%#%';
+	$format  = $wp_rewrite->using_index_permalinks() && ! strpos( $pagenum_link, 'index.php' ) ? 'index.php/' : '';
+	$format .= $wp_rewrite->using_permalinks() ? user_trailingslashit( $wp_rewrite->pagination_base . '/%#%', 'paged' ) : '?paged=%#%';
 
 	// Set up paginated links.
 	$links = paginate_links( array(
 		'base'     => $pagenum_link,
 		'format'   => $format,
-		'total'    => $GLOBALS['wp_query']->max_num_pages,
+		'total'    => $wp_query->max_num_pages,
 		'current'  => $paged,
 		'mid_size' => 1,
 		'add_args' => array_map( 'urlencode', $query_args ),
