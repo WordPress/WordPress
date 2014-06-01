@@ -4386,7 +4386,7 @@ function _canonical_charset( $charset ) {
 }
 
 /**
- * Sets the mbstring internal encoding to a binary safe encoding whne func_overload is enabled.
+ * Sets the mbstring internal encoding to a binary safe encoding when func_overload is enabled.
  *
  * When mbstring.func_overload is in use for multi-byte encodings, the results from strlen() and
  * similar functions respect the utf8 characters, causing binary data to return incorrect lengths.
