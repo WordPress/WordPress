@@ -145,8 +145,7 @@
 				this.next();
 			} else {
 				this.index = 0;
-				this.current = this.tracks.at( this.index );
-				this.loadCurrent();
+				this.setCurrent();
 			}
 		},
 
