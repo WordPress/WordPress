@@ -88,6 +88,12 @@
 	margin: 0 0 10px;
 }
 
+video.wp-video-shortcode,
+.wp-video-shortcode video {
+	max-width: 100%;
+	display: inline-block;
+}
+
 .video-details .wp-video-holder {
 	width: 100%;
 	max-width: 640px;
