@@ -2777,7 +2777,7 @@ function wp_untrash_post_comments($post = null) {
  *
  * @uses wp_get_object_terms() Retrieves the categories. Args details can be found here.
  *
- * @param int $post_id Optional. The Post ID. Does not default to the global `$post`.
+ * @param int $post_id Optional. The Post ID. Does not default to the ID of the global `$post`.
  * @param array $args Optional. Overwrite the defaults.
  * @return array
  */
@@ -2802,7 +2802,7 @@ function wp_get_post_categories( $post_id = 0, $args = array() ) {
  *
  * @uses wp_get_object_terms() Gets the tags for returning. Args can be found here
  *
- * @param int $post_id Optional. The Post ID. Does not default to the global `$post`.
+ * @param int $post_id Optional. The Post ID. Does not default to the ID of the global `$post`.
  * @param array $args Optional. Overwrite the defaults
  * @return array List of post tags.
  */
@@ -2821,7 +2821,7 @@ function wp_get_post_tags( $post_id = 0, $args = array() ) {
  *
  * @uses wp_get_object_terms() Gets the tags for returning. Args can be found here
  *
- * @param int    $post_id  Optional. The Post ID. Does not default to the global `$post`.
+ * @param int    $post_id  Optional. The Post ID. Does not default to the ID of the global `$post`.
  * @param string $taxonomy The taxonomy for which to retrieve terms. Defaults to post_tag.
  * @param array  $args     Optional. {@link wp_get_object_terms()} arguments.
  * @return array List of post tags.
@@ -3579,7 +3579,7 @@ function _truncate_post_slug( $slug, $length = 200 ) {
  *
  * @since 2.3.0
  *
- * @param int $post_id Optional. The Post ID. Does not default to the global `$post`.
+ * @param int $post_id Optional. The Post ID. Does not default to the ID of the global `$post`.
  * @param string $tags The tags to set for the post, separated by commas.
  * @return bool|null Will return false if $post_id is not an integer or is 0. Will return null otherwise
  */
@@ -3593,7 +3593,7 @@ function wp_add_post_tags( $post_id = 0, $tags = '' ) {
  * @since 2.3.0
  * @uses wp_set_object_terms() Sets the tags for the post.
  *
- * @param int $post_id Optional. The Post ID. Does not default to the global `$post`.
+ * @param int $post_id Optional. The Post ID. Does not default to the ID of the global `$post`.
  * @param string $tags The tags to set for the post, separated by commas.
  * @param bool $append If true, don't delete existing tags, just add on. If false, replace the tags with the new tags.
  * @return mixed Array of affected term IDs. WP_Error or false on failure.
@@ -3608,7 +3608,7 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
  * @since 2.8.0
  * @uses wp_set_object_terms() Sets the tags for the post.
  *
- * @param int    $post_id  Optional. The Post ID. Does not default to the global `$post`.
+ * @param int    $post_id  Optional. The Post ID. Does not default to the ID of the global `$post`.
  * @param string $tags     The tags to set for the post, separated by commas.
  * @param string $taxonomy Taxonomy name. Defaults to 'post_tag'.
  * @param bool   $append   If true, don't delete existing tags, just add on. If false, replace the tags with the new tags.
@@ -3647,7 +3647,7 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
  *
  * @since 2.1.0
  *
- * @param int $post_ID Optional. The Post ID. Does not default to the global `$post`.
+ * @param int $post_ID Optional. The Post ID. Does not default to the ID of the global `$post`.
  * @param array|int $post_categories Optional. List of categories or ID of category.
  * @param bool $append If true, don't delete existing categories, just add on. If false, replace the categories with the new categories.
  * @return bool|mixed
