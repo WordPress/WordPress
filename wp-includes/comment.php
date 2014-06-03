@@ -2195,10 +2195,10 @@ function do_trackbacks($post_id) {
  *
  * @since 1.2.0
  *
- * @param int $post_id Post ID. Not actually used.
+ * @param int $post_id Post ID.
  * @return int Same as Post ID from parameter
  */
-function generic_ping($post_id = 0) {
+function generic_ping( $post_id = 0 ) {
 	$services = get_option('ping_sites');
 
 	$services = explode("\n", $services);

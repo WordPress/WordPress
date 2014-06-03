@@ -409,7 +409,7 @@ function wp_delete_post_revision( $revision_id ) {
  *
  * @uses get_children()
  *
- * @param int|object $post_id Post ID or post object
+ * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is global `$post`.
  * @return array An array of revisions, or an empty array if none.
  */
 function wp_get_post_revisions( $post_id = 0, $args = null ) {
