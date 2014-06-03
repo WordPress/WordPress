@@ -104,7 +104,7 @@ function the_title_attribute( $args = '' ) {
  *
  * @since 0.71
  *
- * @param int|WP_Post $post Optional. Post ID or post object.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
  * @return string
  */
 function get_the_title( $post = 0 ) {
@@ -1545,8 +1545,8 @@ function prepend_attachment($content) {
  * Retrieve protected post password form content.
  *
  * @since 1.0.0
- * @uses apply_filters() Calls 'the_password_form' filter on output.
- * @param int|WP_Post $post Optional. A post ID or post object.
+ *
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
  * @return string HTML content for password form for password protected post.
  */
 function get_the_password_form( $post = 0 ) {

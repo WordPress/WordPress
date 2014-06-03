@@ -1463,8 +1463,9 @@ function the_post_password() {
  * returned.
  *
  * @since 2.7.0
- * @param mixed $post Post id or object. If not supplied the global $post is used.
- * @return string The post title if set
+ *
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
+ * @return string The post title if set.
  */
 function _draft_or_post_title( $post = 0 ) {
 	$title = get_the_title( $post );
