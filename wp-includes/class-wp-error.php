@@ -38,14 +38,15 @@ class WP_Error {
 	private $error_data = array();
 
 	/**
-	 * Constructor - Sets up error message.
+	 * Initialize the error.
 	 *
-	 * If code parameter is empty then nothing will be done. It is possible to
-	 * add multiple messages to the same code, but with other methods in the
-	 * class.
+	 * If `$code` is empty, the other parameters will be ignored.
+	 * When `$code` is not empty, `$message` will be used even if
+	 * it is empty. The `$data` parameter will be used only if it
+	 * is not empty.
 	 *
-	 * All parameters are optional, but if the code parameter is set, then the
-	 * data parameter is optional.
+	 * Though the class is constructed with a single error code and
+	 * message, multiple codes can be added using the `add()` method.
 	 *
 	 * @since 2.1.0
 	 *
@@ -54,7 +55,7 @@ class WP_Error {
 	 * @param mixed $data Optional. Error data.
 	 * @return WP_Error
 	 */
-	public function __construct($code = '', $message = '', $data = '') {
+	public function __construct( $code = '', $message = '', $data = '' ) {
 		if ( empty($code) )
 			return;
 
@@ -203,7 +204,7 @@ class WP_Error {
 	}
 
 	/**
-	 * Append more error messages to list of error messages.
+	 * Add an error or append additional message to an existing error.
 	 *
 	 * @since 2.1.0
 	 * @access public
