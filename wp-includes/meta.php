@@ -1068,7 +1068,7 @@ class WP_Meta_Query {
 			$where = ' AND (' . implode( "\n{$this->relation} ", $where ) . ' )';
 
 		if ( ! empty( $where_meta_key ) ) {
-			$where .= "\nAND " . implode( "\nAND ", $where_meta_key );
+			$where .= "\nAND (" . implode( "\nAND ", $where_meta_key ) . ' )';
 		}
 
 		$join = implode( "\n", $join );
