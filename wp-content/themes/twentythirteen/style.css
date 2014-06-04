@@ -971,7 +971,7 @@ ul.nav-menu .focus > ul,
 	position: relative;
 	-webkit-transition: width 400ms ease, background 400ms ease;
 	transition:         width 400ms ease, background 400ms ease;
-	width: 0;
+	width: 1px;
 }
 
 .site-header .search-field:focus {
