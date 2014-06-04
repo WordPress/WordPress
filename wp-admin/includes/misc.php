@@ -23,7 +23,7 @@ function got_mod_rewrite() {
 	 * like nginx. Use the got_url_rewrite filter in got_url_rewrite() instead.
 	 *
 	 * @since 2.5.0
-	 * 
+	 *
 	 * @see got_url_rewrite()
 	 *
 	 * @param bool $got_rewrite Whether Apache and mod_rewrite are present.
@@ -47,7 +47,7 @@ function got_url_rewrite() {
 	 * Filter whether URL rewriting is available.
 	 *
 	 * @since 3.7.0
-	 * 
+	 *
 	 * @param bool $got_url_rewrite Whether URL rewriting is available.
 	 */
 	return apply_filters( 'got_url_rewrite', $got_url_rewrite );
@@ -804,7 +804,7 @@ add_filter( 'heartbeat_settings', 'wp_heartbeat_set_suspension' );
 /**
  * Autosave with heartbeat
  *
- * @since 3.9
+ * @since 3.9.0
  */
 function heartbeat_autosave( $response, $data ) {
 	if ( ! empty( $data['wp_autosave'] ) ) {

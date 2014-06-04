@@ -1615,7 +1615,7 @@ function post_preview() {
  *
  * Intended for use with heartbeat and autosave.js
  *
- * @since 3.9
+ * @since 3.9.0
  *
  * @param $post_data Associative array of the submitted post data.
  * @return mixed The value 0 or WP_Error on failure. The saved post ID on success.
