@@ -2248,8 +2248,8 @@ a.post-thumbnail:hover {
 	margin-bottom: 18px;
 }
 
-.widget input,
-.widget textarea {
+.widget-area .widget input,
+.widget-area .widget textarea {
 	background-color: rgba(255, 255, 255, 0.1);
 	border-color: rgba(255, 255, 255, 0.2);
 	color: #fff;
@@ -2257,8 +2257,8 @@ a.post-thumbnail:hover {
 	padding: 1px 2px 2px 4px;
 }
 
-.widget input:focus,
-.widget textarea:focus {
+.widget-area .widget input:focus,
+.widget-area .widget textarea:focus {
 	border-color: rgba(255, 255, 255, 0.3);
 }
 
