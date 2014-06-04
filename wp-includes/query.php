@@ -3723,7 +3723,7 @@ class WP_Query {
 			$page_for_posts = get_option('page_for_posts');
 			$this->queried_object = get_post( $page_for_posts );
 			$this->queried_object_id = (int) $this->queried_object->ID;
-		} elseif ( $this->is_singular && !is_null($this->post) ) {
+		} elseif ( $this->is_singular && ! empty( $this->post ) ) {
 			$this->queried_object = $this->post;
 			$this->queried_object_id = (int) $this->post->ID;
 		} elseif ( $this->is_author ) {
