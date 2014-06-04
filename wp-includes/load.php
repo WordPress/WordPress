@@ -10,9 +10,10 @@
 /**
  * Turn register globals off.
  *
- * @access private
  * @since 2.1.0
- * @return null Will return null if register_globals PHP directive was disabled
+ * @access private
+ *
+ * @return null Will return null if register_globals PHP directive was disabled.
  */
 function wp_unregister_GLOBALS() {
 	if ( !ini_get( 'register_globals' ) )
@@ -32,10 +33,13 @@ function wp_unregister_GLOBALS() {
 }
 
 /**
- * Fix $_SERVER variables for various setups.
+ * Fix `$_SERVER` variables for various setups.
  *
- * @access private
  * @since 3.0.0
+ * @access private
+ *
+ * @global string $PHP_SELF The filename of the currently executing script,
+ *                          relative to the document root.
  */
 function wp_fix_server_vars() {
 	global $PHP_SELF;
@@ -92,16 +96,21 @@ function wp_fix_server_vars() {
 }
 
 /**
- * Check for the required PHP version, and the MySQL extension or a database drop-in.
+ * Check for the required PHP version, and the MySQL extension or
+ * a database drop-in.
  *
  * Dies if requirements are not met.
  *
- * @access private
  * @since 3.0.0
+ * @access private
+ *
+ * @global string $required_php_version The required PHP version string.
+ * @global string $wp_version           The WordPress version string.
  */
 function wp_check_php_mysql_versions() {
 	global $required_php_version, $wp_version;
 	$php_version = phpversion();
+
 	if ( version_compare( $required_php_version, $php_version, '>' ) ) {
 		wp_load_translations_early();
 		header( 'Content-Type: text/html; charset=utf-8' );
@@ -117,6 +126,7 @@ function wp_check_php_mysql_versions() {
 
 /**
  * Don't load all of WordPress when handling a favicon.ico request.
+ *
  * Instead, send the headers for a zero-length favicon and bail.
  *
  * @since 3.0.0
@@ -130,7 +140,7 @@ function wp_favicon_request() {
 }
 
 /**
- * Dies with a maintenance message when conditions are met.
+ * Die with a maintenance message when conditions are met.
  *
  * Checks for a file in the WordPress root directory named ".maintenance".
  * This file will contain the variable $upgrading, set to the time the file
@@ -140,8 +150,10 @@ function wp_favicon_request() {
  * The default message can be replaced by using a drop-in (maintenance.php in
  * the wp-content directory).
  *
- * @access private
  * @since 3.0.0
+ * @access private
+ *
+ * @global int $upgrading the unix timestamp marking when upgrading WordPress began.
  */
 function wp_maintenance() {
 	if ( !file_exists( ABSPATH . '.maintenance' ) || defined( 'WP_INSTALLING' ) )
@@ -184,11 +196,14 @@ function wp_maintenance() {
 }
 
 /**
- * PHP 5 standard microtime start capture.
+ * Start the WordPress micro-timer.
  *
- * @access private
  * @since 0.71
- * @global float $timestart Seconds from when function is called.
+ * @access private
+ *
+ * @global float $timestart Unix timestamp set at the beginning of the page load.
+ * @see timer_stop()
+ *
  * @return bool Always returns true.
  */
 function timer_start() {
@@ -223,33 +238,34 @@ function timer_stop( $display = 0, $precision = 3 ) {
 }
 
 /**
- * Sets PHP error handling and handles WordPress debug mode.
+ * Set PHP error reporting based on WordPress debug settings.
  *
- * Uses three constants: WP_DEBUG, WP_DEBUG_DISPLAY, and WP_DEBUG_LOG. All three can be
- * defined in wp-config.php. Example: <code> define( 'WP_DEBUG', true ); </code>
+ * Uses three constants: `WP_DEBUG`, `WP_DEBUG_DISPLAY`, and `WP_DEBUG_LOG`.
+ * All three can be defined in wp-config.php, and by default are set to false.
  *
- * WP_DEBUG_DISPLAY and WP_DEBUG_LOG perform no function unless WP_DEBUG is true.
- * WP_DEBUG defaults to false.
+ * When `WP_DEBUG` is true, all PHP notices are reported. WordPress will also
+ * display internal notices: when a deprecated WordPress function, function
+ * argument, or file is used. Deprecated code may be removed from a later
+ * version.
  *
- * When WP_DEBUG is true, all PHP notices are reported. WordPress will also display
- * notices, including one when a deprecated WordPress function, function argument,
- * or file is used. Deprecated code may be removed from a later version.
+ * It is strongly recommended that plugin and theme developers use `WP_DEBUG`
+ * in their development environments.
  *
- * It is strongly recommended that plugin and theme developers use WP_DEBUG in their
- * development environments.
+ * `WP_DEBUG_DISPLAY` and `WP_DEBUG_LOG` perform no function unless `WP_DEBUG`
+ * is true.
  *
- * When WP_DEBUG_DISPLAY is true, WordPress will force errors to be displayed.
- * WP_DEBUG_DISPLAY defaults to true. Defining it as null prevents WordPress from
- * changing the global configuration setting. Defining WP_DEBUG_DISPLAY as false
- * will force errors to be hidden.
+ * When `WP_DEBUG_DISPLAY` is true, WordPress will force errors to be displayed.
+ * `WP_DEBUG_DISPLAY` defaults to true. Defining it as null prevents WordPress
+ * from changing the global configuration setting. Defining `WP_DEBUG_DISPLAY`
+ * as false will force errors to be hidden.
  *
- * When WP_DEBUG_LOG is true, errors will be logged to wp-content/debug.log.
- * WP_DEBUG_LOG defaults to false.
+ * When `WP_DEBUG_LOG` is true, errors will be logged to debug.log in the content
+ * directory.
  *
  * Errors are never displayed for XML-RPC requests.
  *
- * @access private
  * @since 3.0.0
+ * @access private
  */
 function wp_debug_mode() {
 	if ( WP_DEBUG ) {
@@ -272,30 +288,42 @@ function wp_debug_mode() {
 }
 
 /**
- * Sets the location of the language directory.
+ * Set the location of the language directory.
  *
- * To set directory manually, define <code>WP_LANG_DIR</code> in wp-config.php.
+ * To set directory manually, define the `WP_LANG_DIR` constant
+ * in wp-config.php.
  *
- * If the language directory exists within WP_CONTENT_DIR, that is used.
- * Otherwise if the language directory exists within WPINC, that's used.
- * Finally, if neither of the preceding directories are found,
- * WP_CONTENT_DIR/languages is used.
+ * If the language directory exists within `WP_CONTENT_DIR`, it
+ * is used. Otherwise the language directory is assumed to live
+ * in `WPINC`.
  *
- * The WP_LANG_DIR constant was introduced in 2.1.0.
- *
- * @access private
  * @since 3.0.0
+ * @access private
  */
 function wp_set_lang_dir() {
 	if ( !defined( 'WP_LANG_DIR' ) ) {
 		if ( file_exists( WP_CONTENT_DIR . '/languages' ) && @is_dir( WP_CONTENT_DIR . '/languages' ) || !@is_dir(ABSPATH . WPINC . '/languages') ) {
-			define( 'WP_LANG_DIR', WP_CONTENT_DIR . '/languages' ); // no leading slash, no trailing slash, full path, not relative to ABSPATH
+			/**
+			 * Server path of the language directory.
+			 *
+			 * No leading slash, no trailing slash, full path, not relative to ABSPATH
+			 *
+			 * @since 2.1.0
+			 */
+			define( 'WP_LANG_DIR', WP_CONTENT_DIR . '/languages' );
 			if ( !defined( 'LANGDIR' ) ) {
 				// Old static relative path maintained for limited backwards compatibility - won't work in some cases
 				define( 'LANGDIR', 'wp-content/languages' );
 			}
 		} else {
-			define( 'WP_LANG_DIR', ABSPATH . WPINC . '/languages' ); // no leading slash, no trailing slash, full path, not relative to ABSPATH
+			/**
+			 * Server path of the language directory.
+			 *
+			 * No leading slash, no trailing slash, full path, not relative to `ABSPATH`.
+			 *
+			 * @since 2.1.0
+			 */
+			define( 'WP_LANG_DIR', ABSPATH . WPINC . '/languages' );
 			if ( !defined( 'LANGDIR' ) ) {
 				// Old relative path maintained for backwards compatibility
 				define( 'LANGDIR', WPINC . '/languages' );
@@ -305,14 +333,11 @@ function wp_set_lang_dir() {
 }
 
 /**
- * Load the correct database class file.
- *
- * This function is used to load the database class file either at runtime or by
- * wp-admin/setup-config.php. We must globalize $wpdb to ensure that it is
- * defined globally by the inline code in wp-db.php.
+ * Load the database class file and instantiate the `$wpdb` global.
  *
  * @since 2.5.0
- * @global $wpdb WordPress Database Object
+ *
+ * @global wpdb $wpdb The WordPress database class.
  */
 function require_wp_db() {
 	global $wpdb;
@@ -328,18 +353,16 @@ function require_wp_db() {
 }
 
 /**
- * Sets the database table prefix and the format specifiers for database table columns.
+ * Set the database table prefix and the format specifiers for database
+ * table columns.
  *
- * Columns not listed here default to %s.
+ * Columns not listed here default to `%s`.
  *
- * @see wpdb::$field_types Since 2.8.0
- * @see wpdb::prepare()
- * @see wpdb::insert()
- * @see wpdb::update()
- * @see wpdb::set_prefix()
- *
- * @access private
  * @since 3.0.0
+ * @access private
+ *
+ * @global wpdb   $wpdb         The WordPress database class.
+ * @global string $table_prefix The database table prefix.
  */
 function wp_set_wpdb_vars() {
 	global $wpdb, $table_prefix;
@@ -363,14 +386,15 @@ function wp_set_wpdb_vars() {
 }
 
 /**
- * Access/Modify private global variable $_wp_using_ext_object_cache
+ * Access/Modify private global variable `$_wp_using_ext_object_cache`.
  *
- * Toggle $_wp_using_ext_object_cache on and off without directly touching global
+ * Toggle `$_wp_using_ext_object_cache` on and off without directly
+ * touching global.
  *
  * @since 3.7.0
  *
- * @param bool $using Whether external object cache is being used
- * @return bool The current 'using' setting
+ * @param bool $using Whether external object cache is being used.
+ * @return bool The current 'using' setting.
  */
 function wp_using_ext_object_cache( $using = null ) {
 	global $_wp_using_ext_object_cache;
@@ -381,13 +405,15 @@ function wp_using_ext_object_cache( $using = null ) {
 }
 
 /**
- * Starts the WordPress object cache.
+ * Start the WordPress object cache.
  *
  * If an object-cache.php file exists in the wp-content directory,
  * it uses that drop-in as an external object cache.
  *
- * @access private
  * @since 3.0.0
+ * @access private
+ *
+ * @global int $blog_id Blog ID.
  */
 function wp_start_object_cache() {
 	global $blog_id;
@@ -402,18 +428,23 @@ function wp_start_object_cache() {
 
 		$first_init = true;
 	} else if ( ! wp_using_ext_object_cache() && file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
-		// Sometimes advanced-cache.php can load object-cache.php before it is loaded here.
-		// This breaks the function_exists check above and can result in $_wp_using_ext_object_cache
-		// being set incorrectly. Double check if an external cache exists.
+		/*
+		 * Sometimes advanced-cache.php can load object-cache.php before
+		 * it is loaded here. This breaks the function_exists check above
+		 * and can result in `$_wp_using_ext_object_cache` being set
+		 * incorrectly. Double check if an external cache exists.
+		 */
 		wp_using_ext_object_cache( true );
 	}
 
 	if ( ! wp_using_ext_object_cache() )
 		require_once ( ABSPATH . WPINC . '/cache.php' );
 
-	// If cache supports reset, reset instead of init if already initialized.
-	// Reset signals to the cache that global IDs have changed and it may need to update keys
-	// and cleanup caches.
+	/*
+	 * If cache supports reset, reset instead of init if already
+	 * initialized. Reset signals to the cache that global IDs
+	 * have changed and it may need to update keys and cleanup caches.
+	 */
 	if ( ! $first_init && function_exists( 'wp_cache_switch_to_blog' ) )
 		wp_cache_switch_to_blog( $blog_id );
 	elseif ( function_exists( 'wp_cache_init' ) )
@@ -426,12 +457,12 @@ function wp_start_object_cache() {
 }
 
 /**
- * Redirects to the installer if WordPress is not installed.
+ * Redirect to the installer if WordPress is not installed.
  *
- * Dies with an error message when multisite is enabled.
+ * Dies with an error message when Multisite is enabled.
  *
- * @access private
  * @since 3.0.0
+ * @access private
  */
 function wp_not_installed() {
 	if ( is_multisite() ) {
@@ -450,15 +481,16 @@ function wp_not_installed() {
 }
 
 /**
- * Returns array of must-use plugin files to be included in global scope.
+ * Retrieve an array of must-use plugin files.
  *
- * The default directory is wp-content/mu-plugins. To change the default directory
- * manually, define <code>WPMU_PLUGIN_DIR</code> and <code>WPMU_PLUGIN_URL</code>
+ * The default directory is wp-content/mu-plugins. To change the default
+ * directory manually, define `WPMU_PLUGIN_DIR` and `WPMU_PLUGIN_URL`
  * in wp-config.php.
  *
- * @access private
  * @since 3.0.0
- * @return array Files to include
+ * @access private
+ *
+ * @return array Files to include.
  */
 function wp_get_mu_plugins() {
 	$mu_plugins = array();
@@ -477,15 +509,18 @@ function wp_get_mu_plugins() {
 }
 
 /**
- * Returns array of plugin files to be included in global scope.
+ * Retrieve an array of active and valid plugin files.
  *
- * The default directory is wp-content/plugins. To change the default directory
- * manually, define <code>WP_PLUGIN_DIR</code> and <code>WP_PLUGIN_URL</code>
+ * While upgrading or installing WordPress, no plugins are returned.
+ *
+ * The default directory is wp-content/plugins. To change the default
+ * directory manually, define `WP_PLUGIN_DIR` and `WP_PLUGIN_URL`
  * in wp-config.php.
  *
- * @access private
  * @since 3.0.0
- * @return array Files to include
+ * @access private
+ *
+ * @return array Files.
  */
 function wp_get_active_and_valid_plugins() {
 	$plugins = array();
@@ -515,13 +550,13 @@ function wp_get_active_and_valid_plugins() {
 }
 
 /**
- * Sets internal encoding using mb_internal_encoding().
+ * Set internal encoding.
  *
- * In most cases the default internal encoding is latin1, which is of no use,
- * since we want to use the mb_ functions for utf-8 strings.
+ * In most cases the default internal encoding is latin1, which is
+ * of no use, since we want to use the `mb_` functions for `utf-8` strings.
  *
- * @access private
  * @since 3.0.0
+ * @access private
  */
 function wp_set_internal_encoding() {
 	if ( function_exists( 'mb_internal_encoding' ) ) {
@@ -532,13 +567,13 @@ function wp_set_internal_encoding() {
 }
 
 /**
- * Add magic quotes to $_GET, $_POST, $_COOKIE, and $_SERVER.
+ * Add magic quotes to `$_GET`, `$_POST`, `$_COOKIE`, and `$_SERVER`.
  *
- * Also forces $_REQUEST to be $_GET + $_POST. If $_SERVER, $_COOKIE,
- * or $_ENV are needed, use those superglobals directly.
+ * Also forces `$_REQUEST` to be `$_GET + $_POST`. If `$_SERVER`,
+ * `$_COOKIE`, or `$_ENV` are needed, use those superglobals directly.
  *
- * @access private
  * @since 3.0.0
+ * @access private
  */
 function wp_magic_quotes() {
 	// If already slashed, strip.
@@ -561,8 +596,8 @@ function wp_magic_quotes() {
 /**
  * Runs just before PHP shuts down execution.
  *
- * @access private
  * @since 1.2.0
+ * @access private
  */
 function shutdown_action_hook() {
 	/**
@@ -571,6 +606,7 @@ function shutdown_action_hook() {
 	 * @since 1.2.0
 	 */
 	do_action( 'shutdown' );
+
 	wp_cache_close();
 }
 
@@ -578,26 +614,25 @@ function shutdown_action_hook() {
  * Copy an object.
  *
  * @since 2.7.0
- * @deprecated 3.2
+ * @deprecated 3.2.0
  *
- * @param object $object The object to clone
- * @return object The cloned object
+ * @param object $object The object to clone.
+ * @return object The cloned object.
  */
-
 function wp_clone( $object ) {
 	// Use parens for clone to accommodate PHP 4. See #17880
 	return clone( $object );
 }
 
 /**
- * Whether the current request is for a network or blog admin page
+ * Whether the current request is for an administrative interface page.
  *
- * Does not inform on whether the user is an admin! Use capability checks to
- * tell if the user should be accessing a section or not.
+ * Does not check if the user is an administrator; {@see current_user_can()}
+ * for checking roles and capabilities.
  *
  * @since 1.5.1
  *
- * @return bool True if inside WordPress administration pages.
+ * @return bool True if inside WordPress administration interface, false otherwise.
  */
 function is_admin() {
 	if ( isset( $GLOBALS['current_screen'] ) )
@@ -609,14 +644,16 @@ function is_admin() {
 }
 
 /**
- * Whether the current request is for a blog admin screen /wp-admin/
+ * Whether the current request is for a site's admininstrative interface.
  *
- * Does not inform on whether the user is a blog admin! Use capability checks to
- * tell if the user should be accessing a section or not.
+ * e.g. `/wp-admin/`
+ *
+ * Does not check if the user is an administrator; {@see current_user_can()}
+ * for checking roles and capabilities.
  *
  * @since 3.1.0
  *
- * @return bool True if inside WordPress network administration pages.
+ * @return bool True if inside WordPress blog administration pages.
  */
 function is_blog_admin() {
 	if ( isset( $GLOBALS['current_screen'] ) )
@@ -628,10 +665,12 @@ function is_blog_admin() {
 }
 
 /**
- * Whether the current request is for a network admin screen /wp-admin/network/
+ * Whether the current request is for the network administrative interface.
  *
- * Does not inform on whether the user is a network admin! Use capability checks to
- * tell if the user should be accessing a section or not.
+ * e.g. `/wp-admin/network/`
+ *
+ * Does not check if the user is an administrator; {@see current_user_can()}
+ * for checking roles and capabilities.
  *
  * @since 3.1.0
  *
@@ -647,10 +686,13 @@ function is_network_admin() {
 }
 
 /**
- * Whether the current request is for a user admin screen /wp-admin/user/
+ * Whether the current request is for a user admin screen.
  *
- * Does not inform on whether the user is an admin! Use capability checks to
- * tell if the user should be accessing a section or not.
+ * e.g. `/wp-admin/user/`
+ *
+ * Does not inform on whether the user is an admin! Use capability
+ * checks to tell if the user should be accessing a section or not
+ * {@see current_user_can()}.
  *
  * @since 3.1.0
  *
@@ -666,11 +708,11 @@ function is_user_admin() {
 }
 
 /**
- * Whether Multisite support is enabled
+ * If Multisite is enabled.
  *
  * @since 3.0.0
  *
- * @return bool True if multisite is enabled, false otherwise.
+ * @return bool True if Multisite is enabled, false otherwise.
  */
 function is_multisite() {
 	if ( defined( 'MULTISITE' ) )
@@ -683,7 +725,7 @@ function is_multisite() {
 }
 
 /**
- * Retrieve the current blog id
+ * Retrieve the current blog ID.
  *
  * @since 3.1.0
  *
@@ -695,16 +737,19 @@ function get_current_blog_id() {
 }
 
 /**
- * Attempts an early load of translations.
+ * Attempt an early load of translations.
  *
- * Used for errors encountered during the initial loading process, before the locale has been
- * properly detected and loaded.
+ * Used for errors encountered during the initial loading process, before
+ * the locale has been properly detected and loaded.
  *
- * Designed for unusual load sequences (like setup-config.php) or for when the script will then
- * terminate with an error, otherwise there is a risk that a file can be double-included.
+ * Designed for unusual load sequences (like setup-config.php) or for when
+ * the script will then terminate with an error, otherwise there is a risk
+ * that a file can be double-included.
  *
  * @since 3.4.0
  * @access private
+ *
+ * @global $wp_locale The WordPress date and time locale object.
  */
 function wp_load_translations_early() {
 	global $text_direction, $wp_locale;
