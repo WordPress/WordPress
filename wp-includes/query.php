@@ -1512,7 +1512,7 @@ class WP_Query {
 		} else {
 			// Look for archive queries. Dates, categories, authors, search, post type archives.
 
-			if ( ! is_admin() & isset( $this->query['s'] ) ) {
+			if ( isset( $this->query['s'] ) ) {
 				$this->is_search = true;
 			}
 
@@ -2482,7 +2482,7 @@ class WP_Query {
 		// If a search pattern is specified, load the posts that match.
 		if ( ! empty( $q['s'] ) ) {
 			$search = $this->parse_search( $q );
-		} elseif ( $this->is_search ) {
+		} elseif ( ! $this->is_admin && $this->is_search ) {
 			$search = ' AND 0';
 		}
 
