@@ -634,7 +634,6 @@ classes exist in paginate_links() but not seen in list table output. */
 
 .view-switch > a:before {
 	color: #bbb;
-	content: '\f163';
 	display: inline-block;
 	float: left;
 	font: normal 20px/1 'dashicons';
@@ -645,6 +644,10 @@ classes exist in paginate_links() but not seen in list table output. */
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.view-switch > .view-list:before {
+	content: '\f163';
+}
+
 .view-switch a:hover:before {
 	color: #727272;
 }
@@ -653,9 +656,16 @@ classes exist in paginate_links() but not seen in list table output. */
 	color: #0074a2;
 }
 
-.view-switch > a + a:before {
+.view-switch > a + a {
 	margin-left: 5px;
+}
+
+.view-switch > .view-excerpt:before {
 	content: '\f164';
+}
+
+.view-switch > .view-grid:before {
+	content: '\f180';
 }
 
 .filter {

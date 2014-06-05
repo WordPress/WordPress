@@ -12,6 +12,30 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( !current_user_can('upload_files') )
 	wp_die( __( 'You do not have permission to upload files.' ) );
 
+$mode = get_user_option( 'media_library_mode', get_current_user_id() ) ? get_user_option( 'media_library_mode', get_current_user_id() ) : 'grid';
+$modes = array( 'grid', 'list' );
+
+if ( isset( $_GET['mode'] ) && in_array( $_GET['mode'], $modes ) ) {
+	$mode = $_GET['mode'];
+	update_user_option( get_current_user_id(), 'media_library_mode', $mode );
+}
+
+if ( 'grid' === $mode ) {
+	wp_enqueue_media();
+	wp_enqueue_script( 'media' );
+	require_once( ABSPATH . 'wp-admin/admin-header.php' );
+	?><div class="view-switch media-grid-view-switch">
+		<a href="<?php echo esc_url( add_query_arg( 'mode', 'list', $_SERVER['REQUEST_URI'] ) ) ?>" class="view-list">
+			<img id="view-switch-list" src="<?php echo includes_url( 'images/blank.gif' ) ?>" width="20" height="20" title="List View" alt="List View"/>
+		</a>
+		<a href="<?php echo esc_url( add_query_arg( 'mode', 'grid', $_SERVER['REQUEST_URI'] ) ) ?>" class="view-grid current">
+			<img id="view-switch-excerpt" src="<?php echo includes_url( 'images/blank.gif' ) ?>" width="20" height="20" title="Grid View" alt="Grid View"/>
+		</a>
+	</div><?php
+	include( ABSPATH . 'wp-admin/admin-footer.php' );
+	exit;
+}
+
 $wp_list_table = _get_list_table('WP_Media_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
 
@@ -237,7 +261,7 @@ if ( !empty($message) ) { ?>
 <?php $wp_list_table->display(); ?>
 
 <div id="ajax-response"></div>
-<?php find_posts_div(); ?> 
+<?php find_posts_div(); ?>
 </form>
 </div>
 

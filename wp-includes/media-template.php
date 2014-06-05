@@ -308,6 +308,7 @@ function wp_print_media_templates() {
 				<div class="filename">{{ data.filename }}</div>
 				<div class="uploaded">{{ data.dateFormatted }}</div>
 
+				<div class="file-size">{{ data.filesizeHumanReadable }}</div>
 				<# if ( 'image' === data.type && ! data.uploading ) { #>
 					<# if ( data.width && data.height ) { #>
 						<div class="dimensions">{{ data.width }} &times; {{ data.height }}</div>
@@ -339,25 +340,39 @@ function wp_print_media_templates() {
 			</div>
 		</div>
 
+		<label class="setting" data-setting="url">
+			<span class="name"><?php _e('URL'); ?></span>
+			<input type="text" value="{{ data.url }}" readonly />
+		</label>
 		<# var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly'; #>
-			<label class="setting" data-setting="title">
-				<span><?php _e('Title'); ?></span>
-				<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
-			</label>
-			<label class="setting" data-setting="caption">
-				<span><?php _e('Caption'); ?></span>
-				<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>
-			</label>
+		<label class="setting" data-setting="title">
+			<span class="name"><?php _e('Title'); ?></span>
+			<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
+		</label>
+		<label class="setting" data-setting="caption">
+			<span class="name"><?php _e('Caption'); ?></span>
+			<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>
+		</label>
 		<# if ( 'image' === data.type ) { #>
 			<label class="setting" data-setting="alt">
-				<span><?php _e('Alt Text'); ?></span>
+				<span class="name"><?php _e('Alt Text'); ?></span>
 				<input type="text" value="{{ data.alt }}" {{ maybeReadOnly }} />
 			</label>
 		<# } #>
-			<label class="setting" data-setting="description">
-				<span><?php _e('Description'); ?></span>
-				<textarea {{ maybeReadOnly }}>{{ data.description }}</textarea>
+		<label class="setting" data-setting="description">
+			<span class="name"><?php _e('Description'); ?></span>
+			<textarea {{ maybeReadOnly }}>{{ data.description }}</textarea>
+		</label>
+		<label class="setting">
+				<span class="name"><?php _e( 'Uploaded By' ); ?></span>
+				<span class="value">{{ data.authorName }}</span>
 			</label>
+		<# if ( data.uploadedTo ) { #>
+			<label class="setting">
+				<span class="name"><?php _e('Uploaded To'); ?></span>
+				<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
+			</label>
+		<# } #>
 	</script>
 
 	<script type="text/html" id="tmpl-media-selection">

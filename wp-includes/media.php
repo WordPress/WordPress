@@ -2592,6 +2592,19 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		'editLink'   => false,
 	);
 
+	$author = new WP_User( $attachment->post_author );
+	$response['authorName'] = $author->display_name;
+
+	if ( $attachment->post_parent ) {
+		$post_parent = get_post( $attachment->post_parent );
+		$response['uploadedToLink'] = get_edit_post_link( $attachment->post_parent, 'raw' );
+		$response['uploadedToTitle'] = $post_parent->post_title ? $post_parent->post_title : __( '(No title)' );
+	}
+
+	$bytes = filesize( get_attached_file( $attachment->ID ) );
+	$response['filesizeInBytes'] = $bytes;
+	$response['filesizeHumanReadable'] = size_format( $bytes );
+
 	if ( current_user_can( 'edit_post', $attachment->ID ) ) {
 		$response['nonces']['update'] = wp_create_nonce( 'update-post_' . $attachment->ID );
 		$response['nonces']['edit'] = wp_create_nonce( 'image_editor-' . $attachment->ID );
@@ -2849,6 +2862,7 @@ function wp_enqueue_media( $args = array() ) {
 		'createNewVideoPlaylist'   => __( 'Create a new video playlist' ),
 		'returnToLibrary'    => __( '&#8592; Return to library' ),
 		'allMediaItems'      => __( 'All media items' ),
+		'allMediaTypes'      => __( 'All media types' ),
 		'noItemsFound'       => __( 'No items found.' ),
 		'insertIntoPost'     => $hier ? __( 'Insert into page' ) : __( 'Insert into post' ),
 		'uploadedToThisPost' => $hier ? __( 'Uploaded to this page' ) : __( 'Uploaded to this post' ),

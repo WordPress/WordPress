@@ -72,6 +72,12 @@ var findPosts;
 	};
 
 	$( document ).ready( function() {
+		// Open up a manage media frame into the grid.
+		wp.media && wp.media({
+			frame: 'manage',
+			container: $('#wpbody-content')
+		}).open();
+
 		$( '#find-posts-submit' ).click( function( event ) {
 			if ( ! $( '#find-posts-response input[type="radio"]:checked' ).length )
 				event.preventDefault();

@@ -23,7 +23,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	public function prepare_items() {
-		global $lost, $wp_query, $post_mime_types, $avail_post_mime_types;
+		global $lost, $wp_query, $post_mime_types, $avail_post_mime_types, $mode;
 
 		$q = $_REQUEST;
 
@@ -33,6 +33,8 @@ class WP_Media_List_Table extends WP_List_Table {
 		list( $post_mime_types, $avail_post_mime_types ) = wp_edit_attachments_query( $q );
 
  		$this->is_trash = isset( $_REQUEST['status'] ) && 'trash' == $_REQUEST['status'];
+
+ 		$mode = empty( $_REQUEST['mode'] ) ? 'list' : $_REQUEST['mode'];
 
 		$this->set_pagination_args( array(
 			'total_items' => $wp_query->found_posts,
@@ -123,6 +125,49 @@ class WP_Media_List_Table extends WP_List_Table {
 
 	public function no_items() {
 		_e( 'No media attachments found.' );
+	}
+
+	protected function pagination( $which ) {
+		global $mode;
+
+		parent::pagination( $which );
+
+		$this->view_switcher( $mode );
+	}
+
+	/**
+	 * Display a view switcher
+	 *
+	 * @since 3.1.0
+	 * @access protected
+	 */
+	protected function view_switcher( $current_mode ) {
+		$modes = array(
+			'list'    => __( 'List View' ),
+			'grid' => __( 'Grid View' )
+		);
+
+?>
+		<input type="hidden" name="mode" value="<?php echo esc_attr( $current_mode ); ?>" />
+		<div class="view-switch">
+<?php
+			foreach ( $modes as $mode => $title ) {
+				$classes = array( 'view-' . $mode );
+				if ( $current_mode == $mode )
+					$classes[] = 'current';
+				printf(
+					"<a href='%s' class='%s'><img id='view-switch-$mode' src='%s' width='20' height='20' title='%s' alt='%s' /></a>\n",
+					esc_url( add_query_arg( 'mode', $mode ) ),
+					implode( ' ', $classes ),
+					esc_url( includes_url( 'images/blank.gif' ) ),
+					$title,
+					$title
+
+				);
+			}
+		?>
+		</div>
+<?php
 	}
 
 	protected function get_columns() {

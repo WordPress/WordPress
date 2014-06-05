@@ -493,8 +493,17 @@ class WP_List_Table {
 		<div class="view-switch">
 <?php
 			foreach ( $modes as $mode => $title ) {
-				$class = ( $current_mode == $mode ) ? 'class="current"' : '';
-				echo "<a href='" . esc_url( add_query_arg( 'mode', $mode, $_SERVER['REQUEST_URI'] ) ) . "' $class><img id='view-switch-$mode' src='" . esc_url( includes_url( 'images/blank.gif' ) ) . "' width='20' height='20' title='$title' alt='$title' /></a>\n";
+				$classes = array( 'view-' . $mode );
+				if ( $current_mode == $mode )
+					$classes[] = 'current';
+				printf(
+					"<a href='%s' class='%s'><img id='view-switch-$mode' src='%s' width='20' height='20' title='%s' alt='%s' /></a>\n",
+					esc_url( add_query_arg( 'mode', $mode ) ),
+					implode( ' ', $classes ),
+					esc_url( includes_url( 'images/blank.gif' ) ),
+					$title,
+					$title
+				);
 			}
 		?>
 		</div>
