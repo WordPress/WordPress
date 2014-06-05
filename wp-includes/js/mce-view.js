@@ -22,11 +22,13 @@ window.wp = window.wp || {};
 	 *
 	 * A Backbone-like View constructor intended for use when rendering a TinyMCE View. The main difference is
 	 * that the TinyMCE View is not tied to a particular DOM node.
+	 *
+	 * @param {Object} [options={}]
 	 */
 	wp.mce.View = function( options ) {
-		options || (options = {});
-		_.extend(this, _.pick(options, viewOptions));
-		this.initialize.apply(this, arguments);
+		options = options || {};
+		_.extend( this, _.pick( options, viewOptions ) );
+		this.initialize.apply( this, arguments );
 	};
 
 	_.extend( wp.mce.View.prototype, {
@@ -36,15 +38,14 @@ window.wp = window.wp || {};
 			var html = this.getHtml();
 			// Search all tinymce editor instances and update the placeholders
 			_.each( tinymce.editors, function( editor ) {
-				var doc, self = this;
+				var self = this;
 				if ( editor.plugins.wpview ) {
-					doc = editor.getDoc();
-					$( doc ).find( '[data-wpview-text="' + this.encodedText + '"]' ).each(function (i, elem) {
-						var node = $( elem );
+					$( editor.getDoc() ).find( '[data-wpview-text="' + this.encodedText + '"]' ).each( function ( i, element ) {
+						var node = $( element );
 						// The <ins> is used to mark the end of the wrapper div. Needed when comparing
 						// the content as string for preventing extra undo levels.
 						node.html( html ).append( '<ins data-wpview-end="1"></ins>' );
-						$( self ).trigger( 'ready', elem );
+						$( self ).trigger( 'ready', element );
 					});
 				}
 			}, this );
@@ -74,6 +75,29 @@ window.wp = window.wp || {};
 		 *
 		 */
 		register: function( type, constructor ) {
+			var defaultConstructor = {
+					type: type,
+					View: {},
+					toView: function( content ) {
+						var match = wp.shortcode.next( this.type, content );
+
+						if ( ! match ) {
+							return;
+						}
+
+						return {
+							index: match.index,
+							content: match.content,
+							options: {
+								shortcode: match.shortcode
+							}
+						};
+					}
+				};
+
+			constructor = _.defaults( constructor, defaultConstructor );
+			constructor.View = wp.mce.View.extend( constructor.View );
+
 			views[ type ] = constructor;
 		},
 
@@ -81,6 +105,8 @@ window.wp = window.wp || {};
 		 * wp.mce.views.get( id )
 		 *
 		 * Returns a TinyMCE view constructor.
+		 *
+		 * @param type
 		 */
 		get: function( type ) {
 			return views[ type ];
@@ -90,6 +116,8 @@ window.wp = window.wp || {};
 		 * wp.mce.views.unregister( type )
 		 *
 		 * Unregisters a TinyMCE view.
+		 *
+		 * @param type
 		 */
 		unregister: function( type ) {
 			delete views[ type ];
@@ -112,6 +140,7 @@ window.wp = window.wp || {};
 		 * matches with wrapper elements, and creates a new instance for
 		 * every match, which triggers the related data to be fetched.
 		 *
+		 * @param content
 		 */
 		toViews: function( content ) {
 			var pieces = [ { content: content } ],
@@ -252,26 +281,9 @@ window.wp = window.wp || {};
 		}
 	};
 
-	wp.mce.gallery = {
-		shortcode: 'gallery',
-		toView:  function( content ) {
-			var match = wp.shortcode.next( this.shortcode, content );
-
-			if ( ! match ) {
-				return;
-			}
-
-			return {
-				index:   match.index,
-				content: match.content,
-				options: {
-					shortcode: match.shortcode
-				}
-			};
-		},
-		View: wp.mce.View.extend({
-			className: 'editor-gallery',
-			template:  media.template('editor-gallery'),
+	wp.mce.views.register( 'gallery', {
+		View: {
+			template: media.template( 'editor-gallery' ),
 
 			// The fallback post ID to use as a parent for galleries that don't
 			// specify the `ids` or `include` parameters.
@@ -321,7 +333,7 @@ window.wp = window.wp || {};
 				return this.template( options );
 
 			}
-		}),
+		},
 
 		edit: function( node ) {
 			var gallery = wp.media.gallery,
@@ -338,23 +350,90 @@ window.wp = window.wp || {};
 				frame.detach();
 			});
 		}
-
-	};
-	wp.mce.views.register( 'gallery', wp.mce.gallery );
+	} );
 
 	/**
-	 * Tiny MCE Views for Audio / Video
-	 *
-	 */
-
-	/**
-	 * These are base methods that are shared by each shortcode's MCE controller
+	 * These are base methods that are shared by the audio and video shortcode's MCE controller.
 	 *
 	 * @mixin
 	 */
-	wp.mce.media = {
+	wp.mce.av = {
 		loaded: false,
-		toView: wp.mce.gallery.toView,
+
+		View: _.extend( {}, wp.media.mixin, {
+			initialize: function( options ) {
+				this.players = [];
+				this.shortcode = options.shortcode;
+				_.bindAll( this, 'setPlayer', 'pausePlayers' );
+				$( this ).on( 'ready', this.setPlayer );
+				$( 'body' ).on( 'click', '.wp-switch-editor', this.pausePlayers );
+				$( document ).on( 'media:edit', this.pausePlayers );
+			},
+
+			/**
+			 * Creates the player instance for the current node
+			 *
+			 * @global MediaElementPlayer
+			 *
+			 * @param {Event} e
+			 * @param {HTMLElement} node
+			 */
+			setPlayer: function(e, node) {
+				// if the ready event fires on an empty node
+				if ( ! node ) {
+					return;
+				}
+
+				var self = this,
+					media,
+					firefox = this.ua.is( 'ff' ),
+					className = '.wp-' +  this.shortcode.tag + '-shortcode';
+
+				media = $( node ).find( className );
+
+				if ( ! this.isCompatible( media ) ) {
+					media.closest( '.wpview-wrap' ).addClass( 'wont-play' );
+					if ( ! media.parent().hasClass( 'wpview-wrap' ) ) {
+						media.parent().replaceWith( media );
+					}
+					media.replaceWith( '<p>' + media.find( 'source' ).eq(0).prop( 'src' ) + '</p>' );
+					return;
+				} else {
+					media.closest( '.wpview-wrap' ).removeClass( 'wont-play' );
+					if ( firefox ) {
+						media.prop( 'preload', 'metadata' );
+					} else {
+						media.prop( 'preload', 'none' );
+					}
+				}
+
+				media = wp.media.view.MediaDetails.prepareSrc( media.get(0) );
+
+				setTimeout( function() {
+					wp.mce.av.loaded = true;
+					self.players.push( new MediaElementPlayer( media, self.mejsSettings ) );
+				}, wp.mce.av.loaded ? 10 : 500 );
+			},
+
+			/**
+			 * Pass data to the View's Underscore template and return the compiled output
+			 *
+			 * @returns {string}
+			 */
+			getHtml: function() {
+				var attrs = this.shortcode.attrs.named;
+				attrs.content = this.shortcode.content;
+
+				return this.template({ model: _.defaults(
+					attrs,
+					wp.media[ this.shortcode.tag ].defaults )
+				});
+			},
+
+			unbind: function() {
+				this.unsetPlayers();
+			}
+		} ),
 
 		/**
 		 * Called when a TinyMCE view is clicked for editing.
@@ -397,294 +476,170 @@ window.wp = window.wp || {};
 	};
 
 	/**
-	 * Base View class for audio and video shortcodes
-	 *
-	 * @constructor
-	 * @augments wp.mce.View
-	 * @mixes wp.media.mixin
-	 */
-	wp.mce.media.View = wp.mce.View.extend({
-		initialize: function( options ) {
-			this.players = [];
-			this.shortcode = options.shortcode;
-			_.bindAll( this, 'setPlayer', 'pausePlayers' );
-			$( this ).on( 'ready', this.setPlayer );
-			$( 'body' ).on( 'click', '.wp-switch-editor', this.pausePlayers );
-			$( document ).on( 'media:edit', this.pausePlayers );
-		},
-
-		/**
-		 * Creates the player instance for the current node
-		 *
-		 * @global MediaElementPlayer
-		 * @global _wpmejsSettings
-		 *
-		 * @param {Event} e
-		 * @param {HTMLElement} node
-		 */
-		setPlayer: function(e, node) {
-			// if the ready event fires on an empty node
-			if ( ! node ) {
-				return;
-			}
-
-			var self = this,
-				media,
-				firefox = this.ua.is( 'ff' ),
-				className = '.wp-' +  this.shortcode.tag + '-shortcode';
-
-			media = $( node ).find( className );
-
-			if ( ! this.isCompatible( media ) ) {
-				media.closest( '.wpview-wrap' ).addClass( 'wont-play' );
-				if ( ! media.parent().hasClass( 'wpview-wrap' ) ) {
-					media.parent().replaceWith( media );
-				}
-				media.replaceWith( '<p>' + media.find( 'source' ).eq(0).prop( 'src' ) + '</p>' );
-				return;
-			} else {
-				media.closest( '.wpview-wrap' ).removeClass( 'wont-play' );
-				if ( firefox ) {
-					media.prop( 'preload', 'metadata' );
-				} else {
-					media.prop( 'preload', 'none' );
-				}
-			}
-
-			media = wp.media.view.MediaDetails.prepareSrc( media.get(0) );
-
-			setTimeout( function() {
-				wp.mce.media.loaded = true;
-				self.players.push( new MediaElementPlayer( media, self.mejsSettings ) );
-			}, wp.mce.media.loaded ? 10 : 500 );
-		},
-
-		/**
-		 * Pass data to the View's Underscore template and return the compiled output
-		 *
-		 * @returns {string}
-		 */
-		getHtml: function() {
-			var attrs = this.shortcode.attrs.named;
-			attrs.content = this.shortcode.content;
-
-			return this.template({ model: _.defaults(
-				attrs,
-				wp.media[ this.shortcode.tag ].defaults )
-			});
-		},
-
-		unbind: function() {
-			this.unsetPlayers();
-		}
-	});
-	_.extend( wp.mce.media.View.prototype, wp.media.mixin );
-
-	/**
 	 * TinyMCE handler for the video shortcode
 	 *
-	 * @mixes wp.mce.media
+	 * @mixes wp.mce.av
 	 */
-	wp.mce.video = _.extend( {}, wp.mce.media, {
+	wp.mce.views.register( 'video', _.extend( {}, wp.mce.av, {
 		shortcode: 'video',
 		state: 'video-details',
-		View: wp.mce.media.View.extend({
-			className: 'editor-video',
-			template:  media.template('editor-video')
-		})
-	} );
-	wp.mce.views.register( 'video', wp.mce.video );
+		View: _.extend( {}, wp.mce.av.View, {
+			template: media.template( 'editor-video' )
+		} )
+	} ) );
 
 	/**
 	 * TinyMCE handler for the audio shortcode
 	 *
-	 * @mixes wp.mce.media
+	 * @mixes wp.mce.av
 	 */
-	wp.mce.audio = _.extend( {}, wp.mce.media, {
+	wp.mce.views.register( 'audio', _.extend( {}, wp.mce.av, {
 		shortcode: 'audio',
 		state: 'audio-details',
-		View: wp.mce.media.View.extend({
-			className: 'editor-audio',
-			template:  media.template('editor-audio')
-		})
-	} );
-	wp.mce.views.register( 'audio', wp.mce.audio );
-
-	/**
-	 * Base View class for playlist shortcodes
-	 *
-	 * @constructor
-	 * @augments wp.mce.View
-	 * @mixes wp.media.mixin
-	 */
-	wp.mce.media.PlaylistView = wp.mce.View.extend({
-		className: 'editor-playlist',
-		template:  media.template('editor-playlist'),
-
-		initialize: function( options ) {
-			this.players = [];
-			this.data = {};
-			this.attachments = [];
-			this.shortcode = options.shortcode;
-
-			$( 'body' ).on( 'click', '.wp-switch-editor', this.pausePlayers );
-			$( document ).on( 'media:edit', this.pausePlayers );
-
-			this.fetch();
-		},
-
-		/**
-		 * Asynchronously fetch the shortcode's attachments
-		 */
-		fetch: function() {
-			this.attachments = wp.media.playlist.attachments( this.shortcode );
-			this.dfd = this.attachments.more().done( _.bind( this.render, this ) );
-		},
-
-		/**
-		 * Get the HTML for the view (which also set's the data), replace the
-		 *   current HTML, and then invoke the WPPlaylistView instance to render
-		 *   the playlist in the editor
-		 *
-		 * @global WPPlaylistView
-		 * @global tinymce.editors
-		 */
-		render: function() {
-			var html = this.getHtml(), self = this;
-
-			_.each( tinymce.editors, function( editor ) {
-				var doc;
-				if ( editor.plugins.wpview ) {
-					doc = editor.getDoc();
-					$( doc ).find( '[data-wpview-text="' + this.encodedText + '"]' ).each(function (i, elem) {
-						var node = $( elem );
-
-						// The <ins> is used to mark the end of the wrapper div. Needed when comparing
-						// the content as string for preventing extra undo levels.
-						node.html( html ).append( '<ins data-wpview-end="1"></ins>' );
-
-						if ( ! self.data.tracks ) {
-							return;
-						}
-
-						self.players.push( new WPPlaylistView({
-							el: $( elem ).find( '.wp-playlist' ).get(0),
-							metadata: self.data
-						}).player );
-					});
-				}
-			}, this );
-		},
-
-		/**
-		 * Set the data that will be used to compile the Underscore template,
-		 *  compile the template, and then return it.
-		 *
-		 * @returns {string}
-		 */
-		getHtml: function() {
-			var data = this.shortcode.attrs.named,
-				model = wp.media.playlist,
-				options,
-				attachments,
-				tracks = [];
-
-			// Don't render errors while still fetching attachments
-			if ( this.dfd && 'pending' === this.dfd.state() && ! this.attachments.length ) {
-				return;
-			}
-
-			_.each( model.defaults, function( value, key ) {
-				data[ key ] = model.coerce( data, key );
-			});
-
-			options = {
-				type: data.type,
-				style: data.style,
-				tracklist: data.tracklist,
-				tracknumbers: data.tracknumbers,
-				images: data.images,
-				artists: data.artists
-			};
-
-			if ( ! this.attachments.length ) {
-				return this.template( options );
-			}
-
-			attachments = this.attachments.toJSON();
-
-			_.each( attachments, function( attachment ) {
-				var size = {}, resize = {}, track = {
-					src : attachment.url,
-					type : attachment.mime,
-					title : attachment.title,
-					caption : attachment.caption,
-					description : attachment.description,
-					meta : attachment.meta
-				};
-
-				if ( 'video' === data.type ) {
-					size.width = attachment.width;
-					size.height = attachment.height;
-					if ( media.view.settings.contentWidth ) {
-						resize.width = media.view.settings.contentWidth - 22;
-						resize.height = Math.ceil( ( size.height * resize.width ) / size.width );
-						if ( ! options.width ) {
-							options.width = resize.width;
-							options.height = resize.height;
-						}
-					} else {
-						if ( ! options.width ) {
-							options.width = attachment.width;
-							options.height = attachment.height;
-						}
-					}
-					track.dimensions = {
-						original : size,
-						resized : _.isEmpty( resize ) ? size : resize
-					};
-				} else {
-					options.width = 400;
-				}
-
-				track.image = attachment.image;
-				track.thumb = attachment.thumb;
-
-				tracks.push( track );
-			} );
-
-			options.tracks = tracks;
-			this.data = options;
-
-			return this.template( options );
-		},
-
-		unbind: function() {
-			this.unsetPlayers();
-		}
-	});
-	_.extend( wp.mce.media.PlaylistView.prototype, wp.media.mixin );
+		View: _.extend( {}, wp.mce.av.View, {
+			template: media.template( 'editor-audio' )
+		} )
+	} ) );
 
 	/**
 	 * TinyMCE handler for the playlist shortcode
 	 *
-	 * @mixes wp.mce.media
+	 * @mixes wp.mce.av
 	 */
-	wp.mce.playlist = _.extend( {}, wp.mce.media, {
+	wp.mce.views.register( 'playlist', _.extend( {}, wp.mce.av, {
 		shortcode: 'playlist',
 		state: ['playlist-edit', 'video-playlist-edit'],
-		View: wp.mce.media.PlaylistView
-	} );
-	wp.mce.views.register( 'playlist', wp.mce.playlist );
+		View: _.extend( {}, wp.media.mixin, {
+			template:  media.template( 'editor-playlist' ),
+
+			initialize: function( options ) {
+				this.players = [];
+				this.data = {};
+				this.attachments = [];
+				this.shortcode = options.shortcode;
+
+				$( 'body' ).on( 'click', '.wp-switch-editor', this.pausePlayers );
+				$( document ).on( 'media:edit', this.pausePlayers );
+
+				this.fetch();
+
+				$( this ).on( 'ready', this.setPlaylist );
+			},
+
+			/**
+			 * Asynchronously fetch the shortcode's attachments
+			 */
+			fetch: function() {
+				this.attachments = wp.media.playlist.attachments( this.shortcode );
+				this.dfd = this.attachments.more().done( _.bind( this.render, this ) );
+			},
+
+			setPlaylist: function( event, element ) {
+				if ( ! this.data.tracks ) {
+					return;
+				}
+
+				this.players.push( new WPPlaylistView( {
+					el: $( element ).find( '.wp-playlist' ).get( 0 ),
+					metadata: this.data
+				} ).player );
+			},
+
+			/**
+			 * Set the data that will be used to compile the Underscore template,
+			 *  compile the template, and then return it.
+			 *
+			 * @returns {string}
+			 */
+			getHtml: function() {
+				var data = this.shortcode.attrs.named,
+					model = wp.media.playlist,
+					options,
+					attachments,
+					tracks = [];
+
+				// Don't render errors while still fetching attachments
+				if ( this.dfd && 'pending' === this.dfd.state() && ! this.attachments.length ) {
+					return;
+				}
+
+				_.each( model.defaults, function( value, key ) {
+					data[ key ] = model.coerce( data, key );
+				});
+
+				options = {
+					type: data.type,
+					style: data.style,
+					tracklist: data.tracklist,
+					tracknumbers: data.tracknumbers,
+					images: data.images,
+					artists: data.artists
+				};
+
+				if ( ! this.attachments.length ) {
+					return this.template( options );
+				}
+
+				attachments = this.attachments.toJSON();
+
+				_.each( attachments, function( attachment ) {
+					var size = {}, resize = {}, track = {
+						src : attachment.url,
+						type : attachment.mime,
+						title : attachment.title,
+						caption : attachment.caption,
+						description : attachment.description,
+						meta : attachment.meta
+					};
+
+					if ( 'video' === data.type ) {
+						size.width = attachment.width;
+						size.height = attachment.height;
+						if ( media.view.settings.contentWidth ) {
+							resize.width = media.view.settings.contentWidth - 22;
+							resize.height = Math.ceil( ( size.height * resize.width ) / size.width );
+							if ( ! options.width ) {
+								options.width = resize.width;
+								options.height = resize.height;
+							}
+						} else {
+							if ( ! options.width ) {
+								options.width = attachment.width;
+								options.height = attachment.height;
+							}
+						}
+						track.dimensions = {
+							original : size,
+							resized : _.isEmpty( resize ) ? size : resize
+						};
+					} else {
+						options.width = 400;
+					}
+
+					track.image = attachment.image;
+					track.thumb = attachment.thumb;
+
+					tracks.push( track );
+				} );
+
+				options.tracks = tracks;
+				this.data = options;
+
+				return this.template( options );
+			},
+
+			unbind: function() {
+				this.unsetPlayers();
+			}
+		} )
+	} ) );
 
 	/**
 	 * TinyMCE handler for the embed shortcode
 	 */
-	wp.mce.embed = {
+	wp.mce.views.register( 'embed', {
 		shortcode: 'embed',
-		toView: wp.mce.gallery.toView,
-		View: wp.mce.View.extend( {
-			className: 'editor-embed',
+		View: _.extend( {}, wp.media.mixin, {
 			template: media.template( 'editor-embed' ),
 			initialize: function( options ) {
 				this.players = [];
@@ -737,10 +692,6 @@ window.wp = window.wp || {};
 			}
 		} ),
 		edit: function() {}
-	};
-
-	_.extend( wp.mce.embed.View.prototype, wp.media.mixin );
-
-	wp.mce.views.register( 'embed', wp.mce.embed );
+	} );
 
 }(jQuery));
