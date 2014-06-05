@@ -1582,7 +1582,7 @@ function wp_get_current_commenter() {
  * @uses $wpdb
  *
  * @param array $commentdata Contains information on the comment.
- * @return int The new comment's ID.
+ * @return int|bool The new comment's ID on success, false on failure.
  */
 function wp_insert_comment( $commentdata ) {
 	global $wpdb;
@@ -1607,7 +1607,9 @@ function wp_insert_comment( $commentdata ) {
 	$user_id  = ! isset( $data['user_id'] ) ? 0 : $data['user_id'];
 
 	$compacted = compact( 'comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_date', 'comment_date_gmt', 'comment_content', 'comment_karma', 'comment_approved', 'comment_agent', 'comment_type', 'comment_parent', 'user_id' );
-	$wpdb->insert( $wpdb->comments, $compacted );
+	if ( ! $wpdb->insert( $wpdb->comments, $compacted ) ) {
+		return false;
+	}
 
 	$id = (int) $wpdb->insert_id;
 
@@ -1727,7 +1729,7 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  *
  * @since 1.5.0
  * @param array $commentdata Contains information on the comment.
- * @return int The ID of the comment after adding.
+ * @return int|bool The ID of the comment on success, false on failure.
  */
 function wp_new_comment( $commentdata ) {
 	/**
@@ -1760,6 +1762,9 @@ function wp_new_comment( $commentdata ) {
 	$commentdata['comment_approved'] = wp_allow_comment($commentdata);
 
 	$comment_ID = wp_insert_comment($commentdata);
+	if ( ! $comment_ID ) {
+		return false;
+	}
 
 	/**
 	 * Fires immediately after a comment is inserted into the database.
