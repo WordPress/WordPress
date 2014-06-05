@@ -546,24 +546,25 @@
 	 */
 	media.controller.Library = media.controller.State.extend({
 		defaults: {
-			id:         'library',
-			multiple:   false, // false, 'add', 'reset'
-			describe:   false,
-			toolbar:    'select',
-			sidebar:    'settings',
-			content:    'upload',
-			router:     'browse',
-			menu:       'default',
-			searchable: true,
-			filterable: false,
-			sortable:   true,
-			title:      l10n.mediaLibraryTitle,
+			id:                 'library',
+			title:              l10n.mediaLibraryTitle,
+			// Selection defaults. @see media.model.Selection
+			multiple:           false,
+			// Initial region modes.
+			content:            'upload',
+			menu:               'default',
+			router:             'browse',
+			toolbar:            'select',
+			// Attachments browser defaults. @see media.view.AttachmentsBrowser
+			searchable:         true,
+			filterable:         false,
+			sortable:           true,
 
+			describe:           false,
 			// Uses a user setting to override the content mode.
 			contentUserSetting: true,
-
 			// Sync the selection from the last state when 'multiple' matches.
-			syncSelection: true
+			syncSelection:      true
 		},
 
 		/**
@@ -754,15 +755,16 @@
 	 */
 	media.controller.ImageDetails = media.controller.State.extend({
 		defaults: _.defaults({
-			id: 'image-details',
-			toolbar: 'image-details',
-			title: l10n.imageDetailsTitle,
-			content: 'image-details',
-			menu: 'image-details',
-			router: false,
-			attachment: false,
-			priority: 60,
-			editing: false
+			id:       'image-details',
+			title:    l10n.imageDetailsTitle,
+			// Initial region modes.
+			content:  'image-details',
+			menu:     'image-details',
+			router:   false,
+			toolbar:  'image-details',
+
+			editing:  false,
+			priority: 60
 		}, media.controller.Library.prototype.defaults ),
 
 		initialize: function( options ) {
@@ -786,18 +788,22 @@
 	media.controller.GalleryEdit = media.controller.Library.extend({
 		defaults: {
 			id:              'gallery-edit',
+			title:           l10n.editGalleryTitle,
+			// Selection defaults. @see media.model.Selection
 			multiple:        false,
+			// Attachments browser defaults. @see media.view.AttachmentsBrowser
+			searchable:      false,
+			sortable:        true,
+			// Initial region modes.
+			content:         'browse',
+			toolbar:         'gallery-edit',
+
 			describe:        true,
+			displaySettings: true,
+			dragInfo:        true,
 			edge:            199,
 			editing:         false,
-			sortable:        true,
-			searchable:      false,
-			toolbar:         'gallery-edit',
-			content:         'browse',
-			title:           l10n.editGalleryTitle,
 			priority:        60,
-			dragInfo:        true,
-			displaySettings: true,
 
 			// Don't sync the selection, as the Edit Gallery library
 			// *is* the selection.
@@ -880,14 +886,17 @@
 	 */
 	media.controller.GalleryAdd = media.controller.Library.extend({
 		defaults: _.defaults({
-			id:           'gallery-library',
-			filterable:   'uploaded',
-			multiple:     'add',
-			menu:         'gallery',
-			toolbar:      'gallery-add',
-			title:        l10n.addToGalleryTitle,
-			priority:     100,
+			id:            'gallery-library',
+			title:         l10n.addToGalleryTitle,
+			// Selection defaults. @see media.model.Selection
+			multiple:      'add',
+			// Attachments browser defaults. @see media.view.AttachmentsBrowser
+			filterable:    'uploaded',
+			// Initial region modes.
+			menu:          'gallery',
+			toolbar:       'gallery-add',
 
+			priority:      100,
 			// Don't sync the selection, as the Edit Gallery library
 			// *is* the selection.
 			syncSelection: false
@@ -935,15 +944,19 @@
 	 */
 	media.controller.CollectionEdit = media.controller.Library.extend({
 		defaults: {
+			// Selection defaults. @see media.model.Selection
 			multiple:     false,
-			describe:     true,
-			edge:         199,
-			editing:      false,
+			// Attachments browser defaults. @see media.view.AttachmentsBrowser
 			sortable:     true,
 			searchable:   false,
+			// Region mode defaults.
 			content:      'browse',
-			priority:     60,
+
+			describe:     true,
 			dragInfo:     true,
+			edge:         199,
+			editing:      false,
+			priority:     60,
 			SettingsView: false,
 
 			// Don't sync the selection, as the Edit {Collection} library
@@ -1044,8 +1057,11 @@
 	 */
 	media.controller.CollectionAdd = media.controller.Library.extend({
 		defaults: _.defaults( {
-			filterable:    'uploaded',
+			// Selection defaults. @see media.model.Selection
 			multiple:      'add',
+			// Attachments browser defaults. @see media.view.AttachmentsBrowser
+			filterable:    'uploaded',
+
 			priority:      100,
 			syncSelection: false
 		}, media.controller.Library.prototype.defaults ),
@@ -1104,12 +1120,16 @@
 	 */
 	media.controller.FeaturedImage = media.controller.Library.extend({
 		defaults: _.defaults({
-			id:         'featured-image',
-			filterable: 'uploaded',
-			multiple:   false,
-			toolbar:    'featured-image',
-			title:      l10n.setFeaturedImageTitle,
-			priority:   60,
+			id:            'featured-image',
+			title:         l10n.setFeaturedImageTitle,
+			// Selection defaults. @see media.model.Selection
+			multiple:      false,
+			// Attachments browser defaults. @see media.view.AttachmentsBrowser
+			filterable:    'uploaded',
+			// Region mode defaults.
+			toolbar:       'featured-image',
+
+			priority:      60,
 			syncSelection: true
 		}, media.controller.Library.prototype.defaults ),
 
@@ -1185,12 +1205,16 @@
 	 */
 	media.controller.ReplaceImage = media.controller.Library.extend({
 		defaults: _.defaults({
-			id:         'replace-image',
-			filterable: 'uploaded',
-			multiple:   false,
-			toolbar:    'replace',
-			title:      l10n.replaceImageTitle,
-			priority:   60,
+			id:            'replace-image',
+			title:         l10n.replaceImageTitle,
+			// Selection defaults. @see media.model.Selection
+			multiple:      false,
+			// Attachments browser defaults. @see media.view.AttachmentsBrowser
+			filterable:    'uploaded',
+			// Region mode defaults.
+			toolbar:       'replace',
+
+			priority:      60,
 			syncSelection: true
 		}, media.controller.Library.prototype.defaults ),
 
@@ -1250,12 +1274,14 @@
 	 */
 	media.controller.EditImage = media.controller.State.extend({
 		defaults: {
-			id: 'edit-image',
-			url: '',
-			menu: false,
+			id:      'edit-image',
+			title:   l10n.editImage,
+			// Region mode defaults.
+			menu:    false,
 			toolbar: 'edit-image',
-			title: l10n.editImage,
-			content: 'edit-image'
+			content: 'edit-image',
+
+			url:     ''
 		},
 
 		activate: function() {
@@ -1301,10 +1327,12 @@
 	 */
 	media.controller.MediaLibrary = media.controller.Library.extend({
 		defaults: _.defaults({
-			filterable: 'uploaded',
-			priority:   80,
-			syncSelection: false,
-			displaySettings: false
+			// Attachments browser defaults. @see media.view.AttachmentsBrowser
+			filterable:      'uploaded',
+
+			displaySettings: false,
+			priority:        80,
+			syncSelection:   false
 		}, media.controller.Library.prototype.defaults ),
 
 		initialize: function( options ) {
@@ -1333,15 +1361,16 @@
 	 */
 	media.controller.Embed = media.controller.State.extend({
 		defaults: {
-			id:      'embed',
-			url:     '',
-			menu:    'default',
-			content: 'embed',
-			toolbar: 'main-embed',
-			type:    'link',
-
+			id:       'embed',
 			title:    l10n.insertFromUrlTitle,
-			priority: 120
+			// Region mode defaults.
+			content:  'embed',
+			menu:     'default',
+			toolbar:  'main-embed',
+
+			priority: 120,
+			type:     'link',
+			url:      ''
 		},
 
 		// The amount of time used when debouncing the scan.
@@ -1445,11 +1474,13 @@
 	 */
 	media.controller.Cropper = media.controller.State.extend({
 		defaults: {
-			id: 'cropper',
-			title: l10n.cropImage,
-			toolbar: 'crop',
-			content: 'crop',
-			router: false,
+			id:          'cropper',
+			title:       l10n.cropImage,
+			// Region mode defaults.
+			toolbar:     'crop',
+			content:     'crop',
+			router:      false,
+
 			canSkipCrop: false
 		},
 
