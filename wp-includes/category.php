@@ -6,23 +6,6 @@
  */
 
 /**
- * Retrieves all category IDs.
- *
- * @since 2.0.0
- * @link http://codex.wordpress.org/Function_Reference/get_all_category_ids
- *
- * @return object List of all of the category IDs.
- */
-function get_all_category_ids() {
-	if ( ! $cat_ids = wp_cache_get( 'all_category_ids', 'category' ) ) {
-		$cat_ids = get_terms( 'category', array('fields' => 'ids', 'get' => 'all') );
-		wp_cache_add( 'all_category_ids', $cat_ids, 'category' );
-	}
-
-	return $cat_ids;
-}
-
-/**
  * Retrieve list of category objects.
  *
  * If you change the type to 'link' in the arguments, then the link categories
