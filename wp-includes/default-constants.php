@@ -247,8 +247,13 @@ function wp_ssl_constants() {
 	/**
 	 * @since 2.6.0
 	 */
-	if ( !defined( 'FORCE_SSL_ADMIN' ) )
-		define( 'FORCE_SSL_ADMIN', false );
+	if ( !defined( 'FORCE_SSL_ADMIN' ) ) {
+		if ( 'https' === parse_url( get_option( 'siteurl' ), PHP_URL_SCHEME ) ) {
+			define( 'FORCE_SSL_ADMIN', true );
+		} else {
+			define( 'FORCE_SSL_ADMIN', false );
+		}
+	}
 	force_ssl_admin( FORCE_SSL_ADMIN );
 
 	/**
