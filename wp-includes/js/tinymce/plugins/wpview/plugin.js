@@ -281,7 +281,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			node.innerHTML = wp.mce.views.toViews( node.innerHTML );
 		});
 
-		editor.dom.bind( editor.getBody(), 'mousedown mouseup click', function( event ) {
+		editor.dom.bind( editor.getBody().parentNode, 'mousedown mouseup click', function( event ) {
 			var view = getParentView( event.target ),
 				deselectEventType;
 
