@@ -68,7 +68,7 @@ function twentyfourteen_setup() {
 	load_theme_textdomain( 'twentyfourteen', get_template_directory() . '/languages' );
 
 	// This theme styles the visual editor to resemble the theme style.
-	add_editor_style( array( 'css/editor-style.css', twentyfourteen_font_url() ) );
+	add_editor_style( array( 'css/editor-style.css', twentyfourteen_font_url(), 'genericons/genericons.css' ) );
 
 	// Add RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );

@@ -617,6 +617,79 @@ img {
 	background: transparent;
 }
 
+.mejs-overlay-button {
+	background-color: #fff;
+	background-image: none;
+	border-radius: 10px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.8);
+	color: #000;
+	height: 48px;
+	margin: -24px 0 0 -32px;
+	width: 64px;
+}
+
+.mejs-overlay-button:before {
+	-webkit-font-smoothing: antialiased;
+	content: '\f452';
+	display: inline-block;
+	font: normal 48px/1 Genericons;	
+	position: absolute;
+	top: 0;
+	left: 10px;
+}
+
+.mejs-controls .mejs-button button:focus {
+	outline: none;
+}
+
+.mejs-controls .mejs-button button {
+	-webkit-font-smoothing: antialiased;
+	background: none;
+	color: #fff;
+	display: inline-block;
+	font: normal 16px/1 Genericons;
+}
+
+.mejs-playpause-button.mejs-play button:before {
+	content: '\f452';
+}
+
+.mejs-playpause-button.mejs-pause button:before {
+	content: '\f448';
+}
+
+.mejs-volume-button.mejs-mute button:before {
+	content: '\f109';
+	font-size: 20px;
+	position: absolute;
+	top: -2px;
+	left: 0;
+}
+
+.mejs-volume-button.mejs-unmute button:before {
+	content: '\f109';
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+.mejs-fullscreen-button button:before {
+	content: '\f474';
+}
+
+.mejs-fullscreen-button.mejs-unfullscreen button:before {
+	content: '\f406';
+}
+
+.mejs-overlay:hover .mejs-overlay-button {
+	background-color: #24890d;
+	color: #fff;
+}
+
+.mejs-controls .mejs-button button:hover {
+	color: #41a62a;
+}
+
 
 /**
  * 10.0 RTL
