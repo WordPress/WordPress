@@ -1008,7 +1008,7 @@ function wp_print_media_templates() {
 								<img src="{{ attachment.url }}" />
 							<# } #>
 						</dt>
-						<# if ( attachment.caption.trim() ) { #>
+						<# if ( attachment.caption ) { #>
 							<dd class="wp-caption-text gallery-caption">
 								{{ attachment.caption }}
 							</dd>
