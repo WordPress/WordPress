@@ -231,13 +231,13 @@ audio {
 	border: 1px solid transparent;
 }
 
-.wpview-wrap.selected {
+.wpview-wrap[data-mce-selected] {
 	background-color: rgba(0,0,0,0.1);
 	border-color: rgba(0,0,0,0.3);
 }
 
-.ie8 .wpview-wrap.selected,
-.ie7 .wpview-wrap.selected {
+.ie8 .wpview-wrap[data-mce-selected],
+.ie7 .wpview-wrap[data-mce-selected] {
 	background-color: #e5e5e5;
 	border-color: #777;
 }
@@ -250,7 +250,7 @@ audio {
 	left: 0;
 }
 
-.wpview-wrap.selected .wpview-overlay {
+.wpview-wrap[data-mce-selected] .wpview-overlay {
 	display: none;
 }
 
@@ -262,7 +262,7 @@ audio {
 	z-index: 100;
 }
 
-.wpview-wrap.selected .toolbar {
+.wpview-wrap[data-mce-selected] .toolbar {
 	display: block;
 }
 
@@ -310,7 +310,7 @@ audio {
 	margin: 0;
 }
 
-.selected .wpview-error {
+.wpview-wrap[data-mce-selected] .wpview-error {
 	border-color: transparent;
 }
 
@@ -327,7 +327,6 @@ audio {
 	text-align: center;
 	font-family: 'Open Sans', sans-serif;
 }
-
 
 .wpview-wrap .toolbar div:hover,
 #wp-image-toolbar i:hover {
