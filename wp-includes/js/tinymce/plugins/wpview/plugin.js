@@ -94,6 +94,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 		// select the hidden div
 		editor.selection.select( clipboard, true );
+		editor.nodeChanged();
 	}
 
 	/**
