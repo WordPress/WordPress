@@ -92,14 +92,16 @@
 
 	_.extend( media.controller.Region.prototype, {
 		/**
-		 * Switch modes
+		 * Activate a mode.
 		 *
 		 * @param {string} mode
 		 *
-		 * @fires wp.media.controller.Region#{id}:activate:{mode}
-		 * @fires wp.media.controller.Region#{id}:deactivate:{mode}
+		 * @fires this.view#{this.id}:activate:{this._mode}
+		 * @fires this.view#{this.id}:activate
+		 * @fires this.view#{this.id}:deactivate:{this._mode}
+		 * @fires this.view#{this.id}:deactivate
 		 *
-		 * @returns {wp.media.controller.Region} Returns itself to allow chaining
+		 * @returns {wp.media.controller.Region} Returns itself to allow chaining.
 		 */
 		mode: function( mode ) {
 			if ( ! mode ) {
@@ -110,27 +112,40 @@
 				return this;
 			}
 
+			/**
+			 * Region mode deactivation event.
+			 *
+			 * @event this.view#{this.id}:deactivate:{this._mode}
+			 * @event this.view#{this.id}:deactivate
+			 */
 			this.trigger('deactivate');
+
 			this._mode = mode;
 			this.render( mode );
+
+			/**
+			 * Region mode activation event.
+			 *
+			 * @event this.view#{this.id}:activate:{this._mode}
+			 * @event this.view#{this.id}:activate
+			 */
 			this.trigger('activate');
 			return this;
 		},
 		/**
-		 * Render a new mode, the view is set in the `create` callback method
-		 *   of the extending class
-		 *
-		 * If no mode is provided, just re-render the current mode.
-		 * If the provided mode isn't active, perform a full switch.
+		 * Render a mode.
 		 *
 		 * @param {string} mode
 		 *
-		 * @fires wp.media.controller.Region#{id}:create:{mode}
-		 * @fires wp.media.controller.Region#{id}:render:{mode}
+		 * @fires this.view#{this.id}:create:{this._mode}
+		 * @fires this.view#{this.id}:create
+		 * @fires this.view#{this.id}:render:{this._mode}
+		 * @fires this.view#{this.id}:render
 		 *
 		 * @returns {wp.media.controller.Region} Returns itself to allow chaining
 		 */
 		render: function( mode ) {
+			// If the mode isn't active, activate it.
 			if ( mode && mode !== this._mode ) {
 				return this.mode( mode );
 			}
@@ -138,8 +153,25 @@
 			var set = { view: null },
 				view;
 
+			/**
+			 * Create region view event.
+			 *
+			 * Region view creation takes place in an event callback on the frame.
+			 *
+			 * @event this.view#{this.id}:create:{this._mode}
+			 * @event this.view#{this.id}:create
+			 */
 			this.trigger( 'create', set );
 			view = set.view;
+
+			/**
+			 * Render region view event.
+			 *
+			 * Region view creation takes place in an event callback on the frame.
+			 *
+			 * @event this.view#{this.id}:create:{this._mode}
+			 * @event this.view#{this.id}:create
+			 */
 			this.trigger( 'render', view );
 			if ( view ) {
 				this.set( view );
@@ -148,13 +180,17 @@
 		},
 
 		/**
-		 * @returns {wp.media.View} Returns the selector's first subview
+		 * Get the region's view.
+		 *
+		 * @returns {wp.media.View}
 		 */
 		get: function() {
 			return this.view.views.first( this.selector );
 		},
 
 		/**
+		 * Set the region's view as a subview of the frame.
+		 *
 		 * @param {Array|Object} views
 		 * @param {Object} [options={}]
 		 * @returns {wp.Backbone.Subviews} Subviews is returned to allow chaining
@@ -167,10 +203,10 @@
 		},
 
 		/**
-		 * Helper function to trigger view events based on {id}:{event}:{mode}
+		 * Trigger regional view events on the frame.
 		 *
 		 * @param {string} event
-		 * @returns {undefined|wp.media.controller.Region} Returns itself to allow chaining
+		 * @returns {undefined|wp.media.controller.Region} Returns itself to allow chaining.
 		 */
 		trigger: function( event ) {
 			var base, args;
@@ -182,11 +218,11 @@
 			args = _.toArray( arguments );
 			base = this.id + ':' + event;
 
-			// Trigger `region:action:mode` event.
+			// Trigger `{this.id}:{event}:{this._mode}` event on the frame.
 			args[0] = base + ':' + this._mode;
 			this.view.trigger.apply( this.view, args );
 
-			// Trigger `region:action` event.
+			// Trigger `{this.id}:{event}` event on the frame.
 			args[0] = base;
 			this.view.trigger.apply( this.view, args );
 			return this;
@@ -210,7 +246,6 @@
 	// Use Backbone's self-propagating `extend` inheritance method.
 	media.controller.StateMachine.extend = Backbone.Model.extend;
 
-	// Add events to the `StateMachine`.
 	_.extend( media.controller.StateMachine.prototype, Backbone.Events, {
 		/**
 		 * Fetch a state.
@@ -286,10 +321,10 @@
 		}
 	});
 
-	// Map methods from the `states` collection to the `StateMachine` itself.
+	// Map all event binding and triggering on a StateMachine to its `states` collection.
 	_.each([ 'on', 'off', 'trigger' ], function( method ) {
 		/**
-		 * @returns {wp.media.controller.StateMachine} Returns itself to allow chaining
+		 * @returns {wp.media.controller.StateMachine} Returns itself to allow chaining.
 		 */
 		media.controller.StateMachine.prototype[ method ] = function() {
 			// Ensure that the `states` collection exists so the `StateMachine`
@@ -304,10 +339,9 @@
 	/**
 	 * wp.media.controller.State
 	 *
-	 * A state is a step in a workflow that when set will trigger
-	 * the controllers for the regions to be updated as specified. This
-	 * class is the base class that the various states used in the media
-	 * modals extend.
+	 * A state is a step in a workflow that when set will trigger the controllers
+	 * for the regions to be updated as specified in the frame. This is the base
+	 * class that the various states used in wp.media extend.
 	 *
 	 * @constructor
 	 * @augments Backbone.Model
@@ -538,7 +572,7 @@
 	};
 
 	/**
-	 * wp.media.controller.Library
+	 * A state for choosing an attachment from the media library.
 	 *
 	 * @constructor
 	 * @augments wp.media.controller.State
@@ -747,7 +781,7 @@
 	_.extend( media.controller.Library.prototype, media.selectionSync );
 
 	/**
-	 * wp.media.controller.ImageDetails
+	 * A state for editing the settings of an image within a content editor.
 	 *
 	 * @constructor
 	 * @augments wp.media.controller.State
@@ -778,7 +812,7 @@
 	});
 
 	/**
-	 * wp.media.controller.GalleryEdit
+	 * A state for editing a gallery's images and settings.
 	 *
 	 * @constructor
 	 * @augments wp.media.controller.Library
@@ -877,7 +911,7 @@
 	});
 
 	/**
-	 * wp.media.controller.GalleryAdd
+	 * A state for adding an image to a gallery.
 	 *
 	 * @constructor
 	 * @augments wp.media.controller.Library
@@ -1111,7 +1145,7 @@
 	});
 
 	/**
-	 * wp.media.controller.FeaturedImage
+	 * A state for selecting a featured image for a post.
 	 *
 	 * @constructor
 	 * @augments wp.media.controller.Library
@@ -1194,9 +1228,7 @@
 	});
 
 	/**
-	 * wp.media.controller.ReplaceImage
-	 *
-	 * Replace a selected single image
+	 * A state for replacing an image.
 	 *
 	 * @constructor
 	 * @augments wp.media.controller.Library
@@ -1266,7 +1298,7 @@
 	});
 
 	/**
-	 * wp.media.controller.EditImage
+	 * A state for editing (cropping, etc.) an image.
 	 *
 	 * @constructor
 	 * @augments wp.media.controller.State
@@ -4530,6 +4562,9 @@
 	 * @augments Backbone.View
 	 */
 	media.view.RouterItem = media.view.MenuItem.extend({
+		/**
+		 * On click handler to activate the content region's corresponding mode.
+		 */
 		click: function() {
 			var contentMode = this.options.contentMode;
 			if ( contentMode ) {
