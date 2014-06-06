@@ -355,10 +355,17 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		}
 
 		// Keep empty paragraphs :(
-		e.content = e.content.replace( /<p>(<br ?\/?>|\u00a0|\uFEFF)?<\/p>/g, '<p>&nbsp;</p>' );
+		e.content = e.content.replace( /<p>(?:<br ?\/?>|\u00a0|\uFEFF| )*<\/p>/g, '<p>&nbsp;</p>' );
 
 		if ( editor.getParam( 'wpautop', true ) && typeof window.switchEditors !== 'undefined' ) {
 			e.content = window.switchEditors.pre_wpautop( e.content );
+		}
+	});
+
+	// Remove spaces from empty paragraphs.
+	editor.on( 'BeforeSetContent', function( event ) {
+		if ( event.content ) {
+			event.content = event.content.replace( /<p>(?:&nbsp;|\u00a0|\uFEFF| )+<\/p>/gi, '<p></p>' );
 		}
 	});
 
