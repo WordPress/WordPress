@@ -76,10 +76,10 @@ window.wp = window.wp || {};
 		 */
 		register: function( type, constructor ) {
 			var defaultConstructor = {
-					type: type,
+					shortcode: type,
 					View: {},
 					toView: function( content ) {
-						var match = wp.shortcode.next( this.type, content );
+						var match = wp.shortcode.next( this.shortcode, content );
 
 						if ( ! match ) {
 							return;
@@ -481,7 +481,6 @@ window.wp = window.wp || {};
 	 * @mixes wp.mce.av
 	 */
 	wp.mce.views.register( 'video', _.extend( {}, wp.mce.av, {
-		shortcode: 'video',
 		state: 'video-details',
 		View: _.extend( {}, wp.mce.av.View, {
 			template: media.template( 'editor-video' )
@@ -494,7 +493,6 @@ window.wp = window.wp || {};
 	 * @mixes wp.mce.av
 	 */
 	wp.mce.views.register( 'audio', _.extend( {}, wp.mce.av, {
-		shortcode: 'audio',
 		state: 'audio-details',
 		View: _.extend( {}, wp.mce.av.View, {
 			template: media.template( 'editor-audio' )
@@ -507,7 +505,6 @@ window.wp = window.wp || {};
 	 * @mixes wp.mce.av
 	 */
 	wp.mce.views.register( 'playlist', _.extend( {}, wp.mce.av, {
-		shortcode: 'playlist',
 		state: ['playlist-edit', 'video-playlist-edit'],
 		View: _.extend( {}, wp.media.mixin, {
 			template:  media.template( 'editor-playlist' ),
@@ -638,7 +635,6 @@ window.wp = window.wp || {};
 	 * TinyMCE handler for the embed shortcode
 	 */
 	wp.mce.views.register( 'embed', {
-		shortcode: 'embed',
 		View: _.extend( {}, wp.media.mixin, {
 			template: media.template( 'editor-embed' ),
 			initialize: function( options ) {
