@@ -2103,7 +2103,7 @@
 			// after creating the wrapper view, load the actual editor via an ajax call
 			view.loadEditor();
 
-		},
+		}
 	});
 
 	/**
