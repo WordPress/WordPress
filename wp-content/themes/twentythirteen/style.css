@@ -2788,6 +2788,13 @@ footer.entry-meta {
 
 /* Collapse oversized image and pulled images after iPad breakpoint. */
 @media (max-width: 767px) {
+	.site-header .home-link {
+		min-height: 0;
+	}
+	.site-title {
+		font-size: 36px;
+		padding: 8px 0 10px;
+	}
 	.entry-content img.alignleft,
 	.entry-content .wp-caption.alignleft {
 		margin-left: 0;
@@ -2985,6 +2992,13 @@ footer.entry-meta {
 
 /* Mobile devices */
 @media (max-width: 359px) {
+	.site-title {
+		font-weight: normal;
+	}
+	.site-description {
+	    clip: rect(1px, 1px, 1px, 1px);
+	    position: absolute;
+	}
 	.gallery {
 		margin-left: 0;
 	}

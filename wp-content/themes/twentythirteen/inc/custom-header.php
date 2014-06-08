@@ -101,6 +101,16 @@ function twentythirteen_header_style() {
 			background: url(<?php header_image(); ?>) no-repeat scroll top;
 			background-size: 1600px auto;
 		}
+		@media (max-width: 767px) {
+			.site-header {
+				background-size: 768px auto;
+			}
+		}
+		@media (max-width: 359px) {
+			.site-header {
+				background-size: 360px auto;
+			}
+		}
 	<?php
 		endif;
 
