@@ -50,6 +50,19 @@
 			nav.toggleClass( 'toggled-on' );
 		} );
 
+		// Fix sub-menus for touch devices.
+		if ( 'ontouchstart' in window ) {
+			menu.find( '.menu-item-has-children > a' ).on( 'touchstart.twentythirteen', function( e ) {
+				var el = $( this ).parent( 'li' );
+
+				if ( ! el.hasClass( 'focus' ) ) {
+					e.preventDefault();
+					el.toggleClass( 'focus' );
+					el.siblings( '.focus' ).removeClass( 'focus' );
+				}
+			} );
+		}
+
 		// Better focus for hidden submenu items for accessibility.
 		menu.find( 'a' ).on( 'focus.twentythirteen blur.twentythirteen', function() {
 			$( this ).parents( '.menu-item, .page_item' ).toggleClass( 'focus' );
