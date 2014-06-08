@@ -337,6 +337,7 @@ td.plugin-title p {
 	background-color: #f7f7f7;
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	cursor: row-resize;
 }
 
 #post-status-info td {
@@ -355,7 +356,6 @@ td.plugin-title p {
 #content-resize-handle {
 	background: transparent url(../images/resize.gif) no-repeat scroll right bottom;
 	width: 12px;
-	cursor: row-resize;
 }
 
 .rtl #content-resize-handle {
