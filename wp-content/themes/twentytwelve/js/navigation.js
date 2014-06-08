@@ -40,4 +40,16 @@
 	$( '.main-navigation' ).find( 'a' ).on( 'focus.twentytwelve blur.twentytwelve', function() {
 		$( this ).parents( '.menu-item, .page_item' ).toggleClass( 'focus' );
 	} );
+
+  if ( 'ontouchstart' in window ) {
+    $( '.menu-item-has-children > a' ).on( 'touchstart.twentytwelve', function( e ) {
+      var el = $( this ).parent( 'li' );
+
+      if ( ! el.hasClass( 'focus' ) ) {
+        e.preventDefault();
+        el.toggleClass( 'focus' );
+        el.siblings( '.focus').removeClass( 'focus' );
+      }
+    } );
+  }
 } )( jQuery );
