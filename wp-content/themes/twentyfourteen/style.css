@@ -1007,7 +1007,6 @@ span + .edit-link:before,
 	background-color: #000;
 	border-radius: 0;
 	cursor: pointer;
-	font-size: 0;
 	height: 48px;
 	margin: 0;
 	overflow: hidden;
@@ -1022,8 +1021,7 @@ span + .edit-link:before,
 .menu-toggle:before {
 	color: #fff;
 	content: "\f419";
-	display: inline;
-	margin-top: 16px;
+	padding: 15px;
 }
 
 .menu-toggle:active,
