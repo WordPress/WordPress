@@ -3471,7 +3471,7 @@ function format_to_post( $content ) {
  * @return bool Whether SSL access is available.
  */
 function url_is_accessable_via_ssl( $url ) {
-	_deprecated_function( __FUNCTION__, '4.0', '' );
+	_deprecated_function( __FUNCTION__, '4.0' );
 
 	$response = wp_remote_get( set_url_scheme( $url, 'https' ) );
 
