@@ -507,6 +507,10 @@ ul.add-menu-item-tabs li {
 	margin-right: 13em;
 }
 
+.menu-item-handle .menu-item-title.no-title {
+	color: #999;
+}
+
 /* Sortables */
 li.menu-item.ui-sortable-helper dl {
 	margin-top: 0;

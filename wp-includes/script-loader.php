@@ -530,7 +530,8 @@ function wp_default_scripts( &$scripts ) {
 		did_action( 'init' ) && $scripts->localize( 'nav-menu', 'navMenuL10n', array(
 			'noResultsFound' => _x('No results found.', 'search results'),
 			'warnDeleteMenu' => __( "You are about to permanently delete this menu. \n 'Cancel' to stop, 'OK' to delete." ),
-			'saveAlert' => __('The changes you made will be lost if you navigate away from this page.')
+			'saveAlert' => __('The changes you made will be lost if you navigate away from this page.'),
+			'untitled' => _x('(no label)', 'missing menu item navigation label')
 		) );
 
 		$scripts->add( 'custom-header', "/wp-admin/js/custom-header.js", array( 'jquery-masonry' ), false, 1 );

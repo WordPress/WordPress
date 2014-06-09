@@ -57,6 +57,8 @@ var wpNavMenu;
 			this.initAccessibility();
 
 			this.initToggles();
+
+			this.initPreviewing();
 		},
 
 		jQueryExtensions : function() {
@@ -528,6 +530,21 @@ var wpNavMenu;
 					return false;
 				});
 			});
+		},
+
+		initPreviewing : function() {
+			// Update the item handle title when the navigation label is changed.
+			$( 'body' ).on( 'input', '.edit-menu-item-title', function(e) {
+				var input = $( e.currentTarget ), title, titleEl;
+				title = input.val();
+				titleEl = input.closest( '.menu-item' ).find( '.menu-item-title' );
+				// Don't update to empty title.
+				if ( title ) {
+					titleEl.text( title ).removeClass( 'no-title' );
+				} else {
+					titleEl.text( navMenuL10n.untitled ).addClass( 'no-title' );
+				}
+			} );
 		},
 
 		initToggles : function() {
