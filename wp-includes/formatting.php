@@ -82,14 +82,7 @@ function wptexturize($text) {
 		$static_characters = array_merge( array( '---', ' -- ', '--', ' - ', 'xn&#8211;', '...', '``', '\'\'', ' (tm)' ), $cockney );
 		$static_replacements = array_merge( array( $em_dash, ' ' . $em_dash . ' ', $en_dash, ' ' . $en_dash . ' ', 'xn--', '&#8230;', $opening_quote, $closing_quote, ' &#8482;' ), $cockneyreplace );
 
-		/*
-		 * Regex for common whitespace characters.
-		 *
-		 * By default, spaces include new lines, tabs, nbsp entities, and the UTF-8 nbsp.
-		 * This is designed to replace the PCRE \s sequence.  In #WP22692, that sequence
-		 * was found to be unreliable due to random inclusion of the A0 byte.
-		 */
-		$spaces = '[\r\n\t ]|\xC2\xA0|&nbsp;';
+		$spaces = wp_spaces_regexp();
 
 
 		// Pattern-based replacements of characters.
@@ -370,11 +363,12 @@ function shortcode_unautop( $pee ) {
 	}
 
 	$tagregexp = join( '|', array_map( 'preg_quote', array_keys( $shortcode_tags ) ) );
+	$spaces = wp_spaces_regexp();
 
 	$pattern =
 		  '/'
 		. '<p>'                              // Opening paragraph
-		. '\\s*+'                            // Optional leading whitespace
+		. '(?:' . $spaces . ')*+'            // Optional leading whitespace
 		. '('                                // 1: The shortcode
 		.     '\\['                          // Opening bracket
 		.     "($tagregexp)"                 // 2: Shortcode name
@@ -399,7 +393,7 @@ function shortcode_unautop( $pee ) {
 		.         ')?'
 		.     ')'
 		. ')'
-		. '\\s*+'                            // optional trailing whitespace
+		. '(?:' . $spaces . ')*+'            // optional trailing whitespace
 		. '<\\/p>'                           // closing paragraph
 		. '/s';
 
@@ -3857,6 +3851,17 @@ function wp_spaces_regexp() {
 	static $spaces;
 
 	if ( empty( $spaces ) ) {
+		/**
+		 * Regexp for common whitespace characters.
+		 *
+		 * This string is substituted for the \s sequence as needed in regular expressions.
+		 * For websites not written in English, different characters may represent whitespace.
+		 * For websites not encoded in UTF-8, the 0xC2 0xA0 sequence may not be in use.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param string $spaces
+		 */
 		$spaces = apply_filters( 'wp_spaces_regexp', '[\r\n\t ]|\xC2\xA0|&nbsp;' );
 	}
 
