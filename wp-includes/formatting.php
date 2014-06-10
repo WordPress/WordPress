@@ -118,6 +118,11 @@ function wptexturize($text) {
 			$dynamic[ '/(?<=\A|[([{<"]|' . $spaces . ')\'/' ] = $opening_single_quote;
 		}
 
+		// Apostrophe in a word.  No spaces or double apostrophes.
+		if ( "'" != $apos ) {
+			$dynamic[ '/(?<!' . $spaces . ')\'(?!\Z|\'|' . $spaces . ')/' ] = $apos;
+		}
+
 		// 9" (double prime)
 		if ( '"' !== $double_prime ) {
 			$dynamic[ '/(?<=\d)"/' ] = $double_prime;
@@ -126,11 +131,6 @@ function wptexturize($text) {
 		// 9' (prime)
 		if ( "'" !== $prime ) {
 			$dynamic[ '/(?<=\d)\'/' ] = $prime;
-		}
-
-		// Apostrophe in a word.  No spaces or double primes.
-		if ( "'" !== $apos ) {
-			$dynamic[ '/(?<!' . $spaces . ')\'(?!\'|' . $spaces . ')/' ] = $apos;
 		}
 
 		// Double quote at start, or preceded by (, {, <, [, or spaces, and not followed by spaces.
