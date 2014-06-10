@@ -158,6 +158,11 @@ function wptexturize($text) {
 		$dynamic_replacements = array_values( $dynamic );
 	}
 
+	// If there's nothing to do, just stop.
+	if ( empty( $text ) ) {
+		return $text;
+	}
+
 	// Transform into regexp sub-expression used in _wptexturize_pushpop_element
 	// Must do this every time in case plugins use these filters in a context sensitive manner
 	/**
@@ -180,25 +185,50 @@ function wptexturize($text) {
 	$no_texturize_tags_stack = array();
 	$no_texturize_shortcodes_stack = array();
 
-	$textarr = preg_split('/(<.*>|\[.*\])/Us', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+	// Look for shortcodes and HTML elements.
+
+	$regex =  '/('			// Capture the entire match.
+		.	'<'		// Find start of element.
+		.	'(?(?=!--)'	// Is this a comment?
+		.		'.+?--\s*>'	// Find end of comment
+		.	'|'
+		.		'.+?>'		// Find end of element
+		.	')'
+		. '|'
+		.	'\['		// Find start of shortcode.
+		.	'\[?'		// Shortcodes may begin with [[
+		.	'[^\[\]<>]+'	// Shortcodes do not contain other shortcodes or HTML elements.
+		.	'\]'		// Find end of shortcode.
+		.	'\]?'		// Shortcodes may end with ]]
+		. ')/s';
+
+	$textarr = preg_split( $regex, $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
 
 	foreach ( $textarr as &$curl ) {
-		if ( empty( $curl ) ) {
-			continue;
-		}
-
-		// Only call _wptexturize_pushpop_element if first char is correct tag opening
+		// Only call _wptexturize_pushpop_element if $curl is a delimeter.
 		$first = $curl[0];
-		if ( '<' === $first ) {
-			_wptexturize_pushpop_element($curl, $no_texturize_tags_stack, $no_texturize_tags, '<', '>');
-		} elseif ( '[' === $first ) {
-			_wptexturize_pushpop_element($curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes, '[', ']');
+		if ( '<' === $first && '>' === substr( $curl, -1 ) ) {
+			// This is an HTML delimeter.
+
+			if ( '<!--' !== substr( $curl, 0, 4 ) ) {
+				_wptexturize_pushpop_element( $curl, $no_texturize_tags_stack, $no_texturize_tags, '<', '>' );
+			}
+
+		} elseif ( '[' === $first && 1 === preg_match( '/^\[[^\[\]<>]+\]$/', $curl ) ) {
+			// This is a shortcode delimeter.
+
+			_wptexturize_pushpop_element( $curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes, '[', ']' );
+
+		} elseif ( '[' === $first && 1 === preg_match( '/^\[\[?[^\[\]<>]+\]\]?$/', $curl ) ) {
+			// This is an escaped shortcode delimeter.
+
+			// Do not texturize.
+			// Do not push to the shortcodes stack.
+
 		} elseif ( empty($no_texturize_shortcodes_stack) && empty($no_texturize_tags_stack) ) {
+			// This is neither a delimeter, nor is this content inside of no_texturize pairs.  Do texturize.
 
-			// This is not a tag, nor is the texturization disabled static strings
 			$curl = str_replace($static_characters, $static_replacements, $curl);
-
-			// regular expressions
 			$curl = preg_replace($dynamic_characters, $dynamic_replacements, $curl);
 
 			// 9x9 (times), but never 0x9999
