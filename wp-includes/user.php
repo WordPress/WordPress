@@ -802,11 +802,14 @@ class WP_User_Query {
 		$searches = array();
 		$leading_wild = ( 'leading' == $wild || 'both' == $wild ) ? '%' : '';
 		$trailing_wild = ( 'trailing' == $wild || 'both' == $wild ) ? '%' : '';
+		$like = $leading_wild . $wpdb->esc_like( $string ) . $trailing_wild;
+
 		foreach ( $cols as $col ) {
-			if ( 'ID' == $col )
+			if ( 'ID' == $col ) {
 				$searches[] = $wpdb->prepare( "$col = %s", $string );
-			else
-				$searches[] = $wpdb->prepare( "$col LIKE %s", $leading_wild . $wpdb->esc_like( $string ) . $trailing_wild );
+			} else {
+				$searches[] = $wpdb->prepare( "$col LIKE %s", $like );
+			}
 		}
 
 		return ' AND (' . implode(' OR ', $searches) . ')';
