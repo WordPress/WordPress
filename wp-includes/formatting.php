@@ -29,10 +29,19 @@
 function wptexturize($text) {
 	global $wp_cockneyreplace;
 	static $static_characters, $static_replacements, $dynamic_characters, $dynamic_replacements,
-		$default_no_texturize_tags, $default_no_texturize_shortcodes;
+		$default_no_texturize_tags, $default_no_texturize_shortcodes, $run_texturize = true;
+
+	if ( false === $run_texturize ) {
+		return $text;
+	}
 
 	// No need to set up these static variables more than once
 	if ( ! isset( $static_characters ) ) {
+		$run_texturize = apply_filters( 'run_wptexturize', $run_texturize );
+		if ( false === $run_texturize ) {
+			return $text;
+		}
+
 		/* translators: opening curly double quote */
 		$opening_quote = _x( '&#8220;', 'opening curly double quote' );
 		/* translators: closing curly double quote */
