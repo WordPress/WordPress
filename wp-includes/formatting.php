@@ -180,10 +180,10 @@ function wptexturize($text) {
 			// regular expressions
 			$curl = preg_replace($dynamic_characters, $dynamic_replacements, $curl);
 
-			// 9x9 (times)
-			if ( 1 === preg_match( '/(?<=\d)x\d/', $text ) ) {
+			// 9x9 (times), but never 0x9999
+			if ( 1 === preg_match( '/(?<=\d)x-?\d/', $text ) ) {
 				// Searching for a digit is 10 times more expensive than for the x, so we avoid doing this one!
-				$curl = preg_replace( '/\b(\d+)x(\d+)\b/', '$1&#215;$2', $curl );
+				$curl = preg_replace( '/\b(\d(?(?<=0)[\d\.,]+|[\d\.,]*))x(-?\d[\d\.,]*)\b/', '$1&#215;$2', $curl );
 			}
 		}
 
