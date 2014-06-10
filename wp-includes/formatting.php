@@ -91,8 +91,8 @@ function wptexturize($text) {
 			$cockney = $cockneyreplace = array();
 		}
 
-		$static_characters = array_merge( array( '---', '...', '``', '\'\'', ' (tm)' ), $cockney );
-		$static_replacements = array_merge( array( $em_dash, '&#8230;', $opening_quote, $closing_quote, ' &#8482;' ), $cockneyreplace );
+		$static_characters = array_merge( array( '...', '``', '\'\'', ' (tm)' ), $cockney );
+		$static_replacements = array_merge( array( '&#8230;', $opening_quote, $closing_quote, ' &#8482;' ), $cockneyreplace );
 
 		$spaces = wp_spaces_regexp();
 
@@ -113,9 +113,9 @@ function wptexturize($text) {
 			$dynamic[ '/\'(?=\d)/' ] = $apos;
 		}
 
-		// Single quote at start, or preceded by (, {, <, [, ", or spaces.
+		// Single quote at start, or preceded by (, {, <, [, ", -, or spaces.
 		if ( "'" !== $opening_single_quote ) {
-			$dynamic[ '/(?<=\A|[([{<"]|' . $spaces . ')\'/' ] = $opening_single_quote;
+			$dynamic[ '/(?<=\A|[([{<"\-]|' . $spaces . ')\'/' ] = $opening_single_quote;
 		}
 
 		// Apostrophe in a word.  No spaces or double apostrophes.
@@ -133,9 +133,9 @@ function wptexturize($text) {
 			$dynamic[ '/(?<=\d)\'/' ] = $prime;
 		}
 
-		// Double quote at start, or preceded by (, {, <, [, or spaces, and not followed by spaces.
+		// Double quote at start, or preceded by (, {, <, [, -, or spaces, and not followed by spaces.
 		if ( '"' !== $opening_quote ) {
-			$dynamic[ '/(?<=\A|[([{<]|' . $spaces . ')"(?!' . $spaces . ')/' ] = $opening_quote;
+			$dynamic[ '/(?<=\A|[([{<\-]|' . $spaces . ')"(?!' . $spaces . ')/' ] = $opening_quote;
 		}
 
 		// Any remaining double quotes.
@@ -149,6 +149,7 @@ function wptexturize($text) {
 		}
 
 		// Dashes and spaces
+		$dynamic[ '/---/' ] = $em_dash;
 		$dynamic[ '/(?<=' . $spaces . ')--(?=' . $spaces . ')/' ] = $em_dash;
 		$dynamic[ '/(?<!xn)--/' ] = $en_dash;
 		$dynamic[ '/(?<=' . $spaces . ')-(?=' . $spaces . ')/' ] = $en_dash;
