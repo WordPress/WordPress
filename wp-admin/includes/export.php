@@ -240,12 +240,21 @@ function export_wp( $args = array() ) {
 	 * Output list of authors with posts
 	 *
 	 * @since 3.1.0
+	 *
+	 * @param array $post_ids Array of post IDs to filter the query by. Optional.
 	 */
-	function wxr_authors_list() {
+	function wxr_authors_list( array $post_ids = null ) {
 		global $wpdb;
 
+		if ( !empty( $post_ids ) ) {
+			$post_ids = array_map( 'absint', $post_ids );
+			$and = 'AND ID IN ( ' . implode( ', ', $post_ids ) . ')';
+		} else {
+			$and = '';
+		}
+
 		$authors = array();
-		$results = $wpdb->get_results( "SELECT DISTINCT post_author FROM $wpdb->posts WHERE post_status != 'auto-draft'" );
+		$results = $wpdb->get_results( "SELECT DISTINCT post_author FROM $wpdb->posts WHERE post_status != 'auto-draft' $and" );
 		foreach ( (array) $results as $result )
 			$authors[] = get_userdata( $result->post_author );
 
@@ -344,7 +353,7 @@ function export_wp( $args = array() ) {
 	<wp:base_site_url><?php echo wxr_site_url(); ?></wp:base_site_url>
 	<wp:base_blog_url><?php bloginfo_rss( 'url' ); ?></wp:base_blog_url>
 
-<?php wxr_authors_list(); ?>
+<?php wxr_authors_list( $post_ids ); ?>
 
 <?php foreach ( $cats as $c ) : ?>
 	<wp:category><wp:term_id><?php echo $c->term_id ?></wp:term_id><wp:category_nicename><?php echo $c->slug; ?></wp:category_nicename><wp:category_parent><?php echo $c->parent ? $cats[$c->parent]->slug : ''; ?></wp:category_parent><?php wxr_cat_name( $c ); ?><?php wxr_category_description( $c ); ?></wp:category>
