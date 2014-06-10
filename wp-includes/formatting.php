@@ -3100,18 +3100,6 @@ function tag_escape($tag_name) {
 }
 
 /**
- * Escapes text for SQL LIKE special characters % and _.
- *
- * @since 2.5.0
- *
- * @param string $text The text to be escaped.
- * @return string text, safe for inclusion in LIKE query.
- */
-function like_escape($text) {
-	return str_replace(array("%", "_"), array("\\%", "\\_"), $text);
-}
-
-/**
  * Convert full URL paths to absolute paths.
  *
  * Removes the http or https protocols and the domain. Keeps the path '/' at the

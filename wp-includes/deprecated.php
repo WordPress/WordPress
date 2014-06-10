@@ -3459,6 +3459,21 @@ function format_to_post( $content ) {
 }
 
 /**
+ * Formerly used to escape strings before searching the DB. It was poorly documented and never worked as described.
+ *
+ * @since 2.5.0
+ * @deprecated 4.0.0
+ * @deprecated Use wpdb::esc_like()
+ *
+ * @param string $text The text to be escaped.
+ * @return string text, safe for inclusion in LIKE query.
+ */
+function like_escape($text) {
+	_deprecated_function( __FUNCTION__, '4.0', 'wpdb::esc_like()' );
+	return str_replace( array( "%", "_" ), array( "\\%", "\\_" ), $text );
+}
+
+/**
  * Determines if the URL can be accessed over SSL.
  *
  * Determines if the URL can be accessed over SSL by using the WordPress HTTP API to access
