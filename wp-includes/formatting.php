@@ -3877,15 +3877,16 @@ function wp_spaces_regexp() {
 
 	if ( empty( $spaces ) ) {
 		/**
-		 * Regexp for common whitespace characters.
+		 * Filter the regexp for common whitespace characters.
 		 *
-		 * This string is substituted for the \s sequence as needed in regular expressions.
-		 * For websites not written in English, different characters may represent whitespace.
-		 * For websites not encoded in UTF-8, the 0xC2 0xA0 sequence may not be in use.
+		 * This string is substituted for the \s sequence as needed in regular
+		 * expressions. For websites not written in English, different characters
+		 * may represent whitespace. For websites not encoded in UTF-8, the 0xC2 0xA0
+		 * sequence may not be in use.
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param string $spaces
+		 * @param string $spaces Regexp pattern for matching common whitespace characters.
 		 */
 		$spaces = apply_filters( 'wp_spaces_regexp', '[\r\n\t ]|\xC2\xA0|&nbsp;' );
 	}
