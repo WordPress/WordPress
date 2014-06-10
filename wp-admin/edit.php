@@ -12,6 +12,12 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( ! $typenow )
 	wp_die( __( 'Invalid post type' ) );
 
+if ( 'attachment' === $typenow ) {
+	if ( wp_redirect( admin_url( 'upload.php' ) ) ) {
+		exit;
+	}
+}
+
 $post_type = $typenow;
 $post_type_object = get_post_type_object( $post_type );
 
