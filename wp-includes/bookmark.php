@@ -208,8 +208,8 @@ function get_bookmarks( $args = '' ) {
 
 	$search = '';
 	if ( ! empty( $r['search'] ) ) {
-		$search = esc_sql( like_escape( $r['search'] ) );
-		$search = " AND ( (link_url LIKE '%$search%') OR (link_name LIKE '%$search%') OR (link_description LIKE '%$search%') ) ";
+		$like = '%' . $wpdb->esc_like( $r['search'] ) . '%';
+		$search = $wpdb->prepare(" AND ( (link_url LIKE %s) OR (link_name LIKE %s) OR (link_description LIKE %s) ) ", $like, $like, $like );
 	}
 
 	$category_query = '';

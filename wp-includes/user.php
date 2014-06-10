@@ -797,16 +797,16 @@ class WP_User_Query {
 	 * @return string
 	 */
 	protected function get_search_sql( $string, $cols, $wild = false ) {
-		$string = esc_sql( $string );
+		global $wpdb;
 
 		$searches = array();
 		$leading_wild = ( 'leading' == $wild || 'both' == $wild ) ? '%' : '';
 		$trailing_wild = ( 'trailing' == $wild || 'both' == $wild ) ? '%' : '';
 		foreach ( $cols as $col ) {
 			if ( 'ID' == $col )
-				$searches[] = "$col = '$string'";
+				$searches[] = $wpdb->prepare( "$col = %s", $string );
 			else
-				$searches[] = "$col LIKE '$leading_wild" . like_escape($string) . "$trailing_wild'";
+				$searches[] = $wpdb->prepare( "$col LIKE %s", $leading_wild . $wpdb->esc_like( $string ) . $trailing_wild );
 		}
 
 		return ' AND (' . implode(' OR ', $searches) . ')';
@@ -1149,7 +1149,7 @@ function count_users($strategy = 'time') {
 		// Build a CPU-intensive query that will return concise information.
 		$select_count = array();
 		foreach ( $avail_roles as $this_role => $name ) {
-			$select_count[] = "COUNT(NULLIF(`meta_value` LIKE '%\"" . like_escape( $this_role ) . "\"%', false))";
+			$select_count[] = $wpdb->prepare( "COUNT(NULLIF(`meta_value` LIKE %s, false))", '%' . $wpdb->esc_like( '"' . $this_role . '"' ) . '%');
 		}
 		$select_count = implode(', ', $select_count);
 

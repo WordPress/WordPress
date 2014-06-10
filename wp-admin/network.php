@@ -39,8 +39,11 @@ foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table )
  */
 function network_domain_check() {
 	global $wpdb;
-	if ( $wpdb->get_var( "SHOW TABLES LIKE '$wpdb->site'" ) )
+
+	$sql = $wpdb->prepare( "SHOW TABLES LIKE %s", $wpdb->esc_like( $wpdb->site ) );
+	if ( $wpdb->get_var( $sql ) ) {
 		return $wpdb->get_var( "SELECT domain FROM $wpdb->site ORDER BY id ASC LIMIT 1" );
+	}
 	return false;
 }
 

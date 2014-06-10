@@ -504,7 +504,7 @@ function redirect_guess_404_permalink() {
 	global $wpdb, $wp_rewrite;
 
 	if ( get_query_var('name') ) {
-		$where = $wpdb->prepare("post_name LIKE %s", like_escape( get_query_var('name') ) . '%');
+		$where = $wpdb->prepare("post_name LIKE %s", $wpdb->esc_like( get_query_var('name') ) . '%');
 
 		// if any of post_type, year, monthnum, or day are set, use them to refine the query
 		if ( get_query_var('post_type') )

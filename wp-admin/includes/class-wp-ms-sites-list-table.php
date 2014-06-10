@@ -38,8 +38,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			$s = trim($s, '*');
 		}
 
-		$like_s = esc_sql( like_escape( $s ) );
-
 		// If the network is large and a search is not being performed, show only the latest blogs with no paging in order
 		// to avoid expensive count queries.
 		if ( !$s && wp_is_large_network() ) {
@@ -58,7 +56,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 					preg_match( '/^[0-9]{1,3}\.[0-9]{1,3}\.?$/', $s ) ||
 					preg_match( '/^[0-9]{1,3}\.$/', $s ) ) {
 			// IPv4 address
-			$reg_blog_ids = $wpdb->get_col( "SELECT blog_id FROM {$wpdb->registration_log} WHERE {$wpdb->registration_log}.IP LIKE ( '{$like_s}$wild' )" );
+			$sql = $wpdb->prepare( "SELECT blog_id FROM {$wpdb->registration_log} WHERE {$wpdb->registration_log}.IP LIKE %s", $wpdb->esc_like( $s ) . $wild );
+			$reg_blog_ids = $wpdb->get_col( $sql );
 
 			if ( !$reg_blog_ids )
 				$reg_blog_ids = array( 0 );
@@ -69,17 +68,18 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 				AND {$wpdb->blogs}.blog_id IN (" . implode( ', ', $reg_blog_ids ) . ")";
 		} else {
 			if ( is_numeric($s) && empty( $wild ) ) {
-				$query .= " AND ( {$wpdb->blogs}.blog_id = '{$like_s}' )";
+				$query .= $wpdb->prepare( " AND ( {$wpdb->blogs}.blog_id = %s )", $s );
 			} elseif ( is_subdomain_install() ) {
-				$blog_s = str_replace( '.' . $current_site->domain, '', $like_s );
-				$blog_s .= $wild . '.' . $current_site->domain;
-				$query .= " AND ( {$wpdb->blogs}.domain LIKE '$blog_s' ) ";
+				$blog_s = str_replace( '.' . $current_site->domain, '', $s );
+				$blog_s = $wpdb->esc_like( $blog_s ) . $wild . $wpdb->esc_like( '.' . $current_site->domain );
+				$query .= $wpdb->prepare( " AND ( {$wpdb->blogs}.domain LIKE %s ) ", $blog_s );
 			} else {
-				if ( $like_s != trim('/', $current_site->path) )
-					$blog_s = $current_site->path . $like_s . $wild . '/';
-				else
-					$blog_s = $like_s;
-				$query .= " AND  ( {$wpdb->blogs}.path LIKE '$blog_s' )";
+				if ( $s != trim('/', $current_site->path) ) {
+					$blog_s = $wpdb->esc_like( $current_site->path . $s ) . $wild . $wpdb->esc_like( '/' );
+				} else {
+					$blog_s = $wpdb->esc_like( $s );
+				}
+				$query .= $wpdb->prepare( " AND  ( {$wpdb->blogs}.path LIKE %s )", $blog_s );
 			}
 		}
 

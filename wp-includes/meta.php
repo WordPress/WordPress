@@ -1047,8 +1047,8 @@ class WP_Meta_Query {
 			} elseif ( 'BETWEEN' == substr( $meta_compare, -7) ) {
 				$meta_value = array_slice( $meta_value, 0, 2 );
 				$meta_compare_string = '%s AND %s';
-			} elseif ( 'LIKE' == substr( $meta_compare, -4 ) ) {
-				$meta_value = '%' . like_escape( $meta_value ) . '%';
+			} elseif ( 'LIKE' == $meta_compare || 'NOT LIKE' == $meta_compare ) {
+				$meta_value = '%' . $wpdb->esc_like( $meta_value ) . '%';
 				$meta_compare_string = '%s';
 			} else {
 				$meta_compare_string = '%s';
