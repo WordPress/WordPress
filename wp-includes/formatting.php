@@ -88,6 +88,14 @@ function wptexturize($text) {
 		// Pattern-based replacements of characters.
 		$dynamic = array();
 
+		// Quoted Numbers like "42" or '42.00'
+		if ( '"' !== $opening_quote && '"' !== $closing_quote ) {
+			$dynamic[ '/(?<=\A|' . $spaces . ')"(\d[\d\.\,]*)"/' ] = $opening_quote . '$1' . $closing_quote;
+		}
+		if ( "'" !== $opening_single_quote && "'" !== $closing_single_quote ) {
+			$dynamic[ '/(?<=\A|' . $spaces . ')\'(\d[\d\.\,]*)\'/' ] = $opening_single_quote . '$1' . $closing_single_quote;
+		}
+
 		// '99 '99s '99's (apostrophe)
 		if ( "'" !== $apos ) {
 			$dynamic[ '/\'(?=\d)/' ] = $apos;
