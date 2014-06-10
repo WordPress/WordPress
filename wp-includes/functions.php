@@ -2713,7 +2713,10 @@ function smilies_init() {
 	 */
 	krsort($wpsmiliestrans);
 
-	$wp_smiliessearch = '/((?:\s|^)';
+	$spaces = wp_spaces_regexp();
+
+	// Begin first "subpattern"
+	$wp_smiliessearch = '/(?<=' . $spaces . '|^)';
 
 	$subchar = '';
 	foreach ( (array) $wpsmiliestrans as $smiley => $img ) {
@@ -2723,7 +2726,8 @@ function smilies_init() {
 		// new subpattern?
 		if ($firstchar != $subchar) {
 			if ($subchar != '') {
-				$wp_smiliessearch .= ')(?=\s|$))|((?:\s|^)'; ;
+				$wp_smiliessearch .= ')(?=' . $spaces . '|$)';  // End previous "subpattern"
+				$wp_smiliessearch .= '|(?<=' . $spaces . '|^)'; // Begin another "subpattern"
 			}
 			$subchar = $firstchar;
 			$wp_smiliessearch .= preg_quote($firstchar, '/') . '(?:';
@@ -2733,7 +2737,7 @@ function smilies_init() {
 		$wp_smiliessearch .= preg_quote($rest, '/');
 	}
 
-	$wp_smiliessearch .= ')(?=\s|$))/m';
+	$wp_smiliessearch .= ')(?=' . $spaces . '|$)/m';
 
 }
 
