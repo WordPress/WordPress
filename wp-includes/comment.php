@@ -483,9 +483,12 @@ class WP_Comment_Query {
 	protected function get_search_sql( $string, $cols ) {
 		global $wpdb;
 
+		$like = '%' . $wpdb->esc_like( $string ) . '%';
+
 		$searches = array();
-		foreach ( $cols as $col )
-			$searches[] = $wpdb->prepare( "$col LIKE %s", $wpdb->esc_like( $string ) );
+		foreach ( $cols as $col ) {
+			$searches[] = $wpdb->prepare( "$col LIKE %s", $like );
+		}
 
 		return ' AND (' . implode(' OR ', $searches) . ')';
 	}
