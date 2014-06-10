@@ -95,17 +95,17 @@ class WP_oEmbed {
 	}
 
 	/**
-	 * The do-it-all function that takes a URL and attempts to return the HTML.
+	 * Takes a URL and returns the corresponding oEmbed provider's URL, if there is one.
 	 *
 	 * @see WP_oEmbed::discover()
-	 * @see WP_oEmbed::fetch()
-	 * @see WP_oEmbed::data2html()
 	 *
-	 * @param string $url The URL to the content that should be attempted to be embedded.
-	 * @param array $args Optional arguments. Usually passed from a shortcode.
-	 * @return bool|string False on failure, otherwise the UNSANITIZED (and potentially unsafe) HTML that should be used to embed.
+	 * @param string $url  The URL to the content.
+	 * @param array  $args Optional arguments.
+	 * @return bool|string False on failure, otherwise the oEmbed provider URL.
+	 * @since 4.0.0
 	 */
-	public function get_html( $url, $args = '' ) {
+	public function get_provider( $url, $args = '' ) {
+
 		$provider = false;
 
 		if ( !isset($args['discover']) )
@@ -128,6 +128,22 @@ class WP_oEmbed {
 
 		if ( !$provider && $args['discover'] )
 			$provider = $this->discover( $url );
+
+		return $provider;
+	}
+
+	/**
+	 * The do-it-all function that takes a URL and attempts to return the HTML.
+	 *
+	 * @see WP_oEmbed::fetch()
+	 * @see WP_oEmbed::data2html()
+	 *
+	 * @param string $url The URL to the content that should be attempted to be embedded.
+	 * @param array $args Optional arguments. Usually passed from a shortcode.
+	 * @return bool|string False on failure, otherwise the UNSANITIZED (and potentially unsafe) HTML that should be used to embed.
+	 */
+	function get_html( $url, $args = '' ) {
+		$provider = $this->get_provider( $url, $args );
 
 		if ( !$provider || false === $data = $this->fetch( $provider, $url, $args ) )
 			return false;
