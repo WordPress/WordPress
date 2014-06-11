@@ -1643,6 +1643,10 @@ function wp_insert_user( $userdata ) {
 	} else {
 		$user_nicename = $userdata['user_nicename'];
 	}
+
+	// Store values to save in user meta.
+	$meta = array();
+
 	/**
 	 * Filter a user's nicename before the user is created or updated.
 	 *
@@ -1652,32 +1656,33 @@ function wp_insert_user( $userdata ) {
 	 */
 	$user_nicename = apply_filters( 'pre_user_nicename', $user_nicename );
 
-	$user_url = empty( $userdata['user_url'] ) ? '' : $userdata['user_url'];
+	$raw_user_url = empty( $userdata['user_url'] ) ? '' : $userdata['user_url'];
 
 	/**
 	 * Filter a user's URL before the user is created or updated.
 	 *
 	 * @since 2.0.3
 	 *
-	 * @param string $user_url The user's URL.
+	 * @param string $raw_user_url The user's URL.
 	 */
-	$user_url = apply_filters( 'pre_user_url', $user_url );
+	$user_url = apply_filters( 'pre_user_url', $raw_user_url );
 
-	$user_email = empty( $userdata['user_email'] ) ? '' : $userdata['user_email'];
+	$raw_user_email = empty( $userdata['user_email'] ) ? '' : $userdata['user_email'];
 
 	/**
 	 * Filter a user's email before the user is created or updated.
 	 *
 	 * @since 2.0.3
 	 *
-	 * @param string $user_email The user's email.
+	 * @param string $raw_user_email The user's email.
 	 */
-	$user_email = apply_filters( 'pre_user_email', $user_email );
+	$user_email = apply_filters( 'pre_user_email', $raw_user_email );
 
 	if ( ! $update && ! defined( 'WP_IMPORTING' ) && email_exists( $user_email ) ) {
 		return new WP_Error( 'existing_user_email', __( 'Sorry, that email address is already used!' ) );
 	}
 	$nickname = empty( $userdata['nickname'] ) ? $user_login : $userdata['nickname'];
+
 	/**
 	 * Filter a user's nickname before the user is created or updated.
 	 *
@@ -1685,7 +1690,7 @@ function wp_insert_user( $userdata ) {
 	 *
 	 * @param string $nickname The user's nickname.
 	 */
-	$nickname = apply_filters( 'pre_user_nickname', $nickname );
+	$meta['nickname'] = apply_filters( 'pre_user_nickname', $nickname );
 
 	$first_name = empty( $userdata['first_name'] ) ? '' : $userdata['first_name'];
 
@@ -1696,7 +1701,7 @@ function wp_insert_user( $userdata ) {
 	 *
 	 * @param string $first_name The user's first name.
 	 */
-	$first_name = apply_filters( 'pre_user_first_name', $first_name );
+	$meta['first_name'] = apply_filters( 'pre_user_first_name', $first_name );
 
 	$last_name = empty( $userdata['last_name'] ) ? '' : $userdata['last_name'];
 
@@ -1707,18 +1712,18 @@ function wp_insert_user( $userdata ) {
 	 *
 	 * @param string $last_name The user's last name.
 	 */
-	$last_name = apply_filters( 'pre_user_last_name', $last_name );
+	$meta['last_name'] = apply_filters( 'pre_user_last_name', $last_name );
 
 	if ( empty( $userdata['display_name'] ) ) {
 		if ( $update ) {
 			$display_name = $user_login;
-		} elseif ( $first_name && $last_name ) {
+		} elseif ( $meta['first_name'] && $meta['last_name'] ) {
 			/* translators: 1: first name, 2: last name */
-			$display_name = sprintf( _x( '%1$s %2$s', 'Display name based on first name and last name' ), $first_name, $last_name );
-		} elseif ( $first_name ) {
-			$display_name = $first_name;
-		} elseif ( $last_name ) {
-			$display_name = $last_name;
+			$display_name = sprintf( _x( '%1$s %2$s', 'Display name based on first name and last name' ), $meta['first_name'], $meta['last_name'] );
+		} elseif ( $meta['first_name'] ) {
+			$display_name = $meta['first_name'];
+		} elseif ( $meta['last_name'] ) {
+			$display_name = $meta['last_name'];
 		} else {
 			$display_name = $user_login;
 		}
@@ -1744,20 +1749,20 @@ function wp_insert_user( $userdata ) {
 	 *
 	 * @param string $description The user's description.
 	 */
-	$description = apply_filters( 'pre_user_description', $description );
+	$meta['description'] = apply_filters( 'pre_user_description', $description );
 
-	$rich_editing = empty( $userdata['rich_editing'] ) ? 'true' : $userdata['rich_editing'];
+	$meta['rich_editing'] = empty( $userdata['rich_editing'] ) ? 'true' : $userdata['rich_editing'];
 
-	$comment_shortcuts = empty( $userdata['comment_shortcuts'] ) ? 'false' : $userdata['comment_shortcuts'];
+	$meta['comment_shortcuts'] = empty( $userdata['comment_shortcuts'] ) ? 'false' : $userdata['comment_shortcuts'];
 
 	$admin_color = empty( $userdata['admin_color'] ) ? 'fresh' : $userdata['admin_color'];
-	$admin_color = preg_replace( '|[^a-z0-9 _.\-@]|i', '', $admin_color );
+	$meta['admin_color'] = preg_replace( '|[^a-z0-9 _.\-@]|i', '', $admin_color );
 
-	$use_ssl = empty( $userdata['use_ssl'] ) ? 0 : $userdata['use_ssl'];
+	$meta['use_ssl'] = empty( $userdata['use_ssl'] ) ? 0 : $userdata['use_ssl'];
 
 	$user_registered = empty( $userdata['user_registered'] ) ? gmdate( 'Y-m-d H:i:s' ) : $userdata['user_registered'];
 
-	$show_admin_bar_front = empty( $userdata['show_admin_bar_front'] ) ? 'true' : $userdata['show_admin_bar_front'];
+	$meta['show_admin_bar_front'] = empty( $userdata['show_admin_bar_front'] ) ? 'true' : $userdata['show_admin_bar_front'];
 
 	$user_nicename_check = $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1" , $user_nicename, $user_login));
 
@@ -1771,8 +1776,8 @@ function wp_insert_user( $userdata ) {
 		$user_nicename = $alt_user_nicename;
 	}
 
-	$data = compact( 'user_pass', 'user_email', 'user_url', 'user_nicename', 'display_name', 'user_registered' );
-	$data = wp_unslash( $data );
+	$compacted = compact( 'user_pass', 'user_email', 'user_url', 'user_nicename', 'display_name', 'user_registered' );
+	$data = wp_unslash( $compacted );
 
 	if ( $update ) {
 		$wpdb->update( $wpdb->users, $data, compact( 'ID' ) );
@@ -1784,9 +1789,14 @@ function wp_insert_user( $userdata ) {
 
 	$user = new WP_User( $user_id );
 
-	foreach ( _get_additional_user_keys( $user ) as $key ) {
-		if ( isset( $$key ) ) {
-			update_user_meta( $user_id, $key, $$key );
+	// Update user meta.
+	foreach ( $meta as $key => $value ) {
+		update_user_meta( $user_id, $key, $value );
+	}
+
+	foreach ( wp_get_user_contact_methods( $user ) as $key => $value ) {
+		if ( isset( $userdata[ $key ] ) ) {
+			update_user_meta( $user_id, $key, $userdata[ $key ] );
 		}
 	}
 
