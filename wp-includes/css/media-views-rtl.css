@@ -1817,7 +1817,7 @@
 	color: #666;
 }
 
-.image-details .embed-media-settings .setting .name {
+.image-details .embed-media-settings .setting span {
 	float: right;
 	width: 25%;
 	text-align: left;
