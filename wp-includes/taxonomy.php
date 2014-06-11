@@ -2436,7 +2436,13 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	$slug_provided = ! empty( $args['slug'] );
 	if ( ! $slug_provided ) {
-		$slug = sanitize_title($name);
+		$_name = trim( $name );
+		$existing_term = get_term_by( 'name', $_name, $taxonomy );
+		if ( $existing_term ) {
+			$slug = $existing_term->slug;
+		} else {
+			$slug = sanitize_title( $name );
+		}
 	} else {
 		$slug = $args['slug'];
 	}
