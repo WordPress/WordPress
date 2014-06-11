@@ -756,10 +756,19 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 	if ( $multi ) return;
 
 	echo "\n\n";
-	foreach ( array('mm', 'jj', 'aa', 'hh', 'mn') as $timeunit ) {
-		echo '<input type="hidden" id="hidden_' . $timeunit . '" name="hidden_' . $timeunit . '" value="' . $$timeunit . '" />' . "\n";
+	$map = array(
+		'mm' => array( $mm, $cur_mm ),
+		'jj' => array( $jj, $cur_jj ),
+		'aa' => array( $aa, $cur_aa ),
+		'hh' => array( $hh, $cur_hh ),
+		'mn' => array( $mn, $cur_mn ),
+	);
+	foreach ( $map as $timeunit => $value ) {
+		list( $unit, $curr ) = $value;
+
+		echo '<input type="hidden" id="hidden_' . $timeunit . '" name="hidden_' . $timeunit . '" value="' . $unit . '" />' . "\n";
 		$cur_timeunit = 'cur_' . $timeunit;
-		echo '<input type="hidden" id="' . $cur_timeunit . '" name="' . $cur_timeunit . '" value="' . $$cur_timeunit . '" />' . "\n";
+		echo '<input type="hidden" id="' . $cur_timeunit . '" name="' . $cur_timeunit . '" value="' . $curr . '" />' . "\n";
 	}
 ?>
 
