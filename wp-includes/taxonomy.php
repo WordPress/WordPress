@@ -1571,9 +1571,13 @@ function get_terms( $taxonomies, $args = '' ) {
 	 * @param array        $args       An array of terms query arguments.
 	 */
 	$clauses = apply_filters( 'terms_clauses', compact( $pieces ), $taxonomies, $args );
-	foreach ( $pieces as $piece ) {
-		$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
-	}
+	$fields = isset( $clauses[ 'fields' ] ) ? $clauses[ 'fields' ] : '';
+	$join = isset( $clauses[ 'join' ] ) ? $clauses[ 'join' ] : '';
+	$where = isset( $clauses[ 'where' ] ) ? $clauses[ 'where' ] : '';
+	$orderby = isset( $clauses[ 'orderby' ] ) ? $clauses[ 'orderby' ] : '';
+	$order = isset( $clauses[ 'order' ] ) ? $clauses[ 'order' ] : '';
+	$limits = isset( $clauses[ 'limits' ] ) ? $clauses[ 'limits' ] : '';
+
 	$query = "SELECT $fields FROM $wpdb->terms AS t $join WHERE $where $orderby $order $limits";
 
 	if ( 'count' == $_fields ) {
