@@ -2637,11 +2637,12 @@ function content_url($path = '') {
 */
 function plugins_url($path = '', $plugin = '') {
 
-	$mu_plugin_dir = WPMU_PLUGIN_DIR;
-	foreach ( array('path', 'plugin', 'mu_plugin_dir') as $var ) {
-		$$var = str_replace('\\' ,'/', $$var); // sanitize for Win32 installs
-		$$var = preg_replace('|/+|', '/', $$var);
-	}
+	$path = str_replace( '\\' ,'/', $path ); // sanitize for Win32 installs
+	$path = preg_replace( '|/+|', '/', $path );
+	$plugin = str_replace( '\\' ,'/', $plugin ); // sanitize for Win32 installs
+	$plugin = preg_replace( '|/+|', '/', $plugin );
+	$mu_plugin_dir = str_replace( '\\' ,'/', WPMU_PLUGIN_DIR ); // sanitize for Win32 installs
+	$mu_plugin_dir = preg_replace( '|/+|', '/', $mu_plugin_dir );
 
 	if ( !empty($plugin) && 0 === strpos($plugin, $mu_plugin_dir) )
 		$url = WPMU_PLUGIN_URL;
