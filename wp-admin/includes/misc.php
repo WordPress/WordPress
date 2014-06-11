@@ -274,17 +274,15 @@ function url_shorten( $url ) {
  * @param array $vars An array of globals to reset.
  */
 function wp_reset_vars( $vars ) {
-	for ( $i=0; $i<count( $vars ); $i += 1 ) {
-		$var = $vars[$i];
-		global $$var;
-
-		if ( empty( $_POST[$var] ) ) {
-			if ( empty( $_GET[$var] ) )
-				$$var = '';
-			else
-				$$var = $_GET[$var];
+	foreach ( $vars as $var ) {
+		if ( empty( $_POST[ $var ] ) ) {
+			if ( empty( $_GET[ $var ] ) ) {
+				$GLOBALS[ $var ] = '';
+			} else {
+				$GLOBALS[ $var ] = $_GET[ $var ];
+			}
 		} else {
-			$$var = $_POST[$var];
+			$GLOBALS[ $var ] = $_POST[ $var ];
 		}
 	}
 }
