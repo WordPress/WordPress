@@ -3082,9 +3082,13 @@ class WP_Query {
 			 */
 			$clauses = (array) apply_filters_ref_array( 'posts_clauses', array( compact( $pieces ), &$this ) );
 
-			foreach ( $pieces as $piece ) {
-				$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
-			}
+			$where = isset( $clauses[ 'where' ] ) ? $clauses[ 'where' ] : '';
+			$groupby = isset( $clauses[ 'groupby' ] ) ? $clauses[ 'groupby' ] : '';
+			$join = isset( $clauses[ 'join' ] ) ? $clauses[ 'join' ] : '';
+			$orderby = isset( $clauses[ 'orderby' ] ) ? $clauses[ 'orderby' ] : '';
+			$distinct = isset( $clauses[ 'distinct' ] ) ? $clauses[ 'distinct' ] : '';
+			$fields = isset( $clauses[ 'fields' ] ) ? $clauses[ 'fields' ] : '';
+			$limits = isset( $clauses[ 'limits' ] ) ? $clauses[ 'limits' ] : '';
 		}
 
 		/**
@@ -3201,8 +3205,14 @@ class WP_Query {
 			 * @param WP_Query &$this  The WP_Query instance (passed by reference).
 			 */
 			$clauses = (array) apply_filters_ref_array( 'posts_clauses_request', array( compact( $pieces ), &$this ) );
-			foreach ( $pieces as $piece )
-				$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
+
+			$where = isset( $clauses[ 'where' ] ) ? $clauses[ 'where' ] : '';
+			$groupby = isset( $clauses[ 'groupby' ] ) ? $clauses[ 'groupby' ] : '';
+			$join = isset( $clauses[ 'join' ] ) ? $clauses[ 'join' ] : '';
+			$orderby = isset( $clauses[ 'orderby' ] ) ? $clauses[ 'orderby' ] : '';
+			$distinct = isset( $clauses[ 'distinct' ] ) ? $clauses[ 'distinct' ] : '';
+			$fields = isset( $clauses[ 'fields' ] ) ? $clauses[ 'fields' ] : '';
+			$limits = isset( $clauses[ 'limits' ] ) ? $clauses[ 'limits' ] : '';
 		}
 
 		if ( ! empty($groupby) )
