@@ -1046,13 +1046,11 @@ function wp_dashboard_plugins_output( $rss, $args = array() ) {
 
 	echo '<ul>';
 
-	foreach ( array(
-		'popular' => __( 'Popular Plugin' )
-	) as $feed => $label ) {
-		if ( is_wp_error($$feed) || !$$feed->get_item_quantity() )
+	foreach ( array( $popular ) as $feed ) {
+		if ( is_wp_error( $feed ) || ! $feed->get_item_quantity() )
 			continue;
 
-		$items = $$feed->get_items(0, 5);
+		$items = $feed->get_items(0, 5);
 
 		// Pick a random, non-installed plugin
 		while ( true ) {
@@ -1098,11 +1096,10 @@ function wp_dashboard_plugins_output( $rss, $args = array() ) {
 		$description = esc_html( strip_tags( @html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) ) ) );
 
 		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) . '&amp;TB_iframe=true&amp;width=600&amp;height=800';
+		echo "<li class='dashboard-news-plugin'><span>" . __( 'Popular Plugin' ) . ":</span> <a href='$link' class='dashboard-news-plugin-link'>$title</a>&nbsp;<span>(<a href='$ilink' class='thickbox' title='$title'>" . __( 'Install' ) . "</a>)</span></li>";
 
-		echo "<li class='dashboard-news-plugin'><span>$label:</span> <a href='$link' class='dashboard-news-plugin-link'>$title</a>&nbsp;<span>(<a href='$ilink' class='thickbox' title='$title'>" . __( 'Install' ) . "</a>)</span></li>";
-
-		$$feed->__destruct();
-		unset( $$feed );
+		$feed->__destruct();
+		unset( $feed );
 	}
 
 	echo '</ul>';
