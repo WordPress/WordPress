@@ -166,8 +166,11 @@ switch($step) {
 	break;
 
 	case 2:
-	foreach ( array( 'dbname', 'uname', 'pwd', 'dbhost', 'prefix' ) as $key )
-		$$key = trim( wp_unslash( $_POST[ $key ] ) );
+	$dbname = trim( wp_unslash( $_POST[ 'dbname' ] ) );
+	$uname = trim( wp_unslash( $_POST[ 'uname' ] ) );
+	$pwd = trim( wp_unslash( $_POST[ 'pwd' ] ) );
+	$dbhost = trim( wp_unslash( $_POST[ 'dbhost' ] ) );
+	$prefix = trim( wp_unslash( $_POST[ 'prefix' ] ) );
 
 	$tryagain_link = '</p><p class="step"><a href="setup-config.php?step=1" onclick="javascript:history.go(-1);return false;" class="button button-large">' . __( 'Try again' ) . '</a>';
 
