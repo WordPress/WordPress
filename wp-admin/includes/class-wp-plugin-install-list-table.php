@@ -34,6 +34,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$tabs['popular']   = _x( 'Popular', 'Plugin Installer' );
 		$tabs['new']       = _x( 'Newest', 'Plugin Installer' );
 		$tabs['favorites'] = _x( 'Favorites', 'Plugin Installer' );
+		if ( $tab === 'beta' || false !== strpos( $GLOBALS['wp_version'], '-' ) ) {
+			$tabs['beta']      = _x( 'Beta Testing', 'Plugin Installer' );
+		}
 
 		$nonmenu_tabs = array( 'plugin-information' ); //Valid actions to perform which do not have a Menu item.
 
@@ -85,6 +88,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			case 'featured':
 			case 'popular':
 			case 'new':
+			case 'beta':
 				$args['browse'] = $tab;
 				break;
 
