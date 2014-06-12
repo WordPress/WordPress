@@ -994,9 +994,6 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-editor-gallery">
-		<div class="toolbar">
-			<div class="dashicons dashicons-edit edit"></div><div class="dashicons dashicons-no-alt remove"></div>
-		</div>
 		<# if ( data.attachments ) { #>
 			<div class="gallery gallery-columns-{{ data.columns }}">
 				<# _.each( data.attachments, function( attachment, index ) { #>
@@ -1027,30 +1024,16 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-editor-audio">
-		<div class="toolbar">
-			<div class="dashicons dashicons-edit edit"></div>
-			<div class="dashicons dashicons-no-alt remove"></div>
-		</div>
 		<?php wp_underscore_audio_template() ?>
-		<div class="wpview-overlay"></div>
 	</script>
 
 	<script type="text/html" id="tmpl-editor-video">
-		<div class="toolbar">
-			<div class="dashicons dashicons-edit edit"></div>
-			<div class="dashicons dashicons-no-alt remove"></div>
-		</div>
 		<?php wp_underscore_video_template() ?>
-		<div class="wpview-overlay"></div>
 	</script>
 
 	<?php wp_underscore_playlist_templates() ?>
 
 	<script type="text/html" id="tmpl-editor-playlist">
-		<div class="toolbar">
-			<div class="dashicons dashicons-edit edit"></div>
-			<div class="dashicons dashicons-no-alt remove"></div>
-		</div>
 		<# if ( data.tracks ) { #>
 			<div class="wp-playlist wp-{{ data.type }}-playlist wp-playlist-{{ data.style }}">
 				<# if ( 'audio' === data.type ){ #>
@@ -1062,7 +1045,6 @@ function wp_print_media_templates() {
 				<div class="wp-playlist-next"></div>
 				<div class="wp-playlist-prev"></div>
 			</div>
-			<div class="wpview-overlay"></div>
 		<# } else { #>
 			<div class="wpview-error">
 				<div class="dashicons dashicons-video-alt3"></div><p><?php _e( 'No items found.' ); ?></p>
@@ -1073,14 +1055,6 @@ function wp_print_media_templates() {
 	<script type="text/html" id="tmpl-crop-content">
 		<img class="crop-image" src="{{ data.url }}">
 		<div class="upload-errors"></div>
-	</script>
-
-	<script type="text/html" id="tmpl-editor-embed">
-		<div class="toolbar">
-			<div class="dashicons dashicons-no-alt remove"></div>
-		</div>
-		{{{ data.content }}}
-		<div class="wpview-overlay"></div>
 	</script>
 
 	<?php

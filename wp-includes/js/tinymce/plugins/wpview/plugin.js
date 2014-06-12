@@ -158,6 +158,8 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	// matching view patterns, and transform the matches into
 	// view wrappers.
 	editor.on( 'BeforeSetContent', function( event ) {
+		var node;
+
 		if ( ! event.content ) {
 			return;
 		}
@@ -166,14 +168,16 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			wp.mce.views.unbind( editor );
 		}
 
+		node = editor.selection.getNode();
+
+		// When a url is pasted, only try to embed it when pasted in an empty paragrapgh.
+		if ( event.content.match( /^\s*(https?:\/\/[^\s"]+)\s*$/i ) &&
+			( node.nodeName !== 'P' || node.parentNode !== editor.getBody() || ! editor.dom.isEmpty( node ) ) ) {
+			return;
+		}
+
 		event.content = wp.mce.views.toViews( event.content );
 	});
-
-	editor.on( 'PastePreProcess', function( event ) {
-		if ( event.content.match( /^\s*(https?:\/\/[^\s"]+)\s*$/im ) ) {
-			event.content = '[embed]' + event.content + '[/embed]';
-		}
-	} );
 
 	// When the editor's content has been updated and the DOM has been
 	// processed, render the views in the document.
