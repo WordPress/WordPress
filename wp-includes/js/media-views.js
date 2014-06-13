@@ -1402,15 +1402,17 @@
 
 			priority: 120,
 			type:     'link',
-			url:      ''
+			url:      '',
+			metadata: {}
 		},
 
 		// The amount of time used when debouncing the scan.
 		sensitivity: 200,
 
-		initialize: function() {
+		initialize: function(options) {
+			this.metadata = options.metadata;
 			this.debouncedScan = _.debounce( _.bind( this.scan, this ), this.sensitivity );
-			this.props = new Backbone.Model({ url: '' });
+			this.props = new Backbone.Model( this.metadata || { url: '' });
 			this.props.on( 'change:url', this.debouncedScan, this );
 			this.props.on( 'change:url', this.refresh, this );
 			this.on( 'scan', this.scanImage, this );
@@ -2278,7 +2280,8 @@
 			_.defaults( this.options, {
 				multiple:  true,
 				editing:   false,
-				state:    'insert'
+				state:    'insert',
+				metadata:  {}
 			});
 			/**
 			 * call 'initialize' directly on the parent class
@@ -2330,7 +2333,7 @@
 				}),
 
 				// Embed states.
-				new media.controller.Embed(),
+				new media.controller.Embed( { metadata: options.metadata } ),
 
 				new media.controller.EditImage( { model: options.editImage } ),
 
@@ -6440,13 +6443,21 @@
 		},
 
 		initialize: function() {
-			this.$input = $('<input id="embed-url-field" />').attr( 'type', 'text' ).val( this.model.get('url') );
+			var self = this;
+
+			this.$input = $('<input id="embed-url-field" type="text" />').val( this.model.get('url') );
 			this.input = this.$input[0];
 
 			this.spinner = $('<span class="spinner" />')[0];
 			this.$el.append([ this.input, this.spinner ]);
 
 			this.model.on( 'change:url', this.render, this );
+
+			if ( this.model.get( 'url' ) ) {
+				_.delay( function () {
+					self.model.trigger( 'change:url' );
+				}, 500 );
+			}
 		},
 		/**
 		 * @returns {wp.media.view.EmbedUrl} Returns itself to allow chaining

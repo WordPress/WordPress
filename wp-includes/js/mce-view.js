@@ -810,11 +810,47 @@ window.wp = window.wp || {};
 		}
 	} );
 
-	wp.mce.views.register( 'embed', {
-		View: wp.mce.embedView
-	} );
+	wp.mce.embedMixin = {
+		View: wp.mce.embedView,
+		edit: function( node ) {
+			var embed = media.embed,
+				self = this,
+				frame,
+				data,
+				isURL = 'embedURL' === this.shortcode;
 
-	wp.mce.views.register( 'embedURL', {
+			$( document ).trigger( 'media:edit' );
+
+			data = window.decodeURIComponent( $( node ).attr('data-wpview-text') );
+			frame = embed.edit( data, isURL );
+			frame.on( 'close', function() {
+				frame.detach();
+			} );
+			frame.state( 'embed' ).props.on( 'change:url', function (model, url) {
+				if ( ! url ) {
+					return;
+				}
+				frame.state( 'embed' ).metadata = model.toJSON();
+			} );
+			frame.state( 'embed' ).on( 'select', function() {
+				var shortcode;
+
+				if ( isURL ) {
+					shortcode = frame.state( 'embed' ).metadata.url;
+				} else {
+					shortcode = embed.shortcode( frame.state( 'embed' ).metadata ).string();
+				}
+				$( node ).attr( 'data-wpview-text', window.encodeURIComponent( shortcode ) );
+				wp.mce.views.refreshView( self, shortcode );
+				frame.detach();
+			} );
+			frame.open();
+		}
+	};
+
+	wp.mce.views.register( 'embed', _.extend( {}, wp.mce.embedMixin ) );
+
+	wp.mce.views.register( 'embedURL', _.extend( {}, wp.mce.embedMixin, {
 		toView: function( content ) {
 			var re = /(?:^|<p>)(https?:\/\/[^\s"]+?)(?:<\/p>\s*|$)/gi,
 				match = re.exec( tinymce.trim( content ) );
@@ -830,8 +866,7 @@ window.wp = window.wp || {};
 					url: match[1]
 				}
 			};
-		},
-		View: wp.mce.embedView
-	} );
+		}
+	} ) );
 
 }(jQuery));
