@@ -1681,7 +1681,8 @@ function get_terms( $taxonomies, $args = '' ) {
  * @param string $taxonomy The taxonomy name to use
  * @param int $parent ID of parent term under which to confine the exists search.
  * @return mixed Returns 0 if the term does not exist. Returns the term ID if no taxonomy is specified
- * 	and the term ID exists. Returns an array of the term ID and the taxonomy if the pairing exists.
+ *               and the term ID exists. Returns an array of the term ID and the term taxonomy ID
+ *               if the taxonomy is specified and the pairing exists.
  */
 function term_exists($term, $taxonomy = '', $parent = 0) {
 	global $wpdb;
