@@ -824,3 +824,15 @@ function heartbeat_autosave( $response, $data ) {
 }
 // Run later as we have to set DOING_AUTOSAVE for back-compat
 add_filter( 'heartbeat_received', 'heartbeat_autosave', 500, 2 );
+
+/**
+ * Send error message when an URL cannot be embedded. Used in wp_ajax_parse_embed().
+ *
+ * @access private
+ * @since 4.0
+ */
+function _wpview_embed_error( $output, $url ) {
+	wp_send_json_error( array(
+		'message' => sprintf( __( '%s failed to embed.' ), esc_url( $url ) ),
+	) );
+}

@@ -306,8 +306,9 @@ audio {
 
 .wpview-error {
 	border: 1px solid #dedede;
-	padding: 20px 0;
+	padding: 1em 0;
 	margin: 0;
+	word-wrap: break-word;
 }
 
 .wpview-wrap[data-mce-selected] .wpview-error {

@@ -2530,13 +2530,16 @@ function wp_ajax_parse_embed() {
 		wp_send_json_error();
 	}
 
-	if ( ! current_user_can( 'read_post', $post->ID ) ) {
+	if ( empty( $_POST['shortcode'] ) || ! current_user_can( 'read_post', $post->ID ) ) {
 		wp_send_json_error();
 	}
 
 	setup_postdata( $post );
 
-	$parsed = $wp_embed->run_shortcode( $_POST['content'] );
+	// If the URL cannot be embedded, return an eror message with wp_send_json_error()
+	add_filter( 'embed_maybe_make_link', '_wpview_embed_error', 20, 2 );
+
+	$parsed = $wp_embed->run_shortcode( $_POST['shortcode'] );
 	$parsed = do_shortcode( $parsed );
 
 	wp_send_json_success( $parsed );

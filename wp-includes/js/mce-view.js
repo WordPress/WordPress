@@ -718,27 +718,29 @@ window.wp = window.wp || {};
 
 			wp.ajax.send( 'parse-embed', {
 				data: {
-					post_ID: $( '#post_ID' ).val(),
-					content: this.shortcode
+					post_ID: $( '#post_ID' ).val() || 0,
+					shortcode: this.shortcode
 				}
 			} )
-			.done( function( content ) {
+			.always( function() {
 				self.fetching = false;
-
-				if ( content.substring( 0, ( '<a href' ).length ) === '<a href' ) {
+			} )
+			.done( function( response ) {
+				if ( response ) {
+					self.parsed = response;
+					self.setHtml( response );
+				}
+			} )
+			.fail( function( response ) {
+				if ( response && response.message ) {
 					if ( self.type === 'embed' ) {
-						self.setError( self.original + ' failed to embed.', 'admin-media' );
+						self.setError( response.message, 'admin-media' );
 					} else {
-						self.setContent( self.original, null, true );
+						self.setContent( '<p>' + self.original + '</p>', null, true );
 					}
-				} else {
-					self.parsed = content;
-					self.setHtml( content );
+				} else if ( response && response.statusText ) {
+					self.setError( response.statusText, 'admin-media' );
 				}
-			} )
-			.fail( function() {
-				self.fetching = false;
-				self.setError( self.original + ' failed to embed due to a server error.', 'admin-media' );
 			} );
 		},
 		/* jshint scripturl: true */
