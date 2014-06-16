@@ -1021,7 +1021,7 @@ span + .edit-link:before,
 .menu-toggle:before {
 	color: #fff;
 	content: "\f419";
-	padding: 15px;
+	padding: 16px;
 }
 
 .menu-toggle:active,
@@ -1386,7 +1386,7 @@ a.post-thumbnail:hover {
 	-webkit-font-smoothing: antialiased;
 	content: '\f452';
 	display: inline-block;
-	font: normal 48px/1 Genericons;	
+	font: normal 48px/1 Genericons;
 	position: absolute;
 	top: 0;
 	left: 10px;
