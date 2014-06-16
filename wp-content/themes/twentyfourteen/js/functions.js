@@ -94,7 +94,7 @@
 				mastheadOffset = $( '#masthead' ).offset().top - toolbarOffset;
 
 				_window.on( 'scroll.twentyfourteen', function() {
-					if ( ( window.scrollY > mastheadOffset ) && ( mastheadHeight < 49 ) ) {
+					if ( _window.scrollTop() > mastheadOffset && mastheadHeight < 49 ) {
 						body.addClass( 'masthead-fixed' );
 					} else {
 						body.removeClass( 'masthead-fixed' );
