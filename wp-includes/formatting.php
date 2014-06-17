@@ -274,6 +274,8 @@ function _wptexturize_pushpop_element($text, &$stack, $disabled_elements, $openi
 
 			array_push($stack, $matches[1]);
 		}
+	} elseif ( 0 == count( $stack ) ) {
+		// Stack is empty. Just stop.
 	} else {
 		// Closing? Check $text+2 against disabled elements
 		$c = preg_quote($closing, '/');
