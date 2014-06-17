@@ -114,7 +114,7 @@ function display_setup_form( $error = null ) {
 		<?php if ( ! $user_table ) : ?>
 		<tr>
 			<th scope="row">
-				<label for="admin_password"><?php _e('Password, twice'); ?></label>
+				<label for="pass1"><?php _e('Password, twice'); ?></label>
 				<p><?php _e('A password will be automatically generated for you if you leave this blank.'); ?></p>
 			</th>
 			<td>
@@ -132,7 +132,7 @@ function display_setup_form( $error = null ) {
 		</tr>
 		<tr>
 			<th scope="row"><label for="blog_public"><?php _e( 'Privacy' ); ?></label></th>
-			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1" <?php checked( $blog_public ); ?> /> <?php _e( 'Allow search engines to index this site.' ); ?></label></td>
+			<td colspan="2"><label><input type="checkbox" name="blog_public" id="blog_public" value="1" <?php checked( $blog_public ); ?> /> <?php _e( 'Allow search engines to index this site.' ); ?></label></td>
 		</tr>
 	</table>
 	<p class="step"><input type="submit" name="Submit" value="<?php esc_attr_e( 'Install WordPress' ); ?>" class="button button-large" /></p>
