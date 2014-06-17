@@ -102,9 +102,13 @@ function wptexturize($text, $reset = false) {
 		// Pattern-based replacements of characters.
 		$dynamic = array();
 
-		// '99' is an ambiguous case among other patterns; assume it's an abbreviated year at the end of a quotation.
-		if ( "'" !== $apos && "'" !== $closing_single_quote ) {
+		// '99' and '99" are ambiguous among other patterns; assume it's an abbreviated year at the end of a quotation.
+		if ( "'" !== $apos || "'" !== $closing_single_quote ) {
 			$dynamic[ '/\'(\d\d)\'(?=\Z|[.,)}>\-\]]|' . $spaces . ')/' ] = $apos . '$1' . $closing_single_quote;
+		}
+
+		if ( "'" !== $apos || '"' !== $closing_quote ) {
+			$dynamic[ '/\'(\d\d)"(?=\Z|[.,)}>\-\]]|' . $spaces . ')/' ] = $apos . '$1' . $closing_quote;
 		}
 
 		// '99 '99s '99's (apostrophe)  But never '9 or '999 or '99.0.
@@ -126,7 +130,7 @@ function wptexturize($text, $reset = false) {
 		}
 
 		// Apostrophe in a word.  No spaces, double apostrophes, or other punctuation.
-		if ( "'" != $apos ) {
+		if ( "'" !== $apos ) {
 			$dynamic[ '/(?<!' . $spaces . ')\'(?!\Z|[.,:;"\'(){}<>[\]\-]|' . $spaces . ')/' ] = $apos;
 		}
 
@@ -151,7 +155,7 @@ function wptexturize($text, $reset = false) {
 		}
 
 		// Single quotes followed by spaces or ending punctuation.
-		if ( "'" != $closing_single_quote ) {
+		if ( "'" !== $closing_single_quote ) {
 			$dynamic[ '/\'(?=\Z|[.,)}>\-\]]|' . $spaces . ')/' ] = $closing_single_quote; 
 		}
 
