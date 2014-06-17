@@ -162,7 +162,23 @@ tinymce.PluginManager.add('media', function(editor, url) {
 				}
 			],
 			onSubmit: function() {
+				var beforeObjects, afterObjects, i, y;
+
+				beforeObjects = editor.dom.select('img[data-mce-object]');
 				editor.insertContent(dataToHtml(this.toJSON()));
+				afterObjects = editor.dom.select('img[data-mce-object]');
+
+				// Find new image placeholder so we can select it
+				for (i = 0; i < beforeObjects.length; i++) {
+					for (y = afterObjects.length - 1; y >= 0; y--) {
+						if (beforeObjects[i] == afterObjects[y]) {
+							afterObjects.splice(y, 1);
+						}
+					}
+				}
+
+				editor.selection.select(afterObjects[0]);
+				editor.nodeChanged();
 			}
 		});
 	}
@@ -223,7 +239,7 @@ tinymce.PluginManager.add('media', function(editor, url) {
 
 		if (data.embed) {
 			html = updateHtml(data.embed, data, true);
-		} else {	
+		} else {
 			var videoScript = getVideoScriptMatch(data.source1);
 			if (videoScript) {
 				data.type = 'script';
