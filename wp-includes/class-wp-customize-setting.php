@@ -130,8 +130,10 @@ class WP_Customize_Setting {
 				 * The dynamic portion of the hook name, $this->id, refers to the setting ID.
 				 *
 				 * @since 3.4.0
+				 *
+				 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
 				 */
-				do_action( 'customize_preview_' . $this->id );
+				do_action( 'customize_preview_' . $this->id, $this );
 		}
 	}
 
@@ -246,9 +248,10 @@ class WP_Customize_Setting {
 				 *
 				 * @since 3.4.0
 				 *
-				 * @param mixed $value Value of the setting.
+				 * @param mixed                $value Value of the setting.
+				 * @param WP_Customize_Setting $this  WP_Customize_Setting instance.
 				 */
-				return do_action( 'customize_update_' . $this->type, $value );
+				return do_action( 'customize_update_' . $this->type, $value, $this );
 		}
 	}
 
