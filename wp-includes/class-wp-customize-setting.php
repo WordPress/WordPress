@@ -172,8 +172,10 @@ class WP_Customize_Setting {
 		 * the base slug of the setting name.
 		 *
 		 * @since 3.4.0
+		 *
+		 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
 		 */
-		do_action( 'customize_save_' . $this->id_data[ 'base' ] );
+		do_action( 'customize_save_' . $this->id_data[ 'base' ], $this );
 
 		$this->update( $value );
 	}
