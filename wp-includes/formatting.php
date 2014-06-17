@@ -100,17 +100,22 @@ function wptexturize($text) {
 		// Pattern-based replacements of characters.
 		$dynamic = array();
 
+		// '99' is an ambiguous case among other patterns; assume it's an abbreviated year at the end of a quotation.
+		if ( "'" !== $apos && "'" !== $closing_single_quote ) {
+			$dynamic[ '/\'(\d\d)\'(?=\Z|[.,)}>\-\]]|' . $spaces . ')/' ] = $apos . '$1' . $closing_single_quote;
+		}
+
+		// '99 '99s '99's (apostrophe)  But never '9 or '999 or '99.0.
+		if ( "'" !== $apos ) {
+			$dynamic[ '/\'(?=\d\d(?:\Z|(?!\d|[.,]\d)))/' ] = $apos;
+		}
+
 		// Quoted Numbers like "42" or '42.00'
 		if ( '"' !== $opening_quote && '"' !== $closing_quote ) {
 			$dynamic[ '/(?<=\A|' . $spaces . ')"(\d[\d\.\,]*)"/' ] = $opening_quote . '$1' . $closing_quote;
 		}
 		if ( "'" !== $opening_single_quote && "'" !== $closing_single_quote ) {
 			$dynamic[ '/(?<=\A|' . $spaces . ')\'(\d[\d\.\,]*)\'/' ] = $opening_single_quote . '$1' . $closing_single_quote;
-		}
-
-		// '99 '99s '99's (apostrophe)
-		if ( "'" !== $apos ) {
-			$dynamic[ '/\'(?=\d)/' ] = $apos;
 		}
 
 		// Single quote at start, or preceded by (, {, <, [, ", -, or spaces.
