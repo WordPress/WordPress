@@ -24,19 +24,21 @@
  * @uses $wp_cockneyreplace Array of formatted entities for certain common phrases
  *
  * @param string $text The text to be formatted
+ * @param bool $reset Set to true for unit testing. Translated patterns will reset.
  * @return string The string replaced with html entities
  */
-function wptexturize($text) {
+function wptexturize($text, $reset = false) {
 	global $wp_cockneyreplace;
 	static $static_characters, $static_replacements, $dynamic_characters, $dynamic_replacements,
 		$default_no_texturize_tags, $default_no_texturize_shortcodes, $run_texturize = true;
 
-	if ( false === $run_texturize ) {
+	// If there's nothing to do, just stop.
+	if ( empty( $text ) || false === $run_texturize ) {
 		return $text;
 	}
 
-	// No need to set up these static variables more than once
-	if ( ! isset( $static_characters ) ) {
+	// Set up static variables. Run once only.
+	if ( $reset || ! isset( $static_characters ) ) {
 		/**
 		 * Filter whether to skip running `wptexturize()`.
 		 *
@@ -123,9 +125,9 @@ function wptexturize($text) {
 			$dynamic[ '/(?<=\A|[([{<"\-]|' . $spaces . ')\'/' ] = $opening_single_quote;
 		}
 
-		// Apostrophe in a word.  No spaces or double apostrophes.
+		// Apostrophe in a word.  No spaces, double apostrophes, or other punctuation.
 		if ( "'" != $apos ) {
-			$dynamic[ '/(?<!' . $spaces . ')\'(?!\Z|\'|' . $spaces . ')/' ] = $apos;
+			$dynamic[ '/(?<!' . $spaces . ')\'(?!\Z|[.,:;"\'(){}<>[\]\-]|' . $spaces . ')/' ] = $apos;
 		}
 
 		// 9" (double prime)
@@ -148,9 +150,9 @@ function wptexturize($text) {
 			$dynamic[ '/"/' ] = $closing_quote;
 		}
 
-		// Single quotes followed by spaces or a period.
-		if ( "'" !== $closing_single_quote ) {
-			$dynamic[ '/\'(?=\Z|\.|' . $spaces . ')/' ] = $closing_single_quote;
+		// Single quotes followed by spaces or ending punctuation.
+		if ( "'" != $closing_single_quote ) {
+			$dynamic[ '/\'(?=\Z|[.,)}>\-\]]|' . $spaces . ')/' ] = $closing_single_quote; 
 		}
 
 		// Dashes and spaces
@@ -161,11 +163,6 @@ function wptexturize($text) {
 
 		$dynamic_characters = array_keys( $dynamic );
 		$dynamic_replacements = array_values( $dynamic );
-	}
-
-	// If there's nothing to do, just stop.
-	if ( empty( $text ) ) {
-		return $text;
 	}
 
 	// Transform into regexp sub-expression used in _wptexturize_pushpop_element
