@@ -473,7 +473,9 @@ function get_post_class( $class = '', $post_id = null ) {
 	 * @param string $class   A comma-separated list of additional classes added to the post.
 	 * @param int    $post_id The post ID.
 	 */
-	return apply_filters( 'post_class', $classes, $class, $post->ID );
+	$classes = apply_filters( 'post_class', $classes, $class, $post->ID );
+
+	return array_unique( $classes );
 }
 
 /**
@@ -666,7 +668,9 @@ function get_body_class( $class = '' ) {
 	 * @param array  $classes An array of body classes.
 	 * @param string $class   A comma-separated list of additional classes added to the body.
 	 */
-	return apply_filters( 'body_class', $classes, $class );
+	$classes = apply_filters( 'body_class', $classes, $class );
+
+	return array_unique( $classes );
 }
 
 /**
