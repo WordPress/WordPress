@@ -111,17 +111,17 @@ function wptexturize($text, $reset = false) {
 			$dynamic[ '/\'(\d\d)"(?=\Z|[.,)}>\-\]]|' . $spaces . ')/' ] = $apos . '$1' . $closing_quote;
 		}
 
-		// '99 '99s '99's (apostrophe)  But never '9 or '999 or '99.0.
+		// '99 '99s '99's (apostrophe)  But never '9 or '99% or '999 or '99.0.
 		if ( "'" !== $apos ) {
-			$dynamic[ '/\'(?=\d\d(?:\Z|(?!\d|[.,]\d)))/' ] = $apos;
+			$dynamic[ '/\'(?=\d\d(?:\Z|(?![%\d]|[.,]\d)))/' ] = $apos;
 		}
 
 		// Quoted Numbers like "42" or '42.00'
 		if ( '"' !== $opening_quote && '"' !== $closing_quote ) {
-			$dynamic[ '/(?<=\A|' . $spaces . ')"(\d[\d\.\,]*)"/' ] = $opening_quote . '$1' . $closing_quote;
+			$dynamic[ '/(?<=\A|' . $spaces . ')"(\d[.,\d]*)"/' ] = $opening_quote . '$1' . $closing_quote;
 		}
 		if ( "'" !== $opening_single_quote && "'" !== $closing_single_quote ) {
-			$dynamic[ '/(?<=\A|' . $spaces . ')\'(\d[\d\.\,]*)\'/' ] = $opening_single_quote . '$1' . $closing_single_quote;
+			$dynamic[ '/(?<=\A|' . $spaces . ')\'(\d[.,\d]*)\'/' ] = $opening_single_quote . '$1' . $closing_single_quote;
 		}
 
 		// Single quote at start, or preceded by (, {, <, [, ", -, or spaces.
