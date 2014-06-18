@@ -892,7 +892,8 @@ jQuery(document).ready( function($) {
 		b.children('.save').click(function() {
 			var new_slug = e.children('input').val();
 			if ( new_slug == $('#editable-post-name-full').text() ) {
-				return $('#edit-slug-buttons .cancel').click();
+				b.children('.cancel').click();
+				return false;
 			}
 			$.post(ajaxurl, {
 				action: 'sample-permalink',
@@ -915,7 +916,7 @@ jQuery(document).ready( function($) {
 			return false;
 		});
 
-		$('#edit-slug-buttons .cancel').click(function() {
+		b.children('.cancel').click(function() {
 			$('#view-post-btn').show();
 			e.html(revert_e);
 			b.html(revert_b);
