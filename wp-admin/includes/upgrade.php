@@ -32,9 +32,10 @@ if ( !function_exists('wp_install') ) :
  * @param bool $public Whether blog is public.
  * @param null $deprecated Optional. Not used.
  * @param string $user_password Optional. User's chosen password. Will default to a random password.
+ * @param string $language Optional. Language chosen.
  * @return array Array keys 'url', 'user_id', 'password', 'password_message'.
  */
-function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated = '', $user_password = '' ) {
+function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated = '', $user_password = '', $language = '' ) {
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '2.6' );
 
@@ -47,6 +48,10 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
 	update_option('blogname', $blog_title);
 	update_option('admin_email', $user_email);
 	update_option('blog_public', $public);
+
+	if ( $language ) {
+		update_option( 'WPLANG', $language );
+	}
 
 	$guessurl = wp_guess_url();
 

@@ -44,6 +44,28 @@ require_once( ABSPATH . 'wp-includes/wp-db.php' );
 $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
 
 /**
+ * @todo rename, move
+ */
+function wp_get_available_translations() {
+	$url = 'http://api.wordpress.org/translations/core/1.0/';
+	if ( wp_http_supports( array( 'ssl' ) ) ) {
+		$url = set_url_scheme( $url, 'https' );
+	}
+
+	$options = array(
+		'timeout' => 3,
+		'body' => array( 'version' => $GLOBALS['wp_version'] ),
+	);
+
+	$response = wp_remote_post( $url, $options );
+	$body = wp_remote_retrieve_body( $response );
+	if ( $body && $body = json_decode( $body, true ) ) {
+		return $body;
+	}
+	return false;
+}
+
+/**
  * Display install header.
  *
  * @since 2.5.0
@@ -136,6 +158,7 @@ function display_setup_form( $error = null ) {
 		</tr>
 	</table>
 	<p class="step"><input type="submit" name="Submit" value="<?php esc_attr_e( 'Install WordPress' ); ?>" class="button button-large" /></p>
+	<input type="hidden" name="language" value="<?php echo isset( $_POST['language'] ) ? esc_attr( $_POST['language'] ) : ''; ?>" />
 </form>
 <?php
 } // end display_setup_form()
@@ -169,9 +192,51 @@ if ( ! is_string( $wpdb->base_prefix ) || '' === $wpdb->base_prefix ) {
 }
 
 switch($step) {
-	case 0: // Step 1
-	case 1: // Step 1, direct link.
-	  display_header();
+	case 0: // Step 0
+		if ( $body = wp_get_available_translations() ) {
+			display_header();
+
+			echo '<form id="setup" method="post" action="install.php?step=1">';
+			echo '<div class="language-chooser">';
+			echo '<select name="language" id="language-chooser" size="15">';
+			echo '<option selected="selected" value="">English (United States)</option>';
+			foreach ( $body['languages'] as $language ) {
+				echo '<option value="' . esc_attr( $language['language'] ) . '">' . esc_html( $language['native_name'] ) . "</option>\n";
+			}
+			echo "</select>\n";
+			echo '<p class="step"><input type="submit" class="button button-primary button-hero" value="&raquo;" /></p>';
+			echo '</div>';
+			echo '</form>';
+			break;
+		}
+		// Deliberately fall through if we can't reach the translations API.
+
+	case 1: // Step 1, direct link or from language chooser.
+		if ( ! empty( $_POST['language'] ) ) {
+			$body = wp_get_available_translations();
+			foreach ( $body['languages'] as $language ) {
+				if ( $language['language'] === $_POST['language'] ) {
+					$loading_language = $_POST['language'];
+					break;
+				}
+			}
+			if ( ! empty( $loading_language ) ) {
+				require ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+				$skin = new Automatic_Upgrader_Skin;
+				$upgrader = new Language_Pack_Upgrader( $skin );
+				$options = array( 'clear_update_cache' => false );
+				$language['type'] = 'core';
+				$language = (object) $language;
+				/**
+				 * @todo failures (such as non-direct FS)
+				 */
+				$upgrader->upgrade( $language, array( 'clear_update_cache' => false ) );
+				load_textdomain( 'default', WP_LANG_DIR . "/{$loading_language}.mo" );
+				load_textdomain( 'default', WP_LANG_DIR . "/admin-{$loading_language}.mo" );
+			}
+		}
+
+		display_header();
 ?>
 <h1><?php _ex( 'Welcome', 'Howdy' ); ?></h1>
 <p><?php printf( __( 'Welcome to the famous five minute WordPress installation process! You may want to browse the <a href="%s">ReadMe documentation</a> at your leisure. Otherwise, just fill in the information below and you&#8217;ll be on your way to using the most extendable and powerful personal publishing platform in the world.' ), '../readme.html' ); ?></p>
@@ -183,6 +248,16 @@ switch($step) {
 		display_setup_form();
 		break;
 	case 2:
+		$loading_language = '';
+		if ( ! empty( $_POST['language'] ) ) {
+			$available_languages = get_available_languages();
+			if ( isset( $available_languages[ $_POST['language'] ] ) ) {
+				$loading_language = $_POST['language'];
+				load_textdomain( 'default', WP_LANG_DIR . "/{$loading_language}.mo" );
+				load_textdomain( 'default', WP_LANG_DIR . "/admin-{$loading_language}.mo" );
+			}
+		}
+
 		if ( ! empty( $wpdb->error ) )
 			wp_die( $wpdb->error->get_error_message() );
 
@@ -219,7 +294,7 @@ switch($step) {
 
 		if ( $error === false ) {
 			$wpdb->show_errors();
-			$result = wp_install( $weblog_title, $user_name, $admin_email, $public, '', wp_slash( $admin_password ) );
+			$result = wp_install( $weblog_title, $user_name, $admin_email, $public, '', wp_slash( $admin_password ), $loading_language );
 ?>
 
 <h1><?php _e( 'Success!' ); ?></h1>
@@ -250,7 +325,7 @@ switch($step) {
 }
 if ( !wp_is_mobile() ) {
 ?>
-<script type="text/javascript">var t = document.getElementById('weblog_title'); if (t){ t.focus(); }</script>
+<script type="text/javascript">var t = document.getElementById('weblog_title') || document.getElementById('language-chooser'); if (t){ t.focus(); }</script>
 <?php } ?>
 <?php wp_print_scripts( 'user-profile' ); ?>
 </body>

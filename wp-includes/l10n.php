@@ -26,7 +26,7 @@
 function get_locale() {
 	global $locale;
 
-	if ( isset( $locale ) )
+	if ( isset( $locale ) ) {
 		/**
 		 * Filter WordPress install's locale ID.
 		 *
@@ -35,6 +35,7 @@ function get_locale() {
 		 * @param string $locale The locale ID.
 		 */
 		return apply_filters( 'locale', $locale );
+	}
 
 	// WPLANG is defined in wp-config.
 	if ( defined( 'WPLANG' ) )
@@ -48,6 +49,11 @@ function get_locale() {
 
 		if ( $ms_locale !== false )
 			$locale = $ms_locale;
+	} elseif ( ! defined( 'WP_INSTALLING' ) ) {
+		$db_locale = get_option( 'WPLANG' );
+		if ( $db_locale ) {
+			$locale = $db_locale;
+		}
 	}
 
 	if ( empty( $locale ) )
