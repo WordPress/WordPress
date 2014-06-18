@@ -124,10 +124,10 @@ window.wp = window.wp || {};
 		 */
 		register: function( type, constructor ) {
 			var defaultConstructor = {
-					shortcode: type,
+					type: type,
 					View: {},
 					toView: function( content ) {
-						var match = wp.shortcode.next( this.shortcode, content );
+						var match = wp.shortcode.next( this.type, content );
 
 						if ( ! match ) {
 							return;
@@ -488,7 +488,7 @@ window.wp = window.wp || {};
 		 * @param {HTMLElement} node
 		 */
 		edit: function( node ) {
-			var media = wp.media[ this.shortcode ],
+			var media = wp.media[ this.type ],
 				self = this,
 				frame, data, callback;
 
@@ -501,7 +501,7 @@ window.wp = window.wp || {};
 			} );
 
 			callback = function( selection ) {
-				var shortcode = wp.media[ self.shortcode ].shortcode( selection ).string();
+				var shortcode = wp.media[ self.type ].shortcode( selection ).string();
 				$( node ).attr( 'data-wpview-text', window.encodeURIComponent( shortcode ) );
 				wp.mce.views.refreshView( self, shortcode );
 				frame.detach();
@@ -819,7 +819,7 @@ window.wp = window.wp || {};
 				self = this,
 				frame,
 				data,
-				isURL = 'embedURL' === this.shortcode;
+				isURL = 'embedURL' === this.type;
 
 			$( document ).trigger( 'media:edit' );
 
