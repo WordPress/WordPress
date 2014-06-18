@@ -371,7 +371,7 @@ class WP_List_Table {
 
 		echo "</select>\n";
 
-		submit_button( __( 'Apply' ), 'action', 'bulk_action', false, array( 'id' => "doaction$two" ) );
+		submit_button( __( 'Apply' ), 'action', false, false, array( 'id' => "doaction$two" ) );
 		echo "\n";
 	}
 
@@ -384,18 +384,11 @@ class WP_List_Table {
 	 * @return string|bool The action name or False if no action was selected
 	 */
 	public function current_action() {
-		if ( ! empty( $_REQUEST['bulk_action'] ) ) {
+		if ( isset( $_REQUEST['action'] ) && -1 != $_REQUEST['action'] )
+			return $_REQUEST['action'];
 
-			// Bulk Actions drop-down above the list table.
-			if ( isset( $_REQUEST['action'] ) && -1 != $_REQUEST['action'] ) {
-				return $_REQUEST['action'];
-			}
-
-			// Bulk Actions drop-down below the list table.
-			if ( isset( $_REQUEST['action2'] ) && -1 != $_REQUEST['action2'] ) {
-				return $_REQUEST['action2'];
-			}
-		}
+		if ( isset( $_REQUEST['action2'] ) && -1 != $_REQUEST['action2'] )
+			return $_REQUEST['action2'];
 
 		return false;
 	}
