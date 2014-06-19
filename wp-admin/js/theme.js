@@ -502,7 +502,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 				current = self.current;
 			}
 
-			// Get previous theme model.
+			// Get next theme model.
 			self.current = self.model.collection.at( self.model.collection.indexOf( current ) + 1 );
 
 			// If we have no more themes, bail.
