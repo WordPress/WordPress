@@ -264,8 +264,17 @@ function wp_update_plugins( $extra_stats = array() ) {
 	 */
 	$locales = apply_filters( 'plugins_update_check_locales', $locales );
 
+	if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+		$timeout = 30;
+	} elseif ( count( $plugins ) > 10 ) {
+		// One extra second for every 10 plugins
+		$timeout = 3 + intval( count( $plugins ) / 10 );
+	} else {
+		$timeout = 3;
+	}
+
 	$options = array(
-		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
+		'timeout' => $timeout,
 		'body' => array(
 			'plugins'      => json_encode( $to_send ),
 			'translations' => json_encode( $translations ),
@@ -412,8 +421,17 @@ function wp_update_themes( $extra_stats = array() ) {
 	 */
 	$locales = apply_filters( 'themes_update_check_locales', $locales );
 
+	if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+		$timeout = 30;
+	} elseif ( count( $themes ) > 10 ) {
+		// One extra second for every 10 themes
+		$timeout = 3 + intval( count( $themes ) / 10 );
+	} else {
+		$timeout = 3;
+	}
+
 	$options = array(
-		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3),
+		'timeout' => $timeout,
 		'body' => array(
 			'themes'       => json_encode( $request ),
 			'translations' => json_encode( $translations ),
