@@ -278,7 +278,7 @@ function spawn_cron( $gmt_time = 0 ) {
 	 *
 	 *         @type int  $timeout   The request timeout in seconds. Default .01 seconds.
 	 *         @type bool $blocking  Whether to set blocking for the request. Default false.
-	 *         @type bool $sslverify Whether to sslverify. Default true.
+	 *         @type bool $sslverify Whether SSL should be verified for the request. Default false.
 	 *     }
 	 * }
 	 */
@@ -289,7 +289,7 @@ function spawn_cron( $gmt_time = 0 ) {
 			'timeout'   => 0.01,
 			'blocking'  => false,
 			/** This filter is documented in wp-includes/class-http.php */
-			'sslverify' => apply_filters( 'https_local_ssl_verify', true )
+			'sslverify' => apply_filters( 'https_local_ssl_verify', false )
 		)
 	) );
 
