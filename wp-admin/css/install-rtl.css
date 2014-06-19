@@ -312,6 +312,10 @@ body.rtl,
 
 }
 
+body.language-chooser {
+	max-width: 450px;
+}
+
 .language-chooser select {
 	margin: 1px;
 	padding: 8px;
@@ -338,7 +342,7 @@ body.rtl,
 	box-shadow: 0 0 2px rgba(30,140,190,0.8);
 }
 
-.wp-core-ui .language-chooser .button.button-hero {
+.wp-core-ui.language-chooser .button.button-hero {
 	font-size: 30px;
 	line-height: 30px;
 }

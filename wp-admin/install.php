@@ -70,8 +70,14 @@ function wp_get_available_translations() {
  *
  * @since 2.5.0
  */
-function display_header() {
+function display_header( $body_classes = '' ) {
 	header( 'Content-Type: text/html; charset=utf-8' );
+	if ( is_rtl() ) {
+		$body_classes .= 'rtl';
+	}
+	if ( $body_classes ) {
+		$body_classes = ' ' . $body_classes;
+	}
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
@@ -83,7 +89,7 @@ function display_header() {
 	wp_admin_css( 'install', true );
 	?>
 </head>
-<body class="wp-core-ui<?php if ( is_rtl() ) echo ' rtl'; ?>">
+<body class="wp-core-ui<?php echo $body_classes ?>">
 <h1 id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></h1>
 
 <?php
@@ -195,10 +201,9 @@ if ( ! is_string( $wpdb->base_prefix ) || '' === $wpdb->base_prefix ) {
 switch($step) {
 	case 0: // Step 0
 		if ( $body = wp_get_available_translations() ) {
-			display_header();
+			display_header( 'language-chooser' );
 
 			echo '<form id="setup" method="post" action="install.php?step=1">';
-			echo '<div class="language-chooser">';
 			echo '<select name="language" id="language-chooser" size="15">';
 			echo '<option selected="selected" value="">English (United States)</option>';
 			foreach ( $body['languages'] as $language ) {
@@ -206,7 +211,6 @@ switch($step) {
 			}
 			echo "</select>\n";
 			echo '<p class="step"><input type="submit" class="button button-primary button-hero" value="&raquo;" /></p>';
-			echo '</div>';
 			echo '</form>';
 			break;
 		}
