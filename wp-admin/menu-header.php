@@ -135,6 +135,8 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 			echo "<li class='wp-submenu-head'>{$item[0]}</li>";
 
 			$first = true;
+
+			// 0 = menu_title, 1 = capability, 2 = menu_slug, 3 = classes
 			foreach ( $submenu_items as $sub_key => $sub_item ) {
 				if ( ! current_user_can( $sub_item[1] ) )
 					continue;
@@ -163,6 +165,10 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 					( isset( $plugin_page ) && $plugin_page == $sub_item[2] && ( $item[2] == $self_type || $item[2] == $self || file_exists($menu_file) === false ) )
 				) {
 					$class[] = 'current';
+				}
+
+				if ( ! empty( $sub_item[3] ) ) {
+					$class[] = $sub_item[3];
 				}
 
 				$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
