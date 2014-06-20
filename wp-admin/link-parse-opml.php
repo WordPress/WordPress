@@ -9,21 +9,7 @@
 if ( ! defined('ABSPATH') )
 	die();
 
-global $opml, $map;
-
-// columns we wish to find are: link_url, link_name, link_target, link_description
-// we need to map XML attribute names to our columns
-$opml_map = array(
-	'URL'         => 'link_url',
-	'HTMLURL'     => 'link_url',
-	'TEXT'        => 'link_name',
-	'TITLE'       => 'link_name',
-	'TARGET'      => 'link_target',
-	'DESCRIPTION' => 'link_description',
-	'XMLURL'      => 'link_rss'
-);
-
-$map = $opml_map;
+global $opml;
 
 /**
  * XML callback function for the start of a new XML tag.
@@ -31,9 +17,6 @@ $map = $opml_map;
  * @since 0.71
  * @access private
  *
- * @uses $updated_timestamp Not used inside function.
- * @uses $all_links Not used inside function.
- * @uses $map Stores names of attributes to use.
  * @global array $names
  * @global array $urls
  * @global array $targets
