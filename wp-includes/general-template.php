@@ -2438,11 +2438,29 @@ function language_attributes($doctype = 'html') {
  * @return array|string String of page links or array of page links.
  */
 function paginate_links( $args = '' ) {
+	global $wp_query, $wp_rewrite;
+
+	$total        = ( isset( $wp_query->max_num_pages ) ) ? $wp_query->max_num_pages : 1;
+	$current      = ( get_query_var( 'paged' ) ) ? intval( get_query_var( 'paged' ) ) : 1;
+	$pagenum_link = html_entity_decode( get_pagenum_link() );
+	$query_args   = array();
+	$url_parts    = explode( '?', $pagenum_link );
+
+	if ( isset( $url_parts[1] ) ) {
+		wp_parse_str( $url_parts[1], $query_args );
+	}
+
+	$pagenum_link = remove_query_arg( array_keys( $query_args ), $pagenum_link );
+	$pagenum_link = trailingslashit( $pagenum_link ) . '%_%';
+
+	$format  = $wp_rewrite->using_index_permalinks() && ! strpos( $pagenum_link, 'index.php' ) ? 'index.php/' : '';
+	$format .= $wp_rewrite->using_permalinks() ? user_trailingslashit( $wp_rewrite->pagination_base . '/%#%', 'paged' ) : '?paged=%#%';
+
 	$defaults = array(
-		'base' => '%_%', // http://example.com/all_posts.php%_% : %_% is replaced by format (below)
-		'format' => '?page=%#%', // ?page=%#% : %#% is replaced by the page number
-		'total' => 1,
-		'current' => 0,
+		'base' => $pagenum_link, // http://example.com/all_posts.php%_% : %_% is replaced by format (below)
+		'format' => $format, // ?page=%#% : %#% is replaced by the page number
+		'total' => $total,
+		'current' => $current,
 		'show_all' => false,
 		'prev_next' => true,
 		'prev_text' => __('&laquo; Previous'),
@@ -2476,10 +2494,10 @@ function paginate_links( $args = '' ) {
 	$r = '';
 	$page_links = array();
 	$dots = false;
-	$base = str_replace( '%_%', $args['format'], $args['base'] );
 
 	if ( $args['prev_next'] && $current && 1 < $current ) :
-		$link = str_replace( '%#%', $current - 1, $base );
+		$link = str_replace( '%_%', 2 == $current ? '' : $args['format'], $args['base'] );
+		$link = str_replace( '%#%', $current - 1, $link );
 		if ( $add_args )
 			$link = add_query_arg( $add_args, $link );
 		$link .= $args['add_fragment'];
@@ -2499,7 +2517,8 @@ function paginate_links( $args = '' ) {
 			$dots = true;
 		else :
 			if ( $args['show_all'] || ( $n <= $end_size || ( $current && $n >= $current - $mid_size && $n <= $current + $mid_size ) || $n > $total - $end_size ) ) :
-				$link = str_replace( '%#%', $n, $base );
+				$link = str_replace( '%_%', 1 == $n ? '' : $args['format'], $args['base'] );
+				$link = str_replace( '%#%', $n, $link );
 				if ( $add_args )
 					$link = add_query_arg( $add_args, $link );
 				$link .= $args['add_fragment'];
@@ -2514,7 +2533,8 @@ function paginate_links( $args = '' ) {
 		endif;
 	endfor;
 	if ( $args['prev_next'] && $current && ( $current < $total || -1 == $total ) ) :
-		$link = str_replace( '%#%', $current + 1, $base );
+		$link = str_replace( '%_%', $args['format'], $args['base'] );
+		$link = str_replace( '%#%', $current + 1, $link );
 		if ( $add_args )
 			$link = add_query_arg( $add_args, $link );
 		$link .= $args['add_fragment'];
