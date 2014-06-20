@@ -1697,12 +1697,12 @@ endif;
 
 if ( !function_exists('wp_create_nonce') ) :
 /**
- * Creates a random, one time use token.
+ * Creates a cryptographic token tied to a specific action, user, and window of time.
  *
  * @since 2.0.3
  *
- * @param string|int $action Scalar value to add context to the nonce.
- * @return string The one use form token
+ * @param string $action Scalar value to add context to the nonce.
+ * @return string The token.
  */
 function wp_create_nonce($action = -1) {
 	$user = wp_get_current_user();
