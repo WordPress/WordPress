@@ -1830,8 +1830,6 @@ class WP_Query {
 				'field' => 'term_id',
 				'include_children' => false
 			);
-		} elseif ( isset( $this->query['category__in'] ) ) {
-			$q['category__in'] = false;
 		}
 
 		if ( ! empty($q['category__not_in']) ) {
@@ -1889,8 +1887,6 @@ class WP_Query {
 				'taxonomy' => 'post_tag',
 				'terms' => $q['tag__in']
 			);
-		} elseif ( isset( $this->query['tag__in'] ) ) {
-			$q['tag__in'] = false;
 		}
 
 		if ( !empty($q['tag__not_in']) ) {
@@ -1918,8 +1914,6 @@ class WP_Query {
 				'terms' => $q['tag_slug__in'],
 				'field' => 'slug'
 			);
-		} elseif ( isset( $this->query['tag_slug__in'] ) ) {
-			$q['tag_slug__in'] = false;
 		}
 
 		if ( !empty($q['tag_slug__and']) ) {
@@ -2453,9 +2447,6 @@ class WP_Query {
 		} elseif ( $q['post__in'] ) {
 			$post__in = implode(',', array_map( 'absint', $q['post__in'] ));
 			$where .= " AND {$wpdb->posts}.ID IN ($post__in)";
-		} elseif ( isset( $this->query['post__in'] ) ) {
-			$post__in = 0;
-			$where .= " AND 1=0 ";
 		} elseif ( $q['post__not_in'] ) {
 			$post__not_in = implode(',',  array_map( 'absint', $q['post__not_in'] ));
 			$where .= " AND {$wpdb->posts}.ID NOT IN ($post__not_in)";
@@ -2466,9 +2457,6 @@ class WP_Query {
 		} elseif ( $q['post_parent__in'] ) {
 			$post_parent__in = implode( ',', array_map( 'absint', $q['post_parent__in'] ) );
 			$where .= " AND {$wpdb->posts}.post_parent IN ($post_parent__in)";
-		} elseif ( isset( $this->query['post_parent__in'] ) ) {
-			$post_parent__in = 0;
-			$where .= " AND 1=0 ";
 		} elseif ( $q['post_parent__not_in'] ) {
 			$post_parent__not_in = implode( ',',  array_map( 'absint', $q['post_parent__not_in'] ) );
 			$where .= " AND {$wpdb->posts}.post_parent NOT IN ($post_parent__not_in)";
@@ -2506,13 +2494,6 @@ class WP_Query {
 
 			$join .= $clauses['join'];
 			$where .= $clauses['where'];
-		}
-
-		// If *__in is passed to WP_Query as an empty array, don't return results
-		foreach ( array( 'category', 'tag', 'tag_slug' ) as $in ) {
-			if ( isset( $q["{$in}__in"] ) && false === $q["{$in}__in"] ) {
-				$where = " AND 1=0 $where";
-			}
 		}
 
 		if ( $this->is_tax ) {
@@ -2606,9 +2587,6 @@ class WP_Query {
 		} elseif ( ! empty( $q['author__in'] ) ) {
 			$author__in = implode( ',', array_map( 'absint', array_unique( (array) $q['author__in'] ) ) );
 			$where .= " AND {$wpdb->posts}.post_author IN ($author__in) ";
-		} elseif ( isset( $this->query['author__in'] ) ) {
-			$author__in = 0;
-			$where .= ' AND 1=0 ';
 		}
 
 		// Author stuff for nice URLs
