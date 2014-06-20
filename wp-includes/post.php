@@ -836,8 +836,15 @@ function get_post_status($ID = '') {
 			return 'publish';
 
 		// Inherit status from the parent
-		if ( $post->post_parent && ( $post->ID != $post->post_parent ) )
-			return get_post_status($post->post_parent);
+		if ( $post->post_parent && ( $post->ID != $post->post_parent ) ) {
+			$parent_post_status = get_post_status( $post->post_parent );
+			if ( 'trash' == $parent_post_status ) {
+				return get_post_meta( $post->post_parent, '_wp_trash_meta_status', true );
+			} else {
+				return $parent_post_status;
+			}
+		}
+
 	}
 
 	return $post->post_status;
@@ -3243,7 +3250,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	if ( ! $update && '' == $current_guid ) {
 		$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post_ID ) ), $where );
 	}
-	
+
 	if ( 'attachment' === $postarr['post_type'] ) {
 		if ( ! empty( $postarr['file'] ) ) {
 			update_attached_file( $post_ID, $postarr['file'] );
