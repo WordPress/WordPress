@@ -417,7 +417,9 @@ window.wp = window.wp || {};
 				this.shortcode = options.shortcode;
 				_.bindAll( this, 'setPlayer', 'pausePlayers' );
 				$( this ).on( 'ready', this.setPlayer );
-				$( 'body' ).on( 'click', '.wp-switch-editor', this.pausePlayers );
+				$( this ).on( 'ready', function( event, editor ) {
+					editor.on( 'hide', this.pausePlayers );
+				} );
 				$( document ).on( 'media:edit', this.pausePlayers );
 			},
 
@@ -558,7 +560,9 @@ window.wp = window.wp || {};
 				this.attachments = [];
 				this.shortcode = options.shortcode;
 
-				$( 'body' ).on( 'click', '.wp-switch-editor', this.pausePlayers );
+				$( this ).on( 'ready', function( event, editor ) {
+					editor.on( 'hide', this.pausePlayers );
+				} );
 				$( document ).on( 'media:edit', this.pausePlayers );
 
 				this.fetch();
