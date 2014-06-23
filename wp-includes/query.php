@@ -2372,11 +2372,11 @@ class WP_Query {
 				if ( !$ptype_obj || !$ptype_obj->query_var || empty($q[ $ptype_obj->query_var ]) )
 					continue;
 
-				if ( ! $ptype_obj->hierarchical || strpos($q[ $ptype_obj->query_var ], '/') === false ) {
-					// Non-hierarchical post_types & parent-level-hierarchical post_types can directly use 'name'
+				if ( ! $ptype_obj->hierarchical ) {
+					// Non-hierarchical post types can directly use 'name'.
 					$q['name'] = $q[ $ptype_obj->query_var ];
 				} else {
-					// Hierarchical post_types will operate through the
+					// Hierarchical post types will operate through 'pagename'.
 					$q['pagename'] = $q[ $ptype_obj->query_var ];
 					$q['name'] = '';
 				}
