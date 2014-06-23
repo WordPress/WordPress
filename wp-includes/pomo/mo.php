@@ -75,21 +75,23 @@ class MO extends Gettext_Translations {
 		$current_addr++;
 		$originals_table = chr(0);
 
+		$reader = new POMO_Reader();
+
 		foreach($entries as $entry) {
 			$originals_table .= $this->export_original($entry) . chr(0);
-			$length = strlen($this->export_original($entry));
+			$length = $reader->strlen($this->export_original($entry));
 			fwrite($fh, pack('VV', $length, $current_addr));
 			$current_addr += $length + 1; // account for the NULL byte after
 		}
 
 		$exported_headers = $this->export_headers();
-		fwrite($fh, pack('VV', strlen($exported_headers), $current_addr));
+		fwrite($fh, pack('VV', $reader->strlen($exported_headers), $current_addr));
 		$current_addr += strlen($exported_headers) + 1;
 		$translations_table = $exported_headers . chr(0);
 
 		foreach($entries as $entry) {
 			$translations_table .= $this->export_translations($entry) . chr(0);
-			$length = strlen($this->export_translations($entry));
+			$length = $reader->strlen($this->export_translations($entry));
 			fwrite($fh, pack('VV', $length, $current_addr));
 			$current_addr += $length + 1;
 		}

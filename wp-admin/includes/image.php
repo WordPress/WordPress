@@ -290,7 +290,7 @@ function wp_read_image_metadata( $file ) {
 				$caption = trim( $iptc['2#120'][0] );
 				if ( empty( $meta['title'] ) ) {
 					// Assume the title is stored in 2:120 if it's short.
-					if ( strlen( $caption ) < 80 )
+					if ( mbstring_binary_safe_strlen( $caption ) < 80 )
 						$meta['title'] = $caption;
 					else
 						$meta['caption'] = $caption;
@@ -327,7 +327,7 @@ function wp_read_image_metadata( $file ) {
 		}
 
 		if ( ! empty( $exif['ImageDescription'] ) ) {
-			if ( empty( $meta['title'] ) && strlen( $exif['ImageDescription'] ) < 80 ) {
+			if ( empty( $meta['title'] ) && mbstring_binary_safe_strlen( $exif['ImageDescription'] ) < 80 ) {
 				// Assume the title is stored in ImageDescription
 				$meta['title'] = trim( $exif['ImageDescription'] );
 				if ( empty( $meta['caption'] ) && ! empty( $exif['COMPUTED']['UserComment'] ) && trim( $exif['COMPUTED']['UserComment'] ) != $meta['title'] ) {
