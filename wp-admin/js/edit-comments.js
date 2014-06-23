@@ -607,6 +607,25 @@ $(document).ready(function(){
 			}
 		);
 	}
+
+	if ( typeof commentReply != 'undefined' ) {
+
+		// Each "Quick Edit" link, open the comment editor
+		$( 'body' ).on( 'click', '.comment .row-actions .quickedit .edit-comment-inline', function (e) {
+			e.preventDefault();
+
+			var $el = $( e.currentTarget );
+			commentReply.open( $el.data( 'comment-id' ), $el.data( 'post-id' ), 'edit' );
+		} );
+
+		// Each "Reply" link, open the comment reply
+		$( 'body' ).on( 'click', '.comment .row-actions .reply .reply-comment-inline', function (e) {
+			e.preventDefault();
+
+			var $el = $( e.currentTarget );
+			commentReply.open( $el.data('comment-id'), $el.data('post-id') );
+		} );
+	}
 });
 
 })(jQuery);
