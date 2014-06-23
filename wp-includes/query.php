@@ -2472,8 +2472,6 @@ class WP_Query {
 		// If a search pattern is specified, load the posts that match.
 		if ( ! empty( $q['s'] ) ) {
 			$search = $this->parse_search( $q );
-		} elseif ( ! $this->is_admin && $this->is_search ) {
-			$search = ' AND 0';
 		}
 
 		/**
