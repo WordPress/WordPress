@@ -4405,24 +4405,6 @@ function reset_mbstring_encoding() {
 }
 
 /**
- * Uses a binary-safe encoding to get the length of a string in bytes if func_overload is enabled.
- *
- * @see mbstring_binary_safe_encoding()
- *
- * @since 4.0.0
- *
- * @param string $string The string to get the length of.
- * @return int The length of the string in bytes.
- */
-function mbstring_binary_safe_strlen( $string ) {
-	mbstring_binary_safe_encoding();
-	$length = strlen( $string );
-	reset_mbstring_encoding();
-
-	return $length;
-}
-
-/**
  * Alternative to filter_var( $var, FILTER_VALIDATE_BOOLEAN )
  *
  * @since 4.0.0

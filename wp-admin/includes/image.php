@@ -289,11 +289,16 @@ function wp_read_image_metadata( $file ) {
 			if ( ! empty( $iptc['2#120'][0] ) ) { // description / legacy caption
 				$caption = trim( $iptc['2#120'][0] );
 				if ( empty( $meta['title'] ) ) {
+					mbstring_binary_safe_encoding();
+					$caption_length = strlen( $caption );
+					reset_mbstring_encoding();
+
 					// Assume the title is stored in 2:120 if it's short.
-					if ( mbstring_binary_safe_strlen( $caption ) < 80 )
+					if ( $caption_length < 80 ) {
 						$meta['title'] = $caption;
-					else
+					} else {
 						$meta['caption'] = $caption;
+					}
 				} elseif ( $caption != $meta['title'] ) {
 					$meta['caption'] = $caption;
 				}
@@ -327,7 +332,11 @@ function wp_read_image_metadata( $file ) {
 		}
 
 		if ( ! empty( $exif['ImageDescription'] ) ) {
-			if ( empty( $meta['title'] ) && mbstring_binary_safe_strlen( $exif['ImageDescription'] ) < 80 ) {
+			mbstring_binary_safe_encoding();
+			$description_length = strlen( $exif['ImageDescription'] );
+			reset_mbstring_encoding();
+
+			if ( empty( $meta['title'] ) && $description_length < 80 ) {
 				// Assume the title is stored in ImageDescription
 				$meta['title'] = trim( $exif['ImageDescription'] );
 				if ( empty( $meta['caption'] ) && ! empty( $exif['COMPUTED']['UserComment'] ) && trim( $exif['COMPUTED']['UserComment'] ) != $meta['title'] ) {
