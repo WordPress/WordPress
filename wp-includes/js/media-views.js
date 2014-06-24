@@ -6541,7 +6541,7 @@
 			wp.ajax.send( 'parse-embed', {
 				data : {
 					post_ID: media.view.settings.post.id,
-					content: '[embed]' + this.model.get('url') + '[/embed]'
+					shortcode: '[embed]' + this.model.get('url') + '[/embed]'
 				}
 			} ).done( _.bind( this.renderoEmbed, this ) );
 		},
