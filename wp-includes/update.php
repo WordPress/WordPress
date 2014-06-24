@@ -268,7 +268,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 		$timeout = 30;
 	} else {
 		// Three seconds, plus one extra second for every 10 plugins
-		$timeout = 3 + intval( count( $plugins ) / 10 );
+		$timeout = 3 + (int) ( count( $plugins ) / 10 );
 	}
 
 	$options = array(
@@ -423,7 +423,7 @@ function wp_update_themes( $extra_stats = array() ) {
 		$timeout = 30;
 	} else {
 		// Three seconds, plus one extra second for every 10 themes
-		$timeout = 3 + intval( count( $themes ) / 10 );
+		$timeout = 3 + (int) ( count( $themes ) / 10 );
 	}
 
 	$options = array(
