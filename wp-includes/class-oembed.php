@@ -171,8 +171,20 @@ class WP_oEmbed {
 	public function discover( $url ) {
 		$providers = array();
 
+		/**
+		 * Filter oEmbed remote get arguments.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @see WP_Http::request()
+		 *
+		 * @param array  $args oEmbed remote get arguments.
+		 * @param string $url  URL to be inspected.
+		 */
+		$args = apply_filters( 'oembed_remote_get_args', array(), $url );
+
 		// Fetch URL content
-		$request = wp_safe_remote_get( $url );
+		$request = wp_safe_remote_get( $url, $args );
 		if ( $html = wp_remote_retrieve_body( $request ) ) {
 
 			/**
@@ -272,7 +284,11 @@ class WP_oEmbed {
 	 */
 	private function _fetch_with_format( $provider_url_with_args, $format ) {
 		$provider_url_with_args = add_query_arg( 'format', $format, $provider_url_with_args );
-		$response = wp_safe_remote_get( $provider_url_with_args );
+
+		/** This filter is documented in wp-includes/class-oembed.php */
+		$args = apply_filters( 'oembed_remote_get_args', array(), $provider_url_with_args );
+
+		$response = wp_safe_remote_get( $provider_url_with_args, $args );
 		if ( 501 == wp_remote_retrieve_response_code( $response ) )
 			return new WP_Error( 'not-implemented' );
 		if ( ! $body = wp_remote_retrieve_body( $response ) )
