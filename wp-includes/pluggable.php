@@ -1965,6 +1965,43 @@ function wp_generate_password( $length = 12, $special_chars = true, $extra_speci
 }
 endif;
 
+if ( !function_exists('wp_secure_rand') ) :
+/**
+ * Generate a cryptographically secure random string
+ * 
+ * @param int $bytes - how many bytes do we want?
+ */
+
+function wp_secure_rand($bytes = 32) {
+	$buf = '';
+	// http://sockpuppet.org/blog/2014/02/25/safely-generate-random-numbers/
+	// Use /dev/urandom over all other methods
+	if (is_readable('/dev/urandom')) {
+		$fp = fopen('/dev/urandom', 'rb');
+		$buf = fread($fp, $bytes);
+		fclose($fp);
+		if($buf !== FALSE) {
+			return $buf;
+		}
+	}
+	if (function_exists('mcrypt_create_iv')) {
+		$buf = mcrypt_create_iv($bytes, MCRYPT_DEV_URANDOM);
+		if($buf !== FALSE) {
+			return $buf;
+		}
+	}
+	if (function_exists('openssl_random_pseudo_bytes')) {
+		$strong = false;
+		$buf = openssl_random_pseudo_bytes($bytes, $strong);
+		if ($strong) {
+			return $buf;
+		}
+	}
+	die("No secure random number generator available!");
+}
+
+endif;
+
 if ( !function_exists('wp_rand') ) :
 /**
  * Generates a random number
