@@ -710,6 +710,7 @@ form.initial-form.quickpress-open input#title {
 #activity-widget #the-comment-list div.undo {
 	background: none;
 	padding: 6px 0;
+	margin-left: 12px;
 }
 
 #activity-widget #the-comment-list .alternate,
@@ -725,7 +726,6 @@ form.initial-form.quickpress-open input#title {
 
 #activity-widget #the-comment-list img {
 	position: absolute;
-	left: 13px;
 	top: 13px;
 }
 
@@ -767,7 +767,6 @@ form.initial-form.quickpress-open input#title {
 
 #activity-widget #the-comment-list .spam-undo-inside .avatar,
 #activity-widget #the-comment-list .trash-undo-inside .avatar {
-	margin-right: 20px;
 	position: relative;
 	top: 0;
 }
