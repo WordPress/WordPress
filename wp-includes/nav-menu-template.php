@@ -277,7 +277,7 @@ function wp_nav_menu( $args = array() ) {
 
 	// get the first menu that has items if we still can't find a menu
 	if ( ! $menu && !$args->theme_location ) {
-		$menus = wp_get_nav_menus();
+		$menus = wp_get_nav_menus( array( 'orderby' => 'name' ) );
 		foreach ( $menus as $menu_maybe ) {
 			if ( $menu_items = wp_get_nav_menu_items( $menu_maybe->term_id, array( 'update_post_term_cache' => false ) ) ) {
 				$menu = $menu_maybe;
