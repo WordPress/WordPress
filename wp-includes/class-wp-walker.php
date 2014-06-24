@@ -40,6 +40,15 @@ class Walker {
 	protected $max_pages = 1;
 
 	/**
+	 * Wether the current element has children or not. To be used in start_el()
+	 *
+	 * @since 4.0.0
+	 * @var bool
+	 * @access protected
+	 */
+	protected $has_children;
+
+	/**
 	 * Make private properties readable for backwards compatibility
 	 *
 	 * @since 4.0.0
@@ -172,14 +181,16 @@ class Walker {
 			return;
 
 		$id_field = $this->db_fields['id'];
+		$id       = $element->$id_field;
 
 		//display this element
-		if ( isset( $args[0] ) && is_array( $args[0] ) )
-			$args[0]['has_children'] = ! empty( $children_elements[$element->$id_field] );
+		$this->has_children = ! empty( $children_elements[ $id ] );
+		if ( isset( $args[0] ) && is_array( $args[0] ) ) {
+			$args[0]['has_children'] = $this->has_children; // Backwards compatibility.
+		}
+
 		$cb_args = array_merge( array(&$output, $element, $depth), $args);
 		call_user_func_array(array($this, 'start_el'), $cb_args);
-
-		$id = $element->$id_field;
 
 		// descend only when the depth is right and there are childrens for this element
 		if ( ($max_depth == 0 || $max_depth > $depth+1 ) && isset( $children_elements[$id]) ) {
