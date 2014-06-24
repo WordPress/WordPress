@@ -1785,7 +1785,9 @@ class wpdb {
 			$wheres[] = "`$field` = {$form}";
 		}
 
-		$sql = "UPDATE `$table` SET " . implode( ', ', $bits ) . ' WHERE ' . implode( ' AND ', $wheres );
+		$wheres = empty( $where ) ? '' : ( ' WHERE ' . implode( ' AND ', $wheres ) );
+
+		$sql = "UPDATE `$table` SET " . implode( ', ', $bits ) . $wheres;
 		return $this->query( $this->prepare( $sql, array_merge( array_values( $data ), array_values( $where ) ) ) );
 	}
 
