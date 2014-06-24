@@ -203,7 +203,7 @@ window.switchEditors = {
 		var preserve_linebreaks = false,
 			preserve_br = false,
 			blocklist = 'table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre' +
-				'|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|noscript|legend|section' +
+				'|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section' +
 				'|article|aside|hgroup|header|footer|nav|figure|details|menu|summary';
 
 		if ( pee.indexOf( '<object' ) !== -1 ) {
