@@ -94,7 +94,7 @@ class WP_Customize_Section {
 	 * @param array                $args    Section arguments.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
-		$keys = array_keys( get_class_vars( __CLASS__ ) );
+		$keys = array_keys( get_object_vars( $this ) );
 		foreach ( $keys as $key ) {
 			if ( isset( $args[ $key ] ) )
 				$this->$key = $args[ $key ];
