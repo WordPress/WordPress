@@ -102,6 +102,7 @@
 	display: block;
 	line-height: 36px;
 	float: left;
+	margin-left: 6px;
 }
 
 .media-item .describe-toggle-off,
@@ -118,10 +119,7 @@
 	min-height: 36px;
 	position: relative;
 	width: 100%;
-}
-
-#media-items {
-	width: 623px;
+	background: #fff;
 }
 
 .media-new-php #media-items {
@@ -143,7 +141,7 @@
 
 .media-item .pinkynail {
 	float: right;
-	margin: 2px 0 0 10px;
+	margin: 2px 3px 0 10px;
 	max-width: 40px;
 	max-height: 32px;
 }

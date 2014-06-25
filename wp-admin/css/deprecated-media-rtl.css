@@ -24,11 +24,6 @@ body#media-upload ul#sidemenu {
 	clear: both;
 }
 
-#media-upload,
-#media-upload .media-item .slidetoggle {
-	background: #fff;
-}
-
 #media-upload .slidetoggle {
 	border-top-color: #dfdfdf;
 }
@@ -185,7 +180,7 @@ abbr.required {
 .menu_order {
 	float: left;
 	font-size: 11px;
-	margin: 3px 10px 0;
+	margin: 8px 10px 0;
 }
 
 .menu_order_input {
@@ -217,7 +212,6 @@ abbr.required {
 }
 
 #media-upload .widefat {
-	width: 626px;
 	border-style: solid solid none;
 }
 
@@ -273,9 +267,10 @@ h4.media-sub-title {
 
 #gallery-settings .describe {
 	padding: 5px;
-	width: 615px;
+	width: 100%;
 	clear: both;
 	cursor: default;
+	background: #fff;
 }
 
 #gallery-settings .describe select {
@@ -327,7 +322,7 @@ h4.media-sub-title {
 }
 
 p.media-types {
-	margin: 1em;
+	padding: 1em;
 }
 
 tr.not-image {

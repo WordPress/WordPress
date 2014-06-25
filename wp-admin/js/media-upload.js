@@ -40,7 +40,7 @@ var tb_position;
 		var tbWindow = $('#TB_window'),
 			width = $(window).width(),
 			H = $(window).height(),
-			W = ( 720 < width ) ? 720 : width,
+			W = ( 833 < width ) ? 833 : width,
 			adminbar_height = 0;
 
 		if ( $('#wpadminbar').length ) {
