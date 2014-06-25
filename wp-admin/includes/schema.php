@@ -991,7 +991,7 @@ We hope you enjoy your new site. Thanks!
 
 		$vhost_ok = false;
 		$errstr = '';
-		$hostname = substr( md5( time() ), 0, 6 ) . '.' . $domain; // Very random hostname!
+		$hostname = bin2hex( wp_secure_rand(3) ) . '.' . $domain; // Very random hostname!
 		$page = wp_remote_get( 'http://' . $hostname, array( 'timeout' => 5, 'httpversion' => '1.1' ) );
 		if ( is_wp_error( $page ) )
 			$errstr = $page->get_error_message();

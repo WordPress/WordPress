@@ -214,7 +214,7 @@ function update_option_new_admin_email( $old_value, $value ) {
 	if ( $value == get_option( 'admin_email' ) || !is_email( $value ) )
 		return;
 
-	$hash = md5( $value. time() .mt_rand() );
+	$hash = md5( $value. time() . wp_secure_rand(16) );
 	$new_admin_email = array(
 		'hash' => $hash,
 		'newemail' => $value
@@ -284,7 +284,7 @@ function send_confirmation_on_profile_email() {
 			return;
 		}
 
-		$hash = md5( $_POST['email'] . time() . mt_rand() );
+		$hash = md5( $_POST['email'] . time() . wp_secure_rand(16) );
 		$new_user_email = array(
 				'hash' => $hash,
 				'newemail' => $_POST['email']
