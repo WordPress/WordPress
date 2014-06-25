@@ -918,12 +918,26 @@ We hope you enjoy your new site. Thanks!
 
 --The Team @ SITE_NAME' );
 
+	$misc_exts = array(
+		// images
+		'jpg', 'jpeg', 'png', 'gif',
+		// video
+		'mov', 'avi', 'mpg', '3gp', '3g2',
+		// "audio"
+		'midi', 'mid',
+		// misc
+		'pdf', 'doc', 'ppt', 'odt', 'pptx', 'docx', 'pps', 'ppsx', 'xls', 'xlsx', 'key',
+	);
+	$audio_exts = wp_get_audio_extensions();
+	$video_exts = wp_get_video_extensions();
+	$upload_filetypes = array_unique( array_merge( $misc_exts, $audio_exts, $video_exts ) );
+
 	$sitemeta = array(
 		'site_name' => $site_name,
 		'admin_email' => $site_user->user_email,
 		'admin_user_id' => $site_user->ID,
 		'registration' => 'none',
-		'upload_filetypes' => 'jpg jpeg png gif mp3 mov avi wmv midi mid pdf',
+		'upload_filetypes' => implode( ' ', $upload_filetypes ),
 		'blog_upload_space' => 100,
 		'fileupload_maxk' => 1500,
 		'site_admins' => $site_admins,
