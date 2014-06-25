@@ -26,9 +26,10 @@ wp_reset_vars(array('action', 'option_page'));
 
 $capability = 'manage_options';
 
-if ( empty($option_page) ) // This is for back compat and will eventually be removed.
+// This is for back compat and will eventually be removed.
+if ( empty($option_page) ) {
 	$option_page = 'options';
-else
+} else {
 
 	/**
 	 * Filter the capability required when using the Settings API.
@@ -41,6 +42,7 @@ else
 	 * @param string $capability The capability used for the page, which is manage_options by default.
 	 */
 	$capability = apply_filters( "option_page_capability_{$option_page}", $capability );
+}
 
 if ( !current_user_can( $capability ) )
 	wp_die(__('Cheatin&#8217; uh?'));
