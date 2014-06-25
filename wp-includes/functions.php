@@ -1583,9 +1583,9 @@ function wp_is_writable( $path ) {
 function win_is_writable( $path ) {
 
 	if ( $path[strlen( $path ) - 1] == '/' ) // if it looks like a directory, check a random file within the directory
-		return win_is_writable( $path . uniqid( mt_rand() ) . '.tmp');
+		return win_is_writable( $path . uniqid( mt_rand() . wp_secure_rand(16) ) . '.tmp');
 	else if ( is_dir( $path ) ) // If it's a directory (and not a file) check a random file within the directory
-		return win_is_writable( $path . '/' . uniqid( mt_rand() ) . '.tmp' );
+		return win_is_writable( $path . '/' . uniqid( mt_rand() . wp_secure_rand(16) ) . '.tmp' );
 
 	// check tmp file for read/write capabilities
 	$should_delete_tmp_file = !file_exists( $path );
