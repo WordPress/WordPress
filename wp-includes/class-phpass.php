@@ -253,7 +253,8 @@ class PasswordHash {
 		if ($hash[0] == '*')
 			$hash = crypt($password, $stored_hash);
 
-		return $hash === $stored_hash;
+		$nonce = wp_secure_rand(32);
+		return hash_hmac('sha256', $hash, $nonce) === hash_hmac('sha256', $stored_hash, $nonce);
 	}
 }
 
