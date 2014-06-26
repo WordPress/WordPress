@@ -892,3 +892,38 @@ function _update_blog_date_on_post_delete( $post_id ) {
 	wpmu_update_blogs_date();
 }
 
+/**
+ * Handler for updating the blog posts count date when a post is deleted.
+ *
+ * @since 4.0
+ *
+ * @param int $post_id Post ID
+ */
+function _update_posts_count_on_delete( $post_id ) {
+	if ( 'publish' !== get_post_field( 'post_status', $post_id ) ) {
+		return;
+	}
+	
+	update_posts_count();
+}
+
+/**
+ * Handler for updating the blog posts count date when a post status changes.
+ *
+ * @since 4.0
+ *
+ * @param string $new_status The status the post is changing to.
+ * @param string $old_status The status the post is changing from.
+ */
+function _update_posts_count_on_transition_post_status( $new_status, $old_status ) {
+	if ( $new_status === $old_status ) {
+		return;
+	}
+
+	if ( 'publish' !== $new_status && 'publish' !== $old_status ) {
+		return;
+	}
+
+	update_posts_count();
+}
+

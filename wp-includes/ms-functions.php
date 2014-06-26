@@ -1761,7 +1761,7 @@ function check_upload_mimes( $mimes ) {
  * WordPress MS stores a blog's post count as an option so as
  * to avoid extraneous COUNTs when a blog's details are fetched
  * with get_blog_details(). This function is called when posts
- * are published to make sure the count stays current.
+ * are published or unpublished to make sure the count stays current.
  *
  * @since MU
  */
