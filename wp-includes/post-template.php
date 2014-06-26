@@ -23,10 +23,11 @@ function the_ID() {
  * @since 2.1.0
  * @uses $post
  *
- * @return int
+ * @return int|bool The ID of the current item in the WordPress Loop. False if $post is not set.
  */
 function get_the_ID() {
-	return get_post()->ID;
+	$post = get_post();
+	return ! empty ( $post ) ? $post->ID : false;
 }
 
 /**
