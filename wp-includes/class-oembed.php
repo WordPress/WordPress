@@ -19,6 +19,7 @@
  */
 class WP_oEmbed {
 	public $providers = array();
+	public static $early_providers = array();
 
 	/**
 	 * Constructor
@@ -64,6 +65,20 @@ class WP_oEmbed {
 			'#https?://(www\.|embed\.)?ted\.com/talks/.*#i'       => array( 'http://www.ted.com/talks/oembed.{format}',           true  ),
 			'#https?://(www\.)?(animoto|video214)\.com/play/.*#i' => array( 'http://animoto.com/oembeds/create',                  true  ),
 		);
+
+		if ( ! empty( self::$early_providers['add'] ) ) {
+			foreach ( self::$early_providers['add'] as $format => $data ) {
+				$providers[ $format ] = $data;
+			}
+		}
+
+		if ( ! empty( self::$early_providers['remove'] ) ) {
+			foreach ( self::$early_providers['remove'] as $format ) {
+				unset( $providers[ $format ] );
+			}
+		}
+
+		self::$early_providers = array();
 
 		/**
 		 * Filter the list of oEmbed providers.
@@ -131,6 +146,22 @@ class WP_oEmbed {
 			$provider = $this->discover( $url );
 
 		return $provider;
+	}
+
+	public static function _add_provider_early( $format, $provider, $regex = false ) {
+		if ( empty( self::$early_providers['add'] ) ) {
+			self::$early_providers['add'] = array();
+		}
+
+		self::$early_providers['add'][ $format ] = array( $provider, $regex );
+	}
+
+	public static function _remove_provider_early( $format ) {
+		if ( empty( self::$early_providers['remove'] ) ) {
+			self::$early_providers['remove'] = array();
+		}
+
+		self::$early_providers['remove'][] = $format;
 	}
 
 	/**

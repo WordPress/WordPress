@@ -2135,8 +2135,13 @@ function wp_oembed_get( $url, $args = '' ) {
  */
 function wp_oembed_add_provider( $format, $provider, $regex = false ) {
 	require_once( ABSPATH . WPINC . '/class-oembed.php' );
-	$oembed = _wp_oembed_get_object();
-	$oembed->providers[$format] = array( $provider, $regex );
+
+	if ( did_action( 'plugins_loaded' ) ) {
+		$oembed = _wp_oembed_get_object();
+		$oembed->providers[$format] = array( $provider, $regex );
+	} else {
+		WP_oEmbed::_add_provider_early( $format, $provider, $regex );
+	}
 }
 
 /**
@@ -2152,11 +2157,15 @@ function wp_oembed_add_provider( $format, $provider, $regex = false ) {
 function wp_oembed_remove_provider( $format ) {
 	require_once( ABSPATH . WPINC . '/class-oembed.php' );
 
-	$oembed = _wp_oembed_get_object();
+	if ( did_action( 'plugins_loaded' ) ) {
+		$oembed = _wp_oembed_get_object();
 
-	if ( isset( $oembed->providers[ $format ] ) ) {
-		unset( $oembed->providers[ $format ] );
-		return true;
+		if ( isset( $oembed->providers[ $format ] ) ) {
+			unset( $oembed->providers[ $format ] );
+			return true;
+		}
+	} else {
+		WP_oEmbed::_remove_provider_early( $format );
 	}
 
 	return false;
