@@ -476,7 +476,7 @@ function wp_default_scripts( &$scripts ) {
 			'error' => __('Error while saving the changes.'),
 			'ntdeltitle' => __('Remove From Bulk Edit'),
 			'notitle' => __('(no title)'),
-			'comma' => _x( ',', 'tag delimiter' ),
+			'comma' => trim( _x( ',', 'tag delimiter' ) ),
 		) );
 
 		$scripts->add( 'inline-edit-tax', "/wp-admin/js/inline-edit-tax$suffix.js", array( 'jquery' ), false, 1 );
