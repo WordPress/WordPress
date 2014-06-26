@@ -44,6 +44,10 @@
 if ( ! defined( 'CUSTOM_TAGS' ) )
 	define( 'CUSTOM_TAGS', false );
 
+// Ensure that these variables are added to the global namespace
+// (e.g. if using namespaces / autoload in the current PHP environment).
+global $allowedposttags, $allowedtags, $allowedentitynames;
+
 if ( ! CUSTOM_TAGS ) {
 	/**
 	 * Kses global for default allowable HTML tags.
