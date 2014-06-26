@@ -116,8 +116,7 @@ function wp_localize_script( $handle, $object_name, $l10n ) {
 		if ( ! did_action( 'init' ) )
 			_doing_it_wrong( __FUNCTION__, sprintf( __( 'Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks.' ),
 				'<code>wp_enqueue_scripts</code>', '<code>admin_enqueue_scripts</code>', '<code>login_enqueue_scripts</code>' ), '3.3' );
-
-		return false;
+		$wp_scripts = new WP_Scripts();
 	}
 
 	return $wp_scripts->localize( $handle, $object_name, $l10n );
