@@ -78,6 +78,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.editComment'		=> 'this:wp_editComment',
 			'wp.newComment'			=> 'this:wp_newComment',
 			'wp.getCommentStatusList' => 'this:wp_getCommentStatusList',
+			'wp.deleteMediaItem'	=> 'this:wp_deletePost',		// Alias
 			'wp.getMediaItem'		=> 'this:wp_getMediaItem',
 			'wp.getMediaLibrary'	=> 'this:wp_getMediaLibrary',
 			'wp.getPostFormats'     => 'this:wp_getPostFormats',
