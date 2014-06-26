@@ -53,6 +53,10 @@
 	max-width: 400px;
 }
 
+.audio-details .embed-media-settings {
+	overflow: visible;
+}
+
 .media-embed-details .embed-media-settings .setting span {
 	max-width: 400px;
 	width: auto;
