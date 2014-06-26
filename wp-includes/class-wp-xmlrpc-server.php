@@ -1102,6 +1102,21 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! $user = $this->login( $username, $password ) )
 			return $this->error;
 
+		// convert the date field back to IXR form
+		if ( isset( $content_struct['post_date'] ) ) {
+			$content_struct['post_date'] = $this->_convert_date( $content_struct['post_date'] );
+		}
+
+		// ignore the existing GMT date if it is empty or a non-GMT date was supplied in $content_struct,
+		// since _insert_post will ignore the non-GMT date if the GMT date is set
+		if ( isset( $content_struct['post_date_gmt'] ) ) {
+			if ( $content_struct['post_date_gmt'] == '0000-00-00 00:00:00' || isset( $content_struct['post_date'] ) ) {
+				unset( $content_struct['post_date_gmt'] );
+			} else {
+				$content_struct['post_date_gmt'] = $this->_convert_date( $content_struct['post_date_gmt'] );
+			}
+		}
+
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.newPost' );
 
