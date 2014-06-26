@@ -1653,6 +1653,7 @@ td.media-icon {
 }
 
 td.media-icon img {
+	border: 1px solid rgba(0, 0, 0, 0.07);
 	max-width: 80px;
 	max-height: 60px;
 }
