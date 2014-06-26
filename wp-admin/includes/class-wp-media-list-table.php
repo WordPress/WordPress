@@ -279,7 +279,8 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		break;
 
 	case 'icon':
-		$attributes = 'class="column-icon media-icon"' . $style;
+		list( $mime ) = explode( '/', $post->post_mime_type );
+		$attributes = 'class="column-icon media-icon ' . $mime . '-icon"' . $style;
 ?>
 		<td <?php echo $attributes ?>><?php
 			if ( $thumb = wp_get_attachment_image( $post->ID, array( 80, 60 ), true ) ) {
