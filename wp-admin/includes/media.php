@@ -514,6 +514,9 @@ document.body.className = document.body.className.replace('no-js', 'js');
  * @param string $editor_id
  */
 function media_buttons($editor_id = 'content') {
+	static $instance = 0;
+	$instance++;
+
 	$post = get_post();
 	if ( ! $post && ! empty( $GLOBALS['post_ID'] ) )
 		$post = $GLOBALS['post_ID'];
@@ -524,8 +527,12 @@ function media_buttons($editor_id = 'content') {
 
 	$img = '<span class="wp-media-buttons-icon"></span> ';
 
-	echo '<a href="#" id="insert-media-button" class="button insert-media add_media" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Add Media' ) . '">' . $img . __( 'Add Media' ) . '</a>';
-
+	printf( '<a href="#" id="insert-media-button-%d" class="button insert-media add_media" data-editor="%s" title="%s">%s</a>',
+		$instance,
+		esc_attr( $editor_id ),
+		esc_attr__( 'Add Media' ),
+		$img . __( 'Add Media' )
+	);
 	/**
 	 * Filter the legacy (pre-3.5.0) media buttons.
 	 *
