@@ -3492,6 +3492,13 @@
 					$el.hide();
 				}
 			});
+
+			// https://core.trac.wordpress.org/ticket/27341
+			_.delay( function() {
+				if ( '0' === $el.css('opacity') && $el.is(':visible') ) {
+					$el.hide();
+				}
+			}, 500 );
 		}
 	});
 
