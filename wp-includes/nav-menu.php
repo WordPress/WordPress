@@ -142,6 +142,12 @@ function get_nav_menu_locations() {
  * @return bool Whether location has a menu.
  */
 function has_nav_menu( $location ) {
+	global $_wp_registered_nav_menus;
+
+	if ( ! isset( $_wp_registered_nav_menus[ $location ] ) ) {
+		return false;
+	}
+
 	$locations = get_nav_menu_locations();
 	return ( ! empty( $locations[ $location ] ) );
 }
