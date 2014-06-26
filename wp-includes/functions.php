@@ -3000,15 +3000,10 @@ function dead_db() {
  * @since 2.5.0
  *
  * @param mixed $maybeint Data you wish to have converted to a nonnegative integer
- * @param bool $limit Whether to only return up to PHP_INT_MAX.
  * @return int An nonnegative integer
  */
-function absint( $maybeint, $limit = false ) {
-	$int = abs( intval( $maybeint ) );
-	if ( $limit && $int > PHP_INT_MAX ) {
-		$int = PHP_INT_MAX;
-	}
-	return $int;
+function absint( $maybeint ) {
+	return abs( intval( $maybeint ) );
 }
 
 /**
