@@ -142,8 +142,12 @@ do_action( 'customize_controls_print_scripts' );
 
 			<div id="customize-theme-controls"><ul>
 				<?php
-				foreach ( $wp_customize->sections() as $section )
+				foreach ( $wp_customize->panels() as $panel ) {
+					$panel->maybe_render();
+				}
+				foreach ( $wp_customize->sections() as $section ) {
 					$section->maybe_render();
+				}
 				?>
 			</ul></div>
 		</div>

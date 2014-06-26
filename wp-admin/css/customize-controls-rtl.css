@@ -32,6 +32,11 @@ body {
 	display: block;
 }
 
+#customize-controls .wp-full-overlay-sidebar-content {
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
 #customize-info {
 	border: none;
 	border-top: 1px solid #ddd;
@@ -83,11 +88,6 @@ body {
 	line-height: 20px;
 }
 
-#customize-theme-controls {
-	-webkit-box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.1);
-	box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.1);
-}
-
 #customize-theme-controls .control-section {
 	border: none;
 }
@@ -103,7 +103,7 @@ body {
 	background: white;
 }
 
-#customize-theme-controls .control-section:hover .accordion-section-title,
+#customize-theme-controls .control-section:hover > .accordion-section-title,
 #customize-theme-controls .control-section .accordion-section-title:hover,
 #customize-theme-controls .control-section.open .accordion-section-title,
 #customize-theme-controls .control-section .accordion-section-title:focus {
@@ -118,7 +118,7 @@ body {
 	background: #f5f5f5;
 }
 
-#customize-theme-controls .control-section:hover .accordion-section-title::after,
+#customize-theme-controls .control-section:hover > .accordion-section-title::after,
 #customize-theme-controls .control-section .accordion-section-title:hover::after,
 #customize-theme-controls .control-section.open .accordion-section-title::after,
 #customize-theme-controls .control-section .accordion-section-title:focus::after {
@@ -141,6 +141,138 @@ body {
 #customize-theme-controls > ul,
 #customize-theme-controls .accordion-section-content {
 	margin: 0;
+}
+
+.control-section.control-panel > .accordion-section-title:after {
+	content: "\f139";
+}
+
+.accordion-sub-container.control-panel-content {
+	display: none;
+	position: absolute;
+	right: 300px;
+	top: 0;
+	width: 300px;
+	border-top: 1px solid #ddd;
+	-webkit-transition: right ease-in-out .18s;
+	transition: right ease-in-out .18s;
+}
+
+.accordion-sub-container.control-panel-content.animating {
+	display: block;
+}
+
+.current-panel .accordion-sub-container.control-panel-content {
+	width: 100%;
+}
+
+.control-panel-back {
+	display: block;
+	position: fixed;
+	top: 0;
+	z-index: 99;
+	right: -48px;
+	width: 45px;
+	height: 45px;
+	padding-left: 2px;
+	background: #eee;
+	border-left: 1px solid #ddd;
+	cursor: pointer;
+	-webkit-transition: right ease-in-out .18s, color ease-in .1s;
+	transition: right ease-in-out .18s, color ease-in .1s;
+}
+
+.collapsed .control-panel-back {
+	display: none;
+}
+
+.control-panel-back:focus,
+.control-panel-back:hover {
+	background-color: #0074a2;
+	color: #fff;
+	outline: none;
+}
+
+.control-panel-back:before {
+	font: normal 29px/1 dashicons;
+	content: "\f340";
+	position: relative;
+	top: 9px;
+	right: 9px;
+}
+
+.current-panel .control-panel-back {
+	right: 0;
+}
+
+.current-panel > .accordion-section-title {
+	height: 22px;
+}
+
+#customize-header-actions a.back {
+	position: relative;
+	right: 0;
+	-webkit-transition: right ease-in-out .18s;
+	transition: right ease-in-out .18s;
+}
+
+.in-sub-panel #customize-header-actions a.back {
+	right: -120px;
+}
+
+.wp-full-overlay-sidebar .wp-full-overlay-header {
+	-webkit-transition: padding ease-in-out .18s;
+	transition: padding ease-in-out .18s;
+}
+
+.in-sub-panel .wp-full-overlay-sidebar .wp-full-overlay-header {
+	padding-right: 62px;
+}
+
+#customize-info,
+#customize-theme-controls > ul > .accordion-section {
+	position: relative;
+	right: 0;
+	-webkit-transition: right ease-in-out .18s;
+	transition: right ease-in-out .18s;
+}
+
+.in-sub-panel #customize-info,
+.in-sub-panel #customize-theme-controls > ul > .accordion-section {
+	right: -300px;
+	width: 300px;
+}
+
+.in-sub-panel #customize-theme-controls .accordion-section.current-panel {
+	width: 100%;
+}
+
+#customize-theme-controls .control-section.current-panel {
+	padding: 0;
+}
+
+#customize-theme-controls .control-section > h3.accordion-section-title {
+	position: relative;
+	right: 0;
+}
+
+#customize-theme-controls .control-section.current-panel > h3.accordion-section-title {
+	right: -300px;
+	-webkit-transition: right ease-in-out .18s;
+	transition: right ease-in-out .18s;
+}
+
+.control-section.control-panel .accordion-section-title .panel-title {
+	font-size: 20px;
+	font-weight: 200;
+	line-height: 24px;
+	display: block;
+	border: none;
+}
+
+.control-section.control-panel .preview-notice {
+	font-size: 13px;
+	line-height: 24px;
 }
 
 .customize-control {

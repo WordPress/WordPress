@@ -472,6 +472,11 @@ body.more-filters-opened .more-filters:focus:before {
 	color: $menu-highlight-text;
 }
 
+.control-panel-back:focus,
+.control-panel-back:hover {
+	background-color: $menu-highlight-background;
+	color: $menu-highlight-text;
+}
 
 /* jQuery UI Slider */
 

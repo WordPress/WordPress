@@ -301,6 +301,10 @@ body.more-filters-opened .more-filters:hover, body.more-filters-opened .more-fil
   background-color: #a3b745;
   color: #fff; }
 
+.control-panel-back:focus, .control-panel-back:hover {
+  background-color: #a3b745;
+  color: #fff; }
+
 /* jQuery UI Slider */
 .wp-slider .ui-slider-handle, .wp-slider .ui-slider-handle.ui-state-hover, .wp-slider .ui-slider-handle.focus {
   background: #a3b745;
