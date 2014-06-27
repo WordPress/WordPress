@@ -17,6 +17,13 @@ body {
 	margin: 10px;
 }
 
+/* When font-weight is different than the default browser style,
+Chrome and Safari replace <strong> and <b> with spans with inline styles on pasting?! */
+body.webkit strong,
+body.webkit b {
+	font-weight: bold !important;
+}
+
 /* DFW mode */
 html.wp-fullscreen,
 html.wp-fullscreen body {

@@ -297,6 +297,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			} else if ( env.ie < 8 ) {
 				bodyClass.push('ie7');
 			}
+		} else if ( env.webkit ) {
+			bodyClass.push('webkit');
 		}
 
 		bodyClass.push('wp-editor');
