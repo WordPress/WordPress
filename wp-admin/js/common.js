@@ -145,7 +145,7 @@ screenMeta = {
 /**
  * Help tabs.
  */
-$('.contextual-help-tabs').delegate('a', 'click focus', function(e) {
+$('.contextual-help-tabs').delegate('a', 'click', function(e) {
 	var link = $(this),
 		panel;
 
