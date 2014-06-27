@@ -2874,7 +2874,7 @@ class WP_Query {
 				$page = 1;
 
 			if ( empty($q['offset']) ) {
-				$pgstrt = ($page - 1) * $q['posts_per_page'] . ', ';
+				$pgstrt = absint( ( $page - 1 ) * $q['posts_per_page'] ) . ', ';
 			} else { // we're ignoring $page and using 'offset'
 				$q['offset'] = absint($q['offset']);
 				$pgstrt = $q['offset'] . ', ';
