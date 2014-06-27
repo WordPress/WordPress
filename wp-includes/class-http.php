@@ -183,7 +183,11 @@ class WP_Http {
 
 		// Determine if this request is to OUR install of WordPress
 		$homeURL = parse_url( get_bloginfo( 'url' ) );
-		$r['local'] = $homeURL['host'] == $arrURL['host'] || 'localhost' == $arrURL['host'];
+		if ( isset( $homeURL['host'] ) ) {
+			$r['local'] = ( $homeURL['host'] == $arrURL['host'] || 'localhost' == $arrURL['host'] );
+		} else {
+			$r['local'] = false;
+		}
 		unset( $homeURL );
 
 		// If we are streaming to a file but no filename was given drop it in the WP temp dir
