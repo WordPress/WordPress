@@ -773,18 +773,16 @@ function wp_media_upload_handler() {
 		return media_send_to_editor($html);
 	}
 
-	if ( !empty($_POST) ) {
+	if ( isset( $_POST['save'] ) ) {
+		$errors['upload_notice'] = __('Saved.');
+		return media_upload_gallery();
+	} elseif ( ! empty( $_POST ) ) {
 		$return = media_upload_form_handler();
 
 		if ( is_string($return) )
 			return $return;
 		if ( is_array($return) )
 			$errors = $return;
-	}
-
-	if ( isset($_POST['save']) ) {
-		$errors['upload_notice'] = __('Saved.');
-		return media_upload_gallery();
 	}
 
 	if ( isset($_GET['tab']) && $_GET['tab'] == 'type_url' ) {
