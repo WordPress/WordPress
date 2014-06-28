@@ -27,7 +27,7 @@ function the_ID() {
  */
 function get_the_ID() {
 	$post = get_post();
-	return ! empty ( $post ) ? $post->ID : false;
+	return ! empty( $post ) ? $post->ID : false;
 }
 
 /**
@@ -341,6 +341,9 @@ function get_the_excerpt( $deprecated = '' ) {
 		_deprecated_argument( __FUNCTION__, '2.3' );
 
 	$post = get_post();
+	if ( empty( $post ) ) {
+		return '';
+	}
 
 	if ( post_password_required() ) {
 		return __( 'There is no excerpt because this is a protected post.' );
