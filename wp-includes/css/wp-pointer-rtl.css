@@ -172,7 +172,7 @@
 }
 
 .wp-pointer-left .wp-pointer-arrow:before {
-	margin-right: -12px;
+	margin-right: -14px;
 	margin-top: -13px;
 	border: 13px solid transparent;
 	border-left-color: #fff;
@@ -188,7 +188,7 @@
 }
 
 .wp-pointer-right .wp-pointer-arrow:before {
-	margin-right: -12px;
+	margin-right: -14px;
 	margin-top: -13px;
 	border: 13px solid transparent;
 	border-right-color: #fff;
