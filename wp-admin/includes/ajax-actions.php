@@ -11,7 +11,7 @@
 //
 
 /**
- * Ajax handler for the (experimental) Heartbeat API in
+ * Ajax handler for the Heartbeat API in
  * the no-privilege context.
  *
  * Runs when the user is not logged in.
@@ -2353,7 +2353,7 @@ function wp_ajax_send_link_to_editor() {
 }
 
 /**
- * Ajax handler for the (experimental) Heartbeat API.
+ * Ajax handler for the Heartbeat API.
  *
  * Runs when the user is logged in.
  *
