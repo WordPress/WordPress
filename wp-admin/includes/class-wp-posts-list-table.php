@@ -98,7 +98,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 		else
 			$total_pages = $wp_query->max_num_pages;
 
-		$mode = empty( $_REQUEST['mode'] ) ? 'list' : $_REQUEST['mode'];
+		if ( ! empty( $_REQUEST['mode'] ) ) {
+			$mode = $_REQUEST['mode'] == 'excerpt' ? 'excerpt' : 'list';
+			set_user_setting ( 'posts_list_mode', $mode );
+		} else {
+			$mode = get_user_setting ( 'posts_list_mode', 'list' );
+		}
 
 		$this->is_trash = isset( $_REQUEST['post_status'] ) && $_REQUEST['post_status'] == 'trash';
 
