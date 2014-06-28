@@ -93,7 +93,7 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  * @global array $wp_filter Stores all of the filters
  *
  * @param string $tag The name of the filter hook.
- * @param callback $function_to_check optional.
+ * @param bool|callback $function_to_check optional.
  * @return mixed If $function_to_check is omitted, returns boolean for whether the hook has anything registered.
  * 	When checking a specific function, the priority of that hook is returned, or false if the function is not attached.
  * 	When using the $function_to_check argument, this function may return a non-boolean value that evaluates to false
@@ -269,7 +269,6 @@ function apply_filters_ref_array($tag, $args) {
  * @param string $tag The filter hook to which the function to be removed is hooked.
  * @param callback $function_to_remove The name of the function which should be removed.
  * @param int $priority optional. The priority of the function (default: 10).
- * @param int $accepted_args optional. The number of arguments the function accepts (default: 1).
  * @return boolean Whether the function existed before it was removed.
  */
 function remove_filter( $tag, $function_to_remove, $priority = 10 ) {
@@ -297,7 +296,7 @@ function remove_filter( $tag, $function_to_remove, $priority = 10 ) {
  * @since 2.7.0
  *
  * @param string $tag The filter to remove hooks from.
- * @param int $priority The priority number to remove.
+ * @param bool|int $priority The priority number to remove.
  * @return bool True when finished.
  */
 function remove_all_filters( $tag, $priority = false ) {
@@ -403,6 +402,7 @@ function doing_action( $action = null ) {
  * @param callback $function_to_add The name of the function you wish to be called.
  * @param int $priority optional. Used to specify the order in which the functions associated with a particular action are executed (default: 10). Lower numbers correspond with earlier execution, and functions with the same priority are executed in the order in which they were added to the action.
  * @param int $accepted_args optional. The number of arguments the function accept (default 1).
+ * @return bool Will always return true.
  */
 function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) {
 	return add_filter($tag, $function_to_add, $priority, $accepted_args);
@@ -564,7 +564,7 @@ function do_action_ref_array($tag, $args) {
  * @see has_filter() has_action() is an alias of has_filter().
  *
  * @param string $tag The name of the action hook.
- * @param callback $function_to_check optional.
+ * @param bool|callback $function_to_check optional.
  * @return mixed If $function_to_check is omitted, returns boolean for whether the hook has anything registered.
  * 	When checking a specific function, the priority of that hook is returned, or false if the function is not attached.
  * 	When using the $function_to_check argument, this function may return a non-boolean value that evaluates to false
@@ -598,7 +598,7 @@ function remove_action( $tag, $function_to_remove, $priority = 10 ) {
  * @since 2.7.0
  *
  * @param string $tag The action to remove hooks from.
- * @param int $priority The priority number to remove them from.
+ * @param bool|int $priority The priority number to remove them from.
  * @return bool True when finished.
  */
 function remove_all_actions($tag, $priority = false) {
