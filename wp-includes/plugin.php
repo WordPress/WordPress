@@ -273,15 +273,19 @@ function apply_filters_ref_array($tag, $args) {
  * @return boolean Whether the function existed before it was removed.
  */
 function remove_filter( $tag, $function_to_remove, $priority = 10 ) {
-	$function_to_remove = _wp_filter_build_unique_id($tag, $function_to_remove, $priority);
+	$function_to_remove = _wp_filter_build_unique_id( $tag, $function_to_remove, $priority );
 
-	$r = isset($GLOBALS['wp_filter'][$tag][$priority][$function_to_remove]);
+	$r = isset( $GLOBALS['wp_filter'][ $tag ][ $priority ][ $function_to_remove ] );
 
-	if ( true === $r) {
-		unset($GLOBALS['wp_filter'][$tag][$priority][$function_to_remove]);
-		if ( empty($GLOBALS['wp_filter'][$tag][$priority]) )
-			unset($GLOBALS['wp_filter'][$tag][$priority]);
-		unset($GLOBALS['merged_filters'][$tag]);
+	if ( true === $r ) {
+		unset( $GLOBALS['wp_filter'][ $tag ][ $priority ][ $function_to_remove ] );
+		if ( empty( $GLOBALS['wp_filter'][ $tag ][ $priority ] ) ) {
+			unset( $GLOBALS['wp_filter'][ $tag ][ $priority ] );
+		}
+		if ( empty( $GLOBALS['wp_filter'][ $tag ] ) ) {
+			$GLOBALS['wp_filter'][ $tag ] = array();
+		}
+		unset( $GLOBALS['merged_filters'][ $tag ] );
 	}
 
 	return $r;
