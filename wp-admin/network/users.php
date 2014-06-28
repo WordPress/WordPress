@@ -77,6 +77,9 @@ function confirm_delete_users( $users ) {
 		}
 	}
 
+	/** This action is documented in wp-admin/users.php */
+	do_action( 'delete_user_form', $current_user );
+
 	submit_button( __('Confirm Deletion'), 'delete' );
 	?>
 	</form>
