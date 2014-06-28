@@ -70,6 +70,9 @@ add_filter( 'force_filtered_html_on_import', '__return_true' );
 remove_filter( 'option_siteurl', '_config_wp_siteurl' );
 remove_filter( 'option_home',    '_config_wp_home'    );
 
+// Some options changes should trigger blog details refresh.
+add_action( 'updated_option', '_wp_refresh_blog_details_on_updated_option' );
+
 // If the network upgrade hasn't run yet, assume ms-files.php rewriting is used.
 add_filter( 'default_site_option_ms_files_rewriting', '__return_true' );
 

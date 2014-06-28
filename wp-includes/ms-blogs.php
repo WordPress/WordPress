@@ -264,6 +264,19 @@ function refresh_blog_details( $blog_id ) {
 }
 
 /**
+ * Refresh blog details when an option is updated.
+ *
+ * @access private
+ * @param string $option_name
+ */
+function _wp_refresh_blog_details_on_updated_option( $option_name ) {
+	$options = array( 'blogname', 'siteurl', 'post_count' );
+	if ( in_array( $option_name, $options ) ) {
+		refresh_blog_details( get_current_blog_id() );
+	}
+}
+
+/**
  * Update the details for a blog. Updates the blogs table for a given blog id.
  *
  * @since MU
@@ -903,7 +916,7 @@ function _update_posts_count_on_delete( $post_id ) {
 	if ( 'publish' !== get_post_field( 'post_status', $post_id ) ) {
 		return;
 	}
-	
+
 	update_posts_count();
 }
 
