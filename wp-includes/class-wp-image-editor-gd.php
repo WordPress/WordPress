@@ -114,7 +114,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		$this->update_size( $size[0], $size[1] );
 		$this->mime_type = $size['mime'];
 
-		return $this->set_quality( $this->quality );
+		return true;
 	}
 
 	/**
@@ -394,7 +394,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			}
 		}
 		elseif ( 'image/jpeg' == $mime_type ) {
-			if ( ! $this->make_image( $filename, 'imagejpeg', array( $image, $filename, $this->quality ) ) )
+			if ( ! $this->make_image( $filename, 'imagejpeg', array( $image, $filename, $this->get_quality() ) ) )
 				return new WP_Error( 'image_save_error', __('Image Editor Save Failed') );
 		}
 		else {
@@ -442,7 +442,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 				return imagegif( $this->image );
 			default:
 				header( 'Content-Type: image/jpeg' );
-				return imagejpeg( $this->image, null, $this->quality );
+				return imagejpeg( $this->image, null, $this->get_quality() );
 		}
 	}
 
