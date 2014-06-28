@@ -39,6 +39,16 @@
 function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	global $wp_rewrite, $is_IIS, $wp_query, $wpdb;
 
+	// If we're not in wp-admin and the post has been published and preview nonce
+	// is non-existant or invalid then no need for preview in query
+	if ( is_preview() && get_query_var( 'p' ) && 'publish' == get_post_status( get_query_var( 'p' ) ) ) {
+		if ( ! isset( $_GET['preview_id'] )
+			|| ! isset( $_GET['preview_nonce'] )
+			|| ! wp_verify_nonce( $_GET['preview_nonce'], 'post_preview_' . (int) $_GET['preview_id'] ) ) {
+			$wp_query->is_preview = false;
+		}
+	}
+
 	if ( is_trackback() || is_search() || is_comments_popup() || is_admin() || !empty($_POST) || is_preview() || is_robots() || ( $is_IIS && !iis7_supports_permalinks() ) )
 		return;
 
@@ -67,6 +77,11 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		$redirect['path'] = '';
 	if ( !isset($redirect['query']) )
 		$redirect['query'] = '';
+
+	// If its not a preview then remove it from URL
+	if ( ! is_preview() ) {
+		$redirect['query'] = remove_query_arg( 'preview', $redirect['query'] );
+	}
 
 	if ( is_feed() && ( $id = get_query_var( 'p' ) ) ) {
 		if ( $redirect_url = get_post_comments_feed_link( $id, get_query_var( 'feed' ) ) ) {
