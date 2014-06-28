@@ -296,18 +296,20 @@ function remove_filter( $tag, $function_to_remove, $priority = 10 ) {
  * @param int $priority The priority number to remove.
  * @return bool True when finished.
  */
-function remove_all_filters($tag, $priority = false) {
+function remove_all_filters( $tag, $priority = false ) {
 	global $wp_filter, $merged_filters;
 
-	if( isset($wp_filter[$tag]) ) {
-		if( false !== $priority && isset($wp_filter[$tag][$priority]) )
-			unset($wp_filter[$tag][$priority]);
-		else
-			unset($wp_filter[$tag]);
+	if ( isset( $wp_filter[ $tag ]) ) {
+		if ( false !== $priority && isset( $wp_filter[ $tag ][ $priority ] ) ) {
+			$wp_filter[ $tag ][ $priority ] = array();
+		} else {
+			$wp_filter[ $tag ] = array();
+		}
 	}
 
-	if( isset($merged_filters[$tag]) )
-		unset($merged_filters[$tag]);
+	if ( isset( $merged_filters[ $tag ] ) ) {
+		unset( $merged_filters[ $tag ] );
+	}
 
 	return true;
 }
