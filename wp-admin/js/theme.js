@@ -190,6 +190,12 @@ themes.Collection = Backbone.Collection.extend({
 			return match.test( haystack );
 		});
 
+		if ( results.length === 0 ) {
+			this.trigger( 'query:empty' );
+		} else {
+			$( 'body' ).removeClass( 'no-results' );
+		}
+
 		this.reset( results );
 	},
 
