@@ -187,6 +187,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			'mature'   => array( 'site-mature', __( 'Mature' ) )
 		);
 
+		if ( 'list' == $mode ) {
+			$date = 'Y/m/d';
+		} else {
+			$date = 'Y/m/d \<\b\r \/\> g:i:s a';
+		}
+
 		$class = '';
 		foreach ( $this->items as $blog ) {
 			$class = ( 'alternate' == $class ) ? '' : 'alternate';
@@ -307,10 +313,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 					case 'lastupdated':
 						echo "<td class='$column_name column-$column_name'$style>";
-							if ( 'list' == $mode )
-								$date = 'Y/m/d';
-							else
-								$date = 'Y/m/d \<\b\r \/\> g:i:s a';
 							echo ( $blog['last_updated'] == '0000-00-00 00:00:00' ) ? __( 'Never' ) : mysql2date( $date, $blog['last_updated'] ); ?>
 						</td>
 					<?php
