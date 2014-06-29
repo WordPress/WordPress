@@ -10,12 +10,9 @@
  * @since 3.0.0
  */
 
-/** Include Multisite initialization functions */
-require( ABSPATH . WPINC . '/ms-load.php' );
-require( ABSPATH . WPINC . '/ms-default-constants.php' );
-
-if ( defined( 'SUNRISE' ) )
+if ( defined( 'SUNRISE' ) ) {
 	include_once( WP_CONTENT_DIR . '/sunrise.php' );
+}
 
 /** Check for and define SUBDOMAIN_INSTALL and the deprecated VHOST constant. */
 ms_subdomain_constants();
