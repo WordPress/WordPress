@@ -106,6 +106,7 @@
 }
 
 .wp-pointer-bottom {
+	margin-top: -13px;
 	padding-bottom: 13px;
 }
 
@@ -115,6 +116,7 @@
 }
 /* @noflip */
 .wp-pointer-right {
+	margin-left: -13px;
 	padding-right: 13px;
 }
 
@@ -139,10 +141,11 @@
 	border-bottom-color: #3592b6;
 }
 
-.wp-pointer-top .wp-pointer-arrow:before,
-.wp-pointer-undefined .wp-pointer-arrow:before {
+.wp-pointer-top .wp-pointer-arrow-inner,
+.wp-pointer-undefined .wp-pointer-arrow-inner {
+	top: 1px;
 	margin-left: -13px;
-	margin-top: -11px;
+	margin-top: -13px;
 	border: 13px solid transparent;
 	border-bottom-color: #2ea2cc;
 	display: block;
@@ -155,9 +158,10 @@
 	border-top-color: #ccc;
 }
 
-.wp-pointer-bottom .wp-pointer-arrow:before {
+.wp-pointer-bottom .wp-pointer-arrow-inner {
+	bottom: 1px;
 	margin-left: -13px;
-	margin-top: -14px;
+	margin-bottom: -13px;
 	border: 13px solid transparent;
 	border-top-color: #fff;
 	display: block;
@@ -171,8 +175,10 @@
 	border-right-color: #ccc;
 }
 
-.wp-pointer-left .wp-pointer-arrow:before {
-	margin-left: -14px;
+/* @noflip */
+.wp-pointer-left .wp-pointer-arrow-inner {
+	left: 1px;
+	margin-left: -13px;
 	margin-top: -13px;
 	border: 13px solid transparent;
 	border-right-color: #fff;
@@ -182,24 +188,20 @@
 
 /* @noflip */
 .wp-pointer-right .wp-pointer-arrow {
-	right:0;
+	right: 0;
 	border-width: 13px 0 13px 13px;
 	border-left-color: #ccc;
 }
 
-.wp-pointer-right .wp-pointer-arrow:before {
-	margin-left: -14px;
+/* @noflip */
+.wp-pointer-right .wp-pointer-arrow-inner {
+	right: 1px;
+	margin-right: -13px;
 	margin-top: -13px;
 	border: 13px solid transparent;
 	border-left-color: #fff;
 	display: block;
 	content: ' ';
-}
-
-.rtl .wp-pointer-arrow:before {
-	-webkit-transform: rotateY(180deg);
-	-ms-transform:     rotateY(180deg);
-	transform:         rotateY(180deg);
 }
 
 /* Disable pointers at responsive sizes */
