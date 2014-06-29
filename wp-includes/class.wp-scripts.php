@@ -218,16 +218,19 @@ class WP_Scripts extends WP_Dependencies {
 		return $this->done;
 	}
 
-	public function in_default_dir($src) {
-		if ( ! $this->default_dirs )
+	public function in_default_dir( $src ) {
+		if ( ! $this->default_dirs ) {
 			return true;
+		}
 
-		if ( 0 === strpos( $src, '/wp-includes/js/l10n' ) )
+		if ( 0 === strpos( $src, '/' . WPINC . '/js/l10n' ) ) {
 			return false;
+		}
 
 		foreach ( (array) $this->default_dirs as $test ) {
-			if ( 0 === strpos($src, $test) )
+			if ( 0 === strpos( $src, $test ) ) {
 				return true;
+			}
 		}
 		return false;
 	}
