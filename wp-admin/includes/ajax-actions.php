@@ -124,8 +124,25 @@ function wp_ajax_ajax_tag_search() {
 		$s = $s[count( $s ) - 1];
 	}
 	$s = trim( $s );
-	if ( strlen( $s ) < 2 )
-		wp_die(); // require 2 chars for matching
+
+	/**
+	 * Filter the minimum number of characters required to fire a tag search via AJAX.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param int $characters The minimum number of characters required. Default 2.
+	 * @param object $tax The taxonomy object.
+	 * @param string $s The search term.
+	 */
+	$term_search_min_chars = (int) apply_filters( 'term_search_min_chars', 2, $tax, $s );
+
+	/*
+	 * Require $term_search_min_chars chars for matching (default: 2)
+	 * ensure it's a non-negative, non-zero integer.
+	 */
+	if ( ( $term_search_min_chars == 0 ) || ( strlen( $s ) < $term_search_min_chars ) ){
+		wp_die();
+	}
 
 	$results = get_terms( $taxonomy, array( 'name__like' => $s, 'fields' => 'names', 'hide_empty' => false ) );
 
