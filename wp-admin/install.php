@@ -90,7 +90,7 @@ function display_header( $body_classes = '' ) {
 	?>
 </head>
 <body class="wp-core-ui<?php echo $body_classes ?>">
-<h1 id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></h1>
+<h1 id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>" tabindex="-1"><?php _e( 'WordPress' ); ?></a></h1>
 
 <?php
 } // end display_header()

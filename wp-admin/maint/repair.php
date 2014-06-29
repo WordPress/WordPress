@@ -22,7 +22,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 	?>
 </head>
 <body class="wp-core-ui">
-<h1 id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></h1>
+<h1 id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>" tabindex="-1"><?php _e( 'WordPress' ); ?></a></h1>
 
 <?php
 
