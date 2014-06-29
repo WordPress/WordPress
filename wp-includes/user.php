@@ -2003,7 +2003,7 @@ function check_password_reset_key($key, $login) {
 		return new WP_Error('invalid_key', __('Invalid key'));
 
 	if ( empty( $wp_hasher ) ) {
-		require_once ABSPATH . 'wp-includes/class-phpass.php';
+		require_once ABSPATH . WPINC . '/class-phpass.php';
 		$wp_hasher = new PasswordHash( 8, true );
 	}
 
