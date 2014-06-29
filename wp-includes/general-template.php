@@ -2181,8 +2181,8 @@ function rsd_link() {
  * @since 2.3.1
  */
 function wlwmanifest_link() {
-	echo '<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="'
-		. get_bloginfo('wpurl') . '/wp-includes/wlwmanifest.xml" /> ' . "\n";
+	echo '<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="',
+		get_bloginfo('wpurl'), '/', WPINC, '/wlwmanifest.xml" /> ', "\n";
 }
 
 /**
