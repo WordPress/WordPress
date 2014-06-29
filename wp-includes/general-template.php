@@ -2182,7 +2182,7 @@ function rsd_link() {
  */
 function wlwmanifest_link() {
 	echo '<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="',
-		get_bloginfo('wpurl'), '/', WPINC, '/wlwmanifest.xml" /> ', "\n";
+		includes_url( 'wlwmanifest.xml' ), '" /> ', "\n";
 }
 
 /**
