@@ -39,7 +39,7 @@ require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
 require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 /** Load wpdb */
-require_once( ABSPATH . 'wp-includes/wp-db.php' );
+require_once( ABSPATH . WPINC . '/wp-db.php' );
 
 $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
 

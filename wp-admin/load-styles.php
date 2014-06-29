@@ -92,8 +92,8 @@ function get_file($path) {
 	return @file_get_contents($path);
 }
 
-require(ABSPATH . '/wp-includes/script-loader.php');
-require(ABSPATH . '/wp-includes/version.php');
+require( ABSPATH . WPINC . '/script-loader.php' );
+require( ABSPATH . WPINC . '/version.php' );
 
 $load = preg_replace( '/[^a-z0-9,_-]+/i', '', $_GET['load'] );
 $load = array_unique( explode( ',', $load ) );
@@ -124,10 +124,10 @@ foreach( $load as $handle ) {
 
 	$content = get_file( $path ) . "\n";
 
-	if ( strpos( $style->src, '/wp-includes/css/' ) === 0 ) {
-		$content = str_replace( '../images/', '../wp-includes/images/', $content );
-		$content = str_replace( '../js/tinymce/', '../wp-includes/js/tinymce/', $content );
-		$content = str_replace( '../fonts/', '../wp-includes/fonts/', $content );
+	if ( strpos( $style->src, '/' . WPINC . '/css/' ) === 0 ) {
+		$content = str_replace( '../images/', '../' . WPINC . '/images/', $content );
+		$content = str_replace( '../js/tinymce/', '../' . WPINC . '/js/tinymce/', $content );
+		$content = str_replace( '../fonts/', '../' . WPINC . '/fonts/', $content );
 		$out .= $content;
 	} else {
 		$out .= str_replace( '../images/', 'images/', $content );
