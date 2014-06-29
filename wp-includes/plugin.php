@@ -95,7 +95,7 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  * @global array $wp_filter Stores all of the filters
  *
  * @param string        $tag               The name of the filter hook.
- * @param bool|callback $function_to_check Optional. The callback to check for. Default false.
+ * @param callback|bool $function_to_check Optional. The callback to check for. Default false.
  * @return mixed If $function_to_check is omitted, returns boolean for whether the hook has anything registered.
  * 	When checking a specific function, the priority of that hook is returned, or false if the function is not attached.
  * 	When using the $function_to_check argument, this function may return a non-boolean value that evaluates to false
@@ -298,7 +298,7 @@ function remove_filter( $tag, $function_to_remove, $priority = 10 ) {
  * @since 2.7.0
  *
  * @param string   $tag      The filter to remove hooks from.
- * @param bool|int $priority Optional. The priority number to remove. Default false.
+ * @param int|bool $priority Optional. The priority number to remove. Default false.
  * @return bool True when finished.
  */
 function remove_all_filters( $tag, $priority = false ) {
@@ -570,7 +570,7 @@ function do_action_ref_array($tag, $args) {
  * @see has_filter() has_action() is an alias of has_filter().
  *
  * @param string        $tag               The name of the action hook.
- * @param bool|callback $function_to_check Optional. The callback to check for. Default false.
+ * @param callback|bool $function_to_check Optional. The callback to check for. Default false.
  * @return mixed If $function_to_check is omitted, returns boolean for whether the hook has anything registered.
  * 	When checking a specific function, the priority of that hook is returned, or false if the function is not attached.
  * 	When using the $function_to_check argument, this function may return a non-boolean value that evaluates to false
@@ -604,7 +604,7 @@ function remove_action( $tag, $function_to_remove, $priority = 10 ) {
  * @since 2.7.0
  *
  * @param string   $tag      The action to remove hooks from.
- * @param bool|int $priority The priority number to remove them from. Default false.
+ * @param int|bool $priority The priority number to remove them from. Default false.
  * @return bool True when finished.
  */
 function remove_all_actions($tag, $priority = false) {
