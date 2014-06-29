@@ -79,8 +79,8 @@ function get_file_description( $file ) {
  * @return string Full filesystem path to the root of the WordPress installation
  */
 function get_home_path() {
-	$home = get_option( 'home' );
-	$siteurl = get_option( 'siteurl' );
+	$home    = set_url_scheme( get_option( 'home' ), 'http' );
+	$siteurl = set_url_scheme( get_option( 'siteurl' ), 'http' );
 	if ( ! empty( $home ) && 0 !== strcasecmp( $home, $siteurl ) ) {
 		$wp_path_rel_to_home = str_ireplace( $home, '', $siteurl ); /* $siteurl - $home */
 		$pos = strripos( str_replace( '\\', '/', $_SERVER['SCRIPT_FILENAME'] ), trailingslashit( $wp_path_rel_to_home ) );
