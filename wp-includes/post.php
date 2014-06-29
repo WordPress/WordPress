@@ -1243,8 +1243,10 @@ function register_post_type( $post_type, $args = array() ) {
 	$post_type = sanitize_key( $post_type );
 	$args->name = $post_type;
 
-	if ( strlen( $post_type ) > 20 )
+	if ( strlen( $post_type ) > 20 ) {
+		_doing_it_wrong( __FUNCTION__, __( 'Post types cannot exceed 20 characters in length' ), '4.0' );
 		return new WP_Error( 'post_type_too_long', __( 'Post types cannot exceed 20 characters in length' ) );
+	}
 
 	// If not set, default to the setting for public.
 	if ( null === $args->publicly_queryable )
