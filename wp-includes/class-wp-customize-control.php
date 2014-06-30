@@ -71,6 +71,12 @@ class WP_Customize_Control {
 	 * @access public
 	 * @var array
 	 */
+	public $input_attrs = array();
+
+	/**
+	 * @access public
+	 * @var array
+	 */
 	public $json = array();
 
 	/**
@@ -250,30 +256,29 @@ class WP_Customize_Control {
 		echo $this->get_link( $setting_key );
 	}
 
+ 	/**
+	 * Render the custom attributes for the control's input element.
+	 *
+	 * @since 4.0.0
+	 */
+	public function input_attrs() {
+		foreach( $this->input_attrs as $attr => $value ) {
+			echo $attr . '="' . esc_attr( $value ) . '" ';
+		}
+	}
+
 	/**
 	 * Render the control's content.
 	 *
 	 * Allows the content to be overriden without having to rewrite the wrapper in $this->render().
 	 *
-	 * Supports basic input types `text`, `checkbox`, `radio`, `select` and `dropdown-pages`.
+	 * Supports basic input types `text`, `checkbox`, `textarea`, `radio`, `select` and `dropdown-pages`.
+	 * Additional input types such as `email`, `url`, `number`, `hidden` and `date` are supported implicitly.
 	 *
 	 * @since 3.4.0
 	 */
 	protected function render_content() {
 		switch( $this->type ) {
-			case 'text':
-				?>
-				<label>
-					<?php if ( ! empty( $this->label ) ) : ?>
-						<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-					<?php endif;
-					if ( ! empty( $this->description ) ) : ?>
-						<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
-					<?php endif; ?>
-					<input type="text" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); ?> />
-				</label>
-				<?php
-				break;
 			case 'checkbox':
 				?>
 				<label>
@@ -329,6 +334,19 @@ class WP_Customize_Control {
 				</label>
 				<?php
 				break;
+			case 'textarea':
+				?>
+				<label>
+					<?php if ( ! empty( $this->label ) ) : ?>
+						<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+					<?php endif;
+					if ( ! empty( $this->description ) ) : ?>
+						<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+					<?php endif; ?>
+					<textarea rows="5" <?php $this->link(); ?>><?php echo esc_textarea( $this->value() ); ?></textarea>
+				</label>
+				<?php
+				break;
 			case 'dropdown-pages':
 				$dropdown = wp_dropdown_pages(
 					array(
@@ -348,6 +366,19 @@ class WP_Customize_Control {
 					$this->label,
 					$dropdown
 				);
+				break;
+			default:
+				?>
+				<label>
+					<?php if ( ! empty( $this->label ) ) : ?>
+						<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+					<?php endif;
+					if ( ! empty( $this->description ) ) : ?>
+						<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+					<?php endif; ?>
+					<input type="<?php echo esc_attr( $this->type ); ?>" <?php $this->input_attrs(); ?> value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); ?> />
+				</label>
+				<?php
 				break;
 		}
 	}

@@ -287,16 +287,26 @@ p.customize-section-description {
 }
 
 .customize-control select,
-.customize-control input[type="text"],
 .customize-control input[type="radio"],
 .customize-control input[type="checkbox"] {
 	line-height: 28px;
 }
 
-.customize-control input[type="text"] {
+.customize-control input[type="text"],
+.customize-control input[type="password"],
+.customize-control input[type="email"],
+.customize-control input[type="number"],
+.customize-control input[type="search"],
+.customize-control input[type="tel"],
+.customize-control input[type="url"] {
 	width: 98%;
 	line-height: 18px;
 	margin: 0;
+}
+
+.customize-control-textarea textarea {
+	width: 100%;
+	resize: vertical;
 }
 
 .customize-control select {
