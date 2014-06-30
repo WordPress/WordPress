@@ -54,6 +54,12 @@ class WP_Customize_Control {
 	public $label = '';
 
 	/**
+	 * @access public
+	 * @var string
+	 */
+	public $description = '';
+
+	/**
 	 * @todo: Remove choices
 	 *
 	 * @access public
@@ -258,7 +264,12 @@ class WP_Customize_Control {
 			case 'text':
 				?>
 				<label>
-					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+					<?php if ( ! empty( $this->label ) ) : ?>
+						<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+					<?php endif;
+					if ( ! empty( $this->description ) ) : ?>
+						<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+					<?php endif; ?>
 					<input type="text" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); ?> />
 				</label>
 				<?php
@@ -268,6 +279,9 @@ class WP_Customize_Control {
 				<label>
 					<input type="checkbox" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); checked( $this->value() ); ?> />
 					<?php echo esc_html( $this->label ); ?>
+					<?php if ( ! empty( $this->description ) ) : ?>
+						<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+					<?php endif; ?>
 				</label>
 				<?php
 				break;
@@ -277,9 +291,13 @@ class WP_Customize_Control {
 
 				$name = '_customize-radio-' . $this->id;
 
-				?>
-				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-				<?php
+				if ( ! empty( $this->label ) ) : ?>
+					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+				<?php endif;
+				if ( ! empty( $this->description ) ) : ?>
+					<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+				<?php endif;
+
 				foreach ( $this->choices as $value => $label ) :
 					?>
 					<label>
@@ -295,7 +313,13 @@ class WP_Customize_Control {
 
 				?>
 				<label>
-					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+					<?php if ( ! empty( $this->label ) ) : ?>
+						<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+					<?php endif;
+					if ( ! empty( $this->description ) ) : ?>
+						<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+					<?php endif; ?>
+
 					<select <?php $this->link(); ?>>
 						<?php
 						foreach ( $this->choices as $value => $label )
@@ -401,7 +425,13 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 		// The input's value gets set by JS. Don't fill it.
 		?>
 		<label>
-			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+			<?php if ( ! empty( $this->label ) ) : ?>
+				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+			<?php endif;
+			if ( ! empty( $this->description ) ) : ?>
+				<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+			<?php endif; ?>
+
 			<div class="customize-control-content">
 				<input class="color-picker-hex" type="text" maxlength="7" placeholder="<?php esc_attr_e( 'Hex Value' ); ?>"<?php echo $default_attr; ?> />
 			</div>
@@ -458,7 +488,12 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 	public function render_content() {
 		?>
 		<label>
-			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+			<?php if ( ! empty( $this->label ) ) : ?>
+				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+			<?php endif;
+			if ( ! empty( $this->description ) ) : ?>
+				<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+			<?php endif; ?>
 			<div>
 				<a href="#" class="button-secondary upload"><?php _e( 'Upload' ); ?></a>
 				<a href="#" class="remove"><?php _e( 'Remove' ); ?></a>
@@ -540,7 +575,12 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 
 		?>
 		<div class="customize-image-picker">
-			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+			<?php if ( ! empty( $this->label ) ) : ?>
+				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+			<?php endif;
+			if ( ! empty( $this->description ) ) : ?>
+				<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+			<?php endif; ?>
 
 			<div class="customize-control-content">
 				<div class="dropdown preview-thumbnail" tabindex="0">

@@ -180,7 +180,7 @@ class WP_Customize_Section {
 			<h3 class="accordion-section-title" tabindex="0"><?php echo esc_html( $this->title ); ?></h3>
 			<ul class="accordion-section-content">
 				<?php if ( ! empty( $this->description ) ) : ?>
-				<li><p class="description"><?php echo $this->description; ?></p></li>
+				<li><p class="description customize-section-description"><?php echo $this->description; ?></p></li>
 				<?php endif; ?>
 				<?php
 				foreach ( $this->controls as $control )

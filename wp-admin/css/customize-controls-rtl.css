@@ -275,6 +275,10 @@ body {
 	line-height: 24px;
 }
 
+p.customize-section-description {
+	font-style: normal;
+}
+
 .customize-control {
 	width: 100%;
 	float: right;
@@ -314,6 +318,13 @@ body {
 	margin-bottom: 5px;
 }
 
+.customize-control-description {
+	display: block;
+	font-style: italic;
+	line-height: 18px;
+	margin-bottom: 5px;
+}
+
 .customize-control-color .color-picker,
 .customize-control-checkbox label,
 .customize-control-upload div {
@@ -331,6 +342,10 @@ body {
 .customize-control-radio .customize-control-title {
 	margin-bottom: 0;
 	line-height: 22px;
+}
+
+.customize-control-radio .customize-control-title + .customize-control-description {
+	margin-top: 7px;
 }
 
 .customize-control-radio label {
