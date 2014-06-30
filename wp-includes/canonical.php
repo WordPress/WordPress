@@ -78,8 +78,8 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	if ( !isset($redirect['query']) )
 		$redirect['query'] = '';
 
-	// If its not a preview then remove it from URL
-	if ( ! is_preview() ) {
+	// It's not a preview, so remove it from URL
+	if ( get_query_var( 'preview' ) ) {
 		$redirect['query'] = remove_query_arg( 'preview', $redirect['query'] );
 	}
 
