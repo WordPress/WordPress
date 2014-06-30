@@ -147,6 +147,10 @@ body {
 	content: "\f139";
 }
 
+.rtl .control-section.control-panel > .accordion-section-title:after {
+	content: "\f141";
+}
+
 .accordion-sub-container.control-panel-content {
 	display: none;
 	position: absolute;
@@ -199,6 +203,10 @@ body {
 	position: relative;
 	top: 9px;
 	left: 9px;
+}
+
+.rtl .control-panel-back:before {
+	content: "\f344";
 }
 
 .current-panel .control-panel-back {
