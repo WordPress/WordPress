@@ -10,6 +10,10 @@
  * @since 3.0.0
  */
 
+/** Include Multisite initialization functions */
+require_once( ABSPATH . WPINC . '/ms-load.php' );
+require_once( ABSPATH . WPINC . '/ms-default-constants.php' );
+
 if ( defined( 'SUNRISE' ) ) {
 	include_once( WP_CONTENT_DIR . '/sunrise.php' );
 }
