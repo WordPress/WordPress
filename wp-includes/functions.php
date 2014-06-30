@@ -8,7 +8,7 @@
 require( ABSPATH . WPINC . '/option.php' );
 
 /**
- * Converts given date string into a different format.
+ * Convert given date string into a different format.
  *
  * $format should be either a PHP date format string, e.g. 'U' for a Unix
  * timestamp, or 'G' for a Unix timestamp assuming that $date is GMT.
@@ -18,9 +18,9 @@ require( ABSPATH . WPINC . '/option.php' );
  *
  * @since 0.71
  *
- * @param string $format Format of the date to return.
- * @param string $date Date string to convert.
- * @param bool $translate Whether the return date should be translated. Default is true.
+ * @param string $format    Format of the date to return.
+ * @param string $date      Date string to convert.
+ * @param bool   $translate Whether the return date should be translated. Default true.
  * @return string|int Formatted date string, or Unix timestamp.
  */
 function mysql2date( $format, $date, $translate = true ) {
@@ -53,8 +53,9 @@ function mysql2date( $format, $date, $translate = true ) {
  *
  * @since 1.0.0
  *
- * @param string $type 'mysql', 'timestamp', or PHP date format string (e.g. 'Y-m-d').
- * @param int|bool $gmt Optional. Whether to use GMT timezone. Default is false.
+ * @param string   $type Type of time to retrieve. Accepts 'mysql', 'timestamp', or PHP date
+ *                       format string (e.g. 'Y-m-d').
+ * @param int|bool $gmt  Optional. Whether to use GMT timezone. Default false.
  * @return int|string Integer if $type is 'timestamp', string otherwise.
  */
 function current_time( $type, $gmt = 0 ) {
@@ -97,8 +98,10 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 		$gmt = true;
 	}
 
-	// store original value for language with untypical grammars
-	// see http://core.trac.wordpress.org/ticket/9396
+	/*
+	 * Store original value for language with untypical grammars.
+	 * See http://core.trac.wordpress.org/ticket/9396
+	 */
 	$req_format = $dateformatstring;
 
 	$datefunc = $gmt? 'gmdate' : 'date';
@@ -158,8 +161,8 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
  *
  * @since 2.3.0
  *
- * @param int $number The number to convert based on locale.
- * @param int $decimals Precision of the number of decimal places.
+ * @param int $number   The number to convert based on locale.
+ * @param int $decimals Optional. Precision of the number of decimal places. Default 0.
  * @return string Converted number in string format.
  */
 function number_format_i18n( $number, $decimals = 0 ) {
@@ -189,12 +192,11 @@ function number_format_i18n( $number, $decimals = 0 ) {
  * be converted to a double, which should always have 64 bit length.
  *
  * Technically the correct unit names for powers of 1024 are KiB, MiB etc.
- * @link http://en.wikipedia.org/wiki/Byte
  *
  * @since 2.3.0
  *
- * @param int|string $bytes Number of bytes. Note max integer size for integers.
- * @param int $decimals Precision of number of decimal places. Deprecated.
+ * @param int|string $bytes    Number of bytes. Note max integer size for integers.
+ * @param int        $decimals Optional. Precision of number of decimal places. Default 0.
  * @return bool|string False on failure. Number string on success.
  */
 function size_format( $bytes, $decimals = 0 ) {
@@ -223,19 +225,32 @@ function size_format( $bytes, $decimals = 0 ) {
  * @return array Keys are 'start' and 'end'.
  */
 function get_weekstartend( $mysqlstring, $start_of_week = '' ) {
-	$my = substr( $mysqlstring, 0, 4 ); // Mysql string Year
-	$mm = substr( $mysqlstring, 8, 2 ); // Mysql string Month
-	$md = substr( $mysqlstring, 5, 2 ); // Mysql string day
-	$day = mktime( 0, 0, 0, $md, $mm, $my ); // The timestamp for mysqlstring day.
-	$weekday = date( 'w', $day ); // The day of the week from the timestamp
+	// Mysql string year.
+	$my = substr( $mysqlstring, 0, 4 );
+
+	// Mysql string month.
+	$mm = substr( $mysqlstring, 8, 2 );
+
+	// Mysql string day.
+	$md = substr( $mysqlstring, 5, 2 );
+
+	// The timestamp for mysqlstring day.
+	$day = mktime( 0, 0, 0, $md, $mm, $my );
+
+	// The day of the week from the timestamp.
+	$weekday = date( 'w', $day );
+
 	if ( !is_numeric($start_of_week) )
 		$start_of_week = get_option( 'start_of_week' );
 
 	if ( $weekday < $start_of_week )
 		$weekday += 7;
 
-	$start = $day - DAY_IN_SECONDS * ( $weekday - $start_of_week ); // The most recent week start day on or before $day
-	$end = $start + 7 * DAY_IN_SECONDS - 1; // $start + 7 days - 1 second
+	// The most recent week start day on or before $day.
+	$start = $day - DAY_IN_SECONDS * ( $weekday - $start_of_week );
+
+	// $start + 7 days - 1 second.
+	$end = $start + 7 * DAY_IN_SECONDS - 1;
 	return compact( 'start', 'end' );
 }
 
@@ -261,12 +276,12 @@ function maybe_unserialize( $original ) {
  *
  * @since 2.0.5
  *
- * @param mixed $data Value to check to see if was serialized.
- * @param bool $strict Optional. Whether to be strict about the end of the string. Defaults true.
+ * @param string $data   Value to check to see if was serialized.
+ * @param bool   $strict Optional. Whether to be strict about the end of the string. Default true.
  * @return bool False if not serialized and true if it was.
  */
 function is_serialized( $data, $strict = true ) {
-	// if it isn't a string, it isn't serialized
+	// if it isn't a string, it isn't serialized.
 	if ( ! is_string( $data ) ) {
 		return false;
 	}
@@ -325,11 +340,11 @@ function is_serialized( $data, $strict = true ) {
  *
  * @since 2.0.5
  *
- * @param mixed $data Serialized data
+ * @param string $data Serialized data.
  * @return bool False if not a serialized string, true if it is.
  */
 function is_serialized_string( $data ) {
-	// if it isn't a string, it isn't a serialized string
+	// if it isn't a string, it isn't a serialized string.
 	if ( ! is_string( $data ) ) {
 		return false;
 	}
@@ -354,7 +369,7 @@ function is_serialized_string( $data ) {
  *
  * @since 2.0.5
  *
- * @param mixed $data Data that might be serialized.
+ * @param string|array|object $data Data that might be serialized.
  * @return mixed A scalar data
  */
 function maybe_serialize( $data ) {
@@ -377,7 +392,7 @@ function maybe_serialize( $data ) {
  *
  * @since 0.71
  *
- * @global string $post_default_title Default XMLRPC post title.
+ * @global string $post_default_title Default XML-RPC post title.
  *
  * @param string $content XMLRPC XML Request content
  * @return string Post title
@@ -401,7 +416,7 @@ function xmlrpc_getposttitle( $content ) {
  *
  * @since 0.71
  *
- * @global string $post_default_category Default XMLRPC post category.
+ * @global string $post_default_category Default XML-RPC post category.
  *
  * @param string $content XMLRPC XML Request content
  * @return string|array List of categories or category name.
@@ -422,7 +437,7 @@ function xmlrpc_getpostcategory( $content ) {
  *
  * @since 0.71
  *
- * @param string $content XMLRPC XML Request content
+ * @param string $content XML-RPC XML Request content.
  * @return string XMLRPC XML Request content without title and category elements.
  */
 function xmlrpc_removepostdata( $content ) {
@@ -433,12 +448,12 @@ function xmlrpc_removepostdata( $content ) {
 }
 
 /**
- * Use RegEx to extract URLs from arbitrary content
+ * Use RegEx to extract URLs from arbitrary content.
  *
  * @since 3.7.0
  *
- * @param string $content
- * @return array URLs found in passed string
+ * @param string $content Content to extract URLs from.
+ * @return array URLs found in passed string.
  */
 function wp_extract_urls( $content ) {
 	preg_match_all(
@@ -472,10 +487,10 @@ function wp_extract_urls( $content ) {
  *
  * @since 1.5.0
  *
- * @uses $wpdb
+ * @see $wpdb
  *
- * @param string $content Post Content
- * @param int $post_ID Post ID
+ * @param string $content Post Content.
+ * @param int $post_ID Post ID.
  */
 function do_enclose( $content, $post_ID ) {
 	global $wpdb;
@@ -548,9 +563,10 @@ function do_enclose( $content, $post_ID ) {
  *
  * @since 2.5.0
  *
- * @param string $url URL to fetch.
- * @param string|bool $file_path Optional. File path to write request to.
- * @param int $red (private) The number of Redirects followed, Upon 5 being hit, returns false.
+ * @param string      $url       URL to fetch.
+ * @param string|bool $file_path Optional. File path to write request to. Default false.
+ * @param int         $red       Optional. The number of Redirects followed, Upon 5 being hit,
+ *                               returns false. Default 1.
  * @return bool|string False on failure and string of headers if HEAD request.
  */
 function wp_get_http( $url, $file_path = false, $red = 1 ) {
@@ -600,8 +616,8 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
  *
  * @since 1.5.1
  *
- * @param string $url
- * @param bool $deprecated Not Used.
+ * @param string $url        URL to retrieve HTTP headers from.
+ * @param bool   $deprecated Not Used.
  * @return bool|string False on failure, headers on success.
  */
 function wp_get_http_headers( $url, $deprecated = false ) {
@@ -621,6 +637,7 @@ function wp_get_http_headers( $url, $deprecated = false ) {
  * publish date of the previous post in the loop.
  *
  * @since 0.71
+ *
  * @global string $currentday The day of the current post in the loop.
  * @global string $previousday The day of the previous post in the loop.
  *
