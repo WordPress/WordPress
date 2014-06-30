@@ -77,9 +77,10 @@ function current_time( $type, $gmt = 0 ) {
  *
  * @since 0.71
  *
- * @param string $dateformatstring Format to display the date.
- * @param int $unixtimestamp Optional. Unix timestamp.
- * @param bool $gmt Optional, default is false. Whether to convert to GMT for time.
+ * @param string   $dateformatstring Format to display the date.
+ * @param bool|int $unixtimestamp    Optional. Unix timestamp. Default false.
+ * @param bool     $gmt              Optional. Whether to use GMT timezone. Default false.
+ *
  * @return string The date, translated if locale specifies it.
  */
 function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
@@ -652,8 +653,24 @@ function build_query( $data ) {
 	return _http_build_query( $data, null, '&', '', false );
 }
 
-// from php.net (modified by Mark Jaquith to behave like the native PHP5 function)
-function _http_build_query($data, $prefix=null, $sep=null, $key='', $urlencode=true) {
+/**
+ * From php.net (modified by Mark Jaquith to behave like the native PHP5 function).
+ *
+ * @since 3.2.0
+ *
+ * @link  http://us1.php.net/manual/en/function.http-build-query.php
+ *
+ * @param array|object  $data       An array or object of data. Converted to array.
+ * @param string        $prefix     Optional. Numeric index. If set, start parameter numbering with it.
+ *                                  Default null.
+ * @param string        $sep        Optional. Argument separator; defaults to 'arg_separator.output'.
+ *                                  Default null.
+ * @param string        $key        Optional. Used to prefix key name. Default empty.
+ * @param bool          $urlencode  Optional. Whether to use urlencode() in the result. Default true.
+ *
+ * @return string The query string.
+ */
+function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urlencode = true ) {
 	$ret = array();
 
 	foreach ( (array) $data as $k => $v ) {
@@ -4253,11 +4270,17 @@ function wp_is_stream( $path ) {
 }
 
 /**
- * Test if the supplied date is valid for the Gregorian calendar
+ * Test if the supplied date is valid for the Gregorian calendar.
  *
  * @since 3.5.0
  *
- * @return bool true|false
+ * @see checkdate()
+ *
+ * @param  int    $month       Month number.
+ * @param  int    $day         Day number.
+ * @param  int    $year        Year number.
+ * @param  string $source_date The date to filter.
+ * @return bool   True if valid date, false if not valid date.
  */
 function wp_checkdate( $month, $day, $year, $source_date ) {
 	/**
@@ -4361,6 +4384,10 @@ function wp_auth_check_html() {
  * or if their cookie is within the grace period.
  *
  * @since 3.6.0
+ *
+ * @param array|object $response  The Heartbeat response object or array.
+ * @return array|object $response The Heartbeat response object or array with 'wp-auth-check'
+ *                                value set.
  */
 function wp_auth_check( $response ) {
 	$response['wp-auth-check'] = is_user_logged_in() && empty( $GLOBALS['login_grace_period'] );
