@@ -330,6 +330,28 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				}
 			});
 		}
+
+		if ( editor.getParam( 'wp_paste_filters', true ) ) {
+			if ( ! tinymce.Env.webkit ) {
+				// In WebKit handled by removeWebKitStyles()
+				editor.on( 'PastePreProcess', function( event ) {
+					// Remove all inline styles
+					event.content = event.content.replace( /(<[^>]+) style="[^"]*"([^>]*>)/gi, '$1$2' );
+
+					// Put back the internal styles
+					event.content = event.content.replace(/(<[^>]+) data-mce-style=([^>]+>)/gi, '$1 style=$2' );
+				});
+			}
+
+			editor.on( 'PastePostProcess', function( event ) {
+				// Remove empty paragraphs
+				tinymce.each( dom.select( 'p', event.node ), function( node ) {
+					if ( dom.isEmpty( node ) ) {
+						dom.remove( node );
+					}
+				});
+			});
+		}
 	});
 
 	// Word count
