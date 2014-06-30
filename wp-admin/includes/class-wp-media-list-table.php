@@ -94,7 +94,7 @@ class WP_Media_List_Table extends WP_List_Table {
 
 			/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
 			do_action( 'restrict_manage_posts' );
-			submit_button( __( 'Filter' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
+			submit_button( __( 'Filter' ), 'button', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 		}
 
 		if ( $this->detached ) {

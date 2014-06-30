@@ -384,6 +384,9 @@ class WP_List_Table {
 	 * @return string|bool The action name or False if no action was selected
 	 */
 	public function current_action() {
+		if ( isset( $_REQUEST['filter_action'] ) && ! empty( $_REQUEST['filter_action'] ) )
+			return false;
+
 		if ( isset( $_REQUEST['action'] ) && -1 != $_REQUEST['action'] )
 			return $_REQUEST['action'];
 
