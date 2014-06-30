@@ -1745,7 +1745,8 @@ function wp_new_comment( $commentdata ) {
 	if ( isset( $commentdata['user_ID'] ) ) {
 		$commentdata['user_id'] = $commentdata['user_ID'] = (int) $commentdata['user_ID'];
 	}
-	$prefiltered_user_id = $commentdata['user_id'];
+
+	$prefiltered_user_id = ( isset( $commentdata['user_id'] ) ) ? (int) $commentdata['user_id'] : 0;
 
 	/**
 	 * Filter a comment's data before it is sanitized and inserted into the database.
