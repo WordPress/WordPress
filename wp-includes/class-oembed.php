@@ -277,7 +277,7 @@ class WP_oEmbed {
 	 * @return bool|object False on failure, otherwise the result in the form of an object.
 	 */
 	public function fetch( $provider, $url, $args = '' ) {
-		$args = wp_parse_args( $args, wp_embed_defaults() );
+		$args = wp_parse_args( $args, wp_embed_defaults( $url ) );
 
 		$provider = add_query_arg( 'maxwidth', (int) $args['width'], $provider );
 		$provider = add_query_arg( 'maxheight', (int) $args['height'], $provider );

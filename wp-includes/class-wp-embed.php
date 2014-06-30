@@ -156,7 +156,7 @@ class WP_Embed {
 			return '';
 
 		$rawattr = $attr;
-		$attr = wp_parse_args( $attr, wp_embed_defaults() );
+		$attr = wp_parse_args( $attr, wp_embed_defaults( $url ) );
 
 		// kses converts & into &amp; and we need to undo this
 		// See http://core.trac.wordpress.org/ticket/11311

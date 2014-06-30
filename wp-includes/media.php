@@ -2082,9 +2082,11 @@ function wp_embed_unregister_handler( $id, $priority = 10 ) {
  *
  * @since 2.9.0
  *
+ * @param string $url Optional. The URL that should be embedded. Default empty.
+ *
  * @return array Default embed parameters.
  */
-function wp_embed_defaults() {
+function wp_embed_defaults( $url = '' ) {
 	if ( ! empty( $GLOBALS['content_width'] ) )
 		$width = (int) $GLOBALS['content_width'];
 
@@ -2098,10 +2100,11 @@ function wp_embed_defaults() {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param int $width  Width of the embed in pixels.
-	 * @param int $height Height of the embed in pixels.
+	 * @param int    $width  Width of the embed in pixels.
+	 * @param int    $height Height of the embed in pixels.
+	 * @param string $url    The URL that should be embedded.
 	 */
-	return apply_filters( 'embed_defaults', compact( 'width', 'height' ) );
+	return apply_filters( 'embed_defaults', compact( 'width', 'height' ), $url );
 }
 
 /**
