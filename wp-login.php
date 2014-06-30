@@ -172,12 +172,12 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 		$errors = '';
 		$messages = '';
 		foreach ( $wp_error->get_error_codes() as $code ) {
-			$severity = $wp_error->get_error_data($code);
-			foreach ( $wp_error->get_error_messages($code) as $error ) {
+			$severity = $wp_error->get_error_data( $code );
+			foreach ( $wp_error->get_error_messages( $code ) as $error_message ) {
 				if ( 'message' == $severity )
-					$messages .= '	' . $error . "<br />\n";
+					$messages .= '	' . $error_message . "<br />\n";
 				else
-					$errors .= '	' . $error . "<br />\n";
+					$errors .= '	' . $error_message . "<br />\n";
 			}
 		}
 		if ( ! empty( $errors ) ) {
