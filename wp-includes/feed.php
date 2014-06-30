@@ -93,13 +93,20 @@ function get_default_feed() {
  *
  * @since 2.2.0
  *
- * @param string $sep Optional.How to separate the title. See wp_title() for more info.
+ * @param string $sep Optional. How to separate the title. See wp_title() for more info.
  * @return string Error message on failure or blog title on success.
  */
-function get_wp_title_rss($sep = '&#187;') {
-	$title = wp_title($sep, false);
-	if ( is_wp_error( $title ) )
+function get_wp_title_rss( $sep = '&#187;' ) {
+	$title = wp_title( $sep, false );
+
+	if ( is_wp_error( $title ) ) {
 		return $title->get_error_message();
+	}
+
+	if ( $title && $sep && ' ' !== substr( $title, 0, 1 ) ) {
+		$title = " $sep " . $title;
+	}
+
 	/**
 	 * Filter the blog title for use as the feed title.
 	 *
