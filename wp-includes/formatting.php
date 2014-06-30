@@ -169,7 +169,6 @@ function wptexturize($text, $reset = false) {
 		$dynamic_replacements = array_values( $dynamic );
 	}
 
-	// Transform into regexp sub-expression used in _wptexturize_pushpop_element
 	// Must do this every time in case plugins use these filters in a context sensitive manner
 	/**
 	 * Filter the list of HTML elements not to texturize.
