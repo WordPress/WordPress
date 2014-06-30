@@ -1179,7 +1179,11 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 
 	if ( current_user_can( 'read_post', $post->ID ) ) {
 		$ptype = get_post_type_object( $post->post_type );
-		$view_post = $ptype->labels->view_item;
+		if( 'draft' == $post->post_status ) {
+			$view_post = __( 'Preview' );
+		} else {
+			$view_post = $ptype->labels->view_item;
+		}
 	}
 
 	if ( 'publish' == get_post_status( $post ) ) {
@@ -1234,7 +1238,14 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 	$return .= '<span id="editable-post-name-full">' . $post_name . "</span>\n";
 
 	if ( isset( $view_post ) ) {
-		$return .= "<span id='view-post-btn'><a href='" . get_permalink( $post ) . "' class='button button-small'>$view_post</a></span>\n";
+		if( 'draft' == $post->post_status ) {
+			$preview_link = set_url_scheme( get_permalink( $post->ID ) );
+			/** This filter is documented in wp-admin/includes/meta-boxes.php */
+			$preview_link = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ) );
+			$return .= "<span id='view-post-btn'><a href='" . esc_url( $preview_link ) . "' class='button button-small' target='wp-preview-{$post->ID}'>$view_post</a></span>\n";
+		} else {
+			$return .= "<span id='view-post-btn'><a href='" . get_permalink( $post ) . "' class='button button-small'>$view_post</a></span>\n";
+		}
 	}
 
 	/** This filter is documented in wp-admin/includes/post.php */

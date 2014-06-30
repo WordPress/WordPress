@@ -493,11 +493,23 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 			&& ( $post_type_object->public )
 			&& ( $post_type_object->show_in_admin_bar ) )
 		{
-			$wp_admin_bar->add_menu( array(
-				'id' => 'view',
-				'title' => $post_type_object->labels->view_item,
-				'href' => get_permalink( $post->ID )
-			) );
+			if( 'draft' == $post->post_status ) {
+				$preview_link = set_url_scheme( get_permalink( $post->ID ) );
+				/** This filter is documented in wp-admin/includes/meta-boxes.php */
+				$preview_link = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ) );
+				$wp_admin_bar->add_menu( array(
+					'id' => 'preview',
+					'title' => __( 'Preview' ),
+					'href' => esc_url( $preview_link ),
+					'meta' => array( 'target' => 'wp-preview-' . $post->ID ),
+				) );
+			} else {
+				$wp_admin_bar->add_menu( array(
+					'id' => 'view',
+					'title' => $post_type_object->labels->view_item,
+					'href' => get_permalink( $post->ID )
+				) );
+			}
 		} elseif ( 'edit-tags' == $current_screen->base
 			&& isset( $tag ) && is_object( $tag )
 			&& ( $tax = get_taxonomy( $tag->taxonomy ) )
