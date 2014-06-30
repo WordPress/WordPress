@@ -737,7 +737,9 @@ window.wp = window.wp || {};
 			} )
 			.fail( function( response ) {
 				if ( response && response.message ) {
-					if ( self.type === 'embed' ) {
+					if ( ( response.type === 'not-embeddable' && self.type === 'embed' ) ||
+						response.type === 'not-ssl' ) {
+
 						self.setError( response.message, 'admin-media' );
 					} else {
 						self.setContent( '<p>' + self.original + '</p>', null, true );
