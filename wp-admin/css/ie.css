@@ -260,7 +260,7 @@ table.fixed td {
 	border: 1px solid #dfdfdf;
 }
 
-#wpbody-content .postbox h3 {
+#wpbody-content .postbox .hndle {
 	margin-bottom: -1px;
 }
 

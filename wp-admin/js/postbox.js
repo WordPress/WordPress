@@ -9,7 +9,7 @@ var postboxes;
 
 			self.init(page, args);
 
-			$('.postbox h3, .postbox .handlediv').bind('click.postboxes', function() {
+			$('.postbox .hndle, .postbox .handlediv').bind('click.postboxes', function() {
 				var p = $(this).parent('.postbox'), id = p.attr('id');
 
 				if ( 'dashboard_browser_nag' == id )
@@ -28,7 +28,7 @@ var postboxes;
 				}
 			});
 
-			$('.postbox h3 a').click( function(e) {
+			$('.postbox .hndle a').click( function(e) {
 				e.stopPropagation();
 			});
 

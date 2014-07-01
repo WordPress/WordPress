@@ -705,8 +705,8 @@ td.help {
 ------------------------------------------------------------------------------*/
 
 .widget .widget-top,
-.postbox h3,
-.stuffbox h3,
+.postbox .hndle,
+.stuffbox .hndle,
 .control-section .accordion-section-title,
 h3.dashboard-widget-title,
 h3.dashboard-widget-title span,
@@ -729,9 +729,8 @@ h3.dashboard-widget-title small,
 	color: #222;
 }
 
-.postbox h3,
-#namediv h3,
-#submitdiv h3 {
+.postbox .hndle,
+.stuffbox .hndle {
 	border-bottom: 1px solid #eee;
 }
 
@@ -1349,6 +1348,7 @@ html.wp-toolbar {
 	}
 }
 
+.js .widget .widget-top,
 .js .postbox .hndle {
 	cursor: move;
 }
@@ -1380,18 +1380,13 @@ html.wp-toolbar {
 	line-height: 1;
 }
 
-.postbox h3,
-.stuffbox h3 {
-	margin-top: 1px;
+/* user-select is not a part of the CSS standard - may change behavior in the future */
+.postbox .hndle,
+.stuffbox .hndle {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-}
-
-.js .widget .widget-top,
-.js .postbox h3 {
-	cursor: move;
 }
 
 .postbox .inside,
