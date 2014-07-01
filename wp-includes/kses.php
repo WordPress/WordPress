@@ -991,7 +991,9 @@ function wp_kses_bad_protocol($string, $allowed_protocols) {
 }
 
 /**
- * Removes any null characters in $string.
+ * Removes any invalid control characters in $string.
+ *
+ * Also removes any instance of the '\0' string.
  *
  * @since 1.0.0
  *
@@ -999,7 +1001,7 @@ function wp_kses_bad_protocol($string, $allowed_protocols) {
  * @return string
  */
 function wp_kses_no_null($string) {
-	$string = preg_replace('/\0+/', '', $string);
+	$string = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F]/', '', $string);
 	$string = preg_replace('/(\\\\0)+/', '', $string);
 
 	return $string;
