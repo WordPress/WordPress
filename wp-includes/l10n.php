@@ -679,6 +679,8 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  *
  * If there isn't one, returns empty Translations instance.
  *
+ * @since 2.8.0
+ *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return Translations A Translations instance.
  */
@@ -694,6 +696,7 @@ function get_translations_for_domain( $domain ) {
  * Whether there are translations for the text domain.
  *
  * @since 3.0.0
+ *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return bool Whether there are translations.
  */
