@@ -216,25 +216,25 @@ function size_format( $bytes, $decimals = 0 ) {
 }
 
 /**
- * Get the week start and end from the datetime or date string from mysql.
+ * Get the week start and end from the datetime or date string from MySQL.
  *
  * @since 0.71
  *
- * @param string $mysqlstring Date or datetime field type from mysql.
- * @param int $start_of_week Optional. Start of the week as an integer.
+ * @param string     $mysqlstring   Date or datetime field type from MySQL.
+ * @param int|string $start_of_week Optional. Start of the week as an integer. Default empty string.
  * @return array Keys are 'start' and 'end'.
  */
 function get_weekstartend( $mysqlstring, $start_of_week = '' ) {
-	// Mysql string year.
+	// MySQL string year.
 	$my = substr( $mysqlstring, 0, 4 );
 
-	// Mysql string month.
+	// MySQL string month.
 	$mm = substr( $mysqlstring, 8, 2 );
 
-	// Mysql string day.
+	// MySQL string day.
 	$md = substr( $mysqlstring, 5, 2 );
 
-	// The timestamp for mysqlstring day.
+	// The timestamp for MySQL string day.
 	$day = mktime( 0, 0, 0, $md, $mm, $my );
 
 	// The day of the week from the timestamp.
