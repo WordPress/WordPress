@@ -62,7 +62,20 @@ final class _WP_Editors {
 	 * @return array Parsed arguments array.
 	 */
 	public static function parse_settings( $editor_id, $settings ) {
-		$set = wp_parse_args( $settings,  array(
+
+		/**
+		 * Filter the wp_editor() settings.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @see _WP_Editors()::parse_settings()
+		 *
+		 * @param array  $settings  Array of editor arguments.
+		 * @param string $editor_id ID for the current editor instance.
+		 */
+		$defaults = apply_filters( 'wp_editor_settings', $settings, $editor_id );
+
+		$set = wp_parse_args( $settings, array(
 			'wpautop'           => true,
 			'media_buttons'     => true,
 			'default_editor'    => '',
