@@ -73,7 +73,7 @@ final class _WP_Editors {
 		 * @param array  $settings  Array of editor arguments.
 		 * @param string $editor_id ID for the current editor instance.
 		 */
-		$defaults = apply_filters( 'wp_editor_settings', $settings, $editor_id );
+		$settings = apply_filters( 'wp_editor_settings', $settings, $editor_id );
 
 		$set = wp_parse_args( $settings, array(
 			'wpautop'           => true,
