@@ -1192,60 +1192,35 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 		$title = __('Temporary permalink. Click to edit this part.');
 	}
 
-	if ( false === strpos($permalink, '%postname%') && false === strpos($permalink, '%pagename%') ) {
+	if ( false === strpos( $permalink, '%postname%' ) && false === strpos( $permalink, '%pagename%' ) ) {
 		$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink" tabindex="-1">' . $permalink . "</span>\n";
 		if ( '' == get_option( 'permalink_structure' ) && current_user_can( 'manage_options' ) && !( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') ) ) {
 			$return .= '<span id="change-permalinks"><a href="options-permalink.php" class="button button-small" target="_blank">' . __('Change Permalinks') . "</a></span>\n";
 		}
-
-		if ( isset( $view_post ) ) {
-			if( 'draft' == $post->post_status ) {
-				$preview_link = set_url_scheme( get_permalink( $post->ID ) );
-				/** This filter is documented in wp-admin/includes/meta-boxes.php */
-				$preview_link = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ) );
-				$return .= "<span id='view-post-btn'><a href='" . esc_url( $preview_link ) . "' class='button button-small' target='wp-preview-{$post->ID}'>$view_post</a></span>\n";
+	} else {
+		if ( function_exists( 'mb_strlen' ) ) {
+			if ( mb_strlen( $post_name ) > 30 ) {
+				$post_name_abridged = mb_substr( $post_name, 0, 14 ) . '&hellip;' . mb_substr( $post_name, -14 );
 			} else {
-				$return .= "<span id='view-post-btn'><a href='" . get_permalink( $post ) . "' class='button button-small'>$view_post</a></span>\n";
+				$post_name_abridged = $post_name;
+			}
+		} else {
+			if ( strlen( $post_name ) > 30 ) {
+				$post_name_abridged = substr( $post_name, 0, 14 ) . '&hellip;' . substr( $post_name, -14 );
+			} else {
+				$post_name_abridged = $post_name;
 			}
 		}
 
-		/**
-		 * Filter the sample permalink HTML markup.
-		 *
-		 * @since 2.9.0
-		 *
-		 * @param string      $return    Sample permalink HTML markup.
-		 * @param int|WP_Post $id        Post object or ID.
-		 * @param string      $new_title New sample permalink title.
-		 * @param string      $new_slug  New sample permalink slug.
-		 */
-		$return = apply_filters( 'get_sample_permalink_html', $return, $id, $new_title, $new_slug );
+		$post_name_html = '<span id="editable-post-name" title="' . $title . '">' . $post_name_abridged . '</span>';
+		$display_link = str_replace( array( '%pagename%', '%postname%' ), $post_name_html, $permalink );
 
-		return $return;
+		$return =  '<strong>' . __( 'Permalink:' ) . "</strong>\n";
+		$return .= '<span id="sample-permalink" tabindex="-1">' . $display_link . "</span>\n";
+		$return .= '&lrm;'; // Fix bi-directional text display defect in RTL languages.
+		$return .= '<span id="edit-slug-buttons"><a href="#post_name" class="edit-slug button button-small hide-if-no-js" onclick="editPermalink(' . $id . '); return false;">' . __( 'Edit' ) . "</a></span>\n";
+		$return .= '<span id="editable-post-name-full">' . $post_name . "</span>\n";
 	}
-
-	if ( function_exists('mb_strlen') ) {
-		if ( mb_strlen($post_name) > 30 ) {
-			$post_name_abridged = mb_substr($post_name, 0, 14). '&hellip;' . mb_substr($post_name, -14);
-		} else {
-			$post_name_abridged = $post_name;
-		}
-	} else {
-		if ( strlen($post_name) > 30 ) {
-			$post_name_abridged = substr($post_name, 0, 14). '&hellip;' . substr($post_name, -14);
-		} else {
-			$post_name_abridged = $post_name;
-		}
-	}
-
-	$post_name_html = '<span id="editable-post-name" title="' . $title . '">' . $post_name_abridged . '</span>';
-	$display_link = str_replace(array('%pagename%','%postname%'), $post_name_html, $permalink);
-
-	$return =  '<strong>' . __('Permalink:') . "</strong>\n";
-	$return .= '<span id="sample-permalink" tabindex="-1">' . $display_link . "</span>\n";
-	$return .= '&lrm;'; // Fix bi-directional text display defect in RTL languages.
-	$return .= '<span id="edit-slug-buttons"><a href="#post_name" class="edit-slug button button-small hide-if-no-js" onclick="editPermalink(' . $id . '); return false;">' . __('Edit') . "</a></span>\n";
-	$return .= '<span id="editable-post-name-full">' . $post_name . "</span>\n";
 
 	if ( isset( $view_post ) ) {
 		if( 'draft' == $post->post_status ) {
@@ -1258,7 +1233,16 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 		}
 	}
 
-	/** This filter is documented in wp-admin/includes/post.php */
+	/**
+	 * Filter the sample permalink HTML markup.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param string      $return    Sample permalink HTML markup.
+	 * @param int|WP_Post $id        Post object or ID.
+	 * @param string      $new_title New sample permalink title.
+	 * @param string      $new_slug  New sample permalink slug.
+	 */
 	$return = apply_filters( 'get_sample_permalink_html', $return, $id, $new_title, $new_slug );
 
 	return $return;
