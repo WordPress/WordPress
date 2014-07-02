@@ -2631,9 +2631,12 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		$response['uploadedToTitle'] = $post_parent->post_title ? $post_parent->post_title : __( '(No title)' );
 	}
 
-	$bytes = filesize( get_attached_file( $attachment->ID ) );
-	$response['filesizeInBytes'] = $bytes;
-	$response['filesizeHumanReadable'] = size_format( $bytes );
+	$attached_file = get_attached_file( $attachment->ID );
+	if ( file_exists( $attached_file ) ) {
+		$bytes = filesize( $attached_file );
+		$response['filesizeInBytes'] = $bytes;
+		$response['filesizeHumanReadable'] = size_format( $bytes );
+	}
 
 	if ( current_user_can( 'edit_post', $attachment->ID ) ) {
 		$response['nonces']['update'] = wp_create_nonce( 'update-post_' . $attachment->ID );
