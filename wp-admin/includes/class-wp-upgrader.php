@@ -2384,7 +2384,7 @@ class WP_Automatic_Updater {
 		$critical_support = 'critical' === $type && ! empty( $core_update->support_email );
 		if ( $critical_support ) {
 			// Support offer if available.
-			$body .= "\n\n" . sprintf( __( "The WordPress team is willing to help you. Forward this email to %s and the team will work with you to make sure your site is working." ), $core_update->support_email );
+			$body .= "\n\n" . sprintf( __( "The WordPress team is willing to help you. Forward this email to %s and the team will work with you to make sure your site is working." ), $core_update->support_email );
 		} else {
 			// Add a note about the support forums.
 			$body .= "\n\n" . __( 'If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.' );
