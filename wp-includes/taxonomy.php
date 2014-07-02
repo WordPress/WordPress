@@ -2617,14 +2617,14 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
  * @since 2.3.0
  * @uses wp_remove_object_terms()
  *
- * @param int $object_id The object to relate to.
- * @param array|int|string $terms The slug or id of the term, will replace all existing
- * related terms in this taxonomy.
- * @param array|string $taxonomy The context in which to relate the term to the object.
- * @param bool $append If false will delete difference of terms.
- * @return array|WP_Error Affected Term IDs
+ * @param int              $object_id The object to relate to.
+ * @param array|int|string $terms     A single term slug, single term id, or array of either term slugs or ids.
+ *                                    Will replace all existing related terms in this taxonomy.
+ * @param array|string     $taxonomy  The context in which to relate the term to the object.
+ * @param bool             $append    If false will delete difference of terms.
+ * @return array|WP_Error Affected Term IDs.
  */
-function wp_set_object_terms($object_id, $terms, $taxonomy, $append = false) {
+function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 	global $wpdb;
 
 	$object_id = (int) $object_id;
