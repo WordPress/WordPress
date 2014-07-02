@@ -3761,7 +3761,8 @@ function the_taxonomies( $args = array() ) {
 		'before' => '',
 		'sep' => ' ',
 		'after' => '',
-		'template' => '%s: %l.'
+		/* translators: %s: taxonomy label, %l: list of term links */
+		'template' => __( '%s: %l.' )
 	);
 
 	$r = wp_parse_args( $args, $defaults );
@@ -3785,7 +3786,8 @@ function get_the_taxonomies( $post = 0, $args = array() ) {
 	$post = get_post( $post );
 
 	$args = wp_parse_args( $args, array(
-		'template' => '%s: %l.',
+		/* translators: %s: taxonomy label, %l: list of term links */
+		'template' => __( '%s: %l.' ),
 	) );
 
 	$taxonomies = array();
