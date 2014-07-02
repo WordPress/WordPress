@@ -1811,11 +1811,12 @@ function delete_post_meta($post_id, $meta_key, $meta_value = '') {
  * @since 1.5.0
  * @link http://codex.wordpress.org/Function_Reference/get_post_meta
  *
- * @param int $post_id Post ID.
- * @param string $key Optional. The meta key to retrieve. By default, returns data for all keys.
- * @param bool $single Optional. Whether to return a single value.
- * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
- *  is true.
+ * @param int    $post_id Post ID.
+ * @param string $key     Optional. The meta key to retrieve. By default, returns
+ *                        data for all keys.
+ * @param bool   $single  Optional. Whether to return a single value. Default false.
+ * @return mixed Will be an array if $single is false. Will be value of meta data
+ *               field if $single is true.
  */
 function get_post_meta($post_id, $key = '', $single = false) {
 	return get_metadata('post', $post_id, $key, $single);
