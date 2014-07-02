@@ -24,10 +24,72 @@ class WP_oEmbed {
 	/**
 	 * Constructor
 	 *
-	 * @uses apply_filters() Filters a list of pre-defined oEmbed providers.
+	 * @since 2.9.0
 	 */
 	public function __construct() {
-		$providers = array(
+		/**
+		 * Filter the list of oEmbed providers.
+		 *
+		 * Discovery is disabled for users lacking the unfiltered_html capability.
+		 * Only providers in this array will be used for those users.
+		 *
+		 * Supported providers:
+		 *
+		 * | ------------ | -------------------- | ----- | ------------------ |
+		 * |   Provider   |        Flavor        |  SSL  |       Since        |
+		 * | ------------ | -------------------- | ----- | ------------------ |
+		 * | Blip         | blip.tv              |       | 2.9.0              |
+		 * | Dailymotion  | dailymotion.com      |  Yes  | 2.9.0              |
+		 * | Flickr       | flickr.com           |  Yes  | 2.9.0              |
+		 * | Hulu         | hulu.com             |  Yes  | 2.9.0              |
+		 * | Photobucket  | photobucket.com      |       | 2.9.0              |
+		 * | Qik          | qik.com              |       | 2.9.0 (deprecated) |
+		 * | Revision3    | revision3.com        |       | 2.9.0              |
+		 * | Scribd       | scribd.com           |  Yes  | 2.9.0              |
+		 * | Viddler      | viddler.com          |       | 2.9.0 (deprecated) |
+		 * | Vimeo        | vimeo.com            |  Yes  | 2.9.0              |
+		 * | WordPress.tv | wordpress.tv         |       | 2.9.0              |
+		 * | YouTube      | youtube.com/watch    |  Both | 2.9.0              |
+		 * | ------------ | -------------------- | ----- | ------------------ |
+		 * | Funny or Die | funnyordie.com       |  Yes  | 3.0.0              |
+		 * | Polldaddy    | polldaddy.com        |  Yes  | 3.0.0              |
+		 * | SmugMug      | smugmug.com          |  Yes  | 3.0.0              |
+		 * | YouTube      | youtu.be             |  Both | 3.0.0              |
+		 * | ------------ | -------------------- | ----- | ------------------ |
+		 * | Twitter      | twitter.com          |  Yes  | 3.4.0              |
+		 * | ------------ | -------------------- | ----- | ------------------ |
+		 * | Instagram    | instagram.com        |       | 3.5.0              |
+		 * | Instagram    | instagr.am           |       | 3.5.0              |
+		 * | Slideshare   | slideshare.net       |  Yes  | 3.5.0              |
+		 * | SoundCloud   | soundcloud.com       |  Yes  | 3.5.0              |
+		 * | ------------ | -------------------- | ----- | ------------------ |
+		 * | Dailymotion  | dai.ly               |       | 3.6.0              |
+		 * | Flickr       | flic.kr              |  Yes  | 3.6.0              |
+		 * | Rdio         | rdio.com             |  Yes  | 3.6.0              |
+		 * | Rdio         | rd.io                |  Yes  | 3.6.0              |
+		 * | Spotify      | spotify.com          |  Yes  | 3.6.0              |
+		 * | ------------ | -------------------- | ----- | ------------------ |
+		 * | Imgur        | imgur.com            |  Yes  | 3.9.0              |
+		 * | Meetup.com   | meetup.com           |  Yes  | 3.9.0              |
+		 * | Meetup.com   | meetu.ps             |  Yes  | 3.9.0              |
+		 * | ------------ | -------------------- | ----- | ------------------ |
+		 * | Animoto      | animoto.com          |  Yes  | 4.0.0              |
+		 * | Animoto      | video214.com         |  Yes  | 4.0.0              |
+		 * | CollegeHumor | collegehumor.com     |  Yes  | 4.0.0              |
+		 * | Issuu        | issuu.com            |  Yes  | 4.0.0              |
+		 * | Mixcloud     | mixcloud.com         |  Yes  | 4.0.0              |
+		 * | Polldaddy    | poll.fm              |  Yes  | 4.0.0              |
+		 * | TED          | ted.com              |  Yes  | 4.0.0              |
+		 * | YouTube      | youtube.com/playlist |  Both | 4.0.0              |
+		 * | ------------ | -------------------- | ----- | ------------------ |
+		 *
+		 * @see wp_oembed_add_provider()
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array $providers An array of popular oEmbed providers.
+		 */
+		$providers = apply_filters( 'oembed_providers', array(
 			'#http://(www\.)?youtube\.com/watch.*#i'              => array( 'http://www.youtube.com/oembed',                      true  ),
 			'#https://(www\.)?youtube\.com/watch.*#i'             => array( 'http://www.youtube.com/oembed?scheme=https',         true  ),
 			'#http://(www\.)?youtube\.com/playlist.*#i'           => array( 'http://www.youtube.com/oembed',                      true  ),
@@ -64,7 +126,7 @@ class WP_oEmbed {
 			'#https?://(www\.)?mixcloud\.com/.*#i'                => array( 'http://www.mixcloud.com/oembed',                     true  ),
 			'#https?://(www\.|embed\.)?ted\.com/talks/.*#i'       => array( 'http://www.ted.com/talks/oembed.{format}',           true  ),
 			'#https?://(www\.)?(animoto|video214)\.com/play/.*#i' => array( 'http://animoto.com/oembeds/create',                  true  ),
-		);
+		) );
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
 			foreach ( self::$early_providers['add'] as $format => $data ) {
