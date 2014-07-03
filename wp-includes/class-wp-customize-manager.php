@@ -406,6 +406,7 @@ final class WP_Customize_Manager {
 		$this->prepare_controls();
 
 		wp_enqueue_script( 'customize-preview' );
+		add_action( 'wp', array( $this, 'customize_preview_override_404_status' ) );
 		add_action( 'wp_head', array( $this, 'customize_preview_base' ) );
 		add_action( 'wp_head', array( $this, 'customize_preview_html5' ) );
 		add_action( 'wp_footer', array( $this, 'customize_preview_settings' ), 20 );
@@ -425,6 +426,18 @@ final class WP_Customize_Manager {
 		 * @param WP_Customize_Manager $this WP_Customize_Manager instance.
 		 */
 		do_action( 'customize_preview_init', $this );
+	}
+
+	/**
+	 * Prevent sending a 404 status when returning the response for the customize
+	 * preview, since it causes the jQuery Ajax to fail. Send 200 instead.
+	 *
+	 * @since 4.0.0
+	 */
+	public function customize_preview_override_404_status() {
+		if ( is_404() ) {
+			status_header( 200 );
+		}
 	}
 
 	/**
