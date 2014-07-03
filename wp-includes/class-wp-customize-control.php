@@ -285,7 +285,7 @@ class WP_Customize_Control {
 					<input type="checkbox" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); checked( $this->value() ); ?> />
 					<?php echo esc_html( $this->label ); ?>
 					<?php if ( ! empty( $this->description ) ) : ?>
-						<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+						<span class="description customize-control-description"><?php echo $this->description; ?></span>
 					<?php endif; ?>
 				</label>
 				<?php
@@ -300,7 +300,7 @@ class WP_Customize_Control {
 					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 				<?php endif;
 				if ( ! empty( $this->description ) ) : ?>
-					<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+					<span class="description customize-control-description"><?php echo $this->description ; ?></span>
 				<?php endif;
 
 				foreach ( $this->choices as $value => $label ) :
@@ -322,7 +322,7 @@ class WP_Customize_Control {
 						<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 					<?php endif;
 					if ( ! empty( $this->description ) ) : ?>
-						<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+						<span class="description customize-control-description"><?php echo $this->description; ?></span>
 					<?php endif; ?>
 
 					<select <?php $this->link(); ?>>
@@ -341,7 +341,7 @@ class WP_Customize_Control {
 						<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 					<?php endif;
 					if ( ! empty( $this->description ) ) : ?>
-						<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+						<span class="description customize-control-description"><?php echo $this->description; ?></span>
 					<?php endif; ?>
 					<textarea rows="5" <?php $this->link(); ?>><?php echo esc_textarea( $this->value() ); ?></textarea>
 				</label>
@@ -374,7 +374,7 @@ class WP_Customize_Control {
 						<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 					<?php endif;
 					if ( ! empty( $this->description ) ) : ?>
-						<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+						<span class="description customize-control-description"><?php echo $this->description; ?></span>
 					<?php endif; ?>
 					<input type="<?php echo esc_attr( $this->type ); ?>" <?php $this->input_attrs(); ?> value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); ?> />
 				</label>
@@ -460,7 +460,7 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 			<?php endif;
 			if ( ! empty( $this->description ) ) : ?>
-				<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+				<span class="description customize-control-description"><?php echo $this->description; ?></span>
 			<?php endif; ?>
 
 			<div class="customize-control-content">
@@ -523,7 +523,7 @@ class WP_Customize_Upload_Control extends WP_Customize_Control {
 				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 			<?php endif;
 			if ( ! empty( $this->description ) ) : ?>
-				<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+				<span class="description customize-control-description"><?php echo $this->description; ?></span>
 			<?php endif; ?>
 			<div>
 				<a href="#" class="button-secondary upload"><?php _e( 'Upload' ); ?></a>
@@ -610,7 +610,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 			<?php endif;
 			if ( ! empty( $this->description ) ) : ?>
-				<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+				<span class="description customize-control-description"><?php echo $this->description; ?></span>
 			<?php endif; ?>
 
 			<div class="customize-control-content">
