@@ -604,6 +604,11 @@ class wpdb {
 		$this->dbname = $dbname;
 		$this->dbhost = $dbhost;
 
+		// wp-config.php creation will manually connect when ready.
+		if ( defined( 'WP_SETUP_CONFIG' ) ) {
+			return;
+		}
+
 		$this->db_connect();
 	}
 

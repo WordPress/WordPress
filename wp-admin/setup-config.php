@@ -24,44 +24,15 @@ define('WP_SETUP_CONFIG', true);
 /**
  * Disable error reporting
  *
- * Set this to error_reporting( E_ALL ) or error_reporting( E_ALL | E_STRICT ) for debugging
+ * Set this to error_reporting( -1 ) for debugging
  */
-error_reporting(0);
+error_reporting(-1);
 
-/**#@+
- * These three defines are required to allow us to use require_wp_db() to load
- * the database class while being wp-content/db.php aware.
- * @ignore
- */
-define('ABSPATH', dirname(dirname(__FILE__)).'/');
-define('WPINC', 'wp-includes');
-define('WP_CONTENT_DIR', ABSPATH . 'wp-content');
-define('WP_DEBUG', false);
-/**#@-*/
+define( 'ABSPATH', dirname( dirname( __FILE__ ) ) . '/' );
 
-require(ABSPATH . WPINC . '/load.php');
-require(ABSPATH . WPINC . '/version.php');
-
-// Check for the required PHP version and for the MySQL extension or a database drop-in.
-wp_check_php_mysql_versions();
-
-require_once(ABSPATH . WPINC . '/functions.php');
-
-// Also loads plugin.php, l10n.php, pomo/mo.php (all required by setup-config.php)
-wp_load_translations_early();
-
-// Turn register_globals off.
-wp_unregister_GLOBALS();
-
-// Standardize $_SERVER variables across setups.
-wp_fix_server_vars();
-
-require_once(ABSPATH . WPINC . '/compat.php');
-require_once(ABSPATH . WPINC . '/class-wp-error.php');
-require_once(ABSPATH . WPINC . '/formatting.php');
-
-// Add magic quotes and set up $_REQUEST ( $_GET + $_POST )
-wp_magic_quotes();
+require_once( ABSPATH . 'wp-includes/plugin.php' );
+add_action( 'plugins_loaded', 'wp_load_translations_early' );
+require( ABSPATH . 'wp-settings.php' );
 
 // Support wp-config-sample.php one level up, for the develop repo.
 if ( file_exists( ABSPATH . 'wp-config-sample.php' ) )
@@ -120,7 +91,11 @@ switch($step) {
 	<li><?php _e( 'Database host' ); ?></li>
 	<li><?php _e( 'Table prefix (if you want to run more than one WordPress in a single database)' ); ?></li>
 </ol>
-<p><strong><?php _e( "If for any reason this automatic file creation doesn&#8217;t work, don&#8217;t worry. All this does is fill in the database information to a configuration file. You may also simply open <code>wp-config-sample.php</code> in a text editor, fill in your information, and save it as <code>wp-config.php</code>." ); ?></strong></p>
+<p>
+	<?php _e( 'We&#8217;re going to use this information to create a <code>wp-config.php</code> file.' ); ?>
+	<strong><?php _e( "If for any reason this automatic file creation doesn&#8217;t work, don&#8217;t worry. All this does is fill in the database information to a configuration file. You may also simply open <code>wp-config-sample.php</code> in a text editor, fill in your information, and save it as <code>wp-config.php</code>." ); ?></strong>
+	<?php _e( "Need more help? <a href='http://codex.wordpress.org/Editing_wp-config.php'>We got it</a>." ); ?>
+</p>
 <p><?php _e( "In all likelihood, these items were supplied to you by your Web Host. If you do not have this information, then you will need to contact them before you can continue. If you&#8217;re all ready&hellip;" ); ?></p>
 
 <p class="step"><a href="setup-config.php?step=1<?php if ( isset( $_GET['noapi'] ) ) echo '&amp;noapi'; ?>" class="button button-large"><?php _e( 'Let&#8217;s go!' ); ?></a></p>
@@ -191,29 +166,25 @@ switch($step) {
 	define('DB_HOST', $dbhost);
 	/**#@-*/
 
-	// We'll fail here if the values are no good.
+	// Re-construct $wpdb with these new values.
+	unset( $wpdb );
 	require_wp_db();
+
+	// The wpdb constructor bails when WP_SETUP_CONFIG is set, so we must
+	// fire this manually. We'll fail here if the values are no good.
+	$wpdb->db_connect();
+
 	if ( ! empty( $wpdb->error ) )
 		wp_die( $wpdb->error->get_error_message() . $tryagain_link );
 
 	// Fetch or generate keys and salts.
 	$no_api = isset( $_POST['noapi'] );
 	if ( ! $no_api ) {
-		require_once( ABSPATH . WPINC . '/class-http.php' );
-		require_once( ABSPATH . WPINC . '/http.php' );
-		/**#@+
-		 * @ignore
-		 */
-		function get_bloginfo() {
-			return wp_guess_url();
-		}
-		/**#@-*/
 		$secret_keys = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
 	}
 
 	if ( $no_api || is_wp_error( $secret_keys ) ) {
 		$secret_keys = array();
-		require_once( ABSPATH . WPINC . '/pluggable.php' );
 		for ( $i = 0; $i < 8; $i++ ) {
 			$secret_keys[] = wp_generate_password( 64, true, true );
 		}
