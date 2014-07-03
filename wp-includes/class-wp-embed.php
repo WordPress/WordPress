@@ -31,9 +31,6 @@ class WP_Embed {
 		// Attempts to embed all URLs in a post
 		add_filter( 'the_content', array( $this, 'autoembed' ), 8 );
 
-		// When a post is saved, invalidate the oEmbed cache
-		add_action( 'pre_post_update', array( $this, 'delete_oembed_caches' ) );
-
 		// After a post is saved, cache oEmbed items via AJAX
 		add_action( 'edit_form_advanced', array( $this, 'maybe_run_ajax_cache' ) );
 	}
@@ -78,7 +75,7 @@ class WP_Embed {
 	public function maybe_run_ajax_cache() {
 		$post = get_post();
 
-		if ( ! $post || empty($_GET['message']) || 1 != $_GET['message'] )
+		if ( ! $post || empty( $_GET['message'] ) )
 			return;
 
 ?>
@@ -192,15 +189,36 @@ class WP_Embed {
 		if ( $post_ID ) {
 
 			// Check for a cached result (stored in the post meta)
-			$cachekey = '_oembed_' . md5( $url . serialize( $attr ) );
-			if ( $this->usecache ) {
-				$cache = get_post_meta( $post_ID, $cachekey, true );
+			$key_suffix = md5( $url . serialize( $attr ) );
+			$cachekey = '_oembed_' . $key_suffix;
+			$cachekey_time = '_oembed_time_' . $key_suffix;
 
-				// Failures are cached
+			/**
+			 * Filter the oEmbed TTL (time to live).
+			 *
+			 * @since 4.0.0
+			 *
+			 * @param string $url     The attempted embed URL.
+			 * @param array  $attr    An array of shortcode attributes.
+			 * @param int    $post_ID Post ID.
+			 */
+			$ttl = apply_filters( 'oembed_ttl', DAY_IN_SECONDS, $url, $attr, $post_ID );
+
+			$cache = get_post_meta( $post_ID, $cachekey, true );
+			$cache_time = get_post_meta( $post_ID, $cachekey_time, true );
+
+			if ( ! $cache_time ) {
+				$cache_time = 0;
+			}
+
+			$cached_recently = ( time() - $cache_time ) < $ttl;
+
+			if ( $this->usecache || $cached_recently ) {
+				// Failures are cached. Serve one if we're using the cache.
 				if ( '{{unknown}}' === $cache )
 					return $this->maybe_make_link( $url );
 
-				if ( ! empty( $cache ) )
+				if ( ! empty( $cache ) ) {
 					/**
 					 * Filter the cached oEmbed HTML.
 					 *
@@ -214,6 +232,7 @@ class WP_Embed {
 					 * @param int    $post_ID Post ID.
 					 */
 					return apply_filters( 'embed_oembed_html', $cache, $url, $attr, $post_ID );
+				}
 			}
 
 			/**
@@ -230,9 +249,13 @@ class WP_Embed {
 			// Use oEmbed to get the HTML
 			$html = wp_oembed_get( $url, $attr );
 
-			// Cache the result
-			$cache = ( $html ) ? $html : '{{unknown}}';
-			update_post_meta( $post_ID, $cachekey, $cache );
+			// Maybe cache the result
+			if ( $html ) {
+				update_post_meta( $post_ID, $cachekey, $html );
+				update_post_meta( $post_ID, $cachekey_time, time() );
+			} elseif ( ! $cache ) {
+				update_post_meta( $post_ID, $cachekey, '{{unknown}}' );
+			}
 
 			// If there was a result, return it
 			if ( $html ) {
@@ -246,7 +269,7 @@ class WP_Embed {
 	}
 
 	/**
-	 * Delete all oEmbed caches.
+	 * Delete all oEmbed caches. Unused by core as of 4.0.0.
 	 *
 	 * @param int $post_ID Post ID to delete the caches for.
 	 */

@@ -225,10 +225,8 @@ function wp_ajax_imgedit_preview() {
  * @since 3.1.0
  */
 function wp_ajax_oembed_cache() {
-	global $wp_embed;
-
-	$return = ( $wp_embed->cache_oembed( $_GET['post'] ) ) ? '1' : '0';
-	wp_die( $return );
+	$GLOBALS['wp_embed']->cache_oembed( $_GET['post'] );
+	wp_die( 0 );
 }
 
 /**
