@@ -3022,7 +3022,7 @@ function wp_enqueue_media( $args = array() ) {
  * @since 3.6.0
  *
  * @param string      $type Mime type.
- * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return array Found attachments.
  */
 function get_attached_media( $type, $post = 0 ) {
@@ -3147,7 +3147,7 @@ function get_post_galleries( $post, $html = true ) {
  *
  * @since 3.6.0
  *
- * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @param bool        $html Whether to return HTML or data.
  * @return string|array Gallery data and srcs parsed from the expanded shortcode.
  */
@@ -3172,7 +3172,7 @@ function get_post_gallery( $post = 0, $html = true ) {
  *
  * @since 3.6.0
  *
- * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return array A list of lists, each containing image srcs parsed.
  *		from an expanded shortcode
  */
@@ -3186,7 +3186,7 @@ function get_post_galleries_images( $post = 0 ) {
  *
  * @since 3.6.0
  *
- * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return array A list of a gallery's image srcs in order.
  */
 function get_post_gallery_images( $post = 0 ) {

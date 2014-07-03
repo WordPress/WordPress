@@ -105,7 +105,7 @@ function the_title_attribute( $args = '' ) {
  *
  * @since 0.71
  *
- * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return string
  */
 function get_the_title( $post = 0 ) {
@@ -1565,7 +1565,7 @@ function prepend_attachment($content) {
  *
  * @since 1.0.0
  *
- * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return string HTML content for password form for password protected post.
  */
 function get_the_password_form( $post = 0 ) {
@@ -1738,7 +1738,7 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
  * @uses get_edit_post_link()
  * @uses get_the_author_meta()
  *
- * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is global `$post`.
+ * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is global $post.
  * @param string $type 'all' (default), 'revision' or 'autosave'
  * @return null
  */

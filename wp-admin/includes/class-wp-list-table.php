@@ -519,8 +519,8 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @access protected
 	 *
-	 * @param int $post_id
-	 * @param int $pending_comments
+	 * @param int $post_id          The post ID.
+	 * @param int $pending_comments Number of pending comments.
 	 */
 	protected function comments_bubble( $post_id, $pending_comments ) {
 		$pending_phrase = sprintf( __( '%s pending' ), number_format( $pending_comments ) );

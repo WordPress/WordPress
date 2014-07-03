@@ -290,7 +290,7 @@ function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
  *
  * @since 1.0.0
  *
- * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is global `$post`.
+ * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is global $post.
  * @param mixed $deprecated Not used.
  * @return string
  */

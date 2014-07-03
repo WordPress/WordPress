@@ -3778,7 +3778,7 @@ function the_taxonomies( $args = array() ) {
  *
  * @since 2.5.0
  *
- * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @param array $args Override the defaults.
  * @return array List of taxonomies.
  */
@@ -3831,7 +3831,7 @@ function get_the_taxonomies( $post = 0, $args = array() ) {
  *
  * @uses get_object_taxonomies()
  *
- * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return array
  */
 function get_post_taxonomies( $post = 0 ) {
