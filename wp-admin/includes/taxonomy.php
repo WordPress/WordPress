@@ -56,15 +56,15 @@ function wp_create_category( $cat_name, $parent = 0 ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Create categories for the given post.
  *
  * @since 2.0.0
  *
- * @param unknown_type $categories
- * @param unknown_type $post_id
- * @return unknown
+ * @param array $categories List of categories to create.
+ * @param int   $post_id    Optional. The post ID. Default empty.
+ * @return List of categories to create for the given post.
  */
-function wp_create_categories($categories, $post_id = '') {
+function wp_create_categories( $categories, $post_id = '' ) {
 	$cat_ids = array ();
 	foreach ($categories as $category) {
 		if ($id = category_exists($category))
