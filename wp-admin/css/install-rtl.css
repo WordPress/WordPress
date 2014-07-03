@@ -316,10 +316,9 @@ body.language-chooser {
 	max-width: 450px;
 }
 
-.language-chooser select {
+.language-chooser fieldset {
 	margin: 1px;
 	padding: 8px;
-	width: 100%;
 	display: block;
 	border: 1px solid #ddd;
 	-webkit-border-radius: 0;
@@ -334,9 +333,12 @@ body.language-chooser {
 	font-size: 16px;
 	font-family: inherit;
 	font-weight: inherit;
+	overflow-y: scroll;
+	height: 250px;
 }
 
-.language-chooser select:focus {
+/* TODO:add focus style via JS */
+.language-chooser fieldset.focus {
 	border-color: #5b9dd9;
 	-webkit-box-shadow: 0 0 2px rgba(30,140,190,0.8);
 	box-shadow: 0 0 2px rgba(30,140,190,0.8);
@@ -349,4 +351,25 @@ body.language-chooser {
 
 .language-chooser p {
 	text-align: left;
+}
+
+.language-chooser input:checked + label{
+	  color:white;
+	  background: #0074A2;
+}
+
+.language-chooser label{
+	display:block;
+}
+
+.screen-reader-input,
+.screen-reader-text {
+	position: absolute;
+	margin: -1px;
+	padding: 0;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	border: 0;
 }
