@@ -200,7 +200,8 @@ if ( ! is_string( $wpdb->base_prefix ) || '' === $wpdb->base_prefix ) {
 
 switch($step) {
 	case 0: // Step 0
-		if ( $body = wp_get_available_translations() ) {
+		$body = wp_get_available_translations();
+		if ( $body ) {
 			display_header( 'language-chooser' );
 
 			echo '<form id="setup" method="post" action="install.php?step=1">';
@@ -219,10 +220,13 @@ switch($step) {
 	case 1: // Step 1, direct link or from language chooser.
 		if ( ! empty( $_POST['language'] ) ) {
 			$body = wp_get_available_translations();
-			foreach ( $body['languages'] as $language ) {
-				if ( $language['language'] === $_POST['language'] ) {
-					$loading_language = $_POST['language'];
-					break;
+			$loading_language = false;
+			if ( $body ) {
+				foreach ( $body['languages'] as $language ) {
+					if ( $language['language'] === $_POST['language'] ) {
+						$loading_language = $_POST['language'];
+						break;
+					}
 				}
 			}
 			if ( ! empty( $loading_language ) ) {
