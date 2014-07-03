@@ -2626,16 +2626,20 @@ function content_url($path = '') {
 }
 
 /**
- * Retrieve the url to the plugins directory or to a specific file within that directory.
- * You can hardcode the plugin slug in $path or pass __FILE__ as a second argument to get the correct folder name.
+ * Retrieve a URL within the plugins or mu-plugins directory.
+ *
+ * Defaults to the plugins directory URL if no arguments are supplied.
  *
  * @since 2.6.0
  *
- * @param string $path Optional. Path relative to the plugins url.
- * @param string $plugin Optional. The plugin file that you want to be relative to - i.e. pass in __FILE__
- * @return string Plugins url link with optional path appended.
+ * @param  string $path   Optional. Extra path appended to the end of the URL, including
+ *                        the relative directory if $plugin is supplied. Default empty.
+ * @param  string $plugin Optional. A full path to a file inside a plugin or mu-plugin.
+ *                        The URL will be relative to its directory. Default empty.
+ *                        Typically this is done by passing `__FILE__` as the argument.
+ * @return string Plugins URL link with optional paths appended.
 */
-function plugins_url($path = '', $plugin = '') {
+function plugins_url( $path = '', $plugin = '' ) {
 
 	$path = str_replace( '\\' ,'/', $path ); // sanitize for Win32 installs
 	$path = preg_replace( '|/+|', '/', $path );
