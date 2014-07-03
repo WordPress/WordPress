@@ -2528,6 +2528,7 @@ function wp_ajax_query_themes() {
 		$theme->version     = wp_kses( $theme->version, $themes_allowedtags );
 		$theme->description = wp_kses( $theme->description, $themes_allowedtags );
 		$theme->num_ratings = sprintf( _n( '(based on %s rating)', '(based on %s ratings)', $theme->num_ratings ), number_format_i18n( $theme->num_ratings ) );
+		$theme->preview_url = set_url_scheme( $theme->preview_url );
 	}
 
 	wp_send_json_success( $api );
