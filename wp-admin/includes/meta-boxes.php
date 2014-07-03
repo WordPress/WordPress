@@ -47,9 +47,10 @@ if ( 'publish' == $post->post_status ) {
 	 *
 	 * @since 2.0.5
 	 *
-	 * @param string $preview_link URI the user will be directed to for a post preview.
+	 * @param string  $preview_link URI the user will be directed to for a post preview.
+	 * @param WP_Post $post         Post object.
 	 */
-	$preview_link = esc_url( apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ) ) );
+	$preview_link = esc_url( apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ), $post ) );
 	$preview_button = __( 'Preview' );
 }
 ?>
