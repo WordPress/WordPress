@@ -104,11 +104,10 @@ function wptexturize($text, $reset = false) {
 
 		// '99' and '99" are ambiguous among other patterns; assume it's an abbreviated year at the end of a quotation.
 		if ( "'" !== $apos || "'" !== $closing_single_quote ) {
-			$dynamic[ '/\'(\d\d)\'(?=\Z|[.,)}>\-\]]|' . $spaces . ')/' ] = $apos . '$1' . $closing_single_quote;
+			$dynamic[ '/\'(\d\d)\'(?=\Z|[.,)}\-\]]|&gt;|' . $spaces . ')/' ] = $apos . '$1' . $closing_single_quote;
 		}
-
 		if ( "'" !== $apos || '"' !== $closing_quote ) {
-			$dynamic[ '/\'(\d\d)"(?=\Z|[.,)}>\-\]]|' . $spaces . ')/' ] = $apos . '$1' . $closing_quote;
+			$dynamic[ '/\'(\d\d)"(?=\Z|[.,)}\-\]]|&gt;|' . $spaces . ')/' ] = $apos . '$1' . $closing_quote;
 		}
 
 		// '99 '99s '99's (apostrophe)  But never '9 or '99% or '999 or '99.0.
@@ -126,12 +125,12 @@ function wptexturize($text, $reset = false) {
 
 		// Single quote at start, or preceded by (, {, <, [, ", -, or spaces.
 		if ( "'" !== $opening_single_quote ) {
-			$dynamic[ '/(?<=\A|[([{<"\-]|' . $spaces . ')\'/' ] = $opening_single_quote;
+			$dynamic[ '/(?<=\A|[([{"\-]|&lt;|' . $spaces . ')\'/' ] = $opening_single_quote;
 		}
 
 		// Apostrophe in a word.  No spaces, double apostrophes, or other punctuation.
 		if ( "'" !== $apos ) {
-			$dynamic[ '/(?<!' . $spaces . ')\'(?!\Z|[.,:;"\'(){}<>[\]\-]|' . $spaces . ')/' ] = $apos;
+			$dynamic[ '/(?<!' . $spaces . ')\'(?!\Z|[.,:;"\'(){}[\]\-]|&[lg]t;|' . $spaces . ')/' ] = $apos;
 		}
 
 		// 9" (double prime)
@@ -146,7 +145,7 @@ function wptexturize($text, $reset = false) {
 
 		// Double quote at start, or preceded by (, {, <, [, -, or spaces, and not followed by spaces.
 		if ( '"' !== $opening_quote ) {
-			$dynamic[ '/(?<=\A|[([{<\-]|' . $spaces . ')"(?!' . $spaces . ')/' ] = $opening_quote;
+			$dynamic[ '/(?<=\A|[([{\-]|&lt;|' . $spaces . ')"(?!' . $spaces . ')/' ] = $opening_quote;
 		}
 
 		// Any remaining double quotes.
@@ -156,7 +155,7 @@ function wptexturize($text, $reset = false) {
 
 		// Single quotes followed by spaces or ending punctuation.
 		if ( "'" !== $closing_single_quote ) {
-			$dynamic[ '/\'(?=\Z|[.,)}>\-\]]|' . $spaces . ')/' ] = $closing_single_quote;
+			$dynamic[ '/\'(?=\Z|[.,)}\-\]]|&gt;|' . $spaces . ')/' ] = $closing_single_quote;
 		}
 
 		// Dashes and spaces
