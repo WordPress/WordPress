@@ -60,6 +60,12 @@ function wp_get_available_translations() {
 	$response = wp_remote_post( $url, $options );
 	$body = wp_remote_retrieve_body( $response );
 	if ( $body && $body = json_decode( $body, true ) ) {
+		$languages = array();
+		// Key the language array with the language code
+		foreach ( $body['languages'] as $language ) {
+			$languages[$language['language']] = $language;
+		}
+		$body['languages'] = $languages;
 		return $body;
 	}
 	return false;
@@ -210,11 +216,18 @@ switch($step) {
 			echo '<label for="language_default">English (United States)</label>';
 			echo "\n";
 
+			if ( defined( 'WPLANG' ) && ( '' !== WPLANG ) && ( 'en_US' !== WPLANG ) ) {
+				if ( isset( $body['languages'][WPLANG] ) ) {
+					$language = $body['languages'][WPLANG];
+					echo '<input type="radio" name="language" checked="checked" class="' . esc_attr( $language['language'] ) . ' screen-reader-input" id="language_wplang" value="' . esc_attr( $language['language'] ) . '">';
+					echo '<label for="language_wplang">' . esc_html( $language['native_name'] ) . "</label>\n";
+				}
+			}
+
 			foreach ( $body['languages'] as $language ) {
 				echo '<input type="radio" name="language" class="' . esc_attr( $language['language'] ) . ' screen-reader-input" id="language_'. esc_attr( $language['language'] ) .'" value="' . esc_attr( $language['language'] ) . '">';
 				echo '<label for="language_' . esc_attr( $language['language'] ) . '">' . esc_html( $language['native_name'] ) . "</label>\n";
 			}
-
 			echo "</fieldset>\n";
 			echo '<p class="step"><input type="submit" class="button button-primary button-hero" value="&raquo;" /></p>';
 			echo '</form>';
