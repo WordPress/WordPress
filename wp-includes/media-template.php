@@ -403,8 +403,9 @@ function wp_print_media_templates() {
 			<# } else {
 				if ( data.thumb && data.thumb.src && data.thumb.src !== data.icon ) {
 				#><img src="{{ data.thumb.src }}" class="thumbnail" draggable="false" /><#
+				} else {
+				#><img src="{{ data.icon }}" class="icon" draggable="false" /><#
 				} #>
-				<img src="{{ data.icon }}" class="icon" draggable="false" />
 				<div class="filename">
 					<div>{{ data.filename }}</div>
 				</div>

@@ -753,9 +753,9 @@
 .attachment-preview.type-audio .thumbnail,
 .attachment-preview.type-video .thumbnail {
 	z-index: 1;
-	margin: 5%;
-	max-width: 90%;
-	max-height: 90%;
+	margin: 1%;
+	max-width: 98%;
+	max-height: 98%;
 }
 
 .media-frame-content .attachment-preview.type-audio .icon,
