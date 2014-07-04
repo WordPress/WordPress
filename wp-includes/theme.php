@@ -1938,3 +1938,16 @@ function wp_customize_support_script() {
 	</script>
 	<?php
 }
+
+/**
+ * Whether the site is being previewed in the Customizer.
+ *
+ * @since 4.0.0
+ *
+ * @return bool True if the site is being previewed in the Customizer, false otherwise.
+ */
+function is_customize_preview() {
+	global $wp_customize;
+
+	return is_a( $wp_customize, 'WP_Customize_Manager' ) && $wp_customize->is_preview();
+}
