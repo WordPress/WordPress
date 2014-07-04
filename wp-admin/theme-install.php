@@ -27,6 +27,11 @@ if ( ! is_network_admin() ) {
 	$submenu_file = 'themes.php';
 }
 
+$tabs = array(
+	'upload'        => __( 'Upload Theme' ),
+	'browse-themes' => _x( 'Browse', 'themes' ),
+);
+
 $sections = array(
 	'featured' => __( 'Featured Themes' ),
 	'popular'  => __( 'Popular Themes' ),
@@ -110,8 +115,19 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 <div class="wrap">
 	<h2>
 		<?php echo esc_html( $title ); ?>
-		<a href="#" class="upload add-new-h2"><?php _e( 'Upload Theme' ); ?></a>
-		<a href="#" class="browse-themes add-new-h2"><?php _ex( 'Browse', 'themes' ); ?></a>
+		<?php
+		/**
+		 * Filter the tabs shown on the Install Themes screen.
+		 * 
+		 * @since 2.8.0
+		 * @param array $tabs The tabs shown on the Install Themes screen. Defaults are
+		 *                    'upload' and 'browse-themes'.
+		 */
+		$tabs = apply_filters( 'install_themes_tabs', $tabs );
+		foreach ( $tabs as $tab_slug => $tab_name ) {
+			echo '<a href="#" class="' . esc_attr( $tab_slug ) . ' add-new-h2">' . $tab_name . '</a>';
+		}
+		?>
 	</h2>
 
 	<div class="upload-theme">

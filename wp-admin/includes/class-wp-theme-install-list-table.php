@@ -48,14 +48,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
 		$nonmenu_tabs = array( 'theme-information' ); // Valid actions to perform which do not have a Menu item.
 
-		/**
-		 * Filter the tabs shown on the Install Themes screen.
-		 *
-		 * @since 2.8.0
-		 *
-		 * @param array $tabs The tabs shown on the Install Themes screen. Defaults are
-		 *                    'dashboard', 'search', 'upload', 'featured', 'new', and 'updated'.
-		 */
+		/** This filter is documented in wp-admin/theme-install.php */
 		$tabs = apply_filters( 'install_themes_tabs', $tabs );
 
 		/**
