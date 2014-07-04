@@ -292,10 +292,10 @@
 }
 
 .media-sidebar .setting .link-to-custom {
-	margin: 3px 0;
+	margin: 3px 2px 0;
 }
 
-.media-sidebar .setting .name {
+.media-sidebar .setting span {
 	min-width: 30%;
 	margin-left: 4%;
 	font-size: 12px;
@@ -334,6 +334,11 @@
 	margin: 1px;
 	width: 65%;
 	float: left;
+}
+
+.media-sidebar .setting .value {
+	margin: 0 1px;
+	text-align: right;
 }
 
 .media-sidebar .setting textarea,
