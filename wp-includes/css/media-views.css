@@ -941,12 +941,19 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	display: block;
 	line-height: 19px;
 	height: 19px;
 	text-align: left;
 	width: 90%;
 	margin: 0 5%;
+}
+
+.attachment .data-hidden {
+	display: none;
+}
+
+.attachment .data-visible {
+	display: block;
 }
 
 /**
@@ -2518,11 +2525,20 @@ video#inline-media-node {
 	line-height: 29px;
 }
 
-.media-grid-view .view-switch {
+.media-grid-view .view-switch,
+.media-grid-field-options {
 	display: inline-block;
 	float: none;
 	margin-top: 13px;
 	vertical-align: middle;
+}
+
+.media-grid-field-options span {
+	padding-right: 5px;
+}
+
+.media-grid-field-options label {
+	margin-right: 10px;
 }
 
 /**

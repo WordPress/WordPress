@@ -5551,7 +5551,10 @@
 		},
 
 		createToolbar: function() {
-			var filters, FiltersConstructor, screenReaderText;
+			var filters,
+				LibraryViewSwitcher,
+				FiltersConstructor,
+				screenReaderText;
 
 			/**
 			 * @member {wp.media.view.Toolbar}
@@ -5566,13 +5569,18 @@
 			// browser view. Is this a use case for doAction( 'add:toolbar-items:attachments-browser', this.toolbar );
 			// which the controller can tap into and add this view?
 			if ( _.contains( this.controller.options.mode, 'grid' ) ) {
-				var libraryViewSwitcherConstructor = media.View.extend({
+				LibraryViewSwitcher = media.View.extend({
 					className: 'view-switch media-grid-view-switch',
 					template: media.template( 'media-library-view-switcher')
 				});
-				this.toolbar.set( 'libraryViewSwitcher', new libraryViewSwitcherConstructor({
+				this.toolbar.set( 'libraryViewSwitcher', new LibraryViewSwitcher({
 					controller: this.controller,
 					priority: -90
+				}).render() );
+
+				this.toolbar.set( 'gridFieldOptions', new media.view.GridFieldOptions({
+					controller: this.controller,
+					priority: -50
 				}).render() );
 			}
 

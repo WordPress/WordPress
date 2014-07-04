@@ -229,6 +229,25 @@ function wp_print_media_templates() {
 		</a>
 	</script>
 
+	<script type="text/html" id="tmpl-media-grid-field-options">
+		<label class="setting">
+			<span><?php _e( 'Name' ); ?></span>
+			<input type="checkbox" data-setting="title" {{ '' === getUserSetting( 'hidegridtitle' ) && 'checked' }} />
+		</label>
+		<label class="setting">
+			<span><?php _e( 'Attached to' ); ?></span>
+			<input type="checkbox" data-setting="uploadedTo" {{ '' === getUserSetting( 'hidegriduploadedTo' ) && 'checked' }} />
+		</label>
+		<label class="setting">
+			<span><?php _e( 'Date' ); ?></span>
+			<input type="checkbox" data-setting="dateFormatted" {{ '' === getUserSetting( 'hidegriddateFormatted' ) && 'checked' }} />
+		</label>
+		<label class="setting">
+			<span><?php _e( 'Mime-type' ); ?></span>
+			<input type="checkbox" data-setting="mime" {{ '' === getUserSetting( 'hidegridmime' ) && 'checked' }} />
+		</label>
+	</script>
+
 	<script type="text/html" id="tmpl-uploader-status">
 		<h3><?php _e( 'Uploading' ); ?></h3>
 		<a class="upload-dismiss-errors" href="#"><?php _e('Dismiss Errors'); ?></a>
@@ -418,11 +437,16 @@ function wp_print_media_templates() {
 
 		if ( _.contains( data.controller.options.mode, 'grid' ) ) { #>
 		<div class="data-fields">
-		<# _.each( data.showAttachmentFields, function( field ) { #>
-			<div class="data-field data-{{ field }}"><#
+		<# _.each( data.showAttachmentFields, function( field ) {
+			var className = 'data-field data-hidden';
+			if ( '' === getUserSetting( 'hidegrid' + field ) ) {
+				className = 'data-field data-visible';
+			}
+		#>
+			<div class="{{ className }} data-{{ field }}"><#
 				if ( 'uploadedTo' === field ) {
 					if ( data[field] ) {
-					#><?php _e( 'Uploaded To:' ) ?><#
+					#><?php _e( 'Uploaded To: ' ) ?><#
 					} else {
 					#><?php _e( 'Unattached' ) ?><#
 					}

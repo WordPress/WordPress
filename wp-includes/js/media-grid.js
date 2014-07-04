@@ -485,4 +485,32 @@
 
 	});
 
+	media.view.GridFieldOptions = media.View.extend({
+		className: 'media-grid-field-options',
+		template: media.template( 'media-grid-field-options' ),
+
+		events: {
+			'change input': 'toggleFields'
+		},
+
+		toggleFields: function(e) {
+			var $el = $( e.currentTarget ), fields, setting;
+			setting = $el.data( 'setting' );
+			fields = $( '.data-' + setting, '.data-fields' );
+			if ( $el.is( ':checked' ) ) {
+				fields.show();
+				deleteUserSetting( 'hidegrid' + setting );
+			} else {
+				fields.hide();
+				setUserSetting( 'hidegrid' + setting, 1 );
+			}
+
+			if ( $( ':checked', this.$el ).length ) {
+				fields.parent().show();
+			} else {
+				fields.parent().hide();
+			}
+		}
+	});
+
 }(jQuery, _, Backbone, wp));
