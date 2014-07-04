@@ -96,11 +96,13 @@ function wptexturize($text, $reset = false) {
 		$static_characters = array_merge( array( '...', '``', '\'\'', ' (tm)' ), $cockney );
 		$static_replacements = array_merge( array( '&#8230;', $opening_quote, $closing_quote, ' &#8482;' ), $cockneyreplace );
 
-		$spaces = wp_spaces_regexp();
-
 
 		// Pattern-based replacements of characters.
+		// Sort the remaining patterns into several arrays for performance tuning.
+		$dynamic_characters = array( 'apos' => array(), 'quote' => array(), 'dash' => array() );
+		$dynamic_replacements = array( 'apos' => array(), 'quote' => array(), 'dash' => array() );
 		$dynamic = array();
+		$spaces = wp_spaces_regexp();
 
 		// '99' and '99" are ambiguous among other patterns; assume it's an abbreviated year at the end of a quotation.
 		if ( "'" !== $apos || "'" !== $closing_single_quote ) {
@@ -115,10 +117,7 @@ function wptexturize($text, $reset = false) {
 			$dynamic[ '/\'(?=\d\d(?:\Z|(?![%\d]|[.,]\d)))/' ] = $apos;
 		}
 
-		// Quoted Numbers like "42" or '42.00'
-		if ( '"' !== $opening_quote && '"' !== $closing_quote ) {
-			$dynamic[ '/(?<=\A|' . $spaces . ')"(\d[.,\d]*)"/' ] = $opening_quote . '$1' . $closing_quote;
-		}
+		// Quoted Numbers like '0.42'
 		if ( "'" !== $opening_single_quote && "'" !== $closing_single_quote ) {
 			$dynamic[ '/(?<=\A|' . $spaces . ')\'(\d[.,\d]*)\'/' ] = $opening_single_quote . '$1' . $closing_single_quote;
 		}
@@ -133,14 +132,28 @@ function wptexturize($text, $reset = false) {
 			$dynamic[ '/(?<!' . $spaces . ')\'(?!\Z|[.,:;"\'(){}[\]\-]|&[lg]t;|' . $spaces . ')/' ] = $apos;
 		}
 
-		// 9" (double prime)
-		if ( '"' !== $double_prime ) {
-			$dynamic[ '/(?<=\d)"/' ] = $double_prime;
-		}
-
 		// 9' (prime)
 		if ( "'" !== $prime ) {
 			$dynamic[ '/(?<=\d)\'/' ] = $prime;
+		}
+
+		// Single quotes followed by spaces or ending punctuation.
+		if ( "'" !== $closing_single_quote ) {
+			$dynamic[ '/\'(?=\Z|[.,)}\-\]]|&gt;|' . $spaces . ')/' ] = $closing_single_quote;
+		}
+
+		$dynamic_characters['apos'] = array_keys( $dynamic );
+		$dynamic_replacements['apos'] = array_values( $dynamic );
+		$dynamic = array();
+		
+		// Quoted Numbers like "42"
+		if ( '"' !== $opening_quote && '"' !== $closing_quote ) {
+			$dynamic[ '/(?<=\A|' . $spaces . ')"(\d[.,\d]*)"/' ] = $opening_quote . '$1' . $closing_quote;
+		}
+
+		// 9" (double prime)
+		if ( '"' !== $double_prime ) {
+			$dynamic[ '/(?<=\d)"/' ] = $double_prime;
 		}
 
 		// Double quote at start, or preceded by (, {, <, [, -, or spaces, and not followed by spaces.
@@ -152,20 +165,19 @@ function wptexturize($text, $reset = false) {
 		if ( '"' !== $closing_quote ) {
 			$dynamic[ '/"/' ] = $closing_quote;
 		}
-
-		// Single quotes followed by spaces or ending punctuation.
-		if ( "'" !== $closing_single_quote ) {
-			$dynamic[ '/\'(?=\Z|[.,)}\-\]]|&gt;|' . $spaces . ')/' ] = $closing_single_quote;
-		}
-
+		
+		$dynamic_characters['quote'] = array_keys( $dynamic );
+		$dynamic_replacements['quote'] = array_values( $dynamic );
+		$dynamic = array();
+		
 		// Dashes and spaces
 		$dynamic[ '/---/' ] = $em_dash;
 		$dynamic[ '/(?<=' . $spaces . ')--(?=' . $spaces . ')/' ] = $em_dash;
 		$dynamic[ '/(?<!xn)--/' ] = $en_dash;
 		$dynamic[ '/(?<=' . $spaces . ')-(?=' . $spaces . ')/' ] = $en_dash;
 
-		$dynamic_characters = array_keys( $dynamic );
-		$dynamic_replacements = array_values( $dynamic );
+		$dynamic_characters['dash'] = array_keys( $dynamic );
+		$dynamic_replacements['dash'] = array_values( $dynamic );
 	}
 
 	// Must do this every time in case plugins use these filters in a context sensitive manner
@@ -237,7 +249,16 @@ function wptexturize($text, $reset = false) {
 			// This is neither a delimeter, nor is this content inside of no_texturize pairs.  Do texturize.
 
 			$curl = str_replace( $static_characters, $static_replacements, $curl );
-			$curl = preg_replace( $dynamic_characters, $dynamic_replacements, $curl );
+
+			if ( false !== strpos( $curl, "'" ) ) {
+				$curl = preg_replace( $dynamic_characters['apos'], $dynamic_replacements['apos'], $curl );
+			}
+			if ( false !== strpos( $curl, '"' ) ) {
+				$curl = preg_replace( $dynamic_characters['quote'], $dynamic_replacements['quote'], $curl );
+			}
+			if ( false !== strpos( $curl, '-' ) ) {
+				$curl = preg_replace( $dynamic_characters['dash'], $dynamic_replacements['dash'], $curl );
+			}
 
 			// 9x9 (times), but never 0x9999
 			if ( 1 === preg_match( '/(?<=\d)x-?\d/', $curl ) ) {
