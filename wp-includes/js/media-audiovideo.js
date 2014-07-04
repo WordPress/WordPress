@@ -26,6 +26,17 @@
 			}
 		},
 
+		removeAllPlayers: function() {
+			var p;
+
+			if ( window.mejs && window.mejs.players ) {
+				for ( p in window.mejs.players ) {
+					window.mejs.players[p].pause();
+					this.removePlayer( window.mejs.players[p] );
+				}
+			}
+		},
+
 		/**
 		 * Pauses the current object's instances of MediaElementPlayer
 		 */

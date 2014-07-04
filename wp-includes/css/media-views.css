@@ -750,6 +750,30 @@
 	max-height: 100%;
 }
 
+.attachment-preview.type-audio .thumbnail,
+.attachment-preview.type-video .thumbnail {
+	z-index: 1;
+	margin: 5%;
+	max-width: 90%;
+	max-height: 90%;
+}
+
+.media-frame-content .attachment-preview.type-audio .icon,
+.media-frame-content .attachment-preview.type-video .icon {
+	z-index: 2;
+	background: #f1f1f1;
+	position: relative;
+	padding: 0;
+	top: 15%;
+	left: auto;
+	right: auto;
+}
+
+.attachment-preview.type-audio .filename,
+.attachment-preview.type-video .filename {
+	z-index: 3;
+}
+
 .attachment-preview .thumbnail:after {
 	content: '';
 	display: block;
@@ -909,6 +933,22 @@
 	border-radius: 0;
 }
 
+.attachment .data-fields {
+	margin: 5px 0 0;
+}
+
+.attachment .data-field {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: block;
+	line-height: 19px;
+	height: 19px;
+	text-align: left;
+	width: 90%;
+	margin: 0 5%;
+}
+
 /**
  * Attachments Browser
  */
@@ -922,6 +962,10 @@
 .attachments-browser .media-toolbar {
 	right: 300px;
 	height: 50px;
+}
+
+.attachments-browser.hide-sidebar .media-toolbar {
+	right: 0;
 }
 
 .attachments-browser .media-toolbar-primary > .media-button,
@@ -940,6 +984,92 @@
 	bottom: 0;
 	overflow: auto;
 	outline: none;
+}
+
+.inline-toolbar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+	z-index: 100;
+}
+
+.inline-toolbar .remove {
+	display: none;
+}
+
+.active-video .inline-toolbar .remove {
+	display: inline-block;
+}
+
+.attachment:hover .inline-toolbar {
+	display: block;
+}
+
+.inline-toolbar div,
+.inline-toolbar .inline-media-control {
+	display: inline-block;
+	margin-top: 4px;
+	margin-left: 4px;
+	padding: 2px;
+	width: 20px;
+	height: 20px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	background-color: #000;
+	background-color: rgba(0,0,0,0.9);
+	cursor: pointer;
+	color: white;
+	font-size: 20px;
+}
+
+.ie8 .inline-toolbar div,
+.ie7 .inline-toolbar div {
+	display: inline;
+	padding: 0;
+}
+
+.inline-media-control span {
+	display: block;
+	width: 16px;
+	height: 16px;
+	margin: 2px;
+	background: url(/wp-includes/js/mediaelement/controls.png) 0 0 no-repeat;
+}
+
+.inline-media-control.active span {
+	margin: 2px;
+	background-position: 0 -16px;
+}
+
+.inline-media-control.paused span {
+	margin: 2px;
+	background-position: 0 0;
+}
+
+audio#inline-media-node {
+	display: none;
+}
+
+video#inline-media-node {
+	position: relative;
+	z-index: 5;
+	top: 0;
+	left: 0;
+}
+
+.inline-video-wrap {
+	width: 100%;
+	height: auto;
+	position: absolute;
+	z-index: 5;
+	background: #000;
+	padding: 10px 0 5px;
+	top: 0;
+	left: 0;
+}
+
+.attachments-browser.hide-sidebar .attachments {
+	right: 0;
 }
 
 .attachments-browser .instructions {
@@ -2388,11 +2518,11 @@
 	line-height: 29px;
 }
 
-.media-grid-view-switch {
-	position: fixed;
-	right: 10px;
-	top: 44px;
-	z-index: 300;
+.media-grid-view .view-switch {
+	display: inline-block;
+	float: none;
+	margin-top: 13px;
+	vertical-align: middle;
 }
 
 /**
@@ -2427,7 +2557,221 @@
 	display: none;
 }
 
+/**
+ * Copied styles from the Add theme toolbar.
+ *
+ * This should be OOCSS'd so both use a shared selector.
+ */
+.media-grid-view .media-toolbar {
+	background: #fff;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	color: #555;
+	display: inline-block;
+	font-size: 13px;
+	padding: 0 20px;
+	position: relative;
+	width: 100%;
+}
+
+/**
+ * The left and right buttons are copied from the expanded theme details modal.
+ *
+ * This should be OOCSS'd so both use a shared selector.
+ */
+.edit-attachment-frame .edit-media-header .left,
+.edit-attachment-frame .edit-media-header .right {
+	cursor: pointer;
+	color: #777;
+	background-color: transparent;
+	height: 48px;
+	width: 54px;
+	float: left;
+	text-align: center;
+	border: 0;
+	border-right: 1px solid #ddd;
+}
+
+.edit-attachment-frame .edit-media-header .right:before,
+.edit-attachment-frame .edit-media-header .left:before {
+	font: normal 20px/50px 'dashicons' !important;
+	display: inline;
+	font-weight: 300;
+}
+
+
+.edit-attachment-frame .edit-media-header .left:before {
+	content: '\f340';
+}
+
+.edit-attachment-frame .edit-media-header .right:before {
+	content: '\f344';
+}
+
+.edit-attachment-frame .edit-media-header .left.disabled,
+.edit-attachment-frame .edit-media-header .right.disabled,
+.edit-attachment-frame .edit-media-header .left.disabled:hover,
+.edit-attachment-frame .edit-media-header .right.disabled:hover {
+	color: #ccc;
+	background: inherit;
+	cursor: inherit;
+}
+
+.edit-attachment-frame .edit-media-header .close:hover,
+.edit-attachment-frame .edit-media-header .right:hover,
+.edit-attachment-frame .edit-media-header .left:hover,
+.edit-attachment-frame .edit-media-header .close:focus,
+.edit-attachment-frame .edit-media-header .right:focus,
+.edit-attachment-frame .edit-media-header .left:focus {
+	background: #0074a2;
+	color: #fff;
+}
+
+.edit-attachment-frame .media-frame-content,
+.edit-attachment-frame .media-frame-router {
+	left: 0;
+}
+
+/* Hiding this for the moment instead of removing it from the template. */
+.edit-attachment-frame h3 {
+	display: none;
+}
+
+.edit-attachment-frame .attachment-details {
+	position: absolute;
+	overflow: auto;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+}
+
+.edit-attachment-frame .attachment-info {
+	border-bottom: 0;
+	border-right: 1px solid #ddd;
+	bottom: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin-bottom: 0;
+	padding: 2% 4%;
+	right: 50%;
+}
+
+.edit-attachment-frame .attachment-info .thumbnail {
+	max-width: none;
+	max-height: none;
+}
+
+.edit-attachment-frame .attachment-info .thumbnail-image img {
+	margin: 0;
+}
+
+.edit-attachment-frame .attachment-info .thumbnail-image:after {
+	-webkit-box-shadow: none;
+	        box-shadow: none;
+}
+
+.edit-attachment-frame .attachment-info .thumbnail img {
+	max-width: none;
+	max-height: 50%;
+}
+
+.edit-attachment-frame .attachment-info .details {
+	float: none;
+}
+
+.edit-attachment-frame .wp-media-wrapper {
+	margin-top: 20px;
+}
+
+.edit-attachment-frame .attachment-fields {
+	bottom: 0;
+	padding: 2% 4%;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	right: 0;
+}
+
+.edit-attachment-frame .attachment-fields .setting {
+	display: block;
+	float: left;
+	width: 100%;
+	margin: 1px 0;
+}
+
+.edit-attachment-frame .attachment-fields .setting label {
+	display: block;
+}
+
+.edit-attachment-frame .attachment-fields .setting .link-to-custom {
+	margin: 3px 0;
+}
+
+.edit-attachment-frame .attachment-fields .setting .name {
+	min-width: 30%;
+	margin-right: 4%;
+	font-size: 12px;
+	text-align: right;
+}
+
+.edit-attachment-frame .attachment-fields .setting select {
+	max-width: 65%;
+}
+
+.edit-attachment-frame .attachment-fields .setting input[type="checkbox"],
+.edit-attachment-frame .attachment-fields .field input[type="checkbox"] {
+	width: 16px;
+	float: none;
+	margin: 8px 3px 0;
+	padding: 0;
+}
+
+.edit-attachment-frame .attachment-fields .setting span {
+	float: left;
+	min-height: 22px;
+	padding-top: 8px;
+	line-height: 16px;
+	font-weight: normal;
+	color: #666;
+}
+
+.edit-attachment-frame .attachment-fields .setting input[type="text"],
+.edit-attachment-frame .attachment-fields .setting input[type="password"],
+.edit-attachment-frame .attachment-fields .setting input[type="number"],
+.edit-attachment-frame .attachment-fields .setting input[type="search"],
+.edit-attachment-frame .attachment-fields .setting input[type="email"],
+.edit-attachment-frame .attachment-fields .setting input[type="url"],
+.edit-attachment-frame .attachment-fields .setting textarea,
+.edit-attachment-frame .attachment-fields .setting .value {
+	margin: 1px;
+	width: 65%;
+	float: right;
+	padding: 6px 8px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.edit-attachment-frame .attachment-fields .setting textarea {
+	height: 62px;
+	resize: vertical;
+}
+
+.edit-attachment-frame .attachment-fields select {
+	margin-top: 3px;
+}
+
+.media-grid-view.hide-router .media-frame-title {
+	box-shadow: none;
+}
+
 .media-grid-view .media-frame-content {
+	background-color: transparent;
 	bottom: 40px;
 }
 @media screen and (max-width: 782px) {

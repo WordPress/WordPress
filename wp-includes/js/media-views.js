@@ -337,16 +337,11 @@
 	});
 
 	/**
-	 * wp.media.controller.State
-	 *
-	 * A state is a step in a workflow that when set will trigger the controllers
-	 * for the regions to be updated as specified in the frame. This is the base
-	 * class that the various states used in wp.media extend.
-	 *
-	 * @constructor
-	 * @augments Backbone.Model
+	 * A more abstracted state, because media.controller.State expects
+	 * specific regions (menu, title, etc.) to exist on the frame, which do not
+	 * exist in media.view.Frame.EditAttachment.
 	 */
-	media.controller.State = Backbone.Model.extend({
+	media.controller._State = Backbone.Model.extend({
 		constructor: function() {
 			this.on( 'activate', this._preActivate, this );
 			this.on( 'activate', this.activate, this );
@@ -354,13 +349,11 @@
 			this.on( 'deactivate', this._deactivate, this );
 			this.on( 'deactivate', this.deactivate, this );
 			this.on( 'reset', this.reset, this );
-			this.on( 'ready', this._ready, this );
 			this.on( 'ready', this.ready, this );
 			/**
 			 * Call parent constructor with passed arguments
 			 */
 			Backbone.Model.apply( this, arguments );
-			this.on( 'change:menu', this._updateMenu, this );
 		},
 
 		/**
@@ -382,15 +375,55 @@
 		/**
 		 * @access private
 		 */
-		_ready: function() {
-			this._updateMenu();
+		_preActivate: function() {
+			this.active = true;
 		},
 		/**
 		 * @access private
 		 */
-		_preActivate: function() {
-			this.active = true;
+		_postActivate: function() {},
+		/**
+		 * @access private
+		 */
+		_deactivate: function() {
+			this.active = false;
+		}
+	});
+
+	/**
+	 * wp.media.controller.State
+	 *
+	 * A state is a step in a workflow that when set will trigger the controllers
+	 * for the regions to be updated as specified in the frame. This is the base
+	 * class that the various states used in wp.media extend.
+	 *
+	 * @constructor
+	 * @augments Backbone.Model
+	 */
+	media.controller.State = media.controller._State.extend({
+		constructor: function() {
+			this.on( 'activate', this._preActivate, this );
+			this.on( 'activate', this.activate, this );
+			this.on( 'activate', this._postActivate, this );
+			this.on( 'deactivate', this._deactivate, this );
+			this.on( 'deactivate', this.deactivate, this );
+			this.on( 'reset', this.reset, this );
+			this.on( 'ready', this._ready, this );
+			this.on( 'ready', this.ready, this );
+			/**
+			 * Call parent constructor with passed arguments
+			 */
+			Backbone.Model.apply( this, arguments );
+			this.on( 'change:menu', this._updateMenu, this );
 		},
+
+		/**
+		 * @access private
+		 */
+		_ready: function() {
+			this._updateMenu();
+		},
+
 		/**
 		 * @access private
 		 */
@@ -1758,7 +1791,8 @@
 			_.defaults( this.options, {
 				title:    '',
 				modal:    true,
-				uploader: true
+				uploader: true,
+				mode:     ['select']
 			});
 
 			// Ensure core UI is enabled.
@@ -4530,7 +4564,7 @@
 			var selection = this.options.selection;
 
 			this.$el.attr('aria-label', this.model.attributes.title).attr('aria-checked', false);
-			this.model.on( 'change:sizes change:uploading', this.render, this );
+			this.model.on( 'change', this.render, this );
 			this.model.on( 'change:title', this._syncTitle, this );
 			this.model.on( 'change:caption', this._syncCaption, this );
 			this.model.on( 'change:percent', this.progress, this );
@@ -4583,7 +4617,7 @@
 					compat:        false,
 					alt:           '',
 					description:   ''
-				});
+				}, this.options );
 
 			options.buttons  = this.buttons;
 			options.describe = this.controller.state().get('describe');
@@ -4633,11 +4667,17 @@
 		 */
 		toggleSelectionHandler: function( event ) {
 			var method;
-
 			// Catch enter and space events
 			if ( 'keydown' === event.type && 13 !== event.keyCode && 32 !== event.keyCode ) {
 				return;
 			}
+
+			// In the grid view, bubble up an edit:attachment event to the controller.
+			if ( _.contains( this.controller.options.mode, 'grid' ) ) {
+				this.controller.trigger( 'edit:attachment', this.model );
+				return;
+			}
+
 			if ( event.shiftKey ) {
 				method = 'between';
 			} else if ( event.ctrlKey || event.metaKey ) {
@@ -5168,10 +5208,11 @@
 		 */
 		createAttachmentView: function( attachment ) {
 			var view = new this.options.AttachmentView({
-				controller: this.controller,
-				model:      attachment,
-				collection: this.collection,
-				selection:  this.options.selection
+				controller:           this.controller,
+				model:                attachment,
+				collection:           this.collection,
+				selection:            this.options.selection,
+				showAttachmentFields: this.options.showAttachmentFields
 			});
 
 			return this._viewsByCid[ attachment.cid ] = view;
@@ -5468,7 +5509,6 @@
 		}
 	});
 
-
 	/**
 	 * wp.media.view.AttachmentsBrowser
 	 *
@@ -5486,13 +5526,18 @@
 				filters: false,
 				search:  true,
 				display: false,
-
+				sidebar: true,
+				showAttachmentFields: getUserSetting( 'showAttachmentFields', [ 'title', 'uploadedTo', 'dateFormatted', 'mime' ] ),
 				AttachmentView: media.view.Attachment.Library
 			});
 
 			this.createToolbar();
 			this.updateContent();
-			this.createSidebar();
+			if ( this.options.sidebar ) {
+				this.createSidebar();
+			} else {
+				this.$el.addClass( 'hide-sidebar' );
+			}
 
 			this.collection.on( 'add remove reset', this.updateContent, this );
 		},
@@ -5516,6 +5561,20 @@
 			});
 
 			this.views.add( this.toolbar );
+
+			// Feels odd to bring the global media library switcher into the Attachment
+			// browser view. Is this a use case for doAction( 'add:toolbar-items:attachments-browser', this.toolbar );
+			// which the controller can tap into and add this view?
+			if ( _.contains( this.controller.options.mode, 'grid' ) ) {
+				var libraryViewSwitcherConstructor = media.View.extend({
+					className: 'view-switch media-grid-view-switch',
+					template: media.template( 'media-library-view-switcher')
+				});
+				this.toolbar.set( 'libraryViewSwitcher', new libraryViewSwitcherConstructor({
+					controller: this.controller,
+					priority: -90
+				}).render() );
+			}
 
 			filters = this.options.filters;
 			if ( 'uploaded' === filters ) {
@@ -5611,11 +5670,12 @@
 			this.removeContent();
 
 			this.attachments = new media.view.Attachments({
-				controller: this.controller,
-				collection: this.collection,
-				selection:  this.options.selection,
-				model:      this.model,
-				sortable:   this.options.sortable,
+				controller:           this.controller,
+				collection:           this.collection,
+				selection:            this.options.selection,
+				model:                this.model,
+				sortable:             this.options.sortable,
+				showAttachmentFields: this.options.showAttachmentFields,
 
 				// The single `Attachment` view to be used in the `Attachments` view.
 				AttachmentView: this.options.AttachmentView

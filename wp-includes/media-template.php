@@ -220,6 +220,15 @@ function wp_print_media_templates() {
 		</div>
 	</script>
 
+	<script type="text/html" id="tmpl-media-library-view-switcher">
+		<a href="<?php echo esc_url( add_query_arg( 'mode', 'list', $_SERVER['REQUEST_URI'] ) ) ?>" class="view-list">
+			<img id="view-switch-list" src="<?php echo includes_url( 'images/blank.gif' ) ?>" width="20" height="20" title="List View" alt="List View"/>
+		</a>
+		<a href="<?php echo esc_url( add_query_arg( 'mode', 'grid', $_SERVER['REQUEST_URI'] ) ) ?>" class="view-grid current">
+			<img id="view-switch-excerpt" src="<?php echo includes_url( 'images/blank.gif' ) ?>" width="20" height="20" title="Grid View" alt="Grid View"/>
+		</a>
+	</script>
+
 	<script type="text/html" id="tmpl-uploader-status">
 		<h3><?php _e( 'Uploading' ); ?></h3>
 		<a class="upload-dismiss-errors" href="#"><?php _e('Dismiss Errors'); ?></a>
@@ -241,7 +250,128 @@ function wp_print_media_templates() {
 		<span class="upload-error-message">{{ data.message }}</span>
 	</script>
 
+	<script type="text/html" id="tmpl-edit-attachment-frame">
+		<div class="edit-media-header">
+			<button class="left dashicons dashicons-no<# if ( ! data.hasPrevious ) { #> disabled <# } #>"><span class="screen-reader-text"><?php _e( 'Edit previous media item' ); ?></span></button>
+			<button class="right dashicons dashicons-no<# if ( ! data.hasNext ) { #> disabled <# } #>"><span class="screen-reader-text"><?php _e( 'Edit next media item' ); ?></span></button>
+		</div>
+		<div class="media-frame-router"></div>
+		<div class="media-frame-content"></div>
+		<div class="media-frame-toolbar"></div>
+	</script>
+
+	<script type="text/html" id="tmpl-attachment-details-two-column">
+		<h3>
+			<?php _e('Attachment Details'); ?>
+
+			<span class="settings-save-status">
+				<span class="spinner"></span>
+				<span class="saved"><?php esc_html_e('Saved.'); ?></span>
+			</span>
+		</h3>
+		<div class="attachment-info">
+			<div class="thumbnail thumbnail-{{ data.type }}">
+				<# if ( data.uploading ) { #>
+					<div class="media-progress-bar"><div></div></div>
+				<# } else if ( 'image' === data.type ) { #>
+					<img src="{{ data.sizes.full.url }}" draggable="false" />
+				<# } else { #>
+					<img src="{{ data.icon }}" class="icon" draggable="false" />
+				<# } #>
+			</div>
+			<div class="details">
+				<div class="filename">{{ data.filename }}</div>
+				<div class="uploaded">{{ data.dateFormatted }}</div>
+
+				<div class="file-size">{{ data.filesizeHumanReadable }}</div>
+				<# if ( 'image' === data.type && ! data.uploading ) { #>
+					<# if ( data.width && data.height ) { #>
+						<div class="dimensions">{{ data.width }} &times; {{ data.height }}</div>
+					<# } #>
+
+					<# if ( data.can.save ) { #>
+						<a class="edit-attachment" href="{{ data.editLink }}&amp;image-editor" target="_blank"><?php _e( 'Edit Image' ); ?></a>
+						<a class="refresh-attachment" href="#"><?php _e( 'Refresh' ); ?></a>
+					<# } #>
+				<# } #>
+
+				<# if ( data.fileLength ) { #>
+					<div class="file-length"><?php _e( 'Length:' ); ?> {{ data.fileLength }}</div>
+				<# } #>
+
+				<# if ( ! data.uploading && data.can.remove ) { #>
+					<?php if ( MEDIA_TRASH ): ?>
+						<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
+					<?php else: ?>
+						<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
+					<?php endif; ?>
+				<# } #>
+
+				<div class="compat-meta">
+					<# if ( data.compat && data.compat.meta ) { #>
+						{{{ data.compat.meta }}}
+					<# } #>
+				</div>
+			</div>
+			<# if ( 'audio' === data.type ) { #>
+			<div class="wp-media-wrapper">
+				<audio style="visibility: hidden" controls class="wp-audio-shortcode" width="100%" preload="none">
+					<source type="{{ data.mime }}" src="{{ data.url }}"/>
+				</audio>
+			</div>
+			<# } else if ( 'video' === data.type ) { #>
+			<div style="max-width: 100%; width: {{ data.width }}px" class="wp-media-wrapper">
+				<video controls class="wp-video-shortcode" preload="metadata"
+					width="{{ data.width }}" height="{{ data.height }}"
+					<# if ( data.image && data.image.src !== data.icon ) { #>poster="{{ data.image.src }}"<# } #>>
+					<source type="{{ data.mime }}" src="{{ data.url }}"/>
+				</video>
+			</div>
+			<# } #>
+		</div>
+		<div class="attachment-fields">
+			<label class="setting" data-setting="url">
+				<span class="name"><?php _e('URL'); ?></span>
+				<input type="text" value="{{ data.url }}" readonly />
+			</label>
+			<# var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly'; #>
+			<label class="setting" data-setting="title">
+				<span class="name"><?php _e('Title'); ?></span>
+				<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
+			</label>
+			<label class="setting" data-setting="caption">
+				<span class="name"><?php _e('Caption'); ?></span>
+				<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>
+			</label>
+			<# if ( 'image' === data.type ) { #>
+				<label class="setting" data-setting="alt">
+					<span class="name"><?php _e('Alt Text'); ?></span>
+					<input type="text" value="{{ data.alt }}" {{ maybeReadOnly }} />
+				</label>
+			<# } #>
+			<label class="setting" data-setting="description">
+				<span class="name"><?php _e('Description'); ?></span>
+				<textarea {{ maybeReadOnly }}>{{ data.description }}</textarea>
+			</label>
+			<label class="setting">
+					<span class="name"><?php _e( 'Uploaded By' ); ?></span>
+					<span class="value">{{ data.authorName }}</span>
+				</label>
+			<# if ( data.uploadedTo ) { #>
+				<label class="setting">
+					<span class="name"><?php _e('Uploaded To'); ?></span>
+					<span class="value"><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a></span>
+				</label>
+			<# } #>
+		</div>
+	</script>
+
 	<script type="text/html" id="tmpl-attachment">
+		<# if ( _.contains( data.controller.options.mode, 'grid' ) ) { #>
+		<div class="inline-toolbar">
+			<div class="dashicons dashicons-edit edit edit-media"></div>
+		</div>
+		<# } #>
 		<div class="attachment-preview type-{{ data.type }} subtype-{{ data.subtype }} {{ data.orientation }}">
 			<# if ( data.uploading ) { #>
 				<div class="media-progress-bar"><div></div></div>
@@ -251,13 +381,15 @@ function wp_print_media_templates() {
 						<img src="{{ data.size.url }}" draggable="false" alt="" />
 					</div>
 				</div>
-			<# } else { #>
+			<# } else {
+				if ( data.thumb && data.thumb.src && data.thumb.src !== data.icon ) {
+				#><img src="{{ data.thumb.src }}" class="thumbnail" draggable="false" /><#
+				} #>
 				<img src="{{ data.icon }}" class="icon" draggable="false" />
 				<div class="filename">
 					<div>{{ data.filename }}</div>
 				</div>
 			<# } #>
-
 			<# if ( data.buttons.close ) { #>
 				<a class="close media-modal-icon" href="#" title="<?php esc_attr_e('Remove'); ?>"></a>
 			<# } #>
@@ -268,8 +400,8 @@ function wp_print_media_templates() {
 		</div>
 		<#
 		var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly';
-		if ( data.describe ) { #>
-			<# if ( 'image' === data.type ) { #>
+		if ( data.describe ) {
+			if ( 'image' === data.type ) { #>
 				<input type="text" value="{{ data.caption }}" class="describe" data-setting="caption"
 					placeholder="<?php esc_attr_e('Caption this image&hellip;'); ?>" {{ maybeReadOnly }} />
 			<# } else { #>
@@ -281,8 +413,31 @@ function wp_print_media_templates() {
 					<# } else { #>
 						placeholder="<?php esc_attr_e('Describe this media file&hellip;'); ?>"
 					<# } #> {{ maybeReadOnly }} />
-			<# } #>
+			<# }
+		}
+
+		if ( _.contains( data.controller.options.mode, 'grid' ) ) { #>
+		<div class="data-fields">
+		<# _.each( data.showAttachmentFields, function( field ) { #>
+			<div class="data-field data-{{ field }}"><#
+				if ( 'uploadedTo' === field ) {
+					if ( data[field] ) {
+					#><?php _e( 'Uploaded To:' ) ?><#
+					} else {
+					#><?php _e( 'Unattached' ) ?><#
+					}
+				} else if ( 'title' === field && ! data[ field ] ) {
+				#><?php _e( '(No title)' ) ?><#
+				}
+
+				if ( data[ field ] ) {
+					#>{{ data[ field ] }}<#
+				}
+			#></div>
+		<# }); #>
+		</div>
 		<# } #>
+
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-details">

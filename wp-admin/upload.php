@@ -24,16 +24,8 @@ if ( 'grid' === $mode ) {
 	wp_enqueue_media();
 	wp_enqueue_script( 'media-grid' );
 	wp_enqueue_script( 'media' );
-	
+
 	require_once( ABSPATH . 'wp-admin/admin-header.php' );
-	?><div class="view-switch media-grid-view-switch">
-		<a href="<?php echo esc_url( add_query_arg( 'mode', 'list', $_SERVER['REQUEST_URI'] ) ) ?>" class="view-list">
-			<img id="view-switch-list" src="<?php echo includes_url( 'images/blank.gif' ) ?>" width="20" height="20" title="List View" alt="List View"/>
-		</a>
-		<a href="<?php echo esc_url( add_query_arg( 'mode', 'grid', $_SERVER['REQUEST_URI'] ) ) ?>" class="view-grid current">
-			<img id="view-switch-excerpt" src="<?php echo includes_url( 'images/blank.gif' ) ?>" width="20" height="20" title="Grid View" alt="Grid View"/>
-		</a>
-	</div><?php
 	include( ABSPATH . 'wp-admin/admin-footer.php' );
 	exit;
 }
