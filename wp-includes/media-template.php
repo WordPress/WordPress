@@ -235,7 +235,7 @@ function wp_print_media_templates() {
 			<input type="checkbox" data-setting="title" {{ '' === getUserSetting( 'hidegridtitle' ) && 'checked' }} />
 		</label>
 		<label class="setting">
-			<span><?php _e( 'Attached to' ); ?></span>
+			<span><?php _e( 'Uploaded to' ); ?></span>
 			<input type="checkbox" data-setting="uploadedTo" {{ '' === getUserSetting( 'hidegriduploadedTo' ) && 'checked' }} />
 		</label>
 		<label class="setting">

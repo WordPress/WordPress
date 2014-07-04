@@ -1,3 +1,4 @@
+/* global _wpMediaViewsL10n, setUserSetting, deleteUserSetting, MediaElementPlayer */
 (function($, _, Backbone, wp) {
 	var media = wp.media, l10n;
 
@@ -94,7 +95,7 @@
 		_content: function() {
 			var mode = this.get( 'content' );
 			if ( mode ) {
-				this.frame[ 'content' ].render( mode );
+				this.frame.content.render( mode );
 			}
 		}
 	});
@@ -218,13 +219,13 @@
 
 		editPreviousAttachment: function( currentModel ) {
 			var library = this.state().get('library'),
-			    currentModelIndex = library.indexOf( currentModel );
+				currentModelIndex = library.indexOf( currentModel );
 			this.trigger( 'edit:attachment', library.at( currentModelIndex - 1 ) );
 		},
 
 		editNextAttachment: function( currentModel ) {
 			var library = this.state().get('library'),
-			    currentModelIndex = library.indexOf( currentModel );
+				currentModelIndex = library.indexOf( currentModel );
 			this.trigger( 'edit:attachment', library.at( currentModelIndex + 1 ) );
 		},
 
@@ -342,7 +343,7 @@
 			'click .right':             'nextMediaItem'
 		},
 
-		initialize: function( options ) {
+		initialize: function() {
 			var self = this;
 			media.view.Frame.prototype.initialize.apply( this, arguments );
 
