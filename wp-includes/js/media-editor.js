@@ -577,21 +577,27 @@
 		});
 	};
 
+	wp.media.galleryDefaults = {
+		itemtag: 'dl',
+		icontag: 'dt',
+		captiontag: 'dd',
+		columns: '3',
+		link: 'post',
+		size: 'thumbnail',
+		order: 'ASC',
+		id: wp.media.view.settings.post && wp.media.view.settings.post.id,
+		orderby : 'menu_order ID'
+	};
+
+	if ( wp.media.view.settings.galleryDefaults ) {
+		_.extend( wp.media.galleryDefaults, wp.media.view.settings.galleryDefaults );
+	}
+
 	wp.media.gallery = new wp.media.collection({
 		tag: 'gallery',
 		type : 'image',
 		editTitle : wp.media.view.l10n.editGalleryTitle,
-		defaults : {
-			itemtag: 'dl',
-			icontag: 'dt',
-			captiontag: 'dd',
-			columns: '3',
-			link: 'post',
-			size: 'thumbnail',
-			order: 'ASC',
-			id: wp.media.view.settings.post && wp.media.view.settings.post.id,
-			orderby : 'menu_order ID'
-		}
+		defaults : wp.media.galleryDefaults
 	});
 
 	/**
