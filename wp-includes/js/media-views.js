@@ -2140,6 +2140,15 @@
 			this.bindHandlers();
 		},
 
+		/**
+		 * Attach a selection collection to the frame.
+		 *
+		 * A selection is a collection of attachments used for a specific purpose
+		 * by a media frame. e.g. Selecting an attachment (or many) to insert into
+		 * post content.
+		 *
+		 * @see media.model.Selection
+		 */
 		createSelection: function() {
 			var selection = this.options.selection;
 
@@ -2155,6 +2164,9 @@
 			};
 		},
 
+		/**
+		 * Create the default states on the frame.
+		 */
 		createStates: function() {
 			var options = this.options;
 
@@ -2174,6 +2186,11 @@
 			]);
 		},
 
+		/**
+		 * Bind region mode event callbacks.
+		 *
+		 * @see media.controller.Region.render
+		 */
 		bindHandlers: function() {
 			this.on( 'router:create:browse', this.createRouter, this );
 			this.on( 'router:render:browse', this.browseRouter, this );
@@ -2182,9 +2199,13 @@
 			this.on( 'toolbar:create:select', this.createSelectToolbar, this );
 		},
 
-		// Routers
-		browseRouter: function( view ) {
-			view.set({
+		/**
+		 * Render callback for the router region in the `browse` mode.
+		 *
+		 * @param {wp.media.view.Router} routerView
+		 */
+		browseRouter: function( routerView ) {
+			routerView.set({
 				upload: {
 					text:     l10n.uploadFilesTitle,
 					priority: 20
@@ -2197,18 +2218,17 @@
 		},
 
 		/**
-		 * Content
+		 * Render callback for the content region in the `browse` mode.
 		 *
-		 * @param {Object} content
-		 * @this wp.media.controller.Region
+		 * @param {wp.media.controller.Region} contentRegion
 		 */
-		browseContent: function( content ) {
+		browseContent: function( contentRegion ) {
 			var state = this.state();
 
 			this.$el.removeClass('hide-toolbar');
 
 			// Browse our library of attachments.
-			content.view = new media.view.AttachmentsBrowser({
+			contentRegion.view = new media.view.AttachmentsBrowser({
 				controller: this,
 				collection: state.get('library'),
 				selection:  state.get('selection'),
@@ -2227,11 +2247,10 @@
 		},
 
 		/**
-		 *
-		 * @this wp.media.controller.Region
+		 * Render callback for the content region in the `upload` mode.
 		 */
 		uploadContent: function() {
-			this.$el.removeClass('hide-toolbar');
+			this.$el.removeClass( 'hide-toolbar' );
 			this.content.set( new media.view.UploaderInline({
 				controller: this
 			}) );
