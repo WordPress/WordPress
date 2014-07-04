@@ -1839,7 +1839,6 @@ video#inline-media-node {
 
 .image-details .advanced-visible .advanced-toggle::after {
 	content: '\f142';
-	margin-top: 0;
 }
 
 .image-details .embed-media-settings .size {
