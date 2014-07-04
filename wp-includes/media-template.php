@@ -446,17 +446,15 @@ function wp_print_media_templates() {
 		#>
 			<div class="{{ className }} data-{{ field }}"><#
 				if ( 'uploadedTo' === field ) {
-					if ( data[field] ) {
-					#><?php _e( 'Uploaded To: ' ) ?><#
+					if ( data[ field ] ) {
+					#><?php _e( 'Uploaded To: ' ) ?>{{ data.uploadedToTitle }}<#
 					} else {
 					#><?php _e( 'Unattached' ) ?><#
 					}
 				} else if ( 'title' === field && ! data[ field ] ) {
 				#><?php _e( '(No title)' ) ?><#
-				}
-
-				if ( data[ field ] ) {
-					#>{{ data[ field ] }}<#
+				} else if ( data[ field ] ) {
+				#>{{ data[ field ] }}<#
 				}
 			#></div>
 		<# }); #>
