@@ -377,7 +377,7 @@ window.wp = window.wp || {};
 
 				options = {
 					attachments: attachments,
-					columns: attrs.columns ? parseInt( attrs.columns, 10 ) : 3
+					columns: attrs.columns ? parseInt( attrs.columns, 10 ) : wp.media.galleryDefaults.columns
 				};
 
 				return this.template( options );
