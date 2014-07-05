@@ -26,11 +26,13 @@ define('WP_SETUP_CONFIG', true);
  *
  * Set this to error_reporting( -1 ) for debugging
  */
-error_reporting(-1);
+error_reporting(0);
 
 define( 'ABSPATH', dirname( dirname( __FILE__ ) ) . '/' );
 
 require( ABSPATH . 'wp-settings.php' );
+
+require( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 // Support wp-config-sample.php one level up, for the develop repo.
 if ( file_exists( ABSPATH . 'wp-config-sample.php' ) )
@@ -48,7 +50,7 @@ if ( file_exists( ABSPATH . 'wp-config.php' ) )
 if ( file_exists(ABSPATH . '../wp-config.php' ) && ! file_exists( ABSPATH . '../wp-settings.php' ) )
 	wp_die( '<p>' . sprintf( __( "The file 'wp-config.php' already exists one level above your WordPress installation. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href='install.php'>installing now</a>."), 'install.php' ) . '</p>' );
 
-$step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
+$step = isset( $_GET['step'] ) ? (int) $_GET['step'] : -1;
 
 /**
  * Display setup wp-config.php file header.
@@ -56,8 +58,13 @@ $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
  * @ignore
  * @since 2.3.0
  */
-function setup_config_display_header() {
+function setup_config_display_header( $body_classes = array() ) {
 	global $wp_version;
+	$body_classes = (array) $body_classes;
+	$body_classes[] = 'wp-core-ui';
+	if ( is_rtl() ) {
+		$body_classes[] = 'rtl';
+	}
 
 	header( 'Content-Type: text/html; charset=utf-8' );
 ?>
@@ -71,14 +78,40 @@ function setup_config_display_header() {
 <link rel="stylesheet" href="../<?php echo WPINC ?>/css/buttons.css?ver=<?php echo preg_replace( '/[^0-9a-z\.-]/i', '', $wp_version ); ?>" type="text/css" />
 
 </head>
-<body class="wp-core-ui<?php if ( is_rtl() ) echo ' rtl'; ?>">
+<body class="<?php echo implode( ' ', $body_classes ); ?>">
 <h1 id="logo"><a href="<?php esc_attr_e( 'https://wordpress.org/' ); ?>" tabindex="-1"><?php _e( 'WordPress' ); ?></a></h1>
 <?php
 } // end function setup_config_display_header();
 
 switch($step) {
+	case -1:
+
+		if ( empty( $_GET['language'] ) && ( $body = wp_get_available_translations() ) ) {
+			setup_config_display_header( 'language-chooser' );
+			echo '<form id="setup" method="post" action="?step=0">';
+			wp_install_language_form( $body );
+			echo '</form>';
+			break;
+		}
+
+		// Deliberately fall through if we can't reach the translations API.
+
 	case 0:
+		if ( ! empty( $_REQUEST['language'] ) ) {
+			$loaded_language = wp_install_download_language_pack( $_REQUEST['language'] );
+			if ( $loaded_language ) {
+				wp_install_load_language( $loaded_language );
+			}
+		}
+
 		setup_config_display_header();
+		$step_1 = 'setup-config.php?step=1';
+		if ( isset( $_REQUEST['noapi'] ) ) {
+			$step_1 .= '&amp;noapi';
+		}
+		if ( ! empty( $loaded_language ) ) {
+			$step_1 .= '&amp;language=' . $loaded_language;
+		}
 ?>
 
 <p><?php _e( 'Welcome to WordPress. Before getting started, we need some information on the database. You will need to know the following items before proceeding.' ) ?></p>
@@ -96,11 +129,12 @@ switch($step) {
 </p>
 <p><?php _e( "In all likelihood, these items were supplied to you by your Web Host. If you do not have this information, then you will need to contact them before you can continue. If you&#8217;re all ready&hellip;" ); ?></p>
 
-<p class="step"><a href="setup-config.php?step=1<?php if ( isset( $_GET['noapi'] ) ) echo '&amp;noapi'; ?>" class="button button-large"><?php _e( 'Let&#8217;s go!' ); ?></a></p>
+<p class="step"><a href="<?php echo $step_1; ?>" class="button button-large"><?php _e( 'Let&#8217;s go!' ); ?></a></p>
 <?php
 	break;
 
 	case 1:
+		$loaded_language = wp_install_load_language( $_REQUEST['language'] );
 		setup_config_display_header();
 	?>
 <form method="post" action="setup-config.php?step=2">
@@ -133,19 +167,30 @@ switch($step) {
 		</tr>
 	</table>
 	<?php if ( isset( $_GET['noapi'] ) ) { ?><input name="noapi" type="hidden" value="1" /><?php } ?>
+	<input type="hidden" name="language" value="<?php echo esc_attr( $loaded_language ); ?>" />
 	<p class="step"><input name="submit" type="submit" value="<?php echo htmlspecialchars( __( 'Submit' ), ENT_QUOTES ); ?>" class="button button-large" /></p>
 </form>
 <?php
 	break;
 
 	case 2:
+	$loaded_language = wp_install_load_language( $_REQUEST['language'] );
 	$dbname = trim( wp_unslash( $_POST[ 'dbname' ] ) );
 	$uname = trim( wp_unslash( $_POST[ 'uname' ] ) );
 	$pwd = trim( wp_unslash( $_POST[ 'pwd' ] ) );
 	$dbhost = trim( wp_unslash( $_POST[ 'dbhost' ] ) );
 	$prefix = trim( wp_unslash( $_POST[ 'prefix' ] ) );
 
-	$tryagain_link = '</p><p class="step"><a href="setup-config.php?step=1" onclick="javascript:history.go(-1);return false;" class="button button-large">' . __( 'Try again' ) . '</a>';
+	$step_1 = 'setup-config.php?step=1';
+	$install = 'install.php';
+	if ( isset( $_REQUEST['noapi'] ) ) {
+		$step_1 .= '&amp;noapi';
+	}
+	if ( $loaded_language ) {
+		$step_1 .= '&amp;language=' . $loaded_language;
+		$install .= '?language=' . $loaded_language;
+	}
+	$tryagain_link = '</p><p class="step"><a href="' . $step_1 . '" onclick="javascript:history.go(-1);return false;" class="button button-large">' . __( 'Try again' ) . '</a>';
 
 	if ( empty( $prefix ) )
 		wp_die( __( '<strong>ERROR</strong>: "Table Prefix" must not be empty.' . $tryagain_link ) );
@@ -239,7 +284,7 @@ switch($step) {
 		}
 ?></textarea>
 <p><?php _e( 'After you&#8217;ve done that, click &#8220;Run the install.&#8221;' ); ?></p>
-<p class="step"><a href="install.php" class="button button-large"><?php _e( 'Run the install' ); ?></a></p>
+<p class="step"><a href="<?php echo $install; ?>" class="button button-large"><?php _e( 'Run the install' ); ?></a></p>
 <script>
 (function(){
 var el=document.getElementById('wp-config');
@@ -266,7 +311,7 @@ el.select();
 ?>
 <p><?php _e( "All right, sparky! You&#8217;ve made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to&hellip;" ); ?></p>
 
-<p class="step"><a href="install.php" class="button button-large"><?php _e( 'Run the install' ); ?></a></p>
+<p class="step"><a href="<?php echo $install; ?>" class="button button-large"><?php _e( 'Run the install' ); ?></a></p>
 <?php
 	endif;
 	break;

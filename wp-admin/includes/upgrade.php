@@ -2158,3 +2158,108 @@ CREATE TABLE $wpdb->sitecategories (
 	dbDelta( $ms_queries );
 }
 endif;
+
+function wp_install_language_form( $body ) {
+	echo "<fieldset>\n";
+	echo "<legend class='screen-reader-text'>Select a default language</legend>\n";
+	echo '<input type="radio" checked="checked" class="screen-reader-input" name="language" id="language_default" value="">';
+	echo '<label for="language_default">English (United States)</label>';
+	echo "\n";
+
+	if ( defined( 'WPLANG' ) && ( '' !== WPLANG ) && ( 'en_US' !== WPLANG ) ) {
+		if ( isset( $body['languages'][WPLANG] ) ) {
+			$language = $body['languages'][WPLANG];
+			echo '<input type="radio" name="language" checked="checked" class="' . esc_attr( $language['language'] ) . ' screen-reader-input" id="language_wplang" value="' . esc_attr( $language['language'] ) . '">';
+			echo '<label for="language_wplang">' . esc_html( $language['native_name'] ) . "</label>\n";
+		}
+	}
+
+	foreach ( $body['languages'] as $language ) {
+		echo '<input type="radio" name="language" class="' . esc_attr( $language['language'] ) . ' screen-reader-input" id="language_'. esc_attr( $language['language'] ) .'" value="' . esc_attr( $language['language'] ) . '">';
+		echo '<label for="language_' . esc_attr( $language['language'] ) . '">' . esc_html( $language['native_name'] ) . "</label>\n";
+	}
+	echo "</fieldset>\n";
+	echo '<p class="step"><input type="submit" class="button button-primary button-hero" value="&raquo;" /></p>';
+}
+
+/**
+ * @todo rename, move
+ */
+function wp_get_available_translations() {
+	$url = 'http://api.wordpress.org/translations/core/1.0/';
+	if ( wp_http_supports( array( 'ssl' ) ) ) {
+		$url = set_url_scheme( $url, 'https' );
+	}
+
+	$options = array(
+		'timeout' => 3,
+		'body' => array( 'version' => $GLOBALS['wp_version'] ),
+	);
+
+	$response = wp_remote_post( $url, $options );
+	$body = wp_remote_retrieve_body( $response );
+	if ( $body && $body = json_decode( $body, true ) ) {
+		$languages = array();
+		// Key the language array with the language code
+		foreach ( $body['languages'] as $language ) {
+			$languages[$language['language']] = $language;
+		}
+		$body['languages'] = $languages;
+		return $body;
+	}
+	return false;
+}
+
+function wp_install_download_language_pack( $language ) {
+	// Check if the language is already installed.
+	$available_languages = get_available_languages();
+	if ( in_array( $language->language, $available_languages ) ) {
+		return $language->language;
+	}
+
+	// Confirm the language is one we can download.
+	$body = wp_get_available_translations();
+	$loading_language = false;
+	if ( $body ) {
+		foreach ( $body['languages'] as $language ) {
+			if ( $language['language'] === $_REQUEST['language'] ) {
+				$loading_language = $_REQUEST['language'];
+				break;
+			}
+		}
+	}
+
+	if ( ! $loading_language ) {
+		return false;
+	}
+	$language = (object) $language;
+
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+	$skin = new Automatic_Upgrader_Skin;
+	$upgrader = new Language_Pack_Upgrader( $skin );
+	$options = array( 'clear_update_cache' => false );
+	$language->type = 'core';
+	/**
+	 * @todo failures (such as non-direct FS)
+	 */
+	$upgrader->upgrade( $language, array( 'clear_update_cache' => false ) );
+	return $language->language;
+}
+
+function wp_install_load_language( $request ) {
+	$loading_language = '';
+	if ( ! empty( $request ) ) {
+		$available_languages = get_available_languages();
+		if ( in_array( $request, $available_languages ) ) {
+			$loading_language = $request;
+		}
+	}
+
+	if ( $loading_language ) {
+		load_textdomain( 'default', WP_LANG_DIR . "/{$loading_language}.mo" );
+		load_textdomain( 'default', WP_LANG_DIR . "/admin-{$loading_language}.mo" );
+		return $loading_language;
+	}
+
+	return false;
+}
