@@ -30,8 +30,6 @@ error_reporting(-1);
 
 define( 'ABSPATH', dirname( dirname( __FILE__ ) ) . '/' );
 
-require_once( ABSPATH . 'wp-includes/plugin.php' );
-add_action( 'plugins_loaded', 'wp_load_translations_early' );
 require( ABSPATH . 'wp-settings.php' );
 
 // Support wp-config-sample.php one level up, for the develop repo.
