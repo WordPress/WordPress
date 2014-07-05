@@ -451,8 +451,13 @@ function get_post_class( $class = '', $post_id = null ) {
 	}
 
 	// sticky for Sticky Posts
-	if ( is_sticky($post->ID) && is_home() && !is_paged() )
-		$classes[] = 'sticky';
+	if ( is_sticky( $post->ID ) ) {
+		if ( is_home() && ! is_paged() ) {
+			$classes[] = 'sticky';
+		} elseif ( is_admin() ) {
+			$classes[] = 'status-sticky';
+		}
+	}
 
 	// hentry for hAtom compliance
 	$classes[] = 'hentry';
