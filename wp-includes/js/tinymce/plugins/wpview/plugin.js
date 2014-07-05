@@ -148,10 +148,6 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	function emptyViews( content ) {
 		return content.replace(/<div[^>]+data-wpview-text=\"([^"]+)"[^>]*>[\s\S]+?wpview-selection-after[^>]+>(?:&nbsp;|\u00a0)*<\/p><\/div>/g, '$1' );
 	}
-	
-	window.emptyViews = function() {
-		return emptyViews( editor.getContent({format : 'raw'}) );
-	};
 
 	// Prevent adding undo levels on changes inside a view wrapper
 	editor.on( 'BeforeAddUndo', function( event ) {
