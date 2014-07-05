@@ -304,14 +304,17 @@ endfor;
 <?php do_settings_fields('general', 'default'); ?>
 <?php
 	$languages = get_available_languages();
-	if ( is_multisite() && !empty( $languages ) ):
+	if ( $languages ) :
 ?>
 	<tr>
 		<th width="33%" scope="row"><?php _e('Site Language') ?></th>
 		<td>
-			<select name="WPLANG" id="WPLANG">
-				<?php mu_dropdown_languages( $languages, get_option('WPLANG') ); ?>
-			</select>
+			<?php wp_dropdown_languages( array(
+				'name'      => 'WPLANG',
+				'id'        => 'WPLANG',
+				'selected'  => get_option( 'WPLANG' ),
+				'languages' => $languages,
+			) ); ?>
 		</td>
 	</tr>
 <?php

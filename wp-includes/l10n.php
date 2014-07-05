@@ -816,3 +816,24 @@ function wp_get_pomo_file_data( $po_file ) {
 	}
 	return $headers;
 }
+
+/**
+ * Language selector. More to come.
+ *
+ * @since 4.0.0
+ */
+function wp_dropdown_languages( $args = array() ) {
+	if ( isset( $args['languages'] ) ) {
+		$languages = $args['languages'];
+	} else {
+		$languages = get_available_languages();
+	}
+
+	printf( '<select name="%s" id="%s">', esc_attr( $args['name'] ), esc_attr( $args['id'] ) );
+	echo '<option value="">en_US</option>';
+	foreach ( $languages as $language ) {
+		$selected = selected( $language, $args['selected'], false );
+		echo '<option value="' . esc_attr( $language ) .'"' . $selected . '>' . $language . '</option>';
+	}
+	echo '</select>';
+}
