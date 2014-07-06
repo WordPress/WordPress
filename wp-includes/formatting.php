@@ -234,6 +234,11 @@ function wptexturize($text, $reset = false) {
 				_wptexturize_pushpop_element( $curl, $no_texturize_tags_stack, $no_texturize_tags );
 			}
 
+		} elseif ( '' === trim( $curl ) ) {
+			// This is a newline between delimeters.  Performance improves when we check this.
+
+			continue;
+
 		} elseif ( '[' === $first && 1 === preg_match( '/^\[(?:[^\[\]<>]|<[^>]+>)+\]$/', $curl ) ) {
 			// This is a shortcode delimeter.
 
@@ -244,6 +249,8 @@ function wptexturize($text, $reset = false) {
 
 			// Do not texturize.
 			// Do not push to the shortcodes stack.
+
+			continue;
 
 		} elseif ( empty( $no_texturize_shortcodes_stack ) && empty( $no_texturize_tags_stack ) ) {
 			// This is neither a delimeter, nor is this content inside of no_texturize pairs.  Do texturize.
