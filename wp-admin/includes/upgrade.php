@@ -2210,11 +2210,17 @@ function wp_get_available_translations() {
 	return false;
 }
 
-function wp_install_download_language_pack( $language ) {
+/**
+ * [wp_install_download_language_pack description]
+ * 
+ * @param  string $lang [description]
+ * @return string|false [description]
+ */
+function wp_install_download_language_pack( $lang ) {
 	// Check if the language is already installed.
 	$available_languages = get_available_languages();
-	if ( in_array( $language->language, $available_languages ) ) {
-		return $language->language;
+	if ( in_array( $lang, $available_languages ) ) {
+		return $lang;
 	}
 
 	// Confirm the language is one we can download.
@@ -2222,8 +2228,8 @@ function wp_install_download_language_pack( $language ) {
 	$loading_language = false;
 	if ( $body ) {
 		foreach ( $body['languages'] as $language ) {
-			if ( $language['language'] === $_REQUEST['language'] ) {
-				$loading_language = $_REQUEST['language'];
+			if ( $language['language'] === $lang ) {
+				$loading_language = $lang;
 				break;
 			}
 		}
@@ -2237,7 +2243,6 @@ function wp_install_download_language_pack( $language ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 	$skin = new Automatic_Upgrader_Skin;
 	$upgrader = new Language_Pack_Upgrader( $skin );
-	$options = array( 'clear_update_cache' => false );
 	$language->type = 'core';
 	/**
 	 * @todo failures (such as non-direct FS)
