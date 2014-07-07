@@ -213,8 +213,10 @@ switch($step) {
 	unset( $wpdb );
 	require_wp_db();
 
-	// The wpdb constructor bails when WP_SETUP_CONFIG is set, so we must
-	// fire this manually. We'll fail here if the values are no good.
+	/*
+	 * The wpdb constructor bails when WP_SETUP_CONFIG is set, so we must
+	 * fire this manually. We'll fail here if the values are no good.
+	 */
 	$wpdb->db_connect();
 
 	if ( ! empty( $wpdb->error ) )
