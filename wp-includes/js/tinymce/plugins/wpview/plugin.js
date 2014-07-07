@@ -8,7 +8,8 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		VK = tinymce.util.VK,
 		TreeWalker = tinymce.dom.TreeWalker,
 		toRemove = false,
-		cursorInterval, lastKeyDownNode, setViewCursorTries;
+		firstFocus = true,
+		cursorInterval, lastKeyDownNode, setViewCursorTries, focus;
 
 	function getView( node ) {
 		return editor.dom.getParent( node, function( node ) {
@@ -349,9 +350,29 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			selection = editor.selection,
 			node = selection.getNode(),
 			view = getView( node ),
-			cursorBefore, cursorAfter;
+			cursorBefore, cursorAfter,
+			range, clonedRange, tempRange;
 
 		lastKeyDownNode = node;
+
+		// Make sure we don't delete part of a view.
+		// If the range ends or starts with the view, we'll need to trim it.
+		if ( ! selection.isCollapsed() ) {
+			range = selection.getRng();
+
+			if ( view = getView( range.endContainer ) ) {
+				clonedRange = range.cloneRange();
+				selection.select( view.previousSibling, true );
+				selection.collapse();
+				tempRange = selection.getRng();
+				clonedRange.setEnd( tempRange.endContainer, tempRange.endOffset );
+				selection.setRng( clonedRange );
+			} else if ( view = getView( range.startContainer ) ) {
+				clonedRange = range.cloneRange();
+				clonedRange.setStart( view.nextSibling, 0 );
+				selection.setRng( clonedRange );
+			}
+		}
 
 		if ( ! view ) {
 			return;
@@ -375,30 +396,26 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 					}
 				}
 			} else {
-				handleEnter( view, true );
+				setViewCursor( true, view );
 			}
 			event.preventDefault();
 		} else if ( cursorAfter && ( keyCode === VK.DOWN || keyCode === VK.RIGHT ) ) {
 			if ( view.nextSibling ) {
 				if ( getView( view.nextSibling ) ) {
-					setViewCursor( false, view.nextSibling );
+					setViewCursor( keyCode === VK.RIGHT, view.nextSibling );
 				} else {
 					selection.setCursorLocation( view.nextSibling, 0 );
 				}
-			} else {
-				handleEnter( view );
 			}
 			event.preventDefault();
 		} else if ( cursorBefore && ( keyCode === VK.UP || keyCode ===  VK.LEFT ) ) {
 			if ( view.previousSibling ) {
 				if ( getView( view.previousSibling ) ) {
-					setViewCursor( true, view.previousSibling );
+					setViewCursor( keyCode === VK.UP, view.previousSibling );
 				} else {
 					selection.select( view.previousSibling, true );
 					selection.collapse();
 				}
-			} else {
-				handleEnter( view, true );
 			}
 			event.preventDefault();
 		} else if ( cursorBefore && keyCode === VK.DOWN ) {
@@ -409,7 +426,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 					selection.setCursorLocation( view.nextSibling, 0 );
 				}
 			} else {
-				handleEnter( view );
+				setViewCursor( false, view );
 			}
 			event.preventDefault();
 		} else if ( ( cursorAfter && keyCode === VK.LEFT ) || ( cursorBefore && keyCode === VK.RIGHT ) ) {
@@ -465,11 +482,34 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			return;
 		}
 
-		if ( keyCode === VK.LEFT || keyCode === VK.UP ) {
+		if ( keyCode === VK.LEFT ) {
 			setViewCursor( true, view );
 			deselect();
-		} else if ( keyCode === VK.RIGHT || keyCode === VK.DOWN ) {
+		} else if ( keyCode === VK.UP ) {
+			if ( view.previousSibling ) {
+				if ( getView( view.previousSibling ) ) {
+					setViewCursor( true, view.previousSibling );
+				} else {
+					selection.select( view.previousSibling, true );
+					selection.collapse();
+				}
+			} else {
+				setViewCursor( true, view );
+			}
+			deselect();
+		} else if ( keyCode === VK.RIGHT ) {
 			setViewCursor( false, view );
+			deselect();
+		} else if ( keyCode === VK.DOWN ) {
+			if ( view.nextSibling ) {
+				if ( getView( view.nextSibling ) ) {
+					setViewCursor( false, view.nextSibling );
+				} else {
+					selection.setCursorLocation( view.nextSibling, 0 );
+				}
+			} else {
+				setViewCursor( false, view );
+			}
 			deselect();
 		} else if ( keyCode === VK.ENTER ) {
 			handleEnter( view );
@@ -511,6 +551,26 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		}
 	});
 
+	editor.on( 'focus', function() {
+		var view;
+		
+		focus = true;
+		editor.dom.addClass( editor.getBody(), 'has-focus' );
+
+		// Edge case: show the fake caret when the editor is focused for the first time
+		// and the first element is a view.
+		if ( firstFocus && ( view = getView( editor.getBody().firstChild ) ) ) {
+			setViewCursor( true, view );
+		}
+
+		firstFocus = false;
+	} );
+
+	editor.on( 'blur', function() {
+		focus = false;
+		editor.dom.removeClass( editor.getBody(), 'has-focus' );
+	} );
+
 	editor.on( 'nodechange', function( event ) {
 		var dom = editor.dom,
 			views = editor.dom.select( '.wpview-wrap' ),
@@ -526,7 +586,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		dom.removeClass( views, 'wpview-selection-after' );
 		dom.removeClass( views, 'wpview-cursor-hide' );
 
-		if ( view ) {
+		if ( view && editor.selection.isCollapsed() && focus ) {
 			if ( className === 'wpview-selection-before' || className === 'wpview-selection-after' ) {
 				setViewCursorTries = 0;
 

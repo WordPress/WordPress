@@ -241,8 +241,8 @@ audio {
 	user-select: text;
 }
 
-.wpview-wrap.wpview-selection-before:before,
-.wpview-wrap.wpview-selection-after:before {
+.has-focus .wpview-wrap.wpview-selection-before:before,
+.has-focus .wpview-wrap.wpview-selection-after:before {
 	content: '';
 	margin: 0;
 	padding: 0;
@@ -258,12 +258,12 @@ audio {
 	opacity: 1;
 }
 
-.wpview-wrap.wpview-selection-after:before {
+.has-focus .wpview-wrap.wpview-selection-after:before {
 	left: auto;
 	right: -3px;
 }
 
-.wpview-wrap.wpview-cursor-hide:before {
+.has-focus .wpview-wrap.wpview-cursor-hide:before {
 	opacity: 0;
 }
 
