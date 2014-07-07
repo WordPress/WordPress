@@ -3158,7 +3158,7 @@ function absint( $maybeint ) {
 }
 
 /**
- * Mark a function as deprecated and informs when it has been used.
+ * Mark a function as deprecated and inform when it has been used.
  *
  * There is a hook deprecated_function_run that will be called that can be used
  * to get the backtrace up to what file and function called the deprecated
@@ -3211,7 +3211,7 @@ function _deprecated_function( $function, $version, $replacement = null ) {
 }
 
 /**
- * Marks a file as deprecated and inform when it has been used.
+ * Mark a file as deprecated and inform when it has been used.
  *
  * There is a hook deprecated_file_included that will be called that can be used
  * to get the backtrace up to what file and function included the deprecated
@@ -3274,8 +3274,9 @@ function _deprecated_file( $file, $version, $replacement = null, $message = '' )
  * used by comparing it to its default value or evaluating whether it is empty.
  * For example:
  * <code>
- * if ( !empty($deprecated) )
+ * if ( ! empty( $deprecated ) ) {
  * 	_deprecated_argument( __FUNCTION__, '3.0' );
+ * }
  * </code>
  *
  * There is a hook deprecated_argument_run that will be called that can be used
