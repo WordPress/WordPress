@@ -86,10 +86,10 @@ function setup_config_display_header( $body_classes = array() ) {
 switch($step) {
 	case -1:
 
-		if ( empty( $_GET['language'] ) && ( $body = wp_get_available_translations() ) ) {
+		if ( empty( $_GET['language'] ) && ( $languages = wp_get_available_translations_from_api() ) ) {
 			setup_config_display_header( 'language-chooser' );
 			echo '<form id="setup" method="post" action="?step=0">';
-			wp_install_language_form( $body );
+			wp_install_language_form( $languages );
 			echo '</form>';
 			break;
 		}

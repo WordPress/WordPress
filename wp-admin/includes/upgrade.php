@@ -2159,7 +2159,7 @@ CREATE TABLE $wpdb->sitecategories (
 }
 endif;
 
-function wp_install_language_form( $body ) {
+function wp_install_language_form( $languages ) {
 	echo "<fieldset>\n";
 	echo "<legend class='screen-reader-text'>Select a default language</legend>\n";
 	echo '<input type="radio" checked="checked" class="screen-reader-input" name="language" id="language_default" value="">';
@@ -2167,14 +2167,14 @@ function wp_install_language_form( $body ) {
 	echo "\n";
 
 	if ( defined( 'WPLANG' ) && ( '' !== WPLANG ) && ( 'en_US' !== WPLANG ) ) {
-		if ( isset( $body['languages'][WPLANG] ) ) {
-			$language = $body['languages'][WPLANG];
+		if ( isset( $languages[ WPLANG ] ) ) {
+			$language = $languages[ WPLANG ];
 			echo '<input type="radio" name="language" checked="checked" class="' . esc_attr( $language['language'] ) . ' screen-reader-input" id="language_wplang" value="' . esc_attr( $language['language'] ) . '">';
 			echo '<label for="language_wplang">' . esc_html( $language['native_name'] ) . "</label>\n";
 		}
 	}
 
-	foreach ( $body['languages'] as $language ) {
+	foreach ( $languages as $language ) {
 		echo '<input type="radio" name="language" class="' . esc_attr( $language['language'] ) . ' screen-reader-input" id="language_'. esc_attr( $language['language'] ) .'" value="' . esc_attr( $language['language'] ) . '">';
 		echo '<label for="language_' . esc_attr( $language['language'] ) . '">' . esc_html( $language['native_name'] ) . "</label>\n";
 	}
@@ -2183,9 +2183,13 @@ function wp_install_language_form( $body ) {
 }
 
 /**
- * @todo rename, move
+ * Gets available translations from the WordPress.org API.
+ *
+ * @since 4.0.0
+ *
+ * @return array Array of translations, each an array of data.
  */
-function wp_get_available_translations() {
+function wp_get_available_translations_from_api() {
 	$url = 'http://api.wordpress.org/translations/core/1.0/';
 	if ( wp_http_supports( array( 'ssl' ) ) ) {
 		$url = set_url_scheme( $url, 'https' );
@@ -2199,72 +2203,80 @@ function wp_get_available_translations() {
 	$response = wp_remote_post( $url, $options );
 	$body = wp_remote_retrieve_body( $response );
 	if ( $body && $body = json_decode( $body, true ) ) {
-		$languages = array();
-		// Key the language array with the language code
-		foreach ( $body['languages'] as $language ) {
-			$languages[$language['language']] = $language;
+		$translations = array();
+		// Key the array with the language code for now
+		foreach ( $body['translations'] as $translation ) {
+			$translations[ $translation['language'] ] = $translation;
 		}
-		$body['languages'] = $languages;
-		return $body;
+		return $translations;
 	}
 	return false;
 }
 
 /**
- * [wp_install_download_language_pack description]
- * 
- * @param  string $lang [description]
- * @return string|false [description]
+ * Downloads a language pack.
+ *
+ * @since 4.0.0
+ *
+ * @param string $download Language code to download.
+ * @return string|false Returns the language code if successfully downloaded
+ *                      (or already installed), or false on failure.
  */
-function wp_install_download_language_pack( $lang ) {
-	// Check if the language is already installed.
-	$available_languages = get_available_languages();
-	if ( in_array( $lang, $available_languages ) ) {
-		return $lang;
+function wp_install_download_language_pack( $download ) {
+	// Check if the translation is already installed.
+	if ( in_array( $download, get_available_languages() ) ) {
+		return $download;
 	}
 
-	// Confirm the language is one we can download.
-	$body = wp_get_available_translations();
-	$loading_language = false;
-	if ( $body ) {
-		foreach ( $body['languages'] as $language ) {
-			if ( $language['language'] === $lang ) {
-				$loading_language = $lang;
-				break;
-			}
+	// Confirm the translation is one we can download.
+	$translations = wp_get_available_translations_from_api();
+	if ( ! $translations ) {
+		return false;
+	}
+	foreach ( $translations as $translation ) {
+		if ( $translation['language'] === $download ) {
+			$translation_to_load = true;
+			break;
 		}
 	}
 
-	if ( ! $loading_language ) {
+	if ( empty( $translation_to_load ) ) {
 		return false;
 	}
-	$language = (object) $language;
+	$translation = (object) $translation;
 
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 	$skin = new Automatic_Upgrader_Skin;
 	$upgrader = new Language_Pack_Upgrader( $skin );
-	$language->type = 'core';
+	$translation->type = 'core';
 	/**
 	 * @todo failures (such as non-direct FS)
 	 */
-	$upgrader->upgrade( $language, array( 'clear_update_cache' => false ) );
-	return $language->language;
+	$upgrader->upgrade( $translation, array( 'clear_update_cache' => false ) );
+	return $translation->language;
 }
 
-function wp_install_load_language( $request ) {
-	$loading_language = '';
-	if ( ! empty( $request ) ) {
-		$available_languages = get_available_languages();
-		if ( in_array( $request, $available_languages ) ) {
-			$loading_language = $request;
+/**
+ * Load a translation during the install process.
+ *
+ * @since 4.0.0
+ *
+ * @param string $translation Translation to load.
+ * @return string|false Returns the language code if successfully loaded,
+ *                      or false on failure.
+ */
+function wp_install_load_language( $translation ) {
+	if ( ! empty( $translation ) ) {
+		if ( in_array( $translation, get_available_languages() ) ) {
+			$translation_to_load = $translation;
 		}
 	}
 
-	if ( $loading_language ) {
-		load_textdomain( 'default', WP_LANG_DIR . "/{$loading_language}.mo" );
-		load_textdomain( 'default', WP_LANG_DIR . "/admin-{$loading_language}.mo" );
-		return $loading_language;
+	if ( empty( $translation_to_load ) ) {
+		return false;
 	}
 
-	return false;
+	load_textdomain( 'default', WP_LANG_DIR . "/{$translation_to_load}.mo" );
+	load_textdomain( 'default', WP_LANG_DIR . "/admin-{$translation_to_load}.mo" );
+	return $translation_to_load;
 }
