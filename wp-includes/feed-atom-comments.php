@@ -7,15 +7,18 @@
 
 header('Content-Type: ' . feed_content_type('atom') . '; charset=' . get_option('blog_charset'), true);
 echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>';
+
+/** This action is documented in wp-includes/feed-rss2.php */
+do_action( 'rss_tag_pre', 'atom-comments' );
 ?>
 <feed
 	xmlns="http://www.w3.org/2005/Atom"
 	xml:lang="<?php bloginfo_rss( 'language' ); ?>"
 	xmlns:thr="http://purl.org/syndication/thread/1.0"
-	<?php 
+	<?php
 		/** This action is documented in wp-includes/feed-atom.php */
-		do_action( 'atom_ns' ); 
-		
+		do_action( 'atom_ns' );
+
 		/**
 		 * Fires inside the feed tag in the Atom comment feed.
 		 *
@@ -49,7 +52,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>'
 	<link rel="self" type="application/atom+xml" href="<?php bloginfo_rss('comments_atom_url'); ?>" />
 	<id><?php bloginfo_rss('comments_atom_url'); ?></id>
 <?php } ?>
-<?php 
+<?php
 	/**
 	 * Fires at the end of the Atom comment feed header.
 	 *

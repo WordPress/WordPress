@@ -8,8 +8,18 @@
 header('Content-Type: ' . feed_content_type('rss-http') . '; charset=' . get_option('blog_charset'), true);
 $more = 1;
 
-echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
+echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
 
+/**
+ * Fires between the <xml> and <rss> tags in a feed.
+ *
+ * @since 4.0.0
+ *
+ * @param string $context Type of feed. Possible values include 'rss2', 'rss2-comments',
+ *                        'rdf', 'atom', and 'atom-comments'.
+ */
+do_action( 'rss_tag_pre', 'rss2' );
+?>
 <rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
