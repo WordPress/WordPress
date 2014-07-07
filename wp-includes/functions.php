@@ -674,8 +674,9 @@ function build_query( $data ) {
  * From php.net (modified by Mark Jaquith to behave like the native PHP5 function).
  *
  * @since 3.2.0
+ * @access private
  *
- * @link  http://us1.php.net/manual/en/function.http-build-query.php
+ * @see http://us1.php.net/manual/en/function.http-build-query.php
  *
  * @param array|object  $data       An array or object of data. Converted to array.
  * @param string        $prefix     Optional. Numeric index. If set, start parameter numbering with it.
@@ -3145,19 +3146,19 @@ function dead_db() {
 }
 
 /**
- * Converts value to nonnegative integer.
+ * Convert a value to non-negative integer.
  *
  * @since 2.5.0
  *
- * @param mixed $maybeint Data you wish to have converted to a nonnegative integer
- * @return int An nonnegative integer
+ * @param mixed $maybeint Data you wish to have converted to a non-negative integer.
+ * @return int A non-negative integer.
  */
 function absint( $maybeint ) {
 	return abs( intval( $maybeint ) );
 }
 
 /**
- * Marks a function as deprecated and informs when it has been used.
+ * Mark a function as deprecated and informs when it has been used.
  *
  * There is a hook deprecated_function_run that will be called that can be used
  * to get the backtrace up to what file and function called the deprecated
@@ -3170,9 +3171,9 @@ function absint( $maybeint ) {
  * @since 2.5.0
  * @access private
  *
- * @param string $function The function that was called
- * @param string $version The version of WordPress that deprecated the function
- * @param string $replacement Optional. The function that should have been called
+ * @param string $function    The function that was called.
+ * @param string $version     The version of WordPress that deprecated the function.
+ * @param string $replacement Optional. The function that should have been called. Default null.
  */
 function _deprecated_function( $function, $version, $replacement = null ) {
 
@@ -3210,7 +3211,7 @@ function _deprecated_function( $function, $version, $replacement = null ) {
 }
 
 /**
- * Marks a file as deprecated and informs when it has been used.
+ * Marks a file as deprecated and inform when it has been used.
  *
  * There is a hook deprecated_file_included that will be called that can be used
  * to get the backtrace up to what file and function included the deprecated
@@ -3223,10 +3224,11 @@ function _deprecated_function( $function, $version, $replacement = null ) {
  * @since 2.5.0
  * @access private
  *
- * @param string $file The file that was included
- * @param string $version The version of WordPress that deprecated the file
- * @param string $replacement Optional. The file that should have been included based on ABSPATH
- * @param string $message Optional. A message regarding the change
+ * @param string $file        The file that was included.
+ * @param string $version     The version of WordPress that deprecated the file.
+ * @param string $replacement Optional. The file that should have been included based on ABSPATH.
+ *                            Default null.
+ * @param string $message     Optional. A message regarding the change. Default empty.
  */
 function _deprecated_file( $file, $version, $replacement = null, $message = '' ) {
 
@@ -3265,7 +3267,7 @@ function _deprecated_file( $file, $version, $replacement = null, $message = '' )
 	}
 }
 /**
- * Marks a function argument as deprecated and informs when it has been used.
+ * Mark a function argument as deprecated and inform when it has been used.
  *
  * This function is to be used whenever a deprecated function argument is used.
  * Before this function is called, the argument must be checked for whether it was
@@ -3285,9 +3287,9 @@ function _deprecated_file( $file, $version, $replacement = null, $message = '' )
  * @since 3.0.0
  * @access private
  *
- * @param string $function The function that was called
- * @param string $version The version of WordPress that deprecated the argument used
- * @param string $message Optional. A message regarding the change.
+ * @param string $function The function that was called.
+ * @param string $version  The version of WordPress that deprecated the argument used.
+ * @param string $message  Optional. A message regarding the change. Default null.
  */
 function _deprecated_argument( $function, $version, $message = null ) {
 
@@ -3325,7 +3327,7 @@ function _deprecated_argument( $function, $version, $message = null ) {
 }
 
 /**
- * Marks something as being incorrectly called.
+ * Mark something as being incorrectly called.
  *
  * There is a hook doing_it_wrong_run that will be called that can be used
  * to get the backtrace up to what file and function called the deprecated
@@ -3337,8 +3339,8 @@ function _deprecated_argument( $function, $version, $message = null ) {
  * @access private
  *
  * @param string $function The function that was called.
- * @param string $message A message explaining what has been done incorrectly.
- * @param string $version The version of WordPress where the message was added.
+ * @param string $message  A message explaining what has been done incorrectly.
+ * @param string $version  The version of WordPress where the message was added.
  */
 function _doing_it_wrong( $function, $message, $version ) {
 
@@ -3378,7 +3380,7 @@ function _doing_it_wrong( $function, $message, $version ) {
  *
  * @since 2.5.0
  *
- * @return bool Whether the server is running lighttpd < 1.5.0
+ * @return bool Whether the server is running lighttpd < 1.5.0.
  */
 function is_lighttpd_before_150() {
 	$server_parts = explode( '/', isset( $_SERVER['SERVER_SOFTWARE'] )? $_SERVER['SERVER_SOFTWARE'] : '' );
@@ -3391,9 +3393,9 @@ function is_lighttpd_before_150() {
  *
  * @since 2.5.0
  *
- * @param string $mod e.g. mod_rewrite
- * @param bool $default The default return value if the module is not found
- * @return bool
+ * @param string $mod     The module, e.g. mod_rewrite.
+ * @param bool   $default Optional. The default return value if the module is not found. Default false.
+ * @return bool Whether the specified module is loaded.
  */
 function apache_mod_loaded($mod, $default = false) {
 	global $is_apache;
@@ -3420,7 +3422,7 @@ function apache_mod_loaded($mod, $default = false) {
  *
  * @since 2.8.0
  *
- * @return bool
+ * @return bool Whether IIS7 supports permalinks.
  */
 function iis7_supports_permalinks() {
 	global $is_iis7;
@@ -3504,7 +3506,7 @@ function is_ssl() {
  * @since 4.0.0
  * 
  * @param  string  $url The URL
- * @return boolean      True if the given URL uses https, false if not (or if the URL is not valid).
+ * @return bool True if the given URL uses https, false if not (or if the URL is not valid).
  */
 function is_https_url( $url ) {
 	return ( 'https' === parse_url( $url, PHP_URL_SCHEME ) );
@@ -3515,7 +3517,9 @@ function is_https_url( $url ) {
  *
  * @since 2.6.0
  *
- * @param string|bool $force Optional.
+ * @see force_ssl_admin()
+ *
+ * @param string|bool $force Optional Whether to force SSL login. Default null.
  * @return bool True if forced, false if not forced.
  */
 function force_ssl_login( $force = null ) {
@@ -3527,7 +3531,7 @@ function force_ssl_login( $force = null ) {
  *
  * @since 2.6.0
  *
- * @param string|bool $force
+ * @param string|bool $force Optional. Whether to force SSL in admin screens. Default null.
  * @return bool True if forced, false if not forced.
  */
 function force_ssl_admin( $force = null ) {
@@ -3550,7 +3554,7 @@ function force_ssl_admin( $force = null ) {
  *
  * @since 2.6.0
  *
- * @return string
+ * @return string The guessed URL.
  */
 function wp_guess_url() {
 	if ( defined('WP_SITEURL') && '' != WP_SITEURL ) {
@@ -3618,16 +3622,16 @@ function wp_suspend_cache_addition( $suspend = null ) {
 /**
  * Suspend cache invalidation.
  *
- * Turns cache invalidation on and off. Useful during imports where you don't wont to do invalidations
- * every time a post is inserted. Callers must be sure that what they are doing won't lead to an inconsistent
- * cache when invalidation is suspended.
+ * Turns cache invalidation on and off. Useful during imports where you don't wont to do
+ * invalidations every time a post is inserted. Callers must be sure that what they are
+ * doing won't lead to an inconsistent cache when invalidation is suspended.
  *
  * @since 2.7.0
  *
- * @param bool $suspend Whether to suspend or enable cache invalidation
- * @return bool The current suspend setting
+ * @param bool $suspend Optional. Whether to suspend or enable cache invalidation. Default true.
+ * @return bool The current suspend setting.
  */
-function wp_suspend_cache_invalidation($suspend = true) {
+function wp_suspend_cache_invalidation( $suspend = true ) {
 	global $_wp_suspend_cache_invalidation;
 
 	$current_suspend = $_wp_suspend_cache_invalidation;
@@ -3636,12 +3640,14 @@ function wp_suspend_cache_invalidation($suspend = true) {
 }
 
 /**
- * Whether a site is the main site of the current network.
+ * Determine whether a site is the main site of the current network.
  *
  * @since 3.0.0
  *
  * @param int $site_id Optional. Site ID to test. Defaults to current site.
- * @return bool True if $site_id is the main site of the network, or if not running multisite.
+ *                     Defaults to current site.
+ * @return bool True if $site_id is the main site of the network, or if not
+ *              running Multisite.
  */
 function is_main_site( $site_id = null ) {
 	// This is the current network's information; 'site' is old terminology.
@@ -3657,12 +3663,12 @@ function is_main_site( $site_id = null ) {
 }
 
 /**
- * Whether a network is the main network of the multisite install.
+ * Determine whether a network is the main network of the Multisite install.
  *
  * @since 3.7.0
  *
  * @param int $network_id Optional. Network ID to test. Defaults to current network.
- * @return bool True if $network_id is the main network, or if not running multisite.
+ * @return bool True if $network_id is the main network, or if not running Multisite.
  */
 function is_main_network( $network_id = null ) {
 	global $wpdb;
@@ -3694,12 +3700,11 @@ function is_main_network( $network_id = null ) {
 }
 
 /**
- * Whether global terms are enabled.
- *
+ * Determine whether global terms are enabled.
  *
  * @since 3.0.0
  *
- * @return bool True if multisite and global terms enabled
+ * @return bool True if multisite and global terms enabled.
  */
 function global_terms_enabled() {
 	if ( ! is_multisite() )
@@ -3734,7 +3739,7 @@ function global_terms_enabled() {
  *
  * @since 2.8.0
  *
- * @return float|bool
+ * @return float|bool Timezone GMT offset, false otherwise.
  */
 function wp_timezone_override_offset() {
 	if ( !$timezone_string = get_option( 'timezone_string' ) ) {
@@ -3753,6 +3758,7 @@ function wp_timezone_override_offset() {
  * Sort-helper for timezones.
  *
  * @since 2.9.0
+ * @access private
  *
  * @param array $a
  * @param array $b
@@ -3797,11 +3803,11 @@ function _wp_timezone_choice_usort_callback( $a, $b ) {
 }
 
 /**
- * Gives a nicely formatted list of timezone strings.
+ * Gives a nicely-formatted list of timezone strings.
  *
  * @since 2.9.0
  *
- * @param string $selected_zone Selected Zone
+ * @param string $selected_zone Selected timezone.
  * @return string
  */
 function wp_timezone_choice( $selected_zone ) {
@@ -3927,19 +3933,22 @@ function wp_timezone_choice( $selected_zone ) {
 
 /**
  * Strip close comment and close php tags from file headers used by WP.
- * See http://core.trac.wordpress.org/ticket/8497
  *
  * @since 2.8.0
+ * @access private
  *
- * @param string $str
+ * @see http://core.trac.wordpress.org/ticket/8497
+ *
+ * @param string $str Header comment to clean up.
  * @return string
  */
-function _cleanup_header_comment($str) {
+function _cleanup_header_comment( $str ) {
 	return trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $str));
 }
 
 /**
- * Permanently deletes posts, pages, attachments, and comments which have been in the trash for EMPTY_TRASH_DAYS.
+ * Permanently delete posts, pages, attachments, and comments which have been
+ * in the trash for EMPTY_TRASH_DAYS.
  *
  * @since 2.9.0
  */
@@ -3996,9 +4005,10 @@ function wp_scheduled_delete() {
  * @see http://codex.wordpress.org/File_Header
  *
  * @since 2.9.0
- * @param string $file Path to the file
- * @param array $default_headers List of headers, in the format array('HeaderKey' => 'Header Name')
- * @param string $context If specified adds filter hook "extra_{$context}_headers"
+ * @param string $file            Path to the file.
+ * @param array  $default_headers List of headers, in the format array('HeaderKey' => 'Header Name').
+ * @param string $context         Optional. If specified adds filter hook "extra_{$context}_headers".
+ *                                Default empty.
  */
 function get_file_data( $file, $default_headers, $context = '' ) {
 	// We don't need to write to the file, so just open for reading.
@@ -4046,8 +4056,10 @@ function get_file_data( $file, $default_headers, $context = '' ) {
  * Useful for returning true to filters easily.
  *
  * @since 3.0.0
+ *
  * @see __return_false()
- * @return bool true
+ *
+ * @return bool True.
  */
 function __return_true() {
 	return true;
@@ -4059,8 +4071,10 @@ function __return_true() {
  * Useful for returning false to filters easily.
  *
  * @since 3.0.0
+ *
  * @see __return_true()
- * @return bool false
+ *
+ * @return bool False.
  */
 function __return_false() {
 	return false;
@@ -4072,7 +4086,8 @@ function __return_false() {
  * Useful for returning 0 to filters easily.
  *
  * @since 3.0.0
- * @return int 0
+ *
+ * @return int 0.
  */
 function __return_zero() {
 	return 0;
@@ -4084,7 +4099,8 @@ function __return_zero() {
  * Useful for returning an empty array to filters easily.
  *
  * @since 3.0.0
- * @return array Empty array
+ *
+ * @return array Empty array.
  */
 function __return_empty_array() {
 	return array();
@@ -4096,7 +4112,8 @@ function __return_empty_array() {
  * Useful for returning null to filters easily.
  *
  * @since 3.4.0
- * @return null
+ *
+ * @return null Null value.
  */
 function __return_null() {
 	return null;
@@ -4108,8 +4125,10 @@ function __return_null() {
  * Useful for returning an empty string to filters easily.
  *
  * @since 3.7.0
+ *
  * @see __return_null()
- * @return string Empty string
+ *
+ * @return string Empty string.
  */
 function __return_empty_string() {
 	return '';
@@ -4118,23 +4137,23 @@ function __return_empty_string() {
 /**
  * Send a HTTP header to disable content type sniffing in browsers which support it.
  *
- * @link http://blogs.msdn.com/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx
- * @link http://src.chromium.org/viewvc/chrome?view=rev&revision=6985
- *
  * @since 3.0.0
- * @return none
+ *
+ * @see http://blogs.msdn.com/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx
+ * @see http://src.chromium.org/viewvc/chrome?view=rev&revision=6985
  */
 function send_nosniff_header() {
 	@header( 'X-Content-Type-Options: nosniff' );
 }
 
 /**
- * Returns a MySQL expression for selecting the week number based on the start_of_week option.
+ * Return a MySQL expression for selecting the week number based on the start_of_week option.
  *
  * @internal
  * @since 3.0.0
- * @param string $column
- * @return string
+ *
+ * @param string $column Database column.
+ * @return string SQL clause.
  */
 function _wp_mysql_week( $column ) {
 	switch ( $start_of_week = (int) get_option( 'start_of_week' ) ) {
@@ -4153,16 +4172,17 @@ function _wp_mysql_week( $column ) {
 }
 
 /**
- * Finds hierarchy loops using a callback function that maps object IDs to parent IDs.
+ * Find hierarchy loops using a callback function that maps object IDs to parent IDs.
  *
  * @since 3.1.0
  * @access private
  *
- * @param callback $callback function that accepts ( ID, $callback_args ) and outputs parent_ID
- * @param int $start The ID to start the loop check at
- * @param int $start_parent the parent_ID of $start to use instead of calling $callback( $start ). Use null to always use $callback
- * @param array $callback_args optional additional arguments to send to $callback
- * @return array IDs of all members of loop
+ * @param callback $callback      Function that accepts ( ID, $callback_args ) and outputs parent_ID.
+ * @param int      $start         The ID to start the loop check at.
+ * @param int      $start_parent  The parent_ID of $start to use instead of calling $callback( $start ).
+ *                                Use null to always use $callback
+ * @param array    $callback_args Optional. Additional arguments to send to $callback.
+ * @return array IDs of all members of loop.
  */
 function wp_find_hierarchy_loop( $callback, $start, $start_parent, $callback_args = array() ) {
 	$override = is_null( $start_parent ) ? array() : array( $start => $start_parent );
@@ -4174,7 +4194,7 @@ function wp_find_hierarchy_loop( $callback, $start, $start_parent, $callback_arg
 }
 
 /**
- * Uses the "The Tortoise and the Hare" algorithm to detect loops.
+ * Use the "The Tortoise and the Hare" algorithm to detect loops.
  *
  * For every step of the algorithm, the hare takes two steps and the tortoise one.
  * If the hare ever laps the tortoise, there must be a loop.
@@ -4182,14 +4202,16 @@ function wp_find_hierarchy_loop( $callback, $start, $start_parent, $callback_arg
  * @since 3.1.0
  * @access private
  *
- * @param callback $callback function that accepts ( ID, callback_arg, ... ) and outputs parent_ID
- * @param int $start The ID to start the loop check at
- * @param array $override an array of ( ID => parent_ID, ... ) to use instead of $callback
- * @param array $callback_args optional additional arguments to send to $callback
- * @param bool $_return_loop Return loop members or just detect presence of loop?
- *             Only set to true if you already know the given $start is part of a loop
- *             (otherwise the returned array might include branches)
- * @return mixed scalar ID of some arbitrary member of the loop, or array of IDs of all members of loop if $_return_loop
+ * @param callback $callback      Function that accepts ( ID, callback_arg, ... ) and outputs parent_ID.
+ * @param int      $start         The ID to start the loop check at.
+ * @param array    $override      Optional. An array of ( ID => parent_ID, ... ) to use instead of $callback.
+ *                                Default empty array.
+ * @param array    $callback_args Optional. Additional arguments to send to $callback. Default empty array.
+ * @param bool     $_return_loop  Optional. Return loop members or just detect presence of loop? Only set
+ *                                to true if you already know the given $start is part of a loop (otherwise
+ *                                the returned array might include branches). Default false.
+ * @return mixed Scalar ID of some arbitrary member of the loop, or array of IDs of all members of loop if
+ *               $_return_loop
  */
 function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = array(), $callback_args = array(), $_return_loop = false ) {
 	$tortoise = $hare = $evanescent_hare = $start;
@@ -4221,10 +4243,9 @@ function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = ar
 /**
  * Send a HTTP header to limit rendering of pages to same origin iframes.
  *
- * @link https://developer.mozilla.org/en/the_x-frame-options_response_header
- *
  * @since 3.1.3
- * @return none
+ *
+ * @see https://developer.mozilla.org/en/the_x-frame-options_response_header
  */
 function send_frame_options_header() {
 	@header( 'X-Frame-Options: SAMEORIGIN' );
@@ -4234,10 +4255,11 @@ function send_frame_options_header() {
  * Retrieve a list of protocols to allow in HTML attributes.
  *
  * @since 3.3.0
+ *
  * @see wp_kses()
  * @see esc_url()
  *
- * @return array Array of allowed protocols
+ * @return array Array of allowed protocols.
  */
 function wp_allowed_protocols() {
 	static $protocols;
@@ -4259,15 +4281,21 @@ function wp_allowed_protocols() {
 }
 
 /**
- * Return a comma separated string of functions that have been called to get to the current point in code.
+ * Return a comma-separated string of functions that have been called to get
+ * to the current point in code.
  *
- * @link http://core.trac.wordpress.org/ticket/19589
  * @since 3.4.0
  *
- * @param string $ignore_class A class to ignore all function calls within - useful when you want to just give info about the callee
- * @param int $skip_frames A number of stack frames to skip - useful for unwinding back to the source of the issue
- * @param bool $pretty Whether or not you want a comma separated string or raw array returned
- * @return string|array Either a string containing a reversed comma separated trace or an array of individual calls.
+ * @see http://core.trac.wordpress.org/ticket/19589
+ *
+ * @param string $ignore_class Optional. A class to ignore all function calls within - useful
+ *                             when you want to just give info about the callee. Default null.
+ * @param int    $skip_frames  Optional. A number of stack frames to skip - useful for unwinding
+ *                             back to the source of the issue. Default 0.
+ * @param bool   $pretty       Optional. Whether or not you want a comma separated string or raw
+ *                             array returned. Default true.
+ * @return string|array Either a string containing a reversed comma separated trace or an array
+ *                      of individual calls.
  */
 function wp_debug_backtrace_summary( $ignore_class = null, $skip_frames = 0, $pretty = true ) {
 	if ( version_compare( PHP_VERSION, '5.2.5', '>=' ) )
@@ -4304,14 +4332,15 @@ function wp_debug_backtrace_summary( $ignore_class = null, $skip_frames = 0, $pr
 }
 
 /**
- * Retrieve ids that are not already present in the cache
+ * Retrieve ids that are not already present in the cache.
  *
  * @since 3.4.0
+ * @access private
  *
- * @param array $object_ids ID list
- * @param string $cache_key The cache bucket to check against
+ * @param array  $object_ids ID list.
+ * @param string $cache_key  The cache bucket to check against.
  *
- * @return array
+ * @return array List of ids not present in the cache.
  */
 function _get_non_cached_ids( $object_ids, $cache_key ) {
 	$clean = array();
@@ -4331,7 +4360,7 @@ function _get_non_cached_ids( $object_ids, $cache_key ) {
  * @since 3.4.0
  * @access private
  *
- * @return bool true|false
+ * @return bool true|false Whether the device is able to upload files.
  */
 function _device_can_upload() {
 	if ( ! wp_is_mobile() )
@@ -4351,8 +4380,8 @@ function _device_can_upload() {
 /**
  * Test if a given path is a stream URL
  *
- * @param string $path The resource path or URL
- * @return bool True if the path is a stream URL
+ * @param string $path The resource path or URL.
+ * @return bool True if the path is a stream URL.
  */
 function wp_is_stream( $path ) {
 	$wrappers = stream_get_wrappers();
@@ -4372,7 +4401,7 @@ function wp_is_stream( $path ) {
  * @param  int    $day         Day number.
  * @param  int    $year        Year number.
  * @param  string $source_date The date to filter.
- * @return bool   True if valid date, false if not valid date.
+ * @return bool True if valid date, false if not valid date.
  */
 function wp_checkdate( $month, $day, $year, $source_date ) {
 	/**
@@ -4410,6 +4439,9 @@ function wp_auth_check_load() {
 
 	/**
 	 * Filter whether to load the authentication check.
+	 *
+	 * Passing a falsey value to the filter will effectively short-circuit
+	 * loading the authentication check.
 	 *
 	 * @since 3.6.0
 	 *
@@ -4487,17 +4519,20 @@ function wp_auth_check( $response ) {
 }
 
 /**
- * Return RegEx body to liberally match an opening HTML tag that:
+ * Return RegEx body to liberally match an opening HTML tag.
+ *
+ * Matches an opening HTML tag that:
  * 1. Is self-closing or
  * 2. Has no body but has a closing tag of the same name or
  * 3. Contains a body and a closing tag of the same name
  *
- * Note: this RegEx does not balance inner tags and does not attempt to produce valid HTML
+ * Note: this RegEx does not balance inner tags and does not attempt
+ * to produce valid HTML
  *
  * @since 3.6.0
  *
- * @param string $tag An HTML tag name. Example: 'video'
- * @return string
+ * @param string $tag An HTML tag name. Example: 'video'.
+ * @return string Tag RegEx.
  */
 function get_tag_regex( $tag ) {
 	if ( empty( $tag ) )
@@ -4506,14 +4541,16 @@ function get_tag_regex( $tag ) {
 }
 
 /**
- * Return a canonical form of the provided charset appropriate for passing to PHP
+ * Retrieve a canonical form of the provided charset appropriate for passing to PHP
  * functions such as htmlspecialchars() and charset html attributes.
  *
- * @link http://core.trac.wordpress.org/ticket/23688
  * @since 3.6.0
+ * @access private
  *
- * @param string A charset name
- * @return string The canonical form of the charset
+ * @see http://core.trac.wordpress.org/ticket/23688
+ *
+ * @param string $charset A charset name.
+ * @return string The canonical form of the charset.
  */
 function _canonical_charset( $charset ) {
 	if ( 'UTF-8' === $charset || 'utf-8' === $charset || 'utf8' === $charset ||
@@ -4528,22 +4565,27 @@ function _canonical_charset( $charset ) {
 }
 
 /**
- * Sets the mbstring internal encoding to a binary safe encoding when func_overload is enabled.
+ * Set the mbstring internal encoding to a binary safe encoding when func_overload
+ * is enabled.
  *
- * When mbstring.func_overload is in use for multi-byte encodings, the results from strlen() and
- * similar functions respect the utf8 characters, causing binary data to return incorrect lengths.
+ * When mbstring.func_overload is in use for multi-byte encodings, the results from
+ * strlen() and similar functions respect the utf8 characters, causing binary data
+ * to return incorrect lengths.
  *
- * This function overrides the mbstring encoding to a binary-safe encoding, and resets it to the
- * users expected encoding afterwards through the `reset_mbstring_encoding` function.
+ * This function overrides the mbstring encoding to a binary-safe encoding, and
+ * resets it to the users expected encoding afterwards through the
+ * `reset_mbstring_encoding` function.
  *
- * It is safe to recursively call this function, however each `mbstring_binary_safe_encoding()`
- * call must be followed up with an equal number of `reset_mbstring_encoding()` calls.
- *
- * @see reset_mbstring_encoding()
+ * It is safe to recursively call this function, however each
+ * `mbstring_binary_safe_encoding()` call must be followed up with an equal number
+ * of `reset_mbstring_encoding()` calls.
  *
  * @since 3.7.0
  *
- * @param bool $reset Whether to reset the encoding back to a previously-set encoding.
+ * @see reset_mbstring_encoding()
+ *
+ * @param bool $reset Optional. Whether to reset the encoding back to a previously-set encoding.
+ *                    Default false.
  */
 function mbstring_binary_safe_encoding( $reset = false ) {
 	static $encodings = array();
@@ -4568,7 +4610,7 @@ function mbstring_binary_safe_encoding( $reset = false ) {
 }
 
 /**
- * Resets the mbstring internal encoding to a users previously set encoding.
+ * Reset the mbstring internal encoding to a users previously set encoding.
  *
  * @see mbstring_binary_safe_encoding()
  *
@@ -4579,12 +4621,12 @@ function reset_mbstring_encoding() {
 }
 
 /**
- * Alternative to filter_var( $var, FILTER_VALIDATE_BOOLEAN )
+ * Alternative to filter_var( $var, FILTER_VALIDATE_BOOLEAN ).
  *
  * @since 4.0.0
  *
- * @param mixed $var
- * @return boolean
+ * @param mixed $var Boolean value to validate.
+ * @return bool Whether the value is validated.
  */
 function wp_validate_boolean( $var ) {
 	if ( is_bool( $var ) ) {
