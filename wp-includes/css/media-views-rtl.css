@@ -1082,6 +1082,7 @@ video#inline-media-node {
 
 .attachments-browser.hide-sidebar .attachments {
 	left: 0;
+	margin-left: 0;
 }
 
 .attachments-browser .instructions {
