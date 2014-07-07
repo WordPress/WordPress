@@ -311,6 +311,52 @@ audio {
 	display: block;
 }
 
+.wpview-wrap .loading-placeholder {
+	border: 1px dashed #ccc;
+	padding: 10px;
+}
+
+.wpview-wrap[data-mce-selected] .loading-placeholder {
+	border-color: transparent;
+}
+
+/* A little "loading" animation, not showing in IE < 10 */
+.wpview-wrap .wpview-loading {
+	width: 60px;
+	height: 5px;
+	overflow: hidden;
+	background-color: transparent;
+	margin: 10px auto 0;
+}
+
+.wpview-wrap .wpview-loading ins {
+	background-color: #333;
+	margin: 0 0 0 -60px;
+	width: 60px;
+	height: 5px;
+	display: block;
+	-webkit-animation: wpview-loading 1.3s infinite 1s linear;
+	animation: wpview-loading 1.3s infinite 1s linear;
+}
+
+@-webkit-keyframes wpview-loading {
+	0% {
+		margin-left: -60px;
+	}
+	100% {
+		margin-left: 60px;
+	}
+}
+
+@keyframes wpview-loading {
+	0% {
+		margin-left: -60px;
+	}
+	100% {
+		margin-left: 60px;
+	}
+}
+
 #wp-image-toolbar {
 	position: absolute;
 	margin: 0;
@@ -360,7 +406,8 @@ audio {
 	border-color: transparent;
 }
 
-.wpview-error .dashicons {
+.wpview-error .dashicons,
+.loading-placeholder .dashicons {
 	display: block;
 	margin: 0 auto;
 	width: 32px;

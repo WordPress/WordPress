@@ -36,8 +36,19 @@ window.wp = window.wp || {};
 
 	_.extend( wp.mce.View.prototype, {
 		initialize: function() {},
-		getHtml: function() {},
+		getHtml: function() {
+			return '';
+		},
+		loadingPlaceholder: function() {
+			return '' +
+				'<div class="loading-placeholder">' +
+					'<div class="dashicons dashicons-admin-media"></div>' +
+					'<div class="wpview-loading"><ins></ins></div>' +
+				'</div>';
+		},
 		render: function() {
+			var html = this.getHtml() || this.loadingPlaceholder();
+
 			this.setContent(
 				'<p class="wpview-selection-before">\u00a0</p>' +
 				'<div class="wpview-body" contenteditable="false">' +
@@ -46,7 +57,7 @@ window.wp = window.wp || {};
 						'<div class="dashicons dashicons-no-alt remove"></div>' +
 					'</div>' +
 					'<div class="wpview-content wpview-type-' + this.type + '">' +
-						this.getHtml() +
+						html +
 					'</div>' +
 					( this.overlay ? '<div class="wpview-overlay"></div>' : '' ) +
 				'</div>' +
@@ -82,7 +93,7 @@ window.wp = window.wp || {};
 							if ( option === 'replace' ) {
 								element = editor.dom.replace( html, wrap );
 							} else {
-								element.appendChild( html );
+								$( element ).empty().append( html );
 							}
 						}
 
@@ -359,7 +370,7 @@ window.wp = window.wp || {};
 
 				// Don't render errors while still fetching attachments
 				if ( this.dfd && 'pending' === this.dfd.state() && ! this.attachments.length ) {
-					return;
+					return '';
 				}
 
 				if ( this.attachments.length ) {
@@ -605,7 +616,7 @@ window.wp = window.wp || {};
 
 				// Don't render errors while still fetching attachments
 				if ( this.dfd && 'pending' === this.dfd.state() && ! this.attachments.length ) {
-					return;
+					return '';
 				}
 
 				_.each( model.defaults, function( value, key ) {
@@ -813,9 +824,6 @@ window.wp = window.wp || {};
 			$( '.wp-audio-shortcode, .wp-video-shortcode', this.node ).each( function ( i, element ) {
 				self.players.push( new MediaElementPlayer( element, self.mejsSettings ) );
 			} );
-		},
-		getHtml: function() {
-			return '';
 		}
 	} );
 
