@@ -198,6 +198,23 @@ class WP_oEmbed {
 		return $provider;
 	}
 
+	/**
+	 * Add an oEmbed provider just-in-time when wp_oembed_add_provider() is called
+	 * before the 'plugins_loaded' hook.
+	 *
+	 * The just-in-time addition is for the benefit of the 'oembed_providers' filter.
+	 *
+	 * @since 4.0.0
+	 * @static
+	 *
+	 * @see wp_oembed_add_provider()
+	 *
+	 * @param string $format   The format of URL that this provider can handle. You can use
+	 *                         asterisks as wildcards.
+	 * @param string $provider The URL to the oEmbed provider..
+	 * @param bool   $regex    Optional. Whether the $format parameter is in a regex format.
+	 *                         Default false.
+	 */
 	public static function _add_provider_early( $format, $provider, $regex = false ) {
 		if ( empty( self::$early_providers['add'] ) ) {
 			self::$early_providers['add'] = array();
@@ -206,6 +223,20 @@ class WP_oEmbed {
 		self::$early_providers['add'][ $format ] = array( $provider, $regex );
 	}
 
+	/**
+	 * Remove an oEmbed provider just-in-time when wp_oembed_remove_provider() is called
+	 * before the 'plugins_loaded' hook.
+	 *
+	 * The just-in-time removal is for the benefit of the 'oembed_providers' filter.
+	 *
+	 * @since 4.0.0
+	 * @static
+	 *
+	 * @see wp_oembed_remove_provider()
+	 *
+	 * @param string $format The format of URL that this provider can handle. You can use
+	 *                       asterisks as wildcards.
+	 */
 	public static function _remove_provider_early( $format ) {
 		if ( empty( self::$early_providers['remove'] ) ) {
 			self::$early_providers['remove'] = array();
