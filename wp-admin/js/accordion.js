@@ -1,8 +1,41 @@
+/**
+ * Accordion-folding functionality.
+ *
+ * Markup with the appropriate classes will be automatically hidden,
+ * with one section opening at a time when its title is clicked.
+ * Use the following markup structure for accordion behavior:
+ *
+ * <div class="accordion-container">
+ *	<div class="accordion-section open">
+ *		<h3 class="accordion-section-title"></h3>
+ *		<div class="accordion-section-content">
+ *		</div>
+ *	</div>
+ *	<div class="accordion-section">
+ *		<h3 class="accordion-section-title"></h3>
+ *		<div class="accordion-section-content">
+ *		</div>
+ *	</div>
+ *	<div class="accordion-section">
+ *		<h3 class="accordion-section-title"></h3>
+ *		<div class="accordion-section-content">
+ *		</div>
+ *	</div>
+ * </div>
+ *
+ * Note that any appropriate tags may be used, as long as the above classes are present.
+ *
+ * In addition to the standard accordion behavior, this file includes JS for the
+ * Customizer's "Panel" functionality.
+ *
+ * @since 3.6.0.
+ */
+
 ( function( $ ){
 
 	$( document ).ready( function () {
 
-		// Expand/Collapse on click
+		// Expand/Collapse accordion sections on click.
 		$( '.accordion-container' ).on( 'click keydown', '.accordion-section-title', function( e ) {
 			if ( e.type === 'keydown' && 13 !== e.which ) { // "return" key
 				return;
@@ -13,7 +46,7 @@
 			accordionSwitch( $( this ) );
 		});
 
-		// Back to top level
+		// Go back to the top-level Customizer accordion.
 		$( '.accordion-container' ).on( 'click keydown', '.control-panel-back', function( e ) {
 			if ( e.type === 'keydown' && 13 !== e.which ) { // "return" key
 				return;
@@ -23,33 +56,28 @@
 
 			panelSwitch( $( this ) );
 		});
-
-		// Re-initialize accordion when screen options are toggled
-		$( '.hide-postbox-tog' ).click( function () {
-			accordionInit();
-		});
-
 	});
 
 	var accordionOptions = $( '.accordion-container li.accordion-section' ),
 		sectionContent   = $( '.accordion-section-content' );
 
-	function accordionInit () {
-		// Rounded corners
-		accordionOptions.removeClass( 'top bottom' );
-		accordionOptions.filter( ':visible' ).first().addClass( 'top' );
-		accordionOptions.filter( ':visible' ).last().addClass( 'bottom' ).find( sectionContent ).addClass( 'bottom' );
-	}
-
+	/**
+	 * Close the current accordion section and open a new one.
+	 *
+	 * @param {Object} el Title element of the accordion section to toggle.
+	 * @since 3.6.0
+	 */
 	function accordionSwitch ( el ) {
 		var section = el.closest( '.accordion-section' ),
 			siblings = section.closest( '.accordion-container' ).find( '.open' ),
 			content = section.find( sectionContent );
 
+		// This section has no content and cannot be expanded.
 		if ( section.hasClass( 'cannot-expand' ) ) {
 			return;
 		}
 
+		// Slide into a sub-panel instead of accordioning (Customizer-specific).
 		if ( section.hasClass( 'control-panel' ) ) {
 			panelSwitch( section );
 			return;
@@ -64,10 +92,16 @@
 			content.toggle( false ).slideToggle( 150 );
 			section.toggleClass( 'open' );
 		}
-
-		accordionInit();
 	}
 
+	/**
+	 * Slide into an accordion sub-panel.
+	 *
+	 * For the Customizer-specific panel functionality
+	 *
+	 * @param {Object} panel Title element or back button of the accordion panel to toggle.
+	 * @since 4.0.0
+	 */
 	function panelSwitch( panel ) {
 		var position, scroll,
 			section = panel.closest( '.accordion-section' ),
@@ -106,8 +140,5 @@
 			backBtn.focus();
 		}
 	}
-
-	// Initialize the accordion (currently just corner fixes)
-	accordionInit();
 
 })(jQuery);
