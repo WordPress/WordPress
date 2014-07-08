@@ -188,7 +188,7 @@ function show_user_form($user_name = '', $user_email = '', $errors = '') {
 	<?php if ( $errmsg = $errors->get_error_message('user_email') ) { ?>
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php } ?>
-	<input name="user_email" type="text" id="user_email" value="<?php  echo esc_attr($user_email) ?>" maxlength="200" /><br /><?php _e('We send your registration email to this address. (Double-check your email address before continuing.)') ?>
+	<input name="user_email" type="email" id="user_email" value="<?php  echo esc_attr($user_email) ?>" maxlength="200" /><br /><?php _e('We send your registration email to this address. (Double-check your email address before continuing.)') ?>
 	<?php
 	if ( $errmsg = $errors->get_error_message('generic') ) {
 		echo '<p class="error">' . $errmsg . '</p>';
@@ -435,7 +435,7 @@ function signup_user( $user_name = '', $user_email = '', $errors = '' ) {
 	?>
 
 	<h2><?php printf( __( 'Get your own %s account in seconds' ), get_current_site()->site_name ) ?></h2>
-	<form id="setupform" method="post" action="wp-signup.php">
+	<form id="setupform" method="post" action="wp-signup.php" novalidate="novalidate">
 		<input type="hidden" name="stage" value="validate-user-signup" />
 		<?php
 		/** This action is documented in wp-signup.php */

@@ -152,6 +152,8 @@ submit {
 }
 
 .form-table input[type=text],
+.form-table input[type=email],
+.form-table input[type=url],
 .form-table input[type=password] {
 	width: 206px;
 }
@@ -295,6 +297,8 @@ body.rtl,
 	}
 
 	.form-table td input[type="text"],
+	.form-table td input[type="email"],
+	.form-table td input[type="url"],
 	.form-table td input[type="password"],
 	.form-table td select,
 	.form-table td textarea,

@@ -98,7 +98,7 @@ function display_setup_form( $error = null ) {
 ?>
 <p class="message"><?php echo $error; ?></p>
 <?php } ?>
-<form id="setup" method="post" action="install.php?step=2">
+<form id="setup" method="post" action="install.php?step=2" novalidate="novalidate">
 	<table class="form-table">
 		<tr>
 			<th scope="row"><label for="weblog_title"><?php _e( 'Site Title' ); ?></label></th>
@@ -134,7 +134,7 @@ function display_setup_form( $error = null ) {
 		<?php endif; ?>
 		<tr>
 			<th scope="row"><label for="admin_email"><?php _e( 'Your E-mail' ); ?></label></th>
-			<td><input name="admin_email" type="text" id="admin_email" size="25" value="<?php echo esc_attr( $admin_email ); ?>" />
+			<td><input name="admin_email" type="email" id="admin_email" size="25" value="<?php echo esc_attr( $admin_email ); ?>" />
 			<p><?php _e( 'Double-check your email address before continuing.' ); ?></p></td>
 		</tr>
 		<tr>

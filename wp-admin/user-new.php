@@ -274,9 +274,11 @@ if ( is_multisite() ) {
 	if ( !is_super_admin() ) {
 		echo '<p>' . __( 'Enter the email address of an existing user on this network to invite them to this site. That person will be sent an email asking them to confirm the invite.' ) . '</p>';
 		$label = __('E-mail');
+		$type  = 'email';
 	} else {
 		echo '<p>' . __( 'Enter the email address or username of an existing user on this network to invite them to this site. That person will be sent an email asking them to confirm the invite.' ) . '</p>';
 		$label = __('E-mail or Username');
+		$type  = 'text';
 	}
 ?>
 <?php
@@ -286,14 +288,14 @@ if ( is_multisite() ) {
  * @since 3.0.0
  */
 ?>
-<form action="" method="post" name="adduser" id="adduser" class="validate"<?php do_action( 'user_new_form_tag' );?>>
+<form action="" method="post" name="adduser" id="adduser" class="validate" novalidate="novalidate"<?php do_action( 'user_new_form_tag' );?>>
 <input name="action" type="hidden" value="adduser" />
 <?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ) ?>
 
 <table class="form-table">
 	<tr class="form-field form-required">
 		<th scope="row"><label for="adduser-email"><?php echo $label; ?></label></th>
-		<td><input name="email" type="text" id="adduser-email" class="wp-suggest-user" value="" /></td>
+		<td><input name="email" type="<?php echo $type; ?>" id="adduser-email" class="wp-suggest-user" value="" /></td>
 	</tr>
 	<tr class="form-field">
 		<th scope="row"><label for="adduser-role"><?php _e('Role'); ?></label></th>
@@ -334,7 +336,7 @@ if ( current_user_can( 'create_users') ) {
 ?>
 <p><?php _e('Create a brand new user and add them to this site.'); ?></p>
 <?php /** This action is documented in wp-admin/user-new.php */ ?>
-<form action="" method="post" name="createuser" id="createuser" class="validate"<?php do_action( 'user_new_form_tag' );?>>
+<form action="" method="post" name="createuser" id="createuser" class="validate" novalidate="novalidate"<?php do_action( 'user_new_form_tag' );?>>
 <input name="action" type="hidden" value="createuser" />
 <?php wp_nonce_field( 'create-user', '_wpnonce_create-user' ); ?>
 <?php
@@ -358,7 +360,7 @@ $new_user_ignore_pass = $creating && isset( $_POST['noconfirmation'] ) ? wp_unsl
 	</tr>
 	<tr class="form-field form-required">
 		<th scope="row"><label for="email"><?php _e('E-mail'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
-		<td><input name="email" type="text" id="email" value="<?php echo esc_attr($new_user_email); ?>" /></td>
+		<td><input name="email" type="email" id="email" value="<?php echo esc_attr( $new_user_email ); ?>" /></td>
 	</tr>
 <?php if ( !is_multisite() ) { ?>
 	<tr class="form-field">
@@ -371,7 +373,7 @@ $new_user_ignore_pass = $creating && isset( $_POST['noconfirmation'] ) ? wp_unsl
 	</tr>
 	<tr class="form-field">
 		<th scope="row"><label for="url"><?php _e('Website') ?></label></th>
-		<td><input name="url" type="text" id="url" class="code" value="<?php echo esc_attr($new_user_uri); ?>" /></td>
+		<td><input name="url" type="url" id="url" class="code" value="<?php echo esc_attr( $new_user_uri ); ?>" /></td>
 	</tr>
 <?php
 /**

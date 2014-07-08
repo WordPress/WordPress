@@ -86,7 +86,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="wrap">
 <h2><?php echo esc_html( $title ); ?></h2>
 
-<form method="post" action="options.php">
+<form method="post" action="options.php" novalidate="novalidate">
 <?php settings_fields('general'); ?>
 
 <table class="form-table">
@@ -102,16 +102,16 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <?php if ( !is_multisite() ) { ?>
 <tr>
 <th scope="row"><label for="siteurl"><?php _e('WordPress Address (URL)') ?></label></th>
-<td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>"<?php disabled( defined( 'WP_SITEURL' ) ); ?> class="regular-text code<?php if ( defined( 'WP_SITEURL' ) ) echo ' disabled' ?>" /></td>
+<td><input name="siteurl" type="url" id="siteurl" value="<?php form_option( 'siteurl' ); ?>"<?php disabled( defined( 'WP_SITEURL' ) ); ?> class="regular-text code<?php if ( defined( 'WP_SITEURL' ) ) echo ' disabled' ?>" /></td>
 </tr>
 <tr>
 <th scope="row"><label for="home"><?php _e('Site Address (URL)') ?></label></th>
-<td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>"<?php disabled( defined( 'WP_HOME' ) ); ?> class="regular-text code<?php if ( defined( 'WP_HOME' ) ) echo ' disabled' ?>" />
+<td><input name="home" type="url" id="home" value="<?php form_option( 'home' ); ?>"<?php disabled( defined( 'WP_HOME' ) ); ?> class="regular-text code<?php if ( defined( 'WP_HOME' ) ) echo ' disabled' ?>" />
 <p class="description"><?php _e('Enter the address here if you want your site homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different from the directory</a> you installed WordPress.'); ?></p></td>
 </tr>
 <tr>
 <th scope="row"><label for="admin_email"><?php _e('E-mail Address') ?> </label></th>
-<td><input name="admin_email" type="text" id="admin_email" value="<?php form_option('admin_email'); ?>" class="regular-text ltr" />
+<td><input name="admin_email" type="email" id="admin_email" value="<?php form_option( 'admin_email' ); ?>" class="regular-text ltr" />
 <p class="description"><?php _e('This address is used for admin purposes, like new user notification.') ?></p></td>
 </tr>
 <tr>
@@ -130,7 +130,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <?php } else { ?>
 <tr>
 <th scope="row"><label for="new_admin_email"><?php _e('E-mail Address') ?> </label></th>
-<td><input name="new_admin_email" type="text" id="new_admin_email" value="<?php form_option('admin_email'); ?>" class="regular-text ltr" />
+<td><input name="new_admin_email" type="email" id="new_admin_email" value="<?php form_option( 'admin_email' ); ?>" class="regular-text ltr" />
 <p class="description"><?php _e('This address is used for admin purposes. If you change this we will send you an e-mail at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>') ?></p>
 <?php
 $new_admin_email = get_option( 'new_admin_email' );
