@@ -313,7 +313,7 @@ body.rtl,
 }
 
 body.language-chooser {
-	max-width: 450px;
+	max-width: 300px;
 }
 
 .language-chooser fieldset {
@@ -380,5 +380,34 @@ body.language-chooser {
 	clip: rect(0 0 0 0);
 	border: 0;
 }
+
+.spinner {
+	background: url(../images/spinner.gif) no-repeat;
+	-webkit-background-size: 20px 20px;
+	background-size: 20px 20px;
+	visibility: hidden;
+	opacity: 0.7;
+	filter: alpha(opacity=70);
+	width: 20px;
+	height: 20px;
+	margin: 2px 5px 0;
+}
+
+.step .spinner {
+	display: inline-block;
+	margin-right: 15px;
+}
+
+/**
+ * HiDPI Displays
+ */
+@media print,
+  (-o-min-device-pixel-ratio: 5/4),
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
+
+	.spinner {
+		background-image: url(../images/spinner-2x.gif);
+	}
 
 }

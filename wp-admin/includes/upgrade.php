@@ -2179,7 +2179,7 @@ function wp_install_language_form( $languages ) {
 		echo '<label for="language_' . esc_attr( $language['language'] ) . '">' . esc_html( $language['native_name'] ) . "</label>\n";
 	}
 	echo "</fieldset>\n";
-	echo '<p class="step"><input type="submit" class="button button-primary button-hero" value="&raquo;" /></p>';
+	echo '<p class="step"><span class="spinner"></span><input type="submit" class="button button-primary button-hero" value="&raquo;" /></p>';
 }
 
 /**

@@ -36,4 +36,8 @@
 		setTimeout( maybeRemoveFieldsetFocus, 50);
 	});
 
+	$('form').submit(function(){
+		$(this).find('.step .spinner').css('visibility','visible');
+	});
+
 })(jQuery);
