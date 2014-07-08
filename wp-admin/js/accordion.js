@@ -69,26 +69,41 @@
 	}
 
 	function panelSwitch( panel ) {
-		var position,
+		var position, scroll,
 			section = panel.closest( '.accordion-section' ),
-			container = section.closest( '.wp-full-overlay' ),
-			siblings = container.find( '.accordion-section.open' ),
+			overlay = section.closest( '.wp-full-overlay' ),
+			container = section.closest( '.accordion-container' ),
+			siblings = container.find( '.open' ),
+			topPanel = overlay.find( '#customize-theme-controls > ul > .accordion-section > .accordion-section-title' ).add( '#customize-info > .accordion-section-title' ),
+			backBtn = section.find( '.control-panel-back' ),
+			panelTitle = section.find( '.accordion-section-title' ).first(),
 			content = section.find( '.control-panel-content' );
 
 		if ( section.hasClass( 'current-panel' ) ) {
 			section.toggleClass( 'current-panel' );
-			container.toggleClass( 'in-sub-panel' );
+			overlay.toggleClass( 'in-sub-panel' );
 			content.delay( 180 ).hide( 0, function() {
 				content.css( 'margin-top', 'inherit' ); // Reset
 			} );
+			topPanel.attr( 'tabindex', '0' );
+			backBtn.attr( 'tabindex', '-1' );
+			panelTitle.focus();
+			container.scrollTop( 0 );
 		} else {
+			// Close all open sections in any accordion level.
 			siblings.removeClass( 'open' );
+			siblings.find( sectionContent ).show().slideUp( 0 );
 			content.show( 0, function() {
 				position = content.offset().top;
-				content.css( 'margin-top', ( 45 - position ) );
+				scroll = container.scrollTop();
+				content.css( 'margin-top', ( 45 - position - scroll ) );
 				section.toggleClass( 'current-panel' );
-				container.toggleClass( 'in-sub-panel' );
+				overlay.toggleClass( 'in-sub-panel' );
+				container.scrollTop( 0 );
 			} );
+			topPanel.attr( 'tabindex', '-1' );
+			backBtn.attr( 'tabindex', '0' );
+			backBtn.focus();
 		}
 	}
 
