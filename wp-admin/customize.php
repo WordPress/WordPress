@@ -12,16 +12,20 @@ define( 'IFRAME_REQUEST', true );
 /** Load WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-if ( ! current_user_can( 'edit_theme_options' ) )
+if ( ! current_user_can( 'edit_theme_options' ) ) {
 	wp_die( __( 'Cheatin&#8217; uh?' ) );
+}
 
 wp_reset_vars( array( 'url', 'return' ) );
-$url = urldecode( $url );
+$url = wp_unslash( $url );
 $url = wp_validate_redirect( $url, home_url( '/' ) );
-if ( $return )
-	$return = wp_validate_redirect( urldecode( $return ) );
-if ( ! $return )
+if ( $return ) {
+	$return = wp_unslash( $return );
+	$return = wp_validate_redirect( $return );
+}
+if ( ! $return ) {
 	$return = $url;
+}
 
 global $wp_scripts, $wp_customize;
 
