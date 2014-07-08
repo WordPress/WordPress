@@ -2642,6 +2642,11 @@ function edit_form_image_editor( $post ) {
 			$attr['height'] = $h;
 		}
 
+		$thumb_id = get_post_thumbnail_id( $attachment_id );
+		if ( ! empty( $thumb_id ) ) {
+			$attr['poster'] = wp_get_attachment_url( $thumb_id );
+		}
+
 		echo wp_video_shortcode( $attr );
 
 	endif; ?>

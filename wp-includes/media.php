@@ -3218,3 +3218,28 @@ function wp_maybe_generate_attachment_metadata( $attachment ) {
 		}
 	}
 }
+
+/**
+ * Try to convert an attachment URL into a post ID.
+ *
+ * @since 4.0.0
+ *
+ * @global wpdb $wpdb WordPress database access abstraction object.
+ * @param string $url The URL to resolve.
+ * @return int The found post_id.
+ */
+function attachment_url_to_postid( $url ) {
+	global $wpdb;
+
+	$dir = wp_upload_dir();
+	$path = ltrim( $url, $dir['baseurl'] . '/' );
+
+	$sql = $wpdb->prepare(
+		"SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attached_file' AND meta_value = %s",
+		$path
+	);
+	$post_id = $wpdb->get_var( $sql );
+	if ( ! empty( $post_id ) ) {
+		return (int) $post_id;
+	}
+}

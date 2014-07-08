@@ -692,10 +692,23 @@
 
 		renderSelectPosterImageToolbar: function() {
 			this.setPrimaryButton( l10n.videoSelectPosterImageTitle, function( controller, state ) {
-				var attachment = state.get( 'selection' ).single();
+				var urls = [], attachment = state.get( 'selection' ).single();
 
 				controller.media.set( 'poster', attachment.get( 'url' ) );
 				state.trigger( 'set-poster-image', controller.media.toJSON() );
+
+				_.each( wp.media.view.settings.embedExts, function (ext) {
+					if ( controller.media.get( ext ) ) {
+						urls.push( controller.media.get( ext ) );
+					}
+				} );
+
+				wp.ajax.send( 'set-attachment-thumbnail', {
+					data : {
+						urls: urls,
+						thumbnail_id: attachment.get( 'id' )
+					}
+				} );
 			} );
 		},
 

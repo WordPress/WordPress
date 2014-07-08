@@ -1947,6 +1947,55 @@ function wp_ajax_set_post_thumbnail() {
 }
 
 /**
+ * Ajax handler for setting the featured image for an attachment.
+ *
+ * @since 4.0.0
+ */
+function wp_ajax_set_attachment_thumbnail() {
+	if ( empty( $_POST['urls'] ) || ! is_array( $_POST['urls'] ) ) {
+		wp_send_json_error();
+	}
+
+	$thumbnail_id = (int) $_POST['thumbnail_id'];
+	if ( empty( $thumbnail_id ) ) {
+		wp_send_json_error();
+	}
+
+	$post_ids = array();
+	// For each URL, try to find its corresponding post ID.
+	foreach ( $_POST['urls'] as $url ) {
+		$post_id = attachment_url_to_postid( $url );
+		if ( ! empty( $post_id ) ) {
+			$post_ids[] = $post_id;
+		}
+	}
+
+	if ( empty( $post_ids ) ) {
+		wp_send_json_error();
+	}
+
+	$success = 0;
+	// For each found attachment, set its thumbnail.
+	foreach ( $post_ids as $post_id ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			continue;
+		}
+
+		if ( set_post_thumbnail( $post_id, $thumbnail_id ) ) {
+			$success++;
+		}
+	}
+
+	if ( 0 === $success ) {
+		wp_send_json_error();
+	} else {
+		wp_send_json_success();
+	}
+
+	wp_send_json_error();
+}
+
+/**
  * Ajax handler for date formatting.
  *
  * @since 3.1.0
