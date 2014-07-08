@@ -319,5 +319,6 @@ el.select();
 	break;
 }
 ?>
+<?php wp_print_scripts( 'language-chooser' ); ?>
 </body>
 </html>

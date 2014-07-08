@@ -337,7 +337,6 @@ body.language-chooser {
 	height: 250px;
 }
 
-/* TODO:add focus style via JS */
 .language-chooser fieldset.focus {
 	border-color: #5b9dd9;
 	-webkit-box-shadow: 0 0 2px rgba(30,140,190,0.8);
@@ -355,7 +354,15 @@ body.language-chooser {
 
 .language-chooser input:checked + label{
 	  color:white;
+	  background: #777;
+}
+
+.language-chooser .focus input:checked + label{
 	  background: #0074A2;
+}
+
+.language-chooser label:hover {
+	  background: #eee;
 }
 
 .language-chooser label{
@@ -372,4 +379,6 @@ body.language-chooser {
 	overflow: hidden;
 	clip: rect(0 0 0 0);
 	border: 0;
+}
+
 }

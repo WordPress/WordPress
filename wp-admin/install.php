@@ -281,5 +281,6 @@ if ( !wp_is_mobile() ) {
 <script type="text/javascript">var t = document.getElementById('weblog_title'); if (t){ t.focus(); }</script>
 <?php } ?>
 <?php wp_print_scripts( 'user-profile' ); ?>
+<?php wp_print_scripts( 'language-chooser' ); ?>
 </body>
 </html>

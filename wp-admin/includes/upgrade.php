@@ -2162,7 +2162,7 @@ endif;
 function wp_install_language_form( $languages ) {
 	echo "<fieldset>\n";
 	echo "<legend class='screen-reader-text'>Select a default language</legend>\n";
-	echo '<input type="radio" checked="checked" class="screen-reader-input" name="language" id="language_default" value="">';
+	echo '<input type="radio" checked="checked" class="screen-reader-input language-chooser-input" name="language" id="language_default" value="">';
 	echo '<label for="language_default">English (United States)</label>';
 	echo "\n";
 
@@ -2175,7 +2175,7 @@ function wp_install_language_form( $languages ) {
 	}
 
 	foreach ( $languages as $language ) {
-		echo '<input type="radio" name="language" class="' . esc_attr( $language['language'] ) . ' screen-reader-input" id="language_'. esc_attr( $language['language'] ) .'" value="' . esc_attr( $language['language'] ) . '">';
+		echo '<input type="radio" name="language" class="' . esc_attr( $language['language'] ) . ' screen-reader-input language-chooser-input" id="language_'. esc_attr( $language['language'] ) .'" value="' . esc_attr( $language['language'] ) . '">';
 		echo '<label for="language_' . esc_attr( $language['language'] ) . '">' . esc_html( $language['native_name'] ) . "</label>\n";
 	}
 	echo "</fieldset>\n";
