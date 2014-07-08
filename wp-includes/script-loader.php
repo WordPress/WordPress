@@ -382,6 +382,7 @@ function wp_default_scripts( &$scripts ) {
 	did_action( 'init' ) && $scripts->localize( 'customize-controls', '_wpCustomizeControlsL10n', array(
 		'activate'  => __( 'Save &amp; Activate' ),
 		'save'      => __( 'Save &amp; Publish' ),
+		'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
 		'saved'     => __( 'Saved' ),
 		'cancel'    => __( 'Cancel' ),
 		'close'     => __( 'Close' ),

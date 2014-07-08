@@ -1,4 +1,4 @@
-/* global _wpCustomizeLoaderSettings */
+/* global _wpCustomizeLoaderSettings, confirm */
 window.wp = window.wp || {};
 
 (function( exports, $ ){
@@ -36,8 +36,9 @@ window.wp = window.wp || {};
 			});
 
 			// Add navigation listeners.
-			if ( $.support.history )
+			if ( $.support.history ) {
 				this.window.on( 'popstate', Loader.popstate );
+			}
 
 			if ( $.support.hashchange ) {
 				this.window.on( 'hashchange', Loader.hashchange );
@@ -47,34 +48,47 @@ window.wp = window.wp || {};
 
 		popstate: function( e ) {
 			var state = e.originalEvent.state;
-			if ( state && state.customize )
+			if ( state && state.customize ) {
 				Loader.open( state.customize );
-			else if ( Loader.active )
+			} else if ( Loader.active ) {
 				Loader.close();
+			}
 		},
 
 		hashchange: function() {
 			var hash = window.location.toString().split('#')[1];
 
-			if ( hash && 0 === hash.indexOf( 'wp_customize=on' ) )
+			if ( hash && 0 === hash.indexOf( 'wp_customize=on' ) ) {
 				Loader.open( Loader.settings.url + '?' + hash );
+			}
 
-			if ( ! hash && ! $.support.history )
+			if ( ! hash && ! $.support.history ){
 				Loader.close();
+			}
+		},
+
+		beforeunload: function () {
+			if ( ! Loader.saved() ) {
+				return Loader.settings.l10n.saveAlert;
+			}
 		},
 
 		open: function( src ) {
-			var hash;
 
-			if ( this.active )
+			if ( this.active ) {
 				return;
+			}
 
 			// Load the full page on mobile devices.
-			if ( Loader.settings.browser.mobile )
+			if ( Loader.settings.browser.mobile ) {
 				return window.location = src;
+			}
 
 			this.active = true;
 			this.body.addClass('customize-loading');
+
+			// Dirty state of customizer in iframe
+			this.saved = new api.Value( true );
 
 			this.iframe = $( '<iframe />', { src: src }).appendTo( this.element );
 			this.iframe.one( 'load', this.loaded );
@@ -92,28 +106,46 @@ window.wp = window.wp || {};
 			});
 
 			this.messenger.bind( 'close', function() {
-				if ( $.support.history )
+				if ( $.support.history ) {
 					history.back();
-				else if ( $.support.hashchange )
+				} else if ( $.support.hashchange ) {
 					window.location.hash = '';
-				else
+				} else {
 					Loader.close();
-			});
+				}
+			} );
+
+			// Prompt AYS dialog when navigating away
+			$( window ).on( 'beforeunload', this.beforeunload );
 
 			this.messenger.bind( 'activated', function( location ) {
-				if ( location )
+				if ( location ) {
 					window.location = location;
+				}
 			});
 
-			hash = src.split('?')[1];
+			this.messenger.bind( 'saved', function () {
+				Loader.saved( true );
+			} );
+			this.messenger.bind( 'change', function () {
+				Loader.saved( false );
+			} );
 
-			// Ensure we don't call pushState if the user hit the forward button.
-			if ( $.support.history && window.location.href !== src )
-				history.pushState( { customize: src }, '', src );
-			else if ( ! $.support.history && $.support.hashchange && hash )
-				window.location.hash = 'wp_customize=on&' + hash;
+			this.pushState( src );
 
 			this.trigger( 'open' );
+		},
+
+		pushState: function ( src ) {
+			var hash;
+
+			// Ensure we don't call pushState if the user hit the forward button.
+			if ( $.support.history && window.location.href !== src ) {
+				history.pushState( { customize: src }, '', src );
+			} else if ( ! $.support.history && $.support.hashchange && hash ) {
+				hash = src.split( '?' )[1];
+				window.location.hash = 'wp_customize=on&' + hash;
+			}
 		},
 
 		opened: function() {
@@ -121,15 +153,25 @@ window.wp = window.wp || {};
 		},
 
 		close: function() {
-			if ( ! this.active )
+			if ( ! this.active ) {
 				return;
+			}
+
+			// Display AYS dialog if customizer is dirty
+			if ( ! this.saved() && ! confirm( Loader.settings.l10n.saveAlert ) ) {
+				// Go forward since Customizer is exited by history.back()
+				history.forward();
+				return;
+			}
+
 			this.active = false;
 
 			this.trigger( 'close' );
 
 			// Return focus to link that was originally clicked.
-			if ( this.link )
+			if ( this.link ) {
 				this.link.focus();
+			}
 		},
 
 		closed: function() {
@@ -137,7 +179,9 @@ window.wp = window.wp || {};
 			Loader.messenger.destroy();
 			Loader.iframe    = null;
 			Loader.messenger = null;
+			Loader.saved     = null;
 			Loader.body.removeClass( 'customize-active full-overlay-active' ).removeClass( 'customize-loading' );
+			$( window ).off( 'beforeunload', Loader.beforeunload );
 		},
 
 		loaded: function() {

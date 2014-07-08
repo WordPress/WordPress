@@ -915,7 +915,9 @@
 
 		var previewer, parent, topFocus,
 			body = $( document.body ),
-			overlay = body.children('.wp-full-overlay');
+			overlay = body.children( '.wp-full-overlay' ),
+			backBtn = $( '.back' ),
+			saveBtn = $( '#save' );
 
 		// Prevent the form from saving when enter is pressed on an input or select element.
 		$('#customize-controls').on( 'keydown', function( e ) {
@@ -1040,20 +1042,17 @@
 				processing = state.create( 'processing' );
 
 			state.bind( 'change', function() {
-				var save = $('#save'),
-					back = $('.back');
-
 				if ( ! activated() ) {
-					save.val( api.l10n.activate ).prop( 'disabled', false );
-					back.text( api.l10n.cancel );
+					saveBtn.val( api.l10n.activate ).prop( 'disabled', false );
+					backBtn.text( api.l10n.cancel );
 
 				} else if ( saved() ) {
-					save.val( api.l10n.saved ).prop( 'disabled', true );
-					back.text( api.l10n.close );
+					saveBtn.val( api.l10n.saved ).prop( 'disabled', true );
+					backBtn.text( api.l10n.close );
 
 				} else {
-					save.val( api.l10n.save ).prop( 'disabled', false );
-					back.text( api.l10n.cancel );
+					saveBtn.val( api.l10n.save ).prop( 'disabled', false );
+					backBtn.text( api.l10n.cancel );
 				}
 			});
 
@@ -1081,7 +1080,7 @@
 		}());
 
 		// Button bindings.
-		$('#save').click( function( event ) {
+		saveBtn.click( function( event ) {
 			previewer.save();
 			event.preventDefault();
 		}).keydown( function( event ) {
@@ -1092,7 +1091,7 @@
 			event.preventDefault();
 		});
 
-		$('.back').keydown( function( event ) {
+		backBtn.keydown( function( event ) {
 			if ( 9 === event.which ) // tab
 				return;
 			if ( 13 === event.which ) // enter
@@ -1122,16 +1121,25 @@
 		// If we receive a 'back' event, we're inside an iframe.
 		// Send any clicks to the 'Return' link to the parent page.
 		parent.bind( 'back', function() {
-			$('.back').on( 'click.back', function( event ) {
+			backBtn.on( 'click.back', function( event ) {
 				event.preventDefault();
 				parent.send( 'close' );
 			});
 		});
 
+		// Prompt user with AYS dialog if leaving the Customizer with unsaved changes
+		$( window ).on( 'beforeunload', function () {
+			if ( ! api.state( 'saved' )() ) {
+				return api.l10n.saveAlert;
+			}
+		} );
+
 		// Pass events through to the parent.
-		api.bind( 'saved', function() {
-			parent.send( 'saved' );
-		});
+		$.each( [ 'saved', 'change' ], function ( i, event ) {
+			api.bind( event, function() {
+				parent.send( event );
+			});
+		} );
 
 		// When activated, let the loader handle redirecting the page.
 		// If no loader exists, redirect the page ourselves (if a url exists).
@@ -1198,7 +1206,7 @@
 		api.trigger( 'ready' );
 
 		// Make sure left column gets focus
-		topFocus = $('.back');
+		topFocus = backBtn;
 		topFocus.focus();
 		setTimeout(function () {
 			topFocus.focus();
