@@ -50,20 +50,10 @@ body {
 	border-bottom: 1px solid #eeeeee;
 }
 
-#customize-info.open .accordion-section-title,
-#customize-info .accordion-section-title:hover,
-#customize-info .accordion-section-title:focus {
-	color: #555555;
-}
-
 #customize-info.open .accordion-section-title:after,
 #customize-info .accordion-section-title:hover:after,
 #customize-info .accordion-section-title:focus:after {
 	color: #555555;
-}
-
-#customize-info.open .accordion-section-title {
-	border-color: transparent;
 }
 
 #customize-info .preview-notice {
@@ -103,6 +93,9 @@ body {
 	background: white;
 }
 
+#customize-info.open .accordion-section-title,
+#customize-info .accordion-section-title:hover,
+#customize-info .accordion-section-title:focus,
 #customize-theme-controls .control-section:hover > .accordion-section-title,
 #customize-theme-controls .control-section .accordion-section-title:hover,
 #customize-theme-controls .control-section.open .accordion-section-title,
@@ -125,6 +118,7 @@ body {
 	color: #555555;
 }
 
+#customize-info.open,
 #customize-theme-controls .control-section.open {
 	border-bottom: 1px solid #eeeeee;
 }

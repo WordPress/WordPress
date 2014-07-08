@@ -916,6 +916,7 @@
 		var previewer, parent, topFocus,
 			body = $( document.body ),
 			overlay = body.children( '.wp-full-overlay' ),
+			title = $( '#customize-info .theme-name.site-title' ),
 			closeBtn = $( '.customize-controls-close' ),
 			saveBtn = $( '#save' );
 
@@ -1111,6 +1112,13 @@
 			overlay.toggleClass( 'collapsed' ).toggleClass( 'expanded' );
 			event.preventDefault();
 		});
+
+		// Bind site title display to the corresponding field.
+		if ( title.length ) {
+			$( '#customize-control-blogname input' ).on( 'input', function() {
+				title.text(  this.value );
+			} );
+		}
 
 		// Create a potential postMessage connection with the parent frame.
 		parent = new api.Messenger({
