@@ -12,9 +12,16 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		cursorInterval, lastKeyDownNode, setViewCursorTries, focus;
 
 	function getView( node ) {
-		return editor.dom.getParent( node, function( node ) {
-			return editor.dom.hasClass( node, 'wpview-wrap' );
-		});
+		// Doing this directly is about 40% faster
+		while ( node && node.parentNode ) {
+			if ( node.className && (' ' + node.className + ' ').indexOf(' wpview-wrap ') !== -1 ) {
+				return node;
+			}
+
+			node = node.parentNode;
+		}
+
+		return false;
 	}
 
 	/**
@@ -55,6 +62,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	function setViewCursor( before, view ) {
 		var location = before ? 'before' : 'after',
 			offset = before ? 0 : 1;
+		deselect();
 		editor.selection.setCursorLocation( editor.dom.select( '.wpview-selection-' + location, view )[0], offset );
 		editor.nodeChanged();
 	}
@@ -110,6 +118,8 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		// Both of the following are necessary to prevent manipulating the selection/focus
 		dom.bind( clipboard, 'beforedeactivate focusin focusout', _stop );
 		dom.bind( selected, 'beforedeactivate focusin focusout', _stop );
+
+		tinymce.DOM.addClass( editor.getContainer(), 'wpview-selected' );
 
 		// Make sure that the editor is focused.
 		// It is possible that the editor is not focused when the mouse event fires
@@ -273,6 +283,8 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		editor.dom.bind( editor.getBody().parentNode, 'mousedown mouseup click', function( event ) {
 			var view = getView( event.target ),
 				deselectEventType;
+
+			firstFocus = false;
 
 			// Contain clicks inside the view wrapper
 			if ( view ) {
@@ -484,33 +496,32 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 		if ( keyCode === VK.LEFT ) {
 			setViewCursor( true, view );
-			deselect();
 		} else if ( keyCode === VK.UP ) {
 			if ( view.previousSibling ) {
 				if ( getView( view.previousSibling ) ) {
 					setViewCursor( true, view.previousSibling );
 				} else {
+					deselect();
 					selection.select( view.previousSibling, true );
 					selection.collapse();
 				}
 			} else {
 				setViewCursor( true, view );
 			}
-			deselect();
+			
 		} else if ( keyCode === VK.RIGHT ) {
 			setViewCursor( false, view );
-			deselect();
 		} else if ( keyCode === VK.DOWN ) {
 			if ( view.nextSibling ) {
 				if ( getView( view.nextSibling ) ) {
 					setViewCursor( false, view.nextSibling );
 				} else {
+					deselect();
 					selection.setCursorLocation( view.nextSibling, 0 );
 				}
 			} else {
 				setViewCursor( false, view );
 			}
-			deselect();
 		} else if ( keyCode === VK.ENTER ) {
 			handleEnter( view );
 		} else if ( keyCode === VK.DELETE || keyCode === VK.BACKSPACE ) {
@@ -586,35 +597,58 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		dom.removeClass( views, 'wpview-selection-after' );
 		dom.removeClass( views, 'wpview-cursor-hide' );
 
-		if ( view && editor.selection.isCollapsed() && focus ) {
-			if ( className === 'wpview-selection-before' || className === 'wpview-selection-after' ) {
-				setViewCursorTries = 0;
+		if ( ! selected ) {
+			tinymce.DOM.removeClass( editor.getContainer(), 'wpview-selected' );
+		}
 
-				// Make sure the cursor arrived in the right node.
-				// This is necessary for Firefox.
-				if ( lKDN === view.previousSibling ) {
-					setViewCursor( true, view );
-					return;
-				} else if ( lKDN === view.nextSibling ) {
-					setViewCursor( false, view );
-					return;
-				}
+		if ( focus ) {
+			if ( view ) {
+				if ( className === 'wpview-selection-before' || className === 'wpview-selection-after' && editor.selection.isCollapsed() ) {
+					setViewCursorTries = 0;
 
-				dom.addClass( view, className );
+					deselect();
 
-				cursorInterval = setInterval( function() {
-					if ( dom.hasClass( view, 'wpview-cursor-hide' ) ) {
-						dom.removeClass( view, 'wpview-cursor-hide' );
-					} else {
-						dom.addClass( view, 'wpview-cursor-hide' );
+					tinymce.DOM.addClass( editor.getContainer(), 'wpview-selected' );
+
+					// Make sure the cursor arrived in the right node.
+					// This is necessary for Firefox.
+					if ( lKDN === view.previousSibling ) {
+						setViewCursor( true, view );
+						return;
+					} else if ( lKDN === view.nextSibling ) {
+						setViewCursor( false, view );
+						return;
 					}
-				}, 500 );
-			// If the cursor happens to be anywhere around the view, then set the cursor properly.
-			// Only try this once to prevent a loop. (You never know.)
-			} else if ( ! selected && ! setViewCursorTries ) {
-				setViewCursorTries++;
-				setViewCursor( true, view );
+
+					dom.addClass( view, className );
+
+					cursorInterval = setInterval( function() {
+						if ( dom.hasClass( view, 'wpview-cursor-hide' ) ) {
+							dom.removeClass( view, 'wpview-cursor-hide' );
+						} else {
+							dom.addClass( view, 'wpview-cursor-hide' );
+						}
+					}, 500 );
+				// If the cursor lands anywhere else in the view, set the cursor before it.
+				// Only try this once to prevent a loop. (You never know.)
+				} else if ( className !== 'wpview-clipboard' && ! setViewCursorTries ) {
+					deselect();
+					setViewCursorTries++;
+					setViewCursor( true, view );
+				}
+			} else {
+				deselect();
 			}
+		}
+	});
+
+	editor.on( 'resolvename', function( event ) {
+		if ( editor.dom.hasClass( event.target, 'wpview-wrap' ) ) {
+			event.name = editor.dom.getAttrib( event.target, 'data-wpview-type' ) || 'wpview';
+			event.stopPropagation();
+		} else if ( getView( event.target ) ) {
+			event.preventDefault();
+			event.stopPropagation();
 		}
 	});
 
