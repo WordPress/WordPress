@@ -1026,6 +1026,7 @@
 	padding: 2px;
 	width: 20px;
 	height: 20px;
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
 	box-shadow: 0 1px 3px rgba(0,0,0,0.5);
 	background-color: #000;
 	background-color: rgba(0,0,0,0.9);
@@ -2788,6 +2789,7 @@ video#inline-media-node {
 }
 
 .media-grid-view.hide-router .media-frame-title {
+	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
