@@ -119,8 +119,6 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		dom.bind( clipboard, 'beforedeactivate focusin focusout', _stop );
 		dom.bind( selected, 'beforedeactivate focusin focusout', _stop );
 
-		tinymce.DOM.addClass( editor.getContainer(), 'wpview-selected' );
-
 		// Make sure that the editor is focused.
 		// It is possible that the editor is not focused when the mouse event fires
 		// without focus, the selection will not work properly.
@@ -508,7 +506,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			} else {
 				setViewCursor( true, view );
 			}
-			
+
 		} else if ( keyCode === VK.RIGHT ) {
 			setViewCursor( false, view );
 		} else if ( keyCode === VK.DOWN ) {
@@ -564,7 +562,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 	editor.on( 'focus', function() {
 		var view;
-		
+
 		focus = true;
 		editor.dom.addClass( editor.getBody(), 'has-focus' );
 
@@ -597,18 +595,12 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		dom.removeClass( views, 'wpview-selection-after' );
 		dom.removeClass( views, 'wpview-cursor-hide' );
 
-		if ( ! selected ) {
-			tinymce.DOM.removeClass( editor.getContainer(), 'wpview-selected' );
-		}
-
 		if ( focus ) {
 			if ( view ) {
 				if ( className === 'wpview-selection-before' || className === 'wpview-selection-after' && editor.selection.isCollapsed() ) {
 					setViewCursorTries = 0;
 
 					deselect();
-
-					tinymce.DOM.addClass( editor.getContainer(), 'wpview-selected' );
 
 					// Make sure the cursor arrived in the right node.
 					// This is necessary for Firefox.
