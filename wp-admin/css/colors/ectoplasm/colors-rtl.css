@@ -288,6 +288,10 @@ body.more-filters-opened .more-filters:hover, body.more-filters-opened .more-fil
   background-color: #a3b745;
   color: #fff; }
 
+.theme-install-overlay .close-full-overlay:hover, .theme-install-overlay .close-full-overlay:focus, .theme-install-overlay .previous-theme:hover, .theme-install-overlay .previous-theme:focus, .theme-install-overlay .next-theme:hover, .theme-install-overlay .next-theme:focus {
+  background-color: #a3b745;
+  color: #fff; }
+
 /* Widgets */
 .widgets-chooser li.widgets-chooser-selected {
   background-color: #a3b745;
@@ -301,7 +305,7 @@ body.more-filters-opened .more-filters:hover, body.more-filters-opened .more-fil
   background-color: #a3b745;
   color: #fff; }
 
-.control-panel-back:focus, .control-panel-back:hover {
+.customize-controls-close:focus, .customize-controls-close:hover, .control-panel-back:focus, .control-panel-back:hover {
   background-color: #a3b745;
   color: #fff; }
 

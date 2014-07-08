@@ -225,7 +225,9 @@ if ( $tab ) {
 <script id="tmpl-theme-preview" type="text/template">
 	<div class="wp-full-overlay-sidebar">
 		<div class="wp-full-overlay-header">
-			<a href="#" class="close-full-overlay button-secondary"><?php _e( 'Close' ); ?></a>
+			<a href="#" class="close-full-overlay"><span class="screen-reader-text"><?php _e( 'Close' ); ?></span></a>
+			<a href="#" class="previous-theme"><span class="screen-reader-text"><?php _ex( 'Previous', 'Button label for a theme' ); ?></span></a>
+			<a href="#" class="next-theme"><span class="screen-reader-text"><?php _ex( 'Next', 'Button label for a theme' ); ?></span></a>
 		<# if ( data.installed ) { #>
 			<a href="#" class="button button-primary theme-install disabled"><?php _ex( 'Installed', 'theme' ); ?></a>
 		<# } else { #>
@@ -262,10 +264,6 @@ if ( $tab ) {
 				<span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
 				<span class="collapse-sidebar-arrow"></span>
 			</a>
-			<div class="theme-navigation">
-				<a class="previous-theme button" href="#"><?php _ex( 'Previous', 'Button label for a theme' ); ?></a>
-				<a class="next-theme button" href="#"><?php _ex( 'Next', 'Button label for a theme' ); ?></a>
-			</div>
 		</div>
 	</div>
 	<div class="wp-full-overlay-main">

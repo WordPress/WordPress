@@ -916,7 +916,7 @@
 		var previewer, parent, topFocus,
 			body = $( document.body ),
 			overlay = body.children( '.wp-full-overlay' ),
-			backBtn = $( '.back' ),
+			closeBtn = $( '.customize-controls-close' ),
 			saveBtn = $( '#save' );
 
 		// Prevent the form from saving when enter is pressed on an input or select element.
@@ -1044,15 +1044,15 @@
 			state.bind( 'change', function() {
 				if ( ! activated() ) {
 					saveBtn.val( api.l10n.activate ).prop( 'disabled', false );
-					backBtn.text( api.l10n.cancel );
+					closeBtn.find( '.screen-reader-text' ).text( api.l10n.cancel );
 
 				} else if ( saved() ) {
 					saveBtn.val( api.l10n.saved ).prop( 'disabled', true );
-					backBtn.text( api.l10n.close );
+					closeBtn.find( '.screen-reader-text' ).text( api.l10n.close );
 
 				} else {
 					saveBtn.val( api.l10n.save ).prop( 'disabled', false );
-					backBtn.text( api.l10n.cancel );
+					closeBtn.find( '.screen-reader-text' ).text( api.l10n.cancel );
 				}
 			});
 
@@ -1091,7 +1091,7 @@
 			event.preventDefault();
 		});
 
-		backBtn.keydown( function( event ) {
+		closeBtn.keydown( function( event ) {
 			if ( 9 === event.which ) // tab
 				return;
 			if ( 13 === event.which ) // enter
@@ -1121,7 +1121,7 @@
 		// If we receive a 'back' event, we're inside an iframe.
 		// Send any clicks to the 'Return' link to the parent page.
 		parent.bind( 'back', function() {
-			backBtn.on( 'click.back', function( event ) {
+			closeBtn.on( 'click.customize-controls-close', function( event ) {
 				event.preventDefault();
 				parent.send( 'close' );
 			});
@@ -1206,7 +1206,7 @@
 		api.trigger( 'ready' );
 
 		// Make sure left column gets focus
-		topFocus = backBtn;
+		topFocus = closeBtn;
 		topFocus.focus();
 		setTimeout(function () {
 			topFocus.focus();

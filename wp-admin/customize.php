@@ -112,8 +112,8 @@ do_action( 'customize_controls_print_scripts' );
 				submit_button( $save_text, 'primary save', 'save', false );
 			?>
 			<span class="spinner"></span>
-			<a class="back button" href="<?php echo esc_url( $return ? $return : admin_url( 'themes.php' ) ); ?>">
-				<?php _e( 'Cancel' ); ?>
+			<a class="customize-controls-close" href="<?php echo esc_url( $return ? $return : admin_url( 'themes.php' ) ); ?>">
+				<span class="screen-reader-text"><?php _e( 'Cancel' ); ?></span>
 			</a>
 		</div>
 

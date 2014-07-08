@@ -170,6 +170,22 @@ body {
 	width: 100%;
 }
 
+.customize-controls-close {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 45px;
+	height: 45px;
+	padding-left: 2px;
+	background: #eee;
+	border-left: 1px solid #ddd;
+	color: #444;
+	cursor: pointer;
+	-webkit-transition: color ease-in .1s;
+	transition: color ease-in .1s;
+}
+
 .control-panel-back {
 	display: block;
 	position: fixed;
@@ -190,11 +206,23 @@ body {
 	display: none;
 }
 
+.customize-controls-close:focus,
+.customize-controls-close:hover,
 .control-panel-back:focus,
 .control-panel-back:hover {
 	background-color: #0074a2;
 	color: #fff;
 	outline: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.customize-controls-close:before {
+	font: normal 32px/1 dashicons;
+	content: "\f335";
+	position: relative;
+	top: 8px;
+	right: 8px;
 }
 
 .control-panel-back:before {
@@ -215,17 +243,6 @@ body {
 
 .current-panel > .accordion-section-title {
 	height: 22px;
-}
-
-#customize-header-actions a.back {
-	position: relative;
-	right: 0;
-	-webkit-transition: right ease-in-out .18s;
-	transition: right ease-in-out .18s;
-}
-
-.in-sub-panel #customize-header-actions a.back {
-	right: -120px;
 }
 
 .wp-full-overlay-sidebar .wp-full-overlay-header {

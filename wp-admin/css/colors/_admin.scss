@@ -453,6 +453,16 @@ body.more-filters-opened .more-filters:focus:before {
 	color: $menu-highlight-text;
 }
 
+.theme-install-overlay .close-full-overlay:hover,
+.theme-install-overlay .close-full-overlay:focus,
+.theme-install-overlay .previous-theme:hover,
+.theme-install-overlay .previous-theme:focus,
+.theme-install-overlay .next-theme:hover,
+.theme-install-overlay .next-theme:focus {
+	background-color: $menu-highlight-background;
+	color: $menu-highlight-text;
+}
+
 /* Widgets */
 
 .widgets-chooser li.widgets-chooser-selected {
@@ -472,6 +482,8 @@ body.more-filters-opened .more-filters:focus:before {
 	color: $menu-highlight-text;
 }
 
+.customize-controls-close:focus,
+.customize-controls-close:hover,
 .control-panel-back:focus,
 .control-panel-back:hover {
 	background-color: $menu-highlight-background;

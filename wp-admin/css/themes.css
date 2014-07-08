@@ -1617,9 +1617,83 @@ body.full-overlay-active {
 	overflow: auto;
 }
 
-/* Close Link */
-.wp-full-overlay .close-full-overlay {
+/* Close & Navigation Links */
+.theme-install-overlay .wp-full-overlay-sidebar .wp-full-overlay-header {
+	padding: 0;
+}
+
+.theme-install-overlay .close-full-overlay,
+.theme-install-overlay .previous-theme,
+.theme-install-overlay .next-theme {
+	display: block;
+	position: relative;
+	float: left;
+	width: 45px;
+	height: 45px;
+	padding-right: 2px;
+	background: #eee;
+	border-right: 1px solid #ddd;
+	color: #444;
+	cursor: pointer;
 	text-decoration: none;
+	-webkit-transition: color ease-in .1s;
+	transition: color ease-in .1s;
+}
+
+.theme-install-overlay .close-full-overlay:hover,
+.theme-install-overlay .close-full-overlay:focus,
+.theme-install-overlay .previous-theme:hover,
+.theme-install-overlay .previous-theme:focus,
+.theme-install-overlay .next-theme:hover,
+.theme-install-overlay .next-theme:focus {
+	background-color: #0074a2;
+	color: #fff;
+	outline: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.theme-install-overlay .close-full-overlay:before {
+	font: normal 30px/1 dashicons;
+	content: "\f335";
+	position: relative;
+	top: 9px;
+	left: 9px;
+}
+
+.theme-install-overlay .previous-theme:before {
+	font: normal 20px/1 dashicons;
+	content: "\f340";
+	position: relative;
+	top: 6px;
+	left: 14px;
+}
+
+.theme-install-overlay .next-theme:before {
+	font: normal 20px/1 dashicons;
+	content: "\f344";
+	position: relative;
+	top: 6px;
+	left: 13px;
+}
+
+.theme-install-overlay .previous-theme.disabled,
+.theme-install-overlay .next-theme.disabled,
+.theme-install-overlay .previous-theme.disabled:hover,
+.theme-install-overlay .previous-theme.disabled:focus,
+.theme-install-overlay .next-theme.disabled:hover,
+.theme-install-overlay .next-theme.disabled:focus {
+	color: #bbb;
+	background: #eee;
+	cursor: default;
+}
+
+.rtl .theme-install-overlay .previous-theme:before {
+	content: "\f344";
+}
+
+.rtl .theme-install-overlay .next-theme:before {
+	content: "\f340";
 }
 
 /* Collapse Button */
@@ -1701,19 +1775,6 @@ body.full-overlay-active {
 }
 
 .wp-full-overlay.collapsed .collapse-sidebar-label {
-	display: none;
-}
-
-.wp-full-overlay .theme-navigation {
-	padding: 10px 20px;
-	position: absolute;
-		bottom: 10px;
-	text-align: left;
-}
-.wp-full-overlay .theme-navigation .next-theme {
-	float: right;
-}
-.wp-full-overlay.no-navigation .theme-navigation {
 	display: none;
 }
 
@@ -1845,19 +1906,22 @@ body.full-overlay-active {
 	max-width: 100%;
 }
 
-.theme-install-overlay .wp-full-overlay-header {
-	margin-top: 9px;
-}
-
 .theme-install-overlay .wp-full-overlay-header .theme-install {
 	float: right;
+	margin: 8px 10px 0 0;
 	/* For when .theme-install is a span rather than a.button-primary (already installed theme) */
 	line-height: 26px;
 }
 
 .theme-install-overlay .wp-full-overlay-sidebar {
-	background: #EEE;
-	border-right: 1px solid #DDD;
+	background: #eee;
+	border-right: 1px solid #ddd;
+}
+
+.theme-install-overlay .wp-full-overlay-sidebar-content {
+	background: #fff;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }
 
 .theme-install-overlay .wp-full-overlay-main {
