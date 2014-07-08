@@ -1138,8 +1138,7 @@ final class WP_Customize_Widgets {
 	 * @return string Widget instance's hash key.
 	 */
 	protected function get_instance_hash_key( $instance ) {
-		$hash = md5( AUTH_KEY . serialize( $instance ) );
-		return $hash;
+		return wp_hash( serialize( $instance ) );
 	}
 
 	/**
