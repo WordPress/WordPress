@@ -63,15 +63,6 @@ class WP_Error {
 
 		if ( ! empty($data) )
 			$this->error_data[$code] = $data;
-
-		/**
-		 * Fires when a WP_Error object instance is created.
-		 *
-		 * @since 4.0.0
-		 *
-		 * @param WP_Error $this The WP_Error instance.
-		 */
-		do_action( 'create_wp_error', $this );
 	}
 
 	/**
