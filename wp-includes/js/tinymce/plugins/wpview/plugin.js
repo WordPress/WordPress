@@ -646,6 +646,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 	return {
 		getViewText: getViewText,
-		setViewText: setViewText
+		setViewText: setViewText,
+		getView: getView
 	};
 });

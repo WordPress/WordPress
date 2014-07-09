@@ -37,7 +37,6 @@
 
 #titlediv {
 	position: relative;
-	margin-bottom: 10px;
 }
 
 #titlediv label {
@@ -337,7 +336,7 @@ td.plugin-title p {
 	background-color: #f7f7f7;
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
-	cursor: row-resize;
+	z-index: 999;
 }
 
 #post-status-info td {
@@ -345,7 +344,7 @@ td.plugin-title p {
 }
 
 .autosave-info {
-	padding: 2px;
+	padding: 2px 10px;
 	text-align: right;
 }
 
@@ -365,6 +364,18 @@ td.plugin-title p {
 #wp-word-count {
 	display: block;
 	padding: 2px 10px;
+}
+
+#wp-content-editor-container {
+	position: relative;
+}
+
+#content-textarea-clone {
+	z-index: -1;
+	position: absolute;
+	top: 0;
+	visibility: hidden;
+	overflow: hidden;
 }
 
 #timestampdiv select {
@@ -1346,12 +1357,6 @@ table.links-table {
 
 	div.quicktags-toolbar input {
 		padding: 10px 20px;
-	}
-
-	#wp-content-editor-tools {
-		overflow: hidden;
-		padding: 20px 15px 1px 0;
-		top: 1px;
 	}
 
 	a.wp-switch-editor {

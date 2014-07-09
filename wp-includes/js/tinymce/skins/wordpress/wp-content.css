@@ -14,7 +14,17 @@ body {
 	font-size: 13px;
 	line-height: 19px;
 	color: #333;
-	margin: 10px;
+	margin: 9px 10px;
+}
+
+body.wp-autoresize {
+	max-width: 100%;
+	overflow: visible !important;
+	/* The padding ensures margins of the children are contained in the body. */
+	padding-top: 1px !important;
+	padding-bottom: 1px !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
 }
 
 /* When font-weight is different than the default browser style,

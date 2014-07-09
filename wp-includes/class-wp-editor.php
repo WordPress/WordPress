@@ -347,6 +347,7 @@ final class _WP_Editors {
 						'textcolor',
 						'fullscreen',
 						'wordpress',
+						'wpautoresize',
 						'wpeditimage',
 						'wpgallery',
 						'wplink',

@@ -52,6 +52,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				wpAdvButton && wpAdvButton.active( true );
 			}
 		}
+
+		editor.fire( 'wp-toolbar-toggle' );
 	}
 
 	// Add the kitchen sink button :)

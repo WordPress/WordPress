@@ -159,6 +159,8 @@ var postboxes;
 			if ( el ) {
 				el.className = el.className.replace(/columns-\d+/, 'columns-' + n);
 			}
+
+			$( document ).trigger( 'postboxes-columnchange' );
 		},
 
 		_pb_change : function() {
