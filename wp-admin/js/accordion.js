@@ -58,8 +58,7 @@
 		});
 	});
 
-	var accordionOptions = $( '.accordion-container li.accordion-section' ),
-		sectionContent   = $( '.accordion-section-content' );
+	var sectionContent = $( '.accordion-section-content' );
 
 	/**
 	 * Close the current accordion section and open a new one.
