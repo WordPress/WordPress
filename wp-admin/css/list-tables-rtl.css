@@ -1215,6 +1215,100 @@ tr.active + tr.plugin-update-tr .plugin-update .update-message {
 	margin: 2.5em 0 8px;
 }
 
+/* Plugin card table view */
+.plugin-card {
+	float: right;
+	margin: 0 8px 16px;
+	width: 48.5%;
+	width: -webkit-calc( 50% - 8px );
+	width: calc( 50% - 8px );
+	background-color: #fff;
+	border: 1px solid #dedede;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+@media screen and ( max-width: 782px ) {
+	.plugin-card {
+		margin-right: 0;
+		margin-left: 0;
+		width: 100%;
+	}
+}
+
+.plugin-card:nth-child(odd) {
+	clear: both;
+	margin-right: 0;
+}
+
+.plugin-card:nth-child(even) {
+	margin-left: 0
+}
+
+.plugin-card-top {
+	padding: 20px 20px 10px;
+}
+
+div.action-links,
+.plugin-action-buttons {
+	margin: 0; /* Override existing margins */
+}
+
+.plugin-card h4 {
+	float: right;
+	margin: 0 0 12px;
+	font-size: 18px;
+}
+
+.plugin-card .desc {
+	clear: right;
+}
+
+.plugin-action-buttons {
+	float: left;
+	margin-right: 2em;
+	margin-bottom: 1em;
+	text-align: left;
+}
+
+.plugin-action-buttons li {
+	margin-bottom: 10px;
+}
+
+.plugin-card-bottom {
+	clear: both;
+	padding: 12px 20px;
+	background-color: #fafafa;
+	border-top: 1px solid #dedede;
+	overflow: hidden;
+}
+
+.plugin-card-bottom .star-rating {
+	display: inline;
+}
+
+.plugin-card .column-rating {
+	line-height: 23px;
+}
+
+.plugin-card .column-rating,
+.plugin-card .column-updated {
+	margin-bottom: 4px;
+}
+
+.plugin-card .column-rating,
+.plugin-card .column-downloaded {
+	float: right;
+	clear: right;
+}
+
+.plugin-card .column-updated,
+.plugin-card .column-compatibility {
+	float: left;
+	clear: left;
+}
+
 /* ms */
 /* Background Color for Site Status */
 .wp-list-table .site-deleted {
