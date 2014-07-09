@@ -1,3 +1,4 @@
+/* global tinymce */
 
 window.wp = window.wp || {};
 
@@ -15,14 +16,13 @@ jQuery( document ).ready( function($) {
 		$bottom = $( '#post-status-info' ),
 		$statusBar,
 		buffer = 200,
-		adjust,
 		fullscreen = window.wp.editor && window.wp.editor.fullscreen,
 		editorInstance,
 		fixedTop = false,
 		fixedBottom = false;
 
 	$textEditorClone.insertAfter( $textEditor );
-	
+
 	// use to enable/disable
 	$contentWrap.addClass( 'wp-editor-expand' );
 	$( '#content-resize-handle' ).hide();
@@ -306,7 +306,7 @@ jQuery( document ).ready( function($) {
 					borderTop: 'none',
 					width: $editor.parent().width() - ( $top.outerWidth() - $top.width() )
 				} );
-				
+
 				$tools.css( {
 					position: 'absolute',
 					top: 0,
@@ -322,14 +322,14 @@ jQuery( document ).ready( function($) {
 					top: window.pageYOffset - $editor.offset().top + adminBarHeight + $tools.outerHeight(),
 					borderTop: 'none'
 				} );
-				
+
 				$tools.css( {
 					position: 'absolute',
 					top: window.pageYOffset - $contentWrap.offset().top + adminBarHeight,
 					borderTop: 'none',
 					width: $contentWrap.width()
 				} );
-			}				
+			}
 		}
 
 		// Maybe adjust the bottom bar.
