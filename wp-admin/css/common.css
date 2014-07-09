@@ -1829,6 +1829,7 @@ div.action-links {
 	margin-right: 0;
 	height: 250px;
 	bottom: 250px;
+	-webkit-background-size: 100% auto;
 	background-size: 100% auto;
 }
 
@@ -1860,7 +1861,6 @@ div.action-links {
 	background: rgba( 30, 30, 30, 0.9 );
 	text-shadow: 0 1px 3px rgba( 0, 0, 0, 0.4 );
 	-webkit-box-shadow: 0 0 30px rgba( 255, 255, 255, 0.1 );
-	-moz-box-shadow: 0 0 30px rgba( 255, 255, 255, 0.1 );
 	box-shadow: 0 0 30px rgba( 255, 255, 255, 0.1 );
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
@@ -1886,7 +1886,6 @@ div.action-links {
 	margin: 0 -20px;
 	background: transparent;
 	-webkit-box-shadow: inset 0 0 50px 4px rgba( 0, 0, 0, 0.2 ), inset 0 -1px 0 rgba( 0, 0, 0, 0.1 );
-	-moz-box-shadow: inset 0 0 50px 4px rgba( 0, 0, 0, 0.2 ), inset 0 -1px 0 rgba( 0, 0, 0, 0.1 );
 	box-shadow: inset 0 0 50px 4px rgba( 0, 0, 0, 0.2 ), inset 0 -1px 0 rgba( 0, 0, 0, 0.1 );
 }
 
