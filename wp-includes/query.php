@@ -4311,7 +4311,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed $page Page ID, title, slug, or array of such.
+	 * @param mixed $page Page ID, title, slug, path, or array of such.
 	 * @return bool
 	 */
 	public function is_page( $page = '' ) {
@@ -4325,12 +4325,24 @@ class WP_Query {
 
 		$page = (array) $page;
 
-		if ( in_array( $page_obj->ID, $page ) )
+		if ( in_array( $page_obj->ID, $page ) ) {
 			return true;
-		elseif ( in_array( $page_obj->post_title, $page ) )
+		} elseif ( in_array( $page_obj->post_title, $page ) ) {
 			return true;
-		else if ( in_array( $page_obj->post_name, $page ) )
+		} else if ( in_array( $page_obj->post_name, $page ) ) {
 			return true;
+		} else {
+			foreach ( $page as $pagepath ) {
+				if ( ! strpos( $pagepath, '/' ) ) {
+					continue;
+				}
+				$pagepath_obj = get_page_by_path( $pagepath );
+
+				if ( $pagepath_obj && ( $pagepath_obj->ID == $page_obj->ID ) ) {
+					return true;
+				}
+			}
+		}
 
 		return false;
 	}
@@ -4392,7 +4404,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed $post Post ID, title, slug, or array of such.
+	 * @param mixed $post Post ID, title, slug, path, or array of such.
 	 * @return bool
 	 */
 	public function is_single( $post = '' ) {
@@ -4406,13 +4418,24 @@ class WP_Query {
 
 		$post = (array) $post;
 
-		if ( in_array( $post_obj->ID, $post ) )
+		if ( in_array( $post_obj->ID, $post ) ) {
 			return true;
-		elseif ( in_array( $post_obj->post_title, $post ) )
+		} elseif ( in_array( $post_obj->post_title, $post ) ) {
 			return true;
-		elseif ( in_array( $post_obj->post_name, $post ) )
+		} elseif ( in_array( $post_obj->post_name, $post ) ) {
 			return true;
+		} else {
+			foreach ( $post as $postpath ) {
+				if ( ! strpos( $postpath, '/' ) ) {
+					continue;
+				}
+				$postpath_obj = get_page_by_path( $postpath, OBJECT, $post_obj->post_type );
 
+				if ( $postpath_obj && ( $postpath_obj->ID == $post_obj->ID ) ) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
