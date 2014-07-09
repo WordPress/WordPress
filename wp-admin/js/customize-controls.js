@@ -913,7 +913,7 @@
 		if ( ! $.support.postMessage || ( ! $.support.cors && api.settings.isCrossDomain ) )
 			return window.location = api.settings.url.fallback;
 
-		var previewer, parent, topFocus,
+		var parent, topFocus,
 			body = $( document.body ),
 			overlay = body.children( '.wp-full-overlay' ),
 			title = $( '#customize-info .theme-name.site-title' ),
@@ -931,7 +931,7 @@
 		});
 
 		// Initialize Previewer
-		previewer = new api.Previewer({
+		api.previewer = new api.Previewer({
 			container:   '#customize-preview',
 			form:        '#customize-controls',
 			previewUrl:  api.settings.url.preview,
@@ -1008,14 +1008,14 @@
 		});
 
 		// Refresh the nonces if the preview sends updated nonces over.
-		previewer.bind( 'nonce', function( nonce ) {
+		api.previewer.bind( 'nonce', function( nonce ) {
 			$.extend( this.nonce, nonce );
 		});
 
 		$.each( api.settings.settings, function( id, data ) {
 			api.create( id, id, data.value, {
 				transport: data.transport,
-				previewer: previewer
+				previewer: api.previewer
 			} );
 		});
 
@@ -1025,15 +1025,16 @@
 
 			control = api.control.add( id, new constructor( id, {
 				params: data,
-				previewer: previewer
+				previewer: api.previewer
 			} ) );
 		});
 
 		// Check if preview url is valid and load the preview frame.
-		if ( previewer.previewUrl() )
-			previewer.refresh();
-		else
-			previewer.previewUrl( api.settings.url.home );
+		if ( api.previewer.previewUrl() ) {
+			api.previewer.refresh();
+		} else {
+			api.previewer.previewUrl( api.settings.url.home );
+		}
 
 		// Save and activated states
 		(function() {
@@ -1082,13 +1083,13 @@
 
 		// Button bindings.
 		saveBtn.click( function( event ) {
-			previewer.save();
+			api.previewer.save();
 			event.preventDefault();
 		}).keydown( function( event ) {
 			if ( 9 === event.which ) // tab
 				return;
 			if ( 13 === event.which ) // enter
-				previewer.save();
+				api.previewer.save();
 			event.preventDefault();
 		});
 

@@ -5,7 +5,7 @@
 
 	// Set up our namespace...
 	var api = wp.customize,
-		l10n, OldPreviewer;
+		l10n;
 
 	api.Widgets = api.Widgets || {};
 
@@ -185,7 +185,7 @@
 			} );
 
 			// Close the panel if the URL in the preview changes
-			api.Widgets.Previewer.bind( 'url', this.close );
+			api.previewer.bind( 'url', this.close );
 		},
 
 		// Performs a search and handles selected widget
@@ -745,14 +745,14 @@
 				self.container.removeClass( 'previewer-loading' );
 			} );
 
-			api.Widgets.Previewer.bind( 'widget-updated', function( updatedWidgetId ) {
+			api.previewer.bind( 'widget-updated', function( updatedWidgetId ) {
 				if ( updatedWidgetId === self.params.widget_id ) {
 					self.container.removeClass( 'previewer-loading' );
 				}
 			} );
 
 			// Update widget control to indicate whether it is currently rendered
-			api.Widgets.Previewer.bind( 'rendered-widgets', function( renderedWidgets ) {
+			api.previewer.bind( 'rendered-widgets', function( renderedWidgets ) {
 				var isRendered = !! renderedWidgets[self.params.widget_id];
 
 				self.container.toggleClass( 'widget-rendered', isRendered );
@@ -971,17 +971,17 @@
 
 				// Check if the user is logged out.
 				if ( '0' === r ) {
-					api.Widgets.Previewer.preview.iframe.hide();
-					api.Widgets.Previewer.login().done( function() {
+					api.previewer.preview.iframe.hide();
+					api.previewer.login().done( function() {
 						self.updateWidget( args );
-						api.Widgets.Previewer.preview.iframe.show();
+						api.previewer.preview.iframe.show();
 					} );
 					return;
 				}
 
 				// Check for cheaters.
 				if ( '-1' === r ) {
-					api.Widgets.Previewer.cheatin();
+					api.previewer.cheatin();
 					return;
 				}
 
@@ -1418,7 +1418,7 @@
 			} );
 
 			// Update the model with whether or not the sidebar is rendered
-			api.Widgets.Previewer.bind( 'rendered-sidebars', function( renderedSidebars ) {
+			api.previewer.bind( 'rendered-sidebars', function( renderedSidebars ) {
 				var isRendered = !! renderedSidebars[self.params.sidebar_id];
 
 				registeredSidebar.set( 'is_rendered', isRendered );
@@ -1739,18 +1739,6 @@
 	});
 
 	/**
-	 * Capture the instance of the Previewer since it is private
-	 */
-	OldPreviewer = api.Previewer;
-	api.Previewer = OldPreviewer.extend({
-		initialize: function( params, options ) {
-			api.Widgets.Previewer = this;
-			OldPreviewer.prototype.initialize.call( this, params, options );
-			this.bind( 'refresh', this.refresh );
-		}
-	} );
-
-	/**
 	 * Init Customizer for widgets.
 	 */
 	api.bind( 'ready', function() {
@@ -1760,10 +1748,10 @@
 		});
 
 		// Highlight widget control
-		api.Widgets.Previewer.bind( 'highlight-widget-control', api.Widgets.highlightWidgetFormControl );
+		api.previewer.bind( 'highlight-widget-control', api.Widgets.highlightWidgetFormControl );
 
 		// Open and focus widget control
-		api.Widgets.Previewer.bind( 'focus-widget-control', api.Widgets.focusWidgetFormControl );
+		api.previewer.bind( 'focus-widget-control', api.Widgets.focusWidgetFormControl );
 	} );
 
 	/**
