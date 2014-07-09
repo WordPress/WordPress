@@ -751,13 +751,6 @@
 				}
 			} );
 
-			// Update widget control to indicate whether it is currently rendered
-			api.previewer.bind( 'rendered-widgets', function( renderedWidgets ) {
-				var isRendered = !! renderedWidgets[self.params.widget_id];
-
-				self.container.toggleClass( 'widget-rendered', isRendered );
-			} );
-
 			formSyncHandler = api.Widgets.formSyncHandlers[ this.params.widget_id_base ];
 			if ( formSyncHandler ) {
 				$( document ).on( 'widget-synced', function( e, widget ) {
@@ -766,6 +759,17 @@
 					}
 				} );
 			}
+		},
+
+		/**
+		 * Update widget control to indicate whether it is currently rendered.
+		 *
+		 * Overrides api.Control.toggle()
+		 *
+		 * @param {Boolean} active
+		 */
+		toggle: function ( active ) {
+			this.container.toggleClass( 'widget-rendered', active );
 		},
 
 		/**
@@ -1418,32 +1422,38 @@
 			} );
 
 			// Update the model with whether or not the sidebar is rendered
-			api.previewer.bind( 'rendered-sidebars', function( renderedSidebars ) {
-				var isRendered = !! renderedSidebars[self.params.sidebar_id];
-
-				registeredSidebar.set( 'is_rendered', isRendered );
+			self.active.bind( function ( active ) {
+				registeredSidebar.set( 'is_rendered', active );
 			} );
+		},
 
-			// Show the sidebar section when it becomes visible
-			registeredSidebar.on( 'change:is_rendered', function( ) {
-				var sectionSelector = '#accordion-section-sidebar-widgets-' + this.get( 'id' ), $section;
+		/**
+		 * Show the sidebar section when it becomes visible.
+		 *
+		 * Overrides api.Control.toggle()
+		 *
+		 * @param {Boolean} active
+		 */
+		toggle: function ( active ) {
+			var $section, sectionSelector;
 
-				$section = $( sectionSelector );
-				if ( this.get( 'is_rendered' ) ) {
-					$section.stop().slideDown( function() {
-						$( this ).css( 'height', 'auto' ); // so that the .accordion-section-content won't overflow
-					} );
+			sectionSelector = '#accordion-section-sidebar-widgets-' + this.params.sidebar_id;
+			$section = $( sectionSelector );
 
-				} else {
-					// Make sure that hidden sections get closed first
-					if ( $section.hasClass( 'open' ) ) {
-						// it would be nice if accordionSwitch() in accordion.js was public
-						$section.find( '.accordion-section-title' ).trigger( 'click' );
-					}
+			if ( active ) {
+				$section.stop().slideDown( function() {
+					$( this ).css( 'height', 'auto' ); // so that the .accordion-section-content won't overflow
+				} );
 
-					$section.stop().slideUp();
+			} else {
+				// Make sure that hidden sections get closed first
+				if ( $section.hasClass( 'open' ) ) {
+					// it would be nice if accordionSwitch() in accordion.js was public
+					$section.find( '.accordion-section-title' ).trigger( 'click' );
 				}
-			} );
+
+				$section.stop().slideUp();
+			}
 		},
 
 		/**

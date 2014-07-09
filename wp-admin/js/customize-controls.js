@@ -37,6 +37,7 @@
 			this.id = id;
 			this.selector = '#customize-control-' + id.replace( /\]/g, '' ).replace( /\[/g, '-' );
 			this.container = $( this.selector );
+			this.active = new api.Value( this.params.active );
 
 			settings = $.map( this.params.settings, function( value ) {
 				return value;
@@ -79,9 +80,29 @@
 					element.set( setting() );
 				});
 			});
+
+			control.active.bind( function ( active ) {
+				control.toggle( active );
+			} );
+			control.toggle( control.active() );
 		},
 
 		ready: function() {},
+
+		/**
+		 * Callback for change to the control's active state.
+		 *
+		 * Override function for custom behavior for the control being active/inactive.
+		 *
+		 * @param {Boolean} active
+		 */
+		toggle: function ( active ) {
+			if ( active ) {
+				this.container.slideDown();
+			} else {
+				this.container.slideUp();
+			}
+		},
 
 		dropdownInit: function() {
 			var control      = this,
@@ -562,6 +583,26 @@
 			};
 
 			this.bind( 'ready', this._ready );
+
+			this.bind( 'ready', function ( data ) {
+				if ( ! data || ! data.activeControls ) {
+					return;
+				}
+
+				// Any controls not even registered on the previewed URL are not active either
+				api.control.each( function ( control ) {
+					if ( typeof data.activeControls[ control.id ] === 'undefined' ) {
+						data.activeControls[ control.id ] = false;
+					}
+				} );
+
+				$.each( data.activeControls, function ( id, active ) {
+					var control = api.control( id );
+					if ( control ) {
+						control.active( active );
+					}
+				} );
+			} );
 
 			this.request = $.ajax( this.previewUrl(), {
 				type: 'POST',

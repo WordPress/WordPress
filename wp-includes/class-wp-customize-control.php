@@ -85,6 +85,19 @@ class WP_Customize_Control {
 	 */
 	public $type = 'text';
 
+	/**
+	 * Callback
+	 *
+	 * @since 4.0.0
+	 *
+	 * @access public
+	 * @see WP_Customize_Control::active()
+	 * @var callable  Callback is called with one argument, the instance of
+	 *                WP_Customize_Control, and returns bool to indicate whether
+	 *                the control is active (such as it relates to the URL
+	 *                currently being previewed).
+	 */
+	public $active_callback = '';
 
 	/**
 	 * Constructor.
@@ -102,16 +115,21 @@ class WP_Customize_Control {
 	public function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_object_vars( $this ) );
 		foreach ( $keys as $key ) {
-			if ( isset( $args[ $key ] ) )
+			if ( isset( $args[ $key ] ) ) {
 				$this->$key = $args[ $key ];
+			}
 		}
 
 		$this->manager = $manager;
 		$this->id = $id;
+		if ( empty( $this->active_callback ) ) {
+			$this->active_callback = array( $this, 'active_callback' );
+		}
 
 		// Process settings.
-		if ( empty( $this->settings ) )
+		if ( empty( $this->settings ) ) {
 			$this->settings = $id;
+		}
 
 		$settings = array();
 		if ( is_array( $this->settings ) ) {
@@ -132,6 +150,41 @@ class WP_Customize_Control {
 	 */
 	public function enqueue() {}
 
+	/**
+	 * Check whether control is active to current customizer preview.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return bool
+	 */
+	public final function active() {
+		$control = $this;
+		$active = call_user_func( $this->active_callback, $this );
+
+		/**
+		 * Filter response of WP_Customize_Control::active().
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param bool $active
+		 * @param WP_Customize_Control $control
+		 */
+		$active = apply_filters( 'customize_control_active', $active, $control );
+
+		return $active;
+	}
+
+	/**
+	 * Default callback used when invoking WP_Customize_Control::active().
+	 *
+	 * Subclasses can override this with their specific logic, or they may
+	 * provide an 'active_callback' argument to the constructor.
+	 *
+	 * @return bool
+	 */
+	public function active_callback() {
+		return true;
+	}
 
 	/**
 	 * Fetch a setting's value.
@@ -143,8 +196,9 @@ class WP_Customize_Control {
 	 * @return mixed The requested setting's value, if the setting exists.
 	 */
 	public final function value( $setting_key = 'default' ) {
-		if ( isset( $this->settings[ $setting_key ] ) )
+		if ( isset( $this->settings[ $setting_key ] ) ) {
 			return $this->settings[ $setting_key ]->value();
+		}
 	}
 
 	/**
@@ -159,6 +213,7 @@ class WP_Customize_Control {
 		}
 
 		$this->json['type'] = $this->type;
+		$this->json['active'] = $this->active();
 	}
 
 	/**
@@ -256,7 +311,7 @@ class WP_Customize_Control {
 		echo $this->get_link( $setting_key );
 	}
 
- 	/**
+	/**
 	 * Render the custom attributes for the control's input element.
 	 *
 	 * @since 4.0.0
@@ -995,6 +1050,13 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 		</span>
 		<?php
 	}
+
+	/**
+	 * @return bool
+	 */
+	function active_callback() {
+		return $this->manager->widgets->is_sidebar_rendered( $this->sidebar_id );
+	}
 }
 
 /**
@@ -1034,6 +1096,13 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 
 		$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => $args, 1 => $widget['params'][0] ) );
 		echo $this->manager->widgets->get_widget_control( $args );
+	}
+
+	/**
+	 * @return bool
+	 */
+	function active_callback() {
+		return $this->manager->widgets->is_widget_rendered( $this->widget_id );
 	}
 }
 

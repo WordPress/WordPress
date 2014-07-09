@@ -23,11 +23,6 @@
 			this.buildWidgetSelectors();
 			this.highlightControls();
 
-			this.preview.bind( 'active', function() {
-				self.preview.send( 'rendered-sidebars', self.renderedSidebars ); // @todo Only send array of IDs
-				self.preview.send( 'rendered-widgets', self.renderedWidgets ); // @todo Only send array of IDs
-			} );
-
 			this.preview.bind( 'highlight-widget', self.highlightWidget );
 		},
 
