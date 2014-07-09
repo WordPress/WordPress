@@ -322,12 +322,10 @@ $GLOBALS['wp_locale'] = new WP_Locale();
 
 // Load the functions for the active theme, for both parent and child theme if applicable.
 if ( ! defined( 'WP_INSTALLING' ) || 'wp-activate.php' === $pagenow ) {
-	if ( is_child_theme() && file_exists( get_stylesheet_directory() . '/functions.php' ) ) {
-		include get_stylesheet_directory() . '/functions.php';
-	}
-	if ( file_exists( get_template_directory() . '/functions.php' ) ) {
-		include get_template_directory() . '/functions.php';
-	}
+	if ( TEMPLATEPATH !== STYLESHEETPATH && file_exists( STYLESHEETPATH . '/functions.php' ) )
+		include( STYLESHEETPATH . '/functions.php' );
+	if ( file_exists( TEMPLATEPATH . '/functions.php' ) )
+		include( TEMPLATEPATH . '/functions.php' );
 }
 
 /**

@@ -128,7 +128,7 @@ function wp_clean_themes_cache( $clear_update_cache = true ) {
  * @return bool true if a child theme is in use, false otherwise.
  **/
 function is_child_theme() {
-	return get_template_directory() !== get_stylesheet_directory();
+	return ( TEMPLATEPATH !== STYLESHEETPATH );
 }
 
 /**
