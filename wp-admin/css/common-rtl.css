@@ -1811,7 +1811,8 @@ div.action-links {
 }
 
 #plugin-information-title {
-	padding: 0 20px 0 76px;
+	margin-left: 56px; /* avoid collisions with the close icon */
+	padding: 0 20px;
 	font-size: 22px;
 	font-weight: 600;
 	line-height: 56px;
@@ -1824,6 +1825,79 @@ div.action-links {
 	white-space: nowrap;
 }
 
+#plugin-information-title.with-banner {
+	margin-left: 0;
+	height: 250px;
+	bottom: 250px;
+	background-size: 100% auto;
+}
+
+@media only screen and (max-width: 800px) {
+	#plugin-information-title.with-banner {
+		height: 100px;
+		bottom: 100px;
+	}
+}
+
+#plugin-information-title h2 {
+	font-family: "Helvetica Neue", sans-serif;
+	padding:0;
+	margin: 0;
+	max-width: 760px;
+}
+
+#plugin-information-title.with-banner h2 {
+	font-size: 30px;
+	line-height: 50px;
+	font-weight: bold;
+	max-width: 760px;
+	position: absolute;
+	right: 20px;
+	top: 145px;
+	padding: 0 15px;
+	margin: 0;
+	color: #fff;
+	background: rgba( 30, 30, 30, 0.9 );
+	text-shadow: 0 1px 3px rgba( 0, 0, 0, 0.4 );
+	-webkit-box-shadow: 0 0 30px rgba( 255, 255, 255, 0.1 );
+	-moz-box-shadow: 0 0 30px rgba( 255, 255, 255, 0.1 );
+	box-shadow: 0 0 30px rgba( 255, 255, 255, 0.1 );
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+}
+
+@media only screen and (max-width: 800px) {
+	#plugin-information-title.with-banner h2 {
+		top: 12px;
+		font-size: 20px;
+		line-height: 40px;
+	}
+}
+
+#plugin-information-title div.vignette {
+	display: none;
+}
+
+#plugin-information-title.with-banner div.vignette {
+	display: block;
+	top: 0;
+	height: 215px;
+	width: 830px;
+	margin: 0 -20px;
+	background: transparent;
+	-webkit-box-shadow: inset 0 0 50px 4px rgba( 0, 0, 0, 0.2 ), inset 0 -1px 0 rgba( 0, 0, 0, 0.1 );
+	-moz-box-shadow: inset 0 0 50px 4px rgba( 0, 0, 0, 0.2 ), inset 0 -1px 0 rgba( 0, 0, 0, 0.1 );
+	box-shadow: inset 0 0 50px 4px rgba( 0, 0, 0, 0.2 ), inset 0 -1px 0 rgba( 0, 0, 0, 0.1 );
+}
+
+@media only screen and (max-width: 800px) {
+	#plugin-information-title.with-banner div.vignette {
+		height: 65px;
+		bottom: 65px;
+		width: 800%;
+	}
+}
+
 #plugin-information-tabs {
 	padding: 0 16px;
 	position: absolute;
@@ -1832,6 +1906,17 @@ div.action-links {
 	right: 0;
 	height: 36px;
 	z-index: 1;
+}
+
+#plugin-information-tabs.with-banner {
+	top: 215px;
+	background: rgba( 255, 255, 255, 0.85 );
+}
+
+@media only screen and (max-width: 800px) {
+	#plugin-information-tabs.with-banner {
+		top: 65px;
+	}
 }
 
 #plugin-information-tabs a {
@@ -1871,6 +1956,16 @@ div.action-links {
 	right: 0;
 }
 
+#plugin-information-content.with-banner {
+	top:249px;
+}
+
+@media only screen and (max-width: 800px) {
+	#plugin-information-content.with-banner {
+		top:99px;
+	}
+}
+
 #section-holder {
 	margin: 0;
 	padding: 10px 26px;
@@ -1887,6 +1982,7 @@ div.action-links {
 }
 
 #plugin-information .fyi {
+	display: block;
 	background: #f3f3f3;
 	border-right: 1px solid #ddd;
 	color: #666;
@@ -1925,6 +2021,49 @@ div.action-links {
 
 #plugin-information .fyi li {
 	margin: 0 0 10px;
+}
+
+#plugin-information .counter-label {
+	float: right;
+	margin-left: 5px;
+}
+
+#plugin-information .counter-back {
+	height: 17px;
+	width: 92px;
+	background-color: #ececec;
+	float: right;
+}
+
+#plugin-information .counter-bar {
+	height: 17px;
+	background-color: #fddb5a;
+	float: right;
+}
+
+#plugin-information .counter-count {
+	margin-right: 5px;
+}
+
+#plugin-information .fyi ul.contributors {
+	margin-top: 10px;
+}
+
+#plugin-information .fyi ul.contributors li {
+	display: inline-block;
+	margin-left: 8px;
+	vertical-align: middle;
+}
+
+#plugin-information .fyi ul.contributors li {
+	display: inline-block;
+	margin-left: 8px;
+	vertical-align: middle;
+}
+
+#plugin-information .fyi ul.contributors li img {
+	vertical-align: middle;
+	margin-left: 4px;
 }
 
 #plugin-information-footer {
@@ -2053,9 +2192,20 @@ body.import-php .tb-close-icon,
 body.plugins-php .tb-close-icon,
 body.update-core-php .tb-close-icon,
 body.index-php .tb-close-icon {
+	background: rgba( 255, 255, 255, .5);
+	color: #444;
 	line-height: 48px;
 	width: 48px;
 	height: 48px;
+}
+
+body.plugin-install-php .tb-close-icon:hover,
+body.import-php .tb-close-icon:hover,
+body.plugins-php .tb-close-icon:hover,
+body.update-core-php .tb-close-icon:hover,
+body.index-php .tb-close-icon:hover {
+	background: #0074a2;
+	color: #fff;
 }
 
 body.plugin-install-php .tb-close-icon:before,

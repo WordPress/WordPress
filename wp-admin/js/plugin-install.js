@@ -53,6 +53,11 @@ jQuery( document ).ready( function( $ ) {
 		//Flip the tab
 		$( '#plugin-information-tabs a.current' ).removeClass( 'current' );
 		$( this ).addClass( 'current' );
+		//Only show the fyi box in the description section, on smaller screen, where it's otherwise always displayed at the top.
+		if ( 'description' != $( this ).attr( 'name' ) && $( 'body').width() < 830 )
+			$( '#plugin-information-content div.fyi' ).hide();
+		else
+			$( '#plugin-information-content div.fyi' ).show();
 		//Flip the content.
 		$( '#section-holder div.section' ).hide(); //Hide 'em all
 		$( '#section-' + tab ).show();
