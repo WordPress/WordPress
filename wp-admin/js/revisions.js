@@ -399,11 +399,23 @@ window.wp = window.wp || {};
 		},
 
 		changeMode: function( model, value ) {
-			// If we were on the first revision before switching, we have to bump them over one
-			if ( value && 0 === this.revisions.indexOf( this.get('to') ) ) {
+			var toIndex = this.revisions.indexOf( this.get( 'to' ) );
+
+			// If we were on the first revision before switching to two-handled mode,
+			// bump the 'to' position over one
+			if ( value && 0 === toIndex ) {
 				this.set({
-					from: this.revisions.at(0),
-					to: this.revisions.at(1)
+					from: this.revisions.at( toIndex ),
+					to:   this.revisions.at( toIndex + 1 )
+				});
+			}
+
+			// When switching back to single-handled mode, reset 'from' model to
+			// one position before the 'to' model
+			if ( ! value && 0 !== toIndex ) { // '! value' means switching to single-handled mode
+				this.set({
+					from: this.revisions.at( toIndex - 1 ),
+					to:   this.revisions.at( toIndex )
 				});
 			}
 		},
