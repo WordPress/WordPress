@@ -1142,8 +1142,9 @@ function is_active_widget($callback = false, $widget_id = false, $id_base = fals
 
 	if ( is_array($sidebars_widgets) ) {
 		foreach ( $sidebars_widgets as $sidebar => $widgets ) {
-			if ( $skip_inactive && 'wp_inactive_widgets' == $sidebar )
+			if ( $skip_inactive && ( 'wp_inactive_widgets' === $sidebar || 'orphaned_widgets' === substr( $sidebar, 0, 16 ) ) ) {
 				continue;
+			}
 
 			if ( is_array($widgets) ) {
 				foreach ( $widgets as $widget ) {
@@ -1424,8 +1425,9 @@ function retrieve_widgets( $theme_changed = false ) {
 		}
 
 		foreach ( $_sidebars_widgets as $sidebar => $widgets ) {
-			if ( 'wp_inactive_widgets' == $sidebar || 'orphaned_widgets' == substr( $sidebar, 0, 16 ) )
+			if ( 'wp_inactive_widgets' === $sidebar || 'orphaned_widgets' === substr( $sidebar, 0, 16 ) ) {
 				continue;
+			}
 
 			if ( !in_array( $sidebar, $registered_sidebar_keys ) ) {
 				$_sidebars_widgets['orphaned_widgets_' . ++$orphaned] = $widgets;
