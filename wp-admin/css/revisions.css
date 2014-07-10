@@ -73,12 +73,15 @@
 }
 
 .revisions .loading-indicator {
-	position: fixed;
+	position: absolute;
 	vertical-align: middle;
 	opacity: 0;
 	width: 100%;
+	width: -webkit-calc( 100% - 30px );
+	width: calc( 100% - 30px );
 	top: 50%;
-	margin-left: -90px;
+	top: -webkit-calc( 50% - 10px );
+	top: calc( 50% - 10px );
 	-webkit-transition: opacity 0.5s;
 	transition: opacity 0.5s;
 	filter: alpha(opacity=0); /* ie8 and earlier */
