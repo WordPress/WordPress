@@ -2276,6 +2276,7 @@ function wp_install_load_language( $translation ) {
 		return false;
 	}
 
+	unload_textdomain( 'default' ); // Start over.
 	load_textdomain( 'default', WP_LANG_DIR . "/{$translation_to_load}.mo" );
 	load_textdomain( 'default', WP_LANG_DIR . "/admin-{$translation_to_load}.mo" );
 	return $translation_to_load;
