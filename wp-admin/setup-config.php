@@ -186,10 +186,14 @@ switch($step) {
 	if ( isset( $_REQUEST['noapi'] ) ) {
 		$step_1 .= '&amp;noapi';
 	}
+
 	if ( $loaded_language ) {
 		$step_1 .= '&amp;language=' . $loaded_language;
 		$install .= '?language=' . $loaded_language;
+	} else {
+		$install .= '?language=en_US';
 	}
+
 	$tryagain_link = '</p><p class="step"><a href="' . $step_1 . '" onclick="javascript:history.go(-1);return false;" class="button button-large">' . __( 'Try again' ) . '</a>';
 
 	if ( empty( $prefix ) )
