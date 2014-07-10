@@ -588,13 +588,17 @@
 			}
 			// The right arrow key
 			if ( event.keyCode === 39 ) {
-				if ( ! this.hasNext ) { return; }
-				_.debounce( this.nextMediaItem(), 250 );
+				if ( ! this.hasNext ) {
+					return;
+				}
+				this.nextMediaItem();
 			}
 			// The left arrow key
 			if ( event.keyCode === 37 ) {
-				if ( ! this.hasPrevious ) { return; }
-				_.debounce( this.previousMediaItem(), 250 );
+				if ( ! this.hasPrevious ) {
+					return;
+				}
+				this.previousMediaItem();
 			}
 		},
 
