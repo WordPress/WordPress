@@ -153,7 +153,7 @@
 		},
 
 		createRouter: function() {
-			this.gridRouter = new media.view.Frame.Router( this );
+			this.gridRouter = new media.view.MediaFrame.Manage.Router();
 
 			// Verify pushState support and activate
 			if ( window.history && window.history.pushState ) {
@@ -335,14 +335,7 @@
 	/**
 	 * A router for handling the browser history and application state
 	 */
-	media.view.Frame.Router = Backbone.Router.extend({
-
-		mediaFrame: '',
-
-		initialize: function( mediaFrame ){
-			this.mediaFrame = mediaFrame;
-		},
-
+	media.view.MediaFrame.Manage.Router = Backbone.Router.extend({
 		routes: {
 			'upload.php?item=:slug':    'showitem',
 			'upload.php?search=:query': 'search',
@@ -363,18 +356,18 @@
 
 		// Show the modal with a specific item
 		showitem: function( query ) {
-			var library = this.mediaFrame.state().get('library');
+			var library = media.frame.state().get('library');
 
 			// Remove existing modal if present
 			this.closeModal();
 			// Trigger the media frame to open the correct item
-			this.mediaFrame.trigger( 'edit:attachment', library.findWhere( { id: parseInt( query, 10 ) } ) );
+			media.frame.trigger( 'edit:attachment', library.findWhere( { id: parseInt( query, 10 ) } ) );
 		},
 
 		// Close the modal if set up
 		closeModal: function() {
-			if ( 'undefined' !== typeof this.mediaFrame.editAttachmentFrame ) {
-				this.mediaFrame.editAttachmentFrame.modal.close();
+			if ( media.frame.modal ) {
+				media.frame.modal.close();
 			}
 		},
 
