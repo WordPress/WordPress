@@ -1970,22 +1970,60 @@
 			eventToTrigger = model.get('id') + ':' + modeEventMap[collectionEvent];
 			this.trigger( eventToTrigger );
 		},
+		/**
+		 * Activate a mode on the frame.
+		 *
+		 * @param string mode Mode ID.
+		 * @returns {this} Returns itself to allow chaining.
+		 */
 		activateMode: function( mode ) {
-			if ( this.activeModes.where( { id: mode } ).length ) {
+			// Bail if the mode is already active.
+			if ( this.isModeActive( mode ) ) {
 				return;
 			}
 			this.activeModes.add( [ { id: mode } ] );
+			// Add a css class to the frame for anything that needs to be styled
+			// for the mode.
 			this.$el.addClass( 'mode-' + mode );
+			/**
+			 * Frame mode activation event.
+			 *
+			 * @event this#{mode}:activate
+			 */
 			this.trigger( mode + ':activate' );
+
+			return this;
 		},
+		/**
+		 * Deactivate a mode on the frame.
+		 *
+		 * @param string mode Mode ID.
+		 * @returns {this} Returns itself to allow chaining.
+		 */
 		deactivateMode: function( mode ) {
 			// Bail if the mode isn't active.
-			if ( ! this.activeModes.where( { id: mode } ).length ) {
+			if ( ! this.isModeActive( mode ) ) {
 				return;
 			}
 			this.activeModes.remove( this.activeModes.where( { id: mode } ) );
 			this.$el.removeClass( 'mode-' + mode );
+			/**
+			 * Frame mode deactivation event.
+			 *
+			 * @event this#{mode}:deactivate
+			 */
 			this.trigger( mode + ':deactivate' );
+
+			return this;
+		},
+		/**
+		 * Check if a mode is enabled on the frame.
+		 *
+		 * @param  string mode Mode ID.
+		 * @return bool
+		 */
+		isModeActive: function( mode ) {
+			return Boolean( this.activeModes.where( { id: mode } ).length );
 		}
 	});
 
@@ -4825,8 +4863,12 @@
 				return;
 			}
 
-			details = selection.single();
-			this.$el.toggleClass( 'details', details === this.model );
+			// In bulk edit mode (in media grid), attachments don't open the "details"
+			// pane, so a `details` class is unnecessary on the attachment view.
+			if ( ! this.controller.isModeActive( 'bulk-edit' ) ) {
+				details = selection.single();
+				this.$el.toggleClass( 'details', details === this.model );
+			}
 		},
 		/**
 		 * @param {Object} event

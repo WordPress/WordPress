@@ -903,14 +903,16 @@
 	display: block;
 }
 
-.attachment.details {
+.attachment.details,
+.media-grid-view .selected.attachment {
 	-webkit-box-shadow: 0 0 0 1px #fff,
 				0 0 0 5px #1e8cbe;
 	box-shadow: 0 0 0 1px #fff,
 				0 0 0 5px #1e8cbe;
 }
 
-.attachment.details .check {
+.attachment.details .check,
+.media-grid-view .attachment .check {
 	background-color: #1e8cbe;
 	-webkit-box-shadow: 0 0 0 1px #fff,
 				0 0 0 2px #1e8cbe;
@@ -918,11 +920,13 @@
 				0 0 0 2px #1e8cbe;
 }
 
-.attachment.details .check div {
+.attachment.details .check div,
+.media-grid-view .attachment .check div {
 	background-position: -21px 0;
 }
 
-.attachment.details .check:hover div {
+.attachment.details .check:hover div,
+.media-grid-view .attachment .check:hover div {
 	background-position: -60px 0;
 }
 

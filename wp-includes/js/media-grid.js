@@ -608,11 +608,9 @@
 			media.view.Button.prototype.click.apply( this, arguments );
 
 			if ( bulkEditActive ) {
-				this.controller.deactivateMode( 'bulk-edit' );
-				this.controller.activateMode( 'edit' );
+				this.controller.deactivateMode( 'bulk-edit' ).activateMode( 'edit' );
 			} else {
-				this.controller.deactivateMode( 'edit' );
-				this.controller.activateMode( 'bulk-edit' );
+				this.controller.deactivateMode( 'edit' ).activateMode( 'bulk-edit' );
 			}
 		},
 
