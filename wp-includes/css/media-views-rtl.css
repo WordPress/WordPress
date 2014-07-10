@@ -1634,18 +1634,18 @@ video#inline-media-node {
  * Image Editor
  */
 
-.media-frame .imgedit-wrap {
+.media-modal .imgedit-wrap {
 	position: static;
 }
 
-.media-frame .imgedit-wait {
+.media-modal .imgedit-wait {
 	height: auto !important;
 	left: 0;
 	bottom: 0;
 	right: 0;
 }
 
-.media-frame .imgedit-wrap .imgedit-panel-content {
+.media-modal .imgedit-wrap .imgedit-panel-content {
 	padding: 16px;
 	position: absolute;
 	top: 0;
@@ -1655,7 +1655,7 @@ video#inline-media-node {
 	overflow: auto;
 }
 
-.media-frame .imgedit-wrap .imgedit-settings {
+.media-modal .imgedit-wrap .imgedit-settings {
 	background: #f3f3f3;
 	border-right: 1px solid #ddd;
 	padding: 0 16px 16px;
@@ -1667,7 +1667,7 @@ video#inline-media-node {
 	overflow: auto;
 }
 
-.media-frame .imgedit-group {
+.media-modal .imgedit-group {
 	background: none;
 	border: none;
 	border-bottom: 1px solid #ddd;
@@ -1679,13 +1679,13 @@ video#inline-media-node {
 	padding-bottom: 16px;
 }
 
-.media-frame .imgedit-group:last-of-type {
+.media-modal .imgedit-group:last-of-type {
 	border: none;
 	margin: 0;
 	padding: 0;
 }
 
-.media-frame .imgedit-group-top h3 {
+.media-modal .imgedit-group-top h3 {
 	text-transform: uppercase;
 	font-size: 12px;
 	color: #666;
@@ -1693,26 +1693,26 @@ video#inline-media-node {
 	margin-top: 24px;
 }
 
-.media-frame .imgedit-group-top h3 a {
+.media-modal .imgedit-group-top h3 a {
 	text-decoration: none;
 	color: #666;
 }
 
-.media-frame .imgedit-help-toggle {
+.media-modal .imgedit-help-toggle {
 	margin-top: -2px;
 	cursor: pointer;
 	color: #666;
 }
 
-.media-frame .imgedit-help-toggled span.dashicons:before {
+.media-modal .imgedit-help-toggled span.dashicons:before {
 	content: '\f142';
 }
 
-.media-frame .imgedit-group img {
+.media-modal .imgedit-group img {
 	margin-top: 5px;
 }
 
-.media-frame .imgedit-wrap div.updated {
+.media-modal .imgedit-wrap div.updated {
 	margin: 0;
 	margin-bottom: 16px;
 }
