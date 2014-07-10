@@ -140,19 +140,6 @@
 			this.bindHandlers();
 			this.render();
 
-			this.gridRouter = new media.view.Frame.Router( this );
-
-			// Set up the Backbone router after a brief delay
-			_.delay( function(){
-				// Verify pushState support and activate
-				if ( window.history && window.history.pushState ) {
-					Backbone.history.start({
-						root: mediaGridSettings.adminUrl,
-						pushState: true
-					});
-				}
-			}, 250);
-
 			// Update the URL when entering search string (at most once per second)
 			$( '#media-search-input' ).on( 'input', _.debounce( function(e) {
 				var val = $( e.currentTarget ).val(), url = '';
@@ -161,6 +148,20 @@
 				}
 				self.gridRouter.navigate( self.gridRouter.baseUrl( url ) );
 			}, 1000 ) );
+
+			_.delay( _.bind( this.createRouter, this ), 1000 );
+		},
+
+		createRouter: function() {
+			this.gridRouter = new media.view.Frame.Router( this );
+
+			// Verify pushState support and activate
+			if ( window.history && window.history.pushState ) {
+				Backbone.history.start({
+					root: mediaGridSettings.adminUrl,
+					pushState: true
+				});
+			}
 		},
 
 		createSelection: function() {
