@@ -1812,7 +1812,7 @@
 			this.activeModes.on( 'add remove reset', _.bind( this.triggerModeEvents, this ) );
 
 			_.each( this.options.mode, function( mode ) {
-				this.activeModes.add( new Backbone.Model( { id: mode } ) );
+				this.activateMode( mode );
 			}, this );
 
 			// Force the uploader off if the upload limit has been exceeded or
@@ -2005,7 +2005,11 @@
 			this.trigger( eventToTrigger );
 		},
 		activateMode: function( mode ) {
+			if ( this.activeModes.where( { id: mode } ).length ) {
+				return;
+			}
 			this.activeModes.add( [ { id: mode } ] );
+			this.$el.addClass( 'mode-' + mode );
 			this.trigger( mode + ':activate' );
 		},
 		deactivateMode: function( mode ) {
@@ -2014,6 +2018,7 @@
 				return;
 			}
 			this.activeModes.remove( this.activeModes.where( { id: mode } ) );
+			this.$el.removeClass( 'mode-' + mode );
 			this.trigger( mode + ':deactivate' );
 		}
 	});
@@ -4590,7 +4595,7 @@
 		},
 
 		events: {
-			'click .attachment-preview':      'toggleSelectionHandler',
+			'click .js--select-attachment':   'toggleSelectionHandler',
 			'change [data-setting]':          'updateSetting',
 			'change [data-setting] input':    'updateSetting',
 			'change [data-setting] select':   'updateSetting',

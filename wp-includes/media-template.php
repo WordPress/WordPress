@@ -386,11 +386,11 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-attachment">
 		<# if ( _.contains( data.controller.options.mode, 'grid' ) ) { #>
-		<div class="inline-toolbar">
+		<div class="inline-toolbar js--select-attachment">
 			<div class="dashicons dashicons-edit edit edit-media"></div>
 		</div>
 		<# } #>
-		<div class="attachment-preview type-{{ data.type }} subtype-{{ data.subtype }} {{ data.orientation }}">
+		<div class="attachment-preview js--select-attachment type-{{ data.type }} subtype-{{ data.subtype }} {{ data.orientation }}">
 			<# if ( data.uploading ) { #>
 				<div class="media-progress-bar"><div></div></div>
 			<# } else if ( 'image' === data.type ) { #>

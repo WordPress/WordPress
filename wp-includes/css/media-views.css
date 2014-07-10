@@ -2643,6 +2643,9 @@ video#inline-media-node {
 	font-weight: 300;
 }
 
+.media-frame.mode-bulk-edit .attachment:hover .inline-toolbar {
+	display: none;
+}
 
 .edit-attachment-frame .edit-media-header .left:before {
 	content: '\f340';
