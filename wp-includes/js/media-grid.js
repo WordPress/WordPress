@@ -17,7 +17,7 @@
 	 * @augments wp.media.controller.State
 	 * @augments Backbone.Model
 	 */
-	media.controller.EditImageNoFrame = media.controller._State.extend({
+	media.controller.EditImageNoFrame = media.controller.State.extend({
 		defaults: {
 			id:      'edit-attachment',
 			title:   l10n.editImage,
@@ -29,17 +29,15 @@
 			url:     ''
 		},
 
-		initialize: function() {
-			media.controller._State.prototype.initialize.apply( this, arguments );
-		},
+		_ready: function() {},
 
+		/**
+		 * Override media.controller.State._postActivate, since this state doesn't
+		 * include the regions expected there.
+		 */
 		_postActivate: function() {
 			this._content();
 			this._router();
-		},
-
-		deactivate: function() {
-			this.stopListening( this.frame );
 		},
 
 		/**

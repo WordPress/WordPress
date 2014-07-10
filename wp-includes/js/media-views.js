@@ -337,11 +337,16 @@
 	});
 
 	/**
-	 * A more abstracted state, because media.controller.State expects
-	 * specific regions (menu, title, etc.) to exist on the frame, which do not
-	 * exist in media.view.Frame.EditAttachment.
+	 * wp.media.controller.State
+	 *
+	 * A state is a step in a workflow that when set will trigger the controllers
+	 * for the regions to be updated as specified in the frame. This is the base
+	 * class that the various states used in wp.media extend.
+	 *
+	 * @constructor
+	 * @augments Backbone.Model
 	 */
-	media.controller._State = Backbone.Model.extend({
+	media.controller.State = Backbone.Model.extend({
 		constructor: function() {
 			this.on( 'activate', this._preActivate, this );
 			this.on( 'activate', this.activate, this );
@@ -349,13 +354,14 @@
 			this.on( 'deactivate', this._deactivate, this );
 			this.on( 'deactivate', this.deactivate, this );
 			this.on( 'reset', this.reset, this );
+			this.on( 'ready', this._ready, this );
 			this.on( 'ready', this.ready, this );
 			/**
 			 * Call parent constructor with passed arguments
 			 */
 			Backbone.Model.apply( this, arguments );
+			this.on( 'change:menu', this._updateMenu, this );
 		},
-
 		/**
 		 * @abstract
 		 */
@@ -375,55 +381,15 @@
 		/**
 		 * @access private
 		 */
-		_preActivate: function() {
-			this.active = true;
-		},
-		/**
-		 * @access private
-		 */
-		_postActivate: function() {},
-		/**
-		 * @access private
-		 */
-		_deactivate: function() {
-			this.active = false;
-		}
-	});
-
-	/**
-	 * wp.media.controller.State
-	 *
-	 * A state is a step in a workflow that when set will trigger the controllers
-	 * for the regions to be updated as specified in the frame. This is the base
-	 * class that the various states used in wp.media extend.
-	 *
-	 * @constructor
-	 * @augments Backbone.Model
-	 */
-	media.controller.State = media.controller._State.extend({
-		constructor: function() {
-			this.on( 'activate', this._preActivate, this );
-			this.on( 'activate', this.activate, this );
-			this.on( 'activate', this._postActivate, this );
-			this.on( 'deactivate', this._deactivate, this );
-			this.on( 'deactivate', this.deactivate, this );
-			this.on( 'reset', this.reset, this );
-			this.on( 'ready', this._ready, this );
-			this.on( 'ready', this.ready, this );
-			/**
-			 * Call parent constructor with passed arguments
-			 */
-			Backbone.Model.apply( this, arguments );
-			this.on( 'change:menu', this._updateMenu, this );
-		},
-
-		/**
-		 * @access private
-		 */
 		_ready: function() {
 			this._updateMenu();
 		},
-
+		/**
+		 * @access private
+		*/
+		_preActivate: function() {
+			this.active = true;
+		},
 		/**
 		 * @access private
 		 */
