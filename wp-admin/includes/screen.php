@@ -1078,7 +1078,13 @@ final class WP_Screen {
 			</div>
 		<?php elseif ( $this->get_option( 'media_grid_title' ) ): ?>
 			<div class="metabox-prefs media-grid-prefs">
-			<?php foreach ( $this->_options as $column => $args ) {
+			<?php
+			$option = get_user_option( 'manageuploadgridcolumnshidden' );
+			$hidden = array();
+			if ( ! empty( $option ) ) {
+				$hidden = $option;
+			}
+			foreach ( $this->_options as $column => $args ) {
 				$id = "$column-hide";
 				echo '<label for="' . $id . '">';
 				$saved = str_replace( 'media_grid_', '', $column );

@@ -419,7 +419,11 @@ function wp_print_media_templates() {
 		if ( _.contains( data.controller.options.mode, 'grid' ) ) { #>
 		<div class="data-fields">
 		<?php
-		$hidden = get_hidden_columns( get_current_screen() );
+		$option = get_user_option( 'manageuploadgridcolumnshidden' );
+		$hidden = array();
+		if ( ! empty( $option ) ) {
+			$hidden = $option;
+		}
 		$fields = array( 'title', 'uploadedTo', 'dateFormatted', 'mime' );
 		foreach ( $fields as $field ):
 			$class_name = in_array( $field, $hidden ) ? 'data-field data-hidden' : 'data-field data-visible';

@@ -27,7 +27,7 @@ columns = {
 	},
 
 	saveManageColumnsState : function() {
-		var hidden = this.hidden();
+		var hidden, page;
 		if ( $( '#media_grid_title-hide' ).length ) {
 			hidden = [];
 			$( '.hide-column-tog', '.media-grid-prefs' ).each( function() {
@@ -40,13 +40,18 @@ columns = {
 					$el.removeClass( 'data-hidden' ).addClass( 'data-visible' );
 				}
 			} );
+			page = pagenow + 'grid';
 			hidden = hidden.join( ',' );
+		} else {
+			page = pagenow;
+			hidden = this.hidden();
 		}
+		
 		$.post(ajaxurl, {
 			action: 'hidden-columns',
 			hidden: hidden,
 			screenoptionnonce: $('#screenoptionnonce').val(),
-			page: pagenow
+			page: page
 		});
 	},
 
