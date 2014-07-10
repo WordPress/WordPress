@@ -244,9 +244,9 @@
 
 			// Create a new EditAttachment frame, passing along the library and the attachment model.
 			this.editAttachmentFrame = new media.view.Frame.EditAttachments({
-				router:  this.gridRouter,
-				library: library,
-				model:   model
+				gridRouter:  this.gridRouter,
+				library:     library,
+				model:       model
 			});
 
 			// Listen to events on the edit attachment frame for triggering pagination callback handlers.
