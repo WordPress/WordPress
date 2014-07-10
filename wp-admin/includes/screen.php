@@ -1022,7 +1022,7 @@ final class WP_Screen {
 		<?php if (
 			isset( $wp_meta_boxes[ $this->id ] )
 			|| $this->get_option( 'per_page' )
-			|| $this->get_option( 'media_grid_title' )
+			|| $this->get_option( 'misc_screen_options' )
 			|| ( $columns && empty( $columns['_title'] ) )
 		) : ?>
 			<h5><?php _e( 'Show on screen' ); ?></h5>
@@ -1076,19 +1076,24 @@ final class WP_Screen {
 				?>
 				<br class="clear" />
 			</div>
-		<?php elseif ( $this->get_option( 'media_grid_title' ) ): ?>
-			<div class="metabox-prefs media-grid-prefs">
+		<?php elseif ( $this->get_option( 'misc_screen_options' ) ):
+			$misc_options = $this->get_option( 'misc_screen_options' );
+		?>
+			<div class="metabox-prefs misc-screen-options" data-id="<?php echo esc_attr( $misc_options['id'] ) ?>">
 			<?php
-			$option = get_user_option( 'manageuploadgridcolumnshidden' );
+
+			$option = get_user_option( $misc_options['option'] );
 			$hidden = array();
 			if ( ! empty( $option ) ) {
 				$hidden = $option;
 			}
 			foreach ( $this->_options as $column => $args ) {
+				if ( 'misc_screen_options' === $column ) {
+					continue;
+				}
 				$id = "$column-hide";
 				echo '<label for="' . $id . '">';
-				$saved = str_replace( 'media_grid_', '', $column );
-				echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . checked( ! in_array( $saved, $hidden ), true, false ) . ' />';
+				echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . checked( ! in_array( $column, $hidden ), true, false ) . ' />';
 				echo $args['label'] . "</label>\n";
 			} ?>
 				<br class="clear" />

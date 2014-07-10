@@ -27,11 +27,11 @@ columns = {
 	},
 
 	saveManageColumnsState : function() {
-		var hidden, page;
-		if ( $( '#media_grid_title-hide' ).length ) {
+		var hidden, page, opts = $( '.misc-screen-options' );
+		if ( opts.length ) {
 			hidden = [];
-			$( '.hide-column-tog', '.media-grid-prefs' ).each( function() {
-				var $el, field = this.value.replace( 'media_grid_', '' );
+			opts.find( '.hide-column-tog' ).each( function() {
+				var $el, field = this.value;
 				$el = $( '.data-' + field );
 				if ( ! this.checked ) {
 					hidden.push( field );
@@ -40,13 +40,13 @@ columns = {
 					$el.removeClass( 'data-hidden' ).addClass( 'data-visible' );
 				}
 			} );
-			page = pagenow + 'grid';
+			page = pagenow + opts.data( 'id' );
 			hidden = hidden.join( ',' );
 		} else {
 			page = pagenow;
 			hidden = this.hidden();
 		}
-		
+
 		$.post(ajaxurl, {
 			action: 'hidden-columns',
 			hidden: hidden,
