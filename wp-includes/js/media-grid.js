@@ -1,4 +1,4 @@
-/* global _wpMediaViewsL10n, setUserSetting, deleteUserSetting, MediaElementPlayer, mediaGridSettings*/
+/* global _wpMediaViewsL10n, MediaElementPlayer, mediaGridSettings*/
 (function($, _, Backbone, wp) {
 	var media = wp.media, l10n;
 
