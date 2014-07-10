@@ -665,7 +665,7 @@
 			}
 
 			if ( ! this.get('edge') ) {
-				this.set( 'edge', 120 );
+				this.set( 'edge', 150 );
 			}
 
 			if ( ! this.get('gutter') ) {
@@ -1785,14 +1785,13 @@
 		 * @global wp.Uploader
 		 */
 		initialize: function() {
-
 			media.view.Frame.prototype.initialize.apply( this, arguments );
 
 			_.defaults( this.options, {
 				title:    '',
 				modal:    true,
 				uploader: true,
-				mode:     ['select']
+				mode:     [ 'select' ]
 			});
 
 			// Ensure core UI is enabled.
@@ -1807,6 +1806,14 @@
 
 				this.modal.content( this );
 			}
+
+			// Store active "modes" that the frame is in. Unrelated to region modes.
+			this.activeModes = new Backbone.Collection();
+			this.activeModes.on( 'add remove reset', _.bind( this.triggerModeEvents, this ) );
+
+			_.each( this.options.mode, function( mode ) {
+				this.activeModes.add( new Backbone.Model( { id: mode } ) );
+			}, this );
 
 			// Force the uploader off if the upload limit has been exceeded or
 			// if the browser isn't supported.
@@ -1972,6 +1979,42 @@
 
 			window.tb_remove = this._tb_remove;
 			delete this._tb_remove;
+		},
+
+		/**
+		 * Map activeMode collection events to the frame.
+		 */
+		triggerModeEvents: function( model, collection, options ) {
+			var collectionEvent,
+				modeEventMap = {
+					add: 'activate',
+					remove: 'deactivate'
+				},
+				eventToTrigger;
+			// Probably a better way to do this.
+			_.each( options, function( value, key ) {
+				if ( value ) {
+					collectionEvent = key;
+				}
+			} );
+
+			if ( ! _.has( modeEventMap, collectionEvent ) )
+				return;
+
+			eventToTrigger = model.get('id') + ':' + modeEventMap[collectionEvent];
+			this.trigger( eventToTrigger );
+		},
+		activateMode: function( mode ) {
+			this.activeModes.add( [ { id: mode } ] );
+			this.trigger( mode + ':activate' );
+		},
+		deactivateMode: function( mode ) {
+			// Bail if the mode isn't active.
+			if ( ! this.activeModes.where( { id: mode } ).length ) {
+				return;
+			}
+			this.activeModes.remove( this.activeModes.where( { id: mode } ) );
+			this.trigger( mode + ':deactivate' );
 		}
 	});
 
@@ -4673,7 +4716,7 @@
 			}
 
 			// In the grid view, bubble up an edit:attachment event to the controller.
-			if ( _.contains( this.controller.options.mode, 'grid' ) ) {
+			if ( this.controller.activeModes.where( { id: 'edit' } ).length ) {
 				this.controller.trigger( 'edit:attachment', this.model );
 				return;
 			}
@@ -5081,7 +5124,10 @@
 			if ( this.options.resize ) {
 				$(window).on( 'resize.attachments', this._resizeCss );
 			}
-			this.css();
+
+			// Call this.css() after this view has been rendered in the DOM so
+			// attachments get proper width applied.
+			_.defer( this.css, this );
 		},
 
 		dispose: function() {
@@ -5531,7 +5577,10 @@
 				AttachmentView: media.view.Attachment.Library
 			});
 
+			this.listenTo( this.controller, 'show:upload:attachment', _.bind( this.showUploader, this ) );
 			this.createToolbar();
+			this.createUploader();
+			this.createAttachments();
 			this.updateContent();
 			if ( this.options.sidebar ) {
 				this.createSidebar();
@@ -5568,7 +5617,7 @@
 			// Feels odd to bring the global media library switcher into the Attachment
 			// browser view. Is this a use case for doAction( 'add:toolbar-items:attachments-browser', this.toolbar );
 			// which the controller can tap into and add this view?
-			if ( _.contains( this.controller.options.mode, 'grid' ) ) {
+			if ( this.controller.activeModes.where( { id: 'grid' } ).length ) {
 				LibraryViewSwitcher = media.View.extend({
 					className: 'view-switch media-grid-view-switch',
 					template: media.template( 'media-library-view-switcher')
@@ -5576,6 +5625,18 @@
 				this.toolbar.set( 'libraryViewSwitcher', new LibraryViewSwitcher({
 					controller: this.controller,
 					priority: -90
+				}).render() );
+
+				this.toolbar.set( 'bulkSelectionToggleButton', new media.view.BulkSelectionToggleButton({
+					text: 'Bulk Edit',
+					controller: this.controller,
+					priority: -70
+				}).render() );
+
+				this.toolbar.set( 'BulkDeleteButton', new media.view.BulkDeleteButton({
+					text: 'Bulk Delete',
+					controller: this.controller,
+					priority: -69
 				}).render() );
 
 				this.toolbar.set( 'gridFieldOptions', new media.view.GridFieldOptions({
@@ -5635,48 +5696,38 @@
 
 		updateContent: function() {
 			var view = this;
-
-			if( ! this.attachments ) {
-				this.createAttachments();
-			}
-
 			if ( ! this.collection.length ) {
 				this.toolbar.get( 'spinner' ).show();
 				this.collection.more().done(function() {
 					if ( ! view.collection.length ) {
-						view.createUploader();
+						view.attachmentsNoResults.$el.removeClass( 'hidden' );
+					} else {
+						view.attachmentsNoResults.$el.addClass( 'hidden' );
 					}
 					view.toolbar.get( 'spinner' ).hide();
 				});
 			} else {
+				this.attachmentsNoResults.$el.addClass( 'hidden' );
 				view.toolbar.get( 'spinner' ).hide();
 			}
 		},
 
-		removeContent: function() {
-			_.each(['attachments','uploader'], function( key ) {
-				if ( this[ key ] ) {
-					this[ key ].remove();
-					delete this[ key ];
-				}
-			}, this );
-		},
-
 		createUploader: function() {
-			this.removeContent();
-
 			this.uploader = new media.view.UploaderInline({
 				controller: this.controller,
 				status:     false,
 				message:    l10n.noItemsFound
 			});
 
+			this.uploader.$el.addClass( 'hidden' );
 			this.views.add( this.uploader );
 		},
 
-		createAttachments: function() {
-			this.removeContent();
+		showUploader: function() {
+			this.uploader.$el.removeClass( 'hidden' );
+		},
 
+		createAttachments: function() {
 			this.attachments = new media.view.Attachments({
 				controller:           this.controller,
 				collection:           this.collection,
@@ -5690,6 +5741,17 @@
 			});
 
 			this.views.add( this.attachments );
+
+			this.attachmentsNoResults = new media.View({
+				controller: this.controller
+			});
+
+			this.attachmentsNoResults.$el.addClass( 'hidden' );
+			this.attachmentsNoResults.$el.html( 'No media found.' );
+
+			this.views.add( this.attachmentsNoResults );
+
+
 		},
 
 		createSidebar: function() {

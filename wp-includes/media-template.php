@@ -276,7 +276,6 @@ function wp_print_media_templates() {
 		</div>
 		<div class="media-frame-router"></div>
 		<div class="media-frame-content"></div>
-		<div class="media-frame-toolbar"></div>
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-details-two-column">
@@ -447,7 +446,7 @@ function wp_print_media_templates() {
 			<div class="{{ className }} data-{{ field }}"><#
 				if ( 'uploadedTo' === field ) {
 					if ( data[ field ] ) {
-					#><?php _e( 'Uploaded To: ' ) ?>{{ data.uploadedToTitle }}<#
+					#><?php _e( 'Uploaded To: ' ) ?><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a><#
 					} else {
 					#><?php _e( 'Unattached' ) ?><#
 					}

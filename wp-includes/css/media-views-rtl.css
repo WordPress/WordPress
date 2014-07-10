@@ -228,7 +228,6 @@
 .media-toolbar-secondary > .media-button,
 .media-toolbar-secondary > .media-button-group {
 	margin-left: 10px;
-	float: right;
 	margin-top: 15px;
 }
 
@@ -996,6 +995,25 @@
 	bottom: 0;
 	overflow: auto;
 	outline: none;
+	-webkit-transition: 1s ease-in-out;
+    transition: 1s ease-in-out;
+}
+
+.attachments-browser .uploader-inline:not(.hidden) + .attachments {
+	-webkit-transform: translateY( 300px );
+	-ms-transform: translateY( 300px );
+	transform: translateY( 300px );
+}
+
+.attachments-browser .uploader-inline.hidden {
+	display: block;
+	-webkit-transform: translateY( -100% );
+	-ms-transform: translateY( -100% );
+	transform: translateY( -100% );
+}
+
+.attachments-browser .uploader-inline-content {
+	top: 0;
 }
 
 .inline-toolbar {
@@ -1081,7 +1099,8 @@ video#inline-media-node {
 	right: 0;
 }
 
-.attachments-browser.hide-sidebar .attachments {
+.attachments-browser.hide-sidebar .attachments,
+.attachments-browser.hide-sidebar .uploader-inline {
 	left: 0;
 	margin-left: 0;
 }
@@ -2655,6 +2674,11 @@ video#inline-media-node {
 .edit-attachment-frame .media-frame-content,
 .edit-attachment-frame .media-frame-router {
 	right: 0;
+}
+
+.edit-attachment-frame .media-frame-content {
+	border-bottom: none;
+	bottom: 0;
 }
 
 /* Hiding this for the moment instead of removing it from the template. */
