@@ -140,9 +140,10 @@
 			this.bindHandlers();
 			this.render();
 
+			this.gridRouter = new media.view.Frame.Router( this );
+
 			// Set up the Backbone router after a brief delay
 			_.delay( function(){
-				wp.media.mediarouter = new media.view.Frame.Router( self );
 				// Verify pushState support and activate
 				if ( window.history && window.history.pushState ) {
 					Backbone.history.start({
@@ -153,9 +154,12 @@
 			}, 250);
 
 			// Update the URL when entering search string (at most once per second)
-			$( '#media-search-input' ).on( 'input', _.debounce( function() {
-				var $val = $( this ).val();
-				wp.media.mediarouter.navigate( wp.media.mediarouter.baseUrl( ( '' === $val ) ? '' : ( '?search=' + $val ) ) );
+			$( '#media-search-input' ).on( 'input', _.debounce( function(e) {
+				var val = $( e.currentTarget ).val(), url = '';
+				if ( val ) {
+					url += '?search=' + val;
+				}
+				self.gridRouter.navigate( self.gridRouter.baseUrl( url ) );
 			}, 1000 ) );
 		},
 
@@ -240,8 +244,9 @@
 
 			// Create a new EditAttachment frame, passing along the library and the attachment model.
 			this.editAttachmentFrame = new media.view.Frame.EditAttachments({
-				library:        library,
-				model:          model
+				router:  this.gridRouter,
+				library: library,
+				model:   model
 			});
 
 			// Listen to events on the edit attachment frame for triggering pagination callback handlers.
@@ -299,7 +304,12 @@
 		template: wp.template( 'attachment-details-two-column' ),
 
 		initialize: function() {
-			this.$el.attr('aria-label', this.model.attributes.title).attr('aria-checked', false);
+			if ( ! this.model ) {
+				return;
+			}
+
+			this.$el.attr('aria-label', this.model.get( 'title' ) ).attr( 'aria-checked', false );
+
 			this.model.on( 'change:sizes change:uploading', this.render, this );
 			this.model.on( 'change:title', this._syncTitle, this );
 			this.model.on( 'change:caption', this._syncCaption, this );
@@ -403,6 +413,7 @@
 				state: 'edit-attachment'
 			});
 
+			this.gridRouter = this.options.gridRouter;
 			this.library = this.options.library;
 			if ( this.options.model ) {
 				this.model = this.options.model;
@@ -475,7 +486,7 @@
 			});
 			this.content.set( view );
 			// Update browser url when navigating media details
-			wp.media.mediarouter.navigate( wp.media.mediarouter.baseUrl( '?item=' + this.model.id ) );
+			this.gridRouter.navigate( this.gridRouter.baseUrl( '?item=' + this.model.id ) );
 		},
 
 		/**
@@ -586,8 +597,7 @@
 		},
 
 		resetRoute: function() {
-			wp.media.mediarouter.navigate( wp.media.mediarouter.baseUrl( '' ) );
-			return;
+			this.gridRouter.navigate( this.gridRouter.baseUrl( '' ) );
 		}
 	});
 
