@@ -1025,6 +1025,7 @@ form.upgrade .hint {
 	display: none;
 	margin: 0 20px -1px 0px;
 	position: relative;
+	z-index: 10;
 	background-color: #fff;
 	border: 1px solid #ddd;
 	border-top: none;
@@ -1047,6 +1048,7 @@ form.upgrade .hint {
 #screen-meta-links .screen-meta-toggle {
 	position: relative;
 	top: 0;
+	z-index: 10;
 }
 
 #screen-meta-links a {

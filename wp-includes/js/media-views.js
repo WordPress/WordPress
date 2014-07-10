@@ -5228,8 +5228,7 @@
 				controller:           this.controller,
 				model:                attachment,
 				collection:           this.collection,
-				selection:            this.options.selection,
-				showAttachmentFields: this.options.showAttachmentFields
+				selection:            this.options.selection
 			});
 
 			return this._viewsByCid[ attachment.cid ] = view;
@@ -5544,7 +5543,6 @@
 				search:  true,
 				display: false,
 				sidebar: true,
-				showAttachmentFields: getUserSetting( 'showAttachmentFields', [ 'title', 'uploadedTo', 'dateFormatted', 'mime' ] ),
 				AttachmentView: media.view.Attachment.Library
 			});
 
@@ -5608,11 +5606,6 @@
 					text: 'Bulk Delete',
 					controller: this.controller,
 					priority: -69
-				}).render() );
-
-				this.toolbar.set( 'gridFieldOptions', new media.view.GridFieldOptions({
-					controller: this.controller,
-					priority: -50
 				}).render() );
 			}
 
@@ -5705,7 +5698,6 @@
 				selection:            this.options.selection,
 				model:                this.model,
 				sortable:             this.options.sortable,
-				showAttachmentFields: this.options.showAttachmentFields,
 
 				// The single `Attachment` view to be used in the `Attachments` view.
 				AttachmentView: this.options.AttachmentView

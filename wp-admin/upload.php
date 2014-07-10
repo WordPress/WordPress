@@ -26,6 +26,11 @@ if ( 'grid' === $mode ) {
 	wp_enqueue_script( 'media' );
 	wp_localize_script( 'media-grid', 'mediaGridSettings', array( 'adminUrl' => parse_url( self_admin_url(), PHP_URL_PATH )  ) );
 
+	add_screen_option( 'media_grid_title', array( 'label' => __( 'Name' ) ) );
+	add_screen_option( 'media_grid_uploadedTo', array( 'label' => __( 'Uploaded To' ) ) );
+	add_screen_option( 'media_grid_dateFormatted', array( 'label' => __( 'Date' ) ) );
+	add_screen_option( 'media_grid_mime', array( 'label' => __( 'Mime-type' ) ) );
+
 	require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	include( ABSPATH . 'wp-admin/admin-footer.php' );
 	exit;

@@ -229,25 +229,6 @@ function wp_print_media_templates() {
 		</a>
 	</script>
 
-	<script type="text/html" id="tmpl-media-grid-field-options">
-		<label class="setting">
-			<span><?php _e( 'Name' ); ?></span>
-			<input type="checkbox" data-setting="title" {{ '' === getUserSetting( 'hidegridtitle' ) && 'checked' }} />
-		</label>
-		<label class="setting">
-			<span><?php _e( 'Uploaded to' ); ?></span>
-			<input type="checkbox" data-setting="uploadedTo" {{ '' === getUserSetting( 'hidegriduploadedTo' ) && 'checked' }} />
-		</label>
-		<label class="setting">
-			<span><?php _e( 'Date' ); ?></span>
-			<input type="checkbox" data-setting="dateFormatted" {{ '' === getUserSetting( 'hidegriddateFormatted' ) && 'checked' }} />
-		</label>
-		<label class="setting">
-			<span><?php _e( 'Mime-type' ); ?></span>
-			<input type="checkbox" data-setting="mime" {{ '' === getUserSetting( 'hidegridmime' ) && 'checked' }} />
-		</label>
-	</script>
-
 	<script type="text/html" id="tmpl-uploader-status">
 		<h3><?php _e( 'Uploading' ); ?></h3>
 		<a class="upload-dismiss-errors" href="#"><?php _e('Dismiss Errors'); ?></a>
@@ -437,26 +418,26 @@ function wp_print_media_templates() {
 
 		if ( _.contains( data.controller.options.mode, 'grid' ) ) { #>
 		<div class="data-fields">
-		<# _.each( data.showAttachmentFields, function( field ) {
-			var className = 'data-field data-hidden';
-			if ( '' === getUserSetting( 'hidegrid' + field ) ) {
-				className = 'data-field data-visible';
-			}
-		#>
-			<div class="{{ className }} data-{{ field }}"><#
-				if ( 'uploadedTo' === field ) {
-					if ( data[ field ] ) {
+		<?php
+		$hidden = get_hidden_columns( get_current_screen() );
+		$fields = array( 'title', 'uploadedTo', 'dateFormatted', 'mime' );
+		foreach ( $fields as $field ):
+			$class_name = in_array( $field, $hidden ) ? 'data-field data-hidden' : 'data-field data-visible';
+		?>
+			<div class="<?php echo $class_name ?> data-<?php echo $field ?>"><#
+				if ( 'uploadedTo' === '<?php echo $field ?>' ) {
+					if ( data[ '<?php echo $field ?>' ] ) {
 					#><?php _e( 'Uploaded To: ' ) ?><a href="{{ data.uploadedToLink }}">{{ data.uploadedToTitle }}</a><#
 					} else {
 					#><?php _e( 'Unattached' ) ?><#
 					}
-				} else if ( 'title' === field && ! data[ field ] ) {
+				} else if ( 'title' === '<?php echo $field ?>' && ! data[ '<?php echo $field ?>' ] ) {
 				#><?php _e( '(No title)' ) ?><#
-				} else if ( data[ field ] ) {
-				#>{{ data[ field ] }}<#
+				} else if ( data[ '<?php echo $field ?>' ] ) {
+				#>{{ data[ '<?php echo $field ?>' ] }}<#
 				}
 			#></div>
-		<# }); #>
+		<?php endforeach ?>
 		</div>
 		<# } #>
 

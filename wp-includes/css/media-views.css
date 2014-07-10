@@ -2575,6 +2575,7 @@ video#inline-media-node {
  * area of the screen.
  */
 .media-grid-view {
+	z-index: 1;
 	position: fixed;
 	bottom: 0;
 	left: 160px;

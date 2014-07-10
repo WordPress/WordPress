@@ -28,6 +28,20 @@ columns = {
 
 	saveManageColumnsState : function() {
 		var hidden = this.hidden();
+		if ( $( '#media_grid_title-hide' ).length ) {
+			hidden = [];
+			$( '.hide-column-tog', '.media-grid-prefs' ).each( function() {
+				var $el, field = this.value.replace( 'media_grid_', '' );
+				$el = $( '.data-' + field );
+				if ( ! this.checked ) {
+					hidden.push( field );
+					$el.removeClass( 'data-visible' ).addClass( 'data-hidden' );
+				} else {
+					$el.removeClass( 'data-hidden' ).addClass( 'data-visible' );
+				}
+			} );
+			hidden = hidden.join( ',' );
+		}
 		$.post(ajaxurl, {
 			action: 'hidden-columns',
 			hidden: hidden,
