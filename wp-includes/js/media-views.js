@@ -5717,7 +5717,7 @@
 				controller: this.controller
 			});
 
-			this.attachmentsNoResults.$el.addClass( 'hidden' );
+			this.attachmentsNoResults.$el.addClass( 'hidden no-media' );
 			this.attachmentsNoResults.$el.html( 'No media found.' );
 
 			this.views.add( this.attachmentsNoResults );

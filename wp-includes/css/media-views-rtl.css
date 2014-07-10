@@ -1114,6 +1114,10 @@ video#inline-media-node {
 	margin-left: 0.5em;
 }
 
+.attachments-browser .no-media {
+	padding: 2em 2em 0 0;
+}
+
 /**
  * Progress Bar
  */
