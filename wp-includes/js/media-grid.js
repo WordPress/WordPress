@@ -446,6 +446,8 @@
 				this.modal.close = function() {
 					self.modal.remove();
 					$( 'body' ).off( 'keydown.media-modal' ); /* remove the keydown event */
+
+					self.resetRoute();
 				};
 
 				this.modal.content( this );
