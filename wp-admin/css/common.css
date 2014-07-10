@@ -2642,10 +2642,6 @@ img {
 		-webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
 	}
 
-	#wpwrap {
-		background: #f0f0f0;
-	}
-
 	#wpcontent {
 		position: relative;
 		margin-left: 0;

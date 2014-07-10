@@ -285,7 +285,7 @@ jQuery( document ).ready( function($) {
 			$top.css( {
 				position: 'fixed',
 				top: adminBarHeight + toolsHeight,
-				width: editorWidth - ( visual ? 0 : 38 ),
+				width: $editor.parent().width() - ( $top.outerWidth() - $top.width() ),
 				borderTop: '1px solid #e5e5e5'
 			} );
 
@@ -310,7 +310,6 @@ jQuery( document ).ready( function($) {
 				$tools.css( {
 					position: 'absolute',
 					top: 0,
-					borderTop: 'none',
 					width: $contentWrap.width()
 				} );
 			// Handle scrolling down.
@@ -319,14 +318,12 @@ jQuery( document ).ready( function($) {
 
 				$top.css( {
 					position: 'absolute',
-					top: window.pageYOffset - $editor.offset().top + adminBarHeight + $tools.outerHeight(),
-					borderTop: 'none'
+					top: editorHeight - buffer
 				} );
 
 				$tools.css( {
 					position: 'absolute',
-					top: window.pageYOffset - $contentWrap.offset().top + adminBarHeight,
-					borderTop: 'none',
+					top: editorHeight - buffer + 1, // border
 					width: $contentWrap.width()
 				} );
 			}

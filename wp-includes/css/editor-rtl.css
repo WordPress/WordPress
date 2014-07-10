@@ -756,7 +756,7 @@ i.mce-i-hr:before {
 	position: relative;
 }
 
-.wp-editor-tools {
+#wp-content-editor-tools {
 	background-color: #f1f1f1;
 	padding-top: 20px;
 	position: relative;

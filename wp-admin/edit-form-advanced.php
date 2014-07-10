@@ -11,7 +11,10 @@ if ( !defined('ABSPATH') )
 	die('-1');
 
 wp_enqueue_script('post');
-wp_enqueue_script('editor-expand');
+
+if ( post_type_supports( $post_type, 'editor' ) ) {
+	wp_enqueue_script('editor-expand');
+}
 
 if ( wp_is_mobile() )
 	wp_enqueue_script( 'jquery-touch-punch' );
