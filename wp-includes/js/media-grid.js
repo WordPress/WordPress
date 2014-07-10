@@ -432,8 +432,8 @@
 				this.on( 'router:render', this.browseRouter, this );
 			}
 
-			this.options.hasPrevious = ( this.options.library.indexOf( this.options.model ) > 0 ) ? true : false;
-			this.options.hasNext = ( this.options.library.indexOf( this.options.model ) < this.options.library.length - 1 ) ? true : false;
+			this.options.hasPrevious = this.hasPrevious();
+			this.options.hasNext = this.hasNext();
 
 			// Initialize modal container view.
 			if ( this.options.modal ) {
@@ -545,8 +545,9 @@
 		 * Click handler to switch to the previous media item.
 		 */
 		previousMediaItem: function() {
-			if ( ! this.options.hasPrevious )
+			if ( ! this.hasPrevious() ) {
 				return;
+			}
 			this.modal.close();
 			this.trigger( 'edit:attachment:previous', this.model );
 		},
@@ -555,8 +556,9 @@
 		 * Click handler to switch to the next media item.
 		 */
 		nextMediaItem: function() {
-			if ( ! this.options.hasNext )
+			if ( ! this.hasNext() ) {
 				return;
+			}
 			this.modal.close();
 			this.trigger( 'edit:attachment:next', this.model );
 		},
@@ -588,14 +590,14 @@
 			}
 			// The right arrow key
 			if ( event.keyCode === 39 ) {
-				if ( ! this.hasNext ) {
+				if ( ! this.hasNext() ) {
 					return;
 				}
 				this.nextMediaItem();
 			}
 			// The left arrow key
 			if ( event.keyCode === 37 ) {
-				if ( ! this.hasPrevious ) {
+				if ( ! this.hasPrevious() ) {
 					return;
 				}
 				this.previousMediaItem();
