@@ -216,24 +216,10 @@
 
 			// Handle a frame-level event for editing an attachment.
 			this.on( 'edit:attachment', this.editAttachment, this );
-			this.on( 'edit:attachment:next', this.editNextAttachment, this );
-			this.on( 'edit:attachment:previous', this.editPreviousAttachment, this );
 		},
 
 		addNewClickHandler: function() {
 			this.trigger( 'show:upload:attachment' );
-		},
-
-		editPreviousAttachment: function( currentModel ) {
-			var library = this.state().get('library'),
-				currentModelIndex = library.indexOf( currentModel );
-			this.trigger( 'edit:attachment', library.at( currentModelIndex - 1 ) );
-		},
-
-		editNextAttachment: function( currentModel ) {
-			var library = this.state().get('library'),
-				currentModelIndex = library.indexOf( currentModel );
-			this.trigger( 'edit:attachment', library.at( currentModelIndex + 1 ) );
 		},
 
 		/**
@@ -244,15 +230,13 @@
 				library = this.state().get('library');
 
 			// Create a new EditAttachment frame, passing along the library and the attachment model.
-			this.editAttachmentFrame = new media.view.Frame.EditAttachments({
+			this.editAttachmentFrame = wp.media( {
+				frame:       'edit-attachments',
 				gridRouter:  this.gridRouter,
 				library:     library,
 				model:       model
-			});
+			} );
 
-			// Listen to events on the edit attachment frame for triggering pagination callback handlers.
-			this.listenTo( this.editAttachmentFrame, 'edit:attachment:next', this.editNextAttachment );
-			this.listenTo( this.editAttachmentFrame, 'edit:attachment:previous', this.editPreviousAttachment );
 			// Listen to keyboard events on the modal
 			$( 'body' ).on( 'keydown.media-modal', function( e ) {
 				self.editAttachmentFrame.keyEvent( e );
@@ -385,7 +369,7 @@
 	 *
 	 * Requires an attachment model to be passed in the options hash under `model`.
 	 */
-	media.view.Frame.EditAttachments = media.view.Frame.extend({
+	media.view.MediaFrame.EditAttachments = media.view.Frame.extend({
 
 		className: 'edit-attachment-frame',
 		template: media.template( 'edit-attachment-frame' ),
@@ -535,6 +519,16 @@
 			});
 		},
 
+		resetContent: function() {
+			this.modal.close();
+			wp.media( {
+				frame:       'edit-attachments',
+				gridRouter:  this.gridRouter,
+				library:     this.library,
+				model:       this.model
+			} );
+		},
+
 		/**
 		 * Click handler to switch to the previous media item.
 		 */
@@ -542,8 +536,8 @@
 			if ( ! this.hasPrevious() ) {
 				return;
 			}
-			this.modal.close();
-			this.trigger( 'edit:attachment:previous', this.model );
+			this.model = this.library.at( this.getCurrentIndex() - 1 );
+			this.resetContent();
 		},
 
 		/**
@@ -553,8 +547,8 @@
 			if ( ! this.hasNext() ) {
 				return;
 			}
-			this.modal.close();
-			this.trigger( 'edit:attachment:next', this.model );
+			this.model = this.library.at( this.getCurrentIndex() + 1 );
+			this.resetContent();
 		},
 
 		getCurrentIndex: function() {

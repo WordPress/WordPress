@@ -38,6 +38,8 @@ window.wp = window.wp || {};
 			frame = new MediaFrame.AudioDetails( attributes );
 		} else if ( 'video' === attributes.frame && MediaFrame.VideoDetails ) {
 			frame = new MediaFrame.VideoDetails( attributes );
+		} else if ( 'edit-attachments' === attributes.frame && MediaFrame.EditAttachments ) {
+			frame = new MediaFrame.EditAttachments( attributes );
 		}
 
 		delete attributes.frame;
