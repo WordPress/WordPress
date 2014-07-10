@@ -3654,10 +3654,15 @@
 		className: 'uploader-inline',
 		template:  media.template('uploader-inline'),
 
+		events: {
+			'click .close': 'hide'
+		},
+
 		initialize: function() {
 			_.defaults( this.options, {
 				message: '',
-				status:  true
+				status:  true,
+				canClose: false
 			});
 
 			if ( ! this.options.$browser && this.controller.uploader ) {
@@ -3677,14 +3682,16 @@
 
 		prepare: function() {
 			var suggestedWidth = this.controller.state().get('suggestedWidth'),
-				suggestedHeight = this.controller.state().get('suggestedHeight');
+				suggestedHeight = this.controller.state().get('suggestedHeight'),
+				data = {};
+
+			data.canClose = this.options.canClose;
 
 			if ( suggestedWidth && suggestedHeight ) {
-				return {
-					suggestedWidth: suggestedWidth,
-					suggestedHeight: suggestedHeight
-				};
+				data.suggestedWidth = suggestedWidth;
+				data.suggestedHeight = suggestedHeight;
 			}
+			return data;
 		},
 		/**
 		 * @returns {wp.media.view.UploaderInline} Returns itself to allow chaining
@@ -3745,7 +3752,14 @@
 
 			this.refresh();
 			return this;
+		},
+		show: function() {
+			this.$el.removeClass( 'hidden' );
+		},
+		hide: function() {
+			this.$el.addClass( 'hidden' );
 		}
+
 	});
 
 	/**
@@ -5722,7 +5736,8 @@
 			this.uploader = new media.view.UploaderInline({
 				controller: this.controller,
 				status:     false,
-				message:    l10n.noItemsFound
+				message:    l10n.noItemsFound,
+				canClose:   this.controller.isModeActive( 'grid' )
 			});
 
 			this.uploader.$el.addClass( 'hidden' );
@@ -5730,7 +5745,7 @@
 		},
 
 		showUploader: function() {
-			this.uploader.$el.removeClass( 'hidden' );
+			this.uploader.show();
 		},
 
 		createAttachments: function() {

@@ -1020,6 +1020,27 @@
 	top: 0;
 }
 
+.uploader-inline .close {
+	background-color: transparent;
+	border: 0;
+	cursor: pointer;
+	height: 48px;
+	position: absolute;
+	right: 20px;
+	text-align: center;
+	top: 20px;
+	width: 50px;
+	z-index: 1;
+}
+
+.uploader-inline .close:before {
+	font: normal 30px/50px 'dashicons' !important;
+	color: #777;
+	display: inline-block;
+	content: '\f335';
+	font-weight: 300;
+}
+
 .inline-toolbar {
 	position: absolute;
 	top: 0;
