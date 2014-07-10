@@ -1,4 +1,4 @@
-/* global _wpMediaViewsL10n, setUserSetting, deleteUserSetting, MediaElementPlayer */
+/* global _wpMediaViewsL10n, setUserSetting, deleteUserSetting, MediaElementPlayer, mediaGridSettings*/
 (function($, _, Backbone, wp) {
 	var media = wp.media, l10n;
 
@@ -91,6 +91,7 @@
 		 * @global wp.Uploader
 		 */
 		initialize: function() {
+			var self = this;
 			_.defaults( this.options, {
 				title:     l10n.mediaLibraryTitle,
 				modal:     false,
@@ -140,6 +141,24 @@
 			this.createStates();
 			this.bindHandlers();
 			this.render();
+
+			// Set up the Backbone router after a brief delay
+			_.delay( function(){
+				wp.media.mediarouter = new media.view.Frame.Router( self );
+				// Verify pushState support and activate
+				if ( window.history && window.history.pushState ) {
+					Backbone.history.start({
+						root: mediaGridSettings.adminUrl,
+						pushState: true
+					});
+				}
+			}, 250);
+
+			// Update the URL when entering search string (at most once per second)
+			$( '#media-search-input' ).on( 'input', _.debounce( function() {
+				var $val = $( this ).val();
+				wp.media.mediarouter.navigate( wp.media.mediarouter.baseUrl( ( '' === $val ) ? '' : ( '?search=' + $val ) ) );
+			}, 1000 ) );
 		},
 
 		createSelection: function() {
@@ -218,10 +237,11 @@
 		 * Open the Edit Attachment modal.
 		 */
 		editAttachment: function( model ) {
-			var library = this.state().get('library');
+			var self    = this,
+				library = this.state().get('library');
 
 			// Create a new EditAttachment frame, passing along the library and the attachment model.
-			this.editAttachmentFrame = new media.view.Frame.EditAttachment({
+			this.editAttachmentFrame = new media.view.Frame.EditAttachments({
 				library:        library,
 				model:          model
 			});
@@ -229,6 +249,10 @@
 			// Listen to events on the edit attachment frame for triggering pagination callback handlers.
 			this.listenTo( this.editAttachmentFrame, 'edit:attachment:next', this.editNextAttachment );
 			this.listenTo( this.editAttachmentFrame, 'edit:attachment:previous', this.editPreviousAttachment );
+			// Listen to keyboard events on the modal
+			$( 'body' ).on( 'keydown.media-modal', function( e ) {
+				self.editAttachmentFrame.keyEvent( e );
+			} );
 		},
 
 		/**
@@ -300,13 +324,66 @@
 	});
 
 	/**
+	 * A router for handling the browser history and application state
+	 */
+	media.view.Frame.Router = Backbone.Router.extend({
+
+		mediaFrame: '',
+
+		initialize: function( mediaFrame ){
+			this.mediaFrame = mediaFrame;
+		},
+
+		routes: {
+			'upload.php?item=:slug':    'showitem',
+			'upload.php?search=:query': 'search',
+			':default':                 'defaultRoute'
+		},
+
+		// Map routes against the page URL
+		baseUrl: function( url ) {
+			return 'upload.php' + url;
+		},
+
+		// Respond to the search route by filling the search field and trigggering the input event
+		search: function( query ) {
+			// Ensure modal closed, see back button
+			this.closeModal();
+			$( '#media-search-input' ).val( query ).trigger( 'input' );
+		},
+
+		// Show the modal with a specific item
+		showitem: function( query ) {
+			var library = this.mediaFrame.state().get('library');
+
+			// Remove existing modal if present
+			this.closeModal();
+			// Trigger the media frame to open the correct item
+			this.mediaFrame.trigger( 'edit:attachment', library.findWhere( { id: parseInt( query, 10 ) } ) );
+		},
+
+		// Close the modal if set up
+		closeModal: function() {
+			if ( 'undefined' !== typeof this.mediaFrame.editAttachmentFrame ) {
+				this.mediaFrame.editAttachmentFrame.modal.close();
+			}
+		},
+
+		// Default route: make sure the modal and search are reset
+		defaultRoute: function() {
+			this.closeModal();
+			$( '#media-search-input' ).val( '' ).trigger( 'input' );
+		}
+	});
+
+	/**
 	 * A frame for editing the details of a specific media item.
 	 *
 	 * Opens in a modal by default.
 	 *
 	 * Requires an attachment model to be passed in the options hash under `model`.
 	 */
-	media.view.Frame.EditAttachment = media.view.Frame.extend({
+	media.view.Frame.EditAttachments = media.view.Frame.extend({
 
 		className: 'edit-attachment-frame',
 		template: media.template( 'edit-attachment-frame' ),
@@ -328,13 +405,20 @@
 				state: 'edit-attachment'
 			});
 
+			this.library = this.options.library;
+			if ( this.options.model ) {
+				this.model = this.options.model;
+			} else {
+				this.model = this.library.at( 0 );
+			}
+
 			this.createStates();
 
 			this.on( 'content:render:edit-metadata', this.editMetadataContent, this );
 			this.on( 'content:render:edit-image', this.editImageContentUgh, this );
 
 			// Only need a tab to Edit Image for images.
-			if ( this.model.get( 'type' ) === 'image' ) {
+			if ( 'undefined' !== typeof this.model && this.model.get( 'type' ) === 'image' ) {
 				this.on( 'router:create', this.createRouter, this );
 				this.on( 'router:render', this.browseRouter, this );
 			}
@@ -352,6 +436,7 @@
 				// Completely destroy the modal DOM element when closing it.
 				this.modal.close = function() {
 					self.modal.remove();
+					$( 'body' ).off( 'keydown.media-modal' ); /* remove the keydown event */
 				};
 
 				this.modal.content( this );
@@ -391,6 +476,8 @@
 				model:      this.model
 			});
 			this.content.set( view );
+			// Update browser url when navigating media details
+			wp.media.mediarouter.navigate( wp.media.mediarouter.baseUrl( '?item=' + this.model.id ) );
 		},
 
 		/**
@@ -461,6 +548,48 @@
 				return;
 			this.modal.close();
 			this.trigger( 'edit:attachment:next', this.model );
+		},
+
+		getCurrentIndex: function() {
+			return this.library.indexOf( this.model );
+		},
+
+		hasNext: function() {
+			return ( this.getCurrentIndex() + 1 ) < this.library.length;
+		},
+
+		hasPrevious: function() {
+			return ( this.getCurrentIndex() - 1 ) > -1;
+		},
+		/**
+		 * Respond to the keyboard events: right arrow, left arrow, escape.
+		 */
+		keyEvent: function( event ) {
+			var $target = $( event.target );
+			// Pressing the escape key routes back to main url
+			if ( event.keyCode === 27 ) {
+				this.resetRoute();
+				return event;
+			}
+			//Don't go left/right if we are in a textarea or input field
+			if ( $target.is( 'input' ) || $target.is( 'textarea' ) ) {
+				return event;
+			}
+			// The right arrow key
+			if ( event.keyCode === 39 ) {
+				if ( ! this.hasNext ) { return; }
+				_.debounce( this.nextMediaItem(), 250 );
+			}
+			// The left arrow key
+			if ( event.keyCode === 37 ) {
+				if ( ! this.hasPrevious ) { return; }
+				_.debounce( this.previousMediaItem(), 250 );
+			}
+		},
+
+		resetRoute: function() {
+			wp.media.mediarouter.navigate( wp.media.mediarouter.baseUrl( '' ) );
+			return;
 		}
 	});
 

@@ -24,6 +24,7 @@ if ( 'grid' === $mode ) {
 	wp_enqueue_media();
 	wp_enqueue_script( 'media-grid' );
 	wp_enqueue_script( 'media' );
+	wp_localize_script( 'media-grid', 'mediaGridSettings', array( 'adminUrl' => parse_url( self_admin_url(), PHP_URL_PATH )  ) );
 
 	require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	include( ABSPATH . 'wp-admin/admin-footer.php' );
