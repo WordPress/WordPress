@@ -519,13 +519,12 @@ a.post-thumbnail:hover {
 	margin-right: auto;
 }
 
-.ie8 .full-width.singular .hentry.has-post-thumbnail,
-.ie8 .full-width.home .hentry.has-post-thumbnail {
+.ie8 .full-width .hentry.has-post-thumbnail:first-child {
 	margin-top: -72px;
 }
 
 
-.ie8 .singular .hentry.has-post-thumbnail {
+.ie8 .singular .site-content .hentry.has-post-thumbnail {
 	margin-top: 0;
 }
 
