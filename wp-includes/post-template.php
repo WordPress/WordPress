@@ -1112,23 +1112,22 @@ function wp_list_pages( $args = '' ) {
  * wp_list_pages()} function. Check that function for more info on those
  * arguments.
  *
- * <ul>
- * <li><strong>sort_column</strong> - How to sort the list of pages. Defaults
- * to 'menu_order, post_title'. Use column for posts table.</li>
- * <li><strong>menu_class</strong> - Class to use for the div ID which contains
- * the page list. Defaults to 'menu'.</li>
- * <li><strong>echo</strong> - Whether to echo list or return it. Defaults to
- * echo.</li>
- * <li><strong>link_before</strong> - Text before show_home argument text.</li>
- * <li><strong>link_after</strong> - Text after show_home argument text.</li>
- * <li><strong>show_home</strong> - If you set this argument, then it will
- * display the link to the home page. The show_home argument really just needs
- * to be set to the value of the text of the link.</li>
- * </ul>
- *
  * @since 2.7.0
  *
- * @param array|string $args
+ * @param array|string $args {
+ *     Optional. Arguments to generate a page menu. {@see wp_list_pages()}
+ *     for additional arguments.
+ *
+ * @type string     $sort_column How to short the list of pages. Accepts post column names.
+ *                               Default 'menu_order, post_title'.
+ * @type string     $menu_class  Class to use for the div ID containing the page list. Default 'menu'.
+ * @type bool       $echo        Whether to echo the list or return it. Accepts true (echo) or false (return).
+ *                               Default true.
+ * @type string     $link_before The HTML or text to prepend to $show_home text. Default empty.
+ * @type string     $link_after  The HTML or text to append to $show_home text. Default empty.
+ * @type int|string $show_home   Whether to display the link to the home page. Can just enter the text
+ *                               you'd like shown for the home link. 1|true defaults to 'Home'.
+ * }
  * @return string html menu
  */
 function wp_page_menu( $args = array() ) {
