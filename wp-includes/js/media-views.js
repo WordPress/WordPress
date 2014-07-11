@@ -4633,6 +4633,8 @@
 			this.model.on( 'change', this.render, this );
 			this.model.on( 'change:title', this._syncTitle, this );
 			this.model.on( 'change:caption', this._syncCaption, this );
+			this.model.on( 'change:artist', this._syncArtist, this );
+			this.model.on( 'change:album', this._syncAlbum, this );
 			this.model.on( 'change:percent', this.progress, this );
 
 			// Update the selection.

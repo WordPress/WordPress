@@ -522,6 +522,17 @@ function wp_print_media_templates() {
 			<span class="name"><?php _e('Title'); ?></span>
 			<input type="text" value="{{ data.title }}" {{ maybeReadOnly }} />
 		</label>
+		<# if ( 'audio' === data.type ) { #>
+		<?php foreach ( array(
+			'artist' => __( 'Artist' ),
+			'album' => __( 'Album' ),
+		) as $key => $label ) : ?>
+		<label class="setting" data-setting="<?php echo esc_attr( $key ) ?>">
+			<span class="name"><?php echo $label ?></span>
+			<input type="text" value="{{ data.<?php echo $key ?> || data.meta.<?php echo $key ?> || '' }}" />
+		</label>
+		<?php endforeach; ?>
+		<# } #>
 		<label class="setting" data-setting="caption">
 			<span class="name"><?php _e('Caption'); ?></span>
 			<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>
