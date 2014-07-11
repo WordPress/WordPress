@@ -391,7 +391,7 @@ function get_extended( $post ) {
 		$more_text = '';
 	}
 
-	// ` leading and trailing whitespace
+	//  leading and trailing whitespace.
 	$main = preg_replace('/^[\s]*(.*)[\s]*$/', '\\1', $main);
 	$extended = preg_replace('/^[\s]*(.*)[\s]*$/', '\\1', $extended);
 	$more_text = preg_replace('/^[\s]*(.*)[\s]*$/', '\\1', $more_text);
@@ -871,11 +871,11 @@ function get_post_status( $ID = '' ) {
 		if ( 'private' == $post->post_status )
 			return 'private';
 
-		// Unattached attachments are assumed to be published
+		// Unattached attachments are assumed to be published.
 		if ( ( 'inherit' == $post->post_status ) && ( 0 == $post->post_parent) )
 			return 'publish';
 
-		// Inherit status from the parent
+		// Inherit status from the parent.
 		if ( $post->post_parent && ( $post->ID != $post->post_parent ) ) {
 			$parent_post_status = get_post_status( $post->post_parent );
 			if ( 'trash' == $parent_post_status ) {
@@ -1362,7 +1362,7 @@ function register_post_type( $post_type, $args = array() ) {
 	if ( null === $args->exclude_from_search )
 		$args->exclude_from_search = !$args->public;
 
-	// Back compat with quirky handling in version 3.0. #14122
+	// Back compat with quirky handling in version 3.0. #14122.
 	if ( empty( $args->capabilities ) && null === $args->map_meta_cap && in_array( $args->capability_type, array( 'post', 'page' ) ) )
 		$args->map_meta_cap = true;
 
@@ -1696,7 +1696,7 @@ function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 function _add_post_type_submenus() {
 	foreach ( get_post_types( array( 'show_ui' => true ) ) as $ptype ) {
 		$ptype_obj = get_post_type_object( $ptype );
-		// Submenus only.
+		// Sub-menus only.
 		if ( ! $ptype_obj->show_in_menu || $ptype_obj->show_in_menu === true )
 			continue;
 		add_submenu_page( $ptype_obj->show_in_menu, $ptype_obj->labels->name, $ptype_obj->labels->all_items, $ptype_obj->cap->edit_posts, "edit.php?post_type=$ptype" );
@@ -1948,7 +1948,7 @@ function get_post_meta( $post_id, $key = '', $single = false ) {
  *                  false on failure.
  */
 function update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' ) {
-	// make sure meta is added to the post, not a revision
+	// Make sure meta is added to the post, not a revision.
 	if ( $the_post = wp_is_post_revision($post_id) )
 		$post_id = $the_post;
 
@@ -2591,20 +2591,20 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 	$parent_where = array( 'post_parent' => $postid );
 
 	if ( is_post_type_hierarchical( $post->post_type ) ) {
-		// Point children of this page to its parent, also clean the cache of affected children
+		// Point children of this page to its parent, also clean the cache of affected children.
 		$children_query = $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent = %d AND post_type = %s", $postid, $post->post_type );
 		$children = $wpdb->get_results( $children_query );
 
 		$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => $post->post_type ) );
 	}
 
-	// Do raw query. wp_get_post_revisions() is filtered
+	// Do raw query. wp_get_post_revisions() is filtered.
 	$revision_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent = %d AND post_type = 'revision'", $postid ) );
 	// Use wp_delete_post (via wp_delete_post_revision) again. Ensures any meta/misplaced data gets cleaned up.
 	foreach ( $revision_ids as $revision_id )
 		wp_delete_post_revision( $revision_id );
 
-	// Point all attachments to this post up one level
+	// Point all attachments to this post up one level.
 	$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => 'attachment' ) );
 
 	$comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $postid ));
@@ -2674,8 +2674,10 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 function _reset_front_page_settings_for_post( $post_id ) {
 	$post = get_post( $post_id );
 	if ( 'page' == $post->post_type ) {
-	 	// If the page is defined in option page_on_front or post_for_posts,
-		// adjust the corresponding options
+	 	/*
+	 	 * If the page is defined in option page_on_front or post_for_posts,
+	 	 * adjust the corresponding options.
+	 	 */
 		if ( get_option( 'page_on_front' ) == $post->ID ) {
 			update_option( 'show_on_front', 'posts' );
 			update_option( 'page_on_front', 0 );
@@ -2820,13 +2822,13 @@ function wp_trash_post_comments( $post = null ) {
 	if ( empty($comments) )
 		return;
 
-	// Cache current status for each comment
+	// Cache current status for each comment.
 	$statuses = array();
 	foreach ( $comments as $comment )
 		$statuses[$comment->comment_ID] = $comment->comment_approved;
 	add_post_meta($post_id, '_wp_trash_meta_comments_status', $statuses);
 
-	// Set status for all comments to post-trashed
+	// Set status for all comments to post-trashed.
 	$result = $wpdb->update($wpdb->comments, array('comment_approved' => 'post-trashed'), array('comment_post_ID' => $post_id));
 
 	clean_comment_cache( array_keys($statuses) );
@@ -2875,7 +2877,7 @@ function wp_untrash_post_comments( $post = null ) {
 	 */
 	do_action( 'untrash_post_comments', $post_id );
 
-	// Restore each comment to its original status
+	// Restore each comment to its original status.
 	$group_by_status = array();
 	foreach ( $statuses as $comment_id => $comment_status )
 		$group_by_status[$comment_status][] = $comment_id;
@@ -2994,7 +2996,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 		$args = array( 'numberposts' => absint( $args ) );
 	}
 
-	// Set default arguments
+	// Set default arguments.
 	$defaults = array(
 		'numberposts' => 10, 'offset' => 0,
 		'category' => 0, 'orderby' => 'post_date',
@@ -3008,7 +3010,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 
 	$results = get_posts( $r );
 
-	// Backward compatibility. Prior to 3.1 expected posts to be returned in array
+	// Backward compatibility. Prior to 3.1 expected posts to be returned in array.
 	if ( ARRAY_A == $output ){
 		foreach( $results as $key => $result ) {
 			$results[$key] = get_object_vars( $result );
@@ -3526,7 +3528,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
  */
 function wp_update_post( $postarr = array(), $wp_error = false ) {
 	if ( is_object($postarr) ) {
-		// non-escaped post was passed
+		// Non-escaped post was passed.
 		$postarr = get_object_vars($postarr);
 		$postarr = wp_slash($postarr);
 	}
@@ -3634,7 +3636,8 @@ function check_and_publish_future_post( $post_id ) {
 
 	$time = strtotime( $post->post_date_gmt . ' GMT' );
 
-	if ( $time > time() ) { // Uh oh, someone jumped the gun!
+	// Uh oh, someone jumped the gun!
+	if ( $time > time() ) {
 		wp_clear_scheduled_hook( 'publish_future_post', array( $post_id ) ); // clear anything else in the system
 		wp_schedule_single_event( $time, 'publish_future_post', array( $post_id ) );
 		return;
@@ -3988,7 +3991,7 @@ function add_ping( $post_id, $uri ) {
 	 */
 	$new = apply_filters( 'add_ping', $new );
 
-	// expected_slashed ($new)
+	// expected_slashed ($new).
 	$new = wp_unslash($new);
 	return $wpdb->update( $wpdb->posts, array( 'pinged' => $new ), array( 'ID' => $post_id ) );
 }
@@ -4092,10 +4095,10 @@ function get_to_ping( $post_id ) {
  */
 function trackback_url_list( $tb_list, $post_id ) {
 	if ( ! empty( $tb_list ) ) {
-		// get post data
+		// Get post data.
 		$postdata = get_post( $post_id, ARRAY_A );
 
-		// form an excerpt
+		// Form an excerpt.
 		$excerpt = strip_tags( $postdata['post_excerpt'] ? $postdata['post_excerpt'] : $postdata['post_content'] );
 
 		if ( strlen( $excerpt ) > 255 ) {
@@ -4431,7 +4434,7 @@ function get_pages( $args = array() ) {
 	$parent = $r['parent'];
 	$post_status = $r['post_status'];
 
-	// Make sure the post type is hierarchical
+	// Make sure the post type is hierarchical.
 	$hierarchical_post_types = get_post_types( array( 'hierarchical' => true ) );
 	if ( ! in_array( $r['post_type'], $hierarchical_post_types ) ) {
 		return false;
@@ -4441,7 +4444,7 @@ function get_pages( $args = array() ) {
 		$hierarchical = false;
 	}
 
-	// Make sure we have a valid post status
+	// Make sure we have a valid post status.
 	if ( ! is_array( $post_status ) ) {
 		$post_status = explode( ',', $post_status );
 	}
@@ -4449,7 +4452,7 @@ function get_pages( $args = array() ) {
 		return false;
 	}
 
-	// $args can be whatever, only use the args defined in defaults to compute the key
+	// $args can be whatever, only use the args defined in defaults to compute the key.
 	$key = md5( serialize( wp_array_slice_assoc( $r, array_keys( $defaults ) ) ) );
 	$last_changed = wp_cache_get( 'last_changed', 'posts' );
 	if ( ! $last_changed ) {
@@ -4459,7 +4462,7 @@ function get_pages( $args = array() ) {
 
 	$cache_key = "get_pages:$key:$last_changed";
 	if ( $cache = wp_cache_get( $cache_key, 'posts' ) ) {
-		// Convert to WP_Post instances
+		// Convert to WP_Post instances.
 		$pages = array_map( 'get_post', $cache );
 		/** This filter is documented in wp-includes/post.php */
 		$pages = apply_filters( 'get_pages', $pages, $r );
@@ -4608,7 +4611,7 @@ function get_pages( $args = array() ) {
 		return $pages;
 	}
 
-	// Sanitize before caching so it'll only get done once
+	// Sanitize before caching so it'll only get done once.
 	$num_pages = count($pages);
 	for ($i = 0; $i < $num_pages; $i++) {
 		$pages[$i] = sanitize_post($pages[$i], 'raw');
@@ -4645,7 +4648,7 @@ function get_pages( $args = array() ) {
 
 	wp_cache_set( $cache_key, $page_structure, 'posts' );
 
-	// Convert to WP_Post instances
+	// Convert to WP_Post instances.
 	$pages = array_map( 'get_post', $pages );
 
 	/**
@@ -4780,7 +4783,8 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	wp_delete_object_term_relationships($post_id, array('category', 'post_tag'));
 	wp_delete_object_term_relationships($post_id, get_object_taxonomies($post->post_type));
 
-	delete_metadata( 'post', null, '_thumbnail_id', $post_id, true ); // delete all for any posts.
+	// Delete all for any posts.
+	delete_metadata( 'post', null, '_thumbnail_id', $post_id, true );
 
 	$comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $post_id ));
 	foreach ( $comment_ids as $comment_id )
@@ -5272,7 +5276,7 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
 
 	$sql .= "(post_status = 'publish'";
 
-	// Only need to check the cap if $public_only is false
+	// Only need to check the cap if $public_only is false.
 	if ( false === $public_only ) {
 		if ( current_user_can( $cap ) ) {
 			// Does the user have the capability to view private posts? Guess so.
@@ -5592,7 +5596,7 @@ function _transition_post_status( $new_status, $old_status, $post ) {
 	global $wpdb;
 
 	if ( $old_status != 'publish' && $new_status == 'publish' ) {
-		// Reset GUID if transitioning to publish and it is empty
+		// Reset GUID if transitioning to publish and it is empty.
 		if ( '' == get_the_guid($post->ID) )
 			$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post->ID ) ), array( 'ID' => $post->ID ) );
 
@@ -5607,7 +5611,7 @@ function _transition_post_status( $new_status, $old_status, $post ) {
 		do_action('private_to_published', $post->ID);
 	}
 
-	// If published posts changed clear the lastpostmodified cache
+	// If published posts changed clear the lastpostmodified cache.
 	if ( 'publish' == $new_status || 'publish' == $old_status) {
 		foreach ( array( 'server', 'gmt', 'blog' ) as $timezone ) {
 			wp_cache_delete( "lastpostmodified:$timezone", 'timeinfo' );
@@ -5706,24 +5710,23 @@ function wp_get_post_parent_id( $post_ID ) {
  * @return int The new post_parent for the post, 0 otherwise.
  */
 function wp_check_post_hierarchy_for_loops( $post_parent, $post_ID ) {
-	// Nothing fancy here - bail
+	// Nothing fancy here - bail.
 	if ( !$post_parent )
 		return 0;
 
-	// New post can't cause a loop
+	// New post can't cause a loop.
 	if ( empty( $post_ID ) )
 		return $post_parent;
 
-	// Can't be its own parent
+	// Can't be its own parent.
 	if ( $post_parent == $post_ID )
 		return 0;
 
-	// Now look for larger loops
-
+	// Now look for larger loops.
 	if ( !$loop = wp_find_hierarchy_loop( 'wp_get_post_parent_id', $post_ID, $post_parent ) )
 		return $post_parent; // No loop
 
-	// Setting $post_parent to the given value causes a loop
+	// Setting $post_parent to the given value causes a loop.
 	if ( isset( $loop[$post_ID] ) )
 		return 0;
 
@@ -5789,7 +5792,10 @@ function wp_delete_auto_drafts() {
 }
 
 /**
- * Update the custom taxonomies' term counts when a post's status is changed. For example, default posts term counts (for custom taxonomies) don't include private / draft posts.
+ * Update the custom taxonomies' term counts when a post's status is changed.
+ *
+ * For example, default posts term counts (for custom taxonomies) don't include
+ * private / draft posts.
  *
  * @since 3.3.0
  * @access private
@@ -5810,8 +5816,9 @@ function _update_term_count_on_transition_post_status( $new_status, $old_status,
  * Adds any posts from the given ids to the cache that do not already exist in cache
  *
  * @since 3.4.0
- *
  * @access private
+ *
+ * @see update_post_caches()
  *
  * @param array $post_ids          ID list
  * @param bool  $update_term_cache Optional. Whether to update the term cache. Default true.
