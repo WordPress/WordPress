@@ -5602,7 +5602,8 @@
 				AttachmentView: media.view.Attachment.Library
 			});
 
-			this.listenTo( this.controller, 'show:upload:attachment', _.bind( this.showUploader, this ) );
+			this.listenTo( this.controller, 'toggle:upload:attachment', _.bind( this.toggleUploader, this ) );
+
 			this.createToolbar();
 			this.createUploader();
 			this.createAttachments();
@@ -5744,8 +5745,12 @@
 			this.views.add( this.uploader );
 		},
 
-		showUploader: function() {
-			this.uploader.show();
+		toggleUploader: function() {
+			if ( this.uploader.$el.hasClass( 'hidden' ) ) {
+				this.uploader.show();
+			} else {
+				this.uploader.hide();
+			}
 		},
 
 		createAttachments: function() {

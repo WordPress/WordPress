@@ -230,7 +230,7 @@
 		},
 
 		addNewClickHandler: function() {
-			this.trigger( 'show:upload:attachment' );
+			this.trigger( 'toggle:upload:attachment' );
 		},
 
 		/**
