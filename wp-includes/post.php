@@ -1588,6 +1588,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * Build an object with all post type labels out of a post type object
  *
  * Accepted keys of the label array in the post type object:
+ *
  * - name - general name for the post type, usually plural. The same and overridden
  *          by $post_type_object->label. Default is Posts/Pages
  * - singular_name - name for one object of this post type. Default is Post/Page
@@ -1810,26 +1811,29 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
  * Retrieve list of latest posts or posts matching criteria.
  *
  * The defaults are as follows:
- *     'numberposts' - Default is 5. Total number of posts to retrieve.
- *     'offset' - Default is 0. See {@link WP_Query::query()} for more.
- *     'category' - What category to pull the posts from.
- *     'orderby' - Default is 'date', which orders based on post_date. How to order the posts.
- *     'order' - Default is 'DESC'. The order to retrieve the posts.
- *     'include' - See {@link WP_Query::query()} for more.
- *     'exclude' - See {@link WP_Query::query()} for more.
- *     'meta_key' - See {@link WP_Query::query()} for more.
- *     'meta_value' - See {@link WP_Query::query()} for more.
- *     'post_type' - Default is 'post'. Can be 'page', or 'attachment' to name a few.
- *     'post_parent' - The parent of the post or post type.
- *     'post_status' - Default is 'publish'. Post status to retrieve.
  *
  * @since 1.2.0
  *
- * @todo Tie to WP_Query default args hash notation.
+ * @see WP_Query::parse_query()
  *
- * @see WP_Query::query()
+ * @param array $args {
+ *     Optional. Arguments to retrieve posts. {@see WP_Query::parse_query()} for more
+ *     available arguments.
  *
- * @param array $args Optional. Overrides defaults.
+ *     @type int        $numberposts      Total number of posts to retrieve. Is an alias of $posts_per_page
+ *                                        in WP_Query. Accepts 1+ and -1 for all. Default 5.
+ *     @type int        $offset           The number of posts to offset before retrieval. Default 0.
+ *     @type int|string $category         Category ID or comma-separated list of IDs (this or any children).
+ *                                        Is an alias of $cat in WP_Query. Default 0.
+ *     @type string     $orderby          Which field to order posts by. Accepts post fields. Default 'date'.
+ *     @type array      $include          An array of post IDs to retrieve, sticky posts will be included.
+ *                                        Is an alias of $post__in in WP_Query. Default empty array.
+ *     @type array      $exclude          An array of post IDs not to retrieve. Default empty array.
+ *     @type string     $meta_key         Custom field key. Default empty.
+ *     @type mixed      $meta_value       Custom field value. Default empty string.
+ *     @type string     $post_type        Post type. Default 'post'.
+ *     @type bool       $suppress_filters Whether to suppress filters. Default true.
+ * }
  * @return array List of posts.
  */
 function get_posts( $args = null ) {
