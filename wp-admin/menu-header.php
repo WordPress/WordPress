@@ -73,7 +73,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		}
 
 		if ( ! empty( $item[4] ) )
-			$class[] = $item[4];
+			$class[] = esc_attr( $item[4] );
 
 		$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
 		$id = ! empty( $item[5] ) ? ' id="' . preg_replace( '|[^a-zA-Z0-9_:.]|', '-', $item[5] ) . '"' : '';
@@ -136,7 +136,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 			$first = true;
 
-			// 0 = menu_title, 1 = capability, 2 = menu_slug, 3 = classes
+			// 0 = menu_title, 1 = capability, 2 = menu_slug, 3 = page_title, 4 = classes
 			foreach ( $submenu_items as $sub_key => $sub_item ) {
 				if ( ! current_user_can( $sub_item[1] ) )
 					continue;
@@ -167,8 +167,8 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 					$class[] = 'current';
 				}
 
-				if ( ! empty( $sub_item[3] ) ) {
-					$class[] = $sub_item[3];
+				if ( ! empty( $sub_item[4] ) ) {
+					$class[] = esc_attr( $sub_item[4] );
 				}
 
 				$class = $class ? ' class="' . join( ' ', $class ) . '"' : '';
