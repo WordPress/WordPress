@@ -1463,6 +1463,9 @@ function wp_get_attachment_id3_keys( $attachment, $context = 'display' ) {
 		$fields['genre']            = __( 'Genre' );
 		$fields['year']             = __( 'Year' );
 		$fields['length_formatted'] = _x( 'Length', 'video or audio' );
+	} elseif ( 'js' === $context ) {
+		$fields['bitrate']          = __( 'Bitrate' );
+		$fields['bitrate_mode']     = __( 'Bitrate Mode' );
 	}
 
 	/**
@@ -2716,7 +2719,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			$response['fileLength'] = $meta['length_formatted'];
 
 		$response['meta'] = array();
-		foreach ( wp_get_attachment_id3_keys( $attachment ) as $key => $label ) {
+		foreach ( wp_get_attachment_id3_keys( $attachment, 'js' ) as $key => $label ) {
 			if ( ! empty( $meta[ $key ] ) ) {
 				$response['meta'][ $key ] = $meta[ $key ];
 			}
