@@ -88,53 +88,61 @@ class WP_oEmbed {
 		 *
 		 * Supported providers:
 		 *
-		 * | ------------ | -------------------- | ----- | ------------------ |
-		 * |   Provider   |        Flavor        |  SSL  |       Since        |
-		 * | ------------ | -------------------- | ----- | ------------------ |
-		 * | Blip         | blip.tv              |       | 2.9.0              |
-		 * | Dailymotion  | dailymotion.com      |  Yes  | 2.9.0              |
-		 * | Flickr       | flickr.com           |  Yes  | 2.9.0              |
-		 * | Hulu         | hulu.com             |  Yes  | 2.9.0              |
-		 * | Photobucket  | photobucket.com      |       | 2.9.0              |
-		 * | Qik          | qik.com              |       | 2.9.0 (deprecated) |
-		 * | Revision3    | revision3.com        |       | 2.9.0              |
-		 * | Scribd       | scribd.com           |  Yes  | 2.9.0              |
-		 * | Viddler      | viddler.com          |       | 2.9.0 (deprecated) |
-		 * | Vimeo        | vimeo.com            |  Yes  | 2.9.0              |
-		 * | WordPress.tv | wordpress.tv         |       | 2.9.0              |
-		 * | YouTube      | youtube.com/watch    |  Both | 2.9.0              |
-		 * | ------------ | -------------------- | ----- | ------------------ |
-		 * | Funny or Die | funnyordie.com       |  Yes  | 3.0.0              |
-		 * | Polldaddy    | polldaddy.com        |  Yes  | 3.0.0              |
-		 * | SmugMug      | smugmug.com          |  Yes  | 3.0.0              |
-		 * | YouTube      | youtu.be             |  Both | 3.0.0              |
-		 * | ------------ | -------------------- | ----- | ------------------ |
-		 * | Twitter      | twitter.com          |  Yes  | 3.4.0              |
-		 * | ------------ | -------------------- | ----- | ------------------ |
-		 * | Instagram    | instagram.com        |       | 3.5.0              |
-		 * | Instagram    | instagr.am           |       | 3.5.0              |
-		 * | Slideshare   | slideshare.net       |  Yes  | 3.5.0              |
-		 * | SoundCloud   | soundcloud.com       |  Yes  | 3.5.0              |
-		 * | ------------ | -------------------- | ----- | ------------------ |
-		 * | Dailymotion  | dai.ly               |       | 3.6.0              |
-		 * | Flickr       | flic.kr              |  Yes  | 3.6.0              |
-		 * | Rdio         | rdio.com             |  Yes  | 3.6.0              |
-		 * | Rdio         | rd.io                |  Yes  | 3.6.0              |
-		 * | Spotify      | spotify.com          |  Yes  | 3.6.0              |
-		 * | ------------ | -------------------- | ----- | ------------------ |
-		 * | Imgur        | imgur.com            |  Yes  | 3.9.0              |
-		 * | Meetup.com   | meetup.com           |  Yes  | 3.9.0              |
-		 * | Meetup.com   | meetu.ps             |  Yes  | 3.9.0              |
-		 * | ------------ | -------------------- | ----- | ------------------ |
-		 * | Animoto      | animoto.com          |  Yes  | 4.0.0              |
-		 * | Animoto      | video214.com         |  Yes  | 4.0.0              |
-		 * | CollegeHumor | collegehumor.com     |  Yes  | 4.0.0              |
-		 * | Issuu        | issuu.com            |  Yes  | 4.0.0              |
-		 * | Mixcloud     | mixcloud.com         |  Yes  | 4.0.0              |
-		 * | Polldaddy    | poll.fm              |  Yes  | 4.0.0              |
-		 * | TED          | ted.com              |  Yes  | 4.0.0              |
-		 * | YouTube      | youtube.com/playlist |  Both | 4.0.0              |
-		 * | ------------ | -------------------- | ----- | ------------------ |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * |   Provider   |        Flavor        |  SSL  |   Since   |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Blip         | blip.tv              |       | 2.9.0     |
+		 * | Dailymotion  | dailymotion.com      |  Yes  | 2.9.0     |
+		 * | Flickr       | flickr.com           |  Yes  | 2.9.0     |
+		 * | Hulu         | hulu.com             |  Yes  | 2.9.0     |
+		 * | Photobucket  | photobucket.com      |       | 2.9.0     |
+		 * | Revision3    | revision3.com        |       | 2.9.0     |
+		 * | Scribd       | scribd.com           |  Yes  | 2.9.0     |
+		 * | Vimeo        | vimeo.com            |  Yes  | 2.9.0     |
+		 * | WordPress.tv | wordpress.tv         |  Yes  | 2.9.0     |
+		 * | YouTube      | youtube.com/watch    |  Yes  | 2.9.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Funny or Die | funnyordie.com       |  Yes  | 3.0.0     |
+		 * | Polldaddy    | polldaddy.com        |  Yes  | 3.0.0     |
+		 * | SmugMug      | smugmug.com          |  Yes  | 3.0.0     |
+		 * | YouTube      | youtu.be             |  Yes  | 3.0.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Twitter      | twitter.com          |  Yes  | 3.4.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Instagram    | instagram.com        |       | 3.5.0     |
+		 * | Instagram    | instagr.am           |       | 3.5.0     |
+		 * | Slideshare   | slideshare.net       |  Yes  | 3.5.0     |
+		 * | SoundCloud   | soundcloud.com       |  Yes  | 3.5.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Dailymotion  | dai.ly               |       | 3.6.0     |
+		 * | Flickr       | flic.kr              |  Yes  | 3.6.0     |
+		 * | Rdio         | rdio.com             |  Yes  | 3.6.0     |
+		 * | Rdio         | rd.io                |  Yes  | 3.6.0     |
+		 * | Spotify      | spotify.com          |  Yes  | 3.6.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Imgur        | imgur.com            |  Yes  | 3.9.0     |
+		 * | Meetup.com   | meetup.com           |  Yes  | 3.9.0     |
+		 * | Meetup.com   | meetu.ps             |  Yes  | 3.9.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 * | Animoto      | animoto.com          |  Yes  | 4.0.0     |
+		 * | Animoto      | video214.com         |  Yes  | 4.0.0     |
+		 * | CollegeHumor | collegehumor.com     |  Yes  | 4.0.0     |
+		 * | Issuu        | issuu.com            |  Yes  | 4.0.0     |
+		 * | Mixcloud     | mixcloud.com         |  Yes  | 4.0.0     |
+		 * | Polldaddy    | poll.fm              |  Yes  | 4.0.0     |
+		 * | TED          | ted.com              |  Yes  | 4.0.0     |
+		 * | YouTube      | youtube.com/playlist |  Yes  | 4.0.0     |
+		 * | ------------ | -------------------- | ----- | --------- |
+		 *
+		 * No longer supported providers:
+		 *
+		 * | ------------ | -------------------- | ----- | --------- | --------- |
+		 * |   Provider   |        Flavor        |  SSL  |   Since   |  Removed  |
+		 * | ------------ | -------------------- | ----- | --------- | --------- |
+		 * | Qik          | qik.com              |  Yes  | 2.9.0     | 3.9.0     |
+		 * | ------------ | -------------------- | ----- | --------- | --------- |
+		 * | Viddler      | viddler.com          |  Yes  | 2.9.0     | 4.0.0     |
+		 * | ------------ | -------------------- | ----- | --------- | --------- |
 		 *
 		 * @see wp_oembed_add_provider()
 		 *
