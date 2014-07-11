@@ -1577,6 +1577,11 @@ video#inline-media-node {
 	word-wrap: break-word;
 }
 
+.edit-attachment-frame .attachment-info .filename {
+	font-weight: normal;
+	color: #666;
+}
+
 .attachment-info .thumbnail {
 	position: relative;
 	float: right;
@@ -1585,6 +1590,10 @@ video#inline-media-node {
 	margin-top: 5px;
 	margin-left: 10px;
 	margin-bottom: 5px;
+}
+
+.edit-attachment-frame .attachment-info .thumbnail {
+	margin-bottom: 12px;
 }
 
 .uploading .attachment-info .thumbnail {
@@ -2766,7 +2775,7 @@ video#inline-media-node {
 }
 
 .edit-attachment-frame .wp-media-wrapper {
-	margin-top: 20px;
+	margin-bottom: 12px;
 }
 
 .edit-attachment-frame .attachment-fields {

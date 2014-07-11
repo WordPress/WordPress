@@ -277,38 +277,9 @@ function wp_print_media_templates() {
 					<div class="media-progress-bar"><div></div></div>
 				<# } else if ( 'image' === data.type ) { #>
 					<img src="{{ data.sizes.full.url }}" draggable="false" />
-				<# } else { #>
+				<# } else if ( -1 === jQuery.inArray( data.type, [ 'audio', 'video' ] ) ) { #>
 					<img src="{{ data.icon }}" class="icon" draggable="false" />
 				<# } #>
-			</div>
-			<div class="details">
-				<div class="filename">{{ data.filename }}</div>
-				<div class="uploaded">{{ data.dateFormatted }}</div>
-
-				<div class="file-size">{{ data.filesizeHumanReadable }}</div>
-				<# if ( 'image' === data.type && ! data.uploading ) { #>
-					<# if ( data.width && data.height ) { #>
-						<div class="dimensions">{{ data.width }} &times; {{ data.height }}</div>
-					<# } #>
-				<# } #>
-
-				<# if ( data.fileLength ) { #>
-					<div class="file-length"><?php _e( 'Length:' ); ?> {{ data.fileLength }}</div>
-				<# } #>
-
-				<# if ( ! data.uploading && data.can.remove ) { #>
-					<?php if ( MEDIA_TRASH ): ?>
-						<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
-					<?php else: ?>
-						<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
-					<?php endif; ?>
-				<# } #>
-
-				<div class="compat-meta">
-					<# if ( data.compat && data.compat.meta ) { #>
-						{{{ data.compat.meta }}}
-					<# } #>
-				</div>
 			</div>
 			<# if ( 'audio' === data.type ) { #>
 			<div class="wp-media-wrapper">
@@ -325,6 +296,36 @@ function wp_print_media_templates() {
 				</video>
 			</div>
 			<# } #>
+			<div class="details">
+				<div class="filename"><strong><?php _e( 'File name:' ); ?></strong> {{ data.filename }}</div>
+				<div class="filename"><strong><?php _e( 'File type:' ); ?></strong> {{ data.mime }}</div>
+				<div class="uploaded"><strong><?php _e( 'Uploaded on:' ); ?></strong> {{ data.dateFormatted }}</div>
+
+				<div class="file-size"><strong><?php _e( 'File size:' ); ?></strong> {{ data.filesizeHumanReadable }}</div>
+				<# if ( 'image' === data.type && ! data.uploading ) { #>
+					<# if ( data.width && data.height ) { #>
+						<div class="dimensions"><strong><?php _e( 'Dimensions:' ); ?></strong> {{ data.width }} &times; {{ data.height }}</div>
+					<# } #>
+				<# } #>
+
+				<# if ( data.fileLength ) { #>
+					<div class="file-length"><strong><?php _e( 'Length:' ); ?></strong> {{ data.fileLength }}</div>
+				<# } #>
+
+				<# if ( ! data.uploading && data.can.remove ) { #>
+					<?php if ( MEDIA_TRASH ): ?>
+						<a class="trash-attachment" href="#"><?php _e( 'Trash' ); ?></a>
+					<?php else: ?>
+						<a class="delete-attachment" href="#"><?php _e( 'Delete Permanently' ); ?></a>
+					<?php endif; ?>
+				<# } #>
+
+				<div class="compat-meta">
+					<# if ( data.compat && data.compat.meta ) { #>
+						{{{ data.compat.meta }}}
+					<# } #>
+				</div>
+			</div>
 		</div>
 		<div class="attachment-fields">
 			<label class="setting" data-setting="url">
