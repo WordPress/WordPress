@@ -309,12 +309,20 @@
 			this.model.on( 'sync', this.afterDelete, this );
 		},
 
-		deleteAttachment: function( event ) {
+		preDestroy: function( event ) {
 			event.preventDefault();
 
 			this.lastIndex = this.controller.getCurrentIndex();
 			this.hasNext = this.controller.hasNext();
+		},
 
+		trashAttachment: function( event ) {
+			this.preDestroy( event );
+			media.view.Attachment.Details.prototype.trashAttachment.apply( this, arguments );
+		},
+
+		deleteAttachment: function( event ) {
+			this.preDestroy( event );
 			media.view.Attachment.Details.prototype.deleteAttachment.apply( this, arguments );
 		},
 
@@ -502,7 +510,11 @@
 			});
 			this.content.set( view );
 			// Update browser url when navigating media details
-			this.gridRouter.navigate( this.gridRouter.baseUrl( '?item=' + this.model.id ) );
+			if ( this.model ) {
+				this.gridRouter.navigate( this.gridRouter.baseUrl( '?item=' + this.model.id ) );
+			} else {
+				this.resetRoute();
+			}
 		},
 
 		/**
