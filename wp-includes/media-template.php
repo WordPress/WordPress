@@ -290,11 +290,6 @@ function wp_print_media_templates() {
 					<# if ( data.width && data.height ) { #>
 						<div class="dimensions">{{ data.width }} &times; {{ data.height }}</div>
 					<# } #>
-
-					<# if ( data.can.save ) { #>
-						<a class="edit-attachment" href="{{ data.editLink }}&amp;image-editor" target="_blank"><?php _e( 'Edit Image' ); ?></a>
-						<a class="refresh-attachment" href="#"><?php _e( 'Refresh' ); ?></a>
-					<# } #>
 				<# } #>
 
 				<# if ( data.fileLength ) { #>

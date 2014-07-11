@@ -303,6 +303,35 @@
 			// Update the selection.
 			this.model.on( 'add', this.select, this );
 			this.model.on( 'remove', this.deselect, this );
+			this.model.on( 'sync', this.afterDelete, this );
+		},
+
+		deleteAttachment: function( event ) {
+			event.preventDefault();
+
+			this.lastIndex = this.controller.getCurrentIndex();
+			this.hasNext = this.controller.hasNext();
+
+			media.view.Attachment.Details.prototype.deleteAttachment.apply( this, arguments );
+		},
+
+		afterDelete: function( model ) {
+			if ( ! model.destroyed ) {
+				return;
+			}
+
+			var frame = this.controller, index = this.lastIndex;
+
+			if ( ! frame.library.length ) {
+				media.frame.modal.close();
+				return;
+			}
+
+			if ( this.hasNext ) {
+				index -= 1;
+			}
+			frame.model = frame.library.at( index );
+			frame.nextMediaItem();
 		},
 
 		render: function() {
