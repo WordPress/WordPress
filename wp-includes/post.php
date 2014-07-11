@@ -1189,91 +1189,111 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * parameters given. The function will accept an array (second optional
  * parameter), along with a string for the post type name.
  *
- * Optional $args contents:
- *
- * - label - Name of the post type shown in the menu. Usually plural. If not set, labels['name'] will be used.
- * - labels - An array of labels for this post type.
- *     * If not set, post labels are inherited for non-hierarchical types and page labels for hierarchical ones.
- *     * You can see accepted values in {@link get_post_type_labels()}.
- * - description - A short descriptive summary of what the post type is. Defaults to blank.
- * - public - Whether a post type is intended for use publicly either via the admin interface or by front-end users.
- *     * Defaults to false.
- *     * While the default settings of exclude_from_search, publicly_queryable, show_ui, and show_in_nav_menus are
- *       inherited from public, each does not rely on this relationship and controls a very specific intention.
- * - hierarchical - Whether the post type is hierarchical (e.g. page). Defaults to false.
- * - exclude_from_search - Whether to exclude posts with this post type from front end search results.
- *     * If not set, the opposite of public's current value is used.
- * - publicly_queryable - Whether queries can be performed on the front end for the post type as part of parse_request().
- *     * ?post_type={post_type_key}
- *     * ?{post_type_key}={single_post_slug}
- *     * ?{post_type_query_var}={single_post_slug}
- *     * If not set, the default is inherited from public.
- * - show_ui - Whether to generate a default UI for managing this post type in the admin.
- *     * If not set, the default is inherited from public.
- * - show_in_menu - Where to show the post type in the admin menu.
- *     * If true, the post type is shown in its own top level menu.
- *     * If false, no menu is shown
- *     * If a string of an existing top level menu (eg. 'tools.php' or 'edit.php?post_type=page'), the post type will
- *       be placed as a sub menu of that.
- *     * show_ui must be true.
- *     * If not set, the default is inherited from show_ui
- * - show_in_nav_menus - Makes this post type available for selection in navigation menus.
- *     * If not set, the default is inherited from public.
- * - show_in_admin_bar - Makes this post type available via the admin bar.
- *     * If not set, the default is inherited from show_in_menu
- * - menu_position - The position in the menu order the post type should appear.
- *     * show_in_menu must be true
- *     * Defaults to null, which places it at the bottom of its area.
- * - menu_icon - The url to the icon to be used for this menu. Defaults to use the posts icon.
- *     * Pass a base64-encoded SVG using a data URI, which will be colored to match the color scheme.
- *      This should begin with 'data:image/svg+xml;base64,'.
- *     * Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-chart-pie'.
- *     * Pass 'none' to leave div.wp-menu-image empty so an icon can be added via CSS.
- * - capability_type - The string to use to build the read, edit, and delete capabilities. Defaults to 'post'.
- *     * May be passed as an array to allow for alternative plurals when using this argument as a base to construct the
- *       capabilities, e.g. array('story', 'stories').
- * - capabilities - Array of capabilities for this post type.
- *     * By default the capability_type is used as a base to construct capabilities.
- *     * You can see accepted values in {@link get_post_type_capabilities()}.
- * - map_meta_cap - Whether to use the internal default meta capability handling. Defaults to false.
- * - supports - An alias for calling add_post_type_support() directly. Defaults to title and editor.
- *     * See {@link add_post_type_support()} for documentation.
- * - register_meta_box_cb - Provide a callback function that sets up the meta boxes
- *     for the edit form. Do remove_meta_box() and add_meta_box() calls in the callback.
- * - taxonomies - An array of taxonomy identifiers that will be registered for the post type.
- *     * Default is no taxonomies.
- *     * Taxonomies can be registered later with register_taxonomy() or register_taxonomy_for_object_type().
- * - has_archive - True to enable post type archives. Default is false.
- *     * Will generate the proper rewrite rules if rewrite is enabled.
- * - rewrite - Triggers the handling of rewrites for this post type. Defaults to true, using $post_type as slug.
- *     * To prevent rewrite, set to false.
- *     * To specify rewrite rules, an array can be passed with any of these keys
- *         * 'slug' => string Customize the permastruct slug. Defaults to $post_type key
- *         * 'with_front' => bool Should the permastruct be prepended with WP_Rewrite::$front. Defaults to true.
- *         * 'feeds' => bool Should a feed permastruct be built for this post type. Inherits default from has_archive.
- *         * 'pages' => bool Should the permastruct provide for pagination. Defaults to true.
- *         * 'ep_mask' => const Assign an endpoint mask.
- *             * If not specified and permalink_epmask is set, inherits from permalink_epmask.
- *             * If not specified and permalink_epmask is not set, defaults to EP_PERMALINK
- * - query_var - Sets the query_var key for this post type. Defaults to $post_type key
- *     * If false, a post type cannot be loaded at ?{query_var}={post_slug}
- *     * If specified as a string, the query ?{query_var_string}={post_slug} will be valid.
- * - can_export - Allows this post type to be exported. Defaults to true.
- * - delete_with_user - Whether to delete posts of this type when deleting a user.
- *     * If true, posts of this type belonging to the user will be moved to trash when then user is deleted.
- *     * If false, posts of this type belonging to the user will *not* be trashed or deleted.
- *     * If not set (the default), posts are trashed if post_type_supports('author'). Otherwise posts are not trashed or deleted.
- * - _builtin - true if this post type is a native or "built-in" post_type. THIS IS FOR INTERNAL USE ONLY!
- * - _edit_link - URL segement to use for edit link of this post type. THIS IS FOR INTERNAL USE ONLY!
- *
  * @since 2.9.0
- * @uses $wp_post_types Inserts new post type object into the list
- * @uses $wp_rewrite Gets default feeds
- * @uses $wp Adds query vars
+ *
+ * @global array      $wp_post_types List of post types.
+ * @global WP_Rewrite $wp_rewrite    Used for default feeds.
+ * @global WP         $wp            Used to add query vars.
  *
  * @param string $post_type Post type key, must not exceed 20 characters.
- * @param array|string $args See optional args description above.
- * @return object|WP_Error the registered post type object, or an error object.
+ * @param array|string $args {
+ *     Array or string of arguments for registering a post type.
+ *
+ *     @type string      $label                Name of the post type shown in the menu. Usually plural.
+ *                                             Default is value of $labels['name'].
+ *     @type array       $labels               An array of labels for this post type. If not set, post
+ *                                             labels are inherited for non-hierarchical types and page
+ *                                             labels for hierarchical ones. {@see get_post_type_labels()}.
+ *     @type string      $description          A short descriptive summary of what the post type is.
+ *                                             Default empty.
+ *     @type bool        $public               Whether a post type is intended for use publicly either via
+ *                                             the admin interface or by front-end users. While the default
+ *                                             settings of $exclude_from_search, $publicly_queryable, $show_ui,
+ *                                             and $show_in_nav_menus are inherited from public, each does not
+ *                                             rely on this relationship and controls a very specific intention.
+ *                                             Default false.
+ *     @type bool        $hierarchical         Whether the post type is hierarchical (e.g. page). Default false.
+ *     @type bool        $exclude_from_search  Whether to exclude posts with this post type from front end search
+ *                                             results. Default is the opposite value of $public.
+ *     @type bool        $publicly_queryable   Whether queries can be performed on the front end for the post type
+ *                                             as part of {@see parse_request()}. Endpoints would include:
+ *                                             * ?post_type={post_type_key}
+ *                                             * ?{post_type_key}={single_post_slug}
+ *                                             * ?{post_type_query_var}={single_post_slug}
+ *                                             If not set, the default is inherited from $public.
+ *     @type bool        $show_ui              Whether to generate a default UI for managing this post type in the
+ *                                             admin. Default is value of $public.
+ *     @type bool        $show_in_menu         Where to show the post type in the admin menu. To work, $show_ui
+ *                                             must be true. If true, the post type is shown in its own top level
+ *                                             menu. If false, no menu is shown. If a string of an existing top
+ *                                             level menu (eg. 'tools.php' or 'edit.php?post_type=page'), the post
+ *                                             type will be placed as a sub-menu of that.
+ *                                             Default is value of $show_ui.
+ *     @type bool        $show_in_nav_menus    Makes this post type available for selection in navigation menus.
+ *                                             Default is value $public.
+ *     @type bool        $show_in_admin_bar    Makes this post type available via the admin bar. Default is value
+ *                                             of $show_in_menu.
+ *     @type int         $menu_position        The position in the menu order the post type should appear. To work,
+ *                                             $show_in_menu must be true. Default null (at the bottom).
+ *     @type string      $menu_icon            The url to the icon to be used for this menu. Pass a base64-encoded
+ *                                             SVG using a data URI, which will be colored to match the color scheme
+ *                                             -- this should begin with 'data:image/svg+xml;base64,'. Pass the name
+ *                                             of a Dashicons helper class to use a font icon, e.g.
+ *                                             'dashicons-chart-pie'. Pass 'none' to leave div.wp-menu-image empty
+ *                                             so an icon can be added via CSS. Defaults to use the posts icon.
+ *     @type string      $capability_type      The string to use to build the read, edit, and delete capabilities.
+ *                                             May be passed as an array to allow for alternative plurals when using
+ *                                             this argument as a base to construct the capabilities, e.g.
+ *                                             array('story', 'stories'). Default 'post'.
+ *     @type array       $capabilities         Array of capabilities for this post type. $capability_type is used
+ *                                             as a base to construct capabilities by default.
+ *                                             {@see get_post_type_capabilities()}.
+ *     @type bool        $map_meta_cap         Whether to use the internal default meta capability handling.
+ *                                             Default false.
+ *     @type array       $supports             An alias for calling {@see add_post_type_support()} directly.
+ *                                             Defaults to array containing 'title' & 'editor'.
+ *     @type callback    $register_meta_box_cb Provide a callback function that sets up the meta boxes for the
+ *                                             edit form. Do remove_meta_box() and add_meta_box() calls in the
+ *                                             callback. Default null.
+ *     @type array       $taxonomies           An array of taxonomy identifiers that will be registered for the
+ *                                             post type. Taxonomies can be registered later with
+ *                                             {@see register_taxonomy()} or {@see register_taxonomy_for_object_type()}.
+ *                                             Default empty array.
+ *     @type bool|string $has_archive          Whether there should be post type archives, or if a string, the
+ *                                             archive slug to use. Will generate the proper rewrite rules if
+ *                                             $rewrite is enabled. Default false.
+ *     @type bool|array  $rewrite              {
+ *         Triggers the handling of rewrites for this post type. To prevent rewrite, set to false.
+ *         Defaults to true, using $post_type as slug. To specify rewrite rules, an array can be
+ *         passed with any of these keys:
+ *
+ *         @type string $slug       Customize the permastruct slug. Defaults to $post_type key.
+ *         @type bool   $with_front Whether the permastruct should be prepended with WP_Rewrite::$front.
+ *                                  Default true.
+ *         @type bool   $feeds      Whether the feed permastruct should be built for this post type.
+ *                                  Default is value of $has_archive.
+ *         @type bool   $pages      Whether the permastruct should provide for pagination. Default true.
+ *         @type const  $ep_mask    Endpoint mask to assign. If not specified and permalink_epmask is set,
+ *                                  inherits from $permalink_epmask. If not specified and permalink_epmask
+ *                                  is not set, defaults to EP_PERMALINK.
+ * }
+ *     @type string|bool $query_var            Sets the query_var key for this post type. Defaults to $post_type
+ *                                             key. If false, a post type cannot be loaded at
+ *                                             ?{query_var}={post_slug}. If specified as a string, the query
+ *                                             ?{query_var_string}={post_slug} will be valid.
+ *     @type bool        $can_export           Whether to allow this post type to be exported. Default true.
+ *     @type bool        $delete_with_user     Whether to delete posts of this type when deleting a user. If true,
+ *                                             posts of this type belonging to the user will be moved to trash
+ *                                             when then user is deleted. If false, posts of this type belonging
+ *                                             to the user will *not* be trashed or deleted. If not set (the default),
+ *                                             posts are trashed if post_type_supports('author'). Otherwise posts
+ *                                             are not trashed or deleted. Default null.
+ *     @type bool        $_builtin             FOR INTERNAL USE ONLY! True if this post type is a native or
+ *                                             "built-in" post_type. Default false.
+ *     @type string      $_edit_link           FOR INTERNAL USE ONLY! URL segment to use for edit link of
+ *                                             this post type. Default 'post.php?post=%d'.
+ * }
+ * @return object|WP_Error The registered post type object, or an error object.
  */
 function register_post_type( $post_type, $args = array() ) {
 	global $wp_post_types, $wp_rewrite, $wp;
