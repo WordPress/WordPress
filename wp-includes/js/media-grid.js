@@ -298,10 +298,11 @@
 
 			this.$el.attr('aria-label', this.model.get( 'title' ) ).attr( 'aria-checked', false );
 
-			this.model.on( 'change:sizes change:uploading', this.render, this );
-			this.model.on( 'change:title', this._syncTitle, this );
+			this.model.on( 'change:title',   this._syncTitle, this );
 			this.model.on( 'change:caption', this._syncCaption, this );
 			this.model.on( 'change:percent', this.progress, this );
+			this.model.on( 'change:album',   this._syncAlbum, this );
+			this.model.on( 'change:artist',  this._syncArtist, this );
 
 			// Update the selection.
 			this.model.on( 'add', this.select, this );
@@ -443,6 +444,7 @@
 
 			this.on( 'content:render:edit-metadata', this.editMetadataContent, this );
 			this.on( 'content:render:edit-image', this.editImageContentUgh, this );
+			this.on( 'close', this.detach );
 
 			// Only need a tab to Edit Image for images.
 			if ( 'undefined' !== typeof this.model && this.model.get( 'type' ) === 'image' ) {
@@ -465,12 +467,12 @@
 				} );
 
 				// Completely destroy the modal DOM element when closing it.
-				this.modal.close = function() {
+				this.modal.on( 'close', function() {
 					self.modal.remove();
 					$( 'body' ).off( 'keydown.media-modal' ); /* remove the keydown event */
 
 					self.resetRoute();
-				};
+				} );
 
 				this.modal.content( this );
 				this.modal.open();

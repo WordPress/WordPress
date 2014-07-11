@@ -5032,7 +5032,9 @@
 	// Ensure settings remain in sync between attachment views.
 	_.each({
 		caption: '_syncCaption',
-		title:   '_syncTitle'
+		title:   '_syncTitle',
+		artist:  '_syncArtist',
+		album:   '_syncAlbum'
 	}, function( method, setting ) {
 		/**
 		 * @param {Backbone.Model} model
