@@ -1276,7 +1276,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *         @type const  $ep_mask    Endpoint mask to assign. If not specified and permalink_epmask is set,
  *                                  inherits from $permalink_epmask. If not specified and permalink_epmask
  *                                  is not set, defaults to EP_PERMALINK.
- * }
+ *     }
  *     @type string|bool $query_var            Sets the query_var key for this post type. Defaults to $post_type
  *                                             key. If false, a post type cannot be loaded at
  *                                             ?{query_var}={post_slug}. If specified as a string, the query
@@ -1439,6 +1439,7 @@ function register_post_type( $post_type, $args = array() ) {
 		add_permastruct( $post_type, "{$args->rewrite['slug']}/%$post_type%", $permastruct_args );
 	}
 
+	// Register the post type meta box if a custom callback was specified.
 	if ( $args->register_meta_box_cb )
 		add_action( 'add_meta_boxes_' . $post_type, $args->register_meta_box_cb, 10, 1 );
 
@@ -1467,7 +1468,7 @@ function register_post_type( $post_type, $args = array() ) {
 }
 
 /**
- * Builds an object with all post type capabilities out of a post type object
+ * Build an object with all post type capabilities out of a post type object
  *
  * Post type capabilities use the 'capability_type' argument as a base, if the
  * capability is not set in the 'capabilities' argument array or if the
@@ -1513,11 +1514,13 @@ function register_post_type( $post_type, $args = array() ) {
  * only assigned by default if the post type is registered with the 'map_meta_cap'
  * argument set to true (default is false).
  *
- * @see map_meta_cap()
  * @since 3.0.0
  *
- * @param object $args Post type registration arguments
- * @return object object with all the capabilities as member variables
+ * @see register_post_type()
+ * @see map_meta_cap()
+ *
+ * @param object $args Post type registration arguments.
+ * @return object object with all the capabilities as member variables.
  */
 function get_post_type_capabilities( $args ) {
 	if ( ! is_array( $args->capability_type ) )
@@ -1566,10 +1569,12 @@ function get_post_type_capabilities( $args ) {
 }
 
 /**
- * Stores or returns a list of post type meta caps for map_meta_cap().
+ * Store or return a list of post type meta caps for map_meta_cap().
  *
  * @since 3.1.0
  * @access private
+ *
+ * @param null|array $capabilities Post type meta capabilities.
  */
 function _post_type_meta_capabilities( $capabilities = null ) {
 	static $meta_caps = array();
@@ -1582,30 +1587,36 @@ function _post_type_meta_capabilities( $capabilities = null ) {
 }
 
 /**
- * Builds an object with all post type labels out of a post type object
+ * Build an object with all post type labels out of a post type object
  *
  * Accepted keys of the label array in the post type object:
- * - name - general name for the post type, usually plural. The same and overridden by $post_type_object->label. Default is Posts/Pages
+ * - name - general name for the post type, usually plural. The same and overridden
+ *          by $post_type_object->label. Default is Posts/Pages
  * - singular_name - name for one object of this post type. Default is Post/Page
- * - add_new - Default is Add New for both hierarchical and non-hierarchical types. When internationalizing this string, please use a {@link http://codex.wordpress.org/I18n_for_WordPress_Developers#Disambiguation_by_context gettext context} matching your post type. Example: <code>_x('Add New', 'product');</code>
- * - add_new_item - Default is Add New Post/Add New Page
- * - edit_item - Default is Edit Post/Edit Page
- * - new_item - Default is New Post/New Page
- * - view_item - Default is View Post/View Page
- * - search_items - Default is Search Posts/Search Pages
- * - not_found - Default is No posts found/No pages found
- * - not_found_in_trash - Default is No posts found in Trash/No pages found in Trash
- * - parent_item_colon - This string isn't used on non-hierarchical types. In hierarchical ones the default is Parent Page:
- * - all_items - String for the submenu. Default is All Posts/All Pages
- * - menu_name - Default is the same as <code>name</code>
+ * - add_new - Default is Add New for both hierarchical and non-hierarchical types.
+ *             When internationalizing this string, please use a gettext context
+ *             {@see http://codex.wordpress.org/I18n_for_WordPress_Developers#Disambiguation_by_context}
+ *             matching your post type. Example: <code>_x('Add New', 'product');</code>.
+ * - add_new_item - Default is Add New Post/Add New Page.
+ * - edit_item - Default is Edit Post/Edit Page.
+ * - new_item - Default is New Post/New Page.
+ * - view_item - Default is View Post/View Page.
+ * - search_items - Default is Search Posts/Search Pages.
+ * - not_found - Default is No posts found/No pages found.
+ * - not_found_in_trash - Default is No posts found in Trash/No pages found in Trash.
+ * - parent_item_colon - This string isn't used on non-hierarchical types. In hierarchical
+ *                       ones the default is 'Parent Page:'.
+ * - all_items - String for the submenu. Default is All Posts/All Pages.
+ * - menu_name - Default is the same as <code>name</code>.
  *
- * Above, the first default value is for non-hierarchical post types (like posts) and the second one is for hierarchical post types (like pages).
+ * Above, the first default value is for non-hierarchical post types (like posts)
+ * and the second one is for hierarchical post types (like pages).
  *
  * @since 3.0.0
  * @access private
  *
- * @param object $post_type_object
- * @return object object with all the labels as member variables
+ * @param object $post_type_object Post type object.
+ * @return object object with all the labels as member variables.
  */
 function get_post_type_labels( $post_type_object ) {
 	$nohier_vs_hier_defaults = array(
@@ -1644,10 +1655,14 @@ function get_post_type_labels( $post_type_object ) {
 }
 
 /**
- * Builds an object with custom-something object (post type, taxonomy) labels out of a custom-something object
+ * Build an object with custom-something object (post type, taxonomy) labels
+ * out of a custom-something object
  *
- * @access private
  * @since 3.0.0
+ * @access private
+ *
+ * @param object $object                  A custom-something object.
+ * @param array  $nohier_vs_hier_defaults Hierarchical vs non-hierarchical default labels.
  */
 function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 	$object->labels = (array) $object->labels;
@@ -1675,7 +1690,7 @@ function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 }
 
 /**
- * Adds submenus for post types.
+ * Add submenus for post types.
  *
  * @access private
  * @since 3.1.0
@@ -1706,7 +1721,7 @@ add_action( 'admin_menu', '_add_post_type_submenus' );
  * @since 3.0.0
  *
  * @param string       $post_type The post type for which to add the feature.
- * @param string|array $feature   The feature being added, accpets an array of
+ * @param string|array $feature   The feature being added, accepts an array of
  *                                feature strings or a single string.
  */
 function add_post_type_support( $post_type, $feature ) {
@@ -1725,8 +1740,9 @@ function add_post_type_support( $post_type, $feature ) {
  * Remove support for a feature from a post type.
  *
  * @since 3.0.0
- * @param string $post_type The post type for which to remove the feature
- * @param string $feature The feature being removed
+ *
+ * @param string $post_type The post type for which to remove the feature.
+ * @param string $feature   The feature being removed.
  */
 function remove_post_type_support( $post_type, $feature ) {
 	global $_wp_post_type_features;
@@ -1739,10 +1755,10 @@ function remove_post_type_support( $post_type, $feature ) {
  * Get all the post type features
  *
  * @since 3.4.0
- * @param string $post_type The post type
- * @return array
+ *
+ * @param string $post_type The post type.
+ * @return array Post type supports list.
  */
-
 function get_all_post_type_supports( $post_type ) {
 	global $_wp_post_type_features;
 
@@ -1753,14 +1769,14 @@ function get_all_post_type_supports( $post_type ) {
 }
 
 /**
- * Checks a post type's support for a given feature
+ * Check a post type's support for a given feature.
  *
  * @since 3.0.0
- * @param string $post_type The post type being checked
- * @param string $feature the feature being checked
- * @return boolean
+ *
+ * @param string $post_type The post type being checked.
+ * @param string $feature the feature being checked.
+ * @return bool Whether the post type supports the given feature.
  */
-
 function post_type_supports( $post_type, $feature ) {
 	global $_wp_post_type_features;
 
@@ -1768,17 +1784,17 @@ function post_type_supports( $post_type, $feature ) {
 }
 
 /**
- * Updates the post type for the post ID.
+ * Update the post type for the post ID.
  *
  * The page or post cache will be cleaned for the post ID.
  *
  * @since 2.5.0
  *
- * @uses $wpdb
+ * @global wpdb $wpdb WordPress database access abstraction object.
  *
- * @param int $post_id Post ID to change post type. Not actually optional.
- * @param string $post_type Optional, default is post. Supported values are 'post' or 'page' to
- *  name a few.
+ * @param int    $post_id   Optional. Post ID to change post type. Default 0.
+ * @param string $post_type Optional. Post type. Accepts 'post' or 'page' to
+ *                          name a few. Default 'post'.
  * @return int Amount of rows changed. Should be 1 for success and 0 for failure.
  */
 function set_post_type( $post_id = 0, $post_type = 'post' ) {
@@ -1810,13 +1826,16 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
  *     'post_status' - Default is 'publish'. Post status to retrieve.
  *
  * @since 1.2.0
- * @uses WP_Query::query() See for more default arguments and information.
- * @link http://codex.wordpress.org/Template_Tags/get_posts
+ *
+ * @todo Tie to WP_Query default args hash notation.
+ *
+ * @see WP_Query::query() See for more default arguments and information.
+ * @see http://codex.wordpress.org/Template_Tags/get_posts
  *
  * @param array $args Optional. Overrides defaults.
  * @return array List of posts.
  */
-function get_posts($args = null) {
+function get_posts( $args = null ) {
 	$defaults = array(
 		'numberposts' => 5, 'offset' => 0,
 		'category' => 0, 'orderby' => 'date',
