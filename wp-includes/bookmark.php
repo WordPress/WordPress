@@ -91,32 +91,29 @@ function get_bookmark_field( $field, $bookmark, $context = 'display' ) {
  * that fails, then the query will be built from the arguments and executed. The
  * results will be stored to the cache.
  *
- * List of default arguments are as follows:
- * 'orderby' - Default is 'name' (string). How to order the links by. String is
- *		based off of the bookmark scheme.
- * 'order' - Default is 'ASC' (string). Either 'ASC' or 'DESC'. Orders in either
- *		ascending or descending order.
- * 'limit' - Default is -1 (integer) or show all. The amount of bookmarks to
- *		display.
- * 'category' - Default is empty string (string). Include the links in what
- *		category ID(s).
- * 'category_name' - Default is empty string (string). Get links by category
- *		name.
- * 'hide_invisible' - Default is 1 (integer). Whether to show (default) or hide
- *		links marked as 'invisible'.
- * 'show_updated' - Default is 0 (integer). Will show the time of when the
- *		bookmark was last updated.
- * 'include' - Default is empty string (string). Include bookmark ID(s)
- *		separated by commas.
- * 'exclude' - Default is empty string (string). Exclude bookmark ID(s)
- *		separated by commas.
- *
  * @since 2.1.0
- * @uses $wpdb Database Object
- * @link http://codex.wordpress.org/Template_Tags/get_bookmarks
  *
- * @param string|array $args List of arguments to overwrite the defaults
- * @return array List of bookmark row objects
+ * @global wpdb $wpdb WordPress database access abstraction object.
+ *
+ * @param string|array $args {
+ *     Optional. String or array of arguments to retrieve bookmarks.
+ *
+ *     @type string   $orderby        How to order the links by. Accepts post fields. Default 'name'.
+ *     @type string   $order          Whether to order bookmarks in ascending or descending order.
+ *                                    Accepts 'ASC' (ascending) or 'DESC' (descending). Default 'ASC'.
+ *     @type int      $limit          Amount of bookmarks to display. Accepts 1+ or -1 for all.
+ *                                    Default -1.
+ *     @type string   $category       Comma-separated list of category ids to include links from.
+ *                                    Default empty.
+ *     @type string   $category_name  Category to retrieve links for by name. Default empty.
+ *     @type int|bool $hide_invisible Whether to show or hide links marked as 'invisible'. Accepts
+ *                                    1|true or 0|false. Default 1|true.
+ *     @type int|bool $show_updated   Whether to display the time the bookmark was last updated.
+ *                                    Accepts 1|true or 0|false. Default 0|false.
+ *     @type string   $include        Comma-separated list of bookmark IDs to include. Default empty.
+ *     @type string   $exclude        Comma-separated list of bookmark IDs to exclude. Default empty.
+ * }
+ * @return array List of bookmark row objects.
  */
 function get_bookmarks( $args = '' ) {
 	global $wpdb;
