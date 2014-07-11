@@ -180,13 +180,13 @@ add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
  *
  * @since 2.0.0
  *
- * @param int $attachment_id Attachment ID.
- * @param bool $unfiltered Whether to apply filters.
+ * @param int  $attachment_id Attachment ID.
+ * @param bool $unfiltered    Optional. Whether to apply filters. Default false.
  * @return string|bool The file path to where the attached file should be, false otherwise.
  */
 function get_attached_file( $attachment_id, $unfiltered = false ) {
 	$file = get_post_meta( $attachment_id, '_wp_attached_file', true );
-	// If the file is relative, prepend upload dir
+	// If the file is relative, prepend upload dir.
 	if ( $file && 0 !== strpos($file, '/') && !preg_match('|^.:\\\|', $file) && ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) )
 		$file = $uploads['basedir'] . "/$file";
 	if ( $unfiltered )
@@ -211,8 +211,8 @@ function get_attached_file( $attachment_id, $unfiltered = false ) {
  *
  * @since 2.1.0
  *
- * @param int $attachment_id Attachment ID
- * @param string $file File path for the attachment
+ * @param int    $attachment_id Attachment ID.
+ * @param string $file          File path for the attachment.
  * @return bool True on success, false on failure.
  */
 function update_attached_file( $attachment_id, $file ) {
@@ -242,8 +242,8 @@ function update_attached_file( $attachment_id, $file ) {
  *
  * @since 2.9.0
  *
- * @param string $path Full path to the file
- * @return string relative path on success, unchanged path on failure.
+ * @param string $path Full path to the file.
+ * @return string Relative path on success, unchanged path on failure.
  */
 function _wp_relative_upload_path( $path ) {
 	$new_path = $path;
@@ -304,17 +304,18 @@ function _wp_relative_upload_path( $path ) {
  * post types are 'post', 'pages', and 'attachments'. The 'post_status'
  * argument will accept any post status within the write administration panels.
  *
- * @see get_posts() Has additional arguments that can be replaced.
  * @internal Claims made in the long description might be inaccurate.
- *
  * @since 2.0.0
  *
- * @param mixed $args Optional. User defined arguments for replacing the defaults.
- * @param string $output Optional. Constant for return type, either OBJECT (default), ARRAY_A, ARRAY_N.
+ * @see get_posts() Has additional arguments that can be replaced.
+ *
+ * @param mixed  $args   Optional. User defined arguments for replacing the defaults. Default empty.
+ * @param string $output Optional. Constant for return type. Accepts OBJECT, ARRAY_A, ARRAY_N.
+ *                       Default OBJECt.
  * @return array Array of children, where the type of each element is determined by $output parameter.
  *               Empty array on failure.
  */
-function get_children($args = '', $output = OBJECT) {
+function get_children( $args = '', $output = OBJECT ) {
 	$kids = array();
 	if ( empty( $args ) ) {
 		if ( isset( $GLOBALS['post'] ) ) {
@@ -379,8 +380,8 @@ function get_children($args = '', $output = OBJECT) {
  * @param string $post Post content.
  * @return array Post before ('main'), after ('extended'), and custom readmore ('more_text').
  */
-function get_extended($post) {
-	//Match the new style more links
+function get_extended( $post ) {
+	//Match the new style more links.
 	if ( preg_match('/<!--more(.*?)?-->/', $post, $matches) ) {
 		list($main, $extended) = explode($matches[0], $post, 2);
 		$more_text = $matches[1];
@@ -405,12 +406,15 @@ function get_extended($post) {
  * $post, must be given as a variable, since it is passed by reference.
  *
  * @since 1.5.1
- * @link http://codex.wordpress.org/Function_Reference/get_post
  *
- * @param int|WP_Post $post Optional. Post ID or post object.
- * @param string $output Optional, default is Object. Either OBJECT, ARRAY_A, or ARRAY_N.
- * @param string $filter Optional, default is raw.
- * @return WP_Post|null WP_Post on success or null on failure
+ * @see http://codex.wordpress.org/Function_Reference/get_post
+ *
+ * @param int|WP_Post $post   Optional. Post ID or post object. Defaults to global $post.
+ * @param string      $output Optional, default is Object. Accepts OBJECT, ARRAY_A, or ARRAY_N.
+ *                            Default OBJECT.
+ * @param string      $filter Optional. Type of filter to apply. Accepts 'raw', 'edit', 'db',
+ *                            or 'display'. Default 'raw'.
+ * @return WP_Post|null WP_Post on success or null on failure.
  */
 function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 	if ( empty( $post ) && isset( $GLOBALS['post'] ) )
@@ -627,6 +631,15 @@ final class WP_Post {
 	 */
 	public $filter;
 
+	/**
+	 * Retrieve WP_Post instance.
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @param int $post_id Post ID.
+	 * @return WP_Post|bool Post object, false otherwise.
+	 */
 	public static function get_instance( $post_id ) {
 		global $wpdb;
 
@@ -651,11 +664,22 @@ final class WP_Post {
 		return new WP_Post( $_post );
 	}
 
+	/**
+	 * Constructor.
+	 *
+	 * @param WP_Post $post Post object.
+	 */
 	public function __construct( $post ) {
 		foreach ( get_object_vars( $post ) as $key => $value )
 			$this->$key = $value;
 	}
 
+	/**
+	 * Isset-er.
+	 *
+	 * @param string $key Property to check if set.
+	 * @return bool
+	 */
 	public function __isset( $key ) {
 		if ( 'ancestors' == $key )
 			return true;
@@ -672,6 +696,12 @@ final class WP_Post {
 		return metadata_exists( 'post', $this->ID, $key );
 	}
 
+	/**
+	 * Getter.
+	 *
+	 * @param string $key Key to get.
+	 * @return array|mixed
+	 */
 	public function __get( $key ) {
 		if ( 'page_template' == $key && $this->__isset( $key ) ) {
 			return get_post_meta( $this->ID, '_wp_page_template', true );
@@ -697,8 +727,7 @@ final class WP_Post {
 			return wp_list_pluck( $terms, 'name' );
 		}
 
-		// Rest of the values need filtering
-
+		// Rest of the values need filtering.
 		if ( 'ancestors' == $key )
 			$value = get_post_ancestors( $this );
 		else
@@ -710,6 +739,12 @@ final class WP_Post {
 		return $value;
 	}
 
+	/**
+	 * {@Missing Summary}
+	 *
+	 * @param string $filter Filter.
+	 * @return $this|array|bool|object|WP_Post
+	 */
 	public function filter( $filter ) {
 		if ( $this->filter == $filter )
 			return $this;
@@ -720,6 +755,11 @@ final class WP_Post {
 		return sanitize_post( $this, $filter );
 	}
 
+	/**
+	 * Convert object to array.
+	 *
+	 * @return array Object as array.
+	 */
 	public function to_array() {
 		$post = get_object_vars( $this );
 
@@ -771,11 +811,13 @@ function get_post_ancestors( $post ) {
  * supported values are found within those functions.
  *
  * @since 2.3.0
- * @uses sanitize_post_field() See for possible $context values.
  *
- * @param string $field Post field name.
- * @param int|WP_Post $post Post ID or post object.
- * @param string $context Optional. How to filter the field. Default is 'display'.
+ * @see sanitize_post_field()
+ *
+ * @param string      $field   Post field name.
+ * @param int|WP_Post $post    Post ID or post object.
+ * @param string      $context Optional. How to filter the field. Accepts 'raw', 'edit', 'db',
+ *                             or 'display'. Default 'display'.
  * @return string The value of the post field on success, empty string on failure.
  */
 function get_post_field( $field, $post, $context = 'display' ) {
@@ -798,10 +840,10 @@ function get_post_field( $field, $post, $context = 'display' ) {
  *
  * @since 2.0.0
  *
- * @param int|WP_Post $ID Optional. Post ID or post object.
+ * @param int|WP_Post $ID Optional. Post ID or post object. Default empty.
  * @return string|bool The mime type on success, false on failure.
  */
-function get_post_mime_type($ID = '') {
+function get_post_mime_type( $ID = '' ) {
 	$post = get_post($ID);
 
 	if ( is_object($post) )
@@ -818,10 +860,10 @@ function get_post_mime_type($ID = '') {
  *
  * @since 2.0.0
  *
- * @param int|WP_Post $ID Optional. Post ID or post object.
+ * @param int|WP_Post $ID Optional. Post ID or post object. Default empty.
  * @return string|bool Post status on success, false on failure.
  */
-function get_post_status($ID = '') {
+function get_post_status( $ID = '' ) {
 	$post = get_post($ID);
 
 	if ( !is_object($post) )
@@ -862,10 +904,10 @@ function get_post_status($ID = '') {
  */
 function get_post_statuses() {
 	$status = array(
-		'draft'			=> __('Draft'),
-		'pending'		=> __('Pending Review'),
-		'private'		=> __('Private'),
-		'publish'		=> __('Published')
+		'draft'   => __( 'Draft' ),
+		'pending' => __( 'Pending Review' ),
+		'private' => __( 'Private' ),
+		'publish' => __( 'Published' )
 	);
 
 	return $status;
@@ -883,9 +925,9 @@ function get_post_statuses() {
  */
 function get_page_statuses() {
 	$status = array(
-		'draft'			=> __('Draft'),
-		'private'		=> __('Private'),
-		'publish'		=> __('Published')
+		'draft'   => __( 'Draft' ),
+		'private' => __( 'Private' ),
+		'publish' => __( 'Published' )
 	);
 
 	return $status;
@@ -898,25 +940,42 @@ function get_page_statuses() {
  * parameters given. The function will accept an array (second optional
  * parameter), along with a string for the post status name.
  *
- *
- * Optional $args contents:
- *
- * label - A descriptive name for the post status marked for translation. Defaults to $post_status.
- * public - Whether posts of this status should be shown in the front end of the site. Defaults to true.
- * exclude_from_search - Whether to exclude posts with this post status from search results. Defaults to false.
- * show_in_admin_all_list - Whether to include posts in the edit listing for their post type
- * show_in_admin_status_list - Show in the list of statuses with post counts at the top of the edit
- *                             listings, e.g. All (12) | Published (9) | My Custom Status (2) ...
- *
  * Arguments prefixed with an _underscore shouldn't be used by plugins and themes.
  *
  * @since 3.0.0
  * @uses $wp_post_statuses Inserts new post status object into the list
  *
  * @param string $post_status Name of the post status.
- * @param array|string $args See above description.
+ * @param array|string $args {
+ *     Optional. Array or string of post status arguments.
+ *
+ *     @type bool|string $label                     A descriptive name for the post status marked
+ *                                                  for translation. Defaults to value of $post_status.
+ *     @type bool|array  $label_count               Descriptive text to use for nooped plurals.
+ *                                                  Default array of $label, twice
+ *     @type bool        $exclude_from_search       Whether to exclude posts with this post status
+ *                                                  from search results. Default is value of $internal.
+ *     @type bool        $_builtin                  Whether the status is built-in. Core-use only.
+ *                                                  Default false.
+ *     @type bool        $public                    Whether posts of this status should be shown
+ *                                                  in the front end of the site. Default true.
+ *     @type bool        $internal                  Whether the status is for internal use only.
+ *                                                  Default false.
+ *     @type bool        $protected                 Whether posts with this status should be protected.
+ *                                                  Default false.
+ *     @type bool        $private                   Whether posts with this status should be private.
+ *                                                  Default false.
+ *     @type bool        $publicly_queryable        Whether posts with this status should be publicly-
+ *                                                  queryable. Default is value of $public.
+ *     @type bool        $show_in_admin_all_list    Whether to include posts in the edit listing for
+ *                                                  their post type. Default is value of $internal.
+ *     @type bool        $show_in_admin_status_list Show in the list of statuses with post counts at
+ *                                                  the top of the edit listings,
+ *                                                  e.g. All (12) | Published (9) | My Custom Status (2)
+ *                                                  Default is value of $internal.
+ * }
  */
-function register_post_status($post_status, $args = array()) {
+function register_post_status( $post_status, $args = array() ) {
 	global $wp_post_statuses;
 
 	if (!is_array($wp_post_statuses))
@@ -942,6 +1001,7 @@ function register_post_status($post_status, $args = array()) {
 	$post_status = sanitize_key($post_status);
 	$args->name = $post_status;
 
+	// Set various defaults.
 	if ( null === $args->public && null === $args->internal && null === $args->protected && null === $args->private )
 		$args->internal = true;
 
@@ -981,15 +1041,16 @@ function register_post_status($post_status, $args = array()) {
 }
 
 /**
- * Retrieve a post status object by name
+ * Retrieve a post status object by name.
  *
  * @since 3.0.0
- * @uses $wp_post_statuses
- * @see register_post_status
- * @see get_post_statuses
  *
- * @param string $post_status The name of a registered post status
- * @return object A post status object
+ * @global array $wp_post_statuses List of post statuses.
+ *
+ * @see register_post_status()
+ *
+ * @param string $post_status The name of a registered post status.
+ * @return object A post status object.
  */
 function get_post_status_object( $post_status ) {
 	global $wp_post_statuses;
@@ -1004,15 +1065,18 @@ function get_post_status_object( $post_status ) {
  * Get a list of all registered post status objects.
  *
  * @since 3.0.0
- * @uses $wp_post_statuses
- * @see register_post_status
- * @see get_post_status_object
  *
- * @param array|string $args An array of key => value arguments to match against the post status objects.
- * @param string $output The type of output to return, either post status 'names' or 'objects'. 'names' is the default.
- * @param string $operator The logical operation to perform. 'or' means only one element
- *  from the array needs to match; 'and' means all elements must match. The default is 'and'.
- * @return array A list of post status names or objects
+ * @global array $wp_post_statuses List of post statuses.
+ *
+ * @see register_post_status()
+ *
+ * @param array|string $args     Optional. Array or string of post status arguments. Default array.
+ * @param string       $output   Optional. The type of output to return. Accepts post status 'names'
+ *                               or 'objects'. Default 'names'.
+ * @param string       $operator Optional. The logical operation to perform. 'or' means only one element
+ *                               from the array needs to match; 'and' means all elements must match.
+ *                               Default 'and'.
+ * @return array A list of post status names or objects.
  */
 function get_post_stati( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_post_statuses;
@@ -1028,7 +1092,8 @@ function get_post_stati( $args = array(), $output = 'names', $operator = 'and' )
  * A false return value might also mean that the post type does not exist.
  *
  * @since 3.0.0
- * @see get_post_type_object
+ *
+ * @see get_post_type_object()
  *
  * @param string $post_type Post type name
  * @return bool Whether post type is hierarchical.
@@ -1042,12 +1107,13 @@ function is_post_type_hierarchical( $post_type ) {
 }
 
 /**
- * Checks if a post type is registered.
+ * Check if a post type is registered.
  *
  * @since 3.0.0
- * @uses get_post_type_object()
  *
- * @param string $post_type Post type name
+ * @see get_post_type_object()
+ *
+ * @param string $post_type Post type name.
  * @return bool Whether post type is registered.
  */
 function post_type_exists( $post_type ) {
@@ -1059,7 +1125,7 @@ function post_type_exists( $post_type ) {
  *
  * @since 2.1.0
  *
- * @param int|WP_Post $post Optional. Post ID or post object.
+ * @param int|WP_Post $post Optional. Post ID or post object. Default is global $post.
  * @return string|bool Post type on success, false on failure.
  */
 function get_post_type( $post = null ) {
@@ -1070,15 +1136,16 @@ function get_post_type( $post = null ) {
 }
 
 /**
- * Retrieve a post type object by name
+ * Retrieve a post type object by name.
  *
  * @since 3.0.0
- * @uses $wp_post_types
- * @see register_post_type
- * @see get_post_types
  *
- * @param string $post_type The name of a registered post type
- * @return object A post type object
+ * @global array $wp_post_types List of post types.
+ *
+ * @see register_post_type()
+ *
+ * @param string $post_type The name of a registered post type.
+ * @return object A post type object.
  */
 function get_post_type_object( $post_type ) {
 	global $wp_post_types;
@@ -1093,14 +1160,19 @@ function get_post_type_object( $post_type ) {
  * Get a list of all registered post type objects.
  *
  * @since 2.9.0
- * @uses $wp_post_types
- * @see register_post_type
  *
- * @param array|string $args An array of key => value arguments to match against the post type objects.
- * @param string $output The type of output to return, either post type 'names' or 'objects'. 'names' is the default.
- * @param string $operator The logical operation to perform. 'or' means only one element
- *  from the array needs to match; 'and' means all elements must match. The default is 'and'.
- * @return array A list of post type names or objects
+ * @global array $wp_post_types List of post types.
+ *
+ * @see register_post_type()
+ *
+ * @param array|string $args     Optional. An array of key => value arguments to match against
+ *                               the post type objects. Default empty array.
+ * @param string       $output   Optional. The type of output to return. Accepts post type 'names'
+ *                               or 'objects'. Default 'names'.
+ * @param string       $operator Optaionl. The logical operation to perform. 'or' means only one
+ *                               element from the array needs to match; 'and' means all elements
+ *                               must match. Default 'and'.
+ * @return array A list of post type names or objects.
  */
 function get_post_types( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_post_types;
