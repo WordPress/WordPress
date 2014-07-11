@@ -237,20 +237,12 @@
 		 * Open the Edit Attachment modal.
 		 */
 		editAttachment: function( model ) {
-			var self    = this,
-				library = this.state().get('library');
-
 			// Create a new EditAttachment frame, passing along the library and the attachment model.
-			this.editAttachmentFrame = wp.media( {
+			wp.media( {
 				frame:       'edit-attachments',
 				gridRouter:  this.gridRouter,
-				library:     library,
+				library:     this.state().get('library'),
 				model:       model
-			} );
-
-			// Listen to keyboard events on the modal
-			$( 'body' ).on( 'keydown.media-modal', function( e ) {
-				self.editAttachmentFrame.keyEvent( e );
 			} );
 		},
 
@@ -460,6 +452,10 @@
 					title:      this.options.title
 				});
 
+				this.modal.on( 'open', function () {
+					$( 'body' ).on( 'keydown.media-modal', _.bind( self.keyEvent, self ) );
+				} );
+
 				// Completely destroy the modal DOM element when closing it.
 				this.modal.close = function() {
 					self.modal.remove();
@@ -618,16 +614,10 @@
 			}
 			// The right arrow key
 			if ( event.keyCode === 39 ) {
-				if ( ! this.hasNext() ) {
-					return;
-				}
 				this.nextMediaItem();
 			}
 			// The left arrow key
 			if ( event.keyCode === 37 ) {
-				if ( ! this.hasPrevious() ) {
-					return;
-				}
 				this.previousMediaItem();
 			}
 		},
