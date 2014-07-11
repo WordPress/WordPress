@@ -880,6 +880,7 @@
 	height: 24px;
 	width: 24px;
 	position: absolute;
+	z-index: 10;
 	top: -6px;
 	right: -6px;
 	outline: none;
