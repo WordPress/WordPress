@@ -1770,21 +1770,21 @@ class WP_Http_Cookie {
 	 * The parameter $data should be either an associative array containing the indices names below
 	 * or a header string detailing it.
 	 *
-	 * If it's an array, it should include the following elements:
-	 * <ol>
-	 * <li>Name</li>
-	 * <li>Value - should NOT be urlencoded already.</li>
-	 * <li>Expires - (optional) String or int (UNIX timestamp).</li>
-	 * <li>Path (optional)</li>
-	 * <li>Domain (optional)</li>
-	 * <li>Port (optional)</li>
-	 * </ol>
-	 *
-	 * @access public
 	 * @since 2.8.0
+	 * @access public
 	 *
-	 * @param string|array $data Raw cookie data.
-	 * @param string $requested_url The URL which the cookie was set on, used for default 'domain' and 'port' values
+	 * @param string|array $data {
+	 *     Raw cookie data as header string or data array.
+	 *
+	 *     @type string     $name    Cookie name.
+	 *     @type mixed      $value   Value. Should NOT already be urlencoded.
+	 *     @type string|int $expires Optional. Unix timestamp or formatted date. Default null.
+	 *     @type string     $path    Optional. Path. Default '/'.
+	 *     @type string     $domain  Optional. Domain. Default host of parsed $requested_url.
+	 *     @type int        $port    Optional. Port. Default null.
+	 * }
+	 * @param string       $requested_url The URL which the cookie was set on, used for default $domain
+	 *                                    and $port values.
 	 */
 	public function __construct( $data, $requested_url = '' ) {
 		if ( $requested_url )
