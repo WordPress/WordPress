@@ -29,6 +29,10 @@ textarea:focus {
 	border: 1px solid #b2b2b2;
 }
 
+.site-title {
+	max-width: 71%;
+}
+
 .site-content blockquote.alignleft,
 .site-content blockquote.alignright {
 	border-top: 1px solid #e5e5e5;
