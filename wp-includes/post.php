@@ -4722,7 +4722,7 @@ function wp_insert_attachment( $args, $file = false, $parent = 0 ) {
 }
 
 /**
- * Trashes or deletes an attachment.
+ * Trash or delete an attachment.
  *
  * When an attachment is permanently deleted, the file will also be removed.
  * Deletion removes all post meta fields, taxonomy, comments, etc. associated
@@ -4732,10 +4732,12 @@ function wp_insert_attachment( $args, $file = false, $parent = 0 ) {
  * for media is disabled, item is already in the trash, or $force_delete is true.
  *
  * @since 2.0.0
- * @uses $wpdb
  *
- * @param int $post_id Attachment ID.
- * @param bool $force_delete Whether to bypass trash and force deletion. Defaults to false.
+ * @global wpdb $wpdb WordPress database access abstraction object.
+ *
+ * @param int  $post_id      Attachment ID.
+ * @param bool $force_delete Optional. Whether to bypass trash and force deletion.
+ *                           Default false.
  * @return mixed False on failure. Post data on success.
  */
 function wp_delete_attachment( $post_id, $force_delete = false ) {
@@ -4800,7 +4802,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	$uploadpath = wp_upload_dir();
 
 	if ( ! empty($meta['thumb']) ) {
-		// Don't delete the thumb if another attachment uses it
+		// Don't delete the thumb if another attachment uses it.
 		if (! $wpdb->get_row( $wpdb->prepare( "SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE %s AND post_id <> %d", '%' . $wpdb->esc_like( $meta['thumb'] ) . '%', $post_id)) ) {
 			$thumbfile = str_replace(basename($file), $meta['thumb'], $file);
 			/** This filter is documented in wp-admin/custom-header.php */
@@ -4809,7 +4811,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 		}
 	}
 
-	// remove intermediate and backup images if there are any
+	// Remove intermediate and backup images if there are any.
 	foreach ( $intermediate_sizes as $intermediate ) {
 		/** This filter is documented in wp-admin/custom-header.php */
 		$intermediate_file = apply_filters( 'wp_delete_file', $intermediate['path'] );
@@ -4841,8 +4843,8 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
  *
  * @since 2.1.0
  *
- * @param int $post_id Attachment ID. Default 0.
- * @param bool $unfiltered Optional, default is false. If true, filters are not run.
+ * @param int  $post_id    Attachment ID. Default 0.
+ * @param bool $unfiltered Optional. If true, filters are not run. Default false.
  * @return string|bool Attachment meta field. False on failure.
  */
 function wp_get_attachment_metadata( $post_id = 0, $unfiltered = false ) {
@@ -4872,9 +4874,9 @@ function wp_get_attachment_metadata( $post_id = 0, $unfiltered = false ) {
  *
  * @since 2.1.0
  *
- * @param int $post_id Attachment ID.
- * @param array $data Attachment data.
- * @return int
+ * @param int   $post_id Attachment ID.
+ * @param array $data    Attachment data.
+ * @return int|bool False if $post is invalid.
  */
 function wp_update_attachment_metadata( $post_id, $data ) {
 	$post_id = (int) $post_id;
@@ -4901,7 +4903,7 @@ function wp_update_attachment_metadata( $post_id, $data ) {
  * @since 2.1.0
  *
  * @param int $post_id Optional. Attachment ID. Default 0.
- * @return string
+ * @return string|bool Attachment URL, otherwise false.
  */
 function wp_get_attachment_url( $post_id = 0 ) {
 	$post_id = (int) $post_id;
@@ -4912,19 +4914,30 @@ function wp_get_attachment_url( $post_id = 0 ) {
 		return false;
 
 	$url = '';
-	if ( $file = get_post_meta( $post->ID, '_wp_attached_file', true) ) { //Get attached file
-		if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) { //Get upload directory
-			if ( 0 === strpos($file, $uploads['basedir']) ) //Check that the upload base exists in the file location
-				$url = str_replace($uploads['basedir'], $uploads['baseurl'], $file); //replace file location with url location
-			elseif ( false !== strpos($file, 'wp-content/uploads') )
+	// Get attached file.
+	if ( $file = get_post_meta( $post->ID, '_wp_attached_file', true) ) {
+		// Get upload directory.
+		if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) {
+			// Check that the upload base exists in the file location.
+			if ( 0 === strpos( $file, $uploads['basedir'] ) ) {
+				// Replace file location with url location.
+				$url = str_replace($uploads['basedir'], $uploads['baseurl'], $file);
+			} elseif ( false !== strpos($file, 'wp-content/uploads') ) {
 				$url = $uploads['baseurl'] . substr( $file, strpos($file, 'wp-content/uploads') + 18 );
-			else
-				$url = $uploads['baseurl'] . "/$file"; //Its a newly uploaded file, therefor $file is relative to the basedir.
+			} else {
+				// It's a newly-uploaded file, therefore $file is relative to the basedir.
+				$url = $uploads['baseurl'] . "/$file";
+			}
 		}
 	}
 
-	if ( empty($url) ) //If any of the above options failed, Fallback on the GUID as used pre-2.7, not recommended to rely upon this.
+	/*
+	 * If any of the above options failed, Fallback on the GUID as used pre-2.7,
+	 * not recommended to rely upon this.
+	 */
+	if ( empty($url) ) {
 		$url = get_the_guid( $post->ID );
+	}
 
 	/**
 	 * Filter the attachment URL.
@@ -5039,7 +5052,7 @@ function wp_attachment_is_image( $post_id = 0 ) {
  * @since 2.1.0
  *
  * @param string|int $mime MIME type or attachment ID.
- * @return string|bool
+ * @return string|bool Icon, false otherwise.
  */
 function wp_mime_type_icon( $mime = 0 ) {
 	if ( !is_numeric($mime) )
@@ -5118,7 +5131,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 			wp_cache_add( 'icon_files', $icon_files, 'default', 600 );
 		}
 
-		// Icon basename - extension = MIME wildcard
+		// Icon basename - extension = MIME wildcard.
 		foreach ( $icon_files as $file => $uri )
 			$types[ preg_replace('/^([^.]*).*$/', '$1', basename($file)) ] =& $icon_files[$file];
 
@@ -5155,7 +5168,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 }
 
 /**
- * Checked for changed slugs for published post objects and save the old slug.
+ * Check for changed slugs for published post objects and save the old slug.
  *
  * The function is used when a post object of any type is updated,
  * by comparing the current and previous post objects.
@@ -5169,27 +5182,27 @@ function wp_mime_type_icon( $mime = 0 ) {
  *
  * @since 2.1.0
  *
- * @param int $post_id Post ID.
- * @param object $post The Post Object
- * @param object $post_before The Previous Post Object
+ * @param int     $post_id     Post ID.
+ * @param WP_Post $post        The Post Object
+ * @param WP_Post $post_before The Previous Post Object
  * @return int Same as $post_id
  */
-function wp_check_for_changed_slugs($post_id, $post, $post_before) {
-	// dont bother if it hasnt changed
+function wp_check_for_changed_slugs( $post_id, $post, $post_before ) {
+	// Don't bother if it hasnt changed.
 	if ( $post->post_name == $post_before->post_name )
 		return;
 
-	// we're only concerned with published, non-hierarchical objects
+	// We're only concerned with published, non-hierarchical objects.
 	if ( $post->post_status != 'publish' || is_post_type_hierarchical( $post->post_type ) )
 		return;
 
 	$old_slugs = (array) get_post_meta($post_id, '_wp_old_slug');
 
-	// if we haven't added this old slug before, add it now
+	// If we haven't added this old slug before, add it now.
 	if ( !empty( $post_before->post_name ) && !in_array($post_before->post_name, $old_slugs) )
 		add_post_meta($post_id, '_wp_old_slug', $post_before->post_name);
 
-	// if the new slug was used previously, delete it from the list
+	// If the new slug was used previously, delete it from the list.
 	if ( in_array($post->post_name, $old_slugs) )
 		delete_post_meta($post_id, '_wp_old_slug', $post->post_name);
 }
@@ -5204,7 +5217,7 @@ function wp_check_for_changed_slugs($post_id, $post, $post_before) {
  *
  * @since 2.2.0
  *
- * @param string $post_type currently only supports 'post' or 'page'.
+ * @param string $post_type Post type. Currently only supports 'post' or 'page'.
  * @return string SQL code that can be added to a where clause.
  */
 function get_private_posts_cap_sql( $post_type ) {
@@ -5214,19 +5227,22 @@ function get_private_posts_cap_sql( $post_type ) {
 /**
  * Retrieve the post SQL based on capability, author, and type.
  *
+ * @since 3.0.0
+ *
  * @see get_private_posts_cap_sql()
  *
- * @since 3.0.0
- * @param string $post_type Post type.
- * @param bool $full Optional. Returns a full WHERE statement instead of just an 'andalso' term.
- * @param int $post_author Optional. Query posts having a single author ID.
- * @param bool $public_only Optional. Only return public posts. Skips cap checks for $current_user.  Default is false.
+ * @param string $post_type   Post type.
+ * @param bool   $full        Optional. Returns a full WHERE statement instead of just
+ *                            an 'andalso' term. Default true.
+ * @param int    $post_author Optional. Query posts having a single author ID. Default null.
+ * @param bool   $public_only Optional. Only return public posts. Skips cap checks for
+ *                            $current_user.  Default false.
  * @return string SQL WHERE code that can be added to a query.
  */
 function get_posts_by_author_sql( $post_type, $full = true, $post_author = null, $public_only = false ) {
 	global $wpdb;
 
-	// Private posts
+	// Private posts.
 	$post_type_obj = get_post_type_object( $post_type );
 	if ( ! $post_type_obj )
 		return $full ? 'WHERE 1 = 0' : ' 1 = 0 ';
@@ -5286,10 +5302,11 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
  *
  * @since 0.71
  *
- * @param string $timezone The location to get the time. Can be 'gmt', 'blog', or 'server'.
+ * @param string $timezone The location to get the time. Accepts 'gmt', 'blog',
+ *                         or 'server'. Default 'server'.
  * @return string The date of the last post.
  */
-function get_lastpostdate($timezone = 'server') {
+function get_lastpostdate( $timezone = 'server' ) {
 	/**
 	 * Filter the date the last post was published.
 	 *
@@ -5311,10 +5328,11 @@ function get_lastpostdate($timezone = 'server') {
  *
  * @since 1.2.0
  *
- * @param string $timezone The location to get the time. Can be 'gmt', 'blog', or 'server'.
+ * @param string $timezone The location to get the time. Accepts 'gmt', 'blog', or 'server'.
+ *                         Default 'server'.
  * @return string The date the post was last modified.
  */
-function get_lastpostmodified($timezone = 'server') {
+function get_lastpostmodified( $timezone = 'server' ) {
 	$lastpostmodified = _get_last_post_time( $timezone, 'modified' );
 
 	$lastpostdate = get_lastpostdate($timezone);
@@ -5338,7 +5356,7 @@ function get_lastpostmodified($timezone = 'server') {
  * @access private
  * @since 3.1.0
  *
- * @param string $timezone The location to get the time. Can be 'gmt', 'blog', or 'server'.
+ * @param string $timezone The location to get the time. Accepts 'gmt', 'blog', or 'server'.
  * @param string $field Field to check. Can be 'date' or 'modified'.
  * @return string The date.
  */
@@ -5385,7 +5403,7 @@ function _get_last_post_time( $timezone, $field ) {
  *
  * @since 1.5.1
  *
- * @param array $posts Array of post objects
+ * @param array $posts Array of post objects, passed by reference.
  */
 function update_post_cache( &$posts ) {
 	if ( ! $posts )
@@ -5405,6 +5423,8 @@ function update_post_cache( &$posts ) {
  * wp_suspend_cache_invalidation().
  *
  * @since 2.0.0
+ *
+ * @global wpdb $wpdb WordPress database access abstraction object.
  *
  * @param int|WP_Post $post Post ID or post object to remove from the cache.
  */
@@ -5456,16 +5476,12 @@ function clean_post_cache( $post ) {
  *
  * @since 1.5.0
  *
- * @uses update_post_cache()
- * @uses update_object_term_cache()
- * @uses update_postmeta_cache()
- *
- * @param array $posts Array of Post objects
- * @param string $post_type The post type of the posts in $posts. Default is 'post'.
- * @param bool $update_term_cache Whether to update the term cache. Default is true.
- * @param bool $update_meta_cache Whether to update the meta cache. Default is true.
+ * @param array  $posts             Array of Post objects
+ * @param string $post_type         Optional. Post type. Default 'post'.
+ * @param bool   $update_term_cache Optional. Whether to update the term cache. Default true.
+ * @param bool   $update_meta_cache Optional. Whether to update the meta cache. Default true.
  */
-function update_post_caches(&$posts, $post_type = 'post', $update_term_cache = true, $update_meta_cache = true) {
+function update_post_caches( &$posts, $post_type = 'post', $update_term_cache = true, $update_meta_cache = true ) {
 	// No point in doing all this work if we didn't match any posts.
 	if ( !$posts )
 		return;
@@ -5509,9 +5525,10 @@ function update_post_caches(&$posts, $post_type = 'post', $update_term_cache = t
  * @since 2.1.0
  *
  * @param array $post_ids List of post IDs.
- * @return bool|array Returns false if there is nothing to update or an array of metadata.
+ * @return bool|array Returns false if there is nothing to update or an array
+ *                    of metadata.
  */
-function update_postmeta_cache($post_ids) {
+function update_postmeta_cache( $post_ids ) {
 	return update_meta_cache('post', $post_ids);
 }
 
@@ -5521,15 +5538,16 @@ function update_postmeta_cache($post_ids) {
  * Cleaning means delete from the cache. Optionally will clean the term
  * object cache associated with the attachment ID.
  *
- * This function will not run if $_wp_suspend_cache_invalidation is not empty. See
- * wp_suspend_cache_invalidation().
+ * This function will not run if $_wp_suspend_cache_invalidation is not empty.
  *
  * @since 3.0.0
  *
- * @param int $id The attachment ID in the cache to clean
- * @param bool $clean_terms optional. Whether to clean terms cache
+ * @see wp_suspend_cache_invalidation()
+ *
+ * @param int  $id          The attachment ID in the cache to clean.
+ * @param bool $clean_terms Optional. Whether to clean terms cache. Default false.
  */
-function clean_attachment_cache($id, $clean_terms = false) {
+function clean_attachment_cache( $id, $clean_terms = false ) {
 	global $_wp_suspend_cache_invalidation;
 
 	if ( !empty($_wp_suspend_cache_invalidation) )
@@ -5562,14 +5580,15 @@ function clean_attachment_cache($id, $clean_terms = false) {
  *
  * @since 2.3.0
  * @access private
- * @uses $wpdb
- * @uses wp_clear_scheduled_hook() with 'publish_future_post' and post ID.
  *
- * @param string $new_status New post status
- * @param string $old_status Previous post status
- * @param object $post Object type containing the post information
+ * @see wp_clear_scheduled_hook()
+ * @global wpdb $wpdb WordPress database access abstraction object.
+ *
+ * @param string  $new_status New post status.
+ * @param string  $old_status Previous post status.
+ * @param WP_Post $post       Post object.
  */
-function _transition_post_status($new_status, $old_status, $post) {
+function _transition_post_status( $new_status, $old_status, $post ) {
 	global $wpdb;
 
 	if ( $old_status != 'publish' && $new_status == 'publish' ) {
@@ -5613,10 +5632,11 @@ function _transition_post_status($new_status, $old_status, $post) {
  * @since 2.3.0
  * @access private
  *
- * @param int $deprecated Not used. Can be set to null. Never implemented.
- *   Not marked as deprecated with _deprecated_argument() as it conflicts with
- *   wp_transition_post_status() and the default filter for _future_post_hook().
- * @param object $post Object type containing the post information
+ * @param int     $deprecated Not used. Can be set to null. Never implemented. Not marked
+ *                            as deprecated with _deprecated_argument() as it conflicts with
+ *                            wp_transition_post_status() and the default filter for
+ *                            {@see _future_post_hook()}.
+ * @param WP_Post $post       Post object.
  */
 function _future_post_hook( $deprecated, $post ) {
 	wp_clear_scheduled_hook( 'publish_future_post', array( $post->ID ) );
@@ -5626,13 +5646,14 @@ function _future_post_hook( $deprecated, $post ) {
 /**
  * Hook to schedule pings and enclosures when a post is published.
  *
+ * Uses XMLRPC_REQUEST and WP_IMPORTING constants.
+ *
  * @since 2.3.0
  * @access private
- * @uses XMLRPC_REQUEST and WP_IMPORTING constants.
  *
- * @param int $post_id The ID in the database table of the post being published
+ * @param int $post_id The ID in the database table of the post being published.
  */
-function _publish_post_hook($post_id) {
+function _publish_post_hook( $post_id ) {
 	if ( defined( 'XMLRPC_REQUEST' ) ) {
 		/**
 		 * Fires when _publish_post_hook() is called during an XML-RPC request.
@@ -5655,13 +5676,13 @@ function _publish_post_hook($post_id) {
 }
 
 /**
- * Returns the post's parent's post_ID
+ * Return the post's parent's post_ID
  *
  * @since 3.1.0
  *
  * @param int $post_id
  *
- * @return int|bool false on error
+ * @return int|bool Post parent ID, otherwise false.
  */
 function wp_get_post_parent_id( $post_ID ) {
 	$post = get_post( $post_ID );
@@ -5671,18 +5692,18 @@ function wp_get_post_parent_id( $post_ID ) {
 }
 
 /**
- * Checks the given subset of the post hierarchy for hierarchy loops.
- * Prevents loops from forming and breaks those that it finds.
+ * Check the given subset of the post hierarchy for hierarchy loops.
  *
- * Attached to the wp_insert_post_parent filter.
+ * Prevents loops from forming and breaks those that it finds. Attached
+ * to the 'wp_insert_post_parent' filter.
  *
  * @since 3.1.0
- * @uses wp_find_hierarchy_loop()
+ *
+ * @see wp_find_hierarchy_loop()
  *
  * @param int $post_parent ID of the parent for the post we're checking.
- * @param int $post_ID ID of the post we're checking.
- *
- * @return int The new post_parent for the post.
+ * @param int $post_ID     ID of the post we're checking.
+ * @return int The new post_parent for the post, 0 otherwise.
  */
 function wp_check_post_hierarchy_for_loops( $post_parent, $post_ID ) {
 	// Nothing fancy here - bail
@@ -5714,12 +5735,12 @@ function wp_check_post_hierarchy_for_loops( $post_parent, $post_ID ) {
 }
 
 /**
- * Sets a post thumbnail.
+ * Set a post thumbnail.
  *
  * @since 3.1.0
  *
- * @param int|WP_Post $post Post ID or post object where thumbnail should be attached.
- * @param int $thumbnail_id Thumbnail to attach.
+ * @param int|WP_Post $post         Post ID or post object where thumbnail should be attached.
+ * @param int         $thumbnail_id Thumbnail to attach.
  * @return bool True on success, false on failure.
  */
 function set_post_thumbnail( $post, $thumbnail_id ) {
@@ -5735,7 +5756,7 @@ function set_post_thumbnail( $post, $thumbnail_id ) {
 }
 
 /**
- * Removes a post thumbnail.
+ * Remove a post thumbnail.
  *
  * @since 3.3.0
  *
@@ -5750,27 +5771,32 @@ function delete_post_thumbnail( $post ) {
 }
 
 /**
- * Deletes auto-drafts for new posts that are > 7 days old
+ * Delete auto-drafts for new posts that are > 7 days old.
  *
  * @since 3.4.0
+ *
+ * @global wpdb $wpdb WordPress database access abstraction object.
  */
 function wp_delete_auto_drafts() {
 	global $wpdb;
 
-	// Cleanup old auto-drafts more than 7 days old
+	// Cleanup old auto-drafts more than 7 days old.
 	$old_posts = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_status = 'auto-draft' AND DATE_SUB( NOW(), INTERVAL 7 DAY ) > post_date" );
-	foreach ( (array) $old_posts as $delete )
-		wp_delete_post( $delete, true ); // Force delete
+	foreach ( (array) $old_posts as $delete ) {
+		// Force delete.
+		wp_delete_post( $delete, true );
+	}
 }
 
 /**
  * Update the custom taxonomies' term counts when a post's status is changed. For example, default posts term counts (for custom taxonomies) don't include private / draft posts.
  *
- * @access private
- * @param string $new_status
- * @param string $old_status
- * @param object $post
  * @since 3.3.0
+ * @access private
+ *
+ * @param string  $new_status New post status.
+ * @param string  $old_status Old post status.
+ * @param WP_Post $post       Post object.
  */
 function _update_term_count_on_transition_post_status( $new_status, $old_status, $post ) {
 	// Update counts for the post's terms.
@@ -5787,9 +5813,9 @@ function _update_term_count_on_transition_post_status( $new_status, $old_status,
  *
  * @access private
  *
- * @param array $post_ids ID list
- * @param bool $update_term_cache Whether to update the term cache. Default is true.
- * @param bool $update_meta_cache Whether to update the meta cache. Default is true.
+ * @param array $post_ids          ID list
+ * @param bool  $update_term_cache Optional. Whether to update the term cache. Default true.
+ * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
  */
 function _prime_post_caches( $ids, $update_term_cache = true, $update_meta_cache = true ) {
 	global $wpdb;
@@ -5801,5 +5827,3 @@ function _prime_post_caches( $ids, $update_term_cache = true, $update_meta_cache
 		update_post_caches( $fresh_posts, 'any', $update_term_cache, $update_meta_cache );
 	}
 }
-
-
