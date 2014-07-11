@@ -385,7 +385,7 @@ endif;
  *
  * Adds body classes to denote:
  * 1. Single or multiple authors.
- * 2. Presence of header image.
+ * 2. Presence of header image except in Multisite signup and activate pages.
  * 3. Index views.
  * 4. Full-width content layout.
  * 5. Presence of footer widgets.
@@ -404,7 +404,7 @@ function twentyfourteen_body_classes( $classes ) {
 
 	if ( get_header_image() ) {
 		$classes[] = 'header-image';
-	} else {
+	} elseif ( ! in_array( $GLOBALS['pagenow'], array( 'wp-activate.php', 'wp-signup.php' ) ) ) {
 		$classes[] = 'masthead-fixed';
 	}
 
