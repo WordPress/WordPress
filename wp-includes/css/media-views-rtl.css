@@ -2580,20 +2580,11 @@ video#inline-media-node {
 	line-height: 29px;
 }
 
-.media-grid-view .view-switch,
-.media-grid-field-options {
+.media-grid-view .view-switch {
 	display: inline-block;
 	float: none;
 	margin-top: 13px;
 	vertical-align: middle;
-}
-
-.media-grid-field-options span {
-	padding-left: 5px;
-}
-
-.media-grid-field-options label {
-	margin-left: 10px;
 }
 
 /**
@@ -2607,7 +2598,14 @@ video#inline-media-node {
 	right: 160px;
 	left: 0;
 	top: 32px;
+	-webkit-transition: 200ms ease-in-out;
+	transition: 200ms ease-in-out;
 }
+
+.media-grid-view-options {
+	top: 120px;
+}
+
 @media screen and (max-width: 900px) {
 	.auto-fold .media-grid-view {
 		right: 36px;

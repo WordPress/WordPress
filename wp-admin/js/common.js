@@ -150,6 +150,8 @@ screenMeta = {
 			panel.focus();
 			link.addClass('screen-meta-active').attr('aria-expanded', true);
 		});
+
+		$( document ).trigger( 'screen:options:open' );
 	},
 
 	close: function( panel, link ) {
@@ -158,6 +160,8 @@ screenMeta = {
 			$('.screen-meta-toggle').css('visibility', '');
 			panel.parent().hide();
 		});
+
+		$( document ).trigger( 'screen:options:close' );
 	}
 };
 

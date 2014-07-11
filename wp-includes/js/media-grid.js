@@ -102,6 +102,9 @@
 			});
 
 			$(document).on( 'click', '.add-new-h2', _.bind( this.addNewClickHandler, this ) );
+			$(document).on( 'screen:options:open', _.bind( this.screenOptionsOpen, this ) );
+			$(document).on( 'screen:options:close', _.bind( this.screenOptionsClose, this ) );
+
 			// Ensure core and media grid view UI is enabled.
 			this.$el.addClass('wp-core-ui media-grid-view');
 
@@ -150,6 +153,14 @@
 			}, 1000 ) );
 
 			_.delay( _.bind( this.createRouter, this ), 1000 );
+		},
+
+		screenOptionsOpen: function() {
+			this.$el.addClass( 'media-grid-view-options' );
+		},
+
+		screenOptionsClose: function() {
+			this.$el.removeClass( 'media-grid-view-options' );
 		},
 
 		createRouter: function() {
