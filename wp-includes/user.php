@@ -1579,36 +1579,37 @@ function validate_username( $username ) {
  * by the field name. An example using 'description' would have the filter
  * called, 'pre_user_description' that can be hooked into.
  *
- * The $userdata array can contain the following fields:
- * 'ID' - An integer that will be used for updating an existing user.
- * 'user_pass' - A string that contains the plain text password for the user.
- * 'user_login' - A string that contains the user's username for logging in.
- * 'user_nicename' - A string that contains a URL-friendly name for the user.
- *		The default is the user's username.
- * 'user_url' - A string containing the user's URL for the user's web site.
- * 'user_email' - A string containing the user's email address.
- * 'display_name' - A string that will be shown on the site. Defaults to user's
- *		username. It is likely that you will want to change this, for appearance.
- * 'nickname' - The user's nickname, defaults to the user's username.
- * 'first_name' - The user's first name.
- * 'last_name' - The user's last name.
- * 'description' - A string containing content about the user.
- * 'rich_editing' - A string for whether to enable the rich editor. False
- *		if not empty.
- * 'user_registered' - The date the user registered. Format is 'Y-m-d H:i:s'.
- * 'role' - A string used to set the user's role.
- * 'jabber' - User's Jabber account.
- * 'aim' - User's AOL IM account.
- * 'yim' - User's Yahoo IM account.
- *
  * @since 2.0.0
  *
  * @global wpdb $wpdb WordPress database object for queries.
  *
- * @todo Hash-notate arguments array.
+ * @param array $userdata {
+ *     An array, object, or WP_User object of user data arguments.
  *
- * @param mixed $userdata An array of user data or a user object of type stdClass or WP_User.
- * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not be created.
+ *     @type int         $ID              User ID. If supplied, the user will be updated.
+ *     @type string      $user_pass       The plain-text user password.
+ *     @type string      $user_login      The user's login username.
+ *     @type string      $user_nicename   The URL-friendly user name.
+ *     @type string      $user_url        The user URL.
+ *     @type string      $user_email      The user email address.
+ *     @type string      $display_name    The user's display name.
+ *                                        Default is the the user's username.
+ *     @type string      $nickname        The user's nickname. Default
+ *                                        Default is the the user's username.
+ *     @type string      $first_name      The user's first name. For new users, will be used
+ *                                        to build $display_name if unspecified.
+ *     @type stirng      $last_name       The user's last name. For new users, will be used
+ *                                        to build $display_name if unspecified.
+ *     @type string|bool $rich_editing    Whether to enable the rich-editor for the user. False
+ *                                        if not empty.
+ *     @type string      $date_registered Date the user registered. Format is 'Y-m-d H:i:s'.
+ *     @type string      $role            User's role.
+ *     @type string      $jabber          User's Jabber account username.
+ *     @type string      $aim             User's AIM account username.
+ *     @type string      $yim             User's Yahoo! messenger username.
+ * }
+ * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not
+ *                      be created.
  */
 function wp_insert_user( $userdata ) {
 	global $wpdb;
