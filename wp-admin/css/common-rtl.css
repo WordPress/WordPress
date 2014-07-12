@@ -1835,13 +1835,6 @@ div.action-links {
 	background-size: 100% auto;
 }
 
-@media only screen and (max-width: 800px) {
-	#plugin-information-title.with-banner {
-		height: 100px;
-		bottom: 100px;
-	}
-}
-
 #plugin-information-title h2 {
 	font-family: "Helvetica Neue", sans-serif;
 	padding:0;
@@ -1868,14 +1861,6 @@ div.action-links {
 	border-radius: 8px;
 }
 
-@media only screen and (max-width: 800px) {
-	#plugin-information-title.with-banner h2 {
-		top: 12px;
-		font-size: 20px;
-		line-height: 40px;
-	}
-}
-
 #plugin-information-title div.vignette {
 	display: none;
 }
@@ -1891,14 +1876,6 @@ div.action-links {
 	box-shadow: inset 0 0 50px 4px rgba( 0, 0, 0, 0.2 ), inset 0 -1px 0 rgba( 0, 0, 0, 0.1 );
 }
 
-@media only screen and (max-width: 800px) {
-	#plugin-information-title.with-banner div.vignette {
-		height: 65px;
-		bottom: 65px;
-		width: 800%;
-	}
-}
-
 #plugin-information-tabs {
 	padding: 0 16px;
 	position: absolute;
@@ -1910,20 +1887,14 @@ div.action-links {
 }
 
 #plugin-information-tabs.with-banner {
-	top: 215px;
+	top: 214px;
 	background: rgba( 255, 255, 255, 0.85 );
-}
-
-@media only screen and (max-width: 800px) {
-	#plugin-information-tabs.with-banner {
-		top: 65px;
-	}
 }
 
 #plugin-information-tabs a {
 	position: relative;
 	float: right;
-	padding: 8px 10px 9px;
+	padding: 9px 10px;
 	margin: 0;
 	height: 18px;
 	line-height: 18px;
@@ -1934,11 +1905,17 @@ div.action-links {
 }
 
 #plugin-information-tabs a.current {
-	margin: -1px -1px 0;
+	margin: 0 -1px 0;
 	background: #fff;
 	border: 1px solid #ddd;
 	border-bottom: none;
+	padding-top: 8px;
 	color: #333;
+}
+
+#plugin-information-tabs.with-banner a.current {
+	border-top: none;
+	padding-top: 9px;
 }
 
 #plugin-information-tabs a:active,
@@ -1951,20 +1928,16 @@ div.action-links {
 	border-top: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 	position: absolute;
-	top: 90px;
+	top: 91px;
 	left: 0;
 	bottom: 58px;
 	right: 0;
+	overflow: auto;
 }
 
 #plugin-information-content.with-banner {
-	top:249px;
-}
-
-@media only screen and (max-width: 800px) {
-	#plugin-information-content.with-banner {
-		top:99px;
-	}
+	border-top: none;
+	top: 250px;
 }
 
 #section-holder {
@@ -2022,6 +1995,10 @@ div.action-links {
 
 #plugin-information .fyi li {
 	margin: 0 0 10px;
+}
+
+#plugin-information .counter-container {
+	margin: 3px 0;
 }
 
 #plugin-information .counter-label {
@@ -2118,10 +2095,36 @@ div.action-links {
 	font-size: 13px;
 }
 
-@media screen and ( max-width: 782px ) {
-	#plugin-information-content {
-		overflow: auto;
-		bottom: 58px;
+@media screen and ( max-width: 771px ), screen and ( max-height: 500px ) {
+	#plugin-information-title.with-banner {
+		height: 100px;
+		bottom: 100px;
+	}
+
+	#plugin-information-title.with-banner h2 {
+		top: 12px;
+		font-size: 20px;
+		line-height: 40px;
+	}
+
+	#plugin-information-title.with-banner div.vignette {
+		height: 65px;
+		bottom: 65px;
+		width: 800%;
+	}
+
+	#plugin-information-tabs.with-banner {
+		top: 63px;
+	}
+
+	#plugin-information-content.with-banner {
+		top: 99px;
+	}
+}
+
+@media screen and ( max-width: 771px ) {
+	#plugin-information-tabs {
+		padding: 0;
 	}
 
 	#plugin-information .fyi {

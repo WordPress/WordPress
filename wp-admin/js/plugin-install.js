@@ -6,8 +6,8 @@ jQuery( document ).ready( function( $ ) {
 	tb_position = function() {
 		var tbWindow = $( '#TB_window' ),
 			width = $( window ).width(),
-			H = $( window ).height() - ( ( 850 < width ) ? 60 : 20 ),
-			W = ( 850 < width ) ? 830 : width - 20;
+			H = $( window ).height() - ( ( 792 < width ) ? 60 : 20 ),
+			W = ( 792 < width ) ? 772 : width - 20;
 
 		if ( tbWindow.size() ) {
 			tbWindow.width( W ).height( H );
@@ -17,7 +17,7 @@ jQuery( document ).ready( function( $ ) {
 			});
 			if ( typeof document.body.style.maxWidth !== 'undefined' ) {
 				tbWindow.css({
-					'top': ( ( 850 < width ) ? 30 : 10 ) + 'px',
+					'top': ( ( 792 < width ) ? 30 : 10 ) + 'px',
 					'margin-top': '0'
 				});
 			}
@@ -46,20 +46,24 @@ jQuery( document ).ready( function( $ ) {
 		return false;
 	});
 
-	/* Plugin install related JS*/
+	/* Plugin install related JS */
 	$( '#plugin-information-tabs a' ).click( function( event ) {
 		var tab = $( this ).attr( 'name' );
 		event.preventDefault();
-		//Flip the tab
+
+		// Flip the tab
 		$( '#plugin-information-tabs a.current' ).removeClass( 'current' );
 		$( this ).addClass( 'current' );
-		//Only show the fyi box in the description section, on smaller screen, where it's otherwise always displayed at the top.
-		if ( 'description' != $( this ).attr( 'name' ) && $( 'body').width() < 830 )
-			$( '#plugin-information-content div.fyi' ).hide();
-		else
-			$( '#plugin-information-content div.fyi' ).show();
-		//Flip the content.
-		$( '#section-holder div.section' ).hide(); //Hide 'em all
+
+		// Only show the fyi box in the description section, on smaller screen, where it's otherwise always displayed at the top.
+		if ( 'description' !== tab && $( window ).width() < 772 ) {
+			$( '#plugin-information-content' ).find( '.fyi' ).hide();
+		} else {
+			$( '#plugin-information-content' ).find( '.fyi' ).show();
+		}
+
+		// Flip the content.
+		$( '#section-holder div.section' ).hide(); // Hide 'em all.
 		$( '#section-' + tab ).show();
 	});
 
