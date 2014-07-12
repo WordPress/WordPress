@@ -1009,6 +1009,8 @@ jQuery(document).ready( function($) {
 
 		// No point for touch devices
 		if ( ! $textarea.length || 'ontouchstart' in window ) {
+			// Hide the resize handle
+			$('#content-resize-handle').hide();
 			return;
 		}
 
