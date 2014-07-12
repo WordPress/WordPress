@@ -280,12 +280,18 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 .theme-section.current, .theme-filter.current {
   border-bottom-color: #363b3f; }
 
-body.more-filters-opened .more-filters, body.more-filters-opened .more-filters:before {
+body.more-filters-opened .more-filters {
   color: #fff;
   background-color: #363b3f; }
 
-body.more-filters-opened .more-filters:hover, body.more-filters-opened .more-filters:focus, body.more-filters-opened .more-filters:hover:before, body.more-filters-opened .more-filters:focus:before {
+body.more-filters-opened .more-filters:before {
+  color: #fff; }
+
+body.more-filters-opened .more-filters:hover, body.more-filters-opened .more-filters:focus {
   background-color: #e14d43;
+  color: #fff; }
+
+body.more-filters-opened .more-filters:hover:before, body.more-filters-opened .more-filters:focus:before {
   color: #fff; }
 
 .theme-install-overlay .close-full-overlay:hover, .theme-install-overlay .close-full-overlay:focus, .theme-install-overlay .previous-theme:hover, .theme-install-overlay .previous-theme:focus, .theme-install-overlay .next-theme:hover, .theme-install-overlay .next-theme:focus {

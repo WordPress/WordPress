@@ -1180,8 +1180,7 @@ body.show-upload-theme .upload-theme + .theme-navigation + .theme-browser {
 	margin: 0 10px;
 	padding: 4px 6px;
 }
-body.more-filters-opened .more-filters,
-body.more-filters-opened .more-filters:before {
+body.more-filters-opened .more-filters {
 	background: #777;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
@@ -1189,10 +1188,12 @@ body.more-filters-opened .more-filters:before {
 	color: #fff;
 }
 
+body.more-filters-opened .more-filters:before {
+	color: #fff;
+}
+
 body.more-filters-opened .more-filters:hover,
-body.more-filters-opened .more-filters:focus,
-body.more-filters-opened .more-filters:hover:before,
-body.more-filters-opened .more-filters:focus:before {
+body.more-filters-opened .more-filters:focus {
 	background: rgb(46, 162, 204);
 }
 
