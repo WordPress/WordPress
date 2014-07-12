@@ -173,9 +173,9 @@ function install_search_form( $type_selector = true ) {
 			<option value="tag"<?php selected('tag', $type) ?>><?php _ex('Tag', 'Plugin Installer'); ?></option>
 		</select>
 		<?php endif; ?>
-		<input type="search" name="s" value="<?php echo esc_attr($term) ?>" autofocus="autofocus" />
+		<input type="search" name="s" id="plugin-search-input" value="<?php echo esc_attr($term) ?>" autofocus="autofocus" />
 		<label class="screen-reader-text" for="plugin-search-input"><?php _e('Search Plugins'); ?></label>
-		<?php submit_button( __( 'Search Plugins' ), 'button', 'plugin-search-input', false ); ?>
+		<?php submit_button( __( 'Search Plugins' ), 'button', false, false, array( 'id' => 'search-submit' ) ); ?>
 	</form><?php
 }
 
