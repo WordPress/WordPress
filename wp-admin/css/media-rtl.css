@@ -133,6 +133,7 @@
 .media-item .filename {
 	line-height: 36px;
 	overflow: hidden;
+	margin-right: 6px;
 }
 
 .media-item .error-div {
@@ -159,17 +160,16 @@
 .media-item .progress {
 	float: left;
 	height: 22px;
-	margin: 7px 0 0;
+	margin: 7px 6px;
 	width: 200px;
 	line-height: 2em;
 	padding: 0;
 	overflow: hidden;
-	margin-bottom: 2px;
 	-webkit-border-radius: 22px;
 	border-radius: 22px;
 	background: #ddd;
-	-webkit-box-shadow: inset 0px 1px 2px rgba(0,0,0,0.1);
-	box-shadow: inset 0px 1px 2px rgba(0,0,0,0.1);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .media-item .bar {
@@ -193,7 +193,7 @@
 	text-align: center;
 	line-height: 22px;
 	font-weight: 400;
-	text-shadow: 0px 1px 2px rgba(0,0,0,0.2);
+	text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 .upload-php .fixed .column-parent {
