@@ -2321,6 +2321,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 
 	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids) $orderby $order";
 
+	$objects = false;
 	if ( 'all' == $fields || 'all_with_object_id' == $fields ) {
 		$_terms = $wpdb->get_results( $query );
 		foreach ( $_terms as $key => $term ) {
@@ -2328,6 +2329,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		}
 		$terms = array_merge( $terms, $_terms );
 		update_term_cache( $terms );
+		$objects = true;
 	} else if ( 'ids' == $fields || 'names' == $fields || 'slugs' == $fields ) {
 		$_terms = $wpdb->get_col( $query );
 		$_field = ( 'ids' == $fields ) ? 'term_id' : 'name';
@@ -2344,8 +2346,20 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 
 	if ( ! $terms ) {
 		$terms = array();
-	} else {
-		$terms = array_values( array_unique( $terms, SORT_REGULAR ) );
+	} elseif ( $objects && 'all_with_object_id' !== $fields ) {
+		$_tt_ids = array();
+		$_terms = array();
+		foreach ( $terms as $term ) {
+			if ( in_array( $term->term_taxonomy_id, $_tt_ids ) ) {
+				continue;
+			}
+
+			$_tt_ids[] = $term->term_taxonomy_id;
+			$_terms[] = $term;
+		}
+		$terms = $_terms;
+	} elseif ( ! $objects ) {
+		$terms = array_values( array_unique( $terms ) );
 	}
 	/**
 	 * Filter the terms for a given object or objects.
