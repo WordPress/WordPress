@@ -16,6 +16,9 @@
 
 .widget-top a.widget-action,
 .widget-top a.widget-action:hover {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	outline: none;
 	text-decoration: none;
 }
 
