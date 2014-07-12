@@ -174,7 +174,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			_e( 'You do not appear to have any themes available at this time.' );
 	}
 
-	protected function get_columns() {
+	public function get_columns() {
 		global $status;
 
 		return array(

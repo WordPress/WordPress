@@ -116,7 +116,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		return parent::current_action();
 	}
 
-	protected function get_columns() {
+	public function get_columns() {
 		$columns = array(
 			'cb'          => '<input type="checkbox" />',
 			'name'        => _x( 'Name', 'term name' ),

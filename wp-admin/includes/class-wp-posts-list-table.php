@@ -264,7 +264,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		return array( 'widefat', 'fixed', is_post_type_hierarchical( $this->screen->post_type ) ? 'pages' : 'posts' );
 	}
 
-	protected function get_columns() {
+	public function get_columns() {
 		$post_type = $this->screen->post_type;
 
 		$posts_columns = array();

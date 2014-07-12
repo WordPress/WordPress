@@ -207,7 +207,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		return array( 'widefat', $this->_args['plural'] );
 	}
 
-	protected function get_columns() {
+	public function get_columns() {
 		return array(
 			'name'        => _x( 'Name', 'plugin name' ),
 			'version'     => __( 'Version' ),

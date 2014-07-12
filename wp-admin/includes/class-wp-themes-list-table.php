@@ -110,7 +110,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 <?php
 	}
 
-	protected function get_columns() {
+	public function get_columns() {
 		return array();
 	}
 

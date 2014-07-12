@@ -538,11 +538,11 @@ class WP_List_Table {
 	 * Get the current page number
 	 *
 	 * @since 3.1.0
-	 * @access protected
+	 * @access public
 	 *
 	 * @return int
 	 */
-	protected function get_pagenum() {
+	public function get_pagenum() {
 		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
 
 		if( isset( $this->_pagination_args['total_pages'] ) && $pagenum > $this->_pagination_args['total_pages'] )
@@ -675,12 +675,12 @@ class WP_List_Table {
 	 * 'internal-name' => 'Title'
 	 *
 	 * @since 3.1.0
-	 * @access protected
+	 * @access public
 	 * @abstract
 	 *
 	 * @return array
 	 */
-	protected function get_columns() {
+	public function get_columns() {
 		die( 'function WP_List_Table::get_columns() must be over-ridden in a sub-class.' );
 	}
 

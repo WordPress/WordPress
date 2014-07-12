@@ -108,7 +108,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			$this->view_switcher( $mode );
 	}
 
-	protected function get_columns() {
+	public function get_columns() {
 		$users_columns = array(
 			'cb'         => '<input type="checkbox" />',
 			'username'   => __( 'Username' ),

@@ -210,7 +210,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			_e( 'You do not appear to have any plugins available at this time.' );
 	}
 
-	protected function get_columns() {
+	public function get_columns() {
 		global $status;
 
 		return array(

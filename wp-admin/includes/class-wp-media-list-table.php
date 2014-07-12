@@ -170,7 +170,7 @@ class WP_Media_List_Table extends WP_List_Table {
 <?php
 	}
 
-	protected function get_columns() {
+	public function get_columns() {
 		$posts_columns = array();
 		$posts_columns['cb'] = '<input type="checkbox" />';
 		$posts_columns['icon'] = '';
