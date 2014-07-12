@@ -12,9 +12,16 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		cursorInterval, lastKeyDownNode, setViewCursorTries, focus;
 
 	function getView( node ) {
-		// Doing this directly is about 40% faster
+		return getParent( node, 'wpview-wrap' );
+	}
+
+	/**
+	 * Returns the node or a parent of the node that has the passed className.
+	 * Doing this directly is about 40% faster
+	 */
+	function getParent( node, className ) {
 		while ( node && node.parentNode ) {
-			if ( node.className && (' ' + node.className + ' ').indexOf(' wpview-wrap ') !== -1 ) {
+			if ( node.className && (' ' + node.className + ' ').indexOf(' ' + className + ' ') !== -1 ) {
 				return node;
 			}
 
@@ -623,7 +630,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 					}, 500 );
 				// If the cursor lands anywhere else in the view, set the cursor before it.
 				// Only try this once to prevent a loop. (You never know.)
-				} else if ( className !== 'wpview-clipboard' && ! setViewCursorTries ) {
+				} else if ( ! getParent( event.element, 'wpview-body' ) && ! setViewCursorTries ) {
 					deselect();
 					setViewCursorTries++;
 					setViewCursor( true, view );
