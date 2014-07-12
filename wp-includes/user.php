@@ -1252,34 +1252,49 @@ function setup_userdata($for_user_id = '') {
  * used, either 'include' or 'exclude', but not both.
  *
  * The available arguments are as follows:
- * <ol>
- * <li>show_option_all - Text to show all and whether HTML option exists.</li>
- * <li>show_option_none - Text for show none and whether HTML option exists.</li>
- * <li>option_none_value - Value to use when no option is selected.</li>
- * <li>hide_if_only_one_author - Don't create the dropdown if there is only one user.</li>
- * <li>orderby - SQL order by clause for what order the users appear. Default is 'display_name'.</li>
- * <li>order - Default is 'ASC'. Can also be 'DESC'.</li>
- * <li>include - User IDs to include.</li>
- * <li>exclude - User IDs to exclude.</li>
- * <li>multi - Default is 'false'. Whether to skip the ID attribute on the 'select' element. A 'true' value is overridden when id argument is set.</li>
- * <li>show - Default is 'display_name'. User table column to display. If the selected item is empty then the user_login will be displayed in parentheses</li>
- * <li>echo - Default is '1'. Whether to display or retrieve content.</li>
- * <li>selected - Which User ID is selected.</li>
- * <li>include_selected - Always include the selected user ID in the dropdown. Default is false.</li>
- * <li>name - Default is 'user'. Name attribute of select element.</li>
- * <li>id - Default is the value of the 'name' parameter. ID attribute of select element.</li>
- * <li>class - Class attribute of select element.</li>
- * <li>blog_id - ID of blog (Multisite only). Defaults to ID of current blog.</li>
- * <li>who - Which users to query. Currently only 'authors' is supported. Default is all users.</li>
- * </ol>
  *
  * @since 2.3.0
  *
  * @global wpdb $wpdb WordPress database object for queries.
  *
- * @todo Hash-notate arguments array.
+ * @param array|string $args {
+ *     Optional. Array or string of arguments to generate a drop-down of users.
+ *     {@see WP_User_Query::prepare_query() for additional available arguments.
  *
- * @param string|array $args Optional. Array of user arguments.
+ *     @type string       $show_option_all         Text to show as the drop-down default (all).
+ *                                                 Default empty.
+ *     @type string       $show_option_none        Text to show as the drop-down default when no
+ *                                                 users were found. Default empty.
+ *     @type int|string   $option_none_value       Value to use for $show_option_non when no users
+ *                                                 were found. Default -1.
+ *     @type string       $hide_if_only_one_author Whether to skip generating the drop-down
+ *                                                 if only one user was found. Default empty.
+ *     @type string       $orderby                 Field to order found users by. Accepts user fields.
+ *                                                 Default 'display_name'.
+ *     @type string       $order                   Whether to order users in ascending or descending
+ *                                                 order. Accepts 'ASC' (ascending) or 'DESC' (descending).
+ *                                                 Default 'ASC'.
+ *     @type array|string $include                 Array or comma-separated list of user IDs to include.
+ *                                                 Default empty.
+ *     @type array|string $exclude                 Array or comma-separated list of user IDs to exclude.
+ *                                                 Default empty.
+ *     @type bool|int     $multi                   Whether to skip the ID attribute on the 'select' element.
+ *                                                 Accepts 1|true or 0|false. Default 0|false.
+ *     @type string       $show                    User table column to display. If the selected item is empty
+ *                                                 then the 'user_login' will be displayed in parentheses.
+ *                                                 Accepts user fields. Default 'display_name'.
+ *     @type int|bool     $echo                    Whether to echo or return the drop-down. Accepts 1|true (echo)
+ *                                                 or 0|false (return). Default 1|true.
+ *     @type int          $selected                Which user ID should be selected. Default 0.
+ *     @type bool         $include_selected        Whether to always include the selected user ID in the drop-
+ *                                                 down. Default false.
+ *     @type string       $name                    Name attribute of select element. Default 'user'.
+ *     @type string       $id                      ID attribute of the select element. Default is the value of $name.
+ *     @type string       $class                   Class attribute of the select element. Default empty.
+ *     @type int          $blog_id                 ID of blog (Multisite only). Default is ID of the current blog.
+ *     @type string       $who                     Which type of users to query. Accepts only an empty string or
+ *                                                 'authors'. Default empty.
+ * }
  * @return string|null Null on display. String of HTML content on retrieve.
  */
 function wp_dropdown_users( $args = '' ) {
