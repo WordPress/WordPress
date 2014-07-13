@@ -618,10 +618,6 @@ classes exist in paginate_links() but not seen in list table output. */
 	margin: 5px 16px 0 8px;
 }
 
-.view-switch img {
-	display: none;
-}
-
 .view-switch a {
 	text-decoration: none;
 }

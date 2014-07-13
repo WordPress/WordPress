@@ -156,13 +156,10 @@ class WP_Media_List_Table extends WP_List_Table {
 				if ( $current_mode == $mode )
 					$classes[] = 'current';
 				printf(
-					"<a href='%s' class='%s'><img id='view-switch-$mode' src='%s' width='20' height='20' title='%s' alt='%s' /></a>\n",
+					"<a href='%s' class='%s' id='view-switch-$mode'><span class='screen-reader-text'>%s</span></a>\n",
 					esc_url( add_query_arg( 'mode', $mode ) ),
 					implode( ' ', $classes ),
-					esc_url( includes_url( 'images/blank.gif' ) ),
-					$title,
 					$title
-
 				);
 			}
 		?>
