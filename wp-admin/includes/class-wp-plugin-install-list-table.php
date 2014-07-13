@@ -216,7 +216,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		);
 	}
 
-	protected function display_rows() {
+	public function display_rows() {
 		$plugins_allowedtags = array(
 			'a' => array( 'href' => array(),'title' => array(), 'target' => array() ),
 			'abbr' => array( 'title' => array() ),'acronym' => array( 'title' => array() ),

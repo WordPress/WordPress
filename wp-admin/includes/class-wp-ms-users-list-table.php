@@ -139,7 +139,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		);
 	}
 
-	protected function display_rows() {
+	public function display_rows() {
 		global $mode;
 
 		$alt = '';

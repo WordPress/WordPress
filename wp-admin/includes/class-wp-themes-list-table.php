@@ -114,7 +114,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		return array();
 	}
 
-	protected function display_rows_or_placeholder() {
+	public function display_rows_or_placeholder() {
 		if ( $this->has_items() ) {
 			$this->display_rows();
 		} else {
@@ -124,7 +124,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		}
 	}
 
-	protected function display_rows() {
+	public function display_rows() {
 		$themes = $this->items;
 
 		foreach ( $themes as $theme ):
@@ -243,13 +243,13 @@ class WP_Themes_List_Table extends WP_List_Table {
 	 * Send required variables to JavaScript land
 	 *
 	 * @since 3.4.0
-	 * @access private
+	 * @access public
 	 *
 	 * @uses $this->features Array of all feature search terms.
 	 * @uses get_pagenum()
 	 * @uses _pagination_args['total_pages']
 	 */
-	private function _js_vars( $extra_args = array() ) {
+	public function _js_vars( $extra_args = array() ) {
 		$search_string = isset( $_REQUEST['s'] ) ? esc_attr( wp_unslash( $_REQUEST['s'] ) ) : '';
 
 		$args = array(

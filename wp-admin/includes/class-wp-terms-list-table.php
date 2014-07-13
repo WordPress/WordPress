@@ -144,7 +144,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		);
 	}
 
-	protected function display_rows_or_placeholder() {
+	public function display_rows_or_placeholder() {
 		$taxonomy = $this->screen->taxonomy;
 
 		$args = wp_parse_args( $this->callback_args, array(
@@ -240,7 +240,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		}
 	}
 
-	protected function single_row( $tag, $level = 0 ) {
+	public function single_row( $tag, $level = 0 ) {
 		global $taxonomy;
  		$tag = sanitize_term( $tag, $taxonomy );
 

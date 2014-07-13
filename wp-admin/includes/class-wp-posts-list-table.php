@@ -358,7 +358,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		);
 	}
 
-	protected function display_rows( $posts = array(), $level = 0 ) {
+	public function display_rows( $posts = array(), $level = 0 ) {
 		global $wp_query, $per_page;
 
 		if ( empty( $posts ) )
@@ -525,7 +525,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		unset( $children_pages[$parent] ); //required in order to keep track of orphans
 	}
 
-	protected function single_row( $post, $level = 0 ) {
+	public function single_row( $post, $level = 0 ) {
 		global $mode;
 		static $alternate;
 

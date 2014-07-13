@@ -99,7 +99,7 @@ class _WP_List_Table_Compat extends WP_List_Table {
 		}
 	}
 
-	public function get_column_info() {
+	protected function get_column_info() {
 		$columns = get_column_headers( $this->_screen );
 		$hidden = get_hidden_columns( $this->_screen );
 		$sortable = array();

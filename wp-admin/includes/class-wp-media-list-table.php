@@ -232,7 +232,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		);
 	}
 
-	protected function display_rows() {
+	public function display_rows() {
 		global $post;
 
 		add_filter( 'the_title','esc_html' );

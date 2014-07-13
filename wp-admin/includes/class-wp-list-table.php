@@ -333,9 +333,9 @@ class WP_List_Table {
 	 * Display the bulk actions dropdown.
 	 *
 	 * @since 3.1.0
-	 * @access public
+	 * @access protected
 	 */
-	public function bulk_actions() {
+	protected function bulk_actions() {
 		if ( is_null( $this->_actions ) ) {
 			$no_new_actions = $this->_actions = $this->get_bulk_actions();
 			/**
@@ -762,11 +762,11 @@ class WP_List_Table {
 	 * Print column headers, accounting for hidden and sortable columns.
 	 *
 	 * @since 3.1.0
-	 * @access protected
+	 * @access public
 	 *
 	 * @param bool $with_id Whether to set the id attribute or not
 	 */
-	protected function print_column_headers( $with_id = true ) {
+	public function print_column_headers( $with_id = true ) {
 		list( $columns, $hidden, $sortable ) = $this->get_column_info();
 
 		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
@@ -913,9 +913,9 @@ class WP_List_Table {
 	 * Generate the <tbody> part of the table
 	 *
 	 * @since 3.1.0
-	 * @access protected
+	 * @access public
 	 */
-	protected function display_rows_or_placeholder() {
+	public function display_rows_or_placeholder() {
 		if ( $this->has_items() ) {
 			$this->display_rows();
 		} else {
@@ -929,9 +929,9 @@ class WP_List_Table {
 	 * Generate the table rows
 	 *
 	 * @since 3.1.0
-	 * @access protected
+	 * @access public
 	 */
-	protected function display_rows() {
+	public function display_rows() {
 		foreach ( $this->items as $item )
 			$this->single_row( $item );
 	}
@@ -940,11 +940,11 @@ class WP_List_Table {
 	 * Generates content for a single row of the table
 	 *
 	 * @since 3.1.0
-	 * @access protected
+	 * @access public
 	 *
 	 * @param object $item The current item
 	 */
-	protected function single_row( $item ) {
+	public function single_row( $item ) {
 		static $row_class = '';
 		$row_class = ( $row_class == '' ? ' class="alternate"' : '' );
 
@@ -1028,9 +1028,9 @@ class WP_List_Table {
 	/**
 	 * Send required variables to JavaScript land
 	 *
-	 * @access private
+	 * @access public
 	 */
-	private function _js_vars() {
+	public function _js_vars() {
 		$args = array(
 			'class'  => get_class( $this ),
 			'screen' => array(

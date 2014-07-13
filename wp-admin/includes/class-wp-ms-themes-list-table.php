@@ -250,12 +250,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
-	protected function display_rows() {
+	public function display_rows() {
 		foreach ( $this->items as $theme )
 			$this->single_row( $theme );
 	}
 
-	protected function single_row( $theme ) {
+	public function single_row( $theme ) {
 		global $status, $page, $s, $totals;
 
 		$context = $status;

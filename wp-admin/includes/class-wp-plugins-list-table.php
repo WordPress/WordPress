@@ -323,7 +323,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		return parent::current_action();
 	}
 
-	protected function display_rows() {
+	public function display_rows() {
 		global $status;
 
 		if ( is_multisite() && ! $this->screen->in_admin( 'network' ) && in_array( $status, array( 'mustuse', 'dropins' ) ) )
@@ -333,7 +333,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$this->single_row( array( $plugin_file, $plugin_data ) );
 	}
 
-	protected function single_row( $item ) {
+	public function single_row( $item ) {
 		global $status, $page, $s, $totals;
 
 		list( $plugin_file, $plugin_data ) = $item;

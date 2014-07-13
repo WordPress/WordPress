@@ -127,11 +127,11 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * filtering of the user table.
 	 *
 	 * @since  3.1.0
-	 * @access public
+	 * @access protected
 	 *
 	 * @return array An array of HTML links, one for each view.
 	 */
-	public function get_views() {
+	protected function get_views() {
 		global $wp_roles, $role;
 
 		if ( $this->is_site_users ) {
@@ -173,11 +173,11 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Retrieve an associative array of bulk actions available on this table.
 	 *
 	 * @since  3.1.0
-	 * @access public
+	 * @access protected
 	 *
 	 * @return array Array of bulk actions.
 	 */
-	public function get_bulk_actions() {
+	protected function get_bulk_actions() {
 		$actions = array();
 
 		if ( is_multisite() ) {
@@ -195,12 +195,12 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Output the controls to allow user roles to be changed in bulk.
 	 *
 	 * @since 3.1.0
-	 * @access public
+	 * @access protected
 	 *
 	 * @param string $which Whether this is being invoked above ("top")
 	 *                      or below the table ("bottom").
 	 */
-	public function extra_tablenav( $which ) {
+	protected function extra_tablenav( $which ) {
 		if ( 'top' != $which )
 			return;
 	?>
@@ -272,11 +272,11 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Get a list of sortable columns for the list table.
 	 *
 	 * @since 3.1.0
-	 * @access public
+	 * @access protected
 	 *
 	 * @return array Array of sortable columns.
 	 */
-	public function get_sortable_columns() {
+	protected function get_sortable_columns() {
 		$c = array(
 			'username' => 'login',
 			'name'     => 'name',
