@@ -84,8 +84,10 @@ class Custom_Image_Header {
 	 * Make private properties readable for backwards compatibility
 	 *
 	 * @since 4.0.0
-	 * @param string $name
-	 * @return mixed
+	 * @access public
+	 *
+	 * @param string $name Property to get.
+	 * @return mixed Property.
 	 */
 	public function __get( $name ) {
 		return $this->$name;
@@ -95,9 +97,11 @@ class Custom_Image_Header {
 	 * Make private properties setable for backwards compatibility
 	 *
 	 * @since 4.0.0
-	 * @param string $name
-	 * @param string $value
-	 * @return mixed
+	 * @access public
+	 *
+	 * @param string $name  Property to set.
+	 * @param mixed  $value Property value.
+	 * @return mixed Newly-set property.
 	 */
 	public function __set( $name, $value ) {
 		return $this->$name = $value;
@@ -107,8 +111,10 @@ class Custom_Image_Header {
 	 * Make private properties checkable for backwards compatibility
 	 *
 	 * @since 4.0.0
-	 * @param string $name
-	 * @return mixed
+	 * @access public
+	 *
+	 * @param string $name Property to check if set.
+	 * @return bool Whether the property is set.
 	 */
 	public function __isset( $name ) {
 		return isset( $this->$name );
@@ -118,8 +124,9 @@ class Custom_Image_Header {
 	 * Make private properties unsetable for backwards compatibility
 	 *
 	 * @since 4.0.0
-	 * @param string $name
-	 * @return mixed
+	 * @access public
+	 *
+	 * @param string $name Property to unset.
 	 */
 	public function __unset( $name ) {
 		unset( $this->$name );
