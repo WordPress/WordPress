@@ -1000,21 +1000,14 @@
 	bottom: 0;
 	overflow: auto;
 	outline: none;
-	-webkit-transition: 1s ease-in-out;
-    transition: 1s ease-in-out;
 }
 
 .attachments-browser .uploader-inline:not(.hidden) + .attachments {
-	-webkit-transform: translateY( 300px );
-	-ms-transform: translateY( 300px );
-	transform: translateY( 300px );
+	top: 350px;
 }
 
 .attachments-browser .uploader-inline.hidden {
-	display: block;
-	-webkit-transform: translateY( -100% );
-	-ms-transform: translateY( -100% );
-	transform: translateY( -100% );
+	display: none;
 }
 
 .attachments-browser .uploader-inline-content {
