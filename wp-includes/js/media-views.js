@@ -5772,11 +5772,12 @@
 			this.views.add( this.attachments );
 
 			this.attachmentsNoResults = new media.View({
-				controller: this.controller
+				controller: this.controller,
+				tagName: 'p'
 			});
 
 			this.attachmentsNoResults.$el.addClass( 'hidden no-media' );
-			this.attachmentsNoResults.$el.html( 'No media found.' );
+			this.attachmentsNoResults.$el.html( l10n.noMedia );
 
 			this.views.add( this.attachmentsNoResults );
 

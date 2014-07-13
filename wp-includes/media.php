@@ -2970,6 +2970,10 @@ function wp_enqueue_media( $args = array() ) {
  		'updateVideoPlaylist'      => __( 'Update video playlist' ),
  		'addToVideoPlaylist'       => __( 'Add to video playlist' ),
  		'addToVideoPlaylistTitle'  => __( 'Add to Video Playlist' ),
+
+ 		// Media Library
+ 		'editMetadata' => __( 'Edit Metadata' ),
+ 		'noMedia'      => __( 'No media found. Try a different search.' ),
 	);
 
 	/**

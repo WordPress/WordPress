@@ -1,4 +1,4 @@
-/* global _wpMediaViewsL10n, MediaElementPlayer, mediaGridSettings*/
+/* global _wpMediaViewsL10n, MediaElementPlayer, _wpMediaGridSettings */
 (function($, _, Backbone, wp) {
 	var media = wp.media, l10n;
 
@@ -91,7 +91,7 @@
 		initialize: function() {
 			var self = this;
 			_.defaults( this.options, {
-				title:     l10n.mediaLibraryTitle,
+				title:     '',
 				modal:     false,
 				selection: [],
 				library:   {},
@@ -169,7 +169,7 @@
 			// Verify pushState support and activate
 			if ( window.history && window.history.pushState ) {
 				Backbone.history.start({
-					root: mediaGridSettings.adminUrl,
+					root: _wpMediaGridSettings.adminUrl,
 					pushState: true
 				});
 			}
@@ -209,12 +209,6 @@
 				filterable: 'mime-types'
 			});
 
-			libraryState._renderTitle = function( view ) {
-				var text = this.get('title') || '';
-				view.$el.addClass( 'wrap' );
-				text += '<a class="add-new-h2">Add New</a>';
-				view.$el.html( text );
-			};
 			// Add the default states.
 			this.states.add([
 				libraryState
@@ -229,7 +223,8 @@
 			this.on( 'edit:attachment', this.editAttachment, this );
 		},
 
-		addNewClickHandler: function() {
+		addNewClickHandler: function( event ) {
+			event.preventDefault();
 			this.trigger( 'toggle:upload:attachment' );
 		},
 
@@ -446,11 +441,9 @@
 			this.on( 'content:render:edit-image', this.editImageContentUgh, this );
 			this.on( 'close', this.detach );
 
-			// Only need a tab to Edit Image for images.
-			if ( 'undefined' !== typeof this.model && this.model.get( 'type' ) === 'image' ) {
+
 				this.on( 'router:create', this.createRouter, this );
 				this.on( 'router:render', this.browseRouter, this );
-			}
 
 			this.options.hasPrevious = this.hasPrevious();
 			this.options.hasNext = this.hasNext();
@@ -559,14 +552,20 @@
 		browseRouter: function( view ) {
 			view.set({
 				'edit-metadata': {
-					text:     'Edit Metadata',
+					text:     l10n.editMetadata,
 					priority: 20
-				},
+				}
+			});
+
+			// Only need a tab to Edit Image for images.
+			if ( 'undefined' !== typeof this.model && this.model.get( 'type' ) === 'image' ) {
+				view.set({
 				'edit-image': {
-					text:     'Edit Image',
+						text:     l10n.editImage,
 					priority: 40
 				}
 			});
+			}
 		},
 
 		resetContent: function() {

@@ -75,7 +75,7 @@ var findPosts;
 		// Open up a manage media frame into the grid.
 		wp.media && wp.media({
 			frame: 'manage',
-			container: $('#wpbody-content')
+			container: $('#wpbody-content > .wrap')
 		}).open();
 
 		$( '#find-posts-submit' ).click( function( event ) {
