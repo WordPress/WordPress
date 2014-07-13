@@ -1093,8 +1093,6 @@ function wp_dashboard_plugins_output( $rss, $args = array() ) {
 
 		$title = esc_html( $item->get_title() );
 
-		$description = esc_html( strip_tags( @html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) ) ) );
-
 		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) . '&amp;TB_iframe=true&amp;width=600&amp;height=800';
 		echo "<li class='dashboard-news-plugin'><span>" . __( 'Popular Plugin' ) . ":</span> <a href='$link' class='dashboard-news-plugin-link'>$title</a>&nbsp;<span>(<a href='$ilink' class='thickbox' title='$title'>" . __( 'Install' ) . "</a>)</span></li>";
 
