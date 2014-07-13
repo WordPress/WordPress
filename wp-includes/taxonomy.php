@@ -1219,45 +1219,45 @@ function get_term_to_edit( $id, $taxonomy ) {
  * @param array|string $args {
  *     Optional. Array or string of arguments to get terms.
  *
- * @type string   $orderby               Field(s) to order terms by. Accepts term fields, though
- *                                       empty defaults to 'term_id'. Default 'name'.
- * @type string   $order                 Whether to order terms in ascending or descending order.
- *                                       Accepts 'ASC' (ascending) or 'DESC' (descending).
- *                                       Default 'ASC'.
- * @type bool|int     $hide_empty        Whether to hide terms not assigned to any posts. Accepts
- *                                       1|true or 0|false. Default 1|true.
- * @type array|string $include           Array or comma/space-separated string of term ids to include.
- *                                       Default empty array.
- * @type array|string $exclude           Array or comma/space-separated string of term ids to exclude.
- *                                       If $include is non-empty, $exclude is ignored.
- *                                       Default empty array.
- * @type array|string $exclude_tree      Array or comma/space-separated string of term ids to exclude
- *                                       along with all of their descendant terms. If $include is
- *                                       non-empty, $exclude_tree is ignored. Default empty array.
- * @type int          $number            Maximum number of terms to return. Accepts 1+ or -1 (all).
- *                                       Default -1.
- * @type int          $offset            The number by which to offset the terms query. Default empty.
- * @type string       $fields            Term fields to query for. Accepts 'all' (returns an array of
- *                                       term objects), 'ids' or 'names' (returns an array of integers
- *                                       or strings, respectively. Default 'all'.
- * @type string       $slug              Slug to return term(s) for. Default empty.
- * @type bool         $hierarchical      Whether to include terms that have non-empty descendants (even
- *                                       if $hide_empty is set to true). Default true.
- * @type string       $search            Search criteria to match terms. Will be SQL-formatted with
- *                                       wildcards before and after. Default empty.
- * @type string       $name__like        Retrieve terms with criteria by which a term is LIKE $name__like.
- *                                       Default empty.
- * @type string       $description__like Retrieve terms where the description is LIKE $description__like.
- *                                       Default empty.
- * @type bool         $pad_counts        Whether to pad the quantity of a term's children in the quantity
- *                                       of each term's "count" object variable. Default false.
- * @type string       $get               Whether to return terms regardless of ancestry or whether the terms
- *                                       are empty. Accepts 'all' or empty (disabled). Default empty.
- * @type int          $child_of          Term ID to retrieve child terms of. If multiple taxonomies
- *                                       are passed, $child_of is ignored. Default 0.
- * @type int|string   $parent            Parent term ID to retrieve direct-child terms of. Default empty.
- * @type string       $cache_domain      Unique cache key to be produced when this query is stored in an
- *                                       object cache. Default is 'core'.
+ *     @type string   $orderby               Field(s) to order terms by. Accepts term fields, though
+ *                                           empty defaults to 'term_id'. Default 'name'.
+ *     @type string   $order                 Whether to order terms in ascending or descending order.
+ *                                           Accepts 'ASC' (ascending) or 'DESC' (descending).
+ *                                           Default 'ASC'.
+ *     @type bool|int     $hide_empty        Whether to hide terms not assigned to any posts. Accepts
+ *                                           1|true or 0|false. Default 1|true.
+ *     @type array|string $include           Array or comma/space-separated string of term ids to include.
+ *                                           Default empty array.
+ *     @type array|string $exclude           Array or comma/space-separated string of term ids to exclude.
+ *                                           If $include is non-empty, $exclude is ignored.
+ *                                           Default empty array.
+ *     @type array|string $exclude_tree      Array or comma/space-separated string of term ids to exclude
+ *                                           along with all of their descendant terms. If $include is
+ *                                           non-empty, $exclude_tree is ignored. Default empty array.
+ *     @type int          $number            Maximum number of terms to return. Accepts 1+ or -1 (all).
+ *                                           Default -1.
+ *     @type int          $offset            The number by which to offset the terms query. Default empty.
+ *     @type string       $fields            Term fields to query for. Accepts 'all' (returns an array of
+ *                                           term objects), 'ids' or 'names' (returns an array of integers
+ *                                           or strings, respectively. Default 'all'.
+ *     @type string       $slug              Slug to return term(s) for. Default empty.
+ *     @type bool         $hierarchical      Whether to include terms that have non-empty descendants (even
+ *                                           if $hide_empty is set to true). Default true.
+ *     @type string       $search            Search criteria to match terms. Will be SQL-formatted with
+ *                                           wildcards before and after. Default empty.
+ *     @type string       $name__like        Retrieve terms with criteria by which a term is LIKE $name__like.
+ *                                           Default empty.
+ *     @type string       $description__like Retrieve terms where the description is LIKE $description__like.
+ *                                           Default empty.
+ *     @type bool         $pad_counts        Whether to pad the quantity of a term's children in the quantity
+ *                                           of each term's "count" object variable. Default false.
+ *     @type string       $get               Whether to return terms regardless of ancestry or whether the terms
+ *                                           are empty. Accepts 'all' or empty (disabled). Default empty.
+ *     @type int          $child_of          Term ID to retrieve child terms of. If multiple taxonomies
+ *                                           are passed, $child_of is ignored. Default 0.
+ *     @type int|string   $parent            Parent term ID to retrieve direct-child terms of. Default empty.
+ *     @type string       $cache_domain      Unique cache key to be produced when this query is stored in an
+ *                                           object cache. Default is 'core'.
  * }
  * @return array|WP_Error List of Term Objects and their children. Will return WP_Error, if any of $taxonomies
  *                        do not exist.
