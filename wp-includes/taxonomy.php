@@ -1211,83 +1211,56 @@ function get_term_to_edit( $id, $taxonomy ) {
  * The 'get_terms_fields' filter passes the fields for the SELECT query
  * along with the $args array.
  *
- * The list of arguments that $args can contain, which will overwrite the defaults:
- *
- * orderby - Default is 'name'. Can be name, count, term_group, slug or nothing
- * (will use term_id), Passing a custom value other than these will cause it to
- * order based on the custom value.
- *
- * order - Default is ASC. Can use DESC.
- *
- * hide_empty - Default is true. Will not return empty terms, which means
- * terms whose count is 0 according to the given taxonomy.
- *
- * exclude - Default is an empty array. An array, comma- or space-delimited string
- * of term ids to exclude from the return array. If 'include' is non-empty,
- * 'exclude' is ignored.
- *
- * exclude_tree - Default is an empty array. An array, comma- or space-delimited
- * string of term ids to exclude from the return array, along with all of their
- * descendant terms according to the primary taxonomy. If 'include' is non-empty,
- * 'exclude_tree' is ignored.
- *
- * include - Default is an empty array. An array, comma- or space-delimited string
- * of term ids to include in the return array.
- *
- * number - The maximum number of terms to return. Default is to return them all.
- *
- * offset - The number by which to offset the terms query.
- *
- * fields - Default is 'all', which returns an array of term objects.
- * If 'fields' is 'ids' or 'names', returns an array of
- * integers or strings, respectively.
- *
- * slug - Returns terms whose "slug" matches this value. Default is empty string.
- *
- * hierarchical - Whether to include terms that have non-empty descendants
- * (even if 'hide_empty' is set to true).
- *
- * search - Returned terms' names will contain the value of 'search',
- * case-insensitive. Default is an empty string.
- *
- * name__like - Returned terms' names will contain the value of 'name__like',
- * case-insensitive. Default is empty string.
- *
- * description__like - Returned terms' descriptions will contain the value of
- *  'description__like', case-insensitive. Default is empty string.
- *
- * The argument 'pad_counts', if set to true will include the quantity of a term's
- * children in the quantity of each term's "count" object variable.
- *
- * The 'get' argument, if set to 'all' instead of its default empty string,
- * returns terms regardless of ancestry or whether the terms are empty.
- *
- * The 'child_of' argument, when used, should be set to the integer of a term ID. Its default
- * is 0. If set to a non-zero value, all returned terms will be descendants
- * of that term according to the given taxonomy. Hence 'child_of' is set to 0
- * if more than one taxonomy is passed in $taxonomies, because multiple taxonomies
- * make term ancestry ambiguous.
- *
- * The 'parent' argument, when used, should be set to the integer of a term ID. Its default is
- * the empty string '', which has a different meaning from the integer 0.
- * If set to an integer value, all returned terms will have as an immediate
- * ancestor the term whose ID is specified by that integer according to the given taxonomy.
- * The 'parent' argument is different from 'child_of' in that a term X is considered a 'parent'
- * of term Y only if term X is the father of term Y, not its grandfather or great-grandfather, etc.
- *
- * The 'cache_domain' argument enables a unique cache key to be produced when this query is stored
- * in object cache. For instance, if you are using one of this function's filters to modify the
- * query (such as 'terms_clauses'), setting 'cache_domain' to a unique value will not overwrite
- * the cache for similar queries. Default value is 'core'.
- *
  * @since 2.3.0
  *
- * @uses $wpdb
- * @uses wp_parse_args() Merges the defaults with those defined by $args and allows for strings.
+ * @global wpdb $wpdb WordPress database access abstraction object.
  *
- * @param string|array $taxonomies Taxonomy name or list of Taxonomy names
- * @param string|array $args The values of what to search for when returning terms
- * @return array|WP_Error List of Term Objects and their children. Will return WP_Error, if any of $taxonomies do not exist.
+ * @param string|array $taxonomies Taxonomy name or list of Taxonomy names.
+ * @param array|string $args {
+ *     Optional. Array or string of arguments to get terms.
+ *
+ * @type string   $orderby               Field(s) to order terms by. Accepts term fields, though
+ *                                       empty defaults to 'term_id'. Default 'name'.
+ * @type string   $order                 Whether to order terms in ascending or descending order.
+ *                                       Accepts 'ASC' (ascending) or 'DESC' (descending).
+ *                                       Default 'ASC'.
+ * @type bool|int     $hide_empty        Whether to hide terms not assigned to any posts. Accepts
+ *                                       1|true or 0|false. Default 1|true.
+ * @type array|string $include           Array or comma/space-separated string of term ids to include.
+ *                                       Default empty array.
+ * @type array|string $exclude           Array or comma/space-separated string of term ids to exclude.
+ *                                       If $include is non-empty, $exclude is ignored.
+ *                                       Default empty array.
+ * @type array|string $exclude_tree      Array or comma/space-separated string of term ids to exclude
+ *                                       along with all of their descendant terms. If $include is
+ *                                       non-empty, $exclude_tree is ignored. Default empty array.
+ * @type int          $number            Maximum number of terms to return. Accepts 1+ or -1 (all).
+ *                                       Default -1.
+ * @type int          $offset            The number by which to offset the terms query. Default empty.
+ * @type string       $fields            Term fields to query for. Accepts 'all' (returns an array of
+ *                                       term objects), 'ids' or 'names' (returns an array of integers
+ *                                       or strings, respectively. Default 'all'.
+ * @type string       $slug              Slug to return term(s) for. Default empty.
+ * @type bool         $hierarchical      Whether to include terms that have non-empty descendants (even
+ *                                       if $hide_empty is set to true). Default true.
+ * @type string       $search            Search criteria to match terms. Will be SQL-formatted with
+ *                                       wildcards before and after. Default empty.
+ * @type string       $name__like        Retrieve terms with criteria by which a term is LIKE $name__like.
+ *                                       Default empty.
+ * @type string       $description__like Retrieve terms where the description is LIKE $description__like.
+ *                                       Default empty.
+ * @type bool         $pad_counts        Whether to pad the quantity of a term's children in the quantity
+ *                                       of each term's "count" object variable. Default false.
+ * @type string       $get               Whether to return terms regardless of ancestry or whether the terms
+ *                                       are empty. Accepts 'all' or empty (disabled). Default empty.
+ * @type int          $child_of          Term ID to retrieve child terms of. If multiple taxonomies
+ *                                       are passed, $child_of is ignored. Default 0.
+ * @type int|string   $parent            Parent term ID to retrieve direct-child terms of. Default empty.
+ * @type string       $cache_domain      Unique cache key to be produced when this query is stored in an
+ *                                       object cache. Default is 'core'.
+ * }
+ * @return array|WP_Error List of Term Objects and their children. Will return WP_Error, if any of $taxonomies
+ *                        do not exist.
  */
 function get_terms( $taxonomies, $args = '' ) {
 	global $wpdb;
