@@ -245,8 +245,8 @@ class WP_Customize_Panel extends WP_Customize_Section {
 				<li class="accordion-section control-section<?php if ( empty( $this->description ) ) echo ' cannot-expand'; ?>">
 					<div class="accordion-section-title" tabindex="0">
 						<span class="preview-notice"><?php
-							/* translators: %s is the panel title in the Customize/Live Preview pane */
-							echo sprintf( 'You are customizing %s', '<strong class="panel-title">' . esc_html( $this->title ) . '</strong>' );
+							/* translators: %s is the site/panel title in the Customize pane */
+							echo sprintf( __( 'You are customizing %s' ), '<strong class="panel-title">' . esc_html( $this->title ) . '</strong>' );
 						?></span>
 					</div>
 					<?php if ( ! empty( $this->description ) ) : ?>

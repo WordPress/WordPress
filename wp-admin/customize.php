@@ -131,7 +131,7 @@ do_action( 'customize_controls_print_scripts' );
 							/* translators: %s is the theme name in the Customize/Live Preview pane */
 							echo sprintf( __( 'You are previewing %s' ), '<strong class="theme-name">' . $wp_customize->theme()->display('Name') . '</strong>' );
 						} else {
-							/* translators: %s is the site title in the Customize pane */
+							/* translators: %s is the site/panel title in the Customize pane */
 							echo sprintf( __( 'You are customizing %s' ), '<strong class="theme-name site-title">' . get_bloginfo( 'name' ) . '</strong>' );
 						}
 					?></span>
