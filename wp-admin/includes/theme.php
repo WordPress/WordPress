@@ -430,7 +430,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			'update'       => get_theme_update_available( $theme ),
 			'actions'      => array(
 				'activate' => current_user_can( 'switch_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=activate&amp;stylesheet=' . $encoded_slug ), 'switch-theme_' . $slug ) : null,
-				'customize'=> current_user_can( 'edit_theme_options' ) ? wp_customize_url( $slug ) : null,
+				'customize' => ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) ? wp_customize_url( $slug ) : null,
 				'preview'   => add_query_arg( array(
 					'preview'        => 1,
 					'template'       => urlencode( $theme->get_template() ),

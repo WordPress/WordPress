@@ -149,9 +149,10 @@ class WP_Themes_List_Table extends WP_List_Table {
 			$actions['preview'] = '<a href="' . $preview_link . '" class="hide-if-customize" title="'
 				. esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '">' . __( 'Preview' ) . '</a>';
 
-			if ( current_user_can( 'edit_theme_options' ) )
+			if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) {
 				$actions['preview'] .= '<a href="' . wp_customize_url( $stylesheet ) . '" class="load-customize hide-if-no-customize">'
 					. __( 'Live Preview' ) . '</a>';
+			}
 
 			if ( ! is_multisite() && current_user_can( 'delete_themes' ) )
 				$actions['delete'] = '<a class="submitdelete deletion" href="' . wp_nonce_url( 'themes.php?action=delete&amp;stylesheet=' . urlencode( $stylesheet ), 'delete-theme_' . $stylesheet )

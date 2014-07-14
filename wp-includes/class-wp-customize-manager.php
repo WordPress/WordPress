@@ -157,8 +157,9 @@ final class WP_Customize_Manager {
 
 		show_admin_bar( false );
 
-		if ( ! current_user_can( 'edit_theme_options' ) )
+		if ( ! current_user_can( 'customize' ) ) {
 			$this->wp_die( -1 );
+		}
 
 		$this->original_stylesheet = get_stylesheet();
 
