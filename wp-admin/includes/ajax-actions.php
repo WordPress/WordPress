@@ -130,9 +130,9 @@ function wp_ajax_ajax_tag_search() {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param int $characters The minimum number of characters required. Default 2.
-	 * @param object $tax The taxonomy object.
-	 * @param string $s The search term.
+	 * @param int    $characters The minimum number of characters required. Default 2.
+	 * @param object $tax        The taxonomy object.
+	 * @param string $s          The search term.
 	 */
 	$term_search_min_chars = (int) apply_filters( 'term_search_min_chars', 2, $tax, $s );
 
@@ -2608,6 +2608,9 @@ function wp_ajax_query_themes() {
  * Apply [embed] handlers to a string.
  *
  * @since 4.0.0
+ *
+ * @global WP_Post  $post     Global $post.
+ * @global WP_Embed $wp_embed Embed API instance.
  */
 function wp_ajax_parse_embed() {
 	global $post, $wp_embed;
