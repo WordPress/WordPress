@@ -177,7 +177,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		);
 	}
 
-	protected function display_rows() {
+	public function display_rows() {
 		global $mode;
 
 		$status_list = array(
