@@ -2183,9 +2183,11 @@ function wp_install_language_form( $languages ) {
 }
 
 /**
- * Gets available translations from the WordPress.org API.
+ * Get available translations from the WordPress.org API.
  *
  * @since 4.0.0
+ *
+ * @see wp_remote_post()
  *
  * @return array Array of translations, each an array of data.
  */
@@ -2214,13 +2216,15 @@ function wp_get_available_translations_from_api() {
 }
 
 /**
- * Downloads a language pack.
+ * Download a language pack.
  *
  * @since 4.0.0
  *
+ * @see wp_get_available_translations_from_api()
+ *
  * @param string $download Language code to download.
- * @return string|false Returns the language code if successfully downloaded
- *                      (or already installed), or false on failure.
+ * @return string|bool Returns the language code if successfully downloaded
+ *                     (or already installed), or false on failure.
  */
 function wp_install_download_language_pack( $download ) {
 	// Check if the translation is already installed.
@@ -2261,9 +2265,11 @@ function wp_install_download_language_pack( $download ) {
  *
  * @since 4.0.0
  *
+ * @see load_textdomain()
+ *
  * @param string $translation Translation to load.
- * @return string|false Returns the language code if successfully loaded,
- *                      or false on failure.
+ * @return string|bool Returns the language code if successfully loaded,
+ *                     or false on failure.
  */
 function wp_install_load_language( $translation ) {
 	if ( ! empty( $translation ) ) {
