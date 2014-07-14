@@ -1077,8 +1077,8 @@ final class WP_Customize_Widgets {
 	 * @since 4.0.0
 	 * @access public
 	 *
-	 * @param string $widget_id
-	 * @return bool
+	 * @param string $widget_id Widget ID to check.
+	 * @return bool Whether the widget is rendered.
 	 */
 	public function is_widget_rendered( $widget_id ) {
 		return in_array( $widget_id, $this->rendered_widgets );
@@ -1090,8 +1090,8 @@ final class WP_Customize_Widgets {
 	 * @since 4.0.0
 	 * @access public
 	 *
-	 * @param string $sidebar_id
-	 * @return bool
+	 * @param string $sidebar_id Sidebar ID to check.
+	 * @return bool Whether the sidebar is rendered.
 	 */
 	public function is_sidebar_rendered( $sidebar_id ) {
 		return in_array( $sidebar_id, $this->rendered_sidebars );
@@ -1108,8 +1108,8 @@ final class WP_Customize_Widgets {
 	 * @since 3.9.0
 	 * @access public
 	 *
-	 * @param bool    $is_active  Whether the sidebar is active.
-	 * @pasram string $sidebar_id Sidebar ID.
+	 * @param bool   $is_active  Whether the sidebar is active.
+	 * @param string $sidebar_id Sidebar ID.
 	 */
 	public function tally_sidebars_via_is_active_sidebar_calls( $is_active, $sidebar_id ) {
 		if ( isset( $GLOBALS['wp_registered_sidebars'][$sidebar_id] ) ) {
