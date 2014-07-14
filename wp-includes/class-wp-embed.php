@@ -198,6 +198,7 @@ class WP_Embed {
 			 *
 			 * @since 4.0.0
 			 *
+			 * @param int    $time    Time to live (in seconds).
 			 * @param string $url     The attempted embed URL.
 			 * @param array  $attr    An array of shortcode attributes.
 			 * @param int    $post_ID Post ID.
