@@ -86,16 +86,17 @@ class WP_Customize_Control {
 	public $type = 'text';
 
 	/**
-	 * Callback
+	 * Callback.
 	 *
 	 * @since 4.0.0
-	 *
 	 * @access public
+	 *
 	 * @see WP_Customize_Control::active()
-	 * @var callable  Callback is called with one argument, the instance of
-	 *                WP_Customize_Control, and returns bool to indicate whether
-	 *                the control is active (such as it relates to the URL
-	 *                currently being previewed).
+	 *
+	 * @var callable Callback is called with one argument, the instance of
+	 *               WP_Customize_Control, and returns bool to indicate whether
+	 *               the control is active (such as it relates to the URL
+	 *               currently being previewed).
 	 */
 	public $active_callback = '';
 
@@ -154,8 +155,9 @@ class WP_Customize_Control {
 	 * Check whether control is active to current customizer preview.
 	 *
 	 * @since 4.0.0
+	 * @access public
 	 *
-	 * @return bool
+	 * @return bool Whether the control is active to the current preview.
 	 */
 	public final function active() {
 		$control = $this;
@@ -166,8 +168,8 @@ class WP_Customize_Control {
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param bool $active
-		 * @param WP_Customize_Control $control
+		 * @param bool                 $active  Whether the Customizer control is active.
+		 * @param WP_Customize_Control $control WP_Customize_Control instance.
 		 */
 		$active = apply_filters( 'customize_control_active', $active, $control );
 
@@ -180,7 +182,10 @@ class WP_Customize_Control {
 	 * Subclasses can override this with their specific logic, or they may
 	 * provide an 'active_callback' argument to the constructor.
 	 *
-	 * @return bool
+	 * @since 4.0.0
+	 * @access public
+	 *
+	 * @return bool Always true.
 	 */
 	public function active_callback() {
 		return true;
@@ -315,6 +320,7 @@ class WP_Customize_Control {
 	 * Render the custom attributes for the control's input element.
 	 *
 	 * @since 4.0.0
+	 * @access public
 	 */
 	public function input_attrs() {
 		foreach( $this->input_attrs as $attr => $value ) {
@@ -1052,9 +1058,14 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 	}
 
 	/**
-	 * @return bool
+	 * Whether the current sidebar is rendered on the page.
+	 *
+	 * @since 4.0.0
+	 * @access public
+	 *
+	 * @return bool Whether sidebar is rendered.
 	 */
-	function active_callback() {
+	public function active_callback() {
 		return $this->manager->widgets->is_sidebar_rendered( $this->sidebar_id );
 	}
 }
@@ -1099,7 +1110,12 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 	}
 
 	/**
-	 * @return bool
+	 * Whether the current widget is rendered on the page.
+	 *
+	 * @since 4.0.0
+	 * @access public
+	 *
+	 * @return bool Whether the widget is rendered.
 	 */
 	function active_callback() {
 		return $this->manager->widgets->is_widget_rendered( $this->widget_id );
