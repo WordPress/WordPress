@@ -440,10 +440,8 @@
 			this.on( 'content:render:edit-metadata', this.editMetadataContent, this );
 			this.on( 'content:render:edit-image', this.editImageContentUgh, this );
 			this.on( 'close', this.detach );
-
-
-				this.on( 'router:create', this.createRouter, this );
-				this.on( 'router:render', this.browseRouter, this );
+			this.on( 'router:create', this.createRouter, this );
+			this.on( 'router:render', this.browseRouter, this );
 
 			this.options.hasPrevious = this.hasPrevious();
 			this.options.hasNext = this.hasNext();
@@ -560,11 +558,11 @@
 			// Only need a tab to Edit Image for images.
 			if ( 'undefined' !== typeof this.model && this.model.get( 'type' ) === 'image' ) {
 				view.set({
-				'edit-image': {
+					'edit-image': {
 						text:     l10n.editImage,
-					priority: 40
-				}
-			});
+						priority: 40
+					}
+				});
 			}
 		},
 
