@@ -160,9 +160,11 @@ class WP_oEmbed {
 	 * Make private/protected methods readable for backwards compatibility
 	 *
 	 * @since 4.0.0
-	 * @param string $name
-	 * @param array $arguments
-	 * @return mixed
+	 * @access public
+	 *
+	 * @param callable $name      Method to call.
+	 * @param array    $arguments Arguments to pass when calling.
+	 * @return mixed|bool Return value of the callback, false otherwise.
 	 */
 	public function __call( $name, $arguments ) {
 		return call_user_func_array( array( $this, $name ), $arguments );
@@ -171,12 +173,14 @@ class WP_oEmbed {
 	/**
 	 * Takes a URL and returns the corresponding oEmbed provider's URL, if there is one.
 	 *
+	 * @since 4.0.0
+	 * @access public
+	 *
 	 * @see WP_oEmbed::discover()
 	 *
-	 * @param string $url  The URL to the content.
-	 * @param array  $args Optional arguments.
+	 * @param string        $url  The URL to the content.
+	 * @param string|array  $args Optional provider arguments.
 	 * @return bool|string False on failure, otherwise the oEmbed provider URL.
-	 * @since 4.0.0
 	 */
 	public function get_provider( $url, $args = '' ) {
 
@@ -213,11 +217,12 @@ class WP_oEmbed {
 	 * The just-in-time addition is for the benefit of the 'oembed_providers' filter.
 	 *
 	 * @since 4.0.0
+	 * @access public
 	 * @static
 	 *
 	 * @see wp_oembed_add_provider()
 	 *
-	 * @param string $format   The format of URL that this provider can handle. You can use
+	 * @param string $format   Format of URL that this provider can handle. You can use
 	 *                         asterisks as wildcards.
 	 * @param string $provider The URL to the oEmbed provider..
 	 * @param bool   $regex    Optional. Whether the $format parameter is in a regex format.
@@ -238,6 +243,7 @@ class WP_oEmbed {
 	 * The just-in-time removal is for the benefit of the 'oembed_providers' filter.
 	 *
 	 * @since 4.0.0
+	 * @access public
 	 * @static
 	 *
 	 * @see wp_oembed_remove_provider()
