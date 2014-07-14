@@ -80,7 +80,7 @@ class WP_Filesystem_Base {
 	}
 
 	/**
-	 * Make private properties unsetable for backwards compatibility
+	 * Make private properties unsetable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public

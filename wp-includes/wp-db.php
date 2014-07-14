@@ -639,7 +639,7 @@ class wpdb {
 	}
 
 	/**
-	 * Magic function, for backwards compatibility
+	 * Magic function, for backwards compatibility.
 	 *
 	 * @since 3.5.0
 	 *
@@ -651,7 +651,7 @@ class wpdb {
 	}
 
 	/**
-	 * Magic function, for backwards compatibility
+	 * Magic function, for backwards compatibility.
 	 *
 	 * @since 3.5.0
 	 *
@@ -664,7 +664,7 @@ class wpdb {
 	}
 
 	/**
-	 * Magic function, for backwards compatibility
+	 * Magic function, for backwards compatibility.
 	 *
 	 * @since 3.5.0
 	 *

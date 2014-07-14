@@ -49,7 +49,7 @@ class Walker {
 	protected $has_children;
 
 	/**
-	 * Make private properties readable for backwards compatibility
+	 * Make private properties readable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -62,7 +62,7 @@ class Walker {
 	}
 
 	/**
-	 * Make private properties setable for backwards compatibility
+	 * Make private properties setable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -76,7 +76,7 @@ class Walker {
 	}
 
 	/**
-	 * Make private properties checkable for backwards compatibility
+	 * Make private properties checkable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -89,7 +89,7 @@ class Walker {
 	}
 
 	/**
-	 * Make private properties unsetable for backwards compatibility
+	 * Make private properties unsetable for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
