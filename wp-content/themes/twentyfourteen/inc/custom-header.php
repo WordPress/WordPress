@@ -111,6 +111,9 @@ function twentyfourteen_admin_header_style() {
 		line-height: 48px;
 		margin: 0 0 0 30px;
 	}
+	.rtl #headimg h1  {
+		margin: 0 30px 0 0;
+	}
 	#headimg h1 a {
 		color: #fff;
 		text-decoration: none;
