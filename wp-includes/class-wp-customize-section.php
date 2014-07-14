@@ -218,10 +218,11 @@ class WP_Customize_Panel extends WP_Customize_Section {
 	 * Any supplied $args override class property defaults.
 	 *
 	 * @since 4.0.0
+	 * @access public
 	 *
 	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      An specific ID of the section.
-	 * @param array                $args    Section arguments.
+	 * @param array                $args    Optional. Section arguments. Default empty array.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
@@ -235,6 +236,7 @@ class WP_Customize_Panel extends WP_Customize_Section {
 	 * Render the panel, and the sections that have been added to it.
 	 *
 	 * @since 4.0.0
+	 * @access protected
 	 */
 	protected function render() {
 		?>
