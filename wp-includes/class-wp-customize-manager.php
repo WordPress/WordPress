@@ -319,8 +319,9 @@ final class WP_Customize_Manager {
 	 * Get the registered panels.
 	 *
 	 * @since 4.0.0
+	 * @access public
 	 *
-	 * @return array
+	 * @return array Panels.
 	 */
 	public function panels() {
 		return $this->panels;
@@ -433,6 +434,7 @@ final class WP_Customize_Manager {
 	 * preview, since it causes the jQuery Ajax to fail. Send 200 instead.
 	 *
 	 * @since 4.0.0
+	 * @access public
 	 */
 	public function customize_preview_override_404_status() {
 		if ( is_404() ) {
@@ -680,9 +682,10 @@ final class WP_Customize_Manager {
 	 * Add a customize panel.
 	 *
 	 * @since 4.0.0
+	 * @access public
 	 *
 	 * @param WP_Customize_Panel|string $id   Customize Panel object, or Panel ID.
-	 * @param array                     $args Panel arguments.
+	 * @param array                     $args Optional. Panel arguments. Default empty array.
 	 */
 	public function add_panel( $id, $args = array() ) {
 		if ( is_a( $id, 'WP_Customize_Panel' ) ) {
@@ -699,9 +702,10 @@ final class WP_Customize_Manager {
 	 * Retrieve a customize panel.
 	 *
 	 * @since 4.0.0
+	 * @access public
 	 *
-	 * @param string $id Panel ID.
-	 * @return WP_Customize_Panel
+	 * @param string $id Panel ID to get.
+	 * @return WP_Customize_Panel Requested panel instance.
 	 */
 	public function get_panel( $id ) {
 		if ( isset( $this->panels[ $id ] ) ) {
@@ -713,8 +717,9 @@ final class WP_Customize_Manager {
 	 * Remove a customize panel.
 	 *
 	 * @since 4.0.0
+	 * @access public
 	 *
-	 * @param string $id Panel ID.
+	 * @param string $id Panel ID to remove.
 	 */
 	public function remove_panel( $id ) {
 		unset( $this->panels[ $id ] );
