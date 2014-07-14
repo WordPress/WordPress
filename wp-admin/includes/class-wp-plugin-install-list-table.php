@@ -282,7 +282,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			/**
 			 * Filter the details link for a plugin.
 			 *
-			 * @since 4.0
+			 * @since 4.0.0
 			 *
 			 * @param array $details_link Link to view the current plugin's details.
 			 * @param array $plugin       The plugin currently being listed.
