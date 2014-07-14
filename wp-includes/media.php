@@ -2281,14 +2281,17 @@ function wp_embed_handler_googlevideo( $matches, $attr, $url, $rawattr ) {
 }
 
 /**
- * The YouTube embed handler callback. Catches URLs that can be parsed but aren't supported by oEmbed.
+ * YouTube embed handler callback.
+ *
+ * Catches URLs that can be parsed but aren't supported by oEmbed.
  *
  * @since 4.0.0
  *
- * @param array $matches The regex matches from the provided regex when calling {@link wp_embed_register_handler()}.
- * @param array $attr Embed attributes.
- * @param string $url The original URL that was matched by the regex.
- * @param array $rawattr The original unmodified attributes.
+ * @param array  $matches The regex matches from the provided regex when calling
+ *                        {@link wp_embed_register_handler()}.
+ * @param array  $attr    Embed attributes.
+ * @param string $url     The original URL that was matched by the regex.
+ * @param array  $rawattr The original unmodified attributes.
  * @return string The embed HTML.
  */
 function wp_embed_handler_youtube( $matches, $attr, $url, $rawattr ) {
@@ -2298,6 +2301,8 @@ function wp_embed_handler_youtube( $matches, $attr, $url, $rawattr ) {
 	 * Filter the YoutTube embed output.
 	 *
 	 * @since 4.0.0
+	 *
+	 * @see wp_embed_handler_youtube()
 	 *
 	 * @param string $embed   YouTube embed output.
 	 * @param array  $attr    An array of embed attributes.
@@ -3232,8 +3237,9 @@ function wp_maybe_generate_attachment_metadata( $attachment ) {
  * @since 4.0.0
  *
  * @global wpdb $wpdb WordPress database access abstraction object.
+ *
  * @param string $url The URL to resolve.
- * @return int The found post_id.
+ * @return int The found post ID.
  */
 function attachment_url_to_postid( $url ) {
 	global $wpdb;
