@@ -343,8 +343,6 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$name   = wp_kses( $theme->name,   $themes_allowedtags );
 		$author = wp_kses( $theme->author, $themes_allowedtags );
 
-		$num_ratings = sprintf( _n( '(based on %s rating)', '(based on %s ratings)', $theme->num_ratings ), number_format_i18n( $theme->num_ratings ) );
-
 		$install_url = add_query_arg( array(
 			'action' => 'install-theme',
 			'theme'  => $theme->slug,
