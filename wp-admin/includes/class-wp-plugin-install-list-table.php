@@ -279,16 +279,6 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			$details_link   = self_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
 								'&amp;TB_iframe=true&amp;width=600&amp;height=550' );
 
-			/**
-			 * Filter the details link for a plugin.
-			 *
-			 * @since 4.0.0
-			 *
-			 * @param array $details_link Link to view the current plugin's details.
-			 * @param array $plugin       The plugin currently being listed.
-			 */
-			$details_link = apply_filters( 'plugin_install_details_link', $details_link, $plugin );
-
 			$action_links[] = '<a href="' . esc_attr( $details_link ) . '" class="thickbox" title="' .
 								esc_attr( sprintf( __( 'More information about %s' ), $name ) ) . '">' . __( 'More Details' ) . '</a>';
 
@@ -304,7 +294,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		?>
 		<div class="plugin-card">
 			<div class="plugin-card-top">
-				<div class="name column-name"<?php echo $style['name']; ?>><h4><a href="<?php echo esc_attr( $details_link ) ?>" class="thickbox"><?php echo $title; ?></a></h4>
+				<div class="name column-name"<?php echo $style['name']; ?>>
+					<h4><a href="<?php echo esc_attr( $details_link ) ?>" class="thickbox"><?php echo $title; ?></a></h4>
 					<div class="action-links">
 						<?php
 							if ( ! empty( $action_links ) ) {
