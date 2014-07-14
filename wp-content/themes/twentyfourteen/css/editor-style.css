@@ -620,21 +620,21 @@ img {
 .mejs-overlay-button {
 	background-color: #fff;
 	background-image: none;
-	border-radius: 10px;
+	border-radius: 2px;
 	box-shadow: 1px 1px 1px rgba(0,0,0,.8);
 	color: #000;
-	height: 48px;
-	margin: -24px 0 0 -32px;
-	width: 64px;
+	height: 36px;
+	margin-left: -24px;
+	width: 48px;
 }
 
 .mejs-overlay-button:before {
 	-webkit-font-smoothing: antialiased;
 	content: '\f452';
 	display: inline-block;
-	font: normal 48px/1 Genericons;	
+	font: normal 32px/1.125 Genericons;
 	position: absolute;
-	top: 0;
+	top: 1px;
 	left: 10px;
 }
 
