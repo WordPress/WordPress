@@ -1940,6 +1940,8 @@ function wp_list_comments( $args = array(), $comments = null ) {
 	 *
 	 * @since 4.0.0
 	 *
+	 * @see wp_list_comments()
+	 *
 	 * @param array $r An array of arguments for displaying comments.
 	 */
 	$r = apply_filters( 'wp_list_comments_args', $r );

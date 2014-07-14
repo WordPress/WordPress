@@ -40,16 +40,18 @@ function wptexturize($text, $reset = false) {
 	// Set up static variables. Run once only.
 	if ( $reset || ! isset( $static_characters ) ) {
 		/**
-		 * Filter whether to skip running `wptexturize()`.
+		 * Filter whether to skip running wptexturize().
 		 *
-		 * Passing false to the filter will effectively short-circuit `wptexturize()`.
+		 * Passing false to the filter will effectively short-circuit wptexturize().
 		 * returning the original text passed to the function instead.
 		 *
-		 * The filter runs only once, the first time `wptexturize()` is called.
+		 * The filter runs only once, the first time wptexturize() is called.
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param bool $run_texturize Whether to short-circuit `wptexturize()`.
+		 * @see wptexturize()
+		 *
+		 * @param bool $run_texturize Whether to short-circuit wptexturize().
 		 */
 		$run_texturize = apply_filters( 'run_wptexturize', $run_texturize );
 		if ( false === $run_texturize ) {

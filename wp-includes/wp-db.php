@@ -1188,11 +1188,14 @@ class wpdb {
 	 *  $sql  = esc_sql( $wpdb->esc_like( $input ) );
 	 *
 	 * @since 4.0.0
+	 * @access public
 	 *
-	 * @param string $text The raw text to be escaped. The input typed by the user should have no extra or deleted slashes.
-	 * @return string Text in the form of a LIKE phrase. The output is not SQL safe. Call prepare or real_escape next.
+	 * @param string $text The raw text to be escaped. The input typed by the user should have no
+	 *                     extra or deleted slashes.
+	 * @return string Text in the form of a LIKE phrase. The output is not SQL safe. Call $wpdb::prepare()
+	 *                or real_escape next.
 	 */
-	function esc_like( $text ) {
+	public function esc_like( $text ) {
 		return addcslashes( $text, '_%\\' );
 	}
 

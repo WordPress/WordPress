@@ -910,7 +910,7 @@ function _update_blog_date_on_post_delete( $post_id ) {
  *
  * @since 4.0
  *
- * @param int $post_id Post ID
+ * @param int $post_id Post ID.
  */
 function _update_posts_count_on_delete( $post_id ) {
 	if ( 'publish' !== get_post_field( 'post_status', $post_id ) ) {

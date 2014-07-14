@@ -3506,8 +3506,9 @@ function is_ssl() {
  *
  * @since 4.0.0
  * 
- * @param  string  $url The URL
- * @return bool True if the given URL uses https, false if not (or if the URL is not valid).
+ * @param string $url The URL.
+ * @return bool True if the given URL uses https, false if not (or if the URL
+ *              is not valid).
  */
 function is_https_url( $url ) {
 	return ( 'https' === parse_url( $url, PHP_URL_SCHEME ) );

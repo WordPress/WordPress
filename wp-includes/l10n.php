@@ -821,6 +821,10 @@ function wp_get_pomo_file_data( $po_file ) {
  * Language selector. More to come.
  *
  * @since 4.0.0
+ *
+ * @see get_available_languages()
+ *
+ * @param array $args Optional arguments. Default empty array.
  */
 function wp_dropdown_languages( $args = array() ) {
 	if ( isset( $args['languages'] ) ) {
