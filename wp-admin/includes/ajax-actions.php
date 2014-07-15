@@ -2684,3 +2684,36 @@ function wp_ajax_parse_embed() {
 
 	wp_send_json_success( $parsed );
 }
+
+function wp_ajax_parse_media_shortcode() {
+	global $post, $wp_scripts;
+
+	if ( ! $post = get_post( (int) $_REQUEST['post_ID'] ) ) {
+		wp_send_json_error();
+	}
+
+	setup_postdata( $post );
+
+	ob_start();
+
+	$styles = wp_media_mce_styles();
+	foreach ( $styles as $style ) {
+		printf( '<link rel="stylesheet" href="%s"/>', $style );
+	}
+
+	echo do_shortcode( wp_unslash( $_REQUEST['shortcode'] ) );
+
+	if ( ! empty( $wp_scripts ) ) {
+		$wp_scripts->done = array();
+	}
+	
+	if ( 'playlist' === $_REQUEST['type'] ) {
+		wp_underscore_playlist_templates();
+
+		wp_print_scripts( 'wp-playlist' );
+	} else {
+		wp_print_scripts( 'wp-mediaelement' );
+	}
+
+	wp_send_json_success( ob_get_clean() );
+}
