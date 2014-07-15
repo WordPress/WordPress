@@ -61,6 +61,9 @@ if ( 'grid' === $mode ) {
 		}
 		?>
 		</h2>
+		<div class="error hide-if-js">
+			<p><?php _e( 'The grid view for the Media Library requires JavaScript. <a href="upload.php?mode=list">Switch to the list view</a>.' ); ?></p>
+		</div>
 	</div>
 	<?php
 	include( ABSPATH . 'wp-admin/admin-footer.php' );
