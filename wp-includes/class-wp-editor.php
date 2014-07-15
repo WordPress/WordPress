@@ -514,36 +514,10 @@ final class _WP_Editors {
 					self::$baseurl . '/skins/wordpress/wp-content.css?' . $version
 				);
 
-				// load editor_style.css if the current theme supports it
-				if ( ! empty( $GLOBALS['editor_styles'] ) && is_array( $GLOBALS['editor_styles'] ) ) {
-					$editor_styles = $GLOBALS['editor_styles'];
-
-					$editor_styles = array_unique( array_filter( $editor_styles ) );
-					$style_uri = get_stylesheet_directory_uri();
-					$style_dir = get_stylesheet_directory();
-
-					// Support externally referenced styles (like, say, fonts).
-					foreach ( $editor_styles as $key => $file ) {
-						if ( preg_match( '~^(https?:)?//~', $file ) ) {
-							$mce_css[] = esc_url_raw( $file );
-							unset( $editor_styles[ $key ] );
-						}
-					}
-
-					// Look in a parent theme first, that way child theme CSS overrides.
-					if ( is_child_theme() ) {
-						$template_uri = get_template_directory_uri();
-						$template_dir = get_template_directory();
-
-						foreach ( $editor_styles as $key => $file ) {
-							if ( $file && file_exists( "$template_dir/$file" ) )
-								$mce_css[] = "$template_uri/$file";
-						}
-					}
-
-					foreach ( $editor_styles as $file ) {
-						if ( $file && file_exists( "$style_dir/$file" ) )
-							$mce_css[] = "$style_uri/$file";
+				$editor_styles = get_editor_stylesheets();
+				if ( ! empty( $editor_styles ) ) {
+					foreach ( $editor_styles as $style ) {
+						$mce_css[] = $style;
 					}
 				}
 
