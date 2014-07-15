@@ -12,7 +12,9 @@ if ( !defined('ABSPATH') )
 
 wp_enqueue_script('post');
 
-if ( post_type_supports( $post_type, 'editor' ) && ! wp_is_mobile() ) {
+if ( post_type_supports( $post_type, 'editor' ) && ! wp_is_mobile() &&
+	 ! ( $is_IE && preg_match( '/MSIE [5678]/', $_SERVER['HTTP_USER_AGENT'] ) ) ) {
+
 	wp_enqueue_script('editor-expand');
 	$_wp_autoresize_on = true;
 }
