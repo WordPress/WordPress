@@ -151,46 +151,39 @@ class Featured_Content {
 	 * @return array Array of post IDs.
 	 */
 	public static function get_featured_post_ids() {
-		// Return array of cached results if they exist.
+		// Get array of cached results if they exist.
 		$featured_ids = get_transient( 'featured_content_ids' );
-		if ( ! empty( $featured_ids ) ) {
-			return array_map( 'absint', (array) $featured_ids );
+
+		if ( false === $featured_ids ) {
+			$settings = self::get_setting();
+			$term     = get_term_by( 'name', $settings['tag-name'], 'post_tag' );
+
+			if ( $term ) {
+				// Query for featured posts.
+				$featured_ids = get_posts( array(
+					'fields'           => 'ids',
+					'numberposts'      => self::$max_posts,
+					'suppress_filters' => false,
+					'tax_query'        => array(
+						array(
+							'field'    => 'term_id',
+							'taxonomy' => 'post_tag',
+							'terms'    => $term->term_id,
+						),
+					),
+				) );
+			}
+
+			// Get sticky posts if no Featured Content exists.
+			if ( ! $featured_ids ) {
+				$featured_ids = self::get_sticky_posts();
+			}
+
+			set_transient( 'featured_content_ids', $featured_ids );
 		}
 
-		$settings = self::get_setting();
-
-		// Return sticky post ids if no tag name is set.
-		$term = get_term_by( 'name', $settings['tag-name'], 'post_tag' );
-		if ( $term ) {
-			$tag = $term->term_id;
-		} else {
-			return self::get_sticky_posts();
-		}
-
-		// Query for featured posts.
-		$featured = get_posts( array(
-			'numberposts' => self::$max_posts,
-			'tax_query'   => array(
-				array(
-					'field'    => 'term_id',
-					'taxonomy' => 'post_tag',
-					'terms'    => $tag,
-				),
-			),
-		) );
-
-		// Return array with sticky posts if no Featured Content exists.
-		if ( ! $featured ) {
-			return self::get_sticky_posts();
-		}
-
-		// Ensure correct format before save/return.
-		$featured_ids = wp_list_pluck( (array) $featured, 'ID' );
-		$featured_ids = array_map( 'absint', $featured_ids );
-
-		set_transient( 'featured_content_ids', $featured_ids );
-
-		return $featured_ids;
+		// Ensure correct format before return.
+		return array_map( 'absint', $featured_ids );
 	}
 
 	/**
