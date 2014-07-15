@@ -266,22 +266,6 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 			selection.collapse( true );
 		});
 
-		// When the selection's content changes, scan any new content for matching views.
-		// Runs on paste and on inserting nodes/html.
-		editor.on( 'SetContent', function( e ) {
-			if ( ! e.context ) {
-				return;
-			}
-
-			var node = selection.getNode();
-
-			if ( ! node.innerHTML ) {
-				return;
-			}
-
-			node.innerHTML = wp.mce.views.toViews( node.innerHTML );
-		});
-
 		editor.dom.bind( editor.getBody().parentNode, 'mousedown mouseup click', function( event ) {
 			var view = getView( event.target ),
 				deselectEventType;
@@ -327,14 +311,9 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	});
 
 	editor.on( 'PreProcess', function( event ) {
-		// Replace the wpview node with the wpview string/shortcode?
+		// Empty the wpview wrap nodes
 		tinymce.each( editor.dom.select( 'div[data-wpview-text]', event.node ), function( node ) {
-			// Empty the wrap node
-			if ( 'textContent' in node ) {
-				node.textContent = '\u00a0';
-			} else {
-				node.innerText = '\u00a0';
-			}
+			node.textContent = node.innerText = '\u00a0';
 		});
     });
 
