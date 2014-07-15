@@ -193,7 +193,6 @@ video,
 embed {
 	display: -moz-inline-stack;
 	display: inline-block;
-	max-width: 100%;
 }
 
 audio {

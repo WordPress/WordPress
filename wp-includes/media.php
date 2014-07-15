@@ -3256,3 +3256,29 @@ function attachment_url_to_postid( $url ) {
 		return (int) $post_id;
 	}
 }
+
+/**
+ * Return the URls for CSS files used in an <iframe>-sandbox'd TinyMCE media view
+ *
+ * @since 4.0.0
+ *
+ * @global $wp_version
+ * @return array The relevant CSS file URLs.
+ */
+function wp_media_mce_styles() {
+ 	$version = 'ver=' . $GLOBALS['wp_version'];
+ 	$tinymce = includes_url( "js/tinymce/skins/lightgray/content.min.css?$version" );
+	$dashicons = includes_url( "css/dashicons.css?$version" );
+ 	$skin = includes_url( "js/tinymce/skins/wordpress/wp-content.css?$version" );
+ 	$mediaelement = includes_url( "js/mediaelement/mediaelementplayer.min.css?$version" );
+ 	$wpmediaelement = includes_url( "js/mediaelement/wp-mediaelement.css?$version" );
+
+ 	$mce_styles = array( $tinymce, $dashicons, $skin, $mediaelement, $wpmediaelement );
+ 	$editor_styles = get_editor_stylesheets();
+	if ( ! empty( $editor_styles ) ) {
+		foreach ( $editor_styles as $style ) {
+			$mce_styles[] = $style;
+		}
+	}
+	return $mce_styles;
+}

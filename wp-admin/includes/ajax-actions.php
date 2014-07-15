@@ -2652,8 +2652,26 @@ function wp_ajax_parse_embed() {
 		) );
 	}
 
-	// TODO: needed?
-	$parsed = do_shortcode( $parsed );
+	if ( has_shortcode( $parsed, 'audio' ) || has_shortcode( $parsed, 'video' ) ) {
+		$styles = '';
+		$mce_styles = wp_media_mce_styles();
+		foreach ( $mce_styles as $style ) {
+			$styles .= sprintf( '<link rel="stylesheet" href="%s"/>', $style );
+		}
+
+		$html = do_shortcode( $parsed );
+
+		global $wp_scripts;
+		if ( ! empty( $wp_scripts ) ) {
+			$wp_scripts->done = array();
+		}
+		ob_start();
+		wp_print_scripts( 'wp-mediaelement' );
+		$scripts = ob_get_clean();
+
+		$parsed = $styles . $html . $scripts;
+	}
+
 
 	if ( ! empty( $no_ssl_support ) || ( is_ssl() && ( preg_match( '%<(iframe|script|embed) [^>]*src="http://%', $parsed ) ||
 		preg_match( '%<link [^>]*href="http://%', $parsed ) ) ) ) {

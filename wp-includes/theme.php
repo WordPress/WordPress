@@ -1395,6 +1395,54 @@ function remove_editor_styles() {
 }
 
 /**
+ * Retrieve any registered editor stylesheets
+ *
+ * @since 4.0.0
+ *
+ * @global $editor_styles Registered editor stylesheets
+ *
+ * @return array If registered, a list of editor stylesheet URLs.
+ */
+function get_editor_stylesheets() {
+	$stylesheets = array();
+	// load editor_style.css if the current theme supports it
+	if ( ! empty( $GLOBALS['editor_styles'] ) && is_array( $GLOBALS['editor_styles'] ) ) {
+		$editor_styles = $GLOBALS['editor_styles'];
+
+		$editor_styles = array_unique( array_filter( $editor_styles ) );
+		$style_uri = get_stylesheet_directory_uri();
+		$style_dir = get_stylesheet_directory();
+
+		// Support externally referenced styles (like, say, fonts).
+		foreach ( $editor_styles as $key => $file ) {
+			if ( preg_match( '~^(https?:)?//~', $file ) ) {
+				$stylesheets[] = esc_url_raw( $file );
+				unset( $editor_styles[ $key ] );
+			}
+		}
+
+		// Look in a parent theme first, that way child theme CSS overrides.
+		if ( is_child_theme() ) {
+			$template_uri = get_template_directory_uri();
+			$template_dir = get_template_directory();
+
+			foreach ( $editor_styles as $key => $file ) {
+				if ( $file && file_exists( "$template_dir/$file" ) ) {
+					$stylesheets[] = "$template_uri/$file";
+				}
+			}
+		}
+
+		foreach ( $editor_styles as $file ) {
+			if ( $file && file_exists( "$style_dir/$file" ) ) {
+				$stylesheets[] = "$style_uri/$file";
+			}
+		}
+	}
+	return $stylesheets;
+}
+
+/**
  * Allows a theme to register its support of a certain feature
  *
  * Must be called in the theme's functions.php file to work.
