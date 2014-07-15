@@ -7,7 +7,6 @@
 		initialize : function (options) {
 			this.index = 0;
 			this.settings = {};
-			this.compatMode = $( 'body' ).hasClass( 'wp-admin' ) && $( '#content_ifr' ).length;
 			this.data = options.metadata || $.parseJSON( this.$('script').html() );
 			this.playerNode = this.$( this.data.type );
 
@@ -27,9 +26,7 @@
 				this.renderTracks();
 			}
 
-			if ( this.isCompatibleSrc() ) {
-				this.playerNode.attr( 'src', this.current.get( 'src' ) );
-			}
+			this.playerNode.attr( 'src', this.current.get( 'src' ) );
 
 			_.bindAll( this, 'bindPlayer', 'bindResetPlayer', 'setPlayer', 'ended', 'clickTrack' );
 
@@ -47,25 +44,7 @@
 
 		bindResetPlayer : function (mejs) {
 			this.bindPlayer( mejs );
-			if ( this.isCompatibleSrc() ) {
-				this.playCurrentSrc();
-			}
-		},
-
-		isCompatibleSrc: function () {
-			var testNode;
-
-			if ( this.compatMode ) {
-				testNode = $( '<span><source type="' + this.current.get( 'type' ) + '" /></span>' );
-
-				if ( ! wp.media.mixin.isCompatible( testNode ) ) {
-					this.playerNode.removeAttr( 'src' );
-					this.playerNode.removeAttr( 'poster' );
-					return;
-				}
-			}
-
-			return true;
+			this.playCurrentSrc();
 		},
 
 		setPlayer: function (force) {
@@ -76,9 +55,7 @@
 			}
 
 			if (force) {
-				if ( this.isCompatibleSrc() ) {
-					this.playerNode.attr( 'src', this.current.get( 'src' ) );
-				}
+				this.playerNode.attr( 'src', this.current.get( 'src' ) );
 				this.settings.success = this.bindResetPlayer;
 			}
 
@@ -188,11 +165,9 @@
 	});
 
     $(document).ready(function () {
-		if ( ! $( 'body' ).hasClass( 'wp-admin' ) || $( 'body' ).hasClass( 'about-php' ) ) {
-			$('.wp-playlist').each(function () {
-				return new WPPlaylistView({ el: this });
-			});
-		}
+		$('.wp-playlist').each( function() {
+			return new WPPlaylistView({ el: this });
+		} );
     });
 
 	window.WPPlaylistView = WPPlaylistView;

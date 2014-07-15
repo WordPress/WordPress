@@ -1216,35 +1216,6 @@ function wp_print_media_templates() {
 		<# } #>
 	</script>
 
-	<script type="text/html" id="tmpl-editor-audio">
-		<?php wp_underscore_audio_template() ?>
-	</script>
-
-	<script type="text/html" id="tmpl-editor-video">
-		<?php wp_underscore_video_template() ?>
-	</script>
-
-	<?php wp_underscore_playlist_templates() ?>
-
-	<script type="text/html" id="tmpl-editor-playlist">
-		<# if ( data.tracks ) { #>
-			<div class="wp-playlist wp-{{ data.type }}-playlist wp-playlist-{{ data.style }}">
-				<# if ( 'audio' === data.type ){ #>
-				<div class="wp-playlist-current-item"></div>
-				<# } #>
-				<{{ data.type }} controls="controls" preload="none" <#
-					if ( data.width ) { #> width="{{ data.width }}"<# }
-					#><# if ( data.height ) { #> height="{{ data.height }}"<# } #>></{{ data.type }}>
-				<div class="wp-playlist-next"></div>
-				<div class="wp-playlist-prev"></div>
-			</div>
-		<# } else { #>
-			<div class="wpview-error">
-				<div class="dashicons dashicons-video-alt3"></div><p><?php _e( 'No items found.' ); ?></p>
-			</div>
-		<# } #>
-	</script>
-
 	<script type="text/html" id="tmpl-crop-content">
 		<img class="crop-image" src="{{ data.url }}">
 		<div class="upload-errors"></div>
