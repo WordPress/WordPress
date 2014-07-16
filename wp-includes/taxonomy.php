@@ -2418,7 +2418,11 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		return new WP_Error('empty_term_name', __('A name is required for this term'));
 	}
 	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '');
-	$args = wp_parse_args($args, $defaults);
+	$args = wp_parse_args( $args, $defaults );
+
+	if ( $args['parent'] > 0 && ! term_exists( (int) $args['parent'] ) ) {
+		return new WP_Error( 'missing_parent', __( 'The selected parent term no longer exists' ) );
+	}
 	$args['name'] = $term;
 	$args['taxonomy'] = $taxonomy;
 	$args = sanitize_term($args, $taxonomy, 'db');
