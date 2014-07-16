@@ -114,17 +114,20 @@ function ms_file_constants() {
  * we will have translations loaded and can trigger warnings easily.
  *
  * @since 3.0.0
+ *
+ * @global boolean $subdomain_error
+ * @global boolean $subdomain_error_warn
  */
 function ms_subdomain_constants() {
-	static $error = null;
-	static $error_warn = false;
+	global $subdomain_error, $subdomain_error_warn;
 
-	if ( false === $error )
+	if ( false === $subdomain_error ) {
 		return;
+	}
 
-	if ( $error ) {
+	if ( $subdomain_error ) {
 		$vhost_deprecated = __( 'The constant <code>VHOST</code> <strong>is deprecated</strong>. Use the boolean constant <code>SUBDOMAIN_INSTALL</code> in wp-config.php to enable a subdomain configuration. Use is_subdomain_install() to check whether a subdomain configuration is enabled.' );
-		if ( $error_warn ) {
+		if ( $subdomain_error_warn ) {
 			trigger_error( __( '<strong>Conflicting values for the constants VHOST and SUBDOMAIN_INSTALL.</strong> The value of SUBDOMAIN_INSTALL will be assumed to be your subdomain configuration setting.' ) . ' ' . $vhost_deprecated, E_USER_WARNING );
 		} else {
 	 		_deprecated_argument( 'define()', '3.0', $vhost_deprecated );
@@ -133,17 +136,18 @@ function ms_subdomain_constants() {
 	}
 
 	if ( defined( 'SUBDOMAIN_INSTALL' ) && defined( 'VHOST' ) ) {
-		if ( SUBDOMAIN_INSTALL == ( 'yes' == VHOST ) ) {
-			$error = true;
-		} else {
-			$error = $error_warn = true;
+		$subdomain_error = true;
+		if ( SUBDOMAIN_INSTALL !== ( 'yes' == VHOST ) ) {
+			$subdomain_error_warn = true;
 		}
 	} elseif ( defined( 'SUBDOMAIN_INSTALL' ) ) {
+		$subdomain_error = false;
 		define( 'VHOST', SUBDOMAIN_INSTALL ? 'yes' : 'no' );
 	} elseif ( defined( 'VHOST' ) ) {
-		$error = true;
+		$subdomain_error = true;
 		define( 'SUBDOMAIN_INSTALL', 'yes' == VHOST );
 	} else {
+		$subdomain_error = false;
 		define( 'SUBDOMAIN_INSTALL', false );
 		define( 'VHOST', 'no' );
 	}
