@@ -129,10 +129,10 @@ window.wp = window.wp || {};
 						iframe, iframeDoc, i, resize;
 
 					node = $( node ).find( '.wpview-content' )[0];
-
-					if ( node ) {
-						node.innerHTML = '';
+					if ( ! node ) {
+						return;
 					}
+					node.innerHTML = '';
 
 					iframe = dom.add( node, 'iframe', {
 						src: tinymce.Env.ie ? 'javascript:""' : '',
@@ -511,10 +511,14 @@ window.wp = window.wp || {};
 
 				_.bindAll( this, 'createIframe', 'setNode', 'fetch', 'pausePlayers' );
 				$( this ).on( 'ready', this.setNode );
+
+				$( document ).on( 'media:edit', this.pausePlayers );
 			},
 
 			setNode: function ( event, editor, node ) {
-				this.node = node;
+				if ( node ) {
+					this.node = node;
+				}
 				editor.on( 'hide', this.pausePlayers );
 
 				if ( this.parsed ) {
@@ -573,12 +577,25 @@ window.wp = window.wp || {};
 
 			pausePlayers: function() {
 				var p, win = $( 'iframe', this.node ).get(0).contentWindow;
-				if ( win.mejs ) {
+				if ( win && win.mejs ) {
 					for ( p in win.mejs.players ) {
 						win.mejs.players[p].pause();
+					}
+				}
+			},
+
+			unsetPlayers: function() {
+				var p, win = $( 'iframe', this.node ).get(0).contentWindow;
+				if ( win && win.mejs ) {
+					for ( p in win.mejs.players ) {
 						win.mejs.players[p].remove();
 					}
 				}
+			},
+
+			unbind: function() {
+				this.pausePlayers();
+				this.unsetPlayers();
 			}
 		},
 
