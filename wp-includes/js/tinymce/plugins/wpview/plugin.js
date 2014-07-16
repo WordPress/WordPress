@@ -10,6 +10,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		TreeWalker = tinymce.dom.TreeWalker,
 		toRemove = false,
 		firstFocus = true,
+		_noop = function() { return false; },
 		cursorInterval, lastKeyDownNode, setViewCursorTries, focus, execCommandView;
 
 	function getView( node ) {
@@ -155,7 +156,11 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 	// Check if the `wp.mce` API exists.
 	if ( typeof wp === 'undefined' || ! wp.mce ) {
-		return;
+		return {
+			getViewText: _noop,
+			setViewText: _noop,
+			getView: _noop
+		};
 	}
 
 	// Remove the content of view wrappers from HTML string
