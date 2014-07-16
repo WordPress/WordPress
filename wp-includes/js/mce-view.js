@@ -47,8 +47,6 @@ window.wp = window.wp || {};
 				'</div>';
 		},
 		render: function() {
-			var html = this.getHtml() || this.loadingPlaceholder();
-
 			this.setContent(
 				'<p class="wpview-selection-before">\u00a0</p>' +
 				'<div class="wpview-body" contenteditable="false">' +
@@ -57,84 +55,79 @@ window.wp = window.wp || {};
 						'<div class="dashicons dashicons-no-alt remove"></div>' +
 					'</div>' +
 					'<div class="wpview-content wpview-type-' + this.type + '">' +
-						html +
+						( this.getHtml() || this.loadingPlaceholder() ) +
 					'</div>' +
 					( this.overlay ? '<div class="wpview-overlay"></div>' : '' ) +
 				'</div>' +
 				'<p class="wpview-selection-after">\u00a0</p>',
-				function( self, editor, node ) {
-					$( self ).trigger( 'ready', [ editor, node ] );
-				},
 				'wrap'
 			);
+
+			$( this ).trigger( 'ready' );
 		},
 		unbind: function() {},
-		getNodes: function( callback ) {
-			var nodes = [];
+		getEditors: function( callback ) {
+			var editors = [];
 
 			_.each( tinymce.editors, function( editor ) {
 				if ( editor.plugins.wpview ) {
-					$( editor.getBody() )
-					.find( '[data-wpview-text="' + this.encodedText + '"]' )
-					.each( function ( i, node ) {
-						if ( callback ) {
-							callback( editor, node );
-						}
+					if ( callback ) {
+						callback( editor );
+					}
 
-						nodes.push( node );
-					} );
+					editors.push( editor );
 				}
 			}, this );
 
+			return editors;
+		},
+		getNodes: function( callback ) {
+			var nodes = [],
+				self = this;
+
+			this.getEditors( function( editor ) {
+				$( editor.getBody() )
+				.find( '[data-wpview-text="' + self.encodedText + '"]' )
+				.each( function ( i, node ) {
+					if ( callback ) {
+						callback( editor, node, $( node ).find( '.wpview-content' ).get( 0 ) );
+					}
+
+					nodes.push( node );
+				} );
+			} );
+
 			return nodes;
 		},
-		setContent: function( html, callback, option ) {
-			var self = this;
+		setContent: function( html, option ) {
+			this.getNodes( function ( editor, node, content ) {
+				var el = ( option === 'wrap' || option === 'replace' ) ? node : content,
+					insert = html;
 
-			this.getNodes( function ( editor, element ) {
-				var contentWrap = $( element ).find( '.wpview-content' ),
-					wrap = element;
-
-				if ( contentWrap.length && option !== 'wrap' ) {
-					element = contentWrap = contentWrap[0];
+				if ( _.isString( insert ) ) {
+					insert = editor.dom.createFragment( insert );
 				}
 
-				if ( _.isString( html ) ) {
-					if ( option === 'replace' ) {
-						element = editor.dom.replace( editor.dom.createFragment( html ), wrap );
-					} else {
-						editor.dom.setHTML( element, html );
-					}
+				if ( option === 'replace' ) {
+					editor.dom.replace( insert, el );
 				} else {
-					if ( option === 'replace' ) {
-						element = editor.dom.replace( html, wrap );
-					} else {
-						$( element ).empty().append( html );
-					}
-				}
-
-				if ( _.isFunction( callback ) ) {
-					callback( self, editor, $( element ).find( '.wpview-content' )[0] );
+					el.innerHTML = '';
+					el.appendChild( insert );
 				}
 			} );
 		},
-
 		/* jshint scripturl: true */
-		createIframe: function ( content ) {
+		setIframes: function ( html ) {
 			var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
 
-			if ( content.indexOf( '<script' ) !== -1 ) {
-				this.getNodes( function ( editor, node ) {
+			if ( html.indexOf( '<script' ) !== -1 ) {
+				this.getNodes( function ( editor, node, content ) {
 					var dom = editor.dom,
 						iframe, iframeDoc, i, resize;
 
-					node = $( node ).find( '.wpview-content' )[0];
-					if ( ! node ) {
-						return;
-					}
-					node.innerHTML = '';
+					content.innerHTML = '';
 
-					iframe = dom.add( node, 'iframe', {
+					iframe = dom.add( content, 'iframe', {
 						src: tinymce.Env.ie ? 'javascript:""' : '',
 						frameBorder: '0',
 						allowTransparency: 'true',
@@ -155,7 +148,7 @@ window.wp = window.wp || {};
 								'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' +
 							'</head>' +
 							'<body data-context="iframe-sandbox" style="padding: 0; margin: 0;" class="' + editor.getBody().className + '">' +
-								content +
+								html +
 							'</body>' +
 						'</html>'
 					);
@@ -182,10 +175,9 @@ window.wp = window.wp || {};
 					}
 				});
 			} else {
-				this.setContent( content );
+				this.setContent( html );
 			}
 		},
-
 		setError: function( message, dashicon ) {
 			this.setContent(
 				'<div class="wpview-error">' +
@@ -507,28 +499,30 @@ window.wp = window.wp || {};
 			action: 'parse-media-shortcode',
 
 			initialize: function( options ) {
-				this.shortcode = options.shortcode;
-				this.fetching = false;
+				var self = this;
 
-				_.bindAll( this, 'createIframe', 'setNode', 'fetch', 'pausePlayers' );
-				$( this ).on( 'ready', this.setNode );
+				this.shortcode = options.shortcode;
+
+				_.bindAll( this, 'setIframes', 'setNodes', 'fetch', 'pausePlayers' );
+				$( this ).on( 'ready', this.setNodes );
 
 				$( document ).on( 'media:edit', this.pausePlayers );
+
+				this.fetch();
+
+				this.getEditors( function( editor ) {
+					editor.on( 'hide', self.pausePlayers );
+				});
 			},
 
-			setNode: function ( event, editor ) {
-				editor.on( 'hide', this.pausePlayers );
-
+			setNodes: function () {
 				if ( this.parsed ) {
-					this.createIframe( this.parsed );
-				} else if ( ! this.fetching ) {
-					this.fetch();
+					this.setIframes( this.parsed );
 				}
 			},
 
 			fetch: function () {
 				var self = this;
-				this.fetching = true;
 
 				wp.ajax.send( this.action, {
 					data: {
@@ -537,13 +531,10 @@ window.wp = window.wp || {};
 						shortcode: this.shortcode.string()
 					}
 				} )
-				.always( function() {
-					self.fetching = false;
-				} )
 				.done( function( response ) {
 					if ( response ) {
 						self.parsed = response;
-						self.createIframe( response );
+						self.setIframes( response );
 					}
 				} )
 				.fail( function( response ) {
@@ -553,7 +544,7 @@ window.wp = window.wp || {};
 
 							self.setError( response.message, 'admin-media' );
 						} else {
-							self.setContent( '<p>' + self.original + '</p>', null, 'replace' );
+							self.setContent( '<p>' + self.original + '</p>', 'replace' );
 						}
 					} else if ( response && response.statusText ) {
 						self.setError( response.statusText, 'admin-media' );
@@ -561,21 +552,9 @@ window.wp = window.wp || {};
 				} );
 			},
 
-			/**
-			 * Return parsed response
-			 *
-			 * @returns {string}
-			 */
-			getHtml: function() {
-				if ( ! this.parsed ) {
-					return ' ';
-				}
-				return this.parsed;
-			},
-
 			pausePlayers: function() {
-				this.getNodes( function( editor, node ) {
-					var p, win = $( 'iframe', node ).get(0).contentWindow;
+				this.getNodes( function( editor, node, content ) {
+					var p, win = $( 'iframe', content ).get(0).contentWindow;
 
 					if ( win && win.mejs ) {
 						for ( p in win.mejs.players ) {
@@ -586,8 +565,8 @@ window.wp = window.wp || {};
 			},
 
 			unsetPlayers: function() {
-				this.getNodes( function( editor, node ) {
-					var p, win = $( 'iframe', node ).get(0).contentWindow;
+				this.getNodes( function( editor, node, content ) {
+					var p, win = $( 'iframe', content ).get(0).contentWindow;
 
 					if ( win && win.mejs ) {
 						for ( p in win.mejs.players ) {
@@ -679,8 +658,6 @@ window.wp = window.wp || {};
 			action: 'parse-embed',
 			initialize: function( options ) {
 				this.content = options.content;
-				this.fetching = false;
-				this.parsed = false;
 				this.original = options.url || options.shortcode.string();
 
 				if ( options.url ) {
@@ -691,20 +668,10 @@ window.wp = window.wp || {};
 					this.shortcode = options.shortcode;
 				}
 
-				_.bindAll( this, 'createIframe', 'setNode', 'fetch' );
-				$( this ).on( 'ready', this.setNode );
-			},
+				_.bindAll( this, 'setIframes', 'setNodes', 'fetch' );
+				$( this ).on( 'ready', this.setNodes );
 
-			/**
-			 * Return parsed response
-			 *
-			 * @returns {string}
-			 */
-			getHtml: function() {
-				if ( ! this.parsed ) {
-					return '';
-				}
-				return this.parsed;
+				this.fetch();
 			}
 		} ),
 		edit: function( node ) {
