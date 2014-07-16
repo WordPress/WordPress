@@ -130,7 +130,9 @@ window.wp = window.wp || {};
 
 					node = $( node ).find( '.wpview-content' )[0];
 
-					node.innerHTML = '';
+					if ( node ) {
+						node.innerHTML = '';
+					}
 
 					iframe = dom.add( node, 'iframe', {
 						src: tinymce.Env.ie ? 'javascript:""' : '',
@@ -152,7 +154,7 @@ window.wp = window.wp || {};
 							'<head>' +
 								'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' +
 							'</head>' +
-							'<body style="padding: 0; margin: 0;" class="' + /* editor.getBody().className + */ '">' +
+							'<body data-context="iframe-sandbox" style="padding: 0; margin: 0;" class="' + editor.getBody().className + '">' +
 								content +
 							'</body>' +
 						'</html>'
@@ -507,11 +509,14 @@ window.wp = window.wp || {};
 				this.shortcode = options.shortcode;
 				this.fetching = false;
 
-				_.bindAll( this, 'createIframe', 'setNode', 'fetch' );
+				_.bindAll( this, 'createIframe', 'setNode', 'fetch', 'pausePlayers' );
 				$( this ).on( 'ready', this.setNode );
 			},
 
-			setNode: function () {
+			setNode: function ( event, editor, node ) {
+				this.node = node;
+				editor.on( 'hide', this.pausePlayers );
+
 				if ( this.parsed ) {
 					this.createIframe( this.parsed );
 				} else if ( ! this.fetching ) {
@@ -564,6 +569,16 @@ window.wp = window.wp || {};
 					return ' ';
 				}
 				return this.parsed;
+			},
+
+			pausePlayers: function() {
+				var p, win = $( 'iframe', this.node ).get(0).contentWindow;
+				if ( win.mejs ) {
+					for ( p in win.mejs.players ) {
+						win.mejs.players[p].pause();
+						win.mejs.players[p].remove();
+					}
+				}
 			}
 		},
 
