@@ -14,17 +14,6 @@
 	 */
 	wp.media.mixin = {
 		mejsSettings: baseSettings,
-		/**
-		 * Pauses every instance of MediaElementPlayer
-		 */
-		pauseAllPlayers: function() {
-			var p;
-			if ( window.mejs && window.mejs.players ) {
-				for ( p in window.mejs.players ) {
-					window.mejs.players[p].pause();
-				}
-			}
-		},
 
 		removeAllPlayers: function() {
 			var p;
@@ -35,15 +24,6 @@
 					this.removePlayer( window.mejs.players[p] );
 				}
 			}
-		},
-
-		/**
-		 * Pauses the current object's instances of MediaElementPlayer
-		 */
-		pausePlayers: function() {
-			_.each( this.players, function (player) {
-				player.pause();
-			} );
 		},
 
 		/**
