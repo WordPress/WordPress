@@ -181,11 +181,6 @@ div.mce-path {
 	line-height: 18px; 
 } 
 
-.mce-path-item:focus {
-	background: none;
-	color: inherit;
-}
-
 .mce-toolbar .mce-btn,
 .qt-fullscreen {
 	border-color: transparent;
