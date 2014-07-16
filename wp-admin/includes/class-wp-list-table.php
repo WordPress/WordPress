@@ -99,7 +99,7 @@ class WP_List_Table {
 	 * Make private properties readable for backwards compatibility.
 	 *
 	 * @since 4.0.0
-	 * @access publc
+	 * @access public
 	 *
 	 * @param string $name Property to get.
 	 * @return mixed Property.
