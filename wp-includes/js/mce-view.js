@@ -162,7 +162,8 @@ window.wp = window.wp || {};
 					iframeDoc.close();
 
 					resize = function() {
-						$( iframe ).height( $( iframeDoc.body ).height() );
+						// Make sure the iframe still exists.
+						iframe.contentWindow && $( iframe ).height( $( iframeDoc.body ).height() );
 					};
 
 					if ( MutationObserver ) {
@@ -515,10 +516,7 @@ window.wp = window.wp || {};
 				$( document ).on( 'media:edit', this.pausePlayers );
 			},
 
-			setNode: function ( event, editor, node ) {
-				if ( node ) {
-					this.node = node;
-				}
+			setNode: function ( event, editor ) {
 				editor.on( 'hide', this.pausePlayers );
 
 				if ( this.parsed ) {
@@ -576,21 +574,27 @@ window.wp = window.wp || {};
 			},
 
 			pausePlayers: function() {
-				var p, win = $( 'iframe', this.node ).get(0).contentWindow;
-				if ( win && win.mejs ) {
-					for ( p in win.mejs.players ) {
-						win.mejs.players[p].pause();
+				this.getNodes( function( editor, node ) {
+					var p, win = $( 'iframe', node ).get(0).contentWindow;
+
+					if ( win && win.mejs ) {
+						for ( p in win.mejs.players ) {
+							win.mejs.players[p].pause();
+						}
 					}
-				}
+				});
 			},
 
 			unsetPlayers: function() {
-				var p, win = $( 'iframe', this.node ).get(0).contentWindow;
-				if ( win && win.mejs ) {
-					for ( p in win.mejs.players ) {
-						win.mejs.players[p].remove();
+				this.getNodes( function( editor, node ) {
+					var p, win = $( 'iframe', node ).get(0).contentWindow;
+
+					if ( win && win.mejs ) {
+						for ( p in win.mejs.players ) {
+							win.mejs.players[p].remove();
+						}
 					}
-				}
+				});
 			},
 
 			unbind: function() {
