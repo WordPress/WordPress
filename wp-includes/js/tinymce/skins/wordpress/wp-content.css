@@ -45,7 +45,8 @@ html.wp-fullscreen body {
 }
 
 .aligncenter,
-dl.aligncenter {
+dl.aligncenter,
+.html5-captions .wp-caption.aligncenter {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
