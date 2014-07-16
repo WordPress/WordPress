@@ -140,9 +140,13 @@ tinymce.PluginManager.add( 'wpautoresize', function( editor ) {
 		editor.on( 'init', function() {
 			editor.dom.addClass( editor.getBody(), 'wp-autoresize' );
 		});
-		
-		editor.on( 'nodechange setcontent keyup FullscreenStateChanged', resize );
-	
+
+		editor.on( 'nodechange keyup FullscreenStateChanged', resize );
+
+		editor.on( 'setcontent', function() {
+			wait( 3, 100 );
+		});
+
 		if ( editor.getParam( 'autoresize_on_init', true ) ) {
 			editor.on( 'init', function() {
 				// Hit it 20 times in 100 ms intervals
