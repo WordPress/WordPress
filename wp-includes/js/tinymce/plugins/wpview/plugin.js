@@ -10,7 +10,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		TreeWalker = tinymce.dom.TreeWalker,
 		toRemove = false,
 		firstFocus = true,
-		cursorInterval, lastKeyDownNode, setViewCursorTries, focus;
+		cursorInterval, lastKeyDownNode, setViewCursorTries, focus, execCommandView;
 
 	function getView( node ) {
 		return getParent( node, 'wpview-wrap' );
@@ -581,7 +581,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 
 		if ( focus ) {
 			if ( view ) {
-				if ( className === 'wpview-selection-before' || className === 'wpview-selection-after' && editor.selection.isCollapsed() ) {
+				if ( ( className === 'wpview-selection-before' || className === 'wpview-selection-after' ) && editor.selection.isCollapsed() ) {
 					setViewCursorTries = 0;
 
 					deselect();
@@ -618,16 +618,34 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		}
 	});
 
-	editor.on( 'BeforeExecCommand', function( event ) {
-		var cmd = event.command,
+	editor.on( 'BeforeExecCommand', function() {
+		var node = editor.selection.getNode(),
 			view;
 
-		if ( cmd === 'undo' || cmd === 'redo' || cmd === 'RemoveFormat' || cmd === 'mceToggleFormat' ) {
-			return;
+		if ( node && ( node.className === 'wpview-selection-before' || node.className === 'wpview-selection-after' ) && ( view = getView( node ) ) ) {
+			handleEnter( view );
+			execCommandView = view;
+		}
+	});
+
+	editor.on( 'ExecCommand', function() {
+		var toSelect, node;
+
+		if ( selected ) {
+			toSelect = selected;
+			deselect();
+			select( toSelect );
 		}
 
-		if ( view = getView( editor.selection.getNode() ) ) {
-			handleEnter( view );
+		if ( execCommandView ) {
+			node = execCommandView.nextSibling;
+
+			if ( node && node.nodeName === 'P' && editor.dom.isEmpty( node ) ) {
+				editor.dom.remove( node );
+				setViewCursor( false, execCommandView );
+			}
+
+			execCommandView = false;
 		}
 	});
 
