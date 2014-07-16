@@ -211,7 +211,7 @@ window.autosave = function() {
 				var postData, compareString,
 					result = false;
 
-				if ( isSuspended ) {
+				if ( isSuspended || ! hasStorage ) {
 					return false;
 				}
 
@@ -399,20 +399,14 @@ window.autosave = function() {
 				return false;
 			}
 
-			// Initialize and run checkPost() on loading the script (before TinyMCE init)
 			blog_id = typeof window.autosaveL10n !== 'undefined' && window.autosaveL10n.blog_id;
 
-			// Check if the browser supports sessionStorage and it's not disabled
-			if ( ! checkStorage() ) {
-				return;
-			}
-
+			// Check if the browser supports sessionStorage and it's not disabled,
+			// then initialize and run checkPost().
 			// Don't run if the post type supports neither 'editor' (textarea#content) nor 'excerpt'.
-			if ( ! blog_id || ( ! $('#content').length && ! $('#excerpt').length ) ) {
-				return;
+			if ( checkStorage() && blog_id && ( $('#content').length || $('#excerpt').length ) ) {
+				$document.ready( run );
 			}
-
-			$document.ready( run );
 
 			return {
 				hasStorage: hasStorage,
