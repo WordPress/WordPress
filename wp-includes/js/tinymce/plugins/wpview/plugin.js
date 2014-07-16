@@ -1,4 +1,5 @@
 /* global tinymce */
+
 /**
  * WordPress View plugin.
  */
@@ -21,7 +22,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 	 */
 	function getParent( node, className ) {
 		while ( node && node.parentNode ) {
-			if ( node.className && (' ' + node.className + ' ').indexOf(' ' + className + ' ') !== -1 ) {
+			if ( node.className && ( ' ' + node.className + ' ' ).indexOf( ' ' + className + ' ' ) !== -1 ) {
 				return node;
 			}
 
@@ -563,7 +564,7 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		editor.dom.removeClass( editor.getBody(), 'has-focus' );
 	} );
 
-	editor.on( 'nodechange', function( event ) {
+	editor.on( 'NodeChange', function( event ) {
 		var dom = editor.dom,
 			views = editor.dom.select( '.wpview-wrap' ),
 			className = event.element.className,
@@ -617,7 +618,20 @@ tinymce.PluginManager.add( 'wpview', function( editor ) {
 		}
 	});
 
-	editor.on( 'resolvename', function( event ) {
+	editor.on( 'BeforeExecCommand', function( event ) {
+		var cmd = event.command,
+			view;
+
+		if ( cmd === 'undo' || cmd === 'redo' || cmd === 'RemoveFormat' || cmd === 'mceToggleFormat' ) {
+			return;
+		}
+
+		if ( view = getView( editor.selection.getNode() ) ) {
+			handleEnter( view );
+		}
+	});
+
+	editor.on( 'ResolveName', function( event ) {
 		if ( editor.dom.hasClass( event.target, 'wpview-wrap' ) ) {
 			event.name = editor.dom.getAttrib( event.target, 'data-wpview-type' ) || 'wpview';
 			event.stopPropagation();
